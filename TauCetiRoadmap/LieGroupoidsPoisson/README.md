@@ -77,9 +77,11 @@ What this roadmap leaves to named roadmaps:
   comparison of groupoid reduction with ordinary reduction (R4). Accordingly §G4.3 states only the
   Poisson side of the Hamiltonian homomorphism, §G4.6B identifies leaves with coadjoint orbits
   without the KKS form (the comparison of the leaf form of §G4.5 with KKS follows from R2's
-  pointwise identity and is R2's), §G7.2 supplies the kernel, closedness and basicness of the
-  restricted form and leaves the descended form to R4, and §G7.4 identifies the groupoid-side
-  data without transporting anything across R3's `W_O`.
+  pointwise identity and is R2's), §G7.2 constructs the reduced form `ω_red` on its isotropy
+  quotient directly from the kernel, closedness and basicness of the restricted form and the local
+  sections of the quotient submersion, without R3's generic descent interface, and leaves to R4
+  only the comparison of `ω_red` with R3's ordinary reduced form, and §G7.4 identifies the
+  groupoid-side data without transporting anything across R3's `W_O`.
 - [ComplexKahlerGeometry](../ComplexKahlerGeometry/README.md) is a consumer of this roadmap (its
   K8 consumes §G1.3a) and is therefore never a supplier here. It owns complex tangent bundles,
   the `(1,0)`/`(0,1)` eigenbundles of an almost-complex structure, the Nijenhuis tensor and the
@@ -124,7 +126,7 @@ extra hypothesis on the integration theorem. Statements using partitions of unit
 Hausdorff base or on explicitly Hausdorff manifolds; no `T2Space` instance is installed on an
 arbitrary integration. Source fibres carry their induced smooth structures and are required to be
 Hausdorff, as in the Crainic–Fernandes integration theorem (Crainic–Fernandes 2003, Theorem 2.1,
-p. 586); this does not require a Hausdorff total arrow space. Source-simply-connected means that
+p. 589); this does not require a Hausdorff total arrow space. Source-simply-connected means that
 each source fibre is connected and simply connected in its own topology.
 
 An arrow `g : x ⟶ y` has `s(g) = x`, `t(g) = y`. Write `gh` for "first `h`, then `g`"; it is
@@ -217,7 +219,9 @@ second-countable manifold.
 **From TauCetiRoadmap.HamiltonianSystems.** Layer 1: `IsHamiltonianVectorField ω F X`
 (`ι_{X_F}ω = dF`), `poissonBracket ω F G = dF(X_G)`, and `X_{ {F,G} } = −[X_F,X_G]`. Layer 2:
 Hamiltonian flows and symplectomorphisms. Layer 3: `InfinitesimalAction` with
-`(⁅Z,Z'⁆)_M = −[Z_M,Z'_M]`, `IsMomentMap ω a μ` and the cocycle.
+`(⁅Z,Z'⁆)_M = −[Z_M,Z'_M]`, `IsMomentMap ω a μ` with the sign `ι_{Z_M}ω = d⟨μ,Z⟩` for every `Z`
+(so `X_{⟨μ,Z⟩} = Z_M`, and the moment map of the cotangent lift of left translation is
+`μ(g,ν) = Coad_g ν` in §G7.3), and the cocycle.
 
 **From TauCetiRoadmap.CotangentLagrangian.** C1: the smooth cotangent bundle of a Hausdorff
 manifold, its local bundle charts, the tautological one-form `θ` and the canonical symplectic
@@ -427,8 +431,9 @@ and inversion a diffeomorphism, and the tangent identities at units including sp
 
 - `s` and `t` are submersions, hence open, and `dim Γ ≥ dim M` with equality exactly when `s` is a
   local diffeomorphism (the étale case).
-- Left translation by `g` is a diffeomorphism `s⁻¹(s(g)) → s⁻¹(t(g))` of source fibres, and right
-  translation a diffeomorphism of target fibres.
+- Left translation `h ↦ gh` by `g` is a diffeomorphism `t⁻¹(s(g)) → t⁻¹(t(g))` of target fibres,
+  and right translation `h ↦ hg` by `g` a diffeomorphism `s⁻¹(t(g)) → s⁻¹(s(g))` of source fibres,
+  since `gh` is defined exactly when `t(h) = s(g)` and `hg` exactly when `s(h) = t(g)`.
 - The composable pairs `Γ ×_{s,t} Γ` form a manifold of dimension `2 dim Γ − dim M`, and
   multiplication is a submersion onto `Γ`.
 
@@ -438,6 +443,10 @@ and inversion a diffeomorphism, and the tangent identities at units including sp
   the diagonal, of dimension `dim M = 2 dim M − dim M`.
 - The pair groupoid of `M` has `dim Γ = 2 dim M`, source fibres diffeomorphic to `M`, and
   composable triples `M × M × M` of dimension `3 dim M = 2·2 dim M − dim M`.
+- In the pair groupoid with `g = (y,x)`, left translation sends `(x,w) ∈ t⁻¹(x)` to
+  `(y,w) ∈ t⁻¹(y)` and right translation sends `(w,y) ∈ s⁻¹(y)` to `(w,x) ∈ s⁻¹(x)`; a statement
+  putting left translation on source fibres would need `gh` defined for `s(h) = s(g)`, which the
+  arrows `(y,x)` and `(z,x)` with `z ≠ y` refute.
 - The relation on `ℝ` identifying all points of the open interval `(0,1)` has arrow set
   `Δ ∪ (0,1)²`, which is a topological groupoid in the subspace topology but is not a manifold at
   `(0,0)`; it is not a Lie groupoid, so the atlas is data that must be exhibited.
@@ -779,7 +788,8 @@ submersion `s` from SmoothBundlesConnections B1.0 pulled back along the unit emb
 `dt`. Extend each section uniquely to a source-vertical right-invariant vector field on `Γ`
 (`a^R(g) = dR_g(a(t(g)))`), prove smoothness, restriction and the inverse construction, closure of
 right-invariant source-vertical fields under the bracket (by §G0.1's bracket naturality along the
-right translations, which are diffeomorphisms of target fibres), Jacobi and Leibniz, and anchor
+right translations `R_g : s⁻¹(t(g)) → s⁻¹(s(g))`, which are diffeomorphisms of source fibres),
+Jacobi and Leibniz, and anchor
 compatibility with `dt` (again by naturality, since `t` relates `a^R` to `ρ(a)`). Differentiate
 smooth functors to algebroid morphisms, prove functoriality and the morphism criterion of §G1.2.
 
@@ -866,7 +876,11 @@ Construct the Stefan–Sussmann orbit decomposition for the anchor distribution 
 algebroid: flows of anchors of sections preserve the distribution, orbit charts give connected
 immersed manifolds tangent to `ρ(A)`, and maximal connected orbits partition `M`
 (Crainic–Fernandes–Mărcuț, *Lectures on Poisson Geometry*, Theorem 4.1 and Lemma 4.2, p. 63, for
-the cotangent algebroid; the same argument for a general algebroid). Build the smooth structure and
+the cotangent algebroid, with orbit charts from Weinstein splitting charts; for a general algebroid
+the same argument runs with the local splitting theorem of Fernandes, *Lie algebroids, holonomy and
+characteristic classes*, Theorem 1.1, arXiv p. 11, in whose coordinates `(x,y)` the anchor images
+of the frame are `∂_{x_i}` and fields in the `y`-directions vanishing on the plaque `{y = 0}`, so
+that plaque is the local orbit through the centre). Build the smooth structure and
 the universal immersion property; the rank may vary between orbits. Prove that each orbit is
 Hausdorff and second-countable in its own topology by the countable-atlas argument from a
 second-countable base and finite-rank local generators. For source-connected groupoids identify the
@@ -1274,8 +1288,10 @@ map in general; state the contravariant comorphism with its fibrewise domains.
 
 Apply §G2.4 to the cotangent algebroid. Prove that each leaf `L` carries a unique symplectic form
 with `ω_L(π♯α, π♯β) = π(α,β)` (Crainic–Fernandes–Mărcuț, *Lectures on Poisson Geometry*,
-Theorem 4.1, p. 63, whose formula carries the opposite sign because its sharp convention is the
-opposite of this roadmap's), that it is closed, that the inclusion `L → M` is Poisson for the
+Theorem 4.1, p. 63, whose formula carries the opposite sign because it attaches `X_f = π♯df`, so
+`π♯ = (ω♭)⁻¹`, to a symplectic form, whereas this roadmap has `π♯df = −X_f`; the sharp map
+`π♯α = π(α,·)` itself is the same, and both leaf forms equal `ω` on a symplectic manifold), that it
+is closed, that the inclusion `L → M` is Poisson for the
 intrinsic leaf structure, and that functions constant along leaves are exactly the Casimirs.
 Construct regular local product charts and prove the Weinstein splitting theorem: at a point of
 rank `2r` there are coordinates `(p_1,…,p_r,q_1,…,q_r,y_1,…,y_s)` in which
@@ -1454,7 +1470,7 @@ Fredholm `levelSetChartedSpace` do not give this conclusion.
 
 Construct the Weinstein groupoid `Σ(A) = P(A)/∼` as a topological groupoid of `A`-homotopy classes
 with its quotient topology, isotropy and source-fibre connectivity (Crainic–Fernandes 2003,
-Theorem 2.1, p. 586); the transversal construction at this stage is topological.
+Theorem 2.1, p. 589); the transversal construction at this stage is topological.
 
 Construct the `A`-homotopy foliation of `P(A)` without changing the `C¹` path model. For a fixed
 admissible `a` over `γ` use the Banach space of `C²` sections `b` of `γ*A` with `b(0) = b(1) = 0` and
@@ -1513,14 +1529,25 @@ makes sense when the isotropy rank changes.
 
 **Checks.**
 
-- For `A = TM`: `ker ρ = 0`, so `N_x = 0`; for `A = 𝔤` over a point: `N = 0` since `G̃` is simply
-  connected and `exp` on the centre is injective near `0` (for `𝔤 = ℝ`, `G̃ = ℝ`).
+- For `A = TM`: `ker ρ = 0`, so `N_x = 0`; for `A = 𝔤` over a point: `N = {v ∈ Z(𝔤) : exp v = 1}`
+  in the simply connected `G̃`, and this is `0` because the identity component `Z(G̃)⁰` of the
+  centre is a closed connected normal subgroup of the simply connected `G̃`, hence simply connected
+  (`π₂(G̃/Z(G̃)⁰) = 0` for the Lie group `G̃/Z(G̃)⁰` and `π₁(G̃) = 0` in the long exact sequence),
+  hence a vector group on which `exp : Z(𝔤) → Z(G̃)⁰` is bijective (for `𝔤 = ℝ`, `G̃ = ℝ`).
+  Injectivity of `exp` near `0` alone would only show `N` discrete, as on the circle `ℝ/2πℤ`,
+  which is not simply connected.
 - For the central extension `TM ⊕ ℝ` of a closed two-form `η` (§G5.6), `N_x` is the group of
   spherical periods `{∫_{S²} σ*η}` (Crainic–Fernandes 2003, Example 3.7, p. 597); for `η = 0` it is
   `0`, and for `M = S²` with `∫η = 1` it is `ℤ`.
-- For the transformation algebroid of `SO(3)` on `ℝ³`, `𝔤_x` at `x ≠ 0` is one-dimensional with
-  `L = S²`, `π₂ = ℤ`, and `N_x = 2πℤ · x/|x|`-rotations, discrete and uniformly so on `ℝ³ ∖ {0}`,
-  while at `0` the isotropy is `𝔰𝔬(3)` with trivial centre and `N_0 = 0`.
+- For the transformation algebroid of `SO(3)` on `ℝ³`, `𝔤_x` at `x ≠ 0` is one-dimensional,
+  spanned by the unit-speed rotation generator `ξ` about `x/|x|`, with `L = S²`, `π₂ = ℤ`, and
+  `N_x = 4πℤ·ξ`: the source-simply-connected integration is `SU(2) ⋉ ℝ³`, whose isotropy at `x` is
+  the circle `U(1) ⊂ SU(2)` in which `exp(tξ)` has period `4π`, equivalently the boundary map
+  `π₂(S²) = ℤ → π₁(SO(2)) = ℤ` of `SO(2) → SO(3) → S²` is multiplication by `2` (cokernel
+  `π₁(SO(3)) = ℤ/2`). It is discrete and uniformly so on `ℝ³ ∖ {0}`, and `G̃(𝔤_x)/N_x = ℝ/4πℤ` is
+  the `U(1)` isotropy of `SU(2) ⋉ ℝ³`, as the extension bullet predicts; a computation in `SO(3)`
+  instead of `SU(2)` would give `2πℤ·ξ`, half the group. At `0` the isotropy is `𝔰𝔬(3)` with
+  trivial centre and `N_0 = 0`.
 
 *Needs:* §G5.1, §G5.2, §G1.5, §G2.4; LieGroups Layer 5 (simply connected covers); AlgebraicTopology
 Stage 1.
@@ -1540,8 +1567,10 @@ through §G2.2's negative identification, and the action and gauge cases with th
 source-simply-connected covers.
 
 - Two source-simply-connected integrations of `A` are isomorphic over `A`.
-- Every integration `Γ` of `A` is a quotient of `Σ(A)` by a discrete bundle of groups in its
-  source fibres (Crainic–Fernandes, *Lectures*, Theorem 1.30, p. 18).
+- Every source-connected integration `Γ` of `A` is a quotient of `Σ(A)` by a discrete bundle of
+  groups in its source fibres (Crainic–Fernandes, *Lectures*, Theorem 1.30, p. 18, which assumes
+  `Γ` source-connected); for a general integration the image of `Σ(A) → Γ` is the source-connected
+  component of §G0.4.
 - Representations of `A` on `E` correspond to representations of `Σ(A)` on `E`.
 
 **Checks.**
@@ -1555,6 +1584,10 @@ source-simply-connected covers.
 - A flat connection on `E → M` integrates to the holonomy representation of `Π₁(M)`; the
   non-flat connection `θ = x dy` of §G2.5 has transport around the unit square equal to `e^{±1}`
   times the identity (the sign fixed by the orientation), not `1`, so flatness is needed.
+- The bundle of groups `M × ℤ/2` with `s = t = pr₁` is an integration of the zero algebroid over
+  `M` that is not source-connected; `Σ(0)` is the unit groupoid (§G5.2) and `Σ(0) → M × ℤ/2` is
+  the unit section, whose image is the source-connected component `M × {1}` and not all of `Γ`, so
+  the source-connectedness hypothesis of the quotient statement cannot be dropped.
 
 *Needs:* §G5.1, §G5.2, §G5.3, §G2.1, §G2.5, §G3.3; LieGroups Layer 4.
 
@@ -1611,9 +1644,9 @@ a collar reparametrisation, approximated by a smooth one through relative `C¹` 
 smooth inverse for the short-geodesic homotopy), and the `C¹` Stokes formula for that homotopy shows
 the smooth representative has the same `η`-period. Prove that based smooth sphere periods form a
 group (pinched spheres for sums, reversal for negatives). For the example, identify the oriented
-Riemann sphere with `S²`, prove that based power maps have degree `m` for every integer `m`,
-transport basepoints by orientation-preserving diffeomorphisms, and with `η = pr₁*a + λ pr₂*a` for
-an area form `a` of integral `1` on `S²` and irrational `λ`, apply DifferentialGeometry 10.3–10.4's
+Riemann sphere with `S²`, prove that the based power maps `z ↦ z^m` have degree `m` for every
+`m ≥ 0` (the constant map for `m = 0`), transport basepoints by orientation-preserving
+diffeomorphisms, and with `η = pr₁*a + λ pr₂*a` for an area form `a` of integral `1` on `S²` and irrational `λ`, apply DifferentialGeometry 10.3–10.4's
 degree formula to each projection once to show that the periods are `{m + λn}` = `ℤ + λℤ`, dense,
 so `r = 0` and `A_η` is not integrable (Crainic–Fernandes 2003, Examples 3.7 and 4.2, pp. 597 and
 600). This separates the criterion from Lie's third theorem.
@@ -1631,8 +1664,11 @@ so `r = 0` and `A_η` is not integrable (Crainic–Fernandes 2003, Examples 3.7 
   a⁰(0,t)) dt`, so `∫ a⁰(1,·) − ∫ a⁰(0,·) = −∫∫ η(∂_ε γ, ∂_t γ) dε dt = −∫ γ*η`; a sign error in
   the bracket would give `+∫ γ*η` and the same group, so the period group, not its sign, is the
   invariant.
-- For `σ = (f,g) : S² → S² × S²` with degrees `m, n`, `∫ σ*η = m ∫a + λ n ∫a = m + λ n`; the pair
-  `(m,n) = (1,0)` gives `1` and `(0,1)` gives `λ`.
+- For `σ = (f,g) : S² → S² × S²` with degrees `m, n ≥ 0`, `∫ σ*η = m ∫a + λ n ∫a = m + λ n`; the
+  pair `(m,n) = (1,0)` gives `1` and `(0,1)` gives `λ`, and the negatives come from reversal.
+- `z ↦ z⁻¹` is a holomorphic automorphism of the sphere, orientation-preserving, of degree `+1`,
+  so `z ↦ z^m` has degree `|m|` for every integer `m`; a statement giving it degree `m` for `m < 0`
+  is false, which is why negative periods are produced by reversal and not by negative exponents.
 - For `λ ∈ ℚ`, `λ = p/q`, the period group is `(1/q)ℤ`, discrete, and `A_η` is integrable; for
   `M = S²` alone with `∫a = 1` the group is `ℤ` and `A_η` integrates to a prequantum circle bundle
   groupoid.
@@ -1686,8 +1722,10 @@ convention, and verify anchor and bracket.
 ### G6.2 Tangent and cotangent groupoids
 
 Construct the tangent groupoid `TΓ ⇉ TM` and the cotangent groupoid `T*Γ ⇉ A(Γ)*` of any Lie
-groupoid. Extend CotangentLagrangian C1's local bundle charts, tautological one-form and canonical
-nondegeneracy to the locally Hausdorff arrow manifold, keeping its cotangent carrier; these are
+groupoid (Coste–Dazord–Weinstein, *Groupoïdes symplectiques*, Chapter II, §4, pp. 27–33;
+Crainic–Fernandes–Mărcuț, *Lectures on Poisson Geometry*, Section 13.5, p. 344, and Proposition
+13.76, p. 345, in the left-invariant convention). Extend CotangentLagrangian C1's local bundle
+charts, tautological one-form and canonical nondegeneracy to the locally Hausdorff arrow manifold, keeping its cotangent carrier; these are
 local and need no Hausdorff total space, and restriction and transition compatibility are proved,
 not assumed. Pin the translated-covector formulas `t̃(φ_g)(a) = φ_g(dR_g a)` for `a ∈ A_{t(g)}` and
 `s̃(φ_g)(b) = φ_g(dL_g(b − du(ρ b)))` for `b ∈ A_{s(g)}` (the vector `b − du(ρ b)` is target-vertical
@@ -1718,7 +1756,10 @@ on `A*`.
 
 For a Lie group `G` identify `T*G ≅ G × 𝔤*` by left translation: `s(α_g)(ξ) = α_g(dL_g ξ)`,
 `t(α_g)(ξ) = α_g(dR_g ξ)`, so `s(g,ν) = ν`, `t(g,ν) = Coad_g ν = ν ∘ Ad_{g⁻¹}`, and multiplication
-`(g, Coad_h ν)(h,ν) = (gh,ν)`. Verify the target and source Poisson signs and the positive linear
+`(g, Coad_h ν)(h,ν) = (gh,ν)` (Crainic–Fernandes–Mărcuț, *Lectures on Poisson Geometry*,
+Examples 14.7 and 14.22, pp. 363–364 and 375, which take `Ω = −ω_can` because their bivector of a
+symplectic form is the negative of this roadmap's, so both choices give the same positive
+Lie–Poisson base). Verify the target and source Poisson signs and the positive linear
 Lie–Poisson bracket by evaluation on linear functions. The identification uses raw vectors
 `A(G) = T_1G` and their duals, not §G2.2's negative isomorphism, whose dual would negate source
 and target and reverse the base sign; prove the distinction by the raw right-invariant bracket.
@@ -1814,13 +1855,22 @@ Assume `P` Hausdorff and second-countable. Define a symplectic groupoid action o
 with moment map `μ : P → M` as a §G3.1 action along `μ` whose graph
 `{(g,p,g·p) : (g,p) in the action domain}` is Lagrangian in `(Γ,Ω) × (P,ω) × (P,−ω)`. Pin the
 pullback identity on the action domain `act*ω = pr_Γ*Ω + pr_P*ω`, with projections from the same
-fibre product; prove the graph is Lagrangian, the dimension and tangent conditions, and that `μ` is
-Poisson for the base structure of §G6.1. Smoothness, graph and isotropy formulas hold on the fibre
-product, not on `Γ × P`.
+fibre product (Crainic–Fernandes–Mărcuț, *Lectures on Poisson Geometry*, Definition 14.38 and
+Example 14.39, p. 388); prove the graph is Lagrangian, the dimension and tangent conditions, and
+that `μ` is Poisson for the base structure of §G6.1 (ibid., Proposition 14.42, p. 389). Define the
+infinitesimal action: for `a ∈ A_x` and `p ∈ μ⁻¹(x)`, `a_P(p)` is the derivative at `ε = 0` of
+`g_ε·p` along any path `g_ε` in the source fibre `s⁻¹(x)` with `g_0 = 1_x` and `g_0' = a`, the
+fundamental field of the action, and prove `ι_{a_P} ω = −μ*(σ_Ω(a))`; the converse, that an action
+of a source-connected symplectic groupoid satisfying this identity is symplectic, is ibid.,
+Proposition 14.45, p. 392. Both results there carry `+` because their algebroid is `ker dt` with
+the left-invariant bracket and their infinitesimal action differentiates `g ↦ g⁻¹·p`; the
+identification with `ker ds` through `dι` negates `σ_Ω`. Smoothness, graph and isotropy formulas
+hold on the fibre product, not on `Γ × P`.
 
 - The pullback identity is equivalent to the graph being Lagrangian.
 - `μ` is a Poisson map and `μ` is `Γ`-equivariant in the sense `μ(g·p) = t(g)`.
-- The infinitesimal action `a ↦ a_P` satisfies `ι_{a_P} ω = μ*(σ_Ω(a))`.
+- The infinitesimal action `a ↦ a_P` satisfies `ι_{a_P} ω = −μ*(σ_Ω(a))`, and for source-connected
+  `Γ` this identity characterises the symplectic actions among the smooth ones.
 
 **Checks.**
 
@@ -1830,6 +1880,12 @@ product, not on `Γ × P`.
   `act*ω = ω_y = (ω_y − ω_x) + ω_x = pr_Γ*Ω + pr_P*ω`; `μ = id` is Poisson for `π = −(ω♭)⁻¹`.
 - With `Ω` replaced by `−Ω` the identity fails for the left action of `Γ` on itself, and `t` is
   anti-Poisson: the sign of `Ω` is tied to the choice of target as the Poisson map.
+- The infinitesimal-action sign on the pair groupoid of `(M,ω)` acting on `M` with `μ = id`: for
+  `a = (v,0) ∈ A_x = T_xM × 0`, the path `(x + εv, x)` in `s⁻¹(x)` gives `a_P = v`, so
+  `ι_{a_P}ω = ω♭v`, while `σ_Ω(a) = −ω♭v` by §G6.1's Check; hence `ι_{a_P}ω = −μ*(σ_Ω(a))`, and
+  the identity with `+` fails for every `v ≠ 0`. For `Γ` acting on itself with `μ = t`, `a_P = a^R`
+  and at a unit `Ω(a,w) = Ω(a, du(dt w))` since `ker ds` and `ker dt` are `Ω`-orthogonal, which is
+  again `−t*(σ_Ω(a))(w)`.
 
 *Needs:* §G3.1, §G6.1, §G6.2; DifferentialGeometry Layer 1; CotangentLagrangian C1.
 
@@ -1841,16 +1897,23 @@ fibre, and the isotropy group `Γ_ξ` acts on it; assume this action free and pr
 submersion property (§G7.1 supplies the hypotheses on `P`, §G3.1 those on `Γ_ξ`). Using §G2.2's
 isotropy identification and §G6.1's `σ_Ω`, prove that the kernel of `i*ω` at `z ∈ Z` is exactly the
 tangent space of the `Γ_ξ`-orbit, hence `ker(dq_z)`, and that `i*ω` is closed and basic (its value
-depends only on the projected tangent vectors). The descended symplectic form on `Z/Γ_ξ` is
-HamiltonianReduction R4's, which applies R3's generic descent to these data; this roadmap supplies
-the graph, kernel and isotropy input, SmoothBundlesConnections B1.4 (through §G3.1) the quotient
-manifold. Include the dimension formula `dim Z/Γ_ξ = dim P − dim M − dim Γ_ξ` and the naturality of
-the kernel and basicness statements under equivariant symplectic maps; invariant-function descent
-is §G3.1's.
+depends only on the projected tangent vectors). Construct the reduced form: on the quotient
+submersion `q : Z → Z/Γ_ξ` of §G3.1 define `ω_red(dq(u), dq(v)) = (i*ω)(u,v)`, well defined because
+`i*ω` is basic and `ker dq = ker(i*ω)`; prove it smooth through the local sections of `q` on the
+quotient charts that §G3.1 takes from SmoothBundlesConnections B1.1 and B1.4; prove `dω_red = 0`
+from `q*(dω_red) = d(i*ω) = 0` and the injectivity of `q*` on forms for a surjective submersion,
+and nondegeneracy from `ker(i*ω) = ker dq`; the same injectivity gives uniqueness of a two-form
+with `q*ω_red = i*ω` (Crainic–Fernandes–Mărcuț, *Lectures on Poisson Geometry*, Section 14.4,
+p. 391, item (i)). SmoothBundlesConnections B1.4 (through §G3.1) supplies the quotient manifold;
+the comparison of `ω_red` with the ordinary reduced form of a Hamiltonian action is
+HamiltonianReduction R4's. Include the dimension formula `dim Z/Γ_ξ = dim P − dim M − dim Γ_ξ` and
+the naturality of the kernel, basicness and reduced-form statements under equivariant symplectic
+maps; invariant-function descent is §G3.1's.
 
 - `T_zZ = ker dμ_z = (𝔞_P(z))^ω` where `𝔞_P(z)` is the tangent space of the `Γ`-orbit through `z`.
 - `ker(i*ω)_z = T_z(Γ_ξ·z) = ker(dq_z)`.
-- `i*ω` is closed and `Γ_ξ`-basic.
+- `i*ω` is closed and `Γ_ξ`-basic, and `ω_red` is the unique two-form on `Z/Γ_ξ` with
+  `q*ω_red = i*ω`; it is symplectic.
 
 **Checks.**
 
@@ -1862,6 +1925,10 @@ is §G3.1's.
   `ker(Ω|_Z) = T(t⁻¹(ξ)) ∩ T(t⁻¹(ξ))^Ω = ker dt ∩ ker ds`, the tangent spaces of the isotropy
   cosets, by the symplectic orthogonality of §G6.1; the dimension is
   `dim Γ − dim M − dim Γ_ξ = dim M − dim Γ_ξ`, the dimension of the orbit through `ξ`.
+- For the pair groupoid of `(M,ω)` acting on itself by left multiplication with `μ = t = pr₁`:
+  `Z = {ξ} × M`, `Γ_ξ` is trivial, `q = s = pr₂` identifies `Z/Γ_ξ` with `M`, and
+  `i*Ω = i*(pr₁*ω − pr₂*ω) = −ω`, so `ω_red = −ω`, the negative of the leaf form of §G4.5; a
+  definition with `q*ω_red = −i*ω` would give `+ω`.
 
 *Needs:* §G2.2, §G3.1, §G6.1, §G7.1; SmoothBundlesConnections B1.0 (regular fibre), B1.4 (through
 §G3.1); DifferentialGeometry Layer 1.
@@ -1871,8 +1938,11 @@ is §G3.1's.
 Prove that an equivariant Hamiltonian action of `G` on `(P,ω)` with moment map `μ` induces a
 symplectic action of `T*G ⇉ 𝔤*` (§G6.3) by `(g,ν)·p = g·p` when `ν = μ(p)`: the graph identity
 follows from the moment equation and equivariance, and conversely the Hamiltonian action is
-recovered. At `ξ` identify the isotropy with `G_ξ`, the action domain and induced action on
-`μ⁻¹(ξ)`, and match the orbit relations and quotient projections with those of ordinary reduction.
+recovered (Crainic–Fernandes–Mărcuț, *Lectures on Poisson Geometry*, Example 14.40, p. 388, through
+Proposition 14.45, p. 392, for connected `G`; the disconnected case by the graph identity on each
+component). The moment equation is HamiltonianSystems Layer 3's `ι_{Z_P}ω = d⟨μ,Z⟩`, so that
+`X_{⟨μ,Z⟩} = Z_P`; the opposite moment-map sign would replace `μ` by `−μ` throughout. At `ξ`
+identify the isotropy with `G_ξ`, the action domain and induced action on `μ⁻¹(ξ)`, and match the orbit relations and quotient projections with those of ordinary reduction.
 HamiltonianReduction R4 consumes these identifications together with §G7.2 for the final comparison.
 
 - The `T*G`-action is symplectic in the sense of §G7.1 iff the `G`-action is Hamiltonian with
@@ -1884,7 +1954,10 @@ HamiltonianReduction R4 consumes these identifications together with §G7.2 for 
 
 - `G` acting on `T*G` by the cotangent lift of left translation with `μ(g,ν) = Coad_g ν`: the
   induced `T*G`-action on `T*G` is left multiplication in the groupoid, and §G7.1's first Check
-  applies.
+  applies. The moment map is computed from the pinned sign: the lift preserves `θ`, so
+  `ι_{ξ_P}(−dθ) = d(θ(ξ_P))` and `⟨μ(α_g),ξ⟩ = α_g(ξ_G(g)) = α_g(dR_g ξ) = ν(Ad_{g⁻¹}ξ)` for
+  `α_g = ν ∘ dL_{g⁻¹}`, which is `(Coad_g ν)(ξ)`; with `ι_{Z_P}ω = −d⟨μ,Z⟩` one would get
+  `−Coad_g ν`, which is not the target of §G6.3.
 - For abelian `G`, `T*G = G × 𝔤*` is a bundle of groups, every `ν` is coadjoint-fixed, `G_ξ = G`,
   and the induced action on `μ⁻¹(ξ)` is the restriction of the `G`-action: reduction at every level
   is ordinary reduction by the whole group.
@@ -1939,11 +2012,12 @@ Layers 0–2; DifferentialGeometry Layer 1; CotangentLagrangian C1.
 
 [HamiltonianReduction](../SymplecticGeometry/HamiltonianReduction/README.md) consumes §G4.2a's
 adapter and §G4.3's identification `π♯df = −X_f` (R1), §G4.6A's positive Lie–Poisson structure and
-sharp convention (R2), the fibre-product and regular-fibre interfaces (R3, now
-SmoothBundlesConnections B1.0's), and §G7.2's kernel and basicness data, §G7.3's identifications and
-§G7.4's groupoid description (R4) for the comparison of groupoid and ordinary reduction; it owns
-the exact sequence through `H¹_dR`, the KKS form, generic form descent, `W_O`, `Φ` and the final
-comparison. [ComplexKahlerGeometry](../ComplexKahlerGeometry/README.md) K8 and
+sharp convention (R2), the fibre-product and regular-fibre interfaces (R3; these are
+SmoothBundlesConnections B1.0's), and §G7.2's reduced form `ω_red` with its kernel and basicness
+data, §G7.3's identifications and §G7.4's groupoid description (R4) for the comparison of groupoid
+and ordinary reduction; it owns the exact sequence through `H¹_dR`, the KKS form, the generic
+descent interface for closed basic two-forms, `W_O`, `Φ` and the final comparison.
+[ComplexKahlerGeometry](../ComplexKahlerGeometry/README.md) K8 and
 [CharacteristicClasses](../CharacteristicClasses/README.md) C5a consume §G1.3a's standalone Lie
 algebra complex and its low-degree comparison; ComplexKahlerGeometry K1 may consume §G1.6's
 involutivity equivalence for its eigenbundles. [OperatorAlgebraDynamics](../OperatorAlgebraDynamics/README.md)
@@ -1991,9 +2065,17 @@ construction.
   brackets*](https://arxiv.org/abs/math/0303180), Duke Mathematical Journal 123 (2004), Remark 2.3
   and Theorem 2.5 (arXiv p. 8): the infinitesimally multiplicative two-form identities and the
   target-Poisson convention, for §G6.1 and §G6.4.
+- A. Coste, P. Dazord and A. Weinstein, [*Groupoïdes
+  symplectiques*](http://www.numdam.org/item/PDML_1987___2A_1_0/), Publications du Département de
+  Mathématiques de Lyon, 1987, fascicule 2A, 1–62: Chapter II, §4 (pp. 27–33), the cotangent
+  groupoid of a Lie groupoid, for §G6.2.
+- R. L. Fernandes, [*Lie algebroids, holonomy and characteristic
+  classes*](https://arxiv.org/abs/math/0007132), Advances in Mathematics 170 (2002), 119–179
+  (arXiv math/0007132, whose numbering is cited): Theorem 1.1 (Local Splitting, arXiv p. 11), for
+  the orbit charts of §G2.4.
 - M. Crainic and R. L. Fernandes, [*Integrability of Lie
   brackets*](https://annals.math.princeton.edu/wp-content/uploads/annals-v157-n2-p06.pdf), Annals of
-  Mathematics 157 (2003), 575–620: Lie II (p. 579), Proposition 1.3 (p. 585), Theorem 2.1 (p. 586),
+  Mathematics 157 (2003), 575–620: Lie II (p. 579), Proposition 1.3 (p. 585), Theorem 2.1 (p. 589),
   Example 3.7 (p. 597), Theorem 4.1 and Example 4.2 (p. 600), Proposition 4.7 (p. 604), Lemma 4.9
   (p. 606), for G5.
 - M. Crainic and R. L. Fernandes, [*Integrability of Poisson
@@ -2008,8 +2090,13 @@ construction.
   Geometry*](https://webspace.science.uu.nl/~crain101/gsm217.pdf), AMS Graduate Studies in
   Mathematics 217 (2021): Theorem 2.8 (p. 26, Schouten bracket), Theorem 3.2 (p. 44, Weinstein
   splitting), Theorem 4.1 and Lemma 4.2 (p. 63, symplectic leaves), Theorem 4.13 (p. 69, regular
-  Poisson structures and symplectic foliations), for G4; its sharp convention is the opposite of this
-  roadmap's.
+  Poisson structures and symplectic foliations), for G4; Section 13.5 (p. 344, the cotangent
+  groupoid) and Proposition 13.76 (p. 345), Examples 14.7 and 14.22 (pp. 363–364 and 375, `T*G`),
+  Definition 14.38, Examples 14.39 and 14.40 (p. 388), Proposition 14.42 (p. 389), the reduction
+  statement of Section 14.4 (p. 391, item (i)) and Proposition 14.45 (p. 392), for G6 and G7. Its
+  sharp map `π♯α = π(α,·)` agrees with this roadmap's, but it attaches `X_f = π♯df` to a symplectic
+  form, so its bivector of a symplectic form, its leaf form and its multiplicative forms on `T*G`
+  carry the opposite sign; its algebroid of a groupoid is `ker dt` with the left-invariant bracket.
 - J. M. Lee, *Introduction to Smooth Manifolds*, 2nd ed., Graduate Texts in Mathematics 218, Springer
   (2013), Corollary 5.14 and Proposition 5.38: regular level sets in the Hausdorff case, the
   classical statement behind SmoothBundlesConnections B1.0.
