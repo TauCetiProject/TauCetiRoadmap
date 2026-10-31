@@ -45,7 +45,9 @@ This roadmap owns the following, by layer.
   equivalence relations in each presentation and the theorems comparing them (Reidemeister,
   Alexander, Markov), Seifert surfaces, the Alexander module and polynomial, the Conway, Jones,
   HOMFLY and Kauffman polynomials, Fox colourings and the determinant, knot/proper-link Arf,
-  fourth-root evaluations and the integral W quotient,
+  fourth-root evaluations and the integral W quotient. Layer 4.3.1 owns the finite
+  nonsingular F₂ quadratic Arf algebra and its Seifert-form dictionary;
+  TangentialBordism and FourManifolds consume them. This layer also owns
   the genus, crossing, unknotting, bridge and braid-index minima, prime decomposition of
   knots and of non-split links, rational tangles and two-bridge knots, torus knots and
   satellites, the Garside structure of braid groups, the Morton–Franks–Williams bound,
@@ -1354,6 +1356,79 @@ the tubing and band-move comparison of Seifert surfaces).
 
 ### 4.3.1 Quadratic refinements and proper links
 
+**Finite quadratic Arf algebra.** This prerequisite uses native
+`QuadraticForm (ZMod 2) V` with the explicit hypothesis
+`q.polarBilin.Nondegenerate`. It is independent of Seifert surfaces and all
+geometric bordism constructions.
+
+Construct `finiteQuadraticArf` for a finite-dimensional F2 vector
+space with a quadratic refinement of a nonsingular alternating form.
+Consume Tau Ceti's implemented
+`LinearMap.BilinForm.IsAlt.exists_basis_toMatrix_eq_J` and `LinearMap.BilinForm.IsAlt.even_finrank`
+from `TauCeti.LinearAlgebra.BilinearForm.SymplecticBasis`. Construct only
+the characteristic-two adapter: `q.polarBilin` is alternating by
+`QuadraticMap.polar_self`, and Matrix.J's off-diagonal −1 equals +1.
+Convert its native `Module.Basis (Fin m ⊕ Fin m)` to paired entries δ_ij,
+same-half pairings zero and dim V=2m, including m=0. Define Arf as
+Σ q(a_i)q(b_i), prove its equality to the basis formula for every such
+basis, independence of basis, isometry invariance and orthogonal-sum
+additivity. Prove the
+hyperbolic/anisotropic-plane decomposition, with an explicit paired-plane
+change of basis identifying two anisotropic planes with two hyperbolic planes.
+Prove that dimension and Arf classify these forms up to native quadratic
+isometry. Prove the intrinsic Gauss sum `sum_v (-1)^(q v)=(-1)^Arf * 2^m`; derive
+the q-zero count `2^(2*m-1)+(-1)^Arf * 2^(m-1)` for m≥1, with count1
+when m=0. Prove that Arf zero is equivalent
+to a q-zero Lagrangian (including dimension zero). Here a q-zero Lagrangian
+is a subspace U with q|U=0 and U equal to its orthogonal complement for
+q.polarBilin. For a subspace on which q vanishes, prove that this
+orthogonal-complement condition is equivalent to finrank U=m. Interpret the zero-count
+formula in ℤ, so the sign and subtraction are literal integer operations. Export these constructors
+and comparison maps for geometric surface and Seifert-form consumers;
+GeometricTopology owns this generic finite-F2 theory. TangentialBordism and
+FourManifolds consume it for their geometric refinements.
+
+For any such q of dimension 2m, state the basis-independence headline as
+`finiteQuadraticArf_eq_of_symplecticBasis`, the integer-sum identity as
+`finiteQuadraticArf_gaussSum`, and the equivalence between Arf zero and an
+m-dimensional subspace on which q vanishes as
+`finiteQuadraticArf_eq_zero_iff_lagrangian`. The sum uses any `Fintype V`;
+finite dimension over F₂ ensures such a choice exists. There is no restriction m>0.
+These are consequences of the paired-plane classification (Pyronneau, §2.1,
+Lemmas 2.11–2.13, Corollary 2.14 and Theorem 2.15, pp.4–5): on one plane
+sum the four signs, then multiply under orthogonal sums; a q-zero half-dimensional
+subspace extends to a hyperbolic basis by modifying its complementary vectors.
+
+The supporting definitions are `finiteQuadraticArfOfBasis`, the paired-basis sum,
+and `IsQuadraticSymplecticBasis`, the three pairing equations. The characteristic-two adapters
+`quadraticPolar_isAlt` and `finiteQuadraticSymplecticBasis_exists` construct the
+chosen basis used in `finiteQuadraticArf`; they are prerequisites for the invariant.
+
+Its API includes:
+
+- The basis formula agrees with the intrinsic invariant on every symplectic basis,
+  and linear isometries preserve it.
+- Orthogonal sums add the F₂ invariant and multiply the integer Gauss sum.
+- A half-dimensional q-zero subspace exists exactly for the hyperbolic class;
+  nondegeneracy makes it a Lagrangian for the polarization.
+
+**Checks.**
+
+- On the zero space the empty basis satisfies all pairing equations, its sum is 0,
+  the Gauss sum is 1 and the zero subspace has dimension 0.
+- On q(x,y)=xy the standard basis has pairing matrix [[0,1],[1,0]], Arf 0,
+  values (0,0,0,1), Gauss sum 2 and the zero line spanned by (1,0).
+- On q(x,y)=x²+xy+y² the same matrix has Arf 1, values (0,1,1,1),
+  Gauss sum −2 and no nonzero q-zero vector. The zero bilinear form fails
+  the mixed pairing equation, excluding an arbitrary basis of a degenerate form.
+- Two anisotropic planes have Arf 1+1=0 and Gauss sum (−2)²=4;
+  the diagonal subspace in their sum is q-zero and has dimension 2.
+
+*Needs:* Mathlib `QuadraticForm`, `Submodule`, finite sums and finrank; Tau Ceti `LinearMap.BilinForm.IsAlt.exists_basis_toMatrix_eq_J`.
+
+
+**Seifert refinements and proper links.**
+
 For a nonempty oriented μ-component link and a compact connected oriented
 Seifert surface F of genus g, construct the quadratic refinement
 `q_F(x)=lk(x,x⁺) mod2` on `H₁(F;𝔽₂)`. Build coefficient change from an
@@ -1380,22 +1455,33 @@ nonsingular, of dimension2g. Native quadratic `Nondegenerate` alone is
 insufficient in characteristic two because it permits a one-dimensional
 anisotropic polar radical.
 
-Consume [TangentialBordism B3.2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/4a5e27d2dd1b94abcca3e9b2151e9adf460a8a2f/TauCetiRoadmap/TangentialBordism/README.md)
-for `finiteQuadraticArf`, its paired-basis formula, isometry/orthogonal-sum
-laws and plane classification. This early finite algebra depends on the
-native symplectic-basis API, independently of GT's surfaces and TB's
-geometric bordism applications. Define `properLinkArfInvariant` from the
-descended form and `knotArfInvariant` as its μ=1 case. Prove independence
-of surface, basis and component labelling by the geometric common
-stabilization and native integral `SEquivalent` moves: an enlargement
-adds a hyperbolic plane to the nonsingular quadratic quotient. Prove
-additivity for component-chosen connected sum, preservation under oriented
-band fusion of proper links, and mirror/global-reversal invariance. No
-Arf value is assigned to an improper link by this constructor. These
-geometric dictionaries belong here; the generic Arf constructor and its
-classification retain their TB owner and require no Jones-polynomial
-input. Preserve the determinant-Arf criterion for knots and export
-`alexanderOne_arf_eq_zero` for the existing four-manifold consumers.
+Define the proper-link Arf invariant from the descended form and the knot
+Arf invariant as its μ=1 case. Prove independence of surface, basis and
+component labelling by the geometric common stabilization and native integral
+`SEquivalent` moves: an enlargement adds a hyperbolic plane to the nonsingular
+quadratic quotient. Prove additivity for component-chosen connected sum,
+preservation under oriented band fusion of proper links, and mirror/global-
+reversal invariance. No Arf value is assigned to an improper link by this
+constructor. These geometric dictionaries and the finite algebra above require
+no Jones-polynomial or geometric bordism input. Prove the determinant-Arf
+criterion for knots and that Alexander polynomial one implies Arf zero.
+
+**Checks for the geometric dictionary.**
+
+- The trefoil matrix [[−1,1],[0,−1]] has q(x,y)=x²+xy+y², zero polar
+  radical and Arf 1. The unknot's zero-dimensional form has Arf 0.
+- The positive Hopf annulus has matrix [−1]. Its one-dimensional polar
+  radical has q(core)=1, so the link is improper and has no proper-link Arf value.
+- For T(2,4), use S=[[−1,1,0],[0,−1,1],[0,0,−1]]. The polar radical is
+  spanned by e₁+e₃, on which q is zero. The nonsingular quotient is the
+  anisotropic plane, so this proper link has Arf 1.
+- The two-component unlink has a one-dimensional zero refinement, which
+  descends to the zero space and gives Arf 0.
+
+*Needs:* Layer 4.3 Seifert surfaces and geometric
+common stabilizations; the finite algebra above; native integral S-equivalence,
+`Matrix.toQuadraticForm'`, `QuadraticMap.polarBilin`, `.radical` and `.lift`;
+Mathlib coefficient change and singular homology.
 
 <a id="finite-disc-band-surfaces"></a>
 ### 4.3.2 Finite disc-band surfaces and canonical Seifert surfaces
@@ -2119,8 +2205,8 @@ introduced. Compare its radical reduction with native
 If q_F is nonzero on R, choose r∈R with q_F(r)=1 and prove cancellation
 by the translation `x↦x+r`, hence G=0. If q_F vanishes on R, construct
 the quotient-fibre equivalence and prove
-`G(q_F)=2^(μ−1)G(q̄_F)`. Evaluate the paired quadratic planes using TB
-B3.2's Arf normal form to obtain
+`G(q_F)=2^(μ−1)G(q̄_F)`. Evaluate the paired quadratic planes using Layer 4.3.1's
+finite Arf normal form to obtain
 
 `G(q_F)=2^(g+μ−1)(−1)^Arf(L)` for proper L.
 
@@ -2241,7 +2327,7 @@ figure-eight5 and unknot1. The empty link is outside this Arf constructor;
 its existing normalized-bracket convention stays separate.
 
 *Needs:* the earlier Seifert-surface/quadratic dictionary, finite common
-stabilizations, TB B3.2's early finite Arf classification, native
+stabilizations, Layer 4.3.1's finite quadratic Arf classification, native
 `IntegralSquareMatrix.SEquivalent`, `Matrix.toQuadraticForm'`,
 `QuadraticMap.polarBilin`, `.radical` and `.lift`, native finite-quadratic-module
 Gauss sums, native Jones/bracket, geometric Markov/closure comparisons,
@@ -5311,13 +5397,19 @@ and 8; Mathlib CW complexes.
   extension.
 - **KhovanovHomology** and **CombinatorialHeegaardFloer** consume Layer 4's geometric and
   combinatorial presentations and the comparison theorems between them.
-- **FourManifolds** consumes Layers 1, 2 and 6 and owns the four-dimensional theorems this
+- **FourManifolds** consumes Layers 1, 2 and 6 and Layer 4.3.1's knot/proper-link Arf invariant, and owns the four-dimensional theorems this
   roadmap states (the dimension-four annulus theorem and Freedman's theorem).
-- **TangentialBordism** consumes Layer 1's gluing and Layer 11.3's smooth triangulations.
+- **TangentialBordism** consumes Layer 1's gluing, Layer 4.3.1's finite quadratic
+  Arf algebra and Layer 11.3's smooth triangulations; its Spin-surface
+  refinement and Spin bordism classification remain its own constructions.
 - **GeometricTopology, Part II** consumes every layer and owns the developments listed under
   *Scope and ownership*.
 
 ## References
+
+- A. Pyronneau, *The Arf and Rohklin’s invariant*, January 2024,
+  [institutional notes](https://web.ma.utexas.edu/SMC/2024/Rokhlin_s_Invariant.pdf),
+  §2.1, Lemmas 2.11–2.13, Corollary 2.14 and Theorem 2.15, pp.4–5.
 
 - R. Kirby (ed.), *Problems in Low-Dimensional Topology*, in *Geometric Topology* (Athens,
   GA, 1993), AMS/IP Stud. Adv. Math. 2.2 (1997): Problems 1.15 (Property P), 1.16 (Property

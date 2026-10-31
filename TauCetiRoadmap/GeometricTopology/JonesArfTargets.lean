@@ -12,7 +12,7 @@ import Mathlib.Basic.Complex.Basic
 The matrices here use the native integral matrix and quadratic-map carriers. Their
 geometric realization, boundary-radical dictionary and Clifford/Jones comparison
 are required there, not asserted by arbitrary matrix input. Generic nonsingular
-Arf theory remains with TangentialBordism B3.2.
+Arf theory is constructed in this roadmap before its geometric consumers.
 -/
 
 noncomputable section
