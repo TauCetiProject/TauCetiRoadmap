@@ -1801,6 +1801,78 @@ tensor products and Fitting ideals; native
 `TauCeti.KnotTheory.PDCode.Alexander.Basic` and the native Alexander
 Reidemeister equivalences; [Burde–Zieschang, *Knots*, §3.B, Corollary3.6](https://api.pageplace.de/preview/DT0400.9783110198034_A19083999/preview-9783110198034_A19083999.pdf).
 
+<a id="group-presentation-countability"></a>
+### 4.4.3 Countability and finite presentations of knot groups
+
+Use Mathlib's `Group.Presentation G ι`: a generating family indexed by ι,
+a set of relator words in `FreeGroup ι`, and equality of the evaluation
+kernel with their `Subgroup.normalClosure`. Reuse its
+`presentedGroupEquiv : PresentedGroup P.rel ≃* G` and computing maps on
+generators. Prove the normal closure consists of finite products of
+conjugates of relators and their inverses, including the empty product.
+A set of single conjugates alone need not be a subgroup. Export the
+corresponding criterion for a generator assignment to descend, and reuse
+native `PresentedGroup.toGroup` and its uniqueness on generators.
+
+For every group G, construct the presentation with generator type G,
+assignment g↦g and relator set the kernel of `FreeGroup.lift id`.
+Prove this evaluation is surjective, its kernel is the normal closure
+of that set, and the induced native presentation equivalence computes
+as identity on each named element of G. Thus every group admits a
+presentation when its generator type is unrestricted.
+
+Prove the precise countability statement
+
+```text
+Countable G ↔ Nonempty (Group.Presentation G ℕ).
+```
+
+In the forward direction choose a surjective enumeration of G, padded
+by the identity when needed, and use its free-group evaluation kernel
+as relator set. Prove the relator subtype is countable, since the free
+group on a countable alphabet is countable. Conversely use the
+surjective evaluation from `FreeGroup ℕ`. Include the finite and trivial
+groups. No effective enumeration, decidable relator set or solution of
+the word problem follows from this existence statement.
+
+Keep three finiteness conditions separate: a countable presentation,
+a finite generating family, and a finite generating family with finitely
+many relators. Use native `Group.Generators`, `Group.FG` (following its
+`IsMulFG` replacement) and `Group.IsFinitelyPresented`; reuse
+`Group.Presentation.isFinitelyPresented_iff_exists_finite_presentation` for the last
+condition. Prove finite presentations give finite generation and
+countability. Countability alone does not give finite generation.
+
+For every finite realized oriented link diagram, turn its geometric
+Wirtinger theorem into an actual finite `Group.Presentation` of the
+complement group with one relation per crossing. Include generators for
+crossing-free and over-only components. Export the generator/meridian
+computing maps and the native finite-presentation instance. For a knot
+with c≥1 crossings, consume the planar once-each relator identity built
+in Layer4.4.2 to remove any one relation. The crossing-free unknot has one generator and
+no relators. Abstract countability is not the proof of finite presentation.
+
+**Checks.**
+
+- `FreeGroup ℕ` is countable and has the empty relator presentation on
+  ℕ, but is not finitely generated. Any finite family of words uses
+  finitely many letters; map a new letter to the nonidentity element of
+  `Multiplicative (ZMod 2)` and all used letters to1 to prove the family
+  does not generate. Hence it has no finite presentation.
+- The additive group of ℝ, written multiplicatively with `Multiplicative`,
+  has the unrestricted all-elements presentation but has no countable
+  presentation. This distinguishes unrestricted presentations from the
+  countability equivalence.
+- The empty link has the trivial complement group and the empty finite
+  presentation. The crossing-free μ-component unlink has the free group
+  on `Fin μ` with no relators. The one-crossing kink presents ℤ with its
+  sole Wirtinger relator already equal to1 as a free word.
+
+*Needs:* native `Group.Presentation`, `Group.Generators`, `PresentedGroup`,
+`FreeGroup`, `Subgroup.normalClosure`, `Countable`, `Group.IsFinitelyPresented`
+and the geometric Wirtinger construction in Layer4.4; Layer4.4.2
+for the once-each relator identity and individual-relator deletion.
+
 ### 4.5 The Kauffman bracket and the Jones polynomial
 
 The state sum `TauCeti.PDCode.kauffmanBracket` and the normalized
