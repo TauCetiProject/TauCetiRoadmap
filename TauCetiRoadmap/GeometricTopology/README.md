@@ -4243,6 +4243,24 @@ GL₃(𝔽₂). Prove its comparison with PSL₃(𝔽₂): every nonzero determi
 over 𝔽₂ is1, the special-linear center is trivial, and its order is168.
 These elementary finite adapters are part of this instantiation.
 
+For the matrix-group instantiation prove its complete conjugacy table: the six classes
+have element orders 1, 2, 3, 4, 7, 7 and sizes 1, 21, 56, 42, 24, 24, respectively. In
+`Matrix.GeneralLinearGroup (Fin 3) (ZMod 2)` use the explicit matrices
+
+```text
+A = [[0,0,1],[1,0,1],[0,1,0]],
+A⁻¹ = [[1,1,0],[0,0,1],[1,0,0]].
+```
+
+Prove their inverse identities, order 7 and distinct conjugacy classes. Their
+characteristic polynomials are `X³+X+1` and `X³+X²+1`; centralizers identify with `𝔽₈ˣ`
+and have order 7. Prove exhaustion by the six rational canonical types: identity, the
+two unipotent Jordan types, irreducible quadratic plus 1, and the two irreducible
+cubics. Inversion exchanges the two order 7 classes and preserves each other class.
+Build the inverse-transpose automorphism and its action on conjugacy classes and
+subgroup-conjugacy strata. These are generic finite-group outputs, independent of the
+late thirteen-crossing profile application.
+
 **Checks.**
 
 - Prove the complete S₅ conjugacy table, with one-based cycle notation
@@ -7305,6 +7323,119 @@ Lean certificates.
 normal-surface and relative JSJ proof prefixes and any 3.4 isotopy comparison
 used here consume no finite-count output; early diagram/invariant/exterior
 producers remain independent of this classification.
+
+<a id="alexander-profiles-through13"></a>
+### 8.7.1 Alexander and finite-group profiles through thirteen crossings
+
+Complete the classification-filter computation in Knot Theory physical p. 179 on the
+entire cumulative nontrivial-prime catalogue of 8.7 with crossing number≤13. Use its
+coarse quotient by global ambient reflection and knot orientation reversal, and its
+certified bijection with intrinsic knot classes. This domain has 12965 elements; the
+unknot is excluded. An imported list with 12965 labels alone does not supply this domain
+or its bijection.
+
+1. **Every Alexander polynomial and its fibers.** On each realized catalogue code
+   construct an actual oriented Seifert surface and integral Seifert matrix, or the
+   equivalent signed Fox/Fitting presentation of 4.4. Prove the comparison with native
+   `TauCeti.KnotTheory.alexander` in the pinned determinant convention. Normalize the
+   resulting integral Laurent polynomial by `invert Δ=Δ` and `Δ(1)=1`, proving
+   uniqueness among its unit associates and invariance under both global reflection and
+   reversal. Record the finite support and every integer coefficient, with exact
+   equality to the geometric invariant. The earlier degree/genus/crossing bounds give
+   support in[−6, 6]; prove this before using a 13-entry vector for equality tests. This
+   bound is on Δ, not a claim that every chosen Seifert matrix or spanning surface is
+   minimal.
+
+   Compute the entire image and equal-polynomial fiber partition. Prove that there are
+   5639 different normalized Alexander polynomials, 3056 singleton fibers and 25400
+   unordered pairs of distinct catalogue classes having the same polynomial. Export each
+   fiber's actual members, its size and its minimum crossing number, with both
+   exact-crossing and cumulative queries. Prove that Δ=1 occurs for exactly 19 classes:
+   2 at 11, 2 at 12 and 15 at 13, and none below 11. Bind all nineteen named rows and
+   signed DT candidate codes in the [finite input
+   note](references/alexander-profiles-through13.md) to actual catalogue diagrams, with
+   the signed-word/planarity/realization dictionary of 4.2–4.2.5. Labels or agreement of
+   polynomial values do not establish those diagram identifications.
+
+   Preserve the source's literal 14 and prove its correction to 19 in this precise
+   prime/mirror convention. Alexander-trivial here means the normalized Laurent
+   polynomial equals 1; determinant 1 alone is not that condition. The input note
+   supplies reproducible Atlas data calibrations, while 8.7 completeness/minima and the
+   native geometric polynomial comparisons remain the proof obligations for the knot
+   counts.
+
+2. **Exact finite-group data on every row.** Apply 4.7.4 to each row's actual
+   meridian-marked finite complement-group presentation, for all four groups
+   `S₃,S₄,S₅,GL₃(𝔽₂)≃PSL₃(𝔽₂)`. Preserve the verified arc-elimination/reconstruction
+   maps and every residual relation; the source's small chosen generator set is not
+   assumed sufficient without those maps. For every meridian conjugacy class C compute
+   all-coloring counts, generating-coloring counts, their marked-representative fibers
+   and their simultaneous-conjugation orbit counts. Also stratify by the conjugacy class
+   [H] of the image subgroup in G, computing its counts and orbits; literal subgroup
+   subsets depend on basepoint choices. Recover generating counts as the H=G stratum and
+   all-coloring totals by summing the strata. Export exact witnesses and exhaustive
+   negative certificates.
+
+   Prove that changing marked arc, class representative, native code or presentation
+   preserves these data through the geometric representation equivalences. Use the
+   existing centralizer/induced-set formulas for marked fibers and stabilizers; divide
+   by `|G|/|Z(G)|` only on generating orbits, not on arbitrary colorings. These are four
+   distinct quantities: raw counts, fixed-label counts, orbit counts and image-stratum
+   counts.
+
+3. **The global quotient action.** Start with an oriented, mirror-sensitive
+   representative of each coarse catalogue class. Positive meridians use both its
+   orientation and that of `S³`. Prove that reflection and knot reversal each invert
+   their conjugacy class, while their composite preserves it, by precomposition with the
+   actual complement-group isomorphisms. Pointwise inversion of a nonabelian
+   representation is not a homomorphism and is not this construction.
+
+   Form ONE finite numerical array over all four groups, all C and [H] strata, and the
+   specified cardinalities. Actual solution sets, words, witnesses and negative
+   certificates are associated data transported by the equivalences above, not literal
+   comparison coordinates. In particular, assignment names do not enter the key. Its
+   involution is `J:(C,[H])↦(C⁻¹,[H])`, simultaneously in the whole array. The coarse
+   profile is its orbit under {1,J}; construct a computable canonical representative
+   with a pinned finite index order and prove its equality test. Independent choices of
+   inversion per group or feature would discard correlations and are not this global
+   orbit.
+
+   In symmetric groups every class is inverse-stable. In `GL₃(𝔽₂)` the two order 7
+   classes are exchanged and all other classes are inverse-stable; use 4.7.4's explicit
+   class table and matrix A. Also prove the action of the target automorphism `g↦(g⁻¹)ᵀ`
+   on classes and image-subgroup strata. For features ignoring image strata it gives
+   equal counts in the two order 7 coordinates. This is a proved additional symmetry; it
+   does not justify silently forgetting the automorphism's action on the full array.
+
+4. **Defined filters and candidate pairs.** Compute separate keys: Δ alone; Δ with four
+   generating-labelability Booleans; Δ with the full vector of class-restricted
+   generating Booleans modulo J; and Δ with the exact profile above. Source p. 176
+   requires generation of G, so labelability is `generatingCount>0`. The existence of
+   any coloring would always include the trivial coloring and cannot serve that role.
+   Prove the forgetful maps between the keys and their compatibility with J.
+
+   For each key k define its unresolved pairs as unordered two-element subsets of
+   DISTINCT catalogue classes with equal k. Construct their complete lists and prove the
+   exact formula `#pairs=Σ_(a∈image k) choose(|k⁻¹(a)|,2)`. Prove successive refinements
+   give nested pair sets and nonincreasing cardinalities; each removed pair has an
+   explicit differing coordinate. Compute every resulting cardinality, retaining the
+   actual list and fiber partition. These are invariant collisions between already
+   distinct knot types, not failures of 8.7's classification proof.
+
+   Preserve the source's “1000 pairs”; its historical filter key, exact pair list and
+   whether the number was rounded remain unspecified. Do not assert that any one of
+   these newly defined filters has that count merely because it uses the same four
+   groups. Comparing a recovered historical key with the defined keys is a separate
+   explicit calculation; equality of any one of these invariants never certifies knot
+   equivalence.
+
+*Needs:* 8.7's certified≤13 prefix; 4.2–4.2.5 for the finite diagram dictionary,
+4.3–4.4.2 for geometric Seifert/Alexander comparisons, 4.7.4 for finite representations
+and matrix-group class/inversion data, and 4.8's degree bounds. Native
+`LaurentPolynomial`, finite images/fibers, group actions, conjugacy classes,
+`Nat.choose` and the actual catalogue codes are reused. These bounded statistics supply
+no premise of their earlier diagram, polynomial, finite-search or classification
+producers.
 
 ### Examples
 
