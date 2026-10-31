@@ -514,3 +514,35 @@ than only of two meridians. T#F retains its separate amalgamated three-generator
 presentation; it is not assigned the same quotient without proof. Whole4.10
 classification is not a supplier of the early marked presentation, and only the final
 all-input exhaustion consumes7.5's existing complete bounded diagram certificates.
+
+
+<a id="trefoil-mirror-group-inputs"></a>
+## Page123: prime groups and the trefoil mirror
+
+*Knot Theory.pdf*, source SHA-256
+`ea4ad43f0788c1949274f3869045793f193a562f1c6f35cb05307c302e7185fa`,
+physical p123 says “all prime knots have different knot groups” without
+stating a quotient convention. Its overwritten connected-sum corollary
+remains uncertain in the Luna transcript; this group example does not
+resolve that glyph. The [marked trefoil comparison](README.md#gt4-trefoil-mirror-groups)
+corrects the mirror-sensitive reading using two actual prime knots with
+isomorphic unmarked groups and unequal Jones polynomials. After allowing
+ambient reflection and knot reversal, the separate
+[prime-exterior theorem](README.md#gt8-prime-knot-group-rigidity) supplies
+the precise recognition statement. Neither assertion identifies oriented
+peripheral markings from an arbitrary abstract group isomorphism.
+
+The chosen T₊ is the positive two-strand braid closure, with native Jones
+polynomial t+t³−t⁴. Native Laurent exponents are in t^(1/2), so its code
+value is T2+T6−T8. Its reflection has the inverse-variable polynomial.
+The presentation automorphism in TrefoilMirrorTargets sends the two
+positive meridian generators to their inverses; it is not inversion of
+every group element. The geometric reflection sends (μ₊,λ₊) to
+(μ₋⁻¹,λ₋). The words zμ⁻⁶ and z⁻¹μ⁶ require the specified zero-linking
+boundary push-offs, not just their zero exponent sums.
+
+[Friedl, *Topology*, Lemma7.3](https://friedl.app.uni-regensburg.de/papers/2024_knot-theory-final.pdf)
+records these meridian/longitude sign laws. Native PD/Jones mirror,
+whole-orientation reversal and trefoil chirality calculations are existing
+inputs; their realized-knot and peripheral comparisons remain geometric
+roadmap targets. The existing native-presentation companion is unchanged.

@@ -3772,6 +3772,61 @@ Native free/presented groups, group rings, Laurent polynomials, Fitting ideals, 
 fields and semidirect products are the carriers; no replacement knot or group invariant
 is introduced.
 
+<a id="gt4-trefoil-mirror-groups"></a>
+### 4.4.9 Trefoils, peripheral signs and prime-knot groups
+
+Let `T₊` be the closure
+of the positive two-strand braid `σ₁³`, and `T₋` its reflected image with the
+transported knot orientation. Construct marked Wirtinger identifications of
+both complement groups with the native presentation
+`G=⟨x,y | xyx=yxy⟩`, where `x,y` are positive meridians in each model.
+Choose the reflected basepoint and basing paths explicitly. The reflection
+induces the isomorphism between these two copies sending
+`x↦x⁻¹`, `y↦y⁻¹`. Check the braid relation and prove the inverse by the
+same generator assignment. This is a homomorphism defined on generators,
+not elementwise inversion of a nonabelian group.
+
+Put `z=(xy)³`. Prove centrality from the relation. Compute the preferred
+longitudes, with positive meridian `μ=x`, to be
+`λ₊=zx⁻⁶` and `λ₋=z⁻¹x⁶` in the respective marked copies. The longitude
+orientation follows the specified knot orientation. Identify these words
+by an actual zero-linking push-off along the boundary torus; vanishing in
+abelianization alone does not characterize the preferred longitude. Prove
+the reflection map sends `z↦z⁻¹`, `μ₊↦μ₋⁻¹` and `λ₊↦λ₋`. Thus it
+preserves the peripheral subgroup while reversing exactly the meridional
+sign. Export the corresponding conjugacy-class statement for a change of
+basing paths. The native presentation and word targets are in
+[`TrefoilMirrorTargets.lean`](TrefoilMirrorTargets.lean).
+
+Construct the marked realized-diagram comparison from the positive braid
+closure to native `rightHandedTrefoilPDCode`, with its slot relabelling,
+crossing rotations and basing paths; transport it to the reflected model.
+The genus-one braid surfaces and Alexander span show both knots have
+genus1. Ordinary-genus additivity and genus0 iff unknot prove them prime,
+using only the early connected-sum/prime definitions. Compute their Jones
+polynomials as `t+t³−t⁴` and `t⁻¹+t⁻³−t⁻⁴`, using the existing native
+trefoil calculation and mirror transform. They are therefore distinct even as
+UNORIENTED knots under orientation-preserving ambient equivalence, despite
+the abstract group isomorphism. This is the precise mirror-sensitive
+counterexample to physical page123's unmarked prime-group assertion;
+it makes no claim to distinguish the two knots after allowing reflection.
+Neither this counterexample nor the later recognition theorem is a premise
+of the early Wirtinger construction.
+
+The precise recognition theorem after allowing reflection is the separate
+[prime-exterior application in8.5.2](#gt8-prime-knot-group-rigidity). It is not
+needed to construct or distinguish these two marked examples.
+For the peripheral signs, see
+[Friedl, Lemma7.3](https://friedl.app.uni-regensburg.de/papers/2024_knot-theory-final.pdf).
+
+*Needs:*4.2’s realized braid/PD diagrams, mirror and complement maps;4.4 and
+4.4.7’s positive-meridian Wirtinger identifications;4.3’s linking and marked
+boundary push-offs;4.3.4’s genus0 criterion and ordinary-genus additivity;
+4.9’s independent connected-sum/prime definition prefix;4.5’s independent native Jones calculation, mirror formula
+and geometric invariance. Prime-factorization and classification are not inputs.
+The group map and Jones distinction do not consume8.5.2’s rigidity theorem.
+
+
 ### 4.5 The Kauffman bracket and the Jones polynomial
 
 The state sum `TauCeti.PDCode.kauffmanBracket` and the normalized
