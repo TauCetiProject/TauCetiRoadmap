@@ -3889,7 +3889,7 @@ The group map and Jones distinction do not consume8.5.2’s rigidity theorem.
 
 
 <a id="ten-crossing-wirtinger-elimination"></a>
-### 4.4.10 The marked ten-crossing presentation reduction
+### 4.4.10 Marked Wirtinger presentation reductions
 
 Construct the complete presentation reduction on physical pp180–181 of
 *Knot Theory.pdf*. The inputs are the pictured oriented knot, its three
@@ -3965,6 +3965,32 @@ crossings substitutes for this literal source example. The
 records the reading limits;
 [`WirtingerEliminationTargets.lean`](WirtingerEliminationTargets.lean)
 states the conditional algebraic checks on native group carriers.
+
+**The two occurrences in Exercise64.** Apply the elimination procedure
+separately to the left and right x,y-labeled diagrams in *Knot Theory —
+problems*, physical p11. Recover each realized signed plane code, its
+component count and traversal, and the correspondence of the two seed
+arcs. Extend the visible arrow on x to coherent component orientations;
+choose and state the remaining orientation and basing conventions.
+Produce every arc word in `FreeGroup (Fin 2)`, a checked propagation
+schedule and every residual crossing word. Give an explicit word q for
+the requested single relation and prove that the normal closure of all
+residual words equals the normal closure of {q}, with finite products of
+conjugates and inverses witnessing both inclusions. Use the planar
+identity with its actual diagram hypotheses and retain all residual
+equations until this comparison is proved.
+
+For each occurrence, construct the native presentation `⟨x,y | q⟩` of
+its actual complement group, with forward/inverse generator maps and
+all label computing rules. For every target group G export the natural
+equivalence with pairs solving q=1, preserving the generated subgroup.
+Keep the two input records and their computations distinct. The
+[source note](source-inputs.md#problem64-literal-inputs) records their
+unresolved branch pairings; no standard two-strand or Schubert diagram
+replaces either occurrence by its silhouette. A printed crossing sign
+is unnecessary when it follows from authenticated over/under data and
+component orientations. These source inputs and computations are required
+in addition to the ten-crossing example above.
 
 *Needs:*4.2's realized oriented diagrams and geometric Wirtinger theorem;
 4.4.2's signed relators and planar once-each identity;4.4.3's native

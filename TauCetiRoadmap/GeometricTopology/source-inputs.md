@@ -748,3 +748,33 @@ The inspected page image SHA-256 is
 The new reading preserves the historical transcript and corrects its
 attribution through this explicit qualification. Images were inspected
 only by verified gpt-6-luna; all other agents consumed Markdown.
+
+
+<a id="problem64-literal-inputs"></a>
+## Exercise64: two distinct two-seed presentation inputs
+
+*Knot Theory — problems*, SHA-256
+`06c19def0f01d6e74a1ee99bd448bd3731e101377deddb5aa573943898afb3b1`,
+physical p11 asks to complete two labelings and find a single relation
+in each. Preserve both pictured occurrences. Each has x on its upper-left
+arc, y on its upper-right arc and a right-pointing arrow on x. The
+[worked reduction targets](README.md#ten-crossing-wirtinger-elimination)
+require complete finite signed input, all arc words, an explicit residual
+normal-closure comparison and native inverse presentation maps for each.
+
+Luna's1 November reading and focused broken-line-convention reread could
+not authenticate either complete component trace. On the left, four
+hook-shaped interior marks lack secure transverse-overarc pairings;
+their number is not certified as a crossing count. On the right, the
+central diagonal meeting and the lower/side open endpoints do not give
+secure branch continuations. No knot-table name, braid/PD word or single
+relator is inferred. The obstruction is the unresolved local pairing,
+not the absence of printed crossing signs: ordinary underpass gaps and
+coherent orientations determine signs when the underlying strokes are
+clear. The source's requested one-relation calculations remain required.
+
+The inspected p11 image SHA-256 is
+`e4ffb13ce34913aa42de43ca7ea3cbacfee93b38e55b22bcdd246bd5e2d3b319`.
+Only verified gpt-6-luna inspected images and returned Markdown. Exercise65's
+general redundancy statement is already supplied by the planar once-each
+relator identity; it does not identify either exercise64 diagram.
