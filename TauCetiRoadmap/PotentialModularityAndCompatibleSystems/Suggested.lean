@@ -8,33 +8,35 @@ import TauCeti.NumberTheory.NumberField.Global.Places.Basic
 `README.md`. The statements here suggest Lean forms for particular milestones;
 discharging them finishes neither a layer nor the roadmap.
 
-The statements are additive strong approximation away from any one place (§2.5a),
-Taylor's split-field Zariski density theorem (§2.10), and Böckle's finite-presentation
-complete-intersection theorem (§10.2). The maximal split extension is the supremum of
-finite intermediate fields whose scalar extensions to the prescribed completions are
-split algebras. The density statement uses separated smooth finite-type schemes;
-affine-open reduction gives this form as well as the quasi-projective formulation.
+The statement is additive strong approximation away from any one place (§2.5a), the
+input to the geometric integral-point theorem that the pins can express.
 
-The integral-point theorem and the refinements prescribing local opens (§§2.8–2.10,
-2.17–2.23) are not stated: the pins lack the local analytic topology on scheme-valued
-points and the Skolem integral-point interface. The finite-flat-boundary relative
-Picard sheaf, its degree components and divisor fibration (§2.5) are also absent;
+The headline theorems consumed from earlier roadmaps are not stated here: Moret–Bailly's
+theorem over number fields and split-field Zariski density (§§2.8–2.10) are
+ClassicalSerreModularity `I.0/moret-bailly-split-points`, controlled residual potential
+modularity (§§4.13–4.14) is its `I.0/controlled-residual-potential-modularity`, and the
+finite-presentation complete-intersection criterion (§10.2) is the case `A = O` of
+DeformationAndDerivedPatchingAlgebra §3.5.
+
+The geometric integral-point theorem and the refinements prescribing local opens
+(§§2.8, 2.17–2.23) are not stated: the pins lack the local analytic topology on
+scheme-valued points and the Skolem integral-point interface. The finite-flat-boundary
+relative Picard sheaf, its degree components and divisor fibration (§2.5) are also absent;
 rigidified line-bundle classes alone do not supply them.
 
 The compatible-family purity, monodromy and density-one theorems of Layer 1 and the
 family existence, all-place strictness and transfer theorems of Layers 12–13 need
 actual compatible-system data, Weil–Deligne parameters and labeled p-adic Hodge
-conditions. These objects are absent at the pins. Residual and given-lift potential
-modularity (Layers 3–6), ordinary patching and global-ring finiteness (Layer 8),
-prescribed lifts and modularity lifting (Layers 9–11) additionally need the Hilbert
-moduli, automorphic Galois realizations, Hecke algebras and arithmetic deformation
-problems specified in the README. Their signatures require those objects, including
-the conditional hypotheses of the branches that use them.
+conditions. These objects are absent at the pins. Taylor's and Snowden's residual
+theorems and given-lift potential modularity (Layers 3–6), ordinary patching and
+global-ring finiteness (Layer 8), prescribed lifts and modularity lifting (Layers 9–11)
+additionally need the Hilbert moduli, automorphic Galois realizations, Hecke algebras
+and arithmetic deformation problems specified in the README. Their signatures require
+those objects, including the conditional hypotheses of the branches that use them.
 -/
 
-open CategoryTheory AlgebraicGeometry
 open IsDedekindDomain NumberField
-open scoped NumberField TensorProduct
+open scoped NumberField
 
 namespace TauCetiRoadmap.PotentialModularityAndCompatibleSystems
 
@@ -58,52 +60,4 @@ theorem additiveStrongApproximationAwayFromPlace
         ‖algebraMap K (v.adicCompletion K) x‖ ≤ 1 := by
   sorry
 
-/-- The maximal extension in which the finite places in `S` and infinite places in
-`T` split completely, inside a fixed algebraic closure (README §2.10). -/
-noncomputable def maximalSplitExtension
-    (S : Finset (HeightOneSpectrum (𝓞 K))) (T : Finset (InfinitePlace K)) :
-    IntermediateField K (AlgebraicClosure K) :=
-  sSup {E | FiniteDimensional K E ∧
-    (∀ v ∈ S, Nonempty ((v.adicCompletion K ⊗[K] E) ≃ₐ[v.adicCompletion K]
-      (Fin (Module.finrank K E) → v.adicCompletion K))) ∧
-    (∀ v ∈ T, Nonempty ((v.Completion ⊗[K] E) ≃ₐ[v.Completion]
-      (Fin (Module.finrank K E) → v.Completion)))}
-
-/-- Taylor's Theorem G: local nonemptiness at the prescribed places implies Zariski
-density over their maximal split extension (README §2.10). -/
-theorem splitField_points_dense
-    (S : Finset (HeightOneSpectrum (𝓞 K))) (T : Finset (InfinitePlace K))
-    (X : Scheme) (f : X ⟶ Spec (.of K))
-    [Smooth f] [IsSeparated f] [QuasiCompact f] [GeometricallyIrreducible f]
-    (hS : ∀ v ∈ S, ∃ x : Spec (.of (v.adicCompletion K)) ⟶ X,
-      x ≫ f = Spec.map (CommRingCat.ofHom (algebraMap K (v.adicCompletion K))))
-    (hT : ∀ v ∈ T, ∃ x : Spec (.of v.Completion) ⟶ X,
-      x ≫ f = Spec.map (CommRingCat.ofHom (algebraMap K v.Completion))) :
-    Dense {x : X | ∃ t : Spec (.of (maximalSplitExtension K S T)) ⟶ X,
-      t ≫ f = Spec.map (CommRingCat.ofHom (algebraMap K (maximalSplitExtension K S T))) ∧
-      x ∈ Set.range t} := by
-  sorry
-
-namespace Presentations
-
-/-- A nonzero finite quotient of a complete DVR's power-series ring with at most as
-many proper equations as variables is a finite flat complete intersection with
-nonzero generic fibre (Böckle, Lemma 2, p. 5; README §10.2). -/
-theorem finite_presentation_complete_intersection
-    {O R : Type*} [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
-    [IsAdicComplete (IsLocalRing.maximalIdeal O) O]
-    [CommRing R] [Nontrivial R] [Algebra O R] [Module.Finite O R]
-    {n m : ℕ} (hmn : m ≤ n) (π : O)
-    (hπ : Ideal.span ({π} : Set O) = IsLocalRing.maximalIdeal O)
-    (f : Fin m → MvPowerSeries (Fin n) O)
-    (hf : ∀ i, f i ∈ IsLocalRing.maximalIdeal (MvPowerSeries (Fin n) O))
-    (e : R ≃ₐ[O] (MvPowerSeries (Fin n) O ⧸ Ideal.span (Set.range f))) :
-    m = n ∧ Module.Flat O R ∧
-      RingTheory.Sequence.IsRegular (MvPowerSeries (Fin n) O)
-        (algebraMap O (MvPowerSeries (Fin n) O) π :: List.ofFn f) ∧
-      RingTheory.Sequence.IsRegular (MvPowerSeries (Fin n) O) (List.ofFn f) ∧
-      Nontrivial (Localization.Away (algebraMap O R π)) := by
-  sorry
-
-end Presentations
 end TauCetiRoadmap.PotentialModularityAndCompatibleSystems
