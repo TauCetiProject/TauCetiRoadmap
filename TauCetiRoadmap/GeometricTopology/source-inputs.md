@@ -968,3 +968,39 @@ pairing for links in thickened surfaces*, §2.2–2.3](https://arxiv.org/abs/210
 supplies the transfer and total oriented-boundary correction conventions.
 These texts were read as extracted text. Existing Luna Markdown supplies
 the course exercises; no non-Luna agent inspected any image.
+
+
+<a id="problem44-nonplanarity-source"></a>
+## Problems42/44/45/46/47: literal code and component corrections
+
+Problems physical p7, SHA-256
+`06c19def0f01d6e74a1ee99bd448bd3731e101377deddb5aa573943898afb3b1`,
+has exercise42's word(10,12,2,14,6,4,8) and exercise44's
+word(14,12,−16,2,6,8,10,−4). Luna's1 November reread of image SHA-256
+`7697110f50d0d14c64d85103930c228d1bea9a0f689f21ea4da966753e5e829b`
+confirms every printed digit and both minus signs of44; there is no
+visible handwritten correction. No non-Luna agent inspected the image.
+
+The [worked decoding targets](README.md#problem-dowker-plane-sphere)
+keep42 distinct from the main p158 seven-crossing word. Its128 rotations
+give face-count histogram3:40,5:64,7:22,9:2, yielding exactly two planar
+completions. Different degree2/5 outer faces give its requested plane
+inequivalence and sphere equivalence. Exercise44 instead has histogram
+2:24,4:156,6:74,8:2 across256 rotations, so its literal word has no planar
+completion. This is a mathematical contradiction of the drawing request,
+not an unreadable glyph or an authenticated substitute knot. Necessary
+odd/even encounter parity does not prove Gauss planarity. Exercise45's
+RI/RII detection must use the completed rotations, outer face and actual
+empty supporting discs.
+
+Luna also authenticates46's three printed lists
+[2,−1,2,−3,2], [3,3,−2,1,3,−2], [−2,−2,1,3,2], and the word “knots.”
+The [signed-word target](README.md#problem46-signed-conway) uses the
+course's reversed projective convention to obtain2/1,−69/38,31/14.
+The first numerator closure has two components, so the source's universal
+knot wording is false for that branch. Its intermediate0 and∞ must be
+retained. The explicit canonical reductions, Hopf component/orientation
+comparison and11/9-crossing rational models are mathematical targets,
+not additional labels read in the source. Exercise47 consumes the existing
+fourteen prime dictionary, with actual course-table row maps and source/
+outermost-first reversal adapters; no duplicate table owner is created.

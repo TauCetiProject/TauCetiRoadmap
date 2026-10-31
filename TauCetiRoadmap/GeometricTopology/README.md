@@ -1870,8 +1870,8 @@ partner matching has opposite parity at every visit, but all 32 oriented-sign
 assignments have face counts 3 or5, never the required 7. Prove its converted
 shadow connected and all these checks exhaustive, hence no planar completion.
 Nor is uniqueness up to one global mirror asserted for arbitrary valid words;
-composite words can have independent factor choices. The exact two-completion
-claim below is only for its four displayed inputs. Keep any unreadable
+composite words can have independent factor choices. In the four-row table below,
+the exact two-completion claim is limited to those displayed inputs. Keep any unreadable
 source crossing/face marks as unresolved picture-identification data, even
 when the separately specified word has been completely decoded.
 
@@ -1952,6 +1952,80 @@ check the identification but do not replace the marked PD equivalence.
 Record each source outer-face marking separately; a sphere diagram
 identification need not fix a chosen unbounded region. No particular pair of
 outer faces is chosen by a Dowker word alone.
+
+<a id="problem-dowker-plane-sphere"></a>
+**Exercises42 and44: two different literal inputs.** Keep these Problems
+p7 words distinct from the four main-note inputs above. Exercise42 has
+d=(10,12,2,14,6,4,8). With the same one-based even-over convention,
+construct its native code and prove that its planar crossing-sign
+vectors are exactly ε=(+,−,+,−,+,−,−) and−ε. The complete face-count
+histogram over 128 assignments is 3:40,5:64,7:22,9:2.
+
+For ε, number half-edges by h=2v+b, where v is a zero-based traversal visit and b=0/1 is
+incoming/outgoing, as in native `visitHalfEdgeEquiv`. Compute the actual native face
+cycles:
+
+```
+(0,20,5,24,13), (1,17,9), (2,7,19), (3,10,15,23),
+(4,21,8), (6,22), (11,18,27), (12,25,16), (14,26).
+```
+
+Prove that these are disjoint and exhaust all 28 half-edges, following
+`PDCode.facePerm=edgePair*crossingRotation`. Realize the completed diagram on S², then
+choose stereographic poles in the degree-2 face (6,22) and the degree-5
+face(0,20,5,24,13). Construct both actual plane projections with their based knot
+traversal and over/under data: both extract the literal word. Their underlying spherical
+diagram is the same, so give the induced sphere equivalence. Prove there is no plane
+homeomorphism carrying one projection to the other, even allowing crossing relabelling
+or reflection, because its unbounded face would have to preserve the boundary-walk
+degree. Count repeated incidences, not merely distinct vertices. This concerns
+equivalence of projections, not knot inequivalence or a Reidemeister simplification. No
+particular outer face is determined by the word alone.
+
+Exercise44 prints d=(14,12,−16,2,6,8,10,−4). Its absolute entries are a permutation of
+2,4,…,16 and its visits have the necessary opposite parities, but there is no classical
+planar completion. Construct the native matching/over data and exhaust all 256
+crossing-sign choices. Their face-count histogram is 2:24,4:156,6:74,8:2, never the
+required 10. Prove connectedness and the native Euler/planarity comparison, hence
+nonexistence of the requested plane knot diagram for this literal input. Both sign
+choices attaining 8 faces instead give an orientable genus-one ribbon realization; that
+does not solve the classical drawing request. Changing only over/under signs cannot
+repair the underlying nonplanar visit matching. Keep this mathematical correction
+separate from the source: Luna confirms the printed digits/minus signs are clear and
+finds no handwritten correction. A proposed different word requires its own
+authenticated provenance and fresh decoding; no corrected classical knot is assigned to
+the literal input.
+
+**Exercise45: recognizing actual RI/RII reductions.** Build a terminating finite
+decision procedure on a completed realized plane code with its chosen outer face,
+returning every decreasing RI or RII site, the smaller native code, reindexing and an
+actual relative local-move movie. For RI enumerate cyclically adjacent paired visits and
+certify the monogon is the empty supporting face. For RII enumerate pairs of distinct
+crossings joined by two crossing-free traversal arcs; certify that they bound an empty
+bigon and that one strand passes over at BOTH crossings while the other passes under at
+both. Derive and check every oriented port/sign variant. Opposite crossing signs or
+adjacent integer entries alone are not a sufficient RII criterion.
+
+For a fixed plane projection the supporting disc must be compact and disjoint from the
+chosen point at infinity. In the sphere version allow every empty monogon/bigon face.
+Include nested or crossing-free components in the geometric emptiness test, so a face
+permutation of the crossing graph alone does not discard an obstruction inside the
+proposed disc. Prove soundness and completeness for actual single decreasing moves, with
+the boundary collar fixed, and the exact extraction/re-numbering law on the shorter
+signed word in the knot branch. For links use the separate componentwise encoding and
+its component-order/nesting data, retaining crossing-free circles; do not encode a
+multicomponent link by one cyclic traversal. If only the word is given, first enumerate
+its planar rotation and outer-face completions and report the result for each:
+distinguish existence in some completion from reducibility of a specified marked
+projection. Do not infer that absence of such sites proves minimum crossing number or a
+nontrivial knot; 4.2.6 supplies the hard-unknot counterexamples. When the last crossings
+disappear, retain the actual crossing-free components: the empty Fin0 PD graph alone
+does not encode the resulting circle or unlink.
+
+[DowkerProblemTargets.lean](DowkerProblemTargets.lean) fixes the two native inputs, the
+face-permutation calculation and their separate planarity/nonexistence targets. The
+decoder, geometric realization and actual supporting-disc/move construction remain
+required outputs of 4.2/4.2.4–4.2.5, independent of knot-table recognition.
 
 *Needs:* Layer 4.2 and4.2.4, native `BasedOrientedGaussCode`,
 `OrientedPDCode`, `PDCode`, perfect matchings, permutation-triple faces and
@@ -7486,6 +7560,60 @@ not consume later polynomial, bridge-minimum or rational-knot classification
 results. For the primary comparison, use [Kauffman–Lambropoulou,
 §§2–4](https://arxiv.org/html/math/0311499#S3).
 
+
+<a id="problem46-signed-conway"></a>
+**Exercises46–47: signed source words and the small-prime table.** For
+each of Problems p7's three literal source lists, construct the actual
+integer-twist/reciprocal tangle and its marked numerator closure. Use
+the preceding projective recurrence, retaining the signed primitive pair
+through every step. The complete arithmetic data are:
+
+| Literal source word | Final primitive pair | Slope | Canonical source word | Numerator components |
+| --- | --- | --- | --- | ---: |
+| [2,−1,2,−3,2] | (−2,−1) | 2/1 | [2] | 2 |
+| [3,3,−2,1,3,−2] | (69,−38) | −69/38 | [−3,−2,−4,−1,−1] | 1 |
+| [−2,−2,1,3,2] | (31,14) | 31/14 | [2,1,4,2] | 1 |
+
+For the first row the projective intermediate slopes are 2,−1/2,0,∞,2. In particular the
+reciprocal of 0 is∞, and an integer translation fixes∞. Replacing this with field
+inversion at 0 gives a different answer. Prove the primitive-pair and native projective
+evaluations, then give actual relative tangle movies from each mixed-sign word to its
+displayed canonical word, with every port, height and orientation transported.
+
+The source calls all three outputs “knots”; its first numerator closure is instead the
+two-component Hopf link. Give its actual diagram/collar comparison to the signed2-twist
+model and compute the induced component orientations and linking number. The unoriented
+determinant2 alone does not choose an oriented Hopf version. The other two are the
+rational knots with the signed fractions above. Identify their closures with the
+standard canonical rational diagrams, not by determinant agreement. For the second one,
+additionally normalize its positive numerator to 69/(−38) and give the unoriented
+closure move to 69/31, since−38+69=31. Pin the odd-denominator orientation comparison if
+using the oriented Schubert test. Reflection instead gives the separate 69/38 mirror
+branch.
+
+Prove the canonical diagrams are reduced alternating, with respectively 2,11,9
+crossings, so 4.8's bracket-span theorem gives their minimum crossing numbers. Construct
+the actual changes from the literal diagrams with 10,14,10 crossings. No rational
+arithmetic or equal Alexander polynomial substitutes for the relative movies or closure
+identification.
+
+For exercise47 consume 4.4.8's fourteen standard prime PD models below eight crossings
+and their actual diagram/group comparisons with its outermost-first Conway table. The
+source-order output for each row is the reverse of that table's list: prove the
+projective evaluation and the separate marked geometric adapter. For example its 5₂
+row[3,2] becomes source[2,3], both describing the chosen7/2 model only after that
+adapter; source[3,2] instead has slope7/3. Supply the row-wise correspondence to the
+actual first issued course table, preserving mirror/orientation choices or reporting an
+authenticated discrepancy. Reuse those fourteen row computations; only the completeness
+conclusion uses 7.5's bounded classification. This is not a second owner of their
+Conway, Seifert or Alexander tables.
+
+[DowkerProblemTargets.lean](DowkerProblemTargets.lean) supplies the native projective
+evaluations, zero/infinity calibration and canonical-word comparisons. *Needs:* the
+independent 4.2/4.10.1 diagram, port and relative gluing prefix, the native
+projective/continued-fraction adapter above, 4.4.8's already specified small-prime
+dictionary, and 4.8 for minimality. No finite knot census supplies a premise of the
+mixed-word reductions.
 
 **Checks.**
 - `3/1` is the trefoil and `5/2` the figure-eight; `2/1` is the Hopf link and `1/1` the unknot.
