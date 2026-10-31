@@ -29,7 +29,12 @@ the composition factors of the standard modules. The end theorems are:
 - the classification of the finite-dimensional simple `ATL_n(δ)`-modules by the nonzero simple
   heads `L_(t,z)(n)`;
 - the affine Gram determinant `det G_(t,Z)(n;X) = σ_(n,t) Π_r F_r(X,Z)^E_(n,r)` and the
-  composition-factor formula `[W_(t,z)] = Σ_((t,z)≼(s,y)) [L_(s,y)]` over ℂ.
+  composition-factor formula `[W_(t,z)] = Σ_((t,z)≼(s,y)) [L_(s,y)]` over ℂ;
+- the finite realisations of Layer 1: the Potts–Fortuin–Kasteleyn identity
+  (`pottsPartition_eq_fkPartition`), the Jones quotient at `δ = √2` as the even Clifford algebra
+  (`exists_evenCliffordModel`), the Jones quotient at `δ = √3` as the inversion-fixed cubic quantum
+  torus (`exists_cubicFixedModel`) and the finiteness of its Gaussian braid image
+  (`finite_gaussianBraid_closure`).
 
 ## Scope and ownership
 
@@ -638,8 +643,8 @@ ambient types need not be). For `A ⊆ E_G` let `G_A` be the spanning restrictio
 which keeps every vertex, and let `k(A)` be its number of connected components, isolated vertices
 included, computed as `Nat.card` of `SimpleGraph.ConnectedComponent` of `G_A.toSimpleGraph`
 (GraphConnectivityAndFlows 1.1's component count). Passing to the simple graph is used for
-connectivity only; edge products and contractions keep the original edges. For a commutative ring
-`R`, `Q ∈ R` and weights `v : E_G → R` define
+connectivity only; edge products and contractions keep the original edges. For a commutative
+semiring `R`, `Q ∈ R` and weights `v : E_G → R` define (`fkPartition`, `pottsPartition`)
 
 ```
 Z_FK(G; Q, v)    = Σ_(A ⊆ E_G) Q^k(A) Π_(e ∈ A) v_e,
@@ -647,10 +652,11 @@ Z_Potts(G; q, v) = Σ_(σ : V_G → Fin q) Π_(e ∈ E_G) (1 + v_e [σ(u_e) = σ
 ```
 
 where `u_e, w_e` are the ends of `e` (the factor does not depend on their order, and is `1 + v_e`
-for a loop). Prove `Z_Potts(G; q, v) = Z_FK(G; q, v)` for every `q ∈ ℕ`, including `q = 0`, by
+for a loop; `pottsPartition` quantifies the equal-colour condition over every pair of ends linked
+by `e`). Prove `Z_Potts(G; q, v) = Z_FK(G; q, v)` for every `q ∈ ℕ`, including `q = 0`, by
 expanding the product over edge subsets and counting colourings constant on the components of
-`G_A`. Prove invariance under graph isomorphism and base change, the empty-edge value `Q^|V_G|`,
-multiplicativity on disjoint unions, and the recursions
+`G_A` (`pottsPartition_eq_fkPartition`). Prove invariance under graph isomorphism and base
+change, the empty-edge value `Q^|V_G|`, multiplicativity on disjoint unions, and the recursions
 
 ```
 Z_G = Z_(G∖e) + v_e Z_(G/e)     (e not a loop),
@@ -764,6 +770,21 @@ that block's colour divides `Z_wired` by `q`.
 - At `r = 1`: `δ = 2`, `Q = 4`, `W_r = I`, and the closure of `1 ∈ TL_m` is `2^m = δ^m`.
 - Wiring the two ends of a single edge gives `G/ξ` a vertex with a loop, and `Z_wired` is the
   one-loop value `Q(1 + v_e)`.
+- `L(0.7, 1.3)` at `r = 1.7` has diagonal `0.7, 1.4647, 2.91, 0.7` (the middle entries are
+  `a + b/r` and `a + b r`) and off-diagonal entries `1.3`; exchanging `r` and `r⁻¹` swaps the two
+  middle entries, which pins which end of the cup carries the weight `r`.
+- The plaquette, a `4`-cycle: `ell(A) = 4, 1, 2` on `A = ∅`, a three-edge path and the full cycle
+  (`k(A) = 4, 1, 1` and `|A| = 0, 3, 4`), and `Z_FK(δ², v) = δ⁴ Σ_A δ^ell(A) Π_(e ∈ A) v_e/δ`; at
+  `δ = 1.7` and `v = (0.5, 1, 1.5, 2)` both sides are `285.9238`. Giving the cycle one boundary
+  circle instead of two would break the identity at `A = E_G`.
+- For real `r > 0`, `r^(−1/2) C = r^(1/2) A` entrywise, both equal to
+  `[[0, r^(−1/2)], [r^(1/2), 0]]`, so after this rescaling the cap is the conjugate transpose of
+  the cup; the rescaling leaves
+  `Σ_(a,b) A_ab C_ab = δ` and every closed evaluation unchanged. For `r` on the unit circle with
+  `r ≠ 1` the rescaled cup and cap are not conjugate, since `conj(r^(−1/2)) = r^(1/2)`.
+- Two vertices joined by one edge with the block `{u, w}` wired: `G/ξ` is one vertex with a loop
+  and `Z_wired = q(1 + v)`; fixing the block's colour gives `1 + v = Z_wired/q` (at `q = 3`,
+  `v = 2`: `9` and `3`), while omitting the division counts each colour of the block `q` times.
 
 *Needs:*
 
@@ -788,20 +809,22 @@ Theorem 5.4 and Proposition 5.5, where `γ_j = c_j/√2`). It consumes the posit
 Subfactors 3.2–3.3 and is not an input to them.
 
 **Carriers.** Let `q_m = QuadraticMap.weightedSumSquares ℂ 1` on `Fin m → ℂ`, the complex
-bilinear sum of squares, `Cl_m = CliffordAlgebra q_m`, `Cl_m⁰ = CliffordAlgebra.even q_m` and
-`c_j = CliffordAlgebra.ι q_m (Pi.single j 1)` for `j : Fin m`. Then `c_j² = 1` and
+bilinear sum of squares (`sumOfSquares`), `Cl_m = CliffordAlgebra q_m`,
+`Cl_m⁰ = CliffordAlgebra.even q_m` and `c_j = CliffordAlgebra.ι q_m (Pi.single j 1)` for `j : Fin m`
+(`majorana`). Then `c_j² = 1` and
 `c_j c_k = −c_k c_j` for `j ≠ k` (Mathlib `CliffordAlgebra.ι_sq_scalar`,
 `CliffordAlgebra.ι_mul_ι_add_swap`). Identify `q_m` with the complexification of the real sum
 of squares and transport SpinGeometry G1's conjugation `κ`, analytic adjoint
 `a† = κ(reverse a)` and scalar trace (G1 items 1 and 3) to `Cl_m`: `c_j† = c_j`, `(i·1)† = −i·1`,
 and `Cl_m⁰` is `†`-stable. Mathlib's `star` on `CliffordAlgebra` is `reverse ∘ involute`; it
 negates `c_j` and is complex-linear, so it is not `†`. Let `s_m` be the coefficient of `1` in the
-ordered monomial basis `c_S` (`S ⊆ Fin m` increasing), compared with Tau Ceti's
-`CliffordAlgebra.basis`; from SpinGeometry G1 item 3, `s_m` is cyclic, equals `2^(−m) Tr(L_a)`,
-and `s_m(a† a) = Σ_S |a_S|²`, so it is faithful on `Cl_m` and on `Cl_m⁰`.
+ordered monomial basis `c_S` (`S ⊆ Fin m` increasing), that is, the coefficient at `∅` of Tau
+Ceti's `CliffordAlgebra.basis` for the standard basis of `Fin m → ℂ` (`cliffordScalarCoefficient`);
+from SpinGeometry G1 item 3, `s_m` is cyclic, equals `2^(−m) Tr(L_a)`, and
+`s_m(a† a) = Σ_S |a_S|²`, so it is faithful on `Cl_m` and on `Cl_m⁰`.
 
-**The comparison map.** For `j < m − 1` put `d_j = c_j c_(j+1)`, `p_j = (1 + i d_j)/2` and
-`E_j = √2 p_j`. Prove `d_j² = −1`, `d_j† = −d_j`, `p_j† = p_j = p_j²`,
+**The comparison map.** For `j < m − 1` put `d_j = c_j c_(j+1)`, `p_j = (1 + i d_j)/2`
+(`pairProjection`) and `E_j = √2 p_j`. Prove `d_j² = −1`, `d_j† = −d_j`, `p_j† = p_j = p_j²`,
 `p_j p_(j±1) p_j = p_j/2`, and that `p_j, p_k` commute for `|j − k| ≥ 2`. Hence `TemperleyLieb.lift`
 gives `F_m : TL_m(√2) →ₐ[ℂ] Cl_m⁰` with `F_m(e δ j) = E_j`, compatible with `†`. Prove `F_m`
 surjective: for `a < b`, `c_a c_b = d_a d_(a+1) ⋯ d_(b−1)` (the inner factors square to `1`),
@@ -818,7 +841,10 @@ T_m(x) = (√2)^m s_m(F_m x)        for x ∈ TL_m(√2).
 Then `ker F_m = R_m`: `R_m ⊆ ker F_m` because `s_m` is faithful and `F_m` is surjective, and
 `ker F_m ⊆ R_m` from the trace identity. So `F_m` induces a trace-, adjoint- and
 inclusion-preserving *-isomorphism `Q_m ≅ Cl_m⁰`, and by 1.3 `ker F_m` is generated by the
-embedded `f_3` for `m ≥ 3` and is zero for `m ≤ 2`.
+embedded `f_3` for `m ≥ 3` and is zero for `m ≤ 2`. The existence of `F_m` with its generator
+values, its surjectivity, the trace identity and `ker F_m = R_m` (with `R_m` written out as
+`{x : ∀ y, T_m(x y) = 0}`) is the headline `exists_evenCliffordModel`; the `†`- and
+inclusion-compatibility are targets of this section only.
 
 **Blocks, Pauli matrices and the tower.** By SpinRepresentations Layers 0–1, for `m = 2k+1`,
 `Cl_m⁰ ≅ M_(2^k)(ℂ)` with `s_m` the normalised matrix trace, and for `m = 2k ≥ 2`,
@@ -857,8 +883,8 @@ the kernel of conjugation on the group generated by the `g_j` is `{±1}` (it lie
 factor, the normalisation of the closure being GeometricTopology Layer 4's.
 
 - `F_m : TL_m(√2) → Cl_m⁰` is a surjective `†`-homomorphism with `F_m(e_j) = √2 p_j`,
-  `T_m = (√2)^m s_m ∘ F_m`, `ker F_m = R_m`, and `Q_m ≅ Cl_m⁰` as *-algebras with traces and
-  inclusions.
+  `T_m = (√2)^m s_m ∘ F_m`, `ker F_m = R_m` (`exists_evenCliffordModel`, without the `†`), and
+  `Q_m ≅ Cl_m⁰` as *-algebras with traces and inclusions.
 - `Cl_m⁰` has the stated matrix blocks, Pauli realisation, path-label identification and tower
   maps, and the expectation deletes monomials containing the new generator.
 - `g_j = −(1 + d_j)/√2` is unitary of order `8`, and the braid image has order `2^m m!` for
@@ -899,24 +925,29 @@ At Jones's parameter `t = ζ = exp(πi/3)` (Jones, printed p. 107, where the `A_
 `τ = 1/3` and `ω = ζ² = exp(2πi/3)`; the native quantum parameter is `−u`. Indices are zero-based.
 
 **The quantum torus.** For `N ≥ 0` let `V_N = Fin N → ZMod 3` and
-`B(a, b) = Σ_(j < N−1) (a_j b_(j+1) − a_(j+1) b_j)`, an alternating form on `V_N`. Put
+`B(a, b) = Σ_(j < N−1) (a_j b_(j+1) − a_(j+1) b_j)`, an alternating form on `V_N` (`chainForm`). Put
 `α(a, b) = ω^(2 B(a, b))` (that is, `ω^(B/2)` with `1/2 = 2` in `ZMod 3`, exponents read in
-`ZMod 3`), a normalised factor set (`TauCeti.IsFactorSet`) since `B` is biadditive, and let
-`G_N = TauCeti.twistedMonoidAlgebra ℂ (Multiplicative V_N) α` with basis
-`W(a) = TwistedMonoidAlgebra.of a`. Then `dim G_N = 3^N`, `W(a) W(b) = α(a,b) W(a+b)`, and
-`U_j = W(e_j)` satisfy `U_j³ = 1`, `U_j U_(j+1) = ω U_(j+1) U_j` and commute at distance at least
-two; prove that `G_N` is the universal algebra with these relations (from Tau Ceti's
+`ZMod 3` through `cubeRootPow`, with `ω` the unit `cubeRootOfUnity`), a normalised factor set
+(`TauCeti.IsFactorSet`) since `B` is biadditive and `ω³ = 1` (`cubicFactor`,
+`cubicFactor_isFactorSet`), and let `G_N = TauCeti.twistedMonoidAlgebra ℂ (Multiplicative V_N) α`
+(`CubicTorus`) with basis `W(a) = TwistedMonoidAlgebra.of a` (`weyl`). Then `dim G_N = 3^N`,
+`W(a) W(b) = α(a,b) W(a+b)`, and `U_j = W(e_j)` satisfy `U_j³ = 1`, `U_j U_(j+1) = ω U_(j+1) U_j`
+and commute at distance at least two; prove that `G_N` is the universal algebra with these
+relations (from Tau Ceti's
 `TwistedMonoidAlgebra.lift`). Define the conjugate-linear adjoint
-`(Σ z_a W(a))† = Σ conj(z_a) W(−a)` and the trace `s_N(x) = ` coefficient of `W(0)`; prove `†`
-is an anti-multiplicative involution with `U_j† = U_j⁻¹`, and `s_N(x† x) = Σ_a |x_a|²`, so `s_N`
-is a faithful normalised trace and the left regular representation on the `W`-basis makes `G_N`
-a finite-dimensional C*-algebra (CStarAlgebras C1). Negation gives the complex-linear involutive
-automorphism `θ_N(W(a)) = W(−a)` commuting with `†`; let `C_N = AlgHom.equalizer θ_N id`. It has
+`(Σ z_a W(a))† = Σ conj(z_a) W(−a)` and the trace `s_N(x) = ` coefficient of `W(0)`
+(`cubicScalarCoefficient`); prove `†` is an anti-multiplicative involution with `U_j† = U_j⁻¹`,
+and `s_N(x† x) = Σ_a |x_a|²`, so `s_N` is a faithful normalised trace and the left regular
+representation on the `W`-basis makes `G_N` a finite-dimensional C*-algebra (CStarAlgebras C1).
+Negation gives the complex-linear algebra endomorphism `θ_N(W(a)) = W(−a)` (`cubicInversion`, by
+`TwistedMonoidAlgebra.lift`, since `α(−a, −b) = α(a, b)`), an involution and hence an
+automorphism, commuting with `†`; let `C_N = AlgHom.equalizer θ_N id` (`cubicFixed`). It has
 basis `1` and `W(a) + W(−a)` over the nonzero pairs `{a, −a}`, so `dim C_N = (3^N + 1)/2`.
 
-**The comparison map.** For `m ≥ 1` put `N = m − 1`, `p_j = (1 + U_j + U_j²)/3` and `E_j = √3 p_j`
-for `j < N`. Prove `p_j† = p_j = p_j²`, `θ_N(p_j) = p_j`, `p_j p_(j±1) p_j = p_j/3` and commutation
-at distance at least two, and obtain `F_m : TL_m(√3) →ₐ[ℂ] C_(m−1)` with `F_m(e δ j) = E_j` by
+**The comparison map.** For `m ≥ 1` put `N = m − 1`, `U_j = W(e_j)` (`cubicSite`),
+`p_j = (1 + U_j + U_j²)/3` (`cubicProjection`) and `E_j = √3 p_j` for `j < N`. Prove
+`p_j† = p_j = p_j²`, `θ_N(p_j) = p_j`, `p_j p_(j±1) p_j = p_j/3` and commutation at distance at
+least two, and obtain `F_m : TL_m(√3) →ₐ[ℂ] C_(m−1)` with `F_m(e δ j) = E_j` by
 `TemperleyLieb.lift`, compatible with `†`. The inclusion `I_N : W(a) ↦ W(a, 0)` of `G_N` in
 `G_(N+1)` preserves `†`, `θ` and `s`, and `s_(N+1)(I_N(x) p_N) = s_N(x)/3`. By Markov uniqueness
 `T_m(x) = (√3)^m s_(m−1)(F_m x)`, and faithfulness of `s` with `†`-compatibility gives
@@ -925,7 +956,9 @@ follows by dimension: Subfactors 3.3's path model on `A_5` gives `dim Q_m = D_m`
 `D_2 = 2`, `D_m = 4 D_(m−1) − 3 D_(m−2)`, so `D_m = (3^(m−1) + 1)/2 = dim C_(m−1)`, and the injective
 map `Q_m → C_(m−1)` is onto. So `Q_m(√3) ≅ C_(m−1)` as *-algebras with traces and inclusions, and
 by 1.3 `R_m` is generated by the embedded `f_5` for `m ≥ 5` and is zero below; at `m = 0` both sides
-are `ℂ`.
+are `ℂ`. The existence of `F_m` with its generator values, its surjectivity, the trace identity
+and `ker F_m = R_m` (with `R_m` written out as `{x : ∀ y, T_m(x y) = 0}`) is the headline
+`exists_cubicFixedModel`; the `†`- and inclusion-compatibility are targets of this section only.
 
 **Blocks.** Compute the radical of `B` (zero for `N` even, spanned by `ρ = (1, 0, 1, 0, …, 1)` for
 `N` odd) and a symplectic basis of a complement (Tau Ceti's
@@ -944,10 +977,11 @@ intertwiners: for `m = 2k+1` the labels `1, 3` have sizes `d_+, d_−`; for `m =
 **Gaussian braid units.** Put
 
 ```
-g_j = u((1 + ζ) p_j − 1) = −(1 + ω²(U_j + U_j²))/√3 = −(Σ_(r ∈ ZMod 3) ω^(−r²) U_j^r)/√3.
+g_j = u((1 + ζ) p_j − 1) = −(1 + ω²(U_j + U_j²))/√3 = −(Σ_(r ∈ ZMod 3) ω^(−r²) U_j^r)/√3
 ```
 
-Prove that the `g_j` are unitaries in `C_N` satisfying the braid relations, with eigenvalues `i`
+(`gaussianBraidGenerator`, with `u` the scalar `twelfthRootOfUnity`). Prove that the `g_j` are
+unitaries in `C_N` satisfying the braid relations, with eigenvalues `i`
 on `p_j` and `−u` on `1 − p_j`, so `g_j³ = −i` and `g_j^12 = 1`; with Tau Ceti's
 `TemperleyLieb.jones a` at `a² = −u⁻¹` (so `jonesDelta a = √3`), `F_m(jonesUnit a j) = (−a/u) g_j`.
 Let `H_N = {ω^c W(a)}` (order `3^(N+1)`), the Heisenberg group of `B`, compared with Tau Ceti's
@@ -956,18 +990,21 @@ distant `U_k`, and sends `U_(j+1) ↦ ω U_(j+1) U_j⁻¹`, `U_(j−1) ↦ ω U_
 acts on the finite group `H_N`. Since `H_N` spans `G_N`, the kernel of this action consists of
 central elements of `G_N`, scalar on each simple block of size `D = 3^⌊N/2⌋`; the determinant of
 each `g_j` on a block has order dividing `12`, so a central element `z` of the image satisfies
-`z^(12D) = 1` blockwise. Hence the image of `BraidGroup m` in `C_(m−1)` is finite (Galindo–Rowell,
-Proposition 3.6, for the Gaussian representations, whose `R_j` at `q = ω` is the Galois conjugate
-of `−g_j`; Rowell–Wenzl, §4). For a braid `b` on `m ≥ 1` strands the Jones polynomial of its closure
-at `t = ζ` is `(−√3)^(m−1) s_(m−1)(F_m(ρ(b)))`, with GeometricTopology Layer 4's normalisation.
+`z^(12D) = 1` blockwise. Hence the image of `BraidGroup m` in `C_(m−1)` is finite
+(`finite_gaussianBraid_closure`: the `g_j` are units of `G_N` and the subgroup they generate is
+finite; Galindo–Rowell, Proposition 3.6, for the Gaussian representations, whose `R_j` at `q = ω`
+is the Galois conjugate of `−g_j`; Rowell–Wenzl, §4). For a braid `b` on `m ≥ 1` strands the Jones
+polynomial of its closure at `t = ζ` is `(−√3)^(m−1) s_(m−1)(F_m(ρ(b)))`, with GeometricTopology
+Layer 4's normalisation.
 
 - `G_N` is the twisted group algebra of `(ZMod 3)^N` for the chain form, with `dim G_N = 3^N`,
   faithful trace `s_N` and C*-structure; `C_N` is its `θ`-fixed subalgebra of dimension
   `(3^N + 1)/2`.
 - `F_m : TL_m(√3) → C_(m−1)` is a surjective `†`-homomorphism with `T_m = (√3)^m s_(m−1) ∘ F_m`
-  and `ker F_m = R_m`, so `Q_m ≅ C_(m−1)`.
+  and `ker F_m = R_m` (`exists_cubicFixedModel`, without the `†`), so `Q_m ≅ C_(m−1)`.
 - `C_N` has the stated blocks and weights, identified with the `A_5` path blocks.
-- The `g_j` satisfy `g_j³ = −i`, and the image of `BraidGroup m` is finite.
+- The `g_j` satisfy `g_j³ = −i`, and the image of `BraidGroup m` is finite
+  (`finite_gaussianBraid_closure`).
 
 **Checks.**
 
