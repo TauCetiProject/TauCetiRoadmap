@@ -84,8 +84,10 @@ it is about model structures, it is GeneralizedCohomology's or Mathlib's.
   considers restricting ∞-groupoids to globular extensions whose objects are in bijection with the
   tables and chooses not to, for technical reasons, citing Proposition 5.5, where `∞-Gpd_M` is
   used for a cocomplete `M` such as `TopCat` (Ara 2013, Remark 2.6); this roadmap makes the same
-  choice. A **globular functor** is a functor
-  compatible with the coglobular objects and preserving globular sums (Ara 2013, 1.4).
+  choice. A **globular functor** `R` from a globular extension `C` to a category `K` with a
+  coglobular object `D` is a functor compatible with the coglobular objects and preserving globular
+  sums (Ara 2013, 1.4): `R` sends the disks and faces of `C` to those of `D`, and the image of each
+  globular sum of `C` is a globular sum in `K` (`IsGlobularFunctor`).
 - **Admissible pair** (Ara 2013, 2.3): parallel `f, g : D_n → S` with `S` a globular sum of
   dimension `≤ n + 1`. A **lifting** is `h : D_{n+1} → S` with `h σ_n = f`, `h τ_n = g` (2.1).
   **Contractible** (2.4): every admissible pair has a lifting; a contractible globular extension
@@ -110,10 +112,12 @@ it is about model structures, it is GeneralizedCohomology's or Mathlib's.
   identification Cisinski 2006 makes in the Introduction, p. xiii, note 2, and
   `Ho(∞-Gpd_C) := ∞-Gpd_C[W_C⁻¹]`, both as Mathlib's `MorphismProperty.Localization`.
 - **The fundamental ∞-groupoid** (Ara 2013, 5.2 and Examples 5.3): `TopCat` with the coglobular
-  space of disks `D^n` and hemisphere inclusions `σ, τ` (Ara 2013, Examples 1.5.2) is a
-  contractible globular extension (Examples 2.7.1); for a coherator `C`, which is free, a
-  globular functor `R : C → TopCat` exists (Proposition 2.14); `Π_∞^R(X)(S) := TopCat(R S, X)`
-  (`piPresheaf`). Every statement about `Π_∞` is made for an arbitrary such `R`.
+  space `stdDisks` of disks `D^n = TopCat.disk n` and hemisphere inclusions
+  `σ_n(x) = (x, √(1 − ‖x‖²))`, `τ_n(x) = (x, −√(1 − ‖x‖²))` (`hemisphere n false`,
+  `hemisphere n true`; Ara 2013, Examples 1.5.2) is a contractible globular extension (Examples
+  2.7.1); for a coherator `C`, which is free, a globular functor `R : C → TopCat` into `stdDisks`
+  exists (Proposition 2.14); `Π_∞^R(X)(S) := TopCat(R S, X)` (`piPresheaf`). Every statement about
+  `Π_∞` is made for an arbitrary such `R`.
 
 ## Exact supplier contracts
 
@@ -123,9 +127,11 @@ it is about model structures, it is GeneralizedCohomology's or Mathlib's.
 | --- | --- |
 | presheaves and limits | `yoneda`, `Functor.whiskeringLeft`, `ObjectProperty.FullSubcategory`, `HasPushouts`, `IsPushout`, `eqToHom`, `TransfiniteCompositionOfShape`, `Functor.IsEquivalence` |
 | localization | `MorphismProperty`, `MorphismProperty.Localization`, `MorphismProperty.Q`, `MorphismProperty.IsInvertedBy`, `Localization.lift` |
-| spaces | `TopCat`, `TopCat.disk`, `TopCat.diskBoundary`, `TopCat.diskBoundaryInclusion`, `ContractibleSpace`, `Joined`, `Path.map`, `ZerothHomotopy`, `ZerothHomotopy.mk`, `ZerothHomotopy.lift`, `ZerothHomotopy.sound`, `HomotopyGroup` |
+| spaces | `TopCat`, `TopCat.disk`, `TopCat.diskBoundary`, `TopCat.diskBoundaryInclusion`, `TopCat.ofHom`, `ContractibleSpace`, `Joined`, `Path.map`, `ZerothHomotopy`, `ZerothHomotopy.mk`, `ZerothHomotopy.lift`, `ZerothHomotopy.sound`, `HomotopyGroup` |
+| the hemisphere inclusions (Layer 1.1) | `EuclideanSpace`, `WithLp.toLp`, `Fin.snoc`, `Real.sqrt`, `Metric.closedBall`, `mem_closedBall_zero_iff`, `ULift.map`, `continuous_uliftMap`, `Continuous.subtype_mk`, `continuous_subtype_val` |
 
-Layer 1.1 constructs the hemisphere inclusions `D^n → D^{n+1}` on Mathlib's `TopCat.disk`.
+Layer 1.1 constructs the hemisphere inclusions `D^n → D^{n+1}` on Mathlib's `TopCat.disk`
+(`hemisphere`, `stdDisks`).
 
 ### From Tau Ceti
 
@@ -145,22 +151,18 @@ Layer 1.1 constructs the hemisphere inclusions `D^n → D^{n+1}` on Mathlib's `T
 
 ## How to read the build
 
-`README.md` is normative; `Suggested.lean` pins names and signatures for the central objects and
-is not exhaustive. Each item gives its contract, its checks and its source in Ara 2013 (or Henry
-2016 for Layer 6); *Needs* lists prerequisites, where `M` means Mathlib, `TC` Tau Ceti, `SHK`
-StableHomotopyKTheory §2.1 and `L<n>` an earlier layer here.
+`README.md` is normative; `Suggested.lean` gives acceptance tests for the items its docstrings
+name. Each item gives its contract, its checks and its source in Ara 2013 (or Henry 2016 for
+Layer 6); *Needs* names the declarations the item consumes, each with the item, library or
+roadmap that supplies it. Each layer ends with Examples and its Dependencies.
 
-Layers 0 and 1 come first, and Layers 2, 3 and 4 each need the one before; Layer 5 needs 1.1,
-2.5 and Layer 4; Layer 6 needs only Layer 3, so Layers 5 and 6 are independent of each other;
-Layer 7 needs Layers 4 and 5. Each layer ends with a few Examples and its Dependencies.
-
-**Lean prototypes.** `Suggested.lean` states Theorem 4.18 (1) ⇔ (2)
-(`PseudoCoherator.isWeakEquivalence_iff`) and the existence of globular sums
-(`GlobularSums.nonempty_of_hasPushouts`). Ara's Theorem 8.7 and Corollaries 8.8–8.11 (Layers 5.3,
-5.4, 7.2) are not stated there: they concern `Π_∞^R` for `R` a globular functor into `TopCat`
-with the coglobular space of disks of 1.1, which is data built by that item and which the
-prototype does not construct, and Theorem 8.7 compares groups whose structure comes from the
-operations of 3.2. Their statements are fixed by the items below.
+**Lean prototypes.** `Suggested.lean` builds the coglobular space of disks (`stdDisks`, 1.1) and
+states Theorem 4.18 (1) ⇔ (2) (`PseudoCoherator.isWeakEquivalence_iff`), the existence of
+globular sums (`GlobularSums.nonempty_of_hasPushouts`) and Corollaries 8.9–8.11 in `TopCat`
+(`piPresheaf_isWeakEquivalence_iff`, 5.4). Ara's Theorem 8.7 (5.3) is not stated there, since it
+compares groups whose structure comes from the operations of 3.2, and neither are Proposition 5.5
+and Corollary 8.8 (7.2), which compare the groupoids `ϖ_n` and groups `π_n` of 4.1 and 4.2. Their
+statements are fixed by the items below.
 
 ## Layer 0: globular sets
 
@@ -170,8 +172,8 @@ The globe category `𝔾` (`Globe` with its `Category` instance and `Globe.σ`, 
 the single carrier, which HomotopyTheoryOfCategories' Layer 8.6 proves direct), globular sets as
 `𝔾ᵒᵖ ⥤ Type u` (`GlobularPresheaf`), with the equivalent explicit description (cells, source,
 target, globular identities; `GlobularSet`) and its `Equivalence`. *Source:* Ara 2013, 1.1–1.2.
-*Needs:* M. *Checks:*
-- `Globe.Hom m n` has two elements for `m < n`, one for `m = n` and none for `m > n`;
+*Needs:* Mathlib `Category`, `Functor`, `Equivalence`. *Checks:*
+- `𝔾` has two morphisms `m → n` for `m < n`, one for `m = n` and none for `m > n`;
 - the globular set with one cell in each dimension is terminal;
 - the representable `𝔾(−, n)` has two `k`-cells for `k < n`, one `n`-cell and no cell above `n`.
 
@@ -179,16 +181,18 @@ target, globular identities; `GlobularSet`) and its `Equivalence`. *Source:* Ara
 
 Parallel cells, the boundary `∂ x = (s x, t x)`, the relation `GlobularSet.Joined n x y`
 (there is an `(n+1)`-cell from `x` to `y`), the globular sphere `∂D_n` (the representable
-`𝔾(−, n)` without its top cell) and the disk `D_n = 𝔾(−, n)`. *Needs:* L0.1. *Checks:*
+`𝔾(−, n)` without its top cell) and the disk `D_n = 𝔾(−, n)`. *Needs:* `Globe`,
+`GlobularPresheaf` and `GlobularSet` (0.1). *Checks:*
 - `∂D_0` is the initial (empty) globular set, and `∂D_1` has two `0`-cells and no other cell;
-- in `D_n`, `n ≥ 1`, the two `(n−1)`-cells are joined by the top cell;
+- in `D_n`, `n ≥ 1`, the two `(n−1)`-cells are joined by the top cell; in `∂D_1` the two `0`-cells
+  are not joined, since it has no `1`-cell;
 - `∂D_{n+1}` is the pushout of two copies of `D_n` along `∂D_n` (Ara 2013, Example 2.2, there
   in `Top`).
 
 ### Examples
 
-- `Globe.Hom 0 2` has exactly two elements, `σ_1 σ_0 = τ_1 σ_0` and `σ_1 τ_0 = τ_1 τ_0`, so `D_2`
-  has two `0`-cells, two `1`-cells and one `2`-cell (0.1, Checks).
+- `𝔾` has exactly two morphisms `0 → 2`, `σ_1 σ_0 = τ_1 σ_0` and `σ_1 τ_0 = τ_1 τ_0`, so `D_2` has
+  two `0`-cells, two `1`-cells and one `2`-cell (0.1, Checks).
 - If `α` is a `2`-cell from `u` to `v`, the `1`-cells `u` and `v` have the same source and the
   same target: the globular identities `s s = s t` and `t s = t t` (Ara 2013, 1.2).
 - `∂D_1` has two `0`-cells and no `1`-cell, and in `D_1` they are joined by the top cell (0.2,
@@ -205,25 +209,35 @@ consumed from Tau Ceti or from another roadmap.
 
 Coglobular objects of a category `K` (`CoglobularObject`); the faces `D_m → D_n` of each
 side (`CoglobularObject.faceTo`); maps of coglobular objects. The representable coglobular object
-`n ↦ 𝔾(−, n)` in globular sets, and the coglobular space of disks in `TopCat`: `D^n` the closed
-unit ball of `ℝ^n` (`TopCat.disk n`), `σ(x) = (x, √(1 − ‖x‖²))` and `τ(x) = (x, −√(1 − ‖x‖²))`
-the inclusions of the two hemispheres of `D^{n+1}` (Ara 2013, Examples 1.5.2). *Needs:* M, TC
-`TauCeti.hemisphereHomeomorph`. *Checks:*
-- the hemisphere inclusions satisfy the coglobular identities (Ara 2013, Examples 1.5.2);
-- `σ_0, τ_0 : D^0 → D^1 = [−1, 1]` are the points `1` and `−1`, and the images of `σ_n` and
-  `τ_n` cover the boundary sphere of `D^{n+1}` and meet in its equator;
-- `faceTo` of side `ε` from `D_m` to `D_n` is Ara's `σ^n_m` (`ε` = source) or `τ^n_m`
-  (`ε` = target), whatever the later steps.
+`n ↦ 𝔾(−, n)` in globular sets, and the coglobular space of disks in `TopCat` (`stdDisks`):
+`D^n` the closed unit ball of `ℝ^n` (`TopCat.disk n`), and `σ_n(x) = (x, √(1 − ‖x‖²))` and
+`τ_n(x) = (x, −√(1 − ‖x‖²))` (`hemiPoint`, `hemisphere n false`, `hemisphere n true`) the
+inclusions of the two hemispheres of `D^{n+1}` (Ara 2013, Examples 1.5.2), with their norm
+(`norm_hemiPoint`), continuity (`continuous_hemiPoint`) and coglobular identities
+(`hemiPoint_hemiPoint`, `hemisphere_hemisphere`). *Needs:* `Globe` and `GlobularPresheaf` (0.1);
+Mathlib `TopCat.disk`, `TopCat.ofHom`, `EuclideanSpace`, `Real.sqrt`, `Metric.closedBall`; Tau
+Ceti `TauCeti.hemisphereHomeomorph`. *Checks:*
+- `σ_0, τ_0 : D^0 → D^1 = [−1, 1]` are the points `1` and `−1`, and `σ_1 σ_0` and `τ_1 σ_0` both
+  send the point of `D^0` to `(1, 0)` in `D^2`, an instance of the coglobular identities;
+- the images of `σ_n` and `τ_n` cover the boundary sphere of `D^{n+1}` and meet in its equator,
+  which is the boundary of each closed hemisphere;
+- the source face `D_0 → D_2` of any coglobular object is `σ_1 σ_0`, equal to `τ_1 σ_0`, and its
+  target face is `σ_1 τ_0 = τ_1 τ_0`: a face is fixed by the side of its first step.
 
 ### 1.2 Tables of dimensions and globular sums
 
 Tables of dimensions (`Table`, `Table.globe`, `Table.dim`); globular sums in `K` with
 pushouts, with their universal property and functoriality in `(K, D)`; existence of all
 globular sums in a category with pushouts (`GlobularSums.nonempty_of_hasPushouts`; Ara 2013,
-Examples 1.5.1). *Needs:* L1.1, M `HasPushouts`, `IsPushout`. *Checks:*
-- the globular sum of `(1, 0, 1)` in globular sets has three `0`-cells and two `1`-cells, and that
-  of `(2, 1, 2)` has two `0`-cells, three `1`-cells and two `2`-cells;
-- `Table.dim (2, 0, 1) = 2` and the sum of `Table.globe n` is `D_n`;
+Examples 1.5.1). *Needs:* `CoglobularObject` and `CoglobularObject.faceTo` (1.1); Mathlib
+`HasPushouts`, `IsPushout`. *Checks:*
+- in the globular sum of `(1, 0, 1)` in globular sets, with `u` the `1`-cell of the first disk and
+  `v` that of the second, the source of `u` is the target of `v` and the target of `u` and the
+  source of `v` are distinct, so the sum has three `0`-cells and two `1`-cells and is the
+  composable pair `v` then `u` (Ara 2013, 1.3); the sum of `(2, 1, 2)` has two `0`-cells, three
+  `1`-cells and two `2`-cells;
+- the table `(2, 0, 1)` has dimension `2`, and the globular sum of the one-disk table `(n)` is
+  `D_n`;
 - in `TopCat` every globular sum of disks is contractible (Ara 2013, Examples 2.7.1; the general
   statement is Proposition 5.11).
 
@@ -231,7 +245,8 @@ Examples 1.5.1). *Needs:* L1.1, M `HasPushouts`, `IsPushout`. *Checks:*
 
 `Θ₀` and its morphisms; every globular sum in globular sets is a colimit of
 representables, and maps out of it are determined by the images of its top cells. *Source:* Ara
-2013, Examples 1.5.4 and 1.9.1. *Needs:* L1.2. *Checks:*
+2013, Examples 1.5.4 and 1.9.1. *Needs:* `Table` and `GlobularSums` (1.2); Mathlib `yoneda`.
+*Checks:*
 - the maps `D_m → D_n` in `Θ₀` are the morphisms `m → n` of `𝔾` (Yoneda);
 - the maps `D_0 → S` into a globular sum are its `0`-cells, and there is no map `D_1 → D_0`;
 - the restriction of globular presheaves on `Θ₀` to `𝔾` is an equivalence onto globular sets
@@ -239,8 +254,8 @@ representables, and maps out of it are determined by the images of its top cells
 
 ### Examples
 
-- The globular sum of `(1, 0, 1)` in globular sets has three `0`-cells and two `1`-cells, and
-  `Table.dim (2, 0, 1) = 2` (1.2, Checks).
+- The globular sum of `(1, 0, 1)` in globular sets has three `0`-cells and two `1`-cells, and the
+  table `(2, 0, 1)` has dimension `2` (1.2, Checks).
 - The coglobular space of disks is faithful as a functor `𝔾 → TopCat`: the images of `σ^n_m` and
   `τ^n_m` differ for `m < n` (Ara 2013, Examples 1.5.2).
 - In `TopCat`, `D^n ⊔_{∂D^n} D^n` is the boundary sphere `∂D^{n+1}` (Ara 2013, Example 2.2), the
@@ -256,10 +271,12 @@ Layer 0; Mathlib `HasPushouts`, `IsPushout` and `TopCat.disk` (1.1, 1.2); Tau Ce
 ### 2.1 Globular extensions and globular functors
 
 Globular extensions (`GlobularExtension`: a category, a coglobular object, chosen globular
-sums `GlobularSums`), globular functors between them, and `Θ₀` as the initial one up to unique
-isomorphism (Ara 2013, 1.4, Proposition 1.6). *Needs:* L1. *Checks:*
-- `TopCat` with the disks of 1.1 is a globular extension, by `GlobularSums.nonempty_of_hasPushouts`
-  (Ara 2013, Examples 1.5.2);
+sums `GlobularSums`), globular functors (`IsGlobularFunctor`), and `Θ₀` as the initial globular
+extension up to unique isomorphism (Ara 2013, 1.4, Proposition 1.6). *Needs:* `CoglobularObject`
+and `stdDisks` (1.1), `GlobularSums` and `GlobularSums.nonempty_of_hasPushouts` (1.2), `Θ₀`
+(1.3). *Checks:*
+- `TopCat` with the coglobular space of disks is a globular extension, since `TopCat` has
+  pushouts (Ara 2013, Examples 1.5.1–1.5.2);
 - globular sets with the representable coglobular object, and `Θ₀`, are globular extensions
   (Examples 1.5.3–1.5.4);
 - a globular extension receives a globular functor from `Θ₀`, unique up to a unique natural
@@ -269,8 +286,10 @@ isomorphism (Ara 2013, 1.4, Proposition 1.6). *Needs:* L1. *Checks:*
 
 Admissible pairs (`GlobularExtension.AdmissiblePair`), liftings (`IsLifting`),
 contractibility (`IsContractible`), pseudo-coherators (`PseudoCoherator`). *Source:* Ara 2013,
-2.1–2.4. *Needs:* L2.1. *Checks:*
-- `(1_{D_n}, 1_{D_n})` is admissible in every globular extension (`GlobularExtension.idPair`);
+2.1–2.4. *Needs:* `GlobularExtension`, `GlobularExtension.ofTable` and `Table.dim` (2.1, 1.2).
+*Checks:*
+- the pair `(1_{D_n}, 1_{D_n})` is admissible in every globular extension: `D_n` is the globular
+  sum of the table `(n)`, of dimension `n ≤ n + 1`, and a map is parallel to itself;
 - `Θ₀` is not contractible: the pair `(1, 1) : D_0 → D_0` is admissible and has no lifting,
   since `D_0` has no `1`-cell;
 - `TopCat` is contractible (Ara 2013, Examples 2.7.1, through Example 2.2).
@@ -280,25 +299,29 @@ contractibility (`IsContractible`), pseudo-coherators (`PseudoCoherator`). *Sour
 Free extensions `C[A]` along a set `A` of admissible pairs, with their universal
 property, constructed by universally adjoining a lifting to each pair and closing under globular
 sums (globular completion, Ara 2013, Proposition 1.11 and 1.12). *Source:* Ara 2013, 2.9.
-*Needs:* L2.2. *Checks:*
+*Needs:* `GlobularExtension.AdmissiblePair` and `GlobularExtension.IsLifting` (2.2),
+`IsGlobularFunctor` (2.1). *Checks:*
 - the functor `C → C[A]` is bijective on objects (Ara 2013, 2.9);
-- every pair of `A` has a lifting in `C[A]`;
+- every pair of `A` has a lifting in `C[A]`; for `C = Θ₀` and `A` the single pair
+  `(1_{D_0}, 1_{D_0})`, this is a map `D_1 → D_0`, which `Θ₀` does not have;
 - `C[∅]` is `C` for a globular extension `C` under `Θ₀`.
 
 ### 2.4 Cellular towers and coherators
 
 Cellular towers (`CellularTower`), free globular extensions, coherators (Ara 2013,
 2.10–2.11); the canonical coherator (every admissible pair at every stage), with the theorem that
-it is a coherator (Ara 2013, Examples 2.12). *Needs:* L2.3. *Checks:*
+it is a coherator (Ara 2013, Examples 2.12). *Needs:* the free extensions `C[A]` (2.3),
+`GlobularExtension.IsContractible` (2.2). *Checks:*
 - a defining tower gives a functor `Θ₀ → C` bijective on objects (Ara 2013, 2.10);
 - the canonical, reduced canonical and Batanin–Leinster towers define coherators (Examples 2.12);
-- in a coherator every pair `(1_{D_n}, 1_{D_n})` has a lifting.
+- in a coherator the pair `(1_{D_0}, 1_{D_0})` has a lifting `D_1 → D_0`, the identity of 3.2.
 
 ### 2.5 Globular functors out of a free globular extension
 
 For a free globular extension `C` (in particular a coherator) and a contractible globular
 extension `E`, a globular functor `C → E` exists, by induction along a defining tower (Ara 2013,
-Proposition 2.14). *Needs:* L2.4. *Checks:*
+Proposition 2.14). *Needs:* `CellularTower` (2.4), `IsGlobularFunctor` (2.1),
+`GlobularExtension.IsContractible` (2.2). *Checks:*
 - for the tower with every `A_n` empty, the functor is the one of Proposition 1.6;
 - for `E = TopCat` it gives the functor `R` of Layer 5.1;
 - it depends on the tower and on the liftings chosen (Ara 2013, Remarks 2.15.1).
@@ -327,26 +350,28 @@ globular sums); Mathlib only otherwise. Within the layer, each item uses the one
 The category `∞-Gpd_C` (`IsGlobularPresheaf`, `InfinityGroupoid`), the underlying globular
 set, the forgetful functor to globular sets and its left adjoint on globular sums (free models
 `y S`, disks `D_n := y(D_n)`, `J_n : D_n → D_{n+1}` from `σ_n`). *Source:* Ara 2013, 1.8, 2.5,
-5.4. *Needs:* L2.2. *Checks:*
+5.4. *Needs:* `PseudoCoherator` (2.2), `GlobularSums` and `CoglobularObject.faceTo` (1.1, 1.2),
+`GlobularPresheaf` (0.1); Mathlib `ObjectProperty.FullSubcategory`, `yoneda`. *Checks:*
 - the terminal presheaf is an ∞-groupoid of type `C`, with one cell in each dimension;
 - every representable `y S` is an ∞-groupoid of type `C` (Ara 2013, 5.4);
-- for `C = Θ₀` (not contractible), the presheaves satisfying `IsGlobularPresheaf` are the globular
-  sets (Examples 1.9.1).
+- for `C = Θ₀` (not contractible), the presheaves sending globular sums to globular products are
+  the globular sets, by restriction to `𝔾` (Examples 1.9.1).
 
 ### 3.2 Structural operations
 
 Structural operations from the coherator: identities `1_x` (`PseudoCoherator.identityMap`,
 a chosen lifting of `(1_{D_n}, 1_{D_n})`), compositions and inverses of `n`-cells along `k`-cells,
 each chosen by a lifting, with their action on underlying cells. *Source:* Ara 2013, §3, and the
-pregroupoidal structures of 3.11. *Needs:* L3.1. *Checks:*
+pregroupoidal structures of 3.11. *Needs:* `InfinityGroupoid` (3.1), `GlobularExtension.idPair`
+and `PseudoCoherator.contractible` (2.2). *Checks:*
 - `1_x` has source and target `x`;
 - for `u : x → y` and `v : y → z`, `v ∗ u : x → z` (Ara 2013, 3.2);
 - the inverse of `u : x → y` goes from `y` to `x`.
 
 ### Examples
 
-- For `C = Θ₀`, which is not contractible, the presheaves satisfying `IsGlobularPresheaf` are the
-  globular sets (3.1, Checks; Ara 2013, Examples 1.9.1).
+- For `C = Θ₀`, which is not contractible, the presheaves sending globular sums to globular
+  products are the globular sets (3.1, Checks; Ara 2013, Examples 1.9.1).
 - `TopCat` being contractible (2.2), the representable presheaf `TopCat(−, X)` of a space `X` is an
   ∞-groupoid `y_TopCat(X)` of type `TopCat`, whose `n`-cells are the maps `D^n → X` (Ara 2013,
   5.4); 7.2 compares `Π_∞^R X` with it.
@@ -365,7 +390,8 @@ Layer 2 (contractible globular extensions, 2.2, for 3.1; their liftings for 3.2)
 The homotopy relation on `n`-cells (`GlobularExtension.CellJoined`; Ara 2013, 4.2,
 Lemma 4.3), the groupoids `ϖ_n(X)` (Proposition 4.5), `π₀ X` and `π_n(X, x)` for `n ≥ 1` with
 the group structure from the composition operations (4.11; `PseudoCoherator.iteratedIdentity`
-gives `1^{n−1}_x`); functoriality (4.8). *Needs:* L3.2. *Checks:*
+gives `1^{n−1}_x`); functoriality (4.8). *Needs:* `PseudoCoherator.identityMap` and the
+compositions and inverses of 3.2, `InfinityGroupoid` (3.1). *Checks:*
 - `∼_n` is an equivalence relation compatible with `∗^n_{n−1}` (Lemma 4.3);
 - `π_n(X, x)` is abelian for `n ≥ 2` (Ara 2013, 4.11, Eckmann–Hilton);
 - for the terminal ∞-groupoid, `π₀` is a point and all `π_n` are trivial.
@@ -375,7 +401,8 @@ gives `1^{n−1}_x`); functoriality (4.8). *Needs:* L3.2. *Checks:*
 Independence of choices: `ϖ_n(X)` does not depend on the pregroupoidal structure chosen in
 3.2 (Ara 2013, Proposition 4.6); `π_n(X, u) ≅ π_n(X, x)` naturally for an `(n−1)`-cell `u` with
 `0`-source `x` (Theorem 4.13); a `1`-cell `x → y` induces `π_n(X, x) ≅ π_n(X, y)` (Corollary
-4.14); `π_n(X, x)` does not depend on the pregroupoidal structure (Corollary 4.15). *Needs:* L4.1.
+4.14); `π_n(X, x)` does not depend on the pregroupoidal structure (Corollary 4.15). *Needs:*
+`GlobularExtension.CellJoined`, `PseudoCoherator.iteratedIdentity` and the groups `π_n` (4.1).
 *Checks:*
 - for `n = 1`, `π_1(X, u) = π_1(X, x)` with `u = x`, and the isomorphism of Theorem 4.13 is the
   identity;
@@ -390,7 +417,8 @@ the equivalent characterizations of Ara 2013, Theorem 4.18: (2) bijections on `�
 `π_n(−, u)` at every `(n−1)`-cell `u` (`PseudoCoherator.isWeakEquivalence_iff`, stated with
 `GlobularExtension.BijectiveOnComponents` and `GlobularExtension.BijectiveOnLoops`), (3) `ϖ_1` an
 equivalence and bijections on `π_n(−, u, v)` for parallel pairs, (4) `ϖ_1` full and essentially
-surjective and surjections on `π_n(−, u, v)`. *Needs:* L4.2. *Checks:*
+surjective and surjections on `π_n(−, u, v)`. *Needs:* the isomorphisms
+`π_n(X, u) ≅ π_n(X, x)` of 4.2, `PseudoCoherator.iteratedIdentity` (4.1). *Checks:*
 - identities are weak equivalences, and weak equivalences satisfy two-out-of-three;
 - any morphism between ∞-groupoids whose `π₀` are points and whose `π_n` are trivial is a weak
   equivalence;
@@ -417,9 +445,11 @@ fonds, folder 134-2, pp. 42–45, https://grothendieck.umontpellier.fr/134-2.pdf
 
 ### 5.1 `TopCat` as a contractible globular extension
 
-The coglobular space of disks of 1.1 and the contractibility of its globular sums;
-`TopCat` as a contractible globular extension; a globular functor `R : C → TopCat` for each
-coherator (2.5; Ara 2013, Examples 5.3). *Needs:* L1.1, L2.5, TC
+The coglobular space of disks `stdDisks` of 1.1 and the contractibility of its globular sums;
+`TopCat` as a contractible globular extension; a globular functor `R : C → TopCat` into
+`stdDisks` (`IsGlobularFunctor C stdDisks R`) for each coherator (2.5; Ara 2013, Examples 5.3).
+*Needs:* `stdDisks` and `hemisphere` (1.1), `GlobularSums.nonempty_of_hasPushouts` (1.2),
+`IsGlobularFunctor` (2.1), the globular functors of 2.5; Tau Ceti
 `TauCeti.TopCat.contractibleSpace_disk`. *Checks:*
 - each `D^n` is contractible and each `σ_n, τ_n` is a closed embedding;
 - every globular sum of disks is contractible (Ara 2013, Proposition 5.11, with Example 5.10:
@@ -432,7 +462,8 @@ coherator (2.5; Ara 2013, Examples 5.3). *Needs:* L1.1, L2.5, TC
 
 `Π_∞^R : TopCat ⥤ ∞-Gpd_C`, `X ↦ TopCat(R(−), X)` (`piPresheaf`); the sum condition holds
 because `R` preserves globular sums and `TopCat(−, X)` sends colimits to limits. *Source:* Ara
-2013, 5.2. *Needs:* L5.1, L3.1. *Checks:*
+2013, 5.2. *Needs:* `IsGlobularFunctor` (5.1, 2.1), `IsGlobularPresheaf` and `InfinityGroupoid`
+(3.1); Mathlib `yoneda`, `Functor.whiskeringLeft`. *Checks:*
 - the `0`-cells of `Π_∞^R X` are the points of `X`, its `1`-cells the paths, its `2`-cells the
   homotopies of paths relative to the endpoints (Ara 2013, Examples 5.3);
 - `Π_∞^R` of a point is the terminal ∞-groupoid;
@@ -444,15 +475,20 @@ The comparison: `π₀(Π_∞^R X) ≅ π₀(X)` and `π_n(Π_∞^R X, x) ≅ π
 naturally in `X` (Ara 2013, Theorem 8.7, proved through loop objects, Propositions 8.4–8.6; Ara
 works in a model category whose objects are all fibrant, with a cofibrant and weakly
 contractible functor `𝔾 → M` (5.14), and `TopCat` with the disks is that case by Example 5.10).
-*Needs:* L5.2, L4.1, TC `HomotopyGroup.map`. *Checks:*
+*Needs:* `piPresheaf` (5.2), the groups `π_n` and `PseudoCoherator.iteratedIdentity` (4.1); Mathlib
+`ZerothHomotopy`, `HomotopyGroup`; Tau Ceti `HomotopyGroup.map`. *Checks:*
 - for a contractible `X`, `π₀(Π_∞^R X)` is a point and every `π_n(Π_∞^R X, x)` is trivial;
 - for a discrete `X`, `π₀(Π_∞^R X)` is `X` and every `π_n(Π_∞^R X, x)` is trivial;
-- for `f : X → Y`, the isomorphisms carry `π_n(Π_∞^R f, x)` to `HomotopyGroup.map f`.
+- for `f : X → Y`, the isomorphisms carry the map that `Π_∞^R f` induces on `π_n` at `x` to the
+  map that `f` induces on `π_n(X, x)`.
 
 ### 5.4 Weak equivalences detected by `Π_∞^R`
 
-`Π_∞^R f` is a weak equivalence iff `f` is a weak homotopy equivalence (`weTop`; Ara
-2013, Corollaries 8.9–8.11). *Needs:* L5.3, L4.3, SHK. *Checks:*
+`Π_∞^R f` is a weak equivalence iff `f` is a weak homotopy equivalence
+(`piPresheaf_isWeakEquivalence_iff`, for every pseudo-coherator `C` and every `R` with
+`IsGlobularFunctor C stdDisks R`; Ara 2013, Corollaries 8.9–8.11, there for a formal coherator).
+*Needs:* the natural isomorphisms of 5.3, `PseudoCoherator.IsWeakEquivalence` (4.3), `weTop`;
+StableHomotopyKTheory §2.1 `IsWeakHomotopyEquivalence`. *Checks:*
 - `Π_∞^R` of a homotopy equivalence is a weak equivalence;
 - `Π_∞^R` of the inclusion of a point into a two-point discrete space is not a weak equivalence;
 - `Π_∞^R` of the inclusion of the endpoints `{0, 1}` into `[0, 1]` is not a weak equivalence, and
@@ -465,8 +501,9 @@ contractible functor `𝔾 → M` (5.14), and `TopCat` with the disks is that ca
 - `ϖ_1(Π_∞^R X)` is isomorphic, naturally in `X`, to the groupoid `Π_1(D^0, X)` of points of `X`
   and left homotopies between them up to `2`-homotopy, Quillen's fundamental groupoid (Ara 2013,
   6.6 and Proposition 8.4; `TopCat` with the disks satisfies its hypotheses by Example 5.10).
-- `Π_∞^R` of the inclusion of the endpoints `{0, 1}` into `[0, 1]` is not a weak equivalence, and
-  `Π_∞^R` of the map `[0, 1] → *` is one (5.4, Checks).
+- For `R` constant at a point, every cell of `TopCat(R(−), X)` is a point of `X`, and the inclusion
+  of a point into `[0, 1]` is a weak homotopy equivalence sent to a map that is not a bijection on
+  `π₀`: the hypothesis that `R` is globular cannot be dropped from 5.4.
 
 ### Dependencies
 
@@ -480,7 +517,8 @@ for 5.4); not Layer 6. Tau Ceti `TauCeti.TopCat.contractibleSpace_disk` (5.1) an
 
 Cellular ∞-groupoids: transfinite composites (`TransfiniteCompositionOfShape`) of
 pushouts of the boundary inclusions `∂D_n → D_n` in `∞-Gpd_C`, starting from the initial object
-(Henry 2016, 5.3.2 and 5.3.4). *Needs:* L3.1, M. *Checks:*
+(Henry 2016, 5.3.2 and 5.3.4). *Needs:* `InfinityGroupoid` and the free models `∂D_n`, `D_n`
+(3.1); Mathlib `TransfiniteCompositionOfShape`, `IsPushout`. *Checks:*
 - the initial ∞-groupoid is cellular;
 - the free models `∂D_n` and `D_n` are cellular (`∂D_{n+1}` is the pushout of two copies of
   `D_n` along `∂D_n`);
@@ -505,10 +543,13 @@ Layer 3 (`∞-Gpd_C`, the free models `∂D_n` and `D_n`, 3.1); Mathlib
 inverse image on `∞-Gpd_C`) as `MorphismProperty`; `Π_∞^R` inverts `W_Top` (5.4), hence the
 induced functor `Hot ⥤ Ho(∞-Gpd_C)` through Mathlib's `Localization.lift` (Ara 2013, 8.13).
 This item supplies the two classes, the inversion and the functor; the localizations are
-Mathlib's. *Needs:* L5.4, M, SHK. *Checks:*
+Mathlib's. *Needs:* `piPresheaf_isWeakEquivalence_iff` (5.4), `PseudoCoherator.weakEquivalences`
+(4.3), `weTop`; Mathlib `MorphismProperty.Localization`, `MorphismProperty.Q`,
+`MorphismProperty.IsInvertedBy`, `Localization.lift`; StableHomotopyKTheory §2.1
+`IsWeakHomotopyEquivalence`. *Checks:*
 - `W_Top` contains the homeomorphisms and `W_C` the isomorphisms;
-- the induced functor composed with `MorphismProperty.Q` for `W_Top` is `Π_∞^R` followed by
-  `MorphismProperty.Q` for `W_C`, up to the isomorphism of `Localization.lift`;
+- the induced functor, composed with the localization functor of `TopCat`, is `Π_∞^R` followed by
+  the localization functor of `∞-Gpd_C`, up to the canonical isomorphism of the lift;
 - the induced functor sends a point and a contractible space to isomorphic objects.
 
 ### 7.2 Changing the globular functor `R`
@@ -521,8 +562,9 @@ groups `π_n`, all of them those of `X` by 5.3, whatever the coherator (Corollar
 Consequently `Π_∞^R f` is a weak equivalence if and only if `Π_∞^{R'} f` is. The statement
 compares invariants only: the identity of the underlying globular sets is not a morphism of
 ∞-groupoids (Ara 2013, Remark 5.6), and no morphism, zigzag or natural isomorphism between
-`Π_∞^R` and `Π_∞^{R'}`, before or after localization, is asked for. *Needs:* L5.3, L4.2, L2.1.
-*Checks:*
+`Π_∞^R` and `Π_∞^{R'}`, before or after localization, is asked for. *Needs:* the isomorphisms of
+5.3, the groupoids `ϖ_n` and their independence of choices (4.1, 4.2), `IsGlobularFunctor` (2.1),
+`piPresheaf` (5.2). *Checks:*
 - the `n`-cells of `Π_∞^R X` and `Π_∞^{R'} X` are the same set `TopCat(D^n, X)` (Ara 2013, 5.2);
 - `π₀(Π_∞^R X) = π₀(Π_∞^{R'} X)`, both the path components of `X`;
 - for a contractible `X`, both are weakly equivalent to the terminal ∞-groupoid.
@@ -559,8 +601,27 @@ Nothing in this section is a target of this roadmap.
 `X → X ⊔_{D_n} D_{n+1}` is a weak equivalence (4.3). For finitely cellular `X` this is Henry's
 Conjecture 5.3.3 (Henry 2016), extended to retracts of cellular objects by his Lemma 5.3.4; Henry
 shows that it implies a canonical left semi-model structure on `∞-Gpd_C` (Theorem 5.3.5) and the
-homotopy hypothesis (Corollary 5.3.13). Henry and Lanari (2023) treat Grothendieck
-`3`-groupoids.
+homotopy hypothesis (Corollary 5.3.13). In the same paper Henry proves the homotopy hypothesis for
+his cylinder coherators: their models carry semi-model structures, Quillen equivalent to one
+another and, through the fundamental ∞-groupoid functor, to spaces (Theorem 5.1.2, with
+Theorem 5.2.10 for a semi-simplicial cylinder coherator); Grothendieck ∞-groupoids of type `C`
+are an instance of that framework under Conjecture 5.3.3 (5.3). Henry and Lanari (2023) treat
+Grothendieck `3`-groupoids.
+
+**Strict and semi-strict models.** Strict models do not reach all homotopy types: for every
+realization functor of strict `3`-groupoids that induces isomorphisms on `π₀` and on the `π_i`
+(Simpson 1998, Definition 3.1), no strict `3`-groupoid realizes the `3`-type of `S²` (Proposition
+5.1, through the splitting of the Postnikov tower of a simply connected strict `3`-groupoid,
+Proposition 5.3), and no strict ∞-groupoid realizes `S²` (Corollary 6.1). Simpson conjectures that
+strict composition with weak units suffices (§7, Conjecture 1, for his `n`-snugroupoids). Henry
+proves a regular form of this conjecture for ∞-groupoids: for a good class `C` of polygraphs
+stable under the Gray tensor product, such as the regular polygraphs, the `C`-categories carry a
+weak model structure, the groupoidal analogue of the folk model structure (Henry 2018, §6.1 and
+Theorem 6.1.7), Quillen equivalent to `C`-polygraphs (Theorem 6.2.5), and regular polygraphs are
+Quillen equivalent to semi-simplicial sets (Theorem 6.3.8). The general form, with every composition
+strict, is open (Conjecture 6.4.1). The combinatorial input is that non-unital (positive)
+polygraphs form a presheaf category (Henry 2019, Corollary 2.4.9). These models are not
+Grothendieck ∞-groupoids and are outside the scope of this roadmap.
 
 **The OpenAI preprint** « The Grothendieck homotopy hypothesis via elementary expansions »
 (24 September 2026, not peer-reviewed), with its formalization scope note `lean/docs/312.md`, the
@@ -601,12 +662,11 @@ development `lean/OAI/CategoryTheory/Globular/` (references below).
 The semi-model structure and the comparison with spaces rest on Henry 2016 and on the paper's
 unformalized arguments.
 
-The development `lean/OAI/CategoryTheory/Globular/` (Apache License 2.0, `lean/LICENSE`) is a
-cited source, not the specification of this roadmap.
+The development `lean/OAI/CategoryTheory/Globular/` (Apache License 2.0, `lean/LICENSE`, which
+permits adaptation with attribution and the licence notice) is a cited source, not the
+specification of this roadmap.
 
 ## References
-
-All checked on zbMATH or arXiv.
 
 - A. Grothendieck, *Pursuing Stacks (À la poursuite des champs)*, vol. I, ed. G. Maltsiniotis,
   Documents Mathématiques 20, SMF, 2022. Zbl 1499.14001.
@@ -617,18 +677,23 @@ All checked on zbMATH or arXiv.
   Zbl 1111.18008. Cited: Introduction, p. xiii, note 2 (`Hot` as the localization of spaces at
   the weak homotopy equivalences); Définition 3.3.2 (basic localizers); Définitions 4.1.3 and
   4.1.12 (weak equivalences of presheaves, test categories); Théorème 4.2.15, Corollaires
-  4.2.18–4.2.19 and paragraph 4.2.20 (the minimal basic localizer, whose localization `Hot_∞` of `Cat` is
-  equivalent to the homotopy category of simplicial sets).
+  4.2.18–4.2.19 and paragraph 4.2.20 (the minimal basic localizer, whose localization `Hot_∞` of
+  `Cat` is equivalent to the homotopy category of simplicial sets).
 - G. Maltsiniotis, « Grothendieck ∞-groupoids, and still another definition of ∞-categories »,
   arXiv:1009.2331 (2010).
 - D. Ara, « On the homotopy theory of Grothendieck ∞-groupoids », *J. Pure Appl. Algebra* 217
   (2013), no. 7, 1237–1278. Zbl 1291.18006; arXiv:1206.2941.
 - S. Henry, « Algebraic models of homotopy types and the homotopy hypothesis », arXiv:1609.04622
-  (2016), preprint.
+  (2016), preprint. Cited: Theorems 5.1.2 and 5.2.10, Definition 5.3.2, Conjecture 5.3.3,
+  Lemma 5.3.4, Theorem 5.3.5, Corollary 5.3.13.
+- S. Henry, « Non-unital polygraphs form a presheaf category », *High. Struct.* 3 (2019), no. 1,
+  248–291. Zbl 1427.18014; arXiv:1711.00744. Cited: Corollary 2.4.9.
+- S. Henry, « Regular polygraphs and the Simpson conjecture », arXiv:1807.02627 (2018), preprint.
+  Cited: Theorems 6.1.7, 6.2.5 and 6.3.8, Conjecture 6.4.1.
 - S. Henry and E. Lanari, « On the homotopy hypothesis for 3-groupoids », *Theory Appl. Categ.*
   39 (2023), no. 26, 735–768. Zbl 1533.18017.
-- C. Simpson, « Homotopy types of strict 3-groupoids », arXiv:math/9810059 (1998), preprint
-  (strict models fail from dimension `3`; context for the scope).
+- C. Simpson, « Homotopy types of strict 3-groupoids », arXiv:math/9810059 (1998), preprint.
+  Cited: Definition 3.1, Propositions 5.1 and 5.3, Corollary 6.1, §7 Conjecture 1.
 - OpenAI, « The Grothendieck homotopy hypothesis via elementary expansions », preprint,
   24 September 2026, github.com/openai/math, commit `7ef5c0cc5ca4b0e072b7a050fca09ab24bc6fa3a`,
   `preprints/The-Grothendieck-homotopy-hypothesis-via-elementary-expansions-September-24-2026/`;

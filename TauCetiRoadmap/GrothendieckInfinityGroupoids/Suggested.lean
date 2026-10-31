@@ -4,10 +4,9 @@ import TauCeti.Topology.Homotopy.HomotopyGroup.Map
 /-!
 # Grothendieck ∞-groupoids: globular theories, coherators and their models — target signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive document is `README.md`.
-The statements here suggest Lean forms for particular milestones, so that contributors and
-reviewers converge on names and signatures; discharging all of them finishes neither a layer nor
-the roadmap. `sorry` is allowed in this human-owned roadmap library: these are goals, not proofs.
+`README.md` is the definitive roadmap. Each declaration below is an acceptance test for the README
+item named in its docstring: that item is done when the declaration exists with this name and
+signature, its `sorry` is proved, and everything else the README asks of the item is built.
 
 Conventions follow Ara, *On the homotopy theory of Grothendieck ∞-groupoids*, J. Pure Appl.
 Algebra 217 (2013): in the globular sum of a table, the left disk of each gluing is attached by
@@ -21,17 +20,16 @@ products (1.8, 2.5); homotopy groups and weak equivalences as in 4.11 and 4.17.
 The globe category `Globe` is the carrier that HomotopyTheoryOfCategories (Layer 8.6) proves
 direct; this file states nothing about direct or Reedy categories. The only Tau Ceti declaration
 consumed is `HomotopyGroup.map`. `weTop` repeats the body of `IsWeakHomotopyEquivalence`, which
-StableHomotopyKTheory §2.1 owns; it is that predicate, not a variant of it. Definitions have real
+StableHomotopyKTheory §2.1 owns; it is that predicate, not a variant of it. `TopCat` carries the
+coglobular space `stdDisks` of disks and hemisphere inclusions (Ara 2013, Examples 1.5.2), and
+`piPresheaf_isWeakEquivalence_iff` is Ara's Corollaries 8.9–8.11 for it. Definitions have real
 bodies; only theorem statements are `sorry`.
 
-Not stated here: Ara's Theorem 8.7 and Corollaries 8.8–8.11. They are about `Π_∞^R` for a
-globular functor `R` into `TopCat` equipped with its coglobular space of disks and hemisphere
-inclusions (Ara 2013, Examples 1.5.2), and that coglobular space is data Layer 1.1 constructs
-on Mathlib's `TopCat.disk`, which this file does not build; Theorem 8.7
-moreover compares groups, and the group structure on `π_n` comes from the composition operations
-of Layer 3.2. The README states them in Layers 5.3, 5.4 and 7.2. Not prototyped either: the
-cellular towers that make a pseudo-coherator a coherator (Layer 2.4) and cellular ∞-groupoids
-(Layer 6).
+Not stated here: Ara's Theorem 8.7, whose isomorphisms are of groups and the group structure on
+`π_n` comes from the composition operations of Layer 3.2, and Proposition 5.5 with Corollary 8.8,
+which compare the groupoids `ϖ_n` and the groups `π_n` of Layer 4.1; the README states them in
+Layers 5.3 and 7.2. Not prototyped either: the cellular towers that make a pseudo-coherator a
+coherator (Layer 2.4) and cellular ∞-groupoids (Layer 6).
 -/
 
 namespace TauCetiRoadmap.GrothendieckInfinityGroupoids
@@ -139,6 +137,55 @@ def faceTo {m n : ℕ} (h : m < n) (ε : Bool) : D.disk m ⟶ D.disk n :=
 
 end CoglobularObject
 
+/-- **Layer 1.1.** The point `(x, √(1 − ‖x‖²))` (side `ε = false`, the source) or
+`(x, −√(1 − ‖x‖²))` (side `ε = true`, the target) of `ℝ^{n+1}`, for `x ∈ ℝ^n` (Ara 2013,
+Examples 1.5.2). -/
+noncomputable def hemiPoint (n : ℕ) (ε : Bool) (x : EuclideanSpace ℝ (Fin n)) :
+    EuclideanSpace ℝ (Fin (n + 1)) :=
+  WithLp.toLp 2 (Fin.snoc (α := fun _ => ℝ) (fun i => x i)
+    ((if ε then -1 else 1) * Real.sqrt (1 - ‖x‖ ^ 2)))
+
+/-- **Layer 1.1.** A point of the closed unit ball goes to the unit sphere. -/
+theorem norm_hemiPoint (n : ℕ) (ε : Bool) {x : EuclideanSpace ℝ (Fin n)} (hx : ‖x‖ ≤ 1) :
+    ‖hemiPoint n ε x‖ = 1 := by
+  sorry
+
+/-- **Layer 1.1.** The map `x ↦ (x, ±√(1 − ‖x‖²))` is continuous. -/
+theorem continuous_hemiPoint (n : ℕ) (ε : Bool) : Continuous (hemiPoint n ε) := by
+  sorry
+
+/-- **Layer 1.1.** The coglobular identities on points: `hemiPoint n δ x` lies on the unit sphere,
+so both maps of dimension `n + 1` send it to the point with last coordinate `0`. -/
+theorem hemiPoint_hemiPoint (n : ℕ) (δ ε ε' : Bool) {x : EuclideanSpace ℝ (Fin n)}
+    (hx : ‖x‖ ≤ 1) :
+    hemiPoint (n + 1) ε (hemiPoint n δ x) = hemiPoint (n + 1) ε' (hemiPoint n δ x) := by
+  sorry
+
+/-- **Layer 1.1.** The hemisphere inclusion `D^n → D^{n+1}` of side `ε` on Mathlib's disks
+`TopCat.disk` (Ara 2013, Examples 1.5.2). -/
+noncomputable def hemisphere (n : ℕ) (ε : Bool) : TopCat.disk.{0} n ⟶ TopCat.disk.{0} (n + 1) :=
+  TopCat.ofHom
+    ⟨ULift.map (fun p : Metric.closedBall (0 : EuclideanSpace ℝ (Fin n)) 1 =>
+        (⟨hemiPoint n ε p.1, mem_closedBall_zero_iff.2
+          (norm_hemiPoint n ε (mem_closedBall_zero_iff.1 p.2)).le⟩ :
+          Metric.closedBall (0 : EuclideanSpace ℝ (Fin (n + 1))) 1)),
+      continuous_uliftMap _
+        (Continuous.subtype_mk ((continuous_hemiPoint n ε).comp continuous_subtype_val) _)⟩
+
+/-- **Layer 1.1.** The coglobular identities for the hemisphere inclusions. -/
+theorem hemisphere_hemisphere (n : ℕ) (δ ε ε' : Bool) :
+    hemisphere n δ ≫ hemisphere (n + 1) ε = hemisphere n δ ≫ hemisphere (n + 1) ε' := by
+  sorry
+
+/-- **Layer 1.1.** The coglobular space of disks `D^n` and hemisphere inclusions `σ, τ` (Ara 2013,
+Examples 1.5.2), the coglobular object of `TopCat` used throughout. -/
+noncomputable def stdDisks : CoglobularObject TopCat.{0} where
+  disk n := TopCat.disk.{0} n
+  σ n := hemisphere n false
+  τ n := hemisphere n true
+  σ_σ n := hemisphere_hemisphere n false false true
+  τ_σ n := hemisphere_hemisphere n true false true
+
 /-- A table of dimensions `(i₁, i'₁, i₂, …, i'_{m−1}, i_m)` with `i_k > i'_k < i_{k+1}` (Ara 2013,
 1.3): `top` has one more entry than `bot`. -/
 structure Table where
@@ -196,7 +243,7 @@ structure GlobularSums {K : Type u} [Category.{v} K] (D : CoglobularObject K) wh
   incl_globe : ∀ n, incl (Table.globe n) ⟨0, Nat.zero_lt_succ 0⟩ = eqToHom (sum_globe n).symm
 
 /-- **Layer 1.2.** In a category with pushouts every coglobular object has globular sums (Ara
-2013, Examples 1.5.1); in particular `TopCat` with the coglobular space of disks of Layer 1.1. -/
+2013, Examples 1.5.1); in particular `stdDisks` in `TopCat`. -/
 theorem GlobularSums.nonempty_of_hasPushouts {K : Type u} [Category.{v} K] [HasPushouts K]
     (D : CoglobularObject K) : Nonempty (GlobularSums D) := by
   sorry
@@ -272,6 +319,20 @@ def idPair (n : ℕ) : C.AdmissiblePair where
   parallel := C.parallel_refl n _
 
 end GlobularExtension
+
+/-- **Layer 2.1.** A globular functor from a globular extension `C` to a category `K` with a
+coglobular object `D` (Ara 2013, 1.4): `R` sends the disks and faces of `C` to those of `D`, and
+the image of each globular sum of `C` is a globular sum in `K`. -/
+structure IsGlobularFunctor {K : Type u} [Category.{v} K] (C : GlobularExtension)
+    (D : CoglobularObject K) (R : C.Obj ⥤ K) : Prop where
+  obj_disk : ∀ n, R.obj (C.disks.disk n) = D.disk n
+  map_σ : ∀ n, R.map (C.disks.σ n) =
+    eqToHom (obj_disk n) ≫ D.σ n ≫ eqToHom (obj_disk (n + 1)).symm
+  map_τ : ∀ n, R.map (C.disks.τ n) =
+    eqToHom (obj_disk n) ≫ D.τ n ≫ eqToHom (obj_disk (n + 1)).symm
+  isGlobularSum : ∀ (T : Table) (Y : K) (φ : ∀ k, D.disk (T.top k) ⟶ Y), D.Compatible T φ →
+    ∃! u : R.obj (C.ofTable T) ⟶ Y,
+      ∀ k, R.map (C.incl T k) ≫ u = eqToHom (obj_disk (T.top k)) ≫ φ k
 
 /-- A contractible globular extension, called a pseudo-coherator by Maltsiniotis (2010) and in
 Ara's thesis, as Ara 2013, 2.4, recalls. A coherator is a pseudo-coherator with a defining
@@ -382,9 +443,21 @@ def weTop : MorphismProperty TopCat.{0} := fun X _ f =>
       Function.Bijective (HomotopyGroup.map (N := Fin (n + 1)) (x := x) f.hom rfl)
 
 /-- **Layer 5.2.** The fundamental ∞-groupoid presheaf `Π_∞^R(X) = TopCat(R(−), X)` for a functor
-`R : C ⥤ TopCat` (Ara 2013, 5.2); when `R` is a globular functor it is an ∞-groupoid of type `C`. -/
+`R : C ⥤ TopCat` (Ara 2013, 5.2); when `R` is a globular functor into `stdDisks`
+(`IsGlobularFunctor`) it is an ∞-groupoid of type `C`. -/
 def piPresheaf (C : PseudoCoherator) (R : C.Obj ⥤ TopCat.{0}) :
     TopCat.{0} ⥤ (C.Objᵒᵖ ⥤ Type) :=
   yoneda ⋙ (Functor.whiskeringLeft _ _ _).obj R.op
+
+/-- **Layer 5.4.** Ara 2013, Corollaries 8.9–8.11 in `TopCat`: for a globular functor
+`R : C ⥤ TopCat` with the coglobular space `stdDisks`, `Π_∞^R f` is a weak equivalence of
+∞-groupoids of type `C` if and only if `f` is a weak homotopy equivalence. Ara states it for a
+formal coherator (8.1); both sides involve only the cells `TopCat(D^n, X)`, their faces and the
+iterated identities, which factor through the point `D^0`, so it is stated for every
+pseudo-coherator. Without `hR` it fails: for `R` constant at a point, every cell is a point. -/
+theorem piPresheaf_isWeakEquivalence_iff (C : PseudoCoherator) (R : C.Obj ⥤ TopCat.{0})
+    (hR : IsGlobularFunctor C.toGlobularExtension stdDisks R) {X Y : TopCat.{0}} (f : X ⟶ Y) :
+    C.IsWeakEquivalence ((piPresheaf C R).map f) ↔ weTop f := by
+  sorry
 
 end TauCetiRoadmap.GrothendieckInfinityGroupoids
