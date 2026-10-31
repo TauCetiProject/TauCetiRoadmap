@@ -165,8 +165,11 @@ theorem continuous_hemiPoint (n : ℕ) (ε : Bool) : Continuous (hemiPoint n ε)
     continuous_const.mul (Real.continuous_sqrt.comp (continuous_const.sub (continuous_norm.pow 2)))
   have hf : Continuous fun x : EuclideanSpace ℝ (Fin n) =>
       Fin.snoc (α := fun _ => ℝ) (fun i => x i)
-        ((if ε then (-1 : ℝ) else 1) * Real.sqrt (1 - ‖x‖ ^ 2)) :=
-    (PiLp.continuous_ofLp 2 _).finSnoc hg
+        ((if ε then (-1 : ℝ) else 1) * Real.sqrt (1 - ‖x‖ ^ 2)) := by
+    refine continuous_pi fun j => ?_
+    refine Fin.lastCases ?_ (fun i => ?_) j
+    · simpa using hg
+    · simpa using (PiLp.continuous_apply 2 (fun _ : Fin n => ℝ) i)
   exact (PiLp.continuous_toLp 2 _).comp hf
 
 /-- **Layer 1.1.** On the unit sphere the last coordinate `±√(1 − ‖y‖²)` is `0`, so both sides
