@@ -809,7 +809,7 @@ tests representative native interfaces; this README is definitive.
    winding and the sign `c₁=−c₁_B6`, and
    `deg L(p)=deg L+1` by CC C1.5's tensor Chern-class law. Neither
    calculation uses meromorphic-section existence or Riemann–Roch.
-   Consume GT Layer1's closed-surface CW model and K7's integral
+   Consume ComplexKahlerGeometry K7's closed-surface CW model and integral
    fundamental-class pairing `H²(Σ;ℤ)≃ℤ`. By CC C1.6's classification
    and C1.4's smoothing of isomorphisms, equal-degree holomorphic lines
    are smoothly isomorphic;
@@ -835,8 +835,10 @@ tests representative native interfaces; this README is definitive.
    biholomorphically with K7.1's ℂP¹ by its two reciprocal charts.
    Apply I2.5's operator cut-and-paste theorem to
    the two original surfaces and their regluings, the connected sum and
-   sphere. Prove b₁ additivity by Mayer–Vietoris and use GT Layer1's
-   smooth surface classification to identify the genus and compare with
+   sphere. Prove b₁ additivity by Mayer–Vietoris and consume GeometricTopology's
+   compact smooth-surface comparison, using SurfaceTopology Layer 8 and
+   PlanarTopology Layers 5 and 8. Use its smooth classification to identify the
+   genus and compare with
    any given surface of that genus by a smooth diffeomorphism f. If it
    reverses orientation, replace its transported complex structure J′ by
    −J′. For the trivial line prove that complex conjugation on functions
