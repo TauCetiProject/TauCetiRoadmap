@@ -1127,3 +1127,22 @@ supersedes older transcript counts of two Whitehead pictures or two Borromean
 occurrences on this page. Neither drawing supplies a crossing correspondence to the
 other. The roadmap constructs the standard rational model and exchange independently and
 requires an actual marked comparison for the single Problem8 source input.
+
+<a id="figure-eight-source"></a>
+## Problems2/15/16: figure-eight pictures and the transparency
+
+*Knot Theory - problems.pdf*, source identity
+`06c19def0f01d6e74a1ee99bd448bd3731e101377deddb5aa573943898afb3b1`, physical p1 Problem2
+prints three separate unlabeled single-component diagrams, each with four apparent
+crossing neighborhoods and broken underpass strokes. There are no orientation arrows,
+crossing labels or arc names. The reading authenticates neither complete cyclic codes
+nor oriented crossing-sign lists. All three source-to-model maps remain required.
+
+On p3, Problem15 asks for equivalence of the figure-eight to its reverse and reflection;
+it has no associated figure. The three preceding diagrams belong to Problem14, and the
+later diagram belongs to17. Problem16 asks what knot appears on the screen when an
+oriented-knot transparency is turned over. No turning axis, viewing frame, separate
+diagram or additional orientation prescription is printed. The roadmap states a fixed
+screen-frame convention and carries the printed arrows and gaps through its planar
+reflection, with explicit adapters for changed frames. Its spatial reflection/rotation
+and trigonometric embedding are mathematical constructions, not transcribed source data.

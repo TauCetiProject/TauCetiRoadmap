@@ -2444,6 +2444,116 @@ braids*](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/artinbraids.pdf), Ann.
 Math.48(1947), pp102–115, especially Theorems8–16. Artin's word order and generator
 formulas must be transported to the explicit pullback convention above.
 
+<a id="figure-eight-symmetries"></a>
+### 4.2.9 Figure-eight inversion, reflection and projected transparencies
+
+Use4.4.2's actual four-crossing figure-eight code and signed braid/arc dictionary. In
+native `BraidGroup 3` put a=σ₀, b=σ₁, β=(ab⁻¹)² and Δ=aba. These are the course's
+one-based σ₁,σ₂. The geometric dictionary and closure construction come from4.2; the
+polynomial calculation supplies no premise of the diagram identification. Prove this
+diagram is connected, reduced and alternating;4.8's independent bracket-span theorem
+then gives c(F)=4. The symmetry constructions do not use that lower bound.
+
+**Three operations on a diagram.** In oriented projection coordinates (x,y), with
+crossing height z, construct P(x,y,z)=(−x,y,z) and M(x,y,z)=(x,y,−z). P reflects the
+projection plane and carries the oriented strands and their underpass gaps with it; M
+retains the projected graph and exchanges over and under. Both give the oriented mirror
+type. Their product Q=(−x,y,−z) is rotation through π about the y-axis, with the
+explicit rotation family from the identity. Prove the realized comparisons, including
+extension over the point at infinity and comparison with4.1's fixed S³ reflection.
+Export involutions, commutation, composition and naturality under marked diagram
+equivalences. On the codes use native `PDCode.mirror` and `OrientedPDCode.mirror` for M;
+P reverses each cyclic chart while preserving its over-pair, so it is the composition of
+M with [FlypeDiagramTargets.lean](FlypeDiagramTargets.lean)'s simultaneous chart/height
+turnover. Transport every component direction, outer face and nesting datum, including
+crossing-free circles and the empty link. Reversing a chart can reverse a crossing-free
+circle's planar-direction Boolean without reversing its transported spatial orientation.
+Prove P and M negate every oriented crossing sign and writhe, whereas Q preserves them.
+Give the adapters to the native Gauss mirror, which preserves encounter over bits and
+negates oriented crossing signs, and to native component-orientation reversal, which
+preserves the underlying diagram and every crossing sign when all components reverse.
+
+For Problem16 fix a screen coordinate frame and keep the printed arrows and underpass
+gaps attached to the transparency. Turning it over about a line in its plane induces P
+on the displayed diagram, up to a rotation/translation in the screen: its answer is the
+oriented mirror, with the arrows pushed forward. Prove independence of the chosen
+turning line through the resulting planar Euclidean isotopy. If another viewing/frame
+convention is used, give its explicit coordinate adapter. Rotating a spatial link with
+both its projection and crossing heights changed is Q instead; supply this comparison
+separately. The source gives no axis or viewing diagram, so record the convention rather
+than infer an additional reversal of the knot parametrization.
+
+**An explicit braid amphichirality.** Consume4.2.2's generator-inversion mirror
+automorphism m, which preserves word order, and its realized closure comparison. Prove
+ΔaΔ⁻¹=b and ΔbΔ⁻¹=a from aba=bab. With h=aΔ, prove
+
+```text
+m(β)=(a⁻¹b)²,
+Δ m(β) Δ⁻¹=(b⁻¹a)²,
+a(b⁻¹a)²a⁻¹=β,              h m(β) h⁻¹=β.
+```
+
+Supply the actual finite closure-conjugation movie for h, retaining crossing and
+component directions. This gives an oriented ambient isotopy from mirror(F) to F.
+Compose its endpoint with the fixed reflection to give a self-map of (S³,F) reversing
+ambient orientation and preserving the recorded knot orientation. This conclusion uses
+the movie, not the symmetry of the Alexander or Jones polynomial. No finite-order claim
+about this self-map follows merely from the conjugation identity.
+
+**An explicit inversion.** On t∈ℝ/(2πℤ), construct the smooth circle map
+
+```text
+K(t)=((2+cos(2t))cos(3t), (2+cos(2t))sin(3t), sin(4t)).
+```
+
+Prove it descends to the native circle, is an immersion and is injective, hence gives a
+`TauCeti.SmoothCircleEmbedding` in ℝ³. The projected radius is positive and the angular
+speed is3. Its only projected double points are the four unordered pairs (t_k,t_k+2π/3),
+where t_k=kπ/2−π/3, k=0,1,2,3, modulo2π. Prove completeness, absence of triple points
+and transverse projected tangents. At each pair the first height is+√3/2 and the
+second−√3/2, so these are not spatial intersections. Starting just before t=π/6, name
+the pairs A,B,C,D in k order and obtain `O_B,U_A,O_C,U_B,O_D,U_C,O_A,U_D`. Compare this
+to4.4.2's code via B↦0,A↦1,C↦3,D↦2, computing the oriented crossing signs in the native
+convention. Decide whether the chosen projection realizes β or its mirror, and supply
+the actual marked comparison, using the preceding amphichirality movie for any mirror
+branch. Invariant agreement alone does not provide this map.
+
+For R_s rotation by πs about the x-axis, prove the whole jointly smooth family is an
+ambient isotopy and R₁K(t)=K(−t). Its fixed axis meets K exactly at t=0,π. Thus it
+reverses the knot orientation. Transfer this explicit isotopy through the actual marked
+comparison to F, giving F equivalent to its reverse. The inversion uses the
+trigonometric embedding and its comparison, independently of any late hyperbolic
+classification. Export the four oriented comparisons between F, reverse(F), mirror(F)
+and reverse(mirror(F)) by composition, with their actual parameter and component maps.
+
+With5.1's independent tubes and preferred peripheral markings, prove a pair map of
+ambient-orientation sign δ and knot-orientation sign ε sends μ↦δεμ and λ↦ελ on boundary
+H₁. Give the based group maps with the same connecting-path conjugacy for both
+generators. The inversion has (δ,ε)=(+1,−1), giving (μ,λ)↦(−μ,−λ); the
+orientation-preserving-on-F amphichirality above has (−1,+1), giving (−μ,+λ). Prove the
+composition/inverse laws and transport under the marked-model maps.
+
+**The literal exercises.** For each of Problem2's three separate p1 drawings, recover
+its actual realized plane code, choose orientations explicitly, and give a finite marked
+movie to F or the appropriate oriented reverse/mirror, followed by the comparisons just
+constructed. Retain the three separate source-to-code maps; none is authenticated by the
+knot name or the four apparent crossings alone. Problem15 asks for reverse and
+reflection and supplies no separate diagram. Consume the two geometric constructions
+above for its two conclusions. The [source note](source-inputs.md#figure-eight-source)
+records the source/code qualifications.
+
+*Needs:* 4.1–4.2's existing knot carriers, stereographic and realized-code dictionary,
+marked supported movies, closure-conjugation isotopy and mirror adapter;4.4.2's
+independent finite β/Gauss dictionary; basic trigonometric circle smoothness and compact
+embedding criteria from Layer1. The4.4.2 finite dictionary precedes its Alexander
+calculations. Peripheral outputs consume5.1 and supply no input to the constructions;
+4.8 supplies only the minimum-crossing output. Reuse native mirror/reverse operations
+rather than introduce a separate notion of knot or ambient isotopy.
+
+[FigureEightSymmetryTargets.lean](FigureEightSymmetryTargets.lean) checks the native
+braid conjugators and the chart-reflection over-pair/sign/writhe laws. These finite
+identities do not supply the geometric movies or the source-diagram comparisons.
+
 ### 4.3 Seifert surfaces, genus and the Seifert form
 
 For disjoint oriented knots J,K in S³ define lk(J,K) by algebraic
