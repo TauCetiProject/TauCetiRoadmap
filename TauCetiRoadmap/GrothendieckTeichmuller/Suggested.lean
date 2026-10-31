@@ -1,10 +1,12 @@
-import Mathlib
-import TauCeti.Topology.Algebra.Group.Profinite.Free.Basic
-import TauCeti.Topology.Algebra.Group.Profinite.ZHat.Pow
-import TauCeti.Topology.Algebra.Group.Profinite.ZHat.Ring
-import TauCeti.Topology.Algebra.Group.ContinuousAut.Basic
-import TauCeti.Topology.Algebra.Group.ContinuousAut.Congruence
-import TauCeti.GroupTheory.SpecificGroups.Braid.Basic
+module
+
+public import Mathlib
+public import TauCeti.Topology.Algebra.Group.Profinite.Free.Basic
+public import TauCeti.Topology.Algebra.Group.Profinite.ZHat.Pow
+public import TauCeti.Topology.Algebra.Group.Profinite.ZHat.Ring
+public import TauCeti.Topology.Algebra.Group.ContinuousAut.Basic
+public import TauCeti.Topology.Algebra.Group.ContinuousAut.Congruence
+public import TauCeti.GroupTheory.SpecificGroups.Braid.Basic
 
 /-!
 # The profinite Grothendieck–Teichmüller group: target signatures
@@ -42,6 +44,8 @@ Conventions (README §Conventions): `β_{λ,f}(x) = x^λ`, `β_{λ,f}(y) = f⁻�
 `(λ, f) · (μ, g) = (λμ, f · β_{λ,f}(g))`; `x₁₂ = σ₀²`, `x₂₃ = σ₁²`, `x₃₄ = σ₂²`,
 `x₁₃ = σ₁ σ₀² σ₁⁻¹`, `x₂₄ = σ₂ σ₁² σ₂⁻¹`, `x₁₄ = σ₂ σ₁ σ₀² σ₁⁻¹ σ₂⁻¹`.
 -/
+
+public section
 
 namespace TauCetiRoadmap.GrothendieckTeichmuller
 
