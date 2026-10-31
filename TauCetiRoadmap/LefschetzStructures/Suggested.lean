@@ -4,25 +4,43 @@ import Mathlib
 # Lefschetz structures and algebraic operators on cohomology: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is `README.md`.
-The statements here suggest Lean forms for particular milestones, so that contributors and
-reviewers converge on names and signatures; discharging all of them finishes neither a layer nor
-the roadmap. `sorry` is allowed in this human-owned roadmap library: these are goals, not proofs.
+This file states the roadmap's headline theorems against the pinned Mathlib API, each with `sorry`,
+together with the definitions their statements need. The API of each definition and the Checks
+stay in the README.
 
-Layer 0 (README §§0.1–0.5):
-* `LefschetzStructure`, `LefschetzStructure.primitive`, `IsGradeProjector`, `LowersDegreeBy`,
-  `IsLefschetzInverse`, `IsWeightOperator`, `IsCompatiblePairing`;
-* `grade_eq_iSup_primitive`, `existsUnique_isLefschetzInverse`, `lambda_pow_L_pow`,
-  `L_pow_lambda_pow`, `exists_sl2`.
+No Lefschetz structure, Lefschetz inverse or primitive decomposition exists in Mathlib or Tau Ceti
+at the pins, so `LefschetzStructure` and the predicates of Layers 0 and 1 are defined here, on
+Mathlib's `DirectSum.IsInternal`, `Module.End` with its Lie bracket, `LinearMap.BilinForm`,
+`LinearMap.charpoly`, `Subring` and `Subfield`. `grade_eq_iSup_primitive` is stated on this carrier;
+README 0.2 makes it an adapter to DeligneWeightsAndPurity §9.7.
 
-Layer 1 (README §§1.1–1.4):
-* `AlgebraicStructure`, `LambdaAlgebraic`, `ProjectorsAlgebraic`,
-  `PositiveOnAlgebraicPrimitive`, `PairingNondegenerateOnAlgebraic`;
-* `projectorsAlgebraic_of_inverses`, `lambdaAlgebraic_of_inverses`,
-  `projectorsAlgebraic_of_lambdaAlgebraic`, `inv_mem_of_charpoly`,
-  `exists_inverse_L_pow_of_charpoly`, `lambdaAlgebraic_of_charpoly`,
-  `pairingNondegenerate_of_lambdaAlgebraic_of_positive`.
+Headline theorems stated here:
 
-Layer 2 is specified in `README.md` only.
+* README 0.2, `grade_eq_iSup_primitive`: the primitive decomposition of each `H^i`.
+* README 0.3, `existsUnique_isLefschetzInverse`: the Lefschetz inverse `Λ` exists and is unique.
+* README 0.4, `exists_sl2`: the `𝔰𝔩₂` triple `(L, h, f)` with `h` the weight operator.
+* README 1.2, `projectorsAlgebraic_of_inverses`, `lambdaAlgebraic_of_inverses` and
+  `projectorsAlgebraic_of_lambdaAlgebraic`: algebraic homogeneous inverses of the `L^{n−i}` make
+  every grade projector and `Λ` algebraic, and an algebraic `Λ` gives such inverses.
+* README 1.3, `inv_mem_of_charpoly`, `exists_inverse_L_pow_of_charpoly` and
+  `lambdaAlgebraic_of_charpoly`: the Cayley–Hamilton criterion for an algebraic inverse of
+  `L^{n−i}`, and `Λ ∈ 𝒜` when the grade projectors are algebraic.
+* README 1.4, `pairingNondegenerate_of_lambdaAlgebraic_of_positive`: an algebraic `Λ` and
+  positivity on algebraic primitive classes give nondegeneracy on algebraic classes.
+
+`lambda_pow_L_pow` and `L_pow_lambda_pow` (README 0.3) are not headlines: they are stated because
+1.2 takes `w i = Λ ^ (n − i)` through them.
+
+Not stated here: Layer 2. Its carriers are a Weil cohomology theory and the correspondences acting
+on it (MotivesAndAlgebraicCycles §§0.1–0.2 and 2.2–2.3), and neither a Weil cohomology theory nor
+a correspondence category exists in Mathlib or Tau Ceti at the pins. So neither the Lefschetz
+structure of `H(X)` (README 2.3) nor the comparison of Layer 1's properties with
+MotivesAndAlgebraicCycles §7.3's predicates (README 2.4) can be stated; 2.1 and 2.2 extend the
+same missing carriers.
+
+Conventions (README §Conventions): `H = ⊕_{i ≤ 2n} H^i` graded by `ℕ`, `L` of degree `2` with
+hard Lefschetz; `P^i = H^i ∩ ker L^{n−i+1}` for `i ≤ n` and `0` above; `Λ` in Kleiman's
+normalization; positivity rational-valued, with no order on `K`.
 -/
 
 namespace TauCetiRoadmap.LefschetzStructures
@@ -93,8 +111,8 @@ theorem existsUnique_isLefschetzInverse [CharZero K] [FiniteDimensional K H] :
     ∃! Λ : Module.End K H, S.IsLefschetzInverse Λ := by
   sorry
 
-/-- **Layer 0.3.** `Λ^{n−i}` is a left inverse of `L^{n−i}` on `H^i` (not `Λ` itself: on
-`ℚ[ξ]/(ξ³)` with `n = 2`, `Λ L² 1 = ξ` while `Λ² L² 1 = 1`). -/
+/-- **Layer 0.3.** `Λ^{n−i}` is a left inverse of `L^{n−i}` on `H^i`; with
+`L_pow_lambda_pow` it gives the inverses `w i = Λ ^ (n − i)` of Layer 1.2. -/
 theorem lambda_pow_L_pow [CharZero K] [FiniteDimensional K H] {Λ : Module.End K H}
     (hΛ : S.IsLefschetzInverse Λ) {i : ℕ} (hi : i ≤ n) {x : H} (hx : x ∈ S.grade i) :
     (Λ ^ (n - i)) ((S.L ^ (n - i)) x) = x := by

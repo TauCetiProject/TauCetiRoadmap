@@ -15,10 +15,12 @@ on MotivesAndAlgebraicCycles' minimal Weil cohomology theory, the Lefschetz and 
 structures on `H(X)` given by all graded correspondences, and the dictionary between Layer 1's
 properties on `H(X)` and the predicates of MotivesAndAlgebraicCycles §7.3.
 
-Research context, not a target: Grothendieck's standard conjectures assert such properties for
-every smooth projective variety. They first appear in his letter to Serre of 27 August 1965
-(Montpellier fonds, folder 14, p. 44); folder 16 (1966–67) works out the linear algebra of
-Layers 0–1. This roadmap states no conjecture and owns no predicate on varieties.
+**Research motivation.** Grothendieck's standard conjectures (Grothendieck 1969; Kleiman 1968,
+1994) assert such properties for every smooth projective variety. They motivate the subject and are
+not targets: no item states or depends on them, this roadmap owns no predicate on varieties, and
+the predicates are MotivesAndAlgebraicCycles §7.3's. The conjectures first appear in Grothendieck's
+letter to Serre of 27 August 1965 (Montpellier fonds, folder 14, pp. 43–46,
+https://grothendieck.umontpellier.fr/14.pdf).
 
 Suggested homes: `TauCeti/LinearAlgebra/Lefschetz/` (Layers 0–1, mirroring Mathlib's
 `Mathlib/Algebra/Lie/Sl2.lean` and `Mathlib/LinearAlgebra/`) and
@@ -52,7 +54,8 @@ Suggested homes: `TauCeti/LinearAlgebra/Lefschetz/` (Layers 0–1, mirroring Mat
   Mathlib's `IsSl2Triple`): [LieHighestWeight](../RepresentationTheory/LieHighestWeight/README.md),
   Layer 0.
 - *Hard Lefschetz and the Hodge–Riemann relations on compact Kähler manifolds*:
-  [ComplexKahlerGeometry](../ComplexKahlerGeometry/README.md), K6.1. Named only in the last section.
+  [ComplexKahlerGeometry](../ComplexKahlerGeometry/README.md), K6.1. Named only in the Scope
+  paragraph below.
 - *Graded correspondences and their two actions, composition, graph, transpose and tensor; the
   minimal classical Weil cohomology theory and the cohomological action of correspondences;
   adequate and numerical relations, homological equivalence and the inclusion homological ⊆
@@ -74,32 +77,30 @@ Suggested homes: `TauCeti/LinearAlgebra/Lefschetz/` (Layers 0–1, mirroring Mat
   [EtaleCohomologyFoundations](../EtaleCohomologyFoundations/README.md) §F.5 (Exceptional inverse
   image and duality), §F.6 (Smooth purity, Gysin maps and cycle classes) and §F.7 (Projective
   bundles, blow-ups and weak Lefschetz), and DeligneWeightsAndPurity §9.6 (The hard Lefschetz
-  theorem). Named only in the last section.
+  theorem). Named only in the Scope paragraph below.
 - *Hodge structures and polarizations*: [HodgeStructures](../../Completed/HodgeStructures/README.md).
-  Named only in the last section.
+  Named only in the Scope paragraph below.
 - *Motives (pure motives, the motivic Galois group)*: MotivesAndAlgebraicCycles; not used here.
 
 The boundary in one sentence: the decomposition is DeligneWeightsAndPurity's; the operators `Λ`,
 `f`, the projectors and the theorems about algebraic operators on a Lefschetz structure are here;
 varieties enter only in Layer 2, through MotivesAndAlgebraicCycles, whose predicates Layer 2.4
-compares with Layer 1's; a specific cohomology theory is the last section's.
+compares with Layer 1's; a specific cohomology theory is its owners'.
 
-## Supplier contracts
-
-- **Linear algebra (Mathlib).** `DirectSum.IsInternal`, `Submodule`, `Module.End` with its Lie
-  algebra structure, `LinearMap.restrict`, `LinearMap.charpoly` and `LinearMap.aeval_self_charpoly`
-  (Cayley–Hamilton), `LinearMap.BilinForm` with `Nondegenerate`, `Module.finrank`.
-- **`𝔰𝔩₂` (Mathlib, `Mathlib/Algebra/Lie/Sl2.lean`).** `IsSl2Triple h e f` has `⁅e, f⁆ = h`,
-  `⁅h, e⁆ = 2 • e`, `⁅h, f⁆ = −(2 • f)`; its primitive vectors (`IsSl2Triple.HasPrimitiveVectorWith`)
-  are killed by `e`, and `IsSl2Triple.HasPrimitiveVectorWith.lie_e_pow_succ_toEnd_f` computes
-  `⁅e, f^{k+1} m⁆ = (k+1)(μ − k) f^k m`. Here `L` raises degree and primitive classes are killed
-  by `f`, so the contract is applied to `IsSl2Triple.symm`, the triple `(−h, f, L)`: a nonzero
-  `x ∈ P^j` is a primitive vector for it of weight `μ = n − j`, and the lemma gives
-  `f(L^{k+1} x) = (k+1)(n − j − k) L^k x`.
-- **Primitive decomposition and pairings.** DeligneWeightsAndPurity §9.7, as above.
-- **Cycles.** Mathlib's `AlgebraicCycle X R` (`Mathlib/AlgebraicGeometry/AlgebraicCycle/Basic.lean`);
-  Tau Ceti's Cartier divisors (`TauCeti/AlgebraicGeometry/CartierDivisor/`) with their Weil
-  comparison. Chow groups and intersection products: SchemeAndStackFoundations Layer 5.
+**Scope.** Constructing Weil cohomology theories that carry the Lefschetz data of 2.1 is left to the
+roadmaps that own those theories: `ℓ`-adic cohomology, `ℓ ≠ char k`, with cycle classes, Poincaré
+duality and weak Lefschetz from EtaleCohomologyFoundations §§F.5–F.7 and hard Lefschetz from
+DeligneWeightsAndPurity §9.6; Betti cohomology for `k = ℂ` from ComplexKahlerGeometry K6.1, whose
+Hodge–Riemann relations give positivity, with HodgeStructures. The established cases of the standard
+conjectures (curves, surfaces, abelian varieties after Lieberman 1968, and the others surveyed in
+Kleiman 1994) are MotivesAndAlgebraicCycles §7.4's; they reach Layer 1 only through the dictionary
+of 2.4. Two further lines of work are research context only: over `ℂ`, `B(X)` for every variety
+motivated by a curve or a surface in André's sense, among them uniruled threefolds and unirational
+fourfolds (Arapura 2006, Corollaries 2.8 and 4.3), moduli of stable parabolic bundles on a curve,
+Hilbert schemes of points on a surface and moduli of stable sheaves on an abelian or K3 surface
+(Corollaries 7.2, 7.5 and 7.9); and Beilinson's conditional reductions, a motivic t-structure giving
+the Lefschetz and Künneth conjectures (Beilinson 2012, §1.4, Corollary) and, over `ℂ`, the
+equivalence with a weak form of Suslin's Lawson homology conjecture (§2.2, Proposition).
 
 ## Conventions
 
@@ -113,8 +114,8 @@ compares with Layer 1's; a specific cohomology theory is the last section's.
   over primitive sources `P^j` takes `j ≤ n`. Degrees are natural numbers, and every natural
   subtraction in a degree or an exponent is guarded (`i ≤ n`, `2i ≤ n`, `d ≤ a`); a map lowering
   degree by `d` sends `H^a` to `0` for `a < d` (`LowersDegreeBy`).
-- The Lefschetz inverse `Λ` (Kleiman's normalization; the « pseudo-inverse » of Grothendieck's
-  folder 16): the unique `Λ` with `Λ(L^{k+1} x) = L^k x` and `Λ x = 0` for `x ∈ P^j`,
+- The Lefschetz inverse `Λ` (Kleiman's normalization; Grothendieck's « pseudo-inverse »): the
+  unique `Λ` with `Λ(L^{k+1} x) = L^k x` and `Λ x = 0` for `x ∈ P^j`,
   `j + 2k + 2 ≤ 2n − j`. It is not the `𝔰𝔩₂` lowering operator.
 - The `𝔰𝔩₂` triple: `h` acts on `H^i` by `i − n`; `f` is the unique operator with `⁅L, f⁆ = h`,
   `⁅h, f⁆ = −2f`. With `e = L` it is Mathlib's `IsSl2Triple h L f` whenever `h ≠ 0`.
@@ -135,6 +136,77 @@ compares with Layer 1's; a specific cohomology theory is the last section's.
   MotivesAndAlgebraicCycles §0.1), acting by §2.3 there; `A^i(X) :=` the rational image of
   `CH^i(X)` under the cycle class. Taking only `CH^d(X × X)_ℚ`, the degree-zero correspondences,
   would give a ring containing neither `L = Δ_*ξ` (degree `1`) nor `Λ` (degree `−1`).
+
+## Exact supplier contracts
+
+### From Mathlib
+
+At the pinned revision.
+
+- **Linear algebra.** `DirectSum.IsInternal`, `Submodule`, `Subring`, `Subfield`, `Set.BijOn`,
+  `Module.End` with its Lie algebra structure, `LinearMap.restrict`, `LinearMap.charpoly` and
+  `LinearMap.aeval_self_charpoly` (Cayley–Hamilton), `LinearMap.BilinForm` with `Nondegenerate`,
+  `Module.finrank`.
+- **`𝔰𝔩₂` (`Mathlib/Algebra/Lie/Sl2.lean`).** `IsSl2Triple h e f` has `⁅e, f⁆ = h`,
+  `⁅h, e⁆ = 2 • e`, `⁅h, f⁆ = −(2 • f)`; its primitive vectors (`IsSl2Triple.HasPrimitiveVectorWith`)
+  are killed by `e`, and `IsSl2Triple.HasPrimitiveVectorWith.lie_e_pow_succ_toEnd_f` computes
+  `⁅e, f^{k+1} m⁆ = (k+1)(μ − k) f^k m`. Here `L` raises degree and primitive classes are killed
+  by `f`, so the contract is applied to `IsSl2Triple.symm`, the triple `(−h, f, L)`: a nonzero
+  `x ∈ P^j` is a primitive vector for it of weight `μ = n − j`, and the lemma gives
+  `f(L^{k+1} x) = (k+1)(n − j − k) L^k x` (0.4).
+
+### From Tau Ceti
+
+Nothing is called directly. Cycles, Chow groups and intersection products reach Layer 2 only
+through MotivesAndAlgebraicCycles' correspondences, which rest on SchemeAndStackFoundations
+Layer 5 (Scope and ownership).
+
+### From DeligneWeightsAndPurity
+
+§9.7 (Primitive decomposition for a graded operator satisfying hard Lefschetz): `primitivePiece`,
+`lefschetzDecomposition`, `lefschetzPairings` and the `ℕ → ℤ` grading extension identifying
+`P^j = primitivePiece 𝒱 L n (n − j)` for `0 ≤ j ≤ n`. Used by 0.2 and 0.5.
+
+### From EtaleDualityAndPerverseSheaves
+
+§5.7 (Graded Lefschetz objects in an abelian category): `gradedLefschetz_vectorSpace_compat`, the
+comparison of the categorical decomposition with the vector-space one. Used by 0.2.
+
+### From LieHighestWeight
+
+Layer 0: weight strings, standard irreducibles and complete reducibility for Mathlib's
+`IsSl2Triple`. Used by 0.4 for the representation theory of the triple; no statement here
+re-proves it.
+
+### From MotivesAndAlgebraicCycles
+
+Used by Layer 2, by name.
+
+- §0.1 (Graded correspondences and their actions): `Corr k X Y r`, `Corr.comp`, the identity
+  `Δ_X`, and the degree conventions.
+- §0.2 (Graphs, transpose, and tensor product).
+- §0.5 (Adequate and numerical relations): `NumTrivial`.
+- §2.2 (Classical Weil cohomology): `WeilCohomology k F`, cycle maps, traces, Poincaré duality and
+  Künneth.
+- §2.3 (Realizing pure motives and identifying homological quotients): the action
+  `c_*(α) = pr₂,*(cl(c) ∪ pr₁*α)` of correspondences in all degrees, `HomTrivial_H`, and the fact
+  that a correspondence class is zero iff all its degreewise actions are zero.
+- §7.3 (The standard conjectures with rational cycle representatives): `B_H(X)`, `C_ℚ,H(X)`,
+  `D_ℚ,H(X)`, Hodge standard positivity on `PA_H^j`, and the implications between them.
+
+## How to read the build
+
+`README.md` is normative. `Suggested.lean` states the headline theorems of Layers 0 and 1 with
+`sorry`, with the definitions they need; Layer 2 is not stated there, since its carriers (a Weil
+cohomology theory, correspondences acting on it) are MotivesAndAlgebraicCycles' and are not at the
+pins. Each item gives its contract, its Checks, its source and a *Needs:* line, where an item
+number is an earlier item here and a roadmap name with a section is that roadmap's.
+
+Layer 0 starts from 0.1; 0.2 is an adapter to DeligneWeightsAndPurity §9.7, and 0.3, 0.4 and 0.5
+each need 0.2. Layer 1 needs Layer 0: 1.1 defines the algebraic structures, 1.2 needs 0.3, 1.3
+needs 1.2, and 1.4 needs 1.2 and 0.5. Layer 2 needs Layers 0 and 1 and MotivesAndAlgebraicCycles:
+2.1 and 2.2 are independent of each other, 2.3 needs both, and 2.4 needs 2.3 and 1.2. Each layer
+ends with a few Examples and its Dependencies.
 
 ## Layer 0: Lefschetz structures
 
@@ -157,7 +229,8 @@ and is unique. *Needs:* Mathlib (`DirectSum.IsInternal`).
 - Odd degrees: for finite-dimensional `V`, `W`, an alternating form `φ` on `V` and a symmetric
   form `Q` on `W`, let `H = K ⊕ V ⊕ (Kξ ⊕ W) ⊕ V̌ ⊕ Kξ²` in degrees `0, …, 4`, with `L c = cξ` on
   `H⁰`, `L x = φ(·, x)` on `H¹`, `L(cξ + w) = cξ²` on `H²` and `L = 0` in degrees `3, 4`
-  (multiplication by `ξ` in an order-2 « Hodge algebra » of folder 16, pp. 24–28). It is a
+  (multiplication by `ξ` in an order-2 « Hodge algebra », Montpellier fonds, folder 16,
+  pp. 24–28). It is a
   Lefschetz structure of weight `4` iff `φ` is nondegenerate, and then `P² = W`. Unlike
   `K[ξ]/(ξ^{n+1})`, this tests hard Lefschetz in odd degree.
 - On `K[ξ]/(ξ^{n+1})`, `π_{2j}` fixes `ξ^j` and kills the other `ξ^m`. `π_0` satisfies
@@ -225,6 +298,21 @@ DeligneWeightsAndPurity §9.7 (`lefschetzPairings`).
 - `Λ` is not the adjoint of `L`: with `n = 1`, `⟨e₀, e₂⟩ = 1`, `⟨L e₀, e₀⟩ = 1` but
   `⟨e₀, Λ e₀⟩ = 0`.
 
+### Examples
+
+- On `ℚ[ξ]/(ξ³)` with `n = 2`, `Λ L² 1 = ξ` while `Λ² L² 1 = 1`: it is `Λ^{n−i}` that inverts
+  `L^{n−i}` (0.3, Checks).
+- On the same structure, `f ξ = 2` and `f ξ² = 2ξ`, while `Λ ξ = 1` and `Λ ξ² = ξ`, so the `𝔰𝔩₂`
+  lowering operator is not `Λ` (0.4, Checks).
+- With `n = 1` and `H = Ke₀ ⊕ Ke₂`, `L e₀ = e₂`: `P² = 0` and `H² = L P⁰` (0.1 and 0.2, Checks).
+
+### Dependencies
+
+Mathlib: `DirectSum.IsInternal`, `Module.End` with its Lie bracket, `IsSl2Triple` and
+`lie_e_pow_succ_toEnd_f`, `LinearMap.BilinForm`. DeligneWeightsAndPurity §9.7 (0.2, 0.5),
+EtaleDualityAndPerverseSheaves §5.7 (0.2) and LieHighestWeight Layer 0 (0.4). Within the layer,
+0.2 uses 0.1, and 0.3, 0.4 and 0.5 use 0.2.
+
 ## Layer 1: algebraic structures and the conditional theorems
 
 ### 1.1 Algebraic structures and their properties
@@ -262,8 +350,9 @@ there is `w_i ∈ 𝒜`, homogeneous of degree `−2(n − i)` (`LowersDegreeBy 
 in `𝒜` (by descending induction on `i`, using only that `𝒜` is a ring containing `L`, not `F`),
 every projector `p_{j,β}` onto `L^β P^j` lies in `𝒜`, and so does `Λ`, which is the explicit sum
 `Σ_j Σ_{β < n−j} L^β w_j L^{n−j−β−1} p_{j,β+1}`. `projectorsAlgebraic_of_lambdaAlgebraic`: if
-`Λ ∈ 𝒜`, take `w_i = Λ^{n−i}` (0.3). *Needs:* 0.2, 0.3, 1.1. (Source: Grothendieck's folder 16,
-pp. 4–12, no. 6, criterion `(6.3)_i`; Kleiman 1994, Theorem 4.1, pp. 14–15.)
+`Λ ∈ 𝒜`, take `w_i = Λ^{n−i}` (0.3). *Needs:* 0.2, 0.3, 1.1. (Source: Montpellier fonds,
+folder 16, pp. 4–12, no. 6, criterion `(6.3)_i`, https://grothendieck.umontpellier.fr/16.pdf;
+Kleiman 1994, Theorem 4.1, pp. 14–15.)
 
 **Checks.**
 
@@ -272,7 +361,7 @@ pp. 4–12, no. 6, criterion `(6.3)_i`; Kleiman 1994, Theorem 4.1, pp. 14–15.)
   grading idempotents and no module, as in the source, both are hypotheses.
 - On `ℚ[ξ]/(ξ³)` with `n = 2`, `w_0 = Λ²`, `w_1 = Λ` and `w_2 = 1` qualify; `w_0 = Λ` fails
   `w_0 L² = 1` on `H⁰`.
-- On `K[ξ]/(ξ^{n+1})`, `n ≥ 1`, with `𝒜 = F[L]` (1.5), no `w_0` exists in `𝒜`, and indeed
+- On `K[ξ]/(ξ^{n+1})`, `n ≥ 1`, with `𝒜 = F[L]` (Examples below), no `w_0` exists in `𝒜`, and indeed
   `π_0 ∉ 𝒜`.
 
 ### 1.3 The Cayley–Hamilton criterion
@@ -286,8 +375,10 @@ with `g(H^i) ⊆ H^i` the characteristic polynomial of `g|_{H^i}` has coefficien
 `H^i`, `L^{n−i} w = 1` on `H^{2n−i}`). The conclusion is an algebraic inverse of `L^{n−i}`, not
 `Λ ∈ 𝒜`, and `w` need not be homogeneous on the other degrees. `lambdaAlgebraic_of_charpoly`:
 under the extra hypothesis `ProjectorsAlgebraic`, the elements `π_i w π_{2n−i}` satisfy the
-hypotheses of 1.2, so `Λ ∈ 𝒜`. *Needs:* 1.1, 1.2. (Source: Grothendieck's folder 16,
-pp. 47–48.)
+hypotheses of 1.2, so `Λ ∈ 𝒜`. *Needs:* 1.1, 1.2. (Source: Montpellier fonds, folder 16,
+pp. 47–48, https://grothendieck.umontpellier.fr/16.pdf; for Betti cohomology with `ℚ` coefficients,
+the same passage from algebraic isomorphisms `H^{n+i} → H^{n−i}` and algebraic projectors to an
+algebraic inverse of `L^i` is Beilinson 2012, §2.3, proof of (b).)
 
 **Checks.**
 
@@ -316,17 +407,23 @@ algebraic primitive piece. Nondegeneracy and symmetry of the pairing are not use
   `A^1 = ℚξ ⊕ ℚ(u − v)` instead, `−⟨u − v, u − v⟩ = 2 > 0` and the pairing on `A^1` is
   nondegenerate.
 
-### 1.5 Examples
+### Examples
 
-`𝒜 = End_K H` contains `Λ` and every projector. For `K[ξ]/(ξ^{n+1})` with `n ≥ 1` and `𝒜 = F[L]`,
-neither holds: every element of `F[L]` is `a₀ + a₁L + ⋯` and does not lower degree, while `Λ`
-does, and `π_0` is not of this form. This is the phenomenon of folder 16's example in dimension
-`1`: the ring generated by `L` alone does not see the grading. *Needs:* 1.1.
+- `𝒜 = End_K H` contains `Λ` and every grade projector; with `H` in even degrees and
+  `A^i = H^{2i}`, `F = K`, it is an algebraic structure with `LambdaAlgebraic` and
+  `ProjectorsAlgebraic` (1.1, Checks).
+- For `K[ξ]/(ξ^{n+1})` with `n ≥ 1` and `𝒜 = F[L]`, neither holds: every element of `F[L]` is
+  `a₀ + a₁L + ⋯` and does not lower degree, while `Λ` does. For `n = 1`, `π_0 = 1 − LΛ`, and
+  `a + bL = π_0` forces `a = 1`, `b = 0` on `1` and `a = 0` on `ξ`.
+- On `ℚ[ξ]/(ξ²)` with `𝒜 = End_ℚ H`, `A^0 = ℚ`, `A^1 = ℚξ`, the pairing `⟨1, ξ⟩ = ⟨ξ, 1⟩ = −1`
+  keeps `LambdaAlgebraic`, `ProjectorsAlgebraic` and `PairingNondegenerateOnAlgebraic` and breaks
+  only `PositiveOnAlgebraicPrimitive` (1.1, Checks).
 
-**Checks.**
+### Dependencies
 
-- For `n = 1`, `F[L] = {a + bL}` and `π_0 = 1 − LΛ`; `a + bL = π_0` on `1` forces `a = 1`,
-  `b = 0`, and on `ξ` forces `a = 0`.
+Layer 0 (0.1, 0.2, 0.3, 0.5); Mathlib `Subring`, `Subfield`, `LinearMap.restrict`,
+`LinearMap.charpoly` and `LinearMap.aeval_self_charpoly`. No other roadmap beyond Layer 0's.
+Within the layer, 1.2 uses 1.1, 1.3 uses 1.2, and 1.4 uses 1.2 and 0.5.
 
 ## Layer 2: Lefschetz data on a Weil cohomology theory
 
@@ -415,46 +512,23 @@ component, and `f(A) c′`, for `f ∈ ℚ[t]` with `f(A) A = 1` on `H^{d−i}(X
 paper takes `f ∈ ℚ[t]` without argument; 1.3 makes the rationality of the characteristic polynomial
 a hypothesis. Beilinson's §2 works over `ℂ` with Betti cohomology.
 
-## Roadmap for a roadmap: Lefschetz data for actual cohomology theories
+### Examples
 
-**Do not implement this section.** A successor roadmap would construct Weil cohomology
-theories with the Lefschetz data of 2.1, and import the established cases:
+- For `ℙ^d` with `ξ` the hyperplane class, `H(ℙ^d)` is `K[ξ]/(ξ^{d+1})` of 0.1 and
+  `A^i(ℙ^d) = ℚξ^i` (2.3, Checks).
+- For a curve, `Λ = (deg ξ)⁻¹ [X × X]_*`, a correspondence of degree `−1` (2.4, Checks): the
+  inverse of `L : H⁰ → H²` has coefficient `1/deg ξ` (MotivesAndAlgebraicCycles §7.3, Checks).
+- On `ℙ¹ × ℙ¹` with `ξ = a + b`, `a − b` spans `A¹ ∩ P²` and `(−1) deg((a − b)²) = 2 > 0`
+  (2.4, Checks).
 
-- `ℓ`-adic cohomology `H^*(X_k̄, ℚ_ℓ)`, `ℓ ≠ char k`, from EtaleCohomologyFoundations (cycle
-  classes, Poincaré duality, Künneth, weak Lefschetz) and DeligneWeightsAndPurity (hard Lefschetz
-  from Deligne's Weil II) (Grothendieck 1969; Kleiman 1968, 1994);
-- Betti cohomology for `k = ℂ`, where positivity holds by the Hodge–Riemann bilinear relations
-  (ComplexKahlerGeometry K6.1, with HodgeStructures), and the Lefschetz inverse is induced by a
-  correspondence for abelian varieties (Lieberman 1968);
-- the other established cases surveyed in Kleiman 1994 (dimension at most `2`, divisors), through
-  the dictionary of 2.4;
-- over `ℂ`, Arapura's cases of `B(X)` for algebraic correspondences, obtained through André's
-  motivated cycles (Arapura 2006). `Y` is motivated by `X` if the André motive `[Y]` lies in the
-  category generated by `[X]` under sums, summands and products (introduction, §1); Theorem 4.1, a
-  repackaging of André, Grothendieck, Jannsen and Kleiman, shows `B(X)` equivalent to homological =
-  numerical equivalence on all powers of `X`, and to `M_hom(X) → M_A(X)` being an equivalence; Lemma
-  4.2 transports `B` for all powers of `X` to all powers of every `Y` motivated by `X`. Hence `B`
-  for every variety motivated by a curve or a surface (Corollary 4.3), in particular uniruled
-  threefolds and unirational fourfolds (Corollary 2.8), abelian varieties (Lieberman's case, after
-  Corollary 4.3); moduli spaces of stable vector bundles of coprime rank and degree, and of stable
-  parabolic bundles under the numerical conditions making them smooth projective fine moduli spaces,
-  on a curve (Theorem 7.1, Corollary 7.2, the first part due to Biswas and Narasimhan); Hilbert
-  schemes of points on a surface (Theorem 7.4, Corollary 7.5); projective moduli spaces of stable
-  sheaves on an abelian or K3 surface (Theorem 7.8, Corollary 7.9);
-- conditional reductions, research context only (Beilinson 2012): over any field `k`, the existence
-  of a motivic t-structure on Voevodsky's `DM_k` with `ℚ` coefficients (non-degenerate, `⊗` and the
-  realization t-exact, §1.2) gives the Lefschetz and Künneth standard conjectures (§1.4, Corollary):
-  hard Lefschetz holds in the heart (§1.4, Proposition (i)), `M(X)` splits as the sum of its
-  cohomology objects (Proposition (ii)), and the morphism `M(X) → M(X)(−i)[−2i]` whose only nonzero
-  component inverts `∩L^i` is a correspondence, the motivic form of 0.3's `Λ^i`. In characteristic
-  `0`, the semisimplicity of the heart's `µH^a M(X)` (§1.5, Proposition) is the argument of 1.4:
-  orthogonal complements in the primitive part for the pairing `(·, ∩L^{−a−d} ·)`, nondegenerate on
-  subobjects by the Hodge index theorem. Over `ℂ`, the standard conjectures (iv) are equivalent to a
-  weak form (i) of Suslin's Lawson homology conjecture, and to the existence of finite
-  correspondences to smooth projective varieties of dimension `d − 1` (ii), resp. `j` (iii),
-  surjective on `H^i`, `i < d`, resp. on `H^j` (§2.2, Proposition); (iii) ⇒ (iv) runs through `l(X)`
-  and step (b) of §2.3 (the research context of 2.4), and the Lemma of §2.3 uses the definite signs
-  of the polarization on the primitive pieces.
+### Dependencies
+
+Layers 0 and 1; MotivesAndAlgebraicCycles §§0.1–0.2, 0.5, 2.2, 2.3 and 7.3. Within the layer, 2.3
+uses 2.1 and 2.2, and 2.4 uses 2.3.
+
+## Downstream consumers
+
+None known.
 
 ## References
 
@@ -474,19 +548,3 @@ All checked on zbMATH.
   Zbl 1109.14012. arXiv:math/0501348 (v3 read; numbering as there).
 - A. Beilinson, « Remarks on Grothendieck's standard conjectures », in *Regulators*, Contemp.
   Math. 571, AMS, 2012, 25–32. Zbl 1268.14007. arXiv:1006.1116 (v2 read; numbering as there).
-
-## Provenance
-
-The letter to Serre of 27 August 1965 (Montpellier fonds, folder 14, pp. 43–46; printed in the
-*Correspondance Grothendieck–Serre*, SMF 2001) states conjectures A and B; folder 16 (1966–67)
-studies Lefschetz operators in graded rings, the pseudo-inverse `Λ` and « Hodge algebras ». The
-Lean appendix of the transcription project (github.com/Commutator-IO/grothendieck-project,
-`lean/Grothendieck/Folder16.lean`) proves the `𝔰𝔩₂` normalization on primitive vectors
-(`sl2_normalisation`); the source statements of 1.2 in a ring with grading idempotents
-(`projecteurs_mem_lefschetz`, `projecteurs_primitifs_mem`, and `critere_lefschetz` for the
-pseudo-inverse `pseudoInverse`); the Cayley–Hamilton statements of 1.3 (`inverse_mem_of_charpoly`,
-and `inverse_Lefschetz_algebrique`, whose conclusion is an algebraic inverse of the map induced by
-`L^{n−i}`); and, for the « algèbres de Hodge d'ordre 2 » (pp. 24–28), the two criteria of the
-odd-degree Checks of 0.1 and 0.5 (`DonneesHodge.lefschetz_iff`: `ξ : H¹ → H³` bijective iff `φ`
-nondegenerate, `ξ² : H⁰ → H⁴` always; `DonneesHodge.poincare_iff`: the pairings perfect iff `Q`
-nondegenerate). These files are cited sources, not specifications.
