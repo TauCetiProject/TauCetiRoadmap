@@ -1,7 +1,7 @@
 import Mathlib
 
 /-!
-# Logarithmic prismatic cohomology: headline targets
+# Logarithmic prismatic cohomology: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive specification is
 `README.md`; references of the form §8.n are to its subsections.
