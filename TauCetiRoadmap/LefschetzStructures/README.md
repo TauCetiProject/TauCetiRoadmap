@@ -94,13 +94,11 @@ DeligneWeightsAndPurity §9.6; Betti cohomology for `k = ℂ` from ComplexKahler
 Hodge–Riemann relations give positivity, with HodgeStructures. The established cases of the standard
 conjectures (curves, surfaces, abelian varieties after Lieberman 1968, and the others surveyed in
 Kleiman 1994) are MotivesAndAlgebraicCycles §7.4's; they reach Layer 1 only through the dictionary
-of 2.4. Two further lines of work are research context only: over `ℂ`, `B(X)` for every variety
+of 2.4. One further line of work is research context only: over `ℂ`, `B(X)` for every variety
 motivated by a curve or a surface in André's sense, among them uniruled threefolds and unirational
 fourfolds (Arapura 2006, Corollaries 2.8 and 4.3), moduli of stable parabolic bundles on a curve,
 Hilbert schemes of points on a surface and moduli of stable sheaves on an abelian or K3 surface
-(Corollaries 7.2, 7.5 and 7.9); and Beilinson's conditional reductions, a motivic t-structure giving
-the Lefschetz and Künneth conjectures (Beilinson 2012, §1.4, Corollary) and, over `ℂ`, the
-equivalence with a weak form of Suslin's Lawson homology conjecture (§2.2, Proposition).
+(Corollaries 7.2, 7.5 and 7.9).
 
 ## Conventions
 
