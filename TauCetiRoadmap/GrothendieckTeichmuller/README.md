@@ -54,7 +54,25 @@ configuration space of `n` points on `ℙ¹ ∖ {0, 1, ∞}` over `ℚ̄`) are l
 [BelyiMaps](../BelyiMaps/README.md) Layer 12 (`BelyiArithmeticActions`) and to
 InverseGaloisAndArithmeticFundamentalGroups §IG.1.2 (tangential base points) and §IG.5.1
 (configuration spaces). The pro-unipotent and graded groups `GT(k)`,
-`GRT(k)` and the Lie algebra `𝔤𝔯𝔱` are not in this roadmap.
+`GRT(k)` and the Lie algebra `𝔤𝔯𝔱` are not in this roadmap. Neither is their motivic counterpart:
+Brown 2012 proves that the motivic Galois group of the mixed Tate motives over `ℤ` acts faithfully
+on the motivic fundamental groupoid of `ℙ¹ ∖ {0, 1, ∞}` (Brown 2012, §1, Conjecture 1, deduced
+from Theorem 1.1 at the end of §7.2; stated as Theorem 1.2 in Brown 2014), and hence the
+Deligne–Ihara conjecture on the outer action of `Gal(ℚ̄/ℚ)` on the pro-`ℓ` fundamental group of
+`ℙ¹ ∖ {0, 1, ∞}` (Brown 2012, §1, after Conjecture 1). These are statements about pro-unipotent and
+pro-`ℓ` completions: they compare neither with `GT̂` nor with `𝔤𝔯𝔱`, and the image of
+`Gal(ℚ̄/ℚ)` in the automorphisms of the profinite fundamental group remains open (Brown 2014, §1).
+The tower of profinite mapping class groups in positive genus is not in this roadmap either.
+Hatcher, Lochak and Schneps 2000 define `GT̂¹`, the elements of `GT̂` with `λ = 1`, by relations in
+`Γ̂₁¹`, `Γ̂₀⁴` and `Γ̂₀⁵` (§1, Definition and Remark 1), cut out `Λ ⊆ GT̂¹` by one further
+relation (R) in `Γ̂₁²` (§1; Theorem A, proved as §3, Lemma 7), and prove that `Λ` acts on every
+`Γ̂_{g,n}^m` by outer automorphisms preserving the conjugacy classes of Dehn twists (Theorem B,
+i.e. §3, Theorem 4), giving an injection of `Λ` into the special outer automorphism group of the
+profinite Teichmüller tower with its subsurface-inclusion homomorphisms (Theorem C, i.e. §3,
+Theorem 5). The proof rests on the simple connectivity of the maximal multicurve complex (Theorem D,
+i.e. §2, Theorem 2) and on the Gervais–Luo presentation of `Γ_{g,n}^m` (§1, Theorem 1). It is a
+step towards Grothendieck's principle that the whole tower is recovered from its levels of modular
+dimension `3g − 3 + n ≤ 2` (Grothendieck 1984, §2).
 
 The boundary in one sentence: if a statement is about pro-words, about `P̂₄` or `K̂(0,5)`, or about
 pairs `(λ, f)`, it is here; if it mentions a Galois group, a curve or a configuration space, it is
@@ -659,6 +677,14 @@ configuration spaces of InverseGaloisAndArithmeticFundamentalGroups §IG.5.1.
   Mat.* 43 (1979), 267–276. Zbl 0409.12012.
 - D. Harbater, L. Schneps, « Fundamental groups of moduli and the Grothendieck–Teichmüller
   group », *Trans. Amer. Math. Soc.* 352 (2000), no. 7, 3117–3148. Zbl 0956.14013.
+- A. Grothendieck, « Esquisse d'un programme » (1984), in L. Schneps, P. Lochak (eds.),
+  *Geometric Galois Actions* 1, LMS Lecture Note Ser. 242 (1997), 5–48; English translation
+  ibid., 243–283.
+- A. Hatcher, P. Lochak, L. Schneps, « On the Teichmüller tower of mapping class groups »,
+  *J. reine angew. Math.* 521 (2000), 1–24.
+- F. Brown, « Mixed Tate motives over ℤ », *Ann. of Math.* (2) 175 (2012), no. 2, 949–976.
+  doi:10.4007/annals.2012.175.2.10; arXiv:1102.1312.
+- F. Brown, « Motivic periods and ℙ¹ ∖ {0, 1, ∞} », Proceedings of the ICM 2014; arXiv:1407.5165.
 - Y. Hoshi, A. Minamide, S. Mochizuki, « Group-theoreticity of numerical invariants and
   distinguished subgroups of configuration space groups », *Kodai Math. J.* 45 (2022), no. 3,
   295–348. Zbl 1511.14050.
