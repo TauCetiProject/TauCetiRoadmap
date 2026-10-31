@@ -1958,6 +1958,137 @@ SurfaceTopology's compact-surface classification; Layers 4.4,4.7,4.8 and 4.10
 for the seven-crossing polynomial, minimum and rational-reference comparisons.
 Those latter computations consume the decoding and do not supply its planarity.
 
+<a id="finite-reidemeister-graphs"></a>
+
+### 4.2.6 Finite Reidemeister graphs and crossing barriers
+
+Build the finite library needed by *Knot Theory*, physical p207, and problem17 on
+physical problem-sheet p3. Use4.2's native oriented PD diagrams and their finite
+plane-realization data, including the outer face, disconnected-component placement and
+crossing-free-circle nesting. A crossing bound alone does not make raw PD codes finite:
+also fix the link component count μ, which bounds the separate crossing-free-circle
+record. Include every μ≥0, the empty diagram and all zero-crossing nestings. Keep fixed
+component labels and orientations; also supply the maps forgetting labels or
+orientations.
+
+**Plane and sphere carriers.** For each B,μ give a finite canonical list of diagrams
+with at most B crossings and μ components, modulo relabelling and orientation-preserving
+isotopy of the projection plane. Canonicalize the finite crossing slots, perfect
+matchings, over-pairs, component directions and region-containment records, and prove
+soundness, completeness and uniqueness of the resulting representatives using4.2's
+plane-realization comparison. Use finite Boolean/finite-permutation data, without
+coordinates as enumeration parameters. Distinguish the point at infinity: a plane
+isotopy fixes it, and every local move has a compact supporting disc. Separately
+construct the spherical list modulo orientation-preserving S² isotopy, where no face is
+distinguished. Construct the map forgetting the marked point at infinity, while
+retaining the underlying spherical region/component incidence and gluing data.
+Disconnected spherical placements are not all equivalent: unroot the placement record
+rather than erase it. Prove the comparison for the same realized spherical diagram.
+Neither carrier identifies a diagram with its mirror for free.
+
+**Complete supported moves.** Enumerate every type I, II and III move and its inverse
+between these finite representatives. Supply a finite local certificate for its disc,
+boundary ports, cyclic order, outside matching and over/under heights, together with the
+actual relative plane/sphere realization and ambient link isotopy. Prove the converse:
+every geometrically supported move gives one of these certificates after finite local
+chart changes and canonicalization. Preserve component labels/directions, all
+crossing-free components and their region records. Prove that the crossing changes are
+respectively ±1, ±2 and0; no crossing switch is an edge of this graph.
+
+Reuse the native curl, clasp and `PDCode.HasReidemeisterThreeTriangle` operations. The
+last predicate checks its three internal arcs and acyclic strand-height order; a
+triangular shadow with cyclic over/under heights is not a type III move. Include every
+rotated chart and inverse, rather than just one braid-shaped triangle. Supply the empty
+supporting disc/face condition in the actual plane carrier. A triangle or bigon
+enclosing other components is not authenticated by its boundary word alone. In the
+plane, a putative support passing through infinity is excluded.
+
+For a type II insertion on arcs of one crossing-graph component, use the actual native
+`face` and `isPlanar_insertClasp_iff` comparison where it applies. Native faces of
+different crossing-graph components do not encode the common complementary region in the
+whole plane. Build that disconnected-arc branch from the region-containment data, with
+an empty compact support corridor, its finite certificate and its updated nesting. Treat
+an existing crossing-free circle the same way: an algebraic operation that adjoins a NEW
+circle beside an arc does not prove locality for an already placed circle. Include the
+two-circle clasp case and removal producing crossing-free circles. Prove the
+corresponding spherical rules separately. The local list must be complete for all these
+cases, not just connected knot projections.
+
+**Bounded graph and certificates.** Form the finite undirected Reidemeister graph
+G_(B,μ) in each carrier, with distinct vertices adjacent exactly when one certified
+supported move relates them. Reversible moves give symmetry; moves whose canonical
+endpoints coincide may be discarded as loops. Use Mathlib's `SimpleGraph`, walks and
+reachability, with edge witnesses retained for replay. Provide decidable adjacency,
+terminating finite-component search, parent/walk witnesses and their
+soundness/completeness. A shortest path can be taken simple and has at most |vertices|−1
+edges. An accepted path certificate expands to a full realized move movie.
+
+Give a checked nonreachability certificate: a finite set S containing the starting
+vertex, closed under EVERY neighbor in G_(B,μ), and disjoint from the target set. Prove
+that it excludes every bounded movie, independently of how S was produced. Complete
+search returns such a closed component when no target is reachable. Searching selected
+moves or failing to find a path supplies no such certificate. Prove functoriality under
+raising B, native code relabelling and the permitted orientation/label transports.
+Forgetting infinity maps plane movies to spherical movies at the same cap; spherical
+moves need not lift at the same cap to a fixed outer-face plane movie.
+
+**Peak crossing number.** For a finite movie define its peak as the maximum crossing
+count, including both endpoints. The target is the set of ALL zero-crossing diagrams
+with μ components and their allowed orientations, labels and plane nestings, not one
+arbitrarily chosen unnested picture. Define the least achievable peak in WithTop ℕ; it
+is ⊤ precisely when no such movie exists. For a diagram known to represent the
+μ-component unlink,4.2's Reidemeister theorem supplies a movie, so the least peak is
+finite and attained. Its extra-crossing count is peak minus the starting count. This is
+a property of a diagram in the chosen move convention, rather than unknotting number or
+minimum crossing number of its link type.
+
+Prove the exact cap equivalence: a movie to the zero-crossing target with peak≤B exists
+iff the initial count is≤B and its canonical vertex reaches the target in G_(B,μ).
+Consequently a closed-set certificate at cap B proves every simplifying movie has
+peak>B. The spherical least peak is at most the planar least peak. Prove invariance
+under the carrier equivalences, simultaneous reflection and reversal with the
+corresponding transported target sets. These graph and obstruction constructions require
+no decision procedure for the unbounded unlink problem. A negative answer at one cap
+does not prove a link nontrivial.
+
+**The local obstruction and problem17.** If a positive-crossing diagram admits no
+decreasing type I/II move and no type III move, prove that every movie to zero crossings
+has a first non-isotopy move increasing the count; its peak therefore exceeds its
+starting count. More generally exhaust the complete same-count reachable component and
+all its decreasing exits. If it has no decreasing exit, no movie with peak at most the
+starting count can ever make its first decrease. In general distinguish failure of a
+nonincreasing search from a cap obstruction: a movie bounded by the starting count may
+go down, then up again. Use the full bounded graph for prescribed-cap claims that are
+not already implied by the stronger local obstruction.
+
+Recover the actual signed planar code, rotation/outer-face data and marking of the
+pictured problem17 diagram, and compare it by explicit supported moves with the sketches
+on main pp206–207. Expand the arrow to a circle into a finite unknot movie. Verify the
+literal “beyond7” assertion against the actual initial count and complete move supports:
+if the recovered count is7 and the stated local obstruction holds, supply its exhaustive
+certificate and deduce peak>7. Give the cap7 closed-set certificate directly when
+same-count moves exist. Compute the corresponding spherical comparison without
+transferring a planar barrier to the sphere. If the source count, locality argument or
+asserted barrier fails for the recovered input/convention, give the explicit corrected
+count or bounded movie witnessing the failure, preserving the source assertion
+separately. A different named hard unknot cannot replace this pictured input.
+
+*Needs:* 4.2's finite plane/sphere realization and local ambient-move comparisons;
+PlanarTopology's separation/Schoenflies and3.3's relative isotopy extension; native PD
+faces, crossings, orientations and Reidemeister operations; Mathlib finite types, finite
+sets, permutations and `SimpleGraph`. The local enumeration, finite graph and
+obstruction theorem are independent of4.2's global Reidemeister theorem; the latter is
+used only for the attainment/unlink comparison. Later unknot-recognition and knot-table
+algorithms may consume this library and supply no prerequisite back to it. For the
+plane/sphere distinction and the least-peak convention compare [Burton et al., *Hard
+Diagrams of the Unknot*, §§1.1–1.2](https://arxiv.org/abs/2104.14076). The [source
+note](source-inputs.md#hard-unknot-source) records the literal exercise and missing
+signed input.
+
+[Native normalized-triangle and finite-set interfaces](HardUnknotMoveTargets.lean)
+record representative targets. The geometric support, complete chart enumeration,
+plane/sphere realization and source-input comparisons above remain required.
+
 ### 4.3 Seifert surfaces, genus and the Seifert form
 
 For disjoint oriented knots J,K in S³ define lk(J,K) by algebraic

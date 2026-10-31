@@ -219,3 +219,29 @@ actual presentation and crossing correspondence required above. The literal
 source entries and their uncertainty remain distinct from the conditional
 row-sum deduction. [MarkedAlexanderMinorTargets.lean](MarkedAlexanderMinorTargets.lean)
 states this matrix calculation on native matrix and coefficient carriers.
+
+<a id="hard-unknot-source"></a>
+## Problem17: crossing increase and the projection carrier
+
+Problem17 on physical p3 of *Knot Theory – problems.pdf*, source
+`06c19def0f01d6e74a1ee99bd448bd3731e101377deddb5aa573943898afb3b1`, asks for an unknot
+movie and says every reduction must exceed7 crossings. Main *Knot Theory.pdf*, source
+`ea4ad43f0788c1949274f3869045793f193a562f1c6f35cb05307c302e7185fa`, physical pp206–207,
+shows sketches and argues that no decreasing typeI/II or typeIII move is initially
+available. Its generic move panels do not enumerate supports of the pictured diagram.
+
+A verified-Luna reading finds seven apparent intersection sites in the problem drawing
+but cannot certify a full signed crossing code, all over/under assignments,
+rotation/outer-face data or crossing correspondence with the main-note sketches. Recover
+those finite inputs and replay the unknot movie before using the geometric or
+crossing-count conclusions. Preserve the literal7 claim as a verification target; do not
+substitute another hard-unknot diagram or read a complete move graph from the generic
+panels.
+
+The exercise does not explicitly distinguish compact-plane moves from moves on S²
+through infinity. Their peak barriers may differ. The finite graph contract keeps both
+carriers, retains spherical region placement when forgetting the marked infinity point,
+and requires the actual source-convention comparison. A planar obstruction alone proves
+no spherical obstruction. Local absence of decreasing/typeIII moves forces the first
+genuine move to increase; a general absence of nonincreasing paths is weaker than a
+bounded-peak certificate.
