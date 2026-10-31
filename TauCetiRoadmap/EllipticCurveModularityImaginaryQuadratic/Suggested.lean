@@ -1,5 +1,6 @@
 import Mathlib
 import TauCeti.AlgebraicGeometry.EllipticCurve.Affine.Point.Galois
+import TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny.Hom.Add
 import TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny.MulByInt.Torsion.Structure
 import TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny.MulByInt.WeilPairing.Basic
 
@@ -11,9 +12,10 @@ import TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny.MulByInt.WeilPairing.Basi
 discharging them finishes neither a layer nor the roadmap.
 
 The stated headline results are CM discriminant descent and discriminant coupling
-(§0.2). The coupling uses actual finite torsion, its Galois action and the Weil
-pairing. Serre's large residual image theorem used in §5.1 is consumed from
-AdelicImagesAndModularCurves §4.3 and is not a headline of this roadmap.
+(§0.2), and Serre's large residual image theorem for non-CM elliptic curves over
+arbitrary number fields (§5.1). The coupling uses actual finite torsion, its
+Galois action and the Weil pairing. Geometric non-CM means that every endomorphism
+over the algebraic closure is an integer multiple of the identity.
 
 The other headline signatures are deferred because their objects are absent at
 the pins. Layers 1–3 need the normalized relative cyclic covers, their marked
@@ -78,6 +80,21 @@ theorem discriminant_coupling [NumberField K] (A E : WeierstrassCurve K) [A.IsEl
       (∃ u : Kˣ, C.Δ / A.Δ = (u : K) ^ 6) ∧
       Nonempty (SymplecticTorsionEquiv C A 2 (by norm_num)) ∧
       Nonempty (SymplecticTorsionEquiv C E 3 (by norm_num)) := by
+  sorry
+
+/-- Serre's large residual image theorem over any number field. In every torsion
+basis the image contains `SL₂(𝔽_p)` for all sufficiently large primes; the bound
+may depend on the curve and the field (README §5.1; Serre §4.2, Théorème 2, p.294). -/
+theorem nonCM_elliptic_large_residual_primes [NumberField K] (E : WeierstrassCurve K) [E.IsElliptic]
+    (h_nonCM : ∀ φ : TauCeti.Isogeny.Hom (E⁄Kbar).toAffine (E⁄Kbar).toAffine,
+      ∃ n : ℤ, φ = n • TauCeti.Isogeny.Hom.id (E⁄Kbar).toAffine) :
+    ∃ N : ℕ, ∀ p : ℕ, p.Prime → N < p →
+      ∀ b : Module.Basis (Fin 2) (ZMod p)
+        (AddSubgroup.torsionBy (E⁄Kbar).toAffine.Point (p : ℤ)),
+      ∀ g : Matrix.SpecialLinearGroup (Fin 2) (ZMod p),
+      ∃ σ : Kbar ≃ₐ[K] Kbar, ∀ P,
+        b.equivFun (Multiplicative.toAdd (E.torsionGaloisAction (p : ℤ) σ) P) =
+          Matrix.mulVec (g : Matrix (Fin 2) (Fin 2) (ZMod p)) (b.equivFun P) := by
   sorry
 
 end TauCetiRoadmap.EllipticCurveModularityImaginaryQuadratic
