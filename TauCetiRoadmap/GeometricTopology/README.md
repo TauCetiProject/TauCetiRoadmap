@@ -1200,8 +1200,14 @@ Layer 3.3 (isotopy extension for the independence of the band).
 
 ### 4.2 Diagrams, Reidemeister's theorem, Alexander's and Markov's theorems
 
-A diagram is a planar PD code: a `TauCeti.PDCode n` satisfying `TauCeti.PDCode.IsPlanar` together
-with a choice of outer face. Define the realization of a diagram as a link in `ℝ³` whose
+A diagram consists of a `TauCeti.PDCode n` satisfying `TauCeti.PDCode.IsPlanar`
+and plane realization data for its rotation system. For a connected nonempty
+crossing graph this is an outer-face choice. For disconnected crossing graphs
+and crossing-free circles, include the compatible region-containment/nesting
+data locating every component in the same plane. Prove the finite data and
+actual plane embeddings agree up to the stated equivalences. Native faces
+only describe the crossing graph; a crossing-free circle has its separate
+outer-region record. Define the realization of a diagram as a link in `ℝ³` whose
 projection to the plane is the given four-valent plane graph with the recorded crossings,
 and prove that every smooth link in `ℝ³` has a regular projection after a small rotation, so
 that every link type is realized by a diagram (Lickorish, Chapter 1). Prove Reidemeister's
@@ -1639,6 +1645,156 @@ disc bounded by the polygon.
 contracts. The compatible cube triangulation, hat-function
 bounds, finite discriminants, regular margins and elementary-move
 certificates are explicitly built in this unit.
+
+<a id="signed-dowker-completions"></a>
+### 4.2.5 Signed Dowker words, planar parity and source completions
+
+Build the signed-word presentation in Knot Theory physical pp.157–159 from
+Layer 4.2's native Gauss/PD realizations. Supply the full extraction, decoder,
+plane/sphere and marking comparisons below, independent of finite knot census
+outputs. This includes the complete seven-crossing identification exercise.
+
+**Planar encounter parity and the signed-word decoder.** For a realized regular
+one-component plane diagram with n crossings, number the visits 1,…,2n from
+a chosen base point. Prove the two visits to every crossing have opposite
+parity. On native `BasedOrientedGaussCode n`, state this as
+`D.toOrientedPDCode.toPDCode.IsPlanar →
+ ∀ i, (D.partner.val i).val % 2 ≠ i.val % 2` in zero-based visits.
+The n=0 case is vacuous; the crossing-free code still realizes one circle.
+Its outer region is extra realization data: native `PDCode.Face` only counts
+faces of the crossing graph and is empty in this case.
+
+Own the planar proof suggested by p.159's loop fragment. Smooth the selected
+crossing in a small disc so the two intervening traversal arcs become two
+closed immersed plane curves, with no new intersections. Prove that the
+number of transverse intersections between ANY two generic closed plane
+curves is even, allowing self-intersections, by decomposing their mod 2
+cycles into Jordan curves and using plane separation (or the corresponding
+proved mod 2 intersection pairing on the sphere). If the selected encounters
+are a<b, the b−a−1 intervening visits consist of twice the crossings internal
+to one arc plus the crossings between the two arcs. Thus b−a−1 is even.
+Supply the perturbation, smoothing and visit/intersection bijections; neither
+intervening loop is assumed simple. Consume the planar realization of native
+rotation systems and compact-surface classification, not an asserted Gauss
+realizability criterion.
+
+For a signed word d of length n require its absolute entries to be a
+permutation of 2,4,…,2n. Pair odd visit `o_i=2i−1` with `e_i=|d_i|`.
+A positive entry makes the even visit over and a negative entry makes it
+under, exactly the convention on p.158. These signs are NOT the oriented
+crossing signs. Build the native perfect matching, visits and over bits,
+then enumerate all oriented-sign/rotation assignments in `Fin n→ℤˣ` and
+retain exactly the native planar completions. Prove decoder soundness and
+completeness against extraction from an actual based oriented plane diagram,
+including its chosen outer face. Disconnected link shadows and crossing-free
+link components require the separate multi-component encoding; this one
+cyclic word is a knot traversal.
+
+Give extraction/decoding laws, crossing and half-edge relabelling, change of
+base point, traversal reversal and mirror operations by transporting the
+native visits and then recomputing the odd/even labelling. The Gauss mirror
+preserves its over bits and negates its oriented signs; prove the convention
+adapter to PD reflection instead of identifying the two mirror operations
+by name alone. Distinguish reflection, reversal and crossing relabelling.
+Construct actual plane equivalences from the marked rotation/face data and
+sphere equivalences after forgetting the outer face. Use connected
+permutation-triple rigidity to propagate one half-edge image and certify all
+possible equivalences; the word alone specifies no unbounded region.
+
+Parity is necessary, not sufficient. Give the word `(4,10,8,2,6)`: its
+partner matching has opposite parity at every visit, but all 32 oriented-sign
+assignments have face counts 3 or5, never the required 7. Prove its converted
+shadow connected and all these checks exhaustive, hence no planar completion.
+Nor is uniqueness up to one global mirror asserted for arbitrary valid words;
+composite words can have independent factor choices. The exact two-completion
+claim below is only for its four displayed inputs. Keep any unreadable
+source crossing/face marks as unresolved picture-identification data, even
+when the separately specified word has been completely decoded.
+
+<a id="gt4-dowker-source-completions"></a>
+**The four source Dowker words and the seven-crossing exercise.** Pin the
+one-based source convention: crossing i pairs visits `o_i=2i−1` and
+`e_i=|d_i|`; if `d_i>0` the even visit is over, and if `d_i<0` the odd
+visit is over. The other visit is under. These integer signs do not encode
+the oriented crossing signs. For each of the following literal words,
+construct the partner matching, over/under bits and every planar crossing-
+rotation completion on native `BasedOrientedGaussCode` and `OrientedPDCode`.
+
+| Physical page | Signed even-partner word d | One planar oriented-sign vector ε |
+| --- | --- | --- |
+| 157 | `(14,12,10,2,18,16,8,6,4)` | `(+,-,+,+,-,+,+,-,+)` |
+| 158, eight-crossing example | `(10,12,8,14,16,4,2,6)` | `(+,+,+,-,+,+,+,-)` |
+| 158, seven-crossing exercise | `(8,10,12,2,14,6,4)` | `(+,+,+,+,+,+,+)` |
+| 159 | `(6,-14,16,-12,2,4,-8,10)` | `(+,+,+,+,+,-,+,+)` |
+
+For each row prove that the planar sign vectors are EXACTLY ε and −ε.
+Use a finite check over all `2^n` assignments with its exhaustive proof,
+not a drawing heuristic. A visit v has incoming/outgoing half-edges
+`(v,false)` and `(v,true)`; the edge involution pairs outgoing v with
+incoming `v+1 mod 2n`. For sign+, the counterclockwise crossing slots are
+`(over,in),(under,in),(over,out),(under,out)`; for sign− interchange the
+two under slots. This is the native Gauss-to-PD convention. Prove the
+converted shadow connected, and its face counts for ε are respectively
+11,10,9,10, hence native `IsPlanar` by Euler characteristic. For −ε
+construct the reflected rotation system and its geometric reflection.
+These are completions of the literal words; compare the individual printed
+figures by their own based traversals and outer-face markings. Unreadable
+figure marks do not select one of the two mirror completions.
+
+Resolve the seven-crossing exercise explicitly as `7₄` up to reflection.
+For the all-positive ε choice, its under-first counterclockwise arc rows,
+with arcs labelled by the visit at which they end and labels modulo 14, are
+
+```text
+(1,9,2,8), (3,11,4,10), (5,13,6,12), (7,3,8,2),
+(9,1,10,14), (11,7,12,6), (13,5,14,4).
+```
+
+The corresponding native over-first slots are obtained by taking entries
+4,1,2,3 of each displayed row. Give the adapter from these repeated arc
+labels to distinct half-edges and their edge matching. Its oriented
+Gauss traversal in crossing labels 1,…,7, with a minus sign denoting an
+UNDER visit, is
+`(-1,4,-2,7,-3,6,-4,1,-5,2,-6,3,-7,5)`; every oriented crossing sign
+is positive. Do not confuse the signed visit list with ε.
+
+Use the following fixed standard `7₄` PD reference, also in under-first
+counterclockwise convention:
+
+```text
+(6,2,7,1), (12,6,13,5), (14,8,1,7), (8,14,9,13),
+(2,12,3,11), (10,4,11,3), (4,10,5,9).
+```
+
+Its data are recorded by [Knot Atlas, `7₄`](https://katlas.org/wiki/7_4).
+The arc relabelling `ℓ↦1+((ℓ−1+5) mod 14)`, followed by reading its
+crossings in order `(6,2,3,5,7,1,4)`, gives exactly the exercise rows.
+Prove this equality, the orientation/over-under compatibility and the
+resulting native PD equivalence. Realization then gives the required
+geometric identity without a late table-classification premise. Compare
+this marked reference to the rational numerator `[3,1,3]`, slope 15/4 in
+the earlier reversed continued-fraction convention, by a finite relative
+diagram movie or explicit code equivalence. Its seven-crossing diagram
+is reduced alternating; the bracket span proves minimality.
+
+As independent computations, obtain Alexander polynomial
+`4t+4t⁻¹−7` and determinant 15 from its actual Fox/Seifert presentation.
+For this all-positive word, let `x_j` colour the arc from under-visit
+`2j−1` to the next under-visit `2j+1`, so it contains over-visit `2j`.
+With cyclic indices, row i is `2x_(e_i/2)−x_(i−1)−x_i=0`. Prove this
+actual Fox-colouring comparison and that its reduced determinant has
+absolute value 15. These computations
+check the identification but do not replace the marked PD equivalence.
+Record each source outer-face marking separately; a sphere diagram
+identification need not fix a chosen unbounded region. No particular pair of
+outer faces is chosen by a Dowker word alone.
+
+*Needs:* Layer 4.2 and4.2.4, native `BasedOrientedGaussCode`,
+`OrientedPDCode`, `PDCode`, perfect matchings, permutation-triple faces and
+`IsPlanar`; Layer 4.2's finite plane realization, PlanarTopology's Jordan/separation;
+SurfaceTopology's compact-surface classification; Layers 4.4,4.7,4.8 and 4.10
+for the seven-crossing polynomial, minimum and rational-reference comparisons.
+Those latter computations consume the decoding and do not supply its planarity.
 
 ### 4.3 Seifert surfaces, genus and the Seifert form
 
