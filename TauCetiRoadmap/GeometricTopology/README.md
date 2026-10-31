@@ -142,9 +142,10 @@ This roadmap leaves the following to other roadmaps.
   GeneralizedCohomology, TopologicalKTheory, MorseTheory, RiemannianGeometry,
   KhovanovHomology, CombinatorialHeegaardFloer, TeichmullerGeometry, TangentialBordism,
   HomotopySpheres or FourManifolds, every one of which consumes this roadmap.
-- **Finite classifications and computation.** The below-eight-crossing classification in
-  7.5 and finite code certificates explicitly specified in Layer4 are targets. Other
-  tabulated volumes and database tables are reference data.
+- **Finite classifications and computation.** The small-knot classification in7.5,
+  the two-component classification through six crossings in7.6 and finite code
+  certificates explicitly specified in Layer4 are targets. Other tabulated volumes
+  and database tables are reference data.
 
 ## Conventions
 
@@ -5540,6 +5541,169 @@ or general braid-index-additivity theorem follows from this finite list.
 HOMFLY/MFW, alternating, rational and connected-sum contracts cited above.
 The late classification owns all reduction/separation certificates and
 named-code identifications here; no hyperbolic numerical table is an input.
+
+<a id="two-component-six-crossings"></a>
+### 7.6 All two-component links through six crossings
+
+For problem21 on physical page5 of *Knot Theory – problems*, classify
+ALL tame two-component links with crossing number≤6. Use4.1's realized
+links, forgetting component order and component orientations, and allow
+one ambient reflection of S³. Reflection acts on the whole link at once;
+it does not independently mirror selected components. Keep the finer
+oriented and ambient-orientation-preserving equivalences from Layer4,
+with explicit forgetful comparisons to this finite coarse classification.
+
+This is a late consumer of4.2's geometric diagrams and moves,4.3–4.6's
+linking and polynomial invariants,4.8's alternating minimality,4.9's
+connected sums and the knot classification in7.5. It supplies no premise
+of those constructions or of the geometric link invariants.
+
+**The complete twenty-class target.** Let U be the unknot, T the
+positive trefoil σ₁³, F the figure-eight, and H the Hopf link. Use7.5's
+actual named knot codes, their mirrors and connected-sum constructions.
+Write K⊔J for a split union in disjoint balls, and H#K for inserting K
+locally into one specified component of H. Construct the latter through
+collared ball/arc gluing and the connected-braid or marked-PD comparison;
+its other component stays an unknot. Prove independence of local choices,
+component exchange and the mirror/invertibility comparisons used below.
+In this coarse quotient H#T has just one branch: an unoriented Hopf link
+is amphicheiral, T is invertible, and one global mirror exchanges T and
+mirror(T). Do not apply that reasoning to split pairs independently.
+
+The split classes are exactly these twelve:
+
+- K⊔U for the ten knots
+  `K=U,T,F,5₁,5₂,6₁,6₂,6₃,T#T,T#mirror(T)`;
+- T⊔T and T⊔mirror(T).
+
+The nonsplit classes are exactly the six prime rows in the following
+table, together with H#T and H#F. In particular the exercise is not
+restricted to prime links or to links with two unknotted components.
+Prove the exact minimum-crossing distribution and the resulting total20:
+
+| Crossing number | Split classes | Nonsplit classes | Total |
+|---:|---|---|---:|
+| 0 | U⊔U | none | 1 |
+| 1 | none | none | 0 |
+| 2 | none | H | 1 |
+| 3 | T⊔U | none | 1 |
+| 4 | F⊔U | Solomon | 2 |
+| 5 | 5₁⊔U,5₂⊔U | Whitehead,H#T | 4 |
+| 6 | 6₁⊔U,6₂⊔U,6₃⊔U,(T#T)⊔U,(T#mirror(T))⊔U,T⊔T,T⊔mirror(T) | L6a1,L6a2,L6a3,H#F | 11 |
+
+**Literal prime inputs.** The rows below fix the actual
+[Knot Atlas PD presentations](https://katlas.org/wiki/Link_table_-_up_to_seven_crossings).
+A tuple lists arc labels counterclockwise; slots0/2 are under and1/3
+over. Replace each arc label's two occurrences by the native
+`PerfectMatching` of the corresponding crossing-slot halfedges, with
+identity `halfEdge`, `overPair=true` and no crossing-free circles.
+Construct this adapter, prove every label occurs twice, and prove the
+resulting native `PDCode` has two components, connected planar shadow
+and c+2 faces. Supply its actual realization and named-link comparison;
+the code, planarity and invariant values alone do not identify a picture.
+For the corresponding Appendix pictures on main-source pp16–17, construct
+the marked crossing/arc correspondences to these inputs; a label or
+coefficient match alone does not prove picture identity. The three
+six-crossing Rolfsen indices run in the reverse order to the Atlas
+a-indices, as recorded explicitly here.
+
+| Atlas row / geometric link | Rolfsen label | PD tuples |
+|---|---|---|
+| [L2a1](https://katlas.org/wiki/L2a1) / Hopf | 2^2_1 | `(4,1,3,2),(2,3,1,4)` |
+| [L4a1](https://katlas.org/wiki/L4a1) / Solomon | 4^2_1 | `(6,1,7,2),(8,3,5,4),(2,5,3,6),(4,7,1,8)` |
+| [L5a1](https://katlas.org/wiki/L5a1) / Whitehead | 5^2_1 | `(6,1,7,2),(10,7,5,8),(4,5,1,6),(2,10,3,9),(8,4,9,3)` |
+| [L6a1](https://katlas.org/wiki/L6a1) | 6^2_3 | `(6,1,7,2),(10,3,11,4),(12,8,5,7),(8,12,9,11),(2,5,3,6),(4,9,1,10)` |
+| [L6a2](https://katlas.org/wiki/L6a2) | 6^2_2 | `(8,1,9,2),(12,5,7,6),(10,3,11,4),(4,11,5,12),(2,7,3,8),(6,9,1,10)` |
+| [L6a3](https://katlas.org/wiki/L6a3) | 6^2_1 | `(8,1,9,2),(2,9,3,10),(10,3,11,4),(12,5,7,6),(6,7,1,8),(4,11,5,12)` |
+
+Prove all six are nonsplit and prime in4.9's geometric sense, not only
+that their displayed planar graphs are prime. Construct two-bridge
+presentations from these codes and prove nontrivial rational two-component
+links are prime, using4.9's decomposition and4.10's rational-tangle theory;
+this rational-link primeness comparison is a target here. For H#T and
+H#F give the actual two-point decomposing sphere, local knot and Hopf
+summands. For every split row supply its separating sphere and the
+comparison with4.9's split union. Identify the component knots of each
+row and prove every prime row's two components are unknotted.
+
+**Separation with the correct orientation laws.** Compute absolute
+linking, the JOINT unordered pair of component Jones polynomials, and
+the whole-link Jones coefficient string. For the component pair permit
+one simultaneous substitution t↦t⁻¹, not a separate substitution in each
+entry. This distinguishes T⊔T from T⊔mirror(T), despite the equality of
+their separately mirror-forgotten component classes. Reversing a knot's
+orientation preserves its Jones polynomial.
+
+For an oriented two-component link with linking number ℓ, prove that
+reversing just one component changes its Jones polynomial by
+`t^(−3ℓ)`, while ℓ changes to−ℓ. This follows from unchanged bracket
+and writhe change−4ℓ; whole-link orientation reversal leaves V unchanged.
+Thus a whole-link polynomial's coefficient string, after removing its
+least power of t^(1/2), is independent of component orientations. All
+its exponents have the same parity in native T=t^(1/2); record the
+coefficients at successive powers of t, including internal zeros.
+Reflection reverses this string. Keep the whole string modulo reversal,
+not only its breadth or determinant.
+
+Compute and prove the following strings from the native state sums:
+
+| Row | Coefficients from least to greatest t-exponent, up to reversal |
+|---|---|
+| L2a1 | `[-1,0,-1]` |
+| L4a1 | `[-1,0,-1,1,-1]` |
+| L5a1 | `[1,-2,1,-2,1,-1]` |
+| L6a1 | `[-1,1,-3,2,-2,2,-1]` |
+| L6a2 | `[-1,1,-2,2,-2,1,-1]` |
+| L6a3 | `[-1,1,-1,1,-1,0,-1]` |
+
+Use4.5's `V(K⊔J)=−(T+T⁻¹)V(K)V(J)` and connected-sum product
+for the remaining rows and their component invariants. Prove that these
+combined finite invariants separate all twenty classes in the declared
+quotient. Whole-link Jones alone does not: `(T#T)⊔U` and T⊔T both give
+`−(T+T⁻¹)V(T)²`; the analogous mixed-mirror pair also collides. The joint
+component data separates those collisions. Nonzero absolute linking
+separates H#T,H#F from the corresponding split rows; the Whitehead
+nonsplitting proof uses its actual invariant/geometric certificate,
+not the false converse to the split-link linking-number implication.
+
+**Minimum and exhaustive reduction certificates.** Construct reduced
+alternating connected diagrams for the eight nonsplit rows and apply4.8
+for their exact crossing minima. For the split rows, deletion of the other
+component gives a diagram of each constituent; sum their self-crossing
+lower bounds from7.5 and match them by the disjoint minimal diagrams.
+These are individual minimum proofs, with no general crossing-number
+additivity theorem assumed for knots or links.
+
+Enumerate all native signed two-component PD diagrams with0≤c≤6,
+including loops, multiple edges, nugatory crossings, disconnected crossing
+shadows and crossing-free components. Do not impose connectedness or set
+`crossinglessComponentCount=0`. For a disconnected planar shadow retain
+outer faces and the finite containment/region choices locating its graph
+components and circles in the common plane; native `IsPlanar` alone does
+not record their relative nesting. Prove planarity and actual-realization
+soundness, and completeness for every regular two-component diagram at
+this bound. Finite pruning and relabelling reductions must preserve that
+completeness.
+
+For every enumerated diagram construct a finite relative Reidemeister
+certificate to one of the twenty realized representatives, allowing
+component reorientation/permutation and one global reflection. Intermediate
+diagrams may have more than six crossings. Prove every accepted move's
+geometric soundness and every enumerated code's reduction; invariant
+agreement is not an equivalence certificate. Combine these reductions,
+the individual minimum proofs and the separation data to give a bijection
+between the actual coarse link classes of crossing number≤6 and the
+twenty representatives. The finite enumeration and certificates are
+required theorem targets, not a claim that a computer search has already
+been run. This closes the requested classification and all pairwise
+comparisons, while retaining the original exercise's instruction to
+identify any pairs not yet distinguished in an attempted table.
+
+*Needs:* native `PDCode`, `OrientedPDCode`, `PerfectMatching`, component
+traversals, faces, `IsPlanar` and Jones state sums; the geometric diagram,
+linking, split/connected-sum, rational, alternating and7.5 contracts named
+above. No hyperbolic-volume table or general crossing-additivity result
+is a prerequisite.
 
 ## Layer 8: decompositions of 3-manifolds and geometrization
 
