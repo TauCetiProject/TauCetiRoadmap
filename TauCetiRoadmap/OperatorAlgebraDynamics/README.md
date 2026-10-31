@@ -1177,6 +1177,28 @@ and deduce simplicity and nuclearity from the groupoid theorems. Identify
 the integer cocycle and its gauge action, without making classification of all groupoid KMS
 states a target.
 
+**Concrete Cuntz families on separable Hilbert space.** For every complete
+infinite-dimensional separable complex Hilbert space H and every integer
+n≥1, construct n closed mutually orthogonal infinite-dimensional subspaces
+H_j and linear isometries S_j:H→H with range H_j. Obtain a Hilbert basis
+b indexed by ℕ using native `HilbertBasis`, the countability of an
+orthonormal family in a separable metric space, and the exclusion of a
+finite basis by infinite dimension. Use the quotient/remainder equivalence
+`Nat.divModEquiv n` to partition the basis and prescribe
+`S_j(b_k)=b_(nk+j)`, j∈Fin n. Extend this rule through `HilbertBasis.repr`
+and the native orthogonal-family/Hilbert-sum construction. Prove
+`S_j*(b_k)=b_(k/n)` when k mod n=j and zero otherwise, then
+`S_i* S_j=δ_ij Id` and `∑_j S_j S_j*=Id` as continuous-linear-map
+identities. Identify H_j with the closed span of its residue-class basis,
+prove S_j S_j* is its orthogonal projection, and construct the resulting
+unitary identification of H with the finite Hilbert sum of the H_j.
+Include n=1 with H₀=H and S₀=Id. For n≥2 use D6's existing universal
+property to construct the unital representation O_n→B(H) carrying its
+specified generators to these S_j; compare the generator equations and
+pullback under a change of Hilbert basis by its actual unitary map. This
+realizes the universal algebra on the given H. The companion
+[HilbertResidueTargets.lean](HilbertResidueTargets.lean) states the basis
+and residue-family targets on native Hilbert bases and continuous adjoints.
 ## D7. Analytic dynamics, KMS states, and modular theory
 
 For a point-norm continuous real action τ build its densely defined closed
