@@ -141,7 +141,7 @@ def laurentCoeffIdeal (I : Ideal (LaurentPolynomial R)) : Ideal R :=
 
 /-- **Laurent coefficient-ideal bound** (Scholze, proof of Lemma 5.3.7, pp.1051–1052): the
 coefficient ideal keeps the nilpotence exponent of `I`. -/
-theorem laurentCoeffIdeal_pow_eq_bot (I : Ideal (LaurentPolynomial R)) {N : ℕ} (hN : 1 ≤ N)
+theorem laurentCoeffIdeal_pow_eq_bot (I : Ideal (LaurentPolynomial R)) {N : ℕ}
     (hI : I ^ N = ⊥) : laurentCoeffIdeal I ^ N = ⊥ := by
   sorry
 
