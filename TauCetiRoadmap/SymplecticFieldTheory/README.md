@@ -30,8 +30,10 @@ This roadmap owns:
   the determinant-line gluing for Reeb ends (Layer 2);
 - augmented local gluing, orientation descent and the labelled/unlabelled count formulas
   (Layer 3);
-- the contact implicit atlases on the tree-indexed moduli problems and the virtual fundamental
-  cycle package stated on those atlases alone (Layer 4);
+- the contact implicit atlases on the tree-indexed moduli problems, the proof that they satisfy
+  the axioms of the generic virtual-class engine, the cell-like stratification by a finite
+  category of tree types with its stratified virtual complex, and the application of the
+  engine's package to these atlases (Layer 4);
 - the coherent chain-level count diagrams, the contact differential, the exact cobordism maps
   and the contact homology functor (Layer 5);
 - augmentations, linearized contact homology, hypertight and ellipsoid examples (Layer 6);
@@ -54,15 +56,20 @@ It leaves to named owners, and imports from them by section:
   finite-dimensional zero-mode extensions. HeegaardFloer §§4.3–4.5 (F2.3–F2.5) supply ordinary
   curve regularity, compactness inputs and conditional gluing only at their stated hypotheses.
   Layers 1–3 construct the nonlinear Reeb-end and building adapters.
-- ImplicitAtlases, later in the build, owns the generic virtual-class engine: topological
-  implicit atlases on an arbitrary compact Hausdorff zero set, deformation spaces and virtual
-  cochain complexes, the virtual orientation sheaf, the global obstruction trace, and the
-  boundary, refinement, pushforward and product laws. Nothing here is stated for a general zero
-  set: Layer 4 defines the implicit-atlas structure (4.1) and states the virtual fundamental
-  cycle package (4.2) for the contact tree types only, in the form Pardon's construction uses
-  them (Pardon Definition 3.2 and §4.1), and Layers 4.3 and 5 consume the package through 4.2.
-  The generic statements of ImplicitAtlases specialise to those of 4.2 on these atlases. Layer 5
-  constructs the contact-specific coherent chain diagrams needed before extracting counts.
+- ImplicitAtlases Layers 0–6 (V0–V6): the generic virtual-class engine on an arbitrary compact
+  Hausdorff space with an implicit atlas, namely K-sheaves, Čech cohomology and finite-group
+  invariants (V0), implicit atlases with and without boundary (V1), deformation spaces and the
+  virtual cochain complex (V2), the virtual orientation sheaf and the Čech comparison (V3), the
+  obstruction complex, the global trace and the virtual class with finite-subatlas
+  independence (V4), the boundary, cobordism, refinement, pushforward and regular-manifold
+  normalization laws (V5), and cell-like stratified atlases over a finite poset with the
+  stratified virtual complex, product atlases and the product class (V6). None of it is
+  restated here. Layer 4 constructs the contact atlases on the tree-indexed moduli problems
+  and proves that they satisfy the axioms of ImplicitAtlases (4.1), owns the one extension the
+  engine does not state, the cell-like stratification by a finite category of tree types
+  rather than a poset, with its stratified virtual complex (4.2), and applies the engine's
+  package to these atlases (4.2–4.3). Layer 5 constructs the contact-specific coherent chain
+  diagrams needed before extracting counts.
 - DGAInfinity Layers 0–1: generic graded modules, signed tensor operations and the DG/A∞
   algebra vocabulary. StablePeriodicCurved Layer 3: parity complexes and their integer/parity
   comparisons. The contact differential has square zero; ℏ is a genus parameter, not a
@@ -137,12 +144,6 @@ q_γ⁻ (Layer 9.3).
   `Module ι (Additive ℤˣ)` structure.
 - `Int.negOnePow` (`Mathlib/Algebra/Ring/NegOnePow.lean`): the sign (−1)^n as a unit of ℤ, used
   for every Koszul sign in integer degree.
-- `CategoryTheory.cechComplexFunctor` (`Mathlib/CategoryTheory/Sites/SheafCohomology/Cech.lean`):
-  the Čech complex of a presheaf on a family of objects. Layer 4.2 takes the Čech cohomology of
-  a compact moduli problem with coefficients in a locally constant sheaf as the colimit over
-  finite open covers of the cohomology of these complexes.
-- `Representation.invariants` (`Mathlib/RepresentationTheory/Invariants.lean`): the invariants of
-  a representation of a group, used for the covering-group invariants of Layer 4.2.
 - Manifolds, vector bundles, flows, `ModuleCat`, quotients, direct sums, cochain complexes and
   homology, in their native forms.
 
@@ -182,6 +183,28 @@ Riemann–Roch on punctured surfaces with weighted ends `D=∂s−A_e` and the f
 zero-mode extensions. §§4.3–4.5 (F2.3–F2.5): ordinary compactness, transversality and gluing,
 consumed only at their stated hypotheses.
 
+### From TauCetiRoadmap.ImplicitAtlases
+
+§0.3 (finite-group invariants over ℚ), §0.7 (Čech cohomology with sheaf coefficients on a
+compact Hausdorff space, as the colimit over finite open covers), §0.8 (pure homotopy K-sheaves
+and the identification of their cohomology with the Čech cohomology of the degree-zero sheaf)
+and §0.9 (extension by zero). §1.1 (implicit atlases: covering groups, obstruction
+representations, thickenings, Kuranishi maps, footprints, footprint maps, regular loci and the
+compatibility and transversality axioms), §1.2 (atlases with boundary and the boundary
+restriction) and §1.4 (finite subatlases). §2.3 (the virtual cochain complex, absolute and
+relative to the boundary, as a complex of K-presheaves), §3.1 (local orientability and the
+virtual orientation sheaf), §3.4 (the Čech comparison), §4.1 (the obstruction complex), §4.2
+(the global relative trace) and §4.3 (the virtual class as a functional on degree-d Čech
+cohomology, finite-subatlas independence and the subatlas comparison maps). §§5.1–5.2 (the
+boundary triangle, the boundary law and cobordism), §5.3 (refinements, shrinkings and disjoint
+unions), §5.4 (pushforward) and §5.6 (regular-manifold normalization). §§6.1–6.2 (cell-like
+stratified atlases over a finite poset, normal lines and restricted atlases), §6.3 (the
+stratified virtual complex and its quasi-isomorphism), §6.4 (product atlases) and §6.5 (the
+Čech external product and the product class). Assumed: every statement about the orientation
+sheaf, the Čech comparison or the class is for a locally orientable atlas on a compact Hausdorff
+base, and the engine takes an atlas as input and constructs no moduli space, Fredholm operator,
+gluing map or compactification; Layers 1–4 construct those.
+
 ### From TauCetiRoadmap.DGAInfinity
 
 Layer 0: internal and Mathlib-graded presentations of ℤ-graded modules, homogeneous multilinear
@@ -212,8 +235,9 @@ buildings and proves compactness in both the retained-level and the smaller tree
 compactification. Layer 2 builds the weighted nonlinear Fredholm set-up and proves the punctured
 index formula and determinant gluing for Reeb ends. Layer 3 proves augmented local gluing and
 orientation descent, including the count formulas for repeated and covered ends. Layer 4
-constructs the contact implicit atlases, verifies the atlas axioms and states the virtual
-fundamental cycle package on them. Layer 5 constructs the
+constructs the contact implicit atlases, proves that they satisfy the axioms of ImplicitAtlases,
+adds the stratification by a finite category of tree types and applies the engine's virtual
+fundamental cycle package to them. Layer 5 constructs the
 coherent chain-level diagrams, extracts the counts, proves d²=0 and builds the exact cobordism
 maps and the symmetric monoidal functor. Layer 6 adds augmentations, linearization, hypertight
 and ellipsoid examples. Layer 7 is independent algebra: the Poisson, Weyl, potential and Fock
@@ -256,7 +280,7 @@ the parametrized Reeb return map and its iterates; a generic-J theorem is not th
 ### 0.2 Orientation lines and good and bad orbits
 
 For an orbit γ define the integral rank-one orientation line o_γ as the determinant line of
-the asymptotic operator datum of Pardon Definition 2.46 (p. 42), using the supplier determinant
+the asymptotic operator datum of Pardon Definition 2.46 (p. 41), using the supplier determinant
 lines, and its cyclic marker action. Call γ good when this action is trivial and bad otherwise
 (Pardon Definition 2.49, p. 43). Prove that this agrees with the even-cover parity criterion:
 the bad orbits are exactly the even covers γ^(2k) of simple orbits whose linearized return map
@@ -276,9 +300,12 @@ orientation line is retained until a temporary basis is chosen for a coordinate 
 - A simple orbit is always good: the group ℤ/1 acts trivially.
 - An odd cover of any orbit is good, since a homomorphism from an odd cyclic group to {±1} is
   trivial; a criterion that declared all covers bad would fail here.
-- The double cover of a hyperbolic orbit with one negative eigenvalue pair in (−1,0) is bad; the
-  double cover of an elliptic orbit is good. A criterion using eigenvalues in (0,1) instead of
-  (−1,0) would exchange these.
+- In dimension three, the double cover of a negative hyperbolic orbit, with exactly one
+  eigenvalue in (−1,0) and its partner below −1, is bad by (2.59); the double covers of an
+  elliptic orbit, with no real eigenvalue, and of a positive hyperbolic orbit, with eigenvalues
+  λ and 1/λ in (0,∞), are good. A criterion counting eigenvalues in (0,1) instead of (−1,0)
+  would declare the first good and the third bad. In dimension five, an orbit with two
+  eigenvalues in (−1,0) has an even count, so its double cover is good.
 
 *Needs:* Layer 0.1; HeegaardFloer §2.2 (F0.0) determinant lines; HeegaardFloer §3.4 (F1.4)
 Conley–Zehnder normalization.
@@ -413,7 +440,7 @@ graph-domain carrier of HeegaardFloer §3.5 (F1.5), in a unitary trivialization 
 frame-change laws. Split off the ℝ and Reeb tangential directions and construct the
 finite-dimensional phase/translation extensions. For every fixed finite list of ends choose
 weights δ smaller than their nonzero spectral gaps, and define the weighted Sobolev spaces of
-Pardon Definitions 2.34 and 2.36 (p. 35) on the supplier carrier.
+Pardon Definition 2.34 (p. 35) and Definition 2.36 (p. 36) on the supplier carrier.
 
 - Nondegeneracy of γ is equivalent to 0 not being an eigenvalue of A_γ.
 - Changing the trivialization by a loop of winding w shifts the Conley–Zehnder index by 2w and
@@ -462,14 +489,14 @@ finite group quotient.
 
 Construct the Hofer energy of a punctured map in a symplectization (BEHWZ §5.3, p. 22) and its
 cobordism-core extension (BEHWZ §6.1, p. 31). Prove positivity, the end Stokes formula, action
-bounds, and the exclusion of nonconstant closed components in the exact case (EGH Theorem 2.2.2,
-p. 49, the Stokes argument). Prove finite-energy exponential convergence to the specified
-nondegenerate orbit, with phase, marker and coordinate comparisons, from the end equation, the
-spectral estimates of 1.1 and the nonlinear remainder control of Pardon §2.8 (p. 28), first
-locally and then with the bounded-family uniformity used in the gluing of Layer 3. A genuine
-Reeb end is not a removable puncture under a finite ordinary-area hypothesis. The raw energy
-compactness and this local convergence consume no generic surjectivity of multiply covered
-problems.
+bounds, and the exclusion of nonconstant closed components in the exact case (EGH Proposition
+1.6.4, p. 16, and Proposition 2.2.1(c) with inequality (18), p. 48). Prove finite-energy
+exponential convergence to the specified nondegenerate orbit, with phase, marker and coordinate
+comparisons, from the end equation, the spectral estimates of 1.1 and the nonlinear remainder
+control of Pardon §2.8 (p. 28), first locally and then with the bounded-family uniformity used in
+the gluing of Layer 3. A genuine Reeb end is not a removable puncture under a finite ordinary-area
+hypothesis. The raw energy compactness and this local convergence consume no generic surjectivity
+of multiply covered problems.
 
 - The energy of a map is at least the sum of the actions of its positive orbits minus that of
   its negative orbits, with equality in a symplectization.
@@ -492,13 +519,13 @@ problems.
 
 ### 1.4 Holomorphic buildings and compactness
 
-Build the topology of holomorphic buildings with level and matching data, domain convergence,
-neck stretching and componentwise target translations (BEHWZ §7, pp. 35–37; Pardon §2.9, p. 29).
-Prove that the space of buildings of bounded energy and fixed topological type is sequentially
-compact and compact Hausdorff, with the finite-type and class statements (BEHWZ §9.2, p. 49;
-Pardon §2.10, p. 32). Establish compactness before imposing smooth-J regularity. In the
-nonexact statement keep fixed genus, ends and the energy/class window; no finite global orbit
-set is asserted across all action levels.
+Build the topology of holomorphic buildings with level and matching data, domain convergence, neck
+stretching and componentwise target translations (BEHWZ §7, pp. 35–37; Pardon §2.9, p. 29). Prove
+that the space of buildings of bounded energy and fixed topological type is sequentially compact
+and compact Hausdorff, with the finite-type and class statements (BEHWZ §10, Theorems 10.1–10.3, p.
+51; Pardon §2.10, p. 32, Theorem 2.27, p. 34). Establish compactness before imposing smooth-J
+regularity. In the nonexact statement keep fixed genus, ends and the energy/class window; no finite
+global orbit set is asserted across all action levels.
 
 - A building of height k has k levels with matching orbits between consecutive levels and a
   cross-ordering of the matched punctures.
@@ -564,8 +591,8 @@ Layer 0; ContactGeometry CG4; HeegaardFloer §3.2 (F1.2), §3.3 (F1.3), §3.4 (F
 
 Construct the weighted Banach charts around a punctured map and the nonlinear Cauchy–Riemann
 section with explicit differentiability budgets, its derivative and adjoint, the elliptic
-bootstrap and compact inclusions on localized regions (Pardon §2.11, p. 34, Definitions 2.34
-and 2.36, p. 35; HeegaardFloer §3.5). Use map variations and compactly supported
+bootstrap and compact inclusions on localized regions (Pardon §2.11, p. 34, Definition 2.34,
+p. 35, and Definition 2.36, p. 36; HeegaardFloer §3.5). Use map variations and compactly supported
 domain-complex-structure variations, quotiented by the infinitesimal automorphisms.
 
 - The linearized operator at a map is Fredholm between the weighted spaces of 1.1 for every
@@ -758,35 +785,37 @@ Layers 0 and 2; HeegaardFloer §2.2 (F0.0), §3.2 (F1.2), §4.4 (F2.4), §4.5 (F
 
 ### 4.1 Thickenings and the atlas axioms
 
-Define an oriented contact implicit atlas with cell-like stratification on the compact moduli
-problem M(T) of a bounded contact tree type T (Layer 1.5), stratified by the finite category of
-tree types under T with its dimension function and orientation lines (Pardon §3.1, pp. 45–46),
-as an index set of thickening data together with: a finite covering group and a finitely
-generated obstruction module over it for each datum; a Hausdorff thickened moduli space for
-each finite set of data, acted on by the product of the covering groups, with an invariant
-stratification and an identification of the empty thickening with M(T); equivariant Kuranishi
-maps to the obstruction modules; invariant open footprints and equivariant footprint maps from
-the zero loci of the extra Kuranishi maps; and regular trivial-isotropy loci. These satisfy the
-compatibility axioms (footprint maps compose and the identity one is the identity, Kuranishi
-maps are compatible with footprint maps, the footprint of a union is the intersection of the
-footprints, stratifications pull back compatibly, and a footprint map induces a homeomorphism
-from the zero locus modulo the extra covering group onto the footprint) and the transversality
-axioms (regular loci pull back into regular loci on which the extra covering group acts freely,
-regular loci are open, near a regular point the extra Kuranishi map is locally the projection
-of a product with the extra obstruction space so that the regular locus is cell-like of
-dimension the stratum dimension plus the obstruction dimension and oriented by the stratum line
-tensored with the obstruction line, and the footprints of the regular zero loci cover M(T))
-(Pardon Definition 3.2, pp. 46–47). An atlas with boundary is the case of the two-element
-stratifying poset (Definition 3.3, p. 47), obtained from a cell-like one by collapsing all
-non-maximal strata into one (Remark 3.4, p. 47). For every bounded contact tree type construct
-the sets of thickening data and the index sets, the thickened moduli spaces and their regular
-loci, the tautological Kuranishi maps, the forgetful footprint maps and the open footprints
-(Pardon §§3.3–3.6, pp. 49–55), and prove that they form an oriented contact implicit atlas
-(Pardon Theorem 3.23, p. 55): the covering axiom by stabilization of curves (§3.7), the
-openness and submersion axioms by the local models of §3.8, using Layer 3. Include compact
-parameter families and the boundary-atlas identifications, with the cell-like face poset and
-normal orientation lines (Pardon §§3.1–3.2, pp. 45–47). The existence of a Fredholm section
-alone is not an implicit atlas.
+For a bounded contact tree type T (Layer 1.5) with compact moduli problem M(T), construct the
+contact thickening data (Pardon §3.3, pp. 49–50, Definitions 3.9–3.12): a number r_α of added
+marked points constrained to a compact codimension-two submanifold D_α, the obstruction
+representation E_α=ℝ^(n_α) of the covering group S_(r_α), and an equivariant perturbation
+term ν_α of the Cauchy–Riemann equation depending on the added points, with the cylindrical and
+cobordism variants of Setups I–IV; the index sets Ā(T) (§3.4, pp. 50–52, Definitions
+3.13–3.16); the thickened moduli spaces M(T)_I for finite I⊆Ā(T), Hausdorff in the Gromov
+topology, acted on by the product of the covering groups, with the identification of the empty
+thickening with M(T) and the regular trivial-isotropy loci (§3.5, pp. 52–55, Definitions
+3.17–3.22); and the tautological Kuranishi maps, the open footprints and the forgetful
+footprint maps from the zero loci of the extra Kuranishi maps (§3.6, p. 55). Prove that these
+data form an implicit atlas of virtual dimension vdim(T) on M(T) in the sense of
+ImplicitAtlases §1.1 (Pardon Theorem 3.23, p. 55): the compatibility axioms (footprint maps
+compose and the identity one is the identity, Kuranishi maps are compatible with footprint
+maps, the footprint of a union is the intersection of the footprints, and a footprint map
+induces a homeomorphism from the zero locus modulo the extra covering group onto the
+footprint) from the definitions (§3.6, p. 55); the covering axiom by stabilization of curves
+(§3.7, pp. 55–57); and the openness of the regular loci, the freeness of the extra covering
+group on their preimages and the local product models, in which the regular part of a
+thickening is a topological manifold with boundary of dimension vdim(T) plus the obstruction
+dimension, by the local models of §3.8 (pp. 57–58), which use the gluing of Layer 3. Prove
+that the atlas is locally orientable in the sense of ImplicitAtlases §3.1, with virtual
+orientation sheaf the locally constant sheaf of the orientation line o_T of Layer 2.3, from the
+equivariant orientation of the regular loci with respect to o_T tensored with the obstruction
+line (Pardon Definition 3.2(ix), p. 47, and (2.64), p. 45), so that the engine's orientation
+hypothesis holds. Give the atlas with boundary of ImplicitAtlases §1.2 by taking as boundary
+the union of the strata of positive codimension (Pardon Definition 3.3 and Remark 3.4, p. 47).
+Include compact parameter families (Setups III–IV) and the identification of the boundary faces
+with product atlases of the pieces, with the cell-like face structure and normal orientation
+lines of the local models (Pardon §3.2, Lemmas 3.5–3.6, p. 47). The existence of a Fredholm
+section alone is not an implicit atlas.
 
 - The thickened moduli space for a finite set of thickening data is a topological manifold with
   boundary near its regular locus, of the expected dimension.
@@ -802,60 +831,89 @@ alone is not an implicit atlas.
   "atlas" with only the empty thickening would not cover its zero set.
 - A family over [0,1] has a boundary atlas whose faces are the atlases at the endpoints.
 
-*Needs:* Layers 1.5, 2.3, 3.1–3.3.
+*Needs:* Layers 1.5, 2.3, 3.1–3.3; ImplicitAtlases §§1.1, 1.2, 1.4, 3.1.
 
-### 4.2 The virtual fundamental cycle package of a contact atlas
+### 4.2 Category-stratified atlases and the virtual fundamental cycle package
 
-For a contact implicit atlas A of 4.1 on M = M(T), oriented with respect to the orientation
-line o_T of Layer 2.3 and of virtual dimension vdim(T), construct the package Pardon uses for
-M(T) (Pardon §4.1, pp. 58–62): for finite A, the invariant obstruction complex, namely the
-chains of the total obstruction space relative to the complement of zero, shifted by its
-dimension, with coefficients in its dual orientation line and with the covering-group
-invariants taken, whose homology is ℚ in degree zero ((4.1), p. 58); the virtual cochain
-complex of M relative to its boundary and the chain-level pushforward from it, shifted by
-vdim(T), to the obstruction complex ((4.2)–(4.3), p. 59); the canonical isomorphism between
-its cohomology and the Čech cohomology of M with coefficients in the extension by zero of o_T
-from the interior ((4.4), p. 59); for an inclusion of atlases A ⊆ A′ on M, quasi-isomorphisms
-of both complexes, compatible with the pushforwards and composing as expected, and the direct
-limit over finite subatlases for an infinite index set ((4.6)–(4.7), p. 59); the stratified
-virtual complex of the cell-like stratification, the sum over strata of the relative virtual
-complexes twisted by the stratum lines with the automorphism invariants taken, with
-differential the internal one plus the pushforwards along codimension-one morphisms, and its
-identification with the Čech cohomology with coefficients in the top orientation line
-((4.12)–(4.13), p. 61); and the product map for two atlases, compatible with pushforward and
-inclusions and inducing the Künneth product on Čech cohomology ((4.16)–(4.18) and Lemma 4.3,
-pp. 61–62). Define the virtual fundamental class of M as the resulting ℚ-linear functional on
-the Čech cohomology of degree vdim(T) with coefficients in the extended orientation line. Prove
-that the presheaf of virtual cochains on compact subsets of M is a pure homotopy sheaf whose
-degree-zero sheaf is the extended orientation line (axioms (hSh1)–(hSh3) and (4.8)–(4.9),
-p. 60), and that when M is its own regular trivial-isotropy locus the functional is evaluation
-on the ordinary fundamental class (Lemma 4.2, p. 59). Every statement of this subsection is
-made for the atlases of 4.1 on the contact moduli problems; nothing is stated for an arbitrary
-compact Hausdorff space with an implicit atlas.
+The strata of M(T) are indexed by the category S_(/T) of tree types over T, whose objects are
+the degenerations T′→T, whose closed strata are the images of M(T′)/Aut(T′/T) and are in
+general not embedded, and which is not a poset: exchanging two identical lower vertices of a
+degeneration is a nontrivial automorphism over T (Pardon Definitions 2.2–2.3 and Figure 6,
+p. 20; Definition 2.13 and (2.5), p. 23). The engine of ImplicitAtlases §6.1 stratifies by a
+finite poset; this roadmap owns the extension. Define a cell-like stratification by a finite
+category 𝒯 with a final object whose undercategories 𝒯_(t/) are posets, with a dimension function
+that increases strictly along non-isomorphisms, orientation lines o_t of parity dim t on the
+isomorphisms of 𝒯, and normal identifications o_t⊗o_ℝ≅o_(t′) for codimension-one morphisms
+(Pardon §3.1 and Definition 3.1, pp. 45–46), and define an oriented implicit atlas with
+cell-like stratification by 𝒯 (Pardon Definition 3.2, pp. 46–47): the data of ImplicitAtlases
+§1.1 together with invariant stratifications of every thickening by 𝒯, identified on zero loci
+with the pullbacks along footprint maps compatibly in triples, and the submersion axiom that
+the regular locus of each thickening is cell-like of dimension dim t plus the obstruction
+dimension and oriented by o_t tensored with the obstruction line. When 𝒯 is a poset this is
+the notion of ImplicitAtlases §§6.1–6.2 with its normal lines. Prove that the contact atlas of
+4.1 is such an atlas for the finite category of effective tree types over T (Pardon Definition
+4.4, p. 63) with dim(T′→T)=vdim(T′) and the orientation data of (3.1)–(3.3) (Pardon §3.2,
+Lemmas 3.5–3.6, p. 47, and Theorem 3.23, p. 55), and that each closed stratum inherits the
+restricted atlas of dimension vdim(T′) from the thickenings (M(T)_I)_(/T′) (Pardon §4.1.3,
+p. 60). Construct the category-stratified virtual complex: the sum over objects t of the
+virtual complexes of the closed strata relative to their boundaries (ImplicitAtlases §2.3),
+twisted by o_t^∨⊗o_(t_max), with the invariants of the finite automorphism groups Aut(t) taken
+over ℚ (ImplicitAtlases §0.3), with differential the internal one plus the pushforwards along
+the codimension-one morphisms contracted with the normal orientation (Pardon (4.12), p. 61;
+Pardon 2016 Definition 6.2.2, p. 49), and its K-presheaf version on compact subsets ((4.14),
+p. 61). Prove that it is a pure homotopy K-sheaf whose degree-zero sheaf is the constant sheaf
+o_(t_max), so that its cohomology is the Čech cohomology of M(T) with coefficients in o_T
+((4.13)–(4.15), p. 61): the homotopy K-sheaf property and purity pass from the strata
+(Pardon 2016 Lemma A.2.11, p. 118; ImplicitAtlases §0.8), and the filtration by dimension, the
+stratum-by-stratum descent and the local generator cycles are those of the poset argument of
+ImplicitAtlases §6.3 (Pardon 2016 Proposition 6.2.3, p. 50) applied to the poset
+undercategories, which is the extension Pardon indicates (p. 61).
 
-- The virtual class is a ℚ-linear functional on the Čech cohomology of M in degree vdim(T) with
-  coefficients in the extended orientation line, unchanged under enlarging the atlas.
-- The pushforward is a chain map and the inclusion quasi-isomorphisms commute with it, so the
-  functional does not depend on the finite subatlas used to compute it.
+Apply the engine of ImplicitAtlases to the contact atlas Ā(T) of 4.1, with boundary the strata
+of positive codimension: the virtual cochain complex relative to the boundary and the
+obstruction complex (§§2.3, 4.1); the global relative trace, which is Pardon's chain-level
+virtual fundamental cycle (§4.2; (4.2)–(4.3), p. 59); the comparison of its cohomology with
+the Čech cohomology of M(T) with coefficients in the extension by zero of o_T from the
+interior, using the local orientability of 4.1 (§3.4; (4.4), p. 59); the virtual fundamental
+class of M(T) as the resulting ℚ-linear functional on the Čech cohomology of degree vdim(T),
+together with the subatlas comparison maps for finite Ā′⊆Ā″⊆Ā(T), which compose as expected
+and are compatible with the traces, so that the class is independent of the finite subatlas and
+is defined for the infinite index set Ā(T) through them (§4.3; (4.6)–(4.7), p. 59); and the
+product map for two contact atlases, compatible with the traces and the subatlas maps and
+inducing the Künneth product on Čech cohomology (§§6.4–6.5; (4.16)–(4.18) and Lemma 4.3,
+pp. 61–62). Prove that when M(T) is its own regular trivial-isotropy locus the functional is
+evaluation on the ordinary fundamental class (§5.6; Pardon Lemma 4.2, p. 59). Every
+application is to the atlases of 4.1 on the contact moduli problems; nothing is stated for an
+arbitrary compact Hausdorff space with an implicit atlas.
+
+- The virtual class of M(T) is a ℚ-linear functional on the Čech cohomology of M(T) in degree
+  vdim(T) with coefficients in the extended orientation line, unchanged under enlarging the
+  finite subatlas.
+- The category-stratified complex computes the Čech cohomology of M(T) with coefficients in
+  o_T, absolute rather than relative to the boundary, and for a poset stratification it is the
+  complex of ImplicitAtlases §6.3.
 - Under the Künneth product, the virtual class of a product atlas is the product of the virtual
   classes.
 
 **Checks.**
 
-- A regular rigid curve with trivial isotropy: M is a point, the atlas of 4.1 can be taken with
-  the empty thickening only, the Čech cohomology is ℚ in degree 0, and the functional is
-  evaluation on the fundamental class of the oriented point, ±1 in the dual of o_T (Lemma 4.2);
-  a package whose functional on such a point were not ±1 would be misnormalised.
-- Enlarging a finite atlas by one thickening datum changes both complexes but not the
-  functional, through (4.6)–(4.7); a count read from a single thickening without that
-  comparison would depend on the choice.
-- For a tree type with a codimension-one face carrying an automorphism group of order 2, the
-  stratified complex takes invariants, so the face contributes half of its own class to the
-  boundary (the factor 1/|Aut| of (4.23), p. 63); a stratified complex without the invariants
-  would count it twice.
+- A regular rigid curve with trivial isotropy: M(T) is a point, the atlas of 4.1 can be taken
+  with the empty thickening only, the Čech cohomology is ℚ in degree 0, and the functional is
+  evaluation on the fundamental class of the oriented point, ±1 in the dual of o_T
+  (ImplicitAtlases §5.6); a package whose functional on such a point were not ±1 would be
+  misnormalised.
+- Enlarging a finite subatlas by one thickening datum changes both complexes but not the
+  functional, through the subatlas comparison of ImplicitAtlases §4.3; a count read from a
+  single thickening without that comparison would depend on the choice.
+- For a degeneration T′→T of codimension one whose two lower vertices are identical,
+  Aut(T′/T)=ℤ/2 (Pardon Figure 6, p. 20), so the index category is not a poset and the
+  stratified complex takes the ℤ/2-invariants of the stratum; the face then contributes half of
+  its own class to the boundary, the factor 1/|Aut(T′/T)| of (4.23), p. 63. A stratified
+  complex without the invariants would count the face twice, and the poset complex of
+  ImplicitAtlases §6.3 does not apply to this index category.
 
-*Needs:* Layers 2.3, 4.1; HeegaardFloer §2.2 (F0.0); Mathlib `CategoryTheory.cechComplexFunctor`,
-`Representation.invariants`.
+*Needs:* Layers 2.3, 4.1; HeegaardFloer §2.2 (F0.0); ImplicitAtlases §§0.3, 0.7, 0.8, 0.9,
+2.3, 3.4, 4.1–4.3, 5.6, 6.1–6.5.
 
 ### 4.3 Restriction, product and concatenation diagrams and normalization
 
@@ -863,9 +921,11 @@ Construct compatible restriction, product, stabilization and tree-concatenation 
 atlases (Pardon §4.9, p. 76, the symmetric monoidal structure on the sets of thickening data).
 Auxiliary choices compare through specified common atlases, refinements or concordances;
 different arbitrary atlases on the same zero set need not have equal virtual weights. Apply the
-package of 4.2 to these inputs. Prove the regular-locus count normalization (Pardon Lemma 4.2,
-p. 59) and the contact orientation comparison, including the tree-automorphism factors of the
-boundary and concatenation laws ((4.23)–(4.24), p. 63) and the boundary-normal signs.
+package of 4.2 to these inputs, with the refinement, disjoint-union and product laws of
+ImplicitAtlases §§5.3, 6.4–6.5. Prove the regular-locus count normalization (ImplicitAtlases
+§5.6; Pardon Lemma 4.2, p. 59) and the contact orientation comparison, including the
+tree-automorphism factors of the boundary and concatenation laws ((4.23)–(4.24), p. 63) and
+the boundary-normal signs.
 
 - Concatenating the atlases of two trees along a matching edge gives an atlas of the
   concatenated tree whose boundary face is the product atlas.
@@ -881,7 +941,7 @@ boundary and concatenation laws ((4.23)–(4.24), p. 63) and the boundary-normal
 - Concordant atlases on the same zero set give the same count; two unrelated atlases need not,
   so the comparison is through the concordance, not by equality of zero sets.
 
-*Needs:* Layers 4.1, 4.2.
+*Needs:* Layers 4.1, 4.2; ImplicitAtlases §§5.2–5.4, 6.4, 6.5.
 
 ### Examples
 
@@ -891,7 +951,7 @@ boundary and concatenation laws ((4.23)–(4.24), p. 63) and the boundary-normal
 
 ### Dependencies
 
-Layers 1, 2 and 3; HeegaardFloer §2.2 (F0.0).
+Layers 1, 2 and 3; HeegaardFloer §2.2 (F0.0); ImplicitAtlases Layers 0–6.
 
 ## Layer 5: Coherent counts, the differential and the exact functor
 
@@ -920,7 +980,7 @@ choices. Prove their required homotopies and independence on homology.
 - A family of cobordisms gives a homotopy whose boundary is the difference of the endpoint
   counts, the chain-homotopy identity of 5.3.
 
-*Needs:* Layers 4.1–4.3.
+*Needs:* Layers 4.1–4.3; ImplicitAtlases §§2.3, 4.3, 6.3.
 
 ### 5.2 Counts and the contact differential
 
@@ -952,15 +1012,14 @@ integer/cohomological DG comparison of 0.4.
 ### 5.3 Exact cobordism maps and the symmetric monoidal functor
 
 Construct unital algebra chain maps for exact cobordisms in the positive-to-negative direction
-(Pardon §1.3, p. 5, (1.11)). Prove the chain-map, identity-cylinder and stretched-composition
-relations, with the ordinary chain homotopies supplied by the parametrized systems of 5.1
-(Pardon §§1.4–1.5, pp. 6–7). Prove independence on homology, rescaling comparisons, contact-form
-and compatible-J invariance, and naturality under contactomorphisms. Give the deformation
-category of exact cobordisms and prove the resulting symmetric monoidal functor to
-parity-supercommutative ℚ-algebras (Pardon §1.7, (1.22), pp. 8–9). Construct the
-empty-object/unit, disjoint union/tensor product, symmetry and composition coherence maps,
-using the comparison of 0.4 for the tensor structure. Ordinary chain homotopy is the scope of
-this assertion.
+(Pardon §1.3, pp. 5–6, (1.11), p. 6). Prove the chain-map, identity-cylinder and
+stretched-composition relations, with the ordinary chain homotopies supplied by the parametrized
+systems of 5.1 (Pardon §§1.4–1.5, pp. 6–7). Prove independence on homology, rescaling comparisons,
+contact-form and compatible-J invariance, and naturality under contactomorphisms. Give the
+deformation category of exact cobordisms and prove the resulting symmetric monoidal functor to
+parity-supercommutative ℚ-algebras (Pardon §1.7, (1.22), pp. 8–9). Construct the empty-object/unit,
+disjoint union/tensor product, symmetry and composition coherence maps, using the comparison of 0.4
+for the tensor structure. Ordinary chain homotopy is the scope of this assertion.
 
 - The cobordism map sends q_γ⁺ to the sum over rigid curves in the completed cobordism with
   positive end γ⁺ of the output words, with the factors of 3.3.
@@ -1052,8 +1111,11 @@ differential onto its length-one part can lose square zero when constant terms a
 - da=1: the map H=m_a (left multiplication by a) satisfies dH+Hd=id on the algebra generated by
   a, since d(ax)=x−a·dx and a·d(x) add to x; homology is zero.
 - da=1 and ε(1)=1 force ε(da)=1≠0, so no augmentation.
-- With da=b and db=1, the length-one projection d₁ sends a to b and b to 0, so d₁²=0, while
-  d²(a)=d(b)=1≠0: the full d is not a differential, and the projection has hidden the failure.
+- Generators a odd of degree 1, w even of degree 0, v odd of degree 1 and u even of degree 2,
+  with da=1, dw=0, dv=w and du=v−a·w: on generators d²u=dv−d(a·w)=w−(1·w−a·dw)=0 and
+  d²a=d²v=d²w=0, so d²=0 on the whole algebra by 0.5. The length-one projection d₁ has d₁a=0,
+  d₁u=v and d₁v=w, so d₁²u=w≠0: a genuine differential with a constant term whose length-one
+  part is not a differential.
 
 *Needs:* Layers 0.5, 6.1.
 
@@ -1151,9 +1213,9 @@ imposing integer gradability.
 
 For an odd rational Hamiltonian h with no p-free part and {h,h}=0, construct the Hamiltonian
 differential {h,−} and prove square zero. Construct its iterated-bracket coderivation on the
-reduced symmetric coalgebra with the correct shifts and unshuffle signs (Latschev §2.5, p. 10,
-the coderivation D_h for h of degree 2N−1), and compare its unary operation with the
-one-positive contact differential of 5.2. These constructions are conditional on the displayed
+reduced symmetric coalgebra with the correct shifts and unshuffle signs (Latschev §2.1, pp. 3–4,
+the coderivation D_h of an odd h with {h,h}=0 and Lemma 1), and compare its unary operation with
+the one-positive contact differential of 5.2. These constructions are conditional on the displayed
 Hamiltonian equation and have no unstated analytic hypothesis.
 
 Use the genus-normalized series K=Σ_(g≥0) ℏ^g H_g and H=ℏ⁻¹K. Prove that graded commutators
@@ -1172,27 +1234,29 @@ master equation.
   {h,−} sends q_γ to κ_γ q_η q_θ and the length-one contact differential agrees.
 - h=θ p₁p₂ with θ odd and even p's: {h,h}=0 since h is q-free; the differential is zero on
   q's.
-- K=ℏ·(q_γ) with K⋆K=0 and [K,−]/ℏ=[q_γ,−], which is not zero on p_γ: D(p_γ)=−κ_γ ℏ·ℏ⁻¹·… so
-  the master equation forces the p-free part of K to be absent in the punctured sector.
+- K=ℏq_γ with q_γ odd: K⋆K=ℏ²q_γ²=0, D=[K,−]/ℏ=[q_γ,−] has D(p_γ)=±κ_γℏ≠0 and D²=0, so K
+  satisfies the master equation although it is p-free. The master equation does not exclude
+  p-free terms; the punctured carrier of 7.5 excludes them, and 7.7 keeps them in the vacuum
+  sector.
 
 *Needs:* Layers 5.2, 7.2; DGAInfinity Layer 0 (coalgebra and unshuffle signs).
 
 ### 7.4 Cobordism potentials and the potential bimodule
 
 Construct cobordism potential modules, left/right endpoint actions and contraction-based
-composition, with a proved finite-support domain for every exponential and contraction used.
-Put H±=ℏ⁻¹K±. The even cobordism potential has normalization F=ℏ⁻¹Σ_(g≥0) ℏ^g F_g (EGH (36),
-p. 55) and integer degree zero when an integer lift is present; prove these from the virtual
-index. In the mixed (p⁺,q⁻) module the left negative-end action has q⁻ acting by multiplication
-and p_γ⁻=κ_γ⁻ ℏ ∂/∂q_γ⁻ with the left super derivative; the right positive-end action has p⁺
-acting by right multiplication and q_γ⁺=κ_γ⁺ ℏ ∂/∂p_γ⁺ with the right super derivative (EGH
-p. 49, the two representations). For homogeneous m use ∂R_p m=(−1)^(|p|(|m|−1)) ∂L_p m and
-prove the opposite-action and super-bimodule identities. Define
-D_X(m)=H⁻·m−(−1)^(|m|) m·H⁺ (EGH (41), p. 57) and prove D_X²=0 from the endpoint master
-equations (EGH Proposition 2.3.2, p. 57). The potential equation is D_X(exp(F))=0, equivalently
-H⁻·exp(F)−exp(F)·H⁺=0 for even F (EGH Theorem 2.3.3, p. 58). Cobordism potentials are not in
-general multiplicative maps between endpoint Weyl algebras. Establish the classical rational
-limit and the one-positive comparison with its exact multiplicity normalization.
+composition, with a proved finite-support domain for every exponential and contraction used. Put
+H±=ℏ⁻¹K±. The even cobordism potential has normalization F=ℏ⁻¹Σ_(g≥0) ℏ^g F_g (EGH (36), p. 55) and
+integer degree zero when an integer lift is present; prove these from the virtual index. In the
+mixed (p⁺,q⁻) module the left negative-end action has q⁻ acting by multiplication and p_γ⁻=κ_γ⁻ ℏ
+∂/∂q_γ⁻ with the left super derivative; the right positive-end action has p⁺ acting by right
+multiplication and q_γ⁺=κ_γ⁺ ℏ ∂/∂p_γ⁺ with the right super derivative (EGH p. 49, the two
+representations). For homogeneous m use ∂R_p m=(−1)^(|p|(|m|−1)) ∂L_p m and prove the
+opposite-action and super-bimodule identities. Define D_X(m)=H⁻·m−(−1)^(|m|) m·H⁺ (EGH (41), p. 57)
+and prove D_X²=0 from the endpoint master equations (EGH (41) and the sentence following it, p.
+57). The potential equation is D_X(exp(F))=0, equivalently H⁻·exp(F)−exp(F)·H⁺=0 for even F (EGH
+Theorem 2.3.3, p. 58). Cobordism potentials are not in general multiplicative maps between endpoint
+Weyl algebras. Establish the classical rational limit and the one-positive comparison with its
+exact multiplicity normalization.
 
 - The bimodule is a left module over the negative Weyl algebra and a right module over the
   positive one, with commuting actions.
@@ -1203,8 +1267,9 @@ limit and the one-positive comparison with its exact multiplicity normalization.
 
 - Right versus left super derivative: for m=p·m′ with |p|=1 and |m|=0, ∂R_p m=(−1)^(1·(0−1))∂L_p
   m=−∂L_p m; for |p|=0 the two agree.
-- D_X²(m)=H⁻H⁻m−(−1)^(|m|+1)(H⁻m)H⁺−(−1)^(|m|)H⁻(mH⁺)+mH⁺H⁺, and the middle terms cancel, so
-  D_X²=0 iff H⁻⋆H⁻=0 and H⁺⋆H⁺=0 act as zero.
+- D_X²(m)=H⁻(H⁻m)−(−1)^(|m|)H⁻(mH⁺)+(−1)^(|m|)(H⁻m)H⁺−mH⁺H⁺, since D_X(m) has parity
+  |m|+1 and (−1)^(|m|+1)(−1)^(|m|)=−1; the middle terms cancel, so D_X²=0 iff H⁻⋆H⁻ and H⁺⋆H⁺
+  act as zero. For even m this reads H⁻H⁻m−mH⁺H⁺, with a minus sign on the last term.
 - A trivial cylinder has F=Σ_γ q_γ⁻ p_γ⁺/(κ_γ ℏ) (Layer 9.3) and D_X(exp F)=0 reads
   H⁻·exp F=exp F·H⁺, which is the statement that the two representations of H agree.
 
@@ -1317,7 +1382,13 @@ specializations of the generic signed multilinear/coalgebra and filtered twistin
 DGAInfinity, not a second generic DG or Maurer–Cartan engine.
 
 - Q_Y is a continuous odd operator on C_Y with Q_Y²=0.
-- l_k has degree |H_Y|−(k−1)|ℏ| in the integer lane and is graded symmetric.
+- l_k has degree |H_Y|=−1 in the integer lane for every k, because the normal-order
+  representation preserves degree (|κ_γℏ∂/∂q_γ|=|ℏ|−|q_γ|=|p_γ| by 7.2), and is graded
+  symmetric. The rational brackets of 9.4, formed from h=H_0 of degree 2(n−3)−1, have degree
+  −1−(k−1)·2(n−3) before that section's regrading (Latschev §2.1, p. 3: the k-fold bracket
+  map of h has degree |h|−2Nk); the ℏ^(k−1) coefficient of the genus-zero part of l_k is that
+  rational bracket evaluated at p=0, the terms in which one input is differentiated more than
+  once, or a positive-genus term of H_Y enters, carrying higher powers of ℏ.
 - The l_k are the Taylor coefficients of the curved L∞ structure whose Maurer–Cartan equation
   is Q_Y(exp a)=0.
 
@@ -1327,6 +1398,11 @@ DGAInfinity, not a second generic DG or Maurer–Cartan engine.
 - l_1(c_Y)=Q²(1)+c_Y²=0, since c_Y is odd in a supercommutative algebra and Q²=0.
 - c_Y=0: l_1=Q_Y and l_1²=0, the ordinary differential; with c_Y≠0, l_1² equals −l_2(c_Y,−),
   which is the curvature, so a definition declaring l_1 a differential would be wrong.
+- Degree witness at n=2, |ℏ|=−2, κ=1: orbits with |q_1|=|q_2|=0 and |q_3|=3, so
+  |p_1|=|p_2|=−2, and H_Y=q_3p_1p_2 of degree −1 with H_Y⋆H_Y=0 since q_3²=0. Then
+  Q_Y(g)=ℏ²q_3∂_1∂_2g, [Q_Y,m_(q_1)](g)=ℏ²q_3∂_2g and l_2(q_1,q_2)=ℏ²q_3, of degree
+  2·(−2)+3=−1=|q_1|+|q_2|−1; a formula |H_Y|−(k−1)|ℏ| would give l_2 degree +1 and
+  l_2(q_1,q_2) degree 1.
 
 *Needs:* Layers 7.2, 7.3, 7.7; DGAInfinity Layer 0.
 
@@ -1516,7 +1592,7 @@ genus/output-coefficient truncations, with the finite q-word support and contrac
 Layer 7. Prove separatedness, completeness, continuous multiplication, endpoint actions,
 evaluation at p=0 and the inverse-limit comparisons before using an exponential. Choose a
 complete separated descending multiplicative filtration F^r, r≥0, on these domains, or the
-explicit finite/arity-nilpotent alternative (Latschev §2.5, pp. 10–11, the filtered ground ring
+explicit finite/arity-nilpotent alternative (Latschev §2.4, pp. 10–11, the filtered ground ring
 and the completion before the exponential). Require the selected no-positive potential a to lie
 in F^1 and the relevant brackets/actions to respect additive filtration. This is a
 support/valuation/insertion datum with proved estimates, not a field asserting convergence. If a
@@ -1766,6 +1842,11 @@ Layers 1–3 and 7 at their stated hypotheses.
 - J. Pardon, [Contact homology and virtual fundamental cycles](https://arxiv.org/abs/1508.03873),
   arXiv:1508.03873v4: rational one-positive genus-zero contact algebra, exact cobordism maps,
   coherent virtual systems, compactification and count identities.
+- J. Pardon, [An algebraic approach to virtual fundamental cycles on moduli spaces of
+  pseudo-holomorphic curves](https://arxiv.org/abs/1309.2370), arXiv:1309.2370v6, Geom. Topol.
+  20 (2016): the stratified virtual cochain complex and its quasi-isomorphism, cited in
+  Layer 4.2 for the extension from poset to category stratifications; the rest of its engine is
+  consumed through ImplicitAtlases. Page numbers are those of arXiv v6.
 - Y. Eliashberg, A. Givental and H. Hofer,
   [Introduction to Symplectic Field Theory](https://arxiv.org/abs/math/0010059),
   arXiv:math/0010059v1: the Poisson/Weyl formalism and cobordism potentials.
