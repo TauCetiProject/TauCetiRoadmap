@@ -2484,6 +2484,75 @@ Euler gluing, relative general position, supported isotopy extension and
 embedded disc standardization. The geometric compression/sphere prefix is
 independent of 8.1, hyperbolic exteriors and late finite classifications.
 
+<a id="braid-seifert-matrices"></a>
+
+### 4.3.5 Seifert matrices directly from signed braid words
+
+For every native BraidWord n with n≥1, construct its oriented canonical
+n-disc/length(w)-band surface and the marked identification of its boundary with4.2's
+realized closure. Reuse4.3.2's embedded band carrier, rather than introducing a second
+Seifert surface. Keep unused strands as discs. If c is the number of components of the
+incidence graph on all n strands, prove `rank H₁=length(w)+c−n` and the division-free
+identity `rank H₁+n=length(w)+c`. These are surface-component counts; boundary
+components come from the native braid permutation and need not equal c.
+
+Give a finite integral cycle basis. For each generator column, list its crossing
+positions in word order and take every pair of consecutive positions. For a position i
+let h(i) be the next occurrence of the same column, when one exists. Order the pairs
+(i,h(i)) by increasing i. Construct the actual oriented curves through these two bands
+and the intervening disc arcs. Prove the basis theorem over ℤ, by retracting onto the
+incidence spine, choosing its first-band spanning forest, and giving the triangular
+unimodular comparison of the consecutive-band cycles with its fundamental cycles. A rank
+count alone is not the proof of integral independence or generation. Include empty
+words, singly occurring columns, isolated discs and disconnected incidence graphs.
+Supply explicit relabelling and basis-order transports.
+
+Compute their Seifert form using4.3's θ(x,y)=lk(x,y⁺). Translate the
+left-to-right/top-to-bottom diagram convention in [Collins, *An algorithm for computing
+the Seifert matrix of a link from a braid representation*, §§2–3,
+corrected2013](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/collinsseifert.pdf) to
+the native upward braid and zero-based column indices. Positive letters are right-handed
+crossings. Preserve the orientation of the plane and the positive surface normal, and
+prove the local crossing/slot and curve-orientation dictionaries. For ordered basis
+pairs (i,h(i)),(j,h(j)) with i<j, prove:
+
+- A diagonal entry is−1 for two positive endpoint letters, +1 for two
+  negative letters, and0 for opposite signs.
+- Nested intervals h(j)<h(i), and disjoint intervals h(i)<j, give both
+  off-diagonal entries0.
+- If h(i)=j, a positive shared crossing gives (V_ij,V_ji)=(0,1), and a
+  negative shared crossing gives (−1,0).
+- In strict interleaving i<j<h(i)<h(j), columns more than one apart give
+  both entries0. Consecutive columns with column(i)+1=column(j) give
+  (V_ij,V_ji)=(1,0); those with column(j)+1=column(i) give (0,−1).
+
+Here i,j denote the marked pair labels in entry subscripts. Prove that these exhaust all
+possibilities: strict interleaving in the same column is excluded by h being the next
+occurrence. Use the symmetric distant-column condition `abs(column(i)−column(j))>1`,
+with the difference in ℤ; the source's one-sided inequality in step4 does not exclude
+both orders. Prove every case by an actual supported push-off and signed mixed-crossing
+computation, including the zero entries and the choice of which curve is pushed. The
+matrix is an output of these geometric rules, not an arbitrary form realizing its
+Alexander polynomial. This builds the full finite matrix procedure and its correctness,
+coefficient/ordering transports, and surface homology API. For disconnected raw surfaces
+retain all components; use4.3.2's specified joining tubes and compare their forms before
+using a connected-surface Alexander formula. Signature comparisons use6.2's independent
+link theory.
+
+**Checks.** The empty n-strand word gives n discs and a zero-dimensional matrix; a
+one-crossing two-strand word gives a disc and no cycles. The positive three-letter
+two-strand word has matrix `[−1,0;1,−1]` in this cycle order. Reversing that basis order
+gives the native trefoil matrix `[−1,1;0,−1]`. A change of basis order is not a change
+in crossing sign. The algebraic procedure and its geometric correctness precede the
+signature and polynomial applications below; no later knot-table or hyperbolic
+classification is a premise.
+
+*Needs:* 4.2's native words, closures and geometric realization;4.3's linking/push-off
+theory;4.3.2's finite band surfaces, incidence spines, Euler identities and integral
+homology; native BraidWord, Matrix, IntegralSquareMatrix, Fin and finite graph/tree
+APIs. The procedure owns its consecutive-band integral basis and every Collins local
+entry formula.
+
 ### 4.4 The Alexander module and the Alexander polynomial
 
 Define the infinite cyclic cover `X∞` of the exterior `X = S³ ∖ ν(K)` of a knot (Layer 5.1) as
@@ -3927,6 +3996,134 @@ mirror convention); Mathlib `LaurentPolynomial.eval₂`, `LaurentPolynomial.inve
 `RatFunc`; Tau Ceti `TauCeti.PDCode`, `TauCeti.OrientedPDCode` and their native
 bracket, writhe and normalized bracket APIs.
 
+<a id="mirror-blind-chirality"></a>
+
+### 4.6.2 Mirror-symmetric polynomials and the chirality of9₄₂
+
+Prove the reusable chirality obstruction: a tame knot with nonzero classical signature
+is not equivalent to its mirror by an orientation-preserving ambient isotopy, even after
+allowing reversal of the knot orientation. Use6.2's signature invariance, mirror
+negation and orientation-reversal invariance; retain the distinction between reflection
+of S³ and reversal of S¹. Mirror symmetry of a polynomial is a necessary condition for
+amphichirality, not a sufficient condition. Give the following fully marked
+counterexample from *Knot Theory*, physical p198.
+
+Pin K as the native oriented closure of the four-strand signed word
+
+```text
+b=[1,1,1,−2,−1,−1,3,−2,3],
+```
+
+where source generator j is native index j−1. Construct its planar realization,
+component and orientation data, and the local convention map from the [Knot Atlas9₄₂
+input](https://katlas.org/wiki/9_42). The source DT word is
+`[4,8,10,−14,2,−16,−18,−6,−12]` and its Gauss word is
+`[−1,4,−3,1,−2,−7,6,3,−4,2,5,−9,8,−6,7,−5,9,−8]`. The Atlas PD rows are
+
+```text
+(1,4,2,5), (5,10,6,11), (3,9,4,8), (9,3,10,2),
+(16,12,17,11), (14,7,15,8), (6,15,7,16),
+(18,14,1,13), (12,18,13,17).
+```
+
+Give their signed planar completions, the encounter/over-under and slot adapters, and
+finite marked Reidemeister/code comparisons with b's closure. Compute and record the
+single global mirror choice induced by the source conventions; do not infer it from a
+signature table. The source p198 has no additional9₄₂ drawing fixing a handed
+representative. Here K means the declared native closure, and its mirror is kept
+distinct. The native permutation is0→1→3→2→0, so the realized closure is a knot.
+
+**Surface and exact signature.** Apply4.3.5 to b directly, without a software
+rebraiding. Its six consecutive-band cycles, in zero-based word positions, are
+
+```text
+(0,1), (1,2), (2,4), (3,7), (4,5), (6,8).
+```
+
+The required positive-push-second matrix and rational congruence are
+
+```text
+V=[−1  0  0  0  0  0       P=[ 1    0    0    0     0    0
+    1 −1  0  0  0  0           1/2  1    0    0     0    0
+    0  1  0  1 −1  0           1/3  2/3  1    0     0    0
+    0  0  0  1  0  1          −1/2 −1   −3/2  1     0    0
+    0  0  0  0  1  0           2    4    6   −3     1    0
+    0  0  0  0  0 −1],        −1/2 −1   −3/2  1/4  −3/4  1].
+```
+
+Prove all36 entries from the actual oriented cycles and local push-offs, not just from
+their finite crossing-pattern table. The four discs and nine bands form a connected
+genus-three surface with one boundary component; prove its basis and boundary
+identification. Compute det(V−Vᵀ)=1, det P=1 and
+
+```text
+P(V+Vᵀ)Pᵀ=diag(−2,−3/2,2/3,1/2,−4,−7/4).
+```
+
+Cast the rational congruence to ℝ and use the native Matrix.signature API to obtain
+σ(K)=−2 and σ(mirror K)=+2, hence chirality even as an unoriented knot. A floating-point
+eigenvalue approximation is not this inertia proof. The genus of this chosen surface
+is3; no minimum-genus conclusion is inferred from its disc-band count.
+
+**HOMFLY and its specializations.** On the same realized knot, compute by4.6's
+terminating skein procedure, retaining its oriented leaf diagrams, crossing signs and
+local simplifications, the complete source-convention polynomial
+
+```text
+ρ_K(l,m)=(−2l⁻²−3−2l²)+(l⁻²+4+l²)m²−m⁴.
+```
+
+Prove it is invariant under l↦l⁻¹, so ρ_K=ρ_(mirror K). Compare the computation with the
+Atlas convention H(a,z), whose skein is aH₊−a⁻¹H₋=zH₀:
+
+```text
+H_K(a,z)=−z⁴+(a²+a⁻²−4)z²+2a²+2a⁻²−3.
+```
+
+Use4.4.5's homogeneous/source maps, including the i and variable-sign conversions,
+rather than copying this H formula into the ρ convention. Give equality certificates
+from the code, not an appeal to its table label. Deduce and also check through the
+native Seifert and Jones routes
+
+```text
+∇_K(z)=1−2z²−z⁴,
+Δ_K(t)=−t²+2t−1+2t⁻¹−t⁻²,
+V_K(t)=t³−t²+t−1+t⁻¹−t⁻²+t⁻³.
+```
+
+For the Seifert comparison prove `det(tV−Vᵀ)=−t⁵+2t⁴−t³+2t²−t` and multiply by t⁻³,
+using the actual rank-six native normalization. For Jones use the actual PD state sum
+and the half-variable T=t^(1/2); all displayed t-exponents become twice their value in
+that native ring. Each polynomial agrees with its mirror transform while the signatures
+differ. Check Δ(1)=1, Δ(−1)=−7, determinant7, a₂=−2 and |σ|≤2u. These computations
+require the geometric comparisons before asserting knot invariants.
+
+For the source's contrasting figure-eight example, reuse4.4.2's actual three-strand/PD
+model and4.10's rational-knot mirror comparison. Compute `ρ_4₁=−l⁻²−1−l²+m²` from that
+code. This too is mirror symmetric, but4.10's independently constructed equivalence to
+its mirror proves amphichirality; symmetry of the polynomial alone is not that
+equivalence. The trefoil comparison on the same page uses4.6's existing unequal mirror
+polynomials and their source-variable adapter.
+
+**An infinite family.** For n≥1 form K_n as the n-fold connected sum of K, with marked
+sum balls and coherent orientations. Prove σ(K_n)=−2n, while its HOMFLY, Alexander and
+Jones invariants are the nth powers of those just computed and are mirror symmetric.
+Thus every K_n is chiral and these knots are pairwise distinct even after allowing
+reflection and orientation reversal, distinguished by |σ|. The signature crossing-change
+bound gives u(K_n)≥n and Gordian distance `d(K_n,mirror K_n)≥2n`. These are derived
+applications of the existing sum and distance APIs; no unknotting-number additivity is
+assumed.
+
+*Needs:* 4.2's realized words/PD/DT and local moves;4.3.2 and4.3.5's marked surfaces and
+integral cycle matrices;4.4–4.4.5,4.5 and4.6's independent polynomial constructions and
+coefficient comparisons; 6.2's independent signature invariance and crossing bound;4.8.3
+for the Gordian-family bound. This is a later application of those prefixes; it supplies
+no prerequisite back to them. Neither finite table completeness nor hyperbolic geometry
+is needed to identify or distinguish these two marked knots. [Native matrix and
+finite-input targets](MirrorBlindChiralityTargets.lean) record the arithmetic and actual
+braid inputs. The [source note](source-inputs.md#mirror-blind-source) retains the
+corrected p198 reading and the distinction from a software-derived matrix.
+
 ### 4.7 Colourings, the determinant and the Arf invariant
 
 Define, for a diagram and a quandle `Q` (Mathlib's `Quandle`), the set of `Q`-colourings of
@@ -5193,7 +5390,7 @@ rational knot `p/q`, and that the mirror of `p/q` is `p/(−q)`.
 **Checks.**
 - `3/1` is the trefoil and `5/2` the figure-eight; `2/1` is the Hopf link and `1/1` the unknot.
 - `5/2 ≅ 5/3` because `2 · 3 = 6 ≡ 1 (mod 5)`, and `5/3 = 5/(−2)` is the mirror of `5/2`: the
-  figure-eight is amphichiral, as its Jones polynomial says.
+  this geometric mirror comparison proves that the figure-eight is amphichiral.
 - `7/2 ≇ 7/3` as `3 ≢ 2^{±1} (mod 7)`, while `7/3 ≅ 7/5 = 7/(−2)` because `3 · 5 ≡ 1 (mod 7)`:
   the knot `5₂ = 7/2` is chiral.
 - Determinants: `3`, `5`, `7` for `3/1`, `5/2`, `7/2`, matching `|Δ(−1)|` in Layer 4.4.

@@ -118,3 +118,30 @@ two-component unlink and positive Hopf link distinguish these conventions; knot 
 alone do not. Construct the explicit local drawing adapter before assigning the source's
 pictured link to a native oriented code. The contract preserves the source formulas
 while pinning the modern coefficient maps and their integral descent.
+
+
+<a id="mirror-blind-source"></a>
+## Page198: mirror-blind HOMFLY and a nonzero signature
+
+The main *Knot Theory* source
+`ea4ad43f0788c1949274f3869045793f193a562f1c6f35cb05307c302e7185fa`, physical p198, gives
+the9₄₂ mirror pair with equal HOMFLY and says a signature proves chirality. A fresh
+verified-Luna reading confirms ρ=(−2l⁻²−3−2l²)+(l⁻²+4+l²)m²−m⁴: the middle glyph is4,
+not the older transcript's+l. The figure-eight line is ρ=−l⁻²−1−l²+m² and its label
+is4₁. The source contains no extra9₄₂ picture fixing a handed representative. The
+roadmap pins one by a native braid and retains the Atlas-to-native mirror/slot
+dictionary as a proof target.
+
+The direct matrix uses Collins's corrected2013 paper, Definition2.10, Lemma3.1 and
+§§3.1–3.4. Its positive-push-second convention and local entry diagrams were read only
+by Luna. The six intervals are from the original declared word, without rebraiding.
+Every basis and push-off comparison remains required, including the signed zero-entry
+cases. The source's distant-column test in step4 must use the absolute integer column
+difference, covering both column orders.
+
+An exploratory Spherogram2.4.1 call first rebraids this link and returns a
+different6-by-6 matrix. That software result and a trefoil calibration are not the
+geometric certificate for the literal matrix in the roadmap. The stated matrix instead
+follows the direct marked Collins cycles, with an exact rational congruence. Its
+canonical surface has genus3; that count is not an assertion that the knot's minimum
+genus is3.
