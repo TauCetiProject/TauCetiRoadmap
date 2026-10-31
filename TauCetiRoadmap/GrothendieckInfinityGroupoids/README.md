@@ -22,8 +22,7 @@ The « yoga » already appears in the P.S. of Grothendieck's letter to Lawrence 
 5 February 1975: « une (petite) `n`-catégorie (en groupoïdes) à `n`-équivalence près « est
 essentiellement la même chose » qu'un ensemble semi-simplicial pris à homotopie près et où on
 néglige les `π_i` pour `i ≥ n+1` » (Montpellier, cote 134-2, pp. 42–43; the author's pp. 27–28).
-The letter is read from the transcription of the Grothendieck edition
-(https://grothendieck.commutator.io, folder 134-2), not from a published source. The definitions
+The letter is unpublished; it is quoted from a transcription of the manuscript. The definitions
 specified here are the refereed ones of Ara 2013, after *Pursuing Stacks* (ed. Maltsiniotis,
 2022) and Maltsiniotis 2010.
 
@@ -449,9 +448,8 @@ associates with a simplicial set `K•` (« il peut être prudent de le prendre 
 classes in dimension `n`, and observes that it is an `n`-groupoid: the fundamental `n`-groupoid.
 He notes canonical isomorphisms `π_i(K•, x) ≃ π_i(C_n(K•))` for `0 ≤ i ≤ n`, so that `C_n(f)` is
 an `n`-equivalence if and only if `f` induces isomorphisms on `π_0` and on the `π_i` at every
-point, `1 ≤ i ≤ n`: the comparison this layer specifies in Ara's form. As above, the text is read
-from the edition's transcription (https://grothendieck.commutator.io, folder 134-2), not from a
-published source.
+point, `1 ≤ i ≤ n`: the comparison this layer specifies in Ara's form. As above, the letter is
+unpublished and quoted from a transcription of the manuscript.
 
 ### 5.1 `TopCat` as a contractible globular extension
 
