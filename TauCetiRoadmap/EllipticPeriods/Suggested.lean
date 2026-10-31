@@ -12,20 +12,22 @@ Everything is stated on Mathlib's `PeriodPair` (a pair of `ℝ`-linearly indepen
 numbers, `Mathlib/Analysis/SpecialFunctions/Elliptic/Weierstrass.lean`) and its `lattice`,
 `weierstrassP`, `derivWeierstrassP`, `G`, `g₂`, `g₃`. Only theorem statements are `sorry`.
 
-**Supplied by ModularCurvesPartII (#913), not constructed here.** The Weierstrass `σ` function
+**Supplied by ModularCurvesPartII, not constructed here.** The Weierstrass `σ` function
 `latticeSigma`, the quasi-period map `latticeQuasiPeriod` and Legendre's relation
-`latticeQuasiPeriod_legendre` (§1.4a), the nonvanishing of `g₂³ − 27g₃²` (§1.1) and the scaling
-of `g₂`, `g₃`, `℘` under homotheties (§1.3). Until those are implemented in Tau Ceti, the name
-`quasiPeriod` below is defined from `weierstrassZeta_sub_periodic` by choice, only so that this
-file compiles; the implementation uses `latticeQuasiPeriod` and does not construct a second
-quasi-period map. `weierstrassZeta` is identified with `σ′/σ` by
-`weierstrassZeta_eq_logDeriv_latticeSigma` (README, Layer 2).
+`latticeQuasiPeriod_legendre` (its §1.4a), the nonvanishing of `g₂³ − 27g₃²` (§1.1) and the
+scaling of `g₂`, `g₃`, `℘` under homotheties (§1.3). `weierstrassZeta` is identified with `σ′/σ`
+by `weierstrassZeta_eq_logDeriv_latticeSigma` (README, Layer 2). `quasiPeriod L l` is the value
+`ζ(ω₁/2 + l) − ζ(ω₁/2)`, read at the base point `ω₁/2`, which is off the lattice
+(`PeriodPair.ω₁_div_two_notMem_lattice`); on the lattice it equals `latticeQuasiPeriod`
+(README, Layer 2), so the two names denote one map.
 
-Conventions (README §Conventions): a basis `(ω₁, ω₂)` is *positive* when `0 < (ω₂ / ω₁).im`;
-transcendence degrees are taken over `ℚ`; "algebraic" means `IsAlgebraic ℚ` inside `ℂ`.
+Conventions (README, Standing conventions): a basis `(ω₁, ω₂)` is *positive* when
+`0 < (ω₂ / ω₁).im`; transcendence degrees are taken over `ℚ`; "algebraic" means `IsAlgebraic ℚ`
+inside `ℂ`.
 -/
 
 open Complex
+open scoped Real
 
 namespace TauCetiRoadmap.EllipticPeriods
 
@@ -42,9 +44,6 @@ noncomputable instance : SMul ℂˣ PeriodPair where
         convert h using 1
         ext i
         fin_cases i <;> rfl }
-
-@[simp] lemma smul_ω₁ (c : ℂˣ) (L : PeriodPair) : (c • L).ω₁ = c * L.ω₁ := rfl
-@[simp] lemma smul_ω₂ (c : ℂˣ) (L : PeriodPair) : (c • L).ω₂ = c * L.ω₂ := rfl
 
 /-- The period pair `(1, τ)` of a point of the upper half-plane; it is a positive basis. -/
 noncomputable def ofUpperHalfPlane (τ : UpperHalfPlane) : PeriodPair where
@@ -64,14 +63,7 @@ noncomputable def ofUpperHalfPlane (τ : UpperHalfPlane) : PeriodPair where
     subst ht
     simpa using h
 
-lemma lattice_smul (c : ℂˣ) (L : PeriodPair) :
-    (c • L).lattice = (L.lattice).map (LinearMap.mulLeft ℤ (c : ℂ)) := sorry
-
-lemma G_smul (c : ℂˣ) (L : PeriodPair) (k : ℕ) : (c • L).G k = (c : ℂ)⁻¹ ^ k * L.G k := sorry
-
-/-- `℘` depends only on the lattice. -/
-lemma weierstrassP_congr {L L' : PeriodPair} (h : L.lattice = L'.lattice) :
-    L.weierstrassP = L'.weierstrassP := sorry
+theorem G_smul (c : ℂˣ) (L : PeriodPair) (k : ℕ) : (c • L).G k = (c : ℂ)⁻¹ ^ k * L.G k := sorry
 
 /-! ## Layer 1: elliptic functions for a period pair -/
 
@@ -79,9 +71,6 @@ lemma weierstrassP_congr {L L' : PeriodPair} (h : L.lattice = L'.lattice) :
 (junk values at poles are allowed, as for Mathlib's `weierstrassP`). -/
 def IsEllipticFunction (L : PeriodPair) (f : ℂ → ℂ) : Prop :=
   Meromorphic f ∧ ∀ l ∈ L.lattice, Function.Periodic f l
-
-theorem isEllipticFunction_weierstrassP (L : PeriodPair) :
-    IsEllipticFunction L L.weierstrassP := sorry
 
 /-- Liouville for elliptic functions: an entire elliptic function is constant. -/
 theorem IsEllipticFunction.exists_eq_const {L : PeriodPair} {f : ℂ → ℂ}
@@ -116,15 +105,11 @@ open Classical in
 noncomputable def weierstrassZeta (L : PeriodPair) (z : ℂ) : ℂ :=
   z⁻¹ + ∑' l : L.lattice, if (l : ℂ) = 0 then 0 else (z - l)⁻¹ + (l : ℂ)⁻¹ + z / (l : ℂ) ^ 2
 
-/-- `ζ` is quasi-periodic: translating by a lattice vector adds a constant. -/
-theorem weierstrassZeta_sub_periodic (L : PeriodPair) (l : ℂ) :
-    ∃ c : ℂ, l ∈ L.lattice → ∀ z, z ∉ L.lattice →
-      weierstrassZeta L (z + l) = weierstrassZeta L z + c := sorry
-
-/-- Stands for ModularCurvesPartII's `latticeQuasiPeriod` (§1.4a); defined by choice from
-`weierstrassZeta_sub_periodic` only so that this file compiles. Not a second construction. -/
+/-- The quasi-period `η(l) = ζ(ω₁/2 + l) − ζ(ω₁/2)`. The base point `ω₁/2` is off the lattice,
+and for `l ∈ L.lattice` the value does not depend on it (`weierstrassZeta_add_coe`). On the
+lattice it is ModularCurvesPartII's `latticeQuasiPeriod` (README, Layer 2). -/
 noncomputable def quasiPeriod (L : PeriodPair) (l : ℂ) : ℂ :=
-  Classical.choose (weierstrassZeta_sub_periodic L l)
+  weierstrassZeta L (L.ω₁ / 2 + l) - weierstrassZeta L (L.ω₁ / 2)
 
 theorem weierstrassZeta_neg (L : PeriodPair) (z : ℂ) :
     weierstrassZeta L (-z) = -weierstrassZeta L z := sorry
@@ -226,16 +211,17 @@ theorem hasCM_iff (L : PeriodPair) :
 theorem HasCM.smul {L : PeriodPair} (h : HasCM L) (c : ℂˣ) : HasCM (c • L) := sorry
 
 /-- For `α Λ ⊆ Λ` and algebraic invariants, `℘(αz)` is a rational function of `℘(z)` with
-algebraic coefficients. -/
+algebraic coefficients (in `ℚ(g₂, g₃, α)`, by the Laurent descent of README Layer 1). -/
 theorem exists_weierstrassP_mul_eq {L : PeriodPair} (h₂ : IsAlgebraic ℚ L.g₂)
     (h₃ : IsAlgebraic ℚ L.g₃) {α : ℂ} (hα : α ≠ 0) (hαL : ∀ l ∈ L.lattice, α * l ∈ L.lattice) :
     ∃ P Q : Polynomial ℂ, Q ≠ 0 ∧ (∀ n, IsAlgebraic ℚ (P.coeff n)) ∧
       (∀ n, IsAlgebraic ℚ (Q.coeff n)) ∧ ∀ᶠ z in Filter.codiscrete ℂ,
         L.weierstrassP (α * z) * Q.eval (L.weierstrassP z) = P.eval (L.weierstrassP z) := sorry
 
-/-- **The CM quasi-period relation** `η(α l) = ᾱ η(l) + b l`, with `b` algebraic. -/
+/-- **The CM quasi-period relation** `η(α l) = ᾱ η(l) + b l`, with `b` algebraic, for every
+multiplier `α` of the lattice. A real multiplier is an integer, and then `b = 0`. -/
 theorem exists_quasiPeriod_mul {L : PeriodPair} (h₂ : IsAlgebraic ℚ L.g₂)
-    (h₃ : IsAlgebraic ℚ L.g₃) {α : ℂ} (hα : α.im ≠ 0) (hαL : ∀ l ∈ L.lattice, α * l ∈ L.lattice) :
+    (h₃ : IsAlgebraic ℚ L.g₃) {α : ℂ} (hαL : ∀ l ∈ L.lattice, α * l ∈ L.lattice) :
     ∃ b : ℂ, IsAlgebraic ℚ b ∧ ∀ l ∈ L.lattice,
       quasiPeriod L (α * l) = (starRingEnd ℂ) α * quasiPeriod L l + b * l := sorry
 
@@ -256,11 +242,5 @@ theorem two_le_trdeg_periodField {L : PeriodPair} (h₂ : IsAlgebraic ℚ L.g₂
 /-- The CM case: transcendence degree `2` (Chudnovsky). -/
 theorem trdeg_periodField_eq_two_of_hasCM {L : PeriodPair} (h₂ : IsAlgebraic ℚ L.g₂)
     (h₃ : IsAlgebraic ℚ L.g₃) (hL : HasCM L) : Algebra.trdeg ℚ (periodField L) = 2 := sorry
-
-
-/-- A CM lattice with `g₂ = 1`, `g₃ = 0`: `c • ofUpperHalfPlane I` with `c⁴ = g₂(ofUpperHalfPlane I)`. -/
-theorem exists_hasCM_g₂_eq_one :
-    ∃ L : PeriodPair, L.g₂ = 1 ∧ L.g₃ = 0 ∧ HasCM L ∧ Algebra.trdeg ℚ (periodField L) ≤ 2 :=
-  sorry
 
 end TauCetiRoadmap.EllipticPeriods
