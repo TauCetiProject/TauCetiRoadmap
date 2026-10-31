@@ -1976,7 +1976,7 @@ Seifert surface: construct the raw Seifert-algorithm surface, then join its dist
 components by oriented interior tubes preserving the boundary (Lickorish, Theorem 2.2). Define the genus
 `g(L)` as the least genus of a Seifert surface (Layer 1.8 genus), and for a knot prove
 `g(K) = 0` iff `K` is the unknot, `g(K # J) = g(K) + g(J)` (Lickorish, Theorem 2.4, by cutting a
-minimal surface along a decomposing sphere), so that every knot is a finite connected sum of
+minimal surface along a decomposing sphere, with the full geometric proof in 4.3.4), so that every knot is a finite connected sum of
 prime knots. Define the Seifert form on `H₁(F; ℤ)` of a Seifert surface by
 `θ(x, y) = lk(x, y⁺)` with the push-off convention of the *Conventions*, and its matrix with
 respect to a basis. Prove `θ(x, y) − θ(y, x) = x · y`, so that for a knot `V − Vᵀ` is
@@ -1999,9 +1999,11 @@ the tubing and band-move comparison of Seifert surfaces).
   has determinant `1`.
 - The figure-eight has Seifert matrix `[[1, 1], [0, −1]]` and genus `1`; the unknot has the
   empty matrix and genus `0`.
-- The square knot has genus `2 = 1 + 1`; a definition of genus without connectedness of the
-  surface would give the wrong value for split links, whose minimal surfaces are
-  disconnected.
+- The square knot has genus `2 = 1 + 1`. If disconnected spanning surfaces are
+  assigned the SUM of their component genera, the minimum agrees with connected
+  genus by 4.3.2's interior tubing. Connectedness is needed for the displayed
+  connected-surface Euler/H₁ formulas; applying those formulas unchanged to a
+  disconnected surface gives incorrect values.
 - Push-off convention: for the positive Hopf link, the two components have linking number
   `+1`, and the Seifert form of the annulus they bound is the `1 × 1` matrix `[−1]`, unchanged
   by reversing the core since `θ(−x, −x) = θ(x, x)`; the negative Hopf link gives `[1]`. The
@@ -2290,8 +2292,10 @@ canonical surface need not be either minimum.
 
 *Needs:* Layer1.8 (compact-surface classification and smooth/PL comparison),
 Layer1.5 (collars and tubes), Layer3.3 (supported ambient isotopy extension),
-Layer4.2 (realized diagrams and local Reidemeister moves), Layer4.3 (ordinary
-genus and the trefoil calibration); SurfaceTopology Layer8 and PlanarTopology
+Layer4.2 (realized diagrams and local Reidemeister moves), Layer4.3's basic
+Seifert/linking carriers; 4.3.4 for ordinary-genus minimum and trefoil
+minimality consumers. The realization/routing prefix does not use those
+minimum/calibration outputs; SurfaceTopology Layer8 and PlanarTopology
 Layers5,8; native `Graph`, `Equiv.Perm`, finite matching/orbit quotients and
 `ZMod 2` linear maps. The finite-presentation, embedded-spine and relative
 straightening adapters are constructed here.
@@ -2335,6 +2339,139 @@ the precise source discrepancy.
 *Needs:* 1.8–1.8.1,4.2,4.3,4.3.2 and the marked torus-knot construction of 4.11.
 The explicit trefoil applications consume the early surface prefix; they
 supply no premise of1.8.1 or of generic disc-band classification.
+
+### 4.3.4 Surface compression and ordinary genus additivity
+
+Construct the geometric surgery in Knot Theory physical pp. 174–175, using
+ordinary genus: the attained minimum over ALL connected compact oriented
+embedded spanning surfaces. The minimum over diagram Seifert-algorithm
+surfaces on p. 173 is the separate canonical genus of 4.3.2. In particular,
+the proof below does not assume every spanning surface is canonical,
+`g=g_can`, or an additivity theorem for canonical genus. Use ordinary
+genus in the source's prime-decomposition argument.
+
+Develop the embedded disc-band, raw Seifert-surface and free-boundary
+routing prefix of 4.3.2 independently of minimum genus and trefoil
+calibrations. That prefix supplies surface existence here; the ordinary/
+canonical minimum comparisons and genus-minimality calibrations of 4.3.2
+then consume the genus/disc arguments here. No whole-section dependency
+back to those later consumers is used.
+
+1. **Actual compression.** Let F be a compact connected orientable embedded
+   surface in `S³` (or in a marked ball in `ℝ³`). A compression input is an
+   embedded disc D with `∂D⊂int F`, `int D∩F=∅`, together with its relative
+   collar/normal data. Construct the standard product `D²×[−ε,ε]`, meeting
+   F exactly in its rim annulus `∂D²×[−ε,ε]`. Prove the collar-straightening
+   theorem producing this configuration from a transverse collared disc;
+   the attaching framing is part of this comparison. Remove the annulus
+   and insert the two parallel caps `D²×{−ε,ε}`, rounding corners in the
+   product. Prove embeddedness, orientation compatibility and independence
+   of the auxiliary product choices relative to the unchanged boundary.
+   Compression is a change of surface, not an ambient isotopy assertion.
+
+   For the ACTUAL resulting surface prove `χ(F_D)=χ(F)+2` and that all
+   original boundary circles and their markings persist. On an arbitrary
+   disconnected output use the sum of the Euler characteristics. Own the
+   collar-compatible finite-circle gluing identity `χ(A∪_C B)=χ(A)+χ(B)`
+   used here, where C is the specified finite disjoint union of circles;
+   distinguish the boundary-interval subtraction in 1.8.1. The output is
+   connected or has exactly two components according to whether the
+   attaching curve is nonseparating or separating. In the first case prove
+   `g(F)=g(F_D)+1`. In the second prove `b₁+b₂=b(F)` and
+   `g(F)=g(F₁)+g(F₂)`. Prove the component and boundary claims before
+   substituting genus formulas. An inessential attaching circle splits
+   off a sphere and preserves the other component's genus. Keep this case
+   rather than assuming every input is an essential compression.
+
+2. **Minimum knot surfaces and the unknot.** Prove attainment of ordinary
+   genus from the constructed Seifert surfaces and natural-number
+   well-ordering, with reparametrization and ambient-isotopy invariance.
+   A genus-zero knot surface is an embedded disc. Shrink its boundary
+   through concentric POSITIVE-radius circles in a smooth disc chart,
+   straighten a small interior patch, and apply supported isotopy
+   extension to obtain the round unknot. Do not pass through a radius-zero
+   nonembedding. Prove the reverse implication using the standard disc.
+
+   A minimum-genus surface for a KNOT has no compressing disc with essential
+   boundary. A nonseparating compression lowers genus; a separating
+   essential compression leaves exactly one component with the knot
+   boundary and a closed component of positive genus, whose removal lowers
+   the spanning genus. Justify that positivity from compact-surface
+   classification. An inessential compression merely adds a sphere.
+
+   This is geometric disc-incompressibility in the knot complement. Native
+   `TauCeti.IsIncompressible` is π₁-injectivity, a different assertion.
+   Only after 8.1's loop theorem build that adapter for the properly embedded
+   surface obtained by trimming its boundary collar in the knot exterior.
+   The early genus proof uses neither this later adapter nor the false
+   assertion that a positive-genus surface injects π₁ into `S³` itself.
+
+3. **The lower bound at a decomposing sphere.** For oriented knots
+   `K=K₁#K₂`, construct the boundary-connected sum of minimum surfaces
+   using 1.8.1 to prove `g(K)≤g(K₁)+g(K₂)`. For the reverse inequality take
+   a minimum surface F transverse to the two-point decomposing sphere S,
+   keeping its boundary fixed. Among such minimum surfaces minimize the
+   number of circle components of `F∩S`. Its boundary has two points, so
+   the intersection consists of one arc α and finitely many circles.
+
+   Choose a circle innermost on S away from α; its spanning disc in S
+   misses K and has interior disjoint from F. An essential circle would
+   give the forbidden compression. Otherwise replace the disc it bounds
+   in F by a small parallel copy of this sphere disc, using relative
+   collars. Prove the replacement is embedded, keeps the knot boundary
+   and genus, and strictly reduces the number of intersection circles.
+   The replacement surface need not be ambient isotopic to the old one.
+   This proves a minimum surface can be chosen with intersection exactly α.
+   Cutting it along S gives two CONNECTED spanning surfaces for the actual
+   capped factors. Prove their boundary/capping identifications, and use
+   boundary-interval genus additivity to obtain the reverse inequality.
+
+4. **Selected-component link sums.** First extend 4.1's geometric sum to
+   any two nonempty oriented links L and J. Construct `L#_{i,j}J` from
+   one selected oriented component in each input, marked trivial-arc
+   balls and orientation-compatible collars. Prove independence of the
+   auxiliary arcs and balls, associativity with the selected-component
+   data, exchange of the two inputs and the unknot identity, using
+   supported isotopy and the relative ball/arc comparisons independently
+   of genus or prime uniqueness. Prove
+   `μ(L#_{i,j}J)=μ(L)+μ(J)−1`. Then prove
+   `g(L#_{i,j}J)=g(L)+g(J)` for the connected spanning-surface definition.
+   Minimum connected LINK surfaces need not be disc-incompressible: the
+   connected annulus spanning the two-component unlink compresses to two
+   boundary-bearing discs. Do not apply the knot argument indiscriminately.
+
+   Own the needed relative surgery/reconnection lemma. Remove innermost
+   intersection circles by compression/disc replacement; retain EVERY
+   component carrying any original link boundary and discard only closed
+   components. Track the sum of their genera, which does not increase.
+   After the cuts, reconnect distinct boundary-bearing pieces within each
+   sphere-side ball by thin oriented interior tubes, preserving every
+   boundary component and the sum of the genera. Construct the tube arcs
+   relative to S and previous tubes: use free boundary intervals, slide
+   intersections along surface arcs to those intervals, and detour around
+   their collars, as in 4.3.2's routing construction. Prove the resulting
+   surgeries introduce no new intersection circles and that the finite
+   reduction terminates. The pieces yield connected spanning surfaces on
+   both sides and the same lower bound, while boundary sum gives the upper
+   bound. This is an actual marked decomposition, not genus arithmetic
+   applied to surfaces with discarded link components.
+
+Consequently `β(L)=2g(L)+μ(L)−1` is additive under selected-component sum,
+zero exactly for the unknot and positive for every other nonempty oriented
+link. For knots, nontriviality gives g≥1; a nontrivial factorization strictly
+lowers the genus of each factor. Export finite-sum genus formulas, the
+impossibility of `K#J=unknot` when K is nontrivial, and primeness of every
+genus-one knot. These supply the existence part of 4.9. Full cancellation
+and uniqueness require the sphere-system argument there, not genus alone.
+No crossing-number additivity or bound on factor crossing numbers follows.
+
+*Needs:* 1.1–1.5, 1.8–1.8.1, 2.2–2.3, 3.3, 4.1; the basic Seifert/linking
+carriers of 4.3 and the independent embedded disc-band, raw-surface and
+routing prefix of 4.3.2; the independent relative PL/smooth comparison
+in 11.2; actual compact surface classification,
+Euler gluing, relative general position, supported isotopy extension and
+embedded disc standardization. The geometric compression/sphere prefix is
+independent of 8.1, hyperbolic exteriors and late finite classifications.
 
 ### 4.4 The Alexander module and the Alexander polynomial
 
@@ -4441,31 +4578,117 @@ consume4.11 and4.3.1/4.5.3, respectively, without feeding the early proof.
 
 ### 4.9 Prime decomposition of knots and links
 
-Prove Schubert's theorem: every nontrivial knot is a connected sum of finitely many prime
-knots, uniquely up to order and ambient isotopy of the factors (Lickorish, Theorem 2.12,
-through genus additivity for existence and the sphere-system argument for uniqueness).
-Define a link to be split when a locally flat sphere separates its components into two
-nonempty sublinks, and prove Hashizume's theorem: every non-split link is a connected sum
-along chosen components of finitely many prime non-split links, uniquely (Hashizume, Osaka
-Math. J. 10 (1958); Melikhov, *Local knots and the prime factorization of links*, arXiv
-2511.19579, §§2–3, for a short proof).
+Prove Schubert's theorem: every nontrivial oriented knot is a connected sum
+of finitely many nontrivial prime knots, uniquely up to order and oriented
+ambient isotopy of the factors (Lickorish, Theorem 2.12). Use 4.1's oriented
+classes and orientation-compatible sum in the oriented ambient `S³`.
+A prime object is explicitly NOT the unknot. The source p. 175 implication-only
+wording otherwise also holds for the unknot; retain it with this necessary
+nontriviality qualification. The unknot is the empty product.
 
-- The set of knot types with connected sum is a commutative monoid whose only unit is the
-  unknot, free on the prime knots.
-- A knot of genus one is prime; a knot with `u(K) = 1` is prime (Scharlemann, *Unknotting
-  number one knots are prime*, Invent. Math. 82 (1985), 37–55; Layer 5.4 states the
-  surgery-theoretic route).
+**Existence and actual sphere systems.** Use 4.3.4's genus positivity and
+additivity for strong recursion on ordinary genus. Export a finite system
+of pairwise disjoint locally flat two-point spheres realizing the factors,
+with the two complementary balls, oriented arcs and capping data. Existence
+of an abstract factor multiset alone does not construct that sphere system.
+Build the relative PL/smooth and disc/ball comparisons using 2.2–2.3,3.3 and
+11.2. Capping an arc by a boundary arc gives its actual factor knot; prove
+independence from capping choices and the orientation convention.
+For a one-string ball tangle, prove that its capped closure is the unknot
+if and only if the ball/arc pair is homeomorphic to the standard trivial
+arc pair, relative to its marked endpoints. Construct the spanning-disc
+and relative ball-straightening comparison; an unknot label alone does
+not provide this geometric trivial-arc witness.
+
+For links first construct the split decomposition: a finite family of
+disjoint balls meeting the link in nonsplit sublinks, with every component
+retained. At each split each nonempty branch has fewer components. Prove
+the partition into nonsplit sublinks is independent of the chosen balls.
+Keep the empty link and unlinks separate. Use 4.3.4's selected-component
+sum on nonempty oriented links for the nonsplit factorization. This is
+Hashizume sum; simultaneously joining all
+pairs of components requires specified string-link or band data.
+
+Use the positive additive complexity `β=2g+μ−1` from 4.3.4 to recurse for
+nonsplit links. Retain proof that each genuine summand is nonsplit; a
+splitting sphere for a summand can be transported off its cap and would
+split the original link. Work inside a punctured `S³`: remove disjoint
+balls whose boundaries each contain two oppositely oriented tangle
+endpoints, and close each puncture with a trivial boundary arc. Prove
+closure independence and define the factor complexity from that closure.
+If a closure is composite, construct a decomposing sphere in the INTERIOR
+of the punctured manifold. Move it off earlier cap balls by collar/radial
+isotopies, keeping the actual closed factors; prove this cap-avoidance
+lemma instead of assuming recursive cuts remain disjoint. Complexity
+strictly decreases in both nontrivial branches. Thus a finite disjoint
+sphere system has prime nonsplit closures. Prove equivalence with the
+geometric prime criterion: every two-point sphere bounds on one side a
+ball containing just a trivial arc and no other link components.
+
+**Uniqueness with punctures.** Compare two complete prime sphere systems
+in relative transverse position. Choose an intersection circle innermost
+on one sphere after removing its positive link-intersection point; its
+spanning disc then meets the link in zero or one points. Construct the
+thin handle/disc surgeries on the other system. Prove all new spheres
+have the permitted zero/two intersection counts, using oriented intersection
+parity, and treat the zero-point and one-point cases separately. Nonsplitting
+controls zero-point spheres; primeness of the capped pieces and the
+non-cancellation complexity control trivial factors. Prove the surgery
+strictly reduces intersection circles while preserving the multiset of
+NONTRIVIAL prime closures, with all cap isotopies and component identifications.
+No disc meeting the link once is treated as disjoint from it.
+
+This produces a second sphere system disjoint from the first with the same
+prime closures as before. Compare their disjoint common refinement and
+prove equality of the prime-factor multisets. This proves Hashizume's
+uniqueness theorem as well as Schubert's knot case (Hashizume, Osaka
+Math. J. 10 (1958); [Melikhov, §§2–3](https://arxiv.org/html/2511.19579v1)).
+For reconstruction retain the selected-component/gluing tree and boundary
+markings. For links an unordered multiset of prime types alone need not
+determine attachment data or a link type; it is the invariant asserted by
+the uniqueness theorem, not a complete reconstruction record. Export
+naturality under component relabelling, orientation reversal and mirror.
+
+**The knot monoid and its quotient conventions.** On ORIENTED knot types
+under ambient isotopy, prove the prime-factor map and reconstruction are
+inverse commutative-monoid homomorphisms, identifying connected sum with
+the free commutative monoid `Multiplicative (Multiset PrimeOrientedKnotType)`.
+Here the prime subtype is formed from 4.1's actual ambient-isotopy classes;
+no new private presentation-independent knot carrier replaces them. Prove
+finite powers/products, multiplicities and unique factorization, both
+cancellation laws, that the only unit is the unknot, and compatibility of
+the genus grading with the sum of prime genera. Mirror and simultaneous
+orientation reversal act on the full factor multiset and preserve genus.
+
+Do not silently descend this monoid operation to independently chosen
+unoriented or mirror-forgotten representatives. In particular the coarse
+mirror quotient used for 8.7's counts is not a congruence: a trefoil equals
+its mirror there, while the granny and square knots are distinct even up
+to global reflection (their signatures have absolute values 4 and 0).
+The quotient identifies ONE global reflection or reversal, not arbitrary
+reflections of individual prime summands. Its correct equivalence tests
+use the full oriented factor multiset with those simultaneous actions.
 
 **Checks.**
-- The trefoil and the figure-eight are prime (genus one); the square and granny knots are
-  composite with exactly two prime factors each.
-- The Hopf link is prime and non-split; the two-component unlink is split; the connected sum
-  of two Hopf links along one component is a three-component chain that is non-split and
-  not prime.
-- The unknot is the empty connected sum, and uniqueness is stated for nontrivial knots so
-  that `K = K # unknot` is not a second factorization.
 
-*Needs:* Layer 4.1, Layer 4.3; Layer 2.2 (Schoenflies for the decomposing spheres).
+- The trefoil and figure-eight are prime by ordinary genus 1; the square
+  and granny knots have exactly two prime factors each. Cancellation does
+  not identify these two composites merely because their genera agree.
+- The Hopf link is prime and nonsplit; the two-component unlink is split.
+  Two Hopf links summed along one selected component give the nonsplit
+  three-component chain with two prime factors, g=0 and β=2.
+- Every nontrivial knot K and every J satisfy `K#J≠unknot`; the empty
+  product represents the unknot and is not an extra prime factorization.
+- Prove that unknotting-number-one knots are prime
+  (Scharlemann, *Unknotting number one knots are prime*, Invent. Math. 82
+  (1985), 37–55). Its surgery-theoretic proof belongs to 5.4's later
+  application and is not a premise of this elementary factorization prefix.
+
+*Needs:* 4.1, 4.3.4; 2.2–2.3 for Schoenflies/annulus and relative ball/cap
+comparisons, 3.3 for supported isotopy extension, 11.2 for relative
+PL/smooth transport, and native finite multisets/commutative monoids.
+Later signature checks consume 6.2 without feeding the early factorization.
+No crossing-number additivity or factor-crossing truncation is assumed.
 
 ### 4.10 Rational tangles and two-bridge knots
 
