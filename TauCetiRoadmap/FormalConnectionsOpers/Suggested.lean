@@ -11,8 +11,6 @@ with the few definitions (with real bodies) that they need.
 
 Stated here:
 
-* F2.2: the universal property of the all-order modules of principal parts, for arbitrary
-  commutative base rings and arbitrary modules (`principalParts_universal`).
 * F2.4: regular formal connections over `R⟦t⟧` for a `ℚ`-algebra `R` are classified by their
   fibre at `t = 0`: gauge isomorphisms correspond bijectively to their constant terms
   (`regularGauge_constantCoeff_bijective`).
@@ -20,6 +18,10 @@ Stated here:
   every formal loop factors as a polynomial loop times a positive formal loop
   (`formalLoop_eq_polynomial_mul_positive`), the surjectivity half of
   `G(R[t,t⁻¹])/G(R[t]) ≃ G(R((t)))/G(R⟦t⟧)`.
+* F6.2: the cyclic-vector theorem: over a differential field of characteristic zero with
+  nonzero derivation, every finite-dimensional differential module has a vector whose iterates
+  under the connection form a basis (`exists_cyclicVector`, with the Leibniz predicate
+  `IsDifferentialModuleMap`).
 
 Not statable at the pins, and therefore not stated:
 
@@ -31,8 +33,8 @@ Not statable at the pins, and therefore not stated:
   principal grading nor the Weyl-group action on `Sym(𝔥*)` exists at the pins.
 * F4–F5, intrinsic opers and the classification of continuous characters of `Fun Op(D×)`:
   opers (connections with a transverse Borel reduction) are not a carrier at the pins.
-* F6, the Frenkel–Zhu theorem that every flat `G`-bundle on the punctured formal disc has an
-  oper structure, and triviality of `G`-torsors over `ℂ((t))`: flat principal bundles over
+* F6.1 and F6.5, the Frenkel–Zhu theorem that every flat `G`-bundle on the punctured formal disc
+  has an oper structure, and triviality of `G`-torsors over `ℂ((t))`: flat principal bundles over
   `ℂ((t))`, torsors under group schemes and opers are not carriers at the pins.
 * F7–F8, the Drinfeld–Sokolov Poisson structure, the Miura screening-kernel description and the
   isomonodromy Lie algebroid: these need the completed function algebra of opers and its
@@ -43,67 +45,7 @@ namespace TauCetiRoadmap.FormalConnectionsOpers
 
 noncomputable section
 
-open scoped TensorProduct
-
-universe u
-
-/-! ## Layer 2 (F2): algebraic differential operators and principal parts -/
-
-section PrincipalParts
-
-variable (k : Type u) (A : Type u) [CommRing k] [CommRing A] [Algebra k A]
-
-/-- Grothendieck's differential operators of order at most `n` (Stacks, Definition
-10.133.1, tag 09CI): order `0` means `A`-linear, and `D` has order at most `n + 1` when
-every commutator `m ↦ D (a • m) - a • D m` has order at most `n`. No hypothesis on `k`, `A`, the
-modules or the characteristic is imposed. -/
-def IsDifferentialOperator {M N : Type u} [AddCommGroup M] [Module k M] [Module A M]
-    [IsScalarTower k A M] [AddCommGroup N] [Module k N] [Module A N] [IsScalarTower k A N] :
-    ℕ → (M →ₗ[k] N) → Prop
-  | 0, D => ∀ (a : A) (m : M), D (a • m) = a • D m
-  | n + 1, D => ∀ a : A, IsDifferentialOperator n
-      (D.comp ((LinearMap.lsmul A M a).restrictScalars k) -
-        ((LinearMap.lsmul A N a).restrictScalars k).comp D)
-
-/-- The `A`-submodule `I^(n+1) · (A ⊗[k] M)` of `A ⊗[k] M`, where `I` is the kernel of
-multiplication `A ⊗[k] A → A`. It is spanned over the left factor by the iterated differences
-`(a₀ ⊗ 1 - 1 ⊗ a₀) ⋯ (aₙ ⊗ 1 - 1 ⊗ aₙ) · (1 ⊗ m)`. -/
-def principalPartsRelations (M : Type u) [AddCommGroup M] [Module k M] [Module A M]
-    [IsScalarTower k A M] (n : ℕ) : Submodule A (A ⊗[k] M) :=
-  Submodule.span A {z | ∃ (a : Fin (n + 1) → A) (m : M),
-    z = (List.ofFn a).foldr
-      (fun c v => TensorProduct.map ((LinearMap.lsmul A A c).restrictScalars k) LinearMap.id v -
-        TensorProduct.map LinearMap.id ((LinearMap.lsmul A M c).restrictScalars k) v)
-      ((1 : A) ⊗ₜ[k] m)}
-
-/-- The module of principal parts of order `n`,
-`P^n_{A/k}(M) = ((A ⊗[k] A) / I^(n+1)) ⊗_{A,right} M ≃ (A ⊗[k] M) / I^(n+1)(A ⊗[k] M)`,
-with its left `A`-module structure. Stacks, Lemma 10.133.9, tag 0H90, identifies it with the
-module of principal parts of Lemma 10.133.3. -/
-abbrev PrincipalParts (M : Type u) [AddCommGroup M] [Module k M] [Module A M]
-    [IsScalarTower k A M] (n : ℕ) :=
-  (A ⊗[k] M) ⧸ principalPartsRelations k A M n
-
-/-- The universal jet `m ↦ 1 ⊗ m` of order `n`, a `k`-linear map `M → P^n_{A/k}(M)`. -/
-def principalJet (M : Type u) [AddCommGroup M] [Module k M] [Module A M]
-    [IsScalarTower k A M] (n : ℕ) : M →ₗ[k] PrincipalParts k A M n :=
-  ((principalPartsRelations k A M n).mkQ.restrictScalars k).comp (TensorProduct.mk k A M 1)
-
-/-- **Universal property of principal parts** (Stacks, Lemmas 10.133.3 and 10.133.9, tags 09CK
-and 0H90): composition with the universal jet identifies `A`-linear maps `P^n_{A/k}(M) → N`
-with the `k`-linear differential operators `M → N` of order at most `n`. This holds for every
-commutative ring `k`, every commutative `k`-algebra `A` and all `A`-modules `M`, `N`. -/
-theorem principalParts_universal (M N : Type u) [AddCommGroup M] [Module k M] [Module A M]
-    [IsScalarTower k A M] [AddCommGroup N] [Module k N] [Module A N] [IsScalarTower k A N]
-    (n : ℕ) :
-    (∀ f : PrincipalParts k A M n →ₗ[A] N,
-        IsDifferentialOperator k A n ((f.restrictScalars k).comp (principalJet k A M n))) ∧
-      ∀ D : M →ₗ[k] N, IsDifferentialOperator k A n D →
-        ∃! f : PrincipalParts k A M n →ₗ[A] N,
-          (f.restrictScalars k).comp (principalJet k A M n) = D := by
-  sorry
-
-end PrincipalParts
+universe u v
 
 /-! ## Layer 2 (F2): regular formal connections -/
 
@@ -194,6 +136,33 @@ theorem formalLoop_eq_polynomial_mul_positive
   sorry
 
 end PolynomialLoops
+
+/-! ## Layer 6 (F6): cyclic vectors -/
+
+section CyclicVectors
+
+open scoped Differential
+
+/-- A differential module over the differential field `F` (Mathlib's `Differential F`: a field
+with a chosen derivation `f ↦ f′`): an additive map `D : V → V` on an `F`-vector space obeying
+the Leibniz rule `D (f • v) = f′ • v + f • D v`. -/
+def IsDifferentialModuleMap (F : Type u) [Field F] [Differential F] {V : Type v}
+    [AddCommGroup V] [Module F V] (D : V →+ V) : Prop :=
+  ∀ (f : F) (v : V), D (f • v) = f′ • v + f • D v
+
+/-- **Cyclic-vector theorem** (Deligne, *Équations différentielles à points singuliers
+réguliers*, LNM 163, Ch. II, Lemme 1.3; README F6.2): over a differential field of
+characteristic zero whose derivation is not zero, every finite-dimensional differential module
+`(V, D)` has a vector `v` whose iterates `v, D v, …, D^(n-1) v`, `n = dim_F V`, are linearly
+independent, hence a basis. Both hypotheses are needed: `D = 0` on `F²` over a field with the
+zero derivation has no cyclic vector, and `∂ = d/dt` on `𝔽_p(t)` has `∂^p = 0`. -/
+theorem exists_cyclicVector (F : Type u) [Field F] [Differential F] [CharZero F]
+    (hd : (Differential.deriv : Derivation ℤ F F) ≠ 0) {V : Type v} [AddCommGroup V]
+    [Module F V] [FiniteDimensional F V] (D : V →+ V) (hD : IsDifferentialModuleMap F D) :
+    ∃ v : V, LinearIndependent F (fun i : Fin (Module.finrank F V) => (⇑D)^[i] v) := by
+  sorry
+
+end CyclicVectors
 
 end
 

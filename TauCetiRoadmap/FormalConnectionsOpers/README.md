@@ -7,13 +7,14 @@ coefficient algebras and the native Hopf-point functor of affine groups. The res
 give a precise geometric parameter space for critical-level representation theory. Connections
 are relative de Rham connections; an oper remembers a transverse Borel reduction. Isomorphisms
 of the underlying connections form a groupoid over the oper space, the isomonodromy groupoid;
-they are not a global action on oper normal forms. The end theorems are the universal property
-of all-order principal parts over arbitrary commutative rings (Layer 2), the classification of
+they are not a global action on oper normal forms. The end theorems are the classification of
 regular formal connections by their fibre at `t = 0` (Layer 2), the polynomial factorization of
 formal loops of a connected reductive complex group over every commutative complex algebra
 (Layer 3A), the Chevalley–Kostant slice and Drinfeld–Sokolov normal form (Layer 4), the
-Frenkel–Zhu theorem that every flat bundle on the punctured formal disc for a connected
-reductive complex group has an oper structure (Layer 6), the Drinfeld–Sokolov Poisson structure
+cyclic-vector theorem for differential modules over a differential field of characteristic zero
+with nonzero derivation and the Frenkel–Zhu theorem that every flat bundle on the punctured
+formal disc for a connected reductive complex group has an oper structure (Layer 6), the
+Drinfeld–Sokolov Poisson structure
 with its Miura screening-kernel description (Layer 7) and the identification of the isomonodromy
 Lie algebroid with the continuous cotangent algebroid of punctured opers (Layer 8). The roadmap
 is this README; `Suggested.lean` states the headline theorems whose carriers exist at the pins.
@@ -21,14 +22,16 @@ is this README; `Suggested.lean` states the headline theorems whose carriers exi
 ## Scope and ownership
 
 This roadmap owns the relative formal calculus over arbitrary coefficient algebras (Layer 1),
-the all-order differential-operator and principal-parts theory over arbitrary commutative rings
+the symbols, Atiyah sequences and Lie–Rinehart enveloping algebras of differential operators
 and the algebraic connection comparisons (Layer 2), the fixed-model manifold realization of
 smooth separated finite-type complex schemes with its tangent, toric, group and gauge comparisons
-(§2.4), formal and polynomial loop groups with their gauge groupoids, quotient prestacks and the
-polynomial/formal quotient comparison (Layers 3 and 3A), intrinsic opers, the lower
+(§2.4), formal and polynomial loop groups with their gauge groupoids, quotient prestacks, the
+polynomial/formal quotient comparison and the loop Grassmannian, affine flags and Cartan
+decomposition (Layers 3 and 3A), intrinsic opers, the lower
 algebraic/analytic dictionary of `G(ℂ)`, the Chevalley–Kostant adapter and the Drinfeld–Sokolov
-normal form (Layer 4), oper coordinates and function algebras (Layer 5), the oper-reduction
-theorem over `ℂ((t))` with its proof lane (Layer 6), the Drinfeld–Sokolov Poisson structure and
+normal form (Layer 4), oper coordinates and function algebras (Layer 5), the cyclic-vector
+theorem and the oper-reduction theorem over `ℂ((t))` with its proof lane (Layer 6), the
+Drinfeld–Sokolov Poisson structure and
 the Miura comparison (Layer 7), and the isomonodromy groupoid with its differentiation (Layer 8).
 The labels F1–F8 and F3A name the layers; consumers cite them by these labels. Every
 construction includes morphisms, extensionality, identity and composition, base change with its
@@ -39,15 +42,18 @@ intrinsic descriptions.
   commutative base ring: the additive Leibniz carrier, base linearity, tensor symmetry, extension,
   curvature, horizontal morphisms, tensor, Hom/dual and base change. Layer 2 consumes it and owns
   the form/vector-field comparison with its finite-projectivity hypotheses, scheme gluing,
-  continuous and formal extensions, differential operators, jets, Lie–Rinehart PBW and
+  continuous and formal extensions, symbols, Atiyah sequences, Lie–Rinehart PBW and
   principal-group connections.
 - **ComplexComparisonPartII C−1.1, C0.3–C0.4, C5.1–C5.2** owns the scheme analytification
   functor and its analytic ring sheaf, complex points, open and closed subspaces, fibre products,
   smooth charts, étale local isomorphisms and the separated/Hausdorff comparison, the coherent
-  tensor pullback and finite locally free bundle dictionary, and the analytic
-  differential-operator and connection dictionaries. §2.2 supplies the algebraic operators and
-  all-order principal parts below that prefix; §2.4 realizes the smooth constant-dimensional
-  restriction on fixed manifold models and owns the tangent, toric, group and gauge comparisons.
+  tensor pullback and finite locally free bundle dictionary, the characteristic-free order
+  predicate on differential operators with its all-order modules of principal parts, universal
+  jet, universal bijection, composition maps and localization, and the analytic
+  differential-operator and connection dictionaries. §2.2 consumes C5.1's algebraic operator
+  interface and builds symbols, the Atiyah sequence and the Lie–Rinehart enveloping algebra on
+  top of it; §2.4 realizes the smooth constant-dimensional restriction on fixed manifold models
+  and owns the tangent, toric, group and gauge comparisons.
   No proper GAGA or global algebraization theorem is a prerequisite of any lane here.
 - **ComplexKahlerGeometry K1, K3.0, K4** owns joint holomorphic inverse and implicit maps,
   regular-zero-set submanifolds, finite-dimensional Cauchy/analyticity, the holomorphic
@@ -64,7 +70,7 @@ intrinsic descriptions.
   isogenies and the characteristic-zero reductivity theorem, Borel/torus conjugacy, Levi and
   Bruhat structure, the classification of split reductive groups by root data, pinned Chevalley
   groups over `ℤ`, and the complex reductive coset-affineness theorem. §4.3 owns the
-  ordered-root-product, complex-point generation and analytic matrix applications; Layer 6 owns
+  ordered-root-product, complex-point generation and analytic matrix applications; §3A.5 owns
   the loop-Grassmannian reduction-locus application of 6B.
 - **LieHighestWeight Layer 7** owns the Lie-algebra Chevalley restriction theorem over every
   algebraically closed characteristic-zero field, with the `Int(L)·H` density argument and the
@@ -153,6 +159,10 @@ Both signs are recomputed in §§7.2 and 8.2. `G(ℂ)` always means the native H
   and `anchor`: derivations, Kähler differentials and Lie–Rinehart algebras in
   `Mathlib/Algebra/LieRinehartAlgebra/Defs.lean`. The Kähler carrier is algebraic; Layer 1 builds
   the continuous one.
+- `Differential` (`Mathlib/RingTheory/Derivation/DifferentialRing.lean`): a commutative ring with
+  a chosen derivation `Derivation ℤ R R`, written `f ↦ f′`; on a field it is the differential-field
+  carrier of §6.2. `Module.finrank`, `LinearIndependent` and `Nat.iterate` state the cyclic-vector
+  theorem.
 - `LaurentSeries`, `PowerSeries`, `PowerSeries.derivative`, `HahnModule`, `HahnSeries.single`,
   `HahnSeries.ofPowerSeriesAlg` and `LaurentPolynomial.eval₂`: the coefficient rings of Layers 1
   and 3A. Under the pinned instances, `Algebra ℚ (LaurentSeries ℚ)` is found as
@@ -277,9 +287,20 @@ C−1.1: the single scheme analytification functor `complexSchemeAnalytification
 ring sheaf and comparison morphism `φ_X`, its complex-point comparison, open-restriction and
 closed-immersion comparisons, fibre-product comparison, smooth-chart comparison, étale
 local-isomorphism comparison and separated/Hausdorff comparison; C0.3's `holomorphicBundleDictionary`;
-C0.4's coherent tensor pullback; C5.1's `DifferentialOperatorAnalytification`; C5.2's
-`holomorphicConnectionDictionary`. The section-level comparisons of C−1.1 are cited by their
-subject, as C−1.1 states them in prose.
+C0.4's coherent tensor pullback; C5.1's algebraic interface `IsDifferentialOperator` (order at
+most `m` by iterated commutators with multiplication, for arbitrary commutative `k`, commutative
+`k`-algebras `A` and arbitrary `A`-modules, with no characteristic, smoothness or projectivity
+hypothesis), its additivity, monotonicity, common-order sum and composition-order laws, its
+all-order modules of principal parts `P^m_(A/k)(M) = ((A ⊗_k A)/I^(m+1)) ⊗_(A,right) M` with
+`I = ker(A ⊗_k A → A)`, the left `A`-action and the universal jet `s ↦ 1 ⊗ s`, the natural
+bijection between `A`-linear maps `P^m(M) → N` and operators of order at most `m`, the
+order-transition quotients and composition maps `P^(m+n)(M) → P^m(P^n(M))` with their unit,
+associativity and order-transition laws, localization and the sheafified universal property on
+schemes, and its analytic adapter `DifferentialOperatorAnalytification`; C5.2's
+`holomorphicConnectionDictionary`. The stage order is C5.1's algebraic interface, then §2.2's
+symbols, Atiyah sequence and Lie–Rinehart enveloping algebra, then C5.1's analytic adapter, then
+§2.4. The section-level comparisons of C−1.1 are cited by their subject, as C−1.1 states them in
+prose.
 
 ### From TauCetiRoadmap.ComplexManifolds
 
@@ -343,15 +364,18 @@ the affine root bounds and the dominant-chamber transport of Layer 3A.
 ## How to read the build
 
 Layer 1 builds the relative formal calculus, the `!` tensor completion, coordinate automorphisms
-and Tate modules with their descent. Layer 2 builds ordinary and formal connections, all-order
+and Tate modules with their descent. Layer 2 builds ordinary and formal connections, the symbols,
+Atiyah sequence and Lie–Rinehart enveloping algebra over ComplexComparisonPartII C5.1's
 differential operators and principal parts, and the fixed-model analytic comparison for smooth
 complex schemes with the regular horizontal trivialization. Layer 3 builds formal loop groups,
 their connections and the gauge groupoid with its fpqc stackification; Layer 3A builds polynomial
-loops, the polynomial/formal quotient comparison, normalizers, Iwahori subgroups and positive
-double cosets. Layer 4 builds intrinsic opers, the lower analytic dictionary of `G(ℂ)`, the
+loops, the polynomial/formal quotient comparison, normalizers, Iwahori subgroups, the loop
+Grassmannian and affine flag ind-schemes with the Cartan decomposition, and positive double
+cosets. Layer 4 builds intrinsic opers, the lower analytic dictionary of `G(ℂ)`, the
 Chevalley–Kostant adapter and the Drinfeld–Sokolov normal form. Layer 5 builds the coordinate
-action, oper function algebras and the scalar operator models. Layer 6 proves the Frenkel–Zhu
-oper-reduction theorem with its torsor-triviality, affine-flag and deformed-Springer prerequisites.
+action, oper function algebras and the scalar operator models. Layer 6 proves the cyclic-vector
+theorem and the Frenkel–Zhu oper-reduction theorem with its torsor-triviality,
+Kazhdan–Lusztig-cycle and deformed-Springer prerequisites.
 Layer 7 builds the Drinfeld–Sokolov Poisson structure, the continuous cotangent algebroid, the
 coisotropic regular locus and the Miura screening-kernel description with its completion. Layer 8
 builds the isomonodromy groupoid, differentiates it and exports the contracts consumed downstream.
@@ -485,8 +509,9 @@ sheaf on all `R`-points.
   §3.2.2, equation (3.1)), `M` is a finitely generated projective `R((t))`-module that is not
   quasi-elementary. A definition taking only elementary modules as Tate modules excludes it.
 - Residue duality pairs `v t^i` with `φ t^j dt` to `φ(v)` when `i + j = −1` and to `0` otherwise;
-  the annihilator of `V[[t]]` is exactly `V^∨[[t]] dt`. Dropping the `dt` shifts the annihilator to
-  `t⁻¹ V^∨[[t]]`.
+  the annihilator of `V[[t]]` is exactly `V^∨[[t]] dt`. The constant-term pairing, `φ(v)` when
+  `i + j = 0`, would give the annihilator `t V^∨[[t]]` instead, since `φ t^j` with `j ≥ 1` is the
+  only way to miss every `i ≥ 0`.
 - On `R((t))`, multiplication by `t` is a topologically nilpotent automorphism; multiplication
   by `t⁻¹` is an automorphism that is not topologically nilpotent (`t^(−n) R[[t]] ⊄ R[[t]]`); the zero
   map is topologically nilpotent and not an automorphism.
@@ -553,64 +578,74 @@ the formal extension.
 
 ### 2.2 Differential operators and principal parts (F2.2)
 
-Construct order-filtered algebraic differential operators on modules via iterated commutators
-with multiplication, the symbol map, the first-jet/Atiyah exact sequence and its splitting
-criterion for a connection. Define the sheaf of these operators on schemes by restriction and
-localization; prove gluing. For arbitrary commutative `k`, commutative `k`-algebras `A` and
-arbitrary `A`-modules `M`, `N`, prove the order-zero `A`-linearity criterion, additivity in the
-operator and the multiplier, monotonicity, sums at a common order and the composition order bound.
-With `I = ker(A ⊗_k A → A)`, construct all-order principal parts
-`P^m_(A/k)(M) = ((A ⊗_k A)/I^(m+1)) ⊗_(A,right) M` with the left `A`-action and jet `s ↦ 1 ⊗ s`.
-Prove the natural bijection between `A`-linear maps `P^m(M) → N` and `k`-linear operators
-`M → N` of order at most `m` (Stacks, Definition 10.133.1, Lemmas 10.133.3 and 10.133.9, tags
-09CI, 09CK and 0H90): this is `principalParts_universal`, with the order predicate
-`IsDifferentialOperator` (order zero is `A`-linearity, and order at most `m + 1` means every
-commutator `m ↦ D(am) − aD(m)` has order at most `m`), the relation module
-`principalPartsRelations` spanned by the iterated differences
-`(a₀ ⊗ 1 − 1 ⊗ a₀) ⋯ (a_m ⊗ 1 − 1 ⊗ a_m)(1 ⊗ s)`, the quotient `PrincipalParts` and the jet
-`principalJet`. Construct order-transition quotients and composition maps
-`P^(m+n)(M) → P^m(P^n(M))`, carrying jets to iterated jets, with unit, associativity,
-order-transition, localization and sheafified restriction laws. Individual finite-order
-operators extend uniquely to localized coefficient modules; identifying localized `Hom` with all
-`Hom` after localization additionally requires finite presentation of `P^m(M)`. The order
-predicate and universal factorization require no characteristic, smoothness or projectivity
-hypothesis. For smooth schemes in characteristic zero identify `gr D_X` with `Sym T_X` through
-Lie–Rinehart PBW and the comparison with ordinary differential operators. Construct the
-Lie–Rinehart enveloping algebra by its relations `[ξ, a] = ξ(a)`, `[ξ, η]` = their bracket, and
-`A`-linearity; its universal property and filtered PBW under projectivity (Rinehart,
-*Differential forms on general commutative algebras*, Theorem 3.1, cited by locator) are targets
-here. A vector-field connection satisfying the bracket identity is equivalently a module over this
-Lie–Rinehart enveloping algebra with the compatible `O_X`-action. Compare this with ordinary
-curvature-zero form connections under the explicit hypothesis that `Ω¹_(X/k)` is finite locally
-projective; on affine charts use §2.1's finite-projective equivalence. Neither this form comparison
-nor the smooth characteristic-zero comparison with ordinary differential operators is asserted
-without its hypotheses. These are targets here, not dependencies on an unnamed D-module roadmap.
+Consume ComplexComparisonPartII C5.1's characteristic-free algebraic interface: for arbitrary
+commutative `k`, commutative `k`-algebras `A` and arbitrary `A`-modules `M`, `N`, its order
+predicate on `k`-linear maps `M → N` (order zero is `A`-linearity, and order at most `m + 1`
+means every commutator with a multiplication has order at most `m`), its additivity,
+monotonicity, common-order sum and composition-order laws, its all-order modules of principal
+parts `P^m_(A/k)(M) = ((A ⊗_k A)/I^(m+1)) ⊗_(A,right) M` with `I = ker(A ⊗_k A → A)`, the left
+`A`-action and the universal jet `s ↦ 1 ⊗ s`, the natural bijection between `A`-linear maps
+`P^m(M) → N` and operators of order at most `m`, the order-transition quotients and composition
+maps `P^(m+n)(M) → P^m(P^n(M))`, and its localization and sheafified universal property on
+schemes (Stacks, Definition 10.133.1, Lemmas 10.133.3 and 10.133.9, tags 09CI, 09CK and 0H90,
+state what is consumed). Nothing of that interface is defined again here. On top of it construct
+the symbol of an operator `D` of order at most `m` as the restriction of its universal
+factorization `P^m(M) → N` to the kernel of the order-transition map `P^m(M) → P^(m−1)(M)`, and
+prove that it vanishes exactly when `D` has order at most `m − 1`; prove that for `A` smooth over
+`k` this kernel is `Sym^m_A(Ω¹_(A/k)) ⊗_A M`, the diagonal ideal being locally generated by a
+regular sequence of length the relative dimension (route: the standard-smooth presentations of
+Mathlib `Algebra.Smooth.exists_span_eq_top_isStandardSmooth`). Identify `Ω¹_(A/k)` with `I/I²`
+by `da ↦ 1 ⊗ a − a ⊗ 1`, construct the first-jet/Atiyah exact sequence
+`0 → Ω¹_(A/k) ⊗_A M → P¹(M) → M → 0`, exact for every `M` because the sequence for `M = A`
+splits as right `A`-modules, and prove the splitting criterion: `A`-linear sections `σ` of the
+jet projection correspond bijectively to the connections `∇` of §2.1 by `∇(s) = 1 ⊗ s − σ(s)`.
+Define the sheaf of symbols on schemes by restriction and localization; prove gluing. For smooth
+schemes in characteristic zero identify `gr D_X` with `Sym T_X` as graded algebras through
+Lie–Rinehart PBW and the comparison with ordinary differential operators, so that the symbol is
+multiplicative. Construct the Lie–Rinehart enveloping algebra by its relations `[ξ, a] = ξ(a)`,
+`[ξ, η]` = their bracket, and `A`-linearity; its universal property and filtered PBW under
+projectivity (Rinehart, *Differential forms on general commutative algebras*, Theorem 3.1, cited
+by locator) are targets here. A vector-field connection satisfying the bracket identity is
+equivalently a module over this Lie–Rinehart enveloping algebra with the compatible
+`O_X`-action. Compare this with ordinary curvature-zero form connections under the explicit
+hypothesis that `Ω¹_(X/k)` is finite locally projective; on affine charts use §2.1's
+finite-projective equivalence. Neither this form comparison nor the smooth characteristic-zero
+comparison with ordinary differential operators is asserted without its hypotheses. These are
+targets here, not dependencies on an unnamed D-module roadmap.
 
-- `IsDifferentialOperator k A n D` is monotone in `n`, closed under sums at a common order, and
-  the composite of operators of orders `m` and `n` has order at most `m + n`.
-- `principalParts_universal`: composition with `principalJet k A M n` is a bijection from
-  `A`-linear maps `PrincipalParts k A M n →ₗ[A] N` onto the `k`-linear operators `M → N` of order
-  at most `n`, for every commutative ring `k`, commutative `k`-algebra `A` and `A`-modules `M`, `N`.
-- The order-transition map `P^(m+1)(M) → P^m(M)` is the quotient by the next power of `I`, and
-  the jets are compatible.
+- The Atiyah sequence is exact for every `A`-module `M`; its `A`-linear splittings of the jet
+  projection are in bijection with the connections on `M`, so it splits when `M` is projective.
+- The symbol of an operator of order at most `m` vanishes iff the operator has order at most
+  `m − 1`; for `A` smooth over `k` the symbol lives in `Hom_A(Sym^m(Ω¹_(A/k)) ⊗_A M, N)`.
+- The Lie–Rinehart enveloping algebra of `Derivation k A A` is filtered with `gr` a quotient of
+  `Sym_A(Derivation k A A)`, an isomorphism when the derivation module is projective (Rinehart's
+  PBW); in characteristic zero and for `A` smooth its image is all of the operators `A → A`.
 
 **Checks.**
 
-- For `m = 0` the relations are spanned by `a ⊗ s − 1 ⊗ as`, the quotient is `M` by `a ⊗ s ↦ as`,
-  and the bijection is the identity on `A`-linear maps.
-- For `A = k[x]` and `M = N = A`, `D = d/dx` satisfies `D(x·1) = 1 ≠ x·D(1) = 0`, so it is not of
-  order zero, while `[D, x] f = (xf)' − xf' = f` is `A`-linear, so `D` has order one. `P¹(A)` is
-  free on `1 ⊗ 1` and `1 ⊗ x − x ⊗ 1`, the jet of `f` is `(f, df)`, and the factorization of `D`
-  sends `1 ⊗ 1 ↦ 0` and `1 ⊗ x − x ⊗ 1 ↦ 1`.
-- In characteristic `p` the operator `(d/dx)^p` is zero on `k[x]`, since
-  `(d/dx)^p x^n = n(n−1)⋯(n−p+1) x^(n−p) = 0`, while the divided-power operator
-  `x^n ↦ binom(n, p) x^(n−p)` has order `p` and is not generated by vector fields: the order
-  predicate is not the vector-field one.
-- For `A = 0` or `A = k` all principal parts are `M` in every order and every `k`-linear map
-  has order zero.
+- `A = k[x]`, `M = A`: `P¹(A) = A[ξ]/(ξ²)` with `ξ = 1 ⊗ x − x ⊗ 1 ↦ dx` and `1 ⊗ f = f + f′ξ`,
+  so the Atiyah sequence is `0 → A dx → P¹(A) → A → 0`. The `A`-linear section
+  `f ↦ f(1 ⊗ 1 − aξ)` corresponds to `∇f = 1 ⊗ f − f(1 ⊗ 1 − aξ) = (f′ + af) dx`, the connection
+  `d + a dx` of §2.1. The opposite identification `da ↦ a ⊗ 1 − 1 ⊗ a` would give `−d + a dx`,
+  which violates the Leibniz rule: `(−d + a dx)(x·1) = (−1 + ax) dx ≠ x(−d + a dx)(1) + dx = (1 + ax) dx`.
+- The jet `s ↦ 1 ⊗ s` is a `k`-linear section of the Atiyah projection but not an `A`-linear one:
+  for `A = k[x]`, `M = A`, `s = 1`, `1 ⊗ x − x(1 ⊗ 1) = ξ = dx ≠ 0`; it corresponds to the zero
+  map `M → Ω¹ ⊗ M`, which is not a connection, so `A`-linearity of the section is the content of
+  the criterion.
+- Symbols on `k[x]`: the factorization of `D = d/dx` through `P¹(A)` sends `1 ⊗ 1 ↦ 0` and
+  `ξ ↦ 1`, so the symbol (its restriction to `ker(P¹ → P⁰) = Aξ`) is nonzero and `D` is not of
+  order zero. The factorization of `(d/dx)²` through `P²(A) = A[ξ]/(ξ³)`, where
+  `1 ⊗ f = f + f′ξ + (f″/2)ξ²`, sends `1 ↦ 0`, `ξ ↦ 0`, `ξ² ↦ 2`: its symbol is nonzero in
+  characteristic `≠ 2` and zero in characteristic `2`, where `(d/dx)²` is the zero operator.
+- Characteristic `p`: the divided-power operator `x^n ↦ binom(n, p) x^(n−p)` on `k[x]` has order
+  `p` (C5.1's Check), while the image of the Lie–Rinehart enveloping algebra of
+  `Derivation k k[x] k[x] = k[x] d/dx` is spanned by `a (d/dx)^i` with `i < p`, since `(d/dx)^p = 0`
+  on `k[x]`, all of order at most `p − 1`: the PBW comparison with all differential operators needs
+  characteristic zero.
 
-*Needs:* Mathlib tensor products and `Submodule.span`; §2.1; AlgebraicVectorBundles for the
-sheaf form; Mathlib `LieRinehartAlgebra` for the enveloping algebra.
+*Needs:* ComplexComparisonPartII C5.1; §2.1; AlgebraicVectorBundles for the sheaf form; Mathlib
+`KaehlerDifferential`, `Algebra.Smooth.exists_span_eq_top_isStandardSmooth` and
+`LieRinehartAlgebra` for the enveloping algebra.
 
 ### 2.3 Operations, Bianchi and the flatness criterion (F2.3)
 
@@ -821,14 +856,16 @@ The curve `𝔾_m` with the connection `d + a t⁻¹ dt` on the trivial line bun
 whose horizontal sections `c t^(−a)` have monodromy `exp(−2πi a)` around the origin; for `a ∈ ℤ`
 the connection is gauge-trivial by `t^a`.
 The regular connection `d + (εI) dt` over `ℚ[ε]/ε²` with its gauge trivialization `1 + εt`. The
-operator `d/dx` of order one and the divided-power operator of order `p` in characteristic `p`.
+operator `d/dx` with its nonzero symbol, and the divided-power operator of order `p` in
+characteristic `p`, which no element of the Lie–Rinehart enveloping algebra reaches.
 
 ### Dependencies
 
 Layer 1; CrystallineCohomology CR.1.3; ComplexComparisonPartII; ComplexKahlerGeometry;
 ComplexManifolds; AnalyticToricGeometry; AlgebraicVectorBundles; SchemeAndStackFoundations
-§§1.14–1.16; Mathlib and Tau Ceti as listed. The stage order is §2.2's algebraic operators and
-all-order principal parts, then ComplexComparisonPartII C5.1's analytic operator adapter, then
+§§1.14–1.16; Mathlib and Tau Ceti as listed. The stage order is ComplexComparisonPartII C5.1's
+algebraic operators and all-order principal parts, then §2.2's symbols, Atiyah sequence and
+Lie–Rinehart enveloping algebra on top of them, then C5.1's analytic operator adapter, then
 §2.4's connection application, with C−1.1 and C0.3–C0.4 supplying the same carriers below. The
 prefix uses K1–K4 and the shared algebraic connection operations, not §2.4's manifold, toric,
 group or gauge applications.
@@ -1020,9 +1057,8 @@ post-composition of Hopf points.
 ### 3A.2 Polynomial/formal quotient comparison and the torsor lane (F3A.2)
 
 Construct the canonical natural map `G(R[t, t⁻¹])/G(R[t]) → G(R((t)))/G(R[[t]])` and prove it
-bijective for every commutative complex algebra `R`. Identify both sides with Layer 6's
-affine-Grassmannian functor and its fpqc/étale sheaf presentation, preserving their actual
-quotient maps, actions and base change. For injectivity prove `R[t, t⁻¹] ∩ R[[t]] = R[t]` in
+bijective for every commutative complex algebra `R`; §3A.5 identifies both sides with the
+affine Grassmannian. For injectivity prove `R[t, t⁻¹] ∩ R[[t]] = R[t]` in
 `R((t))` coefficientwise and apply the affine Hopf presentation. For surjectivity prove
 `G(R((t))) = G(R[t, t⁻¹]) G(R[[t]])` by the following owned torsor lane, before invoking that
 factorization; density alone is not a proof.
@@ -1034,8 +1070,8 @@ and infinity with the actual ring-square diagrams. Establish the precise `ℙ¹`
 theorem: a `G_R`-torsor on `ℙ¹_R` trivial at infinity is trivial on `𝔸¹_R`. Here `G_R` is split
 and hence totally isotropic; the target is this complex-base-change specialization, not arbitrary
 anisotropic reductive groups (Česnavičius–Fedorov, *A toral version of the Grothendieck–Serre
-conjecture*, Theorem 4.2, cesnavicius-fedorov line 721; restated as Česnavičius, *The affine
-Grassmannian as a presheaf quotient*, Theorem 16, cesnavicius-presheaf line 332).
+conjecture*, Theorem 4.2; restated as Česnavičius, *The affine Grassmannian as a presheaf
+quotient*, Theorem 16).
 
 Own the lower inputs used to prove that theorem: Quillen locality for an `𝔸¹` torsor to descend
 to the base; the split simply connected isotropic semilocal reduction, including surjectivity of
@@ -1052,11 +1088,11 @@ lattice splitting. Combine them with diagonal-section translation over `R[u]` to
 triviality, then the patching contradiction proving polynomial factorization. This proof lane is
 independent of opers, compact forms and critical centres.
 
-Česnavičius, Theorems 17 and 19 (cesnavicius-presheaf lines 334–369), with the `ℙ¹` input above,
+Česnavičius, Theorems 17 and 19, with the `ℙ¹` input above,
 are the precise proof route. Theorem 19 is the polynomial-loop presentation
 `G(R((t)))/G(R[[t]]) ≃ G(R[t, t⁻¹])/G(R[t])` over every ring for reductive `G` with totally
 isotropic adjoint quotient; a connected reductive complex group is split, so its base change to
-every complex algebra `R` qualifies (cesnavicius-presheaf lines 330–331). Its surjectivity half,
+every complex algebra `R` qualifies (Česnavičius, Example 15). Its surjectivity half,
 the factorization `G(R((t))) = G(R[t, t⁻¹])·G(R[[t]])`, is stated in `Suggested.lean` as
 `formalLoop_eq_polynomial_mul_positive` on native Hopf points. Polynomial, formal, Henselian and
 localized-algebraic loop conventions are distinguished by their coefficient rings; terminology
@@ -1077,14 +1113,13 @@ alone does not identify their groups.
 - `R = ℂ[ε]/ε²`: the unit `1 + εt⁻¹` is already a polynomial loop, with positive factor `1`; the
   factorization must not require the positive factor to be constant or the polynomial factor to
   be a monomial.
-- `G = 1`: both sides are a point. `G = SL₂`, `R = ℂ`: `[[1, t⁻¹ + t⁻² + ⋯], [0, 1]]` with the
-  geometric series `(1 − t)⁻¹ t⁻¹` factors as the polynomial loop `[[1, t⁻¹], [0, 1]]` times
+- `G = 1`: both sides are a point. `G = SL₂`, `R = ℂ`: `[[1, t⁻¹ + 1 + t + t² + ⋯], [0, 1]]` with
+  the geometric series `(1 − t)⁻¹ t⁻¹` factors as the polynomial loop `[[1, t⁻¹], [0, 1]]` times
   `[[1, (1 − t)⁻¹ t⁻¹ − t⁻¹], [0, 1]] = [[1, (1 − t)⁻¹], [0, 1]]`, which is positive.
 - Injectivity witness: `t⁻¹ + t ∈ R[t, t⁻¹]` lies in `R[[t]]` only if `t⁻¹` does, which fails;
   `R[t, t⁻¹] ∩ R[[t]] = R[t]` coefficientwise.
 
-*Needs:* §3A.1; §§3.2, 3.4; SchemeAndStackFoundations §§1.14–1.18; ReductiveGroups Layers 4, 6, 9;
-Layer 6's lattice Grassmannian presentation for the identification of both sides.
+*Needs:* §3A.1; §§3.2, 3.4; SchemeAndStackFoundations §§1.14–1.18; ReductiveGroups Layers 4, 6, 9.
 
 ### 3A.3 Normalizer and the full translation lattice (F3A.3)
 
@@ -1134,7 +1169,7 @@ roots are `α + nδ` and the diagram is its untwisted affine diagram; central to
 vertices.
 
 On complex points prove that the subgroup generated by `I_poly` and the finite simple
-negative-root directions is `G(ℂ[t])`; compare it with the positive formal parahoric and Layer 6's
+negative-root directions is `G(ℂ[t])`; compare it with the positive formal parahoric and §3A.5's
 actual ind-scheme quotients. Its omitted nodes are the extending nodes, one per derived
 component. It is a maximal standard parabolic in the irreducible affine root setting; for a product
 with multiple nontrivial derived components it is not maximal in the full product, and a root-free
@@ -1158,9 +1193,75 @@ with these polynomial loops; that comparison is KacMoody's, and nothing here con
 
 *Needs:* §3A.3; ReductiveGroups Layers 7, 9; RootSystems.
 
-### 3A.5 Positive double cosets (F3A.5)
+### 3A.5 Loop Grassmannian, affine flags and the Cartan decomposition (F3A.5)
 
-After Layer 6's formal Cartan decomposition, prove the polynomial positive double-coset comparison
+Construct the loop Grassmannian `Gr_G = LG/L⁺G` and the affine flag variety `Fℓ_G = LG/I_form`
+as ind-schemes over `ℂ`: the fpqc (equivalently étale) sheafifications of the coset functors
+`R ↦ G(R((t)))/G(R[[t]])` and `R ↦ G(R((t)))/I_form(R)`, presented as colimits of bounded lattice
+charts. For `G = GL_n` the chart of pole order at most `N` is the projective scheme of
+`R[[t]]`-lattices `L` with `t^N R[[t]]^n ⊂ L ⊂ t^(−N) R[[t]]^n`, a closed subscheme of a
+Grassmannian of the finite free module `t^(−N) R[[t]]^n / t^N R[[t]]^n`; prove that the charts
+are closed in one another, that their colimit is the sheaf quotient, and that `L ↦ L/tL`
+presents the flag variety over the Grassmannian with fibre the finite flag variety. For general
+reductive `G` use ReductiveGroups Layer 1's faithful closed embedding `G → GL_n` and consume
+Layer 6B's complex reductive coset-affineness theorem, including its fpqc quotient and
+invariant-ring identification, to obtain `GL_n/G` affine; this roadmap owns the subsequent closed
+reduction locus in lattice charts with the required quotient/descent proof, presenting `Gr_G` as
+a closed sub-ind-scheme of `Gr_(GL_n)`. Construct the Iwahori and minimal parahoric quotients,
+their projective stage presentations and the minimal-parahoric `ℙ¹`-fibrations
+`LG/I_form → LG/P_i` in the complex setting. Identify §3A.2's bijection
+`G(R[t, t⁻¹])/G(R[t]) ≃ G(R((t)))/G(R[[t]])` with the induced map of presheaves into `Gr_G`,
+preserving the quotient maps, the left `LG`-actions and base change: the polynomial coset functor
+is a presentation of the same sheaf.
+
+Prove the complex loop Cartan decomposition on complex points,
+`G(ℂ((t))) = ⊔_(λ ∈ Y⁺) G(ℂ[[t]]) t^λ G(ℂ[[t]])` with `Y⁺` the dominant cocharacters of §3A.3
+(Iwahori–Matsumoto, *On some Bruhat decomposition and the structure of the Hecke rings of
+p-adic Chevalley groups*, Proposition 2.34 (iii), applied with both subgroups equal to
+`G(ℂ[[t]])`, whose associated subgroup of the affine Weyl group is the finite Weyl group, so that
+the double cosets are `W \ (Y ⋊ W) / W ≃ Y⁺`). Their statement is for the Chevalley group of a
+complex semisimple Lie algebra over a field with a nontrivial discrete valuation, with no
+finiteness assumption on the residue field; the extension to every connected reductive complex
+`G`, with its central torus and its isogeny type, is a target here, proved by the
+central-torus/derived-group reduction of ReductiveGroups Layer 6 and the uniqueness of dominant
+representatives of §3A.3. Prove the Coxeter relations of the affine Weyl group for the simple
+affine reflections of §3A.4 (Iwahori–Matsumoto, §1) and the Iwahori–Bruhat decomposition
+`G(ℂ((t))) = ⊔_(w ∈ Y ⋊ W) I w I` on complex points (Iwahori–Matsumoto, Theorem 2.16, extended to
+reductive `G` by the same reduction). Define the bounded lattice strata as the
+`G(ℂ[[t]])`-orbits `Gr^λ` of the points `t^λ`, and prove that `Gr^λ` lies in the chart of pole
+order `max_ω |⟨λ, ω⟩|`, the maximum over the weights `ω` of the faithful representation, so that
+each stratum is a finite-dimensional quasi-projective variety.
+
+- `Gr_G` and `Fℓ_G` are ind-projective; the lattice charts of bounded pole order are projective
+  schemes, and `Fℓ_G → Gr_G` is a fibration with fibre `G/B`.
+- The Cartan decomposition: `λ ↦ G(ℂ[[t]]) t^λ G(ℂ[[t]])` is a bijection from `Y⁺` to the
+  `G(ℂ[[t]])`-double cosets of `G(ℂ((t)))`, and `t^λ`, `t^μ` lie in one double coset iff `μ ∈ Wλ`.
+- The Iwahori–Bruhat decomposition: `w ↦ I w I` is a bijection from `Y ⋊ W` to the `I`-double
+  cosets of `G(ℂ((t)))`.
+
+**Checks.**
+
+- `GL₁`: `Gr = ℤ` as a discrete set of lattices `t^n ℂ[[t]]`, the Cartan decomposition is
+  `ℂ((t))ˣ = ⊔_n ℂ[[t]]ˣ t^n`, and the affine Weyl group is `ℤ` acting by translation; the Iwahori
+  is `ℂ[[t]]ˣ` and the Iwahori–Bruhat decomposition is the same disjoint union.
+- `SL₂`: `diag(t, t⁻¹)` and `diag(t⁻¹, t)` lie in one `SL₂(ℂ[[t]])`-double coset (conjugate by
+  `[[0, 1], [−1, 0]]`), with dominant representative `α^∨`; the double cosets of `diag(t, t⁻¹)`
+  and `diag(t², t⁻²)` are distinct, since the elementary divisors `(t, t⁻¹)` and `(t², t⁻²)` of the
+  lattice `g·ℂ[[t]]²` relative to `ℂ[[t]]²` differ.
+- `SL₂`: the closed Schubert variety of `t^(α^∨)` in `Gr` is a two-dimensional quadric cone whose
+  vertex is the base point `L₀ = ℂ[[t]]²`, the orbit `Gr^(α^∨)` being its complement; the
+  minimal-parahoric fibration `Fℓ → Gr` has `ℙ¹` fibres parametrizing lines in `L/tL`.
+- `GL₂`: the lattice `L = ℂ[[t]] e₁ ⊕ t⁻¹ℂ[[t]] e₂` lies in the chart of pole order `1` and not in
+  the chart of pole order `0`, which is the single point `L₀`; a chart without the lower bound
+  `t^N R[[t]]^n ⊂ L` would contain `t^(−k)ℂ[[t]] e₂ ⊕ ℂ[[t]] e₁` for every `k` and not be of
+  finite type.
+
+*Needs:* §§3A.2–3A.4; §§3.1–3.2; ReductiveGroups Layers 1, 6, 6B, 7, 9; SchemeAndStackFoundations
+§§1.14–1.17; RootSystems.
+
+### 3A.6 Positive double cosets (F3A.6)
+
+After §3A.5's formal Cartan decomposition, prove the polynomial positive double-coset comparison
 and the compatible bijections between the double cosets of `G(ℂ[t])` on both sides of
 `G(ℂ[t, t⁻¹])`, the double cosets of `W` on both sides of `Y ⋊ W`, the orbits `Y/W` and the
 dominant cocharacters `Y⁺`. Specify the two-sided orbit relation and all representative maps and
@@ -1175,7 +1276,7 @@ individual points of `LG/L⁺G`. Export inverse-coset and antidominant-conventio
 retain the full component group `Y/Q^∨`.
 
 - `G(ℂ[t]) \ G(ℂ[t, t⁻¹]) / G(ℂ[t]) ≃ Y⁺`, compatibly with the formal
-  `G(ℂ[[t]]) \ G(ℂ((t))) / G(ℂ[[t]]) ≃ Y⁺` of Layer 6.
+  `G(ℂ[[t]]) \ G(ℂ((t))) / G(ℂ[[t]]) ≃ Y⁺` of §3A.5.
 - `W \ (Y ⋊ W) / W ≃ Y/W ≃ Y⁺`.
 - Inversion `g ↦ g⁻¹` sends the class of `t^λ` to that of `t^(−λ)`, whose dominant representative
   is `t^(−w₀λ)`.
@@ -1191,9 +1292,9 @@ retain the full component group `Y/Q^∨`.
 - `G = 𝔾_m`: the double cosets are the integers `n`, every `n` is dominant, and inversion is
   `n ↦ −n`.
 
-*Needs:* §§3A.2–3A.4; Layer 6's Cartan decomposition and lattice strata.
+*Needs:* §§3A.2–3A.5.
 
-### 3A.6 Boundary computations and construction order (F3A.6)
+### 3A.7 Boundary computations and construction order (F3A.7)
 
 Give the `G = 1`, `𝔾_m`, `SL₂`, `PGL₂`, `GL_n` and `SL₂ × SL₂` calculations: for `𝔾_m`, `W = 1`,
 `Q^∨ = 0` and `Y = ℤ`; for `SL₂`, `Y` is the coroot lattice; for `PGL₂` it is the index-two
@@ -1210,25 +1311,25 @@ a homotopy equivalence is asserted.
 - The formal loop `Σ_(n≥0) n! t^n` is a unit of `ℂ[[t]]` with constant term `1` that converges
   at no nonzero complex `t`; it defines no loop on `S¹`.
 
-The order within the layer is §3.1/§3A.1 coefficient/point definitions → early algebraic
-root/lattice/Iwahori maps from ReductiveGroups and RootSystems → Layer 6's basic lattice
-Grassmannian/flag geometry and formal Cartan decomposition → §3A.2 torsor comparison and §3A.5
-positive-orbit comparison. The semilocal torsor lemmas are constructed independently of the
-desired polynomial quotient theorem. Layer 6's later affine-Springer cycle/oper argument consumes
-these exports; no oper-reduction, critical-centre, representation-category or KacMoody
-group-comparison return edge supplies them.
+The order within the layer is its numbering: §3A.1's coefficient/point definitions and §3A.2's
+torsor comparison, then the algebraic root/lattice/Iwahori maps of §§3A.3–3A.4 from
+ReductiveGroups and RootSystems, then §3A.5's lattice Grassmannian, flag geometry and Cartan
+decomposition, then §3A.6's positive-orbit comparison. The semilocal torsor lemmas are
+constructed independently of the desired polynomial quotient theorem. Layer 6's affine-Springer
+cycle/oper argument consumes these exports; no oper-reduction, critical-centre,
+representation-category or KacMoody group-comparison return edge supplies them.
 
 ### Examples
 
 `𝔾_m`, `SL₂`, `PGL₂`, `GL_n` and `SL₂ × SL₂` as above; the unit `1 + εt⁻¹` over `ℂ[ε]/ε²` as a
 polynomial loop with no monomial normal form; the geometric-series `SL₂` loop of §3A.2 and its
-explicit polynomial-times-positive factorization.
+explicit polynomial-times-positive factorization; the `SL₂` quadric-cone Schubert variety and the
+`GL₂` lattice chart of pole order one of §3A.5.
 
 ### Dependencies
 
-Layers 1–3, ReductiveGroups Layers 4, 6, 7, 9, RootSystems, SchemeAndStackFoundations
-§§1.14–1.18, FormalLaurentPuiseux L1, and the lattice-Grassmannian and Cartan-decomposition
-targets of Layer 6 for §§3A.2 and 3A.5 only. Nothing from KacMoody or AffineLieAlgebras.
+Layers 1–3, ReductiveGroups Layers 1, 4, 6, 6B, 7, 9, RootSystems, SchemeAndStackFoundations
+§§1.14–1.18 and FormalLaurentPuiseux L1. Nothing from Layer 6, KacMoody or AffineLieAlgebras.
 
 ## Layer 4: intrinsic opers and the Drinfeld–Sokolov/Kostant slice (F4)
 
@@ -1238,11 +1339,10 @@ For a pinned split semisimple group define an oper as a principal connection plu
 reduction whose second fundamental form lies in the open `B`-orbit of `𝔤^(−1)/𝔟`, where
 `𝔤^(−1) = 𝔟 ⊕ Σ_i 𝔤_(−α_i)`: its negative-simple-root components are units and its other
 negative-root components vanish (Frenkel, *Langlands correspondence for loop groups*, §4.2.1,
-pp. 108–109, frenkel-loop line 4816). Make this a sheaf condition, construct arrows preserving
+pp. 108–109). Make this a sheaf condition, construct arrows preserving
 the reduction, restriction and base change. For an arbitrary connected reductive group use the same
 condition on its derived-root directions and retain the central connection directions. Prove the
-`B`-gauge presentation with invertible coefficients `ψ_i f_i` (Frenkel, §4.2.2, equation (4.2-1),
-line 4871).
+`B`-gauge presentation with invertible coefficients `ψ_i f_i` (Frenkel, §4.2.2, equation (4.2-1)).
 
 - An oper over `R` is a triple (torsor, connection, `B`-reduction) satisfying the transversality
   condition; arrows are isomorphisms of torsors with connection preserving the reduction.
@@ -1264,7 +1364,7 @@ line 4871).
 
 For adjoint semisimple `G`, use the simple-root character isomorphism of `T` to normalize all
 `ψ_i` to `1`, obtaining `(d + f + 𝔟((t)) dt)/N((t))` with `f = Σ_i f_i` (Frenkel, §4.2.2,
-equation (4.2-2) and the display following it, lines 4896–4910). The normalized `N`-quotient does
+equation (4.2-2) and the display following it). The normalized `N`-quotient does
 not automatically describe a nonadjoint group's opers; central isogenies, lift torsors and
 stabilizers must be retained by the intrinsic presentation.
 
@@ -1423,7 +1523,7 @@ element with `α_i(ρ^∨) = 1`, not an assumed cocharacter of every group. Prov
 semisimple exponents `d_i` as its integer eigenvalues on `ker(ad e)`, with multiplicities; central
 directions contribute degree `0` separately. Construct a homogeneous basis `p_i` of
 `V_can = ker(ad e) ⊂ 𝔟` and prove `𝔟 = [f, 𝔫] ⊕ V_can` by the `sl₂` decomposition (Frenkel,
-§4.2.4, pp. 112–113, lines 4991–5010; Kostant, *Lie group representations on polynomial rings*,
+§4.2.4, pp. 112–113; Kostant, *Lie group representations on polynomial rings*,
 cited by locator, uncertified). Construct the principal slice `f + V_can` and prove its map to the
 adjoint quotient is an isomorphism, meeting each regular geometric orbit once. Prove the
 restriction's differential and graded inverse using this complement, then homogeneous polynomial
@@ -1436,7 +1536,7 @@ containing Borel. Retain central affine factors, all characteristic-zero descent
 `R` uses. These invariant/slice theorems are finite geometric construction targets, independent
 of the quantum centre. Prove each `d + f + v(t)` has a unique `N((t))` gauge carrying it into
 `d + f + Σ q_i(t) p_i`, functorially over every `R`, with regular `O_R` version via `N[[t]]`
-(Frenkel, Lemma 4.2.2, line 5011, after Drinfeld–Sokolov). The root-height algorithm terminates
+(Frenkel, Lemma 4.2.2, after Drinfeld–Sokolov). The root-height algorithm terminates
 coefficientwise; prove existence, uniqueness, freeness and recovery of the gauge element.
 
 - Exports consumed downstream: the fixed carrier, topology, atlas and tangent/counit bracket
@@ -1537,7 +1637,7 @@ compact form).
 
 Construct pullback of opers by `Aut(O)`. For adjoint `G` rescale by `ρ^∨(φ′)` after substituting
 `t ↦ φ(t)`, then reapply the unique Drinfeld–Sokolov gauge (Frenkel, §4.2.3, equation (4.2-3),
-pp. 110–111, line 4913); prove the resulting group action, coefficient formulas, continuity and
+pp. 110–111); prove the resulting group action, coefficient formulas, continuity and
 invariance of the regular locus. Prove coordinate independence by gluing this action over the
 torsor of formal coordinates on a smooth curve. In rank one the inhomogeneous term is projective;
 higher coefficients transform triangularly, not all as primary tensor densities.
@@ -1545,7 +1645,7 @@ higher coefficients transform triangularly, not all as primary tensor densities.
 - The action is a right action of `Aut(O)(R)` on `Op_G(D×)(R)`, natural in `R`, preserving
   `Op_G(D)(R)`.
 - The induced `H`-bundle of an oper is `ρ^∨`-twisted canonical: its transition function under
-  `t = φ(s)` is `ρ^∨(φ′(s))` (Frenkel, Lemma 4.2.1, line 4985).
+  `t = φ(s)` is `ρ^∨(φ′(s))` (Frenkel, Lemma 4.2.1).
 - The infinitesimal action of `ε(t)∂_t` on the coordinate `q_i` of degree `d_i + 1` is
   `ε q_i′ + (d_i + 1) ε′ q_i` plus lower-order corrections from the gauge, with the Schwarzian term
   only in the degree-two coordinate.
@@ -1623,7 +1723,7 @@ Construct its universal connection and the completed differential maps used in L
 For `G = PGL_n`, `n ≥ 2`, identify the upper-Hessenberg/`N` presentation (ones just below the
 diagonal, zero farther below, trace zero) with monic scalar differential operators of order `n`
 having zero `∂^(n−1)` coefficient, from `ω^((1−n)/2)` to `ω^((1+n)/2)` (Frenkel, §4.2.5,
-equations (4.2-13)–(4.2-14), pp. 116–117, line 5176, and §4.1.2 for `n = 2`). For even `n`
+equations (4.2-13)–(4.2-14), pp. 116–117, and §4.1.2 for `n = 2`). For even `n`
 specify a square root of `ω` for this scalar model and prove its projective independence; the
 intrinsic `PGL_n`-oper needs no such choice. Construct cyclic flags and the inverse companion
 presentation. Derive signs by eliminating horizontal sections, rather than declaring the source's
@@ -1650,9 +1750,9 @@ upper-triangular stars companion data.
 ### 5.4 The `PGL₂` model (F5.4)
 
 For `PGL₂` pin `A_q = [[0, q], [1, 0]]` and `L_q = ∂² − q`. Prove
-`q^φ = (φ′)² q(φ) − ½(φ‴/φ′ − (3/2)(φ″/φ′)²)` (Frenkel, §3.5.7, equation (3.5-12), p. 98,
-line 4435). Compute the infinitesimal action `δ_ε q = ε q′ + 2ε′ q − ½ε‴` (Frenkel, equation
-(3.5-11), line 4427), composition and inverse identities. For `q = 0` and `q = 1`, prove the opers
+`q^φ = (φ′)² q(φ) − ½(φ‴/φ′ − (3/2)(φ″/φ′)²)` (Frenkel, §3.5.7, equation (3.5-12), p. 98).
+Compute the infinitesimal action `δ_ε q = ε q′ + 2ε′ q − ½ε‴` (Frenkel, equation
+(3.5-11)), composition and inverse identities. For `q = 0` and `q = 1`, prove the opers
 are distinct but their regular formal connections are gauge-isomorphic: solve `g′ = g A₀ − A₁ g`
 with `g(0) = 1` and `det g = 1`, and pass its `SL₂` gauge to `PGL₂`. Define formal
 `c(t) = Σ t^(2j)/(2j)!` and `s(t) = Σ t^(2j+1)/(2j+1)!`; verify the explicit gauge
@@ -1691,18 +1791,18 @@ representation-theoretic input.
 
 Prove that every flat bundle for every complex connected reductive algebraic `G` over `ℂ((t))`
 has an intrinsic oper reduction (Frenkel–Zhu, *Any flat bundle on a punctured disc has an oper
-structure*, Theorem 1, frenkel-zhu line 67; Frenkel, *Langlands correspondence for loop groups*,
-Conjecture 10.1.1, p. 310, line 12882, which this theorem settles). This is essential
+structure*, Theorem 1; Frenkel, *Langlands correspondence for loop groups*,
+Conjecture 10.1.1, p. 310, which this theorem settles). This is essential
 surjectivity on `ℂ`-points; it is not a claim of a global section or of arbitrary `R`-family
 surjectivity. Include triviality of `G`-torsors over `ℂ((t))` as a theorem (obtain, as in §6.4, the
 procyclic absolute Galois group and cohomological dimension `≤ 1`, and Steinberg's `H¹`-vanishing
 for connected linear groups over such a field, Steinberg, *Regular elements of semi-simple
-algebraic groups*, Theorem 1.9, steinberg line 134), so the matrix quotient and the intrinsic
+algebraic groups*, Theorem 1.9), so the matrix quotient and the intrinsic
 statement agree.
 
 For the source's local arithmetic analogy, construct the finite-image classification of
 continuous homomorphisms from its procyclic Galois group into `G(ℂ)`, with the usual complex
-topology (Frenkel, §1.2.6, pp. 17–19, line 978). Consume §4.3's faithful continuous matrix realization and
+topology (Frenkel, §1.2.6, pp. 17–19). Consume §4.3's faithful continuous matrix realization and
 the native `Matrix.linftyOpNormedRing` and `Matrix.linftyOpNormedAlgebra` real normed-algebra
 structures on matrices; compare the native `Units` topology on invertible matrices with the complex
 matrix-group topology. Native `ContinuousMonoidHom.exists_mem_nhds_one_forall_le_ker` supplies a
@@ -1747,26 +1847,30 @@ subgroups.
 Define a differential module over a differential field `(F, ∂)` as a finite-dimensional
 `F`-vector space `V` with an additive map `D : V → V` satisfying `D(fv) = ∂(f)v + f·Dv`, and a
 cyclic vector of `V` as a `v ∈ V` whose iterates `v, Dv, …, D^(n−1)v`, `n = dim V`, form a basis.
-Prove the cyclic-vector theorem: if `F` has characteristic zero and `∂ ≠ 0`, every differential
-module over `F` has a cyclic vector (Deligne, *Équations différentielles à points singuliers
-réguliers*, Ch. II, Lemme 1.3, pp. 42–43, deligne-lnm163 lines 1367–1401: with `m` maximal such
+In `Suggested.lean` the differential field is a field with Mathlib's `Differential` structure,
+the Leibniz rule for `D : V →+ V` is the predicate `IsDifferentialModuleMap`, and the theorem is
+`exists_cyclicVector`. Prove the cyclic-vector theorem: if `F` has characteristic zero and
+`∂ ≠ 0`, every differential module over `F` has a cyclic vector (Deligne, *Équations
+différentielles à points singuliers réguliers*, Ch. II, Lemme 1.3, pp. 42–43: with `m` maximal such
 that some `e` has `e, De, …, D^(m−1)e` independent and `t ∈ F` with `∂t ≠ 0`, the vectors
 `e + λ t^k f` for rational `k` and scalars `λ` force `m = n`). Prove Katz's explicit form as a
 second route: if `(n−1)!` is invertible in `F`, `∂t = 1`, `e` is a basis and `a_0, …, a_(n(n−1))`
 are distinct constants, then one of the explicit candidates `c(e, t − a_i)` is cyclic (Katz,
-*A simple algorithm for cyclic vectors*, Theorems 1 and 2, pp. 65–66, katz-cyclic lines 38–44).
+*A simple algorithm for cyclic vectors*, Theorems 1 and 2, pp. 65–66).
 Over `F = ℂ((t))` with `∂ = d/dt` the theorem is the `G = GL_n` case of §6.1 by an independent
-proof (Frenkel–Zhu, Remark 1, frenkel-zhu lines 80–85). Prove the `GL_n` flag/oper equivalence: an
+proof (Frenkel–Zhu, Remark 1). Prove the `GL_n` flag/oper equivalence: an
 oper structure on a rank-`n` connection over `ℂ((t))` is a full flag with the transversality
 condition, equivalently a cyclic vector up to the Borel gauge. Derive the lattice estimate:
 `∇⁻¹(L)` is commensurable with `L` and its relative dimension is `≤ 0`. Spell out lattices as
 `ℂ`-subspaces commensurable with an `O`-lattice and prove finiteness of the horizontal kernel.
 FormalLaurentPuiseux supplies the field `ℂ((t))` and its derivation.
 
-- Every differential module over a differential field of characteristic zero with `∂ ≠ 0` has a
-  cyclic vector, hence a basis in which `D` is the companion matrix of one monic scalar
-  differential equation of order `dim V` (Deligne, p. 50, deligne-lnm163 lines 1621–1631);
-  neither hypothesis can be dropped.
+- `exists_cyclicVector`: for a field `F` with `CharZero F` and a derivation `∂ ≠ 0`, every
+  finite-dimensional `F`-vector space `V` with an additive `D : V → V` satisfying
+  `IsDifferentialModuleMap` has a `v` whose iterates `v, Dv, …, D^(n−1)v`, `n = dim_F V`, are
+  linearly independent, hence a basis in which `D` is the companion matrix of one monic scalar
+  differential equation of order `dim V` (Deligne, Ch. II, p. 50); neither hypothesis can be
+  dropped.
 - For `GL_n`, the oper reduction theorem is the cyclic-vector theorem; the Borel is the
   stabilizer of the flag `⟨v⟩ ⊂ ⟨v, ∇v⟩ ⊂ ⋯`.
 - `[∇⁻¹(L) : L] ≤ 0` for every lattice `L`, with equality iff `L` is `∇`-stable up to the leading
@@ -1794,18 +1898,13 @@ FormalLaurentPuiseux supplies the field `ℂ((t))` and its derivation.
 
 *Needs:* FormalLaurentPuiseux L2; §2.2; Mathlib `Derivation` and `Module.Basis`.
 
-### 6.3 Affine flag geometry, Cartan decomposition and the Kazhdan–Lusztig cycles (F6.3)
+### 6.3 Schubert cycles, Borel–Moore homology and the Kazhdan–Lusztig involutions (F6.3)
 
-Construct loop Grassmannian and affine flag ind-schemes, bounded lattice charts, Iwahori and
-minimal parahoric quotients, their projective stage presentations, and minimal-parahoric
-`ℙ¹`-fibrations in the complex setting. Construct Schubert cells, their dimensions and closures,
-complex realization, proper pushforward, and the affine Weyl action through the parahoric
-correspondences. For general reductive `G` use ReductiveGroups Layer 1's faithful closed embedding
-`G → GL_n` and consume Layer 6B's complex reductive coset-affineness theorem, including its fpqc
-quotient and invariant-ring identification, to obtain `GL_n/G` affine. This roadmap owns the
-subsequent closed reduction locus in lattice charts with the required quotient/descent proof.
-Prove the complex loop Cartan decomposition `G(F) = ⊔_(λ dominant) G(O) t^λ G(O)` (Iwahori–Matsumoto,
-§2). Prove the affine Weyl action's Coxeter relations and compatibility. Consume
+On §3A.5's loop Grassmannian and affine flag ind-schemes, with their bounded lattice charts,
+Iwahori and minimal parahoric quotients and `ℙ¹`-fibrations, construct the Schubert cells
+`I w I / I` of `Fℓ_G` as affine spaces of dimension the affine length `ℓ(w)`, their closures,
+complex realization, proper pushforward, and the affine Weyl action on homology through the
+parahoric correspondences, compatible with the Coxeter relations of §3A.5. Consume
 AffineMorseLefschetz A4's compatible triangulation of projective pairs and Borel–Moore homology of
 locally finite polyhedra; own the finite-stage comparison, projective-stage colimit and Schubert
 fundamental-class calculations. Prove the Kazhdan–Lusztig 1988 §4 Lemma 6 specialization: each
@@ -1825,7 +1924,7 @@ Prove this directly by differentiating the semidirect multiplication with Hopf-v
 points: the first component is `Ad_g B + g D(g⁻¹) = Ad_g B − D(g)g⁻¹`, interpreted by right
 tangent translation. This proof includes central directions; equality of brackets with every
 Lie-algebra element detects only the semisimple quotient. Compare with Frenkel–Zhu §5 Lemma 10
-(frenkel-zhu line 348): `D = t^(−r)∂` lies in `Lie Aut⁰(O)` for `r ≤ −1`, while the pro-unipotent
+`D = t^(−r)∂` lies in `Lie Aut⁰(O)` for `r ≤ −1`, while the pro-unipotent
 fixed-locus stage here uses `r ≤ −2` and `Aut⁺(O)`. In particular, conjugating `(Ã, D)` by
 `(g⁻¹, 1)` has first component `t^(−r) gauge(g⁻¹, A)`, so the same convention gives the gauge
 equations used below. Prove `Aut⁰(O)` preserves `I` and every standard minimal parahoric `P_i`,
@@ -1841,8 +1940,8 @@ by locator, uncertified); prove `σ_i² = 1` and `j σ_i = T_(s_i) j`, and the c
 suppliers are targets of this layer; a generic algebraic topology reference supplies neither these
 ind-scheme comparisons nor their cycle calculations.
 
-- `Gr_G = LG/L⁺G` and `Fℓ_G = LG/I` are ind-projective; the lattice charts of bounded pole order
-  are projective schemes and the Schubert cells are affine spaces of dimension the affine length.
+- The Schubert cells `I w I / I ⊂ Fℓ_G` are affine spaces of dimension `ℓ(w)`, and the closure of
+  a cell is the union of the cells of the elements below `w` in the Bruhat order.
 - The affine Weyl group acts on `H_*(Fℓ)` through the parahoric correspondences, and `j` is
   equivariant.
 
@@ -1853,20 +1952,19 @@ ind-scheme comparisons nor their cycle calculations.
 - `Ad_(g⁻¹,1)(t^(−r)A, t^(−r)∂)` has first component
   `t^(−r)(g⁻¹Ag − (g⁻¹)′g) = t^(−r) gauge(g⁻¹, A)`, since `(g⁻¹)′ g = −g⁻¹ g′` and
   `gauge(h, A) = hAh⁻¹ − h′h⁻¹` with `h = g⁻¹`.
-- `GL₁`: `Gr = ℤ` as a discrete set of lattices `t^n ℂ[[t]]`, the Cartan decomposition is
-  `ℂ((t))ˣ = ⊔_n ℂ[[t]]ˣ t^n`, and the affine Weyl group is `ℤ` acting by translation.
-- `SL₂`: the closed Schubert variety of `t^(α^∨)` in `Gr` is a two-dimensional quadric cone whose
-  vertex is the base point `L₀ = ℂ[[t]]²`, the orbit of `t^(α^∨)` being its complement; the
-  minimal-parahoric fibration `Fℓ → Gr` has `ℙ¹` fibres parametrizing lines in `L/tL`.
+- `SL₂`: the Schubert cells of the two simple affine reflections `s₀`, `s₁` in `Fℓ` are affine
+  lines whose closures are the `ℙ¹`-fibres through the base point of the two minimal-parahoric
+  fibrations, of dimension `1 = ℓ(s_i)`; the cell of `1` is the base point, of dimension `0`, and
+  the cell of `s₀ s₁` has dimension `2`, with closure containing both `ℙ¹`s.
 
-*Needs:* §§3.1–3.2, §3A.3; ReductiveGroups Layers 1, 6B, 7, 9; AffineMorseLefschetz A4; §1.2.
+*Needs:* §3A.5; §§3A.3–3A.4; ReductiveGroups Layers 7, 9; AffineMorseLefschetz A4; §1.2.
 
 ### 6.4 Deformed affine Springer fibres and the regular-point argument (F6.4)
 
 For `A = Σ_(j≥r) A_j t^j` with `r ≤ −2` and nilpotent `A_r` (possibly zero), build the deformed
 affine Springer fibres `Y_A` and `X_A` as the closed loci of loop lattice/flag points where
 `gauge(g⁻¹, A)` has order `≥ r` and its leading term lies in the specified Borel (Frenkel–Zhu, §§3–4,
-Theorem 4, frenkel-zhu line 193). Prove nilpotence, the identification of a regular-nilpotent
+Theorem 4). Prove nilpotence, the identification of a regular-nilpotent
 leading coefficient with a singleton flag fibre, the tangent-lattice dimension bound, and finite
 dimension. Construct the pro-unipotent vector-field action used for the parahoric fixed-point
 correspondences and prove that the top homology image is affine-Weyl stable. Establish existence
@@ -1894,8 +1992,8 @@ assumed from the name of an existing roadmap.
   point of the flag fixed by `f`, and the oper condition holds already.
 - `SL₂`, `A = t^(−2) h`: the leading coefficient at `r = −2` is semisimple, not nilpotent, so the
   construction does not apply at `r = −2`; it applies at `r = −3`, where the leading coefficient
-  `A_(−3) = 0` is nilpotent (Frenkel–Zhu's choice of `r` below the pole order, frenkel-zhu
-  lines 107–110), at the price of a larger `X_A`. No formal normal form enters.
+  `A_(−3) = 0` is nilpotent (Frenkel–Zhu's choice of `r` below the pole order, at the start of
+  their §2), at the price of a larger `X_A`. No formal normal form enters.
 - `A = 0` with `r = −2`: `X_0` contains every `t^λ I`, since `gauge(t^(−λ), 0) = λt⁻¹` has order
   `−1 ≥ −2`, but not the flag of `exp(t⁻³x)` for `x ∈ 𝔫`, whose gauge `3t⁻⁴x` has order `−4`; a
   definition without the order bound would make `X_A` all of `Fℓ` and infinite-dimensional.
@@ -1941,11 +2039,12 @@ singleton Springer fibre; the `r = −1`/`r = −2` witness for `Aut⁰(O)` vers
 
 ### Dependencies
 
-Layers 1–5; FormalLaurentPuiseux L2 and L7; ReductiveGroups Layers 1, 6, 6B, 7, 9;
-AffineMorseLefschetz A4;
-ProfiniteCohomology Layers 1 and 11; Tau Ceti `zHat`. The order inside the layer is §6.5 and §6.2
-first, then §6.3's flag geometry and Cartan decomposition, then §6.4, then §6.1's assembly. This
-proof lane does not make opers depend on representation categories or critical centres.
+Layers 1–5, including §3A.5's loop Grassmannian, affine flags and Cartan decomposition;
+FormalLaurentPuiseux L2 and L7; ReductiveGroups Layers 1, 6, 7, 9; AffineMorseLefschetz A4;
+ProfiniteCohomology Layers 1 and 11; Tau Ceti `zHat`; Mathlib `Differential`. The order inside
+the layer is §6.5 and §6.2 first, then §6.3's Schubert cycles and Kazhdan–Lusztig involutions,
+then §6.4, then §6.1's assembly. Nothing of Layer 6 is consumed by Layer 3A. This proof lane does
+not make opers depend on representation categories or critical centres.
 
 ## Layer 7: Drinfeld–Sokolov Poisson structure and continuous cotangent algebroids (F7)
 
@@ -1988,7 +2087,7 @@ form. In rank one this is the trace form with `κ(h, h) = 2`. Construct `Conn`'s
 bracket directly through residue pairing and `{H_x, H_y}(A) = H_[x,y](A) − Res κ(x dy)`. Prove
 the formal cocycle, biderivation and Jacobi identities using continuous Laurent calculus, extend
 continuously from coefficient functions, and identify with the affine Lie–Poisson dual hyperplane
-(Frenkel, §8.3.2, pp. 246–247, line 10465; Frenkel–Gaitsgory, §4.3, lines 1810–1865). This direct
+(Frenkel, §8.3.2, pp. 246–247; Frenkel–Gaitsgory, §4.3). This direct
 construction uses no completed enveloping algebra or quantum-centre theorem. With
 `H_x(A) = Res κ(A, x) dt` and central cocycle `−κ Res(x dy)`, the canonical Lie–Poisson
 Hamiltonian anchor of `dH_x` is `+∇_ad x = x′ + [A, x]`. The tangent vector labelled by a left gauge
@@ -1996,8 +2095,8 @@ Hamiltonian anchor of `dH_x` is `+∇_ad x = x′ + [A, x]`. The tangent vector 
 sends `dH_x` to the gauge tangent labelled `−x`. Prove these signs and the resulting bracket
 compatibility explicitly. Construct the `N((t))` moment map, identify its `f`-level with
 `f + 𝔟((t))`, prove its action free (Frenkel, Lemma 4.2.2 and the display following Lemma 8.3.2's
-statement, lines 10495–10509), and construct Hamiltonian reduction and the induced continuous
-bracket on `Fun Op(D×)` (Frenkel, Lemma 8.3.2, line 10512, for the coincidence with the vertex
+statement), and construct Hamiltonian reduction and the induced continuous
+bracket on `Fun Op(D×)` (Frenkel, Lemma 8.3.2, for the coincidence with the vertex
 Poisson structure). Prove well-definedness independent of invariant extensions and continuity
 across cofinal pole bounds; arbitrary pole-bound stages need not themselves be Poisson quotients.
 Establish `Aut(O)` equivariance.
@@ -2057,7 +2156,7 @@ the pointed `Aut(O)` subgroup.
 ### 7.4 The coisotropic regular locus (F7.4)
 
 Prove `Op(D) ⊂ Op(D×)` coisotropic: its defining ideal `I` satisfies `{I, I} ⊂ I`
-(Frenkel–Gaitsgory, Lemma 4.4.1, line 1880). Construct its conormal Lie–Rinehart algebroid, action
+(Frenkel–Gaitsgory, Lemma 4.4.1). Construct its conormal Lie–Rinehart algebroid, action
 on `Ω¹_(Op(D))`, and normal/conormal exact sequences. Prove the normal module is locally
 projective/discrete from the negative Drinfeld–Sokolov coefficient decomposition, supplying the
 hypothesis used in the general conormal theorem. It is not generally a Poisson ideal: do not impose
@@ -2084,11 +2183,11 @@ action.
 Construct Miura opers (an oper plus a horizontal opposite Borel reduction in generic relative
 position), the `ρ^∨`-twisted Cartan-connection description, and the Miura map into
 Drinfeld–Sokolov opers, including coordinate transformations and extension loci (Frenkel, §8.2.1,
-pp. 233–234, line 9938, and Proposition 8.2.2, line 10011). Construct the classical Heisenberg
+pp. 233–234, and Proposition 8.2.2). Construct the classical Heisenberg
 differential-polynomial algebra on Cartan generators, its λ-bracket from the chosen invariant
 form, and the Poisson-vertex-algebra translation, Leibniz and Jacobi identities. For every simple
 root construct the exponential-charge module and classical screening derivation by the root
-pairing (Frenkel, §8.2.3, equations (8.2-7)–(8.2-10), lines 10156–10202), its commutation with
+pairing (Frenkel, §8.2.3, equations (8.2-7)–(8.2-10)), its commutation with
 translation, and its kernel. Prove the Miura map is Poisson for every split adjoint semisimple
 type by the Drinfeld–Sokolov/Miura reduction comparison, including the Kupershmidt–Wilson
 factorization statement in type A. Construct its generic fibre as the open opposite-flag cell for
@@ -2099,7 +2198,7 @@ flows, and the principal-grading character comparison between the invariant diff
 algebra and the Drinfeld–Sokolov generators (including coefficientwise finite graded dimensions).
 Use these to prove that the Miura pullback is injective and identifies the regular
 differential-polynomial oper algebra with the intersection of the dual-root screening kernels
-(Frenkel, Proposition 8.2.3, line 10208).
+(Frenkel, Proposition 8.2.3).
 
 Complete the classical commutative differential vertex algebra `W_cl` of regular opers over the
 characteristic-zero field `k` to the punctured algebra as follows; no quantum critical-centre
@@ -2172,7 +2271,7 @@ side is AffineLieAlgebras' target.
 
 Define `IsomOp` as the 2-fibre product `Op(D×) ×_(Loc(D×)) Op(D×)`. Its arrows are isomorphisms
 of underlying connections, without requiring preservation of the Borel reductions
-(Frenkel–Gaitsgory, §4.1, lines 1746–1758). In Drinfeld–Sokolov representatives these are
+(Frenkel–Gaitsgory, §4.1). In Drinfeld–Sokolov representatives these are
 `(q, q′, g)` with `gauge(g, A_q) = A_(q′)`; composition is multiplication of gauges. Construct its
 ind-formal presentations and base-change/descent laws. This is a full restriction/pullback of the
 connection groupoid, not an action of `LG` on the slice and not the groupoid of oper isomorphisms
@@ -2198,10 +2297,10 @@ of Layer 4.
 ### 8.2 Formal smoothness and the source-fixed differentiation (F8.2)
 
 Prove formal smoothness of source and target by the oper transversality lifting argument for every
-square-zero extension of `R` (Frenkel–Gaitsgory, Proposition 4.1.1 and §4.2, lines 1764–1784).
+square-zero extension of `R` (Frenkel–Gaitsgory, Proposition 4.1.1 and §4.2).
 Construct its source-tangent-at-unit Tate algebroid, bracket first by `N((t))`-reduction of the
 `Conn` action algebroid `𝔤((t)) ⊗^! Fun(Conn)`, with moment constraints and bracket descent, and
-the anchor (Frenkel–Gaitsgory, Lemmas 4.3.1–4.3.2, lines 1825–1865). Identify it with the
+the anchor (Frenkel–Gaitsgory, Lemmas 4.3.1–4.3.2). Identify it with the
 source-tangent-at-unit carrier by formal smoothness, and with right-invariant relative vector
 fields. For the left gauge action on `Conn`, constant gauge labels have the opposite of the native
 convolution loop bracket: their fundamental vector fields satisfy `[F_x, F_y] = −F_[x,y]`. Prove
@@ -2218,10 +2317,10 @@ bracket, anchor and Leibniz rule on the completed kernel, with relative base cha
 evaluation-stage independence. This single source-fixed differentiation supplier feeds
 GeometricRepresentationCategories R5's relative differentiation question. At `∇ = ∂ + A` use
 `T Op = coker(∇_ad : 𝔫((t)) → 𝔟((t)) dt)` and `Lie IsomOp = ker(∇_ad : (𝔤/𝔫)((t)) → (𝔤/𝔟)((t)) dt)`
-(Frenkel–Gaitsgory, equations (4.2)–(4.3), lines 1788–1794); globally replace each coefficient
+(Frenkel–Gaitsgory, equations (4.2)–(4.3)); globally replace each coefficient
 space by its `⊗^! Fun Op` module from §5.2, using the compatible universal connection; prove these
 maps are well-defined quotient maps and residue identifies the continuous cotangent with the
-latter kernel (Frenkel–Gaitsgory, equation (4.4), line 1798). Our anchor sends the class `x` to
+latter kernel (Frenkel–Gaitsgory, equation (4.4)). Our anchor sends the class `x` to
 `−∇_ad x = [x, A] − x′` in the displayed cokernel. The residue cotangent identification sends
 `dH_x` to the class of `−x`, so its anchor is `+∇_ad x` as in §7.2; prove the pairing sign and
 bracket comparison, including variable sections. Prove an isomorphism of native Lie–Rinehart
@@ -2256,7 +2355,7 @@ dimensions.
 
 Restrict to regular opers, prove every punctured horizontal isomorphism between regular
 connections extends uniquely to the disc, and identify this regular groupoid with the 2-fibre
-product over `BG` of fibres at `t = 0` (Frenkel–Gaitsgory, §4.4, Lemma 4.4.2, lines 1894–1907).
+product over `BG` of fibres at `t = 0` (Frenkel–Gaitsgory, §4.4, Lemma 4.4.2).
 Identify its Lie algebroid with §7.4's conormal Lie–Rinehart algebroid through the
 residue/negative-label comparison of §8.2, and preserve the anchor, bracket and stabilizers. No
 simply-connected integration hypothesis is inserted into this formal algebraic construction.
@@ -2330,8 +2429,8 @@ GeometricRepresentationCategories.
   `IsomOp` and its cotangent Lie-algebroid comparison. R3 uses the continuous-character
   classification of §5.2; R4 states the complex-point categorical-lift conjecture as a coherent
   action on the central-character categories along `IsomOp(ℂ)`, commuting with the original
-  `G((t))` action, including units and composition (Frenkel, Conjecture 10.1.2, p. 310,
-  line 12936); R5 separately states the relative/infinitesimal Artinian-complex-algebra refinement
+  `G((t))` action, including units and composition (Frenkel, Conjecture 10.1.2, p. 310); R5
+  separately states the relative/infinitesimal Artinian-complex-algebra refinement
   and its differentiation question, consuming §8.2's source-fixed tangent and mixed-commutator
   supplier. Relative base-change constraints are part of that refinement, not silently included in
   the pointwise conjecture; R5's relative refinement is a named question, not an existence claim.
@@ -2346,12 +2445,14 @@ GeometricRepresentationCategories.
   analytic charts; **SchubertGeometry** and **ComplexKahlerGeometry** consume §2.4's fixed-model
   comparison.
 - **KacMoody KM8A** consumes Layer 3A's polynomial and formal loop functors, Iwahori and positive
-  subgroups, full-cocharacter normalizer quotients and positive-orbit comparison, and compares its
+  subgroups, full-cocharacter normalizer quotients, loop Cartan decomposition and positive-orbit
+  comparison, and compares its
   minimal derived affine group with them.
-- **PadicDifferentialEquationsAndRigidCohomology §§RD.1.2–RD.1.7 and §RD.6.52a** consume §6.2's
-  cyclic-vector theorem, at its full generality of differential fields of characteristic zero with
-  nonzero derivation, for its `p`-adic differential fields and for `F((t))`; its formal normal
-  forms, slopes and ramified descent over `F((t))` are its own.
+- **§6.2** is the owner of the cyclic-vector theorem at the generality of differential fields of
+  characteristic zero with nonzero derivation. PadicDifferentialEquationsAndRigidCohomology,
+  later in the merge order, states it in §§RD.1.2–RD.1.7 for its `p`-adic differential fields and
+  for `F((t))` and is to import §6.2; its formal normal forms, slopes and ramified descent over
+  `F((t))` (§RD.6.52a) are its own.
 
 ## References
 
@@ -2371,7 +2472,9 @@ GeometricRepresentationCategories.
   owning the algebraic quotient construction (uncertified).
 - N. Iwahori and H. Matsumoto, [*On some Bruhat decomposition and the structure of the Hecke rings
   of p-adic Chevalley groups*](https://www.numdam.org/item/PMIHES_1965__25__5_0/), Publ. Math.
-  IHÉS 25 (1965), §§1–2: the affine Weyl group and the Cartan and Iwahori–Bruhat decompositions.
+  IHÉS 25 (1965), §1, Theorem 2.16 and Proposition 2.34: the affine Weyl group, the Iwahori–Bruhat
+  decomposition and the parahoric double-coset decomposition specialized to the Cartan
+  decomposition, for Chevalley groups over a discretely valued field.
 - V. Drinfeld, [*Infinite-dimensional vector bundles in algebraic geometry (an introduction)*, v4](https://arxiv.org/abs/math/0309155v4),
   §3: elementary and Tate modules and lattices (§§3.2.1–3.2.3), Theorem 3.3 (categorical flat
   descent), Lemma 3.9 and Theorem 3.10 (topologically nilpotent automorphisms and finite projective
@@ -2405,7 +2508,8 @@ GeometricRepresentationCategories.
   Theorem 4.2: the polynomial/formal quotient comparison and the `ℙ¹` triviality input of
   Layer 3A.
 - The Stacks project, [Definition 10.133.1 (09CI), Lemma 10.133.3 (09CK), Lemma 10.133.9 (0H90)](https://stacks.math.columbia.edu/tag/09CH):
-  differential operators and modules of principal parts over arbitrary commutative rings.
+  differential operators and modules of principal parts over arbitrary commutative rings, as
+  consumed from ComplexComparisonPartII C5.1 in §2.2.
 - G. Rinehart, *Differential forms on general commutative algebras*, Trans. Amer. Math. Soc. 108
   (1963), Theorem 3.1: the Lie–Rinehart PBW theorem (uncertified, cited by locator); Mathlib's
   [Lie–Rinehart definitions](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Algebra/LieRinehartAlgebra/Defs.lean).
