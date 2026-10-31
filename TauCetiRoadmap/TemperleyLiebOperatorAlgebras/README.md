@@ -32,9 +32,8 @@ the composition factors of the standard modules. The end theorems are:
   composition-factor formula `[W_(t,z)] = Σ_((t,z)≼(s,y)) [L_(s,y)]` over ℂ;
 - the finite realisations of Layer 1: the Potts–Fortuin–Kasteleyn identity
   (`pottsPartition_eq_fkPartition`), the Jones quotient at `δ = √2` as the even Clifford algebra
-  with its analytic adjoint and C*-norm, using GeometricTopology's finite algebraic model;
-  the Jones quotient at `δ = √3` as the inversion-fixed cubic quantum
-  torus (`exists_cubicFixedModel`) and the finiteness of its Gaussian braid image
+  (`exists_evenCliffordModel`), the Jones quotient at `δ = √3` as the inversion-fixed cubic
+  quantum torus (`exists_cubicFixedModel`) and the finiteness of its Gaussian braid image
   (`finite_gaussianBraid_closure`).
 
 ## Scope and ownership
@@ -58,9 +57,8 @@ This roadmap owns:
   the Powers product state with the trace-GNS representation of `B_δ` (1.5);
 - finite Potts and Fortuin–Kasteleyn partition functions, their planar loop and six-vertex
   comparisons, planar closures and wired boundaries (1.6);
-- the analytic-adjoint and positive-quotient upgrade of GeometricTopology's finite
-  sqrt(2) Clifford TL model, its scalar-trace comparison, Pauli blocks,
-  compatible towers and finite braid image (1.7);
+- the identification of the Jones quotient at `δ = √2` with an even Clifford algebra, its
+  blocks, tower and braid image (1.7);
 - the identification of the Jones quotient at `δ = √3` with the inversion-fixed algebra of a
   cubic quantum torus, its blocks, tower and finite braid image (1.8);
 - the sign isomorphism `TL_n(δ) ≅ TL_n(−δ)` over every commutative ring, its trace relation,
@@ -807,47 +805,57 @@ At Jones's parameter `t = i` (Jones, printed p. 107) fix `u = exp(πi/4)`, so `�
 and `τ = 1/2`; the native quantum parameter is `−u`. This section identifies Subfactors 3.3's
 quotient `Q_m` at `δ = √2` with an even Clifford algebra, preserving generators, traces and
 adjoints (Iohara–Lehrer–Zhang, *The Jones quotients of the Temperley–Lieb algebras*, §5.3,
-Theorem 5.4 and Proposition 5.5, where `γ_j = c_j/√2`). Consume GeometricTopology
-Layer 4.5.3's finite algebraic Clifford model, scalar trace, radical quotient, coordinate
-inclusions and braid phases. This section adds the analytic adjoint and the comparison with
-Subfactors 3.2–3.3's positive quotient/path theory; it is not an input to its positivity proof.
+Theorem 5.4 and Proposition 5.5, where `γ_j = c_j/√2`). The finite algebraic model, its scalar
+trace, its radical quotient, its coordinate inclusions and its braid phases are targets of this
+section, in the form 1.8 uses for the cubic model; the analytic adjoint and the comparison with
+Subfactors 3.2–3.3's positive quotient and path theory are added on top of them, and nothing in
+this section is an input to the positivity proof of Subfactors 3.2.
 
 **Carriers.** Let `q_m = QuadraticMap.weightedSumSquares ℂ 1` on `Fin m → ℂ`, the complex
-bilinear sum of squares, `Cl_m = CliffordAlgebra q_m`,
-`Cl_m⁰ = CliffordAlgebra.even q_m` and `c_j = CliffordAlgebra.ι q_m (Pi.single j 1)` for `j : Fin m`. Then `c_j² = 1` and
+bilinear sum of squares (`cliffordForm`), `Cl_m = CliffordAlgebra q_m`,
+`Cl_m⁰ = CliffordAlgebra.even q_m` (`EvenClifford`) and
+`c_j = CliffordAlgebra.ι q_m (Pi.single j 1)` for `j : Fin m` (`majorana`). Then `c_j² = 1` and
 `c_j c_k = −c_k c_j` for `j ≠ k` (Mathlib `CliffordAlgebra.ι_sq_scalar`,
 `CliffordAlgebra.ι_mul_ι_add_swap`). Identify `q_m` with the complexification of the real sum
 of squares and transport SpinGeometry G1's conjugation `κ`, analytic adjoint
 `a† = κ(reverse a)` and scalar trace (G1 items 1 and 3) to `Cl_m`: `c_j† = c_j`, `(i·1)† = −i·1`,
 and `Cl_m⁰` is `†`-stable. Mathlib's `star` on `CliffordAlgebra` is `reverse ∘ involute`; it
-negates `c_j` and is complex-linear, so it is not `†`. Let `s_m` be the coefficient of `1` in the
-ordered monomial basis `c_S` (`S ⊆ Fin m` increasing), that is, the coefficient at `∅` of Tau
-Ceti's `CliffordAlgebra.basis` for the standard basis of `Fin m → ℂ`;
-GeometricTopology Layer 4.5.3 proves the finite coordinate/ordered-monomial identification,
-cyclicity, regular-module trace formula and nondegenerate bilinear pairing. The native basis
-is transported through `equivExterior`, so its equality with ordered products is not definitional.
-Match this s_m with SpinGeometry G1 item 3's generic scalar trace, and prove
-`s_m(a† a) = Σ_S |a_S|²`, so it is faithful on `Cl_m` and on `Cl_m⁰`.
+negates `c_j` and is complex-linear, so it is not `†`. Let `s_m` be the coefficient at `∅` of Tau
+Ceti's `CliffordAlgebra.basis` for the standard basis of `Fin m → ℂ`
+(`cliffordScalarCoefficient`). Prove that this basis element at `S = {s_1 < ⋯ < s_r} ⊆ Fin m` is
+the ordered monomial `c_S = c_(s_1) ⋯ c_(s_r)` (the native basis is transported through
+`equivExterior`, so this is not definitional), so that `s_m` is the coefficient of `1` in the
+ordered-monomial expansion; prove `s_m(c_S c_T) = ±[S = T]`, so `s_m` is a trace and the
+bilinear pairing `s_m(ab)` is nondegenerate on `Cl_m` and on `Cl_m⁰`; and prove
+`s_m(a) = 2^(−m) tr(L_a)` for `L_a` the left multiplication on `Cl_m`. Match this `s_m` with
+SpinGeometry G1 item 3's generic scalar trace, and prove `s_m(a† a) = Σ_S |a_S|²`, so it is
+faithful on `Cl_m` and on `Cl_m⁰`.
 
-**The analytic comparison map.** Consume the algebraic F_m supplied by
-GeometricTopology Layer 4.5.3, with d_j=c_jc_(j+1), p_j=(1+i d_j)/2 and
-F_m(e_j)=√2p_j. Its TL relations, surjectivity, scalar-trace identities,
-coordinate inclusions J_m and bilinear-radical kernel are constructed there,
-including the scalar cases m=0,1. The trace identity is
+**The comparison map.** For `j < m − 1` put `d_j = c_j c_(j+1)`, `p_j = (1 + i d_j)/2`
+(`cliffordProjection`) and `E_j = √2 p_j`. Prove `d_j² = −1`, `d_j† = −d_j`, `p_j† = p_j = p_j²`,
+`p_j p_(j±1) p_j = p_j/2` (`i d_j` and `i d_(j+1)` are anticommuting involutions) and commutation
+at distance at least two, and obtain `F_m : TL_m(√2) →ₐ[ℂ] Cl_m⁰` with `F_m(e δ j) = E_j` by
+`TemperleyLieb.lift`, compatible with `†`; for `m ≤ 1` both sides are `ℂ` and `F_m` is the
+identity. Prove that `F_m` is onto: `c_j c_k = d_j d_(j+1) ⋯ d_(k−1)` for `j < k`, so the `d_j`
+generate `Cl_m⁰`. The coordinate inclusion `J_m : Cl_m → Cl_(m+1)`, `c_j ↦ c_j` (Mathlib
+`CliffordAlgebra.map` along the isometry `Fin m → ℂ → Fin (m+1) → ℂ` extending by zero),
+preserves `†` and `s`, maps `Cl_m⁰` into `Cl_(m+1)⁰`, satisfies `F_(m+1) ∘ strandIncl = J_m ∘ F_m`
+on Tau Ceti's `strandIncl`, and `s_(m+1)(J_m(x) p_m) = s_m(x)/2`, because `x c_m c_(m+1)` has no
+scalar term when `x` contains neither generator. By Markov uniqueness (Subfactors 3.2)
 
 ```
-T_m(x) = (√2)^m s_m(F_m x)        for x ∈ TL_m(√2).
+T_m(x) = (√2)^m s_m(F_m x)        for x ∈ TL_m(√2),
 ```
 
-Prove d_j†=−d_j and p_j†=p_j, and that F_m and J_m commute with the
-analytic adjoints, by their generator formulas. Identify the producer's
-bilinear trace radical with Subfactors 3.2's R_m; the producer's algebraic
-kernel proof uses surjectivity and a nondegenerate pairing, independently of
-positivity. Upgrade the algebraic quotient equivalence to a trace-, adjoint-,
-C*-norm- and inclusion-preserving *-isomorphism Q_m≅Cl_m⁰. By 1.3 identify
-its kernel with the ideal generated by the embedded f_3 for m≥3, and prove
-that it is zero for m≤2. The analytic adjoint and positive-quotient/path
-comparisons remain targets of this section.
+since `(√2)^m s_m ∘ F_m` is a trace, takes the value `δ^m` at `1` and has the Markov property.
+The pairing `s_m(ab)` is nondegenerate on `Cl_m⁰` and `F_m` is onto, so `ker F_m` is Subfactors
+3.2's trace radical `R_m` (with `R_m` written out as `{x : ∀ y, T_m(x y) = 0}`), independently of
+positivity. Hence `F_m` induces a trace-, adjoint-, C*-norm- and inclusion-preserving
+*-isomorphism `Q_m ≅ Cl_m⁰`, and by 1.3 `R_m` is the ideal generated by the embedded `f_3` for
+`m ≥ 3` and is zero for `m ≤ 2`. The existence of `F_m` with its generator values, its
+surjectivity, the trace identity and `ker F_m = R_m` is the headline `exists_evenCliffordModel`;
+the `†`- and inclusion-compatibility and the comparison with Subfactors 3.3's positive quotient
+and path model are targets of this section only.
 
 **Blocks, Pauli matrices and the tower.** By SpinRepresentations Layers 0–1, for `m = 2k+1`,
 `Cl_m⁰ ≅ M_(2^k)(ℂ)` with `s_m` the normalised matrix trace, and for `m = 2k ≥ 2`,
@@ -871,12 +879,10 @@ square to `1` and anticommute, and give an ungraded *-isomorphism `Cl_(m−1) �
 which "the `A_n` are Clifford algebras". The tower maps in these coordinates are not the coordinate
 inclusions of `Cl_(m−1)`. Compare with Mathlib's `CliffordAlgebra.equivEven`.
 
-**Braid units.** Consume the producer's algebraic braid units
-`g_j = u((1+i) p_j − 1) = −(1 + d_j)/√2`, with inverse `−(1 − d_j)/√2`,
-`g_j² = d_j`, `g_j⁴ = −1`, `g_j⁸ = 1` and the braid relations.
-Prove unitarity for this analytic adjoint and the eigenvalues `i u` on
-`p_j` and `−u` on `1 − p_j`; identify the resulting unitary representation
-of Tau Ceti's `BraidGroup m` with the positive quotient model. With
+**Braid units.** Put `g_j = u((1 + i) p_j − 1) = −(1 + d_j)/√2`, with inverse `−(1 − d_j)/√2`,
+and prove `g_j² = d_j`, `g_j⁴ = −1`, `g_j⁸ = 1`, the braid relations, unitarity for the analytic
+adjoint, and the eigenvalues `i u` on `p_j` and `−u` on `1 − p_j`; identify the resulting unitary
+representation of Tau Ceti's `BraidGroup m` with the positive quotient model. With
 Tau Ceti's Kauffman-bracket representation `TemperleyLieb.jones a` at a unit `a` with
 `a² = −u⁻¹` (so `jonesDelta a = √2`), `F_m(jonesUnit a j) = (−a/u) g_j`. Conjugation by `g_j`
 sends `c_j ↦ −c_(j+1)`, `c_(j+1) ↦ c_j` and fixes the other `c_k`, so for `m ≥ 2` the conjugation
@@ -888,8 +894,8 @@ the kernel of conjugation on the group generated by the `g_j` is `{±1}` (it lie
 `(−√2)^(m−1) s_m(F_m(ρ(b)))` with `ρ` Jones's braid representation including its writhe
 factor, the normalisation of the closure being GeometricTopology Layer 4's.
 
-- The supplied `F_m : TL_m(√2) → Cl_m⁰` is a `†`-homomorphism with `F_m(e_j) = √2 p_j`,
-  preserving its supplied `T_m = (√2)^m s_m ∘ F_m` and `ker F_m = R_m`, and
+- `F_m : TL_m(√2) → Cl_m⁰` is a surjective `†`-homomorphism with `F_m(e_j) = √2 p_j`,
+  `T_m = (√2)^m s_m ∘ F_m` and `ker F_m = R_m` (`exists_evenCliffordModel`, without the `†`), so
   `Q_m ≅ Cl_m⁰` as *-algebras with traces and inclusions.
 - `Cl_m⁰` has the stated matrix blocks, Pauli realisation, path-label identification and tower
   maps, and the expectation deletes monomials containing the new generator.
@@ -911,19 +917,25 @@ factor, the normalisation of the closure being GeometricTopology Layer 4's.
   four-dimensional `Cl_3⁰`.
 - `a_j = i c_j c_(m−1)` satisfies `a_j² = −c_j c_(m−1) c_j c_(m−1) = 1`; without the factor `i`
   the square is `−1`.
+- `s_1(c_0) = 0`, and the left multiplication by `c_0` on `Cl_1 = ℂ ⊕ ℂ c_0` swaps the basis, so
+  its trace is `0 = 2 s_1(c_0)`; `s_2(d_0 d_0) = s_2(−1) = −1` while `s_2(d_0† d_0) = 1`, so the
+  bilinear pairing `s_2(ab)` is nondegenerate but not positive on `Cl_2⁰`, and only the
+  sesquilinear form `s_2(a† b)` is.
+- `m = 3`: `c_0 c_2 = d_0 d_1` (as `c_1² = 1`), so the `d_j` generate `Cl_3⁰`; a map sending
+  `e_j` to `√2 p_j` for a single `j` only would miss `d_0 d_1`.
 
 *Needs:*
 
 - Mathlib `QuadraticMap.weightedSumSquares`, `CliffordAlgebra`, `CliffordAlgebra.ι`,
   `CliffordAlgebra.even`, `CliffordAlgebra.map`, `CliffordAlgebra.equivEven`,
-  `CliffordAlgebra.ι_sq_scalar`, `CliffordAlgebra.ι_mul_ι_add_swap`.
+  `CliffordAlgebra.ι_sq_scalar`, `CliffordAlgebra.ι_mul_ι_add_swap`, `Pi.basisFun`.
 - Tau Ceti `CliffordAlgebra.basis` (`TauCeti/LinearAlgebra/CliffordAlgebra/Dimension.lean`),
-  `TemperleyLieb.lift`, `BraidGroup`, `TemperleyLieb.jones`, `jonesUnit`, `jonesDelta`.
+  `TemperleyLieb.lift`, `TemperleyLieb.hom_ext`, `strandIncl`, `markovTrace`, `BraidGroup`,
+  `TemperleyLieb.jones`, `jonesUnit`, `jonesDelta`.
 - SpinGeometry G1 items 1 and 3 (complexification, conjugation, analytic adjoint, scalar trace).
 - SpinRepresentations Layers 0–1 (gradings and the structure of complex Clifford algebras).
 - Subfactors 3.2 (Markov uniqueness, `R_m`), 3.3 (`Q_m`, `E_m`); 1.3 and 1.4.
-- GeometricTopology Layer 4.5.3, for the finite algebraic Clifford TL specialization,
-  scalar trace, radical quotient, coordinate maps, braid phases and closure normalization.
+- GeometricTopology Layer 4, for the closure normalisation only.
 
 ### 1.8 The Jones quotient at `δ = √3` and the cubic Gaussian braid model
 
@@ -1027,6 +1039,19 @@ Layer 4's normalisation.
 - `g_0` has eigenvalues `u ζ = i` and `−u`, so `g_0³ = −i·1` and `g_0³ ≠ 1`; the cubic relation
   holds only projectively.
 - `s_1(p_0) = 1/3` and `T_2(e) = 3 · √3 · 1/3 = √3 = δ`.
+- `B(a, a) = 0` for every `a`; at `N = 3` the vector `ρ = (1, 0, 1)` has `B(ρ, e_j) = 0` for
+  `j = 0, 1, 2` while `B(e_0, e_1) = 1`, so `ρ` spans the radical, `W(ρ)` is central and `W(e_0)`
+  is not; at `N = 2` the form is nondegenerate.
+- `α(e_0, e_1) = ω²` and `α(e_1, e_0) = ω` (the exponents `2·1 = 2` and `2·(−1) = 1` in
+  `ZMod 3`); the cocycle identity at `(e_0, e_1, e_0 + e_1)` reads
+  `α(e_0 + e_1, e_0 + e_1) α(e_0, e_1) = 1 · ω²` against `α(e_1, e_0 + e_1) α(e_0, e_0 + 2e_1) = ω · ω`,
+  both `ω²`.
+- In the `W`-basis of `G_1`, `g_0 = −(1 + ω² U_0 + ω² U_0²)/√3`; with `−u` in place of `u` the
+  eigenvalues become `−i` and `u`, so `g_0³ = +i`.
+- The group generated by the `g_j` has order `12`, `96`, `2592` for `N = 1, 2, 3`; for `N = 1` it
+  is cyclic, generated by `g_0` of order `12`.
+- `W(e_0) + W(−e_0)` lies in `C_N` and `W(e_0) − W(−e_0)` does not (`θ` negates it), so `C_N` is
+  a proper subalgebra for `N ≥ 1`; `cubicScalarCoefficient` vanishes on both.
 
 *Needs:*
 

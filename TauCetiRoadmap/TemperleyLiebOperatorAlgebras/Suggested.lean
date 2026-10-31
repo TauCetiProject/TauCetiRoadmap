@@ -5,6 +5,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 import Mathlib
 import TauCeti.Algebra.TemperleyLieb.MarkovTrace
 import TauCeti.Algebra.MonoidAlgebra.Twisted.Basic
+import TauCeti.LinearAlgebra.CliffordAlgebra.Dimension
 
 /-!
 # Temperley–Lieb operator algebras: target signatures
@@ -16,14 +17,17 @@ definitions those statements need; every definition has a real body on a native 
 Statable at the pins:
 
 * Layer 1's finite realisations of the tower: the Potts–Fortuin–Kasteleyn identity of 1.6
-  (`pottsPartition_eq_fkPartition`); the identification of the Jones quotient at `δ = √3`
-  with the inversion-fixed subalgebra of the cubic quantum torus
-  (1.8, `exists_cubicFixedModel`), and the finiteness of the Gaussian braid image (1.8,
-  `finite_gaussianBraid_closure`). The cubic identification is stated as the existence of the
-  comparison map with its generator values, its surjectivity, the trace identity and the kernel
-  `R_m = {x : ∀ y, T_m(x y) = 0}`; the map is unique by `TemperleyLieb.hom_ext`, and the trace
-  radical is written out because Subfactors 3.2's `R_m` is not at the pins. The cubic quantum torus
-  is Tau Ceti's `twistedMonoidAlgebra` for the factor set `cubicFactor`, whose cocycle identity is
+  (`pottsPartition_eq_fkPartition`); the identification of the Jones quotient at `δ = √2` with
+  the even Clifford algebra of the complex sum of squares (1.7, `exists_evenCliffordModel`); the
+  identification of the Jones quotient at `δ = √3` with the inversion-fixed subalgebra of the
+  cubic quantum torus (1.8, `exists_cubicFixedModel`), and the finiteness of the Gaussian braid
+  image (1.8, `finite_gaussianBraid_closure`). Both identifications are stated as the existence
+  of the comparison map with its generator values, its surjectivity, the trace identity and the
+  kernel `R_m = {x : ∀ y, T_m(x y) = 0}`; the map is unique by `TemperleyLieb.hom_ext`, and the
+  trace radical is written out because Subfactors 3.2's `R_m` is not at the pins. The even
+  Clifford algebra is Mathlib's `CliffordAlgebra.even` of `QuadraticMap.weightedSumSquares`, with
+  the scalar coefficient read off Tau Ceti's `CliffordAlgebra.basis`; the cubic quantum torus is
+  Tau Ceti's `twistedMonoidAlgebra` for the factor set `cubicFactor`, whose cocycle identity is
   proved here (`cubicFactor_isFactorSet`) so that the carrier exists without any admission.
 * Layer 2's positivity theorem at negative loop parameters (`markovTrace_neg_one_pow_nonneg_iff`):
   for `δ < 0` the signed closure forms `(-1)^n T_n(x† x)` are nonnegative at every level exactly
@@ -107,8 +111,56 @@ theorem pottsPartition_eq_fkPartition (G : Graph V E) [Fintype G.vertexSet] [Fin
 
 end PottsFortuinKasteleyn
 
-/- The finite algebraic even-Clifford model is supplied by GeometricTopology.
-This roadmap constructs its analytic-adjoint and positive-quotient comparisons. -/
+section EvenCliffordModel
+
+/-- The complex bilinear sum of squares `q_m` on `Fin m → ℂ`, `q_m(x) = Σ_j x_j²` (1.7). -/
+def cliffordForm (m : ℕ) : QuadraticForm ℂ (Fin m → ℂ) :=
+  QuadraticMap.weightedSumSquares ℂ (fun _ : Fin m ↦ (1 : ℂ))
+
+/-- **The even Clifford algebra** `Cl_m⁰ = CliffordAlgebra.even q_m`, of dimension `2^(m−1)` for
+`m ≥ 1` and `1` for `m = 0`; the Jones quotient `Q_m` at `δ = √2` (1.7). -/
+abbrev EvenClifford (m : ℕ) : Subalgebra ℂ (CliffordAlgebra (cliffordForm m)) :=
+  CliffordAlgebra.even (cliffordForm m)
+
+/-- The generators `c_j = ι(e_j)` of `Cl_m`, with `c_j² = 1` and `c_j c_k = −c_k c_j` for
+`j ≠ k` (1.7). -/
+def majorana (m : ℕ) (j : Fin m) : CliffordAlgebra (cliffordForm m) :=
+  CliffordAlgebra.ι (cliffordForm m) (Pi.single j 1)
+
+/-- The projections `p_j = (1 + i c_j c_(j+1))/2` in `Cl_m⁰`, with `p_j p_(j±1) p_j = p_j/2` and
+commuting at distance at least two; `E_j = √2 p_j` are the Temperley–Lieb generators at
+`δ = √2` (1.7). -/
+def cliffordProjection (m : ℕ) (j : Fin (m - 1)) : CliffordAlgebra (cliffordForm m) :=
+  (2 : ℂ)⁻¹ • (1 + Complex.I • (majorana m ⟨j.val, by omega⟩ * majorana m ⟨j.val + 1, by omega⟩))
+
+/-- The scalar coefficient `s_m(a)`: the coefficient at `∅` of Tau Ceti's basis of `Cl_m`
+attached to the standard basis of `Fin m → ℂ`, the coefficient of `1` in the ordered-monomial
+expansion. It is a trace, and the pairing `s_m(ab)` is nondegenerate on `Cl_m` and on `Cl_m⁰`
+(1.7). -/
+def cliffordScalarCoefficient (m : ℕ) (a : CliffordAlgebra (cliffordForm m)) : ℂ :=
+  (CliffordAlgebra.basis (cliffordForm m) (Pi.basisFun ℂ (Fin m))).repr a ∅
+
+/-- **The Jones quotient at `δ = √2` is the even Clifford algebra** (Jones, printed p. 107;
+Iohara–Lehrer–Zhang, *The Jones quotients of the Temperley–Lieb algebras*, Theorem 5.4 and
+Proposition 5.5). Let `q` be a unit with `√2 = −(q + q⁻¹)`. There is an algebra map
+`F_m : TL_m(√2) → Cl_m⁰` with `F_m(e_j) = √2 p_j` (unique by `TemperleyLieb.hom_ext`), which is
+surjective, satisfies `T_m(x) = (√2)^m s_m(F_m x)` for every `x`, and whose kernel is the trace
+radical `R_m = {x : ∀ y, T_m(x y) = 0}`; so `F_m` induces `Q_m ≅ Cl_m⁰`. At `m ≤ 1` both sides
+are `ℂ` and `F_m` is the identity. The compatibility with the analytic adjoint and with the
+coordinate inclusions is a 1.7 target not statable at the pins. -/
+theorem exists_evenCliffordModel (m : ℕ) (q : ℂˣ)
+    (hq : (Real.sqrt 2 : ℂ) = -((q : ℂ) + ((q⁻¹ : ℂˣ) : ℂ))) :
+    ∃ F : TemperleyLieb ℂ (Real.sqrt 2 : ℂ) m →ₐ[ℂ] EvenClifford m,
+      (∀ j : Fin (m - 1),
+        (F (e (Real.sqrt 2 : ℂ) j) : CliffordAlgebra (cliffordForm m)) =
+          (Real.sqrt 2 : ℂ) • cliffordProjection m j) ∧
+      Function.Surjective F ∧
+      (∀ x, markovTrace q hq x =
+        (Real.sqrt 2 : ℂ) ^ m * cliffordScalarCoefficient m (F x)) ∧
+      (∀ x, F x = 0 ↔ ∀ y, markovTrace q hq (x * y) = 0) := by
+  sorry
+
+end EvenCliffordModel
 
 section CubicQuantumTorus
 
