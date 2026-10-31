@@ -1095,35 +1095,37 @@ Freedman–Quinn §5.7's controlled separation estimates.
 
 ### 3.4 PL controlled h-cobordisms and isotopy
 
-<a id="radial-end-control"></a>
 **Radial control and extension across an end.**
 
 Build the quantitative radial-coordinate API used by the proper product and
-point-flattening constructions. For continuous nondecreasing a,b,c on (0,∞), each
-tending to0 at0, with a≥0 and 0<b(t)≤t≤c(t), and every continuous positive control d
-on (0,∞), prove that for every outer radius R>0 there are η∈(0,R) and an increasing
-order homeomorphism h:ℝ≃ℝ fixing (−∞,0] and [R,∞), such that for0<t<η,
+point-flattening constructions. For continuous nondecreasing a, b, c on (0,∞), each
+tending to 0 at 0, with a ≥ 0 and 0 < b(t) ≤ t ≤ c(t), and every continuous positive
+control d on (0,∞), prove that for every outer radius R > 0 there are η ∈ (0,R) and an
+increasing order homeomorphism h: ℝ ≃ ℝ fixing (−∞,0] and [R,∞), such that for
+0 < t < η,
 
 ```text
 max(a(t), h(c(t))−h(b(t))) < d(h(t)).
 ```
 
-No monotonicity, invertibility or positive lower bound near0 is required of d.
-Construct cofinal image radii r_n↓0 by subtracting `min(r_n/4, min_{[r_n/4,2r_n]} d
-/16)` at each step; prove cofinality from positivity on compact annuli. Choose
-cofinal domain radii γ_n↓0 with `γ_(n+1)<min(γ_n/2,b(γ_n))`, `c(γ_(n+1))<γ_n` and
-`a(γ_n)<(min_{[r_(n+1),r_n]} d)/2`. Interpolate h(γ_n)=r_n linearly, attach the fixed
-outer interval, and prove strict monotonicity, surjectivity, continuity and inverse
-continuity, including at0. The adjacent-annulus estimates must give the displayed
-strict bound. The coordinate is topological; no smoothness of h is assumed.
+No monotonicity, invertibility or positive lower bound near 0 is required of d.
+Construct cofinal image radii r_n ↓ 0 by subtracting `min(r_n/4, m_n/16)` at each
+step, where `m_n` is the minimum of d over `[r_n/4, 2r_n]`; prove cofinality from
+positivity on compact annuli. Choose cofinal domain radii γ_n ↓ 0 with
+`γ_(n+1) < min(γ_n/2, b(γ_n))`, `c(γ_(n+1)) < γ_n` and `a(γ_n) < m'_n/2`, where
+`m'_n` is the minimum of d over `[r_(n+1), r_n]`. Interpolate h(γ_n) = r_n linearly,
+attach the fixed outer interval, and prove strict monotonicity, surjectivity,
+continuity and inverse continuity, including at 0. The adjacent-annulus estimates
+must give the displayed strict bound. The coordinate is topological; no smoothness
+of h is assumed.
 
-For a proper control map p=(p₁,p₂) to a locally compact metric base times[0,∞), and
+For a proper control map p=(p₁,p₂) to a locally compact metric base times [0,∞), and
 the two end-deformation homotopies R₀,R₁ near its zero fibre, construct simultaneous
 envelopes satisfying `dist(p₁(R_i(x,u)),p₁(x))≤a(t)` and `b(t)≤p₂(R_i(x,u))≤c(t)` for
 t=p₂(x)>0. Require both deformations to preserve the complement of the zero fibre and
 to restrict on that fibre to the specified endpoint contractions, fixing p₁. Work
 uniformly over compact base subsets and all homotopy times after shrinking the tube.
-Properness gives upper bounds tending to0 from shrinking sublevel sets and positive
+Properness gives upper bounds tending to 0 from shrinking sublevel sets and positive
 lower bounds on compact annuli; construct continuous monotone majorants/minorants of
 these bounds. An infimum over a varying exact fibre need not be continuous. A
 compact-base minorant of the prescribed continuous positive control δ(y,s) supplies
@@ -1138,13 +1140,29 @@ continuously and inversely over the zero section. This supplies an actual
 homeomorphism at the added point, rather than only a punctured product. Retain the
 separate ANR line-normal, smoothing and controlled-product constructions; this scalar
 lemma does not construct their geometric inputs.
-[RadialControlTargets.lean](RadialControlTargets.lean) prototypes its quantified
-statement using native real functions and `OrderIso`.
 
-The application is Teichner's September16 E₈-cap construction; the radial estimates
-follow the proof of Freedman–Quinn, [Theorem9.7, pp147–148](https://archive.mpim-bonn.mpg.de/4789/2/FreedmanQuinn-TopologyOf4Manifolds-Reformatted2013.pdf),
+The application is the point-flattening step of §3.5's contractible cap
+construction; the radial estimates follow the proof of Freedman–Quinn,
+[Theorem 9.7, printed pp. 147–149](https://archive.mpim-bonn.mpg.de/4789/2/FreedmanQuinn-TopologyOf4Manifolds-Reformatted2013.pdf),
 with the compact-annulus envelope construction above. This real-analysis prefix uses
 no smoothing, cap or four-manifold classification theorem.
+
+**Checks.**
+
+- For a = 0, b(t) = t/2, c(t) = 2t and d(s) = s, the identity coordinate gives
+  h(c(t)) − h(b(t)) = 3t/2 > t = d(t) at every t, so a statement that omitted the
+  squeeze would be false; the constructed coordinate has every step equal to r_n/64,
+  and for t in [γ_(n+1), γ_n] the three adjacent steps give
+  h(c(t)) − h(b(t)) ≤ 3r_(n−1)/64 < d(h(t))/20, since d(h(t)) = h(t) ≥ r_(n+1) ≥ (63/64)²·r_(n−1).
+- For a = 0, b = c = id and d ≡ 1, the left side is 0 and the bound holds for every
+  coordinate, the identity included; with R = 1 and r_0 = 1/2 the constructed image
+  radii continue 7/16, 3/8, 5/16 and are still cofinal, so the construction never relies on d
+  forcing the radii to shrink, and a statement that demanded h ≠ id would be wrong.
+- For the compact tube W = ([0,1]×{0}) ∪ ({1/2}×[0,1]) in ℝ² with p₂(x,y) = x and
+  g(x,y) = 1 + x − y, the fibrewise infimum of g is 1 + t for t ≠ 1/2 and 1/2 at
+  t = 1/2: it is lower semicontinuous but not continuous, so an envelope read off
+  fibre by fibre is not continuous, and the minorants must be built from minima over
+  compact annuli, whose running minimum is positive and monotone.
 
 Before §3.5, own
 the PL-input controlled h-cobordism theorems of Freedman–Quinn,
@@ -1188,7 +1206,10 @@ gap:laurent-l-group-splitting for Wh(1)=Wh(ℤ)=0; GeneralAlgebraicKTheory
 §10.3, §10.5, §10.12a and §10.13 for K̃₀ and K_(−i) of ℤ and ℤ[ℤ];
 AlgebraicTopology's locally finite chains and relative
 CW comparisons; §3.3's control estimates (Freedman–Quinn, Theorems 7.5 and
-7.6, printed pp. 113–114; `freedmanquinn` lines 3854 and 3906).
+7.6, printed pp. 113–114; `freedmanquinn` lines 3854 and 3906); for the
+radial-control block, Mathlib's order isomorphisms of ℝ
+(`StrictMono.orderIsoOfSurjective`) and the extreme-value theorem on compact
+intervals (`IsCompact.exists_isMinOn`).
 
 Given open V⊂U⊂X and positive control ε, choose δ so that a
 δ-1-connected δ-h-cobordism over U^(2ε), supplied with a δ-small
@@ -1216,8 +1237,8 @@ equivalently by AT8.5's `SimplyConnectedAtInfinity`. Construct a proper
 height map to the cone on the finite end
 set; proper retraction homotopies and stable end groups give arbitrarily
 small, 1-connected controlled h-cobordism data after reparametrizing that
-height (FQ7.7.1). Apply the preceding PL-input controlled product theorem
-with the trivial local Whitehead/K coefficients, as in FQ7.7.2, and glue
+height (Freedman–Quinn 7.7.1). Apply the preceding PL-input controlled product theorem
+with the trivial local Whitehead/K coefficients, as in Freedman–Quinn 7.7.2, and glue
 the cofinal products with their relative collar controls. Prove properness,
 continuity and inverse compatibility on the exhaustion, not just products
 on individual compact pieces. The later extension to TOP handle inputs
@@ -1259,7 +1280,7 @@ concordance correspond to homotopy classes of lifts of its actual rank 4
 tangent classifier from BTOP(4) to BO(4), with given smooth boundary germs
 and relative lift homotopies. Construct this unstable comparison by the
 open-manifold immersion/compression theorem and relative chart integration
-(Lees–Lashof; Kirby–Siebenmann Essay V; FQ8.5), before any stabilization
+(Lees–Lashof; Kirby–Siebenmann Essay V; Freedman–Quinn 8.5), before any stabilization
 connectivity or sum-stable theorem. Retain the concordance realization and
 underlying TOP identification; a stable lift alone is not this input.
 
@@ -1330,7 +1351,7 @@ and simply connected complementary pieces. Recognize the remaining
 contractible component by the early ℝ⁴/ball theorem above. The later
 normal-invariant item compares this result with PL normal surgery;
 that comparison is not an input here. This supplies the actual pieces
-in FQ8.15, with no assumption that their separating S³ is smoothable.
+in Freedman–Quinn 8.15, with no assumption that their separating S³ is smoothable.
 It uses neither §3.7's realization nor §3.8's global TOP classification.
 
 Own stable smoothing of topological four-manifolds here before TOP map transversality.
@@ -1341,7 +1362,7 @@ smoothing after finitely many interior S²×S² stabilizations. Construct
 a smoothing of M×ℝ from gap:relative-pl-five's product structure theorem
 and PL/O comparison. Apply the controlled Hauptvermutung and Browder's
 ambient 0/1/2-surgeries (Browder, *Surgery on simply-connected manifolds*,
-Chapter V §2, especially V.2.6; FQ8.15) to a transverse slice, with actual traces,
+Chapter V §2, especially V.2.6; Freedman–Quinn 8.15) to a transverse slice, with actual traces,
 framings and support, until the inserted pieces are simply connected
 framed hypersurfaces in S⁵. Compute their hyperbolic forms and apply
 the hyperbolic hypersurface homeomorphism theorem, keeping the tangent-reduction
@@ -1350,7 +1371,7 @@ bundle homotopy. Consume the earlier
 the unstable smoothing comparison for noncompact TOP four-manifolds, then prove
 TOP(4)/O(4)→TOP/O is 4-connected by the sum-stable
 existence/concordance construction and this immersion comparison,
-as in FQ8.19.2. Combine the 4-connected comparison with the ordinary relative H⁴
+as in Freedman–Quinn 8.19.2. Combine the 4-connected comparison with the ordinary relative H⁴
 vanishing on noncompact components to classify their smoothings by the
 chosen stable tangent reductions. Display the lifting and difference
 obstruction groups and their relative vanishings.
@@ -1364,11 +1385,11 @@ spheres, factorization and the sum-square move, following
 Theorem 1.1 and §§2–4. Include their TOP pseudo-isotopy-to-isotopy theorem
 with the same relative sets. Use the stable smooth result to prove
 π₄(TOP(4)/O(4))=0, realize the prescribed stable tangent homotopy by an
-actual sum-stable isotopy, and complete FQ8.17's 5-connectivity via the
+actual sum-stable isotopy, and complete Freedman–Quinn 8.17's 5-connectivity via the
 D⁴×I relative lifting argument. These isotopy targets follow the earlier
 smoothing/concordance construction; they are separate from it.
 
-Prove the FQ8.19 submanifold-smoothing theorem: a proper locally flat
+Prove the Freedman–Quinn 8.19 submanifold-smoothing theorem: a proper locally flat
 embedded 4-manifold with no compact components in a smooth ambient
 manifold, smooth near its boundary, admits an ambient isotopy rel
 boundary to a smooth submanifold. Construct its required normal
@@ -1386,7 +1407,7 @@ in a TOP 5-manifold triad whose complement is smoothed, then obtain
 relative TOP 5-dimensional handle structures by cancelling handles near that locus
 with §3.4 and replacing its tapered product neighborhoods.
 
-Own the normal-bundle theorem for locally flat submanifolds of TOP four-manifolds (FQ9.6–9.8): every proper
+Own the normal-bundle theorem for locally flat submanifolds of TOP four-manifolds (Freedman–Quinn 9.6–9.8): every proper
 locally flat submanifold of a TOP 4-manifold has an actual extendable
 linear normal bundle neighborhood, unique by ambient isotopy rel the
 submanifold and a smaller prescribed neighborhood of a closed subset.
@@ -1483,8 +1504,8 @@ construction, retaining the map homotopy and its support. For q=1,2 own
 the remaining exceptional graph/handle induction using the preceding
 noncompact submanifold-smoothing and relative product-structure theorem,
 gap:low-codimension-normal-bundles when applicable, and the
-Kirby–Siebenmann local straightening proof modified by FQ8.19
-(FQ9.12.3; Quinn, *Topological transversality holds in all dimensions*,
+Kirby–Siebenmann local straightening proof modified by Freedman–Quinn 8.19
+(Freedman–Quinn 9.12.3; Quinn, *Topological transversality holds in all dimensions*,
 1988). Give the local normal-neighborhood comparison before invoking smooth
 transversality on each smoothed piece; reinsert the prescribed TOP puncture
 neighborhoods by the controlled relative construction. For q>4 give the
@@ -1502,7 +1523,7 @@ time, exactly as in Marin's Definition 1.6.
 For codimension≥3 and expected preimage dimension≠4 consume Marin's
 theorem from that gap, including domain dimension 4; that case requires no
 FQ adaptation. For expected preimage dimension 4 adapt the ordinary proof
-with FQ8.19's relative product structure and stable-germ uniqueness/symmetry.
+with Freedman–Quinn 8.19's relative product structure and stable-germ uniqueness/symmetry.
 For codimension 1–2 stabilize the preceding ordinary normal-microbundle
 theorem and compare stable germs. In codimension 2 with ambient target
 dimension 4 own stable map transversality for codimension-two submanifolds of TOP four-manifolds for all
@@ -1796,7 +1817,7 @@ Own the homology-four-manifold point-flattening theorem: if a locally compact me
 ANR integral homology 4-manifold W is a TOP 4-manifold outside p and
 its punctured neighborhoods are locally 1-connected at p, construct
 an open R⁴ chart at p. First prove the stabilized line-normal
-approximation used by FQ9.7: the line {p}×ℝ in W×ℝ has a rank 4
+approximation used by Freedman–Quinn 9.7: the line {p}×ℝ in W×ℝ has a rank 4
 normal neighborhood. Own the homology-five-manifold line-normal-neighborhood theorem: a proper
 embedded line L in a locally compact finite-dimensional ANR integral
 homology 5-manifold V, with V−L a TOP manifold and locally 1-connected
@@ -1806,7 +1827,7 @@ ANR resolution/normal-approximation/engulfing result of Quinn, *Ends of
 maps I*, §3.4, specialized to the line, with actual neighborhood embedding
 and zero-section. Apply it to L={p}×ℝ; codimension 2 issues do not enter. Construct its normal bundle
 and zero-section map, boundary/relative restriction and tapering.
-Apply the [radial-control API](#radial-end-control) to both end deformations
+Apply §3.4's radial-control estimates to both end deformations
 on a proper tube; verify controlled connectivity and smoothing separately.
 Intersect that model with W×[0,∞), reparametrize the radial coordinate
 to make the punctured comparison a δ-controlled 5-cobordism, and use
@@ -3113,7 +3134,7 @@ core from the j(X) end. A diffeomorphism R≃ℝ⁴ would give a smooth S³
 in the common collar; transport it to the K3 collar and cap to obtain a
 smooth simply connected definite manifold of form 2(−E₈), contradicting F5.
 Give the actual cap, form and end comparisons. This is
-[Gompf, §1, Theorem1.2](https://projecteuclid.org/journals/journal-of-differential-geometry/volume-18/issue-2/Three-exotic-mathbfR4s-and-other-anomalies/10.4310/jdg/1214437666.pdf).
+[Gompf, §1, Theorem 1.2](https://projecteuclid.org/journals/journal-of-differential-geometry/volume-18/issue-2/Three-exotic-mathbfR4s-and-other-anomalies/10.4310/jdg/1214437666.pdf).
 No conclusion about smooth S⁴
 recognition or the smooth four-dimensional Poincaré conjecture is requested.
 
@@ -3203,5 +3224,9 @@ GTM 175 (1997); Rolfsen, *Knots and Links*, Publish or Perish (1976);
 Freedman–Kirby, *A geometric proof of Rochlin's theorem*, Proc. Sympos.
 Pure Math. 32 (1978); Kirby, *The Topology of 4-Manifolds*, LNM 1374
 (1989); Robertello, *An invariant of knot cobordism*, Comm. Pure
-Appl. Math. 18 (1965); Serre, *Trees*, Springer (1980); and Gompf, *Three
-exotic ℝ⁴'s and other anomalies*, J. Differential Geom. 18 (1983).
+Appl. Math. 18 (1965); Serre, *Trees*, Springer (1980); Moise, *Geometric
+Topology in Dimensions 2 and 3*, GTM 47 (1977); Munkres, *Obstructions to the
+smoothing of piecewise-differentiable homeomorphisms*, Ann. of Math. 72
+(1960); Whitehead, *Manifolds with transverse fields in Euclidean space*,
+Ann. of Math. 73 (1961); and Gompf, *Three exotic ℝ⁴'s and other anomalies*,
+J. Differential Geom. 18 (1983).
