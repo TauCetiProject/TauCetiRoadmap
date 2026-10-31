@@ -1907,6 +1907,196 @@ Soc. 99 (1986); Franks–Williams, Trans. Amer. Math. Soc. 303 (1987)).
 
 *Needs:* Layer 4.2 through 4.6.
 
+### 4.8.1 Adequate diagrams, colored cabling and crossing minimality
+
+Make the adequate-diagram extension in *Knot Theory*, physical pp95–99,
+explicit, including Exercise6.10's strict first smoothing change. Work with
+the existing realized plane diagrams and native `PDCode` bracket/Jones
+carriers. The cabling and colored-polynomial conclusions below are for
+knots, including the crossing-free unknot; the state-circle and ordinary
+adequacy APIs also apply to nonempty plane link diagrams.
+
+**State circles and state graphs.** For `D:PDCode n` and state
+`s:Fin n→Bool`, let `v_s=D.smoothingTurn(D.smoothingChoice s)`. Use
+the native setoid join
+
+`R_s=SameCycle.setoid(D.edgePair.val) ⊔ SameCycle.setoid(v_s)`
+
+on the halfedges, and define the state-circle carrier as
+`Quotient R_s ⊕ Fin D.crossinglessComponentCount`. Prove its cardinal is
+the existing `D.stateLoopCount s`, by comparing the alternating two-matching
+components with the two directed orbits of `D.statePerm s`. A quotient by
+the latter permutation alone counts two classes per circle and is not
+this carrier. Give representatives, incidence and traversal lemmas,
+finite decidability, natural equivalences under relabelling and mirror,
+and explicit merge/split maps for a prescribed state change. Include every
+crossing-free circle.
+
+At crossing i take the two endpoint classes represented by
+`D.crossing i 0` and `D.crossing i 2`; these slots belong to different
+local smoothing pairs for either smoothing. Build the state multigraph
+with this actual circle carrier as vertices and `Fin n` as labelled edges,
+using native `Graph` and its unordered incidence API, with full vertex
+and edge sets in those ambient types. Retain parallel edges, loops and
+isolated state circles. Prove the incidence description is independent of the
+chosen representative of either smoothing arc, and identify the graph's
+edge and vertex counts. A state is adequate when every edge has distinct
+endpoints. The all-A state is constant true, all-B is constant false;
+define A-adequate, B-adequate and adequate by these loopless conditions.
+Transport them under relabelling, mirror and component reorientation.
+Reduced alternating realized diagrams are both adequate; prove this from
+planar regions and the geometric nugatory-crossing criterion, rather than
+identifying an arbitrary abstract PD code with a plane diagram.
+
+**The strict first change and extremal coefficients.** Prove the
+two-matching surgery lemmas, including that distinct endpoint circles
+merge when the smoothing at that crossing changes. For planar diagrams
+every smoothing change changes the circle count by exactly one in absolute
+value. Supply its geometric comparison with the native count; do not
+assume this planar conclusion for unrestricted ribbon codes.
+
+Put `s_A=loops(all-A)`, `s_B=loops(all-B)` and let `b(s)` count B choices.
+The top exponent of the reduced state summand is
+`n−2b(s)+2loops(s)−2`. Starting from an A-adequate state, the first
+A-to-B change decreases loops by1, so this exponent drops by4. Each
+subsequent A-to-B change is nonincreasing in that exponent. Order the
+changed crossings to prove every state except all-A contributes strictly
+below `n+2s_A−2`. This is the missing strictness argument in Exercise6.10;
+later changes need not all be strict. Obtain the mirror bottom argument.
+On the actual finite Laurent support of the native bracket prove
+
+`maxdeg_A ⟨D⟩=n+2s_A−2`, with coefficient `(-1)^(s_A−1)` for A-adequate D;
+`mindeg_A ⟨D⟩=−n−2s_B+2`, with coefficient `(-1)^(s_B−1)` for B-adequate D.
+
+Expose support inclusions, exact endpoint coefficients and nonvanishing,
+including the one-circle/no-crossing case. For adequate diagrams the
+breadth is `2n+2(s_A+s_B−2)`. For connected nonempty diagrams compare
+this with the earlier Turaev formula; genus0 gives the alternating
+equality4n. Disconnected plane links retain the displayed state-count
+formula and its split-circle correction.
+
+**Blackboard parallel diagrams.** Construct the r-parallel `D^r`, r≥0,
+with no additional framing twists, on explicit finite crossing and
+halfedge labels. Replace each original crossing by its r-by-r grid,
+give every pairing/overpass/orientation formula, and prove planarity,
+realization and compatibility with the blackboard normal field. Its
+crossing count is r²n; a crossing-free circle produces r parallel
+circles, while `D^0` is the empty diagram. Prove all-A and all-B smoothing
+comparisons by explicit circle bijections, including nested circles,
+
+`s_A(D^r)=r s_A(D)`, `s_B(D^r)=r s_B(D)`.
+
+Prove preservation of A/B adequacy and the corresponding graph-incidence
+formulas. For an oriented knot diagram prove `w(D^r)=r²w(D)`.
+Give the local braid/cup/cap and marked satellite comparisons needed to
+transport these finite codes through realized diagram isotopies. A planar
+parallel is a framed link satellite, not an unframed knot invariant.
+
+**Integral color and its framing comparison.** Define the unreduced
+bracket independently by
+
+`B(D)=Σ_s A^(a(s)−b(s)) δ^loops(s)`, `δ=−A²−A⁻²`.
+
+It has `B(empty)=1` and `B(D)=δ⟨D⟩` when D is nonempty. The latter
+comparison excludes the empty native code, whose reduced bracket also
+equals1 by truncated subtraction. Prove disjoint-union multiplicativity,
+the unreduced loop rule, relabelling, reflection and framed local-move
+identities. All these are over `Λ=ℤ[A,A⁻¹]`.
+
+Use native `Polynomial.Chebyshev.S ℤ (r:ℤ)`, denoted S_r, with
+`S_0=1`, `S_1=x`, `S_(r+2)=xS_(r+1)−S_r`. Construct the coefficient-linear
+satellite evaluation
+
+`C_r(D)=Σ_(j∈support S_r) coeff(S_r,j) B(D^j)`.
+
+Give its integral coefficient and support APIs, the leading cable
+coefficient1, parity of cable numbers, and the explicit expansion
+`S_r(x)=Σ_(j≤r/2)(−1)^j binom(r−j,j) x^(r−2j)`. This satellite
+evaluation is not evaluation of S_r at the scalar bracket of D.
+
+Prove its colored framing law before using it as a knot invariant.
+Consume the generic TL diagram and Jones–Wenzl f_r construction from
+TemperleyLieb Layers2–4,6. This stage supplies the marked annular
+closure/solid-torus satellite adapter, the identity `closure(f_r)=S_r`
+and the color-r positive kink eigenvalue
+`θ_r=(-1)^r A^(r(r+2))`, with negative kink eigenvalue θ_r⁻¹.
+Give the closure recurrence, partial-trace and local crossing equations
+that prove these identities in the declared native A-smoothing convention.
+One construction uses f_r over `ℚ(A)`: prove nonvanishing of every
+required formal quantum integer, construct the injective scalar extension
+`Λ→ℚ(A)`, compare the annular closures there, and descend the resulting
+identities between the already integral C_r. No integral projector is
+assumed. Prove the geometric satellite/blackboard-twist comparison,
+relabelling and ReidemeisterII/III invariance, with the stated colored
+ReidemeisterI factor. These are prerequisites of the next degree argument,
+independently of minimal crossings and adequacy.
+
+For an oriented knot diagram of writhe w define
+`F_r(K)=θ_r^(−w) C_r(D)`. Prove its invariance under all realized
+Reidemeister moves, reversal and reparametrization; reflection inverts A.
+The color is Jones color r+1. Include `F_0=1`,
+`F_r(unknot)=(-1)^r Σ_(j=0)^r A^(2r−4j)` and
+`F_1(K)=δ V_K(A⁻⁴)`, using the native half-variable Jones substitution
+`u=A⁻²`. Prove `F_r(K)(1)=(-1)^r(r+1)` and hence nonvanishing for every
+r≥0. One proof uses the earlier `V_L(1)=(-2)^(μ−1)` for the j-component
+parallel satellite, its writhe j²w, and the Chebyshev parity formula.
+This one-color/single-writhe construction is for a knot; componentwise
+colored links require their own framing data and are not inferred here.
+
+**Degrees and the minimality theorem.** For every realized knot diagram
+D and r≥1 prove, using actual Laurent support,
+
+`maxdeg_A F_r(K) ≤ r²(n−w)+2r(s_A−w)`,
+`mindeg_A F_r(K) ≥ −r²(n+w)−2r(s_B+w)`.
+
+A-adequacy makes the upper bound equality; B-adequacy makes the lower
+bound equality, with endpoint coefficients ±1. Derive both bounds from
+the parallel state sum and prove that lower Chebyshev terms cannot cancel
+an adequate extreme: for 0≤j<r the difference between the upper bounds
+of D^r and D^j is `(r²−j²)n+2(r−j)s_A>0`, and likewise for the bottom
+with s_B. Include j=0's empty satellite and the crossing-free unknot.
+As an API, give the degree of F_r and its degree after variable inversion
+`A↦A⁻¹` (`LaurentPolynomial.invert`),
+exact nonzero coefficients, multiplication by a monomial, and the ordinary
+r=1 comparison. For adequate D the colored breadth is
+`2r²n+2r(s_A+s_B)`; this is the unreduced colored breadth.
+
+Let E be any diagram of the same knot as an adequate D. Invariance of
+F_r for every r≥1 and the bounds imply
+`n_D−w_D≤n_E−w_E` and `n_D+w_D≤n_E+w_E` by comparing the quadratic
+coefficients. Prove this elementary dominance step explicitly, for
+integer coefficients and all positive natural r; no analytic limit or
+eventual quasi-polynomial theorem is needed. Thus D minimizes positive
+and negative crossing counts separately and `c(K)=n_D`. Any other
+crossing-minimizing diagram has the same positive/negative counts and
+writhe. In particular all adequate diagrams of a knot have the same
+writhe. Prove adequacy excludes nugatory crossings, explaining the
+source's reduced-adequate wording.
+
+Marked diagram connected sum wedges the corresponding state graphs at
+one vertex, so preserves adequacy. Give this finite/gluing comparison and
+deduce crossing additivity for connected sums of adequate knots, with
+the unknot as identity. This does not prove the source's general crossing
+additivity conjecture for arbitrary knots.
+
+*Needs:* earlier realized plane diagrams, Reidemeister/Markov comparison,
+tubular neighbourhoods and marked connected sums; native PD state permutations/counts,
+`Graph`, `Setoid` join, `LaurentPolynomial.degree`, `.coeff` and `.invert`;
+native Chebyshev S and TemperleyLieb's generic diagram/Jones–Wenzl theory.
+The state-circle bridge, parallel code, integral colored satellite,
+annular closure/kink adapter, degree bounds and adequate minimality are
+targets here. No quantum-group or TQFT construction is a prerequisite.
+`AdequacyCablingTargets.lean` prototypes the native state-circle, bracket,
+parallel and colored-degree interfaces; the full APIs above are required.
+Compare the cabling calculation with
+[Dasbach–Lin, Theorem3.1](https://arxiv.org/abs/math/0604230),
+and the degree normalization with
+[Kalfagianni, §2 and Theorem3.2](https://arxiv.org/html/1601.03307#S2),
+using Jones color r+1, t=A⁻⁴ and the explicit unreduced circle factor.
+The latter paper's sign-normalized polynomial is `(-1)^r F_r` after
+this substitution; give that scalar adapter as well as the degree adapter.
+
+
 ### 4.9 Prime decomposition of knots and links
 
 Prove Schubert's theorem: every nontrivial knot is a connected sum of finitely many prime
