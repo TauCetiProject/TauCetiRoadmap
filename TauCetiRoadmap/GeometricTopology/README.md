@@ -142,8 +142,9 @@ This roadmap leaves the following to other roadmaps.
   GeneralizedCohomology, TopologicalKTheory, MorseTheory, RiemannianGeometry,
   KhovanovHomology, CombinatorialHeegaardFloer, TeichmullerGeometry, TangentialBordism,
   HomotopySpheres or FourManifolds, every one of which consumes this roadmap.
-- **Knot tables and computation.** Tabulated volumes, knot tables and finite enumerations are
-  not targets. Small computed values appear only as Checks on the definitions they test.
+- **Finite classifications and computation.** The below-eight-crossing classification in
+  7.5 and finite code certificates explicitly specified in Layer4 are targets. Other
+  tabulated volumes and database tables are reference data.
 
 ## Conventions
 
@@ -3868,6 +3869,63 @@ The latter paper's sign-normalized polynomial is `(-1)^r F_r` after
 this substitution; give that scalar adapter as well as the degree adapter.
 
 
+<a id="braid-index-two"></a>
+### 4.8.2 The complete braid-index-two classification
+
+For problem28 on physical page5 of *Knot Theory – problems*, use4.8's
+minimum over every braid axis and the fixed oriented-link equivalence.
+For each m∈Z construct L_m as the coherently oriented realized closure
+of σ₀^m in native BraidGroup2, with native signed-word/PD comparisons.
+Reuse4.2.1's generator/exponent identification B₂≃Z; do not construct
+another braid group. Prove the standard two-strand diagram, its closure
+orientation, and the positive/negative single-crossing destabilizations.
+Include m=0 as the two-component unlink. For every even m there are two
+components, with signed linking m/2; for odd m there is one component.
+
+Prove that L_(±1) is the unknot and has braid index1. For odd |m|≥3,
+compute its determinant |m|>1 by4.4's two-strand Burau/Alexander
+comparison, so it is not the unknot. Since every one-strand braid is
+trivial, the complete minimum formula is
+
+```text
+braidIndex(L_m)=1  if m=±1,
+braidIndex(L_m)=2  otherwise.
+```
+
+Hence for every nonempty oriented tame link L prove
+`braidIndex(L)=2 ↔ ∃m∈Z, m≠1 ∧ m≠−1 ∧ L≅oriented L_m`.
+Construct the actual equivalence from a minimizing two-strand braid and
+its unique exponent. This is an exhaustive classification, including the
+index-two unlink; an available two-strand drawing alone does not establish
+minimality. The polynomial proof uses the early4.4 construction, without
+later torus classification, Garside theory or trace positivity. After4.11's
+geometric models, compare every signed/zero L_m with the corresponding
+two-strand torus link, including even parameters outside its coprime knot case.
+
+Also define the unoriented braid index by minimizing over oriented closed
+braids whose underlying link is equivalent to the given unoriented link.
+Prove this equals the minimum of the oriented index over all component
+orientations, and deduce the corresponding existence classification by
+underlying L_m, m≠±1. Keep signed m when ambient reflection is not allowed;
+|m| alone is not a mirror-sensitive classification parameter. Prove mirror
+and simultaneous-orientation-reversal transport of the minima by actual
+braid/ambient constructions. Do not assert invariance under arbitrary
+individual component reversals.
+
+**Orientation check.** L₄ has proper-link Arf1. Reversing exactly one
+component changes linking2 to−2 and gives Arf0, by4.3.1 and4.5.3's fixed
+Seifert/Arf comparison. Any coherent two-braid representing this reversed
+oriented link would have two components and linking−2, forcing m=−4;
+but L_(-4) is the mirror of L₄ and has Arf1. Thus its oriented braid
+index is at least3, while its underlying unoriented link has index2.
+This later check consumes the preceding elementary classification; it is
+not a premise for it.
+
+*Needs:* Layers4.1–4.4 for realized closures, component/linking data,
+Markov comparison and Alexander/determinant normalization; native B₂
+normal form, `permHom` and exponent sum. The later torus and Arf checks
+consume4.11 and4.3.1/4.5.3, respectively, without feeding the early proof.
+
 ### 4.9 Prime decomposition of knots and links
 
 Prove Schubert's theorem: every nontrivial knot is a connected sum of finitely many prime
@@ -5236,6 +5294,102 @@ Tau Ceti's hyperbolic metrics, volumes, isometries, geometric structures and the
 virtual fibering and virtual Haken propositions; HopfRinow (geodesics, exponential map);
 DifferentialGeometry Layer 12 (metrics and densities); Layer 5.2 (Dehn filling), Layer 8.2
 (irreducibility).
+
+<a id="small-knot-braid-indices"></a>
+### 7.5 Complete small-knot classification and braid-index certificates
+
+Problem27 on physical page5 of *Knot Theory – problems* requires all
+knots of crossing number below8. Use the existing native realized plane
+PD codes and oriented geometric knots. The following finite classification
+is a late consumer of the generic4.2 diagram/Markov theory,4.4–4.6
+invariants,4.8 alternating minimality,4.9 connected sums and4.10 rational
+knots. Its output is not a premise of any of those earlier constructions.
+
+**Finite enumeration and completeness.** Enumerate all knot diagrams
+with0≤c≤7 crossings, using the native finite halfedges, edge-pair
+involutions, crossing rotations, crossing signs and outer faces. For c>0
+require no crossing-free component and exactly one link component;
+for c=0 include the single circle. Give the finite planarity test and
+actual plane realization through4.2 and PlanarTopology's embedding API.
+Prove completeness of this enumeration for every such realized diagram,
+including loops, multiple edges and nugatory crossings. For every enumerated
+code construct a finite relative Reidemeister certificate to one of the
+catalogue diagrams below, allowing whole-knot orientation reversal and
+ambient reflection in this declared coarse classification. Prove the
+catalogue diagrams' minimal crossing counts from actual reduced alternating
+codes and4.8. Prove pairwise distinction up to those operations by their
+computed Jones polynomials, checking both t and t⁻¹, and identify the
+fourteen prime rows through their actual rational-knot presentations.
+Thus the exact coarse list is the unknot, these fourteen prime knots,
+and the three composite rows below. An asserted finite search or a list
+of invariant values is not the completeness certificate.
+
+**Prime inputs and sharp bounds.** The table fixes the signed braid rows
+and DT data from the respective [Knot Atlas entries](https://katlas.org/wiki/The_Rolfsen_Knot_Table).
+An integer ±i denotes σ_(i−1)^(±1) in native `BraidWord n`, read in its
+bottom-to-top order. Construct the actual Atlas/native orientation and
+slot adapters, the PD closures and the named geometric identifications.
+Keep the handedness encoded by these rows; mirror variants use sign-negated
+words. No braid word length is asserted to equal the knot crossing number.
+
+Write H(a,z) for4.6's convention `aH₊−a⁻¹H₋=zH₀`, H(unknot)=1,
+in the existing iterated Laurent ring. Its variable v is a⁻¹. For a
+braid of writhe e on n strands,4.8's MFW bound therefore places a-support
+in `[−e−n+1,−e+n−1]`. Compute each row's actual H from its native closure
+and skein construction, prove its displayed support endpoints and nonzero
+extreme coefficient polynomials over Z[z,z⁻¹], and prove that coefficient
+conventions preserve the breadth. The matching lower bound is
+`1+(max_a H−min_a H)/2`; the explicit n-strand word supplies the upper bound.
+These are minimum theorems, not estimates from a chosen braid axis.
+
+| Knot | n = braid index | Signed braid row | Signed DT row | a-support min,max |
+|---|---:|---|---|---|
+| 3_1 | 2 | `(-1,-1,-1)` | `(4,6,2)` | 2,4 |
+| 4_1 | 3 | `(-1,2,-1,2)` | `(4,6,8,2)` | -2,2 |
+| 5_1 | 2 | `(-1,-1,-1,-1,-1)` | `(6,8,10,2,4)` | 4,6 |
+| 5_2 | 3 | `(-1,-1,-1,-2,1,-2)` | `(4,8,10,2,6)` | 2,6 |
+| 6_1 | 4 | `(-1,-1,-2,1,3,-2,3)` | `(4,8,12,10,2,6)` | -2,4 |
+| 6_2 | 3 | `(-1,-1,-1,2,-1,2)` | `(4,8,10,12,2,6)` | 0,4 |
+| 6_3 | 3 | `(-1,-1,2,-1,2,2)` | `(4,8,10,2,12,6)` | -2,2 |
+| 7_1 | 2 | `(-1,-1,-1,-1,-1,-1,-1)` | `(8,10,12,14,2,4,6)` | 6,8 |
+| 7_2 | 4 | `(-1,-1,-1,-2,1,-2,-3,2,-3)` | `(4,10,14,12,2,8,6)` | 2,8 |
+| 7_3 | 3 | `(1,1,1,1,1,2,-1,2)` | `(6,10,12,14,2,4,8)` | -8,-4 |
+| 7_4 | 4 | `(1,1,2,-1,2,2,3,-2,3)` | `(6,10,12,14,4,2,8)` | -8,-2 |
+| 7_5 | 3 | `(-1,-1,-1,-1,-2,1,-2,-2)` | `(4,10,12,14,2,8,6)` | 4,8 |
+| 7_6 | 4 | `(-1,-1,2,-1,-3,2,-3)` | `(4,8,12,2,14,6,10)` | 0,6 |
+| 7_7 | 4 | `(1,-2,1,-2,3,-2,3)` | `(4,8,10,12,2,14,6)` | -4,2 |
+
+For every row prove mirror transport of its word, support interval and
+minimum. Prove whole-knot orientation-reversal transport as well, without
+assuming such transport for separate components of a link. The native
+word constants are certificate inputs, not an implementation of the
+geometric comparison or the finite classification.
+
+**Composite inputs.** Let T be the positive trefoil with word σ₁³ and
+F the figure-eight with word `(σ₁⁻¹σ₂)²`. Construct the connected-braid
+sum on the shared strand and prove that its geometric closure is the
+marked oriented connected sum. This gives the following rows, together
+with their mirrors and orientation reversals:
+
+| Knot | Braid word | n = braid index | a-support min,max |
+|---|---|---:|---|
+| T#T | σ₁³σ₂³ | 3 | −8,−4 |
+| T#mirror(T) | σ₁³σ₂⁻³ | 3 | −2,2 |
+| T#F | σ₁³(σ₂⁻¹σ₃)² | 4 | −6,0 |
+
+Use4.6's connected-sum product to compute the full support and nonzero
+extreme coefficients over the integral-domain coefficient ring, so the
+MFW lower bounds match these upper constructions. The unknot has constant
+H=1 and braid index1. Prove that the displayed connected sums have crossing
+numbers6,6,7 by their reduced alternating diagrams. Completeness concerns
+all knots below8, including these composites; it does not presuppose a
+general crossing-number-additivity theorem. No general sharpness of MFW
+or general braid-index-additivity theorem follows from this finite list.
+
+*Needs:* the generic early diagram, finite planar enumeration, Markov,
+HOMFLY/MFW, alternating, rational and connected-sum contracts cited above.
+The late classification owns all reduction/separation certificates and
+named-code identifications here; no hyperbolic numerical table is an input.
 
 ## Layer 8: decompositions of 3-manifolds and geometrization
 
