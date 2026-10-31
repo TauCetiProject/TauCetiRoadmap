@@ -6217,6 +6217,80 @@ for the coloring, connected-sum and numerical bounds, while retaining
 the explicit prime/ring hypotheses and native coordinate adapters here.
 
 
+<a id="problem30-fox-colorings"></a>
+#### 4.7.1.1 The ten Problem30 coloring inputs
+
+For `KP-E030`, physical pp5–6 of *Knot Theory – problems*, compute the Fox3 colorings of
+every requested occurrence: the four Problem20 pictures on p4 and the six additional p5
+diagrams, indexed by their four upper-row and two lower-row positions. Construct each
+realized native PD/plane code, its component partition, crossing-free-circle data and
+actual source-to-code map. Repeated link types still require separate picture
+comparisons. Neither a guessed name nor the general coloring algorithm identifies an
+untranscribed source diagram.
+
+**Nonconstant is the convention.** Use the main notes' physical p146 definition: at
+least two labels occur. Over `ZMod 3`, prove the Fox crossing equation is equivalent to
+the local rule that the three incident arc labels are either all equal or all distinct.
+Constants are transported to constants by the existing Reidemeister equivalences, so
+nonconstant colorings are transported as well. On a connected nonempty projection, prove
+a nonconstant coloring uses all three labels: if only two occur, every crossing is
+monochromatic, and propagation through the connected projection makes every label equal.
+Include the crossing-free-circle case. A disconnected projection can have a nonconstant
+coloring using only two labels. For the crossing-free two-component unlink give its nine
+colorings and six nonconstant ones, none using all three; give an actual RII insertion
+between its components and a transported coloring using all three. Thus surjectivity
+onto the three-element color set is a separate property of a diagram, not the invariant
+meant by this exercise.
+
+**Complete finite answers.** For each of the ten occurrences construct every row
+of4.7.1's half-edge/crossing-free constraint matrix, with its arc-module comparison. An
+over-only component still contributes a variable. Supply finite row reduction and a
+basis of the full `ZMod 3` kernel, the global constant line, a based complement and the
+actual coordinate equivalences. Return component count, matrix dimensions, full
+dimension d, based dimension d−1, total count3^d and nonconstant count3^d−3. Prove these
+inputs are nonempty. State each yes/no answer; on a yes row give a complete nonconstant
+assignment and check every crossing, and on a no row prove the entire kernel consists of
+constants. Do not use a knot-only square deleted minor for a general link. The existing
+rectangular-presentation and finite-field algorithms supply the calculation machinery;
+this unit owns their ten explicit instantiations. Construct the isomorphism from
+`Quandle.Dihedral 3` to the transpositions in S₃ with conjugation operation,
+using0↦(01),1↦(12),2↦(02). Check every local relation. Convert each nonconstant Fox3
+assignment to these labels and prove that its label-generated subgroup is all S₃; two
+distinct transpositions already generate it.
+
+For the four standard named models, prove all four full kernels have dimension1 and
+cardinality3, hence all four answers are no. Hopf uses the positive two-braid σ₀²;
+Solomon uses σ₀⁴. Reuse the recorded Solomon four-arc and Whitehead five-arc systems and
+their native constant-kernel certificates in
+[Problem20FoxTargets.lean](Problem20FoxTargets.lean), with the actual source
+arc/crossing comparisons in the [source
+note](source-inputs.md#problem30-coloring-source). For Borromean use the existing
+six-crossing PD and `foxMatrix 0` of
+[SmallCrossingInvariantTargets.lean](SmallCrossingInvariantTargets.lean), or its actual
+closure comparison with `(σ₀σ₁⁻¹)³`, and compute its mod3 kernel directly. The matrix
+count does not require the admitted general Smith comparison. Transport these four
+calculations to their literal Problem20 pictures before claiming them as four answers to
+Problem30. The six additional answers remain separate computations, with no
+identification from visual resemblance.
+
+**The p6 Whitehead conclusion.** Construct the split-union product equivalence on color
+modules and its actual supported-diagram/Reidemeister transport. Any split two-component
+link admits at least nine colorings, obtained by independent constant colors on its two
+separated components. Its original diagram may have mixed crossings: arbitrary
+per-component constants on that diagram are not assumed. The Whitehead count3 therefore
+proves nonsplitting; this proof uses absence of nonconstant colorings. With4.11's
+independently constructed model and4.3's linking comparison, recover its linking number0
+separately.
+
+State the course's half-space splitting convention and compare it with the locally flat
+separating-sphere definition. Use2.2–2.3's bicollar/Brown Schoenflies,11.2's dimension≤3
+relative PL/smooth comparison and3.3's supported isotopy extension with their category
+and collar hypotheses. Supply the actual move to separated diagrams; an unproved
+splitting equivalence is not a premise. The missing p6 footnote text stays a source
+qualification. This is a consumer of the independent geometric-coloring and
+finite-linear-algebra prefixes, not a premise of their invariance, Smith or
+split-comparison proofs.
+
 <a id="transposition-bridge-labels"></a>
 ### 4.7.2 Transposition labels and the bridge bound
 

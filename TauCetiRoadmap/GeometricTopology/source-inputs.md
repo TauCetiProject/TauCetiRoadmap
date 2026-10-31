@@ -1178,3 +1178,92 @@ Borromean rings, without orientation arrows or signs. Its literal inputs need se
 source-to-model maps; standard-model signed values are not a reading of these unoriented
 pictures. The +1/−1 sign diagrams in Problem18 do have arrows and labels. The reading
 does not authenticate complete cyclic codes for19 or20.
+
+<a id="problem30-coloring-source"></a>
+## Problem30: all ten coloring occurrences and the Whitehead continuation
+
+*Knot Theory - problems.pdf*, source identity
+`06c19def0f01d6e74a1ee99bd448bd3731e101377deddb5aa573943898afb3b1`, physical p5 asks
+about the four links of question20 and six additional unlabeled diagrams, four in the
+upper row and two in the lower. No names, orientations, crossing/arc labels, crossing
+counts, signs or color assignments are printed for these six. This reading authenticates
+neither their full codes nor component counts. Keep ten occurrences; repetitions require
+actual diagram comparisons.
+
+The p6 continuation asks for Whitehead nonsplitting by three-coloring and says linking
+number cannot prove it. It adds no diagram or coloring and identifies none of the six
+figures as Whitehead. A footnote marker1 follows “number,” with no corresponding visible
+text. Main *Knot Theory*, physical p146, defines 3-colorability by at least two distinct
+labels and the one-or-three local rule. No all-three-label requirement is imposed. The
+recorded Solomon/Whitehead arc systems and their finite matrix proofs still require
+their geometric source comparisons; they do not certify all ten pictures or the six
+missing answers.
+
+### Two recovered Fox systems
+
+Use the following location and arc markings on the actual problem20 drawings.
+The pictures have no component orientations; the traversal choices below fix
+arc names. Fox3 equations are independent of reversing those traversals.
+Every row means `2·over = under-in + under-out` in Z/3.
+
+For **King Solomon's knot**, the pictured link has two components H and V,
+with four crossings K1 upper-left, K2 upper-right, K3 lower-right and K4
+lower-left. H traverses K1,K2,K3,K4 and V traverses K4,K1,K2,K3 cyclically.
+Cut H at K1,K3 and V at K2,K4. Let h1 run K1 through K2 to K3, h2 run
+K3 through K4 to K1, v1 run K4 through K1 to K2, and v2 run K2 through K3
+to K4. The crossing data are:
+
+| Crossing | Overarc | Under-in | Under-out |
+| --- | --- | --- | --- |
+| K1 | v1 | h2 | h1 |
+| K2 | h1 | v1 | v2 |
+| K3 | v2 | h1 | h2 |
+| K4 | h2 | v2 | v1 |
+
+In column order h1,h2,v1,v2 the integral Fox rows are
+`[-1,-1,2,0]`, `[2,0,-1,-1]`, `[-1,-1,0,2]`, `[0,2,-1,-1]`.
+Identify this system with the coloring space of the realized source diagram;
+prove its kernel modulo3 is exactly the constant functions, of cardinality3.
+Construct the oriented crossing-sign comparison for the linking-number
+calculation separately; no signed linking value is inferred from absent arrows.
+
+For the **Whitehead link**, use W1 upper-left, W2 lower-left, W3 central,
+W4 upper-right and W5 lower-right. The outer oval component V traverses
+W1,W2,W5,W4 cyclically. The winding component H traverses
+W1,W3(over diagonal),W5,W4,W3(under curved branch),W2. W3 is its self-crossing.
+Cut V at W2,W4 and H at W1,W3's under-visit,W5. Let v1 run W2 through W5
+to W4, v2 run W4 through W1 to W2; let h1 run W1 through W3's over-visit
+to W5, h2 run W5 through W4 to W3's under-visit, and h3 run that under-visit
+through W2 to W1. The crossing data are:
+
+| Crossing | Overarc | Under-in | Under-out |
+| --- | --- | --- | --- |
+| W1 | v2 | h3 | h1 |
+| W2 | h3 | v2 | v1 |
+| W3 | h1 | h2 | h3 |
+| W4 | h2 | v1 | v2 |
+| W5 | v1 | h1 | h2 |
+
+In column order h1,h2,h3,v1,v2 the integral Fox rows are
+`[-1,0,-1,0,2]`, `[0,0,2,-1,-1]`, `[2,-1,-1,0,0]`,
+`[0,2,0,-1,-1]`, `[-1,-1,0,2,0]`. Identify this system with the
+coloring space of the realized source diagram. Its kernel modulo3 is
+exactly the constant functions, of cardinality3; thus it has no nonconstant
+three-coloring. For a split two-component link, a separated diagram admits
+nine distinct assignments of independent constant colors to its components.
+Transport them injectively through the Reidemeister coloring bijections.
+Consequently the count3 proves Whitehead nonsplitting. No nonconstant
+coloring is needed for this obstruction.
+
+[Problem20FoxTargets.lean](Problem20FoxTargets.lean) proves the two literal
+matrix-kernel and cardinality calculations. The diagram-to-matrix comparison
+and the geometric splitting argument remain the corresponding README targets.
+The Hopf and Borromean crossing data and all six page5 diagrams still require
+their own source correspondences and calculations.
+
+State the course's splitting convention explicitly. Comparing its half-space
+representative with a locally flat separating-sphere definition uses the **GT4
+coloring split-comparison**: Layer2 bicollar/Brown Schoenflies, Layer11.2's
+dimension≤3 relative Moise/smoothing, and Layer3 supported isotopy extension, with
+their actual category/collar hypotheses. This is not a generic unsupported
+splitting equivalence.
