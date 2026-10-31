@@ -12,6 +12,11 @@ a predicate listing the desired properties is not a construction of the object.
 APIs. The general vector, semimartingale, flow and diffusion targets have their mathematical
 specifications below, including constructions whose carriers are absent at the pins.
 
+The finite-dimensional Moore–Penrose inverse and its Penrose identities belong to
+[OperatorTheory/PolarDecomposition](../OperatorTheory/PolarDecomposition/README.md).
+S10.2 owns measurable dependence on the diffusion matrix, regularization and
+stochastic noise reconstruction.
+
 ## Scope and ownership
 
 This roadmap owns continuous-time stochastic calculus and its finite-dimensional diffusion
@@ -83,6 +88,11 @@ General SPDEs and infinite-dimensional noise are outside this finite-dimensional
 Consume the following native APIs and supplier construction targets. A roadmap contract specifies
 work to build; only the entries explicitly identified as native assert an implemented declaration.
 
+- [OperatorTheory/PolarDecomposition](../OperatorTheory/PolarDecomposition/README.md)
+  PD-C19–PD-C27 supplies the finite-dimensional Moore–Penrose inverse, its
+  uniqueness and its range/orthogonal-projection identities. S10.2 consumes this
+  inverse and owns its Borel dependence on varying matrices, the regularized
+  approximation and the stochastic reconstruction, including rank changes.
 - Measure theory already supplies `Measure`, `Measure.map`, `withDensity`, RN and Lebesgue
   decomposition, product measures, kernels/disintegration, completion, Bochner integration,
   Fubini/Tonelli and convergence theorems. `MemLp`, `Lp`, `UniformIntegrable`,
@@ -2103,6 +2113,13 @@ Prove `brownian_lil`: outside one null set the
    countable rational intervals. Formalize finite Gaussian moments
    and corrected square-increment estimates used by the course's stochastic-integral
    approximations.
+   The two scalar path headlines are stated on native `IsBrownianReal` in
+   `Suggested.lean`. Check their normalization: replacing B by 2B doubles the
+   uniform-modulus limit to 2, whereas a deterministic line has modulus ratio
+   tending to 0 and derivative 1. At T=0 the increment supremum is 0, so the
+   unit-limit theorem requires T>0. Keep the positive-time simultaneous
+   nondifferentiability event and the one-sided endpoint statement distinct
+   from the fixed-time local LIL.
 
 ### 6.4 spatial behavior
 
@@ -3078,9 +3095,17 @@ Define
    `Lf=⟨b,Df⟩+½trace(σσ*D²f)` on its declared smooth test domain and prove
    `f(X_t)−f(X₀)−∫Lf(X_s)ds` local martingale, integrable Dynkin identities and stopped
    occupation formulas. Equivalence of weak SDE laws with the specified martingale problem. For the reverse
-   direction construct the measurable finite-dimensional Moore–Penrose inverse of σ by
-   regularized inverses and spectral calculus, prove the range/projection identities, and
-   construct the driving Brownian motion from the coordinate local martingale plus independent
+   direction consume the unique finite-dimensional Moore–Penrose inverse σ⁺ from
+   OperatorTheory/PolarDecomposition PD-C19–PD-C27. Prove Borel measurability of
+   A↦A⁺, including rank changes, by identifying that existing inverse with the
+   pointwise regularized limit `A⁺=lim_(k→∞) A*(AA*+(k+1)⁻¹Id)⁻¹`.
+   Use the supplied range/projection identities and prove the measurable
+   matrix-process substitutions needed for stochastic integration. Check
+   `A=diag(2,0)`, where `A⁺=diag(1/2,0)` and both range projections are
+   `diag(1,0)`; `A=0`, where its inverse and range projection are zero; and
+   invertible A, where `A⁺=A⁻¹`. The independent noise acts on the complementary
+   noise-space projection `Id−σ⁺σ`. With these comparisons construct the driving
+   Brownian motion from the coordinate local martingale plus independent
    noise on an extension. Retain the coordinate martingale's literal strong adaptation,
    use S3's selected progressive integrals against it, and prove that these remain strongly
    adapted in the extended filtration. Prove common-null continuity, the zero start and
@@ -3557,8 +3582,11 @@ and scaling interfaces and Layer 10's heat-generator identification.
   edition, Springer GTM 113 (1991): Chapters 1–3 process/martingale/Brownian/integration,
   §3.4 martingale representation and DDS, §3.5 Girsanov/Novikov, Chapter 5 SDEs/flows and
   §5.7 PDE representation, Chapter 6 local time. The theorem hypotheses govern the targets.
-- MATH5695, *Outline notes on Stochastic Differential Equations*: elementary probability,
-  Brownian motion, stochastic integration and differential equations.
+- A. H. Dooley, *Pure Mathematics IV — Outline notes on Stochastic Differential
+  Equations*, MATH5695, University of New South Wales, School of Mathematics,
+  1995–1998; modifications by B. R. F. Jefferies, 2000–2001; copyright Dooley, 1998.
+  Elementary probability, Brownian motion, stochastic integration and differential
+  equations.
 - Rémy Degenne, David Ledvinka, Étienne Marion and Peter Pfaffelhuber,
   [*Formalization of Brownian motion in Lean*](https://arxiv.org/html/2511.20118v2): constructive
   Gaussian/projective and covering-number Chentsov architecture and immutable code references.

@@ -543,3 +543,38 @@ theorem strongSolution_pathwise_unique (F : Filtration ℝ≥0 mΩ)
   sorry
 
 end StochasticCalculusSuggested
+
+
+namespace TauCetiRoadmap.StochasticCalculus
+
+open MeasureTheory ProbabilityTheory
+open scoped NNReal
+
+variable {Ω : Type*} [MeasurableSpace Ω]
+
+/-- On each fixed positive finite horizon, standard scalar Brownian motion has
+Lévy's exact uniform modulus, with mesh approaching zero through positive values. -/
+theorem brownian_exact_uniform_modulus (P : Measure Ω) [IsProbabilityMeasure P]
+    (B : ℝ≥0 → Ω → ℝ) (hB : IsBrownianReal B P)
+    (T : ℝ≥0) (hT : 0 < T) :
+    ∀ᵐ ω ∂P, Filter.Tendsto
+      (fun h : ℝ =>
+        sSup {a : ℝ | ∃ s t : ℝ≥0,
+          s ≤ T ∧ t ≤ T ∧ dist s t ≤ h ∧ a = |B t ω - B s ω|} /
+          Real.sqrt (2 * h * Real.log (1 / h)))
+      (nhdsWithin (0 : ℝ) (Set.Ioi 0)) (nhds (1 : ℝ)) := by
+  sorry
+
+/-- One common full-measure set excludes derivatives at every positive time
+and the right derivative at zero. The extension by toNNReal only fixes the domain. -/
+theorem brownian_simultaneous_nowhere_differentiable
+    (P : Measure Ω) [IsProbabilityMeasure P]
+    (B : ℝ≥0 → Ω → ℝ) (hB : IsBrownianReal B P) :
+    ∀ᵐ ω ∂P,
+      (∀ t : ℝ, 0 < t →
+        ¬ DifferentiableAt ℝ (fun s : ℝ => B s.toNNReal ω) t) ∧
+      ¬ DifferentiableWithinAt ℝ (fun s : ℝ => B s.toNNReal ω)
+        (Set.Ici 0) 0 := by
+  sorry
+
+end TauCetiRoadmap.StochasticCalculus
