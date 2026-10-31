@@ -304,16 +304,37 @@ branch is built against.
   `W1p.morreyEmbedding` (`Analysis/Sobolev/W1p/Morrey.lean:156,161`,
   `Analysis/Sobolev/W1p/HolderEmbedding.lean:157`): Morrey's theorem on `ℝⁿ` for `n < p < ∞`,
   with the `1 − n/p`-Hölder representative.
+  `TauCeti.enorm_sub_setAverage_le_of_starConvex_of_finrank_lt`,
+  `TauCeti.enorm_sub_setAverage_le_of_convex_of_finrank_lt`,
+  `TauCeti.enorm_sub_le_of_mem_ball_of_finrank_lt`, `TauCeti.enorm_sub_le_of_contDiff_of_finrank_lt`
+  and `TauCeti.holderWith_of_contDiff_of_finrank_lt`
+  (`Analysis/Sobolev/Morrey.lean:145,166,181,248,276`): Morrey's inequality for `C¹` functions
+  with `p > n`, as the deviation of `u(x)` from the mean of `u` over a subset of positive measure
+  of an open set star-convex about `x`, respectively of a bounded convex open set, and as
+  `‖u(x) − u(y)‖ ≤ C(n, p, μ)(2r)^{1−n/p}‖Du‖_{Lᵖ}` on a ball of radius `r` and
+  `≤ C(n, p, μ)(2|x − y|)^{1−n/p}‖Du‖_{Lᵖ}` on the whole space, with the explicit constant
+  `C = 2^{n+1}/(nω) · K^{1−1/p}`, `K = nω(p − 1)/(p − n)`, `ω = μ(B(0,1))`, and the
+  `1 − n/p`-Hölder conclusion for `C¹` functions with `Du ∈ Lᵖ`. `TauCeti.W1p.mul`,
+  `W1p.norm_mul_le` and `W1p.mulL` (`Analysis/Sobolev/W1p/SupercriticalMultiplication.lean:320,500,515`):
+  `W^{1,p}(ℝⁿ)` is an algebra for `p > n`, with the weak Leibniz rule.
 - `TauCeti.W1p.norm_value_le_mul_norm_gradient_of_subset_slab` and `…_of_subset_ball`
   (`Analysis/Sobolev/Poincare/W1p0.lean:92,112`, finite `p`): zero-boundary Poincaré with the
   enclosing width as constant. `TauCeti.W1p.eLpNorm_value_sub_setAverage_le_of_convex` and
   `…_of_eq_ball` (`Analysis/Sobolev/Poincare/Wirtinger/W1p.lean:168,303`, finite `p`):
   Poincaré–Wirtinger on bounded convex open sets, with constant `2^(n+1) R` on a ball of radius
-  `R`.
+  `R`. `TauCeti.not_exists_eLpNorm_le_const_mul_eLpNorm_fderiv` and
+  `…_euclideanSpace` (`Analysis/Sobolev/Poincare/WholeSpace.lean:108,133`): on a
+  finite-dimensional space with an additive Haar measure, and on `ℝⁿ` with Lebesgue measure, no
+  constant `C` has `‖u‖_p ≤ C‖Du‖_p` for every compactly supported `C¹` function `u`, for any
+  `p ≠ 0` including `p = ∞`, by dilation.
 - `TauCeti.W1p.hyperplaneTrace` with `W1p.hyperplaneTrace_ofTestFunction_apply_ae`,
   `W1p.norm_hyperplaneTrace_le` and `W1p.hyperplaneTrace_unique`
   (`Analysis/Sobolev/Trace/Hyperplane.lean:182,187,199,219`): the `L²` trace of a whole-space
-  `H¹` function on a hyperplane, agreeing with restriction on test functions.
+  `H¹` function on a hyperplane, agreeing with restriction on test functions;
+  `TauCeti.sq_le_integral_Ioi_sq_add_deriv_sq` and `TauCeti.sq_le_integral_sq_add_deriv_sq`
+  (`Analysis/Sobolev/Trace/Estimate.lean:29,59`): the one-dimensional energy estimate
+  `g(a)² ≤ ∫_{t>a} (g² + g'²)` for compactly supported `C¹` functions, the flat-boundary `H¹`
+  trace inequality behind it.
 - `TauCeti.W1p0.isCompactOperator_valueL` (`Analysis/Sobolev/RellichKondrachov.lean:141`,
   bounded open `Ω`, `p ≠ ∞`): Rellich compactness of `W^{1,p}_0(Ω) → Lᵖ(Ω)`.
   `TauCeti.W1p.isCompactOperator_valueL_restrictL` (`Analysis/Sobolev/W1p/LocalCompactness.lean:111`,
@@ -324,11 +345,27 @@ branch is built against.
   locally integrable function on `Ω` whose difference quotients in a direction `v` are bounded by
   `C` in `L²(K)` for every compact `K ⊆ Ω` along arbitrarily small steps has a weak derivative in
   the direction `v` lying in `L²(Ω)` with norm at most `C`.
+- `TauCeti.HasWeakFDerivOn.contDiff_smul` (`Analysis/Sobolev/Leibniz.lean:139`),
+  `TauCeti.W1p.contDiffSMul`, `W1p.norm_contDiffSMul_le`, `W1p.contDiffSMulL` and
+  `W1p.contDiffSMul_mem_w1p0Submodule` (`Analysis/Sobolev/W1p/Multiplication.lean:116,206,250`):
+  the Leibniz rule for a smooth multiplier of a weakly differentiable function, and
+  multiplication by a smooth `ψ` with `ψ, ∇ψ` bounded by `M` as a bounded operator of norm at
+  most `2M` on `W^{1,p}(Ω)` preserving `W^{1,p}_0(Ω)`: the cut-off device of Layer 1.
+  `TauCeti.W1p.posPartAbove` and `TauCeti.W1p.posPart` with `W1p.hasWeakFDerivOn_posPartAbove`
+  (`Analysis/Sobolev/W1p/ChainRule.lean:759,791,587`), `TauCeti.W1p.continuous_posPartAbove`,
+  `W1p.continuous_posPart`, `W1p.posPartAbove_mem_w1p0Submodule` and
+  `W1p.posPart_mem_w1p0Submodule` (`Analysis/Sobolev/W1p/Truncation.lean:124,182,189,203`): for
+  finite `p` and a level `k ≥ 0`, the truncation `(u − k)⁺` of `u ∈ W^{1,p}(Ω)` lies in
+  `W^{1,p}(Ω)` with weak gradient `1_{u>k}∇u`, is continuous in the `W^{1,p}` norm, and lies in
+  `W^{1,p}_0(Ω)` when `u` does, with no boundedness or boundary regularity of `Ω`.
 - `MeasureTheory.Lp.exists_w1p_value_eq_of_memSobolev_one` (`Analysis/Sobolev/BesselPotential.lean:132`):
   a real `L²` function in the Bessel space `H^{1,2}` is the value of a `W^{1,2}(ℝⁿ)` element.
 - `TauCeti.HolderSpace` with its norm and completeness (`Analysis/Holder/Normed.lean:58,199,311`)
   and `TauCeti.holderSubmodule` (`Analysis/Holder/Basic.lean:45`): the bounded globally
-  `α`-Hölder functions on a metric space as a Banach space, the `k = 0` case of §1.7.
+  `α`-Hölder functions on a metric space as a Banach space, the `k = 0` case of §1.7; its
+  pointwise product makes it a normed ring with `‖fg‖ ≤ ‖f‖‖g‖` in the supremum-plus-Hölder
+  norm (`Analysis/Holder/Algebra.lean:63`, the `NonUnitalNormedRing` instance), the `k = 0`
+  product estimate of §1.7.
   `TauCeti.C1HolderSpace` and `TauCeti.C2HolderSpace` (`Analysis/Holder/One.lean:94`,
   `Analysis/Holder/Two.lean:68`), complete when the codomain is: the bounded `C¹`, respectively
   `C²`, maps on a whole normed space with bounded derivatives and bounded globally `α`-Hölder top
@@ -396,26 +433,88 @@ branch is built against.
   sub- and supersolutions, with the small-drift and Poincaré hypotheses it needs.
 - `TauCeti.PDE.UniformlyEllipticOn.exists_lowerOrder_eq_restrictL`
   (`Analysis/PDE/Regularity/Interior.lean:585`): interior `H²` regularity for a constant
-  principal coefficient matrix, bounded `b, c` and `L²` forcing, with no boundary condition.
+  principal coefficient matrix, bounded `b, c` and `L²` forcing, with no boundary condition;
+  `TauCeti.PDE.UniformlyEllipticOn.exists_lowerOrder_eq` with `energyFormH1_translate` and
+  `energyFormH1_differenceQuotient_eq_neg` (`Analysis/PDE/Regularity/Basic.lean:316,100,142`):
+  the whole-space `H²` theorem for a constant principal matrix and `L²` forcing, with the
+  translation and discrete integration-by-parts identities of the difference-quotient method.
 - `TauCeti.PDE.exists_holderOnWith_preciseRepresentative` and
   `exists_holderOnWith_preciseRepresentative_of_isCompact`
   (`Analysis/PDE/Regularity/HolderContinuity.lean:76,162`): De Giorgi's Hölder continuity of
   weak solutions of `−∂ⱼ(aⁱʲ∂ᵢu) = 0` under `UniformlyEllipticOn`, for a finite Sobolev
   exponent with `1/2* + 1/n = 1/2` (hence `n ≥ 3`), with exponent and constant depending only on
   `λ, Λ, n` and the constant `C R^(−α) R^(−n/2) ‖u‖_{L²(Ω)}` on a set whose closed
-  `R`-thickening lies in `Ω`; the representative is the precise representative.
+  `R`-thickening lies in `Ω`; the representative is the precise representative. Its two inputs
+  are pinned under the same predicate and the same `n ≥ 3` hypothesis.
+  `TauCeti.PDE.UniformlyEllipticOn.setIntegral_sq_mul_max_sub_sq_le`,
+  `TauCeti.PDE.exists_ae_value_le_add_mul_rpow_mul_sqrt_setIntegral`, `…_of_inv_add_eq_inv` and
+  `TauCeti.PDE.exists_ae_abs_value_le_mul_rpow_mul_sqrt_setIntegral`
+  (`Analysis/PDE/Regularity/LocalBoundedness.lean:89,503,562,618`): De Giorgi's energy recursion
+  between two truncation levels of a weak subsolution under a Sobolev inequality
+  `‖v‖_q ≤ S‖∇v‖₂` on `W^{1,2}_0(Ω)` with `q > 2`; local boundedness above a level,
+  `u ≤ k + D R^{−n/2}‖(u − k)⁺‖_{L²(B(x₀,R))}` almost everywhere on `B(x₀, R/2)` for a weak
+  subsolution and `B(x₀, R) ⊆ Ω`, first under such a Sobolev inequality and then for `n ≥ 3`
+  through the Gagliardo–Nirenberg–Sobolev exponent; and the two-sided bound
+  `|u| ≤ D R^{−n/2}‖u‖_{L²(B(x₀,R))}` almost everywhere on `B(x₀, R/2)` for weak solutions,
+  `n ≥ 3`, with `D` depending on `λ, Λ, n` and the Haar normalization.
+  `TauCeti.W1p.sub_mul_measureReal_mul_measureReal_le_of_convex`, `…_of_eq_ball`,
+  `…_of_ball_subset` and `TauCeti.W1p.sq_sub_mul_measureReal_mul_measureReal_le_of_ball_subset`
+  (`Analysis/Sobolev/Poincare/Wirtinger/DeGiorgi.lean:119,205,227,268`): De Giorgi's
+  isoperimetric inequality `(l − k)|{u ≥ l}||{u ≤ k}| ≤ ω (diam Ω)^{n+1} ∫_{k<u<l} |∇u|` on
+  bounded convex open sets and on balls, for every `1 ≤ p ≤ ∞`.
+  `TauCeti.PDE.exists_sqrt_mul_measureReal_le_mul_measureReal_ball`
+  (`Analysis/PDE/Regularity/LevelSetDecay.lean:112`): the decay
+  `√j · |{u ≥ M − (M − k)/2^j} ∩ B(x₀, R)| ≤ C|B(x₀, R)|` of the upper level sets of a weak
+  subsolution bounded by `M` on `B(x₀, 2R) ⊆ Ω` whose sublevel set `{u ≤ k}` fills a proportion
+  `θ` of `B(x₀, R)`, with `C = C(λ, Λ, θ, n)` independent of `R` and of the Haar normalization.
+  `TauCeti.PDE.exists_ae_value_le_sub_mul_sub`, `…_or_add_mul_sub_le`,
+  `TauCeti.PDE.exists_ae_value_mem_Icc_add_pow_mul_sub`, `…_add_mul_rpow_mul_sub` and
+  `TauCeti.PDE.exists_ae_value_mem_Icc_add_mul_rpow_mul_rpow_mul_sqrt_setIntegral`
+  (`Analysis/PDE/Regularity/Oscillation.lean:96,215,297,361,436`), all for `n ≥ 3`: the reduction
+  of the supremum `u ≤ M − δ(M − k)` on `B(x₀, R/2)`, the oscillation-decay dichotomy for weak
+  solutions, the geometric decay along the balls `B(x₀, R/4^j)`, the power law
+  `osc_{B(x₀,r)} u ≤ C(r/R)^α osc_{B(x₀,R)} u` with `0 < α ≤ 1`, and the interior oscillation
+  estimate: for `B(x₀, R) ⊆ Ω` and `0 < r ≤ R/2`, a weak solution takes values almost everywhere
+  on `B(x₀, r)` in an interval of length `C(r/R)^α R^{−n/2}‖u‖_{L²(B(x₀,R))}`, with `α, C`
+  depending on `λ, Λ, n` and the Haar normalization.
 - `TauCeti.PDE.W1p.setIntegral_sq_mul_norm_gradient_sq_le_of_pointwise` and
   `TauCeti.PDE.UniformlyEllipticOn.setIntegral_sq_mul_norm_gradient_sq_le`
-  (`Analysis/PDE/Caccioppoli/Basic.lean:75,176`): the Caccioppoli inequality.
+  (`Analysis/PDE/Caccioppoli/Basic.lean:75,176`): the Caccioppoli inequality;
+  `TauCeti.PDE.UniformlyEllipticOn.setIntegral_sq_mul_norm_gradient_posPartAbove_sq_le` and
+  `TauCeti.PDE.exists_setIntegral_ball_norm_gradient_posPartAbove_sq_le`
+  (`Analysis/PDE/Caccioppoli/Truncation.lean:198,226`): the Caccioppoli inequality for the
+  truncation `(u − k)⁺` of a weak subsolution, `∫ ψ²|∇(u − k)⁺|² ≤ (2Λ/λ)²∫ |∇ψ|²((u − k)⁺)² +
+  (2/λ)∫ ψ² f (u − k)⁺`, and its form on concentric balls.
 - `TauCeti.newtonianKernel` with `laplacian_newtonianKernel`, `harmonicOnNhd_newtonianKernel`
-  and `newtonianKernel_three` (`Analysis/PDE/FundamentalSolution/Euclidean/Basic.lean:56,246,272,343`);
+  and `newtonianKernel_three` (`Analysis/PDE/FundamentalSolution/Euclidean/Basic.lean:56,246,272,343`),
+  `TauCeti.hasWeakFDerivOn_newtonianKernel`, `TauCeti.integral_laplacian_mul_newtonianKernel`
+  and `…_sub` (`Analysis/PDE/FundamentalSolution/Euclidean/DistributionalLaplacian.lean:205,261,284`):
+  for `n ≥ 3` the kernel is weakly differentiable across its pole with its classical derivative
+  and `−ΔΦ = δ₀` holds distributionally, `∫ Δf · Φ = −f(0)` and `∫ Δf · Φ(· − a) = −f(a)` for
+  `C²` compactly supported `f`; `TauCeti.integral_laplacian_mul_ballGreenKernel`
+  (`Analysis/PDE/GreenFunction/DistributionalLaplacian.lean:41`): the same identity for the
+  Green kernel of the unit ball against test functions supported in the ball, `n ≥ 3`;
   `TauCeti.ballGreenKernel`, `ballGreenKernel_eq_zero_of_norm_eq_one_right`,
   `harmonicOnNhd_ballGreenKernel`, `ballPoissonKernel` and `ballPoissonKernel_pos`
   (`Analysis/PDE/GreenFunction/Ball.lean:273,295,317,365,378`): the fundamental solution in every
   dimension and the Green and Poisson kernels of the unit ball.
 - `TauCeti.perronFamily`, `TauCeti.perronSolution` and `harmonicOnNhd_perronSolution`
   (`Analysis/PDE/Perron/Basic.lean:133,157,348`): Perron's upper solution on a bounded open set
-  is harmonic.
+  is harmonic. `TauCeti.IsBarrier`, `TauCeti.tendsto_perronSolution_of_isBarrier`,
+  `perronSolution_eq_of_isBarrier`, `continuousOn_perronSolution`,
+  `exists_harmonicOnNhd_continuousOn_closure_eqOn_frontier`, `isBarrier_newtonianKernel_sub`,
+  `isBarrier_log_norm_sub` and
+  `exists_harmonicOnNhd_continuousOn_closure_eqOn_frontier_of_exterior_sphere`
+  (`Analysis/PDE/Perron/Barrier.lean:73,162,181,190,212,238,260,281`): a barrier at `ξ` relative
+  to `Ω` is a function superharmonic on `Ω`, continuous on the closure, zero at `ξ` and positive
+  elsewhere on the closure; at a barrier point where the bounded datum is continuous along the
+  frontier, the Perron solution tends to the datum within the closure and equals it there; when
+  every frontier point has a barrier, the Perron solution of continuous data is continuous on
+  the closure and solves the Dirichlet problem; and the exterior-sphere condition (a closed ball
+  centred at `y ≠ ξ` meeting the closure only at `ξ`) supplies the barrier
+  `Φ(ξ − y) − Φ(x − y)` for `n ≠ 2` and `log|x − y| − log|ξ − y|` in two dimensions, so the
+  Dirichlet problem is solvable on every bounded open subset of `ℝⁿ` with the exterior-sphere
+  condition at each frontier point, in every dimension.
 - `InnerProductSpace.HarmonicOnNhd.le_three_pow_mul_of_nonneg` and
   `IsCompact.harnack_inequality` (`Analysis/PDE/Harnack/Basic.lean:92,178`);
   `TauCeti.eqOn_const_of_harmonicOnNhd_of_isLocalMax` and `…_of_isMaxOn`
@@ -459,7 +558,19 @@ branch is built against.
   `Δg ≤ Δf` inside and `f ≤ g` on the frontier give `f ≤ g` (for the Laplacian), and the Hopf
   lemma in derivative form: a subsolution on `B(y, R)`, continuous on the closed ball and
   differentiable at `x₀ = y + R e` with `‖e‖ = 1`, nonnegative at `x₀`, strictly below `u(x₀)`
-  inside the ball and at most `u(x₀)` on the sphere, has `∂_e u(x₀) > 0`. Section 3.2 extends
+  inside the ball and at most `u(x₀)` on the sphere, has `∂_e u(x₀) > 0`. The pure, zeroth-order
+  and drift cases, with the comparison and Dirichlet-uniqueness statements for `−Δ + c` and
+  `Δ + b·∇`, are `TauCeti.le_of_laplacian_nonneg_le_frontier`
+  (`Analysis/InnerProductSpace/Laplacian/WeakMaximumPrinciple.lean:119`),
+  `TauCeti.le_of_mul_le_laplacian_le_frontier` and
+  `TauCeti.eqOn_of_laplacian_sub_mul_eq_of_eqOn_frontier`
+  (`Analysis/InnerProductSpace/Laplacian/ZerothOrderMaximumPrinciple.lean:75,164`) and
+  `TauCeti.le_of_laplacian_add_fderiv_nonneg_le_frontier` and
+  `TauCeti.eqOn_of_laplacian_add_fderiv_eq_of_eqOn_frontier`
+  (`Analysis/InnerProductSpace/Laplacian/DriftMaximumPrinciple.lean:288,353`), and the
+  necessity of the sign condition `c ≥ 0`, witnessed by `sin` on `[0, π]` with `Δ sin = −sin`,
+  is `TauCeti.exists_neg_constant_laplacian_eq_mul_eq_zero_on_frontier_pos`
+  (`Analysis/InnerProductSpace/Laplacian/SignCondition.lean:81`). Section 3.2 extends
   all four to variable symmetric principal coefficients.
 - `TauCeti.halfSpaceGreenKernel` with `halfSpaceGreenKernel_pos`,
   `harmonicOnNhd_halfSpaceGreenKernel` and `TauCeti.halfSpacePoissonKernel`
@@ -491,17 +602,34 @@ branch is built against.
   `heatKernel_convolution_heatKernel`, `laplacian_heatKernel`, `hasDerivAt_heatKernel` and
   `fourier_heatKernel` (`Analysis/PDE/HeatKernel/Basic.lean:68,77,163,177,109,131,213`): the
   Gaussian kernel, its mass, semigroup identity, heat equation and Fourier transform
-  `exp(−4π²t|ξ|²)`.
+  `exp(−4π²t|ξ|²)`. `TauCeti.tendsto_setIntegral_compl_ball_heatKernel`,
+  `TauCeti.norm_heatKernel_convolution_le`, `TauCeti.norm_heatKernel_convolution_sub_le`,
+  `TauCeti.tendsto_heatKernel_convolution` and `TauCeti.tendstoUniformly_heatKernel_convolution`
+  (`Analysis/PDE/HeatKernel/ApproximateIdentity.lean:83,115,130,169,194`): the kernel's mass
+  outside any ball about the origin tends to `0` as `t ↓ 0`; `‖Γ(t) * g‖_∞ ≤ M` for every
+  `t > 0` when `‖g‖ ≤ M` almost everywhere (the `L^∞` contraction); the two-region estimate
+  `‖(Γ(t) * g)(x) − a‖ ≤ ε + (M + ‖a‖)∫_{|z|≥r} Γ(t)` when `‖g(x − z) − a‖ ≤ ε` for `|z| < r`;
+  `(Γ(t) * g)(x) → g(x₀)` as `(t, x) → (0⁺, x₀)` at a point of continuity of a bounded
+  measurable `g`; and `Γ(t) * g → g` uniformly as `t ↓ 0` for bounded uniformly continuous `g`,
+  the strong continuity at `t = 0` of §6.3's `BUC` realization.
 - `TauCeti.Semigroups.StronglyContinuousSemigroup` and `TauCeti.Semigroups.ContractionSemigroup`
   (`Analysis/Semigroups/Basic.lean:43,211`), the generator files under
   `Analysis/Semigroups/Generator/`, `TauCeti.Semigroups.hilleYosida_generation`
   (`Analysis/Semigroups/Generation/HilleYosida/Generation.lean:205`) and
-  `Analysis/Semigroups/Generation/LumerPhillips.lean`: the implementation of
+  `Analysis/Semigroups/Generation/LumerPhillips.lean`, and
+  `TauCeti.Semigroups.IsClassicalSolution`, `TauCeti.Semigroups.IsMildSolution` with
+  `IsClassicalSolution.unique` and `IsMildSolution.unique`
+  (`Analysis/Semigroups/CauchyProblem/Basic.lean:49,91`,
+  `Analysis/Semigroups/CauchyProblem/Uniqueness.lean:80,86`), the abstract Cauchy problem
+  `u' = Au`, `u(0) = x`, whose classical solutions are the orbits of domain points and whose
+  mild solutions are the orbits of all points, uniquely: the implementation of
   OneParameterSemigroups Part A that §6.3 instantiates.
 - Tau Ceti has no Riesz–Thorin theorem, no Calderón–Zygmund operator, no Lipschitz-domain
   predicate, no domain trace, no Hölder space of order `k ≥ 3` or on a proper open subset, no
-  Hölder space of parabolic type, and no maximum principle, Hopf lemma or Harnack inequality
-  for variable principal coefficients.
+  Hölder space of parabolic type, no local boundedness or oscillation decay for weak solutions
+  in dimensions `n = 1, 2`, no barrier under the exterior-cone condition, no heat convolution as
+  a bounded operator on `Lᵖ` or on a space of uniformly continuous functions, and no maximum
+  principle, Hopf lemma or Harnack inequality for variable principal coefficients.
 
 ### From TauCetiRoadmap.OneParameterSemigroups
 
@@ -541,8 +669,8 @@ spectrum. Layer 5 is elliptic regularity in its two tracks. Layer 6 is parabolic
 theory, ending with the complete classical whole-space Schauder programme F27. Layers 7–9 are
 the extension programmes: dyadic and Besov analysis, Strichartz estimates and quasilinear
 existence. Layers 2, 3 and 4 depend only on Layer 1 and can be built in
-parallel; Layer 5 needs Layers 2–4; Layer 6 needs Layers 1 and 4; Layer 7 needs Layer 2;
-Layer 8 needs Layer 7; Layer 9 needs Layers 4 and 5.
+parallel; Layer 5 needs Layers 2–4; Layer 6 needs Layers 1 and 4; Layer 7 needs Layer 2, §6.3
+and §1.7; Layer 8 needs Layer 7; Layer 9 needs Layers 4 and 5.
 
 ## Layer 1: function spaces on a domain
 
@@ -677,7 +805,15 @@ theory.
 Consume Mathlib's Gagliardo–Nirenberg–Sobolev inequality and the pinned
 `TauCeti.W1p0.sobolevEmbeddingL` for `1 ≤ p < n` on `W^{1,p}_0(Ω)`, and the pinned
 `TauCeti.W1p.morreyRepresentative` for `n < p < ∞` on `ℝⁿ` with a Hölder representative of
-exponent `1 − n/p`. Prove the `p = ∞` local and global Lipschitz representative theorem on its
+exponent `1 − n/p`. The `C¹` form of Morrey's inequality with its explicit constant is pinned on
+balls, on open sets star-convex about the point, on bounded convex open sets and on `ℝⁿ`
+(`TauCeti.enorm_sub_le_of_mem_ball_of_finrank_lt`,
+`TauCeti.enorm_sub_setAverage_le_of_starConvex_of_finrank_lt`,
+`TauCeti.holderWith_of_contDiff_of_finrank_lt`), so on a bounded convex open set the
+`W^{1,p}(Ω) → C^{0,1−n/p}(Ω̄)` estimate follows from the star-convex form applied on
+`Ω ∩ B(x, 2|x − y|)`, the convex domain's volume lower bound `|Ω ∩ B(x, r)| ≥ c(Ω) rⁿ` for
+`r ≤ diam Ω`, and §1.2's smooth density; the bounded Lipschitz case is the target below. Prove
+the `p = ∞` local and global Lipschitz representative theorem on its
 stated domains: on `ℝⁿ` and on convex open sets a `W^{1,∞}` class has a representative that is
 Lipschitz with constant `‖∇u‖_∞`; on a general open set only locally. Obtain domain-global
 estimates `W^{1,p}(Ω) → L^{p*}(Ω)` and `W^{1,p}(Ω) → C^{0,1−n/p}(Ω̄)` through §1.6's extension
@@ -709,7 +845,9 @@ representative of §1.1, which gives `‖u‖_∞ ≤ ‖u'‖_1` for `u ∈ W^{
 
 *Needs:* for the subcritical and supercritical whole-space and zero-boundary statements:
 Mathlib `MeasureTheory.eLpNorm_le_eLpNorm_fderiv_of_eq`, Tau Ceti
-`TauCeti.W1p0.sobolevEmbeddingL`, `TauCeti.W1p.morreyRepresentative`; for the `p = ∞`
+`TauCeti.W1p0.sobolevEmbeddingL`, `TauCeti.W1p.morreyRepresentative`; for the Hölder estimate
+on bounded convex open sets: Tau Ceti `TauCeti.enorm_sub_setAverage_le_of_starConvex_of_finrank_lt`
+and §1.2 density; for the `p = ∞`
 Lipschitz representative: §1.1 on intervals and Rademacher; for the domain-global estimates on
 bounded Lipschitz domains: §1.6 extension; for the critical `p = n` statements: §1.5
 Sobolev–Poincaré on balls and §2.4's BMO.
@@ -729,7 +867,10 @@ on the charts, not finite-`p` density. Boundedness or finite measure alone does 
 mean-zero inequality. On finitely many components normalize each component separately and take
 the maximum constant; for infinitely many components require a uniform component constant.
 The convex and ball cases are the pinned `TauCeti.W1p.eLpNorm_value_sub_setAverage_le_of_convex`
-and `…_of_eq_ball`. On balls prove the scale-compatible Sobolev–Poincaré inequality
+and `…_of_eq_ball`, and the failure of every zero-boundary inequality on all of `ℝⁿ`, for every
+`p ≠ 0`, is pinned as well (`TauCeti.not_exists_eLpNorm_le_const_mul_eLpNorm_fderiv_euclideanSpace`),
+which is why the enclosing width is the constant. On balls prove the scale-compatible
+Sobolev–Poincaré inequality
 `‖u − u_B‖_{L^{p*}(B)} ≤ C(n,p)‖∇u‖_{L^p(B)}` for `1 ≤ p < n`, which converts Caccioppoli into
 §5.2's reverse-Hölder estimate.
 
@@ -758,7 +899,8 @@ and `…_of_eq_ball`. On balls prove the scale-compatible Sobolev–Poincaré in
 for Poincaré–Wirtinger on Lipschitz domains: §1.6 extension and Rellich compactness, and the
 constancy of functions with zero weak gradient on a connected open set; for the convex and
 ball cases: Tau Ceti `TauCeti.W1p.eLpNorm_value_sub_setAverage_le_of_convex`; for
-Sobolev–Poincaré on balls: §1.4's embedding of `W^{1,p}_0` applied to a cut-off of `u − u_B`.
+Sobolev–Poincaré on balls: §1.4's embedding of `W^{1,p}_0` applied to a cut-off of `u − u_B`,
+with Tau Ceti `TauCeti.W1p.contDiffSMulL` for the multiplication by the cut-off.
 
 ### 1.6 Lipschitz domains, graph measure, trace, extension and Rellich (A6)
 
@@ -844,7 +986,8 @@ theorem; §1.5 consumes them.
 for the graph surface measure: Mathlib `MeasureTheory.Measure.euclideanHausdorffMeasure`,
 `LinearMap.euclideanHausdorffMeasure_image_eq_normDet_mul_volume`,
 `LipschitzOnWith.hausdorffMeasure_image_le`, `LipschitzWith.ae_differentiableAt`; for the trace
-and its kernel: the graph measure, Tau Ceti `TauCeti.W1p.hyperplaneTrace` as the flat model,
+and its kernel: the graph measure, Tau Ceti `TauCeti.W1p.hyperplaneTrace` as the flat model
+with its one-dimensional energy estimate `TauCeti.sq_le_integral_Ioi_sq_add_deriv_sq`,
 `TauCeti.W1p0.extendByZeroL`, §1.2 density; for the extension operator: the predicate and §1.2
 density, and §1.4 Lipschitz representatives at `p = ∞`; for Rellich compactness: the extension
 operator, Tau Ceti `TauCeti.W1p0.isCompactOperator_valueL` and
@@ -862,7 +1005,10 @@ of `Cᵏ` functions with bounded derivatives through order `k` and finite `α`-H
 the `k`-th derivative over `Ω`, with norm the sum of the supremum norms of the iterated Fréchet
 derivatives (in the continuous multilinear operator norm) through `k` and that seminorm;
 prove completeness, the continuous inclusions between consecutive orders, restriction to
-smaller open sets and the product and bounded-multiplication estimates. Define `C^{k,α}_loc(Ω)`
+smaller open sets and the product and bounded-multiplication estimates; for `k = 0` the
+submultiplicativity `‖fg‖ ≤ ‖f‖‖g‖` of the supremum-plus-Hölder norm is pinned as the
+normed-ring structure of `TauCeti.HolderSpace`, and the target is the order-`k` Leibniz
+estimate in the sum norm. Define `C^{k,α}_loc(Ω)`
 with its compact-exhaustion topology, and distinguish it from a Banach claim about all locally
 Hölder functions. Define the bounded global variant `C_b^{k,α}(ℝⁿ)` for every `k`, prove that
 for `k ≤ 2` it is the pinned space with an equivalent norm, and export it as the spatial trace
@@ -874,7 +1020,9 @@ Regularity Theory for Elliptic Systems*, Theorem 5.5); this is the excess-decay 
 
 - `C^{k,α}(Ω) ⊆ C^{k,β}(Ω)` continuously for `β ≤ α` on bounded `Ω`, and the inclusion fails on
   `ℝⁿ` without the global bound.
-- The Hölder seminorm of a product satisfies `[fg]_α ≤ ‖f‖_∞[g]_α + [f]_α‖g‖_∞`.
+- The Hölder seminorm of a product satisfies `[fg]_α ≤ ‖f‖_∞[g]_α + [f]_α‖g‖_∞`, so the
+  `C^{0,α}` sum norm is submultiplicative with constant `1`, as pinned, and the `C^{k,α}` norm
+  is submultiplicative up to a constant depending on `k`.
 - The spatial trace of a `C_b^{k,α}` function of space-time at a fixed time lies in
   `C_b^{k,α}(ℝⁿ)` with the obvious norm bound.
 
@@ -1178,7 +1326,7 @@ in every dimension (the planar case is Mathlib's
   `a² − b²`, confirming the mean-value property; `v(x,y) = x²` averages to `a² + r²/2 ≠ a²`, so
   it is not harmonic, matching `Δv = 2`.
 - `u = |x|^{2−n}` on `ℝⁿ ∖ {0}`, `n ≥ 3`, is harmonic there (pinned
-  `TauCeti.PDE.harmonicOnNhd_newtonianKernel`) but has no harmonic extension across `0`: the
+  `TauCeti.harmonicOnNhd_newtonianKernel`) but has no harmonic extension across `0`: the
   mean-value property fails on balls containing `0`.
 - Liouville: `u = x₁` is harmonic and unbounded; a bounded harmonic function on `ℝⁿ` is
   constant, and the derivative estimate at radius `r → ∞` gives `|∇u| ≤ C r^{−1}‖u‖_∞ → 0`.
@@ -1188,7 +1336,10 @@ in every dimension (the planar case is Mathlib's
 *Needs:* for the derivative estimates and Liouville: Mathlib `HarmonicOnNhd`, `ContDiffBump`,
 Tau Ceti `InnerProductSpace.HarmonicOnNhd.setAverage_ball_eq`; for analyticity: the derivative
 estimates and Mathlib's analytic functions; for Weyl's lemma: Tau Ceti
-`TauCeti.harmonicOnNhd_of_setAverage_ball_eq` and mollification.
+`TauCeti.harmonicOnNhd_of_setAverage_ball_eq` and mollification, with the converse direction
+(a harmonic function is weakly harmonic) pinned as
+`InnerProductSpace.HarmonicOnNhd.integral_laplacian_smul_eq_zero`
+(`Analysis/Sobolev/WeakDeriv/Laplacian.lean:164`).
 
 ### 3.2 Maximum principles, the Hopf lemmas and the Aleksandrov–Bakelman–Pucci estimate (C13)
 
@@ -1367,19 +1518,45 @@ are pinned (`TauCeti.newtonianKernel`, `ballGreenKernel`, `ballPoissonKernel`,
 `halfSpacePoissonKernel`, `SubharmonicOn.le_of_le_frontier`, `harmonicOnNhd_perronSolution`).
 Prove the Newtonian potential theorem: for `f ∈ C_c^∞(ℝⁿ)`, `Φ * f` is smooth and
 `−Δ(Φ * f) = f` (Evans, §2.2.1, Theorem 1), with the convolution sign and normalization in each
-dimension including `n = 1, 2`; for a ball, construct the harmonic correction `H_B` from the
+dimension including `n = 1, 2`; for `n ≥ 3` the distributional identity `−ΔΦ = δ₀`, in the
+form `∫ Δf · Φ(· − a) = −f(a)` for `C²` compactly supported `f`, is pinned
+(`TauCeti.integral_laplacian_mul_newtonianKernel_sub`), and the theorem there is
+differentiation under the convolution integral, while `n = 1, 2` are proved from the explicit
+kernels. For a ball, construct the harmonic correction `H_B` from the
 trace of `Φ * f` on the sphere by the pinned Poisson integral and prove the Green
 representation `G_B f = Φ * f − H_B(trace(Φ * f))` with actual trace and weak equality and
 uniqueness, first for smooth compactly supported data and then for `L²` data through the weak
-solution map of §4.2. For the half-space prove the Poisson representation: the Poisson integral
+solution map of §4.2; the distributional identity `−Δ_y G_B(x, y) = δ_x` inside the ball is
+pinned for `n ≥ 3` (`TauCeti.integral_laplacian_mul_ballGreenKernel`). For the half-space prove
+the Poisson representation: the Poisson integral
 of bounded continuous boundary data against the pinned kernel is harmonic, bounded and attains
 its data (Evans, §2.2.4, Theorem 14), and construct the planar half-plane Green kernel from the
-logarithmic kernel by reflection, the `n = 2` case the pinned kernel does not cover. Prove that
-Perron's solution attains continuous boundary data at every regular boundary point, with the
-barrier characterization of regular points and the exterior-sphere and exterior-cone
-conditions as sufficient conditions (Gilbarg–Trudinger, Theorems 2.12 and 2.14), using the
-pinned comparison principle for subharmonic functions against the barrier; boundary attainment
-is a separate statement from harmonicity, which holds on any bounded open set.
+logarithmic kernel by reflection, the `n = 2` case the pinned kernel does not cover. The
+boundary behaviour of Perron's solution is pinned as far as barriers reach: a barrier at a
+frontier point `ξ` is a function superharmonic on `Ω`, continuous on the closure, zero at `ξ`
+and positive elsewhere on the closure (`TauCeti.IsBarrier`); at a barrier point where the
+bounded datum is continuous along the frontier the Perron solution tends to the datum
+(`TauCeti.tendsto_perronSolution_of_isBarrier`); when every frontier point has a barrier the
+Perron solution of continuous data is continuous on the closure and solves the Dirichlet
+problem (`TauCeti.continuousOn_perronSolution`,
+`TauCeti.exists_harmonicOnNhd_continuousOn_closure_eqOn_frontier`); and the exterior-sphere
+condition supplies the barrier in every dimension, `Φ(ξ − y) − Φ(x − y)` for `n ≠ 2` and
+`log|x − y| − log|ξ − y|` for `n = 2` (`TauCeti.isBarrier_newtonianKernel_sub`,
+`TauCeti.isBarrier_log_norm_sub`,
+`TauCeti.exists_harmonicOnNhd_continuousOn_closure_eqOn_frontier_of_exterior_sphere`;
+Gilbarg–Trudinger, §2.8, Lemma 2.13 and Theorem 2.14, with the exterior-sphere barrier
+following them). Call a frontier point regular when it admits a barrier, and prove what the
+pin does not: that a local barrier, a barrier relative to `Ω ∩ B(ξ, ρ)`, yields a barrier
+relative to `Ω` by the cut-and-paste with a positive constant outside `B(ξ, ρ)`
+(Gilbarg–Trudinger, §2.8, the remark following Lemma 2.13); the necessity half of the
+characterization, that a bounded open set on which the Dirichlet problem is solvable for every
+continuous datum has a barrier at every frontier point, the barrier at `ξ` being the solution
+with datum `|x − ξ|` (Theorem 2.14); and the exterior-cone condition as a sufficient condition,
+through a local barrier `r^μ f(θ)` in polar coordinates about `ξ`, with `f` positive on the
+complement of the cone and `μ > 0` small (Gilbarg–Trudinger, §2.8 and the exercise on the
+exterior cone condition among the problems of Chapter 2), using the pinned comparison
+principle for subharmonic functions against the barrier. Boundary attainment is a separate
+statement from harmonicity, which holds on any bounded open set.
 
 - `Φ * f` for `f ∈ Lᵖ` with compact support lies in `W^{2,p}_loc` for `1 < p < ∞` (this is the
   constant-coefficient Calderón–Zygmund estimate of §5.7, recorded here as an interface).
@@ -1397,6 +1574,13 @@ is a separate statement from harmonicity, which holds on any bounded open set.
   the plausible wrong model.
 - `n = 2`: `Φ(x) = −(1/2π) log|x|` satisfies `−ΔΦ = δ₀` in the sense that
   `∫ Φ Δφ = −φ(0)`; a sign error gives `+φ(0)`, detected by `φ` radial with `φ(0) = 1`.
+- Exterior-sphere barrier on the unit disk: at `ξ` on the circle take `y = 2ξ`, so `|ξ − y| = 1`
+  and `|x − y| ≥ 2 − |x| > 1` for `x ≠ ξ` in the closed disk; the pinned planar barrier is
+  `w(x) = log|x − 2ξ|`, harmonic in the disk, zero at `ξ`, equal to `log 2` at the origin and
+  positive elsewhere on the closed disk. In `ℝ³` with the same `y` the pinned barrier is
+  `Φ(ξ − y) − Φ(x − y) = (1/4π)(1 − 1/|x − 2ξ|)`, again zero at `ξ` and positive elsewhere; the
+  sign-reversed `Φ(x − y) − Φ(ξ − y)` is negative, since `Φ` decreases with the distance to the
+  pole while `log` increases, which is why the two formulas differ by a sign.
 - Lebesgue's spine: the complement of a sufficiently thin cusp in `ℝ³` has an irregular boundary
   point, so Perron's solution for continuous data need not attain the data there, while every
   boundary point of a domain with the exterior-cone condition is regular. In `ℝ²` an isolated
@@ -1410,9 +1594,13 @@ is a separate statement from harmonicity, which holds on any bounded open set.
 `TauCeti.planarNewtonianKernel` and Mathlib convolution; for the Green representation on the
 ball: Tau Ceti `ballGreenKernel`, `ballPoissonIntegral`, §1.6 trace, and §4.2's weak solution
 map for the `L²` representation only; for the half-space representation: Tau Ceti
-`halfSpacePoissonKernel`; for regular boundary points: Tau Ceti `TauCeti.perronSolution`,
-`TauCeti.SubharmonicOn.le_of_le_frontier` and the pinned planar and Euclidean Green kernels for
-the exterior-sphere barrier.
+`halfSpacePoissonKernel`; for regular boundary points: Tau Ceti `TauCeti.IsBarrier`,
+`TauCeti.tendsto_perronSolution_of_isBarrier`,
+`TauCeti.exists_harmonicOnNhd_continuousOn_closure_eqOn_frontier_of_exterior_sphere`, and for
+the local-barrier passage, the necessity half and the exterior-cone barrier:
+`TauCeti.SubharmonicOn.le_of_le_frontier`,
+`TauCeti.SubharmonicOn.le_of_le_frontier_of_subharmonicOn_neg` and the pinned mean-value
+characterization of harmonicity.
 
 ### Examples
 
@@ -1678,7 +1866,8 @@ divergence datum `F ∈ L²` only puts the right-hand side in `H⁻¹` and gives
   agree, and `u` is smooth inside by the bootstrap.
 
 *Needs:* for the interior `H²` estimate: Tau Ceti
-`TauCeti.PDE.UniformlyEllipticOn.exists_lowerOrder_eq_restrictL`, `TauCeti.Wkp`, the pinned
+`TauCeti.PDE.UniformlyEllipticOn.exists_lowerOrder_eq_restrictL` (with its whole-space form
+`TauCeti.PDE.UniformlyEllipticOn.exists_lowerOrder_eq` as the model), `TauCeti.Wkp`, the pinned
 difference-quotient criterion
 `TauCeti.exists_norm_le_hasWeakLineDerivOn_of_frequently_eLpNorm_inv_mul_sub_le` and the pinned
 local Rellich theorem `TauCeti.W1p.isCompactOperator_valueL_restrictL`; for the `Hᵏ` bootstrap:
@@ -1739,7 +1928,10 @@ Calderón–Zygmund and §2.4's commutator theorem.
 
 For `−div(a∇u) = f + div F` with `a, F ∈ C^{0,α}` and `f ∈ L^q`, `q > n`, prove the interior
 `C^{1,β}` estimate with `β = min(α, 1 − n/q)` (Gilbarg–Trudinger, Theorem 8.32 for the
-estimate, Theorem 8.34 for solvability): on `B(x₀, r)` with `B(x₀, 2r) ⊆ Ω`,
+estimate with a bounded scalar datum, whose right-hand side carries `sup|f|` and whose exponent
+is `α`; Giaquinta–Martinazzi, Chapter 5, the Schauder estimates for divergence-form equations
+with Hölder continuous coefficients, for the `L^q` datum with the Morrey gain `1 − n/q`;
+Gilbarg–Trudinger, Theorem 8.34 for solvability): on `B(x₀, r)` with `B(x₀, 2r) ⊆ Ω`,
 
     r^{1+β}[∇u]_{β; B_r} + r‖∇u‖_{∞; B_r} ≤ C(‖u‖_{∞; B_{2r}} + r^{2−n/q}‖f‖_{L^q(B_{2r})} + r^{1+α}[F]_{α; B_{2r}} + r‖F‖_{∞; B_{2r}})
 
@@ -1776,7 +1968,17 @@ Local boundedness, Hölder continuity and the Harnack inequality for weak soluti
 `−div(a∇u) = 0` with inverse-coercive, bounded measurable, not necessarily symmetric
 coefficients, in every dimension `n ≥ 1`. The `n ≥ 3` Hölder theorem under the pinned
 operator-bound predicate, with `L²` norm and thickening radius, is the pinned
-`TauCeti.PDE.exists_holderOnWith_preciseRepresentative`. Prove the ball statement
+`TauCeti.PDE.exists_holderOnWith_preciseRepresentative`, and so are its two inputs for `n ≥ 3`
+under that predicate: De Giorgi's local boundedness, `|u| ≤ D R^{−n/2}‖u‖_{L²(B(x₀,R))}`
+almost everywhere on `B(x₀, R/2)` for a weak solution and `B(x₀, R) ⊆ Ω`, `D = D(λ, Λ, n)`
+(`TauCeti.PDE.exists_ae_abs_value_le_mul_rpow_mul_sqrt_setIntegral`, from the energy
+recursion between truncation levels and the one-sided bound above a level), and the interior
+oscillation estimate, that on `B(x₀, r)`, `r ≤ R/2`, `u` takes values almost everywhere in an
+interval of length `C(r/R)^α R^{−n/2}‖u‖_{L²(B(x₀,R))}` with `0 < α ≤ 1`
+(`TauCeti.PDE.exists_ae_value_mem_Icc_add_mul_rpow_mul_rpow_mul_sqrt_setIntegral`, built from
+the reduction of the supremum, the oscillation-decay dichotomy and the power law along
+`B(x₀, R/4^j)`, with De Giorgi's level-set decay, the isoperimetric inequality on balls and the
+Caccioppoli inequality for truncations as ingredients). Prove the ball statement
 (`exists_holderOnWith_of_isWeakSolution_ball` in `Suggested.lean`; Gilbarg–Trudinger, Theorem 8.22;
 De Giorgi, Nash, Moser): there are `α ∈ (0, 1]` and `C > 0` depending only on `n` and the ratio
 `Λ/λ` such that every weak solution `u ∈ H¹(B(x₀, 2r))` has a representative that is
@@ -1798,20 +2000,30 @@ almost everywhere, a weak solution of the homogeneous equation,
 `u(x) ≤ C(n, Λ/λ) u(y)` for almost every `x, y ∈ B(x₀, r)`, that is
 `ess sup_{B(x₀,r)} u ≤ C ess inf_{B(x₀,r)} u`, stated pairwise so that no junk value of a real
 essential supremum enters (`harnack_of_isWeakSolution_ball` in `Suggested.lean`); these give the
-strong maximum principle of §3.2 for weak solutions (Theorem 8.19). The route is Caccioppoli
-(pinned), the
-level-set truncation of De Giorgi, the Sobolev–Poincaré inequality of §1.5 and Moser's
-iteration; the Armstrong–Kempe formalization (arXiv:2604.05984, `holder_Moser` in
-`DeGiorgi/Holder/PublicEstimate.lean`) is ported and reconciled for `n ≥ 3`: its unit-ball,
-`λ = 1`, `p₀ > 1` and representative conventions transfer to the statement above by scaling,
-and the dimensions `n = 1, 2` are supplied by the one-dimensional absolutely continuous flux
-argument of §1.1 and the two-dimensional iteration with the finite-`q` critical
-Sobolev–Poincaré inequality of §1.4–§1.5, with their own constants.
+strong maximum principle of §3.2 for weak solutions (Theorem 8.19). For `n ≥ 3` the route is
+the pinned chain: Caccioppoli, the energy recursion between truncation levels, local
+boundedness, level-set decay and oscillation decay, with the Sobolev–Poincaré inequality of
+§1.5 entering through the pinned Sobolev-exponent hypothesis, and the ball statement is the
+pinned oscillation estimate rewritten as a Hölder bound on the precise representative, exactly
+as the pinned Hölder theorem does, with §4.1's adapter between the ellipticity predicates;
+Moser's iteration, as in the Armstrong–Kempe formalization (arXiv:2604.05984, `holder_Moser` in
+`DeGiorgi/Holder/PublicEstimate.lean`), is an alternative route whose unit-ball, `λ = 1`,
+`p₀ > 1` and representative conventions transfer to the statement above by scaling. The
+dimensions `n = 1, 2` are supplied by the one-dimensional absolutely continuous flux argument
+of §1.1 and the two-dimensional iteration with the finite-`q` critical Sobolev–Poincaré
+inequality of §1.4–§1.5, with their own constants; the pinned energy recursion applies there
+verbatim once a Sobolev inequality with some exponent `q > 2` is supplied on `W^{1,2}_0` of the
+ball, which is the finite-`q` inequality for `n = 2` and the `L^∞` bound of §1.1 for `n = 1`.
 
 - The exponent `α` depends only on `n` and `Λ/λ` and tends to `0` as `Λ/λ → ∞`.
 - The Harnack constant depends only on `n` and `Λ/λ` on balls of fixed ratio.
 - Weak solutions of the homogeneous equation are locally bounded with
-  `sup_{B_r} |u| ≤ C r^{−n/2}‖u‖_{L²(B_{2r})}`.
+  `sup_{B_r} |u| ≤ C r^{−n/2}‖u‖_{L²(B_{2r})}`: pinned for `n ≥ 3` under the operator-bound
+  predicate as `|u| ≤ D R^{−n/2}‖u‖_{L²(B(x₀,R))}` almost everywhere on `B(x₀, R/2)`
+  (`TauCeti.PDE.exists_ae_abs_value_le_mul_rpow_mul_sqrt_setIntegral`); the targets are the
+  same bound for `n = 1, 2`, its transfer to the inverse-coercive predicate through §4.1's
+  adapter, and the subsolution form above a level `k` with `(u − k)⁺`, pinned for `n ≥ 3` as
+  `TauCeti.PDE.exists_ae_value_le_add_mul_rpow_mul_sqrt_setIntegral_of_inv_add_eq_inv`.
 
 **Checks.**
 
@@ -1834,12 +2046,16 @@ Sobolev–Poincaré inequality of §1.4–§1.5, with their own constants.
   against the inverse-coercive pair `(1, 1 + k²)` or `(1, 2)`, not the operator bound.
 
 *Needs:* for the Hölder estimate: Tau Ceti `TauCeti.PDE.exists_holderOnWith_preciseRepresentative`
-(the `n ≥ 3` model), `TauCeti.PDE.UniformlyEllipticOn.setIntegral_sq_mul_norm_gradient_sq_le`,
-§1.5 Sobolev–Poincaré on balls, §4.1's adapter between the ellipticity predicates, and for
-`n = 1, 2` §1.1 and §1.4; for the inhomogeneous and lower-order versions: the same and §1.4's
-embeddings for the Morrey gains; for the weak Harnack and Harnack inequalities: Caccioppoli,
-the local boundedness estimate above, §1.5 and the John–Nirenberg inequality of §2.4 for the
-`log u` step.
+(the `n ≥ 3` model), `TauCeti.PDE.exists_ae_abs_value_le_mul_rpow_mul_sqrt_setIntegral`,
+`TauCeti.PDE.exists_ae_value_mem_Icc_add_mul_rpow_mul_rpow_mul_sqrt_setIntegral`,
+`TauCeti.PDE.UniformlyEllipticOn.setIntegral_sq_mul_max_sub_sq_le`,
+`TauCeti.PDE.exists_setIntegral_ball_norm_gradient_posPartAbove_sq_le`,
+`TauCeti.PDE.UniformlyEllipticOn.setIntegral_sq_mul_norm_gradient_sq_le`, the truncation
+`TauCeti.W1p.posPartAbove`, §1.5 Sobolev–Poincaré on balls, §4.1's adapter between the
+ellipticity predicates, and for `n = 1, 2` §1.1 and §1.4; for the inhomogeneous and lower-order
+versions: the same and §1.4's embeddings for the Morrey gains; for the weak Harnack and Harnack
+inequalities: Caccioppoli, the local boundedness estimate above, §1.5 and the John–Nirenberg
+inequality of §2.4 for the `log u` step.
 
 ### 5.5 Aleksandrov–Bakelman–Pucci and Krylov–Safonov (E24)
 
@@ -1963,10 +2179,16 @@ the modulus of continuity.
   uniformly elliptic with eigenvalues `1` and `1 + b`, discontinuous at `0` and not in VMO, and
   `u = |x|^γ` satisfies `aⁱʲ∂ᵢⱼu = γ|x|^{γ−2}((n + γ − 2) + b(γ − 1)) = 0` away from `0` (from
   `∂ᵢⱼ|x|^γ = γ|x|^{γ−2}(δᵢⱼ + (γ − 2)x̂ᵢx̂ⱼ)`), while `D²u ≈ |x|^{γ−2}` lies in `Lᵖ_loc` exactly
-  for `p < n/(2 − γ)`: a strong solution with `f = 0` whose `W^{2,p}` regularity stops below
-  `p = n/(2 − γ)`, so no `W^{2,p}` estimate for large `p` survives without VMO. In `n = 1` the
-  formula gives `b = −1`, a degenerate field, consistent with the one-dimensional estimate
-  holding for every bounded measurable `a ≥ λ`.
+  for `p < n/(2 − γ)`, and `n/(2 − γ) < n`: `u` is a `W^{2,p}_loc` solution of the homogeneous
+  equation for every `p < n/(2 − γ)` and not a `W^{2,n}_loc` strong solution, so no `W^{2,p}`
+  regularity theorem for `p ≥ n/(2 − γ)` (a `W^{2,p₀}_loc` solution with `f ∈ Lᵖ_loc` lies in
+  `W^{2,p}_loc`) survives without VMO. The a priori estimate itself is not refuted by this
+  witness: on the smooth approximants `u_ε = (|x|² + ε²)^{γ/2}` the same identity gives
+  `aⁱʲ∂ᵢⱼu_ε = γ(n + b)ε²(|x|² + ε²)^{γ/2−2}`, and for `p > n/(2 − γ)` both
+  `‖D²u_ε‖_{Lᵖ(B_r)}` and `‖aⁱʲ∂ᵢⱼu_ε‖_{Lᵖ(B_r)}` scale like `ε^{γ−2+n/p}` as `ε ↓ 0`, so the two
+  sides of the estimate degenerate together. In `n = 1` the formula gives `b = −1`, a
+  degenerate field, consistent with the one-dimensional estimate holding for every bounded
+  measurable `a ≥ λ`.
 - `n = 1` and `p = 2` on `(0, 1)` with `a = 1 + 1_{x>1/2}`, `f = 1`, zero boundary values:
   `u'' = −1/a` is `−1` on `(0, 1/2)` and `−1/2` on `(1/2, 1)`, so `‖u''‖₂² = 1/2 + 1/8 = 5/8` and
   the global estimate holds with `C = (5/8)^{1/2} ≤ 1/λ = 1`, although `a ∉ VMO`.
@@ -2043,8 +2265,14 @@ for the heat operator; extend it to variable coefficients). The equation is nona
 general and is not a one-parameter semigroup without time independence.
 
 - The solution map `(u₀, f) ↦ u` is linear and bounded into the solution space.
-- Improved regularity: `u₀ ∈ H¹₀` and `f ∈ L²(L²)` give `u ∈ L²(0,T;H²_loc) ∩ H¹(0,T;L²)`
-  (Evans, §7.1.3, Theorem 5), consuming §5.1.
+- Improved regularity: for `a` Lipschitz in `x` uniformly in `t` and either independent of `t`
+  or with `∂ₜa` bounded, `b, c ∈ L^∞`, `u₀ ∈ H¹₀` and `f ∈ L²(L²)`, the solution lies in
+  `L^∞(0,T;H¹₀) ∩ L²(0,T;H²_loc)` with `∂ₜu ∈ L²(0,T;L²)` (Evans, §7.1.3, Theorem 5, stated
+  there for smooth time-independent coefficients and a smooth boundary, with the global `H²`),
+  by the second Galerkin energy estimate, testing against `∂ₜu_m`, in which `∂ₜa` or its
+  absence is what controls `d/dt ∫ a∇u_m · ∇u_m`, and then §5.1's interior estimate applied
+  at almost every time to `−div(a∇u) = f − ∂ₜu − b·∇u − cu ∈ L²`; with bounded measurable `a`
+  the `H²_loc` conclusion is false.
 - For time-independent coefficients the solution is `u(t) = S(t)u₀ + ∫_0^t S(t−s)f(s) ds`
   with the semigroup of §6.3's Dirichlet realization.
 
@@ -2063,12 +2291,20 @@ general and is not a one-parameter semigroup without time independence.
   (at `t = 0`); `u = t` satisfies `∂ₜu − Δu = 1 ≥ 0`, a supersolution of the homogeneous
   equation, whose minimum `0` lies on the parabolic boundary as the principle requires, while
   its maximum `T` on the top slice is not forbidden, since `u` is not a subsolution.
+- Improved regularity needs Lipschitz coefficients: on `(−1, 1)` with `a = 1 + 1_{x>0}`,
+  `b = c = 0`, `f = 1` and `u₀ = w` the `H¹₀` solution of `−(aw')' = 1`, the stationary
+  `u(x, t) = w(x)` is the weak solution; `aw' = −1/6 − x`, so `w'` jumps from `−1/6` to `−1/12`
+  at `0`, `w ∉ H²_loc` and `u ∉ L²(0,T;H²_loc)`, although `u₀ ∈ H¹₀` and `f ∈ L²(L²)`; this is
+  §5.1's jump example in the parabolic setting, and a bullet without the coefficient
+  hypothesis is refuted by it.
 
 *Needs:* for Galerkin existence and uniqueness: §6.1, §4.1 Gårding, §4.4 eigenbasis, Mathlib's
 Picard–Lindelöf and Grönwall; for the weak parabolic maximum principle: §6.1's energy identity
-and the truncation `(u − k)⁺`; for the classical principle with variable coefficients: Tau
-Ceti `TauCeti.le_of_deriv_sub_laplacian_le_of_le_parabolicBoundary` as the model; for improved
-regularity: §5.1.
+and the truncation `(u − k)⁺`, Tau Ceti `TauCeti.W1p.posPartAbove`,
+`TauCeti.W1p.continuous_posPartAbove` and `TauCeti.W1p.posPartAbove_mem_w1p0Submodule`; for the
+classical principle with variable coefficients: Tau Ceti
+`TauCeti.le_of_deriv_sub_laplacian_le_of_le_parabolicBoundary` as the model; for improved
+regularity: the second energy estimate and §5.1 with `a` Lipschitz.
 
 ### 6.3 The heat semigroup and its generator (F26)
 
@@ -2080,7 +2316,18 @@ pinned Gaussian kernel (`TauCeti.heatKernel`, with mass one, the semigroup ident
 `Γ(t) * Γ(s) = Γ(t+s)` and Fourier transform `exp(−4π²t|ξ|²)`) construct the convolution
 operators `S(t)f = Γ(t) * f` as bounded operators on `Lᵖ(ℝⁿ)`, `1 ≤ p < ∞`, and on `BUC(ℝⁿ)`,
 the uniformly continuous bounded functions, with `‖S(t)‖ ≤ 1`, and prove strong continuity and
-the semigroup law, so that `S` is a contraction `C₀`-semigroup on each of these spaces. Identify
+the semigroup law, so that `S` is a contraction `C₀`-semigroup on each of these spaces. On
+`BUC` the contraction `‖Γ(t) * g‖_∞ ≤ ‖g‖_∞` and the strong continuity at `t = 0`,
+`Γ(t) * g → g` uniformly as `t ↓ 0` for bounded uniformly continuous `g`, are pinned
+(`TauCeti.norm_heatKernel_convolution_le`, `TauCeti.tendstoUniformly_heatKernel_convolution`,
+through the concentration of the kernel's mass and the two-region estimate
+`TauCeti.norm_heatKernel_convolution_sub_le`), as is the pointwise attainment
+`(Γ(t) * g)(x) → g(x₀)` as `(t, x) → (0⁺, x₀)` at a point of continuity of a bounded measurable
+`g` (`TauCeti.tendsto_heatKernel_convolution`); the targets are the `Lᵖ` contraction by Young's
+inequality and the `Lᵖ` strong continuity, the invariance of `BUC` under `Γ(t) *`, the
+semigroup law `S(t)S(s) = S(t + s)` as an operator identity from the pinned kernel identity,
+continuity at every `t > 0` from the pinned limit at `t = 0` and the semigroup law, and the
+generator. Identify
 the generator: on `Lᵖ` its domain is `{u ∈ Lᵖ : Δu ∈ Lᵖ}` with `Δ` the distributional Laplacian,
 with `C_c^∞` as a core, and the action is `Δ`; on `BUC` the domain is the set of `u` whose
 distributional Laplacian has a `BUC` representative, with the core of smooth functions all of
@@ -2116,10 +2363,13 @@ operator of Layer 4 is `−Δ`.
   is not in `L²`, so `u` is outside the domain: the domain is a proper subspace.
 
 *Needs:* for the semigroup on `Lᵖ` and `BUC`: Tau Ceti `TauCeti.heatKernel` and its API,
-`TauCeti.Semigroups.StronglyContinuousSemigroup`, Young's inequality for convolutions; for the
-generator identification: `TauCeti.Semigroups.hilleYosida_generation`, OneParameterSemigroups
-Part A's uniqueness of the generated semigroup, OperatorTheory's `LinearPMap` vocabulary, and
-§1.3 at `p = 2`; for the Dirichlet comparison: §6.2.
+`TauCeti.norm_heatKernel_convolution_le`, `TauCeti.tendstoUniformly_heatKernel_convolution`,
+`TauCeti.tendsto_heatKernel_convolution`, `TauCeti.Semigroups.StronglyContinuousSemigroup`,
+Young's inequality for convolutions; for the generator identification:
+`TauCeti.Semigroups.hilleYosida_generation`, OneParameterSemigroups Part A's uniqueness of the
+generated semigroup, OperatorTheory's `LinearPMap` vocabulary, and §1.3 at `p = 2`; for
+Duhamel's formula: Tau Ceti `TauCeti.Semigroups.IsMildSolution` and `IsMildSolution.unique`;
+for the Dirichlet comparison: §6.2.
 
 ### 6.4 Parabolic Hölder spaces, calculus and traces (F27.1)
 
@@ -2324,7 +2574,9 @@ mollifications from `ω`; thus `sup_i ‖u_i(·,t) − g_i‖_∞ → 0`. Transp
   uniformly bounded but not uniformly equicontinuous, and `sup_i ‖S(t)g_i − g_i‖_∞ = 1` for
   every `t > 0`.
 
-*Needs:* §6.6; §6.3 `BUC` realization; Mathlib `UniformEquicontinuous`, `ContDiffBump`.
+*Needs:* §6.6; §6.3 `BUC` realization, with Tau Ceti
+`TauCeti.tendstoUniformly_heatKernel_convolution` as the constant-coefficient model of the
+trace; Mathlib `UniformEquicontinuous`, `ContDiffBump`.
 
 ### 6.8 Every derivative order (F27.5)
 
@@ -2597,7 +2849,8 @@ Schwartz `f` and then by the bounded-operator extension (Tao, *Nonlinear Dispers
 §2.2, the kernel `(4πit)^{−d/2}exp(i|x|²/(4t))`). Set `D = √(−Δ)` with multiplier `2π|ξ|` and
 construct `W±(t) = exp(±itD)`; for each annular block `P_j` prove
 `‖W±(t)P_j f‖_∞ ≤ C 2^{jd}(1 + 2^j|t|)^{−(d−1)/2}‖f‖₁` for `d ≥ 2`, a stationary-phase estimate
-owned here (Tao, §2.5); no unlocalized wave `L¹ → L^∞` bound is inferred. Construct the
+owned here (Tao, §2.2, estimate (2.19), printed p. 71); no unlocalized wave `L¹ → L^∞` bound is
+inferred. Construct the
 reusable `TT*` time-pairing argument for an `L²`-energy family with decay `|t − s|^{−σ}`: for
 `q, r ≥ 2`, `σ`-admissibility is `1/q + σ/r = σ/2`, excluding `(q, r, σ) = (2, ∞, 1)` and
 including the energy pair `(∞, 2)`; dual exponents use `1/∞ = 0`. Prove the non-endpoint bounds
