@@ -40,12 +40,14 @@ BanachSpaceTheory B4's. They are consumed by name; no second carrier is built.
 
 **Left to others.** Hyperfunctions keeps, in HF2.AnalyticPreparation.FunctionalDuality, its
 Fréchet–Schwartz and DFS strong-dual calculus, the DFS open-mapping theorem and the nuclearity of
-its smooth-section spaces: those are statements about the strong duals of Fréchet–Schwartz spaces,
-a special case of Layer 4 here, and they stay with their analytic consumers. Kernel theorems for
-particular function spaces (Schwartz's kernel theorem and its LF variants) stay with the roadmaps
-of those function spaces. Non-archimedean locally convex spaces are PadicFunctionalAnalysis's. The
-open mapping and closed graph theorems beyond Mathlib's Banach and Fréchet cases (Ptak, De Wilde)
-and Eberlein–Šmulian are not in this roadmap.
+its smooth-section spaces: those are statements about the strong duals of Fréchet–Schwartz spaces, a
+special case of Layer 4 here, and they stay with their analytic consumers. AutomorphicSpectralTheory
+§§0.11 and 0.13 keep their nuclear Fréchet and LF test spaces and their kernel theorem, stated for
+those function spaces; the general notion of nuclear space of Layer 5 is the one they specialise.
+Kernel theorems for particular function spaces (Schwartz's kernel theorem and its LF variants) stay
+with the roadmaps of those function spaces. Non-archimedean locally convex spaces are
+PadicFunctionalAnalysis's. The open mapping and closed graph theorems beyond Mathlib's Banach and
+Fréchet cases (Ptak, De Wilde) and Eberlein–Šmulian are not in this roadmap.
 
 The boundary in one sentence: if a statement is about an arbitrary locally convex space over `ℝ`
 or `ℂ` and its dual, it is here; if it names a particular function space, it is with that space.
