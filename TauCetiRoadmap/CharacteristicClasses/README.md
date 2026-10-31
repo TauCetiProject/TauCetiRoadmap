@@ -323,6 +323,112 @@ and C3.5 owns the separate universal Spin obstruction.
   exactness at π1/π0. Do not identify the fibre inclusion with an NDR pair. Prove
    Dold's theorem that a numerable bundle with contractible fibre is a homotopy
    equivalence, including the local contraction/partition construction.
+   **C1.1d. Trivializations and disconnected clutching.** For a continuous
+   right principal G-bundle P→X, define a global trivialization as an
+   equivariant bundle isomorphism P≃X×G covering id_X, with continuous
+   inverse. Construct its equivalence with global sections, using the
+   bundle division map, and prove the inverse formulas and pullback laws.
+   If a reference trivialization τ₀ is supplied, all trivializations are
+   uniquely of the form τ_a(p)=(x,a(x)g) when τ₀(p)=(x,g), for a continuous
+   map a:X→G. Prove this is a torsor for the pointwise group C(X,G), with
+   composition, inverse and change-of-reference formulas. A homotopy of
+   trivializations must remain an equivariant bundle isomorphism at every
+   parameter, with the inverses jointly continuous. Prove its correspondence
+   with a homotopy X×I→G. Thus homotopy classes of trivializations form a
+   torsor for [X,G]; actual trivializations are not themselves [X,G].
+   Neither bijection has a chosen origin without τ₀. For X=pt and G=Circle,
+   the actual trivializations are parametrized by Circle, whereas their
+   homotopy classes form a singleton. For prescribed trivializations on a
+   closed CW subcomplex A⊆X, first identify extension with the actual map
+   extension problem: relative to any global reference, the prescribed
+   transition a_A:A→G must extend to a:X→G. This set can be empty; the
+   identity boundary gauge S¹→Circle does not extend over D². If a reference
+   τ₀ extending the prescribed trivialization is given, the extending
+   trivializations form the torsor for maps a|A=1, and their relative
+   homotopies correspond to homotopies fixed on A. Prove these statements
+   with their restriction, bundle-isomorphism and structure-group maps.
+
+   For G in C1.1b's Lie-group scope, construct principal bundles on S^(n+1)
+   directly by clutching two trivial bundles on the closed hemispheres.
+   Pin s_S=s_N c on the equator S^n, so the gluing is
+   `(z,g)_S∼(z,c(z)g)_N`. Changing the hemisphere sections to s_N a and
+   s_S b changes c to a⁻¹cb, where a,b extend over their respective disks.
+   Prove gluing gives a numerable bundle, every such bundle is obtained this
+   way, and two clutching functions give isomorphic bundles exactly through
+   these changes and homotopy. Retain actual isomorphisms, pullbacks by
+   sphere maps, structure-group homomorphisms and the universal-classifier
+   comparison; use the relative homotopy lifting from C1.1b to normalize
+   hemisphere sections at a chosen equatorial point.
+
+   A marked bundle here includes a chosen point in its fibre over that base
+   point, and its isomorphisms preserve that point. For n≥1, prove the
+   natural bijections
+   `marked principal G-bundles on S^(n+1) ≃ [S^(n+1),B_join(G)]_* ≃ π_n(G,1)`.
+   Use the actual boundary map of EG→BG, including the identification
+   π₁(BG)≃π₀(G), to compare forgetting the marking with the orbit quotient
+   `principal G-bundles on S^(n+1) ≃ π_n(G,1)/π₀(G)`.
+   The right action is represented by `[α]·[g]=[z↦g⁻¹α(z)g]`; prove it
+   depends only on the component of g and agrees with basepoint transport
+   on BG. In particular it is trivial for connected G. The ordinary free
+   class set [S^n,G] is not substituted for this orbit quotient when G is
+   disconnected. At n=0, treat S¹ separately: marked classes are π₀(G),
+   and unmarked classes are conjugacy classes in π₀(G). Do not assign an
+   abelian group structure to this general conjugacy-class set.
+
+   Also compute the free homotopy classes asked for by the sphere exercise.
+   For n≥1, evaluation at q∈S^n and constant maps give the split exact
+   sequence of pointwise-multiplication groups
+   `1→π_n(G,1)→[S^n,G]→π₀(G)→1`.
+   Prove the canonical semidirect-product description using
+   `α(z)=f(z)f(q)⁻¹`, with left action `[g]·[α]=[gαg⁻¹]`.
+   This is inverse to the right conjugation action used for the orbit set
+   above. For n=0, prove `[S⁰,G]≃π₀(G)×π₀(G)`. Thus neither free map
+   classes nor the bundle orbit set is silently identified with the based
+   homotopy group. Orbit sets here are not asserted to be quotient groups.
+
+   Apply these comparisons to GL_k(ℝ), using C1.0's metric frames and the
+   Gram–Schmidt deformation retraction to O(k), on the same T1 bundles.
+   Use only HomotopySpheres4A's independent finite SO/quaternion/sphere-LES
+   prefix and TopK T1.5's finite frame-bundle computations. Prove π₂(SO(k))=0
+   from those sphere sequences, including every low-rank exception. Compute
+   the following free homotopy-class groups for every k≥1; rank0 is trivial:
+
+   | Domain | k=1 | k=2 | k≥3 |
+   | --- | --- | --- | --- |
+   | S⁰ | (ℤ/2)×(ℤ/2) | (ℤ/2)×(ℤ/2) | (ℤ/2)×(ℤ/2) |
+   | S¹ | ℤ/2 | ℤ⋊_(−1)(ℤ/2) | (ℤ/2)×(ℤ/2) |
+   | S² | ℤ/2 | ℤ/2 | ℤ/2 |
+
+   For bundles over S², oriented rank2 classes are indexed by the integer
+   winding of `R(θ)=[[cos θ,−sin θ],[sin θ,cos θ]]`. Prove
+   `J R(θ) J⁻¹=R(−θ)` for `J=diag(−1,1)`, so forgetting orientation
+   identifies winding m and −m. Thus unoriented rank2 classes are
+   ℤ/(m∼−m), equivalently ℕ by absolute winding. For k≥3 there are two
+   rank-k classes over S²; k=0,1 each has one. Over S¹, every positive rank
+   has exactly the trivial bundle and Möbius⊕ℝ^(k−1); rank0 has one.
+   Give the actual representatives, classifying maps and stabilization,
+   including winding mod2 at rank2→3. This classification prefix uses
+   no Euler/Stiefel–Whitney theory, stable BSO comparison or Bott periodicity.
+
+   After C2/C3's class constructions, prove the normalized characteristic
+   comparisons for these same bundles. Fix S²=CP¹ with its complex
+   orientation, northern disk `[1:z]`, |z|≤1, southern disk `[w:1]`,
+   |w|≤1, and equator z=e^(iθ) oriented as the boundary of the northern
+   disk. For the oriented plane bundle E_m with transition R(mθ), prove
+   `⟨e(E_m),[CP¹]⟩=m`. Calibrate O(−1) by northern section (1,z) and
+   southern section (w,1): s_S=z⁻¹s_N gives winding−1 and Euler number−1;
+   prove TS² has winding2 and Euler number2. Forgetting fibre orientation
+   retains only absolute winding. Prove that w₂ detects the two rank-k
+   classes over S² for k≥3 and that w₁ detects the two positive-rank classes
+   over S¹, compatibly with stabilization and C1.0's orientation cover.
+   The real vector-bundle clutching and orientation-forgetting comparison
+   follows [Hatcher, §1.2, pp22–26](https://pi.math.cornell.edu/~hatcher/VBKT/VB.pdf),
+   with the hemisphere and Euler signs calibrated above; construct the
+   principal-bundle and marked/unmarked diagrams here.
+   `ClutchingTrivializationTargets.lean` checks the native continuous-map,
+   homeomorphism, homotopy and reflection interfaces; the complete bundle
+   classification above remains part of this specification.
+
 2. **Bockstein input.** Consume AlgebraicTopology Stage6.1's coefficient long exact sequence and
    Bockstein construction on the existing singular/relative cochain complexes,
    including 0→Z→[×2]Z→F2→0. Build its coefficient-change compatibility with
