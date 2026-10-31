@@ -61,6 +61,10 @@ This roadmap owns the following, by layer.
   knots and of non-split links, rational tangles and two-bridge knots, torus knots and
   satellites, the Garside structure of braid groups, the Morton–Franks–Williams bound,
   Kondo's realization theorem, and exponential bounds on the number of knot types.
+  Layer 4.2.8 owns the smooth geometric braid carrier, its isotopy, the based Artin action
+  and the faithfulness of braids among relative tangles; the identification of strand
+  systems with the native presented braid group is ReductiveGroups §11A's and is consumed,
+  not re-planned.
 - **Layer 5.** The compact exterior of a link, Dehn filling and surgery, surgery on framed
   links, lens spaces as fillings, the Lickorish–Wallace theorem, Moser's classification of
   the lens-space surgeries on torus knots, Mathieu's chirally cosmetic pairs, the Montesinos
@@ -428,6 +432,17 @@ theorem, and Layer 8 the uniqueness of PL and smooth structures in dimension two
 H1 supplies the finite type-A Hecke algebras and H2 the Ocneanu trace and its braid-closure
 invariance. Layer 4 consumes them for the HOMFLY trace theorem and the low-strand
 Jones/Burau block comparisons; it owns the geometric closure and native-matrix adapters.
+
+### From TauCetiRoadmap.ReductiveGroups
+
+§11A (*Plane configurations, geometric braids and their basepoints*) supplies the ordered and
+unordered configuration spaces of `n` points of the plane, the homeomorphism between the
+plane and the open unit disc, the identification of relative homotopy classes of
+collision-free strand systems in `ℂ×[0,1]` with `TauCeti.BraidGroup n` with stacking matched
+to the fundamental-group product, the endpoint permutation as `permHom`, the pure part as
+`pureSubgroup n`, the exact sequence `1 → P_n → B_n → S_n → 1` and the convention of its
+positive half-twist. Layer 4.2.8 consumes it for smooth geometric braids, owning the smooth
+carrier, the smooth adapter and the calibration of that half-twist against the pinned closure.
 
 ### From TauCetiRoadmap.SuccessiveMinima
 
@@ -2419,16 +2434,18 @@ families of slicewise smooth embeddings.
 Consume native `TauCeti.BraidGroup n`, `sigma`, `strand`, `strandSucc`, `permHom`,
 `pureSubgroup` and `BraidWord.toBraid`, together with Mathlib's `FreeGroup`, its
 reduced-word API and `MulAut`. Use the pinned Tau Ceti braid-group carrier and supply
-the index adapters. This section owns the geometric braid carrier, its isotopy
-relation, its comparison with the native presented braid group (Artin.P) and the based
-action; it supplies the bridge from unrestricted relative tangle isotopy back to braid
-equality. The tangle categories and coherence theorems built on these carriers are the
-work of the consumer listed under *Downstream consumers*.
+the index adapters. This section owns the smooth geometric braid carrier, its isotopy
+relation, its adapter to the continuous strand systems of ReductiveGroups §11A, whose
+identification with the native presented braid group it consumes rather than re-proves
+(Artin.P), and the based action; it supplies the bridge from unrestricted relative
+tangle isotopy back to braid equality. The tangle categories and coherence theorems
+built on these carriers are the work of the consumer listed under *Downstream consumers*.
 
-**Artin.P: geometric braids and the presentation comparison.** Fix n ordered interior
-points P of the closed disc. A geometric braid on n strands is a disjoint union of n
-smooth arcs in `D²×[0,1]`, each meeting every level `D²×{t}` in exactly one point, with
-endpoint sets `P×{0}` and `P×{1}`, and straight in collars of the two faces. Two
+**Artin.P: smooth geometric braids and the imported presentation comparison.** Fix n
+ordered points P in the interior of the closed disc. A geometric braid on n strands is a
+disjoint union of n smooth arcs in `int(D²)×[0,1]`, each meeting every level `D²×{t}` in
+exactly one point, with endpoint sets `P×{0}` and `P×{1}`, and straight in collars of the
+two faces. Two
 geometric braids are isotopic when a continuous family of geometric braids, fixed on both
 faces, joins them; prove that this is an equivalence relation and that it coincides with
 ambient isotopy of `D²×[0,1]` fixed on the side wall and on both faces, by relative
@@ -2444,25 +2461,38 @@ convention against the pinned closure `TauCeti.BraidWord.closure`
 the strand entering a positive letter at its lower position the over-strand, so that the
 closure of `σ_i` has a positive crossing.
 
-Realize a native `TauCeti.BraidWord n` letter by letter and prove that the native
-relations hold between realizations: distant letters commute by an isotopy supported in
-two disjoint vertical slabs, and `σ_i σ_(i+1) σ_i` and `σ_(i+1) σ_i σ_(i+1)` are isotopic
-by sliding the middle strand across the crossing of the other two, the type III move of
-4.2 read as a braid. Hence `BraidWord.toBraid` descends to a homomorphism from
-`TauCeti.BraidGroup n` to isotopy classes of geometric braids. Prove it surjective: by
-4.2.4's polygonal perturbation a geometric braid is isotopic to one whose projection to
-the first disc coordinate and the height is generic, with crossings at distinct heights,
-and reading the crossings upward gives a word realizing it (Artin, Theorem 16: the
-`σ_i` generate the braid group). Prove it injective: if two words have isotopic
-realizations, their pullback monodromies of Artin.G agree, these monodromies are
-`ρ_n` of the words by the calibration there, and `Function.Injective ρ_n` (Artin.F)
-gives equality in the native group. The comparison is therefore an isomorphism of groups
-between isotopy classes of geometric braids and `TauCeti.BraidGroup n`, compatible with
-the endpoint permutation and `permHom`; the presentation is the one stated in
-Birman–Brendle, §1.2, whose proofs are Artin (1925) and Bohnenblust (1947) under
-*References*. Birman–Brendle, §1.1, defines the same group as the fundamental group of
-the configuration space of n unordered points of the plane; give that comparison as an
-API bullet, since a geometric braid is a loop of configurations.
+The identification of braids with the native presented group is not planned here.
+ReductiveGroups §11A identifies the relative homotopy classes of continuous
+collision-free strand systems in `ℂ×[0,1]`, the coordinate graphs of loops in the
+configuration space of n unordered points of the plane, with `TauCeti.BraidGroup n`,
+with stacking matched to the fundamental-group product, the endpoint permutation matched
+to `permHom`, the pure part to `pureSubgroup n`, and a calibrated positive half-twist;
+Birman–Brendle, §1.1, is the textbook form of the same statement. What is owned here is
+the smooth adapter. Identify `int(D²)` with the plane by the homeomorphism of
+ReductiveGroups §11A and lift a strand system with endpoints P to a path in the ordered
+configuration space, an open subset of `ℂⁿ`. Prove that every continuous strand system
+is homotopic, through strand systems and relative to its endpoints, to a smooth geometric
+braid: approximate the lifted path uniformly by a smooth path straight near both ends
+(4.2.4's polygonal perturbation followed by Layer 11.2's smoothing, or a mollification),
+and join the two by the straight-line homotopy, which stays collision-free as soon as the
+uniform distance is less than half the least distance between two distinct points along
+the original path, with monotonicity in the height automatic since the height is the path
+parameter. Prove that two smooth geometric braids homotopic through continuous strand
+systems are isotopic through smooth geometric braids, by the same approximation applied to
+the homotopy (Artin, Theorems 1–7, compare s-isotopy with isotopy in the polygonal
+setting). Hence the composite of this adapter with the identification of ReductiveGroups
+§11A is an isomorphism of groups between isotopy classes of smooth geometric braids and
+`TauCeti.BraidGroup n`, compatible with the endpoint permutation and `permHom` and
+sending pure braids to `pureSubgroup n`. Calibrate it: prove that the elementary braid
+`σ_i` above, with the front/back convention pinned by the closure, corresponds to
+`sigma i`, inserting the automorphism of `TauCeti.BraidGroup n` inverting every generator
+if the positive half-twist of ReductiveGroups §11A is the mirror of `σ_i`; the Check on
+the closure of `σ_0` below pins the convention on this side. The word-realization map,
+which realizes a native `TauCeti.BraidWord n` letter by letter by stacking elementary
+braids, is this isomorphism composed with `BraidWord.toBraid`; that the `σ_i` generate
+is Artin, Theorem 16, and the presentation is the one of Birman–Brendle, §1.2, whose
+proofs are Artin (1925) and Bohnenblust (1947) under *References*, none of which is
+re-proved here.
 
 **Artin.A: the algebraic action.** Put `F_n=FreeGroup (Fin n)` and write
 `x_j=FreeGroup.of j`. For `i:Fin(n−1)`, let a,b be native `strand i`, `strandSucc i`.
@@ -2524,8 +2554,10 @@ are a complete set of defining relations for the group of automorphisms generate
 `A_i` (Birman–Brendle, §1.2; Artin, *Theory of braids*, the remark after Theorem 16;
 Bohnenblust, *The algebraical braid group*, Ann. of Math. 48 (1947), 127–136, whose proof
 is algebraic). Together with the calibration of Artin.G and the isotopy invariance of
-the pullback monodromy this gives the injectivity half of Artin.P's comparison. Prove Artin's image
-characterization: an automorphism φ
+the pullback monodromy this identifies `ρ_n` of a word with the pullback monodromy of
+its realization, so that the geometric completeness theorem above and the algebraic
+faithfulness of `ρ_n` are two proofs of one statement through the imported comparison of
+Artin.P. Prove Artin's image characterization: an automorphism φ
 belongs to its image exactly when `φ(∂)=∂` and there is a permutation π with `φ(x_j)=w_j
 x_(π j) w_j⁻¹` for every j. Construct the resulting subgroup and multiplicative
 equivalence with `BraidGroup n`; prove the pure-subgroup restriction and independence of
@@ -2557,18 +2589,20 @@ tangle. Closure, Markov equivalence and the Burau representation have their sepa
 scopes and hypotheses. Tangle categories, their cups and caps and the coherence theorems
 built on these carriers are not constructed here.
 
-This prefix uses Layers 1.5/3.3/11.2's relative isotopy extension and smoothing, the
-pinned fundamental group and van Kampen theorem of Tau Ceti, native free groups and
-4.2.4's generic projections. It does not assume a
-mapping-class theorem for punctured surfaces. The Brunnian/deletion producer in 4.12.1
-consumes its based markings. Reference: Artin, [*Theory of
+*Needs:* Layers 1.5/3.3/11.2's relative isotopy extension and smoothing; the pinned
+fundamental group and van Kampen theorem of Tau Ceti; Mathlib `FreeGroup`; 4.2.4's
+generic projections and polygonal perturbation; ReductiveGroups §11A's identification
+of strand systems with `TauCeti.BraidGroup n`, its half-twist convention and its
+plane/disc homeomorphism. This prefix does not assume a mapping-class theorem for
+punctured surfaces. The Brunnian/deletion producer in 4.12.1 consumes its based
+markings. Reference: Artin, [*Theory of
 braids*](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/artinbraids.pdf), Ann. of
 Math.48(1947), pp102–115, especially Theorems8–16. Artin's word order and generator
 formulas must be transported to the explicit pullback convention above.
 
-- Isotopy classes of geometric braids on n strands form a group isomorphic to
-  `TauCeti.BraidGroup n` by the word-realization map, and to the fundamental group of
-  the configuration space of n unordered points of the plane (Birman–Brendle, §1.1).
+- Isotopy classes of smooth geometric braids on n strands form a group under stacking,
+  and the smooth adapter composed with the identification of ReductiveGroups §11A is an
+  isomorphism onto `TauCeti.BraidGroup n` sending the elementary braid `σ_i` to `sigma i`.
 - The endpoint permutation of a geometric braid is `permHom` of the corresponding native
   element; a pure geometric braid corresponds to an element of `pureSubgroup n`.
 - A relative isotopy of tangles between two geometric braids induces a braid isotopy
@@ -2601,6 +2635,11 @@ formulas must be transported to the explicit pullback convention above.
 - For `n = 2` the geometric braid group is infinite cyclic, generated by `σ_0`, and the
   isotopy class of a two-strand geometric braid is determined by its signed crossing
   count; for `n = 0` and `n = 1` the only geometric braid is the straight one.
+- The straight-line homotopy of the adapter needs the distance bound: for the two-strand
+  path `z₀(t) = 0`, `z₁(t) = e^(2πit)`, whose points stay at distance `1`, any two
+  approximations within `1/4` of it keep `|z₀ − z₁| ≥ 1/2` along the straight-line
+  homotopy, while the approximations `z₀ = 1/2`, `z₁(t) = e^(2πit)/2`, each within
+  `1/2`, collide at `t = 0`; so a bound of half the least distance is needed and suffices.
 
 ### 4.2.9 Figure-eight inversion, reflection and projected transparencies
 
@@ -2729,7 +2768,8 @@ Use4.2.4's polygonal approximation, supported triangle moves and smoothing,
 Layer1.5's relative ambient extension and the plane separation/isotopy floor
 of PlanarTopology Layers 0, 1, 7 and 8. Consume the geometric braid carrier, its
 relative tangle and boundary conventions and its native-word comparison from 4.2.8,
-which owns that carrier and its presentation theorem. This section owns
+which owns the smooth carrier and imports the presentation comparison from
+ReductiveGroups §11A. This section owns
 conversion of a general link to that carrier and the cut/closure adapters.
 Spatial isotopy and the geometric braid conversion are the geometric targets below.
 
@@ -2906,7 +2946,7 @@ data. The procedure is not required to minimize strand count.
 *Needs:*4.2/4.2.4's finite realized diagrams, polygonal/smooth comparison and
 supported moves; Layer1.5's relative isotopy extension; PlanarTopology's
 separation and disc-isotopy API; 4.2.8's geometric braids and native word
-comparison. Markov's theorem is used only by the final
+comparison, through ReductiveGroups §11A. Markov's theorem is used only by the final
 independence-of-choices consumer, never by either Alexander construction.
 
 ### 4.3 Seifert surfaces, genus and the Seifert form
@@ -6463,8 +6503,11 @@ skein modules are outside this prefix.
 
 **Hoste's distinct diagram construction.** Define ordered diagrams with one regular
 basepoint on every component. Pin the source's descending convention: each crossing is
-first encountered as an **underpass** while traversing components in order from those
-points; supply an explicit convention adapter if using first-over internally. Give the
+first encountered as an overpass while traversing the components in order from those
+points, so that one never crosses over one's own earlier path
+(Freyd–Yetter–Hoste–Lickorish–Millett–Ocneanu, p. 243); a bad crossing is one first met
+as an underpass, and the ascending convention of the Lickorish–Millett route below is the
+opposite. Give the
 distinguished resolution at the first bad crossing, with prescribed inherited
 order/basepoints on both switching and oriented smoothing, including component
 merge/split cases. The lexicographic `(crossing number, bad first-encounter count)`
@@ -9526,7 +9569,8 @@ rational knots, §§1/4](https://arxiv.org/html/math/0212011) with their distinc
 *Needs:*4.2's realized relative diagrams, supported isotopies and ambient
 extension;4.10.1's independent marked tangle operations;4.10's native
 projective/normalization prefix; the compact surface/planar suppliers above;
-4.2.8's geometric braid comparison and the four-plat closure built here. Export the witnessed
+4.2.8's geometric braid comparison, through ReductiveGroups §11A, and the four-plat
+closure built here. Export the witnessed
 conversion before4.4.8's group calculations,4.8's bridge minima and4.10's
 Schubert-classification/mirror consumers. Include two-component geometric inputs and
 p=1/zero/infinity boundary cases in the construction; the stated amphichirality
@@ -10712,7 +10756,8 @@ granny knots as composite knots with equal Alexander polynomials.
 
 Layer 1 (surfaces, tubes, connected sums), Layer 2.2 (Schoenflies), Layer 3.3 (isotopy
 extension), Layer 5.1 (the exterior); Tau Ceti's knot-theory carriers; Mathlib's quandles and
-braid words; TypeAHeckeAlgebras H1, H2; SurfaceTopology Layer 8. The signature statements
+braid words; TypeAHeckeAlgebras H1, H2; SurfaceTopology Layer 8; ReductiveGroups §11A
+(strand systems and the native braid group, for Layer 4.2.8). The signature statements
 about torus knots and unknotting numbers are Layer 6.2's and the surgery-theoretic
 unknotting-number theorems are Layer 5.4's; both consume this layer.
 
@@ -12790,10 +12835,10 @@ and 8; Mathlib CW complexes.
   Arf algebra and Layer 11.3's smooth triangulations; its Spin-surface
   refinement and Spin bordism classification remain its own constructions.
 - **DiagrammaticCoherence** consumes Layers 1–4: the manifold, embedding and isotopy
-  foundations, the knot presentations of Layer 4.2 and, from Layer 4.2.8, the geometric
-  braid group with its presentation comparison and its faithfulness among relative
-  tangles; it owns the tangle categories, their cups and caps and the coherence theorems
-  built on these carriers.
+  foundations, the knot presentations of Layer 4.2 and, from Layer 4.2.8, the smooth
+  geometric braid carrier with its comparison, through ReductiveGroups §11A, with the
+  native braid group and its faithfulness among relative tangles; it owns the tangle
+  categories, their cups and caps and the coherence theorems built on these carriers.
 - **GeometricTopology, Part II** consumes the foundational layers needed by each of its
   developments and owns the developments listed under *Scope and ownership*.
 
