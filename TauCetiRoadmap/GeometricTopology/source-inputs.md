@@ -335,3 +335,48 @@ crossing information. It preserves ambient S³ orientation and differs from a ba
 mirror. Its geometric endpoint proof is not substituted for the original
 prescribed-pair-map theorem. Spherical constant-crossing flype movies do not imply
 general plane/outerface or nonalternating crossing-nonincreasing movies.
+
+<a id="small-prime-seifert-inputs"></a>
+## Problem49: the fourteen standard PD inputs
+
+*Knot Theory.pdf*, SHA256
+`ea4ad43f0788c1949274f3869045793f193a562f1c6f35cb05307c302e7185fa`, physical p117, asks
+for surfaces, their genera and minimum-genus comparisons for every prime knot with fewer
+than eight crossings. Its handwritten assignment annotation selects7₁,7₃,7₅,7₇; that
+subset does not replace the full original exercise. The following literal Knot Atlas
+standard PD lists fix the chosen representative per conventional mirror-forgotten row.
+Label each tuple in the displayed order, use its four entries in cyclic order with the
+first/third pair under, orient the arc labels cyclically1,…,2n, and retain every global
+mirror adapter to a different named-model convention. All labels occur exactly twice.
+The native matching pairs their two half-edge occurrences, and the over-pair bit is
+true.
+
+| Row/source | Ordered PD crossing tuples |
+| --- | --- |
+| [3_1](https://katlas.org/wiki/3_1) | `(1,4,2,5) (3,6,4,1) (5,2,6,3)` |
+| [4_1](https://katlas.org/wiki/4_1) | `(4,2,5,1) (8,6,1,5) (6,3,7,4) (2,7,3,8)` |
+| [5_1](https://katlas.org/wiki/5_1) | `(1,6,2,7) (3,8,4,9) (5,10,6,1) (7,2,8,3) (9,4,10,5)` |
+| [5_2](https://katlas.org/wiki/5_2) | `(1,4,2,5) (3,8,4,9) (5,10,6,1) (9,6,10,7) (7,2,8,3)` |
+| [6_1](https://katlas.org/wiki/6_1) | `(1,4,2,5) (7,10,8,11) (3,9,4,8) (9,3,10,2) (5,12,6,1) (11,6,12,7)` |
+| [6_2](https://katlas.org/wiki/6_2) | `(1,4,2,5) (5,10,6,11) (3,9,4,8) (9,3,10,2) (7,12,8,1) (11,6,12,7)` |
+| [6_3](https://katlas.org/wiki/6_3) | `(4,2,5,1) (8,4,9,3) (12,9,1,10) (10,5,11,6) (6,11,7,12) (2,8,3,7)` |
+| [7_1](https://katlas.org/wiki/7_1) | `(1,8,2,9) (3,10,4,11) (5,12,6,13) (7,14,8,1) (9,2,10,3) (11,4,12,5) (13,6,14,7)` |
+| [7_2](https://katlas.org/wiki/7_2) | `(1,4,2,5) (3,10,4,11) (5,14,6,1) (7,12,8,13) (11,8,12,9) (13,6,14,7) (9,2,10,3)` |
+| [7_3](https://katlas.org/wiki/7_3) | `(6,2,7,1) (10,4,11,3) (14,8,1,7) (8,14,9,13) (12,6,13,5) (2,10,3,9) (4,12,5,11)` |
+| [7_4](https://katlas.org/wiki/7_4) | `(6,2,7,1) (12,6,13,5) (14,8,1,7) (8,14,9,13) (2,12,3,11) (10,4,11,3) (4,10,5,9)` |
+| [7_5](https://katlas.org/wiki/7_5) | `(1,4,2,5) (3,10,4,11) (5,12,6,13) (7,14,8,1) (13,6,14,7) (11,8,12,9) (9,2,10,3)` |
+| [7_6](https://katlas.org/wiki/7_6) | `(1,4,2,5) (3,8,4,9) (5,12,6,13) (9,1,10,14) (13,11,14,10) (11,6,12,7) (7,2,8,3)` |
+| [7_7](https://katlas.org/wiki/7_7) | `(1,4,2,5) (5,10,6,11) (3,9,4,8) (9,3,10,2) (11,14,12,1) (7,13,8,12) (13,7,14,6)` |
+
+Use these standard diagrams for the Seifert-surface exercise. Minimum braid words are
+different input presentations; their canonical band-surface genera need not equal the
+table genus. The5₂ minimum braid has six crossings on three strands, giving genus2,
+while its standard PD has five crossings and four Seifert circles, giving genus1. All
+fourteen standard PDs have connected planar realizations, and oriented smoothing gives
+the stated circle counts. Independent dart-permutation and signed Wirtinger/Fox
+calculations reproduce the circle counts and the full normalized Alexander/Conway data.
+Those finite calculations do not implement the embedded disc/band, H₁-basis, push-off or
+named-knot realization comparisons, which remain required roadmap targets. The
+all-prime-under8 completeness corollary uses the separate late small-knot classification
+after these early row results; fourteen is not a count of mirror-sensitive oriented
+types.

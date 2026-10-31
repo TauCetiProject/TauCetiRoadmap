@@ -3279,6 +3279,140 @@ inputs](source-inputs.md#skein-source-conventions).
 and Seifert-matrix interfaces.
 
 
+<a id="small-prime-seifert-surfaces"></a>
+### 4.4.6 All fourteen small-prime Seifert surfaces
+
+Solve Problem49 on physical p117 of *Knot Theory.pdf*: construct and identify the
+Seifert surfaces for every standard prime-knot row with fewer than eight crossings,
+compute the genus of each constructed surface, and prove which attain ordinary knot
+genus. Retain all fourteen conventional Rolfsen rows below and the specifically
+annotated 7₁,7₃,7₅,7₇ evaluations. Fourteen counts the usual rows with global mirrors
+identified; it is not a count of ambient-orientation-preserving oriented knot types. Fix
+one actual oriented model per row and transport the constructions to its global mirror
+and whole-knot reversal.
+
+Use the literal standard alternating PD tuples in [the input
+dictionary](source-inputs.md#small-prime-seifert-inputs), with their fixed row and slot
+order. These are the [Knot Atlas standard
+presentations](https://katlas.org/wiki/The_Rolfsen_Knot_Table), not its minimum braid
+representatives. The latter can give a different canonical Seifert surface: for 5₂ the
+six-crossing three-strand braid surface has genus 2, whereas the standard five-crossing
+PD surface here has genus 1. Define the following finite-model library against the
+actual realized-diagram and embedded-surface carriers.
+
+**Models and their complete input comparison.** Decode each fixed tuple list into native
+`PDCode`/`OrientedPDCode`, with the exact Atlas-to-native convention. Each tuple
+`X[a,b,c,d]` is in cyclic order with0/2 the under-strand, a→c its oriented continuation
+and c=a+1 modulo2n; infer the over-strand direction from the consecutive b,d labels.
+Supply the actual half-edge/arc pairing, cyclic crossing slots, directions and over-pair
+dictionary. Prove one component, no crossingless extras, planarity and a realized
+spherical diagram with the specified crossing charts. Compare each row with its existing
+named knot model by a marked code/isotopy map, recording any global mirror and
+orientation adapter. Equality of a polynomial or a knot label does not supply this
+comparison; use the fixed PD input rather than substituting a potentially inconsistent
+unsigned DT line.
+
+Give reducedness/alternation certificates and the complete diagram reindexing, mirror
+and reversal transport. Rowwise surface and genus proofs require no
+catalogue-completeness theorem and do not assume the chosen knot is prime. Actual
+primeness comparisons belong to the existing rational/prime-diagram suppliers; apply
+late 7.5's independent complete small-knot classification only afterward to deduce that
+these rows and their global mirrors/reversals exhaust the exercise's all-prime-under8
+scope. That late classification must not become a premise of the early row computations
+or genus bounds.
+
+**The actual oriented smoothing and embedded surface.** At every crossing construct the
+unique adjacent smoothing compatible with the two strand directions, compare it with the
+native Kauffman state choice, and certify its circle orbits rather than counting
+crossings as circles. Record each circle's arc/dart set, cyclic order and orientation,
+and the incidence of both ends of every original crossing band. Order circles by least
+original arc label and bands by the fixed tuple order. Construct the actual n signed
+half-twisted bands and s discs using 4.3.2's embedded Seifert producer. Nested circles
+require the prescribed separated heights/collars; overlapping coplanar fillings are not
+embedded discs. Prove every local band chart reconstructs the original oriented crossing
+and that the surface boundary is the specified knot.
+
+Prove the incidence graph connected, hence the raw surface connected, orientable and
+with one oriented boundary component. Compute χ=s−n and `2g(F)=n−s+1`. Give explicit
+spanning trees in the ordered multigraph; parallel bands and repeated disc incidences
+remain distinct. Use the lexicographically first spanning tree with the fixed crossing
+order, or an explicitly recorded tree with a proved change-of-tree adapter. Merge its
+s−1 bands by 4.3.2's relative embedded tree moves into one disc and exactly 2g remaining
+bands. Retain an ambient surface/boundary comparison, not just an intrinsic
+homeomorphism or an Euler-characteristic calculation.
+
+**Integral basis, push-offs and both polynomial routes.** Orient each non-tree graph
+cycle by its distinguished band followed by the returning tree path, using the band's0/2
+port order. Construct the corresponding embedded curves and prove they are an integral
+H₁ basis by the surface-to-spine retraction and tree reduction. Produce the actual
+matrix `V_ij=lk(γ_i,γ_j⁺)`, pushing in the second variable under 4.3's native normal
+convention. Compute all entries from marked positive push-offs, twists and signed
+crossing/linking sums. Record the finite matrix and its complete basis/geometry
+certificate for every row; a fitted matrix with the desired determinant is not a
+Seifert-matrix producer. Compare alternative trees/bases by explicit integral changes
+and their geometric transports.
+
+Prove matrix size 2g, the unimodular skew intersection pairing and the determinant
+comparison `det(tV−Vᵀ)` with the native Alexander invariant. Normalize by 4.4/4.4.1's
+fixed symmetric unknot normalization, then compare to 4.4.5's integral Conway polynomial
+through `z=s−s⁻¹`, `t=s²`. Also compute the actual diagram's signed Wirtinger/Fox
+cofactor using 4.4.2 and prove it agrees with this surface route, including the exact
+unit/sign normalization. Every row exports the realized diagram, surface, tree/basis,
+matrix, polynomial equality and sharp lower bound, rather than only scalar values.
+
+The required outputs are:
+
+| Row | n | s | g(F)=g(K) | ∇(z) |
+| --- | ---: | ---: | ---: | --- |
+| 3₁ | 3 | 2 | 1 | 1+z² |
+| 4₁ | 4 | 3 | 1 | 1−z² |
+| 5₁ | 5 | 2 | 2 | 1+3z²+z⁴ |
+| 5₂ | 5 | 4 | 1 | 1+2z² |
+| 6₁ | 6 | 5 | 1 | 1−2z² |
+| 6₂ | 6 | 3 | 2 | 1−z²−z⁴ |
+| 6₃ | 6 | 3 | 2 | 1+z²+z⁴ |
+| 7₁ | 7 | 2 | 3 | 1+6z²+5z⁴+z⁶ |
+| 7₂ | 7 | 6 | 1 | 1+3z² |
+| 7₃ | 7 | 4 | 2 | 1+5z²+2z⁴ |
+| 7₄ | 7 | 6 | 1 | 1+4z² |
+| 7₅ | 7 | 4 | 2 | 1+4z²+2z⁴ |
+| 7₆ | 7 | 4 | 2 | 1+z²−z⁴ |
+| 7₇ | 7 | 4 | 2 | 1−z²+z⁴ |
+
+**Minimum genus, not just the algorithm genus.** In each row ∇ has degree 2g with
+nonzero leading coefficient. Prove from the actual polynomial equality that normalized Δ
+in t has support endpoints−g,+g and breadth 2g. In the half-variable s the endpoints
+are−2g,+2g and breadth 4g; these are different statements. Apply the generic
+Seifert/Alexander bound to **every** connected orientable surface spanning the same knot
+to get `g≤g(S)`. Combine this with the constructed F to obtain the table's ordinary
+genus values and an attained-minimum witness. In particular 7₂ and 7₄ have genus 1, and
+7₁ has genus 3. The4.3.4 genus-additivity theorem can then transport these values to
+marked connected sums without a table lookup.
+
+Prove mirror and whole-knot reversal preserve the claimed genus/minimality and transport
+the actual surface, normal/basis convention and polynomial values by the existing matrix
+adapters. Do not independently forget mirror choices when recombining prime factors. All
+fourteen specified **standard** surfaces are minimal; this is not a theorem that every
+diagram's Seifert surface is minimal, nor that a surface homeomorphic to F has the same
+knotted boundary. Consuming a later general alternating-surface minimality theorem gives
+a comparison with these certificates, not an input to their proofs.
+
+Give total finite evaluators/certificates for input decoding, oriented smoothing, circle
+sets, incidence/tree data and matrix/determinant calculations. Prove their soundness and
+naturality on these actual native carriers. The connected-surface, H₁-basis and linking
+producers are genuine geometric targets, not fields assuming the desired genus or matrix
+identity. The [native fourteen-model interfaces](SmallPrimeSeifertTargets.lean) fix
+actual oriented PD inputs and representative circle/component/Euler computations; those
+calculations do not replace the geometric and polynomial contracts above.
+
+*Needs:* 4.2's realized PD and named-model comparison prefix; 4.3/4.3.2's linking,
+embedded Seifert surfaces and relative tree moves; 4.4/4.4.1/4.4.2/4.4.5's independent
+Seifert/Fox/Alexander/Conway comparison and universal genus lower bound. The new unit
+owns the complete fourteen-row input, surface, basis, matrix and sharpness certificates.
+The four annotated cases are named evaluations of the full theorem, not a reduced scope.
+Late 7.5 consumes these row results for the all-input classification corollary and
+contributes no prerequisite back to them.
+
 ### 4.5 The Kauffman bracket and the Jones polynomial
 
 The state sum `TauCeti.PDCode.kauffmanBracket` and the normalized
