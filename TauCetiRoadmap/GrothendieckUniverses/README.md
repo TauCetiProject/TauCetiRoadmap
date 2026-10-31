@@ -52,13 +52,13 @@ here; what one does inside a universe is elsewhere.
   and Tarski 1938 call inaccessible « in the narrower sense » the cardinals `α` such that unions of
   fewer than `α` sets of size `< α` have size `< α`, and `2^ξ < α` for `ξ < α`; these are `0`, `ℵ₀`
   and Mathlib's inaccessible cardinals (`1` and `2` fail, since `2^0 = 1` and `2^1 = 2`). Hence
-  the separate case `V_ω` in 2.2. Witness: `ℵ₀` is regular and a strong limit, and
+  the separate case `V_ω` in 1.2. Witness: `ℵ₀` is regular and a strong limit, and
   `¬ Cardinal.IsInaccessible ℵ₀` since `ℵ₀ < ℵ₀` fails.
 - **Universe axioms.** The structure `IsGrothendieckUniverse U` has the five fields of Williams
   1969, p. 1 (UA1–UA5): `U` is transitive, closed under `powerset`, closed under singletons,
   closed under unions `⋃ i, f i` of families `f : I → ZFSet` of elements of `U` indexed by an
   element `I ∈ U`, and nonempty. Gabriel 1962, Ch. 0, §1, p. 328, lists instead U1–U5, with
-  ordered pairs in place of nonemptiness; 1.2 proves the two lists equivalent for nonempty `U`.
+  ordered pairs in place of nonemptiness; 0.2 proves the two lists equivalent for nonempty `U`.
   Witness: `∅` satisfies UA1–UA4 vacuously and fails UA5.
 
 ## Exact supplier contracts
@@ -86,15 +86,15 @@ Nothing is consumed from another roadmap.
 
 ## How to read the build
 
-Layer 1 defines universes and derives their closure properties and the bound `card x < card U`
-for `x ∈ U`. Layer 2 proves that the inaccessible stages are universes and, conversely, Williams's
-theorem that every universe is such a stage, with the cardinality of a universe. Layer 3 deduces
-the order of universes, least universes and the universe axiom from Layer 2. The hardest target is
-2.2, and within it the inclusion `U ⊆ V_κ`, which uses regularity (foundation) in `ZFSet`.
+Layer 0 defines universes and derives their closure properties and the bound `card x < card U`
+for `x ∈ U`. Layer 1 proves that the inaccessible stages are universes and, conversely, Williams's
+theorem that every universe is such a stage, with the cardinality of a universe. Layer 2 deduces
+the order of universes, least universes and the universe axiom from Layer 1. The hardest target is
+1.2, and within it the inclusion `U ⊆ V_κ`, which uses regularity (foundation) in `ZFSet`.
 
-## Layer 1: universes
+## Layer 0: universes
 
-### 1.1 Grothendieck universes
+### 0.1 Grothendieck universes
 
 Define `IsGrothendieckUniverse U` with the fields of the Conventions (Williams 1969, p. 1, after
 Gabriel 1962, Ch. 0, §1, p. 328). *Needs:* Mathlib `ZFSet.IsTransitive`, `ZFSet.powerset`,
@@ -110,14 +110,14 @@ Gabriel 1962, Ch. 0, §1, p. 328). *Needs:* Mathlib `ZFSet.IsTransitive`, `ZFSet
   with `I = ω ∈ V_ (ω + ω)` and `f n = V_ (ω + n)`, the union `⋃ n, f n = V_ (ω + ω)` is not an
   element of itself. A definition without UA4 (a Zermelo universe) would accept it.
 
-### 1.2 Closure properties
+### 0.2 Closure properties
 
 For a universe `U`, prove: `∅ ∈ U`; a subset of an element of `U` is in `U`; `x, y ∈ U` iff the
 pair `{x, y} ∈ U` iff the ordered pair `ZFSet.pair x y ∈ U`, so UA1–UA5 imply Gabriel's U1–U5 and
 conversely for nonempty `U`; `x ∪ y`, `x ×ˢ y` (`ZFSet.prod`), the set of functions from `x` to
 `y`, and the product of a family indexed by an element of `U` are in `U` when their data are; and
 `ZFSet.card x < ZFSet.card U` for `x ∈ U` (Gabriel 1962, Ch. 0, §1, p. 328, the corollaries listed
-after the axioms). Prove that `ZFSet.omega ∈ U` iff `U` has an infinite element. *Needs:* 1.1,
+after the axioms). Prove that `ZFSet.omega ∈ U` iff `U` has an infinite element. *Needs:* 0.1,
 Mathlib `ZFSet.mem_powerset`, `ZFSet.pair`, `ZFSet.prod`, `ZFSet.card_mono`.
 
 **Checks.**
@@ -130,16 +130,16 @@ Mathlib `ZFSet.mem_powerset`, `ZFSet.pair`, `ZFSet.prod`, `ZFSet.card_mono`.
 
 ### Examples
 
-- `V_ ω` is a universe (2.1) and contains `V_ n` for every `n : ℕ`.
+- `V_ ω` is a universe (1.1) and contains `V_ n` for every `n : ℕ`.
 - `V_ (ω + ω)` satisfies every axiom except UA4.
 
 ### Dependencies
 
 Mathlib: `ZFSet`, `ZFSet.IsTransitive`, `ZFSet.powerset`, `ZFSet.iUnion`, `ZFSet.card`.
 
-## Layer 2: universes are the inaccessible stages
+## Layer 1: universes are the inaccessible stages
 
-### 2.1 The inaccessible stages are universes
+### 1.1 The inaccessible stages are universes
 
 Prove `isGrothendieckUniverse_vonNeumann`: `V_ κ.ord` is a universe for every inaccessible
 `κ : Cardinal.{u}`, and `isGrothendieckUniverse_vonNeumann_omega0`: `V_ ω` is a universe (Williams
@@ -147,7 +147,7 @@ Prove `isGrothendieckUniverse_vonNeumann`: `V_ κ.ord` is a universe for every i
 `< κ.ord` has power set of rank `< κ.ord` because `κ.ord` is a limit; and if `I ∈ V_ κ.ord` and each
 `f i ∈ V_ κ.ord`, then `card I < κ` and regularity of `κ` bounds `sup_i rank (f i) < κ.ord`. Prove
 `ZFSet.card (V_ κ.ord) = κ` (Mathlib `ZFSet.card_vonNeumann` and
-`Cardinal.IsInaccessible.preBeth_ord`). *Needs:* 1.1, Mathlib `ZFSet.vonNeumann`,
+`Cardinal.IsInaccessible.preBeth_ord`). *Needs:* 0.1, Mathlib `ZFSet.vonNeumann`,
 `ZFSet.mem_vonNeumann`, `ZFSet.isTransitive_vonNeumann`, `Cardinal.IsInaccessible.isRegular`,
 `Cardinal.IsInaccessible.isStrongLimit`.
 
@@ -162,14 +162,14 @@ Prove `isGrothendieckUniverse_vonNeumann`: `V_ κ.ord` is a universe for every i
 - Regularity is used: for `κ = ℶ_ω` (a singular strong limit), the family `n ↦ V_ (ℶ_ n).ord`
   indexed by `ω` has union `V_ κ.ord`, which is not an element of itself, so `V_ κ.ord` fails UA4.
 
-### 2.2 Williams's theorem
+### 1.2 Williams's theorem
 
 Prove `isGrothendieckUniverse_iff`: a set `U` is a universe iff `U = V_ ω` or `U = V_ κ.ord` for an
 inaccessible `κ` (Williams 1969, Theorem 1, p. 2, using Kruse 1965: for a universe `U` there is a
 narrow-sense inaccessible `α` with `x ∈ U ⇒ x ⊆ U ∧ card x < α`). Route: with `α = card U`, prove
 `V_ α.ord ⊆ U` by induction on ranks below `α.ord` (UA2, UA1, UA4), and `U ⊆ V_ α.ord` by
 regularity: a `∈`-minimal element of `U \ V_ α.ord` would be a subset of `V_ α.ord` of cardinality
-`< α`, hence of rank `< α.ord`. *Needs:* 1.2, 2.1, Mathlib `ZFSet.regularity`, `ZFSet.rank`,
+`< α`, hence of rank `< α.ord`. *Needs:* 0.2, 1.1, Mathlib `ZFSet.regularity`, `ZFSet.rank`,
 `ZFSet.rank_lt_of_mem`, `ZFSet.vonNeumann_subset_of_le`.
 
 **Checks.**
@@ -177,13 +177,13 @@ regularity: a `∈`-minimal element of `U \ V_ α.ord` would be a subset of `V_ 
 - The two cases are disjoint: `ZFSet.omega ∈ V_ κ.ord` and `ZFSet.omega ∉ V_ ω`.
 - No other countable universe: `V_ n` for `n : ℕ` fails UA2 at `V_ (n - 1)` when `n ≥ 1`, and
   `V_ 0 = ∅` fails UA5.
-- The equality, not only an inclusion, is needed for 3.1: `V_ ω ⊆ V_ κ.ord` and `V_ ω ≠ V_ κ.ord`.
+- The equality, not only an inclusion, is needed for 2.1: `V_ ω ⊆ V_ κ.ord` and `V_ ω ≠ V_ κ.ord`.
 
-### 2.3 The cardinal of a universe
+### 1.3 The cardinal of a universe
 
 Prove `IsGrothendieckUniverse.isInaccessible_card`: a universe `U` with `ZFSet.omega ∈ U` has
 inaccessible cardinality, and `IsGrothendieckUniverse.eq_vonNeumann_card`: `U = V_ (card U).ord`
-(Williams 1969, Theorem 2, p. 3, with Theorem 1). *Needs:* 2.1, 2.2.
+(Williams 1969, Theorem 2, p. 3, with Theorem 1). *Needs:* 1.1, 1.2.
 
 **Checks.**
 
@@ -200,15 +200,15 @@ inaccessible cardinality, and `IsGrothendieckUniverse.eq_vonNeumann_card`: `U = 
 
 ### Dependencies
 
-Layer 1; Mathlib `ZFSet.vonNeumann`, `ZFSet.rank`, `ZFSet.regularity`, `Cardinal.IsInaccessible`.
+Layer 0; Mathlib `ZFSet.vonNeumann`, `ZFSet.rank`, `ZFSet.regularity`, `Cardinal.IsInaccessible`.
 
-## Layer 3: the order of universes and the universe axiom
+## Layer 2: the order of universes and the universe axiom
 
-### 3.1 Universes are totally ordered
+### 2.1 Universes are totally ordered
 
 Prove `IsGrothendieckUniverse.mem_or_eq_or_mem`: for universes `U` and `V`, `U ∈ V`, `U = V` or
-`V ∈ U`; hence `U ⊆ V` or `V ⊆ U`, and the universes are well-ordered by `∈` (from 2.2: `V_ o ∈
-V_ o'` iff `o < o'`, since `ZFSet.rank (V_ o) = o`). *Needs:* 2.2, Mathlib `ZFSet.mem_vonNeumann`.
+`V ∈ U`; hence `U ⊆ V` or `V ⊆ U`, and the universes are well-ordered by `∈` (from 1.2: `V_ o ∈
+V_ o'` iff `o < o'`, since `ZFSet.rank (V_ o) = o`). *Needs:* 1.2, Mathlib `ZFSet.mem_vonNeumann`.
 
 **Checks.**
 
@@ -218,12 +218,12 @@ V_ o'` iff `o < o'`, since `ZFSet.rank (V_ o) = o`). *Needs:* 2.2, Mathlib `ZFSe
 - For `U = V`, the theorem gives no information beyond `U = V`: a universe is never an element of
   itself, by regularity.
 
-### 3.2 Least universes
+### 2.2 Least universes
 
 Prove `exists_least_isGrothendieckUniverse`: if some universe contains `x`, a least one does, and
 it is `V_ ω` when `x` is hereditarily finite and `V_ κ.ord` for the least inaccessible `κ` with
 `ZFSet.rank x < κ.ord` otherwise (Gabriel 1962, Ch. 0, §1, p. 328). Prove that the intersection of
-a nonempty set of universes is a universe, the least one among them. *Needs:* 3.1, 2.2.
+a nonempty set of universes is a universe, the least one among them. *Needs:* 2.1, 1.2.
 
 **Checks.**
 
@@ -233,18 +233,18 @@ a nonempty set of universes is a universe, the least one among them. *Needs:* 3.
 - The hypothesis cannot be dropped: if `Cardinal.{u}` has no inaccessible cardinal, no universe
   contains `ZFSet.omega`.
 
-### 3.3 The universe axiom
+### 2.3 The universe axiom
 
 Prove `forall_exists_isGrothendieckUniverse_iff`: every `x : ZFSet.{u}` lies in a universe iff every
 `c : Cardinal.{u}` lies below an inaccessible `κ : Cardinal.{u}` (Williams 1969, p. 3, the
 equivalence of (A) and (B)). The left side is the axiom of universes of SGA 4, Exposé I,
 Appendice; neither side is a theorem of Mathlib's foundations for a fixed `u`, and this roadmap
-states only the equivalence. *Needs:* 2.2, 2.3, 1.2, Mathlib `Cardinal.le_preBeth_ord`.
+states only the equivalence. *Needs:* 1.2, 1.3, 0.2, Mathlib `Cardinal.le_preBeth_ord`.
 
 **Checks.**
 
 - Direction « ⇒ » applied to `x = V_ (c.ord + ω)` gives a universe containing an infinite set of
-  cardinality `≥ c`, whose cardinal is inaccessible (2.3) and `> c` (1.2).
+  cardinality `≥ c`, whose cardinal is inaccessible (1.3) and `> c` (0.2).
 - Direction « ⇐ » applied to `x` uses `c = card (V_ (ZFSet.rank x + 1))`: an inaccessible `κ > c`
   has `ZFSet.rank x < κ.ord`, so `x ∈ V_ κ.ord`.
 - Replacing Mathlib's inaccessibles by regular cardinals on the right would make the right side
@@ -257,7 +257,7 @@ states only the equivalence. *Needs:* 2.2, 2.3, 1.2, Mathlib `Cardinal.le_preBet
 
 ### Dependencies
 
-Layer 2; Mathlib `Cardinal.IsInaccessible`, `Cardinal.ord`, `Cardinal.preBeth`.
+Layer 1; Mathlib `Cardinal.IsInaccessible`, `Cardinal.ord`, `Cardinal.preBeth`.
 
 ## Downstream consumers
 
@@ -267,7 +267,7 @@ No roadmap on main or in an open pull request cites this one.
 
 Lean's type universes give universes of `ZFSet` one level up. Mathlib proves that
 `Cardinal.univ.{u, u+1}`, the cardinal of `Cardinal.{u}` seen in `Cardinal.{u+1}`, is inaccessible
-(`Cardinal.IsInaccessible.univ`), so by 2.1 the stage `V_ (Cardinal.univ.{u, u+1}).ord` of
+(`Cardinal.IsInaccessible.univ`), so by 1.1 the stage `V_ (Cardinal.univ.{u, u+1}).ord` of
 `ZFSet.{u+1}` is a universe; it is the copy of `ZFSet.{u}` inside `ZFSet.{u+1}`. A universe
 containing `ω` is a model of ZFC, and the universes containing `ω` are the super-complete models of
 Shepherdson (Kruse 1965); that statement needs a semantics of set theory over `ZFSet` and is
