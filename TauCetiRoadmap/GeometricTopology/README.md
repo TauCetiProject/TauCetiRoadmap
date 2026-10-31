@@ -1875,6 +1875,58 @@ the exact two-completion claim is limited to those displayed inputs. Keep any un
 source crossing/face marks as unresolved picture-identification data, even
 when the separately specified word has been completely decoded.
 
+<a id="problem43-diagram-counts"></a>
+**Problem43: counting diagrams by completed Dowker data.** For every n≥1, give finite
+carriers of based oriented n-crossing knot diagrams on the oriented sphere and plane.
+The directed base arc agrees with the knot orientation, up to reparametrization;
+crossing labels are the canonical odd-encounter labels. Equivalence is
+orientation-preserving homeomorphism of the projection surface preserving the directed
+base and over/under data. Include loops, bridges and nugatory crossings; these are
+diagrams, without a Reidemeister, flype or knot-type quotient. Use the realized-diagram
+and completed-word decoder above, including its equivalence and marking comparisons.
+
+An odd-even encounter matching is a permutation π of n even partners. At each crossing
+write a for its odd visit and b for its even visit. Let ρ_i=true mean counterclockwise
+order (a_in,b_in,a_out,b_out), and ρ_i=false mean (a_in,b_out,a_out,b_in). Let η_i=true
+mean a is over. Prove the native sign is+1 exactly when ρ_i=η_i, and−1 otherwise. This
+pins the adapter between rotation bits, over bits and native oriented crossing signs.
+Construct extraction and inverse reconstruction on the actual native Gauss/PD data:
+there are n!·2^n raw rotation-completed shadow codes and n!·4^n general diagram codes,
+before imposing planarity. These are counts of raw codes, not of realized shadows.
+Alternation forces successive over/under statuses, including the cyclic last/first pair,
+leaving exactly two over patterns. Opposite encounter parity ensures each pair then has
+one over and one under visit. The alternating raw-code count is n!·2^(n+1).
+
+Filter for planar realizations and prove injectivity of extraction on the based oriented
+spherical equivalence classes, using the native rotation system's geometric uniqueness
+comparison. Give the finite carrier, extraction/reconstruction and cardinal maps, rather
+than inferring uniqueness from an unsigned or signed word alone. Export
+
+| Based oriented diagram classes, n≥1 | Alternating upper bound | General upper bound |
+| --- | --- | --- |
+| On the sphere | n!·2^(n+1) | n!·4^n |
+| In the plane | (n+2)n!·2^(n+1) | (n+2)n!·4^n |
+
+The connected four-valent spherical shadow has exactly n+2 complementary open discs by
+Euler characteristic. Prove the plane classes over a spherical class are its face orbits
+under the relevant diagram automorphisms, hence at most n+2. Preserve the chosen outer
+face through reconstruction. Forgetting the directed base or knot orientation, or
+identifying ambient reflections, gives finite surjections and preserves these upper
+bounds; do not divide by a presumed free orbit size. At n=0 the actual oriented sphere
+circle gives one class and two complementary discs, although native PD faces are empty.
+Its two outer-face choices give two oriented plane-circle classes, distinguished by the
+induced circle direction; forgetting knot orientation identifies them. Keep this
+geometric crossing-free branch separate from the raw empty code.
+
+These are the two outputs of [Problem43](source-inputs.md#problem43-diagram-bounds) on
+physical p7 of *Knot Theory - problems.pdf*. Its wording prints no numerical bound. Keep
+the separate signed-Dowker n!2^n proposal and its exact fibre/convention question in the
+knot-counting stage; the conservative bounds above do not decide that sharper claim.
+They require only the independent parity, completed code and sphere/plane realization
+producers here, with no finite census or crossing minimality premise.
+[DowkerCountTargets.lean](DowkerCountTargets.lean) records the canonical native-code and
+alternating coordinate cardinalities.
+
 <a id="gt4-dowker-source-completions"></a>
 **The four source Dowker words and the seven-crossing exercise.** Pin the
 one-based source convention: crossing i pairs visits `o_i=2i−1` and

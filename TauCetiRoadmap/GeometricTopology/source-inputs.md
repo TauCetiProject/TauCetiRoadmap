@@ -1062,3 +1062,17 @@ Keep unresolved incidences explicit rather than choose them to fit polynomial1.
 Neither the Kinoshita–Terasaka/Conway names nor the other eleven-crossing
 marked-change exercise identifies this input without a geometric comparison.
 The source's eleven-crossing wording does not assert crossing minimality.
+
+<a id="problem43-diagram-bounds"></a>
+## Problem43: alternating and general diagram bounds
+
+*Knot Theory - problems.pdf*, physical p7, source identity
+`06c19def0f01d6e74a1ee99bd448bd3731e101377deddb5aa573943898afb3b1`, asks for
+an upper bound using Dowker notation on alternating knot diagrams with n crossings,
+then on knot diagrams. It prints no numerical constant, no restriction to prime or
+reduced diagrams, and no choice of root, orientation, plane or sphere equivalence.
+The roadmap makes these conventions explicit and counts rotation-completed codes
+before planarity filtering, with the actual outer-face fibre for plane diagrams.
+It retains loops, bridges and nugatory crossings. Its n!·2^(n+1) and n!·4^n spherical
+bounds do not resolve the separate main-note n!2^n assertion under its own conventions.
+Unclear handwritten work below47 is not a readable formula for43.
