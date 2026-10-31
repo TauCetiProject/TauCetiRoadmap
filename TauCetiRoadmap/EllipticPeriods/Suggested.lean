@@ -236,6 +236,14 @@ theorem chudnovsky {L : PeriodPair} (h₂ : IsAlgebraic ℚ L.g₂) (h₃ : IsAl
     {l : ℂ} (hl : l ∈ L.lattice) (hl0 : l ≠ 0) :
     AlgebraicIndependent ℚ ![l / (π : ℂ), quasiPeriod L l / (π : ℂ)] := sorry
 
+/-- Chudnovsky's theorem without algebraic invariants: two of `g₂, g₃, l/π, η(l)/π` are
+algebraically independent (ICM 1978 report, §2.A, display (4)). Same proof as `chudnovsky`,
+which is its case of algebraic `g₂, g₃`. -/
+theorem two_le_trdeg_adjoin_invariants (L : PeriodPair) {l : ℂ} (hl : l ∈ L.lattice)
+    (hl0 : l ≠ 0) :
+    2 ≤ Algebra.trdeg ℚ (IntermediateField.adjoin ℚ
+      ({L.g₂, L.g₃, l / (π : ℂ), quasiPeriod L l / (π : ℂ)} : Set ℂ)) := sorry
+
 theorem two_le_trdeg_periodField {L : PeriodPair} (h₂ : IsAlgebraic ℚ L.g₂)
     (h₃ : IsAlgebraic ℚ L.g₃) : 2 ≤ Algebra.trdeg ℚ (periodField L) := sorry
 

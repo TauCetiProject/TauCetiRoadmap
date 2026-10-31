@@ -333,14 +333,28 @@ The order is the dependency order. Every item below is a target.
   complete it to a positive basis `(l, ω)`, `τ = ω/l`; by the scaled Eisenstein dictionary,
   `E₄(τ) = (3g₂/4)(l/π)⁴`, `E₆(τ) = (27g₃/8)(l/π)⁶`, `E₂(τ) = 3(l/π)(η(l)/π)`, so
   `ℚ(E₂, E₄, E₆) ⊆ ℚ̄(l/π, η(l)/π)`; Nesterenko gives `trdeg ℚ(q, E₂, E₄, E₆) ≥ 3`, hence
-  `trdeg ℚ(E₂, E₄, E₆) ≥ 2`.
+  `trdeg ℚ(E₂, E₄, E₆) ≥ 2`. This is Chudnovsky's ICM 1978 report, §2.A, Theorem 3 (`π/ω` and
+  `η/ω` algebraically independent for any period `ω` and its quasi-period `η`), under the
+  report's standing hypothesis (§0) that `g₂, g₃` are algebraic.
+- **Without algebraic invariants** (`two_le_trdeg_adjoin_invariants`). For every `L` and
+  `l ∈ Λ ∖ {0}`, `2 ≤ trdeg ℚ(g₂, g₃, l/π, η(l)/π)`; `chudnovsky` is the case of algebraic
+  `g₂, g₃`. Same proof: the three displayed identities put `E₂, E₄, E₆` in
+  `ℚ(g₂, g₃, l/π, η(l)/π)` with no hypothesis on `g₂, g₃`. (Chudnovsky, ICM 1978, §2.A, display
+  (4), stated as the case of Theorem 3 without algebraic invariants; Waldschmidt, arXiv
+  math/0502582, §3, the statement following Theorem 3.1.) For `L = ofUpperHalfPlane I` and
+  `l = 1`, where `g₃ = 0` and `η(1)/π = 1` (Layers 1 and 2 checks), it says that `g₂(ℤ[i])` and `π`
+  are algebraically independent.
 - **Lower bound** (`two_le_trdeg_periodField`): `2 ≤ trdeg` for every `L` with algebraic
   invariants (`ω₁/π, η(ω₁)/π` lie in `periodField L(i)`, and adjoining `i` does not change the
-  transcendence degree).
+  transcendence degree). This is Chudnovsky's first result, ICM 1978, §2.A, Theorem 1:
+  `#{ω₁, ω₂, η₁, η₂} ≥ 2`, where `#S` is the maximal number of algebraically independent
+  elements of `S` (§0).
 - **The CM case** (`trdeg_periodField_eq_two_of_hasCM`): `trdeg = 2`. With
   `ringKrullDim_periodIdeal`: the Zariski closure of the period matrix has dimension `2`, the
   dimension of the CM torus (the CM case attributed to Chudnovsky by Bost–Charles, §2.2.2).
-- **Corollaries.** With CM and algebraic invariants, `ω₁` and `π` are algebraically independent;
+- **Corollaries.** With CM and algebraic invariants, `ω₁` and `π` are algebraically independent
+  (Chudnovsky, ICM 1978, §2.A, Corollary 2, stated for CM curves only; with the Chowla–Selberg
+  formula it gives `Γ(1/4)` and `Γ(1/3)` each algebraically independent of `π`, *ibid.*, (9));
   for `c • ofUpperHalfPlane I` or `c • ofUpperHalfPlane ρ` (`ρ = e^{2πi/3}`) with algebraic
   invariants, `c` and `π` are algebraically independent.
 - *Checks.* A CM example: `L₀ = ofUpperHalfPlane I` has `g₃ = 0` (from `iΛ = Λ` and
@@ -362,10 +376,25 @@ quasi-period relation. Layer 5 needs Layers 2–4 and DiophantineApproximationAn
 ## Research context
 
 Not targets. The elliptic case of Grothendieck's period conjecture (transcendence degree `4`
-without complex multiplication) is open; Bost–Charles (2016, §2) relate the torsor form of the
-conjecture to the statements `GPCᵏ` in each codimension, and prove `GPC¹` for abelian varieties
-and products of curves (§3). The established CM case, `trdeg = 2` (Layer 5), is used downstream,
-for instance by Kawabe (arXiv:2303.05030, §2.3) for CM Kummer surfaces.
+without complex multiplication) is open. Bost–Charles (arXiv:1307.1045v2) state the conjecture
+as Conjecture 2.12 (§2.2.2): the Zariski closure `Z_X` of the comparison isomorphism equals the
+motivic torsor of periods `Ω_X^mot`, equivalently every polynomial relation among the periods
+`(2πi)^{−j}∫_γ α` of the powers `Xⁿ` comes from algebraic cycles; they note that the case of an
+elliptic curve with complex multiplication is known, by Chudnovsky (the remark after
+Conjecture 2.12), and they do not treat the case without CM. Propositions 2.13 and 2.14 relate
+the torsor form to the statements `GPCᵏ(Xⁿ)` in each codimension, which concern single classes
+rather than algebraic independence (the discussion after Proposition 2.14). What they prove is
+in codimension `1`: `GPC¹` holds trivially for curves (§1.1.3); for abelian varieties `A, B` over
+`ℚ̄`, `Hom(A, B)` is isomorphic to the morphisms of the de Rham–Betti realisations of `H₁`
+(Theorem 3.8, 1)), hence `GPC¹(A)` (Corollary 3.9); `GPC¹(X × Y)` iff `GPC¹(X)` and `GPC¹(Y)`
+(Corollary 3.10), so `GPC¹` holds for products of curves, among them `E × E`. The transcendence
+input is Theorem 3.1, a Schneider–Lang description of morphisms of commutative algebraic groups
+over `ℚ̄` through their Lie algebras and period groups, and its Corollary 3.4,
+`Lie G ∩ Per G_ℂ = {0}`, which for `G = E` says that no nonzero period of `dx/y` is algebraic
+(Schneider's theorem below). None of these gives an algebraic-independence statement for
+elliptic periods, and nothing in Layers 0–5 depends on them. The established CM case, `trdeg = 2`
+(Layer 5), is used downstream, for instance by Kawabe (arXiv:2303.05030, §2.3) for CM Kummer
+surfaces.
 
 The classical transcendence results below Layer 5 are not owned here. Schneider's theorem (1937),
 that a nonzero period of a lattice with algebraic `g₂, g₃` is transcendental, follows from the
@@ -379,9 +408,11 @@ de Schneider », for curves without complex multiplication).
 ## References
 
 - J.-B. Bost and F. Charles, « Some remarks concerning the Grothendieck period conjecture »,
-  *J. reine angew. Math.* 714 (2016), 175–208; arXiv:1307.1045. §2.2.2, Conjecture 2.12
-  (numbering of arXiv v2), and the remark following it attributing the CM elliptic case to
-  Chudnovsky. (zbMATH 1337.14009.)
+  *J. reine angew. Math.* 714 (2016), 175–208; arXiv:1307.1045. Numbering of arXiv v2: §2.2.2,
+  Conjecture 2.12 (citing Grothendieck 1966, note (10), p. 102), and the remark following it
+  attributing the CM elliptic case to Chudnovsky [Chu80], the ICM 1978 report below;
+  Propositions 2.13–2.14; Theorem 3.1, Corollary 3.4, Theorem 3.8, Corollaries 3.9–3.10.
+  (zbMATH 1337.14009.)
 - Y. André, *Une introduction aux motifs (motifs purs, motifs mixtes, périodes)*, Panoramas et
   Synthèses 17, SMF, 2004, ch. 23 (the torsor of periods and Grothendieck's conjecture).
   (zbMATH 1060.14001.)
@@ -392,14 +423,22 @@ de Schneider », for curves without complex multiplication).
   (two of `g₂, g₃, ω/π, η/π` are algebraically independent). (zbMATH 0337.10024.)
 - G. V. Chudnovsky, « Algebraic independence of values of exponential and elliptic
   functions », *Proc. ICM Helsinki 1978*, vol. 1, 339–350 (1980) — the reference Bost–Charles
-  give for the CM case. (zbMATH 0431.10019.)
+  give for the CM case. §0: `g₂, g₃` algebraic throughout; §2.A (pp. 343–344), Theorem 1
+  (`#{ω₁, ω₂, η₁, η₂} ≥ 2`), Corollary 2 (with CM, `ω` and `π` algebraically independent),
+  Theorem 3 (`π/ω`, `η/ω` algebraically independent), display (4) (arbitrary invariants:
+  `#{g₂, g₃, π/ω, η/ω} ≥ 2`); a survey without proofs, which are in the 1976 note above and in
+  its reference [7], *Bull. SMF* (then to appear). (zbMATH 0431.10019.)
 - G. V. Chudnovsky, *Contributions to the theory of transcendental numbers*, Math. Surveys and
-  Monographs 19, AMS, 1984. (zbMATH 0594.10024.)
+  Monographs 19, AMS, 1984 (full proofs; not consulted for the locators above).
+  (zbMATH 0594.10024.)
 - Yu. V. Nesterenko, « Modular functions and transcendence questions », *Sb. Math.* 187 (1996),
   1319–1348, Theorem 1 and Corollary 3. (zbMATH 0898.11031.)
 - M. Waldschmidt, « Transcendence of periods: the state of the art », *Pure Appl. Math. Q.* 2
   (2006), 435–463, §3 (Chudnovsky's theorem in the form used in Layer 5; Nesterenko's theorem).
-  (zbMATH 1220.11090.)
+  (zbMATH 1220.11090.) French original, « Transcendance de périodes : état des connaissances »,
+  arXiv:math/0502582, §3: Theorem 3.1 (`Γ(1/4)` and `π`, `Γ(1/3)` and `π`, algebraically
+  independent), deduced from the statement following it (two of `g₂, g₃, ω/π, η/π`
+  algebraically independent, for any invariants), and Theorem 3.4 (Nesterenko).
 - J. H. Silverman, *The Arithmetic of Elliptic Curves*, GTM 106, ch. VI; *Advanced Topics in the
   Arithmetic of Elliptic Curves*, GTM 151, 1994, ch. I. (zbMATH 0911.14015 for GTM 151.)
 - NIST DLMF, §§23.2, 23.8, 23.9 (Weierstrass `ζ`, quasi-periods, Legendre's relation, series
