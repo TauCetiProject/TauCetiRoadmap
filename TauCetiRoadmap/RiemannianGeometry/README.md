@@ -566,6 +566,49 @@ The CP1-to-unit-S2 map descends
 h(z)=(2 Re(conj(z0)*z1),2 Im(conj(z0)*z1),|z0|²−|z1|²).
 Compute its squared norm as (|z0|²+|z1|²)²=1 and its exact Circle fibres. The two affine chart/stereographic inverse formulas prove bijectivity, continuity and smoothness of both directions. Alternatively compact-to-Hausdorff gives the homeomorphism before the chart smooth comparison. Pin [1:0] to the north pole; the displayed chart has positive complex orientation at that pole. A different conjugation convention reverses its orientation and must be compared explicitly. This is a pointed homeomorphism/diffeomorphism needed by homotopy; no unproved equality of FS and round metric normalizations is imported.
 
+**Stereographic Hopf circles and the quotient disk.** Compare this same
+bundle with its orbit picture in real three-space. Set P=(0,i) in S³⊂ℂ²
+and use the stereographic chart
+`σ(z₀,z₁)=(Re z₀,Im z₀,Re z₁)/(1−Im z₁)` from P. Construct its smooth
+inverse and its extension identifying S³ with the one-point compactification
+of ℝ³. For 0<r<1, the sets |z₁|=r are product tori: use
+`(z₀,z₁)=(√(1−r²)e^(iα),r e^(iβ))` to prove the diagonal Circle orbits
+have slope(1,1). Prove their stereographic images are embedded circles.
+Handle |z₁|=0 and |z₁|=1 as the two exceptional coordinate-circle fibres:
+the former is the unit circle in the xy-plane, and the latter is the
+z-axis together with the compactification point P. These circles and tori
+exhaust S³ and give the stated picture in ℝ³, retaining the axis as a line
+there rather than asserting it is a Euclidean circle.
+
+For the closed complex unit disk, the inverse image of its inclusion in
+the xy-plane is
+`j(u)=(2u/(1+|u|²),i(|u|²−1)/(1+|u|²))`.
+Prove j has values in S³, σ(j(u))=(Re u,Im u,0), and every orbit with
+z₁≠0 meets j(int D²) exactly once. Its boundary is precisely the entire
+z₁=0 fibre. Construct the continuous bijection
+`D²/∂D²→CP¹`, induced by u↦ℂ·j(u), and prove it is a homeomorphism
+using compactness and the Hausdorff projective model. Compare this map
+with the preceding CP¹≃S² charts. This identifies the actual orbit quotient,
+including the collapsed boundary, rather than another abstract sphere.
+
+The disk centre corresponds to [0:1], which the preceding h sends south.
+Use the specified orientation-preserving rotation
+`R(x,y,z)=(x,−y,−z)` and H=R∘h for the picture with centre called north.
+Prove H is a smooth submersion and its north fibre is L={z₀=0}. At
+(0,z₁)∈L its normal vectors `(z₁/2,0)` and `(i z₁/2,0)` map under dH
+to the standard ordered tangent basis at north; prove they give the
+normal-bundle trivialization supplied by the differential. Compare this
+framed fibre with [HomotopySpheres5.0][hs5]
+and its Hopf-generator calibration. The picture's infinity P lies in L,
+so use the distinct source marked point b=(1,0) and target marked point
+H(b)=south for finite based PT, with regular value north. Construct the
+explicit sphere/basepoint transports to that supplier's native models;
+P remains the stereographic infinity. The general Hopf bundle stays with
+the preceding suppliers. `HopfPictureTargets.lean` records representative
+statements on the native Euclidean sphere, Circle action and real derivative.
+
+[hs5]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/6fc313218878a908ebb6185c9a12ead4037aebc8/TauCetiRoadmap/HomotopySpheres/README.md#50-finite-ambient-spheres-and-honest-normal-rank
+
 Apply the ACTUAL early Hopf homotopy LES. For Omega S3 the independent n>=3 Riemannian lacunary CW argument gives a cell in each nonnegative even dimension and none in odd dimensions, so its integral homology is Z in even degrees and0 in odd degrees, and pi1(Omega S3)=0. Its CW model also has exactly one0-cell, hence is connected; the actual native zero-loop comparison then identifies pi1(S3) as trivial, without using the n2 result. Do not use the n=2 calculation here. The Hopf LES supplies the connecting homomorphism pi2(S2)→pi1(S1), computed by disc lifting; combine it with the native loop shift pi1(Omega S2)≃pi2(S2). No globally chosen continuous path-lifting function Omega S2→S1 is assumed. The adjoint of the normalized raw suspension homeomorphism Sigma S1→S2 gives a based continuous map s:S1→Omega S2. Compute the connecting homomorphism on its adjoint sphere by the explicit Hopf clutching function: its winding is±1 (pin the sign from the preceding charts), so the induced map on the pi1 groups is an isomorphism. This computation is the missing degree/winding step; it is not implied by numerical cell counts.
 
 Multiply s with the loop of the Hopf projection to define S1×Omega S3→Omega S2. The Hopf LES and the native higher asphericity of S1 give isomorphisms in every higher homotopy group, while the winding calculation gives pi1 and connectedness gives pi0. The map is a weak equivalence on the actual CW-type/compact-generation models, so the independent DGF weak-equivalence homology comparison applies. Integral Kunneth has no Tor here because H*(S1;Z) and the already computed H*(Omega S3;Z) are free. It yields H_j(Omega S2;Z)=Z for every j>=0, not a general assertion that all fibration homologies split. Native circle winding/fundamental-group and the actual raw-suspension and product/Tor floors precede this step. Preserve n=1's separate integer winding components and n>=3's original lacunary proof, and retain all antipodal Bott, geometric suspension, and later James/EHP programmes independently.
