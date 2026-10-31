@@ -42,8 +42,9 @@ dependency order, have these shapes:
   -- Layer 3, the Smale conjecture, once Diff carries the C^∞ topology:
   -- theorem smale_conjecture : Diff (sphere 3) ≃ₜ* orthogonalGroup 4 ...   -- [Kir97, 4.34]
   --
-  -- Layer 4, topological sliceness stated cleanly (knot theory owned here):
-  -- theorem freedman_alexanderOne_slice (K : Knot) (h : alexander K = 1) :
+  -- Layer 4, topological sliceness on a single smooth circle presentation:
+  -- theorem freedman_alexanderOne_slice (K : SmoothCircleEmbedding I (sphere 3))
+  --     (h : alexanderOfDiagram (diagramOf K) = 1) :
   --     IsTopologicallySlice K                                             -- [Kir97, 1.36]
   --
   -- Layer 5, Dehn surgery recovering known manifolds (the convention check):
