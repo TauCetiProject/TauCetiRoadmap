@@ -323,6 +323,112 @@ and C3.5 owns the separate universal Spin obstruction.
   exactness at π1/π0. Do not identify the fibre inclusion with an NDR pair. Prove
    Dold's theorem that a numerable bundle with contractible fibre is a homotopy
    equivalence, including the local contraction/partition construction.
+   **C1.1d. Trivializations and disconnected clutching.** For a continuous
+   right principal G-bundle P→X, define a global trivialization as an
+   equivariant bundle isomorphism P≃X×G covering id_X, with continuous
+   inverse. Construct its equivalence with global sections, using the
+   bundle division map, and prove the inverse formulas and pullback laws.
+   If a reference trivialization τ₀ is supplied, all trivializations are
+   uniquely of the form τ_a(p)=(x,a(x)g) when τ₀(p)=(x,g), for a continuous
+   map a:X→G. Prove this is a torsor for the pointwise group C(X,G), with
+   composition, inverse and change-of-reference formulas. A homotopy of
+   trivializations must remain an equivariant bundle isomorphism at every
+   parameter, with the inverses jointly continuous. Prove its correspondence
+   with a homotopy X×I→G. Thus homotopy classes of trivializations form a
+   torsor for [X,G]; actual trivializations are not themselves [X,G].
+   Neither bijection has a chosen origin without τ₀. For X=pt and G=Circle,
+   the actual trivializations are parametrized by Circle, whereas their
+   homotopy classes form a singleton. For prescribed trivializations on a
+   closed CW subcomplex A⊆X, first identify extension with the actual map
+   extension problem: relative to any global reference, the prescribed
+   transition a_A:A→G must extend to a:X→G. This set can be empty; the
+   identity boundary gauge S¹→Circle does not extend over D². If a reference
+   τ₀ extending the prescribed trivialization is given, the extending
+   trivializations form the torsor for maps a|A=1, and their relative
+   homotopies correspond to homotopies fixed on A. Prove these statements
+   with their restriction, bundle-isomorphism and structure-group maps.
+
+   For G in C1.1b's Lie-group scope, construct principal bundles on S^(n+1)
+   directly by clutching two trivial bundles on the closed hemispheres.
+   Pin s_S=s_N c on the equator S^n, so the gluing is
+   `(z,g)_S∼(z,c(z)g)_N`. Changing the hemisphere sections to s_N a and
+   s_S b changes c to a⁻¹cb, where a,b extend over their respective disks.
+   Prove gluing gives a numerable bundle, every such bundle is obtained this
+   way, and two clutching functions give isomorphic bundles exactly through
+   these changes and homotopy. Retain actual isomorphisms, pullbacks by
+   sphere maps, structure-group homomorphisms and the universal-classifier
+   comparison; use the relative homotopy lifting from C1.1b to normalize
+   hemisphere sections at a chosen equatorial point.
+
+   A marked bundle here includes a chosen point in its fibre over that base
+   point, and its isomorphisms preserve that point. For n≥1, prove the
+   natural bijections
+   `marked principal G-bundles on S^(n+1) ≃ [S^(n+1),B_join(G)]_* ≃ π_n(G,1)`.
+   Use the actual boundary map of EG→BG, including the identification
+   π₁(BG)≃π₀(G), to compare forgetting the marking with the orbit quotient
+   `principal G-bundles on S^(n+1) ≃ π_n(G,1)/π₀(G)`.
+   The right action is represented by `[α]·[g]=[z↦g⁻¹α(z)g]`; prove it
+   depends only on the component of g and agrees with basepoint transport
+   on BG. In particular it is trivial for connected G. The ordinary free
+   class set [S^n,G] is not substituted for this orbit quotient when G is
+   disconnected. At n=0, treat S¹ separately: marked classes are π₀(G),
+   and unmarked classes are conjugacy classes in π₀(G). Do not assign an
+   abelian group structure to this general conjugacy-class set.
+
+   Also compute the free homotopy classes asked for by the sphere exercise.
+   For n≥1, evaluation at q∈S^n and constant maps give the split exact
+   sequence of pointwise-multiplication groups
+   `1→π_n(G,1)→[S^n,G]→π₀(G)→1`.
+   Prove the canonical semidirect-product description using
+   `α(z)=f(z)f(q)⁻¹`, with left action `[g]·[α]=[gαg⁻¹]`.
+   This is inverse to the right conjugation action used for the orbit set
+   above. For n=0, prove `[S⁰,G]≃π₀(G)×π₀(G)`. Thus neither free map
+   classes nor the bundle orbit set is silently identified with the based
+   homotopy group. Orbit sets here are not asserted to be quotient groups.
+
+   Apply these comparisons to GL_k(ℝ), using C1.0's metric frames and the
+   Gram–Schmidt deformation retraction to O(k), on the same T1 bundles.
+   Use only HomotopySpheres4A's independent finite SO/quaternion/sphere-LES
+   prefix and TopK T1.5's finite frame-bundle computations. Prove π₂(SO(k))=0
+   from those sphere sequences, including every low-rank exception. Compute
+   the following free homotopy-class groups for every k≥1; rank0 is trivial:
+
+   | Domain | k=1 | k=2 | k≥3 |
+   | --- | --- | --- | --- |
+   | S⁰ | (ℤ/2)×(ℤ/2) | (ℤ/2)×(ℤ/2) | (ℤ/2)×(ℤ/2) |
+   | S¹ | ℤ/2 | ℤ⋊_(−1)(ℤ/2) | (ℤ/2)×(ℤ/2) |
+   | S² | ℤ/2 | ℤ/2 | ℤ/2 |
+
+   For bundles over S², oriented rank2 classes are indexed by the integer
+   winding of `R(θ)=[[cos θ,−sin θ],[sin θ,cos θ]]`. Prove
+   `J R(θ) J⁻¹=R(−θ)` for `J=diag(−1,1)`, so forgetting orientation
+   identifies winding m and −m. Thus unoriented rank2 classes are
+   ℤ/(m∼−m), equivalently ℕ by absolute winding. For k≥3 there are two
+   rank-k classes over S²; k=0,1 each has one. Over S¹, every positive rank
+   has exactly the trivial bundle and Möbius⊕ℝ^(k−1); rank0 has one.
+   Give the actual representatives, classifying maps and stabilization,
+   including winding mod2 at rank2→3. This classification prefix uses
+   no Euler/Stiefel–Whitney theory, stable BSO comparison or Bott periodicity.
+
+   After C2/C3's class constructions, prove the normalized characteristic
+   comparisons for these same bundles. Fix S²=CP¹ with its complex
+   orientation, northern disk `[1:z]`, |z|≤1, southern disk `[w:1]`,
+   |w|≤1, and equator z=e^(iθ) oriented as the boundary of the northern
+   disk. For the oriented plane bundle E_m with transition R(mθ), prove
+   `⟨e(E_m),[CP¹]⟩=m`. Calibrate O(−1) by northern section (1,z) and
+   southern section (w,1): s_S=z⁻¹s_N gives winding−1 and Euler number−1;
+   prove TS² has winding2 and Euler number2. Forgetting fibre orientation
+   retains only absolute winding. Prove that w₂ detects the two rank-k
+   classes over S² for k≥3 and that w₁ detects the two positive-rank classes
+   over S¹, compatibly with stabilization and C1.0's orientation cover.
+   The real vector-bundle clutching and orientation-forgetting comparison
+   follows [Hatcher, §1.2, pp22–26](https://pi.math.cornell.edu/~hatcher/VBKT/VB.pdf),
+   with the hemisphere and Euler signs calibrated above; construct the
+   principal-bundle and marked/unmarked diagrams here.
+   `ClutchingTrivializationTargets.lean` checks the native continuous-map,
+   homeomorphism, homotopy and reflection interfaces; the complete bundle
+   classification above remains part of this specification.
+
 2. **Bockstein input.** Consume AlgebraicTopology Stage6.1's coefficient long exact sequence and
    Bockstein construction on the existing singular/relative cochain complexes,
    including 0→Z→[×2]Z→F2→0. Build its coefficient-change compatibility with
@@ -664,6 +770,77 @@ AT8.1's relative-cell connectivity and transport theorem.
    GT Layer10 and C1's normalized degree2 class of the corresponding complex
    line, including the SBC dual-character convention. C3 identifies it with c₁. Construct characteristic-number evaluation and
    its naturality, degree and boundary-vanishing formulas.
+   **C2.3a. Barycentric Hopf field and simplex indices.** For a compact
+   boundaryless smooth Hausdorff second-countable m-manifold M, take a
+   specified finite compatible smooth triangulation h:|K|≃M from GT's
+   smoothing-and-triangulation comparison. Use its Munkres closed-simplex
+   extensions and injective differential on each closed star. On a flag
+   σ_0<⋯<σ_r in the barycentric subdivision, put d_i=dim σ_i, let t_i
+   be the barycentric weights, and set μ=Σ_i t_i d_i and
+   v_i=t_i(d_i−μ). Define the realization velocity as Σ_i v_i b_(σ_i).
+   Prove Σ_i v_i=0, compatibility on common faces, and that zero weights
+   have zero velocity. Strict increase of the d_i gives zero velocity
+   exactly at flag vertices. Prove the height derivative identity
+   Σ_i d_i v_i=Σ_i t_i(d_i−μ)^2, strictly positive off those vertices.
+   Push the face-tangent velocity through h's simplex differentials,
+   proving agreement on faces and continuity as an actual section of TM.
+   The resulting continuous field has precisely the points h(b_σ) as zeros.
+
+   Prove its local index at h(b_σ) is (−1)^d, where d=dim σ. Construct
+   the tangent-star homeomorphism from the closed-star differential and
+   the compatible smooth triangulation. The link of b_σ in the subdivision
+   is the join of the subdivisions of ∂σ and link_K(σ); its closed star
+   is the cone on this link. Track lower faces and strict cofaces in this
+   model. On a flag containing σ_j=σ, rewrite the local velocity as
+   Σ_(i≠j)t_i(d_i−μ)(b_(σ_i)−b_σ). Restrict to a neighborhood with
+   |μ−d|<1/2, and freeze only these noncentral rates to d_i−d, keeping
+   the coefficient at b_σ equal to minus their sum so tangency is retained.
+   Then deform these rates to−1 on lower faces and+1 on cofaces, without
+   creating another zero. This gives a homotopy of the normalized field to
+   (u,v)↦(−u,v) on R^d×R^(m−d). Prove the local tangent trivialization
+   and degree comparison, not just positivity of the height derivative.
+   Treat d=0 and d=m directly when one of the link factors is empty;
+   an ordinary topological join with an empty space is not the needed
+   unit convention for the simplicial link formula.
+
+   Construct a smooth field V with exactly those same zero points and
+   with invertible zero linearizations of determinant sign (−1)^d.
+   Choose disjoint coordinate balls about the finitely many h(b_σ).
+   On smaller balls prescribe the linear model (−u,v). In dimensions
+   m>=2, the preceding local index and AT's sphere-degree classification
+   give the zero-free normalized homotopy on each intervening annulus;
+   make it stationary on endpoint collars and construct its radial pasting
+   to the original nonzero field. In m=1
+   use the two endpoint signs directly. Smooth the section relative to
+   these smaller balls using bundle-chart approximation and DG's smooth
+   partitions of unity, keeping its base projection fixed. A positive
+   lower bound for the field norm on the compact complement of the fixed
+   smaller balls, including the pasted annuli,
+   gives an approximation bound preserving nonvanishing there. Supply
+   the actual tangent-bundle section, its smoothness and zero-set equality,
+   and compare its zero linearizations with the prescribed local models.
+   In m=0 the field vanishes at every point of the finite discrete
+   manifold, and the empty-dimensional determinant and local index are+1.
+   Include empty and disconnected manifolds and triangulations.
+
+   Apply the transverse-zero Euler formula to this field. In the
+   unorientable case explicitly use e(TM)∈H^m(M;o(TM)), the twisted
+   fundamental class [M]∈H_m(M;o(M)), the canonical identification
+   o(TM)≃o(M), and the sign-system pairing o(M)⊗o(M)→Z. Prove that
+   the local indices are unchanged by simultaneous reversal of source
+   and tangent-fibre orientations. This gives the integer equality
+   ⟨e(TM),[M]⟩=Σ_σ(−1)^(dim σ)=χ(M), where AT7 identifies the finite
+   alternating simplex count with Euler characteristic. Compare with
+   C2.3's diagonal/trace proof after constructing both comparisons.
+   This application consumes the earlier local-index/Thom formula,
+   GT's compatible smooth triangulation, DG's relative section smoothing
+   and AT's degree/Euler interfaces. The general C2.3 trace proof has
+   no triangulation input. An arbitrary realization homeomorphism alone
+   does not supply the simplex differentials used in this construction.
+   [BarycentricHopfFieldTargets.lean](BarycentricHopfFieldTargets.lean)
+   records the flag formulas on native `Convexity.StdSimplex`, including
+   tangency, face restriction, the variance identity and the zero set.
+
 4. Construct oriented and orientation-twisted embedding Gysin by Thom followed by tubular open
    extension; prove independence, isotopy, composition, transverse base change,
    self-intersection and the projection formula. Consume GT's normal/tubular
@@ -1533,10 +1710,16 @@ the constructions here or an additional generic characteristic-class owner.
 
 1. Prove the coefficient formulas
    Td=1+c₁/2+(c₁²+c₂)/12+c₁c₂/24+…,
-   L=1+p₁/3+(7p₂−p₁²)/45+… and
+   L=1+p₁/3+(7p₂−p₁²)/45+(62p₃−13p₁p₂+2p₁³)/945+… and
    Â=1−p₁/24+(7p₁²−4p₂)/5760+… . Export degree-n components and their
    pairing with chosen fundamental classes; signature, Dirac and holomorphic
    index theorems consume these formulas.
+   In particular derive the displayed degree12 L₃ identity from C6's
+   regular series x/tanh(x), by symmetric-root descent and coefficient
+   extraction, with p_j in cohomological degree4j. Include ranks with fewer
+   than three oriented-plane roots by setting the absent Pontryagin classes
+   to zero. Compare its pairing on a closed oriented twelve-manifold with
+   IndexTheory I7.2's signature index formula.
 2. Translate the ordered half-spin weights and exterior λ-characters into
    exponential root products. For the ordered roots x₁,…,x_r name the
    summand with an even number of negative half-weight signs S_high⁺; then
@@ -1569,6 +1752,66 @@ the constructions here or an additional generic characteristic-class owner.
    Include the universal p_r=e² relation, w₂ reduction/central-cover test,
    the rank-one Hopf sign, and a flat torsion circle bundle with nonzero
    integral c₁ and zero de Rham Chern form using SBC B6's lens-space example.
+<a id="c7-adjoint-hopf-obstruction"></a>
+**C7.AdjointHopfObstruction — zero primary classes without a section.**
+For every Hermitian complex rank-two bundle F over a paracompact Hausdorff
+base, construct the oriented real rank-three bundle su(F) of trace-free
+skew-adjoint endomorphisms. Use T1's existing endomorphism bundle and C1.0's
+unitary frame bundle: unitary conjugation preserves this real subspace and
+its metric, with orientation fixed by the ordered skew-adjoint matrices
+`diag(i,−i)`, `[[0,1],[−1,0]]`, `[[0,i],[i,0]]` in a unitary frame.
+Prove frame independence using the connected unitary group's conjugation
+action. Construct local trivializations and the associated-bundle comparison,
+with pullback and bundle-isomorphism naturality. These are continuous bundles;
+no connection or gauge-theoretic moduli space is required.
+
+Construct the actual complex-linear bundle isomorphism
+`su(F)⊗_ℝℂ≃End₀(F)`, carrying X⊗z to zX, and
+`End₀(F)⊕ε_ℂ≃End(F)` by separating half the trace. Check transition
+compatibility and provide inverse formulas: every traceless Z decomposes
+uniquely as X+iY with X,Y skew-adjoint and traceless. C3's integral splitting
+principle gives roots x,y for F and roots0,x−y,y−x for End₀(F). Prove,
+in integral cohomology and with naturality,
+
+`p₁(su(F))=c₁(F)²−4c₂(F)`.
+
+This is an integral root calculation; rational Chern-character comparison
+alone is not substituted for integral equality on a base with torsion.
+For a fixed determinant trivialization compare with the adjoint bundle of
+the SU(2) frame reduction. Under [GeneralizedCohomology G4.0a](../GeneralizedCohomology/README.md)'s
+Sp(1)/Spin(3) calibration, identify
+the conjugation representation with the action on imaginary quaternions.
+
+On GeneralizedCohomology G4.0a's actual HP¹, identified with its oriented S⁴,
+let γ_ℍ be the tautological right-quaternionic line, F its right-complex
+restriction, and E=su(F). Use G4's ordinary quaternionic-line normalization
+`u=c₂(F)`, with `⟨u,[HP¹]⟩=1`, and the canonical trivial determinant of F.
+Construct E on this carrier, including its transition maps from those of
+γ_ℍ; do not replace it by an abstract bundle with prescribed classes.
+Prove `c₁(F)=0` and `p₁(E)=−4u≠0`. The sphere cohomology calculation and
+rank normalization give `e(E)=0` and `w_i(E)=0` for every i>0. Prove E is
+not stably trivial: an isomorphism `E⊕ε^k≃ε^(k+3)` would force p₁(E)=0
+by naturality and trivial-summand stability.
+
+Prove E has no nowhere-zero continuous section. Such a section, normalized
+with the metric, splits E as ε¹⊕P with P an oriented real plane bundle.
+Since H²(S⁴;ℤ)=0, e(P)=0; the integral plane identity p₁(P)=e(P)² and
+trivial-summand stability would again give p₁(E)=0. Thus the example has
+zero Euler class and all positive-degree Stiefel–Whitney classes, while
+admitting neither a section nor a stable trivialization. Identify the
+failure of the primary Euler criterion with its out-of-range dimensions:
+rank3 over a 4-dimensional CW base. C2's dimension≤rank converse remains
+the primary-obstruction theorem. Compare TS² as the different phenomenon
+of a stably trivial, nontrivial tangent bundle with nonzero Euler number2.
+These examples supply the distinction in Teichner1086_003 pp5–7, including
+the correction to the source's unqualified Euler-class converse.
+
+For the adjoint-bundle formula see Zentner,
+[*Instanton exercise sheet2*, Exercise2](https://www.maths.dur.ac.uk/users/raphael.zentner/exercice_sheet_instantons2.pdf).
+[AdjointHopfTargets.lean](AdjointHopfTargets.lean) records the actual matrix
+complexification and integral Chern-root identity; the bundle construction
+and section obstruction remain the definitive targets above.
+
 3a. **Real-projective tangent classes and immersion obstruction.** For every
    m≥0 use AT4.6's smooth native real-projective carrier. Transport TopK
    T1.5's tautological line γ along [GeneralizedCohomology G4.0b](https://github.com/TauCetiProject/TauCetiRoadmap/blob/a1d957790d6eeec3bd02001c7fb83bc6d824abd4/TauCetiRoadmap/GeneralizedCohomology/README.md)'s actual
