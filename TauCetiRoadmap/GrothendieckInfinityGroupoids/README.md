@@ -18,10 +18,14 @@ for every coherator `C` (Ara 2013, Conjecture 8.14). That question motivates the
 not a target of this roadmap; no item states it or depends on it. The section *Research context*
 records the recent work on it and separates what is claimed from what is formalized.
 
-The « yoga » first appears in Grothendieck's notes in a 1975 letter to Breen (Montpellier fonds,
-folder 134-2, p. 42: an `n`-groupoid up to `n`-equivalence is « essentially the same thing » as
-a homotopy `n`-type); the definitions specified here are the refereed ones of Ara 2013, after
-*Pursuing Stacks* (ed. Maltsiniotis, 2022) and Maltsiniotis 2010.
+The « yoga » already appears in the P.S. of Grothendieck's letter to Lawrence Breen of
+5 February 1975: « une (petite) `n`-catégorie (en groupoïdes) à `n`-équivalence près « est
+essentiellement la même chose » qu'un ensemble semi-simplicial pris à homotopie près et où on
+néglige les `π_i` pour `i ≥ n+1` » (Montpellier, cote 134-2, pp. 42–43; the author's pp. 27–28).
+The letter is read from the transcription of the Grothendieck edition
+(https://grothendieck.commutator.io, folder 134-2), not from a published source. The definitions
+specified here are the refereed ones of Ara 2013, after *Pursuing Stacks* (ed. Maltsiniotis,
+2022) and Maltsiniotis 2010.
 
 Suggested home: `TauCeti/AlgebraicTopology/GlobularGroupoid/` (globular sets, theories, models,
 homotopy groups) and `TauCeti/AlgebraicTopology/GlobularGroupoid/Topological/` (`Π_∞` and the
@@ -214,9 +218,9 @@ side (`CoglobularObject.faceTo`); maps of coglobular objects. The representable 
 `τ_n(x) = (x, −√(1 − ‖x‖²))` (`hemiPoint`, `hemisphere n false`, `hemisphere n true`) the
 inclusions of the two hemispheres of `D^{n+1}` (Ara 2013, Examples 1.5.2), with their norm
 (`norm_hemiPoint`), continuity (`continuous_hemiPoint`) and coglobular identities
-(`hemiPoint_hemiPoint`, `hemisphere_hemisphere`). *Needs:* `Globe` and `GlobularPresheaf` (0.1);
-Mathlib `TopCat.disk`, `TopCat.ofHom`, `EuclideanSpace`, `Real.sqrt`, `Metric.closedBall`; Tau
-Ceti `TauCeti.hemisphereHomeomorph`. *Checks:*
+(`hemiPoint_eq_of_norm_eq_one`, `hemiPoint_hemiPoint`, `hemisphere_hemisphere`). *Needs:*
+`Globe` and `GlobularPresheaf` (0.1); Mathlib `TopCat.disk`, `TopCat.ofHom`, `EuclideanSpace`,
+`Real.sqrt`, `Metric.closedBall`; Tau Ceti `TauCeti.hemisphereHomeomorph`. *Checks:*
 - `σ_0, τ_0 : D^0 → D^1 = [−1, 1]` are the points `1` and `−1`, and `σ_1 σ_0` and `τ_1 σ_0` both
   send the point of `D^0` to `(1, 0)` in `D^2`, an instance of the coglobular identities;
 - the images of `σ_n` and `τ_n` cover the boundary sphere of `D^{n+1}` and meet in its equator,
@@ -439,9 +443,15 @@ Layer 3: the structural operations of 3.2 give the groupoids `ϖ_n` and the grou
 
 ## Layer 5: the fundamental ∞-groupoid of a space
 
-The 1975 letter to Breen in Grothendieck's notes sets out the fundamental `n`-groupoid of a Kan
-complex and the comparison of homotopy groups that this layer specifies in Ara's form (Montpellier
-fonds, folder 134-2, pp. 42–45, https://grothendieck.umontpellier.fr/134-2.pdf).
+In the same P.S. (Montpellier, cote 134-2, pp. 42–44; the author's pp. 27–29) Grothendieck
+associates with a simplicial set `K•` (« il peut être prudent de le prendre de Kan ») an
+`n`-category `C_n(K•)` of 0-simplices, paths, homotopies between paths and so on, with homotopy
+classes in dimension `n`, and observes that it is an `n`-groupoid: the fundamental `n`-groupoid.
+He notes canonical isomorphisms `π_i(K•, x) ≃ π_i(C_n(K•))` for `0 ≤ i ≤ n`, so that `C_n(f)` is
+an `n`-equivalence if and only if `f` induces isomorphisms on `π_0` and on the `π_i` at every
+point, `1 ≤ i ≤ n`: the comparison this layer specifies in Ara's form. As above, the text is read
+from the edition's transcription (https://grothendieck.commutator.io, folder 134-2), not from a
+published source.
 
 ### 5.1 `TopCat` as a contractible globular extension
 

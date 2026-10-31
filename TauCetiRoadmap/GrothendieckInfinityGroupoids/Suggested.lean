@@ -148,18 +148,39 @@ noncomputable def hemiPoint (n : ℕ) (ε : Bool) (x : EuclideanSpace ℝ (Fin n
 /-- **Layer 1.1.** A point of the closed unit ball goes to the unit sphere. -/
 theorem norm_hemiPoint (n : ℕ) (ε : Bool) {x : EuclideanSpace ℝ (Fin n)} (hx : ‖x‖ ≤ 1) :
     ‖hemiPoint n ε x‖ = 1 := by
-  sorry
+  have h0 : 0 ≤ 1 - ‖x‖ ^ 2 := by nlinarith [norm_nonneg x]
+  have hs : ((if ε then (-1 : ℝ) else 1) * Real.sqrt (1 - ‖x‖ ^ 2)) ^ 2 = 1 - ‖x‖ ^ 2 := by
+    cases ε <;> simp [Real.sq_sqrt h0]
+  have hx2 := EuclideanSpace.real_norm_sq_eq x
+  have hsq : ‖hemiPoint n ε x‖ ^ 2 = 1 := by
+    rw [EuclideanSpace.real_norm_sq_eq, Fin.sum_univ_castSucc]
+    simp only [hemiPoint, PiLp.toLp_apply, Fin.snoc_castSucc, Fin.snoc_last]
+    linarith [hs, hx2]
+  rw [← Real.sqrt_sq (norm_nonneg (hemiPoint n ε x)), hsq, Real.sqrt_one]
 
 /-- **Layer 1.1.** The map `x ↦ (x, ±√(1 − ‖x‖²))` is continuous. -/
 theorem continuous_hemiPoint (n : ℕ) (ε : Bool) : Continuous (hemiPoint n ε) := by
-  sorry
+  have hg : Continuous fun x : EuclideanSpace ℝ (Fin n) =>
+      (if ε then (-1 : ℝ) else 1) * Real.sqrt (1 - ‖x‖ ^ 2) :=
+    continuous_const.mul (Real.continuous_sqrt.comp (continuous_const.sub (continuous_norm.pow 2)))
+  have hf : Continuous fun x : EuclideanSpace ℝ (Fin n) =>
+      Fin.snoc (α := fun _ => ℝ) (fun i => x i)
+        ((if ε then (-1 : ℝ) else 1) * Real.sqrt (1 - ‖x‖ ^ 2)) :=
+    (PiLp.continuous_ofLp 2 _).finSnoc hg
+  exact (PiLp.continuous_toLp 2 _).comp hf
+
+/-- **Layer 1.1.** On the unit sphere the last coordinate `±√(1 − ‖y‖²)` is `0`, so both sides
+give the same point. -/
+theorem hemiPoint_eq_of_norm_eq_one (m : ℕ) (ε ε' : Bool) {y : EuclideanSpace ℝ (Fin m)}
+    (hy : ‖y‖ = 1) : hemiPoint m ε y = hemiPoint m ε' y := by
+  simp only [hemiPoint, hy, one_pow, sub_self, Real.sqrt_zero, mul_zero]
 
 /-- **Layer 1.1.** The coglobular identities on points: `hemiPoint n δ x` lies on the unit sphere,
 so both maps of dimension `n + 1` send it to the point with last coordinate `0`. -/
 theorem hemiPoint_hemiPoint (n : ℕ) (δ ε ε' : Bool) {x : EuclideanSpace ℝ (Fin n)}
     (hx : ‖x‖ ≤ 1) :
-    hemiPoint (n + 1) ε (hemiPoint n δ x) = hemiPoint (n + 1) ε' (hemiPoint n δ x) := by
-  sorry
+    hemiPoint (n + 1) ε (hemiPoint n δ x) = hemiPoint (n + 1) ε' (hemiPoint n δ x) :=
+  hemiPoint_eq_of_norm_eq_one (n + 1) ε ε' (norm_hemiPoint n δ hx)
 
 /-- **Layer 1.1.** The hemisphere inclusion `D^n → D^{n+1}` of side `ε` on Mathlib's disks
 `TopCat.disk` (Ara 2013, Examples 1.5.2). -/
@@ -174,8 +195,9 @@ noncomputable def hemisphere (n : ℕ) (ε : Bool) : TopCat.disk.{0} n ⟶ TopCa
 
 /-- **Layer 1.1.** The coglobular identities for the hemisphere inclusions. -/
 theorem hemisphere_hemisphere (n : ℕ) (δ ε ε' : Bool) :
-    hemisphere n δ ≫ hemisphere (n + 1) ε = hemisphere n δ ≫ hemisphere (n + 1) ε' := by
-  sorry
+    hemisphere n δ ≫ hemisphere (n + 1) ε = hemisphere n δ ≫ hemisphere (n + 1) ε' :=
+  TopCat.ext fun x => congrArg ULift.up (Subtype.ext
+    (hemiPoint_hemiPoint n δ ε ε' (mem_closedBall_zero_iff.1 x.down.2)))
 
 /-- **Layer 1.1.** The coglobular space of disks `D^n` and hemisphere inclusions `σ, τ` (Ara 2013,
 Examples 1.5.2), the coglobular object of `TopCat` used throughout. -/
