@@ -1042,3 +1042,23 @@ T(3,3) includes one global mirror, not just component reversals.
 Existing Luna Markdown supplies the course wording; the new code and
 matrix calculations are mathematical outputs, not source-picture readings.
 No non-Luna agent inspected any image.
+
+<a id="problem39-diagram"></a>
+## Problem39: unlabeled Alexander-one diagram
+
+*Knot Theory - problems.pdf*, physical p6, source identity
+`06c19def0f01d6e74a1ee99bd448bd3731e101377deddb5aa573943898afb3b1`, prints:
+“Show that the following 11 crossing knot has Alexander polynomial 1.”
+The diagram has no printed knot name, crossing or arc labels, orientation
+arrows or crossing-sign marks. Broken underpass gaps supply local information,
+but the closely spaced and near-tangent fragments do not settle every crossing
+pairing and cyclic traversal in the available scan. No complete signed code
+or independent count of eleven crossing centers is certified by this reading;
+there is no visible handwritten calculation or correction.
+
+The roadmap requires the actual finite code and its source comparison, signed
+Fox matrix, unit-cofactor determinant and augmentation/cover-module maps.
+Keep unresolved incidences explicit rather than choose them to fit polynomial1.
+Neither the Kinoshita–Terasaka/Conway names nor the other eleven-crossing
+marked-change exercise identifies this input without a geometric comparison.
+The source's eleven-crossing wording does not assert crossing minimality.

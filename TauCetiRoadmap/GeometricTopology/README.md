@@ -3123,6 +3123,43 @@ the separate checkerboard/arc comparison of Layer4.7.
   equality of D₄ and P. A polynomial calculation alone does not identify
   a pictured knot.
 
+<a id="problem39-alexander-one"></a>
+**Problem39: the pictured Alexander-one knot.** Use the diagram on physical p6 of *Knot
+Theory - problems.pdf*, source identity
+`06c19def0f01d6e74a1ee99bd448bd3731e101377deddb5aa573943898afb3b1`. The literal task is
+to prove that the pictured eleven-crossing knot has Alexander polynomial1. Construct its
+realized oriented native PD/plane code, crossing and under-arc orders, all crossing
+signs and the complete dictionary to its signed 11×11 Fox matrix A. Record the outer
+face and actual source-picture comparison. The [source
+qualification](source-inputs.md#problem39-diagram) retains the unresolved local
+incidences; the printed crossing count is not a verified minimal crossing number. No
+named knot or different eleven-crossing source picture supplies this input without an
+actual diagram correspondence.
+
+Give one explicitly indexed 10×10 deleted cofactor B and an exact finite Laurent
+polynomial determinant certificate det B=εt^k, with ε=±1 and k∈ℤ. Retain its unit when
+comparing every other cofactor and the native first elementary ideal; the symmetric
+value-one normalization is then Δ=1. The matrix must come from the actual crossing
+relations, rather than from imposing the printed answer. Resolve any discrepancy by the
+authenticated code and exact calculation.
+
+Export the reusable unit-cofactor conclusion for every positive-size square matrix A
+over a commutative ring R with A·1=0 and an invertible deleted cofactor. If column j is
+omitted, use B⁻¹=(det B)⁻¹adj(B) to express every generator difference x_k−x_j in the
+selected row relations. Construct the resulting augmentation isomorphism coker(Aᵀ)≃R,
+sending each [x_k] to1 and the inverse r to r[x_j]. Include the one-by-one zero matrix
+and its empty cofactor. Apply this to the pictured knot over Λ and transport through the
+native half-edge and geometric cover maps: the unreduced Alexander module is Λ, its
+augmentation kernel H₁(X∞;ℤ) is0, E₀=0 and E_k=Λ for every k≥1. After every coefficient
+map Λ→R sending t to a unit a∈Rˣ, give the actual specialized linear Alexander coloring
+equivalence with R by the constant color. More generally, for every R-module M give the
+corresponding M-valued coloring equivalence with M, using evaluation at the chosen arc
+and constant assignment as inverse maps. Ordinary Fox colorings use a=−1. This includes
+characteristic2 and composite residue rings; use the inverse cofactor after
+specialization, without a kernel base-change assumption. These conclusions do not
+identify the knot with the unknot or with either named Alexander-one mutant. The input,
+determinant and module certificates are concrete outputs of this signed-Fox producer.
+
 *Needs:* Layers4.1–4.4 (realized diagrams, geometric Wirtinger presentations,
 Seifert comparison and the meridional cover); Mathlib `FreeGroup`,
 `MonoidAlgebra`, `LaurentPolynomial`, finite matrices, module quotients,
