@@ -18,22 +18,27 @@ Use Mathlib's `Subgroup.IsComplement'`, `GroupExtension`,
 already supplies transfer with arbitrary finite coset representatives, naturality
 and transitivity in
 [`GroupTheory/Transfer/Basic`](https://github.com/TauCetiProject/TauCeti/blob/d7dad3786f4cb95dbc0b2f5a2e47a989c1ebadad/TauCeti/GroupTheory/Transfer/Basic.lean).
-That API is transfer of ordinary homomorphisms to a commutative group; S2 owns
-the new transfer of crossed homomorphisms with a nontrivial conjugation action.
-Its [group-extension library](https://github.com/TauCetiProject/TauCeti/tree/d7dad3786f4cb95dbc0b2f5a2e47a989c1ebadad/TauCeti/GroupTheory/GroupExtension)
-owns factor sets and extension classification. Reuse those definitions and the
-native cohomology dictionary when expressing consequences in `H²`; neither a
-second extension category nor a second factor-set convention belongs here.
-In particular, consume `FactorSet.nonempty_splitting_iff_cohomologyClass_eq_zero`
-from `GroupExtension/Cohomology` and
-`groupCohomology.map_subtype_id_comp_corestriction` and
-`index_nsmul_eq_zero_of_map_eq_zero` from
-`RepresentationTheory/Homological/GroupCohomology/Corestriction`.
+For crossed homomorphisms consume
+[`ContCohomology/Corestriction/Basic`](https://github.com/TauCetiProject/TauCeti/blob/d7dad3786f4cb95dbc0b2f5a2e47a989c1ebadad/TauCeti/RepresentationTheory/Homological/ContCohomology/Corestriction/Basic.lean):
+`TauCeti.ContCohomology.cochainsCor1`, `cochainsCor1_isCocycle₁`,
+`cochainsCor1_changeTransversal`, `cochainsCor1_res` and `cochainsCor1_d0`.
+Its degree-one cochain section needs no topology or representation category.
+It already uses the words and conventions of `GroupTheory/TransversalWord`.
+S2 adds the normal-subgroup restriction formula, normalization and complement
+application; it does not construct a second crossed transfer.
+
+The native group-extension library owns factor sets and extension classification.
+Consume `TauCeti.FactorSet.nonempty_splitting_iff_cohomologyClass_eq_zero`
+from [`GroupExtension/Cohomology`](https://github.com/TauCetiProject/TauCeti/blob/d7dad3786f4cb95dbc0b2f5a2e47a989c1ebadad/TauCeti/GroupTheory/GroupExtension/Cohomology.lean),
+and `TauCeti.groupCohomology.map_subtype_id_comp_corestriction` and
+`TauCeti.groupCohomology.index_nsmul_eq_zero_of_map_eq_zero` from
+[`GroupCohomology/Corestriction`](https://github.com/TauCetiProject/TauCeti/blob/d7dad3786f4cb95dbc0b2f5a2e47a989c1ebadad/TauCeti/RepresentationTheory/Homological/GroupCohomology/Corestriction.lean).
+Neither a second extension category nor a second factor-set convention belongs here.
 
 [LocalFiniteGroupTheory #1634](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1634)
 owns Hall subgroups, conjugacy of coprime complements, and invariant Sylow theory.
 This roadmap owns the coprime-index detection of splitting when `N` need not be
-a Hall subgroup. Its proof constructs crossed transfer above the existing
+a Hall subgroup. Its proof applies native crossed transfer to the existing
 complement and action APIs, so it has no dependency on that proposal's implementation.
 The prime-power automorphism application below uses only Sylow conjugacy.
 
@@ -45,21 +50,31 @@ Mathlib, not restated as new work.
 
 ## Conventions
 
-`G` is a finite group. `N H K` are actual `Subgroup G`s; `N.Normal` and
+`G` is a finite group. S0–S2 target the finite setting used by the
+Sylow and finite-group applications here; their supporting transfer and
+action adapters should retain the native APIs' universe generality. `N H K` are actual `Subgroup G`s; `N.Normal` and
 `IsMulCommutative N` express the kernel hypotheses. A local complement is
 `N ⊓ K = ⊥` and `N ⊔ K = H`; this implies `N ≤ H` and `K ≤ H`.
 A global complement is `Subgroup.IsComplement' N D`. State both forms and prove
 their equivalence under the normality hypothesis. Keep the finite-order and
 coprime hypotheses visible, using `Nat.card` and `Subgroup.index`.
 
-Use left crossed homomorphisms for the conjugation action:
-`c(x*y) = c(x) * (x * c(y) * x⁻¹)` as an equality in `N`. Their normalizing
-condition is `c(n) = n` for `n : N`. With this convention the kernel is a
-complement, and `g = c(g) * (c(g)⁻¹*g)` is the associated factorization.
-Use the native `NonabelianH1.Cocycle` and
-`GroupExtension.Splitting.cocycleEquiv` from `GroupExtension/NonabelianH1`.
-Prove the formula relating the complement projection to that splitting cocycle,
-including the inversion caused by choosing a reference splitting.
+For `N.Normal`, use `MulAut.conjNormal` to pull the evaluation action of
+`MulAut N` back to `G` via `MulDistribMulAction.compHom`. Restrict that
+explicit action to `H` when needed. Use Mathlib's
+`groupCohomology.IsMulCocycle₁ c` for a crossed map `c : G → N`, and
+`IsMulCoboundary₁` for principal crossed maps. Since `N` is abelian, its
+identity `c(x*y)=(x • c(y))*c(x)` agrees with
+`c(x*y)=c(x)*(x*c(y)*x⁻¹)`. The normalization is `c(n)=n`.
+The kernel is a complement, with factorization `g=c(g)*(c(g)⁻¹*g)`.
+Use the additive conjugation module `Additive N` for `cochainsCor1`.
+
+The quotient-level comparison with a reference splitting uses native
+`NonabelianH1.Cocycle` and `GroupExtension.Splitting.cocycleEquiv` from
+[`GroupExtension/NonabelianH1`](https://github.com/TauCetiProject/TauCeti/blob/d7dad3786f4cb95dbc0b2f5a2e47a989c1ebadad/TauCeti/GroupTheory/GroupExtension/NonabelianH1.lean),
+with discrete topologies and the explicitly induced quotient action. Those
+are cocycles on the quotient, not the crossed projections on `G`. Prove the
+comparison formula, including inversion for the chosen reference splitting.
 
 ## Milestones
 
@@ -67,7 +82,7 @@ including the inversion caused by choosing a reference splitting.
 | --- | --- | --- |
 | S0 | native complements and group extensions | local and global splitting dictionaries |
 | S1 | S0, abelian kernel | crossed projections and their kernels |
-| S2 | S1, Mathlib transversals, native extension cohomology | Gaschütz's coprime-index splitting theorem |
+| S2 | S1, native degree-one corestriction and extension cohomology | Gaschütz's coprime-index splitting theorem |
 | S3 | S2, Sylow theory | Sylow detection and invariant-complement applications |
 
 ### S0: complement and section dictionaries
@@ -75,7 +90,9 @@ including the inversion caused by choosing a reference splitting.
 For `N ≤ H`, construct the quotient extension of `H` by `N.subgroupOf H` and
 prove that its splittings correspond to complements to `N` in `H`. Include
 the formulas for the projection onto the complement, the unique decomposition
-`h = n*k`, and the induced semidirect-product equivalence. Prove transport
+`h = n*k`. Consume `SemidirectProduct.mulEquivSubgroup` and the native
+`IsComplement'` disjointness/product criteria for the semidirect-product
+equivalence. Prove transport
 under ambient group equivalences and between subgroups and their ambient
 images. Restrict a global complement to `H` by intersection and prove it is a
 local complement. All section-to-complement and complement-to-section maps
@@ -91,13 +108,15 @@ subgroups. This is not an ordinary homomorphism unless the action is trivial.
 
 ### S2: transfer and coprime-index detection
 
-For the crossed projection in S1, construct a transfer `T : G → N` using a
-finite left transversal for `H`. Prove the crossed identity and
-`T(n) = n^[G:H]` for `n ∈ N`. Give the change-of-transversal formula: the
-two transferred crossed homomorphisms differ by a principal crossed
-homomorphism. After normalizing to fix `N`, their kernels are conjugate by
-an element of `N`. Products may be reordered because `N` is abelian. Prove
-all formulas with the same conjugation convention as S1.
+For S1's crossed projection, define `T : G → N` by applying native
+`cochainsCor1` to `Additive N`. Pin its formula to `TauCeti.lWord`:
+`T(g)=∏_{u∈G/H} t(u) • c(lWord H t u g)` in multiplicative notation.
+Consume the crossed-identity and change-of-transversal theorems. Prove
+`T(n)=n^[G:H]` using normality of `N≤H`, so
+`lWord H t u n=t(u)⁻¹*n*t(u)` and each translated summand is `n`.
+Prove that normalized crossed projections differing by the principal crossed
+map of `a∈N` have kernels conjugate by `a`; apply the native explicit
+coboundary formula when changing the transversal. All formulas use S1's action.
 
 When `[G:H]` is coprime to `|N|`, choose an inverse exponent modulo `|N|`.
 Powering `T` by that exponent gives a crossed projection fixing `N`.
@@ -105,26 +124,39 @@ Its kernel is the desired global complement. Export
 `exists_isComplement'_of_coprime_index` with no hypotheses of solvability,
 centrality of `N`, or coprimality of `|N|` with `[G:N]`.
 
-Relate this construction to the native extension class: prove restriction of
-the class agrees with the class of the pulled-back extension over `H/N`, and
-that `|N|` kills `H²(G/N,N)` because it kills the coefficient module. Native
-restriction/corestriction gives `cor ∘ res = [G/N:H/N]`. Prove
-`[G/N:H/N] = [G:H]` for `N ≤ H`; Bézout then proves the
-class vanishes when its restriction vanishes. Compare the resulting splitting
-criterion with the elementary crossed-transfer construction through the native
-splitting/class dictionary. This uses the native cohomology universes; the
-elementary complement theorem remains universe-polymorphic. No new model of
-`H²` or extension classification is introduced.
+For the cohomological comparison, construct the conjugation action of `G/N`
+on the abelian kernel `N`, prove independence of the representative and the
+quotient extension's `InducesAction` statement. Transport splittings through
+`GroupExtension.Equiv`, using `factorSetToGroupExtensionEquiv`, and deduce
+that the actual quotient extension splits iff its native factor-set class
+vanishes. This extends the existing criterion for `α.groupExtension` to the
+extension of S0.
+
+Identify `H/(N.subgroupOf H)` with the image of `H` in `G/N`, identify the
+kernel with `N`, and compare coefficient actions and pulled-back extensions
+under those equivalences. Prove the resulting restriction formula for the
+extension class. Consume `TauCeti.FactorSet.nsmul_cohomologyClass_eq_zero_iff`
+for coefficient annihilation, native restriction/corestriction, and
+`Subgroup.index_map_eq` for `[G/N:H/N]=[G:H]`. Bézout gives vanishing of the
+class. State the comparison as an iff between existence of a complement and
+vanishing of this class, with the normalized transfer kernel furnishing a
+splitting under that correspondence. Consume
+`TauCeti.groupCohomology.eq_zero_of_pow_nsmul_eq_zero_of_map_sylow_eq_zero`
+for its Sylow specialization. Use native cohomology universes throughout;
+the elementary complement theorem remains universe-polymorphic.
 
 ### S3: Sylow and invariant complements
 
 1. For an abelian normal `p`-subgroup `N` and a Sylow `p`-subgroup `P`, prove
-   `N ≤ P` and the equivalence between splitting over `P` and over `G`.
-   State the result both in ambient-subgroup and subgroup-of-`P` form.
+   the equivalence between splitting over `P` and over `G`.
+   Consume `IsPGroup.le_sylow_of_normal` for `N ≤ P`; state the result
+   both in ambient-subgroup and subgroup-of-`P` form.
 2. If a finite `q`-group `A`, `q ≠ p`, acts by automorphisms on a finite
-   group `W`, preserves an abelian normal `p`-subgroup `N`, and `N` splits
+   group `W`, with `[MulDistribMulAction A W]`, preserves an abelian normal `p`-subgroup `N`, and `N` splits
    in a Sylow `p`-subgroup of `W`, prove that `N` has an `A`-invariant
-   complement in `W`. Apply S2 in `W ⋊ A`: the chosen Sylow `p`-subgroup
+   complement `D` in `W`, with `a • D = D` for every `a`.
+   Also derive the internal form for `A ≤ normalizer W` in an ambient
+   group, acting on `W` by conjugation. Apply S2 in `W ⋊ A`: the chosen Sylow `p`-subgroup
    of `W` is still Sylow in `W ⋊ A`. A global complement has `p`-power
    index, so its Sylow `q`-subgroups are Sylow in `W ⋊ A`. Conjugate the
    complement to contain `A`, then intersect with `W`. Prove the intersection
@@ -133,11 +165,14 @@ elementary complement theorem remains universe-polymorphic. No new model of
 ## Worked examples
 
 Give the splitting of the normal `C₃` in `S₃`, with a transposition complement.
-Show that the central `C₂` in `C₄` does not split and that Sylow detection says
-exactly this. For `C₄ × C₃`, the same `C₂` has coprime-index overgroup `C₄`
+Consume the existing `Perm/FinThree` complement and
+`TauCeti.isEmpty_splitting_zmodFourExtension` for the elementary split/nonsplit
+examples. Test proper-Sylow detection using `V₄ ⊴ A₄`, which splits with
+complement `C₃`, and the central `C₂ ⊴ SL(2,3)`, which does not split
+even in its Sylow subgroup `Q₈`. For `C₄ × C₃`, the same `C₂` has coprime-index overgroup `C₄`
 but no local complement; this checks that the coprime-index hypothesis alone
 does not assert splitting. Identify all the subgroups and quotient maps in
-these examples using native cyclic groups and products.
+these examples using native permutation/matrix groups, cyclic groups and products.
 
 ## References and provenance
 
