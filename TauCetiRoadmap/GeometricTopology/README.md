@@ -1529,7 +1529,7 @@ certificate between the closure of γ and the mirror of the closure of β.
 A matrix representation or exponent-sum agreement alone does not prove
 this braid equality or its geometric comparison.
 
-For the pictured exercise on pp203–206, construct finite realized planar
+For the handwritten worked calculation on pp203–206, construct finite realized planar
 codes with outer faces, marked cuts and oriented crossing encounters for
 both source drawings. Prove that reading the indicated cut gives β and γ,
 with the necessary native bottom-to-top order conversion explicit. Give
@@ -1548,7 +1548,7 @@ V(closure β;t) = V(closure γ;t⁻¹).
 
 Prove these formulas from the actual native closures and invariant
 comparison. Their unequal supports prove chirality of these closures and,
-after the marked-code comparisons, of the pictured exercise knots; they
+after the marked-code comparisons, of the corresponding handwritten diagrams; they
 do not identify a historical table label.
 
 **Checks.**
@@ -1559,6 +1559,56 @@ do not identify a historical table label.
   printed reduction lines in [the source note](source-inputs.md#perko-braid-source),
   separately from the corrected calculation above. Different exponent
   sums distinguish braids, without asserting their closures differ.
+
+<a id="perko-pair-equivalence"></a>
+#### Problem10: the actual pair and its ordinary isotopy
+
+Construct two finite realized planar diagrams A,B for the historical Perko pair,
+with the actual signed-code dictionary to the two duplicated table occurrences
+identified in Perko, [*On the classification of knots*, p263](https://doi.org/10.1090/S0002-9939-1974-0353294-X).
+Prove that A and B represent the same knot by a finite ordinary Reidemeister movie
+and its orientation-preserving ambient-isotopy realization. Give every intermediate
+planar code, outer-face/arc correspondence and local move disc. Use the realized
+Reidemeister API of4.2; a braid proof may instead use actual closure comparisons and
+finite conjugation/stabilization certificates from the same independent prefix.
+Matching invariants, an ambient reflection, or the relation Mβ=γ above does not
+supply this ordinary isotopy. The pair's two chosen signed representatives and their
+common handedness must be explicit; historical table labels alone are insufficient.
+If a chosen table occurrence needs an initial global reflection to give these
+representatives, record that reflection explicitly in its signed-code dictionary.
+
+Choose an orientation of A and transport it through the movie to B, recording the actual
+component map. Export the unoriented knot-image equality and the oriented comparison
+with this transported orientation, together with reindexing, simultaneous orientation
+reversal and simultaneous mirroring of the movie. No inversion theorem for independently
+chosen orientations is assumed. After4.5 supplies Jones invariance, compute the two
+actual normalized Jones polynomials from these realized codes and prove they coincide
+and differ from their common reciprocal. This gives the separate chirality obstruction:
+A is not ordinarily isotopic to its mirror. Polynomial equality is a consequence and a
+check of the movie, not its substitute.
+
+For the two literal drawings in Problem10 on physical p2, construct their separate
+realized planar codes D_L,D_R, with every crossing, over-pair and outer face recorded.
+Give actual diagram/isotopy comparisons from them to A,B or their fixed mirrors; record
+and determine each mirror flag. Transport the historical movie through those
+comparisons. Equal flags give ordinary isotopy between the source diagrams; unequal
+flags give a mirror relation, with the computed reciprocal obstruction distinguishing
+ordinary isotopy. Produce a definite certified branch for the literal inputs; unresolved
+flags or a knot-name assignment do not discharge these source-comparison targets. If the
+literal drawings contradict the printed equivalence, exhibit their actual invariant
+obstruction and identify the precise diagram/handedness correction needed to obtain the
+historical pair. The unconditional historical ordinary-isotopy theorem remains required
+in either case.
+
+Keep the handwritten203–206 drawings and cut words separate from D_L,D_R. Comparing that
+calculation to either printed drawing requires its own marked-code certificate. In
+particular, the chiral β/γ mirror relation cannot certify the printed same-knot claim.
+See the [source qualification](source-inputs.md#perko-exercise-source). The geometric
+movie and its source comparisons consume only4.1–4.2's independent prefix; the Jones
+checks consume4.5 afterward, without making that later invariant a premise of the
+geometric construction. The existing [PerkoBraidTargets.lean](PerkoBraidTargets.lean)
+checks the worked word identity and its exponent obstruction; it asserts no historical
+or literal-picture identification.
 
 *Needs:* native `BraidGroup.sigma_braid`, `ArtinGroup.exponentSum`,
 `BraidWord.toBraid`, sign-negated words and the native signed braid-relation

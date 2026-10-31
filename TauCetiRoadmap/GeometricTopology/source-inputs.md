@@ -1286,3 +1286,23 @@ surface comparison. Problems71/72 are text-only connected-sum and mirror questio
 no basis convention. Their exact matrix formulas use the constructed joined surface or
 reflected surface and explicitly transported bases; arbitrary surfaces of the same
 boundary require the geometric S-equivalence theorem.
+
+<a id="perko-exercise-source"></a>
+## Problem10: equivalence prompt versus handwritten mirror calculation
+
+*Knot Theory - problems.pdf*, SHA-256
+`06c19def0f01d6e74a1ee99bd448bd3731e101377deddb5aa573943898afb3b1`, physical p2, prints
+a same-knot question for two Perko-pair diagrams. Neither has a written crossing code or
+braid word. Luna cannot authenticate every crossing/over-pair from this scan. The
+handwritten main source's item10 on pp203–206 explicitly concludes a mirror relation,
+but gives no authenticated dictionary to the two printed exercise drawings. Its β/γ word
+calculation is therefore separate from the literal exercise inputs.
+
+Perko's 1974 paper, p263, identifies a historical table duplication. Figure1 has four
+unlabelled drawings without arrows. The available reading authenticates neither an
+ordered Reidemeister movie nor its endpoint order. The roadmap requires actual signed
+historical models and their ordinary isotopy, and independent literal-source comparisons
+with determined mirror flags. Neither a familiar diagram silhouette nor the handwritten
+word identity authenticates those comparisons. This supersedes any reading of the
+earlier p206 source entry as already specifying or proving the printed pair's ordinary
+equivalence.
