@@ -1,5 +1,7 @@
-import Mathlib
-import TauCeti.Topology.Homotopy.HomotopyGroup.Map
+module
+
+public import Mathlib
+public import TauCeti.Topology.Homotopy.HomotopyGroup.Map
 
 /-!
 # Grothendieck ∞-groupoids: globular theories, coherators and their models — target signatures
@@ -31,6 +33,8 @@ which compare the groupoids `ϖ_n` and the groups `π_n` of Layer 4.1; the READM
 Layers 5.3 and 7.2. Not prototyped either: the cellular towers that make a pseudo-coherator a
 coherator (Layer 2.4) and cellular ∞-groupoids (Layer 6).
 -/
+
+@[expose] public section
 
 namespace TauCetiRoadmap.GrothendieckInfinityGroupoids
 
