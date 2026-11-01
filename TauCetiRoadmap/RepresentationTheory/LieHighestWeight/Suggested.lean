@@ -34,8 +34,10 @@ The closed-alcove and compact-center headlines lack the constructed affine Weyl 
 actual compact period-lattice comparison. The algebraic compact-complexification and LR
 application lack, respectively, the compact-pair algebraic extension comparison and the
 specified LR-tableau carrier. The Rees special-fibre and first-order Poisson comparison
-lack the constructed filtered Rees algebra and its fibre maps. The coadjoint Fourier-boundary headline lacks the normalized
-orbital-measure and distribution comparison. Category-O linkage lacks its category and
+lack the constructed filtered Rees algebra and its fibre maps. The cone Fourier-boundary and endpoint-reconstruction headlines lack the constructed
+common-chamber series ring, smooth torus test-density dual, and directional spline/Todd
+operators. The smooth linear Poisson bracket is specified in README.md by its derivative
+formula; its Poisson packaging is a downstream geometric construction. Category-O linkage lacks its category and
 integral block carriers. None is replaced here by admitted data.
 -/
 

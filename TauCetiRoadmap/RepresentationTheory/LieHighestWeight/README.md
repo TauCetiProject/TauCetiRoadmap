@@ -32,9 +32,20 @@ intertwiner comparisons belong here.
 owns compact infinitesimal invariance, geometric Cartan transport and real descent.
 [TangentialBordism, B3](../../TangentialBordism/README.md#b3-low-groups-and-specified-geometric-examples)
 owns the compact Albert idempotent geometry and automorphism transitivity.
+Layer 3 owns the positive smooth bracket on the dual of a finite-dimensional
+real Lie algebra and its polynomial/PBW comparison.
 [LieGroupoidsPoisson, G4.6A–G4.6B](../../LieGroupoidsPoisson/README.md)
-owns the positive geometric Lie–Poisson structure and its coadjoint leaves.
-The PBW/Rees bracket comparison here uses that sign and owns the algebraic deformation.
+owns its packaging in Poisson geometry, the algebroid-dual comparison and
+coadjoint leaves, as downstream applications of this linear bracket.
+Layer 6.2 owns the lattice cone expansions, Fourier boundary maps and directional
+endpoint comparisons needed for the Weyl-character application, together with
+the smooth periodic Fourier-decay estimates used in their construction.
+[PseudodifferentialOperators, §3.1](../../PseudodifferentialOperators/README.md)
+uses these estimates in its local kernel comparisons.
+[TensorProductCombinatorics, §§1.5–1.6 and 2.6](../../TensorProductCombinatorics/README.md)
+owns cone valuations, chamber-counting and hive comparisons; its cone and
+Fourier applications use the constructions of Layer 6.2. No hive or geometric
+orbit theorem is an input to these constructions.
 
 The following external contracts are required by the indicated applications and
 are not assertions about the cited roadmap sections:
@@ -239,6 +250,13 @@ nondegenerate Killing form is not a hypothesis on the reductive matrix algebra.
   [../SemisimpleAlgebras/README.md](../SemisimpleAlgebras/README.md)), reached for Lie modules
   through the enveloping-algebra dictionary of Layer 6 rather than rebuilt.
 
+The torus coefficient definition is Mathlib `mFourierCoeff`, in
+`Mathlib/Analysis/Fourier/AddCircleMulti.lean`: it integrates f against the
+negative-frequency character. `UnitAddTorus.mFourierBasis` supplies the L²
+basis, and `UnitAddTorus.hasSum_mFourier_series_of_summable` supplies the
+continuous-function Fourier expansion under summability. Their smooth-test
+estimates and distributional cone comparisons are the targets of §6.2.
+
 ### From Tau Ceti
 
 - `TauCeti.isIrreducible_restrict_derivedSeries` and
@@ -325,8 +343,10 @@ for rational group representations, SchurWeyl Layer 7 for finite Schur polynomia
 CompactGroups Layers 0–6 for compact characters, and LieGroups Layers 2–4, 6–7
 for Lie integration, Haar Weyl integration and holomorphic complexification.
 The additional contracts listed in Scope and ownership are not part of these imports.
-TensorProductCombinatorics §1.6 supplies the cone Fourier boundary construction
-used by Layer 6.2. ReductiveGroups Layers 2 and 5P supply the tangent and
+ComplexKahlerGeometry K5a supplies the smooth test-density spaces and their
+continuous duals used for torus distributions in Layer 6.2. The needed Fourier
+decay estimates and lattice/cone comparisons are targets of that layer.
+ReductiveGroups Layers 2 and 5P supply the tangent and
 characteristic-zero closed-subgroup smoothness cut used by Layer 9.
 
 ## How to read the build
@@ -471,6 +491,8 @@ V(2) has weights 2,0,−2 and dimension 3; the d=2 monomial xy has norm squared 
 
 ## Layer 3: enveloping algebra, Verma modules, and `L(λ)`
 
+### 3.1 PBW, its Rees algebra and the linear Poisson bracket
+
 - **Concrete PBW normalization and its extensions.** Consume
   `TauCeti.UniversalEnvelopingAlgebra.pbwFiltration`, `pbwFiltrationPrevious`,
   `PBWGradedPiece`, the ring-filtration/exhaustiveness API, ι_injective,
@@ -547,17 +569,35 @@ V(2) has weights 2,0,−2 and dimension 3; the d=2 monomial xy has norm squared 
   `B₁(p,q)-B₁(q,p)={p,q}`. The full first-order product coefficient
   is not asserted to be the Poisson bracket or to be alternating.
 
-  For a finite-dimensional real `L`, construct the polynomial-function map
-  `Sym_ℝ(L)→C∞(L*,ℝ)` sending `x` to `ℓ_x(ξ)=ξ(x)`, and prove its
-  injectivity, multiplication and bracket equations. Compare this bracket
-  with the **positive** standard linear Lie–Poisson structure of
-  [LieGroupoidsPoisson G4.6A](../../LieGroupoidsPoisson/README.md), so
-  `{ℓ_x,ℓ_y}=ℓ_[x,y]`. That independent geometric construction and its
-  G4.6B/ HamiltonianReduction R2 orbit–KKS comparison are consumed, not
-  reconstructed or used to prove the algebraic PBW statements. The algebraic
-  deformation precedes this real smooth comparison. Its noncommutative
-  carrier is distinct from the commutative weight-Rees families of
-  GroebnerGeometry G4.
+  For a finite-dimensional real Lie algebra L, use the canonical bidual
+  identification to regard the derivative of a smooth function on L* at ξ as
+  an element Df(ξ) of L. Define the bilinear operation on C∞(L*,ℝ) by
+  `{f,g}(ξ)=ξ([Df(ξ),Dg(ξ)])`. Prove smoothness, alternation, Jacobi and
+  the Leibniz rule. The Jacobi proof uses symmetry of second derivatives
+  and Jacobi in L; it has no orbit or symplectic-leaf input. Define the
+  algebra map Sym_ℝ(L)→C∞(L*,ℝ) by x↦ℓ_x, where ℓ_x(ξ)=ξ(x), and prove
+  injectivity and preservation of the algebraic zero-fibre bracket
+  (Gutt, *Deformation Quantization and Symmetries*, Lecture 1, slide 14).
+
+  - The generator equation is {ℓ_x,ℓ_y}=ℓ_[x,y], and constants bracket to zero.
+  - For any real Lie homomorphism u:L→M, pullback along u*:M*→L* preserves
+    this bracket; identity and composition agree with function pullback.
+  - Among smooth bivectors linear in ξ, the generator equations determine
+    the bracket; the polynomial map preserves units, products and brackets.
+
+  **Checks.**
+
+  - For L=0 and for an abelian real line all brackets are zero; the polynomial
+    map sends 1 to the constant function 1, excluding the zero map.
+  - For [x,y]=y, at ξ(x)=2, ξ(y)=3, {ℓ_x,ℓ_y}(ξ)=3 and the reversed
+    bracket is −3; the negative Poisson convention gives the wrong sign.
+  - For sl₂, {h,e}=2e and {e,f}=h, so {e,h²+4ef}=−4eh+4eh=0.
+    The polynomial e is not central since {h,e}=2e is nonzero.
+
+  *Needs:* the algebraic bracket above; Mathlib derivatives and finite-dimensional
+  biduality; symmetric-algebra evaluation and polynomial identity over ℝ.
+  The noncommutative Rees carrier is distinct from the commutative
+  weight-Rees families of GroebnerGeometry G4.
 
   Acceptance cases include abelian `L` (the constant commutative family),
   the two-dimensional algebra `[x,y]=y`, and `sl₂` with
@@ -632,7 +672,7 @@ For [x,y]=y, the ordered first-order coefficients are B(x,y)=y and B(y,x)=0; the
 
 ### Dependencies
 
-*Needs:* native ordered PBW, filtration, associated grading and Verma modules; LieGroupoidsPoisson G4.6A for the smooth sign comparison.
+*Needs:* native ordered PBW, filtration, associated grading and Verma modules; Mathlib real differential calculus for the smooth bracket constructed in §3.1.
 
 ## Layer 5: opposition, invariant forms and compact characters
 
@@ -945,13 +985,204 @@ downstream application actually invokes.
 
 ### 6.2 Fourier boundary values of the Weyl formula
 
-Consume Layer6's actual integral weight group algebra, denominator-cleared
-Weyl formula and Kostant coefficient theorem, ClassicalGroups Layers3–4's
-group-character comparison, and
-[TensorProductCombinatorics §1.6](../../TensorProductCombinatorics/README.md#h16-rational-cone-series-fourier-boundary-values-and-lattice-endpoints)'s
-localization, common-chamber series and Fourier/distribution comparisons.
-This is a comparison after the independent character theorem; it is not a
-new proof premise for Freudenthal, Casimir, highest weights or generic cones.
+Consume the native integral weight group algebra, denominator-cleared Weyl
+formula and Kostant coefficient theorem, and ClassicalGroups Layers 3–4's
+group-character comparison. First construct the following general lattice
+and Fourier interfaces, independently of representations. The character
+comparison then uses these interfaces; it supplies no premise for them.
+
+For a finite-rank free lattice Λ with chosen basis, put V=Λ⊗ℝ and
+T=Hom(Λ,ℝ/ℤ), identified by that basis with the native unit additive torus.
+Use covolume-one measure on V and probability Haar measure on T. Define
+z^b(θ)=exp(2πi⟨b,θ⟩). For a finite list A=(a_j) of nonzero lattice vectors
+and a real linear functional h with h(a_j)≠0, let B index the negative
+pairings, a_j^h=sign(h(a_j))a_j, and s_h=−Σ_(j∈B)a_j. Define
+
+`P_A^h(b)=(-1)^|B| * #{n in N^m : sum_j n_j a_j^h = b-s_h}`.
+
+This construction allows dependent, repeated and nonprimitive vectors.
+Prove fibre finiteness and polynomial growth by bounding each n_j by the
+positive height of b−s_h. Define the ring of coefficient functions supported
+in a translate of a finitely generated h-positive lattice cone, with finite
+coefficient convolutions. Map the localization of ℂ[Λ] at factors 1−z^a
+with h(a)≠0 into this ring by their geometric expansions. Every rational
+identity uses one h for all factors (De Concini–Procesi–Vergne,
+arXiv:1012.1049v3, §3.1, pp. 19–20).
+
+- The product of the inverse factors has coefficient function P_A^h;
+  a flipped factor is −Σ_(n≥1)z^(−na), so its endpoint is open.
+- Prove the unit, associativity and geometric inverse laws, compatibility
+  with list permutation, repeated columns, monomial shifts and lattice
+  isomorphisms, and invariance when h stays in its chamber.
+- Finite Laurent polynomials embed with their actual coefficients. Equality
+  in the localization implies equality of these chosen expansions.
+
+**Checks.**
+
+- The empty list has coefficient 1 at 0 and 0 elsewhere and product 1;
+  in rank zero this is the only allowed list.
+- For Λ=ℤ and A=(1), positive h gives [b≥0], negative h gives −[b<0];
+  the coefficients at b=0 are 1 and 0, excluding a closed negative ray.
+- A=(1,1) gives b+1 for b≥0, while A=(2) gives 1 exactly for even b≥0.
+  At b=2 these are 3 and 1; deleting repeated columns or saturating the
+  column lattice would change the object.
+
+*Needs:* native group algebras, localization, finite lattice bases and finite
+sums; the height bound and convolution construction in this paragraph.
+
+Construct the Fourier map from polynomial-growth functions c:Λ→ℂ to
+distributions on T, using the smooth test-density dual of
+ComplexKahlerGeometry K5a, by Θ(c)(φ)=Σ_b c(b) φ̂(−b). Prove rapid decay
+of smooth torus Fourier coefficients by repeated integration by parts,
+with the explicit bound
+`(1+4*pi^2*norm(b)^2)^N * abs(hat(phi)(b)) <= norm((1-Delta)^N phi, L1)`
+for every natural N, using Euclidean coordinates from the lattice basis.
+These bounds give absolute
+convergence and continuity of Θ and its uniqueness from Fourier coefficients.
+Construct also the tempered lattice distribution Σ_b c(b)δ_b on V;
+identify its inverse Fourier transform with the periodic lift of Θ(c),
+using periodization of Schwartz tests and the native negative-2π Fourier
+phase (De Concini–Procesi–Vergne, v3, §1, pp. 6–7).
+
+- Finite-support coefficients give the ordinary torus polynomial; its
+  b-th native `mFourierCoeff` is c(b). Prove compatibility with lattice
+  isomorphisms, monomial shifts, and multiplication by Laurent polynomials.
+- For c=P_A^h and ε>0, prove absolute convergence of the Abel series
+  Σ_b c(b)exp(−εh(b))z^b and identify it with the product of
+  (1−exp(−εh(a_j))z^(a_j))⁻¹. Each denominator is nonzero because h(a_j)≠0.
+  Prove convergence as ε decreases to zero in test duality, uniformly on
+  compact sets of smooth tests, retaining the different native topology
+  on tempered distributions.
+- Construct wall-crossing comparisons by differences of these coefficient
+  functions and their Fourier distributions. For one nonzero column a,
+  the two opposite expansions differ by Σ_(n∈ℤ)z^(na), the distribution
+  of probability Haar measure on the closed subgroup z^a=1. For several columns establish
+  support and properness before every convolution; define the comparison
+  as a difference of the separately constructed distributions even when
+  their products would be undefined.
+
+**Checks.**
+
+- c=δ_b gives Θ(c)=z^b, so testing against z^(−b) gives 1; on the circle
+  with b=1, testing against z instead gives 0, fixing the Fourier sign.
+- For A=(1), at z=1 and ε=log 2 the positive Abel sum is 2 and the negative
+  Abel sum (with h=−1) is −1. Their limits are distributions, not values
+  obtained by substituting ε=0 into either pole.
+- The difference [b≥0]−(−[b<0]) is 1 for every integer b. Its Fourier
+  distribution tests to φ(0); multiplying it by 1−z gives zero. Thus a
+  cleared denominator cannot determine a distribution uniquely.
+
+*Needs:* the lattice expansions above; Mathlib `SchwartzMap`,
+`TemperedDistribution`, `UnitAddTorus.mFourier`, `mFourierCoeff` and
+`UnitAddTorus.mFourierBasis`; ComplexKahlerGeometry K5a test densities;
+compact torus integration and integration by parts.
+
+For any finite nonzero list A define B_A by pushing Lebesgue measure on
+[0,1]^m forward under (t_j)↦Σ_j t_j a_j. When A admits a strictly positive
+height, define T_A by the same pushforward from ℝ_≥0^m. Prove compact support for B_A, local finiteness and
+tempered growth for T_A, and the measure identity
+`T_A = sum_b P_A(b) translate_b B_A` by the half-open cube decomposition.
+Construct their convolution, deletion/differentiation and lattice-difference
+laws and lattice-normalized piecewise polynomial densities on their actual
+span. For a regular h and an arbitrary nonzero list, prove
+`B_A *_d P_A^h = (-1)^|B| T_(A^h)`; the continuous cone has no discrete
+shift s_h (De Concini–Procesi–Vergne, v3, Propositions 3.2 and 3.4,
+pp. 19–20).
+
+- Scalar Fourier transforms use the negative-2π phase. The box factor is
+  (1−exp(−2πi⟨a,ξ⟩))/(2πi⟨a,ξ⟩), with value 1 at zero pairing.
+  The damped cone factor is (εh(a)+2πi⟨a,ξ⟩)⁻¹ for a positive list.
+- Rank-deficient lists are treated on their saturated span and pushed
+  forward; they are not assigned a density in the larger ambient space.
+- Prove the translation cancellation between B_A and P_A^h and agreement
+  with the coefficient and Abel constructions above.
+
+**Checks.**
+
+- A empty gives B_A=T_A=δ₀ and P_A=δ₀. A=(1) gives the unit interval
+  measure and the positive-ray measure; the box transform at ξ=0 is 1.
+- For A=(e₁,e₂,e₁+e₂), at (2,3) the partition count is 3 and the cone
+  density is 2; at (0,0) these are 1 and 0. Counts and volumes differ.
+- For A=(−1) and positive h on ℝ, P_A^h(b)=−[b>0] while T_A^h is minus
+  positive-ray measure. Translating the negative unit interval by positive
+  integers gives precisely that signed ray, with no continuous shift.
+
+*Needs:* the lattice constructions above; Mathlib measures, pushforwards,
+products, sums and Schwartz distributions; finite linear algebra.
+
+Build the affine arrangement of lattice translates of hyperplanes spanned
+by sublists of a spanning A, its alcoves and the polynomial pieces of these
+splines. For an alcove c whose closure contains 0, define the directional
+restriction at b∈Λ by evaluating the polynomial on b+c at b. Define
+Todd(A)=∏_a ∂_a/(1−exp(−∂_a)) on each polynomial piece by its finite jet.
+Prove translation and refinement compatibility, and distinguish piecewise
+from distributional differentiation. For unimodular spanning A and c
+contained in its zonotope, prove directional restriction of
+Todd(A)(B_A *_d K) equals K for every K:Λ→ℂ
+(De Concini–Procesi–Vergne, v3, Definitions 2.5–2.9, pp. 8–10,
+Theorem 2.15 and its proof, pp. 11–14).
+
+For that inversion construct the following solution spaces on a spanning
+list A. A cocircuit is a minimal sublist Y for which A\Y does not span V.
+Define D(A) as the complex polynomials killed by ∏_(a∈Y)∂_a for every
+cocircuit, and DM(A) as the complex lattice functions killed by
+∏_(a∈Y)(1−τ_a), where τ_a K(b)=K(b−a).
+
+- Prove finite dimension, stability of D(A) under differentiation and of
+  DM(A) under lattice translation, and the deletion maps when the remaining
+  list spans. Prove that polynomial restriction maps D(A) into DM(A),
+  and is an isomorphism when A is unimodular.
+- For ε in an alcove c, prove the finite set (ε−Z(A))∩Λ is independent
+  of ε and restriction to this set is an isomorphism from DM(A) to all
+  complex-valued functions on it. Construct its delta-interpolation basis.
+- For p∈D(A) prove B_A *_d (p restricted to Λ) is obtained by applying
+  ∏_a(1−exp(−∂_a))/∂_a to p, with constant term 1 and finite-jet
+  interpretation. The inverse is Todd(A) on D(A). These are inputs to
+  inversion, not consequences assumed from it (v3, Definition 2.19,
+  Lemma 2.22 and Theorems 2.23 and 2.25, pp. 12–13).
+
+**Checks.**
+
+- A=(1) gives constants in both spaces: ∂1=0 and (1−τ₁)1=0, but
+  ∂x=1 and (1−τ₁)(b↦b)=1 exclude the linear function.
+- A=(1,1) permits degree-one polynomials: ∂²x=0 and (1−τ₁)²b=0;
+  x² is excluded because both second operations give 2.
+- A=(2) gives constants in D(A) and two-periodic sequences in DM(A).
+  The sequence (−1)^b has difference 0 under τ₂ and values −1,1
+  on the interpolation window {−1,0} for ε=1/2; it is not a restricted
+  constant polynomial. This excludes a restriction isomorphism without
+  unimodularity.
+
+*Needs:* the spline measures and arrangement above; native complex polynomials,
+finite differences and finite lattice linear algebra.
+
+- For arbitrary spanning positive-height A, construct the finite set of
+  torus points g for which A^g={a:g^a=1} spans V. On polynomial pieces,
+  define the inverse of 1−g^(−a)exp(−∂_a) when g^a≠1 by its finite jet;
+  its constant term is nonzero. Prove the general reconstruction
+  `P_A(b)=sum_g g^b lim_c [Todd(A^g) prod_(a notin A^g) (1-g^(-a)exp(-d_a))^(-1) T_(A^g)](b)`
+  for c contained in Cone(A) with 0 in its closure (v3, Theorem 3.3,
+  p. 19, using Theorem 2.29, p. 15).
+- Prove compatibility with translation, lattice isomorphisms and restriction
+  to the saturated span; the empty-list statement is δ₀=δ₀.
+- Compare the reconstructed coefficients with the defining finite fibres,
+  including boundary lattice points. Unimodularity leaves only g=1;
+  nonunimodular lists retain every toric contribution.
+
+**Checks.**
+
+- For A=(1), c=(0,1) gives endpoint value 1 at 0, while c=(−1,0) gives
+  0 and is excluded by the zonotope condition.
+- For the unit-interval box, piecewise differentiation gives 0; the
+  distributional derivative evaluates a test as φ(0)−φ(1), which is −1
+  on a test equal to x near [0,1].
+- For A=(2), toric points are 1 and −1. At b≥0 their contributions are
+  1/2 and (−1)^b/2, giving 1 at b=0,2 and 0 at b=1; keeping only 1
+  gives the erroneous constant 1/2.
+
+*Needs:* the box/cone and coefficient constructions above; native polynomial,
+finite-dimensional differential and difference operators, and finite lattice
+linear algebra. No character formula is used in these constructions.
 
 For each actual finite crystallographic root datum and group character
 lattice X, place all monomials in ℤ[X] before localization. Prove
@@ -995,9 +1226,12 @@ norm. State that norm on the group, and consume
 normalized Weyl integration theorem if rewriting it as a weighted torus norm. These inputs
 are distinct from polynomiality or an unweighted torus norm.
 
-In type A compose the same coefficient theorem with H2.6's exact root-lattice
-count and §1.6's directional discrete/continuous/Todd comparison, including
-boundary weights and empty-root cases. Supply GL2's standard character
+In type A identify the positive roots ε_i−ε_j (i<j) with interval columns
+in the simple-root basis: a coordinate vector (n_ij) of nonnegative integers
+maps to Σ_(i<j)n_ij(ε_i−ε_j). Prove that its fibre at β is the defining
+Kostant partition fibre, retaining the root lattice rather than a saturated
+ambient weight lattice. Compose this equality with the directional
+reconstruction above, including boundary weights and empty-root cases. Supply GL2's standard character
 `t1+t2`, SU2's weights n,n−2,…,−n, and a nontrivial A2 chamber/wall example.
 Compare the integer staircase, inversion-set polarization offsets and the
 direction chosen to restrict piecewise polynomials as distinct operations.
@@ -1010,7 +1244,7 @@ For sl₂, V(1)⊗V(1)=V(2)⊕V(0), with dimensions 4=3+1 and multiplicities one
 
 ### Dependencies
 
-*Needs:* native characters, Weyl and Kostant formulas; Layers 0–5; the cone boundary construction specified in the supplier contracts.
+*Needs:* native characters, Weyl and Kostant formulas; Layers 0–5; the lattice, cone, Fourier and endpoint constructions of §6.2; ComplexKahlerGeometry K5a.
 
 ## Layer 7: the center of `U(L)`, Harish-Chandra, Freudenthal, and Serre's relations
 
@@ -2134,7 +2368,10 @@ For SU(2), Y=Q∨ gives affine stabilizer quotient 0 and center P∨/Q∨ of ord
 ## Downstream consumers
 
 AdoIwasawa consumes the arbitrary-field ordered PBW and central-monic finiteness
-interface in Layer 3. CharacteristicClasses C5.1 consumes Layer 7's actual
+interface in Layer 3. LieGroupoidsPoisson G4.6A packages §3.1's positive smooth
+bracket and G4.6B supplies its geometric orbit theory. TensorProductCombinatorics
+§§1.6 and 2.6 use §6.2's lattice expansions, Fourier boundary maps and endpoint
+reconstruction in their cone and type-A counting comparisons. CharacteristicClasses C5.1 consumes Layer 7's actual
 Lie–Chevalley restriction and its Killing-duality comparison. The split
 exceptional identifications in Layer 8 use the split Serre presentation in
 Layer 7; the compact Albert geometry in TangentialBordism B3 uses the separate
@@ -2149,6 +2386,12 @@ specified in Scope and ownership, in addition to compact integration and group c
 Layer 10 consumes the native integral-weight predicates and constructs the lattice comparison, plus RootSystems Layers 1–6 finite root geometry, based classification, and actual Weyl group. It builds the affine action without a Lie-group or period input. Only after that output exists does LieGroups' late compact-center application consume it together with LieGroups Layers 6–7 compact roots and actual torus periods; there is no dependency from this layer back into RootSystems or LieGroups.
 
 ## References
+
+- C. De Concini, C. Procesi, M. Vergne, *Box splines and the equivariant index
+  theorem*, arXiv:1012.1049v3 (2012), §1, pp. 6–7; Definitions 2.5–2.9,
+  pp. 8–10; Theorems 2.15 and 2.29, pp. 11 and 15; §3.1,
+  Propositions 3.2 and 3.4 and Theorem 3.3, pp. 19–20. These locators
+  refer to the arXiv version.
 
 - P. Etingof, *Representations of Lie Groups*, arXiv:2401.01446v2 (2024),
   Theorem 10.1 and Remark 10.2, pp. 51–52; Theorem 13.5, p. 69;
