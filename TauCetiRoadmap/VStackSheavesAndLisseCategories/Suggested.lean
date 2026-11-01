@@ -1,10 +1,10 @@
 import Mathlib
 
 /-!
-# Artin v-stacks, solid and lisse coefficients: headline targets
+# Artin v-stacks, solid and lisse coefficients: target signatures
 
-The definitive roadmap is `README.md`. These suggested statements are not an exhaustive
-checklist; proving them completes neither a layer nor the roadmap.
+The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's
+headline theorems against the pinned Mathlib and Tau Ceti APIs.
 
 VS2.1's abelian category of solid groups, solidification reflection and derived reflection
 onto complexes with solid cohomology are stated on Mathlib's `CondensedAb`,
@@ -33,7 +33,7 @@ open CategoryTheory
 
 universe u v
 
-namespace TauCeti.Blueprint.VStack
+namespace TauCetiRoadmap.VStackSheavesAndLisseCategories
 
 /-- Integer-solid condensed abelian groups, on the pinned solidity predicate (VS2.1). -/
 abbrev SolidAb :=
@@ -50,7 +50,7 @@ theorem inclusion_isRightAdjoint :
   sorry
 
 /-- Unbounded derived solidification reflects onto complexes with solid cohomology
-(VS2.1, solidification; CS Theorem 6.2). -/
+(VS2.1, solidification; CS Theorem 5.8(ii), p.36). -/
 theorem derived_inclusion_isRightAdjoint [HasDerivedCategory.{v} CondensedAb.{u}] :
     (ObjectProperty.ι (fun K : DerivedCategory CondensedAb.{u} =>
       ∀ n : ℤ, ((DerivedCategory.homologyFunctor CondensedAb.{u} n).obj K).IsSolid)).IsRightAdjoint :=
@@ -58,4 +58,4 @@ theorem derived_inclusion_isRightAdjoint [HasDerivedCategory.{v} CondensedAb.{u}
 
 end SolidAb
 
-end TauCeti.Blueprint.VStack
+end TauCetiRoadmap.VStackSheavesAndLisseCategories
