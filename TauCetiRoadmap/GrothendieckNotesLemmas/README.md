@@ -1,273 +1,682 @@
-# Roadmap: general lemmas from the formalisation of Grothendieck's working notes
+# Roadmap: general lemmas in commutative algebra, topology and linear algebra
 
-**Summary.** Twenty-seven small results that Mathlib and Tau Ceti lack, each needed by a Lean proof
-of a statement in Alexandre Grothendieck's working notes (Montpellier fonds), in Bourbaki drafts or
-in Daniel Quillen's notebooks. Every target has been formalised once (all but 1.7, 2.10, 2.11, 5.5
-and 5.6 against Mathlib `715a03a9`, 2026-10-12), and the code is CC0. It is cited below as a source,
-**not** as the specification: contributors write each target to Tau Ceti's conventions, in the
-generality stated, and reuse the native declarations named in the ownership table.
-
-The layers do not depend on one another except where stated, so a contributor can take any target
-on its own.
-
-Source of the first formalisation (CC0):
-<https://github.com/Commutator-IO/grothendieck-project/tree/370d4bf/lean/Grothendieck/Upstream>.
+**Summary.** Twenty-seven general targets on Mathlib's native carriers, in five independent
+layers. Layer 1: binomial coefficients modulo a prime (`p ^ e ∣ n` iff `p` divides every
+`n.choose k` with `0 < k < p ^ e`, for `p` prime; `(p ^ a − 1).choose k ≡ (−1) ^ k mod p` for
+`k ≤ p ^ a − 1`), the kernel of the Hasse derivatives of orders `0 < k < p ^ e` over a commutative
+ring of prime characteristic `p` and their linearity over `R[X ^ (p ^ e)]`, the criterion
+`IsCoprime (X − C a) q ↔ IsUnit (q.eval a)` over a commutative ring, the determinant `1` of the
+symmetric Pascal matrix, and `(u v) ^ n = u ^ n v ^ n ⁅v, u⁆ ^ (n.choose 2)` in a group where
+`⁅v, u⁆` commutes with `u` and `v`. Layer 2: flatness of finite products, bijectivity of
+`M ⊗ Π Pᵢ → Π (M ⊗ Pᵢ)` for `M` finitely presented, Noetherian rings as the rings whose finitely
+generated modules are finitely presented, the range of `f.rTensor N` in the coordinates of a
+basis of `N`, injectivity of the `I`-primary component of an injective module over a Noetherian
+ring, adic completeness for a nilpotent ideal, a retraction of `T ⊗[S] Ω[S⁄R] → Ω[T⁄R]` when
+`H¹(L_{T⁄S}) = 0` and `Ω[T⁄S]` is projective, rational multiples of an indivisible lattice vector,
+injective = divisible over a principal ideal domain with quotients of injectives injective, and
+the associated primes of `F ⁄ pF` for `F` flat. Layer 3: the Leibniz rule for finite products and
+integer powers of units, and the commutator of a derivation with a multiplication. Layer 4: the
+exponential law for the compact-open topology with `X` locally compact or `R1Space`, and an
+openness criterion in Noetherian quasi-sober spaces. Layer 5: right zeros of finite monoids, the
+Cauchy–Binet formula, the Binet–Cauchy and Lagrange identities, Pólya's `ℤ`-basis of the
+integer-valued polynomials, traces of odd powers of a difference of idempotent matrices, and common
+denominators in the Grothendieck group of a commutative monoid. Each statement carries its exact
+hypotheses in its target below.
 
 ## Scope and ownership
 
-**In scope.** The statements below, in the generality stated, with the API lemmas each one needs.
+**Owned here.** The statements of Layers 1–5 in the generality stated, each on Mathlib's native
+carriers (`Polynomial.hasseDeriv`, `commutatorElement`, `Module.Flat`, `TensorProduct.piRightHom`,
+`Ideal.primaryComponent`, `KaehlerDifferential`, `Derivation`, `ContinuousMap.curry`,
+`Set.powersetCard`, `Ring.choose`, `Algebra.GrothendieckGroup`), and the one carrier this roadmap
+defines, the subalgebra `Polynomial.intValued` of `ℚ[X]` (5.4). Each target generalises or
+completes a Mathlib or Tau Ceti statement named in its `*Needs:*` line; none restates one.
 
-**Out of scope.** The statements from the notes that use these lemmas: they stay in the edition's
-repository, which is the consumer named in the table (« — » when the edition's proof
-inlines the statement). Nothing here attributes a result to
-Grothendieck.
+**Left to other roadmaps.**
 
-**Owned elsewhere, and consumed here.**
+- *Stable range one for semilocal rings*, with its commutative specialisation to rings with
+  finitely many maximal ideals: AlgebraicKTheory, §4.2.
+- *Singular values, Ky Fan sums and Ky Fan's inequality*: OperatorTheory/Majorization,
+  MAJ-A26–MAJ-A31.
+- *Idempotent adjunctions, additive functors on a Karoubi envelope, Beck's theorem as a
+  characterisation, the semi-simplex category*: HomotopyTheoryOfCategories, Layer 0 (0.1–0.3)
+  and 8.4.
+- *The cotangent complex and its low-degree terms*: DerivedModuleAlgebra, §§0.4, 0.7 and 0.8.
+  Target 2.7 and Layer 3 use only Mathlib's `KaehlerDifferential`, `Algebra.H1Cotangent` and
+  `Derivation`, and no derived object.
 
-- *Bass stable range, and stable range one for semilocal rings*, with the commutative
-  finite-maximal-spectrum specialisation `IsCoprime.exists_isUnit_add_mul`:
-  [AlgebraicKTheory](../AlgebraicKTheory/README.md), A4. The edition's folder 79 consumes it from
-  there.
-- *Singular values, Ky Fan's inequality* `Kₖ(A + B) ≤ Kₖ(A) + Kₖ(B)`, *the variational principle and
-  triangle majorization*: [OperatorTheory/Majorization](../OperatorTheory/Majorization/README.md),
-  MAJ-A26–A31. The bound on the second elementary symmetric function of the singular values of
-  `u + v`, used by the edition's folder 1, is to be proposed to that roadmap, in its conventions.
-- *Idempotent adjunctions, Karoubi envelopes and Beck's theorem, the semi-simplex category*:
-  [HomotopyTheoryOfCategories](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1521),
-  Layer 0 and 8.4.
-- *The cotangent complex and its low-degree terms*: [DerivedModuleAlgebra](../DerivedModuleAlgebra/README.md),
-  §§0.4, 0.7–0.8. Layer 2.8 and Layer 3 below are stated on Mathlib's native carriers
-  (`KaehlerDifferential`, `Algebra.H1Cotangent`, `Derivation`) and use no derived object.
-- *The p-adic Mahler basis*: PadicMeasuresIwasawaAlgebras and #854. Layer 5.4 is the algebraic
-  statement over `ℤ`, not the p-adic one.
+**Supplied at the pins and not restated.** The `p`-adic Mahler basis is Mathlib's
+(`PadicInt.mahlerEquiv`); target 5.4 is the statement over `ℤ ⊆ ℚ`. Over an Artinian ring the
+inverse of an integral unit lies in the algebra it generates (Tau Ceti
+`TauCeti.Units.coe_inv_mem_adjoin`), and the form for an arbitrary subalgebra containing the unit
+follows from it by `Algebra.adjoin_le`. The criterion `of a = of b ↔ ∃ c, c a = c b` in the
+Grothendieck group is `Submonoid.LocalizationMap.eq_iff_exists` for the top submonoid.
 
-## Ownership and consumers
+## Conventions
 
-For each target: the native declarations it reuses, the roadmap that owns the surrounding API when
-it is not this one, what this roadmap adds, and the consumer in the edition (`lean/Grothendieck/`
-of the repository above). Checked against the pins of this repository: Mathlib
-`f6090c7095e1e56b3464c1daba5f24631f1290d2`, Tau Ceti `358314d4ab97483df4fc4cb8adcc02e74a8d9f5a`.
+- **Characteristic `p`.** Statements in prime characteristic carry `[Fact p.Prime] [CharP R p]`.
+  Witness: over `ZMod 3`, `hasseDeriv 1 (X ^ 3) = 3 X ^ 2 = 0` (1.3, Checks).
+- **Hasse derivatives** are Mathlib's: `hasseDeriv k (X ^ n) = n.choose k • X ^ (n − k)`, so
+  `hasseDeriv 1` is the ordinary derivative and `hasseDeriv 2 (X ^ 2) = 1` in every
+  characteristic (1.4, Checks).
+- **Commutators** are Mathlib's `⁅a, b⁆ = a b a⁻¹ b⁻¹`; the formula of 1.7 uses `⁅v, u⁆`.
+  Witness: in the Heisenberg group, `⁅E₂₃, E₁₂⁆` has corner entry `−1` (1.7, Checks).
+- **The Pascal matrix** is indexed from `0`: its `(i, j)` entry is `(i + j).choose i`, with
+  `i, j : Fin n`. Witness: for `n = 2` it is `[[1, 1], [1, 2]]` (1.6, Checks).
+- **Sums over pairs** in 5.3 run over ordered pairs `(i, j)` of `s × s`, which doubles the sum over
+  `i < j`. Witness: `a = (1, 0)`, `b = (0, 1)` give `2` on both sides (5.3, Checks).
+- **Associated primes** are Mathlib's `Submodule.IsAssociatedPrime`: a prime equal to the radical
+  of `N.colon {x}` for some `x`; no Noetherian hypothesis is attached. Witness: the associated
+  prime of `ℤ ⁄ 4` over `ℤ` is `(2)`, the radical of the annihilator `(4)` of `1` (2.10, Checks).
+- **Universes.** A statement quantifying over all modules, or asserting injectivity, carries
+  `[Small.{v} R]` for modules in universe `v`, as Mathlib's `Module.Baer.of_injective` does.
+- **Function spaces** carry the compact-open topology (Mathlib's instance on `C(X, Y)`), and
+  `ContinuousMap.curry f x y = f (x, y)`.
 
-| Target | Reuses | Surrounding API owned by | Adds | Consumer |
-| --- | --- | --- | --- | --- |
-| 1.1 | `Nat.Prime.dvd_choose_pow`, Lucas (`Choose.choose_modEq_choose_mod_mul_choose_div`) | Mathlib | the converse, `p ^ e ∣ n` from the binomial coefficients | Folder136 |
-| 1.2 | Lucas | Mathlib | `(p ^ a - 1).choose k` mod `p` | Folder136 |
-| 1.3–1.4 | `Polynomial.hasseDeriv`, `Polynomial.expand` | Mathlib | the characteristic-`p` kernel of the Hasse derivatives, `X ^ (p ^ e)`-linearity | Folder93 |
-| 1.5 | `Polynomial.isCoprime_X_sub_C_of_isUnit_sub` | Mathlib | the converse direction, an `iff` | Folder93 |
-| 1.6 | `Matrix.det`, `Nat.add_choose_eq` (Vandermonde) | Mathlib | the symmetric Pascal determinant | Folder153 |
-| 1.7 | `commutatorElement`, `Commute.commutatorElement_pow_left` | Mathlib | `(u v) ^ n` when `⁅v, u⁆` commutes with `u` and `v` | Quillen1971-11 |
-| 2.1 | `Module.Flat.pi` (Tau Ceti, `RingTheory/Flat/Pi.lean`) | Tau Ceti | `Flat.pi_iff`, `prod_iff`, `prod` | Folder22 |
-| 2.2 | `TensorProduct.piRightHom`, `Module.FinitePresentation` | DerivedModuleAlgebra, #1034 (module API) | bijectivity for `M` finitely presented | Folder22 |
-| 2.3 | `Module.FinitePresentation`, `IsNoetherianRing` | DerivedModuleAlgebra, #1034 | the characterisation of Noetherian rings | — |
-| 2.4 | `Basis.equivFun`, `LinearMap.rTensor` | Mathlib | membership in the range in coordinates | Folder153 |
-| 2.5 | `Ideal.primaryComponent` (`Algebra/Module/Torsion/PrimaryComponent.lean`), `Module.Injective` | Mathlib | injectivity of the primary component | Folder21 |
-| 2.6 | `IsAdicComplete` | #1034 (completion API) | completeness for a nilpotent ideal | Folder39 |
-| 2.7 | `TauCeti.Units.coe_inv_mem_adjoin` | Tau Ceti | the subalgebra form, as a corollary | — |
-| 2.8 | `KaehlerDifferential.mapBaseChange`, `Algebra.H1Cotangent`, `Algebra.FormallySmooth` | DerivedModuleAlgebra | the split first fundamental sequence | Folder22 |
-| 2.9 | `Submodule.span`, `Module.Free` | Mathlib | rational multiples of an indivisible element | Folder44 |
-| 2.10 | `Module.Baer`, `Module.Baer.injective`, `Module.Baer.of_divisible` (over `ℤ`) | Mathlib | divisible = injective over a PID; quotients | Bourbaki397 |
-| 2.11 | `Module.Flat`, `IsSMulRegular`, `Submodule.IsAssociatedPrime` | Mathlib | associated primes of `F ⧸ pF` lie over `p` | Bourbaki355 |
-| 3.1 | `Derivation.leibniz_pow`, `Derivation.leibniz_zpow` (fields) | Mathlib | finite products; integer powers of units in a ring | Folder2 |
-| 3.2 | `Derivation` Lie bracket, `LinearMap.mulLeft` | Mathlib | the commutator with left multiplication | Folder93 |
-| 4.1 | `ContinuousMap.curry`, `ContinuousMap.uncurry` | Mathlib | the exponential law for `X` preregular, `Y` locally compact | Bourbaki288 |
-| 4.2 | `NoetherianSpace`, `QuasiSober`, `isOpen_of_stableUnderGeneralization_of_isConstructible` (prime spectra) | Mathlib | the statement for Noetherian quasi-sober spaces | Folder42 |
-| 5.1 | `Monoid`, `MonoidHom` | Mathlib | right zeros of finite monoids | Folder158 |
-| 5.2 | `exteriorPower` bases, `Matrix.det` | Mathlib | the Cauchy–Binet formula | Folder1 |
-| 5.3 | Cauchy–Schwarz, `inner_mul_le_norm_mul_norm` | Mathlib | Lagrange's identity, the Binet–Cauchy identity | Folder1 |
-| 5.4 | `Ring.choose` (binomial rings), `Polynomial` | Mathlib | the `ℤ`-basis of integer-valued polynomials | — |
-| 5.5 | `Matrix.trace`, `IsIdempotentElem` | Mathlib | traces of odd powers of `P - Q` | Quillen1983-10 |
-| 5.6 | `Algebra.GrothendieckGroup`, `Localization` | Mathlib | fractions and common denominators | Quillen1971-4 |
+## Exact supplier contracts
 
-Every « Adds » entry was searched for at both pins, by name and by statement, and is missing there.
-Three are close to existing declarations, listed under « Reuses »: 1.5 (one direction is in
-Mathlib), 3.1 (Mathlib has `leibniz_zpow` over fields) and 2.7 (a corollary of Tau Ceti's
-`Units.coe_inv_mem_adjoin`).
+**From Mathlib** (at the pinned revision).
 
-## Conventions (pinned)
+- Binomial coefficients and polynomials: `Choose.choose_modEq_choose_mod_mul_choose_div` (Lucas's
+  theorem), `Nat.Prime.dvd_choose_pow`, `Nat.add_choose_eq` (Vandermonde), `Polynomial.hasseDeriv`
+  with `Polynomial.hasseDeriv_mul`, `Polynomial.expand`, `Polynomial.eval`,
+  `Polynomial.isCoprime_X_sub_C_of_isUnit_sub`, `IsCoprime`, `Ring.choose`, `fwdDiff`.
+- Groups and matrices: `commutatorElement` (scoped notation `⁅a, b⁆`), `Commute`,
+  `Commute.commutatorElement_pow_left`, `Matrix.det`, `Matrix.submatrix`, `Matrix.trace`,
+  `Matrix.trace_mul_comm`, `IsIdempotentElem`, `Set.powersetCard`,
+  `Set.powersetCard.ofFinEmbEquiv`.
+- Modules: `Module.Flat`, `Module.Flat.directSum_iff`, `Module.Flat.of_linearEquiv`,
+  `TensorProduct.piRightHom`, `Module.FinitePresentation`, `Module.Finite`, `IsNoetherianRing`,
+  `TensorProduct.equivFinsuppOfBasisRight`, `LinearMap.rTensor`, `Module.Basis`,
+  `Ideal.primaryComponent`, `Module.Injective`, `Module.Baer`, `Module.Baer.injective`,
+  `Module.Baer.of_injective`, `Module.Baer.of_divisible`, `IsPrincipalIdealRing`,
+  `Submodule.mkQ`, `IsAdicComplete`, `IsNilpotent`, `IsSMulRegular`, `quotTensorEquivQuotSMul`,
+  `Submodule.IsAssociatedPrime`, `Ideal.map`, `Ideal.comap`, `AddSubgroup`.
+- Differentials and derivations: `KaehlerDifferential.mapBaseChange`,
+  `KaehlerDifferential.exact_mapBaseChange_map`, `Algebra.H1Cotangent`,
+  `Algebra.H1Cotangent.exact_δ_mapBaseChange`, `Algebra.FormallySmooth`, `Derivation`,
+  `Derivation.leibniz_pow`, `Derivation.leibniz_zpow` (over fields), `LinearMap.mulLeft`,
+  `Module.End`.
+- Topology: `ContinuousMap.curry`, `ContinuousMap.uncurry`, `ContinuousMap.continuous_curry`
+  (for `LocallyCompactSpace (X × Y)`), `Homeomorph.curry`, `R1Space`, `LocallyCompactSpace`,
+  `TopologicalSpace.NoetherianSpace`, `QuasiSober`, `StableUnderGeneralization`,
+  `PrimeSpectrum.isOpen_of_stableUnderGeneralization_of_isConstructible`.
+- Inner products and monoids: `RCLike`, `Finset.sum_mul_sq_le_sq_mul_sq`, `Monoid`, `MonoidHom`,
+  `Equiv.Perm`,
+  `Algebra.GrothendieckGroup`, `Algebra.GrothendieckGroup.of`, `Submonoid.LocalizationMap.surj`,
+  `Submonoid.LocalizationMap.eq_iff_exists`, `PadicInt.mahlerEquiv`.
 
-- Mathlib naming. Where a target generalises an existing Mathlib lemma, the new statement takes the
-  existing name's pattern with a hypothesis suffix (`_of_r1Space`, `_of_finite`), and the old
-  lemma is not touched.
-- Characteristic `p` statements use `[Fact p.Prime] [CharP R p]`.
+**From Tau Ceti** (at the pinned revision).
 
-## The build, in layers
+- `Module.Flat.pi` (`TauCeti/RingTheory/Flat/Pi.lean`): a finite product of flat modules is flat.
+- `TauCeti.Units.coe_inv_mem_adjoin` (`TauCeti/RingTheory/Adjoin/Unit.lean`), cited in Scope.
 
-### Layer 1: Hasse derivatives and binomial coefficients in characteristic `p`
+Nothing is consumed from another roadmap.
 
-1. `Nat.pow_dvd_iff_forall_dvd_choose`: `p ^ e ∣ n ↔ ∀ k, 0 < k → k < p ^ e → p ∣ n.choose k`
-   (`p` prime, `n ≠ 0`). It follows from Lucas's theorem (Lucas 1878).
-2. `Nat.choose_pow_sub_one_modEq_neg_one_pow`: `(p ^ a - 1).choose k ≡ (-1) ^ k [ZMOD p]`, and
-   `not_dvd_choose_pow_sub_one`.
-3. `Polynomial.forall_hasseDeriv_eq_zero_iff_exists_expand`: in characteristic `p`, the Hasse
-   derivatives of orders `0 < k < p ^ e` all vanish on `f` iff `f = expand (p ^ e) g` for some `g`.
-4. `Polynomial.hasseDeriv_X_pow_mul`, `hasseDeriv_expand_mul`: for `k < p ^ e`, the Hasse derivatives
-   are linear over `X ^ (p ^ e)`. Depends on 3.
-5. `Polynomial.isCoprime_X_sub_C_iff_isUnit_sub` and `isCoprime_X_iff`: `IsCoprime P (X - C a) ↔
-   IsUnit (P.eval a)`, completing Mathlib's `isCoprime_X_sub_C_of_isUnit_sub`.
-6. `Matrix.det_pascal`: the symmetric Pascal matrix `(choose (i + j) i)` has determinant one,
-   through `choose_mul_transpose_choose` (Vandermonde's convolution).
+## How to read the build
 
-7. `mul_pow_of_commute_commutatorElement`: in a group, if `d = ⁅v, u⁆ = v u v⁻¹ u⁻¹` commutes with
-   `u` and with `v`, then `(u v) ^ n = u ^ n v ^ n d ^ (n choose 2)` for every `n : ℕ`; and
-   `mul_pow_prime_of_commute_commutatorElement`: for an odd prime `p` with `d ^ p = 1`, `(u v) ^ p =
-   u ^ p v ^ p`, since `p ∣ p choose 2`. This is the class-two case of the Hall–Petrescu formula,
-   and elementary; it is stated with Mathlib's `commutatorElement` (scoped notation `⁅v, u⁆`).
-   *Needs:* `commutatorElement`, `Commute`, `Nat.choose`.
-   **Checks.**
-   - `n = 2`: `(u v)² = u (v u) v = u d u v v = u² v² d`, and `2 choose 2 = 1`; with `⁅u, v⁆` in
-     place of `⁅v, u⁆` the formula would give `d⁻¹`, false in the quaternion group `Q₈`
-     (`u = i`, `v = j`, `d = -1`, `(i j)² = k² = -1`, `i² j² = 1`).
-   - `n = 0, 1`: exponents `0 choose 2 = 1 choose 2 = 0`, both sides `1` and `u v`; `n = 3`:
-     exponent `3`, as `(u v)³ = u³ v³ d³` in the Heisenberg group over `ℤ`.
-   - `p = 2` is excluded: in `Q₈`, `d = -1` has `d² = 1` but `(i j)² = -1 ≠ 1 = i² j²`.
+The five layers are independent of one another, and within a layer the only dependencies are
+1.1 → 1.3 → 1.4 and 3.1 → 3.2, and, in 2.9 and 2.10, the later statements on the earlier ones.
+Layer 1 is arithmetic of binomial coefficients and polynomials in prime characteristic, with
+two determinantal or group identities that rest on Vandermonde's convolution and on `n.choose 2`.
+Layer 2 is module theory: flatness, finite presentation, injective modules, adic completeness,
+Kähler differentials and associated primes. Layer 3 extends Mathlib's derivation API. Layer 4 is
+general topology. Layer 5 collects finite monoids, determinants and traces, two classical
+identities, and integer-valued polynomials. The smallest targets are 1.5, 2.1, 2.6, 3.1 and 3.2.
 
-Source files: `HasseDerivXPowMul`, `ChoosePrimePowSubOne`, `PolynomialIsCoprimeX`,
-`DetPascalMatrix`.
+## Layer 1: binomial coefficients, Hasse derivatives, a determinant and commutators
 
-### Layer 2: modules, flatness, finite presentation
+### 1.1 Prime powers dividing `n`
 
-1. `Module.Flat.pi_iff`, `prod_iff`, `prod`: a finite product of modules, and a binary product, is
-   flat iff each factor is. The instance for finite products is Tau Ceti's `Module.Flat.pi`.
-2. `Module.FinitePresentation.piRightHom_bijective`: for `M` finitely presented, `M ⊗ Π i, N i →
-   Π i, M ⊗ N i` is bijective (Stacks 059K).
-3. `isNoetherianRing_iff_forall_finitePresentation`: a ring is Noetherian iff every finitely
-   generated module is finitely presented.
-4. `TensorProduct.mem_range_rTensor_iff_equivFinsuppOfBasisRight`: membership in the range of
-   `rTensor`, in the coordinates of a basis of `M`.
-5. `Ideal.primaryComponent.injective`: over a Noetherian ring, the `I`-primary component of an
-   injective module is injective (Stacks 08XW).
-6. `IsAdicComplete.of_isNilpotent`: a module is `I`-adically complete when `I` is nilpotent.
-7. `Subalgebra.isUnit_of_isIntegral_of_isUnit`: over an Artinian ring, an element of a subalgebra
-   `B ⊆ A` that is integral and a unit in `A` is a unit in `B`. Derive it from
-   `TauCeti.Units.coe_inv_mem_adjoin`.
-8. `KaehlerDifferential.exists_retraction_mapBaseChange`: for `R → A → B` with `B` formally smooth
-   over `A`, the first fundamental sequence map `B ⊗[A] Ω[A⁄R] → Ω[B⁄R]` has a retraction. More
-   generally, the conclusion holds when `Algebra.H1Cotangent A B` vanishes and `Ω[B⁄A]` is
-   projective (Stacks 00TH, Lemma 10.138.9). With the hypothesis on `A ⁄ R` instead, the statement
-   is false: `R = k`, `A = k[t]`, `B = k` with `t ↦ 0` gives `k dt → 0`.
-9. `rat_smul_mem_iff`: rational multiples of an indivisible element of a lattice.
-10. `Module.Baer.of_isPrincipalIdealRing`: over a commutative principal ideal ring `R`, a module
-    on which every `r ≠ 0` acts surjectively satisfies Baer's criterion;
-    `Module.injective_iff_forall_smul_surjective`: over a principal ideal domain, a module is
-    injective iff it is divisible; `Module.Injective.quotient`: over a principal ideal domain,
-    every quotient of an injective module is injective. Mathlib proves the first only over `ℤ`
-    (`Module.Baer.of_divisible`). The injectivity statements carry `[Small.{v} R]` for a module in
-    universe `v`, as `Module.Baer.of_injective` does.
-    *Needs:* `Module.Baer`, `Module.Baer.injective`, `Module.Baer.of_injective`,
-    `IsPrincipalIdealRing`, `Submodule.mkQ`.
-    **Checks.**
-    - `ℚ ⁄ ℤ` is divisible, hence injective over `ℤ`; `ℤ` is not, since `2 • ·` misses `1`.
-    - The quotient `ℚ → ℚ ⁄ ℤ` of the injective `ℤ`-module `ℚ` is injective, as stated.
-    - `IsDomain` cannot be dropped: over the principal ideal ring `ℤ ⁄ 4`, the module `ℤ ⁄ 4` is
-      injective (Baer's criterion on the ideals `0`, `(2)`, `(1)`) but `2 • ·` is not surjective,
-      and its quotient `ℤ ⁄ 2` is not injective (the map `(2) → ℤ ⁄ 2`, `2 ↦ 1`, does not extend).
-11. `Module.Flat.isSMulRegular_quotient_smul_top`: if `F` is flat over `A`, `p` is a prime of `A`
-    and `a ∉ p`, then `a` is a nonzerodivisor on `F ⁄ pF`, because `F ⁄ pF ≃ (A ⁄ p) ⊗ F` and `a`
-    is regular on the domain `A ⁄ p`. `Submodule.IsAssociatedPrime.comap_eq_of_flat`: for
-    `A → B` and a `B`-module `F` flat over `A`, every associated prime `P` of the `B`-module
-    `F ⁄ (pB)F` satisfies `P ∩ A = p`. Associated primes are Mathlib's
-    (`Submodule.IsAssociatedPrime`, with the radical of the colon), so no Noetherian hypothesis
-    is needed. *Needs:* `Module.Flat`, `IsSMulRegular`, `quotTensorEquivQuotSMul`,
-    `Submodule.IsAssociatedPrime`, `Ideal.map`, `Ideal.comap`.
-    **Checks.**
-    - `A = B = F = ℤ`, `p = (2)`, `a = 3`: `3` acts as `1` on `ℤ ⁄ 2`, regular; the only
-      associated prime of `ℤ ⁄ 2` is `(2)`, lying over `(2)`.
-    - Primality is needed: `p = (4)`, `a = 2 ∉ p`, and `2 · 2 = 0` in `ℤ ⁄ 4`. Flatness is needed:
-      `F = ℤ ⁄ 2`, `p = (0)`, `a = 2` kills `F ⁄ pF = ℤ ⁄ 2`; and `A = ℤ`, `B = F = ℤ ⁄ 4`,
-      `p = (0)` gives the associated prime `(2)` of `ℤ ⁄ 4`, over `(2) ≠ (0)`.
-    - The conclusion is `P ∩ A = p`, not `P = pB`: for `A = ℤ`, `B = F = ℤ[i]`, `p = (5)`,
-      `ℤ[i] ⁄ 5 ≅ 𝔽₅ × 𝔽₅` has the two associated primes `(2 + i)`, `(2 - i)`, neither equal to
-      `5ℤ[i]`, both over `(5)`.
+Prove `Nat.pow_dvd_iff_forall_dvd_choose`: for `p` prime and all `e, n`, `p ^ e ∣ n` if and only
+if `p ∣ n.choose k` for every `0 < k < p ^ e`. Route: the forward direction is
+`Nat.Prime.dvd_choose_pow` applied to the base-`p` digits; the converse reads off the lowest
+nonzero digit of `n` with Lucas's theorem (Lucas 1878). *Needs:* Mathlib
+`Choose.choose_modEq_choose_mod_mul_choose_div`, `Nat.Prime.dvd_choose_pow`.
 
-Source files: `FlatProdPi`, `FinitePresentationPiRightHomBijective`,
-`IsNoetherianRingIffFinitePresentation`, `TensorProductMemRangeRTensorBasis`,
-`PrimaryComponentInjective`, `IsAdicCompleteOfIsNilpotent`, `SubalgebraIsUnitOfIsIntegral`,
-`FormallySmoothMapBaseChange`, `RatSmulMemIndivisible`.
+**Checks.**
 
-### Layer 3: derivations
+- `p = 2`, `n = 6`: `2 ∣ 6` and `6.choose 1 = 6` is even; `4 ∤ 6`, and indeed
+  `6.choose 2 = 15` is odd.
+- The bound is strict: with `k ≤ p ^ e` the right side would fail at `n = p ^ e`, since
+  `(p ^ e).choose (p ^ e) = 1`, although `p ^ e ∣ p ^ e`.
+- Primality is needed: for `p = 4`, `e = 1`, `n = 4`, `4 ∣ 4` but `4.choose 2 = 6` is not
+  divisible by `4`.
 
-1. `Derivation.leibniz_prod`, `leibniz_zpow_units`: the Leibniz rule for finite products, and for
-   integer powers of units in a ring, extending Mathlib's `leibniz_zpow` over fields.
-2. `Derivation.lie_mulLeft`: the commutator of a derivation with left multiplication.
+### 1.2 The binomial coefficients of `p ^ a − 1`
 
-Source files: `DerivationLeibnizProd`, `DerivationLieMulLeft`.
+Prove `Nat.choose_pow_sub_one_modEq_neg_one_pow`: for `p` prime and `k ≤ p ^ a − 1`,
+`(p ^ a − 1).choose k ≡ (−1) ^ k [ZMOD p]`; in particular `p` divides none of them. Route: Lucas's
+theorem, every base-`p` digit of `p ^ a − 1` being `p − 1`, and `(p − 1).choose j ≡ (−1) ^ j`.
+*Needs:* Mathlib `Choose.choose_modEq_choose_mod_mul_choose_div`.
 
-### Layer 4: topology
+**Checks.**
 
-1. `ContinuousMap.continuous_curry_of_r1Space`, `continuous_uncurry_of_r1Space`,
-   `curryOfR1Space`: the exponential law `C(X × Y, Z) ≃ₜ C(X, C(Y, Z))` for the compact-open
-   topology when `X` is preregular (`R1Space`) and `Y` locally compact. This extends Mathlib's
-   statement, which needs `X` locally compact as well.
-2. `NoetherianSpace.isOpen_of_stableUnderGeneralization`: in a Noetherian quasi-sober space, a set
-   `E` stable under generalisation is open as soon as every `x ∈ E` has an open neighbourhood `W`
-   with `W ∩ closure {x} ⊆ E`. Mathlib has this only for prime spectra, under a constructibility
-   hypothesis.
+- `p = 3`, `a = 1`: `2.choose k = 1, 2, 1`, congruent to `1, −1, 1` modulo `3`.
+- `p = 2`, `a = 2`: `3.choose k = 1, 3, 3, 1`, all odd, as `(−1) ^ k` is odd.
+- The hypothesis `k ≤ p ^ a − 1` is needed: for `k = p ^ a` the coefficient is `0 ≢ ±1`; and the
+  neighbour `p ^ a + 1` fails, since `4.choose 1 = 4 ≡ 1`, not `−1`, modulo `3`.
 
-Source files: `CurryR1Space`, `NoetherianIsOpenOfStableUnderGeneralization`.
+### 1.3 The kernel of the Hasse derivatives in characteristic `p`
 
-### Layer 5: finite monoids and linear algebra
+Prove `Polynomial.forall_hasseDeriv_eq_zero_iff_exists_expand`: for a commutative ring `R` of prime
+characteristic `p` and `f : R[X]`, `hasseDeriv k f = 0` for every `0 < k < p ^ e` if and only if
+`f = expand R (p ^ e) g` for some `g`. Route: the coefficient of `X ^ (n − k)` in `hasseDeriv k f`
+is `n.choose k • f.coeff n`; a binomial coefficient prime to `p` is a unit of `R`, so the condition
+says that `p ^ e` divides every exponent of `f` (1.1). *Needs:* Mathlib `Polynomial.hasseDeriv`,
+`Polynomial.expand`; 1.1.
 
-1. `Monoid.exists_forall_mul_eq_self_iff_of_finite`: a finite monoid has a right zero iff any two
-   principal right ideals meet and every morphism to a group is trivial. Neither condition can be
-   dropped: a nontrivial finite group, and `{1, a, b}` with `a`, `b` left zeros.
-2. `Matrix.det_mul_eq_sum_powersetCard`: the Cauchy–Binet formula, through exterior powers.
-3. `Finset.sum_sum_mul_sub_mul_sq`, `sum_sum_norm_mul_sub_mul_sq_le`: Lagrange's identity and the
-   Binet–Cauchy identity.
-4. `Polynomial.intValuedBasis`: the binomial polynomials `X.choose n`, written with Mathlib's
-   `Ring.choose`, form a `ℤ`-basis of the polynomials over `ℚ` that take integer values on `ℤ`
-   (Pólya 1915; Cahen–Chabert 1997, ch. I).
-5. `Matrix.trace_sub_pow_odd_of_isIdempotentElem`: for idempotent square matrices `P`, `Q` over a
-   commutative ring, `tr ((P - Q) ^ (2k + 1)) = tr P - tr Q` for every `k : ℕ`, with no hypothesis
-   on `2`. A route that does not divide by `2`: `C = (P - Q)²` commutes with `P` and `Q`,
-   `(P - Q) C = (P - Q) - (P Q P - Q P Q)`, and `tr (D P Q P) = tr (D Q P Q)` whenever `D` commutes
-   with `P` and `Q`. The analogue for orthogonal projections on a Hilbert space with `P - Q` trace
-   class, where the common value is an index, is in Avron–Seiler–Simon (1994); the finite matrix
-   identity over a ring is elementary. *Needs:* `Matrix.trace` and its cyclicity,
-   `IsIdempotentElem`.
-   **Checks.**
-   - Over `ℤ`, `P = [[1, 0], [0, 0]]`, `Q = [[0, 0], [1, 1]]`: `P - Q = [[1, 0], [-1, -1]]` has
-     trace `0 = 1 - 1`, and `(P - Q)² = 1`, so every odd power is `P - Q`; the even power has
-     trace `2`, so the statement fails for even exponents.
-   - Idempotence is needed: `P = (2)`, `Q = (0)` (size one) give `tr P³ = 8 ≠ 2`.
-   - Over `𝔽₂` (where the anticommutation proof divides by `2`), `P = 1`, `Q = 0` of size one give
-     `1 = 1 - 0` for every exponent, and the example above reduces mod `2` with trace `0`.
-6. `Algebra.GrothendieckGroup.exists_eq_of_div_of`: every element of the Grothendieck group of a
-   commutative monoid `M` is `of a / of b` with `a b : M`;
-   `Algebra.GrothendieckGroup.exists_eq_div_of_and_eq_div_of`: two elements have a common
-   denominator, `x = of a / of c` and `y = of b / of c`. The criterion
-   `of a = of b ↔ ∃ c, c a = c b` is Mathlib's `Submonoid.LocalizationMap.eq_iff_exists` for the
-   top submonoid, and is not restated. The additive Grothendieck group gets the same statements
-   with differences.
-   *Needs:* `Algebra.GrothendieckGroup`, `Algebra.GrothendieckGroup.of`,
-   `Submonoid.LocalizationMap.surj`.
-   **Checks.**
-   - `M = (ℕ, ·)`: `0` absorbs, the group is trivial, and `of 2 = of 3` with `c = 0`; so the
-     common-denominator statement cannot be strengthened to `of` injective without cancellation.
-   - `M = (ℕ, +)` in the additive form: the group is `ℤ`, and `-3 = of 0 - of 3`; `x = 1`,
-     `y = -2` have the common denominator `c = 2`: `1 = 3 - 2`, `-2 = 0 - 2`.
-   - `M = ({1, e}, ·)` with `e² = e`: the group is trivial, and `of e = of 1` with `c = e`.
+**Checks.**
 
-Source files: `MonoidRightZero`, `MatrixDetFinTwoCauchyBinet`, `SingularValuesSigmaTwo` (for 5.3),
-`PolynomialIntegerValued`.
+- Over `ZMod 3`, `f = X ^ 3`, `e = 1`: `hasseDeriv 1 f = 3 X ^ 2 = 0` and `hasseDeriv 2 f =
+  3 X = 0`, and `f = expand 3 X`.
+- Over `ZMod 3`, `f = X ^ 4`: `hasseDeriv 1 f = 4 X ^ 3 = X ^ 3 ≠ 0`, and `4` is not a multiple of
+  `3`.
+- The bound is strict: `hasseDeriv 3 (X ^ 3) = 1 ≠ 0`, so an inclusive bound `k ≤ p ^ e` would
+  exclude `X ^ 3 = expand 3 X`; and in characteristic `0` the statement fails (`hasseDeriv 1 (X ^ 3)
+  = 3 X ^ 2 ≠ 0` over `ℚ`).
 
-## Ordering
+### 1.4 Linearity over polynomials in `X ^ (p ^ e)`
 
-Any target can be taken alone. The only dependency is 1.3 → 1.4; in 2.11 the second statement
-uses the first. Small targets first: 1.1, 1.2,
-1.5, 2.1, 2.6, 2.7, 3.1, 3.2 are each under forty lines in the first formalisation.
+Prove `Polynomial.hasseDeriv_expand_mul`: in prime characteristic `p`, for `k < p ^ e`,
+`hasseDeriv k (expand R (p ^ e) f * g) = expand R (p ^ e) f * hasseDeriv k g`. In particular
+`hasseDeriv k` maps multiples of `X ^ (p ^ e)` to multiples of `X ^ (p ^ e)` and descends to
+`R[X] ⧸ (X ^ (p ^ e))`. Route: the Leibniz rule `Polynomial.hasseDeriv_mul` and 1.3. *Needs:*
+Mathlib `Polynomial.hasseDeriv_mul`, `Polynomial.expand`; 1.3.
+
+**Checks.**
+
+- Over `ZMod 2`, `e = 1`, `k = 1`, `f = g = X`: `hasseDeriv 1 (X ^ 3) = 3 X ^ 2 = X ^ 2`, and
+  `X ^ 2 · hasseDeriv 1 X = X ^ 2`.
+- The bound is needed: for `k = p ^ e = 2`, `f = X`, `g = 1`, `hasseDeriv 2 (X ^ 2) = 1` while the
+  right side is `X ^ 2 · 0 = 0`.
+- Characteristic `p` is needed: over `ℚ`, `hasseDeriv 1 (X ^ 2 · 1) = 2 X ≠ 0`.
+
+### 1.5 Coprimality with `X − a`
+
+Prove `Polynomial.isCoprime_X_sub_C_iff`: over a commutative ring, `IsCoprime (X − C a) q` if and
+only if `q.eval a` is a unit. Two consequences follow by specialisation and are part of this
+target: at `a = 0`, `X` and `q` are coprime iff `q.coeff 0` is a unit; for `q = X − C b`, the
+coprimality of `X − C a` and `X − C b` is equivalent to `a − b` being a unit, which completes
+Mathlib's one-directional `Polynomial.isCoprime_X_sub_C_of_isUnit_sub`. Route: write
+`q = q.eval a + (X − C a) h`; conversely evaluate a Bézout relation at `a`. *Needs:* Mathlib
+`Polynomial.eval`, `IsCoprime`.
+
+**Checks.**
+
+- Over `ℤ`, `a = 1`, `q = X + 1`: `q.eval 1 = 2` is not a unit, and indeed `(X − 1, X + 1)`
+  contains `2` and `ℤ[X] ⧸ (X − 1, X + 1) ≅ ℤ ⁄ 2 ≠ 0`.
+- The condition is "unit", not "nonzero": the same example has `q.eval 1 = 2 ≠ 0`.
+- Over `ℤ`, `a = 0`, `q = X + 1`: `q.coeff 0 = 1`, and `(X + 1) − X = 1` is a Bézout relation.
+
+### 1.6 The symmetric Pascal determinant
+
+Prove `Matrix.det_pascal`: over a commutative ring, the matrix `((i + j).choose i)_{i, j < n}` has
+determinant `1`. Route: Vandermonde's convolution writes it as `L Lᵀ` with `L = (i.choose j)` lower
+unitriangular. *Needs:* Mathlib `Nat.add_choose_eq`, `Matrix.det`.
+
+**Checks.**
+
+- `n = 2`: `[[1, 1], [1, 2]]`, determinant `1`; `n = 3`: `[[1, 1, 1], [1, 2, 3], [1, 3, 6]]`,
+  determinant `1 · 3 − 1 · 3 + 1 · 1 = 1`.
+- `n = 0`: the empty matrix has determinant `1`.
+- Indexing from `0` matters: the matrix `((i + j).choose i)_{1 ≤ i, j ≤ 2}` is `[[2, 3], [3, 6]]`,
+  of determinant `3`.
+
+### 1.7 Powers of a product with central commutator
+
+Prove `mul_pow_of_commute_commutatorElement`: in a group, if `d = ⁅v, u⁆ = v u v⁻¹ u⁻¹` commutes
+with `u` and with `v`, then `(u v) ^ n = u ^ n v ^ n d ^ (n.choose 2)` for every `n : ℕ`. Prove
+`mul_pow_prime_of_commute_commutatorElement`: for an odd prime `p` with moreover `d ^ p = 1`,
+`(u v) ^ p = u ^ p v ^ p`, since `p ∣ p.choose 2`. This is the class-two case of the
+Hall–Petrescu formula. Route: `v u = d u v`, hence `v ^ n u = d ^ n u v ^ n`, and induction on `n`.
+*Needs:* Mathlib `commutatorElement`, `Commute`, `Commute.commutatorElement_pow_left`.
+
+**Checks.**
+
+- The order of the commutator matters. In the Heisenberg group of upper unitriangular `3 × 3`
+  integer matrices, with `u = 1 + E₁₂` and `v = 1 + E₂₃`, `(u v) ²` has corner
+  entry `3`, `u ² v ²` has `4` and `⁅v, u⁆` is central with corner `−1`: `3 = 4 − 1`. With
+  `⁅u, v⁆` the formula would predict `5`. For `n = 3` the corners are `6 = 9 − 3`.
+- `n = 0, 1`: `0.choose 2 = 1.choose 2 = 0`, and both sides are `1` and `u v`.
+- The hypotheses are needed: in `𝔖₃` with `u = (1 2)`, `v = (2 3)`, `d = ⁅v, u⁆` is a 3-cycle that
+  does not commute with `u`, and `(u v) ² = d ⁻¹ ≠ d = u ² v ² d`. For the prime form, `p = 2` is
+  excluded: in the quaternion group `Q₈`, `d = ⁅j, i⁆ = −1` has `d ² = 1`, but
+  `(i j) ² = −1 ≠ 1 = i ² j ²`.
+
+### Examples
+
+- `Nat.pow_dvd_iff_forall_dvd_choose` at `p = 5`, `e = 1`, `n = 10`: `10, 45, 120, 210` are all
+  multiples of `5`.
+- Over `ZMod 2`, the Hasse derivatives of orders `1, 2, 3` all vanish on `X ^ 4 + X ^ 8`.
+
+### Dependencies
+
+Mathlib: Lucas's theorem, Vandermonde's identity, `Polynomial.hasseDeriv`, `Polynomial.expand`,
+`commutatorElement`. Within the layer: 1.1 → 1.3 → 1.4.
+
+## Layer 2: modules, flatness, finite presentation, injective modules
+
+### 2.1 Flatness of finite products
+
+Prove `Module.Flat.pi_iff`: for `ι` finite, `Π i, M i` is flat if and only if every `M i` is; and
+`Module.Flat.prod_iff`: `M × N` is flat iff `M` and `N` are, with the instance that `M × N` is flat
+when both are. The direction from the factors is Tau Ceti's instance `Module.Flat.pi`; the converse
+holds because a direct summand of a flat module is flat. *Needs:* Tau Ceti `Module.Flat.pi`;
+Mathlib `Module.Flat.of_linearEquiv`, `Module.Flat.directSum_iff`.
+
+**Checks.**
+
+- `ℤ × ℤ ⁄ 2` is not flat over `ℤ`, because its factor `ℤ ⁄ 2` is not (multiplication by `2` is
+  injective on `ℤ` but becomes `0` on `ℤ ⁄ 2 ⊗ ℤ`).
+- `ι` empty: the product is the zero module, which is flat, and the right side holds vacuously.
+- Finiteness is needed for the direction from the factors: by Chase's theorem (Chase 1960,
+  Theorem 2.1) every product of flat modules over `R` is flat only when `R` is coherent, so over a
+  non-coherent ring some power `R ^ ℕ` is not flat although `R` is.
+
+### 2.2 Tensor products with products
+
+Prove `Module.FinitePresentation.piRightHom_bijective`: for `M` finitely presented over a
+commutative ring and any family `P` of modules, `TensorProduct.piRightHom` from `M ⊗ Π i, P i` to
+`Π i, M ⊗ P i` is bijective (Stacks, Tag 059K, (1) ⇒ (2)). Route: a presentation
+`R ^ m → R ^ n → M → 0`, the case of finite free modules, and the five lemma. *Needs:* Mathlib
+`TensorProduct.piRightHom`, `Module.FinitePresentation`.
+
+**Checks.**
+
+- `M = R`: both sides are `Π i, P i`.
+- `ι` finite: the map is bijective for every `M`, so the statement has content only for infinite
+  `ι`.
+- Finite presentation is needed: for `M = ℚ` over `ℤ` and `P n = ℤ ⁄ 2 ^ n`, the target is
+  `Π n, ℚ ⊗ ℤ ⁄ 2 ^ n = 0`, while `ℚ ⊗ Π n, ℤ ⁄ 2 ^ n ≠ 0` because `(1, 1, 1, …)` has infinite
+  order.
+
+### 2.3 Noetherian rings by finite presentation
+
+Prove `isNoetherianRing_iff_forall_finitePresentation`: a ring `R` is Noetherian if and only if
+every finitely generated `R`-module in universe `v` is finitely presented, for `R` small in
+universe `v`. Route: over a Noetherian ring the kernel of `R ^ n → M` is finitely generated;
+conversely `R ⧸ I` finitely presented forces `I` finitely generated. *Needs:* Mathlib
+`IsNoetherianRing`, `Module.Finite`, `Module.FinitePresentation`.
+
+**Checks.**
+
+- `R = ℤ`: every finitely generated abelian group is `ℤ ^ r ⊕ ⨁ ℤ ⁄ dᵢ`, presented by a diagonal
+  matrix.
+- `R = k[x₁, x₂, …]` is not Noetherian, and `R ⧸ (x₁, x₂, …) ≅ k` is finitely generated but not
+  finitely presented.
+- The universe hypothesis is what lets the converse form `R ⧸ I` in universe `v`; without it the
+  right side quantifies over modules among which the cyclic module `R ⧸ I` need not occur.
+
+### 2.4 The range of `rTensor` in coordinates
+
+Prove `TensorProduct.mem_range_rTensor_iff_equivFinsuppOfBasisRight`: for a basis `𝒞` of `N` and
+`f : M →ₗ[R] P`, an element `x` of `P ⊗ N` lies in the range of `f.rTensor N` if and only if every
+coordinate `TensorProduct.equivFinsuppOfBasisRight 𝒞 x i ∈ P` lies in the range of `f`. Route: in
+the coordinates of `𝒞`, `f.rTensor N` is `Finsupp.mapRange f`. *Needs:* Mathlib
+`TensorProduct.equivFinsuppOfBasisRight`, `LinearMap.rTensor`, `Module.Basis`.
+
+**Checks.**
+
+- `R = ℤ`, `f = 2 •` on `ℤ`, `N = ℤ ²` with its standard basis: `(2, 4)` is in the range and
+  `(2, 3)` is not.
+- `f` surjective: every `x` is in the range; `f = 0`: only `x = 0`.
+- The basis is of the right factor `N`: the coordinates live in `P`, the codomain of `f`; the
+  statement says nothing about a basis of `P`.
+
+### 2.5 The primary component of an injective module
+
+Prove `Ideal.injective_primaryComponent`: over a Noetherian ring `A`, for an ideal `I` and an
+injective module `Q`, the `I`-primary component `I.primaryComponent Q` (the `I`-power torsion) is
+injective (Stacks, Tag 08XW, (2)). Route: Baer's criterion, reduced to extending maps into the
+component along the submodules of the quotients `A ⧸ I ^ n`, which are killed by `I ^ n`.
+*Needs:* Mathlib `Ideal.primaryComponent`, `Module.Injective`, `Module.Baer`,
+`Module.Baer.of_injective`, `IsNoetherianRing`.
+
+**Checks.**
+
+- `A = ℤ`, `Q = ℚ ⁄ ℤ`, `I = (p)`: the component is the Prüfer group `ℤ[1⁄p] ⁄ ℤ`, which is
+  divisible, hence injective.
+- `Q = ℚ`: the component is `0`; `I = 0`: it is all of `Q`, since `I ^ 0 = A` and `I ^ 1 = 0`.
+- Injectivity of `Q` is needed: `Q = ℤ ⁄ 4` is its own `(2)`-component and is not injective over
+  `ℤ` (multiplication by `2` is not surjective).
+
+### 2.6 Completeness for a nilpotent ideal
+
+Prove `IsAdicComplete.of_isNilpotent`: every module is `I`-adically complete when `I` is
+nilpotent. Route: `I ^ n M = 0` for large `n`, so `M` is Hausdorff and every Cauchy sequence is
+eventually constant. *Needs:* Mathlib `IsAdicComplete`, `IsNilpotent`.
+
+**Checks.**
+
+- `R = ℤ ⁄ 4`, `I = (2)`: `I ² = 0`, and `ℤ ⁄ 4` is `(2)`-adically complete.
+- `I = 0` gives the trivial case.
+- Nilpotence is needed: `(p)` in `ℤ` is not nilpotent, and `ℤ` is not `(p)`-adically complete,
+  since its completion `ℤ_p` is uncountable.
+
+### 2.7 The split first fundamental sequence
+
+Prove `KaehlerDifferential.exists_retraction_mapBaseChange`: for `R → S → T` with
+`Algebra.H1Cotangent S T` trivial and `Ω[T⁄S]` projective over `T`, the map
+`KaehlerDifferential.mapBaseChange R S T : T ⊗[S] Ω[S⁄R] → Ω[T⁄R]` has a `T`-linear retraction.
+When `T` is formally smooth over `S` both hypotheses hold, and this is Stacks, Tag 031K. Route:
+the Jacobi–Zariski sequence `H¹(L_{T⁄S}) → T ⊗[S] Ω[S⁄R] → Ω[T⁄R] → Ω[T⁄S] → 0`
+(`Algebra.H1Cotangent.exact_δ_mapBaseChange`, `KaehlerDifferential.exact_mapBaseChange_map`) gives
+injectivity, and projectivity splits the surjection onto `Ω[T⁄S]`. *Needs:* Mathlib
+`KaehlerDifferential.mapBaseChange`, `Algebra.H1Cotangent`,
+`Algebra.H1Cotangent.exact_δ_mapBaseChange`, `KaehlerDifferential.exact_mapBaseChange_map`,
+`Algebra.FormallySmooth`.
+
+**Checks.**
+
+- The hypotheses are on `T ⁄ S`, not on `S ⁄ R`: for `R = k`, `S = k[t]` (smooth over `k`) and
+  `T = k` with `t ↦ 0`, the map is `k dt → Ω[k⁄k] = 0`, not injective; here
+  `H¹(L_{T⁄S}) = (t) ⁄ (t ²) ≠ 0`.
+- `T = S`: `Ω[S⁄S] = 0`, `H¹ = 0`, and the map is the isomorphism `S ⊗[S] Ω[S⁄R] ≅ Ω[S⁄R]`.
+- Vanishing of `H¹` is needed: for `R = k` of characteristic `≠ 2`, `S = k[t]`,
+  `T = k[t] ⁄ (t ²)`, the map `T dt → Ω[T⁄k] = T dt ⁄ (2 t dt)` kills `t dt ≠ 0`.
+
+### 2.8 Rational multiples of an indivisible vector
+
+Prove `AddSubgroup.rat_smul_mem_iff`: let `P` be an additive subgroup of a `ℚ`-vector space and
+`x ∈ P` such that `x = m • y` with `y ∈ P` and `m : ℤ` forces `m` to be a unit. Then `q • x ∈ P`
+if and only if `q` is an integer. Route: for `q = a ⁄ b` in lowest terms with `q • x ∈ P`, a
+Bézout relation `s a + t b = 1` puts `(1 ⁄ b) • x` in `P`, so `b` is a unit. *Needs:* Mathlib
+`AddSubgroup`, `Module ℚ`.
+
+**Checks.**
+
+- `P = ℤ ⊆ ℚ`, `x = 1`: `(1 ⁄ 2) • 1 ∉ ℤ`.
+- Indivisibility is needed: `x = 2` is `2 • 1`, and `(1 ⁄ 2) • 2 = 1 ∈ ℤ`.
+- `P = ℤ ²`, `x = (1, 2)`: indivisible, `(3 ⁄ 2) • x = (3 ⁄ 2, 3) ∉ P`, while `(2, 4) = 2 • x ∈ P`.
+
+### 2.9 Injective modules over a principal ideal domain
+
+Prove `Module.Baer.of_isPrincipalIdealRing`: over a commutative principal ideal ring `R`, a module
+on which every `r ≠ 0` acts surjectively satisfies Baer's criterion. Prove
+`Module.injective_iff_forall_smul_surjective`: over a principal ideal domain, a module is injective
+if and only if it is divisible; and `Module.Injective.quotient`: over a principal ideal domain,
+every quotient of an injective module is injective. The two injectivity statements carry
+`[Small.{v} R]` for a module in universe `v`. Mathlib has the first statement only over `ℤ`
+(`Module.Baer.of_divisible`). *Needs:* Mathlib `Module.Baer`, `Module.Baer.injective`,
+`Module.Baer.of_injective`, `IsPrincipalIdealRing`, `Submodule.mkQ`.
+
+**Checks.**
+
+- `ℚ ⁄ ℤ` is divisible, hence injective over `ℤ`; `ℤ` is not, since `2 • ·` misses `1`.
+- The quotient `ℚ → ℚ ⁄ ℤ` of the injective `ℤ`-module `ℚ` is injective, as stated.
+- `IsDomain` cannot be dropped from the equivalence: over the principal ideal ring `ℤ ⁄ 4`, the
+  module `ℤ ⁄ 4` is injective (Baer's criterion on the ideals `0`, `(2)`, `(1)`) but `2 • ·` is not
+  surjective; and its quotient `ℤ ⁄ 2` is not injective (the map `(2) → ℤ ⁄ 2`, `2 ↦ 1`, does not
+  extend).
+
+### 2.10 Flat modules modulo a prime
+
+Prove `Module.Flat.isSMulRegular_quotient_smul_top`: if `F` is flat over `A`, `p` is a prime of `A`
+and `a ∉ p`, then `a` is a nonzerodivisor on `F ⁄ pF`, because `F ⁄ pF ≅ (A ⁄ p) ⊗ F` and `a` is
+regular on the domain `A ⁄ p`. Prove `Submodule.IsAssociatedPrime.comap_eq_of_flat`: for `A → B`
+and a `B`-module `F` flat over `A`, every associated prime `P` of the `B`-module `F ⁄ (pB)F`
+satisfies `P ∩ A = p`. The second uses the first: an element of `P ∩ A` outside `p` would kill a
+nonzero class. *Needs:* Mathlib `Module.Flat`, `IsSMulRegular`, `quotTensorEquivQuotSMul`,
+`Submodule.IsAssociatedPrime`, `Ideal.map`, `Ideal.comap`.
+
+**Checks.**
+
+- `A = B = F = ℤ`, `p = (2)`, `a = 3`: `3` acts as `1` on `ℤ ⁄ 2`, regular; the only associated
+  prime of `ℤ ⁄ 2` is `(2)`, lying over `(2)`.
+- Primality is needed: `p = (4)`, `a = 2 ∉ p`, and `2 · 2 = 0` in `ℤ ⁄ 4`. Flatness is needed:
+  `F = ℤ ⁄ 2`, `p = (0)`, `a = 2` kills `F ⁄ pF = ℤ ⁄ 2`; and `A = ℤ`, `B = F = ℤ ⁄ 4`, `p = (0)`
+  gives the associated prime `(2)` of `ℤ ⁄ 4`, over `(2) ≠ (0)`.
+- The conclusion is `P ∩ A = p`, not `P = pB`: for `A = ℤ`, `B = F = ℤ[i]`, `p = (5)`,
+  `ℤ[i] ⁄ 5 ≅ 𝔽₅ × 𝔽₅` has the two associated primes `(2 + i)` and `(2 − i)`, neither equal to
+  `5ℤ[i]`, both over `(5)`.
+
+### Examples
+
+- 2.2 with `M = ℤ ⁄ n` over `ℤ`: `ℤ ⁄ n ⊗ Π Pᵢ ≅ Π (Pᵢ ⁄ n Pᵢ)`.
+- 2.9 over `k[t]`: `k(t) ⁄ k[t]` is divisible, hence an injective `k[t]`-module.
+
+### Dependencies
+
+Mathlib module theory as listed in the supplier contracts; Tau Ceti `Module.Flat.pi`. Within the
+layer, in 2.9 the statement on quotients uses the equivalence, and in 2.10 the statement on
+associated primes uses the regularity statement.
+
+## Layer 3: derivations
+
+### 3.1 Products and integer powers
+
+Prove `Derivation.leibniz_prod`: for a derivation `D` of a commutative algebra and a finite set
+`s`, `D (∏ i ∈ s, f i) = ∑ i ∈ s, (∏ j ∈ s.erase i, f j) • D (f i)`. Prove
+`Derivation.leibniz_zpow_units`: for a unit `u` of a commutative ring and `n : ℤ`,
+`D ↑(u ^ n) = n • ↑(u ^ (n − 1)) • D ↑u`, extending Mathlib's `Derivation.leibniz_zpow`, which is
+stated over fields. *Needs:* Mathlib `Derivation`, `Derivation.leibniz_pow`,
+`Derivation.leibniz_zpow`.
+
+**Checks.**
+
+- `s = ∅`: `D 1 = 0`, the empty sum.
+- `f` constant equal to `a` on a two-element `s`: `D (a ²) = 2 a D a`; a formula with
+  `∏ j ∈ s, f j` in place of `∏ j ∈ s.erase i, f j` would give `2 a ² D a`.
+- `n = −1`: `D (u⁻¹) = −u⁻² D u`; `n = 0`: `D 1 = 0`. On `ℚ[x, x⁻¹]` with `D = d ⁄ dx` and
+  `u = x`, `n = −2` gives `−2 x⁻³`.
+
+### 3.2 Commutators with multiplications
+
+Prove `Derivation.lie_mulLeft`: for a derivation `D` of a commutative `R`-algebra `A` into itself
+and `a ∈ A`, the commutator of `D` with `LinearMap.mulLeft R a` in `Module.End R A` is
+`LinearMap.mulLeft R (D a)`. Prove `Derivation.mulLeft_mul_mul_mulLeft_inv`: for a unit `u`,
+`u ∘ D ∘ u⁻¹ = D − (u⁻¹ D u)` as endomorphisms, multiplications written as `LinearMap.mulLeft`.
+*Needs:* Mathlib `Derivation`, `LinearMap.mulLeft`, `Module.End`; 3.1.
+
+**Checks.**
+
+- `A = k[x]`, `D = d ⁄ dx`, `a = x`: the commutator is the identity, `LinearMap.mulLeft (D x)` with
+  `D x = 1`.
+- `u` a unit of `k`: `D u = 0`, and conjugation fixes `D`.
+- The sign: on `k[x, x⁻¹]` with `u = x`, `x · D (x⁻¹ · 1) = −x⁻¹ = (D − x⁻¹ D x) 1`; the opposite
+  sign would give `+x⁻¹`.
+
+### Examples
+
+- `Derivation.leibniz_prod` for `D = d ⁄ dx` and `∏ (x − aᵢ)` gives the derivative as the sum of
+  the products with one factor omitted.
+- `Derivation.lie_mulLeft` gives the Weyl relation `⁅d ⁄ dx, x⁆ = 1` on `k[x]`.
+
+### Dependencies
+
+Mathlib `Derivation` and `LinearMap.mulLeft`. Within the layer, 3.2 uses 3.1 for `D (u⁻¹)`.
+
+## Layer 4: topology
+
+### 4.1 The exponential law
+
+Prove `ContinuousMap.continuous_curry_of_locallyCompactSpace` and
+`ContinuousMap.continuous_curry_of_r1Space`: currying `C(X × Y, Z) → C(X, C(Y, Z))` is continuous
+for the compact-open topologies when `X` is locally compact, or when `X` is an `R1Space`
+(preregular), with no hypothesis on `Y`. Prove `ContinuousMap.continuous_uncurry_of_r1Space`:
+uncurrying is continuous when `X` is an `R1Space` and `Y` is locally compact. Together they make
+`ContinuousMap.curry` a homeomorphism `C(X × Y, Z) ≃ₜ C(X, C(Y, Z))` for `X` preregular and `Y`
+locally compact. Mathlib's `ContinuousMap.continuous_curry` asks for `LocallyCompactSpace (X × Y)`
+and its `Homeomorph.curry` for both factors locally compact. *Needs:* Mathlib
+`ContinuousMap.curry`, `ContinuousMap.uncurry`, `R1Space`, `LocallyCompactSpace`.
+
+**Checks.**
+
+- `X = ℚ`, `Y = [0, 1]`: `X` is Hausdorff, hence `R1Space`, and not locally compact, so the
+  homeomorphism is new here, outside Mathlib's `Homeomorph.curry`.
+- `X = Y = Z = ℝ`: all hypotheses hold and the statements reduce to Mathlib's.
+- The convention `curry f x y = f (x, y)`: for `f (x, y) = x − y` on `ℝ × ℝ`, `curry f 1 0 = 1`,
+  where the swapped convention would give `−1`; and `uncurry (curry f) = f`.
+
+### 4.2 An openness criterion
+
+Prove `NoetherianSpace.isOpen_of_stableUnderGeneralization`: in a Noetherian quasi-sober space, a
+set `E` stable under generalisation is open as soon as every `x ∈ E` has an open neighbourhood
+`W` with `W ∩ closure {x} ⊆ E`. Mathlib has this only for prime spectra, under a constructibility
+hypothesis (`PrimeSpectrum.isOpen_of_stableUnderGeneralization_of_isConstructible`). Route:
+Noetherian induction on the closed set `Eᶜ`, whose finitely many irreducible components have
+generic points by quasi-sobriety. *Needs:* Mathlib `TopologicalSpace.NoetherianSpace`,
+`QuasiSober`, `StableUnderGeneralization`.
+
+**Checks.**
+
+- In `Spec ℤ`, `E = {(0)}` is stable under generalisation and not open; the hypothesis fails at
+  `x = (0)`, since every nonempty open set contains closed points and `closure {x}` is the whole
+  space.
+- In `Spec ℤ`, `E = Spec ℤ ∖ {(2)}` is open, and for a closed point `x ≠ (2)` the set `W = E`
+  works, as `closure {x} = {x}`.
+- In the Sierpiński space `{0, 1}` with `{1}` open, `E = {1}` is stable under generalisation and
+  open, with `W = {1}`; `E = {0}` is not stable under generalisation, as `1` generalises `0`.
+
+### Examples
+
+- 4.1 for `X = Y = [0, 1]` recovers the classical exponential law on compact spaces.
+- 4.2 on `Spec` of a Noetherian ring for `E` the complement of `V(I)`.
+
+### Dependencies
+
+Mathlib general topology and the compact-open topology.
+
+## Layer 5: finite monoids, determinants, identities, integer-valued polynomials, traces
+
+### 5.1 Right zeros of finite monoids
+
+Prove `Monoid.exists_forall_mul_eq_self_iff_of_finite`: a finite monoid `M` has a right zero, an
+element `p` with `u p = p` for every `u`, if and only if any two principal right ideals meet
+(`∀ u v, ∃ u' v', u u' = v v'`) and every monoid morphism from `M` to a group in the universe of
+`M` is trivial. Route: finiteness and the meeting condition give `p` in every principal right ideal;
+`E = p M` satisfies `u E = E` for every `u`, so left multiplication is a morphism to the
+permutations of `E`, trivial by hypothesis. *Needs:* Mathlib `Monoid`, `MonoidHom`, `Equiv.Perm`.
+
+**Checks.**
+
+- A nontrivial finite group satisfies the first condition and has no right zero.
+- `{1, a, b}` with `a`, `b` left zeros (`x y = x` for `x ≠ 1`) has only trivial morphisms to groups
+  (`f a = f (a a) = f a ²`) and no right zero (`b a = b`, `a b = a`); here `a M = {a}` and
+  `b M = {b}` do not meet.
+- `(ℤ ⁄ n, ·)`: `0` is a right zero, and both conditions hold.
+
+### 5.2 The Cauchy–Binet formula
+
+Prove `Matrix.det_submatrix_mul`: for `A : Matrix l ι R`, `B : Matrix ι o R` over a commutative
+ring, `ι` finite and linearly ordered, and `I : Fin n → l`, `K : Fin n → o`, the minor of `A B` on
+rows `I` and columns `K` is the sum over `s ∈ Set.powersetCard ι n` of the minor of `A` on rows
+`I` and columns `s` times the minor of `B` on rows `s` and columns `K`, the subsets listed in
+increasing order by `Set.powersetCard.ofFinEmbEquiv`. For `I` and `K` the identity this is the
+formula for `det (A B)`. Route: exterior powers, or the expansion of the determinant over
+injections `Fin n → ι`. *Needs:* Mathlib `Matrix.det`, `Matrix.submatrix`, `Set.powersetCard`,
+`Set.powersetCard.ofFinEmbEquiv`.
+
+**Checks.**
+
+- `n = 1`: the formula is the matrix product `(A B) i k = ∑ s, A i s B s k`.
+- `card ι < n`: the sum is empty, and `det (A B) = 0`, as `A B` has rank at most `card ι`.
+- `n = 2`, `ι = Fin 3`, `A = [[1, 0, 1], [0, 1, 1]]`, `B = Aᵀ`: `A B = [[2, 1], [1, 2]]` has
+  determinant `3`, and the three minors of `A` are `1`, `1`, `−1`, whose squares sum to `3`.
+
+### 5.3 The Binet–Cauchy and Lagrange identities
+
+Prove `Finset.sum_sum_mul_sub_mul_mul_mul_sub_mul`: over a commutative ring,
+`∑ i, ∑ j, (a i b j − a j b i)(c i d j − c j d i) = 2 ((∑ a c)(∑ b d) − (∑ a d)(∑ b c))`, sums over
+a finite set `s`. Lagrange's identity over a commutative ring is its case `c = a`, `d = b`. Prove
+`RCLike.sum_sum_norm_mul_sub_mul_sq`: over `ℝ` or `ℂ`,
+`∑ i, ∑ j, ‖a i b j − a j b i‖ ² = 2 ((∑ ‖a i‖ ²)(∑ ‖b i‖ ²) − ‖∑ conj (a i) b i‖ ²)`, which gives
+the Cauchy–Schwarz inequality with its defect. *Needs:* Mathlib `RCLike`,
+`Finset.sum_mul_sq_le_sq_mul_sq`.
+
+**Checks.**
+
+- `a = (1, 0)`, `b = (0, 1)`: the ordered pairs `(1, 2)` and `(2, 1)` contribute `1` each, and the
+  right side is `2 (1 · 1 − 0) = 2`.
+- `a = b`: both sides of Lagrange's identity are `0`.
+- The conjugate is needed: over `ℂ`, `a = (1, i)` and `b = i a` give `0` on the left and
+  `2 (2 · 2 − |2 i| ²) = 0` on the right; without `conj`, `∑ a i b i = i − i = 0` would give `8`.
+
+### 5.4 Integer-valued polynomials
+
+Define `Polynomial.intValued`, the `ℤ`-subalgebra of `ℚ[X]` of the polynomials taking integer
+values at every integer. Prove `Polynomial.mem_intValued_iff_forall_natCast`: integer values at
+the natural numbers suffice. Prove `Polynomial.exists_basis_intValued`: the binomial polynomials
+`Ring.choose X n` form a `ℤ`-basis of `Polynomial.intValued` (Pólya 1915; Cahen–Chabert 1997,
+Chapter I, §1). Route: Newton's forward-difference formula
+`P = ∑ k ≤ deg P, (Δᵏ P)(0) • Ring.choose X k` over a field of characteristic zero, the iterated
+differences of an integer-valued polynomial being integers. *Needs:* Mathlib `Ring.choose`,
+`Polynomial.eval`, `Module.Basis`, `fwdDiff`.
+
+**Checks.**
+
+- `X (X − 1) ⁄ 2 = Ring.choose X 2` is integer-valued and not in `ℤ[X]`.
+- `X ² = 2 Ring.choose X 2 + Ring.choose X 1`, with coordinates `(0, 1, 2)`; `X ⁄ 2` takes the
+  value `1 ⁄ 2` at `1` and is not integer-valued.
+- Values at `ℕ` suffice, values at the even integers do not: `Ring.choose X 2` takes the value
+  `1` at `−1`, while `X ⁄ 2` is an integer at every even integer and is not integer-valued.
+
+### 5.5 Traces of odd powers of a difference of idempotents
+
+Prove `Matrix.trace_sub_pow_odd_of_isIdempotentElem`: for idempotent square matrices `P`, `Q` over a
+commutative ring, `tr ((P − Q) ^ (2k + 1)) = tr P − tr Q` for every `k : ℕ`, with no hypothesis on
+`2`. A route that does not divide by `2`: `C = (P − Q) ²` commutes with `P` and `Q`,
+`(P − Q) C = (P − Q) − (P Q P − Q P Q)`, and `tr (D P Q P) = tr (D Q P Q)` whenever `D` commutes
+with `P` and `Q`. For orthogonal projections on a Hilbert space with `P − Q` in a Schatten class,
+and an odd power of `P − Q` of trace class, the common value is the index of the pair
+(Avron–Seiler–Simon 1994); the matrix identity over a
+ring is elementary. *Needs:* Mathlib `Matrix.trace`, `Matrix.trace_mul_comm`, `IsIdempotentElem`.
+
+**Checks.**
+
+- Over `ℤ`, `P = [[1, 0], [0, 0]]`, `Q = [[0, 0], [1, 1]]`: `P − Q = [[1, 0], [−1, −1]]` has
+  trace `0 = 1 − 1`, and `(P − Q) ² = 1`, so every odd power is `P − Q`; the even powers have trace
+  `2`, so the statement fails for even exponents.
+- Idempotence is needed: `P = (2)`, `Q = (0)` of size one give `tr P ³ = 8 ≠ 2`.
+- Over `𝔽₂`, where a proof by anticommutation divides by `2`: `P = 1`, `Q = 0` of size one give
+  `1 = 1 − 0` for every exponent, and the example above reduced modulo `2` has trace `0`.
+
+### 5.6 Common denominators in the Grothendieck group
+
+Prove `GrothendieckGroup.exists_eq_div_of_and_eq_div_of`: any two elements `x`, `y` of the
+Grothendieck group of a commutative monoid `M` are `x = of a ⁄ of c` and `y = of b ⁄ of c` with
+`a, b, c : M`, where `of` is `Algebra.GrothendieckGroup.of`. In particular every element is
+`of a ⁄ of b`. Route: `Submonoid.LocalizationMap.surj` for the top submonoid, then the product of
+the two denominators. *Needs:* Mathlib `Algebra.GrothendieckGroup`, `Algebra.GrothendieckGroup.of`,
+`Submonoid.LocalizationMap.surj`.
+
+**Checks.**
+
+- `M = (ℕ, ·)`: `0` absorbs, the group is trivial, and `of 2 = of 3`; the common-denominator
+  statement does not make `of` injective without cancellation.
+- `M = Multiplicative ℕ`: the group is `Multiplicative ℤ`, and the classes of `1` and `−2` have the
+  common denominator `of 2`: they are `of 3 ⁄ of 2` and `of 0 ⁄ of 2`.
+- `M = ({1, e}, ·)` with `e ² = e`: the group is trivial, and `of e = of 1`, with `c = e` in
+  `Submonoid.LocalizationMap.eq_iff_exists`.
+
+### Examples
+
+- 5.2 with `n = card ι` gives `det (A B) = det A · det B` for square matrices.
+- 5.4: `X ³ = 6 Ring.choose X 3 + 6 Ring.choose X 2 + Ring.choose X 1`.
+
+### Dependencies
+
+Mathlib `Matrix`, `Set.powersetCard`, `RCLike`, `Ring.choose`, `Algebra.GrothendieckGroup`.
+The targets of the layer are independent of one another.
+
+## Downstream consumers
+
+PCurvature (Layers 1.1 and 1.4) consumes 3.2: `Derivation.lie_mulLeft` and
+`Derivation.mulLeft_mul_mul_mulLeft_inv`. No roadmap on main names this one
+(`git grep -w GrothendieckNotesLemmas` on main and on the heads of the open roadmap pull requests).
 
 ## References
 
-- É. Lucas, « Théorie des fonctions numériques simplement périodiques », *Amer. J. Math.* 1 (1878).
-- P.-J. Cahen, J.-L. Chabert, *Integer-valued polynomials*, AMS (1997).
-- The Stacks Project, tags 059K, 08XW, 00TH.
+- É. Lucas, « Théorie des fonctions numériques simplement périodiques », *Amer. J. Math.* 1
+  (1878), 184–240 and 289–321.
+- S. U. Chase, « Direct products of modules », *Trans. Amer. Math. Soc.* 97 (1960), 457–473.
+- G. Pólya, « Über ganzwertige ganze Funktionen », *Rend. Circ. Mat. Palermo* 40 (1915), 1–16.
+- P.-J. Cahen, J.-L. Chabert, *Integer-valued polynomials*, Math. Surveys Monogr. 48, Amer. Math.
+  Soc., Providence, 1997. doi:10.1090/surv/048.
 - J. Avron, R. Seiler, B. Simon, « The index of a pair of projections », *J. Funct. Anal.* 120
-  (1994), 220–237, doi:10.1006/jfan.1994.1031.
-
-## Provenance
-
-The lemmas were needed by the Lean proofs of the Grothendieck edition (grothendieck.commutator.io),
-written by Claude Opus 5.5 (claude-opus-5-5) under Michel Hua's direction in October 2026. They were
-proposed to Mathlib as pull requests and closed on 11–22 October 2026 under Mathlib's policy on AI
-contributions. Their origin establishes provenance, not ownership: the owners are those of the
-table above. This roadmap was drafted with the same model and read and revised by its human author.
+  (1994), 220–237. doi:10.1006/jfan.1994.1031.
+- The Stacks Project, https://stacks.math.columbia.edu: Tag 059K (Algebra, the proposition on
+  finitely presented modules and tensor products with products), Tag 08XW (Dualizing complexes,
+  the lemma on torsion submodules of injective modules over a Noetherian ring), Tag 031K
+  (Algebra, the split first fundamental sequence for a formally smooth map).
