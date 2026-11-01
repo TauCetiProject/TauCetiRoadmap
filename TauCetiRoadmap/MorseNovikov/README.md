@@ -15,9 +15,10 @@ structures. On the way the build proves the Novikov isomorphism, the Novikov ine
 top-degree vanishing, integrality and the product formula of the zeta function, the Lefschetz
 fixed-point formula for smooth self-maps of closed manifolds with nondegenerate fixed points,
 the vector-field Poincaré–Hopf theorem, and explicit circle, mapping-torus and zero-surgery
-calculations. `Suggested.lean` states the one headline that is statable against the pinned
-libraries, the Lefschetz fixed-point formula `lefschetz_fixed_point_formula`; its module
-docstring names the other headlines and the carrier each one lacks.
+calculations. `Suggested.lean` states the two headlines that are statable against the pinned
+libraries, the Lefschetz fixed-point formula `lefschetz_fixed_point_formula` and the
+vector-field Poincaré–Hopf theorem `poincare_hopf`; its module docstring names the other
+headlines and the carrier each one lacks.
 
 ## Scope and ownership
 
@@ -159,9 +160,12 @@ taken in the universe of the space (`ULift ℚ` in `Suggested.lean`).
 - `IsAddQuotientCoveringMap`: the quotient covering map of a free properly discontinuous
   additive action, used for the period-kernel cover of §2.2.
 - `Flow`, `mfderiv`, `ContMDiff`, `IsManifold`, `ModelWithCorners`: manifold calculus for the
-  flows of §2.3 and §5.1 and for the statement of the Lefschetz formula in §6.7.
+  flows of §2.3 and §5.1 and for the statements of the Lefschetz formula in §6.7 and of the
+  Poincaré–Hopf theorem in §7.1; `TangentBundle`, `TangentSpace` and `ContinuousLinearMap.snd`
+  read the vertical derivative of a vector field at a zero (§7.1).
 - `LinearMap.det`, `LinearMap.trace`, `Function.fixedPoints`, `Module.finrank`, `TopPair.incl`,
-  `TopCat.ofHom`, `ModuleCat.of`: the carriers of `lefschetz_fixed_point_formula`.
+  `TopCat.ofHom`, `ModuleCat.of`: the carriers of `lefschetz_fixed_point_formula` and
+  `poincare_hopf`.
 
 ### From Tau Ceti
 
@@ -173,7 +177,8 @@ taken in the universe of the space (`ULift ℚ` in `Suggested.lean`).
   dual V=α♯ of §2.1.
 - `TopPair.singularHomology`, `TopPair.singularHomologyMap` (AlgebraicTopology/Singular/
   Relative): relative singular homology of topological pairs and its functoriality; absolute
-  homology is the pair (X,∅) through `TopPair.incl`.
+  homology is the pair (X,∅) through `TopPair.incl`, and the Betti numbers of `poincare_hopf`
+  are the ranks of the same carrier.
 
 ### From TauCetiRoadmap.MorseTheory
 
@@ -199,8 +204,10 @@ versions; they do not posit moduli spaces as unexplained input fields.
 Layers 0–1 (forms, `closedForms`, `RoughForm`, the exterior derivative, local primitives),
 Layer 2 (orientations), Layer 3 (flows: `flowOf`, `toFlow`,
 `isCompleteVectorField_of_compactSpace`; compactness supplies completeness here), Layer 5
-(integration), Layer 6 (de Rham cohomology), Layer 8 (de Rham theorem and period comparison),
-Layer 10 (Brouwer degree) and Layer 12 (metrics and musical maps, `circleAngularForm`).
+(integration, with `circleAngularForm` and its integral 2π over the circle), Layer 6 (de Rham
+cohomology), Layer 8 (de Rham theorem and period comparison, where the de Rham class of
+`circleAngularForm` is nonzero), Layer 10 (Brouwer degree) and Layer 12 (metrics and musical
+maps).
 
 ### From TauCetiRoadmap.AlgebraicTopology
 
@@ -289,12 +296,13 @@ API of the completion:
 
 ### 1.2 The period filtration, completeness and pushforwards
 
-Put `U_C={a | ∀h, N(h)<C→a(h)=0}`. These additive subgroups define the separated
-period-filtration topology. Prove completeness and the universal completion property for the
-group ring with this filtration, density of finite truncations, continuity of ring operations,
-and cutoff/convolution compatibility. Scalar change is coefficientwise; base change of
-completed rings is not identified with a tensor product without its own proof. Positive
-rescaling of N gives the same topology.
+Put `U_C={a | ∀h, N(h)<C→a(h)=0}`. These additive subgroups define the separated period-filtration
+topology (rt3 §2.1, p. 220: a series is O(R) when every coefficient below period R vanishes, and
+limits in Nov are taken in this sense). Prove completeness and the universal completion property
+for the group ring with this filtration, density of finite truncations, continuity of ring
+operations, and cutoff/convolution compatibility. Scalar change is coefficientwise; base change of
+completed rings is not identified with a tensor product without its own proof. Positive rescaling
+of N gives the same topology.
 
 For commutative ground rings R,S, a unital homomorphism ρ:R→S, an exponent homomorphism
 φ:H→H′ and c>0 satisfying N′∘φ=cN, construct the continuous unital ring homomorphism
@@ -307,7 +315,8 @@ neighbourhoods, prove `P_(ρ,φ)(U_C)⊆U′_(cC)` and deduce continuity. Constr
 to the nonnegative subrings and strictly positive ideals. With fixed ground ring export the
 R-algebra homomorphism specialization. Finite kernel is not required for this pushforward.
 With finite kernel also construct the restriction φ^* by coefficient precomposition and prove
-its support bound. Export the inclusion/restriction cases used in finite cyclic covers. A
+its support bound (rt3 §3.4, p. 227: the pullback ι^* along an inclusion with finite kernel,
+beside the pushforward ι_*). Export the inclusion/restriction cases used in finite cyclic covers. A
 pushforward with a finer grading additionally requires a target degree map commuting with φ,
 or an explicit degree quotient; the period identity alone supplies the ungraded map. This
 construction does not give an unrestricted series pushforward for arbitrary φ, nor flatness,
@@ -384,7 +393,9 @@ retained. *Needs:* §§1.1–1.2, Mathlib `LaurentSeries`, `HahnSeries`.
 
 For a free H-set S with finitely many orbits and an equivariant potential F(hs)=F(s)−N(h),
 construct completed R-linear combinations of S finite above every F-threshold. Chosen orbit
-lifts identify this module with a finite free Nov-module. Prove change-of-lift matrices are
+lifts identify this module with a finite free Nov-module (rt3 §1.4, p. 213: the completed
+chains on the lifted critical points of one index are free over the Novikov ring, with a
+basis given by a chosen lift of each critical point). Prove change-of-lift matrices are
 diagonal monomials, cutoff convergence, and the extension of equivariant matrices to
 continuous maps. Export the uniform support estimates for differentials, continuation maps,
 homotopies and compositions. *Needs:* §§1.1–1.2.
@@ -500,7 +511,8 @@ item 1; UniversalCovers Stage 2 items 7–8; GeometricTopology Layer 1; Mathlib
 
 For a Morse–Smale pair on compact X, establish a lifted moduli space for each pair of lifted
 critical points, with translation quotient and expected dimension equal to the index
-difference minus one (rt3 §1.4, p. 213). Construct compactification, evaluation and gluing
+difference minus one (rt3 §1.1, p. 211, the expected dimension, and §1.4, p. 213, the lifted
+count). Construct compactification, evaluation and gluing
 under a fixed upper bound on **potential drop**. Compactness on X is not compactness on X̃:
 prove that outside disjoint small critical neighbourhoods, drop controls trajectory length;
 passages near hyperbolic critical points have controlled entry and exit, and only finitely
@@ -632,12 +644,13 @@ homology (rt3 Example 1.8, p. 215, the triangulation vector field of Appendix B)
 
 ### 3.5 Novikov inequalities and top-degree vanishing
 
-Derive coefficient-change and homotopy naturality through the chain maps of §§3.2–3.3. Prove
-the Novikov inequalities using field-component ranks and finite critical counts; the rank is
-a dimension over an actual field component, never over an assumed Novikov field. For n=dim X
-and [α]≠0 prove `H_n^Nov(X;ℤ)=0`, with the orientation-local-system argument valid for
-nonorientable X as well. Give nonexact classes with zero complex and examples where Novikov
-homology is not H_*(X)⊗Nov. *Needs:* §§3.1–3.4, 4.3; AlgebraicTopology Stage 6.
+Derive coefficient-change and homotopy naturality through the chain maps of §§3.2–3.3. Prove the
+Novikov inequalities using field-component ranks and finite critical counts (they follow from the
+Novikov isomorphism of §3.3, rt3 equation (1.4), p. 213, by field-component ranks); the rank is a
+dimension over an actual field component, never over an assumed Novikov field. For n=dim X and
+[α]≠0 prove `H_n^Nov(X;ℤ)=0`, with the orientation-local-system argument valid for nonorientable X
+as well. Give nonexact classes with zero complex and examples where Novikov homology is not
+H_*(X)⊗Nov. *Needs:* §§3.1–3.4, 4.3; AlgebraicTopology Stage 6.
 
 **Checks.**
 
@@ -674,7 +687,8 @@ homology-basis determinant line (rt3 Definition A.1, p. 239). Prove independence
 bases and lifts, permutation and sign rules, the graded basis-change formula, scalar extension
 and direct sums. For a degreewise based short exact sequence of acyclic complexes, prove
 scalar-torsion multiplicativity with compatible chain bases and the explicit Koszul sign
-(Milnor 1966, §3, p. 365, Theorem 3.1). For general complexes, prove determinant-line
+(Milnor 1966, §3, p. 365, Theorem 3.1, which is an identity in K₁ modulo ±1, so the sign is
+fixed here and not taken from the source). For general complexes, prove determinant-line
 multiplicativity through the long exact homology sequence, including its torsion correction
 with chosen homology bases. Regard that sequence as an acyclic homological complex with
 H_i(A), H_i(B), H_i(D) in degrees 3i+2, 3i+1, 3i respectively, using the same alternating
@@ -717,8 +731,12 @@ equality for grading-preserving A (rt3 Proposition A.5, p. 240). *Needs:* §4.1;
   first coordinate alone would not make the projected map an isomorphism onto a
   one-dimensional E₀ with the second coordinate missing, so the decomposition condition (ii)
   is not vacuous.
-- The sign: the two-term complex with a=1 and swapped basis order in degree 0 has torsion −1,
-  the permutation sign of the basis change.
+- The sign: the two-term complex `F² →id F²` with the standard basis in degree 1 and the
+  swapped basis order in degree 0 has basis change A₁=1 and A₀ the transposition, so
+  `det A₀=−1` and the formula gives `τ·det(A₀)^((−1)^0)=1·(−1)=−1`, the permutation sign;
+  the direct computation agrees, since the differential in the new bases is the transposition
+  with determinant −1 and two-term torsion (−1)⁻¹=−1. The one-dimensional complex `F →a F`
+  admits no basis swap in degree 0, so it cannot witness the sign.
 
 ### 4.3 Total quotient rings and their field decomposition
 
@@ -927,9 +945,12 @@ apply to nondegenerate return maps; no universal degenerate-iterate formula is a
 - The exact two-critical-point circle: the flow has no closed orbits, so admissibility
   reduces to the Morse–Smale condition, which holds.
 - The rational linear flow on T² for the form dx with the flat metric: a circle of periodic
-  orbits with return derivative 1, so the pair is not admissible; the irrational linear flow
-  has no periodic orbits and is admissible vacuously, which shows admissibility depends on the
-  metric within a cohomology class.
+  orbits with return derivative 1, so the pair is not admissible; the form dx+√2dy with the
+  same flat metric has the irrational linear flow, with no periodic orbits, and is admissible
+  vacuously, but it lies in a different cohomology class. Within the class of dx itself a
+  generic metric makes the pair admissible (rt3 §1.1, p. 211, the genericity remark after
+  Definition 1.1) while the flat metric does not, so admissibility depends on the metric and
+  not only on the class.
 
 ### 5.4 Finiteness, the zeta function, integrality and norms
 
@@ -1190,32 +1211,37 @@ equivariant version for a larger abelian cover under its actual support hypothes
 Example 1.9, p. 216, the equivariant Lefschetz theorem).
 
 The Lefschetz fixed-point formula is constructed here, by simplicial approximation on a smooth
-triangulation and Hopf's barycentric modification, the Hopf trace lemma and §5.2's continuous
-local fixed-point index, valid also for nonorientable S. For a smooth self-map f of a closed
-manifold M of dimension n all of whose fixed points are nondegenerate, `fixedPointDet` is
-`det(1−df_x)` read in the chart at x (intrinsic at a fixed point, where the charts at x and
-f(x) coincide), `fixedPointSign` is its sign, `rationalHomologyMap` is the induced map on
-rational singular homology of the pair (M,∅), and `lefschetz_fixed_point_formula` states that
-the sum of the signs over the fixed points equals `Σ_(i=0)^n (−1)^i tr(f_*|H_i(M;ℚ))`. The
-route: choose a finite smooth triangulation K and construct its local PL charts from
-subdivision stars and the link-sphere property of GeometricTopology Layer 11's smooth
-triangulation comparison. Choose a simplicial approximation `a:sd^r K→K` of f and its
-homotopic Hopf modification ψ. Define the finite chain endomorphism
-`T_q=a_#,q∘Sd^r_q:C_q(K;ℚ)→C_q(K;ℚ)`. Prove ψ has isolated fixed points and, for each
-q-simplex σ, its total interior fixed-point index is `(−1)^q (T_q)_(σ,σ)`. Compute the unit
-local contribution as `(−1)^q ε`, where ε is the oriented local degree (expansion along the
-simplex and transverse contraction). Include the reflected 1-simplex: ε=−1 gives index +1.
-Thus prove `Σ index(ψ)=Σ_q (−1)^q tr(T_q)` before applying the Hopf trace lemma. Use §5.2's
-chart-independent continuous index to compute ψ in its PL charts; compare with the smooth
-index through C⁰-small approximation preserving every isolating boundary. Prove global
-homotopy invariance of the total fixed-point index on compact S for continuous homotopies, by
-approximating them and their ends smoothly and applying the generic smooth homotopy's
-fixed-point one-manifold in S×[0,1]: its end signs `sgn det(1−df)` cancel without an
-orientation of S. Thus the PL ψ and smooth f have the same total. Compare graph/diagonal
-intersection using AlgebraicTopology Stage 6's orientation local system in the oriented
-specialization. *Needs:* §§5.2, 6.8; GeometricTopology Layer 11; AlgebraicTopology Stages 4
-and 6; Tau Ceti `TopPair.singularHomologyMap`; Mathlib `mfderiv`, `LinearMap.det`,
-`LinearMap.trace`, `Function.fixedPoints`.
+triangulation and Hopf's barycentric modification, the Hopf trace lemma and §5.2's continuous local
+fixed-point index, valid also for nonorientable S (the simplicial approximation theorem and the
+Lefschetz fixed-point theorem for finite simplicial complexes: Hatcher, Algebraic Topology, §2.C,
+Theorems 2C.1 and 2C.3, pp. 177 and 179; the Hopf trace formula
+`Σ_q (−1)^q tr(f_q)=Σ_q (−1)^q tr(f_*|H_q)`: the chain-level trace formula in the proof of Theorem
+2C.3, p. 181; the local-index form `Σ ind=L(f)` for compact Euclidean neighbourhood retracts: Dold,
+Lectures on Algebraic Topology, Chapter VII, §6, the Lefschetz–Hopf theorem, cited by locator; rt3
+Example 1.9, p. 215, names the Lefschetz theorem for the iterates as the content of its
+mapping-torus formula (1.6) and does not prove it). For a smooth self-map f of a closed manifold M
+of dimension n all of whose fixed points are nondegenerate, `fixedPointDet` is `det(1−df_x)` read
+in the chart at x (intrinsic at a fixed point, where the charts at x and f(x) coincide),
+`fixedPointSign` is its sign, `rationalHomologyMap` is the induced map on rational singular
+homology of the pair (M,∅), and `lefschetz_fixed_point_formula` states that the sum of the signs
+over the fixed points equals `Σ_(i=0)^n (−1)^i tr(f_*|H_i(M;ℚ))`. The route: choose a finite smooth
+triangulation K and construct its local PL charts from subdivision stars and the link-sphere
+property of GeometricTopology Layer 11's smooth triangulation comparison. Choose a simplicial
+approximation `a:sd^r K→K` of f and its homotopic Hopf modification ψ. Define the finite chain
+endomorphism `T_q=a_#,q∘Sd^r_q:C_q(K;ℚ)→C_q(K;ℚ)`. Prove ψ has isolated fixed points and, for each
+q-simplex σ, its total interior fixed-point index is `(−1)^q (T_q)_(σ,σ)`. Compute the unit local
+contribution as `(−1)^q ε`, where ε is the oriented local degree (expansion along the simplex and
+transverse contraction). Include the reflected 1-simplex: ε=−1 gives index +1. Thus prove
+`Σ index(ψ)=Σ_q (−1)^q tr(T_q)` before applying the Hopf trace lemma (Hatcher, §2.C, p. 181). Use
+§5.2's chart-independent continuous index to compute ψ in its PL charts; compare with the smooth
+index through C⁰-small approximation preserving every isolating boundary. Prove global homotopy
+invariance of the total fixed-point index on compact S for continuous homotopies, by approximating
+them and their ends smoothly and applying the generic smooth homotopy's fixed-point one-manifold in
+S×[0,1]: its end signs `sgn det(1−df)` cancel without an orientation of S. Thus the PL ψ and smooth
+f have the same total. Compare graph/diagonal intersection using AlgebraicTopology Stage 6's
+orientation local system in the oriented specialization. *Needs:* §§5.2, 6.8; GeometricTopology
+Layer 11; AlgebraicTopology Stages 4 and 6; Tau Ceti `TopPair.singularHomologyMap`; Mathlib
+`mfderiv`, `LinearMap.det`, `LinearMap.trace`, `Function.fixedPoints`.
 
 API of the Lefschetz statement:
 
@@ -1251,29 +1277,29 @@ API of the Lefschetz statement:
 ### 6.8 The finite-triangulation chain adapter
 
 For each finite simplicial complex K and commutative coefficient ring R, construct the native
-`ChainComplex (ModuleCat R) ℕ` free on the q-simplices, with basis orientations fixed by a
-vertex order and orientation reversal acting by −1, with the alternating face differential,
-basis equations, scalar extension and its extension by zero to `ChainComplex (ModuleCat R) ℤ`.
-Consume GeometricTopology Layer 11's chosen simplex-cell CW structure on |K|, ordered
-characteristic maps and signed simplicial/cellular boundary identification. Prove this chain
-adapter agrees with that structure and AlgebraicTopology Stage 4's cellular complex and chain
-maps, and compose with Stage 4's cellular/singular comparison to obtain the homology
-isomorphism. Prove independence of vertex ordering via the orientation-change chain
-isomorphism, and functoriality for simplicial maps f, consuming Layer 11's cellularity of |f|
-for these simplex-cell structures and identifying Stage 4's cellular chain map with f_#, with
-degree zero on degenerate images and the orientation sign otherwise; Stage 4's naturality on
-homology then identifies f_# with |f|_*, without claiming a strict cellular-to-singular chain
-map. Construct the canonical affine homeomorphism `b_r:|sd^r K|≃ₜ|K|`, mapping each
-subdivision vertex to its barycentre, and use it to identify the realizations when choosing
-the approximation a of §6.7. Construct simplicial subdivision, the last-vertex chain inverse
-`λ_r#` and both composite-to-identity homotopies, with the finite acyclic-carrier homotopy
-lemma proved by augmented simplex cone contractions. Define `λ_r:sd^r K→K` by composing
-one-step last-vertex maps with fixed vertex orders at every subdivision level, and prove it is
-a simplicial approximation of b_r: their images lie in a common original simplex, so
-straight-line interpolation within that simplex gives `|λ_r|≃b_r`. Under the homology
-comparisons λ_r induces `(b_r)_*`, and the chain inverse identities force Sd^r to induce
-`(b_r)_*⁻¹`. Since `|a|≃f∘b_r`, T induces f_* on H_*(S;ℚ), which identifies the alternating
-homology trace with the Lefschetz number of f. *Needs:* GeometricTopology Layer 11;
+`ChainComplex (ModuleCat R) ℕ` free on the q-simplices, with basis orientations fixed by a vertex
+order and orientation reversal acting by −1, with the alternating face differential, basis
+equations, scalar extension and its extension by zero to `ChainComplex (ModuleCat R) ℤ`. Consume
+GeometricTopology Layer 11's chosen simplex-cell CW structure on |K|, ordered characteristic maps
+and signed simplicial/cellular boundary identification. Prove this chain adapter agrees with that
+structure and AlgebraicTopology Stage 4's cellular complex and chain maps, and compose with Stage
+4's cellular/singular comparison to obtain the homology isomorphism. Prove independence of vertex
+ordering via the orientation-change chain isomorphism, and functoriality for simplicial maps f,
+consuming Layer 11's cellularity of |f| for these simplex-cell structures and identifying Stage 4's
+cellular chain map with f_#, with degree zero on degenerate images and the orientation sign
+otherwise; Stage 4's naturality on homology then identifies f_# with |f|_*, without claiming a
+strict cellular-to-singular chain map. Construct the canonical affine homeomorphism
+`b_r:|sd^r K|≃ₜ|K|`, mapping each subdivision vertex to its barycentre, and use it to identify the
+realizations when choosing the approximation a of §6.7 (a simplicial approximation exists on a
+sufficiently fine barycentric subdivision: Hatcher, §2.C, Theorem 2C.1, p. 177). Construct
+simplicial subdivision, the last-vertex chain inverse `λ_r#` and both composite-to-identity
+homotopies, with the finite acyclic-carrier homotopy lemma proved by augmented simplex cone
+contractions. Define `λ_r:sd^r K→K` by composing one-step last-vertex maps with fixed vertex orders
+at every subdivision level, and prove it is a simplicial approximation of b_r: their images lie in
+a common original simplex, so straight-line interpolation within that simplex gives `|λ_r|≃b_r`.
+Under the homology comparisons λ_r induces `(b_r)_*`, and the chain inverse identities force Sd^r
+to induce `(b_r)_*⁻¹`. Since `|a|≃f∘b_r`, T induces f_* on H_*(S;ℚ), which identifies the
+alternating homology trace with the Lefschetz number of f. *Needs:* GeometricTopology Layer 11;
 AlgebraicTopology Stages 3–4; Mathlib `ChainComplex (ModuleCat R) ℕ`.
 
 **Checks.**
@@ -1291,15 +1317,16 @@ AlgebraicTopology Stages 3–4; Mathlib `ChainComplex (ModuleCat R) ℕ`.
 ### 6.9 Zero-slope surgery
 
 For zero-slope surgery X_K on an oriented knot in S³, using GeometricTopology Layer 4's
-meridian/Seifert longitude and Conway-normalized Δ_K and Layer 5's surgery: construct
-H₁(X_K)=ℤ and the corresponding infinite cyclic cover. Build the knot-complement cellular/Fox
-or Seifert-matrix Alexander module, prove the polynomial/module presentation comparison, and
-attach the filling chain complex. Prove `τcell(X̃_K)=Δ_K(t)/(1−t)^2 mod ±t^ℤ` (rt3 §1.5,
-p. 214: the torsion of the infinite cyclic cover of a knot complement is related to the
-Alexander polynomial). Thus the total dynamical invariant for every admissible integral-period
-form representing the generator has this value in the correctly directed completion. Verify
-the unknot and the right-handed trefoil, including t↦t⁻¹ and lift changes. *Needs:* §§4.6,
-6.1; GeometricTopology Layers 4–5; AlgebraicTopology Stages 4–5.
+meridian/Seifert longitude and Conway-normalized Δ_K and Layer 5's surgery: construct H₁(X_K)=ℤ and
+the corresponding infinite cyclic cover. Build the knot-complement cellular/Fox or Seifert-matrix
+Alexander module, prove the polynomial/module presentation comparison, and attach the filling chain
+complex. Prove `τcell(X̃_K)=Δ_K(t)/(1−t)^2 mod ±t^ℤ` (rt1 Example 1.9, p. 863: for zero-surgery on
+a knot the topological torsion of the infinite cyclic cover is the Alexander polynomial divided by
+(1−t)², up to ±t^k, by its Lemma 2.6; rt3 §1.5, p. 214, records the relation with the Alexander
+polynomial without the formula). Thus the total dynamical invariant for every admissible
+integral-period form representing the generator has this value in the correctly directed
+completion. Verify the unknot and the right-handed trefoil, including t↦t⁻¹ and lift changes.
+*Needs:* §§4.6, 6.1; GeometricTopology Layers 4–5; AlgebraicTopology Stages 4–5.
 
 **Checks.**
 
@@ -1347,7 +1374,25 @@ a Morse gradient, then use MorseTheory M4 and AlgebraicTopology Stage 7 to prove
 Σind(V,p)=χ(X), on nonorientable X as well. Compare the result, for the gradient of a Morse
 function, with HeegaardFloer §1.9 (M.9)'s Morse Euler/index identity. *Needs:* §§2.1, 5.2;
 MorseTheory M4; AlgebraicTopology Stages 2 and 7; DifferentialGeometry Layers 2–3; DGFloer
-Layer 1 item 1; HeegaardFloer §1.9 (M.9).
+Layer 1 item 1; HeegaardFloer §1.9 (M.9); Mathlib `mfderiv`, `TangentBundle`, `LinearMap.det`,
+`Module.finrank`; Tau Ceti `TopPair.singularHomology`.
+
+API of the Poincaré–Hopf statement:
+
+- `zeroDet` at a point p of a smooth vector field v is the determinant of the derivative of
+  the section x↦(x,v(x)) of the tangent bundle at p, read in the tangent-bundle chart at
+  (p,v(p)) and projected to the fibre; at a zero p this is the determinant of the
+  linearisation dV_p on T_pM and does not depend on the chart, because at a zero the
+  linearisation transforms by conjugation under a change of chart. `zeroSign` is 1 when it is
+  positive and −1 otherwise, so at a nondegenerate zero it is the local index sgn det(dV_p).
+- `rationalBetti` is the dimension over ℚ of the rational singular homology of the pair (M,∅)
+  in each degree, so its alternating sum over degrees 0 to dim M is χ(M) (AlgebraicTopology
+  Stage 7).
+- `poincare_hopf`: for compact Hausdorff boundaryless M, orientable or not, and a smooth
+  vector field v, as a smooth section of the tangent bundle, all of whose zeros are
+  nondegenerate, the sum of the local indices over the zeros equals the alternating sum of the
+  rational Betti numbers in degrees 0 to dim M; the zero set is finite under these hypotheses,
+  so the sum is a finite sum. No hypothesis χ(M)=0 enters.
 
 **Checks.**
 
@@ -1361,6 +1406,14 @@ Layer 1 item 1; HeegaardFloer §1.9 (M.9).
 - At a local maximum of f (index n) the positive gradient V=∇f points inward and dV_p is
   negative definite, so `sgn det(dV_p)=(−1)^n`; at a minimum it is +1; a convention using the
   negative gradient would give (−1)^(n−ind) instead and fail to match the cell weights.
+- S² with the gradient of a height function: two zeros, the minimum and the maximum, of index
+  +1 each by the previous Check, total 2=χ(S²); the Poincaré–Hopf count holds although there
+  are no Euler chains, so the theorem carries no χ=0 hypothesis.
+- A finite set of points, a compact manifold of dimension 0: the only vector field is zero,
+  every point is a zero whose linearisation is the empty matrix with determinant 1, so every
+  zero is nondegenerate of index +1 and the count is the number of points, which is b₀; on a
+  manifold of positive dimension the zero field has linearisation 0 at every point, no zero is
+  nondegenerate, and the theorem makes no claim about it.
 
 ### 7.2 Euler-structure normalization and the refined torsions
 
@@ -1384,7 +1437,11 @@ Remark 1.6, p. 214). *Needs:* §§4.6, 6.1, 6.7, 7.1; DGFloer Layer 1 item 1.
 **Checks.**
 
 - The critical-free circle: ξ₀ from ∂_θ, τNov(ξ₀)=1, I(ξ₀)=(1−t)⁻¹ and τcell(ξ₀)=(1−t)⁻¹;
-  at ξ₀+1 all three are multiplied by t, with the sign ambiguity alone remaining.
+  at ξ₀+h, with h the negative angular generator of H₁(S¹;ℤ), whose image in H is the deck
+  generator with N>0 and whose monomial is t (Conventions; the first Check of §2.2), all three
+  are multiplied by t, with the sign ambiguity alone remaining; at ξ₀+1, the change by the
+  positive angular generator, they are multiplied by t⁻¹, which a reading of t as the positive
+  angular generator would get wrong.
 - The two-critical-point circle with the lift of p moved by t: the torsion changes by t⁻¹
   (§4.6's Check), and the Euler chain changes by the lifted path class; the action convention
   assigns the same monomial to the Euler-structure change, so the refined τNov is well defined
@@ -1402,7 +1459,8 @@ suspension field.
 
 §§2.1, 4.6, 5.2, 6.1, 6.7; MorseTheory M4; AlgebraicTopology Stages 2 and 7;
 DifferentialGeometry Layers 2–3; DGFloer Layer 1 item 1; Turaev 1990 for the Euler-structure
-definitions.
+definitions; Mathlib `mfderiv`, `TangentBundle`, `LinearMap.det`, `Module.finrank`; Tau Ceti
+singular homology.
 
 ## Downstream consumers
 
@@ -1423,5 +1481,7 @@ definitions.
 * M. Hutchings and Y.-J. Lee, [Circle-valued Morse theory, Reidemeister torsion, and Seiberg–Witten invariants](https://math.berkeley.edu/~hutching/pub/rt1/rt1_published.pdf), Topology 38 (1999), 861–888 (rt1): original circle-valued calculations and context. Gauge-invariant comparisons belong to their gauge-theory supplier and are not assumed here.
 * V. Turaev, Introduction to Combinatorial Torsions, Birkhäuser 2001; Euler structures, nonsingular vector fields, and Reidemeister-type torsions, Math. USSR-Izvestiya 34 (1990), 627–662: based torsion and the lift refinement.
 * A. Pajitnov, Circle-valued Morse Theory, de Gruyter 2006: the completed cellular comparison.
+* A. Hatcher, [Algebraic Topology](https://pi.math.cornell.edu/~hatcher/AT/AT.pdf), Cambridge University Press 2002 (author's copy): simplicial approximation, the Lefschetz fixed-point theorem and the Hopf trace formula (§2.C).
+* A. Dold, Lectures on Algebraic Topology, Springer 1972 (Classics in Mathematics 1995): the fixed-point index on Euclidean neighbourhood retracts and the Lefschetz–Hopf theorem (Chapter VII, §6).
 * J. Milnor, [Whitehead torsion](https://www.ams.org/journals/bull/1966-72-03/S0002-9904-1966-11484-2/S0002-9904-1966-11484-2.pdf), Bull. AMS 72 (1966), 358–426: based elementary chain operations and the torsion of a based acyclic complex (§3).
 * M. Hutchings, [family-Floer transversality correction](https://floerhomology.wordpress.com/2011/06/30/erratum-family1/): generic function/metric paths or generic horizontal connections, not arbitrary fixed function homotopies with metric variations alone.
