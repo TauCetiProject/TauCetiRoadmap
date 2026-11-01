@@ -1,13 +1,13 @@
 import Mathlib
 
 /-!
-# Isocrystals, vector bundles and Banach–Colmez spaces: headline statements
+# Isocrystals, vector bundles and Banach–Colmez spaces: target signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. These statements suggest Lean forms for particular milestones; discharging
-all of them finishes neither a layer nor the roadmap.
+The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's
+headline theorems that are statable against the pinned Mathlib and Tau Ceti APIs,
+using only the simple definitions needed for those statements.
 
-Layer VB0's equal-characteristic Dieudonné–Manin theorem is stated in every finite rank
+Layer 1's equal-characteristic Dieudonné–Manin theorem is stated in every finite rank
 and for arithmetic q-Frobenius, q = p^f with f > 0. Mathlib's Laurent series, coefficient
 Frobenius and bases suffice to express existence of a cyclic decomposition and uniqueness
 of its coprime block slopes. A block with wrap π^s has isocrystal slope s/r.
@@ -18,23 +18,25 @@ completed maximal unramified field, and the corresponding standard blocks. These
 are absent from the pins. Mathlib's Witt isocrystals cover the ordinary p-Frobenius carrier;
 their finite-carrier identification alone is not the classification theorem.
 
-The geometric headline statements are deferred here because their objects are absent from
-the pins: VB−1's relative ringed curve, twists and homogeneous section ring; VB1's analytic
-bundle carrier, curve degree and HN filtration; and VB2's curve-specific Proj map and GAGA
+The geometric headline statements are not statable here because their objects are absent from
+the pins: Layer 0's relative ringed curve, twists and homogeneous section ring; Layer 2's analytic
+bundle carrier, curve degree and HN filtration; and Layer 3's curve-specific Proj map and GAGA
 functor. Thus positive generation, Picard and bundle classification, coherent classification
 and finite étale curve-algebra classification have no signatures here. Tau Ceti's fixed-field
 `spaX` is a topological orbit quotient, without the required curve structure sheaf.
 
-VB3's projectivized properness, two-term cohomological smoothness, Le Bras equivalence,
+Layer 5's projectivized properness, two-term cohomological smoothness, Le Bras equivalence,
 dimension-height and curvature theorems require the perfectoid sites, Banach–Colmez sheaves,
-period functors and curve's tilted coherent heart. VB4's family HN filtration, pure-model and
+period functors and curve's tilted coherent heart. Layer 6's family HN filtration, pure-model and
 local-system comparisons, ampleness criterion and integral group-torsor theorem require the
 relative curve and integral/bounded/full Robba rings with their Frobenius and local systems.
 These structures also are absent from the pins; generic abelian categories, numerical
 polygons or unspecified period objects do not express those results.
 -/
 
-namespace TauCeti.FFBundles
+namespace TauCetiRoadmap.VectorBundlesAndIsocrystals
+
+/-! ## Layer 1: Finite isocrystals and division algebras -/
 
 /-- Arithmetic p^f-Frobenius on coefficients, fixing the Laurent-series uniformizer. -/
 noncomputable def coefficientFrobenius (p f : ℕ) [Fact p.Prime]
@@ -70,7 +72,7 @@ def CyclicSlopeDecomposition.slopes {L V : Type*} [Field L]
     {Φ : V →ₛₗ[σ.toRingHom] V} {π : L} (D : CyclicSlopeDecomposition Φ π) : Multiset ℚ :=
   (List.ofFn fun i => (D.exponent i : ℚ) / (D.rank i : ℕ) : List ℚ)
 
-/-- VB0: equal-characteristic Dieudonné–Manin classification over k((π)), with
+/-- Layer 1: equal-characteristic Dieudonné–Manin classification over k((π)), with
 arithmetic q-Frobenius for q = p^f. Every finite isocrystal has a coprime cyclic
 block decomposition, and its multiset of block slopes is independent of the basis.
 See README, “Dieudonné–Manin classification of finite isocrystals”. -/
@@ -84,4 +86,4 @@ theorem dieudonneManinEqualChar (p : ℕ) [Fact p.Prime] (f : ℕ+)
       ∀ D' : CyclicSlopeDecomposition Φ (HahnSeries.single 1 1), D.slopes = D'.slopes := by
   sorry
 
-end TauCeti.FFBundles
+end TauCetiRoadmap.VectorBundlesAndIsocrystals
