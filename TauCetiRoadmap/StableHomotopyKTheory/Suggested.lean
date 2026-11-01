@@ -5,11 +5,12 @@ import TauCeti.AlgebraicTopology.Singular.Twisted.Basic
 import TauCeti.AlgebraicTopology.EilenbergMacLane.Basic
 
 /-!
-# Homotopy foundations for algebraic K-theory: headline statements
+# Homotopy foundations for algebraic K-theory: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
 `README.md`; proving these statements finishes neither a layer nor the roadmap.
 
+This file states the roadmap’s headline theorems against the pinned Mathlib and Tau Ceti APIs.
 The statements here are Quillen A and B, the latter in both comma forms
 (§§2.31, 2.34), the local-coefficient characterisation of acyclic maps (§3.7),
 plus existence and factorisation (§§3.10–3.13, 3.25), the second homotopy group
@@ -40,7 +41,9 @@ open CategoryTheory CategoryTheory.Limits Simplicial
 
 universe u v w
 
-namespace CategoryTheory
+namespace TauCetiRoadmap.StableHomotopyKTheory
+
+/-! ## Layer 1: Classifying spaces and category homology -/
 
 /-- The classifying space of a category is its nerve's geometric realisation. -/
 def classifyingSpace (C : Type u) [Category.{v} C] : TopCat.{max u v} :=
@@ -57,9 +60,7 @@ def classifyingSpace_vertex {C : Type u} [Category.{v} C] (X : C) : classifyingS
     (((sSetTopAdj.unit.app (nerve C)).app (Opposite.op ⦋0⦌))
       (ComposableArrows.mk₀ X)) default
 
-end CategoryTheory
-
-namespace TauCeti
+/-! ## Layer 2: Homotopy fibres and Quillen theorems -/
 
 variable {X Y Z : TopCat.{u}}
 
@@ -74,6 +75,53 @@ def IsWeakHomotopyEquivalence {A : Type u} {B : Type v}
     (fun {_ _} p => ZerothHomotopy.sound (p.map f.continuous))) ∧
     ∀ (x : A) (n : ℕ), Function.Bijective
       (HomotopyGroup.map (N := Fin (n + 1)) (x := x) f rfl)
+
+variable {C D : Type (max u v)} [Category.{v} C] [Category.{v} D]
+
+/-- Quillen A: contractible forward comma spaces give a homotopy inverse to BF (§2.31). -/
+theorem quillenTheoremA (F : C ⥤ D)
+    (h : ∀ d : D, ContractibleSpace (classifyingSpace (CostructuredArrow F d))) :
+    ∃ e : ContinuousMap.HomotopyEquiv (classifyingSpace C) (classifyingSpace D),
+      e.toFun = (classifyingSpaceMap F).hom := sorry
+
+/-- Quillen B, forward comma form: covariant comma transport equivalences identify
+`B(F↓d)` with the homotopy fibre, preserving projection up to homotopy (§2.34). The
+object universe contains the morphism universe so that comma categories use the
+same nerve map. -/
+theorem quillenTheoremB (F : C ⥤ D)
+    (h : ∀ ⦃d d' : D⦄ (g : d ⟶ d'),
+      ∃ e : ContinuousMap.HomotopyEquiv
+        (classifyingSpace (CostructuredArrow F d))
+        (classifyingSpace (CostructuredArrow F d')),
+        e.toFun = (classifyingSpaceMap (CostructuredArrow.map g)).hom) (d : D) :
+    ∃ q : C(classifyingSpace (CostructuredArrow F d),
+      MappingPathFiber (classifyingSpaceMap F) (classifyingSpace_vertex d)),
+      IsWeakHomotopyEquivalence q ∧
+      ContinuousMap.Homotopic
+        ((⟨fun p => p.1.1, continuous_fst.comp continuous_subtype_val⟩ :
+          C(MappingPathFiber (classifyingSpaceMap F) (classifyingSpace_vertex d),
+            classifyingSpace C)).comp q)
+        (classifyingSpaceMap (CostructuredArrow.proj F d)).hom := sorry
+
+/-- Quillen B, primary form: when the contravariant base changes `B(d′↓F) → B(d↓F)`
+are homotopy equivalences, `B(d↓F)` is weakly equivalent to the homotopy fibre over
+`d`, preserving projection up to homotopy (§2.34). -/
+theorem quillenTheoremB_structuredArrow (F : C ⥤ D)
+    (h : ∀ ⦃d d' : D⦄ (g : d ⟶ d'),
+      ∃ e : ContinuousMap.HomotopyEquiv
+        (classifyingSpace (StructuredArrow d' F))
+        (classifyingSpace (StructuredArrow d F)),
+        e.toFun = (classifyingSpaceMap (StructuredArrow.map (T := F) g)).hom) (d : D) :
+    ∃ q : C(classifyingSpace (StructuredArrow d F),
+      MappingPathFiber (classifyingSpaceMap F) (classifyingSpace_vertex d)),
+      IsWeakHomotopyEquivalence q ∧
+      ContinuousMap.Homotopic
+        ((⟨fun p => p.1.1, continuous_fst.comp continuous_subtype_val⟩ :
+          C(MappingPathFiber (classifyingSpaceMap F) (classifyingSpace_vertex d),
+            classifyingSpace C)).comp q)
+        (classifyingSpaceMap (StructuredArrow.proj d F)).hom := sorry
+
+/-! ## Layer 3: Acyclic maps and plus constructions -/
 
 /-- Nonempty path-connected spaces with zero positive integral singular homology. -/
 def IsAcyclicSpace (F : TopCat.{u}) : Prop :=
@@ -108,60 +156,6 @@ def IsAbelianSpace (Y : TopCat.{u}) : Prop :=
   PathConnectedSpace Y ∧ ∀ (y : Y) (n : ℕ) (γ : FundamentalGroup Y y)
     (a : HomotopyGroup (Fin (n + 1)) Y y), γ • a = a
 
-end TauCeti
-
-namespace CategoryTheory
-
-variable {C D : Type (max u v)} [Category.{v} C] [Category.{v} D]
-
-/-- Quillen A: contractible forward comma spaces give a homotopy inverse to BF (§2.31). -/
-theorem quillenTheoremA (F : C ⥤ D)
-    (h : ∀ d : D, ContractibleSpace (classifyingSpace (CostructuredArrow F d))) :
-    ∃ e : ContinuousMap.HomotopyEquiv (classifyingSpace C) (classifyingSpace D),
-      e.toFun = (classifyingSpaceMap F).hom := sorry
-
-/-- Quillen B, forward comma form: covariant comma transport equivalences identify
-`B(F↓d)` with the homotopy fibre, preserving projection up to homotopy (§2.34). The
-object universe contains the morphism universe so that comma categories use the
-same nerve map. -/
-theorem quillenTheoremB (F : C ⥤ D)
-    (h : ∀ ⦃d d' : D⦄ (g : d ⟶ d'),
-      ∃ e : ContinuousMap.HomotopyEquiv
-        (classifyingSpace (CostructuredArrow F d))
-        (classifyingSpace (CostructuredArrow F d')),
-        e.toFun = (classifyingSpaceMap (CostructuredArrow.map g)).hom) (d : D) :
-    ∃ q : C(classifyingSpace (CostructuredArrow F d),
-      TauCeti.MappingPathFiber (classifyingSpaceMap F) (classifyingSpace_vertex d)),
-      TauCeti.IsWeakHomotopyEquivalence q ∧
-      ContinuousMap.Homotopic
-        ((⟨fun p => p.1.1, continuous_fst.comp continuous_subtype_val⟩ :
-          C(TauCeti.MappingPathFiber (classifyingSpaceMap F) (classifyingSpace_vertex d),
-            classifyingSpace C)).comp q)
-        (classifyingSpaceMap (CostructuredArrow.proj F d)).hom := sorry
-
-/-- Quillen B, primary form: when the contravariant base changes `B(d′↓F) → B(d↓F)`
-are homotopy equivalences, `B(d↓F)` is weakly equivalent to the homotopy fibre over
-`d`, preserving projection up to homotopy (§2.34). -/
-theorem quillenTheoremB_structuredArrow (F : C ⥤ D)
-    (h : ∀ ⦃d d' : D⦄ (g : d ⟶ d'),
-      ∃ e : ContinuousMap.HomotopyEquiv
-        (classifyingSpace (StructuredArrow d' F))
-        (classifyingSpace (StructuredArrow d F)),
-        e.toFun = (classifyingSpaceMap (StructuredArrow.map (T := F) g)).hom) (d : D) :
-    ∃ q : C(classifyingSpace (StructuredArrow d F),
-      TauCeti.MappingPathFiber (classifyingSpaceMap F) (classifyingSpace_vertex d)),
-      TauCeti.IsWeakHomotopyEquivalence q ∧
-      ContinuousMap.Homotopic
-        ((⟨fun p => p.1.1, continuous_fst.comp continuous_subtype_val⟩ :
-          C(TauCeti.MappingPathFiber (classifyingSpaceMap F) (classifyingSpace_vertex d),
-            classifyingSpace C)).comp q)
-        (classifyingSpaceMap (StructuredArrow.proj d F)).hom := sorry
-
-end CategoryTheory
-
-namespace TauCeti
-
-variable {X Y Z : TopCat.{u}}
 
 /-- Acyclicity is equivalent to homology isomorphisms for every pulled-back
 target local system, over every unital ring and in every degree (§3.7). -/
@@ -169,8 +163,8 @@ theorem IsAcyclicMap.iff_homology (hX : HasCWType X) (hY : HasCWType Y)
     [PathConnectedSpace X] [PathConnectedSpace Y] (f : X ⟶ Y) :
     IsAcyclicMap f ↔
       ∀ (R : Type (max u w)) (_ : Ring R)
-        (L : LocalCoefficientSystem.{max u w, u, max u w} R Y) (n : ℕ),
-        IsIso (LocalCoefficientSystem.twistedHomologyMap f L n) := sorry
+        (L : TauCeti.LocalCoefficientSystem.{max u w, u, max u w} R Y) (n : ℕ),
+        IsIso (TauCeti.LocalCoefficientSystem.twistedHomologyMap f L n) := sorry
 
 /-- A connected Hausdorff CW space admits plus at every perfect normal subgroup
 (§§3.10–3.13). -/
@@ -196,7 +190,7 @@ theorem IsPlusConstruction.piTwoEquiv
     [PathConnectedSpace X] [PathConnectedSpace Y]
     (f : X ⟶ Y) (x : X) (P : Subgroup (FundamentalGroup X x))
     [P.Normal] [Group.IsPerfect P] (hf : IsPlusConstruction f x P)
-    (hAspherical : IsAspherical X x) :
+    (hAspherical : TauCeti.IsAspherical X x) :
     Nonempty (Additive (HomotopyGroup (Fin 2) Y (f x)) ≃+
       groupHomology (Rep.trivial (ULift.{u} ℤ) P (ULift.{u} ℤ)) 2) := sorry
 
@@ -207,7 +201,7 @@ theorem IsPlusConstruction.fiber_universalCentralExtension
     [PathConnectedSpace X] [PathConnectedSpace Y]
     (f : X ⟶ Y) (x : X) (P : Subgroup (FundamentalGroup X x))
     [P.Normal] [Group.IsPerfect P] (hf : IsPlusConstruction f x P)
-    (hAspherical : IsAspherical X x) :
+    (hAspherical : TauCeti.IsAspherical X x) :
     let z : MappingPathFiber f (f x) :=
       ⟨(x, ContinuousMap.const unitInterval (f x)), rfl, rfl⟩
     let proj : C(MappingPathFiber f (f x), X) :=
@@ -233,6 +227,8 @@ theorem IsPlusConstruction.hSpaceRecognition {H : TopCat.{u}}
         ∃ e : ContinuousMap.HomotopyEquiv Y H, e.toFun = h'.hom := sorry
 
 
+/-! ## Layer 4: Homotopy group completion and deloopings -/
+
 /-- Finite projectives over continuous functions on a simplex are free, for
 real or complex scalars (§4.29). -/
 theorem continuousFunctions_projective_free (𝕜 : Type) [RCLike 𝕜] (n : ℕ) (P : Type u)
@@ -241,6 +237,6 @@ theorem continuousFunctions_projective_free (𝕜 : Type) [RCLike 𝕜] (n : ℕ
     [Module.Projective C(SimplexCategory.toTop₀.obj ⦋n⦌, 𝕜) P] :
     Module.Free C(SimplexCategory.toTop₀.obj ⦋n⦌, 𝕜) P := sorry
 
-end TauCeti
+end TauCetiRoadmap.StableHomotopyKTheory
 
 end
