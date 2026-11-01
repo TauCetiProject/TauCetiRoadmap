@@ -3,15 +3,16 @@ import TauCeti.CategoryTheory.GrothendieckGroup.Triangulated
 import TauCeti.CategoryTheory.GrothendieckGroup.BoundedComplex
 
 /-!
-# General algebraic K-theory: headline theorem signatures
+# General algebraic K-theory: target signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`; these statements suggest Lean forms for its mathematical milestones.
+**This file is not the roadmap.** The roadmap is `README.md`; this file states
+its headline theorems against the pinned Mathlib and Tau Ceti APIs.
 
-The statements below cover Quillen's Theorem A and its dual (§1.4), Thomason's
-classification of dense triangulated subcategories (§11.4), finite-domination
+Quillen's Theorem A and its dual on the realized nerve belong to the supplier
+StableHomotopyKTheory §2.31 and are not restated here. The statements below cover
+Thomason's classification of dense triangulated subcategories (§11.4), finite-domination
 rectification (§12.6), and the Euler obstruction to returning from idempotent
-completion (§12.7). Realized nerves, triangulated K₀, complexes, homotopies and
+completion (§12.7). Triangulated K₀, complexes, homotopies and
 Karoubi envelopes use the pinned Mathlib and Tau Ceti carriers. Integer-indexed
 cochain complexes express the finite-complex results by reindexing chain degrees.
 
@@ -26,7 +27,10 @@ models are absent as well. Their comparison, negative localization and vanishing
 idempotent obstruction, enhanced derived invariance and the Artin K₄ counterexample
 therefore require those constructions. The finite-field calculation additionally
 needs the ordinary higher K-groups; its Brauer comparison needs represented KU,
-BU and Adams operations. No substitute K-groups or model predicates are introduced.
+BU and Adams operations. Triangulated idempotent completion (§11.4a) also lacks
+the shift and pretriangulated structure on the native Karoubi envelope; its
+triangulation and triangle-functor universal property therefore have no signatures.
+No substitute K-groups or model predicates are introduced.
 -/
 
 noncomputable section
@@ -35,26 +39,7 @@ namespace TauCetiRoadmap.GeneralAlgebraicKTheory
 open CategoryTheory CategoryTheory.Limits CategoryTheory.Idempotents
 open scoped ContinuousMap
 
-/-- Mathlib's realized nerve, the carrier of Quillen's Theorem A (§1.4). -/
-abbrev classifyingSpace (C : Type u) [Category.{v} C] : TopCat.{max u v} :=
-  SSet.toTop.obj (CategoryTheory.nerve C)
-/-- The realized nerve map of a functor (§1.4). -/
-abbrev classifyingSpaceMap {C D : Type u} [Category.{v} C] [Category.{v} D]
-    (F : C ⥤ D) : C(classifyingSpace C, classifyingSpace D) :=
-  (SSet.toTop.map (CategoryTheory.nerveMap F)).hom
-
-/-- Quillen A: contractible under-comma realizations make the realized functor a
-homotopy equivalence (§1.4; Quillen, Theorem A, pp.93–95). -/
-theorem QuillenA {C D : Type u} [Category.{v} C] [Category.{v} D]
-    (F : C ⥤ D) (h : ∀ d : D, ContractibleSpace (classifyingSpace (StructuredArrow d F))) :
-    ∃ e : classifyingSpace C ≃ₕ classifyingSpace D,
-      e.toFun = classifyingSpaceMap F := sorry
-
-/-- The dual Quillen A criterion using over-comma categories (§1.4). -/
-theorem QuillenA_dual {C D : Type u} [Category.{v} C] [Category.{v} D]
-    (F : C ⥤ D) (h : ∀ d : D, ContractibleSpace (classifyingSpace (CostructuredArrow F d))) :
-    ∃ e : classifyingSpace C ≃ₕ classifyingSpace D,
-      e.toFun = classifyingSpaceMap F := sorry
+/-! ## Layer 11: Frobenius pairs and negative localization -/
 
 section DenseSubcategories
 variable {T : Type u} [Category.{v} T] [Preadditive T] [HasZeroObject T]
@@ -82,6 +67,8 @@ theorem DenseClasses.map_injective (A : ObjectProperty T) [A.IsTriangulated]
     (hdense : A.retractClosure = ⊤) :
     Function.Injective (TauCeti.TriangulatedK0.map A.ι) := sorry
 end DenseSubcategories
+
+/-! ## Layer 12: Karoubi filtrations, finite domination and comparison -/
 
 /-- Use finite biproducts to supply the binary biproducts required by split K₀. -/
 local instance {C : Type*} [Category* C] [Preadditive C] [HasFiniteBiproducts C] :
