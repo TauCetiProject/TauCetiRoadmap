@@ -427,8 +427,10 @@ finitely generated algebras, relative ampleness, polarised descent), Layer 3 (pr
 stable and `n`-pointed families), Layer 4 (blow-ups, strict transforms along blow-ups, intersection
 numbers on arithmetic surfaces). **From JacobianChallenge**: A
 (`Pic`, degree), B (coherent cohomology over `k`, genus, Riemann–Roch and Serre duality for line
-bundles), C (relative cohomology and base change, symmetric powers), D (Picard functor, `Pic⁰`,
-Picard–Brauer obstruction), E (abelian varieties), F (Abel–Jacobi). **From ClassFieldTheory** Layers 5 and 10 and **ProfiniteCohomology**
+bundles), C (relative cohomology and base change, symmetric powers; in particular, for qcqs
+`f : X → S`, quasi-coherent `F`, flat `g : S′ → S` and every `q ≥ 0`, the canonical
+`g^* R^q f_* F → R^q f′_* (g′^* F)` is an isomorphism, where `f′, g′` are the base-changed maps),
+D (Picard functor, `Pic⁰`, Picard–Brauer obstruction), E (abelian varieties), F (Abel–Jacobi). **From ClassFieldTheory** Layers 5 and 10 and **ProfiniteCohomology**
 Layers 9–10 (continuous cohomology, Hilbert 90 and Kummer theory for fields).
 
 ### Scheme and site contracts owned here
@@ -1407,7 +1409,9 @@ regular (`IsRegularRing`) for every finite purely inseparable extension `L/k` (S
 is regular for every finite `L/k`), `.algEquiv`. Define `RegularAlgebraMap R B`: `B` is flat over `R`
 and for every prime `p` the fibre `κ(p) ⊗_R B` is geometrically regular over `κ(p)` (Stacks,
 Definition 15.42.1), with `.flat`, `.fibre`, `.field_iff` (for `R` a field, a regular algebra is a
-geometrically regular one; Lemma 15.42.6). Prove `regular_map_completion`: regular ring maps
+geometrically regular one: a field has only the prime `(0)`, its residue field is itself,
+`R ⊗_R B ≅ B`, and every `R`-module is flat; Definition 15.42.1 (07BZ)).
+Prove `regular_map_completion`: regular ring maps
 between Noetherian rings preserve reducedness and normality (a regular `R → S` with `R` and `S`
 Noetherian and `R` reduced, respectively normal, has `S` reduced, respectively normal), and for a
 local G-ring `A` the map `A → Â` is regular (Stacks, Lemmas 15.43.1 (07QK), 15.43.2 (0BFK), 15.43.3
@@ -1416,8 +1420,9 @@ local G-ring `A` the map `A → Â` is regular (Stacks, Lemmas 15.43.1 (07QK), 1
 *regularLocus_eq_univ* (for regular `R`), *regularLocus_ringEquiv*; it need not be open. Define
 `IsGRing R`: `R` is Noetherian and for every prime `p` the canonical `R_p`-algebra
 `AdicCompletion (m_p) R_p` is a regular algebra map (Stacks, Definition 15.51.1), with `.noetherian`,
-`.completion_regular`, `.ringEquiv`, *IsGRing.localization*, *IsGRing.of_finiteType* (Propositions
-15.51.6, 15.51.12). Define `IsJ2 R`: `R` is Noetherian and the regular locus of every finite-type
+`.completion_regular`, `.ringEquiv`, *IsGRing.localization*, *IsGRing.of_finiteType* (Proposition
+15.51.10 (07PV), including the localization argument at the start of its proof).
+Define `IsJ2 R`: `R` is Noetherian and the regular locus of every finite-type
 `R`-algebra is open, quantified over all finite-type algebras and not only `R` or its localisations
 (Stacks, Definition 15.48.1 (3)), with `.noetherian`, `.regularLocus_open`, `.ringEquiv`,
 *IsJ2.of_finiteType*, *IsJ2.localization*. Define `IsQuasiExcellentRing R := IsGRing R ∧ IsJ2 R`
@@ -1426,7 +1431,8 @@ required. Define an excellent ring `R` to be quasi-excellent and universally cat
 §0.16 (Stacks, Definition 15.53.1 (2)), with `.quasiExcellent`, `.finiteType`, `.localization`
 (Lemma 15.53.2). Prove `excellent_examples`: fields, `ℤ`, Dedekind domains of characteristic zero,
 complete Noetherian local rings, and finite-type and localised algebras over these are excellent
-(Stacks, Proposition 15.53.3 (07QW)). Define `IsQuasiExcellentScheme X`: every point has an affine
+(Stacks, Proposition 15.53.3 (07QW); the G-ring examples are Propositions 15.51.6 and 15.51.12).
+Define `IsQuasiExcellentScheme X`: every point has an affine
 open neighbourhood whose section ring is quasi-excellent, with `.affine_iff` (every affine open),
 `.locallyNoetherian`, `.iso` (Stacks, Definition 29.20.1 (1), Lemma 29.20.5); and
 `IsExcellentScheme X` likewise with excellent rings, with `.affine_iff`, `.quasiExcellent`,
@@ -2350,7 +2356,7 @@ Mathlib `GrothendieckTopology`, `Sheaf`, `X.Etale`.
   `𝟙_G` of `smallEtale G` pulls back along `F → G` to `F`, which is not a scheme; a site whose objects
   are schemes étale over `F` would not be closed under *smallEtale_map*.
 
-*Lean:* `Spaces.smallEtale` (the category of algebraic spaces étale over `F`). The composition
+The category of algebraic spaces étale over `F`, the composition
 functor *smallEtale_compose* (in the direction `smallEtale F ⥤ smallEtale G`, opposite to base
 change; its well-definedness is the theorem that étale-local étale morphisms compose), the
 topologies, the scheme site, the
@@ -3406,8 +3412,9 @@ space of Krull dimension `≤ d`).
 ### 2.6 Quasi-coherent cohomology
 
 Prove `qcoh_higherDirectImages`: for `f : X → S` quasi-compact and quasi-separated and `F`
-quasi-coherent, `R^p f_* F` is quasi-coherent, computed on affines by `H^p(f⁻¹ U, F)`, commutes with
-flat base change and commutes with filtered colimits. For **affine `S`**,
+quasi-coherent, `R^p f_* F` is quasi-coherent, computed on affines by `H^p(f⁻¹ U, F)`, and
+commutes with filtered colimits. Use JacobianChallenge Layer C's flat-base-change comparison
+for these higher direct images. For **affine `S`**,
 `QCoh.higherDirectImage_vanishing` gives a bound depending only on the qcqs map `f`
 for all quasi-coherent `F`; on a general base the bound is local on affine opens (Stacks, Lemmas 30.4.1–30.4.6 (01XH)). Prove `projectiveSpace_cohomology`:
 `H^q(ℙ^n_A, O(d))` for every `q`, `d` and ring `A`: `Sym^d` in degree `0`, the dual module in degree
@@ -3430,7 +3437,7 @@ and `R^q f_*` commutes with filtered colimits (Lemma 30.6.1 (07TB)). Prove `serr
 a quasi-compact scheme `X` is affine iff `H¹(X, I) = 0` for every quasi-coherent ideal `I`, iff
 `H^q(X, F) = 0` for all `q > 0` and quasi-coherent `F` (Stacks, Lemmas 30.3.1, 30.3.2, 30.3.4
 (01XE)). *Needs:* §0.3, §0.4; Tau Ceti `Scheme.Modules.Cohomology`; StableReduction Layer 2 (relative
-ampleness); JacobianChallenge Layer B.
+ampleness); JacobianChallenge Layer B and Layer C (flat base change for qcqs morphisms).
 
 **Checks.**
 - For `S = ⨿_{n≥0} Spec k` and
@@ -3440,6 +3447,9 @@ ampleness); JacobianChallenge Layer B.
   The same disjoint-projective-space family in §2.19 has
   a right adjoint with cohomology in arbitrarily negative degrees.
 - `H¹(ℙ¹_k, O(−2)) ≅ k` and `H⁰(ℙ¹_k, O(1))` has dimension `2`.
+- For any ring `A` and flat `A`-algebra `B`, the imported comparison for `ℙ¹_A` and
+  `O(−2)` is `A ⊗_A B ≅ B`, carrying `a ⊗ b` to `ab`; for `B = A` it is the identity
+  under the tensor-unit identification, and for the zero algebra both sides are zero.
 - On `Spec A` every quasi-coherent module is acyclic.
 - `H¹(𝔸² ∖ {0}, O) ≠ 0`, so `𝔸² ∖ {0}` is not affine.
 
@@ -4439,9 +4449,10 @@ many values, `X` is the finite disjoint union of the open and closed loci where 
 the class is killed by the least common multiple of those degrees (Stacks, Section 59.62 (0A2J),
 the discussion after Lemma 59.62.2). Every comparison of `Br(X)` with `Br′(X)` below is for such `X`.
 Prove `brauer_regular_injectivity`: for **affine** `X` regular
-integral, `Br(X) → Br(K(X))` is injective, `Br(X)` is torsion, and `Br(X) = Br′(X)` when `X` is
-regular affine of dimension `≤ 2` (Grothendieck, Brauer II, Proposition 1.4, Lemme 1.9, Corollaires 1.8,
-1.10, pp. 291–293). Prove `brauer_kummer_sequence`: for `n` invertible on `X`, `0 → Pic(X)/n → H²(X_ét, μ_n) → Br′(X)[n] → 0` (Stacks, Lemma 59.28.1 (03PL) and the long exact sequence after Remark 59.28.2 (03PM)). Prove `brauer_henselian_local`: for a henselian local ring `R` with residue field `k`, `Br(R) → Br(k)` is an isomorphism (Grothendieck, Brauer I, Théorème 6.1, p. 214); the finite-field case `Br(k) = 0` is Tau Ceti's `subsingleton_brauerGroup_of_finite`. Prove `brauer_hochschildSerre_sequence`: for a smooth geometrically integral variety `X` over `k`, `X̄ = X_{k^s}`, and `Γ(X̄,O)^× = k^{s×}` (in particular for proper geometrically integral `X`), the exact sequence `0 → Pic(X) → Pic(X̄)^{G_k} → Br(k) → ker(Br′(X) → Br′(X̄)) → H¹(G_k, Pic(X̄)) → H³(G_k, k^{s×})` from §2.15's
+integral and Noetherian, `Br(X) → Br(K(X))` is injective and `Br(X)` is torsion
+(Grothendieck, Brauer II, Bourbaki exposé 297, Proposition 1.4, Lemme 1.9, Corollaires 1.8,
+1.10, pp. 291–293). For regular Noetherian affine `X` of dimension `≤ 2`, the class map
+identifies `Br(X)` with `Br′(X)` (ibid., Théorème 2.1 and Corollaire 2.2, p. 296). Prove `brauer_kummer_sequence`: for `n` invertible on `X`, `0 → Pic(X)/n → H²(X_ét, μ_n) → Br′(X)[n] → 0` (Stacks, Lemma 59.28.1 (03PL) and the long exact sequence after Remark 59.28.2 (03PM)). Prove `brauer_henselian_local`: for a henselian local ring `R` with residue field `k`, `Br(R) → Br(k)` is an isomorphism (Grothendieck, Brauer I, Théorème 6.1, p. 214); the finite-field case `Br(k) = 0` is Tau Ceti's `subsingleton_brauerGroup_of_finite`. Prove `brauer_hochschildSerre_sequence`: for a smooth geometrically integral variety `X` over `k`, `X̄ = X_{k^s}`, and `Γ(X̄,O)^× = k^{s×}` (in particular for proper geometrically integral `X`), the exact sequence `0 → Pic(X) → Pic(X̄)^{G_k} → Br(k) → ker(Br′(X) → Br′(X̄)) → H¹(G_k, Pic(X̄)) → H³(G_k, k^{s×})` from §2.15's
 Hochschild–Serre spectral sequence and Hilbert 90. Source: David Harari,
 [Étale cohomology and Brauer groups](https://www.imo.universite-paris-saclay.fr/~david.harari/enseignement/m2brauer23/etalbrauer.pdf),
 Theorem 7.1 and Remark 3.35: the constant-unit hypothesis identifies the bottom row, and the
@@ -4474,8 +4485,9 @@ geometric stabilizer. *Needs:* §1.1,
 - `Mat_n(O_X) ≈ O_X` for positive `n`; over `Spec k` this is Brauer equivalence of
   central simple algebras. Allowing zero-rank stabilising bundles would make every
   algebra equivalent to zero, so they are excluded.
-- `Br′(Spec ℂ) = 0` and `Br′(Spec ℝ) ≅ ℤ/2`, generated by the quaternion class.
-  A non-torsion class of `H²` is excluded from `Br′`.
+- On `Spec ℂ`, both `Br` and `Br′` are zero. On `Spec ℝ`, the class map identifies
+  both with `ℤ/2`, carrying the Hamilton quaternion class to the nonzero element;
+  this tests surjectivity as well as injectivity. A non-torsion class of `H²` is excluded from `Br′`.
 - The rank-one scalar algebra on an affine scheme has zero class.
 - The empty affine scheme has zero second cohomology.
 - A matrix algebra has zero Azumaya class; the real quaternion class is nonzero
@@ -5034,9 +5046,16 @@ Layer 1 (`Ω_{X/S}`).
 - The identity is a first-order thickening.
 - `Spec k → Spec k[x]/(x³)` is a thickening and not first-order.
 - `Spec k → 𝔸¹_k` is a closed immersion that is not a thickening.
-- `𝔸(n; S) → S` is formally smooth; *formallyEtale_id*;
-  `not_formallySmooth_closedPoint` (`Spec k → 𝔸¹_k` is not formally smooth);
-  `formallyUnramified_iff_mathlib`.
+- For `𝔸ⁿ_S → S`, lifting across a square-zero closed immersion of affine schemes
+  amounts to lifting `n` coordinates through a surjective ring map; for `n = 0` this is
+  the identity of `S`, with exactly one lift.
+- For the closed point `Spec k → 𝔸¹_k` at zero, the test map
+  `Spec k[ε]/(ε²) → 𝔸¹_k` with coordinate `ε` has no lift through `Spec k`: it would
+  require `0 = ε`. Thus this closed immersion is not formally smooth.
+- The same closed immersion is formally unramified in Mathlib's sense: any lift,
+  when it exists, is unique. The identity has exactly one lift, while the zero point
+  into `𝔸¹_k` over `Spec k` has the distinct lifts with coordinates `0` and `ε`;
+  hence the affine line over a field is not formally unramified.
 - lifts of `T → 𝔸¹_S` along `T → T'` form a torsor under
   `Γ(T, I)`.
 
@@ -6559,9 +6578,15 @@ of the closure of `x`, while coheight measures codimension. This is the dimensio
 [Stacks, Definition 42.8.1](https://stacks.math.columbia.edu/tag/02QR), using the closure-dimension
 comparison of [Lemma 42.7.5](https://stacks.math.columbia.edu/tag/02QO).
 `RatEquiv κ X k` is a subgroup of this carrier, and `ChowGroup κ X k` is its quotient.
-**Checks:** `cycles_zero` includes zero; `cycles_negative` computes degree `−1` as the zero
-subgroup; `cycles_support_agreement` identifies membership with the support condition in Mathlib's
-cycle carrier. The rational graded group uses a direct sum over degrees. Flat pullback requires
+**Checks.**
+- The zero cycle has empty support and belongs in every degree, including degree `−1`.
+- In degree `−1` the cycle group is zero: no point has height a negative integer.
+- On `Spec κ`, the unique point has height zero, so the degree-zero cycle group is `ℤ`
+  and the degree-one cycle group is zero. On `𝔸¹_κ`, the generic point has height one
+  and the origin height zero; their cycles belong in degrees one and zero respectively,
+  excluding the codimension grading.
+
+The rational graded group uses a direct sum over degrees. Flat pullback requires
 that every irreducible component of every fibre has dimension `d`; external products in this
 section are over a field. The input is Tau Ceti's native `PureRelativeDimension d f`;
 `pureRelativeDimension_iff_fiber_components` identifies it with the expanded
@@ -7423,8 +7448,11 @@ consumes nothing from this roadmap.
 - Schlessinger 1968: M. Schlessinger, *Functors of Artin rings*, Trans. AMS 130 (1968).
 - Grothendieck 1957: *Sur quelques points d'algèbre homologique*, Tôhoku Math. J. 9 (1957).
 - Grothendieck 1966: *On the de Rham cohomology of algebraic varieties*, Publ. IHÉS 29 (1966).
-- Grothendieck Brauer I, II, III: *Le groupe de Brauer I–III*, Dix exposés sur la cohomologie des
-  schémas (1968).
+- Grothendieck Brauer I: [*Le groupe de Brauer I. Algèbres d’Azumaya et interprétations diverses*](https://www.numdam.org/item/SB_1964-1966__9__199_0/),
+  Séminaire Bourbaki, exposé 290 (1964/65), pp. 199–219; all Brauer I page references use this edition.
+- Grothendieck Brauer II: [*Le groupe de Brauer II. Théories cohomologiques*](https://www.numdam.org/item/SB_1964-1966__9__287_0/),
+  Séminaire Bourbaki, exposé 297 (1965/66), pp. 287–307; all Brauer II page references use this edition.
+- Grothendieck Brauer III: *Le groupe de Brauer III*, Dix exposés sur la cohomologie des schémas (1968).
 - Deligne–Mumford 1969: *The irreducibility of the space of curves of given genus*, Publ. IHÉS 36.
 - Deligne 1985: *Le lemme de Gabber*, Astérisque 127,
   [§§3.3–3.7, pp. 137–140](https://www.numdam.org/item/AST_1985__127__131_0.pdf).

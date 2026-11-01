@@ -343,12 +343,6 @@ theorem element_annihilator_flat_baseChange {R S M : Type u}
     (Submodule.span R {m}).annihilator.map (algebraMap R S) =
       (Submodule.span S {(1 : S) ⊗ₜ[R] m}).annihilator := by sorry
 
-section Nonflat
-local instance : Algebra (ZMod 4) (ZMod 2) :=
-  (ZMod.castHom (show 2 ∣ 4 by decide) (ZMod 2)).toAlgebra
-
-end Nonflat
-
 end FlatAnnihilator
 
 /-! ### §0.29 Scheme Frobenius -/
@@ -545,15 +539,6 @@ theorem EtaleLocal.baseChange (P : MorphismProperty Scheme.{u})
     [P.IsStableUnderBaseChange] {F G H : AlgSpace.{u}} (f : F ⟶ H) (g : G ⟶ H)
     (hf : EtaleLocal P f) : EtaleLocal P (AlgSpace.pullbackSnd f g) := by
   sorry
-
-/-- The underlying category of the small étale site: algebraic spaces étale over `F`.
-Stacks, Definition 66.18.1 (03ED). Its objects must be spaces, not schemes. -/
-def smallEtale (F : AlgSpace.{u}) : Type (u + 1) :=
-  ObjectProperty.FullSubcategory
-    (fun (V : Over F) => EtaleLocal (@Etale : MorphismProperty Scheme.{u}) V.hom)
-
-instance (F : AlgSpace.{u}) : Category.{u + 1} (smallEtale F) := by
-  unfold smallEtale; infer_instance
 
 end Spaces
 
