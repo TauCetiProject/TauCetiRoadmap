@@ -33,7 +33,7 @@ generation to **LanglandsParameterStacks**, LP1.7–LP1.8 and LP4.1–LP4.3.
 
 The relative curve, its divisor spaces and meromorphic torsor gluing come from
 `RelativeFarguesFontaine`, Layers 0–7; isocrystals and vector bundles from
-`VectorBundlesAndIsocrystals`, Layers 0–5; the stack of bundles, Newton strata and their
+`VectorBundlesAndIsocrystals`, VB−1–VB4; the stack of bundles, Newton strata and their
 automorphism groups from `BunGAndNewtonStrata`, Layers 0–4. Local loop geometry, Schubert
 varieties, convolution, fusion and the integral Satake equivalence come from
 `GeometricSatakeAndFusion`, GS0–GS4. General solid and lisse categories and their
@@ -204,7 +204,7 @@ on the complete contract.
 | **GeometricSatakeAndFusion**, GS0, “Loop quotients and ordered divisors” and “Generic bounds and integral affine flags”, **GeometricSatakeAndFusion**, GS0, “Open cells, action truncation and minuscule flags” | Ordered-leg Schubert bounds, finite `dim.trg`, proper surjective bounded convolution, and factorization off the diagonals. For a characteristic-zero untilt and minuscule class, the Białynicki-Birula map is an isomorphism, with reflex-field descent and equivariance under reduction of positive loops. The additional arbitrary-bound bijection on finite-extension points over `ℚ_p` is a target of HS2.12. |
 | **GeometricSatakeAndFusion**, GS1, **GeometricSatakeAndFusion**, GS2, “Proper correspondences and rational semismallness”, **GeometricSatakeAndFusion**, GS3, **GeometricSatakeAndFusion**, GS4, “Integral identification, normalization and functoriality” | ULA recognition and duality; equivariant Demazure spaces with proper, spatial, finite-dimensional maps; the equivariant Demazure spaces used in HS1.1’s `solidDualDemazureGeneration`, whose generation assertion is proved here; convolution and coherent fusion. On chain spaces the twisted product is flat perverse and ULA with its specified extension from disjoint legs. The normalized integral Satake functor has its enhanced perfect-complex extension, the perfect-complex extension needed for HS1.0’s bounded-weight resolution convergence, and naturality for adjoint maps, products, Levi maps and Weil restriction. |
 | **GeometricSatakeAndFusion**, GS4, “Integral identification, normalization and functoriality” | Pullback to `Div¹_F` corresponds to restriction from `W_E` to `W_F`, including the action of all endomorphisms and idempotent summands. For residue degree `f`, the square root is `r^f`. Weil restriction pushes the inflated then induced representation's Satake sheaf forward along the corresponding closed immersion and finite étale leg map. Choosing the other square root changes the comparison by the unramified sign character on components of odd `⟨2ρ,μ⟩`. |
-| **GeometricSatakeAndFusion**, §4.24, “All-prime representation-complex interface”, and §4.25, “Perfect-complex Satake extension”; **LanglandsParameterStacks**, §4.1, “Highest-weight modules and good filtrations” | Relative integral perfect-complex base change and stable completion; induced and Weyl modules and good-filtration theory. The additional algebraic tensor-generator, exterior-product generation and bounded-weight resolution assertions, for every `ℓ≠p` and arbitrary finite pinned-action group `Q`, are targets of HS1.0. Its Satake convergence comparison uses the perfect-complex Satake extension of §4.25 with a specified continuous finite quotient `W_E↠Q` inducing the given pinned action. |
+| **GeometricSatakeAndFusion**, GS4, “All-prime representation-complex interface” and “Perfect-complex Satake extension”; **LanglandsParameterStacks**, LP3.0, “Highest-weight modules and good filtrations” | Relative integral perfect-complex base change and stable completion; induced and Weyl modules and good-filtration theory. The additional algebraic tensor-generator, exterior-product generation and bounded-weight resolution assertions, for every `ℓ≠p` and arbitrary finite pinned-action group `Q`, are targets of HS1.0. Its Satake convergence comparison uses the perfect-complex Satake extension of GS4 with a specified continuous finite quotient `W_E↠Q` inducing the given pinned action. |
 | **VStackSheavesAndLisseCategories**, VS0–VS5 | Artin-stack sheaves; divisor–Weil maps and the Drinfeld fully faithful embedding; solid operations and relative homology with base change, projection formula, and an isomorphism for restriction of coefficients; lisse categories, geometric invariance and stratum adjoints; compact generation, ULA/admissibility, lisse and BZ duality, and Künneth. The chart calculation comparing cohomology with `[*/K]` is required as an identity of condensed objects for every profinite parameter space. On classifying stacks relative homology is compact induction, with its level units and counits. Stratum extension by zero, excision, compactness and its dualizing-complex formula are required in addition to the left adjoint of stratum restriction. |
 | **VStackSheavesAndLisseCategories**, VS0 | For torsion coefficients, the smooth stacky map `π:Bun_P^(b_N)→Bun_M^(b_M)` has exceptional direct image inverse to the section's exceptional direct image, with composition and representable base change. Its classifying-stack fibres make the representable diamond formalism alone insufficient. The stacky dimension bounds in [GL], §2, require the fine-morphism formalism, or proofs through atlases giving those same bounds. |
 | **SmoothRepresentationsOfLocalGroups**, §§SR.0d.1–SR.0d.2, **SmoothRepresentationsOfLocalGroups**, SR.1, **SmoothRepresentationsOfLocalGroups**, SR.2, **SmoothRepresentationsOfLocalGroups**, SR.3, **SmoothRepresentationsOfLocalGroups**, SR.6 | Enhanced derived smooth representations, exact pro-`p` invariants commuting with filtered colimits, admissible reflexive smooth duals, compact projective compact inductions, derived reciprocity and level trace identities. For `ℚ̄_ℓ`, use noetherianity, finite global dimension, admissibility of irreducibles, and finite length of finitely generated admissible objects. For integral finite generation use [DHKM], Theorem 1.1 and Corollary 1.4, rather than extrapolating the characteristic-zero statements. |
@@ -252,7 +252,7 @@ realization”, which form a prefix of that roadmap using no automorphic, Galois
 target of it. They are stated over `Perf_{𝔽_q}` for the local field `K=E` and pull back
 along `Spd k→Spd 𝔽_q`; their bundle stack is VStackSheavesAndLisseCategories VS4.0's,
 which is also BunGAndNewtonStrata's `Bun_G`, and their curve and divisors are
-VectorBundlesAndIsocrystals Layer 0's marked untilt Cartier divisors, on which RelativeFarguesFontaine builds. The consumed
+VectorBundlesAndIsocrystals VB−1's marked untilt Cartier divisors, on which RelativeFarguesFontaine builds. The consumed
 carriers are exactly the following.
 
 - `HeckeModification`: the finite-leg global Hecke stacks `Hck^I_G` over
@@ -309,7 +309,7 @@ AG2.6's `HeckeModification` over `Perf_{𝔽_q}`, pulled back to `Perf_k` along
 `Spd k→Spd 𝔽_q`: objects are legs `(D_i)`, bundles `𝓔_1,𝓔_2` and an isomorphism `α` off
 their union, meromorphic along `ΣD_i`. Its bundle stack is VStackSheavesAndLisseCategories
 VS4.0's, which BunGAndNewtonStrata's `Bun_G` extends on the same carrier, and its leg base is
-VectorBundlesAndIsocrystals Layer 0's `Div¹_E` (marked untilt Cartier divisors), the one RelativeFarguesFontaine's divisors are
+VectorBundlesAndIsocrystals VB−1's `Div¹_E` (marked untilt Cartier divisors), the one RelativeFarguesFontaine's divisors are
 built on, so there is one bundle stack and one divisor base. The source, target-with-legs,
 unit, leg-repetition and completion maps and the identification `Hck^∅_G≃Bun_G` are the
 supplier's. The targets here are the inversion `sw`, the description of morphisms and
@@ -410,7 +410,7 @@ cell of type `μ`, the fibres are cohomologically smooth of dimension
 nonempty legs and nontrivial `G`, the unbounded Grassmannian fibre is
 not quasicompact.
 
-*Needs:* §HS0.1, §HS0.2; **RelativeFarguesFontaine**, §§7.0–7.7; **DiamondsAndVStacks**, D5; **GeometricSatakeAndFusion**, GS0, “Loop quotients and ordered divisors” and “Generic bounds and integral affine flags”; **BunGAndNewtonStrata**, §§2.8, 2.11–2.23; **GeometricSatakeAndFusion**, GS0, “Open cells, action truncation and minuscule flags”; **VectorBundlesAndIsocrystals**, Layer 5, “Positive presentations and general two-term geometry”; **RelativeFarguesFontaine**, §§4.6–4.13; **DiamondsAndVStacks**, D3; **DiamondSixOperations**, S4.
+*Needs:* §HS0.1, §HS0.2; **RelativeFarguesFontaine**, §§7.0–7.7; **DiamondsAndVStacks**, D5; **GeometricSatakeAndFusion**, GS0, “Loop quotients and ordered divisors” and “Generic bounds and integral affine flags”; **BunGAndNewtonStrata**, §§2.8, 2.11–2.23; **GeometricSatakeAndFusion**, GS0, “Open cells, action truncation and minuscule flags”; **VectorBundlesAndIsocrystals**, VB3, “Positive presentations and general two-term geometry”; **RelativeFarguesFontaine**, §§4.6–4.13; **DiamondsAndVStacks**, D3; **DiamondSixOperations**, S4.
 
 (Sources: [FS], VI.1, proof of Proposition VI.1.7, p. 193; III.3, pp. 97–98; VI.2, Proposition VI.2.7, p. 201; VI.8, Remark VI.8.4, p. 226; II.1, Proposition II.1.21, p. 56; I.2, p. 16; VI.2, Proposition VI.2.4, p. 198; [SW], Appendix to Lecture 19, Proposition 19.5.3, p. 180.)
 
@@ -527,7 +527,7 @@ and chain composition. For nonbasic `b`, `G_b`
 is a form of a proper Levi and this equivalence is not asserted. Use the
 supplier's Beauville–Laszlo sign and inversion dictionary specified above.
 
-*Needs:* §HS0.1, §HS0.2, §HS0.4; **RelativeFarguesFontaine**, §§7.0–7.7; **BunGAndNewtonStrata**, §§0.7 and 1.19; **BunGAndNewtonStrata**, §§2.8, 2.11–2.23; **VectorBundlesAndIsocrystals**, Layer 5, “Basic section sheaves, Lubin–Tate geometry and projectivization”.
+*Needs:* §HS0.1, §HS0.2, §HS0.4; **RelativeFarguesFontaine**, §§7.0–7.7; **BunGAndNewtonStrata**, §§0.7 and 1.19; **BunGAndNewtonStrata**, §§2.8, 2.11–2.23; **VectorBundlesAndIsocrystals**, VB3, “Basic section sheaves, Lubin–Tate geometry and projectivization”.
 
 (Sources: [FS], III.4, Corollary III.4.3, p. 101; III.4, Proposition III.4.2, p. 101; III.4, Proposition III.4.1(ii), p. 100; IX.6.4, p. 333; IX.6, proof of Theorem IX.6.1, p. 331; III.3, Proposition III.3.6(ii), p. 100; III.2.2, p. 91; II.2, proof of Proposition II.2.3, p. 61; IX.7, p. 337; [SW], Lecture 23, proof of Corollary 23.3.2, p. 219; Lecture 24, Definition 24.1.1 and Proposition 24.1.2, p. 225.)
 
@@ -549,7 +549,7 @@ For `G=G_m` and two coincident legs of types `a,c`, the composed modification ch
 
 ### Dependencies
 
-*Needs:* **AutomorphicGaloisRepresentationsPartII**, AG2.6, “Relative Fargues–Fontaine curves and degree-one divisors” and “Bundle strata, lisse categories and the geometric Hecke action”; **RelativeFarguesFontaine**, Layers 0–4 and 6–7; **BunGAndNewtonStrata**, Layers 0–4; **GeometricSatakeAndFusion**, GS0–GS3; **DiamondsAndVStacks**, D3–D5; **VectorBundlesAndIsocrystals**, Layer 5; **DiamondSixOperations**, S4.
+*Needs:* **AutomorphicGaloisRepresentationsPartII**, AG2.6, “Relative Fargues–Fontaine curves and degree-one divisors” and “Bundle strata, lisse categories and the geometric Hecke action”; **RelativeFarguesFontaine**, Layers 0–4 and 6–7; **BunGAndNewtonStrata**, Layers 0–4; **GeometricSatakeAndFusion**, GS0–GS3; **DiamondsAndVStacks**, D3–D5; **VectorBundlesAndIsocrystals**, VB3; **DiamondSixOperations**, S4.
 
 ## Layer HS1: The solid and lisse Hecke action
 
@@ -568,8 +568,8 @@ on torsion in `π₁(Ĝ)`, on `|Q|`, or on solvability of `Q`. The intended
 interfaces are `integralExteriorGeneration` and `boundedWeightExteriorResolution`.
 
 For `satakeResolutionConvergence`, assume additionally a specified continuous
-finite quotient `W_E↠Q` inducing the given pinned action on `Ĝ`, as in
-**GeometricSatakeAndFusion**, §4.25, “Perfect-complex Satake extension”. Prove that applying
+finite quotient `W_E↠Q` inducing the given pinned action on `Ĝ`, as in **GeometricSatakeAndFusion**,
+GS4, “Perfect-complex Satake extension”. Prove that applying
 this exact relative perfect-complex Satake functor and taking the specified
 resolution colimit recovers its value on the representation, naturally in morphisms,
 coefficients, finite-set restriction and idempotent summands. This includes
@@ -627,9 +627,8 @@ The exterior-product and convergence targets have the following checks.
   is solvable. The Satake comparison requires the specified Weil quotient.
 
 (Source: [FS], IX.2, pp. 321–323, the highest-weight base-change and
-bounded-weight argument.) *Needs:* **LanglandsParameterStacks**, §4.1, “Highest-weight modules and good filtrations”;
-**GeometricSatakeAndFusion**, §4.24, “All-prime representation-complex interface”, and
-§4.25, “Perfect-complex Satake extension”; **ReductiveGroups**, Layer 9;
+bounded-weight argument.) *Needs:* **LanglandsParameterStacks**, LP3.0, “Highest-weight modules and good filtrations”; **GeometricSatakeAndFusion**,
+GS4, “All-prime representation-complex interface” and “Perfect-complex Satake extension”; **ReductiveGroups**, Layer 9;
 the **EnhancedDerivedSheaves** sections E5:abstract and E5:presentability.
 
 ### HS1.1 — Solid Satake kernels
@@ -1006,7 +1005,7 @@ For a split torus, the character of weight `n` pulls back along `L↦L(−nD)` a
 
 ### Dependencies
 
-*Needs:* HS0 and HS1.0; **AutomorphicGaloisRepresentationsPartII**, AG2.6, “Bundle strata, lisse categories and the geometric Hecke action”; **GeometricSatakeAndFusion**, GS1–GS4; **LanglandsParameterStacks**, LP4.1; **VStackSheavesAndLisseCategories**, VS0–VS5; **SmoothRepresentationsOfLocalGroups**, SR.0d–SR.3; **EnhancedDerivedSheaves**, E5:abstract and E5:presentability; **ClassFieldTheory**, §4 Layer 9; **ReductiveGroups**, Layer 9.
+*Needs:* HS0 and HS1.0; **AutomorphicGaloisRepresentationsPartII**, AG2.6, “Bundle strata, lisse categories and the geometric Hecke action”; **GeometricSatakeAndFusion**, GS1–GS4; **LanglandsParameterStacks**, LP3.0; **VStackSheavesAndLisseCategories**, VS0–VS5; **SmoothRepresentationsOfLocalGroups**, SR.0d–SR.3; **EnhancedDerivedSheaves**, E5:abstract and E5:presentability; **ClassFieldTheory**, §4 Layer 9; **ReductiveGroups**, Layer 9.
 
 ## Layer HS2: Local shtuka spaces and period towers
 
@@ -1139,7 +1138,7 @@ global section. For `GL_n`, this is the usual functor of
 system, and the zero Newton polygon suffices. For general `G`,
 zero Newton point alone does not characterize the admissible locus.
 
-*Needs:* **BunGAndNewtonStrata**, Layer 1; **DiamondsAndVStacks**, D3; **VectorBundlesAndIsocrystals**, Layers 2 and 4; **BunGAndNewtonStrata**, §§2.8, 2.11–2.23; **BunGAndNewtonStrata**, Layer 0.
+*Needs:* **BunGAndNewtonStrata**, Layer 1; **DiamondsAndVStacks**, D3; **VectorBundlesAndIsocrystals**, VB4; **BunGAndNewtonStrata**, §§2.8, 2.11–2.23; **BunGAndNewtonStrata**, Layer 0.
 
 (Sources: [SW], Theorem 22.6.2, p. 214; Proposition 22.6.1, p. 213; §22.6, p. 213; Corollary 22.3.3, p. 209; Theorem 22.5.2, p. 212; proof of Theorem 22.6.2, p. 214.)
 
@@ -1336,7 +1335,7 @@ inversion of `μ` or of `α` is applied. The targets here are arbitrary legs, no
 bounds, local fields of either characteristic, and the integral-model level, as
 extensions on that carrier.
 
-*Needs:* §HS2.7, §HS2.6, §HS0.5, §HS2.3; **AutomorphicGaloisRepresentationsPartII**, AG2.6, “Minuscule local Shimura spaces and their Hecke realization”; **RelativeFarguesFontaine**, §§7.0–7.7; **RelativeFarguesFontaine**, Layers 0–1; **RelativeFarguesFontaine**, §§0.18–0.20; **RelativeFarguesFontaine**, §§1.1–1.3; **RelativeFarguesFontaine**, §§4.6–4.13; **GeometricSatakeAndFusion**, GS0, “Loop quotients and ordered divisors” and “Generic bounds and integral affine flags”; **BunGAndNewtonStrata**, §§2.8, 2.11–2.23; **DiamondsAndVStacks**, D5; **VectorBundlesAndIsocrystals**, Layer 5, “Basic section sheaves, Lubin–Tate geometry and projectivization”.
+*Needs:* §HS2.7, §HS2.6, §HS0.5, §HS2.3; **AutomorphicGaloisRepresentationsPartII**, AG2.6, “Minuscule local Shimura spaces and their Hecke realization”; **RelativeFarguesFontaine**, §§7.0–7.7; **RelativeFarguesFontaine**, Layers 0–1; **RelativeFarguesFontaine**, §§0.18–0.20; **RelativeFarguesFontaine**, §§1.1–1.3; **RelativeFarguesFontaine**, §§4.6–4.13; **GeometricSatakeAndFusion**, GS0, “Loop quotients and ordered divisors” and “Generic bounds and integral affine flags”; **BunGAndNewtonStrata**, §§2.8, 2.11–2.23; **DiamondsAndVStacks**, D5; **VectorBundlesAndIsocrystals**, VB3, “Basic section sheaves, Lubin–Tate geometry and projectivization”.
 
 (Sources: [FS], IX.3, after the proof of Theorem IX.3.1, pp. 325–326; IX.3, proof of Proposition IX.3.2, p. 326; [SW], Definition 23.5.1, p. 223; Corollary 23.5.3 and the paragraph after it, p. 224; Definition 11.1.2, pp. 90–91.)
 
@@ -1587,7 +1586,7 @@ integral Kottwitz image. The integral equality cannot be inferred from the
 rational one. ([RV], Proposition 3.1, p. 11; [HK], proof of Proposition
 7.3.3, p. 43.)
 
-**BunGAndNewtonStrata** supplies the parabolic charts of its §§4.1–4.7, the full
+The supplier **BunGAndNewtonStrata** gives the parabolic charts of its §§4.1–4.7, the full
 automorphism v-groups with their positive unipotent kernels of §§3.3–3.5, and the
 cohomological dimension of each Newton stratum of §3.11; the relative-dimension and
 unipotent-torsor statements above are proved here on those charts, together with the
@@ -1668,7 +1667,7 @@ spatial representability, compactifiability and locally finite
 for source levels. These two-bundle and dimension assertions are
 consequences of the imported geometry to prove here.
 
-*Needs:* §HS2.7, §HS2.6, §HS0.5, §HS0.3, §HS2.9, §HS2.2; **DiamondSixOperations**, S0; **DiamondsAndVStacks**, D3; **DiamondsAndVStacks**, D5; **BunGAndNewtonStrata**, §§3.1–3.11 and 4.1–4.7; **BunGAndNewtonStrata**, §§2.8, 2.11–2.23; **VectorBundlesAndIsocrystals**, Layer 1.
+*Needs:* §HS2.7, §HS2.6, §HS0.5, §HS0.3, §HS2.9, §HS2.2; **DiamondSixOperations**, S0; **DiamondsAndVStacks**, D3; **DiamondsAndVStacks**, D5; **BunGAndNewtonStrata**, §§3.1–3.11 and 4.1–4.7; **BunGAndNewtonStrata**, §§2.8, 2.11–2.23; **VectorBundlesAndIsocrystals**, VB1.
 
 (Sources: [SW], Corollary 23.5.3, p. 224; Proposition 23.5.2, p. 223; [FS], VII.5, p. 264; IX.3, p. 326.)
 
@@ -1701,7 +1700,7 @@ with the ordinary modification quotient holds off the nontrivial
 Frobenius diagonals only, and does not give descent of the entire
 shtuka space along the product of divisor quotients.
 
-*Needs:* §HS2.9, §HS2.2, §HS2.6, §HS2.10; **ClassFieldTheory**, §4 Layer 9; **RelativeFarguesFontaine**, §§4.6–4.13; **VectorBundlesAndIsocrystals**, Layer 5, “Basic section sheaves, Lubin–Tate geometry and projectivization”; **VStackSheavesAndLisseCategories**, VS1.
+*Needs:* §HS2.9, §HS2.2, §HS2.6, §HS2.10; **ClassFieldTheory**, §4 Layer 9; **RelativeFarguesFontaine**, §§4.6–4.13; **VectorBundlesAndIsocrystals**, VB3, “Basic section sheaves, Lubin–Tate geometry and projectivization”; **VStackSheavesAndLisseCategories**, VS1.
 
 (Sources: [FS], IX.3, before Theorem IX.3.1, p. 324; IX.3, proof of Proposition IX.3.2, pp. 326–327; IV.7, before Proposition IV.7.1, p. 164; Corollary II.2.4, p. 61; [SW], Proposition 23.3.1 and its proof, p. 218.)
 
@@ -1749,7 +1748,7 @@ For `G_m`, bound `1` and `b=π⁻¹`, infinite level is `Z×Spd Ĕ_∞`; replac
 
 ### Dependencies
 
-*Needs:* HS0–HS1; **AutomorphicGaloisRepresentationsPartII**, AG2.6, “Minuscule local Shimura spaces and their Hecke realization”; **RelativeFarguesFontaine**, Layers 0–4 and 6–7; **BunGAndNewtonStrata**, Layers 0–4; **VectorBundlesAndIsocrystals**, Layers 1, 2, 4 and 5; **GeometricSatakeAndFusion**, GS0; **DiamondsAndVStacks**, D3–D6; **AdicEtaleGeometry**, A2; **AdicSpacesPartII**, R0; **ReductiveGroupsPartII**, RG2.0; **PadicHodgeTheory**, §§0.1 and 3.2–3.5; **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, R07.4.13; **DiamondSixOperations**, S0; **ClassFieldTheory**, §4 Layer 9.
+*Needs:* HS0–HS1; **AutomorphicGaloisRepresentationsPartII**, AG2.6, “Minuscule local Shimura spaces and their Hecke realization”; **RelativeFarguesFontaine**, Layers 0–4 and 6–7; **BunGAndNewtonStrata**, Layers 0–4; **VectorBundlesAndIsocrystals**, VB1, VB3–VB4; **GeometricSatakeAndFusion**, GS0; **DiamondsAndVStacks**, D3–D6; **AdicEtaleGeometry**, A2; **AdicSpacesPartII**, R0; **ReductiveGroupsPartII**, RG2.0; **PadicHodgeTheory**, §§0.1 and 3.2–3.5; **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, R07.4.13; **DiamondSixOperations**, S0; **ClassFieldTheory**, §4 Layer 9.
 
 ## Layer HS3: Cohomology and smooth representations
 
@@ -2396,8 +2395,8 @@ object. For a finite-set map `I→J`, form the full pulled-back cover
 `(Div¹_(E′))^I ×_((Div¹_E)^I) (Div¹_E)^J` and retain every component
 in the fusion comparison. The diagonal copy `(Div¹_(E′))^J` gives
 only the same-lift summand; the other components give the other induced
-summands. This is the geometric-correspondence compatibility of
-**GeometricSatakeAndFusion**, §4.22, “Weil restriction naturality”.
+summands. This is the geometric-correspondence compatibility of **GeometricSatakeAndFusion**,
+GS4, “Weil restriction naturality”.
 Diagonal restriction of legwise induction is not identified with induction
 of diagonal restriction. Parameter-stack and excursion-algebra comparisons
 are not asserted here: the algebraic carriers are LanglandsParameterStacks
