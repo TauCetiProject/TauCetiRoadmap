@@ -933,13 +933,14 @@ Choose the normalized extremal section nonzero on C(w). For v=w s_β with β>0 a
 
 - The divisor of the normalized extremal section on X(w) is supported on the Schubert divisors X(v), v=ws_β<w, with coefficient ⟨λ,β∨⟩, computed as a valuation in the rank-one transverse parameter at the generic point of X(v).
 - The coefficient is additive in λ and unchanged by central translation of λ.
-- It equals S4.3's cover bond b_λ(w,v) for the positive root −wβ, since wλ−vλ=⟨λ,β∨⟩wβ and wβ is negative when ℓ(ws_β)<ℓ(w).
+- Write w̄=wW_λ and v̄=vW_λ. When w̄>v̄ is a strict cover in W/W_λ, the coefficient equals S4.3's bond b_λ(w̄,v̄), with positive root −wβ: −⟨wλ,(−wβ)∨⟩=⟨λ,β∨⟩. The full-flag coefficient remains defined when w̄=v̄ or when the projected interval has intermediate cosets; neither case defines a quotient cover bond.
 
 **Checks.**
 
 - For SL₂ and λ=m, the section of O(m) nonzero on the open cell has divisor m·X(e); m=0,1,2 give coefficients 0,1,2.
-- On the GL₃ full flag with λ=ω₁ and w=s₁s₂, the covers are v=s₁ with β=α₂ and v=s₂ with β=α₁+α₂, so the coefficients are ⟨ω₁,α₂∨⟩=0 and ⟨ω₁,(α₁+α₂)∨⟩=1: the pulled-back hyperplane section vanishes along X(s₂) only.
-- With the same w and λ=ρ the coefficients are 1 on X(s₁) and 2 on X(s₂); a model assigning coefficient 1 to every boundary component is wrong already here.
+- On the GL₃ full flag with λ=ω₁ and w=s₁s₂, the covers are v=s₁ with β=α₂ and v=s₂ with β=α₁+α₂, so the coefficients are ⟨ω₁,α₂∨⟩=0 and ⟨ω₁,(α₁+α₂)∨⟩=1: the pulled-back hyperplane section vanishes along X(s₂) only. For v=s₁ both projected weights are ε₂, so the zero coefficient is not a cover bond.
+- With λ=ω₁ and w=s₂s₁, the full-flag cover v=s₂ has β=α₁ and coefficient 1, but projects to ε₃>ε₁ with intermediate ε₂; positivity does not imply a quotient cover. The cover v=s₁ has β=α₁+α₂ and projects to the actual cover ε₃>ε₂, whose bond for the root α₂ is 1.
+- With the same w=s₁s₂ and λ=ρ the coefficients are 1 on X(s₁) and 2 on X(s₂); a model assigning coefficient 1 to every boundary component is wrong already here.
 
 *Needs:* S3.1–3.2; S5.4 for codimension-one valuations; ReductiveGroups root coordinates; S4.3's coroot bonds. BrionFlags Proposition 1.4.5 gives the complex type-A formula; the rank-one local-parameter calculation establishes the stated root-datum form.
 
@@ -954,7 +955,7 @@ Distinguish the effective Cartier divisor of the full section from individual Sc
 **Checks.**
 
 - For O(m) on ℙ¹ the Cartier divisor is m·[e], of multiplicity 0,1,2 for m=0,1,2; λ=0 gives the empty divisor and the unit section.
-- In Gr(2,4) with the standard flag, the Schubert variety X_(2,1)={V : V∩F₂≠0} is the quadric cone p₃₄=0, p₁₃p₂₄=p₁₄p₂₃ in ℙ⁴ with vertex the point p₁₂; its extremal Plücker coordinate p₂₄ cuts the reduced Cartier divisor X_(2)+X_(1,1), the planes p₁₄=p₂₄=0 and p₂₃=p₂₄=0 through the vertex, and neither plane alone is Cartier at the vertex.
+- In Gr(2,4) with the standard flag, the Schubert variety X_(1)={V : V∩F₂≠0} is the quadric cone p₃₄=0, p₁₃p₂₄=p₁₄p₂₃ in ℙ⁴ with vertex the point p₁₂; its extremal Plücker coordinate p₂₄ cuts the reduced Cartier divisor X_(2)+X_(1,1), the planes X_(2) with p₂₃=p₂₄=0 and X_(1,1) with p₁₄=p₂₄=0 through the vertex, and neither plane alone is Cartier at the vertex. The pivots (2,4) give λ=(1,0) and dimension 4−1=3. In contrast, X_(2,1) has pivots (1,3), consists of F₁⊂V⊂F₃, and is the smooth ℙ(F₃/F₁)≃ℙ¹ of dimension 4−3=1.
 - On the GL₃ full flag with λ=ω₁ and w=s₁s₂, the divisor is X(s₂) with multiplicity 1 and X(s₁) does not occur, in agreement with S7.1's coefficients 1 and 0.
 
 *Needs:* S7.1; SchemeAndStackFoundations divisor and cycle classes; S5.2's reduced boundary ideals. For O(m) on ℙ¹ the multiplicity is m, giving 0,1,2 at m=0,1,2 rather than a constant multiplicity 1.
@@ -998,7 +999,7 @@ Consume the generic coherent/exact Grothendieck and perfect-complex owners. On s
 
 - On ℙ¹, [O_e]=[O]−[O(−1)] from 0→O(−1)→O→O_e→0; it has rank 0 and Euler characteristic 1.
 - For the point flag K₀=G₀=ℤ and the structure-sheaf class is the unit 1.
-- On Gr(2,4) all six Schubert structure sheaves, including the singular X_(2,1), have Euler characteristic 1 by S5.5, and their classes form a ℤ-basis of G₀≅K₀ of rank 6; rank and Euler characteristic alone cannot separate them, and no K₀≃G₀ identification is asserted on X_(2,1) itself.
+- On Gr(2,4) all six Schubert structure sheaves, including the singular X_(1), have Euler characteristic 1 by S5.5, and their classes form a ℤ-basis of G₀≅K₀ of rank 6; rank and Euler characteristic alone cannot separate them, and no K₀≃G₀ identification is asserted on X_(1) itself.
 
 *Needs:* SchemeAndStackFoundations coherent/perfect K-theory and regular finite resolutions; S1's smooth flag and proper Schubert immersions. BrionFlags §3.3 gives the smooth-variety K₀/G₀ comparison.
 
@@ -1016,11 +1017,13 @@ Construct c:ℤ[X]=R(T)→K₀(G/B−), eλ↦[Lλ], its augmentation, restricti
 - At λ=0 the class is 1, not 0; quotienting by all invariants would kill this unit.
 - For a torus flag the quotient is ℤ: every character becomes 1 under augmentation.
 
-*Needs:* S3.1; S8.1; ReductiveGroups rational representation rings; S5–S7's geometric push-pull and Schubert filtration. The kernel and surjectivity are integral assertions in the simply-connected-derived range (Pittie1972, pp. 199–203, and Steinberg1975, pp. 173–177, the freeness of R(T) over R(G) with its explicit basis; both cited by locator).
+*Needs:* S3.1; S8.1; ReductiveGroups rational representation rings; S5–S7's geometric push-pull and Schubert filtration. The geometric kernel and surjectivity are targets of the stated flag push-pull/filtration argument; the representation-ring freeness input is Steinberg1975, Theorem 2.2, p. 173 (with its explicit basis in Remark 2.3, pp. 173–174). Pittie1972, pp. 199–203, gives the compact-group freeness antecedent, cited by locator only.
 
 ### 8.3 Equivariant characteristic map
 
 In the same simply-connected-derived range construct K₀^T(G/B−)≅R(T)⊗_(R(G))R(T), specify which factor is the base character and which gives associated lines, and compare its augmentation to S8.2. For a partial flag use R(P−)=R(L) and the corresponding character presentation, with the actual Levi Weyl subgroup and bundle comparison. Prove the finite free/basis statements needed for these tensors; do not assume rational invariants imply their integral version.
+
+Construct the homogeneous-bundle identification R(P−)→K₀^G(G/P−), [V]↦[G×^(P−)V], with inverse given by the fibre at eP−. Prove the flag change-of-groups isomorphism R(T)⊗_(R(G))K₀^G(G/P−)→K₀^T(G/P−), a⊗[E]↦a·res_T^G[E]; together these give the stated presentation (MerkurjevEquivariant, Corollary 1.12, p. 5, and Proposition 6.5, pp. 15–16, in the author draft). This geometric comparison uses homogeneous descent and equivariant restriction, not merely the freeness of a representation ring.
 
 Specify the equivariant map by a⊗eλ↦a·[L(λ)]: the first factor is the base T-character, the second the associated line. Forgetting equivariance augments the first factor, giving the ordinary presentation after swapping the two displayed tensor factors.
 
@@ -1034,7 +1037,7 @@ Specify the equivariant map by a⊗eλ↦a·[L(λ)]: the first factor is the bas
 - At λ=0, 1⊗1 restricts to 1 at both fixed points.
 - For P=G, the partial presentation is R(T)⊗_(R(G))R(G)=R(T); forgetting equivariance gives ℤ.
 
-*Needs:* S3.1; S8.1–8.2; ReductiveGroups Levi representation rings and restriction; S8.1's equivariant flag comparisons. The equivariant presentation is the tensor form of Steinberg1975's freeness theorem, pp. 173–177.
+*Needs:* S3.1; S8.1–8.2; ReductiveGroups Levi representation rings and restriction; S8.1's equivariant flag comparisons. Steinberg1975, Theorem 2.2, p. 173, supplies representation-ring freeness only; the geometric identification is the flag specialization of MerkurjevEquivariant, Proposition 6.5, pp. 15–16, through the homogeneous-bundle map above.
 
 ### 8.4 General isogeny types
 
@@ -1505,9 +1508,13 @@ pp. 82–83 and Theorem 3.7, p. 84. The original splitting paper is
 V. B. Mehta and A. Ramanathan, *Frobenius splitting and cohomology vanishing
 for Schubert varieties*, Annals of Mathematics 122 (1985), 27–40, cited only
 through Ramanathan1987. H. Pittie, *Homogeneous vector bundles on homogeneous
-spaces*, Topology 11 (1972), 199–203 (Pittie1972), and R. Steinberg, *On a
-theorem of Pittie*, Topology 14 (1975), 173–177 (Steinberg1975), give the
-freeness of R(T) over R(G) and the K-ring presentation; both are cited by
-locator only. J. C. Jantzen, *Representations of Algebraic Groups*, second
+spaces*, Topology 11 (1972), 199–203 (Pittie1972), gives the compact-group
+freeness theorem and is cited by locator only. R. Steinberg, *On a theorem
+of Pittie*, Topology 14 (1975), Theorem 2.2, p. 173, and Remark 2.3, pp. 173–174
+(Steinberg1975), supplies algebraic representation-ring freeness and its
+explicit basis. For the geometric equivariant identification use Alexander
+Merkurjev, [*Equivariant K-theory*, author draft dated 2000](https://www.math.ucla.edu/~merkurev/papers/handbook.pdf)
+(MerkurjevEquivariant), Corollary 1.12, p. 5, and Proposition 6.5, pp. 15–16;
+these locators refer to that draft, not the 2005 Handbook chapter's numbering. J. C. Jantzen, *Representations of Algebraic Groups*, second
 edition, Part II, Chapter 14, gives Demazure modules and their contravariant
 duals over an arbitrary field; cited by locator only.
