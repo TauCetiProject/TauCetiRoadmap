@@ -6,7 +6,8 @@ import TauCeti.RepresentationTheory.SU2.Exhaustion
 # Compact groups: target signatures
 
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's
-headline theorems against the pinned APIs: Banach G-finite density, compact-group
+headline theorems against the pinned APIs: irreducible positive-scalar metric
+classification, U(2) weight recognition, Banach G-finite density, compact-group
 countability, duals of arbitrary products, compact abelian Fourier theory, and SU(2) multiplicities and faithfulness.
 The implemented Haar, unitarization, Peter–Weyl, character and SU(2) theorems are
 inputs, identified in the README's supplier contracts.
@@ -27,6 +28,22 @@ open scoped DirectSum InnerProductSpace
 namespace TauCetiRoadmap.CompactGroups
 
 universe u v
+
+/-! ## Layer 1: invariant Hermitian metrics -/
+
+/-- A strictly positive self-adjoint intertwiner of a finite-dimensional
+irreducible complex representation is a unique positive real scalar.
+No compactness or continuity of the group parameter is needed for this
+consequence of scalar Schur. -/
+theorem positive_selfIntertwiner_existsUnique_scalar
+    {G V : Type*} [Group G] [NormedAddCommGroup V] [InnerProductSpace ℂ V]
+    [FiniteDimensional ℂ V] (π : ContRepresentation ℂ G V)
+    (hirr : π.toRepresentation.IsIrreducible) (T : ContIntertwiningMap π π)
+    (hself : IsSelfAdjoint T.toContinuousLinearMap)
+    (hpos : ∀ v : V, v ≠ 0 → 0 < (⟪v, T v⟫_ℂ).re) :
+    ∃! c : ℝ, 0 < c ∧ T.toContinuousLinearMap =
+      (c : ℂ) • ContinuousLinearMap.id ℂ V := by
+  sorry
 
 /-! ## Layer 2: G-finite vectors in Banach representations -/
 
@@ -166,6 +183,24 @@ theorem exists_characterBasis :
 
 
 end
+
+/-! ## Layer 6: global forms and representation rings -/
+
+/-- Finite torus weights characterize actual continuous U(2) representations. -/
+theorem u2_weight_character_iff (f : (ℤ × ℤ) →₀ ℕ) :
+    (∃ (n : ℕ) (π : ContRepresentation ℂ (Matrix.unitaryGroup (Fin 2) ℂ)
+        (EuclideanSpace ℂ (Fin n))),
+      Continuous π ∧ ∀ g : Matrix.unitaryGroup (Fin 2) ℂ,
+        (g : Matrix (Fin 2) (Fin 2) ℂ) 0 1 = 0 →
+        (g : Matrix (Fin 2) (Fin 2) ℂ) 1 0 = 0 →
+        π.toRepresentation.character g =
+          f.sum (fun ab m => (m : ℂ) *
+            ((g : Matrix (Fin 2) (Fin 2) ℂ) 0 0) ^ ab.1 *
+            ((g : Matrix (Fin 2) (Fin 2) ℂ) 1 1) ^ ab.2)) ↔
+      (∀ a b : ℤ, f (a,b) = f (b,a)) ∧
+      (∀ a b : ℤ, b ≤ a → f (a+1,b-1) ≤ f (a,b)) := by
+  sorry
+
 
 /-! ## Layer 7: unitary SU(2) actions and embeddings -/
 

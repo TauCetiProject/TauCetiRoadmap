@@ -21,14 +21,18 @@ these objects and their coefficient convention.
 This roadmap owns field-general orbit finiteness and compact strongly continuous
 Banach density. AutomorphicFormsOnReductiveGroups §2.1 owns the complete locally
 convex extension and consumes this Banach theorem. SmoothBanachRepresentations
-SB4 owns the stronger smooth-topology comparison. Neither is an analytic input.
+§4.1 owns the real and complex smooth-topology comparison;
+AutomorphicFormsOnReductiveGroups §2.7 supplies the complex smooth result. Neither is an analytic input.
 Completed/OrthogonalL2Bases Part B owns generic weighted L² basis assembly;
 CharacterTheory Layers 0–4 own finite-group character theory. LieGroups Layers 2,
 4–6 supply automatic smoothness, Lie integration, covering groups and maximal
 tori; the compact center/derived splitting and finite-cover refinement needed
 for descent are explicit targets of Layer 6 here. OperatorTheory/OperatorIdeals
 Part C owns the generic Hilbert–Schmidt theory; Layer 0 only compares continuous
-kernels with it. The Hilbert-basis separability bridge in Layer 3 uses metric
+kernels with it. LieHighestWeight Layers 7 and 9 own the algebraic universal-enveloping center
+and reductive trace-form comparison; CharacteristicClasses §C5.1 owns compact invariant
+polynomial restriction. Neither is a premise for group-character descent.
+The Hilbert-basis separability bridge in Layer 3 uses metric
 separation and countable support, without a BanachSpaceTheory supplier claim.
 
 ## Conventions
@@ -71,6 +75,9 @@ irreducibility uses closed invariant subspaces and is a different condition.
 - `ContRepresentation`, `ContRepresentation.toRepresentation` and
   `ContIntertwiningMap` in `Mathlib/RepresentationTheory/Continuous/Basic.lean`:
   actions by continuous linear operators, with parameter continuity added explicitly.
+- `LinearMap.continuous_of_finiteDimensional` in
+  `Mathlib/Topology/Algebra/Module/FiniteDimension.lean`: linear maps with
+  finite-dimensional Hausdorff domain are continuous.
 - `Representation.IsIrreducible` in `Mathlib/RepresentationTheory/Irreducible.lean`:
   `IsSimpleOrder` of the subrepresentation lattice, including nontriviality.
 - `HilbertBasis`, its coordinate isometry and Parseval in
@@ -87,8 +94,15 @@ irreducibility uses closed invariant subspaces and is a different condition.
 
 ### From Tau Ceti
 
-Paths in this list are below `TauCeti/RepresentationTheory/`.
+Paths in this list are below `TauCeti/RepresentationTheory/` unless given in full.
 
+- `TauCeti/Geometry/Hodge/Conjugation.lean`:
+  `TauCeti.Hodge.complexificationConjugation`,
+  `TauCeti.Hodge.complexificationConjugation_toEquiv_tmul` and
+  `LinearMap.map_eigenspace_baseChange` supply conjugation on ℂ⊗ℝV,
+  its semilinearity and involution, and the conjugate-eigenvalue comparison
+  for real-linear maps. Layer 6 restricts this existing map to simultaneous
+  torus weight spaces.
 - `Compact/Haar.lean`: `TauCeti.haarProb`, `TauCeti.haarProb_def`,
   `TauCeti.haarProb_apply_univ` and the probability, Haar and bi-invariance instances.
   `Compact/Averaging.lean`: `TauCeti.haarAverage`, for complete normed targets.
@@ -110,6 +124,19 @@ Paths in this list are below `TauCeti/RepresentationTheory/`.
   `Compact/EigenspaceRepresentation.lean`, `Compact/RepresentativeDensity.lean`:
   the continuous-kernel convolution, approximate identities and noncircular density route;
   in particular `TauCeti.representativeStarSubalgebra_dense` and its point-separation corollary.
+- `Continuous/Integrated/Basic.lean`:
+  `ContRepresentation.integratedOperatorL1`,
+  `ContRepresentation.integratedOperatorL1_toL1`,
+  `ContRepresentation.norm_integratedOperatorL1_le`,
+  `ContRepresentation.comp_integratedOperatorL1` and
+  `ContRepresentation.tendsto_integratedOperatorL1_apply`. These supply the L¹
+  action, Bochner formula, uniform-bound estimate, left covariance and strong
+  approximate-identity convergence. For a multiplicative G, use the additive
+  tag `Additive G` and transport the action to `Multiplicative (Additive G)`.
+  The group need not be commutative; the measure is Borel and inner regular
+  on compact sets. Covariance uses left invariance and a complete target;
+  convergence uses mass-one weights, a uniform L¹ bound and concentration
+  at the identity, with no second countability or separability hypothesis.
 - `Compact/PeterWeyl.lean`: `TauCeti.IrrepModel`, `TauCeti.IsIrrepSkeleton`,
   `TauCeti.IrrepClass`, `TauCeti.stdPeterWeylBasis` and `TauCeti.coe_stdPeterWeylBasis`.
   The index for G in universe u is in universe u; there is no countability restriction.
@@ -120,6 +147,9 @@ Paths in this list are below `TauCeti/RepresentationTheory/`.
   `ContRepresentation.frobeniusSchurIndicator_eq_one_iff`,
   `ContRepresentation.frobeniusSchurIndicator_eq_neg_one_iff` and
   `ContRepresentation.frobeniusSchurIndicator_eq_one_iff_exists_structureMap`.
+- `SU2/TorusConjugacy.lean`: `TauCeti.SU2.exists_isConj_torusHom`;
+  `SU2/Weight.lean`: `TauCeti.SU2.symPower_torusHom_weightBasis`, with weights
+  2i−d for 0≤i≤d. These give the kernel computation in Layer 7 directly.
 - `SU2/Exhaustion.lean`: `TauCeti.SU2.symPowerModel` and
   `TauCeti.SU2.existsUnique_nonempty_equiv_symPower`;
   `SU2/Weyl/Character.lean` and `Integration.lean`: the global weight sum,
@@ -154,7 +184,7 @@ all targets and Checks; `Suggested.lean` carries headline acceptance statements.
 
 ## Layer 0: comparisons with the base theory
 
-### 0.1 Finite-dimensional and kernel comparisons
+### 0.1 Finite-dimensional categorical comparison
 
 Construct the equivalence between finite-dimensional continuous complex actions
 and the full subcategory of `FDRep ℂ G` with continuous parameter maps. Prove that
@@ -163,34 +193,65 @@ characters, direct sums, tensors and duals. All finite-dimensional linear maps
 are continuous, but continuity of the group parameter is a separate hypothesis.
 Compare closed-subspace irreducibility with the nonzero algebraic definition.
 These comparisons use the concrete forgetful functor and are not a replacement
-representation category (Knapp, §IV.2, for finite-dimensional representations).
+representation category. This is a deduction from
+`LinearMap.continuous_of_finiteDimensional` and the defining equations of
+`ContIntertwiningMap` and `FDRep`; it does not invoke a categorical theorem
+from Knapp.
 
-For every compact Hausdorff X with a finite regular Borel measure μ and continuous
-complex kernel k on X×X, construct its integral operator on L²(μ), identify it
-with the Hilbert–Schmidt operator of k and prove that its squared Hilbert–Schmidt
-norm is ∫|k|² d(μ×μ). Specialize to convolution on a compact group with normalized
-Haar; translation invariance gives ‖A_k‖²_HS=‖k‖²₂. This is the missing
-continuous-kernel comparison, distinct from the native compactness proof.
+Its API identifies composition, identities, equivalences, tensor products,
+duals and trace, and restricts to the same invariant subspaces.
 
-- The categorical comparison preserves composition, identities, equivalences,
-  tensor and trace; it restricts to the same invariant subspaces.
-- The kernel map is complex-linear and respects adjoints: k*(x,y)=conj k(y,x).
-  Kernels equal almost everywhere give the same operator; no full-support
-  assumption is made on μ.
-- The convolution specialization intertwines the kernel-to-operator map with
-  the native convolution operator and its continuous representatives.
+- Forgetting continuity preserves each intertwiner's underlying linear map.
+- Restoring continuity by finite dimensionality is inverse on every Hom space.
+- The tensor and dual comparison maps have the usual underlying linear maps;
+  on characters these give multiplication and evaluation at the inverse.
 
-*Needs:* Mathlib `FDRep`, continuous linear maps and finite-dimensional topology;
-native compact convolution; OperatorTheory/OperatorIdeals Part C.
+*Needs:* Mathlib `FDRep`, `ContIntertwiningMap`,
+`LinearMap.continuous_of_finiteDimensional` and finite-dimensional subspace topology.
 
 **Checks.**
 
-- On the zero representation the subrepresentation lattice has one point, so
-  neither side of the irreducibility comparison holds; on trivial ℂ both hold.
-- On X={1,2} with probability masses 1/2 and kernel 1, the operator is the
-  rank-one averaging projection, and both squared norms equal 1.
-- Kernel 0 has squared norm 0; with μ=0 every kernel induces zero, so injectivity
-  of continuous kernels is not asserted without full support.
+- The zero action has a one-point subrepresentation lattice and is not
+  irreducible on either side; trivial ℂ has two subrepresentations and is
+  irreducible on both sides.
+- For trivial ℂ, the intertwiners 2I and 3I compose to 6I before and after
+  the comparison, and the identity stays I, excluding a rescaled Hom map.
+- For the C₃ character with value ω at a generator, the tensor square has
+  trace ω² and the dual has trace ω⁻¹=ω² on both sides; replacing dual by
+  the original action would give ω instead.
+
+### 0.2 Continuous kernels and Hilbert–Schmidt operators
+
+For every compact Hausdorff X with a finite regular Borel measure μ and continuous
+complex kernel k on X×X, compare the integral operator
+`A_k f(x)=∫ k(x,y)f(y) dμ(y)` from L²(μ) to itself with the Hilbert–Schmidt
+operator of k and prove `‖A_k‖²_HS=∫|k|² d(μ×μ)`. This is a deduction from
+OperatorTheory/OperatorIdeals Part C, specifically OI-C01–OI-C11, and the
+finite-rank kernel identity: finite sums of `a(x)conj(b(y))` are uniformly
+dense in C(X×X) by complex Stone–Weierstrass, hence L²-dense among continuous
+kernels for finite μ. Their operator Hilbert–Schmidt norms equal their kernel
+L² norms by finite-sum expansion and Parseval; completeness extends this
+isometry. No separable L² basis or standard Borel assumption enters this route.
+
+- The map from continuous kernels to Hilbert–Schmidt operators is complex-linear
+  and sends `k*(x,y)=conj k(y,x)` to the adjoint of A_k.
+- Kernels equal almost everywhere give the same operator; the norm identity
+  identifies the kernel of the map with continuous kernels vanishing μ×μ-a.e.
+- For normalized Haar measure and `k(x,y)=f(xy⁻¹)`, compare A_k with the native
+  convolution operator; translation invariance gives `‖A_k‖²_HS=‖f‖²₂`.
+
+*Needs:* OperatorTheory/OperatorIdeals Part C OI-C01–OI-C11; Mathlib complex
+Stone–Weierstrass, Fubini and Parseval; native compact convolution for the specialization.
+
+**Checks.**
+
+- On two points of mass 1/2 each, k=1 gives the averaging projection with
+  squared Hilbert–Schmidt norm 1, equal to the kernel integral 4·1/4=1.
+- For k=0 both norms are 0; for μ=0 even k=1 gives A_k=0 and both norms 0.
+  Thus injectivity on continuous functions needs full support.
+- For the same two-point measure and k(1,2)=i, all other entries zero,
+  A_k has matrix entry i/2, its adjoint has entry −i/2 at (2,1), and
+  both squared norms are 1/4, distinguishing adjoint from transpose.
 
 ### Examples
 
@@ -206,7 +267,7 @@ and OperatorTheory/OperatorIdeals Part C.
 
 ## Layer 1: invariant Hermitian metrics
 
-### 1.1 invariant Hermitian metrics
+### 1.1 Gram operators and invariant forms
 
 Fix a finite-dimensional unitary complex representation π with its given inner
 product, conjugate-linear in the first variable. Represent every Hermitian form
@@ -218,7 +279,34 @@ Prove these comparisons and their transport under unitary intertwiners. The
 map `v↦h(v,−)` into the complex linear dual is conjugate-linear; construct
 the comparison by the stated Gram operators with that scalar convention.
 
-The scalar classification is a deduction from Knapp, Corollary 4.9, p.240, and the native Schur theorem. For irreducible π, apply scalar Schur to T. Self-adjointness
+- The Gram correspondence is real-linear on Hermitian forms and
+  self-adjoint operators, with both inverse identities.
+- Positive forms correspond exactly to strictly positive Gram operators.
+- For a unitary action, invariant forms correspond exactly to commuting Gram
+  operators, compatibly with transport by unitary intertwiners.
+
+These comparisons are deductions from finite-dimensional Riesz representation
+and nondegeneracy of the inner product, with the displayed scalar convention.
+
+*Needs:* Mathlib finite-dimensional inner-product duality and adjoints;
+native unitary actions for the invariance comparison.
+
+**Checks.**
+
+- On ℂ, T=2I gives h(1,i)=2i, while putting the scalar in the wrong
+  conjugate-linear slot would give −2i.
+- T=0 gives h(1,1)=0 and is not positive definite; T=2I gives 2>0.
+- On trivial ℂ², diag(1,2) commutes with the action and gives
+  h(e₁,e₁)=1, h(e₂,e₂)=2. For the action swapping the axes, this form
+  is not invariant: h(πe₁,πe₁)=2≠1.
+
+### 1.2 Scalar metrics on irreducibles
+
+The signature `positive_selfIntertwiner_existsUnique_scalar` states the scalar
+classification for any group and any finite-dimensional irreducible complex
+`ContRepresentation`, with a self-adjoint, strictly positive self-intertwiner;
+it requires neither compactness nor parameter continuity. It is a deduction
+from Knapp, Corollary 4.9, p.240, and the native scalar Schur theorem. For irreducible π, apply scalar Schur to T. Self-adjointness
 makes its scalar real and positivity makes it strictly positive. Prove that the
 invariant positive Hermitian forms are exactly `c⟪−,−⟫` with a unique real c>0.
 For two such forms, construct the identity-times-`1/√c` equivariant isometry
@@ -229,7 +317,27 @@ compare its normalization with this particular scalar map. For an initially
 nonunitary representation, use native unitarization's Gram conjugacy to transport this
 classification; no extra choice of an inner-product instance is implicit.
 
-For a supplied finite unitary decomposition `V≃⊕_i(S_i⊗ℂ^{m_i})`, with the S_i
+- The positive scalar is unique, since an irreducible space is nonzero.
+- If h₂=c h₁, the specified map c^(-1/2)I is an equivariant isometry
+  from the h₁ space to the h₂ space, with inverse c^(1/2)I.
+- Gram conjugacy transports this classification to a nonunitary model
+  equipped with its chosen unitarization.
+
+*Needs:* §1.1; `ContRepresentation.exists_eq_smul_one_of_isIrreducible`;
+native unitarization and unitary-intertwiner comparison for transport.
+
+**Checks.**
+
+- On irreducible ℂ, T=2I gives exactly c=2; c=1 fails on the vector 1.
+- If h₂=4h₁, h₂(v/2,v/2)=h₁(v,v), and multiplication by 2 is the inverse.
+- Trivial ℂ² with T=diag(1,2) is not scalar and fails irreducibility;
+  on V=0 every scalar gives the same operator, also excluded by irreducibility.
+
+### 1.3 Multiplicity-space metrics
+
+The following multiplicity-space classification is a blockwise deduction from
+Knapp, Proposition 4.8 and Corollary 4.9, p.240: the Hom space between inequivalent
+irreducibles is zero and each diagonal irreducible Hom space is ℂ. For a supplied finite unitary decomposition `V≃⊕_i(S_i⊗ℂ^{m_i})`, with the S_i
 pairwise inequivalent unitary irreducibles and m_i>0, construct the *-algebra
 identification of the commuting operators with `∏_i Matrix (Fin m_i) (Fin m_i) ℂ`.
 Pin it by `T|_(S_i⊗ℂ^{m_i})=id_(S_i)⊗A_i`. Prove addition, multiplication,
@@ -242,18 +350,30 @@ on ℂ², the Gram operator diag(1,2) gives an invariant positive metric that is
 not a scalar multiple of the standard one. Thus scalar uniqueness uses the
 irreducibility hypothesis; repeated copies retain their full matrix freedom.
 
-Specialize to finite discrete groups and compare native unitarization's Haar average with
-`|G|⁻¹ Σ_g⟪π(g)v,π(g)w⟫`; the unnormalized sum is |G| times that form.
+- The block map is a *-algebra isomorphism: it preserves sums, products,
+  complex scalars, adjoints and units, and commutes with inversion on units.
+- Its positive cone consists of positive-definite Hermitian blocks, and
+  both inverse maps preserve positivity.
+- Changing multiplicity bases by U_i sends A_i to U_i A_i U_i†;
+  reindexing merely reindexes the blocks.
 
-
-*Needs:* Native unitarization, complete reducibility and scalar Schur; finite-dimensional Hermitian linear algebra.
+*Needs:* §1.1; native unitary complete reducibility and scalar Schur;
+finite-dimensional tensor products and matrix adjoints. The chosen unitary
+isotypic tensor decomposition and its comparison are constructed here.
 
 **Checks.**
 
-- T=2I on ℂ gives h(1,1)=2>0; T=0 gives 0 and is not positive definite.
-- For the trivial action on ℂ², diag(1,2) is positive and invariant but nonscalar. Swapping the two basis vectors changes it to diag(2,1).
-- For irreducible ℂ, h₂=4h₁ gives the isometry v↦v/2: h₂(v/2,v/2)=h₁(v,v). On V=0 every positive scalar gives the same form, so scalar uniqueness requires nonzeroness.
-- On the zero module the multiplicity index is empty and the product commutant has one element; on S⊕S the commutant is M₂(ℂ), not ℂ.
+- For S⊕S, diag(1,2) in the multiplicity algebra gives two different
+  metric scales; swapping copies changes it to diag(2,1), excluding a scalar-only commutant.
+- In M₂(ℂ), E₁₂E₂₁=E₁₁ and E₂₁E₁₂=E₂₂; the block map preserves this
+  order. Also E₁₂†=E₂₁, distinguishing adjoint from entrywise conjugation.
+- On V=0 the index is empty and the product algebra has one element;
+  the unique form is vacuously positive definite. For one copy of an
+  irreducible the product is ℂ and its positive cone is the positive reals.
+
+For finite discrete groups compare native unitarization's Haar average with
+`|G|⁻¹ Σ_g⟪π(g)v,π(g)w⟫`; the unnormalized sum is |G| times that form.
+This is a specialization of normalized Haar, with |G|≥1.
 
 ### Examples
 
@@ -281,13 +401,16 @@ this definition.
 - An equivariant k-linear map sends the orbit span into the image of that span,
   hence maps the G-finite submodule into the G-finite submodule of its target.
 
-Here construct the application estimates and witnesses: uniform boundedness
-on compact orbit maps gives C_π=sup_g‖π(g)‖<∞; operator-norm continuity is
-not assumed. Construct the integrated action T_f v=∫f(g)π(g)v dμ_G for continuous f,
-using the Bochner integral, and prove ‖T_f‖≤C_π‖f‖₁. Use the native
-compact-group approximate identity, with normalization ∫u=1.
-Use the normalized Haar measure and prove
-π(h)T_f v=T_(L_h f)v, L_h f(g)=f(h⁻¹g).
+Uniform boundedness on compact orbit maps gives a constant C_π≥1 with
+‖π(g)‖≤C_π for all g, without operator-norm continuity; choosing C_π≥1 also
+covers E=0. Use `ContRepresentation.integratedOperatorL1` from the supplier
+contract with `Additive G` and Haar probability. Send a continuous weight f
+into L¹ by `ContinuousMap.toLp` at exponent 1. Compare this class with the
+integrable-function class in `ContRepresentation.integratedOperatorL1_toL1`;
+its image acts by `T_f v=∫f(g)π(g)v dμ_G`. Consume the native norm bound and
+covariance, whose additive argument −h+g becomes h⁻¹g. The native compact
+approximate identities have mass 1, L¹ norm 1 and shrinking support, so
+`ContRepresentation.tendsto_integratedOperatorL1_apply` applies.
 
 Prove `gFinite_dense`, the density of G-finite vectors, by integrated representative functions. For a finite sum p of matrix
 coefficients, left translates span a finite-dimensional space; covariance
@@ -295,19 +418,31 @@ makes T_p v G-finite. Given v and ε>0, retain an approximate-identity
 kernel u with ‖T_u v−v‖<ε/2 and a representative function p with
 C_π‖p−u‖₁‖v‖<ε/2, treating v=0 separately. Keep their actual
 finite-orbit-span witnesses; these estimates prove density of the submodule. Prove the
-norm estimates, covariance, naturality and uniform-on-compact-vector-sets
-refinement from bounded operator norms and a finite ε-net. Use nets for
+naturality under bounded equivariant maps, by commuting such maps with the
+Bochner integral, and uniform-on-compact-vector-sets convergence: for each
+compact Q⊆E and ε>0, eventually ‖T_u v−v‖<ε for every v∈Q. Deduce this
+from the native strong convergence, the uniform operator bound and a finite ε-net. Use nets for
 arbitrary compact groups. The vector-valued Bochner integral and its
 separable-compact-image measurability follow from continuity, compactness and Bochner integration;
 no separability of the whole E is imposed.
 
+The density theorem and the compact-set refinement are deductions from
+`TauCeti.representativeStarSubalgebra_dense`, the integrated-action declarations
+in the supplier contract and the displayed error estimates; no Banach density
+statement is attributed to a source restricted to norm-continuous actions.
 The proof order is the field-general orbit-span construction, native uniform
 Peter–Weyl density, integrated representative functions, then Banach density.
 AutomorphicFormsOnReductiveGroups §2.1 consumes this theorem for its complete
 locally convex extension; no locally convex or smooth-vector result is a premise.
 
 
-*Needs:* Native Haar integration, approximate identities and uniform Peter–Weyl density; Mathlib Bochner integration and uniform boundedness.
+*Needs:* Native Haar probability, compact approximate identities,
+`TauCeti.representativeStarSubalgebra_dense`,
+`ContRepresentation.integratedOperatorL1`,
+`ContRepresentation.norm_integratedOperatorL1_le`,
+`ContRepresentation.comp_integratedOperatorL1` and
+`ContRepresentation.tendsto_integratedOperatorL1_apply`; Mathlib Bochner
+integration and uniform boundedness.
 
 **Checks.**
 
@@ -315,6 +450,9 @@ locally convex extension; no locally convex or smooth-vector result is a premise
 - For rotations on C(S¹), a nonzero Fourier monomial has orbit-span dimension 1; a sum of the distinct modes 0 and 1 has dimension 2.
 - Every nonidentity rotation has operator distance 2 from identity on C(S¹), although each orbit map is continuous; trigonometric polynomials are dense.
 - For the shift action of ℤ on ℓ²(ℤ), the point mass has infinitely many independent translates. This is outside the compact-group theorem.
+- On the left regular action of S₃ with normalized Haar, the weight f equal to
+  6 at t and 0 elsewhere gives T_f=π(t). For h=(12), t=(23), covariance gives π(ht) with
+  ht=(123); reversing the order gives (132), a different operator.
 - For the trivial action, T_f v=(∫f)v. Kernels of mass 1 fix v, and kernels of mass 2 send v to 2v; the normalization cannot be dropped.
 
 ### Examples
@@ -490,7 +628,7 @@ linear span of the c_χ. Its API is:
 - Complex conjugation sends c_χ to c_(χ⁻¹).
 - The trivial character gives the constant 1; evaluation at g agrees with χ(g).
  Deduce point separation and uniform density
-from the native Peter–Weyl theorem's Peter–Weyl theorem. This is the compact abelian specialization
+from the native Peter–Weyl theorem. This is the compact abelian specialization
 of that construction; it uses neither the general LCA Fourier-inversion
 engine nor Pontryagin biduality.
 
@@ -542,8 +680,6 @@ Native Peter–Weyl and scalar Schur; Layers 3–4; Mathlib HilbertBasis and con
 
 ## Layer 6: global forms and representation rings
 
-### 6.1 global forms and representation rings
-
 The preceding analytic results hold for all compact Hausdorff groups. This layer assumes K is a compact **connected finite-dimensional real Lie**
 group, T an actual maximal torus and `W=N_K(T)/T`. Representations are
 finite-dimensional continuous complex representations, with continuity of the
@@ -557,7 +693,9 @@ Weyl character formula nor its Haar/Fourier applications is a premise. No
 Borel–Weil, flag cohomology, generic algebraic-group classification, HC isomorphism
 or compact character-ring surjectivity is an input.
 
-**Virtual representations and actual torus characters.** Construct R(K), the
+### 6.1 The continuous representation ring
+
+Construct R(K), the
 Grothendieck ring of finite-dimensional continuous complex representations,
 with addition by direct sum, multiplication by tensor product, unit, dual,
 restriction and continuous intertwiner/equivalence APIs. Reuse the generic
@@ -574,6 +712,30 @@ cancellation, character injectivity, tensor/dual identities and naturality.
 The positive cone consists of nonnegative irreducible multiplicities; an
 arbitrary integral combination is virtual and need not be a genuine module.
 
+This character-ring description is a deduction from native complete
+reducibility and Schur orthogonality, with the group completion applied to
+unitary-equivalence classes of finite-dimensional continuous representations.
+
+- The class of V⊕W is [V]+[W], and the class of V⊗W is [V][W].
+- Trace induces an injective ring map into continuous class functions;
+  duality sends a character χ(g) to χ(g⁻¹).
+- Pullback along a continuous homomorphism preserves these operations and
+  genuine representations, while the group completion also contains negatives.
+
+*Needs:* Native compact complete reducibility and character orthogonality;
+Mathlib `Algebra.GrothendieckAddGroup`; §0.1's tensor and dual comparisons.
+
+**Checks.**
+
+- For the trivial group, dimension identifies R(K) with ℤ, the tensor unit
+  with 1 and the zero representation with 0.
+- On Circle, t·t⁻¹=1 and dual(t)=t⁻¹; at i their traces are i and −i,
+  whose product is 1, excluding a duality that fixes t.
+- The virtual class −[ℂ] has dimension −1; it is in the ring but outside
+  the nonnegative multiplicity cone, unlike [ℂ] of dimension 1.
+
+### 6.2 Torus weight spaces and the period lattice
+
 Let `X=Additive (PontryaginDual T)` be the actual character group (native
 `PontryaginDual`, whose carrier is `ContinuousMonoidHom T Circle`), not the full
 real dual Lie algebra and not an automatically simply connected weight lattice.
@@ -583,16 +745,91 @@ Mathlib `AddMonoidAlgebra ℤ X` after the explicit additive-character conventio
 Prove the character/Fourier coefficient equation and uniqueness, and the finite
 rank/lattice identification from LieGroups Layer 6's identification of a compact torus with a finite product of circles.
 For `chi(exp X)=exp(i ell_chi(X))`, the differential is `i ell_chi` and
-`ell_chi(ker exp_T)⊆2πZ`. The period lattice is measured with this 2π normalization (Knapp, Proposition 4.58, p.264). For a real finite-dimensional T-module, construct the conjugate-linear map
+`ell_chi(ker exp_T)⊆2πZ`. The period lattice is measured with this 2π normalization (Knapp,
+Proposition 4.58, pp.264–265).
+
+- Define the χ-weight space by π(t)v=χ(t)v for every t∈T; the distinct
+  nonzero spaces form a finite internal direct sum equal to the whole module.
+- The trace is the sum of weights with their dimensions, uniquely determined
+  by Fourier orthogonality; tensoring adds character labels and dualizing negates them.
+- The differential embeds X into the real dual of the torus Lie algebra as
+  precisely the functionals integral on the exponential kernel with periods 2πℤ.
+
+*Needs:* §6.1; Layer 5's character classification and orthogonality;
+LieGroups Layers 0 and 6 for exponential and the finite-circle-product torus.
+
+**Checks.**
+
+- On Circle, z↦z⁻¹ has a one-dimensional weight −1, not +1;
+  at z=i its trace is −i.
+- The trivial action on ℂ² has weight 0 of multiplicity 2 and trace 2;
+  the zero module has no nonzero weight space and trace 0.
+- For period 2π, the weight 1 gives exp(i·2π)=1; the functional 1/2
+  gives exp(iπ)=−1 and is not the differential of a circle character.
+
+### 6.3 Real complexification and opposite weights
+
+For a real finite-dimensional continuous T-module, use its scalar extension
+ℂ⊗ℝV. Use `TauCeti.Hodge.complexificationConjugation` and
+`LinearMap.map_eigenspace_baseChange` to restrict the existing conjugation
+to the simultaneous torus weight spaces, giving a conjugate-linear map
 on its complexification sending the chi-weight space bijectively to the
 chi-inverse weight space, with its involution and dimension equations. This
 proves opposite multiplicities without assuming semisimple root theory; the
-compact adjoint application uses the full central/Cartan zero-weight space from the center/derived splitting below.
+compact adjoint application uses the full central/Cartan zero-weight space
+from §6.5. This is a deduction from the real scalar extension formula
+`c(z⊗v)=conj(z)⊗v` and |χ(t)|=1.
+
+- The restriction has the inherited laws c(zv)=conj(z)c(v) and c²=id;
+  it intertwines the complexified real group action.
+- It restricts to inverse semilinear bijections between the χ and χ⁻¹
+  weight spaces, so their complex dimensions agree.
+- On the zero-weight space it is a real structure, with fixed space equal
+  to the original real invariant vectors.
+
+*Needs:* §6.2's weight spaces; Mathlib scalar extension;
+`TauCeti.Hodge.complexificationConjugation` and
+`LinearMap.map_eigenspace_baseChange`.
+The adjoint specialization additionally needs §6.5's center/derived splitting.
+
+**Checks.**
+
+- For the real rotation plane let v=e₁−i e₂. Its weight is +1 and
+  c(v)=e₁+i e₂ has weight −1; both spaces have complex dimension 1.
+- c(iv)=−i c(v), whereas a complex-linear map would give +i c(v);
+  these differ since v≠0.
+- c(c(v))=v. On the trivial real line c(1)=1 and c(i)=−i; its weight
+  0 is fixed as a label, but conjugation is not the identity on its whole complexification.
+
+### 6.4 The left Weyl action
+
 Pin the left Weyl action by `(w·chi)(t)=chi(n⁻¹tn)` for n representing w;
 it is independent of the representative modulo T. On the integral group
 algebra send `e^chi` to `e^(w·chi)`, with fixed subring `Z[X]^W`.
 
-**Global existence and descent before the ring isomorphism.** Build the following
+This is the action induced by conjugation of T by its normalizer, using
+LieGroups Layer 6's normalizer quotient.
+
+- Changing n by an element of T leaves the character unchanged because T
+  is abelian; hence the action factors through W.
+- The identity fixes every character and (w₁w₂)·χ=w₁·(w₂·χ), with this order.
+- The induced action on ℤ[X] preserves products and 1; the fixed elements
+  form a subring and have a ℤ-basis of distinct-weight orbit sums.
+
+*Needs:* §6.2's actual characters; LieGroups Layer 6's maximal torus and
+Weyl group; Mathlib `AddMonoidAlgebra`.
+
+**Checks.**
+
+- For the identity normalizer element, 1·χ=χ and e⁰ stays 1.
+- For SU(3), with s₁=(12), s₂=(23), the coordinate character e₁ satisfies
+  (s₁s₂)·e₁=e₂ but (s₂s₁)·e₁=e₃; this detects reversal of multiplication.
+- The SU(3) wall weight (1,1,0) is fixed by s₁; its orbit has three
+  distinct weights, so its orbit sum has three terms rather than six.
+
+### 6.5 Compact structure and the finite central cover
+
+Build the following
 compact structural prerequisites before descent, using LieGroups Layers 4–6
 for integration, universal covering homomorphisms and maximal tori.
 
@@ -616,6 +853,29 @@ only on the derived coordinate; the zero-root case retains the full central
 character. The pullback and descent APIs preserve addition, tensor products,
 duals and intertwiners, and their composites are identity.
 
+- The cover q maps (z,s) to z·p(s), has finite central kernel, and
+  induces an isomorphism of the quotient by that kernel with K.
+- Its derivative identifies the center and derived summands with the Lie
+  algebra of K; restriction to the covering torus is onto T.
+- Pullback identifies X*(T) with the characters of the covering torus
+  trivial on F; it preserves addition and inversion and detects equality.
+
+*Needs:* LieGroups Layers 4–6 for integration, covering groups and maximal
+tori; §6.2's period lattice. The compactness and splitting theorems are
+the targets in this subsection, with the Knapp locators above.
+
+**Checks.**
+
+- For Circle, the center/derived Lie dimensions are 1+0=1 and q is
+  Circle×{1}→Circle with kernel of size 1; the semisimple cover is {1}, not ℝ.
+- For SO(3), the simply connected derived cover is SU(2) and q has
+  kernel {±I}, of size 2; its derivative is an isomorphism in dimension 3.
+- For U(2), q(z,A)=zA has kernel {(1,I),(−1,−I)} and Lie dimensions
+  1+3=4. A pair (q,a) of central exponent and SU(2) weight is trivial on
+  this kernel iff (−1)^(q−a)=1, so (1,1) descends and (0,1) does not.
+
+### 6.6 Highest-weight representations and descent
+
 For each dominant element of X, integrate the derived highest-weight module to
 K_der,sc by LieGroups Layer 4, and use its specified central-torus character. The
 covering-product action is the actual map
@@ -632,6 +892,30 @@ Lie-to-group invariant-subspace and intertwiner comparisons at this cut.
 A Lie-algebra central functional can be arbitrary; it integrates only when the
 actual periods and the finite kernel conditions hold.
 
+- Pullback along q and descent of an action trivial on F are inverse on
+  representations and their equivariant linear maps.
+- The descended top weight is the specified element of X; dominant elements
+  classify irreducibles up to equivalence, including the central character.
+- Descent preserves direct sums, tensor products and duals. A subspace is
+  invariant under a connected group iff it is invariant under its differential;
+  the analogous equivalence holds for intertwiners.
+
+*Needs:* §§6.2 and 6.5; LieHighestWeight Layers 0–5;
+LieGroups Layers 0, 2–4 for exponentials, automatic smoothness,
+differentiation and integration; native scalar Schur.
+
+**Checks.**
+
+- SU(2) weights 1 and 2 have −I eigenvalues −1 and +1; only weight 2
+  descends through SU(2)→SO(3). Merely having an integral Lie weight is insufficient.
+- For a circle, every integer n gives z↦z^n; n=−1 gives −i at i,
+  retaining inverse central characters even when the root system is empty.
+- On the U(2) covering product the standard module (q,a)=(1,1) and its
+  dual (−1,1) both have kernel scalar +1. Their tensor product has scalar
+  1·1=1; the intertwiner 2I descends to 2I and pulls back to 2I.
+
+### 6.7 Restriction to the maximal torus
+
 By triangular highest-weight expansion (a deduction from Knapp, Theorem 5.110, pp.335–336, and LieHighestWeight Layer 6), restriction gives the ring isomorphism
 `R(K)≃Z[X*(T)]^W`. Injectivity follows from all-element conjugacy into T and
 compact character injectivity. For surjectivity, give the orbit-sum basis of
@@ -645,7 +929,30 @@ restriction injectivity. This is integral virtual-character surjectivity; it
 asserts neither that each invariant positive torus character is positive in
 the irreducible basis nor that every Lie dominant weight integrates to K.
 
-**Normalization and global-form tests.** For a torus W is trivial and all
+- Restriction sends [V] to its integral weight sum and is an injective
+  ring homomorphism into ℤ[X]^W.
+- Each irreducible character has leading distinct-weight orbit sum with
+  coefficient 1; lower terms have the same central character.
+- Finite triangular induction gives an inverse additive map, which is
+  multiplicative by restriction injectivity, hence a ring isomorphism.
+
+*Needs:* §§6.1, 6.2, 6.4 and 6.6; LieHighestWeight Layer 6's formal
+character additivity and lower-weight bounds; LieGroups Layer 6's conjugacy
+into a maximal torus; native compact character injectivity.
+
+**Checks.**
+
+- For the trivial group both rings are ℤ; for Circle both are
+  ℤ[t,t⁻¹], and restriction sends t⁻¹ to t⁻¹.
+- For SU(2), χ₂=t²+1+t⁻² is the sum of the leading orbit t²+t⁻²
+  and the zero-weight orbit 1, each with coefficient 1.
+- At the wall λ=0 the character and orbit sum are both 1, not 2.
+  The invariant t²+t⁻² equals χ₂−χ₀, so positive torus coefficients
+  do not imply nonnegative irreducible coefficients.
+
+### 6.8 Classical global forms
+
+ For a torus W is trivial and all
 irreducibles are its actual characters. For the trivial group R(K)=Z and X=0.
 For SU2 all highest integers n≥0 occur, whereas for SO3 only even SU2 highest
 integers descend. The positive torus character `e²+e⁻²=chi_(Sym²)−1` is
@@ -660,8 +967,35 @@ as trivial without a purported injective scalar-circle inclusion. Other global
 forms need not admit all fundamental modules or a polynomial representation
 ring on a purported independent set of fundamental characters.
 
-**Recognizing genuine U(2) weight characters.** For a finitely supported
-function `f:ℤ²→ℕ`, prove that f is the diagonal-torus weight-multiplicity
+- For U(n), n>0, identify the actual integral character lattice through
+  the finite-kernel congruence, with its sum and difference coordinates.
+- Restriction identifies R(U(n)) with symmetric Laurent polynomials;
+  the exterior powers and inverse determinant generate it over ℤ.
+- For SO(3), pullback identifies its irreducibles with even SU(2) highest
+  weights, preserving dimension and tensor multiplication.
+
+*Needs:* §§6.5–6.7; native SU(2) weights; the type-A
+highest-weight classification of LieHighestWeight Layers 0–6; Mathlib exterior
+powers. Identify the i-th exterior power's top weight with the i-th fundamental
+weight and its torus character with the i-th elementary symmetric polynomial.
+For the Laurent statement, multiply a symmetric Laurent polynomial by a
+sufficient power of the determinant monomial to make all exponents nonnegative,
+then apply the fundamental theorem of symmetric polynomials.
+
+**Checks.**
+
+- For U(3), λ=(2,1,−1) gives q=2 and (a₁,a₂)=(1,2), with
+  a₁+2a₂=5≡2 modulo 3. For the fundamental weight (1,0), q=0 fails:
+  a primitive cube root ζ acts by ζ⁻¹≠1 on the covering kernel.
+- For U(1) the congruence modulo 1 imposes no condition and the ring is
+  ℤ[t,t⁻¹]; for U(0) the ring is ℤ, with no scalar-circle injection.
+- For U(2), exterior-square character t₁t₂ times determinant-inverse
+  character (t₁t₂)⁻¹ is 1; a polynomial ring without the inverse loses this identity.
+
+### 6.9 Recognizing genuine U(2) weight characters
+
+ For a finitely supported
+function `f:ℤ²→ℕ`, the signature `u2_weight_character_iff` states that f is the diagonal-torus weight-multiplicity
 function of a finite-dimensional continuous complex U(2) representation iff the following two conditions hold (deduced from Knapp, Theorem 5.110, pp.335–336, and the native SU(2) weight strings):
 
 ```
@@ -694,21 +1028,32 @@ character `det⁻¹⊗Sym²(ℂ²)−1`. This criterion identifies the genuine
 positive cone in rank2; it does not infer positivity from Weyl invariance.
 
 
-The algebraic universal-enveloping center and trace-form adapter is owned by
-LieHighestWeight Layer 9. CharacteristicClasses §C5.1 owns compact invariant polynomial
-restriction. Neither polynomial invariant theorem nor a semisimple Lie weight
-label replaces this layer's actual integrable group-character construction.
+The trace formulation in `u2_weight_character_iff` quantifies over every
+unitary diagonal matrix, identifies its trace with the prescribed finite
+Laurent sum, and allows n=0. Diagonal entries have modulus 1, so every
+negative integer power is taken at a nonzero scalar.
 
-*Needs:* Native compact characters, complete reducibility and SU(2) classification; LieGroups Layers 2 and 4–6; LieHighestWeight Layers 0–6; the center/derived and finite-cover targets of this layer.
+- The outward differences give nonnegative multiplicities exactly under the
+  stated symmetry and inequality; reconstructed torus weights equal f.
+- These multiplicities determine the continuous representation up to
+  equivalence, and their dimension sum equals the total weight multiplicity.
+- The construction permits arbitrary integer determinant twists; finite
+  support, rather than a bound on either weight, makes the direct sum finite.
+
+*Needs:* §§6.5–6.6's U(2) descent and exhaustion; §6.2's torus-weight
+uniqueness; native SU(2) weight strings and finite-dimensional complete
+reducibility. The ring isomorphism in §6.7 is not needed for this criterion.
 
 **Checks.**
 
-- For K={1}, X=0, W=1 and R(K)=ℤ; for K=Circle, R(K)=ℤ[t,t⁻¹], retaining t⁻¹ as well as t.
-- For SU(2), weights n=0,1,2 have characters 1, t+t⁻¹, t²+1+t⁻². For SO(3) only even n descend: −I acts as (−1)^n.
-- For U(2), q(z,s)=zs has kernel {(1,I),(−1,−I)}. Its action on z^q⊗Sym^a is (−1)^(q+a)=(−1)^(q−a), hence q≡a modulo 2.
-- The U(2) weights (2,0),(1,1),(0,2) with multiplicities 1,2,1 have outward differences 1,1 and dimension 3+1=4. Values 1 at (1,−1),(−1,1) and 0 at (0,0) fail 0≥1.
-- For the circle period 2π, weight n gives exp(in·2π)=1; the half-integer functional gives −1 and does not descend. For a two-element Weyl orbit the orbit sum has two terms, not twice each term.
-- For SU(2), the tensor square of the dimension-two character is χ₂+χ₀: (t+t⁻¹)²=t²+2+t⁻². The virtual difference χ₂−χ₀=t²+t⁻² is Weyl invariant but not a genuine character.
+- Weights (2,0),(1,1),(0,2) of multiplicities 1,2,1 have outward
+  differences 1,1; they give Sym²⊕det and dimension 3+1=4.
+- The singleton (−1,−1) of multiplicity 1 gives det⁻¹ of dimension 1;
+  at diag(i,−1) its trace is i, rather than the determinant value −i.
+- Weights (1,−1),(−1,1) alone fail 0≥1 at (0,0); the virtual
+  irreducible multiplicity there is −1, so no genuine representation realizes them.
+- The zero weight function gives dimension 0 and trace 0 on every diagonal
+  matrix; both inequalities hold as 0=0 and 0≥0.
 
 ### Examples
 
@@ -738,17 +1083,24 @@ For every
   These are complex representation multiplicities, including for irreducibles
   of real or quaternionic type; no real-dimension count replaces d+1.
 
-  Prove `(-I)·v=(-1)^d v` on Sym^d(ℂ²). For d≥1 prove its Lie algebra
-  action is nonzero and has zero kernel by simplicity of su(2); its group
-  kernel is therefore discrete and central, using connectedness and the actual
-  center Z(SU(2))={±I}. Thus the kernel is {I} for odd d and {±I} for positive
+  Prove `(-I)·v=(-1)^d v` on Sym^d(ℂ²). For d≥1 compute its
+  group kernel using `TauCeti.SU2.exists_isConj_torusHom` and
+  `TauCeti.SU2.symPower_torusHom_weightBasis`: a kernel element is conjugate
+  to diag(z,z⁻¹), and all its weights z^(2i−d) equal 1. For d≥1 the weights
+  at i=0 and i=1 give z²=1, so z=±1. At z=−1 every weight is (−1)^d;
+  conjugating either scalar matrix leaves it fixed. Thus the kernel is {I}
+  for odd d and {±I} for positive
   even d; Sym^0 has kernel all of SU(2). Prove the kernel of the direct sum is
   the intersection of these kernels. Consequently the homomorphism is faithful
   iff m_d>0 for some odd d. A faithful continuous homomorphism here is a
   topological embedding by compactness of SU(2) and the Hausdorff target;
-  compare it with the smooth Lie-group embedding through LieGroups' automatic
-  smoothness and the injective differential. Supply the converse from an
-  embedding to faithfulness.
+  compare it with a smooth Lie-group embedding as a separate target.
+  Use LieGroups Layer 2 for automatic smoothness and Layer 3 for exponential
+  naturality, and Layer 0 for the local inverse of exp. If the differential kills X,
+  the homomorphism kills exp(tX) for every real t; injectivity and the local
+  inverse force X=0. Translation gives an immersion everywhere, and the
+  compact topological embedding gives a smooth embedding. Conversely a
+  smooth embedding is injective. This route requires no simplicity theorem.
 
   Identify these multiplicity lists with partitions of n, whose part d+1
   occurs m_d times. Embeddings correspond precisely to partitions containing
@@ -759,12 +1111,15 @@ For every
   and there are no embeddings; for n=2,3,4 the numbers of embedding classes
   are respectively 1,1,3. This is a deduction from the symmetric-power classification and the displayed kernel computation.
 
-*Needs:* Native SU(2) classification and torus formulas; native unitary intertwiner comparison; LieGroups Layers 2–3; simplicity of su(2) from LieHighestWeight Layer 0.
+*Needs:* Native SU(2) classification and torus formulas; native unitary intertwiner comparison; LieGroups Layers 0, 2 and 3 for the smooth embedding comparison only.
 
 **Checks.**
 
 - For n=0 and n=1 the only action is trivial, and there are 0 embedding classes.
 - For n=2,3,4 the counts p(n)−p_odd(n) are 2−1=1, 3−2=1 and 5−2=3.
+- On a torus element with z=i, Sym¹ has eigenvalues −i,i and Sym² has
+  eigenvalues −1,1,−1; neither is the identity. At z=−1 the respective
+  eigenvalues are −1,−1 and 1,1,1, distinguishing odd and even d.
 - Sym⁰ has kernel all of SU(2); Sym¹ has kernel {I}; Sym² has kernel {±I}. Thus even representation dimension, not even highest weight, detects a faithful irreducible.
 - For Sym¹⊕Sym¹, the kernel is {I}∩{I}={I} and dimension is 4; its multiplicity is complex multiplicity 2, including the quaternionic type of Sym¹.
 
@@ -774,19 +1129,21 @@ Partitions containing an even part give precisely the faithful actions. Compactn
 
 ### Dependencies
 
-Native SU(2) classification and torus formulas; native unitary intertwiner comparison; LieGroups Layers 2–3; simplicity of su(2) from LieHighestWeight Layer 0.
+Native SU(2) classification and torus formulas; native unitary intertwiner comparison; LieGroups Layers 0, 2 and 3 for the smooth embedding comparison only.
 
 ## Downstream consumers
 
 AutomorphicFormsOnReductiveGroups §2.1 consumes Banach G-finite density and supplies
-the locally convex extension. SmoothBanachRepresentations SB4 consumes compact-finite
-approximation for its stronger smooth topology. The global-form ring comparison
+the locally convex extension. SmoothBanachRepresentations §4.1 consumes compact-finite
+approximation for the real as well as complex smooth topology, building on
+AutomorphicFormsOnReductiveGroups §2.7 for the complex case. The global-form ring comparison
 supplies actual continuous characters with their central and period restrictions.
 
 ## References
 
 - A. W. Knapp, *Lie Groups Beyond an Introduction*, digital second edition (2021),
-  author-distributed version: Corollary 4.25 p.249, Theorem 4.29 pp.250–251,
+  author-distributed version: Proposition 4.8 and Corollary 4.9 p.240,
+  Corollary 4.25 p.249, Theorem 4.29 pp.250–251,
   Proposition 4.58 pp.264–265, Theorem 4.69 p.268, and Theorem 5.110 pp.335–336.
   [Legal author edition](https://www.math.stonybrook.edu/~aknapp/download/Beyond2.pdf).
 - P. Etingof, *Lie Groups and Lie Algebras II*, MIT 18.755 (Spring 2024),
@@ -794,11 +1151,3 @@ supplies actual continuous characters with their central and period restrictions
   [Institutional notes](https://ocw.mit.edu/courses/18-755-lie-groups-and-lie-algebras-ii-spring-2024/mit18_755_s24_lec11.pdf).
 - J. B. Conway, *A Course in Functional Analysis*, second edition, Springer (1990),
   VII.9, Exercises 8–11, DOI 10.1007/978-1-4757-4383-8.
-- D. Bump, *Lie Groups*, second edition, Springer (2013), Chapters 2–4 and 15–18,
-  DOI 10.1007/978-1-4614-8024-2.
-- T. Bröcker and T. tom Dieck, *Representations of Compact Lie Groups*, Springer
-  (1985), Chapters II–III and VI, DOI 10.1007/978-3-662-12918-0.
-- G. B. Folland, *A Course in Abstract Harmonic Analysis*, second edition, CRC
-  (2016), Chapter 5, DOI 10.1201/b19172.
-- E. Hewitt and K. A. Ross, *Abstract Harmonic Analysis*, Volumes I (1963) and
-  II (1970), Springer; Volume II, Chapters VII–VIII, for arbitrary compact groups.
