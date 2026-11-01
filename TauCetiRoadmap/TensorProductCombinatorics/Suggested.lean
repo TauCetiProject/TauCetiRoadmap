@@ -1,6 +1,7 @@
 import Mathlib
 import TauCeti.RepresentationTheory.ClassicalGroups.DominantWeight
 import TauCeti.RepresentationTheory.ClassicalGroups.GelfandTsetlin.Basic
+import TauCeti.RepresentationTheory.ClassicalGroups.WeylModule.Rational
 import TauCeti.RingTheory.MvPolynomial.Symmetric.Schur.Basic
 import TauCeti.Analysis.Convex.Polyhedron
 import TauCeti.LinearAlgebra.RootSystem.Positive
@@ -13,22 +14,25 @@ The roadmap is `README.md`; this file is not the roadmap. It states the roadmap'
 headline theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, with
 only the simple definitions those statements need.
 
-Headline theorems stated here, in README order: the finiteness and compactness of
-fixed-boundary hive fibres (Layer 1); the chamberwise polynomiality of pointed
-unimodular vector partition functions and its wall agreement (1.5); the polarized
-Abel series of a lattice list and its rational function, the Schwartz pairing bound
-and the cone identity (1.6); the reconstruction of a hive from its Gelfand–Tsetlin
-pattern, the uniform-gap bound and the stable equivalence (2.1); the hive model of
-the Littlewood–Richardson rule and the commutativity of hive counts (2.3); the
-type-A Kostant partition function as an interval-matrix count, its total
-unimodularity and chamber polynomiality (2.6); associativity of the hive ring
-(3.2); the type-A PRV theorem and saturation (4.4, 4.6); multiplicity-one
-stretching (6.8); the Hermitian spectral characterization of real hive
-feasibility (7.4).
+Headline theorems stated here, in README order: the antitonicity of hive boundaries
+and the finiteness of fixed-boundary hive fibres, which make the hive count a count of
+dominant-weight triples (Layer 1); the chamberwise polynomiality of pointed unimodular
+vector partition functions and its wall agreement (1.5); the polarized Abel series of
+a lattice list, its absolute convergence and its rational function, and the cone
+identity (1.6); the reconstruction of a hive from its Gelfand–Tsetlin pattern, the
+uniform-gap bound and the stable equivalence (2.1); the hive model of the
+Littlewood–Richardson rule in its Schur-polynomial form and in its
+representation-theoretic form on the pinned rational Weyl modules (the intertwiner
+and invariant dimensions), and the commutativity of hive counts (2.3); the type-A
+Kostant partition function as an interval-matrix count, its total unimodularity and
+chamber polynomiality (2.6); associativity of the hive ring (3.2); the type-A PRV
+theorem and saturation (4.4, 4.6); multiplicity-one stretching (6.8); the Hermitian
+spectral characterization of real hive feasibility (7.4). The infrastructure lemmas
+of the README (polyhedrality and compactness of fibres, integral heights, chamber
+covering, growth bounds, the spectrum through the characteristic polynomial) are
+README targets and are not stated here.
 
-Not statable at the pins, with the carrier each lacks: Layer 0's Littlewood–Richardson
-rule on skew tableaux (no skew-tableau carrier; its hive form is stated in Layer 2);
-the hive–honeycomb correspondence and the honeycomb overlay (Layer 4: no honeycomb
+Not statable at the pins, with the carrier each lacks: the hive–honeycomb correspondence and the honeycomb overlay (Layer 4: no honeycomb
 carrier); the puzzle rule, the integral Schubert ring of the complex Grassmannian and
 the Grassmannian cup-product theorem (Layers 5–6: no puzzle carrier and no integral
 Schubert cohomology of the finite Grassmannian); the Fourier boundary-value,
@@ -113,18 +117,6 @@ theorem finite_fixedIntegerHive {n : ℕ} (B : Fin 3 → Fin n → ℤ) :
 def hiveCount {n : ℕ} (B : Fin 3 → Fin n → ℤ) : ℕ :=
   Nat.card (FixedIntegerHive B)
 
-/-- The real fixed-boundary fibre as a subset of the ambient coordinate space. -/
-def realFibre {n : ℕ} (B : Fin 3 → Fin n → ℝ) : Set (Vertex n → ℝ) :=
-  {v | ∃ h : RealHive n, h.value = v ∧ boundary h = B}
-
-/-- A real fixed-boundary fibre is a convex polyhedron in the native sense (1.2). -/
-theorem realFibre_polyhedron {n : ℕ} (B : Fin 3 → Fin n → ℝ) :
-    TauCeti.IsConvexPolyhedron (realFibre B) := by sorry
-
-/-- A real fixed-boundary fibre is compact (1.2). -/
-theorem realFibre_compact {n : ℕ} (B : Fin 3 → Fin n → ℝ) :
-    IsCompact (realFibre B) := by sorry
-
 /-! ## Layer 1.5: pointed unimodular counting -/
 
 namespace ChamberCounting
@@ -147,27 +139,6 @@ def realFibre (A : Matrix (Fin r) ι ℤ) (b : Fin r → ℝ) : Set (ι → ℝ)
 /-- The column cone `C_A`. -/
 def supportCone (A : Matrix (Fin r) ι ℤ) : Set (Fin r → ℝ) :=
   {b | ∃ x : ι → ℝ, x ∈ realFibre A b}
-
-/-- `P_A(b)` is a convex polyhedron in the native sense. -/
-theorem realFibre_polyhedron (A : Matrix (Fin r) ι ℤ) (b : Fin r → ℝ) :
-    TauCeti.IsConvexPolyhedron (realFibre A b) := by sorry
-
-/-- Under a positive integer height every fibre is finite. -/
-theorem finite_fibre (A : Matrix (Fin r) ι ℤ) (h : Fin r → ℤ)
-    (hpos : ∀ j, 0 < ∑ i, h i * A i j) (b : Fin r → ℤ) :
-    Finite (Fibre A b) := by sorry
-
-/-- Under a positive integer height every real fibre is compact. -/
-theorem realFibre_compact (A : Matrix (Fin r) ι ℤ) (h : Fin r → ℤ)
-    (hpos : ∀ j, 0 < ∑ i, h i * A i j) (b : Fin r → ℝ) :
-    IsCompact (realFibre A b) := by sorry
-
-/-- A pointed column cone admits an integral positive height (the native strict
-alternative plus denominator clearing). -/
-theorem exists_integer_height (A : Matrix (Fin r) ι ℤ)
-    (hpointed : ∀ x : ι → ℝ, (∀ j, 0 ≤ x j) →
-      (∀ i, ∑ j, (A i j : ℝ) * x j = 0) → x = 0) :
-    ∃ h : Fin r → ℤ, ∀ j, 0 < ∑ i, h i * A i j := by sorry
 
 /-- An ordered invertible column basis of `A`. -/
 abbrev ColumnBasis (A : Matrix (Fin r) ι ℤ) :=
@@ -192,16 +163,6 @@ def chamberCell (A : Matrix (Fin r) ι ℤ) (s : WallIndex A → Bool) :
 chamber. -/
 abbrev Chamber (A : Matrix (Fin r) ι ℤ) :=
   {s : WallIndex A → Bool // (interior (chamberCell A s)).Nonempty}
-
-/-- Each chamber is a convex polyhedron in the native sense. -/
-theorem chamber_polyhedron (A : Matrix (Fin r) ι ℤ) (D : Chamber A) :
-    TauCeti.IsConvexPolyhedron (chamberCell A D.1) := by sorry
-
-/-- For a full-row-rank matrix the chambers cover the column cone. -/
-theorem support_covered (A : Matrix (Fin r) ι ℤ)
-    (hfull : Function.Surjective (fun x : ι → ℚ =>
-      fun i => ∑ j, (A i j : ℚ) * x j)) :
-    ∀ x ∈ supportCone A, ∃ D : Chamber A, x ∈ chamberCell A D.1 := by sorry
 
 /-- Chamberwise polynomiality of unimodular vector partition functions
 (De Loera–Sturmfels, Theorem 1.1): on each closed chamber the count is a rational
@@ -275,30 +236,6 @@ def polarizedCoefficient {r m : ℕ} (A : Matrix (Fin r) (Fin m) ℤ)
     (h : Fin r → ℝ) (b : Lattice r) : ℤ :=
   (-1 : ℤ) ^ (negativeColumns A h).card *
     (ChamberCounting.count (polarizedMatrix A h) (b - polarizationShift A h) : ℤ)
-
-/-- Under a regular height the polarized fibres are finite. -/
-theorem polarized_fibre_finite {r m : ℕ}
-    (A : Matrix (Fin r) (Fin m) ℤ) (h : Fin r → ℝ)
-    (hreg : ∀ j, height h (fun i => A i j) ≠ 0) (b : Lattice r) :
-    Finite (ChamberCounting.Fibre (polarizedMatrix A h) (b - polarizationShift A h)) := by
-  sorry
-
-/-- Under a regular height the polarized coefficients have polynomial growth of
-degree at most the number of columns. -/
-theorem polarized_polynomial_growth {r m : ℕ}
-    (A : Matrix (Fin r) (Fin m) ℤ) (h : Fin r → ℝ)
-    (hreg : ∀ j, height h (fun i => A i j) ≠ 0) :
-    ∃ C : ℝ, 0 ≤ C ∧ ∀ b : Lattice r,
-      ‖(polarizedCoefficient A h b : ℂ)‖ ≤ C * (1 + ‖embed b‖) ^ m := by
-  sorry
-
-/-- Polynomial-growth lattice coefficients pair absolutely with Schwartz functions
-(1.6.2); the tempered lattice sum `Σ_b c(b) δ_b` itself is a construction target. -/
-theorem lattice_pairing_summable {r : ℕ} (c : Lattice r → ℂ)
-    (C : ℝ) (N : ℕ) (hc : ∀ b, ‖c b‖ ≤ C * (1 + ‖embed b‖) ^ N)
-    (φ : SchwartzMap (Ambient r) ℂ) :
-    Summable (fun b : Lattice r => c b * φ (embed b)) := by
-  sorry
 
 /-- The Abel-regularized torus series of a coefficient function. -/
 def abelSeries {r : ℕ} (c : Lattice r → ℂ) (h : Fin r → ℝ)
@@ -419,9 +356,10 @@ theorem exists_stable_gt_equiv {n : ℕ} (l m g : TauCeti.DominantWeight (n + 1)
   sorry
 
 /-- The hive model of the Littlewood–Richardson rule (Knutson–Tao–Woodward, *A positive
-proof*, Theorem 1; Knutson–Tao I, Theorem 4): for polynomial dominant weights the
+proof*, Theorem 1): for polynomial dominant weights the
 product of Schur polynomials in `n` variables expands in Schur polynomials with hive
-counts as coefficients. The support is finite (1.2) and non-polynomial `γ` have count
+counts as coefficients (Knutson–Tao I, Theorem 4 with Appendix 2, Proposition 4, for
+the hive form). The support is finite (1.2) and non-polynomial `γ` have count
 zero. In more than `n` variables the identity fails: for `n = 1` and two variables
 `s₍₁₎² = s₍₂₎ + s₍₁,₁₎`, while the rank-one hive count sees only `γ = (2)`. -/
 theorem schur_mul_eq_finsum_hiveCount {n : ℕ} (lam μ : TauCeti.DominantWeight n)
@@ -431,6 +369,30 @@ theorem schur_mul_eq_finsum_hiveCount {n : ℕ} (lam μ : TauCeti.DominantWeight
         (hiveCount (productBoundary lam μ γ) : ℤ) •
           TauCeti.diagramSchurPoly n ℤ γ.shape := by
   sorry
+
+open CategoryTheory MonoidalCategory in
+/-- The hive model of the Littlewood–Richardson rule on the pinned rational Weyl modules
+(Knutson–Tao–Woodward, *A positive proof*, Theorem 1; Knutson–Tao I, Theorem 4 with
+Appendix 2): for all dominant weights `λ, μ, γ` of `GLₙ(ℂ)`, the dimension of the space
+of intertwiners from `V_γ` to `V_λ ⊗ V_μ` in `FDRep ℂ (GL (Fin n) ℂ)` is the number of
+integer hives with boundary `(λ, μ, γ*)`. The pin builds `TauCeti.rationalWeylFDRep ℂ n γ`
+as an irreducible rational representation without identifying it as the irreducible of
+highest weight `γ`; the statement is on the native objects as they are. -/
+theorem finrank_hom_eq_hiveCount {n : ℕ} (lam μ γ : TauCeti.DominantWeight n) :
+    Module.finrank ℂ (TauCeti.rationalWeylFDRep ℂ n γ ⟶
+        TauCeti.rationalWeylFDRep ℂ n lam ⊗ TauCeti.rationalWeylFDRep ℂ n μ) =
+      hiveCount (productBoundary lam μ γ) := by sorry
+
+open CategoryTheory MonoidalCategory in
+/-- The invariant form of the hive model (2.3; Knutson–Tao I, Theorem 4 with Appendix 2):
+for all dominant weights `λ, μ, ν` of `GLₙ(ℂ)`, the dimension of the `GLₙ(ℂ)`-invariants of
+`V_λ ⊗ V_μ ⊗ V_ν`, the space of morphisms from the unit object of
+`FDRep ℂ (GL (Fin n) ℂ)`, is the number of integer hives with cyclic boundary `(λ, μ, ν)`. -/
+theorem finrank_invariants_eq_hiveCount {n : ℕ} (lam μ ν : TauCeti.DominantWeight n) :
+    Module.finrank ℂ (𝟙_ (FDRep ℂ (GL (Fin n) ℂ)) ⟶
+        TauCeti.rationalWeylFDRep ℂ n lam ⊗ TauCeti.rationalWeylFDRep ℂ n μ ⊗
+          TauCeti.rationalWeylFDRep ℂ n ν) =
+      hiveCount ![lam.1, μ.1, ν.1] := by sorry
 
 /-- Commutativity of the hive ring (2.3, 9.1): `c^γ_(λ,μ) = c^γ_(μ,λ)` for hive counts. -/
 theorem hiveCount_comm {n : ℕ} (l m p : TauCeti.DominantWeight n) :
@@ -516,7 +478,7 @@ theorem hiveCount_pos_prv {n : ℕ} (lam μ : TauCeti.DominantWeight n)
     0 < hiveCount (productBoundary lam μ
       (TauCeti.dominantWeightOf fun i => lam.1 (σ i) + μ.1 (τ i))) := by sorry
 
-/-- Saturation (4.6; Knutson–Tao I, Corollary to Theorem 2): an integral boundary with
+/-- Saturation (4.6; Knutson–Tao I, §6, Corollary to Theorem 3): an integral boundary with
 a real hive has an integer hive. -/
 theorem integral_witness_iff_real_witness {n : ℕ} (B : Fin 3 → Fin n → ℤ) :
     Nonempty (FixedIntegerHive B) ↔
@@ -540,12 +502,6 @@ def nativeMatrixSpectrum {n : ℕ} (A : Matrix (Fin n) (Fin n) ℂ)
 /-- `A` is Hermitian with sorted spectrum `α`. -/
 def HasSpectrum {n : ℕ} (A : Matrix (Fin n) (Fin n) ℂ) (α : Fin n → ℝ) : Prop :=
   ∃ hA : A.IsHermitian, α = nativeMatrixSpectrum A hA
-
-/-- The sorted spectrum is characterized by the characteristic polynomial (7.1). -/
-theorem hasSpectrum_iff_charpoly {n : ℕ} (A : Matrix (Fin n) (Fin n) ℂ)
-    (α : Fin n → ℝ) :
-    HasSpectrum A α ↔ A.IsHermitian ∧ Antitone α ∧
-      A.charpoly = ∏ i, (Polynomial.X - Polynomial.C (α i : ℂ)) := by sorry
 
 /-- A zero-sum Hermitian triple with the prescribed sorted spectra exists. -/
 def HermitianTripleFeasible {n : ℕ} (B : Fin 3 → Fin n → ℝ) : Prop :=

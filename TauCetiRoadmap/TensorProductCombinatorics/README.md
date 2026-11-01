@@ -5,15 +5,17 @@ rational GLₙ tensor products: hives on the triangular lattice, their
 piecewise-linear associator and commutor, honeycombs and the saturation
 theorem, puzzles and the Horn inequalities, and the ordinary Grassmannian
 puzzle rule. It starts from the native dominant weights, Gelfand–Tsetlin
-patterns, bounded tableaux and Schur polynomials of Tau Ceti, builds the
-skew-tableau and Littlewood–Richardson layer those comparisons need, and
-proves explicit comparisons with Gelfand–Tsetlin patterns, Littlewood–Richardson
+patterns, bounded tableaux and Schur polynomials of Tau Ceti, consumes the
+skew-tableau and Littlewood–Richardson layer of SchurWeyl, and proves explicit
+comparisons with Gelfand–Tsetlin patterns, Littlewood–Richardson
 tableaux, rational representations, Grassmannian cohomology, Hermitian spectra
 and type-A path crystals. Two generic lanes are built on the way: pointed
 unimodular vector-partition counting with its chamber polynomials, and the
 rational cone series with their Fourier boundary values and lattice endpoints.
 The end theorems are the hive model of the Littlewood–Richardson rule
-(`schur_mul_eq_finsum_hiveCount`), the associativity and commutativity of the
+(`schur_mul_eq_finsum_hiveCount`), its representation-theoretic form on the
+pinned rational Weyl modules (`finrank_hom_eq_hiveCount`,
+`finrank_invariants_eq_hiveCount`), the associativity and commutativity of the
 hive ring (`card_leftPair_eq_card_rightPair`, `hiveCount_comm`), saturation
 (`integral_witness_iff_real_witness`), the type-A PRV theorem
 (`hiveCount_pos_prv`), multiplicity-one stretching (`hiveCount_smul_eq_one`),
@@ -25,10 +27,7 @@ the chamber polynomiality of the type-A Kostant partition function
 
 ## Scope and ownership
 
-This roadmap owns: skew semistandard tableaux, jeu de taquin, Knuth
-equivalence, Littlewood–Richardson tableaux, the tableau-product bijection,
-vertical Pieri, standard-tableau evacuation and the stable graded ring of
-symmetric functions with its Schur basis (Layer 0); the triangular lattice,
+This roadmap owns: the triangular lattice,
 rhombus inequalities, integral and real hives, their fixed-boundary polytopes
 and the finite rational polyhedron, Farkas and largest-lift adapters (Layer 1,
 §§1.1–1.4); pointed unimodular vector-partition counting with its chamber
@@ -58,14 +57,19 @@ It does not own, and does not restate:
 
 - partitions, dominance, standard tableaux, finite-alphabet Schur polynomials,
   Jacobi–Trudi, the finite Frobenius characteristic and RSK, which
-  SchurWeyl Layers 0 and 7 own; SchurWeyl Layer 7 stops at finitely many
-  variables and Layer 0 has no evacuation, which is why Layer 0 here builds the
-  skew, Littlewood–Richardson and stable-ring layer;
-- native dominant weights, signed Gelfand–Tsetlin patterns and
-  `TauCeti.gtPatternEquivSSYT`, rational Weyl representations, their
-  characters, the identification of Littlewood–Richardson structure constants
-  with tensor multiplicities and the weight/branching basis, which
-  ClassicalGroups Layers 3–6 own;
+  SchurWeyl Layers 0 and 7 own; skew semistandard tableaux, jeu de taquin,
+  Knuth equivalence, Littlewood–Richardson tableaux, the tableau-product
+  bijection, vertical Pieri, standard-tableau evacuation and the stable graded
+  ring of symmetric functions with its Schur basis, which SchurWeyl must
+  provide (three declared gaps under supplier contracts); nothing of that
+  tableau layer is built here;
+- native dominant weights, signed Gelfand–Tsetlin patterns,
+  `TauCeti.gtPatternEquivSSYT`, the rational Weyl modules
+  `TauCeti.rationalWeylFDRep` and their characters, which are Tau Ceti
+  declarations; the identification of those modules with the irreducible
+  rational representations of highest weight, of Littlewood–Richardson
+  structure constants with tensor multiplicities, and the weight/branching
+  basis, which ClassicalGroups Layers 3–6 own;
 - the Weyl character formula, the Weyl denominator and the Kostant
   multiplicity formula for Lie algebras and root pairings, which are native
   Tau Ceti declarations (exact names under supplier contracts); nothing of
@@ -83,12 +87,12 @@ It does not own, and does not restate:
 - full flags, full-flag Bruhat cells and Borel–Weil (LieGroups Layer 8), the
   finite rank-k subspace Grassmannian with its topology, charts, tautological
   bundle, CW characteristic maps and partial-flag incidence
-  (TopologicalKTheory T1 and T1.5), the algebraic Grassmannian functor and its
-  subspace/quotient and universal-bundle comparisons over Spec ℂ
-  (Mathlib `Module.Grassmannian`, ModularCurves 0G); the scheme structure of
-  the Grassmannian functor (charts, gluing, structure morphism) is not
-  consumed anywhere: Layer 6 works with the complex points of the quotient-rank
-  functor and the topological carrier only;
+  (TopologicalKTheory T1 and T1.5) and the algebraic quotient-rank
+  Grassmannian (Mathlib `Module.Grassmannian`); §6.1 owns the comparison of
+  the latter's complex points with the topological carrier, and the scheme
+  structure of the Grassmannian functor (charts, gluing, structure morphism)
+  is not consumed anywhere: Layer 6 works with the complex points of the
+  quotient-rank functor and the topological carrier only;
 - singular and cellular cohomology, cup products, Künneth, orientations and
   duality (AlgebraicTopology Stages 2–6), Thom, Gysin, Leray–Hirsch and
   integral Chern classes (CharacteristicClasses C2–C3), Kähler structures of
@@ -167,9 +171,9 @@ the README carries every target, API and Check.
    these declarations do not provide are built in §1.3.
 5. Grassmannians are the rank-k subspace Grassmannian Grₖ(ℂᴺ), N = k+q, on the
    carrier `Submodule ℂ (Fin N → ℂ)` of TopologicalKTheory T1, with quotient
-   rank q pinned; the native `Module.Grassmannian ℂ (Fin N → ℂ) (N−k)`
-   parametrizes quotients of rank N−k, and Layer 6 compares its complex points
-   with the topological carrier through ModularCurves 0G. Chern-class signs use
+   rank q pinned; the native `Module.Grassmannian ℂ (Fin N → ℂ) (N−k)` is the
+   set of submodules whose quotient is free of rank N−k, and §6.1 compares
+   its points with the topological carrier. Chern-class signs use
    CharacteristicClasses' `c₁(O(1)) = +h`.
 6. Hermitian spectra are sorted antitone (`nativeMatrixSpectrum`,
    `HasSpectrum`); a zero-sum triple A+B+C=0 has trace-zero spectral triple,
@@ -221,6 +225,18 @@ the README carries every target, API and Check.
   antitone integer weights, determinant shifts, the Young diagram of a
   polynomial weight (negative entries truncated to 0) and the dominant
   rearrangement of a weight.
+- `TauCeti.rationalWeylRep`, `TauCeti.rationalWeylFDRep`,
+  `TauCeti.isIrreducible_rationalWeylRep`, `TauCeti.simple_rationalWeylFDRep`
+  and `TauCeti.char_rationalWeylRep`
+  (`TauCeti/RepresentationTheory/ClassicalGroups/WeylModule/Rational.lean`):
+  for a dominant weight λ of GLₙ over a field of characteristic zero, the
+  determinant twist `det^λₙ ⊗ 𝕊^μ(kⁿ)` of the Weyl module of the polynomial
+  part μ = λ.detShiftShape, irreducible for every λ, bundled in
+  `FDRep k (GL (Fin n) k)`, with its character. The pin does not identify
+  `rationalWeylRep k n λ` with the irreducible representation of highest
+  weight λ, nor prove that distinct weights give non-isomorphic
+  representations; both belong to ClassicalGroups Layer 3, and §2.3's
+  Hom-space headlines are stated on the native objects as they are.
 - `TauCeti.GTPattern` with `entry`, `topRow`, `topWeight`
   (`TauCeti/RepresentationTheory/ClassicalGroups/GelfandTsetlin/Basic.lean`)
   and `TauCeti.gtPatternEquivSSYT` (`GelfandTsetlin/Tableau.lean`): signed
@@ -260,8 +276,49 @@ the README carries every target, API and Check.
 
 Layer 0 (partitions, dominance, standard tableaux) and Layer 7
 (finite-alphabet Schur polynomials, Jacobi–Trudi, the finite Frobenius
-characteristic and RSK). Nothing stable, skew or Littlewood–Richardson is
-assumed of it.
+characteristic and RSK). Its Layer 7 stops at finitely many variables and its
+Layer 0 has no evacuation; the skew, Littlewood–Richardson, evacuation and
+stable-ring layer that §§2.2–2.4, §6.5, §8.2 and §9.2 consume is asked of it
+as the three gaps below, and no part of it is built here.
+
+What SchurWeyl must provide (gap:skew-lr-tableaux): for diagrams
+inner ≤ outer, semistandard skew tableaux of shape outer/inner with weakly
+increasing rows and strictly increasing columns, their bounded versions with
+entries below d, standard skew tableaux, and content counted as native
+`SemistandardYoungTableau.content` counts it, with inverse conversions between
+straight skew tableaux and `TauCeti.BoundedSSYT`; inward and reverse
+jeu-de-taquin slides (into a hole, the smaller of the entries to the right and
+below moves, the one below when equal) preserving semistandardness and
+content, rectification and its independence of the order of slides, and Knuth
+equivalence characterized by equality of insertion tableaux under
+`TauCeti.rowInsert`; the skew Schur polynomial as the tableau sum, equal to
+`TauCeti.diagramSchurPoly` on straight shapes; Littlewood–Richardson tableaux
+of shape outer/inner and content ν, defined by the zero-indexed ballot
+condition on the reading word (rows top to bottom, each right to left: every
+prefix has at least as many letters k as letters k+1), their finiteness and
+count `c^κ_(μ,ν)`, the tableau-product bijection between pairs of straight
+bounded tableaux of shapes μ, ν and pairs (straight bounded tableau of shape
+κ, Littlewood–Richardson tableau of shape κ/μ and content ν) with weights
+adding, and the rule `s_μ s_ν = Σ_κ c^κ_(μ,ν) s_κ` in every finite alphabet
+over every commutative semiring, with `c^κ_(μ,ν) = 0` unless μ ≤ κ and
+|κ| = |μ|+|ν|, the symmetry `c^κ_(μ,ν) = c^κ_(ν,μ)` and the horizontal and
+vertical Pieri specializations for ν = (r) and ν = (1^r), r = 0 included.
+
+What SchurWeyl must provide (gap:standard-evacuation): Schützenberger
+evacuation on standard tableaux of a straight shape (remove the entry 0,
+rectify, record the vacated cell with the largest remaining label), an
+involution preserving shape, corresponding under RSK to reversing and
+complementing the word.
+
+What SchurWeyl must provide (gap:stable-symmetric-ring): for a commutative
+ring R, the graded ring Λ_R whose degree-n part is the R-module of compatible
+families `(f_d)_(d∈ℕ)`, `f_d ∈ TauCeti.symmetricHomogeneousSubmodule (Fin d) R n`
+with `f_d = aeval (Fin.snoc X 0) f_(d+1)`, with its R-algebra specialization
+maps to every finite alphabet, the isomorphism of its degree-n part with the
+degree-n symmetric polynomials in d ≥ n variables, the Schur basis `s_λ`
+(λ ⊢ n) of each degree-n part built from `TauCeti.schurPolyBasis`, the stable
+elementary and complete families, and the Littlewood–Richardson rule in Λ_R
+with the coefficients `c^κ_(μ,ν)` above.
 
 ### From TauCetiRoadmap.ClassicalGroups
 
@@ -302,11 +359,6 @@ No tableau, hive, recurrence or Schubert-section statement is assumed of it.
 T1 (the finite rank-k complex subspace Grassmannian, its topology, charts and
 tautological bundle) and T1.5 (its finite CW characteristic maps and the
 rank-one partial-flag incidence construction).
-
-### From TauCetiRoadmap.ModularCurves
-
-0G: the relative Grassmannian of quotients and its subspace/quotient and
-universal-bundle comparisons over Spec ℂ.
 
 ### From TauCetiRoadmap.LieGroups
 
@@ -375,8 +427,7 @@ comparison.
 
 ## How to read the build
 
-Layer 0 builds the tableau layer (skew tableaux, slides, Littlewood–Richardson
-tableaux, evacuation, the stable ring) on the native tableau API. Layer 1
+Layer 1
 builds the lattice, hives, their polytopes and the finite rational polyhedron
 adapters (§§1.1–1.4), then two independent generic lanes: pointed unimodular
 counting (§1.5) and the rational cone series with Fourier boundary values and
@@ -396,165 +447,8 @@ real converse and the Horn recursion. Layer 8 specializes the generic path
 engine to type-A coordinate paths and tableau crystals; its component and
 tensor comparison precedes Layer 9's coherence comparison, while the
 excavation and ring associativity of Layer 3 are independent of both. The
-order of construction is Layer 0, Layer 1, §§2.1–2.4, Layer 3, §2.5, §§2.6–2.7,
+order of construction is Layer 1, §§2.1–2.4, Layer 3, §2.5, §§2.6–2.7,
 Layers 4, 5, §§6.1–6.7, §6.8, Layer 7, Layer 8, Layer 9.
-
-## Layer 0: skew tableaux, Littlewood–Richardson tableaux and the stable ring
-
-Throughout, a diagram is a native `YoungDiagram`, entries are zero-indexed
-letters, and a tableau has weakly increasing rows and strictly increasing
-columns. This layer supplies the one Littlewood–Richardson carrier used by
-Layers 2, 6, 8 and 9. No hive, honeycomb or puzzle object is used.
-
-### 0.1 Skew tableaux
-
-For diagrams `inner ≤ outer` let the skew cells be `outer.cells \ inner.cells`.
-Define semistandard skew tableaux of shape outer/inner (entries off the skew
-cells normalized to 0), their bounded versions with entries `< d`, content in
-`ℕ →₀ ℕ` counted as native `SemistandardYoungTableau.content` counts it, and
-standard skew tableaux. Prove finiteness of the bounded type, entry
-extensionality, and the inverse conversions between straight skew tableaux
-(inner = ⊥) and native `TauCeti.BoundedSSYT d outer`, preserving entries and
-content. Define the skew Schur polynomial in d variables over a commutative
-semiring as the tableau sum, and prove it equals `TauCeti.diagramSchurPoly` for
-straight shapes (Fulton, *Young Tableaux*, Chapter 1 for the definitions).
-*Needs:* Tau Ceti `YoungDiagram`, `SemistandardYoungTableau`,
-`TauCeti.BoundedSSYT`, `TauCeti.diagramSchurPoly`; SchurWeyl Layer 0.
-
-**Checks.**
-
-- For inner = outer the only tableau is the empty one and the skew Schur
-  polynomial is 1.
-- The shape (2,1)/(1) with d = 2 has two unrelated boxes (neither in the row
-  nor the column of the other) and four tableaux, so
-  `s_(2,1)/(1) = (x₀+x₁)² = s_(2) + s_(1,1)`. A definition that forces the two
-  boxes into a weakly increasing row, as the straight shape (2) would, counts
-  three (00, 01, 11); one that forces a strictly increasing column counts one;
-  and the straight shape (2,1) itself has two tableaux in two letters
-  (`s_(2,1)(x₀,x₁) = x₀²x₁ + x₀x₁²`), so the skew count is none of these.
-- For d = 0 every nonempty skew shape has no tableau, and for d = 1 the shape
-  (2,1)/(1) has exactly one (both boxes 0), matching `s_(2)(x₀) = x₀²` and
-  `s_(1,1)(x₀) = 0`.
-
-### 0.2 Slides and rectification
-
-An inward slide into an inner corner moves the smaller of the entries to the
-right and below into the hole, the one below when they are equal; the reverse
-slide moves the larger of the entries to the left and above, the one above when
-they are equal. Prove that slides preserve semistandardness and content, that
-inward and reverse slides are mutually inverse, and that repeated inward slides
-terminate in a straight tableau (the rectification). Define the Knuth row word
-(rows from bottom to top, each left to right) and the two elementary Knuth
-relations `xzy ≡ zxy` for `x ≤ y < z` and `yxz ≡ yzx` for `x < y ≤ z`. Prove
-that slides preserve the Knuth class, that two words are Knuth equivalent iff
-their insertion tableaux under `TauCeti.rowInsert` agree, and hence that the
-rectification is independent of the order of slides (Fulton, *Young
-Tableaux*, §§1–3). Prove that for skew tableaux of a fixed shape outer/inner,
-the number rectifying to a given straight tableau of shape κ depends only on κ,
-not on the tableau (Fulton, *Young Tableaux*, §5.1); Haiman's dual equivalence
-of skew tableaux is one route. *Needs:* §0.1; Tau Ceti `TauCeti.rowInsert`,
-`TauCeti.reverseRowInsert`, `TauCeti.rowInsertEquiv`; SchurWeyl Layer 7.
-
-**Checks.**
-
-- On the shape (2,1)/(1), entry 1 in the top box and 0 in the bottom box
-  rectifies to the row `0 1` of shape (2), while 0 on top and 1 below
-  rectifies to the column of shape (1,1), matching the insertion tableaux of
-  the Knuth words `01` and `10`.
-- The words `021` and `201` are Knuth equivalent and both insert to rows
-  `01 / 2`, while `012` and `210` are not.
-- On a straight tableau every slide sequence is empty and rectification is the
-  identity.
-
-### 0.3 Littlewood–Richardson tableaux and the Littlewood–Richardson rule
-
-The LR word of a skew tableau reads the rows from top to bottom, each right to
-left. Define `LRTableau inner outer ν` as the skew tableaux of shape
-outer/inner with content `ν.rowLen` whose LR word satisfies the zero-indexed
-ballot condition: every prefix has at least as many letters k as letters k+1.
-Prove finiteness and set `c^κ_(μ,ν) = Nat.card (LRTableau μ κ ν)`. Construct
-the tableau-product bijection: pairs of straight bounded tableaux of shapes μ
-and ν correspond to pairs consisting of a straight bounded tableau of shape κ
-and an element of `LRTableau μ κ ν`, summed over κ with |κ| = |μ|+|ν|, with
-weights adding; build it from insertion, rectification and dual equivalence,
-and identify the Yamanouchi rectification fibres with ballot tableaux (Fulton,
-*Young Tableaux*, §§5.1–5.3; Buch, *Notes on Grassmannians*, Theorem 3.18).
-Sum weights to prove `s_μ s_ν = Σ_κ c^κ_(μ,ν) s_κ` in every finite alphabet
-over every commutative semiring, including shapes with more than d rows, whose
-Schur polynomials vanish. Prove `c^κ_(μ,ν) = 0` unless `μ ≤ κ` and
-|κ| = |μ|+|ν|, and the symmetry `c^κ_(μ,ν) = c^κ_(ν,μ)`. Specialize to strips:
-for ν = (r) the LR tableaux are horizontal strips (agreeing with
-`TauCeti.hsymm_mul_diagramSchurPoly`); for ν = (1^r) the ballot condition
-forces the LR word to read 0, 1, …, r−1, so the weak row condition allows at
-most one new box per row and LR tableaux are vertical strips, proving vertical
-Pieri `e_r s_μ = Σ s_κ` over vertical strips κ/μ of size r, including r = 0.
-*Needs:* §0.1, §0.2; Tau Ceti `TauCeti.hsymm_mul_diagramSchurPoly`; SchurWeyl
-Layer 7.
-
-**Checks.**
-
-- `c^(2)_((1),(1)) = c^(1,1)_((1),(1)) = 1`, so `s_(1)² = s_(2) + s_(1,1)`
-  with the (1,1) term vanishing for d = 1.
-- `c^(3,2,1)_((2,1),(2,1)) = 2`, which a count without the ballot condition
-  (giving three) or one requiring the reading word to be increasing (giving
-  one) gets wrong: the three boxes of (3,2,1)/(2,1) are pairwise unrelated, the
-  three fillings with content (2,1) have LR words 001, 010, 100, and the ballot
-  condition rejects 100.
-- For ν = ∅ the only LR tableau is the empty one on κ = μ.
-
-### 0.4 Evacuation
-
-Define Schützenberger evacuation on standard tableaux of a straight shape
-(remove the entry 0, rectify, record the vacated cell with the largest
-remaining label) and prove it is an involution preserving shape and that it
-corresponds under RSK to reversing and complementing the word (Fulton, *Young
-Tableaux*, Appendix A). §8.2 extends it to the semistandard Schützenberger
-involution. *Needs:* §0.2; SchurWeyl Layer 0, Layer 7.
-
-**Checks.**
-
-- On the shape (2,1) evacuation exchanges the two standard tableaux `01/2` and
-  `02/1`.
-- On (2,2) it fixes both standard tableaux `01/23` and `02/13`.
-- On the row (n) it is the identity, whereas the complement map i ↦ n−1−i
-  sends `01/2` to `21/0`, which is not a tableau.
-
-### 0.5 The stable ring
-
-For a commutative ring R and n ∈ ℕ let Λ_R^n be the R-module of compatible
-families `(f_d)_(d∈ℕ)` with
-`f_d ∈ TauCeti.symmetricHomogeneousSubmodule (Fin d) R n` and
-`f_d = aeval (Fin.snoc X 0) f_(d+1)` (setting the last variable to 0). Let
-`Λ_R = ⊕_n Λ_R^n`. Build its graded commutative R-algebra structure from
-degreewise finite-alphabet multiplication and the R-algebra specialization
-maps `Λ_R → MvPolynomial (Fin d) R`. Prove that projection Λ_R^n → degree-n
-symmetric polynomials in d variables is an isomorphism for d ≥ n, construct
-the Schur basis `s_λ` (λ ⊢ n) of each Λ_R^n from the finite Schur bases, and
-prove the LR rule of §0.3 in Λ_R with coefficients `c^κ_(μ,ν)` and the stable
-elementary and complete families. *Needs:* §0.3; Tau Ceti
-`TauCeti.symmetricHomogeneousSubmodule`, `TauCeti.schurPolyBasis`; SchurWeyl
-Layer 7.
-
-**Checks.**
-
-- Λ_R^0 ≅ R and Λ_R^1 is free of rank 1 on s_(1).
-- Λ_ℤ^4 has rank 5 = p(4), whereas degree-4 symmetric polynomials in 2
-  variables have rank 3, so a definition using a fixed small alphabet is wrong.
-- Specialization to d = 1 sends s_(1,1) to 0 and s_(2) to x₀².
-
-### Examples
-
-§0.3's `s_(1)² = s_(2) + s_(1,1)` and `c^(3,2,1)_((2,1),(2,1)) = 2` are the
-reference values for §2.2's hive count of the triples `((1),(1),(2)*)` and
-`((2,1),(2,1),(3,2,1)*)` in rank 3.
-
-### Dependencies
-
-SchurWeyl Layers 0 and 7; Tau Ceti `YoungDiagram`, `SemistandardYoungTableau`,
-`TauCeti.BoundedSSYT`, `TauCeti.diagramSchurPoly`, `TauCeti.rowInsert`,
-`TauCeti.rowInsertEquiv`, `TauCeti.hsymm_mul_diagramSchurPoly`,
-`TauCeti.schurPolyBasis` and `TauCeti.symmetricHomogeneousSubmodule`. No
-earlier layer.
 
 ## Layer 1: lattices, rhombi, boundaries and finite polytope operations
 
@@ -575,7 +469,8 @@ edge point sum to the concavity of the three edge values), cyclic trace is
 zero, and the boundary restriction is an actual linear map before restricting
 to the hive cone. Export rotation/dualization effects with the dual-weight
 involution `dualWeight` on the native carrier, and entry/boundary equality
-lemmas (Knutson–Tao I, §2 and Appendix A for the hive dictionary). *Needs:* Tau
+lemmas (Knutson–Tao I, §2, and Appendix 2, Proposition 4, for the hive
+dictionary). *Needs:* Tau
 Ceti `TauCeti.DominantWeight`; Mathlib finite types and `Fin` arithmetic.
 
 - `boundary_antitone`: for every hive with values in an ordered abelian group
@@ -603,9 +498,9 @@ Ceti `TauCeti.DominantWeight`; Mathlib finite types and `Fin` arithmetic.
 ### 1.2 Fixed-boundary polytopes and finite fibres
 
 Build equality/inequality matrix presentations over ℤ, ℚ and ℝ on the finite
-coordinate spaces. Prove normalized fixed-boundary fibres (`realFibre`) are
-closed bounded convex polyhedra, hence compact (`realFibre_polyhedron`,
-`realFibre_compact`); prove explicit entry bounds by summing rhombi along
+coordinate spaces. Prove normalized real fixed-boundary fibres are closed
+bounded convex polyhedra in the native sense, hence compact; prove explicit
+entry bounds by summing rhombi along
 lattice parallelograms. The same estimates uniformly bound fibres over a
 bounded boundary set, giving properness of the boundary projection onto its
 image. Prove normalized zero-boundary fibre = {0}. For integral fibres export
@@ -613,13 +508,14 @@ a finite instance (`finite_fixedIntegerHive`, hence `hiveCount`), a
 bounding-box enumeration and decidable membership. Prove central-degree
 conservation, the dominance bound γ ≤ λ+μ in product convention and the
 lower-coordinate bound γₙ ≥ λₙ+μₙ. These bounds prove **finite output
-support** for fixed λ, μ, independently of the representation theorem.
-*Needs:* §1.1; Tau Ceti `TauCeti.IsConvexPolyhedron`; Mathlib `Matrix`,
+support** for fixed λ, μ, independently of the representation theorem
+(Knutson–Tao–Woodward, *A positive proof*, §2, for the hive polytope and its
+boundedness; Knutson–Tao I, Appendix 2). *Needs:* §1.1; Tau Ceti `TauCeti.IsConvexPolyhedron`; Mathlib `Matrix`,
 `IsCompact`.
 
 - `finite_fixedIntegerHive`: every integral fixed-boundary fibre is finite.
-- `realFibre_polyhedron`, `realFibre_compact`: every real fixed-boundary fibre
-  is a compact convex polyhedron in the native sense.
+- Every real fixed-boundary fibre is a compact convex polyhedron in the
+  native sense.
 - For fixed λ, μ only finitely many γ have a nonempty fibre.
 
 **Checks.**
@@ -693,14 +589,13 @@ Build **pointed unimodular vector-partition counting** on the same finite
 integer matrix/lattice carriers. Let A : ℤ^m → ℤ^r have full row rank, with
 ker(A_ℝ) ∩ ℝ^m_≥0 = {0}, and require every nonzero r×r column minor to be ±1
 in the specified target lattice ℤ^r. Construct an integer functional h with
-h(A_j) > 0 for every column (`exists_integer_height`), using the native strict
+h(A_j) > 0 for every column, using the native strict
 alternative and rational denominator clearing. For b ∈ ℤ^r define the actual
 fibre `F_A(b) = {c ∈ ℕ^m : A c = b}` (`Fibre`), prove it finite before counting
-(`finite_fibre`, `count`), and identify it with the lattice points of
+(`count`), and identify it with the lattice points of
 `P_A(b) = {x ∈ ℝ^m : x ≥ 0, A x = b}` (`realFibre`). Give explicit coordinate
 bounds from h(b), a finite enumeration and decidable membership. P_A(b) is a
-compact native `TauCeti.IsConvexPolyhedron` (`realFibre_polyhedron`,
-`realFibre_compact`); its support is the rational column cone C_A
+compact native `TauCeti.IsConvexPolyhedron`; its support is the rational column cone C_A
 (`supportCone`). Prove count 0 = 1, count = 0 off C_A, and positivity on
 C_A ∩ ℤ^r using integral basic feasible solutions. The full-minor hypothesis
 is relative to the chosen lattice, not merely real linear independence.
@@ -716,8 +611,8 @@ cone(A_B). Use §1.3 to build their common polyhedral refinement on C_A. An
 explicit finite model is the arrangement of all coordinates of A_B⁻¹b
 (`basisCoordinates`): intersect C_A with all closed sign halfspaces
 (`chamberCell`), retain the full-dimensional cells (`Chamber`) and their faces,
-and prove this refines every basis cone and covers C_A (`chamber_polyhedron`,
-`support_covered`). Empty cells are discarded; duplicate presentations are
+and prove this refines every basis cone and, for full row rank, covers C_A,
+each chamber a native convex polyhedron. Empty cells are discarded; duplicate presentations are
 compared extensionally. For each closed full-dimensional chamber D construct
 an actual p_D ∈ ℚ[b₁,…,b_r] of total degree at most m−r, and prove
 |F_A(b)| = p_D(b) for EVERY b ∈ D ∩ ℤ^r, including support faces and internal
@@ -759,10 +654,8 @@ polynomial statement for every integer matrix. *Needs:* §1.3; Mathlib
 `Matrix.IsTotallyUnimodular`; Tau Ceti `TauCeti.IsConvexPolyhedron`;
 GroebnerGeometry G2.
 
-- `exists_integer_height`: a pointed column cone has an integral covector
-  positive on every column.
-- `finite_fibre`, `realFibre_compact`: under a positive height every fibre is
-  finite and every real fibre compact.
+- A pointed column cone has an integral covector positive on every column.
+- Under a positive height every fibre is finite and every real fibre compact.
 - `exists_chamberPolynomial`: for full row rank, unit maximal minors and a
   positive height, each closed chamber carries a rational polynomial of total
   degree at most m−r evaluating to the count at every lattice point of the
@@ -819,8 +712,8 @@ B = {j : h(a_j) < 0}, replace a_j by `a_j^h = sign(h(a_j)) a_j`, and set
 `P_X^h(b) = (−1)^|B| · #{c ∈ ℕ^m : Σ c_j a_j^h = b − s_h}`
 
 (`polarizedCoefficient`, with `negativeColumns`, `polarizedMatrix`,
-`polarizationShift`). The positive height gives finiteness and a polynomial
-growth bound (`polarized_fibre_finite`, `polarized_polynomial_growth`);
+`polarizationShift`). A regular height gives finiteness of the polarized
+fibres and a polynomial growth bound of degree at most m on the coefficients;
 construct an integral positive height on the same rational open chamber when
 needed for §1.5's enumeration. Prove invariance under h within a chamber, list
 permutation, lattice change, monomial translation, direct sum and repeated
@@ -843,8 +736,9 @@ coefficient function c on L construct the torus distribution with pairing
 §3.1, with all continuity seminorm estimates and uniqueness. Compare it to
 the periodic distribution on V obtained as the inverse native Fourier
 transform of the tempered weighted lattice distribution `Σ_b c(b) δ_b`, whose
-construction as a `TemperedDistribution` is a target here, with the pairing
-bound `lattice_pairing_summable` as its first step. Prove this last sum in
+construction as a `TemperedDistribution` is a target here, with the absolute
+pairing bound of polynomial-growth coefficients against Schwartz functions as
+its first step. Prove this last sum in
 Schwartz duality, periodization of tests, torus descent/pullback and equality
 of the two constructions, including the sign and 2π conversion. No new
 topology is silently placed on native `TemperedDistribution`, whose topology
@@ -963,11 +857,10 @@ polarization shifts, infinitesimal alcove displacements and half-open endpoint
 offsets are different data with their own maps; none is identified by notation
 alone. *Needs:* the four parts above.
 
-- `polarized_fibre_finite`, `polarized_polynomial_growth`: under a regular
-  height the polarized fibres are finite and the coefficients grow at most
-  polynomially of degree the number of columns.
-- `lattice_pairing_summable`: a polynomial-growth coefficient function pairs
-  absolutely with every Schwartz function on the lattice points.
+- Under a regular height the polarized fibres are finite and the
+  coefficients grow at most polynomially of degree the number of columns.
+- A polynomial-growth coefficient function pairs absolutely with every
+  Schwartz function on the lattice points.
 - `polarized_abel_summable`, `polarized_abel_rational`: for a regular height
   and ε > 0 the polarized Abel series converges absolutely to
   `∏_j (1 − exp(−εh(a_j)) z^(a_j)(θ))⁻¹`.
@@ -1086,8 +979,9 @@ first/last entries. *Needs:* §1.1, §1.2; Tau Ceti `TauCeti.GTPattern`,
 
 ### 2.2 The hive-to-Littlewood–Richardson equivalence
 
-Build the explicit hive-to-LR equivalence on §0.3's `LRTableau λ γ μ`. In the
-product chart write `a_(i,j)` for the number of zero-indexed letter i−1 in
+Build the explicit hive-to-LR equivalence onto the Littlewood–Richardson
+tableaux of shape γ/λ and content μ that SchurWeyl provides
+(gap:skew-lr-tableaux). In the product chart write `a_(i,j)` for the number of zero-indexed letter i−1 in
 skew row j−1. Its forward map is
 `h(i,j) = Σ_(r≤j) λ_r + Σ_(k≤i) Σ_(k≤r≤j) a_(k,r)`. For i < j the inverse takes
 the mixed difference `a_(i,j) = h(i,j) − h(i−1,j) − h(i,j−1) + h(i−1,j−1)`; on
@@ -1099,9 +993,10 @@ boundary and integrality, including empty diagrams/zero strips. For arbitrary
 signed weights use explicit affine determinant shifts making all three
 product weights polynomial; prove the answer is independent of shifts and
 compatible with the native shape carrier. This is a bijection of **objects**,
-not just equality of cardinalities (Knutson–Tao I, Appendix A; Buch, Theorem
-3.18 for the tableau side). *Needs:* §1.1, §0.3; Tau Ceti
-`TauCeti.DominantWeight.shift`, `TauCeti.DominantWeight.detShiftShape`.
+not just equality of cardinalities (Knutson–Tao I, Appendix 2; Buch, Theorem
+3.18 for the tableau side). *Needs:* §1.1; SchurWeyl gap:skew-lr-tableaux;
+Tau Ceti `TauCeti.DominantWeight.shift`,
+`TauCeti.DominantWeight.detShiftShape`.
 
 **Checks.**
 
@@ -1109,7 +1004,13 @@ not just equality of cardinalities (Knutson–Tao I, Appendix A; Buch, Theorem
   content (1) has `a_(1,2) = 1`, and the forward map gives `h(1,1) = λ₁ = 1 = γ₁`
   and `h(1,2) = |λ| + a_(1,2) = 2 = |λ| + μ₁`, the hive of §1.2's first Check.
 - Rank 3, the triples `((1),(1),(2)*)` and `((2,1),(2,1),(3,2,1)*)` have hive
-  counts 1 and 2, the values of §0.3.
+  counts 1 and 2, the values `c^(2)_((1),(1)) = 1` and
+  `c^(3,2,1)_((2,1),(2,1)) = 2` of the Littlewood–Richardson rule: the three
+  boxes of (3,2,1)/(2,1) are pairwise unrelated, the three fillings with
+  content (2,1) have reading words 001, 010 and 100, and the ballot condition
+  rejects 100. A count without the ballot condition would give 3 and one
+  requiring an increasing reading word would give 1, so the equivalence must
+  carry exactly the ballot inequalities to the third rhombus family.
 - λ = (1,0), μ = (0,−1), γ = (0,0) in rank 2: shifting μ and γ by the
   determinant gives `((1,0),(1,0),(1,1))` with one hive, so the signed count is
   1 (`V ⊗ V*` contains the trivial representation once); a definition that
@@ -1118,13 +1019,21 @@ not just equality of cardinalities (Knutson–Tao I, Appendix A; Buch, Theorem
 
 ### 2.3 Tensor multiplicities, invariants and the type-A Steinberg adapter
 
-Consume §0.3's LR rule and ClassicalGroups Layer 4's identification of Schur
+Consume the Littlewood–Richardson rule SchurWeyl provides
+(gap:skew-lr-tableaux) and ClassicalGroups Layer 4's identification of Schur
 structure constants with tensor multiplicities to prove the invariant
 dimension and tensor-multiplicity hive formulas: for polynomial λ, μ the
 product of Schur polynomials in n variables expands with hive counts as
-coefficients (`schur_mul_eq_finsum_hiveCount`), and the count of the cyclic
-triple (λ,μ,ν) is `dim (Vλ⊗Vμ⊗Vν)^GLₙ` (Knutson–Tao–Woodward, *A positive
-proof*, Theorem 1; Knutson–Tao I, Theorem 4). Prove affine determinant-shift
+coefficients (`schur_mul_eq_finsum_hiveCount`); on the native rational Weyl
+modules `TauCeti.rationalWeylFDRep ℂ n ·`, the dimension of the intertwiner
+space from `Vγ` to `Vλ ⊗ Vμ` is the hive count of (λ,μ,γ*)
+(`finrank_hom_eq_hiveCount`), and the count of the cyclic triple (λ,μ,ν) is
+the dimension of the invariants `dim (Vλ⊗Vμ⊗Vν)^GLₙ`, the intertwiner space
+from the unit object (`finrank_invariants_eq_hiveCount`); the Hom-space
+dimensions are multiplicities by ReductiveGroups Layer 6's complete
+reducibility and Schur's lemma on the simple objects
+`TauCeti.simple_rationalWeylFDRep` (Knutson–Tao–Woodward, *A positive proof*,
+Theorem 1; Knutson–Tao I, Theorem 4 with Appendix 2). Prove affine determinant-shift
 covariance, cyclic/dual symmetry, symmetry in the two inputs (`hiveCount_comm`),
 and coefficient change/stable finite-alphabet compatibility. In the handout's
 own cyclic convention (λ,μ,ν), the hive count is the product coefficient
@@ -1161,22 +1070,38 @@ convention uses ℚ^(r+1). Compare this map with native
 specified RootPairing/Base, through the native
 `TauCeti.formalCharacter_coeff_eq_kostantMultiplicity`; the n = 1 empty-root
 partition is handled separately. The source's negative weight is the
-re-centered weight. *Needs:* §2.2, §0.3, §1.2; ClassicalGroups Layers 3–4;
+re-centered weight. *Needs:* §2.2, §1.2; SchurWeyl gap:skew-lr-tableaux;
+ClassicalGroups Layers 3–4; ReductiveGroups Layer 6;
 RootSystems Layer 5; Tau Ceti `TauCeti.formalCharacter_mul_weylDenominator_eq_weylNumerator`,
 `TauCeti.formalCharacter_coeff_eq_kostantMultiplicity`,
-`TauCeti.kostantPartition`, `TauCeti.kostantMultiplicity`.
+`TauCeti.kostantPartition`, `TauCeti.kostantMultiplicity`,
+`TauCeti.rationalWeylFDRep`, `TauCeti.simple_rationalWeylFDRep`.
 
 - `schur_mul_eq_finsum_hiveCount`: for polynomial dominant weights λ, μ of
   GLₙ, `s_λ s_μ = Σᶠ_γ hiveCount(λ,μ,γ*) s_γ` in n variables, the sum over all
   dominant weights γ of GLₙ having finite support.
+- `finrank_hom_eq_hiveCount`: for all dominant weights λ, μ, γ of GLₙ, the
+  complex dimension of the space of morphisms
+  `rationalWeylFDRep ℂ n γ ⟶ rationalWeylFDRep ℂ n λ ⊗ rationalWeylFDRep ℂ n μ`
+  in `FDRep ℂ (GL (Fin n) ℂ)` is `hiveCount(λ,μ,γ*)`.
+- `finrank_invariants_eq_hiveCount`: for all dominant weights λ, μ, ν of GLₙ,
+  the complex dimension of the morphisms from the unit object to
+  `rationalWeylFDRep ℂ n λ ⊗ rationalWeylFDRep ℂ n μ ⊗ rationalWeylFDRep ℂ n ν`
+  is the hive count of the cyclic triple (λ,μ,ν).
 - `hiveCount_comm`: hive counts are symmetric in the two inputs.
-- The invariant dimension of a cyclic triple is its hive count; a determinant
-  shift of one input shifts the output by the same amount.
+- A determinant shift of one input shifts the output by the same amount.
 
 **Checks.**
 
 - Rank 2: `V_(1,0) ⊗ V_(1,0) = V_(2,0) ⊕ V_(1,1)`, with both hive counts 1 and
-  every other output 0.
+  every other output 0; the invariant form reads the cyclic triple
+  `((1,0),(1,0),(−1,−1))`, whose sum of coordinates is 0 and whose single hive
+  is the hive of §1.2's first Check, so `dim (V ⊗ V ⊗ det⁻¹)^GL₂ = 1`, while
+  `((1,0),(1,0),(0,0))` has coordinate sum 2 and no hive, matching the absence
+  of invariants in `V ⊗ V`.
+- Rank 1: `V_a ⊗ V_b` is `V_(a+b)`, and the rank-1 hive of boundary
+  `(a, b, −g)` exists exactly when g = a + b; rank 0 has one empty hive and
+  the one-dimensional space of endomorphisms of the unit object.
 - Rank 1 in two variables: `s_(1)² = s_(2) + s_(1,1)` with `s_(1,1) = x₀x₁ ≠ 0`,
   while the rank-one hive sum has the single term γ = (2); so the Schur
   identity holds in n variables and fails in more, and the headline is stated
@@ -1200,8 +1125,8 @@ collapsed honeycomb picture under Layer 4. Prove the horizontal Pieri version
 by the LR/transpose comparison, using the Schur involution of SchurWeyl
 Layer 7. Summed parallelogram inequalities give the unique top hive at
 γ = λ+μ (Knutson–Tao–Woodward, *A positive proof*, §4, Proposition 4).
-*Needs:* §2.2, §0.3; Tau Ceti `TauCeti.hsymm_mul_diagramSchurPoly`;
-SchurWeyl Layer 7.
+*Needs:* §2.2; Tau Ceti `TauCeti.hsymm_mul_diagramSchurPoly`;
+SchurWeyl Layer 7 and gap:skew-lr-tableaux.
 
 **Checks.**
 
@@ -1353,14 +1278,14 @@ count min(a,b)+1 of §2.6 is §1.5's and §1.6's A2 example.
 
 ### Dependencies
 
-Layers 0 and 1 (§§1.1–1.2, §1.5), §3.2 for the associativity used by §2.5;
+Layer 1 (§§1.1–1.2, §1.5), §3.2 for the associativity used by §2.5;
 Tau Ceti `TauCeti.GTPattern`, `TauCeti.DominantWeight`,
 `TauCeti.kostantPartition`, `TauCeti.kostantMultiplicity`,
 `TauCeti.formalCharacter_mul_weylDenominator_eq_weylNumerator`,
 `TauCeti.formalCharacter_coeff_eq_kostantMultiplicity`, `TauCeti.SplitK0`;
 Mathlib `Matrix.IsTotallyUnimodular`; ClassicalGroups Layers 3–6 and its two
 declared gaps; RootSystems Layer 5; ReductiveGroups Layers 1 and 6;
-GrothendieckEulerForms Layers 1–2; SchurWeyl Layer 7.
+GrothendieckEulerForms Layers 1–2; SchurWeyl Layer 7 and gap:skew-lr-tableaux.
 
 ## Layer 3: octahedron recurrence and the excavation bijection
 
@@ -1549,7 +1474,10 @@ occurs whenever `γ = wλ + vμ` is already dominant. Overlay rank-1 honeycombs
 with triples `(λ_i, μ_j, −λ_i − μ_j)` according to the chosen permutations;
 the three sorted boundary multisets are λ, μ and the dual of the dominant
 rearrangement. Prove integrality and invoke §2.3's tensor comparison
-(Knutson–Tao I, §4). Include the extremal Cartan summand and determinant
+(Knutson–Tao I, §4). The source states the weak form, in which `wλ + vμ` is
+already dominant; its overlay of rank-1 honeycombs has sorted boundary
+multisets whatever the permutations, which is the dominant-rearrangement form
+stated here. Include the extremal Cartan summand and determinant
 cases. No general semisimple PRV theorem is inferred from this type-A
 construction. *Needs:* §4.3, §2.3; Tau Ceti `TauCeti.dominantWeightOf`.
 
@@ -1611,8 +1539,8 @@ strict honeycomb perturbation; use a chamber incident to a wall, not rounding
 an arbitrary hive's labels. Thus every nonempty real fibre with integral
 boundary has an integral point (`integral_witness_iff_real_witness`).
 Rational witnesses/clearing denominators plus §2.3 give
-`c^(Nγ)_(Nλ,Nμ) > 0 ↔ c^γ_(λ,μ) > 0` for N ≥ 1 (Knutson–Tao I, §6 and the
-Corollary to Theorem 2). Export the invariant-triple form, decidable
+`c^(Nγ)_(Nλ,Nμ) > 0 ↔ c^γ_(λ,μ) > 0` for N ≥ 1 (Knutson–Tao I, §6, Corollary
+to Theorem 3). Export the invariant-triple form, decidable
 positivity and an integral-witness algorithm. Include Knutson–Tao I's figure
 18 nonintegral extreme point to distinguish saturation from total
 unimodularity of all active hive systems. *Needs:* §4.5, §1.4, §1.3, §2.3.
@@ -1767,11 +1695,16 @@ inequalities.
 
 ### 6.1 The finite Grassmannian carrier
 
-On the supplied rank-k subspace Grassmannian Grₖ(ℂᴺ), N = k+q, construct the
-supplied graph charts and complex-point identifications, transporting along
-ModularCurves 0G's algebraic subspace/quotient comparison over Spec ℂ to the
-quotient-rank-q points of Mathlib's `Module.Grassmannian ℂ (Fin N → ℂ) (N−k)`;
-prove homogeneous models U(N)/(U(k)×U(q)) and GL(N)/Pₖ, connectedness,
+On the supplied rank-k subspace Grassmannian Grₖ(ℂᴺ), N = k+q, on the
+carrier `Submodule ℂ (Fin N → ℂ)` of TopologicalKTheory T1, construct the
+supplied graph charts and own the comparison with Mathlib's quotient-rank
+Grassmannian: a point of `Module.Grassmannian ℂ (Fin N → ℂ) (N−k)` is a
+submodule V whose quotient ℂᴺ/V is finite, projective and of rank N−k at the
+unique prime of ℂ, so the forgetful map to `Submodule ℂ (Fin N → ℂ)` is a
+bijection from those points onto the subspaces of dimension k (a subspace of
+a finite-dimensional space has a free quotient, of dimension N − dim V, and
+conversely), carrying the universal quotient ℂᴺ → ℂᴺ/V to the quotient-bundle
+fibre and its kernel to the tautological fibre V. Prove homogeneous models U(N)/(U(k)×U(q)) and GL(N)/Pₖ, connectedness,
 compactness, complex dimension kq, Plücker smooth/holomorphic embedding and
 its induced Kähler form. Identify the supplied tautological bundle S and
 quotient Q, exact sequence 0 → S → ℂᴺ → Q → 0, bundle ranks, flag forgetful
@@ -1779,17 +1712,19 @@ maps and associated-bundle actions. Only the complex points of the
 quotient-rank functor are compared; no scheme structure on it is used, and
 scheme gluing is not a prerequisite for singular cohomology. Include k = 0,
 q = 0 and orthogonal-complement/dual homeomorphisms (Buch, §1). *Needs:*
-TopologicalKTheory T1; ModularCurves 0G; Mathlib `Module.Grassmannian`;
-ComplexKahlerGeometry K7; LieGroups Layer 8.
+TopologicalKTheory T1; Mathlib `Module.Grassmannian`; ComplexKahlerGeometry
+K7; LieGroups Layer 8.
 
 **Checks.**
 
 - k = 0 and k = N give one-point Grassmannians of dimension 0; Gr₁(ℂ²) is
   ℂP¹ of complex dimension 1 = kq.
-- The quotient-rank convention: a k-dimensional subspace V ≤ ℂᴺ corresponds
-  to the quotient ℂᴺ/V of rank N−k, so the functor index is N−k, not k; a
-  comparison using index k would identify Grₖ with Gr_q, which is wrong
-  unless k = q.
+- The quotient-rank convention: a k-dimensional subspace V ≤ ℂᴺ has quotient
+  ℂᴺ/V of rank N−k, so the functor index is N−k, not k; a comparison using
+  index k would identify Grₖ with Gr_q, which is wrong unless k = q. For
+  N = 2, k = 1 the line spanned by (1,0) has quotient of rank 1 and is a point
+  of `Module.Grassmannian ℂ (Fin 2 → ℂ) 1`, while the zero subspace, of
+  quotient rank 2, is not.
 - The orthogonal complement V ↦ V^⊥ is a homeomorphism Grₖ(ℂᴺ) → Gr_q(ℂᴺ)
   exchanging S and Q* up to the Hermitian identification.
 
@@ -1892,14 +1827,16 @@ CharacteristicClasses C2–C3.
 
 ### 6.5 The quotient of the stable ring
 
-Build the surjective graded map from Layer 0's Λ_ℤ to this ring, sending sλ
+Build the surjective graded map from the stable ring Λ_ℤ that SchurWeyl
+provides (gap:stable-symmetric-ring) to this ring, sending sλ
 to σλ inside the rectangle and to 0 otherwise. Prove the kernel is the
 span/ideal of outside-rectangle Schur functions, specialization
 compatibility, multiplication and LR coefficients. Degrees double under this
 map. Identify σλ with the determinant of `c_(λ_i−i+j)(Q)`, retaining
 vanishing terms and the k = 0 case. Thus the Grassmannian multiplication
 constants are the supplied LR constants restricted to rectangle outputs
-(Buch, §3; Fulton, *Young Tableaux*, §§9–10). *Needs:* §6.4, §0.5.
+(Buch, §3; Fulton, *Young Tableaux*, §§9–10). *Needs:* §6.4; SchurWeyl
+gap:stable-symmetric-ring.
 
 **Checks.**
 
@@ -1996,8 +1933,9 @@ honeycombs of §4.1 for γ = (2,0) and (1,1).
 
 ### Dependencies
 
-Layers 0 (§0.5), 2 (§2.3), 4 (§4.2) and 5 (§§5.1, 5.4); TopologicalKTheory T1
-and T1.5; ModularCurves 0G; Mathlib `Module.Grassmannian`; LieGroups Layer 8;
+Layers 2 (§2.3), 4 (§4.2) and 5 (§§5.1, 5.4); SchurWeyl
+gap:stable-symmetric-ring; TopologicalKTheory T1 and T1.5; Mathlib
+`Module.Grassmannian`; LieGroups Layer 8;
 AlgebraicTopology Stages 4–6; CharacteristicClasses C2–C3;
 ComplexKahlerGeometry K7; DifferentialGeometry 10.2; Buch §§1–3; Fulton,
 *Young Tableaux*, §§9–10.
@@ -2013,7 +1951,7 @@ symmetric linear operator on the **Euclidean inner-product** coordinate space
 `eigenvalues₀_antitone`, `charpoly_eq`, trace/eigenvalue and roots APIs;
 reindex Fin(card(Fin N)) to Fin N. Prove the sorted-spectrum equality iff the
 characteristic polynomial is the product of the corresponding linear factors,
-retaining multiplicities (`hasSpectrum_iff_charpoly`). Consume the
+retaining multiplicities. Consume the
 PiLp/matrix conversion and trace = sum and determinant = product, unitary
 conjugacy classification, diagonal realization, direct sums as sorted
 multiset union, negation as reverse-negation and scalar shifts. Consume
@@ -2026,9 +1964,8 @@ normalizations separately. *Needs:* Mathlib `Matrix.IsHermitian.eigenvalues₀`,
 `eigenvalues₀_antitone`, `charpoly_eq`, `isSymmetric_toEuclideanLin_iff`;
 PolarDecomposition PD-A50–A53.
 
-- `hasSpectrum_iff_charpoly`: α is the sorted spectrum of A exactly when A is
-  Hermitian, α is antitone and the characteristic polynomial of A is
-  `∏ (X − α_i)`.
+- α is the sorted spectrum of A exactly when A is Hermitian, α is antitone
+  and the characteristic polynomial of A is `∏ (X − α_i)`.
 
 **Checks.**
 
@@ -2232,7 +2169,7 @@ numerical construction with proved error control is additionally supplied
 
 Rank 2 throughout: Weyl's inequalities are the three Horn inequalities of
 N = 2, the triple (1,0), (1,0), (1,−3) is infeasible, and (1,0), (1,0),
-(−1/2,−3/2) is feasible with the 45° rotation witness.
+(−1/2,−3/2) is feasible with the 60° rotation witness.
 
 ### Dependencies
 
@@ -2275,16 +2212,16 @@ SchubertGeometry S4.1.
 
 ### 8.2 Tableau and Gelfand–Tsetlin crystals and the Schützenberger involution
 
-Equip native `TauCeti.BoundedSSYT n λ` and Layer 0's skew tableau carrier
-with signature operators. Own coplacticity (slides commute with these
+Equip native `TauCeti.BoundedSSYT n λ` and the skew tableau carrier SchurWeyl
+provides (gap:skew-lr-tableaux) with signature operators. Own coplacticity (slides commute with these
 operators), the semistandard Schützenberger involution ξ_λ : B_λ → B_λ with
 weight **reversal** w₀wt, e_i ↔ f_(n−i) in one-indexed notation, and
 involutivity. Pin the Bender–Knuth composition `s₁(s₂s₁)⋯(s_(n−1)⋯s₁)` and
 prove its equality with evacuation/rectification. This is distinct from the
 dual representation weight −w₀wt; signed determinant shifts add the same
-constant on both sides. Build its straight/skew comparisons; §0.4's
-standard-tableau evacuation is a comparison, not the definition of the
-semistandard operation. Prove preservation, string-length formulas, endpoint
+constant on both sides. Build its straight/skew comparisons; SchurWeyl's
+standard-tableau evacuation (gap:standard-evacuation) is a comparison, not the
+definition of the semistandard operation. Prove preservation, string-length formulas, endpoint
 content/weight identities, highest tableau, connectivity and that raising
 terminates. Consume native `SemistandardYoungTableau.benderKnuth`,
 `benderKnuth_involutive` and `content_benderKnuth`. Transport to native
@@ -2295,8 +2232,8 @@ symmetry involution; it is not falsely identified with a Weyl-group action
 satisfying braid. Include determinant-shift crystals by the native normalized
 polynomial part, adding the constant weight without introducing infinite
 tableaux. Use the Japanese-signature tableau operators transported through
-§8.1's factor-reversal equivalence (Henriques–Kamnitzer §5). *Needs:* §8.1,
-§0.2, §0.4; Tau Ceti `TauCeti.BoundedSSYT`, `SemistandardYoungTableau.benderKnuth`,
+§8.1's factor-reversal equivalence (Henriques–Kamnitzer §5). *Needs:* §8.1;
+SchurWeyl gap:skew-lr-tableaux, gap:standard-evacuation; Tau Ceti `TauCeti.BoundedSSYT`, `SemistandardYoungTableau.benderKnuth`,
 `benderKnuth_involutive`, `content_benderKnuth`, `TauCeti.gtPatternEquivSSYT`;
 ClassicalGroups Layer 6.
 
@@ -2321,7 +2258,7 @@ ClassicalGroups Layer 6.
 ### 8.3 Coordinate paths and the comparison with the generic carrier
 
 Specialize SchubertGeometry S4.1–2 to the type-A coordinate paths below.
-Define `RationalPath n` as a finite presentation: a number of segments, a
+Define the rational path presentation: a number of segments, a
 strictly increasing rational time sequence from 0 to 1 and rational vertex
 positions in ℚⁿ starting at 0 and ending at an integral point. Construct its
 coordinate evaluation and normalization. Own the comparison maps between the
@@ -2518,8 +2455,8 @@ tensor products of §8.5.
 
 ### Dependencies
 
-Layers 0 (§§0.2, 0.4) and 2 (§§2.1–2.3); SchubertGeometry S4.1–5; RootSystems
-Layer 3; Mathlib `CoxeterSystem`; Tau Ceti `TauCeti.BoundedSSYT`,
+Layer 2 (§§2.1–2.3); SchurWeyl gap:skew-lr-tableaux and
+gap:standard-evacuation; SchubertGeometry S4.1–5; RootSystems Layer 3; Mathlib `CoxeterSystem`; Tau Ceti `TauCeti.BoundedSSYT`,
 `SemistandardYoungTableau.benderKnuth`, `TauCeti.gtPatternEquivSSYT`;
 ClassicalGroups Layer 6; Henriques–Kamnitzer §5; Littelmann §§1–7.
 
@@ -2556,7 +2493,8 @@ transverse family (Henriques–Kamnitzer §4). *Needs:* §3.1, §3.2, §1.1.
 
 ### 9.2 Slides, the Schützenberger commutor and coherence
 
-Prove recurrence slices equal the successive §0.2 jeu-de-taquin slides and
+Prove recurrence slices equal the successive jeu-de-taquin slides of SchurWeyl
+(gap:skew-lr-tableaux) and
 recording/rectification data (Henriques–Kamnitzer §7, Lemmas 7.10–7.14), with
 Layer 8's coplacticity, and prove the quarter-octahedron map equals the
 semistandard Schützenberger crystal commutor (Henriques–Kamnitzer, Theorem
@@ -2567,7 +2505,8 @@ coboundary/cactus identities. No earlier commutor-involution theorem is
 assumed. Give Henriques–Kamnitzer §6's rank-3 Yang–Baxter counterexample:
 this commutor does not satisfy the symmetric-monoidal hexagon or braid law.
 The basic Layer 3 excavation/ring theorem remains independent of this
-coherent comparison. *Needs:* §9.1, §8.5, §8.2, §0.2, §3.2.
+coherent comparison. *Needs:* §9.1, §8.5, §8.2, §3.2; SchurWeyl
+gap:skew-lr-tableaux.
 
 **Checks.**
 
@@ -2580,9 +2519,26 @@ coherent comparison. *Needs:* §9.1, §8.5, §8.2, §0.2, §3.2.
   `σ_(A,B⊗C) ∘ (1_A ⊗ σ_(B,C)) = σ_(A⊗B,C) ∘ (σ_(A,B) ⊗ 1_C)`, with the
   associator inserted, is what the cactus comparison proves; the braid
   relation is not asserted.
-- Rank 3: the Yang–Baxter equation fails for the commutor on the triple
-  tensor product of the standard representation, as computed in
-  Henriques–Kamnitzer §6; a braided structure would make it hold.
+- Rank 3, Henriques–Kamnitzer §6's counterexample: for the gl₃ weights
+  λ = (1,0,−1), µ = (0,0,−2), ν = (2,0,−1), ρ = (0,0,−1) and the pair of hives
+  (M,N) displayed there, representing an element of
+  `(L(λ) ⊗ (L(µ) ⊗ L(ν)))_ρ`, the two composites of associators and commutors
+  in the Yang–Baxter equation send (M,N) to different pairs of hives (their
+  bottom rows differ), so the equation fails; a braided structure would make
+  the two composites agree.
+- Negative control, rank 3: on the triple tensor product of the standard
+  representation `V = V_(1,0,0)` the Yang–Baxter equation holds, because
+  `V ⊗ V = V_(2,0,0) ⊕ V_(1,1,0)` is multiplicity-free, so the commutor
+  `σ_(V,V)`, a crystal automorphism of `B ⊗ B`, is the identity on all nine
+  elements and both composites are the identity on the 27 elements of
+  `B^(⊗3)`; every rank-3 hive fibre with two boundaries (1,0,0) has at most
+  one element, so the hive commutor is the identity there too. The failure
+  needs the non-symmetric-power factors of the example above
+  (Henriques–Kamnitzer §6, after equation (17)).
+- Jeu de taquin as the recurrence slices: on the skew shape (2,1)/(1),
+  entry 1 in the top box and 0 in the bottom box rectifies to the row `0 1`,
+  and 0 on top with 1 below rectifies to the column of shape (1,1); a slide
+  rule moving the larger entry into the hole would exchange the two answers.
 
 ### Examples
 
@@ -2591,7 +2547,8 @@ example for the failure of Yang–Baxter.
 
 ### Dependencies
 
-Layers 0 (§0.2), 1 (§1.1), 3 and 8 (§§8.2, 8.5); Henriques–Kamnitzer §§4–7.
+Layers 1 (§1.1), 3 and 8 (§§8.2, 8.5); SchurWeyl gap:skew-lr-tableaux;
+Henriques–Kamnitzer §§4–7.
 
 ## Downstream consumers
 
@@ -2601,7 +2558,8 @@ Layers 0 (§0.2), 1 (§1.1), 3 and 8 (§§8.2, 8.5); Henriques–Kamnitzer §§4
   GL₂, SU₂ and A₂ character examples; nothing of LieHighestWeight is consumed
   here.
 - SchubertGeometry S9.5 restates the comparison maps of §8.3 between the
-  type-A coordinate paths, `RationalPath`, the straight-path component, the
+  type-A coordinate paths, the rational path presentation, the
+  straight-path component, the
   column paths and the row/semistandard-tableau paths on the one hand and its
   generic S4.1–5 carrier on the other; SchubertGeometry S7.3, S8.5 and S9.1
   cite Layer 6's transverse Grassmannian point counts, puzzle rule and
@@ -2682,8 +2640,10 @@ the source of record for it.
 - Knutson, A., Tao, T., *The honeycomb model of GLₙ(ℂ) tensor products I:
   proof of the saturation conjecture*, J. Amer. Math. Soc. 12 (1999), 1055–1090
   (arXiv math/9807160): §2 configurations and honeycombs, §3 diagrams and
-  reconstruction, §4 overlay and PRV, §5 largest lifts, §6 the saturation
-  proof (Corollary to Theorem 2), Appendix 2 the hive model (Theorem 4) and
+  reconstruction, §4 overlay and PRV (the weak form, with the sum already
+  dominant), §5 largest lifts (Theorem 2), §6 the saturation proof (Theorem 3
+  and its Corollary), Appendix 1 the honeycomb count of Littlewood–Richardson
+  coefficients (Theorem 4), Appendix 2 the hive model (Proposition 4) and
   figure 18's nonintegral vertex. Layers 1 and 4 build its finite-polyhedron
   and deformation prerequisites.
 - Knutson, A., Tao, T., Woodward, C., *The honeycomb model of GLₙ(ℂ) tensor
@@ -2714,8 +2674,9 @@ the source of record for it.
   cited AlgebraicTopology, CharacteristicClasses and DifferentialGeometry
   suppliers.
 - Fulton, W., *Young Tableaux*, London Math. Soc. Student Texts 35,
-  Cambridge University Press, 1997: Chapters 1–3 and §5.1–5.3 for Layer 0's
-  tableau and Littlewood–Richardson theory, Appendix A for evacuation,
+  Cambridge University Press, 1997: Chapters 1–3 and §5.1–5.3 for the
+  tableau and Littlewood–Richardson theory asked of SchurWeyl, Appendix A for
+  evacuation,
   §§9–10 for the finite Grassmannian cell/cycle, incidence and integral
   Schubert ring proofs. Cited by locator; the book is not available online.
 - Littelmann, P., *Paths and root operators in representation theory*, Ann.
@@ -2738,9 +2699,10 @@ the source of record for it.
 - De Concini, C., Procesi, C., Vergne, M., *Box splines and the equivariant
   index theorem*, J. Inst. Math. Jussieu 12 (2013), 503–544 (arXiv
   1012.1049): §§1–3 for the distribution/polarization conventions.
-- Lenz, M., *Interpolation, box splines, and lattice points in zonotopes*,
-  Int. Math. Res. Not. IMRN 2014, 5697–5712 (arXiv 1305.2784): §2.2 for the
-  directional-boundary conventions.
+- Lenz, M., *Lattice points in polytopes, box splines, and Todd operators*,
+  Int. Math. Res. Not. IMRN 2015 (arXiv 1305.2784): §2.2 (differentiating
+  piecewise polynomial functions and limits) for the directional-boundary
+  conventions.
 - Beck, M., Haase, C., Sottile, F., *Formulas of Brion, Lawrence, and
   Varchenko on rational generating functions for cones*, Math. Intelligencer
   31 (2009), 9–17 (arXiv math/0506466): the cone-valuation conventions of
