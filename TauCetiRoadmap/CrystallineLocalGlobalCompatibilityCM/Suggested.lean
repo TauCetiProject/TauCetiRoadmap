@@ -4,8 +4,8 @@ import Mathlib
 # Crystalline local–global compatibility over CM fields: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. The statements here suggest Lean forms for particular milestones;
-discharging them finishes neither a layer nor the roadmap.
+`README.md`. It states the roadmap’s headline theorems against the pinned APIs;
+discharging these signatures finishes neither a layer nor the roadmap.
 
 The finite-image reducibility theorem of §9.2 is stated on Mathlib's matrix groups,
 projective quotient and submodules. It applies over every algebraically closed field
@@ -14,16 +14,20 @@ representation, and includes the determinant-order-three tetrahedral exception.
 
 The arithmetic headline statements require objects absent from the pinned libraries:
 
+* CL.0’s arithmetic derived-Hecke determinant adapter needs arithmetic cohomology
+  and its derived Hecke image, as well as continuous Galois determinants.
 * CL.0's integral evaluation and lattice stability need integral dual Weyl modules;
   its positive-parahoric Hecke isomorphism needs the local monoid Hecke algebras.
 * CL.1–CL.3's derived P-ordinary comparisons, weight independence, Bruhat
   subquotients and deep unipotent splitting need smooth positive-monoid derived
-  categories, their ordinary functors and the arithmetic coefficient towers.
+  categories, their ordinary functors and the arithmetic coefficient towers; the
+  general perfect-complex deep-restriction comparison needs the derived smooth
+  category and its restriction and constant-action functors.
 * CL.4's Newton–Hodge equality and crystalline Galois blocks need semistable
   Galois representations, filtered (φ,N)-modules and unitary automorphic representations.
 * CL.5–CL.6's completed boundary summand and integral/torsion degree shifting need
   completed arithmetic cohomology, its boundary coefficients and its Hecke actions.
-* CL.7's local crystalline lifts, deformation-ring factorizations and totally real
+* CL.7's local crystalline lifts, deformation-ring factorizations and residual-generic CM and totally real
   spherical crystallinity need crystalline/semistable-ordinary representation
   predicates, local deformation rings and attached automorphic Galois representations.
 * CL.8's component propagation needs common-residual patched perfect complexes
@@ -33,7 +37,7 @@ The arithmetic headline statements require objects absent from the pinned librar
   those arithmetic objects, Barsotti–Tate local conditions and Taylor–Wiles
   deformation problems.
 
-These headline signatures are deferred until their mathematical objects are available.
+These headline theorems are not statable at the pins because these carriers are missing.
 Abstract representations, derived categories and algebra-homomorphism ranges alone
 supply none of the missing arithmetic constructions.
 -/

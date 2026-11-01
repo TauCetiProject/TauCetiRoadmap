@@ -2,7 +2,7 @@
 
 **Summary.** This roadmap develops P-ordinary degree shifting, crystalline local–global compatibility and potentially Barsotti–Tate automorphy lifting over imaginary CM fields. It extends **PotentialAutomorphyInfrastructure, Layers 0–5** beyond its Fontaine–Laffaille and Borel-ordinary results. The first endpoint controls the local deformation conditions of Galois representations valued in integral and torsion Hecke algebras. The second applies that control to two-dimensional automorphy lifting. The crystalline argument allows small residue characteristic, ramification at `p` and regular weights outside a Fontaine–Laffaille interval.
 
-The construction runs through integral Siegel parahorics and their rescaled coefficient actions, derived P-ordinary control, weight independence, Bruhat subquotients, a localized completed-boundary summand, and degree shifting into unitary middle degree. Characteristic-zero unitary eigensystems then supply crystalline Galois blocks, using AG2.6 coefficient-prime comparison; its `allCMCrystallineIwahoriAdmissibility` already supplies spherical crystallinity over CM fields. A separating twist and compatible constituent reconstruction carry the local information to torsion Hecke systems. For the lifting application, a pair of patched complexes with the same residual fiber propagates automorphic support between deformation components.
+The construction runs through integral Siegel parahorics and their rescaled coefficient actions, derived P-ordinary control, weight independence, Bruhat subquotients, a localized completed-boundary summand, and degree shifting into unitary middle degree. Characteristic-zero unitary eigensystems then supply crystalline Galois blocks, using AG2.6’s polarized Iwahori comparison on the transferred constituents. The CM and totally real characteristic-zero application with irreducible, decomposed-generic residual representation follows from the integral deformation factorization. A separating twist and compatible constituent reconstruction carry the local information to torsion Hecke systems. For the lifting application, a pair of patched complexes with the same residual fiber propagates automorphic support between deformation components.
 
 The potentially Barsotti–Tate endpoint has the explicit restriction
 
@@ -22,9 +22,9 @@ The characteristic-zero Young-symmetrizer construction [`TauCeti.YoungTableau.we
 
 Arithmetic locally symmetric spaces, their Borel–Serre compactifications, finite-level local systems, cochain models and finite-cover descent belong to **ArithmeticLocallySymmetricSpaces, Layers ALS.1–ALS.6**. **CompletedCohomologyPartII, Layers 0–2, 4, 6–7** owns assembly of those objects into arithmetic towers, their smooth level colimits, completion, completed equivariant chain models, continuous descent and the completed boundary triangle. Smooth representation categories, general induction, derived invariants and local Hecke algebras belong to **SmoothRepresentationsOfLocalGroups, SR.0, SR.0d, SR.2 and SR.4**. Continuous profinite cohomology belongs to Tau Ceti's **ProfiniteCohomology, Layers 10–11** roadmap. General Koszul complexes belong to **DerivedModuleAlgebra, §0.K.1**; abstract derived patching and length arguments belong to **DeformationAndDerivedPatchingAlgebra, Layers 8–9**. These objects enter here through their supplier interfaces.
 
-**AutomorphicGaloisRepresentationsPartII, AG2.2–AG2.7** owns the characteristic-zero GL constituent representations and their local comparisons; CL.4.4a constructs their unitary transfer assembly and local identification. **IgusaVarietiesAndTorsionConcentration, IG.7** owns the middle-degree concentration result. **IntegralHeckeAndGaloisDeterminants, Layers IHG.1–IHG.5** owns determinants, uniform nilpotent Galois interpolation and compatible local reconstruction. **PadicHodgeTheory, §§3.2–3.6 and 5.3–5.4**, **LocalGaloisDeformationRings, §§3.13–3.14, 4.14–4.15 and 6.6** and **GlobalGaloisDeformations, Layers R04.3 and R04.5** own the p-adic Hodge-theoretic categories, local lifting rings, deformation functors and conditional Taylor–Wiles selection. CL.9.3 proves the CM small-image detection, prime selection and relative presentation needed here. This roadmap applies those theories with the coefficient, weight, determinant and dimension conventions fixed here.
+**AutomorphicGaloisRepresentationsPartII, AG2.2–AG2.7** owns the characteristic-zero GL constituent representations and their local comparisons; CL.4.4a constructs their unitary transfer assembly and local identification. **IgusaVarietiesAndTorsionConcentration, IG.7** owns the middle-degree concentration result. **IntegralHeckeAndGaloisDeterminants, Layers IHG.1–IHG.5** owns algebraic determinant descent, nilpotence arithmetic and compatible local reconstruction. **TorsionCohomologyInfrastructure, §§4.3–4.6** owns arithmetic interpolation with a dimension-dependent uniform exponent on its finite-cohomology and closed joint Hecke images; §0.4a here owns the admissible-bad-set derived-image adapter and §8.6 the PGL₂ comparison. **PadicHodgeTheory, §§3.2–3.6 and 5.3–5.4**, **LocalGaloisDeformationRings, §§3.13–3.14, 4.14–4.15 and 6.6** and **GlobalGaloisDeformations, Layers R04.3 and R04.5** own the p-adic Hodge-theoretic categories, local lifting rings, deformation functors and conditional Taylor–Wiles selection. CL.9.3 proves the CM small-image detection, prime selection and relative presentation needed here. This roadmap applies those theories with the coefficient, weight, determinant and dimension conventions fixed here.
 
-Solvable CM preparation uses **PotentialModularityAndCompatibleSystems, §§2.12–2.16**, and **PotentialAutomorphyInfrastructure, §2.5**; automorphic base change/descent uses **PotentialAutomorphyInfrastructure, §2.3**. This roadmap owns CN Theorem 4.2.15/Corollary 4.2.16, Propositions 5.5.3 and 5.6.1–5.6.3, Lemma 5.6.4 and the qualified lifting endpoint of §9.12. **EllipticCurveModularityImaginaryQuadratic** is a downstream consumer of these integral local deformation, non-neat perfectness and prepared patching exports; it owns independent AKT seeds and elliptic geometry. No elliptic-curve geometry is a target here. For characteristic-zero CM spherical crystallinity, reuse **AutomorphicGaloisRepresentationsPartII, AG2.6**, `allCMCrystallineIwahoriAdmissibility`; §7.7 owns the remaining totally real specialization.
+Solvable CM preparation uses **PotentialModularityAndCompatibleSystems, §§2.12–2.16**, and **PotentialAutomorphyInfrastructure, §2.5**; automorphic base change/descent uses **PotentialAutomorphyInfrastructure, §2.3**. This roadmap owns CN Theorem 4.2.15/Corollary 4.2.16, Propositions 5.5.3 and 5.6.1–5.6.3, Lemma 5.6.4 and the qualified lifting endpoint of §9.12. **EllipticCurveModularityImaginaryQuadratic** is a downstream consumer of these integral local deformation, non-neat perfectness and prepared patching exports; it owns independent AKT seeds and elliptic geometry. No elliptic-curve geometry is a target here. The general CM spherical export of **AutomorphicGaloisRepresentationsPartII, AG2.6**, `allCMCrystallineIwahoriAdmissibility`, retains its rank-dependent irreducibility input. Section 7.7 owns the CM and totally real residual-generic specialization obtained from §7.5, without that input. Section 3.4 owns the perfect-complex deep-restriction theorem; SR.0d supplies its categorical framework.
 
 Each layer lists the precise supplier section labels it consumes. An interface described under “Exact supplier contracts” is part of that supplier's mathematics; its use does not authorize a second definition or a weaker substitute here. In particular, an abstract algebraic representation does not supply smoothness, an ordinary derived category does not supply arithmetic towers, and algebraic corner reconstruction requires the actual local corner and generic-fiber identifications, together with continuity for its arithmetic application.
 
@@ -74,7 +74,7 @@ The following exports fix the precise generality of the imported mathematics. Th
 
 **SmoothRepresentationsOfLocalGroups:SR.0** and **SR.0d** (used in CL.0, CL.1, CL.3). The abelian category of smooth representations of the locally profinite groups used here, over `O/ϖ^m`; continuous compact-open invariants, enough injectives, restriction preserving injectives in the stated group cases, and their bounded-below derived functors. Algebraic Representation is only a carrier. Include the coefficient-injective embedding into smooth coinduction `Ind₁^{P(L)}I` and the acyclicity test on these objects used via Emerton Lemma 2.1.10 in CN Lemma 2.3.6.
 
-The group part is supplied by **SR.0** and **SR.0d.1**: `SmoothRep`, `SmoothRep.instAbelian`, `SmoothRep.instIsGrothendieckAbelian` and `SmoothRep.res_preserves_injective`. Their group hypotheses must be retained. For the positive open monoids `Δ̃, Δ⁺` and `Δ`, use **PotentialAutomorphyInfrastructure, Layers 0–5**, §3.2 `SmoothMonoidModules`: smooth vectors are right adjoint to the exact inclusion into all monoid modules, the smooth category is abelian with enough injectives, and restriction to an open or compact subgroup preserves injectives. Compare the existing `TauCeti.SmoothDiscreteTopRep` open-stabilizer condition with this arithmetic smoothness condition before using its carrier. A carrier and preservation of smoothness alone do not supply the derived comparison.
+The group part is supplied by **SR.0** and **SR.0d.1**: `SmoothRep`, `SmoothRep.grothendieck`, and SR.0d.1’s abelian-category and restriction-preserves-injectives targets. Their group hypotheses must be retained. For the positive open monoids `Δ̃, Δ⁺` and `Δ`, use **PotentialAutomorphyInfrastructure, Layers 0–5**, §3.2 `SmoothMonoidModules`: smooth vectors are right adjoint to the exact inclusion into all monoid modules, the smooth category is abelian with enough injectives, and restriction to an open or compact subgroup preserves injectives. Compare the existing `TauCeti.SmoothDiscreteTopRep` open-stabilizer condition with this arithmetic smoothness condition before using its carrier. A carrier and preservation of smoothness alone do not supply the derived comparison.
 
 These interfaces are used in CN, §2.1.13, p.19; §2.2.2, Definition 2.2.3, pp.26–27; Lemma 2.3.6, pp.36–37.
 
@@ -102,11 +102,19 @@ These interfaces are used in CN, Theorem 3.1.2, pp.43–44.
 
 These interfaces are used in CN, Theorem 3.1.2, pp.43–44.
 
-**AutomorphicGaloisRepresentationsPartII:AG2.4** (used in CL.7) supplies HLTT existence for unpolarized regular algebraic cuspidal `GL_n` over CM and totally real fields. For the unitary representation in CL.4, use **AG2.2** `DiscreteAssembly` and **AG2.3**, “Arbitrary regular conjugate-self-dual existence”, on every cuspidal constituent of the discrete transfer. CL.4.4a constructs the characteristic-zero unitary comparison, including the algebraic twists, full rank and labelled weights. Its local identification uses ACC+ Theorem 2.3.3(2) under the hypothesis that the rational prime `p` splits in an imaginary quadratic subfield of `F`; splitting only in `F/F⁺` does not replace this hypothesis. The transfer can have several discrete constituents.
+**AutomorphicGaloisRepresentationsPartII:AG2.4** (used in CL.7) supplies HLTT existence for unpolarized regular algebraic cuspidal `GL_n` over CM and totally real fields. For the unitary representation in CL.4, use **AG2.2** `DiscreteAssembly` and **AG2.3**, “Arbitrary regular conjugate-self-dual existence”, on every cuspidal constituent of the discrete transfer. CL.4.4a constructs the characteristic-zero unitary comparison, including the algebraic twists, full rank and labelled weights, with the unconditional polarized Iwahori branch at the selected parahoric places. Its local identification at the parahoric places uses ACC+ Theorem 2.3.3(c) under the hypothesis that the rational prime `p` splits in an imaginary quadratic subfield of `F`; splitting only in `F/F⁺` does not replace this hypothesis. The transfer can have several discrete constituents.
 
 These interfaces are used in CN, Theorem 3.1.2, pp.43–44.
 
-**AutomorphicGaloisRepresentationsPartII:AG2.6–AG2.7** (used in CL.4, CL.7). For every regular algebraic cuspidal representation over a CM field, `allCMCoefficientPrimeComparison` supplies de Rhamness, labelled Hodge weights and semisimplified Weil–Deligne comparison at `p`; `nonselfdualCoefficientPrimeMonodromyBound` supplies the monodromy upper bound; `allCMCrystallineIwahoriAdmissibility` supplies spherical crystallinity and Iwahori semistability. Use their arithmetic wrapper `NonselfdualComparisonExport` from AG2.7, transporting labelled weights to `HT(ε_p⁻¹)=+1`. These exports require no residual irreducibility or decomposed genericity. CL.4.4a applies them to the cuspidal constituents and assembles their special blocks and monodromy bounds; they do not directly assert local comparison for a unitary representation. **AG2.5** separately supplies away-p monodromy/type bounds for the `χ_v` and unipotent deformation conditions in CN Propositions 5.6.2–3; unramified traces alone do not give full monodromy equality.
+**AutomorphicGaloisRepresentationsPartII:AG2.6**, “Polarized admissibility at the coefficient prime”, supplies `polarizedCoefficientPrimeAdmissibility`: for regular algebraic polarized cuspidal GL representations, de Rhamness and labelled weights at every p-place, crystallinity at spherical places, and semistability with full Frobenius-semisimple WD comparison at Iwahori places. This branch has no extremely-regular irreducibility input. Section 4.4a uses it on the polarized constituents at the selected parahoric places, after proving that each local constituent is Iwahori-spherical (BLGGT, Theorem 2.1.1(3)–(4), pp.33–34).
+
+The distinct **AG2.6–AG2.7** exports `allCMCoefficientPrimeComparison`, `nonselfdualCoefficientPrimeMonodromyBound`, `allCMCrystallineIwahoriAdmissibility` and `NonselfdualComparisonExport` require, in rank `r≥2`, `ExtremelyRegularIrreducibility m` for every `2≤m≤2r`; rank one is unconditional. Here that proposition means that every extremely regular conjugate-self-dual cuspidal GL_m representation over every CM field has an irreducible attached member at some coefficient prime. Neither residual irreducibility of a particular representation nor decomposed genericity supplies it. These conditional all-CM exports are not inputs to §§4.5, 7.4–7.7 or 9.11. **AG2.5** supplies the separate away-p monodromy/type bounds used in CN Propositions 5.6.2–3.
+
+**Checks.**
+
+- The all-CM rank-one branch requires no such proposition; ranks two and four require respectively the full lists `m=2,3,4` and `m=2,3,4,5,6,7,8`.
+- A polarized Iwahori-spherical constituent of rank four uses the unconditional polarized branch, with `HT(ε_p⁻¹)=+1`; an arbitrary non-Iwahori constituent cannot use its full WD conclusion.
+- For two Frobenius eigenvalues `1,q`, the pairs with `N=0` and with `N(e₂)=e₁` have the same semisimple Weil part but monodromy ranks zero and one. Semisimple comparison alone cannot supply the Iwahori monodromy comparison.
 
 These interfaces are used in CN, Theorem 3.1.2, pp.43–44.
 
@@ -114,9 +122,11 @@ These interfaces are used in CN, Theorem 3.1.2, pp.43–44.
 
 These interfaces are used in CN, Corollary 4.1.9, p.57; CN, Lemma 4.2.3, p.60.
 
-**IntegralHeckeAndGaloisDeterminants:IHG.5** (used in CL.0, CL.7, CL.8). CN Theorem 2.1.20 (residual), Theorem 2.1.24 (integral uniform nilpotent exponent), and Proposition 5.5.2 uniform-exponent Galois representations for integral derived Hecke images and `O/ϖ^m` cohomology. Reconstruction of a representation takes place in the idempotent local factor whose residual representation is absolutely irreducible. `N` depends only on n,[F:Q], not `m`, weights or levels. Include finite-level idempotent localization and inverse-limit/degree assembly preserving Frobenius characteristic coefficients; arithmetic/geometric Frobenius conversion is explicit. Existing IHG tower algebra alone does not assert this arithmetic export.
+**IntegralHeckeAndGaloisDeterminants, §§5.1–5.3** supplies descent of an already constructed continuous determinant, multiplication of error exponents and reconstruction over a complete local quotient with absolutely irreducible residual representation. Its Layer 2 supplies the bounded-complex ghost ideal estimate. These are algebraic inputs, not arithmetic existence theorems.
 
-These interfaces are used in CN, Theorem 2.1.24, p.23; CN, Proposition 5.5.2, pp.80–81.
+**PotentialAutomorphyInfrastructure, §0.7b** supplies residual GL representations for finite smooth coefficients with the geometric Frobenius polynomial, using its §0.7a admissible-bad-set comparison. **TorsionCohomologyInfrastructure, §§4.3–4.6** supplies arithmetic determinants with `N=N(n,[F:Q])` chosen before coefficient depth, weight, degree and level, on its finite cohomology images and their closed joint image. Its §4.4 glues the independent finite-depth error ideals in a product using this same N. Section 0.4a constructs the derived-image and admissible-bad-set adapter for CN Theorem 2.1.24; §8.6 constructs the PGL₂ adaptation of CN Proposition 5.5.2. These adapters retain the local idempotent factor, continuity and every Frobenius characteristic coefficient.
+
+These interfaces are used in CN, Theorems 2.1.20 and 2.1.24, pp.22–23; Proposition 5.5.2, pp.80–81.
 
 **DeformationAndDerivedPatchingAlgebra, §§9.2, 9.4–9.5** (used in CL.8). ACC+ Lemma 6.3.7 localization and derived Euler-length identity for perfect `S∞-complexes` with finite derived Hecke action modulo nilpotents, along `ϖ` and one-dimensional points, plus CG Lemma 6.2 amplitude/depth inequality. No strict `T∞-module` model is assumed. CL.8.3 proves CN Proposition 5.4.2 from these algebraic tools and §8.2's pairwise common-component relation. It does not import the parent GL_n arithmetic support theorem or DP §9.6's globally unique auxiliary component.
 
@@ -150,9 +160,7 @@ These interfaces are used in CN, Lemma 2.1.12, pp.17–18.
 
 These interfaces are used in CN, §2.3.16, pp.41–42; Lemma 2.3.17 on p.42.
 
-**SmoothRepresentationsOfLocalGroups:SR.0d** (used in CL.3). For a profinite `K` with cofinal congruence `K_M`, perfect underlying R-complexes in `D⁺_sm(K,R)` become isomorphic, after sufficiently deep restriction, to the constant action on the underlying complex. Prove `colim_M Hom(B_M,A_M)≅Hom(B,A)` using dualizability, derived tensor/invariants adjunction and smoothness. This is the general categorical step of CN Lemma 2.3.17, not a blanket formality statement for all `U`.
-
-These interfaces are used in CN, §2.3.16, pp.41–42; Lemma 2.3.17 on p.42.
+**SmoothRepresentationsOfLocalGroups:SR.0d.1–SR.0d.2** (used in CL.3) supplies the smooth derived category, exact restriction and forgetful functors, derived invariants and tensor/invariants adjunction. Section 3.4 proves the additional Hom-colimit comparison and deep trivialization of perfect underlying complexes, using these inputs and smoothness (CN, Lemma 2.3.17, equation (2.3.7), p.42).
 
 **ArithmeticLocallySymmetricSpaces:ALS.6.1–ALS.6.3** (used in CL.8, CL.9). Supply finite-cover descent, Hochschild–Serre and lowest-degree control. Group-ring perfectness in ALS.6.1 requires neat base level. CL.8.7 proves the additional AKT Theorem 5.11/Proposition 5.18 non-neat localized vanishing and minimal-complex perfectness argument; CL.9.6 proves perfect `O[Δ_Q]` models and derived augmentation at the non-neat p-covers.
 
@@ -299,7 +307,21 @@ Let `m ⊂ T^T(K,λ)` be as in CN, Theorem 2.1.20 with `k =` k(m), and `v` a p-a
 
 (CN, Lemma 2.1.21, pp.22–23.)
 
-*Needs:* **IntegralHeckeAndGaloisDeterminants:IHG.5**; **IntegralHeckeAndGaloisDeterminants:IHG.3** (gln satake coefficients); **ArithmeticLocallySymmetricSpaces:ALS.3** (hecke operator formula); **ArithmeticLocallySymmetricSpaces:ALS.3**.
+*Needs:* **PotentialAutomorphyInfrastructure, §0.7b** (residual GL attachment); **IntegralHeckeAndGaloisDeterminants:IHG.3** (gln satake coefficients); **ArithmeticLocallySymmetricSpaces:ALS.3** (hecke operator formula); **ArithmeticLocallySymmetricSpaces:ALS.3**.
+
+### 0.4a Arithmetic determinants on derived Hecke images
+
+Under Convention 5, let K be good and hyperspecial outside T, let λ be dominant, and put C=RΓ(X_K,V_λ) or RΓ(X_K,V_λ/ϖ^m), with `m≥1`. Let A be the image of the tame Hecke algebra in End(C) in the derived coefficient category, and let 𝔪 be a supported maximal ideal with absolutely irreducible residual representation. Prove that there is `N=N(n,[F:Q])≥1`, chosen before K, λ, m and 𝔪, such that `A_𝔪` has an ideal J with `J^N=0` and a continuous representation `G_{F,T}→GL_n(A_𝔪/J)` whose geometric Frobenius polynomial is P_v at every `v∉T` (CN, Theorem 2.1.24, p.23).
+
+Construct the comparison from TorsionCohomologyInfrastructure §§4.3–4.6’s arithmetic determinants, retaining the same polynomial conversion as PotentialAutomorphyInfrastructure §0.7b. Extend its admissible-bad-set comparison from residual coefficients to the simultaneous finite-depth Hecke quotients, proving the annihilator containment with an exponent bounded only by n and [F:Q]; retain all v outside T, rather than replacing T by a rationally saturated set in the conclusion. This integral comparison is a target here; the residual comparison alone does not prove it. Glue in the closed joint image over coefficient depths and degrees with the arithmetic bound fixed first, then compare with the image on the bounded derived complex. If the kernel of the map from the derived image to the total-cohomology image has exponent b and the latter error has exponent a, its inverse image has exponent at most ab; the cohomological amplitude bounds b in terms of n and [F:Q]. Apply IHG §§5.1–5.3 only after these arithmetic comparisons. Additional commuting Hecke operators and ordinary idempotents use coefficient extension and quotient of this representation, preserving the exponent.
+
+**Checks.**
+
+- In `Z/3^(m+1)`, the ideal (3) has index m+1: at m=1 its square is zero, whereas at m=2 its square is (9)≠0 and its cube is zero. In Z₃ no power of (3) is zero. Thus unrelated finite-depth bounds cannot justify an integral nilpotent ideal.
+- In `F₃[e]/(e⁴)`, the kernel (e²) has square zero and the image of (e) in the quotient has square zero; its inverse image has fourth power zero and third power nonzero. The composite bound is a product, not the larger of the two exponents.
+- For `n=2,q_v=2,T_{v,1}=3,T_{v,2}=5`, the supplied polynomial `1−6X+40X²` becomes `1−3X+10X²` after `X↦X/2`, then the monic polynomial `Y²−3Y+10`. Both coefficients, including the determinant, must survive the comparison.
+
+*Needs:* **PotentialAutomorphyInfrastructure, §§0.7a–0.7b** (admissible bad sets and residual attachment); **TorsionCohomologyInfrastructure, §§3b.1, 4.3–4.6** (polynomial conversion, arithmetic determinants and uniform product gluing); **IntegralHeckeAndGaloisDeterminants, Layer 2 and §§5.1–5.3**; **ArithmeticLocallySymmetricSpaces:ALS.3** (derived Hecke action and dimension bound).
 
 ### 0.5 Positive central cocharacters
 
@@ -433,7 +455,7 @@ At `n=2` the permutation sends (0,1,2,3) to (2,3,0,1). For two Levi blocks, (−
 
 ### Dependencies
 
-**ArithmeticLocallySymmetricSpaces:ALS.1**; **ArithmeticLocallySymmetricSpaces:ALS.3**; **IntegralHeckeAndGaloisDeterminants:IHG.3**; **IntegralHeckeAndGaloisDeterminants:IHG.5**; **PotentialAutomorphyInfrastructure, Layer 0**; **PotentialAutomorphyInfrastructure, Layer 1**; **PotentialAutomorphyInfrastructure, Layer 3**; **SmoothRepresentationsOfLocalGroups:SR.0**; **SmoothRepresentationsOfLocalGroups:SR.4**.
+**ArithmeticLocallySymmetricSpaces:ALS.1**; **ArithmeticLocallySymmetricSpaces:ALS.3**; **IntegralHeckeAndGaloisDeterminants:IHG.3**; **IntegralHeckeAndGaloisDeterminants:IHG.5**; **TorsionCohomologyInfrastructure, §§4.3–4.6**; **PotentialAutomorphyInfrastructure, Layer 0**; **PotentialAutomorphyInfrastructure, Layer 1**; **PotentialAutomorphyInfrastructure, Layer 3**; **SmoothRepresentationsOfLocalGroups:SR.0**; **SmoothRepresentationsOfLocalGroups:SR.4**.
 
 ## Layer 1: P-ordinary functors and completed level control
 
@@ -491,7 +513,7 @@ The construction must satisfy:
 
 For smooth `Δ⁺-modules` over `R_m`, ord is the filtered colimit under products of the commuting central operators `ũ_n`, regarded as a smooth `Δ-module`. It is exact and preserves the injectives needed to derive compact invariants. Do not replace it by a finite-projector formula for arbitrary smooth infinite modules.
 
-For the underlying module at a single operator `T`, reuse **SmoothRepresentationsOfLocalGroups:SR.6.5**, [Stable module operators](../SmoothRepresentationsOfLocalGroups/README.md#sr65-stable-module-operators). Its `StableOperator.localization` is Mathlib's `Module.DirectLimit` of the system with transition maps `T^{j−i}`, and `StableOperator.localizationMap` is the structure map from index zero. `StableOperator.invertiblePart` identifies this colimit with `range(T^c)` for some `c≥1` when `T` is stable. The identity, nilpotent and mixed-operator comparisons are supplied there by `localization_identity`, `localization_nilpotent` and `localization_mixed`. These prerequisites concern underlying modules and have no smoothness or group-action hypotheses.
+For the underlying module at a single operator `T`, reuse **SmoothRepresentationsOfLocalGroups:SR.5.2**, “Stable module operators and their algebra” (stable-operator). Its module direct limit along powers of T has a canonical map from the original module; for a stable operator its invertible summand is the image of a sufficiently large power and identifies with this localization. The zero, identity and mixed-operator comparisons are part of that target. These statements concern underlying modules and carry no smoothness or group-action hypotheses.
 
 The specialization here must equip those colimits with the actual `Δ-action` extending the supplied `Δ⁺-action`, retain smoothness, and compare successive localizations for the commuting `ũ_n`. Its unit and universal property are morphisms of these representations. The derived comparison additionally uses exactness and preservation of the relevant injectives in the smooth categories. A linear equivalence of underlying modules alone supplies none of those action or injectivity assertions. The localization tests below retain their representation actions when applying the underlying module comparisons.
 
@@ -509,7 +531,7 @@ The construction must satisfy:
 
 (CN, §2.2.2, p.26.)
 
-*Needs:* **SmoothRepresentationsOfLocalGroups:SR.0**; **SmoothRepresentationsOfLocalGroups:SR.6.5** (underlying module localization and stable-operator comparison); **IntegralHeckeAndGaloisDeterminants:IHG.2** (ordinary localization comparison). The smooth positive-monoid action, exactness and injective-preservation comparison are the additional supplier contracts specified above.
+*Needs:* **SmoothRepresentationsOfLocalGroups:SR.0**; **SmoothRepresentationsOfLocalGroups:SR.5.2** (underlying module localization and stable-operator comparison); **IntegralHeckeAndGaloisDeterminants:IHG.2** (ordinary localization comparison). The smooth positive-monoid action, exactness and injective-preservation comparison are the additional supplier contracts specified above.
 
 ### 1.4 Functors of P-ordinary parts of smooth representations
 
@@ -634,7 +656,7 @@ On a degree-zero `F₃²` complex with `U=diag(1,0)`, the ordinary summand is th
 
 ### Dependencies
 
-**ArithmeticLocallySymmetricSpaces:ALS.1**; **ArithmeticLocallySymmetricSpaces:ALS.3**; **ArithmeticLocallySymmetricSpaces:ALS.4**; **ArithmeticLocallySymmetricSpaces:ALS.6**; Layer 0; **CompletedCohomologyPartII, Layer 0**; **CompletedCohomologyPartII, Layer 1**; **CompletedCohomologyPartII, Layer 2**; **CompletedCohomologyPartII, Layer 6**; **IntegralHeckeAndGaloisDeterminants:IHG.2**; **PadicFamilies, Layer 0a**; **SmoothRepresentationsOfLocalGroups:SR.0**; **SmoothRepresentationsOfLocalGroups:SR.0d**; **SmoothRepresentationsOfLocalGroups:SR.6.5**; **ProfiniteCohomology, Layers 10–11**.
+**ArithmeticLocallySymmetricSpaces:ALS.1**; **ArithmeticLocallySymmetricSpaces:ALS.3**; **ArithmeticLocallySymmetricSpaces:ALS.4**; **ArithmeticLocallySymmetricSpaces:ALS.6**; Layer 0; **CompletedCohomologyPartII, Layer 0**; **CompletedCohomologyPartII, Layer 1**; **CompletedCohomologyPartII, Layer 2**; **CompletedCohomologyPartII, Layer 6**; **IntegralHeckeAndGaloisDeterminants:IHG.2**; **PadicFamilies, Layer 0a**; **SmoothRepresentationsOfLocalGroups:SR.0**; **SmoothRepresentationsOfLocalGroups:SR.0d**; **SmoothRepresentationsOfLocalGroups:SR.5.2**; **ProfiniteCohomology, Layers 10–11**.
 
 ## Layer 2: Weight independence and dual ordinary parts
 
@@ -752,6 +774,18 @@ For `G` split reductive over `O_L, K = G(O_L), K_P = K ∩` P(L), and `X` a comp
 *Needs:* **ArithmeticLocallySymmetricSpaces:ALS.6** (finite-level descent); **CompletedCohomologyPartII, Layer 0**; **CompletedCohomologyPartII, Layer 1**; **CompletedCohomologyPartII, Layer 6**; **SmoothRepresentationsOfLocalGroups:SR.2**; **ArithmeticLocallySymmetricSpaces:ALS.3** (discrete topological comparison).
 
 ### 3.4 Splitting of the U₀-cohomology complex at deep level
+
+First prove the perfect-complex deep-restriction comparison. Let R be a commutative ring, K a profinite group and `(K_i)` a cofinal directed family of open normal subgroups, ordered by reverse inclusion. Write F for the exact forgetful functor from smooth R[K]-modules to R-modules and also for its derived functor. For `A∈D⁺_sm(K,R)` and a perfect `B∈D(R)`, let A_i be the restriction of A and B_i the constant-action object on B in `D⁺_sm(K_i,R)`. The map induced by forgetting actions is a natural bijection
+
+`colim_i Hom_{D⁺_sm(K_i,R)}(B_i,A_i) ≅ Hom_{D(R)}(B,F(A))`.
+
+Use a bounded finite-projective representative of B to commute its dual tensor with derived invariants. The colimit of subgroup invariants of a smooth module is its underlying module, an exact functor; applied to an injective resolution this identifies the colimit of degree-zero hypercohomology with `H⁰(B∨⊗^L F(A))`. When F(A) is perfect, take `B=F(A)` and lift its identity at some finite depth. Conservativity of F makes that lift an isomorphism `B_i≅A_i`; every deeper restriction preserves it. No specified canonical splitting or initial triviality of the action is asserted (CN, proof of Lemma 2.3.17, equation (2.3.7), p.42; the argument uses only these hypotheses).
+
+**Checks.**
+
+- For `K=Z₃`, R=F₃, and the action on F₃² generated by `u=((1,1),(0,1))`, `u−I≠0` but `u³=I`. At K the constant-source equivariant endomorphisms have dimension two, while all underlying endomorphisms have dimension four; at 3Z₃ both dimensions are four and the identity lifts.
+- For K trivial, a constant perfect B=R[0] and A=R[0], both Hom groups are R and the comparison sends 1 to 1; for B=0 both are zero.
+- For `U₀=Z₃²` and R=F₃, the zero-differential Koszul model has dimensions `(1,2,1)` in degrees `(0,1,2)`. Deep restriction trivializes the action, not the positive-degree cohomology; for `U₀=0` only dimension one in degree zero remains.
 
 For the Siegel parabolic of split `GL_{2n}/O_L` (so `U₀≅O_L^{n²}` is abelian), let `K = M(O_L)` with congruence subgroups `K_m = {k ≡ 1` mod `ϖ^m_L}`, acting on `U₀` by conjugation. For every `m ≥ 1` there is `M =` M(m) `≥ m` such that `RΓ(U₀, O/ϖ^m) ≅ ⊕_{i=0}^{rk_{Z_p}U₀} H^i(U₀, O/ϖ^m)[−i]` in `D⁺_sm(K_M, O/ϖ^m)`; each `H^i(U₀, O/ϖ^m)` is non-zero, with trivial `K_M-action`. Cohomology is `Hom_cts(∧^i_{Z_p}U₀,O/ϖ^m)`, not `∧^i U₀`. No condition `p>n²` is imposed. The source argument is not exported to arbitrary nonabelian unipotent radicals.
 
@@ -993,21 +1027,24 @@ The construction must satisfy:
 
 ### 4.4a Characteristic-zero unitary transfer and Galois comparison
 
-Let `F` contain a fixed imaginary quadratic subfield `F₀` in which the rational prime `p` splits, and let `π` be a cuspidal representation of the quasi-split `U(n,n)(𝔸_{F⁺})` cohomological for the dominant coefficient weight `λ̃`. Construct the full discrete transfer of ACC+ Theorem 2.3.3, with its cohomological infinitesimal character and local identification with `π_{v̄}` at every `v̄|p`. This identification uses rational splitting in `F₀`. The transfer is a finite isobaric sum of discrete GL representations, each written as its cuspidal constituent with all the shifted copies specified by the residual classification.
+Let `F` contain a fixed imaginary quadratic subfield `F₀` in which the rational prime `p` splits, and let `π` be a cuspidal representation of the quasi-split `U(n,n)(𝔸_{F⁺})` cohomological for the dominant coefficient weight `λ̃`. Construct the full discrete transfer of ACC+ Theorem 2.3.3, with its cohomological infinitesimal character and local automorphic identification with `π_{v̄}` at every `v̄|p`. The full Galois comparison below uses the parahoric hypothesis at the selected place. This identification uses rational splitting in `F₀`. The transfer is a finite isobaric sum of discrete GL representations, each written as its cuspidal constituent with all the shifted copies specified by the residual classification.
 
 Use AG2.2 `DiscreteAssembly`: write `2n=Σ_i a_i b_i`, with conjugate-self-dual cuspidal `Π̃_i` of rank `a_i`, and attach `r_i` to the cohomological twist `Π_i=Π̃_i|det|^{(a_i+b_i−1)/2}` using AG2.3. Form `r_ι(π)=⊕_i⊕_{j=0}^{b_i−1} r_i⊗ε_p^{−n−j}`, in the supplier's normalization. Prove continuity, rank `2n`, the good-place unitary Hecke polynomial and independence up to isomorphism of the attached constituent representatives. Its labelled Hodge multiset is `{λ̃_{τ,i}+2n−i:1≤i≤2n}`, with `HT(ε_p⁻¹)=+1` as here.
 
-Apply AG2.6's de Rham and semisimplified coefficient-prime comparison to each cuspidal constituent, transporting algebraic twists, then assemble the comparisons through direct sums. At a parahoric selected p-place, prove semistability and identify the assembled semisimple Weil parameter with `rec^T(π_{v̄}∘ι_v)`. Assemble the special-block monodromy upper bounds, retaining each shifted copy and each Jordan-block multiplicity; use ACC+ Theorem 2.3.3(c), equivalently CN Theorem 2.1.19(3), for the full Frobenius-semisimple local identification under rational splitting in `F₀`. These comparisons supply the local input to §4.2 before the Q-ordinary block argument. A single cuspidal GL existence theorem does not construct this sum.
+Apply AG2.6’s `polarizedCoefficientPrimeAdmissibility` to each polarized cuspidal constituent for de Rhamness and labelled weights, transporting algebraic twists and direct sums. If `π_{v̄}` has parahoric-fixed vectors, its transferred local representation has Iwahori-fixed vectors. Use the local discrete classification and the Iwahori criterion to prove that every cuspidal local constituent Π_i at this place is Iwahori-spherical. The same polarized export then gives semistability and full Frobenius-semisimple WD comparison for each r_i, without `ExtremelyRegularIrreducibility`. Assemble the shifted copies and their monodromy operators using `DiscreteAssembly`; identify the full parameter with `rec^T(π_{v̄}∘ι_v)` in the rationally split setting. This is the Iwahori case of ACC+ Theorem 2.3.3(c), equivalently CN Theorem 2.1.19(3), and supplies the entire local input to §4.2 and §4.5.
+
+For a local component with no parahoric-fixed vectors, full polarized comparison instead carries `ExtremelyRegularIrreducibility a_i` for every constituent rank `a_i≥2`. If the all-CM route is used, it carries the stronger list `ExtremelyRegularIrreducibility m` for every `2≤m≤2a_i` for each such constituent. The unconditional unrestricted comparison has a precise supplier gap: AG2.6 states the extremely-regular irreducibility proposition as an input, not as a theorem. It cannot be imported unconditionally from that contract. The unconditional parahoric comparison above and the residual-generic endpoint of §7.7 do not use this missing input.
 
 **Checks.**
 
 - With one constituent and `b₁=1`, the assembly has rank `a₁=2n` and is `r₁⊗ε_p^{−n}`, with the cohomological twist undone; omitting this twist changes its Frobenius polynomial.
 - A rank-one constituent repeated with `b₁=2` at `n=1` contributes `r₁ε_p⁻¹⊕r₁ε_p⁻²`, of rank two and with both labelled weights. Retaining only one copy gives the wrong rank and parameter.
+- A rank-four polarized Iwahori constituent needs no extremely-regular irreducibility input; the all-CM route for that same rank requires all seven ranks 2 through 8.
 - `F=Q(ζ₅)` has split places over `11` in `F/F⁺` but no imaginary quadratic subfield. Such local splitting alone does not satisfy this adapter's rational splitting hypothesis.
 
-(CN, Theorem 2.1.19, pp.21–22, and proof of Theorem 3.1.2, pp.44–45; ACC+ Theorem 2.3.3 and proof, published pp.935–937; AG2.2 `DiscreteAssembly`, HLTT Proposition 1.2 and Corollary 1.3, p.31.)
+(CN, Theorem 2.1.19, pp.21–22, and proof of Theorem 3.1.2, pp.44–45; ACC+ Theorem 2.3.3 and proof, published pp.935–937; AG2.2 `DiscreteAssembly`, HLTT Proposition 1.2 and Corollary 1.3, p.31; BLGGT, Theorem 2.1.1(3)–(4), pp.33–34.)
 
-*Needs:* **AutomorphicGaloisRepresentationsPartII:AG2.2** (`DiscreteAssembly`); **AutomorphicGaloisRepresentationsPartII:AG2.3** (arbitrary regular conjugate-self-dual existence); **AutomorphicGaloisRepresentationsPartII:AG2.6** (`allCMCoefficientPrimeComparison`, `nonselfdualCoefficientPrimeMonodromyBound`, `allCMCrystallineIwahoriAdmissibility`); **PadicHodgeTheory, §§5.3–5.4**; **SmoothRepresentationsOfLocalGroups:SR.2** (special blocks and normalized induction). The unitary transfer and its local identification with the full discrete sum are targets of this section, using ACC+ Theorem 2.3.3 and its proof.
+*Needs:* **AutomorphicGaloisRepresentationsPartII:AG2.2** (`DiscreteAssembly`); **AutomorphicGaloisRepresentationsPartII:AG2.3** (arbitrary regular conjugate-self-dual existence); **AutomorphicGaloisRepresentationsPartII:AG2.6** (`polarizedCoefficientPrimeAdmissibility`, with its Iwahori hypothesis); **PadicHodgeTheory, §§5.3–5.4**; **SmoothRepresentationsOfLocalGroups:SR.2** (special blocks and normalized induction); **SmoothRepresentationsOfLocalGroups:SR.3.4** (Iwahori block and the constituent criterion). The unitary transfer and its local identification with the full discrete sum are targets of this section, using ACC+ Theorem 2.3.3 and its proof.
 
 ### 4.5 Galois representations of Q-ordinary automorphic representations
 
@@ -1015,7 +1052,7 @@ Assume the rational prime `p` splits in an imaginary quadratic subfield `F₀⊂
 
 (CN, Theorem 3.1.2, pp.43–44.)
 
-*Needs:* §4.4; §4.4a; §4.2; **AutomorphicGaloisRepresentationsPartII:AG2.2–AG2.3**; **AutomorphicGaloisRepresentationsPartII:AG2.6–AG2.7** (`allCMCoefficientPrimeComparison`, `nonselfdualCoefficientPrimeMonodromyBound`, `allCMCrystallineIwahoriAdmissibility`, `NonselfdualComparisonExport`); **SmoothRepresentationsOfLocalGroups:SR.2**; **SmoothRepresentationsOfLocalGroups:SR.4**.
+*Needs:* §4.4; §4.4a; §4.2; **AutomorphicGaloisRepresentationsPartII:AG2.2–AG2.3**; **AutomorphicGaloisRepresentationsPartII:AG2.6** (`polarizedCoefficientPrimeAdmissibility`, Iwahori branch); **SmoothRepresentationsOfLocalGroups:SR.2**; **SmoothRepresentationsOfLocalGroups:SR.4**.
 
 ### Examples
 
@@ -1023,7 +1060,7 @@ For the partition (n,n), the partial operators are the Siegel and central operat
 
 ### Dependencies
 
-**ArithmeticLocallySymmetricSpaces:ALS.5**; **AutomorphicGaloisRepresentationsPartII:AG2.2–AG2.3**; **AutomorphicGaloisRepresentationsPartII:AG2.6–AG2.7** (`allCMCoefficientPrimeComparison`, `nonselfdualCoefficientPrimeMonodromyBound`, `allCMCrystallineIwahoriAdmissibility`, `NonselfdualComparisonExport`); Layer 0; **PadicFamilies, Layer 0a**; **PadicHodgeTheory, §§3.2–3.6**; **PadicHodgeTheory, §§5.3–5.4**; **SmoothRepresentationsOfLocalGroups:SR.2**; **SmoothRepresentationsOfLocalGroups:SR.4**.
+**ArithmeticLocallySymmetricSpaces:ALS.5**; **AutomorphicGaloisRepresentationsPartII:AG2.2–AG2.3**; **AutomorphicGaloisRepresentationsPartII:AG2.6** (`polarizedCoefficientPrimeAdmissibility`, Iwahori branch); Layer 0; **PadicFamilies, Layer 0a**; **PadicHodgeTheory, §§3.2–3.6**; **PadicHodgeTheory, §§5.3–5.4**; **SmoothRepresentationsOfLocalGroups:SR.2**; **SmoothRepresentationsOfLocalGroups:SR.4**; **SmoothRepresentationsOfLocalGroups:SR.3.4**.
 
 ## Layer 5: The localized completed Siegel boundary
 
@@ -1358,7 +1395,7 @@ Take `n=3,D=3,R=2` and `q=⌊27/2⌋=13`. Then `d−q=14≤18=n²R`: using floor
 
 ## Layer 7: Crystalline local–global compatibility
 
-For all-unit Q-localized non-Eisenstein torsion Hecke systems, produce local finite-flat characteristic-zero lifts with crystalline blocks, labelled weights and determinant characters. Use CTG perturbation and a separating character twist, then import compatible local reconstruction. Assemble a global Hecke-valued representation modulo a uniformly nilpotent ideal factoring through crystalline/semistable-ordinary local deformation rings in the three specified partitions. Export fixed-determinant compatibility for `p∤n`. Reuse AG2.6 spherical crystallinity over CM fields, and prove the totally real specialization under residual irreducibility and decomposed genericity. Reuse IHG.1, §1.6, whose compatible local reconstruction allows a henselian local target with torsion. Supply its corner identifications and prove continuity of the resulting local lift. In the characteristic-zero endpoint, choose a cyclic CM extension where the selected p-places split completely, so their local fields are unchanged.
+For all-unit Q-localized non-Eisenstein torsion Hecke systems, produce local finite-flat characteristic-zero lifts with crystalline blocks, labelled weights and determinant characters. Use CTG perturbation and a separating character twist, then import compatible local reconstruction. Assemble a global Hecke-valued representation modulo a uniformly nilpotent ideal factoring through crystalline/semistable-ordinary local deformation rings in the three specified partitions. Export fixed-determinant compatibility for `p∤n`. Prove CM and totally real spherical crystallinity at both conjugate places under residual irreducibility and decomposed genericity, using the integral factorization of §7.5. Reuse IHG.1, §1.6, whose compatible local reconstruction allows a henselian local target with torsion. Supply its corner identifications and prove continuity of the resulting local lift. In the characteristic-zero endpoint, choose a cyclic CM extension where the selected p-places split completely, so their local fields are unchanged.
 
 ### 7.1 Residual determinants of the blocks of a Q-ordinary Galois representation
 
@@ -1404,7 +1441,7 @@ Assume `p` splits in an imaginary quadratic subfield of `F; K ⊂ GL_n(𝔸_{F,f
 
 (CN, Proposition 4.2.13, pp.67–71.)
 
-*Needs:* §6.12; §6.13; §7.1; §7.2; §7.3; **PotentialAutomorphyInfrastructure, Layer 1** (ctg one embedding perturbation); **IntegralHeckeAndGaloisDeterminants:IHG.1**; **IntegralHeckeAndGaloisDeterminants:IHG.5**; **LocalGaloisDeformationRings, §3.13** (semistable ordinary quotient).
+*Needs:* §0.4a; §6.12; §6.13; §7.1; §7.2; §7.3; **PotentialAutomorphyInfrastructure, Layer 1** (ctg one embedding perturbation); **IntegralHeckeAndGaloisDeterminants:IHG.1**; **IntegralHeckeAndGaloisDeterminants:IHG.5**; **LocalGaloisDeformationRings, §3.13** (semistable ordinary quotient).
 
 ### 7.5 Local–global compatibility at p via deformation rings
 
@@ -1412,7 +1449,7 @@ Let `F` be an imaginary CM field containing an imaginary quadratic field, `p` a 
 
 (CN, Theorem 4.2.15, pp.71–72.)
 
-*Needs:* §7.4; **IntegralHeckeAndGaloisDeterminants:IHG.5**; **IntegralHeckeAndGaloisDeterminants:IHG.2** (ghost nilpotence); **LocalGaloisDeformationRings, §3.13** (semistable ordinary quotient).
+*Needs:* §0.4a; §7.4; **IntegralHeckeAndGaloisDeterminants:IHG.5**; **IntegralHeckeAndGaloisDeterminants:IHG.2** (ghost nilpotence); **LocalGaloisDeformationRings, §3.13** (semistable ordinary quotient).
 
 ### 7.6 Fixed-determinant refinement
 
@@ -1422,21 +1459,19 @@ In the setting of Local–global compatibility at `p` via deformation rings (CL.
 
 *Needs:* §7.5; **LocalGaloisDeformationRings, §3.14** (fixed determinant pst rings).
 
-### 7.7 Crystallinity at p over totally real fields and the CM export
+### 7.7 Crystallinity at p over CM and totally real fields
 
-For CM `F`, reuse **AutomorphicGaloisRepresentationsPartII:AG2.6**, `allCMCrystallineIwahoriAdmissibility`, and `allCMCoefficientPrimeComparison` for the labelled weights. For every regular algebraic cuspidal `π`, spherical `π_v` implies crystallinity at `v|p`, without residual irreducibility or decomposed genericity.
+Let F be CM or totally real, `n≥2`, p any prime, π regular algebraic cuspidal on GL_n(𝔸_F) of weight λ, and `ι:Q̄_p≅C`. Fix `v|p` and assume that both π_v and π_vᶜ are spherical, with `vᶜ=v` in the totally real case. If the semisimplified residual reduction of the attached representation r_ι(π) is irreducible and decomposed generic, prove that its restrictions at v and vᶜ are crystalline, with labelled weights `h_{τ,i}=λ_{ιτ,n−i+1}+i−1`, `1≤i≤n`. This is the residual-generic characteristic-zero endpoint, with no extremely-regular irreducibility input (CN, Theorem 4.3.1 and proof, p.73).
 
-Prove the remaining totally real specialization. Let `F` be totally real, `n≥2`, `p` any prime, `π` regular algebraic cuspidal on `GL_n(𝔸_F)` of weight `λ`, `v|p` spherical, and `ι:Q̄_p≅C`. Let `r_ι(π)` be its attached representation. If its semisimplified residual reduction is irreducible and decomposed generic, then `r_ι(π)|G_{F_v}` is crystalline with labelled weights `h_{τ,i}=λ_{ιτ,n−i+1}+i−1`, `1≤i≤n`. Set `F⁺=F`. Pass to a cyclic CM extension preserving residual irreducibility and cuspidality and split completely at `v`, compare the attached representations, then apply the CM export at the unchanged completion. Enlarge the finite coefficient field to contain the embeddings.
+Use cyclic CM preparation preserving residual irreducibility and cuspidality, complete splitting at v and vᶜ and at the prime witnessing decomposed genericity, and disjointness from the residual field. Require the prepared field to contain an imaginary quadratic subfield in which p splits, all its p-adic places over the real subfield to split, and the complementary local-degree inequality of §7.5. Apply §7.5 in case (cr) to the characteristic-zero eigensystem; the spherical central operators are units after the prescribed rescaling. A characteristic-zero point kills the nilpotent ideal, so the representation factors through the crystalline lifting ring. Complete splitting identifies the original and prepared completions. This route uses §4.4a’s polarized Iwahori comparison inside §7.5, not the conditional all-CM export.
 
 **Checks.**
 
-- In the CM case the supplied theorem applies even when the residual representation is reducible; no residual hypothesis is added to that export.
-- Complete splitting at the selected totally real place identifies its local Galois group with that of the CM extension, so crystallinity descends through that identification.
-- A ramified local extension cannot replace complete splitting: a potentially crystalline representation need not be crystalline over the original local field.
+- With four equal-degree p-adic places and two selected places, the complementary sum is `2d_L`, equal to half of `4d_L`; with only two places it is zero and fails the required inequality.
+- At rank two and λ=(0,0), both local labelled lists are `(0,1)`. Replacing the unitary rank-four list by this GL₂ list before taking the block would lose `(2,3)`.
+- If v≠vᶜ, spherical π_v alone does not satisfy this theorem’s two-place hypothesis. Complete splitting gives local degree one; a ramified extension of degree greater than one cannot justify crystallinity over the original field.
 
-(CN, §4.3, Theorem 4.3.1 and proof, p.73; AG2.6, the two named coefficient-prime targets.)
-
-*Needs:* **AutomorphicGaloisRepresentationsPartII:AG2.4**; **AutomorphicGaloisRepresentationsPartII:AG2.6–AG2.7** (`allCMCrystallineIwahoriAdmissibility`, `allCMCoefficientPrimeComparison`, `NonselfdualComparisonExport`); **PadicHodgeTheory, §§3.2–3.6**; **PotentialAutomorphyInfrastructure, §2.3**; **PotentialModularityAndCompatibleSystems, §§2.12–2.16**; **PotentialAutomorphyInfrastructure, §2.1** (genericity normal closure restriction).
+*Needs:* §7.5; **AutomorphicGaloisRepresentationsPartII:AG2.4** (attached GL representation); **PadicHodgeTheory, §§3.2–3.6**; **PotentialAutomorphyInfrastructure, §§2.1, 2.3, 2.5** (genericity, cyclic base change and controlled CM preparation); **PotentialModularityAndCompatibleSystems, §§2.12–2.16**; **LocalGaloisDeformationRings, §3.13** (crystalline quotient).
 
 ### Examples
 
@@ -1444,7 +1479,7 @@ For `n=2` and `λ_τ=(0,0)`, the list `h_{τ,i}=λ_{τ,n−i+1}+i−1` is (0,1),
 
 ### Dependencies
 
-**ArithmeticLocallySymmetricSpaces:ALS.3**; **ArithmeticLocallySymmetricSpaces:ALS.5**; **AutomorphicGaloisRepresentationsPartII:AG2.4**; **AutomorphicGaloisRepresentationsPartII:AG2.6–AG2.7**; Layer 0; Layer 4; Layer 6; **IntegralHeckeAndGaloisDeterminants:IHG.1**; **IntegralHeckeAndGaloisDeterminants:IHG.2**; **IntegralHeckeAndGaloisDeterminants:IHG.5**; **LocalGaloisDeformationRings, §§3.13, 6.6**; **LocalGaloisDeformationRings, §3.14**; **PotentialAutomorphyInfrastructure, §2.3**; **PadicHodgeTheory, §§3.2–3.6**; **PotentialAutomorphyInfrastructure, Layer 1**; **PotentialAutomorphyInfrastructure, §2.1**; **PotentialModularityAndCompatibleSystems, §§2.12–2.16**; **PotentialModularityAndCompatibleSystems, §2.15** (`cht_character_extension`); **ClassFieldTheory, Layers 11–12**.
+**ArithmeticLocallySymmetricSpaces:ALS.3**; **ArithmeticLocallySymmetricSpaces:ALS.5**; **AutomorphicGaloisRepresentationsPartII:AG2.4**; **AutomorphicGaloisRepresentationsPartII:AG2.6** (polarized Iwahori comparison); Layer 0; Layer 4; Layer 6; **IntegralHeckeAndGaloisDeterminants:IHG.1**; **IntegralHeckeAndGaloisDeterminants:IHG.2**; **IntegralHeckeAndGaloisDeterminants:IHG.5**; **LocalGaloisDeformationRings, §§3.13, 6.6**; **LocalGaloisDeformationRings, §3.14**; **PotentialAutomorphyInfrastructure, §2.3**; **PadicHodgeTheory, §§3.2–3.6**; **PotentialAutomorphyInfrastructure, Layer 1**; **PotentialAutomorphyInfrastructure, §2.1**; **PotentialModularityAndCompatibleSystems, §§2.12–2.16**; **PotentialModularityAndCompatibleSystems, §2.15** (`cht_character_extension`); **ClassFieldTheory, Layers 11–12**.
 
 ## Layer 8: Two-component patching and PGL₂ cohomology
 
@@ -1528,6 +1563,8 @@ Suppose `p` is odd, `S = S^c, F` contains an imaginary quadratic field and every
 
 If `ρ̄_𝔪` is absolutely irreducible, set `T_𝔪=e_𝔪T=T^S_G(C•(K/K′,V)_𝔪)`, the complete local O-algebra cut out by §8.1's idempotent. There are `N≥1` depending only on `[F : Q]`, an ideal `J⊂T_𝔪` with `J^N=0` and a continuous lift `ρ_𝔪 : G_{F,S} → GL₂(T_𝔪/J)` of `ρ̄_𝔪`. For every `v ∉ S`, `det(X − ρ_𝔪(Frob_v))` is the image of the full polynomial `P_v(X)=X²−T_{v,1}X+q_v` under `T→T_𝔪→T_𝔪/J`; in particular `det ρ_𝔪=ε_p⁻¹` with values in `(T_𝔪/J)×`.
 
+Construct the arithmetic comparison through the inverse images K_G and K′_G in GL₂ of K and K′. Prove that the Hecke image on PGL₂ cohomology is a quotient of the corresponding GL₂ image, retaining the scalar central operator as 1. Apply finite-cover descent to reduce the GL₂ comparison to neat level, keeping the dimension-dependent error bound, then use §0.4a and the algebraic descent/reconstruction of IHG §§5.1–5.3. For the relative derived image, use a neat normal refinement and its bounded GL₂ cohomology to control the Hecke kernel. Repeat with two distinct auxiliary rational primes and glue the representations by trace descent to remove their extra ramification. Prove the comparison with kernel exponent bounded by the real dimension plus one, as in the proofs of AKT Theorem 5.6, p.42, and Theorem 5.8, p.44, applied in CN Proposition 5.5.2; the additional ordinary hypotheses of Theorem 5.8 are used only for its local ordinary conclusions, not for this finite-cover argument. Neither boundedness of a non-neat complex nor §8.7’s conclusion is an input. The quotient K/K′ need not be abelian. This PGL₂-to-GL₂ comparison, including its uniform bound, is a target here (CN, proof of Proposition 5.5.2, p.81; AKT, Corollary 5.5, p.41, and proofs of Theorems 5.6, p.42, and 5.8, p.44).
+
 **Checks.**
 
 - If `T=T₁×T₂` and `𝔪` selects `T₁` with absolutely irreducible residual representation while `T₂` has reducible residual representation, reconstruction applies to `T_𝔪` alone; it imposes no irreducibility hypothesis on `T₂`.
@@ -1536,7 +1573,7 @@ If `ρ̄_𝔪` is absolutely irreducible, set `T_𝔪=e_𝔪T=T^S_G(C•(K/K′,
 
 (CN, Proposition 5.5.2, pp.80–81.)
 
-*Needs:* §8.1; §8.4; **IntegralHeckeAndGaloisDeterminants:IHG.5**; **ArithmeticGaloisRepresentations, §5.10**; **LocalGaloisDeformationRings, §F.2.7**.
+*Needs:* §0.4a; §8.1; §8.4; **PotentialAutomorphyInfrastructure, §0.7b**; **TorsionCohomologyInfrastructure, §§4.3–4.6**; **ArithmeticLocallySymmetricSpaces:ALS.6** (finite-cover descent); **IntegralHeckeAndGaloisDeterminants, §§5.1–5.3**; **ArithmeticGaloisRepresentations, §5.10**; **LocalGaloisDeformationRings, §F.2.7**.
 
 ### 8.7 Vanishing above the real dimension and perfectness
 
@@ -1560,7 +1597,7 @@ At `PGL₂` level, the scalar `GL₂` Hecke coset acts as identity, giving `X²�
 
 ### Dependencies
 
-**ArithmeticLocallySymmetricSpaces:ALS.3**; **ArithmeticLocallySymmetricSpaces:ALS.6**; **CompletedCohomologyPartII, Layer 0**; **CompletedCohomologyPartII, Layer 2**; **CompletedCohomologyPartII, Layer 4**; **CompletedCohomologyPartII, Layer 6**; **DeformationAndDerivedPatchingAlgebra, §§8.1–8.5**; **DeformationAndDerivedPatchingAlgebra, §§9.2, 9.4–9.5**; **ArithmeticGaloisRepresentations, §5.10**; **LocalGaloisDeformationRings, §F.2.7**; **IntegralHeckeAndGaloisDeterminants:IHG.5**.
+**ArithmeticLocallySymmetricSpaces:ALS.3**; **ArithmeticLocallySymmetricSpaces:ALS.6**; **CompletedCohomologyPartII, Layer 0**; **CompletedCohomologyPartII, Layer 2**; **CompletedCohomologyPartII, Layer 4**; **CompletedCohomologyPartII, Layer 6**; **DeformationAndDerivedPatchingAlgebra, §§8.1–8.5**; **DeformationAndDerivedPatchingAlgebra, §§9.2, 9.4–9.5**; **ArithmeticGaloisRepresentations, §5.10**; **LocalGaloisDeformationRings, §F.2.7**; **IntegralHeckeAndGaloisDeterminants:IHG.5**; Layer 0; **TorsionCohomologyInfrastructure, §§4.3–4.6**.
 
 ## Layer 9: Barsotti–Tate automorphy lifting and solvable descent
 
@@ -1746,11 +1783,19 @@ With the data and hypotheses (1)–(15), let `ρ : G_F → GL₂(Q̄_p)` be cont
 
 ### 9.11 Reduction of Theorem 5.2 to Proposition 5.6.1 by solvable base change
 
-Under the hypotheses of the qualified potentially Barsotti–Tate lifting theorem in CL.9, including `d_cyc≠3` or projective image not `A₄`, Theorem 5.2 follows from Automorphy lifting in the special case (CL.9): choose a finite set `V` of auxiliary places as in the proof of [AKT23, Thm. A.14]; a solvable Galois CM extension `F₀/F` in which `V` splits, `π_{F₀}` has Iwahori-fixed vectors everywhere, bad places become unipotent with `q_w ≡ 1` mod `p` and trivial `ρ̄`, every p-adic place of `F₀⁺` splits with residue field bigger than `F_p` and the degree condition holds, potentially crystalline places become crystalline with `π` unramified (and `r_ι(π)` crystalline by the CM spherical export `allCMCrystallineIwahoriAdmissibility` recalled in §7.7, ordinary iff `ρ` is), and non-potentially-crystalline places become non-crystalline extensions of `ε^{−1}_p` by `1;` a further composite `F₁` with three imaginary quadratic fields; if `ζ_p ∉ F`, two auxiliary degree-one places `v₀, v₀′` from A reducibility criterion for mod-p representations (variant of DDT 4.11) (CL.9) and Chebotarev; then solvable descent [ACC+18, Prop. 6.5.13]. Choose the preparation linearly disjoint from the full residual-plus-cyclotomic field, so both the projective image and `d_cyc` are preserved and the corrected finite-image criterion applies.
+Under the hypotheses of the qualified potentially Barsotti–Tate lifting theorem in CL.9, including `d_cyc≠3` or projective image not `A₄`, Theorem 5.2 follows from Automorphy lifting in the special case (CL.9): choose a finite set `V` of auxiliary places as in the proof of [AKT23, Thm. A.14]; a solvable Galois CM extension `F₀/F` in which `V` splits, `π_{F₀}` has Iwahori-fixed vectors everywhere, bad places become unipotent with `q_w ≡ 1` mod `p` and trivial `ρ̄`, every p-adic place of `F₀⁺` splits with residue field bigger than `F_p` and the degree condition holds, potentially crystalline places become crystalline with `π` unramified (and `r_ι(π)` crystalline by the crystalline or mixed crystalline-ordinary branch of §7.5, with residual irreducibility and decomposed genericity preserved, ordinary iff `ρ` is), and non-potentially-crystalline places become non-crystalline extensions of `ε^{−1}_p` by `1;` a further composite `F₁` with three imaginary quadratic fields; if `ζ_p ∉ F`, two auxiliary degree-one places `v₀, v₀′` from A reducibility criterion for mod-p representations (variant of DDT 4.11) (CL.9) and Chebotarev; then solvable descent [ACC+18, Prop. 6.5.13]. Choose the preparation linearly disjoint from the full residual-plus-cyclotomic field, so both the projective image and `d_cyc` are preserved and the corrected finite-image criterion applies.
+
+The local preparation does not require both members of a conjugate pair to be potentially crystalline. If both prepared components are spherical, use §7.5 with partition `(2,2)`, or §7.7. If one is spherical and its conjugate is ordinary, orient the split pair as in §9.4 and use `(2,1,1)` in §7.5; this proves crystallinity on the spherical side and ordinarity on the other. If both are ordinary use `(1,1,1,1)`. The ordinary eigenvector on a non-potentially-crystalline side is part of §9.12(5c), not deduced from the crystallinity being proved. Arrange the complementary degree inequality first. The finite-flat crystalline factorization and characteristic-zero specialization then give the required local conclusion, even in the mixed case.
+
+**Checks.**
+
+- For local flags `(st,stᶜ)=(0,0)`, the partition `(2,2)` supplies two crystalline rank-two blocks with labelled weights `(0,1)` on each GL₂ factor.
+- For `(st,stᶜ)=(1,0)`, `(2,1,1)` supplies two ordinary rank-one pieces on the first side and a crystalline rank-two block on the other; requiring two spherical components would exclude this allowed input.
+- For `(st,stᶜ)=(1,1)`, `(1,1,1,1)` gives ordinary flags on both sides and makes no assertion that their monodromy vanishes.
 
 (CN, End of the proof of Theorem 5.2, pp.85–87.)
 
-*Needs:* §9.10; §7.7; §9.2; **PotentialModularityAndCompatibleSystems, §§2.12–2.16**; **PotentialAutomorphyInfrastructure, §2.3**; **PotentialAutomorphyInfrastructure, §2.1** (genericity normal closure restriction).
+*Needs:* §9.10; §7.5; §7.7; §9.4; §9.2; **PotentialModularityAndCompatibleSystems, §§2.12–2.16**; **PotentialAutomorphyInfrastructure, §2.3**; **PotentialAutomorphyInfrastructure, §2.1** (genericity normal closure restriction).
 
 ### 9.12 Potentially Barsotti–Tate automorphy lifting over imaginary CM fields
 
@@ -1787,3 +1832,5 @@ The coefficient rescaling uses the inverse character evaluated at the acting ele
 The finite-image exception in CN Lemma 5.6.5, p.86, controls the scope of the final lifting theorem. Over `F₇`, take `i=((0,1),(−1,0)), j=((2,3),(3,−2))` and `h=(−1+i+j+ij)/2`. The generated binary tetrahedral group has quaternion subgroup `Q₈` and an order-three quotient generated by `h`. Twisting its inclusion by the character `χ(h)=2, χ(Q₈)=1` gives determinant of order three. Outside the determinant kernel the squared trace is `(1+det)²`, yet the kernel acts absolutely irreducibly. Thus the trace condition alone does not give reducibility in the cubic-tetrahedral case. CL.9 states the qualified criterion and preserves the full residual image and cyclotomic degree during preparation. It makes no assertion that the unrestricted lifting theorem is false.
 
 For CN §4.1.1, p.53, the unipotent coefficient object has a general cohomological-dimension bound. Exact nonvanishing in every degree is specified here for zero selected weights. The degree-shifting argument uses that case, rather than an unproved general-weight nonvanishing assertion.
+
+**BLGGT** means Barnet-Lamb, Gee, Geraghty and Taylor, *Potential automorphy and change of weight*, [arXiv:1010.2561v4](https://arxiv.org/pdf/1010.2561v4). The polarized Iwahori input uses Theorem 2.1.1(3)–(4), pp.33–34; its rank-dependent irreducibility input for unrestricted coefficient-prime comparison is distinguished from this Iwahori case.
