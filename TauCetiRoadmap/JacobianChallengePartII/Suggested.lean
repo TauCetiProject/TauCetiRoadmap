@@ -3,11 +3,11 @@ import TauCeti.AlgebraicGeometry.AbelianVariety.Albanese
 import TauCeti.AlgebraicGeometry.LineBundle.Functoriality
 
 /-!
-# Relative Jacobians: headline target signatures
+# Relative Jacobians: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is `README.md`.
-These are suggested Lean forms for particular milestones; discharging them finishes neither a
-layer nor the roadmap.
+This file states the roadmap's headline theorems against the pinned APIs; the README carries
+the full specification, APIs and Checks.
 
 The pointed square Picard comparison of §4.9 is stated over an arbitrary field, using Tau Ceti's
 `AbelianVariety.IsAlbanese` to characterize the pointed Jacobian and `LineBundleClass` for actual
@@ -15,7 +15,12 @@ line-bundle classes. The two axis conditions of §4.8 have a real definition on 
 fibre product. The theorem asserts unique extension of every axis-normalized class from the curve
 square to the Jacobian square.
 
-The other headline statements require geometric objects absent from the pinned libraries:
+Finite-stage descent of invertible sheaves, their morphisms and finite families of equalities
+(§0.0) is stated on qcqs scheme limits with affine transitions. The triangular isomorphism of
+actual group-scheme fibre powers (§5.5), including arbitrary base change, uses native products
+in `Over S`.
+
+The following headline statements require geometric objects absent from the pinned libraries:
 * Layers 0–1: the relative Picard sheaf, its degree components and representing scheme, abelian
   schemes and their duals, and polarizations. These are needed for Picard representability, the
   relative Jacobian and its canonical principal polarization. The curve determinant also needs
@@ -27,7 +32,7 @@ The other headline statements require geometric objects absent from the pinned l
 * Layer 4 outside §4.9: intrinsic algebraic equivalence of line bundles and the relative Picard
   identity components. These are needed to state relative autoduality and the actual and bi-zero
   Picard pullback torsion-cokernel theorems in their family generality.
-* Layer 5: the geometric canonical Abel morphism and section-free difference, and multiplication
+* Layer 5 outside §5.5: the geometric canonical Abel morphism and section-free difference, and multiplication
   isogenies on abelian schemes. The shifted-power factorization with its finite locally free tail
   isogeny uses these objects; arbitrary group-law coordinate identities do not express that result.
 * Layers 6–7: the semi-abelian relative Picard scheme of a stable family, relative dualizing sheaves
@@ -48,6 +53,57 @@ open CategoryTheory.MonoidalCategory CategoryTheory.CartesianMonoidalCategory
 namespace RelativeJacobian
 
 universe u
+
+/-! ## Layer 0: Relative Picard degree components and torsors -/
+
+/-- Every invertible sheaf on a cofiltered limit of qcqs schemes with affine transitions
+comes from a finite stage (README §0.0; Stacks 01ZR and 0B8W). -/
+theorem invertibleSheafDescends {I : Type u} [SmallCategory I] [IsCofiltered I]
+    (F : I ⥤ Scheme.{u}) (c : Cone F) (hc : IsLimit c)
+    (hqc : ∀ i, CompactSpace (F.obj i))
+    (hqs : ∀ i, QuasiSeparatedSpace (F.obj i))
+    (haff : ∀ (i j : I) (f : i ⟶ j), IsAffineHom (F.map f))
+    (L : InvertibleSheaf c.pt) :
+    ∃ (i : I) (M : InvertibleSheaf (F.obj i)),
+      Nonempty ((InvertibleSheaf.pullback (c.π.app i)).obj M ≅ L) := by
+  sorry
+
+/-- A morphism of line bundles pulled back from one stage descends after refinement.
+The equality uses the canonical composite-pullback comparisons (README §0.0; Stacks 01ZR). -/
+theorem invertibleSheafHomDescends {I : Type u} [SmallCategory I] [IsCofiltered I]
+    (F : I ⥤ Scheme.{u}) (c : Cone F) (hc : IsLimit c)
+    (hqc : ∀ i, CompactSpace (F.obj i))
+    (hqs : ∀ i, QuasiSeparatedSpace (F.obj i))
+    (haff : ∀ (i j : I) (f : i ⟶ j), IsAffineHom (F.map f))
+    (i : I) (M N : InvertibleSheaf (F.obj i))
+    (a : (InvertibleSheaf.pullback (c.π.app i)).obj M ⟶
+      (InvertibleSheaf.pullback (c.π.app i)).obj N) :
+    ∃ (j : I) (f : j ⟶ i)
+      (b : (InvertibleSheaf.pullback (F.map f)).obj M ⟶
+        (InvertibleSheaf.pullback (F.map f)).obj N),
+      let e := fun L : InvertibleSheaf (F.obj i) =>
+        (InvertibleSheaf.pullbackComp (c.π.app j) (F.map f)).app L ≪≫
+          eqToIso (congrArg (fun g => (InvertibleSheaf.pullback g).obj L) (c.w f))
+      (e M).inv ≫ (InvertibleSheaf.pullback (c.π.app j)).map b ≫ (e N).hom = a := by
+  sorry
+
+/-- A finite family of equalities of line-bundle morphisms valid at the limit holds at
+one common refinement, including the empty family (README §0.0; Stacks 01ZR). -/
+theorem invertibleSheafEqualitiesDescend {I : Type u} [SmallCategory I] [IsCofiltered I]
+    (F : I ⥤ Scheme.{u}) (c : Cone F) (hc : IsLimit c)
+    (hqc : ∀ i, CompactSpace (F.obj i))
+    (hqs : ∀ i, QuasiSeparatedSpace (F.obj i))
+    (haff : ∀ (i j : I) (f : i ⟶ j), IsAffineHom (F.map f))
+    (i : I) (r : ℕ) (M N : Fin r → InvertibleSheaf (F.obj i))
+    (a b : ∀ k, M k ⟶ N k)
+    (hab : ∀ k, (InvertibleSheaf.pullback (c.π.app i)).map (a k) =
+      (InvertibleSheaf.pullback (c.π.app i)).map (b k)) :
+    ∃ (j : I) (f : j ⟶ i), ∀ k,
+      (InvertibleSheaf.pullback (F.map f)).map (a k) =
+        (InvertibleSheaf.pullback (F.map f)).map (b k) := by
+  sorry
+
+/-! ## Layer 4: Actual Picard groups and autoduality pullbacks -/
 
 /-- The underlying set of actual line-bundle classes on a pointed square whose two axis
 restrictions are trivial. Membership specifies no choice of trivializations (README §4.8). -/
@@ -71,6 +127,45 @@ theorem pointedSquarePicardIsomorphism {K : Type u} [Field K]
     ∃! M : LineBundleClass (J.toOver ⨯ J.toOver).left,
       M ∈ AxisNormalizedPicard (η[J.toOver]) ∧
         LineBundleClass.pullback (prod.map i i).left M = L := by
+  sorry
+
+/-! ## Layer 5: Fibre powers and shifted Faltings–Zhang maps -/
+
+/-- The triangular morphism on a group scheme's fibre power keeps coordinate zero and
+right-divides every other coordinate by it (README §5.5). -/
+def triangularForward {S : Scheme.{u}} (A : Over S) [GrpObj A] (n : ℕ) :
+    (∏ᶜ fun _ : Fin (n + 1) => A) ⟶ (∏ᶜ fun _ : Fin (n + 1) => A) :=
+  Pi.lift fun i : Fin (n + 1) =>
+    if i = 0 then Pi.π (fun _ : Fin (n + 1) => A) 0
+    else Pi.π (fun _ : Fin (n + 1) => A) i / Pi.π (fun _ : Fin (n + 1) => A) 0
+
+/-- The inverse triangular morphism keeps coordinate zero and right-multiplies every
+other coordinate by it; no commutativity is assumed (README §5.5). -/
+def triangularInverse {S : Scheme.{u}} (A : Over S) [GrpObj A] (n : ℕ) :
+    (∏ᶜ fun _ : Fin (n + 1) => A) ⟶ (∏ᶜ fun _ : Fin (n + 1) => A) :=
+  Pi.lift fun i : Fin (n + 1) =>
+    if i = 0 then Pi.π (fun _ : Fin (n + 1) => A) 0
+    else Pi.π (fun _ : Fin (n + 1) => A) i * Pi.π (fun _ : Fin (n + 1) => A) 0
+
+/-- The triangular maps are the forward and inverse morphisms of an actual isomorphism
+of fibre powers over the base scheme (README §5.5; Yuan, Theorem 4.17(5), p. 98). -/
+theorem triangularIsomorphism {S : Scheme.{u}} (A : Over S) [GrpObj A] (n : ℕ) :
+    ∃ R : (∏ᶜ fun _ : Fin (n + 1) => A) ≅ (∏ᶜ fun _ : Fin (n + 1) => A),
+      R.hom = triangularForward A n ∧ R.inv = triangularInverse A n := by
+  sorry
+
+/-- Both directions of the triangular isomorphism commute with arbitrary base extension
+through the canonical product comparison, using the pulled-back group law (README §5.5). -/
+theorem triangularBaseChange {S S' : Scheme.{u}} (f : S' ⟶ S)
+    (A : Over S) [GrpObj A] (n : ℕ) :
+    let F := Over.pullback f
+    letI : F.Monoidal := Functor.Monoidal.ofChosenFiniteProducts F
+    letI : GrpObj (F.obj A) := Functor.grpObjObj
+    let C := PreservesProduct.iso F (fun _ : Fin (n + 1) => A)
+    (F.map (triangularForward A n) ≫ C.hom =
+      C.hom ≫ triangularForward (F.obj A) n) ∧
+    (F.map (triangularInverse A n) ≫ C.hom =
+      C.hom ≫ triangularInverse (F.obj A) n) := by
   sorry
 
 end RelativeJacobian
