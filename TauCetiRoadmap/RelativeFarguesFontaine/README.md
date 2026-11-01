@@ -6,17 +6,17 @@
 
 The geometry is relative to the perfectoid base, permits a general local coefficient field, and retains the integral `π=0` end. TauCetiRoadmap.AdicSpaces owns rational presheaves (Layer 3), sheaf criteria (Layer 4), general adic gluing (Layer 5), and the absolute `ℚ_p` curve (Layer 6). The period-specific extension below proves comparison with that absolute object rather than rebuilding it. AdicSpacesPartII R0 owns completed analytic tensors. AdicSpacesPartIII R3 owns affinoid bundle comparison and rational/Kiehl descent; PerfectoidSpaces §§P3.17a.1–P3.17a.4 owns sousperfectoid frames, stability and sheaf criteria.
 
-Tau Ceti provides the `p`-typical `(p,[ϖ])`-adic Huber topology in `TauCeti.RingTheory.Huber.WittVector`, with `isHuberRing_adicTopology_span_p_teichmuller` and `isTateRing_adicTopology_span_p_teichmuller_iff`, and its completeness in `TauCeti.RingTheory.WittVector.Complete`: `WittVector.isAdicComplete_span_p_teichmuller`, `TauCeti.WittVector.completeSpace_and_t2Space_adicTopology_span_p_teichmuller`, `Valuation.Integers.isAdicComplete_span_p_teichmuller` for `A_inf`, and the coordinate description of the powers of `(p,[ϖ])` (`WittVector.pow_dvd_coeff_of_mem_span_p_teichmuller_pow`, `WittVector.mem_span_p_teichmuller_pow_of_pow_dvd_coeff`). Its modules `TauCeti.AlgebraicGeometry.AdicSpace.FarguesFontaine.Y`, `.Window` and `.Quotient` provide `spaY`, the identification of the analytic locus of `Spa(W(R),A⁺)` with `D(p)∪D([ϖ])` (`mem_spaAnalytic_iff_of_isAdic`), `frobeniusHomeomorph`, `IsRadiusLowerBound`, `IsRadiusUpperBound`, the rational wandering windows and their cover, and `spaX`. In particular, `quotientMap_eq_iff`, `isOpenQuotientMap_quotientMap`, open embeddings of windows, compactness and the `T₀` property are existing inputs. Their `p`-typical carriers and topological theorems are excluded from the targets. VectorBundlesAndIsocrystals VB−1 supplies their relative all-`E` extensions; the retained targets add explicit estimates, integral-chart refinements and geometric comparisons.
+Tau Ceti provides the `p`-typical `(p,[ϖ])`-adic Huber topology in `TauCeti.RingTheory.Huber.WittVector`, with `isHuberRing_adicTopology_span_p_teichmuller` and `isTateRing_adicTopology_span_p_teichmuller_iff`, and its completeness in `TauCeti.RingTheory.WittVector.Complete`: `WittVector.isAdicComplete_span_p_teichmuller`, `TauCeti.WittVector.completeSpace_and_t2Space_adicTopology_span_p_teichmuller`, `Valuation.Integers.isAdicComplete_span_p_teichmuller` for `A_inf`, and the coordinate description of the powers of `(p,[ϖ])` (`WittVector.pow_dvd_coeff_of_mem_span_p_teichmuller_pow`, `WittVector.mem_span_p_teichmuller_pow_of_pow_dvd_coeff`). Its modules `TauCeti.AlgebraicGeometry.AdicSpace.FarguesFontaine.Y`, `.Window` and `.Quotient` provide `spaY`, the identification of the analytic locus of `Spa(W(R),A⁺)` with `D(p)∪D([ϖ])` (`mem_spaAnalytic_iff_of_isAdic`), `frobeniusHomeomorph`, `IsRadiusLowerBound`, `IsRadiusUpperBound`, the rational wandering windows and their cover, and `spaX`. In particular, `quotientMap_eq_iff`, `isOpenQuotientMap_quotientMap`, open embeddings of windows, compactness and the `T₀` property are existing inputs. Their `p`-typical carriers and topological theorems are excluded from the targets. VectorBundlesAndIsocrystals Layer 0 supplies their relative all-`E` extensions; the retained targets add explicit estimates, integral-chart refinements and geometric comparisons.
 
-TauCetiRoadmap.AlgebraicVectorBundles and Tau Ceti's `AlgebraicGeometry.VectorBundle` modules own scheme-level finite locally free bundles, ranks, affine finite-projective comparison, tensor products, duals and pullback. Those generic constructions are excluded. VectorBundlesAndIsocrystals VB−1 supplies the relative coefficients, integral period domain, annuli, analytic curve, generic Cartier legs and completions, twists and partial Proj charts. The work below adds explicit Dwork and twisted coordinates, integral-chart and integral-end refinements, symmetric-orbit and multileg descent, coefficient comparisons and modification gluing. General sites, tilts and diamond machinery belong to PerfectoidSpaces and DiamondsAndVStacks; their exact additional hypotheses are stated as contracts.
+TauCetiRoadmap.AlgebraicVectorBundles and Tau Ceti's `AlgebraicGeometry.VectorBundle` modules own scheme-level finite locally free bundles, ranks, affine finite-projective comparison, tensor products, duals and pullback. Those generic constructions are excluded. VectorBundlesAndIsocrystals Layer 0 supplies the relative coefficients, integral period domain, annuli, analytic curve, generic Cartier legs and completions, twists and partial Proj charts. The work below adds explicit Dwork and twisted coordinates, integral-chart and integral-end refinements, symmetric-orbit and multileg descent, coefficient comparisons and modification gluing. General sites, tilts and diamond machinery belong to PerfectoidSpaces and DiamondsAndVStacks; their exact additional hypotheses are stated as contracts.
 
-TauCetiRoadmap.LocalFieldsRamification supplies local fields and finite extensions (Layer 0), unramified extensions and Frobenius (Layer 2), and inertia (Layer 4). VectorBundlesAndIsocrystals VB3, `lubin-tate-universal-cover`, supplies the normalized Lubin–Tate formal module and its logarithm/period comparison. Section 2.5 constructs the marked torsion tower and its coefficient-unit Galois action. Section 0.23 supplies nonperfect-residue Cohen lifting from DerivedModuleAlgebra §§0.4–0.12 and §0.25's full cotangent-complex deformation theory; the perfect strict lift does not assert canonical Cohen lifts of nonperfect rings.
+TauCetiRoadmap.LocalFieldsRamification supplies local fields and finite extensions (Layer 0), unramified extensions and Frobenius (Layer 2), and inertia (Layer 4). VectorBundlesAndIsocrystals Layer 5, “Lubin–Tate universal cover and sections of O(1)”, supplies the normalized Lubin–Tate formal module and its logarithm/period comparison. Section 2.5 constructs the marked torsion tower and its coefficient-unit Galois action. Section 0.23 supplies nonperfect-residue Cohen lifting from DerivedModuleAlgebra §§0.4–0.12 and §0.25's full cotangent-complex deformation theory; the perfect strict lift does not assert canonical Cohen lifts of nonperfect rings.
 
-VectorBundlesAndIsocrystals owns the arbitrary-rank isocrystal functor and bundle cohomology (VB1), global generation, ampleness, global analytic-to-`Proj` comparison, tautological twists and classification (VB2), and spatiality/properness/cohomological smoothness of degree-one divisor moduli (VB3). Those results are excluded from the early targets. Its supplied partial section chart map is defined only on the section-covered open. The later `B`-pair applications explicitly consume the global comparison. VB4, `integral-frobenius-local-systems`, supplies the independent integral Frobenius foundation; AInfCohomology §AI.2.3 supplies the geometric no-leg equivalence; §6.14a proves normalized-tail compatibility.
+VectorBundlesAndIsocrystals owns the arbitrary-rank isocrystal functor and bundle cohomology (Layer 2), global generation, ampleness, global analytic-to-`Proj` comparison, tautological twists (Layer 3), geometric classification (Layer 4), and spatiality/properness/cohomological smoothness of degree-one divisor moduli (Layer 5). Those results are excluded from the early targets. Its supplied partial section chart map is defined only on the section-covered open. The later `B`-pair applications explicitly consume the global comparison. Layer 6, “Integral Frobenius and local-system comparison”, supplies the independent integral Frobenius foundation; AInfCohomology §AI.2.3 supplies the geometric no-leg equivalence and `BKF.reconstruct`, including its one-leg shtuka construction and specified-lattice recovery; §6.14a proves normalized-tail compatibility.
 
-ReductiveGroups Layer 1 owns field-valued representation reconstruction. PadicHodgeTheory §5.5 supplies the scheme-relative field tensor-isomorphism torsor dictionary. Section 7.0 glues it and extends the integral adic torsor dictionary needed for modifications, using the `ℤ_p` dictionary of VectorBundlesAndIsocrystals VB4, `integral-group-torsors`, in its stated scope. GeometricSatakeAndFusion, GS0 owns loop quotients and Grassmannians. This roadmap transfers the linear construction to torsors and supplies modifications to those consumers. AInfCohomology §AI.2.1 supplies regular-completion patching and geometric punctured-spectrum triviality, and §AI.2.3 supplies no-leg descent and analytic geometric-field extension. The target below proves general-perfect-Tate-base punctured Witt algebraicity; its integral-domain presentation is an application of that theorem, not a second target. The portable algebraic patching needed for Breuil–Kisin–Fargues modules can be used at the AInfCohomology foundation without depending on the whole relative curve.
+ReductiveGroups Layer 1 owns field-valued representation reconstruction. PadicHodgeTheory §5.5 supplies the scheme-relative field tensor-isomorphism torsor dictionary. Section 7.0 glues it and extends the integral adic torsor dictionary needed for modifications, using the `ℤ_p` dictionary of VectorBundlesAndIsocrystals Layer 6, “Integral group torsors and Frobenius”, in its stated scope. GeometricSatakeAndFusion, GS0 owns loop quotients and Grassmannians. This roadmap transfers the linear construction to torsors and supplies modifications to those consumers. AInfCohomology §AI.2.1 supplies regular-completion patching and geometric punctured-spectrum triviality, and §AI.2.3 supplies no-leg descent and analytic geometric-field extension. The target below proves general-perfect-Tate-base punctured Witt algebraicity; its integral-domain presentation is an application of that theorem, not a second target. The portable algebraic patching needed for Breuil–Kisin–Fargues modules can be used at the AInfCohomology foundation without depending on the whole relative curve.
 
-VectorBundlesAndIsocrystals VB−1, `relative-coefficients`, owns the universal ramified ghost polynomials and their evaluation and operations on arbitrary coefficient algebras, including torsion algebras. Section 0.1 retains only the finite-sum evaluation needed for Dwork and its comparison with that supplied polynomial API. The same supplier owns uniformizer changes, Teichmüller/Frobenius/Verschiebung operations, truncations, strict perfect lifts, coefficient transport and the Witt diagonal. Its `relative-twists` and `relative-graded-ring` targets own twists, the graded section algebra and the partial section charts.
+VectorBundlesAndIsocrystals Layer 0, “Ramified coefficient rings and coefficient changes”, owns the universal ramified ghost polynomials and their evaluation and operations on arbitrary coefficient algebras, including torsion algebras. Section 0.1 retains only the finite-sum evaluation needed for Dwork and its comparison with that supplied polynomial API. The same supplier owns uniformizer changes, Teichmüller/Frobenius/Verschiebung operations, truncations, strict perfect lifts, coefficient transport and the Witt diagonal. Its “Rank-one Frobenius twists” and “Homogeneous section ring and partial schematic charts” targets own twists, the graded section algebra and the partial section charts.
 
 DerivedModuleAlgebra §§1.E.0–1.E.1 owns effectivity and natural reduction comparisons for compatible perfect systems. Section 3.8 specializes that result to degree zero and identifies it with the integral and multileg divisor charts, transporting tensor products, duals and sheaf restrictions.
 
@@ -26,11 +26,11 @@ DerivedModuleAlgebra §§1.E.0–1.E.1 owns effectivity and natural reduction co
 
 Fix a prime `p`, a residue cardinality `q=p^f` and a nonarchimedean local field `E` with residue field `𝔽_q`. Its complete discrete valuation ring is `O_E` and its chosen uniformizer is `π`. The notation allows both mixed and equal characteristic. The affinoid base is `S=Spa(R,R⁺)`, perfectoid over `𝔽_q`; `ϖ` is a topologically nilpotent unit of `R`, lying in `R⁺`. General bases are handled by gluing over such affinoid opens.
 
-For perfect input, consume VectorBundlesAndIsocrystals VB−1, `relative-coefficients` (`ramifiedWittCoefficients`); `W_{O_E}(R⁺)` denotes the strict `π`-adically complete lift with residue `R⁺`, with the residue-field identification included. In equal characteristic this is `R⁺[[π]]`. In mixed characteristic, finite coefficient change tensors over the maximal unramified coefficient subring. It does not tensor two arbitrary `O_E`-actions without identifying that subring.
+For perfect input, consume VectorBundlesAndIsocrystals Layer 0, “Ramified coefficient rings and coefficient changes”; `W_{O_E}(R⁺)` denotes the strict `π`-adically complete lift with residue `R⁺`, with the residue-field identification included. In equal characteristic this is `R⁺[[π]]`. In mixed characteristic, finite coefficient change tensors over the maximal unramified coefficient subring. It does not tensor two arbitrary `O_E`-actions without identifying that subring.
 
 The arbitrary-algebra ramified Witt functor uses universal ghost polynomials in characteristic-zero coefficient situations. Ghost injectivity is only an argument on torsion-free universal inputs, not an axiom on every coefficient algebra. Coordinate extensionality and evaluation at torsion inputs are part of its API. A twisted polynomial `Q` must satisfy `Q≡X^q` modulo `π`. Its transported Teichmüller lift need not be multiplicative. The ordinary Teichmüller map `[−]` is multiplicative and is not an additive structural map `R→W_{O_E}(R)`.
 
-Write `φ` for the coefficient-compatible `q`-Frobenius. Coefficient changes, Teichmüller lifts and Frobenius must be compared with Mathlib’s `p`-typical Witt constructions at the exact `ℚ_p` specialization. A Lubin–Tate torsion tower and the coefficient-root tower used to perfect an integral chart are distinct constructions.
+Write `φ=φ_E` for the coefficient-compatible `q`-Frobenius, fixing `O_E`. Write `φ_p` for the ordinary `p`-typical Witt Frobenius. For unramified `E=W(𝔽_q)[1/p]`, the marked coefficient comparison identifies `φ_E=φ_p^f`; `φ_p` itself need not fix `O_E`. In the explicit `p`-typical KL calculations use `φ_p`, with positive iteration exponents. Coefficient changes, Teichmüller lifts and Frobenius must be compared with Mathlib’s `p`-typical Witt constructions at the exact `ℚ_p` specialization. A Lubin–Tate torsion tower and the coefficient-root tower used to perfect an integral chart are distinct constructions.
 
 ### Three period loci and their topology
 
@@ -52,7 +52,7 @@ The coefficient-root charts adjoin roots of the **whole ratio** `π/[ϖ]`. At le
 
 ### Radii, quotient and base projection
 
-On the generic domain define the real radius through the rank-one generalization of a valuation by `log|[ϖ]|/log|π|`. For higher-rank points use the equivalent rational power inequalities. Frobenius multiplies the radius by `q`. Replacing `ϖ` by `ϖ^m` multiplies this radius by `m`; the corresponding windows remain cofinal. Interval norm parameters are compared with this radius convention, rather than identified without the reciprocal-radius calculation.
+On the generic domain define the real radius through the rank-one generalization of a valuation by `log|[ϖ]|/log|π|`. For higher-rank points use the equivalent rational power inequalities. The action by valuation precomposition with `φ_E` multiplies the radius by `q`; its `d`th iterate multiplies it by `q^d`. For `φ_p` the factors are `p` and `p^d`, respectively. Replacing `ϖ` by `ϖ^m` multiplies this radius by `m`; the corresponding windows remain cofinal. Interval norm parameters are compared with this radius convention, rather than identified without the reciprocal-radius calculation.
 
 The curve is the analytic Frobenius quotient `X_S=Y_S/φ^ℤ`, glued from wandering interval charts. Its diamond is given by the product formula followed by the equivariant Frobenius quotient. The natural projection `|X_S|→|S|` is continuous and qcqs in the stated affinoid scope. There is no adic structural morphism `X_S→S` obtained from Teichmüller representatives. Products and base-change assertions that use the base are stated on diamonds or on the explicit period-ring interfaces.
 
@@ -66,13 +66,13 @@ A marked untilt determines `θ` and a principal regular kernel, locally generate
 
 For a closed Cartier divisor `D` with invertible ideal `I_D`, complete the **ambient** structure sheaf along `I_D`. Its sections, where the divisor is affinoid, are `B_D⁺`; puncturing this completion by the completed invertible ideal gives `B_D`. Completing `O_D` along its zero ideal does not give `B_D⁺`. A unit change of `ξ` gives the same intrinsic completion. Repeated powers `I_D^m` have cofinal adic topology but a different numbered filtration. Disjoint divisors give a Chinese-remainder product decomposition; colliding divisors retain multiplicity and do not give independent products.
 
-`Div^1` has the coefficient-base presentations `Spd(E)/φ^ℤ` over `Perf_{𝔽_q}` and `Spd(Ê)/φ^ℤ` after extending to `Perf_{𝔽̄_q}`. The spatial/proper/cohomologically smooth moduli theorem is a VB3 output. These coefficient bases and ownership boundaries also apply when transporting the projection properties.
+`Div^1` has the coefficient-base presentations `Spd(E)/φ^ℤ` over `Perf_{𝔽_q}` and `Spd(Ê)/φ^ℤ` after extending to `Perf_{𝔽̄_q}`. The spatial/proper/cohomologically smooth moduli theorem is a VectorBundlesAndIsocrystals Layer 5 output. These coefficient bases and ownership boundaries also apply when transporting the projection properties.
 
 The comparison with Mathlib’s PreTilt, Fontaine `θ` and BDeRhamPlus first identifies the marked geometric tilt, the `p`-localized `θ` kernel and the Cartier ideal. For finite mixed-characteristic `E`, select the embedding/factor and lift it successively by formal étaleness. Equal-characteristic completion is intrinsic to the Cartier ideal. Graded filtration pieces are tensor powers of the conormal line, and are not globally free without a trivialization. At one geometric generic leg the completed ring is a complete DVR with residue `C♯`. A multileg completion is not assigned that DVR property.
 
 ### Twists, graded algebra and modifications
 
-The rank-one descent multiplier for `O(n)` is `π^(−n)φ`; its sections satisfy `φ(f)=π^n f`. The corresponding isocrystal has slope `−n` and the line bundle has degree `+n`. The lattice `ξ^k B_D⁺` gives the modification `O(−k)`, consistently with these signs. VectorBundlesAndIsocrystals VB−1 supplies `P=⊕_{n≥0}H⁰(X_S,O(n))`, its grading and the partial analytic chart comparison. The algebraic standard-open isomorphism `D₊(g)≅Spec` of the degree-zero homogeneous localization is distinct from the ring homomorphism to analytic functions. Layer 5 uses the latter and the supplied morphism on the section-covered open `U`. Proving `U=X_S` and the global comparison/twists belongs to VB2. The two crystalline-boundary charts and their Čech section input are compared with the supplied mixed-characteristic Lubin–Tate divisor section.
+The rank-one descent multiplier for `O(n)` is `π^(−n)φ`; its sections satisfy `φ(f)=π^n f`. The corresponding isocrystal has slope `−n` and the line bundle has degree `+n`. The lattice `ξ^k B_D⁺` gives the modification `O(−k)`, consistently with these signs. VectorBundlesAndIsocrystals Layer 0 supplies `P=⊕_{n≥0}H⁰(X_S,O(n))`, its grading and the partial analytic chart comparison. The algebraic standard-open isomorphism `D₊(g)≅Spec` of the degree-zero homogeneous localization is distinct from the ring homomorphism to analytic functions. Layer 5 uses the latter and the supplied morphism on the section-covered open `U`. Proving `U=X_S` and the global comparison/twists belongs to VectorBundlesAndIsocrystals Layer 3. The two crystalline-boundary charts and their Čech section input are compared with the supplied mixed-characteristic Lubin–Tate divisor section.
 
 An algebraic exact square `R→R₁,R₂→R₁₂` means exactness of `0→R→R₁⊕R₂→R₁₂→0`, with the difference as last map. Glueing data carry actual base-change identifications. Finite-projective recovery requires the universal comparison-surjectivity criterion and the maximal-ideal covering condition; an exact square by itself does not imply every proposed descent conclusion. Topological glueing squares are AdicSpacesPartIII R3.2’s specialization of this algebraic interface.
 
@@ -82,7 +82,7 @@ A modification is an isomorphism off `D`, meromorphic along `D`. Its groupoid ar
 
 For a repeated divisor `mD`, an `ℓ`-bound at `mD` is an `mℓ`-bound at `D`. Given a `k`-bound at `D`, `ceiling(k/m)` is a sufficient bound at `mD`; claims about a least bound also require existence of that least bound. Composition at intersecting `D₁,D₂` is meromorphic at `D₁+D₂`: `kD₁+ℓD₂≤max(k,ℓ)(D₁+D₂)`. Independent local pieces form a product only for disjoint supports; a colliding chain retains its intermediate modification.
 
-The unramified schematic `B`-pair theorem uses KL’s actual `φ^a` setting and the later VB2 scheme comparison. Flat quasicoherent sections use ordinary tensor products with the completed coefficient ring, not a completed tensor product for an arbitrary infinite module. For varying pairs `(T,Ξ)`, the integral lattice `T` is retained as data: a rational automorphism multiplying by `1/p` is not a `ℤ_p`-lattice automorphism.
+The unramified schematic `B`-pair theorem uses KL’s actual `φ_p^a` setting and the VectorBundlesAndIsocrystals Layer 3 scheme comparison. Flat quasicoherent sections use ordinary tensor products with the completed coefficient ring, not a completed tensor product for an arbitrary infinite module. For varying pairs `(T,Ξ)`, the integral lattice `T` is retained as data: a rational automorphism multiplying by `1/p` is not a `ℤ_p`-lattice automorphism.
 
 For a linear algebraic group `G/E`, a `G`-bundle is an exact tensor functor from finite-dimensional `Rep_E(G)` to bundles. For smooth affine `G/O_E` use finite-free `O_E` representations. On `Spec(B)` the target is finite projective `B`-modules. For `G`-modifications, use the §7.0 exact tensor dictionary in the required scheme/integral generality. Meromorphy over `E` is tested on a faithful representation using its tensor generator `V⊕V∨`; tensor operations propagate explicit degree bounds. The integral closed-immersion criterion is not inferred from the field theorem. Ordinary `v`-descent uses the smooth affine `O_E` scope of its source. Étale-local triviality in the cited theorem retains reductive `G` and the actual henselian approximation hypotheses.
 
@@ -126,19 +126,19 @@ Sections 1.E.0 (residue-field Tor criterion and strict-tower reduction compariso
 
 ### From local fields and period-bundle foundations
 
-VectorBundlesAndIsocrystals VB3, `divisor-section-comparison`, supplies the effective-divisor/projective-section identification and the absolute symmetric-power presentation over `Perf_(𝔽̄_q)`. Sections 3.4–3.6 compare its geometric-base restriction with the integral orbit sheaves and establish the additional descent to `Perf_(𝔽_q)`; no broader base scope is attributed to that supplier.
+VectorBundlesAndIsocrystals Layer 5, “Effective divisors and projective sections”, supplies the effective-divisor/projective-section identification and the absolute symmetric-power presentation over `Perf_(𝔽̄_q)`. Sections 3.4–3.6 compare its geometric-base restriction with the integral orbit sheaves and establish the additional descent to `Perf_(𝔽_q)`; no broader base scope is attributed to that supplier.
 
-LocalFieldsRamification Layers 0, 2 and 4 supplies the coefficient local fields, finite extensions, unramified tower and inertia. VectorBundlesAndIsocrystals VB3, `lubin-tate-universal-cover` and `fundamental-exact-sequence`, supplies the normalized formal `O_E`-module with scalar endomorphisms, its universal cover, and the comparison of its logarithm with the explicit period eigenfunction, including simple torsion zeros. Section 2.5 constructs the marked finite torsion fields, completed tower, tilt and `O_Eˣ` Galois action from these data. The separate `E_root∞` is used for chart perfectoidness. Section 0.23 proves the nonperfect Cohen variant using DerivedModuleAlgebra §§0.4–0.12 and §0.25: flat `π`-complete lifts exist and are isomorphic, without canonical uniqueness; the obstruction groups are `Ext²_K(L_(K/𝔽_q),N)` and `Ext¹_K(L_(K/𝔽_q),N)` for the square-zero kernel module `N`, and `L_(K/𝔽_q)≃Ω¹_(K/𝔽_q)[0]`.
+LocalFieldsRamification Layers 0, 2 and 4 supplies the coefficient local fields, finite extensions, unramified tower and inertia. VectorBundlesAndIsocrystals Layer 5, “Lubin–Tate universal cover and sections of O(1)” and “The fundamental untilt sequence and degree-one divisors”, supplies the normalized formal `O_E`-module with scalar endomorphisms, its universal cover, and the comparison of its logarithm with the explicit period eigenfunction, including simple torsion zeros. Section 2.5 constructs the marked finite torsion fields, completed tower, tilt and `O_Eˣ` Galois action from these data. The separate `E_root∞` is used for chart perfectoidness. Section 0.23 proves the nonperfect Cohen variant using DerivedModuleAlgebra §§0.4–0.12 and §0.25: flat `π`-complete lifts exist and are isomorphic, without canonical uniqueness; the obstruction groups are `Ext²_K(L_(K/𝔽_q),N)` and `Ext¹_K(L_(K/𝔽_q),N)` for the square-zero kernel module `N`, and `L_(K/𝔽_q)≃Ω¹_(K/𝔽_q)[0]`.
 
 PadicHodgeTheory §0.2, `bdRPlusAffinoid` and `filAffinoid`, supplies the mixed-characteristic `p`-typical affinoid de Rham ring/filtration on Mathlib's carrier. PadicPeriodRings §§1.5 and 4.1 supplies the geometric complete DVR, residue map and filtered fraction field; §4.3 supplies the underlying fundamental period sequence. A ramified `E` version still needs an embedding/factor choice and the coefficient lift; the equal-characteristic version remains intrinsic Cartier completion.
 
-VectorBundlesAndIsocrystals VB1, `isocrystal-to-bundle-functor`, supplies the exact tensor arbitrary-rank isocrystal functor compatible with multiplier `π^(−n)`. Its `annular-frobenius-descent` supplies the Frobenius-bundle carrier; §1.18 proves the passage from generation on every compact interval to global sections over `R̃^∞` (KL I Lemma 6.1.4). VB2 supplies FS Theorem II.2.6, `U=X_S`, the global `Proj` map and tautological twists, the algebraic Cartier section and affine complement of KL I Lemma 8.9.3, and the two-affine cover for `B`-pair cohomology. VB3's FS Proposition II.1.21/Fargues Proposition 2.18 moduli properties require the late proper-base-change and smoothness inputs; they are not early curve prerequisites.
+VectorBundlesAndIsocrystals Layer 2, “The exact tensor isocrystal-to-bundle functor”, supplies the exact tensor arbitrary-rank isocrystal functor for perfectoid bases over the fixed `𝔽̄_q` with its coefficient embedding, compatible with multiplier `π^(−n)`; the standard cyclic bundles alone descend over `𝔽_q`. Its Layer 2 target “Annular Frobenius descent for bundles” supplies the Frobenius-bundle carrier; §1.18 proves the passage from generation on every compact interval to global sections over `R̃^∞` (KL I Lemma 6.1.4). Layer 3 supplies FS Theorem II.2.6, `U=X_S`, the global `Proj` map and tautological twists, the algebraic Cartier section and affine complement of KL I Lemma 8.9.3, and the two-affine cover for `B`-pair cohomology. Layer 5's FS Proposition II.1.21/Fargues Proposition 2.18 moduli properties require the late proper-base-change and smoothness inputs; they are not early curve prerequisites.
 
-VB4's `integral-frobenius-local-systems` foundation supplies SW Theorem 12.3.4 independently of the gluing here. AInfCohomology §AI.2.3, `AInf.integral_robba_frobenius_descent`, supplies SW Proposition 12.3.5, p. 104: crystalline-point localization identifies no-leg shtukas on `Y_[0,∞)` with integral Robba `φ`-modules. Section 6.14a proves SW Corollary 12.4.1, p. 105: the unique normalized `φ⁻¹`-equivariant meromorphic comparison to a one-leg model at `φ⁻¹(x_C)`, identity at the crystalline point, away from the forward orbit of `x_C`; its completed comparison determines the lattice and recovers the shtuka. Both comparisons include morphisms and scalar extension. Downstream shtuka moduli are not its foundation.
+VectorBundlesAndIsocrystals Layer 6's “Integral Frobenius and local-system comparison” foundation supplies SW Theorem 12.3.4 independently of the gluing here. AInfCohomology §AI.2.3, `AInf.Yan` and `AInf.integral_robba_frobenius_descent`, supplies SW Proposition 12.3.5, p. 104: localization at the characteristic-`p` endpoint `x_{C♭}`, where `p=0` and `[ϖ]≠0`, identifies no-leg shtukas on `Y_[0,∞)` with integral Robba `φ`-modules. Section 6.14a proves SW Corollary 12.4.1, p. 105: the unique normalized `φ⁻¹`-equivariant meromorphic comparison from a one-leg shtuka with leg at `φ⁻¹(x_C)` to its no-leg model, inducing the prescribed identification at `x_{C♭}`, away from the forward orbit of `x_C`; its completed comparison determines the lattice and agrees with the specified-lattice recovery of AInfCohomology §AI.2.3, `BKF.reconstruct_modification`. Both comparisons include morphisms and scalar extension. Downstream shtuka moduli are not its foundation.
 
 ### Representation and torsor inputs
 
-Section 7.0 consumes PadicHodgeTheory §5.5’s field tensor-isomorphism torsor dictionary and proves its `O_E` coefficient extension for flat affine linear groups and exact tensor functors on finite-free representations valued in finite projective modules, with the étale dictionary when the group is smooth (SW Theorem 19.5.1, pp. 178–179, and its coefficient extension). It proves the smooth `O_E`-integral adic dictionary on analytic sousperfectoid spaces, including `𝒴` and opens in the dotted product with `Spa(O_E)`, compatible with restrictions and base change (SW Theorem 19.5.2, pp. 179–180; FS Definition/Proposition III.1.1, p. 88). For linear algebraic groups over `E`, a faithful `V` makes `V⊕V∨` a tensor generator, and closed immersions have the restriction/subquotient criterion (Deligne–Milne Propositions 2.20(b), 2.21(b), pp. 25–26, footnote 11). The field criterion is not an integral inference. ReductiveGroups Layer 1 and `TauCeti.Tannaka.pointsFunctorIsoTensorAutFunctor` supply field-valued reconstruction; SchemeAndStackFoundations §§1.15 and 2.3 supplies geometric/fppf torsors. VectorBundlesAndIsocrystals VB4, `integral-group-torsors`, supplies the `ℤ_p` scheme and adic tensor dictionary. Section 7.0 proves its `O_E` coefficient extension and the faithful tensor-generator/structure-group criteria in the stated scope, independently of modification gluing.
+Section 7.0 consumes PadicHodgeTheory §5.5’s field tensor-isomorphism torsor dictionary and proves its `O_E` coefficient extension for flat affine linear groups and exact tensor functors on finite-free representations valued in finite projective modules, with the étale dictionary when the group is smooth (SW Theorem 19.5.1, pp. 178–179, and its coefficient extension). It proves the smooth `O_E`-integral adic dictionary on analytic sousperfectoid spaces, including `𝒴` and opens in the dotted product with `Spa(O_E)`, compatible with restrictions and base change (SW Theorem 19.5.2, pp. 179–180; FS Definition/Proposition III.1.1, p. 88). For linear algebraic groups over `E`, a faithful `V` makes `V⊕V∨` a tensor generator, and closed immersions have the restriction/subquotient criterion (Deligne–Milne Propositions 2.20(b), 2.21(b), pp. 25–26, footnote 11). The field criterion is not an integral inference. ReductiveGroups Layer 1 and `TauCeti.Tannaka.pointsFunctorIsoTensorAutFunctor` supply field-valued reconstruction; SchemeAndStackFoundations §§1.15 and 2.3 supplies geometric/fppf torsors. VectorBundlesAndIsocrystals Layer 6, “Integral group torsors and Frobenius”, supplies the `ℤ_p` scheme and adic tensor dictionary. Section 7.0 proves its `O_E` coefficient extension and the faithful tensor-generator/structure-group criteria in the stated scope, independently of modification gluing.
 
 ### Completed geometric stalks for divisor approximation
 
@@ -146,9 +146,9 @@ For an affinoid divisor and a geometric point `s`, on pointed affinoid étale ne
 
 ### Ramified coefficient inputs
 
-VectorBundlesAndIsocrystals VB−1, `relative-coefficients`, supplies the polynomials `w_n=Σ_(i≤n)π^i X_i^(q^(n−i))`, their evaluation in every coefficient algebra, naturality and the universal integral ring operations. The comparison in §0.1 uses this API on the same arbitrary algebras; no torsion-free hypothesis is imposed on polynomial evaluation.
+VectorBundlesAndIsocrystals Layer 0, “Ramified coefficient rings and coefficient changes”, supplies the polynomials `w_n=Σ_(i≤n)π^i X_i^(q^(n−i))`, their evaluation in every coefficient algebra, naturality and the universal integral ring operations. The comparison in §0.1 uses this API on the same arbitrary algebras; no torsion-free hypothesis is imposed on polynomial evaluation.
 
-Consume VectorBundlesAndIsocrystals VB−1, `relative-coefficients` (`ramifiedWittCoefficients`) for the arbitrary-algebra ramified Witt functor, its universal polynomial operations, coordinate extensionality and functorial ghost homomorphisms. The hypotheses and coefficient embeddings of that supplier are retained.
+Consume VectorBundlesAndIsocrystals Layer 0, “Ramified coefficient rings and coefficient changes” for the arbitrary-algebra ramified Witt functor, its universal polynomial operations, coordinate extensionality and functorial ghost homomorphisms. The hypotheses and coefficient embeddings of that supplier are retained.
 
 **Checks.**
 
@@ -158,7 +158,7 @@ Consume VectorBundlesAndIsocrystals VB−1, `relative-coefficients` (`ramifiedWi
 
 ([FF (2017)](https://www.imo.universite-paris-saclay.fr/~fontaine/courbe.pdf) Lemme 1.2.1, printed p. 53.)
 
-Consume VectorBundlesAndIsocrystals VB−1, `relative-coefficients` (`ramifiedWittCoefficients`) for the ghost-preserving change of uniformizer and its natural inverse and cocycle laws. The hypotheses and coefficient embeddings of that supplier are retained.
+Consume VectorBundlesAndIsocrystals Layer 0, “Ramified coefficient rings and coefficient changes” for the ghost-preserving change of uniformizer and its natural inverse and cocycle laws. The hypotheses and coefficient embeddings of that supplier are retained.
 
 **Checks.**
 
@@ -168,7 +168,7 @@ Consume VectorBundlesAndIsocrystals VB−1, `relative-coefficients` (`ramifiedWi
 
 ([FF (2017)](https://www.imo.universite-paris-saclay.fr/~fontaine/courbe.pdf) §1.2.1 and Définition 1.2.2, printed pp. 53–54.)
 
-Consume VectorBundlesAndIsocrystals VB−1, `relative-coefficients` (`ramifiedWittCoefficients`) for Teichmüller representatives, Frobenius and Verschiebung, with `FV_π=π` and the projection formula; `V_πF=π` is used only on residue-algebra inputs. The hypotheses and coefficient embeddings of that supplier are retained.
+Consume VectorBundlesAndIsocrystals Layer 0, “Ramified coefficient rings and coefficient changes” for Teichmüller representatives, Frobenius and Verschiebung, with `FV_π=π` and the projection formula; `V_πF=π` is used only on residue-algebra inputs. The hypotheses and coefficient embeddings of that supplier are retained.
 
 **Checks.**
 
@@ -178,7 +178,7 @@ Consume VectorBundlesAndIsocrystals VB−1, `relative-coefficients` (`ramifiedWi
 
 ([FF (2017)](https://www.imo.universite-paris-saclay.fr/~fontaine/courbe.pdf) §1.2.1, printed p. 54.)
 
-Consume VectorBundlesAndIsocrystals VB−1, `relative-coefficients` (`ramifiedWittCoefficients`), for the arbitrary-algebra expansion and truncation API. For characteristic-zero `E` and any `O_E`-algebra `A`, the `V_π`-adic truncations retain the first `n` Witt coordinates and recover the vector by inverse limit, with expansion `ΣV_π^n[a_n]`. The perfect strict-lift specialization identifies `V^nW` with `π^nW`.
+Consume VectorBundlesAndIsocrystals Layer 0, “Ramified coefficient rings and coefficient changes”, for the arbitrary-algebra expansion and truncation API. For characteristic-zero `E` and any `O_E`-algebra `A`, the `V_π`-adic truncations retain the first `n` Witt coordinates and recover the vector by inverse limit, with expansion `ΣV_π^n[a_n]`. The perfect strict-lift specialization identifies `V^nW` with `π^nW`.
 
 **Checks.**
 
@@ -188,7 +188,7 @@ Consume VectorBundlesAndIsocrystals VB−1, `relative-coefficients` (`ramifiedWi
 
 ([FF (2017)](https://www.imo.universite-paris-saclay.fr/~fontaine/courbe.pdf) §1.2.1, printed p. 54.)
 
-Consume VectorBundlesAndIsocrystals VB−1, `relative-coefficients` (`ramifiedWittCoefficients`) for the perfect strict lift for mixed or equal characteristic, with its marked reduction, unique Teichmüller expansions, flat completeness and coefficient Frobenius. The hypotheses and coefficient embeddings of that supplier are retained.
+Consume VectorBundlesAndIsocrystals Layer 0, “Ramified coefficient rings and coefficient changes” for the perfect strict lift for mixed or equal characteristic, with its marked reduction, unique Teichmüller expansions, flat completeness and coefficient Frobenius. The hypotheses and coefficient embeddings of that supplier are retained.
 
 **Checks.**
 
@@ -199,7 +199,7 @@ Consume VectorBundlesAndIsocrystals VB−1, `relative-coefficients` (`ramifiedWi
 
 ([FF (2017)](https://www.imo.universite-paris-saclay.fr/~fontaine/courbe.pdf) §1.2.1, printed pp. 54–55; [FS](https://people.mpim-bonn.mpg.de/scholze/Geometrization.pdf) II.1 opening, printed p. 47.)
 
-Consume VectorBundlesAndIsocrystals VB−1, `relative-coefficients` (`ramifiedWittCoefficients`) for finite coefficient-field transport, including `w_n^E′(u(x))=w_(fn)^E(x)`, `uF_E^f=F_E′u` and `uV_π=(π/π′)V_π′uF_E^(f−1)`. The hypotheses and coefficient embeddings of that supplier are retained.
+Consume VectorBundlesAndIsocrystals Layer 0, “Ramified coefficient rings and coefficient changes” for finite coefficient-field transport, including `w_n^E′(u(x))=w_(fn)^E(x)`, `uF_E^f=F_E′u` and `uV_π=(π/π′)V_π′uF_E^(f−1)`. The hypotheses and coefficient embeddings of that supplier are retained.
 
 **Checks.**
 
@@ -209,7 +209,7 @@ Consume VectorBundlesAndIsocrystals VB−1, `relative-coefficients` (`ramifiedWi
 
 ([FF (2017)](https://www.imo.universite-paris-saclay.fr/~fontaine/courbe.pdf) Lemme 1.2.3, printed p. 55; [FF (corrected)](https://webusers.imj-prg.fr/~laurent.fargues/Courbe_fichier_principal.pdf) Lemme 1.2.3, printed p. 7.)
 
-Consume VectorBundlesAndIsocrystals VB−1, `relative-coefficients` (`ramifiedWittCoefficients`) for the unramified coefficient action used in finite coefficient transport, characterized by the Witt diagonal with outer ghosts `F_E^n`. The hypotheses and coefficient embeddings of that supplier are retained.
+Consume VectorBundlesAndIsocrystals Layer 0, “Ramified coefficient rings and coefficient changes” for the unramified coefficient action used in finite coefficient transport, characterized by the Witt diagonal with outer ghosts `F_E^n`. The hypotheses and coefficient embeddings of that supplier are retained.
 
 **Checks.**
 
@@ -219,7 +219,7 @@ Consume VectorBundlesAndIsocrystals VB−1, `relative-coefficients` (`ramifiedWi
 
 ([FF (2017)](https://www.imo.universite-paris-saclay.fr/~fontaine/courbe.pdf) §1.2.1 following Lemme 1.2.3, printed p. 55.)
 
-Consume VectorBundlesAndIsocrystals VB−1, `relative-coefficients` (`ramifiedWittCoefficients`) for the perfect coefficient comparison `W_OE(R)⊗_(O_E″)O_E′≃W_OE′(R)` for finite `E′/E`, with its topology, marked residue and Frobenius API. The hypotheses and coefficient embeddings of that supplier are retained.
+Consume VectorBundlesAndIsocrystals Layer 0, “Ramified coefficient rings and coefficient changes” for the perfect coefficient comparison `W_OE(R)⊗_(O_E″)O_E′≃W_OE′(R)` for finite `E′/E`, with its topology, marked residue and Frobenius API. The hypotheses and coefficient embeddings of that supplier are retained.
 
 **Checks.**
 
@@ -231,7 +231,7 @@ Consume VectorBundlesAndIsocrystals VB−1, `relative-coefficients` (`ramifiedWi
 
 ### Twist and section chart inputs
 
-Consume VectorBundlesAndIsocrystals VB−1, `relative-twists`, for `O_X(n)` with descent multiplier `π^(−n)φ`, its section equation, tensor/dual laws and annular/base compatibility. Use its lines and the VB0 slope convention: multiplier `π^(−n)σ` has slope `−n`, and the line has degree `n`.
+Consume VectorBundlesAndIsocrystals Layer 0, “Rank-one Frobenius twists”, for `O_X(n)` with descent multiplier `π^(−n)φ`, its section equation, tensor/dual laws and annular/base compatibility. Use its lines and the VectorBundlesAndIsocrystals Layer 1 slope convention: multiplier `π^(−n)σ` has slope `−n`, and the line has degree `n`.
 
 Over an arbitrary field `K`, a unit `π∈Kˣ`, an integer `n` and a ring endomorphism `φ`, the scalar identity identifies `π^(−n)φ(x)=x` with `φ(x)=π^n x`. This sign calculation carries no analytic coefficient hypotheses.
 
@@ -254,7 +254,7 @@ Further specializations and compatibility requirements are as follows.
 
 ([FS](https://people.mpim-bonn.mpg.de/scholze/Geometrization.pdf) II.2 opening after Proposition II.2.1, printed p. 58.)
 
-Consume VectorBundlesAndIsocrystals VB−1, `relative-graded-ring` (`relativeHomogeneousRing`): the nonnegative section algebra `P_S=⊕H⁰(X_S,O(n))`, `Proj(P_S)`, homogeneous degree-zero localizations and their overlap maps. The degree-`n` piece uses the supplied twist described above. The global map and tautological-twist comparison are VB2 outputs.
+Consume VectorBundlesAndIsocrystals Layer 0, “Homogeneous section ring and partial schematic charts”: the nonnegative section algebra `P_S=⊕H⁰(X_S,O(n))`, `Proj(P_S)`, homogeneous degree-zero localizations and their overlap maps. The degree-`n` piece uses the supplied twist described above. The global map and tautological-twist comparison are VectorBundlesAndIsocrystals Layer 3 outputs.
 
 **Checks.**
 
@@ -264,7 +264,7 @@ Consume VectorBundlesAndIsocrystals VB−1, `relative-graded-ring` (`relativeHom
 
 ([FS](https://people.mpim-bonn.mpg.de/scholze/Geometrization.pdf) II.2.3 opening and Proposition II.2.7 proof, printed pp. 64–67.)
 
-Consume the partial analytic chart maps of VectorBundlesAndIsocrystals VB−1, `relative-graded-ring`. Their domain is `U=⋃_(deg g>0)D(g)`, with `a/g^k` mapped to the analytic section ratio on `D(g)`. Use their overlap and positive-power comparisons; global coverage is a separate VB2 theorem.
+Consume the partial analytic chart maps of VectorBundlesAndIsocrystals Layer 0, “Homogeneous section ring and partial schematic charts”. Their domain is `U=⋃_(deg g>0)D(g)`, with `a/g^k` mapped to the analytic section ratio on `D(g)`. Use their overlap and positive-power comparisons; global coverage is a separate VectorBundlesAndIsocrystals Layer 3 theorem.
 
 **Checks.**
 
@@ -276,13 +276,13 @@ Consume the partial analytic chart maps of VectorBundlesAndIsocrystals VB−1, `
 
 ## How to read the build
 
-Layers 0–1 use VB−1’s coefficients and period domains to prove the Dwork, twisted-coordinate, integral-chart and annular-estimate refinements. Layer 2 compares the supplied Frobenius curve with its diamond presentations. Layers 3–4 construct Cartier legs, their symmetric moduli and completions before generic untilt comparisons. Layer 5 uses the supplied rank-one sign and section charts to prove eigenvector and divisor-section comparisons. Layers 6–7 apply linear patching and then the torsor tensor dictionary. The basic algebra in Layer 6 can be developed independently; its later schematic `B`-pair applications use the VB2 global comparison. Within each layer, the named prerequisites specify the order. Named interfaces specify library targets. `Suggested.lean` states the ramified Dwork criterion (§0.2), nonperfect Cohen coefficient lifting and comparison (§0.23), exact-square finite-projective and finite-étale patching (§§6.2–6.3), and general glueable-module effectivity, recovery and morphism descent, flat exactness and flat/finite-projective detection (§6.5). The geometric headlines require the relative ringed period spaces, Cartier divisors, completions and bundle categories specified in the layers below.
+Layers 0–1 use VectorBundlesAndIsocrystals Layer 0’s coefficients and period domains to prove the Dwork, twisted-coordinate, integral-chart and annular-estimate refinements. Layer 2 compares the supplied Frobenius curve with its diamond presentations. Layers 3–4 construct Cartier legs, their symmetric moduli and completions before generic untilt comparisons. Layer 5 uses the supplied rank-one sign and section charts to prove eigenvector and divisor-section comparisons. Layers 6–7 apply linear patching and then the torsor tensor dictionary. The basic algebra in Layer 6 can be developed independently; its later schematic `B`-pair applications use the VectorBundlesAndIsocrystals Layer 3 global comparison. Within each layer, the named prerequisites specify the order. Named interfaces specify library targets. `Suggested.lean` states the ramified Dwork criterion (§0.2), nonperfect Cohen coefficient lifting and comparison (§0.23), exact-square finite-projective and finite-étale patching (§§6.2–6.3), and general glueable-module effectivity, recovery and morphism descent, flat exactness and flat/finite-projective detection (§6.5). The geometric headlines require the relative ringed period spaces, Cartier divisors, completions and bundle categories specified in the layers below.
 
 ## Layer 0: coefficients and integral period geometry
 
 ### 0.1 Ramified ghost evaluation
 
-Define `ramifiedGhost` by the finite sum `w_n(x)=Σ_(i≤n)π^i x_i^(q^(n−i))` in any commutative coefficient algebra, for any element `π`, natural `q` and `n≥0`. Prove that this evaluation agrees with the universal polynomial supplied by VectorBundlesAndIsocrystals VB−1, `relative-coefficients`, over every `O_E`-algebra in its characteristic-zero local-field scope. No perfectness, reducedness, flatness or completeness is imposed on the algebra. This retained definition makes the Dwork criterion statable; it does not construct another Witt functor.
+Define `ramifiedGhost` by the finite sum `w_n(x)=Σ_(i≤n)π^i x_i^(q^(n−i))` in any commutative coefficient algebra, for any element `π`, natural `q` and `n≥0`. Prove that this evaluation agrees with the universal polynomial supplied by VectorBundlesAndIsocrystals Layer 0, “Ramified coefficient rings and coefficient changes”, over every `O_E`-algebra in its characteristic-zero local-field scope. No perfectness, reducedness, flatness or completeness is imposed on the algebra. This retained definition makes the Dwork criterion statable; it does not construct another Witt functor.
 
 `E` is a nonarchimedean local field of characteristic zero; `q=p^f`; `n≥0`. The perfect strict lift has the supplier ownership specified above.
 
@@ -311,7 +311,7 @@ Further specializations and compatibility requirements are as follows.
 
 ([FF (2017)](https://www.imo.universite-paris-saclay.fr/~fontaine/courbe.pdf) §1.2.1, printed p. 53.)
 
-*Needs:* VectorBundlesAndIsocrystals VB−1/relative-coefficients; Mathlib WittVector; Mathlib WittVector.ghostComponent.
+*Needs:* VectorBundlesAndIsocrystals Layer 0, “Ramified coefficient rings and coefficient changes”; Mathlib WittVector; Mathlib WittVector.ghostComponent.
 
 ### 0.2 Ramified Dwork criterion
 
@@ -415,7 +415,7 @@ Further specializations and compatibility requirements are as follows.
 
 ### 0.13 Weak coefficient topology
 
-Prove the weak-topology comparison. For a perfect complete valued field `F/𝔽_q` and `A=W_OE(O_F)`, the product topology on Teichmuller expansion coefficients equals the `(π,[ϖ])`-adic topology for a topologically nilpotent `ϖ∈O_F`. `A` has the separated complete topology supplied by VectorBundlesAndIsocrystals VB−1, `relative-coefficients` (`ramifiedWittCoefficients`). For `0<ρ<1` the Gauss norm `|Σπ^n[x_n]|_ρ=sup_n|x_n|ρ^n` induces it; at `ρ=1` the mixed-characteristic Teichmuller map need not be continuous.
+Prove the weak-topology comparison. For a perfect complete valued field `F/𝔽_q` and `A=W_OE(O_F)`, the product topology on Teichmuller expansion coefficients equals the `(π,[ϖ])`-adic topology for a topologically nilpotent `ϖ∈O_F`. `A` has the separated complete topology supplied by VectorBundlesAndIsocrystals Layer 0, “Ramified coefficient rings and coefficient changes”. For `0<ρ<1` the Gauss norm `|Σπ^n[x_n]|_ρ=sup_n|x_n|ρ^n` induces it; at `ρ=1` the mixed-characteristic Teichmuller map need not be continuous.
 
 This field case is `FF` Proposition 1.4.11. The relative uniform-Banach version is separately proved by period-ring estimates below.
 
@@ -433,7 +433,7 @@ Further specializations and compatibility requirements are as follows.
 
 ([FF (2017)](https://www.imo.universite-paris-saclay.fr/~fontaine/courbe.pdf) Définition 1.4.10, Proposition 1.4.11 and Remarque 1.4.12, printed pp. 64–65.)
 
-*Needs:* VectorBundlesAndIsocrystals VB−1/relative-coefficients; [supplier contract](#ramified-coefficient-inputs); Tau Ceti `Valuation.Integers.isAdicComplete_span_p_teichmuller` (p-typical case).
+*Needs:* VectorBundlesAndIsocrystals Layer 0, “Ramified coefficient rings and coefficient changes”; [supplier contract](#ramified-coefficient-inputs); Tau Ceti `Valuation.Integers.isAdicComplete_span_p_teichmuller` (p-typical case).
 
 ### 0.14 Lubin–Tate Teichmuller lift
 
@@ -468,7 +468,7 @@ Further specializations and compatibility requirements are as follows.
 
 ([FF (2017)](https://www.imo.universite-paris-saclay.fr/~fontaine/courbe.pdf) Lemme 1.2.9 and Corollaire 1.2.10, printed p. 58.)
 
-*Needs:* [§0.12](#012-q-teichmuller-lift); [supplier contract](#ramified-coefficient-inputs); [§0.13](#013-weak-coefficient-topology); VectorBundlesAndIsocrystals VB3/lubin-tate-universal-cover; Mathlib FormalGroup; Mathlib MvPowerSeries.eval₂.
+*Needs:* [§0.12](#012-q-teichmuller-lift); [supplier contract](#ramified-coefficient-inputs); [§0.13](#013-weak-coefficient-topology); VectorBundlesAndIsocrystals Layer 5, “Lubin–Tate universal cover and sections of O(1)”; Mathlib FormalGroup; Mathlib MvPowerSeries.eval₂.
 
 ### 0.15 Integral period chart rings
 
@@ -562,7 +562,7 @@ Further specializations and compatibility requirements are as follows.
 
 ### 0.18 Integral relative period domain
 
-Consume VectorBundlesAndIsocrystals VB−1, `integral-period-domain` (`integralPeriodDomain`), with its complete coefficient, topology, chart, Frobenius and ordinary bundle-descent API. Here identify the explicit integral root charts of §§0.15–0.17 with those supplied charts, including their plus rings and special fibre. The domain is `𝒴_S=Spa(W_OE(R⁺),W_OE(R⁺))∖V([ϖ])`.
+Consume VectorBundlesAndIsocrystals Layer 0, “Integral period domain”, with its complete coefficient, topology, chart, Frobenius and ordinary bundle-descent API. Here identify the explicit integral root charts of §§0.15–0.17 with those supplied charts, including their plus rings and special fibre. The domain is `𝒴_S=Spa(W_OE(R⁺),W_OE(R⁺))∖V([ϖ])`.
 
 **Checks.**
 
@@ -572,7 +572,7 @@ Consume VectorBundlesAndIsocrystals VB−1, `integral-period-domain` (`integralP
 
 ([FS](https://people.mpim-bonn.mpg.de/scholze/Geometrization.pdf) II.1 opening and Proposition II.1.1, printed pp. 47–48.)
 
-*Needs:* [§0.15](#015-integral-period-chart-rings); [§0.17](#017-perfectoid-root-extension-and-split-sheaf-descent); VectorBundlesAndIsocrystals VB−1/integral-period-domain.
+*Needs:* [§0.15](#015-integral-period-chart-rings); [§0.17](#017-perfectoid-root-extension-and-split-sheaf-descent); VectorBundlesAndIsocrystals Layer 0, “Integral period domain”.
 
 ### 0.19 Integral period diamond comparison
 
@@ -694,7 +694,7 @@ Mathlib WittVector; Mathlib WittVector.ghostComponent; Mathlib WittVector.froben
 
 ### 1.1 Generic relative period domain
 
-Consume `Y_S=𝒴_S∖V(π)` and its sheaf, complete charts, Frobenius and functoriality from VectorBundlesAndIsocrystals VB−1, `integral-period-domain` and `relative-annuli`. The comparison with §0.18 restricts the explicit integral-chart interface to this supplied generic open.
+Consume `Y_S=𝒴_S∖V(π)` and its sheaf, complete charts, Frobenius and functoriality from VectorBundlesAndIsocrystals Layer 0, “Integral period domain” and “Relative annuli and their section rings”. The comparison with §0.18 restricts the explicit integral-chart interface to this supplied generic open.
 
 **Checks.**
 
@@ -704,11 +704,11 @@ Consume `Y_S=𝒴_S∖V(π)` and its sheaf, complete charts, Frobenius and funct
 
 ([FS](https://people.mpim-bonn.mpg.de/scholze/Geometrization.pdf) Definition II.1.15, printed p. 54.)
 
-*Needs:* [§0.18](#018-integral-relative-period-domain); VectorBundlesAndIsocrystals VB−1/integral-period-domain; VectorBundlesAndIsocrystals VB−1/relative-annuli.
+*Needs:* [§0.18](#018-integral-relative-period-domain); VectorBundlesAndIsocrystals Layer 0, “Integral period domain”; VectorBundlesAndIsocrystals Layer 0, “Relative annuli and their section rings”.
 
 ### 1.2 Radius and relative period annuli
 
-Consume the completed annuli, restriction maps and plus rings from VectorBundlesAndIsocrystals VB−1, `relative-annuli`. Prove the comparison of those annuli with the logarithmic radius and higher-rank rational inequalities below. For `x∈|Y_S|` let `x̃` be its unique rank-one generalization and `rad_ϖ(x)=log|[ϖ](x̃)|/log|π(x̃)|∈(0,∞)`. For rational `0<a≤b` define the rational open `Y_[a,b]` by `|π|^b≤|[ϖ]|≤|π|^a`, using integer-power inequalities to interpret rational exponents. Its supplied ring `B_[a,b]` is the completed rational localisation of `W_OE(R⁺)`, with integral-closure plus ring. Equal endpoints are allowed. The radius factors through the Berkovich quotient and `rad_ϖ(φx)=q rad_ϖ(x)`. Changing `ϖ` changes the radius function but gives cofinal annular exhaustions of the same `Y_S`.
+Consume the completed annuli, restriction maps and plus rings from VectorBundlesAndIsocrystals Layer 0, “Relative annuli and their section rings”. Prove the comparison of those annuli with the logarithmic radius and higher-rank rational inequalities below. For `x∈|Y_S|` let `x̃` be its unique rank-one generalization and `rad_ϖ(x)=log|[ϖ](x̃)|/log|π(x̃)|∈(0,∞)`. For rational `0<a≤b` define the rational open `Y_[a,b]` by `|π|^b≤|[ϖ]|≤|π|^a`, using integer-power inequalities to interpret rational exponents. Its supplied ring `B_[a,b]` is the completed rational localisation of `W_OE(R⁺)`, with integral-closure plus ring. Equal endpoints are allowed. The radius factors through the Berkovich quotient and `rad_ϖ(φx)=q rad_ϖ(x)`. Changing `ϖ` changes the radius function but gives cofinal annular exhaustions of the same `Y_S`.
 
 Affinoid `S`; fixed `ϖ` for this radius, a,`b` positive rational. The rational open may differ from the entire set `rad^−1([a,b])` at higher-rank points.
 
@@ -746,7 +746,7 @@ Further specializations and compatibility requirements are as follows.
 
 ([FS](https://people.mpim-bonn.mpg.de/scholze/Geometrization.pdf) Proposition II.1.16, printed pp. 54–55.)
 
-*Needs:* VectorBundlesAndIsocrystals VB−1/relative-annuli; [§1.1](#11-generic-relative-period-domain); DiamondsAndVStacks, D5/berkovich-quotient; AdicSpacesPartII, R0.
+*Needs:* VectorBundlesAndIsocrystals Layer 0, “Relative annuli and their section rings”; [§1.1](#11-generic-relative-period-domain); DiamondsAndVStacks, D5/berkovich-quotient; AdicSpacesPartII, R0.
 
 ### 1.3 Witt seminorm extension and restriction
 
@@ -788,7 +788,7 @@ Further specializations and compatibility requirements are as follows.
 
 ### 1.4 Relative extended Robba rings
 
-Consume PadicHodgeTheory §7.5, `relativePeriodSheaf` and its weighted `p`-typical Robba, bounded, integral and interval carriers, restriction and Frobenius maps, and VectorBundlesAndIsocrystals VB1, `tilted-robba-ring`. Define relative extended robba rings as the additional twelve-variant interfaces by comparison with these carriers; prove the additional growth estimates and all-`E` refinements here. For a perfect uniform Banach pair `(R,R⁺)` over an analytic field of characteristic `p` with spectral norm `α`, identify the supplied carriers with `Ẽ^int=W(R)`, `Ẽ=Ẽ^int[1/p]`, `R̃^(int,r)={Σ_(i≥0)p^i[x_i]:p^(−i)α(x_i)^r→0}`, `R̃^(bd,r)=R̃^(int,r)[1/p]`, `R̃^r` its Frechet completion for `λ(α^s)`, `0<s≤r`, and `R̃^[s,r]` its Banach completion for `max(λ(α^s),λ(α^r))`. Dropping `r` takes the union over `r>0`. Each plus-input variant uses `R⁺` instead of `R`. Its integral/bounded variants are `W(R⁺)` and `W(R⁺)[1/p]`; `R̃⁺` is the completion for all `s>0`, whereas `R̃^∞=∩_rR̃^r` is a different ring. Record `p`-adic, weak, Banach, Frechet and inductive limit topologies separately.
+Consume PadicHodgeTheory §7.5, `relativePeriodSheaf` and its weighted `p`-typical Robba, bounded, integral and interval carriers, restriction and Frobenius maps, and VectorBundlesAndIsocrystals Layer 2, “Relative tilted Robba ring from curve annuli”. Define relative extended robba rings as the additional twelve-variant interfaces by comparison with these carriers; prove the additional growth estimates and all-`E` refinements here. For a perfect uniform Banach pair `(R,R⁺)` over an analytic field of characteristic `p` with spectral norm `α`, identify the supplied carriers with `Ẽ^int=W(R)`, `Ẽ=Ẽ^int[1/p]`, `R̃^(int,r)={Σ_(i≥0)p^i[x_i]:p^(−i)α(x_i)^r→0}`, `R̃^(bd,r)=R̃^(int,r)[1/p]`, `R̃^r` its Frechet completion for `λ(α^s)`, `0<s≤r`, and `R̃^[s,r]` its Banach completion for `max(λ(α^s),λ(α^r))`. Dropping `r` takes the union over `r>0`. Each plus-input variant uses `R⁺` instead of `R`. Its integral/bounded variants are `W(R⁺)` and `W(R⁺)[1/p]`; `R̃⁺` is the completion for all `s>0`, whereas `R̃^∞=∩_rR̃^r` is a different ring. Record `p`-adic, weak, Banach, Frechet and inductive limit topologies separately.
 
 KL Hypothesis 5.0.1. These are extended relative rings. The paper does not construct the arithmetic relative Robba rings. For all `E`, compare the supplied ramified annuli with the formulas using `π` and `q`-Frobenius, and prove the additional growth and norm comparisons through coefficient transport.
 
@@ -818,11 +818,11 @@ Further specializations and compatibility requirements are as follows.
 
 ([KL I](https://arxiv.org/abs/1301.0792) Hypothesis 5.0.1 and Definitions 5.1.1 and 5.1.3, printed pp. 113–115.)
 
-*Needs:* PadicHodgeTheory §7.5/relativePeriodSheaf; VectorBundlesAndIsocrystals VB1/tilted-robba-ring; [supplier contract](#ramified-coefficient-inputs); [§1.3](#13-witt-seminorm-extension-and-restriction).
+*Needs:* PadicHodgeTheory §7.5/relativePeriodSheaf; VectorBundlesAndIsocrystals Layer 2, “Relative tilted Robba ring from curve annuli”; [supplier contract](#ramified-coefficient-inputs); [§1.3](#13-witt-seminorm-extension-and-restriction).
 
 ### 1.5 Robba growth, units and Frobenius invariants
 
-Prove the growth, unit and invariant formulas for Robba rings. For nonzero `x`, `t↦log λ(α^t)(x)` is convex. In `R̃^r`, boundedness as `t→0` characterizes `R̃^(bd,r)`. Every unit of `R̃` is already a unit in `R̃^bd` by KL5.2.3. The `φ^d`-invariant ring is `W(R^(φ^d))[1/p]`, retaining idempotents and disconnected constants. For `R⁺=R°`, membership `x∈R̃⁺` within `R̃^∞` is equivalent to `limsup_(t→∞)λ_t(x)^(1/t)≤1`.
+Prove the growth, unit and invariant formulas for Robba rings. For nonzero `x`, `t↦log λ(α^t)(x)` is convex. In `R̃^r`, boundedness as `t→0` characterizes `R̃^(bd,r)`. Every unit of `R̃` is already a unit in `R̃^bd` by KL5.2.3. For an integer `d≥1`, the `φ_p^d`-invariant ring in the `p`-typical Robba ring is `W(R^(φ_p^d))[1/p]`, retaining idempotents and disconnected constants. Under the unramified comparison, `φ_E^d` invariants are therefore `W(R^(φ_p^(fd)))[1/p]`. For `R⁺=R°`, membership `x∈R̃⁺` within `R̃^∞` is equivalent to `limsup_(t→∞)λ_t(x)^(1/t)≤1`.
 
 Use exactly the bounded or completed ring in each criterion. Frobenius invariants are not asserted to be `ℚ_p` when the base is disconnected.
 
@@ -832,14 +832,16 @@ Use bounded endpoint norms to recover bounded Witt coefficients.
 
 For a unit `x` with inverse `y`, use affine residue-field `log` norms and a uniform two-radius bound to show both `x` and `y` have bounded growth near zero.
 
-For invariants compare each coefficient under `φ^d`; for the plus criterion use the integral/fractional splitting and the asymptotic coefficient maximum.
+For invariants compare each coefficient under `φ_p^d` with `d≥1`; for the plus criterion use the integral/fractional splitting and the asymptotic coefficient maximum.
 
 **Checks.**
 
 - The unit has constant logarithmic norm zero, satisfying the convexity and bounded-growth tests.
-- For a perfect complete nontrivially valued characteristic-`p` field `F` with `d=1`, the fixed period ring is `ℚ_p`.
+- For a perfect complete nontrivially valued characteristic-`p` field `F` with `d=1`, the `φ_p`-fixed period ring is `ℚ_p`.
 
-- Check the invariant formula on `R=F×F`, where `F` is a perfect complete nontrivially valued characteristic-`p` field. With `d=1`, `F^{φ}=𝔽_p` and the fixed period ring is `ℚ_p×ℚ_p`.
+- Check the invariant formula on `R=F×F`, where `F` is a perfect complete nontrivially valued characteristic-`p` field. With `d=1`, `F^{φ_p}=𝔽_p` and the fixed period ring is `ℚ_p×ℚ_p`.
+
+- For `d=0`, all Witt elements are fixed. If `|ϖ|=p⁻¹` in a perfect valued field, `Σ_(n≥0)p^n[ϖ^(−n²)]` lies in `W(F)[1/p]`, but its radius-`r` terms have norms `p^(rn²−n)`, unbounded for every `r>0`; it is outside the Robba ring. Positive iterates exclude this example because fixed coefficients have norm 0 or 1.
 
 ([KL I](https://arxiv.org/abs/1301.0792) Lemmas 5.2.1–5.2.2 and Corollaries 5.2.3–5.2.4, printed pp. 116–117; Lemma 5.2.11 and proof, pp. 119–120.)
 
@@ -869,7 +871,7 @@ Further specializations and compatibility requirements are as follows.
 
 ### 1.7 Relative period presheaves
 
-Consume PadicHodgeTheory §7.5, `relativePeriodSheaf` and its weighted `p`-typical Robba, bounded, integral and interval carriers, restriction and Frobenius maps, and VectorBundlesAndIsocrystals VB1, `tilted-robba-ring`. Define relative period presheaves as the additional twelve-variant rational-basis interfaces by comparison with these supplied presheaves; prove their additional growth and all-`E` comparisons here. On `Spa(R,R⁺)` present the period presheaf for each of the twelve variants `Ẽ^int,Ẽ,R̃^(int,r),R̃^(int,+),R̃^int,R̃^(bd,r),R̃^(bd,+),R̃^bd,R̃^[s,r],R̃^r,R̃⁺,R̃` by the inverse limit of its values on rational affinoids contained in an open `U`. Restrictions and base maps are induced by the coefficient maps and completions. The plus-input and positive-radii-completion variants keep their distinct topologies.
+Consume PadicHodgeTheory §7.5, `relativePeriodSheaf` and its weighted `p`-typical Robba, bounded, integral and interval carriers, restriction and Frobenius maps, and VectorBundlesAndIsocrystals Layer 2, “Relative tilted Robba ring from curve annuli”. Define relative period presheaves as the additional twelve-variant rational-basis interfaces by comparison with these supplied presheaves; prove their additional growth and all-`E` comparisons here. On `Spa(R,R⁺)` present the period presheaf for each of the twelve variants `Ẽ^int,Ẽ,R̃^(int,r),R̃^(int,+),R̃^int,R̃^(bd,r),R̃^(bd,+),R̃^bd,R̃^[s,r],R̃^r,R̃⁺,R̃` by the inverse limit of its values on rational affinoids contained in an open `U`. Restrictions and base maps are induced by the coefficient maps and completions. The plus-input and positive-radii-completion variants keep their distinct topologies.
 
 Perfect uniform Banach base as in KL5.0.1; bounds and radii must be adjusted for a bounded coefficient map before taking the union.
 
@@ -898,11 +900,11 @@ Further specializations and compatibility requirements are as follows.
 
 ([KL I](https://arxiv.org/abs/1301.0792) Definition 5.3.1, printed pp. 121–122.)
 
-*Needs:* PadicHodgeTheory §7.5/relativePeriodSheaf; VectorBundlesAndIsocrystals VB1/tilted-robba-ring; [§1.4](#14-relative-extended-robba-rings); AdicSpacesPartIII, R3.
+*Needs:* PadicHodgeTheory §7.5/relativePeriodSheaf; VectorBundlesAndIsocrystals Layer 2, “Relative tilted Robba ring from curve annuli”; [§1.4](#14-relative-extended-robba-rings); AdicSpacesPartIII, R3.
 
 ### 1.8 Period sheaves and rational acyclicity
 
-Consume the `p`-typical rational and finite-projective descent of PadicHodgeTheory §7.5, `relativePeriodSheaf`, and VectorBundlesAndIsocrystals VB−1, `relative-annuli`. Prove the sheaf and acyclicity comparisons with the twelve-variant interfaces, including the additional plus-variant sheaf assertions, exact acyclicity range and all-`E` refinements below. Every period presheaf of KL5.3.1 is a sheaf. Rational Tate acyclicity is asserted for `Ẽ^int,Ẽ,R̃^(int,r),R̃^int,R̃^(bd,r),R̃^bd,R̃^[s,r],R̃^r,R̃`, exactly the nine variants of Theorem5.3.3. The supplied Kiehl property is transported to the explicit interfaces for `Ẽ^int` and `R̃^(int,r)`, and separately for `R̃^[s,r]`; it is not automatically asserted for all twelve variants.
+Consume the `p`-typical rational and finite-projective descent of PadicHodgeTheory §7.5, `relativePeriodSheaf`, and VectorBundlesAndIsocrystals Layer 0, “Relative annuli and their section rings”. Prove the sheaf and acyclicity comparisons with the twelve-variant interfaces, including the additional plus-variant sheaf assertions, exact acyclicity range and all-`E` refinements below. Every period presheaf of KL5.3.1 is a sheaf. Rational Tate acyclicity is asserted for `Ẽ^int,Ẽ,R̃^(int,r),R̃^int,R̃^(bd,r),R̃^bd,R̃^[s,r],R̃^r,R̃`, exactly the nine variants of Theorem5.3.3. The supplied Kiehl property is transported to the explicit interfaces for `Ẽ^int` and `R̃^(int,r)`, and separately for `R̃^[s,r]`; it is not automatically asserted for all twelve variants.
 
 Use continuous strict rational covering sequences and the norm assigned to each variant. The plus variants are sheaves without the extra acyclicity claim in this theorem.
 
@@ -918,11 +920,11 @@ Further specializations and compatibility requirements are as follows.
 
 ([KL I](https://arxiv.org/abs/1301.0792) Lemma 5.3.2, Theorems 5.3.3 and 5.3.6, printed pp. 121–123.)
 
-*Needs:* PadicHodgeTheory §7.5/relativePeriodSheaf; VectorBundlesAndIsocrystals VB−1/relative-annuli; [§1.7](#17-relative-period-presheaves); [§1.6](#16-controlled-robba-splittings-and-intersections); AdicSpacesPartIII, R3.5/sheafy-tate-acyclicity-and-kiehl-gluing; AdicSpacesPartIII, R3.5/glueing-square-finite-projective-descent.
+*Needs:* PadicHodgeTheory §7.5/relativePeriodSheaf; VectorBundlesAndIsocrystals Layer 0, “Relative annuli and their section rings”; [§1.7](#17-relative-period-presheaves); [§1.6](#16-controlled-robba-splittings-and-intersections); AdicSpacesPartIII, R3.5/sheafy-tate-acyclicity-and-kiehl-gluing; AdicSpacesPartIII, R3.5/glueing-square-finite-projective-descent.
 
 ### 1.9 Relatively perfectoid interval rings
 
-Consume rational and finite-projective descent on the supplied `p`-typical interval carriers from PadicHodgeTheory §7.5 and VectorBundlesAndIsocrystals VB−1, `relative-annuli`. Prove relative perfectoidness for the explicit interfaces, retaining the additional norm comparisons and all-`E` refinements. For `0<s≤r` the Banach rings `Ẽ`, `R̃^(bd,r)` and `R̃^[s,r]` are relatively perfectoid. For any compatible adic plus extension they are stably uniform, sheafy, rationally acyclic and satisfy finite-projective Kiehl gluing. After scalar extension to the completed `p`-power-root tower the interval norm is power multiplicative and the ring is perfectoid. In all-`E` annular charts use the specified whole root relations and prove the coefficient extension of these norm estimates.
+Consume rational and finite-projective descent on the supplied `p`-typical interval carriers from PadicHodgeTheory §7.5 and VectorBundlesAndIsocrystals Layer 0, “Relative annuli and their section rings”. Prove relative perfectoidness for the explicit interfaces, retaining the additional norm comparisons and all-`E` refinements. For `0<s≤r` the Banach rings `Ẽ`, `R̃^(bd,r)` and `R̃^[s,r]` are relatively perfectoid. For any compatible adic plus extension they are stably uniform, sheafy, rationally acyclic and satisfy finite-projective Kiehl gluing. After scalar extension to the completed `p`-power-root tower the interval norm is power multiplicative and the ring is perfectoid. In all-`E` annular charts use the specified whole root relations and prove the coefficient extension of these norm estimates.
 
 No field assumption on `R`. Relative perfectoidness is the imported sousperfectoid/relative-perfectoid condition, not an unproved designation for every Frechet or integral ring.
 
@@ -942,11 +944,11 @@ Further specializations and compatibility requirements are as follows.
 
 ([KL I](https://arxiv.org/abs/1301.0792) Theorem 5.3.9 and Lemma 5.3.14, printed pp. 123–125.)
 
-*Needs:* PadicHodgeTheory §7.5/relativePeriodSheaf; VectorBundlesAndIsocrystals VB−1/relative-annuli; [§1.4](#14-relative-extended-robba-rings); [§1.5](#15-robba-growth-units-and-frobenius-invariants); [§0.16](#016-root-extension-chart-model); PerfectoidSpaces, P3.17a.3/sousperfectoid-sheafy; AdicSpacesPartIII, R3.5/split-injection-completed-base-change; PerfectoidSpaces, P3.
+*Needs:* PadicHodgeTheory §7.5/relativePeriodSheaf; VectorBundlesAndIsocrystals Layer 0, “Relative annuli and their section rings”; [§1.4](#14-relative-extended-robba-rings); [§1.5](#15-robba-growth-units-and-frobenius-invariants); [§0.16](#016-root-extension-chart-model); PerfectoidSpaces, P3.17a.3/sousperfectoid-sheafy; AdicSpacesPartIII, R3.5/split-injection-completed-base-change; PerfectoidSpaces, P3.
 
 ### 1.10 Interval adic pairs and base projection
 
-Consume the supplied interval carriers and their rational and finite-projective descent from PadicHodgeTheory §7.5 and VectorBundlesAndIsocrystals VB−1, `relative-annuli`. Define interval adic pair and base projection as their explicit plus-ring and valuation-projection comparison. Give `R̃^[s,r]` the plus ring obtained by completing the subring generated by elements of endpoint norm `<1` and `[R⁺]`. A semivaluation first determines its unique exponent `t∈[s,r]`, then a seminorm `γ=μ(β)^(1/t)` of `R`. Extending to `H(γ)` and using `{x:v([x])≤1}` yields the valuation on `R`. This defines `μ_ad`:`Spa(R̃^[s,r],R̃^[s,r],+)→Spa(R,R⁺)` as a continuous map of adic topological spaces, without a structural ring homomorphism `R→R̃^[s,r]`.
+Consume the supplied interval carriers and their rational and finite-projective descent from PadicHodgeTheory §7.5 and VectorBundlesAndIsocrystals Layer 0, “Relative annuli and their section rings”. Define interval adic pair and base projection as their explicit plus-ring and valuation-projection comparison. Give `R̃^[s,r]` the plus ring obtained by completing the subring generated by elements of endpoint norm `<1` and `[R⁺]`. A semivaluation first determines its unique exponent `t∈[s,r]`, then a seminorm `γ=μ(β)^(1/t)` of `R`. Extending to `H(γ)` and using `{x:v([x])≤1}` yields the valuation on `R`. This defines `μ_ad`:`Spa(R̃^[s,r],R̃^[s,r],+)→Spa(R,R⁺)` as a continuous map of adic topological spaces, without a structural ring homomorphism `R→R̃^[s,r]`.
 
 Teichmuller representatives are multiplicative; their nonadditivity must be handled through the valuation-ring criterion. The pair uses the specified completed plus ring.
 
@@ -977,11 +979,11 @@ Further specializations and compatibility requirements are as follows.
 
 ([KL I](https://arxiv.org/abs/1301.0792) Lemma 5.3.4 and Definition 5.3.10, printed pp. 122–124.)
 
-*Needs:* PadicHodgeTheory §7.5/relativePeriodSheaf; VectorBundlesAndIsocrystals VB−1/relative-annuli; [§1.4](#14-relative-extended-robba-rings); [§1.9](#19-relatively-perfectoid-interval-rings); [§1.3](#13-witt-seminorm-extension-and-restriction); Tau Ceti TauCeti.ValuationSpectrum.spa.
+*Needs:* PadicHodgeTheory §7.5/relativePeriodSheaf; VectorBundlesAndIsocrystals Layer 0, “Relative annuli and their section rings”; [§1.4](#14-relative-extended-robba-rings); [§1.9](#19-relatively-perfectoid-interval-rings); [§1.3](#13-witt-seminorm-extension-and-restriction); Tau Ceti TauCeti.ValuationSpectrum.spa.
 
 ### 1.11 Rational base change and interval descent
 
-Consume rational base change and finite-projective interval descent from PadicHodgeTheory §7.5, `relativePeriodSheaf`, and VectorBundlesAndIsocrystals VB−1, `relative-annuli`. Apply this supplied descent to the explicit twelve-variant period interfaces of §§1.4–1.10; the rational-base-change comparisons retain their individual topologies and restriction maps. A rational localization `(R,R⁺)→(S,S⁺)` induces the rational localization of interval pairs representing `μ_ad^−1Spa(S,S⁺)`. Rational base coverings therefore induce annular coverings and the interval period sheaf satisfies Kiehl gluing. For a finite covering `I=⋃I_j` of a compact interval in `(0,∞)`, `R̃^I→∏R̃^I_j` is effective descent for finite projective modules. After the scalar extension of KL5.3.14, each subinterval restriction is itself a rational localization; before that extension use the proven gluing square, rather than asserting rationality.
+Consume rational base change and finite-projective interval descent from PadicHodgeTheory §7.5, `relativePeriodSheaf`, and VectorBundlesAndIsocrystals Layer 0, “Relative annuli and their section rings”. Apply this supplied descent to the explicit twelve-variant period interfaces of §§1.4–1.10; the rational-base-change comparisons retain their individual topologies and restriction maps. A rational localization `(R,R⁺)→(S,S⁺)` induces the rational localization of interval pairs representing `μ_ad^−1Spa(S,S⁺)`. Rational base coverings therefore induce annular coverings and the interval period sheaf satisfies Kiehl gluing. For a finite covering `I=⋃I_j` of a compact interval in `(0,∞)`, `R̃^I→∏R̃^I_j` is effective descent for finite projective modules. After the scalar extension of KL5.3.14, each subinterval restriction is itself a rational localization; before that extension use the proven gluing square, rather than asserting rationality.
 
 The interval cover is finite and uses closed intervals; the Banach base is perfect uniform over an analytic field. General base maps give functorial maps, not a universal uncompleted tensor identity.
 
@@ -993,11 +995,11 @@ Further specializations and compatibility requirements are as follows.
 
 ([KL I](https://arxiv.org/abs/1301.0792) Lemma 5.3.11, Corollary 5.3.12 and Theorems 5.3.13 and 5.3.16, printed pp. 124–126.)
 
-*Needs:* PadicHodgeTheory §7.5/relativePeriodSheaf; VectorBundlesAndIsocrystals VB−1/relative-annuli; [§1.10](#110-interval-adic-pairs-and-base-projection); [§1.6](#16-controlled-robba-splittings-and-intersections); [§1.9](#19-relatively-perfectoid-interval-rings); AdicSpacesPartIII, R3.5/glueing-square-finite-projective-descent; AdicSpacesPartIII, R3.5/finite-projective-etale-descent.
+*Needs:* PadicHodgeTheory §7.5/relativePeriodSheaf; VectorBundlesAndIsocrystals Layer 0, “Relative annuli and their section rings”; [§1.10](#110-interval-adic-pairs-and-base-projection); [§1.6](#16-controlled-robba-splittings-and-intersections); [§1.9](#19-relatively-perfectoid-interval-rings); AdicSpacesPartIII, R3.5/glueing-square-finite-projective-descent; AdicSpacesPartIII, R3.5/finite-projective-etale-descent.
 
 ### 1.12 Berkovich period deformation
 
-Define the Berkovich deformation of the period spectrum. On `M(R̃^(int,r))` the stable-presentation construction defines `H(β,u)`, `u∈[0,1]`, with `H(β,0)=β`, `H(β,1)=λμ(β)`, `μH(β,u)=μ(β)`, and `H(H(β,u),v)=H(β,max(u,v))`. It is continuous. On `T_R=⋃_(0<s<r)M(R̃^[s,r])` it gives a strong deformation retract to `M(R)×(0,∞)`. The properly discontinuous `φ^d` action scales the exponent by `q=p^d`, has compact Hausdorff quotient `X_R`, and descends the retraction to `M(R)×(R_>0/q^Z)≃M(R)×S^1`.
+Define the Berkovich deformation of the period spectrum. On `M(R̃^(int,r))` the stable-presentation construction defines `H(β,u)`, `u∈[0,1]`, with `H(β,0)=β`, `H(β,1)=λμ(β)`, `μH(β,u)=μ(β)`, and `H(H(β,u),v)=H(β,max(u,v))`. It is continuous. On `T_R=⋃_(0<s<r)M(R̃^[s,r])` it gives a strong deformation retract to `M(R)×(0,∞)`. For `d≥1`, the properly discontinuous `φ_p^d` action scales the exponent by `p^d`, has compact Hausdorff quotient, and descends the retraction to `M(R)×(R_>0/(p^d)^Z)≃M(R)×S^1`. For the all-`E` period spectrum transported through §1.16, the action of `φ_E^d`, again with `d≥1`, scales by `q^d`; its exponent quotient is `R_>0/(q^d)^Z`. The case `d=1` is the quotient defining the coefficient-`E` curve.
 
 These are Berkovich spaces and their maximal Hausdorff quotient. Neither the deformation nor the circle description asserts an adic ringed-space product.
 
@@ -1022,6 +1024,8 @@ Use the exponent and a compact fundamental annulus to prove discontinuity and co
 - For a point produced by the actual relative Gauss section `λ`, `H(λ(β),u)=λ(β)`.
 - The actual relative Teichmüller restriction `μ` is constant along each `H` path.
 - On a product coefficient algebra, two period points with different `μ`-values at `(1,0)` cannot be joined by the constructed deformation; the quotient retains the base components.
+- For `p=2` and unramified quadratic `E`, `q=4`: `φ_p²` sends exponent 1 to 4, whereas `φ_E²` sends it to 16. For `p=3` the corresponding values are 9 and 81.
+- At `d=0` the action is the identity, every stabilizer is `ℤ`, and the exponent quotient is `R_>0`, which is not compact. Thus neither proper discontinuity nor the compact-circle conclusion extends to zero iterates.
 
 Further specializations and compatibility requirements are as follows.
 
@@ -1029,7 +1033,7 @@ Further specializations and compatibility requirements are as follows.
 
 ([KL I](https://arxiv.org/abs/1301.0792) Theorem 5.4.1, Definition 5.4.3, Theorem 5.4.4 and Proposition 5.4.6, printed pp. 126–127; [Kedlaya Witt](https://arxiv.org/abs/1004.0466) Definition 7.5, Theorem 7.8 and proof, printed pp. 33–34.)
 
-*Needs:* [§1.3](#13-witt-seminorm-extension-and-restriction); [§1.10](#110-interval-adic-pairs-and-base-projection); [§1.5](#15-robba-growth-units-and-frobenius-invariants); DiamondsAndVStacks, D5/berkovich-quotient.
+*Needs:* [§1.16](#116-annular-coefficient-and-anchor-comparisons); [§1.3](#13-witt-seminorm-extension-and-restriction); [§1.10](#110-interval-adic-pairs-and-base-projection); [§1.5](#15-robba-growth-units-and-frobenius-invariants); DiamondsAndVStacks, D5/berkovich-quotient.
 
 ### 1.13 Surjectivity of relative period spectra
 
@@ -1098,7 +1102,7 @@ Further specializations and compatibility requirements are as follows.
 
 ### 1.15 Stein exhaustion of the generic period space
 
-Consume the countable quasi-Stein annular exhaustion, dense restrictions, inverse-limit section comparison and higher acyclicity for finite projective annular modules from VectorBundlesAndIsocrystals VB−1, `relative-annuli`. Identify its structure-sheaf inverse limit with the explicit completed period rings of §1.4. On affinoid bases this identifies `O(Y_S)` with that Fréchet limit and gives `Hⁱ(Y_S,O)=0` for `i>0`.
+Consume the countable quasi-Stein annular exhaustion, dense restrictions, inverse-limit section comparison and higher acyclicity for finite projective annular modules from VectorBundlesAndIsocrystals Layer 0, “Relative annuli and their section rings”. Identify its structure-sheaf inverse limit with the explicit completed period rings of §1.4. On affinoid bases this identifies `O(Y_S)` with that Fréchet limit and gives `Hⁱ(Y_S,O)=0` for `i>0`.
 
 **Checks.**
 
@@ -1108,11 +1112,11 @@ Consume the countable quasi-Stein annular exhaustion, dense restrictions, invers
 
 ([FS](https://people.mpim-bonn.mpg.de/scholze/Geometrization.pdf) II.2 opening, printed p. 57; [KL I](https://arxiv.org/abs/1301.0792) §6.1.)
 
-*Needs:* [§1.4](#14-relative-extended-robba-rings); [§1.2](#12-radius-and-relative-period-annuli); VectorBundlesAndIsocrystals VB−1/relative-annuli.
+*Needs:* [§1.4](#14-relative-extended-robba-rings); [§1.2](#12-radius-and-relative-period-annuli); VectorBundlesAndIsocrystals Layer 0, “Relative annuli and their section rings”.
 
 ### 1.16 Annular coefficient and anchor comparisons
 
-Consume choice independence and annular coefficient transport from VectorBundlesAndIsocrystals VB−1, `relative-coefficients` and `relative-annuli`. Prove the coefficient-choice and specialization comparisons for the explicit Robba norms, radius dictionary and fixed-field anchor below. Uniformizer and topologically nilpotent-unit choices give canonical identifications of `Y_S` and its sheaf; the annular coverings change by cofinal refinement with the transformed radius convention. Finite coefficient-field change is computed from the perfect unramified-base Witt tensor comparison, then rational localization, completion and integral closure of plus rings. In the specialization `E=ℚ_p,S=Spa(F,O_F)`, identify each closed interval ring and plus ring with the absolute `B^I,B^{I,+}` of TauCetiRoadmap.AdicSpaces, Layer 6 (§6.3), respecting all rational restriction maps, complete topologies and Frobenius. These comparisons commute with the fixed-field diamond presentation; a homeomorphism of spectra is insufficient.
+Consume choice independence and annular coefficient transport from VectorBundlesAndIsocrystals Layer 0, “Ramified coefficient rings and coefficient changes” and “Relative annuli and their section rings”. Prove the coefficient-choice and specialization comparisons for the explicit Robba norms, radius dictionary and fixed-field anchor below. Uniformizer and topologically nilpotent-unit choices give canonical identifications of `Y_S` and its sheaf; the annular coverings change by cofinal refinement with the transformed radius convention. Finite coefficient-field change is computed from the perfect unramified-base Witt tensor comparison, then rational localization, completion and integral closure of plus rings. In the specialization `E=ℚ_p,S=Spa(F,O_F)`, identify each closed interval ring and plus ring with the absolute `B^I,B^{I,+}` of TauCetiRoadmap.AdicSpaces, Layer 6 (§6.3), respecting all rational restriction maps, complete topologies and Frobenius. These comparisons commute with the fixed-field diamond presentation; a homeomorphism of spectra is insufficient.
 
 For coefficient change choose the residue embedding and corresponding `q`-power Frobenius. For a general completed coefficient extension use the integral coefficient-tensor comparison of §0.16; no tensor product over `R` of nonadditive Teichmuller maps is formed.
 
@@ -1132,7 +1136,7 @@ Further specializations and compatibility requirements are as follows.
 
 ([FS](https://people.mpim-bonn.mpg.de/scholze/Geometrization.pdf) II.1.1 and generic-open convention, printed pp.48–49; [KL I](https://arxiv.org/abs/1301.0792) Definitions 5.1.1–5.1.3 and Remark 5.1.6, printed pp. 113–115.)
 
-*Needs:* VectorBundlesAndIsocrystals VB−1/relative-coefficients; VectorBundlesAndIsocrystals VB−1/relative-annuli; [supplier contract](#ramified-coefficient-inputs); [supplier contract](#ramified-coefficient-inputs); [§1.4](#14-relative-extended-robba-rings); [§1.11](#111-rational-base-change-and-interval-descent); [§1.2](#12-radius-and-relative-period-annuli); TauCetiRoadmap.AdicSpaces, Layers 3–6; AdicSpacesPartII, R0.
+*Needs:* VectorBundlesAndIsocrystals Layer 0, “Ramified coefficient rings and coefficient changes”; VectorBundlesAndIsocrystals Layer 0, “Relative annuli and their section rings”; [supplier contract](#ramified-coefficient-inputs); [supplier contract](#ramified-coefficient-inputs); [§1.4](#14-relative-extended-robba-rings); [§1.11](#111-rational-base-change-and-interval-descent); [§1.2](#12-radius-and-relative-period-annuli); TauCetiRoadmap.AdicSpaces, Layers 3–6; AdicSpacesPartII, R0.
 
 ### 1.17 Local generation on period annuli
 
@@ -1158,7 +1162,7 @@ Further specializations and compatibility requirements are as follows.
 
 ### 1.18 Generation of global annular sections
 
-Prove generation of global annular sections. Under KL Hypothesis 5.0.1, let `a≥1` and let `M={M_I}` be a `φ^a`-bundle over the relative extended Robba annuli. If the same finite family of global sections `v₁,…,v_n` generates `M_I` over `R̃^I` for every compact interval `I⊂(0,∞)`, it generates `Γ(M)` over `R̃^∞`. Use the countable cofinal intervals and convergent corrections between local splittings; dense restriction alone is not algebraic surjectivity. Prove the all-`E` version using §1.16’s coefficient norm comparisons; the displayed source statement is `p`-typical.
+Prove generation of global annular sections. Under KL Hypothesis 5.0.1, let `a≥1` and let `M={M_I}` be a `φ_p^a`-bundle over the relative extended Robba annuli. If the same finite family of global sections `v₁,…,v_n` generates `M_I` over `R̃^I` for every compact interval `I⊂(0,∞)`, it generates `Γ(M)` over `R̃^∞`. Use the countable cofinal intervals and convergent corrections between local splittings; dense restriction alone is not algebraic surjectivity. Prove the all-`E` version using §1.16’s coefficient norm comparisons; the displayed source statement is `p`-typical.
 
 **Checks.**
 
@@ -1168,7 +1172,7 @@ Prove generation of global annular sections. Under KL Hypothesis 5.0.1, let `a�
 
 ([KL I](https://arxiv.org/abs/1301.0792) Lemma 6.1.4, printed p. 134.)
 
-*Needs:* [§1.15](#115-stein-exhaustion-of-the-generic-period-space); [§1.16](#116-annular-coefficient-and-anchor-comparisons); VectorBundlesAndIsocrystals VB1/annular-frobenius-descent.
+*Needs:* [§1.15](#115-stein-exhaustion-of-the-generic-period-space); [§1.16](#116-annular-coefficient-and-anchor-comparisons); VectorBundlesAndIsocrystals Layer 2, “Annular Frobenius descent for bundles”.
 
 ### Examples
 
@@ -1182,7 +1186,7 @@ Layers 0; DiamondsAndVStacks, D5/berkovich-quotient; AdicSpacesPartII, R0; Mathl
 
 ### 2.1 Relative Fargues–Fontaine curve
 
-Consume VectorBundlesAndIsocrystals VB−1, `relative-period-curve` (`relativePeriodCurve`), for the analytic quotient `X_S=Y_S/φ^ℤ`, its structure sheaf, quotient charts and base functoriality. Compare its wandering windows with §1.2’s explicit radius: for affinoid `S`, `Y_[1,q]` presents the qcqs curve with the two boundary annuli identified by Frobenius.
+Consume VectorBundlesAndIsocrystals Layer 0, “Relative period domain and analytic quotient”, for the analytic quotient `X_S=Y_S/φ^ℤ`, its structure sheaf, quotient charts and base functoriality. Compare its wandering windows with §1.2’s explicit radius: for affinoid `S`, `Y_[1,q]` presents the qcqs curve with the two boundary annuli identified by Frobenius.
 
 **Checks.**
 
@@ -1192,11 +1196,11 @@ Consume VectorBundlesAndIsocrystals VB−1, `relative-period-curve` (`relativePe
 
 ([FS](https://people.mpim-bonn.mpg.de/scholze/Geometrization.pdf) Definition II.1.15 and Proposition II.1.16, printed pp. 54–55.)
 
-*Needs:* [§1.2](#12-radius-and-relative-period-annuli); VectorBundlesAndIsocrystals VB−1/relative-period-curve.
+*Needs:* [§1.2](#12-radius-and-relative-period-annuli); VectorBundlesAndIsocrystals Layer 0, “Relative period domain and analytic quotient”.
 
 ### 2.2 Period diamonds and the topological map to the base
 
-Prove the diamond formula and construct its topological map to the base. There are canonical isomorphisms `Y_S◇≃S×Spd E` and `X_S◇≃(S×Spd E)/(φ_S^Z×id)`. Since absolute Frobenius `φ_S×φ_E` acts trivially on the product topology, the second presentation can topologically move the action to the coefficient factor. It gives a qcqs continuous map `|X_S|→|S|`. This is not an adic structural morphism `X_S→S`.
+Prove the diamond formula and construct its topological map to the base. There are canonical isomorphisms `Y_S◇≃S×Spd E` and `X_S◇≃(S×Spd E)/(φ_S^Z×id)`. Since simultaneous absolute `q`-Frobenius `Frob_(q,S)×Frob_(q,Spd E)` acts trivially on the product topology, the second presentation can topologically move the action to the coefficient factor. It gives a qcqs continuous map `|X_S|→|S|`. This is not an adic structural morphism `X_S→S`.
 
 The coefficient base is `Perf_(𝔽_q)`, with a chosen embedding when changing to an algebraically closed residue base.
 
@@ -1218,7 +1222,7 @@ Further specializations and compatibility requirements are as follows.
 
 ### 2.3 Functoriality of relative period curves
 
-Consume the analytic maps and their identity/composition laws from VectorBundlesAndIsocrystals VB−1, `integral-period-domain` and `relative-period-curve`. Prove compatibility of relative curve functoriality with §2.2’s equivariant diamond presentations. A map of perfectoid bases `T→S` over `𝔽_q` induces analytic maps curly-`Y_T→``𝒴_S`, `Y_T→Y_S` and `X_T→X_S`, preserving Frobenius, quotient charts and pullback of locally free sheaves. Composition and identity hold. For an open base immersion these are the open inverse images on topology. The diamond square `Y_T◇→Y_S◇` over `T→S` is cartesian; curve diamonds compare through the equivariant quotient presentation, with the Frobenius action on the varying base.
+Consume the analytic maps and their identity/composition laws from VectorBundlesAndIsocrystals Layer 0, “Integral period domain” and “Relative period domain and analytic quotient”. Prove compatibility of relative curve functoriality with §2.2’s equivariant diamond presentations. A map of perfectoid bases `T→S` over `𝔽_q` induces analytic maps curly-`Y_T→``𝒴_S`, `Y_T→Y_S` and `X_T→X_S`, preserving Frobenius, quotient charts and pullback of locally free sheaves. Composition and identity hold. For an open base immersion these are the open inverse images on topology. The diamond square `Y_T◇→Y_S◇` over `T→S` is cartesian; curve diamonds compare through the equivariant quotient presentation, with the Frobenius action on the varying base.
 
 General morphisms have no ordinary cartesian square `X_T→X_S` over `T→S` in adic spaces, since there is no structural `X_S→S`.
 
@@ -1236,11 +1240,11 @@ Further specializations and compatibility requirements are as follows.
 
 ([FS](https://people.mpim-bonn.mpg.de/scholze/Geometrization.pdf) II.1.3 and paragraph after II.1.16, printed pp. 49 and 55.)
 
-*Needs:* VectorBundlesAndIsocrystals VB−1/integral-period-domain; VectorBundlesAndIsocrystals VB−1/relative-period-curve; [§0.20](#020-gluing-integral-period-spaces); [supplier contract](#ramified-coefficient-inputs); [§2.1](#21-relative-farguesfontaine-curve); [§2.2](#22-period-diamonds-and-the-topological-map-to-the-base); AdicSpacesPartII, R0/completed-tensor-product.
+*Needs:* VectorBundlesAndIsocrystals Layer 0, “Integral period domain”; VectorBundlesAndIsocrystals Layer 0, “Relative period domain and analytic quotient”; [§0.20](#020-gluing-integral-period-spaces); [supplier contract](#ramified-coefficient-inputs); [§2.1](#21-relative-farguesfontaine-curve); [§2.2](#22-period-diamonds-and-the-topological-map-to-the-base); AdicSpacesPartII, R0/completed-tensor-product.
 
 ### 2.4 Global period sheaves and etale curve maps
 
-Consume the `p`-typical period sheaves and their rational and finite-projective descent from PadicHodgeTheory §7.5, `relativePeriodSheaf`, and VectorBundlesAndIsocrystals VB−1, `relative-annuli`. Define the global period sheaves with étale functoriality as the twelve-variant, all-`E` and étale-curve comparison with those supplied interfaces. Glue the twelve rational period sheaves over any perfect adic base; their etale sheafifications have the same values on perfect uniform affinoids. The relative-curve functor carries etale, finite etale and faithfully finite etale base morphisms to morphisms with the same property. The projection of underlying topological spaces upgrades to a morphism of etale topoi. This does not supply a structural adic map `X_S→S`.
+Consume the `p`-typical period sheaves and their rational and finite-projective descent from PadicHodgeTheory §7.5, `relativePeriodSheaf`, and VectorBundlesAndIsocrystals Layer 0, “Relative annuli and their section rings”. Define the global period sheaves with étale functoriality as the twelve-variant, all-`E` and étale-curve comparison with those supplied interfaces. Glue the twelve rational period sheaves over any perfect adic base; their etale sheafifications have the same values on perfect uniform affinoids. The relative-curve functor carries etale, finite etale and faithfully finite etale base morphisms to morphisms with the same property. The projection of underlying topological spaces upgrades to a morphism of etale topoi. This does not supply a structural adic map `X_S→S`.
 
 Use the etale comparison for the exact affinoid class; a general nonuniform affinoid is not covered.
 
@@ -1274,13 +1278,13 @@ Further specializations and compatibility requirements are as follows.
 
 ([KL I](https://arxiv.org/abs/1301.0792) Definition 8.3.4, printed p. 166; Lemma 8.7.15 and Remark 8.7.16, p. 180.)
 
-*Needs:* PadicHodgeTheory §7.5/relativePeriodSheaf; VectorBundlesAndIsocrystals VB−1/relative-annuli; [§1.8](#18-period-sheaves-and-rational-acyclicity); [§1.14](#114-finite-etale-compatibility-of-period-rings); [§2.3](#23-functoriality-of-relative-period-curves); [§2.2](#22-period-diamonds-and-the-topological-map-to-the-base); DiamondsAndVStacks, D6/etale-site-comparison.
+*Needs:* PadicHodgeTheory §7.5/relativePeriodSheaf; VectorBundlesAndIsocrystals Layer 0, “Relative annuli and their section rings”; [§1.8](#18-period-sheaves-and-rational-acyclicity); [§1.14](#114-finite-etale-compatibility-of-period-rings); [§2.3](#23-functoriality-of-relative-period-curves); [§2.2](#22-period-diamonds-and-the-topological-map-to-the-base); DiamondsAndVStacks, D6/etale-site-comparison.
 
 ### 2.5 Lubin–Tate diamond presentation
 
 Prove the Lubin–Tate diamond presentation. Let `F` be a perfectoid field of characteristic `p` over `𝔽_q` (the source takes `F=C♭` with `C` complete algebraically closed). The classical generic period space has diamond `Y_F^◇≃Spd(F)×Spd(E)`. The tilt of the completed Lubin–Tate tower `E_LT∞` is the completed perfection of `𝔽_q((t))`, denoted `𝔽_q((t^(1/p^∞)))`, so the punctured perfected open disc over `F`, with coordinate `t`, presents `Spd(F)×Spd(E_LT∞)`; taking its `O_E×` quotient gives `Y_F^◇`, using the Lubin–Tate reciprocity action. The relative curve is the subsequent `φ^Z` quotient. These two quotients are distinct, and the `LT` tower is separate from the whole `π/[ϖ]` root extension used for integral chart perfectoidness.
 
-Construct the finite `LT` torsion fields `E_n=E(LT[π^n])` and their completed union `E_LT∞`. Prove `Gal(E_n/E)≃(O_E/π^n)ˣ`, with `a` acting by the scalar endomorphism `[a]_LT`, and pass to `Gal(E_LT∞/E)≃O_Eˣ`. Prove the perfectoid tower and its tilt comparison, retaining the marked torsion coordinate. The formal module and logarithm comparison are VectorBundlesAndIsocrystals VB3, `lubin-tate-universal-cover`. This is the field-case comparison in the source; no universal base or root/`LT` tower identification is assumed.
+Construct the finite `LT` torsion fields `E_n=E(LT[π^n])` and their completed union `E_LT∞`. Prove `Gal(E_n/E)≃(O_E/π^n)ˣ`, with `a` acting by the scalar endomorphism `[a]_LT`, and pass to `Gal(E_LT∞/E)≃O_Eˣ`. Prove the perfectoid tower and its tilt comparison, retaining the marked torsion coordinate. The formal module and logarithm comparison are VectorBundlesAndIsocrystals Layer 5, “Lubin–Tate universal cover and sections of O(1)”. This is the field-case comparison in the source; no universal base or root/`LT` tower identification is assumed.
 
 The lubin tate diamond presentation API includes the finite torsion-field inclusions, scalar-action Galois isomorphisms compatible under level reduction, the completed tower, and its marked tilted open-disc coordinate. A change of compatible torsion generator by `u∈O_Eˣ` transports that coordinate by `[u]_LT`, not by an unrelated choice of roots.
 
@@ -1305,7 +1309,7 @@ Further specializations and compatibility requirements are as follows.
 
 ([FF (2017)](https://www.imo.universite-paris-saclay.fr/~fontaine/courbe.pdf) Preface by P. Colmez, Remark 3.19, printed p. 38; [FS](https://people.mpim-bonn.mpg.de/scholze/Geometrization.pdf) Corollary II.2.4 and proof, printed p. 61.)
 
-*Needs:* [§0.14](#014-lubintate-teichmuller-lift); [§2.2](#22-period-diamonds-and-the-topological-map-to-the-base); [§0.16](#016-root-extension-chart-model); VectorBundlesAndIsocrystals, VB3/lubin-tate-universal-cover; LocalFieldsRamification Layer 0; PerfectoidSpaces P2–P3.
+*Needs:* [§0.14](#014-lubintate-teichmuller-lift); [§2.2](#22-period-diamonds-and-the-topological-map-to-the-base); [§0.16](#016-root-extension-chart-model); VectorBundlesAndIsocrystals, Layer 5, “Lubin–Tate universal cover and sections of O(1)”; LocalFieldsRamification Layer 0; PerfectoidSpaces P2–P3.
 
 ### Examples
 
@@ -1319,7 +1323,7 @@ Layers 0, 1; TauCetiRoadmap.AdicSpaces, Layers 3–6; DiamondsAndVStacks, D0/gro
 
 ### 3.1 Ramified primitive untilt equations
 
-Consume generic marked theta maps and primitive Cartier kernels from VectorBundlesAndIsocrystals VB−1, `relative-untilt-divisors`. Prove the ramified primitive untilt equation on the integral domain, including its `π=0` leg and compatibility with that generic construction. An `O_E`-untilt `(R♯,R♯+)` of the marked perfectoid pair `(R,R⁺)` gives a continuous surjection `θ_E`:`W_OE(R⁺)→R♯+` with principal regular kernel `(ξ)`. Locally choose `ϖ` with `ϖ♯` dividing `π` and a lift a of `π/ϖ♯`; then `ξ=π−a[ϖ]` is a primitive generator. This includes a characteristic-`p` untilt with `ξ=π`. For `E=ℚ_p` the construction and primitive ideal agree with the imported P1 correspondence. An arbitrary element of `W_OE(R⁺)` is not asserted primitive.
+Consume generic marked theta maps and primitive Cartier kernels from VectorBundlesAndIsocrystals Layer 0, “Marked untilt Cartier divisors and Cartier descent”. Prove the ramified primitive untilt equation on the integral domain, including its `π=0` leg and compatibility with that generic construction. An `O_E`-untilt `(R♯,R♯+)` of the marked perfectoid pair `(R,R⁺)` gives a continuous surjection `θ_E`:`W_OE(R⁺)→R♯+` with principal regular kernel `(ξ)`. Locally choose `ϖ` with `ϖ♯` dividing `π` and a lift a of `π/ϖ♯`; then `ξ=π−a[ϖ]` is a primitive generator. This includes a characteristic-`p` untilt with `ξ=π`. For `E=ℚ_p` the construction and primitive ideal agree with the imported P1 correspondence. An arbitrary element of `W_OE(R⁺)` is not asserted primitive.
 
 All `E`, specified coefficient embedding and marked untilt; characteristic-`p` leg allowed on the integral domain. The `q`-Teichmuller formal-group lifts are not substituted for multiplicative `[ϖ]` in this equation.
 
@@ -1337,11 +1341,11 @@ Further specializations and compatibility requirements are as follows.
 
 ([FS](https://people.mpim-bonn.mpg.de/scholze/Geometrization.pdf) Proposition II.1.4 proof, printed p. 50.)
 
-*Needs:* VectorBundlesAndIsocrystals VB−1/relative-untilt-divisors; [supplier contract](#ramified-coefficient-inputs); [supplier contract](#ramified-coefficient-inputs); PerfectoidSpaces, P1.18/fontaine-theta-and-primitive-kernel; PerfectoidSpaces, P1.21/untilts-classified-by-primitive-ideals; PerfectoidSpaces, P1.18/distinguished-element-criterion.
+*Needs:* VectorBundlesAndIsocrystals Layer 0, “Marked untilt Cartier divisors and Cartier descent”; [supplier contract](#ramified-coefficient-inputs); [supplier contract](#ramified-coefficient-inputs); PerfectoidSpaces, P1.18/fontaine-theta-and-primitive-kernel; PerfectoidSpaces, P1.21/untilts-classified-by-primitive-ideals; PerfectoidSpaces, P1.18/distinguished-element-criterion.
 
 ### 3.2 Untilts as integral closed Cartier divisors
 
-Consume the generic Cartier inclusion and closed-image criterion from VectorBundlesAndIsocrystals VB−1, `relative-untilt-divisors`. Prove the explicit integral-chart lower bound including the `π=0` leg. The marked `O_E`-untilt embeds into `𝒴_S` as a relative closed Cartier divisor. On a neighborhood `U={|ξ|≤|[ϖ]|^n}`, give each completed residue field the normalization `|[ϖ]|=q^−1` and `A=O(U)` its spectral norm. Multiplication by `ξ` satisfies `||ξa||≥q^−n||a||`. Therefore it is injective with closed image, and the completed untilt quotient is already `A/ξ`; `0→O→O→i_*O_(S♯)→0` is exact. This remains valid at `π=0` and on every geometric-base fibre.
+Consume the generic Cartier inclusion and closed-image criterion from VectorBundlesAndIsocrystals Layer 0, “Marked untilt Cartier divisors and Cartier descent”. Prove the explicit integral-chart lower bound including the `π=0` leg. The marked `O_E`-untilt embeds into `𝒴_S` as a relative closed Cartier divisor. On a neighborhood `U={|ξ|≤|[ϖ]|^n}`, give each completed residue field the normalization `|[ϖ]|=q^−1` and `A=O(U)` its spectral norm. Multiplication by `ξ` satisfies `||ξa||≥q^−n||a||`. Therefore it is injective with closed image, and the completed untilt quotient is already `A/ξ`; `0→O→O→i_*O_(S♯)→0` is exact. This remains valid at `π=0` and on every geometric-base fibre.
 
 `ξ` the ramified primitive equation just constructed; after localisation the untilt pullback is all of `S♯`. The normalization and common neighborhood are part of the assertion.
 
@@ -1361,11 +1365,11 @@ Further specializations and compatibility requirements are as follows.
 
 ([FS](https://people.mpim-bonn.mpg.de/scholze/Geometrization.pdf) Proposition II.1.4 and Remark II.1.5, printed p. 50.)
 
-*Needs:* VectorBundlesAndIsocrystals VB−1/relative-untilt-divisors; [§3.1](#31-ramified-primitive-untilt-equations); [§0.18](#018-integral-relative-period-domain); [§0.17](#017-perfectoid-root-extension-and-split-sheaf-descent); RigidAnalyticGeometry, §2.2 (maximum modulus).
+*Needs:* VectorBundlesAndIsocrystals Layer 0, “Marked untilt Cartier divisors and Cartier descent”; [§3.1](#31-ramified-primitive-untilt-equations); [§0.18](#018-integral-relative-period-domain); [§0.17](#017-perfectoid-root-extension-and-split-sheaf-descent); RigidAnalyticGeometry, §2.2 (maximum modulus).
 
 ### 3.3 Ordinary descent of period line bundles
 
-Consume generic Cartier-ideal and ordinary bundle descent from VectorBundlesAndIsocrystals VB−1, `relative-untilt-divisors` and `integral-period-domain`. Prove ordinary vdescent of period line bundles for the integral Cartier refinements and their explicit root-chart comparison. Invertible `O`-modules on `𝒴_S`, with their maps into `O`, satisfy effective `v`-descent in the perfectoid base `S`. The descended object is an ordinary invertible sheaf and its inclusion, not only an almost module. The generic and curve-local versions follow by restriction and Frobenius descent.
+Consume generic Cartier-ideal and ordinary bundle descent from VectorBundlesAndIsocrystals Layer 0, “Marked untilt Cartier divisors and Cartier descent” and “Integral period domain”. Prove ordinary vdescent of period line bundles for the integral Cartier refinements and their explicit root-chart comparison. Invertible `O`-modules on `𝒴_S`, with their maps into `O`, satisfy effective `v`-descent in the perfectoid base `S`. The descended object is an ordinary invertible sheaf and its inclusion, not only an almost module. The generic and curve-local versions follow by restriction and Frobenius descent.
 
 Use affinoid period charts with topological-module root splitting; descent includes cocycles and maps. A global generator need not descend.
 
@@ -1383,11 +1387,11 @@ Further specializations and compatibility requirements are as follows.
 
 ([SW](https://www.math.uni-bonn.de/people/scholze/Berkeley.pdf) Proposition 19.5.3 and proof, printed pp. 180–181; [FS](https://people.mpim-bonn.mpg.de/scholze/Geometrization.pdf) VI.1.2 proof, printed p. 191.)
 
-*Needs:* VectorBundlesAndIsocrystals VB−1/relative-untilt-divisors; VectorBundlesAndIsocrystals VB−1/integral-period-domain; [§0.16](#016-root-extension-chart-model); [§0.17](#017-perfectoid-root-extension-and-split-sheaf-descent); DiamondsAndVStacks, D3; AdicSpacesPartIII, R3.5/sheafy-tate-acyclicity-and-kiehl-gluing.
+*Needs:* VectorBundlesAndIsocrystals Layer 0, “Marked untilt Cartier divisors and Cartier descent”; VectorBundlesAndIsocrystals Layer 0, “Integral period domain”; [§0.16](#016-root-extension-chart-model); [§0.17](#017-perfectoid-root-extension-and-split-sheaf-descent); DiamondsAndVStacks, D3; AdicSpacesPartIII, R3.5/sheafy-tate-acyclicity-and-kiehl-gluing.
 
 ### 3.4 Effective divisor moduli
 
-Consume generic marked legs and effective Cartier divisors from VectorBundlesAndIsocrystals VB−1, `relative-untilt-divisors` and VB3, `divisor-section-comparison`. Define the effective divisor moduli sheaves, the symmetric-orbit presentations and their integral-end extension. For `d≥0` define the small `v`-sheaves `Div^d_curlyY=(Spd O_E)^d/Σ_d`, `Div^d_Y=(Spd E)^d/Σ_d` and `Div^d_X=(Spd E/φ^Z)^d/Σ_d`. Each quotient is the sheafification of orbit classes, not the quotient stack. Coincident legs have multiplicity and must not be deleted. At `d=0` the sheaf is final and its divisor is empty.
+Consume generic marked legs and effective Cartier divisors from VectorBundlesAndIsocrystals Layer 0, “Marked untilt Cartier divisors and Cartier descent” and Layer 5, “Effective divisors and projective sections”. Define the effective divisor moduli sheaves, the symmetric-orbit presentations and their integral-end extension. For `d≥0` define the small `v`-sheaves `Div^d_curlyY=(Spd O_E)^d/Σ_d`, `Div^d_Y=(Spd E)^d/Σ_d` and `Div^d_X=(Spd E/φ^Z)^d/Σ_d`. Each quotient is the sheafification of orbit classes, not the quotient stack. Coincident legs have multiplicity and must not be deleted. At `d=0` the sheaf is final and its divisor is empty.
 
 On `Perf_(𝔽_q)`; coefficient base and Frobenius action are fixed. Formation of `Div_X` requires the actual Layer 2 curve quotient, while the integral product definition only needs `𝒴`.
 
@@ -1416,11 +1420,11 @@ Further specializations and compatibility requirements are as follows.
 
 ([FS](https://people.mpim-bonn.mpg.de/scholze/Geometrization.pdf) Definition VI.1.1, printed p. 190.)
 
-*Needs:* VectorBundlesAndIsocrystals VB−1/relative-untilt-divisors; VectorBundlesAndIsocrystals VB3/divisor-section-comparison; [§0.19](#019-integral-period-diamond-comparison); [§2.1](#21-relative-farguesfontaine-curve); [§2.2](#22-period-diamonds-and-the-topological-map-to-the-base); DiamondsAndVStacks, D0/groupoid-quotients-and-two-fibre-products; Mathlib CategoryTheory.presheafToSheaf.
+*Needs:* VectorBundlesAndIsocrystals Layer 0, “Marked untilt Cartier divisors and Cartier descent”; VectorBundlesAndIsocrystals Layer 5, “Effective divisors and projective sections”; [§0.19](#019-integral-period-diamond-comparison); [§2.1](#21-relative-farguesfontaine-curve); [§2.2](#22-period-diamonds-and-the-topological-map-to-the-base); DiamondsAndVStacks, D0/groupoid-quotients-and-two-fibre-products; Mathlib CategoryTheory.presheafToSheaf.
 
 ### 3.5 Product Cartier equations and affineness
 
-Consume generic products and addition of Cartier ideals from VectorBundlesAndIsocrystals VB−1, `relative-untilt-divisors`. Prove the product-equation and affineness statements for the explicit integral product charts, retaining colliding and characteristic-`p` legs. An ordered tuple of `d O_E`-untilts cuts out a closed Cartier divisor on `𝒴_S` with equation `ξ=∏_i ξ_i`. For affinoid `S` its ring is `W_OE(R⁺)[1/[ϖ]]/(ξ)`, with plus ring the integral closure of `W_OE(R⁺)/(ξ)`. Multiplication by the product is regular with closed image on a common suitable neighborhood, including repeated `ξ_i`. After ordinary ideal descent an unordered divisor is also affinoid for affinoid `S`. Generic divisors are affine by restriction; divisors on `X_S` are affine only locally in the analytic topology of `S`.
+Consume generic products and addition of Cartier ideals from VectorBundlesAndIsocrystals Layer 0, “Marked untilt Cartier divisors and Cartier descent”. Prove the product-equation and affineness statements for the explicit integral product charts, retaining colliding and characteristic-`p` legs. An ordered tuple of `d O_E`-untilts cuts out a closed Cartier divisor on `𝒴_S` with equation `ξ=∏_i ξ_i`. For affinoid `S` its ring is `W_OE(R⁺)[1/[ϖ]]/(ξ)`, with plus ring the integral closure of `W_OE(R⁺)/(ξ)`. Multiplication by the product is regular with closed image on a common suitable neighborhood, including repeated `ξ_i`. After ordinary ideal descent an unordered divisor is also affinoid for affinoid `S`. Generic divisors are affine by restriction; divisors on `X_S` are affine only locally in the analytic topology of `S`.
 
 `d≥0`, with `ξ=1` for `d=0`; generators exist after ordering/localisation, not necessarily globally.
 
@@ -1440,13 +1444,13 @@ Further specializations and compatibility requirements are as follows.
 
 ([FS](https://people.mpim-bonn.mpg.de/scholze/Geometrization.pdf) Proposition VI.1.2 and proof, printed p. 191.)
 
-*Needs:* VectorBundlesAndIsocrystals VB−1/relative-untilt-divisors; [§3.2](#32-untilts-as-integral-closed-cartier-divisors); [§3.3](#33-ordinary-descent-of-period-line-bundles); [§3.4](#34-effective-divisor-moduli); [§0.15](#015-integral-period-chart-rings); [§2.1](#21-relative-farguesfontaine-curve).
+*Needs:* VectorBundlesAndIsocrystals Layer 0, “Marked untilt Cartier divisors and Cartier descent”; [§3.2](#32-untilts-as-integral-closed-cartier-divisors); [§3.3](#33-ordinary-descent-of-period-line-bundles); [§3.4](#34-effective-divisor-moduli); [§0.15](#015-integral-period-chart-rings); [§2.1](#21-relative-farguesfontaine-curve).
 
 ### 3.6 Geometric degree criterion
 
-Consume the generic geometric-degree/effective-divisor identification from VectorBundlesAndIsocrystals VB3, `divisor-section-comparison`. Prove the relative degree criterion for the symmetric-orbit presentation and its integral-end inverse family implication. `Div^d_curlyY(S)`, `Div^d_Y(S)` and `Div^d_X(S)` identify with relative effective closed Cartier divisors whose pullback to every geometric `Spa(C,C⁺)` has total degree `d`, counting lengths and repeated points. In the integral case the characteristic-`p` point is included. For a pre-existing Cartier divisor, this criterion supplies local ordered presentations rather than assuming an ordering in the definition.
+Consume the generic geometric-degree/effective-divisor identification from VectorBundlesAndIsocrystals Layer 5, “Effective divisors and projective sections”. Prove the relative degree criterion for the symmetric-orbit presentation and its integral-end inverse family implication. `Div^d_curlyY(S)`, `Div^d_Y(S)` and `Div^d_X(S)` identify with relative effective closed Cartier divisors whose pullback to every geometric `Spa(C,C⁺)` has total degree `d`, counting lengths and repeated points. In the integral case the characteristic-`p` point is included. For a pre-existing Cartier divisor, this criterion supplies local ordered presentations rather than assuming an ordering in the definition.
 
-The supplied symmetric-power presentation is over the algebraically closed residue base `k=𝔽̄_q`, as in VectorBundlesAndIsocrystals VB3. Descending that presentation to `Perf_(𝔽_q)` and comparing it with the integral symmetric orbit sheaf are part of the relative comparison here. The generic symmetric-power statement is Fargues Proposition 2.18. The integral inverse implication additionally requires the local factorization and ideal descent proved below; the generic statement does not supply them. At `d=0` the divisor is empty.
+The supplied symmetric-power presentation is over the algebraically closed residue base `k=𝔽̄_q`, as in VectorBundlesAndIsocrystals Layer 5. Descending that presentation to `Perf_(𝔽_q)` and comparing it with the integral symmetric orbit sheaf are part of the relative comparison here. The generic symmetric-power statement is Fargues Proposition 2.18. The integral inverse implication additionally requires the local factorization and ideal descent proved below; the generic statement does not supply them. At `d=0` the divisor is empty.
 
 The product equation proves the fibre degree of every tuple, including multiplicities.
 
@@ -1463,7 +1467,7 @@ Further specializations and compatibility requirements are as follows.
 
 ([FS](https://people.mpim-bonn.mpg.de/scholze/Geometrization.pdf) Remark VI.1.3, printed p. 191; [Fargues divisors](https://webusers.imj-prg.fr/~laurent.fargues/cdc.pdf) Definition 2.6 and Proposition 2.18, printed pp. 6 and 11.)
 
-*Needs:* VectorBundlesAndIsocrystals VB3/divisor-section-comparison; [§3.4](#34-effective-divisor-moduli); [§3.5](#35-product-cartier-equations-and-affineness); [§3.3](#33-ordinary-descent-of-period-line-bundles); DiamondsAndVStacks, D3; Mathlib Module.length.
+*Needs:* VectorBundlesAndIsocrystals Layer 5, “Effective divisors and projective sections”; [§3.4](#34-effective-divisor-moduli); [§3.5](#35-product-cartier-equations-and-affineness); [§3.3](#33-ordinary-descent-of-period-line-bundles); DiamondsAndVStacks, D3; Mathlib Module.length.
 
 ### 3.7 Descent on divisors and their thickenings
 
@@ -1491,7 +1495,7 @@ Further specializations and compatibility requirements are as follows.
 
 ### 3.8 Completed divisor period rings
 
-Consume the generic single-untilt completion and filtration from VectorBundlesAndIsocrystals VB−1, `relative-period-completions`. Define the integral-end and multileg completed period rings with finite-thickening descent and compatibility with the supplied completion. For the invertible Cartier ideal `I_D⊂O_Z`, `Z=𝒴_S,Y_S` or `X_S`, define the sheaf `B_D⁺=lim_(n≥1)O_Z/I_D^n` on the formal divisor and `B_D` by locally inverting a generator of its completed ideal. If `D` is affine, take global sections; on `X` use the analytic local affine presentation. A generator `ξ` identifies this with `ξ`-adic completion and localization, but `ξ′=uξ` changes only the trivialization. The construction is intrinsic to `I_D` and descends under permutations and `v`-covers.
+Consume the generic single-untilt completion and filtration from VectorBundlesAndIsocrystals Layer 0, “Completed local period rings”. Define the integral-end and multileg completed period rings with finite-thickening descent and compatibility with the supplied completion. For the invertible Cartier ideal `I_D⊂O_Z`, `Z=𝒴_S,Y_S` or `X_S`, define the sheaf `B_D⁺=lim_(n≥1)O_Z/I_D^n` on the formal divisor and `B_D` by locally inverting a generator of its completed ideal. If `D` is affine, take global sections; on `X` use the analytic local affine presentation. A generator `ξ` identifies this with `ξ`-adic completion and localization, but `ξ′=uξ` changes only the trivialization. The construction is intrinsic to `I_D` and descends under permutations and `v`-covers.
 
 Completion is of the ambient sheaf, not of `O_D` with its zero divisor ideal. The zero divisor gives the zero ring. A general completed base change must use continuous completed maps; ordinary tensor products need not commute with the inverse limit.
 
@@ -1537,11 +1541,11 @@ Further specializations and compatibility requirements are as follows.
 
 ([FS](https://people.mpim-bonn.mpg.de/scholze/Geometrization.pdf) VI.1 after Proposition VI.1.4, printed p. 192.)
 
-*Needs:* DerivedModuleAlgebra §§1.E.0–1.E.1; VectorBundlesAndIsocrystals VB−1/relative-period-completions; [§3.5](#35-product-cartier-equations-and-affineness); [§3.7](#37-descent-on-divisors-and-their-thickenings); Mathlib AdicCompletion; Mathlib IsLocalization; Mathlib Ideal.span; Mathlib Ideal.span_singleton_mul_left_unit.
+*Needs:* DerivedModuleAlgebra §§1.E.0–1.E.1; VectorBundlesAndIsocrystals Layer 0, “Completed local period rings”; [§3.5](#35-product-cartier-equations-and-affineness); [§3.7](#37-descent-on-divisors-and-their-thickenings); Mathlib AdicCompletion; Mathlib IsLocalization; Mathlib Ideal.span; Mathlib Ideal.span_singleton_mul_left_unit.
 
 ### 3.9 Addition and disjoint divisor loci
 
-Consume generic Cartier addition and the disjoint-support locus from VectorBundlesAndIsocrystals VB−1, `relative-untilt-divisors`. Define addition and disjoint divisor loci on the integral symmetric-orbit interfaces and prove their multileg completion comparison. Concatenation of ordered tuples descends to `Div^d×Div^e→Div^(d+e)`, associative and commutative with the empty-divisor unit. Its Cartier ideal is `I_(D+E)=I_D I_E`. The disjoint locus consists of pairs with disjoint supports, equivalently `I_D+I_E=O` locally, and there the positive completed ring splits `B_(D+E)⁺≃B_D⁺×B_E⁺` by the Chinese remainder theorem. At colliding legs this product splitting is not asserted.
+Consume generic Cartier addition and the disjoint-support locus from VectorBundlesAndIsocrystals Layer 0, “Marked untilt Cartier divisors and Cartier descent”. Define addition and disjoint divisor loci on the integral symmetric-orbit interfaces and prove their multileg completion comparison. Concatenation of ordered tuples descends to `Div^d×Div^e→Div^(d+e)`, associative and commutative with the empty-divisor unit. Its Cartier ideal is `I_(D+E)=I_D I_E`. The disjoint locus consists of pairs with disjoint supports, equivalently `I_D+I_E=O` locally, and there the positive completed ring splits `B_(D+E)⁺≃B_D⁺×B_E⁺` by the Chinese remainder theorem. At colliding legs this product splitting is not asserted.
 
 All three divisor domains; disjointness is local in the analytic space. Quotienting does not discard equal entries.
 
@@ -1570,7 +1574,7 @@ Further specializations and compatibility requirements are as follows.
 
 ([FS](https://people.mpim-bonn.mpg.de/scholze/Geometrization.pdf) Definition VI.1.1 and VI.1.2 product proof, printed pp. 190–191; [Fargues divisors](https://webusers.imj-prg.fr/~laurent.fargues/cdc.pdf) §2.4 preceding Proposition 2.18, printed p. 11.)
 
-*Needs:* VectorBundlesAndIsocrystals VB−1/relative-untilt-divisors; [§3.4](#34-effective-divisor-moduli); [§3.5](#35-product-cartier-equations-and-affineness); [§3.8](#38-completed-divisor-period-rings).
+*Needs:* VectorBundlesAndIsocrystals Layer 0, “Marked untilt Cartier divisors and Cartier descent”; [§3.4](#34-effective-divisor-moduli); [§3.5](#35-product-cartier-equations-and-affineness); [§3.8](#38-completed-divisor-period-rings).
 
 ### Examples
 
@@ -1586,7 +1590,7 @@ Layers 0, 2; PerfectoidSpaces, P1.18/fontaine-theta-and-primitive-kernel; Perfec
 
 Define classical points of the integral period disc. For `C` algebraically closed perfectoid over `𝔽_q`, a point of curly-`Y_C` is classical precisely when it is the closed Cartier point of an `O_E`-untilt `C♯` with a specified identification `(C♯)♭≃C`. The completed residue field and induced `θ` map recover this marking. In equal characteristic curly-`Y_C` is an open unit disc and its classical points are `a∈C` with `|`a`|<1`, including `a=0`.
 
-Closed points arising from marked untilts; the assertion that all maximal ideals or all closed points have this form is a separate VB2-classification theorem.
+Closed points arising from marked untilts; the assertion that all maximal ideals or all closed points have this form is the VectorBundlesAndIsocrystals Layer 2 targets “Classical points and annular Dedekind rings” and “Elementary algebraization at a geometric point”.
 
 The interface must support the following operations and laws.
 
@@ -1708,7 +1712,7 @@ Further specializations and compatibility requirements are as follows.
 
 ### 4.6 Generic marked untilt comparison
 
-Consume the generic marked-untilt Cartier correspondence from VectorBundlesAndIsocrystals VB−1, `relative-untilt-divisors`. Prove the primitive-untilt correspondence, its compatibility with this roadmap’s integral equations and quotient charts. Restrict the all-`E` integral `θ`/primitive presentation to `O_E`-untilts in which `π` is invertible. The marked untilt is a Cartier divisor on `Y_S` and then on `X_S`; the latter depends only on its Frobenius orbit. In the `E=ℚ_p` case the marking, `θ` map, primitive ideal and quotient plus ring identify with P1/marked-untilt and P1/untilts-classified-by-primitive-ideals. This imports that correspondence rather than constructing another `p`-typical primitive-ideal theory.
+Consume the generic marked-untilt Cartier correspondence from VectorBundlesAndIsocrystals Layer 0, “Marked untilt Cartier divisors and Cartier descent”. Prove the primitive-untilt correspondence, its compatibility with this roadmap’s integral equations and quotient charts. Restrict the all-`E` integral `θ`/primitive presentation to `O_E`-untilts in which `π` is invertible. The marked untilt is a Cartier divisor on `Y_S` and then on `X_S`; the latter depends only on its Frobenius orbit. In the `E=ℚ_p` case the marking, `θ` map, primitive ideal and quotient plus ring identify with P1/marked-untilt and P1/untilts-classified-by-primitive-ideals. This imports that correspondence rather than constructing another `p`-typical primitive-ideal theory.
 
 An `E`-untilt, not merely an `O_E`-untilt; geometric residue and plus-ring markings are retained.
 
@@ -1726,11 +1730,11 @@ Further specializations and compatibility requirements are as follows.
 
 ([FS](https://people.mpim-bonn.mpg.de/scholze/Geometrization.pdf) Proposition II.1.18, printed p. 55.)
 
-*Needs:* VectorBundlesAndIsocrystals VB−1/relative-untilt-divisors; [§3.1](#31-ramified-primitive-untilt-equations); [§3.2](#32-untilts-as-integral-closed-cartier-divisors); [§2.1](#21-relative-farguesfontaine-curve); FarguesFontaineDiamonds F4 (fixed-field `ℚ_p` analytic Cartier comparison); PerfectoidSpaces, P1.22/marked-untilt; PerfectoidSpaces, P1.21/untilts-classified-by-primitive-ideals.
+*Needs:* VectorBundlesAndIsocrystals Layer 0, “Marked untilt Cartier divisors and Cartier descent”; [§3.1](#31-ramified-primitive-untilt-equations); [§3.2](#32-untilts-as-integral-closed-cartier-divisors); [§2.1](#21-relative-farguesfontaine-curve); FarguesFontaineDiamonds F4 (fixed-field `ℚ_p` analytic Cartier comparison); PerfectoidSpaces, P1.22/marked-untilt; PerfectoidSpaces, P1.21/untilts-classified-by-primitive-ideals.
 
 ### 4.7 Degree-one divisor moduli and coefficient base
 
-Consume `Div¹=Spd E/φ^ℤ` from VectorBundlesAndIsocrystals VB−1, `relative-untilt-divisors`. Prove the explicit coefficient-base comparison and its agreement with §3.4’s degree-one symmetric-orbit presentation. The degree-one Cartier-divisor moduli on `Perf_(𝔽_q)` is `Div^1=Spd E/φ^Z`, canonically the `d=1` curve-leg quotient. Its points locally on the analytic base come from an `E`-untilt. After base change to `Perf_k`, `k` an algebraic closure of `𝔽_q` with fixed coefficient embedding, it is `Spd Ĕ/φ^Z`, where `Ĕ=W_OE(k)[1/π]`. The two coefficient bases must not be identified before this base change. The comparison identifies the supplied moduli `v`-sheaf with these two coefficient-base presentations.
+Consume `Div¹=Spd E/φ^ℤ` from VectorBundlesAndIsocrystals Layer 0, “Marked untilt Cartier divisors and Cartier descent”. Prove the explicit coefficient-base comparison and its agreement with §3.4’s degree-one symmetric-orbit presentation. The degree-one Cartier-divisor moduli on `Perf_(𝔽_q)` is `Div^1=Spd E/φ^Z`, canonically the `d=1` curve-leg quotient. Its points locally on the analytic base come from an `E`-untilt. After base change to `Perf_k`, `k` an algebraic closure of `𝔽_q` with fixed coefficient embedding, it is `Spd Ĕ/φ^Z`, where `Ĕ=W_OE(k)[1/π]`. The two coefficient bases must not be identified before this base change. The comparison identifies the supplied moduli `v`-sheaf with these two coefficient-base presentations.
 
 Take the quotient as a `v`-sheaf on varying perfectoid bases; it is distinct from the diamond of a curve attached to one fixed base.
 
@@ -1750,19 +1754,19 @@ Compute the coefficient-base extension using the strict-lift/unramified completi
 
 - A section a and a distinct Frobenius translate `φ(a)` have the same image in the actual constructed `Div^1`; the raw `Spd E` definition fails this test.
 - Evaluate the coefficient-base comparison on a geometric marked untilt `C♯/E` with fixed residue embedding `k→C♯♭`. The induced `Ĕ→C♯` extends the specified `E` action, and its divisor has the same Cartier ideal as before base change; changing the residue embedding changes the marking.
-- Evaluate `Spd E_LT∞→Div¹` on a marked primitive torsion tower. Multiplication by coefficient units and shifts by powers of `π` give the same divisor. Before the Frobenius quotient, the distinct `π` shifts retain their distinct tilt markings. Use VectorBundlesAndIsocrystals VB3, `fundamental-exact-sequence`, for this section/divisor presentation.
+- Evaluate `Spd E_LT∞→Div¹` on a marked primitive torsion tower. Multiplication by coefficient units and shifts by powers of `π` give the same divisor. Before the Frobenius quotient, the distinct `π` shifts retain their distinct tilt markings. Use VectorBundlesAndIsocrystals Layer 5, “The fundamental untilt sequence and degree-one divisors”, for this section/divisor presentation.
 
 Further specializations and compatibility requirements are as follows.
 
-- The construction uses none of the later properties of `Div^1` (properness, spatiality and cohomological smoothness, FS Proposition II.1.21, which belong to VectorBundlesAndIsocrystals, VB3).
+- The construction uses none of the later properties of `Div^1` (properness, spatiality and cohomological smoothness, FS Proposition II.1.21, which belong to VectorBundlesAndIsocrystals, Layer 5).
 
 ([FS](https://people.mpim-bonn.mpg.de/scholze/Geometrization.pdf) Definition II.1.19 and following paragraph, printed p. 56; paragraph after Corollary II.2.4 for the presentation over `Perf_k`, printed p. 61.)
 
-*Needs:* VectorBundlesAndIsocrystals VB3/fundamental-exact-sequence; VectorBundlesAndIsocrystals VB−1/relative-untilt-divisors; [§3.4](#34-effective-divisor-moduli); [§4.6](#46-generic-marked-untilt-comparison); [§2.2](#22-period-diamonds-and-the-topological-map-to-the-base); [supplier contract](#ramified-coefficient-inputs); Mathlib CategoryTheory.presheafToSheaf.
+*Needs:* VectorBundlesAndIsocrystals Layer 5, “The fundamental untilt sequence and degree-one divisors”; VectorBundlesAndIsocrystals Layer 0, “Marked untilt Cartier divisors and Cartier descent”; [§3.4](#34-effective-divisor-moduli); [§4.6](#46-generic-marked-untilt-comparison); [§2.2](#22-period-diamonds-and-the-topological-map-to-the-base); [supplier contract](#ramified-coefficient-inputs); Mathlib CategoryTheory.presheafToSheaf.
 
 ### 4.8 P-typical affinoid de Rham comparison
 
-Consume the generic completed ring from VectorBundlesAndIsocrystals VB−1, `relative-period-completions`. Prove the comparison of this roadmap’s intrinsic completion with the specified Mathlib carrier. For a characteristic-zero perfectoid field `K` with an open bounded valuation subring `K⁺` and a perfectoid affinoid `(K,K⁺)`-algebra `(A,A⁺)`, put `S=Spa(A♭,A♭+)`, take its `ℚ_p`-untilt divisor `D` and `J=ker(θ:W(A♭+)[1/p]→A)`. Then `B_D⁺≃lim_n W(A♭+)[1/p]/J^n`, preserving `θ`, `J`, the residue map and filtration. Under the specified P1 comparison PreTilt `A⁺ p≃A♭+`, this is the pinned Mathlib BDeRhamPlus `A⁺ p`. Only after this actual identification import PadicHodgeTheory §0.2’s affinoid theorem and its local generator.
+Consume the generic completed ring from VectorBundlesAndIsocrystals Layer 0, “Completed local period rings”. Prove the comparison of this roadmap’s intrinsic completion with the specified Mathlib carrier. For a characteristic-zero perfectoid field `K` with an open bounded valuation subring `K⁺` and a perfectoid affinoid `(K,K⁺)`-algebra `(A,A⁺)`, put `S=Spa(A♭,A♭+)`, take its `ℚ_p`-untilt divisor `D` and `J=ker(θ:W(A♭+)[1/p]→A)`. Then `B_D⁺≃lim_n W(A♭+)[1/p]/J^n`, preserving `θ`, `J`, the residue map and filtration. Under the specified P1 comparison PreTilt `A⁺ p≃A♭+`, this is the pinned Mathlib BDeRhamPlus `A⁺ p`. Only after this actual identification import PadicHodgeTheory §0.2’s affinoid theorem and its local generator.
 
 `K` and `K⁺` satisfy the exact PadicHodgeTheory §0.2 `bdRPlusAffinoid` hypotheses. `K` need not be `C_p`. The primitive generator from `K` has nonzero image in every affinoid input; `A⁺` is `p`-adically complete with `p` nonunit.
 
@@ -1780,11 +1784,11 @@ Further specializations and compatibility requirements are as follows.
 
 ([Scholze periods](https://people.mpim-bonn.mpg.de/scholze/pAdicHodgeTheory.pdf) §6, Definition 6.1, Lemma 6.3 and Corollary 6.4, printed pp. 35–36; [FS](https://people.mpim-bonn.mpg.de/scholze/Geometrization.pdf) VI.1 completion definition, printed p. 192.)
 
-*Needs:* VectorBundlesAndIsocrystals VB−1/relative-period-completions; [§3.8](#38-completed-divisor-period-rings); [§4.6](#46-generic-marked-untilt-comparison); PerfectoidSpaces, P1.8/tilt-comparison-with-mathlib-pretilt; PadicHodgeTheory, §0.2/bdRPlusAffinoid; Mathlib BDeRhamPlus; Mathlib WittVector.fontaineTheta; Mathlib PreTilt; Mathlib PreTilt.untilt.
+*Needs:* VectorBundlesAndIsocrystals Layer 0, “Completed local period rings”; [§3.8](#38-completed-divisor-period-rings); [§4.6](#46-generic-marked-untilt-comparison); PerfectoidSpaces, P1.8/tilt-comparison-with-mathlib-pretilt; PadicHodgeTheory, §0.2/bdRPlusAffinoid; Mathlib BDeRhamPlus; Mathlib WittVector.fontaineTheta; Mathlib PreTilt; Mathlib PreTilt.untilt.
 
 ### 4.9 Ramified de Rham coefficient comparison
 
-Consume the filtered coefficient transport of VectorBundlesAndIsocrystals VB−1, `relative-period-completions`. Prove the de Rham coefficient-field comparison for the explicit selected-factor and embedding interface below. For finite `E/ℚ_p` and a marked `E`-untilt `A` over a characteristic-zero perfectoid field, the `θ_E`-adic completion of `W_OE(A♭+)[1/π]` is canonically the `p`-typical `B_D⁺` of A, with the chosen `E` action lifted from the residue ring. It preserves residue, the completed Cartier ideal, filtration and localization. For `E′/E` the comparison is compatible with a specified `E′` action on the same untilt; a tensor product over the smaller coefficient field before selecting that action can have extra factors.
+Consume the filtered coefficient transport of VectorBundlesAndIsocrystals Layer 0, “Completed local period rings”. Prove the de Rham coefficient-field comparison for the explicit selected-factor and embedding interface below. For finite `E/ℚ_p` and a marked `E`-untilt `A` over a characteristic-zero perfectoid field, the `θ_E`-adic completion of `W_OE(A♭+)[1/π]` is canonically the `p`-typical `B_D⁺` of A, with the chosen `E` action lifted from the residue ring. It preserves residue, the completed Cartier ideal, filtration and localization. For `E′/E` the comparison is compatible with a specified `E′` action on the same untilt; a tensor product over the smaller coefficient field before selecting that action can have extra factors.
 
 Perfect residue coefficient ring with `𝔽_q` action; the chosen embedding `E→A` selects the completion factor. This comparison is only mixed characteristic.
 
@@ -1802,11 +1806,11 @@ Further specializations and compatibility requirements are as follows.
 
 ([FF (2017)](https://www.imo.universite-paris-saclay.fr/~fontaine/courbe.pdf) Lemme 1.2.3 and coefficient base change, printed pp. 55–56; [Stacks (henselian)](https://stacks.math.columbia.edu/tag/09ZL) Tags 09XI and 09ZL, accessed 7 October 2026.)
 
-*Needs:* VectorBundlesAndIsocrystals VB−1/relative-period-completions; [supplier contract](#ramified-coefficient-inputs); [§4.8](#48-p-typical-affinoid-de-rham-comparison); Mathlib Algebra.FormallyEtale.comp_bijective; Mathlib Algebra.FormallyEtale.of_isSeparable; Mathlib IsAdicComplete.liftRingHom.
+*Needs:* VectorBundlesAndIsocrystals Layer 0, “Completed local period rings”; [supplier contract](#ramified-coefficient-inputs); [§4.8](#48-p-typical-affinoid-de-rham-comparison); Mathlib Algebra.FormallyEtale.comp_bijective; Mathlib Algebra.FormallyEtale.of_isSeparable; Mathlib IsAdicComplete.liftRingHom.
 
 ### 4.10 Generic divisor de Rham rings
 
-Consume generic de Rham rings and their single-leg filtration from VectorBundlesAndIsocrystals VB−1, `relative-period-completions`. Prove agreement of their rings and filtrations with the integral/multileg completion of §3.8 and §§4.8–4.9’s explicit coefficient comparisons. For a generic degree-one leg, write `B_dR⁺=B_D⁺` and `B_dR=B_D`, using the intrinsic completed Cartier ideal. The `p`-typical affinoid object is identified by the explicit affinoid comparison and its PadicHodgeTheory §0.2 theorem; finite mixed-characteristic coefficients are compared by the selected-factor theorem. Equal-characteristic `E` and arbitrary perfectoid bases retain the intrinsic all-`E` ideal-adic construction and `v`-descent. For `d>1` the same notation denotes a divisor ring and is not automatically a DVR.
+Consume generic de Rham rings and their single-leg filtration from VectorBundlesAndIsocrystals Layer 0, “Completed local period rings”. Prove agreement of their rings and filtrations with the integral/multileg completion of §3.8 and §§4.8–4.9’s explicit coefficient comparisons. For a generic degree-one leg, write `B_dR⁺=B_D⁺` and `B_dR=B_D`, using the intrinsic completed Cartier ideal. The `p`-typical affinoid object is identified by the explicit affinoid comparison and its PadicHodgeTheory §0.2 theorem; finite mixed-characteristic coefficients are compared by the selected-factor theorem. Equal-characteristic `E` and arbitrary perfectoid bases retain the intrinsic all-`E` ideal-adic construction and `v`-descent. For `d>1` the same notation denotes a divisor ring and is not automatically a DVR.
 
 Interpret the ambient completion and puncture of §3.8 at the marked generic untilt, preserving their Cartier ideal and filtration.
 
@@ -1824,11 +1828,11 @@ Further specializations and compatibility requirements are as follows.
 
 ([FS](https://people.mpim-bonn.mpg.de/scholze/Geometrization.pdf) VI.1 after Proposition VI.1.4, printed p. 192.)
 
-*Needs:* VectorBundlesAndIsocrystals VB−1/relative-period-completions; [§3.8](#38-completed-divisor-period-rings); [§4.8](#48-p-typical-affinoid-de-rham-comparison); [§4.9](#49-ramified-de-rham-coefficient-comparison); [§4.6](#46-generic-marked-untilt-comparison).
+*Needs:* VectorBundlesAndIsocrystals Layer 0, “Completed local period rings”; [§3.8](#38-completed-divisor-period-rings); [§4.8](#48-p-typical-affinoid-de-rham-comparison); [§4.9](#49-ramified-de-rham-coefficient-comparison); [§4.6](#46-generic-marked-untilt-comparison).
 
 ### 4.11 Cartier filtration and Breuil–Kisin lines
 
-Consume the generic conormal filtration from VectorBundlesAndIsocrystals VB−1, `relative-period-completions`. Prove the Cartier filtration and Breuil–Kisin line comparisons for the integral and multileg interfaces, including their parameter-change and negative fractional-ideal conventions. Let `J` be the completed Cartier ideal in `B_D⁺`. The residue map has `B_D⁺/J≃O_D`. For `m≥0`, `gr^m B_D⁺=J^m/J^(m+1)≃(I_D/I_D²)^(⊗m)`, a line bundle on `D`. On `B_D` set `Fil^m=J^m B_D⁺` for `m∈Z` using the invertible fractional ideal. A chosen generator `ξ` identifies each graded piece with `ξ^m O_D` and the associated graded ring of the punctured `B_D` with `O_D[T,T^−1]` (the nonnegative associated graded of `B_D⁺` is `O_D[T]`); replacing `ξ` by `uξ` scales the degree-`m` trivialization by (`u` mod `I_D`)`^m`. The intrinsic line need not be globally free.
+Consume the generic conormal filtration from VectorBundlesAndIsocrystals Layer 0, “Completed local period rings”. Prove the Cartier filtration and Breuil–Kisin line comparisons for the integral and multileg interfaces, including their parameter-change and negative fractional-ideal conventions. Let `J` be the completed Cartier ideal in `B_D⁺`. The residue map has `B_D⁺/J≃O_D`. For `m≥0`, `gr^m B_D⁺=J^m/J^(m+1)≃(I_D/I_D²)^(⊗m)`, a line bundle on `D`. On `B_D` set `Fil^m=J^m B_D⁺` for `m∈Z` using the invertible fractional ideal. A chosen generator `ξ` identifies each graded piece with `ξ^m O_D` and the associated graded ring of the punctured `B_D` with `O_D[T,T^−1]` (the nonnegative associated graded of `B_D⁺` is `O_D[T]`); replacing `ξ` by `uξ` scales the degree-`m` trivialization by (`u` mod `I_D`)`^m`. The intrinsic line need not be globally free.
 
 Regular invertible Cartier ideal and complete sheaf from the integral construction; no choice of generator is retained in the intrinsic statement.
 
@@ -1846,11 +1850,11 @@ Further specializations and compatibility requirements are as follows.
 
 ([FS](https://people.mpim-bonn.mpg.de/scholze/Geometrization.pdf) Proposition VI.1.11 and preceding VI.1.10, printed pp. 194–195.)
 
-*Needs:* VectorBundlesAndIsocrystals VB−1/relative-period-completions; [§3.8](#38-completed-divisor-period-rings); [§3.2](#32-untilts-as-integral-closed-cartier-divisors); [§4.10](#410-generic-divisor-de-rham-rings).
+*Needs:* VectorBundlesAndIsocrystals Layer 0, “Completed local period rings”; [§3.8](#38-completed-divisor-period-rings); [§3.2](#32-untilts-as-integral-closed-cartier-divisors); [§4.10](#410-generic-divisor-de-rham-rings).
 
 ### 4.12 Geometric untilt DVR
 
-Consume VectorBundlesAndIsocrystals VB−1, `relative-period-completions`: at a geometric marked `E`-untilt `C♯`, the degree-one completion is a complete DVR with residue `C♯`, Cartier uniformizer and fraction field `B_D`. Compare this supplied DVR with the completed ring of §3.8 and the selected-factor identifications of §§4.8–4.9.
+Consume VectorBundlesAndIsocrystals Layer 0, “Completed local period rings”: at a geometric marked `E`-untilt `C♯`, the degree-one completion is a complete DVR with residue `C♯`, Cartier uniformizer and fraction field `B_D`. Compare this supplied DVR with the completed ring of §3.8 and the selected-factor identifications of §§4.8–4.9.
 
 **Checks.**
 
@@ -1860,11 +1864,11 @@ Consume VectorBundlesAndIsocrystals VB−1, `relative-period-completions`: at a 
 
 ([FS](https://people.mpim-bonn.mpg.de/scholze/Geometrization.pdf) VI.1 degree-one ring convention, printed p. 192; [Scholze periods](https://people.mpim-bonn.mpg.de/scholze/pAdicHodgeTheory.pdf) §6, geometric case of Lemma 6.3, printed p. 35.)
 
-*Needs:* [§3.8](#38-completed-divisor-period-rings); [§4.8](#48-p-typical-affinoid-de-rham-comparison); [§4.9](#49-ramified-de-rham-coefficient-comparison); VectorBundlesAndIsocrystals VB−1/relative-period-completions.
+*Needs:* [§3.8](#38-completed-divisor-period-rings); [§4.8](#48-p-typical-affinoid-de-rham-comparison); [§4.9](#49-ramified-de-rham-coefficient-comparison); VectorBundlesAndIsocrystals Layer 0, “Completed local period rings”.
 
 ### 4.13 Divisor completion and coefficient base change
 
-Consume generic finite-thickening restriction and filtered coefficient maps from VectorBundlesAndIsocrystals VB−1, `relative-period-completions`. Prove divisor completion base change for the integral/multileg quotient systems and their strict completed base-change comparisons. Base maps of marked perfectoid pairs induce continuous maps on finite Cartier quotient rings and hence on `B_D⁺`, `B_D`, residue and filtration. For rational restrictions and finite etale base maps satisfying the strict quotient comparison, these identify the completed base changes. Under finite coefficient-field change use the unramified Witt comparison and, in mixed characteristic, the selected embedding in the de Rham completion. For arbitrary `v`-covers the assertion is sheaf descent of the quotient systems and their limit; no uncompleted tensor product is claimed to commute with that limit.
+Consume generic finite-thickening restriction and filtered coefficient maps from VectorBundlesAndIsocrystals Layer 0, “Completed local period rings”. Prove divisor completion base change for the integral/multileg quotient systems and their strict completed base-change comparisons. Base maps of marked perfectoid pairs induce continuous maps on finite Cartier quotient rings and hence on `B_D⁺`, `B_D`, residue and filtration. For rational restrictions and finite etale base maps satisfying the strict quotient comparison, these identify the completed base changes. Under finite coefficient-field change use the unramified Witt comparison and, in mixed characteristic, the selected embedding in the de Rham completion. For arbitrary `v`-covers the assertion is sheaf descent of the quotient systems and their limit; no uncompleted tensor product is claimed to commute with that limit.
 
 Specify the complete tensor topology, plus integral closure and finite-quotient compatibility for a base-change isomorphism. Arbitrary nonflat or nonsplit tensor operations are not included.
 
@@ -1882,7 +1886,7 @@ Further specializations and compatibility requirements are as follows.
 
 ([FS](https://people.mpim-bonn.mpg.de/scholze/Geometrization.pdf) VI.1 completion v-sheaves, printed p. 192.)
 
-*Needs:* VectorBundlesAndIsocrystals VB−1/relative-period-completions; [§3.8](#38-completed-divisor-period-rings); [§3.7](#37-descent-on-divisors-and-their-thickenings); [§2.3](#23-functoriality-of-relative-period-curves); [supplier contract](#ramified-coefficient-inputs); [§4.9](#49-ramified-de-rham-coefficient-comparison); AdicSpacesPartII, R0/completed-tensor-product; AdicSpacesPartIII, R3.5/finite-projective-etale-descent.
+*Needs:* VectorBundlesAndIsocrystals Layer 0, “Completed local period rings”; [§3.8](#38-completed-divisor-period-rings); [§3.7](#37-descent-on-divisors-and-their-thickenings); [§2.3](#23-functoriality-of-relative-period-curves); [supplier contract](#ramified-coefficient-inputs); [§4.9](#49-ramified-de-rham-coefficient-comparison); AdicSpacesPartII, R0/completed-tensor-product; AdicSpacesPartIII, R3.5/finite-projective-etale-descent.
 
 ### Examples
 
@@ -1896,7 +1900,7 @@ Layers 0, 2, 3; PerfectoidSpaces, P2; RigidAnalyticGeometry, §2.2 (maximum modu
 
 ### 5.2 Positive Frobenius eigenvectors on a window
 
-Prove the restriction theorem for positive Frobenius eigenvectors. For `n≥0,d>0,q=p^d` and `r>0`, restriction identifies `{x∈R̃⁺:φ^d x=p^n x}`, `{x∈R̃:φ^d x=p^n x}`, and compatible eigenvectors on the fundamental window `R̃^[r/q,r]`. The window equality is interpreted by agreement after restriction to the overlap on which `x` and `φ^d x` are both defined. The all-`E` version has multiplier `π^n` and `q`-Frobenius. This is the concrete period-ring presentation of nonnegative-degree sections, without a finite-dimensionality assertion.
+Prove the restriction theorem for positive Frobenius eigenvectors. In the `p`-typical setting, for `n≥0,d>0` and `r>0`, restriction identifies `{x∈R̃⁺:φ_p^d x=p^n x}`, `{x∈R̃:φ_p^d x=p^n x}`, and compatible eigenvectors on the fundamental window `R̃^[r/p^d,r]`. The window equality is interpreted by agreement after restriction to the overlap on which `x` and `φ_p^d x` are both defined. The all-`E` version has multiplier `π^n`, operator `φ_E` and fundamental window `R̃^[r/q,r]`; in the unramified case it corresponds to `d=f`. This is the concrete period-ring presentation of nonnegative-degree sections, without a finite-dimensionality assertion.
 
 The displayed KL result has `n` nonnegative. Negative twists and geometric vanishing need their own arguments and cannot be inferred by changing this sign.
 
@@ -1912,6 +1916,12 @@ In the growth estimate use an iteration index `m` distinct from the eigenweight 
 
 Further specializations and compatibility requirements are as follows.
 
+**Checks.**
+
+- For `n=0`, the unit restricts to the unit and satisfies `φ_p^d(1)=1` on both sides.
+- For `p=2,d=2,r=1`, the window is `[1/4,1]`; with unramified quadratic `E` this is one `φ_E` window, whereas two `φ_E` iterates require `[1/16,1]`.
+- At `d=0` the proposed window collapses to `[r,r]`; the positive-iterate extension assertion does not apply.
+
 - The statement is a restriction bijection and has no cohomological finiteness conclusion.
 
 ([KL I](https://arxiv.org/abs/1301.0792) Corollary 5.2.12 and proof, printed p. 120.)
@@ -1920,7 +1930,7 @@ Further specializations and compatibility requirements are as follows.
 
 ### 5.3 Crystalline boundary and twist section input
 
-Prove the crystalline-boundary Čech section comparison. In FSII.2.5 put `Y_[1,∞]={|[ϖ]|≤|π|≠0}`, including the end `[ϖ]=0,π≠0`, and `Y_[0,a]={|π|^a≤|[ϖ]|≠0}`, retaining the end `π=0`. Write `B_[a,b]` for the rings of functions with the specified rational completion. The two-chart Cech sequences are `0→W_OE(R⁺)[1/π]→B_[1,∞]⊕B_[0,q][1/π]→B_[1,q]→0` and the same sequence with `q` replaced by1. The coefficient ring on the left has its `π`-adic Tate topology, distinct from the `(π,[ϖ])`-adic topology of the integral period space. For `n>0` the contracting Frobenius series used in FSII.2.5 give the restriction quasi-isomorphism of the two `φ−π^n` complexes. This provides the section input for the rank-one twists; general bundle cohomology and global generation remain at VB1/VB2.
+Prove the crystalline-boundary Čech section comparison. In FSII.2.5 put `Y_[1,∞]={|[ϖ]|≤|π|≠0}`, including the end `[ϖ]=0,π≠0`, and `Y_[0,a]={|π|^a≤|[ϖ]|≠0}`, retaining the end `π=0`. Write `B_[a,b]` for the rings of functions with the specified rational completion. The two-chart Cech sequences are `0→W_OE(R⁺)[1/π]→B_[1,∞]⊕B_[0,q][1/π]→B_[1,q]→0` and the same sequence with `q` replaced by1. The coefficient ring on the left has its `π`-adic Tate topology, distinct from the `(π,[ϖ])`-adic topology of the integral period space. For `n>0` the contracting Frobenius series used in FSII.2.5 give the restriction quasi-isomorphism of the two `φ−π^n` complexes. This provides the section input for the rank-one twists; general bundle cohomology and global generation remain at VectorBundlesAndIsocrystals Layers 2–3.
 
 Affinoid perfectoid base, actual boundary charts and their complete topologies. The notation `[1,∞]` does not mean a subset of generic `Y`. The displayed rational inequality for general a is interpreted by integer powers for rational a.
 
@@ -1934,7 +1944,7 @@ Check convergence in the actual interval norms and deduce the restriction quasi-
 
 Further specializations and compatibility requirements are as follows.
 
-- This records the boundary chart calculation without importing VB2 global generation into Layer 5.
+- This records the boundary chart calculation without importing VectorBundlesAndIsocrystals Layer 3 global generation into Layer 5.
 
 ([FS](https://people.mpim-bonn.mpg.de/scholze/Geometrization.pdf) Proof of PropositionII.2.5, printed p. 63.)
 
@@ -1942,7 +1952,7 @@ Further specializations and compatibility requirements are as follows.
 
 ### 5.4 Lubin–Tate divisor section
 
-Consume VectorBundlesAndIsocrystals VB3, `lubin-tate-universal-cover` and `fundamental-exact-sequence`, with the chosen Lubin–Tate module, torsion tower and period normalization. Its bilateral eigenfunction has the untilt as its simple Cartier zero and supplies the consecutive-twist sequences. Prove compatibility of that supplied section with this roadmap’s integral-chart ideal and completion interfaces. The untilt is over `E_LT∞`, distinct from the root-extension tower.
+Consume VectorBundlesAndIsocrystals Layer 5, “Lubin–Tate universal cover and sections of O(1)” and “The fundamental untilt sequence and degree-one divisors”, with the chosen Lubin–Tate module, torsion tower and period normalization. Its bilateral eigenfunction has the untilt as its simple Cartier zero and supplies the consecutive-twist sequences. Prove compatibility of that supplied section with this roadmap’s integral-chart ideal and completion interfaces. The untilt is over `E_LT∞`, distinct from the root-extension tower.
 
 **Checks.**
 
@@ -1952,11 +1962,11 @@ Consume VectorBundlesAndIsocrystals VB3, `lubin-tate-universal-cover` and `funda
 
 ([FS](https://people.mpim-bonn.mpg.de/scholze/Geometrization.pdf) Proposition II.2.3 and proof, printed pp. 60–61.)
 
-*Needs:* VectorBundlesAndIsocrystals VB3/lubin-tate-universal-cover; VectorBundlesAndIsocrystals VB3/fundamental-exact-sequence; [§3.2](#32-untilts-as-integral-closed-cartier-divisors); [§3.8](#38-completed-divisor-period-rings); [supplier contract](#twist-and-section-chart-inputs).
+*Needs:* VectorBundlesAndIsocrystals Layer 5, “Lubin–Tate universal cover and sections of O(1)”; VectorBundlesAndIsocrystals Layer 5, “The fundamental untilt sequence and degree-one divisors”; [§3.2](#32-untilts-as-integral-closed-cartier-divisors); [§3.8](#38-completed-divisor-period-rings); [supplier contract](#twist-and-section-chart-inputs).
 
 ### Examples
 
-For `n=1` the multiplier is `π⁻¹φ` and an invariant section satisfies `φ(f)=πf`; for `n=−1` it is `πφ` and satisfies `φ(f)=π⁻¹f`. Thus the isocrystal slopes are `−1` and `+1` while the bundle degrees are `+1` and `−1`. The lattice `ξB_D⁺` gives `O(−1)`. The chart comparison is defined wherever a positive-degree section is nonzero; global coverage is a distinct VB2 input.
+For `n=1` the multiplier is `π⁻¹φ` and an invariant section satisfies `φ(f)=πf`; for `n=−1` it is `πφ` and satisfies `φ(f)=π⁻¹f`. Thus the isocrystal slopes are `−1` and `+1` while the bundle degrees are `+1` and `−1`. The lattice `ξB_D⁺` gives `O(−1)`. The chart comparison is defined wherever a positive-degree section is nonzero; global coverage is a distinct VectorBundlesAndIsocrystals Layer 3 input.
 
 ### Dependencies
 
@@ -2238,7 +2248,7 @@ Further specializations and compatibility requirements are as follows.
 
 ([FS](https://people.mpim-bonn.mpg.de/scholze/Geometrization.pdf) III.3, printed p. 97; [SW](https://www.math.uni-bonn.de/people/scholze/Berkeley.pdf) Theorem 14.1.1(3), printed p. 115; [FF (2017)](https://www.imo.universite-paris-saclay.fr/~fontaine/courbe.pdf) 5.3, before Proposition 5.3.1, p. 208.)
 
-*Needs:* [§3.5](#35-product-cartier-equations-and-affineness); [§3.2](#32-untilts-as-integral-closed-cartier-divisors); [§3.4](#34-effective-divisor-moduli); VectorBundlesAndIsocrystals, VB1/finite-locally-free-bundles; AdicSpacesPartIII, R3.5/locally-free-sheaf; [§2.1](#21-relative-farguesfontaine-curve); Mathlib Module.Invertible; Mathlib Module.Projective.
+*Needs:* [§3.5](#35-product-cartier-equations-and-affineness); [§3.2](#32-untilts-as-integral-closed-cartier-divisors); [§3.4](#34-effective-divisor-moduli); VectorBundlesAndIsocrystals, Layer 2, “Finite locally free bundles on the curve”; AdicSpacesPartIII, R3.5/locally-free-sheaf; [§2.1](#21-relative-farguesfontaine-curve); Mathlib Module.Invertible; Mathlib Module.Projective.
 
 ### 6.7 Beauville-Laszlo gluing on the relative curve: modifications are B⁺-lattices
 
@@ -2274,7 +2284,7 @@ The fixed-reference construction follows the local algebra used in SW Propositio
 
 ([SW](https://www.math.uni-bonn.de/people/scholze/Berkeley.pdf) Proof of Proposition 19.1.2, printed p. 170; [SW](https://www.math.uni-bonn.de/people/scholze/Berkeley.pdf) Proof of Theorem 14.1.1, printed p. 116; [Howe–Klevdal](https://arxiv.org/abs/2308.11064v2) Section 4.3, p. 29; [FS](https://people.mpim-bonn.mpg.de/scholze/Geometrization.pdf) VI.1, before Definition VI.1.5, printed p. 192.)
 
-*Needs:* [§6.5](#65-the-beauville-laszlo-theorem-for-non-noetherian-rings); [§6.6](#66-modifications-of-vector-bundles-at-a-relative-cartier-divisor); [§6.4](#64-glueing-pairs-and-glueable-modules-stacks-1592); [§3.8](#38-completed-divisor-period-rings); [§3.5](#35-product-cartier-equations-and-affineness); [§3.2](#32-untilts-as-integral-closed-cartier-divisors); [§4.10](#410-generic-divisor-de-rham-rings); AdicSpacesPartIII, R3.5/sheafy-tate-acyclicity-and-kiehl-gluing; AdicSpacesPartIII, R3.5/vector-bundle-global-generation; AdicSpacesPartIII, R3.5/locally-free-sheaf; VectorBundlesAndIsocrystals, VB1/finite-locally-free-bundles; Mathlib AdicCompletion; Mathlib Module.Projective; Mathlib Module.Invertible.
+*Needs:* [§6.5](#65-the-beauville-laszlo-theorem-for-non-noetherian-rings); [§6.6](#66-modifications-of-vector-bundles-at-a-relative-cartier-divisor); [§6.4](#64-glueing-pairs-and-glueable-modules-stacks-1592); [§3.8](#38-completed-divisor-period-rings); [§3.5](#35-product-cartier-equations-and-affineness); [§3.2](#32-untilts-as-integral-closed-cartier-divisors); [§4.10](#410-generic-divisor-de-rham-rings); AdicSpacesPartIII, R3.5/sheafy-tate-acyclicity-and-kiehl-gluing; AdicSpacesPartIII, R3.5/vector-bundle-global-generation; AdicSpacesPartIII, R3.5/locally-free-sheaf; VectorBundlesAndIsocrystals, Layer 2, “Finite locally free bundles on the curve”; Mathlib AdicCompletion; Mathlib Module.Projective; Mathlib Module.Invertible.
 
 ### 6.8 Patching meromorphic complement data and formal bundle data
 
@@ -2364,7 +2374,7 @@ Further specializations and compatibility requirements are as follows.
 
 ### 6.11 The complement of the untilt divisor in Proj(P_R) is affine (Kedlaya-Liu 8.9.3)
 
-Consume PadicHodgeTheory §7.5’s unramified chartwise curve and affine complement construction. Under KL Hypotheses 8.7.1 and 8.9.1, let `(A,A⁺)` be perfectoid over `ℚ_p`, `(R,R⁺)` its tilt, `q=p^a`, `a≥1`, and `E=W(𝔽_q)[1/p]` with specified embedding. The untilt Cartier divisor `Z` in `Proj(P_R)` has affine complement and an affine neighbourhood. Compare its ideal and completion with the all-`E` divisor interfaces of §§3.8 and 4.10, using VB2 GAGA.
+Consume PadicHodgeTheory §7.5’s unramified chartwise curve and affine complement construction. Under KL Hypotheses 8.7.1 and 8.9.1, let `(A,A⁺)` be perfectoid over `ℚ_p`, `(R,R⁺)` its tilt, `q=p^a`, `a≥1`, and `E=W(𝔽_q)[1/p]` with specified embedding. The untilt Cartier divisor `Z` in `Proj(P_R)` has affine complement and an affine neighbourhood. Compare its ideal and completion with the all-`E` divisor interfaces of §§3.8 and 4.10, using VectorBundlesAndIsocrystals Layer 3 GAGA.
 
 **Checks.**
 
@@ -2374,7 +2384,7 @@ Consume PadicHodgeTheory §7.5’s unramified chartwise curve and affine complem
 
 ([KL I](https://arxiv.org/abs/1301.0792) Lemma 8.9.3, p. 187; Convention 4.1.13, pp. 105–106, and Lemma 8.8.19, p. 186.)
 
-*Needs:* PadicHodgeTheory §7.5; [§3.8](#38-completed-divisor-period-rings); [§4.10](#410-generic-divisor-de-rham-rings); VectorBundlesAndIsocrystals VB2/gaga-equivalence.
+*Needs:* PadicHodgeTheory §7.5; [§3.8](#38-completed-divisor-period-rings); [§4.10](#410-generic-divisor-de-rham-rings); VectorBundlesAndIsocrystals Layer 3, “GAGA for the relative schematic curve”.
 
 ### 6.12 The relative period rings B_e(A), B⁺_dR(A), B_dR(A) (Kedlaya-Liu 8.9.4)
 
@@ -2389,11 +2399,11 @@ Consume the unramified chartwise rings and maps from PadicHodgeTheory §7.5: `R�
 
 ([KL I](https://arxiv.org/abs/1301.0792) Definition 8.9.4, p. 187; [Caraiani–Scholze](https://arxiv.org/abs/1511.02418v1) before Theorem 3.5.1, printed p. 33.)
 
-*Needs:* PadicHodgeTheory §7.5; [§6.11](#611-the-complement-of-the-untilt-divisor-in-projp_r-is-affine-kedlaya-liu-893); [§3.8](#38-completed-divisor-period-rings); [§4.8](#48-p-typical-affinoid-de-rham-comparison); [§4.10](#410-generic-divisor-de-rham-rings); VectorBundlesAndIsocrystals VB2/gaga-equivalence.
+*Needs:* PadicHodgeTheory §7.5; [§6.11](#611-the-complement-of-the-untilt-divisor-in-projp_r-is-affine-kedlaya-liu-893); [§3.8](#38-completed-divisor-period-rings); [§4.8](#48-p-typical-affinoid-de-rham-comparison); [§4.10](#410-generic-divisor-de-rham-rings); VectorBundlesAndIsocrystals Layer 3, “GAGA for the relative schematic curve”.
 
 ### 6.13 B-pair cohomology computes quasicoherent cohomology (Kedlaya-Liu 8.9.6(a))
 
-Consume the vector-bundle difference-complex comparison from PadicHodgeTheory §7.6, `relativePeriodDerivedComparison`. Prove the extension of the B-pair cohomology comparison to arbitrary flat quasicoherent sheaves. Kedlaya-Liu Hypotheses 8.7.1 and 8.9.1: `a ≥ 1` an integer and `q = p^a`; `(A, A⁺)` a perfectoid adic Banach algebra over `ℚ_p`, `X = Spa(A, A⁺)`, and `(R, R⁺)` the perfect uniform adic Banach algebra over `𝔽_p` corresponding to it; `P_R = sum_{n ≥ 0} P_{R,n}` the graded ring with `P_(R,n)={x∈R-tilde_R⁺ : φ^a(x)=p^n x}=H⁰(O(n))`, `Proj(P_R)` the schematic relative curve, `FF_R → Proj(P_R)` the comparison morphism (an equivalence on vector bundles, KL 8.7.7), and `Z` the image of the canonical section `Spec(A) → Proj(P_R)` given by the untilt `A` of `R`. For `S = Spa(R, R⁺)` over `𝔽_q` and `E = W(𝔽_q)[1/p]` this is the schematic curve `X_S^alg = Proj(P)` of Layer 5 and the degree-one divisor of the untilt; `L_X` denotes the line bundle `O(Z)` (KL Definition 8.8.18, Convention 8.9.2). With `R_1`, `R_2`, `R_3` as in [§6.12](#612-the-relative-period-rings-b_ea-b_dra-b_dra-kedlaya-liu-894), for every flat quasicoherent sheaf `V` on `Proj(P_R)` the cohomology of the complex `0 → Γ(Spec R_1, V) ⊕ Γ(Spec R_2, V) → Γ(Spec R_3, V) → 0`, whose arrow is the difference of the two restriction maps, is naturally identified with `Hⁱ(Proj(P_R), V)` (so `H^i = 0` for `i ≥ 2`). At a geometric point (Fargues-Fontaine Proposition 5.3.3) for a vector bundle `E` with `M = Γ(X minus {infinity}, E)` and `N = E-hat_infinity`: `H⁰(X, E) = M` intersect `N` and `H¹(X, E) = N[1/t]/(M + N)`.
+Consume the vector-bundle difference-complex comparison from PadicHodgeTheory §7.6, `relativePeriodDerivedComparison`. Prove the extension of the B-pair cohomology comparison to arbitrary flat quasicoherent sheaves. Kedlaya-Liu Hypotheses 8.7.1 and 8.9.1: `a ≥ 1` an integer and `q = p^a`; `(A, A⁺)` a perfectoid adic Banach algebra over `ℚ_p`, `X = Spa(A, A⁺)`, and `(R, R⁺)` the perfect uniform adic Banach algebra over `𝔽_p` corresponding to it; `P_R = sum_{n ≥ 0} P_{R,n}` the graded ring with `P_(R,n)={x∈R-tilde_R⁺ : φ_p^a(x)=p^n x}=H⁰(O(n))`, `Proj(P_R)` the schematic relative curve, `FF_R → Proj(P_R)` the comparison morphism (an equivalence on vector bundles, KL 8.7.7), and `Z` the image of the canonical section `Spec(A) → Proj(P_R)` given by the untilt `A` of `R`. For `S = Spa(R, R⁺)` over `𝔽_q` and `E = W(𝔽_q)[1/p]` this is the schematic curve `X_S^alg = Proj(P)` of Layer 5 and the degree-one divisor of the untilt; `L_X` denotes the line bundle `O(Z)` (KL Definition 8.8.18, Convention 8.9.2). With `R_1`, `R_2`, `R_3` as in [§6.12](#612-the-relative-period-rings-b_ea-b_dra-b_dra-kedlaya-liu-894), for every flat quasicoherent sheaf `V` on `Proj(P_R)` the cohomology of the complex `0 → Γ(Spec R_1, V) ⊕ Γ(Spec R_2, V) → Γ(Spec R_3, V) → 0`, whose arrow is the difference of the two restriction maps, is naturally identified with `Hⁱ(Proj(P_R), V)` (so `H^i = 0` for `i ≥ 2`). At a geometric point (Fargues-Fontaine Proposition 5.3.3) for a vector bundle `E` with `M = Γ(X minus {infinity}, E)` and `N = E-hat_infinity`: `H⁰(X, E) = M` intersect `N` and `H¹(X, E) = N[1/t]/(M + N)`.
 
 `V` flat and quasicoherent; for non-flat `V` the Beauville-Laszlo sequence need not be exact.
 
@@ -2401,11 +2411,11 @@ Consume the vector-bundle difference-complex comparison from PadicHodgeTheory §
 
 Same hypotheses as [§6.11](#611-the-complement-of-the-untilt-divisor-in-projp_r-is-affine-kedlaya-liu-893).
 
-Cohomology of arbitrary bundles belongs to VectorBundlesAndIsocrystals, VB1; the content here is the comparison with the explicit difference complex and its formal-completion inputs.
+Cohomology of arbitrary bundles belongs to VectorBundlesAndIsocrystals, Layer 2; the content here is the comparison with the explicit difference complex and its formal-completion inputs.
 
 KL Lemma 8.9.3(b) gives an affine neighborhood `Spec(B_0)` containing `Z`. Let `I` be its invertible Cartier ideal. The marked primitive generator of the completed ideal in Definition 8.9.4 gives a basis of `I/I²` over `B_0/I`. Lift this basis to `z∈I`. The finite `B_0`-module `C=I/(B_0 z)` satisfies `C=IC`. Nakayama in determinant form gives `g≡1 mod I` with `gC=0` (Mathlib `Submodule.exists_sub_one_mem_and_smul_eq_zero_of_fg_of_le_smul`). Thus `Spec(B_0[1/g])` still contains all of `Z`, and its Cartier ideal is generated by `z`; this generator is regular. Put `B=B_0[1/g]`. Since `g≡1 mod I`, it is a unit in the completion, so shrinking preserves the completed and punctured rings `R_2,R_3`.
 
-Cover `Proj(P_R)` by `Spec(R_1)` and this principal affine neighborhood `Spec(B)`. Separatedness makes their intersection affine, so the Cech complex computes quasicoherent cohomology and cohomology vanishes above degree 1 (KL Remark 8.7.6(b); VectorBundlesAndIsocrystals, VB2 (ampleness)/two-affine-cover-cohomological-dimension).
+Cover `Proj(P_R)` by `Spec(R_1)` and this principal affine neighborhood `Spec(B)`. Separatedness makes their intersection affine, so the Cech complex computes quasicoherent cohomology and cohomology vanishes above degree 1 (KL Remark 8.7.6(b); VectorBundlesAndIsocrystals, Layer 3, “Two affine charts and cohomological dimension one”).
 
 On `Spec(B)`, Beauville-Laszlo for the glueing pair `(B, z)` and the flat module `V(B)` gives the exact sequence `0 → V(B) → V(B)[1/z] ⊕ (V(B) tensor_B B-hat) → (V(B) tensor_B B-hat)[1/z] → 0` ([§6.5](#65-the-beauville-laszlo-theorem-for-non-noetherian-rings) (c)). This is extension of scalars, not the `z`-adic completion of `V(B)`: those differ for infinite flat modules.
 
@@ -2420,11 +2430,11 @@ Compare the two-affine Cech complex with the flat-module Beauville-Laszlo sequen
 
 ([KL I](https://arxiv.org/abs/1301.0792) Lemma 8.9.3(b), Definition 8.9.4 and Remark 8.9.5, p. 187; Theorem 8.9.6(a), p. 188; [Stacks](https://stacks.math.columbia.edu/tag/0BNI) tag 00DV; [FF (2017)](https://www.imo.universite-paris-saclay.fr/~fontaine/courbe.pdf) Proposition 5.3.3, p. 209.)
 
-*Needs:* PadicHodgeTheory §7.6/relativePeriodDerivedComparison; [§6.12](#612-the-relative-period-rings-b_ea-b_dra-b_dra-kedlaya-liu-894); [§6.11](#611-the-complement-of-the-untilt-divisor-in-projp_r-is-affine-kedlaya-liu-893); [§6.5](#65-the-beauville-laszlo-theorem-for-non-noetherian-rings); VectorBundlesAndIsocrystals, VB2 (ampleness)/two-affine-cover-cohomological-dimension; Mathlib Module.Flat; Mathlib Submodule.exists_sub_one_mem_and_smul_eq_zero_of_fg_of_le_smul.
+*Needs:* PadicHodgeTheory §7.6/relativePeriodDerivedComparison; [§6.12](#612-the-relative-period-rings-b_ea-b_dra-b_dra-kedlaya-liu-894); [§6.11](#611-the-complement-of-the-untilt-divisor-in-projp_r-is-affine-kedlaya-liu-893); [§6.5](#65-the-beauville-laszlo-theorem-for-non-noetherian-rings); VectorBundlesAndIsocrystals, Layer 3, “Two affine charts and cohomological dimension one”; Mathlib Module.Flat; Mathlib Submodule.exists_sub_one_mem_and_smul_eq_zero_of_fg_of_le_smul.
 
 ### 6.14 Vector bundles on the relative curve are relative B-pairs (Kedlaya-Liu 8.9.6(b),(c))
 
-Consume PadicHodgeTheory §7.5, `RelativeBPair`, its finite-projective patching and exact tensor equivalence between unramified chartwise bundles and relative `B`-pairs. Retain the hypotheses of §6.11, with triples of finite projective modules over `R₁,R₂,R₃` from §6.12. Prove compatibility of relative B-pairs with modifications: under VB2 GAGA and §6.12’s period comparison, the supplied triple equivalence agrees with the all-`E` meromorphic modification gluing of §§6.7–6.9. This comparison includes arrows, tensor products, short exact sequences and pullback.
+Consume PadicHodgeTheory §7.5, `RelativeBPair`, its finite-projective patching and exact tensor equivalence between unramified chartwise bundles and relative `B`-pairs. Retain the hypotheses of §6.11, with triples of finite projective modules over `R₁,R₂,R₃` from §6.12. Prove compatibility of relative B-pairs with modifications: under VectorBundlesAndIsocrystals Layer 3 GAGA and §6.12’s period comparison, the supplied triple equivalence agrees with the all-`E` meromorphic modification gluing of §§6.7–6.9. This comparison includes arrows, tensor products, short exact sequences and pullback.
 
 **Checks.**
 
@@ -2434,42 +2444,49 @@ Consume PadicHodgeTheory §7.5, `RelativeBPair`, its finite-projective patching 
 
 ([KL I](https://arxiv.org/abs/1301.0792) Theorem 8.9.6(b),(c), p. 188; [Caraiani–Scholze](https://arxiv.org/abs/1511.02418v1) Theorem 3.5.1, printed p. 33.)
 
-*Needs:* PadicHodgeTheory §7.5/RelativeBPair; [§6.12](#612-the-relative-period-rings-b_ea-b_dra-b_dra-kedlaya-liu-894); [§6.7](#67-beauville-laszlo-gluing-on-the-relative-curve-modifications-are-b-lattices); [§6.9](#69-the-gluing-is-an-exact-tensor-equivalence-and-commutes-with-base-change); VectorBundlesAndIsocrystals VB2/gaga-equivalence.
+*Needs:* PadicHodgeTheory §7.5/RelativeBPair; [§6.12](#612-the-relative-period-rings-b_ea-b_dra-b_dra-kedlaya-liu-894); [§6.7](#67-beauville-laszlo-gluing-on-the-relative-curve-modifications-are-b-lattices); [§6.9](#69-the-gluing-is-an-exact-tensor-equivalence-and-commutes-with-base-change); VectorBundlesAndIsocrystals Layer 3, “GAGA for the relative schematic curve”.
 
 ### 6.14a No-leg shtukas and normalized tail recovery
 
-For `E=ℚ_p` and `C` complete algebraically closed perfectoid, consume AInfCohomology §AI.2.3, `AInf.integral_robba_frobenius_descent`: no-leg shtukas on `Y_[0,∞)(Spa C♭)`, integral Robba `φ`-modules and finite free `ℤ_p`-modules are equivalent. Use its crystalline-point localization, morphisms and scalar extension. Prove normalized tail comparison: a shtuka with one leg at `φ⁻¹(x_C)` has a unique `φ⁻¹`-equivariant meromorphic comparison with that no-leg model away from `⋃_(n≥0)φ^n(x_C)`, inducing its specified crystalline localization. The API includes morphisms, scalar extension, the normalization and completed lattice recovery. These comparisons precede insertion of lattices in §6.15.
+For `E=ℚ_p` and `C/ℚ_p` complete algebraically closed perfectoid, consume AInfCohomology §AI.2.3, `AInf.integral_robba_frobenius_descent`: no-leg shtukas on `Y_[0,∞)(Spa C♭)`, integral Robba `φ`-modules and finite free `ℤ_p`-modules are equivalent. Use its localization at the characteristic-`p` endpoint `x_{C♭}`, where `p=0` and `[ϖ]≠0`, its morphisms and scalar extension, together with the boundary-neighbourhood contract `AInf.Yan` of the same section. Prove normalized tail comparison: a shtuka with one leg at `φ⁻¹(x_C)` has a unique `φ⁻¹`-equivariant meromorphic comparison with that no-leg model away from `⋃_(n≥0)φ^n(x_C)`, inducing the specified identification at `x_{C♭}`. The integral Robba stalk there has uniformizer `p`, residue `C♭` and completion `W(C♭)` (SW Definition 12.3.1 and Remark 12.3.2, p. 103). The API includes morphisms, scalar extension, the normalization and completed lattice recovery. Section 6.15 compares this normalized recovery with the supplied reconstruction and the relative curve modification.
 
 **Checks.**
 
 - The zero module gives the zero no-leg shtuka.
-- `ℤ_p` gives the trivial line with its identity Frobenius descent.
-- Multiplication by a scalar other than 1 does not preserve the prescribed crystalline identification; equivariance alone does not normalize the comparison.
+- `ℤ_p` gives the unit shtuka: its stalk at `x_{C♭}` is the integral Robba ring, its completion is `W(C♭)`, and its normalized comparison is the identity.
+- Multiplication by a nonidentity unit of `ℤ_p` sends 1 to that unit at `x_{C♭}`, so it fails the prescribed identity normalization even though it is Frobenius-equivariant.
+- The crystalline endpoint `x_L`, with `[ϖ]=0` and `p≠0`, is outside `Y_[0,∞)`; even the unit shtuka on this domain has no stalk there.
 - The removed orbit starts at `n=0` and the leg is at `φ⁻¹(x_C)`; reversing the orbit changes the assertion.
 
 ([SW](https://www.math.uni-bonn.de/people/scholze/Berkeley.pdf) Proposition 12.3.5, printed p. 104; Corollary 12.4.1, printed p. 105.)
 
-*Needs:* AInfCohomology §AI.2.3/AInf.integral_robba_frobenius_descent; [§0.18](#018-integral-relative-period-domain); [§5.3](#53-crystalline-boundary-and-twist-section-input); VectorBundlesAndIsocrystals VB4/integral-frobenius-local-systems; AdicSpacesPartIII R3.5.
+*Needs:* AInfCohomology §AI.2.3, `AInf.Yan` and `AInf.integral_robba_frobenius_descent`; [§0.18](#018-integral-relative-period-domain); VectorBundlesAndIsocrystals Layer 6, “Integral Frobenius and local-system comparison”; AdicSpacesPartIII R3.5.
 
 ### 6.15 Lattices (T, Ξ) and modifications of trivial bundles (Scholze-Weinstein 12.4.6, 14.1.1)
 
-Prove the correspondence between lattices and modifications of trivial bundles. (a) For `S` affinoid perfectoid with an untilt `S♯` over `E`, `D = S♯` the degree-one divisor of `X_S`, fix a finite free `O_E`-module `T` and the reference bundle `F = T ⊗_{O_E} O_{X_S}`. The gluing of [§6.7](#67-beauville-laszlo-gluing-on-the-relative-curve-modifications-are-b-lattices) gives an equivalence between `B⁺_dR(S♯)`-lattices `Ξ` in `T ⊗_{O_E} B_dR(S♯)` and modifications `(F', β^(−1))` of this fixed `F` at `D`, where `β` : `F|_{X_S minus D} → F'|_{X_S minus D}` is meromorphic along `D`. If `T` varies, the output retains `T` and its identification with the reference bundle; forgetting this integral data does not give an equivalence of categories. (b) For `S = Spa(C♭)` and `E = ℚ_p`, using the locally finite family of disjoint divisors `φ^n(x_C)`, `n ≥ 1`, of `Y_{[0,oo)}`: the pairs `(T, Ξ)` are equivalent to shtukas over `Spa(C♭)` with one leg at `φ^(−1)(x_C)` (Scholze-Weinstein Proposition 12.4.6), and to quadruples `(F, F', β, T)` with `F` trivial and `T` a `ℤ_p`-lattice in `H⁰(X_FF, F)` (Theorem 14.1.1, `(2) <=> (3)`). (c) Minuscule case (Fargues-Fontaine 8.3.1): lattices with `t Ξ_0` in `Ξ` in `Ξ_0`, `Ξ_0 = T ⊗ B⁺_dR`, correspond to `C`-subspaces of `T ⊗ C`, i.e. to modifications whose cokernel is killed by `t`.
+Prove the correspondence between lattices and modifications of trivial bundles. (a) For `S` affinoid perfectoid with an untilt `S♯` over `E`, `D = S♯` the degree-one divisor of `X_S`, fix a finite free `O_E`-module `T` and the reference bundle `F = T ⊗_{O_E} O_{X_S}`. The gluing of [§6.7](#67-beauville-laszlo-gluing-on-the-relative-curve-modifications-are-b-lattices) gives an equivalence between `B⁺_dR(S♯)`-lattices `Ξ` in `T ⊗_{O_E} B_dR(S♯)` and modifications `(F', β^(−1))` of this fixed `F` at `D`, where `β` : `F|_{X_S minus D} → F'|_{X_S minus D}` is meromorphic along `D`. If `T` varies, the output retains `T` and its identification with the reference bundle; forgetting this integral data does not give an equivalence of categories. (b) For `S = Spa(C♭)` with `C/ℚ_p` complete algebraically closed perfectoid, consume AInfCohomology §AI.2.3, `BKF.reconstruct`, and its one-leg shtuka associated to `(T,Ξ)` with leg at `φ⁻¹(x_C)`. Prove that its two Frobenius descents to the curve agree with the modification in (a), retaining the quadruple `(F,F′,β,T)` and the specified lattice under the normalized comparison of §6.14a (SW Theorem 14.1.1, `(1)–(3)`). (c) Minuscule case (Fargues-Fontaine 8.3.1): lattices with `t Ξ_0` in `Ξ` in `Ξ_0`, `Ξ_0 = T ⊗ B⁺_dR`, correspond to `C`-subspaces of `T ⊗ C`, i.e. to modifications whose cokernel is killed by `t`.
 
 `E = ℚ_p` and `S` a geometric point in (b), as in the source; (a) is the relative statement and needs no more than the linear gluing.
 
-The equivalence of `'F` trivial with a `ℤ_p`-lattice `T` in `H⁰(X_FF, F)'` and `'T` finite free over `ℤ_p'` uses `H⁰(X_FF, O) = ℚ_p` (VectorBundlesAndIsocrystals, VB1/cohomology-of-twists), not the classification of bundles.
+The equivalence of `'F` trivial with a `ℤ_p`-lattice `T` in `H⁰(X_FF, F)'` and `'T` finite free over `ℤ_p'` uses `H⁰(X_FF, O) = ℚ_p` (VectorBundlesAndIsocrystals, Layer 2, “Slope-sensitive cohomology of standard bundles”), not the classification of bundles.
 
-This equivalence supplies the curve input for essential surjectivity of the Breuil–Kisin–Fargues classification by pairs `(T,Ξ)`. Its full-faithfulness argument is independent (BMS Remark 4.29).
+The retained target identifies the relative curve modification with the supplied reconstruction, including its integral datum `T`. The Breuil–Kisin–Fargues reconstruction and classification remain owned by AInfCohomology §AI.2.3; full faithfulness is its §AI.2.2 input (BMS Remark 4.29).
 
-For the one-leg shtuka assertion use the VectorBundlesAndIsocrystals VB4 integral Frobenius comparison and §6.14a’s supplied no-leg equivalence and normalized-tail theorem: SW Theorem 12.3.4, Proposition 12.3.5 and Corollary 12.4.1. These supply construction and recovery independently of the modification theorem.
+Consume `BKF.reconstruct_pair`, `BKF.reconstruct_morphism`, `BKF.reconstruct_tensor` and `BKF.reconstruct_modification` from AInfCohomology §AI.2.3. In particular, its last comparison identifies the recovered completed-stalk lattice with the given `Ξ`, not just an isomorphic free module.
 
 (a) Apply [§6.7](#67-beauville-laszlo-gluing-on-the-relative-curve-modifications-are-b-lattices) with `E' = F`: `F-hat_D = T ⊗ B⁺_dR(S♯)`, so modifications of `F` at `D` are lattices in `T ⊗ B_dR`.
 
-SW Theorem 12.3.4 identifies integral Robba Frobenius modules and `W(C♭)` Frobenius modules with finite free `ℤ_p`-modules, using scalar extension and fixed vectors (VB4/integral-frobenius-local-systems). The §6.14a no-leg equivalence, SW Proposition 12.3.5, identifies these with no-leg shtukas on `Y[0,infinity)`. Starting with `T` tensor `O`, insert `Ξ` at `x_C` and then at each `φ^n(x_C)`, `n>=1`; local finiteness and the linear gluing give a one-leg shtuka. The §6.14a tail-recovery theorem, SW Corollary 12.4.1, uniquely compares a one-leg shtuka to its no-leg model away from the forward orbit; its completed comparison recovers `Ξ`. This proves the construction and recovery of SW Proposition 12.4.6, pp. 106-107.
+For (b), apply the supplied specified-lattice recovery and §6.14a’s normalized comparison at `x_{C♭}`. Descend the reconstructed shtuka on the two sides of `x_C` to `F` and `F′`; the completed comparison at `x_C` has image exactly `Ξ`. The uniqueness and morphism comparison of §6.7 then identify this descended modification with (a). Tensor compatibility follows from the supplied reconstruction comparison and §6.9 (SW proof of Theorem 14.1.1, pp. 115–116).
 
 For SW Theorem 14.1.1(2)-(3), `H⁰(X_FF,O)=ℚ_p` identifies a trivial bundle `F` with a finite-dimensional `ℚ_p`-space. Retaining the `ℤ_p`-lattice `T` in its sections gives the integral reference datum. Linear Beauville-Laszlo identifies `F`-prime and its meromorphic comparison `β` with a `B_dR`-plus lattice in `T` tensor `B_dR`. Thus the varying-`T` category keeps `T`, rather than forgetting it; multiplication by `1/p` on `F` is not an automorphism of `T=ℤ_p` (SW pp. 115-116).
 
 (c) A modification with `t Ξ_0` in `Ξ` in `Ξ_0` is determined by `Ξ / t Ξ_0`, a `C`-subspace of `Ξ_0 / t Ξ_0 = T ⊗ C` (Fargues-Fontaine 8.3.1).
+
+**Checks.**
+
+- For `T=ℤ_p` and `Ξ=ξB_dR⁺`, the supplied shtuka has exactly that lattice at `x_C` and its identified Frobenius translates; the curve comparison gives `F′=O(−1)`. Replacing `Ξ` by `B_dR⁺` would give degree 0 and fails this comparison.
+- For `(T,Ξ)=(0,0)`, reconstruction and relative gluing both give zero, with the unique map between zero bundles.
+- For `T=ℤ_p` and `Ξ=B_dR⁺`, both routes give the unit modification and identity normalized comparison; multiplying the rational reference by `1/p` fails to preserve `T`.
 
 Further specializations and compatibility requirements are as follows.
 
@@ -2479,7 +2496,7 @@ Further specializations and compatibility requirements are as follows.
 
 ([SW](https://www.math.uni-bonn.de/people/scholze/Berkeley.pdf) Proposition 12.4.6, printed p. 106; [SW](https://www.math.uni-bonn.de/people/scholze/Berkeley.pdf) Proof of Proposition 12.4.6, printed pp. 106-107; [SW](https://www.math.uni-bonn.de/people/scholze/Berkeley.pdf) Proof of Theorem 14.1.1, printed p. 116; [BMS](https://arxiv.org/abs/1602.03148) Remark 4.29, p. 43; [SW](https://www.math.uni-bonn.de/people/scholze/Berkeley.pdf) Theorem 12.3.4 and Proposition 12.3.5, printed p. 104; Corollary 12.4.1, printed p. 105.)
 
-*Needs:* [§6.7](#67-beauville-laszlo-gluing-on-the-relative-curve-modifications-are-b-lattices); [§6.10](#610-gluing-along-several-disjoint-or-colliding-legs); [§6.9](#69-the-gluing-is-an-exact-tensor-equivalence-and-commutes-with-base-change); [§4.10](#410-generic-divisor-de-rham-rings); VectorBundlesAndIsocrystals, VB1/cohomology-of-twists; PadicPeriodRings, §§1.5 and 4.1 (geometric de Rham DVR); Mathlib Module.Free; VectorBundlesAndIsocrystals, VB4/integral-frobenius-local-systems; [§6.14a](#614a-no-leg-shtukas-and-normalized-tail-recovery).
+*Needs:* AInfCohomology §AI.2.3, `BKF.reconstruct` and its pair, morphism, tensor and specified-lattice comparisons; [§6.7](#67-beauville-laszlo-gluing-on-the-relative-curve-modifications-are-b-lattices); [§6.10](#610-gluing-along-several-disjoint-or-colliding-legs); [§6.9](#69-the-gluing-is-an-exact-tensor-equivalence-and-commutes-with-base-change); [§4.10](#410-generic-divisor-de-rham-rings); VectorBundlesAndIsocrystals, Layer 2, “Slope-sensitive cohomology of standard bundles”; PadicPeriodRings, §§1.5 and 4.1 (geometric de Rham DVR); Mathlib Module.Free; VectorBundlesAndIsocrystals, Layer 6, “Integral Frobenius and local-system comparison”; [§6.14a](#614a-no-leg-shtukas-and-normalized-tail-recovery).
 
 ### 6.16 Kedlaya's algebraicity of vector bundles on the punctured Witt spectrum
 
@@ -2519,13 +2536,13 @@ Take `ℤ→ℤ[1/2],ℤ[1/3]→ℤ[1/6]`, with overlap transition multiplicatio
 
 ### Dependencies
 
-Layers 0, 2, 3, 4, 5; AdicSpacesPartIII, R3.2/glueing-square; Mathlib TensorProduct; Mathlib LinearEquiv; Mathlib Module.Flat; Mathlib Module.Finite; Mathlib Module.Projective; Mathlib IsLocalization.Away.awayToAwayLeft; Mathlib IsLocalization.Away.awayToAwayRight; Mathlib TensorProduct.AlgebraTensorModule.rid; Mathlib Module.FinitePresentation; Mathlib CommAlgCat.FiniteEtale; Mathlib Algebra.Etale; Mathlib Module.Dual; Mathlib AdicCompletion; Mathlib AdicCompletion.of; Mathlib IsLocalization.Away; Mathlib nonZeroDivisors; Mathlib MvPolynomial; Mathlib Ideal.Quotient.mk; Mathlib IsAdicComplete; Mathlib Module.FaithfullyFlat; VectorBundlesAndIsocrystals, VB1/finite-locally-free-bundles; AdicSpacesPartIII, R3.5/locally-free-sheaf; Mathlib Module.Invertible; AdicSpacesPartIII, R3.5/sheafy-tate-acyclicity-and-kiehl-gluing; AdicSpacesPartIII, R3.5/vector-bundle-global-generation; AdicSpacesPartIII, R3; Mathlib CategoryTheory.Functor.Monoidal; VectorBundlesAndIsocrystals, VB2 (ampleness)/ample-section-affineness; VectorBundlesAndIsocrystals, VB2 (ampleness)/globally-etale-positive-ampleness; VectorBundlesAndIsocrystals, VB2 (ampleness)/gaga-equivalence; PadicHodgeTheory, §0.2/bdRPlusAffinoid; Mathlib BDeRhamPlus; Mathlib BDeRham; VectorBundlesAndIsocrystals, VB2 (ampleness)/two-affine-cover-cohomological-dimension; VectorBundlesAndIsocrystals, VB1/schematic-curve-at-a-geometric-point; Mathlib Module.Free; Mathlib CategoryTheory.Equivalence; VectorBundlesAndIsocrystals, VB1/cohomology-of-twists; PadicPeriodRings, §§1.5 and 4.1 (geometric de Rham DVR); VectorBundlesAndIsocrystals, VB4/integral-frobenius-local-systems; [§6.14a](#614a-no-leg-shtukas-and-normalized-tail-recovery); AdicSpacesPartIII, R3.2/simple-laurent-glueing-square; AdicSpacesPartIII, R3.5/glueing-square-finite-projective-descent; PerfectoidSpaces, P3.17a.3/sousperfectoid-stably-uniform; PerfectoidSpaces, P1.16/witt-vectors-of-perfect-plus-ring; Mathlib WittVector. The scope of each named supplier is fixed in Exact supplier contracts.
+Layers 0, 2, 3, 4, 5; AdicSpacesPartIII, R3.2/glueing-square; Mathlib TensorProduct; Mathlib LinearEquiv; Mathlib Module.Flat; Mathlib Module.Finite; Mathlib Module.Projective; Mathlib IsLocalization.Away.awayToAwayLeft; Mathlib IsLocalization.Away.awayToAwayRight; Mathlib TensorProduct.AlgebraTensorModule.rid; Mathlib Module.FinitePresentation; Mathlib CommAlgCat.FiniteEtale; Mathlib Algebra.Etale; Mathlib Module.Dual; Mathlib AdicCompletion; Mathlib AdicCompletion.of; Mathlib IsLocalization.Away; Mathlib nonZeroDivisors; Mathlib MvPolynomial; Mathlib Ideal.Quotient.mk; Mathlib IsAdicComplete; Mathlib Module.FaithfullyFlat; VectorBundlesAndIsocrystals, Layer 2, “Finite locally free bundles on the curve”; AdicSpacesPartIII, R3.5/locally-free-sheaf; Mathlib Module.Invertible; AdicSpacesPartIII, R3.5/sheafy-tate-acyclicity-and-kiehl-gluing; AdicSpacesPartIII, R3.5/vector-bundle-global-generation; AdicSpacesPartIII, R3; Mathlib CategoryTheory.Functor.Monoidal; VectorBundlesAndIsocrystals, Layer 3, “Affine nonvanishing loci of ample line sections”; VectorBundlesAndIsocrystals, Layer 3, “Positive twists of globally étale bundles”; VectorBundlesAndIsocrystals, Layer 3, “GAGA for the relative schematic curve”; PadicHodgeTheory, §0.2/bdRPlusAffinoid; Mathlib BDeRhamPlus; Mathlib BDeRham; VectorBundlesAndIsocrystals, Layer 3, “Two affine charts and cohomological dimension one”; VectorBundlesAndIsocrystals, Layer 2, “Elementary algebraization at a geometric point”; Mathlib Module.Free; Mathlib CategoryTheory.Equivalence; VectorBundlesAndIsocrystals, Layer 2, “Slope-sensitive cohomology of standard bundles”; PadicPeriodRings, §§1.5 and 4.1 (geometric de Rham DVR); VectorBundlesAndIsocrystals, Layer 6, “Integral Frobenius and local-system comparison”; [§6.14a](#614a-no-leg-shtukas-and-normalized-tail-recovery); AdicSpacesPartIII, R3.2/simple-laurent-glueing-square; AdicSpacesPartIII, R3.5/glueing-square-finite-projective-descent; PerfectoidSpaces, P3.17a.3/sousperfectoid-stably-uniform; PerfectoidSpaces, P1.16/witt-vectors-of-perfect-plus-ring; Mathlib WittVector. The scope of each named supplier is fixed in Exact supplier contracts.
 
 ## Layer 7: group-valued modifications
 
 ### 7.0 Scheme and integral adic torsor comparison
 
-Prove the torsor–tensor dictionary. For a flat affine linear group scheme `G` over `O_E` (or a linear algebraic group over `E`) and a scheme over that base, geometric `G`-torsors, fppf `G`-torsors and exact tensor functors from finite-free representations to finite locally free modules are equivalent. For smooth `G` the torsors are étale locally trivial. Extend the `ℤ_p` scheme and analytic sousperfectoid dictionaries of VectorBundlesAndIsocrystals VB4, `integral-group-torsors`, to `O_E`, compatible with restrictions, base change and extension of structure group. This coefficient extension covers `𝒴` and the opens of the dotted product with `Spa O_E` used in §7.2. It is proved before modification gluing. Over `E` consume ReductiveGroups Layer 1's reconstruction and Tau Ceti's tensor-automorphism comparison; consume PadicHodgeTheory §5.5, `tensorIsomTorsor`, its two actions and inverse tensor descent over `E`-algebras, and glue these affine scheme comparisons. The integral extension uses finite-free `O_E` representations and reconstruction through the coordinate Hopf algebra, rather than field-valued semisimplicity.
+Prove the torsor–tensor dictionary. For a flat affine linear group scheme `G` over `O_E` (or a linear algebraic group over `E`) and a scheme over that base, geometric `G`-torsors, fppf `G`-torsors and exact tensor functors from finite-free representations to finite locally free modules are equivalent. For smooth `G` the torsors are étale locally trivial. Extend the `ℤ_p` scheme and analytic sousperfectoid dictionaries of VectorBundlesAndIsocrystals Layer 6, “Integral group torsors and Frobenius”, to `O_E`, compatible with restrictions, base change and extension of structure group. This coefficient extension covers `𝒴` and the opens of the dotted product with `Spa O_E` used in §7.2. It is proved before modification gluing. Over `E` consume ReductiveGroups Layer 1's reconstruction and Tau Ceti's tensor-automorphism comparison; consume PadicHodgeTheory §5.5, `tensorIsomTorsor`, its two actions and inverse tensor descent over `E`-algebras, and glue these affine scheme comparisons. The integral extension uses finite-free `O_E` representations and reconstruction through the coordinate Hopf algebra, rather than field-valued semisimplicity.
 
 The API comprises associated bundles, tensor-isomorphism torsors, the three comparison functors and their inverse isomorphisms, pullback and change of structure group. Prove the faithful tensor-generator and closed-immersion restriction/subquotient criteria over `E`: faithful `V` has generator `V⊕V∨`. No such field criterion is applied to `O_E` without its integral proof.
 
@@ -2538,7 +2555,7 @@ The API comprises associated bundles, tensor-isomorphism torsors, the three comp
 
 ([SW](https://www.math.uni-bonn.de/people/scholze/Berkeley.pdf) Theorems 19.5.1–19.5.2, printed pp. 178–180; [FS](https://people.mpim-bonn.mpg.de/scholze/Geometrization.pdf) Definition/Proposition III.1.1 and coefficient-extension footnote, printed p. 88; [Deligne–Milne](https://www.jmilne.org/math/xnotes/tc2018.pdf) Propositions 2.20(b), 2.21(b), pp. 25–26.)
 
-*Needs:* PadicHodgeTheory §5.5/tensorIsomTorsor; ReductiveGroups Layer 1; SchemeAndStackFoundations §§1.15 and 2.3; VectorBundlesAndIsocrystals VB4/integral-group-torsors; DiamondsAndVStacks D2–D3; PerfectoidSpaces P3.17a; `TauCeti.Tannaka.pointsFunctorIsoTensorAutFunctor`.
+*Needs:* PadicHodgeTheory §5.5/tensorIsomTorsor; ReductiveGroups Layer 1; SchemeAndStackFoundations §§1.15 and 2.3; VectorBundlesAndIsocrystals Layer 6, “Integral group torsors and Frobenius”; DiamondsAndVStacks D2–D3; PerfectoidSpaces P3.17a; `TauCeti.Tannaka.pointsFunctorIsoTensorAutFunctor`.
 
 ### 7.1 Modifications of G-bundles at a relative Cartier divisor
 
@@ -2733,7 +2750,7 @@ Because Q0 is finitely presented, a section over `colim_T A_T` descends to one p
 
 ([FS](https://people.mpim-bonn.mpg.de/scholze/Geometrization.pdf) Proposition II.1.1 and proof, printed pp. 48–49; [SW](https://www.math.uni-bonn.de/people/scholze/Berkeley.pdf) Proposition 19.5.3 and proof, printed pp. 180–181; [Stacks](https://stacks.math.columbia.edu/tag/0BNI) tag 08XD; [FS](https://people.mpim-bonn.mpg.de/scholze/Geometrization.pdf) Proof of Proposition VI.1.7, printed p. 193; [Gabber–Ramero](https://arxiv.org/abs/math/0201175v3) Proposition 5.4.21 and Claim 5.4.22, arXiv v3, printed pp. 121–122; [SW](https://www.math.uni-bonn.de/people/scholze/Berkeley.pdf) Proof of Proposition 19.1.2, printed p. 170; [SW](https://www.math.uni-bonn.de/people/scholze/Berkeley.pdf) Lemma 17.1.8 and proof, printed pp. 150–151.)
 
-*Needs:* [§0.16](#016-root-extension-chart-model); [§0.17](#017-perfectoid-root-extension-and-split-sheaf-descent); [§7.0](#70-scheme-and-integral-adic-torsor-comparison); [§3.7](#37-descent-on-divisors-and-their-thickenings); [§3.8](#38-completed-divisor-period-rings); [§4.10](#410-generic-divisor-de-rham-rings); AdicSpacesPartIII R3.5/split-injection-completed-base-change; VectorBundlesAndIsocrystals, VB1/v-descent-for-bundles-and-cohomology; DiamondsAndVStacks, D2.9/vector-bundles-across-pro-etale-and-v-sites; DiamondsAndVStacks, D2/v-descent-of-functions; DiamondsAndVStacks, D2/higher-v-acyclicity; DiamondsAndVStacks, D4/small-v-sheaves-and-small-v-stacks; PerfectoidSpaces, P3.17a.4/sousperfectoid-adic-space; PadicPeriodRings, §§1.5 and 4.1 (geometric de Rham DVR); Mathlib Algebra.FormallySmooth.exists_mkₐ_comp_eq_of_isAdicComplete; Mathlib Algebra.Smooth; Mathlib HenselianRing; Mathlib IsDiscreteValuationRing; Mathlib IsAdicComplete; Mathlib Module.Projective; Tau Ceti TauCeti.ReductiveAffineGroupSchemeCat; Mathlib PowerSeries.IsRestricted.subring; Layer 3; DiamondsAndVStacks, D2.
+*Needs:* [§0.16](#016-root-extension-chart-model); [§0.17](#017-perfectoid-root-extension-and-split-sheaf-descent); [§7.0](#70-scheme-and-integral-adic-torsor-comparison); [§3.7](#37-descent-on-divisors-and-their-thickenings); [§3.8](#38-completed-divisor-period-rings); [§4.10](#410-generic-divisor-de-rham-rings); AdicSpacesPartIII R3.5/split-injection-completed-base-change; VectorBundlesAndIsocrystals, Layer 2, “V-descent of bundles and their derived cohomology”; DiamondsAndVStacks, D2.9/vector-bundles-across-pro-etale-and-v-sites; DiamondsAndVStacks, D2/v-descent-of-functions; DiamondsAndVStacks, D2/higher-v-acyclicity; DiamondsAndVStacks, D4/small-v-sheaves-and-small-v-stacks; PerfectoidSpaces, P3.17a.4/sousperfectoid-adic-space; PadicPeriodRings, §§1.5 and 4.1 (geometric de Rham DVR); Mathlib Algebra.FormallySmooth.exists_mkₐ_comp_eq_of_isAdicComplete; Mathlib Algebra.Smooth; Mathlib HenselianRing; Mathlib IsDiscreteValuationRing; Mathlib IsAdicComplete; Mathlib Module.Projective; Tau Ceti TauCeti.ReductiveAffineGroupSchemeCat; Mathlib PowerSeries.IsRestricted.subring; Layer 3; DiamondsAndVStacks, D2.
 
 ### 7.7 The modification of a G-bundle by a B⁺_dR-lattice
 
@@ -2785,11 +2802,11 @@ For `G=GL₁`, a lattice `ξ^kB_D⁺` changes the trivial line to `O(−k)`; `k=
 
 ### Dependencies
 
-Layers 3, 4, 6; [§7.0](#70-scheme-and-integral-adic-torsor-comparison); Tau Ceti TauCeti.AffineGroupSchemeCat; Mathlib CategoryTheory.Functor.Monoidal; Mathlib CategoryTheory.Equivalence; Tau Ceti TauCeti.Comodule.IsFaithful; Tau Ceti TauCeti.Comodule.isFaithful_iff_isClosedImmersion_coordinateGroupSchemeHom; VectorBundlesAndIsocrystals, VB1/v-descent-for-bundles-and-cohomology; DiamondsAndVStacks, D2/v-descent-of-functions; DiamondsAndVStacks, D2/higher-v-acyclicity; DiamondsAndVStacks, D4/small-v-sheaves-and-small-v-stacks; PerfectoidSpaces, P3.17a.4/sousperfectoid-adic-space; PadicPeriodRings, §§1.5 and 4.1 (geometric de Rham DVR); Mathlib Algebra.FormallySmooth.exists_mkₐ_comp_eq_of_isAdicComplete; Mathlib Algebra.Smooth; Mathlib HenselianRing; Mathlib IsDiscreteValuationRing; Mathlib IsAdicComplete; Mathlib Module.Projective; Tau Ceti TauCeti.ReductiveAffineGroupSchemeCat; Layer 3; DiamondsAndVStacks, D2. The scope of each named supplier is fixed in Exact supplier contracts.
+Layers 3, 4, 6; [§7.0](#70-scheme-and-integral-adic-torsor-comparison); Tau Ceti TauCeti.AffineGroupSchemeCat; Mathlib CategoryTheory.Functor.Monoidal; Mathlib CategoryTheory.Equivalence; Tau Ceti TauCeti.Comodule.IsFaithful; Tau Ceti TauCeti.Comodule.isFaithful_iff_isClosedImmersion_coordinateGroupSchemeHom; VectorBundlesAndIsocrystals, Layer 2, “V-descent of bundles and their derived cohomology”; DiamondsAndVStacks, D2/v-descent-of-functions; DiamondsAndVStacks, D2/higher-v-acyclicity; DiamondsAndVStacks, D4/small-v-sheaves-and-small-v-stacks; PerfectoidSpaces, P3.17a.4/sousperfectoid-adic-space; PadicPeriodRings, §§1.5 and 4.1 (geometric de Rham DVR); Mathlib Algebra.FormallySmooth.exists_mkₐ_comp_eq_of_isAdicComplete; Mathlib Algebra.Smooth; Mathlib HenselianRing; Mathlib IsDiscreteValuationRing; Mathlib IsAdicComplete; Mathlib Module.Projective; Tau Ceti TauCeti.ReductiveAffineGroupSchemeCat; Layer 3; DiamondsAndVStacks, D2. The scope of each named supplier is fixed in Exact supplier contracts.
 
 ## Downstream consumers
 
-The period and bundle interfaces agree with VectorBundlesAndIsocrystals VB`−1` and VB1–VB4. Its independent relative foundations supply the coefficients, annuli, quotient, generic divisors and completions, twists and partial section charts as well as higher-rank/global results. The integral-chart, symmetric-divisor, multileg and patching targets here specify the additional refinements required for modifications. BunGAndNewtonStrata, GeometricSatakeAndFusion and the Hecke/local-shtuka roadmaps receive completed Cartier legs, lattice modifications and their group/base-change compatibilities. AInfCohomology supplies regular-completion patching and the geometric-field extension inputs; its constructions agree with the broader glueing-pair and general-base algebraicity comparisons here; Breuil–Kisin–Fargues full faithfulness does not acquire a blanket dependency on relative curve geometry.
+The period and bundle interfaces agree with VectorBundlesAndIsocrystals Layers 0–6. Its independent relative foundations supply the coefficients, annuli, quotient, generic divisors and completions, twists and partial section charts as well as higher-rank/global results. The integral-chart, symmetric-divisor, multileg and patching targets here specify the additional refinements required for modifications. BunGAndNewtonStrata, GeometricSatakeAndFusion and the Hecke/local-shtuka roadmaps receive completed Cartier legs, lattice modifications and their group/base-change compatibilities. AInfCohomology supplies regular-completion patching and the geometric-field extension inputs; its constructions agree with the broader glueing-pair and general-base algebraicity comparisons here; Breuil–Kisin–Fargues full faithfulness does not acquire a blanket dependency on relative curve geometry.
 
 ## References
 

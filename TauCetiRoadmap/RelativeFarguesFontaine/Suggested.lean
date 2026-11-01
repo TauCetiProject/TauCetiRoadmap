@@ -21,7 +21,8 @@ Cartier legs, their symmetric orbit sheaves and ambient formal completions; Math
 `BDeRhamPlus` alone does not supply those objects or their marked-untilt comparisons. Layer 5
 needs the relative Frobenius bundle and Lubin–Tate period-section constructions. The geometric
 results of Layers 6–7 — modification/lattice and meromorphic complement gluing, relative B-pair
-cohomology and comparison, normalized one-leg shtuka recovery, punctured Witt algebraicity,
+cohomology and comparison, normalized one-leg comparison and compatibility of the supplied shtuka reconstruction
+with curve modifications, punctured Witt algebraicity,
 and exact tensor gluing and descent of G-bundles — need these analytic bundle, formal divisor,
 shtuka and torsor categories. These headlines are not statable at the pins without those carriers.
 -/
