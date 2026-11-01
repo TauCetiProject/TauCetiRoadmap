@@ -115,7 +115,12 @@ versus Lie-algebra invariants for connected groups, `S(g*)^G ≃ S(h*)^W` with g
 degrees `d_i + 1`, the Kostant regular/slice theorem and the codimension of the nonregular locus.
 F5–F8: regular and punctured opers, their function algebras `Fun Op(D)` and `Fun Op(D×)`,
 coordinate action, Miura transforms, classical W-algebras and screenings and their sign
-conventions. None of these consumes Feigin–Frenkel.
+conventions. The classical-screening supplier contract is F7.5: its exponential-charge
+modules, translation-compatible dual-root screening derivations and Miura screening-kernel
+identification are inputs to A7.1–A7.3. A7.1 owns the restriction of the quantum Wakimoto
+intertwiners and its comparison with these supplied derivations. F7.5 constructs its classical
+objects independently of the affine vertex algebras and their centers; none of F1–F8 consumes
+Feigin–Frenkel.
 
 **From TauCetiRoadmap.LieHighestWeight.** Layers 1, 3, 5 and 7: Cartan and root spaces,
 highest-weight modules, complete reducibility, Harish–Chandra and Chevalley theory.
@@ -886,7 +891,8 @@ the localized charged Wakimoto modules of Frenkel §7.3.4, equations (7.3-11)–
 pp. 216–217, including their target Fock/localization carriers. Prove their restriction to `π0`
 is the classical dual-root screening of FormalConnectionsOpers F7.5, with its exponential-charge
 module as target. This is a comparison with the supplier’s construction, not a second construction
-of classical screenings. *Needs:* the Wakimoto maps above; FormalConnectionsOpers F7.5.
+of classical screenings. *Needs:* the Wakimoto maps above; the classical-screening supplier
+contract F7.5 specified in Exact supplier contracts.
 
 **API.**
 
