@@ -1,167 +1,1315 @@
-# Kac–Moody algebras, integrable modules and path crystals
-
-Construct the representation theory of finite-rank symmetrizable Kac–Moody algebras, their integrable quantum highest-weight modules, and the Littelmann path realization of their crystals. Finite type, affine type and indefinite type are included. The Cartan matrix may be singular; the full Cartan realization, weight lattice, central character and degree directions are data throughout. The scope includes completed characters, restricted duals, tensor and Levi rules, and the finite-dimensional Schubert pieces needed to formulate the source's divisor comparison. No positive-definite Killing form, finite Weyl group, longest element or finite-dimensional total module is a standing hypothesis.
-
-`Suggested.lean` gives selected native carriers and target signatures, not an exhaustive checklist or the specification. Every construction below includes its maps, equations, change-of-data comparisons and boundary cases. The markdown is definitive.
-
-## Owners and construction order
-
-- [RootSystems](../RepresentationTheory/RootSystems/README.md) owns abstract Coxeter exchange, reduced-word and Bruhat combinatorics in Layer3, and the existing finite crystallographic realization/classification. KM0–KM2 construct the additional symmetrizable realization and identify its Weyl group with the native Coxeter group; they consume that abstract API rather than assert finite classification for an infinite group.
-- [LieHighestWeight](../RepresentationTheory/LieHighestWeight/README.md) owns finite-dimensional Killing/reductive representation theory and its native finite-type Verma/simple modules. Reuse general enveloping/PBW/module maps at their actual hypotheses. KM3 constructs the full-realization counterparts and compares them in finite type; it does not apply `IsKilling` or finite-dimensional integrability theorems to affine or indefinite algebras.
-- [QuantumEnvelopingAlgebras](../QuantumEnvelopingAlgebras/README.md) owns the generic Drinfeld–Jimbo algebra, its actual full toral lattice, Hopf structure, triangular multiplication and the braided positive/negative pairing (with a separately specified toral Borel pairing when used), Lusztig algebra automorphisms, and the finite-type integral PBW/specialization/Frobenius algebra. Its early algebra consumes KM0's lattice and singular realization. KM5 consumes that algebra and owns the integrable modules, Kashiwara operators and crystal bases. Its finite root-of-unity module applications may consume KM5; neither those applications nor any crystal theorem is a premise for the generic quantum algebra. This is an item-level order, not a whole-roadmap dependency in both directions.
-- [QuantumGroups](../QuantumGroups/README.md) Q8 owns the existing generic rank-one algebra and signed finite module comparisons. Its compact C*-theory and finite Hopf-module category are separate. Infinite-dimensional integrable modules here are ordinary algebraic modules, not objects assumed to lie in that finite category.
-- [SchubertGeometry](../SchubertGeometry/README.md) S4 owns the complete finite-root-data path/crystal engine, typed central translation, convexity and finite parabolic bond-gcd comparison; its later sections own finite geometric applications. [TensorProductCombinatorics](../TensorProductCombinatorics/README.md) H8 owns the concrete tableaux, reading-word, signature and adjoint examples. KM6–KM7 construct the symmetrizable extension and prove exact finite specializations. They do not build a second finite tableau theory.
-- [AffineLieAlgebras A1–A2](../AffineLieAlgebras/README.md#a2-central-extensions-levels-and-loop-lifts) owns the polynomial and formal current algebras, the central extension `ĝ_κ` with its pinned residue cocycle and sign, its continuous classification, and central-level transport; it adds no degree derivation. KM1 consumes that polynomial extension and constructs here only the degree derivation, the Chevalley–Serre identification of the untwisted affine Kac–Moody algebra and the dictionary for the central coroot, the degree element and the level.
-- [FormalConnectionsOpers F3A](../FormalConnectionsOpers/README.md#f3a-polynomial-loops-full-cocharacters-and-positive-quotients) owns polynomial/formal reductive loop functors, coefficient-ring torsor patching, Iwahori and positive subgroups, full-cocharacter normalizer and Grassmannian/orbit adapters. KM8A constructs the subsequent untwisted minimal-derived-group comparison, with its actual central kernel and global-form/rotation dictionary; those later group targets are not premises of the loop construction.
-- [SchemeAndStackFoundations §§5.1–5.3](../SchemeAndStackFoundations/README.md#51-rational-equivalence-chow-groups-and-the-divisor-class-comparison) owns the generic native scheme cycle/Chow carrier, Cartier/Weil comparison, proper pushforward/localization and [first-Chern operator with its projection formula](../SchemeAndStackFoundations/README.md#53-the-first-chern-class). KM8 constructs its finite Schubert-scheme inputs and the divisor application on those supplied carriers. Existing finite flag/quotient owners remain the finite-type suppliers; KM8 constructs only the additional minimal Kac–Moody group and finite-piece comparisons. Valued-field masures, analytic loop groups and their building geometry are distinct constructions.
-
-The order is KM0 realization → KM1 algebra/root spaces → KM2 Weyl/real-root geometry → KM3 modules and KM4 characters. The independent algebraic path construction KM6 uses KM0–KM2 and abstract Coxeter facts. QuantumEnvelopingAlgebras' early algebra and KM3–KM4 feed KM5, then KM7 identifies the independently constructed path and quantum crystals. KM8 uses the already constructed modules and real-root actions for the geometric application; no flag-cohomology, standard-monomial or divisor theorem is a premise of KM0–KM7.
-
-## KM0. Symmetrizable Cartan data and singular realizations
-
-Fix a finite simple index set `I` and an integral generalized Cartan matrix `A`: `a_ii=2`, `a_ij≤0` for distinct indices, and `a_ij=0` iff `a_ji=0`. Fix positive integers `d_i` with `d_i a_ij=d_j a_ji`. Our orientation is `a_ij=α_j(h_i)`. Construct reindexing, direct-sum/components, submatrix/Levi restriction and equality/transport APIs. Borcherds matrices with nonpositive diagonal simple entries are different data and are not obtained by allowing a zero denominator in these definitions.
-
-A rational realization is a finite-dimensional `H_Q` with independent simple coroots `h_i` and independent functionals `α_i∈H_Q*` satisfying this pairing. Prove the lower bound `dim H_Q≥2|I|−rank(A)`, construct a minimal realization of that dimension, and prove existence of isomorphisms between any two minimal realizations of that datum, without asserting their uniqueness. Also retain specified finite-dimensional central enlargements. Construct compatible free integral lattices `P` and `Y` with a perfect pairing, simple roots in `P`, simple coroots in `Y`, and their embeddings into the rational realization. State which lattice choices admit fundamental weights in `P`; in an arbitrary isogenous lattice only their rational versions are automatic. Never infer a direct integral splitting of central and derived lattices from a rational splitting.
-
-Set `Q=⊕_I Z α_i`, `Q_+=⊕_I N α_i`, using independence in the full realization even when `A` is singular. Construct the root-coordinate inclusion, height, dominance `λ(h_i)≥0`, the dominance preorder and decidable finite-height intervals. Extend scalars to any characteristic-zero field for algebraic representation theory and to `R` for paths. Carry the actual `P`, its inclusion and all extra Cartan coordinates through every map.
-
-Identify the Cartan center as the common kernel of the simple roots and its intersection with the derived Cartan as the kernel of the Cartan pairing on the span of `h_i`. Prove these centers coincide for a minimal realization; specified central enlargements can add central directions outside the derived Cartan. Distinguish the centers, derived Cartan and additional degree coordinates through their actual inclusion maps. In affine rank two use `[[2,−2],[−2,2]]`: the full minimal Cartan has dimension3, its derived Cartan has dimension2 and the null combination of coroots is central. Give the empty-index case as an abelian Cartan algebra, including its one-dimensional weight modules; no choice of root or division by a rank is required.
-
-## KM1. Actual Lie algebra, triangular decomposition and PBW
-
-Construct the Lie algebra on the entire chosen Cartan, with generators `H`, `e_i`, `f_i`, Cartan linearity, `[H,H]=0`, `[h,e_i]=α_i(h)e_i`, `[h,f_i]=−α_i(h)f_i`, `[e_i,f_j]=δ_ij h_i`, and the two Serre relations `(ad e_i)^(1−a_ij)e_j=0`, `(ad f_i)^(1−a_ij)f_j=0` for `i≠j`. Use native `FreeLieAlgebra`, `LieIdeal`/quotients and `UniversalEnvelopingAlgebra`. Prove the generator/universal property, Cartan injectivity, the derived subalgebra presentation and the relationship to native `Matrix.ToLieAlgebra`. That native H/E/F quotient is a lower presentation for the derived part, not the full singular realization with degree generators.
-
-Prove the triangular direct-sum decomposition `n^- ⊕ H ⊕ n^+`, its actual inclusion/projection maps and its root-lattice grading. Root spaces have finite dimension; construct their finite-height enumeration and bracket degree laws. Separate real roots, whose root spaces are one-dimensional, from imaginary roots with their actual multiplicities. Construct the symmetrizable invariant bilinear form `( , )` with the following normalization (Kac, *Infinite-dimensional Lie algebras*, 3rd ed., §2.1 and Theorem 2.2, with `ε_i=1/d_i`). Choose a complement `H''` of the span of the `h_i` in the full Cartan `H`; put `(h_i,h)=α_i(h)/d_i` for all `h∈H` and `(h',h'')=0` for `h',h''∈H''`. This is symmetric on the span of the `h_i` because `a_ji/d_i=a_ij/d_j`, and it is nondegenerate on the whole `H` for every realization of KM0, including singular `A`, although `(d_i a_ij)` alone is degenerate on the span of the `h_i` when `A` is singular. Prove that the form extends uniquely to an invariant symmetric form on the whole algebra (Kac, Theorem 2.2, transported to the Serre presentation through the Gabber–Kac identification, Kac, Theorem 9.11) with `(e_i,f_j)=δ_ij/d_i`, that `(g_α,g_β)=0` unless `α+β=0`, and that it restricts to perfect pairings `g_α×g_(−α)→k` for every root and to a nondegenerate form on `H`. Construct the induced isomorphism `ν:H→H*`; it satisfies `ν(h_i)=α_i/d_i`, so the transported form on `H*` has `(α_i,α_j)=d_i a_ij` and `(α_i,λ)=d_i λ(h_i)`, the normalization used by KM5. Construct the change-of-complement comparison: a different `H''` gives an isometric realization through an explicit map fixing every `h_i` and `α_i`. *Checks:* in finite `A1` with `d=1` the form is the trace form of `sl2`: `(h,h)=2`, `(e,f)=1`; in affine `A1` with `A=[[2,−2],[−2,2]]` and `d=(1,1)`, `(h_0,h_1)=−2` and the null coroot `c=h_0+h_1` satisfies `(c,h_i)=α_i(c)=0` for both i while `(c,d)=1` for the degree element `d` normalized by `α_0(d)=1`, `α_1(d)=0`, `(d,d)=0`, so the Gram matrix of `h_0,h_1,d` is `[[2,−2,1],[−2,2,0],[1,0,0]]` with determinant `−2`; the plausible wrong form `(d_i a_ij)` extended by zero to `d` has `c` in its radical and fails `(c,d)=1`. On an indefinite or singular realization it is not a positive-definite Killing form. The reflection formula is attached to real roots and their transported coroots, not to division by the norm of a possibly isotropic imaginary root.
-
-Reuse native ordered PBW for an ordered basis, without a finite-basis assumption; build the compatible triangular multiplication equivalence for this algebra and the actual nilradicals. Root partitions have finite support in positive roots and include a basis index for each root multiplicity. Prove finite-height local finiteness before constructing partition coefficients or infinite products. Identify changes of ordered homogeneous bases and the finite-type PBW specialization. No finite longest-word enumeration substitutes for imaginary root spaces.
-
-Construct Chevalley involution and the separate order-reversing Chevalley anti-involution of the enveloping algebra, with precise signs and Cartan restrictions. Build morphisms for reindexing, Levi embeddings, realization isomorphisms and central quotient/enlargement when the specified map respects the actual lattices. Prove all universal diagrams rather than identify independently chosen carriers by notation.
-
-For untwisted affine type over a finite-dimensional simple `g` with a pinning, let `κ_0` be the invariant form for which long roots have squared length2. Consume native `LieAlgebra.loopAlgebra`, `LieAlgebra.LoopAlgebra.residuePairing` and `LieAlgebra.LoopAlgebra.twoCocycleOfBilinear` (Mathlib `Algebra/Lie/Loop.lean`), and the native extension carrier `LieAlgebra.ofTwoCocycle` with `LieAlgebra.Extension.ofTwoCocycle` (Mathlib `Algebra/Lie/Extension.lean`); the polynomial central extension `ĝ_κ` and its bracket `[x⊗t^m,y⊗t^n]=[x,y]⊗t^(m+n)+mκ(x,y)δ_(m+n,0)K` are AffineLieAlgebras A2's polynomial counterpart. Mathlib's residue pairing is `+Res(f dg)` (on `x⊗t^m,y⊗t^n` it is `nΦ(x,y)δ_(m+n,0)`), so this bracket is the cocycle at `Φ=−κ`. Construct here the degree derivation `d` acting by `t d/dt`, so `[d,x⊗t^n]=n x⊗t^n` and `[d,K]=0`, the semidirect product `ĝ_κ⋊kd`, and its invariant form `(x⊗t^m,y⊗t^n)=δ_(m+n,0)κ_0(x,y)`, `(K,d)=1`, `(K,K)=(d,d)=0`, `K⊥g⊗k[t,t^−1]`, `d⊥g⊗k[t,t^−1]`. Construct the Lie isomorphism from KM1's Kac–Moody algebra of the untwisted affine Cartan matrix (with the minimal realization `H=span(h_0,…,h_ℓ)⊕kd`) to `ĝ_(κ_0)⋊kd`: `e_i↦e_i⊗1`, `f_i↦f_i⊗1`, `h_i↦h_i⊗1` for finite `i`, `e_0↦f_θ⊗t`, `f_0↦e_θ⊗t^−1`, `h_0↦K−θ^∨⊗1`, and `d↦d`, where `e_θ,f_θ` are highest-root vectors with `[e_θ,f_θ]=θ^∨`. Prove it respects every relation and is bijective (Kac, Theorem 7.4). Consequences to state: the central coroot `c=Σ_i a_i^∨h_i` maps to `K` because `θ^∨=Σ_(i≠0)a_i^∨h_i`; a module on which `K` acts by `k` has level `k`, so a highest weight `λ` has level `λ(c)`; `α_0(d)=1` and `α_i(d)=0` for finite `i`, which is the homogeneous grading of KM4; and the transported KM1 form is the one above, since `d_0=1` gives `(h_0,h_0)=2=κ_0(θ^∨,θ^∨)` and `(h_0,d)=α_0(d)=1=(K,d)`. Transport the level along AffineLieAlgebras A2's rescaling `κ=kκ_0`. *Checks:* `[e_0,f_0]=[f_θ,e_θ]⊗1+1·κ_0(f_θ,e_θ)K=−θ^∨+K`, using `κ_0(e_θ,f_θ)=1`, matches `h_0`; with the opposite cocycle sign `+κ Res(f dg)` the same computation gives `−θ^∨−K`, which fails the Chevalley relation; in affine `A1` with `g=sl2`, `c=h_0+h_1↦K`. The cocycle extension alone carries no degree derivation and no highest representation.
-
-## KM2. Weyl action, real roots and parabolic order
-
-Define `s_i(λ)=λ−λ(h_i)α_i` on `P` and the dual reflection on `Y`; prove involutivity, pairing preservation and lattice stability. For distinct `i,j` and `a_ij a_ji=0,1,2,3` the Coxeter orders are `2,3,4,6`; for product at least4 use the native infinite-order convention. The Coxeter diagonal is1. Construct the actual homomorphism from this Coxeter presentation to the realization, prove faithfulness and identify its image. Reuse RootSystems Layer3 after this identification. Prove real-root/coroot transport independently of the choices of a Weyl word; do not transport imaginary roots as if every root were real.
-
-Construct the Tits cone, dominant chamber, positive/negative real-root inversion sets, length, finite Bruhat intervals and the subword criterion. For dominant `λ`, prove `W_λ=W_J` with `J={i:λ(h_i)=0}` and construct minimal coset representatives and their Bruhat order even when `W_J` is infinite. Own the quotient lifting/exchange facts and finite interval computations needed by the path theorem. Finite rank does not imply `W` finite, a longest element or a finite orbit of `λ`.
-
-After the faithful comparison, reuse the implemented native Coxeter interfaces: [CoxeterSystem.strongExchange](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/GroupTheory/Coxeter/StrongExchange.lean#L413) for deletion at a reflection descent, [CoxeterSystem.bruhatLE_iff_exists_sublist_wordProd_eq](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/GroupTheory/Coxeter/Bruhat.lean#L450) for the subword criterion at a fixed reduced word, [TauCeti.matsumoto](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/GroupTheory/Coxeter/Matsumoto.lean#L138) for monoid-valued reduced-word evaluation under the braid relations, and [CoxeterSystem.existsUnique_isMinimalCosetRep_mul](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/GroupTheory/Coxeter/Parabolic.lean#L330) for minimal-representative/parabolic factorization. Matsumoto evaluation alone need not be a group homomorphism without the square relations. The symmetrizable integral reflection representation and its faithful comparison are KM2 targets; these abstract theorems do not construct that comparison.
-
-## KM3. Highest modules and the integrable category
-
-Use actual native Lie modules and enveloping-module equivalences. For `λ∈H*` construct the Verma module as the quotient by the left ideal generated by `h−λ(h)` and `e_i`, equivalently induction from the Borel after constructing that comparison. Prove nonzero canonical generator, the universal map sending it to every vector satisfying the relations, the triangular `U(n^-)` equivalence, finite weight multiplicities and support in `λ−Q_+`. The universal property includes the zero target vector. Construct the unique maximal proper submodule and the simple highest quotient `L(λ)`, with its actual projection/generator and isomorphism classification. Do not use finite-dimensionality of the whole Lie algebra or its Killing form in this construction.
-
-Define integrable modules by a weight decomposition and local nilpotence of each simple `e_i,f_i`. Construct their finite `sl2` strings and their maps. On an integrable module construct the simple Weyl intertwiners from the locally finite `sl2` exponentials, with normalization and braid/Tits relations; compare their conjugation on root spaces and enveloping generators with the algebra maps. The representation on weights is a genuine Weyl action, while chosen lifts on vectors may retain toral/sign factors. In finite type compare with the existing normalizer action; do not assert a canonical lift of every Weyl element to the group. Then prove local nilpotence for real root vectors by those intertwiners; do not claim it for imaginary root vectors. These module intertwiners are an application of early KM2, not an input to its reflection/Coxeter construction.
-
-For integral dominant `λ∈P^+`, prove the maximal integrable quotient is obtained by adding `f_i^(λ(h_i)+1)v_λ=0`, prove the resulting quotient is integrable using the Serre relations, and identify it with `L(λ)`. Positive-level affine highest modules are included and need not be finite-dimensional. A finite-dimensional nonzero-level representation would contradict the trace of a central commutator; retain that regression.
-
-Define the weight category `O` with diagonalizable Cartan action, finite-dimensional weight spaces, and support bounded by finitely many upper root cones. Construct its abelian kernels/cokernels, internal Yoneda extensions, finite tensor products, highest-weight morphisms and coefficient-field change under explicit split-weight hypotheses. An ambient module extension is included only after verifying that its middle term has the required diagonal weight decomposition; an arbitrary Cartan Jordan-block extension is not a weight object. Prove complete reducibility of its integrable subcategory by the symmetrizable contravariant/Casimir argument, constructing the required locally finite completed operator action. Do not apply the finite Killing complete-reducibility theorem to an infinite algebra or assert semisimplicity of every integrable module outside this category.
-
-Construct ordinary contragredient restricted weight duals as `⊕_μ (M_μ)*`, with weights negated and lower-cone support. Their full algebraic dual is a product and is a different carrier. Construct the separate Chevalley-contravariant dual, preserving highest weights, the normalized contravariant form and its radical/simple-quotient comparison. Give evaluation and finite-weight pairings; an infinite module is not automatically rigid with a finite algebraic coevaluation. Compare all these maps to the existing LHW finite-type carriers, including universes and chosen generators.
-
-## KM4. Completed characters and character identities
-
-For each characteristic-zero coefficient field `k`, put `H_k=k⊗_Q H_Q` and `Γ_k=H_k*` as an additive group, and use KM0's actual injective map `j_k:P→Γ_k`. The simple roots and `Q_+` are their embedded images; their Z-independence is retained. Construct the ambient upper-cone character ring of functions `Γ_k→Z` supported in a finite union of sets `λ−Q_+`, with arbitrary upper weights `λ∈Γ_k`. Addition is coefficientwise. For multiplication prove that supported pairs `(μ,ν)` with `μ+ν=ξ` are finite, then sum their coefficients. For each pair of upper bounds, independent simple roots give unique nonnegative root coordinates for their sum minus ξ when such coordinates exist, reducing this to finitely many decompositions in `N^I`. Build unit, associativity, distributivity, monomials `e^λ`, shifts, finite truncations and their compatibility; formulate the topology/completion relative to these cones and finite-height truncations. Construct separately the P-indexed upper-cone ring and its injective unital ring map to the ambient ring by extension by zero along `j_k`. Identify its image as the ambient series supported on `j_k(P)`; do not restrict a general ambient character to P and call that the original character. Each ambient series has support in finitely many cosets of `j_k(P)`; construct the coset components, the addition-of-cosets tensor/convolution maps and their comparisons. Finite `Finsupp` carriers are the finite-support subrings, not all highest characters. The generic additive carrier named `P` in the advisory `UpperCharacter` signatures can be instantiated with `Γ_k` as well as with the integral lattice.
-
-Define `ch M` in the ambient ring using the actual finite dimensions of the `Γ_k`-weight spaces of KM3's category O. Prove direct-sum/local-finiteness, exact-sequence, tensor and scalar-change formulas from actual weight-space maps. A highest module of arbitrary highest weight λ has character supported in `λ−Q_+`; multiplication of such characters adds their cosets. For a module with weights in `j_k(P)`, construct its P-indexed character and prove its extension by zero is the ambient character. Scalar extension along an embedding of characteristic-zero fields carries the weights through the induced injective dual-base-change map and compares coefficients under the stated split-weight hypotheses; no unrestricted pushforward along a weight map with infinite supported fibres is asserted. The negative-weight involution sends the ambient upper to lower completion, carries the λ-coset to the −λ-coset, and gives `ch M^vee=Σ dim(M_μ)e^(−μ)` for the ordinary restricted dual. Chevalley-contravariant duality instead preserves weights. Products of an arbitrary upper and arbitrary lower series need not exist. A Weyl element transports the ambient weights and controlling cones; do not assert that every upper-bounded series remains in the same upper completion.
-
-Construct the root-multiplicity Euler product in the P-indexed ring and its ambient image. For every `λ∈Γ_k`, construct the Verma character `ch M(λ)=e^λ·∏_(α>0)(1−e^(−α))^(−mult(α))` coefficientwise in the ambient upper completion, including invertibility of the denominator series there. For `λ∈P^+`, prove the Weyl–Kac identity in the P-indexed ring and compare it with its ambient image:
-
-`ch L(λ) · ∏_(α>0)(1−e^(−α))^mult(α) = Σ_(w∈W)(−1)^ℓ(w)e^(w(λ+ρ)−ρ)`.
-
-Choose `ρ∈Γ_k` with `ρ(h_i)=1`; it need not lie in `j_k(P)`. For the stated `λ∈P^+`, prove `w(λ+ρ)−ρ∈j_k(P)` using `wρ−ρ∈Q` and the actual lattice-stable Weyl action. Prove local finiteness of the alternating sum and product, independence of allowed central choices of ρ, and equality in the specified P completion and its ambient image. Construct the denominator identity as its λ=0 case and compare the finite-type Weyl character formula. As an A1 regression with `P=Zω`, retain `M(ω/2)` with its nonzero coefficients at `(1/2−2n)ω` for n≥0 in the ambient coset completion; its restriction to P is zero and is not its character. A formal evaluation setting every exponential to1 is not an algebraic dimension map on arbitrary completed characters. In affine type construct the level and chosen standard homogeneous degree grading, with the finite-Levi simple roots of degree0 and the extending simple root of positive degree. For integral-dominant integrable highest modules, prove that each homogeneous-degree piece is finite-dimensional. Do not assert this for arbitrary Verma modules or all of category O: in affine A1 a Verma module has the independent vectors `f_1^n v_λ` for every n≥0 in its highest homogeneous degree, since the finite-Levi root α_1 has degree0. Retain their ambient formal characters and finite individual weight multiplicities without assigning finite dimension to that whole grade. Analytic convergence is a separate explicit specialization condition.
-
-## KM5. Quantum integrable modules and actual crystal bases
-
-Consume QuantumEnvelopingAlgebras' algebra on KM0's full lattice over `Q(v)`, its `K_y`, Chevalley generators, Hopf maps and triangular pairing. Construct type1 weight modules with `K_y` acting by `v^<μ,y>`, the highest module, its simple quotient, integrable category, finite-dimensional weight spaces and its classical character comparison. Keep all central and degree weights; passing to a quotient weight lattice is a named forgetful map, not the definition of the module.
-
-Pin the tensor normalization. For Q8's coproduct `ΔE_i=E_i⊗1+K_i⊗E_i`, `ΔF_i=F_i⊗K_i^-1+1⊗F_i`, construct the algebra-generator comparison to `e_i=K_i^-1 E_i`, `f_i=F_i K_i`. Prove every Cartan, commutator and quantum-Serre relation and the inverse comparison, including unequal root lengths. In these generators the coproducts are `e_i⊗K_i^-1+1⊗e_i` and `f_i⊗1+K_i⊗f_i`. Construct the exact module/lattice rescaling comparison. The unrescaled ordinary tensor lattice for the original coproduct is not assumed stable at `v=0`; already in rank one a `v^-1` coefficient detects that mistake.
-
-Before any crystal statement, construct the generic quantum highest-weight theory on the full lattice; every item of this paragraph is proved without Kashiwara operators, crystal lattices or the path model. For `λ∈P` define the quantum Verma module `M_v(λ)` as the quotient of `U_v` by the left ideal generated by `K_y−v^⟨λ,y⟩` for `y∈Y` and all `E_i`, with its generator `v_λ`; prove `v_λ≠0`, the universal map to every vector satisfying these relations (zero target included), the `U_v^−`-module equivalence from QEA's triangular decomposition, support in `λ−Q_+` and finite-dimensional weight spaces. Define quantum category `O_int`: type1 weight modules with finite-dimensional weight spaces, weights in finitely many sets `λ_j−Q_+`, and `E_i`, `F_i` locally nilpotent for every i. For `λ∈P^+` define `L_v(λ)` as `M_v(λ)` modulo the submodule generated by the vectors `F_i^(λ(h_i)+1)v_λ`. Prove that `L_v(λ)` is integrable, from the quantum Serre relations and the rank-one divided-power commutation formulas (the quantum analogue of KM3's classical argument), and that it is simple, nonzero and has character `ch L(λ)` of KM3–KM4. Prove complete reducibility of `O_int`: every object is a direct sum of copies of `L_v(μ)`, `μ∈P^+` (Lusztig, *Introduction to quantum groups*, Chapter6). The route constructs a locally finite quantum Casimir on `O_int` from QEA's nondegenerate pairing on the nilpotent halves: the quasi-R-matrix `Θ=Σ_(β∈Q_+)Θ_β` with canonical dual-basis tensors in each root-graded piece, the toral factor `v^((μ,ν))` and the operator `v^(−2(ρ,μ))` on weight `μ` for the KM1 form with `(α_i,λ)=d_i λ(h_i)` and any `ρ` with `ρ(h_i)=1`, over `ℚ(t)` with `t^N=v` for a positive integer `N` clearing the denominators of `( , )` on `P+ℤρ`, followed by descent to `ℚ(v)` as in KM5a. Local finiteness on `O_int` holds because for a vector of weight `μ` only the finitely many `β∈Q_+` with `μ+β` in the finite union of upper cones contribute, by independence of the simple roots. The Casimir acts on a highest vector of weight `μ` by `t^(N((μ+ρ,μ+ρ)−(ρ,ρ)))`; for dominant `λ≠μ` with `λ−μ=Σ_i n_iα_i∈Q_+`, `(λ+ρ,λ+ρ)−(μ+ρ,μ+ρ)=Σ_i n_i d_i(λ(h_i)+μ(h_i)+2)>0` separates the scalars, and the KM5a extension-splitting argument (distinct-scalar primary projector for comparable weights, highest-vector lift otherwise) applies, extended from finite length to arbitrary objects of `O_int` through finite local composition series of weight truncations. Prove `O_int` is closed under finite tensor products for the selected coproduct `Δ(e_i)=e_i⊗K_i^−1+1⊗e_i`, `Δ(f_i)=f_i⊗1+K_i⊗f_i`. For `λ,μ∈P^+` construct the normalized split maps `Φ_(λ,μ):L_v(λ+μ)→L_v(λ)⊗L_v(μ)` with `v_(λ+μ)↦v_λ⊗v_μ` and `Ψ_(λ,μ):L_v(λ)⊗L_v(μ)→L_v(λ+μ)` with `v_λ⊗v_μ↦v_(λ+μ)`, both `U_v`-linear and weight preserving, and `Ψ_(λ,μ)∘Φ_(λ,μ)=id`. Route: `v_λ⊗v_μ` is killed by every `e_i`, spans the one-dimensional weight space `λ+μ`, and generates an integrable highest-weight submodule, which is simple by complete reducibility; `Φ` is its inclusion and `Ψ` is the projection onto the `L_v(λ+μ)`-isotypic summand along the others, which is that submodule because its highest weight space is one-dimensional. The universal property of `M_v(λ+μ)` gives maps out of the highest-weight module only, never the retraction `Ψ`, and equality of characters does not construct `Ψ`. Prove that every `U_v`-linear weight-preserving map between integrable modules commutes with the Kashiwara operators defined below, because it maps `ker(e_i)∩M_ν` to `ker(e_i)∩N_ν` and preserves the admissible index range `0≤n≤⟨ν,h_i⟩`; in particular `Φ_(λ,μ)` and `Ψ_(λ,μ)` do. These are the inputs of the simultaneous induction below (Kashiwara, *On crystal bases of the q-analogue of universal enveloping algebras*, Duke Math. J. 63 (1991), §4.1); KM7's tensor decomposition is downstream and is not used to obtain them. *Checks:* in type `A1` with `P=ℤω`, `L_v(ω)⊗L_v(ω)≃L_v(2ω)⊕L_v(0)` with dimensions `4=3+1`, and `Ψ_(ω,ω)` kills the weight-0 vector `v_ω⊗f v_ω−v f v_ω⊗v_ω` spanning the trivial summand (with `K_h v_ω=v v_ω`, the selected coproduct gives `e(v_ω⊗f v_ω)=s v_ω⊗v_ω` and `e(f v_ω⊗v_ω)=s v^−1 v_ω⊗v_ω` for `e f v_ω=s v_ω`, so the coefficient `v` is forced), while a projection defined by weight alone would not be `U_v`-linear; for `λ=μ=0` both maps are the unitor; for empty `I` every `L_v(λ)` is one-dimensional and `Φ`, `Ψ` are the multiplication isomorphism of characters of `Y`; in affine `A1` with `λ=μ=Λ_0` both modules are infinite-dimensional, the tensor product lies in `O_int` because its weights are bounded by `2Λ_0`, and `Φ`, `Ψ` exist although no finite-dimensional or ribbon argument from KM5a applies. Do not assert semisimplicity of integrable modules outside `O_int`.
-
-Let `A_0` be the local ring of rational functions regular at `v=0`. For each homogeneous `u∈M_μ` in an integrable module, prove there is a unique finitely supported family with `u=Σ_(n≥0) f_i^(n)u_n`, `u_n∈ker(e_i)∩M_(μ+nα_i)`, and `u_n=0` unless `0≤n≤⟨μ+nα_i,h_i⟩`, using the chosen generator normalization and quantum divided powers. Equivalently, construct the linear equivalence from the direct sum of highest spaces `ker(e_i)∩M_ν` indexed by pairs `(ν,n)` with `0≤n≤⟨ν,h_i⟩` onto M, sending the component by `f_i^(n)`; include injectivity on these admissible components. Define Kashiwara raising on such a component by `f_i^(n)u_n↦f_i^(n−1)u_n` for `n>0`, and zero for `n=0`; define lowering by `f_i^(n)u_n↦f_i^(n+1)u_n` for `n<⟨ν,h_i⟩`, and zero at the last index. Extend linearly through this equivalence and across the weight decomposition. In type A1 test `L_v(2ω)⊕L_v(0)`: for highest vectors w and z in the respective summands, the extra zero term `f_i^(1)z` is excluded from the decomposition of `f_i^(2)w` because `1≤⟨0,h_i⟩` is false. Thus index shifting does not depend on a spurious coefficient of a vanishing term. Construct the lattice generated from the highest vector by all lowering words, its weight decomposition, finite-free weight pieces, scalar extension to the original module, and stability under these operators. Construct an actual basis of its quotient modulo `v`, with operators sending basis elements to basis elements or0, inverse/string laws and the normalized highest vector. These are the crystal-basis existence targets, not hypotheses saying that the desired basis already exists. Supply the negative-half string/crystal construction needed by the simultaneous induction proof using the supplied braided pairing; the induction consumes the split maps `Φ_(λ,μ)`, `Ψ_(λ,μ)` and the complete reducibility of `O_int` constructed above, never a crystal or tensor-decomposition statement of KM7. Do not treat the nilpotent halves as ordinary Hopf subalgebras or require a nonexistent nondegenerate pairing on every central torus direction. A double comparison consumes its actual additional toral bicharacter and torus-identifying quotient data. No finite total basis is assumed.
-
-Use the left-highest tensor convention: `e_i` acts on the first factor iff `φ_i(first)≥ε_i(second)` and `f_i` iff `φ_i(first)>ε_i(second)`; otherwise act on the second. Construct tensor-lattice and crystal comparisons, associativity, unit and strict morphisms, and prove them for the actual Hopf/generator convention. Give the factor-reversal comparison to SG/TPC's HK convention (`e` first iff `ε(first)>φ(second)`, `f` first iff `≥`). The comparison is not equality of literal tensor words. Construct dual crystal maps with the ordinary versus contravariant dual conventions distinguished. Finite type agrees with the supplied finite representation/tableau modules through explicit intertwiners, not character equality alone.
-
-### KM5a. Finite type, signed modules and the standard derived torus
-
-For this subsection assume finite semisimple Cartan type, retain every irreducible component and work over `k=ℂ(v)` with `v` indeterminate and `v_i=v^{d_i}`. Construct the standard algebra `U_std` on `E_i,F_i,K_i^{±1}` with independent commuting `K_i`, the Cartan relations `K_i E_j K_i^{-1}=v_i^{a_ij}E_j`, `K_i F_j K_i^{-1}=v_i^{-a_ij}F_j`, the pinned commutator and divided-power Serre relations. Give its universal property, triangular decomposition and actual injective Hopf map into QEA's full-`Y` algebra after scalar extension, sending `K_i` to `K_(d_i h_i)`. Derive injectivity from the triangular comparison and the injection of the free lattice on the independent `d_i h_i`, not from a rational Lie-algebra comparison. The source's standard derived-torus algebra is this subalgebra; it is not the whole algebra with arbitrary additional torus directions. Use `P_sc=Hom_ℤ(⊕_i ℤh_i,ℤ)≃ℤ^I`, with fundamental weights, simple-root columns `a_ij` and dominant cone `P_sc⁺`. No weight of a `U_std` module is required to extend to a prescribed smaller isogenous `X`.
-
-For each `ε∈{±1}^I` construct the one-dimensional module `S_ε` with `E_i=F_i=0`, `K_i=ε_i`. Under the fixed Hopf formulas, the left tensor twist `S_ε⊗M` has generator actions `(ε_i E_i,F_i,ε_i K_i)` after the underlying vector-space unitor. Prove these formulas preserve every relation, including the common sign in each Serre sum. They define an algebra automorphism of order two; it is not a Hopf automorphism unless the signs are trivial. Construct the canonical unit, composition and inverse intertwiners for left twisting: `S_ε⊗S_δ≃S_(εδ)` and the resulting action of the sign group on modules. Do not infer that an individual twisting functor is a monoidal endofunctor.
-
-Prove the following for every finite-dimensional `U_std` module, without assuming torus semisimplicity or type1. Restriction to each rank-one subalgebra gives a diagonalizable `K_i` with eigenvalues `±v_i^n`, `n∈ℤ`. Consume Q8's algebraic signed rank-one proof, extending its scalar-field argument to `ℂ(v)`: derive the same split annihilating polynomials and string identities; if an algebraic closure is used in that proof, descend diagonalizability because all resulting eigenvalues already lie in `k`. Commuting diagonalizable `K_i` then yield the canonical finite joint decomposition
-
-`M=⊕_(ε,μ∈P_sc) M_(ε,μ)`, where `K_i m=ε_i v_i^{⟨μ,h_i⟩}m`.
-
-Genericity makes the sign and integral exponent unique. Prove that `E_j` shifts `μ` by `α_j`, `F_j` shifts it by `−α_j`, and neither changes `ε`; hence each sign sector is a submodule. The rank-one restrictions also give local nilpotence of every `E_i,F_i`. Untwisting each sector by its own `S_ε` gives an actual type1 `U_std` module. Extend its action to the simply connected full torus by `K_y m=v^{⟨μ,y⟩}m` for `y∈⊕ℤh_i`, and verify restriction recovers the given `K_i` action. This is the specified comparison with the earlier KM5 type1 theory; it is not an assertion that every signed sector extends to every chosen full-`Y` algebra. Rank zero gives only the ground-field algebra and its finite-dimensional vector-space modules.
-
-Construct the finite-type quantum Casimir needed for complete reducibility, rather than using specialization or a scalar-valued premise in place of its construction. Normalize the positive rational form by `(α_i,α_j)=d_i a_ij`, put `ρ=Σ_i ω_i` and `c(λ)=(λ,λ+2ρ)`. Choose one positive integer `N` clearing this form on `P_sc`, and use `k'=ℂ(t)`, `t^N=v`, for fractional toral exponents. From QEA's nondegenerate graded pairing construct the canonical dual-basis tensors in each finite-dimensional positive/negative root-graded piece. Write `Θ_β=Σ_a y_(β,a)⊗x_(β,a)`, where the `x_(β,a)` form a positive degree-β basis and the negative `y_(β,a)` are dual for QEA’s positive-first pairing. Define `Θ=Σ_(β≥0)Θ_β`, `Θ_0=1⊗1`, and the Cartan diagonal `R_0(m_μ⊗n_ν)=t^{N(μ,ν)}m_μ⊗n_ν`. Construct `R=R_0Θ` with this negative-first nilpotent factor and prove the actual identity `RΔ(a)=Δ^op(a)R` and its inverse/hexagon identities. Construct `u=m(S⊗id)(R_21)` as a locally finite operator, where this `m` is algebra multiplication, not multiplication of vectors. On weightμ define `g_M=t^{-2N(ρ,μ)}`; verify that conjugation by `g` implements `S²(E_i)=v_i^{-2}E_i`, `S²(F_i)=v_i^2F_i` and `S²(K_i)=K_i`. Prove the central ribbon operator is `z_M=g_M^{-1}u_M`, compute its highest-vector value `t^{-N c(λ)}`, and take `C_M=z_M^{-1}`. Thus its highest-vector scalar is `t^{N c(λ)}`; the sign and factor order are computed from these maps and the pinned Hopf convention, not assumed from a desired eigenspace decomposition. These are constructions of operators on type1 modules, not assertions that the infinite sum is an ordinary element of `U_std`. Prove root-height local finiteness on every finite module: a positive factor can act nontrivially only when its shifted weight is in the finite weight support, and each graded canonical tensor is finite. Prove `U_std`-linearity, naturality for all module maps, compatibility with submodules/quotients and this highest-vector formula before using the operator to split extensions.
-
-For dominant `λ>μ` in the root order prove
-
-`c(λ)−c(μ)=Σ_i n_i d_i(λ_i+μ_i+2)>0` when `λ−μ=Σ_i n_i α_i≠0`, `n_i≥0`.
-
-Only this separation for comparable dominants is required. It is false that the scalar distinguishes all dominant weights: in type `A₂` with root squares `2`, `c(ω₁)=c(ω₂)=8/3`. First classify finite-dimensional simple type1 modules by a maximal weight and the unique highest-weight simple quotient. For a finite cyclic highest-weight module of weight `λ`, centrality makes `C` scalar on the whole cyclic module. Every composition-factor highest weight is `≤λ`; strict inequality is excluded by the displayed separation, and exactness of weight spaces with the one-dimensional top excludes a second copy at `λ`. This proves that the finite cyclic highest-weight module is simple. Split an extension `0→L(μ)→M→L(λ)→0` as follows: if `μ>λ`, use the distinct Casimir scalars and the actual primary projector `(C−c_μ)/(c_λ−c_μ)` with `c_ν=t^{N c(ν)}`; if `μ` is not strictly above `λ`, lift the weight-`λ` highest vector, whose positive images vanish by the weights in the submodule, and use the cyclic-highest result. Treat `μ=λ` by this second argument, not by a nonexistent distinct-scalar projector. Extend this splitting to finite direct sums and then induct on length. If the operator construction uses `k'`, descend the splitting to `k`: an equivariant section with prescribed quotient is a solution of a finite affine linear system over `k`, and consistency after a field extension implies consistency over `k`. No semisimplicity theorem is used to construct the operator or to justify that descent.
-
-Consequently construct all simple modules as `L_ε(λ)=S_ε⊗L_type1(λ)`, `λ∈P_sc⁺`, and prove uniqueness of the pair `(ε,λ)`, absolute simplicity, `End(L_ε(λ))=k`, complete reducibility of every finite-dimensional `U_std` module and the natural evaluation isomorphism `⊕_(ε,λ) L_ε(λ)⊗_k Hom_U(L_ε(λ),M)≃M` with finite support. Give the resulting multiplicity and Hom formulas. Construct tensor and left/right dual intertwiners using Q8's generic Hopf-module owner. Both tensor orders of a sign line must be compared: on a highest module of highest weight `λ`, rescale the weight `λ−Σ n_i α_i` by `∏ δ_i^{n_i}` to intertwine `L(λ)⊗S_δ` with `S_δ⊗L(λ)`, with the highest vector fixed. Verify this against both `E_i` and `F_i`, rather than commuting sign lines literally. Derive tensor multiplicities from the type1 tensor product with sign `εδ`, and prove the dual label is `(ε,−w₀λ)` by actual antipode intertwiners. The unsigned character of `L_ε(λ)` is that of `L_type1(λ)` and hence the classical simply connected semisimple highest-weight module. Construct the corresponding Grothendieck-ring comparison with the sign-group ring tensored with the classical representation ring. For nonempty `I`, the unsigned-character and sign-forgetting Grothendieck-ring maps are not injective; for empty `I` these maps are the identity. The `v=1`, `K_i=1` classical comparison and integral highest lattices consume QEA's integral owner after untwisting; a negative sign module is not silently specialized through `K_i=1` as a nonzero ordinary classical module.
-
-Keep the full-`Y` distinction explicit. Extending a signed `U_std` module to a supplied full torus requires compatible actual actions of every `K_y`; a sign-line extension requires a character `Y→k×` with value `ε_i` on `d_i h_i`, when such a character exists. Existence, choices and their effect on central weights are separate comparison targets. Do not claim all full-`Y` finite-dimensional modules are semisimple. For the empty root datum with `Y=ℤ`, the algebra is `k[z,z^{-1}]`; `z` acting by `[[1,1],[0,1]]` is an invertible, nonsplit two-dimensional module. The unrestricted symmetrizable type1 theory above is unchanged. Neither the signed finite-type classification nor its finite-dimensional Casimir argument asserts a root-of-unity, infinite-type or arbitrary-central-Jordan extension.
-
-
-## KM6. Path representatives, operators and LS paths
-
-Construct finite continuous piecewise-linear paths in `P_R`, starting at0 and ending in `P`, with specified finite subdivisions. Include rational polygonal representatives and the source's real piecewise-linear carrier. Generate reparametrization equivalence by π∼π∘r for continuous nondecreasing surjective piecewise-linear maps r:[0,1]→[0,1], and construct common-refinement and quotient APIs; this includes insertion/removal of constant pauses. Prove compatibility with increasing homeomorphic reparametrizations at the chosen PL representatives. Endpoints, height minima, endpoint-height differences and the resulting string scalars descend. Full height and prefix/suffix-record functions are representative-level functions with the covariance `H_(π∘r)=H_π∘r` and the corresponding record covariance; root-operator outputs descend through this covariance, not through pointwise equality of height functions at a fixed time. Concatenation is the translated path `π*η`, first following `π` and then `π(1)+η`, with its explicit time rescaling and associator/reparametrization maps.
-
-For a simple coroot put `H(t)=<π(t),h_i>` and `m=min H`. Define the suffix and prefix records `S(t)=min_(t≤u≤1) H(u)` and `P(t)=min_(0≤u≤t) H(u)`. If `H(1)−m≥1`, set `L(t)=min(1,S(t)−m)` and `f_iπ(t)=π(t)−L(t)α_i`; otherwise lowering is the zero symbol. If `m≤−1`, set `R(t)=1−min(1,P(t)−m)` and `e_iπ(t)=π(t)+R(t)α_i`; otherwise raising is the zero symbol. Construct the records on finite PL subdivisions, including nonmonotone segments, plateaus and equal extrema. Prove equivalence to reflecting precisely the increasing suffix-record pieces for f and decreasing prefix-record pieces for e, leaving hills and valleys outside those records untouched. Prove finite piecewise-linearity, independence of subdivisions, the integral endpoint shifts, partial inverses and reparametrization invariance. The zero symbol is distinct from the constant path.
-
-Prove the simpler two-cut formula under its actual monotonicity hypothesis. For f take the last minimum `t_0` and the first `t_1` after which H stays at least m+1; require H weakly increasing on `[t_0,t_1]`. Then reflect that interval displacement and translate the remaining tail by `−α_i`. Raising uses the first minimum `t_1` and the last `t_0` up to which H stays at least m+1, with H weakly decreasing on that interval. Prove these monotonicity conditions for LS paths. An integral global minimum alone is insufficient. As a regression, in rank one take a dominant PL height with successive values `0,6/5,1/5,1`. Reflecting from the last minimum to the first hit of1 and translating the entire remaining suffix produces a minimum below −1 and fails inverse laws. The record formula retains the intervening hill and gives minimum −1. Carry the full real PL carrier and its genuine record operators through the endpoint theorem.
-
-Prove partial inverse, weight, string and normality laws on the generated dominant components, with `ε_i=−min H_i`, `φ_i=H_i(1)−min H_i` and integral minima there. Prove the rank-two local relations needed by component isomorphisms, using the full symmetrizable root datum and the genuine zero symbol outside the path set.
-
-For `λ∈P^+` construct the straight path and its generated component `B_path(λ)`. Construct rational LS representatives with slopes in `Wλ`, positive rational interval lengths summing to1, strictly decreasing distinct minimal cosets and merging of repeated adjacent slopes. Prove uniqueness of the distinguished parametrized representative with slopes in Wλ after repeated adjacent directions are merged, using the dominant-chamber orbit uniqueness rather than a positive-definite norm. For each breakpoint a require an existential saturated a-chain in the parabolic Bruhat interval, using positive real roots and `a<current weight,β^vee>∈Z` along each cover. Prove the resulting data yield exactly the generated component, with maps and inverse normalized representatives. Intervals are finite although the whole Weyl orbit/component can be infinite.
-
-Preserve the source's one-chain/all-chain remark precisely: construct the interval bond/gcd comparison for these dominant symmetrizable orbit intervals, reducing it to quotient-chain connectivity and actual rank-two root/coroot calculations. The bond on a decreasing cover `u>v=s_βu` is `−<uλ,β^vee>`, positive for distinct orbit weights. For `a=p/q` reduced, the target identifies existence of an a-chain, divisibility of the chain-independent gcd by q, and the all-chain condition. Equal endpoints have empty gcd0; wall cosets and non-simply-laced data are included. Supply the new symmetrizable interval theorem itself; the finite SG theorem is its comparison case, not its proof for an infinite Weyl group. No divisor or flag theorem is an input to this combinatorial construction.
-
-For a normalized LS representative prove `π(t)∈t Conv(Wλ)` by its actual elapsed slope durations; at0 it is0. This finite convex combination needs no finite orbit or positive-definite form. When `0∈Conv(Wλ)`, deduce the unscaled inclusion for `0≤t≤1`. A nonzero Weyl-fixed weight gives the singleton orbit and path `tλ`, so the unscaled conclusion is not asserted in all central directions. Prove the strict-sign wall/Bruhat lifting statements used when a root operator changes adjacent directions; separate strict positive/negative pairings from zero/equal-coset cases. Construct typed central translation on normalized representatives with weight offsets as in finite SG, not by an ill-defined pointwise operation on arbitrary reparametrization classes.
-
-## KM7. Endpoint theorem, strict comparison and decomposition rules
-
-For every dominant path in KM6's stated carrier with endpoint `λ∈P^+`, construct the strict crystal isomorphism from its generated component to the straight-path component, sending the chosen dominant path to the straight path. Prove independence of lowering-word choices and the linking/stretching/subdivision/gluing and rank-two compatibility used in this construction. Include the arbitrary real-piecewise-linear source carrier with the full record operators. Construct finite-word comparison by deformation/subdivision and local rank-two compatibility, or an equivalent direct proof on that carrier; compare the resulting component with rational LS representatives. A rational approximation is not an equality of paths or, by itself, a proof that root operators commute with a limit. Retain the stronger initial-path theorem without replacing arbitrary paths by rational input data.
-
-Construct the normalized strict isomorphism `B_path(λ) ≃ B_q(λ)` preserving weights, both partial operators, string functions and highest element. Prove existence and uniqueness as maps of connected highest crystals through the actual operator-word consistency theorem; an abstract coloured graph, matching character or equal finite cardinality is not the construction of a quantum crystal basis. Identify each path endpoint multiplicity with the actual dimension of the corresponding weight space of classical `L(λ)` and quantum `L_v(λ)`. Prove each weight fibre is finite, so the path sum is a character in KM4, while the entire path set may be infinite. Prove unique highest element and lowering generation.
-
-For dominant `λ,μ`, construct the decomposition of concatenated path components. Highest components are indexed by paths `η∈B_path(μ)` for which `λ+η(t)` is dominant at every t; their endpoints are `λ+η(1)`. Prove the actual tensor-module decomposition and multiplicities, local finiteness and the strict maps with the chosen tensor convention. For each standard Levi subset construct the analogous restriction/decomposition rule using its chamber and full restricted Cartan weights. Distinguish the possible infinite direct sum from a finite tensor decomposition theorem. All central/degree coordinates and generator normalizations are retained.
-
-Specialize finite root data to SG S4 with its exact quotient/central offsets, and typeA to TPC H8's Japanese reading and HK factor reversal. Retain its column-speed normalization, empty prefix in signatures, both source operator examples, all eight `SL3` adjoint vertices including two distinct zero-weight paths, and all eight lowering edges. Rank one `λ=nω` has exactly n+1 string vertices and the rational breakpoints `j/n`; n=0 is the single constant highest path. None of these finite examples substitutes for the affine/indefinite construction.
-
-## KM8. Minimal group, finite Schubert pieces and the divisor application
-
-Over an algebraically closed characteristic-zero field construct the minimal split Kac–Moody group attached to the actual lattice realization, its Cartan torus, real-root one-parameter subgroups and their relations, standard Borels and parabolics. Build it from the compatible real-root/torus presentation and integrable-module actions, proving independence of lifts and the specified central kernel comparisons. Its additional real-root commutator/Tits relations, root-group injectivity, torus/root intersection, Bruhat and Birkhoff decompositions are construction targets here. No valued-field masure or analytic infinite-dimensional Lie-group assertion is inferred.
-
-Construct the flag ind-space from finite Bruhat pieces, finite reduced-word Bott–Samelson maps and Schubert closures, their scheme structures, projectivity, boundary and reduced-word comparisons. Compare all finite-type pieces with the existing finite flag owners rather than replace their carriers. For a dominant integral λ use the actual stabilizer parabolic of the highest line of `L(λ)` and construct its projective orbit map on each finite piece; finite Demazure spans are proved finite-dimensional even when `L(λ)` is infinite-dimensional. Thus projective coordinates and Cartier divisors are defined on finite-dimensional schemes, not an unspecified measure space of all infinite vectors.
-
-Pin the sign/duality convention: with B^+ killing the highest vector, the orbit's tautological line has fibre weight λ and its dual O(1) has weight −λ. An extremal coordinate is a chosen restricted-dual weight covector pairing to1 with the chosen extremal vector; do not call every `p_τ` the dual of the same highest vector. Construct coordinate rescaling, weight, pullback and divisor independence from nonzero scalar choices. Compare B^+ to SG's opposite-Borel/section convention by Chevalley opposition and duality, without an unavailable longest element in infinite type.
-
-Prove the Chevalley–Pieri Cartier-divisor/intersection formula on each finite Schubert variety, with actual codimension-one Bruhat boundary inclusions and coefficient `|<σλ,β^vee>|` in the declared orientation. Use the supplied SchemeAndStackFoundations §§5.1–5.3 cycle/Chow groups, divisor comparison and first-Chern operator. Pull the chosen extremal rational section back to a reduced-word Bott–Samelson resolution of the finite Schubert variety. For each prime word-boundary divisor, construct its rank-one transverse chart at the generic point, identify the local parameter and compute the order of that section by factoring it as a unit times a power of the parameter. Compare these orders with the root/coroot pairing in the declared Borel convention. Push the divisor cycle down along the proper resolution, retaining the actual generic residue-field degrees and the vanishing contributions of contracted divisors, and prove that the resulting codimension-one coefficients are the stated `|<σλ,β^vee>|`. Construct the equality with `c₁(O(1))∩[X]` using the supplied Cartier comparison and first-Chern projection formula; individual Schubert boundary components are not assumed Cartier. Prove the finite-piece restriction and reduced-word compatibility of these maps. The smooth word-space local order and its proved cycle pushforward are the coefficient interface; no general Schubert-normality theorem is assumed. Build its actual maps on the newly constructed Schubert schemes, retaining properness for every pushforward and the nonzero rational-section/Cartier hypotheses. No assertion about an infinite fundamental cycle or a nonproper global intersection is substituted. This is the geometric application of the already constructed real-root/lattice/module data; it is not a premise of LS paths, the character formula or crystal existence.
-
-## KM8A. Untwisted derived group and polynomial-loop comparison
-
-Over ℂ first take a pinned simply connected simple finite-type group G_sc and its untwisted affine derived root datum: the affine simple coroots are independent, the central coroot c=Σ_i a_i^∨h_i is primitive, and no degree/rotation torus is included in this derived group. Construct the homomorphism from KM8's minimal derived affine group to G_sc(ℂ[t,t^-1]) on the actual real-root and torus generators. For α a finite root and n∈ℤ send x_(α+nδ)(u) to x_α(u t^n). On finite simple coroots use the constant finite coroot, and send h_0 to −θ^∨ on cocharacters, where θ is the highest finite root. Pin the highest-root root-group signs by the rank-one Chevalley relations before identifying the affine generators; prove the real-root, torus, prenilpotent-pair commutator and Weyl-lift relations, independence of words, and the resulting intertwining equations. The root-group formulas alone do not construct a homomorphism.
-
-Prove its image is the full polynomial loop group and its kernel is precisely the central copy ℂ× supplied by c, with the actual inclusion, injectivity and exactness equations. Establish this using the real-root presentation and the polynomial-loop Bruhat/root-generation comparison, not by assuming a splitting of the finite Weyl normalizer. For a product of simple components construct one such kernel per component and the product comparison. A degree torus acts by t↦a t and belongs to the semidirect extension by loop rotations; it is not silently mapped to a subgroup of unrotated G_sc(ℂ[t,t^-1]). Give the change-of-parameter and inverse-coordinate transports with their signs.
-
-Consume [FormalConnectionsOpers F3A](../FormalConnectionsOpers/README.md#f3a-polynomial-loops-full-cocharacters-and-positive-quotients) for the independently constructed polynomial/formal functors, Iwahori and positive subgroups, full-cocharacter normalizer quotients and positive-orbit comparison. Identify the affine Borel with the inverse image of its polynomial Iwahori under the derived-group map. The positive standard parabolic obtained by omitting the extending node maps onto G_sc(ℂ[t]); on a product omit every component's extending node. Prove the maps and kernel on these subgroups and on the resulting flag/Grassmannian cosets, before using them to compare finite Bruhat pieces. Maximality is asserted only for a single irreducible affine component. F3A's definitions, torsor patching and loop Cartan geometry do not depend on this minimal-group comparison; they are lower inputs to this application.
-
-For a specified connected reductive target G, construct the induced maps through its actual derived central isogeny and central torus and identify their image, kernel and component maps on the specified lattice data. F3A retains the complete cocharacter lattice Y, the coroot subgroup Q^∨ and Y/Q^∨. A simply connected derived loop group need not cover all components of an adjoint or reductive loop group; for SL2→PGL2 the missing parity component is an explicit regression. Do not replace Y by Q^∨, assert an integral central/derived splitting, or infer a universal ℂ× kernel for a different chosen affine global form. Treat the root-free target directly through its torus functor. Export the actual torus/global-form comparison rather than identifying different realizations by the affine Dynkin diagram alone.
-
-## KM9. Calculations and complete comparison API
-
-Give rank0/empty roots and independent central enlargement; finite A1 and A2 comparisons including the two adjoint zero weights; the singular affine A1 realization, a positive-level highest module with infinite total dimension and finite weight pieces; and an indefinite rank-two matrix with product `a_ij a_ji>4`, infinite Weyl group and finite Bruhat intervals. Compute finite initial root/weight-height truncations, path strings and character coefficients with certified truncation bounds. In non-simply-laced rank two test the orientation `a_ij=α_j(h_i)`, the actual symmetrizer and the full toral-lattice generator dictionary before identifying a quantum braid formula.
-
-The finite-type classical all-root integral lattice is supplied by [ReductiveGroups §9A](../ReductiveGroups/README.md#9a-the-full-reductive-integral-enveloping-form), with its finite reduced root datum and full character/cocharacter lattices. The quantum finite-type divided-power/Lusztig PBW bases are supplied by QuantumEnvelopingAlgebras QEA3–QEA4. The source comparison is with *Algebraic Varieties in Representation Theory*, physical PDF pages84–86, dated April11,2003: the classical Kostant lattice, quantum integral basis and braid-operator/root-vector construction. This comparison retains those finite-type hypotheses; it does not assert an arbitrary symmetrizable imaginary-root integral PBW theorem. Compare the resulting module actions, divided strings and classical limit through those actual maps. Source notation “restricted enveloping over Z” is compared to the divided-power integral form; it is not automatically the finite-dimensional restricted algebra in characteristic p. The source toral exponent literal `ε_i=±1` is preserved as source evidence; the corrected integral algebra uses its actual {0,1} toral basis and full lattice extension. No module/crystal theorem is deduced by specializing the denominator presentation at v=1.
-
-## Mathematical references and native interfaces
-
-Consume Mathlib's actual free Lie, Lie ideal quotient, enveloping algebra, direct sums, weight-space, tensor/dual and Coxeter carriers. The existing Serre quotient and loop cocycle are useful lower objects with the precise limitations stated in KM1. Native finite-Killing Verma/integrability theorems are comparison inputs only. General ordered PBW does not require a finite-dimensional basis; finite-dimensional Noetherianity results do.
-
-Littelmann, *A Littlewood–Richardson rule for symmetrizable Kac–Moody algebras* (1994), and *Paths and root operators in representation theory* (1995), give the path and decomposition programme. The [Lenart–Postnikov primary account, §§9–10](https://arxiv.org/html/math/0502147v4#S9), distinguishes general record-piece path operators from the monotone LS formula and states initial-dominant-path independence in symmetrizable Kac–Moody scope. The [CFL account, Definition2.1 and §7.1](https://arxiv.org/html/2203.12992v1#S7), states the dominant parabolic cover-bond gcd condition, attributing it to Dehy. Construct these actual results on the declared carriers; no geometric proof is a premise of the combinatorial path API. The [normalized primary account in Kanakubo, §§2–3](https://arxiv.org/html/2407.19622v1#S2) states the actual weight/crystal maps, existential LS chains and the dominant highest-crystal comparison; its new explicit monomial results have rank-two/fundamental-weight hypotheses. The [Sagaki lecture abstract](https://www.xmath.ous.ac.jp/~ike/Workshop/abstract/sagaki.html) distinguishes these dominant highest modules from quantum/semi-infinite LS and arbitrary extremal-weight models. Kashiwara's and Joseph's isomorphism theorems supply the comparison programme; their proof must be constructed on the carriers above rather than inferred from that abstract. Kac, *Infinite-dimensional Lie algebras*, supplies realization, root and integrable-character conventions. These references motivate precise targets; a compiled signature or a bibliographical name is not a proof.
+# Roadmap: Kac–Moody algebras, integrable modules and path crystals
+
+**Summary.** Build the representation theory of finite-rank symmetrizable Kac–Moody algebras over a
+characteristic-zero field, from the generalized Cartan matrix and its realization to the Weyl–Kac
+character formula, complete reducibility of integrable modules in category `O`, the Littelmann path
+model of the crystal of every integrable highest-weight module, and two geometric applications: the
+Chevalley–Pieri divisor formula on the finite Schubert varieties of the minimal Kac–Moody group, and
+the comparison of the untwisted affine minimal derived group with the polynomial loop group. Finite,
+affine and indefinite types are treated uniformly. The Cartan matrix may be singular; the full
+realization, the weight lattice, the central and degree directions are data throughout. No
+positive-definite Killing form, finite Weyl group, longest element or finite-dimensional module is a
+standing hypothesis. The end theorems are the Weyl–Kac formula (Layer 4), complete reducibility of
+the integrable category `O` (Layer 3), Littelmann's endpoint theorem and character identity
+(Layer 6), the Chevalley–Pieri formula (Layer 7) and the loop-group kernel theorem (Layer 8).
+
+`Suggested.lean` states the two headline theorems that are statable at the pinned libraries, the
+Weyl–Kac character formula and complete reducibility, on the presented Lie algebra and its Verma
+modules; this README is the roadmap.
+
+## Scope and ownership
+
+This roadmap owns:
+
+- Layer 0: symmetrizable Cartan data, rational realizations (minimal and with specified central
+  enlargements), integral weight and coweight lattices, the root lattice and its cones.
+- Layer 1: the Kac–Moody algebra on the full realization by generators and relations, its triangular
+  decomposition and root spaces, the central splitting of a non-minimal realization, the invariant
+  form, the ordered PBW comparison, Chevalley (anti-)involutions, and the identification of the
+  untwisted affine algebra with the polynomial central extension of AffineLieAlgebras plus a degree
+  derivation.
+- Layer 2: the Weyl group of the realization as a Coxeter group, real and imaginary roots, the Tits
+  cone, parabolic quotients and their Bruhat order.
+- Layer 3: Verma modules, simple highest-weight modules, integrable modules, category `O`, its
+  integrable subcategory and complete reducibility, restricted and contravariant duals.
+- Layer 4: cone-supported completed character rings, characters of modules, the Verma character, the
+  Weyl–Kac formula and the denominator identity, the affine homogeneous grading.
+- Layer 5: continuous piecewise-linear paths and their reparametrization classes, Littelmann's root
+  operators in record form and in the monotone two-cut form, LS paths and their chain description,
+  the interval bond and gcd comparison for symmetrizable Kac–Moody orbits.
+- Layer 6: Littelmann's endpoint theorem, the identification of path endpoint multiplicities with
+  weight multiplicities of `L(λ)`, the Littlewood–Richardson and Levi branching rules, the exact
+  finite-type specialization to SchubertGeometry S4 and the type-A examples on paths.
+- Layer 7: the minimal split Kac–Moody group of the realization, its finite Schubert schemes, and the
+  Chevalley–Pieri divisor formula on them.
+- Layer 8: the homomorphism from the untwisted affine minimal derived group to the polynomial loop
+  group, its image and central kernel, and the Iwahori, parabolic, rotation and global-form
+  dictionary on the complex points of the pinned group of ReductiveGroups.
+- Layer 9: the worked comparisons every layer is tested against.
+
+What this roadmap leaves to named roadmaps:
+
+- The quantum theory is **KacMoody, Part II**: the type-1 integrable modules of the generic
+  Drinfeld–Jimbo algebra of QuantumEnvelopingAlgebras on Layer 0's lattice, the quantum Casimir and
+  complete reducibility of quantum `O_int`, Kashiwara operators and crystal bases, the signed
+  finite-type modules and their Casimir, the strict isomorphism between Layer 6's path crystal and the
+  quantum crystal `B_q(λ)`, and the finite-type integral comparison with Lusztig's divided-power form.
+  Part II is placed after QuantumEnvelopingAlgebras, which itself consumes Layer 0's realization and
+  lattices; its introduction says that this roadmap stops at the classical path crystal, whose
+  endpoint multiplicities are already the weight multiplicities of `L(λ)` (Layer 6), and that no
+  classical theorem here waits for a quantum one.
+- RootSystems Layer 3 owns the abstract Coxeter combinatorics (strong exchange, Matsumoto, subword
+  criterion, minimal coset representatives); Layer 2 identifies the Weyl group of the realization with
+  a Coxeter system and then consumes those theorems. RootSystems also owns the finite crystallographic
+  realization and classification; Layer 0 compares with Mathlib's finite-type `CartanMatrix.Realisation`
+  and never asserts a finite classification for an infinite Weyl group.
+- LieHighestWeight owns finite-dimensional Killing and reductive representation theory, including its
+  Verma modules and simple modules for `IsKilling` algebras; Layer 3 constructs the general counterparts
+  and compares them in finite type.
+- AffineLieAlgebras A1–A2 owns the polynomial and formal current algebras, the central extension
+  `ĝ_κ` with its residue cocycle and sign, its classification and level transport; Layer 1 adds only the
+  degree derivation and the Chevalley–Serre identification.
+- SchubertGeometry S4 owns the finite-root-datum path crystal, typed central translation, convexity and
+  the finite parabolic bond-gcd comparison; S7 owns the finite Chevalley divisor formula.
+  TensorProductCombinatorics Layer 8 owns the concrete type-A tableau, reading-word and signature
+  model; it is later in the merge order, so the identification of Layer 6's type-A path crystal with
+  that tableau crystal is stated on its side, and Layer 6 states its type-A examples on paths alone.
+  Layers 5–6 construct the symmetrizable extension and prove the finite specialization to
+  SchubertGeometry S4 exactly; they build no second finite tableau theory.
+- FormalConnectionsOpers Layer 3A owns the functorial polynomial and formal loop theory over arbitrary
+  coefficient rings: loop functors, torsor patching, Iwahori and positive subgroup functors, the
+  full-cocharacter normalizer, loop Grassmannians and positive orbits. It is later in the merge order,
+  so Layer 8 uses none of it: Layer 8 works on the complex points `G_sc(ℂ[t,t^(−1)])` of the pinned
+  group of ReductiveGroups Layer 9 and proves there, by Garland's route, only the generation and
+  Iwahori-decomposition statements the kernel theorem needs; the identification of
+  FormalConnectionsOpers' functors at `R = ℂ` with these complex-point groups is a comparison stated
+  on its side.
+- SchemeAndStackFoundations §§5.1–5.3 owns cycles, Chow groups, the Cartier–Weil comparison, proper
+  pushforward and the first Chern operator with its projection formula; Layer 7 constructs the finite
+  Schubert schemes on which they are applied.
+- ReductiveGroups 9A owns the finite-type classical all-root integral enveloping form; Layer 9 compares
+  the finite-type specialization of Layer 1 with it.
+- Valued-field masures, analytic loop groups and their buildings, and quantum groups at roots of unity
+  are not treated here.
+
+## Conventions
+
+- `I` is a finite index set, `A = (a_ij)` an integral generalized Cartan matrix, and `a_ij = α_j(h_i)`:
+  rows are indexed by coroots, columns by roots. The symmetrizer is a family of positive integers
+  `d_i` with `d_i a_ij = d_j a_ji`; in Kac's notation `ε_i = 1/d_i`.
+- A rational realization is `(H_Q, (h_i)_i, (α_i)_i)` with `H_Q` a finite-dimensional ℚ-vector space,
+  the `h_i ∈ H_Q` linearly independent, the `α_i ∈ H_Q*` linearly independent, and
+  `α_j(h_i) = a_ij`. It is minimal when `dim H_Q = 2|I| − rank A`. `H_Q'` is the span of the `h_i`.
+- The coefficient field `k` of the algebraic layers is any field of characteristic zero;
+  `H_k = k ⊗_ℚ H_Q`, `Γ_k = H_k*`. Paths live in `P_ℝ = ℝ ⊗ P`. `Suggested.lean` works over ℚ with
+  `H_Q = ℚ^m`.
+- `P ⊂ H_Q*` and `Y ⊂ H_Q` are the chosen free integral weight and coweight lattices with their
+  perfect pairing, `α_i ∈ P`, `h_i ∈ Y`; `P^+ = {λ ∈ P : λ(h_i) ≥ 0 for all i}`.
+- `Q = ⊕_I ℤα_i`, `Q_+ = ⊕_I ℕα_i`, height `ht(Σ n_i α_i) = Σ n_i`, and `μ ≤ λ` means `λ − μ ∈ Q_+`.
+- The invariant form is normalized by `(h_i, h) = α_i(h)/d_i`, hence `(e_i, f_i) = 1/d_i`,
+  `(α_i, α_j) = d_i a_ij` on `H*` and `(α_i, λ) = d_i λ(h_i)`.
+- `s_i(λ) = λ − λ(h_i) α_i` on `H*` and `s_i(h) = h − α_i(h) h_i` on `H`. The Weyl group `W` is the
+  subgroup of `GL(H*)` generated by the `s_i`; `ℓ` is its length in these generators; `ρ ∈ H*` is any
+  functional with `ρ(h_i) = 1`, and `w ∘ λ = w(λ + ρ) − ρ`.
+- Category `O` is Kac's: weight modules with finite-dimensional weight spaces whose weights lie in
+  finitely many sets `λ_j − Q_+`. "Integrable" means every `e_i` and `f_i` acts locally nilpotently
+  on a weight module.
+- Kac is *Infinite-dimensional Lie algebras*, third edition; its theorem and section numbers are those
+  of that edition. Lenart–Postnikov is arXiv math/0502147v4, Chirivì–Fang–Littelmann is arXiv
+  2203.12992v1, Kanakubo is arXiv 2407.19622v1, Garland is Publ. Math. IHÉS 52 (1980).
+- Paths are continuous piecewise-linear maps `π : [0,1] → P_ℝ` with `π(0) = 0`; the zero symbol `0`
+  of a root operator is distinct from the constant path.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+`FreeLieAlgebra`, `LieIdeal`, `LieSubmodule.Quotient`, `UniversalEnvelopingAlgebra` with its
+`ι` and `lift`, `LieModule.weightSpace` (`Algebra/Lie/Weights/Basic.lean`), `Module.reflection`
+(`LinearAlgebra/Reflection.lean`, `y ↦ y − f(y) • x` for `f(x) = 2`), `Module.End.eigenspace`,
+`Submodule.Quotient.module'`, `IsSemisimpleModule`, `IsSimpleModule`, `Module.finrank`, `finsum`,
+`Subgroup.closure`, `CoxeterSystem` and `CoxeterMatrix`, `Convex.sum_mem`, `subset_convexHull`,
+`convex_convexHull`. `Matrix.ToLieAlgebra` (`Algebra/Lie/SerreConstruction.lean`) is the Serre
+quotient on `H_i, E_i, F_i` alone: it is the derived algebra's presentation, not the full realization.
+`CartanMatrix.Realisation` (`LinearAlgebra/Matrix/Cartan/Realisation.lean`) requires
+`Matrix.IsFiniteCartan`, so it, `reflection`, `coreflection`, `weylGroup` and `toRootPairing` exist for
+finite type only. `LieAlgebra.loopAlgebra`, `LieAlgebra.LoopAlgebra.residuePairing` (the value
+`∑_a a • Φ(f_(−a), g_a)`, so `+Res(f dg)`) and `LieAlgebra.LoopAlgebra.twoCocycleOfBilinear`
+(`Algebra/Lie/Loop.lean`), `LieAlgebra.ofTwoCocycle` and `LieAlgebra.Extension.ofTwoCocycle`
+(`Algebra/Lie/Extension.lean`) are the loop carriers of Layer 1.
+
+### From Tau Ceti
+
+`Module.Basis.pbwBasis : Basis (ι →₀ ℕ) R U` for an ordered basis of a Lie algebra
+(`Algebra/Lie/UniversalEnveloping/PBW/Basis.lean`), with no finiteness assumption, and
+`UniversalEnvelopingAlgebra.ι_injective`. `CoxeterSystem.strongExchange`
+(`GroupTheory/Coxeter/StrongExchange.lean`), `CoxeterSystem.bruhatLE_iff_exists_sublist_wordProd_eq`
+(`GroupTheory/Coxeter/Bruhat.lean`), `TauCeti.matsumoto` (`GroupTheory/Coxeter/Matsumoto.lean`) and
+`CoxeterSystem.existsUnique_isMinimalCosetRep_mul` (`GroupTheory/Coxeter/Parabolic.lean`) are consumed
+in Layer 2 after the Coxeter identification. Tau Ceti's `VermaModule` in
+`Algebra/Lie/HighestWeight/Verma.lean` is built for `IsKilling` finite-dimensional algebras and is a
+finite-type comparison object only.
+
+### From TauCetiRoadmap.RootSystems
+
+Layer 3 (strong exchange, deletion, Matsumoto in relational and lift form, the Bruhat order) for a
+general `CoxeterSystem`. Consumed by Layer 2 after the faithful comparison of the Weyl group with the
+Coxeter system of the matrix `m_ij`.
+
+### From TauCetiRoadmap.LieHighestWeight
+
+Layer 3 (enveloping algebra, Verma modules and `L(λ)` for finite-dimensional semisimple algebras),
+Layer 5 (Weyl's complete reducibility) and Layer 6 (the Weyl character formula). Consumed only in the
+finite-type comparisons of Layers 3–4 and 9.
+
+### From TauCetiRoadmap.AffineLieAlgebras
+
+A2: the polynomial central extension `ĝ_κ` with bracket
+`[x⊗t^m, y⊗t^n] = [x,y]⊗t^(m+n) + m κ(x,y) δ_(m+n,0) K`, its cocycle sign `Φ = −κ` against Mathlib's
+residue pairing, the normalized form `κ_0` with long roots of squared length `2`, and level transport
+along `κ = kκ_0`. Consumed by Layer 1.
+
+### From TauCetiRoadmap.SchubertGeometry
+
+S4 (the finite-root-datum path crystal: record operators, LS chains with the bond
+`b_λ(x,y) = −⟨xλ, β∨⟩` on a decreasing cover, the interval gcd `d_λ(u,v)` with `d_λ(u,u) = 0`,
+convexity through `Convex.sum_mem`, typed central translation) and S7 (the finite Chevalley divisor
+coefficient `⟨λ, β∨⟩` along `X(v)`, `v = w s_β`, `ℓ(v) = ℓ(w) − 1`). Consumed by Layers 5–7 as the
+finite comparison case.
+
+### From TauCetiRoadmap.SchemeAndStackFoundations
+
+§5.1 (cycles `cyclesOfDimension`, rational equivalence, Chow groups and the Cartier–Weil divisor
+comparison), §5.2 (proper pushforward of cycles with generic residue-field degrees, flat pullback,
+localization) and §5.3 (the first Chern operator `Chow.c1` and its projection formula). Consumed by
+Layer 7.
+
+### From TauCetiRoadmap.ReductiveGroups
+
+Layer 0 (the functor of points `G(R)` of an affine group scheme on commutative algebras `R`, as a
+group), Layer 9 (the pinned split simply connected Chevalley–Demazure group scheme `G_sc` over `ℤ`
+with its split torus, Borel, root subgroups `x_α` and Chevalley relations, and the finite reduced root
+datum `(X, Φ, Y, Φ^∨)` with its coroot lattice `Q^∨`; 9B pinnings) and 9A (the full reductive integral
+enveloping form on the actual lattices `X, Y`). Consumed by Layer 8 for the complex-point groups
+`G_sc(ℂ[t,t^(−1)])`, `G_sc(ℂ[t])` and `G_sc(ℂ)`, and by Layer 9 for the finite-type integral
+comparison.
+
+## How to read the build
+
+Layer 0 fixes the datum and its realization. Layer 1 presents the algebra on the whole realization,
+proves the triangular decomposition, root spaces, the invariant form and PBW, and identifies the
+untwisted affine case with loops. Layer 2 builds the Weyl group as a Coxeter group, real and imaginary
+roots, the Tits cone and parabolic quotients; Layer 3 builds Verma and simple modules, integrable
+modules and category `O`, and proves complete reducibility of its integrable part; Layer 4 builds the
+completed character rings and proves the Weyl–Kac formula. Layer 5 constructs paths, root operators and
+LS paths from Layers 0 and 2 alone; Layer 6 proves the endpoint theorem, identifies path endpoint
+multiplicities with weight multiplicities of `L(λ)` through Layer 4, derives the decomposition rules,
+and specializes to finite type. Layer 7 constructs the minimal group and its finite Schubert
+schemes from Layers 2–3 and proves the Chevalley–Pieri formula; Layer 8 compares the affine derived
+group with polynomial loops; Layer 9 collects the worked comparisons. No flag, divisor or loop-group
+theorem is an input to Layers 0–6, and nothing in Layers 0–9 consumes a quantum algebra.
+
+## Layer 0: symmetrizable Cartan data and realizations (KM0)
+
+### 0.1 Generalized Cartan matrices and symmetrizers
+
+Define `SymmetrizableDatum I`: an integral matrix `A` indexed by `I × I` with `a_ii = 2`, `a_ij ≤ 0`
+for `i ≠ j`, `a_ij = 0 ↔ a_ji = 0`, together with positive integers `d_i` satisfying
+`d_i a_ij = d_j a_ji` (Kac, §1.1 and §2.1). Construct reindexing along a bijection `I ≃ I'`, the
+direct sum of two data, the restriction to a subset `J ⊆ I` (the Levi datum), and the symmetrized
+matrix `B = (d_i a_ij)`, which is symmetric. Borcherds matrices with nonpositive diagonal entries are
+different data and are not obtained by allowing `d_i = 0`. *Needs:* Mathlib `Matrix`.
+
+- The symmetrized matrix `(d_i a_ij)` is symmetric and `A = D^(−1) B` with `D = diag(d_i)`.
+- Reindexing, direct sums and Levi restriction preserve the axioms and commute with symmetrization.
+- Every symmetrizer of an indecomposable `A` is a positive rational multiple of any other.
+
+**Checks.**
+
+- Type `A_1`: `A = (2)`, `d = (1)`; the symmetrized matrix is `(2)`.
+- Affine `A_1^(1)`: `A = [[2,−2],[−2,2]]`, `d = (1,1)`, `det A = 0`; the symmetrized matrix equals `A`.
+- Type `B_2` with `A = [[2,−2],[−1,2]]`: `d = (1,2)` works and `d = (1,1)` does not, since
+  `1·(−2) ≠ 1·(−1)`; a definition that accepted `d = (1,1)` is wrong.
+- The empty index set is a datum with the empty matrix; the matrix `[[2,−1],[0,2]]` is rejected by the
+  zero-symmetry axiom.
+
+### 0.2 Rational realizations, minimal and enlarged
+
+Define `RationalRealization A m`: `H_Q = ℚ^m` with linearly independent coroots `h_i ∈ H_Q`, linearly
+independent roots `α_i ∈ H_Q*` and `α_j(h_i) = a_ij`. Prove `m ≥ 2|I| − rank A` for every realization
+and construct a minimal realization with `m = 2|I| − rank A` (Kac, Proposition 1.1). Prove that any two
+minimal realizations of the same datum are isomorphic by a linear isomorphism carrying `h_i` to `h_i`
+and `α_i` to `α_i`, without asserting uniqueness of that isomorphism. A realization that is not minimal
+is a specified central enlargement: prove that every realization `H_Q` contains a minimal
+sub-realization `H'_min` (the span of the `h_i` and of lifts of a basis of `H_Q/(H_Q' + ⋂_i ker α_i)`
+chosen so that the `α_i` stay independent on it) and that `H_Q = H'_min ⊕ Z` with
+`Z ⊆ ⋂_i ker α_i`, so the extra directions are central for the Lie algebra of Layer 1. Define the
+Cartan center `𝔠 = ⋂_i ker α_i ⊆ H_Q` and prove
+`𝔠 ∩ H_Q' = {Σ c_i h_i : Σ_i c_i a_ij = 0 for all j}`, the kernel of the pairing on the coroot span;
+the two coincide for a minimal realization and differ by the added central directions otherwise
+(Kac, Proposition 1.6, for the minimal case). Extend scalars to any characteristic-zero field and
+to `ℝ`. *Needs:* Mathlib `LinearIndependent`, `Module.Dual`, `Matrix.rank`.
+
+- Existence of minimal realizations; the dimension bound; isomorphism of minimal realizations.
+- Finite type: when `A` is a finite Cartan matrix the minimal realization is `H_Q'` itself, and it
+  agrees with Mathlib's `CartanMatrix.Realisation` under `Matrix.IsFiniteCartan`.
+- The central splitting `H_Q = H'_min ⊕ Z` and the characterization of `𝔠`.
+
+**Checks.**
+
+- Affine `A_1^(1)` with `A = [[2,−2],[−2,2]]`: `rank A = 1`, so the minimal realization has
+  dimension `3`; the coroot span has dimension `2`; `c = h_0 + h_1` has `α_0(c) = 2 − 2 = 0`,
+  `α_1(c) = −2 + 2 = 0`, so `c` spans `𝔠 ∩ H_Q'`; a degree element `d` with `α_0(d) = 1`,
+  `α_1(d) = 0` completes the minimal realization.
+- Type `A_1`: `ℚ^1` with `h = 1`, `α = 2x` is the minimal realization; `ℚ^2` with `h = (1,0)`,
+  `α = 2x_1` is an enlargement with `Z = span((0,1))`; a definition of `𝔠` returning only
+  `𝔠 ∩ H_Q'` would miss `(0,1)`.
+- Type `A_1` on `ℚ^3` with `h = (1,0,0)` and `α = 2x_1 + 5x_2 + 7x_3`: the minimal sub-realization
+  is `span(h)`, `Z = {x : 2x_1 + 5x_2 + 7x_3 = 0}` is two-dimensional, and `(0,1,0) − (5/2)h` lies
+  in it.
+- The empty index set: `ℚ^m` for any `m` is a realization, minimal iff `m = 0`.
+
+### 0.3 Weight and coweight lattices, root lattice and cones
+
+Construct free lattices `P ⊂ H_Q*` and `Y ⊂ H_Q` of full rank with a perfect pairing, `α_i ∈ P`,
+`h_i ∈ Y`, and their inclusions into the realization. State which lattice choices admit fundamental
+weights in `P` (those for which the map `P → ℤ^I`, `λ ↦ (λ(h_i))_i`, is surjective); in an arbitrary
+isogenous lattice only their rational versions exist. Never infer an integral splitting of `P` into
+central and derived parts from the rational splitting of 0.2. Define `Q`, `Q_+`, the height, the
+dominance predicate `λ(h_i) ≥ 0`, the preorder `μ ≤ λ`, and prove that for fixed `λ` and `n` the set
+`{μ ≤ λ : ht(λ − μ) ≤ n}` is finite, using independence of the `α_i` in the full realization even when
+`A` is singular. *Needs:* 0.2; Mathlib `AddSubmonoid.closure`, `Finsupp`.
+
+- `Q_+ ∩ (−Q_+) = {0}` and `Q_+` is the `ℕ`-span of a linearly independent family.
+- Finite-height intervals; dominance is decidable on `P`.
+- The empty index set gives `Q = 0`, every weight dominant, and `μ ≤ λ` iff `μ = λ`.
+
+**Checks.**
+
+- Affine `A_1^(1)`: `δ = α_0 + α_1` satisfies `δ(h_0) = δ(h_1) = 0`, so `δ ∈ Q_+` is dominant and
+  `0 ≤ δ`; the interval `{μ ≤ 2δ : ht(2δ − μ) ≤ 2}` has the six elements `2δ − aα_0 − bα_1`,
+  `a + b ≤ 2`.
+- Type `A_1` with `P = ℤω`, `ω(h) = 1`: fundamental weights exist; with `P = ℤα = 2ℤω` they do not.
+- A lattice `P` not containing some `α_i` is rejected.
+
+### Examples
+
+The three data `A_1`, `A_1^(1)` and the indefinite `[[2,−3],[−3,2]]` with their minimal realizations of
+dimensions `1`, `3` and `2`, and the enlargement `A_1` on `ℚ^2`.
+
+### Dependencies
+
+Mathlib only.
+
+## Layer 1: the Kac–Moody algebra, invariant form and PBW (KM1)
+
+### 1.1 The presented Lie algebra on the full realization
+
+Define `FreePresentation I m` as the free Lie algebra over ℚ on `H_Q ⊕ I ⊕ I`, with generators
+`hGenerator x`, `eGenerator i`, `fGenerator i`. Define `relators R` as the set of Cartan-linearity
+relators, `[H,H] = 0`, `[h, e_i] − α_i(h) e_i`, `[h, f_i] + α_i(h) f_i`, `[e_i, f_j] − δ_ij h_i`, and
+the Serre relators `(ad e_i)^(1−a_ij) e_j`, `(ad f_i)^(1−a_ij) f_j` for `i ≠ j`; `presentationIdeal R`
+is the Lie ideal they span and `PresentedLieAlgebra R` the quotient, with `cartanElement R x`,
+`positiveGenerator R i` and `negativeGenerator R i` the images of the generators. Prove the
+universal property (a Lie homomorphism out of the quotient is a family of images of the generators
+satisfying the relations) and Cartan injectivity, `cartanElement R` is injective (Kac, Theorem 1.2 for
+the auxiliary algebra and Theorem 9.11 for the Serre quotient). Prove the central splitting: for an
+enlargement `H_Q = H'_min ⊕ Z` of 0.2 the algebra is the direct sum of the algebra of the minimal
+sub-realization and the abelian ideal `Z`. Compare with Mathlib's `Matrix.ToLieAlgebra A`: it is the
+derived subalgebra `[𝔤, 𝔤]`, generated by `h_i, e_i, f_i`, and `𝔤 = [𝔤,𝔤] + H`, with
+`[𝔤,𝔤] ∩ H = H_Q'` (Kac, §1.3). *Needs:* 0.2; Mathlib `FreeLieAlgebra`, `LieSubmodule.lieSpan`,
+`LieSubmodule.Quotient`, `Matrix.ToLieAlgebra`.
+
+- Universal property, with the zero map and the identity as instances.
+- Cartan injectivity; `H` is abelian; `[e_i, f_j] = δ_ij h_i` holds in the quotient.
+- Morphisms for reindexing, Levi embeddings, realization isomorphisms, central enlargement and central
+  quotient when the map respects `P` and `Y`; all universal diagrams commute by the universal property,
+  never by identifying carriers by notation.
+
+**Checks.**
+
+- Type `A_1`, minimal realization: the quotient is `sl_2` with `h, e, f`; the Serre relators are
+  absent since `I` has one element.
+- Type `A_1` on `ℚ^2`: the algebra is `sl_2 ⊕ ℚz` with `z = cartanElement (0,1)` central; the
+  presentation with `[h,e] = α(h)e` forces `[z,e] = 0`.
+- The empty index set on `ℚ^m`: the abelian Lie algebra `ℚ^m`; `Matrix.ToLieAlgebra` of the empty
+  matrix is zero, which is not the full realization.
+- Affine `A_1^(1)`: `(ad e_0)^3 e_1 = 0` is a relator while `(ad e_0)^2 e_1 ≠ 0` in the quotient:
+  its image under the loop isomorphism of 1.5 is `[f⊗t, [f⊗t, e⊗1]] = [f⊗t, −h⊗t] = −2f⊗t^2`.
+
+### 1.2 Triangular decomposition, root spaces and real versus imaginary roots
+
+Prove `𝔤 = n^- ⊕ H ⊕ n^+` with `n^±` the subalgebras generated by the `e_i`, respectively `f_i`, the
+inclusion and projection maps, and the `Q`-grading `𝔤 = ⊕_α 𝔤_α` with `𝔤_0 = H`, `𝔤_α ≠ 0` only for
+`α ∈ Q_+ ∪ (−Q_+)`, `dim 𝔤_α < ∞`, and `[𝔤_α, 𝔤_β] ⊆ 𝔤_(α+β)` (Kac, Theorem 1.2 and §1.3).
+Construct the enumeration of roots of height at most `n` as a finite set and the bracket degree laws.
+Define real roots as the `W`-orbits of simple roots and imaginary roots as the others, with their
+multiplicities; prove `dim 𝔤_α = 1` for real `α` and that `kα` is a root only for `k = ±1` when `α` is
+real (Kac, Proposition 5.1); the set of imaginary roots is `W`-stable (Kac, Proposition 5.2). Prove
+`e_i` and `f_i` act locally nilpotently on `𝔤` (Kac, §§3.5–3.6). *Needs:* 1.1; 2.1 for the
+`W`-orbits.
+
+- Root spaces are finite-dimensional; the Chevalley generators have roots `±α_i`.
+- `𝔤_α` for `α ∈ Q_+` is spanned by brackets of the `e_i`; for the enlargement, `Z ⊆ 𝔤_0`.
+- Multiplicities of imaginary roots are retained as data of the grading, never set to `1`.
+
+**Checks.**
+
+- Affine `A_1^(1)`: `δ = α_0 + α_1` is imaginary with `dim 𝔤_δ = 1` (it is `h⊗t` under 1.5); `2δ` is
+  a root; `α_1 + δ` is real with `dim 𝔤_(α_1+δ) = 1`.
+- Type `A_1`: the roots are `±α`, both real; `2α` is not a root.
+- Indefinite `[[2,−3],[−3,2]]`: `α_0 + α_1` has `(α_0+α_1, α_0+α_1) = 2 − 6 + 2 = −2 < 0`, so it is an
+  imaginary root of multiplicity `1`; a definition calling it real is wrong.
+
+### 1.3 The invariant form
+
+For a minimal realization choose a complement `H''` of `H_Q'` in `H_Q` and define the symmetric form
+on `H_Q` by `(h_i, h) = α_i(h)/d_i` for all `h ∈ H_Q` and `(h', h'') = 0` for `h', h'' ∈ H''`. Prove it
+is symmetric on `H_Q'` because `a_ji/d_i = a_ij/d_j`, and nondegenerate on `H_Q` (Kac, §2.1 and
+Lemma 2.1), although `(d_i a_ij)` alone is degenerate on `H_Q'` when `A` is singular. Prove the
+change-of-complement comparison: for two complements the two forms are isometric through a linear map
+fixing every `h_i` and `α_i` (the map sends `h'' ↦ h'' + c(h'')` with `c` valued in `𝔠 ∩ H_Q'`,
+determined by `−1/2` of the second form restricted to the first complement, using the perfect pairing
+between `𝔠 ∩ H_Q'` and `H_Q/H_Q'`). For a specified central enlargement `H_Q = H'_min ⊕ Z` the
+recipe is not available: take as data a symmetric form on `H_Q` with `(h_i, h) = α_i(h)/d_i` and
+nondegenerate; prove such forms exist (extend a minimal form by any nondegenerate form on `Z`, since
+`(h_i, Z) = 0` is forced) and that they are not unique up to isometries fixing `h_i` and `α_i`. Prove
+that any nondegenerate symmetric form on `H_Q` with `(h_i, h) = α_i(h)/d_i` extends uniquely to an
+invariant symmetric bilinear form on `𝔤` with `(e_i, f_j) = δ_ij/d_i`, `(𝔤_α, 𝔤_β) = 0` unless
+`α + β = 0`, nondegenerate pairings `𝔤_α × 𝔤_(−α) → k`, and `[x, y] = (x, y) ν^(−1)(α)` for
+`x ∈ 𝔤_α`, `y ∈ 𝔤_(−α)` (Kac, Theorem 2.2 and its proof, for the minimal sub-realization, transported
+to the Serre presentation through Theorem 9.11; for an enlargement through the central splitting of
+1.1, with `Z ⊥ 𝔤_α` for `α ≠ 0` forced by invariance). Construct `ν : H_Q → H_Q*`,
+`ν(h_i) = α_i/d_i`, and the transported form on `H_Q*` with `(α_i, α_j) = d_i a_ij`,
+`(α_i, λ) = d_i λ(h_i)`. The reflection formula `s_α(λ) = λ − 2(λ,α)/(α,α) α` is attached to real roots
+only. *Needs:* 1.1, 1.2; 0.2.
+
+- Existence and uniqueness of the extension; the Gram identities above; `ν` is an isomorphism.
+- `W`-invariance of the form on `H_Q*` (Kac, §3.9).
+- On an indefinite or singular realization the form is not positive definite and not a Killing form.
+
+**Checks.**
+
+- Type `A_1` with `d = 1`: the form is the trace form of `sl_2`, `(h,h) = 2`, `(e,f) = 1`.
+- Affine `A_1^(1)`, `d = (1,1)`, `d` the degree element with `α_0(d) = 1`, `α_1(d) = 0`, `(d,d) = 0`:
+  Gram matrix of `h_0, h_1, d` is `[[2,−2,1],[−2,2,0],[1,0,0]]` with determinant `−2`; `c = h_0 + h_1`
+  has `(c, h_i) = 0` and `(c, d) = 1`; the plausible wrong form `(d_i a_ij)` extended by zero on `d`
+  has `c` in its radical and fails `(c,d) = 1`.
+- Affine `A_1^(1)`, change of complement `d' = d + a h_0 + b h_1`: the form with `(d',d') = 0` is
+  carried to the form with `(d,d) = 0` by `d' ↦ d' − (a + (a−b)^2) c`, which fixes `h_0, h_1, α_0, α_1`;
+  for `a = 1`, `b = 0` the image `d − h_0 − 2h_1` has squared length `0 + 2 + 8 − 2 − 0 − 8 = 0`.
+- Negative control, type `A_1` on the enlargement `ℚ^2` with `h = (1,0)`, `α = 2x_1`, `z = (0,1)`:
+  the complement recipe with `H'' = span(z)` gives the Gram matrix `[[2,0],[0,0]]` of `(h,z)`, which
+  is degenerate, while `H'' = span(z + h)` gives `[[2,2],[2,0]]` with determinant `−4`; the two are
+  not isometric by a map fixing `h` and `α`. On `ℚ^3` with the same datum every complement has a
+  nonzero vector in `ker α`, which lies in the radical of the recipe's form. This is why the
+  enlargement case takes the form as data.
+
+### 1.4 PBW, Chevalley involutions and the enveloping algebra
+
+Define `Enveloping R` as the universal enveloping algebra of `PresentedLieAlgebra R`. Choose an ordered
+homogeneous basis compatible with the triangular decomposition and consume Tau Ceti's ordered PBW basis
+(no finite-basis assumption) to prove `U(𝔤) ≅ U(n^-) ⊗ U(H) ⊗ U(n^+)` as vector spaces, with the
+root-partition description of a homogeneous basis of `U(n^-)`: finitely supported functions on
+positive roots with a basis index for each multiplicity. Prove finite-height local finiteness (each
+weight piece of `U(n^-)` is finite-dimensional) before constructing partition coefficients or
+infinite products. Construct the Chevalley involution `ω`, `e_i ↦ −f_i`, `f_i ↦ −e_i`, `h ↦ −h`, and
+the order-reversing Chevalley anti-involution of `U(𝔤)`, `e_i ↦ f_i`, `f_i ↦ e_i`, `h ↦ h`, with their
+signs on root spaces. Identify the finite-type PBW specialization with LieHighestWeight Layer 3. No
+finite longest-word enumeration substitutes for imaginary root spaces. *Needs:* 1.1, 1.2; Tau Ceti
+`Module.Basis.pbwBasis`, `UniversalEnvelopingAlgebra.ι_injective`; LieHighestWeight Layer 3.
+
+- The triangular multiplication map is a linear isomorphism; `ι` is injective.
+- `ω` is an involutive Lie automorphism exchanging `𝔤_α` and `𝔤_(−α)`; the anti-involution fixes `H`
+  pointwise and is an algebra anti-automorphism of `U(𝔤)`.
+- Changes of ordered homogeneous bases induce unitriangular changes of PBW bases.
+
+**Checks.**
+
+- Type `A_1`: the weight `−2α` piece of `U(n^-)` is spanned by `f^2`; `ω(e) = −f`, and the
+  anti-involution sends `ef` to `ef` and `e^2 f` to `f e^2`.
+- Affine `A_1^(1)`: the weight `−2δ` piece of `U(n^-)` has dimension `6`, the number of multisets of
+  positive roots summing to `2δ`: `{2δ}`, `{δ,δ}`, `{δ,α_0,α_1}`, `{α_0,α_0,α_1,α_1}`,
+  `{α_0+δ, α_1}`, `{α_1+δ, α_0}`; an enumeration using real roots only finds `3`.
+- The empty index set: `U(𝔤)` is the symmetric algebra on `ℚ^m`.
+
+### 1.5 The untwisted affine algebra as loops plus a degree derivation
+
+For a finite-dimensional simple `g` with a pinning let `κ_0` be the invariant form with long roots of
+squared length `2`. Consume `LieAlgebra.loopAlgebra`, `LieAlgebra.LoopAlgebra.residuePairing` and
+`twoCocycleOfBilinear`, and the extension carrier `LieAlgebra.ofTwoCocycle` with
+`LieAlgebra.Extension.ofTwoCocycle`; AffineLieAlgebras A2's polynomial extension `ĝ_κ` has bracket
+`[x⊗t^m, y⊗t^n] = [x,y]⊗t^(m+n) + mκ(x,y)δ_(m+n,0) K`. Mathlib's residue pairing is `+Res(f dg)`
+(on `x⊗t^m, y⊗t^n` it is `nΦ(x,y)δ_(m+n,0)`), so this bracket is the cocycle at `Φ = −κ`. Construct
+the degree derivation `d = t d/dt`, `[d, x⊗t^n] = n x⊗t^n`, `[d, K] = 0`, the semidirect product
+`ĝ_κ ⋊ kd`, and its invariant form `(x⊗t^m, y⊗t^n) = δ_(m+n,0) κ_0(x,y)`, `(K,d) = 1`,
+`(K,K) = (d,d) = 0`, `K, d ⊥ g⊗k[t,t^(−1)]`. Construct the Lie isomorphism from the Kac–Moody algebra
+of the untwisted affine matrix with the minimal realization `H = span(h_0,…,h_ℓ) ⊕ kd` to
+`ĝ_(κ_0) ⋊ kd`: `e_i ↦ e_i⊗1`, `f_i ↦ f_i⊗1`, `h_i ↦ h_i⊗1` for finite `i`, `e_0 ↦ f_θ⊗t`,
+`f_0 ↦ e_θ⊗t^(−1)`, `h_0 ↦ K − θ^∨⊗1`, `d ↦ d`, with `e_θ, f_θ` highest-root vectors,
+`[e_θ, f_θ] = θ^∨`, `κ_0(e_θ, f_θ) = 1`. Prove it respects every relation and is bijective (Kac,
+Theorem 7.4). Consequences: the central coroot `c = Σ_i a_i^∨ h_i` maps to `K` because
+`θ^∨ = Σ_(i≠0) a_i^∨ h_i` (Kac, §6.2); a module on which `K` acts by `k` has level `k`, so a highest
+weight `λ` has level `λ(c)`; `α_0(d) = 1`, `α_i(d) = 0` for finite `i`, the homogeneous grading of 4.5;
+the transported form of 1.3 is the one above since `d_0 = 1` gives `(h_0,h_0) = 2 = κ_0(θ^∨, θ^∨)` and
+`(h_0, d) = α_0(d) = 1 = (K,d)`. Transport the level along A2's rescaling `κ = kκ_0`. *Needs:* 1.1,
+1.3; Mathlib `LieAlgebra.loopAlgebra`, `LieAlgebra.LoopAlgebra.residuePairing`,
+`LieAlgebra.LoopAlgebra.twoCocycleOfBilinear`, `LieAlgebra.ofTwoCocycle`; AffineLieAlgebras A2.
+
+- The isomorphism and its inverse; the dictionary `c ↦ K`, level, degree.
+- The cocycle extension alone carries no degree derivation and no highest-weight representation.
+
+**Checks.**
+
+- `[e_0, f_0] = [f_θ, e_θ]⊗1 + 1·κ_0(f_θ, e_θ) K = −θ^∨ + K`, which is the image of `h_0`; with the
+  opposite sign `+κ Res(f dg)` the same computation gives `−θ^∨ − K`, which fails the Chevalley
+  relation.
+- Affine `A_1^(1)` with `g = sl_2`: `c = h_0 + h_1 ↦ K`, and `(ad e_0)^3 e_1 = 0` becomes
+  `(ad f⊗t)^3 (e⊗1) = 0` in `sl_2[t,t^(−1)]`.
+- The degree element pairs as `(d, h_0) = 1`, `(d, h_1) = 0`, `(d,d) = 0`, matching the Gram matrix of
+  1.3.
+
+### Examples
+
+`sl_2`, `sl_2 ⊕ ℚz`, the affine `A_1^(1)` algebra as `sl_2[t,t^(−1)] ⊕ kK ⊕ kd`, and the indefinite
+rank-two algebra with its imaginary root `α_0 + α_1` of multiplicity `1`.
+
+### Dependencies
+
+Layer 0; Mathlib free Lie algebras, enveloping algebras, loop algebras and extensions; Tau Ceti PBW;
+AffineLieAlgebras A2; LieHighestWeight Layer 3 for the finite-type comparison.
+
+## Layer 2: Weyl group, real roots and parabolic order (KM2)
+
+### 2.1 Simple reflections and the Weyl group as a Coxeter group
+
+Define `simpleReflection R i` on `H_Q*` by `λ ↦ λ − λ(h_i) α_i` (Mathlib's `Module.reflection` at
+`α_i(h_i) = 2`) and the dual reflection `h ↦ h − α_i(h) h_i` on `H_Q`; prove involutivity, preservation
+of the pairing and stability of `P`, `Y` and `Q`. Define `weylGroup R` as the subgroup of `GL(H_Q*)`
+generated by the `simpleReflection R i`, and `length R w` as the least length of a word in the
+generators. Define the Coxeter matrix by `m_ij = 2, 3, 4, 6` for `a_ij a_ji = 0, 1, 2, 3` and
+`m_ij = ∞` for `a_ij a_ji ≥ 4`, with `m_ii = 1`. Construct the homomorphism from the Coxeter group of
+`(m_ij)` to `weylGroup R`, prove it is an isomorphism (Kac, Proposition 3.13), and prove the geometric
+representation is faithful on the root lattice `Q` (if `w` fixes every `α_i` then `w` has no descent,
+so `w = 1`, by Kac, Lemma 3.11: `ℓ(w s_i) < ℓ(w)` iff `w(α_i) < 0`). After this identification consume
+RootSystems Layer 3 and the four Tau Ceti Coxeter theorems of the supplier contract. Matsumoto
+evaluation alone need not be a group homomorphism without the square relations. *Needs:* 0.2, 0.3;
+Mathlib `Module.reflection`, `CoxeterSystem`; Tau Ceti `CoxeterSystem.strongExchange`,
+`CoxeterSystem.bruhatLE_iff_exists_sublist_wordProd_eq`, `TauCeti.matsumoto`,
+`CoxeterSystem.existsUnique_isMinimalCosetRep_mul`; RootSystems Layer 3.
+
+- `s_i^2 = 1`; `(s_i s_j)^(m_ij) = 1`; the Weyl group of an enlargement equals that of the minimal
+  sub-realization through restriction to `Q`.
+- Real roots and coroots transport along `W` independently of the word: `w(α_i)` depends only on `w`,
+  and `(wα)^∨ = w(α^∨)`.
+- Imaginary roots are not transported as if real: `s_α` is defined for real `α` only.
+
+**Checks.**
+
+- Type `A_1`: `W = {1, s}` of order `2`; `s(ω) = −ω`.
+- Affine `A_1^(1)`: `a_01 a_10 = 4`, so `m_01 = ∞` and `W` is the infinite dihedral group;
+  `s_0 s_1` has infinite order and `(s_0 s_1)(α_1) = s_0(−α_1) = −α_1 − 2α_0 = α_1 − 2δ`.
+- Type `B_2`: `a_12 a_21 = 2`, `m_12 = 4`, `|W| = 8`; a convention giving `m_12 = 3` is wrong.
+- The empty index set: `W` is trivial and `ℓ(1) = 0`.
+
+### 2.2 Tits cone, dominant chamber and inversion sets
+
+Construct the dominant chamber `C = {λ ∈ H_ℝ* : λ(h_i) ≥ 0}`, the Tits cone `X = ⋃_w w(C)`, and prove
+`C` is a fundamental domain for `W` on `X`, `X` is a convex cone, and for `λ ∈ X` the set
+`{α > 0 real : λ(α^∨) < 0}` is finite (Kac, Proposition 3.12). Construct the positive and negative
+real-root inversion sets of `w`, prove `|{α > 0 real : w(α) < 0}| = ℓ(w)`, and the finiteness of
+Bruhat intervals `[u, w]`. *Needs:* 2.1; RootSystems Layer 3.
+
+- `X` contains `P^+`; `X = H_ℝ*` iff `A` is of finite type.
+- Inversion sets of a reduced word are the sets `{s_(i_1) ⋯ s_(i_(k−1)) α_(i_k)}`.
+- Finite rank does not imply `W` finite, a longest element, or a finite orbit of `λ`.
+
+**Checks.**
+
+- Affine `A_1^(1)`: the Tits cone is `{λ : λ(c) > 0} ∪ ℝδ` (Kac, Proposition 5.8); `Λ_0` with
+  `Λ_0(h_0) = 1`, `Λ_0(h_1) = 0` has the infinite orbit `{Λ_0 + nα_1 − n^2 δ : n ∈ ℤ}`, with
+  `s_0 Λ_0 = Λ_0 − α_0 = Λ_0 + α_1 − δ` the case `n = 1`.
+- Type `A_1`: `X = ℝω` is the whole line; `[1, s]` is the interval `{1, s}`.
+- Indefinite `[[2,−3],[−3,2]]`: `ℓ(s_0 s_1 s_0) = 3` and the interval `[1, s_0 s_1 s_0]` has `6`
+  elements.
+
+### 2.3 Parabolic quotients and minimal coset representatives
+
+For dominant `λ` prove `W_λ = W_J` with `J = {i : λ(h_i) = 0}` (Kac, Proposition 3.12), construct the
+minimal coset representatives `W^J` through `existsUnique_isMinimalCosetRep_mul`, their Bruhat order,
+and the quotient lifting and exchange facts used by Layer 5: for a positive real root `β` and
+`u ∈ W^J`, `(uλ)(β^∨) < 0` gives `s_β u < u` in `W/W_J`, `> 0` gives `s_β u > u`, and `= 0` gives
+the same coset. Construct finite Bruhat intervals in `W/W_J` even when `W_J` is infinite. *Needs:*
+2.1, 2.2; Tau Ceti `CoxeterSystem.existsUnique_isMinimalCosetRep_mul`; RootSystems Layer 3.
+
+- The orbit map `W/W_J → Wλ` is a bijection; the Bruhat order on `W/W_J` is induced from `W`.
+- Each cover in `W/W_J` is a reflection cover by a positive real root.
+
+**Checks.**
+
+- Affine `A_1^(1)`, `λ = Λ_0`: `J = {1}`, `W^J = {1, s_0, s_1 s_0, s_0 s_1 s_0, …}`, a chain.
+- Type `A_2`, `λ = ω_1`: `W/W_J` has three cosets with a linear Bruhat order.
+- `λ = 0`: `J = I`, the quotient is a point.
+
+### Examples
+
+The infinite dihedral group of `A_1^(1)` with its real roots `±α_1 + nδ` and imaginary roots `nδ`; the
+indefinite rank-two group.
+
+### Dependencies
+
+Layers 0–1; Mathlib `Module.reflection`, `CoxeterSystem`; Tau Ceti Coxeter theorems; RootSystems
+Layer 3.
+
+## Layer 3: highest-weight modules and the integrable category O (KM3)
+
+### 3.1 Verma modules and simple highest-weight modules
+
+For `λ ∈ H_Q*` define `vermaRelations R λ` as the elements `ι(cartanElement R x) − λ(x)` and
+`ι(positiveGenerator R i)` of `Enveloping R`, `vermaLeftIdeal R λ` as the left ideal they generate and
+`VermaModule R λ` as the quotient. Prove the generator `v_λ` is nonzero (the left ideal is proper), the
+universal property (a vector `v` of weight `λ` killed by every `e_i` in any module receives a unique
+map `v_λ ↦ v`, the zero vector included), the `U(n^-)`-module isomorphism `U(n^-) ≅ M(λ)`, support in
+`λ − Q_+` and finite weight multiplicities `dim M(λ)_μ = ` the number of root partitions of `λ − μ`
+(Kac, §9.2). Define `cartanAction R M x` as the ℚ-linear action of `ι(cartanElement R x)` on an
+`Enveloping R`-module `M` and `weightSpace R M μ` as the intersection of the eigenspaces of
+`cartanAction R M x` with eigenvalue `μ(x)`. Define `maximalSubmodule R λ` as the sum of all proper
+submodules of `M(λ)`, prove it is proper (every proper submodule lies in `⊕_(μ≠λ) M(λ)_μ`, since
+submodules of weight modules are weight-graded), and define `IrreducibleModule R λ` as the quotient
+`L(λ)`; prove it is simple, every simple highest-weight module of highest weight `λ` is isomorphic to
+it, and `L(λ) ≅ L(μ)` iff `λ = μ` (Kac, §9.2). Prove the finite-type comparison with LieHighestWeight
+Layer 3 and Tau Ceti's `VermaModule`. *Needs:* 1.1, 1.4; Mathlib `Submodule.span`,
+`Submodule.Quotient.module'`, `Module.End.eigenspace`; LieHighestWeight Layer 3.
+
+- `weightSpace R M μ` is a ℚ-subspace; `e_i` maps `M_μ` to `M_(μ+α_i)` and `f_i` to `M_(μ−α_i)`.
+- `M(λ) = ⊕_μ M(λ)_μ` with `M(λ)_λ = ℚ v_λ`.
+- Submodules of a weight module are sums of their weight spaces (diagonalizability of the commuting
+  Cartan actions over ℚ).
+
+**Checks.**
+
+- Type `A_1`, `λ(h) = n ∈ ℕ`: `M(λ)` has basis `f^k v_λ`, `k ≥ 0`, each weight space one-dimensional;
+  `f^(n+1) v_λ` is a highest vector of weight `λ − (n+1)α`, so `maximalSubmodule` is
+  `span{f^k v_λ : k > n}` and `dim L(λ) = n + 1`.
+- Type `A_1`, `λ(h) = −1`: `M(λ)` is simple, `maximalSubmodule = 0`, `L(λ) = M(λ)` is
+  infinite-dimensional.
+- The empty index set on `ℚ^m`: `M(λ) = L(λ)` is one-dimensional with `H` acting by `λ`; the sum of
+  proper submodules is `0`.
+- Affine `A_1^(1)`: `M(λ)_(λ−δ)` has dimension `2` (partitions `δ` and `α_0 + α_1`), the first
+  weight where a Verma module of an affine algebra has a weight space of dimension greater than `1`.
+
+### 3.2 Integrable modules and the Weyl intertwiners
+
+Define integrable modules: weight modules on which every `e_i` and `f_i` is locally nilpotent.
+Construct their finite `sl_2`-strings and prove `L(λ)` is integrable iff `λ(h_i) ∈ ℕ` for all `i`
+(Kac, §§3.5–3.6); for such `λ`, prove `L(λ)` is the quotient of `M(λ)` by the submodule generated by
+the vectors `f_i^(λ(h_i)+1) v_λ`, and that this quotient is integrable by the Serre relations and the
+rank-one commutation formulas (Kac, §§3.5–3.6 and §10.1). On an integrable module construct the
+simple Weyl intertwiners `exp(e_i) exp(−f_i) exp(e_i)` from the locally finite exponentials, with
+their normalization and braid relations (Kac, §3.8); their action on weights is the `W`-action,
+while the chosen lifts on vectors retain sign and toral factors. Prove local nilpotence of every real
+root vector through these intertwiners, and do not claim it for imaginary root vectors. In finite type
+compare with the normalizer action of LieHighestWeight; no canonical lift of every Weyl element is
+asserted. Positive-level affine highest-weight modules are included and are infinite-dimensional: a
+finite-dimensional module of nonzero level is excluded because the trace of a central commutator
+vanishes. *Needs:* 3.1; 2.1; Layer 1 Serre relations.
+
+- The weights of an integrable module form a `W`-stable set with `dim M_(wμ) = dim M_μ`
+  (Kac, §3.7 and §10.1).
+- The intertwiner of `s_i` maps `M_μ` onto `M_(s_i μ)`.
+
+**Checks.**
+
+- Type `A_1`, `λ(h) = 2`: `L(λ)` is three-dimensional; the intertwiner sends `v_λ` to a nonzero
+  multiple of `f^2 v_λ`, of weight `−λ`, so the weight action is `s`; its square acts on a vector of
+  weight `μ` by `(−1)^(μ(h))`, which is `+1` on all of `L(2ω)` and `−1` on all of `L(ω)`: the lift
+  of `s` is not an involution in general.
+- Affine `A_1^(1)`, `λ = Λ_0`: `L(Λ_0)` has level `1`, `dim L(Λ_0)_(Λ_0 − nδ) = p(n)` (the partition
+  numbers) and is infinite-dimensional; the vector `f_1 v_(Λ_0)` is zero since `Λ_0(h_1) = 0`.
+- `λ(h_i) = −1` for some `i`: `L(λ)` is not integrable, since `f_i^k v_λ ≠ 0` for all `k`.
+
+### 3.3 Category O, its integrable part and complete reducibility
+
+Define category `O`: weight modules with finite-dimensional weight spaces whose weights lie in a finite
+union of sets `λ_j − Q_+` (Kac, §9.1); `IsIntegrableO R M` is this together with local nilpotence of
+all `e_i`, `f_i`. Construct kernels, cokernels, finite direct sums, finite tensor products,
+highest-weight morphisms and the change of coefficient field under split-weight hypotheses in `O`; an
+extension of modules in `O` lies in `O` only when its middle term is again a weight module, and a
+Jordan-block extension is excluded. Construct the generalized Casimir operator `Ω` of a minimal
+realization from the form of 1.3 (Kac, §2.5), prove it commutes with `𝔤` on every module in `O` and
+acts on a highest-weight module of highest weight `λ` by `(λ + 2ρ, λ)` (Kac, Theorem 2.6); for an
+enlargement use the central splitting of 1.1 and the Casimir of the minimal sub-realization. Prove
+complete reducibility: every `M` with `IsIntegrableO R M` is semisimple as an `Enveloping R`-module
+and every simple submodule is isomorphic to `L(λ)` for some `λ` with all `λ(h_i) ∈ ℕ` (Kac,
+Theorem 10.7). The route: a simple submodule of an integrable object of `O` has a maximal weight, is
+highest-weight and integrable, hence `L(λ)` with `λ` dominant integral; for comparable dominant
+integral `λ > μ` the scalars `(λ+2ρ,λ) ≠ (μ+2ρ,μ)` separate, since
+`(λ+ρ,λ+ρ) − (μ+ρ,μ+ρ) = Σ_i n_i d_i (λ(h_i) + μ(h_i) + 2) > 0` for `λ − μ = Σ n_i α_i ≠ 0`; extensions
+between incomparable or equal highest weights split by lifting the highest vector; the general object
+is treated through finite local composition series of weight truncations. The finite Killing
+complete-reducibility theorem is never applied to an infinite-dimensional algebra, and semisimplicity
+is not asserted for integrable modules outside `O`. *Needs:* 3.1, 3.2, 1.3; Mathlib
+`IsSemisimpleModule`, `IsSimpleModule`.
+
+- `O` is abelian and closed under finite tensor products; `M(λ)` and `L(λ)` lie in `O`.
+- `Ω` is natural for all morphisms in `O` and preserves weight spaces.
+- The integrable objects of `O` are exactly the direct sums `⊕ L(λ_j)^(m_j)` with `λ_j` dominant
+  integral and the multiplicity function finitely supported on each weight.
+
+**Checks.**
+
+- Type `A_1`, `(ω,ω) = 1/2`, `ρ = ω`: `L(2ω) ⊗ L(ω) ≅ L(3ω) ⊕ L(ω)` with dimensions `6 = 4 + 2`;
+  `Ω` acts by `(3ω + 2ρ, 3ω) = 15/2` and `(ω + 2ρ, ω) = 3/2`, two distinct scalars.
+- Affine `A_1^(1)`: `L(Λ_0) ⊗ L(Λ_0)` lies in integrable `O` with weights bounded by `2Λ_0`, is
+  infinite-dimensional, and is a direct sum of simple modules of level `2`, `L(2Λ_0)` appearing once
+  because the weight space of `2Λ_0` is one-dimensional; no finite-dimensionality argument is used.
+- Negative control: the extension `0 → M(−2ω) → M(0) → L(0) → 0` in type `A_1` lies in `O` and does
+  not split, since `M(0)` is cyclic and indecomposable; the theorem does not apply to it, since
+  `M(0)` is not integrable.
+- The empty index set on `ℚ^1`: `O` is the category of `ℚ`-graded vector spaces with
+  finite-dimensional pieces supported in finitely many points; every object is integrable and
+  semisimple.
+
+### 3.4 Restricted and contravariant duals
+
+Construct the restricted dual `M^∨ = ⊕_μ (M_μ)*` with the action twisted by the Chevalley involution
+so that weights are negated and support lies in a lower cone; the full algebraic dual is a product and a
+different carrier. Construct the contravariant dual through the Chevalley anti-involution, preserving
+highest weights, the normalized contravariant form on `M(λ)` whose radical is `maximalSubmodule R λ`
+(Kac, §9.4), and its simple-quotient comparison. Give evaluation and finite-weight pairings; an
+infinite-dimensional module is not rigid with a finite coevaluation. Compare with LieHighestWeight's
+finite-type duals including universes and chosen generators. *Needs:* 3.1, 1.4; LieHighestWeight
+Layer 3.
+
+- `(M^∨)_μ ≅ (M_(−μ))*`; `L(λ)^∨ ≅ L(−w_0 λ)` in finite type only, where `w_0` exists.
+- The contravariant form on `M(λ)` is symmetric, `U(𝔤)`-contravariant, and nondegenerate on `L(λ)`.
+
+**Checks.**
+
+- Type `A_1`, `λ(h) = 1`, `(v_λ, v_λ) = 1`: `(f v_λ, f v_λ) = (v_λ, e f v_λ) = λ(h) = 1` and
+  `(f^2 v_λ, f^2 v_λ) = (v_λ, e^2 f^2 v_λ) = 0` because `e f^2 v_λ = (f h + h f) v_λ = (1 − 1) f v_λ = 0`,
+  so the radical starts at `f^2 v_λ`.
+- Affine `A_1^(1)`: `L(Λ_0)^∨` is the lowest-weight module of lowest weight `−Λ_0`, not a
+  highest-weight module.
+- The empty index set: both duals are the ordinary dual of a one-dimensional space with weight
+  negated, respectively preserved.
+
+### Examples
+
+`sl_2` Verma modules at integral and non-integral weights; the basic representation `L(Λ_0)` of
+`A_1^(1)` with its partition-number multiplicities; the non-split extension `M(0)` of `L(0)` by
+`M(−2ω)`.
+
+### Dependencies
+
+Layers 0–2; Mathlib module quotients, eigenspaces, semisimple modules; LieHighestWeight Layers 3 and 5
+for comparisons.
+
+## Layer 4: completed characters and the Weyl–Kac formula (KM4)
+
+### 4.1 The cone-supported character ring
+
+For a characteristic-zero field `k` put `H_k = k ⊗_ℚ H_Q`, `Γ_k = H_k*`, and use the injective map
+`j_k : P → Γ_k`; the simple roots and `Q_+` are their images and remain `ℤ`-independent. Define
+`positiveRootCone R` as the additive submonoid of `H_Q*` generated by the `α_i`. Construct the ambient
+upper-cone ring of functions `Γ_k → ℤ` supported in a finite union of sets `λ − Q_+` with arbitrary
+`λ ∈ Γ_k`: addition is coefficientwise; for multiplication prove that for upper bounds `λ, λ'` and a
+target `ξ` the supported pairs `(μ, ν)` with `μ + ν = ξ` are finite, because independence of the
+simple roots makes `λ + λ' − ξ` have at most one expression in `ℕ^I`, and sum their coefficient
+products. Build unit, associativity, distributivity, monomials `e^λ`, shifts, finite truncations, and
+the topology and completion relative to the cones and finite-height truncations. Construct the
+`P`-indexed upper-cone ring and its injective unital ring map to the ambient ring by extension by zero
+along `j_k`; identify its image as the series supported on `j_k(P)`, and never restrict an ambient
+series to `P` and call it the original. Each ambient series is supported in finitely many cosets of
+`j_k(P)`; construct the coset components and their convolution. Finite `Finsupp` carriers are the
+finite-support subrings only. *Needs:* 0.3; Mathlib `Finsupp`, `AddSubmonoid.closure`.
+
+- The ring is commutative with unit `e^0`; `e^λ e^μ = e^(λ+μ)`; the `P`-indexed ring embeds.
+- `∏_(α>0)(1 − e^(−α))^(mult α)` and its inverse are elements of the ambient upper completion.
+
+**Checks.**
+
+- Type `A_1`: `(1 − e^(−α))^(−1) = Σ_(n≥0) e^(−nα)` lies in the completion with upper bound `0`; its
+  product with `1 − e^(−α)` is `e^0`.
+- The supported pairs for `ξ = −2α` between two series bounded by `0` are `(0,−2α), (−α,−α), (−2α,0)`:
+  three pairs, not infinitely many.
+- The empty index set: `Q_+ = 0`, and the ring is the group ring of `Γ_k` with finite support.
+
+### 4.2 Characters of modules
+
+Define `ch M = Σ_μ dim(M_μ) e^μ` in the ambient ring for `M` in category `O`, using
+`Module.finrank ℚ (weightSpace R M μ)`. Prove additivity on short exact sequences in `O`, the tensor
+formula `ch(M ⊗ N) = ch M · ch N`, the scalar-change formula along an embedding of characteristic-zero
+fields under the split-weight hypotheses of 3.3, and that a highest-weight module of highest weight `λ`
+has character supported in `λ − Q_+`. The negative-weight involution sends the upper completion to the
+lower one and gives `ch M^∨ = Σ dim(M_μ) e^(−μ)`; the contravariant dual preserves `ch`. A Weyl element
+transports weights and cones, and an upper-bounded series need not stay in the same upper completion.
+*Needs:* 4.1, 3.1, 3.3, 3.4.
+
+- `ch` is determined on weight modules by the finite dimensions and is injective on isomorphism
+  classes of integrable objects of `O` (by 3.3).
+- For `M` with weights in `j_k(P)` the `P`-indexed character extends by zero to the ambient one.
+
+**Checks.**
+
+- Type `A_1`: `ch L(nω) = e^(nω) + e^((n−2)ω) + ⋯ + e^(−nω)`; `ch M(λ) = e^λ (1 − e^(−α))^(−1)`.
+- Type `A_1`, `P = ℤω`, `λ = ω/2`: `M(ω/2)` has nonzero coefficients at `(1/2 − 2n)ω`, `n ≥ 0`, in the
+  ambient coset completion, and its restriction to `P` is zero and is not its character.
+- A formal evaluation `e^μ ↦ 1` is not a ring map on the completion: it diverges on
+  `(1 − e^(−α))^(−1)`.
+
+### 4.3 The Verma character and the Euler product
+
+Construct the root-multiplicity Euler product `∏_(α>0)(1 − e^(−α))^(mult α)` in the `P`-indexed ring and
+its ambient image, prove it is invertible in the upper completion, and prove
+`ch M(λ) = e^λ ∏_(α>0)(1 − e^(−α))^(−mult α)` for every `λ ∈ Γ_k` coefficientwise (Kac, §9.2, from
+`M(λ) ≅ U(n^-)` and the root-partition basis of 1.4). *Needs:* 4.1, 4.2, 1.4, 3.1.
+
+- `ch M(λ) = e^λ ch M(0)`; multiplication by `e^λ` is the shift.
+
+**Checks.**
+
+- Type `A_1`: `ch M(λ) = Σ_(n≥0) e^(λ − nα)`.
+- Affine `A_1^(1)`: the coefficient of `e^(λ−2δ)` in `ch M(λ)` is `6`, matching the partition count of
+  1.4.
+- A product over real roots only gives coefficient `3` at `e^(λ−2δ)`, which is wrong.
+
+### 4.4 The Weyl–Kac character formula and the denominator identity
+
+For `λ ∈ H_Q*` with every `λ(h_i) ∈ ℕ`, `ρ` with `ρ(h_i) = 1`, and any `μ`, prove
+`weylKac_character_formula`: the family `w ↦ dim M(w ∘ λ)_μ` on `weylGroup R` has finite support, and
+
+    dim L(λ)_μ = Σ_(w ∈ W) (−1)^ℓ(w) dim M(w(λ+ρ) − ρ)_μ,
+
+which in the `P`-indexed ring is
+`ch L(λ) · ∏_(α>0)(1 − e^(−α))^(mult α) = Σ_(w ∈ W)(−1)^ℓ(w) e^(w(λ+ρ)−ρ)` (Kac, Theorem 10.4).
+Prove `w(λ+ρ) − ρ ∈ j_k(P)` using `wρ − ρ ∈ Q`, local finiteness of the alternating sum (only the
+finitely many `w` with `w(λ+ρ) ≥ μ + ρ` contribute, since `λ + ρ` is regular dominant and
+`{ν ∈ Q_+ : ν ≤ λ − μ}` is finite), independence of the allowed central choices of `ρ`, and equality
+in the `P`-completion and its ambient image. The route is Kac's: the Casimir of 3.3 forces
+`ch L(λ) ∏(1−e^(−α))^(mult α)` to be a combination of `e^(ν)` over the finite set of `ν ≤ λ` with
+`(ν+ρ,ν+ρ) = (λ+ρ,λ+ρ)`, and `W`-antisymmetry from 3.2 fixes the coefficients. Derive the denominator
+identity as the case `λ = 0`, `∏_(α>0)(1 − e^(−α))^(mult α) = Σ_w (−1)^ℓ(w) e^(wρ−ρ)`, and compare the
+finite-type Weyl character formula with LieHighestWeight Layer 6. For an enlargement the formula holds
+verbatim through the central splitting of 1.1, the extra central directions acting by the scalar
+`λ(z)` on every weight space. *Needs:* 4.3, 3.1–3.3, 2.1, 1.3; LieHighestWeight Layer 6.
+
+- The alternating sum is `W`-antisymmetric under the dot action and supported on `j_k(P)`.
+- `dim L(λ)_(wμ) = dim L(λ)_μ`.
+
+**Checks.**
+
+- Type `A_1`, `λ = nω`: `W = {1, s}`, `s ∘ λ = −(n+2)ω`, and
+  `dim L(nω)_μ = dim M(nω)_μ − dim M(−(n+2)ω)_μ` gives `1` for `μ ∈ {nω, (n−2)ω, …, −nω}` and `0`
+  below, since `M(−(n+2)ω)_μ` is nonzero exactly for `μ ≤ −(n+2)ω`; a sign error gives `2` at
+  `μ = −(n+2)ω`.
+- Affine `A_1^(1)`, `λ = Λ_0`, `μ = Λ_0 − δ`: `dim M(Λ_0)_(Λ_0−δ) = 2`; `s_0 ∘ Λ_0 = Λ_0 − 2α_0` and
+  `(Λ_0 − 2α_0) − μ = α_1 − α_0 ∉ Q_+`, so `s_0` contributes `0`; `s_1 ∘ Λ_0 = Λ_0 − α_1` contributes
+  `−dim M(Λ_0−α_1)_(Λ_0−δ) = −1`; longer words contribute `0`; the sum is `2 − 0 − 1 = 1 = p(1)`.
+- Denominator identity in type `A_1`: `1 − e^(−α) = e^0 − e^(sρ − ρ)` with `sρ − ρ = −α`.
+- The empty index set: `W = 1`, `L(λ) = M(λ)`, and the formula reads `1 = 1` at `μ = λ`.
+
+### 4.5 The affine homogeneous grading
+
+In affine type construct the level `λ(c)` and the homogeneous degree grading of 1.5 with the finite
+simple roots of degree `0` and `α_0` of degree `1`. For integral dominant `λ` prove every
+homogeneous-degree piece of `L(λ)` is finite-dimensional (Kac, Chapter 12: the degree-`n` piece is a
+finite sum of weight spaces, since the finite-Levi module generated by a weight space of degree `n` is
+finite-dimensional by integrability). Do not assert this for Verma modules or all of `O`: in
+`A_1^(1)` the vectors `f_1^n v_λ`, `n ≥ 0`, are independent in the top degree of `M(λ)`. Analytic
+convergence of characters is a separate specialization condition. *Needs:* 4.2, 3.2, 1.5.
+
+**Checks.**
+
+- `L(Λ_0)`: the weight `Λ_0 − aα_0 − bα_1 = Λ_0 + (a−b)α_1 − aδ` has degree `a`, and
+  `dim L(Λ_0)_(Λ_0 + mα_1 − (m^2+k)δ) = p(k)`, so the degree-`a` piece has dimension
+  `Σ_m p(a − m^2)`: `1` in degree `0` and `3` in degree `1`.
+- `M(Λ_0)`: the degree-`0` piece is infinite-dimensional.
+
+### Examples
+
+`ch L(nω)` for `sl_2`, the basic representation of `A_1^(1)` with `Σ p(n) q^n`, and the denominator
+identity of `A_1^(1)` as the Jacobi triple product.
+
+### Dependencies
+
+Layers 0–3; Mathlib `Finsupp`, `finsum`; LieHighestWeight Layer 6 for the finite comparison.
+
+## Layer 5: path representatives, root operators and LS paths (KM6)
+
+### 5.1 Paths and reparametrization classes
+
+Construct finite continuous piecewise-linear paths `π : [0,1] → P_ℝ` with `π(0) = 0` and `π(1) ∈ P`,
+with specified finite subdivisions, including rational polygonal representatives and the real
+piecewise-linear carrier. Define reparametrization equivalence `π ∼ π ∘ r` for continuous nondecreasing
+surjective piecewise-linear `r : [0,1] → [0,1]`, with common refinement, insertion and removal of
+constant pauses, and the quotient. Prove that endpoints, height minima and endpoint-height differences
+descend, that full height functions and prefix and suffix records are representative-level with the
+covariance `H_(π∘r) = H_π ∘ r`, and that root-operator outputs descend through this covariance.
+Define concatenation `π * η`, first `π` then `π(1) + η`, with its time rescaling and associator.
+*Needs:* 0.3; Mathlib continuous maps, `Convex`.
+
+- `∼` is an equivalence relation; concatenation is associative on classes with the constant path as
+  unit.
+- Rational polygonal representatives are dense in the classes used by 5.3.
+
+**Checks.**
+
+- The constant path and the path `t ↦ 0` with a pause are equivalent; the constant path is not the zero
+  symbol.
+- In rank one `P_ℝ = ℝω`, the path with heights `0, 6/5, 1/5, 1` at times `0, 1/3, 2/3, 1` has
+  `min H = 0` and `H(1) = 1`.
+- Concatenating `t ↦ tω` with itself gives `t ↦ 2tω` up to reparametrization.
+
+### 5.2 Root operators in record form and the two-cut form
+
+For a simple coroot `h_i` put `H(t) = ⟨π(t), h_i⟩`, `m = min H`, suffix record
+`S(t) = min_(t≤u≤1) H(u)` and prefix record `P(t) = min_(0≤u≤t) H(u)`. If `H(1) − m ≥ 1` set
+`L(t) = min(1, S(t) − m)` and `f_i π(t) = π(t) − L(t) α_i`, else `f_i π = 0`; if `m ≤ −1` set
+`R(t) = 1 − min(1, P(t) − m)` and `e_i π(t) = π(t) + R(t) α_i`, else `e_i π = 0` (Littelmann's
+operators; Lenart–Postnikov §9, Remark 9.2 and §10). Construct the records on finite subdivisions with
+nonmonotone segments, plateaus and equal extrema; prove the output reflects exactly the increasing
+suffix-record pieces for `f_i` and the decreasing prefix-record pieces for `e_i`, leaving hills and
+valleys outside the records untouched; prove piecewise linearity, subdivision independence, endpoint
+shifts by `∓α_i`, partial inverses `e_i f_i π = π` when `f_i π ≠ 0`, and reparametrization invariance.
+Prove the two-cut formula under its monotonicity hypothesis (Lenart–Postnikov §9, lines 915–924 and
+933–937): for `f_i` take the last minimum `t_0` and the first `t_1` after which `H ≥ m + 1`, require
+`H` weakly increasing on `[t_0, t_1]`, reflect that interval's displacement by `s_i` and translate the
+tail by `−α_i`; for `e_i` the first minimum and the last time before which `H ≥ m + 1`, with `H`
+weakly decreasing. Prove the monotonicity for LS paths. *Needs:* 5.1; 2.1.
+
+- `ε_i(π) = −min H_i`, `φ_i(π) = H_i(1) − min H_i` when the minimum is integral; `wt(f_i π) = wt π − α_i`.
+- `f_i^k π ≠ 0` iff `k ≤ φ_i(π)`, `e_i^k π ≠ 0` iff `k ≤ ε_i(π)` on paths with integral minima.
+
+**Checks.**
+
+- Rank one, the dominant path with heights `0, 6/5, 1/5, 1`: the two-cut recipe, reflecting from the
+  last minimum to the first hit of `1` and translating the whole tail, produces a minimum below `−1`
+  and fails `e f π = π`; the record formula keeps the hill and gives minimum `−1`.
+- The straight path `t ↦ tω` in rank one: `f π = (t ↦ −tω)`, the reflection of the whole path, and
+  `e π = 0`.
+- An integral global minimum alone is insufficient for the two-cut form: a path with heights
+  `0, 1, 0, 1, 2` has `m = 0` but is not monotone between the cuts.
+
+### 5.3 LS paths and their chain description
+
+For `λ ∈ P^+` define the straight path `t ↦ tλ` and `B_path(λ)` as the set of paths obtained from it
+by the lowering operators `f_i`. Construct rational LS representatives: slopes in `Wλ`, positive
+rational durations summing to `1`, strictly decreasing distinct minimal cosets of 2.3, merged repeated
+adjacent slopes, and for each breakpoint `a` an `a`-chain in the parabolic Bruhat interval (a saturated
+chain `ξ_0 > ξ_1 > ⋯` of orbit weights with `ξ_h = s_(β_h) ξ_(h−1)`, `β_h` positive real,
+`⟨ξ_(h−1), β_h^∨⟩ < 0` and `a⟨ξ_(h−1), β_h^∨⟩ ∈ ℤ`; Kanakubo §3.1 and Lenart–Postnikov §9). Prove
+uniqueness of the distinguished representative after merging, using orbit uniqueness in the dominant
+chamber rather than a positive-definite norm, and prove the LS paths are exactly the elements of
+`B_path(λ)` (Littelmann 1994, the LS-chain characterization; Lenart–Postnikov §9, lines 931–941).
+Intervals are finite although the orbit can be infinite. *Needs:* 5.2; 2.3, 2.2.
+
+- Every LS path has integral local minima of all `H_i`, so the two-cut form applies.
+- `B_path(λ)` has the unique highest element `t ↦ tλ` and is generated from it by lowering.
+
+**Checks.**
+
+- Rank one, `λ = nω`: the LS paths are the `n + 1` paths with a single break at `j/n`, `0 ≤ j ≤ n`,
+  slopes `nω` then `−nω`; `n = 0` gives the constant path alone.
+- Affine `A_1^(1)`, `λ = Λ_0`: the decreasing cover `s_0 > 1` of `W/W_J` has
+  `⟨s_0Λ_0, h_0⟩ = 1 − 2 = −1`, so an `a`-chain across it needs `a ∈ ℤ` and no LS path of `Λ_0` has a
+  break between the slopes `s_0Λ_0` and `Λ_0`; `B_path(Λ_0)` is infinite, with weight fibres of size
+  `p(k)` over `Λ_0 + mα_1 − (m^2+k)δ` by 6.2.
+- Type `A_2`, `λ = ω_1 + ω_2`: `|B_path(λ)| = 8` with two paths of endpoint `0`.
+
+### 5.4 Bonds, interval gcds and convexity
+
+Construct the bond on a decreasing cover `u > v = s_β u` of `W/W_J`, `b_λ(u,v) = −⟨uλ, β^∨⟩`, positive
+for distinct orbit weights, the chain-independent interval gcd `d_λ(u,v)` with `d_λ(u,u) = 0`, and the
+comparison: for `a = p/q` in lowest terms an `a`-chain from `u` to `v` exists iff `q` divides
+`d_λ(u,v)`, in which case every saturated chain is an `a`-chain (Chirivì–Fang–Littelmann, Definition
+2.1 and §7.1, attributing the condition to Dehy). Reduce chain independence to quotient-chain
+connectivity by rank-two replacements and rank-two root and coroot calculations; wall cosets and
+non-simply-laced data are included; the finite theorem of SchubertGeometry S4 is the comparison case.
+Prove convexity: for a normalized LS representative `π(t) ∈ t·Conv(Wλ)` by the elapsed slope durations,
+`π(0) = 0`, and when `0 ∈ Conv(Wλ)` the unscaled inclusion for `0 ≤ t ≤ 1`; a nonzero `W`-fixed
+`λ` has orbit `{λ}` and path `tλ`. Prove the strict-sign wall and Bruhat lifting statements of 2.3 used
+when a root operator changes adjacent directions. Construct typed central translation on normalized
+representatives as in SchubertGeometry S4. *Needs:* 5.3, 2.3; Mathlib `Convex.sum_mem`,
+`subset_convexHull`; SchubertGeometry S4; Chirivì–Fang–Littelmann Definition 2.1.
+
+**Checks.**
+
+- Affine `A_1^(1)`, `λ = Λ_0`, cover `s_0 > 1` with `β = α_0`: `b = −⟨s_0Λ_0, h_0⟩ = 1`, so
+  `d_λ(s_0, 1) = 1` and only integral breaks occur, matching 5.3.
+- Type `A_1`, `λ = nω`, cover `s > 1`: `b = −⟨sλ, α^∨⟩ = n`, `d_λ(s,1) = n`, and the breaks `j/n` are
+  exactly the allowed ones.
+- Convexity: for `λ = Λ_0`, `0 ∉ Conv(WΛ_0)` since every element pairs to `1` with `c`, so only the
+  scaled inclusion holds.
+
+### Examples
+
+The rank-one strings, the `A_2` adjoint crystal with eight paths, the infinite `B_path(Λ_0)` of
+`A_1^(1)`.
+
+### Dependencies
+
+Layers 0 and 2 only (no module, character, flag or divisor theorem is an input); Mathlib convexity;
+SchubertGeometry S4 and Chirivì–Fang–Littelmann for the comparison case.
+
+## Layer 6: the endpoint theorem, character identity and decomposition rules (KM7)
+
+### 6.1 The endpoint theorem
+
+For every path `π` in the carrier of 5.1 whose image lies in the dominant chamber and whose endpoint is
+`λ ∈ P^+`, construct the strict crystal isomorphism (preserving weights, both partial operators and the
+string functions `ε_i, φ_i`) from the component generated by `π` to `B_path(λ)`, sending `π` to the
+straight path (Littelmann 1995, independence of the initial dominant path; Lenart–Postnikov §9, lines
+938–941). Prove independence of the lowering-word choices and the linking, stretching, subdivision,
+gluing and rank-two compatibilities used, on the real piecewise-linear carrier with the record
+operators; a rational approximation is not an equality of paths nor a proof that operators commute
+with limits. *Needs:* 5.2, 5.3; 2.1.
+
+**Checks.**
+
+- Rank one: the dominant path with heights `0, 6/5, 1/5, 1` generates a component isomorphic to the
+  two-element string `B_path(ω)`.
+- The straight path to `0` generates the one-element crystal.
+- Rank one, the path with heights `0, −1, 1` at times `0, 1/2, 1`: its endpoint is `ω` but `e π` has
+  heights `0, 1, 3`, so its component is `B_path(3ω)`, not `B_path(ω)`; the dominance hypothesis is
+  necessary.
+
+### 6.2 Path multiplicities are weight multiplicities
+
+Prove that the number of paths in `B_path(λ)` with endpoint `μ` is finite and equals
+`dim L(λ)_μ` of 3.1, so `Σ_(π ∈ B_path(λ)) e^(π(1)) = ch L(λ)` in the ring of 4.1 (Littelmann 1995,
+the character formula; Lenart–Postnikov equation (9.2)). The route is combinatorial: `B_path(λ)` is a
+semiperfect crystal with a coherent timing pattern, hence an admissible system in Stembridge's sense,
+and the generating function of an admissible system is the Weyl–Kac character of 4.4
+(Lenart–Postnikov Proposition 3.2 and Theorem 3.3, stated there for symmetrizable Kac–Moody algebras).
+Prove the unique highest element and lowering generation. The entire path set may be infinite.
+*Needs:* 6.1, 5.3, 4.4.
+
+**Checks.**
+
+- Rank one, `λ = nω`: `n + 1` paths with endpoints `nω, (n−2)ω, …, −nω`, each once.
+- Type `A_2`, `λ = ω_1 + ω_2`: two paths end at `0`, matching `dim L(ω_1+ω_2)_0 = 2`.
+- Affine `A_1^(1)`, `λ = Λ_0`, `μ = Λ_0 − δ`: exactly one path, matching `p(1) = 1` from 4.4.
+
+### 6.3 Littlewood–Richardson and Levi branching rules
+
+For dominant `λ, μ` prove the decomposition of the concatenation `B_path(λ) * B_path(μ)` into
+components indexed by the paths `η ∈ B_path(μ)` with `λ + η(t)` dominant for every `t`, with
+endpoints `λ + η(1)`, hence `ch L(λ) · ch L(μ) = Σ_η ch L(λ + η(1))` and, by 3.3,
+`L(λ) ⊗ L(μ) ≅ ⊕_η L(λ + η(1))` with each `L(ν)` of finite multiplicity (Littelmann 1994, the
+Littlewood–Richardson rule for symmetrizable Kac–Moody algebras; the character identity is the first
+equation of Lenart–Postnikov Theorem 3.3). Route: each component of the concatenation contains a
+highest path, which is `λ * η` with `λ + η(t)` dominant, and is isomorphic to `B_path(λ + η(1))` by 6.1.
+For each `J ⊆ I` prove the Levi restriction rule through the `J`-dominant chamber with the full
+restricted Cartan weights (Lenart–Postnikov Corollary 3.4). The sum may be infinite while each weight
+multiplicity is finite. *Needs:* 6.2, 6.1, 5.1, 3.3.
+
+**Checks.**
+
+- Rank one: `B_path(ω) * B_path(ω)` has components with endpoints `2ω` and `0`, from the paths `η`
+  whose heights stay `≥ −1`: `L(ω) ⊗ L(ω) ≅ L(2ω) ⊕ L(0)`.
+- Affine `A_1^(1)`: `L(Λ_0) ⊗ L(Λ_0)` decomposes with infinitely many components, the straight
+  `η` giving `L(2Λ_0)` once, consistent with 3.3.
+- Levi restriction of `L(ω_1)` of `A_2` to `J = {1}`: `L(ω) ⊕ L(0)` with the central coordinate
+  retained.
+
+### 6.4 Finite-type specializations
+
+Specialize finite root data to SchubertGeometry S4 with its exact quotient and central offsets: the
+record operators, LS chains, bonds and gcds of Layer 5 restrict to S4's finite-type objects, and the
+component, character and tensor theorems of 6.1–6.3 restrict to S4 item 4. State the type-A examples
+on paths: in rank one `λ = nω` has exactly `n + 1` vertices with breaks `j/n`, and for `SL_3` and
+`λ = ω_1 + ω_2` the eight paths of 5.3 are listed with their LS chains, including the two distinct
+zero-weight paths and all eight lowering edges. Give the factor-reversal comparison between the
+convention of 6.3 (`e_i` on the first factor iff `φ_i(first) ≥ ε_i(second)`, `f_i` iff `>`) and
+the opposite convention (`e` first iff `ε(first) > φ(second)`, `f` first iff `≥`): a reversal of
+tensor factors, not an equality of literal words. The identification of these type-A path crystals
+with a tableau model is not stated here. None of these finite examples substitutes for the affine or
+indefinite construction. *Needs:* 6.1–6.3; SchubertGeometry S4.
+
+**Checks.**
+
+- `SL_3`, `λ = ω_1 + ω_2`: the two zero-weight paths are `f_1 f_2 π_λ` and `f_2 f_1 π_λ`, distinct;
+  the lowering edges are four of colour `1` and four of colour `2`, the two `1`-strings of length
+  `3` and `1` through the zero-weight paths matching the two `2`-strings of length `1` and `3`.
+- Rank one `n = 2`: three vertices and two lowering edges.
+- Rank one, `B_path(ω) * B_path(ω)`: the highest element of the trivial component is
+  `π_ω * π_(−ω)` in the convention of 6.3 and `π_(−ω) * π_ω` in the opposite convention, since
+  `φ(π_ω) = 1 ≥ ε(π_(−ω)) = 1` sends `e` to the first factor in the former and
+  `ε(π_(−ω)) = 1 > φ(π_ω) = 1` fails in the latter.
+
+### Examples
+
+The `A_2` adjoint crystal, the rank-one strings, and the basic representation of `A_1^(1)` through
+its path model.
+
+### Dependencies
+
+Layers 2–5; SchubertGeometry S4; Littelmann 1994 and 1995 as restated in Lenart–Postnikov §§3 and 9
+and Kanakubo §3.
+
+## Layer 7: the minimal group, finite Schubert schemes and the Chevalley–Pieri formula (KM8)
+
+### 7.1 The minimal split Kac–Moody group
+
+Over an algebraically closed field of characteristic zero construct the minimal split Kac–Moody group
+of the lattice realization `(P, Y)`: the torus `T = Y ⊗ 𝔾_m`, real-root one-parameter subgroups
+`x_α(u)` for real roots `α`, the Tits relations (torus action `t x_α(u) t^(−1) = x_α(α(t)u)`,
+prenilpotent-pair commutators, `s_α(u) = x_α(u) x_(−α)(−u^(−1)) x_α(u)` and its conjugation of root
+groups), built from the integrable-module actions of 3.2 and proved independent of lifts, with the
+specified central kernel comparisons; standard Borel `B^+` and parabolics `P_J`; root-group
+injectivity, torus and root-group intersection, and the Bruhat and Birkhoff decompositions (Kac,
+§3.8 for the exponentials; Garland §§7–8 for the representation-theoretic construction in the affine
+case). No valued-field masure or analytic Lie-group assertion is inferred. *Needs:* 3.2, 2.1, 1.2;
+Mathlib `AlgebraicGeometry.Scheme`.
+
+**Checks.**
+
+- Type `A_1`: the group is `SL_2`; `s_α(1) = [[0,1],[−1,0]]`.
+- Affine `A_1^(1)`: the derived group of Layer 8 maps onto `SL_2(ℂ[t,t^(−1)])`.
+- The empty index set: the group is the torus `T`.
+
+### 7.2 Finite Schubert schemes and Bott–Samelson resolutions
+
+Construct the flag ind-space from the finite Bruhat pieces `X_w`, the closures of `B^+ w B^+/B^+`,
+the reduced-word Bott–Samelson maps `Z_(w) → X_w`, scheme structures, projectivity and boundary
+comparisons. For dominant `λ` use the stabilizer parabolic of the highest line of `L(λ)` and the
+orbit map of each finite piece into the projectivization of the finite-dimensional Demazure span
+`U(b^+)·v_(wλ)`, so projective coordinates and Cartier divisors live on finite-dimensional schemes.
+Pin the sign convention: with `B^+` killing the highest vector, the tautological line has fibre weight
+`λ` and `O(1)` has weight `−λ`; an extremal coordinate `p_τ` is a restricted-dual covector pairing to
+`1` with the chosen extremal vector `v_(τλ)`. Compare `B^+` with SchubertGeometry's opposite-Borel
+convention by Chevalley opposition without a longest element. Compare every finite-type piece with the
+existing finite flag owners. *Needs:* 7.1, 3.1, 3.4; SchemeAndStackFoundations §5.1.
+
+**Checks.**
+
+- Type `A_1`: `X_s = ℙ^1`, `O(1)` of weight `−ω` is `O_(ℙ^1)(1)`.
+- Affine `A_1^(1)`, `w = s_0`: `X_(s_0) ≅ ℙ^1` inside the ind-space of `L(Λ_0)`.
+- Demazure spans are finite-dimensional even though `L(Λ_0)` is not: `U(b^+) v_(s_0 Λ_0)` is
+  two-dimensional.
+
+### 7.3 The Chevalley–Pieri formula
+
+For the Schubert variety `X_w` and a dominant `λ`, prove that the divisor of the extremal section
+`p_(wλ)` of the line bundle `L_λ` restricted to `X_w` equals `Σ_β |⟨wλ, β^∨⟩| [X_(s_β w)]`, the sum
+over positive real roots `β` with `s_β w < w` and `ℓ(s_β w) = ℓ(w) − 1`; the Weyl element in the
+coefficient is `w`, the Schubert variety's own, and writing `s_β w = w s_γ` with `γ = −w^(−1)β > 0` the
+coefficient is `⟨λ, γ^∨⟩`, SchubertGeometry S7's form. Hence
+`c_1(L_λ) ∩ [X_w] = Σ_β ⟨λ, γ_β^∨⟩ [X_(s_β w)]` in the Chow group of `X_w` (Kumar, *Kac–Moody
+groups, their flag varieties and representation theory*, Chapter 11, the Chevalley formula;
+Kostant–Kumar, *The nil Hecke ring and cohomology of G/P for a Kac–Moody group G*, 1986). Route: pull
+the section back to a reduced-word Bott–Samelson resolution; for each prime word-boundary divisor
+construct its rank-one transverse chart at the generic point, identify the local parameter and the
+order of the section as a unit times a power of the parameter; compare the orders with the root and
+coroot pairings in the declared Borel convention; push the divisor cycle down along the proper
+resolution with the generic residue-field degrees and the vanishing of contracted divisors
+(SchemeAndStackFoundations §5.2); conclude with the Cartier–Weil comparison and the first-Chern
+projection formula (§§5.1, 5.3). Boundary components are not assumed Cartier; no Schubert-normality
+theorem is assumed; properness is retained for every pushforward. *Needs:* 7.2, 2.2, 2.3;
+SchemeAndStackFoundations §§5.1–5.3; SchubertGeometry S7.
+
+**Checks.**
+
+- Type `A_1`, `w = s`, `λ = nω`: `s_α s = 1`, coefficient `|⟨sλ, α^∨⟩| = n`, so the divisor of
+  `p_(−nω)` on `ℙ^1` is `n` times the point `X_1`: the degree of `O(n)`.
+- Type `A_2`, `w = s_1 s_2`, `λ = ω_1`, `wλ = −ω_2`: the boundary components are `X_(s_1)`, with
+  `β = θ` and coefficient `|⟨−ω_2, θ^∨⟩| = 1`, and `X_(s_2)`, with `β = α_1` and coefficient
+  `|⟨−ω_2, α_1^∨⟩| = 0`; the zero coefficient must be kept, and `X_(s_2)` is contracted to a point by
+  the orbit map into `ℙ(L(ω_1)) = ℙ^2`.
+- Affine `A_1^(1)`, `w = s_1 s_0`, `λ = Λ_0`, `wΛ_0 = Λ_0 − α_0 − 2α_1`: the boundary components are
+  `X_(s_1)`, with `β = α_0 + 2α_1`, `β^∨ = h_0 + 2h_1` and coefficient `|1 + 2 − 4| = 1`, and
+  `X_(s_0)`, with `β = α_1` and coefficient `|0 + 2 − 4| = 2`; the `γ` form gives the same values
+  `⟨Λ_0, h_0⟩ = 1` and `⟨Λ_0, h_1 + 2h_0⟩ = 2`.
+
+### Examples
+
+`ℙ^1`, the flag variety of `SL_3`, and the first affine Schubert varieties of `A_1^(1)`.
+
+### Dependencies
+
+Layers 1–3; SchemeAndStackFoundations §§5.1–5.3; SchubertGeometry S7; Mathlib schemes.
+
+## Layer 8: the untwisted derived group and polynomial loops (KM8A)
+
+### 8.1 Polynomial loop groups on complex points
+
+Let `G_sc` be the pinned simply connected split group scheme of ReductiveGroups Layer 9, simple with
+Lie algebra `g`, finite root datum `(X, Φ, Y, Φ^∨)`, Borel `B^+` and root subgroups `x_α`. Define the
+polynomial loop group `G_sc(ℂ[t,t^(−1)])` and the positive loop group `G_sc(ℂ[t])` as the points of
+`G_sc` over these ℂ-algebras (ReductiveGroups Layer 0), the root elements `x_α(u t^n)` for `u ∈ ℂ`,
+`n ∈ ℤ`, the torus `T(ℂ)`, the evaluation `ev_0 : G_sc(ℂ[t]) → G_sc(ℂ)` at `t = 0` and the Iwahori
+subgroup `I = ev_0^(−1)(B^+(ℂ))`. Prove that `G_sc(ℂ[t,t^(−1)])` is generated by the `x_α(u t^n)`, and
+satisfies the relations of Garland's presentation of the Chevalley group over `𝒮 = k[t,t^(−1)]`
+(Garland §10, lines 1800–1814: the relations (A), (B), (C) and the identification with the
+`𝒮`-points), prove the affine Bruhat decomposition `G_sc(ℂ[t,t^(−1)]) = ⊔_(w ∈ W_aff) I ẇ I` over the
+affine Weyl group with the real-root conjugation formulas `t^μ x_α(u t^n) t^(−μ) = x_α(u t^(n+α(μ)))`
+for `μ ∈ Y` (Garland §§11 and 13–14, Theorem 14.10, through the image of the Tits system of the
+central extension), and deduce that `G_sc(ℂ[t])` is generated by `I` and the finite negative simple
+root subgroups, since `G_sc(ℂ[t]) = ev_0^(−1)(G_sc(ℂ))` and `G_sc(ℂ) = ⊔_(w ∈ W) B^+ ẇ B^+`. Only
+complex points are treated; no functorial statement over other coefficient rings is made. *Needs:*
+1.5, 2.1; ReductiveGroups Layers 0 and 9.
+
+- The affine positive-root bounds: `x_α(u t^n) ∈ I` iff `n ≥ 0` for `α > 0` and `n ≥ 1` for `α < 0`.
+- `I ∩ G_sc(ℂ) = B^+(ℂ)` and `I` contains the kernel of `ev_0`.
+
+**Checks.**
+
+- `SL_2`: `x_α(u t^n) = [[1, u t^n],[0,1]]`, `x_(−α)(u t^n) = [[1,0],[u t^n,1]]`; the matrix
+  `[[t,0],[0,t^(−1)]] = x_α(t) x_(−α)(−t^(−1)) x_α(t) · x_α(−1) x_(−α)(1) x_α(−1)` is a product of root
+  elements, so the torus of `ℂ[t,t^(−1)]`-points is in the generated subgroup.
+- `SL_2`: the Iwahori `I` is the set of matrices `[[a,b],[c,d]]` in `SL_2(ℂ[t])` with `c(0) = 0`;
+  `[[0,1],[−1,0]] ∉ I` and `[[1,0],[t,1]] ∈ I`.
+- A torus `𝔾_m`: `𝔾_m(ℂ[t,t^(−1)]) = ℂ^× × t^ℤ`, not generated by any root element, which is why
+  generation is asserted for the simply connected simple `G_sc` only.
+
+### 8.2 The homomorphism from the minimal derived group
+
+Over ℂ take the untwisted affine derived datum of `G_sc`: the affine simple coroots are independent,
+the central coroot `c = Σ a_i^∨ h_i` is primitive, and no degree or rotation torus is in the derived
+group. Construct the homomorphism from Layer 7's minimal derived affine group to `G_sc(ℂ[t,t^(−1)])` on
+generators: `x_(α+nδ)(u) ↦ x_α(u t^n)` for finite roots `α` and `n ∈ ℤ`, finite simple coroots to the
+constant coroots, `h_0 ↦ −θ^∨` on cocharacters with `θ` the highest finite root. Pin the highest-root
+root-group signs by the rank-one Chevalley relations; prove the real-root, torus, prenilpotent
+commutator and Weyl-lift relations and independence of words (Garland §§7–8 and Lemma 10.1; Kac,
+Theorem 7.4 at the Lie algebra level). The root-group formulas alone do not construct a homomorphism.
+*Needs:* 8.1, 7.1, 1.5.
+
+**Checks.**
+
+- `x_(−θ+δ)(u) = x_(−θ)(ut)` and `x_(θ−δ)(v) = x_θ(v t^(−1))`: differentiating their commutator
+  relation reproduces `h_0 ↦ K − θ^∨` of 1.5.
+- `SL_2`: `x_(α_1+nδ)(u) = [[1, u t^n],[0,1]]`, `x_(−α_1+nδ)(u) = [[1,0],[u t^n, 1]]`.
+- The degree torus `t ↦ at` is not in the image: it acts on `ℂ[t,t^(−1)]` and belongs to the rotation
+  extension.
+
+### 8.3 Image and central kernel
+
+Prove the image is the whole polynomial loop group `G_sc(ℂ[t,t^(−1)])`, by the generation statement of
+8.1, and the kernel is exactly the central `ℂ^×` supplied by `c`, with the inclusion, injectivity and
+exactness equations, using the real-root presentation of 7.1 and the affine Bruhat decomposition of
+8.1, not a splitting of the finite Weyl normalizer (Garland (11.3)–(11.5): the kernel lies in the
+torus; §12, Lemma 12.19 and Theorems 12.24 and 12.26: the kernel is generated by the symbols
+`b_α(σ,τ)`, identified with the tame symbol; Kumar, Chapter 13, for the minimal-group form). For a
+product of simple components construct one kernel per component. The degree torus belongs to the
+semidirect extension by loop rotations and is not mapped into `G_sc(ℂ[t,t^(−1)])`. Give the
+change-of-parameter and inverse-coordinate transports with their signs. *Needs:* 8.2, 8.1.
+
+**Checks.**
+
+- `SL_2`: the element `h_0(a) h_1(a)`, `a ∈ ℂ^×`, of the derived torus maps to
+  `(−θ^∨)(a) · θ^∨(a) = 1`, so the cocharacter `c = h_0 + h_1` spans the kernel, a central `ℂ^×`.
+- A product `SL_2 × SL_2`: the kernel is `ℂ^× × ℂ^×`, one factor per component.
+- The map is not injective on the torus: `T_der` has rank `ℓ + 1` while the image torus has rank `ℓ`.
+
+### 8.4 Iwahori, parabolic and global-form dictionary
+
+Identify the affine Borel of the derived group with the inverse image of the Iwahori `I` of 8.1 under
+the map of 8.2, and the standard parabolic omitting the extending node with the inverse image of
+`G_sc(ℂ[t])`; on a product omit every component's extending node. Prove the maps and kernels on these
+subgroups and on the resulting coset spaces `G_sc(ℂ[t,t^(−1)])/I` and `G_sc(ℂ[t,t^(−1)])/G_sc(ℂ[t])`,
+before comparing finite Bruhat pieces with Layer 7. Maximality is asserted only for an irreducible
+affine component. For a connected reductive target `G` construct the induced maps through its derived
+central isogeny and central torus and identify image, kernel and component maps on the lattice data of
+its root datum: `Y`, `Q^∨` and `Y/Q^∨`; a simply connected derived loop group need not cover all
+components of an adjoint or reductive loop group, `SL_2 → PGL_2` missing the parity component. Do not
+replace `Y` by `Q^∨`, assert an integral central or derived splitting, or infer a universal `ℂ^×`
+kernel for a different global form. The degree torus acts by `t ↦ at` and belongs to the semidirect
+extension by loop rotations. *Needs:* 8.3, 8.1, 7.2; ReductiveGroups Layer 9.
+
+**Checks.**
+
+- `SL_2`: the inverse image of `I` is the affine Borel generated by `T` and the root groups of
+  `α_1`, `−α_1 + nδ` (`n ≥ 1`) and `α_1 + nδ` (`n ≥ 0`).
+- `PGL_2(ℂ[t,t^(−1)])` has two components indexed by `Y/Q^∨ = ℤ/2`; the image of the derived
+  `SL_2`-loop group is the identity component.
+- A torus target `G = 𝔾_m`: no extending node, the loop group is `ℂ[t,t^(−1)]^×`, treated through
+  the torus functor directly.
+
+### Examples
+
+`SL_2(ℂ[t,t^(−1)])` and its central extension; the parity component of `PGL_2`.
+
+### Dependencies
+
+Layers 1 and 7; ReductiveGroups Layers 0 and 9; Garland §§7–14.
+
+## Layer 9: worked comparisons (KM9)
+
+### 9.1 The reference computations
+
+Give the empty index set with an independent central enlargement; finite `A_1` and `A_2` comparisons
+including the two adjoint zero weights; the singular affine `A_1^(1)` realization with a positive-level
+highest-weight module of infinite dimension and finite weight pieces; and an indefinite rank-two
+matrix with `a_ij a_ji > 4`, infinite Weyl group and finite Bruhat intervals. Compute finite initial
+root and weight truncations, path strings and character coefficients with their truncation bounds. In
+non-simply-laced rank two test the orientation `a_ij = α_j(h_i)` and the symmetrizer against the
+transported form of 1.3. Compare the finite-type specialization of Layer 1's Chevalley generators and
+Kostant's integral form with ReductiveGroups 9A's full reductive integral enveloping form on the actual
+lattices `X, Y`; this comparison keeps its finite-type hypotheses and asserts no symmetrizable
+imaginary-root integral PBW theorem. *Needs:* Layers 0–8; ReductiveGroups 9A.
+
+**Checks.**
+
+- `B_2` with `A = [[2,−2],[−1,2]]`, `d = (1,2)`: `(α_1,α_1) = 2`, `(α_2,α_2) = 4`,
+  `(α_1,α_2) = d_1 a_12 = −2 = d_2 a_21`, and `s_1(α_2) = α_2 − a_12 α_1 = α_2 + 2α_1`; the opposite
+  orientation gives `α_2 + α_1`, which has the wrong length.
+- Indefinite `[[2,−3],[−3,2]]`: the Weyl group is infinite dihedral, `[1, s_0 s_1]` has four elements,
+  and the imaginary cone contains `α_0 + α_1`.
+- `A_2`: the two adjoint zero weights of `L(ω_1 + ω_2)` appear as two paths (6.2), two weight vectors
+  `[e_1,f_1]` and `[e_2,f_2]` (3.1), and the two-dimensional weight space of the Weyl–Kac formula
+  (4.4) consistently.
+
+### Examples
+
+The whole list above.
+
+### Dependencies
+
+Every earlier layer; ReductiveGroups 9A.
+
+## Downstream consumers
+
+- QuantumEnvelopingAlgebras consumes Layer 0's realization and lattices `P`, `Y` for its generic
+  Drinfeld–Jimbo algebra.
+- KacMoody, Part II consumes Layers 0–6 for quantum integrable modules, crystal bases, the strict
+  comparison `B_path(λ) ≃ B_q(λ)` and the finite-type integral comparison with Lusztig's divided-power
+  form.
+- FormalConnectionsOpers Layer 3A names Layer 8 as the owner of the minimal-group comparison and
+  consumes nothing here; it is later in the merge order, and the identification of its loop functors at
+  `R = ℂ` with Layer 8's complex-point groups is stated on its side.
+- TensorProductCombinatorics Layer 8 is later in the merge order; the identification of Layer 6's
+  type-A path crystal with its tableau crystal is stated on its side.
+- SchubertGeometry S4 and S7 are the finite comparison cases of Layers 5–7; nothing there consumes this
+  roadmap.
+
+## References
+
+- V. G. Kac, *Infinite-dimensional Lie algebras*, third edition, Cambridge University Press, 1990:
+  Proposition 1.1, Theorem 1.2, Proposition 1.6, §1.3, Lemma 2.1, Theorem 2.2, §2.5, Theorem 2.6,
+  §§3.5–3.9, Lemma 3.11, Propositions 3.12, 3.13, Propositions 5.1, 5.2, 5.8, §6.2, Theorem 7.4,
+  §§9.1, 9.2, 9.4, Theorem 9.11, §10.1, Theorems 10.4, 10.7, Chapter 12.
+- C. Lenart and A. Postnikov, *A combinatorial model for crystals of Kac–Moody algebras*, arXiv
+  math/0502147v4: §3 (Proposition 3.2, Theorem 3.3 and Corollary 3.4, Stembridge's admissible
+  systems), §9 (Littelmann's root operators, the monotone two-cut form, independence of the initial
+  dominant path, the character identity (9.2), the Kashiwara–Lakshmibai–Joseph theorem), §10.
+- R. Chirivì, X. Fang and P. Littelmann, arXiv 2203.12992v1: Definition 2.1 and §7.1 (the bond, the
+  gcd condition and its attribution to Dehy).
+- Y. Kanakubo, arXiv 2407.19622v1: §§2–3 (crystal axioms, strict morphisms, LS paths and `a`-chains).
+- D. Sagaki, lecture abstract (xmath.ous.ac.jp workshop page): the distinction between dominant LS
+  paths and quantum or semi-infinite LS paths.
+- H. Garland, *The arithmetic theory of loop groups*, Publ. Math. IHÉS 52 (1980), 5–136 (Numdam):
+  §§7–8 (the Chevalley group `G^λ` and its Iwahori subgroup), §10 (the presentation of the Chevalley
+  group over `k[t,t^(−1)]`, Lemma 10.1), §11 ((11.3)–(11.5)), §12 (Lemma 12.19, Theorems 12.24 and
+  12.26: the central extension of the loop group and the tame symbol), §§13–14 (the Tits system,
+  Theorem 14.10).
+- P. Littelmann, *A Littlewood–Richardson rule for symmetrizable Kac–Moody algebras*, Invent. Math.
+  116 (1994), 329–346; *Paths and root operators in representation theory*, Ann. of Math. 142 (1995),
+  499–525. Cited by locator; the statements used are those restated in Lenart–Postnikov §§3 and 9.
+- J. R. Stembridge, *Combinatorial models for Weyl characters*, Adv. Math. 168 (2002), 96–131, as
+  restated in Lenart–Postnikov §3.
+- S. Kumar, *Kac–Moody groups, their flag varieties and representation theory*, Progress in
+  Mathematics 204, Birkhäuser, 2002: Chapter 11 (the Chevalley formula), Chapter 13 (affine Kac–Moody
+  groups and loop groups). Cited by locator.
+- B. Kostant and S. Kumar, *The nil Hecke ring and cohomology of G/P for a Kac–Moody group G*, Adv.
+  Math. 62 (1986), 187–237. Cited by locator.
