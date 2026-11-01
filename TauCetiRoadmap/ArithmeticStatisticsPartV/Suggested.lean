@@ -32,8 +32,9 @@ These carrier-dependent refinements are not statable at the pins; their full
 mathematical statements and prerequisites are in README.md. The even-degree
 binary-field and alternating-extension bounds are conditional on the quantified
 binary summed-tail estimate in README.md.
-The unconditional three-eighths signature has the finite-group supplier gap specified
-in README.md; the separate conditional signature states its exact arithmetic input.
+The finite nonabelian simple-group large-subgroup theorem is an owned headline.
+It supplies the group-theoretic input to the unconditional three-eighths bound;
+the separate conditional signature isolates the arithmetic implication.
 -/
 
 noncomputable section
@@ -293,6 +294,13 @@ theorem lemkeOliverThorne_fieldCount :
     (∀ n d : ℕ, 2 ≤ n → 2 * n + 1 ≤ (d + 2).choose 2 →
       (∀ e < d, (e + 2).choose 2 < 2 * n + 1) →
       bound n (2 * d - (d : ℝ) * (d - 1) * (d + 4) / (6 * n))) := by sorry
+
+/-- Every finite nonabelian simple group has a proper subgroup whose squared
+order exceeds the group order (Ellenberg–Venkatesh, Remark 2.10). -/
+theorem nonabelianSimple_largeSubgroup
+    (S : Type*) [Group S] [Finite S] [IsSimpleGroup S]
+    (hnonabelian : ∃ x y : S, x * y ≠ y * x) :
+    ∃ H : Subgroup S, H ≠ ⊤ ∧ Nat.card S < (Nat.card H) ^ 2 := by sorry
 
 /-- The simple-group large-subgroup inequality implies the three-eighths bound
 for every Galois type of order greater than four over any fixed number-field base. -/
