@@ -1,7 +1,7 @@
 import Mathlib
 
 /-!
-# Resolution of singularities in characteristic zero: headline targets
+# Resolution of singularities in characteristic zero: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive specification is
 `README.md`. These are suggested forms for headline theorems statable against the pinned
@@ -9,7 +9,7 @@ Mathlib and Tau Ceti APIs. Each `sorry` marks a target.
 
 The statements are formal division with prescribed graded-lexicographic support regions
 (§2.6), stabilization of realized Hilbert–Samuel functions in lexicographic order (§2.8),
-and abstract resolution of reduced finite-type schemes over any characteristic-zero field
+and abstract resolution of generically reduced finite-type schemes over any characteristic-zero field
 (§§5.5, 7.8). The field statement includes nonseparated schemes, preserves the entire smooth
 locus, and retains a common dense open with dense inverse image.
 
@@ -25,15 +25,17 @@ Test-equivalence invariance, maximal-contact persistence, coefficient and Samuel
 presentations, residual companions, homogenization and the history-sensitive invariant
 require their geometric presentation and marked-tower carriers. The local/formal reduction,
 algebraization and independence theorems require the formal thickening-system, supported
-blowup and Elkik-pair carriers. These headline statements are deferred here until those real
-objects are available; their mathematical targets remain in the README.
+blowup and Elkik-pair carriers. These headline statements are not statable at the pins because those
+carriers are missing; their mathematical targets remain in the README.
 -/
 
 universe u
 
 open CategoryTheory
 
-namespace ResolutionOfSingularities
+namespace TauCetiRoadmap.ResolutionOfSingularitiesCharacteristicZero
+
+/-! ## Layer 2: contact, coefficients and Samuel presentations -/
 
 /-- Formal division (README §2.6): nonzero series with initial exponents `α i` admit
 unique quotients and remainder. The translated support of the i-th quotient avoids every
@@ -65,17 +67,20 @@ theorem hsLexStabilization (K : Type u) [Field K] (n : ℕ)
     ∃ j₀, ∀ j, j₀ ≤ j →
       localQuotientHilbertSamuel _ (I j) = localQuotientHilbertSamuel _ (I j₀) := sorry
 
+/-! ## Layer 5: principalization and preservation of the resolved locus -/
+
 open AlgebraicGeometry in
-/-- Abstract field resolution (README §§5.5, 7.8): every reduced finite-type scheme over
+/-- Abstract field resolution (README §§5.5, 7.8): every generically reduced finite-type scheme over
 a characteristic-zero field admits a proper surjective resolution with smooth source,
 isomorphic over its entire smooth locus and over a common dense open with dense inverse
-image. No separatedness or irreducibility hypothesis is imposed. -/
+image. Generic reducedness is expressed by density of the smooth locus. No separatedness or irreducibility hypothesis is imposed. -/
 theorem exists_resolution {k : Type u} [Field k] [CharZero k]
     (X : Scheme.{u}) (s : X ⟶ Spec (CommRingCat.of k))
-    [LocallyOfFiniteType s] [QuasiCompact s] [IsReduced X] :
+    [LocallyOfFiniteType s] [QuasiCompact s]
+    (hgen : Dense (s.smoothLocus : Set X)) :
     ∃ (Y : Scheme.{u}) (π : Y ⟶ X), IsProper π ∧ Function.Surjective π.base ∧
       Smooth (π ≫ s) ∧ IsIso (π ∣_ s.smoothLocus) ∧
       ∃ U : X.Opens, Dense (U : Set X) ∧ IsIso (π ∣_ U) ∧
         Dense (π.base ⁻¹' (U : Set X)) := sorry
 
-end ResolutionOfSingularities
+end TauCetiRoadmap.ResolutionOfSingularitiesCharacteristicZero
