@@ -60,6 +60,10 @@ finite-quotient descent application required here. ArithmeticGaloisDuality D7 co
 that shared arithmetic API.
 Period-ring acyclicity with Banach coefficients is proved in §3.6.
 
+The finite-separable coefficient trace-dual equivalence and its evaluation formula belong to Tau Ceti.
+Section 3.4a extends them to finite-projective Robba modules and proves compatibility with φ, Γ, Tate
+twists, signed cups and the normalized arithmetic invariant.
+
 Section 5.7 reexports NoncommutativeAndEquivariantIwasawa §F.6's general continuous period boundaries,
 local exponential and de Rham image theorem for finite-dimensional representations. These use the same
 §F.3 cochains as §0.6, so their identification is definitional. Section 5.7 owns the all-level
@@ -147,6 +151,13 @@ presentation-independent minors, arbitrary commutative scalar change for finite 
 and the residue-field fiber-rank criterion. The fiber-rank theorem is not a flatness assertion about the
 original module. These are the native Λ and Fitting-ideal carriers used here; `Suggested.lean` uses only
 Mathlib interfaces available at these pins.
+
+Use Tau Ceti `Module.Dual.traceCompEquiv` and `Module.Dual.traceCompEquiv_apply` in
+`TauCeti/RingTheory/Trace/Dual.lean` for the F-linear equivalence
+`Hom_E(V,E) ≃ Hom_F(V,F)`, sending f to `Tr_(E/F)∘f`. Its hypotheses are a finite separable field
+extension E/F, an E-vector space V and compatible F-scalars (`IsScalarTower F E V`); V need not be
+finite-dimensional. The evaluation formula is `f,v ↦ Tr_(E/F)(f(v))`. Section 3.4a uses this coefficient
+identification in its finite-projective Robba trace/cup comparison.
 
 The semilinear scalar formula is Mathlib `LinearMap.map_smulₛₗ` in `Algebra.Module.LinearMap.Defs`: `F(a • x)
 = σ(a) • F(x)`. Substituting `σ(a)=a` supplies the fixed-scalar restriction in §0.2; it is not a separate
@@ -1658,12 +1669,11 @@ term by term, including torsion invariants and the signed differentials. If `n=[
 and degree. Define the coefficientwise trace `Tr_R=1⊗Tr_(E/ℚ_p):R_(E,K)→R_K`. For finite-projective D,
 construct the field trace-dual comparison: the isomorphism
 `Res Hom_(R_(E,K))(D,R_(E,K)) ≃ Hom_(R_K)(Res D,R_K)` sends `f` to `Tr_R∘f` and commutes with φ, Γ and
-Tate twists. This follows from the perfect finite-separable trace pairing and finite-projective duality.
-Prove the underlying dual identification existence of the coefficient trace dual for every finite separable field
-extension `E/F` and every E-vector space, with its evaluation formula.
+Tate twists. Extend the supplied coefficient trace-dual equivalence to these Robba modules by scalar
+extension and passage to finite-projective summands.
 *Needs:* §0.6 field cochains and Tate duality; §1.0 field realization; §1.0b supplied slope filtration;
 §§3.1–3.4 signed complexes, torsion and generator conventions; preceding field bootstrap steps in this
-subsection.
+subsection; the coefficient trace-dual equivalence in the supplier contracts.
 
 Prove field trace/cup compatibility: under these identifications the signed evaluation cup for the restricted module
 is `Tr_R` applied to the E-linear evaluation cup. Its invariant satisfies
@@ -3133,13 +3143,30 @@ derived fibers; RigidAnalyticGeometry §§6.1–6.3 coherent sheaves.
 
 - The modified quotient has projective kernel of rank d−1 and cokernel killed locally by a power of t; the
   specified Fitting and period-vanishing loci determine the bad locus.
-- For a smooth curve the modification is the identity; the bad locus can still be nonempty. The canonical
-  modification X′→X commutes with dominant flat pullback (KPX Remark 6.3.11, p.72).
+- For a smooth curve the modification is the identity; the bad locus can still be nonempty.
+- For a dominant flat morphism `g:Y→X` of reduced rigid spaces, the modification commutes with pullback
+  provided every normalization step commutes with that pullback: for each intermediate space T, the map
+  `T^ν ×_X Y → T ×_X Y` must be the normalization of `T ×_X Y`. This condition includes intermediate
+  normalizations after flattening, not just the initial one. Under it, identify the modification constructed
+  from `g*M,g*δ` with `X′ ×_X Y → Y`, carrying the coefficient line and evaluation map to their pullbacks.
+  Prove this stage by stage using §7.6's flat compatibility and the normalization identifications. This is
+  the compatibility of KPX Remark 6.3.11, p.72, with the extra hypothesis required by the normalizations
+  in the proof of Theorem 6.3.9, pp.69–70; arbitrary dominant flat pullback need not satisfy it.
 
 **Checks.**
 
-- For an everywhere strict rank-one object, `λ` is its identity character-line presentation, with zero kernel
-  and no bad locus.
+- For an everywhere strict rank-one object, `λ` on X′ is its identity character-line presentation, with
+  zero kernel and no bad locus; this does not make the normalization-containing map X′→X an identity.
+- Over `E=ℚ₃`, put `A=E⟨x⟩` and `B=E⟨u,v⟩/(v²−u³)`, with `x↦u`. The A-module B is free on `(1,v)`,
+  so the cusp-to-disc map is finite flat and dominant. For the unit character line the modification on the
+  disc is the identity, whose pullback is the identity of the cusp. The construction on the cusp instead
+  includes its normalization `E⟨s⟩`, with `u=s²,v=s³`: the integral element `s=v/u` is absent from B,
+  since series in `s²,s³` have zero coefficient of s. Thus the first normalization square already fails,
+  even though every fiber has saturated one-dimensional H⁰; the quotient existence theorem still applies.
+- For the smooth projection from the cusp times a disc to the cusp, the normalization is `E⟨s,z⟩`.
+  It equals `E⟨s⟩` completed-tensored over B with `B⟨z⟩`, and both maps send `(u,v,z)` to `(s²,s³,z)`.
+  For the unit character line the subsequent flattenings are identities; the two modifications therefore
+  agree, with zero kernel, zero cokernel and empty bad locus.
 - At a bad point, a t-power cokernel is allowed; calling `λ` a surjection on every fiber would strengthen the
   theorem falsely.
 - For a smooth curve, the Fitting ideals involved are invertible on the relevant rank loci and the
