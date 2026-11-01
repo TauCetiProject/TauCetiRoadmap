@@ -34,7 +34,20 @@ The homotopy fibre `F(f,b)` consists of pairs `(a,γ)` with γ a path from `f(a)
 
 A weak homotopy equivalence is bijective on path components and on all π-groups at every basepoint. Homotopy-cartesian squares use an actual comparison to a path-space homotopy pullback. Quasifibrations only compare strict fibres with homotopy fibres; they do not assert a lifting property.
 
-Write `HasCWType X` when X is homotopy equivalent to a Hausdorff CW complex. Plus constructions use a connected space of CW type and a specified perfect normal subgroup of its π₁. Their homology condition ranges over every local coefficient system pulled back from the quotient group. Their uniqueness and functoriality are assertions about maps up to homotopy, not equalities of selected cell attachments.
+Write `HasCWType X` when X is homotopy equivalent to a Hausdorff CW complex in the same universe; neither finiteness of the cell set nor connectedness is part of this predicate. Use the following API for this adapter to AlgebraicTopology's CW-type convention (H AT, §0, pp. 3–6, 10; Appendix A, Prop. A.4, p. 522).
+
+- Every Hausdorff CW complex has CW type, witnessed by its identity homotopy equivalence.
+- For a homotopy equivalence X≃Y, X has CW type if and only if Y does: compose a CW model equivalence with the given equivalence or its inverse.
+- A homeomorphism preserves CW type, by its induced homotopy equivalence; in particular the property does not depend on the chosen presentation of a space.
+
+**Checks.**
+
+- The empty space has CW type, with no cells and the identity equivalence. Requiring a basepoint or connectedness would incorrectly exclude it.
+- S¹ has CW type, with one zero-cell and one one-cell; its fundamental group is ℤ, so CW type does not mean contractibility.
+- Discrete ℚ has CW type with one zero-cell per rational, and infinitely many components. A finite-CW-type replacement would incorrectly exclude it.
+- Usual-topology ℚ does not have CW type. If a:ℚ→W and b:W→ℚ were homotopy inverses with W a Hausdorff CW complex, every path in ℚ would be constant, hence b∘a=id. The map b is constant on each path component of W, and those components are open by local path connectedness; therefore the inverse image under a of the component of a(q) would be the open singleton {q}. But every neighborhood of q contains q+1/n for sufficiently large n, a contradiction. The identity from discrete ℚ to usual-topology ℚ induces the bijection ℚ→ℚ on components and 0→0 on every positive homotopy group, so replacing homotopy equivalence by weak equivalence would fail this Check.
+
+Plus constructions use a connected space of CW type and a specified perfect normal subgroup of its π₁. Their homology condition ranges over every local coefficient system pulled back from the quotient group. Their uniqueness and functoriality are assertions about maps up to homotopy, not equalities of selected cell attachments.
 
 Symmetric spectra have pointed simplicial-set levels and equivariant iterated structure maps. Naive π-groups are stabilised level π-groups; true π-groups are computed after stable replacement. They agree only under the semistability hypotheses. Homotopy groups are indexed by all integers. Suspension raises degree by one, so `π_k(ΣE) = π_(k−1)(E)`. The symmetry on sphere factors of degrees r and s has sign `(−1)^(rs)`.
 
@@ -1941,7 +1954,13 @@ For every spectrum map f, prove the naive cone LES in all integer degrees, for t
 
 ### 5.3 The naive homotopy long exact sequence of a homotopy fibre
 
-Construct path fibres after functorial Kan replacement and their natural naive LES π̂ₖF→π̂ₖX→π̂ₖY→π̂ₖ₋₁F. Boundary comes from ΩY→F and inverse loop shift; strict signatures require Kan source/target levels.
+Construct path fibres after functorial Kan replacement and their natural naive LES π̂ₖF→π̂ₖX→π̂ₖY→π̂ₖ₋₁F. For this spectral LES use S's boundary transported through endpoint reversal: write F₊(f) for paths from the basepoint to f(x), and r:F(f)→F₊(f) for the comparison reversing the paths of the standing convention. With j₊:ΩY→F₊(f) the direct loop inclusion, set j_F=r⁻¹∘j₊ and δ_F=(j_F)∗∘α⁻¹, where α:π̂ₖ₋₁ΩY→π̂ₖY is the loop shift. Thus on the raw f(x)-to-basepoint path model j_F includes the reversed loop, and δ_F is the negative of the boundary using the direct loop inclusion in §2.5. The reversal is literal on topological paths; for pointed simplicial levels transport it through the supplied realization–singular comparison and Kan replacement, rather than asserting an order-reversing simplicial self-map of Δ[1]. Strict signatures require Kan source/target levels.
+
+**Checks.**
+
+- For f:0→ΣHℤ in a Kan Ω-model, α⁻¹(1)=1, j_F sends this to the raw loop class −1, and r sends it back to +1 in F₊(f).
+- For f=id the fibre is contractible, so δ_F=0; reversal preserves zero.
+- For Y=ΣH𝔽₂ the same reversal gives −1=1. This cannot distinguish the two signs, whereas the integral Check does.
 
 (S I, (2.15), Prop. 2.17 and proof, pp. 29–30.)
 
@@ -1997,17 +2016,17 @@ Construct the biadditive point-set pairing πₖX×πₗY→πₖ₊ₗ(X∧Y). 
 
 ### 5.7 Mapping cones and homotopy fibres of spectra
 
-Reuse §5.2's levelwise point-set cone C(f), with the interval pointed at zero and X attached to Y at one, and its projection C(f)→S¹∧X, and §5.3's Kan-replaced path fibre. Compare the cone with GeneralizedCohomology G2.4’s derived cone by interval reflection t↦1−t, retaining the boundary sign. Express the supplied derived fibres with ΩY→F→X on the corresponding endpoint model. Both are square-functorial; C(id) is contractible and C(X→0)=ΣX, fixing boundary endpoints.
+Reuse §5.2's levelwise point-set cone C(f), with the interval pointed at zero and X attached to Y at one, and its projection C(f)→S¹∧X, and §5.3's Kan-replaced path fibre. Compare the cone with GeneralizedCohomology G2.4’s derived cone by interval reflection on topological models, transported through realization–singular comparison for simplicial spectra, retaining the boundary sign. Express the supplied derived fibres with j_F:ΩY→F→X, using §5.3’s endpoint adapter r:F→F₊ for both the fibre boundary and the fibre–cone comparison. Both are square-functorial; C(id) is contractible and C(X→0)=ΣX, fixing boundary endpoints.
 
 - The cone with Y→C(f)→S¹∧X.
-- The path fibre with ΩY→F(f)→X; replace non-Kan levels first.
+- The path fibre with j_F:ΩY→F(f)→X and the endpoint adapter r:F(f)→F₊(f); replace non-Kan levels first.
 - Strict squares give functorial cone and fibre maps.
 
 **Checks.**
 
 - mappingCone (𝟙 X) is stably contractible.
 - mappingCone (X ⟶ 0) ≅ susp X.
-- For Kan-level Y the strict path fibre of 0→Y is loop Y. In general the derived fibre is isomorphic in SHC to the derived loop spectrum.
+- For Kan-level Y the path fibre of 0→Y identifies with loop Y by its raw loop coordinate; j_F is loop reversal in that coordinate. In general the derived fibre is isomorphic in SHC to the derived loop spectrum.
 - For a non-injective map, the strict cofibre (quotient) differs from the mapping cone: for X ⟶ 0 the quotient is 0 but the mapping cone is susp X.
 
 (S II, Examples 2.4 and 2.6, pp. 229–230; S I, (2.10) and (2.14), pp. 27–29.)
@@ -2016,13 +2035,13 @@ Reuse §5.2's levelwise point-set cone C(f), with the interval pointed at zero a
 
 ### 5.8 Fibre and cofibre sequences agree up to a shift
 
-For Kan-level X,Y, prove h:S¹∧F(f)→C(f) a π̂-isomorphism and stable equivalence. Derive the general comparison; its adjoint uses cone Kan replacement. Fix the boundary sign h_*(S¹∧δ_F(y))=−i_*(y) with these interval endpoints.
+For Kan-level X,Y, construct h:S¹∧F(f)→C(f) by transporting S I (2.16)'s map h₊:S¹∧F₊(f)→C(f) along §5.3's endpoint adapter: h=h₊∘(S¹∧r). On topological models h₊ first traverses the cone from its tip to x and then traverses the path from f(x) back to the basepoint; the two pieces meet at f(x). Prove h a π̂-isomorphism and stable equivalence. Derive the general comparison; its adjoint uses cone Kan replacement. For i:Y→C(f), prove h_*(S¹∧δ_F(y))=−i_*(y) in every integer degree. Both δ_F and h use the same r, so their composite retains S's sign. Under the loop/fibre identification j_F for f:0→Y, the map h∘(S¹∧j_F) is homotopic to the counit precomposed with loop reversal.
 
 **Checks.**
 
-- For a Kan-level fibre, cone boundary after suspended fibre boundary is minus the target inclusion.
+- For a Kan-level fibre, h after the suspended fibre boundary induces minus the map i:Y→C(f); the cone projection instead has target ΣX and is a different map.
 - For f the identity of a Kan-level X both F(f) and C(f) are stably contractible and h is a stable equivalence between them.
-- For f:0→Y with Kan levels, F(f) is loop Y and h:S¹∧ΩY→Y is the counit, a stable equivalence.
+- For f:0→Y with Kan levels, the comparison under j_F is the counit precomposed with loop reversal, still a stable equivalence. For Y a Kan Ω-model of ΣHℤ and y=1∈π̂₁Y=ℤ, the composite h_*(S¹∧δ_F(1)) is −1=−i_*(1). The ordinary counit under this same identification gives +1 and violates the sign formula. In the raw loop coordinate h is homotopic to the ordinary counit, but δ_F already includes reversal.
 
 (S I, (2.16) and Prop. 2.17, p. 29.)
 
@@ -2690,7 +2709,7 @@ For prime powers pʳ outside {2,3,4,8}, construct a homotopy associative and com
 
 ### 7.29 Graded and filtered Eₙ-algebras and the quotient obstruction tower
 
-Work in a stable, presentably Eₘ-monoidal ∞-category C, m≥2, with compact generators. Use §5.13's abstract Eₙ-algebra interfaces and BordismFormalGroups F6.5's Day convolution, Ind and operadic Kan extensions. Here Eₘ is the ∞-operad of §5.13's little-m-cubes operad. Construct graded objects C^Gr and filtered objects C^Fil with Day convolution, the shift τ:X(1)→X, the associated graded functor as the cofibre of τ, and τ-inversion. In §§7.29–7.31 the letter τ always denotes the shift map of the category at hand: filtered objects here, Def(C;𝒬) in §7.30 and Syn_HF₂ in §7.31. All of these are Eₘ-monoidal. Positively graded means zero in negative degrees with the unit in degree zero.
+Work in a stable, presentably Eₘ-monoidal ∞-category C, m≥2, with compact generators. Use §5.13's abstract Eₙ-algebra interfaces and BordismFormalGroups F6.5's Day convolution, Ind and operadic Kan extensions. Here Eₘ is the ∞-operad of §5.13's little-m-cubes operad. Construct graded objects C^Gr and filtered objects C^Fil with Day convolution, the shift τ:X(1)→X, the associated graded functor as the cofibre of τ, and τ-inversion. In §§7.29–7.31 the letter τ always denotes the shift map of the category at hand: filtered objects here, Def(Ĉ;𝒬) in §7.30 and Syn_HF₂ in §7.31. All of these are Eₘ-monoidal. Positively graded means zero in negative degrees with the unit in degree zero.
 
 For n≤m construct the Eₙ bar–cobar adjunction on augmented graded algebras and coalgebras (HA §5.2.3) and prove the graded bar/cobar equivalence: it is an equivalence on positively graded objects. Write `D^c_(Eₙ,k)(Y)` for the limit of the k-fold tensor powers of Y over Eₙ(k)_(hΣₖ). Construct the cofree positively graded Eₙ-coalgebra with underlying object `∏ₖ D^c_(Eₙ,k)(Y)`, and the cell filtration of a positively graded Eₙ-algebra R whose k-th cells are `Σ^(−1−n) Bar(R)ₖ`. For the unordered configuration space of k points in ℝⁿ, a model of Eₙ(k)_(hΣₖ), construct a finite cell filtration with cells in dimensions 0 to (n−1)(k−1). Deduce the configuration-space resolution: a finite filtration of `D^c_(Eₙ,k)(Y)` with graded pieces `Σ^(−c) Y^⊗k`, 0≤c≤(n−1)(k−1).
 
@@ -2706,14 +2725,16 @@ Prove the quotient obstruction tower for a map r:X→1. It gives obstructions `�
 
 *Needs:* §5.13, §7.1, BordismFormalGroups F6.5.
 
-### 7.30 The deformation Def(C;𝒬) of a quotient
+### 7.30 The deformation of a quotient and descent from the Ind-completion
 
-Let C be stable and stably Eₘ-monoidal, m≥2, with v:I→1 such that `1/v = cofib(v)` has a right unital multiplication. First replace C by Ind(C′), where C′ is generated by 1 and I under tensor products and finite (co)limits. This Ind(C′) is presentable and Eₘ-monoidal, and its functor to C is fully faithful on C′. Let the quotient-split epimorphism class 𝒬 be the maps of compact objects that become split epimorphisms after tensoring with 1/v. Prove that every 1/v⊗X is 𝒬-injective, that X→1/v⊗X is 𝒬-monic, that compact objects have enough 𝒬-injectives and that 𝒬 is ⊗-compatible.
+Let C be stable and stably Eₘ-monoidal, m≥2, with v:I→1 such that `1/v = cofib(v)` has a right unital multiplication. Choose an essentially small full subcategory C′ generated by 1 and I under tensor products and finite (co)limits. Apply BordismFormalGroups F6.5's Ind and operadic Kan-extension machinery to form the stable, presentably Eₘ-monoidal category Ĉ=Ind(C′), with its exact fully faithful monoidal Yoneda embedding j:C′→Ĉ. Work in Ĉ for the deformation construction, writing 1, I, v and 1/v also for their images under j. The unit and I are compact tensor generators there, and full faithfulness transports the chosen right unital multiplication on 1/v from C′. Let the quotient-split epimorphism class 𝒬 be the maps of compact objects of Ĉ that become split epimorphisms after tensoring with j(1/v). For each compact X of Ĉ, prove that 1/v⊗X is 𝒬-injective and X→1/v⊗X is 𝒬-monic; deduce that compact objects have enough 𝒬-injectives and that 𝒬 is ⊗-compatible.
 
-Construct the perfect derived ∞-category D^ω(C^ω;𝒬) as perfect sheaves for the 𝒬-epimorphism topology, with ν, the shift [1], τ and τ-inversion. Prove the seven properties of Bu Recollection 4.1: finite (co)limits; ν fully faithful; generation by ν under finite colimits; ν preserving cofibre sequences whose second map is in 𝒬; `ν(−)[1] ≃ ν(Σ−)`; τ-inversion as localization at τ; and `[Σ^(−s)νX, νJ] = 0` for s>0 and 𝒬-injective J. Construct its exact Eₘ-monoidal structure with ν and τ-inversion Eₘ-monoidal, and the deformation category Def(C;𝒬) as its Ind-completion. The cofibre sequence `ν1 → ν(1/v) → ν(ΣI)` exists because 1→1/v splits after tensoring with 1/v. Its boundary is the lifted deformation map `ṽ : Σ^(−1)νI[1] → ν1`. Prove the deformation-quotient vanishing theorem: `[Σ^(−s)νX, ν1/ṽ^q] = 0` for compact X and s≥q, by induction on q. Define the v-compatibility condition: an Eₙ-structure on 1/v^q is v-compatible if it is equivalent to the τ-inversion of an Eₙ-structure on ν1/ṽ^q.
+Construct the perfect derived ∞-category D^ω(Ĉ^ω;𝒬) as perfect sheaves for the 𝒬-epimorphism topology, with ν, the shift [1], τ and τ-inversion. Prove the seven properties of Bu Recollection 4.1: finite (co)limits; ν fully faithful; generation by ν under finite colimits; ν preserving cofibre sequences whose second map is in 𝒬; `ν(−)[1] ≃ ν(Σ−)`; τ-inversion as localization at τ; and `[Σ^(−s)νX, νJ] = 0` for s>0 and 𝒬-injective J. Construct its exact Eₘ-monoidal structure with ν and τ-inversion Eₘ-monoidal, and the deformation category Def(Ĉ;𝒬) as its Ind-completion. The cofibre sequence `ν1 → ν(1/v) → ν(ΣI)` exists because 1→1/v splits after tensoring with 1/v. Its boundary is the lifted deformation map `ṽ : Σ^(−1)νI[1] → ν1`. Prove the deformation-quotient vanishing theorem: `[Σ^(−s)νX, ν1/ṽ^q] = 0` for compact X and s≥q, by induction on q. Here ν:Ĉ^ω→Def(Ĉ;𝒬) and τ-inversion Def(Ĉ;𝒬)→Ĉ refer to the Ind-completed category. For A_q=cofib(v^q:I^⊗q→1), q≥1, A_q and every finite tensor product of the A_q lie in C′. Restrict the τ-inverted algebra structures and tower maps to j(C′), then transport them along C′→C: for every finite list of exponents q₁,…,qᵣ,w, full faithfulness identifies Map_C(A_q₁⊗⋯⊗A_qᵣ,A_w) with Map_Ĉ(jA_q₁⊗⋯⊗jA_qᵣ,jA_w), including r=0 and the unit. These equivalences identify the full operation spaces, their compositions and all coherences, so they transport Eₙ structures, algebra maps and equivalences, not only binary products. Define v-compatibility for an Eₙ-structure on A_q in C by requiring its corresponding structure in Ĉ to be equivalent to τ-inversion of an Eₙ-structure on ν1/ṽ^q. This descent only uses objects of C′; no functor from all of Ĉ to C is required. (Bu Remark 1.6, p. 2, with the reduction restricted to C′; Def. 5.1 and Thm. 5.2, pp. 10–11.)
 
 **Checks.**
 
+- For C=Perf(ℚ), I=0 and v=0, each A_q is ℚ, every tensor power is ℚ, and the unit and product descend as 1↦1 and a⊗b↦ab. The object X=⊕ℕℚ in Ĉ satisfies X≅ℚ⊕X; an exact extension Ĉ→Perf(ℚ) of C′→C would imply dim H⁰F(X)=1+dim H⁰F(X), impossible for the finite integer dim H⁰F(X). Descent never applies such a functor to X.
+- For v=id_1, every A_q=0. Its nullary unit 1→0 and all positive-arity operations descend to the unique zero maps, so the zero quotient is included.
 - At q=1, ν1/ṽ≃ν(1/v), so the vanishing estimate is the 𝒬-injectivity of ν(1/v).
 - τ-inversion carries ṽ to v and ν1/ṽ^q to 1/v^q.
 - For C=Sp and v=p odd, S/p has a right unital multiplication but no E₁-structure, so the construction uses only the right unital multiplication. At v=2 the hypothesis fails (§7.1's nonexistence of a unital product on S/2), while v=4 satisfies it because S/4 has §7.28's unital multiplication.
@@ -2758,7 +2779,7 @@ Let 2̃∈π_(0,1)S^(0,0), with τ2̃=ν(2), be the boundary of the cofibre sequ
 
 ### 7.32 Burklund's towers of E_n-algebra quotients
 
-In a stable, stably Eₘ-monoidal ∞-category, m≥2, fix v:I→1 such that cofib(v) admits a right unital multiplication. Construct the v-compatible structures of §7.30 on 1/vᑫ as Eₙ-algebras for n≤m and q>n, with the reduction tower of Eₙ-algebra maps for q≥n+1. Apply §7.29's obstruction tower to ṽ^q in Def(C;𝒬). The obstruction groups vanish by the deformation-quotient vanishing theorem, since q≥n+1. The tower maps and the uniqueness use §7.29's map obstructions. When the two exponents agree, the nullhomotopy of γ₁ given by the defining cofibre sequence yields an equivalence of Eₙ-algebras. Prove uniqueness up to equivalence among v-compatible structures, not among every possible Eₙ structure on the carrier.
+In a stable, stably Eₘ-monoidal ∞-category, m≥2, fix v:I→1 such that cofib(v) admits a right unital multiplication. Construct the v-compatible structures of §7.30 on 1/vᑫ as Eₙ-algebras for n≤m and q>n, with the reduction tower of Eₙ-algebra maps for q≥n+1. Apply §7.29's obstruction tower to ṽ^q in Def(Ĉ;𝒬) for Ĉ=Ind(C′) as in §7.30. After τ-inversion to Ĉ, use §7.30's operation-space descent through C′ to obtain the Eₙ-algebras, reduction maps and equivalences in the original C. The obstruction groups vanish by the deformation-quotient vanishing theorem, since q≥n+1. The tower maps and the uniqueness use §7.29's map obstructions. When the two exponents agree, the nullhomotopy of γ₁ given by the defining cofibre sequence yields an equivalence of Eₙ-algebras. Prove uniqueness up to equivalence among v-compatible structures, not among every possible Eₙ structure on the carrier.
 
 (Bu Thm. 1.5, p. 2; Bu Thm. 5.2 with proof, pp. 10–11; Bu Remark 5.7, p. 12.)
 
