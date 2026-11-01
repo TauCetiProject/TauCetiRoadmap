@@ -18,6 +18,8 @@ simple definitions on existing carriers:
 * Layer 3: homogeneous character/descent equivalence and fixed-moment coadjoint
   integrality need smooth homogeneous associated lines on the actual closed-
   subgroup quotient, their lifted actions and their invariant connections.
+* Layer 3: normalized compact-root maps need the compact real root/cocharacter
+  comparison on the actual Lie groups.
 * Layer 3: the period, ordinary Picard and global-form comparisons need actual
   compact flag root curves, their integral homology classes, and holomorphic
   line-bundle isomorphism classes on those same flags. A ring Picard group or
@@ -36,6 +38,10 @@ simple definitions on existing carriers:
 * Layer 6: global restriction/descent and the shifted Kostant bound need the
   holomorphic section spaces of that line on the manifold, semistable locus
   and reduced orbifold, together with the actual restriction/descent maps.
+* Layer 6: fixed-component equivariant Riemann–Roch and its near-identity
+  expansion need the equivariant Dolbeault cohomology, fixed-submanifold normal
+  eigenbundles and equivariant characteristic forms of the same line and tangent
+  bundles. The pinned APIs do not supply these carriers.
 * Layer 6: the global distribution limit needs multiplicities of the actual
   H⁰(M,L^n) representation and its Kostant-normalized moment map.
 * Layer 6: chamber quasi-polynomials and uniform asymptotics need the reduced

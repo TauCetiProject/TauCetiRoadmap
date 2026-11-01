@@ -11,9 +11,12 @@ are mathematical data; each must remain visible in the API.
 This roadmap owns symplectic specializations of prequantum bundles, intrinsic
 Hamiltonian lifts and their quantum operators, homogeneous character and
 fixed-moment tests, polarized quantization, and the compact-torus distribution
-and regular orbifold chamber theorems. Layer 3 owns the integral root-curve
-and ordinary holomorphic Picard comparisons for compact flags needed by the
-character/period dictionary. The generic holomorphic exponential-sequence and
+and regular orbifold chamber theorems. Layer 3 owns the normalized compact
+rank-one period adapter and ordinary holomorphic Picard application needed by
+the character/period dictionary. SchubertGeometry S9.1/S9.7 owns the partial-flag
+complex/Kähler geometry and root-oriented characteristic-map comparisons;
+Layer 3 uses those same curves and integral classes. The generic holomorphic
+exponential-sequence and
 Chern comparison belongs to ComplexComparisonPartII C5.4; the flag application
 here proves its vanishing hypotheses and identifies its degree basis.
 
@@ -80,7 +83,15 @@ everywhere-defined unbounded-operator assertion is intended.
 Use `CovariantDerivative` in
 `Mathlib/Geometry/Manifold/VectorBundle/CovariantDerivative/Basic.lean`,
 `LinearPMap` for partial operators, `LieSubalgebra` for observable Lie algebras,
-and `jacobiTheta₂` with its translation and summability theory.
+and `jacobiTheta₂` with `summable_jacobiTheta₂_term_iff`,
+`jacobiTheta₂_add_left` and `jacobiTheta₂_add_left'` in
+`Mathlib/NumberTheory/ModularForms/JacobiTheta/TwoVariable.lean`.
+The complex root inputs are `LieAlgebra.IsKilling.rootSystem` in
+`Mathlib/Algebra/Lie/Weights/RootSystem.lean` and
+`LieAlgebra.IsKilling.exists_isSl2Triple_of_weight_isNonZero` in
+`Mathlib/Algebra/Lie/Weights/Killing.lean`, for finite-dimensional characteristic-zero
+Lie algebras with nondegenerate Killing form and a splitting Cartan subalgebra;
+§3.1a verifies those hypotheses on the complexified semisimple summand.
 `ContinuousMonoidHom.comp` in `Mathlib/Topology/Algebra/ContinuousMonoidHom.lean`,
 `MonoidHom.ker`, and `QuotientGroup.lift`, `QuotientGroup.lift_mk`,
 `QuotientGroup.lift_comp_mk'` in `Mathlib/GroupTheory/QuotientGroup/Defs.lean`
@@ -173,10 +184,21 @@ characters in the Layer 6 descent and index construction.
 
 [CompactGroups](../RepresentationTheory/CompactGroups/README.md) supplies the
 circle Fourier characters and character projections. [LieGroups Layers 4–8](../RepresentationTheory/LieGroups/README.md)
-supplies Lie integration, simply connected covers and kernels, compact real
-root/rank-one data and torus periods, complexification and the homogeneous
-full-flag comparison. Layer 3 constructs its root-curve degree and partial-flag
-adapters; Layer 6 constructs the product-torus character-lattice conversion.
+supplies Lie integration, simply connected covers and kernels, maximal tori
+and Weyl groups, universal complexification and the homogeneous full-flag
+comparison. LieHighestWeight Layer 0 supplies the complex sl₂ root-string
+theory. Section 3.1a constructs the normalized compact real rank-one adapter;
+§6.6 constructs the period-quotient description of the abelian complexification.
+Layer 6 also constructs the product-torus character-lattice conversion.
+
+### From TauCetiRoadmap.SchubertGeometry
+
+[S9.1/S9.7](../SchubertGeometry/README.md) supplies the complex partial flag on
+the actual coadjoint quotient, its positive KKS Kähler metric for real chamber
+parameters, root-coordinate orientations and the integral characteristic-map
+comparison with HamiltonianReduction R2a. Section 3.3 applies that comparison
+to periods and ordinary holomorphic Picard classes; it does not reconstruct
+the flag, its complex structure, Morse handles or cellular comparison.
 
 ### From TauCetiRoadmap.AlgebraicTopology
 
@@ -214,9 +236,14 @@ from B2, `s̃(p exp(it))=exp(it)s̃(p)`, hence `V s̃=i s̃`.
 Compute line holonomy `exp(−(i/ℏ)∮θ)` and, for a bounding cycle, its expression
 `exp((i/ℏ)∫ω)`; principal holonomy is its inverse. Changing θ by a closed
 form β changes line holonomy by `γ↦exp(−(i/ℏ)∮_γβ)`.
+These formulas are deductions from SmoothBundlesConnections B2.1's section
+dictionary, B3.1's local connection, B4.1's curvature and B5.0's parallel
+transport equation, and DifferentialGeometry's Stokes theorem; the exact-line
+example is also Schottenloher, version 15.6, Example 7.3 and Remark 7.4,
+pp. 96–97, after conjugating his line convention and rescaling curvature.
 
 Acceptance: cotangent bundles with tautological θ; a sphere of area
-`2πℏk`, k≥1; and flat twists of a degree-k prequantum torus. Construct
+`2πℏk`, integer k≥1; and flat twists of a degree-k prequantum torus. Construct
 connections and their loop holonomy in every example.
 
 - Symplectic pullback carries the connection and its curvature to their pullbacks;
@@ -278,6 +305,11 @@ for `Y_f=−X_f^hor+(f/ℏ)V`, prove `[Y_f,Y_g]=Y_{ {f,g} }`; for
 `[F_f,F_g]=F_{−{f,g}}−(2{f,g}/ℏ)V`, whose connection value is
 `−3{f,g}/ℏ`. Thus the latter assignment is not a Lie-algebra homomorphism
 in general. These formulas do not identify an unspecified H with either sign.
+The lift and opposite-sign formulas are direct Cartan-calculus deductions
+from DifferentialGeometry §1.4 and SmoothBundlesConnections B3/B4; the
+operator/lift dictionary is compared with Schottenloher, version 15.6,
+Theorem 7.8, p. 99 and Proposition 7.10, p. 101. Conjugate his connection
+convention and replace the curvature scale 2π by 1/ℏ before comparing signs.
 
 - The lift is real-linear in f, has projection −X_f and connection value f/ℏ,
   and its bracket is the lift of the declared Poisson bracket.
@@ -312,7 +344,15 @@ its Stone generator A in the `(U_t−1)/(it)` convention contains
 `C_c^∞` in its domain and agrees there with `Q_f/ℏ`. Its full domain is
 that of the closure of this restriction.
 Prove the invariant-dense-domain core theorem used here, then invariance
-of `C_c^∞` and essential self-adjointness of Q on that domain. Complete
+of `C_c^∞` and essential self-adjointness of Q on that domain. The geometric
+complete-flow assertion is Schottenloher, version 15.6,
+Propositions 7.15–7.16, p. 105. Supply the invariant-domain core argument
+explicitly: for a dense U-invariant D⊂Dom(A), a vector in a deficiency space
+of A|D gives, by differentiating its pairing with U_tD, a scalar exponential
+exp(t) or exp(−t); unitarity bounds that pairing for all real t, forcing it
+to vanish. Density kills both deficiency spaces, and the von Neumann
+criterion identifies the closure with A. Existence of one self-adjoint
+extension alone is insufficient. Complete
 Hamiltonian flow is the hypothesis; compact M is a corollary. For incomplete
 flows keep the symmetric operator and explicit domain, with no uniqueness
 claim for self-adjoint extensions. Compute the deficiency behavior of
@@ -322,6 +362,9 @@ and `n_−=∞`, the latter containing `e^(−q/ℏ)g(p)` for every
 `g∈L²(ℝ)`. On the base half-density space the indices are `(0,1)`.
 These show failure of essential self-adjointness; define the deficiency
 spaces and prove the closure/adjoint kernel criterion used in this example.
+The deficiency values are direct solutions of iℏu′=±iu, with the domain
+and adjoint criterion from SelfAdjointSpectralTheory Part A, not an extra
+completeness conclusion for the half-line.
 
 - The operator is real-linear in f, satisfies the section Leibniz rule and is symmetric
   on its compactly supported smooth domain for real f.
@@ -355,7 +398,13 @@ completeness of base group-action fields and the compact circle fibers.
 For equivariant μ integrate the anti-homomorphism `ξ↦−Y_(μ^ξ)` to a
 left action of the simply connected cover G̃ on the bundle. Prove the
 complete-vector-field integration theorem (Palais) needed for this step,
-with its uniqueness and parameter smoothness. The action projects to the
+with its uniqueness and parameter smoothness: for a connected simply
+connected finite-dimensional Lie group and a smooth infinitesimal action
+whose every real generating field is complete, there is a unique smooth
+global action with that infinitesimal action (Tuynman, arXiv v2,
+Theorem 7.9, p. 39, specialized to ordinary manifolds; translate his
+fundamental-field sign to the left-action anti-homomorphism here).
+The action projects to the
 original left action on M. Its kernel K acts by a circle character χ;
 descent to G holds iff χ is trivial. Construct
 `Ĝ=(G̃×Circle)/{(k,χ(k)⁻¹):k∈K}` and its action, and prove its Lie
@@ -461,6 +510,52 @@ flat twists of ordinary prequantizations remain H¹(M;ℝ/ℤ) as in Q1/B6.
 Mathlib character composition, kernels and quotient lifting; ComplexKahlerGeometry
 K3's constancy of holomorphic functions on connected compact manifolds for the flag ambiguity.
 
+### 3.1a Normalized compact rank-one period adapter
+
+For compact connected K and a maximal torus T, construct the compact real
+root data on the actual Lie algebra 𝔨. Average an inner product over K,
+split off its center, and diagonalize the commuting skew-adjoint torus
+operators on the complexified semisimple summand. Compare the resulting
+one-dimensional root spaces and their brackets with the native complex
+Killing root theory and LieHighestWeight Layer 0's sl₂ strings. For each
+nonzero root α put α∨=2α♯/‖α‖² using the invariant metric on 𝔱, so
+α(α∨)=2 (the denominator is positive for α≠0), and construct a Lie
+homomorphism su(2)→𝔨 sending
+H₀=diag(i,−i) to α∨. Prove the three bracket equations for the standard
+su(2) basis H₀,A₀=((0,1),(−1,0)), B₀=((0,i),(i,0)), with
+[H₀,A₀]=2B₀, [A₀,B₀]=2H₀ and
+[B₀,H₀]=2A₀. Integrate by LieGroups Layer 4 to φ_α:SU(2)→K and prove
+φ_α(diag(exp(it),exp(−it)))=exp_K(tα∨). Its image is compact; its kernel
+is contained in {I,−I}. Prove the normalizer element acts on 𝔱 by
+X↦X−α(X)α∨ and compare the actual torus root character with this
+reflection. These are deductions from the root-space bracket and Lie
+integration inputs, with the compact-real and derivative comparisons proved
+here, before any coadjoint-period calculation.
+
+- Conjugating the torus and root transports the map and its derivative;
+  changing the root-plane unit vector conjugates the SU(2) map by its torus.
+- The circle restriction defines the integral coroot cocharacter, and its
+  derivative is α∨ with the angular period 2π. Central quotients compose
+  this same map and preserve that derivative under the quotient differential.
+- On a coadjoint quotient, compare the induced SU(2)/Circle curve with
+  SchubertGeometry S9.7's root-oriented curve; the positive root orientation
+  gives the period μ(α∨)/ℏ. A Levi root gives a constant map and period zero.
+
+**Checks.**
+
+- In SU(2), H₀=diag(i,−i) has exp(2πH₀)=I and α(H₀)=2;
+  H₀/2 has exp(2πH₀/2)=−I and cannot replace the coroot.
+- Under SU(2)→SO(3), H₀ maps to 2Z for the period-2π rotation generator Z.
+  At radius 1/2 and ℏ=1, μ(2Z)=1, area/(2π)=1 and the central fibre phase
+  is exp(iπ)=−1; at radius 1 the values are 2, 2 and +1.
+- A torus or the trivial group has no roots and no rank-one map to construct;
+  a collapsed root at μ(α∨)=0 gives zero period, not a positive-area sphere.
+
+*Needs:* LieGroups Layers 2–4 and Layer 6's maximal tori; CompactGroups' Haar
+integration; LieHighestWeight Layer 0 and Mathlib's complex Killing root-space
+and sl₂-triple theory. Only the final quotient-curve comparison uses
+HamiltonianReduction R2 and SchubertGeometry S9.7.
+
 ### 3.2 Coadjoint characters and period maps (Q2A.2)
 
  Work on HamiltonianReduction
@@ -482,7 +577,7 @@ the Maurer–Cartan equation with its factor1/2 and explicitly compare the
 quotient tangent map, HR's positive left fundamental fields and Q2's signs.
 
 For compact connected K use HR R2's connected coadjoint centralizer H and
-LieGroups' actual maximal torus T⊂H and compact root datum. Write Y=X_*(T)
+LieGroups' actual maximal torus T⊂H and §3.1a's compact root datum. Write Y=X_*(T)
 and define ι:Y→𝔱 by y(exp(2πit))=exp_K(2πtι(y)). For a character ν of T
 write ν(exp X)=exp(iℓ_ν(X)); then ℓ_ν(ι(y))=⟨ν,y⟩. Construct these maps,
 their differential identities and the perfect character/cocharacter pairing.
@@ -516,33 +611,25 @@ keep the fixed-moment and variable-moment existence problems separate.
 - On a point orbit of Circle, ω=0 for every central moment; moments 0 and 1
   give characters 1 and z, whereas moment 1/2 fails exp(2πiμ)=1.
 
-*Needs:* §3.1; HamiltonianReduction R2; LieGroups Layer 6;
+*Needs:* §§3.1–3.1a; HamiltonianReduction R2; LieGroups Layer 6;
 ConvexityToric T1's character/cocharacter period normalization;
 §3.3 only for the inference from all root periods to ordinary integrality.
 
 ### 3.3 Integral root curves and the ordinary holomorphic Picard group
 
 Let K be compact and connected, H its coadjoint centralizer, and I the simple
-roots of its Levi factor for a fixed chamber face. On the actual K/H construct
-the rank-one root spheres for simple roots outside I using LieGroups Layer 6's
-rank-one subgroups. Compare their quotient tangent maps with HamiltonianReduction
-R2a's oriented two-handles: the characteristic map of each two-cell represents
-the corresponding root sphere with degree +1. Prove that these classes give a
-basis of H₂(K/H;ℤ), and that evaluation gives
-H²(K/H;ℤ)≃ℤ^(Δ∖I). This is a root-labelled comparison with the supplied
-cellular/singular map, not a second construction of the even-cell model.
-Prove naturality for flag projections, products and finite central coverings.
-The simply connected derived cover gives fundamental-weight associated lines;
-the rank-one transition of its jth line has degree δᵢⱼ on the ith root sphere.
-This degree matrix also checks the orientation of the characteristic maps.
-
-Give K/H its invariant complex structure from the chosen negative parabolic:
-the non-Levi root spaces determine the (1,0) tangent space, and their bracket
-closure proves integrability. Identify it with the complex homogeneous flag
-using the quotient charts and LieGroups Layer 8's full-flag comparison, followed
-by the parabolic projection. A coadjoint element in the relative interior of
-the face supplies a positive invariant Kähler form; this construction needs no
-integral weight or projective embedding.
+roots of its Levi factor for a fixed chamber face. Use SchubertGeometry
+S9.1/S9.7's actual partial flag, root curves and oriented characteristic-map
+comparison with HamiltonianReduction R2a. Its two-cell classes give the basis
+of H₂(K/H;ℤ); apply AlgebraicTopology's universal-coefficient comparison to
+obtain evaluation H²(K/H;ℤ)≃ℤ^(Δ∖I). Apply §3.1a's normalized maps to
+these same curves for the prequantum periods of §3.2. The simply connected
+derived cover gives fundamental-weight associated lines; compute the
+transition of its jth line on the ith curve to have degree δᵢⱼ. Prove the
+resulting degree maps are natural for parabolic projections, products and
+finite central coverings. The complex structure, positive invariant KKS
+metric and coefficient +1 of each characteristic map are the S9.7 inputs;
+they require no integral weight or projective embedding.
 
 Define its ordinary holomorphic Picard group as tensor-isomorphism classes of
 ComplexKahlerGeometry K4's holomorphic lines. Use ComplexComparisonPartII C0.3's
@@ -578,8 +665,9 @@ that ordinary lines already carry a K-linearization.
   the Chern map is not injective there, so the flag vanishing hypotheses are essential.
 
 *Needs:* §3.1's associated lines; §3.2's rank-one period computation;
-HamiltonianReduction R2/R2a's homogeneous orbit, root tangent planes and even-cell model;
-LieGroups Layers 6–8's rank-one groups, complexification and full-flag quotient;
+§3.1a's normalized rank-one maps; SchubertGeometry S9.1/S9.7's partial-flag
+Kähler and integral characteristic-map comparisons; HamiltonianReduction R2/R2a;
+LieGroups Layers 6–8's maximal tori, complexification and full-flag quotient;
 AlgebraicTopology Stages 4–6's integral cellular/singular comparison;
 ComplexKahlerGeometry K1/K2/K4/K5b.1/K6.1; ComplexComparisonPartII C0.3/C5.1/C5.4.
 
@@ -649,7 +737,8 @@ projectivization, not an asserted ℂP^(−1) line classification.
 - For U(3), O(1) has central phase exp(−2πi/3), while O(3) has phase 1.
   For a torus the ordinary lattice is 0 and every character is in the forgetful kernel.
 
-*Needs:* §§3.1–3.3; LieGroups Layers 5–8's covering and compact root data;
+*Needs:* §§3.1–3.3, including §3.1a's compact root adapter;
+LieGroups Layers 5–8's covering, maximal-torus and complexification contracts;
 HamiltonianReduction R2's concrete SO(3), SU(2) and U(N) comparisons.
 
 ### Examples
@@ -667,11 +756,15 @@ Picard conclusion; no section-exhaustion or Borel–Weil theorem is used to prov
 
 ### 4.1 Polarizations and leafwise equations
 
-A real polarization is an involutive smooth Lagrangian subbundle of TM.
+A real polarization is an involutive smooth Lagrangian subbundle of TM
+(Schottenloher, version 15.6, Definition 9.8, p. 125).
 The complex polarization in this roadmap is `T^(0,1)M` of a Kähler manifold,
 with the positivity convention above. Define polarized sections by
 `∇_Zs=0` for **local** smooth polarization fields Z, prove the adapted
-real-coordinate and holomorphic-chart equations and restriction/gluing.
+real-coordinate and holomorphic-chart equations and restriction/gluing
+(Schottenloher, Definition 10.1, p. 141; Demailly, V Definitions 11.3 and
+12.1, pp. 267–268). The real leafwise gauge statement is a deduction from
+the following exact Frobenius and homotopy suppliers.
 For the real branch prove the parametric leafwise Poincaré lemma in Frobenius
 charts from DifferentialGeometry's homotopy operator: a local potential
 restricts to a closed one-form on each Lagrangian plaque and can be modified
@@ -753,7 +846,10 @@ Mathlib `LieSubalgebra` and the native subalgebra/module carriers.
 For regular real polarizations with smooth
 Hausdorff leaf space, prove descent and its holonomy obstruction. Define
 Bohr–Sommerfeld leaves by trivial restricted prequantum holonomy and
-prove their transport under bundle/polarization isomorphisms. Pullback
+prove their transport under bundle/polarization isomorphisms
+(Schottenloher, version 15.6, Definition 11.4 and Proposition 11.5,
+pp. 167–168; the nonzero-section converse uses SmoothBundlesConnections
+B5.2's flat parallel-transport dictionary). Pullback
 of polarized sections is stated for connection-preserving maps carrying
 source polarization vectors into the target polarization; construct and
 prove that precise pullback operation.
@@ -836,7 +932,7 @@ CotangentLagrangian C1 and SmoothBundlesConnections B2 for the bundle/L² compar
 
  Consume ComplexKahlerGeometry K7's
 ℂPⁿ, O(k), section/polynomial dictionary and normalized ω_FS.
-For k≥1 use `ω=2πℏk ω_FS` and O(k), construct the polarized Hermitian
+For an integer k≥1 use `ω=2πℏk ω_FS` and O(k), construct the polarized Hermitian
 L² inner product and prove dimension `binomial(n+k,n)`. The k=0
 holomorphic-section calculation is a bundle statement, not a
 symplectic prequantization. For ℂP¹ compare with LieGroups' full-flag
@@ -844,6 +940,11 @@ Borel–Weil theorem; for n≥2 use K7's direct polynomial construction.
 For SU(2), `H⁰(O(k))≃Sym^k((ℂ²)*)`; use the invariant ε pairing for
 the explicit intertwiner with `Sym^k ℂ²`, and prove Q2's lift agrees
 with the natural action on O(k) with the normalized moment map.
+The dimension and polynomial realization are applications of
+ComplexKahlerGeometry K7.2. The L² and action comparisons are deductions
+from SmoothBundlesConnections B2.2, §4.3's Chern dictionary and §2.1's
+uniqueness of the prescribed lift; on degree-one coordinate sections the
+section action is the dual action, and tensoring determines every degree.
 - The polarized L² pairing is positive on nonzero holomorphic sections, and the
   projective quantization identifies the section action with the dual polynomial action.
 - For SU(2), the invariant alternating pairing supplies the stated dual-to-standard intertwiner.
@@ -861,7 +962,7 @@ LieGroups Layer 8 for the SU(2) representation comparison.
 
 ### 5.3 Torus polarizations
 
- Let `M=ℝ²/ℤ²`, `ω=2πℏk dq∧dp`, k>0,
+ Fix an integer k>0. Let `M=ℝ²/ℤ²`, `ω=2πℏk dq∧dp`,
 `τ∈ℍ` and `z=q+τp`. Pin the holomorphic-section automorphy law
 `s(z+1)=exp(2πiα)s(z)` and
 `s(z+τ)=exp(2πiβ−πikτ−2πikz)s(z)`, α,β real modulo integers.
@@ -872,13 +973,23 @@ curvature and derive its principal/line holonomy. Pin the local metric
 `exp(−2πi(kp+α))`; principal holonomy is its inverse. Develop theta
 series using Mathlib's `jacobiTheta₂`, consuming its existing summability
 and translation laws; prove the level-k characteristic versions and
-a k-element basis, hence dimension k.
+a k-element basis, hence dimension k. This is a Fourier-series deduction:
+write s(z)=Σ_m c_m exp(2πi(m+α)z); the τ law is equivalent to
+c_(m+k)=exp(2πi(m+α)τ−2πiβ+πikτ)c_m. Thus one coefficient for each
+residue modulo k determines the section; the resulting Gaussian-decay
+series converge locally uniformly since k>0 and Im τ>0. Prove convergence
+and the converse Fourier expansion using the native theta and Fourier
+suppliers, rather than assuming a dimension from the automorphy law.
 On the real leaves `{p=constant}`, prove the Bohr–Sommerfeld criterion
 `kp+α∈ℤ`; flat twisting shifts these k leaves. Define this real
 quantization as the direct sum of their parallel lines and prove its
 dimension k. Prove every smooth global polarized section is zero,
 since non-Bohr–Sommerfeld leaves are dense. The direct-sum
-quantization is not that zero smooth-section space.
+quantization is not that zero smooth-section space. The holonomy criterion
+and vanishing on the complementary leaves are the application of §4.3
+(Schottenloher, Definition 11.4 and Proposition 11.5, pp. 167–168);
+the explicit metric, curvature and leaf count are deductions from the
+displayed factors and SmoothBundlesConnections B3.1/B4.1/B5.0.
 
 All comparison maps retain their normalization and respect the declared
 bundle/gauge morphisms. Explicit bases and examples are actual constructions,
@@ -893,14 +1004,15 @@ not only dimension formulas.
 **Checks.**
 
 - Translating by 1 then τ versus τ then 1 changes the factor by exp(−2πik)=1;
-  at k=1/2 it is −1, so nonintegral k does not define the stated torus line.
+  at k=1 and k=2 it is 1, and the respective dimensions are 1 and 2.
+  At k=1/2 it is −1, so nonintegral k does not define the stated torus line.
 - At τ=i, k=1, α=β=0 the metric ratio under z↦z+i is exp(−4π Im z−2π),
   inverse to the squared automorphy norm exp(4π Im z+2π); their product is 1.
 - At k=2, α=0 the real direct sum has dimension 2, while a smooth section
   vanishing on the dense complement of p=0,1/2 is identically zero. At k=1, α=1/2,
   the unique Bohr–Sommerfeld leaf is p=1/2, not p=0.
 
-*Needs:* Layers 1 and 4; ComplexKahlerGeometry K7.2's torus line examples;
+*Needs:* Layers 1 and 4; ComplexKahlerGeometry K7.2's flat complex torus;
 Mathlib `jacobiTheta₂` and its translation/summability laws.
 
 ### Examples
@@ -927,7 +1039,9 @@ section representation by `(t·s)(x)=t_L(s(t⁻¹·x))`; `m_n(λ)` is the
 multiplicity of `χ_λ` in `H⁰(M,L^n)`. Prove the moment-map/Kostant/fixed-point
 dictionary for these choices, including how twisting the linearization by a
 character translates the moment map and weight labels, so the moment-map sign
-and weight sign cannot be changed independently.
+and weight sign cannot be changed independently (Sjamaar, arXiv v1,
+§2.2, equation (2.3) and the following section-action formula, p. 24;
+replace his 2πΦ by μ).
 
 - The section representation is a left action, and tensor powers multiply fibre weights
   by n; a linearization twist by κ sends μ to μ+κ and λ to λ+nκ.
@@ -971,10 +1085,10 @@ where the equivariant index is identified with the section representation.
 Then Dolbeault identifies the equivariant holomorphic Euler character with
 the actual `H⁰` character. Do not duplicate the vanishing theorem. The
 embedding from a positive compact-Kähler line is a separate Q5 construction,
-not a claim already owned by ComplexKahlerGeometry K7. Q5 must supply the
-compact-torus equivariant character/Riemann–Roch formula and coefficient
-extraction, including positive-dimensional fixed components and finite
-sector phases. Consume IndexTheory I6/I7.3 for the ordinary index, and I8.4
+not a claim already owned by ComplexKahlerGeometry K7. Section 6.3a supplies
+the compact-torus equivariant character formula and coefficient extraction,
+including positive-dimensional fixed components and their fibre phases.
+Consume IndexTheory I6/I7.3 for the ordinary index, and I8.4
 for the section-action convention; I8.3's isolated-nondegenerate-fixed-point
 case is not the general fixed-component theorem. The Kodaira map,
 linearization, residue twists and comparison maps must all be equivariant
@@ -1035,6 +1149,84 @@ them.
 Tau Ceti `TauCeti.fourierChar`, `TauCeti.fourierRep` and `TauCeti.formalCharacter`;
 ConvexityToric T1's period lattice; §6.1's geometric representation.
 
+### 6.3a Equivariant Riemann–Roch and Fourier coefficients
+
+For the compact Kähler T-manifold and T-linearized line L of §6.1, define
+χ_n(t)=Σ_q(−1)^q tr(t|H^q(M,L^n)), for every integer n≥0 and t∈T.
+For each connected component F of M^t let a_F(t) be the scalar action of t
+on L|F, and split the holomorphic normal bundle into eigenbundles N_ζ for
+eigenvalues ζ≠1. With x_(ζ,j) their Chern roots and c=c₁(L)=ω/(2π), prove
+
+`χ_n(t) = Σ_F ∫_F Td(TF) a_F(t)^n exp(n c|F) / ∏_(ζ,j)(1-ζ⁻¹ exp(-x_(ζ,j)))`.
+
+The integral takes the top ordinary differential-form degree. Chern forms
+use iF_∇/(2π); Todd roots use x/(1−exp(−x)), whose value at x=0 is 1.
+Each moving-normal denominator has nonzero degree-zero part 1−ζ⁻¹, so its
+inverse is defined by the finite positive-degree expansion on F. At t=1,
+F=M and the normal bundle has rank zero: the empty product is 1. This
+formula includes all fixed components, not just isolated fixed points
+(Meinrenken, arXiv v2, equations (3)–(5), p. 2).
+
+Construct also the near-identity formula on all of M. For a T-invariant
+Chern connection on a holomorphic equivariant bundle V let D_X denote the
+infinitesimal section action and put m_V(X)=D_X+∇_(X_M); this is a fibre
+endomorphism. Use the equivariant curvature C_V(X)=iF_V/(2π)+m_V(X)
+and the Cartan differential d−2πiι_(X_M). Thus on L,
+C_L(X)=ω/(2π)+i⟨μ,X⟩, while at a fixed point a tangent weight β
+contributes i⟨β,X⟩ to C_TM(X). Define Td_T(TM)(X) by the analytic power
+series det(C_TM(X)/(1−exp(−C_TM(X)))) near X=0 and prove independence
+of the invariant connection in equivariant cohomology. For all sufficiently
+small X prove
+
+`χ_n(exp X) = ∫_M exp(nω/(2π)+in⟨μ,X⟩) Td_T(TM)(X)`.
+
+Write Td_(T,j) for its homogeneous equivariant degree 2j part. For every
+N≥0, the rescaled formula has the expansion
+
+`n⁻ᵈ χ_n(exp(X/n)) = Σ_(j=0)^N n⁻ʲ ∫_M exp(ω/(2π)+i⟨μ,X⟩) Td_(T,j)(X) + O(n^(-N-1))`.
+
+The remainder and each fixed derivative in X are uniform on compact subsets
+of 𝔱 as n→∞. The term j=0 is
+(2π)⁻ᵈ∫_M exp(i⟨μ,X⟩)ωᵈ/d!. This is the angular normalization of
+Vergne, arXiv v1, §3, p. 4 and Theorem 3.2, p. 5; prove the rescaling by
+both ordinary form degree and polynomial degree in X, retaining the Todd
+terms of every equivariant degree.
+
+For normalized Haar measure dt on T, prove the virtual coefficient formula
+`a_n(λ)=∫_T χ_n(t) conjugate(χ_λ(t)) dt`.
+Its inputs are the finite-dimensional Dolbeault cohomology representations,
+§6.3's character-lattice comparison and CompactGroups' character orthogonality.
+Section 6.2's higher-cohomology vanishing gives a_n(λ)=m_n(λ) for all
+sufficiently large n. The fixed-component formula supplies χ_n globally;
+the near-identity expansion and its Fourier-distribution estimates supply
+§6.4's weak limit, not a pointwise weight estimate.
+
+- Character twists multiply the formula by χ_κ(t)^n and replace μ by μ+κ;
+  disconnected fixed loci retain their separate scalars a_F(t).
+- The identity formula is ordinary Riemann–Roch, and rank-zero moving normal
+  bundles contribute 1 without division by zero.
+- Haar coefficient extraction gives integers for the virtual index and
+  nonnegative multiplicities after the stated higher-cohomology vanishing.
+
+**Checks.**
+
+- On ℂP¹ with coordinate weights (0,2), put u=exp(−2it). For u≠1 the
+  O(1) fixed-point sum is 1/(1−u)+u/(1−u⁻¹)=1+u; at t=π/2 it is
+  1/2−1/2=0. At t=0 use F=ℂP¹: ∫(1+c)(1+c)=2, since ∫c=1 and c²=0.
+- At t=π in that doubled action the whole manifold is fixed again, the fibre
+  phase is 1 and the integral is 2. Dividing isolated-point terms at u=1
+  would be undefined and is not this formula.
+- For O(n) on ℂP¹, χ_n(1)=n+1 and n⁻¹χ_n(1)=1+1/n; the j=0 and
+  j=1 terms are exactly 1 and 1/n. Haar extraction for O(1) gives coefficient
+  1 at weights 0 and −2 and 0 at weight −1.
+- A point of weight κ gives χ_n(exp X)=exp(in⟨κ,X⟩), Todd factor 1
+  and rescaled character exp(i⟨κ,X⟩); the empty manifold gives zero.
+
+*Needs:* §6.1; ComplexKahlerGeometry K4/K5b.1/K6.0; IndexTheory I6/I7.3/I8.2
+for the smooth index, Dolbeault and heat-kernel floor; PseudodifferentialOperators
+P1–P2; CompactGroups' Haar characters and §6.3 for integral weight labels.
+Section 6.2 is needed only to replace the virtual index by H⁰.
+
 ### 6.4 Global distribution limit
 
  For
@@ -1065,7 +1257,7 @@ proper affine subspace; do not call such a pushforward an ambient density.
 - For a point of fibre weight κ, d=0 and ν_n=δ_κ for every n≥1;
   the zero character has mass 0 and cannot replace this quantization.
 
-*Needs:* §§6.1–6.3 and §6.8's equivariant index formula;
+*Needs:* §§6.1–6.3, in particular §6.3a’s near-identity equivariant formula;
 ConvexityToric T4's raw Liouville measure; Vergne Theorem 3.2, p. 5 (v1).
 
 ### 6.5 Reduced lines and admissible weights
@@ -1120,10 +1312,16 @@ using §§6.6–6.8 before the estimates of §6.9.
 λ∈Λ, ξ=λ/n and E=L^n⊗ℂ_(−λ), with its given Hermitian metric and
 holomorphic structure. Construct the global complexified torus
 T_C=T·exp(i𝔱), with the actual angular period lattice. Consume LieGroups
-Layer7's generic complex integration/period-quotient prefix for the abelian
-Lie algebra, before its compact semisimple, Peter–Weyl and Borel–Weil
-applications; compare its actual torus with 𝔱_C/(2πΛ_Z) and polar coordinates
-T×𝔱 from the initial Layer6 period lattice. Construct its holomorphic action
+Layer 7's universal complexification theorem for the compact torus. Construct
+here its explicit abelian adapter 𝔱_C/(2πΛ_Z)≃T_C, where
+Λ_Z=(2π)⁻¹ker(exp_T) lies in the real summand. Prove the quotient's complex
+Lie-group structure, its universal extension property and the real polar
+diffeomorphism ([X],Y)↦[X+iY] from T×𝔱, using ConvexityToric T1's
+period lattice. On Circle the map [z]↦exp(iz) identifies this quotient with
+ℂ×: [x+iy] has modulus exp(−y), and the kernel on the real line is 2πℤ.
+The rank-zero quotient is the trivial group. This comparison is proved
+here from the universal property and the explicit exponential, rather than
+assumed as an additional LieGroups contract. Construct its holomorphic action
 on M and the fibrewise complex-linear holomorphic lift to E from the
 commuting real holomorphic fields X_a and JX_a. Integrate their commuting
 flows using Q2's complete-field integration and DifferentialGeometry's
@@ -1224,6 +1422,11 @@ T versus T_C invariant-section comparison.
 
 **Checks.**
 
+- For the circle quotient, [0] and [2π] both map to 1 under exp(iz),
+  while [i] maps to exp(−1), fixing the imaginary polar direction.
+- For T² the class [(2π,0)] is zero, while [(π,0)] maps to (−1,1);
+  quotienting by πℤ² would incorrectly identify these points.
+- In rank zero 𝔱_C/(2πΛ_Z) is one point and its character group is zero.
 - For ℂP¹ coordinate weights (0,1), take n=2, λ=−1 and E=L²⊗ℂ₁.
   At [1:1], m=1 gives potential 2 log((exp(a)+exp(−a))/2):
   value 0, derivative 0 and Hessian 2 at a=0.
@@ -1237,7 +1440,8 @@ T versus T_C invariant-section comparison.
   must satisfy s=−s and is zero; the trivial line has all local scalar sections.
 
 *Needs:* §§6.1–6.3/6.5; §2.3's complete-field integration;
-LieGroups Layers 6–7; DifferentialGeometry Layer 3; ComplexKahlerGeometry
+LieGroups Layers 6–7 and ConvexityToric T1; DifferentialGeometry Layer 3;
+ComplexKahlerGeometry
 K3/K4/K7; HamiltonianReduction R3; Orbifolds O1/O2/O4.
 
 ### 6.7 Shifted Kostant bound and global extension
@@ -1346,6 +1550,19 @@ vanishing theorem to `K_{R_ξ}⊗(L_{n,λ,ξ}⊗K_{R_ξ}^{−1})`; positivity of
 `L_{n,λ,ξ}` alone is not the hypothesis of that theorem. Then its index is
 the actual holomorphic-section dimension in that range.
 
+For the effective-chart Hodge and large-power vanishing statements use
+Ma–Marinescu, arXiv v1, §5.2, equation (5.12) and Theorem 5.4, p. 33.
+Their effective-orbifold, proper-bundle hypothesis is not silently imposed
+on R_ξ: extend the argument to O4/O5's full-isotropy charts by averaging
+the local parametrix and taking finite-group invariants. Elliptic estimates
+and the Bochner inequality restrict to this invariant subspace; partitions
+of unity and the full-isotropy weighted integral globalize them. Uniformity
+on C is a separate deduction: use a finite family of reduced charts over C,
+a positive lower bound for the reduced Kähler form and an upper bound for
+canonical curvature to choose a common n₀. In particular the positivity
+test is n times a uniformly positive curvature minus a uniformly bounded
+canonical curvature. No effective replacement discards a fibre character.
+
 Construct the weighted inertia expression for this index. On a local finite
 chart `[U/G]`, sum over conjugacy classes `[g]` the O5-weighted integral on
 `[U^g/C_G(g)]` of the fixed-stratum Todd form times the eigenvalue-weighted
@@ -1385,6 +1602,9 @@ Dolbeault quasi-isomorphism is required or asserted by slice gluing alone.
 
 - For [point/μ₂], the two sectors each have weight 1/2; the trivial and sign
   fibre characters give total indices 1 and 0, respectively, not 1/2 or 1/4.
+- If the reduced positive curvature has lower bound ε=1/2 and the canonical
+  curvature has norm at most C₀=3, nε−C₀ is 0 at n=6 and 1/2 at n=7;
+  the strict positivity argument begins at 7, not at the equality boundary.
 - For the nontrivial μ₂ normal eigenvalue −1 and zero Chern root, the normal factor
   is 1−(−1)=2, giving inverse 1/2; the fixed eigenvalue 1 must be omitted from the normal bundle.
 - On a point, only degree-zero Dolbeault forms occur, so index equals fibre invariants;
@@ -1599,6 +1819,16 @@ groupoids have no target here. Analytic Floer theory remains HeegaardFloer’s s
 - [Demailly, *Complex Analytic and Differential Geometry*](https://www-fourier.univ-grenoble-alpes.fr/~demailly/manuscripts/agbook.pdf),
   V §11, p. 267; VI §9.1, p. 314; VII §13–§14, pp. 358–360, for holomorphic
   Picard classes and the positive-line embedding theorem.
+- [Schottenloher, *Lecture Notes on Geometric Quantization*](https://www.math.lmu.de/~schotten/GEQ/GEQ.pdf),
+  version 15.6, August 27, 2025: Example 7.3 and Remark 7.4, pp. 96–97;
+  Theorem 7.8, p. 99; Proposition 7.10, p. 101; Propositions 7.15–7.16,
+  p. 105; Definitions 9.8 and 10.1, pp. 125 and 141; Definition 11.4 and
+  Proposition 11.5, pp. 167–168. Page numbers are the printed pages.
+- [Tuynman, *Integrating infinitesimal (super) actions*](https://arxiv.org/abs/1302.2823v2),
+  Theorem 7.9, p. 39, for complete infinitesimal actions, using its ordinary-manifold case.
+- [Ma–Marinescu, *Toeplitz operators on symplectic manifolds*](https://arxiv.org/abs/0806.2370v1),
+  §5.2, equation (5.12) and Theorem 5.4, p. 33, for effective-orbifold Hodge
+  theory and large-power vanishing; §6.8 specifies the full-isotropy extension.
 - Kostant, *Quantization and Unitary Representations*, for prequantization and
   lifted symmetries.
 - Woodhouse, *Geometric Quantization*, for real/complex polarizations and
