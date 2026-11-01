@@ -872,7 +872,7 @@ These inputs commission the following construction, separately from the native
 Freudenthal–Casimir proof used in Layer 6. The identification it reaches,
 that the torus character of the rational irreducible of highest weight λ is
 the determinant-shifted Schur polynomial, is the statement owned by
-ClassicalGroups Layer 4; this layer is an independent Haar-measure proof of
+ClassicalGroups Layer 4 (`character_irreducible_eq_detTwist`); this layer is an independent Haar-measure proof of
 it and owns the integral virtual-character, finite-induction, tensor and
 branching applications below.
 
