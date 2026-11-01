@@ -1,5 +1,6 @@
 import Mathlib
 import TauCeti.Topology.Homotopy.HomotopyGroup.Map
+import TauCeti.Topology.Homotopy.HomotopyGroup.FundamentalGroupAction
 import TauCeti.AlgebraicTopology.Singular.Twisted.Basic
 import TauCeti.AlgebraicTopology.EilenbergMacLane.Basic
 
@@ -12,12 +13,15 @@ import TauCeti.AlgebraicTopology.EilenbergMacLane.Basic
 The statements here are Quillen A and B, the latter in both comma forms
 (§§2.31, 2.34), the local-coefficient characterisation of acyclic maps (§3.7),
 plus existence and factorisation (§§3.10–3.13, 3.25), the second homotopy group
-and universal central extension of plus for an aspherical source (§3.29), and
-freeness of finite projectives over simplex function rings (§4.29).
+and universal central extension of plus for an aspherical source (§3.29), the
+H-space recognition theorem for plus constructions (§3.28), and freeness of finite
+projectives over simplex function rings (§4.29).
 Classifying spaces are Mathlib's realised nerves. The homotopy fibre is the
 subspace of the product with the continuous path space, with paths from f(x) to y,
 as in GeneralizedCohomology G2.10. Twisted homology uses Tau Ceti's local systems
-and induced homology maps. CW type means homotopy equivalence to a Hausdorff CW complex.
+and induced homology maps. Abelian spaces use Tau Ceti's action of the fundamental
+group on every homotopy group. CW type means homotopy equivalence to a Hausdorff CW
+complex.
 
 The remaining headline theorems need carriers specified in the README and are not
 stated here: the category chain complex with functor coefficients (category
@@ -97,6 +101,12 @@ def IsUniversalCentralExtension {E G : Type u} [Group E] [Group G] (q : E →* G
     ∀ (E' : Type u) (_ : Group E') (q' : E' →* G),
       Function.Surjective q' → q'.ker ≤ Subgroup.center E' →
         ∃! φ : E →* E', q'.comp φ = q
+
+/-- A connected space whose fundamental group acts trivially on every homotopy group at
+every basepoint, including by conjugation on itself (§3.14). -/
+def IsAbelianSpace (Y : TopCat.{u}) : Prop :=
+  PathConnectedSpace Y ∧ ∀ (y : Y) (n : ℕ) (γ : FundamentalGroup Y y)
+    (a : HomotopyGroup (Fin (n + 1)) Y y), γ • a = a
 
 end TauCeti
 
@@ -205,6 +215,22 @@ theorem IsPlusConstruction.fiber_universalCentralExtension
     ∃ q : FundamentalGroup (MappingPathFiber f (f x)) z →* P,
       IsUniversalCentralExtension q ∧
         P.subtype.comp q = FundamentalGroup.map proj z := sorry
+
+/-- H-space recognition (§3.28): for a plus construction `f : X → Y` at `P` with `Y` abelian
+and an integral homology isomorphism `g : X → H` into a connected H-space of CW type, `g` is
+acyclic, factors up to homotopy through `f`, and every such factorisation `Y → H` is a
+homotopy equivalence (W IV Thm. 1.8 and Remark 1.8.1). -/
+theorem IsPlusConstruction.hSpaceRecognition {H : TopCat.{u}}
+    (hX : HasCWType X) (hY : HasCWType Y) (hH : HasCWType H)
+    [PathConnectedSpace X] [PathConnectedSpace Y] [PathConnectedSpace H] [HSpace H]
+    (f : X ⟶ Y) (x : X) (P : Subgroup (FundamentalGroup X x))
+    [P.Normal] [Group.IsPerfect P] (hf : IsPlusConstruction f x P) (hYab : IsAbelianSpace Y)
+    (g : X ⟶ H)
+    (hg : ∀ n : ℕ, IsIso (((AlgebraicTopology.singularHomologyFunctor
+      (ModuleCat.{u} (ULift.{u} ℤ)) n).obj (ModuleCat.of (ULift.{u} ℤ) (ULift.{u} ℤ))).map g)) :
+    IsAcyclicMap g ∧ ∃ h : Y ⟶ H, ContinuousMap.Homotopic g.hom (f ≫ h).hom ∧
+      ∀ h' : Y ⟶ H, ContinuousMap.Homotopic g.hom (f ≫ h').hom →
+        ∃ e : ContinuousMap.HomotopyEquiv Y H, e.toFun = h'.hom := sorry
 
 
 /-- Finite projectives over continuous functions on a simplex are free, for
