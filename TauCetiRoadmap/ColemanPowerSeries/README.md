@@ -8,7 +8,7 @@ The arithmetic objects are finite intermediate fields, their native integer ring
 
 This roadmap owns explicit carrier comparisons and API refinements: the chosen-root integer-ring comparisons and transport of the supplied relative integral basis, the fixed-root lift of coefficient Frobenius, Frobenius-twisted residue splittings, signed Tate coordinates, finite semilocal transport, multiplication-matrix identities, uniform iterate precision and arbitrary-coefficient logarithmic-derivative calculations. IntegralIwasawaTheory §§7.1–7.3 own the relative integral basis, norm, trace, interpolation, actual plus-algebra quotient identification, the odd-prime arithmetic Coleman map, exact sequences, real principal circular closure and its quotient. Sections recording those results below are consumed contracts, under the supplier’s names. The all-prime formal logarithmic-derivative and boundary statements in Layer 3 extend §7.2’s odd-prime context by independent integral arguments, including `p=2`. The all-prime normalized Coleman map `Col=−Col₀` of §2.39 is constructed here; its odd-prime specialization is identified with §7.2's `arithmeticColeman`.
 
-This roadmap also owns the elementary cyclotomic denominator cyclotomicSeries, the integral smoothing series smoothingSeries and their comparison smoothingSeries_bernoulli_comparison with the Bernoulli smoothing of IntegralIwasawaTheory §5.0 (§§2.10–2.10a). Later roadmaps that need the binomial-coefficient denominator, its unit-denominator smoothed series or the inverse-Amice smoothing measure consume these declarations rather than redefining them.
+This roadmap also owns the elementary cyclotomic denominator cyclotomicSeries, the integral smoothing series smoothingSeries and their comparison smoothingSeries_bernoulli_comparison with the Bernoulli smoothing of IntegralIwasawaTheory §5.0 (§§2.10–2.10a). The common natural-parameter constructions have this single owner; any downstream use of the binomial-coefficient denominator, its unit-denominator smoothed series or the inverse-Amice smoothing measure must use this interface.
 
 Mathlib supplies product units via `MulEquiv.piUnits` (`Mathlib/Algebra/Group/Pi/Units.lean`) and the norm as a determinant in any finite basis via `Algebra.norm_eq_matrix_det` (`Mathlib/RingTheory/Norm/Defs.lean`). Their specializations are inputs; the explicit matrix entries of §1.13 and arithmetic specialization of §1.63 are additional comparisons.
 
@@ -252,9 +252,9 @@ The API includes the following statements.
 
 **Checks.**
 
-- The basis generator is the actual chosen next root.
-- The first relative basis has dimension `p`.
-- The zeroth basis vector is one.
+- At `p=2,n=0`, write `i=ρ_1` for the chosen root. In the basis `(1,i)`, `repr(i²)=(−1,0)`, rather than the coordinates `(1,0)` of a square-one generator.
+- In that same chosen basis, `repr(1+2i)=(1,2)`. Replacing the selected `i` by `−i` gives `(1,−2)` and is not the specified basis.
+- At `p=3,n=0`, the relative basis `(1,ρ_1,ρ_1²)` has length 3 and `repr(ρ_1³)=(ρ_0,0,0)`. The absolute basis of `K_1/ℚ₃` has length 6; it cannot replace this relative basis.
 
 For the proof, the primitive root generates `K_(n+1)` as an algebra over `ℚ_p` by its native cyclotomic instance. Convert to intermediate-field generation and enlarge the base to `K_n`. Convert back to algebra generation, use integrality from relative finite dimensionality, and apply native `PowerBasis.ofAdjoinEqTop`. Its dimension is the relative finrank, already `p`.
 
@@ -444,9 +444,9 @@ The API includes the following statements.
 
 **Checks.**
 
-- The zeroth integral basis vector equals one.
-- For `p=2,n=0`, the integral basis has dimension one.
-- For `p=3,n=0`, the integral basis has dimension two.
+- At `p=2,n=0`, `repr(ϖ_0)=(−2)` in the one-vector basis `(1)`; substituting the root `ρ_0` would give `(−1)`.
+- At `p=3,n=0`, `repr(ϖ_0²)=(−3,−3)` in `(1,ϖ_0)`, since `(1+ϖ_0)²+(1+ϖ_0)+1=0`; treating the square as zero fails this relation.
+- At `p=2,n=1`, put `i=ρ_1`. In `(1,i−1)`, `repr(i)=(1,1)`; using the root basis `(1,i)` instead gives `(0,1)`.
 
 For the proof, transport the equality `integralClosure=ℤ_p[π_n]` through the injective integral-closure inclusion to show that `ϖ_n` generates `O_n` over `ℤ_p`. The generator is integral and `ℤ_p` is integrally closed. Use native PowerBasis.ofAdjoinEqTop′, the version over an integrally closed domain rather than a field.
 
@@ -977,7 +977,7 @@ Construct seriesEvaluation(n): `ℤ_p⟦T⟧→O_n` as a ring homomorphism, usin
 
 The API includes the following statements.
 
-- `seriesEvaluation_eq_eval₂`: The underlying function is native `eval₂` for `ℤ_p→O_n` at `ϖ_n`.
+- The underlying function is native `eval₂` for `ℤ_p→O_n` at `ϖ_n`.
 - A constant series a evaluates to the specified scalar image of a.
 - `T` evaluates to `ϖ_n`.
 - The native image of a polynomial `f` evaluates to its polynomial algebra evaluation at `ϖ_n`.
@@ -1694,9 +1694,9 @@ The API includes the following statements.
 
 **Checks.**
 
-- The coefficient vector of 1 is (1,0,…,0).
-- At `p=2,n=0` the basis consists only of 1, since `π_0=−2` is in `O`.
-- The vector for `π_n^d_n` is reduced by the mapped shifted cyclotomic polynomial; it is not an extra independent coordinate.
+- At `p=2,n=0`, `repr(π_0)=(−2)` over `O`; the root itself has coordinate `(−1)`, so it cannot replace the shifted generator.
+- At `p=3,n=0`, `repr(π_0²)=(−3,−3)` over `O`, by `π_0²+3π_0+3=0`; there is no third independent coordinate for the square.
+- At `p=3,n=0`, `repr(ρ_0)=(1,1)` in `(1,π_0)`. In the root basis `(1,ρ_0)` the same element has coordinates `(0,1)`, distinguishing the two integral bases.
 
 For the proof, apply the generic integer-ring/integral-closure comparison from the supplier to `O⊂E_n`. The shifted prime-power cyclotomic polynomial over `O` is Eisenstein at `(p)`, because `E` is unramified and `p` remains a uniformizer. The known degree `d_n` identifies it with the integral minimal polynomial of `π_n`. For `x` integral over `O`, write `x` in the `E`-power basis of `π_n` and clear a common denominator: since `O` is a DVR with uniformizer `p`, some `p^r x` lies in `O[π_n]`. Mathlib’s `mem_adjoin_of_smul_prime_pow_smul_of_minpoly_isEisensteinAt` cancels that power for integral `x`. This proves `O_n=O[π_n]` for the chosen `π_n`, rather than merely existence of some monogenic generator. The monic minimal polynomial of degree `d_n` gives the basis `1,π_n,…,π_n^(d_n−1)`.
 
@@ -4424,9 +4424,9 @@ The supplied contract has the following properties. Separately named matrix, sig
 
 **Checks.**
 
-- At `p=2` the zeroth basis vector is 1.
-- At `p=3` the vector with index 1 is `Y`.
-- At `p=2`, `Y²` has coordinates (Y,0), not (0,Y); this tests the structural map.
+- At `p=2`, `repr(T)=(−1,1)` because `T=Y−1`; replacing the selected basis `(1,Y)` by `(1,T)` gives `(0,1)`.
+- At `p=2`, `repr(Y²)=(Y,0)`, since `φ(Y)=Y²`; the coordinates `(0,Y)` would reconstruct `Y³`.
+- At `p=3`, `repr(Y⁴)=(0,Y,0)`, since `Y⁴=Yφ(Y)`; `(0,0,Y)` would reconstruct `Y⁵`.
 
 *Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
@@ -5853,9 +5853,9 @@ The API includes the following statements.
 
 **Checks.**
 
-- `M(1)=1`.
-- If `σ(c)=c^p` for `c∈Oˣ`, `M(C(c))=C(c)`.
-- `M` is inverse coefficient Frobenius composed with the native unit norm for `Φ`.
+- At `p=2` over `O=ℤ₂`, `M(Y)=−Y`: multiplication by `Y` in the basis `(1,Y)` has matrix `[[0,Y],[1,0]]` and determinant `−Y`. The unsigned value `Y` has the wrong sign.
+- At `p=2` over `O=ℤ₂`, `M(C(3))=C(9)≠C(3)`, since the scalar multiplication matrix is `diag(3,3)` and coefficient Frobenius fixes 3. Thus `M` is not the identity on all constant units.
+- At `p=2`, let `O` be the unramified degree-three coefficient ring with residue field `𝔽₈`, and let `c` be a Teichmüller unit of order 7. Then `N(C(c))=C(c²)` and `M(C(c))=C(c)`, because `σ(c)=c²` and `σ⁻¹(c)=c⁴`; forward Frobenius would give `ΣN(C(c))=C(c⁴)≠C(c)`.
 
 For the proof, restrict the native norm homomorphism to units by native `Units.map`. Postcompose with coefficientwise `σ⁻¹`. Both maps preserve units and multiplication.
 
@@ -8938,4 +8938,4 @@ Arithmetic Iwasawa applications use the actual principal sequence, cyclotomic cl
 
 [PhiGammaModulesAndIwasawaCohomology](../PhiGammaModulesAndIwasawaCohomology/README.md#from-analytic-roadmaps) consumes §§1.45–1.49 for the integral zeroth Frobenius coordinate, trace divisibility and the comparison `τ=pψ` with the supplied bounded-measure operator.
 
-The common natural-parameter denominator, integral smoothing series and inverse-Amice Bernoulli comparison belong to §§2.10–2.10a here. They provide the input interface for DirichletPadicLFunctions, Layer 1 (§§1.1–1.2 and 1.6): the denominator has coefficients `choose(a,n+1)` and satisfies `T f_a=(1+T)^a−1`; the smoothed series is the unique F with `T f_a F=f_a−C(a)` when a is a unit. Its inverse-Amice measure is the Bernoulli smoothing of IntegralIwasawaTheory §5.0. DirichletPadicLFunctions owns the moment, p-adic-parameter and analytic refinements. This specifies the direction of supply and the shared mathematical interface.
+The common natural-parameter denominator, integral smoothing series and inverse-Amice Bernoulli comparison belong to §§2.10–2.10a here. The required shared interface for DirichletPadicLFunctions, Layer 1 (§§1.1–1.2 and 1.6), is: the denominator has coefficients `choose(a,n+1)` and satisfies `T f_a=(1+T)^a−1`; the smoothed series is the unique F with `T f_a F=f_a−C(a)` when a is a unit. Its inverse-Amice measure is the Bernoulli smoothing of IntegralIwasawaTheory §5.0. DirichletPadicLFunctions owns the moment, p-adic-parameter and analytic refinements. These ownership boundaries require downstream constructions to use the common series and comparison from §§2.10–2.10a.
