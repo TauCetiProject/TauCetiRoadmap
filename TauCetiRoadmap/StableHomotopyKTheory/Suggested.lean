@@ -16,7 +16,8 @@ The statements here are Quillen A and B, the latter in both comma forms
 plus existence and factorisation (§§3.10–3.13, 3.25), the second homotopy group
 and universal central extension of plus for an aspherical source (§3.29), the
 H-space recognition theorem for plus constructions (§3.28), and freeness of finite
-projectives over simplex function rings (§4.29).
+projectives over simplex function rings (§4.29), and generic cellular approximation
+in triangulated categories (§5.17).
 Classifying spaces are Mathlib's realised nerves. The homotopy fibre is the
 subspace of the product with the continuous path space, with paths from f(x) to y,
 as in GeneralizedCohomology G2.10. Twisted homology uses Tau Ceti's local systems
@@ -30,7 +31,8 @@ homology), the Hurewicz map with primitive rational homology (rational Hurewicz)
 the fraction categories and stable automorphism diagrams (monoidal group
 completion and its linear and orthogonal plus comparisons), the Segal machine and
 its connective spectra (topological K-theory), the symmetric-sphere-module spectra
-with their stable localisation (Layers 5 and 7), Waldhausen categories and the
+with their stable localisation and the spectral specialization of cellular approximation
+(Layers 5 and 7), Waldhausen categories and the
 S-construction (Layer 6), and spectral operad algebras, the deformation category
 and HF₂-synthetic spectra (the quotient and Moore Eₙ theorems).
 -/
@@ -143,7 +145,9 @@ def HasCWType (X : TopCat.{u}) : Prop :=
   ∃ W : TopCat.{u}, Nonempty (Topology.CWComplex (Set.univ : Set W)) ∧ T2Space W ∧
     Nonempty (ContinuousMap.HomotopyEquiv W X)
 
-/-- A surjective central homomorphism initial among central extensions of its target. -/
+/-- Native-group adapter for RepresentationTheory/InductionRestriction Layer 7's
+universal property: a central surjection initial among central extensions of its target,
+with all groups in the same universe. -/
 def IsUniversalCentralExtension {E G : Type u} [Group E] [Group G] (q : E →* G) : Prop :=
   Function.Surjective q ∧ q.ker ≤ Subgroup.center E ∧
     ∀ (E' : Type u) (_ : Group E') (q' : E' →* G),
@@ -236,6 +240,39 @@ theorem continuousFunctions_projective_free (𝕜 : Type) [RCLike 𝕜] (n : ℕ
     [Module.Finite C(SimplexCategory.toTop₀.obj ⦋n⦌, 𝕜) P]
     [Module.Projective C(SimplexCategory.toTop₀.obj ⦋n⦌, 𝕜) P] :
     Module.Free C(SimplexCategory.toTop₀.obj ⦋n⦌, 𝕜) P := sorry
+
+/-! ## Layer 5: Stable comparisons and cellular approximation -/
+
+open CategoryTheory.Pretriangulated Opposite CategoryTheory.Pretriangulated.Opposite
+
+/-- An object is compact when its additive represented functor preserves all coproducts
+indexed in the morphism universe. -/
+def IsCompactForCoproducts {T : Type u} [Category.{v} T] [Preadditive T]
+    (G : T) : Prop :=
+  ∀ J : Type v, PreservesColimitsOfShape (Discrete J) (preadditiveCoyoneda.obj (op G))
+
+/-- The smallest isomorphism-invariant class containing a small family and closed under
+small coproducts and third objects of distinguished triangles whose first two objects lie
+in the class (Schwede, Symmetric spectra II, Proposition 5.14). -/
+def InCellClosure {T : Type u} [Category.{v} T] [Preadditive T] [HasZeroObject T]
+    [HasShift T ℤ] [∀ n : ℤ, (shiftFunctor T n).Additive] [Pretriangulated T]
+    [HasCoproducts.{v} T] {I : Type v} (G : I → T) (R : T) : Prop :=
+  ∀ P : T → Prop, (∀ i, P (G i)) →
+    (∀ {A B : T}, (A ≅ B) → P A → P B) →
+    (∀ (J : Type v) (f : J → T), (∀ j, P (f j)) → P (∐ f)) →
+    (∀ t : Triangle T, t ∈ distTriang T → P t.obj₁ → P t.obj₂ → P t.obj₃) → P R
+
+/-- For a small family of compact objects, every contravariant cohomological functor
+that takes small coproducts to products admits an element on a cellular object inducing
+bijections on that family (Schwede, Symmetric spectra II, Proposition 5.14). -/
+theorem cellularApproximation {T : Type u} [Category.{v} T] [Preadditive T]
+    [HasZeroObject T] [HasShift T ℤ] [∀ n : ℤ, (shiftFunctor T n).Additive]
+    [Pretriangulated T] [IsTriangulated T] [HasCoproducts.{v} T]
+    {I : Type v} (G : I → T) (hG : ∀ i, IsCompactForCoproducts (G i))
+    (E : Tᵒᵖ ⥤ AddCommGrpCat.{v}) [E.IsHomological]
+    (hE : ∀ J : Type v, PreservesLimitsOfShape (Discrete J) E) :
+    ∃ R : T, InCellClosure G R ∧ ∃ x : E.obj (op R),
+      ∀ i, Function.Bijective (fun f : G i ⟶ R => E.map f.op x) := sorry
 
 end TauCetiRoadmap.StableHomotopyKTheory
 

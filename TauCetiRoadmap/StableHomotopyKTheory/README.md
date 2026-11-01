@@ -9,6 +9,7 @@ This extends **Algebraic topology of spaces and manifolds**. The following mathe
 - **AlgebraicTopology**, stages 1–4, owns van Kampen, singular and relative chains, twisted chains with local coefficients, excision and the cellular–singular comparison with local coefficients (items 3.3 and 4.3), cellular homology, mapping cylinders, cellular approximation, CW cofibrations and the CW structure `simplicialRealizationCW` on the realisation of every simplicial set (item 4.7). Stages 5–6 own Serre fibrations and ordinary cohomology; the homology and cohomology Serre spectral sequences and the fibration homotopy exact sequence are DGFloer Layer 1 item 2's, which AlgebraicTopology 5.5 consumes. Stage 8 owns cubical/Kan homotopy comparison, based relative homotopy, absolute and simply connected relative Hurewicz, Whitehead, the group nerve classifier `groupClassifyingSpace` with its K(π,1) property and its comparison with ClassifyingSpaces (item 8.8), relative and local-coefficient obstruction cochains for Serre fibrations with n-simple fibres (item 8.9), and ordinary cohomology representability (item 8.10). Comparisons of realised nerves with category chains, translation categories of general G-sets and the nerve-to-bar chain isomorphism belong here. The extensions for arbitrary fibre pairs are stated explicitly below.
 - **GeneralizedCohomology**, G2, G3 and G5.4–G5.6, owns the symmetric-sphere-module model, its stable and monoidal homotopy theory, Γ-machine, ordinary coefficients, derived spectral limits, localization and completion, Bott spectra and rational stable comparison. The additional point-set, algebraic K-theory, coefficient and convergence comparisons are specified here.
 - **UniversalCovers**, Stage 0 items 3–4 and Stage 1 item 5, owns the action/deck carriers and universal deck comparison; Stages 2–4 own cover classification, covering-induced homotopy isomorphisms, basepoint change and recognition of aspherical spaces. The group nerve classifier and its comparison with ClassifyingSpaces Stages 1–4 are AlgebraicTopology 8.8's; the category-level translation and subgroup comparisons and the nerve-to-bar chain isomorphism are local.
+- **RepresentationTheory/InductionRestriction**, Layer 7, “Abstract universal central extensions”, owns central extensions of arbitrary groups, their universal property, the free-presentation construction for perfect groups, perfection of its source and uniqueness of lifts. Section 3.29 adds the kernel–H₂ and superperfectness comparisons and the identification with the plus fibre.
 - **GrothendieckEulerForms**, layer 2, and Tau Ceti's `TauCeti.SplitK0.grothendieckAddGroupEquiv` own algebraic split K₀. Mathlib owns algebraic group completion. This roadmap constructs a space and identifies its components with those groups.
 - **IntegralLattices**, 0A, supplies integral forms, isometries and orthogonal sums; 0E supplies signatures, 2C supplies orthogonal groups and orthogonal-sum embeddings without a definiteness assumption, and 6A supplies indefinite unimodular classification. **OrthogonalSpinGroups**, 0C, supplies only the bilinear/quadratic base-change comparison. The new targets here are cofinal stabilization and the classifying-space and plus comparison.
 - **BordismFormalGroups**, F6.5, owns Sp∞, symmetric coherence, infinity-operad interfaces and the monoidal model-localization comparison for GeneralizedCohomology's spectra. The comparisons here use those supplied objects.
@@ -17,7 +18,7 @@ This extends **Algebraic topology of spaces and manifolds**. The following mathe
 
 StableHomotopyKTheory owns generic nerve homotopy, Quillen A/B, acyclic and plus constructions, monoidal group completion and generic Waldhausen/S foundations, including the Waldhausen structure on each SₙC. AlgebraicKTheory A0–A1 owns the arbitrary-ring matrix, elementary-subgroup and projective-complement algebra; §§4.14–4.15 here adapt its objects to classifying spaces and left modules. GeneralAlgebraicKTheory consumes the generic homotopy and Waldhausen interfaces and owns Q-theory, localization, approximation and ring-specific comparisons. The map-level contracts in Downstream consumers identify these constructions and the ring specialization of the general plus factorization.
 
-Local foundations include universal central extensions (Layer 3); stable-linear classifying-space and projective-cofinality adapters and the function-ring model of topological K-theory (Layer 4); stable and operadic comparisons (Layer 5); Waldhausen categories, S-construction, additivity and relative-S delooping (Layer 6); and the spectral comparison with supplied countable-tower algebra, the Eₙ quotient obstruction tower, the Patchkoria–Pstrągowski deformation and the HF₂-site extension of EllipticCohomology E4.A's MU-synthetic spectra (Layer 7).
+Local foundations include relative fibre Serre comparison and the homological and plus-fibre refinements of universal central extensions (Layer 3); stable-linear classifying-space and projective-cofinality adapters and the function-ring model of topological K-theory (Layer 4); stable and operadic comparisons (Layer 5); Waldhausen categories, S-construction, additivity and relative-S delooping (Layer 6); and the spectral comparison with supplied countable-tower algebra, the Eₙ quotient obstruction tower, the Patchkoria–Pstrągowski deformation and the HF₂-site extension of EllipticCohomology E4.A's MU-synthetic spectra (Layer 7).
 
 Nerves, realisation, local coefficient carriers, universal covers, split K₀, chain cones and abstract spectral-sequence pages retain their supplier objects. Tau Ceti also supplies `TauCeti.HasHomotopyExtensionProperty`, its cylinder-retraction criterion and cross-universe extension theorem in `Topology.Homotopy.Extension.Basic`; these enter as prerequisites, rather than a new HEP theory. The new proper-realisation and gluing targets use this property on closed embedding images.
 
@@ -49,6 +50,8 @@ Use `CategoryTheory.nerve`, `nerveMap`, `nerveFunctor`, `SSet.toTop` and `sSetTo
 
 Compact generation uses `CompactlyGenerated`, `CompactlyGenerated.of`, `compactlyGeneratedToTop` and `TopologicalSpace.compactlyGenerated`. The weak-Hausdorff subcategory, its closed products/mapping objects and closed-embedding pushouts are the extensions below. Padic residue comparisons use `PadicInt.toZModPow`, `PadicInt.lift_spec` and `PadicInt.lift_unique` from `NumberTheory.Padics.RingHoms`. Category-localisation and covering comparisons use `CategoryTheory.FreeGroupoid`, comma categories, `CategoryTheory.Grothendieck` and Mathlib's fibre-category interfaces. Monoidal constructions use `CategoryTheory.Core`, `MonoidalCategory` and `SymmetricCategory`. The coherent action input is Mathlib’s `CategoryTheory.MonoidalCategory.MonoidalLeftAction` from `CategoryTheory.Monoidal.Action.Basic`. Iso-class monoids and their functorial maps are `Skeleton.instMonoid`, `Skeleton.instCommMonoid`, `Skeleton.monoidHom` and `Skeleton.mulEquiv` from `CategoryTheory.Monoidal.Skeleton`; only their comparison with classifying-space components is new here; the algebraic component group is `Algebra.GrothendieckGroup`. The model-category construction uses `HomotopicalAlgebra.ModelCategory`, rather than a private collection of lifting predicates. Triangles use `CategoryTheory.Pretriangulated`; spectral-sequence pages use `CategoryTheory.Abelian.SpectralObject` and `SpectralSequence`. Completion comparisons use `AdicCompletion.ofTensorProductEquivOfFiniteNoetherian` from `RingTheory.AdicCompletion.AsTensorProduct`: over a commutative Noetherian ring R, for an ideal I and finite R-module M, the completed tensor product `(AdicCompletion I R) ⊗[R] M` identifies with `AdicCompletion I M`.
 
+For §5.17 use `CategoryTheory.Pretriangulated` and `CategoryTheory.IsTriangulated` from `Mathlib/CategoryTheory/Triangulated/Pretriangulated.lean` and `Mathlib/CategoryTheory/Triangulated/Triangulated.lean`. Use `CategoryTheory.Functor.IsHomological` from `Mathlib/CategoryTheory/Triangulated/HomologicalFunctor.lean` on the opposite category: it supplies exactness and zero-map preservation, not preservation of infinite products. Use `CategoryTheory.preadditiveCoyoneda` from `Mathlib/CategoryTheory/Preadditive/Yoneda/Basic.lean` for the additive represented functor and the discrete-diagram preservation predicates from `Mathlib/CategoryTheory/Limits/Preserves/Basic.lean`; the separate product-preservation hypothesis is essential.
+
 ### From Tau Ceti
 
 Use `HomotopyGroup.map` and its homomorphism form, `TauCeti.homotopyGroupEquivOfPath`, the fundamental-group action and `HomotopyGroup.loopSpaceMulEquiv`. The path-component/loop comparison is `HomotopyGroup.zerothHomotopyLoopSpaceEquivFundamentalGroup`. Use `TauCeti.LocalCoefficientSystem` with its constant and pullback functors, `TauCeti.CoveringSpace` with its monodromy functor, and `TauCeti.IsEilenbergMacLaneSpaceOne` with its asphericity condition. Comparisons preserve these basepoints, composition and coefficient handedness. Their Lean modules are `TauCeti.Topology.Homotopy.HomotopyGroup.{Map,BasepointChange,FundamentalGroupAction,LoopSpace}`, `TauCeti.AlgebraicTopology.LocalCoefficient`, `TauCeti.Topology.Covering.Monodromy.Basic`, `TauCeti.AlgebraicTopology.EilenbergMacLane.Basic` and `TauCeti.AlgebraicTopology.EilenbergMacLane.Covering`.
@@ -56,6 +59,10 @@ Use `HomotopyGroup.map` and its homomorphism form, `TauCeti.homotopyGroupEquivOf
 ### From AlgebraicKTheory
 
 AlgebraicKTheory A0–A1 supplies the finite-projective splitting maps, finite block matrices, stable GL under trailing-identity stabilization, its elementary subgroup, normality, perfectness and equality with the commutator subgroup, for arbitrary associative unital rings including zero. Its projectives are right modules, with matrices acting on columns. For left R-modules use its A0 at Rᵐᵒᵖ, the canonical double-opposite scalar identification and the transpose/opposite adapter of §4.15. The underlying finite-projective category remains Tau Ceti's native category. No higher-K comparison is an input to A0–A1. The topology and plus multiplication on these supplied groups belong to §4.14.
+
+### From RepresentationTheory/InductionRestriction
+
+[RepresentationTheory/InductionRestriction](../RepresentationTheory/InductionRestriction/README.md#abstract-universal-central-extensions), Layer 7, “Abstract universal central extensions”, supplies surjective central homomorphisms of arbitrary groups, initiality among central extensions over the same target, existence for perfect groups through U=[F,F]/[F,R], perfection of U, unique lifts and independence of the presentation. The predicate `IsUniversalCentralExtension` in the acceptance file is an adapter expressing that supplied universal property on native groups in a fixed universe. Section 3.29 supplies the kernel–H₂ identification, superperfect recognition and the plus-fibre comparison; it does not reconstruct the abstract extension.
 
 ### From TangentialBordism
 
@@ -103,7 +110,7 @@ Consume [GeneralizedCohomology](../GeneralizedCohomology/README.md) at the follo
 
 ## How to read the build
 
-Layers 1–2 build category spaces, chains and fibre tools for Quillen’s theorems. Layers 3–4 construct plus and group completion. Layer 5 compares point-set and derived spectral structures; Layer 6 assembles K-theory deloopings; Layer 7 supplies finite coefficients, completion comparisons and filtered convergence. Subsections give contracts, API, checks, sources and prerequisites. `Suggested.lean` states Quillen A in its comma form and B in both comma forms, the local-coefficient acyclicity criterion, plus existence and factorization, the second homotopy group and universal central extension of plus for aspherical sources, the H-space recognition theorem for plus constructions, and freeness over simplex function rings. Its definitions use native realised nerves, continuous path spaces, singular homology, fundamental groups and Tau Ceti's action of the fundamental group on the homotopy groups. The constructions of category chains, plus spaces, monoidal completion and the spectral/coefficient comparisons are specified here with their full interfaces and checks; their carriers are introduced by the targets below. This document is the mathematical specification.
+Layers 1–2 build category spaces, chains and fibre tools for Quillen’s theorems. Layers 3–4 construct plus and group completion. Layer 5 compares point-set and derived spectral structures; Layer 6 assembles K-theory deloopings; Layer 7 supplies finite coefficients, completion comparisons and filtered convergence. Subsections give contracts, API, checks, sources and prerequisites. `Suggested.lean` states Quillen A in its comma form and B in both comma forms, the local-coefficient acyclicity criterion, plus existence and factorization, the second homotopy group and universal central extension of plus for aspherical sources, the H-space recognition theorem for plus constructions, freeness over simplex function rings, and generic cellular approximation in triangulated categories. Its definitions use native realised nerves, continuous path spaces, singular homology, fundamental groups, Tau Ceti's action of the fundamental group on the homotopy groups, and Mathlib's triangulated categories and additive represented functors. The constructions of category chains, plus spaces, monoidal completion and the spectral/coefficient comparisons are specified here with their full interfaces and checks; their carriers are introduced by the targets below. This document is the mathematical specification.
 
 Reference abbreviations below are Q (Quillen), W IV/V (Weibel), C (Carlsson), H AT/SS (Hatcher), S (Schwede), HSS, BF, NS, BS, HA (Lurie), Sh (Shipley), HK III (Calmès et al.), Sch (Schlichting), Bu (Burklund), AT II (Araki–Toda), BHS (Burklund–Hahn–Senger), PP (Patchkoria–Pstrągowski) and Pst (Pstrągowski). M and TC in prerequisites mean the exact Mathlib and Tau Ceti suppliers above. The declarations in the acceptance file belong to `TauCetiRoadmap.StableHomotopyKTheory`; `SymmSpectrum` and SHC denote GeneralizedCohomology G2’s supplied symmetric-sphere-module carrier and stable localization, while `naivePi` and `pi` denote its naïve and true homotopy groups. The notation `homotopyFiber f b` denotes its `MappingPathFiber f b`, and `EilenbergMacLaneSpace A n` denotes DGFloer Layer 1 item 4’s CW K(A,n). These are supplier notations, not new carrier definitions.
 
@@ -331,6 +338,12 @@ For connected C and a rooted maximal tree, prove the presentation of π₁(BC): 
 - Hom(π₁BC,H) corresponds to arrow labels with id↦1, f≫g↦label(g)label(f), and tree edges↦1.
 - A homomorphism labels f by its value on treeLoop(f).
 
+**Checks.**
+
+- For [1] with its unique maximal tree, the only nonidentity edge is in the tree: there are no non-tree generators and π₁ is trivial.
+- For two parallel arrows f,g:0→1 with f chosen as tree edge, the loop following g and returning along f is a generator of π₁=ℤ; reversing its traversal gives −1 instead of +1.
+- For SingleObj C₃ and the empty edge tree, the two-simplex relations give a²=b and ba=1, hence a³=1 and π₁=C₃. Ignoring the two-simplices would give the free group on a,b, not C₃.
+
 (W IV Lemma 3.4 and the group/monoid examples following it, pp. IV.27–28.)
 
 *Needs:* §1.21, M.
@@ -455,7 +468,7 @@ For ψ(g)=hφ(g)h⁻¹, construct a free homotopy Bφ≃Bψ with basepoint track
 **Checks.**
 
 - Conjugate homomorphisms give free homotopies with the specified conjugating track; under §1.30's comparison they correspond to the conjugation-orbit description of unbased maps into BG.
-- For abelian G conjugation is trivial and the homotopy has constant track edge(1).
+- For G=C₃, φ=ψ=id and conjugator h=1, the specified homotopy has constant track. For h=a≠1 the same endpoint maps are joined by a homotopy whose track represents a, not 1; abelian conjugation fixes the maps but does not erase the chosen track. A separately chosen constant homotopy still joins the equal endpoint maps.
 - For G=S₃ and the inner automorphism by (01), the track edge((01)) is not null, so the free homotopy is not based.
 
 (W IV Homotopy-theoretic properties 3.2, p. IV.25.)
@@ -1008,11 +1021,26 @@ For a principal G-cover X′→X of a connected CW space, with X′ not necessar
 
 ### 3.6 Serre comparison on fibres
 
-Prove the Serre fiber comparison: a map of Serre fibrations with connected fibres, connected CW bases and trivial integral fibre-homology monodromy has a fibre homology isomorphism if the base and total maps do. Use the first-quadrant Serre comparison. In the proof compare the relative Serre spectral sequences and take the least degree where the fibre comparison fails: connectedness identifies the bottom column, so this first failure cannot be cancelled by higher rows.
+Prove the Serre fibre comparison: a map of Serre fibrations with connected fibres, connected CW bases and trivial integral fibre-homology monodromy has a fibre homology isomorphism if the base and total maps do. Pull the target fibration back to the source base; the resulting map to the original target total space is a homology isomorphism by the absolute Serre comparison and integral universal coefficients. It remains to compare fibrations over the same base.
 
-(H SS 1, Prop. 1.12, p. 20. Its printed proof omits the base-and-total-to-fibre implication; the relative spectral-sequence argument just specified is the additional proof obligation.)
+Construct the relative fibre Serre spectral sequence for a map E→E′ of Serre fibrations over a common connected CW base B, with integral coefficients and no trivial-monodromy assumption. Filter the chain mapping cone of C_*(E)→C_*(E′) by the inverse-image skeletal filtrations. Its fibre coefficient system at b is H_q(Cone(C_*(F_b)→C_*(F′_b))), with transport induced by paths and their compatible homotopies. Use the homological cone convention Cone(f)_n=C_n(E′)⊕C_(n−1)(E), with differential (b,a)↦(db+f(a),−da). Identify the first-quadrant E₂ page as H_p(B;H_q(Cone(C_*F→C_*F′))), converging to H_(p+q)(Cone(C_*E→C_*E′)).
 
-*Needs:* AlgebraicTopology 5.5, DGFloer Layer 1 item 2 (relative Serre spectral sequences), GeneralizedCohomology G2.10.
+- Identify the E₁ differential with the cellular boundary with transported fibre-cone coefficients; retain the cone sign and the comparison with singular chains.
+- Prove naturality under commuting maps of fibration diagrams and independence of cellular replacements from E₂ onward.
+- Prove convergence with the actual finite, exhaustive and separated filtration in each total degree, and identify the abutment with relative homology when the map is a cofibration.
+
+To deduce the comparison theorem, suppose q is the least nonzero fibre-cone homology degree. Its coinvariants are nonzero: the cone exact sequence is 0→coker H_q(f)→H_q(Cone(f))→ker H_(q−1)(f)→0, with outer terms trivial π₁B-modules; if the kernel is nonzero it gives a nonzero trivial quotient, and otherwise the cone homology is itself a nonzero trivial module. Thus E₂_(0,q) is nonzero, has no outgoing differential and has no incoming differential from a lower nonzero row. This contradicts the vanishing total-cone homology. This argument retains relative monodromy rather than assuming it is trivial.
+
+**Checks.**
+
+- Over a point, the map *→S¹ has fibre-cone and total-cone H₁=ℤ and all other homology zero; E₂_(0,1)=ℤ survives unchanged.
+- An identity comparison has acyclic fibre and total cones, so every E₂ term and every abutment group is zero.
+- For the product comparison S¹×*→S¹×S¹ over S¹, the fibre cone has only H₁=ℤ. The E₂ entries (0,1) and (1,1) are both ℤ and survive to total-cone H₁=H₂=ℤ, distinguishing the base degree from the relative fibre degree.
+- For f=id on ℤ in degree zero the cone differential from degree one to zero is +1, so H₀=H₁=0; changing to the zero map gives H₀=H₁=ℤ and fails the identity comparison.
+
+(H SS 1, Prop. 1.12, p. 20. Its printed proof omits the base-and-total-to-fibre implication; the relative fibre construction and first-nonzero-row argument above supply that implication from the absolute filtrations and filtered-complex construction.)
+
+*Needs:* DGFloer Layer 1 items 2–3 (absolute Serre filtrations, their naturality, and filtered-complex spectral sequences and convergence), AlgebraicTopology 2.6 and 3.3–4.3 (transported coefficients, excision and cellular comparison), GeneralizedCohomology G2.10 (fibration pullbacks).
 
 ### 3.7 Acyclic maps are local-coefficient homology isomorphisms
 
@@ -1174,13 +1202,15 @@ Prove the Milnor sequence for a space tower: for a tower of CGWH spaces and a po
 **Checks.**
 
 - The constant one-point tower has one-point holim.
-- The constant identity tower on X has evaluation holim→X a homotopy equivalence; the constant-path comparison is its inverse up to homotopy.
+- The constant identity tower on X has evaluation holim→X a homotopy equivalence; the constant-path comparison is its inverse up to homotopy. At X=S², π₂ holim=lim π₂=ℤ and lim¹π₃=0. No map S²×S²→S² can restrict to degrees +1 and −1: its pullback a−b would have square −2ab≠0 although the generator of H²(S²;ℤ) has square zero.
 - The discrete tail tower Xₙ={k∈ℕ | n≤k}, with inclusion bonding maps, has all stages nonempty but empty holim. Nonempty stages alone do not give a limit point.
 - Every section of a point is weakly contractible.
 - For S¹ the zeroth section is a point and each positive section is K(ℤ,1).
 - The first section of S² is a point and the second is K(ℤ,2); the latter retains π₂ and is not a point.
 
-(H AT §4.3, Prop. 4.67 and Cor. 4.68 with proofs, pp. 410–411; for the unstable Milnor sequence, the long exact sequence of the fibration holim→∏Xₙ→∏Xₙ, H AT §4.3, Prop. 4.67 proof. The path-space model above is the explicit replacement construction; comparison with a fibration tower is part of the target.)
+For the unstable Milnor sequence use the homotopy equalizer of shift and identity on P=∏Xₙ: pull back the endpoint fibration Pᴵ→P×P along (shift,id), retaining the paths from pₙ(xₙ₊₁) to xₙ. Compatible sphere maps give surjectivity; differences between compatible nullhomotopies give the stated lim¹ action and its orbit set. Literal subtraction of maps is used only in the additive or stable setting of §7.9.
+
+(H AT §4.3, Prop. 4.67, its proof and the following kernel calculation, and Cor. 4.68, pp. 410–411. The path-space model above is the explicit replacement construction; comparison with a fibration tower is part of the target.)
 
 *Needs:* GeneralizedCohomology G2.10, DGFloer Layer 1 item 2 (fibration homotopy exact sequence), DerivedModuleAlgebra §1.T.1 on main, AlgebraicTopology 4.5 and 8.1.
 
@@ -1290,28 +1320,34 @@ Prove the H-space recognition theorem `IsPlusConstruction.hSpaceRecognition`: fo
 
 ### 3.29 π₂ of a plus construction and universal central extensions
 
-For perfect normal P⊲G, prove the second-homotopy comparison for plus: π₂(BG⁺ₚ)≅H₂(P;ℤ), retaining G/P action. In the universal central extension from the plus fiber, π₁hofib(BG→BG⁺ₚ)→P is universal central with kernel H₂(P;ℤ). First construct the free-presentation central-extension foundation below.
+For perfect normal P⊲G, prove the second-homotopy comparison for plus: π₂(BG⁺ₚ)≅H₂(P;ℤ), retaining G/P action. In the universal central extension from the plus fiber, π₁hofib(BG→BG⁺ₚ)→P is universal central with kernel H₂(P;ℤ). Use the supplied abstract universal central extension and prove its homological refinements below.
 
-In `Suggested.lean`, `IsPlusConstruction.piTwoEquiv` states the group isomorphism for any aspherical source of CW type, with the perfect normal subgroup of its fundamental group specified. `IsPlusConstruction.fiber_universalCentralExtension` identifies the extension induced by the fibre projection using `IsUniversalCentralExtension`, the universal property on surjective homomorphisms with central kernel. The quotient action and naturality are part of the comparisons in this section and §3.30.
+In `Suggested.lean`, `IsPlusConstruction.piTwoEquiv` states the group isomorphism for any aspherical source of CW type, with the perfect normal subgroup of its fundamental group specified. `IsPlusConstruction.fiber_universalCentralExtension` identifies the extension induced by the fibre projection using `IsUniversalCentralExtension`, the native-group adapter for the supplied universal property on surjective homomorphisms with central kernel. The quotient action and naturality are part of the comparisons in this section and §3.30.
 
 - For perfect normal P⊲G, π₁(BG)⁺ₚ≅G/P at the image vertex.
 - The inclusion induces the quotient map under π₁BG≅G.
 - π₂(BG)⁺ₚ≅H₂(P;ℤ), with the coefficient universe lift.
 - π₁hofib(BG→(BG)⁺ₚ)→P is the universal central extension, and its composite into G is induced by the fibre projection.
 
-Build a universal central extension as a surjective homomorphism with central kernel and a unique lift to every central extension of its target. Prove existence for perfect P, the kernel–H₂ identification from Hopf’s formula, the superperfect-source recognition theorem, and naturality of lifts and kernels. **API:** the central-extension lift, uniqueness of the central-extension lift, the central-extension kernel/H₂ comparison, superperfectness of the universal-extension source, naturality of the central-extension kernel comparison. **Checks.**
+For the supplied universal central extension U→P of a perfect group P, prove the kernel–H₂ identification from Hopf’s formula and its naturality under homomorphisms of perfect groups. Prove that a surjective central extension E→P is universal if and only if E is superperfect, meaning H₁(E;ℤ)=H₂(E;ℤ)=0.
 
-- The trivial group has the trivial extension.
-- A nonperfect cyclic group has no universal central extension.
-- A central extension with superperfect source satisfies the universal property.
+- Identify the supplied presentation kernel (R∩[F,F])/[F,R] with H₂(P;ℤ), naturally under presentation comparisons.
+- Prove the universal-extension source has zero H₁ and H₂, and conversely that these vanishings imply the universal property for a central surjection.
+- Identify the kernel map induced by the supplied unique lift with the induced H₂ map.
+
+**Checks.**
+
+- For P=1, the supplied extension is 1→1 and both its kernel and H₂(1;ℤ) are zero; the plus fibre is contractible.
+- For P=A₅, the extension SL₂(𝔽₅)→A₅ has kernel {±I}≅C₂=H₂(A₅;ℤ); the local plus-fibre theorem identifies this same extension through π₁ of the fibre.
+- The central identity C₃→C₃ is not universal: H₁(C₃;ℤ)=C₃, and maps to C₃×C₃→C₃ given by g↦(1,g) and g↦(g,g) are distinct lifts. Vanishing H₂ alone would not recognize universality.
 
 (W III, Definition 5.3.1, Example 5.3.4, equation (5.3.5), and Recognition Theorem 5.4, p. III.37.)
 
-This roadmap owns the generic predicate for arbitrary groups, stated in `Suggested.lean` as `IsUniversalCentralExtension`. AlgebraicKTheory A5's assertion that St(R)→E(R) is the universal central extension is the same three conditions (surjectivity, central kernel, unique lifts to central extensions) at that matrix instance.
+The adapter `IsUniversalCentralExtension` expresses the supplied property without introducing a second extension construction; its group and lift carriers lie in one fixed universe. The plus-fibre theorem identifies the projection-induced extension with the supplied one, including its kernel map.
 
 (W IV Prop. 1.7 with proof and Cor. 1.7.1, p. IV.6.)
 
-*Needs:* §3.13, §3.2, §2.5, §2.6, §1.29, M. Construct the central-extension foundation in this subsection before applying it to the plus fibre.
+*Needs:* RepresentationTheory/InductionRestriction Layer 7, “Abstract universal central extensions”; §3.13, §3.2, §2.5, §2.6, §1.29, M. Prove the homological refinements in this subsection before applying them to the plus fibre.
 
 ### 3.30 Naturality of π₂(BG⁺) ≅ H₂(P; ℤ)
 
@@ -1319,7 +1355,7 @@ Prove naturality of the second-homotopy comparison for plus: G→G′ preserving
 
 (W IV Prop. 1.7 with proof and Cor. 1.7.1, p. IV.6.)
 
-*Needs:* §3.29 (including its central-extension foundation), §3.27, §2.7, §2.5.
+*Needs:* §3.29 (including its kernel–H₂ comparison), §3.27, §2.7, §2.5.
 
 ### 3.31 BP⁺ is the universal cover of BG⁺
 
@@ -1343,7 +1379,7 @@ For the universal central extension A→E→P of perfect P, prove BA→BE⁺→B
 
 (W IV Exercise 1.9, p. IV.15.)
 
-*Needs:* §2.36, §3.29 (including its central-extension foundation), §3.27, §3.6, §3.12, §3.14, §3.23, §2.5, AlgebraicTopology 5.5, GeneralizedCohomology G2.10, DGFloer Layer 1 item 2 (CW approximation).
+*Needs:* §2.36, §3.29 (including its kernel–H₂ comparison), §3.27, §3.6, §3.12, §3.14, §3.23, §2.5, AlgebraicTopology 5.5, GeneralizedCohomology G2.10, DGFloer Layer 1 item 2 (CW approximation).
 
 ### 3.34 Serre classes in fibrations with trivial action
 
@@ -1397,7 +1433,7 @@ Plus at the trivial subgroup is a weak equivalence. Plus of a perfect group’s 
 
 ### Dependencies
 
-Layers 1–2 and ordinary (co)homology/obstruction theory; local central extensions precede plus comparisons.
+Layers 1–2 and ordinary (co)homology/obstruction theory; DGFloer Layer 1 items 2–3 supply the inputs to the local relative fibre sequence. RepresentationTheory/InductionRestriction Layer 7 supplies abstract universal central extensions, whose local homological refinements precede the plus-fibre comparisons.
 
 ## Layer 4: Homotopy group completion and deloopings
 
@@ -1660,13 +1696,13 @@ For unital R, prove the based-free group-completion/plus comparison: B(F(R)⁻¹
 
 For a well-pointed homotopy-commutative monoid and a cofinal product stabilisation, prove acyclicity of the telescope comparison: the telescope maps acyclically to the Borel homotopy fibre, which maps by a weak equivalence from ΩBM. A homotopy-equivalence formulation additionally uses CW-type models. Every component must divide a sufficiently long later product from every starting stage.
 
-Prove uniqueness of group completion: if π₀X is countable or has a countable cofinal submonoid, two group completions f′:X→X′ and f″:X→X″ with CW-type targets admit a homotopy equivalence g:X′→X″, unique up to weak homotopy, with gf′ and f″ weakly homotopic. Choose a cofinal sequence s₁,s₂,… in π₀X and form the telescope X∞ of translation by the sᵢ. The telescope maps acyclically to the unit component of each target, so each unit component is a plus construction of X∞'s base component; §§3.25–3.26 give a homotopy equivalence of unit components, extended over components by translation (§4.10). Agreement on every finite subcomplex is weak homotopy by definition. When X has a countable exhaustion by finite CW subcomplexes with Mittag–Leffler restriction towers, §4.11 upgrades weak homotopy to based homotopy.
+Prove uniqueness of group completion: if π₀X is countable or has a countable cofinal submonoid, two group completions f′:X→X′ and f″:X→X″ with CW-type targets admit a homotopy equivalence g:X′→X″, unique up to weak homotopy, with gf′ and f″ weakly homotopic. Choose a cofinal sequence s₁,s₂,… in π₀X and form the telescope X∞ of translation by the sᵢ. The full telescope maps acyclically to each whole target, inducing the group-completion bijection on components. Restricting to the component (X∞)₀ over the unit component gives an acyclic map to that component, so each target's unit component is a plus construction of (X∞)₀; §§3.25–3.26 give a homotopy equivalence of unit components, extended over components by translation (§4.10). Agreement on every finite subcomplex is weak homotopy by definition. When X has a countable exhaustion by finite CW subcomplexes with Mittag–Leffler restriction towers, §4.11 upgrades weak homotopy to based homotopy.
 
 **Checks.**
 
-- For X=ℕ discrete every CW-type group completion is homotopy equivalent to the discrete space ℤ under ℕ: its components are acyclic H-spaces, hence contractible by §3.24.
+- For X=ℕ discrete, translation k↦k+1 gives the component invariant k−r at stage r. Thus π₀X∞=ℤ and the full comparison induces id:ℤ→ℤ, while the component-zero restriction has contractible source and target. Every CW-type group completion is homotopy equivalent to ℤ under ℕ: its components are acyclic H-spaces, hence contractible by §3.24.
 - For grouplike X the identity and any group completion are compared by a homotopy equivalence, as in §4.10.
-- For the core of finite sets the telescope is BΣ∞ and its acyclic map to the unit component of B(S⁻¹S) makes that component BΣ∞⁺.
+- For the core of finite sets, (X∞)₀≃BΣ∞ and X∞≃ℤ×BΣ∞. The restricted acyclic map (X∞)₀→B(S⁻¹S)₀ identifies the target with BΣ∞⁺; the full telescope retains every integer component.
 
 (HK III Section 3.2, (1)-symmetric case, p. 55; W IV Proof of Thm. 4.10, p. IV.44, and Thm. 4.4.3 with the phantom maps paragraph, p. IV.39; Randal-Williams, Thm. 1.1 and Cor. 1.2, pp. 1–2.)
 
@@ -2129,11 +2165,36 @@ Prove πₖH(C)≅H⁻ᵏ(C) and H(C[1])≅ΣH(C), naturally for unbounded cocha
 
 ### 5.17 Cellular approximation in triangulated categories with sums
 
-Let T be triangulated with arbitrary sums, C a set of compact objects, and E:Tᵒᵖ→Ab cohomological and carrying sums to products. Construct R in the closure of C under sums and cofibres, and u∈E(R), such that [G,R]→E(G), f↦E(f)(u), is bijective for every G∈C. Build the sequential cellular approximation and its telescope. Use the supplied sphere compactness and generation to specialize this construction to SHC; generic categorical representability is used only after constructing the object. Prove induction by connective sphere cells: if an isomorphism-invariant class of spectra contains Sⁿ and is closed under arbitrary coproducts and cofibres (for a distinguished triangle X→Y→Z→ΣX with X and Y in the class, Z is in the class), it contains every spectrum with π_k=0 for k<n. Closure under middle terms of triangles does not suffice: the class of X with [X,Σⁿ⁺¹Hℤ]=0 contains Sⁿ and is closed under coproducts and middle terms, but does not contain Sⁿ⁺¹. Prove the attachment connectivity and all-π comparison. For every contravariant cohomological F:SHCᵒᵖ→Ab taking coproducts to products, prove the generic Milnor sequence `0→lim¹F(ΣX_i)→F(hocolim X_i)→lim F(X_i)→0`, with naturality under coherent model maps. This general functor statement supplements the represented-theory telescope contract.
+Let T be a triangulated category with objects in Type u, morphisms in Type v and all Type v-indexed coproducts. Take a family G:I→T with I in Type v, write C for its image, and let E:Tᵒᵖ→Ab be cohomological, with values in Type v and carrying Type v-indexed coproducts to products. For an object A, define `IsCompactForCoproducts A` by preservation of these coproducts by the additive represented functor T(A,−). Define `InCellClosure G R` by membership of R in every isomorphism-invariant class containing G and closed under those coproducts and third objects of distinguished triangles whose first two objects lie in the class. Assume each Gᵢ is compact. The theorem `cellularApproximation` states the generic approximation below on these native carriers; the spectral specialization uses SHC. Construct R in the closure of C under sums and cofibres, and u∈E(R), such that [G,R]→E(G), f↦E(f)(u), is bijective for every G∈C. Build the sequential cellular approximation and its telescope. Use the supplied sphere compactness and generation to specialize this construction to SHC; generic categorical representability is used only after constructing the object. Prove induction by connective sphere cells: if an isomorphism-invariant class of spectra contains Sⁿ and is closed under arbitrary coproducts and cofibres (for a distinguished triangle X→Y→Z→ΣX with X and Y in the class, Z is in the class), it contains every spectrum with π_k=0 for k<n. Closure under middle terms of triangles does not suffice: the class of X with [X,Σⁿ⁺¹Hℤ]=0 contains Sⁿ and is closed under coproducts and middle terms, but does not contain Sⁿ⁺¹. Prove the attachment connectivity and all-π comparison. For every contravariant cohomological F:SHCᵒᵖ→Ab taking coproducts to products, prove the generic Milnor sequence `0→lim¹F(ΣX_i)→F(hocolim X_i)→lim F(X_i)→0`, with naturality under coherent model maps. This general functor statement supplements the represented-theory telescope contract.
 
-(S II, Prop. 5.14, pp. 260-261.)
+The compactness predicate has the following API.
 
-*Needs:* GeneralizedCohomology G2.4, GeneralizedCohomology G3.4 and G3.7, GeneralizedCohomology G2.6.
+- Compactness is invariant under isomorphism, and the zero object is compact.
+- Finite coproducts and shifts of compact objects are compact.
+- Compactness identifies maps from G into a small coproduct with the direct sum of the component homomorphism groups, retaining the canonical inclusions.
+
+**Checks.**
+
+- In D(ℤ), the zero object represents the zero functor: both sides of its coproduct comparison are zero.
+- In D(ℤ), ℤ[0] is compact: for the countable sum of ℤ[0], both sides of its comparison are the finitely supported sequences ⊕ℕℤ.
+- The object ⊕ℕℤ[0] is not compact: its identity map to that same coproduct has infinitely many nonzero coordinate projections and is not in the image of the direct sum of homomorphism groups.
+
+The cell-closure predicate has the following API.
+
+- Every generator lies in the closure, and membership is invariant under isomorphism.
+- It is closed under small coproducts, including the empty coproduct, and under the stated third-object operation; every class with these properties contains it.
+- Inclusion of generating families implies inclusion of closures; replacing generators by isomorphic objects gives the same closure.
+
+**Checks.**
+
+- For the empty family the closure consists exactly of zero objects; take R=0 and u=0 for the approximation theorem, with no evaluation conditions.
+- For C={ℤ[0]} in D(ℤ), the cone of ×2:ℤ[0]→ℤ[0] is (ℤ/2)[0] in the closure. For E=Hom(−,(ℤ/2)[0]), R=(ℤ/2)[0] and u=id make evaluation ℤ/2→ℤ/2 the identity, taking 0↦0 and 1↦1.
+- The cone of ℤ[0]→0 is ℤ[1], so the closure contains its positive suspension. It does not contain ℤ[−1]: every generator has Hᵏ=0 for k>0 and coproducts and the specified cofibres preserve this condition, whereas H¹(ℤ[−1])=ℤ.
+- For the zero cohomological functor and any compact family, R=0 gives the unique map 0→0 on each evaluation group. The sums-to-products hypothesis remains explicit for nonzero functors.
+
+(S II, Def. 5.4, p. 257, Lemma 5.6, pp. 257–258, and Prop. 5.14, pp. 260–261.)
+
+*Needs:* Mathlib `Pretriangulated`, `IsTriangulated`, `Functor.IsHomological`, `preadditiveCoyoneda`, `HasCoproducts`, `PreservesColimitsOfShape` and `PreservesLimitsOfShape` for the generic theorem; GeneralizedCohomology G2.4, G2.6, G3.4 and G3.7 for the spectral specialization and coherent spectral telescopes.
 
 ### 5.18 Connective spectra are sequences of deloopings
 
@@ -2151,13 +2212,13 @@ Use GeneralizedCohomology G2.5’s sequential/symmetric Quillen equivalence, inc
 
 ### 5.19 Picard groupoids are 1-truncated connective spectra
 
-For a Picard groupoid C, construct K(C) with zero space BC, π₀=iso-classes, π₁=Aut(1) and other π zero. Prove the homotopy-theory equivalence with 1-truncated connective spectra, retaining transformations and self-braiding as the Hopf-map action.
+For a Picard groupoid C, construct K(C) with zero space BC, π₀=iso-classes, π₁=Aut(1) and other π zero. Prove the homotopy-theory equivalence with 1-truncated connective spectra, retaining transformations. Identify the map η:π₀K(C)→π₁K(C) with self-braiding: the symmetry of x⊗x is transported to Aut(1) by tensoring with an inverse of x⊗x, independently of that choice (JO Prop. 3.4 and Remark 3.5, pp. 10–11 of arXiv:1201.2686v3).
 
 **Checks.**
 
 - A discrete abelian group A gives HA, with π₀=A and π₁=0.
 - The one-object Picard groupoid with automorphisms A gives ΣHA.
-- graded lines over ℝ have the odd-line self-swap −1, so η on the odd component is nonzero.
+- For ℤ-graded real lines with Koszul symmetry, π₀=ℤ and π₁=ℝˣ; self-braiding in degree n is (−1)ⁿ², so η(1)=−1 and η(2)=+1. Ordinary ungraded real lines have π₀=0 and self-swap +1, hence trivial η.
 
 (BS Appendix §12, after the proof of Prop. 12.15, p. 59.)
 
@@ -2759,6 +2820,7 @@ The following contracts export the general constructions here. GeneralAlgebraicK
 
 ## References
 
+- Niles Johnson and Angélica M. Osorno, [Modeling Stable One-Types](https://arxiv.org/abs/1201.2686v3), arXiv:1201.2686v3 (2012), Prop. 3.4 and Remark 3.5, pp. 10–11 (JO).
 - Daniel Quillen, [Higher algebraic K-theory: I](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/Quillen-Higher-I.pdf), Lecture Notes in Mathematics 341 (1973), pp. 85–147; locators use printed LNM pages.
 - Charles A. Weibel, [The K-book: An introduction to algebraic K-theory, Chapter IV: Definitions of higher K-theory](https://www.math.rutgers.edu/~weibel/Kbook/Kbook.IV.pdf), online Chapter IV; chapter page numbers.
 - Charles A. Weibel, [The K-book: An introduction to algebraic K-theory, Chapter V: The fundamental theorems of higher K-theory](https://www.math.rutgers.edu/~weibel/Kbook/Kbook.V.pdf), online Chapter V; chapter page numbers.
