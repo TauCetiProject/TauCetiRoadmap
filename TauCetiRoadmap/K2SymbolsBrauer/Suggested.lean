@@ -1,14 +1,12 @@
 import Mathlib
-import TauCeti.Algebra.CrossedProduct.Comparison
-import TauCeti.NumberTheory.ClassFieldTheory.Brauer.Basic
 import TauCeti.RingTheory.Valuation.Discrete.Order
 import TauCeti.FieldTheory.FunctionField.Divisor.Eval
 
 /-!
-# Symbols, Milnor K-theory and reciprocity: headline statements
+# Symbols, Milnor K-theory and reciprocity: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. These statements give Lean forms for headline results; discharging them
+`README.md`. This file states the roadmap's headline theorems against the pinned APIs; discharging them
 finishes neither a layer nor the roadmap.
 
 The finite-rank Steinberg presentation makes unique splitting of central extensions in rank
@@ -18,9 +16,7 @@ statable: finite-field vanishing, unique divisibility over algebraically closed 
 real decomposition, and the Bass–Tate calculations for number fields and fields of
 transcendence degree one over a finite field. The field Dennis–Stein presentation, tame-symbol
 Weil reciprocity over all places of any one-variable function field, its disjoint-divisor
-form, and the universe extension of the supplied algebraic/cohomological Brauer-group
-comparison are also stated. Its composite on fields in `Type` preserves the supplied
-crossed-product normalization.
+form are also stated.
 
 The pinned libraries have no stable matrix/Steinberg carriers or classical and Quillen
 K-groups. Thus the stable universal-extension, finite-rank matrix, Matsumoto, classical/plus
@@ -31,7 +27,10 @@ dual-number and dyadic K₂ theorems (Layer 13) cannot be stated on their intend
 Higher Milnor residue and norm maps are also absent: the Bass–Tate sequence, Kato's generator
 independence, complete norm–residue square and integral Weil–Suslin reciprocity in all degrees
 (Layers 9–10) require those constructions. The local/global cyclic-algebra symbol comparisons
-and global degree-two norm-residue equivalence of §§10.32a–10.32b require their cyclic algebras and symbol maps. These results have no
+and global degree-two norm-residue equivalence of §§10.32a–10.32b require their cyclic algebras
+and symbol maps. They also consume the normalized arbitrary-universe Brauer comparison
+owned by QuadraticFormInvariants: its comparison map and naturality laws are absent at the
+pins, whose crossed-product comparison is restricted to fields in `Type`. These results have no
 substitute statements here.
 -/
 
@@ -40,6 +39,8 @@ namespace TauCetiRoadmap.K2SymbolsBrauer
 open scoped TensorProduct WithZero Classical commutatorElement
 
 universe u
+
+/-! ## Layer 0: finite-word presentation adapter -/
 
 namespace Steinberg
 
@@ -52,7 +53,7 @@ def Root : Type u := {g : Fin n × Fin n × R // g.1 ≠ g.2.1}
 def rootWord (i j : Fin n) (hij : i ≠ j) (a : R) : FreeGroup (Root R n) :=
   FreeGroup.of ⟨(i, j, a), hij⟩
 
-/-- The four Steinberg relation families of §0.3; opposite roots have no imposed relation. -/
+/-- The four Steinberg relation families of §0.1; opposite roots have no imposed relation. -/
 def relators : Set (FreeGroup (Root R n)) :=
   {w | (∃ (i j : Fin n) (hij : i ≠ j) (a b : R),
       w = rootWord R n i j hij a * rootWord R n i j hij b *
@@ -66,8 +67,10 @@ def relators : Set (FreeGroup (Root R n)) :=
       w = ⁅rootWord R n i j hij a, rootWord R n k i hki b⁆ *
         (rootWord R n k j hkj (-b * a))⁻¹)}
 
-/-- The finite-word Steinberg presentation adapter to AlgebraicKTheory A5 (§0.3). -/
+/-- The finite-word Steinberg presentation adapter to AlgebraicKTheory A5 (§0.1). -/
 abbrev FiniteRank : Type u := PresentedGroup (relators R n)
+
+/-! ## Layer 3: finite-rank central extensions -/
 
 /-- Every central extension of the finite-rank Steinberg group has a unique homomorphic
 section in rank at least five (§3.2), without a centrality assumption on its matrix kernel. -/
@@ -78,6 +81,8 @@ theorem centralExtension_splits (hn : 5 ≤ n) {Y : Type*} [Group Y]
   sorry
 
 end Steinberg
+
+/-! ## Layer 5: native Milnor K-theory -/
 
 section Milnor
 
@@ -161,6 +166,28 @@ theorem MilnorK.real_modTwo_equiv_polynomial :
       e (RingQuot.mkRingHom r (MilnorK.ofUnit (-1 : ℝˣ))) = Polynomial.X := by
   sorry
 
+end Milnor
+
+/-! ## Layer 9: tame symbols -/
+
+section Tame
+
+variable {F : Type*} [Field F]
+
+open Valuation in
+/-- The unit part of the tame symbol, `(-1)^{v(f)v(g)} f^{v(g)} g^{-v(f)}`, whose residue is
+`∂_v{f, g}`; it is a unit of the valuation ring. -/
+noncomputable def tameUnit (v : Valuation F ℤᵐ⁰) (f g : Fˣ) : Fˣ :=
+  (-1) ^ (ord v (f : F) * ord v (g : F)) * f ^ ord v (g : F) * g ^ (-ord v (f : F))
+
+end Tame
+
+/-! ## Layer 10: Bass–Tate calculations and reciprocity -/
+
+section MilnorArithmetic
+
+variable (F : Type u) [Field F]
+
 /-- Bass–Tate: in degrees at least three the real signatures give the entire Milnor group
 of a number field (§10.32). -/
 theorem MilnorK.numberField_realSign_equiv [NumberField F] (n : ℕ) (hn : 3 ≤ n) :
@@ -177,19 +204,7 @@ theorem MilnorK.transcendenceDegreeOne_vanishing {k : Type*} [Field k] [Finite k
     Subsingleton (MilnorK.degree F n) := by
   sorry
 
-end Milnor
-
-section Tame
-
-variable {F : Type*} [Field F]
-
-open Valuation in
-/-- The unit part of the tame symbol, `(-1)^{v(f)v(g)} f^{v(g)} g^{-v(f)}`, whose residue is
-`∂_v{f, g}`; it is a unit of the valuation ring. -/
-noncomputable def tameUnit (v : Valuation F ℤᵐ⁰) (f g : Fˣ) : Fˣ :=
-  (-1) ^ (ord v (f : F) * ord v (g : F)) * f ^ ord v (g : F) * g ^ (-ord v (f : F))
-
-end Tame
+end MilnorArithmetic
 
 section Reciprocity
 
@@ -214,40 +229,7 @@ theorem weil_reciprocity_of_disjoint (hF : TauCeti.IsFunctionField k F) (f g : F
 
 end Reciprocity
 
-/-- The canonical continuous H² model over the separable closure is identified with the
-class-field-theory Brauer carrier through the supplied explicit-cohomology dictionary (§10.32a). -/
-noncomputable def cohomologicalBrauerToBr (F : Type) [Field F] :
-    continuousCohomology 2 (TauCeti.ofDiscreteModule ℤ
-      (TauCeti.AbsoluteGaloisGroup F) (TauCeti.UnitsCoeff F)) ≃+
-        TauCeti.ClassFieldTheory.Br F := by
-  let : LocallyCompactSpace (TauCeti.AbsoluteGaloisGroup F) :=
-    @WeaklyLocallyCompactSpace.locallyCompactSpace (TauCeti.AbsoluteGaloisGroup F) _
-      (@T2Space.r1Space _ _ (krullTopology_t2 (K := F) (L := SeparableClosure F)))
-      ⟨fun _ => ⟨Set.univ, isCompact_univ, Filter.univ_mem⟩⟩
-  exact (TauCeti.ContCohomology.explicitH2AddEquivContinuousCohomology
-    (TauCeti.AbsoluteGaloisGroup F) (TauCeti.UnitsCoeff F)).symm.trans
-      (TauCeti.ClassFieldTheory.unitsRepH2Equiv F)
-
-/-- The supplied crossed-product comparison, transported to the class-field-theory
-Brauer carrier (§10.32a). -/
-noncomputable def algebraicBrauerToBr (F : Type) [Field F] :
-    Additive (BrauerGroup F) ≃+ TauCeti.ClassFieldTheory.Br F :=
-  (TauCeti.brauerCohomologyEquiv F).trans (cohomologicalBrauerToBr F)
-
-/-- The transported Brauer comparison sends a crossed-product class to its inflated
-cocycle class in the class-field-theory carrier (§10.32a). -/
-theorem algebraicBrauerToBr_galoisCocycle (F : Type) [Field F]
-    (g : TauCeti.GaloisCocycle F) :
-    algebraicBrauerToBr F (Additive.ofMul g.brauerClass) =
-      cohomologicalBrauerToBr F g.inflateClass := by
-  exact congrArg (cohomologicalBrauerToBr F)
-    (TauCeti.brauerCohomologyEquiv_galoisCocycle_brauerClass g)
-
-/-- The universe extension of the supplied Brauer comparison identifies algebraic Brauer
-classes with the continuous-cohomology Brauer group (§10.32a). -/
-theorem algebraicBrauer_equiv_cohomologicalBrauer (F : Type u) [Field F] :
-    Nonempty (Additive (BrauerGroup.{u, u} F) ≃+ TauCeti.ClassFieldTheory.Br F) := by
-  sorry
+/-! ## Layer 13: Dennis–Stein presentations -/
 
 namespace K2
 

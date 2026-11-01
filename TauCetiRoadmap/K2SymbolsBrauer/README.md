@@ -1,18 +1,18 @@
 # Roadmap: explicit `K₂`: symbols, residues and reciprocity
 
-**Summary.** Develop explicit symbol calculus on the Steinberg `K₂` constructed in Layer 0: finite-rank monomial and integer word refinements, a bar-calibrated classical-to-Quillen comparison, native Milnor K-theory and its products, residues, norms and reciprocity. Construct tame symbols and higher Milnor residues, integral Milnor norms with Kato's independence theorem and Suslin's reciprocity law for curves over any field, and compare them with localization boundaries and Quillen transfers. Compute tame kernels, `K₂(ℤ)≅ℤ/2` and `K₂(ℚ)`, and develop the absolute and relative Dennis–Stein presentations of `K₂` with their double-ring and homotopy-fibre descriptions.
+**Summary.** Develop explicit symbol calculus on the Steinberg `K₂` supplied by AlgebraicKTheory A5: finite-rank monomial and integer word refinements, a bar-calibrated classical-to-Quillen comparison, native Milnor K-theory and its products, residues, norms and reciprocity. Construct tame symbols and higher Milnor residues, integral Milnor norms with Kato's independence theorem and Suslin's reciprocity law for curves over any field, and compare them with localization boundaries and Quillen transfers. Compute tame kernels, `K₂(ℤ)≅ℤ/2` and `K₂(ℚ)`, and develop the absolute and relative Dennis–Stein presentations of `K₂` with their double-ring and homotopy-fibre descriptions.
 
 The end targets are the explicitly normalized comparison `K₂(R)≃H₂(E(R);ℤ)≃π₂(BGL(R)⁺)` and its product sign (Layers 1–4, 8), the identification of native `K₂ᴹ(F)` with the supplied Matsumoto presentation (Layer 7), the Bass–Tate sequence, Kato norms and integral Weil–Suslin reciprocity (Layer 10), localization and the integer and rational computations (Layers 11–12), and the absolute and guarded relative Dennis–Stein presentations (Layer 13).
 
 ## Scope and ownership
 
-This roadmap owns the explicit bar and symbol normalization adapters, the finite-rank row, column and monomial refinements over the stated rings, the integer word calculation, native Milnor K-groups in all degrees, their residues, specializations and norms, and the comparisons and arithmetic applications in Layers 8–13. It consumes the generic universal central extension and Hopf machinery from StableHomotopyKTheory §3.29. Layer 0 constructs stable matrices, classical and relative `K₁`, finite and stable Steinberg groups, stable centrality and universality, classical `K₂`, and the classical field presentation. These classical contracts also occur in AlgebraicKTheory A1–A3 and A5; use its shared carriers through the presentation adapters below, retaining the root-word, finite-rank and normalization targets here. The generic universal-extension machinery is not repeated here. The prime-to-characteristic local function-field symbols needed for §10.33 are supplied by ClassicalArithmeticCompletion §1.14 and ClassFieldTheory Layer 5; §§10.32a–10.32b construct their cyclic-algebra normalization adapters, global function-field pairings and the prime-to-characteristic global function-field degree-two norm-residue equivalence. The algebraic/cohomological Brauer equivalence uses Tau Ceti’s crossed-product API. The remaining comparison of these symbols with Galois cohomology and class field theory (the Galois symbol read through Kummer classes and cup products, trivialisation of twists by a primitive root, Brauer-valued and cyclic-algebra symbols, norm-residue and Hilbert symbols as Steinberg symbols and their local invariants, global reciprocity for symbols of a number field, the transported Tate comparisons and the degree-two étale Chern comparison) belongs to the downstream roadmap K2SymbolsBrauerPartII, a consumer of this roadmap; nothing here depends on it.
+This roadmap owns the explicit bar and symbol normalization adapters, the finite-rank row, column and monomial refinements over the stated rings, the integer word calculation, native Milnor K-groups in all degrees, their residues, specializations and norms, and the comparisons and arithmetic applications in Layers 8–13. It consumes the generic universal central extension and Hopf machinery from StableHomotopyKTheory §3.29. AlgebraicKTheory A1–A3 and A5 owns stable matrices, Whitehead's theorem, classical and relative K₁, finite and stable Steinberg groups, stable centrality and universality, classical K₂, Matsumoto and finite-field classical K₂ vanishing. Layer 0 owns only the finite-word presentation adapter; Layers 1–4 and 8 add the bar/product normalization and finite-rank refinements. The prime-to-characteristic local function-field symbols needed for §10.33 are supplied by ClassicalArithmeticCompletion §1.14 and ClassFieldTheory Layer 5; §§10.32a–10.32b construct their cyclic-algebra normalization adapters, global function-field pairings and the prime-to-characteristic global function-field degree-two norm-residue equivalence. The generic algebraic/cohomological Brauer comparison and its universe transport belong to QuadraticFormInvariants, “Native interfaces and remaining comparisons”, stages 1–2, and Layer 7B, milestone 3. Here §10.32a transports that specified comparison to the class-field-theory carrier and fixes its function-field cyclic-symbol normalization. The remaining comparison of these symbols with Galois cohomology and class field theory (the Galois symbol read through Kummer classes and cup products, trivialisation of twists by a primitive root, Brauer-valued and cyclic-algebra symbols, norm-residue and Hilbert symbols as Steinberg symbols and their local invariants, global reciprocity for symbols of a number field, the transported Tate comparisons and the degree-two étale Chern comparison) belongs to the downstream roadmap K2SymbolsBrauerPartII, a consumer of this roadmap; nothing here depends on it.
 
 ### Prerequisites and boundaries
 
-Layer 0 and the supplying roadmaps GeneralAlgebraicKTheory §§3.2–3.14 and Layers 4, 7–8, StableHomotopyKTheory Layers 1–4, and KTheoryLowDegrees §§6.1–6.2, 8.1 and 13.1–13.5 have the contracts below. Named APIs below specify construction targets. `Suggested.lean` contains the headline statements statable on the pinned libraries and their supporting definitions; it is not an exhaustive checklist.
+AlgebraicKTheory A1–A3/A5 and the supplying roadmaps GeneralAlgebraicKTheory §§3.2–3.14 and Layers 4, 7–8, StableHomotopyKTheory Layers 1–4, and KTheoryLowDegrees §§6.1–6.2, 8.1 and 13.1–13.5 have the contracts below. API bullets below specify mathematical targets in prose. `Suggested.lean` contains the headline statements statable on the pinned libraries and their supporting definitions; it is not an exhaustive checklist.
 
-- **Stable matrices and classical K-theory.** §§0.1–0.2 construct `GL, E`, elementary identities over arbitrary associative rings, Whitehead's lemma and classical and relative `K₁`; §0.3 constructs `St` and classical `K₂`. KTheoryLowDegrees §6.2 supplies the stable elementary centralizer calculation, and §§8.1, 13.1 supply the determinant and normalized `K₁` comparisons. Its §13.2 supplies the quotient-root calculation and the signed comparison prism used by relative constructions. The associative-ring elementary identities are constructed in §0.1, including distant commutation and the reverse coefficient `−ba`.
+- **Stable matrices and classical K-theory.** AlgebraicKTheory §§1.1–1.4, 2.1–2.3, 3.1 and 5.1–5.2 supply the stable GL and elementary groups, associative-ring elementary identities, Whitehead's lemma, classical and relative K₁, and the finite/stable Steinberg and classical K₂ theory. KTheoryLowDegrees §§6.1–6.2, 8.1, 13.1–13.2 supply finite-block and centralizer calculations, determinant and homotopy comparisons, quotient-root normal closure and the signed comparison prism. The only carrier adapter here is §0.1's finite-word presentation, preserving the reverse-root coefficient −ba.
 - **Higher K-theory.** GeneralAlgebraicKTheory supplies the ring K-space, plus/Q comparison, biexact products, transfers, localization, dévissage, resolution and homotopy-fibre relative K-theory. StableHomotopyKTheory supplies classifying spaces, plus constructions, the universal-extension foundation, homotopy fibres and their long exact sequences. Hurewicz, Whitehead and covering spaces come from AlgebraicTopology Stages 5 and 8. SchemeKTheoryOperations §3.6 supplies the scheme DVR boundary and its ordered unit-product formula; §11.1 here compares explicit symbols with that boundary. The extra multiplicative comparison and its explicit torus normalization are §8.1 here.
 - **Arithmetic suppliers.** ClassFieldTheory Layers 5–6 and 10–14 supply the local and global degree-two norm-residue pairings and their reciprocity, used in the Bass–Tate argument of §10.32. ClassFieldTheory Layer 5 supplies the local cohomological Brauer group and `invMap` for all nonarchimedean local fields; ClassicalArithmeticCompletion §1.14 supplies the prime-to-characteristic local symbol, including equal characteristic. Its §1.1 supplies the explicit unit generators modulo `2^k` used in §13.15.
 - **Curves and valuations.** AlgebraicCurves Layers 2 and 12 and the Tau Ceti `Place` API supply the function-field/place dictionary. EllipticCurves Layer 0 supplies the elliptic function-field, place and divisor interfaces; Layer 2 consumes the elliptic specialization of reciprocity in §10.31 for its divisor construction of the Weil pairing. LocalFieldsRamification Layer 1 supplies local-field units and filtrations. Normalized finite extensions of complete discrete valuations with arbitrary imperfect residues require the additional lattice statements §§10.15–10.18 here.
@@ -21,7 +21,7 @@ Layer 0 and the supplying roadmaps GeneralAlgebraicKTheory §§3.2–3.14 and La
 
 ## Conventions
 
-Rings are associative and unital, and ring maps preserve 1; commutativity is assumed only where stated. Fields are commutative. Matrices act on column vectors; `e_ij(a) = 1 + aE_ij` for `i ≠ j`. Commutators are `[x, y] = xyx⁻¹y⁻¹`. The Steinberg group `St_n(R)` is defined for `n ≥ 3` with generators `x_ij(r) (i ≠ j)` and the relations `x_ij(r)x_ij(s) = x_ij(r + s), [x_ij(r), x_kl(s)] = 1` for `j ≠ k, i ≠ l, [x_ij(r), x_jl(s)] = x_il(rs)` for `i ≠ l`, and `[x_ij(r), x_ki(s)] = x_kj(−sr)` for `j ≠ k`; nothing is imposed on opposite roots. Finite-rank and stable statements are kept apart: centrality of `ker(St_n(R) → E_n(R))` is never deduced from the stable theorem.
+Rings are associative and unital, and ring maps preserve 1; commutativity is assumed only where stated. Fields are commutative. Matrices act on column vectors; `e_ij(a) = 1 + aE_ij` for `i ≠ j`. Commutators are `[x, y] = xyx⁻¹y⁻¹`. The presentation `St_n(R)` is defined for every natural n; its three-index structural statements require `n ≥ 3`. It has generators `x_ij(r) (i ≠ j)` and the relations `x_ij(r)x_ij(s) = x_ij(r + s), [x_ij(r), x_kl(s)] = 1` for `j ≠ k, i ≠ l, [x_ij(r), x_jl(s)] = x_il(rs)` for `i ≠ l`, and `[x_ij(r), x_ki(s)] = x_kj(−sr)` for `j ≠ k`; nothing is imposed on opposite roots. Finite-rank and stable statements are kept apart: centrality of `ker(St_n(R) → E_n(R))` is never deduced from the stable theorem.
 
 Group homology `H_n(G; ℤ)` has trivial integral coefficients and groups live in `Type`, as Mathlib's `groupHomology` requires. Group-valued kernels are written additively through `Additive` when they enter additive statements.
 
@@ -35,7 +35,7 @@ The norm-residue pairings use arithmetic Frobenius. In §§10.32a–10.32b write
 
 ### From Mathlib
 
-`PresentedGroup`, `FreeGroup`, `IsFreeGroup`, `commutatorElement`, `Subgroup.center`, `Group.IsPerfect`, `Abelianization`, `MonoidHom.eqLocus` and `DirectLimit` with its group structure (`DirectLimit.lift`, `DirectLimit.map`, `DirectLimit.exists_eq_mk₂`, `DirectLimit.setoid`) supply the presentations, centres and colimits of Layers 1–3; the group colimit is used as a carrier and its finite-representative equality is part of §0.3. `GroupExtension` with `inl_conjAct_comm` supplies extensions. `groupHomology`, `groupHomology.H1`, `groupHomology.H2`, `groupHomology.map`, `groupHomology.chainsMap`, `groupHomology.inhomogeneousChains`, `groupHomology.H1AddEquivOfIsTrivial`, `groupHomologyIso`, `CategoryTheory.ProjectiveResolution`, `ShortComplex.ShortExact.δ` with `homology_exact₁`–`homology_exact₃` and `HomologicalComplex.HomologySequence.δ_naturality` supply the homological algebra of Layer 1; `CharacterModule` supplies the Pontryagin-dual argument of StableHomotopyKTheory §3.29. `groupCohomology.H2` is the cohomology of the classification statement.
+`PresentedGroup`, `FreeGroup`, `IsFreeGroup`, `commutatorElement`, `Subgroup.center`, `Group.IsPerfect`, `Abelianization`, `MonoidHom.eqLocus` and `DirectLimit` with its group structure (`DirectLimit.lift`, `DirectLimit.map`, `DirectLimit.exists_eq_mk₂`, `DirectLimit.setoid`) supply the presentations, centres and colimits of Layers 1–3; the group colimit and its finite-representative equality are consumed through AlgebraicKTheory §5.1. `GroupExtension` with `inl_conjAct_comm` supplies extensions. `groupHomology`, `groupHomology.H1`, `groupHomology.H2`, `groupHomology.map`, `groupHomology.chainsMap`, `groupHomology.inhomogeneousChains`, `groupHomology.H1AddEquivOfIsTrivial`, `groupHomologyIso`, `CategoryTheory.ProjectiveResolution`, `ShortComplex.ShortExact.δ` with `homology_exact₁`–`homology_exact₃` and `HomologicalComplex.HomologySequence.δ_naturality` supply the homological algebra of Layer 1; `CharacterModule` supplies the Pontryagin-dual argument of StableHomotopyKTheory §3.29. `groupCohomology.H2` is the cohomology of the classification statement.
 
 `Matrix.GeneralLinearGroup.transvection`, `Matrix.det_permutation` and `Matrix.diag2_decompose` supply matrix identities over commutative rings. `TensorAlgebra` with `TensorAlgebra.gradedAlgebra`, `TensorAlgebra.equivDirectSum` and `TensorAlgebra.lift`, `TensorProduct.lift`, `Submodule.liftQ`, `TwoSidedIdeal`, `RingCon.mk'`, `RingQuot`, `PiTensorProduct.isEmptyEquiv`, `PiTensorProduct.subsingletonEquiv` and `TensorPower.mulEquiv` supply the presentations of Layer 5. `Valuation`, `ValuationSubring.unitGroup`, `ValuationSubring.unitGroupToResidueFieldUnits` (surjective, with kernel the principal units), `IsLocalRing.residue`, `IsLocalRing.ResidueField.map`, `IsDiscreteValuationRing`, `HenselianRing`, `IsDedekindDomain.HeightOneSpectrum` with `Support.finite`, `NumberField.RingOfIntegers`, `NumberField.InfinitePlace`, `Algebra.norm` with `Algebra.norm_norm`, `Ideal.sum_ramification_inertia_eq_finrank`, `Polynomial.modByMonic`, `Polynomial.resultant_eq_prod_eval`, `spectralNorm` with `spectralNorm_unique`, `KaehlerDifferential`, `DualNumber` and `TrivSqZeroExt` supply the valuation, number-field and coefficient carriers of Layers 9–13. `HomotopyGroup` represents `π_n`.
 
@@ -45,11 +45,15 @@ The norm-residue pairings use arithmetic Frobenius. In §§10.32a–10.32b write
 
 `Valuation.ord` with `ord_mul`, `ord_zpow`, `ord_add_eq_min_of_ord_ne`, `isUnit_iff_ord_eq_zero`, `mem_maximalIdeal_iff_ord_pos`, `mem_valuationSubring_iff_ord_nonneg`, `valuation_eq_exp_neg_ord`, `exists_eq_zpow_mul_unit_of_surjective`, `exists_isUniformizer_of_surjective`, `isUniformizer_iff_ord_eq_one_of_surjective` and `nontrivial_valueGroup_of_surjective` supply orders and unit parts; `TauCeti.HenselianRing.exists_pow_eq_and_sub_one_mem_of_sub_one_mem` supplies roots of principal units. `TauCeti.Place` with `degree`, `restrict`, `normResidue`, `residueUnit`, `ratFuncEquiv`, `heightOneSpectrumEquiv`, `adicOfIrreducibleResidueFieldEquiv`, `inftyResidueFieldEquiv`, `ord_infty`, `isUniformizer_infty`, `finite_setOf_ord_ne_zero` and `sum_ramificationIdx_mul_relativeDegree_eq_finrank_of_isSeparable`, together with `TauCeti.Divisor.principal`, `Divisor.eval` and `Divisor.eval_eq_prod_normResidue`, supply places of function fields and divisor evaluation; `IsDedekindDomain.integerHeightOneSpectrumEquiv` and `WeierstrassCurve.Affine.isFunctionField` supply the integer and elliptic cases. `HomotopyGroup.mapHom`, `HomotopyGroup.mulEquivOfHomotopyEquiv` and `TauCeti.homotopyGroupTransport_map` supply based maps on homotopy groups. `TauCeti.unitsEquivIntProd`, `TauCeti.coe_unitsEquivIntProd_apply_snd` and `TauCeti.coe_unitsEquivIntProd_apply_snd_eq_mul` in `TauCeti.NumberTheory.LocalField.UnitsDecomposition` supply the topological splitting of `Kˣ` into its normalized valuation and depth-zero unit component for a nonarchimedean local field, with a chosen uniformizer and the change-of-uniformizer formula. `TauCeti.Algebra.norm_quotient_mk` in `TauCeti.RingTheory.Norm.Quotient` supplies reduction of the determinant norm for a finite free commutative algebra modulo an ideal. The unit-part compatibility of §9.1 and the general complete-DVR norm identity of §10.17 use these declarations in their stated scope.
 
-### Shared classical foundations and local presentation refinements
+For fields in `Type`, `TauCeti.brauerCohomologyEquiv` and `TauCeti.brauerCohomologyEquiv_galoisCocycle_brauerClass` in `TauCeti/Algebra/CrossedProduct/Comparison.lean` give the Brauer comparison and its cocycle evaluation. `TauCeti.ContCohomology.explicitH2AddEquivContinuousCohomology` and `TauCeti.ClassFieldTheory.unitsRepH2Equiv` identify its target with the class-field-theory Brauer carrier. The broader comparison contract is specified below.
 
-AlgebraicKTheory, A1–A3 and A5 supplies stable matrices and Whitehead’s theorem (A1), classical and relative `K₁` (A2–A3), and finite/stable Steinberg groups, classical `K₂`, stable universality, Matsumoto and finite-field vanishing (A5). Realize the Layer 0 contracts on those shared carriers; presentation variants are identified by `classicalCarrierTransport`.
+### From TauCetiRoadmap.AlgebraicKTheory
 
-§0.1 supplies stable matrices and elementary identities; §0.2 supplies classical and relative `K₁`; §0.3 supplies finite and stable Steinberg groups, their functorial maps, stable centrality, universality and classical `K₂`; §0.4 supplies the classical field presentation and finite-field vanishing. Layers 1, 4 and 8 fix the additional bar/product normalization.
+A1 (§§1.1–1.4) supplies finite and stable GL and E over arbitrary associative unital rings, elementary identities, Whitehead's theorem, and finite representatives. A2 (§§2.1–2.3) supplies classical K₁ and its determinant; A3 (§3.1) supplies relative K₁ as GL(R,I)/E(R,I) and exactness. A5 (§§5.1–5.2) supplies finite and stable Steinberg groups, their root projections and functorial maps, stable centrality and universality, classical K₂, the classical Matsumoto presentation and finite-field vanishing. All stable carriers and the relative degree-one quotients below are these carriers, without a second construction. The finite-word adapter of §0.1 preserves generators; Layers 1, 4 and 8 fix the additional bar/product normalization.
+
+### From TauCetiRoadmap.QuadraticFormInvariants
+
+“Native interfaces and remaining comparisons”, stages 1–2, supplies finite descent of continuous cocycles and the arbitrary-universe Brauer comparison with both inverse squares and actual upward universe transport. Layer 7B, milestone 3, characterizes that comparison by the inflated finite-Galois cocycle of each crossed product. Consume these maps with their evaluation laws, including the universe-zero comparison with `TauCeti.brauerCohomologyEquiv`. Section 10.32a composes this supplied comparison with the explicit/canonical H² dictionary and `TauCeti.ClassFieldTheory.unitsRepH2Equiv` to reach the class-field-theory Brauer carrier.
 
 ### From GeneralAlgebraicKTheory
 
@@ -61,7 +65,7 @@ AlgebraicKTheory, A1–A3 and A5 supplies stable matrices and Whitehead’s theo
 
 ### From KTheoryLowDegrees
 
-§6.1: finite block refinements of stable `GL`; §6.2: finite elementary perfectness and the stable centralizer calculation; §8.1: determinant and unit-class normalization; §13.1: `K₁(R)≃π₁(BGL(R)⁺)`; §13.2: the quotient-root normal-closure theorem and the based signed comparison prism; §§13.3–13.5: congruence loops and relative degree-zero/one comparisons. KTheoryLowDegrees uses AlgebraicKTheory A1–A3 and A5’s carriers, including literal aliases in its §13.2. Consume these same carriers in §§0.1–0.3; §0.3’s presentation transports identify any finite-word variant with them. The root-presentation and congruence-quotient identifications, including their compatibility with the generic plus construction, are targets here; they are not an additional classical foundation supplied by KTheoryLowDegrees.
+§6.1: finite block refinements of stable `GL`; §6.2: finite elementary perfectness and the stable centralizer calculation; §8.1: determinant and unit-class normalization; §13.1: `K₁(R)≃π₁(BGL(R)⁺)`; §13.2: the quotient-root normal-closure theorem and the based signed comparison prism; §§13.3–13.5: congruence loops and relative degree-zero/one comparisons. KTheoryLowDegrees uses AlgebraicKTheory A1–A3 and A5’s carriers, including literal aliases in its §13.2. Consume these same stable and congruence carriers throughout; §0.1 identifies the finite-word variant with the supplied finite Steinberg group. Its adapter commutes with the supplied root projections, coefficient maps and stabilization.
 
 ### From other TauCetiRoadmap roadmaps
 
@@ -69,69 +73,34 @@ ClassicalArithmeticCompletion Layer 1 (§1.1 units modulo `2^k`, §1.14 `normRes
 
 ## How to read the build
 
-Layer 0 constructs the classical matrix and Steinberg foundations. Layers 1–4 calibrate and refine these using the supplied generic universal-extension machinery, retaining the finite-rank splitting theorem and the actual Hopf, Hurewicz and fibre routes. Layer 5 constructs native Milnor K-theory. Layer 6 gives the additional commuting-unit and finite-rank monomial calculus; Layer 7 identifies native degree two with the supplied Matsumoto presentation. Layer 8 fixes the Quillen product comparison and its numerical sign. Layers 9–11 develop Milnor residues and norms, integral reciprocity and their higher-K comparison. Layer 12 computes tame kernels and the integer and rational groups. Layer 13 develops Dennis–Stein symbols, the relative Steinberg group of the double, its comparison with the homotopy fibre, and the absolute and relative presentations.
+Layer 0 identifies the finite-word presentation with the supplied classical Steinberg group. Layers 1–4 calibrate and refine these using the supplied generic universal-extension machinery, retaining the finite-rank splitting theorem and the actual Hopf, Hurewicz and fibre routes. Layer 5 constructs native Milnor K-theory. Layer 6 gives the additional commuting-unit and finite-rank monomial calculus; Layer 7 identifies native degree two with the supplied Matsumoto presentation. Layer 8 fixes the Quillen product comparison and its numerical sign. Layers 9–11 develop Milnor residues and norms, integral reciprocity and their higher-K comparison. Layer 12 computes tame kernels and the integer and rational groups. Layer 13 develops Dennis–Stein symbols, the relative Steinberg group of the double, its comparison with the homotopy fibre, and the absolute and relative presentations.
 
-## Layer 0: classical matrix and Steinberg foundations
+## Layer 0: finite-word presentation adapter
 
-### 0.1 Stable matrices and elementary groups
+### 0.1 The finite-word Steinberg presentation
 
-Use AlgebraicKTheory A1’s stable matrix and elementary carriers. For every associative unital ring `R`, realize `GL(R)=colim GL_n(R)` using upper-left block stabilization, and `E(R)` generated by the finite transvections. Construct coefficient maps and stabilization maps, prove their identity/composition laws and the finite-representative equality criterion. Prove the elementary identities in Conventions, normality of `E(R)` in `GL(R)`, Whitehead's identity `E(R)=[GL(R),GL(R)]`, and perfectness of stable `E(R)`. These are stable assertions over arbitrary rings, including the zero ring. (Weibel, III.1.1–1.3, pp.179–183; III.5.1, p.217.)
+For an associative unital ring R and natural number n, define `Steinberg.Root` to consist of triples (i,j,a) with distinct indices in Fin n, and `Steinberg.rootWord` as the corresponding free-group letter. Define `Steinberg.relators` by additivity, distant commutation and the forward and reverse three-index relations of Conventions, and `Steinberg.FiniteRank` as their `PresentedGroup`. For n≥3, identify this finite-word presentation with AlgebraicKTheory §5.1's finite Steinberg group by the map sending each letter to the same root generator. The reverse relation follows by interchanging the forward commutator's inputs and inverting it: [xᵢⱼ(a),xₖᵢ(b)]=xₖⱼ(−ba). Thus the adapter adds no relation on opposite roots. This is the presentation used by §3.2's finite-rank splitting theorem, distinct from the supplier's stable universality theorem. (Weibel, III.5.1, pp.217–218; presentation mapping property.)
 
-**Checks.**
-
-- The reverse-root commutator has coefficient `−sr`, retaining the order of factors over a noncommutative ring.
-- Two finite representatives are equal exactly when their images agree at a common finite stage.
-- The zero ring gives trivial groups; no `Nontrivial R` assumption enters.
-
-*Needs:* AlgebraicKTheory A1; Mathlib `Matrix.GeneralLinearGroup`; Mathlib `PresentedGroup`; Mathlib `DirectLimit`.
-
-### 0.2 Classical and relative degree one
-
-Use AlgebraicKTheory A2–A3’s classical and relative degree-one groups. For every associative unital `R`, identify `K₁(R)=GL(R)/E(R)` and its functorial abelian-group structure. For a two-sided ideal `I`, construct `GL(R,I)=ker(GL(R)→GL(R/I))`, the normal elementary subgroup `E(R,I)` generated in `E(R)` by the root elements with coefficients in `I`, and `K₁(R,I)=GL(R,I)/E(R,I)`. Construct the forgetful and quotient maps and exactness `K₁(R,I)→K₁(R)→K₁(R/I)`. For commutative `R`, determinant induces `K₁(R)→Rˣ`; it is an isomorphism for commutative semilocal rings. KTheoryLowDegrees supplies the additional finite-block, determinant and homotopy comparisons in its stated scope. (Weibel, III.1.1, III.1.4–1.5 and III.2.2, pp.179–180, 183–184, 192–193.)
+- The two generator-preserving homomorphisms are inverse, by induction on root words.
+- The adapter commutes with coefficient homomorphisms, index inclusions and the root projection to Eₙ(R); stabilization is the supplier's map.
+- The forward coefficient is ab and the reverse coefficient is −ba for arbitrary associative R; no commutativity or injectivity of Steinberg stabilization is assumed.
 
 **Checks.**
 
-- Relative `K₁` is its quotient construction, with a forgetful map; it is not defined as the kernel of the absolute map.
-- For `I=0` the relative group is trivial; for `I=R` it is absolute `K₁(R)`.
-- A unit over a commutative ring has determinant equal to that unit under its one-by-one representative.
+- For the zero ring, additivity gives xᵢⱼ(0)²=xᵢⱼ(0), hence every generator is 1 and both presentations are trivial.
+- Over R=M₂(ℤ), with a=E₁₂ and b=E₂₁ as coefficients, the forward coefficient is E₁₁ and the reverse coefficient is −E₂₂; using −ab would instead give −E₁₁.
+- At n=2 there are two root families and no three-index relations: over ℤ the presentation is ℤ∗ℤ, whose matrix images e₁₂(1), e₂₁(1) have commutator [[3,−1],[1,0]]≠1. Imposing opposite-root commutation would change the group.
+- At n=0 or 1 there are no root generators and the presented group is trivial; the splitting headline requires n≥5.
 
-*Needs:* §0.1; AlgebraicKTheory A2–A3; Mathlib `QuotientGroup`; Mathlib `Ideal.Quotient`.
+*Needs:* AlgebraicKTheory §5.1; Mathlib `FreeGroup`, `PresentedGroup` and `commutatorElement`.
 
-### 0.3 Finite and stable Steinberg groups
+### Examples
 
-Use AlgebraicKTheory A5’s finite and stable Steinberg groups and classical kernel. For every associative unital ring `R` and `n≥3`, realize `St_n(R)` by the presentation in Conventions and the surjection `φ_n:St_n(R)→E_n(R)`. Construct stabilization and coefficient maps, their commuting squares with `φ_n`, and `St(R)=colim St_n(R)`. Define classical `K₂(R)=ker(St(R)→E(R))`. Prove stable centrality, perfectness of `St(R)`, and universality of the central extension `St(R)→E(R)`: every central extension of `E(R)` receives a unique homomorphism from `St(R)` over `E(R)`. Prove universality directly by normalized lifts of root words and their relations, independently of the generic Hopf and plus comparisons. Express the result in the universal-extension API of StableHomotopyKTheory; its generic comparisons then apply to this extension. Layers 2–3 supply the additional finite-rank refinements and bar calibration. (Weibel, Definitions III.5.1–5.3.1 and Theorem III.5.5, pp.217–220.)
+The zero ring yields the trivial presentation; M₂(ℤ) distinguishes ab from ba. The generator-preserving adapter takes the ordered classical symbol [h₁₂(a),h₁₃(b)] to the same word, so the real symbol {−1,−1} retains its nonzero sign value and the finite-field values over 𝔽₂ and 𝔽₃ remain zero.
 
-`Suggested.lean` defines `Steinberg.Root`, `Steinberg.rootWord`, `Steinberg.relators` and `Steinberg.FiniteRank` as a finite-word presentation adapter to AlgebraicKTheory A5 for the central-extension splitting theorem in §3.2. The additional reverse-root relation follows from its forward-root relation by reversing the commutator; it does not change the presented group.
+### Dependencies
 
-**Checks.**
-
-- Stable `K₂` is abelian and coefficient maps restrict to homomorphisms on it.
-- No centrality of a finite-rank kernel is inferred from stable centrality without §2.3's injectivity hypothesis.
-- Opposite roots receive no extra presentation relation; in particular no relation forces their commutator to be trivial.
-
-*Needs:* §0.1; AlgebraicKTheory A5; Mathlib `PresentedGroup`; Mathlib `DirectLimit`; StableHomotopyKTheory §3.29 (universal-extension API only; the root-word universality proof is local).
-
-**Classical carrier transports** (`classicalCarrierTransport`). For every unital associative ring, construct the natural equivalences from §§0.1–0.3 to AlgebraicKTheory A1–A3 and A5’s shared stable matrix, elementary and Steinberg carriers, which KTheoryLowDegrees §§6.1–6.2 and 13.2 also use. Construct them on finite matrices and root words, prove both composites are identities by their presentation mapping properties, and descend the relative degree-one equivalence through the congruence quotients of §0.2. Specialize the generic plus and universal-extension comparisons to these local carriers; the unique comparison of universal extensions is over the elementary group. This supplies the carrier identifications used by Layers 1–4 and 13. (Own presentation-uniqueness argument from Weibel, III.1.1–1.3, pp.179–181; III.5.1–5.5, pp.217–220.)
-
-**Checks.**
-
-- Every root `x_ij(a)` and every finite matrix representative is preserved; the transports commute with stabilization and coefficient maps, without injective Steinberg transitions.
-- Over the zero ring all these groups and maps are trivial; over the quaternions the transported commutator has coefficient `ij=k`, preserving multiplication order.
-- For every two-sided `I`, the relative degree-one transport preserves `GL(R,I)/E(R,I)` and its forgetful map, rather than replacing it by the kernel of the absolute map.
-
-*Needs:* §§0.1–0.3; AlgebraicKTheory A1–A3 and A5; Mathlib `PresentedGroup`; Mathlib `DirectLimit`; StableHomotopyKTheory §§3.29–3.30 (generic comparisons only).
-
-### 0.4 The classical field presentation
-
-Use AlgebraicKTheory A5’s Matsumoto presentation and finite-field vanishing. For every field `F`, identify its classical Steinberg symbol by the root word `[h₁₂(a),h₁₃(b)]` of Conventions. Prove bimultiplicativity, the complementary-unit relation, generation of classical `K₂(F)`, and completeness of these relations (Matsumoto's theorem). Equivalently every Steinberg pairing factors uniquely through classical `K₂(F)`. Prove finite-field classical `K₂` vanishing. The native tensor-quotient construction in Layer 5 is separate; Layer 7 identifies it with this classical presentation, preserving the actual root word. (Weibel, Theorem III.6.1 and Corollary III.6.1.1, pp.230–231; III.5.10, p.225.)
-
-**Checks.**
-
-- The map to any Steinberg pairing preserves `{a,b}` in the displayed order, including the real sign pairing.
-- `K₂(𝔽₂)` and `K₂(𝔽₃)` vanish without any lower bound on field cardinality.
-- `{-1,-1}` over `ℝ` remains nonzero; the presentation is not an exterior square.
-
-*Needs:* §0.3; AlgebraicKTheory A5; Mathlib `Units`; Mathlib `FreeAbelianGroup`.
+AlgebraicKTheory §§1.1 and 5.1–5.2; Mathlib `FreeGroup`, `PresentedGroup` and `commutatorElement`.
 
 ## Layer 1: bar normalization of the supplied kernel equivalence
 
@@ -145,9 +114,9 @@ For the presentation `ℤ²=⟨s,t | [s,t]⟩`, its positively ordered torus cyc
 
 Provide the following API.
 
-- `K2HopfCalibration.transgression_lift`: The supplier's connecting map, transported to the stated bar convention, sends a cycle to the positive boundary of a lift and `[a]−[b]` to `ab⁻¹`.
-- `K2HopfCalibration.torus`: The ordered torus cycle maps to `[s,t]⁻¹`, and under a map to a perfect group to the inverse commutator of its lifts.
-- `K2HopfCalibration.natural`: These identifications commute with maps of free presentations and with the supplier's unique maps of universal extensions.
+- The supplier's connecting map, transported to the stated bar convention, sends a cycle to the positive boundary of a lift and `[a]−[b]` to `ab⁻¹`.
+- The ordered torus cycle maps to `[s,t]⁻¹`, and under a map to a perfect group to the inverse commutator of its lifts.
+- These identifications commute with maps of free presentations and with the supplier's unique maps of universal extensions.
 
 **Checks.**
 
@@ -167,7 +136,7 @@ StableHomotopyKTheory §§1.32, 3.29–3.30; Mathlib integral `groupHomology`, i
 
 ## Layer 2: refinements of the supplied Steinberg groups
 
-§§0.1–0.3 supply stable `GL, E, K₁`, the finite Steinberg presentations, stabilization and coefficient maps, stable `St→E`, its central kernel `K₂` and its universal central extension theorem. These are the objects throughout this roadmap. In particular no local presentation or colimit is constructed again, and a stable word equality is witnessed at a common finite stage; injectivity of Steinberg transition maps is not assumed. The following refinements concern faithful root subgroups, the whole centre and conditional finite-rank centrality. (Weibel, III.5.1–5.5, pp.217–220.)
+AlgebraicKTheory A1–A3 and A5 supply stable `GL, E, K₁`, the finite Steinberg presentations, stabilization and coefficient maps, stable `St→E`, its central kernel `K₂` and its universal central extension theorem. These are the objects throughout this roadmap. In particular no local presentation or colimit is constructed again, and a stable word equality is witnessed at a common finite stage; injectivity of Steinberg transition maps is not assumed. The following refinements concern faithful root subgroups, the whole centre and conditional finite-rank centrality. (Weibel, III.5.1–5.5, pp.217–220.)
 
 ### 2.1 Faithful row and column root subgroups
 
@@ -177,15 +146,15 @@ For an associative unital ring `R, n ≥ 3` and an index `t`, define `rho_t` fro
 
 Provide the following API.
 
-- `Steinberg.column`: `rho_t(v)=product` over `i≠t` of `x_it(v_i)`, with commuting factors and fixed finite index type.
-- `Steinberg.row`: `eta_t(v)=product` over `i≠t` of `x_ti(v_i)`, with commuting factors.
-- Steinberg.column_add: `rho_t(v+w)=rho_t(v)rho_t(w)`; the identical row law also holds.
-- Steinberg.column_basis: `rho_t` of the vector supported at `i` with value `r` is `x_it(r)`; row basis evaluates to `x_ti(r)`.
-- Steinberg.phi_column: The image under `phi_n` is `I+sum_i E_it(v_i)`; row image is `I+sum_i E_ti(v_i)`.
-- Steinberg.column_injective: `rho_t` and `eta_t` are injective, and remain injective after mapping to stable `St(R)`.
-- Steinberg.column_conj: For `a,b≠t` and `a≠b, x_ab(c)rho_t(v)x_ab(c)` inverse equals `rho_t(v with v_a increased by c v_b)`.
-- Steinberg.row_conj: Under the same hypotheses conjugation increases row coordinate `v_b` by `−v_a c`.
-- Steinberg.column_map: Ring maps act on every vector entry; index stabilization adds zero entries. Row maps satisfy the same laws.
+- `rho_t(v)=product` over `i≠t` of `x_it(v_i)`, with commuting factors and fixed finite index type.
+- `eta_t(v)=product` over `i≠t` of `x_ti(v_i)`, with commuting factors.
+- `rho_t(v+w)=rho_t(v)rho_t(w)`; the identical row law also holds.
+- `rho_t` of the vector supported at `i` with value `r` is `x_it(r)`; row basis evaluates to `x_ti(r)`.
+- The image under `phi_n` is `I+sum_i E_it(v_i)`; row image is `I+sum_i E_ti(v_i)`.
+- `rho_t` and `eta_t` are injective, and remain injective after mapping to stable `St(R)`.
+- For `a,b≠t` and `a≠b, x_ab(c)rho_t(v)x_ab(c)` inverse equals `rho_t(v with v_a increased by c v_b)`.
+- Under the same hypotheses conjugation increases row coordinate `v_b` by `−v_a c`.
+- Ring maps act on every vector entry; index stabilization adds zero entries. Row maps satisfy the same laws.
 
 **Checks.**
 
@@ -196,11 +165,11 @@ Provide the following API.
 - Over `Z`, the stable image of `rho_3(1,0)=x_13(1)` has matrix entry `(1,3)=1` and is nonidentity.
 - Over `Z`, conjugating `e_13(1)` by `e_31(1)` gives a matrix with a nonzero `(3,1)` entry and changed diagonal entries. It is not in the column subgroup; the normalizer formula cannot include `a=t` or `b=t`.
 
-*Needs:* §0.3; KTheoryLowDegrees §6.2; KTheoryLowDegrees §6.1.
+*Needs:* AlgebraicKTheory §5.1; KTheoryLowDegrees §6.2; KTheoryLowDegrees §6.1.
 
 ### 2.2 The whole stable centre
 
-For every associative unital ring `R` the supplied central kernel `K₂(R)` is the entire centre of `St(R)`. The additional inclusion follows because the image of a central element centralizes `E(R)` in stable `GL(R)`, whose centralizer is trivial by KTheoryLowDegrees §6.2. The reverse inclusion is §0.3's centrality theorem. This refines that theorem without rebuilding its fresh-root proof. (Weibel, Theorem III.5.2.1, pp.217–218.)
+For every associative unital ring `R` the supplied central kernel `K₂(R)` is the entire centre of `St(R)`. The additional inclusion follows because the image of a central element centralizes `E(R)` in stable `GL(R)`, whose centralizer is trivial by KTheoryLowDegrees §6.2. The reverse inclusion is AlgebraicKTheory §5.1's centrality theorem. This refines that theorem without rebuilding its fresh-root proof. (Weibel, Theorem III.5.2.1, pp.217–218.)
 
 **Checks.**
 
@@ -208,7 +177,7 @@ For every associative unital ring `R` the supplied central kernel `K₂(R)` is t
 - A nonzero elementary root is not central, since its elementary image is nonidentity.
 - Nothing is inferred about the whole centre or the kernel in a fixed finite rank without the extra hypothesis in §2.3.
 
-*Needs:* §0.3; KTheoryLowDegrees §6.2.
+*Needs:* AlgebraicKTheory §5.1; KTheoryLowDegrees §6.2.
 
 ### 2.3 Conditional centrality in finite rank
 
@@ -222,7 +191,7 @@ If the map `ker(St_n(R)->E_n(R)) -> ker(St(R)->E(R))` induced by stabilization i
 - Without the injectivity hypothesis the stable-centre theorem alone has no finite-rank conclusion.
 - Together with `n>=5` splitting and perfectness, this centrality hypothesis permits a finite-rank UCE conclusion.
 
-*Needs:* §0.3; §2.2.
+*Needs:* AlgebraicKTheory §5.1; §2.2.
 
 ### Examples
 
@@ -231,11 +200,11 @@ If the map `ker(St_n(R)->E_n(R)) -> ker(St(R)->E(R))` induced by stabilization i
 
 ### Dependencies
 
-§§0.1–0.3; KTheoryLowDegrees §6.2; Mathlib `DirectLimit` and the supplied finite-stage Steinberg maps.
+AlgebraicKTheory A1–A3 and A5; KTheoryLowDegrees §6.2; Mathlib `DirectLimit` and the supplied finite-stage Steinberg maps.
 
 ## Layer 3: finite-rank sections and kernel calibration
 
-For `n≥5` every central extension of `St_n(R)` splits by the normalized lifts below. The stable universal extension and its `kernel–H₂` equivalence are consumed from §0.3 and StableHomotopyKTheory §3.29. This layer adds the finite-rank normalized-section API and the bar calibration of that supplied equivalence. Finite-rank universality requires the separate centrality hypothesis of §2.3.
+For `n≥5` every central extension of `St_n(R)` splits by the normalized lifts below. The stable universal extension and its `kernel–H₂` equivalence are consumed from AlgebraicKTheory §5.1 and StableHomotopyKTheory §3.29. This layer adds the finite-rank normalized-section API and the bar calibration of that supplied equivalence. Finite-rank universality requires the separate centrality hypothesis of §2.3.
 
 ### 3.1 Normalized lifts of Steinberg generators
 
@@ -245,12 +214,12 @@ Let `n≥5` and `q:Y→St_n(R)` be a surjective homomorphism with central kernel
 
 Provide the following API.
 
-- `Steinberg.normalisedRootLift`: `y_ij(a)` is the commutator of any indicated two preimages under `q`.
-- Steinberg.normalisedRootLift_image: `q(y_ij(a))=x_ij(a)`.
-- Steinberg.normalisedRootLift_choice: Changing either preimage or the intermediate index leaves `y_ij(a)` unchanged.
-- Steinberg.normalisedRootLift_zero: `y_ij(0)=1`, since any lift of `x_kj(0)=1` lies in the central kernel.
-- Steinberg.normalisedRootLift_product: For arbitrary lifts of `x_ik(a),x_kj(b)`, their commutator is `y_ij(ab)`.
-- Steinberg.normalisedRootLift_extensionHom: A homomorphism `Y→Y′` over `St_n` carries normalized lifts to normalized lifts; `q′` must again be a surjective central extension.
+- `y_ij(a)` is the commutator of any indicated two preimages under `q`.
+- `q(y_ij(a))=x_ij(a)`.
+- Changing either preimage or the intermediate index leaves `y_ij(a)` unchanged.
+- `y_ij(0)=1`, since any lift of `x_kj(0)=1` lies in the central kernel.
+- For arbitrary lifts of `x_ik(a),x_kj(b)`, their commutator is `y_ij(ab)`.
+- A homomorphism `Y→Y′` over `St_n` carries normalized lifts to normalized lifts; `q′` must again be a surjective central extension.
 
 **Checks.**
 
@@ -260,7 +229,7 @@ Provide the following API.
 - In rank five the choices `k=2` and `k=3` for `i=0,j=1` give the same `y_01(a)`.
 - For `R=M₂(Z)`, `[lift x_02(E12),lift x_21(E21)]=y_01(E11)`. It is not `y_01(E22)`, since the elementary image distinguishes those parameters.
 
-*Needs:* StableHomotopyKTheory §3.29; §0.3; Mathlib `commutatorElement`; Mathlib `commutatorElement_mul_right_eq_mul_conj`.
+*Needs:* StableHomotopyKTheory §3.29; AlgebraicKTheory §5.1; Mathlib `commutatorElement`; Mathlib `commutatorElement_mul_right_eq_mul_conj`.
 
 ### 3.2 Every central extension of the finite-rank Steinberg group splits, for `n` at least five
 
@@ -276,7 +245,7 @@ For `n` at least five every central extension of `St_n(R)` splits. If the canoni
 - The splitting is by an explicit homomorphism, which is what makes the argument constructive.
 - The statement does not say that the kernel of the finite-rank map is central, which is the separate caveat below.
 
-*Needs:* StableHomotopyKTheory §3.29; §0.3.
+*Needs:* StableHomotopyKTheory §3.29; AlgebraicKTheory §5.1.
 
 **The lifted relations give the unique finite section.** For `n≥5` every surjective central extension `q:Y→St_n(R)` has a unique homomorphic section `σ`, with `σ(x_ij(a))=y_ij(a)`. The normalized lifts satisfy all Steinberg relations, including additivity and reverse multiplication `−ba`. This implies finite-rank universality of `St_n→E_n` only under a separately supplied central-kernel hypothesis. (Weibel, III.5.5.1, p. 220.)
 
@@ -288,7 +257,7 @@ For `n` at least five every central extension of `St_n(R)` splits. If the canoni
 - The additive calculation works over `M₂(Z)`.
 - A claim of finite-rank universality without a centrality input fails the acceptance contract.
 
-*Needs:* StableHomotopyKTheory §3.29; §0.3; §2.3; §3.1; Mathlib `commutatorElement_mul_right_eq_mul_conj`; Mathlib `commutatorElement_inv`.
+*Needs:* StableHomotopyKTheory §3.29; AlgebraicKTheory §5.1; §2.3; §3.1; Mathlib `commutatorElement_mul_right_eq_mul_conj`; Mathlib `commutatorElement_inv`.
 
 ### 3.3 Calibrating the supplied kernel equivalence
 
@@ -300,7 +269,7 @@ Write `α_R:K₂(R)≃H₂(E(R);ℤ)` for the supplied kernel equivalence after 
 - Its inverse takes the positively ordered torus cycle to the inverse commutator, as the `𝔽₃` calculation of §1.1 checks.
 - The identity and composite ring-map squares commute with the actual `H₂(E(f);ℤ)` map, without an injectivity hypothesis on `f`.
 
-*Needs:* §1.1; §0.3; StableHomotopyKTheory §3.29.
+*Needs:* §1.1; AlgebraicKTheory §5.1; StableHomotopyKTheory §3.29.
 
 ### Examples
 
@@ -333,13 +302,13 @@ Groups are in `Type`, matching the integral group-homology API; larger universes
 
 Provide the following API.
 
-- `K2.classicalHomologyEquiv`: `α_R` is the kernel restriction of the unique Hopf universal-extension equivalence.
-- `K2.classicalPlusEquiv`: `β_R` is the displayed cover/Hurewicz/integral-homology composite.
-- K2.classicalHomologyEquiv_natural: `α_S∘K₂(f)=H₂^grp(E(f);Z)∘α_R` for any unital ring map `f`.
-- K2.classicalPlusEquiv_natural: `β_S∘K₂(f)=π₂(BGL(f)⁺)∘β_R`, with the stated basepoint or trivial-action condition.
-- K2.classicalPlusEquiv_cover: `hur_R∘p_R,*⁻¹∘β_R=H₂^top(j_R)∘γ_R∘α_R`.
-- K2.classicalPlusEquiv_transport: Changing the plus/cover model by a based equivalence compatible under `BE` and `BGL` carries `β` to the new `β`; changing the Hopf presentation carries `α` by the canonical equivalence.
-- K2.classicalPlusEquiv_KSpace: Transport `β` along the based equivalence between `BGL⁺` and the zero component of the ring K-space of GeneralAlgebraicKTheory §3.2.
+- `α_R` is the kernel restriction of the unique Hopf universal-extension equivalence.
+- `β_R` is the displayed cover/Hurewicz/integral-homology composite.
+- `α_S∘K₂(f)=H₂^grp(E(f);Z)∘α_R` for any unital ring map `f`.
+- `β_S∘K₂(f)=π₂(BGL(f)⁺)∘β_R`, with the stated basepoint or trivial-action condition.
+- `hur_R∘p_R,*⁻¹∘β_R=H₂^top(j_R)∘γ_R∘α_R`.
+- Changing the plus/cover model by a based equivalence compatible under `BE` and `BGL` carries `β` to the new `β`; changing the Hopf presentation carries `α` by the canonical equivalence.
+- Transport `β` along the based equivalence between `BGL⁺` and the zero component of the ring K-space of GeneralAlgebraicKTheory §3.2.
 
 **Checks.**
 
@@ -349,7 +318,7 @@ Provide the following API.
 - For every `z, hur_R(p_R,*⁻¹β_R(z))=H₂^top(j_R)(γ_R(α_R(z)))`; the intermediate value `γ_R(α_R(z))` lies in space homology of `BE`, not group homology of `E`. This checks carrier alignment and the direction of Hurewicz.
 - The square applies to the unital quotient map `Z→Z/2`; injectivity or invertibility of the ring map is not a hypothesis.
 
-*Needs:* StableHomotopyKTheory §3.29; §0.3; KTheoryLowDegrees §6.2; StableHomotopyKTheory §3.31; StableHomotopyKTheory §3.12; StableHomotopyKTheory §3.30; StableHomotopyKTheory §§1.30, 1.32; AlgebraicTopology Stage 8; GeneralAlgebraicKTheory Layer 3.
+*Needs:* StableHomotopyKTheory §3.29; AlgebraicKTheory §5.1; KTheoryLowDegrees §6.2; StableHomotopyKTheory §3.31; StableHomotopyKTheory §3.12; StableHomotopyKTheory §3.30; StableHomotopyKTheory §§1.30, 1.32; AlgebraicTopology Stage 8; GeneralAlgebraicKTheory Layer 3.
 
 ### 4.2 The normalised classical-to-plus comparison
 
@@ -359,13 +328,13 @@ For an associative unital ring `A` in `Type`, write `s_A : St(A) → E(A), C_A =
 
 Provide the following API.
 
-- `K2Comparison.fromHomology`: Given the established `κ_A` and `ρ_A, χ_A` is their composite `κ_A` followed by `ρ_A⁻¹`. A light general form accepts an actual group homomorphism `s:S→E` and equivalences `Additive(ker s)≃+H₂(E;ℤ)` and `Additive(π₂X)≃+H₂(E;ℤ)`.
-- `K2Comparison.fromHomology_normalise`: For every `z, ρ_A(χ_A(z))=κ_A(z)`.
-- `K2Comparison.fromHomology_symm`: For every `v` in `Additive(π₂X_A), χ_A⁻¹(v)=κ_A⁻¹(ρ_A(v))`.
-- `K2Comparison.fromHomology_unique`: An additive homomorphism c:Additive `C_A→Additive(π₂X_A)` with `ρ_A∘c=κ_A` equals `χ_A`.
-- `K2Comparison.fromHomology_fibre`: For the unique UCE isomorphism `a_A:St(A)≃*U_A` over `E(A), δ_A∘χ_A` is its restriction to the kernel, written additively.
-- `K2Comparison.fromHomology_pi2Equiv`: For a ring `A, ρ_A` is the additive form of StableHomotopyKTheory's TauCeti.plusConstruction.pi2Equiv for `G = GL(A), P = E(A)`, so `χ_A` is `κ_A` followed by the inverse of that equivalence. A user never needs the fibre-level definition of `ρ_A` beyond this identification and `fromHomology_fibre`.
-- `K2Comparison.fromHomology_add`: `χ_A(0)=0, χ_A(z+w)=χ_A(z)+χ_A(w)`, and `χ_A(-z)=-χ_A(z)`; the inverse obeys the corresponding identities.
+- Given the established `κ_A` and `ρ_A, χ_A` is their composite `κ_A` followed by `ρ_A⁻¹`. A light general form accepts an actual group homomorphism `s:S→E` and equivalences `Additive(ker s)≃+H₂(E;ℤ)` and `Additive(π₂X)≃+H₂(E;ℤ)`.
+- For every `z, ρ_A(χ_A(z))=κ_A(z)`.
+- For every `v` in `Additive(π₂X_A), χ_A⁻¹(v)=κ_A⁻¹(ρ_A(v))`.
+- An additive homomorphism c:Additive `C_A→Additive(π₂X_A)` with `ρ_A∘c=κ_A` equals `χ_A`.
+- For the unique UCE isomorphism `a_A:St(A)≃*U_A` over `E(A), δ_A∘χ_A` is its restriction to the kernel, written additively.
+- For a ring `A, ρ_A` is the additive form of StableHomotopyKTheory's TauCeti.plusConstruction.pi2Equiv for `G = GL(A), P = E(A)`, so `χ_A` is `κ_A` followed by the inverse of that equivalence. A user never needs the fibre-level definition of `ρ_A` beyond this identification and the preceding fibre compatibility.
+- `χ_A(0)=0, χ_A(z+w)=χ_A(z)+χ_A(w)`, and `χ_A(-z)=-χ_A(z)`; the inverse obeys the corresponding identities.
 
 **Checks.**
 
@@ -374,11 +343,11 @@ Provide the following API.
 - For the zero ring, every stable Steinberg generator is `x_ij(0)=1`, so `C_A` and `π₂X_A` are trivial and `χ_A` is the unique equivalence between their additive groups.
 - If `κ_A(z)≠-κ_A(z)`, the map `z↦-χ_A(z)` fails the normalisation equation at `z`. In the light composition template with all three additive groups `ℤ` and both equivalences the identity, 1 maps to 1 and not to -1; this template test is not a computation of `K₂(ℤ)`.
 
-*Needs:* StableHomotopyKTheory §3.29; §0.3; §3.3; KTheoryLowDegrees §6.2; StableHomotopyKTheory §§1.30, 1.32; GeneralizedCohomology G2.10; StableHomotopyKTheory §§2.4–2.5; StableHomotopyKTheory §2.7; StableHomotopyKTheory §2.8; Mathlib `groupHomology.H2`; Mathlib `Rep.trivial`; Mathlib `HomotopyGroup`; Mathlib `MonoidHom.ker`; Mathlib `MulEquiv.toAdditive`; Tau Ceti `HomotopyGroup.mapHom`.
+*Needs:* StableHomotopyKTheory §3.29; AlgebraicKTheory §5.1; §3.3; KTheoryLowDegrees §6.2; StableHomotopyKTheory §§1.30, 1.32; GeneralizedCohomology G2.10; StableHomotopyKTheory §§2.4–2.5; StableHomotopyKTheory §2.7; StableHomotopyKTheory §2.8; Mathlib `groupHomology.H2`; Mathlib `Rep.trivial`; Mathlib `HomotopyGroup`; Mathlib `MonoidHom.ker`; Mathlib `MulEquiv.toAdditive`; Tau Ceti `HomotopyGroup.mapHom`.
 
 ### 4.3 Naturality of the normalised comparison
 
-For every unital ring homomorphism `f:A→B`, let `C(f):C_A→C_B` be the kernel map of §0.3 and `f⁺:X_A→X_B` a plus map with its comparison homotopy over `BGL(f)`. Use a based square, or transport basepoints along the specified tracks and use the trivial `π₁(X_B)-action` supplied by the block-sum H-space structure of StableHomotopyKTheory §4.14. Then `ρ_B ∘ π₂(f⁺) = H₂(E(f);ℤ) ∘ ρ_A` and `χ_B ∘ Additive(C(f)) = Additive(π₂(f⁺)) ∘ χ_A`. In the first equality the `π₂` groups are written additively. `H₂(E(f);ℤ)` is exactly groupHomology.map of `E(f)`, with the identity morphism of trivial integral coefficients, in degree 2. These maps satisfy identity and composition on groups, although the chosen plus-space maps need only do so up to homotopy. (Weibel, §IV.1, Functoriality 1.1.2; Proposition 1.7 and Corollary 1.7.1, pp. 261, 264, 265.)
+For every unital ring homomorphism `f:A→B`, let `C(f):C_A→C_B` be the kernel map of AlgebraicKTheory §5.1 and `f⁺:X_A→X_B` a plus map with its comparison homotopy over `BGL(f)`. Use a based square, or transport basepoints along the specified tracks and use the trivial `π₁(X_B)-action` supplied by the block-sum H-space structure of StableHomotopyKTheory §4.14. Then `ρ_B ∘ π₂(f⁺) = H₂(E(f);ℤ) ∘ ρ_A` and `χ_B ∘ Additive(C(f)) = Additive(π₂(f⁺)) ∘ χ_A`. In the first equality the `π₂` groups are written additively. `H₂(E(f);ℤ)` is exactly groupHomology.map of `E(f)`, with the identity morphism of trivial integral coefficients, in degree 2. These maps satisfy identity and composition on groups, although the chosen plus-space maps need only do so up to homotopy. (Weibel, §IV.1, Functoriality 1.1.2; Proposition 1.7 and Corollary 1.7.1, pp. 261, 264, 265.)
 
 `A` and `B` are associative unital rings in `Type`; `f` preserves 1. For a free comparison homotopy the target `X_B` has trivial `π₁-action` on `π₂`; StableHomotopyKTheory §4.14 supplies the block-sum H-space structure on the ring plus model and the triviality of the `π₁ = K₁(B)` action on every `π_n`. The same abelianness is the hypothesis under which StableHomotopyKTheory Layer 3/plus-construction-functoriality produces `f⁺`.
 
@@ -411,11 +380,11 @@ Let `K_Q(A)=ΩBQ(Proj_fg(A))`, based at the constant loop, and let `K_Q(A)₀` b
 
 Provide the following API.
 
-- `K2Comparison.toQuillen`: `Ξ_A` is `χ_A` followed by `η_A` on `π₂` and the zero-component inclusion. The light template composes an actual `kernel-to-π₂` equivalence with an actual homotopy equivalence; the component-inclusion step is supplied separately.
-- `K2Comparison.toQuillen_apply`: For `z, Ξ_A(z)=j_A*(η_A*(χ_A(z)))`.
-- `K2Comparison.toQuillen_symm`: For `v` in `π₂K_Q(A), Ξ_A⁻¹(v)=χ_A⁻¹(η_A*⁻¹(j_A*⁻¹(v)))`.
-- `K2Comparison.toQuillen_natural`: For any unital `f:A→B, Ξ_B C(f)=K_Q(f)_* Ξ_A`; identities and composition hold on groups.
-- `K2Comparison.toQuillen_model_independent`: Compatible changes of the Q/group-completion and plus models transport `Ξ_A` through the induced based `π₂` equivalences; the zero-component comparison square must be retained.
+- `Ξ_A` is `χ_A` followed by `η_A` on `π₂` and the zero-component inclusion. The light template composes an actual `kernel-to-π₂` equivalence with an actual homotopy equivalence; the component-inclusion step is supplied separately.
+- For `z, Ξ_A(z)=j_A*(η_A*(χ_A(z)))`.
+- For `v` in `π₂K_Q(A), Ξ_A⁻¹(v)=χ_A⁻¹(η_A*⁻¹(j_A*⁻¹(v)))`.
+- For any unital `f:A→B, Ξ_B C(f)=K_Q(f)_* Ξ_A`; identities and composition hold on groups.
+- Compatible changes of the Q/group-completion and plus models transport `Ξ_A` through the induced based `π₂` equivalences; the zero-component comparison square must be retained.
 
 **Checks.**
 
@@ -447,11 +416,11 @@ For an abelian group `A` written additively, `IsSteinbergPairing(c)` for `c:Fˣ�
 
 Provide the following API.
 
-- `IsSteinbergPairing`: The three equations in the statement.
-- `pairing_postcompose`: For `f:A→+B` and a Steinberg pairing `c, f∘c` is a Steinberg pairing.
-- `pairing_pullback`: For a field homomorphism `f:F→E, c(f(a),f(b))` is a Steinberg pairing over `F`.
-- `pairing_one_left`: Every Steinberg pairing satisfies `c(1,b)=0`.
-- `pairing_one_right`: Every Steinberg pairing satisfies `c(a,1)=0`.
+- The three equations in the statement.
+- For `f:A→+B` and a Steinberg pairing `c, f∘c` is a Steinberg pairing.
+- For a field homomorphism `f:F→E, c(f(a),f(b))` is a Steinberg pairing over `F`.
+- Every Steinberg pairing satisfies `c(1,b)=0`.
+- Every Steinberg pairing satisfies `c(a,1)=0`.
 
 **Checks.**
 
@@ -471,9 +440,9 @@ Provide the following API.
 
 - `SymbolGroup`: The quotient `P₂(F)` with its `AddCommGroup` and `ℤ-module` structures.
 - `symbol`: The class `p(a,b)` of the pure tensor.
-- `presentation_universal`: For every Steinberg pairing `c` to `A`, there is exactly one `f:P₂(F)→+A` satisfying `f(p(a,b))=c(a,b)`.
-- `presentation_hom_ext`: Maps `P₂(F)→+A` agreeing on every `p(a,b)` agree.
-- `presentation_relations`: The pairing `p` is bilinear and `p(a,b)=0` if `a+b=1`.
+- For every Steinberg pairing `c` to `A`, there is exactly one `f:P₂(F)→+A` satisfying `f(p(a,b))=c(a,b)`.
+- Maps `P₂(F)→+A` agreeing on every `p(a,b)` agree.
+- The pairing `p` is bilinear and `p(a,b)=0` if `a+b=1`.
 
 **Checks.**
 
@@ -487,19 +456,19 @@ Provide the following API.
 
 Provide the following API.
 
-- `SymbolTensor`: `T₂(F)=Additive Fˣ⊗ℤAdditive Fˣ`.
+- `T₂(F)=Additive Fˣ⊗ℤAdditive Fˣ`.
 - `steinbergRelations`: `R₂(F)` is the `ℤ-span` of `a⊗b` with `a+b=1`.
 - `SymbolGroup`: `Q₂(F)=T₂(F)/R₂(F)`.
 - `symbol`: For units `a,b, symbol(a,b)` is their tensor class.
-- symbol_mul_left: `symbol(ab,c)=symbol(a,c)+symbol(b,c)`.
-- symbol_mul_right: `symbol(a,bc)=symbol(a,b)+symbol(a,c)`.
-- symbol_steinberg: If `a+b=1` in `F` then `symbol(a,b)=0`.
-- symbol_one_left: `symbol(1,a)=0`.
-- symbol_one_right: `symbol(a,1)=0`.
-- symbol_inv_left: `symbol(a⁻¹,b)=−symbol(a,b)`.
-- `universal`: Every bilinear complementary-zero pairing factors through a unique linear map `Q₂(F)→A`.
-- `hom_ext`: Two linear maps out of `Q₂(F)` agreeing on all symbols are equal.
-- `map_exists`: A field map induces a unique linear map sending symbols to symbols of mapped units; the maps respect identity and composition.
+- `symbol(ab,c)=symbol(a,c)+symbol(b,c)`.
+- `symbol(a,bc)=symbol(a,b)+symbol(a,c)`.
+- If `a+b=1` in `F` then `symbol(a,b)=0`.
+- `symbol(1,a)=0`.
+- `symbol(a,1)=0`.
+- `symbol(a⁻¹,b)=−symbol(a,b)`.
+- Every bilinear complementary-zero pairing factors through a unique linear map `Q₂(F)→A`.
+- Two linear maps out of `Q₂(F)` agreeing on all symbols are equal.
+- A field map induces a unique linear map sending symbols to symbols of mapped units; the maps respect identity and composition.
 
 **Checks.**
 
@@ -548,15 +517,15 @@ Provide the following API.
 
 - `MilnorK`: The graded ring, and its degree-n part.
 - `MilnorK.symbol`: The symbol of an n-tuple of nonzero elements.
-- MilnorK.symbol_mul: Multiplicativity in each entry.
-- MilnorK.symbol_steinberg: A complementary two-entry symbol vanishes; multiplying on either side gives vanishing for consecutive complementary entries in any symbol.
-- `MilnorK.zero`: Degree zero is the integers.
-- `MilnorK.one`: Degree one is the unit group written additively.
-- `MilnorK.map`: Functoriality in the field.
-- MilnorK.hom_ext: Graded ring maps agreeing on degree-one units are equal, since products of these generate.
-- `MilnorK.lift`: A homomorphism `F× ->` degree-one elements of a graded target that kills every Steinberg product extends uniquely to a graded ring map.
-- MilnorK.map_id_comp: Field maps induce graded maps respecting identity and composition on every symbol.
-- MilnorK.symbol_product: Concatenating two tuples gives the product of their symbols with degree addition.
+- Multiplicativity in each entry.
+- A complementary two-entry symbol vanishes; multiplying on either side gives vanishing for consecutive complementary entries in any symbol.
+- Degree zero is the integers.
+- Degree one is the unit group written additively.
+- Functoriality in the field.
+- Graded ring maps agreeing on degree-one units are equal, since products of these generate.
+- A homomorphism `F× ->` degree-one elements of a graded target that kills every Steinberg product extends uniquely to a graded ring map.
+- Field maps induce graded maps respecting identity and composition on every symbol.
+- Concatenating two tuples gives the product of their symbols with degree addition.
 
 **Checks.**
 
@@ -585,12 +554,12 @@ In the tensor-algebra construction of §5.4, let `T=TensorAlgebra ℤ U, T_d` it
 
 Provide the following API.
 
-- `MilnorK.degreePresentation`: `K⁽M⁾_n(F)≃ₗ[ℤ]T_n/R_n`, sending a symbol to its pure tensor class.
-- `MilnorK.degreeTwoEquiv`: `K⁽M⁾₂(F)≃ₗ[ℤ]Q₂(F)`, with positive symbol normalization.
-- `MilnorK.relationComponent`: `I∩T_n=R_n`.
-- `MilnorK.gradedQuotientEquiv`: The direct sum of degree quotients is the underlying additive group of the tensor-algebra ring quotient.
-- MilnorK.concat_quotient: Multiplication of pure symbol classes is concatenation, and `R_iT_j+T_iR_j⊆R_{i+j}`.
-- MilnorK.degreePresentation_natural: Every field map commutes with the degree presentation and with the degree-two equivalence.
+- `K⁽M⁾_n(F)≃ₗ[ℤ]T_n/R_n`, sending a symbol to its pure tensor class.
+- `K⁽M⁾₂(F)≃ₗ[ℤ]Q₂(F)`, with positive symbol normalization.
+- `I∩T_n=R_n`.
+- The direct sum of degree quotients is the underlying additive group of the tensor-algebra ring quotient.
+- Multiplication of pure symbol classes is concatenation, and `R_iT_j+T_iR_j⊆R_{i+j}`.
+- Every field map commutes with the degree presentation and with the degree-two equivalence.
 
 **Checks.**
 
@@ -607,12 +576,12 @@ Refine the Milnor ring `Kᴹ(F)=T/J` by equipping it with the `ℕ-grading` whos
 
 Provide the following API.
 
-- `milnor_gradedAlgebra`: The images of `T_d` form an `ℕ-graded ℤ-algebra` decomposition of the Milnor ring.
-- `milnor_symbol_mem_degree`: The product `{a₁,…,aₙ}` lies in degree `n`; the empty symbol is 1 in degree zero.
-- `milnor_symbol_mul`: Multiplying an i-symbol and a j-symbol concatenates their lists, in that order.
-- `milnor_symbol_multilinear`: Multiplication of one unit entry becomes addition of two symbols.
-- `milnor_hom_ext`: Ring homomorphisms out of `Kᴹ(F)` are determined by the degree-one unit classes.
-- `milnor_low_degrees`: Degrees zero and one are `ℤ` and `Additive Fˣ`, with explicit maps and inverses.
+- The images of `T_d` form an `ℕ-graded ℤ-algebra` decomposition of the Milnor ring.
+- The product `{a₁,…,aₙ}` lies in degree `n`; the empty symbol is 1 in degree zero.
+- Multiplying an i-symbol and a j-symbol concatenates their lists, in that order.
+- Multiplication of one unit entry becomes addition of two symbols.
+- Ring homomorphisms out of `Kᴹ(F)` are determined by the degree-one unit classes.
+- Degrees zero and one are `ℤ` and `Additive Fˣ`, with explicit maps and inverses.
 
 **Checks.**
 
@@ -640,11 +609,11 @@ For a field homomorphism `f:F→E` construct the graded ring map `Kᴹ(f)` induc
 
 Provide the following API.
 
-- `milnorFieldMap`: A graded ring homomorphism from the Milnor ring of `F` to that of `E`.
-- `milnorFieldMap_symbol`: An n-symbol maps to the n-symbol of its images, with unchanged entry order.
-- `milnorFieldMap_id`: The identity field map induces the identity ring map.
-- `milnorFieldMap_comp`: For `F→E→L` the composite of induced maps equals the map of the composite.
-- `milnorFieldMap_degreeTwo`: The degree-two square with the two tensor-square presentation maps commutes.
+- A graded ring homomorphism from the Milnor ring of `F` to that of `E`.
+- An n-symbol maps to the n-symbol of its images, with unchanged entry order.
+- The identity field map induces the identity ring map.
+- For `F→E→L` the composite of induced maps equals the map of the composite.
+- The degree-two square with the two tensor-square presentation maps commutes.
 
 **Checks.**
 
@@ -662,10 +631,10 @@ Define `ε:ℝˣ→ℤ/2` to be 1 on negative units and 0 on positive units. The
 
 Provide the following API.
 
-- `realSignPairing`: The `ℤ/2-valued` function with value 1 exactly when both units are negative.
-- `realSignPairing_isSteinberg`: The displayed function satisfies the pairing predicate.
-- `realSignDetector`: The unique `P₂(ℝ)→+ℤ/2` evaluating on symbols as realSignPairing.
-- `realGradedSignDetector`: The map to `(ℤ/2)[t]` sends `{a₁,…,aₙ}` to `(Π_i ε(a_i))t^n`.
+- The `ℤ/2-valued` function with value 1 exactly when both units are negative.
+- The displayed function satisfies the pairing predicate.
+- The unique `P₂(ℝ)→+ℤ/2` evaluating on symbols as realSignPairing.
+- The map to `(ℤ/2)[t]` sends `{a₁,…,aₙ}` to `(Π_i ε(a_i))t^n`.
 
 **Checks.**
 
@@ -791,17 +760,17 @@ For `n≥1` let `D_n⊂K⁽M⁾_n(ℝ)` be the `ℤ-span` of symbols with at lea
 Provide the following API.
 
 - `MilnorK.realPositive`: `D_n` is the `span` of degree-n real symbols with a positive entry, `n≥1`.
-- `MilnorK.realSign`: The additive sign map is 1 on all-negative symbols and 0 on all others.
-- MilnorK.realSign_kernel: `ker(realSign)=D_n`.
-- `MilnorK.realDecomposition`: `K⁽M⁾_n(ℝ)≃+(ℤ/2)×D_n`, sending `e_n` to `(1,0)`.
-- MilnorK.realPositive_divisible: For every integer `m>0`, multiplication by `m` on `D_n` is surjective.
-- `realPositive`: The degree-two realization is the `span` in `Q₂(ℝ)` of `symbol(a,b)` with `a>0` or `b>0`.
-- realPositive_divisible: For `m>0` multiplication by `m` on realPositive is surjective.
-- `real_sign_exists`: The all-negative pairing descends to a linear sign map `Q₂(ℝ)→ZMod 2` with kernel realPositive.
-- `real_minus_one_nonzero`: `symbolℝ(−1,−1)≠0`.
-- `real_decomposition`: `Q₂(ℝ)≃ₗ[ℤ]ZMod 2×realPositive`.
-- realPositive_contains: A real symbol with a positive entry belongs to realPositive.
-- realPositive_excludes_minus_one: `symbolℝ(−1,−1)∉realPositive`.
+- The additive sign map is 1 on all-negative symbols and 0 on all others.
+- `ker(realSign)=D_n`.
+- `K⁽M⁾_n(ℝ)≃+(ℤ/2)×D_n`, sending `e_n` to `(1,0)`.
+- For every integer `m>0`, multiplication by `m` on `D_n` is surjective.
+- The degree-two realization is the `span` in `Q₂(ℝ)` of `symbol(a,b)` with `a>0` or `b>0`.
+- For `m>0` multiplication by `m` on realPositive is surjective.
+- The all-negative pairing descends to a linear sign map `Q₂(ℝ)→ZMod 2` with kernel realPositive.
+- `symbolℝ(−1,−1)≠0`.
+- `Q₂(ℝ)≃ₗ[ℤ]ZMod 2×realPositive`.
+- A real symbol with a positive entry belongs to realPositive.
+- `symbolℝ(−1,−1)∉realPositive`.
 
 **Checks.**
 
@@ -841,12 +810,12 @@ If two matrices of `E(R)` commute, lift them to `St(R)` and define their star pr
 
 Provide the following API.
 
-- `starProduct`: The star product of two commuting elements of `E(R)`.
-- `starProduct_lift_indep`: It does not depend on the chosen lifts.
-- `starProduct_conj`: Invariance under simultaneous conjugation by an element of `GL(R)`.
-- `starProduct_skew`: Skew-symmetry.
-- `starProduct_mul_left`: For `A1,A2,B` in `E(R)`, if each `Ai` commutes with `B` then `(A1*A2) star B=(A1 star B)*(A2 star B)`. No mutual commutation of `A1` and `A2` is required.
-- `starProduct_mul_right`: For `A` commuting with `B1` and `B2` in `E(R)`, `A star (B1*B2)=(A star B1)*(A star B2)`.
+- The star product of two commuting elements of `E(R)`.
+- It does not depend on the chosen lifts.
+- Invariance under simultaneous conjugation by an element of `GL(R)`.
+- Skew-symmetry.
+- For `A1,A2,B` in `E(R)`, if each `Ai` commutes with `B` then `(A1*A2) star B=(A1 star B)*(A2 star B)`. No mutual commutation of `A1` and `A2` is required.
+- For `A` commuting with `B1` and `B2` in `E(R)`, `A star (B1*B2)=(A star B1)*(A star B2)`.
 
 **Checks.**
 
@@ -855,7 +824,7 @@ Provide the following API.
 - Over `Z, diag(-1,-1,1)` star `diag(-1,1,-1)` is `{-1,-1}`, the nontrivial `K2(Z)` class once Layer 12 supplies that computation.
 - For `A1,A2` each commuting with `B`, the product rule holds; omit either commutation proof and the construction is ill-typed.
 
-*Needs:* §0.3; §2.2; Mathlib `commutatorElement`; KTheoryLowDegrees Layer 6.
+*Needs:* AlgebraicKTheory §5.1; §2.2; Mathlib `commutatorElement`; KTheoryLowDegrees Layer 6.
 
 ### 6.2 Weyl lift words
 
@@ -865,9 +834,9 @@ For `i != j` and a unit `r`, define `w_ij(r)=x_ij(r)x_ji(-r^-1)x_ij(r)`. Its ele
 
 Provide the following API.
 
-- `Steinberg.w`: The indexed word `w_ij(r)` for `i != j`.
-- Steinberg.w_toGL: `phi(w_ij(r))` has `r,-r^-1` in the two off-diagonal positions.
-- Steinberg.w_map: Unital ring homomorphisms preserve the indexed word and its elementary image.
+- The indexed word `w_ij(r)` for `i != j`.
+- `phi(w_ij(r))` has `r,-r^-1` in the two off-diagonal positions.
+- Unital ring homomorphisms preserve the indexed word and its elementary image.
 
 **Checks.**
 
@@ -875,7 +844,7 @@ Provide the following API.
 - `w_01(-1)` has block [[0,-1],[1,0]].
 - Over `Q, w_12(2)` has off-diagonal entries 2 and -1/2 in positions (1,2),(2,1), and entry 1 at `(0,0)`.
 
-*Needs:* §0.3; Mathlib `Units`; Mathlib `Matrix.diag2_decompose`; Tau Ceti `Matrix.SpecialLinearGroup.diag2nUnit_decompose`.
+*Needs:* AlgebraicKTheory §5.1; Mathlib `Units`; Mathlib `Matrix.diag2_decompose`; Tau Ceti `Matrix.SpecialLinearGroup.diag2nUnit_decompose`.
 
 ### 6.3 Diagonal lift words
 
@@ -885,9 +854,9 @@ For `i != j` and a unit `r`, define `h_ij(r)=w_ij(r)w_ij(-1)`. Its elementary im
 
 Provide the following API.
 
-- `Steinberg.hDiag`: For `i != j` and a unit `r`, define `h_ij(r)=w_ij(r)w_ij(-1)`. Its elementary image is diagonal with `r,r^-1` in positions `i,j`.
-- Steinberg.hDiag_toGL: The image is `diag(r,r^-1)` on coordinates `i,j`.
-- Steinberg.hDiag_map: Ring homomorphisms preserve `h_ij(r)`, retaining the two indices.
+- For `i != j` and a unit `r`, define `h_ij(r)=w_ij(r)w_ij(-1)`. Its elementary image is diagonal with `r,r^-1` in positions `i,j`.
+- The image is `diag(r,r^-1)` on coordinates `i,j`.
+- Ring homomorphisms preserve `h_ij(r)`, retaining the two indices.
 
 **Checks.**
 
@@ -905,13 +874,13 @@ For commuting units `r` and `s` of a ring `R` define the Steinberg symbol as the
 
 Provide the following API.
 
-- `steinbergSymbol`: The symbol of two commuting units.
-- `steinbergSymbol_eq_commutator`: It is the commutator of `h_ij(r)` and `h_ik(s)`.
-- `steinbergSymbol_one`: The symbol with a one entry is trivial.
-- `steinbergSymbol_mul_left`: Bilinearity for a pairwise commuting triple `r1,r2,s` of units. Over a commutative ring the commuting hypotheses are automatic.
-- `steinbergSymbol_skew`: Skew-symmetry.
-- `steinbergSymbol_index_indep`: Independence of the chosen indices.
-- `steinbergSymbol_map`: Unital ring homomorphisms preserve the commuting-unit symbol and its indexed commutator formula.
+- The symbol of two commuting units.
+- It is the commutator of `h_ij(r)` and `h_ik(s)`.
+- The symbol with a one entry is trivial.
+- Bilinearity for a pairwise commuting triple `r1,r2,s` of units. Over a commutative ring the commuting hypotheses are automatic.
+- Skew-symmetry.
+- Independence of the chosen indices.
+- Unital ring homomorphisms preserve the commuting-unit symbol and its indexed commutator formula.
 
 **Checks.**
 
@@ -920,7 +889,7 @@ Provide the following API.
 - The product rule holds for pairwise commuting units `r1,r2,s`; in a commutative field it has no extra condition.
 - The symbol of a with itself is not trivial in general, which §6.9 computes.
 
-*Needs:* §0.3; §6.1; §6.2; §6.3; Mathlib `Matrix.diag2_decompose`; Tau Ceti `Matrix.SpecialLinearGroup.diag2nUnit_decompose`; Mathlib `Units`.
+*Needs:* AlgebraicKTheory §5.1; §6.1; §6.2; §6.3; Mathlib `Matrix.diag2_decompose`; Tau Ceti `Matrix.SpecialLinearGroup.diag2nUnit_decompose`; Mathlib `Units`.
 
 ### 6.5 Field Weyl and diagonal lift calculus
 
@@ -932,7 +901,7 @@ Use the words `w_ij(a)=x_ij(a)x_ji(-a⁻¹)x_ij(a)` and `h_ij(a)=w_ij(a)w_ij(-1)
 - At `a=-1` the elementary image of `h` is `diag(-1,-1)`; it is not the identity over `ℚ`.
 - Disjoint root coordinates are fixed; adjacent parameters have the displayed scaling.
 
-*Needs:* §0.3; §6.2; §6.3; Tau Ceti `TauCeti.transvectionUnit`; Tau Ceti `TauCeti.commutatorElement_transvectionUnit`; Tau Ceti `TauCeti.commutatorElement_transvectionUnit_reverse`.
+*Needs:* AlgebraicKTheory §5.1; §6.2; §6.3; Tau Ceti `TauCeti.transvectionUnit`; Tau Ceti `TauCeti.commutatorElement_transvectionUnit`; Tau Ceti `TauCeti.commutatorElement_transvectionUnit_reverse`.
 
 **Weyl conjugation and commutator-symbol normalization.** For commutative `F` and pairwise distinct `i,j,k` in `St_m(F), m≥3, w_ij(r)w_ij(−r)=1, w_ij(r)x_ij(s)w_ij(r)⁻¹=x_ji(−r⁻²s)`, and `w_ij(r)x_ji(s)w_ij(r)⁻¹=x_ij(−r²s)`. After stabilization, or in a compatible central extension, the commutator convention of §6.4 gives `{r,s}=h_ij(rs)h_ij(r)⁻¹h_ij(s)⁻¹=h_ij(r)h_ij(s)h_ij(rs)⁻¹`. This fixes the positive normalization when comparing Matsumoto’s cocycle with the classical symbol. (Weibel, Exercises III.5.8–5.9, with the torus-factor order corrected, p. 229; Matsumoto, Lemma 5.4(c), p.26.)
 
@@ -944,11 +913,11 @@ Use the words `w_ij(a)=x_ij(a)x_ji(-a⁻¹)x_ij(a)` and `h_ij(a)=w_ij(a)w_ij(-1)
 - The two inverse torus factors appear in order `r` then `s`; reversing them changes the result in general.
 - No finite-rank kernel centrality is assumed from the stable centre theorem; the torus-defect equality is asserted stably or in an explicitly central extension.
 
-*Needs:* §0.3; §6.2; §6.4.
+*Needs:* AlgebraicKTheory §5.1; §6.2; §6.4.
 
 ### 6.6 Diagonal commutator equals the toral defect
 
-In stable `St(F)`, for distinct `i,j,k` and units `a,b`, the chosen classical symbol `s(a,b)=[h_ij(a),h_ik(b)]` equals `c_ij(a,b)=h_ij(a)h_ij(b)h_ij(ab)⁻¹`. The positive roots `e_i-e_j` and `e_i-e_k` have Cartan pairing `+1`. The corresponding simple adjacent roots instead have pairing -1; their toral commutator is `c(a,b)⁻¹`. (Matsumoto, §5, Lemma 5.4(a)–(d), p. 26; Weibel, III.5.10.1 and Exercise 5.9, p. 225.)
+In stable `St(F)`, for distinct `i,j,k` and units `a,b`, the chosen classical symbol `s(a,b)=[h_ij(a),h_ik(b)]` equals `c_ij(a,b)=h_ij(a)h_ij(b)h_ij(ab)⁻¹`. The positive roots `e_i-e_j` and `e_i-e_k` have Cartan pairing `+1`. The corresponding simple adjacent roots instead have pairing -1; their toral commutator is `c(a,b)⁻¹`. (Matsumoto, §5, Lemma 5.4(a)–(d), p. 26; Weibel, III.5.10.1, p.225, and Exercise III.5.9, p.229.)
 
 **Checks.**
 
@@ -970,7 +939,7 @@ If `r` and `1-r` are units of an associative unital ring, the Steinberg symbol `
 - The two entries commute because `(1-r)r=r(1-r)`.
 - No symbol with a zero entry is constructed.
 
-*Needs:* §0.3; §6.4.
+*Needs:* AlgebraicKTheory §5.1; §6.4.
 
 ### 6.8 The symbol of a unit and its negative
 
@@ -1002,21 +971,21 @@ The Steinberg symbols are skew-symmetric: the symbol of a with `b` times the sym
 
 ### 6.10 The monomial subgroup `W_n(A)` of the Steinberg group and its kernel `C_n(A)`
 
-Let `A` be a commutative ring and `n ≥ 3`, let `St_n(A)` be the finite-rank Steinberg group of §0.3 and `φ_n : St_n(A) → E_n(A) ⊆ GL_n(A)` its elementary map (§0.3). The monomial subgroup `W_n(A) ⊆ St_n(A)` is the subgroup generated by the Weyl lift words `w_ij(u) = x_ij(u) x_ji(−u⁻¹) x_ij(u)`, for `i ≠ j` and `u ∈ A^×` (§6.2). It contains every diagonal lift `h_ij(u) = w_ij(u) w_ij(−1)` (§6.3). The monomial kernel is `C_n(A) = W_n(A) ∩ ker φ_n`. Its image is described by Milnor's Lemma 9.1: `φ_n(W_n(A))` is exactly the group of monomial matrices of determinant one, the matrices `P_π·diag(v_1, …, v_n)` with `π` a permutation, `P_π e_k = e_{π(k)}`, every `v_k ∈ A^×` and `sign(π)·v_1⋯v_n = 1`. (Milnor, §9, opening definitions and Lemma 9.1, p. 71.)
+Let `A` be a commutative ring and `n ≥ 3`, let `St_n(A)` be the finite-rank Steinberg group of AlgebraicKTheory §5.1 and `φ_n : St_n(A) → E_n(A) ⊆ GL_n(A)` its elementary map (AlgebraicKTheory §5.1). The monomial subgroup `W_n(A) ⊆ St_n(A)` is the subgroup generated by the Weyl lift words `w_ij(u) = x_ij(u) x_ji(−u⁻¹) x_ij(u)`, for `i ≠ j` and `u ∈ A^×` (§6.2). It contains every diagonal lift `h_ij(u) = w_ij(u) w_ij(−1)` (§6.3). The monomial kernel is `C_n(A) = W_n(A) ∩ ker φ_n`. Its image is described by Milnor's Lemma 9.1: `φ_n(W_n(A))` is exactly the group of monomial matrices of determinant one, the matrices `P_π·diag(v_1, …, v_n)` with `π` a permutation, `P_π e_k = e_{π(k)}`, every `v_k ∈ A^×` and `sign(π)·v_1⋯v_n = 1`. (Milnor, §9, opening definitions and Lemma 9.1, p. 71.)
 
-`A` is a commutative ring: the determinant condition and the diagonal-lift calculus use commutativity. `n ≥ 3`, using §0.3’s finite-rank carrier; `i, j` are distinct indices in `{1, …, n}` and `u` ranges over `A^×`.
+`A` is a commutative ring: the determinant condition and the diagonal-lift calculus use commutativity. `n ≥ 3`, using AlgebraicKTheory §5.1’s finite-rank carrier; `i, j` are distinct indices in `{1, …, n}` and `u` ranges over `A^×`.
 
 Provide the following API.
 
-- `Steinberg.monomialSubgroup`: `W_n(A)`: the subgroup of `St_n(A)` generated by all `w_ij(u), i ≠ j, u ∈ A^×`.
-- Steinberg.w_mem_monomialSubgroup: `w_ij(u) ∈ W_n(A)`.
-- Steinberg.h_mem_monomialSubgroup: `h_ij(u) ∈ W_n(A)`.
-- `Steinberg.monomialKernel`: `C_n(A) = W_n(A) ⊓ ker φ_n`.
-- Steinberg.mem_monomialKernel_iff: `z ∈ C_n(A) ↔ z ∈ W_n(A) ∧ φ_n z = 1`.
-- Steinberg.toElementary_monomialSubgroup: Lemma 9.1: the image of `W_n(A)` in `GL_n(A)` is the set of permutationGL `π ·` diagGL `v` with `sign(π)·∏ v_k = 1`.
-- Steinberg.monomialSubgroup_map: For `f : A →+* B`, Steinberg.map `f` carries `W_n(A)` into `W_n(B)` and `C_n(A)` into `C_n(B)`.
-- Steinberg.monomialSubgroup_stabilise: Stabilisation carries `W_n(A)` into `W_{n+1}(A)` and `C_n(A)` into `C_{n+1}(A)`.
-- Steinberg.monomialSubgroup_int: For `n ≥ 3, W_n(ℤ)` is generated by the `w_ij(1)`; it is IntegerSteinbergModel.monomialSubgroup of §12.6.
+- `W_n(A)`: the subgroup of `St_n(A)` generated by all `w_ij(u), i ≠ j, u ∈ A^×`.
+- `w_ij(u) ∈ W_n(A)`.
+- `h_ij(u) ∈ W_n(A)`.
+- `C_n(A) = W_n(A) ⊓ ker φ_n`.
+- `z ∈ C_n(A) ↔ z ∈ W_n(A) ∧ φ_n z = 1`.
+- Lemma 9.1: the image of `W_n(A)` in `GL_n(A)` is the set of permutationGL `π ·` diagGL `v` with `sign(π)·∏ v_k = 1`.
+- For `f : A →+* B`, The coefficient map induced by `f` carries `W_n(A)` into `W_n(B)` and `C_n(A)` into `C_n(B)`.
+- Stabilisation carries `W_n(A)` into `W_{n+1}(A)` and `C_n(A)` into `C_{n+1}(A)`.
+- For `n ≥ 3, W_n(ℤ)` is generated by the `w_ij(1)`; it is the monomial subgroup of the integer model in §12.6.
 
 **Checks.**
 
@@ -1026,7 +995,7 @@ Provide the following API.
 - Over `𝔽₃, φ_3(W_3(𝔽₃))` has `3!·2² = 24` elements: the `3 × 3` monomial matrices of determinant one.
 - For `n ≥ 3, W_n(ℤ)` equals the monomial subgroup of §12.6, generated by the `w_ij(1)`.
 
-*Needs:* §0.3; §6.2; §6.3; Mathlib `Subgroup.closure`; Mathlib `Matrix.det_permutation`; Tau Ceti `TauCeti.permutationGL`; Tau Ceti `TauCeti.diagGL`; Tau Ceti `TauCeti.det_diagGL`.
+*Needs:* AlgebraicKTheory §5.1; §6.2; §6.3; Mathlib `Subgroup.closure`; Mathlib `Matrix.det_permutation`; Tau Ceti `TauCeti.permutationGL`; Tau Ceti `TauCeti.diagGL`; Tau Ceti `TauCeti.det_diagGL`.
 
 ### 6.11 Conjugation by the monomial subgroup permutes the root generators (Milnor 9.2–9.5)
 
@@ -1034,7 +1003,7 @@ Let `A` be commutative and `n ≥ 3`. For `w ∈ W_n(A)` write `φ_n(w) = P_π·
 
 `A` is commutative and `n ≥ 3`; `i ≠ j, λ ∈ A, u ∈ A^×`. `P_π e_k = e_{π(k)}` and `φ_n(w) = P_π D` with `D = diag(v_1, …, v_n)`; this factorisation exists by §6.10.
 
-**Seven root positions over a ring.** It suffices to conjugate by `w_ab(u)`, because `W_n` is generated by these words and the proposed action composes with multiplication of monomial matrices. Let `c,d` lie outside `{a,b}`; in the first row `c≠d`. With the commutator convention of §0.3, the seven cases are
+**Seven root positions over a ring.** It suffices to conjugate by `w_ab(u)`, because `W_n` is generated by these words and the proposed action composes with multiplication of monomial matrices. Let `c,d` lie outside `{a,b}`; in the first row `c≠d`. With the commutator convention of AlgebraicKTheory §5.1, the seven cases are
 
 | Input | Conjugate by `w_ab(u)` |
 | --- | --- |
@@ -1054,10 +1023,10 @@ Additivity immediately gives `w_ab(u)⁻¹=w_ab(−u)`. To obtain `w_ab(u)=w_ba(
 
 Provide the following API.
 
-- Steinberg.w_conj_root: The seven displayed formulas with their explicit index hypotheses, for arbitrary commutative `A` and `n≥3`.
-- Steinberg.monomial_conj_root: Formula `(a)` for any monomial word and any stated decomposition of its elementary image.
-- Steinberg.monomial_conj_w_h: Formula `(b)` and normality of the subgroup generated by the diagonal words.
-- Steinberg.monomialKernel_le_center: `C_n(A)≤Z(St_n(A))`, deduced from the action on generators.
+- The seven displayed formulas with their explicit index hypotheses, for arbitrary commutative `A` and `n≥3`.
+- Formula `(a)` for any monomial word and any stated decomposition of its elementary image.
+- Formula `(b)` and normality of the subgroup generated by the diagonal words.
+- `C_n(A)≤Z(St_n(A))`, deduced from the action on generators.
 
 **Checks.**
 
@@ -1067,31 +1036,31 @@ Provide the following API.
 - Over `𝔽₅` with `u=2, w_12(2)` conjugates `x_21(1)` to `x_12(1)`, since `−2²=1`, and conjugates `x_23(1)` to `x_13(2)`. A permutation-only action misses the coefficient; replacing `u` by `u⁻¹` gives 3 in the second result.
 - In characteristic two the two negative signs become positive, but the powers `u` and `u⁻¹` still differ in, for example, `𝔽₄`. Rank two is excluded from the third-index derivation.
 
-*Needs:* §0.3; §6.2; §6.3; §6.10; Mathlib `Subgroup.center`; Mathlib `Subgroup.Normal`; Tau Ceti `TauCeti.transvectionUnit`; Tau Ceti `TauCeti.transvectionUnit_injective`; Tau Ceti `TauCeti.permutationGL_mul_diagGL_mul_inv`.
+*Needs:* AlgebraicKTheory §5.1; §6.2; §6.3; §6.10; Mathlib `Subgroup.center`; Mathlib `Subgroup.Normal`; Tau Ceti `TauCeti.transvectionUnit`; Tau Ceti `TauCeti.transvectionUnit_injective`; Tau Ceti `TauCeti.permutationGL_mul_diagGL_mul_inv`.
 
 ### 6.12 The finite-rank Steinberg symbol `{u, v}_n` in `C_n(A)`
 
 Let `A` be commutative and `n ≥ 3`. For `u, v ∈ A^×` and pairwise distinct indices `i, j, k` put `{u, v}_n = [h_ij(u), h_ik(v)] = h_ij(u) h_ik(v) h_ij(u)⁻¹ h_ik(v)⁻¹ ∈ St_n(A)`. Then: `(a) {u, v}_n = h_ik(uv) h_ik(u)⁻¹ h_ik(v)⁻¹` (Lemma 9.6); `(b) {u, v}_n ∈ C_n(A)`, so it is central; `(c)` it does not depend on the triple `(i, j, k)`; `(d)` it is bimultiplicative and skew-symmetric, `{v, u}_n = ({u, v}_n)⁻¹` (Lemma 9.7); `(e) {u, 1 − u}_n = 1` when `u` and `1 − u` are units, and `{u, −u}_n = 1` (Lemma 9.8); `(f)` stabilisation sends `{u, v}_n` to `{u, v}_{n+1}`, and its image in the stable group `St(A)` is the Steinberg symbol `{u, v}` of §6.4; `(g)` a ring map `f` sends `{u, v}_n` to `{f(u), f(v)}_n`. Milnor calls this the sharper, finite-rank meaning of the symbol. (Milnor, Lemmas 9.6 and 9.7, pp. 73–74; Milnor, Lemma 9.8 and its proof, pp. 74–75; Milnor, Lemmas 8.1–8.2, pp. 63–64; Milnor, Theorem 10.1, p. 81.)
 
-These finite-rank targets use §0.3’s Steinberg carrier and are specified in the README.
+These finite-rank targets use AlgebraicKTheory §5.1’s Steinberg carrier and are specified in the README.
 
 `A` is commutative and `n ≥ 3`; `u, v ∈ A^×`; `i, j, k` pairwise distinct. Commutators are `[a, b] = aba⁻¹b⁻¹`, the convention of §6.4 and of §6.5.
 
 Provide the following API.
 
-- `Steinberg.finiteRankSymbol`: `{u, v}_n := [h_12(u), h_13(v)]` at the standard triple `(1, 2, 3)`.
-- Steinberg.commutator_h_eq_finiteRankSymbol: For pairwise distinct `i, j, k: [h_ij(u), h_ik(v)] = {u, v}_n`.
-- Steinberg.finiteRankSymbol_eq_h: For pairwise distinct `i, j, k: {u, v}_n = h_ik(uv) h_ik(u)⁻¹ h_ik(v)⁻¹`.
-- Steinberg.finiteRankSymbol_mem_monomialKernel: `{u, v}_n ∈ C_n(A)`; in particular it is central in `St_n(A)`.
-- Steinberg.finiteRankSymbol_mul_left: `{uu′, v}_n = {u, v}_n {u′, v}_n`.
-- Steinberg.finiteRankSymbol_mul_right: `{u, vv′}_n = {u, v}_n {u, v′}_n`.
-- Steinberg.finiteRankSymbol_swap: `{v, u}_n = ({u, v}_n)⁻¹`.
-- Steinberg.finiteRankSymbol_one_left: `{1, v}_n = 1` and `{u, 1}_n = 1`.
-- Steinberg.finiteRankSymbol_one_sub: If `u` and `1 − u` are units, `{u, 1 − u}_n = 1`.
-- Steinberg.finiteRankSymbol_neg: `{u, −u}_n = 1` for every unit `u`.
-- Steinberg.finiteRankSymbol_stabilise: Stabilisation sends `{u, v}_n` to `{u, v}_{n+1}`; the image in `St(A)` is `steinbergSymbol u v` of §6.4.
-- Steinberg.finiteRankSymbol_map: For `f : A →+* B`, Steinberg.map `f {u, v}_n = {f u, f v}_n`.
-- Steinberg.finiteRankSymbol_neg_one_neg_one_int: Over `ℤ, {−1, −1}_n = w_12(1)⁴`.
+- `{u, v}_n := [h_12(u), h_13(v)]` at the standard triple `(1, 2, 3)`.
+- For pairwise distinct `i, j, k: [h_ij(u), h_ik(v)] = {u, v}_n`.
+- For pairwise distinct `i, j, k: {u, v}_n = h_ik(uv) h_ik(u)⁻¹ h_ik(v)⁻¹`.
+- `{u, v}_n ∈ C_n(A)`; in particular it is central in `St_n(A)`.
+- `{uu′, v}_n = {u, v}_n {u′, v}_n`.
+- `{u, vv′}_n = {u, v}_n {u, v′}_n`.
+- `{v, u}_n = ({u, v}_n)⁻¹`.
+- `{1, v}_n = 1` and `{u, 1}_n = 1`.
+- If `u` and `1 − u` are units, `{u, 1 − u}_n = 1`.
+- `{u, −u}_n = 1` for every unit `u`.
+- Stabilisation sends `{u, v}_n` to `{u, v}_{n+1}`; the image in `St(A)` is `steinbergSymbol u v` of §6.4.
+- For `f : A →+* B`, the induced coefficient map sends `{u, v}_n` to `{f u, f v}_n`.
+- Over `ℤ, {−1, −1}_n = w_12(1)⁴`.
 
 **Checks.**
 
@@ -1101,7 +1070,7 @@ Provide the following API.
 - Under stabilisation, `{u, v}_n` is Layers 5–8's Steinberg symbol `{u, v}`. Over `ℝ, {−1, −1}_3` maps to the class that §12.5 sends to `−1`.
 - `φ_n({u, v}_n) = 1`, because the diagonal matrices `diag(u, u⁻¹, 1)` and `diag(v, 1, v⁻¹)` commute.
 
-*Needs:* §0.3; §6.3; §6.4; §6.7; §6.10; §6.11; Mathlib `commutatorElement`; Mathlib `Subgroup.center`.
+*Needs:* AlgebraicKTheory §5.1; §6.3; §6.4; §6.7; §6.10; §6.11; Mathlib `commutatorElement`; Mathlib `Subgroup.center`.
 
 ### 6.13 Steinberg's theorem: the monomial kernel `C_n(A)` is generated by symbols (Milnor 9.11)
 
@@ -1120,9 +1089,9 @@ in `W_n/S`. For the middle equality, the exact conjugation formula before using 
 
 Provide the following API.
 
-- Steinberg.monomial_mod_diagonal: For nonzero commutative `A`, the specified permutation map `W_n/H_n≃S_n`, with its adjacent-word inverse.
-- Steinberg.diagonal_mod_symbols: Modulo `S`, the diagonal subgroup is the determinant-one unit torus, with coordinates `∏h_i(c_i)` and inverse `c_i=d₁⋯d_i`.
-- Steinberg.monomialKernel_eq_symbols: `C_n=S` for every commutative `A` and `n≥3`, including the zero ring, compatibly with coefficient maps and stabilization.
+- For nonzero commutative `A`, the specified permutation map `W_n/H_n≃S_n`, with its adjacent-word inverse.
+- Modulo `S`, the diagonal subgroup is the determinant-one unit torus, with coordinates `∏h_i(c_i)` and inverse `c_i=d₁⋯d_i`.
+- `C_n=S` for every commutative `A` and `n≥3`, including the zero ring, compatibly with coefficient maps and stabilization.
 
 **Checks.**
 
@@ -1131,7 +1100,7 @@ Provide the following API.
 - The reduction modulo `H` uses only the permutation part of `φ_n`: for a nonzero ring `A, W_n(A)/H_n(A)` maps onto the symmetric group, and the word reduction shows that this map has trivial kernel.
 - For the zero ring the Steinberg group is trivial; no permutation quotient is asserted in that case.
 
-*Needs:* §0.3; §5.11; §6.3; §6.10; §6.11; §6.12; Mathlib `Subgroup.closure`; Mathlib `Subgroup.center`; Tau Ceti `TauCeti.diagGL`.
+*Needs:* AlgebraicKTheory §5.1; §5.11; §6.3; §6.10; §6.11; §6.12; Mathlib `Subgroup.closure`; Mathlib `Subgroup.center`; Tau Ceti `TauCeti.diagGL`.
 
 ### 6.14 The upper unipotent subgroup `T_n(A)` maps isomorphically onto `U_n(A)` (Milnor 9.14)
 
@@ -1141,13 +1110,13 @@ Let `A` be a commutative ring and `n ≥ 3`, and let `T_n(A) ⊆ St_n(A)` be the
 
 Provide the following API.
 
-- `Steinberg.upperUnipotent`: `T_n(A)` is the subgroup generated by `x_ij(a)` with `i < j`.
-- `Steinberg.upperUnipotentComplement`: For `i < n, T′_i` is generated by all positive roots except `(i, i+1)`; `T′_i` is normal in `T_n(A)`.
-- `Steinberg.orderedUpperProduct`: A family `(a_ij)` for `i < j` gives the lexicographically ordered product in `T_n(A)`. Every element is obtained uniquely.
-- Steinberg.toElementary_upperUnipotent: The restriction of `φ_n` is a group isomorphism `T_n(A) ≃ U_n(A)`, with `U_n(A)` Tau Ceti’s upperUnitriangularGroup.
-- Steinberg.upperUnipotent_ext: Elements of `T_n(A)` with equal elementary images are equal; their unique ordered coordinates agree.
-- Steinberg.upperUnipotent_map: A ring map sends ordered coordinates to their images and carries `T_n` and `T′_i` into their counterparts. Identity and composition hold on generators.
-- Steinberg.upperUnipotent_simpleRoot_factor: For fixed `i`, every `t ∈ T_n(A)` is `x_{i,i+1}(a)t′` with unique `a ∈ A` and `t′ ∈ T′_i`; a is the `(i,i+1)` entry of `φ_n(t)`.
+- `T_n(A)` is the subgroup generated by `x_ij(a)` with `i < j`.
+- For `i < n, T′_i` is generated by all positive roots except `(i, i+1)`; `T′_i` is normal in `T_n(A)`.
+- A family `(a_ij)` for `i < j` gives the lexicographically ordered product in `T_n(A)`. Every element is obtained uniquely.
+- The restriction of `φ_n` is a group isomorphism `T_n(A) ≃ U_n(A)`, with `U_n(A)` Tau Ceti’s upperUnitriangularGroup.
+- Elements of `T_n(A)` with equal elementary images are equal; their unique ordered coordinates agree.
+- A ring map sends ordered coordinates to their images and carries `T_n` and `T′_i` into their counterparts. Identity and composition hold on generators.
+- For fixed `i`, every `t ∈ T_n(A)` is `x_{i,i+1}(a)t′` with unique `a ∈ A` and `t′ ∈ T′_i`; a is the `(i,i+1)` entry of `φ_n(t)`.
 
 **Checks.**
 
@@ -1156,7 +1125,7 @@ Provide the following API.
 - For `n=3` and `i=1, T′_1` consists of `x_13(b)x_23(c)`, with `(1,2)` entry zero. It contains `x_13(1)`, and excludes `x_12(1)` over `ℤ`.
 - For the zero ring both `T_n(A)` and `U_n(A)` are trivial, and the unique ordered parameter family is zero.
 
-*Needs:* §0.3; Tau Ceti `TauCeti.upperUnitriangularGroup`; Tau Ceti `TauCeti.UpperUnitriangularGroup.ext`; Tau Ceti `TauCeti.transvectionUnit`; Tau Ceti `TauCeti.commutatorElement_transvectionUnit`; Tau Ceti `TauCeti.commute_transvectionUnit`.
+*Needs:* AlgebraicKTheory §5.1; Tau Ceti `TauCeti.upperUnitriangularGroup`; Tau Ceti `TauCeti.UpperUnitriangularGroup.ext`; Tau Ceti `TauCeti.transvectionUnit`; Tau Ceti `TauCeti.commutatorElement_transvectionUnit`; Tau Ceti `TauCeti.commute_transvectionUnit`.
 
 ### 6.15 For a field, `St_n(F) = T·W·T` (Milnor 9.15)
 
@@ -1170,7 +1139,7 @@ Let `F` be a field and `n ≥ 3`. Every element of `St_n(F)` lies in `T_n(F)·W_
 - For `n = 3` and `F = 𝔽₂`, every element of `St_3(𝔽₂)` is `t₁ w t₂` with `t₁, t₂` upper unipotent and `w` in the group generated by the `w_ij(1)`.
 - Only cases 1–3 occur, and case 2 needs `λ` invertible: the lemma is stated for fields.
 
-*Needs:* §0.3; §6.2; §6.10; §6.11; §6.14.
+*Needs:* AlgebraicKTheory §5.1; §6.2; §6.10; §6.11; §6.14.
 
 ### 6.16 For a field, the whole Steinberg kernel is monomial and generated by symbols (Milnor 9.12)
 
@@ -1184,11 +1153,11 @@ Let `F` be a field and `n ≥ 3`. The kernel of `φ_n : St_n(F) → E_n(F)` is c
 - For `F = ℝ` the kernel is nontrivial: `{−1, −1}_3` is a nontrivial central element of `St_3(ℝ)`, detected after stabilisation by the real sign symbol.
 - Its stable consequence is the field clause of §6.18.
 
-*Needs:* §0.3; §5.11; §6.10; §6.11; §6.12; §6.13; §6.14; §6.15; Tau Ceti `TauCeti.UpperTriangularGroup.mem_diagonalTorus_of_mem`; Tau Ceti `TauCeti.upperUnitriangularGroup`.
+*Needs:* AlgebraicKTheory §5.1; §5.11; §6.10; §6.11; §6.12; §6.13; §6.14; §6.15; Tau Ceti `TauCeti.UpperTriangularGroup.mem_diagonalTorus_of_mem`; Tau Ceti `TauCeti.upperUnitriangularGroup`.
 
 ### 6.17 Lifted Bruhat reduction and complete toral relations
 
-The following refines §0.4’s stable field presentation to the specified finite ranks.
+The following refines AlgebraicKTheory §5.2’s stable field presentation to the specified finite ranks.
 
 For `n≥3` and any field `F`, quotient `St_n(F)` by the normal closure of the defects `h_ij(a)h_ij(b)h_ij(ab)⁻¹`. The map from this quotient to `SL_n(F)` is an isomorphism. In the quotient, Bruhat words reduce to `u·h·w·v`, with ordered positive-root products `u,v`, simple-coroot diagonal word `h`, and a chosen signed permutation representative `w`. An element mapping to the identity reduces to the identity; no uniqueness of both outer unipotent factors is claimed. (Steinberg, §6, Lemmas 36–38 and Theorem 8(b), pp. 66–70; Matsumoto, §5, Lemma 5.3, pp. 24–25.)
 
@@ -1198,11 +1167,11 @@ For `n≥3` and any field `F`, quotient `St_n(F)` by the normal closure of the d
 - Injectivity is proved through the Bruhat reduction, not from faithfulness of an already defined matrix action.
 - Over `ℝ` the defect `h_ij(−1)²h_ij(1)⁻¹` represents `{−1,−1}_n`: it is nonzero before taking the quotient, by the real sign detector after stabilization, and becomes 1 in the quotient. Omitting the toral relations therefore gives the wrong kernel.
 
-*Needs:* §0.3; §6.5; ReductiveGroups Layer 7; RootSystems Layer 3.
+*Needs:* AlgebraicKTheory §5.1; §6.5; ReductiveGroups Layer 7; RootSystems Layer 3.
 
 ### 6.18 Unit symbols generate `K₂` of a commutative semilocal ring
 
-For a commutative semilocal ring `R`, stable `K₂(R)` is generated by the unit symbols of §6.4, with no lower bound on residue-field cardinalities. The field specialization is supplied by §0.4; the additional local and semilocal assertion is proved below. No symbol-generation theorem for an arbitrary division ring is asserted. (Dennis–Stein, Corollary 2.2, p.287, and Theorem 2.7 with proof, pp.292–293; Weibel, III.5.10.5, p.226.)
+For a commutative semilocal ring `R`, stable `K₂(R)` is generated by the unit symbols of §6.4, with no lower bound on residue-field cardinalities. The field specialization is supplied by AlgebraicKTheory §5.2; the additional local and semilocal assertion is proved below. No symbol-generation theorem for an arbitrary division ring is asserted. (Dennis–Stein, Corollary 2.2, p.287, and Theorem 2.7 with proof, pp.292–293; Weibel, III.5.10.5, p.226.)
 
 `R` is a commutative field or a commutative local or semilocal ring. No lower bound on residue-field cardinalities is imposed.
 
@@ -1214,7 +1183,7 @@ Use the surjection to the product of residue fields and Corollary 2.2 to reduce 
 - For a general commutative ring generation is not asserted.
 - The Dennis–Stein symbols of Layer 13 are introduced because symbols need not generate in general.
 
-*Needs:* §0.3; §6.4.
+*Needs:* AlgebraicKTheory §5.1; §6.4.
 
 ### Examples
 
@@ -1228,7 +1197,7 @@ Layers 2–3 and 5; Tau Ceti `diagGL`, `permutationGL`, `upperUnitriangularGroup
 
 ## Layer 7: the native Milnor–classical dictionary
 
-§0.4 supplies field Steinberg symbols, their bilinearity and Steinberg relation, Matsumoto's complete presentation, and the vanishing of classical `K₂` of finite fields. Its Matsumoto theorem includes injectivity, not only generation. This layer identifies that supplied presentation with the actual homogeneous degree-two Milnor group of Layer 5 and then develops rational-function and extension consequences. The lifted torus, Weyl and detecting-extension construction of the supplier's presentation is not planned a second time here. (Weibel, Theorem III.6.1 and Examples III.6.1.1–6.1.3, pp.231–232; Matsumoto, §5, Corollary 5.11, pp.30–31.)
+AlgebraicKTheory §5.2 supplies field Steinberg symbols, their bilinearity and Steinberg relation, Matsumoto's complete presentation, and the vanishing of classical `K₂` of finite fields. Its Matsumoto theorem includes injectivity, not only generation. This layer identifies that supplied presentation with the actual homogeneous degree-two Milnor group of Layer 5 and then develops rational-function and extension consequences. The lifted torus, Weyl and detecting-extension construction of the supplier's presentation is not planned a second time here. (Weibel, Theorem III.6.1 and Examples III.6.1.1–6.1.3, pp.231–232; Matsumoto, §5, Corollary 5.11, pp.30–31.)
 
 ### 7.1 The chosen Milnor-to-classical comparison map
 
@@ -1236,10 +1205,10 @@ Define `φ_F:Kᴹ₂(F)→Additive K₂(F)` as the unique map taking `{a,b}` to 
 
 Provide the following API.
 
-- `milnorToClassicalK2`: The map `φ_F` with the specified domain and additive target.
-- `milnorToClassicalK2_symbol`: `φ_F({a,b})` is `[h_12(a),h_13(b)]` in the stable kernel, written additively.
-- `milnorToClassicalK2_unique`: Any additive map with that generator equation is `φ_F`.
-- `milnorToClassicalK2_surjective`: Every element of the classical kernel is the image of an element of the actual Milnor degree-two group.
+- The map `φ_F` with the specified domain and additive target.
+- `φ_F({a,b})` is `[h_12(a),h_13(b)]` in the stable kernel, written additively.
+- Any additive map with that generator equation is `φ_F`.
+- Every element of the classical kernel is the image of an element of the actual Milnor degree-two group.
 
 **Checks.**
 
@@ -1247,7 +1216,7 @@ Provide the following API.
 - `φ_F₂` is the unique map between zero groups after the two independent finite-field arguments.
 - The classical real pairing, obtained by applying the supplied Matsumoto presentation to the sign pairing of §5.9, sends `φ_ℝ({-1,-1})` to 1, so the map is not the zero map over all fields.
 
-*Needs:* §5.2; §5.7; §0.4; §6.18.
+*Needs:* §5.2; §5.7; AlgebraicKTheory §5.2; §6.18.
 
 ### 7.2 The comparison is an isomorphism
 
@@ -1260,18 +1229,18 @@ For every field `F` the map `φ_F:Kᴹ₂(F)→Additive K₂(F)` of §7.1 is bij
 - Over `ℝ` the sign detector of §5.9 evaluates the image of `{−1,−1}` to 1 in `ℤ/2`; the comparison is not identically zero.
 - The comparison concerns classical `K₂`; the product comparison with Quillen `K₂` is the separate target §8.1.
 
-*Needs:* §5.2; §5.7; §7.1; §0.4.
+*Needs:* §5.2; §5.7; §7.1; AlgebraicKTheory §5.2.
 
 ### 7.3 Naturality of the field presentation
 
-For a field homomorphism `f:F→E` the square with `φ_F,φ_E, Kᴹ₂(f)` and the classical `K₂(f)` of §0.3 commutes. Both equivalences and their inverses are natural. Different choices of stabilizing coordinates give the same `φ`, because its generator equation uses the coordinate-independent stable symbol. (Weibel, III.6.1 and III.7.1, pp. 231, 245; Matsumoto, §9, functorial observations (a),(b), p. 50.)
+For a field homomorphism `f:F→E` the square with `φ_F,φ_E, Kᴹ₂(f)` and the classical `K₂(f)` of AlgebraicKTheory §5.1 commutes. Both equivalences and their inverses are natural. Different choices of stabilizing coordinates give the same `φ`, because its generator equation uses the coordinate-independent stable symbol. (Weibel, III.6.1 and III.7.1, pp. 231, 245; Matsumoto, §9, functorial observations (a),(b), p. 50.)
 
 **Checks.**
 
 - The identity and composite field-map squares commute.
 - Naturality is not promoted to injectivity under arbitrary field extensions.
 
-*Needs:* §§0.3–0.4; §5.8; §7.2.
+*Needs:* §AlgebraicKTheory §5.1–0.4; §5.8; §7.2.
 
 ### 7.4 `K_2` of a field is a direct summand of `K_2` of a rational function field, and the torsion kernel
 
@@ -1298,7 +1267,7 @@ For every field extension `F <= L`, the kernel of `K2(F) -> K2(L)` is torsion. (
 
 ### Dependencies
 
-Layer 5; §§0.3–0.4; GeneralAlgebraicKTheory §§3.2, 7.7.
+Layer 5; §AlgebraicKTheory §5.1–0.4; GeneralAlgebraicKTheory §§3.2, 7.7.
 
 ## Layer 8: products and the graded map to Quillen K-theory
 
@@ -1322,10 +1291,10 @@ For these split admissible inclusions the identity follows by choosing splitting
 
 Provide the following API.
 
-- `K2Product.doubleS_Q_comparison`: The based comparison on tensor grids above, including the quotient-square identity, respects the two ordered directions and the zero rows/columns.
-- `K2Product.plusQ_bidegree11`: Under the supplier's positive automorphism-class comparison, the double-S `(1,1)` product is the ordered elementary torus class of `(D_a,D′_b)`.
-- `K2Product.raw_hopf_sign`: The displayed equality with `θ₂` and the fixed numerical sign `ε=−1`.
-- `K2Product.normalized`: The equality with `θ₂♮` and naturality in commutative `R`.
+- The based comparison on tensor grids above, including the quotient-square identity, respects the two ordered directions and the zero rows/columns.
+- Under the supplier's positive automorphism-class comparison, the double-S `(1,1)` product is the ordered elementary torus class of `(D_a,D′_b)`.
+- The displayed equality with `θ₂` and the fixed numerical sign `ε=−1`.
+- The equality with `θ₂♮` and naturality in commutative `R`.
 
 **Checks.**
 
@@ -1335,7 +1304,7 @@ Provide the following API.
 - At `a=1` or `b=1` both sides vanish. At `b=1−a` with both units, the supplied Steinberg relation gives zero; these cases alone cannot distinguish `ε`.
 - The zero ring gives trivial groups and a based zero product. Finite-field `K₂` vanishing and real 2-torsion also cannot calibrate a sign; the non-2-torsion `ℚ(t)` witness is necessary.
 
-*Needs:* §1.1; §3.3; §4.1; §6.4; §6.7; §0.3; GeneralAlgebraicKTheory §§3.12–3.14, 7.2–7.4; KTheoryLowDegrees §§8.1, 13.1; StableHomotopyKTheory §§1.32, 3.12, 3.31; AlgebraicTopology Stages 5, 8.
+*Needs:* §1.1; §3.3; §4.1; §6.4; §6.7; AlgebraicKTheory §5.1; GeneralAlgebraicKTheory §§3.12–3.14, 7.2–7.4; KTheoryLowDegrees §§8.1, 13.1; StableHomotopyKTheory §§1.32, 3.12, 3.31; AlgebraicTopology Stages 5, 8.
 
 ### 8.2 The graded map from Milnor to Quillen K-theory
 
@@ -1343,13 +1312,13 @@ Construct the natural graded ring map from Milnor K-theory of a field to Quillen
 
 Provide the following API.
 
-- `milnorToQuillen`: The graded ring map.
-- `milnorToQuillen_one`: Degree one is the identity on the unit group.
-- `milnorToQuillen_two`: Under product-symbol compatibility and Matsumoto, the component `K2^M(F)->Quillen K2(F)` is an isomorphism.
-- `milnorToQuillen_map`: Naturality in the field.
-- `milnorToQuillen_graded`: It is a map of graded rings.
-- `milnorToQuillen_symbol`: Each n-symbol maps to the ordered product of its `n` unit classes in Quillen `K_n(F)`.
-- `milnorToQuillen_unique`: A graded map with the same degree-one unit classes is equal by the Milnor universal property.
+- The graded ring map.
+- Degree one is the identity on the unit group.
+- Under product-symbol compatibility and Matsumoto, the component `K2^M(F)->Quillen K2(F)` is an isomorphism.
+- Naturality in the field.
+- It is a map of graded rings.
+- Each n-symbol maps to the ordered product of its `n` unit classes in Quillen `K_n(F)`.
+- A graded map with the same degree-one unit classes is equal by the Milnor universal property.
 
 **Checks.**
 
@@ -1408,18 +1377,18 @@ For a commutative field `F`, a valuation `v:F→ℤᵐ⁰`, and `t∈Fˣ` with `
 
 Provide the following API.
 
-- `TameSymbol.unitPart`: For `t∈Fˣ` with `ord(t)=1` and `f∈Fˣ, unitPart(v,t,f)=f·t^(−ord(f))`, packaged in v.valuationSubring.unitGroup.
-- `TameSymbol.coe_unitPart`: The underlying field unit of `unitPart(v,t,f)` is `f·t^(−ord(f))`.
-- `TameSymbol.unitPart_decomposition`: `f=t^ord(f)·unitPart(v,t,f)` in `Fˣ`.
-- `TameSymbol.unitPart_eq_iff`: For `w` in the valuation-subring unit subgroup, `unitPart(v,t,f)=w` iff `f=t^ord(f)·w`.
-- `TameSymbol.unitPart_one`: `unitPart(v,t,1)=1`.
-- `TameSymbol.unitPart_uniformizer`: `unitPart(v,t,t)=1`.
-- `TameSymbol.unitPart_of_unit`: For `w` in the valuation-subring unit subgroup, `unitPart(v,t,w)=w`. In particular this holds after transporting an `Rˣ` element by unitGroupMulEquiv.symm.
-- `TameSymbol.unitPart_mul`: `unitPart(v,t,fg)=unitPart(v,t,f)·unitPart(v,t,g)`.
-- `TameSymbol.unitPart_inv`: `unitPart(v,t,f⁻¹)=unitPart(v,t,f)⁻¹`.
-- `TameSymbol.unitPart_zpow`: For every integer `n, unitPart(v,t,f^n)=unitPart(v,t,f)^n`, including negative `n`.
-- `TameSymbol.unitPart_change`: If `t′=tε` for `ε` in the valuation-subring unit subgroup, then `unitPart(v,t′,f)=unitPart(v,t,f)·ε^(−ord(f))`.
-- `TameSymbol.unitPart_localField`: For a nonarchimedean local field `K` with its ValuativeRel and topology, let `v:K→ℤᵐ⁰` satisfy `ord_v(x)=(TauCeti.normalizedValuation K x).toAdd` for every `x∈Kˣ`. If `t` has normalized valuation `ofAdd(1)`, identify its order-one witness by this equality. Then the underlying `Kˣ` element of `unitPart(v,t,x)` equals the underlying `Kˣ` element of (TauCeti.unitsEquivIntProd `K t` ht x).2. Use `TauCeti.unitsEquivIntProd` and `TauCeti.coe_unitsEquivIntProd_apply_snd` for this local-field splitting and its second-coordinate formula.
+- For `t∈Fˣ` with `ord(t)=1` and `f∈Fˣ, unitPart(v,t,f)=f·t^(−ord(f))`, packaged in v.valuationSubring.unitGroup.
+- The underlying field unit of `unitPart(v,t,f)` is `f·t^(−ord(f))`.
+- `f=t^ord(f)·unitPart(v,t,f)` in `Fˣ`.
+- For `w` in the valuation-subring unit subgroup, `unitPart(v,t,f)=w` iff `f=t^ord(f)·w`.
+- `unitPart(v,t,1)=1`.
+- `unitPart(v,t,t)=1`.
+- For `w` in the valuation-subring unit subgroup, `unitPart(v,t,w)=w`. In particular this holds after transporting an `Rˣ` element by unitGroupMulEquiv.symm.
+- `unitPart(v,t,fg)=unitPart(v,t,f)·unitPart(v,t,g)`.
+- `unitPart(v,t,f⁻¹)=unitPart(v,t,f)⁻¹`.
+- For every integer `n, unitPart(v,t,f^n)=unitPart(v,t,f)^n`, including negative `n`.
+- If `t′=tε` for `ε` in the valuation-subring unit subgroup, then `unitPart(v,t′,f)=unitPart(v,t,f)·ε^(−ord(f))`.
+- For a nonarchimedean local field `K` with its ValuativeRel and topology, let `v:K→ℤᵐ⁰` satisfy `ord_v(x)=(TauCeti.normalizedValuation K x).toAdd` for every `x∈Kˣ`. If `t` has normalized valuation `ofAdd(1)`, identify its order-one witness by this equality. Then the underlying `Kˣ` element of `unitPart(v,t,x)` equals the underlying `Kˣ` element of (TauCeti.unitsEquivIntProd `K t` ht x).2. Use `TauCeti.unitsEquivIntProd` and `TauCeti.coe_unitsEquivIntProd_apply_snd` for this local-field splitting and its second-coordinate formula.
 
 **Checks.**
 
@@ -1436,14 +1405,14 @@ Provide the following API.
 
 Provide the following API.
 
-- `TameSymbol.ringUnitPart`: `U_π(f)` is an actual unit of `R`, for `π` and `f` in `Fˣ` and `ord_v(π)=1`.
-- `TameSymbol.ringUnitPart_coe`: The field value of `U_π(f)` is `fπ^(−ord_v(f))`; equivalently `f=π^ord_v(f) U_π(f)`. This equation uniquely characterizes `U_π(f)`.
-- `TameSymbol.ringUnitPart_mul`: `U_π(fg)=U_π(f)U_π(g)`. Together with `unitPart_unit` and `unitPart_zpow` this gives the group-homomorphism laws `Fˣ→Rˣ`.
-- `TameSymbol.ringUnitPart_zpow`: `U_π(f^m)=U_π(f)^m` for `f∈Fˣ` and `m∈ℤ`.
-- `TameSymbol.ringUnitPart_unit`: For `u∈Rˣ, U_π(u)=u`, where `u` is mapped to `Fˣ` by the subtype homomorphism.
-- `TameSymbol.ringUnitPart_uniformizer_zpow`: `U_π(π^m)=1` for every `m∈ℤ`.
-- `TameSymbol.ringUnitPart_change_uniformizer`: For `c∈Rˣ, U_(cπ)(f)=c^(−ord_v(f)) U_π(f)`.
-- `TameSymbol.ringUnitPart_residue_bridge`: For `z` in R.unitGroup, the `unitGroupToResidueFieldUnits(z)` equals `Units.map(residue)(R.unitGroupMulEquiv(z))`; these are the same residue map.
+- `U_π(f)` is an actual unit of `R`, for `π` and `f` in `Fˣ` and `ord_v(π)=1`.
+- The field value of `U_π(f)` is `fπ^(−ord_v(f))`; equivalently `f=π^ord_v(f) U_π(f)`. This equation uniquely characterizes `U_π(f)`.
+- `U_π(fg)=U_π(f)U_π(g)`. Together with `unitPart_unit` and `unitPart_zpow` this gives the group-homomorphism laws `Fˣ→Rˣ`.
+- `U_π(f^m)=U_π(f)^m` for `f∈Fˣ` and `m∈ℤ`.
+- For `u∈Rˣ, U_π(u)=u`, where `u` is mapped to `Fˣ` by the subtype homomorphism.
+- `U_π(π^m)=1` for every `m∈ℤ`.
+- For `c∈Rˣ, U_(cπ)(f)=c^(−ord_v(f)) U_π(f)`.
+- For `z` in R.unitGroup, the `unitGroupToResidueFieldUnits(z)` equals `Units.map(residue)(R.unitGroupMulEquiv(z))`; these are the same residue map.
 
 **Checks.**
 
@@ -1463,19 +1432,19 @@ Let `v` be a discrete valuation on the field `F`, taken as a surjective valuatio
 
 Provide the following API.
 
-- `tameSymbol`: For a surjective `v : F → ℤᵐ⁰` and `f, g ∈ F^×, tameSymbol v f g := (−1)^{ord f·ord g}·res(u_f)^{ord g}·res(u_g)^{−ord f} ∈ k_v^×`, with unit parts taken against a uniformiser fixed by choice.
-- `tameSymbol_eq_residue`: `tameSymbol v f g = (−1)^{ord f·ord g}·res(f^{ord g}·g^{−ord f})`, the element `f^{ord g}g^{−ord f}` lying in `R^×` (§9.3).
-- `tameSymbol_unit_uniformizer`: If `ord u = 0` and `ord t = 1` then `tameSymbol v u t = res u`.
-- `tameSymbol_uniformizer_unit`: If `ord u = 0` and `ord t = 1` then `tameSymbol v t u = (res u)^{−1}`.
-- `tameSymbol_of_ord_eq_zero`: If `ord f = ord g = 0` then `tameSymbol v f g = 1`.
-- `tameSymbol_swap`: `tameSymbol v g f = (tameSymbol v f g)^{−1}`.
-- `tameSymbol_self`: `tameSymbol v f f = (−1)^{ord f}`.
-- `tameSymbol_neg_self`: `tameSymbol v f (−f) = 1`.
-- `tameSymbol_kbook`: The K-book's `∂_v({r,s})` of Lemma III.6.3 is `tameSymbol v s r = (tameSymbol v r s)^{−1}`.
-- `tameSymbol_dvr`: For a DVR `R` with fraction field `F` and irreducible `ϖ`, writing `f = u_f·ϖ^{n_f}`, `tameSymbol (the valuation of R) f g = (−1)^{n_f n_g}·ū_f^{n_g}·ū_g^{−n_f}`.
-- `tameSymbol_place`: For a place `P` of a function field, a uniformiser `t` at `P` and `f` with `P.ord f = 0`: `tameSymbol P f t = Place.residueUnit P f`.
-- `TameSymbol.valuationSubringMap`: For a field embedding `F → E` and discrete valuations with `ord_w(f(r)) = e·ord_v(r), e ∈ ℕ`, the restricted ring map `𝒪_v →+* 𝒪_w` is defined without a finiteness assumption.
-- `TameSymbol.residueFieldMap`: For the same embedding, require `he : 0 < e`. The valuation-ring map is local, since `ord_w(f(r)) > 0` iff `ord_v(r) > 0` for `r ≠ 0`, and IsLocalRing.ResidueField.map yields `k_v →+* k_w`. No finite-dimensionality assumption is used.
+- For a surjective `v : F → ℤᵐ⁰` and `f, g ∈ F^×, tameSymbol v f g := (−1)^{ord f·ord g}·res(u_f)^{ord g}·res(u_g)^{−ord f} ∈ k_v^×`, with unit parts taken against a uniformiser fixed by choice.
+- `tameSymbol v f g = (−1)^{ord f·ord g}·res(f^{ord g}·g^{−ord f})`, the element `f^{ord g}g^{−ord f}` lying in `R^×` (§9.3).
+- If `ord u = 0` and `ord t = 1` then `tameSymbol v u t = res u`.
+- If `ord u = 0` and `ord t = 1` then `tameSymbol v t u = (res u)^{−1}`.
+- If `ord f = ord g = 0` then `tameSymbol v f g = 1`.
+- `tameSymbol v g f = (tameSymbol v f g)^{−1}`.
+- `tameSymbol v f f = (−1)^{ord f}`.
+- `tameSymbol v f (−f) = 1`.
+- The K-book's `∂_v({r,s})` of Lemma III.6.3 is `tameSymbol v s r = (tameSymbol v r s)^{−1}`.
+- For a DVR `R` with fraction field `F` and irreducible `ϖ`, writing `f = u_f·ϖ^{n_f}`, `tameSymbol (the valuation of R) f g = (−1)^{n_f n_g}·ū_f^{n_g}·ū_g^{−n_f}`.
+- For a place `P` of a function field, a uniformiser `t` at `P` and `f` with `P.ord f = 0`: `tameSymbol P f t = Place.residueUnit P f`.
+- For a field embedding `F → E` and discrete valuations with `ord_w(f(r)) = e·ord_v(r), e ∈ ℕ`, the restricted ring map `𝒪_v →+* 𝒪_w` is defined without a finiteness assumption.
+- For the same embedding, require `he : 0 < e`. The valuation-ring map is local, since `ord_w(f(r)) > 0` iff `ord_v(r) > 0` for `r ≠ 0`, and IsLocalRing.ResidueField.map yields `k_v →+* k_w`. No finite-dimensionality assumption is used.
 
 **Checks.**
 
@@ -1525,12 +1494,12 @@ The pairing `∂_v` of §9.4 induces a group homomorphism `∂_v : K^M_2(F) → 
 
 Provide the following API.
 
-- `tameSymbolHom`: The homomorphism `K^M_2(F) →+ Additive k^×` induced by `tameSymbol v`.
-- `tameSymbolHom_symbol`: tameSymbolHom `v {f, g} = tameSymbol v f g`.
-- `tameSymbolHom_surjective`: tameSymbolHom `v` is surjective.
-- `tameSymbolHomK2`: The homomorphism `K_2(F) → k^×` obtained through Matsumoto's isomorphism, with the same value on Steinberg symbols.
-- `tameSymbolHom_symbol_units`: tameSymbolHom `v {u, w} = 0` (the trivial unit) for `u, w ∈ R^×`.
-- `tameSymbolHom_kbook`: The K-book's `∂_v` on `K_2(F)` equals `−tameSymbolHom v` (additively).
+- The homomorphism `K^M_2(F) →+ Additive k^×` induced by `tameSymbol v`.
+- tameSymbolHom `v {f, g} = tameSymbol v f g`.
+- tameSymbolHom `v` is surjective.
+- The homomorphism `K_2(F) → k^×` obtained through Matsumoto's isomorphism, with the same value on Steinberg symbols.
+- tameSymbolHom `v {u, w} = 0` (the trivial unit) for `u, w ∈ R^×`.
+- The K-book's `∂_v` on `K_2(F)` equals `−tameSymbolHom v` (additively).
 
 **Checks.**
 
@@ -1593,18 +1562,18 @@ For a field `k` let `L(k)` be the graded abelian group with `L(k)_n = K^M_n(k) �
 
 Provide the following API.
 
-- `serreAlgebra`: The graded ring `L(k)` with `L(k)_n = K^M_n(k) × K^M_{n−1}(k)`.
+- The graded ring `L(k)` with `L(k)_n = K^M_n(k) × K^M_{n−1}(k)`.
 - `serreAlgebra.Π`: The element `Π = (0, 1)` of degree one.
-- `serreAlgebra.of`: The graded ring embedding `K^M_*(k) → L(k), a ↦ (a, 0)`.
-- `serreAlgebra.mul_def`: `(a + bΠ)(c + dΠ) = ac + (ad + (−1)^{|c|}bc + (−1)^{|d|}bd{−1})Π`.
+- The graded ring embedding `K^M_*(k) → L(k), a ↦ (a, 0)`.
+- `(a + bΠ)(c + dΠ) = ac + (ad + (−1)^{|c|}bc + (−1)^{|d|}bd{−1})Π`.
 - `serreAlgebra.Π_mul_Π`: `Π·Π = {−1}·Π`.
 - `serreAlgebra.Π_mul`: `Π·x = (−1)^{|x|}·x·Π` for `x ∈ K^M_*(k)`.
-- `serreAlgebra.gradedComm`: `L(k)` is graded-commutative.
-- `serreAlgebra.decompose`: `L(k)_{n+1} ≃ K^M_{n+1}(k) ⊕ K^M_n(k)` for `n ≥ 0`, and `L(k)_0 = K^M_0(k)`.
-- `serreAlgebra.lambdaHom`: The graded ring homomorphism `L(k) → K^M_*(k), a + bΠ ↦ a`.
-- `serreAlgebra.rhoHom`: The graded ring homomorphism `L(k) → K^M_*(k), a + bΠ ↦ a + b·{−1}`.
-- `serreAlgebra.shift`: For `c ∈ k^×`, the graded ring automorphism with `Π ↦ Π − {c}`; `shift c ∘ shift c′ = shift (cc′)`.
-- `serreAlgebra.map`: A field homomorphism `k → k′` induces `L(k) → L(k′)` fixing `Π`, with `map_id` and `map_comp`.
+- `L(k)` is graded-commutative.
+- `L(k)_{n+1} ≃ K^M_{n+1}(k) ⊕ K^M_n(k)` for `n ≥ 0`, and `L(k)_0 = K^M_0(k)`.
+- The graded ring homomorphism `L(k) → K^M_*(k), a + bΠ ↦ a`.
+- The graded ring homomorphism `L(k) → K^M_*(k), a + bΠ ↦ a + b·{−1}`.
+- For `c ∈ k^×`, the graded ring automorphism with `Π ↦ Π − {c}`; `shift c ∘ shift c′ = shift (cc′)`.
+- A field homomorphism `k → k′` induces `L(k) → L(k′)` fixing `Π`, with `map_id` and `map_comp`.
 
 **Checks.**
 
@@ -1638,20 +1607,20 @@ For a surjective discrete valuation `v` on `F` with uniformiser `t` and residue 
 
 Provide the following API.
 
-- `serreMap`: The graded ring homomorphism `d_t : K^M_*(F) → L(k)` with `d_t{f} = {ū_f} + ord(f)·Π`.
-- `milnorResidue`: `∂_v : K^M_n(F) → K^M_{n−1}(k)`, the `Π-coefficient` of `d_t` with `Π` on the right.
-- `milnorSpecialisation`: `λ_t : K^M_n(F) → K^M_n(k)`, the `Π-free` part of `d_t`.
-- `milnorResidue_symbol_units_uniformizer`: `∂_v{u_1, …, u_{n−1}, t} = {ū_1, …, ū_{n−1}}`.
-- `milnorResidue_symbol_units`: `∂_v{u_1, …, u_n} = 0` for units `u_i`.
-- `milnorSpecialisation_symbol`: `λ_t{u_1t^{i_1}, …, u_nt^{i_n}} = {ū_1, …, ū_n}`.
-- `milnorSpecialisation_mul`: `λ_t` is a graded ring homomorphism.
-- `milnorResidue_one`: In degree one `∂_v{f} = ord_v f`.
-- `milnorResidue_two`: In degree two `∂_v =` tameSymbolHom `v`.
-- `milnorResidue_kbook`: Theorem III.7.3's residue equals `(−1)^{n−1}·∂_v` on `K^M_n(F)`.
-- `milnorResidue_surjective`: `∂_v` is onto.
-- `milnorSpecialisation_surjective`: `λ_t` is onto.
-- `milnorResidue_indep`: `∂_v` does not depend on `t` (§9.15).
-- `milnorResidue_mul`: The product formula (§9.14).
+- The graded ring homomorphism `d_t : K^M_*(F) → L(k)` with `d_t{f} = {ū_f} + ord(f)·Π`.
+- `∂_v : K^M_n(F) → K^M_{n−1}(k)`, the `Π-coefficient` of `d_t` with `Π` on the right.
+- `λ_t : K^M_n(F) → K^M_n(k)`, the `Π-free` part of `d_t`.
+- `∂_v{u_1, …, u_{n−1}, t} = {ū_1, …, ū_{n−1}}`.
+- `∂_v{u_1, …, u_n} = 0` for units `u_i`.
+- `λ_t{u_1t^{i_1}, …, u_nt^{i_n}} = {ū_1, …, ū_n}`.
+- `λ_t` is a graded ring homomorphism.
+- In degree one `∂_v{f} = ord_v f`.
+- In degree two `∂_v =` tameSymbolHom `v`.
+- Theorem III.7.3's residue equals `(−1)^{n−1}·∂_v` on `K^M_n(F)`.
+- `∂_v` is onto.
+- `λ_t` is onto.
+- `∂_v` does not depend on `t` (§9.15).
+- The product formula (§9.14).
 
 **Checks.**
 
@@ -1879,15 +1848,15 @@ E/F is a finite field extension generated by a; residues are normalised as in §
 
 Provide the following API.
 
-- `milnorTransferSimple`: For a integral over `F: N_{a/F} : K^M_n(F⟮a⟯) →+ K^M_n(F)`, defined through the residue at infinity.
-- `milnorTransferSimple_eq_neg_residueInfty`: If `∂_π(y) = x` and `∂_p(y) = 0` for every monic irreducible `p ≠ π`, then `N_{a/F}(x) = −∂_∞(y)`.
-- `residueInfty_eq_neg_sum_transfer`: For `y ∈ K^M_{n+1}F(t), −∂_∞(y) = Σ_p N_p(∂_p y)`, a finite sum (Weil's formula III.7.5.1).
-- `milnorTransferSimple_degree_zero`: In degree zero `N_{a/F}(m) = [F⟮a⟯ : F]·m`.
-- `milnorTransferSimple_of_mem`: If `a ∈ F` then `N_{a/F}` is the identity of `K^M_n(F)`.
-- `milnorTransferSimple_mul_restrict`: Projection formula: `N_{a/F}(res(x)·y) = x·N_{a/F}(y)` for `x ∈ K^M_*(F)` and `y ∈ K^M_*(F⟮a⟯)`. (§10.8)
-- `milnorTransferSimple_restrict`: `N_{a/F}(res x) = [F⟮a⟯ : F]·x` for `x ∈ K^M_n(F)`. (§10.9)
-- `milnorTransferSimple_one_eq_norm`: In degree one `N_{a/F}` is Algebra.norm `F` on `F⟮a⟯ˣ` (proved in §10.7).
-- `milnorTransferSimple_kbook`: `N_{a/F}` is the same whether the residues are normalised as in the roadmap or as in Theorem III.7.3.
+- For a integral over `F: N_{a/F} : K^M_n(F⟮a⟯) →+ K^M_n(F)`, defined through the residue at infinity.
+- If `∂_π(y) = x` and `∂_p(y) = 0` for every monic irreducible `p ≠ π`, then `N_{a/F}(x) = −∂_∞(y)`.
+- For `y ∈ K^M_{n+1}F(t), −∂_∞(y) = Σ_p N_p(∂_p y)`, a finite sum (Weil's formula III.7.5.1).
+- In degree zero `N_{a/F}(m) = [F⟮a⟯ : F]·m`.
+- If `a ∈ F` then `N_{a/F}` is the identity of `K^M_n(F)`.
+- Projection formula: `N_{a/F}(res(x)·y) = x·N_{a/F}(y)` for `x ∈ K^M_*(F)` and `y ∈ K^M_*(F⟮a⟯)`. (§10.8)
+- `N_{a/F}(res x) = [F⟮a⟯ : F]·x` for `x ∈ K^M_n(F)`. (§10.9)
+- In degree one `N_{a/F}` is Algebra.norm `F` on `F⟮a⟯ˣ` (proved in §10.7).
+- `N_{a/F}` is the same whether the residues are normalised as in the roadmap or as in Theorem III.7.3.
 
 **Checks.**
 
@@ -1951,7 +1920,7 @@ For a field `F` and `x ∈ K^M_{n+1}F(t): Σ_v N_v ∂_v(x) = 0` in `K^M_n(F)`, 
 - For `{a, t − b}` the factor at `∞` is a and the factor at `t − b` is `a^{−1}` (K-book normalisation); all other factors are 1.
 - The place at infinity is needed: over `ℚ, {2, t}` has factor 1/2 at the place `t` and 2 at `∞` (K-book normalisation), so the finite places alone do not give 1.
 - In degree one `(n = 0)` it says that a principal divisor on the projective line has degree zero, `Σ_v deg(v)·ord_v(f) = 0`.
-- Roadmap convention check at 5 over `ℚ`: both the degree-two higher residue and `tameSymbol` send `{2,5}` to 2 in `F_5^×`; its inverse is 3. Only the separately named K-book residue is inverse.
+- Roadmap convention check at 5 over `ℚ`: both the degree-two higher residue and the tame symbol send `{2,5}` to 2 in `F_5^×`; its inverse is 3. Only the separately named K-book residue is inverse.
 
 *Needs:* §9.11; §9.13; §10.5; §10.6; §10.7; Tau Ceti `TauCeti.Place.ratFuncEquiv`; Tau Ceti `TauCeti.Place.normResidue`.
 
@@ -2028,11 +1997,11 @@ For a field `F` with a surjective `v:F→ℤᵐ⁰` and v-adically complete valu
 
 Provide the following API.
 
-- `finiteExtensionValuation`: The normalized Valuation `E ℤᵐ⁰`, with surjectivity, positive restriction index and no preinstalled valuation on `E`.
-- `adicComplete_iff_complete_norm`: The native `π-adic` completeness and completeness for `2^(−ord)` agree; the norm and valuation topologies agree.
-- `finiteExtensionValuation_unique`: Any surjective discrete valuation on `E` with positive restriction index is this valuation; compatibility is a named equality, not a second global instance.
-- `finiteExtensionValuation_tower`: Restriction indices multiply in a finite tower; compatible embeddings preserve units and induce the native local residue map.
-- `finiteExtensionValuation_localField`: Under IsNonarchimedeanLocalField `F`, identify this construction with the Layer 0 valuation class and normalized valuation.
+- The normalized Valuation `E ℤᵐ⁰`, with surjectivity, positive restriction index and no preinstalled valuation on `E`.
+- The native `π-adic` completeness and completeness for `2^(−ord)` agree; the norm and valuation topologies agree.
+- Any surjective discrete valuation on `E` with positive restriction index is this valuation; compatibility is a named equality, not a second global instance.
+- Restriction indices multiply in a finite tower; compatible embeddings preserve units and induce the native local residue map.
+- Under IsNonarchimedeanLocalField `F`, identify this construction with the Layer 0 valuation class and normalized valuation.
 
 **Checks.**
 
@@ -2048,11 +2017,11 @@ For the preceding finite E/F, `S=integralClosure R E` is the valuation ring of `
 
 Provide the following API.
 
-- `valuationSubring_equiv_integralClosure`: A named R-algebra equivalence identifying the ring, its maximal ideal, residue field and units.
-- `integralClosure_finite_free`: Module.Finite `R S` and Module.Free `R S`; finrank `F E` equals the R-module rank of `S`.
-- `ramification_mul_residueDegree`: `e>0, [l:k]>0` and `[E:F]=e[l:k]`, including purely inseparable E/F.
-- `extension_uniformizer_filtration`: Identify `π_F S=𝔪_S^e` and the e-step quotient `S/π_F S`. Reuse TauCeti.residueFieldEquivMaximalIdealGradedOfUniformizer for each piece; export the compatibility with the k-vector-space filtration, not a second graded-piece construction.
-- `uniformizer_minpoly_eisenstein`: If `e=[E:F]` and `l=k`, every uniformizer `π_E` generates E/F and its minimal polynomial over `F` is Eisenstein over `R`.
+- A named R-algebra equivalence identifying the ring, its maximal ideal, residue field and units.
+- Module.Finite `R S` and Module.Free `R S`; finrank `F E` equals the R-module rank of `S`.
+- `e>0, [l:k]>0` and `[E:F]=e[l:k]`, including purely inseparable E/F.
+- Identify `π_F S=𝔪_S^e` and the e-step quotient `S/π_F S`. Reuse TauCeti.residueFieldEquivMaximalIdealGradedOfUniformizer for each piece; export the compatibility with the k-vector-space filtration, not a second graded-piece construction.
+- If `e=[E:F]` and `l=k`, every uniformizer `π_E` generates E/F and its minimal polynomial over `F` is Eisenstein over `R`.
 
 **Checks.**
 
@@ -2068,10 +2037,10 @@ For every finite extension E/F as in §10.15, `ord_F(N_E/F y)=[l:k]ord_E(y)` for
 
 Provide the following API.
 
-- `ord_norm`: The valuation-of-norm identity for all nonzero elements, not just units.
-- `residue_norm_unit`: The displayed exponent-e residue identity for `S×→R×`.
-- `norm_integral_norm_unit`: Use the integral norm and `Algebra.algebraMap_intNorm` to restrict `S→R`, and restrict the homomorphism to units; do not define a second determinant norm.
-- `norm_tower_and_localField`: Reuse `Algebra.norm_norm` for tower maps. Compare the new identities with LocalFieldsRamification Layer 3 norms through the uniqueness statement of §10.15.
+- The valuation-of-norm identity for all nonzero elements, not just units.
+- The displayed exponent-e residue identity for `S×→R×`.
+- Use the integral norm and `Algebra.algebraMap_intNorm` to restrict `S→R`, and restrict the homomorphism to units; do not define a second determinant norm.
+- Reuse `Algebra.norm_norm` for tower maps. Compare the new identities with LocalFieldsRamification Layer 3 norms through the uniqueness statement of §10.15.
 
 **Checks.**
 
@@ -2087,10 +2056,10 @@ Let E/F be finite SEPARABLE and F′/F any finite extension of complete discrete
 
 Provide the following API.
 
-- `tensor_normalization_lattice`: The canonical inclusion `B⊂∏S_i` is finite, has the stated common fraction algebra, and has finite-length cokernel over `R′`.
-- `residue_component_map`: The canonical `A_j→l_i` factors through an injective `L_j→l_i`, with complete assignment of factors and invariance under relabeling.
-- `baseChange_component_length`: Both displayed componentwise identities, natural in finite towers and compatible with `e e′_i=r e_i`.
-- `separable_scope`: Do not assert `E⊗F F′` is reduced for inseparable E/F. Such E/F is handled by normal prime-degree towers in the K2 consumer; Artinian transfer lengths remain in the arbitrary-field base-change theorem.
+- The canonical inclusion `B⊂∏S_i` is finite, has the stated common fraction algebra, and has finite-length cokernel over `R′`.
+- The canonical `A_j→l_i` factors through an injective `L_j→l_i`, with complete assignment of factors and invariance under relabeling.
+- Both displayed componentwise identities, natural in finite towers and compatible with `e e′_i=r e_i`.
+- Do not assert `E⊗F F′` is reduced for inseparable E/F. Such E/F is handled by normal prime-degree towers in the K2 consumer; Artinian transfer lengths remain in the arbitrary-field base-change theorem.
 
 **Componentwise lattice calculation.** Since E/F is separable, the generic algebra of `B=S⊗_R R′` is the product of fields `∏E_i`. Its normalization `C=∏S_i` is finite over `R′` by §10.16. The inclusion `B→C` is an inclusion of full R′-lattices, so `Q=C/B` has finite length. The maximal ideals of `B` are indexed by the local factors `A_j` of `l⊗_k k′`: reducing `B` modulo a uniformizer of `R′` first gives `(S/π_F S)⊗_k k′`, whose nilpotent quotient is `l⊗_k k′`. Completeness lifts its orthogonal idempotents to `B`. Thus `B=∏B_j` and `C=∏C_j`, with `C_j=∏_(i over j)S_i`.
 
@@ -2247,7 +2216,7 @@ Let E/F be finite, F′/F arbitrary, and `E⊗_F F′≃∏_i A_i` its decomposi
 
 *Needs:* §10.9; §10.12; §10.24.
 
-<a id="milnor-filtered-colimits"></a>
+#### Filtered-colimit compatibility
 
 **Filtered-colimit compatibility.** For every filtered system of fields with field embeddings and colimit `F`, the canonical map from the colimit of the graded Milnor rings to `K⁽M⁾_*(F)` is an isomorphism in every degree. Symbols and relations descend to a finite stage. For compatible surjective discrete valuations with unchanged value group `ℤ` and compatible uniformizers, residues and specializations commute with this map and the induced residue-field colimit. For a filtered system `E_i/F_i` of finite extensions with base-change isomorphisms `E_i⊗_{F_i}F_j≃E_j` for every transition `i→j`, the norms of §10.24 commute with the colimit maps; their construction and identities remain those of Layer 10. This is the export contract for a `milnorResidueNorm` adapter: §§5.4–5.8, 7.2, 9.11–9.18 and 10.5–10.25 supply its ring, last-slot residues and generator-independent finite-extension norms. (Own finite-presentation argument from Weibel, III.7.1, 7.3–7.6.1, pp.245–249.)
 
@@ -2289,9 +2258,9 @@ For arbitrary E/F, let `E_s` be the maximal separable subextension. The extensio
 
 Provide the following API.
 
-- `completeNormResidue_separable_sylow`: For separable E/F and each prime ℓ, the finite fields above give the explicit prime-to-ℓ annihilator of the integral defect `δ`.
-- `completeNormResidue`: The displayed equality for every finite E/F and `n≥1`, including purely inseparable extensions and integral torsion classes.
-- `completeNormResidue_tower`: Its square for a finite tower is the composite of the two residue squares with the actual residue-field embeddings and norms.
+- For separable E/F and each prime ℓ, the finite fields above give the explicit prime-to-ℓ annihilator of the integral defect `δ`.
+- The displayed equality for every finite E/F and `n≥1`, including purely inseparable extensions and integral torsion classes.
+- Its square for a finite tower is the composite of the two residue squares with the actual residue-field embeddings and norms.
 
 **Checks.**
 
@@ -2438,51 +2407,51 @@ For the proof, first obtain finite generation from the finite-exceptional-prime 
 
 ### 10.32a Local function-field norm-residue symbols
 
-Let `K` be a finite extension of `𝔽_q((t))`, let `ℓ` be a prime different from `char K`, and fix a primitive `ℓ`th root `ζ∈K`. Use Mathlib `BrauerGroup K` with Tau Ceti's commutative-group structure, ClassFieldTheory Layer 5's cohomological Brauer group and `invMap`, and ClassicalArithmeticCompletion §1.14's local symbol in their equal-characteristic prime-to-characteristic scope. Define `[a,b]_K=normResidueSymbol b a`. The supplied pairing is bimultiplicative and Steinberg, perfect on `Kˣ/Kˣℓ`, with `[a,b]_K=1` exactly when `b` is a norm from `K(a^{1/ℓ})`. Construct the cyclic algebra `(a,b)_ζ` with `X^ℓ=a, Y^ℓ=b, YX=ζXY` and its class in `BrauerGroup K`. Reuse `TauCeti.brauerCohomologyEquiv` and its crossed-product evaluation and uniqueness theorems, followed by the inverse explicit/canonical H² comparison and `TauCeti.ClassFieldTheory.unitsRepH2Equiv`. Extend the crossed-product API from `F : Type` to `F : Type u`, retaining those evaluation equations. Prove naturality under field embeddings, including completion, and compatibility with splitting fields on this same comparison; multiplication already becomes addition under the supplied equivalences.
+Let `K` be a finite extension of `𝔽_q((t))`, let `ℓ` be a prime different from `char K`, and fix a primitive `ℓ`th root `ζ∈K`. Use Mathlib `BrauerGroup K` with Tau Ceti's commutative-group structure, ClassFieldTheory Layer 5's cohomological Brauer group and `invMap`, and ClassicalArithmeticCompletion §1.14's local symbol in their equal-characteristic prime-to-characteristic scope. Define `[a,b]_K=normResidueSymbol b a`. The supplied pairing is bimultiplicative and Steinberg, perfect on `Kˣ/Kˣℓ`, with `[a,b]_K=1` exactly when `b` is a norm from `K(a^{1/ℓ})`. Construct the cyclic algebra `(a,b)_ζ` with `X^ℓ=a, Y^ℓ=b, YX=ζXY` and its class in `BrauerGroup K`. Reuse `TauCeti.brauerCohomologyEquiv` and its crossed-product evaluation and uniqueness theorems, followed by the inverse explicit/canonical H² comparison and `TauCeti.ClassFieldTheory.unitsRepH2Equiv`. Use QuadraticFormInvariants, “Native interfaces and remaining comparisons”, stages 1–2, and Layer 7B, milestone 3, for the arbitrary-universe comparison and its crossed-product evaluation. For the cyclic-algebra classes used here, prove that transporting this evaluation through the explicit/canonical H² dictionary commutes with extension to a completion and to a splitting field: base-changing the cyclic algebra and restricting its cocycle give the same class in the class-field-theory Brauer carrier.
 
-The model transport `cohomologicalBrauerToBr`, the composite `algebraicBrauerToBr` and its evaluation theorem `algebraicBrauerToBr_galoisCocycle` reuse the pinned API for fields in `Type`. The milestone `algebraicBrauer_equiv_cohomologicalBrauer` extends this comparison to every field in `Type u`. These names occur in `Suggested.lean`; the cyclic-algebra normalization below uses the comparison characterized by the supplied crossed-product evaluation, rather than an arbitrary group equivalence.
+For fields in `Type`, the composite sends a crossed-product class to its transported inflated cocycle by `TauCeti.brauerCohomologyEquiv_galoisCocycle_brauerClass`. This evaluation, and its supplied arbitrary-universe extension, specify the comparison used below. The local headline is the cyclic-algebra invariant equation on this map.
 
 Prove that its image has invariant `j/ℓ` exactly when `[a,b]_K=ζ^j`. This fixes the algebra and symbol order. Use §9.17’s rigidity and §5.12’s finite-field vanishing to identify `K₂ᴹ(K)/ℓ` with `κˣ/κˣℓ`, where `κ` is the residue field of cardinality `Q`. Raising a residue class to `(Q−1)/ℓ` and inverting reduction `μ_ℓ(K)≃μ_ℓ(κ)` identifies this quotient with `μ_ℓ(K)`. Deduce `K₂ᴹ(K)/ℓ≃μ_ℓ` and the residue-unit formula `[u,π]_K=ū^((Q−1)/ℓ)` in the residue field of cardinality `Q`. (Bass–Tate, Chapter II, proof of Theorem 2.1(3), p.399; Weibel, III.6.2.4, pp.233–234; Milne, *Class Field Theory*, IV §3, Theorem 3.14 and Corollary 3.16, pp.137–138; Gille–Szamuely, §4.4, for the supplied Brauer comparison.)
 
 **Checks.**
 
 - The comparison sends each crossed-product class to its inflated cocycle class, sends the split matrix class to zero, and commutes with extension to a completion; a bare equivalence of groups does not fix the cyclic-algebra invariant.
-- Named milestone `localFunctionFieldSymbol_F7_order`: for `K=𝔽₇((t)), ℓ=3, ζ=2`, `[2,t]=4` and `[t,2]=2`. The corresponding cyclic-algebra invariants are `2/3` and `1/3`.
-- Named milestone `localFunctionFieldSymbol_F7_units`: `[2,6]=1` while `[2,t]≠1`. Thus the pairing distinguishes a unit from a uniformizer.
-- Named milestone `localFunctionFieldSymbol_F7_norm`: the unramified cubic `K(∛2)/K` has no element of norm `t`, since norm valuations are divisible by three. Its scalar `t` has norm `t³`, matching `[2,t]≠1` and `[2,t³]=1`.
+- for `K=𝔽₇((t)), ℓ=3, ζ=2`, `[2,t]=4` and `[t,2]=2`. The corresponding cyclic-algebra invariants are `2/3` and `1/3`.
+- `[2,6]=1` while `[2,t]≠1`. Thus the pairing distinguishes a unit from a uniformizer.
+- the unramified cubic `K(∛2)/K` has no element of norm `t`, since norm valuations are divisible by three. Its scalar `t` has norm `t³`, matching `[2,t]≠1` and `[2,t³]=1`.
 
-*Needs:* §§5.2, 5.7, 5.12; §§9.2, 9.17; ClassFieldTheory Layer 5 (`Br`, `invMap`); ClassicalArithmeticCompletion §1.14 (`normResidueSymbol`, tame formula and norm criterion); LocalFieldsRamification Layer 1; Tau Ceti `TauCeti.BrauerGroup.instCommGroup`, `TauCeti.brauerCohomologyEquiv`, `TauCeti.brauerCohomologyEquiv_crossedProductClass`, `TauCeti.brauerCohomologyEquiv_unique`, `TauCeti.ContCohomology.explicitH2AddEquivContinuousCohomology`, `TauCeti.ClassFieldTheory.unitsRepH2Equiv`; Mathlib `Algebra.norm`; Mathlib `rootsOfUnity`. The universe extension, field-map compatibility, cyclic-algebra realization and its symbol-normalization equations are targets here.
+*Needs:* §§5.2, 5.7, 5.12; §§9.2, 9.17; ClassFieldTheory Layer 5 (`Br`, `invMap`); ClassicalArithmeticCompletion §1.14 (`normResidueSymbol`, tame formula and norm criterion); LocalFieldsRamification Layer 1; Tau Ceti `TauCeti.BrauerGroup.instCommGroup`, `TauCeti.brauerCohomologyEquiv`, `TauCeti.brauerCohomologyEquiv_crossedProductClass`, `TauCeti.brauerCohomologyEquiv_unique`, `TauCeti.ContCohomology.explicitH2AddEquivContinuousCohomology`, `TauCeti.ClassFieldTheory.unitsRepH2Equiv`; Mathlib `Algebra.norm`; Mathlib `rootsOfUnity`. QuadraticFormInvariants, “Native interfaces and remaining comparisons”, stages 1–2, and Layer 7B, milestone 3, supply the normalized universe comparison; its transport to the class-field-theory carrier, completion and splitting compatibility for cyclic classes, cyclic-algebra realization and symbol-normalization equations are the targets here.
 
 ### 10.32b Global function-field pairings and reciprocity
 
-Let `F` be a finite extension of `𝔽_q(t)`, and `ℓ≠char F` a prime with a fixed primitive root `ζ∈F`. Construct its idele group `J_F=∏′_v F_vˣ` relative to the valuation-unit groups, and the pairing `Fˣ/Fˣℓ × J_F/J_F^ℓ→μ_ℓ`, `(a,(b_v))↦∏_v[a,b_v]_v`, using §10.32a’s local symbol and cyclic-algebra normalization. Prove finite support, the diagonal product formula, and the annihilator identity: an idele orthogonal to every `a∈Fˣ` lies in `FˣJ_F^ℓ`. Include weak approximation and the Kummer local-global test used after a finite extension: an element that is an `ℓ`th power in every completion is an `ℓ`th power in the global field. Use §10.32a’s comparison, with its field-map compatibility, for the global cyclic-algebra symbol. Prove the injective local-global Brauer invariant map has image the finite-support families of sum zero. These global function-field inputs are targets here. (Bass–Tate, Chapter II, proof of Theorem 2.1(3), pp.399–401, sequences (3)–(4) and the idele-annihilator argument; the latter cites Weil, *Basic Number Theory*, XIII §5, Proposition 8.)
+Let `F` be a finite extension of `𝔽_q(t)`, and `ℓ≠char F` a prime with a fixed primitive root `ζ∈F`. Construct its idele group `J_F=∏′_v F_vˣ` relative to the valuation-unit groups, and the pairing `Fˣ/Fˣℓ × J_F/J_F^ℓ→μ_ℓ`, `(a,(b_v))↦∏_v[a,b_v]_v`, using §10.32a’s local symbol and cyclic-algebra normalization. Prove finite support, the diagonal product formula, and the annihilator identity: an idele orthogonal to every `a∈Fˣ` lies in `FˣJ_F^ℓ`. Include weak approximation and the Kummer local-global test used after a finite extension: an element that is an `ℓ`th power in every completion is an `ℓ`th power in the global field. Use §10.32a’s comparison, with its completion compatibility on cyclic classes, for the global cyclic-algebra symbol. Prove the injective local-global Brauer invariant map has image the finite-support families of sum zero. These global function-field inputs are targets here. (Bass–Tate, Chapter II, proof of Theorem 2.1(3), pp.399–401, sequences (3)–(4) and the idele-annihilator argument; the latter cites Weil, *Basic Number Theory*, XIII §5, Proposition 8.)
 
-**Global function-field degree-two norm-residue equivalence** (`globalFunctionFieldNormResidueEquiv`). Under these hypotheses construct the additive equivalence `h_(F,ℓ,ζ):K₂ᴹ(F)/ℓ≃Br(F)[ℓ]`, sending `{a,b}` to the image of `(a,b)_ζ`, with `YX=ζXY`. The Brauer carrier is the supplied cohomological one, using §10.32a’s characterized algebraic comparison. Prove `brRes_v ∘ h_F = h_(F_v) ∘ res_v` for every completion. Here the local `h_(F_v)` is the isomorphism of §10.32a followed by `ζ^j↦inv_v⁻¹(j/ℓ)`. (Tate, *Relations between K₂ and Galois cohomology*, 1976, pp.257–274; Milne, *The Work of John Tate*, §7.2, p.51, equations (33)–(34); Bass, *K₂ des corps globaux*, §9, Theorem 9, pp.249–250; Weibel, III.6.9.2–6.10.4, pp.241–243.)
+**Global function-field degree-two norm-residue equivalence**. Under these hypotheses construct the additive equivalence `h_(F,ℓ,ζ):K₂ᴹ(F)/ℓ≃Br(F)[ℓ]`, sending `{a,b}` to the image of `(a,b)_ζ`, with `YX=ζXY`. The Brauer carrier is the supplied cohomological one, using §10.32a’s characterized algebraic comparison. Prove `brRes_v ∘ h_F = h_(F_v) ∘ res_v` for every completion. Here the local `h_(F_v)` is the isomorphism of §10.32a followed by `ζ^j↦inv_v⁻¹(j/ℓ)`. (Tate, *Relations between K₂ and Galois cohomology*, 1976, pp.257–274; Milne, *The Work of John Tate*, §7.2, p.51, equations (33)–(34); Bass, *K₂ des corps globaux*, §9, Theorem 9, pp.249–250; Weibel, III.6.9.2–6.10.4, pp.241–243.)
 
 The Tate/Bass–Tate proof stage has the following intermediate targets on these groups.
 
 - Construct the Kummer description of this particular cyclic-algebra map: take the cup product of the Kummer classes in the order `a,b` and identify `μ_ℓ⊗μ_ℓ` with `μ_ℓ` by `ζ^i⊗ζ^j↦ζ^(ij)`. Prove the cyclic relative-Brauer description `ker(Br(F)→Br(F(a^(1/ℓ))))≃Fˣ/N(F(a^(1/ℓ))ˣ)` when `a` is not an `ℓ`th power, where `a^(1/ℓ)` denotes a chosen `ℓ`th root and the class of `b` maps to `(a,b)_ζ`. Prove restriction and corestriction compatibility with the Milnor restriction and norm of §§10.7–10.9, with the projection and degree identities of those sections. These are the degree-two Kummer and cyclic-descent inputs here, using ClassFieldTheory Layer 5’s Kummer and cyclic-cohomology APIs.
-- Prove the global injectivity assertion `globalFunctionFieldNormResidue_injective`: if the cyclic-algebra class of `x∈K₂ᴹ(F)` is zero, then `x∈ℓK₂ᴹ(F)`. This is the injectivity part of Tate’s global-field symbol theorem, on §7.2’s Matsumoto identification, using its Kummer/transfer argument and the preceding cyclic-descent inputs; it is a separate theorem target here. Neither the idele-annihilator assertion nor an equivalence between two Brauer carriers substitutes for it. The source is Milne §7.2, equation (34), Bass §9, Theorem 9, and Tate 1976; no arbitrary-field norm-residue theorem is an input.
-- Prove global cyclic realization `globalFunctionFieldNormResidue_surjective`: every `β∈Br(F)[ℓ]` is represented by `(a,b)_ζ`. For nonzero `β`, weak approximation chooses `a` nontrivial in `F_vˣ/F_vˣℓ` at every place in its finite invariant support. The cyclic extension `F(a^(1/ℓ))/F` has local degree `ℓ` there; restriction multiplies those local invariants by `ℓ` and kills `β` by Brauer injectivity. The cyclic relative-Brauer description then supplies `b`. Combine this with the independent injectivity assertion and the field-map compatibility to obtain `h_F`.
+- Prove global injectivity: if the cyclic-algebra class of `x∈K₂ᴹ(F)` is zero, then `x∈ℓK₂ᴹ(F)`. This is the injectivity part of Tate’s global-field symbol theorem, on §7.2’s Matsumoto identification, using its Kummer/transfer argument and the preceding cyclic-descent inputs; it is a separate theorem target here. Neither the idele-annihilator assertion nor an equivalence between two Brauer carriers substitutes for it. The source is Milne §7.2, equation (34), Bass §9, Theorem 9, and Tate 1976; no arbitrary-field norm-residue theorem is an input.
+- Prove global cyclic realization: every `β∈Br(F)[ℓ]` is represented by `(a,b)_ζ`. For nonzero `β`, weak approximation chooses `a` nontrivial in `F_vˣ/F_vˣℓ` at every place in its finite invariant support. The cyclic extension `F(a^(1/ℓ))/F` has local degree `ℓ` there; restriction multiplies those local invariants by `ℓ` and kills `β` by Brauer injectivity. The cyclic relative-Brauer description then supplies `b`. Combine this with the independent injectivity assertion and the completion compatibility to obtain `h_F`.
 
 **Checks.**
 
 - For `F=𝔽₇(t), ℓ=3, ζ=2`, `h_F({2,t})` has invariant `2/3` at zero and `1/3` at infinity, so `{2,t}` is nonzero modulo three. Swapping the entries negates the class.
-- If all local images of `x∈K₂ᴹ(F)` vanish modulo `ℓ`, Brauer injectivity first gives `h_F(x)=0`; `globalFunctionFieldNormResidue_injective` then gives `x∈ℓK₂ᴹ(F)`.
+- If all local images of `x∈K₂ᴹ(F)` vanish modulo `ℓ`, Brauer injectivity first gives `h_F(x)=0`; the global injectivity theorem then gives `x∈ℓK₂ᴹ(F)`.
 - A Brauer class with invariants `1/3` at zero and `2/3` at infinity over `𝔽₇(t)` is realized by `{t,2}`. A lone invariant `1/3` has nonzero sum and admits no global preimage.
 - The prime `ℓ=char F` is excluded; neither the Kummer construction nor the tame local isomorphism is asserted there.
 
 *Needs:* §§5.2, 5.7, 7.2; §§10.7–10.9; §10.32a (the characterized Brauer comparison, completion compatibility and local isomorphisms); ClassFieldTheory Layer 5 (Kummer classes, cup products, cyclic cohomology, `brRes`, `brCor`, local invariants); the weak approximation and Brauer local-global targets of this subsection. The global injectivity theorem and cyclic realization are targets of this subsection.
 
-**Milnor local-global exact sequence** (`globalFunctionFieldMilnor_exact`). For the same `F,ℓ,ζ`, prove `0→K₂ᴹ(F)/ℓ→⊕_v K₂ᴹ(F_v)/ℓ→μ_ℓ→0`. The first arrow is completion and the last arrow takes the product of the local symbols. Transport Brauer exactness only after `globalFunctionFieldNormResidueEquiv`: global injectivity gives injectivity of the first arrow, and global surjectivity realizes every family of total invariant zero. The identification `(1/ℓ)ℤ/ℤ≃μ_ℓ`, `j/ℓ↦ζ^j`, fixes the final map. (Bass–Tate, Chapter II, proof of Theorem 2.1(3), pp.399–401, sequences (3)–(4); Milne, *The Work of John Tate*, §7.2, p.51, equations (33)–(34).)
+**Milnor local-global exact sequence**. For the same `F,ℓ,ζ`, prove `0→K₂ᴹ(F)/ℓ→⊕_v K₂ᴹ(F_v)/ℓ→μ_ℓ→0`. The first arrow is completion and the last arrow takes the product of the local symbols. Transport Brauer exactness only after the global degree-two norm-residue equivalence: global injectivity gives injectivity of the first arrow, and global surjectivity realizes every family of total invariant zero. The identification `(1/ℓ)ℤ/ℤ≃μ_ℓ`, `j/ℓ↦ζ^j`, fixes the final map. (Bass–Tate, Chapter II, proof of Theorem 2.1(3), pp.399–401, sequences (3)–(4); Milne, *The Work of John Tate*, §7.2, p.51, equations (33)–(34).)
 
 **Checks.**
 
-- Named milestone `globalFunctionFieldSymbol_F7_places`: for `F=𝔽₇(t), ℓ=3, ζ=2`, the symbol `[2,t]` is 4 at zero, 2 at infinity and 1 elsewhere, with product 1.
-- Named milestone `globalFunctionFieldSymbol_F7_idele`: the idele equal to `t` at zero and 1 elsewhere pairs with constant 2 to 4 and lies outside `FˣJ_F³`.
-- Named milestone `globalFunctionFieldBrauer_F7_invariants`: a single local invariant `1/3` cannot come from a global Brauer class, whereas the family `1/3` at zero and `2/3` at infinity is represented by `(t,2)_ζ` with `ζ=2`.
+- for `F=𝔽₇(t), ℓ=3, ζ=2`, the symbol `[2,t]` is 4 at zero, 2 at infinity and 1 elsewhere, with product 1.
+- the idele equal to `t` at zero and 1 elsewhere pairs with constant 2 to 4 and lies outside `FˣJ_F³`.
+- a single local invariant `1/3` cannot come from a global Brauer class, whereas the family `1/3` at zero and `2/3` at infinity is represented by `(t,2)_ζ` with `ζ=2`.
 
-*Needs:* §10.32a; `globalFunctionFieldNormResidueEquiv` and the Brauer local-global theorem of this subsection; ClassFieldTheory Layer 5 (`invMap` at the completions); ClassicalArithmeticCompletion §1.14 (local symbols); §§10.7–10.9; AlgebraicCurves Layers 2 and 12; Mathlib `RestrictedProduct`.
+*Needs:* §10.32a; the global degree-two norm-residue equivalence and the Brauer local-global theorem of this subsection; ClassFieldTheory Layer 5 (`invMap` at the completions); ClassicalArithmeticCompletion §1.14 (local symbols); §§10.7–10.9; AlgebraicCurves Layers 2 and 12; Mathlib `RestrictedProduct`.
 
 ### 10.32c Function-field finiteness and the characteristic prime
 
@@ -2504,7 +2473,7 @@ If `F` has transcendence degree one over a finite field and `n >= 3, K_n^M(F)=0`
 
 `Suggested.lean` states `MilnorK.transcendenceDegreeOne_vanishing` for every such field, without a finite-generation hypothesis.
 
-Use the published positive-characteristic case of Bass–Tate, Chapter II, Theorem 2.1(3), for global function fields. Its proof uses the finiteness and characteristic-prime inputs of §10.32c and the prime-to-characteristic local/global pairings and reciprocity of §§10.32a–10.32b. The global pairing, the normalized cyclic-algebra adapter, `globalFunctionFieldNormResidueEquiv` and `globalFunctionFieldMilnor_exact` are targets here; the local invariant and symbol are supplied as in §10.32a. The symbol-pairing argument is in Bass–Tate, Chapter II, pp.399–401, while §§3–5 prove the finiteness theorem. ClassFieldTheory’s number-field reciprocity contract in §10.32 does not supply them. For a field of transcendence degree one that is not finitely generated, each finite tuple of symbol entries lies in a global function subfield: adjoining one transcendental element to the finite ground field makes the remaining finitely many entries algebraic, hence gives a finite extension of a rational function field. Functoriality then gives the stated vanishing for the entire field.
+Use the published positive-characteristic case of Bass–Tate, Chapter II, Theorem 2.1(3), for global function fields. Its proof uses the finiteness and characteristic-prime inputs of §10.32c and the prime-to-characteristic local/global pairings and reciprocity of §§10.32a–10.32b. The global pairing, the normalized cyclic-algebra adapter, the global degree-two norm-residue equivalence and the Milnor local-global exact sequence are targets here; the local invariant and symbol are supplied as in §10.32a. The symbol-pairing argument is in Bass–Tate, Chapter II, pp.399–401, while §§3–5 prove the finiteness theorem. ClassFieldTheory’s number-field reciprocity contract in §10.32 does not supply them. For a field of transcendence degree one that is not finitely generated, each finite tuple of symbol entries lies in a global function subfield: adjoining one transcendental element to the finite ground field makes the remaining finitely many entries algebraic, hence gives a finite extension of a rational function field. Functoriality then gives the stated vanishing for the entire field.
 
 **Checks.**
 
@@ -2552,10 +2521,10 @@ Let `R` be a Dedekind domain with fraction field `F` and, for each nonzero prime
 
 **Checks.**
 
-- For `R = ℤ` the segment is `⊕_p K_2(𝔽_p) → K_2(ℤ) → K_2(ℚ) → ⊕_p 𝔽_p^× → K_1(ℤ) → K_1(ℚ)`; in the K-book's normalisation `∂{5, 2}` has 5-component 2, where Layers 9–11's `tameSymbol` gives 3.
+- For `R = ℤ` the segment is `⊕_p K_2(𝔽_p) → K_2(ℤ) → K_2(ℚ) → ⊕_p 𝔽_p^× → K_1(ℤ) → K_1(ℚ)`; in the K-book's normalisation `∂{5, 2}` has 5-component 2, where Layers 9–11's the tame symbol gives 3.
 - For a discrete valuation ring (one prime) it is the degree-two part of the sequence in §11.1.
 - `coker ∂` is not zero in general: for the Dedekind domain `ℝ[x, y]/(x² + y² − 1)` it is the nonzero `SK_1` of K-book Example III.1.5.4, although every tame symbol is onto.
-- No second localisation sequence is built: the all-degree Dedekind sequence of the downstream consumer ArithmeticKTheory (its N.2) restricts in degrees at most two to this one.
+- No second localisation sequence is built: the all-degree Dedekind sequence of the downstream consumer ArithmeticKTheory (§2.1) restricts in degrees at most two to this one.
 
 *Needs:* §4.1; §9.13; §11.1; GeneralAlgebraicKTheory §4.14; GeneralAlgebraicKTheory §4.8; GeneralAlgebraicKTheory §4.6; GeneralAlgebraicKTheory §7.7; Mathlib `IsDedekindDomain.HeightOneSpectrum`; GeneralAlgebraicKTheory Layers 4, 7 and 8.
 
@@ -2582,15 +2551,15 @@ Let `V` be an indexed family of normalized discrete valuations on a field `F` of
 
 Provide the following API.
 
-- `MilnorK.globalResidueHom`: The additive homomorphism to the dependent residue direct sum, constructed with the finite-support proof for each input.
-- MilnorK.globalResidueHom_apply: For every `v` and `x`, the v-coordinate of `globalResidueHom(V,n)(x)` is `r_v,n(x)`.
-- MilnorK.globalResidueHom_unique: A homomorphism to this direct sum with all the same residue coordinates equals `globalResidueHom(V,n)`.
-- MilnorK.globalResidueHom_support_subset: For any finite symbol expression for `x`, the support of `globalResidueHom(V,n)(x)` is contained in the union of the nonzero-order supports of all its entries; equality is not asserted.
-- MilnorK.globalResidueHom_eq_zero_iff: `globalResidueHom(V,n)(x)=0` iff `r_v,n(x)=0` for every `v`. Thus its kernel is the intersection of the individual residue kernels.
-- MilnorK.globalResidueHom_degree_one: At `n=1` the coordinates are `ord_v(a)`; for Dedekind primes and for function-field places, compare to the principal divisor by coefficient extensionality.
-- MilnorK.globalResidueHom_degree_two: At `n=2` its coordinates in `k_vˣ` are `t_v(f,g)`, with addition on `Additive k_vˣ` interpreted multiplicatively.
-- MilnorK.globalResidueHom_quillen: For a Dedekind `R, D⁽ᴿ⁾_n Φ_n=(−1)^(n−1)DirectSum.map(Φ_(n−1)) globalResidueHom(V,n)`. This compares actual maps, not only groups.
-- MilnorK.globalResidueHom_reindex: Relabeling `V` by an equivalence, and transporting its valuations and residue fields along that equivalence, reindexes the output. No unrestricted field-extension naturality is claimed.
+- The additive homomorphism to the dependent residue direct sum, constructed with the finite-support proof for each input.
+- For every `v` and `x`, the v-coordinate of `globalResidueHom(V,n)(x)` is `r_v,n(x)`.
+- A homomorphism to this direct sum with all the same residue coordinates equals `globalResidueHom(V,n)`.
+- For any finite symbol expression for `x`, the support of `globalResidueHom(V,n)(x)` is contained in the union of the nonzero-order supports of all its entries; equality is not asserted.
+- `globalResidueHom(V,n)(x)=0` iff `r_v,n(x)=0` for every `v`. Thus its kernel is the intersection of the individual residue kernels.
+- At `n=1` the coordinates are `ord_v(a)`; for Dedekind primes and for function-field places, compare to the principal divisor by coefficient extensionality.
+- At `n=2` its coordinates in `k_vˣ` are `t_v(f,g)`, with addition on `Additive k_vˣ` interpreted multiplicatively.
+- For a Dedekind `R, D⁽ᴿ⁾_n Φ_n=(−1)^(n−1)DirectSum.map(Φ_(n−1)) globalResidueHom(V,n)`. This compares actual maps, not only groups.
+- Relabeling `V` by an equivalence, and transporting its valuations and residue fields along that equivalence, reindexes the output. No unrestricted field-extension naturality is claimed.
 
 **Checks.**
 
@@ -2684,15 +2653,15 @@ Each `v_i` is a discrete valuation of `F` with residue field `k(v_i)`. When ever
 
 Provide the following API.
 
-- `unramifiedSubgroup`: For a family `v : I →` discrete valuations of `F, ⨅ i, ker(∂_{v i})` as a subgroup of `K_2(F)`.
-- `mem_unramifiedSubgroup_iff`: `x ∈ U ↔ ∀ i, ∂_{v i} x = 1`.
-- `unramifiedOutside`: For `S ⊆ I, ⨅ i ∉ S, ker(∂_{v i})`; `unramifiedOutside ∅ = unramifiedSubgroup`, and it is monotone in `S`.
-- `unramifiedSubgroup_eq_ker_residueSum`: Under finite support, `U = ker(K_2(F) → ⨁ i, k(v i)ˣ)`.
-- symbol_mem_unramifiedSubgroup: If `u` and `w` are units at every `v_i` then `{u, w} ∈ U`.
-- `range_K2_le_unramifiedSubgroup`: For a Dedekind domain `R` with fraction field `F` and `I = HeightOneSpectrum R`, the image of `K_2(R) → K_2(F)` lies in `U`.
-- `unramifiedSubgroup_map_le`: Restriction along a finite extension carrying the family into the family maps `U` into `U`.
-- `transfer_mem_unramifiedSubgroup`: The transfer of a finite extension of number fields maps the unramified subgroup of the larger field into that of the smaller.
-- `unramifiedSubgroup_heightOneSpectrum`: For `I = HeightOneSpectrum R`, `v_𝔭` is Mathlib's HeightOneSpectrum.valuation `F` and `k(v_𝔭)` is identified with `R ⧸ 𝔭`.
+- For a family `v : I →` discrete valuations of `F, ⨅ i, ker(∂_{v i})` as a subgroup of `K_2(F)`.
+- `x ∈ U ↔ ∀ i, ∂_{v i} x = 1`.
+- For `S ⊆ I, ⨅ i ∉ S, ker(∂_{v i})`; `unramifiedOutside ∅ = unramifiedSubgroup`, and it is monotone in `S`.
+- Under finite support, `U = ker(K_2(F) → ⨁ i, k(v i)ˣ)`.
+- If `u` and `w` are units at every `v_i` then `{u, w} ∈ U`.
+- For a Dedekind domain `R` with fraction field `F` and `I = HeightOneSpectrum R`, the image of `K_2(R) → K_2(F)` lies in `U`.
+- Restriction along a finite extension carrying the family into the family maps `U` into `U`.
+- The transfer of a finite extension of number fields maps the unramified subgroup of the larger field into that of the smaller.
+- For `I = HeightOneSpectrum R`, `v_𝔭` is Mathlib's HeightOneSpectrum.valuation `F` and `k(v_𝔭)` is identified with `R ⧸ 𝔭`.
 
 **Checks.**
 
@@ -2704,7 +2673,7 @@ Provide the following API.
 - For `ℚ` and the primes, `x ∈ U` exactly when the residue sum of `x` in `⨁_p 𝔽_p^×` vanishes.
 - For `R = ℤ` the valuation Mathlib attaches to `(p) ∈` HeightOneSpectrum `ℤ` is the p-adic valuation and `ℤ ⧸ (p) ≅` ZMod `p`, so the tame symbol at `(p)` lands in `(ZMod p)ˣ`.
 
-*Needs:* §0.3; §6.18; §9.4; §9.7; §9.13; §10.27; Mathlib `IsDedekindDomain.HeightOneSpectrum`; Mathlib `IsDedekindDomain.HeightOneSpectrum.valuation`.
+*Needs:* AlgebraicKTheory §5.1; §6.18; §9.4; §9.7; §9.13; §10.27; Mathlib `IsDedekindDomain.HeightOneSpectrum`; Mathlib `IsDedekindDomain.HeightOneSpectrum.valuation`.
 
 ### 12.2 The tame-kernel sequence of the S-integers: residues at the primes outside `S`
 
@@ -2718,7 +2687,7 @@ Let `F` be a number field, `S` a finite set of nonzero primes of `O_F` (`S = ∅
 - For `S = ∅` it is §12.3.
 - Indexing test: `{5, 2} ∈ K_2(ℚ)` has nonzero tame symbol only at 5 (value 3 with Layers 9–11's normalisation), so it lies in the image of `K_2(ℤ[1/5])` and not in that of `K_2(ℤ[1/2])`.
 
-*Needs:* §4.1; §0.4; §11.1; §11.2; §12.1; KTheoryLowDegrees Layers 10–11; Mathlib `Set.integer`; Tau Ceti `IsDedekindDomain.integerHeightOneSpectrumEquiv`.
+*Needs:* §4.1; AlgebraicKTheory §5.2; §11.1; §11.2; §12.1; KTheoryLowDegrees Layers 10–11; Mathlib `Set.integer`; Tau Ceti `IsDedekindDomain.integerHeightOneSpectrumEquiv`.
 
 ### 12.3 The tame-kernel exact sequence for the ring of integers
 
@@ -2732,7 +2701,7 @@ For a number field `F` with ring of integers `O_F` the sequence `0 → K_2(O_F) 
 - The third map is onto, but not because each tame symbol is: Example III.1.5.4 gives surjective tame symbols with a nonzero cokernel.
 - The same sequence holds for every Dedekind domain whose fraction field is a global field (Soulé's Theorem V.6.8, `n = 2`).
 
-*Needs:* §0.4; §11.2; §12.1; §12.2; KTheoryLowDegrees Layers 10–11; Mathlib `NumberField.RingOfIntegers`; Mathlib `Set.integer`.
+*Needs:* AlgebraicKTheory §5.2; §11.2; §12.1; §12.2; KTheoryLowDegrees Layers 10–11; Mathlib `NumberField.RingOfIntegers`; Mathlib `Set.integer`.
 
 ### 12.4 The relative sequence comparing `K₂(O_F)` with `K₂(O_{F,S})`: residues at the primes in `S`
 
@@ -2756,12 +2725,12 @@ The target `{±1}` is `ℤˣ`; `σ` is a ring embedding into `ℝ`.
 
 Provide the following API.
 
-- `realSignSymbol`: The homomorphism `K_2(ℝ) →* ℤˣ` with `{x, y} ↦ −1` if `x < 0` and `y < 0`, and 1 otherwise.
-- `realSignSymbol_symbol`: Its value on a symbol `{x, y}`.
-- `realSignSymbol_neg_one_neg_one`: realSignSymbol `{−1, −1} = −1`.
-- `realSignSymbol_surjective`: It is onto `ℤˣ`.
-- `signSymbolAt`: For `σ : F →+* ℝ`, the composite of `K_2(σ)` with realSignSymbol; for a number field one for each real place.
-- `realSignSymbol_eq_milnorExamples`: Through Matsumoto's theorem, on `K^M_2(ℝ): {x, y} ↦ −1` exactly when `x < 0` and `y < 0`, which is the degree-two part of the graded map `K^M_*(ℝ) → (ℤ/2)[t]` given by `realGradedSignDetector` of §5.9, through `realSignDetector` and the standard equivalence `Additive ℤˣ ≃+ ZMod 2`.
+- The homomorphism `K_2(ℝ) →* ℤˣ` with `{x, y} ↦ −1` if `x < 0` and `y < 0`, and 1 otherwise.
+- Its value on a symbol `{x, y}`.
+- realSignSymbol `{−1, −1} = −1`.
+- It is onto `ℤˣ`.
+- For `σ : F →+* ℝ`, the composite of `K_2(σ)` with realSignSymbol; for a number field one for each real place.
+- Through Matsumoto's theorem, on `K^M_2(ℝ): {x, y} ↦ −1` exactly when `x < 0` and `y < 0`, which is the degree-two part of the graded map `K^M_*(ℝ) → (ℤ/2)[t]` given by the graded real sign map of §5.9, through the degree-two real sign map and the standard equivalence `Additive ℤˣ ≃+ ZMod 2`.
 
 **Checks.**
 
@@ -2771,21 +2740,21 @@ Provide the following API.
 - For the real embedding of `ℚ`, signSymbolAt sends `{−1, −1}` to `−1` and `{p, q}` to 1 for positive `p, q`.
 - `(x, y)_∞ = 1` exactly when `x·a² + y·b² = 1` has a real solution, the Hilbert symbol of `ℝ`.
 
-*Needs:* §0.4; §5.9; §7.2; Mathlib `NumberField.InfinitePlace.IsReal`.
+*Needs:* AlgebraicKTheory §5.2; §5.9; §7.2; Mathlib `NumberField.InfinitePlace.IsReal`.
 
 ### 12.6 Finite-rank integer word models for Silvester’s induction
 
-Define an auxiliary family `S_n` over `ℤ: S₀=S₁=1`; `S₂` is Milnor’s rank-two presented group of Definition 10.4; `S_n=St(n,ℤ)` from §0.3 for `n≥3`. In rank two impose `x_ij(a)x_ij(b)=x_ij(a+b)` and `w_ij(u)x_ji(a)w_ij(−u)=x_ij(−u²a), u∈ℤ×`, where `w_ij(u)=x_ij(u)x_ji(−u⁻¹)x_ij(u)`. Let `φ_n` be the elementary-matrix action on row vectors `ℤ^n, W_n` the subgroup generated by `w_ij(1)`, and `|b|₁=Σ_i |b_i|`. Use the standard rank-raising maps `S_n→S_(n+1)` and the map into stable `St(ℤ)`. This auxiliary `S₂` is not the rank-two group with only the usual three-index Steinberg relations. (Milnor, Definition 10.4, p. 82; setup for Lemma 10.6, p. 85; Lemmas 9.2–9.4, pp. 71–72.)
+Define an auxiliary family `S_n` over `ℤ: S₀=S₁=1`; `S₂` is Milnor’s rank-two presented group of Definition 10.4; `S_n=St(n,ℤ)` from AlgebraicKTheory §5.1 for `n≥3`. In rank two impose `x_ij(a)x_ij(b)=x_ij(a+b)` and `w_ij(u)x_ji(a)w_ij(−u)=x_ij(−u²a), u∈ℤ×`, where `w_ij(u)=x_ij(u)x_ji(−u⁻¹)x_ij(u)`. Let `φ_n` be the elementary-matrix action on row vectors `ℤ^n, W_n` the subgroup generated by `w_ij(1)`, and `|b|₁=Σ_i |b_i|`. Use the standard rank-raising maps `S_n→S_(n+1)` and the map into stable `St(ℤ)`. This auxiliary `S₂` is not the rank-two group with only the usual three-index Steinberg relations. (Milnor, Definition 10.4, p. 82; setup for Lemma 10.6, p. 85; Lemmas 9.2–9.4, pp. 71–72.)
 
-`n∈ℕ`; the integer ring and row-vector action are fixed; finite `St(n,ℤ)` is that of §0.3 for `n≥3`.
+`n∈ℕ`; the integer ring and row-vector action are fixed; finite `St(n,ℤ)` is that of AlgebraicKTheory §5.1 for `n≥3`.
 
 Provide the following API.
 
-- `IntegerSteinbergModel`: The auxiliary `S_n` with the explicit rank-two relation and the standard higher-rank carrier.
-- `IntegerSteinbergModel.toElementary`: `φ_n:S_n→E(n,ℤ)`, satisfying `φ_n(x_ij(a))=e_ij(a)`.
-- `IntegerSteinbergModel.stabilize`: `S_n→S_(n+1)` and compatible maps into stable `St(ℤ)`; no low-rank injectivity is asserted.
-- `IntegerSteinbergModel.monomialSubgroup`: `W_n=⟨w_ij(1)⟩`; its row-vector action preserves the integer `ℓ¹` norm.
-- `IntegerSteinbergModel.unitWord`: Every element is represented by signed unit generators followed by `a W_n` element; a norm-monotone representation is the next lemma, not part of this definition.
+- The auxiliary `S_n` with the explicit rank-two relation and the standard higher-rank carrier.
+- `φ_n:S_n→E(n,ℤ)`, satisfying `φ_n(x_ij(a))=e_ij(a)`.
+- `S_n→S_(n+1)` and compatible maps into stable `St(ℤ)`; no low-rank injectivity is asserted.
+- `W_n=⟨w_ij(1)⟩`; its row-vector action preserves the integer `ℓ¹` norm.
+- Every element is represented by signed unit generators followed by `a W_n` element; a norm-monotone representation is the next lemma, not part of this definition.
 
 **Checks.**
 
@@ -2793,7 +2762,7 @@ Provide the following API.
 - `(2,−1)w₁₂(1)=(1,2)`, and both vectors have `ℓ¹` norm 3.
 - The auxiliary `S₂` carries the conjugation relation of Definition 10.4; the ordinary two-index free Steinberg presentation is not substituted for it.
 
-*Needs:* §0.3; §6.2; Mathlib `PresentedGroup`.
+*Needs:* AlgebraicKTheory §5.1; §6.2; Mathlib `PresentedGroup`.
 
 ### 12.7 Silvester’s monotone integer word lemma
 
@@ -2865,7 +2834,7 @@ Every element of classical `K₂(ℤ)` is 1 or `c={−1,−1}`; this is the uppe
 - The upper bound is available before the real sign and uses no calculation of `K₂(ℚ)`.
 - The rank-two auxiliary kernel is not asserted to have order two; the bound uses `n≥3`.
 
-*Needs:* §0.3; §6.4; §12.8; §6.13.
+*Needs:* AlgebraicKTheory §5.1; §6.4; §12.8; §6.13.
 
 ### 12.10 `K_2` of the integers is cyclic of order two, generated by `{−1, −1}`
 
@@ -2879,7 +2848,7 @@ Every element of classical `K₂(ℤ)` is 1 or `c={−1,−1}`; this is the uppe
 - A real place is one way, not the only way, to detect `{−1, −1}`: in `K_2(ℤ[i])` it vanishes `({−1, −1} = {i, −1}² = 1)`, yet `K_2(ℤ[√−7])` is cyclic of order two generated by `{−1, −1}` although `ℚ(√−7)` has no real place (Tate, cited in III.5.2.2).
 - Writing `g={−1,−1}`, the presentation has one generator and relation `2g=0`: §12.9 proves generation, and the real sign symbol proves that `g` has order exactly two.
 
-*Needs:* §0.3; §6.4; §12.5; §12.9.
+*Needs:* AlgebraicKTheory §5.1; §6.4; §12.5; §12.9.
 
 ### 12.11 `K_2` of the rationals (Application III.6.5.1)
 
@@ -2891,9 +2860,9 @@ The residue sum of the tame symbols gives a split exact sequence `1 → K_2(ℤ)
 
 - `{2, 3}` is not in the image of `K_2(ℤ)`: its tame symbol at 3 is `−1 ≠ 1` in `𝔽_3^×`.
 - For an odd prime `p, {−1, p}` maps to the element `−1` of `𝔽_p^×` in the p-component and to 1 elsewhere.
-- `K_2(ℚ)` is infinite while `K_2(ℤ)` has order two, the check the downstream consumer ArithmeticKTheory (its N.8) asks for; the splitting uses the real place, and `(p, q)_∞ = 1` for positive `p, q`.
+- `K_2(ℚ)` is infinite while `K_2(ℤ)` has order two, the check the downstream consumer ArithmeticKTheory (its §8.2) asks for; the splitting uses the real place, and `(p, q)_∞ = 1` for positive `p, q`.
 
-*Needs:* §0.3; §12.3; §12.5; §12.10; KTheoryLowDegrees Layers 10–11.
+*Needs:* AlgebraicKTheory §5.1; §12.3; §12.5; §12.10; KTheoryLowDegrees Layers 10–11.
 
 ### Examples
 
@@ -2914,22 +2883,22 @@ The construction order is: the absolute and relative presentation groups and gua
 
 For an associative unital ring `R` and commuting elements `r, s` of `R` with `1 − rs` a unit, the Dennis-Stein symbol is `⟨r, s⟩ = x_ji(−s(1 − rs)⁻¹) x_ij(−r) x_ji(s) x_ij((1 − rs)⁻¹ r) (h_ij(1 − rs))⁻¹` in the stable Steinberg group `St(R)`, for distinct indices `i, j`, where `w_ij(u) = x_ij(u) x_ji(−u⁻¹) x_ij(u)` and `h_ij(u) = w_ij(u) w_ij(−1)`. Its image in `E(R)` is trivial — in the `2×2` block at `(i, j)` the four elementary factors multiply to `diag(1 − rs, (1 − rs)⁻¹)`, which `h_ij(1 − rs)` cancels — so `⟨r, s⟩` lies in `K_2(R)`. It does not depend on the choice of `i ≠ j`, it is 1 when `r = 0` or `s = 0`, and when `r` is a unit it equals the Steinberg symbol `{r, 1 − rs}`; hence every Steinberg symbol `{u, v}` of commuting units is `⟨u, u⁻¹(1 − v)⟩`. The convention is the modern one of the source. The pre-1980 symbol, defined when `1 + rs` is a unit (the classical `1+ab` hypothesis), is `⟨−r, s⟩` in this notation; it is a different element and is not introduced as a second definition. The relations (D1)–(D3) are stated in §13.2 and the relative symbol is in §13.7. (Weibel, III.5.11, p. 226.)
 
-The displayed word is a README construction target on §0.3’s stable Steinberg carrier.
+The displayed word is a README construction target on AlgebraicKTheory §5.1’s stable Steinberg carrier.
 
 `R` is an associative unital ring; `r` and `s` commute and `1 − rs` is a unit of `R`. `i ≠ j` are indices; the word is read in the stable Steinberg group `St(R)`, and the element does not depend on `i, j`. The classical `1 + ab` invertibility hypothesis is the pre-1980 convention: for commuting `a, b` with `1 + ab` a unit the old symbol is `⟨−a, b⟩` in the notation used here, so that hypothesis is met through `a ↦ −a`.
 
 Provide the following API.
 
-- `K2.dennisStein`: For commuting `r, s : R` and a proof that `1 − r s` is a unit, the element `⟨r, s⟩ : K₂(R)`.
-- K2.coe_dennisStein: `(⟨r, s⟩ : St(R)) = x_ji(−s u⁻¹) x_ij(−r) x_ji(s) x_ij(u⁻¹ r) h_ij(u)⁻¹` with `u = 1 − r s`, for any `i ≠ j`.
-- K2.dennisStein_index_indep: The words for `(i, j)` and for `(k, l)` are equal in `St(R)`.
-- K2.phi_dennisSteinWord: The image in `E(R)` of `x_ji(−s u⁻¹) x_ij(−r) x_ji(s) x_ij(u⁻¹ r)` is `diag(u, u⁻¹)` at `(i, j)`.
-- K2.dennisStein_zero_left: `⟨0, s⟩ = 1`.
-- K2.dennisStein_zero_right: `⟨r, 0⟩ = 1`.
-- K2.dennisStein_eq_steinbergSymbol: For a unit `r, ⟨r, s⟩ = {r, 1 − r s}`.
-- K2.steinbergSymbol_eq_dennisStein: For commuting units `u, v, {u, v} = ⟨u, u⁻¹ (1 − v)⟩`.
-- K2.map_dennisStein: For a ring homomorphism `f : R → R', K₂(f) ⟨r, s⟩ = ⟨f r, f s⟩`.
-- K2.dennisStein_plusConvention: If `1 + ab` is a unit, the older plus-convention word `P(a,b)` equals the modern word `⟨−a,b⟩`, by direct substitution into the displayed words; there is no additional inversion.
+- For commuting `r, s : R` and a proof that `1 − r s` is a unit, the element `⟨r, s⟩ : K₂(R)`.
+- `(⟨r, s⟩ : St(R)) = x_ji(−s u⁻¹) x_ij(−r) x_ji(s) x_ij(u⁻¹ r) h_ij(u)⁻¹` with `u = 1 − r s`, for any `i ≠ j`.
+- The words for `(i, j)` and for `(k, l)` are equal in `St(R)`.
+- The image in `E(R)` of `x_ji(−s u⁻¹) x_ij(−r) x_ji(s) x_ij(u⁻¹ r)` is `diag(u, u⁻¹)` at `(i, j)`.
+- `⟨0, s⟩ = 1`.
+- `⟨r, 0⟩ = 1`.
+- For a unit `r, ⟨r, s⟩ = {r, 1 − r s}`.
+- For commuting units `u, v, {u, v} = ⟨u, u⁻¹ (1 − v)⟩`.
+- For a ring homomorphism `f : R → R', K₂(f) ⟨r, s⟩ = ⟨f r, f s⟩`.
+- If `1 + ab` is a unit, the older plus-convention word `P(a,b)` equals the modern word `⟨−a,b⟩`, by direct substitution into the displayed words; there is no additional inversion.
 
 **Checks.**
 
@@ -2939,7 +2908,7 @@ Provide the following API.
 - At `(−1, −2)` in `ℚ` the pre-1980 symbol is `⟨1, −2⟩ = {1, 3} = 1 (1 + (−1)(−2) = 3 is a unit)`, while the modern `⟨−1, −2⟩ = {−1, −1} ≠ 1` in `K₂(ℚ)`; and over `ℤ` the modern symbol is defined at `(1, 2)` because 1 − `2 = −1` is a unit, where the old hypothesis `1 + 2 = 3` fails. An implementation of the old convention fails both.
 - In `K₂(ℚ), {2, 3} = ⟨2, −1⟩`, the case `u = 2, v = 3` of `{u, v} = ⟨u, u⁻¹(1 − v)⟩`.
 
-*Needs:* §0.3; §2.2; §6.2; §6.3; §6.4; §6.13.
+*Needs:* AlgebraicKTheory §5.1; §2.2; §6.2; §6.3; §6.4; §6.13.
 
 **Dennis–Stein convention and stable word.** For a commutative ring `A, r,s∈A` and `u=1−rs∈Aˣ`, the modern symbol `D(r,s)` is the stable Steinberg-kernel element `x_ji(−s/u)x_ij(−r)x_ji(s)x_ij(r/u)h_ij(u)⁻¹`. It is independent of the distinct indices `i,j`. For the older plus-convention word `P(a,b)=x_ji(−b/(1+ab))x_ij(a)x_ji(b)x_ij(−a/(1+ab))h_ij(1+ab)⁻¹`, the exact translation is `D(r,s)=P(−r,s)`. If `r` is a unit, `D(r,s)={r,1−rs}`; if `s` is a unit, `D(r,s)={1−rs,s}`. The translation has no additional inversion. The four elementary factors of `P` have image `diag(1+ab,(1+ab)⁻¹)`, so its final torus factor must be inverted. Morrow’s Remark 3.10, p.8, prints that factor without the inverse; the displayed word there would have image `diag((1+ab)²,(1+ab)⁻²)`. (Dennis–Stein, Proposition 1.1, pp.283–285; van der Kallen 1977, §5.2, pp.488–489; Morrow, §3.3, p.7, for the unit formulas.)
 
@@ -2988,10 +2957,10 @@ A commutative ring `A` is threefold stable if for every three unimodular pairs `
 
 Provide the following API.
 
-- `IsThreefoldStable`: The quantified simultaneous-unit predicate on three unimodular pairs.
-- `IsThreefoldStable.exists_unit_perturbation`: The definition returns `t` and the three unit proofs for supplied pairs.
-- `IsThreefoldStable.ringEquiv`: A ring equivalence preserves and reflects the predicate, compatibly with identity and composition.
-- `isThreefoldStable_iff_residue_card_ge_four`: For semilocal `A`, threefold stability is equivalent to cardinality at least four of every residue field.
+- The quantified simultaneous-unit predicate on three unimodular pairs.
+- The definition returns `t` and the three unit proofs for supplied pairs.
+- A ring equivalence preserves and reflects the predicate, compatibly with identity and composition.
+- For semilocal `A`, threefold stability is equivalent to cardinality at least four of every residue field.
 - For a field, threefold stability is equivalent to cardinality at least four; each unimodular pair excludes at most one `t`.
 
 **Checks.**
@@ -3008,7 +2977,7 @@ Theorem III.5.11.1(a). Let `R` be a commutative local ring, or a field. Then the
 
 `R` is a commutative local ring, or a field.
 
-<a id="ds-groups"></a>
+#### Absolute presentation group
 
 The absolute presentation group and its generator map use only §13.2. `Suggested.lean` defines `K2.DSPair`, `K2.dsRel` and `K2.DennisSteinGroup`, and states the field presentation as `K2.dennisSteinGroup_equiv_symbolGroup`.
 
@@ -3023,9 +2992,9 @@ Provide the following API.
 - `ℤ/25` (residue `𝔽₅`) is covered by §13.5, while `ℤ/4` (residue `𝔽₂`, characteristic 4) and `𝔽₃[t]/(t²)` (residue `𝔽₃`, characteristic 3) take the two different routes of §13.6; a proof that only treats residue fields with at least four elements misses both.
 - No presentation is asserted outside the stated hypotheses: `ℤ` is neither local nor threefold stable, and the theorem is not invoked for it (Layer 12 computes `K₂(ℤ)` separately).
 
-*Needs (collected field/local statement):* [field presentation](#ds-field); [all-local presentation](#ds-local).
+*Needs (collected field/local statement):* [field presentation](#field-presentation); [all-local presentation](#all-local-presentation).
 
-<a id="ds-field"></a>
+#### Field presentation
 
 **Field presentation.** For every field `F`, the defining D1–D3 presentation group `D(F)` maps isomorphically to `SymbolGroup F` by `D(r,s)↦{r,1−rs}` for nonzero `r` and `D(0,s)↦0`; the inverse sends `{a,b}` to `D(a,a⁻¹(1−b))`. This proves `K2.dennisSteinGroup_equiv_symbolGroup` independently of all local-ring and relative presentation theorems. (Weibel, III.5.11.1(a), p.226; III.6.1, p.230.)
 
@@ -3035,7 +3004,7 @@ Provide the following API.
 - Over `𝔽₂` and `𝔽₃` the group vanishes.
 - Over `ℝ`, `D(−1,−2)` maps to the nonzero diagonal symbol.
 
-*Needs:* [absolute presentation group](#ds-groups); §§5.2, 7.2, 13.2.
+*Needs:* [absolute presentation group](#absolute-presentation-group); §§5.2, 7.2, 13.2.
 
 ### 13.5 Dennis–Stein presentation for threefold stable rings
 
@@ -3049,11 +3018,11 @@ Let `D(A)` be the abelian group on all admissible pairs `(r,s)`, with relations 
 - The finite-rank range starts at three; §5.4(6) warns that the rank-two inverse can have kernel.
 - The result covers local rings with residue cardinality `≥4` and nonlocal examples such as `𝔽₅×𝔽₅`.
 
-*Needs:* §0.3; §13.2; §13.3; [absolute presentation group](#ds-groups).
-
-<a id="ds-local"></a>
+*Needs:* AlgebraicKTheory §5.1; §13.2; §13.3; [absolute presentation group](#absolute-presentation-group).
 
 ### 13.6 The local Dennis–Stein presentation, including residue fields `𝔽₂` and `𝔽₃`
+
+#### All-local presentation
 
 For every commutative local ring `A`, the modern generator map `D(A)→K₂(A)` is an isomorphism, including residue fields `𝔽₂` and `𝔽₃`. Surjectivity holds for every commutative semilocal ring: `K₂(n,A)` is generated by the symbols for `n≥3`, and the stable group is the colimit of these images (Dennis–Stein 1973, Corollary 2.2, p.287, with proof pp.290–291). Injectivity is proved according to the residue field `k=A/𝔪`. If `k` has at least four elements, `A` is threefold stable and §13.5 applies. If `k=𝔽_p` with `p∈{2,3}` and `A` has characteristic `p`, the prime field is a ring section of `A→k`, so `(A,𝔪)` is a split radical pair; since `D(𝔽_p)=K₂(𝔽_p)=0`, the lift-change sequence below makes `D(A,𝔪)→D(A)` onto, and the split presentation of §13.9 makes the composite `D(A,𝔪)→D(A)→K₂(A)` injective. If `k=𝔽_p` and `A` has characteristic 0 or `pⁿ` with `n≥2`, the residue-isomorphism transfer below, applied to the unique ring map `ℤ_(p)→A`, reduces the claim to the discrete valuation ring `ℤ_(p)`. Integers prime to `p` are units in `A` because their residues are nonzero, so this map exists. (van der Kallen–Maazen–Stienstra, Theorems 1 and 3, §§2.4 and 2.7, and Remark 2.8(1), p.935; van der Kallen 1977, Introduction, p.474, which attributes the `residue-𝔽_p` case to Maazen and Stienstra; Weibel, III.5.11.1(a), p. 226.)
 
@@ -3065,11 +3034,11 @@ For every commutative local ring `A`, the modern generator map `D(A)→K₂(A)` 
 - Later calculations with the local presentation for residue field `𝔽₂` or `𝔽₃` use the nonfield case of this target.
 - The residue maps `ℤ/4→𝔽₂` and `ℤ/9→𝔽₃` have no unital ring sections: such a section would force the characteristic of the source field to annihilate 1 in the target ring. A proof using a split residue pair cannot be applied to either map; this is why `ℤ/4` and `ℤ/9` go through the transfer, while `𝔽₂[t]/(t²)` and `𝔽₃[t]/(t³)` are split.
 
-*Needs (all-local presentation):* [field presentation](#ds-field); §13.5; [lift-change sequence](#ds-lift-change); [split radical presentation](#ds-split); [residue-isomorphism transfer](#ds-residue-transfer); [DVR base presentation](#ds-dvr-base).
+*Needs (all-local presentation):* [field presentation](#field-presentation); §13.5; [lift-change sequence](#lift-change-sequence); [split radical presentation](#split-radical-presentation); [residue-isomorphism transfer](#residue-isomorphism-transfer); [DVR base presentation](#dvr-base-presentation).
 
-<a id="ds-lift-change"></a>
+#### Lift-change sequence
 
-**Lift-change sequence.** For a surjection `g:B→B′` of commutative rings whose kernel `L` lies in `Jac(B)`, the sequence `D(B,L)→D(B)→D(B′)→0` is exact; the first map sends a relative generator to the same pair, and `D(B,L)` is the [guarded presentation group](#ds-relative-groups), independent of its comparison with relative `K₂`. Every admissible pair of `B′` lifts to an admissible pair of `B`, since an element that is a unit modulo `Jac(B)` is a unit. Changing the second entry of a lift by `l∈L` changes the symbol by a relative generator, `D(x,y+l)=D(x,y)+D(x,l(1−xy)⁻¹)`, by D2 with the second and third entries `y` and `l(1−xy)⁻¹`; the first entry is changed in the same way after D1. Lifts of instances of D1–D3 are again instances of D1–D3. These facts give a homomorphism `D(B′)→D(B)/im D(B,L)` inverse to the induced map. A relative generator maps to a pair with a zero entry, and `D(r,0)=0` by D2. (Own argument from the relations of §13.2.)
+**Lift-change sequence.** For a surjection `g:B→B′` of commutative rings whose kernel `L` lies in `Jac(B)`, the sequence `D(B,L)→D(B)→D(B′)→0` is exact; the first map sends a relative generator to the same pair, and `D(B,L)` is the [guarded presentation group](#relative-presentation-group), independent of its comparison with relative `K₂`. Every admissible pair of `B′` lifts to an admissible pair of `B`, since an element that is a unit modulo `Jac(B)` is a unit. Changing the second entry of a lift by `l∈L` changes the symbol by a relative generator, `D(x,y+l)=D(x,y)+D(x,l(1−xy)⁻¹)`, by D2 with the second and third entries `y` and `l(1−xy)⁻¹`; the first entry is changed in the same way after D1. Lifts of instances of D1–D3 are again instances of D1–D3. These facts give a homomorphism `D(B′)→D(B)/im D(B,L)` inverse to the induced map. A relative generator maps to a pair with a zero entry, and `D(r,0)=0` by D2. (Own argument from the relations of §13.2.)
 
 `B` is commutative and `L⊆Jac(B)`. Both hypotheses are used: the first for the relations, the second for lifting units.
 
@@ -3079,9 +3048,9 @@ For every commutative local ring `A`, the modern generator map `D(A)→K₂(A)` 
 - The admissible-pair lifting argument needs `L⊆Jac(B)`: for `ℤ→𝔽₅` the admissible pair `(2,2)` of `𝔽₅ (1−4=2≠0)` has no admissible lift, since lifts `x,y≡2` mod 5 give `xy≡4` mod 5, while `1−xy=±1` needs `xy∈{0,2}`. This tests lifting of individual pairs; `D(𝔽₅)=0`, so it does not show failure of surjectivity of the group map.
 - For `L=0` the sequence reduces to the identity of `D(B)`.
 
-*Needs (lift-change sequence):* §13.2; [absolute presentation group](#ds-groups); [relative presentation group](#ds-relative-groups).
+*Needs (lift-change sequence):* §13.2; [absolute presentation group](#absolute-presentation-group); [relative presentation group](#relative-presentation-group).
 
-<a id="ds-residue-transfer"></a>
+#### Residue-isomorphism transfer
 
 **Residue-isomorphism transfer.** Let `f:R→S` be a homomorphism of commutative rings inducing an isomorphism `R/Jac(R)≅S/Jac(S)`. If the generator map `D(R)→K₂(R)` is an isomorphism, so is `D(S)→K₂(S)`. Let `k` be the common quotient and `P=R×_k S`. The first projection `P→R` is onto, split by `r↦(r,f(r))`, with kernel `0×Jac(S)` contained in `Jac(P)`. By §13.9's split presentation and the lift-change sequence, `D(P)→D(R)` is split onto with kernel the injective image of `D(P,0×Jac(S))`, which maps isomorphically onto `ker(K₂(P)→K₂(R))`. Hence `D(P)→K₂(P)` is an isomorphism. The second projection `P→S` is onto, with kernel `L=Jac(R)×0⊆Jac(P)`. An element of `D(S)` killed in `K₂(S)` lifts to `D(P)`, and its image in `K₂(P)` lies in `ker(K₂(P)→K₂(S))`. That kernel is generated by symbols with an entry in `L` (§13.9, generation). Because `D(P)≅K₂(P)`, the lift lies in im `D(P,L)`, and the lift-change sequence makes the element zero. Surjectivity holds because `K₂(P)→K₂(S)` is onto: `K₁(P,L)→K₁(P)` is injective for `L⊆Jac(P)`. (van der Kallen–Maazen–Stienstra, Theorem 3, §2.7, p.935, for the statement; the proof is assembled from §13.9, the lift-change sequence, KTheoryLowDegrees §9.1 and §13.7's relative exact sequence.)
 
@@ -3093,9 +3062,9 @@ For every commutative local ring `A`, the modern generator map `D(A)→K₂(A)` 
 - `ℤ_(2)→ℤ/4` and `ℤ_(3)→ℤ/9` satisfy the hypothesis, because the residue rings are `𝔽₂` and `𝔽₃`.
 - `ℤ_(2)→𝔽₄` fails it (the residue map `𝔽₂→𝔽₄` is not onto), and `ℤ→ℤ/4` fails it `(ℤ/Jac(ℤ)=ℤ)`. The rings `𝔽₄` and `ℤ/4` are treated by §13.5 and by the transfer from `ℤ_(2)` respectively.
 
-*Needs (residue-isomorphism transfer):* [lift-change sequence](#ds-lift-change); [generation](#ds-generation); [split radical presentation](#ds-split); §§0.2, 13.7; KTheoryLowDegrees §9.1.
+*Needs (residue-isomorphism transfer):* [lift-change sequence](#lift-change-sequence); [generation](#relative-generation); [split radical presentation](#split-radical-presentation); AlgebraicKTheory §3.1; §13.7; KTheoryLowDegrees §9.1.
 
-<a id="ds-dvr-base"></a>
+#### DVR base presentation
 
 **Base case `ℤ_(p)`.** For `p=2` and `p=3` the generator map `D(ℤ_(p))→K₂(ℤ_(p))` is an isomorphism. Use the published Dennis–Stein presentation for a discrete valuation ring and its homomorphic images, in every rank `3≤n≤∞`. In the D1–D3 convention of §13.2 this is the discrete-valuation-ring case of Theorem 1 of van der Kallen–Maazen–Stienstra; their §2.2 identifies the equivalent symbol relations used by Dennis and Stein. Weibel states the resulting local presentation directly. The isomorphism sends `D(r,s)` to the explicit Dennis–Stein word, so it identifies the generator map, not an unspecified abstract group isomorphism. No invertibility of 2 or 3, no residue-field size bound, and no ring section of `ℤ_(p)→𝔽_p` is assumed. (Dennis–Stein, *`K₂` of discrete valuation rings*, Theorems 2.3 and 2.5, as reported in their survey, §12, pp.253–254; van der Kallen–Maazen–Stienstra, §2.2 and Theorem 1, pp.934–935; Weibel, Theorem III.5.11.1(a), p.226.)
 
@@ -3107,7 +3076,7 @@ For every commutative local ring `A`, the modern generator map `D(A)→K₂(A)` 
 - In `K₂(ℤ_(2)), {27,13}=D(−2,13)=3·D(−2,1)=0`, because D2 at `r=−2` makes `s↦D(−2,s)` multiplicative in `1+2s` and `27=3³`. Matsumoto's unit relations cannot reach this identity in a group like `US(ℤ_(2))` (van der Kallen 1977, Remark 8.7, p.512).
 - The transfer applies to `ℤ/4` only through this base case, because `ℤ/4` has characteristic 4.
 
-*Needs (DVR base presentation):* [absolute presentation group](#ds-groups); §§0.3, 13.1–13.2.
+*Needs (DVR base presentation):* [absolute presentation group](#absolute-presentation-group); AlgebraicKTheory §5.1; §§13.1–13.2.
 
 ### 13.7 The relative Steinberg group and relative `K_2` of an ideal
 
@@ -3117,35 +3086,35 @@ For a ring `R` and a two-sided ideal `I`, let `R ⊕ I` be the double ring with 
 
 Provide the following API.
 
-- `K2.RelSteinberg`: `St(R, I)`: the normal closure of the `x_ij(0, v)` in `St(R ⊕ I)`, modulo the cross-commutators `[x_ij(0, u), x_kl(v, −v)]`.
-- `K2.RelSteinberg.add`: The homomorphism `St(R, I) → St(R)` induced by add.
-- `K2.RelSteinberg.range_add`: Its range is the normal subgroup of `St(R)` generated by the `x_ij(v), v ∈ I`.
-- `K2.relK2`: `K₂(R, I)`, the kernel of `St(R, I) → E(R, I)`.
-- `K2.relK2.toK2`: The map `K₂(R, I) → K₂(R)`.
-- `K2.relK2.exact`: Exactness of `K₂(R, I) → K₂(R) → K₂(R/I) → K₁(R, I) → K₁(R) → K₁(R/I)` (Theorem III.5.7.1).
-- `K2.relK2.map`: A ring homomorphism `f : R → R'` with `f(I) ⊆ I'` induces `K₂(R, I) → K₂(R', I')`, with `map_id` and `map_comp`.
-- K2.relK2_bot: `K₂(R, ⊥)` is trivial.
-- `K2.relDennisStein`: For `s ∈ I, r` commuting with `s` and `1 − r s` a unit, the relative symbol `⟨r, s⟩ ∈ K₂(R, I)`.
-- K2.toK2_relDennisStein: relK2.toK2 `⟨r, s⟩ = ⟨r, s⟩`.
+- `St(R, I)`: the normal closure of the `x_ij(0, v)` in `St(R ⊕ I)`, modulo the cross-commutators `[x_ij(0, u), x_kl(v, −v)]`.
+- The homomorphism `St(R, I) → St(R)` induced by add.
+- Its range is the normal subgroup of `St(R)` generated by the `x_ij(v), v ∈ I`.
+- `K₂(R, I)`, the kernel of `St(R, I) → E(R, I)`.
+- The map `K₂(R, I) → K₂(R)`.
+- Exactness of `K₂(R, I) → K₂(R) → K₂(R/I) → K₁(R, I) → K₁(R) → K₁(R/I)` (Theorem III.5.7.1).
+- A ring homomorphism `f : R → R'` with `f(I) ⊆ I'` induces `K₂(R, I) → K₂(R', I')`, with `map_id` and `map_comp`.
+- `K₂(R, ⊥)` is trivial.
+- For `s ∈ I, r` commuting with `s` and `1 − r s` a unit, the relative symbol `⟨r, s⟩ ∈ K₂(R, I)`.
+- The forgetful map sends the relative symbol `⟨r, s⟩` to its absolute counterpart.
 
 **Checks.**
 
 - For `I = 0`, St′(R, 0) is generated by `x_ij(0, 0) = 1`, so `St(R, 0)` and `K₂(R, 0)` are trivial.
-- For `R = ℤ/4` and `I = 2ℤ/4: K₂(ℤ/2) = 1` (§0.4), so by exactness `K₂(ℤ/4, I) → K₂(ℤ/4)` is onto, and the relative symbol `⟨2, 2⟩` maps to `⟨2, 2⟩ = {−1, −1}`.
+- For `R = ℤ/4` and `I = 2ℤ/4: K₂(ℤ/2) = 1` (AlgebraicKTheory §5.2), so by exactness `K₂(ℤ/4, I) → K₂(ℤ/4)` is onto, and the relative symbol `⟨2, 2⟩` maps to `⟨2, 2⟩ = {−1, −1}`.
 - For `I = R` the range of `St(R, R) → St(R)` is all of `St(R)`, and for `I = 0` it is trivial.
 
-*Needs:* §0.3; §13.1; KTheoryLowDegrees Layers 9 and 13; GeneralAlgebraicKTheory Layer 8.
+*Needs:* AlgebraicKTheory §5.1; §13.1; KTheoryLowDegrees Layers 9 and 13; GeneralAlgebraicKTheory Layer 8.
 
-**The double-ring description of relative `K₂`.** For every unital ring `R` and two-sided ideal `I`, write `B = R ⊕ I` for the double and `J = 0 ⊕ I = ker(pr)`. The ring map `(a, x) ↦ (a, a + x)` embeds `B` in `R × R`, so a matrix over `B` is the identity exactly when its pr- and add-images are. Hence an element `y` of `St′(R, I)` lies in `K₂(B)` exactly when `add(y)` maps to 1 in `E(R)`. Put `K₂′(R, I) = ker(K₂(pr) : K₂(B) → K₂(R))`, and let `C` be the subgroup generated by the cross-commutators. The cross-commutators lie in `K₂(B)`, which is central in `St(B)`, so the normal subgroup they generate is `C`. Therefore `K₂(R, I) = K₂′(R, I)/C`, the forgetful map `K₂(R, I) → K₂(R)` is induced by `K₂(add)`, and `K₂(B) = K₂(R) ⊕ K₂′(R, I)` because pr is split by `a ↦ (a, 0)`. (Own argument from Weibel, Definition III.5.7, p. 222, and §0.3's stable centrality. For commutative `R` whose double has many units, van der Kallen 1989, §6, p.512, records the symbol form of this description and attributes it to Keune: `K₂(R, I)` is `K₂` of the double modulo the diagonal symbols and the symbols between the two kernels' unit groups.)
+**The double-ring description of relative `K₂`.** For every unital ring `R` and two-sided ideal `I`, write `B = R ⊕ I` for the double and `J = 0 ⊕ I = ker(pr)`. The ring map `(a, x) ↦ (a, a + x)` embeds `B` in `R × R`, so a matrix over `B` is the identity exactly when its pr- and add-images are. Hence an element `y` of `St′(R, I)` lies in `K₂(B)` exactly when `add(y)` maps to 1 in `E(R)`. Put `K₂′(R, I) = ker(K₂(pr) : K₂(B) → K₂(R))`, and let `C` be the subgroup generated by the cross-commutators. The cross-commutators lie in `K₂(B)`, which is central in `St(B)`, so the normal subgroup they generate is `C`. Therefore `K₂(R, I) = K₂′(R, I)/C`, the forgetful map `K₂(R, I) → K₂(R)` is induced by `K₂(add)`, and `K₂(B) = K₂(R) ⊕ K₂′(R, I)` because pr is split by `a ↦ (a, 0)`. (Own argument from Weibel, Definition III.5.7, p. 222, and AlgebraicKTheory §5.1's stable centrality. For commutative `R` whose double has many units, van der Kallen 1989, §6, p.512, records the symbol form of this description and attributes it to Keune: `K₂(R, I)` is `K₂` of the double modulo the diagonal symbols and the symbols between the two kernels' unit groups.)
 
 `R` is associative and unital and `I` is two-sided; no commutativity and no radical hypothesis is used.
 
 Provide the following API.
 
-- `K2.relK2EquivDoubleQuotient`: `K₂(R, I) ≃ K₂′(R, I)/C`, compatible with `K2.relK2.toK2` and `K₂(add)`.
-- K2.crossCommutator_mem_K2: every cross-commutator `[x_ij(0, u), x_kl(v, −v)]` lies in `K₂(B)` and in `K₂′(R, I)`.
-- K2.K2Double_split: `K₂(B) ≃ K₂(R) × K₂′(R, I)` through `K₂(pr)` and the section `a ↦ (a, 0)`.
-- `K2.idealDouble`: for commutative `R`, the model `R ×_{R/I} R` of the double as the subring of `R × R` where the coordinates agree modulo `I`; `(r, x) ↦ (r, r + x)` identifies `R ⊕ I` with it.
+- `K₂(R, I) ≃ K₂′(R, I)/C`, compatible with the relative forgetful map and `K₂(add)`.
+- every cross-commutator `[x_ij(0, u), x_kl(v, −v)]` lies in `K₂(B)` and in `K₂′(R, I)`.
+- `K₂(B) ≃ K₂(R) × K₂′(R, I)` through `K₂(pr)` and the section `a ↦ (a, 0)`.
+- for commutative `R`, the model `R ×_{R/I} R` of the double as the subring of `R × R` where the coordinates agree modulo `I`; `(r, x) ↦ (r, r + x)` identifies `R ⊕ I` with it.
 
 **Checks.**
 
@@ -3154,7 +3123,7 @@ Provide the following API.
 - The embedding test fails for the first coordinate alone: `x₁₂(0, u)` has trivial pr-image but is not in `K₂(B)` for `u ≠ 0`, since its add-image `e₁₂(u)` is not the identity.
 - Dictionary with the symbol form (van der Kallen 1989, §6, p.512), for commutative `R`: under `(a, x) ↦ (a, a + x)` the section `a ↦ (a, 0)` becomes the diagonal `r ↦ (r, r)`, the units `1 + K` become the pairs `(r, 1)` and the units `1 + J` the pairs `(1, s)`, with `r, s ∈ 1 + I`. For `k ∈ K` and `j ∈ J` one has `kj = 0` and `1 + k + j = (1 + k)(1 + j)`, so with `s = −j(1 + k)⁻¹ ∈ J` the unit formula of §13.1, D2 in the first variable (through D1) and `D(1, s) = {1, 1 − s} = 0` give `{1 + k, 1 + j} = D(1 + k, s) = D(k, s)`, a cross symbol. So killing the symbols `{(r, 1), (1, s)}` is the quotient by `C`, and, when `K₂(R)` is generated by Steinberg symbols (as in the many-units setting of the source), killing the diagonal symbols removes the summand `K₂(R)`; killing only one of the two families leaves `K₂′(R, I)` or `K₂(B)/C` instead.
 
-*Needs:* §0.3; KTheoryLowDegrees §9.1.
+*Needs:* AlgebraicKTheory §5.1; KTheoryLowDegrees §9.1.
 
 **Cross classes are Dennis–Stein symbols.** If `a` and `b` in a ring satisfy `ab = ba = 0`, then `[x_ij(a), x_ji(b)] = D(−b, −a)` for all `i ≠ j`, and `[x_ij(a), x_kl(b)] = 1` for every other pair `(k, l)`. In the double, `(0, u)(v, −v) = 0 = (v, −v)(0, u)`. Hence for commutative `R` the group `C` is generated by the symbols `D((0, u), (v, −v))` with `u, v ∈ I`, up to sign. With `rs = 0` the unit `1 − rs` is 1 and `h_ij(1) = 1`, so the word of §13.1 is `D(r, s) = [x_ji(−s), x_ij(−r)]`; index independence then gives the first formula, and the Steinberg relations give the others, whose coefficients are `ab = 0` or `ba = 0`. (Own computation from §13.1.)
 
@@ -3176,10 +3145,10 @@ For an ideal `I` of a unital ring `A`, use the augmented double `A⋉I` with mul
 
 Provide the following API.
 
-- `K2.relK2PlusMap`: `Φ`, natural for maps of pairs.
-- K2.relK2PlusMap_forget: the projection `π₂K(A,I)→π₂K(A)` composed with `Φ` equals `Ξ_A` composed with `K2.relK2.toK2`.
-- `K2.relK2PlusEquiv`: `Φ` is bijective (Keune–Loday).
-- K2.relK2_exact_K3: exactness of the six-term segment above with the transported boundary.
+- `Φ`, natural for maps of pairs.
+- The projection `π₂K(A,I)→π₂K(A)` composed with `Φ` equals `Ξ_A` composed with the relative forgetful map.
+- `Φ` is bijective (Keune–Loday).
+- exactness of the six-term segment above with the transported boundary.
 
 **Checks.**
 
@@ -3195,9 +3164,9 @@ Provide the following API.
 
 Provide the following API.
 
-- `K2.relK2.toK2_injective_of_split`: injectivity of the forgetful map.
-- `K2.relK2.range_toK2_of_split`: its image is `ker(K₂(A)→K₂(A/I))`.
-- K2.relK2PlusEquiv_of_split: `Φ` is bijective, with both boundaries zero.
+- injectivity of the forgetful map.
+- its image is `ker(K₂(A)→K₂(A/I))`.
+- `Φ` is bijective, with both boundaries zero.
 
 **Checks.**
 
@@ -3205,7 +3174,7 @@ Provide the following API.
 - The image is the kernel, not all of `K₂(A)`: for `A=ℚ[ε]` the class `{−1,−1}`, from `K₂(ℚ)⊂K₂(ℚ[ε])`, maps to `{−1,−1}≠0` in `K₂(ℚ)` (real sign, §12.5), so it is not in the relative image.
 - The conclusion does not depend on `σ: Φ` and the forgetful map are defined without `σ`, which enters only the proof. For `A=k[x,y]/(x²,xy,y²)` and `I=(y)`, the maps `x↦x` and `x↦x+y` are two different sections of `A→k[x]/(x²)`; they give different maps `ψ` but the same injective forgetful map and the same image.
 
-*Needs:* §13.7; §4.5; [generation](#ds-generation); GeneralAlgebraicKTheory §8.1; Mathlib `Ideal.jacobson`.
+*Needs:* §13.7; §4.5; [generation](#relative-generation); GeneralAlgebraicKTheory §8.1; Mathlib `Ideal.jacobson`.
 
 **The comparison map for an arbitrary pair.** For every unital `A` and two-sided `I`, the pair map `q:(A⋉I,J)→(A,I)` induces `π₂K(A⋉I,J)→π₂K(A,I)`. The source is `K₂′(A,I)` through `Ξ`, since `p` is split, and the composite kills `C`. A cross class is the image of the class of `[x_ij(a),x_ji(b)]` for the split pair `(ℤ[a,b]/(ab),(a))` under `a↦(0,u), b↦(v,−v)`. Composed with `q`, this ring map factors through `b↦0`, that is, through the split pair `(ℤ[a],(a))`, where the commutator becomes `[x_ij(a),x_ji(0)]=1`. This defines `Φ` on `K₂′(A,I)/C=K₂(A,I)`. Naturality follows from naturality of `Ξ` and of the double, and compatibility with the forgetful maps follows from `q∘(a↦(a,0))=id`. (Own argument from §13.7 and GeneralAlgebraicKTheory §8.1.)
 
@@ -3238,20 +3207,20 @@ Theorem III.5.11.1(b). Let `I` be an ideal contained in the Jacobson radical of 
 
 `R` is a commutative ring and `I ⊆ R` an ideal contained in the Jacobson radical of `R`.
 
-<a id="ds-relative-groups"></a>
+#### Relative presentation group
 
-The relative presentation group, guarded relations and the guard-equivalence theorem are defined before any presentation isomorphism. The collected isomorphism at the start of this subsection uses [Keune's theorem](#ds-keune); the definitions and generator map below require only §13.2 and §13.7.
+The relative presentation group, guarded relations and the guard-equivalence theorem are defined before any presentation isomorphism. The collected isomorphism at the start of this subsection uses [Keune's theorem](#relative-dennisstein-presentation); the definitions and generator map below require only §13.2 and §13.7.
 
 Provide the following API.
 
-- `K2.RelDSGen`: The subtype of `R × R` with at least one entry in `I`.
-- `K2.relDSRel`: D1 and D2 on relative generators and D3 only for `r ∈ I ∨ s ∈ I ∨ t ∈ I`. The three generator witnesses for D3 are derived from that entry condition, never used as a weaker substitute.
-- `K2.relDennisSteinGroup`: FreeAbelianGroup (RelDSGen `I`) modulo AddSubgroup.closure (relDSRel `I`), with the guarded D3 set.
-- `K2.relDSRelFirst`, K2.closure_relDSRelFirst: the first-input D3 guard and the equality of the two closures (below).
-- K2.subsingleton_relDennisSteinGroup_bot: `D(R,⊥)` is trivial.
-- `K2.relDennisSteinGroup.toRelK2`: For `I ≤` Ideal.jacobson `⊥`, the relative generator map descends through exactly the source-allowed D1–D3 relations.
-- `K2.relDennisSteinGroup.toRelK2_surjective`: generation (below), under the standing hypothesis `I⊆Jac(R)`, without a splitting or a residue-field size bound.
-- `K2.relDennisSteinGroup.toRelK2_bijective`: Keune's Theorem 15 (below).
+- The subtype of `R × R` with at least one entry in `I`.
+- D1 and D2 on relative generators and D3 only for `r ∈ I ∨ s ∈ I ∨ t ∈ I`. The three generator witnesses for D3 are derived from that entry condition, never used as a weaker substitute.
+- FreeAbelianGroup (RelDSGen `I`) modulo AddSubgroup.closure (relDSRel `I`), with the guarded D3 set.
+- The first-input D3 guard generates the same subgroup of relations as the at-least-one-input guard (below).
+- `D(R,⊥)` is trivial.
+- For `I ≤` Ideal.jacobson `⊥`, the relative generator map descends through exactly the source-allowed D1–D3 relations.
+- generation (below), under the standing hypothesis `I⊆Jac(R)`, without a splitting or a residue-field size bound.
+- Keune's Theorem 15 (below).
 
 **Checks.**
 
@@ -3259,7 +3228,7 @@ Provide the following API.
 - For `I² = 0` it specialises to §13.12.
 - It is asserted for an ideal contained in the Jacobson radical of a commutative ring; scheme-theoretic radicality is not the hypothesis.
 - Non-example: `R = F_3[x,y]/(x²,y²), z = xy`, `I = (z), r = x, s = y, t = x+y`. Here `I² = 0` and `I` lies in the Jacobson radical; `rs = st = tr = z` but no entry is in `I`, so this triple is not admitted as relative D3. In the differential detector `I ⊗_R Ω¹_{(R/I)/ℤ} ≅ F_3², ⟨x,z⟩−⟨z,x+y⟩−⟨z,y⟩` has image `(1,1)`, not 0.
-- On the actual ring DualNumber (DualNumber (ZMod 3)), use the commutative-ring instances from the regular left and right actions and let `x` be the inner epsilon, `y` the outer epsilon and `I =` (`xy`). The three D3 pairs for `(x,y,x+y)` are admissible but `x, y` and `x+y` are outside `I`; the D3 relation word uses the pairs `(x,xy), (xy,x+y), (xy,y)` and is outside `K2.relDSRel I` as a set of defining relations. Here `y(x+y)=xy`, so the first pair has second entry `xy`.
+- On the actual ring DualNumber (DualNumber (ZMod 3)), use the commutative-ring instances from the regular left and right actions and let `x` be the inner epsilon, `y` the outer epsilon and `I =`. The three D3 pairs for `(x,y,x+y)` are admissible but `x, y` and `x+y` are outside `I`; the D3 relation word uses the pairs `(x,xy), (xy,x+y), (xy,y)` and is outside `K2.relDSRel I` as a set of defining relations. Here `y(x+y)=xy`, so the first pair has second entry `xy`.
 - For the same ring/ideal, in the basis `xy⊗dx, xy⊗dy` of `I ⊗_R Ω¹_{(R/I)/ℤ}, δ⟨x,xy⟩ = (2,0), δ⟨xy,x+y⟩ = (1,1), δ⟨xy,y⟩ = (0,1)`. This word is outside the additive subgroup generated by the guarded defining relations. The differential proves it: the extra D3 defect is `(1,1) ≠ 0`, while all source-allowed D1/D2/D3 defects vanish.
 - For `I = ⊥`, relDennisSteinGroup `I` and relative `K₂` are trivial; the guarded quotient has no spurious nonzero generators.
 
@@ -3277,7 +3246,7 @@ Provide the following API.
 
 *Needs:* §13.2.
 
-<a id="ds-generation"></a>
+#### Relative generation
 
 **Generation.** For commutative `R` and `I⊆Jac(R)`, the relative symbols generate `K₂(R,I)`. By §13.7, `K₂(R,I)=K₂′(R,I)/C`. The ideal `J=0⊕I` of the commutative ring `B=R⊕I` lies in `Jac(B)`, because `1−(a,y)(0,x)=(1,w)` with `w∈I` has inverse `(1,−w(1+w)⁻¹)`. Dennis–Stein's theorem for `B` and `J` shows that `K₂′(R,I)=ker(K₂(B)→K₂(B/J))` is generated by the symbols `D(b,j), b∈B, j∈J`; their symbol `⟨a,q⟩` is `D(−a,q)` in the modern convention of §13.1. For `b=(a,w)` put `k=(−w,w)∈K=ker(q)`, so that `b=(a+w,0)+k`. Since `jk=0`, D1 and D2 give `D(b,j)=D((a+w,0),j)−D(j,k)`, and `D(j,k)` is a cross class. Hence `D(b,j)` is the relative generator `⟨a+w,s⟩` for `j=(0,s)`, modulo `C`. Dennis–Stein prove their theorem in every rank `n≥2` and the stable group is the colimit, so no stability theorem (in particular no Suslin–Tulenbaev surjective stability) is used. (Dennis–Stein 1973, Theorem 2.1, p.287, with Lemma 2.3, pp.288–289, and reductions 2.4–2.6, p.290; own reduction through §13.7.)
 
@@ -3303,7 +3272,7 @@ Provide the following API.
 
 *Needs:* §13.2; §13.7; Mathlib `Ideal.jacobson`.
 
-<a id="ds-split"></a>
+#### Split radical presentation
 
 **Split radical pairs.** Let `B` be commutative, `L⊆Jac(B)` an ideal, and suppose `B→B/L` has a ring section. Then the generator map `D(B,L)→K₂(B), ⟨b,l⟩↦D(b,l)`, is injective with image `ker(K₂(B)→K₂(B/L))`, and `K₂(B)≅K₂(B/L)⊕D(B,L)`; the same holds in every finite rank `n≥3`. The image statement is the generation theorem above; injectivity is the published split-radical-pair theorem of Maazen–Stienstra, with the same guarded generators and relations. Their theorem includes every commutative split radical pair, not only local or nilpotent pairs. (Maazen–Stienstra, *A presentation for `K₂` of split radical pairs*, `J`. Pure Appl. Algebra 10 (1977), 271–294, as stated in van der Kallen–Maazen–Stienstra, §2.6, Theorem 2, p.935; van der Kallen 1978, §3, p.309.)
 
@@ -3315,9 +3284,9 @@ Provide the following API.
 - For `L=0` the statement is `K₂(B)≅K₂(B)⊕0`.
 - The splitting is not decorative: for a nonsplit pair the target `ker(K₂(B)→K₂(B/L))` is only the image of `K₂(B,L)`, and the statement to prove is Keune's theorem below. `ℤ/4` with `L=(2)` is such a pair.
 
-*Needs:* [relative presentation group](#ds-relative-groups); [generation](#ds-generation); §13.2; Mathlib `Ideal.jacobson`.
+*Needs:* [relative presentation group](#relative-presentation-group); [generation](#relative-generation); §13.2; Mathlib `Ideal.jacobson`.
 
-<a id="ds-keune"></a>
+#### Relative Dennis–Stein presentation
 
 **Keune's theorem: relative Dennis–Stein presentation.** For commutative `A` and `I⊆Jac(A)`, the generator map `D(A,I)→K₂(A,I)` is an isomorphism. Here `D(A,I)` is the guarded group above: generators `D(r,s)` with `r∈I` or `s∈I`; D1 and D2 when all displayed symbols are relative, so D2 needs `r∈I` or both `s,t∈I`; D3 when at least one input `r,s,t` lies in `I`. The map is well defined because each guarded relation lifts to the double, where it holds by §13.2, and the lifts of cross pairs are cross classes. It is onto by the generation target. It is injective because `D(A,I)≅D(B,J)/C_D` (reduction), `D(B,J)≅K₂′(A,I)` (split radical pairs, applied to `B=A⊕I` with the section `a↦(a,0)`), `C_D` maps onto `C` (§13.7), and `K₂(A,I)=K₂′(A,I)/C` (§13.7). These are presentations of the relative group, not just of its image in `K₂(A)`. Only the injectivity half depends on the Maazen–Stienstra input; generation and the relations do not. (Keune, Theorem 15, as stated by van der Kallen 1978, §3, p.309, and by Levine, the unnumbered theorem in §2.1, p.290; van der Kallen–Maazen–Stienstra, §2.6, Theorem 2, p.935.)
 
@@ -3329,7 +3298,7 @@ Provide the following API.
 - The square-zero calculations use this guarded presentation.
 - For `I=0` there are only zero-entry relative symbols, all zero.
 
-*Needs:* [relative presentation group](#ds-relative-groups); [split radical presentation](#ds-split); [generation](#ds-generation); §13.7 and the reduction to the double above; Mathlib `Ideal.jacobson`.
+*Needs:* [relative presentation group](#relative-presentation-group); [split radical presentation](#split-radical-presentation); [generation](#relative-generation); §13.7 and the reduction to the double above; Mathlib `Ideal.jacobson`.
 
 ### 13.10 The relative differential symbol
 
@@ -3339,11 +3308,11 @@ For commutative `A` and `I⊆Jac(A)`, set `B=A/I` and `Ω=Ω¹_{B/ℤ}`. The rel
 
 Provide the following API.
 
-- `relativeSymbolDifferential`: The unique additive map with the two displayed generator formulas.
-- `relativeSymbolDifferential_left`: `δD(x,r)=x⊗d(r̄)` for `x∈I`.
-- `relativeSymbolDifferential_right`: `δD(r,x)=−x⊗d(r̄)` for `x∈I`.
-- `relativeSymbolDifferential_surjective`: Every `x⊗d(b)` has a preimage `D(x,lift b)`.
-- `relativeSymbolDifferential_natural`: For a ring map `f:A→A′` with `f(I)⊆I′, δ′K₂(f)= (f_I⊗Ω(f̄))δ`, compatibly with identities and composites.
+- The unique additive map with the two displayed generator formulas.
+- `δD(x,r)=x⊗d(r̄)` for `x∈I`.
+- `δD(r,x)=−x⊗d(r̄)` for `x∈I`.
+- Every `x⊗d(b)` has a preimage `D(x,lift b)`.
+- For a ring map `f:A→A′` with `f(I)⊆I′, δ′K₂(f)= (f_I⊗Ω(f̄))δ`, compatibly with identities and composites.
 
 **Checks.**
 
@@ -3393,9 +3362,9 @@ For every commutative ring `R`, let `A=R[ε]/ε²` and `I=εR`. Let `M_R` be the
 
 Provide the following API.
 
-- `K2.vanDerKallenModule`: `M_R`, a quotient of the free R-module on `R` by the three displayed families.
-- `K2.dualNumberRelK2Equiv`: `K₂(R[ε],(ε))≃M_R`, with `aDb↦N(a,b)`.
-- K2.vanDerKallenModule_equiv_kaehler: for `2∈Rˣ, M_R≃Ω¹_{R/ℤ}, Db↦db`, constructed directly on the module quotient.
+- `M_R`, a quotient of the free R-module on `R` by the three displayed families.
+- `K₂(R[ε],(ε))≃M_R`, with `aDb↦N(a,b)`.
+- for `2∈Rˣ, M_R≃Ω¹_{R/ℤ}, Db↦db`, constructed directly on the module quotient.
 
 **Checks.**
 
@@ -3404,7 +3373,7 @@ Provide the following API.
 - For `R=ℤ, M_ℤ≅ℤ/2`, generated by `F(1)`, so the relative group is `ℤ/2`, generated by `D(−ε,ε)=D(ε,ε)`, rather than `Ω_{ℤ/ℤ}=0` (van der Kallen 1971, Example 1); the hypothesis on two cannot be omitted in the `Ω¹` form. For `R=𝔽₂, F(1)=D(0)−D(1)=0` and `M_{𝔽₂}=0`, so `D(ε,ε)` dies in `K₂(𝔽₂[ε])`; a perfect field of characteristic two has `M_R≅Ω¹_{R/ℤ}=0` (Example 3).
 - For a field of characteristic two with p-basis `{x_i}`, the elements `Dx_i` and `F(x_{i₁}⋯x_{iₙ})`, with distinct indices and `n≥1`, form a basis of the R-module `M_R`. For `R=𝔽₂(t)`, with p-basis `{t}`, this gives the basis `Dt`, `F(t)`, while `Ω¹_{R/ℤ}` has the one-element basis `dt`; the extra class `F(t)↦D(−tε,ε)` is invisible to `δ` (Example 3).
 
-*Needs (module computation):* §§13.1–13.2; §13.8 (split radical comparison only); [generation](#ds-generation); Mathlib `DualNumber`; Mathlib `DualNumber.eps_mul_eps`; Mathlib `KaehlerDifferential`.
+*Needs (module computation):* §§13.1–13.2; §13.8 (split radical comparison only); [generation](#relative-generation); Mathlib `DualNumber`; Mathlib `DualNumber.eps_mul_eps`; Mathlib `KaehlerDifferential`.
 
 **Differential compatibility.** For commutative `R`, the map from the independent dual-number module computation to `Ω¹_{R/ℤ}`, `Db↦db`, agrees with the general `δ` of §13.10 under `I⊗_A Ω≅Ω`. Its kernel is the image of the double-ideal symbols of §13.11; when `2∈Rˣ` this kernel is zero and the map is the displayed Kähler equivalence. This corollary is constructed after §§13.10–13.11; the module computation above is their independent input in the dual-number case. (Weibel, Exercise III.5.14(a)–(c), pp.229–230; van der Kallen 1971, theorem and corollary, p.1204.)
 
@@ -3424,10 +3393,10 @@ The ring is `ℤ/4`; admissibility means `rs` is even. The source group is the a
 
 Provide the following API.
 
-- `zmodFourSymbolParity`: The displayed function on `(ℤ/4)²` with values in `ℤ/2`; only admissible pairs define `K₂` generators.
-- `zmodFourSymbolParity_relations`: The table satisfies D1–D3 on their exact admissible domains; in `ℤ/4` a unit `u` is exactly an element with `u·u=1`, so the check is a finite computation.
-- `zmodFourK2Equiv`: The induced map `K₂(ℤ/4)≃ℤ/2` has inverse `1↦D(3,2)`.
-- `zmodFourK2Equiv_generator`: The equivalence sends `{−1,−1}` to 1 and the zero class to 0.
+- The displayed function on `(ℤ/4)²` with values in `ℤ/2`; only admissible pairs define `K₂` generators.
+- The table satisfies D1–D3 on their exact admissible domains; in `ℤ/4` a unit `u` is exactly an element with `u·u=1`, so the check is a finite computation.
+- The induced map `K₂(ℤ/4)≃ℤ/2` has inverse `1↦D(3,2)`.
+- The equivalence sends `{−1,−1}` to 1 and the zero class to 0.
 
 **Checks.**
 
@@ -3450,7 +3419,7 @@ For every `n≥2`, reduction `ℤ/2ⁿ→ℤ/4` induces an isomorphism `K₂(ℤ
 - The order-two argument is used before concluding `2D(−2,2)=0`; nilpotence alone would not justify that step.
 - The exclusion `n=1` is required.
 
-*Needs:* §6.4; §6.9; §0.3; §13.2; §13.6; §13.14; ClassicalArithmeticCompletion §1.1.
+*Needs:* §6.4; §6.9; AlgebraicKTheory §5.1; §13.2; §13.6; §13.14; ClassicalArithmeticCompletion §1.1.
 
 ### Examples
 
@@ -3464,14 +3433,14 @@ Layers 2, 4, 6, 7 and 12; GeneralAlgebraicKTheory §§8.1 and 10.12; KTheoryLowD
 
 ## Downstream consumers
 
-- **K3BlochGroups** consumes the product-normalized degree-three map (§8.4) and the finite-rank symbol refinements. It obtains generic universal extensions and stable `St` directly from StableHomotopyKTheory §3.29 and §0.3.
+- **K3BlochGroups** consumes the product-normalized degree-three map (§8.4) and the finite-rank symbol refinements. It obtains generic universal extensions and stable `St` directly from StableHomotopyKTheory §3.29 and AlgebraicKTheory §5.1.
 - **RefinedTraceMethods** consumes §§13.8–13.11 and 13.13: the relative symbols and their generation (§13.9), the split radical fibre comparison (§13.8) and van der Kallen's computation for `k[ε]` (§13.13), none of which uses the Maazen–Stienstra or double-excision inputs; the differential and square-zero kernel for a general square-zero ideal (§§13.10–13.11) use Keune's theorem.
-- **MotivicEtaleKTheory** consumes native Milnor K-groups, residues and norms (Layers 5, 9, 10); its field Matsumoto supplier is §0.4. This roadmap uses nothing from it.
+- **MotivicEtaleKTheory** consumes native Milnor K-groups, residues and norms (Layers 5, 9, 10); its field Matsumoto supplier is AlgebraicKTheory §5.2. This roadmap uses nothing from it.
 - **K2SymbolsBrauerPartII** consumes the native comparison of §7.2, the tame symbols and residues of Layer 9, the localization comparison of Layer 11, the tame kernels of Layer 12, the unit-symbol generation of §6.18 and the product normalization of §§4.1, 8.1 and 8.3. It consumes the prime-to-characteristic global function-field degree-two norm-residue equivalence and completion compatibility of §10.32b. Beyond the function-field adapters in §§10.32a–10.32b, it owns the Galois symbol in Kummer and cup-product form, twist trivialisations and the change-of-root rule, Brauer-valued and cyclic-algebra symbols, the norm-residue and Hilbert symbols as Steinberg symbols with their local-invariant comparison, global reciprocity for symbols of a number field, the transported Tate comparisons and the degree-two étale Chern comparison.
 - **ArithmeticKTheory** consumes tame-kernel sequences, `K₂(ℤ)` and `K₂(ℚ)` (Layer 12); the transported Tate comparisons it uses are in K2SymbolsBrauerPartII.
 - **EllipticKTheory** consumes tame symbols, integral Weil–Suslin reciprocity and the localization comparison (Layers 9–11). SchemeKTheoryOperations §3.6 supplies the generic scheme boundary and ordered unit-product formula to which §11.1 here adds the explicit symbol comparison.
 - **EllipticCurves** Layer 2 consumes §10.31’s elliptic specialization of disjoint-support reciprocity for its divisor construction of the Weil pairing; its Layer 0 and Tau Ceti supply the function-field and divisor interfaces.
-- **KTheoryFiniteLocalFields** consumes the native Milnor ring, last-slot residues, specializations, Bass–Tate exact sequence and generator-independent norms through the [filtered-colimit export contract](#milnor-filtered-colimits) in §10.25. The consumer interface `milnorResidueNorm` must identify its ring, residue and norm maps with §§5.4–5.8, 7.2, 9.11–9.18 and 10.5–10.25 through an adapter, including filtered-colimit compatibility. These native constructions have a single owner here. Its classical field presentation and finite-field `K₂` come from AlgebraicKTheory A5, with §0.4 identifying the root-word conventions; its local norm-residue maps, full-root section and tame-boundary comparison are constructed in KTheoryFiniteLocalFields §§3.1–3.3, using its general norm-residue theorem of §3.0a. K2SymbolsBrauerPartII adds the coefficient, cyclic-algebra and local-invariant dictionaries for those maps.
+- **KTheoryFiniteLocalFields** consumes the native Milnor ring, last-slot residues, specializations, Bass–Tate exact sequence and generator-independent norms through the [filtered-colimit export contract](#filtered-colimit-compatibility) in §10.25. The consumer interface `milnorResidueNorm` must identify its ring, residue and norm maps with §§5.4–5.8, 7.2, 9.11–9.18 and 10.5–10.25 through an adapter, including filtered-colimit compatibility. These native constructions have a single owner here. Its classical field presentation and finite-field `K₂` come from AlgebraicKTheory A5, with the root-word conventions of Conventions and the adapter of §0.1; its local norm-residue maps, full-root section and tame-boundary comparison are constructed in KTheoryFiniteLocalFields §§3.1–3.3, using its general norm-residue theorem of §3.0a. K2SymbolsBrauerPartII adds the coefficient, cyclic-algebra and local-invariant dictionaries for those maps.
 - **HigherLocalFieldsAndHigherClassFieldTheory** consumes native Milnor K-theory, residues and norms; **SpecialValuesBirchTate** consumes tame kernels; **KatoEulerSystems** consumes symbols and residue compatibility.
 
 ## References
