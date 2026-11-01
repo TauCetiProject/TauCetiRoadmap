@@ -10,7 +10,8 @@ other or equal to it; a set lying in some universe lies in a least one; and the 
 « every set lies in a universe » holds in `ZFSet.{u}` iff every cardinal of `Cardinal.{u}` lies
 below an inaccessible one. The closure properties of universes (subsets, pairs, unions, products,
 function sets, cardinality bounds) are proved on the way. The statements are those of
-Gabriel 1962, Kruse 1965 and Williams 1969.
+Gabriel 1962, Kruse 1965 and Williams 1969; the notion itself, with the characterisation by
+inaccessible heights, goes back to Zermelo 1930.
 
 Suggested home: `TauCeti/SetTheory/ZFC/Universe.lean`, beside Mathlib's
 `Mathlib/SetTheory/ZFC/VonNeumann.lean`.
@@ -60,6 +61,11 @@ here; what one does inside a universe is elsewhere.
   element `I ∈ U`, and nonempty. Gabriel 1962, Ch. 0, §1, p. 328, lists instead U1–U5, with
   ordered pairs in place of nonemptiness; 0.2 proves the two lists equivalent for nonempty `U`.
   Witness: `∅` satisfies UA1–UA4 vacuously and fails UA5.
+- **Foundation.** `ZFSet` is well-founded (`ZFSet.regularity`), and 1.2 and 2.1 use it; the role of
+  the axiom of foundation for universes is Sabbagh 1969. The set constructions of 0.2 (pairs,
+  products, function sets) and the cardinal arithmetic of 0.2 and 1.3 are those of Bourbaki,
+  *Théorie des ensembles*, ch. II and III (Bourbaki 1970). Witness: `ZFSet.regularity` gives that
+  no set is an element of itself, the Check of 2.1.
 
 ## Exact supplier contracts
 
@@ -149,7 +155,8 @@ Prove `isGrothendieckUniverse_vonNeumann`: `V_ κ.ord` is a universe for every i
 `ZFSet.card (V_ κ.ord) = κ` (Mathlib `ZFSet.card_vonNeumann` and
 `Cardinal.IsInaccessible.preBeth_ord`). *Needs:* 0.1, Mathlib `ZFSet.vonNeumann`,
 `ZFSet.mem_vonNeumann`, `ZFSet.isTransitive_vonNeumann`, `Cardinal.IsInaccessible.isRegular`,
-`Cardinal.IsInaccessible.isStrongLimit`.
+`Cardinal.IsInaccessible.isStrongLimit`. For strongly inaccessible cardinals and the stages
+`V_κ`, see Kanamori 2003, §1.
 
 **Checks.**
 
@@ -183,7 +190,9 @@ regularity: a `∈`-minimal element of `U \ V_ α.ord` would be a subset of `V_ 
 
 Prove `IsGrothendieckUniverse.isInaccessible_card`: a universe `U` with `ZFSet.omega ∈ U` has
 inaccessible cardinality, and `IsGrothendieckUniverse.eq_vonNeumann_card`: `U = V_ (card U).ord`
-(Williams 1969, Theorem 2, p. 3, with Theorem 1). *Needs:* 1.1, 1.2.
+(Williams 1969, Theorem 2, p. 3, with Theorem 1). Zermelo 1930 proves the second-order form: the
+models of his axioms (« Normalbereiche ») are the `V_κ` with `κ` a « Grenzzahl », and each is
+determined by `κ`. *Needs:* 1.1, 1.2.
 
 **Checks.**
 
@@ -238,8 +247,10 @@ a nonempty set of universes is a universe, the least one among them. *Needs:* 2.
 Prove `forall_exists_isGrothendieckUniverse_iff`: every `x : ZFSet.{u}` lies in a universe iff every
 `c : Cardinal.{u}` lies below an inaccessible `κ : Cardinal.{u}` (Williams 1969, p. 3, the
 equivalence of (A) and (B)). The left side is the axiom of universes of SGA 4, Exposé I,
-Appendice; neither side is a theorem of Mathlib's foundations for a fixed `u`, and this roadmap
-states only the equivalence. *Needs:* 1.2, 1.3, 0.2, Mathlib `Cardinal.le_preBeth_ord`.
+Appendice, and Zermelo 1930 states it as the existence of an unbounded sequence of
+« Grenzzahlen »; neither side is a theorem of Mathlib's foundations for a fixed `u` (ZFC does not
+prove that an inaccessible cardinal exists, Kanamori 2003, §1), and this roadmap states only the
+equivalence. *Needs:* 1.2, 1.3, 0.2, Mathlib `Cardinal.le_preBeth_ord`.
 
 **Checks.**
 
@@ -273,6 +284,16 @@ containing `ω` is a model of ZFC, and the universes containing `ω` are the sup
 Shepherdson (Kruse 1965); that statement needs a semantics of set theory over `ZFSet` and is
 outside this roadmap.
 
+Universes entered Bourbaki's discussions of the foundations of categories in the 1950s through
+Grothendieck (Krömer 2006) and are the working foundation of SGA 4 and of Kashiwara–Schapira 2006,
+ch. 1. Hamkins–Solberg 2020 ask which Zermelo–Grothendieck universes admit a categorical
+characterisation, a refinement of 2.1. The alternatives avoid the universe axiom of 2.3: Feferman
+1969 (a reflection schema conservative over ZFC), Bénabou 1985 (fibred categories), Shulman 2008
+(a comparison of the options, with ZMC, ZFC plus « every set lies in a universe »), Low 2013 (what
+survives a change of universe), the Stacks Project, chapter « Set Theory » (Tags 000F and 000H),
+and Scholze 2017 (cut-off cardinals in place of universes). McLarty 2010 and 2020 show how little
+of the universe machinery the cohomological applications need.
+
 ## References
 
 - P. Gabriel, « Des catégories abéliennes », *Bull. Soc. Math. France* 90 (1962), 323–448,
@@ -288,3 +309,32 @@ outside this roadmap.
 - M. Artin, A. Grothendieck, J.-L. Verdier, *Théorie des topos et cohomologie étale des schémas
   (SGA 4)*, tome 1, Lecture Notes in Math. 269, Springer, 1972, Exposé I, Appendice « Univers »
   (by N. Bourbaki). doi:10.1007/BFb0081551; Zbl 0234.00007.
+- E. Zermelo, « Über Grenzzahlen und Mengenbereiche. Neue Untersuchungen über die Grundlagen der
+  Mengenlehre », *Fund. Math.* 16 (1930), 29–47. doi:10.4064/fm-16-1-29-47.
+- N. Bourbaki, *Théorie des ensembles*, Hermann, 1970 (Bourbaki 1970), ch. II and III. Zbl
+  0282.04001; ch. III, 2nd ed., 1963, Zbl 0125.00603. English: *Theory of Sets*, Hermann /
+  Addison-Wesley, 1968; Springer, 2004. Zbl 0175.27001; Zbl 1061.03001.
+- G. Sabbagh, « Les univers et l'axiome de fondation », *Arch. Math.* 20 (1969), 449–452.
+  doi:10.1007/BF01899449.
+- A. Kanamori, *The Higher Infinite*, 2nd ed., Springer Monographs in Math., Springer, 2003.
+  Zbl 1022.03033.
+- R. Krömer, « La « machine de Grothendieck » se fonde-t-elle seulement sur des vocables
+  métamathématiques ? Bourbaki et les catégories au cours des années cinquante », *Rev. Histoire
+  Math.* 12 (2006), no. 1, 119ff. doi:10.24033/rhm.38.
+- M. Kashiwara, P. Schapira, *Categories and Sheaves*, Grundlehren der mathematischen
+  Wissenschaften 332, Springer, 2006. doi:10.1007/3-540-27950-4.
+- S. Feferman, « Set-theoretical foundations of category theory », in *Reports of the Midwest
+  Category Seminar III*, Lecture Notes in Math. 106, Springer, 1969, 201–247.
+  doi:10.1007/BFb0059148.
+- J. Bénabou, « Fibered categories and the foundations of naive category theory », *J. Symbolic
+  Logic* 50 (1985), 10–37. doi:10.2307/2273784.
+- M. A. Shulman, « Set theory for category theory », 2008. arXiv:0810.1279.
+- Z. L. Low, « Universes for category theory », 2013. arXiv:1304.5227.
+- J. D. Hamkins, H. R. Solberg, « Categorical large cardinals and the tension between
+  categoricity and set-theoretic reflection », 2020. arXiv:2009.07164.
+- C. McLarty, « What does it take to prove Fermat's Last Theorem? Grothendieck and the logic of
+  number theory », *Bull. Symbolic Logic* 16 (2010), 359–377. doi:10.2178/bsl/1286284558.
+- C. McLarty, « The large structures of Grothendieck founded on finite-order arithmetic », *Rev.
+  Symb. Log.* 13 (2020), 296–325. doi:10.1017/S1755020319000340; arXiv:1102.1773.
+- The Stacks Project Authors, *The Stacks Project*, chapter « Set Theory », Tags 000F and 000H.
+- P. Scholze, « Étale cohomology of diamonds », 2017. arXiv:1709.07343.
