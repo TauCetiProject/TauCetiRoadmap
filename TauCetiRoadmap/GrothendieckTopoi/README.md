@@ -133,7 +133,8 @@ fibre functors, never through models of theories.
    order. Its *canonical site* `Frame.grothendieckTopology L` declares a sieve `S` on `U` covering
    when `U` is the supremum of the elements `V ≤ U` with `S` containing `V ⟶ U`; `Sh(L)` means
    `Sheaf (Frame.grothendieckTopology L) (Type u)`. For a space `X : Type u`,
-   `Frame.grothendieckTopology (Opens X)` is Mathlib's `Opens.grothendieckTopology X`, and
+   `Frame.grothendieckTopology (Opens X)` is Mathlib's `Opens.grothendieckTopology X` (sheaves on
+   a space as in [Godement], chapitre II, §1), and
    `Sh(X)` means `Sheaf (Opens.grothendieckTopology X) (Type u)`, the category under Mathlib's
    `TopCat.Sheaf`.
 9. **Names.** Topos-level declarations live in the namespace `CategoryTheory` with the prefix
@@ -682,6 +683,9 @@ for Layer 8, not its specification.
   University Press (1982). Chapter II, §§1–2 (frames, locales, nuclei and sublocales, coproducts of
   frames by C-ideals and products of locally compact spaces), §3 (spaces and sober spaces); Chapter
   VII, §4 (locally compact spaces and continuous lattices).
+- [Godement] R. Godement, *Topologie algébrique et théorie des faisceaux*, Actualités
+  scientifiques et industrielles 1252, Hermann (1958). Chapitre II, §1 (presheaves and sheaves
+  of sets on a topological space).
 - [Isbell 1972] J. R. Isbell, "Atomless parts of spaces", *Mathematica Scandinavica* 31 (1972),
   5–32: locales, localic products and the product `ℚ × ℚ`.
 - [Isbell 1981] J. R. Isbell, "Product spaces in locales", *Proceedings of the American
