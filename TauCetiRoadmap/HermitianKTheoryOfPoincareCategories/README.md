@@ -16,6 +16,8 @@ Dedekind localization and dévissage are supplied by GeometryOfNumbersAndQuadrat
 
 The additional comparison inputs are targets of this roadmap: the algebraic Thom equivalence in §1.1, the odd-formation comparison in §4.5a, the Segal–Lin and ko Tate calculations in §5.1a, the Laurent splitting and the two comparison results in §7.3, and the arbitrary form-parameter extension in §7.7. They are proved independently of the consequences that use them. In particular, neither the construction of ko nor general completeness of Tate spectra supplies the Tate calculations. The three standard genuine structures remain the supplier's construction; §7.7 extends the theory to all form parameters.
 
+Section 5.1a owns the C₂ sphere Tate-completion comparison, including its identification of the canonical map with the completion unit. RefinedTraceMethods §2.3 uses this comparison at p=2 and owns the odd-prime sphere theorem. StableHomotopyKTheoryPartII §§2.7 and 3.4 own the finite-type and general bounded-below Segal extensions; their p=2 sphere specializations agree with this same comparison. These are downstream uses, not prerequisites of §5.1a.
+
 The integral-to-periodic comparison after inverting two is supplied by GeometryOfNumbersAndQuadraticArithmetic §6.10b, target 6.10.6, using its `poincareTensorProduct`, `genuineLTheoryModule` and `symmetricLTheoryShiftTelescope` targets. It enters the final two-inverted splitting here.
 
 ## Conventions
@@ -120,7 +122,7 @@ The structures `Q^{≥m}_M` and the maps between them are GeometryOfNumbersAndQu
 Define the flavour notation and its natural comparison maps as follows.
 
 - The index set `{q, gq, ge, gs, s} ∪ {≥m}`.
-- `flavourInvariant F α R M`: `F(D^p(R), Q^α_M)`.
+- The flavoured invariant is `F^α(R;M) = F(D^p(R), Q^α_M)`.
 - The map `F^{≥m+1}(R;M) → F^{≥m}(R;M)` induced by `τ_{≥m+1} → τ_{≥m}`.
 - Composites of comparison maps are comparison maps; `F^q → F^s` factors through every `F^{≥m}`.
 - `F^{−α}(R) = F^α(R; R(−1))`.
@@ -780,11 +782,13 @@ Quadratic surgery and comparison along a 1-connective map use this setting and i
 
 Prove that for the trivial C₂-action the canonical map `𝕊→𝕊^{tC₂}` exhibits its target as the 2-completion of the sphere. In particular its negative homotopy groups vanish. This is the C₂ Segal–Lin theorem in the Tate formulation used in Paper III, Example 1.2.31, pp. 24–25. Construct the comparison with the inverse tower of stunted real projective Thom spectra and prove the completion comparison, including convergence; identifying the tower is not itself the completion theorem. The sphere and Thom-spectrum carriers come from GeneralizedCohomology §§G2 and G5, and the coherent Tate functor from GeometryOfNumbersAndQuadraticArithmetic §6.1a.
 
+The comparison is an equivalence `𝕊^{tC₂} ≃ 𝕊̂₂` whose composite with the canonical map from `𝕊` is the completion unit `𝕊→𝕊̂₂`. Under this identification the canonical map induces `ℤ→ℤ̂₂` on π₀, sending 1 to 1. This specifies the comparison under the sphere, so any other completion comparison under the same canonical map agrees with it by the universal property of completion.
+
 For the trivial C₂-action on ko, prove the graded-ring calculation `π_*(ko^{tC₂})=ℤ̂₂[u,u⁻¹]`, with `|u|=4`, on GeneralizedCohomology §G5.4's connective cover of KO. Identify the unit and the degree-four periodic generator, and prove that the groups in all other degrees vanish (Paper III, Remark 1.2.34, p. 26). The computation of this tower and its extensions is part of this target, using the real Bott class and the Tate model, rather than a hypothesis inferred from the existence of ko. Prove also the representation-sphere comparison `(𝕊^{2−2σ}⊗ko)^{tC₂}≃Σ²ko^{tC₂}` used there, where σ is the sign representation; retain the induced comparison with `(Hℤ)^{tC₂}`.
 
 **Checks.**
 
-- For the sphere the values in degrees −1 and 0 are respectively 0 and ℤ̂₂; replacing its Tate spectrum by `(Hℤ)^{tC₂}` would instead give π₋₂=ℤ/2.
+- For the sphere the values in degrees −1 and 0 are respectively 0 and ℤ̂₂, and the canonical map sends the integers 1 and 2 to the residues 1 and 2 modulo 4. A zero map sends 1 to 0, and negating the completion unit sends 1 to 3 modulo 4; neither is the specified comparison. Replacing its Tate spectrum by `(Hℤ)^{tC₂}` would instead give π₋₂=ℤ/2.
 - For ko the values in degrees −4, −2, 0 and 4 are ℤ̂₂, 0, ℤ̂₂ and ℤ̂₂. Thus `π₀Σ²ko^{tC₂}=π₋₂ko^{tC₂}=0`, while `π₀(Hℤ)^{tC₂}=ℤ/2`; the comparison is not onto.
 - The zero spectrum has zero Tate spectrum. An induced C₂-spectrum also has zero Tate spectrum; the trivial action on the sphere is not an induced action.
 
@@ -893,7 +897,7 @@ Coherence and a uniform projective-dimension bound make Postnikov truncations pr
 
 ### 6.0 Enhanced truncations and the homotopy-category t-structure
 
-For a supplied stable ∞-category `C`, use Mathlib's `CategoryTheory.Triangulated.TStructure` on hC. Lift its halves to full subcategories of `C` and construct `enhancedTruncationFunctor` with the truncation adjunctions: `τ_{≤n}` is left adjoint to inclusion and `τ_{≥n}` right adjoint. Prove `enhancedTruncationComparison`, identifying their homotopy-category functors with the supplied truncations, and retain the natural fibre sequence `τ_{≥n}X → X → τ_{≤n−1}X`. The API includes functoriality, units and counits, commutation of the two truncations, shift compatibility, the abelian heart comparison and transport under an equivalence preserving the halves. Boundedness means each object lies in some finite interval; it is an explicit hypothesis of symmetric surgery. (Higher Algebra, Definition 1.2.1.4, Proposition 1.2.1.5, Notation 1.2.1.7, Proposition 1.2.1.10 and Remark 1.2.1.12, pp. 38–40.)
+For a supplied stable ∞-category `C`, use Mathlib's `CategoryTheory.Triangulated.TStructure` on hC. Lift its halves to full subcategories of `C` and construct the enhanced truncation functors with the truncation adjunctions: `τ_{≤n}` is left adjoint to inclusion and `τ_{≥n}` right adjoint. Prove their homotopy-category comparison, identifying their homotopy-category functors with the supplied truncations, and retain the natural fibre sequence `τ_{≥n}X → X → τ_{≤n−1}X`. The API includes functoriality, units and counits, commutation of the two truncations, shift compatibility, the abelian heart comparison and transport under an equivalence preserving the halves. Boundedness means each object lies in some finite interval; it is an explicit hypothesis of symmetric surgery. (Higher Algebra, Definition 1.2.1.4, Proposition 1.2.1.5, Notation 1.2.1.7, Proposition 1.2.1.10 and Remark 1.2.1.12, pp. 38–40.)
 
 **Checks.**
 
