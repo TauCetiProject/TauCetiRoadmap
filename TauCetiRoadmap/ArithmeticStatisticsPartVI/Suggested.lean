@@ -9,9 +9,9 @@ import TauCeti.AlgebraicGeometry.EllipticCurve.MordellWeil.SelmerGroup
 
 The statements cover mean two-Selmer size three in positive-mass large families and
 finite-congruence families, the upper second moment fifteen, the Mordell–Weil rank
-bounds three halves, seven sixths and twenty-one twentieths, the unconditional
-full-family bounds 88497/100000, 67/80 and 1031/5000, and positive rational
-solubility of plane cubics from a positive-rank count. The two-Selmer carrier is Tau
+bounds three halves, seven sixths and twenty-one twentieths with the 19/24 low-rank
+proportion, the marked two-Selmer mean, and positive rational solubility of plane
+cubics from a positive-rank count. The two-Selmer carrier is Tau
 Ceti's classical descent group, with every finite completion and the real completion.
 Large-family hypotheses use actual closures of minimal short pairs in `PadicInt`.
 
@@ -33,9 +33,15 @@ two-Selmer classes. Its quartic-orbit comparison needs the missing rational
 quartic-orbit/covering dictionary.
 
 Simultaneous algebraic and analytic rank, p-parity and root-balanced-family statements
-need root-number and modular comparison carriers,
-including marked classical and quaternionic Jacobian factors and compatible Galois
-realizations. Newform analytic ranks exist, but this geometric comparison is not
+need root-number and modular comparison carriers, including marked classical and
+quaternionic Jacobian factors and compatible Galois realizations. The full-family rank
+statements of README §4.27 (upper average rank below 177/200, rank at most one on a
+lower proportion of at least 67/80, rank zero on at least 1031/5000) are stated there
+under the hypothesis that these modular comparison data exist for every curve and
+quadratic twist; that hypothesis is the elliptic modularity theorem, owned by
+EllipticCurveModularity Layers R29.3–R29.6, and has no carrier at the pins (no newform
+attached to an elliptic curve with every Euler factor and no root number), so they are
+not stated here. Newform analytic ranks exist, but this geometric comparison is not
 available at the pins. Mathlib's uncontinued elliptic Dirichlet series cannot replace it.
 -/
 
@@ -187,31 +193,6 @@ theorem secondMoment_twoSelmer_le (F : Set (ℤ × ℤ))
     (hF : IsLargeFamily F ∨ IsFiniteCongruenceFamily F) :
     ∀ ε : ℝ, 0 < ε → ∀ᶠ X in atTop,
       shortPairAverage F (fun ab => (twoSelmerSize ab : ℝ) ^ 2) X ≤ 15 + ε := by
-  sorry
-
-/-- The full minimal elliptic family has upper average Mordell–Weil rank at most
-88497/100000 (README §4.27; Bhargava–Shankar, Theorem 3 and its exact mixture). -/
-theorem fiveSelmer_full_average_rank :
-    ∀ ε : ℝ, 0 < ε → ∀ᶠ X in atTop,
-      shortPairAverage Set.univ
-        (fun ab => (Module.finrank ℤ (shortCurve ab).Point : ℝ)) X ≤
-          88497 / 100000 + ε := by
-  sorry
-
-/-- At least 67/80 of the full minimal elliptic family has Mordell–Weil rank at most
-one, in lower height density (README §4.27; Bhargava–Shankar, Theorem 4). -/
-theorem fiveSelmer_full_low_rank :
-    ∀ ε : ℝ, 0 < ε → ∀ᶠ X in atTop,
-      67 / 80 - ε ≤ shortPairAverage Set.univ
-        (fun ab => if Module.finrank ℤ (shortCurve ab).Point ≤ 1 then 1 else 0) X := by
-  sorry
-
-/-- At least 1031/5000 of the full minimal elliptic family has Mordell–Weil rank zero,
-in lower height density (README §4.27; Bhargava–Shankar, Theorem 5). -/
-theorem fiveSelmer_full_rank_zero :
-    ∀ ε : ℝ, 0 < ε → ∀ᶠ X in atTop,
-      1031 / 5000 - ε ≤ shortPairAverage Set.univ
-        (fun ab => if Module.finrank ℤ (shortCurve ab).Point = 0 then 1 else 0) X := by
   sorry
 
 /-- The upper mean two-Selmer size on pairs of a minimal elliptic curve and a
