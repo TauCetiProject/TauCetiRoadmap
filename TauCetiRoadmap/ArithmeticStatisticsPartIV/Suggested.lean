@@ -6,10 +6,10 @@ import Mathlib
 **This file is not the roadmap and is not exhaustive.** The definitive document is
 `README.md`; these are suggested Lean forms for its headline results.
 
-The statements cover Cohen–Lenstra mass, surjection moments and all-prime moment
-convergence (§§3.3–3.5), Haar cokernel moments and Friedman–Washington limits (§3.6),
-finite-field matrix counts and the symmetric kernel limit (§§3.7–3.9), the FK good-plane
-bijection (§3.10), and Wood's grid uniqueness and bounded moment limit (§3.11).
+The statements cover Cohen–Lenstra mass and surjection moments (§§3.3–3.4), Haar cokernel
+moments (§3.6), finite-field matrix counts and the symmetric kernel limit (§§3.7–3.9), the
+FK good-plane bijection (§3.10), Wood's grid uniqueness and bounded moment limit (§3.11),
+and the all-prime Cohen–Lenstra and Friedman–Washington limits (§3.12).
 Mathlib's partitions, finite cyclic groups, submodules, exterior powers, categorical
 skeleton and probability mass functions suffice for these statements. No headline result
 requires an absent carrier. The number-field counting adapter, prime-power rank API,
@@ -63,7 +63,7 @@ theorem cohenLenstra_moments {p : ℕ} (hp : p.Prime) (u : ℕ) (A : FinAbPGroup
     surjectionMoment p (cohenLenstraWeight p u) A =
       (Nat.card (FinAbPGroupClass.toGroup p A) : ℝ≥0∞)⁻¹ ^ u := by sorry
 
-/-- Convergent Cohen–Lenstra moments determine the limiting masses for all p and u (§3.5). -/
+/-- Convergent Cohen–Lenstra moments determine the limiting masses for all p and u (§3.12). -/
 theorem tendsto_of_cohenLenstra_moments {p : ℕ} (hp : p.Prime) (u : ℕ)
     (ν : ℕ → PMF FinAbPGroupClass)
     (hν : ∀ A, Tendsto (fun n => surjectionMoment p (ν n) A) atTop
@@ -90,7 +90,7 @@ theorem surjectionMoment_cokernelLaw {p : ℕ} [Fact p.Prime]
       (surjCard (padicCokernel M) A : ℝ≥0∞) ∂(padicMatrixHaar p n (n + u))) =
       (surjCard (Fin n → ℤ_[p]) A : ℝ≥0∞) / (Nat.card A : ℝ≥0∞) ^ (n + u) := by sorry
 
-/-- The Friedman–Washington cokernel law (§3.6) gives the Cohen–Lenstra mass for every
+/-- The Friedman–Washington cokernel law (§3.12) gives the Cohen–Lenstra mass for every
 finite abelian p-group and every nonnegative column excess. -/
 theorem tendsto_cokernelLaw {p : ℕ} [Fact p.Prime]
     [MeasurableSpace ℤ_[p]] [BorelSpace ℤ_[p]] (u : ℕ)
@@ -100,7 +100,7 @@ theorem tendsto_cokernelLaw {p : ℕ} [Fact p.Prime]
       (𝓝 (ENNReal.ofReal ((∏' j : ℕ, (1 - (p : ℝ)⁻¹ ^ (j + u + 1))) /
         ((Nat.card A : ℝ) ^ u * (Nat.card (A ≃+ A) : ℝ))))) := by sorry
 
-/-- The Friedman–Washington translation form (§3.6) gives the square-matrix limit
+/-- The Friedman–Washington translation form (§3.12) gives the square-matrix limit
 for the cokernel of one minus a Haar-random endomorphism. -/
 theorem tendsto_translation_cokernelLaw {p : ℕ} [Fact p.Prime]
     [MeasurableSpace ℤ_[p]] [BorelSpace ℤ_[p]]
