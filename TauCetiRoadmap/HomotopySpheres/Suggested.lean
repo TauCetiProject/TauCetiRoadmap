@@ -10,7 +10,8 @@ theorems against the pinned Mathlib and Tau Ceti, each with `sorry`.
 Stated here:
 
 * real Bott periodicity for the orthogonal groups in the stable range (Stage 4B);
-* the fifth and sixth orthogonal homotopy groups vanish in their stable ranges (Stage 4B);
+* the independently owned Bott base entries in degrees two through eight, in their stable
+  ranges (Stage 4B); TopologicalKTheory T1.5a supplies components and degree one;
 * the seventh stable stem, `π_{n+7}(S^n) ≅ ℤ/240` for `n ≥ 9` (Stage 9A);
 * the sixth stable stem, in its unstable form `π_{n+6}(S^n) ≅ ℤ/2` for `n ≥ 8` (Stage 9);
 * the standard sphere `S^n`, `n ≥ 1`, is smoothly parallelizable exactly for `n ∈ {1, 3, 7}`
@@ -27,6 +28,11 @@ Not statable at the pins:
   `Theta_6 = 0` is implied by the six-dimensional recognition theorem below);
 * the stable stems as colimits, stable `J` and the Pontryagin--Thom isomorphism (Stages 3, 4C
   and 5): there is no suspension homomorphism on `HomotopyGroup` and no framed bordism group;
+* the connected James equivalence and the EHP exact sequence (Sections 3B–3C): the pins lack
+  the reduced word space, reduced pointed suspension and James–Hopf map;
+* Hopf-invariant-one exclusion (Section 3C.5): the pins lack the pointed topological mapping
+  cone and its integral cup-product Hopf invariant. The sphere-framing consequence is stated
+  below on the native smooth tangent bundle;
 * the almost-framed groups, `P_n`, the Wall groups `L_n` and the Kervaire--Milnor exact sequence
   (Stages 6 to 8): these need framed and almost-framed bordism and Wall forms and formations,
   none of which exists at the pins;
@@ -86,6 +92,24 @@ theorem orthogonalGroup_bottPeriodicity (k n : ℕ) (hn : k + 11 ≤ n) :
       HomotopyGroup.Pi (k + 1) (OrthogonalGroup n) 1) := by
   sorry
 
+/-- The degree-two Bott entry vanishes at the identity of `O(n)` for `n ≥ 4`
+(Bott, 1959, p.315; README Section 4B.8). -/
+theorem orthogonalGroup_secondHomotopyGroup (n : ℕ) (hn : 4 ≤ n) :
+    Subsingleton (HomotopyGroup.Pi 2 (OrthogonalGroup n) 1) := by
+  sorry
+
+/-- The degree-three Bott entry is infinite cyclic at the identity of `O(n)` for `n ≥ 5`
+(Bott, 1959, p.315; README Section 4B.8). -/
+theorem orthogonalGroup_thirdHomotopyGroup (n : ℕ) (hn : 5 ≤ n) :
+    Nonempty (HomotopyGroup.Pi 3 (OrthogonalGroup n) 1 ≃* Multiplicative ℤ) := by
+  sorry
+
+/-- The degree-four Bott entry vanishes at the identity of `O(n)` for `n ≥ 6`
+(Bott, 1959, p.315; README Section 4B.8). -/
+theorem orthogonalGroup_fourthHomotopyGroup (n : ℕ) (hn : 6 ≤ n) :
+    Subsingleton (HomotopyGroup.Pi 4 (OrthogonalGroup n) 1) := by
+  sorry
+
 /-- The fifth homotopy group of `O(n)` at the identity vanishes for `n ≥ 7`, the
 stable range of the degree-five zero entry in Bott's table (README Stage 4B). -/
 theorem orthogonalGroup_fifthHomotopyGroup (n : ℕ) (hn : 7 ≤ n) :
@@ -96,6 +120,18 @@ theorem orthogonalGroup_fifthHomotopyGroup (n : ℕ) (hn : 7 ≤ n) :
 stable range of the degree-six zero entry in Bott's table (README Stage 4B). -/
 theorem orthogonalGroup_sixthHomotopyGroup (n : ℕ) (hn : 8 ≤ n) :
     Subsingleton (HomotopyGroup.Pi 6 (OrthogonalGroup n) 1) := by
+  sorry
+
+/-- The degree-seven Bott entry is infinite cyclic at the identity of `O(n)` for `n ≥ 9`
+(Bott, 1959, p.315; README Section 4B.8). -/
+theorem orthogonalGroup_seventhHomotopyGroup (n : ℕ) (hn : 9 ≤ n) :
+    Nonempty (HomotopyGroup.Pi 7 (OrthogonalGroup n) 1 ≃* Multiplicative ℤ) := by
+  sorry
+
+/-- The degree-eight Bott entry is cyclic of order two at the identity of `O(n)` for
+`n ≥ 10` (Bott, 1959, pp.314–315; README Section 4B.8). -/
+theorem orthogonalGroup_eighthHomotopyGroup (n : ℕ) (hn : 10 ≤ n) :
+    Nonempty (HomotopyGroup.Pi 8 (OrthogonalGroup n) 1 ≃* Multiplicative (ZMod 2)) := by
   sorry
 
 /-! ## Layer 9: the sixth stable stem -/

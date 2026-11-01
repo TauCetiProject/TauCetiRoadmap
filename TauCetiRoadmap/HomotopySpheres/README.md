@@ -91,7 +91,7 @@ The division of ownership is as follows.
 - [TopologicalKTheory T1.5–T1.6](../TopologicalKTheory/README.md) owns the finite real/oriented
   Grassmannian carriers, fixed-rank `BO(n)`/`BSO(n)`, stable `BO`/`BSO` colimits, universal
   bundle diagrams and finite-CW/numerable classification, including stabilization and
-  clutching naturality. Use these actual carriers and maps. This roadmap owns stable `O`/`SO`,
+  clutching naturality and the simple connectivity of BSO in T1.6c. Use these actual carriers and maps. This roadmap owns stable `O`/`SO`,
   `Omega BSO ~=_h SO`, smooth tangent/normal framing applications and the full real Bott loop
   chain. Distinct homogeneous-space models have named comparisons respecting universal
   bundles, basepoints, stabilization and clutching, rather than a second classifier.
@@ -105,7 +105,8 @@ The division of ownership is as follows.
   `SO` table, and its framing/classifier comparisons on the shared TopologicalKTheory
   carriers; algebraic Clifford periodicity alone does not discharge them.
 - [RiemannianGeometry R1–R3](../RiemannianGeometry/README.md)
-  owns invariant and normal-homogeneous metrics, Jacobi fields, finite broken-geodesic
+  owns the normalized sphere Freudenthal theorem (R3 item 4), invariant and
+  normal-homogeneous metrics, Jacobi fields, finite broken-geodesic
   manifolds, energy-band compactness, and their path-space comparisons. Stage 4B consumes
   these constructions for its selected metrics and owns the Bott-specific calculations.
 - [MorseTheory M5](../MorseTheory/README.md)
@@ -121,7 +122,8 @@ The division of ownership is as follows.
 - [TangentialBordism B1, B3.2(b–c), B5.2](../TangentialBordism/README.md) owns
   relative facewise transversality, the Spin-surface refinement and filling criterion, and
   honest-rank finite Pontryagin–Thom. [StringOrientation S2.2–S2.3](../StringOrientation/README.md)
-  owns the general coefficient and stable framed Pontryagin–Thom theorem. Section 5 retains
+  owns the general coefficient and stable framed Pontryagin–Thom theorem and the
+  normalized third sphere stem. Section 9.1 retains the EHP/framed-fibre generator comparison; Section 5 retains
   the distinct smooth tangent/normal dictionary, honest-framing cancellation and generator comparisons.
 - [TopologicalKTheory T1.5a](../TopologicalKTheory/README.md) owns finite Stiefel
   connectivity, the normalized sphere-bundle boundary and the finite π₁SO calculation.
@@ -262,8 +264,9 @@ These conventions apply throughout the layers.
 
 **From Mathlib.** Use the following native carriers and maps at their stated hypotheses.
 
-- `HomotopyGroup`, based cubes, `ContinuousMap.HomotopyEquiv`, pointed cones, suspensions,
-  mapping cones, homotopy lifting, and fundamental groupoids.
+- `HomotopyGroup`, based cubes, `ContinuousMap.HomotopyEquiv`, `Quotient`,
+  `TopologicalSpace.coinduced`, homotopy lifting, and fundamental groupoids. The pointed
+  cone, suspension and mapping-cone comparisons are specified in Section 3A.2.
 - Singular homology, `TopPair`, Mathlib's CW-complex structures, metric spheres, and the
   algebraic-topology roadmap's relative Hurewicz, Whitehead, duality, and finite-CW-type results.
 - `ModelWithCorners`, `ChartedSpace`, `IsManifold`, tangent bundles, smooth maps,
@@ -288,13 +291,22 @@ model and its smooth inclusion for a finite-dimensional half-space model and dif
 order k ≠ 0. `TauCeti.simplyConnectedSpace_sphere_euclideanSpace` in
 `TauCeti/AlgebraicTopology/Sphere/SimplyConnected.lean`, line 408, gives simple connectivity
 of Sⁿ for n ≥ 2. Full collared cobordism and product/gluing data are the geometric contracts below.
+`TauCeti.MappingCylinder` and `TauCeti.MappingCylinder.homotopyEquiv` in
+`TauCeti/Topology/Homotopy/MappingCylinder.lean`, lines 81 and 399, give the ordinary
+unreduced mapping cylinder and its equivalence with the target. Its defining quotient
+identifies (1,a) with f(a); it does not collapse the basepoint meridian or the free end.
+Section 3A.2 constructs the pointed quotient comparisons from these primitives.
 
 **From TauCetiRoadmap.GeometricTopology.** Layer 1 supplies collars, boundary gluing,
 normal tubes, connected sum and handles; Layer 6 supplies oriented cobordisms in general dimension;
-Layer 11 supplies smooth triangulation. The additional exact supplier requirement
-(gap:collared-oriented-bordism) is a compact oriented bordism from any closed oriented M₀ to M₁,
-including empty and disconnected manifolds, with two disjoint boundary embeddings covering the
-whole boundary, induced orientation −M₀ ⊔ M₁, positive collars, composition and product cylinders.
+The smoothing-and-triangulation comparison, item 1, supplies smooth triangulation.
+
+**What GeometricTopology must provide (gap:collared-oriented-bordism):** a carrier of compact
+oriented bordisms with specified closed oriented incoming M₀ and outgoing M₁, allowing empty
+and disconnected manifolds. Each element has two disjoint boundary embeddings whose images
+cover the whole boundary, induced orientation −M₀ ⊔ M₁, and positive collars. Composition
+and product cylinders preserve these data. The carrier for a given pair may be empty; no
+existence assertion is made for arbitrary M₀ and M₁.
 In particular the empty cylinder has no boundary components and the cylinder on M ⊔ N has
 exactly the two prescribed components at each end. General collar existence does not specify
 these endpoint identifications. Section 6A owns the sphere-specific closed defect exterior,
@@ -313,12 +325,17 @@ CW comparison, duality, Hurewicz and Whitehead; use `relativeHurewicz`,
 Completed/UniversalCovers supplies covering maps and basepoint transport.
 
 **From TauCetiRoadmap.TopologicalKTheory.** T1.5a gives the finite Stiefel sphere fibrations,
-connectivity and π₁SO, including SO(0), SO(1) points, π₁SO(2)=ℤ and π₁SO(r)=ℤ/2 for r≥3.
+determinant components of O(r), connectivity and π₁SO, including SO(0), SO(1) points, π₁SO(2)=ℤ and π₁SO(r)=ℤ/2 for r≥3.
 T1.5–T1.6 give the actual fixed-rank/stable Grassmannian classifiers, universal bundles,
-clutching and stabilization diagrams. T2.5 and T3–T4 give positive Adams operations,
+clutching and stabilization diagrams; T1.6c gives simple connectivity of the actual BSO. T2.5 and T3–T4 give positive Adams operations,
 compact-pair exactness and complex Bott classes; T7 gives the geometric real Bott ring
 and complexification c(a)=2u², c(b)=u⁴. Section 4B's loop proof uses only the early
 classifiers, RiemannianGeometry R1–R3 and MorseTheory M5, not T7.
+**From TauCetiRoadmap.RiemannianGeometry.** R3 item 4 supplies the normalized sphere
+suspension comparison: π_q(Sᵐ)→π_(q+1)(S^(m+1)) is an isomorphism for
+q≤2m−2 and a surjection at q=2m−1, m≥2. Section 3A.4 transports its actual map
+to the convenient suspension and colimit models. R1–R3 also supply the metric, Jacobi
+and finite broken-geodesic inputs of Section 4B.
 **From TauCetiRoadmap.CharacteristicClasses.** C6.2–C6.3 give the normalized multiplicative
 Chern character; C7.3 gives the native sphere tangent/hyperplane comparison; C7 gives
 formal L and Â polynomials. These polynomials alone assert no equality with a geometric index.
@@ -340,6 +357,8 @@ bounded-below sphere calculation in 9A.
 **From TauCetiRoadmap.StringOrientation.** S2.2–S2.3 give coefficient PT for bundle diagrams,
 its multiplicativity and the stable framed specialization Ω⁽fr⁾ₙ ≅ π⁽S⁾ₙ; Section 5 constructs
 only its comparison with the chosen smooth tangent/normal and unstable sphere models.
+S2.3 also supplies π₃⁽S⁾≅ℤ/24 with its quaternionic Hopf generator and the native
+π_(n+3)(Sⁿ) form for n≥5; Section 9.1 compares that generator with the EHP and framed-fibre models.
 
 **From TauCetiRoadmap.IndexTheory.** I7.2 supplies σ(M)=⟨L(TM),[M]⟩ for every closed
 oriented smooth 4k-manifold. I7.5 with the trivial complex line twist supplies
@@ -367,7 +386,10 @@ smooth recognition; the separate Layer 9A computes Θ₇ and the E₈ applicatio
 identifiers 3A–3C, 4A–4C, 5.0, 5.0b, 6A–6C and 7A–7C name these same sublayers.
 
 `Suggested.lean` states `sphere_parallelizable_iff`, `orthogonalGroup_bottPeriodicity`,
-`orthogonalGroup_fifthHomotopyGroup`, `orthogonalGroup_sixthHomotopyGroup`,
+`orthogonalGroup_secondHomotopyGroup`, `orthogonalGroup_thirdHomotopyGroup`,
+`orthogonalGroup_fourthHomotopyGroup`, `orthogonalGroup_fifthHomotopyGroup`,
+`orthogonalGroup_sixthHomotopyGroup`, `orthogonalGroup_seventhHomotopyGroup`,
+`orthogonalGroup_eighthHomotopyGroup`,
 `sphere_homotopyGroup_sixthStem`, `sphere_homotopyGroup_seventhStem`,
 `smoothPoincareSix_oriented` and `smoothPoincareSix`.
 `Sphere n` is the native unit sphere in ℝⁿ⁺¹, and `OrthogonalGroup n` is
@@ -398,15 +420,19 @@ equivalence relation on closed oriented manifolds.
 From Morse functions on a compact cobordism, build a finite ordered handle decomposition.
 Prove independence under reordering of disjoint critical levels, creation/cancellation of a
 cancelling pair, and handle slides.  Identify attaching spheres, belt spheres, and their
-algebraic intersection matrices.
+algebraic intersection matrices. The handle and deformation-retract inputs are
+Milnor, Theorems 3.13–3.14 and Corollary 3.15, pp.31–32; ordered critical levels
+use Theorem 4.8, p.44. The translation to the shared handle and collar data is an adapter here.
 
 ### 1.3 Handle trading
 
 *Needs:* 1.1–1.2; AlgebraicTopology relative homology and simple connectivity.
 
-Prove handle trading in an h-cobordism: remove indices `0,1,n,n+1`, use relative homology and
+For a compact smooth h-cobordism W of dimension n+1≥6 with W and both ends
+simply connected, prove handle trading: remove indices `0,1,n,n+1`, use relative homology and
 simple connectivity to put the remaining boundary operators into elementary form, and realize
-the elementary row and column operations by handle slides.
+the elementary row and column operations by handle slides (Milnor, Theorems 7.6,
+7.8 and 8.1, pp.92, 97 and 100, with the self-indexing decomposition of Theorem 4.8).
 
 ### 1.4 Local Whitney moves
 
@@ -414,35 +440,50 @@ the elementary row and column operations by handle slides.
 
 Prove the local Whitney move.  If two transverse intersections of opposite sign are joined by
 an embedded framed Whitney disc whose interior misses both submanifolds, construct an ambient
-isotopy removing the pair and prove its support and framing properties.
+isotopy removing the pair and prove its support and framing properties
+(Milnor, Theorem 6.6 and the local-disc construction in its proof, pp.71–76).
 
 ### 1.5 Whitney discs in codimension at least three
 
 *Needs:* 1.4; simple connectivity of the level manifold; general position with p,q≥3.
 
-In a simply connected level manifold, construct the needed Whitney discs for complementary
-submanifolds of dimensions `p,q>=3`.  Prove the complement-connectivity and general-position
-lemmas used to make their interiors disjoint.
+Let V be a simply connected smooth manifold of dimension p+q, and let P,Q be closed
+transverse complementary submanifolds with p,q≥3, P oriented and the normal bundle of Q
+oriented. For two opposite-sign intersections, require specified embedded arcs between
+them in P and Q whose interiors avoid all other intersections. Their union is the Whitney
+loop; use simple connectivity to contract it and construct a framed Whitney disc with
+interior disjoint from P∪Q (Milnor, Theorem 6.6 and its remark, pp.71–72). Prove
+the complement and relative general-position steps (Lemmas 6.10–6.12, pp.78–79).
+When both submanifolds are connected, derive the required arcs by deleting the other
+intersection points. Ambient simple connectivity alone does not supply arcs in disconnected P or Q.
 
 ### 1.6 The five-dimensional level
 
-*Needs:* 1.2–1.4; the specified complement fundamental-group hypothesis and piping construction.
+*Needs:* 1.2–1.4; the two embedded arcs of 1.5; injectivity of π₁(V∖Q)→π₁(V); relative general position and piping.
 
 Treat the six-dimensional cobordism boundary case separately.  For index-two/index-three
-cancellation the level is five-dimensional and `(p,q)=(2,3)`.  State the complement
-fundamental-group hypothesis, construct piping arcs which kill the offending meridians,
-prove that handle trading gives those hypotheses for attaching and belt spheres, and only then
-construct the embedded framed Whitney disc.  The `p,q>=3` theorem does not cover this case.
+cancellation the level V is five-dimensional and (dim P,dim Q)=(2,3). Require the
+opposite-sign pair and the arcs avoiding other intersections as above, and require the
+inclusion π₁(V∖Q)→π₁(V) to be injective. For simply connected V this means
+π₁(V∖Q)=0. Use this condition for the contraction off Q and the piping argument
+(Milnor, Theorem 6.6, p.71, and its proof, pp.73–89).
+For the attaching/belt-sphere instance, prove the gradient-flow identification of
+V∖Q with the incoming level minus the attaching circle; removing that circle in a
+simply connected five-manifold preserves π₁ by codimension four. This proves the
+required complement condition (Milnor, proof of Theorem 6.4, pp.72–73, the λ=2 case).
+The three-sphere Q itself has codimension two, so codimension-three general position
+cannot replace this argument.
 
 ### 1.7 The smooth product theorem
 
-*Needs:* 1.3–1.6; compact simply connected h-cobordism of total dimension at least six; Milnor h-cobordism Chapters 2–8.
+*Needs:* 1.3–1.6; compact simply connected h-cobordism of total dimension at least six; Milnor, Theorem 9.1, p.107.
 
 Cancel adjacent handles and prove the simply connected smooth h-cobordism theorem for total
 dimension at least six.  Produce a diffeomorphism rel the incoming boundary with a product
 cobordism, and deduce an orientation-preserving diffeomorphism between the two boundaries.
 
-Milnor, *Lectures on the h-Cobordism Theorem*, Chapters 2--8, is the proof spine: Morse handles,
+Milnor, *Lectures on the h-Cobordism Theorem*, Theorem 9.1, p.107, is the product theorem;
+Sections 3–8 supply its proof inputs: Morse handles,
 algebraic simplification, Whitney discs, and cancellation occur in that order.  Smale,
 *Generalized Poincare's Conjecture in Dimensions Greater Than Four*, supplies the simply
 connected specialization and its smooth-recognition application.
@@ -466,6 +507,12 @@ has zero relative homology. Two oppositely signed intersections contribute +1−
 but this algebraic equality is used only after producing the framed Whitney disc.
 The level-dimension-five case has dimensions 2+3=5 and is not covered by p,q≥3.
 
+**Checks for the Whitney hypotheses.**
+
+- In S³×S³, P=(S³×{a})⊔(−S³×{b}) and Q={c}×S³ have intersection signs +1,−1 but no arc in P joining the two points; their componentwise counts remain (1,−1), although the total is 0.
+- A local opposite-sign pair on the same components has the two arcs and a nullhomotopic Whitney loop; the move changes its intersection count from 2 to 0 while preserving signed sum 0.
+- In the five-dimensional level, Q has codimension 5−3=2; the incoming attaching circle has codimension 5−1=4. The latter complement has π₁=0 and its gradient-flow identification supplies the former complement condition.
+
 ### Dependencies
 
 *Needs:* GeometricTopology Layers 1 and 6, including gap:collared-oriented-bordism;
@@ -477,12 +524,12 @@ boundary and total dimension n+1≥6; no such dimension bound is imposed on the 
 
 ### 2.1 Finite codes and homotopy spheres
 
-*Needs:* GeometricTopology Layer 11 triangulation; AlgebraicTopology finite CW type; native smooth atlases and sphere simple connectivity.
+*Needs:* GeometricTopology, The smoothing-and-triangulation comparison, item 1; AlgebraicTopology finite CW type; native smooth atlases and sphere simple connectivity.
 
 Build the finite-atlas/handle skeleton fixed above and its realization functor.  Define an
 oriented smooth homotopy `n`-sphere code as a coded closed oriented smooth `n`-manifold with
 a homotopy equivalence to Mathlib's standard metric sphere.  Prove essential surjectivity for
-arbitrary `M : Type u`, code-change invariance, compactness, connectedness, simple
+arbitrary `M : Type u`, code-change invariance, compactness, connectedness for n≥1, simple
 connectivity for `n>=2`, integral homology, and finite CW type from the cited dependencies.
 
 ### 2.2 Connected sum
@@ -548,7 +595,7 @@ bundle; the empty frame at n=0 does not satisfy the positive-dimensional framing
 
 ### Dependencies
 
-*Needs:* GeometricTopology Layer 1 connected sum and Layer 11 triangulation;
+*Needs:* GeometricTopology Layer 1 connected sum and The smoothing-and-triangulation comparison, item 1;
 AlgebraicTopology finite CW comparison and sphere homology; Layer 1 for the h-cobordism
 relation and, only in n≥5, its product theorem; Tau Ceti sphere simple connectivity for n≥2.
 Kervaire–Milnor Theorem 1.1 and §2, pp.504–507, give the group law in its positive-dimensional range.
@@ -631,11 +678,14 @@ independence of the starting representative.
 
 #### 3A.4 Freudenthal comparison
 
-*Needs:* 3A.2–3; sphere connectivity and relative homotopy; Whitehead Chapters VII–XI.
+*Needs:* 3A.2–3; RiemannianGeometry R3 item 4; AlgebraicTopology Stage 4.4 raw sphere suspension.
 
-Prove Freudenthal: for `n>=2`, suspension
-`pi_q(S^n) -> pi_(q+1)(S^(n+1))` is an isomorphism for `q<=2*n-2` and a surjection for
-`q=2*n-1`.  Deduce that the `k`th stem is represented by `pi_(n+k)(S^n)` for `n>=k+2`.
+Transport RiemannianGeometry R3 item 4's normalized sphere suspension along the based
+ordinary-to-convenient comparisons of 3A.2. Prove that the square with this roadmap's
+suspension homomorphism commutes, retaining the interval-last orientation and degree +1.
+Thus for n≥2 the same map π_q(Sⁿ)→π_(q+1)(S^(n+1)) is an isomorphism for
+q≤2n−2 and a surjection for q=2n−1; the k-th stem is represented by π_(n+k)(Sⁿ)
+for n≥k+2. The new target is the comparison with the chosen colimit maps.
 
 The compact-generation functor's API is categorical: identity and composition on maps,
 the counit to the original topology, the adjunction with inclusion and the stated limit/colimit
@@ -655,6 +705,44 @@ properties, induced maps and homotopies, the suspension–loop adjunction and th
 - The reduced cone and reduced suspension of the one-point based space are points, whereas leaving the marked meridian uncollapsed gives an interval in the cone.
 - For the null map S⁰→*, the reduced mapping cone is S¹, and the connecting quotient has degree +1 in the chosen cone orientation.
 - With F([a,t])=H(1−t,a), t=1 gives H(0,a)=g(f(a)) on the glued base and t=0 gives the constant value at the apex. Replacing 1−t by t interchanges these required values.
+
+**Checks for the reduced cone.**
+
+- C(*) has one point, since the only meridian is collapsed; the ordinary cone on a point is an interval and fails this quotient law.
+- In C(S⁰) the nonbasepoint meridian is an interval whose base endpoint survives, while its apex is the basepoint; collapsing both ends would instead make a circle.
+- For every based A, the cone contraction sends [a,t] at parameter u to [a,(1−u)t]; u=0 is the identity and u=1 is the apex, with the marked meridian fixed throughout.
+
+**Checks for reduced suspension and its pinch.**
+
+- Σ(*) is a point and Σ(S⁰)=S¹; identifying neither end would give an interval in the second example.
+- The suspension of a degree-two circle map has degree 2 on S²; a constant induced map would have degree 0.
+- On ΣS⁰, interval reflection has degree −1 and pinch followed by fold has degree 2; this distinguishes inverse from identity and addition from projection.
+
+**Checks for smash products.**
+
+- S⁰∧S⁰ has two points, with exactly the pair of nonbasepoints surviving away from the basepoint; the Cartesian product has four.
+- X∧* is a point, even for X=S¹; leaving one coordinate axis uncollapsed would retain a circle.
+- S¹∧S¹ is S², and interchanging its two coordinates has degree −1; an unsigned interchange fails the product orientation.
+
+**Checks for mapping cones and the connecting quotient.**
+
+- For f:S⁰→*, C_f is S¹ and its first integral homology is ℤ; the unreduced native mapping cylinder is contractible and has H₁=0.
+- For f=id on S¹, C_f is contractible and has H₁=0; replacing it by ΣS¹ would give H₂=ℤ.
+- The quotient C_f/X for f:S⁰→* is the identity of S¹, with degree +1 in the cone convention; changing the connecting orientation would give −1.
+
+**Checks for pointed mapping cylinders.**
+
+- The reduced mapping cylinder of id_* is a point; the raw cylinder is an interval before its marked meridian is collapsed.
+- For id_(S⁰) it is a point disjoint from an interval, so π₀ has two elements and the target retraction is bijective on π₀.
+- For S⁰→* it is an interval and contractible, while the corresponding mapping cone has H₁=ℤ; collapsing its free end as well would confuse these two constructions.
+
+The loop-space API retains constant loops, concatenation, reversal and the based adjunction.
+
+**Checks for loops.**
+
+- Ω(*) has one point; allowing nonconstant basepoint tracks would not be a based loop construction.
+- The winding-one and winding-two loops in S¹ represent 1 and 2 in π₀ΩS¹=ℤ, so concatenation adds rather than multiplies winding.
+- Reversing winding one gives −1, and concatenating the two gives 0; ignoring parameter reversal fails the inverse law.
 
 The stable-stem API includes suspension maps, colimit inclusions, composition products,
 basepoint transport and the stable-range comparison.
@@ -755,6 +843,21 @@ The CW approximation and James word model have the following APIs.
 - J₀X is a point and J₁X/J₀X≅X; at X=* every filtration quotient is a point.
 - For X=M(ℤ/2,2), the smash-square degree-five Tor group is ℤ/2; the integral tensor algebra alone has no such degree-five term.
 
+**Checks for the word filtration.**
+
+- J₀X consists of the empty word, and J₁(S¹)/J₀(S¹)=S¹ has H₁=ℤ; starting the filtration at length two gives the wrong first quotient.
+- J₂(S¹)/J₁(S¹)=S¹∧S¹=S² has H₂=ℤ; a Cartesian-square quotient would retain degree-one classes.
+- At X=*, every quotient is a point, with zero reduced homology, including length two.
+
+The James map sends a letter to its suspended adjoint and the empty word to the constant
+loop; concatenated words map to concatenated loops up to the specified based homotopy.
+
+**Checks for the James map.**
+
+- For X=*, the unique word and the unique loop agree; no extra unit circle occurs.
+- For X=S¹, the one-letter loop represents 1 in π₁ΩS²=π₂S²=ℤ; the zero map would give 0.
+- The product of two such classes represents 2 in π₁ΩS², not 1; retaining only the first letter fails multiplicativity.
+
 The James–Hopf map's API fixes the order of length-two subwords, its pointed naturality and
 the sphere fibre/connectivity comparison. On a one-letter word its output is empty, on
 (x,y) its output is the single pair (x,y), and on (x,y,z) its output has three ordered pairs;
@@ -770,9 +873,25 @@ The literal theorem uses path-connected well-pointed CW input, and the raw upgra
 
 *Needs:* 3A.4 and 3B.5; AlgebraicTopology fibration LES and Whitehead products.
 
-For spheres, define `E` as suspension, `H` from the James--Hopf map, and `P` from the relevant
-Whitehead product.  Prove the fibre sequence in its valid range and derive the natural long
-exact EHP sequence with all degree shifts written explicitly.
+For n≥2, define E as suspension, H from the James–Hopf map and P as the
+connecting map, with its Whitehead-product comparison. Prove the integral metastable
+sequence, beginning with
+
+    π_(3n−2)(Sⁿ) →ᴱ π_(3n−1)(S^(n+1)) →ᴴ π_(3n−1)(S^(2n+1)) →ᴾ π_(3n−3)(Sⁿ) →ᴱ … .
+
+It is exact at every term after the first displayed term; no incoming arrow or exactness
+at that first term is asserted. In particular, for 3≤q≤3n−2 its segments are
+
+    π_(q+1)(S^(2n+1)) →ᴾ π_(q−1)(Sⁿ) →ᴱ π_q(S^(n+1)) →ᴴ π_q(S^(2n+1)) →ᴾ π_(q−2)(Sⁿ).
+
+The pair (J(Sⁿ),Sⁿ) is (2n−1)-connected, and its relative homotopy maps to
+π_i(J(Sⁿ)/Sⁿ)≅π_i(S^(2n)) for i≤3n−2. Transport the pair sequence through
+these comparisons and suspension on S^(2n), and identify H with the James–Hopf map.
+This gives a finite exact sequence integrally, not an unrestricted fibre sequence
+(Hatcher, *Algebraic Topology*, Proposition 4.28 and §4.J, pp.474–475).
+Choose the sign of P so that P(ι_(2n+1))=[ι_n,ι_n], with the Whitehead square
+oriented by the product-cell attaching map. For n=2 fix [ι₂,ι₂]=2η₂, where
+H(η₂)=1 (Hatcher, §4.J, p.474 and Corollary 4J.4).
 
 #### 3C.2 Hopf and sign comparisons
 
@@ -785,9 +904,19 @@ Whitehead-product sign.  Calculate the Hopf invariant of the classical Hopf maps
 
 *Needs:* 3A.2 pointed cone extension; two specified adjacent nullhomotopies.
 
-Define three-fold Toda brackets only when the adjacent composites are null.  Record their
-indeterminacy as the sum of the two composition subgroups; prove naturality, suspension, and
-the composition identities used in low stems.
+For based maps A →ᶠ B →ᵍ C →ʰ D with gf and hg based nullhomotopic, define
+⟨h,g,f⟩⊆[ΣA,D] as the set obtained by varying both nullhomotopies in the two-cone
+construction. The outer map is written first. Keep the two composition actions in the
+general pointed setting; when A is a suspension and the resulting homotopy groups are
+abelian, the bracket is a coset with indeterminacy
+
+    h ∘ [ΣA,C] + [ΣB,D] ∘ Σf .
+
+Prove the action/coset law, naturality, suspension and the composition identities used in
+low stems. In particular, for sphere maps with A=Sᵐ and m≥2 the displayed abelian
+formula applies. Choosing one pair of nullhomotopies selects a representative, not the
+whole bracket (Hatcher, *Algebraic Topology*, §4.2, p.387, and Exercise 39, p.392;
+his notation lists the maps in the opposite order).
 
 #### 3C.4 Barratt–Toda comparison
 
@@ -884,11 +1013,20 @@ and complex Bott constructions precede this application; they use neither its
 Hopf exclusion nor its tangent classification.
 
 The EHP and secondary-operation APIs retain their degree shifts, domains, naturality,
-suspension comparisons and indeterminacy; a Toda bracket is defined only after both adjacent
-composites are null. For a bracket with all three maps zero the indeterminacy is zero and the
-bracket is {0}; if an adjacent composite is the nonzero degree-one identity, no bracket is
-specified. Negating the oriented Whitehead generator negates its image under P, rather than
-changing the degree shift.
+suspension comparisons and indeterminacy. The source and target of each arrow are those
+in 3C.1, and the order and nullhomotopies for brackets are those in 3C.3.
+
+**Checks for EHP.**
+
+- At n=2,q=4 the segment is ℤ →ᴾ ℤ →ᴱ ℤ/2 →ᴴ 0, with P(a)=2a and E(b)=b mod 2; im P=2ℤ=ker E and im E=ℤ/2=ker H.
+- Negating the generator of π₅(S⁵) changes P(1)=2η₂ to P(−1)=−2η₂. The kernel 2ℤ is unchanged; replacing P by zero would make exactness false.
+- At n=2 the sequence starts at π₄(S²)→π₅(S³); a preceding P from π₆(S⁵) is outside the stated integral range. The comparison needs i≤4, whereas that extra term needs i=5.
+
+**Checks for Toda brackets.**
+
+- Take A=B=C=D=Sᵐ, m≥3, and f=g=h=0. Both composition subgroups are zero and ⟨0,0,0⟩={0}.
+- For the same spheres take f=g=id and h=0. The composite gf has degree 1≠0, so this triple has no defined bracket.
+- For the same spheres take f=g=0 and h=id. Then ⟨id,0,0⟩ lies in π_(m+1)(Sᵐ)=ℤ/2, its indeterminacy is id∘π_(m+1)(Sᵐ)+0=ℤ/2, and it is {0,η_m}. A singleton choice {0} fails this Check (the group is Hatcher, Corollary 4J.4, p.474).
 
 The Hopf invariant and the frame-to-Hopf comparison have their own API.
 
@@ -968,7 +1106,8 @@ Express this as existence of a stable framing and retain the chosen trivializati
 
 *Needs:* 4A.2; n≥2; TopologicalKTheory T1.6 clutching naturality and basepoint transport.
 
-Prove `BSO` simply connected.  For `n>=2`, compare pointed and unpointed classes from `S^n`
+Using TopologicalKTheory T1.6c's simple connectivity of the shared BSO,
+for `n>=2`, compare pointed and unpointed classes from `S^n`
 and construct the clutching equivalences
 `[S^n,BSO]_* ~= pi_n(BSO) ~= pi_(n-1)(SO)`.
 
@@ -1031,6 +1170,12 @@ The stable orthogonal groups and smooth classifier comparison have the following
 - A 2π rotation in SO(2) has winding 1 and stable class 1 mod 2; a 4π rotation has winding 2 and stable class 0.
 - TS²⊕ℝ is trivial of rank 3 but TS² has Euler number 2; the stable classifier must not return an honest tangent frame without cancellation hypotheses.
 
+**Checks for the stable classifier and framing comparison.**
+
+- A trivial oriented line over a point has constant classifying map and a positive smooth frame; a reflected frame has determinant −1 and is not an oriented trivialization.
+- TS² has Euler number 2 but its stabilized class is zero since TS²⊕ℝ≅ℝ³; the comparison must retain the added line.
+- The quaternionic Hopf line over S⁴ has nonzero second Chern class of absolute value 1 and hence a nontrivial stable real class; declaring every classifying map null would incorrectly give its Pontryagin class 0 instead of absolute value 2.
+
 For the unit tangent comparison, (e₁,e₂) maps to the identity matrix [e₁,e₂,e₃],
 with determinant +1. The cyclic column permutation has sign (−1)²=+1. Using
 [e₁,e₂,−e₃] instead gives determinant −1 and is excluded from SO(3).
@@ -1088,11 +1233,40 @@ infinite-dimensional Palais–Smale assertion replaces these finite comparison t
 
 #### 4B.6 Increasing connectivity
 
-*Needs:* 4B.4–5; the actual finite-rank index bound.
+*Needs:* 4B.2–5; RiemannianGeometry R3 finite energy-band comparison; AlgebraicTopology Stage 8 relative-cell connectivity; Bott, Theorems I–II and equations (7.4), (7.6), (8.2), (8.5), (8.7), (8.9).
 
-Derive the increasing-connectivity estimate for the inclusion of minimal geodesics.  State
-the index lower bound as an explicit function of matrix rank and show that all other critical
-attachments occur above that range.
+Use Bott's trace-metric normalization and the path component through the torus path
+specified below. For each row, let F be its minimum-geodesic manifold and let
+F→Path(P,Q;M) send a geodesic to its parametrized path. Prove that every nonminimal
+critical manifold in that component has index at least λ, with equality attained.
+Here r is a positive integer, except that the first row requires r≥2.
+
+| Ambient symmetric space M | Minimum manifold F | Torus coordinates of the chosen path | λ | Source |
+| --- | --- | --- | --- | --- |
+| SO(2r) | SO(2r)/U(r) | r entries 1/2 | 2r−2 | Bott (7.4), p.333 |
+| SO(4r)/U(2r) | U(2r)/Sp(r) | r entries 1/2 | 4r−2 | Bott (8.2), p.335 |
+| U(4r)/Sp(2r) | Sp(2r)/(Sp(r)×Sp(r)) | r zeros followed by r ones | 4r+4 | Bott (8.5), p.335 |
+| Sp(r) | Sp(r)/U(r) | r entries 1/2 | 2r+2 | Bott (7.6), p.334 |
+| Sp(r)/U(r) | U(r)/O(r) | r entries 1/2 | r+1 | Bott (8.7), p.336 |
+| U(2r)/O(2r) | O(2r)/(O(r)×O(r)) | r zeros followed by r ones | r+1 | Bott (8.9), p.336 |
+
+The torus parametrizations are those of Bott §§7–8, transported through 4B.2's actual
+matrix maps; the first path starts at the identity and ends at −I. In each row the
+inclusion is an isomorphism on π_j for 1≤j≤λ−2 and surjective for
+1≤j≤λ−1 (Bott, Theorem I, p.313). Pass to all components by the specified
+basepoint transports and the rank/determinant components, not by identifying a single
+path component with the whole loop space. Since λ tends to infinity with r,
+compact-family capture gives the stable equivalences on every fixed homotopy group.
+The other two steps Ω(BO×ℤ)≃O and Ω(BSp×ℤ)≃Sp on each integer component
+come from the universal bundles with contractible total space, not a further Morse
+index estimate (Bott, p.314, immediately before the Corollary to Theorem II).
+Construct their finite-rank bundle comparisons in 4B.1 before passing to the colimit.
+
+**Checks for the rank bounds.**
+
+- At r=2 the six values of λ in table order are 2,6,12,6,3,3. Thus the first map is surjective on π₁, while the second is an isomorphism through π₄ and surjective on π₅; neither gives an isomorphism in its last surjective degree.
+- For SO(2r) at r=1 the expression 2r−2 is 0; this row is excluded, and no positive-degree connectivity follows from that value. The other five rows at r=1 give 2,8,4,2,2.
+- For a desired π₅ isomorphism one needs λ≥7. At r=8 the six values are 14,30,36,18,9,9, all ≥7; a rank-independent bound would not imply convergence in all degrees.
 
 #### 4B.7 Eight loop equivalences
 
@@ -1113,7 +1287,16 @@ Derive the stable homotopy table of `O` and `SO`, not merely its two desired ent
 `pi_4(SO)=pi_5(SO)=pi_6(SO)=0`, and `pi_7(SO)=Z`, with period eight.
 In finite rank, `orthogonalGroup_fifthHomotopyGroup` gives π₅(O(n),1)=0 for n≥7,
 and `orthogonalGroup_sixthHomotopyGroup` gives π₆(O(n),1)=0 for n≥8.
-Both use the range i≤n−2 and the degree-five/six entries of Bott's stable table
+The remaining positive-degree base statements are
+`orthogonalGroup_secondHomotopyGroup` (π₂=0 for n≥4),
+`orthogonalGroup_thirdHomotopyGroup` (π₃≅ℤ for n≥5),
+`orthogonalGroup_fourthHomotopyGroup` (π₄=0 for n≥6),
+`orthogonalGroup_seventhHomotopyGroup` (π₇≅ℤ for n≥9), and
+`orthogonalGroup_eighthHomotopyGroup` (π₈≅ℤ/2 for n≥10), all at the identity.
+Together with periodicity and the component/degree-one inputs from T1.5a, these
+determine every residue class; periodicity in positive degree alone does not identify
+π₈ with a component set. All finite positive-degree statements use i≤n−2
+and Bott's table (Bott, Corollary to Theorem II and the following calculation, pp.314–315)
 (Hatcher, *Vector Bundles and K-Theory*, Introduction, pp.1–2, and §1.2,
 Proposition 1.14, p.25, for the clutching comparison).
 
@@ -1136,7 +1319,8 @@ loop equivalences and their composites; the full eight-entry table is a conseque
 
 - The degree-zero O entry is ℤ/2 and degree-one SO entry is ℤ/2; replacing O by its identity component at degree zero gives 0 and fails.
 - At k=0,n=11, periodicity compares π₉O(11) and π₁O(11), both ℤ/2; 9≤11−2 is equality.
-- The degree-five and degree-six entries are 0, whereas degree seven is ℤ. The two vanishing headlines do not assert all higher groups vanish.
+- At ranks 4,5,6,7,8,9,10 the groups in degrees 2,3,4,5,6,7,8 are respectively 0,ℤ,0,0,0,ℤ,ℤ/2; each has i=n−2. In particular the infinite cyclic entries exclude the zero-table model.
+- At ranks 4 and 8, the degree-three and degree-seven bounds 5≤4 and 9≤8 fail; no stable-table assertion is made at those excluded ranks.
 
 *Needs:* Section 4A's actual finite-to-stable maps; RiemannianGeometry R1–R3;
 MorseTheory M5; the algebraic Clifford comparison from SpinRepresentations L7.
@@ -1463,6 +1647,12 @@ The almost-framed cycle, its trace and its historical comparison have the follow
 - For a product trace the two endpoint frames agree after the same stabilization. Replacing one by a gauge of nonzero obstruction does not satisfy that endpoint equation.
 - Reversing an oriented cycle changes its induced orientation sign from +1 to −1. Keeping the original complement frame would violate orientation compatibility.
 
+**Checks for the almost-framed quotient and historical comparison.**
+
+- The standard sphere with its boundary-induced stable frame maps to 0 in both quotient presentations; the disc nullbordism realizes both zero classes.
+- The product trace has two endpoint discs, and conversion tangent→normal→tangent returns the original stable framing class at both ends; dropping one endpoint would not witness the same relation.
+- The hemisphere exterior has one boundary sphere in both presentations, while allowing the top cell to be the whole sphere would give zero boundary components and violate the comparison.
+
 *Needs:* GeometricTopology Layer 1 and gap:collared-oriented-bordism; Layers 2, 4A and 5;
 Kervaire–Milnor §3 for the stable framing obstruction and §§5–6 for its geometric comparison.
 The defect adapters are targets here; no absent named supplier carrier is assumed.
@@ -1735,9 +1925,11 @@ Define `bP_(n+1)` as the subgroup of `Theta_n` represented by homotopy spheres b
 parallelizable manifolds.  Prove it is precisely the image of the boundary map and prove
 closure under connected sum and orientation reversal.
 
-Kervaire--Milnor, Sections 3--6, is normative for `A_n`, `P_n`, the boundary subgroup, and the
-exact sequence.  The comparison theorems are explicit targets because a locally convenient
-defect-disc or collared model is not definitionally the historical model.
+Kervaire–Milnor §4, pp.510–512, defines the parallelizable-boundary subgroup and
+proves its framing-coset criterion; §§5–6, pp.512–521, supply the surgery inputs.
+The almost-framed and filling quotient presentations and their exact sequence in 6C.2
+are comparison targets here, with the actual deletion, extension and gluing witnesses
+of 6A–6B, rather than quotations of a sequence written in those sections.
 
 The deletion, inclusion and boundary maps, and the subgroup bP, have the following API.
 
@@ -1750,6 +1942,24 @@ The deletion, inclusion and boundary maps, and the subgroup bP, have the followi
 - The standard disc has standard sphere boundary, so its boundary class in Θₙ₋₁ is 0; this does not claim every filling has zero P-class.
 - Deleting the defect in a standard sphere produces a disc with the reversed defect-boundary orientation, giving degree −1 against the outward orientation of the deleted disc.
 - A boundary-connected sum of fillings has boundary the connected sum of their boundaries; on the negative E₈ and its reverse the obstruction coordinates are −1,+1 and their sum is 0.
+
+**Checks for the boundary subgroup.**
+
+- The standard Sⁿ bounds Dⁿ⁺¹, so its zero class belongs to bPₙ₊₁.
+- In dimension seven the negative E₈ boundary belongs to bP₈ and has coordinate −1 in Θ₇=ℤ/28; replacing bP₈ by the zero subgroup loses this element.
+- Reversing that filling gives coordinate +1, and their connected sum has coordinate 0; closure uses the actual oriented boundary-connected sum.
+
+**Checks for defect deletion.**
+
+- Deleting a hemispherical disc in Sⁿ gives Dⁿ with one boundary sphere, with degree −1 against the deleted disc's outward boundary.
+- Deleting a defect and then reversing the cycle reverses the filling orientation; its signature coordinate, when defined, changes from a to −a.
+- A purported defect equal to the whole sphere would leave an empty exterior with zero components; it is excluded by the proper-image condition before defining the map.
+
+**Checks for sphere inclusion and filling boundary.**
+
+- Inclusion sends the standard sphere to 0 in Aₙ, and boundary sends Dⁿ⁺¹ to 0 in Θₙ.
+- In dimension seven inclusion sends the negative E₈ boundary to 0 in A₇=0, while boundary sends its filling to −1 in Θ₇=ℤ/28; confusing these two maps loses their distinct targets.
+- On the sum of the negative E₈ filling and its reverse, boundary gives −1+1=0, agreeing with addition of the two boundary classes.
 
 ### Examples
 
@@ -2024,9 +2234,15 @@ Define the Kervaire invariant on an almost-framed `(4k+2)`-manifold as the Arf i
 the surgery-normalized middle-dimensional quadratic form.  Prove bordism invariance,
 compatibility with Pontryagin--Thom, and equality with the map from `coker J` to `P_(4k+2)`.
 
-Kervaire--Milnor, Sections 3--6, is normative for the stable-framing obstruction sequence and
-its comparison with `A_n`, `P_n`, and `Theta_n`.  Browder, §§1--3, supplies the framed Arf
-invariant and its Pontryagin--Thom interpretation.
+Kervaire–Milnor, Lemmas 4.2–4.5 and the remarks following Theorem 4.1, pp.510–512,
+give the parallelizable-boundary criterion and the coset of framing choices modulo im J
+for homotopy spheres. Section 8.2's exact sequence for all almost-framed cycles is an
+additional comparison target: construct the extension and defect-trace witnesses using
+4A, 4C, 5.1 and 6A; it is not the literal statement of those lemmas.
+Browder, Theorem 1.4, p.162, gives the quadratic polarization; Theorem 3.2,
+pp.166–168, identifies its Arf invariant with the framed Kervaire invariant for a
+framed 2q-manifold with q odd. Section 8.4 transports that comparison through
+7B–7C's surgery normalization and 5.1's PT map.
 
 The forgetting map, extension obstruction and Kervaire invariant have the following API.
 
@@ -2040,6 +2256,24 @@ The forgetting map, extension obstruction and Kervaire invariant have the follow
 - Changing an extension by g changes its stable class by J(g), hence changes its coset in coker J by 0. Omitting that quotient loses choice independence.
 - The hyperbolic middle refinement has Kervaire invariant 0; the framed product with q(a)=q(b)=1 has invariant 1. The zero map to P₄ₖ₊₂ fails the second value.
 
+**Checks for forgetting a closed frame.**
+
+- The empty framed cycle represents 0; adjoining a boundary-framed sphere still gives 0 after choosing a defect.
+- In dimension seven, the two framed sphere classes differing by J₇(1) have the same image after forgetting the frame near a disc; their difference is 1 mod 240 in π₇⁽S⁾, although their images in A₇ are both 0.
+- In dimension six, im J₆=0 and A₆=ℤ/2; forgetting sends ν² to the nonzero class, so a constant zero map fails.
+
+**Checks for the extension obstruction.**
+
+- The standard boundary-framed sphere has constant clutching map, hence obstruction 0.
+- In dimension eight, the realization in 9A.2 has Bott obstruction 240, whose J-image is 240 mod 240=0; replacing every obstruction by 0 loses this realization.
+- An obstruction coordinate 1 in π₇SO has J-image 1 mod 240≠0, so it cannot be the obstruction of a closed almost-framed eight-cycle in the exact sequence.
+
+**Checks for the Kervaire invariant.**
+
+- On the zero middle module the empty symplectic sum gives Arf 0.
+- A hyperbolic plane with q(a)=q(b)=0 has Arf 0, while the plane with q(a)=q(b)=1 has Arf 1.
+- Two anisotropic planes have total Arf 1+1=0; a rule testing whether any summand is anisotropic would incorrectly return 1.
+
 ### Examples
 
 In dimension six π₅SO=0, so the obstruction kernel is all of A₆. In a dimension where the
@@ -2049,8 +2283,8 @@ almost-framed classes; this distinction prevents assigning a PT class to a nonex
 ### Dependencies
 
 *Needs:* Layers 3–7, specifically the PT dictionary of 5, defect/collar comparison of 6A–6B
-and Wall refinement of 7B–7C. Kervaire–Milnor §§3–6 and Browder §§1–3 give the classical
-framing and Arf comparisons; exactness is asserted in the dimension ranges of 6C.
+and Wall refinement of 7B–7C. Kervaire–Milnor Lemmas 4.2–4.5, pp.510–512, and Browder Theorems 1.4 and 3.2,
+pp.162, 166–168, give the indicated classical inputs; exactness is asserted in the dimension ranges of 6C.
 
 ## Layer 9: explicit computation through the sixth stem and `Theta_6`
 
@@ -2059,12 +2293,15 @@ as a field of a low-stem data record.
 
 ### 9.1 First three Hopf stems
 
-*Needs:* 3B–3C EHP/Hopf maps; 5.0b first two offsets; Toda Chapters I–V.
+*Needs:* 3B–3C EHP/Hopf maps; 5.0b first two offsets; StringOrientation S2.3 normalized third stem.
 
 Construct the stable Hopf classes `eta` and `nu` from the complex and quaternionic Hopf
-fibrations.  Use the Hopf-invariant calculation, EHP, and composition relations to prove
-`pi_1^S ~= Z/2{eta}`, `pi_2^S ~= Z/2{eta^2}`, and
-`pi_3^S ~= Z/24{nu}`.
+fibrations. Use 5.0b's framed calculations and their suspension comparisons to obtain
+π₁⁽S⁾≅ℤ/2{η} and π₂⁽S⁾≅ℤ/2{η²}. Import π₃⁽S⁾≅ℤ/24{ν} from
+StringOrientation S2.3. Compare its quaternionic Hopf generator with the chosen EHP
+representative and the normal derivative framing of a Hopf regular fibre, preserving
+the sphere orientation and PT product convention. This comparison fixes the sign of ν
+used in 9.3 and 9.5; a second computation of the third-stem group is not a target here.
 
 ### 9.2 Fourth and fifth stems
 
@@ -2114,6 +2351,11 @@ of `ν_4 ∘ Σ³ν_4` by the PT inverse bordism, and prove that
 `coker(J_6) → P_6` sends it to the nonzero Wall class. Thus
 `KI : π_6^S → ℤ/2` is an isomorphism. This construction uses an already closed product,
 so requires neither a homotopy-five-sphere cap nor `Theta_5=0`.
+Browder, Theorems 1.4 and 3.2, pp.162, 166–168, supplies the quadratic/Arf
+comparison. Snaith, Example 8.3, gives existence of an Arf-one framing on S³×S³;
+it does not identify that framing with the prescribed Hopf-fibre product. The equality
+for φ_ν×φ_ν is the additional target here, using the explicit restriction to both
+factor spheres and their Hopf-invariant-one normal data.
 
 ### 9.6 Almost-framed dimension six
 
@@ -2361,6 +2603,9 @@ and I7.5 for signature and untwisted Spin index integrality. The order bound is
 Let `M` be a compact Hausdorff second-countable boundaryless smooth six-manifold and
 `h : M ~=_h S^6`.  Use `h` to prove connectedness and simple connectivity and to transport a
 chosen generator of top integral homology to an orientation of `M`.
+This is the orientation/local-fundamental-class comparison from DifferentialGeometry
+Layer 2 and AlgebraicTopology Stage 6, applied to H₆(M;ℤ)≅ℤ; it is not a separate
+orientation theorem attributed to Milnor.
 
 ### 10.2 From the small code to h-cobordism
 
@@ -2370,6 +2615,9 @@ Apply the essential-surjectivity theorem of Stage 2 to choose a Type-0 finite-at
 `M`.  Map it into the literal quotient by taking its class, prove independence of the
 code, and regard the result as the oriented class of `M` in `Theta_6`.  From `Theta_6=0`,
 construct an oriented h-cobordism from `M` to the standard sphere.
+The finite-code realization and extraction of a quotient witness are adapters of 2.1
+and 2.4. The classical relation is Kervaire–Milnor §2, pp.505–507; its conversion
+to a diffeomorphism in 10.3 uses Milnor, Theorem 9.1, p.107.
 
 ### 10.3 Orientation-preserving diffeomorphism
 
@@ -2472,6 +2720,9 @@ compact smooth recognition theorem of Layer 10.
 - Michel Kervaire and John Milnor,
   [*Groups of Homotopy Spheres: I*](https://doi.org/10.2307/1970128), Annals of Mathematics
   77 (1963), 504--537.
+- Allen Hatcher, [*Algebraic Topology*](https://pi.math.cornell.edu/~hatcher/AT/AT.pdf),
+  2002, §4.2, p.387 and Exercise 39, p.392 (Toda brackets); §4.J, pp.474–475
+  (integral metastable EHP), Corollary 4J.4, p.474 (the first sphere stem).
 - I. M. James, *Reduced Product Spaces*, Annals of Mathematics 62 (1955), 170--197.
 - Norman Steenrod, [*A Convenient Category of Topological
   Spaces*](https://doi.org/10.1307/mmj/1028999711), Michigan Mathematical Journal 14 (1967),
