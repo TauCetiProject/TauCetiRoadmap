@@ -4,7 +4,7 @@ import Mathlib
 # (φ,Γ)-modules and local Iwasawa cohomology: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`; these statements suggest Lean forms for its milestones.
+`README.md`; this file states the roadmap’s headline theorems against the pinned APIs.
 
 The projectivity theorem of §0.4 is stated on Mathlib's truncated Witt vectors.
 Over a perfect characteristic-p ring, Witt Frobenius is an automorphism, so an
@@ -20,10 +20,11 @@ The other headline results require constructions absent at the pins:
   quotient actions. Section 0.6 specializes the cochains and local Tate duality
   supplied by NoncommutativeAndEquivariantIwasawa §F.3, together with its derived
   Hochschild–Serre comparison; the Milnor sequence uses these same cochains.
-* Layer 1's realization, slope filtration, overconvergence and decompletion theorems
-  need the cyclotomic period rings, Robba rings, radius models and their module
-  categories. The period-sheaf, curve and B-pair comparisons need their period
-  sheaves and patching rings.
+* Layer 1's relative realization, integral intersections, pure local-system
+  comparisons and equivariant decompletion need the cyclotomic period rings, Robba rings, radius models and their module
+  categories. The field realization and slope filtration are supplied by
+  NoncommutativeAndEquivariantIwasawa §F.6. The period-sheaf, curve and B-pair
+  comparisons need their period sheaves and patching rings.
 * Layers 2–4's arithmetic φ/ψ-Herr comparison, Galois comparison, finiteness,
   perfectness, Tate duality and derived base change need those modules, period ψ
   and the relative analytic Γ rings. Abstract operator identities alone do not
@@ -36,12 +37,12 @@ The other headline results require constructions absent at the pins:
   NoncommutativeAndEquivariantIwasawa §F.6 on its §F.3 cochains. The supplied
   exponential has image H¹_e under a de Rham hypothesis. The all-level
   exponential-image theorem uses this package together with de Rham differential
-  lattices and cyclotomic localization.
+  lattices and cyclotomic localization supplied by §F.6 stage 3.
 * Layer 6's Wach existence, good-basis and Iwasawa-interface theorems need the
   embedded Wach lattices, their filtered crystalline reduction and the positive
-  analytic scalar extension `wachAnalyticModule V = B_rig,E^+ ⊗_(B_E^+) N(V)`.
-  The analytic coordinate theorem uses this carrier; Layer 5's `deRhamDiffEq V`
-  is the differential equation over the full Robba ring.
+  analytic scalar extension B_rig,E^+ ⊗_(B_E^+) N(V).
+  The analytic coordinate theorem uses this carrier; Layer 5 uses the supplied
+  differential equation N_dR(V) over the full Robba ring.
 * Layer 7's rank-one family classification and global triangulation theorems need
   the relative Robba sheaves, character spaces, Sen modules, analytic Fitting
   modifications and coherent flags, including their saturated fiber constructions.
