@@ -44,6 +44,9 @@ The finite-local-E-algebra exports are the finite-Artinian Robba category,
 the finite-Artinian étale equivalence, Herr cohomology and derived Herr coefficient change, for
 LocalGaloisDeformationRings §0.4 and its deformation consumers.
 
+The annular/disc coherent-system criterion is §1.1a; quasi-Stein density, inverse-limit exactness
+and Theorems A–B belong to AdicSpacesPartIII §R3.4.
+
 The bounded measure algebra, its Iwasawa coordinates and characteristic-ideal theory belong to
 PadicMeasuresIwasawaAlgebras. The compact abelian character spaces and scalar Mellin comparison needed for
 `Γ` and `K^×` are constructed in §2.7; the relative affinoid and Robba-type `Γ` extensions are §2.8. The wider
@@ -230,7 +233,8 @@ measure operator and `ψ`-zero with support on units. Its §3a.1 supplies the un
 weight-space components for `ℤ_p^×`, including `{±1}×(1+4ℤ₂)`, through PadicFunctionalAnalysis §§5.1–5.3.
 PadicFunctionalAnalysis §§4.3–4.4 and 4.7 supply the one-variable analytic stages, algebraic
 distribution carrier and quantitative Amice bijection, including the stage norm comparisons. Its
-§§1.3–1.4 and 2.2–2.4 supply finite-dimensional/finite Banach-module topologies, potentially
+§1.2 supplies quantitative open mapping for Banach modules; §§1.3–1.4 and 2.2–2.4 supply
+finite-dimensional/finite Banach-module topologies, potentially
 orthonormalizable models and countable-type strict splittings. The compact-unit character space for general
 `K`, its scalar distribution/Mellin comparison and the exact tensor comparisons used in this roadmap are the
 targets of §§2.7–2.8, rather than consequences of finite field coefficient extension alone.
@@ -243,13 +247,19 @@ equivalence. §8.1 supplies relative analytification of schemes locally of finit
 and §8.4 proper GAGA. Analytic blowups and flattening are not assumed from these contracts. The needed
 finite-type Rees charts and their analytic gluing are specified in Layer 7.
 
+AdicSpacesPartIII §R3.4 supplies quasi-Stein exhaustions, dense restriction of coherent sections,
+exactness of countable dense Banach inverse systems, and Theorems A–B. Use these on the relative
+one-variable annular and disc exhaustions of §1.1a. The additional global finite-generation and
+finite-presentation criterion there requires uniform bounds on an admissible cover.
+
 ## How to read the build
 
 Layer 0 isolates Frobenius descent and compact cochains. Layer 1 extends the supplied field core to
-integral, relative and equivariant realizations. Layer 2 constructs module ψ, its complex, scalar Mellin
+integral, relative and equivariant realizations, with the annular/disc uniform-presentation criterion
+in §1.1a before its finite-radius applications. Layer 2 constructs module ψ, its complex, scalar Mellin
 coordinates and the analytic Γ-ring carriers. Layer 3 then forms signed Herr comparisons and arithmetic
-descent on these carriers, including the field duality and ψ-zero analytic action. Layer 4 proves the
-coadmissible uniform-presentation criterion, ψ cokernel finiteness, preliminary finite-coefficient and
+descent on these carriers, including the field duality and ψ-zero analytic action. Layer 4 proves
+ψ cokernel finiteness, preliminary finite-coefficient and
 character-fiber comparison, field-first finiteness and finally relative perfectness and arbitrary derived
 base change. Layer 5 constructs the independent Iwasawa tower and its comparisons and applies the supplied
 differential lattice to the all-level image criterion. Layers 6 and 7 give Wach coordinates and global
@@ -777,6 +787,73 @@ R0.5 completed tensors.
 - A ramified `K` must retain `F′_K` and the radius rescaling; replacing both by `K₀` and an unchanged radius
   does not satisfy the extension trace formula.
 
+### 1.1a Coherent systems on relative annuli and discs
+
+Let A be any ℚ_p-affinoid algebra, including nonreduced A. Use the one-variable relative closed annuli
+B^[s,r] with valuation radii 0<s≤r≤r₀ and the closed discs B^[s,∞], where finite radii are rational
+and r₀ is positive rational or ∞. Thus the annulus has absolute radii
+`p^(−r/(p−1)) ≤ |T| ≤ p^(−s/(p−1))`; the disc includes T=0. These are the affinoid products with
+Max(A), and B^r₀ is their global ring on the half-open annulus, or on the open unit disc for r₀=∞.
+Use a countable exhaustion sₙ↓0; its stages are noetherian Banach algebras with flat, dense restrictions
+(KPX Notation 2.1.1 and Hypothesis 2.1.2, p.6).
+
+Define a coherent system to consist of finite B^[s,r]-modules with scalar-extension isomorphisms for
+nested intervals satisfying the identity and cocycle laws. Its global module is the inverse limit over
+[sₙ,r₀]; call such a module coadmissible. A vector-bundle system has finite-projective modules at every
+stage. Use the supplied quasi-Stein exactness and dense-section theorems on these exhaustions to identify
+the global sections and recover each stage by scalar extension. The annular criterion applies to §1.1's
+rings in their norm-field coordinates; the disc and annular cases apply to the Γ coordinates of §2.8,
+including finite products and finite coefficient-field extensions (KPX Definition 2.1.3 and Lemma 2.1.4,
+pp.6–7).
+*Needs:* §1.1 relative annuli; RigidAnalyticGeometry §§1.1–1.4 affinoid products and §§6.1–6.3 coherent
+sheaves; AdicSpacesPartIII §R3.4 dense restrictions, dense Banach inverse-system exactness and Theorems A–B;
+PadicFunctionalAnalysis §§1.3–1.4 finite Banach-module topologies; DerivedModuleAlgebra §§1.T.1 and 1.1
+for derived inverse limits.
+
+Define uniform finite generation, respectively uniform finite presentation, by the existence of one
+admissible annular/disc cover by intervals with nonempty interiors, admitting a locally finite
+refinement, and nonnegative integers n, respectively m,n, such that on every member
+there is a surjection from n copies of its ring, respectively a presentation with n generators and m
+relations. The bounds are independent of the member; a vector-bundle rank bound is not the presentation
+witness. Prove that the global module is finitely generated, respectively finitely presented, if and only
+if the system has the corresponding uniform property. Prove that it is finite projective if and only if
+the system is a uniformly finitely presented vector bundle. For a vector-bundle system a uniform bound n
+on generators suffices: a splitting of the stage surjection from n free generators makes its kernel a
+summand generated by at most n elements. Sources: KPX Definition 2.1.9, p.9, Proposition 2.1.13,
+pp.10–11, and Remark 2.1.14, p.11. A proof uses density on stages, stability of a finite generating
+tuple under small perturbations, and the odd/even annular covering argument of that proposition.
+For an annular stage inside the disc case, density uses the global module with T inverted; multiplying
+by a power of T clears denominators without changing generation on that annulus (KPX Lemma 2.1.4(1),
+p.7, and proof of Proposition 2.1.13, p.11). It requires no arithmetic cohomological finiteness.
+*Needs:* the preceding coherent systems and section comparisons; PadicFunctionalAnalysis §§1.2–1.4 and
+2.2–2.4 for open mapping and finite Banach-module topology; native finite-projective splittings.
+
+**API.**
+
+- Stage restriction recovers the specified finite module and respects identity and composition;
+  global sections take exact compatible sequences to exact sequences, and their exhaustion has R¹lim=0.
+- Uniform generator and relation bounds are equivalent to finite generation and finite presentation
+  of global sections, respectively, without a reducedness hypothesis on A.
+- A vector-bundle system with uniformly bounded generator counts gives a finite-projective global module;
+  finite presentation alone does not imply projectivity. Its rank on each component agrees with the stage ranks.
+
+**Checks.**
+
+- The zero system has zero generators, zero relations and zero global module; R¹lim is zero.
+- For a compatible free rank-d system with a compatible basis, including d=1 and d=2, each stage has d
+  generators and zero relations; its global module is free of rank d on either the disc or annulus.
+- Constant rank-one stage modules with zero transition maps are not a coherent system: their limit is
+  zero, while scalar extension must recover rank one. The transition isomorphisms exclude this model.
+- A coherent system with minimal generator counts tending to infinity fails the uniform hypothesis;
+  its global module cannot be finitely generated, even though every stage is finite.
+- For A=E[ε]/ε², the system B/(ε) has one generator and one relation. Its fiber has dimension one,
+  but `Tor₁^B(B/(ε),B/(ε)) = B/(ε) ≠ 0`, so neither constant fiber rank nor finite presentation makes
+  it a vector bundle.
+- For A=E×E and the idempotent e=(1,0), the system eB has component ranks (1,0), one generator and
+  the relation `(1−e)e=0`; its global module is projective without constant rank.
+- With p=3 and [s,r]=[1,2], the absolute radii are [1/3,1/√3]. Restriction to [3/2,2] retains T
+  and narrows the outer radius to 3^(−3/4); reversing the interval containment gives the wrong map.
+
 ### 1.2 Relative categories and finite-radius models
 
 Define a relative (φ,Γ_K)-module over A as a finite-projective `R_{A,K}`-module with invertible Frobenius
@@ -787,8 +864,11 @@ and coefficient-change comparisons. Define a radius-r model of M already for a f
 without `Γ_K`, and equivalence after common restriction; prove existence of a sufficiently small model,
 extension uniqueness, and descent of any finite diagram of morphisms after a common shrink. For a continuous
 `(φ,Γ_K)` module the compact `Γ_K` action descends to a common sufficiently small model, with the same commuting
-actions. Finite projective models are not replaced by free models. Source: KPX §§2.2.6–2.2.9, pp.17–19.
-*Needs:* §§1.0–1.1 field realization and relative annuli; §0.1 finite-projective Frobenius modules;
+actions. For the bundle-to-module step, propagate one finite presentation on [r₀/p,r₀] by
+Frobenius to its rescaled annuli, obtaining the same generator and relation bounds, and apply §1.1a
+(KPX Proposition 2.2.7, p.17). Finite projective models are not replaced by free models. Source: KPX §§2.2.6–2.2.9, pp.17–19.
+*Needs:* §§1.0–1.1 field realization and relative annuli; §1.1a uniform presentation;
+§0.1 finite-projective Frobenius modules;
 PadicPeriodRings §§1.1–1.5 Tate–Sen estimates; RigidAnalyticGeometry §§1.1–1.4 descent.
 
 Construct the relative realization D_rig(V) for a finite-projective A-module `V` with continuous `G_K` action, as an exact
@@ -804,7 +884,8 @@ the finite-Artinian Robba category; its étale subcategory is equivalent to fini
 by the finite-Artinian étale equivalence, obtained from field overconvergence and Artinian dévissage.
 The inverse, unit/counit and coefficient maps retain nilpotents; this is the ordinary category without
 inverting t. Its cohomology export Herr cohomology uses §§3.4–3.6 and §§4.4–4.5.
-*Needs:* §§1.0–1.1 field realization and relative annuli; §0.1 finite-projective Frobenius modules;
+*Needs:* §§1.0–1.1 field realization and relative annuli; §1.1a uniform presentation;
+§0.1 finite-projective Frobenius modules;
 PadicPeriodRings §§1.1–1.5 Tate–Sen estimates; RigidAnalyticGeometry §§1.1–1.4 descent.
 
 **API.**
@@ -945,7 +1026,7 @@ descent cocycle, over the supplied nonequivariant equivalences. Prove that the t
 their localization maps, not by choosing an unrelated categorical equivalence.
 *Needs:* §1.0c nonequivariant period and bundle roofs; §1.1 component action; §1.4 cyclotomic decompletion.
 
-2–1.4. For `K′/K`, use single-component restriction/induction between `Γ_{K′}` and `Γ_K`;
+For `K′/K`, use single-component restriction/induction between `Γ_{K′}` and `Γ_K`;
 its all-component adapter uses induction to `Γ_{ℚ_p}`. Coefficient trace and the corresponding coset
 trace together give the full extension degree. *Needs:* the supplied nonequivariant roofs, §1.1 and §1.4.
 
@@ -978,7 +1059,8 @@ realization is insufficient.
 
 ### Dependencies
 
-Layer 0; period, torsion and pure-local-system contracts; affinoid completed tensors. The equivariant
+Layer 0; period, torsion and pure-local-system contracts; affinoid completed tensors;
+AdicSpacesPartIII §R3.4 for §1.1a, before the radius-model construction. The equivariant
 comparison uses the supplied nonequivariant roofs only after the arbitrary-module decompletion is constructed.
 
 ## Layer 2: module ψ and analytic coefficient rings
@@ -1190,7 +1272,7 @@ coefficients and then compare the finite-index component decomposition and desce
 theory has no nonabelian manifold or general distribution-module claim. Sources: KPX §2.1 and §4.2 for the
 one-variable `Γ` application; its §6.1 for general unit character spaces; Schneider–Teitelbaum, *p-adic
 Fourier theory*, §2, the `ℚ_p-analytic` Fourier transform and its base-change interpretation. Arbitrary
-affinoid tensor extension and stage exactness are §2.8; the uniform coadmissible presentation criterion is §4.1.  Export the rigid character space and its universal, component,
+affinoid tensor extension and stage exactness are §2.8; the uniform coadmissible presentation criterion is §1.1a.  Export the rigid character space and its universal, component,
 pullback and finite-base-change API as the geometric character-space interface, and the Mellin transform
 with its moment coefficients and extensionality as this same transform. Their topological algebra
 isomorphism uses the strong dual topology just constructed.
@@ -1613,8 +1695,11 @@ obtains an inverse by a convergent geometric series on the complement; finite ge
 annulus gives the full generator statement. Source: KPX Theorem 3.1.1 and its proof, pp.25–28. This is a
 rational Robba statement, not an integral assertion on every lattice. Construct the finite-projective
 analytic `Γ`-annulus action on the `ψ`-zero radius models in this proof, using the ring carriers and
-scalar-change maps of §§2.7–2.8; it precedes the coadmissible-system theorem.
-*Needs:* §§1.1–1.2 radius models; §2.5 ψ estimates; §§2.7–2.8 analytic annular action; §3.4a field Herr
+scalar-change maps of §§2.7–2.8 and the annular criterion of §1.1a. The local construction gives
+projective pieces with one common generator bound m, hence (m,m)-presentations; §1.1a then gives the
+global finite-projective annular module (KPX proof of Theorem 3.1.1, p.26).
+*Needs:* §§1.1–1.2 radius models; §1.1a uniform presentation; §2.5 ψ estimates;
+§§2.7–2.8 analytic annular action; §3.4a field Herr
 comparison and slopes; ClassFieldTheory Layers 6–7 reciprocity.
 
 For use in the later finiteness induction, construct the `ℚ_p` character line the character line R(δ) over ℚ_p for
@@ -1634,7 +1719,8 @@ on the coordinate tuple, remove its common factor and propagate this constructio
 Frobenius; `Γ` stability follows from uniqueness of saturation. The invertible linearization then restricts to
 the saturated line and quotient. This supplies the saturated rank-one identification needed in §5.6 without
 using family classification. Source: the field case in the proof of KPX Lemma 6.2.13, p.61.
-*Needs:* §§1.1–1.2 radius models; §2.5 ψ estimates; §§2.7–2.8 analytic annular action; §3.4a field Herr
+*Needs:* §§1.1–1.2 radius models; §1.1a uniform presentation; §2.5 ψ estimates;
+§§2.7–2.8 analytic annular action; §3.4a field Herr
 comparison and slopes; ClassFieldTheory Layers 6–7 reciprocity.
 
 **API.**
@@ -1825,37 +1911,7 @@ inputs. The scalar interfaces of §2.7 and the analytic ring/scalar-change const
 precede §§3.4–3.5. The field character calculation uses no relative coadmissible finiteness theorem
 and is available for its induction.
 
-## Layer 4: coherent systems and uniform finiteness
-
-### 4.1 Coherent systems and uniform presentation
-
-For the analytic Γ rings of §2.8, prove exactness of global sections on compatible coadmissible systems
-of finite modules over the closed weight-disc stages and vanishing of R¹lim for these dense transition
-systems. Prove that uniform bounds on numbers of generators and relations make a compatible coherent
-system the restriction of a finitely presented global module. For a vector-bundle system with uniformly
-bounded ranks, prove that the global module is finite projective. Sources: KPX Lemma 2.1.4,
-Corollary 2.1.5, Lemma 2.1.6, Corollary 2.1.7, Lemma 2.1.8 and Proposition 2.1.13, pp.8–12.
-*Needs:* §2.8 noetherian Banach stages, flat restrictions and strict finite presentations;
-PadicFunctionalAnalysis §§1.3–1.4 and 2.2–2.4; DerivedModuleAlgebra §§1.T.1 and 1.1 for derived limits.
-
-**API.**
-
-- An exact compatible sequence of coadmissible systems gives an exact sequence of global modules;
-  restriction of the global module recovers the specified stage module.
-- Uniform generator and relation bounds give finite presentation on the whole exhaustion, including
-  nonreduced affinoid coefficients; a bound at each individual point is insufficient.
-- Under the vector-bundle hypothesis and a uniform rank bound, the global module is projective;
-  the finite-presentation assertion alone does not imply projectivity.
-
-**Checks.**
-
-- The zero system has zero generators, zero relations and zero global module.
-- A constant free rank-d system has d generators and no relations on every stage and gives a free
-  global module of rank d.
-- A system with minimal generator counts tending to infinity has no uniform bound, so the criterion
-  cannot give a finite global presentation.
-- For A=E[ε]/ε², the constant finite presentation of A/(ε) has one generator and one relation;
-  it is not a vector bundle over A, so the projectivity conclusion does not apply.
+## Layer 4: arithmetic uniform finiteness
 
 ### 4.2 ψ cokernels and the t-torsion step
 
@@ -1950,7 +2006,7 @@ analytic `Γ` components then gives finite projective resolutions. This is KPX P
 4.3.7, pp.40–41, and uses neither relative finiteness nor the independent Iwasawa-tower comparison. The
 underlying field Robba slope filtration and descent of pure modules are §1.0b; `Γ-stability` follows from
 uniqueness. All the field steps precede the relative argument.
-*Needs:* §1.0b supplied slopes; §3.4a auxiliary pure extensions and field duality; §4.2 t-quotient resolution and cokernel finiteness; §4.1 coherent systems; the preceding residue pairing.
+*Needs:* §1.0b supplied slopes; §3.4a auxiliary pure extensions and field duality; §4.2 t-quotient resolution and cokernel finiteness; §1.1a coherent systems; the preceding residue pairing.
 
 Now take `A=E` with `E/ℚ_p` finite and `K=ℚ_p`. Let M* `= M^∨(1)`, and assume **both** `M/(ψ−1)=0` and
 `M*/(ψ−1)=0`. Prove generation by ψ-fixed vectors: `φ−1` is injective on both fixed spaces, the Iwasawa pairing is
@@ -1975,14 +2031,14 @@ induction in `K`, nilpotent coefficient devissage and t-twists to a reduced coef
 Second, under vanishing of both `M/(ψ−1)` and `M*/(ψ−1)`, construct dual local `H¹` bases, lift them, and use
 their pairing matrix to obtain local generators on the weight annuli. Inverting its determinant and using all
 closed fibers detects generation; compact affinoid covers supply finitely many choices. The small-radius
-`ψ`-zero presentation and its dual give uniform bounds on the number of generators **and relations**, so §4.1
+`ψ`-zero presentation and its dual give uniform bounds on the number of generators **and relations**, so §1.1a
 makes the global fixed module finite projective in this case. Third, for the general case use the elementary
 rank-one field calculation of §3.5 to choose a generic character with nonexceptional value and nonintegral
 weight, and construct extensions whose connecting maps strictly reduce the finite `ψ` cokernel. Noetherian
 induction and positive t-twists complete the devissage. Sources: KPX §§5.1–5.3, pp.47–53, especially
 Hypothesis 5.2.1, Proposition 5.2.6, Corollary 5.2.8, Proposition 5.2.10, Lemma 5.2.11 and Theorem 5.2.12,
 pp.48–50, and Lemmas 5.3.4–5.3.6, pp.51–53.
-*Needs:* the preliminary finite-coefficient and character-fiber comparisons and field double-vanishing theorem above; §3.5 generic character calculation; §4.2 finite ψ cokernels; §4.1 uniform generator-and-relation criterion.
+*Needs:* the preliminary finite-coefficient and character-fiber comparisons and field double-vanishing theorem above; §3.5 generic character calculation; §4.2 finite ψ cokernels; §1.1a uniform generator-and-relation criterion.
 
 The proof requires the actual determinant cover and uniform bounds; neither pointwise finite dimensionality nor an
 abstract appeal to coadmissibility replaces them.
@@ -2095,7 +2151,7 @@ presentation.
 ### Dependencies
 
 Layers 1–3 and the scalar analytic and geometric contracts. Section 2.8 supplies the analytic carriers
-and local scalar-change maps; §4.1 supplies coadmissible exactness and uniform presentation before §4.3.
+and local scalar-change maps; §1.1a supplies coadmissible exactness and uniform presentation before §4.3.
 The preliminary finite-coefficient comparison in §4.3 uses strict resolutions and flat annuli, not the
 perfectness or general affinoid base change proved in §§4.4–4.5.
 
@@ -2221,8 +2277,11 @@ of the construction.
 
 ### 5.3 The cyclotomic deformation
 
-Let `Λ_n=R^{[1/p^n,∞]}(Γ_K)` be the closed affinoids exhausting `W_{Γ_K}`. Construct
-the n-th cyclotomic deformation stage of M as `M⊗̂R_{Λ_n,K}e` with `φ(e)=e` and `γ(e)=[γ]⁻¹e`. Define
+For finite-projective relative (φ,Γ_K)-modules M and N over A, and n≥1, let
+`Λ_n=R^{[1/p^n,∞]}(Γ_K)` be the closed affinoids exhausting `W_{Γ_K}`, and put
+`B_n=A⊗̂Λ_n`. Let M_B denote extension of M to R_(B_n,K), and let U_n be the free rank-one
+R_(B_n,K)-module with basis e, `φ(e)=e` and `γ(e)=[γ]⁻¹e`. Construct
+the n-th cyclotomic deformation stage as `Dfm_n(M)=M_B⊗U_n`, with tensor products over R_(B_n,K). Define
 the cyclotomic deformation of M as their compatible inverse limit over the quasi-Stein exhaustion, with both its
 coefficient action and diagonal arithmetic `Γ` action specified. Its specialization at `η` is `M(η⁻¹)`.
 Source: KPX Definition 4.4.7, p.45.
@@ -2241,14 +2300,32 @@ Shapiro convention.
 
 **API.**
 
-- Cyclotomic deformation stages commute with restriction, tensor and coefficient change, retaining the
-  inverse universal Γ action.
-- The comparison with the ψ complex commutes with these maps and with duality using the involution γ↦γ⁻¹.
+- Cyclotomic deformation stages commute with restriction and coefficient change. Their tensor formula is
+  `Dfm_n(M⊗N) ≅ Dfm_n(M)⊗N_B ≅ Dfm_n(M)⊗Dfm_n(N)⊗U_n^∨`.
+  The first map sends `(m⊗n)⊗e` to `(m⊗e)⊗n`; the second sends this to
+  `(m⊗e)⊗(n⊗e)⊗e^∨`. Evaluation `U_n⊗U_n^∨→R_(B_n,K)` gives the inverse, so the formula is
+  independent of the displayed basis and contains exactly one inverse universal twist
+  (KPX Definition 4.4.7, p.45, and tensor evaluation).
+- For an equivariant map f:M→N, deformation gives `f_B⊗id_(U_n)` and the natural comparison square is
+  `Cψ,γ(Dfm(M)) → Cψ(M)` over `Cψ,γ(Dfm(N)) → Cψ(N)`, with vertical maps induced by f.
+  Apply the Herr complex to the two tensor identifications above, pass to the compatible limit,
+  and compose their inverses with the comparison for M⊗N; this gives the comparisons from those
+  corrected tensor presentations to `Cψ(M⊗N)`. The tensor identifications commute with stage restriction;
+  the limit comparison commutes with derived coefficient change. Duality uses `ι([γ])=[γ⁻¹]`
+  as in the displayed duality theorem
+  (KPX Theorem 4.4.8, pp.45–46).
 
 **Checks.**
 
 - At `η=1` the stage line has trivial specialized action; at `η` of order greater than two its `γ` action is
   `η(γ)⁻¹`, not `η(γ)`.
+- For two unit modules at p=3 over E=ℚ₃(ζ₃) and a character with η(γ)=ζ₃, the tensor of
+  deformations has eigenvalue ζ₃⁻²=ζ₃, while the deformation of their tensor has eigenvalue
+  ζ₃⁻¹=ζ₃². Tensoring the former with U_n^∨ contributes ζ₃ and restores ζ₃²; without that factor
+  the claimed tensor compatibility fails. Before specialization the factors are [γ]⁻² versus [γ]⁻¹.
+- For a unit line the tensor maps send its unit tensor to `e⊗e⊗e^∨` and evaluation returns e;
+  the zero module stays zero. Replacing e by u·e multiplies the two copies by u² and the dual by u⁻¹,
+  giving the same factor u as on the source.
 - The universal resolution has invariants zero even though the trivial specialization can have invariants;
   invariants do not commute with this nonflat specialization.
 - The map to coinvariants lands in `M` in degree one, fixing the `[−1]` convention.
@@ -2263,7 +2340,7 @@ of the independently defined Iwasawa cohomology with `H^i(Cψ(D_rig(V)))`, compa
 base change. When an integral Banach unit ball is used, specify it and rationalize after the inverse limit;
 independence of that norm follows by commensurability and the cohomological comparison. Source: KPX Corollary
 4.4.11 and its proof, p.46. On complexes analytic scalar extension is derived completed extension; ordinary
-cohomology tensor formulas use the strict/coadmissible exactness proved in Layer 4 and the hypotheses in that
+cohomology tensor formulas use the strict/coadmissible exactness of §§1.1a and 2.8 and the hypotheses in that
 corollary.
 *Needs:* §§5.1 and 5.3 integral and deformation comparisons; §4.4 perfectness; §4.5 derived scalar change.
 
@@ -3048,7 +3125,7 @@ loci of maps to `H⁰` modulo `t_σ`, gives the closed bad locus. Dualize evalua
 rank-one submodule classification bounds the cokernel by a power of t locally on an annulus; Frobenius
 propagates a uniform local bound through the radii. Finally flatten its presentation so the kernel is
 projective of rank `d−1`. This last modification is necessary; a pointwise rank count alone does not construct
-a subbundle. 3.11, p.72).
+a subbundle.
 *Needs:* §7.6 flattening; §§7.1–7.2 period factors and field submodules; §§4.4–4.5 perfect cohomology and
 derived fibers; RigidAnalyticGeometry §§6.1–6.3 coherent sheaves.
 
@@ -3057,7 +3134,7 @@ derived fibers; RigidAnalyticGeometry §§6.1–6.3 coherent sheaves.
 - The modified quotient has projective kernel of rank d−1 and cokernel killed locally by a power of t; the
   specified Fitting and period-vanishing loci determine the bad locus.
 - For a smooth curve the modification is the identity; the bad locus can still be nonempty. The canonical
-  construction commutes with dominant flat pullback.
+  modification X′→X commutes with dominant flat pullback (KPX Remark 6.3.11, p.72).
 
 **Checks.**
 
@@ -3140,8 +3217,6 @@ eigenvariety arguments use character lines, nilpotent-sensitive weights, coeffic
 modification and the distinction between a coherent global flag and saturated special fibers. Analytic GL₂
 applications may consume the all-level exponential criterion and annular generation, but must construct their
 own involution and prove its semilinearity and radius control.
-*Needs:* §7.7 quotient construction; §7.5 dense strictness; §7.2 saturation exponents; §4.5 finite
-coefficient change; RigidAnalyticGeometry §§6.1–6.3.
 
 ## References
 

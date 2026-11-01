@@ -20,8 +20,9 @@ The other headline results require constructions absent at the pins:
   quotient actions. Section 0.6 specializes the cochains and local Tate duality
   supplied by NoncommutativeAndEquivariantIwasawa §F.3, together with its derived
   Hochschild–Serre comparison; the Milnor sequence uses these same cochains.
-* Layer 1's relative realization, integral intersections, pure local-system
-  comparisons and equivariant decompletion need the cyclotomic period rings, Robba rings, radius models and their module
+* Layer 1's uniform-presentation criterion needs relative annular/disc coherent
+  systems and their global analytic section rings. Its relative realization, integral
+  intersections, pure local-system comparisons and equivariant decompletion need the cyclotomic period rings, Robba rings, radius models and their module
   categories. The field realization and slope filtration are supplied by
   NoncommutativeAndEquivariantIwasawa §F.6. The period-sheaf, curve and B-pair
   comparisons need their period sheaves and patching rings.
