@@ -53,11 +53,10 @@ H-unitality or comparison with the naive nonunital bar complex is assumed.
 | [BanachAlgebras A1–A4,A6](../BanachAlgebras/README.md) | Banach-valued holomorphic calculus, spectra, bounded Hochschild cochains and the A4 dual-bimodule convention. N1 owns its resolution comparisons. |
 | [CStarAlgebras C1–C5](../CStarAlgebras/README.md) | C*-ideals, matrices and the comparison with the existing continuous functional calculus. Representations are native star homomorphisms into bounded operators. |
 | [OperatorTheory/SelfAdjointSpectralTheory](../OperatorTheory/SelfAdjointSpectralTheory/README.md) | Native `LinearPMap` closed operators, adjoints, spectral calculus and graph norms. N5 constructs the compact-resolvent/summability consequences. |
-| [OperatorTheory/OperatorIdeals](../OperatorTheory/OperatorIdeals/README.md) | Compact operators, singular values with their mixed-index sum and product inequalities (OI-A17, OI-A22), Schatten spaces S_p for 1≤p≤∞ and the trace-class norm. N4 adds the logarithmic ideal and singular traces. |
+| [OperatorTheory/OperatorIdeals](../OperatorTheory/OperatorIdeals/README.md) | Compact operators, singular values with their mixed-index sum and product inequalities (OI-A17, OI-A22), Schatten spaces S_p for 1≤p≤∞ and the trace-class norm. N3 adds the trace functional, Hölder with constant one and the quasi-ideals for 0<p<1; N4 the weak and logarithmic ideals and singular traces. |
+| [BanachSpaceTheory B4](../BanachSpaceTheory/README.md) | The completed Banach projective tensor and its universal property, consumed by N1.Tensor; the Schmidt series `Tx=Σ_j s_j⟨e_j,x⟩f_j` of a compact operator with `s_j=μ_j(T)`, consumed by N3's trace. |
 | [OperatorKTheory K1–K7](../OperatorKTheory/README.md) | Idempotent/unitary K-theory, inverse-closed Fréchet comparison (K3), native Fredholm/Atkinson theory (K4), Hilbert-space KK cycles and their index products. K7 owns all real-parameter rotation C*-presentations and the irrational K-group computation. |
 | [OperatorAlgebraDynamics D1–D2,D4](../OperatorAlgebraDynamics/README.md) | Rotation crossed products, Fourier coefficient maps and the dual circle action. N6 constructs the two-torus gauge action. |
-| [NoncommutativeIntegration §§1.4–1.6, §2.1](../NoncommutativeIntegration/README.md) | §1.5 supplies the quasi-ideals S_p for 0<p<1 on B(H) with the p-triangle inequality, the ideal estimates `‖ATB‖_p≤‖A‖‖T‖_p‖B‖` and completeness of the p-metric, and identifies `Lp(B(H),Tr)` with the Schatten scale; §1.4 Hölder `‖ST‖_r≤‖S‖_p‖T‖_q` with constant one for all positive exponents with 1/r=1/p+1/q; §1.6 the weak Lp gauge `sup_t t^(1/p)μ_t`, its quasi-norm, adjoint and ideal estimates, specialized to (B(H),Tr) by §1.5 and §1.1's `μ_t(T)=μ_⌊t⌋(T)`; §2.1 the cyclicity `Tr(ST)=Tr(TS)` for S∈S_p, T∈S_q, 1/p+1/q=1. N3–N4 consume these on B(H); nothing about general semifinite algebras is used. |
-| [VonNeumannAlgebras Layer 4](../VonNeumannAlgebras/README.md) | V4.Core supplies the canonical trace `Tr(x)=Σ_i⟨e_i,xe_i⟩`, trace class iff `Tr|x|<∞` with `Tr|x|=‖x‖₁`, basis independence, cyclicity of trace-class products and the duality of B(H) with trace class. N3's conditional trace Tr′ and N4's Dixmier traces are built on this Tr. |
 
 Hilbert C*-modules are Mathlib's `CStarModule`, and `L²(A,τ)` with its
 left regular representation is Mathlib's `PositiveLinearMap.GNS` with
@@ -67,10 +66,17 @@ C*-module and module tensor products belong to HilbertModules, which is
 not an input here: N5's bounded transform of a self-adjoint operator with
 compact resolvent is an instance of N5's own Borel calculus, and N7's
 Heisenberg module carries its inner product and completion on Mathlib's
-carriers. Tracial Lp spaces over a general semifinite trace belong to
-NoncommutativeIntegration and von Neumann algebras, preduals and normal
-functionals to VonNeumannAlgebras; only the B(H) specializations listed in
-the table are consumed.
+carriers. The trace on trace-class operators, Hölder's inequality with
+constant one, the quasi-ideals S_p for 0<p<1 and the weak ideals are
+stated in N3–N4 for B(H) with its canonical trace Tr, which is all the
+characters and Dixmier traces use; tracial Lp spaces over a general
+semifinite trace, with their measure topology, belong to
+NoncommutativeIntegration, and von Neumann algebras, preduals and normal
+functionals to VonNeumannAlgebras. The algebraic projective-module K₀,
+the group K₁=`GL_∞(A)/E_∞(A)` and Whitehead's lemma belong to
+AlgebraicKTheory; N2 states its pairings on idempotents and invertibles
+and proves the relations those groups impose, so the pairings descend to
+them there by quotient.
 
 Use native `MultilinearMap`, continuous multilinear maps, and Mathlib
 `Derivation` for the commutative specialization. For noncommutative
@@ -286,13 +292,37 @@ For odd n and invertible u use
 There are n+1 alternating arguments. Prove independence of cocycle
 representative, stabilization, conjugation, direct sums and smooth
 homotopy; prove the compatible periodicity normalization and the product
-formula fixing this odd constant. Consume [AlgebraicKTheory A0–A3](../AlgebraicKTheory/README.md) for the
-single algebraic projective-module K₀ and its stable-idempotent comparison,
-algebraic K₁=`GL_∞(A)/E_∞(A)`, the stable commutator/elementary
-identification, functoriality and the appropriate complex-relative unitization
-versions. Own their cyclic pairings here.
-Prove the pairings descend through these relations, including vanishing
-on elementary matrices, before imposing topological homotopy.
+formula fixing this odd constant. State both pairings on representatives,
+idempotents e∈M_n(A) and invertibles u∈GL_n(A) for every n (Mathlib's
+`Matrix.GeneralLinearGroup`), and prove the relations of the algebraic
+K-groups before imposing any topology: invariance under the stabilizations
+e↦diag(e,0) and u↦diag(u,1) and under conjugation by GL_n(A), additivity
+on the block sums diag(e,f) and diag(u,v), the product law
+`⟨[uv],[φ]⟩=⟨[u],[φ]⟩+⟨[v],[φ]⟩` by comparing diag(uv,1) with diag(u,v)
+(Connes III.3, Propositions 2–3, pp. 229–230), hence vanishing on every
+commutator and on every elementary matrix `1+aE_ij`, i≠j (Mathlib's
+`Matrix.transvection`), and the complex-relative unitization versions on
+the kernels of the augmentation. The even pairing therefore factors
+through the idempotent monoid modulo similarity and stabilization, and the
+odd one through `GL_∞(A)/E_∞(A)`; a K₀ or K₁ presented by these relations
+receives the pairing by quotient, and nothing here depends on how those
+groups are constructed.
+
+**Checks.**
+- On an elementary matrix u=`1+aE_ij`, i≠j, every odd pairing is zero
+  before any relation is used: `u⁻¹−1=−aE_ij`, `u−1=aE_ij`, and a product
+  of two or more multiples of `E_ij` vanishes, so each term of `φ#Tr` is
+  zero.
+- For the degree-zero trace cocycle on ℂ and an idempotent e∈M_n(ℂ) the
+  even pairing is `Tr(e)=rank e`: additive on block sums, unchanged by
+  conjugation and by diag(e,0); the scalar multiple `c·Tr` pairs to
+  `c·rank e`, not an integer for c=1/2 on [1].
+- On the circle, with the winding unitary z and the cocycle
+  `ψ(a₀,a₁)=(2πi)⁻¹∫a₀da₁`, the odd pairing gives
+  `⟨[z^k],[ψ]⟩=k/((1+i)sqrt(π))`: `ψ(z^(−k),z^k)=k` and the three terms
+  with a constant argument vanish, so `⟨[z²]⟩=2⟨[z]⟩` and `⟨[z⁻¹]⟩=−⟨[z]⟩`,
+  as the product law requires; a pairing without the (1+i)⁻¹ factor would
+  not square to `1/(2πi)` on the Bott class.
 For inverse-closed dense Fréchet
 subalgebras transport them through K3 to C*-K₀/K₁, proving continuity
 and path/transgression estimates needed for topological homotopy.
@@ -348,7 +378,7 @@ Schwartz entries; prove that the pullback preserves β. Compute
 These formulas fix the comparison with the chosen Bott generator and
 keep the sign distinct from a separately chosen geometric Chern–Weil convention.
 
-*Needs:* N1.Cyclic; AlgebraicKTheory A0–A3; OperatorKTheory K1–K3; CStarAlgebras C1–C5 for matrices and the continuous functional calculus.
+*Needs:* N1.Cyclic; OperatorKTheory K1–K3; CStarAlgebras C1–C5 for matrices and the continuous functional calculus; Mathlib `Matrix.GeneralLinearGroup` and `Matrix.transvection`.
 
 ## N3. Fredholm modules and their finite characters
 
@@ -379,26 +409,61 @@ comparison with the unitization conventions specified here,
 including the even compression to π(1)H and the odd extension of a
 unitary by the identity on the complement of π(1)H.
 
-The Hilbert-space objects every trace, character and Dixmier-trace
-statement below uses are consumed, not built: OperatorIdeals' singular
-values μ_j and Schatten classes S_p, 1≤p≤∞; NoncommutativeIntegration
-§1.5's quasi-ideals S_p for 0<p<1 with `‖T‖_p=(Σ_j μ_j(T)^p)^(1/p)`,
-their p-triangle inequality, ideal estimates and completeness; §1.4's
-Hölder inequality `‖ST‖_r≤‖S‖_p‖T‖_q` for 0<p,q≤∞ with 1/r=1/p+1/q and
-constant one; VonNeumannAlgebras V4.Core's trace `Tr(T)=Σ_j⟨e_j,Te_j⟩` on
-trace class, basis independent, with `|Tr T|≤‖T‖₁` and `Tr T=Σ_j μ_j(T)`
-for positive T; and §2.1's cyclicity `Tr(ST)=Tr(TS)` for S∈S_p, T∈S_q,
-1/p+1/q=1 (Connes IV.1, p. 300). Deduce here the two corollaries the
-characters use: `S_(p₁)⋯S_(p_k)⊆S_p` for 1/p=Σ_j 1/p_j, by iterating
-Hölder, and S_p⊆S_q for p≤q with `‖T‖_q≤‖T‖_p`, from
-`μ_j(T)≤‖T‖_p` for every j.
+Build here, on B(H) with OperatorIdeals' singular values μ_j and its
+Schatten classes S_p, 1≤p≤∞, the Hilbert-space objects every trace,
+character and Dixmier-trace statement below uses. For 0<p<1 define the
+quasi-ideal `S_p={T compact : Σ_j μ_j(T)^p<∞}` with
+`‖T‖_p=(Σ_j μ_j(T)^p)^(1/p)`; prove the p-triangle inequality
+`‖S+T‖_p^p≤‖S‖_p^p+‖T‖_p^p` (Fack–Kosaki, Theorem 4.9(iii), p. 295),
+the ideal bounds `‖ATB‖_p≤‖A‖‖T‖_p‖B‖` and adjoint invariance from
+OI-A20, and completeness of the p-metric `(S,T)↦‖S−T‖_p^p`. Prove the
+multiplicative majorization `∏_(j<n)μ_j(ST)≤∏_(j<n)μ_j(S)μ_j(T)` for
+compact S, T and every n, by the n-th exterior power, on which
+`‖Λ^nT‖=μ_0(T)⋯μ_(n−1)(T)`, and from it Hölder's inequality
+`‖ST‖_r≤‖S‖_p‖T‖_q` for 0<p,q≤∞ with 1/r=1/p+1/q and constant one
+(Fack–Kosaki, Theorem 4.2(i)–(ii), p. 286, for B(H) with its trace); the
+mixed-index inequality `μ_(j+k)(ST)≤μ_j(S)μ_k(T)` of OI-A22 alone gives
+only the constant `2^(1/r)`. Deduce `S_(p₁)⋯S_(p_k)⊆S_p` for
+1/p=Σ_j 1/p_j, and the inclusions S_p⊆S_q for p≤q with `‖T‖_q≤‖T‖_p`,
+from `μ_j(T)≤‖T‖_p` for every j. Define the trace of a trace-class
+operator as `Tr(T)=Σ_j⟨e_j,Te_j⟩` over an orthonormal basis; prove its
+absolute convergence and independence of the basis by summing the
+Schmidt series of BanachSpaceTheory B4 term by term, which gives
+`Tr T=Σ_j μ_j(T)⟨e_j,f_j⟩` for the Schmidt pair `(e_j),(f_j)`; prove
+`|Tr T|≤‖T‖₁`, `Tr(T*)=conj(Tr T)`, `Tr T=Σ_j μ_j(T)` for positive T,
+`Tr(AT)=Tr(TA)` for bounded A and trace-class T, and the cyclicity
+`Tr(ST)=Tr(TS)` for S∈S_p, T∈S_q with 1/p+1/q=1, 1≤p≤∞ (Connes IV.1,
+p. 300), from the bounded case by Hölder and the S_p-density of
+finite-rank operators for p<∞.
 
 **Checks.**
+- `diag((j+1)^(−3))` lies in S_p exactly when p>1/3: in S_(1/2), not in
+  S_(1/3); summing μ_j in place of μ_j^p would make every S_p with p<1
+  equal to S_1.
+- For p=1/2, S=diag(1,0) and T=diag(0,4): `‖S‖_(1/2)=1`, `‖T‖_(1/2)=4`,
+  `‖S+T‖_(1/2)=(1+2)²=9>5`, so the triangle inequality fails, while the
+  p-th powers give `3≤1+2` with equality: the constant one in the
+  p-triangle inequality is attained.
+- Multiplicative, not termwise: S=diag(2,1), T=[[1,1],[0,1]] has
+  `μ(T)=((1+sqrt 5)/2,(sqrt 5−1)/2)≈(1.618,0.618)` and
+  ST=[[2,2],[0,1]] has `μ(ST)²=(9±sqrt 65)/2`, `μ(ST)≈(2.921,0.685)`;
+  `μ_1(ST)=0.685>0.618=μ_1(S)μ_1(T)`, so `μ_j(ST)≤μ_j(S)μ_j(T)` is
+  false, while `μ_0(ST)≤3.236` and the products are both 2, the
+  determinants.
+- Hölder with constant one: S=diag(2,1), T=diag(1,2) give
+  `‖ST‖₁=4≤‖S‖₂‖T‖₂=5`, and S=T=I₂ gives `‖I₂‖₁=2=sqrt 2·sqrt 2`, so the
+  constant is attained and `2^(1/r)` is not the sharp bound.
 - For S=T=diag(1/(j+1)), each in S_p exactly when p>1, the product
   `ST=diag(1/(j+1)²)` lies in S_r exactly when r>1/2. The ideal property
-  alone places ST in S_p for p>1 only; the corollary with 1/r=1/p+1/q,
-  applied with p=q↓1, gives every r>1/2, and r=1/2 itself fails, so the
-  exponent law is sharp on this example.
+  alone places ST in S_p for p>1 only; Hölder with p=q↓1 gives every
+  r>1/2, and r=1/2 itself fails, so the exponent law is sharp on this
+  example.
+- For the rank-one projection onto e₀ the standard basis gives `Tr=1`
+  and the basis `(e₀±e₁)/sqrt 2, e₂, e₃, …` gives `1/2+1/2=1`; for
+  T=diag(1/(j+1)²) the trace is `π²/6=Σ_j μ_j(T)=‖T‖₁`. The unilateral
+  shift has `⟨e_j,Se_j⟩=0` for every j, an absolutely convergent diagonal
+  series, and is not compact: convergence of the diagonal series in one
+  basis is not the definition.
 - Cyclicity needs a trace-class factor: for the unilateral shift S on
   ℓ²(ℕ), `S*S−SS*` is the rank-one projection onto e₀, of trace 1, so
   `Tr(AB)=Tr(BA)` fails for bounded A, B whose commutator is trace
@@ -488,7 +553,7 @@ amplification and a nonsummable compact-commutator cycle. Summability
 is a condition on the specified smooth algebra, not automatically on
 the whole C*-completion.
 
-*Needs:* N1.Cyclic, N2; OperatorKTheory K4–K6; OperatorTheory/OperatorIdeals Parts A–B; NoncommutativeIntegration §1.4, §1.5, §2.1; VonNeumannAlgebras V4.Core; Mathlib `ContinuousLinearMap.IsFredholm`, `FredholmPackage` and `IsFredholm.index_comp`.
+*Needs:* N1.Cyclic, N2; OperatorKTheory K4–K6; OperatorTheory/OperatorIdeals Parts A–B (OI-A17, OI-A20, OI-A22, OI-B29–B30); BanachSpaceTheory B4's Schmidt series; Mathlib `ContinuousLinearMap.IsFredholm`, `FredholmPackage` and `IsFredholm.index_comp`; Fack–Kosaki, Theorems 4.2 and 4.9.
 
 ## N4. Weak ideals, generalized limits and Dixmier traces
 
@@ -501,16 +566,17 @@ Prove its ideal/quasi-norm structure, completeness, adjoint/unitary
 invariance, finite-rank and trace-class inclusions and bounded left/right
 multiplication, from OperatorIdeals' singular-value inequalities OI-A17,
 OI-A20 and OI-A22. Distinguish it from the weak trace ideal
-`S_(1,∞)={T: sup_(j≥0)(j+1)μ_j(T)<∞}`, which is NoncommutativeIntegration
-§1.6's weak L¹ of (B(H),Tr), and construct a diagonal operator in the
-former but not the latter. For p>1 the weak Schatten ideal `L^(p,∞)` is
-§1.6's weak Lp of (B(H),Tr): since `μ_t(T)=μ_⌊t⌋(T)`, its gauge
-`sup_(t>0)t^(1/p)μ_t(T)` equals `sup_(j≥0)(j+1)^(1/p)μ_j(T)`, and §1.6
-supplies its quasi-norm, adjoint and ideal bounds. Prove here its
-equivalent partial-sum description
+`S_(1,∞)={T: sup_(j≥0)(j+1)μ_j(T)<∞}`, defined from the same singular
+values, and construct a diagonal operator in the former but not the
+latter. For p>1 define the weak Schatten ideal `L^(p,∞)` by
+`sup_(j≥0)(j+1)^(1/p)μ_j(T)<∞`; prove its quasi-norm (constant
+`2^(1/p)`, from OI-A17 at the indices 2j and 2j+1), adjoint and ideal
+bounds (OI-A20), its equivalent partial-sum description
 `sup_(N≥1)N^(1/p−1)Σ_(j<N)μ_j(T)<∞`, which is a Banach norm (Connes IV,
-Appendix C, p. 453), and compare its power/product estimates with the logarithmic
-ideal. In particular `T∈L^(n,∞)` implies `|T|^n∈L^(1,∞)`.
+Appendix C, p. 453), with the comparison constants `p/(p−1)` one way and
+1 the other, and compare its power/product estimates with the logarithmic
+ideal. In particular `T∈L^(n,∞)` implies `|T|^n∈L^(1,∞)`, since
+`μ_j(|T|^n)=μ_j(T)^n≤C^n/(j+1)`.
 For n=1 use the logarithmic ideal itself. Do not replace the logarithmic p=1
 ideal by the smaller pointwise singular-value condition.
 
@@ -575,7 +641,7 @@ the diagonal sequence 1/(j+1) and finite-rank perturbations. N7 owns
 the Fourier lattice example using this Tauberian bridge. No general pseudodifferential residue
 formula is imposed on arbitrary members of this ideal.
 
-*Needs:* N3's trace corollaries; OperatorTheory/OperatorIdeals Part A (OI-A17, OI-A20, OI-A22) and Part B; NoncommutativeIntegration §1.5, §1.6; VonNeumannAlgebras V4.Core.
+*Needs:* N3's trace, Hölder inequality and quasi-ideals; OperatorTheory/OperatorIdeals Part A (OI-A17, OI-A20, OI-A22) and Part B.
 
 ## N5. Spectral triples and the Hochschild class
 
@@ -864,6 +930,13 @@ and K-generator assertions are not imposed on them.
   its connection, pp. 356–357; its elliptic index formula, pp. 358–361, is
   cited for comparison only. IV Appendix C: the partial-sum norms of
   `L^(p,∞)` and `L^(1,∞)`, p. 453.
+- T. Fack and H. Kosaki, [*Generalized s-numbers of τ-measurable
+  operators*](https://msp.org/pjm/1986/123-2/pjm-v123-n2-p03-s.pdf),
+  Pacific J. Math. 123 (1986), 269–300. Theorem 4.2, p. 286: Hölder with
+  constant one for all positive exponents and the multiplicative
+  majorization of singular values; Theorem 4.9(iii), p. 295: the
+  p-triangle inequality for 0<p<1. N3 uses only the case of B(H) with
+  its trace.
 - N3's odd character coefficient is minus the coefficient printed in
   Connes IV §1, Definition 3, p. 302, while N2's odd pairing constant is
   positive; the Hardy compression calculation fixes agreement with
