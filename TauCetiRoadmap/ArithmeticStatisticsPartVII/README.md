@@ -6,13 +6,15 @@
 
 This part owns quadratic-isotropic and alternating-matrix probability laws, their Selmer comparisons, arithmetic distribution conjectures and conditional three-isogeny twist applications. The shared layer notation places these targets in Layer 5. ArithmeticStatisticsPartVIII is a downstream consumer.
 
-EllipticCurves Layers 1, 4–7 supply isogenies, formal and local point groups, quadratic twists, Mordell–Weil and finite Selmer groups with their exact sequences. Its Layer 8 supplies the unique integral minimal short model over `ℚ`. ArithmeticStatisticsPartI supplies its family-height adapter; this part keeps that denominator distinct from the global-field coefficient-model families. The pointwise two-Selmer rank identity is supplied by EllipticCurves Layers 6–7, with explicit descent bounds already in `WeierstrassCurve.Affine.card_range_μ` and `pow_rank_le_card_of_range_μ_le` in `TauCeti.AlgebraicGeometry.EllipticCurve.MordellWeil.SelmerGroup`.
+EllipticCurves Layers 1, 4–7 supply isogenies, formal and local point groups, quadratic twists, Mordell–Weil and finite Selmer groups with their exact sequences. Its Layer 8 supplies the unique integral minimal short model over `ℚ`. ArithmeticStatisticsPartI §§0.1, 0.4–0.6 supply its family-height adapter, finite-subset density theorem and squareclass denominators; this part keeps that denominator distinct from the global-field coefficient-model families. The pointwise two-Selmer rank identity is supplied by EllipticCurves Layers 6–7, with explicit descent bounds already in `WeierstrassCurve.Affine.card_range_μ` and `pow_rank_le_card_of_range_μ_le` in `TauCeti.AlgebraicGeometry.EllipticCurve.MordellWeil.SelmerGroup`.
 
 Finite quadratic isotropy and quadratic orthogonal quotients use Tau Ceti's existing finite quadratic modules. The new work is the varying maximal-isotropic parameter space, reduction maps, intersection counts and canonical probabilities. The arbitrary-field `QuadraticForm` adapter retains quadratic vanishing in characteristic two. Restricted-product groups and product measures use Mathlib and the [RestrictedProducts, Export contract](../../Completed/RestrictedProducts/README.md#export-contract); the new structure is quadratic self-duality and its finite reductions. Scalar exponential-moment determinacy uses Tau Ceti; the group-class and rank-grid moment theorems are supplied by ArithmeticStatisticsPartIV.
 
 AbelianSchemesAndArithmeticModuli §A5.1 owns complex lattice uniformization and the analytic/algebraic Hom comparison; ModularCurvesPartII §§1.2–1.4 supply its pointed elliptic and invariant-differential specializations. VonNeumannAlgebras V11.DoubleDualEmbedding and the V11 Fourier/biduality conclusion own character separation and natural topological evaluation biduality for all Hausdorff locally compact abelian groups. This part adds the closed-subgroup extension, quotient-dual and quadratic annihilator comparisons needed by its locally compact model.
 
-The exact arithmetic, cohomological and geometric suppliers are listed below. CM Hecke characters, ideal-kernel comparisons and twist estimates needed here are local targets in [CM twist and descent estimates](#cm-twist-and-descent-estimates). Every three-isogeny mean retains the explicit analytic hypothesis `C(F,φ,Σ)` from ArithmeticStatisticsPartIII's windowed cubic counting contract; each base extension uses the contract over the new field.
+ImaginaryQuadraticClassNumber §H3.1 owns the CM ideal-lattice dictionary, endomorphism-order comparison, ideal-class action and arithmetic reciprocity, including finite-level torsion actions and exceptional units. This part adds the chosen-uniformization/idele comparison and the base-field and differential adapters for those isogenies.
+
+The exact arithmetic, cohomological and geometric suppliers are listed below. CM Hecke characters and twist estimates needed here are local targets in [CM twist and descent estimates](#cm-twist-and-descent-estimates). Every three-isogeny mean retains the explicit analytic hypothesis `C(F,φ,Σ)` from ArithmeticStatisticsPartIII's windowed cubic counting contract; each base extension uses the contract over the new field.
 
 ## Conventions
 
@@ -46,6 +48,8 @@ AnalyticNumberTheoryPartI Layer 3 supplies partial summation and convergent-prod
 
 From AbelianSchemesAndArithmeticModuli §A5.1 consume the lattice description of a complex abelian variety, the natural lattice-torsion and Tate-module comparisons, and the identification of algebraic homomorphisms with complex-linear maps preserving lattices. From ModularCurvesPartII §§1.2–1.4 consume pointed elliptic uniformization, the kernel and degree of a lattice isogeny, and its pullback on invariant differentials: for nonzero `u` with `uΛ⊆Λ′`, the kernel is `u⁻¹Λ′/Λ`, the degree is `[Λ′:uΛ]`, and the differential multiplier is `u`.
 
+From ImaginaryQuadraticClassNumber [§H3.1, Modular functions and the imaginary-quadratic CM dictionary](../ImaginaryQuadraticClassNumber/README.md#h31-modular-functions-and-the-imaginary-quadratic-cm-dictionary) consume the oriented ideal-lattice/CM-curve equivalence, endomorphism orders, ideal isogenies, changes of order, and the ideal and finite-level Artin actions. Retain its actual-unit kernel at discriminants −3 and −4 and its ramification and conductor conditions. The CM reciprocity adapter below translates these actions to a chosen uniformization with the inverse-idele lattice convention; it does not impose a new restriction on the reciprocity theorem.
+
 From VonNeumannAlgebras V11.DoubleDualEmbedding and the V11 Fourier/biduality conclusion consume character separation and the natural evaluation isomorphism `G≃G^∨∨`, with compact-open dual topologies, for every Hausdorff locally compact abelian group. In additive circle notation it sends `g` to `χ↦χ(g)`; no countability or bounded-exponent hypothesis is added. Closed-subgroup extension and quotient-dual comparisons are the adapters in Character duality for the locally compact model below.
 
 ### From earlier arithmetic-statistics parts
@@ -53,6 +57,8 @@ From VonNeumannAlgebras V11.DoubleDualEmbedding and the V11 Fourier/biduality co
 The class-group `p`-primary subgroup is Mathlib’s `CommGroup.primaryComponent` applied to `ClassGroup (𝓞 K)`, with its additive form when needed. Normalization of the predicted limits is ArithmeticStatisticsPartIV §3.3’s Cohen–Lenstra mass formula and `cohenLenstraMeasure`; it is consumed directly.
 
 From ArithmeticStatisticsPartI require [ArithmeticStatisticsPartI: invariants height and eligible pairs](../ArithmeticStatisticsPartI/README.md#04-elliptic-invariant-families), [ArithmeticStatisticsPartI: arithmetic family](../ArithmeticStatisticsPartI/README.md#01-counting-families-and-relative-density), [ArithmeticStatisticsPartI: elliptic curves over q ordered by height](../ArithmeticStatisticsPartI/README.md#04-elliptic-invariant-families), [ArithmeticStatisticsPartI: quadratic twist squareclass family](../ArithmeticStatisticsPartI/README.md#05-squareclasses-and-quadratic-twists), [ArithmeticStatisticsPartI: even parity classes have half density](../ArithmeticStatisticsPartI/README.md#06-squarefree-integer-denominators), [ArithmeticStatisticsPartI: positive squarefree family over q](../ArithmeticStatisticsPartI/README.md#06-squarefree-integer-denominators), [ArithmeticStatisticsPartI: density one restricts to subfamilies of positive lower density](../ArithmeticStatisticsPartI/README.md#01-counting-families-and-relative-density), [ArithmeticStatisticsPartI: family defined by local conditions](../ArithmeticStatisticsPartI/README.md#02-local-specifications-and-acceptable-weights), [ArithmeticStatisticsPartI: binary cubic forms and the twisted action](../ArithmeticStatisticsPartI/README.md#cubic-supplier-conventions), [ArithmeticStatisticsPartI: Supporting constructions, squareclass denominator asymptotic](../ArithmeticStatisticsPartI/README.md#supporting-constructions). Their hypotheses, weights, cutoffs and normalizations are retained at the point of use below.
+
+From ArithmeticStatisticsPartI [§0.1, Counting families and relative density](../ArithmeticStatisticsPartI/README.md#01-counting-families-and-relative-density) consume `ArithmeticFamily.hasDensity_zero_of_finite` and finite-symmetric-difference invariance for an infinite ambient family with finite height sublevels. Its Supporting constructions, squareclass denominator asymptotic, gives the growing positive denominator for each inhabited family defined by finitely many local squareclass conditions. These contracts remove finite torsion exceptions from twist densities.
 
 From ArithmeticStatisticsPartIII require [ArithmeticStatisticsPartIII: refinement number field twist orbit count](../ArithmeticStatisticsPartIII/README.md#222-number-field-three-isogeny-orbit-counts). Their hypotheses, weights, cutoffs and normalizations are retained at the point of use below. In addition consume its [ArithmeticStatisticsPartIII: Supporting uniform estimates, Windowed cubic counting contract](../ArithmeticStatisticsPartIII/README.md#supporting-uniform-estimates): `C(F,φ,Σ)` is the conjunction of the windowed main term and the two uniform tails, with the specified representation, multiplicity weights, local spreading, finite archimedean window, local mass factors and `SL₂` Tamagawa volume one. All seven contract items, the actual abelian Kummer images and a positive squareclass denominator are retained.
 
@@ -1432,32 +1438,15 @@ For the proof, Apply [isogeny factorisation selmer exact sequence](#isogeny-fact
 
 - `m = 0` and `E(F)[3] = 0: dim Sel_3(E)` is even.
 
-#### Finite set twist density zero
-
-Prove that for finite squareclass height slices `F(X)` with `N(X)=#F(X)→∞`, every finite set `B` of squareclasses has relative density zero. The same assertion holds in any family with finite sublevels and a growing denominator.
-
-For the proof, `0≤#(B∩F(X))/N(X)≤#B/N(X)` eventually, and the upper bound tends to zero. The positive squareclass denominator supplies growth in each inhabited finite-local-condition family.
-
-*Needs:* [ArithmeticStatisticsPartI: positive squareclass denominator](../ArithmeticStatisticsPartI/README.md#supporting-constructions), Mathlib finite-set cardinal bounds, `Filter.Tendsto` and elementary inverse-limit rules.
-
-(Source: the elementary finite-subset density argument, with the squareclass height convention of BKLOS [[26]][BKLOS], §2, p. 2.)
-
-**Checks.**
-
-- The empty set has count and density zero at every cutoff.
-- A fixed singleton has count at most one, so its density is zero in a growing squareclass family.
-- A singleton family with constant denominator one has singleton density one; the denominator-growth hypothesis cannot be omitted.
-
-
 #### Finitely many twists with rational p torsion
 
 Let `E` be an elliptic curve over a number field `F` and `p` an odd prime. Then `{s ∈ F^×/F^{×2} : E^s(F)[p] ≠ 0}` has at most `p² − 1` elements; in particular it has density zero in the squareclass ordering.
 
 `p` odd prime
 
-For the proof, `E^s(F)[p] ≅ {P ∈ E(F̄)[p] : σP = χ_s(σ)P for all σ}` with `χ_s` the quadratic character of `F(√s)/F` (twist of `E` by −1 along `χ_s`, Tau Ceti EllipticCurves Layer 5). A nonzero `P` determines `χ_s`: if `σP = χ(σ)P = χ'(σ)P` then `χ(σ) = χ'(σ)` because `P ≠ 0` and `±1` are distinct mod `p` (`p` odd). So distinct squareclasses with nonzero `p`-torsion use disjoint sets of nonzero points of `E[p]`, giving at most `p² − 1` classes; a finite set has density zero by [finite set twist density zero](#finite-set-twist-density-zero).
+For the proof, `E^s(F)[p] ≅ {P ∈ E(F̄)[p] : σP = χ_s(σ)P for all σ}` with `χ_s` the quadratic character of `F(√s)/F` (twist of `E` by −1 along `χ_s`, Tau Ceti EllipticCurves Layer 5). A nonzero `P` determines `χ_s`: if `σP = χ(σ)P = χ'(σ)P` then `χ(σ) = χ'(σ)` because `P ≠ 0` and `±1` are distinct mod `p` (`p` odd). So distinct squareclasses with nonzero `p`-torsion use disjoint sets of nonzero points of `E[p]`, giving at most `p² − 1` classes; apply ArithmeticStatisticsPartI §0.1’s finite-subset density theorem with its Supporting constructions, squareclass denominator asymptotic.
 
-*Needs:* [finite set twist density zero](#finite-set-twist-density-zero), EllipticCurves Layer 5 (quadratic-twist Galois action), [ArithmeticStatisticsPartVI: height moments in an arithmetic family](../ArithmeticStatisticsPartVI/README.md#412-height-moments), [ArithmeticStatisticsPartI: quadratic twist squareclass family](../ArithmeticStatisticsPartI/README.md#05-squareclasses-and-quadratic-twists).
+*Needs:* [ArithmeticStatisticsPartI: finite-subset density](../ArithmeticStatisticsPartI/README.md#01-counting-families-and-relative-density), [ArithmeticStatisticsPartI: squareclass denominator asymptotic](../ArithmeticStatisticsPartI/README.md#supporting-constructions), EllipticCurves Layer 5 (quadratic-twist Galois action), [ArithmeticStatisticsPartVI: height moments in an arithmetic family](../ArithmeticStatisticsPartVI/README.md#412-height-moments), [ArithmeticStatisticsPartI: quadratic twist squareclass family](../ArithmeticStatisticsPartI/README.md#05-squareclasses-and-quadratic-twists).
 
 (Silverman, *The Arithmetic of Elliptic Curves*, Chapter X §5, quadratic-twist Galois action; EllipticCurves Layer 5. The bound `p²−1` is the elementary disjoint-eigenspace argument above; its density consequence uses the positive squareclass denominator.)
 
@@ -2178,7 +2167,7 @@ For the proof, Express the precise finite-height averaging assertion on the supp
 
 #### Bounded-exponent splitting
 
-For `n>0`, every abelian group killed by `n` is a possibly infinite direct sum of cyclic groups of positive orders dividing `n`. Prove this at the stated generality, without finite generation. Consequently: if `δ:A→B` is a homomorphism between groups killed by `n` and `A/mA→B/mB` is injective for every `m|n`, then `δ` admits an additive retraction; in particular its image is a direct summand. Equivalently the pure subgroup of a bounded group splits.
+Prove `bounded_exponent_decomposition`: for every universe-sized abelian group `A` and positive integer `n` with `n • a = 0` for every `a∈A`, there are an index type in the same universe and positive integers `d(i)` dividing `n`, with an additive equivalence `A ≃ ⨁_i ℤ/d(i)`. Neither the group nor the index type is assumed finite or countable. Consequently: if `δ:A→B` is a homomorphism between groups killed by `n` and `A/mA→B/mB` is injective for every `m|n`, then `δ` admits an additive retraction; in particular its image is a direct summand. Equivalently the pure subgroup of a bounded group splits.
 
 For the proof, Decompose into primary parts and construct cyclic bases by induction on the exponent, choosing bases of the successive `p`-power layers and lifting compatible generators. For the splitting criterion take `C=coker δ`; the modulo-`m` condition gives surjectivity `B[m]→C[m]`. Lift the generator of every cyclic summand of `C` with its exact order to obtain a section. This also splits Kummer sequences whose torsion in the quotient has such order-preserving lifts.
 
@@ -2188,7 +2177,9 @@ For the proof, Decompose into primary parts and construct cyclic bases by induct
 
 **Checks.**
 
-- `⊕_ℕ ℤ/4` is included despite not being finitely generated.
+- For `A=⊕_ℕ ℤ/4` and `n=4`, take `d(i)=4` and the identity equivalence: every coordinate of `4a` is zero, and the distinct coordinate generators show that `A` is infinite. The same witness works for any index type, including an uncountable one.
+- For `A=ℤ/2⊕ℤ/3` and `n=6`, take cyclic orders 2 and 3; `6a=0` in both factors. Requiring every cyclic factor to have order exactly `n` would exclude `A=ℤ/2` with `n=4` despite `4a=0`.
+- For `n=1`, the group is zero and the empty direct sum has one element. The hypothesis `n>0` excludes `n=0`, where every abelian group is annihilated by zero, including `ℚ`, which is divisible and cannot be a direct sum of positive-order finite cyclic groups.
 - `2ℤ/4⊂ℤ/4` fails injectivity modulo 2 and does not split.
 - `n=1` forces both groups to be zero; requiring the condition only modulo `n=4` would incorrectly accept `2ℤ/4⊂ℤ/4`.
 
@@ -2429,20 +2420,21 @@ For the all-prime symplectic model prove the primewise error bound and apply Bor
 
 #### CM reciprocity
 
-Construct the CM reciprocity comparison for an imaginary quadratic field `K⊂ℂ`, a fractional `O_K`-ideal `a`, and a maximal-order CM elliptic curve with a chosen analytic uniformization `ξ:ℂ/a≃E(ℂ)` compatible with this embedding on differentials. For `σ∈Aut(ℂ/K)` and an idele `x∈A_K×` whose Artin image is `σ|K^ab`, construct the unique uniformization `ξ′:ℂ/x⁻¹a≃E^σ(ℂ)` with `σξ(t)=ξ′(x⁻¹t)` on `K/a`. Fix Artin reciprocity so a uniformizer acts by arithmetic Frobenius on unramified torsion; the inverse idele acts on the ideal lattice. Prove compatibility with products of ideles, principal ideles and the CM ideal-isogeny action. This main reciprocity theorem is a target here.
+Construct the CM reciprocity comparison for an imaginary quadratic field `K⊂ℂ`, a fractional `O_K`-ideal `a`, and a maximal-order CM elliptic curve with a chosen analytic uniformization `ξ:ℂ/a≃E(ℂ)` compatible with this embedding on differentials. For `σ∈Aut(ℂ/K)` and an idele `x∈A_K×` whose Artin image is `σ|K^ab`, construct the unique uniformization `ξ′:ℂ/x⁻¹a≃E^σ(ℂ)` with `σξ(t)=ξ′(x⁻¹t)` on `K/a`. Fix Artin reciprocity so a uniformizer acts by arithmetic Frobenius on unramified torsion; the inverse idele acts on the ideal lattice. Prove compatibility with products of ideles, principal ideles and the CM ideal-isogeny action. This is the chosen-uniformization adapter for the CM reciprocity action of ImaginaryQuadraticClassNumber §H3.1.
 
-For the proof, Develop the ideal action on CM lattices and algebraic isogenies, identify their conjugates and their torsion action through reciprocity, and prove the canonical comparison and composition law. Use the existing complex uniformization and class-field reciprocity carriers; the CM comparison connecting them is included in this target.
+For the proof, express the finite-level ideal and Artin actions of ImaginaryQuadraticClassNumber §H3.1 in the torsion coordinates of the chosen uniformization. Their compatibility under change of level identifies the action on `K/a=⊕_𝔭 K_𝔭/a_𝔭`; multiplication by the finite components of `x⁻¹` has target `K/x⁻¹a`. Compare the supplied algebraic CM isogenies with their analytic lattice maps to obtain `ξ′`. Equality on torsion determines the analytic group isomorphism, giving uniqueness and the composition law. Retain the actual units, rather than identifying comparisons only up to sign.
 
-*Needs:* EllipticCurves Layers 1–2 (algebraic isogenies and Tate modules), AbelianSchemesAndArithmeticModuli §A5.1 (lattice uniformization and the analytic/algebraic Hom comparison), ModularCurvesPartII §§1.2–1.4 (pointed elliptic uniformization and invariant differentials), GlobalNumberFields (fractional ideals and ideles), ClassFieldTheory (Artin reciprocity), [CM ideal-isogeny comparison](#cm-ideal-isogeny-comparison).
+*Needs:* ImaginaryQuadraticClassNumber §H3.1 (CM dictionary, ideal isogenies and finite-level arithmetic reciprocity), EllipticCurves Layers 1–2 (algebraic isogenies and Tate modules), AbelianSchemesAndArithmeticModuli §A5.1 (lattice uniformization and the analytic/algebraic Hom comparison), ModularCurvesPartII §§1.2–1.4 (pointed elliptic uniformization and invariant differentials), GlobalNumberFields (fractional ideals and ideles), ClassFieldTheory (Artin reciprocity), [CM ideal-isogeny comparison](#cm-ideal-isogeny-comparison).
 
 (Rubin [[55]][Rubin], Theorem 5.11 and its diagram, pp. 17–18; §5.1, pp. 15–16.)
 
 **Checks.**
 
 - On `Λ=ℤ+ℤi`, multiplication by 2 on `ℂ/Λ` has kernel `{0,1/2,i/2,(1+i)/2}`, degree 4 and differential multiplier 2; using the inverse multiplier would give 1/2.
-- For the trivial idele and identity automorphism, the comparison is the original uniformization.
-- A principal idele changes the lattice by the corresponding scalar and acts trivially through the global Artin map; its uniformization comparison cancels that scalar.
-- On a prime-to-conductor ideal class, the conjugate CM lattice is in the inverse ideal class. Replacing `x⁻¹a` by `xa` reverses the stated Artin convention.
+- For the trivial idele and identity automorphism, the comparison is the original uniformization. Composing the principal ideles 2 and 3 gives lattice `(1/6)Λ`, coordinate `t/6` and comparison `z↦ξ(6z)`, agreeing with the principal idele 6.
+- For the principal idele 2 and identity automorphism, the lattice is `(1/2)Λ` and the torsion coordinate is `t/2`; the comparison `ξ′(z)=ξ(2z)` gives `ξ′(t/2)=ξ(t)`. For `Λ=ℤ+ℤi` and `t=1/5`, both sides are `ξ(1/5)`; using `2t` instead gives `ξ(4/5)`, which differs by the nonlattice coordinate `3/5`.
+- For `Λ=O_K` and an ideal `b` whose class has order 3, the `b`-idele gives class `[b]⁻¹=[b]²`, which differs from `[b]`; an order-two class would not detect the reversal.
+- For `Λ=ℤ+ℤi`, the principal unit idele `i` leaves the lattice fixed but sends `t` to `−it`; the comparison `ξ′(z)=ξ(iz)` cancels this action. At `t=1/5` a comparison left unchanged would give `ξ(−i/5)≠ξ(1/5)`, so the actual order-four unit action is retained.
 
 #### CM Hecke character
 
@@ -2474,7 +2466,22 @@ Prove the local unit-character comparison: for a number field `F` containing `K`
 
 #### Cm ideal isogeny comparison
 
-Prove the CM ideal-isogeny comparison: for such `E` and every nonzero ideal `a` of `O_K`, `E[a]` is base-stable, has order `N(a)`, and its quotient retains maximal-order CM; every base-defined CM order admits a base-defined isogeny to maximal order. Keep the ideal-class action and prime-ideal representatives in the inverse isogeny comparison (Rubin Proposition 5.3, Proposition 5.4 and §5.1, pp. 15–16). Normalize the differential action by `a*(ω)=ι(a)ω`, so the formal linear coefficient is `ι(a)` (Rubin Proposition 3.14, p. 11). These are mathematical comparison targets on the elliptic isogeny API.
+For a number field `F⊂ℂ` and `E/F` with `End_F(E)=O_K`, compare the ideal-isogeny action of ImaginaryQuadraticClassNumber §H3.1 with the base-defined quotient `φ_a:E→E/E[a]` for each nonzero integral ideal `a⊆O_K`. The adapter identifies its geometric kernel with `a⁻¹Λ/Λ`, proves descent to `F` from the `F`-defined CM action, and identifies its degree with `N(a)` and its target with the supplied maximal-order CM curve. For a nonmaximal base-defined CM order, compare the conductor-kernel quotient with the supplied change-of-order isogeny, retaining descent to `F` (Rubin Propositions 5.3–5.4, pp. 15–16).
+
+For an element `α∈O_K`, the endomorphism `[α]:E→E` satisfies `[α]*ω=ι(α)ω` for every invariant differential `ω`; its formal linear coefficient is `ι(α)` (Rubin Definition 1.7, p. 3, and Proposition 3.14, p. 11). For the ideal quotient choose nonzero invariant differentials `ω` on `E` and `ω′` on `E/E[a]`, and define `c_φ∈F` by `φ_a*ω′=c_φ ω`. This coefficient is not attached to an ideal without these choices. Its comparison API is:
+
+- The coefficient exists uniquely and is nonzero, since the invariant-differential space is one-dimensional and the isogeny is separable in characteristic zero (Rubin Definition 1.7, p. 3).
+- With formal parameters normalized by `ω=(1+O(t))dt` and `ω′=(1+O(t′))dt′`, the formal map is `t′=c_φ t+O(t²)` (the pullback computation in Rubin Proposition 3.14, p. 11, applied to the two specified differentials).
+- Under `ω↦uω`, `ω′↦vω′`, for `u,v∈F×`, the coefficient changes to `(v/u)c_φ` (linearity of pullback; ModularCurvesPartII §§1.3–1.4, lattice-isogeny pullback and invariant differentials).
+
+*Needs:* ImaginaryQuadraticClassNumber §H3.1 (ideal-lattice dictionary, ideal isogenies and changes of order), EllipticCurves Layers 1 and 4 (base-field isogeny quotients and formal groups), ModularCurvesPartII §§1.2–1.4 (lattice isogenies and invariant differentials).
+
+**Checks.**
+
+- In `O_K=ℤ[√−5]`, the ideal `(2,1+√−5)` has quotient of order 2, so its isogeny has degree 2. A generator would have norm 2, but `x²+5y²=2` has no integral solution: `y=0` requires `x²=2`, while `|y|≥1` gives norm at least 5.
+- The ideal `(2)=(-2)` has norm 4. The endomorphisms `[2]` and `[-2]` have the same four-element kernel and degree 4, but differential multipliers 2 and −2. The quotient isogeny becomes either endomorphism only after choosing the corresponding isomorphism of its target with `E`.
+- The unit ideal gives the identity quotient; with the same differential on both curves, `c_φ=1`. Replacing only the target differential by `2ω` gives `c_φ=2`, while rescaling both by 2 leaves `c_φ=1`.
+
 
 For CM twists retain the arithmetic CM action: maximal-order CM, all endomorphisms defined over the stated base, and the existence of a twist with good reduction. Then prove the local three-isogeny Tamagawa ratio and differential comparison at every place, including two and three. For nonmaximal orders pass through a base-defined isogeny and use corank invariance, rather than assert that geometric CM alone forces every local ratio one. At `j=0` and 1728 use the appropriate larger twist automorphism group; the squareclass-to-twist map is used with its actual fibre at those exceptional `j`-values. Sources: BKLOS §11, Lemma 11.1 and Theorem 11.2, pp. 18–19, and proof of Theorem 2.7, p. 19; Rubin §5.1, Proposition 5.3, pp. 15–16, Theorem 5.15, pp. 19–20, and Corollary 5.22, pp. 21–22. Cassels–Tate adjointness is supplied by SelmerIwasawaCohomology §4.29; its application yields the exact isogeny Selmer-ratio and parity statements here.
 
@@ -2500,7 +2507,7 @@ The locally compact quadratic data carry a continuous quadratic map and a polar 
 
 ### Dependencies
 
-ArithmeticStatisticsPartI Layer 0 supplies families; ArithmeticStatisticsPartIII Layer 2 supplies the conditional cubic count; ArithmeticStatisticsPartIV §§3.1–3.6 supplies finite-group laws and moments; ArithmeticStatisticsPartV Layer 3 supplies field torsion means; ArithmeticStatisticsPartVI Layer 4 supplies Selmer averages. AnalyticNumberTheoryPartI Layer 3 and AnalyticNumberTheoryPartII §5.29 supply analytic summation, products and character estimates. The quadratic and scalar-determinacy boundaries are the existing Tau Ceti declarations in Scope and ownership. Mathlib supplies product and projective measures. VonNeumannAlgebras V11 supplies evaluation biduality. AbelianSchemesAndArithmeticModuli §A5.1 and ModularCurvesPartII §§1.2–1.4 supply complex uniformization and differential comparison. AbelianSchemesAndArithmeticModuli §§A2.2–A2.5, A3.1–A3.7, ArithmeticGaloisDuality §§R02.4.2–R02.4.5, D7.6 and SelmerIwasawaCohomology §§2.10–2.12a, 4.29 supply theta groups, local cohomology, duality and elliptic parity. The three-isogeny applications retain `C(F,φ,Σ)` for every used factor over the actual averaging field.
+ArithmeticStatisticsPartI Layer 0 supplies families; ArithmeticStatisticsPartIII Layer 2 supplies the conditional cubic count; ArithmeticStatisticsPartIV §§3.1–3.6 supplies finite-group laws and moments; ArithmeticStatisticsPartV Layer 3 supplies field torsion means; ArithmeticStatisticsPartVI Layer 4 supplies Selmer averages. AnalyticNumberTheoryPartI Layer 3 and AnalyticNumberTheoryPartII §5.29 supply analytic summation, products and character estimates. The quadratic and scalar-determinacy boundaries are the existing Tau Ceti declarations in Scope and ownership. Mathlib supplies product and projective measures. VonNeumannAlgebras V11 supplies evaluation biduality. ImaginaryQuadraticClassNumber §H3.1 supplies the CM dictionary, ideal action and arithmetic reciprocity. AbelianSchemesAndArithmeticModuli §A5.1 and ModularCurvesPartII §§1.2–1.4 supply complex uniformization and differential comparison. AbelianSchemesAndArithmeticModuli §§A2.2–A2.5, A3.1–A3.7, ArithmeticGaloisDuality §§R02.4.2–R02.4.5, D7.6 and SelmerIwasawaCohomology §§2.10–2.12a, 4.29 supply theta groups, local cohomology, duality and elliptic parity. The three-isogeny applications retain `C(F,φ,Σ)` for every used factor over the actual averaging field.
 
 ## Downstream consumers
 

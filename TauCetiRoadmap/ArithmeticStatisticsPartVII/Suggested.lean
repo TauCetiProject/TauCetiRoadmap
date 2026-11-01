@@ -3,7 +3,7 @@ import TauCeti.AlgebraicGeometry.EllipticCurve.MordellWeil.SelmerGroup
 import TauCeti.AlgebraicGeometry.EllipticCurve.QuadraticTwist.Basic
 
 /-!
-# Arithmetic statistics, Part VII: headline target signatures
+# Arithmetic statistics, Part VII: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive specification is
 `README.md`, including source locators, supplier contracts and the full basic theory.
@@ -14,6 +14,9 @@ its total-variation Poonen–Rains limit and cardinality moments, and Delaunay c
 moments (§5.7); and parity-sensitive moment recovery and Kane's full rational two-torsion
 twist distribution (§5.9). The arithmetic statement uses Tau Ceti's actual two-Selmer group
 at all finite places and the real place, with the signed and positive integer denominators.
+
+The bounded-exponent decomposition theorem (§5.31) is stated for arbitrary abelian groups
+and universe-sized index types.
 
 The other headline results need constructions beyond these signatures. The Cohen–Lenstra
 and Cohen–Martinet arithmetic implications (§§5.1–5.3) need the discriminant-ordered field
@@ -28,16 +31,22 @@ elliptic two-descent is available. Thus the Selmer conjecture implications (§5.
 and three-isogeny/CM twist applications (§§5.9–5.11, 5.32), global theta-quadratic intersection
 (§5.27), Jacobian and composite Selmer conjectures (§5.28), and local/adelic Kummer summand
 comparisons (§5.31) have no signatures here. The function-field three-Selmer bound (§5.9)
-also needs its geometric-height elliptic-surface family. CM reciprocity and the Hecke-character
-comparison need CM uniformizations and the CM ideal action. These results are specified in
+also needs its geometric-height elliptic-surface family. The chosen-uniformization CM
+reciprocity adapter and the Hecke-character comparison need CM uniformizations and the
+supplied CM ideal action. These results are specified in
 the README; no substitute structures or hypotheses represent their missing objects here.
 -/
 
 noncomputable section
-open scoped BigOperators Topology Classical
+open scoped BigOperators Topology Classical DirectSum
 open Polynomial Filter
 
 namespace TauCetiRoadmap.ArithmeticStatisticsPartVII
+
+universe u
+
+/-! ## Layer 5: Quadratic probability models and twist applications -/
+
 namespace Distributions
 
 /-- The quadratic-isotropic, polar-self-orthogonal subspaces of §5.4. -/
@@ -184,5 +193,13 @@ theorem two_selmer_twist_distribution (W : WeierstrassCurve ℚ)
       (Nat.card {b : {b : ℤ // b ≠ 0} // 0 < b.val ∧ b.val.natAbs ≤ N ∧
         twistTwoSelmerCard W b = 2 ^ (d + 2)} : ℝ) / (N : ℝ))
       atTop (𝓝 (Distributions.poonenRainsWeight 2 d)) := by sorry
+
+/-- Every abelian group annihilated by a positive integer is a direct sum of cyclic groups
+of positive orders dividing that integer, without finiteness or countability assumptions (§5.31).
+This is the bounded-group structure theorem used in BKLPR, Proposition 6.7 and Lemma 6.11. -/
+theorem bounded_exponent_decomposition (A : Type u) [AddCommGroup A]
+    (n : ℕ) (hn : 0 < n) (hA : ∀ a : A, n • a = 0) :
+    ∃ (ι : Type u) (d : ι → ℕ),
+      (∀ i, 0 < d i ∧ d i ∣ n) ∧ Nonempty (A ≃+ ⨁ i, ZMod (d i)) := by sorry
 
 end TauCetiRoadmap.ArithmeticStatisticsPartVII
