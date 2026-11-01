@@ -19,9 +19,9 @@ to reductive groups rather than defining another descent theory. RootSystems Lay
 owns the abstract root data and diagram theory; the group extraction and integral realization
 are the distinct targets here. Section 3A.5 owns the classical topology on complex
 scheme points and its smooth-chart and properness comparisons; §11.0 supplies the
-group-operation and tangent-bracket adapters. ComplexComparisonPartII §C−1.1 is a
-consumer of this topological and smooth prefix for its ringed analytification,
-which retains the analytic structure sheaf and its nilpotents.
+group-operation and tangent-bracket adapters. This topological and smooth prefix
+does not construct full ringed analytification with its analytic structure sheaf
+and nilpotents.
 
 The general Lang theorem and finite-field exactness belong to Layer 7a; rational
 cohomology and cotensor induction to §1.1; the group-specific analytic dictionary to §11.0.
@@ -29,6 +29,19 @@ ReductiveGroupsPartII, IntegralHeckeAndGaloisDeterminants and FormalConnectionsO
 are consumers of those interfaces. The finite-presentation Weil restriction used in Layer 8
 comes directly from ModularCurves §0F. No arbitrary-affine extension of that construction
 is needed for the finite-type group examples over fields.
+
+The counit-derivation bracket, Lie-hom differential and point adjoint representation
+are supplied by Tau Ceti’s tangent modules, as are augmentation cotangent duality
+and the affine Zariski-cotangent comparison. Layer 2 owns their compatibility with
+the scheme group-object dictionary, scheme kernels and the represented algebraic
+adjoint morphism; it does not reconstruct those native operations.
+
+Layer 4 uses Tau Ceti’s point Jordan decomposition, diagonalizable group-scheme
+anti-equivalence, multiplicative-type and torus predicates, and geometric lattice
+pairing. Its additional targets compare those carriers through the group-object
+dictionary and extend Galois classification from the native perfect-field case
+to arbitrary fields. Finite locally free commutative Cartier duality belongs to
+ModularCurves §0B; it is distinct from diagonalizable character duality.
 
 ## Conventions
 
@@ -87,7 +100,12 @@ prove them equivalent** rather than committing.
   `Spec R`; use this dictionary for the corresponding Layer 0 targets.
 - **Classical-topology and chart inputs:** `AlgebraicGeometry.Smooth.exists_isStandardSmooth`
   in `Mathlib/AlgebraicGeometry/Morphisms/Smooth.lean` supplies local standard-smooth
-  presentations. `TopCat.GlueData` and `IsProperMap` supply topological gluing and
+  presentations. The local ring of holomorphic germs in §11.0 uses
+  `smoothSheafCommRing` and `smoothSheafCommRing.eval` in
+  `Mathlib/Geometry/Manifold/Sheaf/Smooth.lean`, over the complex model, and
+  `smoothSheafCommRing.isUnit_stalk_iff` in
+  `Mathlib/Geometry/Manifold/Sheaf/LocallyRingedSpace.lean`: a germ is a unit
+  exactly when its value is nonzero. `TopCat.GlueData` and `IsProperMap` supply topological gluing and
   proper continuous maps; the latter includes continuity and does not impose
   Hausdorffness on either space.
 - **Smoothness ingredient:** `Mathlib/RingTheory/Nilpotent/GeometricallyReduced.lean`.
@@ -101,10 +119,62 @@ prove them equivalent** rather than committing.
 
 ### From Tau Ceti
 
+- `TauCeti.HopfAlgebra.Point.jordanDecomposition` in
+  `TauCeti/Algebra/AlgebraicGroup/Representation/JordanDecomposition/Basic.lean`
+  supplies the two factors over a perfect coefficient field; the sibling
+  `Naturality.lean`, `ScalarExtension.lean` and `Commuting.lean` supply
+  `TauCeti.HopfAlgebra.Point.jordanDecomposition_mapDomain`,
+  `TauCeti.HopfAlgebra.Point.jordanDecomposition_mapValue` and
+  `TauCeti.HopfAlgebra.Point.jordanDecomposition_mul_of_commute`.
+- `TauCeti.DiagonalizableGroup.schemeEquivalence` in
+  `TauCeti/Algebra/AlgebraicGroup/DiagonalizableGroup/Equivalence.lean` supplies
+  the contravariant equivalence over a field. The point comparison
+  `TauCeti.DiagonalizableGroup.schemePointsMulEquiv` in
+  `TauCeti/Algebra/AlgebraicGroup/DiagonalizableGroup/Scheme/Points.lean` works
+  over any commutative base ring; `TauCeti.DiagonalizableGroup.isShortExact_mapDomainBialgHom`
+  in `TauCeti/Algebra/AlgebraicGroup/DiagonalizableGroup/Exact.lean` supplies
+  exactness. No second diagonalizable-group constructor is required in Layer 4.
+- `TauCeti.multiplicativeTypeCommHopfAlgProperty` in
+  `TauCeti/Algebra/AlgebraicGroup/MultiplicativeType/Basic.lean` and
+  `TauCeti.torusCommHopfAlgProperty`, `TauCeti.splitTorusCommHopfAlgProperty` in
+  `TauCeti/Algebra/AlgebraicGroup/Torus/Basic.lean` are the predicates used here.
+  `TauCeti.TorusCommHopfAlgCat.characterLatticeFunctor_isEquivalence` in
+  `TauCeti/Algebra/AlgebraicGroup/Torus/CharacterLattice/Equivalence.lean`
+  requires a perfect field; the arbitrary-field extension is a Layer 4 target.
+  `TauCeti.MultiplicativeTypeCommHopfAlgCat.characterCocharacterPairing` and
+  `TauCeti.MultiplicativeTypeCommHopfAlgCat.characterCocharacterPairing_galois_invariant`
+  in `TauCeti/Algebra/AlgebraicGroup/MultiplicativeType/Cocharacter.lean` supply
+  the pairing and its equivariance, on geometric rather than k-rational characters.
+  `TauCeti.TorusCommHopfAlgCat.instCharacterCocharacterPairingIsPerfPair` in
+  `TauCeti/Algebra/AlgebraicGroup/Torus/Cocharacter/Basic.lean` supplies perfectness
+  for tori over arbitrary fields.
+- `Derivation.instBracketCounitAlgebra` in
+  `TauCeti/Algebra/AlgebraicGroup/Tangent/Lie/Basic.lean` defines the convolution
+  commutator on counit-valued derivations of a commutative bialgebra over a
+  commutative ring, with values in a commutative coefficient algebra.
+  `TauCeti.derivationCompLieHom`, `TauCeti.derivationCompLieHom_id` and
+  `TauCeti.derivationCompLieHom_comp` in
+  `TauCeti/Algebra/AlgebraicGroup/Tangent/Lie/Map.lean` give the differential for
+  bialgebra morphisms and its functoriality. `Derivation.adRepresentation` in
+  `TauCeti/Algebra/AlgebraicGroup/Tangent/Adjoint.lean` gives the linear point
+  action for a commutative Hopf algebra. This point representation does not by
+  itself supply the scheme morphism to GL of the tangent space.
+- `Derivation.cotangentLinearEquiv` in
+  `TauCeti/Algebra/AlgebraicGroup/Tangent/Cotangent.lean` identifies linear
+  functionals on the augmentation cotangent space with counit-valued derivations.
+  Over a field, `TauCeti.Bialgebra.cotangentLinearEquivZariski` and its generator
+  equation `TauCeti.Bialgebra.cotangentLinearEquivZariski_toCotangent` in
+  `TauCeti/Algebra/AlgebraicGroup/Tangent/Scheme.lean` identify that cotangent
+  space with the stalk cotangent at the augmentation point of Spec H. They
+  concern algebraic stalks, not holomorphic germs.
 - `AnalyticAt.exists_openPartialHomeomorph`, in
   `TauCeti/Analysis/Analytic/Inverse.lean`, supplies analytic local inverses when
   the derivative is a continuous linear equivalence, over a complete normed
   source. Section 3A.5 applies it over ℂ in finite-dimensional coordinate spaces.
+  `DifferentiableOn.analyticOnNhd_of_finiteDimensional` in
+  `TauCeti/Analysis/Complex/CauchyIntegralPolydisc.lean` supplies holomorphic
+  analyticity on an open subset of a finite-dimensional complex domain, with
+  complete codomain; §11.0 uses codomain ℂ.
 - Mathlib `AlgebraicGeometry.Group.Affine` provides `hopfSpec.fullyFaithful` and
   `essImage_hopfSpec`; use this affine group scheme/Hopf-algebra dictionary. Its scope is
   affine group schemes over `Spec R`. Mathlib `AlgebraicGeometry.Group.Smooth` provides
@@ -261,7 +331,7 @@ H-comodule M, define rational cohomology by the Hochschild complex with degree-n
 term M⊗H⊗⋯⊗H (n Hopf factors). Use the coefficient coaction, interior coproducts
 and final unit as cofaces, with alternating signs. Prove comparison with derived
 scheme invariants using the cofree resolution and enough injectives in the flat
-comodule category (Jantzen I.3.9, I.4.14–I.4.16, pp. 43, 55–56).
+comodule category (Jantzen, 1985 preprint I.3.9, I.4.14–I.4.16, pp. 60, 77–79a).
 
 The API includes functoriality in M, connecting maps for short exact sequences,
 degree-zero identification with scheme invariants, and acyclicity of every cofree
@@ -285,7 +355,7 @@ on M and the map obtained by applying f to the first factor of Δ_H. Prove that
 Frobenius-reciprocity bijection with corestriction: its forward map uses ε_H and
 its inverse takes u to (u⊗1)ρ. The antipode on H compares the function convention
 F(hg)=hF(g), with right translation, to f(gh)=h⁻¹f(g), with left translation,
-by f(g)=F(g⁻¹) (Jantzen I.3.3–I.3.7, pp. 37–41).
+by f(g)=F(g⁻¹) (Jantzen, 1985 preprint I.3.3–I.3.7, pp. 53–58).
 
 The API includes identity and composite induction, counit evaluation, naturality
 in M, and the inversion comparison with its inverse and action equations.
@@ -315,19 +385,24 @@ The standard Gₘ character has coefficient algebra k[t]; adjoining the dual cha
 
 ### 2.1 Tangent Lie algebra and differentials
 
-For an affine finite-type group scheme G over a field k, define Lie(G) as the tangent
-space at the identity, identified with counit-valued derivations of k[G]. Define its
-bracket using invariant derivations and the differential of a group homomorphism
-by its action on tangent vectors. Construct Ad by differentiating conjugation
-(Milne, Chapter 10, §§a–b).
+For an affine finite-type group scheme G over a field k, transport the native
+counit-derivation Lie algebra through the affine scheme/Hopf dictionary to the
+tangent space at its identity. Prove that the transported differential is the
+scheme tangent map and that the point adjoint action agrees with the differential
+of the scheme conjugation morphism. The targets are these compatibility
+squares, with the maps supplied in the exact contracts above (Milne, Proposition
+10.28 and Proposition 10.29, pp. 195–196; Theorem 10.23, p. 193).
 
-- API: the differential preserves brackets, identities and compositions; its kernel
-  is the Lie algebra of the scheme-theoretic kernel, with no smoothness assumption.
-- API: for smooth G, dim Lie(G)=dim G. For a homomorphism with smooth kernel,
-  its differential kernel has that kernel's scheme dimension; inseparable maps
-  require the scheme-theoretic kernel and cannot be tested only on points.
-- API: Ad is an algebraic representation, compatible with base change and group
-  homomorphisms; its differential is the Lie adjoint action.
+- For every homomorphism f:G→H of affine finite-type k-group schemes, identify
+  ker(df) with the tangent Lie algebra of its scheme-theoretic kernel, without
+  a smoothness assumption (Milne, §10.14, p. 190).
+- For smooth G, prove dim Lie(G)=dim G. If ker(f) is smooth, deduce
+  dim ker(df)=dim ker(f); the dimension here is scheme dimension, not the
+  dimension of the reduced point set (Milne, Proposition 1.37, p. 18, and §10.14, p. 190).
+- Construct the algebraic representation Ad:G→GL(Lie(G)) representing the native
+  point adjoint action. Prove compatibility with field extension, the square
+  df(Ad_G(g)v)=Ad_H(f(g))(df(v)), and dAd=ad on the actual Lie algebra
+  (Milne, Theorem 10.23, p. 193).
 
 **Checks.**
 
@@ -342,7 +417,9 @@ For Gₐ, Lie(Gₐ)=k and the bracket is zero; for SL₂, [E₁₂,E₂₁]=diag
 
 ### Dependencies
 
-*Needs:* Layer 0 group objects; Mathlib tangent spaces and derivations; Layer 1 representations.
+*Needs:* Layer 0 group objects and affine dictionary; the native tangent, cotangent,
+differential and adjoint declarations in the Tau Ceti contract; Mathlib scheme
+tangent spaces; Layer 1 representations and faithful closed embeddings.
 
 ## Layer 3: subgroups, quotients, components
 - **Hopf ideals ↔ closed subgroup schemes:** an ideal `I` with `Δ(I) ⊆ I⊗A + A⊗I`,
@@ -535,7 +612,12 @@ arbitrary affine open covers, with no separatedness, reducedness or smoothness
 assumption. This constructs a functor to topological spaces on the native scheme
 point carrier (SGA 1, Exposé XII, Theorem and Definition 1.1 and §1.2,
 retyped pp. 239–241). The defining affine charts and their open gluing determine
-the topology, including for infinite covers.
+the topology, including for infinite covers. In Suggested.lean,
+`ClassicalPoints.affinePointEval` evaluates a regular function at a scheme point,
+`ClassicalPoints.classicalPointSubbasis` consists of its complex-open inverse images
+inside affine open charts, and `ClassicalPoints.classicalPointTopology` is the
+generated topology. The compactness headline is `ClassicalPoints.compact_complexPoints`,
+for every X over ℂ whose structural morphism is proper.
 
 Its API is:
 
@@ -560,6 +642,12 @@ Its API is:
 
 **Checks.**
 
+- Evaluation at 2 on A¹ sends t to 2, t² to 4 and 1 to 1; evaluation at 0
+  sends t to 0. On Spec ℂ[ε]/(ε²), ε evaluates to 0 at the unique point,
+  excluding any interpretation as evaluation at a nonzero nilpotent complex number.
+- In the identity chart of A¹, f=t and W={z:|z|<1} give the unit disc as a
+  subbasic open. With f=0 the same W gives all points; W=∅ gives the empty set.
+  Thus neither only Zariski opens nor a discrete finite-subset topology describes it.
 - A⁰(ℂ) is one point, A¹(ℂ) is ℂ with its usual topology, and the unit ideal gives
   no points. The discrete topology would incorrectly make the sequence 1/n
   fail to converge to 0 in A¹(ℂ).
@@ -684,23 +772,124 @@ Scaling on P¹ has one one-dimensional orbit and two closed zero-dimensional orb
 *Needs:* Layers 0–1; Layer 3 subgroup language; SchemeAndStackFoundations §0.7; the complex comparisons named in §3A.5.
 
 ## Layer 4: Jordan decomposition, diagonalizable groups, tori
-- **Jordan decomposition** of elements into semisimple and unipotent parts (geometric,
-  over `k̄`), functorial under representations.
-- **Diagonalizable groups and groups of multiplicative type:** the anti-equivalence
-  `M ↦ D(M) = Spec k[M]` between finitely generated abelian groups and diagonalizable
-  groups; `μ_n = D(ℤ/n)`, `𝔾_m = D(ℤ)`; the non-smooth example `μ_p` in characteristic `p`.
-  (*Cartier duality* proper is the duality of **finite locally free** commutative group
-  schemes, a related but distinct statement to develop separately.)
-- **Tori:** split and non-split; the **character lattice** `X*(T)` and **cocharacter
-  lattice** `X_*(T)` with their perfect pairing: the input to root data.
+
+### 4.1 Geometric Jordan decomposition
+
+For an affine finite-type group scheme G over any field k and g∈G(k̄), transport
+the native point Jordan decomposition through the Layer 0 dictionary. Identify
+its two factors with the semisimple and unipotent parts in every rational
+scheme representation from Layer 1; the comparison preserves the unique
+commuting factorization g=g_s g_u. Over a perfect field this factorization
+is defined over k for g∈G(k); over an imperfect field the assertion remains
+geometric (Milne, Theorems 9.11 and 9.18, pp. 168, 170).
+
+- The comparison intertwines the native factor maps with scheme homomorphisms
+  and faithful closed representations, independently of their choice (Milne, §§9.19–9.21, p. 171).
+- In the transported scheme representation, semisimple elements have unipotent
+  part 1 and unipotent elements have semisimple part 1; the native product formula
+  for commuting elements gives the componentwise decomposition
+  (Milne, Theorem 9.11 and its polynomial-factor proof, pp. 168–169,
+  and Theorem 9.18, p. 170).
+- The scheme-point comparison commutes with the native factor maps under
+  extension of perfect fields and further extension after passing to k̄ (Milne, proof of Theorem 9.11, pp. 168–169).
+
+**Checks.**
+
+- The identity, including in the rank-zero group, has parts (1,1); a decomposition
+  into arbitrary commuting factors would also allow (a,a⁻¹) and is excluded.
+- For g=[[2,1],[0,2]] over ℚ, g_s=2I and g_u=[[1,1/2],[0,1]], whose product is g;
+  assigning the off-diagonal entry to the semisimple factor fails diagonalizability.
+- In characteristic 2, g=I+E₁₂ has g²=I but g_s=I and g_u=g; finite order alone
+  does not imply semisimplicity in the defining characteristic.
+
+*Needs:* Layers 0–1; native finite-dimensional Jordan decomposition; faithful
+closed representations and their tensor compatibility.
+
+### 4.2 Diagonalizable groups
+
+Use the native diagonalizable group D(M)=Spec k[M] for a finitely generated
+abelian group M and its native anti-equivalence. Here Δ(u_m)=u_m⊗u_m,
+ε(u_m)=1 and S(u_m)=u_(−m). The scheme-facing targets identify the
+native Hopf exact sequences with the represented fppf quotients of Layer 3,
+and characterize smoothness and the torus locus in those same group objects (Milne, Proposition 12.3 and Theorems 12.8–12.9,
+pp. 231–234).
+
+- In the quotient comparison, use the native identification D(M)(R)=Hom(M,Rˣ)
+  for every commutative k-algebra R, so M→N induces D(N)→D(M) by precomposition (Milne, Proposition 12.3,
+  pp. 231–232).
+- Identify the reversed native Hopf exact sequence with the Layer 3 fppf
+  sequence, including its kernel and represented quotient
+  (Milne, Theorem 12.9(b)–(c), pp. 233–234).
+- If char(k)=p>0, D(M) is smooth precisely when multiplication by p on M is
+  injective; in characteristic zero every D(M) is smooth. It is a split torus precisely
+  when M is torsion-free (Milne, Remark 12.5, p. 232, Definition 12.14, p. 236).
+
+**Checks.**
+
+- M=0 gives the trivial group, while M=ℤ gives Gₘ; evaluation of the character
+  3 on the cocharacter −2 is t↦t⁻⁶, fixing the contravariant pairing convention.
+- M=ℤ/2 over ℂ gives μ₂ with two reduced points; replacing M by its torsion-free
+  quotient would incorrectly give the trivial group.
+- M=ℤ/p over characteristic p gives μₚ with coordinate ring k[u]/(uᵖ), where
+  t=1+u. It has one geometric point and tangent dimension 1, so it is not smooth.
+- The map ℤ→ℤ given by multiplication by 2 induces t↦t² on Gₘ; its kernel is μ₂,
+  not the trivial group, even in characteristic 2.
+
+*Needs:* Layer 0 group-algebra/Hopf dictionary; Layer 1 rational representations;
+Layer 3 subgroup schemes and fppf exactness.
+
+### 4.3 Groups of multiplicative type and torus lattices
+
+Use the native multiplicative-type, torus and split-torus predicates. Compare
+their algebraic-closure definitions with splitting over a separable closure kˢ:
+multiplicative type means diagonalizable there, and a torus becomes Gₘʳ for
+finite r. Compare the native geometric character and cocharacter carriers with
+X*(G)=Hom_(kˢ)(G_(kˢ),Gₘ) and X_*(G)=Hom_(kˢ)(Gₘ,G_(kˢ)). Prove, over arbitrary
+fields, the anti-equivalence with finitely generated abelian groups carrying
+continuous Galois action, restricting to finite free lattices for tori, and its
+agreement with the native perfect-field equivalence (Milne, Definitions 12.14 and 12.17,
+pp. 236–237, and Theorem 12.23, p. 240).
+
+For a torus, the comparison must carry the native pairing to the exponent of
+χ∘λ:t↦t^⟨χ,λ⟩, identifying the geometric lattices with mutually dual lattices (Milne, Theorem 12.9, pp. 233–234, and Theorem 12.23, p. 240).
+
+- Characters defined over k are exactly the Galois-fixed geometric characters;
+  a group of multiplicative type is split precisely when the action is trivial
+  (Milne, §12g, pp. 239–240).
+- A group of multiplicative type is a torus precisely when its geometric character
+  group is torsion-free. Short exact sequences correspond contravariantly to
+  short exact sequences of Galois modules (Milne, Theorem 12.23, p. 240).
+- The comparison preserves the native perfect Galois-invariant pairing and the
+  equation ⟨f*χ,λ⟩=⟨χ,f_*λ⟩ for f:T→T′. Base change restricts the Galois action, and purely inseparable
+  extension leaves morphisms between groups of multiplicative type unchanged
+  (Milne, Theorem 12.23 and Corollary 12.25, p. 240).
+
+**Checks.**
+
+- For Gₘ, both lattices are ℤ and ⟨3,−2⟩=−6. The rank-zero torus has zero
+  lattices and the perfect pairing 0×0→ℤ.
+- The real norm-one torus has both geometric lattices ℤ with conjugation acting
+  by −1; its real character group is 0, although its geometric rank is 1.
+  The pairing is invariant since (−m)(−n)=mn. Confusing k-characters with
+  geometric characters would incorrectly give rank 0.
+- μₚ in characteristic p is of multiplicative type with character group ℤ/p,
+  but is nonreduced and is not a torus; its cocharacter group is 0, so no perfect
+  integral lattice pairing exists for it.
+- Gₐ is not of multiplicative type: its geometric character group is 0 but
+  Gₐ has dimension 1, whereas D(0) has dimension 0.
+
+*Needs:* §4.2; SchemeAndStackFoundations §1.1 and ModularCurves §0E for descent;
+Layer 0 field extension; native character and cocharacter modules.
 
 ### Examples
 
-For Gₘ, character and cocharacter lattices are ℤ with pairing (m,n)↦mn. The real norm-one torus becomes Gₘ over ℂ, with conjugation acting on its character lattice by −1.
+For Gₘ, character and cocharacter lattices are ℤ with pairing (m,n)↦mn. The real
+norm-one torus becomes Gₘ over ℂ, with conjugation acting on both lattices by −1.
 
 ### Dependencies
 
-*Needs:* Layers 0–3; native character lattices and finite-dimensional Jordan decomposition.
+*Needs:* Layers 0–3; native character lattices and finite-dimensional Jordan
+decomposition; the descent suppliers named in §4.3.
 
 ## Layer 5: solvable and unipotent groups; the unipotent radical
 - **Unipotent groups** (correct, geometric definition): `g ∈ G(k̄)` is unipotent iff
@@ -2294,7 +2483,7 @@ source parameters exponent p; native root-isogeny exponents are indexed on
 pullback roots. Preserve signs, the B₂/𝔽₈ rejected reversed table, and the
 rank-one/±simple equations. This is not a second exceptional-isogeny owner.
 
-All former9B targets survive: explicit construction, base change, all roots,
+Section 9B includes explicit construction, base change, all roots,
 convolution points and field maps, pinning, simple connectivity/adjoint centre,
 pinned isomorphism, special isogenies, and numbered symmetries on every listed
 realization. Layer9C distributions/Frobenius and Layer10 rational/positive-
@@ -2658,22 +2847,47 @@ Hopf points, preserving convolution, counit and antipode. Prove that the regular
 group operations give a complex Lie group and identify its Lie algebra with
 counit-valued derivations on H. The comparison takes a tangent vector to its
 left-invariant derivation; with Δ=μ* it preserves brackets D*E−E*D.
-The restriction from germ derivations to H is inverted by
-D(a/s)=D(a)/ε(s)−ε(a)D(s)/ε(s)² for ε(s)≠0. Prove independence of the
-fraction representative, the two inverse equations, and naturality under group
-homomorphisms and faithful closed representations. These group-specific
-comparisons supply the spectral charts and the corresponding oper applications.
+At the identity e, let O_alg=H_(ker ε) and let O_hol be the local ring of
+holomorphic germs in the smooth charts of §3A.5, using the native complex
+smooth-sheaf stalk and its evaluation map. Finite-dimensional complex analyticity
+identifies these sections with holomorphic functions. Construct the local map
+O_alg→O_hol by taking the germ of a regular function, and its induced complex
+linear map c:m_alg/m_alg²→m_hol/m_hol². Prove c is an isomorphism: in algebraic
+étale coordinates and their induced analytic charts, both sides have basis the
+classes of the coordinates minus
+their values at e, and c sends each such class to itself. This is the cotangent
+consequence of SGA 1 XII, Theorem 1.1, pp. 239–240; only the smooth-chart local
+rings are needed here, not a general ringed analytification functor.
+
+- API: dualizing c gives the restriction isomorphism from residue-valued
+  derivations of O_hol to those of O_alg, and hence to counit-valued derivations
+  of H. Its inverse on every germ f is D(f)=Σᵢvᵢ∂ᵢf(e) in smooth coordinates;
+  prove independence of coordinates by the chain rule and both inverse equations.
+- API: on algebraic fractions the inverse satisfies
+  D(a/s)=D(a)/ε(s)−ε(a)D(s)/ε(s)² for ε(s)≠0, independently of the representative.
+  This compatibility equation does not by itself define D on all holomorphic germs.
+- API: the comparison is natural under homomorphisms of smooth affine finite-type
+  complex groups, including faithful closed representations, and preserves the
+  left-invariant bracket (Milne, Theorem 10.23 and §§10.28–10.29, pp. 193, 195–196).
+  These comparisons supply the spectral charts and the corresponding oper applications.
 
 **Checks.**
 
 - For Gₐ, Δt=t⊗1+1⊗t and a tangent scalar v acts by v·d/dt; its bracket is 0.
+  At 0, c sends [t] to [t], while [t²]=0 on both sides; with v=1 the
+  inverse sends exp(t) to 1 and t² to 0. A fraction-only rule misses exp(t).
+- Replacing the local coordinate t by u=2t sends tangent coefficient 1 to 2;
+  for f=exp(t)=exp(u/2) the value remains 2·(1/2)=1. Rescaling the
+  comparison itself by 2 would instead send [t] to 2[t] and violate its defining map.
 - For Gₘ, ε(t)=1 and D(t)=1 give D(t⁻¹)=−1. Reversing the quotient-rule
   sign fails already on this unit.
 - In SL₂, E=E₁₂ and F=E₂₁ give [E,F]=diag(1,−1); right-invariant vector
   fields would give the opposite sign and are excluded by the convention.
 
 *Needs:* Layers 0–2 dictionaries and tangent spaces; §3A.5 classical complex
-points, smooth charts and regular-map comparison.
+points, smooth charts and regular-map comparison; native augmentation cotangent
+and derivation duality from the Tau Ceti supplier contract; Mathlib’s complex
+smooth-sheaf stalk and evaluation; finite-dimensional holomorphic analyticity.
 
 **11A. Plane configurations, geometric braids and their basepoints.** Construct
 injective ordered complex tuples, their permutation quotient, the disc comparison,
@@ -2705,11 +2919,17 @@ Markov equivalence are not substitutes for this based loop/strand theorem.
 
 Give evenly covered neighborhoods using pairwise disjoint coordinate discs and the free
 finite `S_n` action, with actual covering maps. Prove the exact sequence
-`1→P_n→B_n→S_n→1`. It is nonsplit for `n≥2`: the sign of native `permHom` is the parity of
+`1→P_n→B_n→S_n→1`. The headline `BraidMonodromy.permutation_extension_nonsplit`
+states that native `TauCeti.BraidGroup.permHom n` has no group-homomorphic section
+for n≥2. It is nonsplit for `n≥2`: the sign of native `permHom` is the parity of
 native `ArtinGroup.exponentSum`. A homomorphic section would lift a transposition to an
 order-two element, whose integer exponent sum is zero, contradicting odd parity. Prove
 the sign/exponent equation on generators and extend by native homomorphism extensionality.
 No generic Artin torsion-freeness theorem is needed. The quotient is trivial for `n=0,1`.
+For n=2 the map is ℤ→ℤ/2; a section would send the nontrivial element to an
+odd integer a with 2a=0, whereas the latter equation forces a=0. For n=3,
+every proposed lift of (12) likewise has odd exponent sum, while its square
+has exponent sum twice that odd integer and cannot be the identity.
 Do not confuse this sequence with the pure forget-last-point sequence, which has a plane
 section. Do not apply a covering theorem requiring simply connected total space to
 `PConf_n(ℂ)`, which is not simply connected for `n≥2`.
@@ -2785,8 +3005,7 @@ No canonical choice of polynomial invariant generators is asserted.
 
 The base is the image of `𝔱_reg` in `𝔱/W`, the **discriminant complement**. It is not the
 smooth locus of the full invariant quotient, which is already an affine space in this
-setting. Construct all scheme morphisms before comparing their complex points via FCO's
-lower analytification dictionary. Prove the coarse orbit-space homeomorphism
+setting. Construct all scheme morphisms before comparing their complex points via §§3A.5 and 11.0. Prove the coarse orbit-space homeomorphism
 `𝔤_rs/G ≃ₜ 𝔱_reg/W`. This is a coarse quotient; the stack `[𝔤_rs/G]` retains torus inertia.
 
 **11D. Cameral product, local trivializations and homogeneous fiber.** Construct the
@@ -2802,8 +3021,10 @@ Prove `𝔤_rs ≃ ((G/T)×𝔱_reg)/W` through `[g,t]↦Ad_g(t)`, with the alge
 complex quotient topologies explicitly compared. A local section of the finite W-cover
 trivializes `χ_rs:𝔤_rs→𝔱_reg/W` with fiber `G/T`. Supply actual inverse maps and transition
 functions, continuity, and holomorphicity. The root-coordinate differential is
-`(X mod 𝔱,Y)↦[X,t]+Y`; prove it is an isomorphism and apply FCO's lower analytic inverse
-function dictionary. A set-theoretic orbit bijection alone does not prove these statements.
+`(X mod 𝔱,Y)↦[X,t]+Y`; prove it is an isomorphism and apply §3A.5’s analytic inverse theorem through §11.0’s tangent comparison. A set-theoretic orbit bijection alone does not prove these statements.
+For SL₂ at t=H=diag(1,−1), the E₁₂, E₂₁ and H coordinates of this
+map have coefficients −2, 2 and 1, so its determinant is −4≠0 over ℂ;
+reversing [X,t] to [t,X] gives the wrong two root signs.
 
 Construct `G/T→G/B` as a locally trivial bundle with contractible fiber `B/T≃U`, using
 Layer7's ordered root coordinates. Consume the actual flag CW structure with only even
@@ -2860,7 +3081,7 @@ vector spaces, and contribute no extra π₁.
 
 **11G. Prerequisite and scope comparisons.** The order is IG's early configuration/native
 braid contract and RootSystems' Coxeter/chamber theory → finite arrangement topology;
-independent RG8/9 → FCO's lower dictionary → 11C invariant/spectral maps; RG7+LG8 flag cells →
+independent RG8/9 and §§3A.5/11.0 → 11C invariant/spectral maps; RG7+LG8 flag cells →
 homogeneous-fiber connectedness and simple connectedness; the based DGF LES → the
 `χ_rs`-induced π₁ isomorphism; finite cover → actual root-datum monodromy. LHW Lie invariants
 and RIT finite invariants enter 11C with the explicit comparisons stated there. No edge
@@ -2954,7 +3175,8 @@ those points. Their CFSG milestone L5 needs constructions rather than existence 
 - W. C. Waterhouse, *Introduction to Affine Group Schemes*: Hopf algebras, comodules,
   closed subgroups, the unipotent radical.
 - A. Borel, *Linear Algebraic Groups*; T. A. Springer, *Linear Algebraic Groups*.
-- J. C. Jantzen, *Representations of Algebraic Groups*.
+- J. C. Jantzen, *Representations of Algebraic Groups I*, MPIM preprint 1985 (9):
+  §1.1 uses this edition's I.3.3–I.3.9 and I.4.14–I.4.16, pp. 53–60, 77–79a.
 - J. E. Humphreys, *Introduction to Lie Algebras and Representation Theory* (1972),
   §26: integral enveloping forms and PBW; central toral directions are treated in §9A here.
 - B. Conrad, *Reductive Group Schemes* (SGA3 exposition); **SGA3**, Exposé XIX.
