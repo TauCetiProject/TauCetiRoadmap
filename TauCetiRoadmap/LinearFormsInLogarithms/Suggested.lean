@@ -18,17 +18,17 @@ no transcendence theorem for the exponential function. We build those here in `T
 named so as not to collide with Mathlib's one-variable `FormalMultilinearSeries.coeff`, and
 `mvTaylorCoeff` is the Taylor coefficient of a function at a point, `0` where the function is not
 analytic. Series in one variable over an ultrametric field (Layer 8) are Mathlib's `PowerSeries`,
-evaluated with `FormalMultilinearSeries.ofScalarsSum`. The declarations in the namespaces
-`SchneiderLangProof` and `PadicBakerProof` are the steps of the proofs of 5.7 and 8.10, in
-namespaces of their own because they serve only those proofs. Every target name that
-`README.md` uses is declared here, and the Mathlib declarations it cites in these namespaces are
-pinned by `#check` below. The targets elaborate against the pinned Mathlib and are stated with
-`sorry` (allowed in this human-owned roadmap library).
+evaluated with `FormalMultilinearSeries.ofScalarsSum`. The statements are the acceptance test:
+the headline theorems of each layer and the definitions they need. The steps of the proofs of 5.7
+and 8.10 (5.1–5.6 and 8.6–8.9) are specified in `README.md` and have no Lean form here. Every
+target name that `README.md` uses is declared here, and the Mathlib declarations it cites in these
+namespaces are pinned by `#check` below. The targets elaborate against the pinned Mathlib and are
+stated with `sorry` (allowed in this human-owned roadmap library).
 -/
 
 open scoped NNReal
 
-/-! ## Mathlib declarations that `README.md` cites -/
+-- Mathlib declarations that `README.md` cites.
 
 #check @NumberField.of_module_finite
 #check @Complex.cpow
@@ -85,12 +85,6 @@ theorem FormalMultilinearSeries.apply_eq_sum_mvCoeff [DecidableEq ι]
       (∏ i, z i ^ α i) • FormalMultilinearSeries.mvCoeff p α :=
   sorry
 
-/-- **Layer 0.3**, the multi-index coefficient commutes with scalars. -/
-@[simp] theorem FormalMultilinearSeries.mvCoeff_smul (c : 𝕜)
-    (p : FormalMultilinearSeries 𝕜 (ι → 𝕜) F) (α : ι → ℕ) :
-    FormalMultilinearSeries.mvCoeff (c • p) α = c • FormalMultilinearSeries.mvCoeff p α :=
-  sorry
-
 /-- **Layer 0.3, an analytic function is the sum of its multi-index series** where the
 homogeneous terms, weighted by `(card ι) ^ k`, converge normally. -/
 theorem HasFPowerSeriesOnBall.hasSum_mvCoeff {f : (ι → 𝕜) → F}
@@ -127,11 +121,6 @@ theorem HasFPowerSeriesAt.mvTaylorCoeff_eq {f : (ι → 𝕜) → F}
     (α : ι → ℕ) : mvTaylorCoeff f x α = FormalMultilinearSeries.mvCoeff p α :=
   sorry
 
-/-- **Layer 0.4, the coefficient of order `0`** is the value. -/
-theorem AnalyticAt.mvTaylorCoeff_zero {f : (ι → 𝕜) → F} {x : ι → 𝕜} (hf : AnalyticAt 𝕜 f x) :
-    mvTaylorCoeff f x 0 = f x :=
-  sorry
-
 /-- **Layer 0.4, additivity.** -/
 theorem AnalyticAt.mvTaylorCoeff_add {f g : (ι → 𝕜) → F} {x : ι → 𝕜} (hf : AnalyticAt 𝕜 f x)
     (hg : AnalyticAt 𝕜 g x) (α : ι → ℕ) :
@@ -141,11 +130,6 @@ theorem AnalyticAt.mvTaylorCoeff_add {f g : (ι → 𝕜) → F} {x : ι → �
 /-- **Layer 0.4, constant multiples.** -/
 theorem mvTaylorCoeff_const_smul (c : 𝕜) (f : (ι → 𝕜) → F) (x : ι → 𝕜) (α : ι → ℕ) :
     mvTaylorCoeff (fun z => c • f z) x α = c • mvTaylorCoeff f x α :=
-  sorry
-
-/-- **Layer 0.4, constant functions.** -/
-@[simp] theorem mvTaylorCoeff_const (c : F) (x : ι → 𝕜) (α : ι → ℕ) :
-    mvTaylorCoeff (fun _ => c) x α = if α = 0 then c else 0 :=
   sorry
 
 /-- **Layer 0.4, locality**: functions equal near `x` have the same Taylor coefficients at `x`. -/
@@ -206,12 +190,6 @@ theorem ContinuousLinearMap.mvTaylorCoeff_comp_eq_zero {κ : Type*} [Fintype κ]
     (A : (κ → 𝕜) →L[𝕜] (ι → 𝕜)) {x : κ → 𝕜} (hG : AnalyticAt 𝕜 G (A x)) {k : ℕ}
     (h : ∀ α : ι → ℕ, ∑ i, α i = k → mvTaylorCoeff G (A x) α = 0) :
     ∀ β : κ → ℕ, ∑ j, β j = k → mvTaylorCoeff (G ∘ A) x β = 0 :=
-  sorry
-
-/-- **Layer 0.4**, at the origin a monomial has coefficient `1` at its own multi-index and `0`
-at every other. -/
-@[simp] theorem mvTaylorCoeff_prod_pow (τ σ : ι → ℕ) :
-    mvTaylorCoeff (fun z : ι → 𝕜 => ∏ i, z i ^ τ i) 0 σ = if σ = τ then 1 else 0 :=
   sorry
 
 /-- **Layer 0.5, the divided difference in one coordinate is analytic**, across the hyperplane
@@ -311,12 +289,6 @@ theorem NumberField.one_le_norm_embedding_mul_house_pow {α : K} (hint : IsInteg
     1 ≤ ‖σ α‖ * house α ^ (Module.finrank ℚ K - 1) :=
   sorry
 
-/-- **Layer 3.2**, the house of a product over an indexed family, in the form of
-M. Karatarakis's Mathlib formalisation of Gelfond–Schneider. -/
-theorem NumberField.house_prod_le {ι : Type*} (s : Finset ι) (f : ι → K) :
-    house (∏ i ∈ s, f i) ≤ ∏ i ∈ s, house (f i) :=
-  sorry
-
 /-- **Layer 3.2, Liouville's inequality for a number of known size**: `δ ^ a * α` is a nonzero
 algebraic integer of house at most `H`. -/
 theorem NumberField.one_le_pow_mul_norm_embedding_mul_pow {δ a : ℕ} (hδ : δ ≠ 0) {α : K}
@@ -373,159 +345,6 @@ theorem exists_ne_zero_int_norm_sum_le {ι Λ : Type*} [Fintype ι] [Nonempty ι
   sorry
 
 /-! ## Layer 5: the criterion of Schneider–Lang for `ℂ^{d₀} × (ℂˣ)^{d₁}` -/
-
-namespace SchneiderLangProof
-
-open _root_.NumberField
-
-variable {n d₀ d₁ : ℕ}
-
-/-- The exponent vector `τ` placed in the first `d₀` coordinates of `Fin n`, and `0` in the
-others. -/
-def extendExponent (τ : Fin d₀ → ℕ) : Fin n → ℕ :=
-  fun v => if h : (v : ℕ) < d₀ then τ ⟨v, h⟩ else 0
-
-/-- **Layer 5.1, the auxiliary function** `F_p (z) = ∑ p (τ, t) z ^ τ exp ((∑ᵢ tᵢ xᵢ) · z)`,
-with `τ` supported on the first `d₀` coordinates and `τ, t` bounded by `T`. -/
-noncomputable def auxiliaryFunction (x : Fin d₁ → Fin n → ℂ) (T : ℕ)
-    (p : (Fin d₀ → Fin (T + 1)) × (Fin d₁ → Fin (T + 1)) → ℂ) : (Fin n → ℂ) → ℂ :=
-  fun z => ∑ l, p l * ((∏ v, z v ^ extendExponent (fun h => (l.1 h : ℕ)) v) *
-    Complex.exp (∑ v, (∑ i, ((l.2 i : ℕ) : ℂ) * x i v) * z v))
-
-/-- The bound `(T + 1) ^ (d₀ + d₁) e ^ N (1 + ρ) ^ (d₀ T) e ^ (T A ρ)` for `auxiliaryFunction`
-on the polydisc of radius `ρ`, when `|p| ≤ e ^ N` and `A = ∑ᵢ ∑ᵥ ‖xᵢ v‖`. -/
-noncomputable def growthBound (d₀ d₁ T : ℕ) (N A ρ : ℝ) : ℝ :=
-  ((T + 1) ^ d₀ * (T + 1) ^ d₁ : ℕ) * (Real.exp N * (1 + ρ) ^ (d₀ * T) * Real.exp (T * A * ρ))
-
-/-- The exponent of the denominator in 5.2, for Taylor coefficients of total order `M`. -/
-def denominatorExponent (d₀ d₁ n T S₁ M : ℕ) : ℕ := d₀ * T + M + d₁ * n * T * S₁
-
-/-- The bound for the house in 5.2, for Taylor coefficients of total order `M`. -/
-noncomputable def houseBound (d₀ d₁ n T S₁ δ : ℕ) (N G : ℝ) (M : ℕ) : ℝ :=
-  ((T + 1) ^ d₀ * (T + 1) ^ d₁ : ℕ) * ((δ : ℝ) ^ denominatorExponent d₀ d₁ n T S₁ M *
-    Real.exp N * ((δ : ℝ) ^ 2 * M + n * S₁ * G + 1) ^ (d₀ * T) * (d₁ * T * G + 1) ^ M *
-    G ^ (d₁ * n * T * S₁))
-
-/-- The Liouville factor of 5.3: `M ^ M δ ^ a H ^ (D - 1)` with `a = denominatorExponent` and
-`H = houseBound`. -/
-noncomputable def liouvilleFactor (d₀ d₁ n T S₁ δ D : ℕ) (N G : ℝ) (M : ℕ) : ℝ :=
-  (M : ℝ) ^ M * (δ : ℝ) ^ denominatorExponent d₀ d₁ n T S₁ M *
-    houseBound d₀ d₁ n T S₁ δ N G M ^ (D - 1)
-
-/-- **Layer 5.5, the admissible parameters**: the conditions (1)–(4) of 5.5 on `T, S₁, S₀, U, N,
-r, R, E`, for data of degree `D`, denominator `δ`, house bound `G`, `A = ∑ᵢ ∑ᵥ ‖xᵢ v‖`,
-`Ay = ∑ⱼ ∑ᵥ ‖yⱼ v‖` and `B = ‖Yl⁻¹‖`. -/
-structure Admissible (n d₀ d₁ D δ : ℕ) (G A Ay B : ℝ) (T S₁ S₀ : ℕ) (U N r : ℝ) (R : ℝ≥0)
-    (E : ℕ → ℝ) : Prop where
-  one_le_S₁ : 1 ≤ S₁
-  N_pos : 0 < N
-  le_r : S₁ * Ay + 2 ≤ r
-  le_W : 12 * (n : ℝ) ^ 2 ≤ N + U + U
-  exp_one_le : Real.exp 1 ≤ R / r
-  le_exp : R / r ≤ Real.exp ((N + U + U) / 6)
-  count : (2 * (N + U + U)) ^ (n + 1) ≤
-    ((T + 1) ^ d₀ * (T + 1) ^ d₁ : ℕ) * N * Real.log (R / r) ^ n
-  growth : ((T + 1) ^ d₀ * (T + 1) ^ d₁ : ℕ) * ((1 + (R : ℝ)) ^ (d₀ * T) *
-    Real.exp (T * A * R)) ≤ Real.exp U
-  vanishing : ∀ M : ℕ, M ≤ n * S₀ → liouvilleFactor d₀ d₁ n T S₁ δ D N G M * Real.exp (-U) < 1
-  one_le_E : ∀ M, 1 ≤ E M
-  extrapolation : ∀ M : ℕ, S₀ ≤ M → liouvilleFactor d₀ d₁ n T S₁ δ D N G M *
-    (n * (1 / E M) ^ (M / n * S₁) * growthBound d₀ d₁ T N A
-      (Ay * (5 * 3 ^ n * E M * (S₁ + 2 * B)))) < 1
-
-/-- **Layer 5.1, the auxiliary function is entire.** -/
-theorem analyticOnNhd_auxiliaryFunction (x : Fin d₁ → Fin n → ℂ) (T : ℕ)
-    (p : (Fin d₀ → Fin (T + 1)) × (Fin d₁ → Fin (T + 1)) → ℂ) :
-    AnalyticOnNhd ℂ (auxiliaryFunction x T p) Set.univ :=
-  sorry
-
-/-- **Layer 5.1, the growth of the auxiliary function.** -/
-theorem norm_auxiliaryFunction_le (x : Fin d₁ → Fin n → ℂ) (T : ℕ)
-    {p : (Fin d₀ → Fin (T + 1)) × (Fin d₁ → Fin (T + 1)) → ℂ} {N : ℝ}
-    (hp : ∀ l, ‖p l‖ ≤ Real.exp N) (z : Fin n → ℂ) :
-    ‖auxiliaryFunction x T p z‖ ≤ growthBound d₀ d₁ T N (∑ i, ∑ v, ‖x i v‖) ‖z‖ :=
-  sorry
-
-/-- **Layer 5.2, the Taylor coefficients at `s · y` are algebraic, of explicit size.** The
-elements `X`, `Yg`, `Eg` of the number field `K` map to the coordinates of the `xᵢ`, the first
-`d₀` coordinates of the `yⱼ`, and the `exp (xᵢ · yⱼ)`, and `δ` times each of them is an algebraic
-integer of house at most `G`. -/
-theorem exists_eq_mvTaylorCoeff_auxiliaryFunction {K : Type*} [Field K] [NumberField K]
-    (ι₀ : K →+* ℂ) {x : Fin d₁ → Fin n → ℂ} {y : Fin n → Fin n → ℂ}
-    {X : Fin d₁ → Fin n → K} {Yg : Fin n → Fin d₀ → K} {Eg : Fin d₁ → Fin n → K}
-    (hX : ∀ i v, ι₀ (X i v) = x i v)
-    (hY : ∀ j (v : Fin n) (h : (v : ℕ) < d₀), ι₀ (Yg j ⟨v, h⟩) = y j v)
-    (hEg : ∀ i j, ι₀ (Eg i j) = Complex.exp (∑ v, x i v * y j v))
-    {δ : ℕ} {G : ℝ} (hδ : 1 ≤ δ) (hG : 1 ≤ G)
-    (hXs : ∀ i v, IsIntegral ℤ ((δ : K) * X i v) ∧ house ((δ : K) * X i v) ≤ G)
-    (hYs : ∀ j h, IsIntegral ℤ ((δ : K) * Yg j h) ∧ house ((δ : K) * Yg j h) ≤ G)
-    (hEs : ∀ i j, IsIntegral ℤ ((δ : K) * Eg i j) ∧ house ((δ : K) * Eg i j) ≤ G)
-    (T S₁ : ℕ) (p : (Fin d₀ → Fin (T + 1)) × (Fin d₁ → Fin (T + 1)) → ℤ) {N : ℝ}
-    (hp : ∀ l, |(p l : ℝ)| ≤ Real.exp N) (s : Fin n → ℕ) (hs : ∀ j, s j ≤ S₁)
-    (σ : Fin n → ℕ) :
-    ∃ θ : K, ι₀ θ = (∏ v, ((σ v).factorial : ℂ)) *
-        mvTaylorCoeff (auxiliaryFunction x T fun l => (p l : ℂ))
-          (fun v => ∑ j, (s j : ℂ) * y j v) σ ∧
-      IsIntegral ℤ ((δ : K) ^ denominatorExponent d₀ d₁ n T S₁ (∑ v, σ v) * θ) ∧
-      house ((δ : K) ^ denominatorExponent d₀ d₁ n T S₁ (∑ v, σ v) * θ) ≤
-        houseBound d₀ d₁ n T S₁ δ N G (∑ v, σ v) :=
-  sorry
-
-/-- **Layer 5.3, Liouville's inequality for the Taylor coefficients at `s · y`.** -/
-theorem one_le_liouvilleFactor_mul_norm {K : Type*} [Field K] [NumberField K] (ι₀ : K →+* ℂ)
-    {x : Fin d₁ → Fin n → ℂ} {y : Fin n → Fin n → ℂ}
-    {X : Fin d₁ → Fin n → K} {Yg : Fin n → Fin d₀ → K} {Eg : Fin d₁ → Fin n → K}
-    (hX : ∀ i v, ι₀ (X i v) = x i v)
-    (hY : ∀ j (v : Fin n) (h : (v : ℕ) < d₀), ι₀ (Yg j ⟨v, h⟩) = y j v)
-    (hEg : ∀ i j, ι₀ (Eg i j) = Complex.exp (∑ v, x i v * y j v))
-    {δ : ℕ} {G : ℝ} (hδ : 1 ≤ δ) (hG : 1 ≤ G)
-    (hXs : ∀ i v, IsIntegral ℤ ((δ : K) * X i v) ∧ house ((δ : K) * X i v) ≤ G)
-    (hYs : ∀ j h, IsIntegral ℤ ((δ : K) * Yg j h) ∧ house ((δ : K) * Yg j h) ≤ G)
-    (hEs : ∀ i j, IsIntegral ℤ ((δ : K) * Eg i j) ∧ house ((δ : K) * Eg i j) ≤ G)
-    (T S₁ : ℕ) (p : (Fin d₀ → Fin (T + 1)) × (Fin d₁ → Fin (T + 1)) → ℤ) {N : ℝ}
-    (hp : ∀ l, |(p l : ℝ)| ≤ Real.exp N) (s : Fin n → ℕ) (hs : ∀ j, s j ≤ S₁)
-    (σ : Fin n → ℕ)
-    (hne : mvTaylorCoeff (auxiliaryFunction x T fun l => (p l : ℂ))
-      (fun v => ∑ j, (s j : ℂ) * y j v) σ ≠ 0) :
-    1 ≤ liouvilleFactor d₀ d₁ n T S₁ δ (Module.finrank ℚ K) N G (∑ v, σ v) *
-      ‖mvTaylorCoeff (auxiliaryFunction x T fun l => (p l : ℂ))
-        (fun v => ∑ j, (s j : ℂ) * y j v) σ‖ :=
-  sorry
-
-/-- **Layer 5.4, the auxiliary function of a nonzero coefficient vector is not zero.** -/
-theorem exists_mvTaylorCoeff_auxiliaryFunction_ne_zero (hd₀ : d₀ ≤ n) {x : Fin d₁ → Fin n → ℂ}
-    (hxli : LinearIndependent ℚ x) (T : ℕ)
-    {p : (Fin d₀ → Fin (T + 1)) × (Fin d₁ → Fin (T + 1)) → ℂ} (hp : p ≠ 0) :
-    ∃ σ, mvTaylorCoeff (auxiliaryFunction x T p) 0 σ ≠ 0 :=
-  sorry
-
-/-- **Layer 5.5, the argument**: algebraic data and admissible parameters are incompatible. -/
-theorem false_of_admissible (hn1 : 1 ≤ n) (hd₀ : d₀ ≤ n)
-    {x : Fin d₁ → Fin n → ℂ} (hxli : LinearIndependent ℚ x) {y : Fin n → Fin n → ℂ}
-    (Yl : (Fin n → ℂ) ≃L[ℂ] (Fin n → ℂ)) (hYl : ∀ z, Yl z = fun v => ∑ j, z j * y j v)
-    {K : Type*} [Field K] [NumberField K] (ι₀ : K →+* ℂ)
-    {X : Fin d₁ → Fin n → K} {Yg : Fin n → Fin d₀ → K} {Eg : Fin d₁ → Fin n → K}
-    (hX : ∀ i v, ι₀ (X i v) = x i v)
-    (hY : ∀ j (v : Fin n) (h : (v : ℕ) < d₀), ι₀ (Yg j ⟨v, h⟩) = y j v)
-    (hEg : ∀ i j, ι₀ (Eg i j) = Complex.exp (∑ v, x i v * y j v))
-    {δ : ℕ} {G : ℝ} (hδ : 1 ≤ δ) (hG : 1 ≤ G)
-    (hXs : ∀ i v, IsIntegral ℤ ((δ : K) * X i v) ∧ house ((δ : K) * X i v) ≤ G)
-    (hYs : ∀ j h, IsIntegral ℤ ((δ : K) * Yg j h) ∧ house ((δ : K) * Yg j h) ≤ G)
-    (hEs : ∀ i j, IsIntegral ℤ ((δ : K) * Eg i j) ∧ house ((δ : K) * Eg i j) ≤ G)
-    {T S₁ S₀ : ℕ} {U N r : ℝ} {R : ℝ≥0} {E : ℕ → ℝ}
-    (hadm : Admissible n d₀ d₁ (Module.finrank ℚ K) δ G (∑ i, ∑ v, ‖x i v‖)
-      (∑ j, ∑ v, ‖y j v‖) ‖(Yl.symm : (Fin n → ℂ) →L[ℂ] (Fin n → ℂ))‖ T S₁ S₀ U N r R E) :
-    False :=
-  sorry
-
-/-- **Layer 5.6, admissible parameters exist** for fixed data. -/
-theorem exists_admissible (hn1 : 1 ≤ n) (hd : n < d₀ + d₁) {D δ : ℕ} (hD : 1 ≤ D)
-    (hδ : 1 ≤ δ) {G A Ay B : ℝ} (hG : 1 ≤ G) (hA : 0 ≤ A) (hAy : 0 ≤ Ay) (hB : 0 ≤ B) :
-    ∃ (T S₁ S₀ : ℕ) (U N r : ℝ) (R : ℝ≥0) (E : ℕ → ℝ),
-      Admissible n d₀ d₁ D δ G A Ay B T S₁ S₀ U N r R E :=
-  sorry
-
-end SchneiderLangProof
 
 /-- **Layer 5.7, the criterion of Schneider–Lang for `ℂ^{d₀} × (ℂˣ)^{d₁}`** (Waldschmidt,
 Corollary 4.2): one of the first `d₀` coordinates of the `yⱼ` or one of the `exp (xᵢ · yⱼ)` is
@@ -650,6 +469,16 @@ theorem Baker.transcendental_exp_add_sum_mul {ι : Type*} [Fintype ι] {l : ι �
     Transcendental ℚ (Complex.exp (β₀ + ∑ i, β i * l i)) :=
   sorry
 
+/-- **Layer 7.3** (Baker, Theorem 2.4), branch-free: `exp (∑ βᵢ lᵢ)` is transcendental for
+nonzero logarithms `lᵢ` of algebraic numbers when `1, β₁, …, βₙ` are `ℚ`-linearly
+independent. -/
+theorem Baker.transcendental_exp_sum_mul {ι : Type*} [Fintype ι] [Nonempty ι] {l β : ι → ℂ}
+    (hl0 : ∀ i, l i ≠ 0) (hl : ∀ i, IsAlgebraic ℚ (Complex.exp (l i)))
+    (hβ : ∀ i, IsAlgebraic ℚ (β i))
+    (hβli : LinearIndependent ℚ (fun o : Option ι => o.elim 1 β)) :
+    Transcendental ℚ (Complex.exp (∑ i, β i * l i)) :=
+  sorry
+
 /-- **Layer 7.3** (Baker, Theorem 2.4), in Mathlib's principal branch: `∏ αᵢ ^ βᵢ` is
 transcendental when `1, β₁, …, βₙ` are `ℚ`-linearly independent. -/
 theorem Baker.transcendental_prod_cpow {ι : Type*} [Fintype ι] [Nonempty ι] {α β : ι → ℂ}
@@ -662,40 +491,6 @@ theorem Baker.transcendental_prod_cpow {ι : Type*} [Fintype ι] [Nonempty ι] {
 end Layer7
 
 /-! ## Layer 8: Baker's theorem over `ℂ_[p]` -/
-
-namespace PadicBakerProof
-
-/-- The bound for the entries of Baker's linear system in 8.7, after clearing denominators. -/
-noncomputable def entryBound (k L h : ℕ) (G : ℝ) : ℝ :=
-  G ^ ((k + 1) * h ^ 2 + (k + 1) * L * h) *
-    ((L + 1) * (h : ℝ) ^ L * (2 * L * G) ^ ((k + 1) * h ^ 2) * G ^ ((k + 1) * L * h))
-
-/-- **Layer 8.8, the admissible parameters** for `k + 1` logarithms, degree `D` and prime `p`:
-the count of unknowns and equations, the shrinking orders `S J` and growing ranges `R J`, the
-extrapolation inequality and the final inequality. -/
-structure Admissible (k D p : ℕ) (r₀ B G C lmin : ℝ) (L h Kmax : ℕ) (S R : ℕ → ℕ) : Prop where
-  one_le_L : 1 ≤ L
-  one_le_h : 1 ≤ h
-  count : 2 * ((h ^ 2 + 1) ^ (k + 1) * h) ≤ (L + 1) ^ (k + 2)
-  S_zero : S 0 ≤ h ^ 2
-  R_zero : R 0 ≤ h
-  S_step : ∀ J < Kmax, 2 * S (J + 1) ≤ S J
-  extrapolation : ∀ J < Kmax, B ^ S (J + 1) * r₀ ^ L *
-      ((L + 1) ^ (k + 2) * (C * ((L + 1) ^ (k + 2) * entryBound k L h G) *
-        ((L + 1) * (R (J + 1) : ℝ) ^ L * (2 * L * G) ^ S (J + 1) *
-          G ^ ((k + 1) * L * R (J + 1))))) ^ D <
-    lmin ^ S (J + 1) * r₀ ^ (R J * S (J + 1))
-  final : (C * ((L + 1) ^ (k + 2) * entryBound k L h G)) ^ D * (p : ℝ) ^ L *
-      ((2 * G ^ ((k + 1) * L)) ^ D) ^ ((L + 1) ^ (k + 1) * (L + 1)) * r₀ ^ L <
-    r₀ ^ (R Kmax * S Kmax)
-
-/-- **Layer 8.9, admissible parameters exist**: powers of `X = 2 ^ t` for large `t`. -/
-theorem exists_admissible (k D p : ℕ) {r₀ B G C lmin : ℝ} (hr₀ : 1 < r₀) (hB : 0 ≤ B)
-    (hG : 0 ≤ G) (hC : 0 ≤ C) (hlmin0 : 0 < lmin) :
-    ∃ (L h Kmax : ℕ) (S R : ℕ → ℕ), Admissible k D p r₀ B G C lmin L h Kmax S R :=
-  sorry
-
-end PadicBakerProof
 
 section Layer8
 
@@ -852,98 +647,6 @@ theorem PowerSeries.iterate_derivative_coe_mul_rescale_exp {A : Type*} [CommRing
       (Polynomial.expDerivFactor ψ m Q : PowerSeries A) *
         PowerSeries.rescale ψ (PowerSeries.exp A) :=
   sorry
-
-namespace PadicBakerProof
-
-variable {k : ℕ}
-
-/-- **Layer 8.6**, the frequency `ψ_e = ∑_o e_o ℓ_o`. -/
-noncomputable def frequency (ℓ : Option (Fin k) → ℂ_[p]) (e : Option (Fin k) → ℕ) : ℂ_[p] :=
-  ∑ o, (e o : ℂ_[p]) * ℓ o
-
-/-- **Layer 8.6**, the coefficient `γ_r = e_r + e_none β_r` of `ℓ_r` after eliminating
-`ℓ none`. -/
-noncomputable def gammaCoeff (β : Fin k → ℂ_[p]) (e : Option (Fin k) → ℕ) (r : Fin k) : ℂ_[p] :=
-  (e (some r) : ℂ_[p]) + (e none : ℂ_[p]) * β r
-
-/-- **Layer 8.6**, the frequency `e_none β₀` in the variable `z₀`. -/
-noncomputable def zeroFrequency (β₀ : ℂ_[p]) (e : Option (Fin k) → ℕ) : ℂ_[p] :=
-  (e none : ℂ_[p]) * β₀
-
-/-- **Layer 8.6**, Baker's polynomial `(∏_r (γ_r ℓ_r) ^ {m_r}) • (D + c) ^ {m₀} X ^ d`. -/
-noncomputable def derivativePoly (ℓ : Option (Fin k) → ℂ_[p]) (β₀ : ℂ_[p]) (β : Fin k → ℂ_[p])
-    (m : Option (Fin k) → ℕ) (d : ℕ) (e : Option (Fin k) → ℕ) : ℂ_[p][X] :=
-  (∏ r, (gammaCoeff β e r * ℓ (some r)) ^ m (some r)) •
-    Polynomial.expDerivFactor (zeroFrequency β₀ e) (m none) (X ^ d)
-
-/-- **Layer 8.6**, the derivative `f_m` of Baker's auxiliary function on the diagonal, as a power
-series; the index `(d, e)` runs over `d ≤ L` and `e o ≤ L`. -/
-noncomputable def derivativeSeries (ℓ : Option (Fin k) → ℂ_[p]) (β₀ : ℂ_[p]) (β : Fin k → ℂ_[p])
-    (L : ℕ) (P : Fin (L + 1) × (Option (Fin k) → Fin (L + 1)) → ℂ_[p])
-    (m : Option (Fin k) → ℕ) : PowerSeries ℂ_[p] :=
-  ∑ x, P x • ((derivativePoly ℓ β₀ β m x.1 fun o => x.2 o : PowerSeries ℂ_[p]) *
-    PowerSeries.rescale (frequency ℓ fun o => x.2 o) (PowerSeries.exp ℂ_[p]))
-
-/-- **Layer 8.6, `D f_m = ∑_o f_{m + e_o}`**, under the relation to be refuted. -/
-theorem derivative_derivativeSeries {ℓ : Option (Fin k) → ℂ_[p]} {β₀ : ℂ_[p]}
-    {β : Fin k → ℂ_[p]} (hrel : ℓ none = β₀ + ∑ r, β r * ℓ (some r)) (L : ℕ)
-    (P : Fin (L + 1) × (Option (Fin k) → Fin (L + 1)) → ℂ_[p]) (m : Option (Fin k) → ℕ) :
-    PowerSeries.derivative (R := ℂ_[p]) (derivativeSeries ℓ β₀ β L P m) =
-      ∑ o, derivativeSeries ℓ β₀ β L P (m + (Pi.single o 1 : Option (Fin k) → ℕ)) :=
-  sorry
-
-/-- **Layer 8.6, the value of `f_m` at a natural number.** -/
-theorem ofScalarsSum_derivativeSeries_natCast {ℓ : Option (Fin k) → ℂ_[p]} {β₀ : ℂ_[p]}
-    {β : Fin k → ℂ_[p]} (hsmall : ∀ o, ‖ℓ o‖ < (p : ℝ) ^ (-((p : ℝ) - 1)⁻¹)) (L : ℕ)
-    (P : Fin (L + 1) × (Option (Fin k) → Fin (L + 1)) → ℂ_[p]) (m : Option (Fin k) → ℕ)
-    (l : ℕ) :
-    FormalMultilinearSeries.ofScalarsSum (E := ℂ_[p])
-        (fun n => PowerSeries.coeff n (derivativeSeries ℓ β₀ β L P m)) (l : ℂ_[p]) =
-      (∏ r, ℓ (some r) ^ m (some r)) *
-        ∑ x : Fin (L + 1) × (Option (Fin k) → Fin (L + 1)), P x *
-          ((∏ r, gammaCoeff β (fun o => x.2 o) r ^ m (some r)) *
-            (Polynomial.expDerivFactor (zeroFrequency β₀ fun o => x.2 o) (m none)
-              (X ^ (x.1 : ℕ))).eval (l : ℂ_[p])) *
-          ∏ o, NormedSpace.exp (ℓ o) ^ ((x.2 o : ℕ) * l) :=
-  sorry
-
-/-- **Layer 8.7, Baker's Lemma 6**: distinct frequencies are far apart. -/
-theorem inv_pow_le_norm_frequency_sub {K : Type*} [Field K] [NumberField K] (ι₀ : K →+* ℂ_[p])
-    {ℓ : Option (Fin k) → ℂ_[p]} (hli : LinearIndependent ℚ ℓ)
-    (hsmall : ∀ o, ‖ℓ o‖ < (p : ℝ) ^ (-((p : ℝ) - 1)⁻¹)) {αK : Option (Fin k) → K}
-    (hα : ∀ o, ι₀ (αK o) = NormedSpace.exp (ℓ o)) {δ : ℕ} {G : ℝ} (hδ : 1 ≤ δ)
-    (hG : (δ : ℝ) ≤ G) (hαs : ∀ o, IsIntegral ℤ ((δ : K) * αK o) ∧ house ((δ : K) * αK o) ≤ G)
-    {L : ℕ} {e e' : Option (Fin k) → ℕ} (he : ∀ o, e o ≤ L) (he' : ∀ o, e' o ≤ L)
-    (hne : e ≠ e') :
-    ((2 * G ^ ((k + 1) * L)) ^ Module.finrank ℚ K)⁻¹ ≤ ‖frequency ℓ e - frequency ℓ e'‖ :=
-  sorry
-
-/-- **Layer 8.8, the argument**: a relation `ℓ none = β₀ + ∑ β r ℓ (some r)` between
-`ℚ`-linearly independent `p`-adic logarithms of algebraic numbers is incompatible with admissible
-parameters. `hsiegel` is Siegel's lemma over `K` with its constant `C` (3.5). -/
-theorem false_of_admissible {ℓ : Option (Fin k) → ℂ_[p]} {β₀ : ℂ_[p]} {β : Fin k → ℂ_[p]}
-    (hrel : ℓ none = β₀ + ∑ r, β r * ℓ (some r)) (hli : LinearIndependent ℚ ℓ)
-    {K : Type*} [Field K] [NumberField K] (ι₀ : K →+* ℂ_[p])
-    {αK : Option (Fin k) → K} {βK₀ : K} {βK : Fin k → K}
-    (hα : ∀ o, ι₀ (αK o) = NormedSpace.exp (ℓ o)) (hβ : ∀ r, ι₀ (βK r) = β r)
-    (hβ₀ : ι₀ βK₀ = β₀)
-    {δ : ℕ} {G : ℝ} (hδ : 1 ≤ δ) (hG : (δ : ℝ) ≤ G)
-    (hαs : ∀ o, IsIntegral ℤ ((δ : K) * αK o) ∧ house ((δ : K) * αK o) ≤ G)
-    (hβs : ∀ r, IsIntegral ℤ ((δ : K) * βK r) ∧ house ((δ : K) * βK r) ≤ G)
-    (hβ₀s : IsIntegral ℤ ((δ : K) * βK₀) ∧ house ((δ : K) * βK₀) ≤ G) {C : ℝ} (hC : 1 ≤ C)
-    (hsiegel : ∀ (α β : Type) [Fintype α] [Fintype β] (a : Matrix α β (𝓞 K)) (A : ℝ),
-      1 ≤ A → 0 < Fintype.card α → 2 * Fintype.card α ≤ Fintype.card β →
-      (∀ i j, house (a i j : K) ≤ A) →
-      ∃ ξ : β → 𝓞 K, ξ ≠ 0 ∧ a.mulVec ξ = 0 ∧ ∀ l, house (ξ l : K) ≤ C * (Fintype.card β * A))
-    {r₀ B lmin : ℝ} (hr₀ : 1 < r₀) (hℓr : ∀ o, ‖ℓ o‖ * r₀ ≤ (p : ℝ) ^ (-((p : ℝ) - 1)⁻¹))
-    (hB : 1 ≤ B) (hβB : ∀ r, ‖β r‖ ≤ B) (hβ₀B : ‖β₀‖ ≤ B)
-    (hlmin0 : 0 < lmin) (hlmin : ∀ o, lmin ≤ ‖ℓ o‖)
-    {L h Kmax : ℕ} {S R : ℕ → ℕ}
-    (hadm : Admissible k (Module.finrank ℚ K) p r₀ B G C lmin L h Kmax S R) :
-    False :=
-  sorry
-
-end PadicBakerProof
 
 /-- **Layer 8.10, Baker's theorem over `ℂ_[p]`** (after Brumer): `1` and `ℚ`-linearly
 independent `p`-adic logarithms of algebraic numbers are linearly independent over the algebraic
