@@ -18,7 +18,13 @@ complex/Kähler geometry and root-oriented characteristic-map comparisons;
 Layer 3 uses those same curves and integral classes. The generic holomorphic
 exponential-sequence and
 Chern comparison belongs to ComplexComparisonPartII C5.4; the flag application
-here proves its vanishing hypotheses and identifies its degree basis.
+here proves its vanishing hypotheses and identifies its degree basis. These
+ordinary Picard and fundamental-line degree comparisons have their single
+owner in §3.3, including the harmonic/root-weight vanishing argument. The
+SchubertGeometry, Part II application consumes them for its equivariant
+Picard and forgetful-map comparisons. Its input is the same root-curve and
+Chern-class dictionary, while SchubertGeometry S9.1/S9.7 remains the earlier
+supplier of the flag geometry.
 
 SmoothBundlesConnections B1–B6 owns principal/associated bundles, connections,
 curvature, holonomy, integral existence and flat twists. HamiltonianSystems
@@ -1793,8 +1799,17 @@ the local estimate uses the sector formula and its uniform coefficient bounds.
 
 ## Downstream consumers
 
-The homogeneous fibre-character and ordinary-degree comparisons supply
-compact-group representation and flag applications. Polarized quantization
+SchubertGeometry, Part II consumes §3.3's fundamental-line degree matrix,
+H^q(K/H,𝒪)=0 for q>0 and ordinary Picard–Chern isomorphism, together with
+§§3.1/3.4's homogeneous fibre-character and global-form forgetful maps. Its
+application starts from these maps, with the root curves and integral classes
+of SchubertGeometry S9.1/S9.7, and adds the algebraic/holomorphic equivariant
+comparisons. The shared normalizations are degree matrix (1) on ℂP¹ and
+((1,0),(0,1)) on SU(3)/T. These are outputs of Layer 3 for that application;
+no result of the application is a premise of Layer 3.
+
+The homogeneous fibre-character and ordinary-degree comparisons also supply
+compact-group representation applications. Polarized quantization
 supplies geometric realizations of the cotangent and theta representations;
 the torus index comparison supplies regular reduced multiplicities with their
 finite-isotropy phases. These consumers use the constructions in this roadmap
