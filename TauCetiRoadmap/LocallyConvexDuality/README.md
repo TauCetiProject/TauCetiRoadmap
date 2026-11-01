@@ -46,8 +46,9 @@ special case of Layer 4 here, and they stay with their analytic consumers. Autom
 those function spaces; the general notion of nuclear space of Layer 5 is the one they specialise.
 Kernel theorems for particular function spaces (Schwartz's kernel theorem and its LF variants) stay
 with the roadmaps of those function spaces. Non-archimedean locally convex spaces are
-PadicFunctionalAnalysis's. The open mapping and closed graph theorems beyond Mathlib's Banach and
-Fréchet cases (Ptak, De Wilde) and Eberlein–Šmulian are not in this roadmap.
+PadicFunctionalAnalysis's (the theory of Perez-Garcia–Schikhof 2010). The open mapping and closed
+graph theorems beyond Mathlib's Banach and Fréchet cases (Ptak, De Wilde) and Eberlein–Šmulian are
+not in this roadmap.
 
 The boundary in one sentence: if a statement is about an arbitrary locally convex space over `ℝ`
 or `ℂ` and its dual, it is here; if it names a particular function space, it is with that space.
@@ -73,6 +74,10 @@ or `ℂ` and its dual, it is here; if it names a particular function space, it i
   discrete topology is `≤` the usual one, which is `≤` the indiscrete one.
 - Bourbaki 1950 says « réflexif » for semi-reflexive and « complètement réflexif » for reflexive
   (§1, p. 5); this roadmap uses semi-reflexive and reflexive. Witness: `ℓ¹` is neither.
+- Bourbaki 1950 is the announcement; the same theory in book form is *Espaces vectoriels
+  topologiques*, ch. III (bornologies, barrelled spaces, Banach–Steinhaus) and ch. IV (duality,
+  Mackey topology, completeness of the dual) (Bourbaki 1955; revised in Bourbaki 1981), with
+  ch. I–II (Bourbaki 1953) for convex sets and seminorms.
 
 ## Exact supplier contracts
 
@@ -147,12 +152,14 @@ seminorm whose sublevel sets `{gauge T ≤ r} = r • T` are closed. *Needs:* Ma
 ### 0.2 Banach–Steinhaus on barrelled spaces
 
 Mathlib's `WithSeminorms.banach_steinhaus` gives: a pointwise bounded family of continuous linear
-maps from a barrelled space to a polynormable space is equicontinuous (Bourbaki 1950, §2,
-Théorème 1, p. 7). Prove its two corollaries (Corollaires 1 and 2, p. 7): the pointwise limit of a
-bounded filter, or of a filter with a countable basis, of continuous linear maps from a barrelled
-space is a continuous linear map and the convergence is uniform on precompact sets; and the dual
-form (Proposition 1 and its corollary, p. 7): a subset of `E′` is weakly bounded iff it lies in the
-polar of a barrel. *Needs:* 0.1, Mathlib `WithSeminorms.banach_steinhaus`, `LinearMap.polar`.
+maps from a barrelled space to a polynormable space is equicontinuous (Bourbaki 1950, §2, Théorème
+1, p. 7); the Baire argument behind Mathlib's `BaireSpace.instBarrelledSpace` is Bourbaki,
+*Topologie générale*, ch. IX (Bourbaki 1974). Prove its two corollaries (Corollaires 1 and 2, p. 7):
+the pointwise limit of a bounded filter, or of a filter with a countable basis, of continuous linear
+maps from a barrelled space is a continuous linear map and the convergence is uniform on precompact
+sets; and the dual form (Proposition 1 and its corollary, p. 7): a subset of `E′` is weakly bounded
+iff it lies in the polar of a barrel. *Needs:* 0.1, Mathlib `WithSeminorms.banach_steinhaus`,
+`LinearMap.polar`.
 
 **Checks.**
 
@@ -194,8 +201,9 @@ Mathlib: `BarrelledSpace`, `WithSeminorms.banach_steinhaus`, `AbsConvex`, `Absor
 
 Define `IsBornivore 𝕜 A`: `A` is absolutely convex and absorbs every bounded set, and the class
 `BornologicalSpace 𝕜 E`: every bornivore is a neighbourhood of `0` (Bourbaki 1950, §4, p. 10).
-Prove the equivalent form: every seminorm bounded on bounded sets is continuous (same page).
-*Needs:* Mathlib `AbsConvex`, `Absorbs`, `Bornology.IsVonNBounded`, `gauge`.
+Prove the equivalent form: every seminorm bounded on bounded sets is continuous (same page). The
+duality between locally convex topologies and convex bornologies behind this definition is
+Hogbe-Nlend 1977. *Needs:* Mathlib `AbsConvex`, `Absorbs`, `Bornology.IsVonNBounded`, `gauge`.
 
 **Checks.**
 
@@ -263,7 +271,8 @@ barrelled, because every barrel is then a bornivore (§4, p. 11). *Needs:* 0.1, 
 Prove that separated quotients, countable products and separated locally convex inductive limits
 of bornological spaces are bornological (Bourbaki 1950, §4, p. 11), and that a strict inductive
 limit of a sequence of Fréchet spaces is bornological and barrelled (same pages, the (LF) case).
-*Needs:* 1.1, 1.2, 0.3.
+Direct sums carry the locally convex direct-sum topology: for an uncountable family it differs from
+the box topology (Waelbroeck 1971, §I.3, Note 4). *Needs:* 1.1, 1.2, 0.3.
 
 **Checks.**
 
@@ -375,7 +384,8 @@ Layers 0 and 1; Mathlib `WeakBilin`, `WeakDual`, `LinearMap.polar`, `UniformOnFu
 Prove `completeSpace_iff`: a separated locally convex space `E` is complete iff every linear form on
 `E′` whose restriction to each equicontinuous subset is `σ(E′, E)`-continuous is the evaluation at
 a point of `E` (Grothendieck 1950). Prove the general form: the completion of `E` is the space of
-such forms, with the topology of uniform convergence on equicontinuous sets. *Needs:* 2.1 (bipolar
+such forms, with the topology of uniform convergence on equicontinuous sets; completion is that of
+uniform spaces (Bourbaki, *Topologie générale*, ch. II; Bourbaki 1971). *Needs:* 2.1 (bipolar
 theorem), 2.2, Mathlib `UniformSpace.Completion`, `Equicontinuous`, `WeakDual.toStrongDual`.
 
 **Checks.**
@@ -409,7 +419,8 @@ Prove: in the dual of a bornological space every strongly bounded subset is equi
 (Bourbaki 1950, §4, Proposition 6, p. 12); in the dual of a barrelled space, weakly bounded,
 strongly bounded, weakly relatively compact and equicontinuous subsets coincide (§2, after
 Proposition 2, p. 8); for `E` complete or barrelled, a weakly bounded set of transposes is strongly
-equicontinuous (§6, Proposition 8, p. 13). *Needs:* 0.2, 1.3, 1.4.
+equicontinuous (§6, Proposition 8, p. 13). Equicontinuity and the Ascoli theorem are those of
+Bourbaki, *Topologie générale*, ch. X (Bourbaki 1974). *Needs:* 0.2, 1.3, 1.4.
 
 **Checks.**
 
@@ -473,6 +484,8 @@ Part I, the first result announced in Grothendieck 1950b). *Needs:* 4.1, 3.3, Ma
 - For `E = ℝ^ℕ` the strong dual is `ℝ^(ℕ)` (4.1, Checks).
 - For `E` a Banach space the strong dual is a Banach space, a (DF)-space by 4.1, Checks.
 - For `E = 𝕜` the strong dual is `𝕜`.
+- The strong dual of a metrizable space `E` is metrizable iff `E` is normable (Köthe 1969, §29.1,
+  pp. 393–394): `ℝ^(ℕ)`, the strong dual of `ℝ^ℕ`, is not metrizable.
 
 ### 4.3 Continuity on bounded sets
 
@@ -507,7 +520,8 @@ Prove that separated quotients and countable locally convex inductive limits of 
 (DF)-spaces, that a closed subspace need not be (DF), and that a (DF)-space with a dense countable
 subset, or whose bounded sets are metrizable, is quasi-barrelled; and that the strong dual of a
 Fréchet space is bornological iff it is barrelled, iff the Fréchet space is distinguished
-(Grothendieck 1954, Part I). *Needs:* 4.1, 4.4, 1.5.
+(Grothendieck 1954, Part I). For the inductive limits, including their Hausdorffness and
+regularity, see Floret 1980. *Needs:* 4.1, 4.4, 1.5.
 
 **Checks.**
 
@@ -532,7 +546,10 @@ products of equicontinuous subsets of `E′` and `F′` (the bi-equicontinuous t
 `E ⊗̂ε F` as its completion (Grothendieck 1952, Ch. I, no. 5, pp. 81–82). Prove that `π` is finer
 than `ε`, that `ε` is the Banach injective norm of BanachSpaceTheory B4 for normed spaces, and that
 `E ⊗̂ε F` embeds in the bi-equicontinuous separately continuous bilinear forms on `E′_σ × F′_σ` when
-`E` and `F` are complete (same pages). *Needs:* NoncommutativeGeometry N1 (`E ⊗̂π F`),
+`E` and `F` are complete (same pages). The completed injective tensor product respects subspaces
+and arbitrary products (Jarchow 1981, Theorem 1, p. 351), the route to the subspace and product
+clauses of 5.4; the algebraic tensor product it completes is Bourbaki, *Algèbre*, ch. II, §3
+(Bourbaki 2007). *Needs:* NoncommutativeGeometry N1 (`E ⊗̂π F`),
 BanachSpaceTheory B4 (injective norm), 3.3.
 
 **Checks.**
@@ -577,8 +594,10 @@ p. 101). *Needs:* 5.2, 3.4, Mathlib `MontelSpace`.
 
 Prove: subspaces, separated quotients, arbitrary products and countable direct sums of nuclear
 spaces are nuclear; `E ⊗̂π F` is nuclear for nuclear `E`, `F`; and a Fréchet or (DF)-space is
-nuclear iff its strong dual is (Grothendieck 1952, Ch. II, Théorème 3, p. 102). *Needs:* 5.2,
-Layer 4.
+nuclear iff its strong dual is (Grothendieck 1952, Ch. II, Théorème 3, p. 102). Not a target:
+nuclearity is a three-space property, an extension of nuclear spaces being nuclear (Dierolf–Roelcke
+1981, Proposition 3.8); the splitting theory of Fréchet spaces behind such extensions is
+Wengenroth 2003. *Needs:* 5.2, Layer 4.
 
 **Checks.**
 
@@ -589,6 +608,9 @@ Layer 4.
 ### Examples
 
 - `𝕜^ℕ`, `𝕜^(ℕ)` and `s` are nuclear; no infinite-dimensional Banach space is.
+- The nuclear spaces of test functions and the rigged Hilbert spaces they generate are those of
+  Gel'fand–Vilenkin 1964; the sequence-space models of nuclear Fréchet spaces and their splitting
+  conditions (DN) and (Ω) are in Meise–Vogt 1997.
 
 ### Dependencies
 
@@ -597,6 +619,15 @@ Layers 3 and 4; NoncommutativeGeometry N1; BanachSpaceTheory B4; Mathlib `Montel
 ## Downstream consumers
 
 No roadmap on main or in an open pull request cites this one.
+
+## Research context
+
+Locally convex spaces were first defined by von Neumann 1935, after Kolmogoroff's 1934 normability
+criterion. Bombal 2007 surveys Grothendieck's work in the subject, from the (F) and (DF) papers to
+the kernel theorem through nuclear spaces; Pisier 2012 follows the tensor norms of the *Résumé* and
+Grothendieck's inequality, beyond the injective tensor product of Layer 5. Calculus on bornological
+spaces, where bornologification replaces the topology, is Frölicher–Kriegl 1988 and Kriegl–Michor
+1997.
 
 ## References
 
@@ -630,3 +661,44 @@ No roadmap on main or in an open pull request cites this one.
   chapters 50–51 (nuclear spaces). Zbl 0171.10402.
 - A. Dvoretzky, C. A. Rogers, « Absolute and unconditional convergence in normed linear spaces »,
   *Proc. Nat. Acad. Sci. USA* 36 (1950), 192–197. doi:10.1073/pnas.36.3.192.
+- N. Bourbaki, *Espaces vectoriels topologiques*, ch. I–II, Actualités Sci. Ind. 1189, Hermann,
+  1953 (Bourbaki 1953). Zbl 0050.10703; 2nd ed., 1966, Zbl 0145.37702.
+- N. Bourbaki, *Espaces vectoriels topologiques*, ch. III–V, Actualités Sci. Ind. 1229, Hermann,
+  1955 (Bourbaki 1955), with the *Fascicule de résultats*, Actualités Sci. Ind. 1230, 1955.
+  Zbl 0066.35301; Zbl 0067.08302. English: *Topological Vector Spaces, Chapters 1–5*, Springer,
+  1987. Zbl 0622.46001.
+- N. Bourbaki, *Topologie générale*, ch. 1–4, Hermann, 1971 (Bourbaki 1971); Springer, 2007.
+  Zbl 0249.54001; Zbl 1107.54001.
+- N. Bourbaki, *Topologie générale*, ch. 5–10, Hermann, 1974 (Bourbaki 1974); Springer, 2007.
+  Zbl 0337.54001; Zbl 1107.54002.
+- N. Bourbaki, *Algèbre*, ch. 1–3, Springer, 2007 (Bourbaki 2007). Zbl 1111.00001.
+- H. Hogbe-Nlend, *Bornologies and Functional Analysis*, North-Holland Math. Studies 26, 1977.
+  Zbl 0359.46004.
+- L. Waelbroeck, *Topological Vector Spaces and Algebras*, Lecture Notes in Math. 230, Springer,
+  1971. doi:10.1007/BFb0061235; Zbl 0225.46001.
+- H. Jarchow, *Locally Convex Spaces*, Teubner, 1981. Zbl 0466.46001.
+- K. Floret, « Some aspects of the theory of locally convex inductive limits », in *Functional
+  Analysis: Surveys and Recent Results II*, North-Holland Math. Studies 38, 1980, 205–237.
+  Zbl 0461.46002.
+- S. Dierolf, W. Roelcke, « On the three-space-problem for topological vector spaces », *Collect.
+  Math.* 32 (1981), 13–35. Zbl 0489.46002.
+- J. Wengenroth, *Derived Functors in Functional Analysis*, Lecture Notes in Math. 1810, Springer,
+  2003. doi:10.1007/b80165.
+- R. Meise, D. Vogt, *Introduction to Functional Analysis*, Oxford Graduate Texts in Math. 2,
+  Clarendon Press, 1997. Zbl 0924.46002.
+- I. M. Gel'fand, N. Ya. Vilenkin, *Generalized Functions*, vol. 4, Academic Press, 1964; AMS
+  Chelsea, 2016. Zbl 0136.11201.
+- G. Pisier, « Grothendieck's theorem, past and present », *Bull. Amer. Math. Soc.* 49 (2012),
+  237–323. doi:10.1090/S0273-0979-2011-01348-9; arXiv:1101.4195.
+- F. Bombal, « Alexander Grothendieck's work on functional analysis », in *Advanced Courses of
+  Mathematical Analysis II*, World Scientific, 2007, 16–36. doi:10.1142/9789812708441_0002.
+- A. Frölicher, A. Kriegl, *Linear Spaces and Differentiation Theory*, Wiley, 1988.
+  Zbl 0657.46034.
+- A. Kriegl, P. W. Michor, *The Convenient Setting of Global Analysis*, Math. Surveys Monogr. 53,
+  AMS, 1997. Zbl 0889.58001.
+- J. von Neumann, « On complete topological spaces », *Trans. Amer. Math. Soc.* 37 (1935), 1–20.
+  Zbl 0011.16403.
+- A. Kolmogoroff, « Zur Normierbarkeit eines allgemeinen topologischen linearen Raumes », *Studia
+  Math.* 5 (1934), 29–33. Zbl 0010.18202.
+- C. Perez-Garcia, W. H. Schikhof, *Locally Convex Spaces over Non-Archimedean Valued Fields*,
+  Cambridge Univ. Press, 2010. doi:10.1017/CBO9780511729959.
