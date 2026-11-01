@@ -30,9 +30,10 @@ The geometric bundle and theta-tail laws, adelic quotient volume and Hecke measu
 (§§0.17–0.18) need the projective-line twisting sheaves, hyperelliptic pushforward and
 section loci, and the function-field adelic bundle correspondence. Native finite locally
 free sheaves and line-bundle classes do not supply these constructions. Principal
-polarization counts and Honda–Tate classification (§0.16 and supporting constructions)
-need the dual abelian variety, ample polarization and abelian Frobenius/Weil-number
-interfaces; the native abelian-variety category does suffice for unpolarized finiteness.
+polarization counts, the polarized finiteness and Tate's theorem over a finite field
+(§0.16 and supporting constructions) need the dual abelian variety, polarizations, the Tate
+module with its Galois action and the Dieudonné module; the native abelian-variety
+category does suffice for unpolarized finiteness.
 Wood's rigid arithmetic fibres and reduced-multiplier refinements (§§0.19–0.21) need
 marked extensions with their full split-infinity unramified groups and reduced covers.
 These geometric and marked-arithmetic statements are deferred for those missing objects.
