@@ -33,7 +33,7 @@ generation to **LanglandsParameterStacks**, LP1.7–LP1.8 and LP4.1–LP4.3.
 
 The relative curve, its divisor spaces and meromorphic torsor gluing come from
 `RelativeFarguesFontaine`, Layers 0–7; isocrystals and vector bundles from
-`VectorBundlesAndIsocrystals`, VB0–VB4; the stack of bundles, Newton strata and their
+`VectorBundlesAndIsocrystals`, Layers 0–5; the stack of bundles, Newton strata and their
 automorphism groups from `BunGAndNewtonStrata`, Layers 0–4. Local loop geometry, Schubert
 varieties, convolution, fusion and the integral Satake equivalence come from
 `GeometricSatakeAndFusion`, GS0–GS4. General solid and lisse categories and their
@@ -59,12 +59,14 @@ admissibility and duality for their cohomology. The independent IG.0.11 and IG.0
 deformation inputs to HS3.9 are this roadmap's only IgusaVarietiesAndTorsionConcentration
 dependency.
 
-[Suggested.lean](Suggested.lean) explains why the headline theorems require
-objects absent from the Mathlib and Tau Ceti pins: bounded Hecke correspondences,
-local shtuka towers, relative perfect representation categories and the enhanced
-solid/lisse Hecke action. It contains no theorem statements. The API names below
-specify intended library declarations. This README is the definitive specification;
-the suggested forms are not an exhaustive checklist.
+[Suggested.lean](Suggested.lean) states the headline theorems of this roadmap that
+are statable against the Mathlib and Tau Ceti pins. None is: its module docstring
+names them (the adjunctions and continuous Weil descent of the Hecke action, integral
+tensor generation, nonemptiness and connectedness of admissible loci, the reciprocity
+map of the one-leg tower, finite generation, compactness, admissibility and duality of
+the tower complexes, and the coherent finite-set family) with the carrier each lacks,
+and the file declares nothing. The API names below are the intended declarations of
+the finished library; this README is the definitive specification.
 
 ## Conventions
 
@@ -77,6 +79,8 @@ the suggested forms are not an exhaustive checklist.
   Fargues–Fontaine curve and `Div¹_E=Spd Ĕ/φ^(ℤ)`.
   When annuli are used, `S=Spa(R,R^+)` is affinoid perfectoid with
   a chosen pseudo-uniformizer `ϖ`.
+- A locally profinite set or group, such as `G(E)/K` or `J_b(E)`, also denotes
+  the constant v-sheaf it defines on `Perf_k`; constant sheaves carry no decoration.
 - `G/E` is reductive. A `G`-bundle is an exact tensor functor from
   `Rep_E(G)` to vector bundles on the curve. For a geometric
   cocharacter class `μ`, `F/E` is its reflex field,
@@ -200,7 +204,7 @@ on the complete contract.
 | **GeometricSatakeAndFusion**, GS0, “Loop quotients and ordered divisors” and “Generic bounds and integral affine flags”, **GeometricSatakeAndFusion**, GS0, “Open cells, action truncation and minuscule flags” | Ordered-leg Schubert bounds, finite `dim.trg`, proper surjective bounded convolution, and factorization off the diagonals. For a characteristic-zero untilt and minuscule class, the Białynicki-Birula map is an isomorphism, with reflex-field descent and equivariance under reduction of positive loops. The additional arbitrary-bound bijection on finite-extension points over `ℚ_p` is a target of HS2.12. |
 | **GeometricSatakeAndFusion**, GS1, **GeometricSatakeAndFusion**, GS2, “Proper correspondences and rational semismallness”, **GeometricSatakeAndFusion**, GS3, **GeometricSatakeAndFusion**, GS4, “Integral identification, normalization and functoriality” | ULA recognition and duality; equivariant Demazure spaces with proper, spatial, finite-dimensional maps; the equivariant Demazure spaces used in HS1.1’s `solidDualDemazureGeneration`, whose generation assertion is proved here; convolution and coherent fusion. On chain spaces the twisted product is flat perverse and ULA with its specified extension from disjoint legs. The normalized integral Satake functor has its enhanced perfect-complex extension, the perfect-complex extension needed for HS1.0’s bounded-weight resolution convergence, and naturality for adjoint maps, products, Levi maps and Weil restriction. |
 | **GeometricSatakeAndFusion**, GS4, “Integral identification, normalization and functoriality” | Pullback to `Div¹_F` corresponds to restriction from `W_E` to `W_F`, including the action of all endomorphisms and idempotent summands. For residue degree `f`, the square root is `r^f`. Weil restriction pushes the inflated then induced representation's Satake sheaf forward along the corresponding closed immersion and finite étale leg map. Choosing the other square root changes the comparison by the unramified sign character on components of odd `⟨2ρ,μ⟩`. |
-| **GeometricSatakeAndFusion**, GS4, `representationComplexInterface` and `perfectSatakeFunctor`; **LanglandsParameterStacks**, §LP3.0 | Relative integral perfect-complex base change and stable completion; induced and Weyl modules and good-filtration theory. The additional algebraic tensor-generator, exterior-product generation and bounded-weight resolution assertions, for every `ℓ≠p` and arbitrary finite pinned-action group `Q`, are targets of HS1.0. Its Satake convergence comparison uses `perfectSatakeFunctor` with a specified continuous finite quotient `W_E↠Q` inducing the given pinned action. |
+| **GeometricSatakeAndFusion**, §4.24, “All-prime representation-complex interface”, and §4.25, “Perfect-complex Satake extension”; **LanglandsParameterStacks**, §4.1, “Highest-weight modules and good filtrations” | Relative integral perfect-complex base change and stable completion; induced and Weyl modules and good-filtration theory. The additional algebraic tensor-generator, exterior-product generation and bounded-weight resolution assertions, for every `ℓ≠p` and arbitrary finite pinned-action group `Q`, are targets of HS1.0. Its Satake convergence comparison uses the perfect-complex Satake extension of §4.25 with a specified continuous finite quotient `W_E↠Q` inducing the given pinned action. |
 | **VStackSheavesAndLisseCategories**, VS0–VS5 | Artin-stack sheaves; divisor–Weil maps and the Drinfeld fully faithful embedding; solid operations and relative homology with base change, projection formula, and an isomorphism for restriction of coefficients; lisse categories, geometric invariance and stratum adjoints; compact generation, ULA/admissibility, lisse and BZ duality, and Künneth. The chart calculation comparing cohomology with `[*/K]` is required as an identity of condensed objects for every profinite parameter space. On classifying stacks relative homology is compact induction, with its level units and counits. Stratum extension by zero, excision, compactness and its dualizing-complex formula are required in addition to the left adjoint of stratum restriction. |
 | **VStackSheavesAndLisseCategories**, VS0 | For torsion coefficients, the smooth stacky map `π:Bun_P^(b_N)→Bun_M^(b_M)` has exceptional direct image inverse to the section's exceptional direct image, with composition and representable base change. Its classifying-stack fibres make the representable diamond formalism alone insufficient. The stacky dimension bounds in [GL], §2, require the fine-morphism formalism, or proofs through atlases giving those same bounds. |
 | **SmoothRepresentationsOfLocalGroups**, §§SR.0d.1–SR.0d.2, **SmoothRepresentationsOfLocalGroups**, SR.1, **SmoothRepresentationsOfLocalGroups**, SR.2, **SmoothRepresentationsOfLocalGroups**, SR.3, **SmoothRepresentationsOfLocalGroups**, SR.6 | Enhanced derived smooth representations, exact pro-`p` invariants commuting with filtered colimits, admissible reflexive smooth duals, compact projective compact inductions, derived reciprocity and level trace identities. For `ℚ̄_ℓ`, use noetherianity, finite global dimension, admissibility of irreducibles, and finite length of finitely generated admissible objects. For integral finite generation use [DHKM], Theorem 1.1 and Corollary 1.4, rather than extrapolating the characteristic-zero statements. |
@@ -248,7 +252,7 @@ realization”, which form a prefix of that roadmap using no automorphic, Galois
 target of it. They are stated over `Perf_{𝔽_q}` for the local field `K=E` and pull back
 along `Spd k→Spd 𝔽_q`; their bundle stack is VStackSheavesAndLisseCategories VS4.0's,
 which is also BunGAndNewtonStrata's `Bun_G`, and their curve and divisors are
-VectorBundlesAndIsocrystals VB−1's, on which RelativeFarguesFontaine builds. The consumed
+VectorBundlesAndIsocrystals Layer 0's marked untilt Cartier divisors, on which RelativeFarguesFontaine builds. The consumed
 carriers are exactly the following.
 
 - `HeckeModification`: the finite-leg global Hecke stacks `Hck^I_G` over
@@ -281,10 +285,9 @@ carriers are exactly the following.
 
 Consumed sections: AutomorphicGaloisRepresentationsPartII AG2.6, “Relative Fargues–Fontaine
 curves and degree-one divisors”; AutomorphicGaloisRepresentationsPartII AG2.6, “Bundle
-strata, lisse categories and the geometric Hecke action” (hecke-modification-stacks,
-hecke-functor); AutomorphicGaloisRepresentationsPartII AG2.6, “The parameter stack and
-geometric spectral action” (geometric-spectral-action); AutomorphicGaloisRepresentationsPartII
-AG2.6, “Minuscule local Shimura spaces and their Hecke realization” (local-shimura-tower).
+strata, lisse categories and the geometric Hecke action”; AutomorphicGaloisRepresentationsPartII AG2.6, “The parameter stack and
+geometric spectral action”; AutomorphicGaloisRepresentationsPartII
+AG2.6, “Minuscule local Shimura spaces and their Hecke realization”.
 
 ## How to read the build
 
@@ -299,8 +302,6 @@ are specified here by their intended signatures.
 
 Build the groupoid of global modifications and its bounded geometry before imposing coefficients. Chains supply the composition law used by the action and by Frobenius-collision charts.
 
-<a id="hs0-1"></a>
-
 ### HS0.1 — Global Hecke stacks
 
 The global Hecke stack is imported. `Hck^I_G` is AutomorphicGaloisRepresentationsPartII
@@ -308,7 +309,7 @@ AG2.6's `HeckeModification` over `Perf_{𝔽_q}`, pulled back to `Perf_k` along
 `Spd k→Spd 𝔽_q`: objects are legs `(D_i)`, bundles `𝓔_1,𝓔_2` and an isomorphism `α` off
 their union, meromorphic along `ΣD_i`. Its bundle stack is VStackSheavesAndLisseCategories
 VS4.0's, which BunGAndNewtonStrata's `Bun_G` extends on the same carrier, and its leg base is
-VectorBundlesAndIsocrystals VB−1's `Div¹_E`, the one RelativeFarguesFontaine's divisors are
+VectorBundlesAndIsocrystals Layer 0's `Div¹_E` (marked untilt Cartier divisors), the one RelativeFarguesFontaine's divisors are
 built on, so there is one bundle stack and one divisor base. The source, target-with-legs,
 unit, leg-repetition and completion maps and the identification `Hck^∅_G≃Bun_G` are the
 supplier's. The targets here are the inversion `sw`, the description of morphisms and
@@ -337,13 +338,11 @@ Provide the following API.
 
 **Checks.**
 
-- `HckI.empty_test`: For `I = ∅` the functor `p_1: Hck^∅_G(S) → Bun_G(S)` is an equivalence of groupoids for every `S ∈ Perf_k`; for `G = 𝔾_m` and `S` a geometric point its isomorphism classes are `ℤ` (the degree) and its automorphism groups are `E^×`.
-- `HckI.torus_test`: Let `G = 𝔾_m`, `S = Spa(C,C⁺)` a geometric point and `D ⊂ X_S` a degree-one divisor. The isomorphism classes of objects `(D,L_1,L_2,α)` of `Hck^{∗}_{𝔾_m}(S)` are in bijection with `ℤ²` through `(deg L_1, deg L_2)`, all pairs occur, and the automorphism group of each object is `E^×` embedded diagonally in `E^× × E^× = Aut(L_1) × Aut(L_2)`.
-- `HckI.repeat_test`: For the map `a: {1,2} → {∗}`, `ι_a: Hck^{1,2}_G ×_{(Div¹)²,Δ} Div¹ → Hck^{∗}_G` is an equivalence. For the map `a: ∅ → {∗}`, `ι_a` is the unit `e: Bun_G × Div¹ → Hck^{∗}_G`, which for `G = 𝔾_m` is not essentially surjective: over a geometric point its image consists of the classes with `deg L_1 = deg L_2`.
-- `HckI.trivial_group_test`: For `G = 1`, `Hck^I_1 = (Div¹)^I`, `p_1` is the structure map to `Bun_1 = ∗` and `p_2` is the identity of `(Div¹)^I`.
-- `HckI.fibre_test`: Let `S = Spa(C,C⁺)` be a geometric point, `D` one leg with untilt `C♯`, and `E_2 = 𝒪ⁿ` the trivial `GL_n`-bundle. The pairs `(E_1,α)` with `(D,E_1,𝒪ⁿ,α) ∈ Hck^{∗}_{GL_n}(S)`, up to isomorphisms of `E_1` compatible with `α`, are in bijection with the `B⁺_dR(C♯)`-lattices in `B_dR(C♯)ⁿ` through `(E_1,α) ↦ α(Ê_1)`; all lattices occur, not only those contained in `B⁺_dR(C♯)ⁿ`.
-
-<a id="hs0-2"></a>
+- For `I = ∅` the functor `p_1: Hck^∅_G(S) → Bun_G(S)` is an equivalence of groupoids for every `S ∈ Perf_k`; for `G = 𝔾_m` and `S` a geometric point its isomorphism classes are `ℤ` (the degree) and its automorphism groups are `E^×`.
+- Let `G = 𝔾_m`, `S = Spa(C,C⁺)` a geometric point and `D ⊂ X_S` a degree-one divisor. The isomorphism classes of objects `(D,L_1,L_2,α)` of `Hck^{∗}_{𝔾_m}(S)` are in bijection with `ℤ²` through `(deg L_1, deg L_2)`, all pairs occur, and the automorphism group of each object is `E^×` embedded diagonally in `E^× × E^× = Aut(L_1) × Aut(L_2)`.
+- For the map `a: {1,2} → {∗}`, `ι_a: Hck^{1,2}_G ×_{(Div¹)²,Δ} Div¹ → Hck^{∗}_G` is an equivalence. For the map `a: ∅ → {∗}`, `ι_a` is the unit `e: Bun_G × Div¹ → Hck^{∗}_G`, which for `G = 𝔾_m` is not essentially surjective: over a geometric point its image consists of the classes with `deg L_1 = deg L_2`.
+- For `G = 1`, `Hck^I_1 = (Div¹)^I`, `p_1` is the structure map to `Bun_1 = ∗` and `p_2` is the identity of `(Div¹)^I`.
+- Let `S = Spa(C,C⁺)` be a geometric point, `D` one leg with untilt `C♯`, and `E_2 = 𝒪ⁿ` the trivial `GL_n`-bundle. The pairs `(E_1,α)` with `(D,E_1,𝒪ⁿ,α) ∈ Hck^{∗}_{GL_n}(S)`, up to isomorphisms of `E_1` compatible with `α`, are in bijection with the `B⁺_dR(C♯)`-lattices in `B_dR(C♯)ⁿ` through `(E_1,α) ↦ α(Ê_1)`; all lattices occur, not only those contained in `B⁺_dR(C♯)ⁿ`.
 
 ### HS0.2 — Relative position and bounded Hecke substacks
 
@@ -371,7 +370,7 @@ monotonicity and bounded factorization
 of maps from quasicompact bases. Zero bounds give the unit; inversion uses
 `-w_0μ`; repetition adds the bounds in each fibre of `a`.
 
-*Needs:* [HS0.1](#hs0-1); **AutomorphicGaloisRepresentationsPartII**, AG2.6, “Bundle strata, lisse categories and the geometric Hecke action”; **GeometricSatakeAndFusion**, GS0, “Loop quotients and ordered divisors” and “Generic bounds and integral affine flags”; **RelativeFarguesFontaine**, §§7.0–7.7; **DiamondsAndVStacks**, D3; **DiamondsAndVStacks**, D4.
+*Needs:* §HS0.1; **AutomorphicGaloisRepresentationsPartII**, AG2.6, “Bundle strata, lisse categories and the geometric Hecke action”; **GeometricSatakeAndFusion**, GS0, “Loop quotients and ordered divisors” and “Generic bounds and integral affine flags”; **RelativeFarguesFontaine**, §§7.0–7.7; **DiamondsAndVStacks**, D3; **DiamondsAndVStacks**, D4.
 
 (Sources: [FS], I.2, p. 16; VI.2, Definition VI.2.2, p. 197; VI.2, Definition VI.2.6, p. 200; VI.2, Proposition VI.2.7, p. 201; VI.10, p. 230; VI.2, proof of Proposition VI.2.4, p. 199; [SW], Lecture 19, Proposition 19.2.1, p. 172; Lecture 19, proof of Proposition 19.4.2, p. 177; Lecture 20, Definition 20.4.4, p. 187; Lecture 20, §20.2, p. 184.)
 
@@ -390,13 +389,11 @@ Provide the following API.
 
 **Checks.**
 
-- `HckI.Bounded.zero_test`: For `W_i = {0}` for all `i`, `e: Bun_G × (Div¹)^I → Hck^I_{G,(0)}` is an equivalence; for `G = GL_n` and one leg, an object with `α(Ê_1) ⊂ Ê_2` lies in `Hck_{G,(0)}` only if `α(Ê_1) = Ê_2`.
-- `HckI.Bounded.collision_test`: `G = 𝔾_m`, `I = {1,2}`, `μ• = (a,c) ∈ ℤ²: p_2: Hck^{1,2}_{𝔾_m,≤(a,c)} → Pic × (Div¹)²` is an isomorphism with inverse `(L_2,D_1,D_2) ↦ (L_2 ⊗ I_{D_1}^a ⊗ I_{D_2}^c, L_2, can)`; over the diagonal `D_1 = D_2 = D` the relative position at `D` is `a + c`, and `deg L_1 = deg L_2 − a − c`.
-- `HckI.Bounded.GL2_test`: `G = GL_2`, one leg `D` over a geometric point with untilt `C♯`, `E_2` fixed. The fibre of `p_{2,≤(1,0)}` over `(E_2,D)` is the set of lattices `Λ` with `ξÊ_2 ⊂ Λ ⊂ Ê_2` and `Ê_2/Λ` of length one, in bijection with `ℙ¹(C♯)`. The fibre of `p_{2,≤(2,0)}` is the set of lattices `Λ ⊂ Ê_2` with `Ê_2/Λ` of length two: the cell of position `(2,0)`, where `Ê_2/Λ ≅ B⁺_dR/ξ²`, together with the single point `Λ = ξÊ_2` of position `(1,1)`. The lattice `Ê_2` (position `(0,0)`) and the lattices of colength one are not in it.
-- `HckI.Bounded.nonsplit_test`: Let `F|E` be the unramified quadratic extension and `G = Res_{F|E}𝔾_m`, so `X_*(T) = ℤ²` with `Γ` acting through the swap. The set `{(1,0)}` is not `Γ`-stable and defines no substack of `Hck_G` over `Div¹_E`. For `W = {(1,0),(0,1)}` the fibre of `p_{2,W}` over `(E_2,D)`, with `D` given by an untilt `S♯` over `E` and `Ê_2` trivialised, is `Gr_{G,W} ×_{Spd E} S`, where `Gr_{G,W} ≅ Spd F` is connected and finite étale of degree `2` over `Spd E`; after base change to `Spd F` it is the disjoint union of the two sections of positions `(1,0)` and `(0,1)`.
-- `HckI.Bounded.twisted_collision_test`: Let `F|E` be a separable quadratic extension with `Gal(F|E) = {1,γ}` and `G = Res_{F|E}𝔾_m`, so that `G`-bundles on `X_S` are line bundles on `X_{S,F} = X_S ×_{Spa E} Spa F` and `Div¹_F` is the space of degree-one divisors of `X_{S,F}`; let `I = {1,2}` and `μ_1 = μ_2 = (1,0)`, with field of definition `F`. Then `p_2: Hck^{1,2}_{G,≤μ•} → Bun_G × (Div¹_F)²` is an isomorphism with inverse `(L_2,D′_1,D′_2) ↦ (L_2 ⊗ I_{D′_1} ⊗ I_{D′_2}, L_2, can)`. At a geometric point with `D′_2 = D′_1` the position at the common image in `X_S` is `(2,0) = μ_1 + μ_2`. At a geometric point with `D′_2 = γ(D′_1)` the two legs again have the same image `x` in `X_S`, the fibre is not empty, and the position at `x` is `(1,1) = μ_1 + γμ_2`, which is not `≤ (2,0)`.
-
-<a id="hs0-3"></a>
+- For `W_i = {0}` for all `i`, `e: Bun_G × (Div¹)^I → Hck^I_{G,(0)}` is an equivalence; for `G = GL_n` and one leg, an object with `α(Ê_1) ⊂ Ê_2` lies in `Hck_{G,(0)}` only if `α(Ê_1) = Ê_2`.
+- For `G = 𝔾_m`, `I = {1,2}`, `μ• = (a,c) ∈ ℤ²: p_2: Hck^{1,2}_{𝔾_m,≤(a,c)} → Pic × (Div¹)²` is an isomorphism with inverse `(L_2,D_1,D_2) ↦ (L_2 ⊗ I_{D_1}^a ⊗ I_{D_2}^c, L_2, can)`; over the diagonal `D_1 = D_2 = D` the relative position at `D` is `a + c`, and `deg L_1 = deg L_2 − a − c`.
+- For `G = GL_2`, one leg `D` over a geometric point with untilt `C♯`, `E_2` fixed. The fibre of `p_{2,≤(1,0)}` over `(E_2,D)` is the set of lattices `Λ` with `ξÊ_2 ⊂ Λ ⊂ Ê_2` and `Ê_2/Λ` of length one, in bijection with `ℙ¹(C♯)`. The fibre of `p_{2,≤(2,0)}` is the set of lattices `Λ ⊂ Ê_2` with `Ê_2/Λ` of length two: the cell of position `(2,0)`, where `Ê_2/Λ ≅ B⁺_dR/ξ²`, together with the single point `Λ = ξÊ_2` of position `(1,1)`. The lattice `Ê_2` (position `(0,0)`) and the lattices of colength one are not in it.
+- Let `F|E` be the unramified quadratic extension and `G = Res_{F|E}𝔾_m`, so `X_*(T) = ℤ²` with `Γ` acting through the swap. The set `{(1,0)}` is not `Γ`-stable and defines no substack of `Hck_G` over `Div¹_E`. For `W = {(1,0),(0,1)}` the fibre of `p_{2,W}` over `(E_2,D)`, with `D` given by an untilt `S♯` over `E` and `Ê_2` trivialised, is `Gr_{G,W} ×_{Spd E} S`, where `Gr_{G,W} ≅ Spd F` is connected and finite étale of degree `2` over `Spd E`; after base change to `Spd F` it is the disjoint union of the two sections of positions `(1,0)` and `(0,1)`.
+- Let `F|E` be a separable quadratic extension with `Gal(F|E) = {1,γ}` and `G = Res_{F|E}𝔾_m`, so that `G`-bundles on `X_S` are line bundles on `X_{S,F} = X_S ×_{Spa E} Spa F` and `Div¹_F` is the space of degree-one divisors of `X_{S,F}`; let `I = {1,2}` and `μ_1 = μ_2 = (1,0)`, with field of definition `F`. Then `p_2: Hck^{1,2}_{G,≤μ•} → Bun_G × (Div¹_F)²` is an isomorphism with inverse `(L_2,D′_1,D′_2) ↦ (L_2 ⊗ I_{D′_1} ⊗ I_{D′_2}, L_2, can)`. At a geometric point with `D′_2 = D′_1` the position at the common image in `X_S` is `(2,0) = μ_1 + μ_2`. At a geometric point with `D′_2 = γ(D′_1)` the two legs again have the same image `x` in `X_S`, the fibre is not empty, and the position at `x` is `(1,1) = μ_1 + γμ_2`, which is not `≤ (2,0)`.
 
 ### HS0.3 — Descent, uniformization and bounded fibres
 
@@ -413,11 +410,9 @@ cell of type `μ`, the fibres are cohomologically smooth of dimension
 nonempty legs and nontrivial `G`, the unbounded Grassmannian fibre is
 not quasicompact.
 
-*Needs:* [HS0.1](#hs0-1), [HS0.2](#hs0-2); **RelativeFarguesFontaine**, §§7.0–7.7; **DiamondsAndVStacks**, D5; **GeometricSatakeAndFusion**, GS0, “Loop quotients and ordered divisors” and “Generic bounds and integral affine flags”; **BunGAndNewtonStrata**, §§2.8, 2.11–2.23; **GeometricSatakeAndFusion**, GS0, “Open cells, action truncation and minuscule flags”; **VectorBundlesAndIsocrystals**, VB3, “Positive presentations and general two-term geometry”; **RelativeFarguesFontaine**, §§4.6–4.13; **DiamondsAndVStacks**, D3; **DiamondSixOperations**, S4.
+*Needs:* §HS0.1, §HS0.2; **RelativeFarguesFontaine**, §§7.0–7.7; **DiamondsAndVStacks**, D5; **GeometricSatakeAndFusion**, GS0, “Loop quotients and ordered divisors” and “Generic bounds and integral affine flags”; **BunGAndNewtonStrata**, §§2.8, 2.11–2.23; **GeometricSatakeAndFusion**, GS0, “Open cells, action truncation and minuscule flags”; **VectorBundlesAndIsocrystals**, Layer 5, “Positive presentations and general two-term geometry”; **RelativeFarguesFontaine**, §§4.6–4.13; **DiamondsAndVStacks**, D3; **DiamondSixOperations**, S4.
 
 (Sources: [FS], VI.1, proof of Proposition VI.1.7, p. 193; III.3, pp. 97–98; VI.2, Proposition VI.2.7, p. 201; VI.8, Remark VI.8.4, p. 226; II.1, Proposition II.1.21, p. 56; I.2, p. 16; VI.2, Proposition VI.2.4, p. 198; [SW], Appendix to Lecture 19, Proposition 19.5.3, p. 180.)
-
-<a id="hs0-4"></a>
 
 ### HS0.4 — Chains and composition of modifications
 
@@ -433,7 +428,7 @@ source. For bounded chains prove that it lands in the summed bound and is
 proper and v-surjective, using the bounded local convolution theorem.
 Include Galois-stable bounds for nonsplit groups.
 
-*Needs:* [HS0.1](#hs0-1), [HS0.3](#hs0-3), [HS0.2](#hs0-2); **RelativeFarguesFontaine**, §§7.0–7.7; **GeometricSatakeAndFusion**, GS0, “Loop quotients and ordered divisors” and “Generic bounds and integral affine flags”.
+*Needs:* §HS0.1, §HS0.3, §HS0.2; **RelativeFarguesFontaine**, §§7.0–7.7; **GeometricSatakeAndFusion**, GS0, “Loop quotients and ordered divisors” and “Generic bounds and integral affine flags”.
 
 (Sources: [FS], VI.9, proof of Definition/Proposition VI.9.4, p. 229; VI.8, p. 224; IX.2, p. 321; [SW], Lecture 20, Definition 20.4.2, p. 187; Lecture 20, Proposition 20.1.4, p. 183; Lecture 20, Proposition 20.4.5(2), p. 188.)
 
@@ -452,12 +447,10 @@ Provide the following API.
 
 **Checks.**
 
-- `ModificationChain.torus_collision_test`: `G = 𝔾_m`, `I = {1,2}` with parts `{1}`, `{2}`, `S` a geometric point with `D_1 = D_2 = D`. Isomorphism classes of chains `(L_0,L_1,L_2;α_1,α_2)` are the triples `(deg L_2, b, a) ∈ ℤ³` with `L_1 ≅ L_2 ⊗ I_D^b` and `L_0 ≅ L_1 ⊗ I_D^a`, and `c` sends `(deg L_2, b, a)` to the class `(deg L_0, deg L_2) = (deg L_2 − a − b, deg L_2)` of `Hck^{∗}_{𝔾_m}`; so `c` is surjective on isomorphism classes with infinite fibres `{(a,b) : a + b = n}`.
-- `ModificationChain.torus_disjoint_test`: Same `G` and partition, `S` a geometric point with `D_1 ≠ D_2`: chains are classified by `(deg L_2, b, a) ∈ ℤ³` with `L_1 = L_2 ⊗ I_{D_2}^b` and `L_0 = L_1 ⊗ I_{D_1}^a`; objects of `Hck^{1,2}_{𝔾_m}` over `(D_1,D_2)` are classified by `(deg L_2, a, b)` through `L_0 = L_2 ⊗ I_{D_1}^a ⊗ I_{D_2}^b`; and `c` is the identity in these coordinates, hence bijective on isomorphism classes.
-- `ModificationChain.GL2_test`: `G = GL_2`, one common leg at a geometric point with untilt `C♯`, `E_2` fixed with `Ê_2` trivialised, bounds `μ_1 = μ_2 = (1,0)`. Bounded chains are the flags of lattices `Λ_0 ⊂ Λ_1 ⊂ Ê_2` with both successive quotients of length one, a `ℙ¹`-bundle over `ℙ¹(C♯)`. The map `c`, `(Λ_0 ⊂ Λ_1) ↦ Λ_0`, is onto the set of lattices with `Ê_2/Λ_0` of length two; its fibre is one point if `Ê_2/Λ_0 ≅ B⁺_dR/ξ²` and is `ℙ¹(C♯)` if `Λ_0 = ξÊ_2`.
-- `ModificationChain.empty_part_test`: For the partition `I = I ⊔ ∅` the chain stack is `Hck^I_G ×_{Bun_G} Hck^∅_G ≃ Hck^I_G` and `c` is this equivalence; for the partition with one part, `c` is the identity.
-
-<a id="hs0-5"></a>
+- For `G = 𝔾_m`, `I = {1,2}` with parts `{1}`, `{2}`, `S` a geometric point with `D_1 = D_2 = D`. Isomorphism classes of chains `(L_0,L_1,L_2;α_1,α_2)` are the triples `(deg L_2, b, a) ∈ ℤ³` with `L_1 ≅ L_2 ⊗ I_D^b` and `L_0 ≅ L_1 ⊗ I_D^a`, and `c` sends `(deg L_2, b, a)` to the class `(deg L_0, deg L_2) = (deg L_2 − a − b, deg L_2)` of `Hck^{∗}_{𝔾_m}`; so `c` is surjective on isomorphism classes with infinite fibres `{(a,b) : a + b = n}`.
+- Same `G` and partition, `S` a geometric point with `D_1 ≠ D_2`: chains are classified by `(deg L_2, b, a) ∈ ℤ³` with `L_1 = L_2 ⊗ I_{D_2}^b` and `L_0 = L_1 ⊗ I_{D_1}^a`; objects of `Hck^{1,2}_{𝔾_m}` over `(D_1,D_2)` are classified by `(deg L_2, a, b)` through `L_0 = L_2 ⊗ I_{D_1}^a ⊗ I_{D_2}^b`; and `c` is the identity in these coordinates, hence bijective on isomorphism classes.
+- For `G = GL_2`, one common leg at a geometric point with untilt `C♯`, `E_2` fixed with `Ê_2` trivialised, bounds `μ_1 = μ_2 = (1,0)`. Bounded chains are the flags of lattices `Λ_0 ⊂ Λ_1 ⊂ Ê_2` with both successive quotients of length one, a `ℙ¹`-bundle over `ℙ¹(C♯)`. The map `c`, `(Λ_0 ⊂ Λ_1) ↦ Λ_0`, is onto the set of lattices with `Ê_2/Λ_0` of length two; its fibre is one point if `Ê_2/Λ_0 ≅ B⁺_dR/ξ²` and is `ℙ¹(C♯)` if `Λ_0 = ξÊ_2`.
+- For the partition `I = I ⊔ ∅` the chain stack is `Hck^I_G ×_{Bun_G} Hck^∅_G ≃ Hck^I_G` and `c` is this equivalence; for the partition with one part, `c` is the identity.
 
 ### HS0.5 — Twisted period Grassmannians
 
@@ -485,7 +478,7 @@ related by a positive backward iterate, describe the points as two-step
 bundle modifications at their common image in `X_S`, with the intermediate
 bundle part of the data. General local fields are treated in HS2.
 
-*Needs:* [HS0.4](#hs0-4), [HS0.2](#hs0-2); **RelativeFarguesFontaine**, §§7.0–7.7; **GeometricSatakeAndFusion**, GS0, “Loop quotients and ordered divisors” and “Generic bounds and integral affine flags”; **RelativeFarguesFontaine**, §§4.6–4.13; **RelativeFarguesFontaine**, §§1.1–1.3.
+*Needs:* §HS0.4, §HS0.2; **RelativeFarguesFontaine**, §§7.0–7.7; **GeometricSatakeAndFusion**, GS0, “Loop quotients and ordered divisors” and “Generic bounds and integral affine flags”; **RelativeFarguesFontaine**, §§4.6–4.13; **RelativeFarguesFontaine**, §§1.1–1.3.
 
 (Sources: [SW], Lecture 23, Definition 23.5.1, p. 223; Lecture 23, Definition 23.4.1, p. 221; Lecture 23, proof of Proposition 23.4.2, p. 222; Lecture 23, Remark 23.4.3, p. 222; Lecture 23, Proposition 23.5.2, p. 223; Lecture 23, proof of Proposition 23.5.2, p. 224; [FS], IX.3, p. 326.)
 
@@ -505,12 +498,10 @@ Provide the following API.
 
 **Checks.**
 
-- `TwistedPeriodData.one_leg_test`: For `m = 1` and any `b`, `Gr^{tw,b}_{G,≤μ} → Gr_{G,Spd F̆_1,≤μ}` is an isomorphism. For `G = 𝔾_m` and `μ = n` it is `Spd F̆_1`: the unique point over `S` is the line bundle `P_η = 𝒪(−n·Σ_{j≥0} φ⁻ʲ(S♯_1))` on `S ×̇ Spa ℚ_p`, with `ι` the inclusion into the meromorphic functions and `φ` multiplication by `b`.
-- `TwistedPeriodData.no_leg_test`: For `m = 0` and every `b ∈ G(L)`, `Gr^{tw,b}(S)` is a single point for all `S ∈ Perf_k`, namely `(G × Y_{(0,∞)}(S), b × Frob_S, id)`.
-- `TwistedPeriodData.torus_collision_test`: `G = 𝔾_m`, `m = 2`, `μ• = (a,c) ∈ ℤ²`, `b = 1`: the map to `Spd L ×_k Spd L` is an isomorphism, and the unique point over `S` is `P_η = 𝒪(−a·Σ_{n≥0} φ⁻ⁿ(S♯_1) − c·Σ_{n≥0} φ⁻ⁿ(S♯_2))` with `ι` the inclusion. At a geometric point with `S♯_2 = φ⁻¹(S♯_1)` the order of `P_η` along `S♯_2` relative to `ι` is `a + c`, while its position relative to `Frob_S^*P_η` there is `c`.
-- `TwistedPeriodData.GL2_collision_test`: `G = GL_2`, `μ_1 = μ_2 = (1,0)`, `b = 1`. Over a geometric point of the diagonal `S♯_1 = S♯_2` the fibre is the set of lattices `Λ ⊂ (B⁺_dR)²` with quotient of length two, the Schubert variety of `(2,0)`. Over a geometric point with `S♯_2 = φ⁻¹(S♯_1)` the fibre is the set of flags `Λ_0 ⊂ Λ_1 ⊂ (B⁺_dR)²` at `S♯_2` with successive quotients of length one, a `ℙ¹`-bundle over `ℙ¹`, and the map `(Λ_0 ⊂ Λ_1) ↦ Λ_0` to the first kind of fibre is not injective: its fibre over `ξ·(B⁺_dR)²` is `ℙ¹`. So over such a point the fibre of the twisted Grassmannian does not map isomorphically to the fibre of the Beilinson–Drinfeld Grassmannian of the images of the legs in `X_S`, and over the diagonal the fibre of the convolution Grassmannian does not map isomorphically to the fibre of the twisted Grassmannian: neither space describes the twisted Grassmannian over the whole base.
-
-<a id="hs0-6"></a>
+- For `m = 1` and any `b`, `Gr^{tw,b}_{G,≤μ} → Gr_{G,Spd F̆_1,≤μ}` is an isomorphism. For `G = 𝔾_m` and `μ = n` it is `Spd F̆_1`: the unique point over `S` is the line bundle `P_η = 𝒪(−n·Σ_{j≥0} φ⁻ʲ(S♯_1))` on `S ×̇ Spa ℚ_p`, with `ι` the inclusion into the meromorphic functions and `φ` multiplication by `b`.
+- For `m = 0` and every `b ∈ G(L)`, `Gr^{tw,b}(S)` is a single point for all `S ∈ Perf_k`, namely `(G × Y_{(0,∞)}(S), b × Frob_S, id)`.
+- For `G = 𝔾_m`, `m = 2`, `μ• = (a,c) ∈ ℤ²`, `b = 1`: the map to `Spd L ×_k Spd L` is an isomorphism, and the unique point over `S` is `P_η = 𝒪(−a·Σ_{n≥0} φ⁻ⁿ(S♯_1) − c·Σ_{n≥0} φ⁻ⁿ(S♯_2))` with `ι` the inclusion. At a geometric point with `S♯_2 = φ⁻¹(S♯_1)` the order of `P_η` along `S♯_2` relative to `ι` is `a + c`, while its position relative to `Frob_S^*P_η` there is `c`.
+- For `G = GL_2`, `μ_1 = μ_2 = (1,0)`, `b = 1`. Over a geometric point of the diagonal `S♯_1 = S♯_2` the fibre is the set of lattices `Λ ⊂ (B⁺_dR)²` with quotient of length two, the Schubert variety of `(2,0)`. Over a geometric point with `S♯_2 = φ⁻¹(S♯_1)` the fibre is the set of flags `Λ_0 ⊂ Λ_1 ⊂ (B⁺_dR)²` at `S♯_2` with successive quotients of length one, a `ℙ¹`-bundle over `ℙ¹`, and the map `(Λ_0 ⊂ Λ_1) ↦ Λ_0` to the first kind of fibre is not injective: its fibre over `ξ·(B⁺_dR)²` is `ℙ¹`. So over such a point the fibre of the twisted Grassmannian does not map isomorphically to the fibre of the Beilinson–Drinfeld Grassmannian of the images of the legs in `X_S`, and over the diagonal the fibre of the convolution Grassmannian does not map isomorphically to the fibre of the twisted Grassmannian: neither space describes the twisted Grassmannian over the whole base.
 
 ### HS0.6 — Change of structure group and basic inner forms
 
@@ -536,7 +527,7 @@ and chain composition. For nonbasic `b`, `G_b`
 is a form of a proper Levi and this equivalence is not asserted. Use the
 supplier's Beauville–Laszlo sign and inversion dictionary specified above.
 
-*Needs:* [HS0.1](#hs0-1), [HS0.2](#hs0-2), [HS0.4](#hs0-4); **RelativeFarguesFontaine**, §§7.0–7.7; **BunGAndNewtonStrata**, §§0.7 and 1.19; **BunGAndNewtonStrata**, §§2.8, 2.11–2.23; **VectorBundlesAndIsocrystals**, VB3, “Basic section sheaves, Lubin–Tate geometry and projectivization”.
+*Needs:* §HS0.1, §HS0.2, §HS0.4; **RelativeFarguesFontaine**, §§7.0–7.7; **BunGAndNewtonStrata**, §§0.7 and 1.19; **BunGAndNewtonStrata**, §§2.8, 2.11–2.23; **VectorBundlesAndIsocrystals**, Layer 5, “Basic section sheaves, Lubin–Tate geometry and projectivization”.
 
 (Sources: [FS], III.4, Corollary III.4.3, p. 101; III.4, Proposition III.4.2, p. 101; III.4, Proposition III.4.1(ii), p. 100; IX.6.4, p. 333; IX.6, proof of Theorem IX.6.1, p. 331; III.3, Proposition III.3.6(ii), p. 100; III.2.2, p. 91; II.2, proof of Proposition II.2.3, p. 61; IX.7, p. 337; [SW], Lecture 23, proof of Corollary 23.3.2, p. 219; Lecture 24, Definition 24.1.1 and Proposition 24.1.2, p. 225.)
 
@@ -558,13 +549,11 @@ For `G=G_m` and two coincident legs of types `a,c`, the composed modification ch
 
 ### Dependencies
 
-*Needs:* **AutomorphicGaloisRepresentationsPartII**, AG2.6, “Relative Fargues–Fontaine curves and degree-one divisors” and “Bundle strata, lisse categories and the geometric Hecke action”; **RelativeFarguesFontaine**, Layers 0–4 and 6–7; **BunGAndNewtonStrata**, Layers 0–4; **GeometricSatakeAndFusion**, GS0–GS3; **DiamondsAndVStacks**, D3–D5; **VectorBundlesAndIsocrystals**, VB3; **DiamondSixOperations**, S4.
+*Needs:* **AutomorphicGaloisRepresentationsPartII**, AG2.6, “Relative Fargues–Fontaine curves and degree-one divisors” and “Bundle strata, lisse categories and the geometric Hecke action”; **RelativeFarguesFontaine**, Layers 0–4 and 6–7; **BunGAndNewtonStrata**, Layers 0–4; **GeometricSatakeAndFusion**, GS0–GS3; **DiamondsAndVStacks**, D3–D5; **VectorBundlesAndIsocrystals**, Layer 5; **DiamondSixOperations**, S4.
 
 ## Layer HS1: The solid and lisse Hecke action
 
 Pull the normalized Satake kernels to the global correspondence, construct their relative-homology operators, and prove the geometric, duality and continuous Weil properties. The categorical interfaces in the supplier contracts and HS1.0’s all-prime representation theory are prerequisites throughout.
-
-<a id="hs1-0"></a>
 
 ### HS1.0 — Integral tensor generation and convergence
 
@@ -580,7 +569,7 @@ interfaces are `integralExteriorGeneration` and `boundedWeightExteriorResolution
 
 For `satakeResolutionConvergence`, assume additionally a specified continuous
 finite quotient `W_E↠Q` inducing the given pinned action on `Ĝ`, as in
-**GeometricSatakeAndFusion**, GS4, `perfectSatakeFunctor`. Prove that applying
+**GeometricSatakeAndFusion**, §4.25, “Perfect-complex Satake extension”. Prove that applying
 this exact relative perfect-complex Satake functor and taking the specified
 resolution colimit recovers its value on the representation, naturally in morphisms,
 coefficients, finite-set restriction and idempotent summands. This includes
@@ -610,13 +599,13 @@ reduction; IX.2, pp. 321–323, for the integral resolution inputs.)
 
 **Checks.**
 
-- `integralTensorGenerator.torus_test`: For `Ĝ=G_m` and `Q=1`,
+- For `Ĝ=G_m` and `Q=1`,
   take `U=χ_1⊕χ_{−1}`. Both positive and negative characters occur in
   tensor powers; `χ_1` alone cannot generate `χ_{−1}` by these operations.
-- `integralTensorGenerator.modular_Q_test`: For `Ĝ=1` and `ℓ∣|Q|`,
+- For `Ĝ=1` and `ℓ∣|Q|`,
   the regular representation gives bounded-weight resolutions without a
   semisimplicity assumption; their left tails need not terminate.
-- `integralTensorGenerator.coefficient_test`: For a coefficient algebra
+- For a coefficient algebra
   `Λ` with a nonfree finite projective module cut out by an idempotent,
   trivial group action is recovered as a retract of finite sums of `U^⊗0`.
 
@@ -630,7 +619,7 @@ The exterior-product and convergence targets have the following checks.
   a nonzero weight does not become the zero-weight representation.
 - For `Ĝ=PGL₂` and `ℓ=2≠p`, the assertion still applies. If `ℓ` divides
   `|Q|`, it does not assert that an equivariant resolution has finite length.
-- `satakeResolutionConvergence.weil_quotient_test`: For `Ĝ=1` and `Q=A₅`
+- For `Ĝ=1` and `Q=A₅`
   with its trivial pinned action, the algebraic generation and resolution
   assertions apply. No continuous quotient `W_E↠A₅` exists: in every finite
   Weil quotient, the wild-inertia image is a `p`-group, the tame-inertia
@@ -638,12 +627,10 @@ The exterior-product and convergence targets have the following checks.
   is solvable. The Satake comparison requires the specified Weil quotient.
 
 (Source: [FS], IX.2, pp. 321–323, the highest-weight base-change and
-bounded-weight argument.) *Needs:* **LanglandsParameterStacks**, §LP3.0;
-**GeometricSatakeAndFusion**, GS4, `representationComplexInterface` and
-`perfectSatakeFunctor`; **ReductiveGroups**, Layer 9;
+bounded-weight argument.) *Needs:* **LanglandsParameterStacks**, §4.1, “Highest-weight modules and good filtrations”;
+**GeometricSatakeAndFusion**, §4.24, “All-prime representation-complex interface”, and
+§4.25, “Perfect-complex Satake extension”; **ReductiveGroups**, Layer 9;
 the **EnhancedDerivedSheaves** sections E5:abstract and E5:presentability.
-
-<a id="hs1-1"></a>
 
 ### HS1.1 — Solid Satake kernels
 
@@ -660,7 +647,7 @@ minuscule one-leg bound of dimension `d`, fix
 `S'_V=Λ[-d](-d/2)`. Convolution and coefficient extension must
 carry coherent associativity and unit constraints.
 
-*Needs:* [HS0.1](#hs0-1), [HS0.4](#hs0-4); **GeometricSatakeAndFusion**, GS4, “Integral identification, normalization and functoriality”; **VStackSheavesAndLisseCategories**, VS2; **EnhancedDerivedSheaves**, E5:abstract; **GeometricSatakeAndFusion**, GS2, “Proper correspondences and rational semismallness”.
+*Needs:* §HS0.1, §HS0.4; **GeometricSatakeAndFusion**, GS4, “Integral identification, normalization and functoriality”; **VStackSheavesAndLisseCategories**, VS2; **EnhancedDerivedSheaves**, E5:abstract; **GeometricSatakeAndFusion**, GS2, “Proper correspondences and rational semismallness”.
 
 (Sources: [FS], IX.2, p. 321; VII.5, p. 264; IX.2, p. 322.)
 
@@ -671,7 +658,7 @@ Provide the following API.
 - `globalKernel.unit`: `S′_1≅δ_♮Λ` for the identity-modification section `δ: Bun_G×(Div¹)^I→Hck^I_G`; consequently `RHom_{D_■}(S′_1,Λ)≅δ_*Λ`.
 - `globalKernel.tensor`: Monoidal constraint `S′_{V⊗W}≅S′_V⋆S′_W` for the convolution of `D_■(Hck^I_G,Λ)` over `(Div¹)^I`, natural in `V` and `W`, with the associativity and unit coherences.
 - `globalKernel.weilLinear`: For `U∈Rep_Λ(Q^I): S′_{U⊗V}≅p^*L_U⊗■_ΛS′_V`, where `p: Hck^I_G→(Div¹)^I` is the leg map and `L_U` the local system on `(Div¹)^I` attached to `U` through `(Div¹)^I→[*/W_E^I]→[*/Q^I]`; compatible with the monoidal constraints.
-- `globalKernel.restrictLegs`: For a map `ζ: I→J` of finite sets let `ζ^*: Rep_Λ((Ĝ⋊Q)^I)→Rep_Λ((Ĝ⋊Q)^J)` be restriction along `(Ĝ⋊Q)^J→(Ĝ⋊Q)^I`, `ι_ζ: Hck^I_G×_{(Div¹)^I}(Div¹)^J→Hck^J_G` the fully faithful map of HS0.1 `(5)`, which restricts to a closed immersion on every bounded part (there it is a monomorphism between stacks that are proper over `Bun_G×(Div¹)^J`, by HS0.3 `(c)`), and `pr_ζ` the projection to `Hck^I_G`. Then `S′_{ζ^*V}≅ι_{ζ♮}pr_ζ^*S′_V`, compatibly with composition of maps of finite sets and with the monoidal constraints.
+- `globalKernel.restrictLegs`: For a map `ζ: I→J` of finite sets let `ζ^*: Rep_Λ((Ĝ⋊Q)^I)→Rep_Λ((Ĝ⋊Q)^J)` be restriction along `(Ĝ⋊Q)^J→(Ĝ⋊Q)^I`, `ι_ζ: Hck^I_G×_{(Div¹)^I}(Div¹)^J→Hck^J_G` the fully faithful map `HckI.repeat` of HS0.1, which restricts to a closed immersion on every bounded part (there it is a monomorphism between stacks that are proper over `Bun_G×(Div¹)^J`, by the properness statement of HS0.3), and `pr_ζ` the projection to `Hck^I_G`. Then `S′_{ζ^*V}≅ι_{ζ♮}pr_ζ^*S′_V`, compatibly with composition of maps of finite sets and with the monoidal constraints.
 - `globalKernel.dual`: `S′_V` is left and right dualizable for `⋆` with dual `S′_{V∨}`; the evaluation and coevaluation are the images of those of `V`.
 - `globalKernel.switch`: After pullback to `Spd C→(Div¹)^I` and for `V∈Rep_Λ(Ĝ^I): sw^*S′_V≅S′_{sw^*V}`, where `sw` is the involution of the Hecke stack exchanging the two bundles and `sw^*` on `Rep_Λ(Ĝ^I)` is the Chevalley involution composed with conjugation by `ρ̂(−1)∈Ĝ_ad` (FS VI.12.1).
 - `globalKernel.support`: If the weights of `V|_{Ĝ^I}` are bounded by a tuple `μ_•` of dominant cocharacters, then `S′_V≅i_♮i^*S′_V` for the closed bounded substack `i: Hck^I_{G,≤μ_•}→Hck^I_G`, on which `p_2` is proper, representable in spatial diamonds and of finite `dim.trg`.
@@ -682,11 +669,11 @@ Provide the following API.
 
 **Checks.**
 
-- `globalKernel.unit_test`: For every finite set `I` and the trivial representation `1` of `(Ĝ⋊Q)^I: S′_1≅δ_♮Λ`, where `δ: Bun_G×(Div¹)^I→Hck^I_G` is the identity modification, and `RHom_{D_■}(S′_1,Λ)≅δ_*Λ`. For `I=∅` this reads `S′_1=Λ` on `Hck^∅_G=Bun_G`.
-- `globalKernel.minuscule_test`: For `G=PGL_2`, `I` a singleton, `V` the standard representation of `Ĝ=SL_2` and `i_μ: Hck_{G,μ}→Hck_G` the minuscule closed stratum (a fibration in twisted forms of `P¹` over `Bun_G×Div¹`): `S_V=i_{μ*}Λ[1](1/2)`, `D(S_V)≅S_V` and `S′_V≅i_{μ♮}Λ[−1](−1/2)`.
-- `globalKernel.torus_test`: For `G=G_m`, `I` a singleton and `V_n` the character `z↦zⁿ` of `Ĝ=G_m: S′_{V_n}` is the constant sheaf `Λ` in degree `0`, extended by zero, on the open and closed substack of `Hck_{G_m}` of modifications `L_1⇢L_2` with `deg L_2−deg L_1=n`, that is `L_1=L_2(−nD)`, the modifications of position `n` in the normalisation of HS0.2; and `S′_{V_n}⋆S′_{V_m}≅S′_{V_{n+m}}`.
-- `globalKernel.weil_character_test`: For `U∈Rep_Λ(Q^I)` inflated to `(Ĝ⋊Q)^I: S′_U≅δ_♮(pr_2^*L_U)` with `L_U` the local system on `(Div¹)^I` attached to `U`. Its pullback to `Spd C→(Div¹)^I` is `δ_♮` of a constant sheaf, but `L_U` is a constant local system on `(Div¹)^I` only if `Q^I` acts trivially on `U`.
-- `globalKernel.covariance_test`: For `I` a singleton and `V∈Rep_Λ(Ĝ⋊Q)` the coevaluation `1→V⊗V∨` induces a map `δ_♮Λ→S′_V⋆S′_{V∨}` and the evaluation `V∨⊗V→1` a map `S′_{V∨}⋆S′_V→δ_♮Λ`, and these satisfy the two triangle identities.
+- For every finite set `I` and the trivial representation `1` of `(Ĝ⋊Q)^I: S′_1≅δ_♮Λ`, where `δ: Bun_G×(Div¹)^I→Hck^I_G` is the identity modification, and `RHom_{D_■}(S′_1,Λ)≅δ_*Λ`. For `I=∅` this reads `S′_1=Λ` on `Hck^∅_G=Bun_G`.
+- For `G=PGL_2`, `I` a singleton, `V` the standard representation of `Ĝ=SL_2` and `i_μ: Hck_{G,μ}→Hck_G` the minuscule closed stratum (a fibration in twisted forms of `P¹` over `Bun_G×Div¹`): `S_V=i_{μ*}Λ[1](1/2)`, `D(S_V)≅S_V` and `S′_V≅i_{μ♮}Λ[−1](−1/2)`.
+- For `G=G_m`, `I` a singleton and `V_n` the character `z↦zⁿ` of `Ĝ=G_m: S′_{V_n}` is the constant sheaf `Λ` in degree `0`, extended by zero, on the open and closed substack of `Hck_{G_m}` of modifications `L_1⇢L_2` with `deg L_2−deg L_1=n`, that is `L_1=L_2(−nD)`, the modifications of position `n` in the normalisation of HS0.2; and `S′_{V_n}⋆S′_{V_m}≅S′_{V_{n+m}}`.
+- For `U∈Rep_Λ(Q^I)` inflated to `(Ĝ⋊Q)^I: S′_U≅δ_♮(pr_2^*L_U)` with `L_U` the local system on `(Div¹)^I` attached to `U`. Its pullback to `Spd C→(Div¹)^I` is `δ_♮` of a constant sheaf, but `L_U` is a constant local system on `(Div¹)^I` only if `Q^I` acts trivially on `U`.
+- For `I` a singleton and `V∈Rep_Λ(Ĝ⋊Q)` the coevaluation `1→V⊗V∨` induces a map `δ_♮Λ→S′_V⋆S′_{V∨}` and the evaluation `V∨⊗V→1` a map `S′_{V∨}⋆S′_V→δ_♮Λ`, and these satisfy the two triangle identities.
 
 **Solid-dual Demazure generation** (`solidDualDemazureGeneration`). At a geometric
 one-leg base `Spd C`, every kernel `D(S_V)^∨`, with
@@ -711,17 +698,15 @@ VII.4.3, p. 263.)
 
 **Checks.**
 
-- `solidDualDemazureGeneration.torus_test`: Assume `Λ≠0`. For a split torus each
+- Assume `Λ≠0`. For a split torus each
   character gives its own point kernel, and generation preserves the
   character component; a nonzero character is not generated on the zero component.
-- `solidDualDemazureGeneration.minuscule_test`: For `G=PGL₂` and its
+- For `G=PGL₂` and its
   minuscule bound, the Satake kernel is the shifted Demazure generator
   `Λ[−1](−1/2)` on the `P¹` chart, rather than `Λ[1](1/2)`.
-- `solidDualDemazureGeneration.torsion_prime_test`: For `G=SL₂` and
+- For `G=SL₂` and
   `ℓ=2≠p`, localizing generation still holds; it requires neither an
   Iwahori retract nor division by a Weyl-group order.
-
-<a id="hs1-2"></a>
 
 ### HS1.2 — Hecke operators from relative homology
 
@@ -747,7 +732,7 @@ are the solid operator `T̃_V` on `D_■(Bun_G×(Div¹)^I,Λ)`, its `D_■((Div�
 base change and geometric fibre, and the extension of the listed properties from lisse to
 solid sheaves.
 
-*Needs:* [HS1.1](#hs1-1), [HS0.1](#hs0-1), [HS0.3](#hs0-3); **AutomorphicGaloisRepresentationsPartII**, AG2.6, “Bundle strata, lisse categories and the geometric Hecke action”; **VStackSheavesAndLisseCategories**, VS2; **VStackSheavesAndLisseCategories**, VS3; `CategoryTheory.Adjunction`; **GeometricSatakeAndFusion**, GS3.
+*Needs:* §HS1.1, §HS0.1, §HS0.3; **AutomorphicGaloisRepresentationsPartII**, AG2.6, “Bundle strata, lisse categories and the geometric Hecke action”; **VStackSheavesAndLisseCategories**, VS2; **VStackSheavesAndLisseCategories**, VS3; `CategoryTheory.Adjunction`; **GeometricSatakeAndFusion**, GS3.
 
 (Sources: [FS], IX.2, p. 321; VII.3.1, p. 257; IX.2, p. 322; VII.5.2, p. 265; IX introduction, p. 317.)
 
@@ -768,14 +753,12 @@ Provide the following API.
 
 **Checks.**
 
-- `heckeOperator.no_legs_test`: For `I=∅: (Div¹)^∅` is a point, `Hck^∅_G=Bun_G` with `p_1=p_2=id`, `Rep_Λ` of the trivial group is the category of finite projective `Λ`-modules `M`, and `T_M(A)=A⊗_ΛM`, the direct summand of `A^{⊕n}` cut out by an idempotent `n×n` matrix over `Λ` with image `M`. In particular `T_Λ=id` and `T_{Λ^n}(A)=A^{⊕n}`.
-- `heckeOperator.unit_test`: For every finite set `I` and the trivial representation `1: T_1(A)≅pr^*A` in `D_■(Bun_G×(Div¹)^I,Λ)`, where `pr: Bun_G×(Div¹)^I→Bun_G` is the projection.
-- `heckeOperator.minuscule_test`: For `G=PGL_2`, `I` a singleton and `V` the standard representation of `Ĝ=SL_2`, let `h=p_2∘i_μ: Hck_{G,μ}→Bun_G×Div¹` (proper, representable in spatial diamonds, cohomologically smooth of dimension `1`, with fibres twisted forms of `P¹`) and `g=p_1∘i_μ`. Then `T_V(A)≅h_♮g^*A[−1](−1/2)≅Rh_*g^*A[1](1/2)`, the second isomorphism by FS VII.3.5 with `Rh^!Λ≅Λ[2](1)`.
-- `heckeOperator.torus_test`: For `G=G_m`, `I` a singleton and `V_n` the character `z↦zⁿ` of `Ĝ=G_m: T_{V_n}(A)=c_n^*A` for `c_n: Bun_{G_m}×Div¹→Bun_{G_m}`, `(L,D)↦L(−nD)`: the kernel is supported on the modifications of position `n`, for which `L_1=L_2(−nD)` (HS0.2). Hence `T_{V_n}` carries sheaves supported on line bundles of degree `d` to sheaves supported in degree `d+n`, that is, from Kottwitz invariant a to `a−n`; `T̃_{V_n}` is pullback along the automorphism `(L,D)↦(L(−nD),D)` of `Bun_{G_m}×Div¹`, so it is an equivalence with inverse `T̃_{V_{−n}}`, and `T̃_{V_n}∘T̃_{V_m}≅T̃_{V_{n+m}}`.
-- `heckeOperator.weil_character_test`: For `U∈Rep_Λ(Q^I)` inflated to `(Ĝ⋊Q)^I: T_U(A)≅pr_1^*A⊗■_Λpr_2^*L_U`, i.e. `A⊗_ΛU` with `W_E^I` acting on `U` through `W_E^I→Q^I`. If `Λ` is a field, `I` a singleton, `U` a nontrivial character of `Q` and `A≠0`, then `T_U(A)` is not isomorphic to `T_1(A)` in `D_■(Bun_G×Div¹,Λ)`, although the two have isomorphic pullbacks to `Bun_G×Spd C`.
-- `heckeOperator.torsion_test`: For `Λ₀=Z/ℓⁿ[√q]`, `V∈Rep_{Λ₀}((Ĝ⋊Q)^I)` and `A∈D_ét(Bun_G,Λ₀): T_V(A)≅Rp_{2*}(p_1^*A⊗^L_{Λ₀}S_V)` in `D_ét(Bun_G×(Div¹)^I,Λ₀)`, the Hecke operator of the introduction of FS Chapter IX.
-
-<a id="hs1-3"></a>
+- For `I=∅: (Div¹)^∅` is a point, `Hck^∅_G=Bun_G` with `p_1=p_2=id`, `Rep_Λ` of the trivial group is the category of finite projective `Λ`-modules `M`, and `T_M(A)=A⊗_ΛM`, the direct summand of `A^{⊕n}` cut out by an idempotent `n×n` matrix over `Λ` with image `M`. In particular `T_Λ=id` and `T_{Λ^n}(A)=A^{⊕n}`.
+- For every finite set `I` and the trivial representation `1: T_1(A)≅pr^*A` in `D_■(Bun_G×(Div¹)^I,Λ)`, where `pr: Bun_G×(Div¹)^I→Bun_G` is the projection.
+- For `G=PGL_2`, `I` a singleton and `V` the standard representation of `Ĝ=SL_2`, let `h=p_2∘i_μ: Hck_{G,μ}→Bun_G×Div¹` (proper, representable in spatial diamonds, cohomologically smooth of dimension `1`, with fibres twisted forms of `P¹`) and `g=p_1∘i_μ`. Then `T_V(A)≅h_♮g^*A[−1](−1/2)≅Rh_*g^*A[1](1/2)`, the second isomorphism by FS VII.3.5 with `Rh^!Λ≅Λ[2](1)`.
+- For `G=G_m`, `I` a singleton and `V_n` the character `z↦zⁿ` of `Ĝ=G_m: T_{V_n}(A)=c_n^*A` for `c_n: Bun_{G_m}×Div¹→Bun_{G_m}`, `(L,D)↦L(−nD)`: the kernel is supported on the modifications of position `n`, for which `L_1=L_2(−nD)` (HS0.2). Hence `T_{V_n}` carries sheaves supported on line bundles of degree `d` to sheaves supported in degree `d+n`, that is, from Kottwitz invariant a to `a−n`; `T̃_{V_n}` is pullback along the automorphism `(L,D)↦(L(−nD),D)` of `Bun_{G_m}×Div¹`, so it is an equivalence with inverse `T̃_{V_{−n}}`, and `T̃_{V_n}∘T̃_{V_m}≅T̃_{V_{n+m}}`.
+- For `U∈Rep_Λ(Q^I)` inflated to `(Ĝ⋊Q)^I: T_U(A)≅pr_1^*A⊗■_Λpr_2^*L_U`, i.e. `A⊗_ΛU` with `W_E^I` acting on `U` through `W_E^I→Q^I`. If `Λ` is a field, `I` a singleton, `U` a nontrivial character of `Q` and `A≠0`, then `T_U(A)` is not isomorphic to `T_1(A)` in `D_■(Bun_G×Div¹,Λ)`, although the two have isomorphic pullbacks to `Bun_G×Spd C`.
+- For `Λ₀=Z/ℓⁿ[√q]`, `V∈Rep_{Λ₀}((Ĝ⋊Q)^I)` and `A∈D_ét(Bun_G,Λ₀): T_V(A)≅Rp_{2*}(p_1^*A⊗^L_{Λ₀}S_V)` in `D_ét(Bun_G×(Div¹)^I,Λ₀)`, the Hecke operator of the introduction of FS Chapter IX.
 
 ### HS1.3 — Monoidal Hecke operators and fusion
 
@@ -802,19 +785,19 @@ AutomorphicGaloisRepresentationsPartII AG2.6's `HeckeFunctor`, through the ident
 of HS1.2. The targets here are convolution of arbitrary solid kernels and the statements
 for the solid operators `T̃_V`.
 
-*Needs:* [HS1.2](#hs1-2), [HS1.1](#hs1-1), [HS0.4](#hs0-4); **AutomorphicGaloisRepresentationsPartII**, AG2.6, “Bundle strata, lisse categories and the geometric Hecke action”; **VStackSheavesAndLisseCategories**, VS2; **GeometricSatakeAndFusion**, GS4, “Integral identification, normalization and functoriality”; `CategoryTheory.MonoidalCategory`; `CategoryTheory.Functor.Monoidal`.
+*Needs:* §HS1.2, §HS1.1, §HS0.4; **AutomorphicGaloisRepresentationsPartII**, AG2.6, “Bundle strata, lisse categories and the geometric Hecke action”; **VStackSheavesAndLisseCategories**, VS2; **GeometricSatakeAndFusion**, GS4, “Integral identification, normalization and functoriality”; `CategoryTheory.MonoidalCategory`; `CategoryTheory.Functor.Monoidal`.
 
 (Sources: [FS], IX.2, p. 321; VII.5, p. 267; Theorem IX.2.2, proof, p. 323; VI.9, p. 226.)
 
 **Checks.** Each named assertion is a theorem target for the enhanced
 kernel construction.
 
-- `kernelConvolution.order_test`: Assume `Λ≠0`. On the analytic affine plane, let
+- Assume `Λ≠0`. On the analytic affine plane, let
   `f(x,y)=(x+y,y)` and `g(x,y)=(x,y+x)`, with graph kernels
   `K_f=(Γ_f)_♮Λ`, `K_g=(Γ_g)_♮Λ`. Their convolution acts as
   `Φ_(K_g)∘Φ_(K_f)`: the point kernel at `(1,0)` goes to `(1,1)`.
   Reversing the kernels sends it to `(2,1)`.
-- `kernelConvolution.diagonal_test`: Let `E=ℚ₃`, `C` be its completed
+- Let `E=ℚ₃`, `C` be its completed
   algebraic closure, `Λ=𝔽₂`, and `X=(P¹_C)^♦`. For the diagonal
   `Δ:X→X×_(Spd C)X`, the unit is `Δ_♮Λ≃(Δ_*Λ)^∨`, concentrated
   in degree zero, and its operator is identity. Its pullback to a geometric
@@ -822,13 +805,11 @@ kernel construction.
   `Rπ₁*Δ_♮Λ≃Λ[−2](−1)`: the dimension shift occurs after this pushforward.
   ([FS], Propositions VII.3.1, p. 257; VII.3.5, p. 260;
   VII.4.1, p. 262; VII.4.3, p. 263.)
-- `kernelConvolution.collision_test`: For nonzero `ℓ`-power torsion `Λ`, `GL₂` and two minuscule
+- For nonzero `ℓ`-power torsion `Λ`, `GL₂` and two minuscule
   types `(1,0)` at the same leg, the composition fibre over
   `ξ(B⁺_dR)²` is `P¹`. The torsion Satake convolution stalk there is
   `RΓ(P¹,Λ)[2](1)`; the cyclic length-two quotient has a single
   intermediate lattice. Both summands from `P¹` must be retained.
-
-<a id="hs1-4"></a>
 
 ### HS1.4 — Lisse preservation through Demazure generators
 
@@ -855,11 +836,9 @@ AutomorphicGaloisRepresentationsPartII AG2.6's `HeckeFunctor`, through the ident
 of HS1.2. The target here is the geometric operator `T_W` of `heckeOperator.geometricFibre`
 for every `W∈Rep_Λ(Ĝ^I)`, including those not restricted from `(Ĝ⋊Q)^I`.
 
-*Needs:* [HS1.0](#hs1-0), [HS1.1](#hs1-1), `solidDualDemazureGeneration`, [HS1.2](#hs1-2), [HS1.3](#hs1-3); **AutomorphicGaloisRepresentationsPartII**, AG2.6, “Bundle strata, lisse categories and the geometric Hecke action”; **GeometricSatakeAndFusion**, GS1; **VStackSheavesAndLisseCategories**, VS3; **ReductiveGroups**, Layer 9; **VStackSheavesAndLisseCategories**, VS2; **VStackSheavesAndLisseCategories**, VS4; **GeometricSatakeAndFusion**, GS0, “Loop quotients and ordered divisors” and “Generic bounds and integral affine flags”.
+*Needs:* §HS1.0, §HS1.1, `solidDualDemazureGeneration`, §HS1.2, §HS1.3; **AutomorphicGaloisRepresentationsPartII**, AG2.6, “Bundle strata, lisse categories and the geometric Hecke action”; **GeometricSatakeAndFusion**, GS1; **VStackSheavesAndLisseCategories**, VS3; **ReductiveGroups**, Layer 9; **VStackSheavesAndLisseCategories**, VS2; **VStackSheavesAndLisseCategories**, VS4; **GeometricSatakeAndFusion**, GS0, “Loop quotients and ordered divisors” and “Generic bounds and integral affine flags”.
 
 (Sources: [FS], Proposition IX.2.1, p. 322; Proposition IX.2.1, proof, p. 322; Proposition VII.4.3, p. 263; Proposition VII.7.3, p. 273.)
-
-<a id="hs1-5"></a>
 
 ### HS1.5 — Adjoints and compactness
 
@@ -878,11 +857,9 @@ of HS1.2. The targets here are the geometric operators `T_W` for every `W∈Rep_
 the identification of the units and counits with the images of evaluation and
 coevaluation.
 
-*Needs:* [HS1.4](#hs1-4), [HS1.3](#hs1-3); **AutomorphicGaloisRepresentationsPartII**, AG2.6, “Bundle strata, lisse categories and the geometric Hecke action”; `CategoryTheory.ExactPairing`; `CategoryTheory.Adjunction`; **EnhancedDerivedSheaves**, E5:presentability.
+*Needs:* §HS1.4, §HS1.3; **AutomorphicGaloisRepresentationsPartII**, AG2.6, “Bundle strata, lisse categories and the geometric Hecke action”; `CategoryTheory.ExactPairing`; `CategoryTheory.Adjunction`; **EnhancedDerivedSheaves**, E5:presentability.
 
 (Sources: [FS], Theorem IX.2.2, p. 322; Theorem IX.2.2, proof, p. 323; Theorem IX.0.1(i), p. 318.)
-
-<a id="hs1-6"></a>
 
 ### HS1.6 — Preservation of lisse ULA objects
 
@@ -902,11 +879,9 @@ AG2.6's `HeckeFunctor`, through the identification of HS1.2. The targets here ar
 equivalence of the ULA criteria above and the statement for the geometric operators `T_W`
 with `W∈Rep_Λ(Ĝ^I)`.
 
-*Needs:* [HS1.5](#hs1-5); **AutomorphicGaloisRepresentationsPartII**, AG2.6, “Bundle strata, lisse categories and the geometric Hecke action”; **VStackSheavesAndLisseCategories**, VS4; **VStackSheavesAndLisseCategories**, VS5.
+*Needs:* §HS1.5; **AutomorphicGaloisRepresentationsPartII**, AG2.6, “Bundle strata, lisse categories and the geometric Hecke action”; **VStackSheavesAndLisseCategories**, VS4; **VStackSheavesAndLisseCategories**, VS5.
 
 (Sources: [FS], Theorem IX.2.2, proof, p. 323; Proposition VII.7.9, p. 275; Definition VII.7.8, p. 275; Theorem V.7.1, proof, p. 184.)
-
-<a id="hs1-7"></a>
 
 ### HS1.7 — Exchange with lisse and Bernstein–Zelevinsky duality
 
@@ -927,11 +902,9 @@ AG2.6's `HeckeFunctor`, through the identification of HS1.2. The targets here ar
 explicit forms above: the representation `sw^*V∨`, the exchange formula for `π_♮`, and the
 separate lisse-dual and Bernstein–Zelevinsky statements.
 
-*Needs:* [HS1.5](#hs1-5), [HS1.1](#hs1-1), [HS1.2](#hs1-2); **AutomorphicGaloisRepresentationsPartII**, AG2.6, “Bundle strata, lisse categories and the geometric Hecke action”; **GeometricSatakeAndFusion**, GS4, “Integral identification, normalization and functoriality”; **VStackSheavesAndLisseCategories**, VS2; **VStackSheavesAndLisseCategories**, VS3; **VStackSheavesAndLisseCategories**, VS5.
+*Needs:* §HS1.5, §HS1.1, §HS1.2; **AutomorphicGaloisRepresentationsPartII**, AG2.6, “Bundle strata, lisse categories and the geometric Hecke action”; **GeometricSatakeAndFusion**, GS4, “Integral identification, normalization and functoriality”; **VStackSheavesAndLisseCategories**, VS2; **VStackSheavesAndLisseCategories**, VS3; **VStackSheavesAndLisseCategories**, VS5.
 
 (Sources: [FS], Theorem IX.2.2, p. 322; Theorem IX.2.2, proof, p. 323; Proposition VII.7.6, p. 274; Proposition VI.12.1, p. 239.)
-
-<a id="hs1-8"></a>
 
 ### HS1.8 — Condensed enrichment and continuous equivariant objects
 
@@ -959,26 +932,24 @@ of abstract mapping sets.
 
 Provide the following API.
 
-- `condensedStructure`: For a profinite set `S` the `∞`-category `D_■(Bun_G×S,Λ)`; for `S` extremally disconnected its full subcategory `D_lis(Bun_G×S,Λ)`.
+- `condensedStructure`: For a profinite set `S` the ∞-category `D_■(Bun_G×S,Λ)`; for `S` extremally disconnected its full subcategory `D_lis(Bun_G×S,Λ)`.
 - `condensedStructure.pullback`: For `g: S′→S` the pullback functor `(id×g)^*`, with `(id×id)^*=id` and `(id×(g∘g′))^*≅(id×g′)^*∘(id×g)^*`; it preserves `D_lis`, and `S↦D_■(Bun_G×S,Λ)` is a hypersheaf.
 - `condensedStructure.point`: The evaluation at `S=*` is `D_■(Bun_G,Λ)`, respectively `D_lis(Bun_G,Λ)`.
 - `condensedStructure.hom`: The condensed mapping anima `Hom(A,B): S↦Hom_{D_■(Bun_G×S,Λ)}(A|_S,B|_S)`, a condensed animated `Λ`-module, with composition `Hom(B,C)×Hom(A,B)→Hom(A,C)` and `Hom(A,B)(*)` the mapping anima of `D_■(Bun_G,Λ)`.
-- `condensedStructure.equivariant`: For a finite set `I` the `∞`-category `D^{BW_E^I}` of objects `A` with a map of condensed animated groups `W_E^I→Aut(A)`; the forgetful functor to `D` is conservative and preserves limits and colimits.
+- `condensedStructure.equivariant`: For a finite set `I` the ∞-category `D^{BW_E^I}` of objects `A` with a map of condensed animated groups `W_E^I→Aut(A)`; the forgetful functor to `D` is conservative and preserves limits and colimits.
 - `condensedStructure.trivialAction`: Pullback along `Bun_G×[*/W_E^I]→Bun_G` is the functor `D→D^{BW_E^I}` equipping `A` with the trivial action; its composite with the forgetful functor is the identity.
 - `condensedStructure.classifyingStack`: `D_■(Bun_G×[*/W_E^I],Λ)≃D_■(Bun_G,Λ)^{BW_E^I}`, compatibly with pullback along `Bun_G→Bun_G×[*/W_E^I]` and the forgetful functor.
 - `condensedStructure.lisse_equivariant`: FS IX.1.1: `D_lis(Bun_G,Λ)^{BW_E^I}→D_■(Bun_G×[*/W_E^I],Λ)→D_■(Bun_G×(Div¹)^I,Λ)` are fully faithful, and an object of `D_■(Bun_G×[*/W_E^I],Λ)` lies in `D_lis(Bun_G,Λ)^{BW_E^I}` iff its pullback to `Bun_G` lies in `D_lis(Bun_G,Λ)`.
 - `condensedStructure.hom_relativelyDiscrete`: FS IX.1.2: for `A∈D_lis(Bun_G,Λ)^ω` and `B∈D_lis(Bun_G,Λ)`, `Hom(A,B)≅Hom(A,B)(*)⊗_{Z_ℓ,disc}Z_ℓ` as condensed animated `Λ`-modules.
-- `condensedStructure.compact`: For `A` compact, `B` lisse and `S` extremally disconnected profinite: `Hom(A,B)(S)≅Hom(A,B)(*)⊗^L_{Z_ℓ}C(S,Z_ℓ)`, `C(S,Z_ℓ)` the ring of continuous functions `S→Z_ℓ`. So on `D_lis(Bun_G,Λ)^ω` the condensed structure is determined by the `Λ`-linear stable `∞`-category.
+- `condensedStructure.compact`: For `A` compact, `B` lisse and `S` extremally disconnected profinite: `Hom(A,B)(S)≅Hom(A,B)(*)⊗^L_{Z_ℓ}C(S,Z_ℓ)`, `C(S,Z_ℓ)` the ring of continuous functions `S→Z_ℓ`. So on `D_lis(Bun_G,Λ)^ω` the condensed structure is determined by the `Λ`-linear stable ∞-category.
 - `condensedStructure.representations`: For `G=1: D_lis(*,Λ)=D(Λ)`, and for a finite projective `Λ`-module `M` in degree `0` a `W_E`-equivariant structure on `M` is a homomorphism `W_E→Aut_Λ(M)` whose restriction to every profinite subset factors continuously through a finitely generated `Z_ℓ`-submodule of `End_Λ(M)` with its `ℓ`-adic topology.
 
 **Checks.**
 
-- `condensedStructure.point_test`: The evaluation at `S=*` is `D_lis(Bun_G,Λ)` with its mapping anima; the evaluation at the two-point set is `D_lis(Bun_G,Λ)×D_lis(Bun_G,Λ)`; and for `I=∅` the category `D_lis(Bun_G,Λ)^{BW_E^∅}` is `D_lis(Bun_G,Λ)`.
-- `condensedStructure.continuous_functions_test`: For `G=1`, `Λ=Z_ℓ[√q]` (a finite free `Z_ℓ`-module) and `A=B=Λ∈D_lis(*,Λ)=D(Λ)`: for `S` extremally disconnected profinite, `Hom(A,B)(S)` is concentrated in degree `0` and equals `C(S,Λ)=C(S,Z_ℓ)⊗_{Z_ℓ}Λ`, the continuous functions for the `ℓ`-adic topology. For `S` infinite this is strictly larger than the module of locally constant functions `S→Λ`.
-- `condensedStructure.hecke_algebra_test`: For `K⊂G(E)` open pro-`p`, `j: [*/G(E)]→Bun_G` the open immersion and `A=j_♮c-Ind_K^{G(E)}Λ: Hom(A,A)` is concentrated in degree `0` and `Hom(A,A)(S)=Λ[K\G(E)/K]⊗_{Z_ℓ}C(S,Z_ℓ)` for `S` extremally disconnected profinite. If `Λ` is killed by a power of `ℓ` this is the module of locally constant functions `S→Λ[K\G(E)/K]`.
-- `condensedStructure.continuous_representation_test`: For `G=1`, `Λ=Z_ℓ[√q]` and `M` a finite free `Λ`-module in degree `0`, the `W_E`-equivariant structures on `M∈D_lis(*,Λ)` are exactly the `Λ`-linear actions `W_E→GL_Λ(M)` continuous for the `ℓ`-adic topology of `M`. In particular the base change to `Λ` of the Kummer extension of `Z_ℓ` by `Z_ℓ(1)` attached to a uniformizer of `E`, on which the inertia group acts through its tame `ℓ`-adic quotient by unipotent matrices of infinite order, is an equivariant object although no open subgroup of the inertia group acts trivially on it.
-
-<a id="hs1-9"></a>
+- The evaluation at `S=*` is `D_lis(Bun_G,Λ)` with its mapping anima; the evaluation at the two-point set is `D_lis(Bun_G,Λ)×D_lis(Bun_G,Λ)`; and for `I=∅` the category `D_lis(Bun_G,Λ)^{BW_E^∅}` is `D_lis(Bun_G,Λ)`.
+- For `G=1`, `Λ=Z_ℓ[√q]` (a finite free `Z_ℓ`-module) and `A=B=Λ∈D_lis(*,Λ)=D(Λ)`: for `S` extremally disconnected profinite, `Hom(A,B)(S)` is concentrated in degree `0` and equals `C(S,Λ)=C(S,Z_ℓ)⊗_{Z_ℓ}Λ`, the continuous functions for the `ℓ`-adic topology. For `S` infinite this is strictly larger than the module of locally constant functions `S→Λ`.
+- For `K⊂G(E)` open pro-`p`, `j: [*/G(E)]→Bun_G` the open immersion and `A=j_♮c-Ind_K^{G(E)}Λ: Hom(A,A)` is concentrated in degree `0` and `Hom(A,A)(S)=Λ[K\G(E)/K]⊗_{Z_ℓ}C(S,Z_ℓ)` for `S` extremally disconnected profinite. If `Λ` is killed by a power of `ℓ` this is the module of locally constant functions `S→Λ[K\G(E)/K]`.
+- For `G=1`, `Λ=Z_ℓ[√q]` and `M` a finite free `Λ`-module in degree `0`, the `W_E`-equivariant structures on `M∈D_lis(*,Λ)` are exactly the `Λ`-linear actions `W_E→GL_Λ(M)` continuous for the `ℓ`-adic topology of `M`. In particular the base change to `Λ` of the Kummer extension of `Z_ℓ` by `Z_ℓ(1)` attached to a uniformizer of `E`, on which the inertia group acts through its tame `ℓ`-adic quotient by unipotent matrices of infinite order, is an equivariant object although no open subgroup of the inertia group acts trivially on it.
 
 ### HS1.9 — Continuous Weil descent of the action
 
@@ -1004,11 +975,9 @@ AG2.6's `HeckeFunctor`, through the identification of HS1.2. The targets here ar
 continuity for the relatively discrete condensed structure of HS1.8 and the descent API
 with its restricted essential image.
 
-*Needs:* **AutomorphicGaloisRepresentationsPartII**, AG2.6, “Bundle strata, lisse categories and the geometric Hecke action”; [HS1.0](#hs1-0), [HS1.8](#hs1-8), [HS1.4](#hs1-4), [HS1.5](#hs1-5), [HS1.3](#hs1-3); **ClassFieldTheory**, §4 Layer 9; **ReductiveGroups**, Layer 9; **GeometricSatakeAndFusion**, GS4, “Integral identification, normalization and functoriality”; **VStackSheavesAndLisseCategories**, VS1; **VStackSheavesAndLisseCategories**, VS2; **VStackSheavesAndLisseCategories**, VS4.
+*Needs:* **AutomorphicGaloisRepresentationsPartII**, AG2.6, “Bundle strata, lisse categories and the geometric Hecke action”; §HS1.0, §HS1.8, §HS1.4, §HS1.5, §HS1.3; **ClassFieldTheory**, §4 Layer 9; **ReductiveGroups**, Layer 9; **GeometricSatakeAndFusion**, GS4, “Integral identification, normalization and functoriality”; **VStackSheavesAndLisseCategories**, VS1; **VStackSheavesAndLisseCategories**, VS2; **VStackSheavesAndLisseCategories**, VS4.
 
 (Sources: [FS], Corollary IX.2.3, p. 323; Corollary IX.2.3, proof, p. 323; Corollary VII.2.8, p. 256; Proposition IX.1.1, p. 320; Proposition IV.7.3, p. 165.)
-
-<a id="hs1-10"></a>
 
 ### HS1.10 — Coefficient change
 
@@ -1026,7 +995,7 @@ supplier isomorphism for relative homology and restriction of scalars.
 These natural comparisons are consequences to prove from the coefficient
 and Satake interfaces; they are not a separately numbered theorem in [FS].
 
-*Needs:* [HS1.9](#hs1-9), [HS1.1](#hs1-1), [HS1.2](#hs1-2), [HS1.3](#hs1-3); **VStackSheavesAndLisseCategories**, VS2; **GeometricSatakeAndFusion**, GS4, “Integral identification, normalization and functoriality”; **VStackSheavesAndLisseCategories**, VS3.
+*Needs:* §HS1.9, §HS1.1, §HS1.2, §HS1.3; **VStackSheavesAndLisseCategories**, VS2; **GeometricSatakeAndFusion**, GS4, “Integral identification, normalization and functoriality”; **VStackSheavesAndLisseCategories**, VS3.
 
 (Sources: [FS], IX.2, p. 321; Proposition VII.3.1(ii), p. 257; Theorem IX.7.2, proof, p. 335.)
 
@@ -1037,13 +1006,11 @@ For a split torus, the character of weight `n` pulls back along `L↦L(−nD)` a
 
 ### Dependencies
 
-*Needs:* HS0 and HS1.0; **AutomorphicGaloisRepresentationsPartII**, AG2.6, “Bundle strata, lisse categories and the geometric Hecke action”; **GeometricSatakeAndFusion**, GS1–GS4; **LanglandsParameterStacks**, LP3.0; **VStackSheavesAndLisseCategories**, VS0–VS5; **SmoothRepresentationsOfLocalGroups**, SR.0d–SR.3; **EnhancedDerivedSheaves**, E5:abstract and E5:presentability; **ClassFieldTheory**, §4 Layer 9; **ReductiveGroups**, Layer 9.
+*Needs:* HS0 and HS1.0; **AutomorphicGaloisRepresentationsPartII**, AG2.6, “Bundle strata, lisse categories and the geometric Hecke action”; **GeometricSatakeAndFusion**, GS1–GS4; **LanglandsParameterStacks**, LP4.1; **VStackSheavesAndLisseCategories**, VS0–VS5; **SmoothRepresentationsOfLocalGroups**, SR.0d–SR.3; **EnhancedDerivedSheaves**, E5:abstract and E5:presentability; **ClassFieldTheory**, §4 Layer 9; **ReductiveGroups**, Layer 9.
 
 ## Layer HS2: Local shtuka spaces and period towers
 
 Construct model shtukas over `ℚ_p`, compare them with framed modifications, and build the general-local-field level tower. Period geometry separates finite-level étaleness from the infinite-level pro-étale torsor and specifies the scope of classical points, nonemptiness and component results.
-
-<a id="hs2-1"></a>
 
 ### HS2.1 — Framed integral-model shtukas over `ℚ_p`
 
@@ -1069,35 +1036,33 @@ give its map to the product of reflex bases. Changing the framing by
 `J_b(ℚ_p)`-action. Retain the framing in the definition;
 without it the moduli problem has automorphisms.
 
-*Needs:* **EndoscopicTransferAndUnitaryTraceComparison**, §12.17; [HS0.5](#hs0-5); **RelativeFarguesFontaine**, §§7.0–7.7; **BunGAndNewtonStrata**, Layer 0; `WittVector.Isocrystal`; `TauCeti.AffineGroupSchemeCat`; **GeometricSatakeAndFusion**, GS0, “Loop quotients and ordered divisors” and “Generic bounds and integral affine flags”; **RelativeFarguesFontaine**, §§0.18–0.20; **RelativeFarguesFontaine**, §§4.6–4.13; **RelativeFarguesFontaine**, §§1.1–1.3.
+*Needs:* **EndoscopicTransferAndUnitaryTraceComparison**, §12.17; §HS0.5; **RelativeFarguesFontaine**, §§7.0–7.7; **BunGAndNewtonStrata**, Layer 0; `WittVector.Isocrystal`; `TauCeti.AffineGroupSchemeCat`; **GeometricSatakeAndFusion**, GS0, “Loop quotients and ordered divisors” and “Generic bounds and integral affine flags”; **RelativeFarguesFontaine**, §§0.18–0.20; **RelativeFarguesFontaine**, §§4.6–4.13; **RelativeFarguesFontaine**, §§1.1–1.3.
 
 (Sources: [SW], Definition 23.1.1, p. 216; Definition 23.1.1, p. 217; Remark 23.1.3, p. 217; sentence after Theorem 23.1.4, p. 217; Proposition 19.5.3, p. 180; proof of Proposition 23.4.2, p. 222.)
 
 Provide the following API.
 
-- `ShtukaDatum`: `A` point of `Sht_{𝒢,b,μ•}` over affinoid `S ∈ Perf_k`: a `𝒢`-torsor `P` on `S ×̇ Spa Z_p`, untilts `S_i♯` of `S` over `F̆_i`, an isomorphism `φ_P : Frob_S^*P ≅ P` over the complement of `⋃ S_i♯`, meromorphic along `⋃ S_i♯` and such that the position of `P` relative to `Frob_S^*P` (the type of `φ_P⁻¹ : P ⇢ Frob_S^*P`) at `S_i♯` is bounded by `Σ_{j : S_j♯ = S_i♯} μ_j` at all geometric `rank`-one points, and the germ at infinity `ι` of isomorphisms `ι_r : P|_{Y_[r,∞)(S)} ≅ G × Y_[r,∞)(S)` carrying `φ_P` to `b × Frob_S`.
+- `ShtukaDatum`: A point of `Sht_{𝒢,b,μ•}` over affinoid `S ∈ Perf_k`: a `𝒢`-torsor `P` on `S ×̇ Spa Z_p`, untilts `S_i♯` of `S` over `F̆_i`, an isomorphism `φ_P : Frob_S^*P ≅ P` over the complement of `⋃ S_i♯`, meromorphic along `⋃ S_i♯` and such that the position of `P` relative to `Frob_S^*P` (the type of `φ_P⁻¹ : P ⇢ Frob_S^*P`) at `S_i♯` is bounded by `Σ_{j : S_j♯ = S_i♯} μ_j` at all geometric rank-one points, and the germ at infinity `ι` of isomorphisms `ι_r : P|_{Y_[r,∞)(S)} ≅ G × Y_[r,∞)(S)` carrying `φ_P` to `b × Frob_S`.
 - `ShtukaDatum.legs`: The structure map `Sht_{𝒢,b,μ•} → Spd F̆_1 ×_{Spd k} ⋯ ×_{Spd k} Spd F̆_m` sending a datum to its untilts.
-- `ShtukaDatum.frobenius`: The isomorphism `φ_P` from `Frob_S^*P` to `P` over `(S ×̇ Spa Z_p) ∖ ⋃ S_i♯`. It need not extend over the legs: at a geometric `rank`-one point it extends to an isomorphism across `S_i♯` exactly when the position of `P` relative to `Frob_S^*P` there is trivial, and for `𝒢 = GL_n`, `μ = (1^d, 0^{n−d})` with `d ≥ 1` it has a simple pole along `S♯`, while `φ_P⁻¹` extends to an injection `P ↪ Frob_S^*P`.
+- `ShtukaDatum.frobenius`: The isomorphism `φ_P` from `Frob_S^*P` to `P` over `(S ×̇ Spa Z_p) ∖ ⋃ S_i♯`. It need not extend over the legs: at a geometric rank-one point it extends to an isomorphism across `S_i♯` exactly when the position of `P` relative to `Frob_S^*P` there is trivial, and for `𝒢 = GL_n`, `μ = (1^d, 0^{n−d})` with `d ≥ 1` it has a simple pole along `S♯`, while `φ_P⁻¹` extends to an injection `P ↪ Frob_S^*P`.
 - `ShtukaDatum.ext`: Two data over `S` with the same untilts are equal in `Sht_{𝒢,b,μ•}(S)` if and only if there is an isomorphism of `𝒢`-torsors `P ≅ P′` compatible with `φ_P`, `φ_{P′}` and with `ι`, `ι′` on `Y_[r,∞)(S)` for `r` large; such an isomorphism is unique.
-- `ShtukaDatum.isVSheaf`: `Sht_{𝒢,b,μ•}` is a `v`-sheaf on `Perf_k` (Scholze–Weinstein, after Theorem 23.1.4, from Proposition 19.5.3). That it is a locally spatial diamond (Theorem 23.1.4 of the source) is not part of the definition; it is proved through the period map.
+- `ShtukaDatum.isVSheaf`: `Sht_{𝒢,b,μ•}` is a v-sheaf on `Perf_k` (Scholze–Weinstein, after Theorem 23.1.4, from Proposition 19.5.3). That it is a locally spatial diamond (Theorem 23.1.4 of the source) is not part of the definition; it is proved through the period map.
 - `ShtukaDatum.framing_extends`: The framing `ι_r` extends uniquely to a `φ`-equivariant isomorphism `P ≅ G × Y` over `Y_(0,∞)(S) ∖ ⋃_{i, n ≥ 0} φ^{−n}(S_i♯)`, meromorphic along the divisors `φ^{−n}(S_i♯)`; with no legs it is an isomorphism over all of `Y_(0,∞)(S)` (Scholze–Weinstein, proofs of 23.2.1 and 23.4.2).
 - `ShtukaDatum.changeFrame`: For `y ∈ G(L)`, `(P,(S_i♯),φ_P,ι) ↦ (P,(S_i♯),φ_P,(y × id) ∘ ι)` is an isomorphism `c_y : Sht_{𝒢,b,μ•} ≅ Sht_{𝒢,y b σ(y)⁻¹,μ•}` over the leg base, with `c_1 = id` and `c_z ∘ c_y = c_{zy}`.
 - `ShtukaDatum.sigmaCentralizerAction`: `J_b(Q_p) = {y ∈ G(L) : y b σ(y)⁻¹ = b}` acts on `Sht_{𝒢,b,μ•}` over the leg base by `y ↦ c_y`.
 - `ShtukaDatum.genericPart`: Restriction to `S ×̇ Spa Q_p`, `(P,(S_i♯),φ_P,ι) ↦ (P|_{S ×̇ Spa Q_p},(S_i♯),φ_P,ι)`, is a map `π_GM : Sht_{𝒢,b,μ•} → Gr^tw_{G,∏ Spd F̆_i,≤μ•}` to the twisted Grassmannian of HS0.5; it commutes with `c_y`.
-- `ShtukaDatum.diagonal`: Over the locus `S_i♯ = S_j♯ (i ≠ j)` a datum is, by the definition of the bound, a datum with `m − 1` legs in which the `i`-th and `j`-th legs are replaced by one leg, after base change of the leg base to this locus. The locus is `Spd(F̆_i ⊗_L F̆_j)`, a finite disjoint union of spaces `Spd F′` with `F′` a composite of `F̆_i` and of a conjugate of `F̆_j` over `L`. On the component where `F′` is the composite `F̆_iF̆_j` inside the fixed algebraic closure, the common leg is bounded by the sum `μ_i + μ_j` of the dominant representatives; on the component of another conjugate, `μ_j` is replaced in this sum by the corresponding Galois conjugate class (as in HS0.2 `(3)`).
-- `ShtukaDatum.noLegs`: For `m = 0: Sht_{𝒢,b,∅} = ∅` unless `[b] = 1`, and `Sht_{𝒢,1,∅} ≅ underline{G(Q_p)/𝒢(Z_p)} × Spd k` (Scholze–Weinstein, Proposition 23.2.1).
+- `ShtukaDatum.diagonal`: Over the locus `S_i♯ = S_j♯ (i ≠ j)` a datum is, by the definition of the bound, a datum with `m − 1` legs in which the `i`-th and `j`-th legs are replaced by one leg, after base change of the leg base to this locus. The locus is `Spd(F̆_i ⊗_L F̆_j)`, a finite disjoint union of spaces `Spd F′` with `F′` a composite of `F̆_i` and of a conjugate of `F̆_j` over `L`. On the component where `F′` is the composite `F̆_iF̆_j` inside the fixed algebraic closure, the common leg is bounded by the sum `μ_i + μ_j` of the dominant representatives; on the component of another conjugate, `μ_j` is replaced in this sum by the corresponding Galois conjugate class (the transport of cocharacters through their untilt embeddings in HS0.2).
+- `ShtukaDatum.noLegs`: For `m = 0: Sht_{𝒢,b,∅} = ∅` unless `[b] = 1`, and `Sht_{𝒢,1,∅} ≅ G(Q_p)/𝒢(Z_p) × Spd k` (Scholze–Weinstein, Proposition 23.2.1).
 
 **Checks.**
 
-- `ShtukaDatum.noLegs_trivial_test`: For `m = 0` and `b = 1: Sht_{𝒢,1,∅} ≅ underline{G(Q_p)/𝒢(Z_p)} × Spd k`, the constant sheaf on a discrete set; for `𝒢 = GL_n` this set is the set of `Z_p`-lattices in `Q_p^n` and for `𝒢 = G_m` it is `Q_p^×/Z_p^× ≅ Z`.
-- `ShtukaDatum.noLegs_nontrivial_test`: For `m = 0`, `𝒢 = G_m` and `b = p: Sht_{G_m,p,∅} = ∅`.
-- `ShtukaDatum.gm_oneLeg_test`: For `𝒢 = G_m`, one leg with `μ(z) = z^d (d ∈ Z)` and `b ∈ L^×: Sht_{G_m,b,μ}` is empty unless `v_p(b) = −d`; if `v_p(b) = −d`, the period map `Sht_{G_m,b,μ} → Gr_{G_m,Spd Q̆_p,≤μ} = Spd Q̆_p` is surjective and each of its geometric fibres is `Q_p^×/Z_p^× ≅ Z`. For `d = 1: b = p⁻¹` gives a non-empty space and `b = p` the empty one.
-- `ShtukaDatum.lubinTate_test`: Applying **EndoscopicTransferAndUnitaryTraceComparison**, §12.17, for `𝒢 = GL_2`, `μ = (1,0)` and `b` the matrix with rows `(0,1)`, `(p⁻¹,0)` (basic, `κ(b) = v_p(det b) = −1`): `Sht_{GL_2,b,μ}` is isomorphic over `Spd Q̆_p` to the diamond of the generic fibre of the Rapoport–Zink space of the one-dimensional formal group of height `2` over `k` (Scholze–Weinstein, Theorem 24.2.5), that is, of a disjoint union indexed by `Z` of open unit discs over `Q̆_p`; its period map to `Gr_{GL_2,Spd Q̆_p,≤μ} = (P¹_{Q̆_p})^◇` is surjective with geometric fibres `GL_2(Q_p)/GL_2(Z_p)`.
-- `ShtukaDatum.coincident_legs_test`: For `𝒢 = G_m`, two legs with `μ_1(z) = z`, `μ_2(z) = z⁻¹` and `b = 1`: the restriction of `Sht_{G_m,1,(μ_1,μ_2)}` to the diagonal `Spd Q̆_p → Spd Q̆_p ×_{Spd k} Spd Q̆_p` is `underline{Q_p^×/Z_p^×} × Spd Q̆_p`; the bound at the coincident leg is `μ_1 + μ_2 = 0`, so `φ_P` extends to an isomorphism across the leg and the no-leg computation applies.
-- `ShtukaDatum.nonminuscule_test`: For `𝒢 = GL_2`, `μ = (2,0)` and `b = p⁻¹·1_2: Sht_{GL_2,b,μ}` is non-empty, and the fibre of its period map over each geometric point of the closed stratum `Gr_{GL_2,(1,1)} ⊂ Gr_{GL_2,Spd Q̆_p,≤(2,0)}` is `GL_2(Q_p)/GL_2(Z_p)`. The target `Gr_{GL_2,≤(2,0)}` is the union of the `2`-dimensional cell `Gr_{(2,0)}` and the point `Gr_{(1,1)}`; it is not the diamond of a flag variety of `GL_2` (a point or `P¹`).
-- `ShtukaDatum.boundDirection_test`: For `𝒢 = G_m`, one leg, `μ(z) = z` and `b = p⁻¹`: for every point `(P, S♯, φ_P, ι)` the framing identifies `P|_{Y_(0,∞)(S)}` with the ideal sheaf of the divisor `⋃_{n≥0} φ^{−n}(S♯)` in `O_{Y_(0,∞)(S)}`, with `φ_P` induced by `p⁻¹·Frob_S`; so `φ_P⁻¹` is an inclusion `P ↪ Frob_S^*P` with cokernel `O_{S♯}`, and `φ_P` has a simple pole along `S♯`. The functor defined with `inv(Frob_S^*P, P, φ_P) ≤ μ` in place of `inv(P, Frob_S^*P, φ_P⁻¹) ≤ μ` is `Sht_{G_m,b,μ⁻¹}`, which is empty for `b = p⁻¹` and non-empty for `b = p`.
-
-<a id="hs2-2"></a>
+- For `m = 0` and `b = 1: Sht_{𝒢,1,∅} ≅ G(Q_p)/𝒢(Z_p) × Spd k`, the constant sheaf on a discrete set; for `𝒢 = GL_n` this set is the set of `Z_p`-lattices in `Q_p^n` and for `𝒢 = G_m` it is `Q_p^×/Z_p^× ≅ Z`.
+- For `m = 0`, `𝒢 = G_m` and `b = p: Sht_{G_m,p,∅} = ∅`.
+- For `𝒢 = G_m`, one leg with `μ(z) = z^d (d ∈ Z)` and `b ∈ L^×: Sht_{G_m,b,μ}` is empty unless `v_p(b) = −d`; if `v_p(b) = −d`, the period map `Sht_{G_m,b,μ} → Gr_{G_m,Spd Q̆_p,≤μ} = Spd Q̆_p` is surjective and each of its geometric fibres is `Q_p^×/Z_p^× ≅ Z`. For `d = 1: b = p⁻¹` gives a non-empty space and `b = p` the empty one.
+- Applying **EndoscopicTransferAndUnitaryTraceComparison**, §12.17, for `𝒢 = GL_2`, `μ = (1,0)` and `b` the matrix with rows `(0,1)`, `(p⁻¹,0)` (basic, `κ(b) = v_p(det b) = −1`): `Sht_{GL_2,b,μ}` is isomorphic over `Spd Q̆_p` to the diamond of the generic fibre of the Rapoport–Zink space of the one-dimensional formal group of height `2` over `k` (Scholze–Weinstein, Theorem 24.2.5), that is, of a disjoint union indexed by `Z` of open unit discs over `Q̆_p`; its period map to `Gr_{GL_2,Spd Q̆_p,≤μ} = (P¹_{Q̆_p})^◇` is surjective with geometric fibres `GL_2(Q_p)/GL_2(Z_p)`.
+- For `𝒢 = G_m`, two legs with `μ_1(z) = z`, `μ_2(z) = z⁻¹` and `b = 1`: the restriction of `Sht_{G_m,1,(μ_1,μ_2)}` to the diagonal `Spd Q̆_p → Spd Q̆_p ×_{Spd k} Spd Q̆_p` is `Q_p^×/Z_p^× × Spd Q̆_p`; the bound at the coincident leg is `μ_1 + μ_2 = 0`, so `φ_P` extends to an isomorphism across the leg and the no-leg computation applies.
+- For `𝒢 = GL_2`, `μ = (2,0)` and `b = p⁻¹·1_2: Sht_{GL_2,b,μ}` is non-empty, and the fibre of its period map over each geometric point of the closed stratum `Gr_{GL_2,(1,1)} ⊂ Gr_{GL_2,Spd Q̆_p,≤(2,0)}` is `GL_2(Q_p)/GL_2(Z_p)`. The target `Gr_{GL_2,≤(2,0)}` is the union of the `2`-dimensional cell `Gr_{(2,0)}` and the point `Gr_{(1,1)}`; it is not the diamond of a flag variety of `GL_2` (a point or `P¹`).
+- For `𝒢 = G_m`, one leg, `μ(z) = z` and `b = p⁻¹`: for every point `(P, S♯, φ_P, ι)` the framing identifies `P|_{Y_(0,∞)(S)}` with the ideal sheaf of the divisor `⋃_{n≥0} φ^{−n}(S♯)` in `O_{Y_(0,∞)(S)}`, with `φ_P` induced by `p⁻¹·Frob_S`; so `φ_P⁻¹` is an inclusion `P ↪ Frob_S^*P` with cokernel `O_{S♯}`, and `φ_P` has a simple pole along `S♯`. The functor defined with `inv(Frob_S^*P, P, φ_P) ≤ μ` in place of `inv(P, Frob_S^*P, φ_P⁻¹) ≤ μ` is `Sht_{G_m,b,μ⁻¹}`, which is empty for `b = p⁻¹` and non-empty for `b = p`.
 
 ### HS2.2 — Framed modifications between two bundles
 
@@ -1123,7 +1088,7 @@ quotient description are consequences to prove from the global stack
 and the full automorphism supplier, rather than definitions quoted
 from a source treating only the trivial source bundle.
 
-*Needs:* [HS0.3](#hs0-3), [HS0.4](#hs0-4), [HS0.6](#hs0-6); **BunGAndNewtonStrata**, §§3.1–3.11 and 4.1–4.7; **BunGAndNewtonStrata**, Layer 0; **DiamondsAndVStacks**, D5; **BunGAndNewtonStrata**, §§3.9, 3.16–3.18.
+*Needs:* §HS0.3, §HS0.4, §HS0.6; **BunGAndNewtonStrata**, §§3.1–3.11 and 4.1–4.7; **BunGAndNewtonStrata**, Layer 0; **DiamondsAndVStacks**, D5; **BunGAndNewtonStrata**, §§3.9, 3.16–3.18.
 
 (Sources: [FS], III.3, p. 97; proof of Proposition IX.3.2, p. 326; proof of Theorem IX.3.1, p. 324; proof of IX.7.2, p. 336; [SW], §23.3, p. 219.)
 
@@ -1138,19 +1103,17 @@ Provide the following API.
 - `FramedModification.locallySpatial`: `Mod^I_{b,b′,≤μ•} → D_I` is representable in locally spatial diamonds.
 - `FramedModification.inverse`: `α ↦ α⁻¹` is an isomorphism `Mod^I_{b,b′,≤μ•} ≅ Mod^I_{b′,b,≤μ•⁻¹}` over `D_I`; it is an involution and intertwines the action of `(g, g′)` with that of `(g′, g)`.
 - `FramedModification.comp`: For disjoint `I`, `I′: (α, α′) ↦ α′ ∘ α` is a map `Mod^I_{b,b′,≤μ•} × Mod^{I′}_{b′,b″,≤μ′•} → Mod^{I⊔I′}_{b,b″,≤(μ•,μ′•)}`; it is associative, and composition with the point `id ∈ Mod^∅_{b,b}` is the identity.
-- `FramedModification.changeGroup`: `A` homomorphism `f : G → H` with `f(μ•) ≤ μ^H•` induces `Mod^I_{b,b′,≤μ•} → Mod^I_{f(b),f(b′),≤μ^H•}`, `α ↦ f_*α`, equivariant along `G̃_b → H̃_{f(b)}` and `G̃_b′ → H̃_{f(b′)}` (HS0.6).
+- `FramedModification.changeGroup`: A homomorphism `f : G → H` with `f(μ•) ≤ μ^H•` induces `Mod^I_{b,b′,≤μ•} → Mod^I_{f(b),f(b′),≤μ^H•}`, `α ↦ f_*α`, equivariant along `G̃_b → H̃_{f(b)}` and `G̃_b′ → H̃_{f(b′)}` (HS0.6).
 - `FramedModification.noLegs`: `Mod^∅_{b,b} = G̃_b`, a bitorsor under `G̃_b`; `Mod^∅_{b,b′} = ∅` for `b ≠ b′`.
-- `FramedModification.infiniteLevel`: For `E = Q_p` and one leg with reflex field `F: Mod_{1,b,≤μ} ×_{Div¹_F} Spd F̆` is the sheaf of pairs (`S♯`, `α : E_1 ⇢ E_b` bounded by `μ`), which is `Sht_{G,b,μ,∞}`, with `G̃_1 = underline{G(Q_p)}` and `J_b(Q_p)` acting (Scholze–Weinstein, `p`. `219`).
+- `FramedModification.infiniteLevel`: For `E = Q_p` and one leg with reflex field `F: Mod_{1,b,≤μ} ×_{Div¹_F} Spd F̆` is the sheaf of pairs (`S♯`, `α : E_1 ⇢ E_b` bounded by `μ`), which is `Sht_{G,b,μ,∞}`, with `G̃_1 = G(Q_p)` and `J_b(Q_p)` acting (Scholze–Weinstein, p. 219).
 
 **Checks.**
 
-- `FramedModification.noLegs_test`: For `I = ∅: Mod^∅_{b,b} = G̃_b` with `(g, g′)` acting by `h ↦ g′hg⁻¹`, and `Mod^∅_{b,b′} = ∅` for `b ≠ b′` in `B(G)`. For `G = GL_2` and `E_b = O ⊕ O(1): Mod^∅_{b,b}(S)` is the set of triples `(a, d, u)` with a, `d ∈ underline{E^×}(S)` and `u ∈ H⁰(X_S, O(1))`, strictly larger than `underline{E^× × E^×}(S) = underline{G_b(E)}(S)`.
-- `FramedModification.gm_test`: For `G = G_m`, one leg and `μ(z) = z^d`: with `E_b = O(−v(b))`, `Mod_{b,b′,μ}` is empty unless `v(b) − v(b′) = d`, and when `v(b) − v(b′) = d` it is a torsor over `Div¹` under `underline{E^×} = G̃_b` acting on the source and equally under `underline{E^×} = G̃_b′` acting on the target (`c ∈ E^×` multiplies `α` by `c⁻¹` through the first action and by `c` through the second), an `S`-point being a leg `D` with an isomorphism `E_b(dD) ≅ E_b′`. For `b = π`, `b′ = 1`, `d = 1` it is non-empty; for `b = 1`, `b′ = π`, `d = 1` it is empty.
-- `FramedModification.oneBundle_test`: For `G = G_m` and `μ(z) = z: Mod_{1,1,μ} = ∅`, whereas the fibre of `p_1 : Hck_{G_m,μ} → Bun_{G_m}` over `E_1` alone, with the target bundle not fixed, is `Gr_{G_m,Div¹,μ} ≅ Div¹`.
-- `FramedModification.shtuka_test`: For `E = Q_p`, `G = G_m`, `μ(z) = z` and `b = p⁻¹: Mod_{1,b,μ} ×_{Div¹} Spd Q̆_p` is the sheaf of pairs (`S♯`, `α : O ⇢ O(1)` of type `μ` at `S♯`), a `Q_p^×`-torsor over `Spd Q̆_p`, equal to `Sht_{G_m,p⁻¹,μ,∞}`; its quotient by `Z_p^×` has geometric fibres `Q_p^×/Z_p^× ≅ Z`.
-- `FramedModification.inverse_test`: Inversion identifies `Mod_{b,1,≤μ}` with `Mod_{1,b,≤μ⁻¹}`; for `G = GL_2` and `μ = (1,0)` one has `μ⁻¹ = (0,−1)`, and for `G = G_m`, `μ(z) = z: Mod_{π,1,μ} ≅ Mod_{1,π,μ⁻¹}`, both non-empty, while `Mod_{1,π,μ} = ∅`.
-
-<a id="hs2-3"></a>
+- For `I = ∅: Mod^∅_{b,b} = G̃_b` with `(g, g′)` acting by `h ↦ g′hg⁻¹`, and `Mod^∅_{b,b′} = ∅` for `b ≠ b′` in `B(G)`. For `G = GL_2` and `E_b = O ⊕ O(1): Mod^∅_{b,b}(S)` is the set of triples `(a, d, u)` with `a, d ∈ E^×(S)` and `u ∈ H⁰(X_S, O(1))`, strictly larger than `E^× × E^×(S) = G_b(E)(S)`.
+- For `G = G_m`, one leg and `μ(z) = z^d`: with `E_b = O(−v(b))`, `Mod_{b,b′,μ}` is empty unless `v(b) − v(b′) = d`, and when `v(b) − v(b′) = d` it is a torsor over `Div¹` under `E^× = G̃_b` acting on the source and equally under `E^× = G̃_b′` acting on the target (`c ∈ E^×` multiplies `α` by `c⁻¹` through the first action and by `c` through the second), an `S`-point being a leg `D` with an isomorphism `E_b(dD) ≅ E_b′`. For `b = π`, `b′ = 1`, `d = 1` it is non-empty; for `b = 1`, `b′ = π`, `d = 1` it is empty.
+- For `G = G_m` and `μ(z) = z: Mod_{1,1,μ} = ∅`, whereas the fibre of `p_1 : Hck_{G_m,μ} → Bun_{G_m}` over `E_1` alone, with the target bundle not fixed, is `Gr_{G_m,Div¹,μ} ≅ Div¹`.
+- For `E = Q_p`, `G = G_m`, `μ(z) = z` and `b = p⁻¹: Mod_{1,b,μ} ×_{Div¹} Spd Q̆_p` is the sheaf of pairs (`S♯`, `α : O ⇢ O(1)` of type `μ` at `S♯`), a `Q_p^×`-torsor over `Spd Q̆_p`, equal to `Sht_{G_m,p⁻¹,μ,∞}`; its quotient by `Z_p^×` has geometric fibres `Q_p^×/Z_p^× ≅ Z`.
+- Inversion identifies `Mod_{b,1,≤μ}` with `Mod_{1,b,≤μ⁻¹}`; for `G = GL_2` and `μ = (1,0)` one has `μ⁻¹ = (0,−1)`, and for `G = G_m`, `μ(z) = z: Mod_{π,1,μ} ≅ Mod_{1,π,μ⁻¹}`, both non-empty, while `Mod_{1,π,μ} = ∅`.
 
 ### HS2.3 — Frobenius-equivariant integral torsors and lattice extension
 
@@ -1176,7 +1139,7 @@ global section. For `GL_n`, this is the usual functor of
 system, and the zero Newton polygon suffices. For general `G`,
 zero Newton point alone does not characterize the admissible locus.
 
-*Needs:* **BunGAndNewtonStrata**, Layer 1; **DiamondsAndVStacks**, D3; **VectorBundlesAndIsocrystals**, VB4; **BunGAndNewtonStrata**, §§2.8, 2.11–2.23; **BunGAndNewtonStrata**, Layer 0.
+*Needs:* **BunGAndNewtonStrata**, Layer 1; **DiamondsAndVStacks**, D3; **VectorBundlesAndIsocrystals**, Layers 2 and 4; **BunGAndNewtonStrata**, §§2.8, 2.11–2.23; **BunGAndNewtonStrata**, Layer 0.
 
 (Sources: [SW], Theorem 22.6.2, p. 214; Proposition 22.6.1, p. 213; §22.6, p. 213; Corollary 22.3.3, p. 209; Theorem 22.5.2, p. 212; proof of Theorem 22.6.2, p. 214.)
 
@@ -1189,20 +1152,18 @@ Provide the following API.
 - `LatticeSpace.genericTorsor`: Over `S^a` there is a pro-étale `G(Q_p)`-torsor `ℙ_η`, the sheaf of trivialisations of the fibre functor of `P_η`, with `P_η = ℙ_η ×^{G(Q_p)} (G × Y_(0,r](S^a))`.
 - `LatticeSpace.equivCosetBundle`: `Latt(P_η) ≅ ℙ_η/𝒢(Z_p) = ℙ_η ×^{G(Q_p)} (G(Q_p)/𝒢(Z_p))` over `S^a`: a point over `S′` is a pro-étale `𝒢(Z_p)`-torsor `ℙ` with an identification `ℙ ×^{𝒢(Z_p)} G(Q_p) = ℙ_η|_{S′}`.
 - `LatticeSpace.baseChange`: For `T → S: Latt(P_η|_T) = Latt(P_η) ×_S T` and `T^a` is the preimage of `S^a`; this is compatible with composition of base changes.
-- `LatticeSpace.changeGroup`: `A` homomorphism `f : 𝒢 → ℋ` of such group schemes induces `Latt(P_η) → Latt(f_*P_η)`, given on coset bundles by `G(Q_p)/𝒢(Z_p) → H(Q_p)/ℋ(Z_p)`; for two models `𝒢′ → 𝒢` of the same `G` it is the projection `ℙ_η/𝒢′(Z_p) → ℙ_η/𝒢(Z_p)`.
+- `LatticeSpace.changeGroup`: A homomorphism `f : 𝒢 → ℋ` of such group schemes induces `Latt(P_η) → Latt(f_*P_η)`, given on coset bundles by `G(Q_p)/𝒢(Z_p) → H(Q_p)/ℋ(Z_p)`; for two models `𝒢′ → 𝒢` of the same `G` it is the projection `ℙ_η/𝒢′(Z_p) → ℙ_η/𝒢(Z_p)`.
 - `LatticeSpace.glN`: For `𝒢 = GL_n`, `Latt(P_η)` is the functor `Latt(E_η)` of Corollary 22.3.3 for the associated `φ⁻¹`-module `E_η`: it parametrises `Z_p`-lattices `𝕃 ⊂ 𝕃_η`, and `S^a` is the locus where the Newton polygon of `E_η` is identically `0`.
-- `LatticeSpace.trivial`: For `P_η = G × Y_(0,r](S)` with its standard `φ⁻¹`-structure: `S^a = S`, `ℙ_η = underline{G(Q_p)} × S` and `Latt(P_η) = underline{G(Q_p)/𝒢(Z_p)} × S`.
+- `LatticeSpace.trivial`: For `P_η = G × Y_(0,r](S)` with its standard `φ⁻¹`-structure: `S^a = S`, `ℙ_η = G(Q_p) × S` and `Latt(P_η) = G(Q_p)/𝒢(Z_p) × S`.
 - `LatticeSpace.independence`: `Latt(P_η)` is unchanged when `r` is replaced by a smaller `r′` and `P_η` by its restriction, and does not depend on the pseudo-uniformizer `ϖ`.
 
 **Checks.**
 
-- `LatticeSpace.trivial_test`: For `P_η = G × Y_(0,r](S)` with its standard `φ⁻¹`-structure: `Latt(P_η) ≅ underline{G(Q_p)/𝒢(Z_p)} × S`. For `𝒢 = GL_n` the coset `g·GL_n(Z_p)` is the `φ⁻¹`-module `g·O^n_{Y_[0,r]} ⊂ O^n_{Y_(0,r]}`; for `𝒢 = G_m`, `Latt(P_η) = ⊔_{m∈Z} S`, the `m`-th copy being the extension `p^m·O_{Y_[0,r]}`.
-- `LatticeSpace.nonadmissible_test`: For `𝒢 = G_m`, `S` non-empty and `P_η` the `φ⁻¹`-equivariant line bundle on `Y_(0,r](S)` corresponding to `O_{X_FF,S}(d)` with `d ≠ 0: Latt(P_η) = ∅`, although the underlying line bundle on `Y_(0,r](S)` extends to a line bundle on `Y_[0,r](S)`.
-- `LatticeSpace.kappa_test`: Let `𝒯` be the norm-one torus of `Z_{p²}/Z_p`, `T` its generic fibre and `b ∈ T(L)` a representative of the non-trivial element of `B(T) = X_*(T)_Γ = Z/2`. For `S` non-empty and `P_η` the restriction to `Y_(0,r](S)` of the pullback of `E_b: ν_{P_η} ≡ 0`, because `(X_*(T) ⊗ Q)^Γ = 0`, but `κ_{P_η} ≡ κ(b) ≠ 0`, so `S^a = ∅` and `Latt(P_η) = ∅`.
-- `LatticeSpace.gln_test`: For `𝒢 = GL_n` and `E_η = 𝕃_η ⊗_{Q_p} O_{Y_(0,r](S)}` with `𝕃_η` a pro-étale `Q_p`-local system of `rank n` on `S: Latt(E_η)(S′)` is the set of pro-étale `Z_p`-lattices `𝕃 ⊂ 𝕃_η|_{S′}`, the lattice `𝕃` corresponding to `𝕃 ⊗_{Z_p} O_{Y_[0,r](S′)}`.
-- `LatticeSpace.twoModels_test`: For `G = GL_2`, `𝒢 = GL_2` and `𝒢′` the Iwahori group scheme with `𝒢′(Z_p)` the matrices that are upper triangular modulo `p` (smooth with connected fibres), and `P_η` trivial: `Latt_{𝒢′}(P_η) → Latt_𝒢(P_η)` is `underline{GL_2(Q_p)/𝒢′(Z_p)} × S → underline{GL_2(Q_p)/GL_2(Z_p)} × S`, finite étale of degree `p + 1`.
-
-<a id="hs2-4"></a>
+- For `P_η = G × Y_(0,r](S)` with its standard `φ⁻¹`-structure: `Latt(P_η) ≅ G(Q_p)/𝒢(Z_p) × S`. For `𝒢 = GL_n` the coset `g·GL_n(Z_p)` is the `φ⁻¹`-module `g·O^n_{Y_[0,r]} ⊂ O^n_{Y_(0,r]}`; for `𝒢 = G_m`, `Latt(P_η) = ⊔_{m∈Z} S`, the `m`-th copy being the extension `p^m·O_{Y_[0,r]}`.
+- For `𝒢 = G_m`, `S` non-empty and `P_η` the `φ⁻¹`-equivariant line bundle on `Y_(0,r](S)` corresponding to `O_{X_FF,S}(d)` with `d ≠ 0: Latt(P_η) = ∅`, although the underlying line bundle on `Y_(0,r](S)` extends to a line bundle on `Y_[0,r](S)`.
+- Let `𝒯` be the norm-one torus of `Z_{p²}/Z_p`, `T` its generic fibre and `b ∈ T(L)` a representative of the non-trivial element of `B(T) = X_*(T)_Γ = Z/2`. For `S` non-empty and `P_η` the restriction to `Y_(0,r](S)` of the pullback of `E_b: ν_{P_η} ≡ 0`, because `(X_*(T) ⊗ Q)^Γ = 0`, but `κ_{P_η} ≡ κ(b) ≠ 0`, so `S^a = ∅` and `Latt(P_η) = ∅`.
+- For `𝒢 = GL_n` and `E_η = 𝕃_η ⊗_{Q_p} O_{Y_(0,r](S)}` with `𝕃_η` a pro-étale `Q_p`-local system of rank `n` on `S: Latt(E_η)(S′)` is the set of pro-étale `Z_p`-lattices `𝕃 ⊂ 𝕃_η|_{S′}`, the lattice `𝕃` corresponding to `𝕃 ⊗_{Z_p} O_{Y_[0,r](S′)}`.
+- For `G = GL_2`, `𝒢 = GL_2` and `𝒢′` the Iwahori group scheme with `𝒢′(Z_p)` the matrices that are upper triangular modulo `p` (smooth with connected fibres), and `P_η` trivial: `Latt_{𝒢′}(P_η) → Latt_𝒢(P_η)` is `GL_2(Q_p)/𝒢′(Z_p) × S → GL_2(Q_p)/GL_2(Z_p) × S`, finite étale of degree `p + 1`.
 
 ### HS2.4 — One-leg identification with bundle modifications
 
@@ -1226,11 +1187,9 @@ inversion in comparisons with sources whose tower is oriented in the
 other direction. In our convention the one-leg nonempty datum has
 `[b]∈ B(G,μ⁻¹)`.
 
-*Needs:* [HS2.2](#hs2-2), [HS2.3](#hs2-3), [HS2.1](#hs2-1); **RelativeFarguesFontaine**, §§7.0–7.7; **BunGAndNewtonStrata**, §§2.8, 2.11–2.23.
+*Needs:* §HS2.2, §HS2.3, §HS2.1; **RelativeFarguesFontaine**, §§7.0–7.7; **BunGAndNewtonStrata**, §§2.8, 2.11–2.23.
 
 (Sources: [SW], Proposition 23.3.1, p. 218; proof of Proposition 23.3.1, p. 218; §23.3, p. 219; Definition 24.1.1, p. 225; [FS], proof of Theorem IX.3.1, p. 324; IX.3, p. 324.)
-
-<a id="hs2-5"></a>
 
 ### HS2.5 — The one-leg period map
 
@@ -1251,11 +1210,9 @@ The infinite-level map is a pro-étale, hence quasi-pro-étale,
 nonempty and `dim G>0`, it is not étale, since the group is not
 discrete. Empty loci are excluded from this last assertion.
 
-*Needs:* [HS2.4](#hs2-4), [HS2.3](#hs2-3); **DiamondsAndVStacks**, D3; **DiamondsAndVStacks**, D5; **GeometricSatakeAndFusion**, GS0, “Loop quotients and ordered divisors” and “Generic bounds and integral affine flags”.
+*Needs:* §HS2.4, §HS2.3; **DiamondsAndVStacks**, D3; **DiamondsAndVStacks**, D5; **GeometricSatakeAndFusion**, GS0, “Loop quotients and ordered divisors” and “Generic bounds and integral affine flags”.
 
 (Sources: [SW], Proposition 23.3.3, p. 220; Remark 23.3.4, p. 220; proof of Proposition 23.3.3, p. 220; §23.4, p. 221.)
-
-<a id="hs2-6"></a>
 
 ### HS2.6 — Level towers, transitions and continuous group actions
 
@@ -1278,7 +1235,7 @@ trivialization torsors and to framed two-bundle spaces, using compact
 open subgroups of either source or target `J`-group. Prove the
 degree and limit statements for those spaces as well.
 
-*Needs:* [HS2.5](#hs2-5), [HS2.2](#hs2-2); **DiamondsAndVStacks**, D3; **DiamondsAndVStacks**, D5; **ReductiveGroupsPartII**, RG2.0.
+*Needs:* §HS2.5, §HS2.2; **DiamondsAndVStacks**, D3; **DiamondsAndVStacks**, D5; **ReductiveGroupsPartII**, RG2.0.
 
 (Sources: [SW], §23.3, p. 219; after Corollary 23.5.3, p. 224; [GLX], §3.4, p. 824; [FS], IX.3, p. 325.)
 
@@ -1289,22 +1246,20 @@ Provide the following API.
 - `LevelTower.integralLevel`: `Sht_{G,b,μ,𝒢(Z_p)} = Sht_{𝒢,b,μ}`, the moduli space of HS2.1; it depends on `𝒢` only through `𝒢(Z_p)`.
 - `LevelTower.transition`: For `K′ ⊂ K: t_{K′,K} : Sht_{G,b,μ,K′} → Sht_{G,b,μ,K}`, `ℙ ↦ ℙ ×^{K′} K`, is finite étale surjective of degree `[K : K′]`; `t_{K,K} = id`, `t_{K′,K} ∘ t_{K″,K′} = t_{K″,K}`, and `π_K ∘ t_{K′,K} = π_{K′}`.
 - `LevelTower.transition_torsor`: If `K′` is normal in `K`, then `K/K′` acts on `Sht_{G,b,μ,K′}` over `Sht_{G,b,μ,K}` and `t_{K′,K}` is a `K/K′`-torsor.
-- `LevelTower.limit`: `Sht_{G,b,μ,∞} = ℙ_η` with the maps `Sht_{G,b,μ,∞} → Sht_{G,b,μ,K}` is the limit of the tower in `v`-sheaves: a compatible family of maps `T → Sht_{G,b,μ,K}` is a unique map `T → ℙ_η`. Each `Sht_{G,b,μ,∞} → Sht_{G,b,μ,K}` is a `K`-torsor, so `Sht_{G,b,μ,K} = Sht_{G,b,μ,∞}/K`.
+- `LevelTower.limit`: `Sht_{G,b,μ,∞} = ℙ_η` with the maps `Sht_{G,b,μ,∞} → Sht_{G,b,μ,K}` is the limit of the tower in v-sheaves: a compatible family of maps `T → Sht_{G,b,μ,K}` is a unique map `T → ℙ_η`. Each `Sht_{G,b,μ,∞} → Sht_{G,b,μ,K}` is a `K`-torsor, so `Sht_{G,b,μ,K} = Sht_{G,b,μ,∞}/K`.
 - `LevelTower.limit_points`: `Sht_{G,b,μ,∞}(S)` is the set of pairs `(S♯, α)` with `S♯` an untilt of `S` over `F̆` and `α : E_1 ⇢ E_b` a modification at `S♯` bounded by `μ`.
 - `LevelTower.cofinal`: If `𝒦` is a set of compact open subgroups forming a neighbourhood basis of `1` in `G(Q_p)`, then `lim_{K∈𝒦} Sht_{G,b,μ,K} = Sht_{G,b,μ,∞}`; the compact open pro-`p` subgroups form such a set.
-- `LevelTower.heckeAction`: `g ∈ G(Q_p)` induces isomorphisms `Sht_{G,b,μ,K} ≅ Sht_{G,b,μ,gKg⁻¹}`, compatible with transition maps and with composition in `G(Q_p)`; on the limit this is the action of `underline{G(Q_p)}` on `ℙ_η`.
-- `LevelTower.sigmaCentralizerAction`: `underline{J_b(Q_p)}` acts on every `Sht_{G,b,μ,K}` and on `Sht_{G,b,μ,∞}`, compatibly with transition maps and commuting with the action of `G(Q_p)`.
+- `LevelTower.heckeAction`: `g ∈ G(Q_p)` induces isomorphisms `Sht_{G,b,μ,K} ≅ Sht_{G,b,μ,gKg⁻¹}`, compatible with transition maps and with composition in `G(Q_p)`; on the limit this is the action of `G(Q_p)` on `ℙ_η`.
+- `LevelTower.sigmaCentralizerAction`: `J_b(Q_p)` acts on every `Sht_{G,b,μ,K}` and on `Sht_{G,b,μ,∞}`, compatibly with transition maps and commuting with the action of `G(Q_p)`.
 - `LevelTower.map`: For `f : G → H` with `f(K) ⊂ K_H`: a map `Sht_{G,b,μ,K} → Sht_{H,f(b),f∘μ,K_H}`, compatible with transition maps on both sides and with composition of homomorphisms.
 
 **Checks.**
 
-- `LevelTower.noLegs_test`: For no legs and `b = 1` (the case `m = 0` of `(f)`, where the twisted Grassmannian is `Spd k` and the torsor is `underline{G(Q_p)} × Spd k`): `Sht_{G,1,∅,K} = underline{G(Q_p)/K} × Spd k`, the transition map for `K′ ⊂ K` is induced by `gK′ ↦ gK`, and `lim_K Sht_{G,1,∅,K} = underline{G(Q_p)} × Spd k`, whose `S`-points are the continuous maps `|S| → G(Q_p)`, not only the locally constant ones.
-- `LevelTower.torus_test`: For `G = G_m`, `μ(z) = z^d`, `v_p(b) = −d`, `K_0 = Z_p^×` and `K_n = 1 + p^n Z_p (n ≥ 1)`: each geometric fibre of `Sht_{G_m,b,μ,K_n}` over `Spd Q̆_p` is `Q_p^×/K_n ≅ Z × (Z/p^n)^×`, and `Sht_{G_m,b,μ,K_n} → Sht_{G_m,b,μ,K_0}` is a `(Z/p^n)^×`-torsor, of degree `(p−1)p^{n−1}`.
-- `LevelTower.iwahori_test`: For `G = GL_2`, `K = GL_2(Z_p)` and `K′ ⊂ K` the subgroup of matrices that are upper triangular modulo `p: Sht_{K′} → Sht_K` is finite étale of degree `p + 1 = |P¹(F_p)|` and `K′` is not normal in `K`, so no group `K/K′` acts; for `K″ = ker(GL_2(Z_p) → GL_2(F_p))` the map `Sht_{K″} → Sht_K` is a `GL_2(F_p)`-torsor of degree `(p² − 1)(p² − p)`.
-- `LevelTower.integralLevel_test`: For `K = 𝒢(Z_p): Sht_{G,b,μ,𝒢(Z_p)} = Sht_{𝒢,b,μ}`. If `𝒢` and `𝒢′` are two smooth models of `G` with connected special fibres and `𝒢(Z_p) = 𝒢′(Z_p)`, then `Sht_{𝒢,b,μ} = Sht_{𝒢′,b,μ}`.
-- `LevelTower.hecke_test`: For `g ∈ G(Q_p)` the isomorphism `Sht_K ≅ Sht_{gKg⁻¹}` is, on the no-leg tower with `b = 1` of `(f)` (points `hK`, `h ∈ G(Q_p)`), the map `hK ↦ hg⁻¹·(gKg⁻¹)`; for `g ∈ K` it is the identity of `Sht_K`, and for `g` normalising `K` it is the right translation `hK ↦ hg⁻¹K`.
-
-<a id="hs2-7"></a>
+- For no legs and `b = 1` (the case `m = 0` of `ShtukaDatum.noLegs`, where the twisted Grassmannian is `Spd k` and the torsor is `G(Q_p) × Spd k`): `Sht_{G,1,∅,K} = G(Q_p)/K × Spd k`, the transition map for `K′ ⊂ K` is induced by `gK′ ↦ gK`, and `lim_K Sht_{G,1,∅,K} = G(Q_p) × Spd k`, whose `S`-points are the continuous maps `|S| → G(Q_p)`, not only the locally constant ones.
+- For `G = G_m`, `μ(z) = z^d`, `v_p(b) = −d`, `K_0 = Z_p^×` and `K_n = 1 + p^n Z_p (n ≥ 1)`: each geometric fibre of `Sht_{G_m,b,μ,K_n}` over `Spd Q̆_p` is `Q_p^×/K_n ≅ Z × (Z/p^n)^×`, and `Sht_{G_m,b,μ,K_n} → Sht_{G_m,b,μ,K_0}` is a `(Z/p^n)^×`-torsor, of degree `(p−1)p^{n−1}`.
+- For `G = GL_2`, `K = GL_2(Z_p)` and `K′ ⊂ K` the subgroup of matrices that are upper triangular modulo `p: Sht_{K′} → Sht_K` is finite étale of degree `p + 1 = |P¹(F_p)|` and `K′` is not normal in `K`, so no group `K/K′` acts; for `K″ = ker(GL_2(Z_p) → GL_2(F_p))` the map `Sht_{K″} → Sht_K` is a `GL_2(F_p)`-torsor of degree `(p² − 1)(p² − p)`.
+- For `K = 𝒢(Z_p): Sht_{G,b,μ,𝒢(Z_p)} = Sht_{𝒢,b,μ}`. If `𝒢` and `𝒢′` are two smooth models of `G` with connected special fibres and `𝒢(Z_p) = 𝒢′(Z_p)`, then `Sht_{𝒢,b,μ} = Sht_{𝒢′,b,μ}`.
+- For `g ∈ G(Q_p)` the isomorphism `Sht_K ≅ Sht_{gKg⁻¹}` is, on the no-leg tower with `b = 1` of `ShtukaDatum.noLegs` (points `hK`, `h ∈ G(Q_p)`), the map `hK ↦ hg⁻¹·(gKg⁻¹)`; for `g ∈ K` it is the identity of `Sht_K`, and for `g` normalising `K` it is the right translation `hK ↦ hg⁻¹K`.
 
 ### HS2.7 — Multi-leg period maps and representability
 
@@ -1326,11 +1281,9 @@ its image is their composition, and the ordinary bounded Hecke fibre
 alone does not describe the source. No global multi-leg identification
 with that fibre is asserted.
 
-*Needs:* [HS0.5](#hs0-5), [HS2.3](#hs2-3), [HS2.6](#hs2-6), [HS2.1](#hs2-1), [HS2.2](#hs2-2), [HS2.4](#hs2-4); **DiamondsAndVStacks**, D5.
+*Needs:* §HS0.5, §HS2.3, §HS2.6, §HS2.1, §HS2.2, §HS2.4; **DiamondsAndVStacks**, D5.
 
 (Sources: [SW], Corollary 23.5.3, p. 224; Theorem 23.1.4, p. 217; Proposition 23.5.2, p. 223; after Corollary 23.5.3, p. 224; §23.4, p. 221; [FS], proof of Proposition IX.3.2, p. 326.)
-
-<a id="hs2-8"></a>
 
 ### HS2.8 — Empty legs and basic duality
 
@@ -1346,11 +1299,9 @@ over the same reflex base, exchanging the roles of
 duality twice is the identity. Basicness is essential: otherwise
 `J_b` is a form of a proper Levi, so this dual datum is not defined.
 
-*Needs:* [HS2.6](#hs2-6), [HS2.1](#hs2-1), [HS2.3](#hs2-3), [HS2.2](#hs2-2); **BunGAndNewtonStrata**, Layer 0.
+*Needs:* §HS2.6, §HS2.1, §HS2.3, §HS2.2; **BunGAndNewtonStrata**, Layer 0.
 
 (Sources: [SW], Proposition 23.2.1, p. 217; proof of Proposition 23.2.1, p. 218; Corollary 23.3.2, p. 219; proof of Corollary 23.3.2, p. 219.)
-
-<a id="hs2-9"></a>
 
 ### HS2.9 — Towers for a general local field
 
@@ -1385,18 +1336,18 @@ inversion of `μ` or of `α` is applied. The targets here are arbitrary legs, no
 bounds, local fields of either characteristic, and the integral-model level, as
 extensions on that carrier.
 
-*Needs:* [HS2.7](#hs2-7), [HS2.6](#hs2-6), [HS0.5](#hs0-5), [HS2.3](#hs2-3); **AutomorphicGaloisRepresentationsPartII**, AG2.6, “Minuscule local Shimura spaces and their Hecke realization”; **RelativeFarguesFontaine**, §§7.0–7.7; **RelativeFarguesFontaine**, Layers 0–1; **RelativeFarguesFontaine**, §§0.18–0.20; **RelativeFarguesFontaine**, §§1.1–1.3; **RelativeFarguesFontaine**, §§4.6–4.13; **GeometricSatakeAndFusion**, GS0, “Loop quotients and ordered divisors” and “Generic bounds and integral affine flags”; **BunGAndNewtonStrata**, §§2.8, 2.11–2.23; **DiamondsAndVStacks**, D5; **VectorBundlesAndIsocrystals**, VB3, “Basic section sheaves, Lubin–Tate geometry and projectivization”.
+*Needs:* §HS2.7, §HS2.6, §HS0.5, §HS2.3; **AutomorphicGaloisRepresentationsPartII**, AG2.6, “Minuscule local Shimura spaces and their Hecke realization”; **RelativeFarguesFontaine**, §§7.0–7.7; **RelativeFarguesFontaine**, Layers 0–1; **RelativeFarguesFontaine**, §§0.18–0.20; **RelativeFarguesFontaine**, §§1.1–1.3; **RelativeFarguesFontaine**, §§4.6–4.13; **GeometricSatakeAndFusion**, GS0, “Loop quotients and ordered divisors” and “Generic bounds and integral affine flags”; **BunGAndNewtonStrata**, §§2.8, 2.11–2.23; **DiamondsAndVStacks**, D5; **VectorBundlesAndIsocrystals**, Layer 5, “Basic section sheaves, Lubin–Tate geometry and projectivization”.
 
 (Sources: [FS], IX.3, after the proof of Theorem IX.3.1, pp. 325–326; IX.3, proof of Proposition IX.3.2, p. 326; [SW], Definition 23.5.1, p. 223; Corollary 23.5.3 and the paragraph after it, p. 224; Definition 11.1.2, pp. 90–91.)
 
 Provide the following API.
 
-- `GeneralShtukaTower`: For `(E, G, b, (μ_i)_{i∈I}, K)` the `v`-sheaf `Sht_{(G,b,μ•),K}` on `Perf_k` whose `S`-points are tuples `((S_i♯), P_η, φ_P, ι_r, 𝒫)`: a point of `Gr^{tw,a}(S)` together with a `K`-lattice `𝒫 ⊂ 𝒫_η`, that is a section of `𝒫_η/K`.
+- `GeneralShtukaTower`: For `(E, G, b, (μ_i)_{i∈I}, K)` the v-sheaf `Sht_{(G,b,μ•),K}` on `Perf_k` whose `S`-points are tuples `((S_i♯), P_η, φ_P, ι_r, 𝒫)`: a point of `Gr^{tw,a}(S)` together with a `K`-lattice `𝒫 ⊂ 𝒫_η`, that is a section of `𝒫_η/K`.
 - `GeneralShtukaTower.legs`: `f_K: Sht_{(G,b,μ•),K} → ∏_{i∈I} Spd F̆_i`, `((S_i♯), …) ↦ (S_i♯)`.
 - `GeneralShtukaTower.periodMap`: `π_K: Sht_{(G,b,μ•),K} → Gr^tw_{G,∏Spd F̆_i,≤μ•}` forgets `𝒫`; it is étale, separated, with image the open admissible locus, and its fibre over `S → Gr^{tw,a}` is `𝒫_η|_S/K`, which pro-étale locally on `S` is `S × G(E)/K`.
 - `GeneralShtukaTower.ext`: Two `S`-points are equal if and only if they have the same legs, there is an isomorphism of the pairs `(P_η, φ_P)` compatible with the germs of `ι_r`, and it carries one `K`-lattice to the other.
 - `GeneralShtukaTower.transition`: For `K′ ⊂ K` the map `Sht_{(G,b,μ•),K′} → Sht_{(G,b,μ•),K}`, `𝒫′ ↦ 𝒫′·K`, is finite étale of degree `[K:K′]`, a `K/K′`-torsor when `K′` is normal in `K`; it is the identity for `K′ = K`, is compatible with composition for `K″ ⊂ K′ ⊂ K`, and commutes with `π_K` and `f_K`.
-- `GeneralShtukaTower.limit`: `Sht_{(G,b,μ•),∞} = lim_K Sht_{(G,b,μ•),K} = 𝒫_η` is a pro-étale `G(E)`-torsor over `Gr^{tw,a}`; over the complement of the Frobenius-twisted partial diagonals, the loci `S_i♯ = φ^n(S_j♯)` with `i ≠ j` and `n ≠ 0`, its `S`-points are the tuples `((S_i♯), α)` with `α: E_1 ≅ E_b` an isomorphism away from the images `D_i` of the `S_i♯` in `X_S`, meromorphic and bounded by `μ•`, that is by `Σ_{j: S_j♯ = S_i♯} μ_j` at `D_i` (for `E = Q_p` this is HS2.7 `(e)`; the argument is the same for general `E`).
+- `GeneralShtukaTower.limit`: `Sht_{(G,b,μ•),∞} = lim_K Sht_{(G,b,μ•),K} = 𝒫_η` is a pro-étale `G(E)`-torsor over `Gr^{tw,a}`; over the complement of the Frobenius-twisted partial diagonals, the loci `S_i♯ = φ^n(S_j♯)` with `i ≠ j` and `n ≠ 0`, its `S`-points are the tuples `((S_i♯), α)` with `α: E_1 ≅ E_b` an isomorphism away from the images `D_i` of the `S_i♯` in `X_S`, meromorphic and bounded by `μ•`, that is by `Σ_{j: S_j♯ = S_i♯} μ_j` at `D_i` (for `E = Q_p` this is the isomorphism of HS2.7 off the nontrivial Frobenius translates; the argument is the same for general `E`).
 - `GeneralShtukaTower.actions`: `g ∈ G(E) = Aut(E_1)` acts on `𝒫_η = Isom(E_1, E)` by `τ ↦ τ∘g⁻¹` and induces isomorphisms `Sht_{(G,b,μ•),K} ≅ Sht_{(G,b,μ•),gKg⁻¹}`, `𝒫 ↦ 𝒫·g⁻¹`, compatible with transition maps and with products in `G(E)`, as in HS2.6; `j ∈ J_b(E)` acts on every level by changing `ι_r`; the two actions commute and both commute with `f_K`.
 - `GeneralShtukaTower.oneLeg`: For `|I| = 1`, `Gr^tw_{G,Spd F̆_1,≤μ_1} = Gr_{G,Spd F̆_1,≤μ_1}` and, for `E = Q_p`, the tower is the one-leg tower of HS2.6; for finite `E/Q_p` and minuscule `μ_1` it is AG2.6's `localShimuraTower` for `(G,b,μ_1)`, with the same `μ_1`, compatibly with both group actions, transitions and period maps.
 - `GeneralShtukaTower.integralModel`: For `E = Q_p` and `K = 𝒢(Z_p)`, with `𝒢` smooth over `Z_p` with generic fibre `G` and connected special fibre, `Sht_{(G,b,μ•),K}` is the moduli space of framed `𝒢`-shtukas on `S ×̇ Spa Z_p` (Scholze–Weinstein 23.1.1 and 23.5.3).
@@ -1405,12 +1356,10 @@ Provide the following API.
 
 **Checks.**
 
-- `GeneralShtukaTower.no_legs_test`: For `I = ∅` and any `E: Sht_{(G,b,∅),K} = ∅` when `[b] ≠ 1`; for `b = 1` it is the constant sheaf `G(E)/K`, on which `J_1(E) = G(E)` acts by left translation.
-- `GeneralShtukaTower.qp_test`: For `E = Q_p` and `K = 𝒢(Z_p)` with `𝒢` a smooth model of `G` with connected special fibre, `Sht_{(G,b,μ•),K}` is the sheaf of quadruples `(P, {S_i♯}, φ_P, ι_r)` of Scholze–Weinstein, Definition 23.1.1, and `Sht_{(G,b,μ•),K′}` for `K′ ⊂ G(Q_p)` compact open is their `Sht_{G,b,{μ_i},K′}`.
-- `GeneralShtukaTower.lubin_tate_test`: For `G = G_m`, one leg and `μ = id` (the modification makes `E_b` the larger bundle): for `b = π⁻¹` one has `Sht_{(G_m,b,μ),∞} ≅ Z × Spd Ĕ_∞`, `Sht_{(G_m,b,μ),O_E^×} ≅ Z × Spd Ĕ` and `Sht_{(G_m,b,μ),1+π^nO_E} ≅ Z × Spd Ĕ_n`, where `Ĕ_n` is the compositum of `Ĕ` with the field of `π^n`-torsion points of a Lubin–Tate formal `O_E`-module; for every `b` with `v_π(b) ≠ −1` the tower is empty.
-- `GeneralShtukaTower.one_leg_test`: For `|I| = 1` the map `Gr^tw_{G,Spd F̆_1,≤μ_1} → Gr_{G,Spd F̆_1,≤μ_1}`, sending `(S♯, P_η, φ_P, ι_r)` to the modification of the trivial torsor at `S♯` defined by `ι_r`, is an isomorphism.
-
-<a id="hs2-10"></a>
+- For `I = ∅` and any `E: Sht_{(G,b,∅),K} = ∅` when `[b] ≠ 1`; for `b = 1` it is the constant sheaf `G(E)/K`, on which `J_1(E) = G(E)` acts by left translation.
+- For `E = Q_p` and `K = 𝒢(Z_p)` with `𝒢` a smooth model of `G` with connected special fibre, `Sht_{(G,b,μ•),K}` is the sheaf of quadruples `(P, {S_i♯}, φ_P, ι_r)` of Scholze–Weinstein, Definition 23.1.1, and `Sht_{(G,b,μ•),K′}` for `K′ ⊂ G(Q_p)` compact open is their `Sht_{G,b,{μ_i},K′}`.
+- For `G = G_m`, one leg and `μ = id` (the modification makes `E_b` the larger bundle): for `b = π⁻¹` one has `Sht_{(G_m,b,μ),∞} ≅ Z × Spd Ĕ_∞`, `Sht_{(G_m,b,μ),O_E^×} ≅ Z × Spd Ĕ` and `Sht_{(G_m,b,μ),1+π^nO_E} ≅ Z × Spd Ĕ_n`, where `Ĕ_n` is the compositum of `Ĕ` with the field of `π^n`-torsion points of a Lubin–Tate formal `O_E`-module; for every `b` with `v_π(b) ≠ −1` the tower is empty.
+- For `|I| = 1` the map `Gr^tw_{G,Spd F̆_1,≤μ_1} → Gr_{G,Spd F̆_1,≤μ_1}`, sending `(S♯, P_η, φ_P, ι_r)` to the modification of the trivial torsor at `S♯` defined by `ι_r`, is an isomorphism.
 
 ### HS2.10 — Minuscule rigidification and local Shimura varieties
 
@@ -1436,7 +1385,7 @@ period map, is the `E=ℚ_p` case of AutomorphicGaloisRepresentationsPartII AG2.
 `localShimuraTower`, through the adapter of HS2.9. The rigid space, its uniqueness, the
 rigid lifts and the nonemptiness, dimension and smoothness statements are targets here.
 
-*Needs:* **AutomorphicGaloisRepresentationsPartII**, AG2.6, “Minuscule local Shimura spaces and their Hecke realization”; **EndoscopicTransferAndUnitaryTraceComparison**, §12.17; [HS2.5](#hs2-5), [HS2.6](#hs2-6); **GeometricSatakeAndFusion**, GS0, “Open cells, action truncation and minuscule flags”; **DiamondsAndVStacks**, D6; **AdicEtaleGeometry**, A2; **AdicSpacesPartII**, R0.
+*Needs:* **AutomorphicGaloisRepresentationsPartII**, AG2.6, “Minuscule local Shimura spaces and their Hecke realization”; **EndoscopicTransferAndUnitaryTraceComparison**, §12.17; §HS2.5, §HS2.6; **GeometricSatakeAndFusion**, GS0, “Open cells, action truncation and minuscule flags”; **DiamondsAndVStacks**, D6; **AdicEtaleGeometry**, A2; **AdicSpacesPartII**, R0.
 
 (Sources: [SW], Definition 24.1.1, p. 225; Proposition 24.1.2, p. 225; 24.1, after Proposition 24.1.2, p. 225; Definition 24.1.3, p. 226; Theorem 10.4.2, p. 81; Proposition 19.4.2, pp. 176–177; Lemma 19.1.4, p. 171; 24.2, after the proof of Theorem 24.2.5, p. 229; [FS], IX.3, before Theorem IX.3.1, p. 324.)
 
@@ -1456,13 +1405,11 @@ Provide the following API.
 
 **Checks.**
 
-- `Rigidification.lubin_tate_test`: Applying **EndoscopicTransferAndUnitaryTraceComparison**, §12.17, for `G = GL_2`, `μ = (1,0)` and `b` the basic class with `κ(b) = −1` (`E_b ≅ O(1/2)`; `b` is the Frobenius of the covariant Dieudonné module of the formal group of height `2` and dimension `1` in the normalisation of Scholze–Weinstein, in which `μ_{p^∞}` has Frobenius `p⁻¹σ`): `M_{GL_2,b,μ,GL_2(Z_p)} ≅ ∐_{h∈Z} D̊` with `D̊` the open unit `disc` over `Q̆_p`; `π: M → P¹_{Q̆_p}` is surjective with every geometric fibre in bijection with `GL_2(Q_p)/GL_2(Z_p)`; and for `m ≥ 1` the map `M_{GL_2,b,μ,1+p^mM_2(Z_p)} → M_{GL_2,b,μ,GL_2(Z_p)}` is finite étale of degree `p^{4(m−1)}(p²−1)(p²−p)`.
-- `Rigidification.orientation_test`: For `G = GL_2`, the same `b (E_b ≅ O(1/2), κ(b) = −1)` and the cocharacter `μ⁻¹ = (0,−1)` in place of `μ = (1,0)`: the condition for `(G, b, μ⁻¹)` is `[b] ∈ B(G,μ)`, which fails since `κ(b) ≠ 1`, and `M_{GL_2,b,μ⁻¹,K}` is empty for every `K`.
-- `Rigidification.torus_test`: For `G = G_m`, `μ = id` and `b = p⁻¹: Fl_{G_m,μ}` is a point, `M_{G_m,b,μ,Z_p^×} ≅ ∐_Z Spa Q̆_p` and `M_{G_m,b,μ,1+p^mZ_p} ≅ ∐_Z Spa Q̆_p(ζ_{p^m})` for `m ≥ 1`; for `p^m > 2` this is not the constant space `(Q_p^×/(1+p^mZ_p)) × Spa Q̆_p`.
-- `Rigidification.dimension_test`: For `G = GL_n`, `μ = (1^d,0^{n−d})` and `[b] ∈ B(G,μ⁻¹): M_{GL_n,b,μ,K}` is smooth of pure dimension `d(n−d) = ⟨2ρ,μ⟩ = dim Gr(d,n)`.
-- `Rigidification.nonminuscule_test`: For `G = GL_2` and `μ = (2,0)`: the Białynicki-Birula map `Gr_μ → (P¹)^♦` has geometric fibres `(A¹)^♦`, and `dim Gr_{≤μ} = ⟨2ρ,μ⟩ = 2 > 1 = dim Fl_{GL_2,μ}`; statement `(1)` fails and the construction does not apply.
-
-<a id="hs2-11"></a>
+- Applying **EndoscopicTransferAndUnitaryTraceComparison**, §12.17, for `G = GL_2`, `μ = (1,0)` and `b` the basic class with `κ(b) = −1` (`E_b ≅ O(1/2)`; `b` is the Frobenius of the covariant Dieudonné module of the formal group of height `2` and dimension `1` in the normalisation of Scholze–Weinstein, in which `μ_{p^∞}` has Frobenius `p⁻¹σ`): `M_{GL_2,b,μ,GL_2(Z_p)} ≅ ∐_{h∈Z} D̊` with `D̊` the open unit disc over `Q̆_p`; `π: M → P¹_{Q̆_p}` is surjective with every geometric fibre in bijection with `GL_2(Q_p)/GL_2(Z_p)`; and for `m ≥ 1` the map `M_{GL_2,b,μ,1+p^mM_2(Z_p)} → M_{GL_2,b,μ,GL_2(Z_p)}` is finite étale of degree `p^{4(m−1)}(p²−1)(p²−p)`.
+- For `G = GL_2`, the same `b (E_b ≅ O(1/2), κ(b) = −1)` and the cocharacter `μ⁻¹ = (0,−1)` in place of `μ = (1,0)`: the condition for `(G, b, μ⁻¹)` is `[b] ∈ B(G,μ)`, which fails since `κ(b) ≠ 1`, and `M_{GL_2,b,μ⁻¹,K}` is empty for every `K`.
+- For `G = G_m`, `μ = id` and `b = p⁻¹: Fl_{G_m,μ}` is a point, `M_{G_m,b,μ,Z_p^×} ≅ ∐_Z Spa Q̆_p` and `M_{G_m,b,μ,1+p^mZ_p} ≅ ∐_Z Spa Q̆_p(ζ_{p^m})` for `m ≥ 1`; for `p^m > 2` this is not the constant space `(Q_p^×/(1+p^mZ_p)) × Spa Q̆_p`.
+- For `G = GL_n`, `μ = (1^d,0^{n−d})` and `[b] ∈ B(G,μ⁻¹): M_{GL_n,b,μ,K}` is smooth of pure dimension `d(n−d) = ⟨2ρ,μ⟩ = dim Gr(d,n)`.
+- For `G = GL_2` and `μ = (2,0)`: the Białynicki-Birula map `Gr_μ → (P¹)^♦` has geometric fibres `(A¹)^♦`, and `dim Gr_{≤μ} = ⟨2ρ,μ⟩ = 2 > 1 = dim Fl_{GL_2,μ}`; the Białynicki-Birula identification of HS2.10 fails and the construction does not apply.
 
 ### HS2.11 — Universal torsor and crystalline classical fibres
 
@@ -1486,7 +1433,7 @@ and the Hodge–Tate filtration type `μ'`. Boundary points need
 not have type `μ`. The torsor need not be globally trivial, or
 trivial over a point defined over `L`.
 
-*Needs:* [HS2.5](#hs2-5), [HS2.6](#hs2-6); **PadicHodgeTheory**, §§0.1, 3.2–3.5 and 7.1; **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, §§R07.3.3 and R07.4.13; **DiamondsAndVStacks**, D3; **BunGAndNewtonStrata**, §§2.8, 2.11–2.23.
+*Needs:* §HS2.5, §HS2.6; **PadicHodgeTheory**, §§0.1, 3.2–3.5 and 7.1; **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, §§R07.3.3 and R07.4.13; **DiamondsAndVStacks**, D3; **BunGAndNewtonStrata**, §§2.8, 2.11–2.23.
 
 (Sources: [GLX], §3.5, p. 828; §1.4, footnote 8, p. 812; [SW], proof of Proposition 23.3.3, p. 220; [HK], §7.2, after Definition 7.2.2, p. 42; proof of Theorem 7.2.3, p. 42.)
 
@@ -1496,7 +1443,7 @@ Provide the following API.
 - `admissiblePeriodTorsor.lift`: For every perfectoid `S` and `x: S → Gr^a_{≤μ}`, the sections of `x^*𝕃_b` over `S` are the isomorphisms `E_1 ≅ E_x` on `X_S`; a map `S → Sht_{G,b,μ,∞}` is the same as a pair `(x, τ)`.
 - `admissiblePeriodTorsor.total_space`: `𝕃_b ≅ Sht_{G,b,μ,∞}` over `Gr^a_{≤μ}`, equivariantly for `G(Q_p) × J_b(Q_p)`, the projection being `π_GM`.
 - `admissiblePeriodTorsor.level_quotient`: `𝕃_b/K ≅ Sht_{G,b,μ,K}` for `K ⊂ G(Q_p)` compact open, compatibly with transition maps, and `𝕃_b = lim_K 𝕃_b/K`.
-- `admissiblePeriodTorsor.actions`: `G(Q_p)` acts on `𝕃_b` on the right over `Gr^a_{≤μ}`, by `τ·g = τ∘g`; the associated left action `g·τ = τ∘g⁻¹` is the one of HS2.6 `(d)` and induces `𝕃_b/K ≅ 𝕃_b/gKg⁻¹`, while right translation by `g` induces `𝕃_b/K ≅ 𝕃_b/g⁻¹Kg`. `J_b(Q_p)` acts on the left, covering its action on `Gr^a_{≤μ}`; the actions of the two groups commute.
+- `admissiblePeriodTorsor.actions`: `G(Q_p)` acts on `𝕃_b` on the right over `Gr^a_{≤μ}`, by `τ·g = τ∘g`; the associated left action `g·τ = τ∘g⁻¹` is `LevelTower.heckeAction` of HS2.6 and induces `𝕃_b/K ≅ 𝕃_b/gKg⁻¹`, while right translation by `g` induces `𝕃_b/K ≅ 𝕃_b/g⁻¹Kg`. `J_b(Q_p)` acts on the left, covering its action on `Gr^a_{≤μ}`; the actions of the two groups commute.
 - `admissiblePeriodTorsor.localSystem`: `V ↦ 𝕃_b ×^{G(Q_p)} V` is an exact tensor functor from `Rep_{Q_p}(G)` to pro-étale `Q_p`-local systems on `Gr^a_{≤μ}`, with value at `x` the local system of global sections of `E_x(V)`.
 - `admissiblePeriodTorsor.pushforward`: For `f: G → H`, the torsor `𝕃_b ×^{G(Q_p)} H(Q_p)` is the pullback of `𝕃_{f(b)}` along `Gr^a_{G,≤μ} → Gr^a_{H,≤f∘μ}`; compatible with composition of morphisms.
 - `admissiblePeriodTorsor.classical_point`: For `L` finite over `F̆` and `x ∈ Gr^a_{≤μ}(Spd L): x^*𝕃_b` is the torsor of a crystalline `ρ_x: Gal(L̄/L) → G(Q_p)`, with `D_cris(V∘ρ_x) ≅ (V ⊗ Q̆_p, bσ)` functorially in `V` and Hodge filtration `BB(x)`.
@@ -1504,13 +1451,11 @@ Provide the following API.
 
 **Checks.**
 
-- `admissiblePeriodTorsor.trivial_datum_test`: For `μ = 0: Gr_{≤0} = Spd Q̆_p`; for `b = 1`, `𝕃_1 = G(Q_p) × Spd Q̆_p` with `G(Q_p)` acting by right translation and `J_1(Q_p) = G(Q_p)` by left translation; for `[b] ≠ 1` the admissible locus and `𝕃_b` are empty.
-- `admissiblePeriodTorsor.cyclotomic_test`: For `G = G_m`, `μ = id` and `b = p⁻¹: Gr^a_{≤μ} = Spd Q̆_p`, `𝕃_b ×^{Q_p^×} Q_p ≅ Q_p(1)`, the character of `Gal(ℚ̆_p̄/ℚ̆_p)` defined by `𝕃_b` is the cyclotomic character (take the algebraic closure of `Q̆_p` inside the chosen completed algebraically closed field `C`), `D_cris(Q_p(1)) = (Q̆_p, p⁻¹σ)`, and `𝕃_b/(1 + p^mZ_p) ≅ Z × Spd Q̆_p(ζ_{p^m})` for `m ≥ 1`.
-- `admissiblePeriodTorsor.tate_module_test`: For `G = GL_n`, `μ = (1^d,0^{n−d})` and `b` the Frobenius of the covariant Dieudonné module of a `p`-divisible group `X` of dimension `d` and height `n`, in the normalisation of Scholze–Weinstein in which `μ_{p^∞}` has Frobenius `p⁻¹σ`: the pullback of `𝕃_b ×^{GL_n(Q_p)} Q_p^n` to the generic fibre of the Rapoport–Zink space of `X` is the rational Tate module of the universal `p`-divisible group, and the lattice defining the map to `Sht_{GL_n,b,μ,GL_n(Z_p)}` is its Tate module.
-- `admissiblePeriodTorsor.level_test`: For `K ⊂ G(Q_p)` compact open the fibre of `𝕃_b/K = Sht_{G,b,μ,K}` over a geometric point of `Gr^a_{≤μ}` is `G(Q_p)/K`, and pro-étale locally on `S → Gr^a_{≤μ}` the pullback of `𝕃_b/K` is `S × G(Q_p)/K`.
-- `admissiblePeriodTorsor.boundary_test`: For `G = GL_2`, `μ = (2,0)` and `b = p⁻¹·1`: the closed stratum `Gr_{(1,1)} = Spd Q̆_p` lies in `Gr^a_{≤μ}`, and `𝕃_b` restricts to it as the torsor of bases of `Q_p(1)²`, of type `μ′ = (1,1)` in the sense of `(4)` and not of type `μ = (2,0)`.
-
-<a id="hs2-12"></a>
+- For `μ = 0: Gr_{≤0} = Spd Q̆_p`; for `b = 1`, `𝕃_1 = G(Q_p) × Spd Q̆_p` with `G(Q_p)` acting by right translation and `J_1(Q_p) = G(Q_p)` by left translation; for `[b] ≠ 1` the admissible locus and `𝕃_b` are empty.
+- For `G = G_m`, `μ = id` and `b = p⁻¹: Gr^a_{≤μ} = Spd Q̆_p`, `𝕃_b ×^{Q_p^×} Q_p ≅ Q_p(1)`, the character of `Gal(ℚ̆_p̄/ℚ̆_p)` defined by `𝕃_b` is the cyclotomic character (take the algebraic closure of `Q̆_p` inside the chosen completed algebraically closed field `C`), `D_cris(Q_p(1)) = (Q̆_p, p⁻¹σ)`, and `𝕃_b/(1 + p^mZ_p) ≅ Z × Spd Q̆_p(ζ_{p^m})` for `m ≥ 1`.
+- For `G = GL_n`, `μ = (1^d,0^{n−d})` and `b` the Frobenius of the covariant Dieudonné module of a `p`-divisible group `X` of dimension `d` and height `n`, in the normalisation of Scholze–Weinstein in which `μ_{p^∞}` has Frobenius `p⁻¹σ`: the pullback of `𝕃_b ×^{GL_n(Q_p)} Q_p^n` to the generic fibre of the Rapoport–Zink space of `X` is the rational Tate module of the universal `p`-divisible group, and the lattice defining the map to `Sht_{GL_n,b,μ,GL_n(Z_p)}` is its Tate module.
+- For `K ⊂ G(Q_p)` compact open the fibre of `𝕃_b/K = Sht_{G,b,μ,K}` over a geometric point of `Gr^a_{≤μ}` is `G(Q_p)/K`, and pro-étale locally on `S → Gr^a_{≤μ}` the pullback of `𝕃_b/K` is `S × G(Q_p)/K`.
+- For `G = GL_2`, `μ = (2,0)` and `b = p⁻¹·1`: the closed stratum `Gr_{(1,1)} = Spd Q̆_p` lies in `Gr^a_{≤μ}`, and `𝕃_b` restricts to it as the torsor of bases of `Q_p(1)²`, of Hodge–Tate type `μ′ = (1,1)` in the sense of `admissiblePeriodTorsor.classical_point` and not of type `μ = (2,0)`.
 
 ### HS2.12 — Classical period points and weak admissibility
 
@@ -1535,7 +1480,7 @@ and no admissible point. The comparison is for finite extensions of
 `F̆`, not for all geometric points of a non-minuscule flag
 variety.
 
-*Needs:* [HS2.5](#hs2-5), [HS2.11](#hs2-11), [HS0.6](#hs0-6); **GeometricSatakeAndFusion**, GS0, “Open cells, action truncation and minuscule flags”; **PadicHodgeTheory**, §§0.1, 3.2–3.5 and 7.1; **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, §§R07.3.3 and R07.4.13; **BunGAndNewtonStrata**, Layer 1.
+*Needs:* §HS2.5, §HS2.11, §HS0.6; **GeometricSatakeAndFusion**, GS0, “Open cells, action truncation and minuscule flags”; **PadicHodgeTheory**, §§0.1, 3.2–3.5 and 7.1; **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, §§R07.3.3 and R07.4.13; **BunGAndNewtonStrata**, Layer 1.
 
 (Sources: [GLX], §3.6, p. 829; [SW], Proposition 19.4.2, pp. 176–177.)
 
@@ -1555,8 +1500,6 @@ variety.
   All have `Fil⁰=Fil¹=Le₂`, `Fil²=L²`. Their basis matrices satisfy
   `M_a⁻¹M_b=[[1,(b−a)/ξ],[0,1]]`, which is not integral for `a≠b`.
   Thus the classical-point bijection does not extend to equal characteristic.
-
-<a id="hs2-13"></a>
 
 ### HS2.13 — Adjoint-isomorphism comparison of period towers
 
@@ -1579,11 +1522,9 @@ base change nor the Kottwitz condition may be discarded. A torus map
 to the trivial group can have empty source admissible locus and
 nonempty target when that condition fails.
 
-*Needs:* [HS2.5](#hs2-5), [HS2.6](#hs2-6), [HS2.11](#hs2-11), [HS0.6](#hs0-6); **BunGAndNewtonStrata**, Layer 1; **GeometricSatakeAndFusion**, GS0, “Loop quotients and ordered divisors” and “Generic bounds and integral affine flags”; **DiamondsAndVStacks**, D4; **BunGAndNewtonStrata**, §§2.8, 2.11–2.23.
+*Needs:* §HS2.5, §HS2.6, §HS2.11, §HS0.6; **BunGAndNewtonStrata**, Layer 1; **GeometricSatakeAndFusion**, GS0, “Loop quotients and ordered divisors” and “Generic bounds and integral affine flags”; **DiamondsAndVStacks**, D4; **BunGAndNewtonStrata**, §§2.8, 2.11–2.23.
 
 (Sources: [GLX], Definition 3.14, p. 829; Proposition 6.6(1), p. 849; proof of Proposition 6.6(1), Step 1, p. 850; proof of Proposition 6.6(1), Step 2, p. 850; proof of Proposition 6.6(1), Step 3, p. 850; §1, p. 807; repeated in Theorem 6.1, p. 845; proof of Proposition 6.7, p. 851.)
-
-<a id="hs2-14"></a>
 
 ### HS2.14 — Torus towers, products and determinant
 
@@ -1606,11 +1547,9 @@ is compact open; it can be smaller than the maximal compact subgroup.
 The product, morphism and determinant statements impose no
 nonemptiness hypothesis on `b`.
 
-*Needs:* [HS2.6](#hs2-6), [HS0.6](#hs0-6), [HS2.11](#hs2-11), [HS2.5](#hs2-5); **BunGAndNewtonStrata**, Layer 1; **ReductiveGroupsPartII**, RG2.0.
+*Needs:* §HS2.6, §HS0.6, §HS2.11, §HS2.5; **BunGAndNewtonStrata**, Layer 1; **ReductiveGroupsPartII**, RG2.0.
 
 (Sources: [GLX], Proposition 6.4, p. 848; Proposition 6.4(2) and the paragraph after it, pp. 848–849; §3.4, ¶8, (3.6), p. 824; §3.4, (3.7), p. 824; Lemma 3.6, p. 824.)
-
-<a id="hs2-15"></a>
 
 ### HS2.15 — Nonemptiness, connectedness and density
 
@@ -1648,8 +1587,11 @@ integral Kottwitz image. The integral equality cannot be inferred from the
 rational one. ([RV], Proposition 3.1, p. 11; [HK], proof of Proposition
 7.3.3, p. 43.)
 
-Use the corrected HN dimension estimates and unipotent fibre theorem
-from **BunGAndNewtonStrata**, §§3.1–3.11 and 4.1–4.7, and the connectedness and separate density targets above.
+**BunGAndNewtonStrata** supplies the parabolic charts of its §§4.1–4.7, the full
+automorphism v-groups with their positive unipotent kernels of §§3.3–3.5, and the
+cohomological dimension of each Newton stratum of §3.11; the relative-dimension and
+unipotent-torsor statements above are proved here on those charts, together with the
+connectedness and separate density targets.
 For non-minuscule bounds, existence of a weakly admissible filtration
 of prescribed type is the period-domain target just stated; the criterion
 for a given filtered module is not enough. For minuscule bounds use
@@ -1657,25 +1599,33 @@ the supplier's sign-corrected modification-image theorem and the
 rigid flag variety. [HK] treats connected linear groups more generally;
 this target uses its reductive case only.
 
-*Needs:* [HS2.5](#hs2-5), [HS2.12](#hs2-12), [HS2.13](#hs2-13), [HS0.6](#hs0-6); **BunGAndNewtonStrata**, Layer 1; **BunGAndNewtonStrata**, §§3.1–3.11 and 4.1–4.7; **BunGAndNewtonStrata**, §§3.9, 3.16–3.18; **GeometricSatakeAndFusion**, GS0, “Open cells, action truncation and minuscule flags”; **GeometricSatakeAndFusion**, GS0, “Loop quotients and ordered divisors” and “Generic bounds and integral affine flags”; **BunGAndNewtonStrata**, §§2.8, 2.11–2.23.
+*Needs:* §HS2.5, §HS2.12, §HS2.13, §HS0.6; **BunGAndNewtonStrata**, Layer 1; **BunGAndNewtonStrata**, §§3.1–3.11 and 4.1–4.7; **BunGAndNewtonStrata**, §§3.9, 3.16–3.18; **GeometricSatakeAndFusion**, GS0, “Open cells, action truncation and minuscule flags”; **GeometricSatakeAndFusion**, GS0, “Loop quotients and ordered divisors” and “Generic bounds and integral affine flags”; **BunGAndNewtonStrata**, §§2.8, 2.11–2.23.
 
 (Sources: [HK], Proposition 7.3.3, p. 43; proof of Proposition 7.3.3, p. 43; Proposition 7.3.4 and its proof, pp. 43–44; [GL], Theorem 1.1, p. 3; Theorem 3.1, p. 10; proof of Theorem 3.2, p. 10; Introduction, p. 4; Lemma 3.3, p. 12; [SW], Definition 24.1.1, p. 225.)
 
-<a id="hs2-16"></a>
-
 ### HS2.16 — Connected components and transitivity
 
-Prove the topological lemma that a profinite group acting continuously
-on a space with connected quotient acts transitively on its connected
-components. Consequently `π_0(A)/K→π_0(A/K)` is bijective
-for continuous profinite actions. For a locally profinite `H`,
-prove the transitivity conclusion when `A/H` is connected and,
-for some compact open `K⊂ H`, all components of `A/K`
-are open.
+Prove the topological lemma: let a profinite group `K` act continuously on a
+topological space `A` in which any two distinct connected components are
+separated by a clopen subset (components are quasi-components; call this the
+component-separation hypothesis); if `A/K` is
+connected, then `K` acts transitively on `π_0(A)`. The hypothesis enters once:
+two disjoint `K`-orbits in `π_0(A)` are compact, so they are separated by a clopen
+set `W` of `π_0(A)`, and `{x : K·x ⊂ W}` is then a `K`-stable clopen subset of
+`π_0(A)`, by the tube lemma and the closedness of the projection along `K`; its
+preimage and that of its complement would disconnect `A/K`. Spectral spaces satisfy
+the hypothesis, their component space being profinite ([Stacks], Tag 0906), and it
+passes to every closed `K`-stable union of components. Consequently
+`π_0(A)/K→π_0(A/K)` is bijective for such `A`. For a locally profinite `H` acting
+continuously on such an `A`, prove the transitivity conclusion when `A/H` is
+connected and, for some compact open `K⊂H`, all components of `A/K` are open: the
+image in `A/K` of the preimage of an `H`-orbit of components is then a union of
+components of `A/K`, hence clopen, and so is its image in `A/H`.
 
 Apply this to the nonempty one-leg tower over `ℚ_p` after
-algebraically closed base change. For every `K`, finite-level
-components are infinite-level components modulo `K`. For
+algebraically closed base change: prove that its infinite level satisfies the
+component-separation hypothesis, so that for every `K` the finite-level
+components are the infinite-level components modulo `K`. For
 minuscule `μ`, prove transitivity of `G(ℚ_p)` on
 infinite-level components using the rigid finite levels. For arbitrary
 `μ`, retain the hypothesis that components of one finite level
@@ -1695,11 +1645,9 @@ Prove also that the continuous translation action of `ℤ` on
 not transitive on its components, so connectedness of the quotient
 alone does not suffice for a locally profinite group.
 
-*Needs:* [HS2.15](#hs2-15), [HS2.6](#hs2-6), [HS2.10](#hs2-10), [HS2.11](#hs2-11); **DiamondsAndVStacks**, D3; **DiamondsAndVStacks**, D4; **DiamondsAndVStacks**, D5.
+*Needs:* §HS2.15, §HS2.6, §HS2.10, §HS2.11; **DiamondsAndVStacks**, D3; **DiamondsAndVStacks**, D4; **DiamondsAndVStacks**, D5.
 
-(Sources: [GLX], Proposition 3.12, p. 828; proof of Proposition 3.12, p. 828; Lemma 3.2, p. 820; Theorem 3.11, p. 828; Theorem 3.9, p. 826; [SW], 24.1, after Proposition 24.1.2, p. 225.)
-
-<a id="hs2-17"></a>
+(Sources: [GLX], Proposition 3.12, p. 828; proof of Proposition 3.12, p. 828; Lemma 3.2, p. 820; Theorem 3.11, p. 828; Theorem 3.9, p. 826; [SW], 24.1, after Proposition 24.1.2, p. 225; [Stacks], Tag 0906.)
 
 ### HS2.17 — Compactifiable structure maps
 
@@ -1720,11 +1668,9 @@ spatial representability, compactifiability and locally finite
 for source levels. These two-bundle and dimension assertions are
 consequences of the imported geometry to prove here.
 
-*Needs:* [HS2.7](#hs2-7), [HS2.6](#hs2-6), [HS0.5](#hs0-5), [HS0.3](#hs0-3), [HS2.9](#hs2-9), [HS2.2](#hs2-2); **DiamondSixOperations**, S0; **DiamondsAndVStacks**, D3; **DiamondsAndVStacks**, D5; **BunGAndNewtonStrata**, §§3.1–3.11 and 4.1–4.7; **BunGAndNewtonStrata**, §§2.8, 2.11–2.23; **VectorBundlesAndIsocrystals**, VB1.
+*Needs:* §HS2.7, §HS2.6, §HS0.5, §HS0.3, §HS2.9, §HS2.2; **DiamondSixOperations**, S0; **DiamondsAndVStacks**, D3; **DiamondsAndVStacks**, D5; **BunGAndNewtonStrata**, §§3.1–3.11 and 4.1–4.7; **BunGAndNewtonStrata**, §§2.8, 2.11–2.23; **VectorBundlesAndIsocrystals**, Layer 1.
 
 (Sources: [SW], Corollary 23.5.3, p. 224; Proposition 23.5.2, p. 223; [FS], VII.5, p. 264; IX.3, p. 326.)
-
-<a id="hs2-18"></a>
 
 ### HS2.18 — Weil descent datum of one-leg towers
 
@@ -1755,7 +1701,7 @@ with the ordinary modification quotient holds off the nontrivial
 Frobenius diagonals only, and does not give descent of the entire
 shtuka space along the product of divisor quotients.
 
-*Needs:* [HS2.9](#hs2-9), [HS2.2](#hs2-2), [HS2.6](#hs2-6), [HS2.10](#hs2-10); **ClassFieldTheory**, §4 Layer 9; **RelativeFarguesFontaine**, §§4.6–4.13; **VectorBundlesAndIsocrystals**, VB3, “Basic section sheaves, Lubin–Tate geometry and projectivization”; **VStackSheavesAndLisseCategories**, VS1.
+*Needs:* §HS2.9, §HS2.2, §HS2.6, §HS2.10; **ClassFieldTheory**, §4 Layer 9; **RelativeFarguesFontaine**, §§4.6–4.13; **VectorBundlesAndIsocrystals**, Layer 5, “Basic section sheaves, Lubin–Tate geometry and projectivization”; **VStackSheavesAndLisseCategories**, VS1.
 
 (Sources: [FS], IX.3, before Theorem IX.3.1, p. 324; IX.3, proof of Proposition IX.3.2, pp. 326–327; IV.7, before Proposition IV.7.1, p. 164; Corollary II.2.4, p. 61; [SW], Proposition 23.3.1 and its proof, p. 218.)
 
@@ -1791,10 +1737,10 @@ Provide the following API.
 
 **Checks.**
 
-- `WeilDescent.lubin_tate_test`: For `G = G_m`, `μ = id` and `b = π⁻¹` (so `F = E`): `M_{(G_m,b,μ),∞} ≅ Spd Ĕ_∞` has a single point, `Sht_{(G_m,b,μ),∞} ≅ Z × Spd Ĕ_∞`, the component of index `m` consisting of the pairs `(s, x)` of a point `s` of `Spd Ĕ_∞` and a point `x` of `Spd Ĕ` with `x = φ^m(p(s))`, where `p: Spd Ĕ_∞ → Spd Ĕ` is the projection; `ψ_K^n = id × φ^n` maps the component of index `m` onto the component of index `m + n`; so the descent datum acts simply transitively on `π₀(Sht_{(G_m,b,μ),O_E^×}) = Z`.
-- `WeilDescent.not_effective_test`: In the same example there is no `v`-sheaf `Y` over `Spd E` with `Y ×_{Spd E} Spd Ĕ ≅ Sht_{(G_m,b,μ),O_E^×}` compatibly with `w`: a continuous action of the profinite group `Gal(k/F_q)` on the discrete set `Z` has finite orbits. The quotient `Sht_{(G_m,b,μ),O_E^×}/π^Z` by `π ∈ J_b(E)` is `Spd Ĕ` with `w = φ`, which descends to `Spd E`.
-- `WeilDescent.trivial_datum_test`: For `μ = 0` and `b = 1` (so `F = E`): `M_{(G,1,0),K} = G(E)/K × Spd Ĕ/φ^Z`, `Sht_{(G,1,0),K} = G(E)/K × Spd Ĕ`, the descent datum is `id × φ` and is effective with descent `G(E)/K × Spd E`, and `W_E` acts on `Sht_{(G,1,0),K} × Spd C` through `Spd C` only.
-- `WeilDescent.reciprocity_test`: For `G=G_m`, `μ=id` and `b=π⁻¹`, the right-frame component torsor has Weil action through `rec_HS`. Inertia acts through the Lubin–Tate character, and the Frobenius lift fixing the Lubin–Tate extension acts by `π⁻¹`, of valuation `−1` and component shift `+1`. For `E/ℚ_p` finite and `u∈O_E^×`, `rec_HS(Art_ar(u))=u⁻¹`; for `E=ℚ_7`, a unit reducing to a generator of `𝔽_7^×` and a character with `χ(u)` of order three give `χ(rec_HS(Art_ar(u)))=χ(u)⁻¹≠χ(u)`.
+- For `G = G_m`, `μ = id` and `b = π⁻¹` (so `F = E`): `M_{(G_m,b,μ),∞} ≅ Spd Ĕ_∞` has a single point, `Sht_{(G_m,b,μ),∞} ≅ Z × Spd Ĕ_∞`, the component of index `m` consisting of the pairs `(s, x)` of a point `s` of `Spd Ĕ_∞` and a point `x` of `Spd Ĕ` with `x = φ^m(p(s))`, where `p: Spd Ĕ_∞ → Spd Ĕ` is the projection; `ψ_K^n = id × φ^n` maps the component of index `m` onto the component of index `m + n`; so the descent datum acts simply transitively on `π₀(Sht_{(G_m,b,μ),O_E^×}) = Z`.
+- In the same example there is no v-sheaf `Y` over `Spd E` with `Y ×_{Spd E} Spd Ĕ ≅ Sht_{(G_m,b,μ),O_E^×}` compatibly with `w`: a continuous action of the profinite group `Gal(k/F_q)` on the discrete set `Z` has finite orbits. The quotient `Sht_{(G_m,b,μ),O_E^×}/π^Z` by `π ∈ J_b(E)` is `Spd Ĕ` with `w = φ`, which descends to `Spd E`.
+- For `μ = 0` and `b = 1` (so `F = E`): `M_{(G,1,0),K} = G(E)/K × Spd Ĕ/φ^Z`, `Sht_{(G,1,0),K} = G(E)/K × Spd Ĕ`, the descent datum is `id × φ` and is effective with descent `G(E)/K × Spd E`, and `W_E` acts on `Sht_{(G,1,0),K} × Spd C` through `Spd C` only.
+- For `G=G_m`, `μ=id` and `b=π⁻¹`, the right-frame component torsor has Weil action through `rec_HS`. Inertia acts through the Lubin–Tate character, and the Frobenius lift fixing the Lubin–Tate extension acts by `π⁻¹`, of valuation `−1` and component shift `+1`. For `E/ℚ_p` finite and `u∈O_E^×`, `rec_HS(Art_ar(u))=u⁻¹`; for `E=ℚ_7`, a unit reducing to a generator of `𝔽_7^×` and a character with `χ(u)` of order three give `χ(rec_HS(Art_ar(u)))=χ(u)⁻¹≠χ(u)`.
 
 
 ### Examples
@@ -1803,13 +1749,11 @@ For `G_m`, bound `1` and `b=π⁻¹`, infinite level is `Z×Spd Ĕ_∞`; replac
 
 ### Dependencies
 
-*Needs:* HS0–HS1; **AutomorphicGaloisRepresentationsPartII**, AG2.6, “Minuscule local Shimura spaces and their Hecke realization”; **RelativeFarguesFontaine**, Layers 0–4 and 6–7; **BunGAndNewtonStrata**, Layers 0–4; **VectorBundlesAndIsocrystals**, VB1, VB3–VB4; **GeometricSatakeAndFusion**, GS0; **DiamondsAndVStacks**, D3–D6; **AdicEtaleGeometry**, A2; **AdicSpacesPartII**, R0; **ReductiveGroupsPartII**, RG2.0; **PadicHodgeTheory**, §§0.1 and 3.2–3.5; **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, R07.4.13; **DiamondSixOperations**, S0; **ClassFieldTheory**, §4 Layer 9.
+*Needs:* HS0–HS1; **AutomorphicGaloisRepresentationsPartII**, AG2.6, “Minuscule local Shimura spaces and their Hecke realization”; **RelativeFarguesFontaine**, Layers 0–4 and 6–7; **BunGAndNewtonStrata**, Layers 0–4; **VectorBundlesAndIsocrystals**, Layers 1, 2, 4 and 5; **GeometricSatakeAndFusion**, GS0; **DiamondsAndVStacks**, D3–D6; **AdicEtaleGeometry**, A2; **AdicSpacesPartII**, R0; **ReductiveGroupsPartII**, RG2.0; **PadicHodgeTheory**, §§0.1 and 3.2–3.5; **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, R07.4.13; **DiamondSixOperations**, S0; **ClassFieldTheory**, §4 Layer 9.
 
 ## Layer HS3: Cohomology and smooth representations
 
 Use the solid kernel to define completed compact support, identify it with the Hecke action, and deduce compactness and adjunctions with their level and coefficient hypotheses. Classical spaces are imported through the independent deformation-theoretic interfaces.
-
-<a id="hs3-1"></a>
 
 ### HS3.1 — Twisted Satake coefficients and partial Frobenii
 
@@ -1838,7 +1782,7 @@ Continuous Weil equivariance requires that the descended object lie
 in the lisse equivariant subcategory; the cohomology comparison
 below proves this for `C_K`.
 
-*Needs:* [HS0.5](#hs0-5), [HS2.9](#hs2-9), [HS1.9](#hs1-9), [HS2.7](#hs2-7), [HS1.1](#hs1-1); **GeometricSatakeAndFusion**, GS3; **GeometricSatakeAndFusion**, GS0, “Open cells, action truncation and minuscule flags”; **DiamondSixOperations**, S3; **GeometricSatakeAndFusion**, GS4, “Integral identification, normalization and functoriality”.
+*Needs:* §HS0.5, §HS2.9, §HS1.9, §HS2.7, §HS1.1; **GeometricSatakeAndFusion**, GS3; **GeometricSatakeAndFusion**, GS0, “Open cells, action truncation and minuscule flags”; **DiamondSixOperations**, S3; **GeometricSatakeAndFusion**, GS4, “Integral identification, normalization and functoriality”.
 
 (Sources: [FS], IX.3, paragraph before Proposition IX.3.2, p. 326; Proposition IX.3.2, p. 326; [SW], Definition 23.4.1, p. 221.)
 
@@ -1860,13 +1804,11 @@ Provide the following API.
 
 **Checks.**
 
-- `shtukaKernel.minuscule_test`: `G=GL_n` over `Q_p`, one leg, `μ=(1,0,…,0): Gr_{≤μ}` is the diamond of `P^{n−1}` over `Spd Q̆_p`, `d=n−1`, `S_W=Λ[n−1]((n−1)/2)`, its relative Verdier dual is again `Λ[n−1]((n−1)/2)`, and `S′_W=Λ[1−n]((1−n)/2)`. For `n=1` both are `Λ`.
-- `satakeCoefficient.torus_test`: `G=T` a torus, any finite `I` and `μ•: Gr^tw_{T,≤μ•}→∏_iSpd F̆_i` is an isomorphism and `S_W=S′_W=Λ` in degree `0` on the whole base, including the Frobenius-twisted diagonals.
-- `satakeCoefficient.twisted_diagonal_test`: `G=GL_2` over `Q_p`, `μ_1=(1,0)`, `μ_2=(0,−1)`. Over a geometric point with `S_1♯=φ^m(S_2♯)`, `m≠0`, the fibre of `Gr^tw_{≤μ•}` is the convolution variety of `Gr_{μ_1}` and `Gr_{μ_2}`, a `P¹`-bundle over `P¹`, and `S_W` restricts to `Λ[2](1)`. Over a point of the diagonal `S_1♯=S_2♯` the fibre is the singular Schubert variety `Gr_{≤(1,−1)}` and `S_W` restricts to `Rm_*(Λ[2](1))`, `m` the convolution map, whose stalk at the point `Gr_{(0,0)}` is `RΓ(P¹,Λ)[2](1)`, of total `rank 2`.
-- `satakeCoefficient.one_leg_test`: For `I` a singleton there are no twisted diagonals, `Gr^tw` is the Schubert variety `Gr_{G,Spd F̆,≤μ}` and `S_W` is the Satake sheaf of `V_μ`, with no extension step.
-- `PartialFrobenius.descent_test`: For `X` a point and `I` a singleton, the partial Frobenius structures on `A=Λ` over `Spd F̆` are the isomorphisms `F=u·id` with `u∈Λ^×`; `F=id` descends to the constant sheaf on `Spd F̆/φ^Z`, and for `u≠1` the descended `rank`-one object is not constant. For `I={1,2}` a pair `(F_1,F_2)` with `F_1∘φ_1^*(F_2)≠F_2∘φ_2^*(F_1)` is not a system of partial Frobenii.
-
-<a id="hs3-2"></a>
+- For `G=GL_n` over `Q_p`, one leg, `μ=(1,0,…,0): Gr_{≤μ}` is the diamond of `P^{n−1}` over `Spd Q̆_p`, `d=n−1`, `S_W=Λ[n−1]((n−1)/2)`, its relative Verdier dual is again `Λ[n−1]((n−1)/2)`, and `S′_W=Λ[1−n]((1−n)/2)`. For `n=1` both are `Λ`.
+- For `G=T` a torus, any finite `I` and `μ•: Gr^tw_{T,≤μ•}→∏_iSpd F̆_i` is an isomorphism and `S_W=S′_W=Λ` in degree `0` on the whole base, including the Frobenius-twisted diagonals.
+- For `G=GL_2` over `Q_p`, `μ_1=(1,0)`, `μ_2=(0,−1)`. Over a geometric point with `S_1♯=φ^m(S_2♯)`, `m≠0`, the fibre of `Gr^tw_{≤μ•}` is the convolution variety of `Gr_{μ_1}` and `Gr_{μ_2}`, a `P¹`-bundle over `P¹`, and `S_W` restricts to `Λ[2](1)`. Over a point of the diagonal `S_1♯=S_2♯` the fibre is the singular Schubert variety `Gr_{≤(1,−1)}` and `S_W` restricts to `Rm_*(Λ[2](1))`, `m` the convolution map, whose stalk at the point `Gr_{(0,0)}` is `RΓ(P¹,Λ)[2](1)`, of total rank `2`.
+- For `I` a singleton there are no twisted diagonals, `Gr^tw` is the Schubert variety `Gr_{G,Spd F̆,≤μ}` and `S_W` is the Satake sheaf of `V_μ`, with no extension step.
+- For `X` a point and `I` a singleton, the partial Frobenius structures on `A=Λ` over `Spd F̆` are the isomorphisms `F=u·id` with `u∈Λ^×`; `F=id` descends to the constant sheaf on `Spd F̆/φ^Z`, and for `u≠1` the descended rank-one object is not constant. For `I={1,2}` a pair `(F_1,F_2)` with `F_1∘φ_1^*(F_2)≠F_2∘φ_2^*(F_1)` is not a system of partial Frobenii.
 
 ### HS3.2 — Completed compact support and tower complexes
 
@@ -1895,7 +1837,7 @@ averaging idempotents at normal refinements. This is not an inverse
 limit along traces. The smoothness of the target action follows
 from its lisse Hecke realization below.
 
-*Needs:* [HS2.6](#hs2-6), [HS1.2](#hs1-2), [HS3.1](#hs3-1), [HS1.10](#hs1-10), [HS2.17](#hs2-17), [HS2.10](#hs2-10), [HS2.9](#hs2-9); **ClassicalAdicEtaleCohomology**, §§8.1–8.6 and 9.4–9.7; **AdicCoefficientsAndComparisons**, L0; **EnhancedDerivedSheaves**, E5:abstract; **VStackSheavesAndLisseCategories**, VS2; **DiamondSixOperations**, S5; **DiamondSixOperations**, S4; **SmoothRepresentationsOfLocalGroups**, §§SR.0d.1–SR.0d.2; **SmoothRepresentationsOfLocalGroups**, SR.1.
+*Needs:* §HS2.6, §HS1.2, §HS3.1, §HS1.10, §HS2.17, §HS2.10, §HS2.9; **ClassicalAdicEtaleCohomology**, §§8.1–8.6 and 9.4–9.7; **AdicCoefficientsAndComparisons**, L0; **EnhancedDerivedSheaves**, E5:abstract; **VStackSheavesAndLisseCategories**, VS2; **DiamondSixOperations**, S5; **DiamondSixOperations**, S4; **SmoothRepresentationsOfLocalGroups**, §§SR.0d.1–SR.0d.2; **SmoothRepresentationsOfLocalGroups**, SR.1.
 
 (Sources: [FS], IX.3, definition before Theorem IX.3.1, p. 324; IX.3, paragraph before Proposition IX.3.2, p. 326; Proposition VII.5.2, p. 265; Proof of Theorem IX.3.1, p. 324.)
 
@@ -1917,14 +1859,12 @@ Provide the following API.
 
 **Checks.**
 
-- `compactSupportAtLevel.torus_test`: `E=Q_p`, `G=T` a torus, one leg `μ∈X_*(T)`, `b` with `κ(b)=−μ♮` (the class for which the tower is nonempty), `K⊂T(Q_p)` compact open: the geometric fibre of `Sht_{T,b,μ,K}` is the discrete set `T(Q_p)/K`, `d=0`, `S′_W=Λ`, and the geometric fibre of `C_K` is `Λ[T(Q_p)/K]=c-Ind_K^{T(Q_p)}Λ` in degree `0`, the finitely supported functions on `T(Q_p)/K` with `J_b(Q_p)=T(Q_p)` acting by translation; it is not the module of all functions on `T(Q_p)/K`.
-- `compactSupportAtLevel.trivial_leg_test`: `E=Q_p`, one leg with `μ=0`: for `b=1`, `Sht_{G,1,0,K}=G(Q_p)/K×Spd Q̆_p` and `C_K=Λ[G(Q_p)/K]=c-Ind_K^{G(Q_p)}Λ` in degree `0`, constant along `Spd Q̆_p`, with `J_1(Q_p)=G(Q_p)` acting by left translation; for `[b]≠1` the space is empty and `C_K=0`.
-- `compactSupportAtLevel.lubin_tate_test`: `G=GL_2` over `Q_p`, `μ=(1,0)`, `b` basic with `κ(b)=−1`, `K=GL_2(Z_p): M_{K,C}` is a disjoint union, indexed by `Z`, of open unit discs and `d=1`. Then `RΓ_c(M_{K,C},Z_ℓ)=⊕_Z Z_ℓ(−1)[−2]`, `f_{K♮}Z_ℓ=⊕_Z Z_ℓ` in degree `0`, and the geometric fibre of `C_K` is `⊕_Z Λ(−1/2)[−1]`; as a representation of `J_b(Q_p)=D^×` (`D` the quaternion division algebra) it is `c-Ind_{O_D^×}^{D^×}Λ(−1/2)[−1]`.
-- `compactSupportAtLevel.completion_order_test`: `G=G_m` over `Q_p`, `μ(z)=z`, `b` with `κ(b)=−1`, `K=Z_p^×`, `Λ=Z_ℓ[r]`: the geometric fibre of `C_K` is `⊕_Z Λ`. It is not the `ℓ`-adic completion of `⊕_Z Λ`, which is what the limit over `m` taken after the colimit over `U` gives and which contains `Σ_{n≥0}ℓ^nδ_n`; and `C_K` for the coefficient ring `Λ[1/ℓ]` is `⊕_Z Λ[1/ℓ]`, not `0`, which is what inverting `ℓ` before the limit over `m` gives.
-- `compactSupportAtLevel.torsion_test`: For `Λ=Z/ℓ^n[r]` and one minuscule leg over `Q_p: C_K=Rf_{K!}(Λ[d](d/2))`, whose geometric fibre is `RΓ_c(M_{K,C},Λ)[d](d/2)`; it is not `RΓ_c(M_{K,C},Λ)[3d](3d/2)`, which is what `f_{K♮}` applied to `S_W` instead of `S′_W` gives.
-- `towerCompactSupport.regular_test`: `E=Q_p`, `b=1`, one leg with `μ=0: pull` sends `1_{gK}` to `Σ_{k∈K/K′}1_{gkK′}` and `tr` sends `1_{gK′}` to `1_{gK}`; `C_∞` is the space `C_c^∞(G(Q_p),Λ)` of locally constant compactly supported functions with `G(Q_p)×G(Q_p)` acting by left and right translation, and `(C_∞)^K=Λ[G(Q_p)/K]=C_K`. The inverse limit of the `Λ[G(Q_p)/K]` along `tr` is not a smooth representation: for `G(Q_p)` replaced by an infinite compact open subgroup it is the completed group algebra, in which the Dirac measure at `1` is fixed by no open subgroup.
-
-<a id="hs3-3"></a>
+- For `E=Q_p`, `G=T` a torus, one leg `μ∈X_*(T)`, `b` with `κ(b)=−μ♮` (the class for which the tower is nonempty), `K⊂T(Q_p)` compact open: the geometric fibre of `Sht_{T,b,μ,K}` is the discrete set `T(Q_p)/K`, `d=0`, `S′_W=Λ`, and the geometric fibre of `C_K` is `Λ[T(Q_p)/K]=c-Ind_K^{T(Q_p)}Λ` in degree `0`, the finitely supported functions on `T(Q_p)/K` with `J_b(Q_p)=T(Q_p)` acting by translation; it is not the module of all functions on `T(Q_p)/K`.
+- For `E=Q_p`, one leg with `μ=0`: for `b=1`, `Sht_{G,1,0,K}=G(Q_p)/K×Spd Q̆_p` and `C_K=Λ[G(Q_p)/K]=c-Ind_K^{G(Q_p)}Λ` in degree `0`, constant along `Spd Q̆_p`, with `J_1(Q_p)=G(Q_p)` acting by left translation; for `[b]≠1` the space is empty and `C_K=0`.
+- For `G=GL_2` over `Q_p`, `μ=(1,0)`, `b` basic with `κ(b)=−1`, `K=GL_2(Z_p): M_{K,C}` is a disjoint union, indexed by `Z`, of open unit discs and `d=1`. Then `RΓ_c(M_{K,C},Z_ℓ)=⊕_Z Z_ℓ(−1)[−2]`, `f_{K♮}Z_ℓ=⊕_Z Z_ℓ` in degree `0`, and the geometric fibre of `C_K` is `⊕_Z Λ(−1/2)[−1]`; as a representation of `J_b(Q_p)=D^×` (`D` the quaternion division algebra) it is `c-Ind_{O_D^×}^{D^×}Λ(−1/2)[−1]`.
+- For `G=G_m` over `Q_p`, `μ(z)=z`, `b` with `κ(b)=−1`, `K=Z_p^×`, `Λ=Z_ℓ[r]`: the geometric fibre of `C_K` is `⊕_Z Λ`. It is not the `ℓ`-adic completion of `⊕_Z Λ`, which is what the limit over `m` taken after the colimit over `U` gives and which contains `Σ_{n≥0}ℓ^nδ_n`; and `C_K` for the coefficient ring `Λ[1/ℓ]` is `⊕_Z Λ[1/ℓ]`, not `0`, which is what inverting `ℓ` before the limit over `m` gives.
+- For `Λ=Z/ℓ^n[r]` and one minuscule leg over `Q_p: C_K=Rf_{K!}(Λ[d](d/2))`, whose geometric fibre is `RΓ_c(M_{K,C},Λ)[d](d/2)`; it is not `RΓ_c(M_{K,C},Λ)[3d](3d/2)`, which is what `f_{K♮}` applied to `S_W` instead of `S′_W` gives.
+- For `E=Q_p`, `b=1`, one leg with `μ=0: pull` sends `1_{gK}` to `Σ_{k∈K/K′}1_{gkK′}` and `tr` sends `1_{gK′}` to `1_{gK}`; `C_∞` is the space `C_c^∞(G(Q_p),Λ)` of locally constant compactly supported functions with `G(Q_p)×G(Q_p)` acting by left and right translation, and `(C_∞)^K=Λ[G(Q_p)/K]=C_K`. The inverse limit of the `Λ[G(Q_p)/K]` along `tr` is not a smooth representation: for `G(Q_p)` replaced by an infinite compact open subgroup it is the completed group algebra, in which the Dirac measure at `1` is fixed by no open subgroup.
 
 ### HS3.3 — Classical compact support and the dimension shift
 
@@ -1944,11 +1884,9 @@ with level trace and pullback. This comparison depends on the
 compactification and dualizing contracts as well as the equivalence
 of étale sites.
 
-*Needs:* [HS2.10](#hs2-10), [HS3.2](#hs3-2), [HS2.18](#hs2-18); **DiamondsAndVStacks**, D6; **ClassicalAdicEtaleCohomology**, §§8.1–8.6 and 9.4–9.7; **DiamondSixOperations**, S3; **DiamondSixOperations**, S1; **AdicCoefficientsAndComparisons**, L0; **DiamondSixOperations**, S5; **DiamondSixOperations**, S4.
+*Needs:* §HS2.10, §HS3.2, §HS2.18; **DiamondsAndVStacks**, D6; **ClassicalAdicEtaleCohomology**, §§8.1–8.6 and 9.4–9.7; **DiamondSixOperations**, S3; **DiamondSixOperations**, S1; **AdicCoefficientsAndComparisons**, L0; **DiamondSixOperations**, S5; **DiamondSixOperations**, S4.
 
 (Sources: [FS], IX.3, before Theorem IX.3.1, p. 324; Proof of Theorem IX.3.1, p. 324; [SW], Theorem 10.4.2, p. 81; 24.1, after Proposition 24.1.2, p. 225.)
-
-<a id="hs3-4"></a>
 
 ### HS3.4 — Hecke action realizes shtuka cohomology
 
@@ -1986,11 +1924,9 @@ the open colimit). The targets here are arbitrary legs and bounds, every local f
 nonminuscule kernels, the solid object `C_K` and its comparison across Frobenius
 collisions.
 
-*Needs:* **AutomorphicGaloisRepresentationsPartII**, AG2.6, “Minuscule local Shimura spaces and their Hecke realization” and “Bundle strata, lisse categories and the geometric Hecke action”; [HS2.4](#hs2-4), [HS3.1](#hs3-1), [HS1.2](#hs1-2), [HS3.2](#hs3-2), [HS2.7](#hs2-7), [HS2.9](#hs2-9), [HS2.6](#hs2-6), [HS1.9](#hs1-9), [HS2.2](#hs2-2), [HS3.3](#hs3-3); **VStackSheavesAndLisseCategories**, VS4; **SmoothRepresentationsOfLocalGroups**, SR.2; **GeometricSatakeAndFusion**, GS3; **VStackSheavesAndLisseCategories**, VS2.
+*Needs:* **AutomorphicGaloisRepresentationsPartII**, AG2.6, “Minuscule local Shimura spaces and their Hecke realization” and “Bundle strata, lisse categories and the geometric Hecke action”; §HS2.4, §HS3.1, §HS1.2, §HS3.2, §HS2.7, §HS2.9, §HS2.6, §HS1.9, §HS2.2, §HS3.3; **VStackSheavesAndLisseCategories**, VS4; **SmoothRepresentationsOfLocalGroups**, SR.2; **GeometricSatakeAndFusion**, GS3; **VStackSheavesAndLisseCategories**, VS2.
 
 (Sources: [FS], Proof of Proposition IX.3.2, p. 326; Proof of Proposition IX.3.2, p. 327; Proof of Theorem IX.3.1, p. 324; IX.7.3, proof of Theorem IX.7.4, p. 338; [SW], Proposition 23.3.1, p. 218.)
-
-<a id="hs3-5"></a>
 
 ### HS3.5 — Local Shimura cohomology: smoothness and finiteness
 
@@ -2018,11 +1954,9 @@ pro-`p` `K` are the `E=ℚ_p` case of AutomorphicGaloisRepresentationsPartII AG2
 `localShimuraCohomology`, through the adapter of HS2.9. The target here is finite
 generation of each cohomology representation at every compact open level.
 
-*Needs:* **AutomorphicGaloisRepresentationsPartII**, AG2.6, “Minuscule local Shimura spaces and their Hecke realization”; [HS3.4](#hs3-4), [HS3.3](#hs3-3), [HS1.5](#hs1-5), [HS1.9](#hs1-9); **VStackSheavesAndLisseCategories**, VS4; **SmoothRepresentationsOfLocalGroups**, SR.2; **SmoothRepresentationsOfLocalGroups**, SR.6.
+*Needs:* **AutomorphicGaloisRepresentationsPartII**, AG2.6, “Minuscule local Shimura spaces and their Hecke realization”; §HS3.4, §HS3.3, §HS1.5, §HS1.9; **VStackSheavesAndLisseCategories**, VS4; **SmoothRepresentationsOfLocalGroups**, SR.2; **SmoothRepresentationsOfLocalGroups**, SR.6.
 
 (Sources: [FS], Theorem IX.3.1, p. 324; IX.3, sentence after Theorem IX.3.1, p. 324; IX.3, first paragraph, p. 324; [SW], Definition 24.1.1, p. 225; [DHKM], Theorem 1.1 and Theorem 1.2, p. 1; Corollary 1.4, p. 2; Lemma 3.1, p. 9; Remark 3.6, p. 11.)
-
-<a id="hs3-6"></a>
 
 ### HS3.6 — Compactness with arbitrary Satake bounds
 
@@ -2043,11 +1977,9 @@ is `c-Ind_(𝓞_E^×)^(E^×) 𝔽_ℓ`, which is not compact. Thus source assert
 printed for every compact open level are used here with the
 pro-`p` hypothesis.
 
-*Needs:* [HS3.4](#hs3-4), [HS1.5](#hs1-5); **SmoothRepresentationsOfLocalGroups**, SR.2; **VStackSheavesAndLisseCategories**, VS4.
+*Needs:* §HS3.4, §HS1.5; **SmoothRepresentationsOfLocalGroups**, SR.2; **VStackSheavesAndLisseCategories**, VS4.
 
 (Sources: [FS], Proposition IX.3.2, p. 326; Proof of Proposition IX.3.2, p. 327; Proposition VII.7.4, p. 273.)
-
-<a id="hs3-7"></a>
 
 ### HS3.7 — Level trace, pullback and index normalization
 
@@ -2071,11 +2003,9 @@ it need not be: the Iwahori index in `GL_2(ℤ_p)`
 is `p+1`. Use pullback for the colimit of `C_K`, and the
 maps induced by trace for the colimit of `RHom(C_K,ρ)`.
 
-*Needs:* [HS2.6](#hs2-6), [HS3.4](#hs3-4), [HS3.2](#hs3-2), [HS3.1](#hs3-1), [HS2.9](#hs2-9); **SmoothRepresentationsOfLocalGroups**, SR.1; **DiamondSixOperations**, S3; **VStackSheavesAndLisseCategories**, VS2.
+*Needs:* §HS2.6, §HS3.4, §HS3.2, §HS3.1, §HS2.9; **SmoothRepresentationsOfLocalGroups**, SR.1; **DiamondSixOperations**, S3; **VStackSheavesAndLisseCategories**, VS2.
 
 (Sources: [SW], 23.3, text between Proposition 23.3.1 and Corollary 23.3.2, p. 219; After Corollary 23.5.3, p. 224.)
-
-<a id="hs3-8"></a>
 
 ### HS3.8 — Hecke adjunction, admissibility and duality
 
@@ -2122,11 +2052,9 @@ For finite `E/ℚ_p`, one leg and minuscule `μ`, the adjoint formula through
 HS3.4. The targets here are arbitrary legs and bounds, every local field, admissibility,
 the duality formulas and the general-coefficient compactness criterion.
 
-*Needs:* **AutomorphicGaloisRepresentationsPartII**, AG2.6, “Minuscule local Shimura spaces and their Hecke realization”; [HS3.6](#hs3-6), [HS1.7](#hs1-7), [HS3.4](#hs3-4), [HS1.5](#hs1-5), [HS1.6](#hs1-6), [HS3.7](#hs3-7); **SmoothRepresentationsOfLocalGroups**, §§SR.0d.1–SR.0d.2; **SmoothRepresentationsOfLocalGroups**, SR.1; **SmoothRepresentationsOfLocalGroups**, SR.2; **SmoothRepresentationsOfLocalGroups**, SR.3; **VStackSheavesAndLisseCategories**, VS4; **BunGAndNewtonStrata**, §§3.1–3.11 and 4.1–4.7; **BunGAndNewtonStrata**, §§3.9, 3.16–3.18; **VStackSheavesAndLisseCategories**, VS5; **VStackSheavesAndLisseCategories**, VS3; **VStackSheavesAndLisseCategories**, VS2.
+*Needs:* **AutomorphicGaloisRepresentationsPartII**, AG2.6, “Minuscule local Shimura spaces and their Hecke realization”; §HS3.6, §HS1.7, §HS3.4, §HS1.5, §HS1.6, §HS3.7; **SmoothRepresentationsOfLocalGroups**, §§SR.0d.1–SR.0d.2; **SmoothRepresentationsOfLocalGroups**, SR.1; **SmoothRepresentationsOfLocalGroups**, SR.2; **SmoothRepresentationsOfLocalGroups**, SR.3; **VStackSheavesAndLisseCategories**, VS4; **BunGAndNewtonStrata**, §§3.1–3.11 and 4.1–4.7; **BunGAndNewtonStrata**, §§3.9, 3.16–3.18; **VStackSheavesAndLisseCategories**, VS5; **VStackSheavesAndLisseCategories**, VS3; **VStackSheavesAndLisseCategories**, VS2.
 
 (Sources: [FS], IX.3, after the proof of Theorem IX.3.1, p. 325; IX.3, p. 325; Proposition IX.3.2, p. 326; Proposition VII.7.9, p. 275; [HHS], Theorem 1.3.1, p. 6; Theorem 7.1.4 and its proof, pp. 60–61; footnote 1, p. 2; [HI], Proposition 4.1, p. 24, with Proposition 1.1 (= Proposition 3.18), p. 2 (torsion coefficients, p. 7).)
-
-<a id="hs3-9"></a>
 
 ### HS3.9 — Comparison with independent classical RZ towers
 
@@ -2206,11 +2134,9 @@ geometric fibre of `C_K[-δ](-δ/2)`, where
 `δ=⟨2ρ,μ⟩`, equal to `d(n-d)` in
 the `GL_n` case.
 
-*Needs:* [HS2.10](#hs2-10), [HS2.8](#hs2-8), [HS3.3](#hs3-3), [HS2.5](#hs2-5), [HS2.4](#hs2-4), [HS2.6](#hs2-6); **EndoscopicTransferAndUnitaryTraceComparison**, §§12.1–12.8 and §12.17; **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, R07.2; **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, R07.1; **AInfCohomology**, AI.2; **IgusaVarietiesAndTorsionConcentration**, §§IG.0.11 and IG.0.27.
+*Needs:* §HS2.10, §HS2.8, §HS3.3, §HS2.5, §HS2.4, §HS2.6; **EndoscopicTransferAndUnitaryTraceComparison**, §§12.1–12.8 and §12.17; **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, R07.2; **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, R07.1; **AInfCohomology**, AI.2; **IgusaVarietiesAndTorsionConcentration**, §§IG.0.11 and IG.0.27.
 
 (Sources: [SW], Theorem 24.2.5, p. 227; Proof of Theorem 24.2.5, p. 227; 12.1, footnote 1, p. 99; After the proof of Theorem 24.2.5, p. 229; 24.3, before Definition 24.3.3, p. 230; Corollary 24.3.5, p. 231; Appendix to Lecture 21, after Remark 21.6.7, p. 200.)
-
-<a id="hs3-10"></a>
 
 ### HS3.10 — Hecke operators between Newton strata
 
@@ -2256,7 +2182,7 @@ framed-modification cohomology; the nonbasic statement retains the chart
 weight. ([FS], Proposition VII.7.2, p. 272, and proof of IX.7.2, p. 335.) Non-pro-`p`
 source levels need not give compact objects or perfect Hom complexes.
 
-*Needs:* [HS1.9](#hs1-9), [HS1.5](#hs1-5), [HS1.2](#hs1-2), [HS0.6](#hs0-6), [HS3.4](#hs3-4), [HS1.3](#hs1-3); **VStackSheavesAndLisseCategories**, VS4; **BunGAndNewtonStrata**, Layer 0; **BunGAndNewtonStrata**, §§3.1–3.11 and 4.1–4.7; **BunGAndNewtonStrata**, Layer 4; **VStackSheavesAndLisseCategories**, VS3.
+*Needs:* §HS1.9, §HS1.5, §HS1.2, §HS0.6, §HS3.4, §HS1.3; **VStackSheavesAndLisseCategories**, VS4; **BunGAndNewtonStrata**, Layer 0; **BunGAndNewtonStrata**, §§3.1–3.11 and 4.1–4.7; **BunGAndNewtonStrata**, Layer 4; **VStackSheavesAndLisseCategories**, VS3.
 
 (Sources: [FS], Proposition VII.7.2, p. 272; Proposition VII.7.4, p. 273; Proof of Theorem IX.3.1, p. 324; Proof of Theorem IX.7.2, p. 335.)
 
@@ -2264,7 +2190,7 @@ Provide the following API.
 
 - `heckeBetweenStrata`: The functor `Φ^{b′,b}_V = i^{b*}∘T_V∘π_{b′♮}q_{b′}^*: D(G_{b′}(E),Λ) → D(G_b(E),Λ)^{BW_E^I}`.
 - `heckeBetweenStrata.atLevel`: `C^{b′,b}_{K′}(V) = Φ^{b′,b}_V(c-Ind_{K′}^{G_{b′}(E)}Λ)` for `K′ ⊂ G_{b′}(E)` open pro-`p`.
-- `heckeBetweenStrata.map`: `A` morphism `V → V′` of representations induces a natural transformation `Φ^{b′,b}_V → Φ^{b′,b}_{V′}`, compatibly with identities and composition.
+- `heckeBetweenStrata.map`: A morphism `V → V′` of representations induces a natural transformation `Φ^{b′,b}_V → Φ^{b′,b}_{V′}`, compatibly with identities and composition.
 - `heckeBetweenStrata.preservesColimits`: `Φ^{b′,b}_V` commutes with all colimits.
 - `heckeBetweenStrata.compact`: `Φ^{b′,b}_V` sends compact objects to compact objects; `C^{b′,b}_{K′}(V)` is compact in `D(G_b(E),Λ)` for `K′` open pro-`p`.
 - `heckeBetweenStrata.unit`: For `I = ∅` and `V = 1: Φ^{b,b}_1 ≅ id`, and `Φ^{b′,b}_1 = i^{b*}π_{b′♮}q_{b′}^*`.
@@ -2276,10 +2202,10 @@ Provide the following API.
 
 **Checks.**
 
-- `heckeBetweenStrata.torus_unit_test`: For `G = G_m`, `I = ∅`, `V = 1` and `K′ ⊂ E^×` open pro-`p: C^{b′,b}_{K′}(1) ≅ c-Ind_{K′}^{E^×}Λ` if `b = b′` in `B(G_m) = Z`, and `C^{b′,b}_{K′}(1) = 0` if `b ≠ b′`. Here `G_b(E) = E^× ⊂ Ĕ^×` for every representative `b ∈ Ĕ^×`, because `Ĕ^×` is commutative, and `D(G_b(E),Λ)` is identified with `D(E^×,Λ)` through this equality; two representatives of one class give the same identification.
-- `heckeBetweenStrata.torus_shift_test`: Assume `Λ≠0`. For `G = G_m`, `I = {∗}` and `V` the character `z ↦ z^n` of `Ĝ = G_m`, the object `C^{b′,b}_{K′}(V)` is non-zero for exactly one class `b ∈ B(G_m)`, namely the one with `κ(b) = κ(b′) − n` (`κ(b) = v_π(b)`, so that `E_b = O(−κ(b))`); for `n = 1` and `E_{b′} = O(−1)` this is the trivial class, in agreement with FS IX.7.4, where `T_std` takes a sheaf on the stratum of `O(−1/n)` to `Bun_G^1`. Its underlying object is `c-Ind_{K′}^{E^×}Λ`, under the equalities `G_b(E) = E^× = G_{b′}(E)`; this compact-induction formula remains valid for `Λ=0`.
-- `heckeBetweenStrata.trivial_stratum_test`: For `G = GL_2` over `Q_p`, `b′ = 1`, `V = std`, `K = 1 + p^m M_2(Z_p)` with `m ≥ 1`, and `b` the class with `E_b = O(1/2): C^{1,b}_K(std) ≅ RΓ_c(M_{LT,K,C},Λ)[1](1/2)`, the shifted compactly supported cohomology of the Lubin–Tate tower of height `2` at level `K`, as a complex of smooth representations of `D^×` (`D` the quaternion division algebra over `Q_p`) with `W_{Q_p}`-action.
-- `heckeBetweenStrata.not_pro_p_test`: For `G = G_m` over `Q_p` with `p` odd, `ℓ` a prime dividing `p − 1`, `Λ = F_ℓ`, `b = b′ = 1`, `V = 1` and the compact open subgroup `K′ = Z_p^×`, which is not pro-`p: i^{1*}L_1(c-Ind_{Z_p^×}^{Q_p^×}F_ℓ) = c-Ind_{Z_p^×}^{Q_p^×}F_ℓ` is not compact in `D(Q_p^×,F_ℓ)`, because `Ext^n(c-Ind_{Z_p^×}^{Q_p^×}F_ℓ, F_ℓ) = H^n(F_p^×, F_ℓ) ≠ 0` for all `n ≥ 0`.
+- For `G = G_m`, `I = ∅`, `V = 1` and `K′ ⊂ E^×` open pro-`p: C^{b′,b}_{K′}(1) ≅ c-Ind_{K′}^{E^×}Λ` if `b = b′` in `B(G_m) = Z`, and `C^{b′,b}_{K′}(1) = 0` if `b ≠ b′`. Here `G_b(E) = E^× ⊂ Ĕ^×` for every representative `b ∈ Ĕ^×`, because `Ĕ^×` is commutative, and `D(G_b(E),Λ)` is identified with `D(E^×,Λ)` through this equality; two representatives of one class give the same identification.
+- Assume `Λ≠0`. For `G = G_m`, `I = {∗}` and `V` the character `z ↦ z^n` of `Ĝ = G_m`, the object `C^{b′,b}_{K′}(V)` is non-zero for exactly one class `b ∈ B(G_m)`, namely the one with `κ(b) = κ(b′) − n` (`κ(b) = v_π(b)`, so that `E_b = O(−κ(b))`); for `n = 1` and `E_{b′} = O(−1)` this is the trivial class, in agreement with FS IX.7.4, where `T_std` takes a sheaf on the stratum of `O(−1/n)` to `Bun_G^1`. Its underlying object is `c-Ind_{K′}^{E^×}Λ`, under the equalities `G_b(E) = E^× = G_{b′}(E)`; this compact-induction formula remains valid for `Λ=0`.
+- For `G = GL_2` over `Q_p`, `b′ = 1`, `V = std`, `K = 1 + p^m M_2(Z_p)` with `m ≥ 1`, and `b` the class with `E_b = O(1/2): C^{1,b}_K(std) ≅ RΓ_c(M_{LT,K,C},Λ)[1](1/2)`, the shifted compactly supported cohomology of the Lubin–Tate tower of height `2` at level `K`, as a complex of smooth representations of `D^×` (`D` the quaternion division algebra over `Q_p`) with `W_{Q_p}`-action.
+- For `G = G_m` over `Q_p` with `p` odd, `ℓ` a prime dividing `p − 1`, `Λ = F_ℓ`, `b = b′ = 1`, `V = 1` and the compact open subgroup `K′ = Z_p^×`, which is not pro-`p: i^{1*}L_1(c-Ind_{Z_p^×}^{Q_p^×}F_ℓ) = c-Ind_{Z_p^×}^{Q_p^×}F_ℓ` is not compact in `D(Q_p^×,F_ℓ)`, because `Ext^n(c-Ind_{Z_p^×}^{Q_p^×}F_ℓ, F_ℓ) = H^n(F_p^×, F_ℓ) ≠ 0` for all `n ≥ 0`.
 
 ### Examples
 
@@ -2292,8 +2218,6 @@ For the height-two Lubin–Tate datum, `d=1` and `RΓ_c(M,Z_ℓ)=⊕_Z Z_ℓ(−
 ## Layer HS4: Coherent operations and comparison diagrams
 
 Assemble the finite-set Hecke family, its dual-leg operations, and naturality in the group. The geometric spectral action, excursion operators, semisimple parameters, `Z_spec(G,Λ)` and the finite wild level of each compact object, built from the same Hecke functor, are AutomorphicGaloisRepresentationsPartII AG2.6's, “The parameter stack and geometric spectral action”; this layer does not reconstruct them.
-
-<a id="hs4-1"></a>
 
 ### HS4.1 — The coherent finite-set Hecke family
 
@@ -2314,11 +2238,9 @@ fusion restricts them to diagonal factors. With representation
 symmetry the earlier reversed-composition convention gives the
 usual isomorphism `T_(V⊗ W)≃ T_V∘ T_W` as well.
 
-*Needs:* [HS1.9](#hs1-9), [HS0.4](#hs0-4), [HS1.5](#hs1-5), [HS1.8](#hs1-8), [HS1.1](#hs1-1), [HS1.2](#hs1-2), [HS1.3](#hs1-3); **GeometricSatakeAndFusion**, GS3; **GeometricSatakeAndFusion**, GS4, “Integral identification, normalization and functoriality”; **EnhancedDerivedSheaves**, E5:abstract.
+*Needs:* §HS1.9, §HS0.4, §HS1.5, §HS1.8, §HS1.1, §HS1.2, §HS1.3; **GeometricSatakeAndFusion**, GS3; **GeometricSatakeAndFusion**, GS4, “Integral identification, normalization and functoriality”; **EnhancedDerivedSheaves**, E5:abstract.
 
 (Sources: [FS], Corollary IX.2.4, p. 323; Theorem IX.0.1(ii), p. 318; Theorem IX.0.1(iii) and the paragraph after it, p. 318; paragraph after Theorem IX.0.1, p. 318; Section VI.9, p. 226; Section VI.9, p. 227; Proposition IX.5.1, proof, p. 328.)
-
-<a id="hs4-2"></a>
 
 ### HS4.2 — Creation, annihilation and dual-leg triangles
 
@@ -2368,7 +2290,7 @@ equivariance is claimed for these general maps. Excursion operators
 are AG2.6's `excursionOperator` on the imported Hecke functor; they are not
 constructed here.
 
-*Needs:* [HS4.1](#hs4-1), [HS1.2](#hs1-2), [HS1.10](#hs1-10), [HS2.18](#hs2-18); **GeometricSatakeAndFusion**, GS3; `CategoryTheory.ExactPairing`; `CategoryTheory.Functor.Monoidal`.
+*Needs:* §HS4.1, §HS1.2, §HS1.10, §HS2.18; **GeometricSatakeAndFusion**, GS3; `CategoryTheory.ExactPairing`; `CategoryTheory.Functor.Monoidal`.
 
 (Sources: [FS], Theorem IX.2.2, proof, p. 323; Definition VIII.4.2 and the construction after it, p. 291; Definition VIII.4.2, p. 291; Proposition IX.6.5 and its proof, p. 333; paragraph after Theorem IX.0.1, p. 318.)
 
@@ -2392,14 +2314,12 @@ Provide the following API.
 
 **Checks.**
 
-- `dualLegs.rank_test`: For `G = GL_n`, `Q = 1` and `V` the standard representation of `Ĝ = GL_n` over `Λ: annihilate′_V∘create_V` is multiplication by `n` on the identity functor of `D_lis(Bun_{GL_n},Λ)^ω`. For `n = 2` it is `2`.
-- `dualLegs.triangle_test`: For `G = G_m` and `V = χ_1` the standard character of `Ĝ = G_m`, so `V∨ = χ_{−1}: create` and `annihilate` are isomorphisms `id ≅ T_{χ_1}∘T_{χ_{−1}}` and `T_{χ_{−1}}∘T_{χ_1} ≅ id`, and the composite `T_{χ_1} → T_{χ_1}∘T_{χ_{−1}}∘T_{χ_1} → T_{χ_1}` is the identity.
-- `dualLegs.diagonal_test`: For `V ∈ Rep_Λ(Ĝ⋊Q)` and `γ`, `γ_1`, `γ_2 ∈ W_E: (γ,γ)∘create_V = create_V` as maps `id → T_{V⊠V∨}` of underlying endofunctors, and `annihilate′_V∘(γ_1,γ_2)∘create_V = annihilate′_V∘(γ_1γ_2^{-1},1)∘create_V`.
-- `dualLegs.torus_excursion_test`: For `G = G_m`, `V = χ_1`, `γ_1`, `γ_2 ∈ W_E` and a smooth character `χ: E^× → Λ^×`, regarded as an object of `D(E^×,Λ) ≅ D_lis(Bun^b_{G_m},Λ)` for any `b ∈ B(G_m)` (the natural transformations extend from the compact objects to `D_lis(Bun_{G_m},Λ)`, their Ind-completion, because the functors `T_V` commute with colimits; a character need not be a compact object): `annihilate′_V∘(γ_1,γ_2)∘create_V` acts on `χ` by the scalar `χ(rec_HS(γ_1γ_2^{-1}))`, where `rec_HS` is the right-frame geometric reciprocity map of HS2.18, including its fixed inversion relative to arithmetic `localWeilArtinEquiv`.
-- `dualLegs.not_invariant_test`: For `G = G_m`, `V = χ_1` and a smooth character `χ` of `E^×` with `χ(rec_HS(γ_0)) ≠ 1` for some `γ_0 ∈ W_E`: on the object `χ`, `(γ_0,1)∘create_V = χ(rec_HS(γ_0))·create_V ≠ create_V`. So `create_V` is not invariant under `W_E²`, only under its diagonal.
-- `dualLegs.unit_test`: For `V = 1: create_1` and `annihilate_1` are the unit constraints, and `annihilate′_1∘(γ_1,γ_2)∘create_1` is the identity for all `γ_1`, `γ_2 ∈ W_E`.
-
-<a id="hs4-3"></a>
+- For `G = GL_n`, `Q = 1` and `V` the standard representation of `Ĝ = GL_n` over `Λ: annihilate′_V∘create_V` is multiplication by `n` on the identity functor of `D_lis(Bun_{GL_n},Λ)^ω`. For `n = 2` it is `2`.
+- For `G = G_m` and `V = χ_1` the standard character of `Ĝ = G_m`, so `V∨ = χ_{−1}: create` and `annihilate` are isomorphisms `id ≅ T_{χ_1}∘T_{χ_{−1}}` and `T_{χ_{−1}}∘T_{χ_1} ≅ id`, and the composite `T_{χ_1} → T_{χ_1}∘T_{χ_{−1}}∘T_{χ_1} → T_{χ_1}` is the identity.
+- For `V ∈ Rep_Λ(Ĝ⋊Q)` and `γ`, `γ_1`, `γ_2 ∈ W_E: (γ,γ)∘create_V = create_V` as maps `id → T_{V⊠V∨}` of underlying endofunctors, and `annihilate′_V∘(γ_1,γ_2)∘create_V = annihilate′_V∘(γ_1γ_2^{-1},1)∘create_V`.
+- For `G = G_m`, `V = χ_1`, `γ_1`, `γ_2 ∈ W_E` and a smooth character `χ: E^× → Λ^×`, regarded as an object of `D(E^×,Λ) ≅ D_lis(Bun^b_{G_m},Λ)` for any `b ∈ B(G_m)` (the natural transformations extend from the compact objects to `D_lis(Bun_{G_m},Λ)`, their Ind-completion, because the functors `T_V` commute with colimits; a character need not be a compact object): `annihilate′_V∘(γ_1,γ_2)∘create_V` acts on `χ` by the scalar `χ(rec_HS(γ_1γ_2^{-1}))`, where `rec_HS` is the right-frame geometric reciprocity map of HS2.18, including its fixed inversion relative to arithmetic `localWeilArtinEquiv`.
+- For `G = G_m`, `V = χ_1` and a smooth character `χ` of `E^×` with `χ(rec_HS(γ_0)) ≠ 1` for some `γ_0 ∈ W_E`: on the object `χ`, `(γ_0,1)∘create_V = χ(rec_HS(γ_0))·create_V ≠ create_V`. So `create_V` is not invariant under `W_E²`, only under its diagonal.
+- For `V = 1: create_1` and `annihilate_1` are the unit constraints, and `annihilate′_1∘(γ_1,γ_2)∘create_1` is the identity for all `γ_1`, `γ_2 ∈ W_E`.
 
 ### HS4.3 — Adjoint-group morphisms and global Hecke diagrams
 
@@ -2422,11 +2342,9 @@ and compatible with finite-set maps. The pushforwards here are
 relative homology. Consequences for the spectral centre and semisimple
 parameters of AG2.6's geometric spectral action are not asserted here.
 
-*Needs:* [HS4.1](#hs4-1), [HS0.6](#hs0-6), [HS1.2](#hs1-2), [HS1.9](#hs1-9); **GeometricSatakeAndFusion**, GS4, “Integral identification, normalization and functoriality”; **VStackSheavesAndLisseCategories**, VS2; **GeometricSatakeAndFusion**, GS3.
+*Needs:* §HS4.1, §HS0.6, §HS1.2, §HS1.9; **GeometricSatakeAndFusion**, GS4, “Integral identification, normalization and functoriality”; **VStackSheavesAndLisseCategories**, VS2; **GeometricSatakeAndFusion**, GS3.
 
 (Sources: [FS], Theorem IX.6.1, proof, p. 331; Proposition VII.3.1, p. 257; Theorem VI.11.1, proof, p. 237.)
-
-<a id="hs4-4"></a>
 
 ### HS4.4 — Products and Künneth for the action
 
@@ -2440,18 +2358,16 @@ Weil action is diagonal. Require naturality and finite-set
 compatibility; a general representation is not assumed to be
 a single exterior product.
 
-Use **VStackSheavesAndLisseCategories**, VS5.3,
-`BunCoefficients.lisseKunneth`, for compact exterior-product generators
+Use **VStackSheavesAndLisseCategories**, VS5.3, “Lisse `Bun_G` Künneth
+formula”, for compact exterior-product generators
 and their derived-Hom tensor comparison with arbitrary lisse `B_i`.
 Prove the Hecke kernel and operator comparisons on these supplied
 generators, then extend by colimit preservation. Use the lisse version of
 [FS], VII.7.10, rather than the category printed there as `D_(ét)`.
 
-*Needs:* [HS4.1](#hs4-1), [HS1.2](#hs1-2), [HS0.1](#hs0-1), [HS1.9](#hs1-9); **GeometricSatakeAndFusion**, GS4, “Integral identification, normalization and functoriality”; **VStackSheavesAndLisseCategories**, VS2; **VStackSheavesAndLisseCategories**, VS1; **VStackSheavesAndLisseCategories**, VS5.
+*Needs:* §HS4.1, §HS1.2, §HS0.1, §HS1.9; **GeometricSatakeAndFusion**, GS4, “Integral identification, normalization and functoriality”; **VStackSheavesAndLisseCategories**, VS2; **VStackSheavesAndLisseCategories**, VS1; **VStackSheavesAndLisseCategories**, VS5.
 
 (Sources: [FS], Proposition IX.6.2, proof, p. 331; Proposition VII.7.10, p. 276; Proposition VII.3.1, p. 257.)
-
-<a id="hs4-5"></a>
 
 ### HS4.5 — Weil restriction and induced kernels
 
@@ -2481,30 +2397,28 @@ object. For a finite-set map `I→J`, form the full pulled-back cover
 in the fusion comparison. The diagonal copy `(Div¹_(E′))^J` gives
 only the same-lift summand; the other components give the other induced
 summands. This is the geometric-correspondence compatibility of
-**GeometricSatakeAndFusion**, GS4, `weilRestrictionNaturality`.
+**GeometricSatakeAndFusion**, §4.22, “Weil restriction naturality”.
 Diagonal restriction of legwise induction is not identified with induction
 of diagonal restriction. Parameter-stack and excursion-algebra comparisons
 are not asserted here: the algebraic carriers are LanglandsParameterStacks
 LP1.7–LP1.8 and SmoothRepresentationsOfLocalGroups SR.6.1–SR.6.3, and their
 geometric action is AG2.6's.
 
-*Needs:* [HS4.1](#hs4-1), [HS1.2](#hs1-2), [HS0.1](#hs0-1), [HS1.9](#hs1-9); **GeometricSatakeAndFusion**, GS4, “Integral identification, normalization and functoriality”; **BunGAndNewtonStrata**, §§2.8, 2.11–2.23; **VStackSheavesAndLisseCategories**, VS2.
+*Needs:* §HS4.1, §HS1.2, §HS0.1, §HS1.9; **GeometricSatakeAndFusion**, GS4, “Integral identification, normalization and functoriality”; **BunGAndNewtonStrata**, §§2.8, 2.11–2.23; **VStackSheavesAndLisseCategories**, VS2.
 
 (Sources: [FS], Proposition IX.6.3, proof, p. 332; Proposition IX.6.3, statement, p. 331.)
 
 **Checks.**
 
-- `inducedKernel.identity_test`: For `E′=E`, the cover and the
+- For `E′=E`, the cover and the
   chosen-factor correspondence are identities, and the kernel comparison is identity.
-- `inducedKernel.quadratic_fusion_test`: With field coefficients, for `[E′:E]=2`, `G′=1`,
+- With field coefficients, for `[E′:E]=2`, `G′=1`,
   `I={1,2}` and `V′=1`, diagonal restriction of legwise induction has
   rank `4`. The same-lift cover gives rank `2`; the other two lifts give
   the remaining rank `2`. Induction after fusion alone has rank `2`.
-- `inducedKernel.ramified_test`: With field coefficients, for a totally ramified extension of
+- With field coefficients, for a totally ramified extension of
   degree `e>1`, one-leg rank is multiplied by `e` but `r′=r`, since the
   residue degree is `1`.
-
-<a id="hs4-6"></a>
 
 ### HS4.6 — Levi constant terms on an unstable stratum
 
@@ -2558,28 +2472,26 @@ character must be combined with the inverse twist above before
 deducing an excursion normalization, even on components with
 `deg_P=0`.
 
-*Needs:* [HS4.1](#hs4-1), [HS1.2](#hs1-2), [HS0.1](#hs0-1), [HS0.2](#hs0-2), [HS1.1](#hs1-1); **GeometricSatakeAndFusion**, GS3; **GeometricSatakeAndFusion**, GS4, “Integral identification, normalization and functoriality”; **BunGAndNewtonStrata**, §§3.1–3.11 and 4.1–4.7; **DiamondSixOperations**, S2; **VStackSheavesAndLisseCategories**, VS0; **RelativeFarguesFontaine**, §§7.0–7.7.
+*Needs:* §HS4.1, §HS1.2, §HS0.1, §HS0.2, §HS1.1; **GeometricSatakeAndFusion**, GS3; **GeometricSatakeAndFusion**, GS4, “Integral identification, normalization and functoriality”; **BunGAndNewtonStrata**, §§3.1–3.11 and 4.1–4.7; **DiamondSixOperations**, S2; **VStackSheavesAndLisseCategories**, VS0; **RelativeFarguesFontaine**, §§7.0–7.7.
 
 (Sources: [FS], Theorem IX.7.2, proof, p. 337; Theorem IX.7.2, proof, p. 336; Theorem IX.7.2, proof, p. 335; Proposition VI.7.13, p. 223; [HI], Proposition 4.4, p. 25; Lemma 4.7, p. 26.)
 
 **Checks.** Each named assertion is a theorem target for `Hck^I_(M,P)`
 and its torsion kernel comparison.
 
-- `parabolicHecke.identity_test`: For `P=G=M`, `Hck^I_(M,P)=Hck^I_G`,
+- For `P=G=M`, `Hck^I_(M,P)=Hck^I_G`,
   `g=id`, `deg_P=0` and the central twist is trivial.
-- `parabolicHecke.opposite_borel_test`: For `GL₂`, `M=T` and opposite
+- For `GL₂`, `M=T` and opposite
   Borels, a target-fibre Hecke type `λ=(1,0)` has type
   `−λ=(−1,0)` in the second-relative-first fibre. The upper and lower
   Borels give `deg_P=1` and `−1`, hence shifts `[−1]` and `[1]`.
   Their inverse central twists are respectively
   `(r^(−|w|),r^|w|)` and `(r^|w|,r^(−|w|))`.
-- `parabolicHecke.nested_test`: For the standard `GL₃` parabolic
+- For the standard `GL₃` parabolic
   with Levi `GL₂×G_m`, followed by its upper Borel with Levi `T`,
   `λ=(a,b,c)` gives degrees `a+b−2c` and `a−b`. Their sum is
   `2a−2c`, the degree for the upper Borel of `GL₃`.
   The negative shifts add and the inverse central twists multiply.
-
-<a id="hs4-7"></a>
 
 ### HS4.7 — Tensor compatibility and continuous export
 
@@ -2613,7 +2525,7 @@ geometric spectral action”, for its coefficients `Λ=O_L` with `ℓ∤|π₀Z(
 characteristic-zero field. The targets here are the closure properties above and the
 one-leg reduction on the imported functor, without reproving that statement.
 
-*Needs:* **AutomorphicGaloisRepresentationsPartII**, AG2.6, “Bundle strata, lisse categories and the geometric Hecke action” and “The parameter stack and geometric spectral action”; [HS4.2](#hs4-2), [HS1.8](#hs1-8), [HS4.1](#hs4-1), [HS1.5](#hs1-5), [HS1.0](#hs1-0), `integralTensorGenerator` and `satakeResolutionConvergence`.
+*Needs:* **AutomorphicGaloisRepresentationsPartII**, AG2.6, “Bundle strata, lisse categories and the geometric Hecke action” and “The parameter stack and geometric spectral action”; §HS4.2, §HS1.8, §HS4.1, §HS1.5, §HS1.0, `integralTensorGenerator` and `satakeResolutionConvergence`.
 
 (Sources: [FS], Corollary IX.2.4, p. 323; Proposition IX.5.1, proof, p. 328.)
 
@@ -2643,8 +2555,9 @@ prove from the imported interfaces.
 
 - **[FS]** Laurent Fargues and Peter Scholze,
   [*Geometrization of the local Langlands correspondence*](https://people.mpim-bonn.mpg.de/scholze/Geometrization.pdf),
-  author-hosted 356-page text of arXiv:2102.13459v4, 27 November 2024.
-  Printed and PDF page numbers coincide.
+  author-hosted text of arXiv:2102.13459v4, 27 November 2024 (383 PDF pages).
+  Page numbers are the printed ones: they equal the PDF page through Chapter VII
+  and the PDF page minus 23 from Chapter VIII on.
 - **[SW]** Peter Scholze and Jared Weinstein,
   *Berkeley Lectures on p-adic Geometry*,
   print-ready version, 27 March 2020. Printed page equals PDF page minus 10.
@@ -2655,8 +2568,11 @@ prove from the imported interfaces.
   [*On the connectedness of p-adic period domains*](https://arxiv.org/pdf/2210.08625v2),
   arXiv:2210.08625v2, 28 December 2022, with the corrected Lemma 3.3.
 - **[GLX]** Ian Gleason, Dong Gyu Lim and Yujie Xu,
-  [*The connected components of affine Deligne–Lusztig varieties*](https://link.springer.com/content/pdf/10.1007/s00222-025-01386-1.pdf),
-  *Inventiones mathematicae* **243** (2026), 805–861.
+  [*The connected components of affine Deligne–Lusztig varieties*](https://doi.org/10.1007/s00222-025-01386-1),
+  *Inventiones mathematicae* **243** (2026), 805–861. The page numbers and two-level
+  theorem numbers are those of the version of record and are cited by locator alone
+  (uncertified); the open preprint arXiv:2109.02594v1 numbers its results in three
+  levels and does not match them.
 - **[DHKM]** Jean-François Dat, David Helm, Robert Kurinczuk and Gilbert Moss,
   [*Finiteness for Hecke algebras of p-adic groups*](https://arxiv.org/pdf/2203.04929v2),
   arXiv:2203.04929v2, 22 April 2022.
@@ -2672,3 +2588,6 @@ prove from the imported interfaces.
 - **[RV]** Michael Rapoport and Eva Viehmann,
   [*Towards a theory of local Shimura varieties*](https://www.math.uni-bonn.de/people/rapoport/myalggeom/preprints/rapovieh130114_arxiv.pdf),
   17 January 2014, Proposition 3.1, p. 11, for the weakly admissible period-domain criterion.
+- **[Stacks]** The Stacks project authors,
+  [*The Stacks project*](https://stacks.math.columbia.edu), Tag 0906 (the connected
+  components of a spectral space form a profinite space).

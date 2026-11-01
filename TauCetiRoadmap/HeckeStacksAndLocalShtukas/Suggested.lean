@@ -1,35 +1,35 @@
 import Mathlib
 
 /-!
-# Hecke stacks and local shtukas: headline targets
+# Hecke stacks and local shtuka cohomology: target signatures
 
-These are suggested Lean forms, not an exhaustive checklist. `README.md` is the
-definitive specification.
+The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
+theorems that are statable against the pinned Mathlib and Tau Ceti, each with `sorry`, with only
+the simple definitions they need. None of them is statable at the pins, so nothing is declared
+here. The headline theorems, each with the carrier it lacks:
 
-No headline theorem of this roadmap is statable against the Mathlib and Tau Ceti
-pins. The missing objects are:
+* HS1.5 and HS1.9, the two-sided adjunction between the Hecke operators `T_V` and `T_{V∨}` on the
+  lisse category of `Bun_G` and the continuous Weil descent of `T_V(A)`: no stack of `G`-bundles
+  on the relative Fargues–Fontaine curve, no solid or lisse sheaf categories on it and no Satake
+  kernels (Tau Ceti's `TauCeti.AlgebraicGeometry.AdicSpace.FarguesFontaine` modules give the
+  orbit space, not the relative curve with its bundles);
+* HS1.0, integral exterior and tensor generation of `Rep_Λ((Ĝ⋊Q)^I)` with bounded-weight
+  resolutions: no split reductive group scheme over `ℤ_ℓ[√q]` with its category of finite
+  projective representations (the pinned `TauCeti.ReductiveAffineGroupSchemeCat` lives over a
+  field);
+* HS2.15, nonemptiness of the admissible locus exactly when `[b] ∈ B(G,μ⁻¹)`, with its
+  connectedness and density: no local shtuka spaces, no bounded affine Grassmannians and no
+  Kottwitz set `B(G)`;
+* HS2.18, the reciprocity map `rec_HS : W_E^ab ≃ E^×` defined by the component torsor of the
+  Lubin–Tate tower: no shtuka tower on which to define it;
+* HS3.5, HS3.6 and HS3.8, finite generation, compactness, admissibility and duality of the tower
+  complexes `C_K`: no towers, no compact-support functor and no enhanced derived category of
+  smooth representations (the pinned `TauCeti.SmoothDiscreteTopRep` is the ordinary carrier);
+* HS4.1, the coherent finite-set Hecke family: no Hecke functor.
 
-* HS0: relative Fargues–Fontaine curves with `G`-bundles, divisor v-stacks and
-  bounded Hecke correspondences, needed for uniformization and proper convolution.
-* HS1.0: relative perfect representation categories and bounded-weight resolutions,
-  needed for integral exterior generation and tensor generation; the convergence
-  comparison also needs the enhanced Satake functor.
-* HS1.1–HS1.10: solid Satake kernels and the enhanced solid and lisse categories
-  on `Bun_G`, needed for the Hecke action, its duality and continuous Weil descent.
-* HS2: local shtuka spaces, twisted period Grassmannians and their level towers,
-  needed for the period comparisons, nonemptiness, connectedness and Weil descent.
-* HS3: compact-support objects of those towers and their enhanced group actions,
-  needed for the Hecke realization, compactness, finiteness and classical comparisons.
-* HS4: the continuous finite-set Hecke family, needed for dual-leg operations and
-  the adjoint-group, product, Weil-restriction and Levi comparison diagrams.
-
-The pinned reductive group schemes, comodules, isocrystals, condensed modules and
-smooth discrete representations supply foundations for these constructions.
-Tau Ceti's Fargues–Fontaine orbit space supplies topology, rather than the relative
-curve with its bundle theory. These foundations do not define the missing objects
-in a few lines. Accordingly this file contains no theorem statements.
+No weakened substitute is stated in place of any of them.
 -/
 
-namespace TauCeti.HeckeShtukas
+namespace TauCetiRoadmap.HeckeStacksAndLocalShtukas
 
-end TauCeti.HeckeShtukas
+end TauCetiRoadmap.HeckeStacksAndLocalShtukas
