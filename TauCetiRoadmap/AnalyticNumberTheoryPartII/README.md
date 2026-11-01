@@ -2711,11 +2711,11 @@ For `0<β≤1` the GNS von Neumann algebra of the unique completed `KMSβ` state
 
 See [117][R117], §1 and §2, Lemma 2.3 and Theorem 2.1, pp.2–5.
 
-*Needs:* `B1`; §6.34; §6.9; §6.10; AnalyticNumberTheoryPartI, Prerequisites and boundaries, for the prime number theorem `TauCeti.primeCount_univ_isEquivalent_div_log` and its progression form `NumberField.Chebotarev.tendsto_frobeniusPrimeCount` at `ℚ(ζN)/ℚ`, which §§6.42a and 6.42c use; §6.5; §6.2; §6.9c; §6.42a; §6.42b; §6.42c; §6.42d; §6.42e; §6.42f; §6.42g; §6.42h; §6.42i.
+*Needs:* `B1`; §6.34; §6.9; §6.10; §6.5; §6.2; §6.9c, whose fixed-progression prime asymptotic from VonNeumannAlgebras V10.AffineAP is the prime input of §6.42c and, at `N=1`, the prime number theorem of §6.42a; §6.42a; §6.42b; §6.42c; §6.42d; §6.42e; §6.42f; §6.42g; §6.42h; §6.42i.
 
 **§6.42a Prime pairs with prescribed ratio and divergent weights.** For `0<β≤1`, `λ>1` and `ε>0` there are disjoint prime pairs(pn,qn) with `|(qn/pn)^β−λ|<ε` and `Σn qn^(−β)=∞`.
 
-Choose multiplicative `intervals(λ^(2m)x0,(1+δ)λ^(2m)x0]` and their alternating partners, adjustingλ `toλ^(1/β)`. Use the prime number theorem to inject the smaller prime list into the partner list. The interval cardinalities divided by the upper endpoint give a divergent harmonic-m sum; `β≤1` retains divergence.
+Choose multiplicative `intervals(λ^(2m)x0,(1+δ)λ^(2m)x0]` and their alternating partners, adjustingλ `toλ^(1/β)`. Use the prime number theorem, the case `N=1` of §6.9c, to inject the smaller prime list into the partner list. The interval cardinalities divided by the upper endpoint give a divergent harmonic-m sum; `β≤1` retains divergence.
 
 **§6.42b Valuation-tail cylinder ratios.** For distinct primes p,q, the valuation swap `(vp,vq)=(0,1)→(1,0)` has target/source cylinder mass ratio `(q/p)^β`. Under the pushforward-at-target convention, the derivative of this forward map `x↦(p/q)x` is `(p/q)^β`; the inverse map has derivative `(q/p)^β`. Both values enter the ratio-set subgroup. The factors `(1−p^(−β))(1−q^(−β))` cancel.
 
@@ -2725,7 +2725,7 @@ See [117][R117], Theorem 2.1 proof, pp.4–5; §1 convention, p.2.
 
 **§6.42c Prime pairs with controlled unit residues.** For `N≥1`, `λ>1` and `ε>0`, fixed-progression PNT supplies disjoint prime pairs `p_n,q_n≡1(modN)` with `q_n/p_n→λ` and `Σp_n^(−1)=∞`. Select primes in two disjoint proportional intervals inside successive geometric blocks, matching their counts with a fixed positive density. For `0<β≤1` the pair-swap source masses also have divergent sum.
 
-Apply PNT in the residue class `1 mod N` to paired intervals `[X,(1+δ)X]` and `[λX,λ(1+δ)X]`. Choose `δ` small enough for the desired ratio tolerance; matching counts are bounded below by cX/logX. Separate successive blocks geometrically; each block contributes `≥c/logX` to `Σ1/p`, so the block sum diverges. A diagonal tolerance choice preserves this divergence.
+Apply the §6.9c asymptotic in the residue class `1 mod N` to paired intervals `[X,(1+δ)X]` and `[λX,λ(1+δ)X]`. Choose `δ` small enough for the desired ratio tolerance; matching counts are bounded below by cX/logX. Separate successive blocks geometrically; each block contributes `≥c/logX` to `Σ1/p`, so the block sum diverges. A diagonal tolerance choice preserves this divergence.
 
 See [117][R117], Lemma 2.3 and complete proof, p.4; Theorem 2.1 application p.5, with the stated fixed-progression refinement.
 
