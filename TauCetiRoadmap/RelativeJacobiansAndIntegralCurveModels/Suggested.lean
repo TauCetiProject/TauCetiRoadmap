@@ -1,20 +1,22 @@
 import Mathlib
+import TauCeti.AlgebraicGeometry.Cohomology.MayerVietoris
 
 /-!
-# Relative Jacobians and integral models of curves: headline target signatures
+# Relative Jacobians and integral models of curves: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. The statements here suggest Lean forms for particular milestones; discharging
-all of them finishes neither a layer nor the roadmap.
+`README.md`. This file states the roadmap's headline theorems against the pinned APIs.
 
 The statements express extension of generic points to proper Dedekind models and smoothness
 along sections of regular models (§0.2), the integral-closure description of global functions
-(§0.4), fraction-field Brauer vanishing over a henselian DVR with algebraically closed residue
+(§0.4), the canonical two-affine cokernel description of first cohomology (§0.5),
+fraction-field Brauer vanishing over a henselian DVR with algebraically closed residue
 field (§3.2a), and the prime-to-residue-characteristic and small-ramification torsion theorems
 for arbitrary separated finite-type commutative group schemes (§4.2). Normality and regularity
 are stated on the scheme's actual local rings. Reduction uses the native point groups.
 
-The normalized projective-line model and its integral-closure charts (§§0.3–0.6) need a marked
+The normalized projective-line model and its integral-closure chart computations (§§0.3–0.4
+and 0.6) need a marked
 projective-line/function-field construction, including its chart identifications; relative
 normalization, Proj and sheaf cohomology alone do not supply this interface. The arbitrary-fibre
 Picard representability, symmetric-power and Abel-fibre theorems (Layer 1), the relative-Jacobian
@@ -30,12 +32,15 @@ mathematical objects can be expressed, without substituting arbitrary predicates
 -/
 
 open CategoryTheory Limits AlgebraicGeometry
+open TauCeti.AlgebraicGeometry.Scheme.Modules
 
 noncomputable section
 
 namespace TauCetiRoadmap.RelativeJacobiansAndIntegralCurveModels
 
 universe u
+
+/-! ## Layer 0: Dedekind models and two-chart cohomology -/
 
 /-- A generic point of a proper scheme over a Dedekind base extends uniquely to a section.
 The base may be a field; no affine-base restriction is imposed. -/
@@ -70,6 +75,26 @@ theorem globalFunctions_constants (R : Type u) [CommRing R] [IsDedekindDomain R]
     ∀ a : X.functionField, a ∈ g.hom.range ↔ IsIntegral R a := by
   sorry
 
+/-- The ordered restriction difference from the two degree-zero cohomology groups to the
+cohomology of their overlap; the second summand has a minus sign. -/
+def twoChartDifferential {X : Scheme.{u}} (M : X.Modules) (U V : X.Opens) :
+    cohomologyOn M 0 U ⊞ cohomologyOn M 0 V ⟶ cohomologyOn M 0 (U ⊓ V) :=
+  biprod.desc (cohomologyOnRes M 0 (inf_le_left : U ⊓ V ≤ U))
+    (-cohomologyOnRes M 0 (inf_le_right : U ⊓ V ≤ V))
+
+/-- For quasi-coherent coefficients on two affine opens with affine intersection, first
+cohomology of their union is the cokernel of the restriction difference. The equation with
+the Mayer–Vietoris connecting map specifies the canonical isomorphism (Stacks, tag 01XD). -/
+theorem twoChart_cohomologyOne {X : Scheme.{u}} (M : X.Modules) [M.IsQuasicoherent]
+    (U V : X.Opens) (hU : IsAffineOpen U) (hV : IsAffineOpen V)
+    (hInter : IsAffineOpen (U ⊓ V)) :
+    ∃ e : cokernel (twoChartDifferential M U V) ≅ cohomologyOn M 1 (U ⊔ V),
+      cokernel.π (twoChartDifferential M U V) ≫ e.hom =
+        mayerVietorisδ M U V 0 1 rfl := by
+  sorry
+
+/-! ## Layer 3: Separated Picard quotients and Néron comparison -/
+
 /-- The fraction field of a henselian DVR with algebraically closed residue field has trivial
 Brauer group. This also applies to the valuation ring in a finite purely inseparable constant
 extension, whose residue field remains algebraically closed. -/
@@ -79,6 +104,8 @@ theorem brauer_fractionField_henselianDVR_algClosedResidue
     [Field K] [Algebra R K] [IsFractionRing R K] :
     Subsingleton (BrauerGroup.{u, u} K) := by
   sorry
+
+/-! ## Layer 4: Reduction, torsion and normalized multidegrees -/
 
 open scoped MonObj
 
