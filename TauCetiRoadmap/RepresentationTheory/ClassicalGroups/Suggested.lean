@@ -4,6 +4,8 @@ import TauCeti.Geometry.Lie.Exponential.Units.Basic
 import TauCeti.RepresentationTheory.ClassicalGroups.WeylModule.Rational
 import TauCeti.LinearAlgebra.Matrix.GeneralLinearGroup.BlockSucc
 import TauCeti.RepresentationTheory.ClassicalGroups.GelfandTsetlin.Basic
+import TauCeti.RepresentationTheory.ClassicalGroups.WeylDimension.Basic
+import TauCeti.RingTheory.MvPolynomial.Symmetric.Schur.Basic
 
 /-!
 # Finite-dimensional representations of the classical groups: target signatures
@@ -14,9 +16,10 @@ headline theorems against the pinned APIs, with admissions for their proofs.
 The headlines are rational complete reducibility and unique GL classification;
 the Schur-module isomorphism; representation-level GL branching; SO/Sp rational classification and character formulas; normalized
 GL/SO/Sp GT bases and their operator formulas; and diagonal-overgroup classification
-with restriction of external tensor products. The tensor-square isomorphism,
-Schur-character identities, Weyl dimensions and signed-pattern count are consumed
-from the native declarations listed in README.md rather than restated here.
+with restriction of external tensor products. The tensor-square isomorphism
+and signed-pattern count are consumed from the native declarations listed in
+README.md. The full Schur-character and rational Weyl-dimension comparisons
+are acceptance theorems here.
 
 The normalized GT basis and Capelli-action theorems cannot yet be stated on the
 specified operators: the pins lack the differentiated action on the rational Weyl
@@ -61,6 +64,23 @@ theorem rational_irreducible_classification (n : ℕ) (W : FDRep ℂ (GL (Fin n)
 theorem schurFunctor_iso_irreducible (n : ℕ) (μ : YoungDiagram) (hμ : μ.colLen 0 ≤ n) :
     Nonempty (TauCeti.schurFunctor n μ ≅
       TauCeti.rationalWeylFDRep ℂ n (TauCeti.weightOfShape n μ)) := sorry
+
+/-! ## Layer 4: characters and Schur polynomials -/
+
+/-- The character of every Schur image on the diagonal torus is its Schur
+polynomial, including shapes taller than the dimension, when both sides vanish. -/
+theorem schur_character (n : ℕ) (μ : YoungDiagram) (t : Fin n → ℂˣ) :
+    (TauCeti.schurFunctor n μ).character (TauCeti.diagGL t) =
+      MvPolynomial.eval (fun i => (t i : ℂ))
+        (TauCeti.diagramSchurPoly n ℂ μ) := sorry
+
+/-! ## Layer 5: the Weyl dimension formula -/
+
+/-- Every rational Weyl module has the Weyl product dimension, for all dominant
+integer weights; common determinant shifts leave this dimension unchanged. -/
+theorem rational_dimension (n : ℕ) (l : TauCeti.DominantWeight n) :
+    Module.finrank ℂ (TauCeti.rationalWeylFDRep ℂ n l) =
+      TauCeti.weylDimension l := sorry
 
 /-! ## Layer 6: branching and Gelfand–Tsetlin dimensions -/
 
