@@ -4,8 +4,8 @@ import Mathlib
 # Completed cohomology and p-adic local–global compatibility: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. Statements here suggest Lean forms for particular milestones; discharging
-all of them finishes neither a layer nor the roadmap.
+`README.md`. This file is the acceptance test for the roadmap’s headline theorems against the
+pinned APIs. It contains no substitutes for headlines whose carriers are missing.
 
 No headline theorem is statable against the pinned Mathlib
 `6b7abb3c7686292736be2955bd3eb9ebf63b456a` and Tau Ceti
@@ -46,8 +46,10 @@ mathematical objects, whose construction is specified in the README:
   require the arithmetic completed Hecke algebras, their universal representations and
   their classical loci. Residual localization in §3.4 selects the closed residual-idempotent
   summand with its inherited uniformizer-adic topology; it is distinct from ordinary
-  maximal-ideal module completion. The Eisenstein comparison of §3.8 also requires
-  determinant-fixed pseudo-deformation rings and the quaternionic Hecke quotient.
+  maximal-ideal module completion. The ordinary Eisenstein existence theorem of §3.7a requires the ordinary cuspidal
+  Hecke tower with its local characters and the Deligne–Ribet p-adic L-function.
+  The Eisenstein comparison of §3.8 also requires determinant-fixed pseudo-deformation
+  rings and the quaternionic Hecke quotient.
 * Emerton's refined, Banach, mod-p and homological local–global theorems (§§4.4–4.7)
   require those completed towers and local Langlands families, with their coadmissible
   tensor products. The definite quaternionic theorem (§4.9), Pan's block compatibility
@@ -80,7 +82,9 @@ mathematical objects, whose construction is specified in the README:
   local Langlands correspondence and classical or finite-slope automorphic forms.
   The locally algebraic formula uses the generic Breuil–Schneider/Colmez smooth
   factor, retaining the full reducible principal series at nongeneric crystalline
-  parameters, together with the cohomological normalization bridge of §6.3.
+  parameters, together with §6.3’s algebraic factor Sym^(a-b-1) tensor det^(b+1), its
+  K-stable type lattice and its contragredient comparison at modular weights.
+  The lattice-to-type scalar-extension map also lacks the minimal-type carrier.
   The algebraic type comparison of §2.8 pairs the contragredient type and dual
   lattice with the weight of §2.7; tame determinant compatibility in §3.2 uses
   inflation along the natural quotient between ramification-restricted Galois groups.
