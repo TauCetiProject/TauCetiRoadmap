@@ -17,9 +17,13 @@ The full projective and functorial resolution statements require the scheme blow
 and projective-morphism interfaces, which are absent at the pins. The quasi-excellent theorem,
 completion permanence and affinoid specialization also require the supplier's excellence,
 regular-map and affinoid-algebra predicates. The embedded, principalization, resolved-pair,
-compactification and Cartier-separation statements require general scheme blowups and the
-labelled SNC and effective Cartier ideal-sheaf interfaces. These are not supplied by the
-pinned affine Rees charts or the integral-scheme Cartier-divisor API.
+compactification and Cartier-separation statements require general scheme blowups; the
+embedded and compactification statements also require the labelled SNC interfaces. The
+pinned affine Rees charts do not supply these constructions. Effective Cartier divisors
+on arbitrary schemes already have the native ideal-sheaf predicate
+`AlgebraicGeometry.Scheme.IdealSheafData.IsEffectiveCartier` in
+`TauCeti.AlgebraicGeometry.EffectiveCartierDivisor.Basic`; the missing carrier for the
+Cartier-separation headline is the scheme blowup, not its divisor inputs.
 
 Test-equivalence invariance, maximal-contact persistence, coefficient and Samuel
 presentations, residual companions, homogenization and the history-sensitive invariant
