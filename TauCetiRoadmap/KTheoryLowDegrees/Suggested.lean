@@ -12,19 +12,23 @@ all of them finishes neither a layer nor the roadmap.
 The statements cover the rank splitting and semilocal rank classification (Layer 2),
 Steinitz decomposition and the Dedekind rank–Picard ring classification (Layer 5),
 Euclidean elementary generation and stable nonvanishing of the real circle rotation
-(Layer 8), and elementary generation over S-integers and finite generation of their
-arithmetic SL₂ groups and finite-index subgroups (Layer 11). The circle statement uses
-finite identity-padded matrices, so it does not require a stable K₁ carrier.
+(Layer 8), and, over S-integers of a number field, elementary generation in ranks at
+least three, its relative form at every ideal level, the congruence subgroup property
+with its failure for totally imaginary rings of integers, and finite generation of the
+arithmetic SL₂ groups and their finite-index subgroups (Layer 11). The circle statement
+uses finite identity-padded matrices, so it does not require a stable K₁ carrier, and the
+congruence statements use only principal congruence subgroups, so they need no completion.
 
 The other headline signatures need objects absent from these pins: projective λ/Adams
-operations and integral algebraic representation Grothendieck rings (Layers 3–4);
-Milnor patching, stable and relative K₁, Mennicke symbols, arithmetic defect groups
-and congruence completions (Layers 1 and 7–11); vector-bundle K₀ and coherent G₀ of
-schemes for the regular-curve classification (Layer 12); plus-construction K-spaces,
-Steinberg groups and their based boundary maps (Layer 13); and graded-line spectra,
-enhanced perfect-complex K-theory and Witt-supported K-theory for the determinant
-and finite-length filtration theorems (Layer 14). Their constructions are specified
-in the README and its supplier contracts; no signatures for those results are given here.
+operations, the γ-filtration and the determinant on K₀ (Layers 3–4); Milnor patching,
+stable and relative K₁ and Mennicke symbols (Layers 1, 7 and 9–10); the congruence
+completions, the Mennicke defect groups and the relative metaplectic classification of
+Layer 11; vector-bundle K₀ and coherent G₀ of schemes for the regular-curve
+classification (Layer 12); plus-construction K-spaces, Steinberg groups and their based
+boundary maps (Layer 13); and graded-line spectra, enhanced perfect-complex K-theory and
+Witt-supported K-theory for the determinant and finite-length filtration theorems
+(Layer 14). Their constructions are specified in the README and its supplier contracts;
+no signatures for those results are given here.
 -/
 
 namespace TauCetiRoadmap.KTheoryLowDegrees
@@ -88,12 +92,15 @@ noncomputable def lineProjective (R : Type u) [CommRing R] (L : CommRing.Pic R) 
     FiniteProjectives R :=
   ⟨ModuleCat.of R L, ⟨inferInstance, inferInstance⟩⟩
 
-/- The right integer action is the same integer scalar action. It equips Mathlib's
-square-zero extension with its native commutative ring structure. -/
+/-- The right integer action on the additive Picard group is the same integer scalar
+action. It equips Mathlib's square-zero extension with its native commutative ring
+structure. -/
 noncomputable local instance picardIntOpModule (R : Type u) [CommRing R] :
     Module ℤᵐᵒᵖ (Additive (CommRing.Pic R)) :=
   Module.compHom _ ((RingHom.id ℤ).fromOpposite (fun a b => mul_comm a b))
 
+/-- The two integer actions on the additive Picard group agree, so the square-zero
+extension's multiplication is commutative. -/
 local instance picardIntCentralScalar (R : Type u) [CommRing R] :
     IsCentralScalar ℤ (Additive (CommRing.Pic R)) where
   op_smul_eq_smul _ _ := rfl
@@ -116,10 +123,10 @@ abbrev finiteElementaryGroup (R : Type u) [Ring R] (n : ℕ) :
   Subgroup.closure {g | ∃ (i j : Fin n) (a : R), i ≠ j ∧
     (g : Matrix (Fin n) (Fin n) R) = 1 + Matrix.single i j a}
 
-/-- Over a Euclidean domain, every determinant-one matrix of positive size is
-elementary (Weibel Exercise III.1.5, p. 190). -/
+/-- Over a Euclidean domain, every determinant-one matrix of every size is elementary;
+in size zero the group is trivial (Weibel Exercise III.1.5, p. 190). -/
 theorem euclidean_elementary_generation (R : Type u) [EuclideanDomain R]
-    (n : ℕ) (hn : 1 ≤ n) (g : Matrix.GeneralLinearGroup (Fin n) R)
+    (n : ℕ) (g : Matrix.GeneralLinearGroup (Fin n) R)
     (hg : Matrix.GeneralLinearGroup.det g = 1) :
     g ∈ finiteElementaryGroup R n := by
   sorry
@@ -154,7 +161,23 @@ theorem circle_rotation_not_stably_elementary (n : ℕ) :
             0 0 (1 : Matrix (Fin n) (Fin n) CircleRing)) := by
   sorry
 
-/-! ## Layer 11: arithmetic elementary generation and finite generation -/
+/-! ## Layer 11: arithmetic elementary generation, congruence subgroups and finite generation -/
+
+/-- The principal congruence subgroup of level `I` in `SL_n(A)`: the kernel of reduction
+modulo `I`. For `A = ℤ` and `I = (N)` it is Mathlib's `CongruenceSubgroup.Gamma N` up to
+the identification of `ℤ ⧸ (N)` with `ZMod N`. -/
+def principalCongruence (A : Type u) [CommRing A] (n : ℕ) (I : Ideal A) :
+    Subgroup (Matrix.SpecialLinearGroup (Fin n) A) :=
+  (Matrix.SpecialLinearGroup.map (Ideal.Quotient.mk I)).ker
+
+/-- The relative elementary subgroup `E_n(A, I)`: the subgroup of `GL_n(A)` generated by the
+conjugates, by elements of `E_n(A)`, of the elementary matrices `1 + a E_ij` with `a ∈ I`,
+that is, the normal closure in `E_n(A)` of the level-`I` elementary matrices. -/
+def relativeElementaryGroup (A : Type u) [CommRing A] (n : ℕ) (I : Ideal A) :
+    Subgroup (Matrix.GeneralLinearGroup (Fin n) A) :=
+  Subgroup.closure {g | ∃ (e t : Matrix.GeneralLinearGroup (Fin n) A) (i j : Fin n) (a : A),
+    e ∈ finiteElementaryGroup A n ∧ i ≠ j ∧ a ∈ I ∧
+    (t : Matrix (Fin n) (Fin n) A) = 1 + Matrix.single i j a ∧ g = e * t * e⁻¹}
 
 /-- All determinant-one matrices over S-integers are elementary in ranks at least
 three, for every number field and finite S (BMS Theorem 4.1 and Corollary 4.3,
@@ -165,6 +188,43 @@ theorem sinteger_elementary_generation (F : Type u) [Field F] [NumberField F]
     (g : Matrix.GeneralLinearGroup (Fin n) (S.integer F))
     (hg : Matrix.GeneralLinearGroup.det g = 1) :
     g ∈ finiteElementaryGroup (S.integer F) n := by
+  sorry
+
+/-- Over S-integers with `S` nonempty or `F` having a real place, every determinant-one
+matrix of size at least three that is congruent to `1` modulo `I` lies in `E_n(A, I)`:
+`SL_n(A, I) = E_n(A, I)` (BMS Theorem 4.1 with Theorem 3.6, pp. 77–78 and 94). -/
+theorem sinteger_relative_elementary_generation (F : Type u) [Field F] [NumberField F]
+    (S : Set (HeightOneSpectrum (NumberField.RingOfIntegers F))) [Finite S]
+    (hFS : S.Nonempty ∨ ∃ v : NumberField.InfinitePlace F, v.IsReal)
+    (n : ℕ) (hn : 3 ≤ n) (I : Ideal (S.integer F))
+    (g : Matrix.GeneralLinearGroup (Fin n) (S.integer F))
+    (hg : Matrix.GeneralLinearGroup.det g = 1)
+    (hI : ∀ i j, (g : Matrix (Fin n) (Fin n) (S.integer F)) i j -
+      (1 : Matrix (Fin n) (Fin n) (S.integer F)) i j ∈ I) :
+    g ∈ relativeElementaryGroup (S.integer F) n I := by
+  sorry
+
+/-- The congruence subgroup property for `SL_n` of S-integers, `n ≥ 3`, when `S` is nonempty
+or `F` has a real place: every finite-index subgroup contains a principal congruence
+subgroup of nonzero level (BMS Corollary 4.3(d), p. 96; Theorem 14.1, pp. 129–130). -/
+theorem congruence_subgroup_property (F : Type u) [Field F] [NumberField F]
+    (S : Set (HeightOneSpectrum (NumberField.RingOfIntegers F))) [Finite S]
+    (hFS : S.Nonempty ∨ ∃ v : NumberField.InfinitePlace F, v.IsReal)
+    (n : ℕ) (hn : 3 ≤ n)
+    (H : Subgroup (Matrix.SpecialLinearGroup (Fin n) (S.integer F))) [H.FiniteIndex] :
+    ∃ I : Ideal (S.integer F), I ≠ ⊥ ∧ principalCongruence (S.integer F) n I ≤ H := by
+  sorry
+
+/-- Failure of the congruence subgroup property for the ring of integers of a totally
+imaginary number field, `n ≥ 3`: some finite-index subgroup of `SL_n(O_F)` contains no
+principal congruence subgroup of nonzero level, the congruence kernel being `μ(F)`
+(BMS Corollary 4.3(d), p. 96; Theorem 14.1, pp. 129–130). -/
+theorem congruence_subgroup_failure (F : Type u) [Field F] [NumberField F]
+    (hF : ∀ v : NumberField.InfinitePlace F, v.IsComplex)
+    (n : ℕ) (hn : 3 ≤ n) :
+    ∃ H : Subgroup (Matrix.SpecialLinearGroup (Fin n) (NumberField.RingOfIntegers F)),
+      H.FiniteIndex ∧ ∀ I : Ideal (NumberField.RingOfIntegers F), I ≠ ⊥ →
+        ¬ principalCongruence (NumberField.RingOfIntegers F) n I ≤ H := by
   sorry
 
 /-- Every finite-index subgroup of SL₂ over S-integers is finitely generated,
