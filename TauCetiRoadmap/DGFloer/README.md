@@ -1204,7 +1204,7 @@ real boundary conditions.
    classical local coefficients.
    - The zero-energy and positive-energy parts and the long exact sequence between them.
    - The Viterbo transfer `ι_!` for exact codimension-zero embeddings.
-6. Source: Salamon, *Lectures on Floer homology*; Audin--Damian, Chapters 6--11; Seidel, *A biased
+6. Source: Salamon, *Lectures on Floer homology* §§1.4, 2.2, 2.4--2.5; Audin--Damian, Chapters 6--11; Seidel, *A biased
    view of symplectic cohomology*; Abouzaid, *Symplectic cohomology and Viterbo's theorem*,
    Sections 1--4.
 
@@ -1861,10 +1861,10 @@ version (TeX source of 13 May 2026, compiled).
 
 | Source requirements | Construction target |
 | --- | --- |
-| Salamon, *Lectures on Floer homology*, and Floer–Hofer–Salamon: action, capped indices and variational equation | 7.C.0–2 |
-| Floer–Hofer–Salamon and Salamon's lectures: capped generators, linearized/asymptotic operators, relative index and variational exercise | 7.C.1–2 |
-| Salamon's lectures and Hofer–Salamon, *Floer homology and Novikov rings*: cap/degree/monotone coefficient comparisons | 7.C.1,7.C.3–6 |
-| Salamon's lectures and Piunikhin–Salamon–Schwarz: individual continuation, identity, relative homotopy/composition and small-autonomous setup | 7.C.2b,7.C.3c,7.C.4–5 |
+| Salamon, *Lectures on Floer homology* §1.4 (action) and §2.4 (Conley–Zehnder index), and Floer–Hofer–Salamon: action, capped indices and variational equation | 7.C.0–2 |
+| Floer–Hofer–Salamon and Salamon's lectures §§2.2, 2.4–2.5 (linearized operator, Conley–Zehnder index, spectral flow): capped generators, linearized/asymptotic operators, relative index and variational exercise | 7.C.1–2 |
+| Salamon's lectures §3.7 (Novikov rings) and Hofer–Salamon, *Floer homology and Novikov rings*: cap/degree/monotone coefficient comparisons | 7.C.1,7.C.3–6 |
+| Salamon's lectures §3.4 (continuation maps), §3.5 (the PSS isomorphism) and Piunikhin–Salamon–Schwarz: individual continuation, identity, relative homotopy/composition and small-autonomous setup | 7.C.2b,7.C.3c,7.C.4–5 |
 | Piunikhin–Salamon–Schwarz and Hofer–Salamon: classical Floer, autonomous symmetry, PSS/Novikov and Arnold applications | 7.C.2–7, with the explicit shifted/module/coefficient formulas |
 | ℂPⁿ cyclic module and Γ=0 reflected comparison | 7.C convention/application checks and7.C.6f |
 
