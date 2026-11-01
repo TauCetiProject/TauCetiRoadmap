@@ -15,6 +15,8 @@ vanishing and integral extension through the discriminant gluing graph.
 The remaining headlines cannot yet be stated on their geometric carriers:
 * Kählerness, the Hodge diamond, integral (1,1) and projectivity comparisons need
   coherent analytic sheaves and their comparison with the complex manifold.
+  The holomorphic frame-torsor comparison in Layer 1 likewise needs the
+  holomorphic line-bundle and structure-sheaf carriers on a general complex manifold.
 * Ricci-flat existence/uniqueness, simple connectivity and the geometric K3 lattice
   need Kähler classes, Ricci curvature and the singular cup lattice of that manifold.
 * The 20-dimensional and polarized 19-dimensional deformation theorems need actual

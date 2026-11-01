@@ -11,9 +11,11 @@ of MorseNovikov N6’s topological trace theorem in §7.2. General scheme
 cohomology, Picard objects and finite quotients
 belong to SchemeAndStackFoundations §§1.17, 1.23, 2.3, 2.6, 2.20, 3.4, 4.9, 4.11 and 5.9–5.10;
 analytic GAGA belongs to ComplexComparisonPartII C−1–C2 and C4, and its C5.4
-owns the normalized exponential/Chern comparison. The holomorphic Picard-class
-identification is the ComplexKahlerGeometry, Part II contract
-gap:integral-topology below; linear analytic Hodge theory belongs to ComplexKahlerGeometry K5–K6. Generic discriminant forms and
+owns the normalized exponential/Chern comparison. Section 1.1 owns the
+holomorphic frame-torsor identification linking ComplexKahlerGeometry K4’s bundles
+to SchemeAndStackFoundations §2.3’s torsor cohomology; it constructs neither
+a second bundle category nor a second torsor cohomology theory. Linear analytic
+Hodge theory belongs to ComplexKahlerGeometry K5–K6. Generic discriminant forms and
 overlattices belong to IntegralLattices §§1B–1F; their native constructions are used
 below. The retained gluing theorem is the extension/restriction criterion for a
 specified pair of actions on the two summands, not a second overlattice construction.
@@ -80,7 +82,7 @@ Each row specifies the sections consumed and their exact output.
 
 | Input | Exact output used here | What it does not supply |
 | --- | --- | --- |
-| SchemeAndStackFoundations 0.3, 1.17, 1.23, 2.6, 2.20, 4.9, 4.11, 5.9–5.10 | projective schemes and finite-group quotients; stack/groupoid descent; coherent cohomology, duality, Kähler differentials and proper base change | a K3 period map, analytic Kuranishi space or global Torelli |
+| SchemeAndStackFoundations 0.3, 1.17, 1.23, 2.2–2.3, 2.6, 2.20, 4.9, 4.11, 5.9–5.10 | projective schemes and finite-group quotients; stack/groupoid descent; Čech-to-derived comparison and abelian torsor/H¹ identification; coherent cohomology, duality, Kähler differentials and proper base change | a K3 period map, analytic Kuranishi space or global Torelli |
 | AlgebraicModuliForArithmeticGeometry 1.1–1.3, 7.3, 7.8 and 8.1–8.3 (with SchemeAndStackFoundations Layer4) | projective-space and coherent-quotient carriers (§§1.1–1.3); Picard lifting (§7.3); Artin test groupoids and tangent/obstruction maps (§§8.1–8.3); effective algebraic families under the algebraicity/effectivity hypotheses of §7.8 | the vanishing of K3 obstruction spaces or an unrestricted universal coarse family |
 | AlgebraicCurves Layers 9/10/12, JacobianChallenge A–D, StableReduction Layers 4–6 | relative genus-one curves, Jacobians/Picard torsors, Weierstrass and minimal regular models, intersection/coherent-duality and projectivity constructions | the K0.A vector-field theorem or a genus-one fibration on an arbitrary K3 |
 | ComplexComparisonPartII C−1.1–C0.7, C1.9, C2, C4.1–C4.4 and C5.4 | actual scheme/space analytification, coherent GAGA and ideal/section/bundle/morphism dictionaries, analytic proper images and cycle currents; C5.4’s exponential sequence and integral first-Chern comparison | a K3 family, positive-square algebraization criterion or global Torelli |
@@ -90,42 +92,6 @@ Each row specifies the sections consumed and their exact output.
 | IntegralLattices 0G, 1B–1F, 5E–5J, 6A | Λ=U³⊕E₈(−1)², dual/discriminant forms, actual overlattice graph gluing, primitive embeddings and even unimodular normal form, with isometries and inverses | a Hodge structure, a free geometric involution or a surface isomorphism |
 | MorseNovikov N5–N7; GeometricTopology Layer 1 | continuous local index, topological trace/local-index equality, vector-field Poincaré–Hopf, and tubular neighbourhoods | the finite-order clean fixed-locus specialization constructed in §7.2 |
 | FourManifolds F7 | the independently constructed quartic K3 example and its topological calculation | a theorem about every K3, a period family or a Torelli proof |
-
-### From TauCetiRoadmap.ComplexKahlerGeometry, Part II
-
-**Holomorphic Picard classes (gap:integral-topology).** The base K4 stops at
-holomorphic bundles, their section sheaves and cocycle gluing. Supply the group
-isomorphism from isomorphism classes of holomorphic line bundles on any complex
-manifold M to H¹(M,O_Mˣ). Identify a line bundle with its O_Mˣ-torsor of
-frames and use SchemeAndStackFoundations §2.3’s torsor/H¹ comparison;
-construct the inverse by K4’s holomorphic cocycle gluing, with tensor, dual,
-refinement and holomorphic-pullback laws.
-Compose this identification with ComplexComparisonPartII C5.4’s exponential
-sequence and integral Chern comparison to give the exact segment
-
-    H¹(M,O_M) → Pic_hol(M) → H²(M,ℤ) → H²(M,O_M).
-
-The connecting map uses u↦exp(2πiu), with frames e_j=e_i g_ij and
-integer cocycle u_jk−u_ik+u_ij for g_ij=exp(2πiu_ij). This contract supplies
-the Picard-class identification, not a second Chern-class construction.
-Its K3 application is Huybrechts draft §1.3.2, pp.15–16, equation (3.1).
-For §3.1 apply the same identification to the total spaces of local analytic
-families and restrictions to fibres; local lifting and rigidification remain
-§3.1’s targets.
-
-*Needs:* ComplexKahlerGeometry K4 for holomorphic bundles and gluing;
-SchemeAndStackFoundations §2.3 for abelian torsor classes and sheaf H¹;
-ComplexComparisonPartII C5.4 for the exponential sequence and Chern comparison.
-
-**Checks.**
-
-- On ℙ¹, O(1) has Chern number +1 and O(−1) has −1; their tensor product
-  has 0. These fix both the exponential sign and the tensor law.
-- On a Picard-rank-one complex K3, H¹(O)=0 makes c₁ injective with rank-one
-  image in rank-22 H²(X,ℤ); H²(O)≃ℂ prevents an unconditional Pic≃H² assertion.
-- On an elliptic curve, H¹(O)≃ℂ and H¹(ℤ)≃ℤ² give
-  ker(c₁)≃ℂ/Λ_E for the image lattice Λ_E of H¹(ℤ): a nontrivial degree-zero line has c₁=0.
-  Thus the general comparison does not imply injectivity without H¹(O)=0.
 
 ## How to read the build
 
@@ -220,13 +186,72 @@ Proposition 2.2(2), p.6).
 
 ## Layer 1: Analytic comparison, positivity and surface foundations
 
-### 1.1 Analytic K3 surfaces and algebraization
+### 1.1 Holomorphic Picard classes and analytic K3 surfaces
+
+For every complex manifold M, let Pic_hol(M) be the group of isomorphism
+classes of K4’s holomorphic line bundles, with tensor product. Construct the
+frame-torsor comparison Pic_hol(M)≃H¹(M,O_Mˣ) on the open-set site, where
+O_M is the holomorphic structure sheaf. Send a line bundle L to its sheaf of
+nowhere-zero holomorphic local sections, with the O_Mˣ-action by multiplication,
+and then apply SchemeAndStackFoundations §2.3’s abelian torsor/H¹ comparison.
+Construct the inverse by choosing local sections of a torsor, gluing K4’s
+rank-one bundles by their transition units, and proving independence of choices
+and both inverse equations (Stacks, §20.6, Lemma 20.6.1, Tag 09NU).
+This comparison holds without compactness, projectivity or H¹(M,O_M)=0.
+
+The frame-torsor comparison API is:
+
+- The trivial line maps to zero, tensor product maps to addition, and the dual
+  maps to negation; the group law agrees with contracted product of torsors.
+- For every holomorphic map f:N→M, pulling back a line bundle and then taking
+  its class agrees with pulling back its H¹ class. Identity, composition and
+  restriction to open sets obey the same equations.
+- Changing local frames or refining a trivializing cover leaves the H¹ class
+  unchanged; reconstructing its bundle recovers the original isomorphism class.
+  The zero class is equivalent to a global nowhere-zero holomorphic frame.
+
+Compose with ComplexComparisonPartII C5.4’s exponential sequence and integral
+Chern comparison to prove the exact segment
+
+    H¹(M,O_M) → Pic_hol(M) → H²(M,ℤ) → H²(M,O_M).
+
+Here c₁:Pic_hol(M)→H²(M,ℤ) is C5.4’s existing connecting class, using
+u↦exp(2πiu), frames e_j=e_i g_ij, and integer cocycle u_jk−u_ik+u_ij
+for g_ij=exp(2πiu_ij). The integral cohomology is identified with singular
+cohomology by C5.4’s comparison. Its K3 application is Huybrechts draft
+§1.3.2, pp.15–16, equation (3.1). Section 3.1 applies the comparison to total
+spaces of local analytic families and to their fibre inclusions; the obstruction
+vanishing and rigidification are targets of that section.
+
+**Checks.**
+
+- On ℙ¹, O(1) has Chern number +1 and O(−1) has −1; their tensor product
+  is trivial and has 0. The O(1) frame torsor has no global section. Replacing
+  each transition unit by its inverse exchanges +1 and −1.
+- For logarithms u₀₁=u₁₂=1/4 and u₀₂=1/2 the integer coboundary is 0;
+  replacing u₀₂ by −1/2 gives 1. Both yield transition units i,i,−1;
+  their integer cocycles differ by the coboundary of the integer log-change.
+- A degree-two map ℙ¹→ℙ¹ pulls O(1) back to O(2), so both routes give
+  Chern number 2. The identity pullback leaves the number 1 unchanged.
+- On a point, and on the empty manifold, Pic_hol and H¹(Oˣ) each have one
+  element; the trivial bundle maps to 0. On the disjoint union of two copies
+  of ℙ¹, classes (1,−1) and (−1,1) tensor to (0,0), component by component.
+- On a Picard-rank-one complex K3, H¹(O)=0 makes c₁ injective with rank-one
+  image in rank-22 H²(X,ℤ); H²(O)≃ℂ prevents an unconditional Pic≃H² assertion.
+- On E=ℂ/(ℤ+iℤ), choose the identification Pic⁰(E)≃ℂ/(ℤ+iℤ).
+  The class of 1/2 is nonzero but has c₁=0; in general ker(c₁) is
+  H¹(E,O_E)/im H¹(E,ℤ). Thus c₁ need not be injective when H¹(O)≠0.
+
+*Needs:* ComplexKahlerGeometry K4 for holomorphic bundles, section sheaves and
+cocycle gluing; SchemeAndStackFoundations §§2.2–2.3 for Čech-to-derived and
+abelian torsor/H¹ comparisons; ComplexComparisonPartII C5.4 for the exponential
+sequence and integral Chern comparison.
 
 Consume ComplexComparisonPartII C−1/C0's actual analytification functors, C1.9 coherent proper GAGA and C2/C4's section, line-bundle and morphism comparisons. Construct their K3-specific canonical-bundle, chosen-form and coherent-cohomology adapters with the canonical exchange maps; no second general analytification or GAGA engine is introduced. In particular an algebraic K3 analytifies to a compact complex surface, and CKG's projective metric gives its Kähler structure. Do not identify a chosen algebraic polarization with an arbitrary Kähler class.
 
 For a compact complex surface with trivial canonical bundle and H¹(O)=0, prove b₁=0 using the degree-one de Rham/Dolbeault comparison and the surface identities, without first assuming the Kähler Hodge theorem. Construct a Kähler class by the compact-complex-surface positive-current/separation criterion: prove the needed Hahn–Banach separation on real (1,1)-currents, regularization and the positive-square representative criterion, and verify its even-b₁ hypothesis. This K3 surface application includes the Kählerness proof; it is not an unnamed Siu theorem input. Its analytic prerequisites are CKG K2–K5's local and elliptic constructions, not K6's conclusion for a manifold already known Kähler.
 
-Construct the analytic surface Riemann–Roch/Noether identity χ(O)=(c₁²+c₂)/12 from the Dolbeault index/Todd comparison, with the actual complex orientation and Chern classes; Specialize the IndexTheory I7.3 Dolbeault-symbol and index normalization to the actual tangent bundle and its Todd degree-four expression. Thus c₂=24 also for nonprojective analytic K3s. After Kählerness, apply CKG compact Hodge and Serre to construct h¹,⁰=h⁰,¹=0, h²,⁰=h⁰,²=1 and h¹,¹=20. Define the real positive component in H¹,¹(X,ℝ), selected by an actual Kähler class. Prove the Hodge–Riemann sign relations for σ, its conjugate, and primitive classes. Use gap:integral-topology’s Picard-class identification and ComplexComparisonPartII C5.4’s exponential/Chern comparison. Since H¹(O)=0, c₁ is injective with image ker(H²(X,ℤ)→H²(X,O)), which compact Kähler Hodge theory identifies with the integral (1,1)-classes; preserve the difference between a line-bundle isomorphism and its Chern class until injectivity is proved.
+Construct the analytic surface Riemann–Roch/Noether identity χ(O)=(c₁²+c₂)/12 from the Dolbeault index/Todd comparison, with the actual complex orientation and Chern classes; Specialize the IndexTheory I7.3 Dolbeault-symbol and index normalization to the actual tangent bundle and its Todd degree-four expression. Thus c₂=24 also for nonprojective analytic K3s. After Kählerness, apply CKG compact Hodge and Serre to construct h¹,⁰=h⁰,¹=0, h²,⁰=h⁰,²=1 and h¹,¹=20. Define the real positive component in H¹,¹(X,ℝ), selected by an actual Kähler class. Prove the Hodge–Riemann sign relations for σ, its conjugate, and primitive classes. Use the frame-torsor identification above and ComplexComparisonPartII C5.4’s exponential/Chern comparison. Since H¹(O)=0, c₁ is injective with image ker(H²(X,ℤ)→H²(X,O)), which compact Kähler Hodge theory identifies with the integral (1,1)-classes; preserve the difference between a line-bundle isomorphism and its Chern class until injectivity is proved.
 
 Construct projectivity from the existence of a positive-square integral (1,1)-class without assuming K6's later chamber theorem. Surface Riemann–Roch and the Kähler pairing select a sign whose powers have quadratically growing sections; construct the resulting meromorphic map of algebraic dimension two, its resolved graph and the projective algebraization of the smooth Moishezon surface by the surface modification/contraction argument. Own these meromorphic-map and algebraization steps here. For an actual positive line bundle also construct the coherent Kodaira embedding proof: the needed Bochner/vanishing, peak sections, separation of points and tangent directions using high powers, and compactness give a finite projective embedding. The resulting algebraic surface is unique by proper GAGA. The output is an equivalence between algebraic K3s and *projective* analytic K3s and an identification of ample algebraic bundles with integral Kähler classes. It does not algebraize every analytic K3.
 
@@ -260,7 +285,7 @@ The analytic surface and positive-cone API is:
   from 2d to 8d; it preserves positivity but not a primitive polarization.
 
 *Needs:* §0.1; ComplexComparisonPartII C−1–C2, C4 and C5.4;
-ComplexKahlerGeometry K1–K6 and gap:integral-topology; IndexTheory I6–I7; CharacteristicClasses C1–C7;
+ComplexKahlerGeometry K1–K6; the frame-torsor comparison above; IndexTheory I6–I7; CharacteristicClasses C1–C7;
 SchemeAndStackFoundations §§5.9–5.10. The positive-current criterion and
 surface algebraization arguments are targets of this layer.
 
@@ -339,7 +364,7 @@ cohomological formulas and IntegralLattices, independently of global Torelli.
 
 Construct actual proper analytic Kuranishi families by the Dolbeault differential graded Lie algebra of T_X: fix a Hermitian metric, solve the Maurer–Cartan equation in an elliptic gauge, identify tangent H¹(T_X) and obstruction H²(T_X), and prove the universal property for deformations with a fixed central-fibre identification. Contraction with σ and Serre give H⁰(T_X)=H²(T_X)=0 and h¹(T_X)=20. Thus the base is smooth of dimension20 and the family is locally universal in that pointed sense. Changing gauge/metric yields the comparison germ; prove gluing and cocycles for the marked deformation groupoid.
 
-For a proper smooth family, construct the integral H² local system by actual differentiable local trivializations, cup pairing, Gauss–Manin connection and markings. On a Hausdorff finite-dimensional base chart apply SmoothBundlesConnections B1.5 to the underlying real proper surjective submersion, component by component, with its actual fibre and projection-preserving smooth charts. These local comparisons and their transition maps define the cohomology local system; no global Hausdorff hypothesis is imposed on the later non-Hausdorff marked moduli space. Construct the Hodge filtration as holomorphic subbundles and prove the fibre and base-change equations. For a flat integral class whose restriction is (1,1) on every fibre, use gap:integral-topology on the total space and ComplexComparisonPartII C5.4’s connecting class to prove local extension of its central-fibre line bundle after shrinking the base; construct the relative Picard obstruction, its vanishing on this Hodge locus, and rigidification explicitly. No unconditional lift over the whole deformation base is asserted. For a primitive polarization h with h²=2d>0, construct the smooth19-dimensional polarized deformation slice, and the open subfamily where its actual line bundle is ample. Treat degree2 and special divisibility with the same integral class, not a changed rational polarization.
+For a proper smooth family, construct the integral H² local system by actual differentiable local trivializations, cup pairing, Gauss–Manin connection and markings. On a Hausdorff finite-dimensional base chart apply SmoothBundlesConnections B1.5 to the underlying real proper surjective submersion, component by component, with its actual fibre and projection-preserving smooth charts. These local comparisons and their transition maps define the cohomology local system; no global Hausdorff hypothesis is imposed on the later non-Hausdorff marked moduli space. Construct the Hodge filtration as holomorphic subbundles and prove the fibre and base-change equations. For a flat integral class whose restriction is (1,1) on every fibre, use §1.1’s frame-torsor comparison on the total space and ComplexComparisonPartII C5.4’s connecting class to prove local extension of its central-fibre line bundle after shrinking the base; construct the relative Picard obstruction, its vanishing on this Hodge locus, and rigidification explicitly. No unconditional lift over the whole deformation base is asserted. For a primitive polarization h with h²=2d>0, construct the smooth19-dimensional polarized deformation slice, and the open subfamily where its actual line bundle is ample. Treat degree2 and special divisibility with the same integral class, not a changed rational polarization.
 
 Until cohomological faithfulness is proved in K6, use the deformation groupoid/atlas and its stabilizers. A marking does not by itself license a global fine moduli family with no inertia. Construct transition maps, descent and base-change on actual families before passing to isomorphism classes.
 
@@ -377,7 +402,7 @@ primitive Chern class h. Their API is:
   its h remains nef but fails relative ampleness at that fibre.
 
 *Needs:* Layers 1–2; ComplexKahlerGeometry K3–K6 for the Dolbeault and
-elliptic gauge construction; gap:integral-topology and ComplexComparisonPartII C5.4
+elliptic gauge construction; §1.1’s frame-torsor comparison and ComplexComparisonPartII C5.4
 for line-bundle classes and their connecting classes; SmoothBundlesConnections B1.5 for local
 trivialization; AlgebraicModuliForArithmeticGeometry §§1.1–1.3, 7.3, 7.8,
 8.1–8.3 for algebraic deformation/Picard comparisons at their stated hypotheses.
@@ -876,3 +901,6 @@ K3SurfacesAndSymplecticBoundedness Part II extends these K3 foundations.
   Progress in Mathematics 338 (2021), 247–299,
   [author-hosted text](https://webusers.imj-prg.fr/~shu.shen/publication/SurveyFried),
   §2.1, Assumption 2.1, Definition 2.2 and equations (2.7)–(2.8), pp.256–257.
+- The Stacks Project, *Cohomology of Sheaves*, §20.6, Lemma 20.6.1,
+  [Tag 09NU](https://stacks.math.columbia.edu/tag/09NU), for invertible sheaves,
+  frame torsors and first cohomology.
