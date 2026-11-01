@@ -97,7 +97,8 @@ It uses, and does not redevelop:
   (InverseGaloisAndArithmeticFundamentalGroups); relative Picard schemes and Jacobians (TauCetiRoadmap
   JacobianChallenge and AlgebraicCurves); étale duality on curves (EtaleDualityAndPerverseSheaves);
 - singular homology, van Kampen, cellular homology, transfer, Poincaré–Lefschetz duality and relative
-  homotopy (TauCetiRoadmap AlgebraicTopology); covering spaces, the universal cover and the lifting
+  homotopy (TauCetiRoadmap AlgebraicTopology); the Serre-fibration homotopy exact sequence,
+  its pointed-set end, naturality and relative-CW lifting (DGFloer Layer 1 item 2); covering spaces, the universal cover and the lifting
   criterion (TauCetiRoadmap Completed/UniversalCovers); manifolds with boundary, collars, gluing and
   isotopy extension (TauCetiRoadmap GeometricTopology, Layer 1); the pinned library’s
   `TauCeti.GLSymplecticFin.eq_top_of_root_subgroups` in
@@ -138,7 +139,12 @@ It leaves to other roadmaps:
   characteristic unless characteristic zero is stated. `T_v^r(x) = x + r·ω(v, x)·v` and `T_v = T_v^1`.
   On oriented surface homology the intersection pairing `î(x, b)` is used in the order written: a
   positive Dehn twist acts by `x ↦ x + î(x, b)·b`, so the action `x ↦ x + q·î(x, ẽ)·ẽ` of a lifted twist
-  is `T_{ẽ}^{−q}` when `ω = î`.
+  is `T_{ẽ}^{−q}` when `ω = î`. For a complex Jacobian, the supplier's positive Riemann
+  form is `E = −î`, with `E(Jx,x) > 0` for `x ≠ 0`; its homological polarization is
+  `Q = −E = î` (AbelianSchemesAndArithmeticModuli §A5.2). On `ℂ/(ℤ+iℤ)`, with
+  `a=1`, `b=i` and `Ja=b`, this gives `î(a,b)=1`, `E(a,b)=−1` and `E(Ja,a)=1`.
+  Multiplying a nondegenerate alternating form by a nonzero scalar does not change its
+  symplectic group or its isotropic subspaces.
 - **The affine group.** `Aff(q)` acts on the prime field `𝔽_q` by `x ↦ ax + b` with `a ≠ 0`; multiplication
   is composition; `λ : Aff(q) → 𝔽_q^×` is the linear part. Centre-freeness and self-normalization are
   stated for primes `q ≥ 3`.
@@ -299,8 +305,12 @@ numbers `k.n` refer to this document; `LV20` is the paper of Lawrence and Venkat
   the pinned sign), 4 (cellular homology), 5 (covers, transfer `p_*p^* = deg` and `p^*p_* = Σ g_*` for unbranched regular
   covers, Serre fibrations and the bundle-to-fibration bridge), 6 (Poincaré–Lefschetz duality for smooth compact
   manifolds) and 8 (relative homotopy, Hurewicz, Whitehead). The topological surface statements these do not contain
-  — Schönflies, triangulation, duality for topological surfaces, the fibration homotopy sequence, asphericity — are
+  — Schönflies, triangulation, duality for topological surfaces and asphericity — are
   5.2–5.24.
+- **DGFloer** Layer 1 item 2: the Serre-fibration homotopy exact sequence, including
+  the boundary `π₁(B) → π₀(F)`, component actions, pointed-set exactness and naturality;
+  disk/cube lifting extended to relative CW pairs. The bundle-to-Serre-fibration bridge
+  supplies the hypotheses for the evaluation and configuration bundles in §§5.20–5.23.
 - **FuchsianOrbifolds** Layer 2: geodesic polygons and the Poincaré side-pairing theorem; 5.14a verifies the closed-surface polygon hypotheses and proves its centralizers.
 - **GeometricTopology** Layer 1: manifolds with boundary, collars, gluing along boundary pieces.
 - **Completed/UniversalCovers** Stages 0–2: the universal cover as path classes, deck transformations
@@ -319,8 +329,7 @@ numbers `k.n` refer to this document; `LV20` is the paper of Lawrence and Venkat
 - **ArithmeticGaloisDuality** §R02.3.1, `RestrictedRamification.finite_unramifiedOutside_of_finrank_le`:
   finitely many embedded extensions of a number field of degree at most a fixed bound, unramified
   outside a fixed finite set of places. This is the bounded-degree input to §§1.1 and 7.9.
-- **FaltingsFinitenessAndIsogenyTheorems** §§R28.5.1–R28.5.2, `finite_weilPolynomials` and
-  `frobeniusTestSet`: finiteness of monic integral polynomials of any fixed degree and root absolute
+- **FaltingsFinitenessAndIsogenyTheorems** §§R28.5.1–R28.5.2: finiteness of monic integral polynomials of any fixed degree and root absolute
   value, and a finite Frobenius test set for semisimple continuous representations. The local
   test-set target §1.1 also identifies traces of representations without semisimplicity, by applying
   the supplied semisimple criterion to their semisimplifications (ArithmeticGaloisRepresentations
@@ -338,7 +347,7 @@ numbers `k.n` refer to this document; `LV20` is the paper of Lawrence and Venkat
 - For `d = 2, q = 3` and `w = 1, X²−3` is allowed: purity alone does not prescribe the sign of the constant coefficient.
 - Integrality is essential: the polynomials `X²−2aX+1, −1 < a < 1` rational, already give infinitely many monic rational polynomials with roots of absolute value 1.
 
-- **MetaplecticAutomorphicForms** §0.9a, `exists_lagrangianComplement`: Lagrangian complements, adapted symplectic bases and transitivity over every field; §3.2 extends a prescribed Lagrangian basis.
+- **MetaplecticAutomorphicForms** §0.9a, `exists_lagrangianComplement`: Lagrangian complements, adapted symplectic bases and transitivity over every field; this roadmap’s §3.2 extends a prescribed Lagrangian basis.
 - **RestrictedPowerSeries** §2.4 (Strassmann): a nonzero restricted one-variable series over a
   complete nonarchimedean field has at most as many closed-ball zeros as its last Gauss-norm
   maximizing index; the statement allows arbitrary radii and complete isometric extensions.
@@ -350,7 +359,7 @@ numbers `k.n` refer to this document; `LV20` is the paper of Lawrence and Venkat
   `(φ,N)`-module and its `N = 0` subcategory, strict morphisms, tensors, duals, determinants,
   the Hodge and Newton numbers `FilteredPhiNModule.tH`, `FilteredPhiNModule.tN` and weak admissibility.
   Integer filtration indices range over all of `ℤ`; negative jumps are retained.
-- **PadicHodgeTheory** §3.2 (`hodgeWeight`) supplies the mean Hodge weight `t_H/rank` of a nonzero
+- **PadicHodgeTheory** §3.2 supplies the mean Hodge weight `t_H/rank` of a nonzero
   filtered space, using the preceding carrier. Section 3.3 supplies period functors from
   PadicPeriodRings §§4.1–4.3, their exactness and strictness on de Rham representations, compatibility
   with tensors, duals and determinants, rank-one local algebraicity and de Rham finite induction.
@@ -387,8 +396,11 @@ numbers `k.n` refer to this document; `LV20` is the paper of Lawrence and Venkat
   agree everywhere), §1.6 (compact-image stable lattices), §1.3 (induction from open subgroups; the continuous Mackey decomposition for `H` open
   and `D` closed), §1.12 (restriction to normal subgroups preserves semisimplicity), §6.3 / good-reduction local Euler factor (for an abelian variety with
   good reduction at `u ∤ p`, `V_p` is unramified at `u` and the Frobenius polynomial is the integral characteristic
-  polynomial of the reduced Frobenius, independent of `p`), §7.6 (the Zariski closure `AlgebraicGroup.zariskiClosure` of a
-  subgroup of `G(K)` and its compatibility with images).
+  polynomial of the reduced Frobenius, independent of `p`), §7.6 (the closed subgroup defined by
+  `TauCeti.HopfIdeal.vanishingIdeal` for a subgroup of `G(K)`, with `G` affine of finite
+  type; compatibility of closure with images of algebraic-group homomorphisms over an
+  algebraically closed field). The pinned ideal interface is in
+  `TauCeti/Algebra/AlgebraicGroup/HopfIdeal/Points/Vanishing.lean`.
 - **NeronModelsAndSemistableAbelianVarieties** §5.1 (Néron–Ogg–Shafarevich).
 - **DeligneWeightsAndPurity** §§0.1–0.2 (Weil numbers: products, inverses, conjugation) and §1.4 (the Weil estimate for
   Frobenius of an abelian variety over `𝔽_q`); **WeightsInEtaleCohomology** Layers R34.1–R34.2 (purity and integrality of
@@ -701,13 +713,24 @@ This target specializes the reductive-group structure theory to geometric closed
 
 ### 0.21 Transvections along a connected intersection graph (LV20 Lemma 2.14)
 
-**Lemma.** Let `(V, ω)` be symplectic over a field `k` of characteristic zero and `S ⊆ V` a finite set of vectors. Form the graph on `S` with an edge between `v, v'` when `⟨v, v'⟩ ≠ 0`. If this graph is connected then the Zariski closure of the subgroup generated by `{T_v : v ∈ S}` contains `T_w` for every `w` in the span of `S`. If moreover `S` spans `V`, the closure is `Sp(V)`.
+**Lemma.** Let `(V, ω)` be symplectic over a field `k` of characteristic zero and `S ⊆ V` any set of vectors. Form the graph on `S` with an edge between `v, v'` when `⟨v, v'⟩ ≠ 0`. If this graph is connected then the Zariski closure of the subgroup generated by `{T_v : v ∈ S}` contains `T_w` for every `w` in the span of `S`. If moreover `S` spans `V`, the closure is `Sp(V)`.
 
-*Proof sketch.* Induct on `|S|`: remove a vertex `v` whose deletion leaves `S₀` connected (a leaf of a spanning tree); by induction the closure `G` contains `T_w` for all `w ∈ W = span(S₀)`. For `w ∈ W` with `⟨w, v⟩ ≠ 0`, 0.20 applied to `T_w, T_v` (both in `G`) gives `T_x ∈ G` for `x = w + v`, and `T_{cx}` for all `c`. The set `{w ∈ W : ⟨w, v⟩ ≠ 0}` is a nonempty Zariski-open subset of `W` (nonempty since `v` has a neighbour in `S₀`), so `{T_{w+v}}` is dense in `{T_{w+v} : w ∈ W}` and the closedness of `G` gives all `T_x` for `x ∈ W +` kv. If `S` spans `V`, the transvections generate `Sp(V)` as an abstract group, so the closure is `Sp(V)`. (LV20, §2.7, Lemma 2.14, p. 15.) *Needs:* 0.15; 0.17; 0.20; TauCetiRoadmap ReductiveGroups Layer 3; TauCetiRoadmap ReductiveGroups Layer 7.
+*Proof sketch.* For each `w ∈ span(S)`, choose a finite support for `w` and finitely many
+paths in the connected graph joining its support vertices. Their union is a finite connected
+subset of `S`; the zero vector needs no support since `T_0 = 1`. It suffices to prove the
+claim for finite connected sets. For a singleton `{v}`, the powers of `T_v` are Zariski dense
+in its one-parameter transvection subgroup when `v ≠ 0`, and `T_0 = 1`. Induct on `|S|`: remove a vertex `v` whose deletion leaves `S₀` connected (a leaf of a spanning tree); by induction the closure `G` contains `T_w` for all `w ∈ W = span(S₀)`. For `w ∈ W` with `⟨w, v⟩ ≠ 0`, 0.20 applied to `T_w, T_v` (both in `G`) gives `T_x ∈ G` for `x = w + v`, and `T_{cx}` for all `c`. The set `{w ∈ W : ⟨w, v⟩ ≠ 0}` is a nonempty Zariski-open subset of `W` (nonempty since `v` has a neighbour in `S₀`), so `{T_{w+v}}` is dense in `{T_{w+v} : w ∈ W}` and the closedness of `G` gives all `T_x` for `x ∈ W +` kv. If `S` spans `V`, the transvections generate `Sp(V)` as an abstract group, so the closure is `Sp(V)`. (LV20, §2.7, Lemma 2.14, p. 15.) *Needs:* 0.15; 0.17; 0.20; TauCetiRoadmap ReductiveGroups Layer 3; TauCetiRoadmap ReductiveGroups Layer 7.
 
 **Checks.**
 
-- A symplectic basis `e₁, f₁, e₂, f₂` is not connected; adding `e₁ + e₂` connects it.
+- A symplectic basis `e₁, f₁, e₂, f₂` has two connected components: its transvections
+  generate a subgroup of `Sp₂ × Sp₂`, of dimension 6 rather than `dim Sp₄ = 10`.
+  Adding `e₁ + e₂` connects the graph through pairings 1 with both `f₁` and `f₂`.
+- In `ℚ²` with `ω(e,f)=1`, the infinite set `{e} ∪ {f+ne : n∈ℤ}` is connected
+  since every `ω(e,f+ne)=1`, and spans since it contains `e,f`; its closure is `Sp₂`.
+- For `S={0}`, its span is zero and its sole transvection is `T_0=1`; for `S={e}`,
+  `T_(ce)(x)=x+c²·ω(e,x)·e`, so the one-parameter
+  closure contains every required transvection even though the span is degenerate.
 - For a chain of vanishing cycles with nonzero adjacent pairings, the closure contains all transvections centred in span `S`. If `S` spans the ambient nondegenerate `V`, the closure is `Sp(V)`; without that spanning condition, span `S` can be degenerate and no embedded `Sp`(span `S`) is asserted.
 
 ### 0.22 Two-factor Goursat dichotomy for simple Lie algebras
@@ -814,7 +837,7 @@ proves this extension; the direct image-algebra proof below fixes the test-set u
 
 **Theorem.** Let `K` be a number field, `T` a finite set of finite places of `K, p` a prime and `w, d ≥ 0` integers. Up to isomorphism there are only finitely many semisimple continuous representations `ρ : G_K → GL_d(ℚ_p)` that are unramified outside `T`, pure of weight `w` outside `T` and have integral geometric-Frobenius polynomials outside `T`. (Lawrence and Venkatesh state the lemma with 'unramified outside `S'` for a set `S` not containing the places above `p`, while applying it to `p`-adic cohomology; the correct and intended hypothesis allows `T` to contain the places above `p`.)
 
-*Proof sketch.* If `d = 0` there is only the zero representation. For the remaining proof assume `d ≥ 1`, as required by the Frobenius test-set lemma. Let `T'` be a Frobenius test set for `(K, T, p, d)`. For `v ∈ T'` the characteristic polynomial of `ρ(Frob_v^geom)` is one of the finitely many integer Weil polynomials of degree `d` and weight `w` for `q = q_v`; it determines the characteristic polynomial, hence the trace, of `ρ(Frob_v) = ρ(Frob_v^geom)^{-1}`. So the tuple (tr `ρ(Frob_v)`)`_{v∈T'}` takes finitely many values, and representations with the same tuple are isomorphic by the supplied trace criterion and the Frobenius test set of this layer. (LV20, §2.3, Lemma 2.3, p. 9.) *Needs:* FaltingsFinitenessAndIsogenyTheorems §R28.5.1 (`finite_weilPolynomials`); 1.1; ArithmeticGaloisRepresentations §1.8; WeightsInEtaleCohomology Layer R34.1; DeligneWeightsAndPurity §§0.1–0.2.
+*Proof sketch.* If `d = 0` there is only the zero representation. For the remaining proof assume `d ≥ 1`, as required by the Frobenius test-set lemma. Let `T'` be a Frobenius test set for `(K, T, p, d)`. For `v ∈ T'` the characteristic polynomial of `ρ(Frob_v^geom)` is one of the finitely many integer Weil polynomials of degree `d` and weight `w` for `q = q_v`; it determines the characteristic polynomial, hence the trace, of `ρ(Frob_v) = ρ(Frob_v^geom)^{-1}`. So the tuple (tr `ρ(Frob_v)`)`_{v∈T'}` takes finitely many values, and representations with the same tuple are isomorphic by the supplied trace criterion and the Frobenius test set of this layer. (LV20, §2.3, Lemma 2.3, p. 9.) *Needs:* FaltingsFinitenessAndIsogenyTheorems §R28.5.1 (finiteness of Weil polynomials); 1.1; ArithmeticGaloisRepresentations §1.8; WeightsInEtaleCohomology Layer R34.1; DeligneWeightsAndPurity §§0.1–0.2.
 
 **Checks.**
 
@@ -946,7 +969,7 @@ the mean weight as that degree divided by `dim D`. The degree is an integer and 
 is rational.
 In the `p`-adic setting, forget the finite bounds to identify this filtration with the filtration
 of the supplied period module; its degree is `FilteredPhiNModule.tH` and its mean weight is
-PadicHodgeTheory §3.2'`s` `hodgeWeight`. Prove these comparison equalities, preserving every
+the mean Hodge weight of PadicHodgeTheory §3.2. Prove these comparison equalities, preserving every
 negative jump. When `F⁰D = D`, this is LV20'`s` nonnegative-index sum.
 
 - The mean weight, with the preceding dictionary to the supplier.
@@ -1440,18 +1463,24 @@ Isotropy forces the componentwise rank: an isotropic `E ⊗ A`-submodule whose q
 - Full monodromy does not depend on `y₀ ∈ Y(ℂ)`.
 - Under the de Rham–Betti comparison `V_B ⊗ ℂ ≅ V_ℂ` the summands correspond to the factors of `E₀ ⊗_ι ℂ`, and the component pairings satisfy `ω_B(c(x),c(y)) = (2πi)·ω₀(x,y)` with the stated Tate-period normalization. Their isometry groups and isotropic-subspace varieties therefore correspond.
 - If the family has full monodromy then `Γ·h = H_ℂ(ℂ)` for every `h ∈ H_ℂ(ℂ)` (transitivity on the period variety).
-- The Legendre family has full monodromy; a constant family with `d ≥ 1` and a nonempty finite étale cover does not.
+- The Legendre family has full monodromy. For a fixed polarized abelian variety `A`
+  of dimension `d ≥ 1`, the family `A × Y′ → Y′ → Y` over a nonempty finite étale cover
+  has finite permutation monodromy on the summands, so does not have full monodromy.
 
 *Construction.* The local system and its monodromy come from the proper smooth morphism `π∘f` (Ehresmann) and the covering `π`. Mathlib multiplication traverses the right factor first. Thus `T_{p*q}=T_p∘T_q`, and `μ(op p * op q)=T_{q*p}⁻¹=T_p⁻¹∘T_q⁻¹`. The inverse-image subgroup equals the forward-image subgroup. Zariski closure of the abstract subgroup `μ(π₁)` in the algebraic group `GL(V_B ⊗ ℂ)` (ReductiveGroups Layer 3); it is contained in the closed subgroup of elements normalizing the subalgebra `ℂ^{π^{-1}(y₀)}` of `End(V_B ⊗ ℂ)` and preserving `Σω_{y'}`, because `μ(π₁)` is. Full monodromy is a property of the pair (`Γ`, decomposition); it does not depend on `y₀`, since transport along a path conjugates the data. (LV20, §3.2, (3.5), p. 16; §5, (5.1), p. 25.) *Needs:* 0.15; 2.1; 2.10; 3.10; AbelianSchemesAndArithmeticModuli §§A5.6–A5.7; ComplexComparisonPartII §§C5.1–C5.2 (`properDeRhamBetti`, `multiplicativePeriodInterface`, trace and the `2πi` period); Tau Ceti `TauCeti.LocalCoefficientSystem.monodromyRepresentation`; Mathlib `IsCoveringMap.monodromyPerm`; TauCetiRoadmap ReductiveGroups Layer 3; TauCetiRoadmap Completed/UniversalCovers Stage 2; Mathlib `FundamentalGroup.mul_def`.
 
 **Checks.**
 
 - The Legendre family has algebraic monodromy `SL₂`, though its integral image omits `−I`.
-- A constant polarized family with `d ≥ 1` and nonempty finite étale cover has algebraic monodromy 1 and fails full monodromy.
+- For `Y=ℂ×`, the double cover `t=u²` and a fixed polarized elliptic curve `A`, the
+  family `A×Y′` has monodromy swapping the two `H¹(A)` summands. Its algebraic image
+  is `C₂`, of order 2 and dimension 0, whereas `Sp₂×Sp₂` has dimension 6.
 - A change of base point conjugates the monodromy group by parallel transport and preserves the full-monodromy predicate.
 - For noncommuting forward transports `A=[[1,1],[0,1]]` and `B=[[1,0],[1,1]], T_{p*q}⁻¹=B⁻¹A⁻¹` differs from `A⁻¹B⁻¹`. Backward transport is multiplicative on `π₁^op`; treating it as a homomorphism on the ordinary Mathlib `π₁` fails this test.
 - The Legendre monodromy is generated, in a suitable integral symplectic basis, by `[[1,2],[0,1]]` and `[[1,0],[−2,1]]`. This group has index 2 in `Γ(2)`, excludes `−I`, and is Zariski dense in `SL₂`; its projective image is `Γ(2)/{±I}`.
-- A constant family `A × Y` has `Γ = 1` and fails full monodromy for `d ≥ 1` and nonempty cover.
+- For a trivial cover `Y′=∐_{i=1}^n Y` and the constant family `A×Y′`, both sheet
+  transport and the abelian local system are trivial: `Γ=1`. If `d≥1` and `n≥1`,
+  the required product has dimension `n·d(2d+1)>0`, so full monodromy fails.
 - For an elliptic curve, integration sends the algebraic cup trace of degree one to `2πi` times the integral Betti trace normalization; rescaling the form leaves `Sp₂` and its lines unchanged.
 - For the zero abelian variety the constant family has `Γ=1=Sp(0)` and has full monodromy. An empty finite étale cover also gives a vacuous full-monodromy condition.
 
@@ -1851,12 +1880,6 @@ Compared with AlgebraicTopology Stage 6’s smooth-manifold formulation, this ta
 - `(2, 0) ∈ H₁(T²)` is not represented by a simple closed curve; `(2, 3)` is.
 - On `S_2` the class `a_1 + a_2` is represented by a simple closed curve.
 
-### 5.14 The homotopy exact sequence of a fibre bundle
-
-**Theorem.** Let `p : E → B` be a map with the homotopy lifting property for disks (for instance a fibre bundle, which has it for all CW pairs), `b₀ ∈ B, F = p^{−1}(b₀)` and `x₀ ∈ F`. Then `p_* : π_n(E, F, x₀) → π_n(B, b₀)` is an isomorphism of groups for `n ≥ 2` and a bijection of pointed sets for `n = 1`, and if `B` is path-connected there is a long exact sequence `⋯ → π_n(F) → π_n(E) → π_n(B) → π_{n−1}(F) → ⋯ → π₀(F) → π₀(E) →` *, whose terms at `π₀` and the boundary from `π₁(B)` are pointed sets, natural in maps of fibrations; in low degrees the boundary map `π₁(B) → π₀(F)` is the action of loops on the fibre.
-
-*Proof sketch.* Lift relative disks along `p` to identify relative homotopy groups of `(E, F)` with those of `B`, then splice into the long exact sequence of the pair `(E, F)` (AlgebraicTopology Stage 8). Local triviality of a bundle gives lifting for CW pairs by induction over cells. (Hat02, Theorem 4.41, p. 376; Proposition 4.48, p. 379.) *Needs:* TauCetiRoadmap AlgebraicTopology Stage 8; TauCetiRoadmap AlgebraicTopology Stage 5.
-
 ### 5.14a Euclidean and hyperbolic closed-surface models
 
 **Construction.** Construct `closedSurface_polygonModel`: for a closed oriented surface of genus one, the square model `ℝ²/ℤ²`; for each genus `g≥2`, a regular geodesic `4g`-gon in `ℍ²` with angle `π/(2g)` at every vertex and the side pairings of the oriented handle polygon. Prove that all vertices form one vertex cycle with angle sum `2π`, that the side-pairing group acts freely and properly discontinuously, and that its quotient is the genus-`g` surface. The polygon translates give a covering by `ℍ²`, its contractible universal cover. Prove `closedSurface_cyclicCentralizer`: in the genus-`g≥2` deck group the centralizer of every nonidentity element is infinite cyclic.
@@ -1932,7 +1955,7 @@ Conventions: annulus charts preserve the `dt∧dθ` orientation fixed in 5.11. M
 
 **Theorem.** Let `S` be a surface with `χ(S) < 0` and `x` an interior point. Then `1 → π₁(S, x) → Mod(S*) → Mod(S) → 1` (`Push`, then `Forget`) is exact. For a simple loop `α` at `x, Push([α]) = T_a T_b⁻¹`, where `a` and `b` are the simple closed curves in `S ∖ {x}` obtained by pushing `α` off itself to the left and to the right; a and `b` are nonseparating in `S ∖ {x}` if and only if `α` is nonseparating in `S`.
 
-*Proof sketch.* Exactness at `Mod(S*)`: a class in the kernel of `Forget` is isotopic to the identity in `S`, and the track of `x` is a loop `α` whose push is that class (up to inversion); `Forget` is surjective because a homeomorphism can be isotoped to fix `x`. Injectivity: `Push(α)` acts on `π₁(S, x)` by conjugation by `α`, and `π₁(S)` has trivial centre when `χ(S) < 0`. The formula for simple loops: the isotopy pushing `x` once around `α` is supported in the annulus between a and `b`, where it equals `T_a T_b⁻¹`; nonseparation is read off from the complement of the annulus. (FM12, §4.2, Theorem 4.6, p. 102; §4.2, Fact 4.7, p. 103; §4.2, p. 104.) *Needs:* 5.9; 5.11; 5.14; 5.16; 5.17; 5.18; 5.19; TauCetiRoadmap AlgebraicTopology Stage 8; TauCetiRoadmap Completed/UniversalCovers Stage 2.
+*Proof sketch.* Exactness at `Mod(S*)`: a class in the kernel of `Forget` is isotopic to the identity in `S`, and the track of `x` is a loop `α` whose push is that class (up to inversion); `Forget` is surjective because a homeomorphism can be isotoped to fix `x`. Injectivity: `Push(α)` acts on `π₁(S, x)` by conjugation by `α`, and `π₁(S)` has trivial centre when `χ(S) < 0`. The formula for simple loops: the isotopy pushing `x` once around `α` is supported in the annulus between a and `b`, where it equals `T_a T_b⁻¹`; nonseparation is read off from the complement of the annulus. (FM12, §4.2, Theorem 4.6, p. 102; §4.2, Fact 4.7, p. 103; §4.2, p. 104.) *Needs:* 5.9; 5.11; DGFloer Layer 1 item 2; 5.16; 5.17; 5.18; 5.19; TauCetiRoadmap AlgebraicTopology Stage 8; TauCetiRoadmap Completed/UniversalCovers Stage 2.
 
 **Checks.**
 
@@ -1943,7 +1966,7 @@ Conventions: annulus charts preserve the `dt∧dθ` orientation fixed in 5.11. M
 
 **Lemma.** Let `S` be a surface and `S'` the surface obtained by capping a boundary circle `β` with a once-marked disk. Then `1 → ⟨T_β⟩ → Mod(S) → Mod(S', p) → 1` is exact (`Mod(S', p)` fixing the marked point `p`). Consequently, capping all boundary circles with disks induces a surjection `Mod(S) → Mod(Ŝ)` onto the mapping class group of the capped surface, compatible with the maps on `H₁`.
 
-*Proof sketch.* The capping sequence is Farb–Margalit Proposition 3.19. Forgetting the marked points is surjective (Birman exact sequence, right-hand map), and a composite of surjections is surjective. The inclusion `S ⊆ Ŝ` is equivariant, which gives the compatibility on `H₁`. (FM12, §3.6.2, Proposition 3.19, p. 89.) *Needs:* 5.9; 5.14; 5.20.
+*Proof sketch.* The capping sequence is Farb–Margalit Proposition 3.19. Forgetting the marked points is surjective (Birman exact sequence, right-hand map), and a composite of surjections is surjective. The inclusion `S ⊆ Ŝ` is equivariant, which gives the compatibility on `H₁`. (FM12, §3.6.2, Proposition 3.19, p. 89.) *Needs:* 5.9; DGFloer Layer 1 item 2; 5.20.
 
 **Checks.**
 
@@ -1977,7 +2000,7 @@ Conventions: annulus charts preserve the `dt∧dθ` orientation fixed in 5.11. M
 
 **Lemma.** Let `S` be a connected oriented surface without boundary and `F(S) := {(x, y) ∈ S × S : x ≠ y}` with `p(x, y) = y`. Then `p` is a locally trivial fibre bundle with fibre `S ∖ {y}`, and for `y₀ ≠ x₀` the sequence `π₁(S ∖ {y₀}, x₀) → π₁(F(S), (x₀, y₀)) → π₁(S, y₀) → 1` (the first map `x ↦ (x, y₀)`) is exact; its image `Γ̄` is normal, and conjugation by `π₁(F(S))` preserves the conjugacy class `c` of a small loop around `y₀` in `S ∖ {y₀}`. For `S = Y` closed of genus `g ≥ 1` the first map is injective. For `S` of genus `g ≥ 1` closed, `π₁(S ∖ {y₀}, x₀)` is free on classes `x_1, x_1', …, x_g, x_g'` such that a small loop around `y₀` is conjugate to `[x_1, x_1'] ⋯ [x_g, x_g']`, and `H₁(S ∖ {y₀}) → H₁(S)` is an isomorphism.
 
-*Proof sketch.* Local triviality: for `y` in a disk `D` around `y₀` choose homeomorphisms `h_y` of `S` supported in a slightly larger disk, continuous in `y`, with `h_y(y₀) = y`; then `(x, y) ↦ (h_y⁻¹ x, y)` trivializes `p` over `D`. A locally trivial bundle over a paracompact base has the homotopy lifting property, which gives exactness of the long exact sequence in low degrees: surjectivity on `π₁` because the fibre is path connected, exactness in the middle by lifting null-homotopies. The monodromy of the bundle along a loop is a homeomorphism of the fibre that is the identity near the end at `y₀` up to isotopy, so it preserves the peripheral class `c`. Injectivity for closed `S` of genus `≥ 1: π₂(S) = 0`, since the universal cover of `S` is a plane (or by the free-group structure of `π₁` of the punctured surface). Presentation: by the classification, `S` is a `4g`-gon with edge word `∏ [a_i, b_i]`; removing an interior point of the 2-cell, the punctured surface deformation retracts onto the wedge of `2g` circles, whose fundamental group is free (van Kampen), and the boundary of the 2-cell reads `∏[x_i, x_i']`. (LV20, §7.3, proof of Lemma 7.4, p. 38; §5, p. 26.) *Needs:* 5.1; 5.4; 5.6; 5.14; 5.15; TauCetiRoadmap GeometricTopology Layer 1; TauCetiRoadmap AlgebraicTopology Stage 1; TauCetiRoadmap AlgebraicTopology Stage 8; TauCetiRoadmap Completed/UniversalCovers Stage 2.
+*Proof sketch.* Local triviality: for `y` in a disk `D` around `y₀` choose homeomorphisms `h_y` of `S` supported in a slightly larger disk, continuous in `y`, with `h_y(y₀) = y`; then `(x, y) ↦ (h_y⁻¹ x, y)` trivializes `p` over `D`. Apply the bundle-to-Serre-fibration bridge and the homotopy exact sequence of DGFloer Layer 1 item 2. In low degrees this gives surjectivity on `π₁` because the fibre is path connected, exactness in the middle by lifting null-homotopies. The monodromy of the bundle along a loop is a homeomorphism of the fibre that is the identity near the end at `y₀` up to isotopy, so it preserves the peripheral class `c`. Injectivity for closed `S` of genus `≥ 1: π₂(S) = 0`, since the universal cover of `S` is a plane (or by the free-group structure of `π₁` of the punctured surface). Presentation: by the classification, `S` is a `4g`-gon with edge word `∏ [a_i, b_i]`; removing an interior point of the 2-cell, the punctured surface deformation retracts onto the wedge of `2g` circles, whose fundamental group is free (van Kampen), and the boundary of the 2-cell reads `∏[x_i, x_i']`. (LV20, §7.3, proof of Lemma 7.4, p. 38; §5, p. 26.) *Needs:* 5.1; 5.4; 5.6; DGFloer Layer 1 item 2; 5.15; TauCetiRoadmap GeometricTopology Layer 1; TauCetiRoadmap AlgebraicTopology Stage 1; TauCetiRoadmap AlgebraicTopology Stage 8; TauCetiRoadmap Completed/UniversalCovers Stage 2.
 
 **Checks.**
 
@@ -2027,7 +2050,7 @@ This specializes the supplied lifting criterion to invertible maps and fixes the
 
 ### Dependencies
 
-TauCetiRoadmap FuchsianOrbifolds Layer 2; TauCetiRoadmap GeometricTopology Layer 1; TauCetiRoadmap AlgebraicTopology Stage 4; TauCetiRoadmap AlgebraicTopology Stage 6; TauCetiRoadmap Completed/UniversalCovers Stage 2; TauCetiRoadmap AlgebraicTopology Stage 2; TauCetiRoadmap AlgebraicTopology Stage 8; TauCetiRoadmap AlgebraicTopology Stage 5; TauCetiRoadmap AlgebraicTopology Stage 1; Mathlib and Tau Ceti as listed under each target.
+DGFloer Layer 1 item 2 (fibration exact sequence, component actions and relative-CW lifting); TauCetiRoadmap FuchsianOrbifolds Layer 2; TauCetiRoadmap GeometricTopology Layer 1; TauCetiRoadmap AlgebraicTopology Stage 4; TauCetiRoadmap AlgebraicTopology Stage 6; TauCetiRoadmap Completed/UniversalCovers Stage 2; TauCetiRoadmap AlgebraicTopology Stage 2; TauCetiRoadmap AlgebraicTopology Stage 8; TauCetiRoadmap AlgebraicTopology Stage 5; TauCetiRoadmap AlgebraicTopology Stage 1; Mathlib and Tau Ceti as listed under each target.
 
 ## Layer LV.6: The `S`-unit theorem
 
@@ -2460,7 +2483,11 @@ Kodaira–Parshin family, of relative dimension `(2g − 1)(q − 1)/2`. Its fib
 
 - `ε=0` has connected kernel `A`; `ε=[n]` has finite étale kernel and zero-dimensional identity component.
 - On `E×E, ε=[n]` on the second factor and zero on the first has connected kernel `E×{0}` and satisfies `ε²=[n]ε`.
-- The restriction of a product polarization of degrees 1 and `m` to the second factor has degree `m²`, so the restricted polarization is not asserted to be principal.
+- On `E×E`, restriction of a product polarization of degrees 1 and `m>1` to the
+  second factor has polarization degree `m` and isogeny degree (kernel rank) `m²`,
+  in the convention of AbelianSchemesAndArithmeticModuli §A2.5. For `m=2`, the
+  restricted line bundle is `O_E(2[0])`, giving degrees 2 and 4 respectively; it is
+  not principal. For `m=1` both degrees are 1 and the restriction is principal.
 - A nonreduced base is not covered by the reduced-base smoothness criterion; subsequent base change preserves the already constructed abelian scheme.
 
 
@@ -2476,7 +2503,7 @@ Kodaira–Parshin family, of relative dimension `(2g − 1)(q − 1)/2`. Its fib
 - The relative dimension of `X` over a base whose complex fibres are singly ramified `Aff(q)`-covers of a genus-`g` curve is `(2g − 1)(q − 1)/2`.
 - `q = 3, g = 2`: relative dimension 3.
 
-*Construction.* Apply JacobianChallengePartII §1.2, `RelativeJacobian.RelativeJacobian`, and §1.4, `RelativeJacobian.PrincipalPolarization`, to the smooth projective curve family of positive genus, componentwise on `B`, to obtain `Pic⁰_{Z/B}` and its principal polarization. Functoriality gives the `G`-action and `e'' ∈ ℤ[G] → End(P)`. Writing `n=|G|` and `e''=n(1−e)`, the idempotence `e²=e` gives `(e'')²=[n]e''`. Apply 8.9 on each connected component of the smooth base; the polarization restricts and formation commutes with base change. (LV20, §7.2, p. 36; §7.2, p. 35.) *Needs:* 8.8; 8.9; AlgebraicModuliForArithmeticGeometry §7.9; AbelianSchemesAndArithmeticModuli §§A0.1, A1.1; JacobianChallengePartII §§1.2–1.4 (`RelativeJacobian.RelativeJacobian`, `RelativeJacobian.PrincipalPolarization`).
+*Construction.* Apply JacobianChallengePartII §§1.2–1.4 (the relative Jacobian, arbitrary base change and canonical principal polarization) to the smooth projective curve family of positive genus, componentwise on `B`, to obtain `Pic⁰_{Z/B}` and its principal polarization. Functoriality gives the `G`-action and `e'' ∈ ℤ[G] → End(P)`. Writing `n=|G|` and `e''=n(1−e)`, the idempotence `e²=e` gives `(e'')²=[n]e''`. Apply 8.9 on each connected component of the smooth base; the polarization restricts and formation commutes with base change. (LV20, §7.2, p. 36; §7.2, p. 35.) *Needs:* 8.8; 8.9; AlgebraicModuliForArithmeticGeometry §7.9; AbelianSchemesAndArithmeticModuli §§A0.1, A1.1; JacobianChallengePartII §§1.2–1.4.
 
 **Checks.**
 
@@ -2489,19 +2516,34 @@ Kodaira–Parshin family, of relative dimension `(2g − 1)(q − 1)/2`. Its fib
 
 ### 8.11 Homology of the Jacobian of a compact Riemann surface
 
-**Lemma.** Let `C` be a smooth projective connected curve of genus `g` over `ℂ` and `J = Pic⁰(C)`. After choosing a base point of `C`, the Abel–Jacobi map identifies `J(ℂ) = H⁰(C, Ω¹)^∨ / H₁(C(ℂ), ℤ)`, so `H₁(J(ℂ), ℤ) = H₁(C(ℂ), ℤ)`, compatibly with pushforward along a finite morphism of curves and with automorphisms; the Riemann form of the canonical principal polarization of `J` is the intersection form on `H₁(C(ℂ), ℤ)` (with the sign convention fixed in the Conventions section). The induced map on `H₁` is independent of the base point, because changing it translates `J` and translations act trivially on `H₁`. The same holds fibrewise for a family of curves over a complex base.
+**Lemma.** Let `C` be a smooth projective connected curve of genus `g` over `ℂ` and `J = Pic⁰(C)`. After choosing a base point of `C`, the Abel–Jacobi map identifies `J(ℂ) = H⁰(C, Ω¹)^∨ / H₁(C(ℂ), ℤ)`, so `H₁(J(ℂ), ℤ) = H₁(C(ℂ), ℤ)`, compatibly with pushforward along a finite morphism of curves and with automorphisms; the Riemann form of the canonical principal polarization of `J` is `E = −î` on `H₁(C(ℂ), ℤ)`, while its homological polarization is `Q = −E = î` (AbelianSchemesAndArithmeticModuli §A5.2). The induced map on `H₁` is independent of the base point, because changing it translates `J` and translations act trivially on `H₁`. The same holds fibrewise for a family of curves over a complex base.
 
-*Proof sketch.* Integration of holomorphic forms over cycles gives the period lattice `H₁(C, ℤ) ⊆ H⁰(Ω¹)^∨` (Riemann bilinear relations show it is a lattice and that the intersection form is a positive Riemann form); the Abel–Jacobi map from `Pic⁰` to the torus is an isomorphism (Abel and Jacobi inversion); the polarization of `J` is the theta divisor, whose Riemann form is the intersection pairing. (Mil-AV, Chapter III, §2, Theorem 2.5 and the preceding discussion, p. 93; §18, Theorem 18.5, p. 73.) *Needs:* AbelianSchemesAndArithmeticModuli §§A5.6–A5.7; TauCetiRoadmap JacobianChallenge Layer `D`.
+*Proof sketch.* Integration of holomorphic forms over cycles gives the period lattice `H₁(C, ℤ) ⊆ H⁰(Ω¹)^∨` (Riemann bilinear relations show it is a lattice and that the negative intersection form satisfies the supplier’s positivity `E(Jx,x)>0`); the Abel–Jacobi map from `Pic⁰` to the torus is an isomorphism (Abel and Jacobi inversion); the polarization of `J` is the theta divisor, whose Riemann form in this convention is the negative intersection pairing. (Mil-AV, Chapter III, §2, Theorem 2.5 and the preceding discussion, p. 93; §18, Theorem 18.5, p. 73.) *Needs:* AbelianSchemesAndArithmeticModuli §§A5.2, A5.6–A5.7; TauCetiRoadmap JacobianChallenge Layer `D`.
+
+**Checks.**
+
+- On `C=ℂ/(ℤ+iℤ)`, `a=1`, `b=i`, `Ja=b`, the intersection gives `î(a,b)=1`.
+  Thus `E(a,b)=−1` and `E(Ja,a)=1`; taking `E=î` would give `−1` for the last value.
+- On the same lattice, `2E` still has `2E(Ja,a)=2>0`, but its determinant is 4
+  rather than 1, so it cannot be the canonical principal polarization.
+- For `C=ℙ¹`, both homology lattices are zero, both forms are zero and positivity
+  has no nonzero vectors to test; the zero-dimensional Jacobian has the principal polarization.
 
 ### 8.12 Homology of the reduced Prym is the primitive homology of the degree-`q` cover
 
-**Lemma.** Let `Z → Y` be a connected `Aff(q)`-Galois covering of compact Riemann surfaces branched over exactly one point `y` with inertia generated by `a q`-cycle (a nontrivial translation), `g(Y) = g, C' := Z/H_q` and `π' : C' → Y` the associated degree-`q` covering. Then `H₁((ker e'')°(ℂ), ℚ) = e·H₁(Z, ℚ)` inside `H₁(Pic⁰(Z)(ℂ), ℚ) = H₁(Z, ℚ)`, and the pushforward along `p : Z → C'` restricts to an isomorphism `e·H₁(Z, ℚ) ≅ H₁^Pr(C', Y; ℚ) := ker(π'_* : H₁(C', ℚ) → H₁(Y, ℚ))` that multiplies intersection forms by `q − 1`; the Riemann form of the restricted polarization is the restriction of the intersection form up to sign. In particular `dim_ℚ H₁^Pr(C', Y) = (2g − 1)(q − 1)` and `dim (ker e'')° = (g − 1/2)(q − 1)`. These identifications are natural for homeomorphisms of `Z` commuting with `G` and covering a homeomorphism of `Y`.
+**Lemma.** Let `Z → Y` be a connected `Aff(q)`-Galois covering of compact Riemann surfaces branched over exactly one point `y` with inertia generated by `a q`-cycle (a nontrivial translation), `g(Y) = g, C' := Z/H_q` and `π' : C' → Y` the associated degree-`q` covering. Then `H₁((ker e'')°(ℂ), ℚ) = e·H₁(Z, ℚ)` inside `H₁(Pic⁰(Z)(ℂ), ℚ) = H₁(Z, ℚ)`, and the pushforward along `p : Z → C'` restricts to an isomorphism `e·H₁(Z, ℚ) ≅ H₁^Pr(C', Y; ℚ) := ker(π'_* : H₁(C', ℚ) → H₁(Y, ℚ))` that multiplies intersection forms by `q − 1`; the Riemann form of the restricted polarization is `−î_Z` on `e·H₁(Z,ℚ)`.
+Transported by `p_*` to primitive homology, it is `−î_(C′)/(q−1)`, and its homological
+polarization is `î_(C′)/(q−1)`. The denominator is nonzero since `q≥3`.
+These nonzero scalar multiples have the same symplectic group as the intersection form. In particular `dim_ℚ H₁^Pr(C', Y) = (2g − 1)(q − 1)` and `dim (ker e'')° = (g − 1/2)(q − 1)`. These identifications are natural for homeomorphisms of `Z` commuting with `G` and covering a homeomorphism of `Y`.
 
-*Proof sketch.* Complex uniformization: `H₁(Pic⁰(Z)(ℂ), ℤ) = H₁(Z, ℤ)` with the intersection form as Riemann form (AbelianSchemes A5, JacobianChallenge), and for an endomorphism `ε` of a complex abelian variety, `H₁((ker ε)°, ℚ) = ker`(`ε` on `H₁(·, ℚ)`); `ker e'' = e·H₁` by 8.8. `p : Z → C'` is an unramified `H_q`-Galois covering: the ramification index `q` of `Z → Y` at points over `y` equals that of `C' → Y`, whose unique point over `y` has index `q`. Transfer (TauCetiRoadmap AlgebraicTopology Stage 5) gives `p_* : H₁(Z, ℚ)^{H} ≅ H₁(C', ℚ)` with `p^*p_* = Σ_{h∈H} h`, and `⟨p_*x, p_*x'⟩ = (q − 1)⟨x, x'⟩` for `H`-invariant `x, x'`. For the branched `G`-covering `Z → Y`, the transfer identity of 9.3 gives `Σ_{g∈G} g = π^*π_*` on `H₁(Z, ℚ)`, so `ker e_G = ker π_*`; under `p_*` this becomes `ker π'_*`, since `π_* = π'_* p_*`. Riemann–Hurwitz: `2g(C') − 2 = q(2g − 2) + (q − 1)`, so `2g(C') − 2g = (2g − 1)(q − 1)`. Naturality: all maps are induced by the coverings and commute with lifted homeomorphisms. (LV20, §8.2.3, p. 41; §7.2, p. 35.) *Needs:* 9.3; 8.1; 8.8; 8.10; 8.11; AbelianSchemesAndArithmeticModuli §§A5.6–A5.7; TauCetiRoadmap AlgebraicTopology Stage 6; TauCetiRoadmap JacobianChallenge Layer `D`; TauCetiRoadmap AlgebraicTopology Stage 5.
+*Proof sketch.* Complex uniformization: `H₁(Pic⁰(Z)(ℂ), ℤ) = H₁(Z, ℤ)` with Riemann form `−î_Z` and homological polarization `î_Z` (8.11; AbelianSchemesAndArithmeticModuli §A5.2), and for an endomorphism `ε` of a complex abelian variety, `H₁((ker ε)°, ℚ) = ker`(`ε` on `H₁(·, ℚ)`); `ker e'' = e·H₁` by 8.8. `p : Z → C'` is an unramified `H_q`-Galois covering: the ramification index `q` of `Z → Y` at points over `y` equals that of `C' → Y`, whose unique point over `y` has index `q`. Transfer (TauCetiRoadmap AlgebraicTopology Stage 5) gives `p_* : H₁(Z, ℚ)^{H} ≅ H₁(C', ℚ)` with `p^*p_* = Σ_{h∈H} h`, and `⟨p_*x, p_*x'⟩ = (q − 1)⟨x, x'⟩` for `H`-invariant `x, x'`. For the branched `G`-covering `Z → Y`, the transfer identity of 9.3 gives `Σ_{g∈G} g = π^*π_*` on `H₁(Z, ℚ)`, so `ker e_G = ker π_*`; under `p_*` this becomes `ker π'_*`, since `π_* = π'_* p_*`. Riemann–Hurwitz: `2g(C') − 2 = q(2g − 2) + (q − 1)`, so `2g(C') − 2g = (2g − 1)(q − 1)`. Naturality: all maps are induced by the coverings and commute with lifted homeomorphisms. (LV20, §8.2.3, p. 41; §7.2, p. 35.) *Needs:* 9.3; 8.1; 8.8; 8.10; 8.11; AbelianSchemesAndArithmeticModuli §§A5.2, A5.6–A5.7; TauCetiRoadmap AlgebraicTopology Stage 6; TauCetiRoadmap JacobianChallenge Layer `D`; TauCetiRoadmap AlgebraicTopology Stage 5.
 
 **Checks.**
 
 - `q = 3, g = 2: C'` has genus 5 and `dim H₁^Pr(C', Y) = 6 = 2·3`.
+- For `q=3`, if `î_Z(x,x′)=1` on the invariant Prym subspace, then
+  `î_(C′)(p_*x,p_*x′)=2` and the transported Riemann pairing is `−2/(3−1)=−1`,
+  agreeing with `−î_Z(x,x′)`. The homological pairing is `2/(3−1)=1`.
 - `H₁^Pr` is the orthogonal complement of `π'^*H₁(Y)` in `H₁(C')` (Layer LV.9).
 - The branched `G`-cover `Z→Y` uses `branchedTransfer_deckSum` of 9.3; only the intermediate `H_q`-cover is unbranched. Both give the same kernel after applying `p_*`.
 

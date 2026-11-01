@@ -2,11 +2,11 @@ import Mathlib
 import TauCeti.AlgebraicGeometry.Cohomology.Genus
 
 /-!
-# Mordell after Lawrence and Venkatesh: headline target statements
+# Mordell after Lawrence and Venkatesh: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. These statements suggest Lean forms for headline milestones; discharging them
-finishes neither a layer nor the roadmap.
+`README.md`. This file states the roadmap’s headline theorems against the pinned APIs;
+discharging them finishes neither a layer nor the roadmap.
 
 The statements are the semilinear centralizer dimension bound (§0.4, LV20 Lemma 2.1), the
 Jordan–Schönflies extension theorem (§5.2), S-unit finiteness (§6.10, LV20 Theorem 4.1), and
@@ -32,6 +32,8 @@ on arbitrary symplectic spaces. These results remain specified in the README.
 -/
 
 namespace TauCetiRoadmap.MordellLawrenceVenkatesh
+
+/-! ## Layer 0: Semilinear centralizers, the affine group and symplectic generation -/
 
 section SemilinearCentralizer
 
@@ -69,6 +71,8 @@ theorem finrank_semilinearCentralizer_le [FiniteDimensional E V] (σ : E →+* E
 
 end SemilinearCentralizer
 
+/-! ## Layer 5: Surfaces, mapping class groups and lifted twists -/
+
 /-- Every homeomorphism between two embedded plane circles extends to the whole plane.
 README 5.2; Gallier–Xu, Appendix E, Theorem E.1, p. 160. -/
 theorem schoenflies_extension
@@ -78,6 +82,8 @@ theorem schoenflies_extension
     ∃ F : EuclideanSpace ℝ (Fin 2) ≃ₜ EuclideanSpace ℝ (Fin 2),
       ∀ x : Set.range c₁, F x = (f x : EuclideanSpace ℝ (Fin 2)) := by
   sorry
+
+/-! ## Layer 6: The S-unit theorem -/
 
 universe u
 
@@ -89,6 +95,8 @@ theorem sUnitEquation_finite (K : Type u) [Field K] [NumberField K]
         (Set.unit (R := NumberField.RingOfIntegers K) (↑S) K) |
       ((xy.1 : Kˣ) : K) + ((xy.2 : Kˣ) : K) = 1}.Finite := by
   sorry
+
+/-! ## Layer 11: Faltings’s theorem -/
 
 open CategoryTheory AlgebraicGeometry
 
