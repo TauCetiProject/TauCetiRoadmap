@@ -468,16 +468,19 @@ a Lefschetz structure of weight `2d` by the hard Lefschetz datum of 2.1, the cup
 sense of 1.1 (`A_stable` because correspondences act on cycle classes). *Needs:* 0.5, 1.1, 2.1,
 2.2; MotivesAndAlgebraicCycles §2.2. Nothing here depends on `e`: under `e ↦ λe`,
 MotivesAndAlgebraicCycles §2.3 gives `cl^r ↦ λ^{−r} cl^r` and `Tr_X ↦ λ^d Tr_X`, so `L ↦ λ⁻¹L`,
-`Λ ↦ λΛ`, `𝒜(X)` and `A(X)` are unchanged as sets, and the positivity form
-`(−1)^i Tr(η^{d−2i} ∪ x ∪ x)` on `x = cl^i(z)` is multiplied by `λ^{d − (d−2i) − 2i} = 1`.
+`Λ ↦ λΛ`, and the degree-`r` parts of `𝒜(X)` and `A(X)` are multiplied by `λ^{−r}` (for `λ ∉ ℚ`
+they change as sets). The automorphism of `H(X)` acting by `λ^{−⌊i/2⌋}` on `H^i(X)` carries the
+structures for `e` to those for `λe`; it preserves the pairing on algebraic classes and each of the
+four properties of 1.1, since the positivity form `(−1)^i Tr(η^{d−2i} ∪ x ∪ x)` on `x = cl^i(z)` is
+multiplied by `λ^{d − (d−2i) − 2i} = 1`.
 
 **Checks.**
 
 - For `ℙ^d` with `ξ` the hyperplane class, `H(ℙ^d)` is `K[ξ]/(ξ^{d+1})` of 0.1 and
   `A^i(ℙ^d) = ℚξ^i`.
 - On `ℙ¹ × ℙ¹` with `H² = Ka ⊕ Kb`, `a² = b² = 0` and `ξ = a + b`: `L(xa + yb) = (x + y)ab`, so
-  `P² = ℚ(a − b)` and `A¹ ∩ P² = P²`.
-- With `ξ = 2a + b` instead, `P² = ℚ(2a − b)`: the primitive part depends on `ξ`, the algebraic
+  `P² = K(a − b)` and `A¹ ∩ P² = ℚ(a − b)`.
+- With `ξ = 2a + b` instead, `P² = K(2a − b)`: the primitive part depends on `ξ`, the algebraic
   classes do not.
 
 ### 2.4 Comparison with MotivesAndAlgebraicCycles §7.3
