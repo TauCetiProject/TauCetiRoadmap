@@ -5,21 +5,21 @@ import TauCeti.NumberTheory.NumberField.NarrowClassGroup.Basic
 import TauCeti.RingTheory.ClassGroup.RelNorm
 
 /-!
-# Arithmetic statistics, Part V: headline theorems
+# Arithmetic statistics, Part V: target signatures
 
-This file is not the roadmap and is not exhaustive. The definitive specification is
-`README.md`. These statements suggest Lean forms for its mathematical endpoints.
+The roadmap is README.md; this file is not the roadmap. It states the roadmap's
+headline theorems against the pinned Mathlib and Tau Ceti APIs.
 
 The statements cover discriminant-ordered quadratic, cubic, quartic and quintic field
 counts, secondary terms, classical quadratic-form means, class-group torsion bounds
 and averages, quadratic four-rank
 moments and laws, general field-count bounds, monogenic and odd-degree binary-form
 field lower bounds, unramified alternating extensions, the cyclotomic counterexample
-to Malle's prediction, embedded two-extension counts and three-torsion means, and
-historical negative-Pell bounds.
+to Malle's prediction, embedded two-extension counts and three-torsion means,
+historical negative-Pell bounds, and exact-trace squarefree polynomial densities.
 
 Local-specification refinements and S-integral mass formulas need the specified
-local etale-order and orbit interfaces, including `CubicLocalSpecification`.
+local etale-order and orbit interfaces, including the cubic local-specification carrier.
 The general relative narrow means also need the narrow norm map. The
 fixed-signature rigid wreath refinements and nonabelian quadratic moments need
 compatible local specifications and maximal unramified extension interfaces;
@@ -28,9 +28,12 @@ lifting invariant. Abelian discriminant-series continuation needs the conductor 
 Fixed cubic-resolvent quartic estimates need a quartic resolvent map on fields.
 Spin criteria and the conditional absence of a sixteen-rank governing field need
 the number-field residue-symbol and joint-spin interfaces. These objects are absent from the pinned libraries.
-The even-degree binary-field and alternating-extension bounds need the specified
-even binary summed-tail contract. These refinements are deferred here, with their
-full mathematical statements and prerequisites in the README.
+These carrier-dependent refinements are not statable at the pins; their full
+mathematical statements and prerequisites are in README.md. The even-degree
+binary-field and alternating-extension bounds are conditional on the quantified
+binary summed-tail estimate in README.md.
+The unconditional three-eighths signature has the finite-group supplier gap specified
+in README.md; the separate conditional signature states its exact arithmetic input.
 -/
 
 noncomputable section
@@ -285,9 +288,9 @@ theorem lemkeOliverThorne_fieldCount :
     (∀ n : ℕ, 6 ≤ n → bound n (1.564 * (Real.log n) ^ 2)) ∧
     (∀ c : ℝ, 1 / (4 * (Real.log 2) ^ 2) < c → ∃ n₀ : ℕ,
       ∀ n : ℕ, n₀ ≤ n → 6 ≤ n → bound n (c * (Real.log n) ^ 2)) ∧
-    (∀ n r d : ℕ, 6 ≤ n → 3 ≤ r → r ≤ n → r * n < (d + r - 1).choose (r - 1) →
+    (∀ n r d : ℕ, 2 ≤ n → 3 ≤ r → r ≤ n → r * n < (d + r - 1).choose (r - 1) →
       bound n ((d : ℝ) * r)) ∧
-    (∀ n d : ℕ, 6 ≤ n → 2 * n + 1 ≤ (d + 2).choose 2 →
+    (∀ n d : ℕ, 2 ≤ n → 2 * n + 1 ≤ (d + 2).choose 2 →
       (∀ e < d, (e + 2).choose 2 < 2 * n + 1) →
       bound n (2 * d - (d : ℝ) * (d - 1) * (d + 4) / (6 * n))) := by sorry
 
@@ -442,6 +445,23 @@ theorem unramifiedAlternatingExtension_lowerBound (n : ℕ) (hn : 3 ≤ n) (hodd
             (1 : ℝ) else 0
     ∀ ε : ℤ, ε = 1 ∨ ε = -1 → ∃ c : ℝ, 0 < c ∧ ∀ᶠ X : ℝ in atTop,
       c * X ^ (((n : ℝ) + 1) / (2 * n - 2)) ≤ count ε X := by sorry
+
+/-- On each fixed integral trace slice, squarefree polynomial discriminants have
+an Euler-product density with a one-fifth power saving; the density may vanish. -/
+theorem traceSlice_squarefreeDensity (n : ℕ) (hn : 2 ≤ n) (a : ℤ)
+    (ε : ℝ) (hε : 0 < ε) :
+    let E : ℕ := n * (n + 1) / 2 - 1
+    let count := fun H : ℝ =>
+      (Set.ncard {f : ℤ[X] | f.Monic ∧ f.natDegree = n ∧ f.coeff (n - 1) = a ∧
+        (∀ i : ℕ, i + 1 < n → |(f.coeff i : ℝ)| < H ^ (n - i)) ∧
+        Squarefree f.discr} : ℝ)
+    let density := ∏' p : Nat.Primes,
+      (Nat.card {f : (ZMod (p.val ^ 2))[X] // f.Monic ∧ f.natDegree = n ∧
+        f.coeff (n - 1) = (a : ZMod (p.val ^ 2)) ∧ f.discr ≠ 0} : ℝ) /
+        (p.val : ℝ) ^ (2 * (n - 1))
+    ∃ C : ℝ, 0 < C ∧ ∀ H : ℝ, max 2 |(a : ℝ)| ≤ H →
+      |count H - (2 : ℝ) ^ (n - 1) * density * H ^ E| ≤
+        C * H ^ ((E : ℝ) - 1 / 5 + ε) := by sorry
 
 /-- The restricted squarefree positive radicands, including the unit radicand. -/
 def pellRadicands : Set ℕ :=
