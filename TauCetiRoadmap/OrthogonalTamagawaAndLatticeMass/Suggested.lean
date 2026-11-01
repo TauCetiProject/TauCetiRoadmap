@@ -18,6 +18,8 @@ Not statable at the pins, and therefore not stated here:
   and standard special orthogonal group schemes, but no Spin group scheme attached to an arbitrary nondegenerate form;
 * the arbitrary-genus mass formula of 1.3 and the orthogonal quotient comparison of 1.1–1.2:
   there is no adelic orthogonal quotient with its Tamagawa measure, and no local density;
+* the quadratic residue-group comparison of 0.1a: the symmetric-bilinear equation schemes
+  do not supply the quadratic-preserving scheme and its reduction in characteristic two;
 * Cho's smooth dyadic model and density formula of 2.1–2.2: there is no smooth integral model
   attached to a Jordan splitting over an unramified extension of `ℤ₂`;
 * the away-S Spin approximation and Eichler applications of 0.3: the algebraic Spin group
