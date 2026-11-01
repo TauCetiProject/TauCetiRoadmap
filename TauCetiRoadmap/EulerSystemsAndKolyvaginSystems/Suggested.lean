@@ -1,15 +1,21 @@
 import Mathlib
+import TauCeti.RepresentationTheory.Homological.ContCohomology.LowDegree
 
 /-!
 # Euler systems, Kolyvagin systems and higher-rank descent: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. Suggested signatures express selected headline theorems; discharging them
-finishes neither a layer nor the roadmap.
+`README.md`. This file states the roadmap’s statable headline theorems against the pinned APIs;
+discharging them finishes neither a layer nor the roadmap. The compact irreducible
+rational vanishing theorem (§4.2a) uses the native additive continuous cohomology carrier.
+The integral finite-cokernel and infinite-base classification (§§4.2a–4.2b) additionally
+need the lattice quotient comparison maps and the joint arithmetic extension with its
+quotient Galois action; these are not stated through substitute carriers.
 
 The arithmetic headline theorems require arithmetic Selmer structures with coefficient-linear
 cohomology, propagated and dual local conditions, and the Euler, Kolyvagin and Stark system carriers.
-Tau Ceti's continuous `H1` supplies an additive cohomology group, but not these arithmetic
+Tau Ceti's continuous `H1` supplies an additive cohomology group for continuous
+topological coefficient actions, but not these arithmetic
 module and local-condition interfaces. Defining them requires the developments specified
 in the README, rather than a few definitions on existing carriers.
 
@@ -85,5 +91,22 @@ These arithmetic statements are README targets on the specified Selmer and syste
 -/
 
 namespace TauCetiRoadmap.EulerSystemsAndKolyvaginSystems
+
+/-! ## Layer 4: Rational vanishing and Selmer bounds -/
+
+/-- A faithful irreducible continuous action of a compact group on a finite-dimensional
+vector space over a finite extension of `ℚ_p` has vanishing first continuous cohomology.
+Rubin, Appendix C, Theorem 1.1 and its application in Theorem 2.1. -/
+theorem compactIrreducible_h1_vanish
+    (p : ℕ) [Fact p.Prime]
+    (Φ : Type*) [NormedField Φ] [NormedAlgebra ℚ_[p] Φ] [FiniteDimensional ℚ_[p] Φ]
+    (G : Type*) [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
+    [CompactSpace G] [T2Space G]
+    (V : Type*) [NormedAddCommGroup V] [NormedSpace Φ V] [FiniteDimensional Φ V]
+    [DistribMulAction G V] [SMulCommClass G Φ V] [ContinuousSMul G V]
+    [FaithfulSMul G V]
+    [Representation.IsIrreducible (Representation.ofDistribMulAction Φ G V)] :
+    Subsingleton (TauCeti.ContCohomology.H1 G V) := by
+  sorry
 
 end TauCetiRoadmap.EulerSystemsAndKolyvaginSystems
