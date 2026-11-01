@@ -20,11 +20,12 @@ Lip-norm theorem for compact metric spaces and the identification of the classic
 metric with the `1`-Wasserstein distance (Layer 3); the closed Lip-norm theorem for ergodic
 actions of compact groups and the faithful finite-dimensional unitary representation of a
 compact Lie group (Layer 4); equality of the two quantum Gromov–Hausdorff infima, the
-triangle inequality and zero-distance rigidity (Layer 5).
+triangle inequality, zero-distance rigidity, and completeness and the quantum compactness
+theorem in sequential form, on sequences of presentations in one universe (Layer 5).
 
-Not statable at the pins: completeness (§5.5) and the quantum compactness theorem (§5.6),
-which need the metric space of isometry classes of complete closed presentations, itself a
-§5.5 construction; the identification `Φ_θ` (§6.1), which needs the rotation crossed product
+Not statable at the pins: the metric space of isometry classes of complete closed presentations
+(§5.5), a construction whose completeness is stated here on sequences instead; the
+identification `Φ_θ` (§6.1), which needs the rotation crossed product
 `A_θ`, provided by neither pinned library; and the continuity of the quantum tori
 `Θ ↦ (A_Θ, L_Θ)` in quantum Gromov–Hausdorff distance (§6.5), which needs the twisted regular
 algebra `A_Θ` (§6.0) and its Lip-norm `L_Θ` as an `ExtendedLipschitzSeminorm` on the
@@ -294,8 +295,9 @@ structure QuotientAdmissibleLipNorm (LE : ExtendedLipschitzSeminorm e)
   left_quotient : ∀ a : E, (⨅ b : F, seminorm (a,b)) = LE a
   right_quotient : ∀ b : F, (⨅ a : E, seminorm (a,b)) = LF b
 
-/-- An admissible Lip-norm, or bridge (§5.1): quotient-admissible with the full product finite
-domain `dom M = dom L_E × dom L_F`, which maximum gluing needs. -/
+/-- An admissible Lip-norm (§5.1): quotient-admissible with the full product finite domain
+`dom M = dom L_E × dom L_F`, which maximum gluing needs. A bridge `N` in Rieffel's sense
+produces one as `max(L_E, L_F, N)` (§5.2). -/
 structure AdmissibleLipNorm (LE : ExtendedLipschitzSeminorm e)
     (LF : ExtendedLipschitzSeminorm f) extends QuotientAdmissibleLipNorm LE LF where
   finite_domain : ∀ (a : E) (b : F),
@@ -315,31 +317,31 @@ def rightState (ψ : stateSpace f) : stateSpace (e, f) := by
 
 /-- The Hausdorff distance of the two embedded state spaces for the state metric of a
 quotient-admissible Lip-norm (§5.1), using the native `hausdorffEDist`. -/
-def quotientBridgeEDist {LE : ExtendedLipschitzSeminorm e}
+def quotientAdmissibleEDist {LE : ExtendedLipschitzSeminorm e}
     {LF : ExtendedLipschitzSeminorm f} (M : QuotientAdmissibleLipNorm LE LF) : ℝ≥0∞ :=
   letI := stateEMetricSpace M.seminorm
   Metric.hausdorffEDist (Set.range (leftState (f := f)))
     (Set.range (rightState (e := e)))
 
-/-- The same Hausdorff distance for a bridge (§5.1). -/
-def bridgeEDist {LE : ExtendedLipschitzSeminorm e} {LF : ExtendedLipschitzSeminorm f}
+/-- The same Hausdorff distance for an admissible Lip-norm (§5.1). -/
+def admissibleEDist {LE : ExtendedLipschitzSeminorm e} {LF : ExtendedLipschitzSeminorm f}
     (M : AdmissibleLipNorm LE LF) : ℝ≥0∞ :=
-  quotientBridgeEDist M.toQuotientAdmissibleLipNorm
+  quotientAdmissibleEDist M.toQuotientAdmissibleLipNorm
 
-/-- The quantum Gromov–Hausdorff distance `dist_q(E, F)` (§5.1): the infimum of the bridge
-distances over admissible Lip-norms (Rieffel, *Gromov–Hausdorff distance for quantum metric
-spaces*, Definition 4.2). -/
+/-- The quantum Gromov–Hausdorff distance `dist_q(E, F)` (§5.1): the infimum of the
+state-space Hausdorff distances over admissible Lip-norms (Rieffel, *Gromov–Hausdorff distance
+for quantum metric spaces*, Definition 4.2). -/
 def quantumGHEDist (LE : ExtendedLipschitzSeminorm e)
     (LF : ExtendedLipschitzSeminorm f) : ℝ≥0∞ :=
-  ⨅ M : AdmissibleLipNorm LE LF, bridgeEDist M
+  ⨅ M : AdmissibleLipNorm LE LF, admissibleEDist M
 
 /-- The infimum over the broader quotient-admissible class (§5.1). -/
 def quotientQuantumGHEDist (LE : ExtendedLipschitzSeminorm e)
     (LF : ExtendedLipschitzSeminorm f) : ℝ≥0∞ :=
-  ⨅ M : QuotientAdmissibleLipNorm LE LF, quotientBridgeEDist M
+  ⨅ M : QuotientAdmissibleLipNorm LE LF, quotientAdmissibleEDist M
 
 /-- The two infima agree (§5.1): the infimal-convolution regularization of a
-quotient-admissible Lip-norm is a bridge with state metric within `2ε`. -/
+quotient-admissible Lip-norm is an admissible Lip-norm with state metric within `2ε`. -/
 theorem quantumGHEDist_eq_quotientQuantumGHEDist
     (LE : ExtendedLipschitzSeminorm e) (LF : ExtendedLipschitzSeminorm f)
     (he : IsOrderUnitNorm e) (hf : IsOrderUnitNorm f)
@@ -347,8 +349,8 @@ theorem quantumGHEDist_eq_quotientQuantumGHEDist
     quantumGHEDist LE LF = quotientQuantumGHEDist LE LF := by
   sorry
 
-/-- The triangle inequality for `dist_q` (§5.3), by maximum gluing of two bridges and the
-endpoint quotient (Rieffel, *Gromov–Hausdorff distance for quantum metric spaces*,
+/-- The triangle inequality for `dist_q` (§5.3), by maximum gluing of two admissible Lip-norms
+and the endpoint quotient (Rieffel, *Gromov–Hausdorff distance for quantum metric spaces*,
 Theorem 4.3). -/
 theorem quantumGHEDist_triangle
     (LE : ExtendedLipschitzSeminorm e) (LF : ExtendedLipschitzSeminorm f)
@@ -371,5 +373,45 @@ theorem quantumGHEDist_eq_zero_iff [CompleteSpace E] [CompleteSpace F]
   sorry
 
 end Bridges
+
+section Sequences
+
+/-- Completeness of quantum Gromov–Hausdorff space (§5.5), in Cauchy-sequence form: a sequence
+of complete closed presentations in one universe that is Cauchy for `dist_q` has a complete
+closed presentation in the same universe as a `dist_q`-limit (Rieffel, *Gromov–Hausdorff
+distance for quantum metric spaces*, Theorem 12.11; the limit is an affine quotient of a
+subspace of the product of the terms, Corollary 12.10). -/
+theorem exists_limit_of_cauchySeq_quantumGHEDist
+    {E : ℕ → Type u} [∀ n, NormedAddCommGroup (E n)] [∀ n, NormedSpace ℝ (E n)]
+    [∀ n, PartialOrder (E n)] [∀ n, IsOrderedAddMonoid (E n)] [∀ n, PosSMulMono ℝ (E n)]
+    [∀ n, CompleteSpace (E n)] (e : ∀ n, E n) (L : ∀ n, ExtendedLipschitzSeminorm (e n))
+    (he : ∀ n, IsOrderUnitNorm (e n)) (hL : ∀ n, IsClosedLipNorm (L n))
+    (hc : ∀ ε : ℝ≥0∞, 0 < ε → ∃ N : ℕ, ∀ m n, N ≤ m → N ≤ n →
+      quantumGHEDist (L m) (L n) < ε) :
+    ∃ (F : Type u) (_ : NormedAddCommGroup F) (_ : NormedSpace ℝ F) (_ : PartialOrder F)
+      (_ : IsOrderedAddMonoid F) (_ : PosSMulMono ℝ F) (_ : CompleteSpace F) (f : F)
+      (LF : ExtendedLipschitzSeminorm f), IsOrderUnitNorm f ∧ IsClosedLipNorm LF ∧
+        Filter.Tendsto (fun n => quantumGHEDist (L n) LF) Filter.atTop (𝓝 0) := by
+  sorry
+
+/-- The quantum Gromov compactness theorem (§5.6), in sequential form: a sequence of compact
+quantum metric spaces is totally bounded for `dist_q` (for every `ε > 0` finitely many terms
+are within `ε` of every term) exactly when the state diameters have one finite bound and, for
+every `ε > 0`, the state spaces have `ε`-nets of one bounded cardinality `G(ε)`, that is
+`Scv ≤ G` (Rieffel, *Gromov–Hausdorff distance for quantum metric spaces*, Theorem 13.5; the
+`Fin` form of its sufficiency follows from `Fin ≤ Scv`). -/
+theorem totallyBounded_quantumGHEDist_iff
+    {E : ℕ → Type u} [∀ n, NormedAddCommGroup (E n)] [∀ n, NormedSpace ℝ (E n)]
+    [∀ n, PartialOrder (E n)] [∀ n, IsOrderedAddMonoid (E n)] [∀ n, PosSMulMono ℝ (E n)]
+    (e : ∀ n, E n) (L : ∀ n, ExtendedLipschitzSeminorm (e n))
+    (he : ∀ n, IsOrderUnitNorm (e n)) (hL : ∀ n, IsLipNorm (L n)) :
+    (∀ ε : ℝ≥0∞, 0 < ε → ∃ t : Finset ℕ, ∀ n, ∃ m ∈ t, quantumGHEDist (L n) (L m) < ε) ↔
+      (∃ D : ℝ≥0, ∀ n, ∀ φ ψ : stateSpace (e n), stateEDist (L n) φ.1 ψ.1 ≤ (D : ℝ≥0∞)) ∧
+      ∃ G : ℝ≥0∞ → ℕ, ∀ n, ∀ ε : ℝ≥0∞, 0 < ε →
+        ∃ s : Finset (stateSpace (e n)), s.card ≤ G ε ∧
+          ∀ φ : stateSpace (e n), ∃ ψ ∈ s, stateEDist (L n) φ.1 ψ.1 ≤ ε := by
+  sorry
+
+end Sequences
 
 end TauCetiRoadmap.CompactQuantumMetricSpaces

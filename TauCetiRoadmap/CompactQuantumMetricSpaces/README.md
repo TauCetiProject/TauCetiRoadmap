@@ -13,7 +13,9 @@ with the `1`-Wasserstein distance (`stateEDist_integrationState`), the closed Li
 theorem for ergodic actions of compact groups (`exists_closedLipNorm_actionLip`), and the
 order-unit quantum Gromov–Hausdorff distance with its triangle inequality
 (`quantumGHEDist_triangle`), zero-distance rigidity (`quantumGHEDist_eq_zero_iff`),
-completeness and compactness theorems. The end example is the continuity of the quantum tori
+completeness (`exists_limit_of_cauchySeq_quantumGHEDist`) and compactness
+(`totallyBounded_quantumGHEDist_iff`) theorems, stated for sequences of presentations. The end
+example is the continuity of the quantum tori
 `Θ ↦ (A_Θ, L_Θ)` in that distance, in every dimension and for every real skew-symmetric
 parameter, built on a twisted group C*-algebra of `ℤᵈ` owned here.
 
@@ -29,7 +31,8 @@ with its metric criterion; the action seminorm of a compact group acting on a C*
 closed Lip-norm theorem for ergodic actions, the existence of a faithful finite-dimensional
 unitary representation of a compact Lie group, central finite-character approximation and the
 comparison with derivative seminorms; the order-unit quantum Gromov–Hausdorff distance, its
-bridges, metric laws, rigidity, completeness and compactness; the scalar-twisted group
+admissible Lip-norms and bridges, metric laws, rigidity, completeness and compactness; the
+scalar-twisted group
 C*-algebra `A_Θ` of `ℤᵈ` for every `d` (regular model, universal property, gauge action,
 faithful coefficient trace), the continuous-field norm estimates and the metric continuity of
 quantum tori.
@@ -82,8 +85,8 @@ It does not own, and does not restate:
 - The discrete `ℓ²` almost-invariant-vector criterion, weak containment of the trivial
   representation in the regular one for amenable groups and the tensoring and absorption norm
   transfer, which [OperatorAlgebraDynamics](../OperatorAlgebraDynamics/README.md) owns (its D2);
-  the amenability and Følner sets of `ℤᵈ`, which [AmenableGroups](../AmenableGroups/README.md)
-  owns (its Layers 5–6).
+  the amenability of `ℤᵈ`, which [AmenableGroups](../AmenableGroups/README.md) owns (its
+  Layer 6). The Følner boxes of `ℤᵈ` and their boundary estimate are owned here (§6.3).
 - A metric that detects the full C*-multiplication. The distance of Layer 5 is an order-unit
   (Jordan) distance: opposite algebras with the transported Lip-norm are at distance zero
   (§5.4).
@@ -164,6 +167,12 @@ NoncommutativeGeometry N6.
 Sources are cited by the numbering of the arXiv versions listed under References: Rieffel 1998
 is *Metrics on states from actions of compact groups*, Rieffel 1999 is *Metrics on state
 spaces*, Rieffel 2000 is *Gromov–Hausdorff distance for quantum metric spaces*.
+
+For a pair `(L_E, L_F)` an **admissible Lip-norm** is a Lip-norm `M` on `E × F` whose coordinate
+quotients are `L_E` and `L_F` (Rieffel 2000, Definition 4.1, the set `M(L_E, L_F)`), with the
+full product finite domain in Layer 5's main class; a **bridge** is the auxiliary seminorm `N`
+of Rieffel 2000, Definition 5.1, from which `max(L_E, L_F, N)` is an admissible Lip-norm
+(§5.2). The two words are never interchanged.
 
 ## Exact supplier contracts
 
@@ -255,8 +264,9 @@ spaces*, Rieffel 2000 is *Gromov–Hausdorff distance for quantum metric spaces*
   in `ℓ²(Γ)`, weak containment of the trivial representation in the regular representation of
   an amenable discrete group, and the tensoring and absorption norm transfer
   `‖Σ c_γ V_γ‖ ≤ ‖Σ c_γ λ_γ‖` for a unitary representation `V` and finitely supported `c`.
-- [AmenableGroups](../AmenableGroups/README.md) Layers 5–6: amenability of `ℤᵈ` and its
-  explicit Følner boxes.
+- [AmenableGroups](../AmenableGroups/README.md) Layer 6: amenability of `ℤᵈ` as a finitely
+  generated abelian group. Its explicit Følner sets are intervals of `ℤ`; the boxes of `ℤᵈ`
+  and their boundary estimate are §6.3's.
 
 ## How to read the build
 
@@ -272,7 +282,8 @@ is the classical calibration: `C(X, ℝ)` with its Lipschitz constant, probabili
 identification. Layer 4 builds Leibniz Lip-norms from actions of compact groups: the action
 seminorm, the ergodic closed Lip-norm theorem, central finite-character approximation on
 compact Lie groups and the comparison with derivative seminorms. Layer 5 defines the quantum
-Gromov–Hausdorff distance through bridges and proves its metric laws, rigidity, completeness
+Gromov–Hausdorff distance through admissible Lip-norms and proves its metric laws, rigidity,
+completeness
 and compactness. Layer 6 builds the twisted group C*-algebra of `ℤᵈ`, its Lip-norms, the
 continuous-field norm estimates and the metric continuity of quantum tori; it uses Layers 4–5
 and consumes NoncommutativeGeometry only at `d = 2`.
@@ -551,13 +562,13 @@ and its elements are `1`-Lipschitz for `ρ_L`, so Arzelà–Ascoli gives total b
 
 ### 1.5 The metric, uniformity and separability
 
-Under `IsLipNorm L` construct the finite ordinary metric on `S(E)` from `stateEDist`, prove that
-its uniformity is the compact weak-star uniformity, that `(S(E), ρ_L)` is complete and compact
-with finite diameter, and that convergence of states for `ρ_L` is weak-star convergence for
-**arbitrary filters**, which is `tendsto_stateEDist_iff`. Prove that `E` is then separable:
-finite norm nets of the centered sublevel sets, rational scalar translates and the dense finite
-domain give a countable norm-dense set (Rieffel 1998, §1). A general order-unit space need not
-be separable. *Needs:* 1.4; Mathlib `Filter.Tendsto`, `UniformSpace`.
+Under `IsLipNorm L` construct the finite ordinary metric on `S(E)` from `stateEDist`, prove that its
+uniformity is the compact weak-star uniformity, that `(S(E), ρ_L)` is complete and compact with
+finite diameter, and that convergence of states for `ρ_L` is weak-star convergence for **arbitrary
+filters**, which is `tendsto_stateEDist_iff`. Prove, owned here, that `E` is then separable: by 1.4
+a centered ball `B_φ` is norm totally bounded, hence separable, and `{L ≤ 1} ⊆ B_φ + ℝ e`, so `dom L
+= ⋃_n n·{L ≤ 1}` is a countable union of separable sets and is norm dense in `E`. A general
+order-unit space need not be separable. *Needs:* 1.4; Mathlib `Filter.Tendsto`, `UniformSpace`.
 
 **Checks.**
 
@@ -866,19 +877,21 @@ composition. *Needs:* 3.3, 2.4; OptimalTransport Layer 0 (pushforward of plans).
 
 ### 3.5 Commutator seminorms of spectral triples
 
-For a faithful unital representation `π` of a unital C*-algebra `A` on `H` and a densely
-defined self-adjoint `D` supplied by NoncommutativeGeometry N5, take the elements `a` with
-`π(a)(dom D) ⊆ dom D` whose algebraic commutator `[D, π(a)]` has a bounded extension. Prove
-that they form a unital star subalgebra, the commutator derivation rules, the commutator
-seminorm `L_D(a) = ‖[D, π(a)]‖` with its star and Leibniz laws, and lower semicontinuity of
-its extended maximal-domain seminorm (Rieffel 1998, §4). Use the form identity on `dom D` and
-closedness of `D` to show that norm limits with uniformly bounded commutators still preserve
-`dom D` and have a bounded commutator. Prove the strong inverse law when the inverse preserves
-`dom D`, and establish that domain invariance for the maximal commutator algebra by the
-closed-derivation argument: for invertible `a` use the positive invertible `a*a`, a
-norm-convergent Neumann series for its inverse with summable derivative bounds, and multiply
-by `a*`; prove graph convergence at every step, since invariance of the inverse does not follow
-from `a(dom D) ⊆ dom D` alone. *Needs:* 1.1, 2.1; NoncommutativeGeometry N5.
+For a faithful unital representation `π` of a unital C*-algebra `A` on `H` and a densely defined
+self-adjoint `D` supplied by NoncommutativeGeometry N5, take the elements `a` with `π(a)(dom D) ⊆
+dom D` whose algebraic commutator `[D, π(a)]` has a bounded extension. Prove that they form a unital
+star subalgebra, the commutator derivation rules, the commutator seminorm `L_D(a) = ‖[D, π(a)]‖`
+with its star and Leibniz laws (Rieffel 1998, §4, for the Lie-action Dirac construction), and lower
+semicontinuity of `L_D` on a unital linear space of elements preserving `dom D` with bounded
+commutators (Rieffel 1999, Proposition 3.7, for an essentially self-adjoint `D`). Extend lower
+semicontinuity to the maximal-domain extended seminorm, owned here: use the form identity on `dom D`
+and closedness of `D` to show that norm limits with uniformly bounded commutators still preserve
+`dom D` and have a bounded commutator, so that every sublevel set is norm closed in `A`. Prove the
+strong inverse law when the inverse preserves `dom D`, and establish that domain invariance for the
+maximal commutator algebra by the closed-derivation argument: for invertible `a` use the positive
+invertible `a*a`, a norm-convergent Neumann series for its inverse with summable derivative bounds,
+and multiply by `a*`; prove graph convergence at every step, since invariance of the inverse does
+not follow from `a(dom D) ⊆ dom D` alone. *Needs:* 1.1, 2.1; NoncommutativeGeometry N5.
 
 **Checks.**
 
@@ -1116,24 +1129,24 @@ V8.CompactErgodicActions; SmoothBanachRepresentations SB2 and SB8; Mathlib `Grou
 
 ## Layer 5: Order-unit quantum Gromov–Hausdorff distance (Q5)
 
-### 5.1 Bridges and the distance
+### 5.1 Admissible Lip-norms and the distance
 
 Work with complete closed presentations from Layer 2, or their identified dense finite
 domains. Define `QuotientAdmissibleLipNorm LE LF`: a Lip-norm `M` on `E × F` with order unit
 `(e, f)` whose coordinate quotient seminorms are exactly `L_E` and `L_F`,
 `inf_b M(a, b) = L_E(a)` and `inf_a M(a, b) = L_F(b)` (Rieffel 2000, Definition 4.1 for the
-finite case). Define `AdmissibleLipNorm LE LF`, a **bridge**, as a quotient-admissible `M`
+finite case). Define `AdmissibleLipNorm LE LF`, an admissible Lip-norm, as a quotient-admissible `M`
 with the full product finite domain `dom M = dom L_E × dom L_F`: a finite seminorm on that
 direct sum, extended by `∞` outside it. Quotient equality forces the reverse domain inclusion;
 the forward finiteness is proved explicitly. Quotient equalities are infima over lifts, not
 equality with `M(a, 0)`. Define `leftState` and `rightState`, the coordinate pullbacks of
-states to `E × F`, and `bridgeEDist M`, the Hausdorff distance of their images for the state
+states to `E × F`, and `admissibleEDist M`, the Hausdorff distance of their images for the state
 metric of `M`, through the native `Metric.hausdorffEDist` and the `EMetricSpace` structure
-`stateEMetricSpace`; `quotientBridgeEDist` is the same for a quotient-admissible `M`. Define
-`quantumGHEDist LE LF` as the infimum of `bridgeEDist` over bridges (Rieffel 2000,
+`stateEMetricSpace`; `quotientAdmissibleEDist` is the same for a quotient-admissible `M`. Define
+`quantumGHEDist LE LF` as the infimum of `admissibleEDist` over admissible Lip-norms (Rieffel 2000,
 Definition 4.2) and `quotientQuantumGHEDist` as the infimum over the broader class. Prove
-existence and finiteness of bridges using centered scalar-coordinate bridges and the radius
-bounds of 1.3. *Needs:* 2.1, 1.3, 1.5, 0.5; Mathlib `Metric.hausdorffEDist`.
+existence and finiteness of admissible Lip-norms from centered scalar-coordinate bridges and
+the radius bounds of 1.3. *Needs:* 2.1, 1.3, 1.5, 0.5; Mathlib `Metric.hausdorffEDist`.
 
 Prove `quantumGHEDist_eq_quotientQuantumGHEDist`: the two infima agree. For `ε > 0` and a
 quotient-admissible `M`, with the maximum order-unit norm on `E × F`, construct the finite
@@ -1145,17 +1158,17 @@ product domain and both exact coordinate quotients of `M_ε`. Prove its Lip-norm
 the two centered endpoint balls and the scalar-difference bound from `N_ε`; if `L_E, L_F` are
 closed, `M_ε` is closed. On the common state space prove `ρ_M ≤ ρ_(M_ε) ≤ ρ_M + 2ε`, using
 approximate `w`-lifts and that a difference of states has norm at most `2`; deduce the same
-bound for the Hausdorff distances and the equality of the two infima. Prove that closing a
-full-domain bridge between complete closed endpoints preserves coordinate quotients, the
+bound for the Hausdorff distances and the equality of the two infima. Prove that closing an
+admissible Lip-norm between complete closed endpoints preserves coordinate quotients, the
 product domain and the state metrics, and that the distance is invariant under Layer 2's
 closed-completion comparison with incomplete finite-domain presentations.
 
 **Checks.**
 
-- `E = F = ℝ`, `e = f = 1`: the only extended Lipschitz seminorms are `0`, the bridge
+- `E = F = ℝ`, `e = f = 1`: the only extended Lipschitz seminorms are `0`, the admissible Lip-norm
   `M(a, b) = |a − b|` has `M(a, b) = 0 ↔ a = b` as kernel `ℝ(1, 1)`, state metric `0` on the
   single state of each side, and `quantumGHEDist = 0`.
-- `E = ℝ²` with `|a₁ − a₂|`, `F = ℝ` with `0`, and for `δ > 0` the bridge
+- `E = ℝ²` with `|a₁ − a₂|`, `F = ℝ` with `0`, and for `δ > 0` the admissible Lip-norm
   `M_δ(a, b) = max(|a₁ − a₂|, δ⁻¹|(a₁ + a₂)/2 − b|)`: `inf_b M_δ(a, b) = |a₁ − a₂|` at
   `b = (a₁ + a₂)/2`, `inf_a M_δ(a, b) = 0` at `a = (b, b)`, kernel `ℝ(1, 1, 1)`. For the pulled-back
   states `φ_t(a, b) = ta₁ + (1 − t)a₂` and `ψ(a, b) = b`,
@@ -1165,26 +1178,27 @@ closed-completion comparison with incomplete finite-domain presentations.
 - Quotient equality is not `M(a, 0)`: for `M(a, b) = max(L_E(a), L_F(b), |a₁ − b|)` on
   `ℝ² × ℝ` one has `M(a, 0) = max(|a₁ − a₂|, |a₁|) ≠ L_E(a)` in general, while
   `inf_b M(a, b) = L_E(a)` at `b = a₁`.
-- `N_ε` for `M` the bridge above and `ε → 0` recovers `M` on `dom M`, and `N_ε(v) ≤ ε⁻¹‖v‖`
-  shows `M_ε` is finite everywhere on the product.
+- `N_ε` for `M` an admissible Lip-norm above and `ε → 0` recovers `M` on `dom M`, and `N_ε(v) ≤
+  ε⁻¹‖v‖` shows `M_ε` is finite everywhere on the product.
 
-The coupled-domain example shows why quotient equalities alone do not permit maximum gluing.
-On the real `L²` space of the circle let `T` be the compact injective Fourier multiplier with
-multipliers `exp(−n²)` and `U` the orthogonal map multiplying by the sign of the semicircle;
-prove `ran T ∩ U(ran T) = {0}` by analyticity and that `x ↦ (Tx, TUx)` has dense range by its
-adjoint kernel. On the Lorentz order-unit space `ℝ ⊕ L²` take `L(t, Tx) = ‖x‖` (and `∞` off
-`ℝ ⊕ ran T`) and on its square `M((t, Tx), (s, TUx)) = max(‖x‖, |t − s|)`, extended by `∞`.
-Verify closed Lip-norms, compact centered balls and attained coordinate quotients. Gluing `M`
-with its reverse forces equal endpoint Hilbert components, so neither the maximum nor its
-endpoint quotient has dense finite domain. This example belongs to the broader class, and the
-regularized bridges above provide the required reduction; no class of compact quantum metric
-spaces or quotient-admissible example is discarded.
+The coupled-domain example shows why quotient equalities alone do not permit maximum gluing. On the
+real `L²` space of the circle let `T` be the compact injective Fourier multiplier with multipliers
+`exp(−n²)` and `U` the orthogonal map multiplying by the sign of the semicircle; prove `ran T ∩
+U(ran T) = {0}` by analyticity and that `x ↦ (Tx, TUx)` has dense range by its adjoint kernel. On
+the Lorentz order-unit space `ℝ ⊕ L²` take `L(t, Tx) = ‖x‖` (and `∞` off `ℝ ⊕ ran T`) and on its
+square `M((t, Tx), (s, TUx)) = max(‖x‖, |t − s|)`, extended by `∞`. Verify closed Lip-norms, compact
+centered balls and attained coordinate quotients. Gluing `M` with its reverse forces equal endpoint
+Hilbert components, so neither the maximum nor its endpoint quotient has dense finite domain. This
+example belongs to the broader class, and the regularized admissible Lip-norms above provide the
+required reduction; no class of compact quantum metric spaces or quotient-admissible example is
+discarded.
 
 ### 5.2 The bridge lemma
 
-Prove the bridge lemma (Rieffel 2000, Definition 5.1 and Theorem 5.2): for a continuous
-seminorm `N` on `E × F` with `N(e, f) = 0`, `N(e, 0) > 0`, and approximate lift estimates
-which make `max(L_E, L_F, N)` induce both quotient seminorms, that maximum is a bridge. State
+Prove the bridge lemma (Rieffel 2000, Definition 5.1 and Theorem 5.2): a **bridge** is a
+continuous seminorm `N` on `E × F` with `N(e, f) = 0`, `N(e, 0) > 0` and approximate lift
+estimates which make `max(L_E, L_F, N)` induce both quotient seminorms; prove that this maximum
+is an admissible Lip-norm. State
 approximate lifts with every `ε > 0`; exact lifts are required only in the closed compact
 sublevel case where Layer 2 gives attainment. Include the concrete common-ambient-norm bridge
 `N(a, b) = δ⁻¹‖a − b‖` for `δ > 0`, an order-unit subspace `F ⊆ E`, compatible seminorms
@@ -1205,14 +1219,14 @@ zero-error scalar model directly rather than dividing by `δ = 0`. *Needs:* 5.1,
   `P`-estimates alone do not give `quantumGHEDist ≤ δ` for every `δ > 0`.
 - `E = C(T)` with `‖f′‖_∞`, `F = B_n` the trigonometric polynomials of degree `≤ n`,
   `P = P_n` the Fejér-type kernel of 4.4: `quantumGHEDist ≤ δ_n → 0`.
-- `δ = 0` is the case `E = F = ℝ`, `P = id`, where the bridge is `|a − b|` and the distance is
-  `0`, not `0⁻¹ · 0`.
+- `δ = 0` is the case `E = F = ℝ`, `P = id`, where the admissible Lip-norm is `|a − b|` and the
+  distance is `0`, not `0⁻¹ · 0`.
 
 ### 5.3 Metric laws and the classical comparison
 
 Prove symmetry, zero self-distance, the scaling law `dist_q(tE, tF) = t dist_q(E, F)` for
 `t > 0`, invariance under unital order isometries preserving `L`, and the triangle inequality
-`quantumGHEDist_triangle` (Rieffel 2000, Theorem 4.3, Lemmas 4.4 and 4.6): take bridges
+`quantumGHEDist_triangle` (Rieffel 2000, Theorem 4.3, Lemmas 4.4 and 4.6): take admissible Lip-norms
 `M_EF`, `M_FH` within `ε` of the infima, glue them by
 `G(a, b, c) = max(M_EF(a, b), M_FH(b, c))` and take the endpoint quotient
 `K(a, c) = inf_b G(a, b, c)`. Prove that `dom G` is the full triple product and `dom K` the
@@ -1229,7 +1243,7 @@ is not asserted. *Needs:* 5.1, 5.2, 3.2, 3.3; Mathlib `GromovHausdorff.ghDist`.
 **Checks.**
 
 - `E = ℝ²` with `|a₁ − a₂|` and `F = ℝ`: `diam E = 1`, `diam F = 0`, so `dist_q ≥ 1/2`, and the
-  bridge of 5.1 gives `≤ 1/2`: `dist_q = 1/2`.
+  admissible Lip-norm `M_δ` of 5.1 gives `≤ 1/2`: `dist_q = 1/2`.
 - Scaling: `L ↦ 2L` halves every state metric, and `dist_q(2L_E, 2L_F) = dist_q(L_E, L_F)/2`.
 - Two-point spaces `X = {0, 1}` with `d = 1` and `Y = {0, 1}` with `d = 2`: `ghDist = 1/2`, and
   `dist_q(C(X), C(Y)) ≤ 1/2` while the diameter estimate gives `dist_q ≥ 1/2`: equality here.
@@ -1262,27 +1276,29 @@ not the order-unit distance specified here. *Needs:* 5.3, 2.2, 2.1, 0.3; Mathlib
 ### 5.5 Completeness
 
 Construct the metric space of isometry classes of complete closed presentations, controlling
-universes through the separability of 1.5 and a fixed universal real Banach-space model.
-Prove completeness (Rieffel 2000, Theorem 12.11): pass to a summable-distance subsequence,
-choose full-domain bridges between adjacent terms, using 5.1's reduction with summable
-additional errors when starting from quotient-only bridges, and prove that every finite-prefix
-maximum and endpoint quotient has the full finite-domain product before passing to infinite
-sequences. Construct the subspace of product sequences `a` with
-`sup_j M_j(a_j, a_(j+1)) < ∞`; prove that summable adjacent state-space distances make every
-such sequence norm bounded, using the uniform diameter bounds and compatible scalar
-centering. Equip this subspace with the maximum norm and the supremum bridge seminorm. Prove
-that its state space is the compact metric completion of the increasing union of the
-finite-coordinate convex state hulls; take the Hausdorff limit `K` of the coordinate state
-spaces inside it, restrict affine functions to `K`, and use 2.5 for the quotient Lip-norm.
-Prove that the quotient retains a nonzero order unit and finite radius, has dense finite
-domain, and that the coordinate spaces converge to it; pass to its complete closed
-presentation. Completeness of ordinary Gromov–Hausdorff space is not a substitute for these
-affine and quotient constructions. *Needs:* 5.1–5.4, 2.5, 1.5.
+universes through the separability of 1.5 and a fixed universal real Banach-space model. Prove
+completeness, `exists_limit_of_cauchySeq_quantumGHEDist` (Rieffel 2000, Theorem 12.11), in
+sequential form: a sequence `(E_j, L_j)` of complete closed presentations in one universe that is
+Cauchy for `dist_q` has a complete closed presentation `(F, L_F)` in the same universe with
+`dist_q(E_j, F) → 0`; completeness of the metric space of isometry classes is this statement read on
+classes. Pass to a summable-distance subsequence, choose admissible Lip-norms between adjacent
+terms, using 5.1's reduction with summable additional errors when starting from quotient-admissible
+ones, and prove that every finite-prefix maximum and endpoint quotient has the full finite-domain
+product before passing to infinite sequences. Construct the subspace of product sequences `a` with
+`sup_j M_j(a_j, a_(j+1)) < ∞`; prove that summable adjacent state-space distances make every such
+sequence norm bounded, using the uniform diameter bounds and compatible scalar centering. Equip this
+subspace with the maximum norm and the supremum seminorm `sup_j M_j(a_j, a_(j+1))`. Prove that its
+state space is the compact metric completion of the increasing union of the finite-coordinate convex
+state hulls; take the Hausdorff limit `K` of the coordinate state spaces inside it, restrict affine
+functions to `K`, and use 2.5 for the quotient Lip-norm. Prove that the quotient retains a nonzero
+order unit and finite radius, has dense finite domain, and that the coordinate spaces converge to
+it; pass to its complete closed presentation. Completeness of ordinary Gromov–Hausdorff space is not
+a substitute for these affine and quotient constructions. *Needs:* 5.1–5.4, 2.5, 1.5.
 
 **Checks.**
 
-- The constant sequence `E_j = E` with `M_j` the diagonal bridge `max(L_E(a), L_E(b), δ⁻¹‖a − b‖)`,
-  `δ_j = 2^(−j)`: the limit is `E` itself.
+- The constant sequence `E_j = E` with `M_j` the diagonal admissible Lip-norm `max(L_E(a), L_E(b),
+  δ⁻¹‖a − b‖)`, `δ_j = 2^(−j)`: the limit is `E` itself.
 - The spaces `B_n` of 5.2 for `C(T)` with `δ_n → 0` summable along a subsequence: the limit is
   `C(T)` with the Lipschitz constant, by 5.4.
 - `E_j = ℝ^(j)` with the simplex metrics of diameter `2^(−j)` converging to `ℝ`: the quotient
@@ -1296,14 +1312,21 @@ get a quotient `F` with `dim F ≤ card(net)` and `dist_q(E, F) < ε`. Such an `
 order-unit function system, not in general a finite-dimensional C*-algebra. Define `Fin_E(ε)`
 as the minimum dimension of a finite-dimensional compact quantum metric space within `ε` of `E`
 and `Scv_E(ε)` as the minimum cardinality of an `ε`-net of `S(E)` (Rieffel 2000,
-Definition 13.4). Prove the quantum compactness theorem (Rieffel 2000, Theorem 13.5): a family
-has compact closure for `dist_q` exactly when its state diameters and `Scv_E(ε)` are uniformly
-bounded for every `ε > 0`, equivalently when the diameters and `Fin_E(ε)` are. Include the
+Definition 13.4). Prove the quantum compactness theorem, `totallyBounded_quantumGHEDist_iff`
+(Rieffel 2000, Theorem 13.5), in sequential form: a sequence `(E_j, L_j)` of compact quantum
+metric spaces is totally bounded for `dist_q` (for every `ε > 0` finitely many terms are within
+`ε` of every term) exactly when its state diameters have one finite bound `D` and, for every
+`ε > 0`, its state spaces have `ε`-nets of one bounded cardinality, `Scv_(E_j)(ε) ≤ G(ε)` for
+all `j`; equivalently when the diameters and `Fin_(E_j)(ε)` are uniformly bounded. Necessity
+uses `|diam E − diam F| ≤ 2 dist_q(E, F)` of 5.3 and `G(ε) = max Scv(ε/3)` over an `ε/3`-net
+of terms; sufficiency uses `Fin ≤ Scv` and that the spaces of dimension `≤ n` and diameter
+`≤ d` are totally bounded, by F. John's ellipsoid theorem in a fixed `n`-dimensional Euclidean
+model (Rieffel 2000, Proposition 13.7). Include the
 finite-dimensional comparison, bounded-dimension and bounded-radius precompactness, and the
 covering-number inequalities needed in each implication. Deduce from 4.4's `δ_n` and the
 multiplicity bounds of 4.2 that all ergodic actions of a fixed compact Lie group `G` with one
 conjugation-invariant `ℓ` form a precompact family; this is a metric precompactness theorem,
-not an equivariant classification. *Needs:* 5.5, 2.5, 4.4, 4.2.
+not an equivariant classification. *Needs:* 5.5, 5.3, 2.5, 4.4, 4.2.
 
 **Checks.**
 
@@ -1314,6 +1337,11 @@ not an equivariant classification. *Needs:* 5.5, 2.5, 4.4, 4.2.
   is not precompact; a family with bounded diameters but `Scv_E(ε) → ∞`, the simplices
   `(ℝ^(d), max_(i,j) |a_i − a_j|)` of diameter `1` whose `d` vertex states are pairwise at
   distance `1`, has `Scv(ε) ≥ d` for `ε < 1/2` and is not precompact either.
+- The diameter clause is implied by the net clause: two states at distance `d` span the segment
+  `φ_t = tφ + (1 − t)ψ` with `ρ(φ_s, φ_t) = |s − t| d`, isometric to `[0, d]`, so
+  `Scv(1) ≥ d/2` and `diam ≤ 2 Scv(1)`; the clause is kept because the `Fin` form needs it,
+  as `(ℝ², t|a₁ − a₂|)` has `Fin(ε) ≤ 2` for every `t` and unbounded diameter. The bound `D`
+  is a finite real: with `D = ∞` allowed the clause would say nothing.
 
 ### Examples
 
@@ -1337,15 +1365,15 @@ Prove the universal property: for unitaries `V_p` in a unital C*-algebra `B` wit
 `V_pV_q = σ_Θ(p, q)V_(p+q)` there is a unique unital star homomorphism `A_Θ → B` with
 `W_p ↦ V_p`. Route: represent `B` faithfully on `H` (VonNeumannAlgebras Layer 0); the unitary
 `ξ ⊗ δ_q ↦ V_qξ ⊗ δ_q` of `H ⊗ ℓ²(ℤᵈ)` conjugates `1 ⊗ λ_Θ(p)` to `V_p ⊗ λ_0(p)`, and
-OperatorAlgebraDynamics D2's almost-invariant vectors for `ℤᵈ`, from the Følner boxes of
-AmenableGroups Layer 6, give `‖Σ c_pV_p‖ ≤ ‖Σ c_pW_p‖` for finitely supported `c`. Define the
+OperatorAlgebraDynamics D2's almost-invariant vectors for `ℤᵈ`, from its amenability
+(AmenableGroups Layer 6), give `‖Σ c_pV_p‖ ≤ ‖Σ c_pW_p‖` for finitely supported `c`. Define the
 gauge action of `z ∈ Tᵈ` by `α_z(W_p) = z^p W_p`, implemented spatially by the unitary
 `δ_q ↦ z^q δ_q`, and the coefficient trace `τ_Θ(a) = ⟨aδ₀, δ₀⟩`. Prove the identification
 theorem: if a unital C*-algebra `B` is generated by unitaries `V_p` satisfying the
 `σ_Θ`-twisted relations and carries a faithful state `τ_B` with `τ_B(V_p) = δ_(p,0)`, the
 universal homomorphism `A_Θ → B` is an isomorphism, since `τ_B ∘ Φ = τ_Θ` on the dense span
 and `τ_Θ` is faithful (6.1). *Needs:* VonNeumannAlgebras Layer 0; OperatorAlgebraDynamics D2;
-AmenableGroups Layers 5–6.
+AmenableGroups Layer 6.
 
 - `A_Θ` for `d = 0` is `ℂ`; for `Θ = 0` it is `C*(ℤᵈ) ≅ C(Tᵈ)` through the Fourier transform;
   for `Θ` with integer entries `σ_Θ` is `±1`-valued and `A_Θ ≅ C(Tᵈ)` as well, by the
@@ -1436,21 +1464,29 @@ two-dimensional, and `L_Θ` with its derivative formula is the `d`-dimensional s
 
 ### 6.3 Continuity of the norms in Θ
 
-Own the continuous-field estimates used in the metric limit (Rieffel 2000, §9, Lemma 9.3
-and §11). For every finite Fourier polynomial `f`, prove that `Θ ↦ ‖λ_Θ(f)‖` is continuous.
-Lower semicontinuity follows by testing finitely supported vectors in the common `ℓ²(ℤᵈ)`
-regular model. Prove upper semicontinuity by Følner localization for finite-propagation
-twisted convolution: for each finite `S` and `ε > 0` construct a finite `K ⊆ ℤᵈ` such that for
-every `f` supported on `S` and every `Θ`, `‖λ_Θ(f)‖ ≤ ‖λ_Θ(f)P_K‖ + ε‖f‖₁`, by a slowly
-varying translated partition of unity and its commutator error estimate; commuting twisted
-right translations make the localized operator norms independent of the translated box. The
-finite-rank operator `λ_Θ(f)P_K` has range in the span of `δ_q` for `q ∈ K + S`, so its matrix
-norm is continuous in `Θ`. Extend by the common `ℓ¹` bound `‖λ_Θ(f)‖ ≤ ‖f‖₁` to all `ℓ¹`
-Fourier coefficients. Strong-operator continuity alone is insufficient for norm continuity
-(Rieffel 2000, §9, remark after Theorem 9.2). *Needs:* 6.0; AmenableGroups Layer 6.
+Own the continuous-field estimates used in the metric limit (Rieffel 2000, §9, Lemma 9.3 and §11).
+For every finite Fourier polynomial `f`, prove that `Θ ↦ ‖λ_Θ(f)‖` is continuous. Lower
+semicontinuity follows by testing finitely supported vectors in the common `ℓ²(ℤᵈ)` regular model.
+Define the Følner boxes `F_nᵈ = {0, …, n}ᵈ` of `ℤᵈ` and prove, owned here, the boundary estimate
+`|(k + F_nᵈ) △ F_nᵈ| ≤ 2 Σ_i |k_i| (n + 1)^(d−1) ≤ 2d‖k‖_∞ (n + 1)^(d−1)` for every `k ∈ ℤᵈ`, so
+that the ratio to `|F_nᵈ| = (n + 1)^d` is at most `2d‖k‖_∞/(n + 1)`: the points of `F_nᵈ` outside `k
++ F_nᵈ` have some coordinate `x_i` with `x_i − k_i ∉ [0, n]`, at most `|k_i|` values of `x_i` each.
+Prove upper semicontinuity by Følner localization for finite-propagation twisted convolution: for
+each finite `S` and `ε > 0` construct a finite `K ⊆ ℤᵈ` such that for every `f` supported on `S` and
+every `Θ`, `‖λ_Θ(f)‖ ≤ ‖λ_Θ(f)P_K‖ + ε‖f‖₁`, by a slowly varying translated partition of unity and
+its commutator error estimate; commuting twisted right translations make the localized operator
+norms independent of the translated box. The finite-rank operator `λ_Θ(f)P_K` has range in the span
+of `δ_q` for `q ∈ K + S`, so its matrix norm is continuous in `Θ`. Extend by the common `ℓ¹` bound
+`‖λ_Θ(f)‖ ≤ ‖f‖₁` to all `ℓ¹` Fourier coefficients. Strong-operator continuity alone is insufficient
+for norm continuity (Rieffel 2000, §9, remark after Theorem 9.2). *Needs:* 6.0.
 
 **Checks.**
 
+- Boxes, `d = 2`, `n = 1`: `F₁² = {0, 1}²`; for `k = (1, 0)` the symmetric difference
+  `{0, 2} × {0, 1}` has `4` elements and the bound `2·1·2 = 4` is attained; for `k = (1, 1)`
+  the two boxes share only `(1, 1)`, the symmetric difference has `6` elements and the bound is
+  `2·2·2 = 8`. For `d = 1` the estimate is `2|k|`, the interval estimate of AmenableGroups
+  Layer 6.
 - `f = δ_(1,0) + δ_(0,1)` in `d = 2`: `‖W_(1,0) + W_(0,1)‖ = ‖1 + W_(1,0)*W_(0,1)‖ = 2` for every
   `Θ`, since `W_(1,0)*W_(0,1)` is a phase times `W_(−1,1)`, whose spectrum is invariant under the
   gauge rotations `z ↦ z^(−1,1)` and is therefore the full circle; a constant function of `Θ`.
@@ -1463,23 +1499,23 @@ Fourier coefficients. Strong-operator continuity alone is insufficient for norm 
 
 ### 6.4 Finite-dimensional continuity
 
-For each finite symmetric support `S ∋ 0` identify the real self-adjoint coefficient space
-`V_S = {f : supp f ⊆ S, f(−p) = conj f(p)}` independently of `Θ`, with distinguished `δ₀`.
-Prove joint continuity of `(Θ, f) ↦ ‖f‖_Θ` and `(Θ, f) ↦ L_Θ(f)` (Rieffel 2000, Lemma 10.1).
-For `L`, normalized gauge differences form a bounded subset of the fixed finite-dimensional
-coefficient space; use its compact closure and uniform `ℓ¹` control to pass continuity
-through the supremum over `z ≠ 1`; for the derivative formula use the compact Lie-algebra unit
-ball. Give uniform norm equivalence on compact parameter sets. Prove continuity of the dual
-state bodies and centered Lip-unit bodies and construct the resulting bridges between the
-finite-dimensional order-unit spaces `(V_S, ‖·‖_Θ, L_Θ)` and `(V_S, ‖·‖_Ψ, L_Ψ)` (Rieffel 2000,
-Theorem 11.2). For state bodies use their support functions `max_Θ(a) = ‖a + Re‖_Θ − R` with a
-common `R` bounding `‖a‖_Θ`; prove the support-function and Hausdorff comparison in finite
-dimensions. This finite-dimensional order-unit and Lip-norm comparison lemma is reusable and
-is owned here; it allows the positive cones to vary with `Θ`. *Needs:* 6.3, 6.2, 5.2, 1.5.
+For each finite symmetric support `S ∋ 0` identify the real self-adjoint coefficient space `V_S = {f
+: supp f ⊆ S, f(−p) = conj f(p)}` independently of `Θ`, with distinguished `δ₀`. Prove joint
+continuity of `(Θ, f) ↦ ‖f‖_Θ` and `(Θ, f) ↦ L_Θ(f)` (Rieffel 2000, Lemma 10.1). For `L`, normalized
+gauge differences form a bounded subset of the fixed finite-dimensional coefficient space; use its
+compact closure and uniform `ℓ¹` control to pass continuity through the supremum over `z ≠ 1`; for
+the derivative formula use the compact Lie-algebra unit ball. Give uniform norm equivalence on
+compact parameter sets. Prove continuity of the dual state bodies and centered Lip-unit bodies and
+construct the resulting admissible Lip-norms between the finite-dimensional order-unit spaces `(V_S,
+‖·‖_Θ, L_Θ)` and `(V_S, ‖·‖_Ψ, L_Ψ)` (Rieffel 2000, Theorem 11.2). For state bodies use their
+support functions `max_Θ(a) = ‖a + Re‖_Θ − R` with a common `R` bounding `‖a‖_Θ`; prove the
+support-function and Hausdorff comparison in finite dimensions. This finite-dimensional order-unit
+and Lip-norm comparison lemma is reusable and is owned here; it allows the positive cones to vary
+with `Θ`. *Needs:* 6.3, 6.2, 5.2, 1.5.
 
 **Checks.**
 
-- `S = {0}`: `V_S = ℝδ₀`, every norm is `|·|`, `L_Θ = 0`, and the bridges are trivial.
+- `S = {0}`: `V_S = ℝδ₀`, every norm is `|·|`, `L_Θ = 0`, and the admissible Lip-norms are trivial.
 - `d = 1`, `S = {−1, 0, 1}`: `V_S` is the real span of `1, cos, sin`, the norm is the uniform norm
   on `T` for every (trivial) `Θ`, and `L` is `‖f′‖_∞`; continuity is the identity.
 - Support functions: for `a = (−1, −3)` in `ℝ²` with `e = (1, 1)`, `max(a) = −1`, and
@@ -1518,15 +1554,18 @@ function of `θ`, and the limits `θ → 0` and `θ → p/q`.
 
 ### Dependencies
 
-Layers 4–5 (the gauge-action Lip-norm, bridges and the triangle inequality);
-VonNeumannAlgebras Layer 0, OperatorAlgebraDynamics D2 and AmenableGroups Layers 5–6 (6.0);
+Layers 4–5 (the gauge-action Lip-norm, admissible Lip-norms and the triangle inequality);
+VonNeumannAlgebras Layer 0, OperatorAlgebraDynamics D2 and AmenableGroups Layer 6 (6.0);
 NoncommutativeGeometry N6–N7 (6.1–6.2 at `d = 2` only); CompactGroups Layer 0.
 
 ## Downstream consumers
 
 - [SpectralManifolds](../SpectralManifolds/README.md) consumes §3.1 (the extended Lipschitz
   constant, its `LipschitzWith` comparison, the algebraic laws and the bounded-witness distance
-  formula) for its finite models and acceptance examples.
+  formula) for its finite models and acceptance examples, and §3.6 (the Dirac point metric of a
+  closed connected Riemannian manifold). Both are subsections of the heading
+  `Layer 3: Classical metrics, probabilities and commutators (Q3)`, which is the link target
+  for Layer 3.
 - Roadmaps on noncommutative geometry and operator-algebra dynamics may consume the closed
   Lip-norm theorem of §4.3, the quantum Gromov–Hausdorff distance of Layer 5 and the twisted
   group C*-algebra of §6.0 with its identification theorem.
@@ -1537,13 +1576,12 @@ NoncommutativeGeometry N6–N7 (6.1–6.2 at `d = 2` only); CompactGroups Layer 
   215–229; [arXiv math/9807084](https://arxiv.org/abs/math/9807084) (cited as Rieffel 1998;
   theorem numbers follow the arXiv version): §1 for the Lip-norm criterion (Theorems 1.8 and
   1.9), §2 for ergodic actions (Proposition 2.2, Theorem 2.3, Lemma 2.4), §3 for derivative
-  seminorms (Theorem 3.1), §4 for commutator seminorms.
-- M. A. Rieffel, *Metrics on state spaces*, Doc. Math. 4 (1999), 559–600;
-  [arXiv math/9906151](https://arxiv.org/abs/math/9906151) (cited as Rieffel 1999): §2 for
-  order-unit spaces, the dual-ball identity (Lemma 2.1) and the radius (Proposition 2.2); §3
-  for lower semicontinuity (Example 3.5); §4 for closure and recovery (Theorems 4.1 and 4.2,
-  Proposition 4.4); §9 for metrics from norms (Definitions 9.1, 9.3, 9.5, Theorems 9.7
-  and 9.11).
+  seminorms (Theorem 3.1), §4 for the Lie-action Dirac construction of commutator seminorms.
+- M. A. Rieffel, *Metrics on state spaces*, Doc. Math. 4 (1999), 559–600; [arXiv
+  math/9906151](https://arxiv.org/abs/math/9906151) (cited as Rieffel 1999): §2 for order-unit
+  spaces, the dual-ball identity (Lemma 2.1) and the radius (Proposition 2.2); §3 for lower
+  semicontinuity (Example 3.5, Proposition 3.7); §4 for closure and recovery (Theorems 4.1 and 4.2,
+  Proposition 4.4); §9 for metrics from norms (Definitions 9.1, 9.3, 9.5, Theorems 9.7 and 9.11).
 - M. A. Rieffel, *Gromov–Hausdorff distance for quantum metric spaces*, Mem. Amer. Math.
   Soc. 168 (2004), no. 796; [arXiv math/0011063](https://arxiv.org/abs/math/0011063) (cited as
   Rieffel 2000; theorem numbers follow the arXiv version): §§2–3 for Lip-norms and quotients
