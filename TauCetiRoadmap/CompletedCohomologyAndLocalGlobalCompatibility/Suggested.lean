@@ -44,7 +44,10 @@ mathematical objects, whose construction is specified in the README:
   not supply them.
 * The Hecke-valued Galois, factorisation and crystalline-density theorems of §§3.2–3.6
   require the arithmetic completed Hecke algebras, their universal representations and
-  their classical loci. Residual localization in §3.4 selects the closed residual-idempotent
+  their classical loci. The Pan and Tung typed quotients of §2.8 use separate native
+  Hecke factors, residual representations, determinants and types; neither statement
+  identifies the two presentations. Both lack those arithmetic Hecke and deformation
+  carriers at the pins. Residual localization in §3.4 selects the closed residual-idempotent
   summand with its inherited uniformizer-adic topology; it is distinct from ordinary
   maximal-ideal module completion. The ordinary Eisenstein existence theorem of §3.7a requires the ordinary cuspidal
   Hecke tower with its local characters and the Deligne–Ribet p-adic L-function.
