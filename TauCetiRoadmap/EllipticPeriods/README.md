@@ -590,9 +590,10 @@ Layers 0–2; Tau Ceti `TauCeti.ringKrullDim_eq_toNat_trdeg`.
 
 `HasCM L`; `hasCM_iff`: `HasCM L ↔ τ = ω₂/ω₁` satisfies a nonzero integer quadratic equation (`τ`
 is imaginary quadratic); the multiplier ring `{α | αΛ ⊆ Λ}` is a subring of `ℂ`, equal to `ℤ`
-without CM and to an order in `ℚ(τ)` with CM; every nonzero multiplier is an algebraic integer of degree
-`≤ 2` with `[Λ : αΛ] = |α|²`, and a real multiplier is an integer; `HasCM.smul`, `HasCM`
-lattice-invariant.
+without CM and to an order in `ℚ(τ)` with CM; every nonzero multiplier is an algebraic integer
+of degree `≤ 2` with `[Λ : αΛ] = |α|²`, and a real multiplier is an integer; `HasCM.smul`, `HasCM`
+lattice-invariant. (Silverman, AEC, ch. VI, the theorem on the multipliers of a lattice; Silverman,
+ATAEC, ch. II.)
 
 *Needs:* Layer 0.
 
@@ -783,9 +784,9 @@ statements only. Within the layer, 5.2 repeats the proof of 5.1, and 5.3–5.5 f
 ## Downstream consumers
 
 - EllipticIntegrals defers the lattice functions, the quasi-periods and the lattice form of
-  Legendre's relation to the lattice roadmaps, this one among them (its Scope, under the old name
-  GrothendieckPeriodConjecture).
-- EllipticCurvePeriodsAndModularParametrizations (open) expects the Eisenstein dictionary (2.4)
+  Legendre's relation to the lattice roadmaps, this one among them (its Ownership and
+  dependencies section, under the old name GrothendieckPeriodConjecture).
+- EllipticCurvePeriodsAndModularParametrizations expects the Eisenstein dictionary (2.4)
   and lattice invariance (0.2) from here; the `g₂, g₃` scaling and `Δ ≠ 0` it also asks for are
   ModularCurvesPartII §§1.3 and 1.1.
 
