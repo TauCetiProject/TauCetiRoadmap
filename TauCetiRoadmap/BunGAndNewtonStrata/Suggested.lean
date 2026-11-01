@@ -1,10 +1,10 @@
 import Mathlib
 
 /-!
-# Reductive bundles, B(G) and Newton strata: headline targets
+# Reductive bundles, B(G) and Newton strata: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`; this file gives suggested Lean statements for its headline theorems.
+`README.md`; this file states its headline theorems against the pinned APIs.
 
 The Witt coefficient field makes the arithmetic classification for `GL_n` statable:
 
@@ -37,6 +37,8 @@ The other headline statements need objects absent from the pinned libraries:
 * Layer 2's Beauville–Laszlo uniformization, isocrystal-family descent and Newton
   topology (§§2.12, 2.17, 2.20) need the relative curve with its bundle categories,
   the affine Grassmannian, families of G-isocrystals and the v-stack Bun_G.
+  The neutral family-stratum equivalence is over the algebraic closure of the
+  residue field; family descent itself is over the finite residue field.
 * Layer 3's filtered relative automorphism theorem, stratum dimensions and connected
   components (§§3.3, 3.11, 3.18) need filtered fibre functors, full automorphism
   v-groups, Newton strata and cohomological smoothness and dimension.
@@ -52,6 +54,8 @@ open scoped Isocrystal
 open WittVector
 
 namespace TauCetiRoadmap.BunGAndNewtonStrata
+
+/-! ## Layer 0: Isocrystals and sigma classes -/
 
 variable (p : ℕ) [Fact p.Prime] (k : Type*) [Field k] [CharP k p]
 
@@ -91,19 +95,6 @@ def wittGLSigmaSetoid (n : ℕ) : Setoid (Matrix.GeneralLinearGroup (Fin n) K(p,
       simp [mul_assoc]
   }
 
-/-- Descending rational Newton tuples with each denominator dividing its slope multiplicity. -/
-def WittGLNewtonPolygon (n : ℕ) :=
-  {s : Fin n → ℚ // Antitone s ∧ ∀ q : ℚ, q.den ∣ (Finset.univ.filter (fun i => s i = q)).card}
-
-/-- The slope tuple of `b`, expressed by a basis on which a positive Frobenius power is
-`p ^ aᵢ`, with `aᵢ = r * sᵢ`. Such a basis gives a decent representative after changing basis. -/
-def wittGLHasNewtonSlopes {n : ℕ} (b : Matrix.GeneralLinearGroup (Fin n) K(p, k))
-    (s : Fin n → ℚ) : Prop :=
-  letI := wittGLIsocrystal p k b
-  ∃ (e : Module.Basis (Fin n) K(p, k) (Fin n → K(p, k))) (r : ℕ) (a : Fin n → ℤ),
-    0 < r ∧ (∀ i, (a i : ℚ) = r * s i) ∧
-      ∀ i, (Isocrystal.frobenius p k)^[r] (e i) = (p : K(p, k)) ^ a i • e i
-
 /-- Section 0.6: every finite-dimensional isocrystal determines exactly one sigma class.
 The fibre over `V` consists of all matrices sigma-conjugate to a representative `b`. -/
 theorem wittGL_isocrystal_classes {n : ℕ} (V : Type*) [AddCommGroup V]
@@ -117,6 +108,21 @@ theorem wittGL_isocrystal_classes {n : ℕ} (V : Type*) [AddCommGroup V]
   sorry
 
 end Perfect
+
+/-! ## Layer 1: Newton classification and decent representatives -/
+
+/-- Descending rational Newton tuples with each denominator dividing its slope multiplicity. -/
+def WittGLNewtonPolygon (n : ℕ) :=
+  {s : Fin n → ℚ // Antitone s ∧ ∀ q : ℚ, q.den ∣ (Finset.univ.filter (fun i => s i = q)).card}
+
+/-- The slope tuple of `b`, expressed by a basis on which a positive Frobenius power is
+`p ^ aᵢ`, with `aᵢ = r * sᵢ`. Such a basis gives a decent representative after changing basis. -/
+def wittGLHasNewtonSlopes [PerfectRing k p] {n : ℕ} (b : Matrix.GeneralLinearGroup (Fin n) K(p, k))
+    (s : Fin n → ℚ) : Prop :=
+  letI := wittGLIsocrystal p k b
+  ∃ (e : Module.Basis (Fin n) K(p, k) (Fin n → K(p, k))) (r : ℕ) (a : Fin n → ℤ),
+    0 < r ∧ (∀ i, (a i : ℚ) = r * s i) ∧
+      ∀ i, (Isocrystal.frobenius p k)^[r] (e i) = (p : K(p, k)) ^ a i • e i
 
 /-- Sections 1.11–1.12: arithmetic sigma classes are classified by their Newton polygons,
 with every admissible polygon realized and a positive decent period for every representative. -/
