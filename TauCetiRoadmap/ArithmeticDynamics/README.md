@@ -177,7 +177,7 @@ The supplier's parameter λ is written t here. Consume from §0.1 the native Wei
 
 ### From TauCetiRoadmap.DiophantineApproximationAndTranscendence — §§0.2, 0.3, 2.4
 
-Consume §0.2 `prod_infinitePlace_comap_pow_mult`, `mulHeight_algebraMap`, `absMulHeight₁_eq_rpow`, `absMulHeight₁_eq_of_minpoly_eq`, and §0.3 `finite_setOf_absMulHeight₁_le` with their number-field degree normalizations. For affine-orbit intersections use §2.4: over an algebraically closed characteristic-zero field, a finite-rank subgroup of (K×)^n has finitely many nondegenerate solutions of Σ a_i x_i=1 with every a_i nonzero. Apply n=2 after embedding the coefficient field; §2.3’s rational-coefficient theorem alone does not supply this application.
+Consume §0.2 `prod_infinitePlace_comap_pow_mult`, `mulHeight_pow_finrank`, `mulHeight₁_pow_finrank`, `absMulHeight₁_eq`, `absMulHeight₁_eq_of_minpoly_eq`, and §0.3 `finite_setOf_absMulHeight₁_le` with their number-field degree normalizations. For affine-orbit intersections use §2.4: over an algebraically closed characteristic-zero field, a finite-rank subgroup of (K×)^n has finitely many nondegenerate solutions of Σ a_i x_i=1 with every a_i nonzero. Apply n=2 after embedding the coefficient field; §2.3’s rational-coefficient theorem alone does not supply this application.
 
 ### From TauCetiRoadmap.SchemeAndStackFoundations — §§0.3, 2.6
 
@@ -1992,9 +1992,9 @@ Let K ⊆ L be number fields and p : ι' → MvPolynomial ι K a finite family. 
 
 K ⊆ L number fields (an algebra K → L), heights relative to `NumberField.instAdmissibleAbsValues`.
 
-mulHeightBound is the product over archimedean places (with multiplicity) of max_j Σ_s |coeff_s p_j|_v and over finite places of max_j max(max_s |coeff_s p_j|_v, 1); mapping the coefficients to L does not change the supports (`MvPolynomial.support_map_of_injective`, `MvPolynomial.coeff_map`). Archimedean part: for w | v, w(σc) = v(c) (`NumberField.InfinitePlace.comap_apply`); regroup by DiophantineApproximationAndTranscendence §0.2 `prod_infinitePlace_comap_pow_mult` `(Σ_{w|v}` mult w = mult v·[L:K]); rewrite the multiset products by `NumberField.prod_archAbsVal_eq`. Finite part: for P | p, |σc|_P = `|c|_p^{e(P|p) f(P|p)}` (`NumberField.FinitePlace.equivHeightOneSpectrum_symm_apply_algebraMap`), maxima commute with the power, and `Σ_{P|p}` e f = [L : K] (`Ideal.sum_ramification_inertia_eq_finrank`). Multiply the two parts; take logarithms and divide by [L : ℚ] = [L : K][K : ℚ] (`Module.finrank_mul_finrank`). The finite-place rank is the field degree: use the finite flat ring-of-integers extension and rank comparison in DiophantineApproximationAndTranscendence §0.2 `mulHeight_algebraMap`, rather than identifying the two ranks without justification.
+mulHeightBound is the product over archimedean places (with multiplicity) of max_j Σ_s |coeff_s p_j|_v and over finite places of max_j max(max_s |coeff_s p_j|_v, 1); mapping the coefficients to L does not change the supports (`MvPolynomial.support_map_of_injective`, `MvPolynomial.coeff_map`). Archimedean part: for w | v, w(σc) = v(c) (`NumberField.InfinitePlace.comap_apply`); regroup by DiophantineApproximationAndTranscendence §0.2 `prod_infinitePlace_comap_pow_mult` `(Σ_{w|v}` mult w = mult v·[L:K]); rewrite the multiset products by `NumberField.prod_archAbsVal_eq`. Finite part: for P | p, |σc|_P = `|c|_p^{e(P|p) f(P|p)}` (`NumberField.FinitePlace.equivHeightOneSpectrum_symm_apply_algebraMap`), maxima commute with the power, and `Σ_{P|p}` e f = [L : K] (`Ideal.sum_ramification_inertia_eq_finrank`). Multiply the two parts; take logarithms and divide by [L : ℚ] = [L : K][K : ℚ] (`Module.finrank_mul_finrank`). The finite-place rank is the field degree: use the finite flat ring-of-integers extension and rank comparison in DiophantineApproximationAndTranscendence §0.2 `mulHeight_pow_finrank`, rather than identifying the two ranks without justification.
 
-*Needs:* DiophantineApproximationAndTranscendence §0.2 `prod_infinitePlace_comap_pow_mult`; `Height.mulHeightBound`; `NumberField.InfinitePlace.comap_apply`; `NumberField.FinitePlace.equivHeightOneSpectrum_symm_apply_algebraMap`; `Ideal.sum_ramification_inertia_eq_finrank`; `NumberField.prod_archAbsVal_eq`; `MvPolynomial.support_map_of_injective`; `MvPolynomial.coeff_map`; `Module.finrank_mul_finrank`; DiophantineApproximationAndTranscendence §0.2 `mulHeight_algebraMap`.
+*Needs:* DiophantineApproximationAndTranscendence §0.2 `prod_infinitePlace_comap_pow_mult`; `Height.mulHeightBound`; `NumberField.InfinitePlace.comap_apply`; `NumberField.FinitePlace.equivHeightOneSpectrum_symm_apply_algebraMap`; `Ideal.sum_ramification_inertia_eq_finrank`; `NumberField.prod_archAbsVal_eq`; `MvPolynomial.support_map_of_injective`; `MvPolynomial.coeff_map`; `Module.finrank_mul_finrank`; DiophantineApproximationAndTranscendence §0.2 `mulHeight_pow_finrank`.
 
 ([silverman-aws-2010](#silverman-aws-2010), §4.1, p. 10, Theorem 12(a) — The constant must be uniform over all number fields containing the coordinates of β; this lemma makes Mathlib's constant uniform.)
 
@@ -2034,9 +2034,9 @@ For a number field K and P ∈ ℙ¹(K): `projectiveWeilHeight` P (ClassicalArit
 
 K a number field.
 
-P = [x : 1]: `Projectivization.logHeight` [x : 1] = logHeight ![x, 1] = logHeight₁ x (`Projectivization.logHeight_mk`, `Height.logHeight₁_eq_logHeight`); and absLogHeight₁ x = logHeight₁ x/[K : ℚ] (log of DiophantineApproximationAndTranscendence §0.2 `absMulHeight₁_eq_rpow`). P = [x₀ : x₁] with x₁ ≠ 0 reduces to [x₀/x₁ : 1] by scale invariance (`Height.logHeight_smul_eq_logHeight`). P = [1 : 0]: logHeight ![1, 0] = logHeight ![0, 1] = logHeight ![1] = 0 (`Height.logHeight_swap`, `Height.logHeight_cons_zero`, `Height.logHeight_eq_zero_of_subsingleton`).
+P = [x : 1]: `Projectivization.logHeight` [x : 1] = logHeight ![x, 1] = logHeight₁ x (`Projectivization.logHeight_mk`, `Height.logHeight₁_eq_logHeight`); and absLogHeight₁ x = logHeight₁ x/[K : ℚ] (log of DiophantineApproximationAndTranscendence §0.2 `absMulHeight₁_eq`). P = [x₀ : x₁] with x₁ ≠ 0 reduces to [x₀/x₁ : 1] by scale invariance (`Height.logHeight_smul_eq_logHeight`). P = [1 : 0]: logHeight ![1, 0] = logHeight ![0, 1] = logHeight ![1] = 0 (`Height.logHeight_swap`, `Height.logHeight_cons_zero`, `Height.logHeight_eq_zero_of_subsingleton`).
 
-*Needs:* [The absolute logarithmic Weil height on ℙ¹](#from-taucetiroadmapclassicalarithmeticcompletion); DiophantineApproximationAndTranscendence §0.2 `absMulHeight₁_eq_rpow`; `Projectivization.logHeight`; `Projectivization.logHeight_mk`; `Height.logHeight₁_eq_logHeight`; `Height.logHeight_smul_eq_logHeight`; `Height.logHeight_swap`; `Height.logHeight_cons_zero`; `Height.logHeight_eq_zero_of_subsingleton`; `NumberField.instAdmissibleAbsValues`.
+*Needs:* [The absolute logarithmic Weil height on ℙ¹](#from-taucetiroadmapclassicalarithmeticcompletion); DiophantineApproximationAndTranscendence §0.2 `absMulHeight₁_eq`; `Projectivization.logHeight`; `Projectivization.logHeight_mk`; `Height.logHeight₁_eq_logHeight`; `Height.logHeight_smul_eq_logHeight`; `Height.logHeight_swap`; `Height.logHeight_cons_zero`; `Height.logHeight_eq_zero_of_subsingleton`; `NumberField.instAdmissibleAbsValues`.
 
 ([silverman-aws-2010](#silverman-aws-2010), §5.2, p. 15, Supplementary Material — The normalisation by 1/[K : ℚ] of a sum over the places of K.)
 
@@ -2164,9 +2164,9 @@ For a field K with Height.AdmissibleAbsValues (a global height field) and a rati
 
 K with admissible absolute values; the properties need deg f ≥ 2.
 
-Definition from HeightsRationalPointsAndObstructions §0.18 `tateLimit`. Hypothesis of Tate's lemma: h(f(P)) = d·h(P) + O(1) for the relative height with α = deg f ≥ 2 > 1. Convergence, bound, functional equation and uniqueness: HeightsRationalPointsAndObstructions §0.18 `tendsto_tateLimit`, HeightsRationalPointsAndObstructions §0.18 `abs_tateLimit_sub_le`, HeightsRationalPointsAndObstructions §0.18 `tateLimit_comp`, HeightsRationalPointsAndObstructions §0.18 `tateLimit_unique`. Iteration: the iteration comparison of §1.1 with toEnd (f^n) = (toEnd f)^[n]; conjugation: Tate's limit is transported along semiconjugacies with the bounded function logHeight ∘ γ − logHeight (the degree-one case of the height estimate). Extension of number fields: `Projectivization.logHeight` over L of a K-point is [L : K] times that over K (DiophantineApproximationAndTranscendence §0.2 `mulHeight_algebraMap`), and the scalar comparison of §1.1.
+Definition from HeightsRationalPointsAndObstructions §0.18 `tateLimit`. Hypothesis of Tate's lemma: h(f(P)) = d·h(P) + O(1) for the relative height with α = deg f ≥ 2 > 1. Convergence, bound, functional equation and uniqueness: HeightsRationalPointsAndObstructions §0.18 `tendsto_tateLimit`, HeightsRationalPointsAndObstructions §0.18 `abs_tateLimit_sub_le`, HeightsRationalPointsAndObstructions §0.18 `tateLimit_comp`, HeightsRationalPointsAndObstructions §0.18 `tateLimit_unique`. Iteration: the iteration comparison of §1.1 with toEnd (f^n) = (toEnd f)^[n]; conjugation: Tate's limit is transported along semiconjugacies with the bounded function logHeight ∘ γ − logHeight (the degree-one case of the height estimate). Extension of number fields: `Projectivization.logHeight` over L of a K-point is [L : K] times that over K (DiophantineApproximationAndTranscendence §0.2 `mulHeight_pow_finrank`), and the scalar comparison of §1.1.
 
-*Needs:* §1.1 normalized-iterate, scalar and iteration comparisons; HeightsRationalPointsAndObstructions §0.18 `tateLimit`; [h(f(P)) = d·h(P) + O(1) for the relative height](#18-hfp--dhp--o1-for-the-relative-height); HeightsRationalPointsAndObstructions §0.18 `tendsto_tateLimit`; HeightsRationalPointsAndObstructions §0.18 `abs_tateLimit_sub_le`; HeightsRationalPointsAndObstructions §0.18 `tateLimit_comp`; HeightsRationalPointsAndObstructions §0.18 `tateLimit_unique`; [Tate's limit is transported along semiconjugacies](#116-tates-limit-is-transported-along-semiconjugacies); [Preperiodic points have Tate limit zero](#15-preperiodic-points-have-tate-limit-zero); [The action of a rational map on ℙ¹(K)](#019-the-action-of-a-rational-map-on-ℙ¹k); [Conjugation of rational maps by PGL₂](#025-conjugation-of-rational-maps-by-pgl₂); DiophantineApproximationAndTranscendence §0.2 `mulHeight_algebraMap`; `Projectivization.logHeight`.
+*Needs:* §1.1 normalized-iterate, scalar and iteration comparisons; HeightsRationalPointsAndObstructions §0.18 `tateLimit`; [h(f(P)) = d·h(P) + O(1) for the relative height](#18-hfp--dhp--o1-for-the-relative-height); HeightsRationalPointsAndObstructions §0.18 `tendsto_tateLimit`; HeightsRationalPointsAndObstructions §0.18 `abs_tateLimit_sub_le`; HeightsRationalPointsAndObstructions §0.18 `tateLimit_comp`; HeightsRationalPointsAndObstructions §0.18 `tateLimit_unique`; [Tate's limit is transported along semiconjugacies](#116-tates-limit-is-transported-along-semiconjugacies); [Preperiodic points have Tate limit zero](#15-preperiodic-points-have-tate-limit-zero); [The action of a rational map on ℙ¹(K)](#019-the-action-of-a-rational-map-on-ℙ¹k); [Conjugation of rational maps by PGL₂](#025-conjugation-of-rational-maps-by-pgl₂); DiophantineApproximationAndTranscendence §0.2 `mulHeight_pow_finrank`; `Projectivization.logHeight`.
 
 ([call-silverman-1993](#call-silverman-1993), §1, p. 166 — The setting of Theorem 1.1; Mathlib's AdmissibleAbsValues is such a structure; [call-silverman-1993](#call-silverman-1993), §1, Example 3, p. 167 — The case n = 1, η = O(1).)
 
@@ -3410,11 +3410,11 @@ Prove the following basic API.
 
 - For F = (X₀², X₁²) and every absolute value v: localCanonicalHeight v F z = log⁺ v(z); e.g. at v = |·|₃, λ̂(1/9) = log 9 and λ̂(3) = 0.
 - For F = (X₀^p − `X₀X₁^{p−1},` pX₁^p) and v = |·|_p: λ̂(z) = −(log p)/(p − 1) for z ∈ ℤ_p and λ̂(z) = log |z|_p for |z|_p > 1.
-- If F is v-integral with v(Res F) = 1 then localCanonicalHeight v F = log⁺ ∘ v; for F = (X₀² − X₀X₁ − X₁², X₁²) this holds at every prime.
+- If v is nonarchimedean and F is v-integral with v(Res F) = 1 then localCanonicalHeight v F = log⁺ ∘ v; for F = (X₀² − X₀X₁ − X₁², X₁²) this holds at every prime.
 - `λ̂_{F,v}` satisfies Call–Silverman's two axioms for the divisor E = (∞) with the rational function φ = F₁(z, 1) of divisor f*(∞) − d(∞): λ̂ − log⁺ v is bounded and λ̂(f(z)) = d·λ̂(z) + v(φ(z)) with v(·) = −log v(·); by uniqueness it is their canonical local height with constant a = 1.
 - For the Lattès-free example f(z) = (z² + 1)/(3z) over ℂ₃ with F = (X₀² + X₁², 3X₀X₁): λ̂(i) = −(1/2)·log 3 ≠ 0 = log⁺ |i|₃, so λ̂ is not the naive local height although it agrees with it on ℚ₃.
 
-**Endpoint checks.** For F = (X₀², X₁²): λ̂ = log⁺ v. For good reduction at v: λ̂ = log⁺ v.
+**Endpoint checks.** For F = (X₀², X₁²): λ̂ = log⁺ v. For nonarchimedean v and a v-integral lift F with v(Res F) = 1: λ̂ = log⁺ v. Over ℚ_p the lifts F₀ = (X₀², X₁²) and pF₀ induce the same good-reduction map z², but λ̂_F₀(0) = 0 and λ̂_pF₀(0) = −log p; the latter lift has v(Res(pF₀)) = p⁻⁴, not 1.
 
 Applications include DeMarco–Krieger–Ye §2.1–2.2, p. 7 — ĥ_t is the Galois-averaged sum over places of `r_v·λ_{t,v};` DeMarco–Krieger–Ye §2.4, p. 9 — `Δλ_{t,v}` = `µ_{t,v}` − δ_∞ on the Berkovich line; DeMarco–Krieger–Ye §2.5 (Layer 4) — −log `‖s(z)‖_{t,v}` = `λ_{t,v}(z)` is the invariant adelic metric; its constant term c_v at ∞ satisfies Σ r_v c_v = 0 (2.6); DeMarco–Krieger–Ye §2.6–2.7 (Layer 4, Layer 6) — local energies E_v are integrals of differences `λ_{t₁,v}` − `λ_{t₂,v}` against canonical measures; Baker–Rumely (3.26)–(3.28) — `g_{φ,v}(z,` ∞) differs from `ĥ_{F,v,(∞)}` by a constant; the functional equation (3.28); The canonical height is the sum of the local canonical heights — the sum over places of the local heights is the canonical height of Layer 1.
 
@@ -3437,7 +3437,7 @@ Prove the following basic API.
 - `|g_{F,v}|` ≤ B_v/(d − 1) on ℙ¹(K) (target Two-sided bound for `G_{F,v}` − log ‖·‖_v).
 - `g_{F,v}(f(P))` = `d·g_{F,v}(P)` − log(‖F(x)‖_v/‖x‖_v^d) for P = [x] (target Functional equation of the Green function).
 - `g_{F,v}` is the unique bounded function with that functional equation (target Uniqueness of the Green function among bounded functions).
-- If F is v-integral with v(Res F) = 1 then `g_{F,v}` = 0 (target Good reduction implies `G_{F,v}` = log ‖·‖_v).
+- If v is nonarchimedean and F is v-integral with v(Res F) = 1 then `g_{F,v}` = 0 (target Good reduction implies `G_{F,v}` = log ‖·‖_v).
 - For E a normed field and v its norm, x ↦ escapeRate v F x − log ‖x‖ is continuous on E² ∖ {0}; hence `g_{F,v}` is continuous for the quotient topology of ℙ¹(E) (target Continuity of the escape rate).
 
 **Checks.**
@@ -3445,15 +3445,16 @@ Prove the following basic API.
 - For F = (X₀^d, X₁^d), dynamicalGreenFunction v F = 0 at every absolute value v.
 - For F = (X₀^p − `X₀X₁^{p−1},` pX₁^p) and v = |·|_p: g([0 : 1]) = −(log p)/(p − 1) and g([1 : 0]) = 0.
 - `g_{cF,v}` = `g_{F,v}` + log v(c)/(d − 1): for c a v-unit the Green function is unchanged.
+- The nonarchimedean hypothesis is essential for the unit-resultant conclusion: over ℂ with its usual norm, F = (X₀²+X₁², X₁²) has coefficients of norm at most 1 and resultant 1, but its orbit from 0 begins 0,1,2,5,26 and g([0:1]) ≥ (log 2)/4 > 0.
 - For F = (X₀² + X₁², 3X₀X₁): `g_{F,|·|₃}` vanishes on ℙ¹(ℚ₃) but `g_{F,|·|₃}(`[i : 1]) = −(1/2)·log 3 on ℙ¹(ℂ₃), so vanishing on K-points does not force good reduction.
 
-**Endpoint checks.** `g_{F,v}` = 0 for good reduction at v. g for (z^p − z)/p at p takes the value −(log p)/(p − 1) on ℤ_p.
+**Endpoint checks.** For nonarchimedean v and a v-integral lift F with v(Res F) = 1, `g_{F,v}` = 0. Over ℚ_p, F₀ = (X₀², X₁²) gives g_F₀ = 0, whereas pF₀ gives g_pF₀ = −log p on all of ℙ¹; the underlying map is z² in both cases. g for (z^p − z)/p at p takes the value −(log p)/(p − 1) on ℤ_p.
 
 Applications include The escape potential on the Berkovich line — `g_{F,v}` is the function extended continuously to `P^{1,an}` and whose Laplacian plus `δ_{ζ₀,₁}` is `µ_{f,v};` DeMarco–Krieger–Ye §4, (4.2)–(4.8) (Layer 6) — the normalised potentials ϕ(t, z) = `Φ_t(z)/log|t|^{−1}` are Green functions divided by the degeneration parameter; Layer 4 adelic metrics — `g_{F,v}` = log(‖·‖_v-metric/invariant metric) is the continuous function comparing the standard and the f-invariant metric on O(1); `µ_{f,v}` = `δ_{ζ_{0,1}}` implies good reduction — g ≡ const characterises good reduction.
 
 ### 2.56 Lyubich transfer limit
 
-For f on P¹(C) define the native continuous-function operator `Aψ(z)=d⁻¹∑_{f(w)=z}deg_w(f)ψ(w).` There is a Radon probability ν_f such that A^nψ converges to the constant ∫ψ dν_f uniformly on every compact subset of P¹(C)\E. It is atom-free and balanced and supp ν_f=J. In particular d⁻n(f^n)*δ_a converges weakly to ν_f for a outside E. No new transfer-operator carrier is required; use continuous linear maps on native continuous functions.
+For f on the complex sphere S = ℙ¹(ℂ), define A : C(S,ℂ) →L[ℂ] C(S,ℂ) by the local-degree weighted fibre sum `Aψ(z)=d⁻¹∑_{f(w)=z}deg_w(f)ψ(w).` There is a Radon probability ν_f such that A^nψ converges to the constant ∫ψ dν_f uniformly on every compact subset of P¹(C)\E. It is atom-free and balanced and supp ν_f=J. In particular d⁻n(f^n)*δ_a converges weakly to ν_f for a outside E. No new transfer-operator carrier is required; use continuous linear maps on native continuous functions.
 
 f∈C(z), algebraic degree d≥2, acting holomorphically on the compact Riemann sphere with spherical topology.
 
@@ -3463,7 +3464,19 @@ Finite local-degree branches make Aψ continuous even across critical values and
 
 ([Lyubich1983](#lyubich1983), Theorem 1 with Lemmas 1–2, pp.358–362; Theorem 2, pp.362–364; §2, pp.352–354 — Proves the transfer limit, support and normalized preimage convergence via almost-periodic splitting.)
 
-**Endpoint checks.** The generic Banach splitting and Radon functional representation are explicit supplier contracts, not hidden in the term convergence.
+Prove the following basic API for this operator (Lyubich1983, §4, p.358).
+
+- For continuous complex-valued ψ, χ and a,b ∈ ℂ, A(aψ+bχ) = aAψ+bAχ; in particular A0 = 0.
+- A preserves real-valued functions and their pointwise order: if ψ is real-valued and ψ ≥ 0, then Aψ ≥ 0.
+- Every fibre has total local degree d, so A1 = 1 and A sends each constant function to itself.
+- For every continuous ψ, ‖Aψ‖∞ ≤ ‖ψ‖∞; hence ‖A‖ ≤ 1. The fibre formula defines a continuous function also at critical values.
+
+**Checks.**
+
+- For f(z) = z² at the critical value 0, the single preimage has local degree 2, so A1(0) = 2/2 = 1. An unweighted sum over distinct roots gives 1/2. At ∞ the same computation gives A1(∞) = 1, using the reciprocal chart.
+- For ψ(z) = |z|²/(1+|z|²), with ψ(∞) = 1, the preimages of 4 are 2 and −2, each of local degree 1; Aψ(4) = (4/5+4/5)/2 = 4/5. The zero operator would give 0. This ψ is nonnegative and has supremum norm 1; Aψ(∞) = 1 attains the contraction bound.
+- For χ(z) = Re(z)/(1+|z|²), with χ(∞) = 0, Aχ(4) = (2/5−2/5)/2 = 0. Selecting only the positive inverse branch gives 2/5. Both χ and ψ are continuous at ∞: in the reciprocal coordinate u they become Re(u)/(1+|u|²) and 1/(1+|u|²), respectively.
+- With these ψ, χ, A(2ψ−3χ)(4) = (2·4/5−3·2/5 + 2·4/5+3·2/5)/2 = 8/5 = 2Aψ(4)−3Aχ(4). For the constant function 1, ‖A1‖∞ = ‖1‖∞ = 1, excluding a wrong normalization by d².
 
 **Construction.** [Almost-periodic Banach contraction decomposition](#29-almost-periodic-banach-contractions).
 
@@ -3543,17 +3556,17 @@ For the finite set S={Q(a):a∈σ} of units, construct a polynomial Ψ with `1�
 
 ### 2.62 `λ̂_{F,v}` − log⁺ v is bounded
 
-For all z ∈ K: `|λ̂_{F,v}(z)` − log⁺ v(z)| ≤ B_v/(d − 1), with the one-sided bounds log c_v/(d − 1) ≤ `λ̂_{F,v}(z)` − log⁺ v(z) ≤ log C_v/(d − 1). Thus `λ̂_{F,v}` is a Weil local height for the divisor (∞), and at every nonarchimedean v of good reduction `λ̂_{F,v}` = log⁺ v.
+For all z ∈ K: `|λ̂_{F,v}(z)` − log⁺ v(z)| ≤ B_v/(d − 1), with the one-sided bounds log c_v/(d − 1) ≤ `λ̂_{F,v}(z)` − log⁺ v(z) ≤ log C_v/(d − 1). Thus `λ̂_{F,v}` is a Weil local height for the divisor (∞), and at every nonarchimedean v for which the chosen lift F has v-integral coefficients and v(Res F) = 1, `λ̂_{F,v}` = log⁺ v. The bounded-difference statement holds for every lift with nonzero resultant, without this normalization.
 
 d ≥ 2 Res(F) ≠ 0
 
-λ̂(z) − log⁺ v(z) = G(z, 1) − log ‖(z, 1)‖ since ‖(z, 1)‖ = max(v(z), 1); apply Two-sided bound for `G_{F,v}` − log ‖·‖_v. The good reduction case is Good reduction implies `G_{F,v}` = log ‖·‖_v.
+λ̂(z) − log⁺ v(z) = G(z, 1) − log ‖(z, 1)‖ since ‖(z, 1)‖ = max(v(z), 1); apply Two-sided bound for `G_{F,v}` − log ‖·‖_v. For the equality, apply §2.37 to the chosen v-integral unit-resultant lift; good reduction of f alone does not fix the additive constant of its lift-dependent height.
 
 *Needs:* [Two-sided bound for `G_{F,v}` − log ‖·‖_v](#239-two-sided-bound-for-g_fv--log-_v); [The local canonical height `λ̂_{F,v}`](#254-the-local-canonical-height-λ_fv); [Good reduction implies `G_{F,v}` = log ‖·‖_v](#237-good-reduction-implies-g_fv--log-_v).
 
 ([baker-rumely-2006](#baker-rumely-2006), (3.29), p. 14 (arXiv v2) — Exactly the bound, in BR's chart; [demarco-krieger-ye-2020](#demarco-krieger-ye-2020), §2.1, p. 7 (arXiv v2) — The Weil-height property at ∞.)
 
-**Endpoint checks.** For (z^p − z)/p at p: −p·log p/(p − 1) ≤ λ̂(z) − log⁺|z|_p ≤ 0, and the value −(log p)/(p − 1) on ℤ_p lies in this range.
+**Endpoint checks.** For (z^p − z)/p at p: −p·log p/(p − 1) ≤ λ̂(z) − log⁺|z|_p ≤ 0, and the value −(log p)/(p − 1) on ℤ_p lies in this range. For F₀ = (X₀², X₁²) over ℚ_p, the difference is identically 0; for pF₀ it is identically −log p, still bounded. Indeed (pF₀)ⁿ(0,1) = (0,p^(2ⁿ−1)), so the normalized logarithms are −(1−2⁻ⁿ)log p and tend to −log p. At n = 0, 1, 2 they are 0, −(log p)/2, −3(log p)/4.
 
 ### 2.63 Functional equation of the local canonical height
 
@@ -3817,7 +3830,7 @@ Linearity of Δ and the normalisation Δ log max([T], 1) = `δ_{ζ_{0,1}}` − �
 
 ([demarco-krieger-ye-2020](#demarco-krieger-ye-2020), §2.3 and §2.4, pp. 8–9 (arXiv v2) — The normalisation used; with it the theorem is DeMarco–Krieger–Ye's ∆λt,v = µt,v − δ∞.)
 
-**Endpoint checks.** For good reduction `λ̂^{an}` = log max([T], 1) and µ = `δ_{ζ_{0,1}}.`
+**Endpoint checks.** For a v-integral lift F with v(Res F) = 1, `λ̂^{an}_F` = log max([T], 1) and µ = `δ_{ζ_{0,1}}.` Over ℂ_p, replacing F₀ = (X₀², X₁²) by pF₀ subtracts log p from the extended local height; its Laplacian and the canonical measure remain unchanged since Δ of a constant is 0.
 
 ### 2.77 Good reduction gives `µ_{f,v}` = `δ_{ζ_{0,1}}`
 
@@ -6537,9 +6550,9 @@ For every x ∈ K̄, h_λ(x) = `NumberField.absLogHeight₁` x, and h_λ(∞) = 
 
 λ the standard adelic measure over K.
 
-By Decomposition of the adelic height into local potentials and The standard measure λ_v at a place, h_λ(∞) = ½ Σ r_v (λ_v, λ_v) = 0 and h_λ(x) = Σ_v r_v `|O|^{-1}` `Σ_{y∈O}` log⁺|y|_v with O = Gal·x. Let L = K(x). The embeddings of L into C_v over K correspond to the places w | v of L, each counted [L_w : K_v] times; hence Σ_v r_v `|O|^{-1}` `Σ_{y∈O}` log⁺|y|_v = `Σ_{w∈M_L}` r_w log⁺|x|_w (r_w = [L_w : ℚ_w]/[L : ℚ]). By the weighted place-sum identity over L this is [L : ℚ]`^{-1}` logHeight₁ x computed in L (`NumberField.logHeight₁_eq`), which equals absLogHeight₁ x (DiophantineApproximationAndTranscendence §0.2 `absMulHeight₁_eq_rpow`: the absolute height may be computed in any number field containing x).
+By Decomposition of the adelic height into local potentials and The standard measure λ_v at a place, h_λ(∞) = ½ Σ r_v (λ_v, λ_v) = 0 and h_λ(x) = Σ_v r_v `|O|^{-1}` `Σ_{y∈O}` log⁺|y|_v with O = Gal·x. Let L = K(x). The embeddings of L into C_v over K correspond to the places w | v of L, each counted [L_w : K_v] times; hence Σ_v r_v `|O|^{-1}` `Σ_{y∈O}` log⁺|y|_v = `Σ_{w∈M_L}` r_w log⁺|x|_w (r_w = [L_w : ℚ_w]/[L : ℚ]). By the weighted place-sum identity over L this is [L : ℚ]`^{-1}` logHeight₁ x computed in L (`NumberField.logHeight₁_eq`), which equals absLogHeight₁ x (DiophantineApproximationAndTranscendence §0.2 `absMulHeight₁_eq`: the absolute height may be computed in any number field containing x).
 
-*Needs:* [Decomposition of the adelic height into local potentials](#424-decomposition-of-the-adelic-height-into-local-potentials); [The standard measure λ_v at a place](#48-the-standard-measure-λ_v-at-a-place); DiophantineApproximationAndTranscendence §0.2 `absMulHeight₁_eq_rpow`; `NumberField.absLogHeight₁`; `NumberField.logHeight₁_eq`.
+*Needs:* [Decomposition of the adelic height into local potentials](#424-decomposition-of-the-adelic-height-into-local-potentials); [The standard measure λ_v at a place](#48-the-standard-measure-λ_v-at-a-place); DiophantineApproximationAndTranscendence §0.2 `absMulHeight₁_eq`; `NumberField.absLogHeight₁`; `NumberField.logHeight₁_eq`.
 
 ([favre-rivera-letelier-2006](#favre-rivera-letelier-2006), §5.2, p. 32 — The comparison; [fili2017](#fili2017), §2.2, p. 5 — The same comparison; [favre-rivera-letelier-2006](#favre-rivera-letelier-2006), (1), p. 3 — The naive height as a Galois average.)
 
@@ -7429,7 +7442,7 @@ Prove the comparison between inertia orbits and places: over algebraically close
 
 *Needs:* AlgebraicCurves Layers 6–8; `Algebra.IsUnramifiedIn`; `Ideal.Quotient.stabilizerHom`.
 
-([juul-generic-iterates](#juul-generic-iterates), Corollary 2.8, p. 6 — The statement; [juul-generic-iterates](#juul-generic-iterates), Lemma 2.6, p. 6 — The different/discriminant input.)
+([juul-generic-iterates](#juul-generic-iterates), Corollary 2.8, p. 6 — The statement; [juul-generic-iterates](#juul-generic-iterates), Lemma 2.6, p. 5 — The different/discriminant input.)
 
 **Checks.**
 
@@ -9167,13 +9180,13 @@ Write P = [p : q] with p, q ∈ k[t] coprime; then f(P) = [F(p, q) : G(p, q)], a
 
 ### 6.38 Height bounds for forms in absolute normalisation, uniform in the field
 
-Let K be a number field, N, M ≥ 0, and p = `(p_j)_{j ∈ J}` a finite family of homogeneous polynomials of degree N in variables indexed by a finite type ι, with coefficients in K. For a number field L ⊇ K and x ∈ L^ι ∖ {0}, write h(x) := Height.logHeight_L(x)/[L : ℚ] (independent of L by DiophantineApproximationAndTranscendence §0.2 `mulHeight_algebraMap`). Then (a) h(p(x)) ≤ N · h(x) + c(p), and (b) if q = `(q_{k,j})` are homogeneous of degree M with coefficients in K and Σ_j `q_{k,j}(x)` p_j(x) = `x_k^{M+N}` for all k, then h(p(x)) ≥ N · h(x) − c(q) − log #J, where c(p) := log max(Height.mulHeightBound_K(p), 1)/[K : ℚ], independent of coefficient-field extension by §1.3; moreover c(p) ≤ h_aff(coefficients of p) + log(number of monomials of degree N), with h_aff the absolute affine height of the coefficient vector.
+Let K be a number field, N, M ≥ 0, and p = `(p_j)_{j ∈ J}` a finite family of homogeneous polynomials of degree N in variables indexed by a finite type ι, with coefficients in K. For a number field L ⊇ K and x ∈ L^ι ∖ {0}, write h(x) := Height.logHeight_L(x)/[L : ℚ] (independent of L by DiophantineApproximationAndTranscendence §0.2 `mulHeight_pow_finrank`). Then (a) h(p(x)) ≤ N · h(x) + c(p), and (b) if q = `(q_{k,j})` are homogeneous of degree M with coefficients in K and Σ_j `q_{k,j}(x)` p_j(x) = `x_k^{M+N}` for all k, then h(p(x)) ≥ N · h(x) − c(q) − log #J, where c(p) := log max(Height.mulHeightBound_K(p), 1)/[K : ℚ], independent of coefficient-field extension by §1.3; moreover c(p) ≤ h_aff(coefficients of p) + log(number of monomials of degree N), with h_aff the absolute affine height of the coefficient vector.
 
 K a number field; all points and forms over number fields containing K.
 
 (a) Mathlib `Height.logHeight_eval_le` over L, then Mathlib's height-bound constant under finite extension (§1.3) to bound log max(mulHeightBound_L(p), 1) by [L : ℚ] c(p); divide by [L : ℚ]. (b) Mathlib `Height.logHeight_eval_ge` over L: the constant is `log(#J^{totalWeight L}` · max(mulHeightBound_L(q), 1)) with totalWeight L = [L : ℚ] (`NumberField.totalWeight_eq_finrank`); divide by [L : ℚ]. Bound for c(p): at an archimedean place the sum of the absolute values of the coefficients is at most the number of monomials times their maximum; at a finite place the factor is max(1, max |coeff|_v); take logarithms and sum with the weights of Mathlib's height-bound constant under finite extension (§1.3).
 
-*Needs:* [Mathlib's height-bound constant under finite extension](#13-mathlibs-height-bound-constant-under-finite-extension); `Height.logHeight_eval_le`; `Height.logHeight_eval_ge`; DiophantineApproximationAndTranscendence §0.2 `mulHeight_algebraMap`; `Height.totalWeight`.
+*Needs:* [Mathlib's height-bound constant under finite extension](#13-mathlibs-height-bound-constant-under-finite-extension); `Height.logHeight_eval_le`; `Height.logHeight_eval_ge`; DiophantineApproximationAndTranscendence §0.2 `mulHeight_pow_finrank`; `Height.totalWeight`.
 
 ([call-silverman-1993](#call-silverman-1993), §3, Theorem 3.1, p. 178 — The target is Theorem 3.1 for V = ℙ¹ × ℙ¹ → T = ℙ¹, t in the affine line, η = O(1); [call-silverman-1993](#call-silverman-1993), Proof of Theorem 4.1, (33), p. 184 — For V = ℙ¹ and T = ℙ¹, `h_{T,P*η}(t)` = deg(P)·h(t) up to O(1): the target on heights of specialised points.)
 
@@ -9625,9 +9638,9 @@ Let K be a number field, E/K a Weierstrass curve with Δ(E) ≠ 0, n ∈ ℤ wit
 
 K a number field (Mathlib `NumberField.instAdmissibleAbsValues`); E elliptic; |n| ≥ 2. For the relative version, F is any admissible global height field; the elliptic curve is nonsingular and |n| ≥ 2. No Northcott assumption is needed for this identity.
 
-The naive height is naiveHeight(Q) = logHeight₁(x(Q)) relative to K (`WeierstrassCurve.Affine.Point.naiveHeight_eq_logHeight₁`), and absLogHeight₁(a) = logHeight₁(a)/[K : ℚ] for a ∈ K (DiophantineApproximationAndTranscendence §0.2 `absMulHeight₁_eq_rpow`). `f_{E,n}^k(x(P))` = x(n^k P) (The Lattès map semiconjugates multiplication by n, Composition of Lattès maps: `f_{E,m}` ∘ `f_{E,n}` = `f_{E,mn}),` so `ĥ_{f_{E,n}}(x(P))` = lim_k naiveHeight(n^k `P)/(n^{2k}`[K : ℚ]) by the defining limit of The canonical height of a rational map of ℙ¹. canonicalHeight(n^k P) = `n^{2k}` canonicalHeight(P) (`WeierstrassCurve.Affine.Point.canonicalHeight_zsmul`) and |canonicalHeight(Q) − naiveHeight(Q)| ≤ D for all Q (`WeierstrassCurve.Affine.Point.abs_canonicalHeight_sub_naiveHeight_le`); dividing by `n^{2k}` and letting k → ∞ gives naiveHeight(n^k `P)/n^{2k}` → canonicalHeight(P).
+The naive height is naiveHeight(Q) = logHeight₁(x(Q)) relative to K (`WeierstrassCurve.Affine.Point.naiveHeight_eq_logHeight₁`), and absLogHeight₁(a) = logHeight₁(a)/[K : ℚ] for a ∈ K (DiophantineApproximationAndTranscendence §0.2 `absMulHeight₁_eq`). `f_{E,n}^k(x(P))` = x(n^k P) (The Lattès map semiconjugates multiplication by n, Composition of Lattès maps: `f_{E,m}` ∘ `f_{E,n}` = `f_{E,mn}),` so `ĥ_{f_{E,n}}(x(P))` = lim_k naiveHeight(n^k `P)/(n^{2k}`[K : ℚ]) by the defining limit of The canonical height of a rational map of ℙ¹. canonicalHeight(n^k P) = `n^{2k}` canonicalHeight(P) (`WeierstrassCurve.Affine.Point.canonicalHeight_zsmul`) and |canonicalHeight(Q) − naiveHeight(Q)| ≤ D for all Q (`WeierstrassCurve.Affine.Point.abs_canonicalHeight_sub_naiveHeight_le`); dividing by `n^{2k}` and letting k → ∞ gives naiveHeight(n^k `P)/n^{2k}` → canonicalHeight(P).
 
-*Needs:* [The Lattès map of multiplication by n on a Weierstrass curve](#63-the-lattès-map-of-multiplication-by-n-on-a-weierstrass-curve); [The Lattès map semiconjugates multiplication by n](#634-the-lattès-map-semiconjugates-multiplication-by-n); [Composition of Lattès maps: `f_{E,m}` ∘ `f_{E,n}` = `f_{E,mn}`](#653-composition-of-lattès-maps-f_em--f_en--f_emn); [The canonical height of a rational map of ℙ¹](#120-the-canonical-height-of-a-rational-map-of-ℙ¹); `WeierstrassCurve.Affine.Point.canonicalHeight`; `WeierstrassCurve.Affine.Point.canonicalHeight_zsmul`; `WeierstrassCurve.Affine.Point.abs_canonicalHeight_sub_naiveHeight_le`; `WeierstrassCurve.Affine.Point.naiveHeight_eq_logHeight₁`; DiophantineApproximationAndTranscendence §0.2 `absMulHeight₁_eq_rpow`; `NumberField.absLogHeight₁`; [The Tate limit of doubling on an elliptic curve and Tau Ceti's canonical height](#118-the-tate-limit-of-doubling-on-an-elliptic-curve-and-tau-cetis-canonical-height).
+*Needs:* [The Lattès map of multiplication by n on a Weierstrass curve](#63-the-lattès-map-of-multiplication-by-n-on-a-weierstrass-curve); [The Lattès map semiconjugates multiplication by n](#634-the-lattès-map-semiconjugates-multiplication-by-n); [Composition of Lattès maps: `f_{E,m}` ∘ `f_{E,n}` = `f_{E,mn}`](#653-composition-of-lattès-maps-f_em--f_en--f_emn); [The canonical height of a rational map of ℙ¹](#120-the-canonical-height-of-a-rational-map-of-ℙ¹); `WeierstrassCurve.Affine.Point.canonicalHeight`; `WeierstrassCurve.Affine.Point.canonicalHeight_zsmul`; `WeierstrassCurve.Affine.Point.abs_canonicalHeight_sub_naiveHeight_le`; `WeierstrassCurve.Affine.Point.naiveHeight_eq_logHeight₁`; DiophantineApproximationAndTranscendence §0.2 `absMulHeight₁_eq`; `NumberField.absLogHeight₁`; [The Tate limit of doubling on an elliptic curve and Tau Ceti's canonical height](#118-the-tate-limit-of-doubling-on-an-elliptic-curve-and-tau-cetis-canonical-height).
 
 ([demarco-krieger-ye-2020](#demarco-krieger-ye-2020), §2.1, (2.2), pp. 6–7 (arXiv v2) — The relation ĥ_E = ½ ĥ_f ∘ x in absolute normalisation (the printed `h_{E_t}` is `ĥ_{E_t});` [call-silverman-1993](#call-silverman-1993), §1, Example 1, p. 167 — On an elliptic curve with η = (O), the canonical height of [n] is the Néron–Tate height; the target transports it to the Lattès map through x.)
 
