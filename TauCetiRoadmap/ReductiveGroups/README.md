@@ -43,6 +43,22 @@ dictionary and extend Galois classification from the native perfect-field case
 to arbitrary fields. Finite locally free commutative Cartier duality belongs to
 ModularCurves §0B; it is distinct from diagonalizable character duality.
 
+The Hopf-ideal object, its quotient Hopf algebra and its order-reversing
+classification of closed subgroup schemes are supplied by Tau Ceti. So are
+normality in conjugation coordinates, the fppf quotient sheaf, and its affine
+coinvariant representation when the ambient group is geometrically reduced.
+Layer 3 extends the quotient comparison to arbitrary finite-type affine groups
+over fields and descends the identity component from algebraically closed fields;
+it constructs the finite étale component group without a smoothness assumption.
+RootSystems Layer 4 supplies the chamber action. Section 9A.1a-L derives the
+Weyl/based factorization needed for its cover-lift comparison from that action;
+signed lifts and their character ambiguity remain owned here.
+The affine Hopf/group-scheme anti-equivalence, rational point-representation/comodule
+equivalence, finite subcoalgebra and subcomodule theorems, faithful coefficient
+criterion, and closed embedding into GLₙ over a field are supplied by Tau Ceti.
+Layers 0–1 retain the scheme/points/descent and Tannakian comparison diagrams;
+they do not reconstruct these equivalences or the embedding theorem.
+
 ## Conventions
 
 State hypotheses separately; **do not** bundle them into one mega-class. Work over a field
@@ -229,6 +245,74 @@ finite-type group schemes over fields used in Layer 8.
 pointwise quotient for a normal Hopf ideal; it does not assert representability.
 Use its projection and the represented-group comparison in Layers 3 and 8.
 
+### From Tau Ceti: affine and representation dictionaries
+
+- `TauCeti.commHopfAlgCatOpEquivAffineGroupSchemeCat`, in
+  `TauCeti/AlgebraicGeometry/AffineGroupScheme/Equivalence.lean`, is the
+  anti-equivalence over any commutative base ring, with its actual unit and counit.
+- `TauCeti.pointRepresentationCategoryEquivalence` and
+  `TauCeti.fgPointRepresentationCategoryEquivalence`, in
+  `TauCeti/Algebra/AlgebraicGroup/Representation/Comodule/Equivalence.lean`,
+  compare natural point representations with right comodules and their finitely
+  generated restrictions. Over a field the latter are finite-dimensional.
+- `TauCeti.Comodule.isClosedImmersion_coordinateGroupSchemeHom_iff` and
+  `TauCeti.AffineGroupSchemeCat.exists_isClosedImmersion_generalLinear`, in
+  `TauCeti/Algebra/AlgebraicGroup/Representation/Embedding.lean`, supply the
+  finite-free coordinate criterion and the finite-type affine embedding theorem
+  over a field. The former uses the specified basis and coordinate Hopf morphism.
+  `TauCeti.Comodule.coordinateBialgHom_surjective_iff_matrixCoefficientSubalgebra_sup_antipode_eq_top`,
+  in `TauCeti/Algebra/AlgebraicGroup/Representation/Faithful/Basic.lean`, supplies
+  the exact coefficient-and-antipode generation criterion (Milne 2017, §4a,
+  p. 83 and Theorem 4.9, p. 87).
+
+### From Tau Ceti: closed subgroups and components
+
+- `TauCeti.HopfIdeal`, in `TauCeti/Algebra/HopfAlgebra/HopfIdeal/Basic.lean`,
+  records a two-sided ideal, comultiplication into the sum of the two tensor
+  ideals, vanishing counit and antipode stability. Its quotient instances do
+  not require reducedness or smoothness.
+- `TauCeti.CommHopfAlgCat.hopfIdealOrderIsoClosedSubgroup`, in
+  `TauCeti/Algebra/AlgebraicGroup/HopfIdeal/Scheme/Classification.lean`, identifies
+  the order dual of Hopf ideals with closed subgroup subobjects over any
+  commutative base ring (Milne 2017, Definition 3.10 and Propositions 3.12, 3.15,
+  pp. 67–68). The inverse is the defining ideal, not the vanishing ideal of
+  field-valued points.
+- `TauCeti.HopfIdeal.IsNormal`, in
+  `TauCeti/Algebra/AlgebraicGroup/HopfIdeal/Normal/Basic.lean`, means
+  conjugation pulls the ideal into the right tensor ideal: the first factor
+  is the conjugating group element. `TauCeti.CommHopfAlgCat.coinvariantsFppfQuotientIso`,
+  in `TauCeti/Algebra/AlgebraicGroup/Fppf/Quotient/Coinvariants.lean`, represents
+  the normal quotient for a geometrically reduced finite-type ambient group
+  over any field; the subgroup may be nonreduced.
+- `TauCeti.FiniteTypeCommHopfAlgCat.identityComponentSpec` and
+  `TauCeti.FiniteTypeCommHopfAlgCat.identityComponentSpecι`, in
+  `TauCeti/Algebra/AlgebraicGroup/Connected/GroupScheme.lean`, construct the
+  identity-component group scheme and its closed immersion over an
+  algebraically closed field. The finite-component instance
+  `TauCeti.FiniteTypeAffineGroupSchemeCat.instFiniteConnectedComponents`, in
+  `TauCeti/AlgebraicGeometry/AffineGroupScheme/Components/Finite.lean`, concerns
+  the underlying topological components over a Noetherian base; it is not a
+  construction of the étale group scheme π₀.
+
+### From TauCetiRoadmap.RootSystems
+
+Layer 4, *Chambers, the fundamental domain, and the longest element*, supplies
+simple transitivity of the Weyl action on open chambers for finite reduced
+crystallographic real root pairings with a base. Section 9A.1a-L uses the spanning
+case and constructs the automorphism factorization and its integral-lattice
+comparison from this chamber action (Milne 2017, C.22 and Proposition C.53,
+pp. 612, 624).
+
+### From TauCetiRoadmap.SmoothBundlesConnections
+
+B1.0 supplies regular fibres and transverse fibre products of finite-dimensional
+smooth manifolds, with the derivative-surjectivity or transversality hypotheses,
+tangent-kernel identification and dimension formula. B1.1 supplies the
+principal-bundle comparison and smooth division map. B1.4 supplies the quotient
+by a closed Lie subgroup and its local sections. Section 3A.5 applies these
+smooth results to the underlying real manifolds and proves the holomorphic
+comparison using its own complex charts and analytic inverse theorem.
+
 ## How to read the build
 
 Layers 0–3 construct the dictionaries, representations and subgroup geometry;
@@ -241,35 +325,78 @@ split construction of Layer 9. The headline acceptance statements are in
 
 ## Layer 0: the functor of points and the three-way dictionary
 
-- **R-points as a group.** Keep `R` a commutative `k`-algebra and let the values `G(R)` be
-  allowed to be noncommutative. Consume Tau Ceti's `WithConv`,
-  `CommHopfAlgCat.pointsFunctor`, and `FiniteTypeCommHopfAlgCat.pointsFunctor`; prove
-  convolution, identity, inverse, and naturality lemmas at their exact hypotheses where
-  the named interfaces need them; do not introduce a parallel `AlgPoints` structure. The convolution is
-  `(f * g)(a) = ∑ f(a₁) g(a₂)`, with counit identity and antipode inverse, not composition.
-  `GroupLike k A` is not the points functor: group-like elements form a commutative group,
-  whereas `GLₙ(R)` can be noncommutative.
-- **The three model interfaces.** For affine group schemes over `Spec R`, package Mathlib's
-  `hopfSpec.fullyFaithful` and `essImage_hopfSpec` as the anti-equivalence between
-  commutative Hopf `R`-algebras and affine group objects over `Spec R`. Keep finite-type and
-  smoothness as transported predicates, not objects built into either category. Prove the
-  counit and unit identifications explicitly: `Γ(Spec A) ≃ A` as Hopf algebras and
-  `Spec Γ(G) ≃ G` as group objects for affine `G`, compatible with Mathlib's instances and
-  structural maps. Prove the third equivalence with representable group-valued functors
-  using Yoneda and Tau Ceti's `CommHopfAlgCat.pointsFunctor`; identify the points of `Spec A`
-  with algebra homomorphisms by existing `Spec.mapMulEquiv`, and prove compatibility of the
-  group laws and naturality in the test algebra. Pin the scheme, Hopf carrier, and test-algebra
-  universes to a common `u` (`w=v=u` in `pointsFunctor` / `GrpCat.{max v w}` and
-  `R S T : Type u` for `Spec.mapMulEquiv`); no heterogeneous-universe convention is intended.
-  Complete the finite-type and points comparisons not supplied by these declarations. The native Spec group-object and global-sections Hopf instances
-  supply these structures. The remaining targets are the inverse identifications
-  and the third-model comparison. `Scheme.Over` carries the structural morphism.
-- **Base change and descent.** Consume Tau Ceti's finite-type Hopf-category and base-change
-  functors, including compatibility of points under base change. Keep geometric notions
-  after extension to `k̄`. Use SchemeAndStackFoundations §1.1 and §§1.14–1.18 and ModularCurves §0E
-  for descent and torsors. Construct the comparisons between their scheme sheaves and
-  the Hopf points functor. Prove quotient representability separately in Layers 3 and 8
-  (Milne, §5j, Definition 5.65 and Proposition 5.68, p. 116).
+### 0.1 Points and their group law
+
+Keep `R` a commutative `k`-algebra and let the values `G(R)` be
+allowed to be noncommutative. Consume Tau Ceti's `WithConv`,
+`CommHopfAlgCat.pointsFunctor`, and `FiniteTypeCommHopfAlgCat.pointsFunctor`; prove
+convolution, identity, inverse, and naturality lemmas at their exact hypotheses where
+the named interfaces need them; do not introduce a parallel `AlgPoints` structure. The convolution is
+`(f * g)(a) = ∑ f(a₁) g(a₂)`, with counit identity and antipode inverse, not composition.
+`GroupLike k A` is not the points functor: group-like elements form a commutative group,
+whereas `GLₙ(R)` can be noncommutative.
+These equations use Milne 2017, §3.5, p. 66.
+
+**Checks.**
+
+- In constant S₃, (12)(23)=(123) but (23)(12)=(132); reversing convolution
+  would reverse these values.
+- In Gₘ, evaluation at 2 sends t to 2 and t⁻¹ to 1/2 over ℚ; inversion
+  interchanges these values, while the identity sends both to 1.
+- For the zero test algebra there is one algebra homomorphism and one group
+  element, with 0=1; points are not assumed nonempty by a nonzero-value test.
+
+*Needs:* the Hopf points and convolution suppliers in the exact contracts.
+
+### 0.2 The three model interfaces
+
+For affine group schemes over `Spec R`, use the native anti-equivalence in the
+supplier contract, including its unit and counit `Γ(Spec A) ≃ A` and `Spec Γ(G) ≃ G`.
+Compare its finite-type and smoothness predicates with the represented points
+functor, keeping the predicates separate from the category objects.
+Construct the three-way comparison with representable group-valued functors
+using Yoneda and Tau Ceti's `CommHopfAlgCat.pointsFunctor`; identify the points of `Spec A`
+with algebra homomorphisms by existing `Spec.mapMulEquiv`, and prove compatibility of the
+group laws and naturality in the test algebra. Pin the scheme, Hopf carrier, and test-algebra
+universes to a common `u` (`w=v=u` in `pointsFunctor` / `GrpCat.{max v w}` and
+`R S T : Type u` for `Spec.mapMulEquiv`); no heterogeneous-universe convention is intended.
+The comparison must commute with the named unit, counit and structural maps;
+`Scheme.Over` carries the structural morphism.
+The field case is Milne 2017, Proposition 3.6 and Corollary 3.7, pp. 66–67;
+the arbitrary-ring comparison uses the named native affine dictionary.
+
+**Checks.**
+
+- For Gₐ over k, a point over k[ε]/(ε²) sending t to ε remains that same
+  algebra homomorphism through the three views; restricting to k-points loses it.
+- For the trivial group, the coordinate ring is k and all three views give
+  one point over every test k-algebra.
+- In SL₂, multiplying I+E₁₂ by I+E₂₁ gives [[2,1],[1,1]], whereas the
+  reversed product is [[1,1],[1,2]]; the dictionary preserves group order.
+
+*Needs:* Mathlib Hopf spectra, affine global sections and Yoneda; the Tau Ceti
+points functor named in the exact contracts.
+
+### 0.3 Base change and descent
+
+Consume Tau Ceti's finite-type Hopf-category and base-change
+functors, including compatibility of points under base change. Keep geometric notions
+after extension to `k̄`. Use SchemeAndStackFoundations §1.1 and §§1.14–1.18 and ModularCurves §0E
+for descent and torsors. Construct the comparisons between their scheme sheaves and
+the Hopf points functor. Prove quotient representability separately in Layers 3 and 8
+(Milne, §5j, Definition 5.65 and Proposition 5.68, p. 116).
+
+**Checks.**
+
+- Base-changing μ₂ from ℤ to 𝔽₂ sends t²−1 to (t−1)², retaining the
+  two-dimensional nonreduced coordinate algebra.
+- Base-changing μ₂ to ℚ gives a reduced algebra of dimension 2; reducedness
+  over one fibre does not give smoothness of every fibre.
+- For k=𝔽ₚ(s) and K=k(s^(1/p)), αₚ base-changes from k[t]/(tᵖ) to
+  K[t]/(tᵖ), still of dimension p; inseparability does not discard nilpotents.
+
+*Needs:* SchemeAndStackFoundations §1.1 and §§1.14–1.18; ModularCurves §0E;
+Tau Ceti base-change functors in the exact contracts.
 
 ### Examples
 
@@ -281,48 +408,72 @@ For constant S₃, convolution multiplies points in their group order: (12)(23)=
 
 ## Layer 1: representations = comodules
 
-- **Comodules and their finite-dimensional category.** Consume Tau Ceti's
-  comodule structures, category, finite/rigid categories, tensor products, duals, and
-  matrix-coefficient APIs. Complete the rational-representation/comodule comparison and
-  regular representation at the exact field and finite-type hypotheses; do not define
-  parallel comodule structures.
-- **Finite-dimensional subcoalgebras.** Consume Tau Ceti's proved fundamental-theorem
-  interfaces: `exists_finiteDimensional_subcoalgebra_mem` and
-  `iUnion_finiteDimensional_subcoalgebras_eq_univ` for subcoalgebras, and
-  `exists_finite_subcomodule_mem` and `iUnion_finiteSubcomodules_eq_univ` for comodules.
-  Use the elementwise and directed-union declarations at their exact field/module hypotheses;
-  over a field the required module freeness is automatic. Reuse the finite
-  coefficient-subcoalgebra API. Any stronger coefficient-ring or category-level versions
-  remain explicit new targets.
-- **The dictionary and faithful representations.** Relate rational representations to
-  comodules and matrix coefficients. For an affine group scheme `G` of finite type over a
-  field `k` and a finite-dimensional representation `ρ : G → GL(V)`, faithfulness means
-  that `ρ` is a closed immersion. Prove that this is equivalent to surjectivity of
-  `ρ* : k[GL(V)] → k[G]`, hence to generation of `k[G]` by the matrix coefficients of `V`
-  together with `det(V)⁻¹`; equivalently, the coefficients of `V ⊕ Vˇ` generate `k[G]`.
-  State the exact base-ring, finite-type, and representation hypotheses for this coordinate
-  criterion. The matrix coefficients of `V` alone need not generate the coordinate algebra:
-  the standard character `𝔾_m → GL₁` is a closed immersion but its coefficient `t`
-  generates `k[t]`, not `k[t,t⁻¹]`. Equivalently, the Hopf subalgebra generated by the
-  coefficients of `V ⊕ Vˇ` is all of `k[G]`. Faithfulness is not injectivity only on
-  field-valued points. Tau Ceti proves the finite-type
-  algebra-coalgebra step producing a finite subcomodule whose coefficients generate the
-  algebra, but the group-scheme representation map and closed-immersion theorem require
-  their own statements and proofs at full hypotheses.
-- **Embedding theorem.** Prove that every affine group scheme of finite
-  type has a faithful finite-dimensional representation / closed immersion into `GLₙ`.
-  Use the finite-subcoalgebra and coefficient-generation results above as inputs, and prove
-  the remaining Hopf/group-scheme and basis-change steps; bare Noetherianity is not a
-  substitute.
-- **Tannakian reconstruction dictionaries.** Consume native
-  `TauCeti.Tannaka.pointsFunctorIsoTensorAutFunctor k H` for `[Field k]`,
-  `[CommRing H]`, `[HopfAlgebra k H]` in the common universe. Preserve the actual
-  `pointsFunctor ⋙ GrpCat.uliftFunctor ≅ tensorAutFunctor`, its coefficient-algebra
-  naturality and component/reconstructed-point equations. Transport it through the
-  rational-representation/comodule equivalence and Layer0's scheme/group-functor
-  equivalences; construct those remaining adapters and their compatibility with the
-  faithful-representation/closed-immersion maps. No second native reconstruction
-  theorem or unlifted equality of these functors is intended.
+### 1.0a Rational representations and comodules
+
+For an affine group scheme G over a field k, transport the native point-representation
+and right-comodule equivalence through §0.2's scheme/points comparison, on arbitrary
+k-vector spaces and on the finite-dimensional subcategory. Identify the regular
+representation with the comultiplication coaction on O(G), and compare the tensor
+unit, tensor products and, on finite-dimensional objects, duals.
+
+- For ρ(v)=Σ vᵢ⊗aᵢ and g:O(G)→R, the action on R⊗k V sends 1⊗v to
+  Σ g(aᵢ)⊗vᵢ. Morphisms are exactly the linear maps commuting with these actions
+  for every test algebra R, not merely on k-points.
+- The tensor product acts diagonally, the unit acts trivially, and the dual
+  action is (g·ℓ)(v)=ℓ(g⁻¹v). These comparisons preserve evaluation and coevaluation.
+- The regular action satisfies (g·f)(x)=f(xg); finite subcomodules and faithful
+  coefficient-generated embeddings use the supplier maps under this comparison.
+
+The comparison is the one in Milne 2017, Remark 4.1, pp. 84–85.
+
+**Checks.**
+
+- The weight-three Gₘ line has coaction v↦v⊗t³ and a unit a acts by a³v;
+  at a=2 the value is 8v, not v/8. The dual has scalar 1/8, so evaluation
+  pairs (1/8)ℓ with 8v to give ℓ(v); weights 1 and 2 tensor to weight 3,
+  with scalar 2·4=8.
+- The trivial line has coaction v↦v⊗1 and every point acts as identity.
+- The zero module has zero coaction and its unique automorphism is the identity;
+  no positive dimension belongs in the dictionary.
+
+- For the standard Gₘ character, t and t⁻¹ generate k[t,t⁻¹], whereas
+  t alone generates k[t]. In positive characteristic p, the character tᵖ
+  has scheme kernel μₚ of degree p despite injectivity on geometric points.
+- For Gₐ, Δt=t⊗1+1⊗t keeps span{1,t} stable, and right translation by a
+  sends t to t+a; the opposite translation would give t−a.
+- The zero representation factors through GL₀=1; it is faithful only for
+  the trivial group. For αₚ in positive characteristic p, a↦[[1,a],[0,1]]
+  instead gives a faithful closed embedding in GL₂.
+
+*Needs:* Layer 0 points; Tau Ceti comodule, dual, tensor and representation
+suppliers; Milne 2017, Remark 4.1 and Theorem 4.9, pp. 84–85, 87.
+
+### 1.0b Tannakian comparison
+
+Consume native
+`TauCeti.Tannaka.pointsFunctorIsoTensorAutFunctor k H` for `[Field k]`,
+`[CommRing H]`, `[HopfAlgebra k H]` in the common universe. Preserve the actual
+`pointsFunctor ⋙ GrpCat.uliftFunctor ≅ tensorAutFunctor`, its coefficient-algebra
+naturality and component/reconstructed-point equations. Transport it through the
+rational-representation/comodule equivalence and Layer0's scheme/group-functor
+equivalences; construct those remaining adapters and their compatibility with the
+faithful-representation/closed-immersion maps. No second native reconstruction
+theorem or unlifted equality of these functors is intended.
+
+The reconstruction comparison uses the native theorem in the exact contracts;
+the representation–comodule identification is Milne 2017, Remark 4.1, pp. 84–85.
+
+**Checks.**
+
+- For Gₘ and its weight-three line, a reconstructed point with t-value 2
+  acts by 8, recovering the original point action.
+- The tensor unit has weight 0 and every reconstructed point acts by 1;
+  arbitrary scalar automorphisms of the unit are excluded by tensor compatibility.
+- For the trivial group the tensor-automorphism group is trivial; the universe
+  lift changes the carrier universe but preserves this one-element group.
+
+*Needs:* the native tensor-automorphism reconstruction and its universe lift;
+Layer 0 scheme/Hopf/points comparisons and §1.0a.
 
 ### 1.1 Rational cohomology and algebraic induction
 
@@ -422,36 +573,100 @@ differential and adjoint declarations in the Tau Ceti contract; Mathlib scheme
 tangent spaces; Layer 1 representations and faithful closed embeddings.
 
 ## Layer 3: subgroups, quotients, components
-- **Hopf ideals ↔ closed subgroup schemes:** an ideal `I` with `Δ(I) ⊆ I⊗A + A⊗I`,
-  `ε(I)=0`, `S(I) ⊆ I`; the quotient Hopf algebra `A/I`; the anti-equivalence; kernels.
-- **Normality and quotients:** normal = Hopf ideal stable under the adjoint coaction
-  (needs the conjugation/adjoint morphism at Hopf level). The quotient `G/H` is first the
-  **fppf sheaf quotient**; whether it is represented by a scheme (and when by an *affine*
-  one under the complex reductive hypotheses of Layer 6B) is a separate
-  **representability theorem with hypotheses**.
-  Then short exact sequences.
-  **Checks.**
 
-  - For Gₘ/μ₂ over ℚ, the quotient map is t↦t²; 2 has no rational lift but
-    has a lift over ℚ(√2), so the fppf quotient is not the pointwise rational quotient.
-  - For G/G the represented quotient is the terminal group; for G/1 it is G.
-  - In characteristic 2, the kernel of t↦t² is nonreduced μ₂, although its
-    algebraic-closure points form a singleton. Pointwise kernels lose this scheme.
+### 3.1 Subgroup and quotient comparisons
 
-- **Identity component `G°` and component group `π₀(G)`:** geometric connectedness
-  (`A ⊗ k̄` has no nontrivial idempotents, *stronger* than over `k`). Under smoothness
-  (and over a perfect field, or suitable hypotheses) `π₀(G)` is finite étale.
-  ⚠ Reserve the term **connected–étale sequence** for *finite* group schemes; here use
-  "identity component and component group", and "connected" always means the geometric
-  notion.
+For an affine group scheme G of finite type over a field k and a normal closed
+subgroup N, construct the affine finite-type group Q representing the fppf
+quotient G/N, with its faithfully flat projection q:G→Q and scheme kernel N.
+Extend the coinvariant comparison to non-geometrically-reduced G: the pullback
+q* identifies O(Q) with the functions a satisfying `(id ⊗ π)Δ(a)=a⊗1`, where
+π:O(G)→O(N) is restriction. No perfection, smoothness or characteristic bound
+is imposed (Milne 2017, Theorem 5.13 and Proposition 5.18, pp. 101–103).
+
+- Every group-scheme morphism G→K killing N factors uniquely through q.
+- The identification with the fppf quotient carries its projection to q and
+  its kernel inclusion to N→G; it is not an identification with G(k)/N(k).
+- Extension of the base field preserves Q, q and the kernel comparison,
+  by the sheaf quotient universal property and faithful flat descent.
+
+**Checks.**
+
+- In k[t,t⁻¹], the ideals (t−1) and (t²−1) have counit values 0 and 0;
+  they cut out 1 and μ₂. Their inclusion (t²−1)⊆(t−1) reverses to 1⊆μ₂.
+  Over ℚ the ideal (t−2) has counit value −1 and defines no subgroup.
+- In characteristic 2, k[t,t⁻¹]/(t²−1) is k[u]/(u²), with u=t−1.
+  Its one geometric point does not make it the trivial subgroup scheme.
+- For Gₘ/μ₂ over ℚ, q(t)=t² and O(Q)=ℚ[t²,t⁻²]; 2 has no rational
+  lift but lifts over ℚ(√2), distinguishing fppf surjectivity from pointwise
+  surjectivity.
+- In characteristic p, take G=αₚ×αₚ and N its first factor. Then Q=αₚ,
+  q(x,y)=y, and the coinvariants in k[x,y]/(xᵖ,yᵖ) are k[y]/(yᵖ).
+  This tests the nonreduced ambient case, including p=2 and p=3.
+- G/G=1 and G/1=G; for constant S₃ and N=A₃ the quotient has order 2.
+  The subgroup generated by (12) is not normal: conjugation by (123)
+  sends it to the subgroup generated by (23), excluding a group quotient.
+
+*Needs:* Layer 0 affine dictionary; Layer 1 faithful representations;
+Tau Ceti Hopf ideals, normality, coinvariants and fppf quotient; the affine
+faithfully flat descent of ModularCurves §0E. General nonnormal homogeneous
+spaces use §3A and Layer 7; their complex reductive affineness comparison is
+Layer 6B.
+
+### 3.2 Identity component and finite étale component group
+
+For every affine finite-type group scheme G over an arbitrary field k,
+construct G° as the open and closed subgroup scheme whose geometric fibre
+is the connected component containing the identity, with its inherited scheme
+structure. Descend the identity-component construction along field extensions.
+Construct π₀(G) as the finite étale group scheme of geometric connected
+components, with the continuous absolute-Galois action and multiplication
+induced from G. Prove the fppf exact sequence `1 → G° → G → π₀(G) → 1`;
+G° is geometrically connected and normal, and the projection is faithfully
+flat. Neither G nor G° is required to be smooth or reduced (Milne 2017,
+Proposition 1.34, p. 14; Proposition 2.37 and Definition 2.38, pp. 51–52).
+
+- A homomorphism G→E to a finite étale k-group factors uniquely through π₀(G).
+- Both constructions and the exact sequence commute with every field extension,
+  including inseparable extensions, and with finite products.
+- π₀(G) has degree equal to the number of geometric connected components;
+  it is trivial exactly when G is geometrically connected. Geometric
+  connectedness means that O(G)⊗k k̄ has only the idempotents 0 and 1.
+- G° retains nilpotents; replacing it by its reduction changes the kernel.
+  When G is smooth, its open subgroup G° is smooth. The term
+  connected–étale sequence is reserved for finite group schemes.
+
+**Checks.**
+
+- For Gₘ, G°=Gₘ and π₀(Gₘ)=1, with degree 1. For the trivial group,
+  both constructions are trivial. Real Lie components do not replace these:
+  ℝˣ has two real connected components although algebraic Gₘ is connected.
+- For constant S₃, G°=1 and π₀(G)=S₃ has degree 6; (12)(23)=(123)
+  and (23)(12)=(132), so the component group need not be commutative.
+- Over 𝔽₂, μ₂=Spec 𝔽₂[u]/(u²) is its own identity component and has
+  trivial π₀ of degree 1. Its reduction has coordinate ring 𝔽₂ and is
+  a different kernel. Over 𝔽₃, μ₂ is étale and π₀(μ₂)=μ₂ has degree 2.
+- Over ℝ, μ₃ is finite étale of degree 3, hence equals its component group;
+  it has one real point and three complex points. Complex conjugation exchanges
+  the two nonidentity components, so degree is not the number of k-points.
+- Over k=𝔽ₚ(s), G=αₚ×(ℤ/2)ₖ has G°=αₚ and component group (ℤ/2)ₖ.
+  After the purely inseparable extension k(s^(1/p)), these remain the two
+  respective base changes, with dimensions 0 and degrees p and 2.
+
+*Needs:* §3.1 quotient comparison; Layer 0 affine dictionary;
+Tau Ceti identity component over algebraically closed fields and finite
+connected components; ModularCurves §§0E–0F descent; SchemeAndStackFoundations
+§§1.14–1.18 sheaf descent.
 
 ### Examples
 
-The quotient Gₘ/μ₂ is Gₘ via squaring; 2∈ℚˣ lifts over ℚ(√2) but not over ℚ. Constant S₃ has six components, whereas Gₘ is geometrically connected.
+The quotient Gₘ/μ₂ is Gₘ via squaring. Constant S₃ has six components,
+whereas μ₂ in characteristic 2 is connected and nonreduced.
 
 ### Dependencies
 
-*Needs:* Layers 0–2; Tau Ceti normal-Hopf-ideal quotient sheaf; SchemeAndStackFoundations §§1.14–1.18.
+*Needs:* Layers 0–2; the Hopf-ideal, quotient and component suppliers above;
+ModularCurves §§0E–0F and SchemeAndStackFoundations §§1.14–1.18.
 
 ## Layer 3A: algebraic actions, orbit boundaries and projective closed orbits
 
@@ -686,12 +901,11 @@ meets each component, and translations spread it to the whole orbit.
 Consume native `Scheme.Hom.dense_smoothLocus_of_perfectField` and its
 open smooth locus, restricting to the reduced component loci as needed.
 Construct the corresponding charts and compare with the existing
-finite-dimensional LieGroups closed-stabilizer/local-constant-rank
-quotient construction. Pin H=Stab_G(x), the actual map G(ℂ)→O_x(ℂ)
-and its fibres. Consume SmoothBundlesConnections B1.1/1.4 and its
-independent LieGroupoidsPoisson G0.1 regular-fibre-product prerequisite,
-as specified by LieGroups Layer6's early homogeneous-space floor; no
-torus, conjugacy or Weyl theorem is needed. Prove the complex orbit map
+finite-dimensional closed-subgroup quotient construction of
+SmoothBundlesConnections B1.4. Pin H=Stab_G(x), the actual map G(ℂ)→O_x(ℂ)
+and its fibres. Consume SmoothBundlesConnections B1.0 for regular fibres and transverse
+fibre products, B1.1 for principal-bundle comparisons and B1.4 for the
+closed-subgroup quotient, applied first to the underlying real manifolds. Prove the complex orbit map
 is a holomorphic submersion using characteristic-zero separability:
 prove the generic maximal-rank statement from the actual function-field
 extension and Jacobian criterion, then spread the smooth/rank locus by
@@ -705,6 +919,16 @@ theorem. It does not assume an algebraic quotient G/H was already
 represented. The compact manifold can be disconnected. A closed orbit
 in affine X need not be compact, and an arbitrary projective orbit
 need not be closed or compact.
+
+**Checks.**
+
+- For two identity maps of ℝ, the fibre product is the diagonal with tangent
+  {(v,v)}, and its dimension is 1+1−1=1.
+- For two squaring maps at (0,0), the derivative ranges sum to {0}, not ℝ;
+  the crossing x²=y² fails the supplier's transversality hypothesis.
+- For the additive complex group acting on ℂ by translation, H=1 and the
+  quotient-to-orbit map is z↦z with complex derivative 1 and real rank 2.
+  This distinguishes the holomorphic comparison from a bare smooth quotient.
 
 **3A.6 Projective representation and restriction maps.** For a nonzero
 finite-dimensional rational G-module V retain the original G and its
@@ -1823,9 +2047,42 @@ algebra by its Killing-semisimple part.
 
    After9A.1b, compare its pinned **based** diagram lift with this full lift group
    and its simple-generator equations. For an unbased root automorphism use
-   [RootSystems4A](../RepresentationTheory/RootSystems/README.md)'s actual
-   Weyl/based factorization, while retaining the character ambiguity and
-   any multiplication defect of separately chosen lifts. Export transport
+   the following factorization derived from RootSystems Layer 4's chamber action.
+   For a finite reduced crystallographic spanning real root pairing P and base b,
+   let D be the subgroup of `RootPairing.Aut P` preserving b's simple support.
+   Prove W is normal, W∩D={1}, and every a is uniquely wδ with w∈W and δ∈D.
+   The forward isomorphism W⋊D→Aut(P) is (w,δ)↦wδ, with D acting on W by
+   conjugation. Obtain w from the unique chamber transport a(b)=w(b) and
+   δ=w⁻¹a (Milne 2017, C.22 and Proposition C.53, pp. 612, 624).
+   Both factors preserve the root lattice; for a specified compatible integral
+   full-datum automorphism use its actual Y action and the integral Weyl action
+   to define the residual Y action. A real action on the root span alone does
+   not choose an action on a central integral summand.
+
+   - The inverse sends a to its unique w and w⁻¹a; multiplication is
+     (w,δ)(v,ε)=(w(δvδ⁻¹),δε), in that order.
+   - Conjugation carries the reflection in α to the reflection in aα;
+     reindexing a base transports the two factors and their inclusion maps.
+   - Signed cover lifts are compared through this factorization while retaining
+     their character ambiguity and any multiplication defect of separately
+     chosen lifts; the factorization does not split the cover-lift projection.
+
+   **Checks.**
+
+   - In rank zero on zero spaces, Aut(P)=W=D=1, so 1=1·1.
+   - In A₁, |Aut(P)|=2=2·1; reflection interchanges α and −α and does not
+     preserve the one-element base.
+   - In A₂, |Aut(P)|=12=6·2 and |W∩D|=1. In the simple-root basis the
+     nontrivial diagram map δ has matrix [[0,1],[1,0]] and is outside W;
+     δs₁δ⁻¹=s₂≠s₁. Thus (1,δ)(s₁,1) maps to s₂δ, not s₁δ.
+   - For A₁ with one central lattice direction, two full-lattice extensions
+     fixing that direction or negating it restrict to the same root action;
+     the supplied Y action distinguishes them.
+
+   *Needs:* RootSystems Layer 4 chamber action; Mathlib `RootPairing.Aut` and
+   `RootPairing.weylGroup`; §9A.1a's integral lattice and cover construction.
+
+   Export transport
    under every specified order/section and full-Y comparison. Full-Y maps
    require the actual compatible Y action; no integral central splitting is
    inferred. Include empty/reducible ADE, rank1, A2's negative-section test,

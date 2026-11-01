@@ -11,6 +11,11 @@ at the boundary, closed orbits in orbit closures, the character kernel of centra
 reductive Chevalley frame (including its central torus), compactness of proper complex
 scheme points, and nonsplitting of the braid permutation extension for at least two strands.
 
+The signed ADE integral Lie construction and its full-lattice comparison lack the
+constructed signed root-space Lie algebra and its Chevalley-frame identification.
+The pinned fixed-Lie folding classification lacks that Lie algebra with its pinned
+diagram action, integral fixed lattice and normalized folded root datum. Native
+fixed-subalgebra and Serre-presentation carriers alone do not identify these objects.
 The general pinned integral model and its change-of-choice theorem lack the bundled
 relative split reductive group with prescribed full root datum and pinning. The
 highest-weight classification lacks the rational highest-weight modules and their
