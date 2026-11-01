@@ -85,7 +85,7 @@ This table specifies mathematical owner boundaries. A **coordination contract** 
 | Global flux and Hamiltonian kernel | [HamiltonianReduction](../SymplecticGeometry/HamiltonianReduction/README.md) R1a.0–R1a.4 supply the flux of symplectic paths and its homotopy invariance, the Hamiltonian path kernel, the endpoint quotient `1→Ham(M,ω)→Symp₀(M,ω)→H¹_dR(M)/Γ_ω→0`, the torus lattice `Γ_ω=A·H¹(T²;ℤ)` and the compactly supported version through `H¹_c(M)`. Section 7.T and the contract G0–G7 below consume them and construct no flux theory of their own. |
 | Arbitrary ψ periodic Floer setup | DGF's intended global-seam application is the G0–G7 contract below on closed spherical-aspherical targets. The existing linear seam and Hamiltonian untwisting remain positive floors. The nonaspherical and noncompact problems retain their specified additional bubble/virtual/no-escape obligations; no arbitrary-ψ Arnold or PSS-to-H(X) endpoint is asserted. |
 | Sp(2,ℝ) polar deformation | [CotangentLagrangian](../SymplecticGeometry/CotangentLagrangian/README.md) C2.0 and C2.1's symplectic polar factors/powers supply A=PU↦P^(1−t)U, fixing U(1). DGF's bounded n=1 application identifies U(1) with S¹, the positive symplectic factor with its chosen open-disc coordinate, and transports source winding/crossings to the single HF index with its stated sign. The full C2.0/C2.1 package is the supplier, not a shorter clause merely naming polar geometry. |
-| Floer analogue of Reidemeister torsion (Hutchings physical p106) | Section7.T owns the w⁺ seamed Floer–Novikov parity complex, periodic-flow zeta correction and actual degenerate bifurcation application, with rational total-quotient coefficients and separate monotone strengthening. MN N1/N4 retain the generic completion/torsion/localization algebra; MN N6 is its different finite-dimensional dynamical theorem. Layer8’s Serre/family theory alone does not construct Floer torsion. |
+| Floer analogue of Reidemeister torsion (Hutchings, *Lecture notes*, §§7.5--7.6, for the Morse case) | Section7.T owns the w⁺ seamed Floer–Novikov parity complex, periodic-flow zeta correction and actual degenerate bifurcation application, with rational total-quotient coefficients and separate monotone strengthening. MN N1/N4 retain the generic completion/torsion/localization algebra; MN N6 is its different finite-dimensional dynamical theorem. Layer8’s Serre/family theory alone does not construct Floer torsion. |
 | Qualified autonomous virtual cancellation | DGF7.C.5c owns the energy-cutoff/isolating relative virtual comparison below. The regular R×S¹ dimension argument and PSS homology comparison are separate results, not raw coefficient cancellation. |
 | Multiple realization | [GeneralizedCohomology](../GeneralizedCohomology/README.md) G5 and TangentialBordism B5/B6.3 supply Thom/PT/rational bordism inputs. DGF10.5 owns their smooth-target multiple-realization application and the resulting TheoremB/5.14 endpoint. |
 | Finite-rank odd-sphere and compact-Lie applications | HomotopySpheres Stage4A–4B supplies stable real Bott and its stable orthogonal-group calculation, not the unstable diagonal groups. DGF Layer11.3 owns the low-rank values, the stable-plus-Stiefel decomposition for `π_(n−1)(SO(n))`, its use in the exact sequence of `SO(n)→SO(n+1)→Sⁿ`, and the resulting first proof of Proposition6.34; the geometric second proof remains a separate complete proof. The pinned public [LieGroups](../RepresentationTheory/LieGroups/README.md) source supplies the universal-cover/central-kernel construction, compact Lie-algebra structure, simply-connected integration, maximal-torus and root `SU(2)` interfaces at their stated hypotheses. The pinned public [CompactGroups](../RepresentationTheory/CompactGroups/README.md) source supplies Haar/Peter–Weyl and its `SU(2)`/torus engine, not the finite-cover decomposition or `K(π,1)` conclusion. Neither source states the specific decomposition/`K(π,1)` bridge, so DGF Layer11.3 owns the bounded proof of the finite cover `T×K→G` from these Lie-group inputs, the `π_j` comparison for `j≥2`, the proof that a nontrivial compact simply connected semisimple factor has nonzero `π₃`, and the conclusion `G is K(π,1) iff G is a torus`; it then applies Proposition6.29 to prove Proposition6.31. This application does not rebuild general Lie theory, compact representation theory, or stable Bott theory. |
@@ -101,6 +101,11 @@ Use reference-to-orbit cylinders and A_ψ=∫ω_v+∫K_tdt, positive-end input, 
 Construct J/K continuation with fixed nondegenerate ends, actual energy/support bounds and coherent reference/cover/local-system transports, including specified Hamiltonian deformations of ψ. For the Hamiltonian overlap consume the actual 7.C contractible spherical-aspherical Γ=0 cylinder complex and supported compatible continuation, together with the untwisting of 7.C.2. Identify the selected reference cylinders/caps and their zero-period normalization, transport the single index, end orientation and spin data, and prove the equation/count/continuation diagrams. Reflection changes ψ to ψ⁻¹ and uses its actual reference/period-sign transport. This comparison has no arbitrary-ψ PSS or Arnold conclusion. An unrestricted nonaspherical closed-target extension of G0–G7 requires its seamed sphere-incidence/multicover and coherent punctured virtual-boundary construction. The separate bounded w⁺ torsion/count-dimensional application7.T constructs its own classical sphere-incidence/exclusion and bifurcation theorems; it is not this all-scope extension. A noncompact extension requires seam-invariant asymptotic/support data, finite generators in declared windows and an actual uniform no-escape/compact-image theorem for solutions and continuation.
 
 ## Ownership and dependencies
+
+This roadmap owns the Cayley plane carrier `𝕆P²` (trace-one idempotents of the Albert algebra
+supplied by LieHighestWeight Layer 8, with their `F₄`-invariant metric, lines and closed
+geodesics) and its based-loop Morse--Bott data (Layer 5 item 7); StringOrientation and
+TangentialBordism consume it.
 
 This roadmap consumes, and does not rebuild:
 
@@ -400,7 +405,8 @@ The following targets are built here, consuming the native APIs cited in their l
   and multiplicative cohomological spectral sequences for native `serreFibrations`;
 - the homological adapter and convergence theory for native filtered-complex
   spectral objects and spectral sequences;
-- Serre classes, Eilenberg--MacLane spaces `K(A, n)` for arbitrary abelian `A` with their
+- Serre classes, Eilenberg--MacLane spaces `K(A, n)` for arbitrary abelian `A` (existence is
+  `exists_eilenbergMacLane`) with their
   uniqueness up to weak equivalence, and the one-step connected covers of Layer 1 item 4;
 - the Pontryagin--Thom collapse in a non-Euclidean ambient manifold;
 - the real and complex orthonormal-two-frame homogeneous identifications from native frames and SBC quotients, with their separate dimension and stabilizer cases;
@@ -477,7 +483,7 @@ They supply the morphism-property/disc/cube vocabulary and bundle lifting;
 the remaining LES, coefficient, arbitrary-base, multiplicativity and
 convergence targets below extend those interfaces.
 
-1. **Hurewicz in degree one.** For a path-connected space, `π₁(X)ᵃᵇ ≅ H₁(X; ℤ)` naturally. This
+1. **Hurewicz in degree one** (`hurewiczOne`). For a path-connected space, `π₁(X)ᵃᵇ ≅ H₁(X; ℤ)` naturally. This
    proves the isomorphism theorem for AT8.3's actual normalized absolute
    Hurewicz map with target AT's native simplicial singular H₁(X;ℤ):
    a loop is sent to its induced positively oriented singular
@@ -687,7 +693,7 @@ convergence targets below extend those interfaces.
    - The class `{G | G ⊗ ℤ/2 = 0}` used in the source's proof of Theorem 5.15 is **not** a Serre
      class: `ℚ` belongs to it and its subgroup `ℤ` does not. It is replaced by the following
      theorem, which is what that proof needs.
-   - **Mod-2 vanishing.** For a simply connected space `Y` with `H̃_*(Y; 𝔽₂) = 0`, every `π_i(Y)`
+   - **Mod-2 vanishing** (`mod2Vanishing`). For a simply connected space `Y` with `H̃_*(Y; 𝔽₂) = 0`, every `π_i(Y)`
      is uniquely 2-divisible (a `ℤ[1/2]`-module). Only this direction is used. No finite generation
      is assumed. A uniquely 2-divisible group has `G ⊗ ℤ/2 = 0`, which is how Layer 10 item 5
      applies it. Its prerequisites are owned here, since no roadmap supplies them:
@@ -992,7 +998,7 @@ convergence targets below extend those interfaces.
 
 This layer is pure algebra over a DG algebra `R`. It consumes the DG roadmap's Layers 1, 4 and 5.
 
-1. **Twisting cocycles** (the source's Definition 1.9). A twisting cocycle on a finite set `P`
+1. **Twisting cocycles** (the source's Definition 1.9; `TwistingCocycle`). A twisting cocycle on a finite set `P`
    graded by `ind : P → ℤ` is a family `m_{x,y} ∈ R_{ind x − ind y − 1}` satisfying
    `∂m_{x,y} = Σ_z (−1)^{ind x − ind z} m_{x,z} m_{z,y}`, and the **one-sidedness condition**
    `m_{x,y} = 0` whenever `ind x ≤ ind y`.
@@ -1014,7 +1020,9 @@ This layer is pure algebra over a DG algebra `R`. It consumes the DG roadmap's L
      order of multiplication and is not a complex in general (acceptance criterion 2).
 2. For a DG local system `𝓕` (a right module), the twisted complex is the tensor product
    `𝓕 ⊗⟨P⟩ := 𝓕 ⊗_R K_m` of the DG roadmap's Layer 1, with
-   `D(α ⊗ x) = ∂α ⊗ x + (−1)^{|α|} Σ_y α·m_{x,y} ⊗ y`, and `D² = 0`. Its total degree is
+   `D(α ⊗ x) = ∂α ⊗ x + (−1)^{|α|} Σ_y α·m_{x,y} ⊗ y`, and `D² = 0`. In `Suggested.lean`
+   the sign `(−1)^{|α|}` is `gradingInvolution`, the operator is `twistedDifferential`, and
+   `D² = 0` is `twistedDifferential_sq`. Its total degree is
    `|α| + ind x`, and `D` lowers it by one (raises it by one cohomologically).
 3. **Continuation cocycles** (Definition 1.10) and the chain maps they induce. **Parametrized
    cocycles** (Definition 1.11) and the chain homotopy `Ψ¹ − Ψ⁰ = D⁻h + hD⁺`. Composition of
@@ -1082,31 +1090,33 @@ corner structures.
 
    For HPᵈ the analogous cell degrees have within-level gap3 and successive-level gap4d−1; prove the actual negative-bundle/Thom model before using these gaps to infer vanishing boundaries and identify its calibrated generator. The case d=0 is the constant point space. The free-loop extension in item6 is a separate construction; the based Hopf calculation alone does not give it.
 
-   **The Cayley plane `𝕆P²`.** No roadmap owns the octonions, the Albert algebra or `F₄`, so build
-   the bounded carrier here. Construct the octonions by Cayley--Dickson doubling of `ℍ`, prove the
-   norm is multiplicative and that the algebra is alternative, and form the real vector space `J`
-   of Hermitian `3×3` octonionic matrices with `x∘y=(xy+yx)/2` and the trace form. Define
-   `𝕆P²={x∈J : x∘x=x, tr x=1}`, the rank-one idempotents. Prove it is a closed smooth
-   `16`-manifold, homogeneous under the automorphism group `F₄` of `J` with stabilizer `Spin(9)`,
-   and give it the `F₄`-invariant metric of diameter `π/2` and maximal sectional curvature `4`
-   (the same normalization as `ℍPᵈ`). Prove the rank-one facts used below: for `p∈𝕆P²` and a unit
-   `u∈T_p𝕆P²` there is a unique totally geodesic octonionic line `L_(p,u)≅S⁸` through `p` tangent
-   to `u`; the geodesics from `p` are the great circles of these lines, all closed of length `π`
-   (the cut locus of `p` is a line). On `Ω_p𝕆P²` the critical set of the energy is the constant
-   loop and, for every `k≥1`, the manifold `C_k≅T¹_p𝕆P²≅S¹⁵` of `k`-fold great circles. Compute on
-   this same metric, by R2/R3 as for `ℍPᵈ`, the index `ind C_k=7k+15(k−1)=22k−15` of `C_k`
-   (conjugate points of multiplicity `7` at `π/2+jπ` and `15` at `jπ`), so `ind C_1=7`, with
-   nullity `15`; identify the negative-bundle orientation systems and the attachment maps of the
-   oriented Morse–Bott Thom/CW model, and prove perfectness by the completing-manifold argument of
-   Ziller (a completing manifold for each `C_k`, exhibited and not asserted). Conclude
-   `H_*(Ω𝕆P²;ℤ)` is `ℤ` in degrees `22k` and `22k+7`, `k≥0`, and zero elsewhere, matching
-   `Ω𝕆P²≃S⁷×ΩS²³`, with the generator of `H₂₂` represented by the fundamental class of `C_1` with
-   its index-`7` cell. Test: `H_7=ℤ`, `H_14=0`, `H_22=ℤ`. For the sphere-family application of
-   Proposition 6.39, take `Σ_p={(u,v)∈S¹⁵×S⁶ : v⊥u, v∈T_pL_(p,u)}`, the map `σ_p:Σ_p→Ω²_p𝕆P²` onto
-   the unit round `2`-spheres of the lines, and `φ:Σ_p×S¹→Σ′_p`; prove `φ` has fibrewise degree
-   `±2` as in the sphere case, so `β_*(σ_p)_*[Σ_p]=±2g` in `H₂₂(Ω𝕆P²)`, `g` the generator, and
-   `(σ_p)_*[Σ_p]≠0`. The free-loop extension of item 6 is a separate construction, as for the
-   other projective spaces.
+   **The Cayley plane `𝕆P²`.** Consume LieHighestWeight Layer 8's compact real algebra suppliers:
+   the division octonions `TauCeti.DivisionOctonionReal` with their multiplicative norm and
+   alternativity, the formally real Albert algebra `compactAlbertAlgebra` of Hermitian `3×3`
+   octonionic matrices with its Jordan product `x∘y=(xy+yx)/2` and trace form, and the compact
+   real `𝔣₄`. This roadmap owns the Cayley plane carrier and its rank-one Riemannian geometry,
+   which no earlier roadmap states (StringOrientation S1.5 and TangentialBordism B3.6 come later
+   in the merge order and consume it from here). Define `𝕆P²={x∈J : x∘x=x, tr x=1}`, the rank-one
+   idempotents of `J`. Prove it is a closed smooth `16`-manifold, homogeneous under the
+   automorphism group `F₄` of `J` with stabilizer `Spin(9)`, and give it the `F₄`-invariant metric
+   of diameter `π/2` and maximal sectional curvature `4` (the same normalization as `ℍPᵈ`). Prove
+   the rank-one facts used below: for `p∈𝕆P²` and a unit `u∈T_p𝕆P²` there is a unique totally
+   geodesic octonionic line `L_(p,u)≅S⁸` through `p` tangent to `u`; the geodesics from `p` are
+   the great circles of these lines, all closed of length `π` (the cut locus of `p` is a line). On
+   `Ω_p𝕆P²` the critical set of the energy is the constant loop and, for every `k≥1`, the manifold
+   `C_k≅T¹_p𝕆P²≅S¹⁵` of `k`-fold great circles. Compute on this same metric, by R2/R3 as for
+   `ℍPᵈ`, the index `ind C_k=7k+15(k−1)=22k−15` of `C_k` (conjugate points of multiplicity `7` at
+   `π/2+jπ` and `15` at `jπ`), so `ind C_1=7`, with nullity `15`; identify the negative-bundle
+   orientation systems and the attachment maps of the oriented Morse–Bott Thom/CW model, and prove
+   perfectness by the completing-manifold argument of Ziller (a completing manifold for each
+   `C_k`, exhibited and not asserted). Conclude `H_*(Ω𝕆P²;ℤ)` is `ℤ` in degrees `22k` and `22k+7`,
+   `k≥0`, and zero elsewhere, matching `Ω𝕆P²≃S⁷×ΩS²³`, with the generator of `H₂₂` represented by
+   the fundamental class of `C_1` with its index-`7` cell. Test: `H_7=ℤ`, `H_14=0`, `H_22=ℤ`. For
+   the sphere-family application of Proposition 6.39, take `Σ_p={(u,v)∈S¹⁵×S⁶ : v⊥u,
+   v∈T_pL_(p,u)}`, the map `σ_p:Σ_p→Ω²_p𝕆P²` onto the unit round `2`-spheres of the lines, and
+   `φ:Σ_p×S¹→Σ′_p`; prove `φ` has fibrewise degree `±2` as in the sphere case, so
+   `β_*(σ_p)_*[Σ_p]=±2g` in `H₂₂(Ω𝕆P²)`, `g` the generator, and `(σ_p)_*[Σ_p]≠0`. The free-loop
+   extension of item 6 is a separate construction, as for the other projective spaces.
 
    **Fibre representatives and the distinct path-loop total-space comparison.** For B=CPᵈ or HPᵈ construct a chain comparison from the oriented Morse–Bott energy/Thom model E_B to C_*(Ω_p B;ℤ), carrying the chosen completing cycles and calibrated generators to designated singular/cubical representatives. Prove it by the actual finite-energy attachment maps, compact-band comparison and filtered colimit; retain its energy-filtration statement only on this fibre model. It computes H_*(Ω_p B), not H_*(P_p B). Its perfectness and generator proof above remains independent of the following comparison.
 
@@ -1623,7 +1633,7 @@ Retain the separate connected zero-dimensional model: M is a point, f=id, C has 
    The cotangent form of Theorem M is Proposition 6.7.
 3. **The cotangent criterion** (Proposition 5.9).
 4. **The kernel of `i_{Q*}`.**
-   - For a path-connected `Q`, `Ω²Q` is path-connected with the homology of a point if and only if `Q` is a `K(π,1)` (Lemma 3.41); the connectedness of `Ω²Q` supplies `H₀`.
+   - (`aspherical_iff_homology_loopSpace_loopSpace`) For a path-connected `Q`, `Ω²Q` is path-connected with the homology of a point if and only if `Q` is a `K(π,1)` (Lemma 3.41); the connectedness of `Ω²Q` supplies `H₀`.
    - Proposition 5.11: the kernel of `i_{Q*}` contains an infinite cyclic group, a copy of
      `π_k(Q)`, or a class that is not `d`-torsion, according to the first nonvanishing higher
      homotopy group.
@@ -1699,7 +1709,7 @@ Retain the separate connected zero-dimensional model: M is a point, f=id, C has 
    - **Finite-rank odd-sphere group (Lemma6.35).** For every odd `n≥3`, prove torsion of `π_(n−1)(SO(n))` with finite-rank data, not stable periodicity alone. Give explicit low-rank computations
      `π₂(SO(3))=0`, `π₄(SO(5))=ℤ/2`, `π₆(SO(7))=0`, `π₈(SO(9))=(ℤ/2)²`, and
      `π₁₀(SO(11))=π₁₂(SO(13))=π₁₄(SO(15))=ℤ/2`, including maps/fibration exact sequences that certify each value. For odd `n≥17`, construct the finite-rank comparison/splitting
-     `π_(n−1)(SO(n)) ≅ π_(n−1)(O) ⊕ π_n(V_(n+2,2)(ℝ))`; prove the stated stable term is `0` or `ℤ/2` by HomotopySpheres Stage4A–4B's stable real Bott computation and prove the Stiefel term is `ℤ/2` in this range from the named Stiefel fibration/extension data. State the comparison maps and the range in which stabilization applies. The source's Lemma6.35 proof prints `π₈(SO(9))=ℤ/4`; retain that literal value as a source error, not as a theorem target. The corrected value is `(ℤ/2)²`: construct the stabilization `π₈(SO(9))→π₈(SO)=ℤ/2`, its kernel `ℤ/2` and a splitting, as described in [Crowley–Schick–Steimle, proof of Lemma2.2](https://www.researchgate.net/publication/347965860_The_derivative_map_for_diffeomorphism_of_disks_An_example) (arXiv:2012.13634v1). Compare with the `SO(8)→SO(9)→S⁸` exact sequence and `π₈(SO(8))=(ℤ/2)³` to certify the exponent-two result. The other cited values and large-rank splitting remain construction targets with their actual maps, ranges and extension data; a source table alone does not prove them. The torsion conclusion and both proofs of Proposition6.34 retain their full scope.
+     `π_(n−1)(SO(n)) ≅ π_(n−1)(O) ⊕ π_n(V_(n+2,2)(ℝ))`; prove the stated stable term is `0` or `ℤ/2` by HomotopySpheres Stage4A–4B's stable real Bott computation and prove the Stiefel term is `ℤ/2` in this range from the named Stiefel fibration/extension data. State the comparison maps and the range in which stabilization applies. The source's Lemma6.35 proof prints `π₈(SO(9))=ℤ/4`; retain that literal value as a source error, not as a theorem target. The corrected value is `(ℤ/2)²`: construct the stabilization `π₈(SO(9))→π₈(SO)=ℤ/2`, its kernel `ℤ/2` and a splitting, as described in [Crowley–Schick–Steimle, proof of Lemma2.2](arXiv:2012.13634v1, [arxiv.org/abs/2012.13634](https://arxiv.org/abs/2012.13634)). Compare with the `SO(8)→SO(9)→S⁸` exact sequence and `π₈(SO(8))=(ℤ/2)³` to certify the exponent-two result. The other cited values and large-rank splitting remain construction targets with their actual maps, ranges and extension data; a source table alone does not prove them. The torsion conclusion and both proofs of Proposition6.34 retain their full scope.
    - **First proof of odd-sphere covering (Proposition6.34).** Use the evaluation fibration
      `SO(n)→SO(n+1)→Sⁿ` and its exact segment
      `π_n(SO(n+1))→π_n(Sⁿ)→π_(n−1)(SO(n))`. Since `π_n(Sⁿ)=ℤ` and the last group is torsion, the boundary map has a nonzero kernel; exactness gives a class mapping to `ℓ[Id_(Sⁿ)]`, `ℓ>0`. Carry it through the Hurewicz map to `H_n(SO(n+1);ℤ)`, then through the standard action `SO(n+1)→Diff(Sⁿ)` and evaluation to obtain `ev_*A=ℓ[Sⁿ]`. Apply Proposition6.33 using that `π_n(Sⁿ)=ℤ` is not `ℓ`-torsion. Retain the second geometric proof below as a separate complete route, including its degree-2 rotation family; neither proof may stand in for the other.
@@ -1719,13 +1729,15 @@ Retain the separate connected zero-dimensional model: M is a point, f=id, C has 
    For `S²=SO(3)/SO(2)`, take `α` in `H₀(Ω²S²;ℤ)` represented by a degree-one map. Compute its `SO(2)` action class `α′∈H₁(Ω²S²;ℤ)` and prove it is nonzero by identifying it with the cycle `σ_{p*}[Σ′_p]` of Remark6.19. Under `β_*:H₁(Ω²S²)→H₂(ΩS²)`, identify the class with the Pontryagin square of the generator of `H₁(ΩS²)`. Then compare the resulting `SO(3)` action class in `H₃(Map(S²,S²);ℤ)` with `σ_*[Σ′]`, including orientation choices and the evaluation shriek map. This is the worked instance of the general action/shriek construction, not an appeal to Proposition6.36 alone.
 5. **Projective spaces.** `CPᵈ` (Proposition 6.38) and `HPᵈ` and the Cayley plane `𝕆P²` (Proposition 6.39), from Layer 5 item 7. These give **Theorem I** within the scope boundary.
 6. **Knotted hypersurfaces.** **Theorem G** (= Theorem 7.1): let `Q^n` be a closed orientable
-   manifold containing an embedded sphere `X` of dimension `k ≥ 2` and an orientable
+   manifold containing an embedded sphere `X` of dimension `k ≥ 2` and a closed orientable
    `(n−k)`-submanifold `Y` with trivial normal bundle, meeting `X` transversely in one point,
    with `Y` `ℓ`-connected for `ℓ = 2k−2` if `k` is even and `ℓ = k−1` if `k` is odd. If `S` is a
    closed orientable `(n−k)`-manifold and `φ : S → π⁻¹(Y) ⊂ T*Q` is continuous with
    `π∘φ : S → Y` of degree `d ≠ 0`, then every hypersurface `Σ ⊂ T*Q` bounding a relatively
    compact domain `U ⊇ φ(S)` has the almost existence property for contractible closed
-   characteristics. Check: `d = 0` is excluded. Proof through Proposition 7.5 and
+   characteristics. Check: `d = 0` is excluded; so is `Q = S²×S²`, `X = S²×{q}`, `Y = {p}×(S²∖{q′})`, where `Y` is
+   not closed and has no fundamental class; `Q = Q′ ♯ (S^k × Y^{n−k})` with `Y` closed and
+   `(2k−2)`-connected satisfies every hypothesis. Proof through Proposition 7.5 and
    Lemmas 7.6 and 7.7, using the Pontryagin--Thom collapse of Layer 1.
 7. Source: the source paper §§6.3--6.4 and §7.
 
@@ -1849,11 +1861,11 @@ version (TeX source of 13 May 2026, compiled).
 
 | Source requirements | Construction target |
 | --- | --- |
-| Hutchings pages74–85: action, capped indices and variational equation | 7.C.0–2 |
-| Hutchings pages86–88: capped generators, FHS, linearized/asymptotic operators, relative index and variational exercise | 7.C.1–2 |
-| Hutchings pages89–93: cap/degree/monotone coefficient comparisons | 7.C.1,7.C.3–6 |
-| Hutchings pages94–95: individual continuation, identity, relative homotopy/composition and small-autonomous setup | 7.C.2b,7.C.3c,7.C.4–5 |
-| Hutchings pages96–101: classical Floer, autonomous symmetry, PSS/Novikov and Arnold applications | 7.C.2–7, with the explicit shifted/module/coefficient formulas |
+| Salamon, *Lectures on Floer homology*, and Floer–Hofer–Salamon: action, capped indices and variational equation | 7.C.0–2 |
+| Floer–Hofer–Salamon and Salamon's lectures: capped generators, linearized/asymptotic operators, relative index and variational exercise | 7.C.1–2 |
+| Salamon's lectures and Hofer–Salamon, *Floer homology and Novikov rings*: cap/degree/monotone coefficient comparisons | 7.C.1,7.C.3–6 |
+| Salamon's lectures and Piunikhin–Salamon–Schwarz: individual continuation, identity, relative homotopy/composition and small-autonomous setup | 7.C.2b,7.C.3c,7.C.4–5 |
+| Piunikhin–Salamon–Schwarz and Hofer–Salamon: classical Floer, autonomous symmetry, PSS/Novikov and Arnold applications | 7.C.2–7, with the explicit shifted/module/coefficient formulas |
 | ℂPⁿ cyclic module and Γ=0 reflected comparison | 7.C convention/application checks and7.C.6f |
 
 ## Prior formalization
@@ -1881,7 +1893,7 @@ are not targets here.
 
 ## References
 
-- Michael Hutchings, *Lecture notes on Morse homology, Floer theory, and pseudoholomorphic curves*, September 11, 2002; unfinished informal lecture notes. Layer7.C treats the action/capping and classical count/comparison applications on pages74–101, especially96–101.
+- Michael Hutchings, *Lecture notes on Morse homology, Floer theory, and pseudoholomorphic curves*, December 15, 2002 version; unfinished informal lecture notes. Used for the Morse-theoretic Reidemeister torsion and zeta function (§§7.5--7.6, printed pp.52--57); its Floer material (§8.2) is a topic list with references and states nothing that Layer7.C builds against.
 - J.-F. Barraud, M. Damian, V. Humilière, A. Oancea, *Floer homology with DG coefficients.
   Applications to cotangent bundles*, [arXiv:2404.07953](https://arxiv.org/abs/2404.07953): the
   source paper.
@@ -1901,6 +1913,7 @@ are not targets here.
 - A. Floer, H. Hofer, D. Salamon, *Transversality in elliptic Morse theory for the symplectic action*, Duke Math. J.80(1) (1995),251–292, [DOI10.1215/S0012-7094-95-08010-7](https://doi.org/10.1215/S0012-7094-95-08010-7). Layer7.C.2 proves the stated orthogonality and symmetric-matrix lemma in its localized transversality application.
 - S. Piunikhin, D. Salamon, M. Schwarz, *Symplectic Floer–Donaldson theory and quantum cohomology*, in *Contact and Symplectic Geometry*, ed.C.B.Thomas, Publications of the Newton Institute8, Cambridge University Press (1996),171–200: the punctured comparison construction with the coefficient/sign/regularity applications specified here.
 - D. Salamon, *Lectures on Floer homology*, IAS/Park City Math. Ser. 7 (1999).
+- H. Hofer, D. Salamon, *Floer homology and Novikov rings*, in *The Floer Memorial Volume*, Progr. Math. 133, Birkhäuser (1995), 483–524.
 - M. Abouzaid, *Symplectic cohomology and Viterbo's theorem*, in *Free loop spaces in geometry and
   topology*, IRMA Lect. Math. Theor. Phys. 24 (2015).
 - A. Abbondandolo, M. Schwarz, *On the Floer homology of cotangent bundles*, Comm. Pure Appl. Math.

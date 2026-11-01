@@ -105,15 +105,6 @@ def gradingInvolution (ℳ : ℤ → Submodule R M) [DirectSum.Decomposition ℳ
   DirectSum.toModule R ℤ M (fun q ↦ ((q.negOnePow : ℤˣ) : ℤ) • (ℳ q).subtype) ∘ₗ
     (DirectSum.decomposeLinearEquiv ℳ).toLinearMap
 
-/-- The twisted complex `M ⊗_A K_m`, with `M ⊗ ⟨P⟩` identified with `P → M`, is graded in total
-degree `n` by `f x ∈ ℳ (n + ind x)`: the generator `x` sits in cohomological degree `-ind x`. -/
-def totalGrading (ℳ : ℤ → Submodule R M) {P : Type*} (ind : P → ℤ) (n : ℤ) :
-    Submodule R (P → M) where
-  carrier := {f | ∀ x, f x ∈ ℳ (n + ind x)}
-  add_mem' hf hg x := add_mem (hf x) (hg x)
-  zero_mem' _ := zero_mem _
-  smul_mem' c _ hf x := Submodule.smul_mem _ c (hf x)
-
 variable {h : TauCeti.IsDGAlgebra 𝒜 d} {P : Type*} [Fintype P] [DecidableEq P] {ind : P → ℤ}
   {ℳ : ℤ → Submodule R M}
   [SetLike.GradedSMul (TauCeti.InternalGrading.ofDecomposition 𝒜).opposite.piece ℳ]
