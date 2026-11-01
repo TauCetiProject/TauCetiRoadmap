@@ -5,6 +5,7 @@ import TauCeti.Geometry.Diffeomorphism.Group
 import TauCeti.Geometry.Diffeomorphism.Topology
 import TauCeti.Geometry.Diffeomorphism.Diffeotopy.Path
 import TauCeti.Geometry.Diffeomorphism.Disc
+import TauCeti.Geometry.Diffeomorphism.Sphere
 
 /-!
 # Teichmüller geometry of closed surfaces: target signatures
@@ -22,6 +23,9 @@ Stated here:
   `TauCeti.Diffeotopy`;
 * Smale's theorem on the disc (Layer 5): the group `Diff(D², ∂)` of Tau Ceti, with the weak
   Whitney topology, is contractible;
+* Smale's theorem on the sphere (Layer 5): Tau Ceti's reference inclusion of `O(3)` into
+  `Diff(S²)` is a homotopy equivalence, the full-group form of the deformation retraction of
+  `Diff⁺(S²)` onto `SO(3)`;
 * the projective model of the hyperbolic isometry group (Layer 4): Mathlib's action of
   `GL (Fin 2) ℝ` on `ℍ`, with negative-determinant matrices acting through complex conjugation,
   induces an isomorphism from `GL (Fin 2) ℝ` modulo its centre onto the isometry group of `ℍ`.
@@ -90,6 +94,18 @@ diffeomorphisms that are the identity near the boundary; Layer 5.3 passes from "
 to "on the boundary"). Its path-connectedness, `π₀ Diff(D², ∂) = 0`, is the disc input of the
 Alexander method used by the kernel theorem. -/
 theorem contractibleSpace_discDiff_two : ContractibleSpace (TauCeti.DiscDiff 2) := by
+  sorry
+
+/-- **Smale's theorem on the sphere.** The reference inclusion `O(3) → Diff(S²)` of Tau Ceti,
+`TauCeti.continuousOrthogonalToDiffSphere 2 ∞`, is a homotopy equivalence for the weak Whitney
+topology on `Diff(S²)`. Smale proves that `Diff⁺(S²)` deformation retracts onto `SO(3)` (Smale,
+*Diffeomorphisms of the 2-sphere*, Proc. AMS 10 (1959), Theorem A, with the retraction of
+Theorem 6); a reflection of `O(3)` carries that retraction to the other component, which gives the
+full-group form stated here (Layer 5.3). In particular `π₀ Diff(S²) = ℤ/2`. -/
+theorem exists_homotopyEquiv_orthogonalToDiffSphere_two :
+    ∃ e : ContinuousMap.HomotopyEquiv (Matrix.orthogonalGroup (Fin 3) ℝ)
+      (TauCeti.Diff (𝓡 2) (Metric.sphere (0 : EuclideanSpace ℝ (Fin 3)) 1) ∞),
+      e.toFun = TauCeti.continuousOrthogonalToDiffSphere 2 ∞ := by
   sorry
 
 /-! ## Layer 4: the projective model of `Isom(ℍ)` -/
