@@ -51,7 +51,7 @@ theorem half_primes_divide_d {n d : ℤ} {k : ℕ} {y : ℤ} {ell p : ℕ}
 
 /-- Above an absolute threshold, a nontrivial primitive progression has prime exponent at most exp(10^k). -/
 theorem effective_prime_bound : ∃ k0 : ℕ, 5 ≤ k0 ∧
-    ∀ (k : ℕ) (n d y : ℤ) (ell : ℕ), k0 ≤ k → 0 < k → Int.gcd n d = 1 → ell.Prime →
+    ∀ (k : ℕ) (n d y : ℤ) (ell : ℕ), k0 ≤ k → Int.gcd n d = 1 → ell.Prime →
       (∏ i ∈ Finset.range k, term n d i) = y^ell →
       y*d=0 ∨ (ell : ℝ) ≤ Real.exp (10^k : ℝ) := by sorry
 
@@ -68,18 +68,19 @@ theorem positive_fixed_exponent_finiteness (k ell : ℕ) (hk : 3 ≤ k) (he : 2 
       Int.gcd t.1 t.2.1 = 1 ∧
       (∏ i ∈ Finset.range k, term t.1 t.2.1 i) = t.2.2^ell}.Finite := by sorry
 
-/-- For each sufficiently large fixed length there are finitely many primitive nontrivial solutions with arbitrary exponent at least two. -/
+/-- For each sufficiently large fixed length there are finitely many primitive nontrivial signed
+solutions (n, d, y, ell) with y*d ≠ 0 and arbitrary exponent ell ≥ 2; the positive tuples are a
+subset. -/
 theorem fixed_length_finiteness : ∃ k0 : ℕ, 5 ≤ k0 ∧ ∀ k ≥ k0,
-    ({t : ℤ × ℤ × ℤ × ℕ | 0 < t.1 ∧ 0 < t.2.1 ∧ 0 < t.2.2.1 ∧ 2 ≤ t.2.2.2 ∧
-      Int.gcd t.1 t.2.1 = 1 ∧ (∏ i ∈ Finset.range k, term t.1 t.2.1 i) = t.2.2.1^t.2.2.2}.Finite) ∧
     {t : ℤ × ℤ × ℤ × ℕ | t.2.2.1*t.2.1 ≠ 0 ∧ 2 ≤ t.2.2.2 ∧ Int.gcd t.1 t.2.1 = 1 ∧
       (∏ i ∈ Finset.range k, term t.1 t.2.1 i) = t.2.2.1^t.2.2.2}.Finite := by sorry
 
 /-! ## Layer 7: Conjectural and announced predicates -/
 
-/-- A product of at least two consecutive positive integers is not a nontrivial perfect power. -/
+/-- A product of at least two consecutive positive integers is not a nontrivial perfect power
+(the base y = 0 is excluded by positivity of the product, so no hypothesis on y is needed). -/
 theorem consecutiveProduct_not_perfectPower (n k y ell : ℕ)
-    (hn : 0 < n) (hk : 2 ≤ k) (hy : 0 < y) (he : 2 ≤ ell) :
+    (hn : 0 < n) (hk : 2 ≤ k) (he : 2 ≤ ell) :
     (∏ i ∈ Finset.range k, (n + i)) ≠ y^ell := by sorry
 
 end TauCetiRoadmap.ErdosProgressionPowers

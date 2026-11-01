@@ -513,17 +513,43 @@ hypotheses in every application until the indicated supplier gaps are discharged
 
 | Supplier section | Required input | Exact content relevant here |
 | --- | --- | --- |
-| §0.3 | `SchoenfeldFiniteRangeInput` | θ(x)<1.000081x for 0<x<exp(10000). |
-| §0.5 | `RosserSchoenfeldFiniteRangeInput` | The stated prime-count pair for 59≤x<exp(10000). |
-| §0.16 | `ModEightFiniteInput` | The two theta error bounds for 10¹⁰≤x<exp(10000), and every nontrivial zero for characters modulo 8 at height at most 10000 lies on Re s=1/2. The analytic tail still uses this bounded-zero input. |
-| §0.25 | `PrimeProductFiniteInput` | ∑_(p≤x)1/p≤log log x+0.27+5/log x for 10⁸≤x<exp(10000). |
-| §3.2 | `QuadraticConductorFiniteInput` | 0.94 log N<P(N) for every primitive nonprincipal quadratic conductor 1<N<12000000000; the large-conductor part also retains the theta input. |
-| §0.7 | `BMORFiniteInput` | No positive real zero below 1 for primitive nonprincipal quadratic conductors 3≤q≤400000, and √d L(1,χ_d)>12 for positive fundamental 400000≤d<26500000000. |
-| §0.7 | `BMORClassNumberInput` | h(ℚ(√d))≥46 for every negative fundamental d<−319867; this is a global classification, not a bounded-range hypothesis. |
+| §0.3 | `SchoenfeldFiniteRangeInput` | θ(x)<1.000081x for 0<x<exp(10000). Declared as gap:schoenfeld-theta-finite-range. |
+| §0.5 | `RosserSchoenfeldFiniteRangeInput` | The stated prime-count pair for 59≤x<exp(10000). Declared as gap:rosser-schoenfeld-prime-count-finite-range. |
+| §0.16 | `ModEightFiniteInput` | The two theta error bounds for 10¹⁰≤x<exp(10000), and every nontrivial zero for characters modulo 8 at height at most 10000 lies on Re s=1/2. The analytic tail still uses this bounded-zero input. The theta clause is declared as gap:mod-eight-theta-finite-range; the zero-line clause is ComputationalNumberTheory §4.22. |
+| §0.25 | `PrimeProductFiniteInput` | ∑_(p≤x)1/p≤log log x+0.27+5/log x for 10⁸≤x<exp(10000). Declared as gap:prime-product-finite-range. |
+| §3.2 | `QuadraticConductorFiniteInput` | 0.94 log N<P(N) for every primitive nonprincipal quadratic conductor 1<N<12000000000; the large-conductor part also retains the theta input. Declared as gap:quadratic-conductor-largest-prime-finite-range. |
+| §0.7 | `BMORFiniteInput` | No positive real zero below 1 for primitive nonprincipal quadratic conductors 3≤q≤400000, and √d L(1,χ_d)>12 for positive fundamental 400000≤d<26500000000. The real-zero clause is ComputationalNumberTheory §4.24; the regulator clause is declared as gap:bmor-regulator-input. |
+| §0.7 | `BMORClassNumberInput` | h(ℚ(√d))≥46 for every negative fundamental d<−319867; this is a global classification, not a bounded-range hypothesis. Declared as gap:bmor-class-number-input. |
 
 Section 0.7 supplies β≤1−40/(√q(log q)²) for nonprincipal quadratic
 characters modulo q≥3 and positive real zeros, under both BMOR inputs.
-No GRH assumption or omitted numerical hypothesis is substituted for these inputs.
+`BMORFiniteInput` is the conjunction of its two displayed clauses, so it is
+proved from a proof of each: the real-zero clause is ComputationalNumberTheory
+§4.24 (consumed below) and only the regulator clause is a gap. Likewise
+`ModEightFiniteInput` is the conjunction of its theta clause and its zero-line
+clause; the zero-line clause is ComputationalNumberTheory §4.22 at the
+primitive conductors 1, 4 and 8 (consumed below) and only the theta clause is
+a gap. No GRH assumption or omitted numerical hypothesis is substituted for
+these inputs.
+
+The clauses no supplier proves are declared as the following gaps, one per
+input, and are cited by slug from every target that uses the corresponding
+literal constant. A gap supplies no theorem; a target citing one is conditional
+on that input until the gap is discharged.
+
+What AnalyticNumberTheoryPartI must provide (gap:schoenfeld-theta-finite-range): a proof of `SchoenfeldFiniteRangeInput`, that is θ(x)<1.000081x for every real 0<x<exp(10000) (Schoenfeld1976, Note Added in Proof, p. 360).
+
+What AnalyticNumberTheoryPartI must provide (gap:rosser-schoenfeld-prime-count-finite-range): a proof of `RosserSchoenfeldFiniteRangeInput`, that is x/log x·(1+1/(2 log x))<π(x)<x/log x·(1+3/(2 log x)) for every real 59≤x<exp(10000) (RosserSchoenfeld1962, Theorem 1).
+
+What AnalyticNumberTheoryPartI must provide (gap:mod-eight-theta-finite-range): a proof of the theta clause of `ModEightFiniteInput`, that is |θ(x;8,a)−x/4|≤0.002811x/4 for a=3 and a=5 and every real 10¹⁰≤x<exp(10000) (RamareRumely1996, Theorem 1 and Table 1).
+
+What AnalyticNumberTheoryPartI must provide (gap:prime-product-finite-range): a proof of `PrimeProductFiniteInput`, that is ∑_(p≤x)1/p≤log log x+0.27+5/log x for every real 10⁸≤x<exp(10000) (RosserSchoenfeld1962, Theorems 5 and 8).
+
+What AnalyticNumberTheoryPartI must provide (gap:quadratic-conductor-largest-prime-finite-range): a proof of `QuadraticConductorFiniteInput`, that is 0.94 log N<P(N) for every primitive nonprincipal quadratic conductor 1<N<12000000000 (BS20, Lemma 7.3, p. 375).
+
+What AnalyticNumberTheoryPartI must provide (gap:bmor-regulator-input): a proof of the regulator clause of `BMORFiniteInput`, that is √d L(1,χ_d)>12 for every positive fundamental discriminant 400000≤d<26500000000 (BMOR2018v3, Proposition 1.11 and its proof, §6.1).
+
+What AnalyticNumberTheoryPartI must provide (gap:bmor-class-number-input): a proof of `BMORClassNumberInput`, that is h(ℚ(√d))≥46 for every negative fundamental discriminant d<−319867 (BMOR2018v3, Proposition 1.11 and its proof, §6.1).
 
 ### From TauCetiRoadmap.EllipticCurveModularityPartII
 
@@ -558,15 +584,19 @@ nonvanishing theorem §4.23; the first alone would allow a real zero at s=1/2
 (Platt2013v1, Theorems 7.1–7.2, pp. 14–15; BS20, proof of Proposition 7.2, p. 376).
 For a primitive nonprincipal quadratic conductor 1<N<400000 one has N≥3, so
 0<c*<log 2 gives 0<1−c*/log N; the exceptional interval of §3.1 lies in (0,1)
-and contains no zero.
+and contains no zero. The same statement at real 0<s<1 and primitive quadratic
+conductors 3≤q≤400000 is the real-zero clause of AnalyticNumberTheoryPartI
+§0.7's `BMORFiniteInput`, used in Layer 5.
 
-### Supplier gaps
-
-The following `gaps` entries specify required inputs not supplied unconditionally
-by the cited contracts. A gap supplies no theorem.
-
-- `gap:numerical-prime-inputs`: supplier `AnalyticNumberTheoryPartI` §§0.3, 0.5, 0.16, 0.25 and 3.2; needs: proofs of the five prime/conductor input hypotheses in the table, before any dependent statement is unconditional (Schoenfeld1976, Note Added in Proof, p. 360; RosserSchoenfeld1962, Theorems 1, 5, 8; RamareRumely1996, Theorems 1, 2.1.1 and Table 1; BS20, Lemma 7.3, p. 375). These sections state conditional estimates, not proofs of the inputs.
-- `gap:numerical-zero-inputs`: supplier `AnalyticNumberTheoryPartI` §0.7; needs: proofs of both BMOR input hypotheses in the table before the literal separation constant 40 is available unconditionally (BMOR2018v3, Proposition 1.11 and its proof, §6.1). The global negative-discriminant classification is included.
+Consume §4.22 at the primitive conductors 1, 4 and 8: every zero of the native
+continued LFunction of a primitive character of modulus q≤400000 with
+0<Re s<1 and |Im s|≤H(q) lies on Re s=1/2, where H(q) is at least 10⁸/q, so
+H(1)≥10⁸, H(4)≥2.5·10⁷ and H(8)≥1.25·10⁷ all exceed the height 10000. An
+imprimitive character modulo 8 is induced from one of these three conductors
+and its L-function differs by Euler factors at 2 whose zeros lie on Re s=0;
+for modulus 1 the native LFunction is the Riemann zeta function. This is the
+zero-line clause of AnalyticNumberTheoryPartI §0.16's `ModEightFiniteInput`,
+used in §0.9 (Platt2013v1, Theorems 7.1–7.2, pp. 14–15).
 
 ## How to read the build
 
@@ -762,8 +792,11 @@ Apply AnalyticNumberTheoryPartI §§0.3–0.5, 0.8, 0.16, 0.19–0.20 and 0.25
 on the domains in the supplier contracts. The theta constant retains
 SchoenfeldFiniteRangeInput; the prime-count pair retains
 RosserSchoenfeldFiniteRangeInput; the mod-eight errors retain the full
-ModEightFiniteInput; and the Euler-product bound retains PrimeProductFiniteInput.
-Unconditional applications require gap:numerical-prime-inputs. These generic
+ModEightFiniteInput, whose zero-line clause is ComputationalNumberTheory §4.22;
+and the Euler-product bound retains PrimeProductFiniteInput.
+Unconditional applications require gap:schoenfeld-theta-finite-range,
+gap:rosser-schoenfeld-prime-count-finite-range, gap:mod-eight-theta-finite-range
+and gap:prime-product-finite-range. These generic
 estimates are consumed; the local target is their progression factorial adapter.
 
 Under SchoenfeldFiniteRangeInput, prove for natural k≥exp(exp(10⁷)) that
@@ -789,7 +822,10 @@ n≥C_ε^(2/ε) gives τ(n)≤n^ε. This applies to nonsquarefree n as well
 - For k=2·10¹⁰, the mod-eight lower endpoint k/2=10¹⁰ is included; taking both errors at k would change their combined coefficient from 3ε/8 to 4ε/8.
 
 *Needs:* AnalyticNumberTheoryPartI §§0.3–0.5, 0.8, 0.16, 0.19–0.20, 0.25 and 3.1;
-gap:numerical-prime-inputs for unconditional applications; Mathlib finite prime sums,
+ComputationalNumberTheory §4.22 for the zero-line clause of ModEightFiniteInput;
+gap:schoenfeld-theta-finite-range, gap:rosser-schoenfeld-prime-count-finite-range,
+gap:mod-eight-theta-finite-range and gap:prime-product-finite-range for
+unconditional applications; Mathlib finite prime sums,
 natural factorization and factorial valuations.
 
 ### Examples
@@ -886,7 +922,7 @@ and Theorem 4, pp. 359–360; Lemmas 3.3, 3.5, pp. 362–363.)
 - N=1 with g₀⁺(1)=0 gives F_K(1)=1, G_K(1)=4 and H_K(1)=4; replacing the maximum by the first term loses the dyadic constraint.
 - N=11 with g₀⁺(11)=1 gives μ(11)=12, μ(44)=72 and H_K(11)=169; replacing the newspace by a Γ₁ space changes this value.
 
-*Needs:* EllipticCurves Layers 2–4 and Layer 8’s semistable conductor comparison; NeronModelsAndSemistableAbelianVarieties §§5.3g–5.3h; EllipticCurveModularity R29.3, R29.4 and R29.6; SerreWeightAndLevelOptimisation §§6.1–6.3; AutomorphicGaloisRepresentations §1.5; EtaleCohomologyFoundations §F.4.0; ArithmeticGaloisRepresentations §1.9 and §§3.1–3.3; WeightsInEtaleCohomology R34.5–R34.6; ModularForms Layers 2–4, 8 and 10; EllipticCurveModularityPartII §§1.4–1.8, 2.2, 4.7 and 5.4–5.5 (EC.0–EC.4); LocalFieldsRamification Layers 3–4; Layer 0's explicit prime estimates only for the later progression level bounds.
+*Needs:* EllipticCurves Layers 2–4 and Layer 8’s semistable conductor comparison; NeronModelsAndSemistableAbelianVarieties §§5.3g–5.3h; EllipticCurveModularity R29.3, R29.4 and R29.6; SerreWeightAndLevelOptimisation §§6.1–6.3; AutomorphicGaloisRepresentations §1.5; EtaleCohomologyFoundations §F.4.0; ArithmeticGaloisRepresentations §1.9 and §§3.1–3.3; WeightsInEtaleCohomology R34.5–R34.6; ModularForms Layers 2–4, 8 and 10; EllipticCurveModularityPartII §§1.4–1.8, 2.2, 4.7 and 5.4–5.5 (EC.0–EC.4); LocalFieldsRamification Layers 3–4; §0.9's prime estimates only for the later progression level bounds.
 
 ### 1.2 Progression Frey specialization
 
@@ -977,7 +1013,7 @@ odd multiplicative primes whose minimal discriminant valuation is divisible
 by ell. Use its wild bound at 2. Apply the supplier explicit Chebyshev
 upper bound at x=k.
 
-*Needs:* §1.3; Layer 0 — signed small-prime factorization; §1.1's modularity witness and residual-conductor wrapper; SerreWeightAndLevelOptimisation §§6.1–6.2; NeronModelsAndSemistableAbelianVarieties §§5.3g–5.3h; EllipticCurveModularityPartII §§5.4–5.5 (EC.4); Layer 0's explicit prime estimates.
+*Needs:* §1.3; Layer 0 — signed small-prime factorization; §1.1's modularity witness and residual-conductor wrapper; SerreWeightAndLevelOptimisation §§6.1–6.2; NeronModelsAndSemistableAbelianVarieties §§5.3g–5.3h; EllipticCurveModularityPartII §§5.4–5.5 (EC.4); §0.9's prime estimates.
 
 ([BS20], Lemma 3.3, equation (9), and proof, pp. 361-362; Lemma 3.3 and proof, pp. 361-362; Proof of Lemma 3.3, p.362.)
 
@@ -989,7 +1025,7 @@ For S, ell≥11 and q in I(k), E_q has irreducible residual representation reali
 
 Use the rational-two-torsion irreducibility cutoff. Apply level lowering with the second local tests. Keep wild factors at 2 and3 and the kappa^2 exceptional factor; use |kappa|<k^2 and Chebyshev bound.
 
-*Needs:* §1.6; §1.1's modularity witness and residual-conductor wrapper; SerreWeightAndLevelOptimisation §§6.1–6.2; NeronModelsAndSemistableAbelianVarieties §§5.3g–5.3h; EllipticCurveModularityPartII §§5.4–5.5 (EC.4); Layer 0's explicit prime estimates.
+*Needs:* §1.6; §1.1's modularity witness and residual-conductor wrapper; SerreWeightAndLevelOptimisation §§6.1–6.2; NeronModelsAndSemistableAbelianVarieties §§5.3g–5.3h; EllipticCurveModularityPartII §§5.4–5.5 (EC.4); §0.9's prime estimates.
 
 ([BS20], Lemma 3.5 and proof, p. 363; Proof of Lemma 3.5, p.363.)
 
@@ -1001,7 +1037,7 @@ Under H every prime p in (k/2,k] divides d.
 
 Suppose p does not divide d. One or two terms are divisible by p. Choose a first-family triple containing the unique term, or the source equal-sum quadruple for two terms. Prove minimal multiplicative reduction and deleted p; p differs from ell. Apply the exact removed-prime norm bound to M_a or M_q. The exponential level bounds contradict ell>exp(10^k), using the numerical range k≥10^8.
 
-*Needs:* Layer 1 — first-family reduced-level bounds; Layer 1 — second-family reduced-level bounds; Layer 1 — second-family invariants and local tests; Layer 1, removed-prime norm bound — removed prime bound.
+*Needs:* Layer 1 — first-family reduced-level bounds; Layer 1 — second-family reduced-level bounds; Layer 1 — second-family invariants and local tests; EllipticCurveModularityPartII §2.2 (EC.1) for the removed-prime exponent bound.
 
 ([BS20], Lemma 4.1, p. 364.)
 
@@ -1025,7 +1061,7 @@ Under H and a in A(k), mu(M_a) and mu(lcm(M_a,4)) are at most 2^8*log(k)*exp(1.0
 
 Use the primorial divisibility and the explicit totient ratio bound. Combine the resulting mu bounds with the supplier Martin newspace inequality and exact Kraus F,G,H definitions; compare their logarithms to 10^k. Do not use the full Gamma1 dimension.
 
-*Needs:* Layer 1 — first-family reduced-level bounds; Layer 1, Kraus threshold functions — kraus f; Layer 1, Kraus threshold functions — kraus g; Layer 1, Kraus threshold functions — kraus h; Layer 0, explicit totient and divisor bounds.
+*Needs:* Layer 1 — first-family reduced-level bounds; EllipticCurveModularityPartII §§1.5–1.8 (EC.2) for the thresholds F♯, G♯, H♯ and their majorants F_K, G_K, H_K; EllipticCurveModularityPartII §1.4 (EC.0) for the newspace dimension bound; §0.9's Euler-product and divisor bounds.
 
 ([BS20], Proof of Lemma 5.1, p. 365 (Tenenbaum Theorem 9 and following remark).)
 
@@ -1037,7 +1073,7 @@ Under H, for every a in A(k) there exists an actual elliptic curve F_a/Q with fu
 
 Apply the Kraus realization theorem with the coefficient-prime bridge, irreducibility and the strict threshold just proved. Fix a choice only after proving existence. A free natural-number field called conductor is not an admissible substitute for the native invariant.
 
-*Needs:* Layer 1 — serre-weight and residual-conductor bridge; Layer 1 — kraus threshold for progression levels; Layer 1, Kraus realization.
+*Needs:* Layer 1 — serre-weight and residual-conductor bridge; Layer 1 — kraus threshold for progression levels; EllipticCurveModularityPartII §4.7 (EC.3) for the Kraus realization theorem.
 
 ([BS20], Lemma 5.1, p. 365.)
 
@@ -1148,7 +1184,7 @@ consumed from ImaginaryQuadraticClassNumber H3.1. These statements concern
 actual torsion representations. (BS20, §6, final Case-II argument and
 the rational-isogeny surjectivity result cited there, p. 373, and its cited Lemos theorem.)
 
-*Needs:* ModularCurves §4C; EllipticLegendreCharacterInterfaces §§0.1–0.6, 0.8–0.10, 1.2, 1.4–1.5, 2.1, 2.3, 2.5–2.8, 3.1, 3.7, 4.1, 5.1–5.2; Tau Ceti `WeierstrassCurve.quadraticTwistOf` and its point-equivariance comparison; EllipticCurves Layers 2–5 and Layer 6, the `x − θ` Kummer map and its kernel 2E(K); EllipticCurveModularityPartII §6.18 (EC.5); Layer 1 modular comparison; ClassicalArithmeticCompletion §1.51; ImaginaryQuadraticClassNumber H3.1.
+*Needs:* ModularCurves §4C; EllipticLegendreCharacterInterfaces §§0.1–0.6, 0.8–0.10, 1.2, 1.4–1.5, 2.1, 2.3, 2.5–2.8, 3.1, 3.7, 4.1, 5.1–5.2; Tau Ceti `WeierstrassCurve.quadraticTwistOf` and its point-equivariance comparison; EllipticCurves Layers 2–5 and Layer 6, the `x − θ` Kummer map and its kernel 2E(K); EllipticCurveModularityPartII §6.18 (EC.5); §1.1's modular comparison interfaces; ClassicalArithmeticCompletion §1.51; ImaginaryQuadraticClassNumber H3.1.
 
 ### 2.2 Legendre case partition
 
@@ -1170,7 +1206,7 @@ Given k and finite parameter sets L_a of rational numbers for a in A(k), form Ca
 
 Filter A(k) by the explicit rational-square predicate and take the relative complement. Use the native Legendre interfaces of this layer, retaining all six labelled root orderings.
 
-*Needs:* Layer 0 — three-term progression triples; Layer 1 — actual comparison elliptic curve; Layer 2, native Legendre interfaces.
+*Needs:* Layer 0 — three-term progression triples; Layer 1 — actual comparison elliptic curve; §2.1's native Legendre interfaces.
 
 ([BS20], §6, p. 367.)
 
@@ -1182,7 +1218,7 @@ Under H, every associated Legendre parameter lambda is a nonsquare modulo every 
 
 Transfer a_p(F_a)=0 to a_p(F_λ)=0 using the unramified twist sign of §2.1. Thus #F_λ(𝔽_p)=p+1≡4 mod 8 at p≡3 mod 8. A square λ would give the ordinary-model subgroup ℤ/2ℤ×ℤ/4ℤ, contradicting that count. The mod8 classes rule out the other excluded squareclasses. Apply the explicit theta(x;8,3) error bound at k and k/2. The triangle inequality bounds the maximum absolute sum by a quarter of the absolute signed combination.
 
-*Needs:* Layer 2 — legendre case partition; Layer 1 — good reduction and forced trace zero; ClassicalArithmeticCompletion §1.51 — quadratic character of a squareclass; Layer 0, explicit prime estimates; Layer 2, native Legendre interfaces.
+*Needs:* Layer 2 — legendre case partition; Layer 1 — good reduction and forced trace zero; ClassicalArithmeticCompletion §1.51 — quadratic character of a squareclass; §0.9's prime estimates; §2.1's native Legendre interfaces.
 
 ([BS20], Lemma 6.4, p. 368; §6, Case I, equations (19)–(21), p. 369; Equation (21), p.369.)
 
@@ -1198,7 +1234,7 @@ Use the six-parameter transformations to place lambda in(0,1) and both lambda,1-
 
 - the point-count comparison over 𝔽₅: over 𝔽₅ the symmetric curve has eight points and its twist by the nonsquare 2 has four; neither count is divisible by 16. The symmetric trace is −2 and the twist trace is 2, in agreement with the §2.1 twist sign.
 
-*Needs:* Layer 2 — legendre case partition; Layer 1 — good reduction and forced trace zero; Layer 2, native Legendre interfaces.
+*Needs:* Layer 2 — legendre case partition; Layer 1 — good reduction and forced trace zero; §2.1's native Legendre interfaces.
 
 ([BS20], Lemma 6.6, pp. 371-372; §6 before (22), p. 370.)
 
@@ -1210,7 +1246,7 @@ Under H, the native elliptic curve E_a is not CM, for every a in A(k). Its j-inv
 
 Import algebraic integrality of CM j-values and deduce integer j for rational j. At an odd divisor of abc the numerator is a unit, contradicting integrality. Classify the elementary signed powers-of-two relation and use gcd(n,d)=1 and index bounds. The contradiction uses at least one prime in the half interval, supplied by the explicit prime estimate.
 
-*Needs:* Layer 1 — first-family invariants and odd local properties; Layer 1 — half-interval primes divide the difference; ImaginaryQuadraticClassNumber H3.1; Layer 0, explicit prime estimates; Mathlib `WeierstrassCurve.j`.
+*Needs:* Layer 1 — first-family invariants and odd local properties; Layer 1 — half-interval primes divide the difference; ImaginaryQuadraticClassNumber H3.1; §0.9's prime estimates; Mathlib `WeierstrassCurve.j`.
 
 ([BS20], §6 final Case-II proof, p. 373.)
 
@@ -1222,7 +1258,7 @@ Under H⁺ and CaseII choose a character from the four squareclasses omega*t*v, 
 
 Project to primes 5 mod 8 using the previous square test and the explicit theta(x;8,5) estimate. Use Legendre parameter valuation and conductor support. Clear denominators primitively in2t^2+2v^2=1. Apply the exact T^4+V^4=2U^2 descent theorem, not FLT4. Import the CM normalizer image and the rational-isogeny surjectivity theorem, then use the same residual comparison.
 
-*Needs:* Layer 2 — case-ii positive normalization and square test; Layer 2 — cm exclusion for progression frey curves; Layer 1 — actual comparison elliptic curve; ClassicalArithmeticCompletion §1.51 — quadratic character of a squareclass; ClassicalArithmeticCompletion §4.41; Layer 2, residual-image comparison; Layer 0, explicit prime estimates; Layer 2, native Legendre interfaces.
+*Needs:* Layer 2 — case-ii positive normalization and square test; Layer 2 — cm exclusion for progression frey curves; Layer 1 — actual comparison elliptic curve; ClassicalArithmeticCompletion §1.51 — quadratic character of a squareclass; ClassicalArithmeticCompletion §4.41; §2.1's residual-image comparison; §0.9's prime estimates; §2.1's native Legendre interfaces.
 
 ([BS20], §6 Case II, pp. 372–373; §6 Case II first paragraph, p.372.)
 
@@ -1246,7 +1282,7 @@ Under H⁺ choose for every a in A(k) one pair (N_a,chi_a), with N_a>1 and chi_a
 
 Use the exhaustive partition and the respective four-character constructions. The primitive squareclass character gives the exact conductor and dyadic bound. Convert prime sums to von-Mangoldt sums by the effective prime-power tail; the strict numerical margin is0.000045875*k. Fix one finite family only after all its simultaneous conclusions hold.
 
-*Needs:* Layer 2 — case-i nonsquare and absolute projection; Layer 2 — case-ii conductor exclusion and projection; Layer 1 — first-family reduced-level bounds; ClassicalArithmeticCompletion §1.51 — quadratic character of a squareclass; ClassicalArithmeticCompletion §1.51 — odd part of a quadratic conductor is squarefree; ClassicalArithmeticCompletion §1.51 — two adic conductor bound; Layer 0, explicit prime estimates; Mathlib `DirichletCharacter.conductor`; Mathlib `DirichletCharacter.IsPrimitive`; Tau Ceti `DirichletCharacter.conductor_ringHomComp` and `DirichletCharacter.isPrimitive_ringHomComp_iff` for the injective ℤ→ℝ and ℤ→ℂ comparisons; Mathlib `ArithmeticFunction.vonMangoldt`.
+*Needs:* Layer 2 — case-i nonsquare and absolute projection; Layer 2 — case-ii conductor exclusion and projection; Layer 1 — first-family reduced-level bounds; ClassicalArithmeticCompletion §1.51 — quadratic character of a squareclass; ClassicalArithmeticCompletion §1.51 — odd part of a quadratic conductor is squarefree; ClassicalArithmeticCompletion §1.51 — two adic conductor bound; §0.9's prime estimates; Mathlib `DirichletCharacter.conductor`; Mathlib `DirichletCharacter.IsPrimitive`; Tau Ceti `DirichletCharacter.conductor_ringHomComp` and `DirichletCharacter.isPrimitive_ringHomComp_iff` for the injective ℤ→ℝ and ℤ→ℂ comparisons; Mathlib `ArithmeticFunction.vonMangoldt`.
 
 ([BS20], Proposition 6.1 and its two-case construction, pp. 366-373; Proposition 6.1, p. 367; Proposition 6.1, p. 367; Case II exclusion, pp. 372–373.)
 
@@ -1286,9 +1322,11 @@ sufficiently large X, retaining its effective absolute threshold.
 The harmonic application additionally consumes ComputationalNumberTheory §4.24:
 no primitive nonprincipal real quadratic conductor 1<N<400000 has a zero
 in this same exceptional interval, since 0<c*<log 2 places that interval
-inside (0,1). This handoff is used in §§3.2, 4.8 and 6.2; the
-class-number and regulator components needed for the constant 40 are separate
-obligations in gap:numerical-zero-inputs. No GRH premise is used.
+inside (0,1). This input is used in §§3.2, 4.8 and 6.2, and it is the
+real-zero clause of BMORFiniteInput in Layer 5; the regulator and
+class-number inputs behind the constant 40 of Layer 5 are the separate
+obligations gap:bmor-regulator-input and gap:bmor-class-number-input.
+No GRH premise is used.
 (BS20, proof of Proposition 7.2, pp. 375–376.)
 
 Prove the smooth-modulus character-sum bound: for r≥1, positive integer moduli
@@ -1321,8 +1359,10 @@ equations (32)–(35), pp. 379–380.)
 Use AnalyticNumberTheoryPartI §3.2's bound 0.94 log N<P(N) for primitive
 quadratic conductors N>1, with SchoenfeldFiniteRangeInput and
 QuadraticConductorFiniteInput. The dyadic part is 1,4 or 8; N=1 is excluded.
-Unconditional harmonic criteria additionally require gap:numerical-prime-inputs
-for these hypotheses (BS20, Lemma 7.3, p. 375).
+Unconditional harmonic criteria additionally require
+gap:schoenfeld-theta-finite-range and
+gap:quadratic-conductor-largest-prime-finite-range for these hypotheses
+(BS20, Lemma 7.3, p. 375).
 
 **Checks.**
 
@@ -1334,7 +1374,7 @@ for these hypotheses (BS20, Lemma 7.3, p. 375).
 - The principal character has a main term of order k and is excluded from a nonprincipal PNT error estimate.
 - Equal characters have diagonal correlation of order k and are excluded from the strict off-diagonal power saving.
 
-*Needs:* AnalyticNumberTheoryPartI §§0.1, 0.17–0.18, 0.24 and 3.2; ComputationalNumberTheory §4.24; `gap:numerical-prime-inputs`; the smooth-modulus character-sum bound for the correlation specialization; ClassicalArithmeticCompletion §1.51 for quadratic-conductor support; Mathlib continued L-functions, finite inner-product spaces and prime arithmetic; Layer 0's explicit prime estimates and divisor-subpower bound; Layer 2 only for the progression-specific criteria that follow.
+*Needs:* AnalyticNumberTheoryPartI §§0.1, 0.17–0.18, 0.24 and 3.2; ComputationalNumberTheory §4.24; `gap:schoenfeld-theta-finite-range`; `gap:quadratic-conductor-largest-prime-finite-range`; the smooth-modulus character-sum bound for the correlation specialization; ClassicalArithmeticCompletion §1.51 for quadratic-conductor support; Mathlib continued L-functions, finite inner-product spaces and prime arithmetic; §0.9's prime estimates and divisor-subpower bound; Layer 2 only for the progression-specific criteria that follow.
 
 ### 3.2 Harmonic smooth-conductor criterion
 
@@ -1344,7 +1384,7 @@ For each fixed 0<c1<1 there is an effectively computable k1(c1) such that under 
 
 For a nonexceptional character use log N<1.07*(log k)^(1-c1) and the supplier effective PNT: the error is O(k*exp(-c*(log k)^min(c1,1/2))*(log k)^4), contradicting the fixed lower bound for effective large k. If all characters are exceptional, order their conductors; repulsion gives N_j≥N_1^(2^(j-1)), strictly for j≥2. The conductor–largest-prime theorem and 1/0.94<1.07, 2/0.94<2.13 give reciprocal mass<2.13/log N_1, so N_1≤373743<400000. ComputationalNumberTheory §4.24 excludes that conductor; no GRH premise is used.
 
-*Needs:* Layer 2 — simultaneous quadratic character family; Layer 0, explicit prime estimates; Layer 3 the largest-prime lower bound for quadratic conductors; AnalyticNumberTheoryPartI §§0.1, 0.17–0.18, 0.24 and 3.2; ComputationalNumberTheory §4.24; `gap:numerical-prime-inputs`; Mathlib `Nat.maxPrimeFac`.
+*Needs:* Layer 2 — simultaneous quadratic character family; §0.9's prime estimates; §3.1's largest-prime lower bound for quadratic conductors; AnalyticNumberTheoryPartI §§0.1, 0.17–0.18, 0.24 and 3.2; ComputationalNumberTheory §4.24; `gap:schoenfeld-theta-finite-range`; `gap:quadratic-conductor-largest-prime-finite-range`; Mathlib `Nat.maxPrimeFac`.
 
 ([BS20], Proposition 7.2, pp. 374-375; §7 proof, p.375; decay exponent for general c1; §7 proof, pp.375–376.)
 
@@ -1356,7 +1396,7 @@ For each c2>10 there is an effective k2(c2) such that under H⁺ any B subset A(
 
 Apply the Layer 3 finite Gram inequality to x_m=Lambda(m), y_a,m=chi_a(m) on the integer half interval. The diagonal is at most(k+1)/2, the input norm is k log k/2+O(k), and the generic smooth-modulus cancellation bound controls off-diagonal pairs by k^(1-c3). Its proof must use the product ambient modulus separately from the primitive conductor and eventual divisor subpower bounds. Compare1/68<0.1239^2; no fourth power of0.1239 enters.
 
-*Needs:* Layer 2 — simultaneous quadratic character family; Layer 3, finite Gram inequality — bombieri diagonal offdiagonal; Layer 3, smooth-character correlation; Layer 0, explicit prime estimates; Layer 0, explicit totient and divisor bounds — eventual divisor subpower bound.
+*Needs:* Layer 2 — simultaneous quadratic character family; §3.1's finite Gram inequality with its diagonal and off-diagonal terms; §3.1's smooth-character correlation bound; §0.9's prime estimates; §0.9's eventual divisor subpower bound.
 
 ([BS20], Proposition 8.1, p. 376; Equations (32)–(35), pp. 379–380.)
 
@@ -1463,7 +1503,7 @@ Under H⁺, k≥exp(exp(10^7)) and sum over S of 1/p<0.17, the losses from T_pr,
 
 Under H⁺, every prime in (k/2,k] divides d by §1.9, so I_p=∅ there. Sum the one-residue-class bound only over k^(7/16)<p≤k/2, retaining the +1 loss. The main reciprocal difference is log(16/7)+log(1−log 2/log k); the negative second term absorbs π(k/2)<0.6k/log k and the explicit reciprocal-prime errors in the certified range. Apply maximal-valuation deletion. The large-prime part of(k-1)! has log at least(9/16)*k*logk-5*k; combine the local explicit Stirling upper adapter. Markov counting with log A_i>139*logk bounds the complement of J2. The numerical range is strengthened to the certified Roth threshold. For the 0.44 bound one may instead use the weaker native (k-1)!≤k^k: subtracting the large-prime contribution gives log(product A_i)≤(7/16)*k*logk+5*k<0.44*k*logk in the certified range. The sharper Stirling adapter remains a separately covered source item.
 
-*Needs:* Layer 1 — half-interval primes divide the difference; Layer 4 — thin-prime sieve survivors; Layer 4 — maximal-valuation deletion; Layer 0 — one-residue-class count; Layer 0, explicit prime estimates; Layer 4 — explicit stirling upper bound; Mathlib `Nat.factorial_le_pow`.
+*Needs:* Layer 1 — half-interval primes divide the difference; Layer 4 — thin-prime sieve survivors; Layer 4 — maximal-valuation deletion; Layer 0 — one-residue-class count; §0.9's prime estimates; Layer 4 — explicit stirling upper bound; Mathlib `Nat.factorial_le_pow`.
 
 ([BS20], §9 proof, pp. 382–383; §9 proof, pp. 383–384; §9 proof, p. 384; §9 end of proof, p. 384; §9 p.384, reference [43].)
 
@@ -1488,7 +1528,7 @@ The selected triple belongs to A(k) and all its indices belong to J2. Its conduc
 
 Apply the Layer 4 quantitative Roth statement to J2 with density10^-5. Its loglog threshold is132*log2*10^5<10^7, not<10^6. Choose one three-term progression in J2. The odd-support and dyadic conductor bound yield N≤2^8*k^417<k^418, and membership in J enforces all avoidance properties. The reciprocal-mass hypothesis excludes2 from S, and the lower endpoint of U_pr exceeds2 in this range; therefore the odd-prime survivor API supplies full conductor avoidance here.
 
-*Needs:* Layer 4 — sieve losses and coefficient density; Layer 0 — three-term progression triples; Layer 2 — simultaneous quadratic character family; Layer 4, quantitative three-term progression theorem; Mathlib `Real.log_two_gt_d9`; Mathlib `Real.log_two_lt_d9`.
+*Needs:* Layer 4 — sieve losses and coefficient density; Layer 0 — three-term progression triples; Layer 2 — simultaneous quadratic character family; §4.1's quantitative three-term progression theorem; Mathlib `Real.log_two_gt_d9`; Mathlib `Real.log_two_lt_d9`.
 
 ([BS20], Proposition 9.1, pp. 381-384; §9 end of proof, p. 384; Proposition 9.1(I), p. 382; Proposition 9.1(II), p. 382; Proposition 9.1(III), p. 382; Proposition 9.1(IV), p. 382; Proposition 9.1, pp.381–384; Roth-threshold substitution.)
 
@@ -1548,8 +1588,10 @@ repulsion inside the supplier proof; BS20, §12, p. 386.)
 Consume AnalyticNumberTheoryPartI §0.7's real-zero separation
 β≤1−40/(√q(log q)²), for nonprincipal quadratic characters modulo q≥3
 and real zeros β>0, under both BMORFiniteInput and BMORClassNumberInput.
-The unconditional exceptional-modulus bound in §5.3 requires
-gap:numerical-zero-inputs; neither hypothesis is supplied by Landau–Page
+The real-zero clause of BMORFiniteInput is ComputationalNumberTheory §4.24;
+the unconditional exceptional-modulus bound in §5.3 additionally requires
+gap:bmor-regulator-input and gap:bmor-class-number-input. None of these is
+supplied by Landau–Page
 (BMOR2018v3, Proposition 1.11 and proof, §6.1).
 Consume §1.7's effective density estimate for ε>0, Q,T≥2, 1/2≤σ≤1,
 counting zeros with multiplicity:
@@ -1567,7 +1609,7 @@ after proving 2≤T(k,c)≤k for effectively large k.
 - A zero above height T does not violate the bounded-height conclusion; replacing T by Q changes the theorem.
 - The integral at ρ=0 is log 2, while the separate expression 1/|ρ| is singular; this pins the uniform zero-term bound.
 
-*Needs:* AnalyticNumberTheoryPartI §§0.6–0.7, 1.4, 1.4a–1.4d and 1.7; `gap:numerical-zero-inputs`; Mathlib `DirichletCharacter.LFunction`. The definition and API below use these inputs at Q=k⁴ and the stated zero height.
+*Needs:* AnalyticNumberTheoryPartI §§0.6–0.7, 1.4, 1.4a–1.4d and 1.7; ComputationalNumberTheory §4.24; `gap:bmor-regulator-input`; `gap:bmor-class-number-input`; Mathlib `DirichletCharacter.LFunction`. The definition and API below use these inputs at Q=k⁴ and the stated zero height.
 
 ### 5.2 Bounded-height exceptional moduli
 
@@ -1637,7 +1679,7 @@ For the fixed positive Landau-Page constant c, there are effective K,C such that
 
 Apply the supplier log-free density estimate at Q=k^4 and the exact T, with all character/modulus multiplicities. For small q first use the full Landau–Page contract to make the exceptional zero and character real; apply the explicit real-zero upper bound, then use uniqueness for the remaining moduli. Constants depend only on the fixed analytic input, not on n,d.
 
-*Needs:* Layer 5 — bounded-height exceptional moduli and bounded-height analytic inputs; AnalyticNumberTheoryPartI §§0.6–0.7 and 1.7; `gap:numerical-zero-inputs`.
+*Needs:* Layer 5 — bounded-height exceptional moduli and bounded-height analytic inputs; AnalyticNumberTheoryPartI §§0.6–0.7 and 1.7; ComputationalNumberTheory §4.24; `gap:bmor-regulator-input`; `gap:bmor-class-number-input`.
 
 ([BS20], Proposition 12.1 first conclusion, p.386; Proposition 12.1 second conclusion, pp.386–387; Proposition 12.1 third conclusion, pp.386–387.)
 
@@ -1681,7 +1723,7 @@ For all sufficiently large k and coprime nonzero n,d, |Bad|≤C*k/(logk)^(1/4), 
 
 For each q sum k/r+1 over its divisors r≥q^(1/3)/2, using the residue count. Split off the at-most-one q<T, where q≥logk and eventual divisor subpower estimates suffice. For remaining q≥T use T decay against the polylogarithmic cardinal bound. The total +1 error is O(k^(1/3)*(logk)^61) after using q≤k^4 and a sufficiently small divisor exponent; it is negligible relative to k/(logk)^(1/4).
 
-*Needs:* Layer 5 — exceptional divisibility indices; Layer 5 — exceptional-modulus bounds; AnalyticNumberTheoryPartI §0.6; Layer 0 — one-residue-class count; Layer 0, explicit totient and divisor bounds — eventual divisor subpower bound.
+*Needs:* Layer 5 — exceptional divisibility indices; Layer 5 — exceptional-modulus bounds; AnalyticNumberTheoryPartI §0.6; Layer 0 — one-residue-class count; §0.9's eventual divisor subpower bound.
 
 ([BS20], Proposition 12.3, pp.387–388.)
 
@@ -1703,7 +1745,7 @@ Prove the Granville scale inequality: for real x≥64, 8*x^(7/2)≤x⁴, with eq
 
 Delete one maximal-valuation index per small prime, then delete Bad. Use the original disjoint consecutive blocks(0,1,2),(3,4,5),..; at most one block is lost per deleted index. Effectively more than2k/7 blocks survive. Their combined A-product divides(k-1)!≤k^k. One block has coefficient product≤k^(7/2); k≥64 implies8*k^(7/2)≤k^4. Choose that block, which already avoids Bad. The effective prime-count estimate from Layer 0 explicit prime estimates bounds the number of maximal-valuation deletions by pi(k)=o(k); combine it with the uniform Bad bound before counting disjoint blocks.
 
-*Needs:* Layer 4 — maximal-valuation deletion; Layer 5 — exceptional indices are sparse; Layer 2 — simultaneous quadratic character family; Layer 0 — three-term progression triples; Mathlib `Nat.factorial_le_pow`; Layer 0, explicit prime estimates.
+*Needs:* Layer 4 — maximal-valuation deletion; Layer 5 — exceptional indices are sparse; Layer 2 — simultaneous quadratic character family; Layer 0 — three-term progression triples; Mathlib `Nat.factorial_le_pow`; §0.9's prime estimates.
 
 ([BS20], §12 final paragraph, p.388; simultaneous witness.)
 
@@ -1738,7 +1780,9 @@ The modulus 8 has cube-root threshold 1, so every term of (1,2,3,4) has a permis
 ### Dependencies
 
 Layers 0 and 2–4; AnalyticNumberTheoryPartI §§0.6–0.7, 1.4 and 1.7,
-with both BMOR hypotheses until gap:numerical-zero-inputs is discharged;
+with ComputationalNumberTheory §4.24 for the real-zero clause of BMORFiniteInput
+and with the regulator and class-number inputs as hypotheses until
+gap:bmor-regulator-input and gap:bmor-class-number-input are discharged;
 using Layer 4 only for maximal-valuation deletion; the original-route Roth and smooth-correlation endgame is not an input.
 
 ## Layer 6: Effective exponent bound and fixed-length finiteness
@@ -1761,7 +1805,7 @@ to this invariant. No effective height bound is asserted.
 
 Prove `effective_prime_bound` with the quantified threshold, integer domain and prime exponent below.
 
-There exists an effectively computable absolute integer k0≥5 such that for every positive integer k≥k0, integers n,d,y with gcd(n,d)=1, and prime ell satisfying product over i<k of(n+i*d)=y^ell, either y*d=0 or ell≤exp(10^k). The same logical statement has both an original-route and a Granville-route effective threshold; an unqualified classical existential by itself is not an effectivity proof.
+There exists an effectively computable absolute integer k0≥5 such that for every natural number k≥k0, integers n,d,y with gcd(n,d)=1, and prime ell satisfying product over i<k of(n+i*d)=y^ell, either y*d=0 or ell≤exp(10^k). Positivity of k follows from k≥k0≥5 and is not a separate hypothesis. The same logical statement has both an original-route and a Granville-route effective threshold; an unqualified classical existential by itself is not an effectivity proof.
 
 Suppose y*d≠0 and ell>exp(10^k). Taking k0 above10^8 and2*10^10 gives H⁺. Either analytic endgame contradicts sufficiently large k. Fix the maximum of the explicit or effectively controlled input thresholds. Keep a ledger of effective dependencies; none uses ineffective Siegel constants or a rational-point height bound.
 
@@ -1809,9 +1853,9 @@ Use exact division p*(ell/p)=ell and power associativity. If |y|=1 the absolute 
 
 ### 6.5 Fixed-length all-exponent finiteness
 
-Prove `fixed_length_finiteness` for positive tuples and for all nontrivial signed tuples, with k fixed.
+Prove `fixed_length_finiteness` for all nontrivial signed tuples, with k fixed.
 
-For each fixed k≥k0, there are finitely many positive integer tuples(n,d,y,ell) with ell≥2, gcd(n,d)=1 and product over i<k of(n+i*d)=y^ell. Also the nontrivial signed tuples with y*d≠0 form a finite set by the signed fixed-exponent adapter. This is not finiteness as k varies and not an effective point-enumeration theorem.
+For each fixed k≥k0, the nontrivial signed integer tuples (n,d,y,ell) with y*d≠0, ell≥2, gcd(n,d)=1 and product over i<k of(n+i*d)=y^ell form a finite set, by the signed fixed-exponent adapter. The positive tuples (n,d,y>0) with ell≥2, gcd(n,d)=1 and the same product equation are a subset, since positive n,d,y have y*d≠0, so their finiteness is a corollary and is not stated separately. This is not finiteness as k varies and not an effective point-enumeration theorem.
 
 The effective prime theorem bounds the possible prime divisors p of ell for this fixed k. The fixed-exponent theorem yields finitely many triples(n,d,Y) for every such p. The composite reduction and |Y|>1 give finitely many roots/exponent multipliers above every triple; take the finite union.
 
@@ -1842,7 +1886,8 @@ Prove the positive consecutive-product theorem in this layer. State the stronger
 ### 7.1 Positive consecutive products
 
 Prove `consecutiveProduct_not_perfectPower`: for positive n, k≥2 and ell≥2,
-∏_(0≤i<k)(n+i) is not an ell-th power of a positive integer.
+∏_(0≤i<k)(n+i) is not an ell-th power of a natural number y. No positivity
+hypothesis on y is needed: the product is positive, so y=0 cannot occur.
 (ErdosSelfridge1975, Theorem 1, p. 292; BS20, §1, Theorem 1, p. 355.)
 
 **Checks.**
@@ -1952,8 +1997,8 @@ for every larger k are explicit mathematical inequalities.
 
 *Needs:* Distinctness and deletion above; native finite simple graphs and finite
 sets; §4.4 and `Stirling.le_factorial_stirling` for the factorial comparisons;
-AnalyticNumberTheoryPartI §0.5 with `gap:numerical-prime-inputs` for its
-unconditional numerical prime-count estimate.
+AnalyticNumberTheoryPartI §0.5 with `gap:rosser-schoenfeld-prime-count-finite-range`
+for its unconditional numerical prime-count estimate.
 
 #### Odd-prime finite ranges
 
@@ -2039,7 +2084,7 @@ all endpoints. (ErdosSelfridge1975, §3.2, p. 300.)
 
 *Needs:* Powerfree factorization, distinctness, deletion and the finite residue
 counts above; AnalyticNumberTheoryPartI §0.3 with
-`gap:numerical-prime-inputs` for the theta bound; native prime factorization.
+`gap:schoenfeld-theta-finite-range` for the theta bound; native prime factorization.
 Combining the square branch, the odd-prime branches and prime-divisor reduction
 proves Theorem 2, and then `consecutiveProduct_not_perfectPower`.
 
@@ -2061,7 +2106,7 @@ For integer K≥0 let ErdosThreshold(K) assert that for every k≥K, k≥2, posi
 
 State the positive-domain quantifiers and exact primitive product equation. Keep integer exponent ell≥2, not just prime ell. The definition is an explicit predicate; it has no admitted proposition body.
 
-*Needs:* Layer 0 — primitive progression solutions; Layer 7, consecutive-product theorem.
+*Needs:* Layer 0 — primitive progression solutions; §7.1's consecutive-product theorem.
 
 ([BS20], §1, Conjecture, p. 356.)
 
@@ -2093,7 +2138,7 @@ The positive solution (n,d,k,y,ell)=(1,24,3,35,2) rules out thresholds 0 and 3. 
 
 ### Dependencies
 
-Layer 0 and native finite products; §§4.3–4.4 and AnalyticNumberTheoryPartI §§0.3 and 0.5, with `gap:numerical-prime-inputs`, for §7.1. No target in this layer is a premise to Layers 1–6.
+Layer 0 and native finite products; §§4.3–4.4 and AnalyticNumberTheoryPartI §§0.3 and 0.5, with `gap:schoenfeld-theta-finite-range` and `gap:rosser-schoenfeld-prime-count-finite-range`, for §7.1. No target in this layer is a premise to Layers 1–6.
 
 ## Downstream consumers
 
@@ -2160,8 +2205,15 @@ Layers 1–6 also consume the effective comparisons EC.0–EC.5 of
 EllipticCurveModularityPartII Layers 1–6, with their stated hypotheses.
 All applications of the literal numerical constants retain the seven supplier
 input hypotheses in the contracts table until their discharge. The unconditional
-end theorems require gap:numerical-prime-inputs and gap:numerical-zero-inputs;
-the original route also consumes ComputationalNumberTheory §4.24. Conditional supplier
+end theorems require the seven declared gaps of the AnalyticNumberTheoryPartI
+contract: gap:schoenfeld-theta-finite-range,
+gap:rosser-schoenfeld-prime-count-finite-range, gap:mod-eight-theta-finite-range
+and gap:prime-product-finite-range on either route;
+gap:quadratic-conductor-largest-prime-finite-range on the original route, which
+also consumes ComputationalNumberTheory §4.24; and gap:bmor-regulator-input
+and gap:bmor-class-number-input on the Granville route, which consumes
+ComputationalNumberTheory §4.24 for the real-zero clause of BMORFiniteInput.
+Conditional supplier
 estimates alone do not discharge these obligations.
 
 Finally, prove effectivity alongside the prime-exponent theorem. Record an
