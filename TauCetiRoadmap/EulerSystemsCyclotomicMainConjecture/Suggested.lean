@@ -3,18 +3,20 @@ import TauCeti.NumberTheory.ClassGroup.Equiv
 import TauCeti.NumberTheory.DirichletCharacter.GeneralizedBernoulli
 
 /-!
-# Euler systems and the cyclotomic main conjecture: headline statements
+# Euler systems and the cyclotomic main conjecture: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive specification is
-`README.md`.
+`README.md`. It states the roadmap's headline theorems against the pinned APIs.
 
 The finite endpoints stated here are Kolyvagin's class-group bound (§1.6), the relative
-class-group bound at every prime (§§4.20–4.21), the non-2-power-character Iwasawa–Leopoldt
-formula (§4.22), and the finite circular-unit index equality (§5.1). The definitions use
+class-group bound at every prime (§§4.20–4.21), both character branches of the
+Iwasawa–Leopoldt formula (§4.22), and the finite circular-unit index equality (§5.1). The definitions use
 native class groups, global units, tensor products and eigenspaces. The circular generator
 is the unnormalised character sum of the relative norm of `1 - ζ`. Coefficients may be the
 integers of any finite extension of `ℚ_p` containing the character values; field norms
-express the coefficient-degree factors in the Bernoulli formulas. In the signatures, `K`
+express the coefficient-degree factors in the Bernoulli formulas. For a character of order
+`2^n`, the extra dyadic factor is `2^e`, where `[E : ℚ₂] = 2^(n-1) * e`.
+In the signatures, `K`
 is the arithmetic field, `F` its cyclotomic overfield, `χ` its Galois character and `ψ` the
 compatible Dirichlet presentation. Faithfulness in the unit-index statements makes `K`
 the field cut out by the character.
@@ -58,6 +60,8 @@ noncomputable section
 open scoped NumberField TensorProduct
 
 namespace TauCetiRoadmap.EulerSystemsCyclotomicMainConjecture
+
+/-! ## Layer 0: Euler systems and their normalization -/
 
 variable {K : Type*} [Field K] [NumberField K]
 variable {O : Type*} [CommRing O]
@@ -112,6 +116,8 @@ variable {p f : ℕ} [Fact p.Prime] [NeZero f] [IsCyclotomicExtension {f} ℚ F]
 variable {E : Type*} [Field E] [CharZero E] [Algebra ℚ_[p] E]
   [FiniteDimensional ℚ_[p] E] [Algebra ℤ_[p] E] [IsScalarTower ℤ_[p] ℚ_[p] E]
 
+/-! ## Layer 1: Finite-level descent -/
+
 /-- Kolyvagin's finite bound (Rubin III.2.3, p. 36; §1.6). Faithfulness identifies `K`
 with the character field, and the compatibility equation identifies its primitive conductor.
 The element `z` is the field unit whose value is `1 - ζ`, before taking the relative norm. -/
@@ -127,6 +133,8 @@ theorem kolyvagin_classGroup_dvd
     Finite (chiUnitQuotient χ z) ∧
       Nat.card (classGroupChiComponent χ) ∣ Nat.card (chiUnitQuotient χ z) := by
   sorry
+
+/-! ## Layer 4: Abelian fields and the prime 2 -/
 
 /-- The first Bernoulli number of the associated primitive character, using the supplied
 finite Bernoulli-polynomial sum. Removing imprimitive Euler factors is essential here. -/
@@ -164,6 +172,25 @@ theorem iwasawaLeopoldt_two
     (Nat.card (classGroupChiQuotient χ) : ℝ) =
       ‖Algebra.norm ℚ_[p] (primitiveBernoulliOne ψ⁻¹ / 2)‖⁻¹ := by
   sorry
+
+/-- The pure 2-power-character Iwasawa–Leopoldt formula (Greither, Remark (b)
+after Theorem A, p. 453; §4.22). For character order `2^n` with `n ≥ 1`, the
+minimal coefficient field has degree `2^(n-1)` over `ℚ₂`. Extending its integers
+by rank `e` raises both the class-group order and the extra factor 2 to power `e`. -/
+theorem iwasawaLeopoldt_two_power
+    (χ : (K ≃ₐ[ℚ] K) →* (integralClosure ℤ_[p] E)ˣ) (ψ : DirichletCharacter E f)
+    (hp : p = 2) (hm : p.Coprime f) (P : Sylow p (K ≃ₐ[ℚ] K))
+    (hcyclic : IsCyclic P) (hodd : ψ (-1) = -1)
+    (n e : ℕ) (hn : 1 ≤ n) (he : 1 ≤ e) (horder : orderOf χ = 2 ^ n)
+    (hdegree : Module.finrank ℚ_[p] E = 2 ^ (n - 1) * e)
+    (hcompat : ∀ σ : F ≃ₐ[ℚ] F,
+      ψ (IsCyclotomicExtension.Rat.galEquivZMod f F σ) =
+        algebraMap (integralClosure ℤ_[p] E) E (χ (AlgEquiv.restrictNormalHom K σ))) :
+    (Nat.card (classGroupChiQuotient χ) : ℝ) =
+      2 ^ e * ‖Algebra.norm ℚ_[p] (primitiveBernoulliOne ψ⁻¹ / 2)‖⁻¹ := by
+  sorry
+
+/-! ## Layer 5: Finite and Selmer consequences -/
 
 /-- The finite circular-unit index equality (Rubin III.2.4, p. 36; §5.1),
 including characters whose conductor is divisible by `p`. -/
