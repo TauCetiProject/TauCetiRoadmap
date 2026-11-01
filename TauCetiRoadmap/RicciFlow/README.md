@@ -69,7 +69,7 @@ It leaves to named roadmaps, and consumes from them:
   cover and its deck group).
 
 Ricci flow with surgery, geometrization and Kähler–Ricci flow are not part of this roadmap; the
-convergence theorems here are the inputs of [Poincare3D](../Poincare3D/README.md) and
+convergence theorems here are the inputs of Poincare3D and
 [GeometricTopology](../GeometricTopology/README.md), which cite Layers 1–5 and the sphere theorems.
 Every claim that a cited convergence result holds is proved through Layers 6 and 8's explicit
 estimates and comparison maps, never used as an additional hypothesis.
@@ -135,7 +135,7 @@ global quarter pinching means fixed constants `0 < a ≤ K ≤ b < 4a` over all 
 
 | Supplier | Exact interface consumed |
 | --- | --- |
-| Mathlib, at the pin | `ContMDiffRiemannianMetric` (`inner`, `symm`, `pos`, `isVonNBounded`, `contMDiff`), `Bundle.ContMDiffRiemannianMetric.toRiemannianMetric` and its `IsContMDiffRiemannianBundle` instance; `CovariantDerivative.leviCivitaConnection` and `CovariantDerivative.isMetricCompatible_leviCivitaConnection`; `ContinuousMultilinearMap` with `ContinuousMultilinearMap.mkPiAlgebraFin` and `compContinuousLinearMap`; `innerSL`, `stdOrthonormalBasis`, `OrthonormalBasis`; `exteriorPower`; `LinearMap.IsSymmetric` and the finite-dimensional spectral theorem; `InnerProductSpace.instLaplacian` (notation `Δ`) and `InnerProductSpace.laplacianWithin`; `ConvexCone`, `ProperCone` (the closed submodule over `ℝ≥0`, containing zero, not necessarily salient) and `ProperCone.map`; `tangentConeAt ℝ≥0`; Picard–Lindelöf; `ContMDiffOn`, `HasDerivWithinAt`, `Diffeomorph`; `SimplyConnectedSpace`; the charted-space and `IsManifold (𝓡 n)` instances of `Metric.sphere (0 : EuclideanSpace ℝ (Fin (n + 1))) 1`. |
+| Mathlib, at the pin | `ContMDiffRiemannianMetric` (`inner`, `symm`, `pos`, `isVonNBounded`, `contMDiff`), `Bundle.ContMDiffRiemannianMetric.toRiemannianMetric` and its `IsContMDiffRiemannianBundle` instance; `CovariantDerivative.leviCivitaConnection` and `CovariantDerivative.isMetricCompatible_leviCivitaConnection`; `ContinuousMultilinearMap` with `ContinuousMultilinearMap.mkPiAlgebraFin` and `compContinuousLinearMap`; `innerSL`, `stdOrthonormalBasis`, `OrthonormalBasis`; `exteriorPower` with `exteriorPower.ιMulti` and the inner product on `⋀[ℝ]^n E` of a finite-dimensional real inner product space (the Gram determinant on decomposable elements, `exteriorPower.inner_ιMulti_ιMulti`); `LinearMap.IsSymmetric` and the finite-dimensional spectral theorem; `InnerProductSpace.instLaplacian` (notation `Δ`) and `InnerProductSpace.laplacianWithin`; `ConvexCone`, `ProperCone` (the closed submodule over `ℝ≥0`, containing zero, not necessarily salient) and `ClosedSubmodule.map` (the closure of the image under a continuous `ℝ≥0`-linear map, reached by dot notation on a `ProperCone`); `tangentConeAt ℝ≥0`; Picard–Lindelöf; `ContMDiffOn`, `HasDerivWithinAt`, `Diffeomorph`; `SimplyConnectedSpace`; the charted-space and `IsManifold (𝓡 n)` instances of `Metric.sphere (0 : EuclideanSpace ℝ (Fin (n + 1))) 1`. |
 | Tau Ceti, at the pin | `CovariantDerivative.curvatureTensor` (Lee's sign convention, equal to the one above), `CovariantDerivative.ricciTensor`, `CovariantDerivative.scalarCurvature`, `CovariantDerivative.sectionalCurvature`, `CovariantDerivative.HasConstantSectionalCurvature`, `Bundle.ContMDiffRiemannianMetric.IsConstantCurvatureTensor` (`R(w,u)v = κ(⟪u,v⟫w − ⟪w,v⟫u)` for the Levi-Civita connection of a smooth metric), the metric-compatible curvature symmetries, the Ricci and scalar trace formulas in orthonormal bases, `contMDiffOn_leviCivitaConnection` and the `ContMDiffCovariantDerivative` instance of the Levi-Civita connection, `TauCeti.riemannianVolume` and the canonical density, `TauCeti.Manifold.contMDiffOn_maximalIntegralCurve` and the compact-manifold flows. The `Riemannian/MetricVariation` files concern total variation of paths, not derivatives of metric families: the metric-family derivatives are Layer 1 targets. |
 | RiemannianGeometry | R1 (curvature/Gram/exterior dictionaries, normal-coordinate jets, the curvature operator on `Λ²TM`, Schur's theorem), R2 (Jacobi fields), R3 (second variation, index forms; R3.2 finite broken geodesics, subdivision/straightening, node-value Hessians and the Morse index theorem; the no-critical-value deformation and compact-band comparison), R4 (item 1 Rauch and Günther comparison, item 5 Bonnet–Myers, item 6 the injectivity radius `inj`, item 7 the round models and the Killing–Hopf classification of complete constant-curvature manifolds), R7.0 (the scalar Bochner identity and the first positive eigenvalue). |
 | SmoothBundlesConnections | B2 (associated, tensor, dual and Hom bundles, fibre metrics, frames, the exterior square `Λ²TM`), B3 (induced connections on associated bundles), B4 (curvature and the exterior covariant derivative). |
@@ -214,11 +214,11 @@ jet comparison only.
 ### 1.2 Variations (R1.2)
 
 For `h = ∂_t g` prove `∂_t g⁻¹ = −g⁻¹ h g⁻¹`, `∂_t dμ_g = ½ tr_g(h) dμ_g`, and
-`∂_t Γ^k_ij = ½ g^kℓ (∇_i h_jℓ + ∇_j h_iℓ − ∇_ℓ h_ij)` (Topping, Propositions 2.3.1 and 2.3.9,
-pp. 28–31). Define the connection difference as the native tensorial difference of two
+`∂_t Γ^k_ij = ½ g^kℓ (∇_i h_jℓ + ∇_j h_iℓ − ∇_ℓ h_ij)` (Topping, Propositions 2.3.1 and 2.3.12,
+pp. 28 and 32). Define the connection difference as the native tensorial difference of two
 `CovariantDerivative`s, prove its chart expression, and derive the curvature, Ricci, scalar and
 Laplacian variations; in particular `∂_t Scal = −⟨h, Ric⟩ + div div h − L_g tr_g h` (Topping,
-Proposition 2.3.12, p. 32). Construct `L_X` on covariant two-tensors by the derivative of pullback
+Proposition 2.3.9, p. 31). Construct `L_X` on covariant two-tensors by the derivative of pullback
 along DifferentialGeometry 3.5's local flow and prove its tensorial coordinate formula and
 `(L_X g)(Y,Z) = g(∇_Y X, Z) + g(Y, ∇_Z X)`. Derive Lie differentiation and
 `∂_t(φ_t* g_t) = φ_t*(∂_t g_t + L_(∂_tφ_t ∘ φ_t⁻¹) g_t)`. Prove that differentiating an integral
@@ -284,7 +284,7 @@ Compute the Einstein solutions `g(t) = (1 − 2λt) g₀` for `Ric(g₀) = λ g�
 interval (Topping, §1.2.1, p. 8) and the stationary volume-normalized solution. Include round
 spheres, flat metrics, products with independent scale factors, and dimensions zero and one.
 Define Ricci solitons by `Ric + ½ L_X g = λ g` and gradient solitons by `Ric + Hess f = λ g`
-(Topping, equation (1.2.4), p. 10); construct their scaling/pullback flow and the converse
+(Topping, equation (1.2.4), p. 9); construct their scaling/pullback flow and the converse
 self-similar comparison. Normalize `λ` by scaling, record gradient-potential additive constants
 and completeness hypotheses on `X`, and distinguish a metric limit from a soliton limit in moving
 coordinates. Layer 8 proves the closed-surface soliton rigidity.
@@ -616,7 +616,9 @@ derivative on positive-time slabs.
   `t^(−k/2)` by `c^(−k/2)`, so both sides of `|∇^k Rm| ≤ C K t^(−k/2)` scale alike; a bound with
   `t^(−k)` in place of `t^(−k/2)` fails this scaling test.
 - The interval `[0, A/K]` scales to `[0, c A/K]`, the interval for the scaled bound `K/c`.
-- On the round sphere `∇Rm = 0`, so every Shi bound holds with equality at `k = 0` only.
+- On the round sphere every `∇^k Rm` with `k ≥ 1` vanishes, so the `k ≥ 1` bounds hold with
+  left side `0` and carry no information there; the content of the Shi bounds is the `k ≥ 1`
+  decay on non-round flows, and the `k = 0` bound is the standing curvature hypothesis itself.
 
 *Needs:* 1.2, 3.1, 4.1, 4.2.
 
@@ -861,8 +863,10 @@ the equivalent positive trace on every two-dimensional subspace.
 Define the cones of nonnegative curvature operators, 2-nonnegative operators, nonnegative sectional
 curvature, PIC and PIC2 as `ProperCone ℝ` objects in `algebraicCurvatureSubmodule`, with their
 interiors, strict conditions and orthogonal invariance. Use the same `ProperCone` carrier for the
-deformed families and `ProperCone.map` for their invertible deformation maps; prove the underlying
-set is the image, using finite-dimensional invertibility. Prove nonempty interior and salience where
+deformed families and `ClosedSubmodule.map`, applied to the `ℝ≥0`-linear restriction of scalars of
+the deformation map, for their invertible deformation maps; `ClosedSubmodule.map` is the closure
+of the image, so prove that the underlying set is the image itself, using finite-dimensional
+invertibility. Prove nonempty interior and salience where
 asserted as separate properties. Do not assume salience for PIC: in dimension four every pure
 traceless-Ricci tensor has zero isotropic expression, giving nonzero lines in that cone. Prove
 operator positivity implies 2-positivity in `n ≥ 3`, 2-positivity implies positive Ricci and
@@ -887,16 +891,18 @@ positive Ricci preservation in arbitrary dimension.
 - With `Rop` diagonal with eigenvalues `λ₁ ≤ λ₂ ≤ λ₃` on `e₂∧e₃, e₃∧e₁, e₁∧e₂`,
   `Ric(e₁,e₁) = K(e₁,e₂) + K(e₁,e₃) = λ₃ + λ₂`, so the smallest Ricci eigenvalue is `λ₁ + λ₂`:
   `Ric > 0` iff `Rop` is 2-positive.
-- In dimension four the Ricci-type tensor `A ∧ g` with `A = diag(1,−1,0,0)` has isotropic
-  expression `(A₁₁ + A₃₃) + (A₁₁ + A₄₄) + (A₂₂ + A₃₃) + (A₂₂ + A₄₄) = 2 tr A = 0` on the standard
-  frame and `R_1234 = 0`, so both `±(A ∧ g)` lie in PIC: PIC is not salient.
+- In dimension four the Ricci-type tensor `A ∧ Id` with `A = diag(1,−1,0,0)`, whose sectional
+  curvatures in 5.1's wedge normalization are `K(e_i,e_j) = ½(A_ii + A_jj)`, has isotropic
+  expression `½[(A₁₁ + A₃₃) + (A₁₁ + A₄₄) + (A₂₂ + A₃₃) + (A₂₂ + A₄₄)] = tr A = 0` on the
+  standard frame (the Kulkarni–Nomizu product `A ⊙ g` gives `2 tr A = 0`) and `R_1234 = 0`, so
+  both `±(A ∧ Id)` lie in PIC: PIC is not salient.
 - The round ray `κ I`, `κ > 0`, lies in the interior of every one of the five cones; `S² × S²`
   (sectional curvatures in `[0,1]`) lies in the operator-nonnegative cone's boundary, since the
   mixed bivector `e₁ ∧ e₃` has `⟨Rop(e₁∧e₃), e₁∧e₃⟩ = 0`.
 - The family `C(s)` has `C(0) = {Ric ≥ 0}` and `C(1) = {Ric = (Scal/3) Id}`, the Einstein, hence
   round, ray in dimension three.
 
-*Needs:* 5.1, 5.2, 4.3; Mathlib `ProperCone`, `ProperCone.map`.
+*Needs:* 5.1, 5.2, 4.3; Mathlib `ProperCone`, `ClosedSubmodule.map`, `ContinuousLinearMap.restrictScalars`.
 
 ### 5.4 Böhm–Wilking deformation (R5.4)
 
@@ -1131,7 +1137,7 @@ their tensor and frame limits.
 
 Prove the Klingenberg quantitative estimate needed after global pinching: on a closed simply
 connected manifold of dimension `n ≥ 3` with `δ ≤ K ≤ 1`, `δ > ¼`, the injectivity radius is at
-least `π` (Cheeger–Ebin, Theorem 5.9; Brendle–Schoen 2009, §1). Build its cut, conjugate and
+least `π` (Cheeger–Ebin, Theorem 5.10; Brendle–Schoen 2009, §1). Build its cut, conjugate and
 short-geodesic-loop alternative on RiemannianGeometry R4 item 6's carrier `inj`. The
 strict-quarter argument below applies in every `n ≥ 3`; the separate oriented even-dimensional
 positive-curvature argument also includes surfaces, without a quarter-pinching hypothesis. The
@@ -1180,7 +1186,7 @@ cannot be closed. Thus no closed geodesic of length less than `2π` exists. This
 strict-quarter bound through Cheeger–Ebin Theorem 5.10's strict-pinch route, with the endpoint
 length included in `A`.
 
-The even-dimensional argument (Petersen, §6.2) constructs a holonomy-fixed periodic normal field,
+The even-dimensional argument (Cheeger–Ebin, Theorem 5.9; Petersen, §6.2) constructs a holonomy-fixed periodic normal field,
 shortens the closed cut geodesic by second variation, and takes a maximum-distance segment to the
 shortened loop. At the limit this segment is perpendicular to the original loop's midpoint,
 contradicting the two nonconjugate minimizing halves there. Prove the loop/cut and
@@ -1333,15 +1339,28 @@ UniversalCovers and DifferentialGeometry 2.3–2.4 and Layer 5. It uses nothing 
 Apply Layer 5's 2-nonnegative pinching family and Layer 6 to every closed connected `n ≥ 3`
 initial metric with 2-positive curvature operator. Prove volume-normalized all-time `C^∞`
 convergence to a positive constant-curvature metric, and the unnormalized round scaling
-(Böhm–Wilking, Theorem 1, p. 1, and Theorem 5.1, p. 12). Positive operator is a special case. In
+(Böhm–Wilking, Theorem 1, p. 1, and Theorem 5.1, p. 12); its metric form is
+`boehmWilking_twoPositive`. State the hypothesis pointwise by `IsTwoPositiveCurvatureOperator g x`:
+the symmetric bilinear form `B` on Mathlib's exterior square `⋀[ℝ]^2 (T_xM)`, with the Gram inner
+product of `g_x`, determined on decomposable bivectors by `B(u∧v, z∧w) = r(u,v,z,w)`, satisfies
+`B(ω₁,ω₁) + B(ω₂,ω₂) > 0` on every orthonormal pair of bivectors; this is the condition that the two
+smallest eigenvalues of the curvature operator have positive sum, and it uses the pointwise
+exterior square with its pinned inner product, not the bivector bundle of RiemannianGeometry R1,
+with which 5.1 identifies it. Prove that `B` exists (metric compatibility and the first-pair
+antisymmetry of `R`) and is unique (decomposables span `⋀²`), and that the predicate agrees with
+2-positivity of the operator `Rop` of 5.1 and with 2-positivity of the curvature four-tensor on the
+cone of 5.3. Positive operator is a special case through 5.3's inclusion. In
 `n = 3` use the explicit Ricci-pinch family and the positive-Ricci/2-positive equivalence of 5.3;
 conclude Hamilton's theorem with its full smooth metric convergence (Topping, Theorem 10.1.1,
 p. 123); its metric form is `hamilton_positiveRicci_dim3`. In `n = 4` obtain the positive-operator
 sphere theorem, keeping positivity on all bivectors rather than replacing it by basis-diagonal
 sectional positivity.
 
-- Böhm–Wilking: a closed connected manifold of dimension `n ≥ 3` with 2-positive curvature
-  operator carries a metric of constant positive curvature, the limit of its normalized flow.
+- `IsTwoPositiveCurvatureOperator g x` holds iff the sum of the two smallest eigenvalues of `Rop`
+  at `x` is positive; for `n = 3` it is equivalent to `metricRicci g x` being positive definite.
+- Böhm–Wilking (`boehmWilking_twoPositive`): a closed connected manifold of dimension `n ≥ 3`
+  with 2-positive curvature operator at every point carries a metric of constant positive
+  curvature, the limit of its normalized flow.
 - Hamilton (`hamilton_positiveRicci_dim3`): a closed connected three-manifold with positive Ricci
   curvature carries a metric of constant positive curvature.
 
@@ -1358,8 +1377,18 @@ sectional positivity.
 - A positive curvature operator in dimension four is 2-positive; positivity of
   `⟨Rop(e_i ∧ e_j), e_i ∧ e_j⟩` on a basis of decomposable bivectors is weaker and is not the
   hypothesis.
+- On the unit sphere `Sⁿ`, `r(u,v,z,w) = ⟨u,z⟩⟨v,w⟩ − ⟨u,w⟩⟨v,z⟩` is the Gram inner product
+  `⟨u∧v, z∧w⟩`, so `B` is the inner product of `⋀²` and every orthonormal pair of bivectors gives
+  `B(ω₁,ω₁) + B(ω₂,ω₂) = 2 > 0`; a form with the opposite sign convention gives `−2`.
+- In dimension three with `Rop = diag(λ₁ ≤ λ₂ ≤ λ₃)`, the minimum of `B(ω₁,ω₁) + B(ω₂,ω₂)` over
+  orthonormal pairs is `λ₁ + λ₂` (the two-dimensional Ky Fan minimum), the smallest Ricci
+  eigenvalue of 5.3's Check; on `S² × S¹` it is `0 + 0`, and on `RP³` it is `2`.
+- In dimension two `⋀²` has dimension one, no orthonormal pair of bivectors exists and
+  `IsTwoPositiveCurvatureOperator` holds vacuously for every metric, which is why
+  `boehmWilking_twoPositive` requires `n ≥ 3`; the surface statement is 8.1–8.3.
 
-*Needs:* 5.3, 5.4, 6.1, 6.3, 6.4.
+*Needs:* 5.3, 5.4, 6.1, 6.3, 6.4; Mathlib `exteriorPower.ιMulti` and the inner product on `⋀[ℝ]^2` of a
+finite-dimensional real inner product space.
 
 ### 7.2 Brendle–Schoen (R7.2)
 
@@ -1444,7 +1473,8 @@ In dimension two identify `Ric = (Scal/2) g`. Set `R = Scal` and `r = r̄`; norm
 `∂_τ g = (r − R) g`, `∂_τ R = L_g R + R(R − r)`, and `r` is constant by variation of `∫R` and
 volume (Santoro, §4.1, pp. 26–28). Preserve `R > 0`. Construct the smoothly time-dependent
 potential `f` with `L_g f = R − r`, unique modulo time constants, on the shared mean-zero Sobolev
-and smooth carriers (Santoro, Lemmas 4.2.1–4.2.2, pp. 33–34). Prove dependence and differentiation
+and smooth carriers (Santoro, §4.2, p. 33, for `L_g f = R − r`, and Lemma 4.2.2, p. 34, for the
+time normalization). Prove dependence and differentiation
 of the inverse on each finite slab, using its kernel and complement projections; choose the time
 constant so `∂_τ f = L_g f + r f`. For `M = Hess f − ½(L_g f) g` and `h = R − r + |∇f|²` prove
 `(∂_τ − L_g) h = r h − 2|M|²` (Santoro, Lemma 4.2.3, p. 34, and Theorem 4.2.1, p. 35). This gives
@@ -1454,9 +1484,10 @@ argument is used.
 For `L = log R` and `Q = L_g L + R − r` derive `(∂_τ − L_g − 2∇L·∇) Q = 2|Hess L + ½(R − r) g|² +
 r Q ≥ Q² + r Q` (Santoro, Theorem 4.4.2, p. 40). Prove `Q ≥ −r/(1 − exp(−rτ))` and integrate
 along space-time paths to obtain Hamilton's Harnack inequality with the time factor
-`exp(rτ) − 1` and the evolving-metric path energy (Santoro, Theorem 4.4.3, p. 41). Derive
+`exp(rτ) − 1` and the evolving-metric path energy (Santoro, Theorem 4.4.2, p. 40). Derive
 `d/dτ ∫ R log R = ∫ (R − r)² − ∫ |∇R|²/R`. The weighted average `Z = (∫ QR)/(∫ R)` satisfies
-`Z′ ≥ Z² + rZ`; global existence forces `Z ≤ 0`, so the entropy is nonincreasing.
+`Z′ ≥ Z² + rZ`; global existence forces `Z ≤ 0`, so the entropy is nonincreasing (Santoro,
+Theorem 4.4.3, p. 41).
 
 - The surface potential `f`, with `L_g f = R − r` and the chosen time normalization.
 - The evolution of `h`, the resulting finite-interval curvature bounds and all-time normalized
@@ -1621,7 +1652,7 @@ VariationalMethods §3.4 and §4.4, ComplexKahlerGeometry K5a and HopfRinow.
 
 ## Downstream consumers
 
-[Poincare3D](../Poincare3D/README.md) consumes Layers 1–5 (metric families, the compact-bundle
+Poincare3D consumes Layers 1–5 (metric families, the compact-bundle
 parabolic theory, the DeTurck gauge, existence, uniqueness, continuation, curvature evolution and
 the maximum principles) for its three-dimensional flow analysis.
 [GeometricTopology](../GeometricTopology/README.md) consumes the sphere theorems and the
@@ -1658,7 +1689,9 @@ differentiable sphere theorem and Hamilton's three-dimensional theorem.
   (cited as Chen–Lu–Tian, Lemma 1 and Proposition 2, the surface soliton rigidity).
 - J. Cheeger and D. G. Ebin, Comparison theorems in Riemannian geometry, AMS Chelsea (2008):
   Lemma 4.11 (path deformation under an index hypothesis), Lemma 5.6 (the Klingenberg cut lemma),
-  Theorems 5.9–5.10 (the injectivity-radius estimates); uncertified, cited by locator.
+  Theorem 5.9 (the even-dimensional injectivity-radius estimate) and Theorem 5.10 (the
+  strictly quarter-pinched simply connected estimate in every dimension); uncertified, cited by
+  locator.
 - P. Petersen, Riemannian geometry, 3rd edition, Graduate Texts in Mathematics 171, Springer
   (2016), §6.2 (the even-dimensional injectivity estimate); uncertified, cited by locator.
 - R. S. Hamilton, Three-manifolds with positive Ricci curvature, J. Differential Geom. 17 (1982),

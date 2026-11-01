@@ -22,26 +22,25 @@ Headline theorems stated here:
   of the reaction on the PIC2 cone, and strict quarter pinching implies interior PIC2
   (`reactionTensor_mem`, `reactionTensor_apply_orthonormalBasis`,
   `reaction_mem_positive_tangentCone_pic2`, `strict_quarterPinching_isPIC2`, Layer 5);
-* Hamilton's theorem in dimension three (`hamilton_positiveRicci_dim3`), Brendle–Schoen's
-  pointwise quarter-pinched theorem in dimensions at least four
-  (`brendleSchoen_pointwise_quarterPinched`) and its differentiable sphere theorem
-  (`brendleSchoen_diffeomorph_sphere`, Layer 7);
+* Böhm–Wilking's theorem (`boehmWilking_twoPositive`), Hamilton's theorem in dimension three
+  (`hamilton_positiveRicci_dim3`), Brendle–Schoen's pointwise quarter-pinched theorem in
+  dimensions at least four (`brendleSchoen_pointwise_quarterPinched`) and its differentiable
+  sphere theorem (`brendleSchoen_diffeomorph_sphere`, Layer 7);
 * the positive-curvature surface theorem (`positiveScalar_surface`) and the global
   quarter-pinched sphere theorem in every dimension at least two
   (`global_quarterPinched_diffeomorph_sphere`, Layer 8).
 
 Each sphere theorem is stated in its metric form, "`M` carries a smooth metric of constant
 positive sectional curvature", through Tau Ceti's `Bundle.ContMDiffRiemannianMetric.IsConstantCurvatureTensor`,
-and, for simply connected `M`, as a diffeomorphism onto the round sphere.
+and, for simply connected `M`, as a diffeomorphism onto the round sphere. Böhm–Wilking's
+2-positivity hypothesis is stated pointwise through Mathlib's inner product on the exterior square
+`⋀[ℝ]^2 (TangentSpace I x)` (the Gram inner product of `g_x`), by `IsTwoPositiveCurvatureOperator`:
+the symmetric bilinear form `B` on bivectors determined by `B(u∧v, z∧w) = g_x(R(u,v)w, z)` has
+positive trace on every orthonormal pair of bivectors. Its special case, positive curvature
+operator, is reached through the inclusion of Layer 5 and is not stated separately.
 
 Not statable at the pins:
 
-* Böhm–Wilking's theorem (a closed manifold with 2-positive curvature operator carries a metric
-  of constant positive curvature): the curvature operator is a self-adjoint operator on the
-  bivector space `Λ²T_xM` with its Gram inner product, and 2-positivity is a condition on its two
-  smallest eigenvalues; the bivector bundle with that inner product is RiemannianGeometry R1's
-  target on SmoothBundlesConnections B2's exterior square, and no bivector carrier exists at the
-  pins. Its special case, positive curvature operator, lacks the same carrier.
 * The convergence forms of all sphere theorems (the volume-normalized Ricci flow exists for all
   time and converges in every `C^k` norm to the round metric): there is no `C^k` topology on
   families of metrics and no iterated covariant derivative of a metric family at the pins.
@@ -267,6 +266,36 @@ variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
   {I : ModelWithCorners ℝ E H} [I.Boundaryless]
   {M : Type*} [TopologicalSpace M] [T2Space M] [ChartedSpace H M]
   [IsManifold I ∞ M]
+
+/-- The curvature operator of `g` at `x` is 2-positive. The symmetric bilinear form `B` on the
+bivector space `⋀²T_xM`, with the Gram inner product of `g_x` (Mathlib's inner product on
+`⋀[ℝ]^2`), is determined on decomposable bivectors by `B(u∧v, z∧w) = g_x(R(u,v)w, z)`, the
+four-tensor `r(u,v,z,w)` of the Conventions; 2-positivity asks that `B(ω₁,ω₁) + B(ω₂,ω₂) > 0` for
+every orthonormal pair of bivectors, that is, that the two smallest eigenvalues of the curvature
+operator have positive sum. Decomposable bivectors span `⋀²`, so at most one such `B` exists, and
+metric compatibility and the first-pair antisymmetry of the curvature provide it. In dimension two
+`⋀²` is a line and the condition is vacuous; in dimension three it is positive Ricci curvature
+(Layer 5). -/
+def IsTwoPositiveCurvatureOperator (g : SmoothMetric I M) (x : M) : Prop :=
+  letI : RiemannianBundle (TangentSpace I : M → Type _) := ⟨g.toRiemannianMetric⟩
+  letI : FiniteDimensional ℝ (TangentSpace I x) := ‹FiniteDimensional ℝ E›
+  ∀ B : ⋀[ℝ]^2 (TangentSpace I x) →ₗ[ℝ] ⋀[ℝ]^2 (TangentSpace I x) →ₗ[ℝ] ℝ,
+    (∀ u v z w : TangentSpace I x,
+      B (exteriorPower.ιMulti ℝ 2 ![u, v]) (exteriorPower.ιMulti ℝ 2 ![z, w]) =
+        inner ℝ ((CovariantDerivative.leviCivitaConnection I M).curvatureTensor x u v w) z) →
+    ∀ ω₁ ω₂ : ⋀[ℝ]^2 (TangentSpace I x), Orthonormal ℝ ![ω₁, ω₂] →
+      0 < B ω₁ ω₁ + B ω₂ ω₂
+
+/-- Böhm–Wilking: a closed connected manifold of dimension at least three carrying a metric with
+2-positive curvature operator carries a smooth metric of constant positive sectional curvature
+(Böhm–Wilking, Manifolds with positive curvature operators are space forms, Theorem 1 and
+Theorem 5.1; the convergence form is Layer 7). -/
+theorem boehmWilking_twoPositive [CompactSpace M] [ConnectedSpace M]
+    (h3 : 3 ≤ Module.finrank ℝ E) (g : SmoothMetric I M)
+    (hpos : ∀ x : M, IsTwoPositiveCurvatureOperator g x) :
+    ∃ (g' : SmoothMetric I M) (κ : ℝ), 0 < κ ∧
+      Bundle.ContMDiffRiemannianMetric.IsConstantCurvatureTensor g' κ := by
+  sorry
 
 /-- Hamilton's theorem: a closed connected three-manifold carrying a metric of positive Ricci
 curvature carries a smooth metric of constant positive sectional curvature
