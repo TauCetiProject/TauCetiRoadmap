@@ -26,6 +26,30 @@ Headline theorems that are not statable at the pins, and what each lacks:
 * §5.7: `K_0(X) → G_0(X)` is bijective on a regular Noetherian scheme with the resolution
   property (Stacks, Lemma 36.37.4). The exact structures on finitely presented and on finite
   locally free module sheaves need their extension closure, which the pins do not prove.
+* §1.23: the Keel–Mori theorem (an algebraic stack of finite presentation with finite inertia
+  has a coarse moduli space). The pins have no algebraic stack (a stack in groupoids with
+  representable diagonal and a smooth atlas), no inertia stack and no coarse moduli space;
+  this file has only `Stacks.StackInGroupoids`.
+* §2.19–§2.20: coherent Grothendieck duality (the right adjoint `f^!` of `Rf_*` on `D_qc` for
+  proper `f`, and the dualizing complex). The pins have no derived pushforward of module
+  sheaves on schemes between the categories `DQCoh`.
+* §2.22: the Brauer class `Br_Az(X) → H²(X_ét, 𝔾_m)` of an Azumaya algebra on a scheme. The pins
+  have Azumaya algebras over rings only (`IsAzumaya`) and no étale cohomology of `𝔾_m` on a
+  scheme; the affine matrix-splitting theorems below are not this map.
+* §3.6: the Picard torsors `Pic^d_{X/k}` of a smooth projective curve without a rational point,
+  with `Pic(X) → Pic_{X/k}(k)` of cokernel in `Br(k)` (on a pointless real conic the degrees of
+  line bundles are `2ℤ` and those of `Pic_{X/k}(ℝ)` are `ℤ`). The pins have the presheaf
+  `TauCeti.AlgebraicGeometry.relativePicardPresheaf` but not its fppf sheafification, its degree
+  decomposition or its representability.
+* §4.4: Schlessinger's theorem. Its statement needs the Artinian coefficient category `C_Λ` with
+  its fibre products along small extensions, the dual numbers as an object, the vector-space
+  structure on tangent spaces and pro-representable hulls in `Ĉ_Λ`; none is at the pins, and
+  together they are a long encoding rather than a few simple definitions.
+* §5.8: Grothendieck–Riemann–Roch. The pins have no Chern character, Todd class or proper
+  pushforward on `K_0` of a scheme.
+* §5.10: the Hodge index theorem. The pins have no intersection pairing on the Picard group of
+  a projective surface over a field; Tau Ceti's intersection matrices of numerical types are
+  combinatorial data, not this pairing.
 -/
 
 universe u
@@ -161,9 +185,6 @@ theorem existsUnique_lift (I : Ideal R) {S : Type u} [CommRing S]
 theorem fixed_of_henselian (I : Ideal R) [HenselianRing R I] :
     Nonempty (algebra I ≃ₐ[R] R) := by sorry
 
-example (I : Ideal R) [HenselianRing R I] : Nonempty (algebra I ≃ₐ[R] R) :=
-  fixed_of_henselian I
-
 end Henselization
 
 /-! ### §0.20 Japanese and Nagata rings -/
@@ -272,12 +293,6 @@ def universalHomeomorphismEtaleEquivalence {X Y : Scheme.{u}} (f : X ⟶ Y)
     (hf : (topologically IsHomeomorph).universally f) : Y.Etale ≌ X.Etale := by
   letI := smallEtaleBaseChange_isEquivalence f hf
   exact (smallEtaleBaseChange f).asEquivalence
-
-/-- The forward functor of topological invariance is scheme base change. -/
-theorem universalHomeomorphismEtaleEquivalence_functor {X Y : Scheme.{u}} (f : X ⟶ Y)
-    (hf : (topologically IsHomeomorph).universally f) :
-    (universalHomeomorphismEtaleEquivalence f hf).functor = smallEtaleBaseChange f := by
-  sorry
 
 /-- The forward and inverse functors preserve covering sieves. -/
 theorem universalHomeomorphismEtaleEquivalence_coverPreserving {X Y : Scheme.{u}} (f : X ⟶ Y)
@@ -698,15 +713,6 @@ def ValuativeLift.reidentify {X Y : StackInGroupoids.{u}}
   compatibility := by
     simpa only [Functor.mapIso_trans, Iso.trans_assoc] using
       congrArg (fun δ => δ ≪≫ (f.app ⟨op T⟩).toFunctor.mapIso e) L.compatibility
-
--- `stackDVR_representable`: proper scheme morphisms have lifts over the original ring,
--- agreeing with the discrete compatible-lift groupoid in §1.20.
-example {X Y : Scheme.{u}} (f : X ⟶ Y) [IsProper f] : ValuativeCriterion f := by
-  have h : ((ValuativeCriterion ⊓ @QuasiCompact ⊓ @QuasiSeparated ⊓
-      @LocallyOfFiniteType) : MorphismProperty Scheme.{u}) f := by
-    rw [← IsProper.eq_valuativeCriterion]
-    infer_instance
-  exact h.1.1.1
 
 end Stacks
 
@@ -1198,6 +1204,28 @@ theorem grothendieck_existence (A : AdicRing.{u}) [IsNoetherianRing A.carrier] {
             (Scheme.Modules.pullbackCongr (hjι n)).app M).hom ≫ (e n).hom := by
   sorry
 
+/-- Full faithfulness in Grothendieck's existence theorem: over a complete Noetherian adic ring,
+for finitely presented modules `M`, `N` on a proper scheme `X`, every family of maps between their
+restrictions to the levels `V(I^{n+1})` that is compatible with the transitions is the family of
+restrictions of a unique map `M ⟶ N`. Stacks, Proposition 30.25.4 (088C) and Theorem 30.27.1
+(088E). -/
+theorem grothendieck_existence_fullyFaithful (A : AdicRing.{u}) [IsNoetherianRing A.carrier]
+    {X : Scheme.{u}} (f : X ⟶ Spec (CommRingCat.of A.carrier)) [IsProper f]
+    (I : X.IdealSheafData)
+    (hI : I.support = (Set.range (pullback.fst f (Spec.map (CommRingCat.ofHom
+      (Ideal.Quotient.mk A.ideal)))) : Set X))
+    (𝔛 : AdicThickeningSystem.{u}) (j : ∀ n, 𝔛.X n ⟶ X) [∀ n, IsClosedImmersion (j n)]
+    (hj : ∀ n, (j n).ker = I ^ (n + 1)) (hjι : ∀ n, 𝔛.ι n ≫ j (n + 1) = j n)
+    (M N : X.Modules) [M.IsFinitePresentation] [N.IsFinitePresentation]
+    (g : ∀ n, (Scheme.Modules.pullback (j n)).obj M ⟶ (Scheme.Modules.pullback (j n)).obj N)
+    (hg : ∀ n, (Scheme.Modules.pullback (𝔛.ι n)).map (g (n + 1)) ≫
+        ((Scheme.Modules.pullbackComp (𝔛.ι n) (j (n + 1))).app N ≪≫
+          (Scheme.Modules.pullbackCongr (hjι n)).app N).hom =
+      ((Scheme.Modules.pullbackComp (𝔛.ι n) (j (n + 1))).app M ≪≫
+          (Scheme.Modules.pullbackCongr (hjι n)).app M).hom ≫ g n) :
+    ∃! G : M ⟶ N, ∀ n, (Scheme.Modules.pullback (j n)).map G = g n := by
+  sorry
+
 /-- The closed immersion `Spec (A/I^{n+1}) → Spec A`. -/
 abbrev quotMap (A : AdicRing.{u}) (n : ℕ) :
     Spec (CommRingCat.of (A.carrier ⧸ A.ideal ^ (n + 1))) ⟶ Spec (CommRingCat.of A.carrier) :=
@@ -1356,29 +1384,18 @@ theorem node_local_structure_dvr_nonzero_of_generic_smooth
     a ≠ 0 := by
   sorry
 
-/-- Substituting `u = sa`, `v = sb` into `uv = s³t` factors its equation by `s²`.
-The residual chart `ab = st` has a singular origin of dimension three and embedding dimension
-four, although the codimension-two component of thickness three has disappeared.
-de Jong 1996, 3.4–3.6, pp. 63–65. -/
-theorem nodal_codim_two_thickness_three_residual (k : Type u) [Field k] [IsAlgClosed k]
-    [CharZero k] :
-    let P := MvPolynomial (Fin 4) k
-    let a : P := MvPolynomial.X 0
-    let b : P := MvPolynomial.X 1
-    let s : P := MvPolynomial.X 2
-    let t : P := MvPolynomial.X 3
-    let I : Ideal P := Ideal.span {a * b - s * t}
-    let A := P ⧸ I
-    let m : Ideal A := Ideal.span
-      (Set.range fun i : Fin 4 => Ideal.Quotient.mk I (MvPolynomial.X i))
-    (s * a) * (s * b) - s ^ 3 * t = s ^ 2 * (a * b - s * t) ∧
-      ∃ hm : m.IsMaximal,
-        letI : m.IsMaximal := hm
-        let L := Localization.AtPrime m
-        ringKrullDim L = 3 ∧
-          Module.finrank (IsLocalRing.ResidueField L) (IsLocalRing.CotangentSpace L) = 4 ∧
-          ¬ IsRegularLocalRing L := by
-  sorry
+/-- A scheme `X` with structure morphism `g : X ⟶ Spec R` is projective over `R` when for some
+`n` it admits a closed immersion over `R` into projective `n`-space `ℙⁿ_R`, the homogeneous
+spectrum of `R[T₀, …, Tₙ]` graded by total degree (Hartshorne, *Algebraic Geometry*, II.4,
+p. 103). Over a field or a local ring this is projectivity in the sense of de Jong 1996. -/
+def IsProjectiveOverSpec (R : Type u) [CommRing R] {X : Scheme.{u}}
+    (g : X ⟶ Spec (CommRingCat.of R)) : Prop :=
+  ∃ n : ℕ,
+    letI : GradedAlgebra (MvPolynomial.homogeneousSubmodule (Fin (n + 1)) R) :=
+      MvPolynomial.gradedAlgebra
+    ∃ i : X ⟶ Proj (MvPolynomial.homogeneousSubmodule (Fin (n + 1)) R),
+      IsClosedImmersion i ∧
+        i ≫ Proj.toSpecZero _ ≫ Spec.map (CommRingCat.ofHom (algebraMap R _)) = g
 
 /-- An integral variety acquires, after a finite field extension, a geometrically integral
 reduced component altering it; no separability is required. de Jong 1996, 4.5, p. 66. -/
@@ -1395,7 +1412,7 @@ theorem curve_fibration_field_reduction (k : Type u) [Field k] {X : Scheme.{u}}
           (D.subschemeι ≫ pullback.fst f e) ≫ f := by
   sorry
 
-/-- de Jong's alteration theorem over a field: a regular proper compactification of an
+/-- de Jong's alteration theorem over a field: a regular projective compactification of an
 alteration with strict normal crossings boundary containing the preimage of `Z`, generically
 étale over a perfect field. de Jong 1996, Theorem 4.1 and Remark 4.2, p. 66. -/
 theorem alteration_theorem (k : Type u) [Field k] {X : Scheme.{u}}
@@ -1404,7 +1421,7 @@ theorem alteration_theorem (k : Type u) [Field k] {X : Scheme.{u}}
     ∃ (X₁ : Scheme.{u}) (_ : IsIntegral X₁) (φ : X₁ ⟶ X) (_ : IsAlteration φ)
       (Xbar₁ : Scheme.{u}) (j : X₁ ⟶ Xbar₁) (g : Xbar₁ ⟶ Spec (CommRingCat.of k))
       (B : Xbar₁.IdealSheafData),
-      IsOpenImmersion j ∧ j ≫ g = φ ≫ f ∧ IsProper g ∧ IsRegular Xbar₁ ∧
+      IsOpenImmersion j ∧ j ≫ g = φ ≫ f ∧ IsProjectiveOverSpec k g ∧ IsRegular Xbar₁ ∧
       IsStrictNormalCrossings B ∧
       (B.support : Set Xbar₁) = (Set.range j)ᶜ ∪ j '' (φ ⁻¹' (Z.support : Set X)) ∧
       ((PerfectField k) → IsAlteration.IsGenericallyEtale φ) := by
@@ -1451,7 +1468,7 @@ def IsStrictSemistablePair {R : Type u} [CommRing R] [IsDomain R] [IsDiscreteVal
     IsStrictNormalCrossings ((TauCeti.specialFiberι R f).ker * H.divisor) ∧
     ∀ J : Finset H.ι, J.Nonempty → SemistableConditions K ((H.stratum J).subschemeι ≫ f)
 
-/-- The semistable alteration theorem over a trait, with proper compactification.
+/-- The semistable alteration theorem over a trait, with projective compactification.
 de Jong 1996, Theorem 6.5 and Diagram 6.6, p. 83. -/
 theorem semistable_alteration_theorem (R : Type u) [CommRing R] [IsDomain R]
     [IsDiscreteValuationRing R] [IsTrait R]
@@ -1465,7 +1482,7 @@ theorem semistable_alteration_theorem (R : Type u) [CommRing R] [IsDomain R]
       ∃ (X₁ : Scheme.{u}) (_ : IsIntegral X₁) (φ : X₁ ⟶ X) (_ : IsAlteration φ)
         (f₁ : X₁ ⟶ Spec (CommRingCat.of R₁)) (Xbar₁ : Scheme.{u})
         (g : Xbar₁ ⟶ Spec (CommRingCat.of R₁)) (j : X₁ ⟶ Xbar₁) (H : SNCData Xbar₁),
-        IsSVariety f₁ ∧ IsOpenImmersion j ∧ IsProper g ∧
+        IsSVariety f₁ ∧ IsOpenImmersion j ∧ IsProjectiveOverSpec R₁ g ∧
         IsStrictSemistablePair (FractionRing R₁) g H ∧
         GeometricallyIrreducible (TauCeti.genericFiber R₁ (FractionRing R₁) g).hom ∧
         j ≫ g = f₁ ∧

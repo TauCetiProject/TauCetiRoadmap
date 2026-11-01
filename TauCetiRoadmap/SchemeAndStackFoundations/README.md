@@ -71,10 +71,8 @@ strict transforms and alterations, the moduli stack of stable pointed curves, Ch
 Chern classes, refined Gysin maps, intersection products, a K-theoretic pushforward for
 Riemann–Roch, and surfaces. Formal geometry here uses chosen ideals and level-preserving adic thickening
 systems. Comparison with the category of topologically locally ringed formal schemes and
-independence from ideals of definition are outside this scope. Within that convention this
-roadmap owns the algebraization of polarized adic systems over a complete Noetherian adic base and
-the category equivalence between such systems and projective schemes with a relatively ample line
-bundle (§4.10A).
+independence from ideals of definition are outside this scope. Polarized algebraization of
+formal schemes and a category equivalence for polarized systems are also outside this scope.
 
 **Owned elsewhere and consumed here.** The following objects have one owner; this roadmap states
 comparisons to them and never a second carrier.
@@ -218,7 +216,7 @@ pinned libraries; each is cited where it lives and is not a target here.
   the Hasse bound for elliptic curves `WeierstrassCurve.hasse_bound`; Layer 3 and Layer 5 state only
   what these do not.
 - ModularCurves 7D's `ArtinianTestAlgebra` is the case `Λ = W(k)`, `k` algebraically closed, of
-  §4.2's `ArtinLocalAlg`; that identification is a comparison on the side of ModularCurves, which
+  §4.2's Artinian coefficient category `C_Λ`; that identification is a comparison on the side of ModularCurves, which
   comes later, and is not a target here.
 - Pieces that exist and are cited inside a kept target: Mathlib's `TensorProduct.AlgebraTensorModule.tensorQuotientEquiv` is
   the affine case of §0.27; Mathlib's `Functor.relativelyRepresentable.of_diag`, `diag_iff`,
@@ -295,7 +293,7 @@ here for the roadmaps that import them.
    below, under `AlgebraicGeometry` for direct extensions of Mathlib objects (relative Proj,
    thickenings, adic thickening systems, alterations) and under `TauCeti` for the ring-theoretic
    and curve strands. `Suggested.lean` contains the key definitions with real bodies and the
-   headline theorems that are statable at the pins, with two proved `example`s; each
+   headline theorems that are statable at the pins, and no `example`s; each
    subsection lists its declarations there on a *Lean:* line. This document names every API item
    and every test; every target or test named here and absent from `Suggested.lean` is specified
    in this README only and is equally required. Proposed names of such README-only items inside
@@ -350,7 +348,7 @@ here for the roadmaps that import them.
 supplies compatibility of extension of submodules with linear-map images; §0.27 uses
 this theorem directly. `AdicCompletion.of_bijective` in
 `Mathlib/RingTheory/AdicCompletion/Basic.lean` supplies the canonical bijection for
-complete rings, including the rings in `CompleteLocalAlg` and `AdicRing`.
+complete rings, including the rings of §4.2's category `Ĉ_Λ` and `AdicRing`.
 Recovering actual global sections of `Spf` additionally requires the formal-scheme
 comparison of §4.7.
 
@@ -485,7 +483,8 @@ comparison API that closed immersions need.
 **Conventions of this layer.** `S_aff` is Mathlib's small affine Zariski site `S.AffineZariskiSite`.
 A quasi-coherent algebra is Tau Ceti's `TauCeti.AlgebraicGeometry.QuasicoherentAlgebra` (a commutative
 monoid in `S.Modules` with quasi-coherent underlying module), a graded one is AlgebraicVectorBundles
-L2A's `GradedQuasicoherentAlgebra`; gradings are indexed by `ℕ` with `O_S` in degree zero. Henselian
+L2A's `GradedQuasicoherentAlgebra`; gradings are indexed by `ℕ`, and the degree-zero part `A_0` is an
+`O_S`-algebra through the unit `O_S → A_0`, which is an isomorphism only where a target says so. Henselian
 pairs are Mathlib's `HenselianRing R I`; regular rings are `IsRegularRing`; regular sequences are
 `RingTheory.Sequence.IsRegular`. Perfection of an `𝔽_p`-algebra is Mathlib's colimit-along-Frobenius
 `PerfectClosure`, never the inverse-limit `Perfection`. Weil restriction, miracle flatness and the
@@ -561,18 +560,35 @@ AlgebraicVectorBundles L1B.
 
 Prove `Proj.isPullback_baseChange`: for a graded `R`-algebra `A` and `R → R'`, Mathlib's
 `Proj (A ⊗_R R')` is the base change of `Proj A` along `Spec R' → Spec R` (Stacks, Lemma 27.11.6
-(01N2)). Construct `relativeProj A` for an arbitrary `ℕ`-graded quasi-coherent `O_S`-algebra `A` with
-`A_0 = O_S` (AlgebraicVectorBundles L2A's `GradedQuasicoherentAlgebra`): the scheme over `S` glued
-from `Proj A(U)` over the affine opens `U` of `S`, with its structure morphism `relativeProj.toBase`,
-separated, with the invertible sheaves `O(n)` when `A` is generated in degree one, and the affine
-comparison `relativeProj_affine_iso : relativeProj A ≅ Proj A(S)` over `Spec A(S)` for affine `S`
-(Stacks, Lemmas 27.15.2–27.15.4 (01NO, 01NP, 01NQ)). Prove `relativeProj_baseChange`: formation of
-`relativeProj` commutes with arbitrary base change `S' → S` (Stacks, Lemma 27.16.10 (01O3)). Prove
-the compatibility `relativeProj_eq_stableReduction`: on a graded algebra that is finitely generated
-in the sense of StableReduction Layer 2, `relativeProj A` is StableReduction's relative Proj, by an
-isomorphism over `S` compatible with `O(1)` and with base change; the finitely generated construction
-is the special case, not a second carrier. *Needs:* AlgebraicVectorBundles L2A; StableReduction
-Layer 2; Mathlib `Proj`, `Proj.toSpecZero`, `GradedAlgebra`, gluing.
+(01N2)). Construct `relativeProj A` for an arbitrary `ℕ`-graded quasi-coherent `O_S`-algebra `A`
+(AlgebraicVectorBundles L2A's `GradedQuasicoherentAlgebra`), whose degree-zero part `A_0` is an
+`O_S`-algebra through the unit `O_S → A_0` and need not be `O_S` (Stacks, Situation 27.15.1 (01NN)):
+the scheme over `S` glued from `Proj A(U)` over the affine opens `U` of `S` (Stacks, Lemmas
+27.15.2–27.15.4 (01NO, 01NP, 01NQ)). Its structure morphism `relativeProj.toBase` is glued from
+the composites `Proj A(U) → Spec A(U)_0 → U` of Mathlib's `Proj.toSpecZero` with the map induced
+by `O_S(U) → A_0(U)`, and is separated (Stacks, Lemma 27.16.9 (01O2)). Construct the quasi-coherent
+twisting sheaves `O(n)`, `n ∈ ℤ`, with the graded map `A → ⊕_{n ≥ 0} (relativeProj.toBase)_* O(n)`
+(Stacks, Lemma 27.15.5 (01NR)). *Generated in degree one* means generated by `A_1` as a graded
+`A_0`-algebra; then `O(1)` is invertible and multiplication gives `O(n) ≅ O(1)^{⊗n}` (Stacks, Lemma
+27.16.11 (01O4)). Generation by `A_1` as an `O_S`-algebra is a stronger condition, forcing
+`O_S → A_0` to be surjective. Prove the affine comparison
+`relativeProj_affine_iso : relativeProj A ≅ Proj A(S)` over `S` for affine `S`. Prove
+`relativeProj_baseChange`: formation of `relativeProj` commutes with arbitrary base change
+`g : S' → S`, with degree-zero part `g^* A_0`, compatibly with `O(n)` (Stacks, Lemma 27.16.10
+(01O3)). Prove `relativeProj_veronese`: for `d ≥ 1` the Veronese subalgebra `A^{(d)} = ⊕_k A_{dk}`,
+which has the same degree-zero part `A_0`, satisfies `relativeProj A^{(d)} ≅ relativeProj A` over
+`S`, with `O(n)` corresponding to `O(dn)` (Stacks, Lemma 27.11.8 (0B5J), on affine charts). Prove
+`relativeProj_closedImmersion`: if `A_1` is of finite type and `A` is generated in degree one, the
+graded map `Sym_{O_S} A_1 → A` is surjective in every positive degree and induces a closed
+immersion `relativeProj A → relativeProj (Sym_{O_S} A_1)` over `S` pulling `O(1)` back to `O(1)`
+(Stacks, Lemmas 27.11.3 and 27.11.5 (01N0, 01N1), on affine charts), so `relativeProj A → S` is
+projective. When the unit `O_S → A_0` is an isomorphism, as for symmetric algebras and §5.4's
+projective bundles, these are the same constructions, not a second carrier. Prove the compatibility
+`relativeProj_eq_stableReduction`: on a graded algebra that is finitely generated in the sense of
+StableReduction Layer 2, whatever its degree-zero part, `relativeProj A` is StableReduction's
+relative Proj, by an isomorphism over `S` compatible with `O(1)` and with base change; the finitely
+generated construction is the special case, not a second carrier. *Needs:* AlgebraicVectorBundles
+L2A; StableReduction Layer 2; Mathlib `Proj`, `Proj.toSpecZero`, `GradedAlgebra`, gluing.
 
 **Checks.**
 - `relativeProj_polynomial`: for `A = O_S[T_0, …, T_n]` (the symmetric algebra of `O_S^{n+1}`),
@@ -580,6 +596,12 @@ Layer 2; Mathlib `Proj`, `Proj.toSpecZero`, `GradedAlgebra`, gluing.
 - `relativeProj_degreeZero`: for `A = O_S` concentrated in degree zero, `relativeProj A` is empty.
 - `relativeProj_not_generated_degree_one`: for `A = O_S[T]` with `T` in degree two, `relativeProj A`
   is `S` but `O(1)` is not invertible; invertibility of `O(1)` needs generation in degree one.
+- `relativeProj_product_degreeZero`: over `S = Spec k`, let `A = k[x, y] × k[x, y]`, so
+  `A_0 = k × k ≠ k`. Then `relativeProj A = ℙ¹_k ⊔ ℙ¹_k`, its structure morphism factors through
+  `Spec (k × k)`, and `O(1)` is invertible, restricting to `O(1)` on each component: `A` is generated
+  in degree one over `A_0`, although the `k`-subalgebra generated by `A_1` has degree-zero part `k`.
+  `relativeProj_closedImmersion` embeds it in `ℙ³_k` as two disjoint lines, and every Veronese
+  subalgebra of `A` again has degree-zero part `k × k`.
 - `relativeProj_eq_stableReduction_polynomial`: the comparison iso is the identity on `ℙ^n_S`.
 
 *Lean:* `Proj.isPullback_baseChange` (with the two maps of the square existentially quantified).
@@ -1014,8 +1036,7 @@ the universal property, with `map_comp_unit`, `map_extended_le`, `map_id`, `map_
 *Lean:* `Henselization.reducedMap`, `Henselization.IsNeighbourhood`, `Henselization.Neighbourhood`,
 `Henselization.neighbourhood_isFiltered`, `Henselization.neighbourhood_essentiallySmall`,
 `Henselization.diagram`, `Henselization.algebra`, `Henselization.extended`,
-`Henselization.henselian`, `Henselization.existsUnique_lift`, `Henselization.fixed_of_henselian`;
-the fixed-pair case is a proved `example`.
+`Henselization.henselian`, `Henselization.existsUnique_lift`, `Henselization.fixed_of_henselian`.
 
 ### 0.13 Ind-étale algebras and the properties of the henselization
 
@@ -1308,7 +1329,7 @@ every finite-type `R`-algebra that is a domain is N-2; `Ring.IsNagata R`: `R` is
 `R/p` is N-2 for every prime `p` (Stacks, Definition 10.162.1 (032R)); the Nagata predicate includes
 Noetherianity and universally Japanese does not. API: *IsNagata.isNoetherianRing*,
 *isNagata_iff_isUniversallyJapanese* (for Noetherian rings; Proposition 10.162.15 (0334)),
-*IsNagata.of_finiteType* (Proposition 10.162.16 (0335)), *IsNagata.localization* (Lemma 10.162.6
+*IsNagata.of_finiteType* (Proposition 10.162.15 (0334), item (2)), *IsNagata.localization* (Lemma 10.162.6
 (032U)), *IsNagata.quotient* (a quotient map is finite, so Lemma 10.162.5 (032T) applies),
 `Ring.IsNagata.of_complete_local` (a complete Noetherian local ring is Nagata; Lemma 10.162.8 (032W)),
 *isNagata_of_field*, *IsNagata.polynomial*, *isNagata_iff_of_span_eq_top* (for `f_1, …, f_n`
@@ -1537,9 +1558,8 @@ canonical comparison isomorphisms.
   comparison is the unit comparison.
 
 *Lean:* `smallEtaleBaseChange`, `smallEtaleBaseChange_isEquivalence`,
-`universalHomeomorphismEtaleEquivalence`,
-`universalHomeomorphismEtaleEquivalence_functor`,
-`universalHomeomorphismEtaleEquivalence_coverPreserving`,
+`universalHomeomorphismEtaleEquivalence` (whose forward functor is `smallEtaleBaseChange f` by
+construction), `universalHomeomorphismEtaleEquivalence_coverPreserving`,
 `universalHomeomorphismEtaleEquivalence_id`, `universalHomeomorphismEtaleEquivalence_comp`,
 `universalHomeomorphismEtaleEquivalence_baseChange` (the three comparison-isomorphism
 prototypes assert existence with their projection characterizations; the comparison data
@@ -2613,10 +2633,14 @@ affine invariant quotients of these opens (`TauCeti.AffineInvariantQuotient.quot
 scheme `Y/Γ` with `q : Y → Y/Γ` finite, surjective and `Γ`-invariant, `O_{Y/Γ} = (q_* O_Y)^Γ`, and
 `q` satisfies `IsGeometricQuotient` and `IsCategoricalQuotient` for the action groupoid. For an
 `f`-ample invertible `L` on `Y`, let `M := ⊗_{γ ∈ Γ} γ^* L` with its canonical `Γ`-linearization.
-The invariant algebra `(⊕_{k ≥ 0} f_* M^{⊗k})^Γ` is a finitely generated graded `O_S`-algebra whose
-`N`-th Veronese subalgebra is generated in degree one for some `N > 0`; `Y/Γ` is a closed subscheme
-of its relative `Proj` (§0.3), so `Y/Γ → S` is projective, and the restriction `L_Q` of `O(1)` is an
-invertible sheaf relatively ample over `S`, with `q^* L_Q ≅ M^{⊗N}` compatibly with the
+The invariant algebra `A := (⊕_{k ≥ 0} f_* M^{⊗k})^Γ` is a finitely generated graded quasi-coherent
+`O_S`-algebra. Its degree-zero part `A_0 = (f_* O_Y)^Γ` is a finite `O_S`-algebra, in general not
+`O_S`, and the theorem imposes no condition on it. For some `N > 0` the `N`-th Veronese subalgebra
+`A^{(N)}`, whose degree-zero part is again `A_0`, is generated by `A_N` as a graded `A_0`-algebra.
+`Y/Γ` is a closed subscheme of `relativeProj A^{(N)}` (§0.3, which takes this degree-zero part as
+it is; `relativeProj_veronese` identifies it with `relativeProj A`), so `Y/Γ → S` is projective by
+`relativeProj_closedImmersion`, and the restriction `L_Q` of `O(1)` is an invertible sheaf
+relatively ample over `S`, with `q^* L_Q ≅ M^{⊗N}` compatibly with the
 linearizations (Rydh 2013,
 Proposition (3.8), p. 13, Definition (3.17), p. 18, Lemma (4.3) and Theorem (4.4), p. 20,
 Proposition (4.7), case (B′), and its proof, pp. 20–22, Remark (4.9)(4), pp. 22–23; Stacks,
@@ -2677,8 +2701,14 @@ Section 39.23 (03BE)). Formation of `Y/Γ` is asserted to commute with flat base
   does not commute with the base change `ℤ → 𝔽_2`.
 - `finiteGroupQuotient_swap_projectivePlane`: over a field `k`, `Γ = ℤ/2` exchanging the factors of
   `ℙ¹_k × ℙ¹_k` fixes the diagonal pointwise; the quotient is `ℙ²_k`, the space of binary
-  quadratic forms up to scalars, via `(a, b) ↦ ab`, and with `L = O(1, 0)`, `M = O(1, 1)` and
-  `q^* O(1) ≅ M`.
+  quadratic forms up to scalars, via `q(a, b) = ab`, with `q^* O(1) ≅ O(1, 1)`. With the ample
+  `L = O(1, 1)`, `M = L ⊗ σ^* L = O(2, 2)`, the invariant algebra is `⊕_k H⁰(ℙ²_k, O(2k))`, so
+  `N = 1`, `L_Q = O_{ℙ²}(2)` and `q^* O(2) ≅ M`.
+- `finiteGroupQuotient_two_components`: over `S = Spec k`, let `Y = ℙ¹_k ⊔ ℙ¹_k`, `Γ = 1` and `L`
+  restrict to `O(1)` on each component. Then `M = L`, `N = 1` and
+  `A_0 = Γ(Y, O_Y) = k × k ≠ k`, as in every Veronese subalgebra; `A` is generated in degree one
+  over `A_0` and not over `k`, `relativeProj A = Y` and `q` is the identity. The algebra is the one
+  of §0.3's `relativeProj_product_degreeZero`.
 
 *Lean:* `Groups.IsInvariant`, `Groups.IsCategoricalQuotient`, `Groups.artinBootstrap`. The
 invariant sections, `IsGeometricQuotient`, *IsCategoricalQuotient.unique* and
@@ -2689,8 +2719,9 @@ invariant sections, `IsGeometricQuotient`, *IsCategoricalQuotient.unique* and
 Define `StackInGroupoids`: a `SchPseudofunctor` whose fibre categories are groupoids (Mathlib
 `IsGroupoid`) and which is a stack for `fppfTopology` (Stacks, Definitions 8.4.1 (026F), 8.5.1
 (02ZI)); *StackInGroupoids.Hom* (strong transformations), `IsFibrewiseEquiv`. API:
-*StackInGroupoids.ofSheaf* (the stack in setoids of an fppf sheaf), `yonedaEquiv` (`Hom(h_T, X) ≃
-X(T)`; Lemma 8.6.3 (0432)), `isFiberedInGroupoids` (the Grothendieck construction is fibred in
+*StackInGroupoids.ofSheaf* (the stack in setoids of an fppf sheaf; Lemma 8.6.3 (0432)), `yonedaEquiv`
+(`Hom(h_T, X) ≃ X(T)`, an equivalence of groupoids retaining automorphisms; Categories, Lemma
+4.41.2 (004B)), `isFiberedInGroupoids` (the Grothendieck construction is fibred in
 groupoids), `limit` (stacks in groupoids are closed under limits), `test_trivial_torsor_prestack`.
 Define the generic, site-level stackification first, and the scheme/fppf/groupoid version as
 its specialisation: for any small site `(C, J)` (a category `C : Type u` with `Category.{u} C` and
@@ -4741,15 +4772,39 @@ group) and `pi1 C := Aut(𝟙_C)` (a commutative group) (Bhatt–Scholze 2017, D
 Proposition 12.15, pp. 58–59). Define `picardGroupoid X := Core (InvertibleSheaf X)` with its
 symmetric monoidal structure and `PicardGroupoid` instance, `picardGroupoid.pi0_equiv` (`π_0 ≅
 LineBundleClass X`), `pi1_equiv` (`π_1 ≅ Γ(X, O)^×`), `pullback` (a functor of Picard groupoids),
-`isStack` (fppf descent, §1.1), and `gradedPicardGroupoid X` (pairs `(L, f : X → ℤ)` with the Koszul
-sign rule; Bhatt–Scholze 2017, §4, p. 15, Construction 5.1, p. 18). *Needs:* §1.1, §2.11; Tau Ceti
-`LineBundleClass`, `InvertibleSheaf`, `SchemeWeilDivisor`, `classGroupToLineBundleClass`; Mathlib
-`CommRing.Pic`, `Core`, `Skeleton`.
+`isStack` (fppf descent, §1.1). Define `gradedPicardGroupoid X` with objects pairs `(L, f)`, where
+`L` is an invertible sheaf and `f : LocallyConstant X ℤ` is a locally constant function on the
+underlying space of `X`. A morphism `(L, f) → (M, g)` exists only when `f = g`, and is then an
+isomorphism `L ≅ M`. The tensor product is `(L, f) ⊗ (M, g) = (L ⊗ M, f + g)`, with unit `(O_X, 0)`
+and inverse `(L⁻¹, −f)`; pullback along `h : Y → X` sends `(L, f)` to `(h^* L, f ∘ h)`, the degree
+pulled back by `LocallyConstant.comap` along the underlying continuous map of `h`. The symmetry of
+`(L, f) ⊗ (M, g)` is the line-bundle symmetry `ℓ ⊗ m ↦ m ⊗ ℓ` multiplied by `(−1)^{f·g}`: since `f`
+and `g` are locally constant, the sign is constant on each clopen locus where both are constant, and
+these constant signs glue to a unit of `Γ(X, O)`. Prove `gradedPicardGroupoid.pi0_equiv`
+(`π_0 ≅ LineBundleClass X × LocallyConstant X ℤ`, equivalently `Pic(X) × H⁰(X_ét, ℤ)`) and
+`gradedPicardGroupoid.pi1_equiv` (`π_1 ≅ Γ(X, O)^×`) (Bhatt–Scholze 2017, §4, p. 15, Construction
+5.1, p. 18). *Needs:* §1.1, §2.11; Tau Ceti `LineBundleClass`, `InvertibleSheaf`,
+`SchemeWeilDivisor`, `classGroupToLineBundleClass`; Mathlib `CommRing.Pic`, `Core`, `Skeleton`,
+`LocallyConstant`.
 
 **Checks.**
 - `picardGroupoid_pi0` (`π_0 = Pic`), `picardGroupoid_field` (`π_1 = K^×` for `Spec K`),
   `picardGroupoid_projectiveLine` (`π_0 = ℤ`, `π_1 = k^×`), `picardGroupoid_not_discrete` (for
   `Γ(X, O)^× ≠ 1` the groupoid is not the discrete groupoid on `Pic X`).
+- `gradedPicardGroupoid_connected`: on connected `X` every degree is constant
+  (`LocallyConstant.eq_const`), so `π_0 ≅ LineBundleClass X × ℤ`.
+- `gradedPicardGroupoid_disjointUnion`: on `X = X₁ ⊔ X₂` the degree may take different values on the
+  two components. For `X = Spec (k × k)` with `char k ≠ 2` and `f = (0, 1)`, the self-symmetry of
+  `(O_X, f)` is multiplication by the unit `(1, −1)`.
+- `gradedPicardGroupoid_pointDegree`: on `X = 𝔸¹_ℚ`, the function equal to `1` at the origin and
+  `0` elsewhere is not locally constant, so it is no degree. Admitting it would make the self-symmetry
+  of `(O_X, f)` a unit of `ℚ[t]` with value `−1` in `κ(0)` and `1` in `ℚ(t)`, but
+  `ℚ[t]^× = ℚ^×` consists of constants.
+- `gradedPicardGroupoid_pullback_component`: for `X = X₁ ⊔ X₂` with `X₁` connected, pullback along
+  the inclusion of `X₁` sends `(L, f)` to `(L|_{X₁}, a)`, where `a` is the constant value of `f` on
+  `X₁`.
+- `gradedPicardGroupoid_degreeZero`: the objects of degree `0` and their morphisms form
+  `picardGroupoid X`, with its ordinary symmetry.
 - `classGroup_test_cone`: for the quadric cone `k[x, y, z]/(xy − z²)`, `Pic = 0` and `Cl = ℤ/2`: the
   map is injective and not surjective (not locally factorial).
 - `excision_test_affineLine_minus_point`: `Cl(𝔸¹) = 0 → Cl(𝔸¹ ∖ {0}) = 0` and the kernel of
@@ -4757,6 +4812,8 @@ sign rule; Bhatt–Scholze 2017, §4, p. 15, Construction 5.1, p. 18). *Needs:* 
   `(c, t^n) ↦ n`.
 
 *Lean:* `Picard.lineBundleClass_spec_equiv_pic` (stated as the existence of a bijection).
+`picardGroupoid` and `gradedPicardGroupoid` are specified in this README only; the degree carrier is
+Mathlib's `LocallyConstant`, not a second locally-constant-function API.
 
 ### 3.5 Norms of invertible sheaves
 
@@ -4988,26 +5045,41 @@ specified in this README only.
 
 ### 4.2 The Artinian coefficient category
 
-Fix a Noetherian ring `Λ` and a finite ring map `Λ → k` to a field. Define `IsArtinLocalAug` on
-`Over (CommAlgCat.of Λ k)`: `A` is Artinian local with surjective augmentation `A → k` (so `A/m_A ≅ k`
-as `Λ`-algebras), and `ArtinLocalAlg Λ k` the full subcategory `C_Λ`, whose morphisms are
-`Λ`-algebra maps over `k`, automatically local (Stacks, Definition 90.3.1 (06GC), convention of
-Section 90.2 (06G9)). API: `ArtinLocalAlg.residue` (`k`, terminal), `toResidue`, `dualNumbers`
-(`k[ε]`), `IsSmallExtension f` (surjective with nonzero principal kernel killed by the maximal
-ideal; Definition 90.3.2 (06GD)), `ArtinLocalAlg.pullback` (fibre products along a
-surjection stay in `C_Λ`; Lemma 90.3.8 (06GH)) with `pullbackFst`, `pullbackSnd`, `isPullback`,
-`dualAdd` (the addition map `k[ε] ×_k k[ε] → k[ε]`), `CompleteLocalAlg Λ k` (the category `Ĉ_Λ` of
-complete Noetherian local `Λ`-algebras with residue field `k`; Definition 90.4.1 (06GW)) with
-`R = lim R/m^n` supplied by Mathlib `AdicCompletion.of_bijective`. *Needs:* Mathlib `IsArtinianRing`, `IsLocalRing`, `CommAlgCat`,
-`Over`, `IsAdicComplete`, `DualNumber`.
+Fix a Noetherian ring `Λ` and a finite ring map `Λ → k` to a field. Define the Artinian
+coefficient category `C_Λ` as the full subcategory of `Over (CommAlgCat.of Λ k)` on the objects
+`A → k` with `A` an Artinian local ring and `A → k` surjective, so that `A/m_A ≅ k` as
+`Λ`-algebras; its morphisms are `Λ`-algebra maps over `k`, which are automatically local (Stacks,
+Definition 90.3.1 (06GC), convention of Section 90.2 (06G9)). Define the category `Ĉ_Λ` of
+complete Noetherian local `Λ`-algebras with residue field `k` (Stacks, Definition 90.4.1 (06GW)).
+*Needs:* Mathlib `IsArtinianRing`, `IsLocalRing`, `CommAlgCat`, `Over`, `IsAdicComplete`,
+`AdicCompletion.of_bijective`, `DualNumber`.
+
+API.
+- The residue object `k → k` is terminal in `C_Λ`, and every object has a unique map to it.
+- The dual numbers `k[ε] = k ⊕ kε` with `ε² = 0` form an object of `C_Λ`.
+- A morphism `A' → A` of `C_Λ` is a small extension when it is surjective and its kernel is a
+  nonzero principal ideal annihilated by `m_{A'}` (Stacks, Definition 90.3.2 (06GD)).
+- For morphisms `A' → A` and `A'' → A` of `C_Λ` with `A'' → A` surjective, the fibre product
+  `A' ×_A A''` is an object of `C_Λ`, with its two projections forming a pullback square in
+  `C_Λ` (Stacks, Lemma 90.3.8 (06GH)).
+- The addition map `k[ε] ×_k k[ε] → k[ε]`, `(a + bε, a + b′ε) ↦ a + (b + b′)ε`, is a morphism of
+  `C_Λ`; it induces the vector space structure on tangent spaces in §4.3.
+- Every object `R` of `Ĉ_Λ` is the limit of the objects `R/m_R^n` of `C_Λ`: the canonical map
+  `R → lim_n R/m_R^n` is bijective, by Mathlib's `AdicCompletion.of_bijective`.
 
 **Checks.**
-- `zmod_prime_pow_mem`: `ℤ/p^{n+1}` with `ℤ/p^{n+1}/(p) ≅ 𝔽_p` is an object of `C_{ℤ_p}`.
-- `residue_terminal`: `k` is terminal.
-- `not_mem_padicInt`: `ℤ_p` is in `Ĉ_{ℤ_p}` and not in `C_{ℤ_p}` (not Artinian).
-- `dualNumber_pullback`: `k[ε] ×_k k[ε]` has a two-dimensional cotangent space.
-- `smallExtension_test_dual`: `k[ε] → k` is a small extension; `k[x]/(x³) → k` is not (kernel not
-  killed by the maximal ideal) but factors as two small extensions.
+- For `Λ = ℤ_p` and `k = 𝔽_p`, the ring `ℤ/p^{n+1}` with reduction to `𝔽_p` is an object of
+  `C_Λ`: it is Artinian local with maximal ideal `(p)`. For `p = 2`, `n = 1`, `ℤ/4` has residue
+  field `𝔽_2`. A definition that dropped the Artinian condition would also admit `ℤ_p`.
+- `ℤ_p` is an object of `Ĉ_{ℤ_p}` and not of `C_{ℤ_p}`: its chain `p^n ℤ_p` of ideals does not
+  stabilise, so it is not Artinian.
+- The fibre product `k[ε] ×_k k[ε] ≅ k[x, y]/(x, y)²` has cotangent space `m/m²` of dimension `2`
+  over `k`, while each factor has dimension `1`; the fibre product is not `k[ε]`.
+- `k[ε] → k` is a small extension. `k[x]/(x³) → k` is not, since its kernel `(x)` is not
+  annihilated by the maximal ideal (`x · x ≠ 0`), but it factors as the two small extensions
+  `k[x]/(x³) → k[x]/(x²) → k`.
+- The ring `k[x]/(x²) × k` with its first projection to `k` is Artinian but not local, so it is
+  not an object of `C_Λ`.
 
 ### 4.3 Deformation functors and Schlessinger's conditions
 
@@ -5020,7 +5092,7 @@ Remark 90.6.3 (06GT), the set-valued case of Definition 90.6.2 (06GS)). For `A' 
 the second surjective, define `θ : F(A' ×_A A'') → F(A') ×_{F(A)} F(A'')` and the conditions `H1`
 (`θ` surjective whenever `A'' → A` is a small extension), `H2` (`θ` bijective for `A = k`,
 `A'' = k[ε]`), `tangentSpace := F(k[ε])` with the `k`-vector space structure under `H2`
-(`tangentSpace.addCommGroup`, `.module`, `add_def`: the sum is computed by `dualAdd`; Lemma 90.12.2
+(`tangentSpace.addCommGroup`, `.module`, `add_def`: the sum is computed by §4.2's addition map `k[ε] ×_k k[ε] → k[ε]`; Lemma 90.12.2
 (06IH)), `H3` (finite-dimensional tangent space), `H4` (`θ` bijective for `A' = A''` a small
 extension of `A`), and `RS` (`θ` bijective whenever `A'' → A` is surjective) (Stacks, Definitions
 90.10.1 (06HW), 90.12.1 (06IG), 90.16.1 (06J2), 90.16.8 (06J9); Remarks 90.10.3 (06HY), 90.13.5
@@ -5364,9 +5436,10 @@ and coherent higher direct images, before the Picard construction).
 Let `A` be a Noetherian adic ring with ideal `I` and `quotMap A n : Spec (A/I^{n+1}) → Spec A`.
 Prove `grothendieck_existence`: for `f : X → Spec A` proper and `I` the ideal sheaf of
 `f⁻¹(V(I))`, every coherent formal module on `X/V(I)` (§4.8) is the completion of a coherent `O_X`-module,
-with isomorphisms commuting with all transitions. The named target
-`grothendieck_existence_fullyFaithful` states that compatible morphisms of such completions
-come from unique morphisms of coherent modules (Stacks, Section 30.24
+with isomorphisms commuting with all transitions. Prove
+`grothendieck_existence_fullyFaithful`: compatible morphisms of such completions
+come from unique morphisms of coherent modules, so that completion is an equivalence of categories
+(Stacks, Section 30.24
 (087V), Lemmas 30.24.1 (0883), 30.24.3 (0885), Section 30.25 (0886), Lemmas 30.25.2–30.25.3 (088A,
 088B), Proposition 30.25.4 (088C), Theorem 30.27.1 (088E), Remark 30.27.2 (088F)). Prove
 `algebraize_hom`: for `X` proper and `Y` separated of finite type over
@@ -5377,8 +5450,8 @@ unique morphism `G : X → Y` over `A` with `G_n = g_n` for all `n` (Stacks, Lem
 30.28.2 (09ZT), 30.28.3 (0A42)). The compatibility with transitions is essential: for `A = k[[t]]`,
 `X = Spec A` and `Y = 𝔸¹_A`, the maps `g_0 : Spec k → 𝔸¹_k` at `0` and `g_1 : Spec k[t]/(t²) → 𝔸¹_{k[t]/(t²)}` at `1` do not form a system and come from no morphism (`algebraize_hom_test_incompatible`
 below). The scope here is coherent modules and compatible morphisms on given proper
-schemes. Algebraization of a polarized adic system and the corresponding category equivalence
-are §4.10A; effective formal deformations of curves are outside this subsection. Theorem 30.28.4
+schemes. Algebraization of a polarized adic system, the corresponding category equivalence,
+and effective formal deformations of curves are outside this subsection. Theorem 30.28.4
 (089A) concerns a compatible ample system of invertible sheaves, a hypothesis not supplied
 by properness of the initial fibre alone. *Needs:* §4.7, §4.8, §4.9; Mathlib `IsProper`,
 `IsSeparated`, `LocallyOfFiniteType`.
@@ -5393,120 +5466,19 @@ by properness of the initial fibre alone. *Needs:* §4.7, §4.8, §4.9; Mathlib 
 - `algebraize_hom_test_incompatible`: the family `g_n` with `g_0 = 0` and `g_1 = 1` (mod `t²`) is not
   a morphism of adic thickening systems (`g_1` restricts to `1 ≠ 0` on `X_0`), and no `G : Spec
   k[[t]] → 𝔸¹` has both reductions.
+- `grothendieck_existence_fullyFaithful_test_scalar`: for `A = k[[t]]`, `X = Spec A` and
+  `M = N = O_X`, a compatible family of maps on the levels is multiplication by residues
+  `a_n ∈ k[t]/(t^{n+1})` with `a_{n+1} ≡ a_n mod t^{n+1}`; it is the family of restrictions of
+  multiplication by the unique series `a = lim a_n ∈ A`. The residues `a_0 = 0` and `a_1 = 1` fail
+  the compatibility hypothesis, and a statement without it would have no `G`.
 
 *Lean:* `Formal.grothendieck_existence` (essential surjectivity; the completion along the closed
 fibre is an adic thickening system `𝔛` with closed immersions `j n : 𝔛.X n → X` of ideal
 `I^(n+1)` compatible with the transitions, so that `𝔛.X n` is `V(I^(n+1))`), `Formal.quotMap`,
-`Formal.quotIncl`, `Formal.levelIncl`, `Formal.algebraize_hom`. `grothendieck_existence_fullyFaithful` is
-specified in this README only.
-
-### 4.10A Polarized adic systems and projective algebraization
-
-Let `A` be a Noetherian ring, `I`-adically complete for an ideal `I` (so `I` lies in the Jacobson
-radical of `A`), with `S_n = Spec(A/I^{n+1})`. Construct the category of polarized adic systems over
-`(A, I)`. An object is a family of schemes `X_n → S_n`, finitely presented, with `X_0 → S_0`
-proper, cartesian comparison isomorphisms `X_n ≅ X_{n+1} ×_{S_{n+1}} S_n` satisfying the cocycle
-condition, invertible sheaves `L_n` on `X_n` with compatible isomorphisms `ι_n^* L_{n+1} ≅ L_n`, and
-`L_0` ample on `X_0`. A morphism `(X_n, L_n) → (Y_n, M_n)` is a morphism of adic thickening systems
-`g_n : X_n → Y_n` over `(S_n)_n` in the sense of §4.10 together with compatible isomorphisms
-`g_n^* M_n ≅ L_n`. The flat subcategory requires every `X_n` flat over `A/I^{n+1}`; the smooth one
-requires every `X_n` smooth over `A/I^{n+1}`. These are the level-preserving adic systems of
-§§4.7–4.8 with a polarization, not a new formal-space carrier.
-
-Prove `polarized_adic_system_algebraize`: for every polarized adic system there are a closed
-subscheme `X ⊆ ℙ^N_A`, a line bundle `L` on `X` ample relative to `A`, and isomorphisms
-`X ×_A S_n ≅ X_n` and `L|_{X_n} ≅ L_n` compatible with the transition maps (Stacks, Theorem 30.28.4
-(089A)). The reduction functor from pairs `(X, L)` with `X` projective over `A` and `L` relatively
-ample, whose morphisms are morphisms `G : X → Y` over `A` with an isomorphism `G^* M ≅ L`, to
-polarized adic systems is an equivalence; it retains the line-bundle automorphisms (units of
-`Γ(X, O_X)` act on `L`). Full faithfulness is §4.10's `algebraize_hom` (Stacks, Lemma 30.28.3
-(0A42)) for the scheme maps together with `grothendieck_existence_fullyFaithful` for the
-line-bundle isomorphisms and their inverses; essential surjectivity is the existence statement.
-Effectivity of coherent modules on an already given proper scheme is an input, not the existence
-theorem for `X` itself.
-
-Base change. Let `φ : A → B` be a ring map with `B` Noetherian and `J`-adically complete and
-`φ(I) ⊆ J`. Since `φ(I^{n+1}) ⊆ J^{n+1}`, `A → B/J^{n+1}` factors through `A/I^{n+1}`, and the
-base-changed system has levels `X_n ×_{Spec(A/I^{n+1})} Spec(B/J^{n+1})` with the pulled-back `L_n`.
-Prove that the algebraization of the base-changed system is canonically isomorphic to
-`(X ×_A B, L_B)` compatibly with all reductions, that the comparison is the identity for `φ = id_A`
-and `J = I`, and that it is compatible with composition `A → B → C`. Neither `J = IB` nor flatness
-of `φ` is assumed.
-
-Construction route. As in Stacks 089A, the kernels `K_{n+1} = I^{n+1} O_{X_{n+1}}` of
-`O_{X_{n+1}} → O_{X_n}` are annihilated by `I`, hence coherent on `X_0`, and `⊕_{n≥0} K_n` (with
-`K_0 = O_{X_0}`) is a graded module of finite type over the pullback to `X_0` of the finitely
-generated graded `A/I`-algebra `gr_I(A) = ⊕ I^n/I^{n+1}`. Stacks, Lemma 30.19.3 (0897), applied to
-`X_0 → S_0` and `L_0`, gives one `d_0` with `H^1(X_0, K_n ⊗ L_0^d) = 0` for every `n` and every
-`d ≥ d_0`; separate Serre vanishing for each `K_n` gives no bound uniform in `n`. Choose `d ≥ d_0`
-and sections of `L_0^d` giving a closed immersion `X_0 → ℙ^N_{S_0}`, lift them level by level
-through `0 → K_{n+1} ⊗ L_0^d → L_{n+1}^d → L_n^d → 0`, obtain compatible closed immersions
-`X_n → ℙ^N_{S_n}` with cartesian squares, and algebraize the closed subschemes by Stacks, Lemma
-30.28.1 (0899), which is §4.10's coherent existence applied to quotients of `O_{ℙ^N_A}`. Recover
-`L` from `O(1)` and `grothendieck_existence_fullyFaithful`. Prove independence from `d` and the
-sections through the canonical comparison functors. Projectivity is not inferred from properness of
-`X_0` alone.
-
-Flatness. Prove the adic local flatness criterion: for `R → S` a ring map of Noetherian rings, `I`
-an ideal of `R` and `M` a finite `S`-module with `M/I^n M` flat over `R/I^n` for every `n ≥ 1`,
-`M_𝔮` is flat over `R` for every prime `𝔮 ⊇ IS` (Stacks, Lemma 10.99.11 (0523); the route is the
-local flatness criterion with Artin–Rees). Prove openness of the flat locus: for `f : X → Y`
-locally of finite presentation and `F` quasi-coherent of finite presentation, the set of points
-of `X` where `F` is flat over `Y` is open (Stacks, Theorem 37.15.1 (0399)). Then prove: if every
-level is flat, `X` is flat over `A`, and conversely by base change. The criterion on affine opens
-`Spec S ⊆ X` gives flatness at every point of `X_0`; the non-flat locus `Z` is closed, so `f(Z)` is
-closed in `Spec A` by properness; a nonempty closed subset of `Spec A` contains a maximal ideal,
-which contains `I`, and the points of `X` over it lie in `X_0`; hence `Z` is empty.
-
-Smoothness and geometric connectedness. Prove: the levels are all smooth if and only if `X` is
-smooth over `A`. If they are, `X` is flat by the preceding paragraph, and the fibre of `X` over a
-prime `𝔭 ⊇ I` is `X_0 ×_{A/I} κ(𝔭)`, which is smooth, so `X` is smooth at every point of `X_0`
-(Stacks, Lemma 29.35.14 (01V9)); the closed non-smooth locus is then empty by the properness
-argument above. Prove: for a smooth polarized system, every fibre of `X → Spec A` is geometrically
-connected if and only if `X_0 ×_{A/I} κ(𝔪)` is geometrically connected for every maximal ideal
-`𝔪` of `A`. For `X` proper, flat and of finite presentation with geometrically reduced fibres, the
-number of geometric connected components of the fibre over `s ∈ Spec A` is locally constant in `s`
-(Stacks, Lemma 37.53.8 (0E0N)); the closure of any prime is connected and contains a maximal ideal,
-which contains `I`, and the fibre there is `X_0 ×_{A/I} κ(𝔪)`. For `(A, 𝔪)` local with residue
-field `k`, this reads: `X` is smooth and projective over `A` with all geometric fibres connected if
-and only if every level is smooth and `X_k = X_0 ×_{A/I} Spec k` is geometrically connected.
-Geometric reducedness of the fibres is essential (the Check on `Spec A[u]/(u² − t)` below).
-
-This is the polarized-system theorem of Stacks 089A, supplied here at the boundary of §4.10.
-*Needs:* §§4.7–4.10; relative Proj §0.3; coherent proper cohomology §2.6; JacobianChallenge Layer C
-(proper coherent cohomology and base change); StableReduction Layer 2's ample-line-bundle
-convention. The proof uses projective geometry and coherent modules before any Picard
-representability, Enriques lattice, period map or moduli-of-surfaces theorem, and introduces no
-dependency on a consumer's surface classification.
-
-**Checks.**
-- The tower `(ℙ^N_{A/I^{n+1}}, O(1))` algebraizes to `(ℙ^N_A, O(1))`;
-  its line-bundle automorphisms at every level and on `ℙ^N_A` are the units of `A/I^{n+1}`,
-  respectively `A`, so a construction that forgets the line-bundle isomorphisms loses them.
-- For `A = k[[t]]` and `F = x³ + y³ + z³ + t·xyz` with `char k ≠ 3`, the
-  tower of plane cubics `V(F mod t^{n+1})` with `O(1)` is flat and smooth at every level, and
-  algebraizes to `V(F) ⊆ ℙ²_A`.
-- Inside the tower `ℙ¹` over `k[t]/(t^{n+1})`, the closed subschemes `V(x)` at `n = 0` and
-  `V(x − z)` at `n = 1` are not compatible: `V(x − z)` reduces to the point `[1:1]`, not `[0:1]`,
-  so with these embeddings they are no compatible system of closed subschemes, and Stacks 0899
-  does not apply; `V(x + t·z)` at `n = 1` does reduce to `V(x)`.
-- A tower of proper schemes with no compatible ample line bundle is
-  outside this equivalence, even when each level is proper.
-- For `A = k[[t]]` and the closed point `X = Spec k`, every level
-  is `Spec k`, not flat over `k[t]/(t^{n+1})` for `n ≥ 1`, and `X` is not flat over `A`.
-- For `φ : k[[t]] → k[[s]]`, `t ↦ s²`, and `J = (s)`, `φ(I) = (s²) ⊆ J`
-  while `IB = (s²) ≠ J`; the base-changed levels `X_n ×_{k[t]/(t^{n+1})} k[s]/(s^{n+1})` are
-  defined because `s^{2n+2} = 0` in `k[s]/(s^{n+1})`. The identity of `k[[t]]` from the `(t)`-adic
-  to the `(t²)`-adic ideal is not admitted (§4.7, `not_levelPreserving_powerSeries`).
-- For `A = k[[t]]` and `char k ≠ 2`, the scheme `X = Spec A[u]/(u² − t)`
-  with `L = O_X` is finite free of rank 2, hence projective and flat with `L` relatively ample; its
-  closed fibre `Spec k[u]/(u²)` is geometrically connected, but the geometric generic fibre is two
-  points. The levels are not smooth, and the geometric connectedness comparison does not apply.
-- For the same `X`, `X` is not smooth over `A` (its closed fibre is
-  not reduced) and `X_0 = Spec k[u]/(u²)` is not smooth over `k`, as the smoothness equivalence
-  requires.
-
-`polarized_adic_system_algebraize` is specified in this README only.
+`Formal.quotIncl`, `Formal.levelIncl`, `Formal.algebraize_hom`, and
+`Formal.grothendieck_existence_fullyFaithful` (full faithfulness, on the same adic thickening system
+and closed immersions: for finitely presented `M`, `N` on `X`, maps `j n^* M → j n^* N` compatible
+with the transitions are the restrictions of a unique `M → N`).
 
 ### 4.11 Modifications and strict transforms
 
@@ -6350,9 +6322,7 @@ it is not an input to the fibration helper or to StableReduction's reduction pro
 *Lean:* `Formal.DeJong.node_local_structure_dvr` (on the polynomial model `R[u, v]/(uv − a)`, with
 the coordinate change `u ↦ εu'`, `v ↦ v'`),
 `Formal.DeJong.node_local_structure_dvr_nonzero_of_generic_smooth`,
-`Formal.DeJong.curve_fibration_field_reduction`,
-`Formal.DeJong.nodal_codim_two_thickness_three_residual` (the substitution identity and the
-dimension-three, embedding-dimension-four local ring of the residual chart). The other
+`Formal.DeJong.curve_fibration_field_reduction`. The other
 definitions, theorems and Checks of this subsection, including `curve_family_alteration`, are
 specified in this README only.
 
@@ -6360,11 +6330,11 @@ specified in this README only.
 
 Prove `alteration_theorem`: for `X` integral separated of finite type over a field `k` and `Z ⊊ X`
 a proper closed subset, there is an alteration `φ : X_1 → X` from an integral `X_1`, an open
-immersion `j : X_1 → X̄_1` into a regular scheme `X̄_1` **projective** over `k` (StableReduction Layer
-2's projective morphisms; properness is the consequence recorded in `Suggested.lean`), such that
+immersion `j : X_1 → X̄_1` into a regular scheme `X̄_1` **projective** over `k`, in the sense of
+`Formal.DeJong.IsProjectiveOverSpec` below, such that
 the complement of `j` together with `j(φ⁻¹(Z))` is the support of a strict normal crossings divisor
 (§4.17); when `k` is perfect the alteration can be chosen generically étale (de Jong 1996, Theorem
-4.1 and Remark 4.2, p. 66; proof 4.3–4.28, pp. 66–76). *Needs:* §4.12, §4.13, §4.14, §4.15, §4.16, §4.17, §4.18; StableReduction Layer 2.
+4.1 and Remark 4.2, p. 66; proof 4.3–4.28, pp. 66–76). *Needs:* §0.3, §4.12, §4.13, §4.14, §4.15, §4.16, §4.17, §4.18; StableReduction Layer 2; Mathlib `Proj`, `Proj.toSpecZero`, `MvPolynomial.gradedAlgebra`, `IsClosedImmersion`.
 
 For arbitrary `k`, use `curve_fibration_field_reduction` and `curve_fibration_spread`
 before the reduced fibration helper. The descended diagram retains the finite extension
@@ -6393,7 +6363,36 @@ normal-crossings boundary (de Jong, §§4.22–4.28; the split resolution as in 
   étale (`y² = x^p − t` admits no generically étale alteration to a smooth curve with the same
   function field).
 
-*Lean:* `Formal.DeJong.alteration_theorem` (with `X̄_1` proper over `k`).
+Define `IsProjectiveOverSpec R g`, for a commutative ring `R` and `g : X → Spec R`: for some `n`
+there is a closed immersion `i : X → ℙⁿ_R` over `Spec R`, where `ℙⁿ_R` is Mathlib's `Proj` of
+`R[T_0, …, T_n]` graded by total degree (`MvPolynomial.homogeneousSubmodule`,
+`MvPolynomial.gradedAlgebra`) and the structure map is `Proj.toSpecZero` followed by
+`Spec R_0 → Spec R` (Hartshorne, *Algebraic Geometry*, II.4, p. 103). Over a field or a local
+ring every finite-type quasi-coherent module is a quotient of a free one, so this agrees with
+projectivity through a closed immersion into the projective bundle of a finite-type module, the
+sense of de Jong 1996; it is the affine-base case of StableReduction Layer 2's projective
+morphisms, which `relativeProj_closedImmersion` of §0.3 produces.
+
+API.
+- A projective `X` over `R` is proper over `Spec R`: closed immersions are proper, Mathlib proves
+  `IsProper (Proj.toSpecZero 𝒜)` for a graded algebra of finite type over its degree-zero part
+  (`Mathlib/AlgebraicGeometry/ProjectiveSpectrum/Proper.lean`), and for `R[T_0, …, T_n]` the map
+  `R → R_0` is an isomorphism.
+- Projectivity is stable under composition with closed immersions into `X`.
+
+**Checks.**
+- `ℙⁿ_R` itself, with `i` the identity, is projective over `R`; for `n = 0`, `ℙ⁰_R ≅ Spec R`.
+- For `R = k[[t]]` and `X = ℙ¹_R`, the identity alteration of `X` with `j` the identity and
+  `X̄_1 = X` satisfies the projectivity conclusion of `semistable_alteration_theorem` for
+  `Z = X_s`; a statement recording only properness would also accept a proper non-projective
+  compactification.
+- `𝔸¹_k` is not projective over `k`: a closed subscheme of `ℙⁿ_k` is proper, and `𝔸¹_k → Spec k`
+  is not universally closed.
+- The empty scheme is projective over every `R` (the empty closed subscheme of `ℙ⁰_R`), so the
+  predicate imposes no nonemptiness.
+
+*Lean:* `Formal.DeJong.alteration_theorem` (with `X̄_1` projective over `k`),
+`Formal.DeJong.IsProjectiveOverSpec`.
 
 ### 4.20 Traits, `S`-varieties, strict semistability and the semistable alteration theorem
 
@@ -6447,16 +6446,14 @@ Faltings–Chai about degenerating abelian varieties.
 Prove `semistable_alteration_theorem`: let `S = Spec R` be a trait, `f : X → S` an `S`-variety,
 and `Z ⊊ X` a closed subset containing `X_s`. There are a finite extension of traits `S_1 → S`,
 an `S_1`-variety `X_1`, an alteration `φ : X_1 → X` over `S`, and an open immersion of
-`S_1`-varieties `j : X_1 → X̄_1`, where `X̄_1` is proper over `S_1` with geometrically
-irreducible generic fibre. The reduced boundary with support
+`S_1`-varieties `j : X_1 → X̄_1`, where `X̄_1` is projective over `S_1`
+(`IsProjectiveOverSpec`, §4.19) with geometrically irreducible generic fibre. The reduced boundary with support
 `B = (X̄_1 ∖ j(X_1)) ∪ j(φ⁻¹(Z))` makes `(X̄_1, B)` a strict semistable pair. In the horizontal
 `SNCData H` convention, require the exact equality
 `support(X̄_{1,s_1}) ∪ support(H) = (X̄_1 ∖ j(X_1)) ∪ j(φ⁻¹(Z))`.
 With `g : X̄_1 → S_1` and `f_1 : X_1 → S_1`, both `j ≫ g = f_1` and
 `f_1 ≫ (S_1 → S) = φ ≫ f` must hold (A. J. de Jong 1996, Theorem 6.5 and Diagram 6.6,
-p. 83; strict pairs: 6.2–6.4, pp. 82–83). This is the properness consequence of the source
-theorem. Its stronger projectivity conclusion is outside this statement; both the prose and
-`semistable_alteration_theorem` use properness. *Needs:* §0.21,
+p. 83; strict pairs: 6.2–6.4, pp. 82–83). *Needs:* §0.3, §0.21,
 §4.11, §4.13, §4.15, §4.16, §4.17, §4.18, §4.19; Tau Ceti `FiniteDVRExtension`, `genericFiber`, `specialFiberι`, `Model`;
 StableReduction Layers 0, 2–3; Mathlib `IsDiscreteValuationRing`, `IsAdicComplete`, `Smooth`.
 
