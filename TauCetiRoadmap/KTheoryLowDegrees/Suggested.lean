@@ -3,10 +3,10 @@ import TauCeti.Algebra.Category.ModuleCat.FiniteProjective.Monoidal
 import TauCeti.CategoryTheory.GrothendieckGroup.Monoidal.Basic
 
 /-!
-# KTheoryLowDegrees: headline target signatures
+# KTheoryLowDegrees: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. These statements suggest Lean forms for headline results; discharging
+`README.md`. These statements give the headline theorems against the pinned APIs; discharging
 all of them finishes neither a layer nor the roadmap.
 
 The statements cover the rank splitting and semilocal rank classification (Layer 2),
@@ -14,7 +14,8 @@ Steinitz decomposition and the Dedekind rank–Picard ring classification (Layer
 Euclidean elementary generation and stable nonvanishing of the real circle rotation
 (Layer 8), and, over S-integers of a number field, elementary generation in ranks at
 least three, its relative form at every ideal level, the congruence subgroup property
-with its failure for totally imaginary rings of integers, and finite generation of the
+with its failure for totally imaginary rings of integers, the rank-two counterparts
+under positive S-unit rank, and finite generation of the
 arithmetic SL₂ groups and their finite-index subgroups (Layer 11). The circle statement
 uses finite identity-padded matrices, so it does not require a stable K₁ carrier, and the
 congruence statements use only principal congruence subgroups, so they need no completion.
@@ -233,6 +234,28 @@ theorem arithmeticSL2_finitelyGenerated (F : Type u) [Field F] [NumberField F]
     (S : Set (HeightOneSpectrum (NumberField.RingOfIntegers F))) [Finite S]
     (H : Subgroup (Matrix.SpecialLinearGroup (Fin 2) (S.integer F)))
     [H.FiniteIndex] : Group.FG H := by
+  sorry
+
+/-- Under positive S-unit rank, every finite-index subgroup of SL₂ over S-integers
+contains a principal congruence subgroup of nonzero level when S is nonempty or the
+field has a real place (Serre 1970, Theorem 2 and Corollary 3, pp. 498–499). -/
+theorem rankTwo_congruence_subgroup_property (F : Type u) [Field F] [NumberField F]
+    (S : Set (HeightOneSpectrum (NumberField.RingOfIntegers F))) [Finite S]
+    (hRank : 2 ≤ Nat.card (NumberField.InfinitePlace F) + Nat.card S)
+    (hFS : S.Nonempty ∨ ∃ v : NumberField.InfinitePlace F, v.IsReal)
+    (H : Subgroup (Matrix.SpecialLinearGroup (Fin 2) (S.integer F))) [H.FiniteIndex] :
+    ∃ I : Ideal (S.integer F), I ≠ ⊥ ∧ principalCongruence (S.integer F) 2 I ≤ H := by
+  sorry
+
+/-- For a totally imaginary number field with positive unit rank, some finite-index
+subgroup of SL₂ of its integers contains no nonzero principal congruence level
+(Serre 1970, Theorem 2 and Corollaries 1–4, pp. 498–500). -/
+theorem rankTwo_congruence_subgroup_failure (F : Type u) [Field F] [NumberField F]
+    (hRank : 2 ≤ Nat.card (NumberField.InfinitePlace F))
+    (hF : ∀ v : NumberField.InfinitePlace F, v.IsComplex) :
+    ∃ H : Subgroup (Matrix.SpecialLinearGroup (Fin 2) (NumberField.RingOfIntegers F)),
+      H.FiniteIndex ∧ ∀ I : Ideal (NumberField.RingOfIntegers F), I ≠ ⊥ →
+        ¬ principalCongruence (NumberField.RingOfIntegers F) 2 I ≤ H := by
   sorry
 
 end TauCetiRoadmap.KTheoryLowDegrees
