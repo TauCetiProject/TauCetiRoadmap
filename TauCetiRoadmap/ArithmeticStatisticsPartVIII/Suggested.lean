@@ -1,10 +1,10 @@
 import Mathlib
 
 /-!
-# Arithmetic statistics, Part VIII: headline theorem statements
+# Arithmetic statistics, Part VIII: target signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive specification is
-`README.md`; these statements give Lean forms for selected milestones, and proving them
+**The roadmap is README.md; this file is not the roadmap.** It states the roadmap’s
+headline theorems against the pinned Mathlib and Tau Ceti APIs. Proving these statements
 finishes neither a layer nor the roadmap.
 
 Section 5.12 states the first moment, second-moment bound and variance estimate for local
@@ -20,20 +20,23 @@ isomorphism-class counts and Frobenius polynomials; the model-ring comparison al
 CM and quaternionic positive-unit orbit counts. The class-group/Hurwitz dictionary of §5.15
 needs the arithmetic Hurwitz schemes. The geometric trace estimate of §5.16 needs rational
 compactly supported étale cohomology and its Frobenius action. Hyperelliptic monodromy in
-§5.17 needs the relative Jacobian, its torsion local systems and monodromy representations.
+§5.17, including genus-one 3-adic monodromy and its Legendre inertia input, needs the
+relative Jacobian, its torsion local systems and monodromy representations.
 The rational-component and Cohen–Lenstra theorems of §§5.18–5.19 also need these Hurwitz
 carriers and the cohomological uniform Betti hypothesis (HS). Wood's moments, bad-type
 bounds and whole-component profiles in §§5.20–5.21 need marked Hurwitz schemes, reduced
 Schur multipliers and the arithmetic extension counts. The Liu–Wood–Zureick-Brown and
 Cohen–Lenstra–Martinet moments of §5.22 need the radical-discriminant extension families
 and the maximal unramified extensions with their specified infinity conditions and group
-actions. Their statements are deferred until those objects are available.
+actions. These headlines are not statable at the pins without those carriers.
 -/
 
 noncomputable section
 open scoped BigOperators
 
 namespace TauCetiRoadmap.ArithmeticStatisticsPartVIII
+
+/-! ## Layer 5: geometric statistics and function-field distributions -/
 
 namespace HypersurfaceDensity
 
