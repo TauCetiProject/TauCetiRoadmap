@@ -4,8 +4,8 @@ import Mathlib
 # K-theory of finite and local fields: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. The statements here suggest Lean forms for particular milestones; discharging
-all of them finishes neither a layer nor the roadmap.
+`README.md`. This file states the roadmap’s headline theorems against the pinned APIs;
+discharging them does not replace the constructions and API required by the roadmap.
 
 The stated results are Izhboldin's characteristic-`p` torsion theorem (§3.0), Moore's
 intrinsic local K₂ structure theorem (§3.5), the Cohen–Witt coefficient embedding for
@@ -25,16 +25,18 @@ Bloch–Gabber–Kato requires Cartier and logarithmic Witt differentials; motiv
 and étale descent require cycle complexes, Milnor products and norms, and twisted étale
 cohomology. The logarithmic trace, Witt–Bott comparison
 and nilpotent-thickening calculations require cyclotomic spectra and absolute logarithmic
-de Rham–Witt complexes. The big Witt comparison `bigWittPowerSeriesComparison` (§5.16a)
-requires the general coordinate big Witt group and identifies its addition with power-series
-multiplication. The local homotopy splitting additionally requires height-one
+de Rham–Witt complexes. The degree-one coefficient Chern comparison requires the
+K-theory coefficient spectrum, graded Picard spectrum and scheme Kummer cohomology.
+The local homotopy splitting additionally requires height-one
 localization and stable unitary spaces; the perfect-characteristic-two and dyadic comparisons
 require Poincaré GW/L spectra and their homotopy fixed points. The finite-rank symplectic
 Chern comparison requires the Lang classifying comparison and higher étale Chern maps.
-These statements are deferred until their mathematical objects are available.
+These headline statements are not statable at the pins without those carriers.
 -/
 
 namespace TauCetiRoadmap.KTheoryFiniteLocalFields
+
+/-! ## Layer 0: completed KU and pullback cohomology -/
 
 namespace Divisible
 
@@ -43,6 +45,8 @@ def maxDivisible (A : Type*) [AddCommGroup A] : AddSubgroup A :=
   sSup {D : AddSubgroup A | ∀ n : ℕ, n ≠ 0 → ∀ x : D, ∃ y : D, n • y = x}
 
 end Divisible
+
+/-! ## Layer 3: integral K₂ and Moore’s theorem -/
 
 /-- The Steinberg relations in an integral tensor power of additive field units. -/
 def steinbergRelations (F : Type*) [Field F] (n : ℕ) :
@@ -79,6 +83,8 @@ theorem moore_localK2 (E : Type*) [Field E] [ValuativeRel E] [TopologicalSpace E
       ⨅ n : {n : ℕ // 0 < n}, (nsmulAddMonoidHom (α := milnorK E 2) n.val).range := by
   sorry
 
+/-! ## Layer 5: logarithmic Witt and residue-characteristic calculations -/
+
 /-- §5.2, Cohen–Witt: a complete mixed-characteristic DVR with perfect residue field
 receives an injective Witt-vector coefficient map lifting the residue identity. -/
 theorem exists_wittVector_coefficientEmbedding (p : ℕ) [Fact p.Prime]
@@ -88,6 +94,8 @@ theorem exists_wittVector_coefficientEmbedding (p : ℕ) [Fact p.Prime]
     ∃ f : WittVector p (IsLocalRing.ResidueField A) →+* A, Function.Injective f ∧
       (IsLocalRing.residue A).comp f = WittVector.constantCoeff := by
   sorry
+
+/-! ## Layer 6: completed and integral higher K-groups of local fields -/
 
 /-- §6.10: every positive-degree algebraic Milnor group of a nonarchimedean local field
 is uncountable, including in equal characteristic. -/
