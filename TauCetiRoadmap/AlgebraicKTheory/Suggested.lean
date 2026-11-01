@@ -19,8 +19,10 @@ Headline theorems of the roadmap that are not statable at the pins:
   A7, and every statement about the `K₀` map of a ring homomorphism: these need extension of
   scalars along an arbitrary ring homomorphism on finitely generated projective right modules
   over noncommutative rings. Mathlib's `ModuleCat.extendScalars` requires commutative rings,
-  and the pinned Tau Ceti's `TauCeti.BalancedTensorProduct` is only a module over the ground
-  ring, with no outer action of the target ring.
+  and the pinned Tau Ceti's `TauCeti.BalancedTensorProduct` (module
+  `TauCeti.LinearAlgebra.TensorProduct.Balanced.Basic`, with `Unit`, `Corner` and
+  `OuterFactors`) is only a module over the ground ring, with no outer action of the target
+  ring.
 * The relative exact sequences of A3 and the boundary map of A6: these need A3's relative
   triple group and A2's automorphism presentation of `K₁`, which neither library has, and for
   rings that same base change.
@@ -157,19 +159,20 @@ def HasCoveringDimensionLE (X : Type u) [TopologicalSpace X] (d : ℕ) : Prop :=
       (∀ V ∈ 𝒱, ∃ U ∈ 𝒰, V ⊆ U) ∧
       ∀ x : X, {V | V ∈ 𝒱 ∧ x ∈ V}.encard ≤ ((d + 1 : ℕ) : ℕ∞)
 
-/-- Vaserstein: for a compact Hausdorff space of finite covering dimension, `C(X, ℂ)` has stable
-range at most `s ≥ 1` exactly when `dim X ≤ 2s − 1`; equivalently its stable rank is
-`⌊dim X / 2⌋ + 1`. -/
+/-- Vaserstein: for a compact Hausdorff space `X`, `C(X, ℂ)` has stable range at most `s ≥ 1`
+exactly when `dim X ≤ 2s − 1`; equivalently its stable rank is `⌊dim X / 2⌋ + 1`, infinite when
+`X` has no finite covering dimension (Vaserstein 1971, Theorem 7, with the identification of
+Vaserstein's stable-value dimension with covering dimension for compact Hausdorff spaces). -/
 theorem hasStableRangeLE_continuousMap_complex_iff (X : Type u) [TopologicalSpace X]
-    [CompactSpace X] [T2Space X] (hX : ∃ d, HasCoveringDimensionLE X d) (s : ℕ) (hs : 1 ≤ s) :
+    [CompactSpace X] [T2Space X] (s : ℕ) (hs : 1 ≤ s) :
     HasStableRangeLE C(X, ℂ) s ↔ HasCoveringDimensionLE X (2 * s - 1) := by
   sorry
 
-/-- Vaserstein: for a compact Hausdorff space of finite covering dimension, `C(X, ℝ)` has stable
-range at most `s ≥ 1` exactly when `dim X ≤ s − 1`; equivalently its stable rank is
-`dim X + 1`. -/
+/-- Vaserstein: for a compact Hausdorff space `X`, `C(X, ℝ)` has stable range at most `s ≥ 1`
+exactly when `dim X ≤ s − 1`; equivalently its stable rank is `dim X + 1`, infinite when `X` has
+no finite covering dimension (Vaserstein 1971, Theorem 5). -/
 theorem hasStableRangeLE_continuousMap_real_iff (X : Type u) [TopologicalSpace X]
-    [CompactSpace X] [T2Space X] (hX : ∃ d, HasCoveringDimensionLE X d) (s : ℕ) (hs : 1 ≤ s) :
+    [CompactSpace X] [T2Space X] (s : ℕ) (hs : 1 ≤ s) :
     HasStableRangeLE C(X, ℝ) s ↔ HasCoveringDimensionLE X (s - 1) := by
   sorry
 
