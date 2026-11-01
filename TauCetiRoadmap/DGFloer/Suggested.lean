@@ -1,5 +1,7 @@
-import Mathlib
-import TauCeti.Algebra.Homology.DG.Module.Right.Defs
+module
+
+public import Mathlib
+public import TauCeti.Algebra.Homology.DG.Module.Right.Defs
 
 /-!
 # Morse and Floer homology with DG coefficients: target signatures
@@ -26,6 +28,8 @@ The twisting equation is written in the source's homological sign convention on 
 cohomologically graded algebra, through the grading bridge `C^{-n} = C_n` of the README; its
 comparison with the DG roadmap's `(MC)` is acceptance criterion 2.
 -/
+
+public section
 
 namespace TauCetiRoadmap.DGFloer
 
