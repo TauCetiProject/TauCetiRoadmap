@@ -1633,7 +1633,7 @@ API: `SK1` (`SK₁` of `𝒪[P]`; of `Λ_𝒪(G)` as the kernel to `lim_Δ K₁(
 
 **Construction.** Suppose `G` is compact `p`-adic analytic with an open central `Γ₀≅ℤ_p`, and `O` is a finite extension ring of integers. With `R=O[[Γ₀]]` and `F=Frac(R)`, define `Q_O(G)=F⊗_R O[[G]]`. It is the classical total ring of fractions and a finite-dimensional separable semisimple `F`-algebra; changing `Γ₀` gives the canonically isomorphic total quotient. It is distinct from `Λ(G)_S` and `Λ(G)[1/p]`.
 
-See Kakde, §5.1.4, Lemma 37, pp. 31–32: Identifies the total fraction algebra with the central fraction-field scalar extension. Nickel, Example 2.7 and §2.2, pp. 7–8: Treats one-dimensional Iwasawa algebras as orders in separable semisimple total quotient algebras.
+See Kakde, §5.1.4, proof of Lemma 37, pp. 31–32: the first step of the proof shows `Q(Λ_O(G)) = Q(Λ_O(Z)) ⊗_{Λ_O(Z)} Λ_O(G)` for the open central `Z`, because the right side is Artinian and contains `Λ_O(G)`; the lemma itself, identifying `Λ_O(G)_T` with `Λ_O(G)_S`, is used in §6.7. Nickel, Example 2.7 and §2.2, pp. 7–8: Treats one-dimensional Iwasawa algebras as orders in separable semisimple total quotient algebras.
 
 The hypotheses are as follows. `G` has an open central `ℤ_p`-subgroup (the one-dimensional situation of the cited routes); `O` finite over `ℤ_p`; coefficients are characteristic zero after tensoring.
 
