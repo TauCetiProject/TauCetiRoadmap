@@ -6,6 +6,8 @@
 
 This is Part II of GrothendieckEulerForms. It owns the ring-specific and low-degree computations and their explicit normalizations. Its principal outputs are the rank–determinant classification over Dedekind domains and regular curves, the Dedekind and curve computations of the supplied projective λ-operations, finite-matrix and projective-automorphism formulas for `K₁`, the arithmetic congruence defects, and the signed boundary and graded determinant comparisons with the supplied K-space models. Finite-rank statements retain their rank restrictions throughout.
 
+ClassicalArithmeticCompletion §§7.0 and 7.84 own the Steinitz classification and the additive Dedekind K₀ equivalence, including its rank splitting and ideal-class inverse. Its §7.94 owns the nonprincipal norm-two ideal in ℤ[√−5] and its nonzero order-two reduced class. Sections 2.3 and 5.1–5.3 here add the explicit finite-free retraction, the Steinitz–determinant comparison, the square-zero ring enhancement and its localization formulas.
+
 Categorical Grothendieck groups, exact structures, Cartan maps and Euler characteristics belong to GrothendieckEulerForms Layers 0–5 and its implemented Tau Ceti library. AlgebraicKTheory conventions and A0–A6 supply associative scalar extension, projective/idempotent presentations, stable `GL/E`, classical and relative `K₁`, stable range, Steinberg groups and Milnor patching. The mathematical notation here denotes those objects through the explicit module-side and notation transports below. GeneralAlgebraicKTheory supplies categorical Q/S theory, plus constructions, the augmented ideal ring, higher relative K-spectra, localization and coherent additivity; §3.14 supplies the absolute ring comparison under the projective nerve, and §8.4 supplies the inverse-parameter patching convention. We add finite-matrix computations, module-side formulas and the signed boundary-prism comparison on these supplied objects. GeneralizedCohomology G2 owns based path-fibre carriers and concrete spectra; StableHomotopyKTheory Layers 2–5 own their homotopy-pullback calculus, plus constructions, monoidal group completion and spectral comparisons. EnhancedDerivedSheaves E0, E2 and E5 own stable enhanced categories, coherent diagrams, mapping spaces and space-valued sheafification. SchemeKTheoryOperations Layers 1–4 own perfect-complex K-theory, support localization and Witt-supported regular-perfection comparison; §3.6 transports AlgebraicKTheory's determinant package to scheme K-theory, §§6.2–6.3 own projective λ-operations and integral representation rings, and §§6.6 and 7.1 own the scheme λ/γ interfaces and the rank–determinant ring; SchemeAndStackFoundations §5.7 owns the determinant on `K₀`. The precise contracts below distinguish these inputs from the concrete comparisons built here.
 
 AlgebraicVectorBundles L0B–L0C owns finite locally free sheaves, their affine dictionary, tensor and dual, exterior powers and the componentwise determinant object. SchemeAndStackFoundations §5.7 owns the exact-category definitions of vector-bundle `K₀` and coherent `G₀`, their ring/module structures, pullback, rank, determinant, Cartan comparison, coherent localization and proper pushforward. Its §3.3 owns degree defined by Euler characteristic. JacobianChallenge Layer A and Tau Ceti own invertible sheaves, line-bundle classes and the divisor–Picard comparison. We use those objects to classify curve classes; we do not rebuild them. The elliptic-curve Picard decomposition is outside this roadmap.
@@ -118,7 +120,7 @@ AlgebraicKTheory A3 supplies relative groups and triples; GeneralAlgebraicKTheor
 
 ### Further geometric inputs
 
-ClassicalArithmeticCompletion §§7.6–7.7 and 7.23 supply `StableEquivalent`, finite-free complements and equality of finite-projective split K₀ classes. Its §7.0 supplies lattice pseudobases, the ideal direct-sum identity and the Steinitz classification. Section 5.1 compares finite projectives with lattices in their fraction-field scalar extension and identifies the Steinitz class with the determinant.
+ClassicalArithmeticCompletion §§7.6–7.7 and 7.23 supply `StableEquivalent`, finite-free complements and equality of finite-projective split K₀ classes. Its §7.0 supplies lattice pseudobases, the ideal direct-sum identity and the Steinitz classification. Its §7.84 supplies the additive equivalence K₀(R)≃ℤ⊕Additive(ClassGroup R), normalized by [P]↦(rank P,st(P)) and with inverse (n,[I])↦(n−1)[R]+[I], including the field and zero-module cases. Its §7.94 supplies, for A=ℤ[√−5] and I=(2,1+√−5), A/I≃𝔽₂, nonprincipality, rank-one projectivity, I²=(2), and the nonzero order-two class [I]−[A]. Section 5.1 identifies the Steinitz class with the determinant; §5.2 upgrades the supplied additive equivalence to the native square-zero ring equivalence.
 
 PadicMeasuresIwasawaAlgebras §5.1 supplies `projectiveDeterminant`, its sum comparison and parity symmetry, and `detLine`, `detLine_quasiIso`, `detLine_shortExact`, `detLine_baseChange`, `detLine_shift`, `detLine_acyclic` and `detLine_cone` for affine perfect complexes. Layer 14 constructs the integer grading and its parity-reduction comparison, then the spectral and scheme-descent enhancements.
 
@@ -318,18 +320,28 @@ For a commutative semilocal ring prove that finite projectives are free on each 
 
 ### 2.3 A projective invisible to all local ranks
 
-Let `A=ℤ[√−5]` and `I=(2,1+√−5)`. Compare `A` with the actual ring of integers of `ℚ(√−5)`. Establish directly that `I` is a finite projective rank-one module and is not free. With `s²=−5`, a splitting is
+Let `A=ℤ[√−5]` and `I=(2,1+√−5)`. Compare `A` with the actual ring of integers of `ℚ(√−5)`. Use ClassicalArithmeticCompletion §7.94's finite projective rank-one, nonfree ideal. Construct the A-linear maps π:A²→I and ι:I→A²: with `s²=−5`, set
 
 ```text
 π(r₁,r₂)=2r₁+(1+s)r₂,
 ι(a)=(a(−1+s)/2, −a(1+s)/2).
 ```
 
-*Needs:* §1.1, split retractions; pinned quadratic integers and ideal norms; the displayed integral norm equation.
+*Needs:* §1.1, split retractions; ClassicalArithmeticCompletion §7.94, the quadratic ideal; pinned quadratic integers and their ring-of-integers comparison.
 
-The displayed fractions lie in `A` for `a∈I`, and `πι(a)=a`. The ideal has norm `2`, while the equation `u²+5v²=2` has no integral solution, so it cannot be principal. This example separates local rank, stable class and free-module classification. Layer 5 shows that `x=[I]−[A]` is nonzero of order two, even though it vanishes in every prime localization. Source: Weibel I.3, pp. 18–20 and II.2.6, pp. 73–74; the arithmetic nonprincipality argument is the displayed norm calculation.
+Prove that the displayed fractions lie in `A` for `a∈I`, that both maps are A-linear, and that `πι(a)=a`. Identify the resulting split-summand class with [I] in the supplied projective K₀. This separates local rank, stable class and free-module classification: the supplied nonzero order-two class `x=[I]−[A]` vanishes in every prime localization (Weibel I.3, pp. 18–20; II.2.6, pp. 74–75).
 
-*Needs:* §1.1, split retractions; pinned quadratic integers and ideal norms; the displayed integral norm equation.
+*Needs:* §1.1, split retractions; ClassicalArithmeticCompletion §§7.84 and 7.94, the ideal's reduced class; pinned quadratic integers and their ring-of-integers comparison.
+
+- The map π has image I, and ι takes I into A² with the displayed coordinates.
+- The composite πι is the identity of I, so ιπ is an idempotent on A² with image isomorphic to I.
+- The corresponding projective class is [I], whose rank is one at every prime; subtracting [A] gives the supplied nonzero reduced class.
+
+**Checks.**
+
+- At a=2, ι(a)=(−1+s,−1−s) and πι(a)=2; reversing the sign of the second coordinate would give −6+4s.
+- At a=1+s, ι(a)=(−3,2−s) and πι(a)=1+s, so both ideal generators have integral images despite the denominators.
+- At a=0, both maps give zero. In contrast a=1 is not in I and (−1+s)/2 is not in A, so this formula does not define a map A→A².
 
 ### Examples
 
@@ -337,7 +349,7 @@ For a disconnected ring the free-class copy of `ℤ` is only the diagonal in `H(
 
 ### Dependencies
 
-Layer 1; native stalk-rank and localization APIs; the clopen–idempotent correspondence; finite-free classification over local rings and PIDs; the actual quadratic-integer and ideal-norm APIs.
+Layer 1; native stalk-rank and localization APIs; the clopen–idempotent correspondence; finite-free classification over local rings and PIDs; ClassicalArithmeticCompletion §§7.84 and 7.94's quadratic ideal and reduced class; the actual quadratic-integer APIs.
 
 ## Layer 3: exterior operations, λ-rings and the γ-filtration
 
@@ -548,22 +560,22 @@ Transport the supplied positive-rank classification through these comparisons to
 
 The integer actions `picardIntOpModule` and `picardIntCentralScalar` identify the right and left integer scalar actions on the additive Picard group for the native square-zero ring. The light specialization `lineProjective R L` regards the native invertible module of a Picard class `L` as an object of `FiniteProjectives`. Its API is the underlying-module formula, rank-one property and isomorphism invariance; the rank–Picard theorem below normalizes its class as `(1,L)`. A trivial line gives `(1,0)`, tensor-inverse lines give inverse reduced classes, and a nontrivial ideal line gives a nonzero reduced class.
 
-*Needs:* §5.1, Steinitz and determinant comparison; §4.2, rank–Picard multiplication; `CommRing.Pic.AsModule`, `ClassGroup.equivPic` and `TrivSqZeroExt`.
+*Needs:* ClassicalArithmeticCompletion §7.84, additive Dedekind classification and rank-zero inclusion; §5.1, Steinitz and determinant comparison; §4.2, rank–Picard multiplication; `CommRing.Pic.AsModule`, `ClassGroup.equivPic` and `TrivSqZeroExt`.
 
-Define `ι : Additive(Pic R)→+K₀(R)` by `L↦[L]−[R]`. The Steinitz sum formula makes this additive over a Dedekind domain; it is not claimed additive over every ring. Its image is `ker rank`, it is split by determinant, and products of two image classes vanish. Construct `ρdet` (with the ring-equivalence statement `rank_pic_equiv_exists` in `Suggested.lean`, using native `TrivSqZeroExt`), normalized by
+Transport ClassicalArithmeticCompletion §7.84's additive equivalence and its rank-zero ideal-class inclusion along `ClassGroup.equivPic R`. Write ι:Additive(Pic R)→+K₀(R) for that inclusion in Picard coordinates, L↦[L]−[R]; its additivity, rank-kernel image and inverse formula are inputs. Use §5.1 to identify the transported Steinitz coordinate with determinant, and §4.2 to prove multiplicativity and the vanishing of products of two reduced classes. This upgrades the additive equivalence to `ρdet` (with the ring-equivalence statement `rank_pic_equiv_exists` in `Suggested.lean`, using native `TrivSqZeroExt`), normalized by
 
 ```text
 [P] ↦ (rank P,det P),       (n,L) ↦ (n−1)[R]+[L].
 ```
 
-*Needs:* §5.1, Steinitz and determinant comparison; §4.2, rank–Picard multiplication; `CommRing.Pic.AsModule`, `ClassGroup.equivPic` and `TrivSqZeroExt`.
+*Needs:* ClassicalArithmeticCompletion §7.84, additive Dedekind classification and rank-zero inclusion; §5.1, Steinitz and determinant comparison; §4.2, rank–Picard multiplication; `CommRing.Pic.AsModule`, `ClassGroup.equivPic` and `TrivSqZeroExt`.
 
 The inverse formula applies to every integer `n`, including `n=0` and `n<0`. It is a ring equivalence to the square-zero `H⋉Pic` structure, not the direct product ring `ℤ×Pic(R)`. In particular `SK₀=F²_γ=0` and `K̃₀²=0`. Transport `ClassGroup.equivPic` to the ideal-class-coordinate form; the class of an integral nonzero ideal `I` corresponds to the module `I` without inversion. For every ring map between Dedekind domains, base change sends `(n,L)` to `(n,f*L)`, including noninjective maps to residue fields (Weibel II.2.6.2–2.6.3, p. 75).
 
-*Needs:* §5.1, Steinitz and determinant comparison; §4.2, rank–Picard multiplication; `CommRing.Pic.AsModule`, `ClassGroup.equivPic` and `TrivSqZeroExt`.
+*Needs:* ClassicalArithmeticCompletion §7.84, additive Dedekind classification and rank-zero inclusion; §5.1, Steinitz and determinant comparison; §4.2, rank–Picard multiplication; `CommRing.Pic.AsModule`, `ClassGroup.equivPic` and `TrivSqZeroExt`.
 
 - For a native Picard class L, `lineProjective R L` has underlying module L, rank one and class with coordinates (1,L); module isomorphisms preserve this class.
-- Over a Dedekind domain, ι(L)=[L]−[R] is additive, has image the rank kernel, and determinant composed with ι is the identity on Picard classes.
+- Under the transported additive equivalence, determinant composed with the rank-zero inclusion ι is the identity on Picard classes.
 - For Picard classes L,M, the product ι(L)ι(M) is zero; the rank–Picard inverse sends (n,L) to (n−1)[R]+[L] for every integer n.
 - The two integer scalar actions on the additive Picard group agree; this is the central-scalar structure used by the native square-zero ring.
 
@@ -578,11 +590,11 @@ The inverse formula applies to every integer `n`, including `n=0` and `n<0`. It 
 
 For a multiplicative subset `M⊂R` not containing zero, let `T` be the nonzero primes meeting `M`. Identify the existing class-group localization map with a surjection `Cl(R)→Cl(M⁻¹R)` whose kernel is generated by `T`. Consequently the induced K₀ localization map is surjective, with kernel generated by `[p]−[R]` for `p∈T`. The rank coordinate is unchanged. For `A=O_{F,S}`, use its actual localization equivalence and obtain `Cl(A)=Cl(O_F)/⟨[p]:p∈S⟩` and the corresponding `K₀` formula. Class-group finiteness makes `K₀(O_F)=ℤ⊕a` finite group; the torsion subgroup is precisely `Cl(O_F)` (Weibel Ex. I.3.8(a),(c), p. 29; II.2.6.3, p. 75).
 
-*Needs:* §5.2, Dedekind coordinates; pinned ideal/class-group localization and S-integer equivalence; §2.3, the quadratic ideal; pinned class-number-two theorem.
+*Needs:* §5.2, Dedekind coordinates; ClassicalArithmeticCompletion §7.94, the quadratic ideal and its order-two class; pinned ideal/class-group localization and S-integer equivalence; pinned class-number-two theorem.
 
-For `A=ℤ[√−5]` and `I` from §2.3, prove `I²=(2)`, so `2([I]−[A])=0`. Nonprincipality gives nonzero determinant, hence a nonzero class. Under the explicit arithmetic hypothesis that the class number of `ℚ(√−5)` is two, the ring-of-integers equivalence yields `K₀(A)≃ℤ⊕ℤ/2`; the supplier contract above discharges that hypothesis. Localizing at `I` kills that torsion class. Its torsion quotient A/I has `G₀` class `[A]−[I]`; it is not itself an object of `Proj(A)`.
+For `A=ℤ[√−5]` and `I` from §2.3, use ClassicalArithmeticCompletion §7.94's identity I²=(2) and nonzero order-two class x=[I]−[A]. Under §5.2's ring enhancement, x has coordinates (0,[I]) and x²=0. The pinned class-number-two theorem and the ring-of-integers equivalence identify this ring with the square-zero extension ℤ⋉ℤ/2. Localizing at `I` kills that torsion class. Its torsion quotient A/I has `G₀` class `[A]−[I]`; it is not itself an object of `Proj(A)`.
 
-*Needs:* §5.2, Dedekind coordinates; pinned ideal/class-group localization and S-integer equivalence; §2.3, the quadratic ideal; pinned class-number-two theorem.
+*Needs:* §5.2, Dedekind coordinates; ClassicalArithmeticCompletion §7.94, the quadratic ideal and its order-two class; pinned ideal/class-group localization and S-integer equivalence; pinned class-number-two theorem.
 
 **Checks.**
 
@@ -670,7 +682,7 @@ The ideal `I=(2,1+√−5)` gives a rank-zero class of order two and a residue-f
 
 ### Dependencies
 
-Layers 1–4; finite torsion-free module classification over Dedekind domains; Picard/class-group equivalence, localization and ideal norms; number-field class-group finiteness and the explicit quadratic-integer equivalence. No algorithmic class-group computation is required as an unnamed dependency.
+Layers 1–4; ClassicalArithmeticCompletion §§7.0, 7.84 and 7.94, Steinitz classification, additive Dedekind K₀ and the quadratic ideal class; Picard/class-group equivalence, localization and ideal norms; number-field class-group finiteness and the explicit quadratic-integer equivalence. No algorithmic class-group computation is required as an unnamed dependency.
 
 ## Layer 6: finite matrices and stable representatives
 
@@ -1774,11 +1786,12 @@ Use GeneralAlgebraicKTheory §3.14's model comparison under the projective nerve
 *Needs:* §14.2, symmetric projective determinant; GeneralAlgebraicKTheory §§3.12–3.14, 4.3 and 5.7–5.11, projective-nerve comparison and additivity; GeneralizedCohomology G2.7–G2.8, group completion; §§7.2 and 13.1, automorphism loops.
 
 - The spectral determinant extends the projective-core determinant under the specified group-completion comparison.
-- Its component map is (rank,det), and the translated loop of a projective automorphism maps to its scalar determinant.
+- Its component map is (det,rank), and the translated loop of a projective automorphism maps to its scalar determinant.
 - It factors through first truncation; for a nonzero local ring this truncated map is an equivalence, and for general affines it is so after Zariski sheafification.
 
 **Checks.**
 
+- The free rank-two class maps to (O,2), and the negative of a line class maps to (L⁻¹,−1); their sum maps to (L⁻¹,1). These coordinates are line first and grade second.
 - A rank-one automorphism `u` maps to `u`. Thus the loop of `−1` over `ℤ` has nontrivial determinant, whereas `diag(−1,−1)` has trivial determinant.
 - For `α=id_P`, the translated loop is constant, even when `[P]` belongs to a nonzero `K₀` component.
 - Complementing `P` and extending `α` by the identity gives the same loop and scalar determinant; complement choices cannot change the result.

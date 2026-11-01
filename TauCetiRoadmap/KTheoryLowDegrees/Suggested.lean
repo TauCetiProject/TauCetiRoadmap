@@ -106,8 +106,10 @@ local instance picardIntCentralScalar (R : Type u) [CommRing R] :
     IsCentralScalar ℤ (Additive (CommRing.Pic R)) where
   op_smul_eq_smul _ _ := rfl
 
-/-- The rank–Picard classification as a ring equivalence to the trivial square-zero
-extension, normalized on free modules and lines (Weibel II.2.6.2–2.6.3, p. 75). -/
+/-- The ring enhancement of the additive Dedekind classification supplied by
+ClassicalArithmeticCompletion §7.84: rank and determinant give an equivalence to the
+trivial square-zero extension, normalized on free modules and lines
+(Weibel II.2.6.2–2.6.3, p. 75). -/
 theorem rank_pic_equiv_exists (R : Type u) [CommRing R]
     [IsDedekindDomain R] :
     ∃ e : RingK0 R ≃+* TrivSqZeroExt ℤ (Additive (CommRing.Pic R)),
