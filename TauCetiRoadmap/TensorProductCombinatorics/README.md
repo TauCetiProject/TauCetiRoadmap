@@ -88,11 +88,13 @@ It does not own, and does not restate:
   finite rank-k subspace Grassmannian with its topology, charts, tautological
   bundle, CW characteristic maps and partial-flag incidence
   (TopologicalKTheory T1 and T1.5) and the algebraic quotient-rank
-  Grassmannian (Mathlib `Module.Grassmannian`); §6.1 owns the comparison of
-  the latter's complex points with the topological carrier, and the scheme
+  Grassmannian (Mathlib `Module.Grassmannian`) together with the comparison
+  of the latter's complex points with the topological carrier, which
+  TopologicalKTheory T1 supplies with the submodule retained; the scheme
   structure of the Grassmannian functor (charts, gluing, structure morphism)
-  is not consumed anywhere: Layer 6 works with the complex points of the
-  quotient-rank functor and the topological carrier only;
+  is not consumed anywhere: Layer 6 works with the topological carrier and
+  reaches the complex points of the quotient-rank functor only through that
+  supplied comparison;
 - singular and cellular cohomology, cup products, Künneth, orientations and
   duality (AlgebraicTopology Stages 2–6), Thom, Gysin, Leray–Hirsch and
   integral Chern classes (CharacteristicClasses C2–C3), Kähler structures of
@@ -172,8 +174,9 @@ the README carries every target, API and Check.
 5. Grassmannians are the rank-k subspace Grassmannian Grₖ(ℂᴺ), N = k+q, on the
    carrier `Submodule ℂ (Fin N → ℂ)` of TopologicalKTheory T1, with quotient
    rank q pinned; the native `Module.Grassmannian ℂ (Fin N → ℂ) (N−k)` is the
-   set of submodules whose quotient is free of rank N−k, and §6.1 compares
-   its points with the topological carrier. Chern-class signs use
+   set of submodules whose quotient is free of rank N−k, and
+   TopologicalKTheory T1 supplies the comparison of its points with the
+   topological carrier on the same submodule. Chern-class signs use
    CharacteristicClasses' `c₁(O(1)) = +h`.
 6. Hermitian spectra are sorted antitone (`nativeMatrixSpectrum`,
    `HasSpectrum`); a zero-sum triple A+B+C=0 has trace-zero spectral triple,
@@ -210,7 +213,9 @@ the README carries every target, API and Check.
   (`Mathlib/Analysis/Convex/Cone/InnerDual.lean`) and finite-dimensional
   linear algebra: separation of a closed convex cone from a point.
 - `Module.Grassmannian` (`Mathlib/RingTheory/Grassmannian.lean`): the
-  quotient-rank Grassmannian functor `G(k, M; R)`.
+  quotient-rank Grassmannian functor `G(k, M; R)`, named in Conventions
+  item 5 and in a Check of §6.1; its complex points are reached only
+  through the comparison TopologicalKTheory T1 supplies.
 - `CoxeterSystem` (`Mathlib/GroupTheory/Coxeter/Basic.lean`) and `Equiv.Perm`:
   the symmetric group as a Coxeter group.
 - `Finset`, `Fintype`, `Nat.card`, `MvPolynomial` and `finsum` (`∑ᶠ`) for the
@@ -301,8 +306,10 @@ bounded tableaux of shapes μ, ν and pairs (straight bounded tableau of shape
 κ, Littlewood–Richardson tableau of shape κ/μ and content ν) with weights
 adding, and the rule `s_μ s_ν = Σ_κ c^κ_(μ,ν) s_κ` in every finite alphabet
 over every commutative semiring, with `c^κ_(μ,ν) = 0` unless μ ≤ κ and
-|κ| = |μ|+|ν|, the symmetry `c^κ_(μ,ν) = c^κ_(ν,μ)` and the horizontal and
-vertical Pieri specializations for ν = (r) and ν = (1^r), r = 0 included.
+|κ| = |μ|+|ν|, the symmetry `c^κ_(μ,ν) = c^κ_(ν,μ)` and the vertical Pieri
+specialization for ν = (1^r), r = 0 included (the horizontal one, ν = (r), is
+the native `TauCeti.hsymm_mul_diagramSchurPoly` read through the Schur basis
+`TauCeti.schurPolyBasis`, and is not asked for).
 
 What SchurWeyl must provide (gap:standard-evacuation): Schützenberger
 evacuation on standard tableaux of a straight shape (remove the entry 0,
@@ -357,7 +364,10 @@ No tableau, hive, recurrence or Schubert-section statement is assumed of it.
 ### From TauCetiRoadmap.TopologicalKTheory
 
 T1 (the finite rank-k complex subspace Grassmannian, its topology, charts and
-tautological bundle) and T1.5 (its finite CW characteristic maps and the
+tautological bundle, and its comparison with Mathlib's quotient-rank
+Grassmannian: for k ≤ N a bijection from the rank-k subspace Grassmannian
+onto the points of `Module.Grassmannian ℂ (Fin N → ℂ) (N−k)` that keeps the
+underlying submodule) and T1.5 (its finite CW characteristic maps and the
 rank-one partial-flag incidence construction).
 
 ### From TauCetiRoadmap.LieGroups
@@ -509,8 +519,11 @@ bounding-box enumeration and decidable membership. Prove central-degree
 conservation, the dominance bound γ ≤ λ+μ in product convention and the
 lower-coordinate bound γₙ ≥ λₙ+μₙ. These bounds prove **finite output
 support** for fixed λ, μ, independently of the representation theorem
-(Knutson–Tao–Woodward, *A positive proof*, §2, for the hive polytope and its
-boundedness; Knutson–Tao I, Appendix 2). *Needs:* §1.1; Tau Ceti `TauCeti.IsConvexPolyhedron`; Mathlib `Matrix`,
+(Knutson–Tao–Woodward, *A positive proof*, §4, Lemma 1, for the parallelogram
+inequality obtained by summing the rhombi inside a lattice parallelogram;
+Knutson–Tao–Woodward II, §5, Lemma 9, for the vertex bounds of a
+fixed-boundary honeycomb, which bound the edge differences of the dual hive;
+Knutson–Tao I, Appendix 2). *Needs:* §1.1; Tau Ceti `TauCeti.IsConvexPolyhedron`; Mathlib `Matrix`,
 `IsCompact`.
 
 - `finite_fixedIntegerHive`: every integral fixed-boundary fibre is finite.
@@ -1696,35 +1709,35 @@ inequalities.
 ### 6.1 The finite Grassmannian carrier
 
 On the supplied rank-k subspace Grassmannian Grₖ(ℂᴺ), N = k+q, on the
-carrier `Submodule ℂ (Fin N → ℂ)` of TopologicalKTheory T1, construct the
-supplied graph charts and own the comparison with Mathlib's quotient-rank
-Grassmannian: a point of `Module.Grassmannian ℂ (Fin N → ℂ) (N−k)` is a
-submodule V whose quotient ℂᴺ/V is finite, projective and of rank N−k at the
-unique prime of ℂ, so the forgetful map to `Submodule ℂ (Fin N → ℂ)` is a
-bijection from those points onto the subspaces of dimension k (a subspace of
-a finite-dimensional space has a free quotient, of dimension N − dim V, and
-conversely), carrying the universal quotient ℂᴺ → ℂᴺ/V to the quotient-bundle
-fibre and its kernel to the tautological fibre V. Prove homogeneous models U(N)/(U(k)×U(q)) and GL(N)/Pₖ, connectedness,
+carrier `Submodule ℂ (Fin N → ℂ)` of TopologicalKTheory T1, with its
+supplied graph charts and the comparison with Mathlib's quotient-rank
+Grassmannian that TopologicalKTheory T1 supplies (for k ≤ N, a bijection from
+the rank-k subspace Grassmannian onto the points of
+`Module.Grassmannian ℂ (Fin N → ℂ) (N−k)` on the same submodule V, so that
+the universal quotient ℂᴺ → ℂᴺ/V at such a point has kernel V, the
+tautological fibre, and target the fibre of the quotient bundle Q below),
+prove homogeneous models U(N)/(U(k)×U(q)) and GL(N)/Pₖ, connectedness,
 compactness, complex dimension kq, Plücker smooth/holomorphic embedding and
 its induced Kähler form. Identify the supplied tautological bundle S and
 quotient Q, exact sequence 0 → S → ℂᴺ → Q → 0, bundle ranks, flag forgetful
 maps and associated-bundle actions. Only the complex points of the
-quotient-rank functor are compared; no scheme structure on it is used, and
-scheme gluing is not a prerequisite for singular cohomology. Include k = 0,
-q = 0 and orthogonal-complement/dual homeomorphisms (Buch, §1). *Needs:*
-TopologicalKTheory T1; Mathlib `Module.Grassmannian`; ComplexKahlerGeometry
-K7; LieGroups Layer 8.
+quotient-rank functor enter, through the supplied comparison; no scheme
+structure on it is used, and scheme gluing is not a prerequisite for singular
+cohomology. Include k = 0, q = 0 and orthogonal-complement/dual
+homeomorphisms (Buch, §1). *Needs:* TopologicalKTheory T1;
+ComplexKahlerGeometry K7; LieGroups Layer 8.
 
 **Checks.**
 
 - k = 0 and k = N give one-point Grassmannians of dimension 0; Gr₁(ℂ²) is
   ℂP¹ of complex dimension 1 = kq.
-- The quotient-rank convention: a k-dimensional subspace V ≤ ℂᴺ has quotient
-  ℂᴺ/V of rank N−k, so the functor index is N−k, not k; a comparison using
-  index k would identify Grₖ with Gr_q, which is wrong unless k = q. For
-  N = 2, k = 1 the line spanned by (1,0) has quotient of rank 1 and is a point
-  of `Module.Grassmannian ℂ (Fin 2 → ℂ) 1`, while the zero subspace, of
-  quotient rank 2, is not.
+- The quotient-rank convention of the supplied comparison: a k-dimensional
+  subspace V ≤ ℂᴺ has quotient ℂᴺ/V of rank N−k, so the functor index is
+  N−k, not k; a comparison using index k would identify Grₖ with Gr_q, which
+  is wrong unless k = q. For N = 2, k = 1 the line spanned by (1,0) has
+  quotient of rank 1 and is sent by TopologicalKTheory T1's comparison to a
+  point of `Module.Grassmannian ℂ (Fin 2 → ℂ) 1` with the same submodule,
+  while the zero subspace, of quotient rank 2, is not a point of it.
 - The orthogonal complement V ↦ V^⊥ is a homeomorphism Grₖ(ℂᴺ) → Gr_q(ℂᴺ)
   exchanging S and Q* up to the Hermitian identification.
 
@@ -1934,8 +1947,8 @@ honeycombs of §4.1 for γ = (2,0) and (1,1).
 ### Dependencies
 
 Layers 2 (§2.3), 4 (§4.2) and 5 (§§5.1, 5.4); SchurWeyl
-gap:stable-symmetric-ring; TopologicalKTheory T1 and T1.5; Mathlib
-`Module.Grassmannian`; LieGroups Layer 8;
+gap:stable-symmetric-ring; TopologicalKTheory T1 (with its quotient-rank
+comparison) and T1.5; LieGroups Layer 8;
 AlgebraicTopology Stages 4–6; CharacteristicClasses C2–C3;
 ComplexKahlerGeometry K7; DifferentialGeometry 10.2; Buch §§1–3; Fulton,
 *Young Tableaux*, §§9–10.
@@ -2151,7 +2164,12 @@ complement, all repeated eigenvalues and n = 2. Export the irredundant
 rigid-puzzle form, decidable rational/integral feasibility and witness
 conversion to hives; the matrix witness is an existence theorem unless a
 numerical construction with proved error control is additionally supplied
-(Knutson–Tao–Woodward II, §3.1 and §6). *Needs:* §7.4, §5.4, §6.2.
+(the sets U_r^N, T_r^N and the recursion: Fulton, *Eigenvalues, invariant
+factors, highest weights, and Schubert calculus*, §1, equations (8)–(9), with
+the dictionary λ(I) at equation (10) and the identification of T_r^N with the
+Littlewood–Richardson-positive triples at Theorem 12; the puzzle and
+Schubert-class forms: Knutson–Tao–Woodward II, §3.1 and §6). *Needs:* §7.4,
+§5.4, §6.2.
 
 **Checks.**
 
@@ -2177,7 +2195,8 @@ Layers 1 (§1.3), 2 (§2.3), 4 (§4.6), 5 (§§5.3–5.4) and 6 (§§6.1–6.3, 
 Mathlib's Hermitian spectral theorem; PolarDecomposition PD-A50–A53;
 LieGroups Layer 8; HamiltonianReduction R1–R2; ComplexKahlerGeometry K7;
 ConvexityToric T3; ClassicalGroups Layer 3; ReductiveGroups Layers 1 and 6;
-Knutson–Tao–Woodward II, §§3, 6 and 8.
+Knutson–Tao–Woodward II, §§3, 6 and 8; Fulton, *Eigenvalues, invariant
+factors, highest weights, and Schubert calculus*, §1.
 
 ## Layer 8: type-A paths, crystals and object comparisons
 
@@ -2523,9 +2542,10 @@ gap:skew-lr-tableaux.
   λ = (1,0,−1), µ = (0,0,−2), ν = (2,0,−1), ρ = (0,0,−1) and the pair of hives
   (M,N) displayed there, representing an element of
   `(L(λ) ⊗ (L(µ) ⊗ L(ν)))_ρ`, the two composites of associators and commutors
-  in the Yang–Baxter equation send (M,N) to different pairs of hives (their
-  bottom rows differ), so the equation fails; a braided structure would make
-  the two composites agree.
+  in the Yang–Baxter equation send (M,N) to different pairs of hives (the
+  first hives of the two pairs share their bottom row and differ in their
+  second and third rows; the second hives differ in their bottom row), so the
+  equation fails; a braided structure would make the two composites agree.
 - Negative control, rank 3: on the triple tensor product of the standard
   representation `V = V_(1,0,0)` the Yang–Baxter equation holds, because
   `V ⊗ V = V_(2,0,0) ⊕ V_(1,1,0)` is multiplicity-free, so the commutor
@@ -2563,7 +2583,8 @@ Henriques–Kamnitzer §§4–7.
   column paths and the row/semistandard-tableau paths on the one hand and its
   generic S4.1–5 carrier on the other; SchubertGeometry S7.3, S8.5 and S9.1
   cite Layer 6's transverse Grassmannian point counts, puzzle rule and
-  subspace/quotient/Plücker comparisons.
+  Plücker-model comparisons (the subspace/quotient-rank comparison they also
+  use is TopologicalKTheory T1's).
 - The ClassicalGroups layer that fills gap:diagonal-overgroups and
   gap:diagonal-overgroup-restrictions consumes §2.3's hive counts for its
   tensor multiplicities; §2.7 here transports those counts along its maps.
@@ -2651,14 +2672,16 @@ the source of record for it.
   J. Amer. Math. Soc. 17 (2004), 19–48 (arXiv math/0107011): §1.2 puzzles,
   §2 boundary certificates (Theorem 2), §3 facets via clockwise overlays and
   the chamber inequalities (Theorems 3–4), §4 gentle loops and rigid puzzles
-  (Theorems 5–7), §5 inflation (Lemma 8), §6 Horn and §6.1 Fulton's
+  (Theorems 5–7), §5 inflation (Lemma 8) and honeycomb vertex bounds
+  (Lemma 9), §6 Horn and §6.1 Fulton's
   conjecture, §8 the equivalence of the definitions of the boundary cone.
   Its appendix's invariant-to-zero-level passage is built explicitly by
   Layer 7; the real converse uses Schubert compression.
 - Knutson, A., Tao, T., Woodward, C., *A positive proof of the
   Littlewood–Richardson rule using the octahedron recurrence*, Electron. J.
   Combin. 11 (2004), R61 (arXiv math/0306274): §2 hives (Theorem 1), §3 the
-  representation ring, §4 the determinant and Pieri rules (Proposition 4),
+  representation ring, §4 the parallelogram inequality (Lemma 1) and the
+  determinant and Pieri rules (Proposition 4),
   §5 associativity by excavation (Theorem 2), §6 honeycomb scattering.
 - Henriques, A., Kamnitzer, J., *The octahedron recurrence and gl(n)
   crystals*, Adv. Math. 206 (2006), 211–249 (arXiv math/0408114): §3 the
@@ -2673,6 +2696,12 @@ the source of record for it.
   cycle/transversality facts are built on the Layer 6 carrier using the
   cited AlgebraicTopology, CharacteristicClasses and DifferentialGeometry
   suppliers.
+- Fulton, W., *Eigenvalues, invariant factors, highest weights, and Schubert
+  calculus*, Bull. Amer. Math. Soc. (N.S.) 37 (2000), 209–249 (arXiv
+  math/9908012): §1 Horn's sets U_r^n, T_r^n and recursion (equations
+  (8)–(9)), the subset/partition dictionary (equation (10)) and Horn's
+  conjecture; Theorem 12 identifies T_r^n with the Littlewood–Richardson-positive
+  triples.
 - Fulton, W., *Young Tableaux*, London Math. Soc. Student Texts 35,
   Cambridge University Press, 1997: Chapters 1–3 and §5.1–5.3 for the
   tableau and Littlewood–Richardson theory asked of SchurWeyl, Appendix A for
