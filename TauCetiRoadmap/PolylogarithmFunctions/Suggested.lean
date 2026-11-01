@@ -4,19 +4,18 @@ import TauCeti.AlgebraicTopology.UniversalCover.Action
 import TauCeti.Analysis.Complex.Conformal.Continuation.Basic
 
 /-!
-# Polylogarithm functions: headline target statements
+# Polylogarithm functions: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. These statements give Lean forms for headline results; proving them does not
+`README.md`. These statements give Lean forms for headline results against the pinned APIs; proving them does not
 finish the supporting theory required by a layer or by the roadmap.
 
 The statements cover the principal analytic continuation (§1.5), the branch on
 Tau Ceti's universal cover and polynomial monodromy (§§2.1–2.3), classical functional equations
 and their coherent continuation (§§3.1–3.5), Zagier's branch independence, real analyticity,
-inversion, distribution and sphere continuity (§§4.3–4.7), the Bloch–Wigner Laplacian,
-positivity and five-term relations (§§5.5–5.8), and the Rogers pentagon and golden-ratio
-values (§§6.4–6.5). The series identification, differential recursion, truncation bounds
-and asymptotics are README targets.
+the all-weight real differential, inversion, distribution and sphere continuity (§§4.3–4.7), the Bloch–Wigner Laplacian,
+positivity and five-term relations (§§5.5–5.8), the Rogers pentagon (§6.4), and quantitative disc and Fourier tails, sectorial branch
+growth, endpoint moduli and the Bloch–Wigner logarithmic expansion (§§7.1–7.6).
 
 All objects needed for these results exist at the pins or have the concrete definitions
 below. In particular, the universal cover, thrice-punctured sphere and peripheral classes
@@ -39,7 +38,7 @@ open Set Filter MeasureTheory
 
 namespace TauCetiRoadmap.PolylogarithmFunctions
 
-/-! ## Principal polylogarithms -/
+/-! ## Layer 1: Principal polylogarithms -/
 
 /-- The principal classical polylogarithm `Liₙ` in every integer weight (§1.1). For `n ≥ 2` it is
 `((n-2)!)⁻¹ ∫₀¹ (-log t)^(n-2) (-Log(1 - t z)) dt / t`; for `n = 1` it is `-Log(1 - z)`; for
@@ -58,7 +57,7 @@ theorem analyticOnNhd_polylog (n : ℤ) :
     AnalyticOnNhd ℂ (polylog n) {z : ℂ | 1 - z ∈ Complex.slitPlane} := by
   sorry
 
-/-! ## Coherent continuation and monodromy -/
+/-! ## Layer 2: Coherent continuation and monodromy -/
 
 /-- The classical tower as a single vector-valued germ (§2.1): entry `0` is `Log z` and entry
 `i ≥ 1` is `Liᵢ z`. Continuing this one germ continues every weight along the same path, which
@@ -91,7 +90,7 @@ theorem exists_polylogBranch_monodromy (N : ℕ) :
       (∀ g p, B (g • p) = ρ g (B p)) := by
   sorry
 
-/-! ## Classical functional equations -/
+/-! ## Layer 3: Classical functional equations -/
 
 /-- Distribution in every integer weight on the star domain where every `ζ z` avoids the cut;
 the factor `m^(n-1)` is an integer power, so it is `1/m` in weight zero (§3.1). -/
@@ -167,7 +166,7 @@ theorem abel_functionalEquation_continuation {c : unitInterval → ℂ × ℂ}
       F 1 (c 1) 5 * F 1 (c 1) 6 := by
   sorry
 
-/-! ## Single-valued polylogarithms -/
+/-! ## Layer 4: Single-valued polylogarithms -/
 
 /-- The coefficients `cₖ = 2^k Bₖ / k!` of Zagier's single-valued combination (§4.1). -/
 def bernoulliCoeff (k : ℕ) : ℚ := 2 ^ k * bernoulli k / k.factorial
@@ -203,6 +202,20 @@ theorem analyticOnNhd_singleValued (n : ℕ) (hn : 2 ≤ n) :
     AnalyticOnNhd ℝ (singleValued n) ({0, 1} : Set ℂ)ᶜ := by
   sorry
 
+/-- The real differential in every weight, in an arbitrary direction, including on the cut.
+The principal lower values in the finite sums give the same differential as any coherent
+local determination (§4.5). -/
+theorem fderiv_singleValued (n : ℕ) (hn : 2 ≤ n) {z : ℂ}
+    (hz0 : z ≠ 0) (hz1 : z ≠ 1) (v : ℂ) :
+    fderiv ℝ (singleValued n) z v =
+      let l := Real.log ‖z‖
+      let w := (∑ k ∈ Finset.range n, (bernoulliCoeff k : ℂ) *
+        polylog ((n : ℤ) - k - 1) z * (l : ℂ) ^ k * (v / z)) +
+        ∑ k ∈ Finset.Icc 1 (n - 1), (k : ℂ) * (bernoulliCoeff k : ℂ) *
+          polylog ((n : ℤ) - k) z * (l : ℂ) ^ (k - 1) * ((v / z).re : ℂ)
+      if Odd n then w.re else w.im := by
+  sorry
+
 /-- Inversion: `Lₙ(z) + (-1)ⁿ Lₙ(1/z) = 0` for `z ≠ 0` (§4.6). -/
 theorem singleValued_inv (n : ℕ) (hn : 2 ≤ n) {z : ℂ} (hz : z ≠ 0) :
     singleValued n z + (-1 : ℝ) ^ n * singleValued n z⁻¹ = 0 := by
@@ -219,7 +232,7 @@ theorem continuous_singleValuedSphere (n : ℕ) (hn : 2 ≤ n) :
     Continuous (singleValuedSphere n) := by
   sorry
 
-/-! ## Bloch–Wigner identities -/
+/-! ## Layer 5: Bloch–Wigner identities -/
 
 /-- The Bloch–Wigner dilogarithm `D(z) = Im Li₂(z) + Arg(1 - z) log|z|`, with `D(0) = D(1) = 0`
 (§5.1). -/
@@ -262,7 +275,7 @@ theorem blochWignerSphere_crossRatio_fiveTerm (s : Fin 5 → OnePoint ℂ)
       blochWigner (crossRatioSphere (s 0) (s 1) (s 2) (s 3)) = 0 := by
   sorry
 
-/-! ## Rogers dilogarithm -/
+/-! ## Layer 6: Rogers dilogarithm -/
 
 /-- The interval Rogers dilogarithm `R(x) = Li₂(x) + (1/2) log x log(1 - x)` on `(0, 1)`, with
 `R(0) = 0` and `R(1) = π²/6` (§6.1). Values off `[0, 1]` carry no theorem. -/
@@ -276,10 +289,100 @@ theorem rogers_pentagon {x y : ℝ} (hx : x ∈ Ioo 0 1) (hy : y ∈ Ioo 0 1) :
       rogers (y * (1 - x) / (1 - x * y)) := by
   sorry
 
-/-- The golden-ratio values `R(ρ) = π²/10` and `R(ρ²) = π²/15`, `ρ = (√5 - 1)/2` (§6.5). -/
-theorem rogers_golden :
-    rogers ((Real.sqrt 5 - 1) / 2) = Real.pi ^ 2 / 10 ∧
-      rogers (((Real.sqrt 5 - 1) / 2) ^ 2) = Real.pi ^ 2 / 15 := by
+/-! ## Layer 7: Analytic estimates -/
+
+/-- Uniform geometric tail bound for positive weights on every smaller closed disc (§7.1). -/
+theorem norm_polylog_sub_partialSum_le (n N : ℕ) (hn : 1 ≤ n)
+    {r : ℝ} (hr0 : 0 ≤ r) (hr1 : r < 1) {z : ℂ} (hz : ‖z‖ ≤ r) :
+    ‖polylog n z - ∑ k ∈ Finset.Icc 1 N, z ^ k / (k : ℂ) ^ n‖ ≤
+      r ^ (N + 1) / ((N + 1 : ℝ) ^ n * (1 - r)) := by
+  sorry
+
+/-- The nonpositive-weight tail is bounded by the corresponding Euler derivative of the
+geometric tail; unlike the positive-weight estimate it retains polynomial growth (§7.1). -/
+theorem norm_polylog_sub_partialSum_le_of_nonpos (n : ℤ) (hn : n ≤ 0) (N : ℕ)
+    {r : ℝ} (hr0 : 0 ≤ r) (hr1 : r < 1) {z : ℂ} (hz : ‖z‖ ≤ r) :
+    ‖polylog n z - ∑ k ∈ Finset.Icc 1 N, z ^ k / (k : ℂ) ^ n‖ ≤
+      ((fun f : ℝ → ℝ => fun x => x * deriv f x)^[(-n).toNat])
+        (fun x => x ^ (N + 1) / (1 - x)) r := by
+  sorry
+
+/-- Uniform polynomial tail bound on the whole closed disc, including the zeta endpoint (§7.2). -/
+theorem norm_polylog_sub_partialSum_le_closedDisc (n N : ℕ) (hn : 2 ≤ n) (hN : 1 ≤ N)
+    {z : ℂ} (hz : ‖z‖ ≤ 1) :
+    ‖polylog n z - ∑ k ∈ Finset.Icc 1 N, z ^ k / (k : ℂ) ^ n‖ ≤
+      1 / ((N : ℝ) ^ (n - 1) * (n - 1 : ℝ)) := by
+  sorry
+
+/-- Uniform Fourier tail in every weight; odd weights use cosines and even weights sines (§7.2). -/
+theorem abs_singleValued_exp_sub_le (n N : ℕ) (hn : 2 ≤ n) (hN : 1 ≤ N) (t : ℝ) :
+    |singleValued n (Complex.exp (t * Complex.I)) -
+      ∑ k ∈ Finset.Icc 1 N,
+        (if Odd n then Real.cos (k * t) else Real.sin (k * t)) / (k : ℝ) ^ n| ≤
+      1 / ((N : ℝ) ^ (n - 1) * (n - 1 : ℝ)) := by
+  sorry
+
+/-- An open punctured angular sector of radius `δ`, angle `θ` and half-width `w` (§7.3). -/
+def puncturedSector (θ w δ : ℝ) : Set ℂ :=
+  {z | 0 < ‖z‖ ∧ ‖z‖ < δ ∧ |Complex.arg (z * Complex.exp (-θ * Complex.I))| < w}
+
+/-- A holomorphic determination of the weight-`n` polylogarithm on `V`: each local germ is
+obtained from the principal germ at `1/2` by continuation inside the twice-punctured plane.
+The terminal germ, rather than only its value, identifies the determination (§§2.2, 7.3). -/
+def IsPolylogBranchOn (n : ℕ) (f : ℂ → ℂ) (V : Set ℂ) : Prop :=
+  ∀ z ∈ V, ∃ (c : unitInterval → ℂ) (g : unitInterval → ℂ → ℂ),
+    (∀ t, c t ≠ 0 ∧ c t ≠ 1) ∧ c 0 = 1 / 2 ∧ c 1 = z ∧
+    TauCeti.IsAnalyticContinuationAlong g c univ ∧
+    (g 0 =ᶠ[𝓝 (1 / 2 : ℂ)] polylog n) ∧ (g 1 =ᶠ[𝓝 z] f)
+
+/-- Every determination has logarithmic growth of degree at most `n-1` near zero.
+The implicit constant may depend on the determination and the sector (§7.3). -/
+theorem polylogBranch_isBigO_zero (n : ℕ) (hn : 1 ≤ n) (θ w δ : ℝ)
+    (hw0 : 0 < w) (hw : w < Real.pi) (hδ0 : 0 < δ) (hδ : δ < 1 / 2)
+    {f : ℂ → ℂ} (hf : IsPolylogBranchOn n f (puncturedSector θ w δ)) :
+    Asymptotics.IsBigO (𝓝[puncturedSector θ w δ] 0) f
+      (fun z => 1 + |Real.log ‖z‖| ^ (n - 1)) := by
+  sorry
+
+/-- At infinity every determination has logarithmic growth of degree at most `n`;
+the inverse coordinate describes the sector and its approach to infinity (§7.3). -/
+theorem polylogBranch_isBigO_infty (n : ℕ) (hn : 1 ≤ n) (θ w δ : ℝ)
+    (hw0 : 0 < w) (hw : w < Real.pi) (hδ0 : 0 < δ) (hδ : δ < 1 / 2)
+    {f : ℂ → ℂ}
+    (hf : IsPolylogBranchOn n f {z | z⁻¹ ∈ puncturedSector θ w δ}) :
+    Asymptotics.IsBigO (𝓝[puncturedSector θ w δ] 0) (fun z => f z⁻¹)
+      (fun z => 1 + |Real.log ‖z⁻¹‖| ^ n) := by
+  sorry
+
+/-- Every weight at least two has a sectorial limit at one in the specified period lattice;
+the integer depends on the determination (§7.3). -/
+theorem polylogBranch_tendsto_one (n : ℕ) (hn : 2 ≤ n) (θ w δ : ℝ)
+    (hw0 : 0 < w) (hw : w < Real.pi) (hδ0 : 0 < δ) (hδ : δ < 1 / 2)
+    {f : ℂ → ℂ}
+    (hf : IsPolylogBranchOn n f {z | z - 1 ∈ puncturedSector θ w δ}) :
+    ∃ m : ℤ, Tendsto (fun z => f (1 + z)) (𝓝[puncturedSector θ w δ] 0)
+      (𝓝 (riemannZeta n + m * (2 * Real.pi * Complex.I) ^ n /
+        ((n - 1).factorial : ℂ))) := by
+  sorry
+
+/-- Direction-uniform moduli at zero, infinity and one, with constants chosen before the
+argument. The logarithmic loss at one includes weight two (§7.4). -/
+theorem singleValued_endpoint_bounds (n : ℕ) (hn : 2 ≤ n) :
+    ∃ C A : ℝ, 0 < C ∧ 0 < A ∧
+      (∀ z : ℂ, 0 < ‖z‖ → ‖z‖ ≤ 1 / 2 →
+        |singleValued n z| ≤ C * ‖z‖ * (1 + |Real.log ‖z‖| ^ (n - 1))) ∧
+      (∀ z : ℂ, 2 ≤ ‖z‖ →
+        |singleValued n z| ≤ C / ‖z‖ * (1 + Real.log ‖z‖ ^ (n - 1))) ∧
+      (∀ z : ℂ, 0 < ‖z - 1‖ → ‖z - 1‖ ≤ 1 / 2 →
+        |singleValued n z - singleValued n 1| ≤
+          A * ‖z - 1‖ * (1 + |Real.log ‖z - 1‖|)) := by
+  sorry
+
+/-- The two-sided logarithmic expansion at zero, with cubic logarithmic error (§7.6). -/
+theorem blochWigner_logarithmic_expansion :
+    Asymptotics.IsBigO (𝓝[≠] (0 : ℝ))
+      (fun t : ℝ => blochWigner (t * Complex.I) - t * (1 - Real.log |t|))
+      (fun t : ℝ => |t| ^ 3 * (1 + |Real.log (|t|)|)) := by
   sorry
 
 end TauCetiRoadmap.PolylogarithmFunctions

@@ -2,7 +2,7 @@
 
 **Summary.** Construct the classical polylogarithms `Liₙ` as analytic functions of a complex variable in every integer weight, starting from Mathlib's principal logarithm, Bochner integral, Bernoulli numbers and zeta values. Continue the whole tower `(Log, Li₁, Li₂, …)` coherently along paths in `ℂ∖{0,1}` with Tau Ceti's analytic-continuation and universal-cover API, and compute its monodromy. Prove the classical functional equations (distribution, Bernoulli inversion, Euler reflection, Abel's five-term identity) on explicit principal domains and along common paths. Build Zagier's real single-valued polylogarithms `Lₙ` for every weight `n ≥ 2`, prove that they are branch independent, real analytic off `{0,1}`, continuous on the Riemann sphere, and give their real differential in every weight. Specialise to the Bloch–Wigner function `D = L₂`: its one-form, Laplacian, strict positivity on the upper half-plane and the five-term relation in affine, Abel and projective form, proved analytically. Construct the interval Rogers dilogarithm with its reflection, pentagon and golden-ratio values, and export the quantitative estimates (truncation, Fourier and endpoint bounds) that arithmetic consumers need.
 
-`README.md` is normative. `Suggested.lean` states headline theorems against the pinned Mathlib and Tau Ceti, using concrete definitions where needed; it is not exhaustive, and its docstrings cite the subsections of this file as §k.n. Names in the target descriptions specify the library to develop; the statements included in `Suggested.lean` are identified explicitly in their subsections. Checks are mathematical tests of the specified definitions and theorems. The proposed home is `TauCeti/Analysis/SpecialFunctions/Polylogarithm/`, with the declarations in the namespace `TauCeti.Polylog`. Every definition comes with the API it needs and with checks that a plausible wrong definition fails; every theorem carries its exact hypotheses, its source and the earlier statements or library declarations it rests on.
+`README.md` is normative. `Suggested.lean` states headline theorems against the pinned Mathlib and Tau Ceti, using concrete definitions where needed; it is not exhaustive, and its docstrings cite the subsections of this file as §k.n. Backticked declaration names of this roadmap refer to the definitions and headline theorems in `Suggested.lean`; supporting API targets are stated in prose. Checks are mathematical tests of the specified definitions and theorems. The proposed home is `TauCeti/Analysis/SpecialFunctions/Polylogarithm/`, with the declarations in a Polylog namespace under TauCeti. Every definition comes with the API it needs and with checks that a plausible wrong definition fails; every theorem carries its exact hypotheses, its source and the earlier statements or library declarations it rests on.
 
 ## Scope and ownership
 
@@ -94,7 +94,7 @@ The monodromy theorem for analytic continuation along homotopic paths and its co
 
 ## How to read the build
 
-The layers are built in the order `1 → 2 → 3 → 4 → 5 → 6 → 7`, and each `### k.n` subsection lists its statements in dependency order; *Needs:* at the end of a subsection names the earlier statements and the library declarations it rests on. Layer 1 delivers the principal functions `Liₙ` for `n ∈ ℤ` with their analytic theory on `Ω` and on the closed disc. Layer 2 delivers the tower as one germ, its continuation along every path in `U`, the branch function on the universal cover, the monodromy of the two peripheral loops and of every word in them, and the jump across the cut. Layer 3 delivers the classical functional equations on their principal domains and along common paths, and the exact dilogarithm values. Layer 4 delivers Zagier's `Lₙ` and its analytic theory in every weight `n ≥ 2`. Layer 5 delivers the Bloch–Wigner function with its differential, Laplacian, positivity and five-term relations, all proved without any algebraic group. Layer 6 delivers the interval Rogers dilogarithm. Layer 7 delivers the estimates. Each definition gives its API as named lemmas and its checks as a `**Checks.**` list; every layer ends with its examples and its dependencies.
+The layers are built in the order `1 → 2 → 3 → 4 → 5 → 6 → 7`, and each `### k.n` subsection lists its statements in dependency order; *Needs:* at the end of a subsection names the earlier statements and the library declarations it rests on. Layer 1 delivers the principal functions `Liₙ` for `n ∈ ℤ` with their analytic theory on `Ω` and on the closed disc. Layer 2 delivers the tower as one germ, its continuation along every path in `U`, the branch function on the universal cover, the monodromy of the two peripheral loops and of every word in them, and the jump across the cut. Layer 3 delivers the classical functional equations on their principal domains and along common paths, and the exact dilogarithm values. Layer 4 delivers Zagier's `Lₙ` and its analytic theory in every weight `n ≥ 2`. Layer 5 delivers the Bloch–Wigner function with its differential, Laplacian, positivity and five-term relations, all proved without any algebraic group. Layer 6 delivers the interval Rogers dilogarithm. Layer 7 delivers the estimates. Each definition gives its API as mathematical fact bullets and its checks as a `**Checks.**` list; every layer ends with its examples and its dependencies.
 
 ## Layer 1: principal polylogarithms
 
@@ -117,7 +117,13 @@ Li_{−r}(z)  = (z d/dz)^r applied to z/(1 − z), evaluated at z          (r �
 
 The integral formula is the iterated radial integral `Liₙ₊₁(z) = ∫₀¹ Liₙ(tz) dt/t` of [O93] (3) collapsed by Fubini; at a real point `x > 1` its integrand takes Mathlib's value `Log(1 − tx) = log|1 − tx| + πi` for `t > 1/x`, which selects the lower boundary value. The nonpositive weights are Euler derivatives of an honest rational function, computed with Mathlib's `deriv`; at `z ≠ 1` they only see values near `z`, so no value at the pole enters. No function chosen to satisfy the identities of later layers replaces these formulas.
 
-The basic theory to develop comprises vanishing at zero (`Liₙ(0) = 0` for every `n ∈ ℤ`, a simp lemma), the weight-one formula (`Li₁(z) = −Log(1−z)` for every `z`, by definition, including the totalised value at `z = 1`), the weight-zero formula (`Li₀(z) = z/(1−z)`), the negative-weight recursion (for `r ≥ 0` and `z ≠ 1, Li₋₍ᵣ₊₁₎(z) = z·(d/dz)Li₋ᵣ(z)`), the defining radial-integral identity (the defining integral for `n ≥ 2`, as a rewrite lemma), the recursive radial-integral identity (§1.5) and congruence under equal weights and arguments (equal weights and equal arguments give equal values, for rewriting along casts `ℕ → ℤ`). The natural-number weights are the coercions `ℕ → ℤ`, so `polylog (n : ℕ)` needs no separate realisation.
+The basic API consists of the following facts.
+
+- For every integer weight, `Liₙ(0) = 0`.
+- For every `z`, `Li₁(z) = −Log(1−z)` and `Li₀(z) = z/(1−z)`, including the assigned values at 1.
+- For `r ≥ 0` and `z ≠ 1`, `Li₋₍ᵣ₊₁₎(z) = z·(d/dz)Li₋ᵣ(z)`.
+- For `n ≥ 2`, the defining radial integral is a rewrite identity; §1.5 gives its recursive form on `Ω`.
+- Equal weights and arguments give equal values, including casts from natural to integer weights. Natural weights use `ℕ → ℤ`, with no separate realisation.
 
 **Checks.**
 - Every weight vanishes at zero: `Liₙ(0) = 0` for `n = −3, …, 3` (a definition that started the series at `k = 0` would give 1).
@@ -125,7 +131,7 @@ The basic theory to develop comprises vanishing at zero (`Liₙ(0) = 0` for ever
 - `Li₋₁(z) = z/(1−z)²` for `z ≠ 1`; a definition that applied `d/dz` without the factor `z` would give `1/(1−z)²`.
 - For `|z| < 1`, `Li₁` agrees with Mathlib's Taylor series `Complex.hasSum_taylorSeries_neg_log'`, term by term; this is a compatibility with the library, not a second development of the logarithm series.
 - At `x = 3`, the weight-one formula gives the total value `Li₁(3) = −log 2 − πi`, the lower boundary value (§2.4); an alternative definition by holomorphic continuation across the cut would not be total and would not agree with Mathlib's argument convention.
-- `Li₀` is not continuous at its pole 1 although `polylog 0 1` has the totalised value 0 (`not_continuousAt_one_polylog_neg`, §1.4); field totalisation does not make a pole analytic.
+- `Li₀` is not continuous at its pole 1 although `polylog 0 1` has the totalised value 0 (failure of continuity at the pole, §1.4); field totalisation does not make a pole analytic.
 
 *Needs:* Mathlib `Complex.log`, `intervalIntegral`, `deriv`.
 
@@ -133,7 +139,7 @@ The basic theory to develop comprises vanishing at zero (`Liₙ(0) = 0` for ever
 
 References: [O93] §1.1, (3), p. 50, and §1.4, p. 51 (the recursive integral and the finite limit at 1 for `k ≥ 2`); the integrability argument is this roadmap's. Built on Mathlib `MeromorphicOn.intervalIntegrable_log_norm` and `Complex.hasSum_taylorSeries_neg_log'`.
 
-Prove `intervalIntegrable_polylog_integrand`: for every `k ∈ ℕ` and **every** `z ∈ ℂ` the function `t ↦ (−log t)^k·(−Log(1 − tz))/t` is interval integrable on `[0,1]`. Near `t = 0`, `−Log(1 − tz) = O(t)` uniformly for bounded `z`, so the integrand is dominated by `C·|log t|^k`, whose integral over `[0,1]` is `k!·C`. Near an interior point `t = 1/z` (real `z > 1`) and near `t = 1` (`z = 1`), write `−Log(1 − tz) = −log|1 − tz| − i Arg(1 − tz)`: the argument is bounded by `π`, and `−log|1 − tz| = −log|z| − log|t − 1/z|` is integrable by the meromorphic logarithmic integrability theorem applied to `t ↦ t − 1/z`; the factor `(−log t)^k/t` is bounded near `t = 1/z > 0`. Prove invariance of the integral under changes on null sets: changing the integrand at the single point `t = 1/z` or `t = 1` does not change the integral. Prove also `uniformIntegrable_polylog_integrand`: for bounded `z`, the integrands form a uniformly integrable family on `[0,1]`. On a compact `K ⊂ Ω` there is a single integrable majorant, since away from `t = 0` the factors `1 − tz` stay uniformly away from zero. On a general bounded parameter set, separate a fixed neighbourhood of `t = 0`, where `C|log t|^k` is a common majorant, from the possible moving logarithmic singularities, which stay away from 0. The latter have uniformly small `L¹` mass on sets of small measure: the worst negative logarithm is controlled by a translate of `|log|t − s||`, and its integral over an interval of length `δ` is `O(δ(1 + |log δ|))`, uniformly in the centre `s`. This is uniform integrability, not a common pointwise majorant as `s` varies. Together with almost-everywhere convergence it gives continuity of the integral at `z = 1` and relative continuity on the closed lower half-plane (§§1.7, 2.4); it does not give continuity across the cut at `x > 1`, where the pointwise logarithm has different one-sided limits.
+Prove radial integrability: for every `k ∈ ℕ` and **every** `z ∈ ℂ` the function `t ↦ (−log t)^k·(−Log(1 − tz))/t` is interval integrable on `[0,1]`. Near `t = 0`, `−Log(1 − tz) = O(t)` uniformly for bounded `z`, so the integrand is dominated by `C·|log t|^k`, whose integral over `[0,1]` is `k!·C`. Near an interior point `t = 1/z` (real `z > 1`) and near `t = 1` (`z = 1`), write `−Log(1 − tz) = −log|1 − tz| − i Arg(1 − tz)`: the argument is bounded by `π`, and `−log|1 − tz| = −log|z| − log|t − 1/z|` is integrable by the meromorphic logarithmic integrability theorem applied to `t ↦ t − 1/z`; the factor `(−log t)^k/t` is bounded near `t = 1/z > 0`. Prove invariance of the integral under changes on null sets: changing the integrand at the single point `t = 1/z` or `t = 1` does not change the integral. Prove also uniform integrability of the radial family: for bounded `z`, the integrands form a uniformly integrable family on `[0,1]`. On a compact `K ⊂ Ω` there is a single integrable majorant, since away from `t = 0` the factors `1 − tz` stay uniformly away from zero. On a general bounded parameter set, separate a fixed neighbourhood of `t = 0`, where `C|log t|^k` is a common majorant, from the possible moving logarithmic singularities, which stay away from 0. The latter have uniformly small `L¹` mass on sets of small measure: the worst negative logarithm is controlled by a translate of `|log|t − s||`, and its integral over an interval of length `δ` is `O(δ(1 + |log δ|))`, uniformly in the centre `s`. This is uniform integrability, not a common pointwise majorant as `s` varies. Together with almost-everywhere convergence it gives continuity of the integral at `z = 1` and relative continuity on the closed lower half-plane (§§1.7, 2.4); it does not give continuity across the cut at `x > 1`, where the pointwise logarithm has different one-sided limits.
 
 **Checks.**
 - For `k = 0` and `z = 1` the integrand is `−Log(1−t)/t`, unbounded at `t = 1` but integrable, with integral `ζ(2)` (§1.7).
@@ -152,7 +158,7 @@ Prove the disc-series identification: for every `n ∈ ℤ` and `|z| < 1`,
 HasSum (k ↦ z^(k+1) / (k+1)^n) (Liₙ(z)),
 ```
 
-with the integer power `(k+1)^n` of the positive integer `k+1` taken in `ℂ`. The convergence is absolute and locally uniform on the open disc. For `n ≥ 2`, expand `−Log(1 − tz)` by Mathlib's Taylor series and integrate term by term against `(−log t)^{n−2}/t` using the radial majorant of §1.2 and `∫₀¹ t^{j−1}(−log t)^{n−2} dt = (n−2)!/j^{n−1}` (integration by parts, or Mathlib's Gamma integral after `t = e^{−u}`). For `n = 1` it is Mathlib's theorem. For `n ≤ 0`, differentiate the geometric series `z/(1−z) = ∑ z^{k+1}` termwise `r` times; the polynomial growth of `(k+1)^{−n}` is dominated by any geometric ratio strictly between `|z|` and 1. Read off the constant and linear coefficients: prove vanishing at zero and `hasDerivAt_polylog_zero` (`Liₙ` has complex derivative 1 at 0 for every `n ∈ ℤ`).
+with the integer power `(k+1)^n` of the positive integer `k+1` taken in `ℂ`. The convergence is absolute and locally uniform on the open disc. For `n ≥ 2`, expand `−Log(1 − tz)` by Mathlib's Taylor series and integrate term by term against `(−log t)^{n−2}/t` using the radial majorant of §1.2 and `∫₀¹ t^{j−1}(−log t)^{n−2} dt = (n−2)!/j^{n−1}` (integration by parts, or Mathlib's Gamma integral after `t = e^{−u}`). For `n = 1` it is Mathlib's theorem. For `n ≤ 0`, differentiate the geometric series `z/(1−z) = ∑ z^{k+1}` termwise `r` times; the polynomial growth of `(k+1)^{−n}` is dominated by any geometric ratio strictly between `|z|` and 1. Read off the constant and linear coefficients: prove vanishing at zero and the derivative at zero (`Liₙ` has complex derivative 1 at 0 for every `n ∈ ℤ`).
 
 **Checks.**
 - `Li₀(1/2) = ∑ 2^{−(k+1)} = 1` and `Li₋₁(1/2) = ∑ (k+1) 2^{−(k+1)} = 2`, agreeing with the rational formulas of §1.4.
@@ -165,13 +171,13 @@ with the integer power `(k+1)^n` of the positive integer `k+1` taken in `ℂ`. T
 
 References: [O93] §1.1, (2)–(3), p. 50 (the recursion, read for `k ≤ 1` as Euler differentiation of the disc series); the rational form is its elementary consequence.
 
-Prove `exists_polylog_neg_eq_div`: for every `r ∈ ℕ` there is a polynomial `A_r ∈ ℤ[X]` with `A_r(1) ≠ 0` such that
+Prove the rational expression in nonpositive weight: for every `r ∈ ℕ` there is a polynomial `A_r ∈ ℤ[X]` with `A_r(1) ≠ 0` such that
 
 ```text
 Li_{−r}(z) = z · A_r(z) / (1 − z)^(r+1)        for every z ≠ 1,
 ```
 
-with `A₀ = 1, A₁ = 1, A₂ = 1 + X` (so `Li₋₂(z) = z(1+z)/(1−z)³`), and `A_r(1) = r!`. Induct on `r`, differentiating the rational expression away from its pole; the recursion is `A_{r+1} = (1 + rX)A_r + X(1 − X)A_r′`. Prove `not_continuousAt_one_polylog_neg`: for every `r`, `Li₋ᵣ` is not continuous at 1 (its modulus tends to `∞` like `r!/|1−z|^{r+1}`); in particular the totalised value at 1 is never an analytic value. Prove `analyticOnNhd_polylog_nonpos`: `Li₋ᵣ` is analytic on `ℂ∖{1}`, not merely on `Ω`, so all continuation of nonpositive weights is trivial (§2.1).
+with `A₀ = 1, A₁ = 1, A₂ = 1 + X` (so `Li₋₂(z) = z(1+z)/(1−z)³`), and `A_r(1) = r!`. Induct on `r`, differentiating the rational expression away from its pole; the recursion is `A_{r+1} = (1 + rX)A_r + X(1 − X)A_r′`. Prove failure of continuity at the pole: for every `r`, `Li₋ᵣ` is not continuous at 1 (its modulus tends to `∞` like `r!/|1−z|^{r+1}`); in particular the totalised value at 1 is never an analytic value. Prove holomorphy away from the sole pole: `Li₋ᵣ` is analytic on `ℂ∖{1}`, not merely on `Ω`, so all continuation of nonpositive weights is trivial (§2.1).
 
 **Checks.**
 - `Li₀(z) = z/(1−z) (A₀ = 1)` and `Li₋₁(z) = z/(1−z)² (A₁ = 1)`: the first Euler derivative has numerator `z`, not 1.
@@ -197,7 +203,7 @@ The principal analytic continuation is stated as `analyticOnNhd_polylog` in `Sug
 **Checks.**
 - At weight three, `z·Li₃′(z) = Li₂(z)` on `Ω`; at `z = −1` this reads `−Li₃′(−1) = Li₂(−1) = −π²/12`.
 - The derivative of `Li₁` at `z ∈ Ω` is `1/(1−z) = Li₀(z)/z` for `z ≠ 0`, and 1 at `z = 0`.
-- Analyticity is asserted on `Ω` only: `not_continuousAt_polylog_one_three` states that `Li₁` is not continuous at 3 (already from the principal logarithm; §2.4 gives the jump), and `Li₀` is not analytic at 1 (§1.4).
+- Analyticity is asserted on `Ω` only: `Li₁` is not continuous at 3 (already from the principal logarithm; §2.4 gives the jump), and `Li₀` is not analytic at 1 (§1.4).
 
 *Needs:* §§1.1–1.4; Mathlib `Complex.hasDerivAt_log`, `hasDerivAt_integral_of_dominated_loc_of_deriv_le`, `intervalIntegral.integral_eq_sub_of_hasDerivAt_of_le`, `AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq`.
 
@@ -218,15 +224,15 @@ Prove conjugation compatibility: for every `n ∈ ℤ` and `z ∈ Ω, Liₙ(z̄)
 
 References: [O93] §1.4, p. 51 (finite limit at 1 equal to `ζ(k)` for `k ≥ 2`); [Z07] Part I §1, p. 6 (`Li₂(1) = π²/6` among the special values). Built on Mathlib `riemannZeta_two`, `zeta_nat_eq_tsum_of_gt_one`, `HurwitzZeta.hasSum_expZeta_of_one_lt_re`, `HurwitzZeta.expZeta_zero`, `Complex.tendsto_tsum_powerSeries_nhdsWithin_stolzCone`.
 
-For every natural `n ≥ 2`, prove `hasSum_polylog_of_norm_le_one` (the disc series converges absolutely and uniformly on `|z| ≤ 1` to `Liₙ(z)`), `continuousOn_polylog_closedBall` (`Liₙ` is continuous on the closed unit disc), `continuousAt_polylog_one` (`Liₙ` is continuous at 1 for unrestricted complex approach), the zeta endpoint identity (`Liₙ(1) = ζ(n)`, Mathlib's zeta value) and the exponential-zeta comparison (for every real `a, Liₙ(e^{2πia}) =` `HurwitzZeta.expZeta a n`). After `continuousOn_polylog_closedBall`, prove closed-disc conjugation compatibility: for `n ≥ 2` and `‖z‖ ≤ 1`, `Liₙ(z̄) = conj(Liₙ(z))`, extending §1.6 by continuity from the open disc. The uniform convergence comes from `∑ k^{−n} < ∞`; the boundary values of the integral of §1.1 agree with the series by Abel's limit theorem along radii, together with continuity of the integral on the closed disc (dominated convergence with the majorants of §1.2). For the unrestricted limit at 1, use the uniform integrability of §1.2 and almost-everywhere convergence of the integrand as `z → 1`; for `t < 1` the limiting argument `1 − t` is positive, so there is no logarithmic branch discontinuity. This supplies the full complex limit used in Layers 2 and 4, beyond closed-disc continuity. The exponential-zeta comparison is a term-by-term identification with Mathlib's series, whose `k = 0` term `1/0^n` vanishes for `n ≥ 1`, so no competing circle function is introduced. For `n = 1` there is no such statement: `|Li₁(z)| → ∞` as `z → 1` inside the disc, whatever the totalised value `polylog 1 1 = 0`.
+For every natural `n ≥ 2`, prove the closed-disc series identification (the disc series converges absolutely and uniformly on `|z| ≤ 1` to `Liₙ(z)`), closed-disc continuity (`Liₙ` is continuous on the closed unit disc), continuity at 1 (`Liₙ` is continuous at 1 for unrestricted complex approach), the zeta endpoint identity (`Liₙ(1) = ζ(n)`, Mathlib's zeta value) and the exponential-zeta comparison (for every real `a, Liₙ(e^{2πia}) =` `HurwitzZeta.expZeta a n`). After closed-disc continuity, prove closed-disc conjugation compatibility: for `n ≥ 2` and `‖z‖ ≤ 1`, `Liₙ(z̄) = conj(Liₙ(z))`, extending §1.6 by continuity from the open disc. The uniform convergence comes from `∑ k^{−n} < ∞`; the boundary values of the integral of §1.1 agree with the series by Abel's limit theorem along radii, together with continuity of the integral on the closed disc (dominated convergence with the majorants of §1.2). For the unrestricted limit at 1, use the uniform integrability of §1.2 and almost-everywhere convergence of the integrand as `z → 1`; for `t < 1` the limiting argument `1 − t` is positive, so there is no logarithmic branch discontinuity. This supplies the full complex limit used in Layers 2 and 4, beyond closed-disc continuity. The exponential-zeta comparison is a term-by-term identification with Mathlib's series, whose `k = 0` term `1/0^n` vanishes for `n ≥ 1`, so no competing circle function is introduced. For `n = 1` there is no such statement: `|Li₁(z)| → ∞` as `z → 1` inside the disc, whatever the totalised value `polylog 1 1 = 0`.
 
 **Checks.**
 - `Li₂(1) = π²/6`, through `riemannZeta_two`; Euler's evaluation is not proved again.
 - At `a = 0` the circle identity is `Liₙ(1) = expZeta 0 n = ζ(n)`, consistent with `HurwitzZeta.expZeta_zero`.
 - `Li₂(−1) = expZeta (1/2) 2 = −π²/12` (§3.6); `Li₂(i)` has real part `−π²/48` and imaginary part Catalan's constant `∑(−1)^k/(2k+1)²`.
-- `polylog 1 1 = 0` is a totalised value, and `continuousOn_polylog_closedBall` is not stated for `n = 1`.
+- `polylog 1 1 = 0` is a totalised value, and closed-disc continuity is not stated for `n = 1`.
 
-*Needs:* §§1.1–1.3, 1.5–1.6; the Mathlib declarations above; `continuousOn_polylog_closedBall` precedes closed-disc conjugation compatibility.
+*Needs:* §§1.1–1.3, 1.5–1.6; the Mathlib declarations above; closed-disc continuity precedes closed-disc conjugation compatibility.
 
 ### Examples
 
@@ -244,7 +250,7 @@ Standing assumptions for this layer: `N ∈ ℕ` is the height of the tower and 
 
 ### 2.1 The tower germ and its continuation
 
-References: [O93] §2.1, p. 52 (the polylogarithms as holomorphic functions on the universal cover, obtained by induction from (2)–(3)); [O93] §2.3, remark and (15), p. 54 (the tower solves a unipotent linear differential equation); [Z90] §7, discussion before (33), p. 413 (all weights on one branch). Built on Tau Ceti `TauCeti.IsAnalyticContinuationAlong`, `TauCeti.ContinuesInside`, Mathlib `DifferentiableOn.isExactOn_ball`.
+References: [O93] §2.1, p. 52 (the polylogarithms as holomorphic functions on the universal cover, obtained by induction from (2)–(3)); [O93] §2.3, remark and (15), p. 54 (the tower solves a unipotent linear differential equation); [Z90] §7, p. 415 (the triangular matrix continued along one common path, with all weights on one branch). Built on Tau Ceti `TauCeti.IsAnalyticContinuationAlong`, `TauCeti.ContinuesInside`, Mathlib `DifferentiableOn.isExactOn_ball`.
 
 **The tower germ.** Define `polylogTower N : ℂ → (Fin (N+1) → ℂ)` by
 
@@ -252,9 +258,17 @@ References: [O93] §2.1, p. 52 (the polylogarithms as holomorphic functions on t
 polylogTower N z 0 = Log z,        polylogTower N z i = Liᵢ(z)   (1 ≤ i ≤ N).
 ```
 
-The basic theory to develop comprises the logarithm entry and the positive-weight entries (the two kinds of entry, by definition), `analyticOnNhd_polylogTower` (the tower is analytic on `V₀`), coherence under truncation (for `N′ ≤ N`, the first `N′+1` entries of `polylogTower N` are `polylogTower N′`, and the same truncation sends a continuation of the N-tower to a continuation of the N′-tower, so heights are coherent), the coupled differential and exponential relations (if `c` starts at `b` and `f` starts at the germ of `polylogTower N` at `b`, then at every parameter time `t` and near `c t`: `exp(f t z 0) = z`, `(d/dz) f t z 0 = 1/z`, `(d/dz) f t z 1 = 1/(1−z)` when `N ≥ 1`, and `(d/dz) f t z i = f t z (i−1)/z` for `2 ≤ i ≤ N`) and `continuesInside_polylogTower` (the germ at `b` continues along every path in `U` starting at `b`, `TauCeti.ContinuesInside (polylogTower N) U (1/2)`). The differential relations hold for the initial germ by §1.5 and `Complex.hasDerivAt_log`, and propagate along a continuation by the identity principle, since each relation is an analytic identity between germs.
+The tower API consists of the following facts.
 
-Prove `continuesInside_polylogTower` as follows. A germ at a point `w` of an open disc `B ⊂ U` satisfying the relations of the coupled differential and exponential relations is the germ of a function analytic on all of `B`: on `B` the right-hand sides are analytic, so the entries are obtained successively as primitives on the disc (Mathlib `DifferentiableOn.isExactOn_ball`), with constants fixed by the germ at `w`, and the exponential relation propagates because `exp(f₀)/z` has zero derivative on `B`. Given a path `c` in `U`, choose by compactness a subdivision `0 = t₀ < … < t_m = 1` and discs `Bⱼ ⊂ U` containing `c([tⱼ, tⱼ₊₁])`; extend successively and glue the pieces with `TauCeti.IsAnalyticContinuationAlong.union` and `.trans`. Nonpositive weights need no continuation: they are analytic on `ℂ∖{1}` (`analyticOnNhd_polylog_nonpos`, §1.4) and every determination of them is the rational function.
+- Entry 0 is `Log z`; entry `i ≥ 1` is `Liᵢ(z)`.
+- The tower is analytic on `V₀`.
+- For `N′ ≤ N`, restriction to the first `N′+1` coordinates gives the N′-tower, both for the principal germ and for every continuation.
+- For a continuation `f` from the tower germ at `b`, near each path point `c t` one has `exp(f t z 0) = z` and `(d/dz) f t z 0 = 1/z`; for `N ≥ 1` entry 1 has derivative `1/(1−z)`, and for `2 ≤ i ≤ N` entry `i` has derivative `f t z (i−1)/z`.
+- The tower germ at `b` continues along every path in `U` from `b`, in the sense of `TauCeti.ContinuesInside`.
+
+The differential and exponential identities hold for the initial germ by §1.5 and `Complex.hasDerivAt_log`, and propagate by the identity principle.
+
+Prove continuation of the tower along every path as follows. A germ at a point `w` of an open disc `B ⊂ U` satisfying the relations of the coupled differential and exponential relations is the germ of a function analytic on all of `B`: on `B` the right-hand sides are analytic, so the entries are obtained successively as primitives on the disc (Mathlib `DifferentiableOn.isExactOn_ball`), with constants fixed by the germ at `w`, and the exponential relation propagates because `exp(f₀)/z` has zero derivative on `B`. Given a path `c` in `U`, choose by compactness a subdivision `0 = t₀ < … < t_m = 1` and discs `Bⱼ ⊂ U` containing `c([tⱼ, tⱼ₊₁])`; extend successively and glue the pieces with `TauCeti.IsAnalyticContinuationAlong.union` and `.trans`. Nonpositive weights need no continuation: they are analytic on `ℂ∖{1}` (holomorphy away from the sole pole, §1.4) and every determination of them is the rational function.
 
 **Checks.**
 - At `b` the tower is `(Log(1/2), Li₁(1/2), Li₂(1/2)) = (−log 2, log 2, π²/12 − (log 2)²/2)`: entry 0 is the logarithm and entry 1 is `−Log(1−z)`, so the indexing is not shifted.
@@ -268,9 +282,18 @@ Prove `continuesInside_polylogTower` as follows. A germ at a point `w` of an ope
 
 References: [O93] §2, introduction and §2.1, pp. 51–52 (the universal cover based at `1/2` as homotopy classes of paths, the k-logarithm as a holomorphic function on it, and a determination on `A ⊂ U` as its composite with a continuous section of the projection). Built on Tau Ceti `TauCeti.UniversalCover`, `TauCeti.UniversalCover.isCoveringMap`, `TauCeti.monodromy_theorem`, BelyiMaps §5.1 (`TauCeti.SemilocallySimplyConnectedSpace U`).
 
-**The branch function.** Define `polylogBranch N : TauCeti.UniversalCover (b : U) → (Fin (N+1) → ℂ)` by: for `p = ⟨z, [γ]⟩`, take a continuation `f` along (the path in `ℂ` underlying) `γ` starting at the germ of `polylogTower N` at `b`, and set `polylogBranch N p = f 1 z`. It is well defined: the continuation along a fixed path is unique (`TauCeti.IsAnalyticContinuationAlong.eventuallyEq`), it exists by §2.1, and by `TauCeti.monodromy_theorem` its terminal germ depends only on the homotopy class of `γ` rel endpoints. Write `Log^[p]` and `Liₙ^[p]` for its entries. The defining value is independent of both choices; its intended signature is the one displayed above.
+**The branch function.** Define the branch function `B_N : TauCeti.UniversalCover (b : U) → (Fin (N+1) → ℂ)` by: for `p = ⟨z, [γ]⟩`, take a continuation `f` along (the path in `ℂ` underlying) `γ` starting at the germ of `polylogTower N` at `b`, and set `B_N p = f 1 z`. It is well defined: the continuation along a fixed path is unique (`TauCeti.IsAnalyticContinuationAlong.eventuallyEq`), it exists by §2.1, and by `TauCeti.monodromy_theorem` its terminal germ depends only on the homotopy class of `γ` rel endpoints. Write `Log^[p]` and `Liₙ^[p]` for its entries. The defining value is independent of both choices; its intended signature is the one displayed above.
 
-The basic theory to develop comprises `polylogBranch_basepointLift` (at the constant path the value is `polylogTower N b`), `polylogBranch_eq_of_isAnalyticContinuationAlong` (for any continuation `f` along a representative `γ` of `p` from the tower germ, `polylogBranch N p = f 1 (proj p)`), `polylogBranch_trans` (the value at `⟨z, [γ followed by δ]⟩` is the value at the end of `δ` of the continuation along `δ` of the terminal germ of `γ`), `polylogBranch_trunc` (truncation in `N`, as in §2.1), `analyticOn_polylogBranch_comp_section` (for an open `V ⊆ U` and a continuous section `s : V → cover` of `proj`, the determination `z ↦ polylogBranch N (s z)` is analytic on `V` and satisfies the coupled differential and exponential relations of §2.1), `exists_section_of_isSimplyConnected` (over a simply connected open `V ⊆ U`, through every point of the cover over `V` passes a unique continuous section; this is the lifting property of the covering map `TauCeti.UniversalCover.isCoveringMap`), and `polylogBranch_principal` (the section over `V₀` through `⟨b, [const]⟩` gives the principal determination: `polylogBranch N (s z) = polylogTower N z` for `z ∈ V₀`). Also prove `polylogBranch_principal_entries`: if a representative path from `b` to `z` stays in `Ω∩U`, then `Liᵢ^[p] = Liᵢ(z)` for every `1 ≤ i ≤ N`, by uniqueness and the holomorphy of `Liᵢ` on `Ω`. The logarithm entry need not be principal along such a path, since it may wind around 0; this assertion forgets entry 0. The determination on `V₀` is also the global branch of Tau Ceti `TauCeti.ContinuesInside.exists_analyticOnNhd` applied to the tower germ on the simply connected set `V₀`.
+The branch API consists of the following facts.
+
+- At the lift of the constant path its value is the principal tower at `b`.
+- For any continuation `f` along a representative path of `p` from the tower germ, the branch value at `p` is `f 1 (proj p)`.
+- Concatenating paths continues the terminal germ of the first along the second; the final value is the branch value of the concatenated class.
+- Restricting coordinates commutes with lowering the tower height, as in §2.1.
+- For an open `V ⊆ U` and a continuous section of the covering projection over `V`, the resulting determination is analytic on `V` and satisfies §2.1's coupled differential and exponential relations.
+- Over a simply connected open `V ⊆ U`, through each point of the cover over `V` passes a unique continuous section, by `TauCeti.UniversalCover.isCoveringMap`.
+- The section over `V₀` through the constant-path lift gives the principal tower, also the global branch supplied by `TauCeti.ContinuesInside.exists_analyticOnNhd`.
+- If a representative path from `b` stays in `Ω∩U`, each positive-weight entry equals its principal value, by uniqueness and holomorphy on `Ω`. Its logarithm can differ from the principal one because the path may wind about 0.
 
 **Checks.**
 - At the constant path: `Li₁^[base] = log 2` and `Log^[base] = −log 2` (degenerate case).
@@ -298,14 +321,14 @@ f 1 z 0 = Log z,        f 1 z i = Liᵢ(z) − 2πi · (Log z)^(i−1) / (i−1)
 
 For `γ₀`: `Liᵢ` is analytic on the disc `|z| < 1` containing `γ₀`, so its germ continues to itself, while `Log` changes by `∫_{γ₀} dz/z = 2πi`. For `γ₁`: `Li₁ = −Log(1−z)` changes by `−2πi` because `1 − γ₁(t) = e^{2πit}/2` winds once counterclockwise about 0; `Log` is analytic on the disc `|z − 1| < 1` containing `γ₁`. For `i ≥ 2` the monodromy difference `Δᵢ` has derivative `Δᵢ₋₁/z`. Fix the integration constants by deforming `γ₁` to a path towards 1, a small counterclockwise circle about 1, and the reversed path. As the circle radius tends to zero, its integral of `Liᵢ₋₁ dz/z` tends to zero: `Li₁` has only a logarithmic singularity and every higher principal weight has a finite limit at 1 (§1.7). Thus `Δᵢ` tends to 0 at 1 for `i ≥ 2`. Inductively integrating `Δᵢ₋₁/z` from 1 to `z`, with `Log 1 = 0` on this disc, gives `Δᵢ = −2πi Log^{i−1}/(i−1)!` with no additive constant. The derivative relations alone would leave those constants undetermined. Homotopy invariance and uniqueness of continuation transport the result back to the original loop.
 
-**The action on the universal cover.** Write `T₀ p = periph0⁻¹ • p` and `T₁ p = periph1⁻¹ • p`; by the convention of Tau Ceti's action (Conventions), `Tⱼ` prefixes the counterclockwise loop `γⱼ`. Prove `polylogBranch_T₀` and `polylogBranch_T₁`: for every `p` in the cover and `1 ≤ n ≤ N`,
+**The action on the universal cover.** Write `T₀ p = periph0⁻¹ • p` and `T₁ p = periph1⁻¹ • p`; by the convention of Tau Ceti's action (Conventions), `Tⱼ` prefixes the counterclockwise loop `γⱼ`. Prove the monodromy formula about 0 and the monodromy formula about 1: for every `p` in the cover and `1 ≤ n ≤ N`,
 
 ```text
 Log^[T₀p] = Log^[p] + 2πi,      Liₙ^[T₀p] = Liₙ^[p];
 Log^[T₁p] = Log^[p],            Liₙ^[T₁p] = Liₙ^[p] − 2πi · (Log^[p])^(n−1) / (n−1)!.
 ```
 
-The inverse operators are `periphⱼ • p`, with `Log^[periph0 • p] = Log^[p] − 2πi` and `Liₙ^[periph1 • p] = Liₙ^[p] + 2πi(Log^[p])^{n−1}/(n−1)!`. Prove `polylogBranch_smul`: there is a homomorphism `Φ` from `FundamentalGroup U b` to the group of polynomial automorphisms of `ℂ^{N+1}` (under composition) with `Φ(periph0⁻¹) = τ₀, Φ(periph1⁻¹) = τ₁`, where `τ₀(L, ℓ₁, …, ℓ_N) = (L + 2πi, ℓ₁, …, ℓ_N)` and `τ₁(L, ℓ₁, …, ℓ_N) = (L, ℓ₁ − 2πi, …, ℓₙ − 2πi L^{n−1}/(n−1)!, …)`, such that `polylogBranch N (g • p) = Φ(g)(polylogBranch N p)` for every `g` and `p`. `Φ` exists by the universal property of `π₁(U, b) ≅ FreeGroup (Fin 2)` (BelyiMaps §5.6); the identity holds for the two generators by the formulas above and for products because the action is a left action and both sides compose in the same order. The relations describe prefixing loops at the base point; continuing an already changed branch once more around a loop at its endpoint is the conjugate action and need not fix `Liₙ` under a loop about 0.
+The inverse operators are `periphⱼ • p`, with `Log^[periph0 • p] = Log^[p] − 2πi` and `Liₙ^[periph1 • p] = Liₙ^[p] + 2πi(Log^[p])^{n−1}/(n−1)!`. Prove polynomial equivariance: there is a homomorphism `Φ` from `FundamentalGroup U b` to the group of polynomial automorphisms of `ℂ^{N+1}` (under composition) with `Φ(periph0⁻¹) = τ₀, Φ(periph1⁻¹) = τ₁`, where `τ₀(L, ℓ₁, …, ℓ_N) = (L + 2πi, ℓ₁, …, ℓ_N)` and `τ₁(L, ℓ₁, …, ℓ_N) = (L, ℓ₁ − 2πi, …, ℓₙ − 2πi L^{n−1}/(n−1)!, …)`, such that `B_N (g • p) = Φ(g)(B_N p)` for every `g` and `p`. `Φ` exists by the universal property of `π₁(U, b) ≅ FreeGroup (Fin 2)` (BelyiMaps §5.6); the identity holds for the two generators by the formulas above and for products because the action is a left action and both sides compose in the same order. The relations describe prefixing loops at the base point; continuing an already changed branch once more around a loop at its endpoint is the conjugate action and need not fix `Liₙ` under a loop about 0.
 
 `exists_polylogBranch_monodromy` in `Suggested.lean` states the existence of the branch characterized by terminal continuations together with the polynomial fundamental-group action and both generator formulas. Polynomiality uses coordinate polynomials on `Fin (N+1) → ℂ`; the action of the inverse group element supplies the polynomial inverse.
 
@@ -322,13 +345,13 @@ The inverse operators are `periphⱼ • p`, with `Log^[periph0 • p] = Log^[p]
 
 References: [O93] §1.3, (6), p. 51 (the jump of `Liₖ` across the cut, derived there from inversion); [O93] §2.2, (8), p. 53 (its relation to monodromy). Built on Layer 1 and Mathlib `Complex.arg`.
 
-Prove `tendsto_polylog_jump`: for every natural `n ≥ 1` and real `x > 1`,
+Prove the principal jump formula: for every natural `n ≥ 1` and real `x > 1`,
 
 ```text
 lim_{t→0+} ( Liₙ(x + it) − Liₙ(x − it) ) = 2πi (log x)^(n−1) / (n−1)!.
 ```
 
-Prove `tendsto_polylog_lower`: for every `n ∈ ℤ` and `x > 1`, `Liₙ(x − it) → Liₙ(x)` as `t → 0+`; the total value on the cut is the lower boundary value (for `n ≤ 0` this is continuity at `x ≠ 1`). Prove `continuousWithinAt_polylog_closedLowerHalfPlane`: for `n ≥ 1` and `x > 1, Liₙ` restricted to `{Im z ≤ 0}` is continuous at `x`. For `n = 1` use `Arg(1 − x ∓` i0) `= ∓π`. For `n = k + 2` use the radial integral directly. Its lower-value imaginary part is `−π/k!` times `∫_{1/x}¹ (−log t)^k dt/t = −π(log x)^{k+1}/(k+1)!`, and the upper limit is its conjugate by §1.6. Uniform integrability (§1.2) justifies both boundary limits; almost-everywhere convergence of `Log` from the closed upper side of its negative-real cut gives the lower value selected by the totalised integrand. This proves the jump without using monodromy or inversion, and it also gives relative continuity for every approach in the closed lower half-plane. Upper and lower values are related to monodromy as follows: continuing the principal determination from the lower half-plane upwards across `(1, ∞)` gives, in the upper half-plane, the principal determination minus the jump continued with `Log z`, which is the determination produced by the counterclockwise loop `γ₁` (a path from `b` passing below 1, crossing the cut upwards and returning above 1 encircles 1 counterclockwise). So counterclockwise monodromy about 1 is the negative of the upper-minus-lower jump.
+Prove the lower boundary limit: for every `n ∈ ℤ` and `x > 1`, `Liₙ(x − it) → Liₙ(x)` as `t → 0+`; the total value on the cut is the lower boundary value (for `n ≤ 0` this is continuity at `x ≠ 1`). Prove relative continuity on the closed lower half-plane: for `n ≥ 1` and `x > 1, Liₙ` restricted to `{Im z ≤ 0}` is continuous at `x`. For `n = 1` use `Arg(1 − x ∓` i0) `= ∓π`. For `n = k + 2` use the radial integral directly. Its lower-value imaginary part is `−π/k!` times `∫_{1/x}¹ (−log t)^k dt/t = −π(log x)^{k+1}/(k+1)!`, and the upper limit is its conjugate by §1.6. Uniform integrability (§1.2) justifies both boundary limits; almost-everywhere convergence of `Log` from the closed upper side of its negative-real cut gives the lower value selected by the totalised integrand. This proves the jump without using monodromy or inversion, and it also gives relative continuity for every approach in the closed lower half-plane. Upper and lower values are related to monodromy as follows: continuing the principal determination from the lower half-plane upwards across `(1, ∞)` gives, in the upper half-plane, the principal determination minus the jump continued with `Log z`, which is the determination produced by the counterclockwise loop `γ₁` (a path from `b` passing below 1, crossing the cut upwards and returning above 1 encircles 1 counterclockwise). So counterclockwise monodromy about 1 is the negative of the upper-minus-lower jump.
 
 **Checks.**
 - At `x = 3`, the jump of `Li₁` is `+2πi`; hence no continuous function on `U` agrees with principal `Li₁` on `V₀`.
@@ -361,7 +384,7 @@ Prove `polylog_distribution`: for every `n ∈ ℤ`, `m ≥ 1` and `z ∈ Ω_m` 
 Liₙ(z^m) = m^(n−1) · ∑_{j=0}^{m−1} Liₙ(ζ_j z).
 ```
 
-Prove first `pow_mem_principalDomain`: `z ∈ Ω_m` implies `z^m ∈ Ω` (if `z^m = r ≥ 1` then `z = r^{1/m}ζ` for an m-th root of unity `ζ`, and `ζ⁻¹z = r^{1/m} ∈ [1, ∞)`). On the open disc interchange the finite sum with the absolutely convergent series and use `∑_j ζ_j^k = m` if `m ∣ k` and 0 otherwise; `Ω_m` is star-shaped about 0, hence connected, and both sides are analytic on it, so the identity principle extends the disc identity. Prove rational distribution: for `n ≤ 0` the identity holds wherever `z^m ≠ 1`, as an identity of rational functions (both sides are analytic on `{z^m ≠ 1}`, which is connected).
+Prove first compatibility of the distribution domain with taking powers: `z ∈ Ω_m` implies `z^m ∈ Ω` (if `z^m = r ≥ 1` then `z = r^{1/m}ζ` for an m-th root of unity `ζ`, and `ζ⁻¹z = r^{1/m} ∈ [1, ∞)`). On the open disc interchange the finite sum with the absolutely convergent series and use `∑_j ζ_j^k = m` if `m ∣ k` and 0 otherwise; `Ω_m` is star-shaped about 0, hence connected, and both sides are analytic on it, so the identity principle extends the disc identity. Prove rational distribution: for `n ≤ 0` the identity holds wherever `z^m ≠ 1`, as an identity of rational functions (both sides are analytic on `{z^m ≠ 1}`, which is connected).
 
 The integer-weight distribution headline is `polylog_distribution` in `Suggested.lean`.
 
@@ -446,15 +469,15 @@ The principal five-term headline is `polylog_abel` in `Suggested.lean`.
 
 ### 3.5 Functional equations on coherent branches
 
-References: [O93] §2.1–2.2, pp. 52–53 (continuation on the universal cover and its monodromy); [O93] §4.1, pp. 59–60 (the dilogarithm identities and their single-valued forms); [Z90] §7, discussion before (33), p. 413. Built on Layer 2 and §§3.1–3.4.
+References: [O93] §2.1–2.2, pp. 52–53 (continuation on the universal cover and its monodromy); [O93] §4.1, pp. 59–60 (the dilogarithm identities and their single-valued forms); [Z90] §7, p. 415 (the triangular matrix continued along one common path). Built on Layer 2 and §§3.1–3.4.
 
 Initialize each polylogarithm continuation at the principal germ at its base argument. Continue logarithms of nonvanishing argument maps on `ℂ∖{0}`, independently of the full tower when the logarithm's argument may equal 1. Initial germs, rather than just initial values, are required. In inversion, continue `Log(−z)` along `−c`, initialized at the germ of `Complex.log` at 1 with value 0; the full tower of positive height has a singular entry `Li₁` at 1 and cannot supply that germ. The target `polylog_inversion_continuation` states the Bernoulli identity with these initial germs for the two polylogarithm families at −1 and the logarithm family at 1.
 
-State and prove `isAnalyticContinuationAlong_functionalEquation` for each of the four identities: along a path `c` in its nonsingular argument space from the specified base point, continue each principal polylogarithm germ along its argument path and each principal logarithm germ along its nonvanishing argument path. The argument spaces and base points are: for distribution, `z ≠ 0` and `z^m ≠ 1`, with argument paths `z^m` and `ζ_j z`, from a small positive real base point; for inversion, `z ∈ U`, with paths `z`, `1/z` and logarithm path `−z`, from −1; for reflection, `z ∈ U`, with paths `z`, `1 − z`, from `1/2`; for Abel, `M = {(x, y) : xy(1−x)(1−y)(1−x−y) ≠ 0}`, with the five dilogarithm arguments and logarithms of `1−x`, `1−y`, from `(1/4, 1/4)`. For the first three identities, compose the continued germs with the analytic argument maps on the one-dimensional base and apply `TauCeti.IsAnalyticContinuationAlong.eventuallyEq` to the difference and the zero germ.
+State and prove propagation of the functional equation for each of the four identities: along a path `c` in its nonsingular argument space from the specified base point, continue each principal polylogarithm germ along its argument path and each principal logarithm germ along its nonvanishing argument path. The argument spaces and base points are: for distribution, `z ≠ 0` and `z^m ≠ 1`, with argument paths `z^m` and `ζ_j z`, from a small positive real base point; for inversion, `z ∈ U`, with paths `z`, `1/z` and logarithm path `−z`, from −1; for reflection, `z ∈ U`, with paths `z`, `1 − z`, from `1/2`; for Abel, `M = {(x, y) : xy(1−x)(1−y)(1−x−y) ≠ 0}`, with the five dilogarithm arguments and logarithms of `1−x`, `1−y`, from `(1/4, 1/4)`. For the first three identities, compose the continued germs with the analytic argument maps on the one-dimensional base and apply `TauCeti.IsAnalyticContinuationAlong.eventuallyEq` to the difference and the zero germ.
 
 For Abel first prove `abel_functionalEquation_continuation`, a two-variable propagation theorem owned here, from [O93] §4.1, (30), p. 59 and the following identity-principle argument. Set `a = x/(1−y)`, `b = y/(1−x)`, `d = xy/((1−x)(1−y))`. Carry seven germs on `ℂ × ℂ`, initially the germs of `(Li₂(d), Li₂(a), Li₂(b), Li₂(x), Li₂(y), Log(1−x), Log(1−y))` at `(1/4,1/4)`. Require `AnalyticAt ℂ` for their vector at every path point and local germ agreement at nearby parameter times, for each of the seven entries. These conditions are obtained by composing the one-variable continuations with the analytic argument maps on `M`. On small polydiscs the difference `F₀−F₁−F₂+F₃+F₄+F₅F₆` is analytic and initially zero as a germ by §3.4. Local germ agreement and the identity principle on connected overlapping polydiscs propagate its vanishing along the continuous path. The conclusion is Abel's identity at the endpoint. Mathlib's `AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq` applies to `ℂ × ℂ`; the one-variable Tau Ceti continuation predicate does not.
 
-Prove `functionalEquation_branch_change`: changing one branch independently by a loop word gives the defect obtained by substituting `Φ` of §2.3 for that branch, including every continued logarithm in the polynomial or product term. No uncorrected identity between independently chosen branches is asserted.
+Prove the independent-branch correction: changing one branch independently by a loop word gives the defect obtained by substituting `Φ` of §2.3 for that branch, including every continued logarithm in the polynomial or product term. No uncorrected identity between independently chosen branches is asserted.
 
 The coherent-continuation statements in `Suggested.lean` are `polylog_inversion_continuation` and `abel_functionalEquation_continuation`, retaining the separately initialized logarithm and the two-variable germs respectively.
 
@@ -474,7 +497,7 @@ References: [Z07] Part I §1, pp. 6–7 (the closed-form values, among them `Li�
 Prove the value at 1 (`Li₂(1) = π²/6`, from `riemannZeta_two`), the value at −1 (`Li₂(−1) = −π²/12`, from duplication at `z = 1` by closed-disc continuity: `Li₂(1) = 2(Li₂(1) + Li₂(−1))`) and the value at 1/2 (`Li₂(1/2) = π²/12 − (log 2)²/2`, from reflection at `z = 1/2`). These three are complex equalities with zero imaginary part. The golden-ratio values are proved after the Rogers pentagon in §6.5.
 
 **Checks.**
-- At the upper half-circle lift `p` of −1 the principal value is `−π²/12`; prefixing `T₁` changes it to `23π²/12`, still real. The exact real value detects this branch change. The target `polylogBranch_two_T1_neg_one`, for `2 ≤ N`, states this using the continuation of the `T₁`-changed tower germ along that half-circle: `−π²/12 − 2πi·πi = 23π²/12`.
+- At the upper half-circle lift `p` of −1 the principal value is `−π²/12`; prefixing `T₁` changes it to `23π²/12`, still real. The exact real value detects this branch change. The changed weight-two value at −1, for `2 ≤ N`, states this using the continuation of the `T₁`-changed tower germ along that half-circle: `−π²/12 − 2πi·πi = 23π²/12`.
 - `Li₂(1/2) ≠ π²/12`: the logarithmic correction `−(log 2)²/2` is part of the value.
 - `Li₂(1) = π²/6` but `Li₂(−1) = −π²/12`: duplication fixes the factor `−1/2` between the two endpoint values.
 
@@ -498,7 +521,14 @@ Standing assumptions for this layer: `n ≥ 2` is a natural number unless a stat
 
 References: [Z90] §7, (35), p. 413, and the computation on p. 414 (the coefficients `2^jBⱼ/j!`, their generating function `2x/(e^{2x} − 1)`, and the even series `x/sinh x`). Built on Mathlib `bernoulli`, `bernoulliPowerSeries_mul_exp_sub_one`, `Polynomial.bernoulli_eval_one_sub`.
 
-**The coefficients.** Define `bernoulliCoeff : ℕ → ℚ`, written `cₖ`, by `cₖ = 2^k Bₖ / k!`. The basic theory to develop comprises the constant coefficient (`c₀ = 1`), the linear coefficient (`c₁ = −1`), the quadratic coefficient (`c₂ = 1/3`), vanishing in higher odd degree (`cₖ = 0` for odd `k ≥ 3`), the generating-series identity (in `ℚ⟦s⟧`, `(∑ cₖ s^k)·(exp(2s) − 1) = 2s`, the variable-scaled form of Mathlib's identity, with no division by the non-unit `s`), and `sum_bernoulliCoeff_div_factorial_of_odd` (for odd `k`, `∑_{j≤k} cⱼ/(k−j)! = 0`, that is, `exp(s)·∑ cₖ s^k` is an even series; it equals `s/sinh s` after cancelling `s`). The even transform also follows from `∑_{j≤k} C(k,j) 2^j Bⱼ = 2^k Bₖ(1/2)` and Mathlib's reflection `Bₖ(1 − x) = (−1)^k Bₖ(x)` at `x = 1/2`.
+**The coefficients.** Define `bernoulliCoeff : ℕ → ℚ`, written `cₖ`, by `cₖ = 2^k Bₖ / k!`. Its API consists of the following facts.
+
+- The first coefficients are `c₀ = 1`, `c₁ = −1`, `c₂ = 1/3`.
+- For odd `k ≥ 3`, `cₖ = 0`.
+- In `ℚ⟦s⟧`, `(∑ cₖ s^k)·(exp(2s) − 1) = 2s`, by variable scaling of Mathlib's generating identity, without dividing by the non-unit `s`.
+- For odd `k`, `∑_{j≤k} cⱼ/(k−j)! = 0`. Thus the product with `exp(s)` is even, and equals `s/sinh s` after cancellation of `s`.
+
+The last identity also follows by evaluating the Bernoulli polynomial reflection at `1/2`, since `∑_{j≤k} C(k,j) 2^j Bⱼ = 2^k Bₖ(1/2)`.
 
 **Checks.**
 - `c₁ = −1` and `c₂ = 1/3`; `c₃ = 0`.
@@ -520,7 +550,13 @@ Lₙ(0) = 0,        Lₙ(1) = ζ(n) for odd n,   Lₙ(1) = 0 for even n,
 
 with principal `Li` and the lower boundary values on the cut, and define `singleValuedSphere n : OnePoint ℂ → ℝ` by extending with the value 0 at `∞`. The endpoint assignments are the continuous values (§4.7); they are part of the definition, not a convenience. For `n ≥ 2` this is exactly Zagier's real `Pₙ` in [Z90], whereas Oesterlé's even-weight `Pₙ` is `i·Lₙ`. In [Z90] (33) the sum also has a `k = n` term with the auxiliary convention `Li₀ = −1/2`; its projection vanishes, since `Bₙ = 0` for odd `n ≥ 3` and the term is real for even `n`. That auxiliary `Li₀` is not the rational `Li₀` of Layer 1, and neither is inserted as an extra term here. This family is not Zagier's earlier `Dₙ` (the modified Ramakrishnan function of [Z07] Part I §3, p. 12) nor any other normalisation. For `n = 1` our truncated formula gives `−log|1 − z|`, whereas [Z90] p. 414 has `P₁ = (1/2)log|z| − log|1 − z|` because its auxiliary `k = n` term survives. Neither is `log|z|`, and no weight-one identification with [Z90] is claimed; this definition is used only for `n ≥ 2`. No restriction to arguments coming from a number field or a particular embedding is present.
 
-The basic theory to develop comprises the displayed sum for `z ∉ {0, 1}`, the values `Lₙ(0) = 0` and the parity-dependent value at 1, the sphere value 0 at `∞` and its agreement with `Lₙ` on `ℂ`, the unit-circle formula (for `|z| = 1, Lₙ(z) = πₙ(Liₙ(z))`, including `z = 1`; equivalently the parity projection of Mathlib's `HurwitzZeta.expZeta`, by §1.7), and the identification of weight two with the Bloch–Wigner function (§5.2).
+The planar and sphere APIs consist of the following facts (for `n ≥ 2`).
+
+- Off `{0,1}`, the planar function is the displayed finite Bernoulli sum.
+- At 0 its value is 0; at 1 its value is `ζ(n)` in odd weight and 0 in even weight.
+- The sphere function agrees with the planar function at finite points and has value 0 at infinity.
+- For `|z| = 1`, including `z = 1`, `Lₙ(z) = πₙ(Liₙ(z))`, equivalently the parity projection of `HurwitzZeta.expZeta` under §1.7.
+- Weight two equals the Bloch–Wigner function of §5.2.
 
 **Checks.**
 - `L₃(1) = ζ(3)` and `L₂(1) = 0` (the value at 1): the odd-weight endpoint keeps the zeta value; dropping it changes every odd-weight regulator convention downstream.
@@ -556,7 +592,7 @@ Branch independence along every path is stated as `singleValued_eq_of_isAnalytic
 
 References: [O93] §3.2, p. 57 (`Pₖ` is real analytic on `ℂ∖{0,1}`); [GR] §1.1, p. 3 (single-valuedness of `Lₙ` on `ℂℙ¹∖{0,1,∞}`). Built on §§2.2, 4.3.
 
-Prove `analyticOnNhd_singleValued`: for `n ≥ 2`, `Lₙ` is real analytic (`AnalyticOnNhd ℝ`) on `ℂ∖{0, 1}`, including the points of `(1, ∞)`. Near `z ∈ U` choose a disc `B ⊂ U` and a section `s` of the universal cover over `B`; by §4.3, `Lₙ = πₙ(∑ cₖ Li_{n−k}^[s(·)] log^k|·|)` on `B`, a polynomial in holomorphic functions, their conjugates and the real-analytic function `log|z|` on `B ∌ 0`. Consequently `Lₙ` is `C^r` on `U` for every `r` (`contDiffOn_singleValued`).
+Prove `analyticOnNhd_singleValued`: for `n ≥ 2`, `Lₙ` is real analytic (`AnalyticOnNhd ℝ`) on `ℂ∖{0, 1}`, including the points of `(1, ∞)`. Near `z ∈ U` choose a disc `B ⊂ U` and a section `s` of the universal cover over `B`; by §4.3, `Lₙ = πₙ(∑ cₖ Li_{n−k}^[s(·)] log^k|·|)` on `B`, a polynomial in holomorphic functions, their conjugates and the real-analytic function `log|z|` on `B ∌ 0`. Consequently `Lₙ` is `C^r` on `U` for every `r` (smoothness on the punctured plane).
 
 Real analyticity across the cut is stated as `analyticOnNhd_singleValued` in `Suggested.lean`.
 
@@ -571,13 +607,13 @@ Real analyticity across the cut is stated as `analyticOnNhd_singleValued` in `Su
 
 References: [O93] §3.3, (27)–(28), p. 58 (the Wirtinger derivatives `∂Pₖ/∂z` and `∂Pₖ/∂z̄`); [G00] §4, item 1, Proposition 4.1, (28) and Lemma 4.2, (29)–(32), pp. 17–18 (the differential equations of the single-valued functions in every weight). The branchwise form below is obtained by differentiating the finite sum. Built on §§1.5, 2.2, 4.4.
 
-Prove the real differential formula in every weight: for `n ≥ 2, z ∉ {0, 1}` and every direction `v ∈ ℂ`, `Lₙ` is real differentiable at `z` and
+Prove `fderiv_singleValued`, the real differential formula in every weight: for `n ≥ 2, z ∉ {0, 1}` and every direction `v ∈ ℂ`, `Lₙ` is real differentiable at `z` and
 
 ```text
 dLₙ(z)[v] = πₙ( ∑_{k=0}^{n−1} cₖ Li_{n−k−1}(z) ℓ^k · (v/z)  +  ∑_{k=1}^{n−1} k cₖ Li_{n−k}(z) ℓ^{k−1} · Re(v/z) ),
 ```
 
-with `Li₀(z) = z/(1−z)`, where `Li` may be taken on any coherent local branch, in particular principal off the cut. Differentiate the local expression of §4.4 with `dLiⱼ = Liⱼ₋₁·v/z` and `dℓ = Re(v/z)`; the linear map obtained does not depend on the branch because it is the derivative of the branch-independent function, not because a continuous function was differentiated across a cut.
+with `Li₀(z) = z/(1−z)`, where `Li` may be taken on any coherent local branch, in particular principal off the cut. On the cut the principal lower values are values of a coherent local continuation from below, so the same finite-sum expression gives the real differential there as well. Differentiate the local expression of §4.4 with `dLiⱼ = Liⱼ₋₁·v/z` and `dℓ = Re(v/z)`; the linear map obtained does not depend on the branch because it is the derivative of the branch-independent function, not because a continuous function was differentiated across a cut.
 
 **Checks.**
 - Both sums have nonnegative logarithm exponents; the second starts at `k = 1`, so no `ℓ^{−1}` occurs.
@@ -606,7 +642,7 @@ The inversion and distribution headlines are `singleValued_inv` and `singleValue
 
 References: [O93] §3.2, (23)–(24), p. 58 (`Pₖ` extends continuously to `ℙ¹(ℂ)` with `Pₖ(0) = Pₖ(∞) = 0` and `Pₖ(1) = ζ(k)` or 0 by parity); [Z90] §7, p. 414 (continuity at `0, ∞` and 1 and the parity of the value at 1). Built on §§1.3, 1.7, 4.3, 4.4, 4.6.
 
-Prove `continuous_singleValuedSphere`: for `n ≥ 2` the function `singleValuedSphere n` on `OnePoint ℂ` is continuous; hence `continuous_singleValued` on `ℂ`. The limits at `0, ∞` and 1 are 0, 0 and `ζ(n)` or 0 by parity, and do not depend on the direction of approach or on a branch. Near `0`, `Liⱼ(z) = O(|z|)` for every `j ≥ 1` and the factor `ℓ^k` grows at most like `|log|z||^{n−1}`. At `∞`, use the inversion identity already proved in §4.6 and the behaviour at 0. Near `1`, `Liⱼ → ζ(j)` for `j ≥ 2` by §1.7, while the logarithmic singularity of `Li₁` is multiplied by `ℓ^{n−1} = O(|z − 1|^{n−1})`; the cut corrections cancel by §4.3, so the estimates hold uniformly on both half-neighbourhoods.
+Prove `continuous_singleValuedSphere`: for `n ≥ 2` the function `singleValuedSphere n` on `OnePoint ℂ` is continuous; hence continuity of the planar function on `ℂ`. The limits at `0, ∞` and 1 are 0, 0 and `ζ(n)` or 0 by parity, and do not depend on the direction of approach or on a branch. Near `0`, `Liⱼ(z) = O(|z|)` for every `j ≥ 1` and the factor `ℓ^k` grows at most like `|log|z||^{n−1}`. At `∞`, use the inversion identity already proved in §4.6 and the behaviour at 0. Near `1`, `Liⱼ → ζ(j)` for `j ≥ 2` by §1.7, while the logarithmic singularity of `Li₁` is multiplied by `ℓ^{n−1} = O(|z − 1|^{n−1})`; the cut corrections cancel by §4.3, so the estimates hold uniformly on both half-neighbourhoods.
 
 The path limits below use the continuous sphere extension, with every complex argument coerced into `OnePoint ℂ`. Prove the endpoint value at infinity and agreement of the sphere extension with the planar function.
 
@@ -629,7 +665,7 @@ Prove the weight-three differential formula: for `z ∉ {0, 1}`, with `ℓ = log
 dL₃(z)[v] = −L₂(z)·Im(v/z) + (ℓ·log|1−z|/3)·Re(v/z) + (ℓ²/3)·Re(v/(1−z)).
 ```
 
-Expand the `n = 3` case of §4.5 with `c₀ = 1, c₁ = −1, c₂ = 1/3` and combine the imaginary parts of `Li₂` and `Li₁` into `L₂`. Prove `hasFDerivAt_singleValued_three_one`: `L₃` is real differentiable at 1 with derivative 0. By §4.7, `L₂(z) → 0` as `z → 1`. With `ρ = |z − 1|`, we have `ℓ = O(ρ)` and `1/|z|` bounded near 1, so the displayed differential satisfies
+Expand the `n = 3` case of §4.5 with `c₀ = 1, c₁ = −1, c₂ = 1/3` and combine the imaginary parts of `Li₂` and `Li₁` into `L₂`. Prove the zero real derivative of the trilogarithm at 1: `L₃` is real differentiable at 1 with derivative 0. By §4.7, `L₂(z) → 0` as `z → 1`. With `ρ = |z − 1|`, we have `ℓ = O(ρ)` and `1/|z|` bounded near 1, so the displayed differential satisfies
 
 ```text
 ‖dL₃(z)‖ ≤ C (|L₂(z)| + ρ |log ρ| + ρ) → 0.
@@ -664,7 +700,13 @@ References: [Z07] Part I §3, p. 10 (the definition `D(z) = Im Li₂(z) + arg(1 
 
 **The Bloch–Wigner function.** Define `blochWigner : ℂ → ℝ` by `D(z) = Im Li₂(z) + Arg(1 − z)·log|z|` for `z ∉ {0, 1}`, and `D(0) = D(1) = 0`; its sphere extension is `singleValuedSphere 2` (§4.2), with value 0 at `∞`. The logarithm and argument are the principal ones of Layer 1, and at real `x > 1` the lower value `Im Li₂(x) = −π log x` is corrected by `Arg(1 − x)·log x = π log x`. The definition is made before, and independently of, any Bloch group or volume.
 
-The basic theory to develop comprises the defining formula (the displayed expression on `ℂ∖{0, 1}`), the value at 0 and the value at 1 (simp), vanishing on the real axis (§5.3), `hasSum_blochWigner_exp` (for every real `t`, `D(e^{it}) = ∑_{k≥1} sin(kt)/k²`), the exponential-zeta comparison (`D(e^{2πia}) = Im HurwitzZeta.expZeta a 2`) and the identification of weight two with the Bloch–Wigner function (§5.2).
+The Bloch–Wigner API consists of the following facts.
+
+- Off `{0,1}`, the function equals the displayed expression; at 0 and 1 it is zero.
+- It vanishes on the whole real axis (§5.3).
+- For every real `t`, `D(e^{it}) = ∑_{k≥1} sin(kt)/k²`.
+- For every real `a`, `D(e^{2πia}) = Im HurwitzZeta.expZeta a 2`.
+- It agrees with the weight-two single-valued function (§5.2).
 
 **Checks.**
 - `D(0) = D(1) = D(2) = 0` (degenerate values; `D(2) = 0` is the cancellation of the lower value: `D(2) = Im Li₂(2) + π log 2`).
@@ -799,7 +841,14 @@ The affine five-term headline is `blochWigner_fiveTerm` in `Suggested.lean`.
 
 References: [O93] §4.1, (35)–(38), p. 60 (the birapport, the function `P̃₂(a, b, c, d) = P₂(r(a, b, c, d))`, its alternating behaviour under permutations, PGL₂-invariance and the five-point relation); [Z07] Part I §3, (5)–(6), p. 11 (`D̃` and the alternating sum over five points of `ℙ¹(ℂ)`); [GR] §1.1, (3)–(4) and footnote 1, p. 4 (the cyclic bracket form). Built on §§5.3, 5.7.
 
-**The cross-ratio.** Define `crossRatio : ℂ → ℂ → ℂ → ℂ → ℂ`, written `r(a, b, c, d) = (a − c)(b − d)/((a − d)(b − c))`. The basic theory to develop comprises `crossRatio_swap` (`r(b, a, d, c) = r(a, b, c, d)`, invariance under the product of two disjoint transpositions), `crossRatio_zero_one` (`r(a, 0, 1, z) = z(a − 1)/(a − z)` for `a ≠ z`, whose limit as `a → ∞` is `z`) and `crossRatioSphere` (over any field `K`, the extension to `OnePoint K` by the finite expression and four one-infinity cancellation formulas below; set it to 0 when two or more entries are infinity, outside the distinct-tuple locus). Write `D̃(a, b, c, d) = D(r(a, b, c, d))`, Zagier's notation.
+**The cross-ratio.** Define the finite cross-ratio `r : ℂ → ℂ → ℂ → ℂ → ℂ` by `r(a,b,c,d) = (a−c)(b−d)/((a−d)(b−c))`. Define `crossRatioSphere` over every field `K` on `OnePoint K` by the finite expression and the four one-infinity cancellation formulas below; assign 0 when at least two entries are infinity. Write `D̃(a,b,c,d) = D(r(a,b,c,d))`, as in Zagier.
+
+The finite and sphere APIs consist of the following facts.
+
+- For finite arguments, swapping both pairs gives `r(b,a,d,c) = r(a,b,c,d)`.
+- For `a ≠ z`, `r(a,0,1,z) = z(a−1)/(a−z)`; as complex `a → ∞`, this tends to `z`.
+- The sphere function restricts to the finite expression, satisfies all four cancellation formulas, and is zero with two or more infinity entries.
+- On distinct tuples it agrees with the homogeneous determinant quotient and is Möbius invariant, as proved below.
 
 The projective five-term headline in `Suggested.lean` is `blochWignerSphere_crossRatio_fiveTerm`, with all five points on `OnePoint ℂ`. The sphere cross-ratio definition `crossRatioSphere` is field-general.
 
@@ -815,7 +864,7 @@ r(∞,b,c,d) = (b−d)/(b−c),     r(a,∞,c,d) = (a−c)/(a−d),
 r(a,b,∞,d) = (b−d)/(a−d),     r(a,b,c,∞) = (a−c)/(b−c).
 ```
 
-Prove the homogeneous determinant formula: for an injective four-tuple with nonzero homogeneous representatives `vᵢ`, this value is `Δ(v₀,v₂)Δ(v₁,v₃)/(Δ(v₀,v₃)Δ(v₁,v₂))`, where `Δ(v,w) = v₀w₁−v₁w₀`; all rescaling factors cancel. Prove Möbius invariance: every `g : GL (Fin 2) K` preserves the cross-ratio of an injective four-tuple, by determinant covariance. Prove `normalize_five`: for every injective `s : Fin 5 → OnePoint K` there exist `g : GL (Fin 2) K` and `x,y : K` with `x,y ∉ {0,1}`, `x ≠ y`, and `g • s = (∞,0,1,x,y)` pointwise. Construct the map using representatives of the first three points, whose pairwise determinants are nonzero. This field-general algebra supplies the complex projective proof and the downstream projective-coordinate APIs under the bracket translation `1−r` on distinct tuples. Symbol complexes and scalar-to-group descent belong to the consumers listed below.
+Prove the homogeneous determinant formula: for an injective four-tuple with nonzero homogeneous representatives `vᵢ`, this value is `Δ(v₀,v₂)Δ(v₁,v₃)/(Δ(v₀,v₃)Δ(v₁,v₂))`, where `Δ(v,w) = v₀w₁−v₁w₀`; all rescaling factors cancel. Prove Möbius invariance: every `g : GL (Fin 2) K` preserves the cross-ratio of an injective four-tuple, by determinant covariance. Prove normalization of five distinct points: for every injective `s : Fin 5 → OnePoint K` there exist `g : GL (Fin 2) K` and `x,y : K` with `x,y ∉ {0,1}`, `x ≠ y`, and `g • s = (∞,0,1,x,y)` pointwise. Construct the map using representatives of the first three points, whose pairwise determinants are nonzero. This field-general algebra supplies the complex projective proof and the downstream projective-coordinate APIs under the bracket translation `1−r` on distinct tuples. Symbol complexes and scalar-to-group descent belong to the consumers listed below.
 
 **Checks.**
 - Over `ℚ`, `r(∞,0,1,3) = 3` and `r(0,∞,1,3) = 1/3`, a paired cancellation test for `crossRatioSphere`.
@@ -830,14 +879,14 @@ Prove the finite-coordinate projective relation: for five pairwise distinct poin
 ∑_{j=0}^{4} (−1)^j D(r(s₀, …, ŝⱼ, …, s₄)) = 0,
 ```
 
-and `blochWignerSphere_crossRatio_fiveTerm`: the same for five distinct points of `OnePoint ℂ` with the sphere cross-ratio. For the D-valued identities use Möbius invariance and `normalize_five` above, then the four cancellation formulas reduce the normalized tuple to §5.7. The finite theorem follows by restriction. Prove the cyclic bracket relation: for five distinct points `x₁, …, x₅, ∑_{i ∈ ℤ/5} D([xᵢ, xᵢ₊₁, xᵢ₊₂, xᵢ₊₃]) = 0`, translating by `[a, b, c, d] = 1 − r(a, b, c, d)` and the sixfold symmetry; writing `bᵢ = [xᵢ, xᵢ₊₁, xᵢ₊₂, xᵢ₊₃]`, direct cancellation gives `1 − bᵢ = −bᵢ/(bᵢ₊₂bᵢ₊₃)`. These are coordinate identities for values of `D`; no configuration complex, regulator or group-descent statement is inferred from them.
+and `blochWignerSphere_crossRatio_fiveTerm`: the same for five distinct points of `OnePoint ℂ` with the sphere cross-ratio. For the D-valued identities use Möbius invariance and normalization of five distinct points above, then the four cancellation formulas reduce the normalized tuple to §5.7. The finite theorem follows by restriction. Prove the cyclic bracket relation: for five distinct points `x₁, …, x₅, ∑_{i ∈ ℤ/5} D([xᵢ, xᵢ₊₁, xᵢ₊₂, xᵢ₊₃]) = 0`, translating by `[a, b, c, d] = 1 − r(a, b, c, d)` and the sixfold symmetry; writing `bᵢ = [xᵢ, xᵢ₊₁, xᵢ₊₂, xᵢ₊₃]`, direct cancellation gives `1 − bᵢ = −bᵢ/(bᵢ₊₂bᵢ₊₃)`. These are coordinate identities for values of `D`; no configuration complex, regulator or group-descent statement is inferred from them.
 
 **Checks.**
 - For `(s₀, …, s₄) = (∞, 0, 1, x, y)` the projective relation is the alternating form of §5.7.
 - Replacing `r` by the bracket `[a, b, c, d] = 1 − r` in the alternating sum replaces each term by its negative (`D(1 − w) = −D(w)`), so that sum still vanishes; the cyclic bracket sum is a different identity, equivalent to it by footnote 1 of [GR], p. 4.
 - Non-example: the sum of the five values `D(r(s₀, …, ŝⱼ, …, s₄))` without the alternating signs is not zero in general (about 2.85526 for the ordered tuple `(0, 1, 2, i, 1 + i)`), so the signs are part of the statement.
 
-*Needs:* §§5.3, 5.7; Mathlib `OnePoint.equivProjectivization_smul` and the `GL (Fin 2) K` action; first the finite/cancellation and homogeneous comparison targets, then Möbius invariance and `normalize_five` above, then the projective five-term identities.
+*Needs:* §§5.3, 5.7; Mathlib `OnePoint.equivProjectivization_smul` and the `GL (Fin 2) K` action; first the finite/cancellation and homogeneous comparison targets, then Möbius invariance and normalization of five distinct points above, then the projective five-term identities.
 
 ### Examples
 
@@ -859,7 +908,12 @@ References: [Z07] Part II §1.A, p. 23 (the definition `L(x) = Li₂(x) + (1/2) 
 
 **The Rogers dilogarithm.** Define `rogers : ℝ → ℝ` by `R(x) = Re Li₂(x) + (1/2)·log x·log(1 − x)` for `x ∈ (0, 1), R(0) = 0` and `R(1) = π²/6`. On `(0, 1)` the principal `Li₂(x)` is real (§1.6), so `R(x) = Li₂(x) + (1/2) log x log(1 − x)` there. The object is the restriction to `[0, 1]`; the values of the total expression off `[0, 1]` carry no theorem, and Zagier's extension of `L` to `ℝ` and to `ℙ¹(ℝ)` modulo `π²/2` ([Z07] Part II §1.A, p. 23) is not constructed here.
 
-The basic theory to develop comprises the defining formula (the displayed expression on `(0, 1)`), the value at 0 and the value at 1 (simp), the complex-valued comparison (on `(0, 1), (R(x) : ℂ) = Li₂(x) + (1/2) log x log(1 − x)`, since `Im Li₂(x) = 0`), `continuousOn_rogers` and `strictMonoOn_rogers` (§6.2), and the interval range bound (`R` maps `[0, 1]` into `[0, π²/6]`).
+The Rogers API consists of the following facts.
+
+- On `(0,1)` the function equals the displayed formula; its endpoint values are 0 and `π²/6`.
+- On `(0,1)`, `(R(x) : ℂ) = Li₂(x) + (1/2) log x log(1−x)`, since the polylogarithm is real there.
+- It is continuous and strictly increasing on `[0,1]` (§6.2).
+- Its image of `[0,1]` is contained in `[0,π²/6]`.
 
 **Checks.**
 - `R(0) = 0` and `R(1) = π²/6` (the value at 0, the value at 1); a unit-normalised Rogers function with `R(1) = 1` fails the second.
@@ -873,12 +927,12 @@ The basic theory to develop comprises the defining formula (the displayed expres
 
 References: [Z07] Part II §1.A, p. 23 (monotone, continuous, analytic except at 0 and 1, and `L′(x) = −log(1 − x)/(2x) − log x/(2(1 − x))`). Built on §§1.5, 1.7, 6.1.
 
-Prove `hasDerivAt_rogers`: for `x ∈ (0, 1)`, `R′(x) = −(1/2)(log(1 − x)/x + log x/(1 − x))`, from `Li₂′(x) = −log(1 − x)/x` (§1.5) and the derivative of the logarithmic product. Prove `analyticOnNhd_rogers` on `(0, 1)`, `continuousOn_rogers` on `[0, 1]` (the products `log x·log(1 − x)` tend to 0 at both endpoints, and `Li₂` is continuous on the closed disc by §1.7) and `strictMonoOn_rogers` on `[0, 1]` (both logarithms are negative on `(0, 1)`, so `R′ > 0`; apply the mean value theorem and pass to the endpoints).
+Prove the Rogers derivative formula: for `x ∈ (0, 1)`, `R′(x) = −(1/2)(log(1 − x)/x + log x/(1 − x))`, from `Li₂′(x) = −log(1 − x)/x` (§1.5) and the derivative of the logarithmic product. Prove real analyticity of the Rogers function on `(0, 1)`, continuity of the Rogers function on `[0, 1]` (the products `log x·log(1 − x)` tend to 0 at both endpoints, and `Li₂` is continuous on the closed disc by §1.7) and strict monotonicity of the Rogers function on `[0, 1]` (both logarithms are negative on `(0, 1)`, so `R′ > 0`; apply the mean value theorem and pass to the endpoints).
 
 **Checks.**
 - `R′(1/2) = −(1/2)(2 log(1/2) + 2 log(1/2)) = 2 log 2`.
 - `R′(x) = R′(1 − x)`: the derivative is symmetric about `1/2`, as reflection requires.
-- `R′(x) → +∞` as `x → 0+` and as `x → 1−`: `not_differentiableAt_rogers_zero` and `not_differentiableAt_rogers_one` state that `R` is not differentiable at those endpoints.
+- `R′(x) → +∞` as `x → 0+` and as `x → 1−`: these limits show that `R` is not differentiable at either endpoint.
 
 *Needs:* §§1.5, 1.7, 6.1.
 
@@ -920,9 +974,7 @@ The exact interval pentagon is stated as `rogers_pentagon` in `Suggested.lean`.
 
 References: [Z07] Part II §1.A, p. 24 (`L(1/2) = π²/12, L((3 − √5)/2) = π²/15`) and Part I §1, p. 7 (the corresponding values of `Li₂`). Built on §§6.3, 6.4.
 
-Prove the midpoint value (`R(1/2) = π²/12`) and `rogers_golden` (`R(ρ) = π²/10` and `R(ρ²) = π²/15`). Reflection fixes the midpoint; at `x = y = ρ` the pentagon gives `2R(ρ) = 3R(ρ²)` and reflection gives `R(ρ) + R(ρ²) = π²/6`; solve the two linear equations. Prove the golden-ratio dilogarithm values by translating back through §6.1: `Li₂(ρ) = π²/10 − log²ρ` and `Li₂(ρ²) = π²/15 − log²ρ`, as equalities in `ℂ` with zero imaginary part. The same logarithmic correction occurs in both because `log(ρ²) = 2logρ`.
-
-The golden-ratio evaluation is stated as `rogers_golden` in `Suggested.lean`.
+Prove the midpoint value (`R(1/2) = π²/12`) and the golden-ratio values (`R(ρ) = π²/10` and `R(ρ²) = π²/15`). Reflection fixes the midpoint; at `x = y = ρ` the pentagon gives `2R(ρ) = 3R(ρ²)` and reflection gives `R(ρ) + R(ρ²) = π²/6`; solve the two linear equations. Prove the golden-ratio dilogarithm values by translating back through §6.1: `Li₂(ρ) = π²/10 − log²ρ` and `Li₂(ρ²) = π²/15 − log²ρ`, as equalities in `ℂ` with zero imaginary part. The same logarithmic correction occurs in both because `log(ρ²) = 2logρ`.
 
 **Checks.**
 - `R(ρ) = π²/10 > π²/12 = R(1/2)`, as strict monotonicity requires since `ρ > 1/2`; `R(ρ²) = π²/15 < π²/12` since `ρ² < 1/2`.
@@ -950,7 +1002,7 @@ Standing assumptions for this layer: `n, N` are natural numbers or integers as e
 
 References: [O93] §1.1, (1), p. 50 (the series); the inequalities are derived here by termwise estimates. Built on §§1.3, 1.4.
 
-Prove the geometric truncation bound: for natural `n ≥ 1, N ≥ 0, 0 ≤ r < 1` and `|z| ≤ r`,
+Prove `norm_polylog_sub_partialSum_le`, the geometric truncation bound: for natural `n ≥ 1, N ≥ 0, 0 ≤ r < 1` and `|z| ≤ r`,
 
 ```text
 |Liₙ(z) − S_N(z)| ≤ r^{N+1} / ((N + 1)^n (1 − r)),
@@ -969,7 +1021,7 @@ bounding `k^{−n}` by `(N + 1)^{−n}` for `k > N` and summing the geometric ta
 
 References: [Z07] Part I §3, p. 11 (the Fourier series of `D` on the circle); [O93] §1.4, p. 51 (finite boundary values for `k ≥ 2`). The bound is the integral comparison for `∑ k^{−n}`. Built on §§1.7, 4.2, 5.1.
 
-Prove the uniform closed-disc truncation bound: for `n ≥ 2, N ≥ 1` and `|z| ≤ 1, |Liₙ(z) − S_N(z)| ≤ N^{1−n}/(n − 1)`, since `∑_{k>N} k^{−n} ≤ ∫_N^∞ t^{−n} dt`. Prove `abs_singleValued_exp_sub_le`: on the unit circle the same bound holds for `Lₙ(e^{it})` and the parity projection of `S_N(e^{it})` (the projections have norm one and `log|z| = 0`). Prove `abs_blochWigner_exp_sub_le`: for `N ≥ 1` and every real `t, |D(e^{it}) − ∑_{k=1}^{N} sin(kt)/k²| ≤ 1/N`.
+Prove `norm_polylog_sub_partialSum_le_closedDisc`, the uniform closed-disc truncation bound: for `n ≥ 2, N ≥ 1` and `|z| ≤ 1, |Liₙ(z) − S_N(z)| ≤ N^{1−n}/(n − 1)`, since `∑_{k>N} k^{−n} ≤ ∫_N^∞ t^{−n} dt`. Prove `abs_singleValued_exp_sub_le`: on the unit circle the same bound holds for `Lₙ(e^{it})` and the parity projection of `S_N(e^{it})` (the projections have norm one and `log|z| = 0`). Prove the Bloch–Wigner Fourier error bound: for `N ≥ 1` and every real `t, |D(e^{it}) − ∑_{k=1}^{N} sin(kt)/k²| ≤ 1/N`.
 
 **Checks.**
 - At `n = 2` the exponent is `N^{−1}`; no uniform absolute boundary series is claimed for `n = 1`.
@@ -982,22 +1034,40 @@ Prove the uniform closed-disc truncation bound: for `n ≥ 2, N ≥ 1` and `|z| 
 
 References: [O93] §2.2, Corollaries 1–2, p. 53 (every determination near 0 or `∞` in a sector is dominated by `log^{k−1}|z|`, respectively `log^k|z|`, and has a limit at 1 differing from `ζ(k)` by an integer multiple of `(2πi)^k/(k−1)!`); [O93] §1.3, (7), p. 51 (the principal growth at `∞`). Built on §§1.3, 1.7, 2.3, 3.2.
 
+Define `puncturedSector θ w δ : Set ℂ` by `0 < ‖z‖ < δ` and `|Arg(z exp(−iθ))| < w`. Here `θ ∈ ℝ`, `0 < w < π` and `0 < δ < 1/2`; its opening is `2w`. Define `IsPolylogBranchOn n f V` to mean that for every `z ∈ V` the germ of `f : ℂ → ℂ` at `z` is the terminal germ of some analytic continuation of the principal germ of `Liₙ` at `b`, along a path in `U` from `b` to `z`. This is a predicate on native functions and continuations. On these simply connected sectors it describes precisely the determinations obtained from continuous sections in §2.2; the initial and terminal conditions are germ equalities, not just value equalities. The infinity chart uses `z⁻¹ ∈ puncturedSector θ w δ`; the chart at 1 uses `z−1 ∈ puncturedSector θ w δ`.
+
+The sector and branch APIs consist of the following facts.
+
+- Every sector point is nonzero and has norm less than `δ`; rotation by `exp(iθ)` identifies it with the sector of angle zero.
+- Translation by 1 gives a subset of `U`, and inversion gives a subset of `U` outside the disc of radius `1/δ`.
+- A branch restricts to any subset; equal local germs give the same branch predicate.
+- Every such branch is holomorphic, and a section of §2.2 gives one. On a connected sector a branch is determined by one local germ.
+
+**Checks.**
+
+- With `θ = 0, w = π/4, δ = 1/4`, the point `1/8` belongs, while `0`, `i/8` and `1/4` do not: both radial inequalities are strict.
+- Rotation by `exp(iπ/2)` sends `1/8` to `i/8`; translation gives `1+i/8` and inversion gives `−8i`, of norm 8.
+- With `w = 0` the sector is empty, since the argument inequality is strict; with `θ = π, w = π/4, δ = 1/4`, its central point is `−1/8`. The growth theorems require positive width and radius, so their approach filters are nontrivial.
+- On the sector about the positive real axis, the principal `Li₁` is a branch and has value `log(8/7)` at `1/8`; prefixing the loop about 1 gives value `log(8/7)−2πi`. Restricting either to radius `1/8` preserves its value at `1/16`, respectively `log(16/15)` and `log(16/15)−2πi`.
+- The constant-zero function is not a weight-one branch: every such branch has derivative `8/7` at `1/8`, whereas the constant function has derivative 0.
+- Matching only the value is insufficient: the constant function with value `log(8/7)` matches the principal value at `1/8`, but again has derivative 0 rather than `8/7`, so it fails the terminal-germ condition.
+
 Let `A` be an open angular sector with vertex 0, 1 or `∞` and `s` a continuous section of the universal cover over `A ∩ {0 < |z − vertex| < δ}` (for `∞`, over `A ∩ {|z| > 1/δ}`). Prove `polylogBranch_isBigO_zero`: for `n ≥ 1`, `Liₙ^[s(z)] = O(1 + |log|z||^{n−1})` as `z → 0` in `A`, and the principal branch improves to `O(|z|)`. Prove `polylogBranch_isBigO_infty`: `Liₙ^[s(z)] = O(1 + log^n|z|)` as `z → ∞` in `A`. Prove `polylogBranch_tendsto_one`: for `n ≥ 2`, `Liₙ^[s(z)]` has a limit as `z → 1` in `A`, equal to `ζ(n) + m·(2πi)^n/(n − 1)!` for some integer `m` depending on the section; for `n = 1` the branch has a logarithmic singularity and no finite limit. The constants depend on `n`, the sector and the section. Expand the section's branch by the monodromy of §2.3: it differs from the principal one by a polynomial of degree at most `n − 1` in a continued logarithm, with coefficients in the lattice generated by the periods; combine with the principal small-disc estimate (§7.1), the inversion polynomial at `∞` (§3.2) and `Log z → 2πij` near 1 on the chosen section. Nonpositive weights have the exact rational behaviour of §1.4.
 
-The growth and period-lattice limits apply to arbitrary continuous determinations on punctured sectors of opening `2·width` with `0 < width < π` and radius less than `1/2`; translation by 1 and inversion give the charts at 1 and `∞`.
+The statements `polylogBranch_isBigO_zero`, `polylogBranch_isBigO_infty` and `polylogBranch_tendsto_one` use the branch predicate above. The growth and period-lattice limits apply to arbitrary continuous determinations on punctured sectors of opening `2·width` with `0 < width < π` and radius less than `1/2`; translation by 1 and inversion give the charts at 1 and `∞`.
 
 **Checks.**
 - After `T₁` the branch of `Li₂` near 0 is `Li₂(z) − 2πi Log z`, which is `O(|log|z||)` but not `O(|z|)`: "every branch is `O(z)` at 0" is false.
 - The principal `Liₙ` tends to 0 at 0 in every sector.
 - For `n = 2` the possible limits at 1 are `ζ(2) + m(2πi)² = π²/6 − 4π²m`.
 
-*Needs:* §§1.3, 1.7, 2.3, 3.2, 7.1.
+*Needs:* §§1.3, 1.7, 2.2–2.3, 3.2, 7.1; Mathlib `Complex.arg`; Tau Ceti `TauCeti.IsAnalyticContinuationAlong`.
 
 ### 7.4 Moduli of `Lₙ` at 0, 1 and `∞`
 
 References: [Z90] §7, p. 414 (continuity at `0, ∞` and 1 from the Bernoulli formula and inversion); [O93] §§1.3–1.4, p. 51, and §3, pp. 57–58 (the logarithmic behaviour and the single-valued differential). The rates are derived here. Built on §§4.5–4.7, 7.1.
 
-Prove the small-argument bound: for `n ≥ 2` there is `Cₙ > 0` with `|Lₙ(z)| ≤ Cₙ|z|(1 + |log|z||^{n−1})` for `0 < |z| ≤ 1/2`. Prove `exists_abs_singleValued_le_of_two_le_norm`: `|Lₙ(z)| ≤ Cₙ|z|^{−1}(1 + log^{n−1}|z|)` for `|z| ≥ 2`. Prove the modulus at 1: there is `Aₙ > 0` with `|Lₙ(z) − Lₙ(1)| ≤ Aₙ|z − 1|(1 + |log|z − 1||)` for `0 < |z − 1| ≤ 1/2`. All three are uniform in direction, including across the cut. Use `|Liⱼ(z)| ≤ 2|z|` on `|z| ≤ 1/2` for `j ≥ 1` and the finite sum of `|cₖ|`; invert for large `z` by §4.6; near 1 bound the differential of §4.5 by `O(1 + |log ρ|)` with `ρ = |z − 1|` and integrate along radial segments from 1 in each half-neighbourhood. Inversion gives the estimate at `∞`.
+Prove `singleValued_endpoint_bounds`, comprising the following three uniform inequalities. For the small-argument bound: for `n ≥ 2` there is `Cₙ > 0` with `|Lₙ(z)| ≤ Cₙ|z|(1 + |log|z||^{n−1})` for `0 < |z| ≤ 1/2`. Prove the large-argument bound: `|Lₙ(z)| ≤ Cₙ|z|^{−1}(1 + log^{n−1}|z|)` for `|z| ≥ 2`. Prove the modulus at 1: there is `Aₙ > 0` with `|Lₙ(z) − Lₙ(1)| ≤ Aₙ|z − 1|(1 + |log|z − 1||)` for `0 < |z − 1| ≤ 1/2`. All three are uniform in direction, including across the cut. Use `|Liⱼ(z)| ≤ 2|z|` on `|z| ≤ 1/2` for `j ≥ 1` and the finite sum of `|cₖ|`; invert for large `z` by §4.6; near 1 bound the differential of §4.5 by `O(1 + |log ρ|)` with `ρ = |z − 1|` and integrate along radial segments from 1 in each half-neighbourhood. Inversion gives the estimate at `∞`.
 
 **Checks.**
 - The bounds force `Lₙ → 0` at 0 and `∞` and keep `L₃(1) = ζ(3)`.
@@ -1010,7 +1080,7 @@ Prove the small-argument bound: for `n ≥ 2` there is `Cₙ > 0` with `|Lₙ(z)
 
 References: [O93] §2.1, p. 52 (holomorphic determinations on simply connected sets) and §3.2, p. 57 (real analyticity of `Pₖ`). Built on §§2.2, 4.4, 4.5.
 
-Prove `exists_norm_iteratedFDeriv_singleValued_le`: for `n ≥ 2`, every compact `K ⊂ U` and every `r ∈ ℕ`, the r-th real Fréchet derivative of `Lₙ` is bounded on `K`; the same for `D`. Prove `lipschitzOnWith_singleValued`: on each compact convex `K ⊂ U`, `Lₙ` is Lipschitz with the constant `sup_K ‖dLₙ‖`. For a fixed section of the universal cover over an open set `V ⊆ U`, the same statements hold for the branch on compact subsets of `V`. No Lipschitz constant uniform near 0, 1 or `∞` is asserted.
+Prove boundedness of every derivative on compact sets: for `n ≥ 2`, every compact `K ⊂ U` and every `r ∈ ℕ`, the r-th real Fréchet derivative of `Lₙ` is bounded on `K`; the same for `D`. Prove the compact convex Lipschitz bound: on each compact convex `K ⊂ U`, `Lₙ` is Lipschitz with the constant `sup_K ‖dLₙ‖`. For a fixed section of the universal cover over an open set `V ⊆ U`, the same statements hold for the branch on compact subsets of `V`. No Lipschitz constant uniform near 0, 1 or `∞` is asserted.
 
 **Checks.**
 - A compact set crossing the principal cut, such as the closed disc of radius `1/2` about 2, is admissible for `Lₙ` and `D`.
@@ -1023,7 +1093,7 @@ Prove `exists_norm_iteratedFDeriv_singleValued_le`: for `n ≥ 2`, every compact
 
 References: [Z07] Part I §3, p. 10 (`D` is continuous but not differentiable at 0 and 1, with singularities of type `r log r`); [G95] §1.0, p. 201 (singularities of type `|x| ln |x|` at `0, 1, ∞`). The expansion is derived from the definition. Built on §§1.3, 5.3, 5.4, 7.1.
 
-Prove the two-sided logarithmic expansion: as real `t → 0` with `t ≠ 0`, `D(it) = t(1 − log|t|) + O(|t|³(1 + |log|t||))`. From the series, `Im Li₂(it) = t − t³/9 + O(t⁵)`; from the Taylor expansion of the argument, `Arg(1 − it) = −arctan t = −t + O(t³)`; multiply by `log|it| = log|t|`. Consequently `not_differentiableAt_blochWigner_zero`: `D(it)/t = 1 − log|t| + o(1) → +∞`, so `D` has no real derivative at 0. `not_differentiableAt_blochWigner_one` follows by `D(1 − z) = −D(z)`. By this symmetry and `D(1/z) = −D(z)` (§5.3) the same failure holds at 1 and, in the coordinate `w = 1/z`, at `∞`. This behaviour is specific to weight two: `L₃` is differentiable at 1 (§4.8).
+Prove `blochWigner_logarithmic_expansion`, the two-sided logarithmic expansion: as real `t → 0` with `t ≠ 0`, `D(it) = t(1 − log|t|) + O(|t|³(1 + |log|t||))`. From the series, `Im Li₂(it) = t − t³/9 + O(t⁵)`; from the Taylor expansion of the argument, `Arg(1 − it) = −arctan t = −t + O(t³)`; multiply by `log|it| = log|t|`. Consequently `D(it)/t = 1 − log|t| + o(1) → +∞`, so `D` has no real derivative at 0. Failure of real differentiability at 1 follows by `D(1 − z) = −D(z)`. By this symmetry and `D(1/z) = −D(z)` (§5.3) the same failure holds at 1 and, in the coordinate `w = 1/z`, at `∞`. This behaviour is specific to weight two: `L₃` is differentiable at 1 (§4.8).
 
 **Checks.**
 - The expansion is odd in `t` to leading order, as `D(z̄) = −D(z)` requires.
@@ -1036,7 +1106,7 @@ Prove the two-sided logarithmic expansion: as real `t → 0` with `t ≠ 0`, `D(
 
 References: [Z90] §7, p. 414 (continuity on the compact sphere); [Z07] Part I §3, p. 10 (the maximum of `D`) and Part II §1.A, p. 23 (monotonicity of the Rogers function). Built on §§4.7, 6.2, 7.1–7.4.
 
-Prove `exists_abs_singleValued_le_const`: for `n ≥ 2` there is `Mₙ` with `|Lₙ(z)| ≤ Mₙ` for all `z ∈ ℂ` (a continuous function on the compact sphere); in particular `D` is bounded. Prove the interval range bound (§6.1) from monotonicity and the endpoint values. Prove `abs_sum_singleValued_sub_le`: for a finite family of complex numbers `zⱼ` and real coefficients `aⱼ`, and approximations of each `Lₙ(zⱼ)` by the truncations of §§7.1–7.2 or the endpoint bounds of §7.4, the error of `∑ aⱼLₙ(zⱼ)` is at most `∑ |aⱼ|` times the individual error bounds. Applied under every complex embedding `σ : F → ℂ` of a number field `F`, these bounds impose no condition on `F`.
+Prove global boundedness: for `n ≥ 2` there is `Mₙ` with `|Lₙ(z)| ≤ Mₙ` for all `z ∈ ℂ` (a continuous function on the compact sphere); in particular `D` is bounded. Prove the interval range bound (§6.1) from monotonicity and the endpoint values. Prove the finite weighted-sum error bound: for a finite family of complex numbers `zⱼ` and real coefficients `aⱼ`, and approximations of each `Lₙ(zⱼ)` by the truncations of §§7.1–7.2 or the endpoint bounds of §7.4, the error of `∑ aⱼLₙ(zⱼ)` is at most `∑ |aⱼ|` times the individual error bounds. Applied under every complex embedding `σ : F → ℂ` of a number field `F`, these bounds impose no condition on `F`.
 
 **Checks.**
 - For `D` the optimal constant is the maximum 1.0149… attained at `e^{iπ/3}` ([Z07] Part I §3, p. 10), a fixed point of `z ↦ 1 − 1/z`; the minimum `−1.0149…` is attained at `e^{−iπ/3}`, and `D = 0` on the real axis.
@@ -1057,16 +1127,15 @@ Layers 1–6.
 
 These roadmaps take the analytic statements of this roadmap as inputs; none of them supplies an input used here.
 
-- **Polylogarithms** (polylogarithms, explicit regulators and Zagier statements): its regulator and analytic-estimate layer takes `D`, the five-term relations of §5.7–5.8, positivity (§5.6) and the bounds of Layer 7; its higher layers take `Lₙ` in every weight, the real differential (§4.5), conjugation and inversion parity (§4.6) and the odd-weight endpoint convention `Lₙ(1) = ζ(n)` (§4.2). It descends `D` to its algebraic quotients only after the analytic relation is proved here.
+- **Polylogarithms** (polylogarithms, explicit regulators and Zagier statements): its regulator and analytic-estimate layer takes `D`, the five-term relations of §5.7–5.8, positivity (§5.6) and the bounds of Layer 7; its higher layers take `Lₙ` in every weight, the real differential (§4.5), conjugation and inversion parity (§4.6) and the odd-weight endpoint convention `Lₙ(1) = ζ(n)` (§4.2). It descends `D` to its algebraic quotients only after the analytic relation is proved here. Polylogarithms §§2.3, 3.7–3.8 and 4.4 owns the explicit symbol comparisons with the independently constructed Borel regulator, including the factorial, Hurewicz and π-power calibrations; these comparisons are not inputs to the BorelRegulators construction.
 - **K3BlochGroups**: keeps the algebraic cross-ratio configurations, Bloch groups and torsion; where it compares with complex embeddings it uses the five-term relations of §§5.7–5.8, the Rogers function of Layer 6 and the cross-ratio dictionary of Conventions.
-- **BorelRegulators**: its weight-two coefficient (`D` of Suslin's image divided by `π`) takes `D`, the cross-ratio `r` with `r(∞, 0, 1, z) = z` and the alternating five-term relation for distinct `x, y ∉ {0, 1}`; its higher weights take `Lₙ` and the bounds of §7.7.
 - **EllipticRegulators**: takes the Bloch–Wigner one-form `dD = η(z, 1 − z)` (§5.4), continuity of `D` (§5.2), inversion, conjugation and distribution (§§4.6, 5.3) and `Li₂` on the closed disc (§1.7).
 - **ArithmeticQuantumTopology**: takes `D` at the shapes of ideal tetrahedra and its sign under conjugation (§§5.1, 5.3, 5.6); the volume interpretation is its own.
 - **HabiroNahmSeries**: takes `D` at all complex embeddings of algebraic Nahm solutions (§5.1), its conjugation sign (§5.3), the Rogers values (§6.5) and the finite-sum bounds (§7.7).
 - **HabiroNumberFields**: takes the complex five-term identity on an explicit branch domain (§3.4, §3.5) for comparison with its cyclic quantum dilogarithm, which remains its own object.
 - **PeriodsAndSpecialValues**: takes the classical analytic realisation `Liₙ, Lₙ` and the zeta endpoint values (§§1.7, 4.2) alongside its multiple-zeta and motivic objects.
 - **AnalyticNumberTheoryPartII** §4.1: owns `lerch_transcendent.polylog`, the comparison `Liₙ(z) = z Φ(z,n,1)` for every `n ∈ ℤ` and `‖z‖ < 1`, where `Φ(z,s,c) = ∑_{k≥0} z^k exp(−s Log(k+c))`. Reindexing the series of §1.3 proves the initial equality; at `z = 0` the prefactor gives `Liₙ(0) = 0` although `Φ(0,n,1) = 1`. It also owns continuation of the comparison from matching initial germs along the same paths in `U`, using Layer 2; principal values and lower boundary values agree when the branches match.
-- **ColemanIntegration**: its consumer contract assigns the complex analytic construction, closed-disc/distribution/expZeta API and single-valued inversion/distribution/conjugation to this roadmap. L2.Fa obtains `complexPolylog` by restricting §§1.1–1.7 and §3.1: `complexPolylog k z = polylog k z` for `k ≥ 1, ‖z‖ ≤ 1` (the value at `k = 1, z = 1` is totalised); off-disc values of that wrapper carry no analytic contract. L3.Fc.3 obtains `zagierPolylog` from §§4.2–4.7: for `n ≥ 2, z ∉ {0,1}`, it is `(singleValued n z : ℂ)` in odd weight and `Complex.I * singleValued n z` in even weight. Its ordered weight-one root-of-unity boundary series, formal and p-adic functions and arithmetic comparisons are its own targets. L2.Fb transports §5.8's homogeneous comparison, Möbius invariance and `normalize_five` through `OnePoint.equivProjectivization`, with its bracket equal to `1 − crossRatioSphere` on distinct tuples. The symbol constructions, the algebraic field-map API and the Bloch groups are K3BlochGroups §§3.1, 3.3–3.5, and ColemanIntegration consumes them there; what it takes from this roadmap is unchanged: the complex analytic construction, closed-disc, distribution and exponential-zeta API of §§1.1–1.7 and §3.1, the single-valued family of §§4.2–4.7 and the cross-ratio adapter of §5.8. Its scalar-to-group descent and p-adic comparisons are its own targets.
+- **ColemanIntegration**: its consumer contract assigns the complex analytic construction, closed-disc/distribution/expZeta API and single-valued inversion/distribution/conjugation to this roadmap. L2.Fa obtains `complexPolylog` by restricting §§1.1–1.7 and §3.1: `complexPolylog k z = polylog k z` for `k ≥ 1, ‖z‖ ≤ 1` (the value at `k = 1, z = 1` is totalised); off-disc values of that wrapper carry no analytic contract. L3.Fc.3 obtains `zagierPolylog` from §§4.2–4.7: for `n ≥ 2, z ∉ {0,1}`, it is `(singleValued n z : ℂ)` in odd weight and `Complex.I * singleValued n z` in even weight. Its ordered weight-one root-of-unity boundary series, formal and p-adic functions and arithmetic comparisons are its own targets. L2.Fb transports §5.8's homogeneous comparison, Möbius invariance and normalization of five distinct points through `OnePoint.equivProjectivization`, with its bracket equal to `1 − crossRatioSphere` on distinct tuples. The symbol constructions, the algebraic field-map API and the Bloch groups are K3BlochGroups §§3.1, 3.3–3.5, and ColemanIntegration consumes them there; what it takes from this roadmap is unchanged: the complex analytic construction, closed-disc, distribution and exponential-zeta API of §§1.1–1.7 and §3.1, the single-valued family of §§4.2–4.7 and the cross-ratio adapter of §5.8. Its scalar-to-group descent and p-adic comparisons are its own targets.
 
 ## References
 
@@ -1074,7 +1143,7 @@ All locators above refer to the following freely readable texts; source statemen
 
 - **[O93]** Joseph Oesterlé, *Polylogarithmes*, Séminaire Bourbaki, exposé 762, Astérisque 216 (1993), pp. 49–67. [Numdam](https://www.numdam.org/item/SB_1992-1993__35__49_0.pdf). Used: §1.1–1.4, (1)–(7), pp. 50–51; §2, introduction and §§2.1–2.3 with Proposition 1, (8)–(9), Corollaries 1–2 and (15), pp. 51–54; §§3.1–3.3, (17)–(28), pp. 56–58; §4.1, (29)–(38), pp. 59–60. Accessed 2026-10-20.
 - **[Z07]** Don Zagier, *The dilogarithm function*, in Frontiers in Number Theory, Physics, and Geometry II, Springer (2007), pp. 3–65. [Author's copy](https://people.mpim-bonn.mpg.de/zagier/files/doi/10.1007/978-3-540-30308-4_1/fulltext.pdf). Used: Part I, introduction and §§1–3, pp. 5–12, with (3)–(6) on p. 11; Part II §1.A, pp. 23–24. Accessed 2026-10-20.
-- **[Z90]** Don Zagier, *Polylogarithms, Dedekind zeta functions and the algebraic K-theory of fields*, in Arithmetic Algebraic Geometry (Texel, 1989), Progress in Mathematics 89, Birkhäuser (1991), pp. 391–430. [Author's copy](https://people.mpim-bonn.mpg.de/zagier/files/scanned/PolylogsDedekindZetaAndKTheory/fulltext.pdf). Used: §7, pp. 410–414, especially (33)–(36) and Proposition 3, pp. 413–414. Accessed 2026-10-20.
+- **[Z90]** Don Zagier, *Polylogarithms, Dedekind zeta functions and the algebraic K-theory of fields*, in Arithmetic Algebraic Geometry (Texel, 1989), Progress in Mathematics 89, Birkhäuser (1991), pp. 391–430. [Author's copy](https://people.mpim-bonn.mpg.de/zagier/files/scanned/PolylogsDedekindZetaAndKTheory/fulltext.pdf). Used: §7, pp. 410–415, especially (33)–(36) and Proposition 3, pp. 413–414, and the common-path matrix construction on p. 415. Accessed 2026-10-20.
 - **[G95]** Alexander B. Goncharov, *Geometry of configurations, polylogarithms, and motivic cohomology*, Advances in Mathematics 114 (1995), pp. 197–318. [Author's copy](https://sasha-goncharov.github.io/Advances1995.pdf). Used: §1.0, (1.1)–(1.2), p. 201 (the recursion and the Bloch–Wigner function on `ℂℙ¹`). Accessed 2026-10-20.
 - **[G00]** Alexander B. Goncharov, *Explicit regulator maps on polylogarithmic motivic complexes*, [arXiv:math/0003086v1](https://arxiv.org/abs/math/0003086v1) (2000). Used: §4, item 1, Proposition 4.1, (28) and Lemma 4.2, (29)–(32), pp. 17–18 (the differential equations of the single-valued functions). Accessed 2026-10-20.
 - **[GR]** Alexander Goncharov and Daniil Rudenko, *Motivic correlators, cluster varieties and Zagier's conjecture on `ζ_F(4)`*, [arXiv:1803.08585v5](https://arxiv.org/abs/1803.08585v5). Used: §1.1, item 1, (1)–(4) and footnote 1, pp. 2–4 (the projection `πₙ`, the functions `Lₙ`, the bracket and the cyclic five-term relation). Accessed 2026-10-20.
