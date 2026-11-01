@@ -1,6 +1,6 @@
-# Roadmap: Eisenstein ideal and rational torsion of modular Jacobians
+# Roadmap: eisenstein ideal and rational torsion of modular Jacobians
 
-**Summary.** Develop prime-level Eisenstein arithmetic as a library: the full integral Eisenstein eigensystem, its cuspidal image ideal, the exact cuspidal and Shimura subgroup schemes, their specialization to the supplied component group at the level prime, odd and dyadic multiplicity one, winding homomorphisms and Ogg’s rational torsion theorem. Construct the Eisenstein quotient as an abelian variety and prove that its rational points are exactly the cuspidal image. Use its Néron model, torsion specialization and the level-subgroup meaning of the cusps to exclude rational prime torsion on elliptic curves over `ℚ`. The prime 13 has its own genus-two, norm-19 descent, with the explicit modular-curve and class-number data of §§8.1 and 8.5 as hypotheses; together with the four small examples this gives precisely the prime orders 2, 3, 5 and 7.
+**Summary.** Develop prime-level Eisenstein arithmetic as a library: the full integral Eisenstein eigensystem, its cuspidal image ideal, the exact cuspidal and Shimura subgroup schemes, their specialization to the supplied component group at the level prime, odd and dyadic multiplicity one, winding homomorphisms and Ogg’s rational torsion theorem. Construct the Eisenstein quotient as an abelian variety and prove that its rational points are exactly the cuspidal image. Use its Néron model, torsion specialization and the level-subgroup meaning of the cusps to exclude rational prime torsion on elliptic curves over `ℚ`. The prime 13 has its own genus-two, norm-19 descent, using the modular-curve identification and class-number theorem proved in §§8.1 and 8.5; together with the four small examples this gives precisely the prime orders 2, 3, 5 and 7.
 
 ## Scope and ownership
 
@@ -8,7 +8,9 @@ This roadmap owns the arithmetic specific to prime-level Eisenstein ideals and t
 
 `TauCetiRoadmap.ModularCurves` and `ModularCurvesPartII` own the curves, compactifications, generalized elliptic curves, Hecke correspondences, modular Jacobians and cohomological comparisons. `TauCetiRoadmap.ModularForms` owns integral cusp forms, `q`-expansions, modular symbols and the classical integral Hecke algebra. `AutomorphicFormsOnReductiveGroups` owns adelic Hecke actions and their classical normalization; the prime-level full Eisenstein order constructed below is specific to this roadmap. `FiniteFlatGroupsAndIntegralPadicHodgeTheory` owns generic finite-flat groups, admissibility, purity, extensions and their cohomology. `NeronModelsAndSemistableAbelianVarieties` owns the Néron model, components, monodromy and integral cohomological comparisons. `HeightsRationalPointsAndObstructions` owns Mordell–Weil and isogeny Kummer theory. `TauCetiRoadmap.EllipticCurves` owns local elliptic reduction, Tate uniformization and elliptic torsion representations. General connected abelian quotients are imported from `HeightsRationalPointsAndObstructions` §1.0, using `AbelianSchemesAndArithmeticModuli` §§A3.3 and A6.3–A6.5; cyclotomic class-group eigenspaces and their inverse-character vanishing belong to `CyclotomicClassGroupsAndStickelberger`, using `ClassFieldTheory` reciprocity.
 
-The supplier contracts below identify the numbered targets used for integral differentials, global admissible groups, connected-Néron cohomology and cyclotomic eigenspaces. Generic dyadic amalgams come from `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §§R07.G7–R07.G8; their Hecke-stable saturation is proved in §4.5 here. The level-13 model, cusp/intersection and finite-field data in §8.1, and the fixed cyclotomic class-number datum in §8.5, are explicit hypotheses of the descent and its final consequences. Their arithmetic identities are retained as worked checks; computing tables, enumerating points and producing certificates are outside the targets. The formal-immersion theorem retains its general level and the potential-good-reduction corollary retains its squarefree-level scope. The full composite-order classification, arbitrary squarefree-level Eisenstein ideals, an explicit list of all rational isogenies and general residual irreducibility are outside this roadmap’s statements. The dependencies place the abelian-scheme, finite-flat, Néron, height, integral modular-curve, automorphic-form and cyclotomic class-group inputs before their uses here. In particular the cyclotomic class-field obstruction precedes the global finite-flat Ext calculation that uses it.
+The supplier contracts below identify the numbered targets used for integral differentials, global admissible groups, connected-Néron cohomology and cyclotomic eigenspaces. Generic dyadic amalgams come from `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §§R07.G7–R07.G8; their Hecke-stable saturation is proved in §4.5 here. This roadmap owns the level-13 model identification, cusp divisors, rational torsion and geometric intersection in §8.1, and the fixed cyclotomic class-number theorem in §8.5. Their finite identities are witnesses in proofs of these arithmetic results. Generic Jacobians, divisor theory, class groups and reciprocity remain supplier constructions. The formal-immersion theorem retains its general level and the potential-good-reduction corollary retains its squarefree-level scope. The full composite-order classification, arbitrary squarefree-level Eisenstein ideals, an explicit list of all rational isogenies and general residual irreducibility are outside this roadmap’s statements. The dependencies place the abelian-scheme, finite-flat, Néron, height, integral modular-curve, automorphic-form and cyclotomic class-group inputs before their uses here. In particular the cyclotomic class-field obstruction precedes the global finite-flat Ext calculation that uses it.
+
+The general geometric Manin–Drinfeld theorem belongs to §7.9 here, including nonsquarefree congruence levels and Cartan quotients. EllipticCurveModularityPartII §6.0c consumes this theorem; its geometric torsion target is supplied here. The rational Drinfeld–Manin splitting itself belongs to ModularSymbolsPadicLFunctions §§0.6–0.8 and is imported with the period comparisons.
 
 ## Conventions
 
@@ -32,6 +34,8 @@ The baseline is Mathlib `6b7abb3c7686292736be2955bd3eb9ebf63b456a` and Tau Ceti 
 
 `WeierstrassCurve.Affine.Point` is the native group of nonsingular affine Weierstrass points with the point at infinity, and `WeierstrassCurve.IsElliptic` means its discriminant is a unit. The additive order is `addOrderOf`, generated from `orderOf`; the explicit theorem `orderOf_ofAdd_eq_addOrderOf` identifies it with multiplicative order after applying `Multiplicative.ofAdd`. Its value is zero for infinite order and one for the identity. The final theorem uses this actual group and the ellipticity hypothesis. `Nat.forall_exists_prime_gt_and_modEq` supplies arbitrarily large primes in a coprime nonzero residue class, for the auxiliary-prime existence argument.
 
+`AddSubgroup.torsionBy` is the subgroup killed by an integer. Tau Ceti’s `WeierstrassCurve.torsionGaloisAction`, in `TauCeti/AlgebraicGeometry/EllipticCurve/Affine/Point/Galois.lean`, acts on this subgroup after base change by applying field automorphisms to point coordinates. Section 8.9 uses this action over `AlgebraicClosure ℚ`; fixedness means equality for every ℚ-algebra automorphism.
+
 Tau Ceti’s `LeftCosetModule.deg`, in `TauCeti.NumberTheory.HeckeRing.Degree`, is the abstract Hecke ring degree homomorphism. Its good-prime values are compatible with the degree `1+l`, but its value on a single invertible coset is `+1`; it cannot supply the Fricke eigenvalue `−1`. `AlgebraicGeometry.AbelianVariety`, in `TauCeti.AlgebraicGeometry.AbelianVariety.Basic`, supplies the bundled proper geometrically integral group-scheme carrier. The modular Jacobian and its ideal-supported quotient require their supplier constructions.
 
 ### From modular curves and forms
@@ -44,7 +48,7 @@ Tau Ceti’s `LeftCosetModule.deg`, in `TauCeti.NumberTheory.HeckeRing.Degree`, 
 - §§7.5–7.6 give the full rational coefficient pairing `β(t,f)=a₁(tf)`, including `β(T_r,f)=a_r(f)`, with bad `U`-operators included. They do not assert integral perfectness. §§14.12–14.15 give modular symbols and geometric realizations; §17.2 gives Eichler–Shimura at primes not dividing the level. §17.7 gives a semistable Tate filtration only for coefficient prime different from the residue prime.
 - §§16.1–16.8 identify newform fields, actual `A_f`, oldform contributions, prime-level quotient factors and nonconstant Abel–Jacobi projections. No quotient by an ideal in a point group replaces an abelian-variety quotient.
 
-`TauCetiRoadmap.ModularForms` Layer 0 supplies the corrected weight-two Eisenstein series, `q`-expansions with character and their transformations. Its Layer 8 supplies the integral cusp-form lattice, integral Hecke algebra and coefficient pairing, modular symbols and coefficient-field decomposition. `AutomorphicFormsOnReductiveGroups` §7.3 identifies the raw adelic good-prime Hecke operator with the classical operator at weight two, with volume-one maximal compact; its unitary normalization still differs by `√l`. These are existing inputs. The prime-level full order and its integral Eisenstein character are constructed in §0.2 here.
+`TauCetiRoadmap.ModularForms` Layer 0 supplies the corrected weight-two Eisenstein series, `q`-expansions with character and their transformations. Its Layer 8 supplies the integral cusp-form lattice, integral Hecke algebra and coefficient pairing, modular symbols and coefficient-field decomposition. `AutomorphicFormsOnReductiveGroups` §7.3 identifies the raw adelic good-prime Hecke operator with the classical operator at weight two, with volume-one maximal compact; its unitary normalization still differs by `√l`. The prime-level full order and its integral Eisenstein character are constructed in §0.2 here.
 
 **Integral differentials: `ModularCurvesPartII` §§13.7–13.9.** Section 13.7, `integral-dualizing-forms`, supplies the relative dualizing sheaf for proper, flat, finitely presented Cohen–Macaulay curves of pure relative dimension one over a locally Noetherian base. It is invertible in the Gorenstein case. Section 13.8, `integral-modular-serre-duality`, supplies base change and the perfect pairing `H⁰(ω)×H¹(O)→R` under its coherent local-freeness and cohomological base-change hypotheses. On a nodal fibre `ω` consists of differentials on the normalization with at most simple poles at node branches and opposite residues. These modular targets use `SchemeAndStackFoundations` §2.20 (relative dualizing complexes/modules and curve duality), rather than reconstructing that machinery here. Section 13.9, `integral-hecke-duality-compatibility`, supplies the transpose relation for pullback and duality trace, with the geometric correspondence and coefficient hypotheses retained. A nonflat coarse correspondence uses proper-duality trace, not division by its degree.
 
@@ -60,6 +64,8 @@ Keep the moduli-theoretic weight-two space `A(R)` separate from `B(R)`. Away fro
 - At `P=5` in characteristic 2, and `P=7` in characteristic 3, the noncuspidal `A/B` correction has dimension one; the cuspidal spaces still agree and vanish. Inverting 6 would erase these tests.
 - Reduction at `P` uses `B⁰` and the bad-fibre model; the characteristic-zero comparison in §7.2 does not supply it. The integral `q`-expansion of `E₂(q)−P E₂(qᴾ)` lies in `B(ℤ)`, but its denominator `P` at the other cusp prevents identifying it with `A(ℤ)`.
 - On `𝔾_m` in characteristic `p` the map `t↦tᵖ` has degree `p` and one geometric point in its kernel; at `p=2` these numbers are 2 and 1. The integral correspondence calculations here retain that inseparable degree, as well as the supplier’s duality trace. At composite level the expansion at `∞` need not detect a differential supported on a different bad-fibre component (for example `X₀(55)` at 5).
+
+ModularSymbolsPadicLFunctions §§0.6–0.8 supplies duality with homological symbols, period symbols and the rational Hecke-equivariant Drinfeld–Manin splitting at full level `N≥3`. Together with ModularCurvesPartII §§13.1–13.3 and 14.11–14.12, these identify rational periods with torsion Abel–Jacobi classes in §7.9; the splitting is not asserted integrally.
 
 ### From abelian varieties, Néron models and heights
 
@@ -99,13 +105,13 @@ Freeness preserves exactness under every scalar base change, including the resid
 
 `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §§R07.1.2, .9, .12 and .20 supply étale/Galois descent, connected–étale sequences, formal Lie groups, and schematic closures with finite-flat quotients. §§R07.1.24 and .30–.35 supply prolongations, full faithfulness when `e<ℓ−1`, the boundary exception and Oort–Tate classification. §§R07.1.38–.40 give gluing, the `Hom/Ext` Mayer–Vietoris sequence and embeddings into abelian schemes. The inequality `e<ℓ−1` fails for `ℓ=2` over `ℤ₂`; generic constancy does not identify the dyadic integral model.
 
-**Global admissible groups: `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §§R07.G1–R07.G8.** Section R07.G1, `admissible-global-models`, supplies the marked quasi-finite admissible `ℓ`-groups over `ℤ` for distinct primes `P,ℓ`, their exact subquotients, minimal/maximal prolongations and retained fibre at `P`. Section R07.G2, `admissible-geometric-lengths`, defines `length(G)=log_ℓ #G(ℚ̄)`, `δ(G)=length(G)−log_ℓ #G(𝔽̄_P)` and `α(G)=log_ℓ #G(𝔽̄_ℓ)`, with additivity in exact admissible sequences. Section R07.G3, `admissible-cohomology-bound`, gives finite `Hⁱ_fppf(ℤ,G)` for `i=0,1` and, with `hⁱ(G)=log_ℓ #Hⁱ_fppf(ℤ,G)`, the inequality `h¹−h⁰≤δ−α` for every admissible `G`. No congruence condition on `P` is needed for this inequality. The conditions `P≡1` mod `ℓ` for odd `ℓ`, and `P≡1 mod 4` for `ℓ=2`, occur in the elementary-group equality calculation, not in Proposition 1.7'`s` hypotheses. Sources: [Mazur1977] I §1, pp. 43–49, especially Proposition 1.7, p. 49.
+**Global admissible groups: `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §§R07.G1–R07.G8.** Section R07.G1, `admissible-global-models`, supplies the marked quasi-finite admissible `ℓ`-groups over `ℤ` for distinct primes `P,ℓ`, their exact subquotients, minimal/maximal prolongations and retained fibre at `P`. Section R07.G2, `admissible-geometric-lengths`, defines `length(G)=log_ℓ #G(ℚ̄)`, `δ(G)=length(G)−log_ℓ #G(𝔽̄_P)` and `α(G)=log_ℓ #G(𝔽̄_ℓ)`, with additivity in exact admissible sequences. Section R07.G3, `admissible-cohomology-bound`, gives finite `Hⁱ_fppf(ℤ,G)` for `i=0,1` and, with `hⁱ(G)=log_ℓ #Hⁱ_fppf(ℤ,G)`, the inequality `h¹−h⁰≤δ−α` for every admissible `G`. No congruence condition on `P` is needed for this inequality. The conditions `P≡1` mod `ℓ` for odd `ℓ`, and `P≡1 mod 4` for `ℓ=2`, occur in the elementary-group equality calculation, not in Proposition 1.7’s hypotheses. Sources: [Mazur1977] I §1, pp. 43–49, especially Proposition 1.7, p. 49.
 
 Section R07.G4, `admissible-rank-one-global`, states the rank-one theorem on its global base: if `k` is a finite field of characteristic `ℓ` and `V/ℤ` is a finite-flat `k`-vector group scheme of `k`-rank one, then `V` is `(ℤ/ℓ)⊗𝔽_ℓ k` or `μ_ℓ⊗𝔽_ℓ k`. This does not classify rank-one models over `ℤ[1/P]` or a ramified local base. Section R07.G5, `admissible-global-ext-vanishing`, supplies `Ext¹_ℤ(μ_ℓ,ℤ/ℓ)=0` and the multiplicative-type/constant filtration with its stated variance; it uses the class-field obstruction before the Ext calculation. Section R07.G6, `admissible-global-purity`, supplies odd purity: for odd `ℓ` an admissible group over `ℤ[1/P]` is a product of a constant group and a `μ`-type group exactly when its generic inertia at `P` is trivial, equivalently when it extends finite flat over `ℤ`. Sources: [Mazur1977] I Proposition 1.5, pp. 46–47; Proposition 2.1, pp. 49–54; §§3–4, pp. 54–60, especially Proposition 4.5.
 
 Section R07.G7, `dyadic-D-model`, supplies the unique nonsplit extension `0→μ₂→D→ℤ/2→0` over `ℤ`, of rank four and killed by 2, with splitting field `ℚ(i)` and integral-model rigidity. Section R07.G8, `dyadic-finite-flat-amalgam`, constructs `M⊕_{μ₂}D` for a finite-flat admissible multiplicative-type group `M` over `ℤ[1/P]` with a specified `μ₂`-subgroup. It has rank `2·rank M`, exact quotient `ℤ/2` and the characteristic-two connected/étale comparison, functorially under base change. `M` need not be `μ`-type. The Hecke-stable saturation of these amalgams is proved in §4.5 here, using §3.2 and §4.4. Sources: [Mazur1977] I §4, Propositions 4.2–4.4, pp. 58–59; II §17, the *-type definition and Lemma 17.3, pp. 130–131; the additional Hecke hypotheses belong to Lemmas 17.5 and 17.7, pp. 131–133.
 
-The supplier API preserves exact marked subquotients and generic-fibre comparisons, minimal/maximal models, additive geometric lengths, the cohomology bound, global rank-one classification, odd purity, `D` and the amalgam'`s` connected–étale sequence. Only its arithmetic specialization to the Eisenstein kernels is planned here.
+The supplier API preserves exact marked subquotients and generic-fibre comparisons, minimal/maximal models, additive geometric lengths, the cohomology bound, global rank-one classification, odd purity, `D` and the amalgam’s connected–étale sequence. Only its arithmetic specialization to the Eisenstein kernels is planned here.
 
 **Checks.**
 
@@ -119,13 +125,13 @@ The supplier API preserves exact marked subquotients and generic-fibre compariso
 
 ### From elliptic curves and class fields
 
-`TauCetiRoadmap.EllipticCurves` Layers 1–4 supply actual isogenies and finite-subgroup quotients, the native Weierstrass-point comparison, the Weil pairing and determinant `χ_P`, the Hasse bound over `𝔽₂` and `𝔽₃`, and local reduction and Tate uniformization. Use `NeronModelsAndSemistableAbelianVarieties` §2.6 (`EllipticFiltration`) and §§6.5–6.6 (`EquationGoodComparison`, `EquationMultiplicativeComparison`) for the equation-level/Néron reduction and identity-component comparisons. The numerical semistable-extension bound is `elliptic_semistable_extension_bound` in §7.3 here, using the equation-level reduction and Tate-algorithm inputs of `EllipticCurves` Layer 4. The rational-endomorphism assertion `End_ℚ(E)=ℤ` follows from the faithful characteristic-zero differential action and the imaginary quadratic nature of geometric CM. It is not assumed over an arbitrary field.
+`TauCetiRoadmap.EllipticCurves` Layers 1–4 supply actual isogenies and finite-subgroup quotients, the native Weierstrass-point comparison, the Weil pairing and determinant `χ_P`, the Hasse bound over `𝔽₂` and `𝔽₃`, and local reduction and Tate uniformization. Use `NeronModelsAndSemistableAbelianVarieties` §2.6 (`EllipticFiltration`) and §§6.5–6.6 (`EquationGoodComparison`, `EquationMultiplicativeComparison`) for the equation-level/Néron reduction and identity-component comparisons. The numerical semistable-extension bound is proved in §7.3 here, using the equation-level reduction and Tate-algorithm inputs of `EllipticCurves` Layer 4. The rational-endomorphism assertion `End_ℚ(E)=ℤ` follows from the faithful characteristic-zero differential action and the imaginary quadratic nature of geometric CM. It is not assumed over an arbitrary field.
 
-`TauCetiRoadmap.ClassFieldTheory` Layer 13 supplies Hilbert/ray class-field reciprocity with cyclotomic equivariance, the ideal-class description of unramified abelian extensions and the local-unit contribution when a prime is inverted. Its Herbrand quotient of ideles is different from the class-group theorem below. Mathlib supplies `NumberField.exists_ideal_in_class_of_norm_le` and `RingOfIntegers.isPrincipalIdealRing_of_isPrincipal_of_norm_le_of_isPrime`, so the Minkowski ideal bound is imported, not developed here. `IsCyclotomicExtension.Rat.discr_prime`, `IsCyclotomicExtension.Rat.isIntegralClosure_adjoin_singleton` and `IsPrimitiveRoot.integralPowerBasis` give the cyclotomic integer/discriminant background to §8.5. Its fixed class-number hypothesis uses Mathlib’s `CyclotomicField 13 ℚ` and `NumberField.classNumber`.
+`TauCetiRoadmap.ClassFieldTheory` Layer 13 supplies Hilbert/ray class-field reciprocity with cyclotomic equivariance, the ideal-class description of unramified abelian extensions and the local-unit contribution when a prime is inverted. Its Herbrand quotient of ideles is different from the class-group theorem below. Mathlib supplies `NumberField.exists_ideal_in_class_of_norm_le` and `RingOfIntegers.isPrincipalIdealRing_of_isPrincipal_of_norm_le_of_isPrime`, so the Minkowski ideal bound is imported, not developed here. `IsCyclotomicExtension.Rat.discr_prime`, `IsCyclotomicExtension.Rat.isIntegralClosure_adjoin_singleton` and `IsPrimitiveRoot.integralPowerBasis` give the cyclotomic integer/discriminant background to §8.5. The fixed class-number theorem uses Mathlib’s `CyclotomicField 13 ℚ` and `NumberField.classNumber`. The prime decomposition inputs are `IsCyclotomicExtension.Rat.inertiaDegIn_eq_of_not_dvd` and `IsCyclotomicExtension.Rat.eq_span_zeta_sub_one_of_liesOver` in `Mathlib/NumberTheory/NumberField/Cyclotomic/Ideal.lean`: away from the conductor the residue degree is the multiplicative order, while at a prime-power conductor the prime over that prime is generated by `ζ−1`.
 
 **Cyclotomic eigenspaces: `CyclotomicClassGroupsAndStickelberger` §§0.2–0.3, 3.2 and 8.1–8.2.** For odd prime `P` let `Y` be the `P`-primary ideal class group of `ℚ(ζ_P)`, with the covariant action on ideals, and `ω` the Teichmüller lift of `χ_P`. The integral eigenspace definitions and decomposition in §§0.2–0.3, `cyclotomicClassEigenspace` and `cyclotomicClassEigenspaces`, supplies the integral `ωʲ`-eigenspaces: the projector uses coefficients `ω⁻ʲ`. The annihilator and Herbrand statements in §3.2, `bernoulli_annihilates_component` and `herbrand`, supplies the Stickelberger/Herbrand annihilator: for odd `j` with `1<j<P−1`, nonvanishing of `B_{P−j}` modulo `P` implies `Y^(j)=0`. The separate `cyclotomicClassEigenspace_one_eq_zero` covers `j=1`. At `P≥5` take `j=P−2`; `B₂=1/6` is a `P`-adic unit, so `Y^(−1)=0`. The Teichmüller lift acts on the full finite `P`-primary group, without treating it as an `𝔽_P`-vector space.
 
-The inverse-character statements in §§8.1–8.2, `inverseCharacterClassGroup` and `inverseCharacterUnramifiedQuotient_zero`, exports the vanishing and its equivariant quotient consequence. For `K=ℚ(ζ_P)` and an everywhere unramified cyclic `P`-extension `L/K` with `L/ℚ` Galois, reciprocity identifies the natural action on ideal classes with conjugation `g·x=gxg⁻¹` on `Gal(L/K)`. The action is independent of the lift `g` because `Gal(L/K)` is abelian. A quotient with residual action `χ_P⁻¹` is therefore zero. These cyclotomic targets use `ClassFieldTheory` Layer 13 reciprocity and precede the global finite-flat Ext calculation that uses the same obstruction. Sources: [Mazur1977] I Proposition 2.8 and Corollaries 2.9–2.10, pp. 53–54. The unrelated full class number of ℚ(ζ₁₃) is the explicit hypothesis in §8.5 here.
+The inverse-character statements in §§8.1–8.2, `inverseCharacterClassGroup` and `inverseCharacterUnramifiedQuotient_zero`, exports the vanishing and its equivariant quotient consequence. For `K=ℚ(ζ_P)` and an everywhere unramified cyclic `P`-extension `L/K` with `L/ℚ` Galois, reciprocity identifies the natural action on ideal classes with conjugation `g·x=gxg⁻¹` on `Gal(L/K)`. The action is independent of the lift `g` because `Gal(L/K)` is abelian. A quotient with residual action `χ_P⁻¹` is therefore zero. These cyclotomic targets use `ClassFieldTheory` Layer 13 reciprocity and precede the global finite-flat Ext calculation that uses the same obstruction. Sources: [Mazur1977] I Proposition 2.8 and Corollaries 2.9–2.10, pp. 53–54. The unrelated full class number of ℚ(ζ₁₃) is proved in §8.5 here.
 
 **Checks.**
 
@@ -137,13 +143,13 @@ The inverse-character statements in §§8.1–8.2, `inverseCharacterClassGroup` 
 
 ### Scheme cohomology and curve divisors
 
-`SchemeAndStackFoundations` §2.3 supplies `NonabelianH1.equivSheafH`, identifying abelian torsor classes with native sheaf `H¹` compatibly with pullback and connecting maps. Section 2.10 supplies `etale_pullback_fppf_comparison` for abelian étale sheaves and `smoothGroup_fppf_etale_comparison` for smooth commutative group schemes. Section 2.11 supplies `fppf_kummer_sequence` for every positive integer, including residue-characteristic torsion. These are the cohomology identifications used in §8.5. `JacobianChallenge` Layers A–B and F supply divisor classes, Riemann–Roch and the cusp-based Abel–Jacobi map; for the genus-two worked check of §8.1 use uniqueness of the hyperelliptic degree-two pencil and uniqueness of an effective representative in a noncanonical degree-two class.
+`SchemeAndStackFoundations` §2.3 supplies `NonabelianH1.equivSheafH`, identifying abelian torsor classes with native sheaf `H¹` compatibly with pullback and connecting maps. Section 2.10 supplies `etale_pullback_fppf_comparison` for abelian étale sheaves and `smoothGroup_fppf_etale_comparison` for smooth commutative group schemes. Section 2.11 supplies `fppf_kummer_sequence` for every positive integer, including residue-characteristic torsion. These are the cohomology identifications used in §8.5. `JacobianChallenge` Layers A–B and F supply divisor classes, Riemann–Roch and the cusp-based Abel–Jacobi map; for the genus-two intersection theorem of §8.1 use uniqueness of the hyperelliptic degree-two pencil and uniqueness of an effective representative in a noncanonical degree-two class.
 
 ## How to read the build
 
-Layer 0 fixes integral normalization and the exact congruence index. Layer 1 turns cusp divisors and the regular bad fibre into integral subgroup schemes. Layer 2 constructs ideal torsion, completed factors and actual quotients. Layers 3–4 establish odd and dyadic multiplicity one and winding principality. Layer 5 determines rational torsion before Layer 6 proves rank zero of the Eisenstein quotient. Layer 7 uses both the moduli boundary and good-reduction torsion specialization in the elliptic descent, and also supplies the formal-immersion route. Layer 8 proves the separate order-13 exclusion under the explicit data of §§8.1 and 8.5, and joins it to the four occurring prime orders. Every later assertion using the level-13 descent retains those same hypotheses. The worked examples are part of the build and distinguish integral models or local branches that have the same generic appearance.
+Layer 0 fixes integral normalization and the exact congruence index. Layer 1 turns cusp divisors and the regular bad fibre into integral subgroup schemes. Layer 2 constructs ideal torsion, completed factors and actual quotients. Layers 3–4 establish odd and dyadic multiplicity one and winding principality. Layer 5 determines rational torsion before Layer 6 proves rank zero of the Eisenstein quotient. Layer 7 uses both the moduli boundary and good-reduction torsion specialization in the elliptic descent, and also supplies the formal-immersion route. Layer 8 proves the model and cusp facts and cyclotomic class number needed by the separate order-13 descent, and joins its unconditional exclusion to the four occurring prime orders. The worked examples are part of the build and distinguish integral models or local branches that have the same generic appearance.
 
-`Suggested.lean` states `isogeny_iteration` (§7.8) and `occurring_small_primes` (§8.7) on Mathlib's nonsingular Weierstrass point groups. The modular-curve and modular-Jacobian results require their geometric constructions; the conditional level-13 consequences also require the model, moduli-map and cusp data of §8.1.
+`Suggested.lean` states `isogeny_iteration` (§7.8), `cyclotomic_thirteen_class_number` (§8.5), `order_thirteen_exclusion` (§8.6), `occurring_small_primes` (§8.7), `all_prime_torsion` (§8.8) and `elliptic_fixed_torsion_zero` (§8.9) against the pinned APIs. Its docstring identifies the modular-curve and modular-Jacobian headlines whose carriers require the supplier constructions.
 
 ## Layer 0: Integral Eisenstein arithmetic
 
@@ -151,7 +157,7 @@ Fix `n`, the full integral Eisenstein eigensystem and its kernel, distinguish it
 
 ### 0.1 The cuspidal index
 
-Define `cuspidalIndex`. For prime `P` define `cuspidalIndex(P)=n=(P−1)/gcd(P−1,12)`, the positive numerator of `(P−1)/12` in lowest terms.
+For prime `P` define `n=(P−1)/gcd(P−1,12)`, the positive numerator of `(P−1)/12` in lowest terms.
 
 Reduce the rational fraction using the integer gcd. Use `P≥2` to prove positivity and the numerator comparison.
 
@@ -171,24 +177,24 @@ The denominator is gcd-reduced, with no rounding or factor-of-two ambiguity.
 
 ### 0.2 The full and cuspidal Eisenstein ideals
 
-Define `eisenstein_ideal`. Let `T` be the integral cuspidal Hecke algebra, allowing `T=0`. Define `H_P` as the `ℤ`-subalgebra of `T×ℤ` generated by `(T_l,1+l)` for prime `l≠P` and `(w,−1)`, with scalar identity `(1_T,1)`. Its second projection is the primitive Eisenstein character `ε:H_P→ℤ`, `ε(T_l)=1+l` for prime `l≠P`, `ε(w)=−1`, `ε(U_P)=1` in the weight-two normalization `U_P=−w` on the cuspidal new quotient. Define `I_full=ker ε`. For the surjective cuspidal action `ρ:H_P→T⊂End_ℚ(J₀(P))`, define `I=ρ(I_full)=(1+w, T_l−1−l : l prime, l≠P)`. The full ideal is a kernel; the cuspidal ideal need not be the kernel of a `ℤ`-valued character.
+Let `T` be the integral cuspidal Hecke algebra, allowing `T=0`. Define §0.2 as the `ℤ`-subalgebra of `T×ℤ` generated by `(T_l,1+l)` for prime `l≠P` and `(w,−1)`, with scalar identity `(1_T,1)`. Its second projection is the primitive Eisenstein character `ε:H_P→ℤ`, `ε(T_l)=1+l` for prime `l≠P`, `ε(w)=−1`, `ε(U_P)=1` in the weight-two normalization `U_P=−w` on the cuspidal new quotient. Define `I_full=ker ε`. For the surjective cuspidal action `ρ:H_P→T⊂End_ℚ(J₀(P))`, define `I=ρ(I_full)=(1+w, T_l−1−l : l prime, l≠P)`. The full ideal is a kernel; the cuspidal ideal need not be the kernel of a `ℤ`-valued character.
 
 The first projection `ρ` is surjective because the good-prime operators and `U_P=−w` generate `T`. The second projection `ε` is surjective because it fixes scalar integers. This is a finite `ℤ`-order, as a `ℤ`-submodule of the finite module `T×ℤ`. Its action on the cuspidal rational space plus the normalized Eisenstein line identifies it with the full prime-level weight-two order. The quotient by the ideal generated by `g−ε(g)` for these algebra generators is exactly `ℤ`: every polynomial reduces to its scalar evaluation, and `ε` fixes `ℤ`. Thus `ker ε` has the asserted generators. The operator `U_P` is `(−w,1)`. Compare good-prime character values with the existing degree homomorphism, but handle `w` by its separate relation. Keep `ρ(I_full)` as an image ideal without factoring `ε` through `ρ`.
 
 The API exposes the following operations and relations.
 
-- `eisensteinFull_mem`: `h∈I_full` iff `ε(h)=0`.
-- `eisenstein_image`: `I` is the ideal image under the surjective cuspidal action.
-- `eisenstein_generators`: `I` is generated by `1+w` and all `T_l−1−l` with `l≠P` prime.
-- `eisenstein_mod_n`: The induced cuspidal character takes values in `ℤ/n`, once the congruence-index theorem is established.
+- `h∈I_full` iff `ε(h)=0`.
+- `I` is the ideal image under the surjective cuspidal action.
+- `I` is generated by `1+w` and all `T_l−1−l` with `l≠P` prime.
+- The induced cuspidal character takes values in `ℤ/n`, once the congruence-index theorem is established.
 
 In II §§9–18, defines the support and local Hecke ideals. In SerreWeightAndLevelOptimisation, pins the residual reducible eigensystem and sign convention.
 
 **Checks.**
 
-- `full_scalar_kernel`: `I_full∩ℤ=0`, because `ε` is the identity on scalars.
-- `cuspidal_scalar_kernel`: At `P=11`, `I∩ℤ=5Z`, so `ε` cannot descend to `T→ℤ`.
-- `fricke_sign`: `ε(1+w)=0`; the abstract degree character has value `+1` on an invertible single coset and cannot replace `ε` on `w`.
+- `I_full∩ℤ=0`, because `ε` is the identity on scalars.
+- At `P=11`, `I∩ℤ=5Z`, so `ε` cannot descend to `T→ℤ`.
+- `ε(1+w)=0`; the abstract degree character has value `+1` on an invertible single coset and cannot replace `ε` on `w`.
 
 The generator family includes `1+w`; a good-prime-only ideal is not substituted. No `ℤ`-valued character on the nonzero cuspidal `T` is asserted.
 
@@ -198,7 +204,7 @@ The generator family includes `1+w`; a good-prime-only ideal is not substituted.
 
 ### 0.3 The weight-two congruence criterion
 
-Prove `integral_eisenstein_congruence`. For `P≥5` and every positive integer `m`, the integral divided-divisor `q`-series `δ_P=Σ_{r≥1}(Σ_{d|r, P∤d}d)q^r` is the `q`-expansion of a weight-two cusp form modulo `m` exactly when `m` divides `n`. For `m` coprime to `P` its holomorphic modularity criterion is `m|(P−1)/2`; at 2 and 3 use the integral differential and residue formulation, not an inversion of 24. There is no corresponding holomorphic mod-`P` form with this `q`-expansion.
+For `P≥5` and every positive integer `m`, the integral divided-divisor `q`-series `δ_P=Σ_{r≥1}(Σ_{d|r, P∤d}d)q^r` is the `q`-expansion of a weight-two cusp form modulo `m` exactly when `m` divides `n`. For `m` coprime to `P` its holomorphic modularity criterion is `m|(P−1)/2`; at 2 and 3 use the integral differential and residue formulation, not an inversion of 24. There is no corresponding holomorphic mod-`P` form with this `q`-expansion.
 
 Use corrected weight-two Eisenstein series supplied by ModularForms, and calculate its residues at both cusps. Use the integral `q`-expansion principle and the residue exact sequence, retaining the exceptional 2- and 3-primary obstructions. Use the bad-fibre argument to rule out characteristic `P`.
 
@@ -206,11 +212,11 @@ For `P=17` the cusp criterion detects divisibility by 4, not just the odd part o
 
 *Source:* [Mazur1977] II Proposition 5.12 and proof, pp. 85–87.
 
-*Needs:* `cuspidalIndex`, `ModularForms` Layer 0, `ModularCurvesPartII` §§13.7–13.9, `ModularCurvesPartII` §§3.6–3.7 and 4.1–4.8.
+*Needs:* §0.1, `ModularForms` Layer 0, `ModularCurvesPartII` §§13.7–13.9, `ModularCurvesPartII` §§3.6–3.7 and 4.1–4.8.
 
 ### 0.4 Hecke duality and the Eisenstein index
 
-Prove `hecke_duality_index`. For prime `P≥5`, `T` is finite free over `ℤ` of rank `g=genus X₀(P)`, `T⊗ℚ` is a product of totally real fields, and `H¹(X₀(P)/ℤ,O)` of the integral modular curve is locally free of rank one over `T`. This means an invertible `T`-module, with no chosen global generator. The natural scalar map induces `T/I ≅ ℤ/n`. For `P=2,3` define `T=0`, `J=0` and obtain the same quotient-ring formula with `n=1`.
+For prime `P≥5`, `T` is finite free over `ℤ` of rank `g=genus X₀(P)`, `T⊗ℚ` is a product of totally real fields, and `H¹(X₀(P)/ℤ,O)` of the integral modular curve is locally free of rank one over `T`. This means an invertible `T`-module, with no chosen global generator. The natural scalar map induces `T/I ≅ ℤ/n`. For `P=2,3` define `T=0`, `J=0` and obtain the same quotient-ring formula with `n=1`.
 
 Import the integral Hecke action and the modular-form/differential comparison. Use `q`-expansion eigenvector uniqueness to show the residual cuspidal eigenspace is one-dimensional at every maximal ideal. Apply integral Serre duality and Nakayama to prove local rank-one freeness of `H¹`, without asserting a global basis. Apply the precise mod-`m` congruence criterion to identify the cokernel and scalar kernel; calculate the zero-dimensional cases separately.
 
@@ -218,7 +224,7 @@ The scalar kernel is `nZ`, including its 2- and 3-primary parts. The ring is `�
 
 *Source:* [Mazur1977] II §§6,9, especially Propositions 9.3–9.4 and 9.7, pp. 87–88,94–96.
 
-*Needs:* `eisenstein_ideal`, `integral_eisenstein_congruence`, `ModularForms` Layer 8, `ModularCurvesPartII` §§13.1–13.4 and 17.3, `ModularCurvesPartII` §§13.4–13.6, 14.12–14.15 and 17.2, together with §§13.7–13.9.
+*Needs:* §0.2, §0.3, `ModularForms` Layer 8, `ModularCurvesPartII` §§13.1–13.4 and 17.3, `ModularCurvesPartII` §§13.4–13.6, 14.12–14.15 and 17.2, together with §§13.7–13.9.
 
 ### Examples
 
@@ -226,7 +232,7 @@ At `P=11` the full character is `ℤ`-valued, while the cuspidal Eisenstein quot
 
 ### Dependencies
 
-CuspidalIndex arithmetic uses Mathlib integers and rationals. The integral order and duality use ModularForms Layers 0 and 8, ModularCurvesPartII §§7.5–7.6 and 13.1–13.6 and §§13.7–13.9, and AutomorphicFormsOnReductiveGroups §7.3 for adelic comparison.
+The cuspidal-index arithmetic uses Mathlib integers and rationals. The integral order and duality use ModularForms Layers 0 and 8, ModularCurvesPartII §§7.5–7.6 and 13.1–13.6 and §§13.7–13.9, and AutomorphicFormsOnReductiveGroups §7.3 for adelic comparison.
 
 ## Layer 1: Cusps, components and the Shimura subgroup
 
@@ -234,24 +240,24 @@ Construct the cuspidal subgroup and Shimura subgroup, use the rational component
 
 ### 1.1 The cuspidal class and subgroup
 
-Define `cuspidal_subgroup`. Write `X=X₀(P)`, `J=Pic⁰(X/ℚ)`, and `c=[0]−[∞]∈J(ℚ)`, using the Tate cusp labels fixed in the conventions. Let `C_ℚ` be the cyclic subgroup generated by `c` and `C_Z` its schematic closure in the Néron model `𝒥/ℤ`; the finiteness and flatness of this closure are the subsequent cuspidal-order theorem, not part of the definition. In genus zero `c=0` and `C` is trivial.
+Write `X=X₀(P)`, `J=Pic⁰(X/ℚ)`, and `c=[0]−[∞]∈J(ℚ)`, using the Tate cusp labels fixed in the conventions. Let `C_ℚ` be the cyclic subgroup generated by `c` and `C_Z` its schematic closure in the Néron model `𝒥/ℤ`; the finiteness and flatness of this closure are the subsequent cuspidal-order theorem, not part of the definition. In genus zero `c=0` and `C` is trivial.
 
 Use the Abel–Jacobi divisor-class map supplied with the modular Jacobian. Take the subgroup generated by the rational divisor class and its schematic closure; establish finite order before treating the closure as a finite-flat group scheme.
 
 The API exposes the following operations and relations.
 
-- `cuspidalClass`: The degree-zero divisor `0−∞` gives `c∈J(ℚ)`.
-- `cuspidal_generator`: `C_ℚ` is the image of `ℤ→J(ℚ)`, `a↦a·c`, identified with the corresponding finite subgroup scheme after the order theorem.
-- `cuspidal_baseChange`: Base change of the class and its cyclic subgroup agrees with pullback of the two cusp sections.
-- `cuspidal_zero_genus`: The divisor class is zero in the zero Jacobian for `P∈{2,3,5,7,13}`.
+- The degree-zero divisor `0−∞` gives `c∈J(ℚ)`.
+- `C_ℚ` is the image of `ℤ→J(ℚ)`, `a↦a·c`, identified with the corresponding finite subgroup scheme after the order theorem.
+- Base change of the class and its cyclic subgroup agrees with pullback of the two cusp sections.
+- The divisor class is zero in the zero Jacobian for `P∈{2,3,5,7,13}`.
 
 In II 11.1 and III 1.2, supplies the distinguished generator of rational torsion. In III §5, Step 3, the nonzero difference of cusp images forces the descent contradiction.
 
 **Checks.**
 
-- `cuspidal_sign`: The involution `w` sends `c` to `−c`.
-- `cuspidal_thirteen`: At `P=13`, `c=0` despite the two distinct cusp points.
-- `cuspidal_eleven`: At `P=11`, `c≠0`, so the cusps are not linearly equivalent.
+- The involution `w` sends `c` to `−c`.
+- At `P=13`, `c=0` despite the two distinct cusp points.
+- At `P=11`, `c≠0`, so the cusps are not linearly equivalent.
 
 The chosen generator is `[0]−[∞]`, so reversing the Abel–Jacobi base cusp reverses `c`.
 
@@ -261,7 +267,7 @@ The chosen generator is `[0]−[∞]`, so reversing the Abel–Jacobi base cusp 
 
 ### 1.2 Hecke eigenvalues of the cuspidal class
 
-Prove `cusp_hecke_action`. For every prime `l≠P`, `T_l(c)=(1+l)c`; `w(c)=−c`. Consequently `I` annihilates `C_ℚ` and `n·c=0`.
+For every prime `l≠P`, `T_l(c)=(1+l)c`; `w(c)=−c`. Consequently `I` annihilates `C_ℚ` and `n·c=0`.
 
 Compute both push-pull correspondences on the individual cusp divisors. Use the interchange of cusps by `w` and the generator description of `I`. Use `T/I≅ℤ/n` to deduce the upper bound on the order.
 
@@ -269,7 +275,7 @@ The formula excludes `l=P`; `U_P` is handled through the separately normalized b
 
 *Source:* [Mazur1977] II Proposition 11.1, pp. 98–99.
 
-*Needs:* `cuspidal_subgroup`, `hecke_duality_index`, `ModularCurvesPartII` §§9.1–9.2, 13.1–13.4 and 17.3.
+*Needs:* §1.1, §0.4, `ModularCurvesPartII` §§9.1–9.2, 13.1–13.4 and 17.3.
 
 ### 1.3 The prime-level component group
 
@@ -285,11 +291,11 @@ The supplier's weighted-graph calculation retains the exceptional chains of thic
 
 *Source:* [Mazur1977] Appendix, Theorem A.1, p. 173, Proposition 1.4 and §2, pp. 179–183; `ModularCurvesPartII` §17.5.
 
-*Needs:* `cuspidalIndex`; `ModularCurvesPartII` §17.5 (`gammaZeroPrime_componentGroup`, `gammaZeroPrime_componentEisenstein`).
+*Needs:* §0.1; `ModularCurvesPartII` §17.5 (`gammaZeroPrime_componentGroup`, `gammaZeroPrime_componentEisenstein`).
 
 ### 1.4 Ogg’s cuspidal order and its integral model
 
-Prove `cuspidal_order_model`. For every prime `P`, `c` has exact order `n`. Thus `c≠0` exactly when `X₀(P)` has positive genus, equivalently `P∉{2,3,5,7,13}`. `C_Z` is finite flat of rank `n`. If `n` is odd `C_Z` is constant. If `n` is even it contains `μ₂` and `C_Z/μ₂` is constant; a constant generic Galois module does not force the dyadic integral model to be constant. At `P`, `C_𝔽_P→Φ_P` is an isomorphism and `𝒥_𝔽_P` `≅` `𝒥⁰_𝔽_P×C_𝔽_P`.
+For every prime `P`, `c` has exact order `n`. Thus `c≠0` exactly when `X₀(P)` has positive genus, equivalently `P∉{2,3,5,7,13}`. `C_Z` is finite flat of rank `n`. If `n` is odd `C_Z` is constant. If `n` is even it contains `μ₂` and `C_Z/μ₂` is constant; a constant generic Galois module does not force the dyadic integral model to be constant. At `P`, `C_𝔽_P→Φ_P` is an isomorphism and `𝒥_𝔽_P` `≅` `𝒥⁰_𝔽_P×C_𝔽_P`.
 
 Combine the Hecke upper bound `n` with the component-group lower bound `n`. Use the schematic finite-flat model and its constant/multiplicative filtration from the finite-flat supplier to identify the dyadic model. Split the component sequence by the cusp generator. Handle genus-zero levels by the genus calculation supplier.
 
@@ -297,28 +303,28 @@ The assertion at `P` includes all of `n`, since `P∤n`. For `n` even distinguis
 
 *Source:* [Mazur1977] II Proposition 11.1, equations 11.3–11.4, pp. 98–99; §12, pp. 103–104; Appendix A.1, pp. 173–180.
 
-*Needs:* `cusp_hecke_action`, `ModularCurvesPartII` §17.5 (`gammaZeroPrime_componentGroup`, `gammaZeroPrime_componentEisenstein`), `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §§R07.G1–R07.G2 and R07.G4.
+*Needs:* §1.2, `ModularCurvesPartII` §17.5 (`gammaZeroPrime_componentGroup`, `gammaZeroPrime_componentEisenstein`), `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §§R07.G1–R07.G2 and R07.G4.
 
 ### 1.5 The Shimura subgroup
 
-Construct `shimura_subgroup`. Let `X₂(P)→X₀(P)` be the maximal étale intermediate cover in `X₁(P)→X₀(P)`, with cyclic deck quotient `U` of order `n`. Define `Σ` over `ℤ[1/P]` as the scheme-theoretic kernel of pullback `Pic⁰(X₀(P))→Pic⁰(X₂(P))`, and extend it by schematic closure in `𝒥` over `ℤ`. There is a canonical isomorphism `Σ≅Uᴰ`; a generator of `U` identifies this with `μ_n`, but that identification is not canonical.
+Let `X₂(P)→X₀(P)` be the maximal étale intermediate cover in `X₁(P)→X₀(P)`, with cyclic deck quotient `U` of order `n`. Define `Σ` over `ℤ[1/P]` as the scheme-theoretic kernel of pullback `Pic⁰(X₀(P))→Pic⁰(X₂(P))`, and extend it by schematic closure in `𝒥` over `ℤ`. There is a canonical isomorphism `Σ≅Uᴰ`; a generator of `U` identifies this with `μ_n`, but that identification is not canonical.
 
 Import the étale covering and its Picard pullback. Apply the multiplicative Hochschild–Serre sequence to identify the kernel with characters of `U`. Extend the finite-flat multiplicative-type subgroup over `ℤ` using the Néron mapping property and the finite-flat supplier.
 
 The API exposes the following operations and relations.
 
-- `shimura_inclusion`: The pullback kernel comes with a closed immersion into `J` over `ℤ[1/P]` and its finite-flat extension over `ℤ`.
-- `shimura_dual`: `Σ` is canonically Cartier dual to the deck quotient `U`.
-- `shimura_pullback_kernel`: A Picard class belongs to `Σ` exactly when its pullback to `X₂(P)` is trivial, in the fppf sheaf sense.
-- `shimura_baseChange`: The kernel and duality comparison commute with base changes over `ℤ[1/P]`.
+- The pullback kernel comes with a closed immersion into `J` over `ℤ[1/P]` and its finite-flat extension over `ℤ`.
+- `Σ` is canonically Cartier dual to the deck quotient `U`.
+- A Picard class belongs to `Σ` exactly when its pullback to `X₂(P)` is trivial, in the fppf sheaf sense.
+- The kernel and duality comparison commute with base changes over `ℤ[1/P]`.
 
 In II §§14–17, provides the multiplicative constituent of Eisenstein torsion. In III Proposition 1.3, identifies the maximal `μ`-type subgroup.
 
 **Checks.**
 
-- `shimura_rank`: At `P=11` the group scheme has rank 5 and its generic geometric point group has exactly five elements.
-- `shimura_thirteen`: At `P=13` the cover has degree 1 and `Σ` is trivial.
-- `shimura_not_constant`: Over `Q` the rank-5 `Σ` at `P=11` has cyclotomic Galois action, so it is not the constant `ℤ/5` group scheme.
+- At `P=11` the group scheme has rank 5 and its generic geometric point group has exactly five elements.
+- At `P=13` the cover has degree 1 and `Σ` is trivial.
+- Over `Q` the rank-5 `Σ` at `P=11` has cyclotomic Galois action, so it is not the constant `ℤ/5` group scheme.
 
 The construction retains Cartier duality and does not replace `Σ` by a constant group scheme.
 
@@ -328,7 +334,7 @@ The construction retains Cartier duality and does not replace `Σ` by a constant
 
 ### 1.6 Cuspidal and Shimura integral compatibility
 
-Prove `cuspidal_shimura_intersection`. `I` annihilates `Σ`, and `Σ_𝔽_P→Φ_P` is an isomorphism. Over `ℤ`, `C∩Σ` is trivial if `n` is odd and is `μ₂` if `n` is even. In particular their odd-primary sum is direct, while a dyadic direct-sum assertion fails. These intersections are intersections of subgroup schemes with their integral models.
+`I` annihilates `Σ`, and `Σ_𝔽_P→Φ_P` is an isomorphism. Over `ℤ`, `C∩Σ` is trivial if `n` is odd and is `μ₂` if `n` is even. In particular their odd-primary sum is direct, while a dyadic direct-sum assertion fails. These intersections are intersections of subgroup schemes with their integral models.
 
 Use the moduli Hecke correspondence (`E,Q)↦Σ_D(E/D,Q` mod `D`), summing over cyclic order-`l` subgroups `D`, and Fricke on the intermediate Shimura cover. This is the corrected `X₁(P)` correspondence; the naive `Γ₀(P)` upper-half-plane formula omits a diamond factor. Use the component calculation and finite-flat closure to compare `C` and `Σ`. Analyze the only common constant/multiplicative constituent at 2.
 
@@ -336,33 +342,33 @@ At odd residual primes `J[I]` can be split into these constituents only after th
 
 *Source:* [Mazur1977] II Propositions 11.7, 11.9 and 11.11, pp. 100–104; Appendix A.1, pp. 173–180; [MazurWiles1984Errata] §8.I, pp.187–188.
 
-*Needs:* `shimura_subgroup`, `cuspidal_order_model`, `eisenstein_ideal`, `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §§R07.G1–R07.G2 and R07.G7.
+*Needs:* §1.5, §1.4, §0.2, `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §§R07.G1–R07.G2 and R07.G7.
 
 ### 1.7 Retraction to the cuspidal subgroup
 
-Construct `rational_component_retraction`. Let `M=J(ℚ)`. Specialize a rational section in `𝒥` to `Φ_P(𝔽_P)` and invert the isomorphism `C≅Φ_P(𝔽_P)`. This defines a homomorphism `r_C:M→C` with `r_C|C=id`. Put `M⁰=ker r_C`; then `M≅M⁰⊕C`, and the projection to `M⁰` is `x↦x−r_C(x)`. At genus-zero levels both summands vanish.
+Let `M=J(ℚ)`. Specialize a rational section in `𝒥` to `Φ_P(𝔽_P)` and invert the isomorphism `C≅Φ_P(𝔽_P)`. This defines a homomorphism `r_C:M→C` with `r_C|C=id`. Put `M⁰=ker r_C`; then `M≅M⁰⊕C`, and the projection to `M⁰` is `x↦x−r_C(x)`. At genus-zero levels both summands vanish.
 
 Extend `Q`-points by the Néron mapping property. Compose specialization and the inverse cusp-component isomorphism. Split the resulting retraction in abelian groups.
 
 The API exposes the following operations and relations.
 
-- `componentRetraction_cusp`: `r_C(a·c)=a·c`.
-- `componentRetraction_kernel`: `x∈M⁰` iff its Néron component at `P` is zero.
-- `rational_component_split`: `M⁰⊕C→M`, `(x,y)↦x+y`, has inverse `(x−r_C(x),r_C(x))`.
+- `r_C(a·c)=a·c`.
+- `x∈M⁰` iff its Néron component at `P` is zero.
+- `M⁰⊕C→M`, `(x,y)↦x+y`, has inverse `(x−r_C(x),r_C(x))`.
 
 In III §3, separates the rational connected-component module in the descent estimate. In III 1.2, provides the rational torsion comparison with `C`.
 
 **Checks.**
 
-- `retraction_generator`: At `P=11`, `r_C(c)=c` has order 5.
-- `retraction_identity`: `r_C(0)=0` and the construction is zero when `n=1`.
-- `retraction_component`: For a rational section through `𝒥⁰_𝔽_P`, `r_C` is zero, even when its rational point has infinite order.
+- At `P=11`, `r_C(c)=c` has order 5.
+- `r_C(0)=0` and the construction is zero when `n=1`.
+- For a rational section through `𝒥⁰_𝔽_P`, `r_C` is zero, even when its rational point has infinite order.
 
 The map uses the rational component group and the selected cusp generator.
 
 *Source:* [Mazur1977] II equations 11.3–11.4, p. 99.
 
-*Needs:* `cuspidal_order_model`, `NeronModelsAndSemistableAbelianVarieties` §1.2, `NeronModelsAndSemistableAbelianVarieties` §1.3, `NeronModelsAndSemistableAbelianVarieties` §1.9, `NeronModelsAndSemistableAbelianVarieties` §2.2.
+*Needs:* §1.4, `NeronModelsAndSemistableAbelianVarieties` §1.2, `NeronModelsAndSemistableAbelianVarieties` §1.3, `NeronModelsAndSemistableAbelianVarieties` §1.9, `NeronModelsAndSemistableAbelianVarieties` §2.2.
 
 ### Examples
 
@@ -378,88 +384,88 @@ Define Néron closures of ideal torsion, the completed Eisenstein local rings an
 
 ### 2.1 Ideal torsion in the Néron model
 
-Define `ideal_kernel`. For an ideal `a⊂T` containing a nonzero integer, set `J[a]_Q=⋂_{t∈a}ker(t:J→J)`; write `𝒥[a]` for its schematic closure in `𝒥/ℤ`. This is finite flat over `ℤ[1/P]`, and over `ℤ` is separated quasi-finite flat of finite presentation. The notation never means the full kernel of the action on the bad Néron fibre. In particular define the Eisenstein kernel `J[I]`.
+For an ideal `a⊂T` containing a nonzero integer, set `J[a]_Q=⋂_{t∈a}ker(t:J→J)`; write `𝒥[a]` for its schematic closure in `𝒥/ℤ`. This is finite flat over `ℤ[1/P]`, and over `ℤ` is separated quasi-finite flat of finite presentation. The notation never means the full kernel of the action on the bad Néron fibre. In particular define the Eisenstein kernel `J[I]`.
 
 Use a finite generating set to form the generic finite intersection of kernels. Take the schematic closure, applying the quasi-finite flat model supplier. Compare closures and finite-flat formation over the good-reduction base.
 
 The API exposes the following operations and relations.
 
-- `idealKernel_mem`: A generic point lies in `J[a]` iff every element of `a` annihilates it.
-- `idealKernel_antitone`: `a⊂b` implies `J[b]⊂J[a]`.
-- `idealKernel_scalar`: For `a=(m)`, the generic fibre agrees with the usual `m`-torsion of the abelian variety.
-- `idealKernel_goodBaseChange`: Over `ℤ[1/P]` it is the simultaneous finite-flat kernel, with schematic closure agreeing with generic formation.
+- A generic point lies in `J[a]` iff every element of `a` annihilates it.
+- `a⊂b` implies `J[b]⊂J[a]`.
+- For `a=(m)`, the generic fibre agrees with the usual `m`-torsion of the abelian variety.
+- Over `ℤ[1/P]` it is the simultaneous finite-flat kernel, with schematic closure agreeing with generic formation.
 
 In II §§14–17, supplies finite-flat models of Eisenstein-primary Galois modules. In III §3, provides kernels for global fppf cohomology and Kummer descent.
 
 **Checks.**
 
-- `kernel_unit`: `J[T]=0`, in particular `J[I]=0` when `n=1`.
-- `kernel_cusps`: The inclusions `C,Σ⊂J[I]` respect their finite-flat models.
-- `kernel_scalar_rank`: At `P=11` the generic kernel `J[(5)]` is the usual `J[5]`, with rank 25 because `J₀(11)` has dimension 1. This is distinct from the cyclic rank 5 cuspidal subgroup.
+- `J[T]=0`, in particular `J[I]=0` when `n=1`.
+- The inclusions `C,Σ⊂J[I]` respect their finite-flat models.
+- At `P=11` the generic kernel `J[(5)]` is the usual `J[5]`, with rank 25 because `J₀(11)` has dimension 1. This is distinct from the cyclic rank 5 cuspidal subgroup.
 
 At `P` the full model can lose special-fibre length, measured by `δ` in the admissibility contract.
 
 *Source:* [Mazur1977] II §7, pp. 89–91; §14, pp. 112–116.
 
-*Needs:* `eisenstein_ideal`, `ModularCurvesPartII` §§13.1–13.4 and 17.3, `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §§R07.G1–R07.G2 for its admissible Eisenstein specializations, `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §R07.1.20, `NeronModelsAndSemistableAbelianVarieties` §1.2, `NeronModelsAndSemistableAbelianVarieties` §1.3, `NeronModelsAndSemistableAbelianVarieties` §1.9.
+*Needs:* §0.2, `ModularCurvesPartII` §§13.1–13.4 and 17.3, `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §§R07.G1–R07.G2 for its admissible Eisenstein specializations, `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §R07.1.20, `NeronModelsAndSemistableAbelianVarieties` §1.2, `NeronModelsAndSemistableAbelianVarieties` §1.3, `NeronModelsAndSemistableAbelianVarieties` §1.9.
 
 ### 2.2 Eisenstein maximal ideals and completion
 
-Define `eisenstein_local_data`. For each rational prime `ℓ` dividing `n` set `m_ℓ=(ℓ,I)⊂T` and `T_ℓ=lim_r T/m_ℓ^r`. Its residue field is `𝔽_ℓ`. The `m_ℓ`-primary torsion is `J[m_ℓ^∞]=colim_r J[m_ℓ^r]`, and its Tate module is the `m_ℓ` factor of the `ℓ`-adic Tate module of `J`. These maximal ideals are precisely the maximal ideals containing `I`, with no `ℓ=P`.
+For each rational prime `ℓ` dividing `n` set `m_ℓ=(ℓ,I)⊂T` and `T_ℓ=lim_r T/m_ℓ^r`. Its residue field is `𝔽_ℓ`. The `m_ℓ`-primary torsion is `J[m_ℓ^∞]=colim_r J[m_ℓ^r]`, and its Tate module is the `m_ℓ` factor of the `ℓ`-adic Tate module of `J`. These maximal ideals are precisely the maximal ideals containing `I`, with no `ℓ=P`.
 
 Use `T/I≅ℤ/n` to classify the maximal ideals over `I`. Import adic completion and idempotent decomposition of finite free `ℓ`-adic Hecke modules. Pass the decomposition through finite torsion and Tate modules.
 
 The API exposes the following operations and relations.
 
-- `eisensteinMax_residue`: `T/m_ℓ≅𝔽_ℓ`.
-- `eisensteinCompletion_primary`: The completed factor acts on the corresponding primary torsion and Tate module.
-- `eisensteinMax_classify`: `m` contains `I` iff `m=m_ℓ` for a unique `ℓ|n`.
-- `eisensteinMax_level_ne`: `ℓ≠P` for every Eisenstein maximal ideal.
+- `T/m_ℓ≅𝔽_ℓ`.
+- The completed factor acts on the corresponding primary torsion and Tate module.
+- `m` contains `I` iff `m=m_ℓ` for a unique `ℓ|n`.
+- `ℓ≠P` for every Eisenstein maximal ideal.
 
 In II §§14–18, indexes local multiplicity-one, Gorenstein and principality theorems. In III §3, localizes the rational Mordell–Weil module at its Eisenstein support.
 
 **Checks.**
 
-- `local_eleven`: At `P=11` there is exactly one Eisenstein maximal ideal, with residual prime 5.
-- `local_fortyone`: At `P=41`, `n=10` yields residual primes 2 and 5.
-- `local_thirteen`: At `P=13` there are no Eisenstein maximal ideals, rather than a spurious residual ideal at 13.
+- At `P=11` there is exactly one Eisenstein maximal ideal, with residual prime 5.
+- At `P=41`, `n=10` yields residual primes 2 and 5.
+- At `P=13` there are no Eisenstein maximal ideals, rather than a spurious residual ideal at 13.
 
 The construction ranges over every `ℓ|n`, including `ℓ=2` and `ℓ=3`.
 
 *Source:* [Mazur1977] II §§7,9–10, pp. 89–98.
 
-*Needs:* `hecke_duality_index`, `ideal_kernel`, `ModularCurvesPartII` §§13.4–13.6, 14.12–14.15 and 17.2, together with §§13.7–13.9.
+*Needs:* §0.4, §2.1, `ModularCurvesPartII` §§13.4–13.6, 14.12–14.15 and 17.2, together with §§13.7–13.9.
 
 ### 2.3 The Eisenstein quotient as an abelian variety
 
-Construct `eisenstein_quotient`. For an ideal `a⊂T` put `γ_a=ker(T→lim_r T/a^r)`. Let `B_a⊂J` be the connected abelian subvariety generated by the images `tJ` for `t∈γ_a`, and set `A_a=J/B_a` with its actual quotient morphism over `ℚ`. Define `A_Eis=A_I` and `A_ℓ=A_m_ℓ`. The construction is made using connected abelian images, not an fppf quotient by the finite group `J[I]`, and not `J/IJ`.
+For an ideal `a⊂T` put `γ_a=ker(T→lim_r T/a^r)`. Let `B_a⊂J` be the connected abelian subvariety generated by the images `tJ` for `t∈γ_a`, and set `A_a=J/B_a` with its actual quotient morphism over `ℚ`. Define `A_Eis=A_I` and `A_ℓ=A_m_ℓ`. The construction is made using connected abelian images, not an fppf quotient by the finite group `J[I]`, and not `J/IJ`.
 
-Import connected abelian images, finite sums and quotient representability from HeightsRationalPointsAndObstructions §1.0 and AbelianSchemesAndArithmeticModuli §§A6.3–A6.5. Construct `B_a` from a finite generating set of `γ_a`, independently of that choice. Use the quotient universal property to descend `T` and the comparison maps `A_I→A_m_ℓ`.
+Import connected abelian images, finite sums and quotient representability from HeightsRationalPointsAndObstructions §1.0 and AbelianSchemesAndArithmeticModuli §§A6.3–A6.5. Construct §2.3 from a finite generating set of `γ_a`, independently of that choice. Use the quotient universal property to descend `T` and the comparison maps `A_I→A_m_ℓ`.
 
 The API exposes the following operations and relations.
 
-- `eisensteinQuotient_projection`: The quotient map `q_a:J→A_a` has connected kernel `B_a`.
-- `eisensteinQuotient_lift`: A homomorphism `J→B` descends uniquely through `q_a` iff it kills `B_a`.
-- `eisensteinQuotient_hecke`: The `T`-action descends and `q_a` is `T`-equivariant.
-- `eisensteinQuotient_local`: For `ℓ|n` the canonical quotient `A_Eis→A_ℓ` is compatible with `J` and the local Hecke actions.
+- The quotient map `q_a:J→A_a` has connected kernel §2.3.
+- A homomorphism `J→B` descends uniquely through `q_a` iff it kills §2.3.
+- The `T`-action descends and `q_a` is `T`-equivariant.
+- For `ℓ|n` the canonical quotient `A_Eis→A_ℓ` is compatible with `J` and the local Hecke actions.
 
 In III 3.1–3.4, the finiteness theorem concerns `A_Eis(ℚ)`. In Mazur1978 §§3–4, an optimal quotient with finite rational points gives formal-immersion descent.
 
 **Checks.**
 
-- `quotient_empty_support`: For `n=1`, `I=T` and `A_Eis=0`.
-- `quotient_not_IJ`: Since `n∈I` and `[n]:J→J` is surjective, `IJ=J`; the construction `J/IJ` would always give zero and is invalid.
-- `quotient_scalar_ideal`: At `P=11` and `a=(5)`, the intersection of all a-powers in the torsion-free finite `ℤ`-algebra `T` is zero. Hence `q_a:J₀(11)→A_a` is an isomorphism; its rational group contains the nonzero cusp class of order 5.
+- For `n=1`, `I=T` and `A_Eis=0`.
+- Since `n∈I` and `[n]:J→J` is surjective, `IJ=J`; the construction `J/IJ` would always give zero and is invalid.
+- At `P=11` and `a=(5)`, the intersection of all a-powers in the torsion-free finite `ℤ`-algebra `T` is zero. Hence `q_a:J₀(11)→A_a` is an isomorphism; its rational group contains the nonzero cusp class of order 5.
 
 For `a=0` the completion is `T`, `γ_a=0` and `A_a=J`. For `a=T` the completion is zero, `γ_a=T` and `A_a=0`. These two cases fix which side of the support is retained. The target is a proper smooth connected group scheme over `ℚ` with a surjective homomorphism from `J`.
 
 *Source:* [Mazur1977] II §10, definitions 10.3–10.5, pp. 97–98.
 
-*Needs:* `eisenstein_local_data`, `HeightsRationalPointsAndObstructions` §1.0; `AbelianSchemesAndArithmeticModuli` §§A3.3 and A6.3–A6.5, `ModularCurvesPartII` §§16.1–16.8, `AlgebraicGeometry.AbelianVariety` from `TauCeti.AlgebraicGeometry.AbelianVariety.Basic`.
+*Needs:* §2.2, `HeightsRationalPointsAndObstructions` §1.0; `AbelianSchemesAndArithmeticModuli` §§A3.3 and A6.3–A6.5, `ModularCurvesPartII` §§16.1–16.8, `AlgebraicGeometry.AbelianVariety` from `TauCeti.AlgebraicGeometry.AbelianVariety.Basic`.
 
 ### 2.4 Support and good reduction of the quotient
 
-Prove `quotient_support`. The `Q`-simple isogeny factors of `A_a` are exactly the factors of `J` whose irreducible components of Spec `T` meet `V(a)`. `A_Eis` is generated up to isogeny by the finitely many `A_ℓ`, `ℓ|n`, and has good reduction away from `P`. For positive genus its nontriviality follows from the cuspidal image theorem in Layer 5; no such conclusion is assumed here.
+The `Q`-simple isogeny factors of `A_a` are exactly the factors of `J` whose irreducible components of Spec `T` meet `V(a)`. `A_Eis` is generated up to isogeny by the finitely many `A_ℓ`, `ℓ|n`, and has good reduction away from `P`. For positive genus its nontriviality follows from the cuspidal image theorem in Layer 5; no such conclusion is assumed here.
 
 Use the rational semisimple Hecke decomposition and the completed-support idempotents. Match retained factors with the connected quotient construction. Extend the quotient over the good-reduction base using the Néron–Ogg–Shafarevich supplier.
 
@@ -467,7 +473,7 @@ The global quotient retains the union of all Eisenstein supports, not a single r
 
 *Source:* [Mazur1977] II §10, pp. 97–98; III 3.4, pp. 150–151.
 
-*Needs:* `eisenstein_quotient`, `ModularForms` Layer 8, `ModularCurvesPartII` §§16.1–16.8, `NeronModelsAndSemistableAbelianVarieties` §5.2, `NeronModelsAndSemistableAbelianVarieties` §5.1.
+*Needs:* §2.3, `ModularForms` Layer 8, `ModularCurvesPartII` §§16.1–16.8, `NeronModelsAndSemistableAbelianVarieties` §5.2, `NeronModelsAndSemistableAbelianVarieties` §5.1.
 
 ### Examples
 
@@ -483,21 +489,25 @@ Identify Eisenstein residual constituents and their admissible integral models, 
 
 ### 3.1 Eisenstein residual constituents
 
-Prove `eisenstein_constituents`. Let `m` be a maximal ideal of `T` with residue characteristic `ℓ`. A one-dimensional constituent in the `m`-primary torsion of `J` exists exactly when `m` contains `I`. For `m=m_ℓ` the semisimple residual Galois representation has constituents 1 and `χ_ℓ`. The finite torsion `J[m_ℓ^r]` has an admissible integral model for every `r≥1`. This last assertion uses `ℓ|n`, hence `ℓ≠P`. At `ℓ=2` the generic characters coincide but their integral models remain distinct.
+Let `m` be a maximal ideal of `T` with residue characteristic `ℓ`. A one-dimensional constituent in the `m`-primary torsion of `J` exists exactly when `m` contains `I`. For `m=m_ℓ` the semisimple residual Galois representation has constituents 1 and `χ_ℓ`. The finite torsion `J[m_ℓ^r]` has an admissible integral model for every `r≥1`. This last assertion uses `ℓ|n`, hence `ℓ≠P`. At `ℓ=2` the generic characters coincide but their integral models remain distinct.
 
 For `ℓ≠P`, one-dimensional semistable inertia at `P` is trivial. The rank-one finite-flat classification at `ℓ` and absence of ramification elsewhere force character 1 or `χ_ℓ`. When `ℓ=P`, use instead the purely toric reduction of `J₀(P)` at `P`. Raynaud uniformization gives `0→T[P]→J[P]→Y/PY→0` with unramified toric character and period lattices. Thus its inertia constituents are `χ_P` and 1. Any global one-dimensional constituent `θ`, over the residue field of `m`, has one of those inertia restrictions. The character `θ` or `θχ_P⁻¹` is unramified at every finite prime; the absence of nontrivial everywhere-unramified extensions of `ℚ` makes it trivial. No prime-to-`P` monodromy assertion is applied to `J[P]`, and no finite-flat model of the whole `J[P]` over `ℤ_P` is asserted.
 
 In both cases Eichler–Shimura and Chebotarev force the good-prime Eisenstein values `T_l=1+l`. The wrong Fricke sign is excluded by [Mazur1977] II Lemma 5.10, including residual characteristic `P` and the exceptional characteristic 3 calculation. Conversely apply characteristic-polynomial Brauer–Nesbitt to the semisimplification of the self-dual sum, using Chebotarev to pass from Frobenius classes outside the finite bad set to every element of its finite Galois image. This gives constituents 1 and `χ_ℓ`; equal traces alone do not suffice in general residual characteristic. Global admissible prolongation gives their integral filtration. Since `P∤n`, the `ℓ=P` case concludes that no such one-dimensional constituent exists at all. For genus-zero `J` the criterion is empty because `T` has no maximal ideals.
 
-**Checks.** At `P=11`, `m₅` exists and its characters are 1 and `χ₅`; at coefficient prime 11 a one-dimensional constituent would force the impossible `11|n=5`. At `P=17` the `m₂` characters coincide generically, while the étale and multiplicative models differ. A rational invariant vector implies Eisenstein support, but a nontrivial stable character line need not be a rational point.
+**Checks.**
+
+- At `P=11`, `m₅` exists and its characters are 1 and `χ₅`; at coefficient prime 11 a one-dimensional constituent would force the impossible `11|n=5`.
+- At `P=17` the `m₂` characters coincide generically, while the étale and multiplicative models differ.
+- A rational invariant vector implies Eisenstein support, but a nontrivial stable character line need not be a rational point.
 
 *Source:* [Mazur1977] II Propositions 14.1–14.2, pp. 113–116, and Lemma 5.10, pp. 83–85; the coefficient-equals-level local step uses [FaltingsChai1990] III §7, Corollary 7.3, p. 77, and §8, pp. 77–78, specialized to the prime-level toric fibre.
 
-*Needs:* `ideal_kernel`, `eisenstein_local_data`, `integral_eisenstein_congruence`, ModularCurvesPartII §§11.1–11.4, 17.2 and 17.7; NeronModelsAndSemistableAbelianVarieties §§3.13–3.14; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.G1–R07.G4 and ClassFieldTheory Layer 13; `ArithmeticGaloisRepresentations` §1.8 (`ContinuousRep.iso_of_charpoly_eq`) for characteristic-polynomial Brauer–Nesbitt; pinned `NumberField.Chebotarev.infinite_frobeniusPrimeSet` in `TauCeti.NumberTheory.Chebotarev.Density.Chebotarev` for Frobenius classes outside the finite bad set.
+*Needs:* §2.1, §2.2, §0.3, ModularCurvesPartII §§11.1–11.4, 17.2 and 17.7; NeronModelsAndSemistableAbelianVarieties §§3.13–3.14; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.G1–R07.G4 and ClassFieldTheory Layer 13; `ArithmeticGaloisRepresentations` §1.8 (`ContinuousRep.iso_of_charpoly_eq`) for characteristic-polynomial Brauer–Nesbitt; pinned `NumberField.Chebotarev.infinite_frobeniusPrimeSet` in `TauCeti.NumberTheory.Chebotarev.Density.Chebotarev` for Frobenius classes outside the finite bad set.
 
 ### 3.2 Étale multiplicity at the residual prime
 
-Prove `etale_multiplicity`. For every `ℓ|n`, the Pontryagin dual of the étale `ℓ`-divisible special-fibre part of the `m_ℓ`-component of `J` at `ℓ` is free of rank one over `T_ℓ`. For `ℓ` odd, the étale part of `J[I]` in characteristic `ℓ` is exactly the corresponding cuspidal subgroup `C_ℓ`; the complementary quotient has multiplicative type.
+For every `ℓ|n`, the Pontryagin dual of the étale `ℓ`-divisible special-fibre part of the `m_ℓ`-component of `J` at `ℓ` is free of rank one over `T_ℓ`. For `ℓ` odd, the étale part of `J[I]` in characteristic `ℓ` is exactly the corresponding cuspidal subgroup `C_ℓ`; the complementary quotient has multiplicative type.
 
 Compare cotangent spaces of `J` with the integral `q`-expansion Hecke duality. Use the finite-flat connected/étale decomposition at `ℓ` and the admissible-model constancy criteria. Apply Nakayama to the dual of the divisible étale factor.
 
@@ -505,38 +515,38 @@ The rank-one statement concerns the étale half, not the entire rank-two Tate mo
 
 *Source:* [Mazur1977] II Corollary 14.8, p. 119; Proposition 14.9 and Corollaries 14.10–14.11, p. 120.
 
-*Needs:* `eisenstein_constituents`, `cuspidal_shimura_intersection`, `ModularCurvesPartII` §§13.4–13.6, 14.12–14.15 and 17.2, together with §§13.7–13.9, `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §§R07.G1–R07.G4, `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §R07.1.9.
+*Needs:* §3.1, §1.6, `ModularCurvesPartII` §§13.4–13.6, 14.12–14.15 and 17.2, together with §§13.7–13.9, `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §§R07.G1–R07.G4, `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §R07.1.9.
 
 ### 3.3 Good auxiliary primes
 
-Define `good_auxiliary_prime`. Let `ℓ|n` and `l≠P` be prime. Unless `l=ℓ=2`, say `l` is good if its class in `𝔽_P×` is not an `ℓ`-th power and `(l−1)/2` is nonzero modulo `ℓ`; for `ℓ` odd division by 2 is in `𝔽_ℓ`, so `l=2` is allowed. In the exceptional case `l=ℓ=2`, good means 2 is not a fourth power modulo `P`. Put `η_l=1+l−T_l∈I`.
+Let `ℓ|n` and `l≠P` be prime. Unless `l=ℓ=2`, say `l` is good if its class in `𝔽_P×` is not an `ℓ`-th power and `(l−1)/2` is nonzero modulo `ℓ`; for `ℓ` odd division by 2 is in `𝔽_ℓ`, so `l=2` is allowed. In the exceptional case `l=ℓ=2`, good means 2 is not a fourth power modulo `P`. Put `η_l=1+l−T_l∈I`.
 
 Define the two branches explicitly with the quartic-power test in the exceptional branch. Transport the good-prime condition to the finite cyclic group `𝔽_P×`. Relate `η_l` to the established Eisenstein generators.
 
 The API exposes the following operations and relations.
 
-- `goodPrime_ne_level`: A good auxiliary prime is different from `P`.
-- `goodPrime_odd`: For `ℓ` odd, goodness is the non-`ℓ`-power condition together with the nonzero half-difference in `𝔽_ℓ`.
-- `goodPrime_dyadic`: For `ℓ=2` and `l` odd the condition is `l≡3 mod 4` and `l` a nonsquare mod `P`; for `l=2` use the quartic condition.
-- `eta_mem_eisenstein`: `η_l∈I` and it acts through the existing integral Hecke operator `T_l`.
+- A good auxiliary prime is different from `P`.
+- For `ℓ` odd, goodness is the non-`ℓ`-power condition together with the nonzero half-difference in `𝔽_ℓ`.
+- For `ℓ=2` and `l` odd the condition is `l≡3 mod 4` and `l` a nonsquare mod `P`; for `l=2` use the quartic condition.
+- `η_l∈I` and it acts through the existing integral Hecke operator `T_l`.
 
 In II §§16–18, selects a generator `η_l` of the completed Eisenstein ideal. In II §17, controls the dyadic special-fibre saturation argument.
 
 **Checks.**
 
-- `good_eleven_two`: At `P=11`, `ℓ=5`, `l=2` is good: 2 is not a fifth power mod 11 and `1/2` is nonzero mod 5.
-- `bad_eleven_thirtyone`: At `P=11`, `ℓ=5`, `l=31` is not good because `(31−1)/2=15` vanishes mod 5.
-- `good_seventeen_two`: At `P=17`, `ℓ=2`, `l=2` is good: the fourth powers are {1,4,13,16}, which do not include 2, although 2 is a square.
+- At `P=11`, `ℓ=5`, `l=2` is good: 2 is not a fifth power mod 11 and `1/2` is nonzero mod 5.
+- At `P=11`, `ℓ=5`, `l=31` is not good because `(31−1)/2=15` vanishes mod 5.
+- At `P=17`, `ℓ=2`, `l=2` is good: the fourth powers are {1,4,13,16}, which do not include 2, although 2 is a square.
 
 The exceptional dyadic test is quartic nonresiduacity, not quadratic nonresiduacity.
 
 *Source:* [Mazur1977] II §16, definition and Proposition 16.1, pp. 124–125.
 
-*Needs:* `eisenstein_local_data`, `eisenstein_ideal`.
+*Needs:* §2.2, §0.2.
 
 ### 3.4 Existence of good auxiliary primes
 
-Prove `good_prime_existence`. For every `ℓ|n` there are infinitely many good auxiliary primes `l`. For `ℓ` odd, every such `l` satisfies `m_ℓ T_ℓ=(ℓ,η_l)`; `I T_ℓ=(η_l)`, `T_ℓ` is Gorenstein, and the `m_ℓ`-part of the Tate module is free of rank two over `T_ℓ`.
+For every `ℓ|n` there are infinitely many good auxiliary primes `l`. For `ℓ` odd, every such `l` satisfies `m_ℓ T_ℓ=(ℓ,η_l)`; `I T_ℓ=(η_l)`, `T_ℓ` is Gorenstein, and the `m_ℓ`-part of the Tate module is free of rank two over `T_ℓ`.
 
 Choose nonempty congruence conditions modulo `P` and `ℓ` (and modulo 4 in the dyadic branch) and use the prime-distribution supplier. For `ℓ` odd use purity and stability of the successive finite-flat saturation groups to identify the étale quotient killed by `η_l`. Use the rank-one dual and Nakayama to obtain ideal generators, then the multiplicity-one duality criterion for Gorensteinness and Tate freeness. For the multiplicity-one consequences use ordinary Weil duality as specified in [MazurWiles1984Errata]: the multiplicative and étale parts are Cartier dual under the Weil pairing. The étale rank-one statement therefore controls both halves.
 
@@ -544,11 +554,11 @@ The structural conclusions here are for `ℓ` odd; the existence assertion inclu
 
 *Source:* [Mazur1977] II Propositions 16.1,16.6, Corollaries 16.2–16.4, pp.124–128; §15 pp.120–124; corrected proof in Mazur–Wiles1984 §8.I.1 p.187; [MazurWiles1984Errata] §8.I, pp.187–188.
 
-*Needs:* `good_auxiliary_prime`, `etale_multiplicity`, `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §§R07.G1–R07.G6, `ModularForms` Layer 8, `Nat.forall_exists_prime_gt_and_modEq`.
+*Needs:* §3.3, §3.2, `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §§R07.G1–R07.G6, `ModularForms` Layer 8, `Nat.forall_exists_prime_gt_and_modEq`.
 
 ### 3.5 Odd Eisenstein kernel structure
 
-Prove `odd_eisenstein_kernel`. For odd `ℓ|n`, `J[m_ℓ]≅C[ℓ]⊕Σ[ℓ]` as finite-flat group schemes over `ℤ[1/P]`, with the compatible quasi-finite models over `ℤ`. More generally the `ℓ`-primary subgroup of `J[I]` is `C_ℓ⊕Σ_ℓ`. The generic dimension at `m_ℓ` is two over `𝔽_ℓ`.
+For odd `ℓ|n`, `J[m_ℓ]≅C[ℓ]⊕Σ[ℓ]` as finite-flat group schemes over `ℤ[1/P]`, with the compatible quasi-finite models over `ℤ`. More generally the `ℓ`-primary subgroup of `J[I]` is `C_ℓ⊕Σ_ℓ`. The generic dimension at `m_ℓ` is two over `𝔽_ℓ`.
 
 Combine rank-two multiplicity one with the disjoint constant and multiplicative subgroups. Use their exact lengths, from `n` and the completed congruence quotient, to prove equality rather than only inclusion. Compare the compatible integral closures.
 
@@ -556,7 +566,7 @@ For `ℓ=2` this direct-sum formula is not asserted.
 
 *Source:* [Mazur1977] II Corollaries 16.3–16.4, p.125, with proof pp.126–128; Mazur–Wiles1984 §8.I.1 p.187; [MazurWiles1984Errata] §8.I, pp.187–188.
 
-*Needs:* `good_prime_existence`, `cuspidal_shimura_intersection`, `ideal_kernel`.
+*Needs:* §3.4, §1.6, §2.1.
 
 ### Examples
 
@@ -572,38 +582,43 @@ Embed the exceptional finite-flat group `D` at dyadic Eisenstein primes, prove i
 
 ### 4.1 The winding element and homomorphism
 
-Construct `winding_homomorphism`. Let `H=H₁(X₀(P)(ℂ),ℤ)` and `σ` be complex conjugation. Lift the oriented path from `∞` to 0 through the Abel–Jacobi map based at `∞` to the universal real covering of `J(ℂ)`; its endpoint `e` lies in `H⁺⊗ℚ` and `n·e∈H⁺`. Since `I·e⊂H⁺`, multiplication by `e` defines a `T`-linear winding map `I→H⁺`. Complete at an Eisenstein maximal ideal, and use the canonical map `H⁺→H/(σ−1)H` to formulate the source’s factor-of-two normalization explicitly.
+Let `H=H₁(X₀(P)(ℂ),ℤ)` and `σ` be complex conjugation. Lift the oriented path from `∞` to 0 through the Abel–Jacobi map based at `∞` to the universal real covering of `J(ℂ)`; its endpoint `e` lies in `H⁺⊗ℚ` and `n·e∈H⁺`. Since `I·e⊂H⁺`, multiplication by `e` defines a `T`-linear winding map `I→H⁺`. Complete at an Eisenstein maximal ideal, and use the canonical map `H⁺→H/(σ−1)H` to formulate the source’s factor-of-two normalization explicitly.
 
 Import relative modular symbols, Betti realization and the Abel–Jacobi period comparison. Lift the path uniquely starting at zero; its endpoint maps to `c`, hence `n·e` is integral. Use `I·c=0` and reality to show `I·e⊂H⁺`; distinguish the invariant lattice from the invariant quotient before completion.
 
 The API exposes the following operations and relations.
 
-- `winding_endpoint`: The image of `e` in `J(ℂ)` equals `c`.
-- `winding_integral`: `n·e∈H⁺` and `I·e⊂H⁺`.
-- `windingHom_linear`: `t↦t·e` is `T`-linear on `I`.
-- `winding_invariants_quotient`: After homology freeness the canonical `H⁺→H/(σ−1)H` is twice a rank-one lattice isomorphism; at 2 one cannot identify it with an isomorphism.
+- The image of `e` in `J(ℂ)` equals `c`.
+- `n·e∈H⁺` and `I·e⊂H⁺`.
+- `t↦t·e` is `T`-linear on `I`.
+- After homology freeness the canonical `H⁺→H/(σ−1)H` is twice a rank-one lattice isomorphism; at 2 one cannot identify it with an isomorphism.
 
 In II 18.8–18.10, computes the cotangent direction and proves principality of the full local Eisenstein ideal. In Modular-symbol consumers, exports a normalized integral cusp path and its Hecke action.
 
 **Checks.**
 
-- `winding_sign`: Reversing the oriented path negates `e` and the winding map.
-- `winding_denominator`: At `P=11` the image `c` has exact order 5, so `5e` is integral and `e` is not integral.
-- `winding_dyadic_factor`: For `H=T_2[σ]`, invariants are generated by `1+σ` and the invariant quotient by the class of 1; the natural map sends `1+σ` to 2, not 1.
+- Reversing the oriented path negates `e` and the winding map.
+- At `P=11` the image `c` has exact order 5, so `5e` is integral and `e` is not integral.
+- For `H=T_2[σ]`, invariants are generated by `1+σ` and the invariant quotient by the class of 1; the natural map sends `1+σ` to 2, not 1.
 
 The orientation is `∞→0`. The map from invariants to the quotient is multiplication by 2 in a free `T_ℓ[σ]`-basis.
 
 *Source:* [Mazur1977] II §18, definition and Lemma 18.6, pp. 135–137.
 
-*Needs:* `cuspidal_order_model`, `eisenstein_local_data`, `ModularForms` Layer 8, `ModularCurvesPartII` §§13.4–13.6, 14.12–14.15 and 17.2, together with §§13.7–13.9.
+*Needs:* §1.4, §2.2, `ModularForms` Layer 8, `ModularCurvesPartII` §§13.4–13.6, 14.12–14.15 and 17.2, together with §§13.7–13.9.
 
 ### 4.2 The quadratic modular unit and its Fricke relation
 
-Prove `nebentypus_modular_unit`. Assume `P≡1 mod 8`, let `χ` be the Legendre character modulo `P`, and put `r=B₂,χ/4`, where `B₂,χ=P·Σ_{a=1}^{P−1}χ(a)B₂(a/P)` and `B₂(t)=t²−t+1/6`. Then `r` is an even integer. On the Nebentypus double cover `Y=X₀#(P)`, write `o,o′` for the two cusps above 0 and `z,z′` for those above `∞`, with deck involution `v`. There is a modular unit `f` over `ℚ` with divisor `r(o−o′)` and `v(f)=−1/f`; the class `o−o′` has exact order `r`. If `P≡9 mod 16`, let `A=(r/2)(o−o′)` and `B=(r/2)(z−z′)` as classes in `Jac(Y)`. Then `A` and `B` are nonzero order 2 classes and `A+B=0`. The last relation uses the corrected Siegel-function square identity, not the invalid divisor-class manipulation in the original proof.
+Assume `P≡1 mod 8`, let `χ` be the Legendre character modulo `P`, and put `r=B₂,χ/4`, where `B₂,χ=P·Σ_{a=1}^{P−1}χ(a)B₂(a/P)` and `B₂(t)=t²−t+1/6`. Then `r` is an even integer. On the Nebentypus double cover `Y=X₀#(P)`, write `o,o′` for the two cusps above 0 and `z,z′` for those above `∞`, with deck involution `v`. There is a modular unit `f` over `ℚ` with divisor `r(o−o′)` and `v(f)=−1/f`; the class `o−o′` has exact order `r`. If `P≡9 mod 16`, let `A=(r/2)(o−o′)` and `B=(r/2)(z−z′)` as classes in `Jac(Y)`. Then `A` and `B` are nonzero order 2 classes and `A+B=0`. The last relation uses the corrected Siegel-function square identity, not the invalid divisor-class manipulation in the original proof.
 
 Construct the level-specific quotient of products of Klein/Siegel functions and check its transformation and cusp orders. Evaluate its product at the two infinite cusps to obtain `v(f)=−1/f` and to show the divisor class is not killed by `r/2`. Prove 8 divides `B₂,χ` by the Legendre-symbol sum modulo 8. For `P≡9 mod 16`, pass to `X₁(P)`, where the relevant covering degree is odd, and prove `f·w(f)` is a square using the product identity over all nonzero `P`-torsion indices. This gives `A+B=0` and repairs the source argument.
 
-API: `quadraticBernoulli_sum`, `nebentypusCover_deck`, `quadraticUnit_divisor`, `quadraticUnit_deck`, `cuspDifference_exactOrder`, and `dyadicCuspClasses_equal`. The unit is fixed only up to a scalar compatible with the norm relation; a divisor alone does not fix that relation.
+The API supplies the following facts.
+
+- The quadratic Bernoulli sum gives the even integer `r` in the stated normalization.
+- The degree-two cover has the specified deck involution, and the modular unit has the stated divisor and deck transformation law.
+- The cusp-difference class has exact order `r`, with the stated equality of its dyadic cusp classes.
+ The unit is fixed only up to a scalar compatible with the norm relation; a divisor alone does not fix that relation.
 
 **Checks.**
 
@@ -619,34 +634,34 @@ The relation `A=B` is required to make the lifted group stable under Fricke; an 
 
 ### 4.3 The exceptional dyadic subgroup
 
-Construct `dyadic_embedding`. Assume `2|n`, equivalently `P≡1 mod 8`. Import the unique nontrivial finite-flat extension `D` over `ℤ`, killed by 2, of `ℤ/2` by `μ₂`; its generic splitting field is `Q(i)`. Construct a closed immersion `D→𝒥[m_2]`. If `P≡1 mod 16` use order-four points in `C+Σ`; if `P≡9 mod 16` use the Nebentypus double cover and the quadratic-character modular unit. The generic model is not the split constant two-dimensional `𝔽₂` representation.
+Assume `2|n`, equivalently `P≡1 mod 8`. Import the unique nontrivial finite-flat extension `D` over `ℤ`, killed by 2, of `ℤ/2` by `μ₂`; its generic splitting field is `Q(i)`. Construct a closed immersion `D→𝒥[m_2]`. If `P≡1 mod 16` use order-four points in `C+Σ`; if `P≡9 mod 16` use the Nebentypus double cover and the quadratic-character modular unit. The generic model is not the split constant two-dimensional `𝔽₂` representation.
 
 Use the supplier’s finite-flat `D`, including its nontrivial complex-conjugation action. In the first congruence class combine a rational order-four cusp point and an order-four cyclotomic point. In the `P≡9 mod 16` class use the quadratic modular unit and the corrected `A+B=0` relation from Mazur–Wiles1984, then lift the order 2 divisor class and identify its finite-flat closure with `D`.
 
 The API exposes the following operations and relations.
 
-- `dyadicSubgroup_mono`: The map `D→𝒥` is a closed immersion factoring through `J[m_2]`.
-- `dyadicSubgroup_mu`: Its `μ₂` subobject is the common subgroup `C∩Σ`.
-- `dyadicSubgroup_conjugation`: On a suitable generic `𝔽₂` basis complex conjugation is the nonidentity unipotent matrix.
-- `dyadicSubgroup_models`: The embedding respects the finite-flat model over `ℤ` and its characteristic-two connected/étale sequence.
+- The map `D→𝒥` is a closed immersion factoring through `J[m_2]`.
+- Its `μ₂` subobject is the common subgroup `C∩Σ`.
+- On a suitable generic `𝔽₂` basis complex conjugation is the nonidentity unipotent matrix.
+- The embedding respects the finite-flat model over `ℤ` and its characteristic-two connected/étale sequence.
 
 In II §§13,17, prevents the plus factor and identifies `J[m_2]`. In II §18, makes complex conjugation nonscalar even in residual characteristic 2.
 
 **Checks.**
 
-- `dyadic_seventeen`: At `P=17`, `n=4` and the order-four construction lies in `C+Σ`.
-- `dyadic_fortyone`: At `P=41`, `n=10` and the 2-primary part of `C+Σ` has rank 2, so rank 4 `D` cannot be contained in it.
-- `dyadic_not_split`: `D(𝔽₂)` has order 2 and complex conjugation acts nontrivially on `D(ℚ̄)`; a split constant rank 4 model fails both checks.
+- At `P=17`, `n=4` and the order-four construction lies in `C+Σ`.
+- At `P=41`, `n=10` and the 2-primary part of `C+Σ` has rank 2, so rank 4 `D` cannot be contained in it.
+- `D(𝔽₂)` has order 2 and complex conjugation acts nontrivially on `D(ℚ̄)`; a split constant rank 4 model fails both checks.
 
 Both `P mod 16` cases are covered; `P=41` is not reduced to the order-four construction.
 
 *Source:* [Mazur1977] II Proposition 12.2, Lemma 12.3 and the construction, pp. 103–108; I §4, pp. 58–60; [MazurWiles1984Errata] §8.I, pp.187–188.
 
-*Needs:* `cuspidal_shimura_intersection`, `ideal_kernel`, `nebentypus_modular_unit`, `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §§R07.G1 and R07.G7, `ModularCurvesPartII` §§3.1–3.7, 4.1–4.8 and 6.3, `ModularForms` Layer 0.
+*Needs:* §1.6, §2.1, §4.2, `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §§R07.G1 and R07.G7, `ModularCurvesPartII` §§3.1–3.7, 4.1–4.8 and 6.3, `ModularForms` Layer 0.
 
 ### 4.4 Separation from the plus subvariety
 
-Prove `dyadic_plus_separation`. When `2|n`, the subgroup `D_Q` has trivial intersection with `J_+=(1+w)J`. Consequently it embeds into the minus quotient `J^−=J/J_+`, and its étale characteristic-two part is not in the image of `1+w`. The plus subvariety and the plus eigenspace on 2-torsion are not identified.
+When `2|n`, the subgroup `D_Q` has trivial intersection with `J_+=(1+w)J`. Consequently it embeds into the minus quotient `J^−=J/J_+`, and its étale characteristic-two part is not in the image of `1+w`. The plus subvariety and the plus eigenspace on 2-torsion are not identified.
 
 Use the twisted dihedral action on the Nebentypus curve and its two conjugate involutions. Count fixed points to prove both double coverings in the relevant degree-four diagram ramify. Use injectivity of Picard pullback for ramified double covers to exclude the common `μ₂` from `J_+`; then the structure of `D` excludes every nontrivial intersection.
 
@@ -654,19 +669,19 @@ The proof does not divide `1+w` by 2.
 
 *Source:* [Mazur1977] II Lemma 13.8 and Corollaries 13.9–13.10, pp. 109–112.
 
-*Needs:* `dyadic_embedding`, `ModularCurvesPartII` §§3.1–3.7, 4.1–4.8 and 6.3, `ModularCurvesPartII` §§13.1–13.4 and 17.3.
+*Needs:* §4.3, `ModularCurvesPartII` §§3.1–3.7, 4.1–4.8 and 6.3, `ModularCurvesPartII` §§13.1–13.4 and 17.3.
 
 ### 4.5 Dyadic multiplicity one and the minus quotient
 
-Prove `dyadic_local_ring`. For `ℓ=2|n` and good `l`, `m_2 T_2=(2,η_l)`, `T_2` is Gorenstein, the `m_2` Tate module is free of rank two over `T_2`, and `J[m_2]=D`. For every `P` the global Eisenstein quotient `J→A_Eis` factors through `J^−=J/(1+w)J`, including the dyadic factors.
+For `ℓ=2|n` and good `l`, `m_2 T_2=(2,η_l)`, `T_2` is Gorenstein, the `m_2` Tate module is free of rank two over `T_2`, and `J[m_2]=D`. For every `P` the global Eisenstein quotient `J→A_Eis` factors through `J^−=J/(1+w)J`, including the dyadic factors.
 
-Import the finite-flat amalgam `M⊕_{μ₂}D` for an admissible multiplicative-type `M` containing `μ₂`, together with its characteristic-two connected/étale comparison. Prove the Hecke-dependent saturation here. With good `l≠2`, if `G⊂G′⊂J₂[η_l]` are admissible `T`-stable subgroups, `G` is such an amalgam, `G′/G` has order 2, and 2 kills the characteristic-two étale part of `G′`, prove `G′` is again such an amalgam. Use the Frobenius relation, §3.2'`s` rank-one étale bound and §4.4'`s` separation from the image of `1+w`; these hypotheses exclude the unwanted constant rank-four quotient. Induct through the `η_l`-torsion saturation, preserving the global Galois stability of the connected parts, and identify its étale special part as order 2. Apply Nakayama and the duality criterion for Gorensteinness; combine `D∩J_+=0` with the odd-primary separation to factor the full quotient.
+Import the finite-flat amalgam `M⊕_{μ₂}D` for an admissible multiplicative-type `M` containing `μ₂`, together with its characteristic-two connected/étale comparison. Prove the Hecke-dependent saturation here. With good `l≠2`, if `G⊂G′⊂J₂[η_l]` are admissible `T`-stable subgroups, `G` is such an amalgam, `G′/G` has order 2, and 2 kills the characteristic-two étale part of `G′`, prove `G′` is again such an amalgam. Use the Frobenius relation, §3.2’s rank-one étale bound and §4.4’s separation from the image of `1+w`; these hypotheses exclude the unwanted constant rank-four quotient. Induct through the `η_l`-torsion saturation, preserving the global Galois stability of the connected parts, and identify its étale special part as order 2. Apply Nakayama and the duality criterion for Gorensteinness; combine `D∩J_+=0` with the odd-primary separation to factor the full quotient.
 
 No odd-primary purity lemma is applied at 2. The formula `J[m_2]=D` is compatible with nonsplit complex conjugation.
 
 *Source:* [Mazur1977] II §17, Lemmas 17.5 and 17.7 (Hecke-stable saturation and iteration), pp. 131–133; Propositions 17.1 and 17.8, consequences (17.9), and Proposition 17.10, pp. 129–135.
 
-*Needs:* `dyadic_plus_separation`, `etale_multiplicity`, `good_auxiliary_prime`, `quotient_support`, `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §§R07.G1–R07.G2 and R07.G7–R07.G8.
+*Needs:* §4.4, §3.2, §3.3, §2.4, `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §§R07.G1–R07.G2 and R07.G7–R07.G8.
 
 **Checks.**
 
@@ -676,7 +691,7 @@ No odd-primary purity lemma is applied at 2. The formula `J[m_2]=D` is compatibl
 
 ### 4.6 Integral homology with complex conjugation
 
-Prove `homology_conjugation`. For every Eisenstein maximal ideal `m_ℓ`, the completed homology `H_ℓ` is free of rank one over `T_ℓ[σ]/(σ²−1)`. Hence its invariant lattice and invariant quotient are each free of rank one over `T_ℓ`. This includes `ℓ=2`, because `σ` acts nontrivially on `D`.
+For every Eisenstein maximal ideal `m_ℓ`, the completed homology `H_ℓ` is free of rank one over `T_ℓ[σ]/(σ²−1)`. Hence its invariant lattice and invariant quotient are each free of rank one over `T_ℓ`. This includes `ℓ=2`, because `σ` acts nontrivially on `D`.
 
 Use rank-two Tate/homology freeness and a nonscalar residual involution. For odd `ℓ` use the distinct constant and cyclotomic lines; at 2 use complex conjugation on `D`. Apply Nakayama to obtain the rank-one group-ring basis and compute the invariant maps.
 
@@ -684,11 +699,11 @@ A splitting into plus and minus summands is not claimed integrally at 2.
 
 *Source:* [Mazur1977] II Proposition 18.3, pp. 135–136.
 
-*Needs:* `good_prime_existence`, `dyadic_local_ring`, `winding_homomorphism`, `ModularCurvesPartII` §§13.4–13.6, 14.12–14.15 and 17.2, together with §§13.7–13.9.
+*Needs:* §3.4, §4.5, §4.1, `ModularCurvesPartII` §§13.4–13.6, 14.12–14.15 and 17.2, together with §§13.7–13.9.
 
 ### 4.7 The normalized winding congruence
 
-Prove `winding_congruence`. Put `H_co+=H/(σ−1)H`. After completion at the full Eisenstein ideal, define the normalized winding map `e⁺:I→H_co+` by twice `e⁺(t)` equal to the image of `t·e` from `H⁺`. Fix the sign in the identification `φ:U≅H_co+/I H_co+` with the Shimura deck quotient `U` of order `n`. For `η_l=1+l−T_l`, its reduction is `((l−1)/2)φ(l)`. For `l=2` at a dyadic Eisenstein factor, write `2=a²` modulo `P` and interpret this as `φ(a)`; the class is independent of the square-root sign. Hence `η_l` generates the completed Eisenstein ideal iff `l` is good, at every `ℓ|n`.
+Put `H_co+=H/(σ−1)H`. After completion at the full Eisenstein ideal, define the normalized winding map `e⁺:I→H_co+` by twice `e⁺(t)` equal to the image of `t·e` from `H⁺`. Fix the sign in the identification `φ:U≅H_co+/I H_co+` with the Shimura deck quotient `U` of order `n`. For `η_l=1+l−T_l`, its reduction is `((l−1)/2)φ(l)`. For `l=2` at a dyadic Eisenstein factor, write `2=a²` modulo `P` and interpret this as `φ(a)`; the class is independent of the square-root sign. Hence `η_l` generates the completed Eisenstein ideal iff `l` is good, at every `ℓ|n`.
 
 Identify the invariant homology quotient modulo `I` with the Shimura deck quotient, choosing the compatible cusp/path sign. Compute the image of modular symbols from their endpoints on the cover and sum the Hecke-translated fundamental paths. Use the factor-of-two normalization, retaining the square-root interpretation in the dyadic `l=2` case, then apply Nakayama and rational ranks.
 
@@ -696,11 +711,11 @@ The natural invariant-to-quotient map is twice the normalized isomorphism, inclu
 
 *Source:* [Mazur1977] II Lemma 18.7, Propositions 18.8–18.9 and Theorem 18.10, pp.137–139.
 
-*Needs:* `homology_conjugation`, `winding_homomorphism`, `good_auxiliary_prime`, `shimura_subgroup`, `ModularForms` Layer 8.
+*Needs:* §4.6, §4.1, §3.3, §1.5, `ModularForms` Layer 8.
 
 ### 4.8 Winding isomorphism and Eisenstein principality
 
-Prove `winding_principality`. For every `ℓ|n`, the completed winding map `I T_ℓ→H_ℓ⁺`, `t↦t·e`, is an isomorphism of rank-one `T_ℓ`-modules. Thus `I T_ℓ` is principal and is generated by `η_l` exactly for the good auxiliary primes `l`. In particular `T_ℓ/I T_ℓ≅ℤ_ℓ/nℤ_ℓ`; all residual primes and the full global Eisenstein ideal are represented.
+For every `ℓ|n`, the completed winding map `I T_ℓ→H_ℓ⁺`, `t↦t·e`, is an isomorphism of rank-one `T_ℓ`-modules. Thus `I T_ℓ` is principal and is generated by `η_l` exactly for the good auxiliary primes `l`. In particular `T_ℓ/I T_ℓ≅ℤ_ℓ/nℤ_ℓ`; all residual primes and the full global Eisenstein ideal are represented.
 
 Compare the winding map modulo the square of the maximal ideal with the modular-symbol computation of the discrete-logarithm character on `𝔽_P×`. For odd `ℓ` the coefficient of a good `η_l` is nonzero; at 2 use the source’s quadratic/quartic branch and the invariant-lattice normalization. Apply Nakayama to the rank-one homology target and prove the kernel vanishes using torsion-freeness and rational rank.
 
@@ -708,7 +723,7 @@ The isomorphism is with `H⁺`, not the unrescaled canonical invariant quotient 
 
 *Source:* [Mazur1977] II Propositions 18.8–18.9 and Theorem 18.10, pp. 137–139.
 
-*Needs:* `homology_conjugation`, `winding_homomorphism`, `dyadic_local_ring`, `good_prime_existence`, `winding_congruence`.
+*Needs:* §4.6, §4.1, §4.5, §3.4, §4.7.
 
 ### Examples
 
@@ -724,7 +739,7 @@ Prove Eisenstein support of rational torsion in arbitrary modular quotients, ide
 
 ### 5.1 Rational torsion in modular quotients
 
-Prove `quotient_torsion_support`. Let `A/ℚ` be any quotient abelian variety of `J₀(P)`. Every rational prime dividing `#A(ℚ)_tors` divides `n`. If the quotient is `T`-equivariant, `A(ℚ)_tors` is killed by a power of `I`. If `A` is `Q`-simple and `ℓ` divides its rational torsion order, the given `J→A` factors through `A_ℓ`. No assertion that arbitrary quotient torsion lifts rationally to `J` is used.
+Let `A/ℚ` be any quotient abelian variety of `J₀(P)`. Every rational prime dividing `#A(ℚ)_tors` divides `n`. If the quotient is `T`-equivariant, `A(ℚ)_tors` is killed by a power of `I`. If `A` is `Q`-simple and `ℓ` divides its rational torsion order, the given `J→A` factors through `A_ℓ`. No assertion that arbitrary quotient torsion lifts rationally to `J` is used.
 
 Lift finite geometric torsion far enough in the `ℓ`-divisible group, not in the group of rational points. A rational torsion point yields a trivial Jordan–Hölder constituent; identify its Eisenstein maximal ideal. Use the rational Hecke-support correspondence and connected quotient universal property for the simple-factor assertion.
 
@@ -732,11 +747,11 @@ This theorem applies to all quotient abelian varieties, not only optimal ellipti
 
 *Source:* [Mazur1977] III Lemma 1.1, pp. 141–142.
 
-*Needs:* `eisenstein_constituents`, `quotient_support`, `HeightsRationalPointsAndObstructions` §1.7.
+*Needs:* §3.1, §2.4, `HeightsRationalPointsAndObstructions` §1.7.
 
 ### 5.2 Ogg’s conjecture for rational torsion
 
-Prove `ogg_rational_torsion`. For every prime `P`, `J₀(P)(ℚ)_tors=C=⟨[0]−[∞]⟩≅ℤ/n`. In particular all rational torsion in the connected-component summand `M⁰` is zero. The equality includes the full 2-primary part and the genus-zero cases.
+For every prime `P`, `J₀(P)(ℚ)_tors=C=⟨[0]−[∞]⟩≅ℤ/n`. In particular all rational torsion in the connected-component summand `M⁰` is zero. The equality includes the full 2-primary part and the genus-zero cases.
 
 Use `M=M⁰⊕C` to split the known torsion subgroup. Any nonzero torsion in `M⁰` has an Eisenstein maximal submodule by the support theorem. Compare `C[m_ℓ]⊕M⁰[m_ℓ]` with the exact odd kernel or dyadic `D` and their component maps; conclude the second summand is zero.
 
@@ -744,11 +759,11 @@ At `P=17` the conclusion is `ℤ/4`, not only the prime-to-2 torsion.
 
 *Source:* [Mazur1977] III Theorem 1.2, p. 142.
 
-*Needs:* `rational_component_retraction`, `quotient_torsion_support`, `odd_eisenstein_kernel`, `dyadic_local_ring`.
+*Needs:* §1.7, §5.1, §3.5, §4.5.
 
 ### 5.3 Maximality of the Shimura subgroup
 
-Prove `shimura_maximality`. Over `ℤ[1/P]`, `Σ` is the maximal finite `μ`-type subgroup of `J`: if a finite subgroup `S` has constant Cartier dual and contains `Σ`, then `S=Σ`. Its integral extension over `ℤ` is compatible with this characterization. Multiplicative type with a nonconstant Cartier dual is not silently included.
+Over `ℤ[1/P]`, `Σ` is the maximal finite `μ`-type subgroup of `J`: if a finite subgroup `S` has constant Cartier dual and contains `Σ`, then `S=Σ`. Its integral extension over `ℤ` is compatible with this characterization. Multiplicative type with a nonconstant Cartier dual is not silently included.
 
 Extend `μ`-type subgroups to the Néron model and use specialization at `P` to split `Σ` as a direct summand. Use the residual constituent criterion on any complementary `μ`-type subgroup. Compare each possible Eisenstein residual subobject with the exact kernel calculation to rule out the complement.
 
@@ -756,11 +771,11 @@ The maximality statement is about finite subgroup schemes, not merely rational p
 
 *Source:* [Mazur1977] III Theorem 1.3, pp. 142–143.
 
-*Needs:* `cuspidal_shimura_intersection`, `odd_eisenstein_kernel`, `dyadic_local_ring`, `quotient_torsion_support`, `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §§R07.G1–R07.G6.
+*Needs:* §1.6, §3.5, §4.5, §5.1, `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §§R07.G1–R07.G6.
 
 ### 5.4 Cuspidal torsion in the Eisenstein quotient
 
-Prove `quotient_cuspidal_torsion`. The natural maps `C=J(ℚ)_tors→J^−(ℚ)_tors→A_Eis(ℚ)_tors` are isomorphisms. Thus `q(c)` has exact order `n` in `A_Eis(ℚ)`, and for `n>1` this quotient is nonzero. The plus subvariety `J_+=(1+w)J` has torsion-free rational Mordell–Weil group.
+The natural maps `C=J(ℚ)_tors→J^−(ℚ)_tors→A_Eis(ℚ)_tors` are isomorphisms. Thus `q(c)` has exact order `n` in `A_Eis(ℚ)`, and for `n>1` this quotient is nonzero. The plus subvariety `J_+=(1+w)J` has torsion-free rational Mordell–Weil group.
 
 Compare the full `I`-primary divisible groups under both quotient maps using separation from `J_+` and disjoint support of `γ_I`. Apply the rational torsion support theorem to ensure no other residual support contributes. Identify the induced rational torsion isomorphisms and infer nonzero dimension when `n>1`.
 
@@ -768,7 +783,7 @@ The exact order survives the actual quotient map; an isogeny-class dimension arg
 
 *Source:* [Mazur1977] III Corollaries 1.4–1.5, p. 143.
 
-*Needs:* `ogg_rational_torsion`, `dyadic_local_ring`, `eisenstein_quotient`, `quotient_torsion_support`.
+*Needs:* §5.2, §4.5, §2.3, §5.1.
 
 ### Examples
 
@@ -784,7 +799,7 @@ Apply the global admissible-group cohomology inequality to the connected Néron 
 
 ### 6.1 Bounded cohomology of connected Néron kernels
 
-Prove `bounded_global_cohomology`. Fix `ℓ|n`, put `d_ℓ=rank_ℤ_ℓ T_ℓ`, and let `G_m=(𝒥⁰[ℓ^m])_mell`, where `𝒥⁰` is the open identity-component Néron model. `G_m` is admissible, `δ(G_m)=m d_ℓ+O(1)` and `α(G_m)=m d_ℓ+O(1)`, with constants independent of `m`. The orders of `H¹_fppf(Spec ℤ,G_m)` are bounded as `m` varies. The defect `δ` is the difference of generic and characteristic-`P` `ℓ`-lengths; `α=log_ℓ #G_m(𝔽̄_ℓ)`, the geometric étale length. Likewise `δ` uses the geometric characteristic-`P` fibre. Rational special-fibre points would give the wrong invariant for a nontrivial unramified factor.
+Fix `ℓ|n`, put `d_ℓ=rank_ℤ_ℓ T_ℓ`, and let `G_m=(𝒥⁰[ℓ^m])_mell`, where `𝒥⁰` is the open identity-component Néron model. `G_m` is admissible, `δ(G_m)=m d_ℓ+O(1)` and `α(G_m)=m d_ℓ+O(1)`, with constants independent of `m`. The orders of `H¹_fppf(Spec ℤ,G_m)` are bounded as `m` varies. The defect `δ` is the difference of generic and characteristic-`P` `ℓ`-lengths; `α=log_ℓ #G_m(𝔽̄_ℓ)`, the geometric étale length. Likewise `δ` uses the geometric characteristic-`P` fibre. Rational special-fibre points would give the wrong invariant for a nontrivial unramified factor.
 
 Apply the supplier inequality `h¹−h⁰≤δ−α` for admissible groups over `Spec ℤ`, with `hᶦ=log_ℓ #Hᶦ_fppf`. Compute `δ` from the rank-one monodromy lattice at `P` and `α` from the rank-one ordinary étale factor at `ℓ`. Bound `h⁰` by the finite rational torsion group; the matching linear terms leave a uniform bound, including `ℓ=2`.
 
@@ -792,11 +807,11 @@ The cohomology is global fppf cohomology of the quasi-finite integral model; Gal
 
 *Source:* [Mazur1977] III Lemma 3.2, pp. 148–149; I Proposition 1.7, pp. 48–49; II §§8,14.
 
-*Needs:* `eisenstein_constituents`, `etale_multiplicity`, `dyadic_local_ring`, `rational_component_retraction`, `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §§R07.G1–R07.G3, `HeightsRationalPointsAndObstructions` §1.7, `NeronModelsAndSemistableAbelianVarieties` §3.5, `NeronModelsAndSemistableAbelianVarieties` §5.1.
+*Needs:* §3.1, §3.2, §4.5, §1.7, `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §§R07.G1–R07.G3, `HeightsRationalPointsAndObstructions` §1.7, `NeronModelsAndSemistableAbelianVarieties` §3.5, `NeronModelsAndSemistableAbelianVarieties` §5.1.
 
 ### 6.2 Finiteness at Eisenstein support
 
-Prove `localized_mordell_weil`. For `M=J(ℚ)` and every `ℓ|n`, `T_ℓ⊗_T` `M` is finite. The `m_ℓ`-primary part of the Tate–Shafarevich group of `J` is finite as well. The proof treats the global connected Néron sheaf and the finite component quotient separately.
+For `M=J(ℚ)` and every `ℓ|n`, `T_ℓ⊗_T` `M` is finite. The `m_ℓ`-primary part of the Tate–Shafarevich group of `J` is finite as well. The proof treats the global connected Néron sheaf and the finite component quotient separately.
 
 Use the fppf Kummer sequences on `𝒥⁰` over `Spec ℤ` and pass to `ℓ`-power direct limits and the `m_ℓ`-idempotent. The direct limit has bounded cardinality (a common bound on finite groups bounds their directed union of images), hence is finite; finite generation of `M` forces the localized rational free rank to vanish. Compare `H¹(Spec ℤ,𝒥⁰)` with locally trivial generic torsors, retaining the characteristic-two injection needed for the Tate–Shafarevich assertion.
 
@@ -804,11 +819,11 @@ No finiteness conjecture for the full Tate–Shafarevich group is assumed.
 
 *Source:* [Mazur1977] III Lemma 3.3, p. 149.
 
-*Needs:* `bounded_global_cohomology`, `rational_component_retraction`, `HeightsRationalPointsAndObstructions` §§1.1–1.4, `HeightsRationalPointsAndObstructions` §1.7, `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §§R07.G1–R07.G3, `NeronModelsAndSemistableAbelianVarieties` §§6.4a–6.4c.
+*Needs:* §6.1, §1.7, `HeightsRationalPointsAndObstructions` §§1.1–1.4, `HeightsRationalPointsAndObstructions` §1.7, `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §§R07.G1–R07.G3, `NeronModelsAndSemistableAbelianVarieties` §§6.4a–6.4c.
 
 ### 6.3 Vanishing of the Eisenstein quotient rank
 
-Prove `quotient_rank_zero`. If `a⊂T` has finite index and the completed a-support annihilates the free rational Mordell–Weil module of `J`, then `A_a(ℚ)` is finite. In particular `A_Eis(ℚ)` is finite for every prime `P`. The functor `B↦B(ℚ)⊗ℚ` is exact on abelian varieties over `ℚ`, so the connected ideal-supported quotient has exactly the corresponding rational support.
+If `a⊂T` has finite index and the completed a-support annihilates the free rational Mordell–Weil module of `J`, then `A_a(ℚ)` is finite. In particular `A_Eis(ℚ)` is finite for every prime `P`. The functor `B↦B(ℚ)⊗ℚ` is exact on abelian varieties over `ℚ`, so the connected ideal-supported quotient has exactly the corresponding rational support.
 
 Import exactness up to isogeny of rational points tensored with `Q` from the abelian-variety supplier; its obstruction is torsion `H¹`, not an asserted rational-point surjectivity. Write the connected image of `γ_a` by finitely many endomorphisms and identify the rational quotient module. Use finite generation and the rational Hecke-support decomposition to conclude zero free rank and finiteness.
 
@@ -816,11 +831,11 @@ Actual maps on `Q`-points need not be surjective before tensoring with `Q`.
 
 *Source:* [Mazur1977] III Lemma 3.4, Corollary 3.5 and proof of 3.1, pp. 149–150.
 
-*Needs:* `localized_mordell_weil`, `quotient_support`, `HeightsRationalPointsAndObstructions` §1.7, `HeightsRationalPointsAndObstructions` §1.0; `AbelianSchemesAndArithmeticModuli` §§A3.3 and A6.3–A6.5.
+*Needs:* §6.2, §2.4, `HeightsRationalPointsAndObstructions` §1.7, `HeightsRationalPointsAndObstructions` §1.0; `AbelianSchemesAndArithmeticModuli` §§A3.3 and A6.3–A6.5.
 
 ### 6.4 Rational points of the Eisenstein quotient
 
-Prove `eisenstein_rational_points`. For every prime `P`, the quotient map induces an isomorphism `C→A_Eis(ℚ)`; hence `A_Eis(ℚ)≅ℤ/n` with specified generator `q(c)`. This is a theorem about the rational points of the abelian variety `A_Eis`, not the finite Eisenstein kernel `J[I]`.
+For every prime `P`, the quotient map induces an isomorphism `C→A_Eis(ℚ)`; hence `A_Eis(ℚ)≅ℤ/n` with specified generator `q(c)`. This is a theorem about the rational points of the abelian variety `A_Eis`, not the finite Eisenstein kernel `J[I]`.
 
 Use finiteness to identify all rational points with rational torsion. Apply the exact torsion comparison already proved in Layer 5.
 
@@ -828,11 +843,11 @@ At `P=17` the image of `c` generates `ℤ/4`; at `P=13` both sides vanish.
 
 *Source:* [Mazur1977] III Theorem 3.1 and proof, pp. 148–150.
 
-*Needs:* `quotient_rank_zero`, `quotient_cuspidal_torsion`.
+*Needs:* §6.3, §5.4.
 
 ### 6.5 Odd Eisenstein Tate–Shafarevich vanishing
 
-Prove `eisenstein_sha_odd`. For an odd prime `ℓ|n`, the `m_ℓ`-primary part of the Tate–Shafarevich group of `J₀(P)` is zero. At `ℓ=2` the conclusion supplied here is finiteness, not vanishing.
+For an odd prime `ℓ|n`, the `m_ℓ`-primary part of the Tate–Shafarevich group of `J₀(P)` is zero. At `ℓ=2` the conclusion supplied here is finiteness, not vanishing.
 
 Take a good `η_l`-isogeny and discard support away from `m_ℓ`. Apply NeronModelsAndSemistableAbelianVarieties §6.4c to its full and connected Néron sheaf maps. Compute the localized full integral kernel as `C_ℓ⊕Σ_ℓ` and the cokernel as the characteristic-`P` component skyscraper, including the induced component map. Factor through the image sheaf before taking the two long exact cohomology sequences. The vanishing of the relevant global `H¹` and the component surjection make `η_l` injective on the primary Tate–Shafarevich group. By §6.2 that group is finite; because `η_l` generates the localized Eisenstein ideal, a power of `η_l` annihilates this finite `m_ℓ`-primary module. Injectivity of that power forces the module to be zero.
 
@@ -840,11 +855,11 @@ No dyadic vanishing assertion is inferred from odd purity. Injectivity on a fini
 
 *Source:* [Mazur1977] III Proposition 3.6, pp. 150–151.
 
-*Needs:* `localized_mordell_weil`, `winding_principality`, `odd_eisenstein_kernel`, `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §§R07.G1–R07.G6, `NeronModelsAndSemistableAbelianVarieties` §§6.4a–6.4c, `HeightsRationalPointsAndObstructions` §§1.1–1.4.
+*Needs:* §6.2, §4.8, §3.5, `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §§R07.G1–R07.G6, `NeronModelsAndSemistableAbelianVarieties` §§6.4a–6.4c, `HeightsRationalPointsAndObstructions` §§1.1–1.4.
 
 ### 6.6 Finiteness of positive-genus `X₀(P)(ℚ)`
 
-Prove `prime_modular_points_finite`. If `P∉{2,3,5,7,13}`, then `X₀(P)(ℚ)` is finite. The map `f:X₀(P)→A_Eis`, `x↦q([x]−[∞])`, is nonconstant and has finite fibres, while `A_Eis(ℚ)` is finite. For the five genus-zero prime levels this conclusion is not asserted.
+If `P∉{2,3,5,7,13}`, then `X₀(P)(ℚ)` is finite. The map `f:X₀(P)→A_Eis`, `x↦q([x]−[∞])`, is nonconstant and has finite fibres, while `A_Eis(ℚ)` is finite. For the five genus-zero prime levels this conclusion is not asserted.
 
 The image of the Abel–Jacobi curve generates `J` and therefore its nonzero quotient `A_Eis`. A nonconstant map from a proper integral curve to its image has finite fibres. Apply finiteness of `A_Eis(ℚ)` and take the union of the finite rational fibres.
 
@@ -852,7 +867,7 @@ This proof uses Eisenstein descent rather than importing Faltings to bypass it.
 
 *Source:* [Mazur1977] III Theorem 4.1 and proof, pp. 151–152.
 
-*Needs:* `eisenstein_rational_points`, `quotient_cuspidal_torsion`, `ModularCurvesPartII` §§13.1–13.4 and 17.3.
+*Needs:* §6.4, §5.4, `ModularCurvesPartII` §§13.1–13.4 and 17.3.
 
 ### Examples
 
@@ -868,7 +883,7 @@ Relate degenerating cyclic subgroups to the two cusps using generalized elliptic
 
 ### 7.1 Moduli meaning of the two prime-level cusps
 
-Prove `boundary_moduli`. Fix a DVR `R` with fraction field of characteristic 0 and residue characteristic `q≠P`. Let `E/Frac(R)` have multiplicative reduction, and let `H⊂E[P]` be a cyclic subgroup whose finite-flat closure is étale over `R`. After geometric base change and contraction to the generalized elliptic curve on which `H` is ample, the classifying point specializes to `∞` iff `H` specializes into the identity component; this is the 1-gon with `H=μ_P⊂G_m`. It specializes to 0 iff `H` has nonzero image in the component group; this is the `P`-gon with `H` projecting isomorphically to `ℤ/P`. These labels are fixed by the forgetful map `(E,H)↦j(E)`, which has cusp widths 1 at `∞` and `P` at 0.
+Fix a DVR `R` with fraction field of characteristic 0 and residue characteristic `q≠P`. Let `E/Frac(R)` have multiplicative reduction, and let `H⊂E[P]` be a cyclic subgroup whose finite-flat closure is étale over `R`. After geometric base change and contraction to the generalized elliptic curve on which `H` is ample, the classifying point specializes to `∞` iff `H` specializes into the identity component; this is the 1-gon with `H=μ_P⊂G_m`. It specializes to 0 iff `H` has nonzero image in the component group; this is the `P`-gon with `H` projecting isomorphically to `ℤ/P`. These labels are fixed by the forgetful map `(E,H)↦j(E)`, which has cusp widths 1 at `∞` and `P` at 0.
 
 Use the generalized elliptic curve, its smooth locus and the contraction attached to an ample cyclic subgroup. Apply the geometric classification of cusp level structures to distinguish identity and component directions. Match the two representatives with the Tate formal parameters and their widths for the fixed forgetful map.
 
@@ -880,7 +895,7 @@ This is a statement about the level subgroup, not merely about the sign of `v(j)
 
 ### 7.2 The cusp valuation rule as a corollary
 
-Prove `j_valuation_corollary`. Under the preceding multiplicative-reduction hypotheses, put `E′=E/H` and use the same normalized valuation. If `H` lies in the identity component, `v(j(E′))=P·v(j(E))` and the classifying section meets`∞`. If `H` projects nontrivially to components, `v(j(E′))=v(j(E))/P` and the section meets`0`. Both `j`-valuations are negative, so `v(j(E))<0` alone cannot distinguish the two cusps.
+Under the preceding multiplicative-reduction hypotheses, put `E′=E/H` and use the same normalized valuation. If `H` lies in the identity component, `v(j(E′))=P·v(j(E))` and the classifying section meets`∞`. If `H` projects nontrivially to components, `v(j(E′))=v(j(E))/P` and the section meets`0`. Both `j`-valuations are negative, so `v(j(E))<0` alone cannot distinguish the two cusps.
 
 Use Tate uniformization after the splitting extension. Compute the quotients by `μ_P` and by the component-direction subgroup, then descend the valuation equalities. Apply the already established moduli correspondence to identify the cusp, rather than defining it from a `j`-inequality.
 
@@ -888,11 +903,11 @@ The rule retains both `j`-invariants and the subgroup direction.
 
 *Source:* [DeligneRapoport1973] VII §§1.13–1.16 and 2.6–2.7, volume pp. 296–302.
 
-*Needs:* `boundary_moduli`, `ModularCurvesPartII` §§3.6–3.7 and 4.1–4.8, `EllipticCurves` Layer 4.
+*Needs:* §7.1, `ModularCurvesPartII` §§3.6–3.7 and 4.1–4.8, `EllipticCurves` Layer 4.
 
 ### 7.3 Semistability forced by a rational large-prime point
 
-Prove `elliptic_semistable_extension_bound`. Let `p≥5` be prime, `K/ℚ_p` a finite extension and `E/K` an elliptic curve. There is a finite extension `F/K` with relative ramification index `e(F/K)∈{1,2,3,4,6}` over which `E` has good or multiplicative reduction. The absolute index is `e(F/ℚ_p)=e(K/ℚ_p)·e(F/K)`; for `K=ℚ_p` it is at most 6.
+Let `p≥5` be prime, `K/ℚ_p` a finite extension and `E/K` an elliptic curve. There is a finite extension `F/K` with relative ramification index `e(F/K)∈{1,2,3,4,6}` over which `E` has good or multiplicative reduction. The absolute index is `e(F/ℚ_p)=e(K/ℚ_p)·e(F/K)`; for `K=ℚ_p` it is at most 6.
 
 Use `e=1` for an already semistable curve. In the potentially multiplicative case a quadratic extension gives multiplicative reduction. In the potentially good case, the tame Kodaira types have minimal discriminant valuation `δ∈{0,2,3,4,6,8,9,10}`. Take a tame extension of index `12/gcd(δ,12)` and scale the minimal equation to obtain unit discriminant. The Tate-algorithm valuations ensure that the scaled coefficients remain integral.
 
@@ -907,7 +922,7 @@ Use `e=1` for an already semistable curve. In the potentially multiplicative cas
 
 *Needs:* `EllipticCurves` Layer 4 for minimal equations, reduction and Tate's algorithm; `NeronModelsAndSemistableAbelianVarieties` §§6.5–6.6 for the equation-level/scheme-level comparison.
 
-Prove `torsion_semistability`. Let `P∉{2,3,5,7,13}` be prime and `E/ℚ` have a rational point of exact order `P`. Then `E` has good or multiplicative reduction at every prime. At additive reduction away from `P` the component group and connected additive fibre cannot contain this torsion. At `P`, `elliptic_semistable_extension_bound` over `ℚ_P` gives a semistable extension of ramification index at most 6, which rules out additive reduction by `e≤6<P−1` and finite-flat uniqueness.
+Let `P∉{2,3,5,7,13}` be prime and `E/ℚ` have a rational point of exact order `P`. Then `E` has good or multiplicative reduction at every prime. At additive reduction away from `P` the component group and connected additive fibre cannot contain this torsion. At `P`, §7.3 over `ℚ_P` gives a semistable extension of ramification index at most 6, which rules out additive reduction by `e≤6<P−1` and finite-flat uniqueness.
 
 Use extension of the rational torsion section and the component-group bounds for additive elliptic reduction. At the residual prime obtain semistable reduction over an extension with `e≤6`. Compare the constant order-`P` finite-flat model with the closure in the semistable model: an additive identity fibre would map trivially, contradicting full faithfulness under `e<P−1`.
 
@@ -915,11 +930,11 @@ Use extension of the rational torsion section and the component-group bounds for
 
 *Source:* [Mazur1977] III §5, Step 1, p. 158.
 
-*Needs:* `elliptic_semistable_extension_bound`; `EllipticCurves` Layers 2 and 4; `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §R07.1.30; `NeronModelsAndSemistableAbelianVarieties` §§2.6, 2.8 and 6.5–6.6.
+*Needs:* §7.3; `EllipticCurves` Layers 2 and 4; `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §R07.1.30; `NeronModelsAndSemistableAbelianVarieties` §§2.6, 2.8 and 6.5–6.6.
 
 ### 7.4 The reduction at 2 and 3
 
-Prove `torsion_small_reduction`. Under the same hypothetical rational `P`-torsion assumptions, `E` has multiplicative reduction at `q=2` and `q=3`, and the order-`P` subgroup is not contained in the identity component at either place. It is also outside the identity component if `E` has multiplicative reduction at `P`.
+Under the same hypothetical rational `P`-torsion assumptions, `E` has multiplicative reduction at `q=2` and `q=3`, and the order-`P` subgroup is not contained in the identity component at either place. It is also outside the identity component if `E` has multiplicative reduction at `P`.
 
 At 2 and 3, good reduction contradicts the Hasse bounds on the number of rational points. A split or nonsplit multiplicative identity component has at most `q+1` rational points; alternatively use its splitting quadratic extension and `q²−1`. At `q=P` use the finite-flat uniqueness of the constant rational `P`-torsion model to retain its nonzero reduction, while a one-dimensional torus over `𝔽_P` has no `P`-torsion.
 
@@ -927,11 +942,11 @@ Do not use full torsion injectivity at 2 for an arbitrary abelian variety. The `
 
 *Source:* [Mazur1977] III §5, Step 2, pp. 158–159; Step 3, p. 159.
 
-*Needs:* `torsion_semistability`, `EllipticCurves` Layer 3, `EllipticCurves` Layer 4, `HeightsRationalPointsAndObstructions` §1.18, `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §§R07.1.20 and R07.1.30; `NeronModelsAndSemistableAbelianVarieties` §2.6 (`EllipticFiltration`) and §§6.5–6.6 (`EquationGoodComparison`, `EquationMultiplicativeComparison`).
+*Needs:* §7.3, `EllipticCurves` Layer 3, `EllipticCurves` Layer 4, `HeightsRationalPointsAndObstructions` §1.18, `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §§R07.1.20 and R07.1.30; `NeronModelsAndSemistableAbelianVarieties` §2.6 (`EllipticFiltration`) and §§6.5–6.6 (`EquationGoodComparison`, `EquationMultiplicativeComparison`).
 
 ### 7.5 The global component-escape step
 
-Prove `global_component_escape`. For `E/ℚ` with a rational point of exact order prime `P∉{2,3,5,7,13}`, the subgroup `H` it generates is outside the identity component at every prime of multiplicative reduction. If it were inside at an odd prime `q≠P`, the section `x` of `X₀(P)` over `ℤ[1/2P]` would specialize to 0 at 3 and`∞` at `q`, by the level-subgroup moduli interpretation. Applying `f(x)=q_Eis([x]−[∞])` and injectivity on torsion at both odd places gives `f(x)=f(0)=f(∞)`, contradicting the exact order `n>1` of `f(0)−f(∞)`.
+For `E/ℚ` with a rational point of exact order prime `P∉{2,3,5,7,13}`, the subgroup `H` it generates is outside the identity component at every prime of multiplicative reduction. If it were inside at an odd prime `q≠P`, the section `x` of `X₀(P)` over `ℤ[1/2P]` would specialize to 0 at 3 and`∞` at `q`, by the level-subgroup moduli interpretation. Applying `f(x)=q_Eis([x]−[∞])` and injectivity on torsion at both odd places gives `f(x)=f(0)=f(∞)`, contradicting the exact order `n>1` of `f(0)−f(∞)`.
 
 Exclude `q=2,3,P` by the preceding local results, leaving `q≥5`. Extend the modular section and its image in the good-reduction abelian scheme `A_Eis` over `ℤ[1/2P]`. Use the moduli meaning of `H` at each cusp, then torsion injectivity at 3 and `q`. The two specializations are to different cusps and force their rational images to coincide, contrary to `n>1`.
 
@@ -939,11 +954,11 @@ Both moduli specialization and good-reduction torsion injectivity are essential 
 
 *Source:* [Mazur1977] III §5, Step 3, pp. 159–160; cusp labels corrected to II §1, p. 64.
 
-*Needs:* `boundary_moduli`, `torsion_small_reduction`, `eisenstein_rational_points`, `quotient_cuspidal_torsion`, `HeightsRationalPointsAndObstructions` §1.18, `NeronModelsAndSemistableAbelianVarieties` §1.2, `NeronModelsAndSemistableAbelianVarieties` §1.3, `NeronModelsAndSemistableAbelianVarieties` §1.9; `NeronModelsAndSemistableAbelianVarieties` §2.6 (`EllipticFiltration`) and §§6.5–6.6 (`EquationGoodComparison`, `EquationMultiplicativeComparison`).
+*Needs:* §7.1, §7.4, §6.4, §5.4, `HeightsRationalPointsAndObstructions` §1.18, `NeronModelsAndSemistableAbelianVarieties` §1.2, `NeronModelsAndSemistableAbelianVarieties` §1.3, `NeronModelsAndSemistableAbelianVarieties` §1.9; `NeronModelsAndSemistableAbelianVarieties` §2.6 (`EllipticFiltration`) and §§6.5–6.6 (`EquationGoodComparison`, `EquationMultiplicativeComparison`).
 
 ### 7.6 The division field of a rational prime-torsion point
 
-Prove `division_field_descent`. Under the same hypotheses let `K=ℚ(ζ_P)` and `L=ℚ(E[P])`. The exact sequence `0→𝔽_P→E[P]→μ_P→0` identifies `Gal(L/K)` with a subgroup of the additive `𝔽_P` and makes its conjugation character `χ_P⁻¹`. The sequence splits as a `G_ℚ`-module iff `L=K`. Using component escape, `L/K` is unramified at every finite place and at infinity.
+Under the same hypotheses let `K=ℚ(ζ_P)` and `L=ℚ(E[P])`. The exact sequence `0→𝔽_P→E[P]→μ_P→0` identifies `Gal(L/K)` with a subgroup of the additive `𝔽_P` and makes its conjugation character `χ_P⁻¹`. The sequence splits as a `G_ℚ`-module iff `L=K`. Using component escape, `L/K` is unramified at every finite place and at infinity.
 
 Use the Weil pairing and a basis beginning with the rational torsion point to obtain upper-triangular matrices with diagonal 1 and `χ_P`. Compute conjugation on `Hom(μ_P,𝔽_P)` to obtain `χ_P⁻¹`. At good primes away from `P` use finite étaleness; at good `P` use the ordinary connected/étale split forced by the constant subgroup; at multiplicative primes use its nonzero component image and Tate uniformization to split local `P`-torsion. `K` is totally imaginary.
 
@@ -951,11 +966,11 @@ The inverse character, rather than `χ_P`, is used in the class-group step.
 
 *Source:* [Mazur1977] III §5, equations 5.4 and Steps 3–4, pp. 157–160.
 
-*Needs:* `global_component_escape`, `torsion_semistability`, `EllipticCurves` Layer 2, `EllipticCurves` Layer 4, `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §§R07.1.20 and R07.1.30; `NeronModelsAndSemistableAbelianVarieties` §2.6 (`EllipticFiltration`) and §§6.5–6.6 (`EquationGoodComparison`, `EquationMultiplicativeComparison`).
+*Needs:* §7.5, §7.3, `EllipticCurves` Layer 2, `EllipticCurves` Layer 4, `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §§R07.1.20 and R07.1.30; `NeronModelsAndSemistableAbelianVarieties` §2.6 (`EllipticFiltration`) and §§6.5–6.6 (`EquationGoodComparison`, `EquationMultiplicativeComparison`).
 
 ### 7.7 The cyclotomic class-group obstruction
 
-Prove `cyclotomic_obstruction`. For the division extension `K=ℚ(ζ_P)⊂L=ℚ(E[P])` of the preceding hypothetical rational `P`-torsion point, `P∉{2,3,5,7,13}`, one has `L=K`. Equivariant unramified class-field reciprocity identifies its possible cyclic degree-`P` Galois group with a quotient of the `χ_P⁻¹` ideal-class eigenspace. CyclotomicClassGroupsAndStickelberger §§3.2 and 8.1–8.2 make that eigenspace zero using `B2=1/6`, so the division sequence splits over `ℚ`.
+For the division extension `K=ℚ(ζ_P)⊂L=ℚ(E[P])` of the preceding hypothetical rational `P`-torsion point, `P∉{2,3,5,7,13}`, one has `L=K`. Equivariant unramified class-field reciprocity identifies its possible cyclic degree-`P` Galois group with a quotient of the `χ_P⁻¹` ideal-class eigenspace. CyclotomicClassGroupsAndStickelberger §§3.2 and 8.1–8.2 make that eigenspace zero using `B2=1/6`, so the division sequence splits over `ℚ`.
 
 Use the preceding local descent to see that `L/K` is everywhere unramified, of degree at most `P`, with the inverse cyclotomic conjugation character. Import the equivariant class-field correspondence and inverse-character vanishing from CyclotomicClassGroupsAndStickelberger §§0.2–0.3, 3.2 and 8.1–8.2. Since the Bernoulli numerator is 1 at `B2`, the nontrivial degree-`P` alternative is excluded; conclude `L=K` and split the elliptic division sequence.
 
@@ -963,7 +978,7 @@ This does not assert the full class group is trivial or that `P` is regular.
 
 *Source:* [Mazur1977] I Proposition 2.8 and Corollaries 2.9–2.10, pp. 52–54; III §5, Third reduction, p. 158.
 
-*Needs:* `division_field_descent`, `ClassFieldTheory` Layer 13; `CyclotomicClassGroupsAndStickelberger` §§0.2–0.3, 3.2 and 8.1–8.2.
+*Needs:* §7.6, `ClassFieldTheory` Layer 13; `CyclotomicClassGroupsAndStickelberger` §§0.2–0.3, 3.2 and 8.1–8.2.
 
 ### 7.8 The split-torsion isogeny contradiction
 
@@ -975,29 +990,34 @@ This excludes rational points, not all rational cyclic isogenies of degree `P`.
 
 *Source:* [Mazur1977] III §5, Second reduction, pp. 157–158; Step 4, p. 160.
 
-*Needs:* `cyclotomic_obstruction`, `prime_modular_points_finite`, `EllipticCurves` Layer 1, `EllipticCurves` Layer 2.
+*Needs:* §7.7, §6.6, `EllipticCurves` Layer 1, `EllipticCurves` Layer 2.
 
 ### 7.9 Formal immersion at cusps
 
-Prove `formal_immersion` in the source's general level. Let `N≥1`, let `m` be the largest integer whose square divides `N`, and let `A` be a nonzero optimal quotient of the new part of `J₀(N)`. Over `S=Spec ℤ[1/m]`, let `X` be the minimal proper regular model of `X₀(N)_ℚ` and `X^sm` its relative smooth locus. The generic cusp-based map extends uniquely to `f_A:X^sm→𝒜`, where `𝒜/S` is the Néron model of `A`, by the Néron mapping property. This map is a formal immersion along the cusp `∞` in every residue characteristic other than 2, including primes `p` with `p∥N`, and at the characteristic-zero fibre. If the new part is zero, there is no such `A`.
+Prove formal immersion in the source's general level. Let `N≥1`, let `m` be the largest integer whose square divides `N`, and let `A` be a nonzero optimal quotient of the new part of `J₀(N)`. Over `S=Spec ℤ[1/m]`, let `X` be the minimal proper regular model of `X₀(N)_ℚ` and `X^sm` its relative smooth locus. The generic cusp-based map extends uniquely to `f_A:X^sm→𝒜`, where `𝒜/S` is the Néron model of `A`, by the Néron mapping property. This map is a formal immersion along the cusp `∞` in every residue characteristic other than 2, including primes `p` with `p∥N`, and at the characteristic-zero fibre. If the new part is zero, there is no such `A`.
 
-Prove `squarefree_cusp_difference_torsion`. For squarefree `N≥1` and any geometric cusps `c,c′` of `X₀(N)`, the class `[c]−[c′]` is torsion in `J₀(N)(ℚ̄)`. Its image under every homomorphism to an abelian quotient is therefore torsion.
+Prove geometric cuspidal-divisor torsion (Manin–Drinfeld). For every smooth projective congruence modular curve `X` over a number field `K` and every integral degree-zero divisor `D` on `X_K̄` supported on geometric cusps, the divisor class `[D]` is torsion in `Pic⁰(X)(K̄)`. For every homomorphism from `Pic⁰(X)_K̄` to an abelian variety over `K̄`, the image of `[D]` is torsion. This includes every `X₀(N)`, `N≥1`, without a squarefree hypothesis, and congruence Cartan quotients.
+
+Use the rational Drinfeld–Manin splitting of ModularSymbolsPadicLFunctions §§0.6–0.8 at a full level `M≥3`. Its polynomial construction from Hecke correspondences preserves the Hodge filtration. Combine it with the Jacobian period comparison to show that the Abel–Jacobi class of each cuspidal divisor has rational periods modulo the integral lattice. Clearing denominators kills that class. For a general congruence subgroup choose such a full level contained in it and descend by pullback and norm: `f_* f^* D=(deg f)D`, so torsion upstairs implies torsion downstairs. This gives a geometric torsion statement, with neither an integral splitting nor a uniform torsion order claimed.
+
+For squarefree `N` the following modular-unit calculation is a proof example.
 
 Use the modular units `u_d(z)=Δ(dz)/Δ(z)` for `d∣N`, `d>1`. Nonvanishing of `Δ` on the elliptic open puts their divisors on the cusps. Compare the analytic modular sections with algebraic sections and descend the ratios to rational functions. Label the squarefree cusps by `1/c`, `c∣N`, with `c=N` representing `∞`. The Tate charts give `ord_(1/c) Δ(dz)=N·gcd(c,d)²/(c·d)`. The matrix of these orders, including `d=1`, is the tensor product over `p∣N` of the invertible matrices `[[p,1],[1,p]]`. Its column sums are all `∏_(p∣N)(p+1)`, so subtracting the `d=1` column from each other column gives a basis over `ℚ` of the degree-zero cuspidal divisor space. Clearing denominators makes a positive multiple of each cusp difference principal.
 
 **Checks.**
 
 - At `N=1` there is one cusp and the degree-zero cuspidal divisor space is zero; the assertion includes this case.
+- At `N=4`, the genus is `1+6/12−3/2=0` and cusp differences have class zero. The orders of `Δ(4z)/Δ(z)` at `0,1/2,∞` are `(-3,0,3)`; the squarefree cusp-indexing formula is not used at this level.
 - At prime `N=11`, `div(u₁₁)=10[∞]−10[0]`. This proves torsion without claiming exact order 10; §1.4 gives exact order 5.
 - At `N=15`, in cusp order `0,1/3,1/5,∞`, the divisors of `u₃,u₅,u₁₅` have vectors `(-10,10,-2,2)`, `(-12,-4,12,4)` and `(-14,-2,2,14)`. They span the three-dimensional degree-zero space. In particular `[1/3]−[∞]` and its image in every abelian quotient are torsion.
 
-*Source:* [Elkik1990], unnumbered Théorème, p. 59, specialized to `Γ₀(N)`; the displayed squarefree modular-unit argument uses the cusp-width formulas of `ModularCurvesPartII` §§4.1–4.8.
+*Source:* [Elkik1990], unnumbered Théorème, p. 59, and §I, pp. 60–62, for the general congruence-subgroup theorem and its period interpretation; the displayed squarefree modular-unit argument uses the cusp-width formulas of `ModularCurvesPartII` §§4.1–4.8.
 
-*Needs:* pinned `CuspForm.discriminant` and `ModularForm.discriminant_ne_zero` (`Mathlib/NumberTheory/ModularForms/Discriminant.lean`); `ModularForms` Layer 10C and `ModularCurvesPartII` §7.1 for algebraic section comparison; `ModularCurvesPartII` §§4.1–4.8 and 5.2 for cusp charts and compactification, and §17.3 for the divisor/Jacobian comparison.
+*Needs:* ModularSymbolsPadicLFunctions §§0.6–0.8 for rational splitting; ModularCurvesPartII §§13.1–13.3 and 14.11–14.12 for Jacobian functoriality and period comparison; for the squarefree example, pinned `CuspForm.discriminant` and `ModularForm.discriminant_ne_zero` (`Mathlib/NumberTheory/ModularForms/Discriminant.lean`); `ModularForms` Layer 10C and `ModularCurvesPartII` §7.1 for algebraic section comparison; `ModularCurvesPartII` §§4.1–4.8 and 5.2 for cusp charts and compactification, and §17.3 for the divisor/Jacobian comparison.
 
-Prove `squarefree_atkinLehner_cusp_transport`. For squarefree `N≥1`, every exact-divisor involution `w_d` acts on the compactified local modular model at every odd residue prime `q`, including `q|N`, compatibly with its regular resolution and cusp charts and with base change to a local number-field integer ring. The action preserves the relative smooth locus `X^sm` used for `f_A`. On geometric cusps these actions are transitive: each cusp is carried to `∞` by a suitable `w_d`. Their generic fibres agree with `ModularCurvesPartII` §9.4's `atkinLehnerExact`.
+For squarefree `N≥1`, every exact-divisor involution `w_d` acts on the compactified local modular model at every odd residue prime `q`, including `q|N`, compatibly with its regular resolution and cusp charts and with base change to a local number-field integer ring. The action preserves the relative smooth locus `X^sm` used for `f_A`. On geometric cusps these actions are transitive: each cusp is carried to `∞` by a suitable `w_d`. Their generic fibres agree with `ModularCurvesPartII` §9.4's `atkinLehnerExact`.
 
-For `d=N≥2`, use the integral Fricke action on the normal compactification supplied by `ModularCurvesPartII` §9.8 as part of `gammaZeroPlus`. For `d=1`, use §9.4's supplied identity; this also covers `N=1`. Construct the additional proper exact-divisor actions by the isogeny and dual-kernel operations on generalized elliptic curves, with the necessary contractions, and extend them to the normal compactification. Compare all these actions with the Tate cusp charts of §4.1 and lift equivariantly to the regular model used for `X^sm`. At `q|N`, establish this integral comparison before transporting reductions. The induced action on a new optimal quotient extends to its Néron model by the mapping property. The identity `f_A(w_d x)=w_(d,A)f_A(x)+q_A([w_d∞]−[∞])`, for quotient map `q_A`, has torsion translation by `squarefree_cusp_difference_torsion` and holds on `X^sm` by uniqueness of Néron extension.
+For `d=N≥2`, use the integral Fricke action on the normal compactification supplied by `ModularCurvesPartII` §9.8 as part of `gammaZeroPlus`. For `d=1`, use §9.4's supplied identity; this also covers `N=1`. Construct the additional proper exact-divisor actions by the isogeny and dual-kernel operations on generalized elliptic curves, with the necessary contractions, and extend them to the normal compactification. Compare all these actions with the Tate cusp charts of §4.1 and lift equivariantly to the regular model used for `X^sm`. At `q|N`, establish this integral comparison before transporting reductions. The induced action on a new optimal quotient extends to its Néron model by the mapping property. The identity `f_A(w_d x)=w_(d,A)f_A(x)+q_A([w_d∞]−[∞])`, for quotient map `q_A`, has torsion translation by the geometric cuspidal-divisor torsion theorem of §7.9 and holds on `X^sm` by uniqueness of Néron extension.
 
 **Checks.**
 
@@ -1007,17 +1027,24 @@ For `d=N≥2`, use the integral Fricke action on the normal compactification sup
 
 *Source:* [Mazur1978] §4, proof of Corollary 4.3, pp. 144–145; the integral model comparison uses `ModularCurvesPartII` §§2–4, 9.4 and 9.8.
 
-*Needs:* `squarefree_cusp_difference_torsion`; `ModularCurvesPartII` §§2.1–2.7, 3.1–3.7, 4.1–4.8, 5.2–5.4, 9.4, 9.8, 11.1–11.4 and 16.1–16.8; `NeronModelsAndSemistableAbelianVarieties` §§1.2–1.3.
+*Needs:* the geometric cuspidal-divisor torsion theorem of §7.9; `ModularCurvesPartII` §§2.1–2.7, 3.1–3.7, 4.1–4.8, 5.2–5.4, 9.4, 9.8, 11.1–11.4 and 16.1–16.8; `NeronModelsAndSemistableAbelianVarieties` §§1.2–1.3.
 
-For the reduction corollary suppose `N` is squarefree, `K` is a number field, `x∈Y₀(N)(K)` represents `(E,C_N)`, and `f_A(x)` is torsion. At a finite place `v` of residue characteristic `q` with `e_v<q−1`, `E` has potentially good reduction. Use `squarefree_atkinLehner_cusp_transport` to move a proposed cuspidal reduction to `∞`, including at residue primes dividing `N`; its induced action on the quotient and a torsion cusp translation preserve the torsion condition. For nonsquarefree `N` the stated transitivity argument is not an available replacement for a cusp-by-cusp hypothesis.
+For the reduction corollary suppose `N` is squarefree, `K` is a number field, `x∈Y₀(N)(K)` represents `(E,C_N)`, and `f_A(x)` is torsion. At a finite place `v` of residue characteristic `q` with `e_v<q−1`, `E` has potentially good reduction. Use the integral Atkin–Lehner transport above to move a proposed cuspidal reduction to `∞`, including at residue primes dividing `N`; its induced action on the quotient and a torsion cusp translation preserve the torsion condition. For nonsquarefree `N` the stated transitivity argument is not an available replacement for a cusp-by-cusp hypothesis.
 
 Apply cotangent injectivity for the optimal quotient, the integral `q`-expansion pairing and the nonzero first-coefficient argument to prove formal immersion of `X^sm→𝒜`. If the modular point specializes to a cusp, its proper-model section lies in `X^sm`; the difference of its image under `f_A` from the cusp image is torsion and reduces to zero in the smooth Néron model. The formal identity chart and logarithm with `r=1`, valid because `e_v<q−1`, make that kernel torsion-free, so the difference is zero. Formal immersion then separates the two sections. The integral moduli interpretation identifies avoidance of cusps with potential good reduction.
 
-**Checks.** Prime `N=P` of positive genus and `A=A_Eis` recovers the exclusion at 3; the Hasse and additive-component bounds then contradict a rational `P≥11` point. At `q=2` and `e=1` the inequality is false, so this is not full dyadic torsion specialization. At `e=q−1` the multiplicative formal group contains the nonzero torsion point `ζ_q−1`; equality cannot replace the strict bound. For a Tate elliptic curve over `ℚ_q` with `q` odd, the formal kernel is `1+qℤ_q` and is torsion-free despite bad reduction. The dimension-zero chart has trivial kernel. For squarefree composite `N` the assertion includes all its cusps via the Atkin–Lehner action. At `p∥N` the cusp is smooth although the whole fibre need not be. For `N=11`, `A=J₀(11)`, the regular fibre at 11 is an `I₅` cycle: its smooth-locus Abel–Jacobi map is nonconstant on a component, whereas a map from the entire proper `ℙ¹` component to the Néron torus is constant. The domain `X^sm` retains this boundary case.
+**Checks.**
+
+- Prime `N=P` of positive genus and `A=A_Eis` recovers the exclusion at 3; the Hasse and additive-component bounds then contradict a rational `P≥11` point.
+- At `q=2` and `e=1` the inequality is false, so this is not full dyadic torsion specialization.
+- At `e=q−1` the multiplicative formal group contains the nonzero torsion point `ζ_q−1`; equality cannot replace the strict bound.
+- For a Tate elliptic curve over `ℚ_q` with `q` odd, the formal kernel is `1+qℤ_q` and is torsion-free despite bad reduction. The dimension-zero chart has trivial kernel.
+- For squarefree composite `N` the assertion includes all its cusps via the Atkin–Lehner action. At `p∥N` the cusp is smooth although the whole fibre need not be.
+- For `N=11`, `A=J₀(11)`, the regular fibre at 11 is an `I₅` cycle: its smooth-locus Abel–Jacobi map is nonconstant on a component, whereas a map from the entire proper `ℙ¹` component to the Néron torus is constant. The domain `X^sm` retains this boundary case.
 
 *Source:* [Mazur1978] §1(c), Specialization Lemma, p. 135; §2(d–e), pp. 140–141; §3 Proposition 3.1, pp. 142–143; §4 Corollaries 4.3–4.4, pp. 144–146.
 
-*Needs:* `squarefree_cusp_difference_torsion`, `squarefree_atkinLehner_cusp_transport`; ModularCurvesPartII §§4.1–4.8, 7.5–7.6, 9.4, 9.8, 16.1–16.8 and 17.3; ModularCurvesPartII §§13.7–13.9 and NeronModelsAndSemistableAbelianVarieties §§1.2–1.3 and 6.4d; HeightsRationalPointsAndObstructions §§1.15b–1.16; `eisenstein_rational_points` for the prime-level application.
+*Needs:* the geometric cuspidal-divisor torsion and integral Atkin–Lehner transport in this subsection; ModularCurvesPartII §§4.1–4.8, 7.5–7.6, 9.4, 9.8, 16.1–16.8 and 17.3; ModularCurvesPartII §§13.7–13.9 and NeronModelsAndSemistableAbelianVarieties §§1.2–1.3 and 6.4d; HeightsRationalPointsAndObstructions §§1.15b–1.16; §6.4 for the prime-level application.
 
 ### Examples
 
@@ -1025,17 +1052,17 @@ At `P=11` a putative rational point of order 11 forces incompatible cusp special
 
 ### Dependencies
 
-Layers 0–6; ModularCurvesPartII §§2–6 and 16–17; ModularCurvesPartII §§13.7–13.9 and NeronModelsAndSemistableAbelianVarieties §6.4d; EllipticCurves Layers 1–4; NeronModelsAndSemistableAbelianVarieties §2.8; HeightsRationalPointsAndObstructions §§1.15b–1.16 and 1.18; ClassFieldTheory Layer 13; CyclotomicClassGroupsAndStickelberger §§0.2–0.3, 3.2 and 8.1–8.2.
+Layers 0–6; ModularSymbolsPadicLFunctions §§0.6–0.8; ModularCurvesPartII §§2–6 and 16–17; ModularCurvesPartII §§13.7–13.9 and NeronModelsAndSemistableAbelianVarieties §6.4d; EllipticCurves Layers 1–4; NeronModelsAndSemistableAbelianVarieties §2.8; HeightsRationalPointsAndObstructions §§1.15b–1.16 and 1.18; ClassFieldTheory Layer 13; CyclotomicClassGroupsAndStickelberger §§0.2–0.3, 3.2 and 8.1–8.2.
 
 ## Layer 8: Level thirteen and all prime orders
 
 Treat the remaining genus-zero level 13 through the genus-two curve `X₁(13)`, its order 19 descent and the twisted diamond action. Give the occurring prime orders 2, 3, 5, 7 and the all-prime exclusion theorem. Export only the residual invariant-vector consequence that rational point torsion actually proves.
 
-### 8.1 The level-thirteen model and cusp hypotheses
+### 8.1 The level-thirteen model and cusp theorems
 
-For §§8.2–8.6, 8.8 and 8.9 assume the explicit data `level_thirteen_cusp_data` described in this subsection, with the specified model, moduli map, cusp embedding, principal divisors and reduction counts. In particular, for `X=X₁(13)` and `B=J₁(13)`, `genus X=2`, `B` has good reduction away from 13, and `X` has six `ℚ`-rational cusps and six further cusps over `ℚ(ζ₁₃)⁺`. With a rational cusp as Abel–Jacobi base, the rational cusps generate `T₁₉⊂B(ℚ)` of exact order 19; `B(ℚ)_tors=T₁₉` and the intersection of the geometric Abel–Jacobi curve with `T₁₉` consists exactly of the six rational cusp images. These data concern `X₁(13)`, not the genus-three split-Cartan curve of level 13. They include the exact rational torsion and geometric intersection assertions just stated; the following worked identities describe the data and their mathematical relation, rather than asking for a point computation.
+Construct the isomorphism `C→X₁(13)` over ℚ described below, including its moduli map, and prove the cusp, divisor, good-reduction and torsion assertions of this subsection. In particular, for `X=X₁(13)` and `B=J₁(13)`, `genus X=2`, `B` has good reduction away from 13, and `X` has six `ℚ`-rational cusps and six further cusps over `ℚ(ζ₁₃)⁺`. With a rational cusp as Abel–Jacobi base, the rational cusps generate `T₁₉⊂B(ℚ)` of exact order 19; `B(ℚ)_tors=T₁₉` and the intersection of the geometric Abel–Jacobi curve with `T₁₉` consists exactly of the six rational cusp images. These assertions concern `X₁(13)`, not the genus-three split-Cartan curve of level 13. Prove the exact rational torsion and geometric intersection assertions by the principal-divisor identities, reduction counts and degree-two divisor argument below.
 
-The model in the hypothesis is the smooth projective completion `C` of
+Define the model as the smooth projective completion `C` of
 
 ```text
 y² + (x³+x²+1)y = x²+x.
@@ -1047,7 +1074,7 @@ Its identification with `X₁(13)` includes the moduli map, not just a match of 
 (a₁,a₂,a₃,a₄,a₆)=(1+s−rs, rs−r²s, rs−r²s, 0, 0),
 ```
 
-with point `(0,0)`. The Tate normal-form group law gives exact order 13 on the noncuspidal open. In the usual coefficients `a₁=1−c`, `a₂=a₃=−b`, one has `b=rs(r−1)`, `c=s(r−1)`, so `r=b/c` and `s=c²/(b−c)`. The inverse coordinates are `y=(r−s)/(s−1)` and `x=(1−r)(s−1)/(r−s)` on their common dense open. These formulas identify the function fields with degree one, not just a correspondence between curves of the same genus. The assumed identification extends to the compactifications in the generalized elliptic curve boundary charts. The six rational cusps are `A=(0,0)`, `A′=(0,−1)`, `B₀=(−1,0)`, `B₀′=(−1,−1)`, `U` and `V` at infinity. Here `U` is the branch `y∼1/x` and `V` the branch `y∼−x³`. Do not confuse `B₀` with the Jacobian `B`. Both `x`-poles have order one. These coordinates and the modular model are recorded in [SutherlandModels], row 13, and [BruinDerickxStoll2021] §3, p. 3. The following divisor identities and degree-two argument describe its cusp data.
+with point `(0,0)`. The Tate normal-form group law gives exact order 13 on the noncuspidal open. In the usual coefficients `a₁=1−c`, `a₂=a₃=−b`, one has `b=rs(r−1)`, `c=s(r−1)`, so `r=b/c` and `s=c²/(b−c)`. The inverse coordinates are `y=(r−s)/(s−1)` and `x=(1−r)(s−1)/(r−s)` on their common dense open. These formulas identify the function fields with degree one, not just a correspondence between curves of the same genus. Prove that the inverse function-field maps extend to inverse morphisms of the smooth projective curves, and identify the boundary with the modular cusps using the generalized elliptic curve charts. The six rational cusps are `A=(0,0)`, `A′=(0,−1)`, `B₀=(−1,0)`, `B₀′=(−1,−1)`, `U` and `V` at infinity. Here `U` is the branch `y∼1/x` and `V` the branch `y∼−x³`. Do not confuse `B₀` with the Jacobian `B`. Both `x`-poles have order one. These coordinates and the modular model are recorded in [SutherlandModels], row 13, and [BruinDerickxStoll2021] §3, p. 3. The following divisor identities and degree-two argument describe its cusp data.
 
 Write `h=x³+x²+1` and use `V` as Abel–Jacobi base. Expansion at the six points gives
 
@@ -1068,7 +1095,7 @@ For example, substituting `y=−1` into the equation gives `−x(x+1)²`, and su
 
 Since `A≠V` and the degree-one Abel–Jacobi map of a positive-genus curve is injective, `t≠0`. Thus it has exact order 19. This proves the lower bound without a torsion-table citation.
 
-The point-count hypotheses on the displayed equation, including its two infinity points, are `#C(𝔽₂)=6`, `#C(𝔽₄)=6`, `#C(𝔽₃)=6` and `#C(𝔽₉)=8`. With `x=a+bt`, take `𝔽₄=𝔽₂[t]/(t²+t+1)` and `𝔽₉=𝔽₃[t]/(t²+1)`. In lexicographic (a,b) order, the numbers of affine `y`-solutions per `x` are respectively `(2,0,2,0)` and `(2,0,0,2,0,0,2,0,0)`; over the prime fields they are `(2,2)` and `(2,0,2)`. For odd residue characteristic the sextic `(x³+x²+1)²+4x²+4x` has discriminant `−2¹²·13²`, so is squarefree at 3. At 2 the affine singularity equations would require `h=0` and `x²y=1`; substituting into the equation forces `x²=0`, contradicting `h=0`. Smoothness at infinity follows from the chart `v=y/x³`, `u=1/x`, where `v²+(1+u+u³)v=u⁴+u⁵`. The genus-two point-count identity
+Prove the point counts on the displayed equation, including its two infinity points: `#C(𝔽₂)=6`, `#C(𝔽₄)=6`, `#C(𝔽₃)=6` and `#C(𝔽₉)=8`. With `x=a+bt`, take `𝔽₄=𝔽₂[t]/(t²+t+1)` and `𝔽₉=𝔽₃[t]/(t²+1)`. In lexicographic (a,b) order, the numbers of affine `y`-solutions per `x` are respectively `(2,0,2,0)` and `(2,0,0,2,0,0,2,0,0)`; over the prime fields they are `(2,2)` and `(2,0,2)`. For odd residue characteristic the sextic `(x³+x²+1)²+4x²+4x` has discriminant `−2¹²·13²`, so is squarefree at 3. At 2 the affine singularity equations would require `h=0` and `x²y=1`; substituting into the equation forces `x²=0`, contradicting `h=0`. Smoothness at infinity follows from the chart `v=y/x³`, `u=1/x`, where `v²+(1+u+u³)v=u⁴+u⁵`. The genus-two point-count identity
 
 ```text
 #B(𝔽_q) = (#C(𝔽_q)² + #C(𝔽_q²))/2 − q
@@ -1076,78 +1103,84 @@ The point-count hypotheses on the displayed equation, including its two infinity
 
 gives 19 at both 2 and 3. Specialize prime-to-2 torsion at 2 and prime-to-3 torsion at 3. Together these give `#B(ℚ)_tors≤19`, without asserting injection of full torsion at 2.
 
-For the geometric intersection worked check, the six cusps give 21 unordered effective degree-two divisors, allowing repetition. The three hyperelliptic pairs `A+A′`, `B₀+B₀′` and `U+V` are canonical and linearly equivalent. Every other divisor is the unique effective representative of its degree-two class: two distinct such representatives would define a second degree-two pencil, impossible on a genus-two curve. Thus these divisors give 19 distinct classes in `Pic²(C)`, all in the translate `2V+T₁₉`, hence all of it. If `[P−V]∈T₁₉` for a geometric point `P`, then `P+V` has one of these classes. In a noncanonical class uniqueness makes `P` a rational cusp; in the canonical class the conjugate of `V` is `U`, so `P=U`. This proves the whole geometric intersection, independently of rank zero.
+To prove the geometric intersection theorem, the six cusps give 21 unordered effective degree-two divisors, allowing repetition. The three hyperelliptic pairs `A+A′`, `B₀+B₀′` and `U+V` are canonical and linearly equivalent. Every other divisor is the unique effective representative of its degree-two class: two distinct such representatives would define a second degree-two pencil, impossible on a genus-two curve. Thus these divisors give 19 distinct classes in `Pic²(C)`, all in the translate `2V+T₁₉`, hence all of it. If `[P−V]∈T₁₉` for a geometric point `P`, then `P+V` has one of these classes. In a noncanonical class uniqueness makes `P` a rational cusp; in the canonical class the conjugate of `V` is `U`, so `P=U`. This proves the whole geometric intersection, independently of rank zero.
 
-The hypothesis includes the specified moduli map, the six cusp sections, the five principal divisors, the exact order-19 generator, the reduction counts, the rational torsion equality and the geometric curve intersection. The model map commutes with the chosen cusp embedding and diamond actions of §8.2. These fixed data are not additional theorem or construction targets.
+The model identification has the following API.
+
+- Its restriction to the noncuspidal open sends `(x,y)` to the displayed elliptic curve with its exact-order-13 point; the inverse rational formulas are inverse on their common domain.
+- It sends the six specified rational points to all rational cusp sections and the six remaining geometric cusps to their real cyclotomic orbit. With base point `V`, it induces `Pic⁰(C)≅J₁(13)` and sends `[P−V]` to the supplied cusp-based Abel–Jacobi image.
+- Transport of the modular diamond action through this identification agrees with its moduli action on the marked point. Thus the endomorphisms of §8.2 act on this same Jacobian and cusp subgroup.
+- The five principal divisors, exact order of `t`, finite-field counts, rational torsion equality and geometric intersection are proved facts about this identified model, available to the descent without additional assumptions.
 
 **Checks.**
 
+- On the noncuspidal model point `x=1`, `y²+3y−2=0`, the formulas give `(a₁,a₂,a₃)=(3/2−y/4,1−3y/2,1−3y/2)`. The discriminant is `(−41129070+73241675y)/2048≠0`; the inverse formulas recover `(1,y)`, and the marked point has `12Q=(0,−1+3y/2)=−Q` and `13Q=∞`, with all preceding multiples affine. This tests the moduli map, not merely the genus.
 - The six cusp residues relative to `V` are {0,1,3,12,14,15} in `ℤ/19`. The hyperelliptic pairs all sum to 15, since `1+14=3+12=0+15`.
 - The relation from `y−x` has a triple zero at `A` and a simple zero at `B₀′`; replacing either by its hyperelliptic conjugate destroys the order-19 relation.
 - The two point-count formulas give `(36+6)/2−2=19` and `(36+8)/2−3=19`. A single prime-to-2 injection leaves the 2-primary torsion unbounded; the second reduction is required.
 - Rank zero alone would not compute the curve intersection. The 21 effective divisors have precisely the three canonical representatives in one class and 18 unique noncanonical classes.
 
-*Source:* [MazurTate1973] §3, pp. 43–44, for the cusp data and good reduction; [SutherlandModels], level-13 data row; [BruinDerickxStoll2021] §3, p. 3, for the model and rational cusps. The displayed five principal divisors, finite counts and degree-two argument specify the assumed arithmetic data.
+*Source:* [MazurTate1973] §3, pp. 43–44, for the cusp data and good reduction; [SutherlandModels], level-13 data row; [BruinDerickxStoll2021] §3, p. 3, for the model and rational cusps. The displayed five principal divisors, finite counts and degree-two argument give proofs of the fixed arithmetic assertions.
 
 *Needs:* ModularCurves Layer 10 and ModularCurvesPartII §§3.1–3.7, 4.1–4.8, 13.1 and 17.3; JacobianChallenge Layers A–B and F (divisor classes, Riemann–Roch and Abel–Jacobi); HeightsRationalPointsAndObstructions §1.18.
 
 ### 8.2 Diamond endomorphisms at level thirteen
 
-Construct `level_thirteen_eisenstein_integers`, assuming §8.1’s model and cusp data. Let `γ` be the diamond operator induced by 2 modulo 13 on `B=J₁(13)`. The twisted dihedral involutions induce the relation `γ²−γ+1=0` in `End_ℚ(B)`, giving `O=ℤ[γ]≅ℤ[ζ₆]`. Choose the conjugate norm-19 primes `π,πbar` of `O` so that `πbar` annihilates `T₁₉`. Then `B[19]=B[π]⊕B[πbar]`, with each summand of `𝔽₁₉`-dimension 2; the twisted involutions exchange the summands. These `O`-primes are unrelated to the prime-level Eisenstein ideal `I` in `T(J₀(P))`.
+Construct the diamond endomorphism action, using the model and cusp theorems of §8.1. Let `γ` be the diamond operator induced by 2 modulo 13 on `B=J₁(13)`. The twisted dihedral involutions induce the relation `γ²−γ+1=0` in `End_ℚ(B)`, giving `O=ℤ[γ]≅ℤ[ζ₆]`. Choose the conjugate norm-19 primes `π,πbar` of `O` so that `πbar` annihilates `T₁₉`. Then `B[19]=B[π]⊕B[πbar]`, with each summand of `𝔽₁₉`-dimension 2; the twisted involutions exchange the summands. These `O`-primes are unrelated to the prime-level Eisenstein ideal `I` in `T(J₀(P))`.
 
 Import the diamond and twisted Fricke actions on `X₁(13)` and pass to its Jacobian. Use the order 19 rational cusp subgroup and good reduction at 2 with the elliptic Hasse bound to exclude elliptic `ℚ`-factors; obtain the cyclotomic minimal polynomial of `γ`. Factor 19 in `O` and choose the labeling by the action on `T₁₉`, then form the two idempotent torsion factors.
 
 The API exposes the following operations and relations.
 
-- `diamond13_relation`: `γ²−γ+1=0` and `γ` has exact order 6.
-- `norm19_factorization`: `ππbar=19` and `O/(π)≅O/(πbar)≅𝔽₁₉`.
-- `torsion19_split`: The two distinct prime factors yield the direct-sum decomposition of `B[19]`.
-- `twistedDiamond_galois`: For `σ∈G_ℚ`, `σ(τ_ζ)=γ_σ` `τ_ζ`; this compatibility determines the nonconstant line in `B[π]`.
+- `γ²−γ+1=0` and `γ` has exact order 6.
+- `ππbar=19` and `O/(π)≅O/(πbar)≅𝔽₁₉`.
+- The two distinct prime factors yield the direct-sum decomposition of `B[19]`.
+- For `σ∈G_ℚ`, `σ(τ_ζ)=γ_σ` `τ_ζ`; this compatibility determines the nonconstant line in `B[π]`.
 
 In §§3–4, defines the isogeny and the character-valued subgroup in its kernel. In the order-thirteen exclusion, this allows a rank-zero conclusion from `π`-surjectivity on a finite `O`-module.
 
 **Checks.**
 
-- `diamond_not_order_three`: `γ` satisfies `x²−x+1`, not `x²+x+1` with the same chosen generator 2.
-- `norm19_example`: In `O`, `Norm(3+2γ)=19`, with conjugate `5−2γ`.
-- `torsion19_dimensions`: `B[19]` has `𝔽₁₉`-dimension 4, while each `π` factor has dimension 2, not 1.
+- `γ` satisfies `x²−x+1`, not `x²+x+1` with the same chosen generator 2.
+- In `O`, `Norm(3+2γ)=19`, with conjugate `5−2γ`.
+- `B[19]` has `𝔽₁₉`-dimension 4, while each `π` factor has dimension 2, not 1.
 
 The order `O` is commutative, while the full twisted-dihedral operator algebra need not be.
 
 *Source:* [MazurTate1973] §3, pp. 44–45, using the twisted actions of §2, pp. 41–43.
 
-*Needs:* `level_thirteen_cusp_data`, `ModularCurvesPartII` §§3.1–3.7, 4.1–4.8 and 6.3, `ModularCurvesPartII` §§13.1–13.4 and 17.3, `EllipticCurves` Layer 3.
+*Needs:* §8.1, `ModularCurvesPartII` §§3.1–3.7, 4.1–4.8 and 6.3, `ModularCurvesPartII` §§13.1–13.4 and 17.3, `EllipticCurves` Layer 3.
 
 ### 8.3 The finite-flat norm-nineteen kernel
 
-Construct `level_thirteen_flat_kernel`, assuming §8.1’s model and cusp data. Over `S₁₃=Spec ℤ[1/13]`, let `𝓑` be the abelian scheme of `B` and `F=ker(π:𝓑→𝓑)`. Then `F` is finite flat of rank `19²` and fits into `0→E_γ→F→μ₁₉→0`. The rank 19 étale group `E_γ` has generic character `γ:G_ℚ→(O/(π))×` determined by the diamond action, has order 6 and splits over `ℚ(ζ₁₃)`; use its canonical finite étale model over `S₁₃`. The quotient is `μ₁₉` by the Weil pairing.
+Construct the finite-flat norm-19 kernel, using the model and cusp theorems of §8.1. Over `S₁₃=Spec ℤ[1/13]`, let `𝓑` be the abelian scheme of `B` and `F=ker(π:𝓑→𝓑)`. Then `F` is finite flat of rank `19²` and fits into `0→E_γ→F→μ₁₉→0`. The rank 19 étale group `E_γ` has generic character `γ:G_ℚ→(O/(π))×` determined by the diamond action, has order 6 and splits over `ℚ(ζ₁₃)`; use its canonical finite étale model over `S₁₃`. The quotient is `μ₁₉` by the Weil pairing.
 
 Use the `O`-action to construct the `π`-isogeny and its rank `19²` kernel. Apply the twisted involution to `T₁₉` to get the `γ`-line and use the polarization to identify the quotient character. The `π` and `πbar` factors are isotropic for the Weil pairing and Cartier dual to one another: their diamond eigenvalues have squares different from 1. Dualizing the constant line in the `πbar` factor yields the `μ₁₉` quotient in the `π` factor. Extend over `S₁₃` by finite-flat uniqueness at 19 `(e=1<18)` and finite étaleness elsewhere.
 
 The API exposes the following operations and relations.
 
-- `kernel19_exact`: `F` has subobject `E_γ` and quotient `μ₁₉` in the finite-flat fppf category.
-- `kernel19_rank`: `rank F=19²` and `ππbar=[19]`.
-- `kernel19_kummer`: The isogeny Kummer map uses exactly `F`, agreeing with the generic Galois module after base change to `Q`.
-- `character19_split`: `E_γ` becomes constant over `Spec ℤ[ζ₁₃,1/13]`, with its explicit order 6 descent action.
+- `F` has subobject `E_γ` and quotient `μ₁₉` in the finite-flat fppf category.
+- `rank F=19²` and `ππbar=[19]`.
+- The isogeny Kummer map uses exactly `F`, agreeing with the generic Galois module after base change to `Q`.
+- `E_γ` becomes constant over `Spec ℤ[ζ₁₃,1/13]`, with its explicit order 6 descent action.
 
 In §4, pp. 46–48, the global and local Kummer diagram computes `B(ℚ)/πB(ℚ)`.
 
 **Checks.**
 
-- `kernel19_nonconstant`: `E_γ` has nontrivial inertia character at 13, so it has no `ℚ₁₃` invariants.
-- `kernel19_no_local_roots`: `μ₁₉(ℚ₁₃)` is trivial since 13 is not 1 modulo 19.
-- `kernel19_local_points`: `F(ℚ₁₃)=0` follows from the vanishing of invariants in both constituents, not from an assertion that `F` is zero.
+- `E_γ` has nontrivial inertia character at 13, so it has no `ℚ₁₃` invariants.
+- `μ₁₉(ℚ₁₃)` is trivial since 13 is not 1 modulo 19.
+- `F(ℚ₁₃)=0` follows from the vanishing of invariants in both constituents, not from an assertion that `F` is zero.
 
 The `γ`-line is not a constant rational order 19 subgroup.
 
 *Source:* [MazurTate1973] §3, Corollary, p. 45 (generic sequence); §4, pp. 46–47, especially the Lemma on p. 47 (finite-flat sequence).
 
-*Needs:* `level_thirteen_eisenstein_integers`, `ModularCurvesPartII` §§13.4–13.6, 14.12–14.15 and 17.2, together with §§13.7–13.9, `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §R07.1.20, `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §R07.1.2, `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §R07.1.30.
+*Needs:* §8.2, `ModularCurvesPartII` §§13.4–13.6, 14.12–14.15 and 17.2, together with §§13.7–13.9, `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §R07.1.20, `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §R07.1.2, `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §R07.1.30.
 
 ### 8.4 Surjectivity of the local `π`-isogeny
 
-Prove `level_thirteen_local_surjectivity` under §8.1’s model and cusp hypotheses. The map `π:B(ℚ₁₃)→B(ℚ₁₃)` is surjective. On the formal pro-13 subgroup it is an automorphism because `Norm π=19`. Its kernel on `B(ℚ₁₃)` is zero, since `E_γ(ℚ₁₃)=μ₁₉(ℚ₁₃)=0`; the induced map on the finite quotient is therefore bijective.
+Prove local surjectivity using §8.1’s model and cusp theorems. The map `π:B(ℚ₁₃)→B(ℚ₁₃)` is surjective. On the formal pro-13 subgroup it is an automorphism because `Norm π=19`. Its kernel on `B(ℚ₁₃)` is zero, since `E_γ(ℚ₁₃)=μ₁₉(ℚ₁₃)=0`; the induced map on the finite quotient is therefore bijective.
 
 Choose a small formal subgroup of the Néron group; `π` has inverse `πbar/19` on it. Use the two kernel constituents to prove zero local kernel. Pass to the finite quotient, where injectivity implies surjectivity, and lift using the formal inverse.
 
@@ -1155,15 +1188,15 @@ The proof uses the finite quotient and the formal group; an injective map of an 
 
 *Source:* [MazurTate1973] §4, pp. 46–47.
 
-*Needs:* `level_thirteen_flat_kernel`, `NeronModelsAndSemistableAbelianVarieties` §§1.2–1.3 and 1.11; `HeightsRationalPointsAndObstructions` §§1.15a–1.16; `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §R07.1.12.
+*Needs:* §8.3, `NeronModelsAndSemistableAbelianVarieties` §§1.2–1.3 and 1.11; `HeightsRationalPointsAndObstructions` §§1.15a–1.16; `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §R07.1.12.
 
-### 8.5 The level-thirteen cohomology calculation
+### 8.5 The cyclotomic class number and level-thirteen cohomology
 
-Assume §8.1’s model and cusp data and `hClass13 : NumberField.classNumber (CyclotomicField 13 ℚ) = 1`. Prove `level_thirteen_global_cohomology`. For `S₁₃=Spec ℤ[1/13]`, `H¹(S₁₃,E_γ)=0` and `H¹(S₁₃,μ₁₉)→H¹(ℚ₁₃,μ₁₉)` is injective. With `H⁰(ℚ₁₃,μ₁₉)=0`, the exact-sequence diagram gives an injection `H¹(S₁₃,F)→H¹(ℚ₁₃,F)`.
+Prove `cyclotomic_thirteen_class_number`: `NumberField.classNumber (CyclotomicField 13 ℚ) = 1`, by the ideal-norm argument below. Using this theorem and §8.1, prove the global cohomology calculation. For `S₁₃=Spec ℤ[1/13]`, `H¹(S₁₃,E_γ)=0` and `H¹(S₁₃,μ₁₉)→H¹(ℚ₁₃,μ₁₉)` is injective. With `H⁰(ℚ₁₃,μ₁₉)=0`, the exact-sequence diagram gives an injection `H¹(S₁₃,F)→H¹(ℚ₁₃,F)`.
 
-Split `E_γ` over the degree-12 étale cover `Spec ℤ[ζ₁₃,1/13]`, using that 12 is invertible modulo 19. Constant order-19 torsors there correspond to abelian extensions unramified away from 13. The local principal units at 13 are 19-divisible, and the residue unit group has order 12, so there is no order-19 inertia quotient. The ideal class group has no 19-part by `hClass13`. Descent and averaging over the degree-12 group give `H¹(S₁₃,E_γ)=0`. Separately the fppf Kummer sequence, units `±13^ℤ` and `Pic(ℤ[1/13])=0` give `H¹(S₁₃,μ₁₉)=ℤ/19`, whose generator 13 is detected by the valuation at 13. The vanishing of local `H⁰(μ₁₉)` removes the connecting ambiguity in passing from the two constituents to `F`.
+Split `E_γ` over the degree-12 étale cover `Spec ℤ[ζ₁₃,1/13]`, using that 12 is invertible modulo 19. Constant order-19 torsors there correspond to abelian extensions unramified away from 13. The local principal units at 13 are 19-divisible, and the residue unit group has order 12, so there is no order-19 inertia quotient. The ideal class group has no 19-part by `cyclotomic_thirteen_class_number`. Descent and averaging over the degree-12 group give `H¹(S₁₃,E_γ)=0`. Separately the fppf Kummer sequence, units `±13^ℤ` and `Pic(ℤ[1/13])=0` give `H¹(S₁₃,μ₁₉)=ℤ/19`, whose generator 13 is detected by the valuation at 13. The vanishing of local `H⁰(μ₁₉)` removes the connecting ambiguity in passing from the two constituents to `F`.
 
-The class-number datum `hClass13` is an input, separate from the cohomology theorem. Its mathematical background is the following worked ideal-norm calculation. For `K=ℚ(ζ₁₃)`, its integer ring is `ℤ[ζ₁₃]`, degree 12, absolute discriminant `13¹¹` and six complex places. The signed discriminant is also positive, since the number of complex places is even. Minkowski gives a representative ideal in every class of norm at most
+The class-number theorem is a fixed arithmetic target, with the following proof route using the supplied general class-group and Minkowski theory. For `K=ℚ(ζ₁₃)`, its integer ring is `ℤ[ζ₁₃]`, degree 12, absolute discriminant `13¹¹` and six complex places. The signed discriminant is also positive, since the number of complex places is even. Minkowski gives a representative ideal in every class of norm at most
 
 ```text
 (4/π)^6 (12!/12^12) √(13^11) < 307.
@@ -1188,38 +1221,44 @@ The following elements have precisely those absolute norms:
 | `1−ζ−ζ³` | 131 |
 | `1−ζ+ζ²+ζ⁴` | 157 |
 
-The norm identities are determinants of multiplication in the basis `1,ζ,…,ζ¹¹`, where `ζ¹²=−(1+ζ+⋯+ζ¹¹)` and `ζ¹³=1`. Each determinant equals the least possible nontrivial ideal norm above its rational prime, so the generated ideal is one prime ideal. Galois conjugates generate all other primes above that `p`; at 13, `1−ζ` generates the unique ramified prime. Every prime ideal that can occur in a Minkowski representative is therefore principal. Every ideal class is trivial. The full class-number datum is stronger than its required 19-primary consequence; no numerical certification or exhaustive search is a roadmap target.
+The norm identities are determinants of multiplication in the basis `1,ζ,…,ζ¹¹`, where `ζ¹²=−(1+ζ+⋯+ζ¹¹)` and `ζ¹³=1`. Each determinant equals the least possible nontrivial ideal norm above its rational prime, so the generated ideal is one prime ideal. Galois conjugates generate all other primes above that `p`; at 13, `1−ζ` generates the unique ramified prime. Every prime ideal that can occur in a Minkowski representative is therefore principal. Every ideal class is trivial. This proves `cyclotomic_thirteen_class_number` and hence the vanishing of the 19-primary class group.
 
-The cohomology API is `character19_cohomology_zero`, `mu19_localization_injective`, and `kernel19_localization_injective`, with `hClass13` and §8.1’s data retained. The bound, finite norm list and displayed norm identities are worked arithmetic background to `hClass13`, not separate targets or a regularity assumption at a general prime.
+The cohomology conclusions are the vanishing for the order-six character and injectivity of localization for both μ₁₉ and the norm-19 kernel, using the proved class number and model identification. The bound and norm identities are proof ingredients for this fixed field; no regularity assumption at a variable prime is imposed.
 
 **Checks.**
 
 - The norm-27 element generates a prime of residue degree three over 3, not a degree-one prime of norm 3. Its Galois orbit covers all four primes over 3.
 - The determinant of `1−ζ` is 13 and its ideal is ramified; treating 13 as a split good prime would invalidate the small-ideal enumeration.
 - Local valuation sends the global Kummer generator 13 to 1 modulo 19, while `−1` is already a nineteenth power. Hence the localization kernel is zero, not the whole unit quotient.
-- The inverse-cyclotomic `P`-class eigenspace theorem in §7.7 alone says nothing about the 19-part at level 13; `hClass13` supplies exactly that independent input.
+- The inverse-cyclotomic `P`-class eigenspace theorem in §7.7 alone says nothing about the 19-part at level 13; the fixed class-number theorem supplies that independent input.
 
-*Source:* [MazurTate1973] §4, pp. 47–48, for the cohomological diagram and required numerical input; ClassFieldTheory Layer 13 for reciprocity. The displayed norm identities and Minkowski bound describe the class-number hypothesis without making a table calculation a target.
+*Source:* [MazurTate1973] §4, pp. 47–48, for the cohomological diagram and required numerical input; ClassFieldTheory Layer 13 for reciprocity. The displayed norm identities and Minkowski bound prove the fixed class-number assertion.
 
-*Needs:* `level_thirteen_flat_kernel`; ClassFieldTheory Layer 13; Mathlib `IsCyclotomicExtension.Rat.discr_prime`, its cyclotomic integral power basis and `NumberField.exists_ideal_in_class_of_norm_le`; `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §§R07.1.2 and R07.1.38–R07.1.39 for finite étale descent and fppf `Hom/Ext` gluing; `SchemeAndStackFoundations` §2.3 (`NonabelianH1.equivSheafH`), §2.10 (`etale_pullback_fppf_comparison`) and §2.11 (`fppf_kummer_sequence`) for the cohomology and Kummer identifications. The order-six character `E_γ` is not an admissible 19-group, so the admissible-group bound R07.G3 is not used here.
+*Needs:* §8.3; ClassFieldTheory Layer 13; Mathlib `IsCyclotomicExtension.Rat.discr_prime`, its cyclotomic integral power basis, the prime decomposition inputs in the supplier contract, and `NumberField.exists_ideal_in_class_of_norm_le`; `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §§R07.1.2 and R07.1.38–R07.1.39 for finite étale descent and fppf `Hom/Ext` gluing; `SchemeAndStackFoundations` §2.3 (`NonabelianH1.equivSheafH`), §2.10 (`etale_pullback_fppf_comparison`) and §2.11 (`fppf_kummer_sequence`) for the cohomology and Kummer identifications. The order-six character `E_γ` is not an admissible 19-group, so the admissible-group bound R07.G3 is not used here.
 
 ### 8.6 The order-thirteen exclusion
 
-Assuming §8.1’s explicit modular-curve data and §8.5’s `hClass13`, prove `level_thirteen_rank_zero` and `order_thirteen_exclusion`. The group `B(ℚ)` is finite and equals `T₁₉≅ℤ/19`. Consequently `X₁(13)(ℚ)` consists of its six rational cusps and no elliptic curve over `ℚ` has a rational point of exact order 13. Indeed the global `π`-Kummer map is zero by its injective localization and local `π`-surjectivity, so `π` is surjective on the finitely generated `O`-module `B(ℚ)`; its positive-norm nonunit action excludes every nonzero free `O`-rank.
+Prove that `B` has rank zero, and prove `order_thirteen_exclusion`, using the theorems of §§8.1–8.5. The group `B(ℚ)` is finite and equals `T₁₉≅ℤ/19`. Consequently `X₁(13)(ℚ)` consists of its six rational cusps and no elliptic curve over `ℚ` has a rational point of exact order 13. Indeed the global `π`-Kummer map is zero by its injective localization and local `π`-surjectivity, so `π` is surjective on the finitely generated `O`-module `B(ℚ)`; its positive-norm nonunit action excludes every nonzero free `O`-rank.
 
 Use the global-to-local Kummer diagram over `S₁₃` and `ℚ₁₃` to show `B(ℚ)/πB(ℚ)=0`. Apply Mordell–Weil and the `O`-action; `π`-surjectivity forces zero free rank. Identify finite `B(ℚ)` with its computed torsion, intersect the curve with `T₁₉`, and use the Y1(13) moduli problem.
 
-The proof closes the prime 13 case without pretending that `J₀(13)` is nonzero. The last conclusion, `order_thirteen_exclusion`, is quantified over every rational Weierstrass model `W` with `W.IsElliptic` and every point `Q` in its nonsingular point group: `addOrderOf Q ≠ 13`. It retains the two explicit arithmetic hypotheses. The model and cusp data require modular-curve carriers, so this conditional statement is specified here.
+The proof closes the prime 13 case without pretending that `J₀(13)` is nonzero. The last conclusion, `order_thirteen_exclusion`, is quantified over every rational Weierstrass model `W` with `W.IsElliptic` and every point `Q` in its nonsingular point group: `addOrderOf Q ≠ 13`. This elliptic conclusion has no extra model or class-number hypothesis and is stated on native carriers in Suggested.lean.
 
 *Source:* [MazurTate1973] §4, pp. 46–48; main theorem p. 41.
 
-*Needs:* `level_thirteen_local_surjectivity`, `level_thirteen_global_cohomology`, `level_thirteen_cusp_data`, `HeightsRationalPointsAndObstructions` §§1.1–1.4, `HeightsRationalPointsAndObstructions` §1.7, `ModularCurves` Layer 10.
+*Needs:* §8.4, §8.5, §8.1, `HeightsRationalPointsAndObstructions` §§1.1–1.4, `HeightsRationalPointsAndObstructions` §1.7, `ModularCurves` Layer 10.
 
 ### 8.7 Elliptic curves with the four permitted prime orders
 
 Prove `occurring_small_primes`. For each `P∈{2,3,5,7}` there is a nonsingular elliptic curve `E/ℚ` with a rational point of exact order `P`. Examples are `y²=x³−x` with `(0,0)` for 2, `y²+y=x³` with `(0,0)` for 3, `y²−y=x³−x²` with `(0,0)` for 5, and `y²−xy−4y=x³−4x²` with `(0,0)` for 7. These examples are checked using the native rational point group and nonzero discriminants.
 
-**Checks.** For the four coefficient tuples `(0,0,0,−1,0)`, `(0,0,1,0,0)`, `(0,−1,−1,0,0)` and `(−1,−4,−4,0,0)`, the discriminants are 64, `−27`, `−11` and `−1664`. In each case `(0,0)` satisfies the equation and is nonsingular. The rational generalized Weierstrass addition law gives the following checks. For order 3 the other affine multiple is `(0,−1)`. For order 5 the other affine multiples are `(1,1),(1,0),(0,1)`. For order 7 they are `(4,8),(2,2),(2,4),(4,0),(0,4)`. The next multiple is infinity in each case; for order 2 the tangent is vertical at `(0,0)`. All earlier multiples are affine and thus nonzero. Translate exact geometric order into native `addOrderOf` in the existing nonsingular affine point group.
+**Checks.**
+
+- The coefficient tuples `(0,0,0,−1,0)`, `(0,0,1,0,0)`, `(0,−1,−1,0,0)` and `(−1,−4,−4,0,0)` have discriminants 64, `−27`, `−11` and `−1664`. All are nonzero, so the displayed points lie on elliptic curves.
+- For order 2, the tangent at `(0,0)` on `y²=x³−x` is vertical and the next multiple is infinity.
+- For order 3, the other affine multiple is `(0,−1)` and the next multiple is infinity.
+- For order 5, the other affine multiples are `(1,1),(1,0),(0,1)` and the next multiple is infinity.
+- For order 7, the other affine multiples are `(4,8),(2,2),(2,4),(4,0),(0,4)` and the next multiple is infinity. In each example all preceding multiples are affine and nonzero, giving exact native additive order.
 
 The order 7 example has coefficients `(a1,a2,a3,a4,a6)=(−1,−4,−4,0,0)` and discriminant `−1664`.
 
@@ -1229,7 +1268,7 @@ The order 7 example has coefficients `(a1,a2,a3,a4,a6)=(−1,−4,−4,0,0)` and
 
 ### 8.8 Rational points of prime order
 
-Assuming §8.1’s explicit modular-curve data and §8.5’s `hClass13`, prove `all_prime_torsion`. For every prime `P` and every elliptic curve `E/ℚ`, a rational point of exact order `P` can exist only if `P∈{2,3,5,7}`; each of these primes occurs. Equivalently, for every nonsingular rational Weierstrass model `W` and `Q∈W.Affine.Point` with prime additive order `P`, `P` is 2, 3, 5 or 7. The characteristic-zero nonsingularity hypothesis is essential.
+Prove `all_prime_torsion`. For every prime `P` and every elliptic curve `E/ℚ`, a rational point of exact order `P` can exist only if `P∈{2,3,5,7}`; each of these primes occurs. Equivalently, for every nonsingular rational Weierstrass model `W` and `Q∈W.Affine.Point` with prime additive order `P`, `P` is 2, 3, 5 or 7. The characteristic-zero nonsingularity hypothesis is essential.
 
 Split prime levels into 2, 3, 5, 7, 13 and the positive-genus complement. Use the prime-level descent on the complement and the separate `π`-descent at 13. Supply the four explicit occurring examples and the native-model comparison.
 
@@ -1237,11 +1276,11 @@ No `P≥17` restriction remains. The conclusion classifies prime orders only; th
 
 *Source:* [Mazur1977] III §5, Corollary 5.2 and prime-level reductions, pp. 156–160; Mazur–Tate main theorem, p. 41.
 
-*Needs:* `isogeny_iteration`, `level_thirteen_rank_zero`, `occurring_small_primes`, `WeierstrassCurve.Affine.Point`, `WeierstrassCurve.IsElliptic`, `orderOf_ofAdd_eq_addOrderOf`.
+*Needs:* `isogeny_iteration`, §8.6, `occurring_small_primes`, `WeierstrassCurve.Affine.Point`, `WeierstrassCurve.IsElliptic`, `orderOf_ofAdd_eq_addOrderOf`.
 
 ### 8.9 Residual invariant vectors and Eisenstein support
 
-Under §8.1’s explicit modular-curve data and §8.5’s `hClass13`, prove the elliptic part of `residual_consumer_interface`. If `E/ℚ` is elliptic and prime `P>7`, then `E[P](ℚ̄)` has no nonzero `G_ℚ`-fixed vector. A `G_ℚ`-stable line carrying a nontrivial character is not excluded. Independently of those level-13 data, for the modular Jacobian the semisimple Eisenstein residual constituents are 1 and `χ_ℓ` at `m_ℓ`; this is the exported interface for SerreWeightAndLevelOptimisation. EllipticCurveModularity must combine the fixed-vector exclusion with its separate isogeny/reducibility arguments.
+Prove `elliptic_fixed_torsion_zero`. If `E/ℚ` is elliptic and prime `P>7`, then `E[P](ℚ̄)` has no nonzero `G_ℚ`-fixed vector. A `G_ℚ`-stable line carrying a nontrivial character is not excluded. For the modular Jacobian the semisimple Eisenstein residual constituents are 1 and `χ_ℓ` at `m_ℓ`; this is the exported interface for SerreWeightAndLevelOptimisation. EllipticCurveModularity must combine the fixed-vector exclusion with its separate isogeny/reducibility arguments.
 
 Compare rational prime torsion with invariant vectors in the geometric `P`-torsion representation. Apply the all-prime theorem and separately export the established modular-Jacobian residual constituent theorem. Keep the character on a stable line as explicit data; invariant vectors do not detect all reducible representations.
 
@@ -1249,7 +1288,7 @@ A rational cyclic 11-isogeny is a negative control: it can exist although a rati
 
 *Source:* [Mazur1977] III §5, pp. 156–160; II Proposition 14.1, pp. 113–115; Mazur1978 Corollary 4.4, p. 145.
 
-*Needs:* `all_prime_torsion`, `eisenstein_constituents`, `EllipticCurves` Layer 2.
+*Needs:* `all_prime_torsion`, §3.1, `EllipticCurves` Layer 2.
 
 ### Examples
 
@@ -1261,16 +1300,16 @@ Layers 0–7 for the all-prime conclusion; ModularCurves Layer 10 and ModularCur
 
 ## Downstream consumers
 
-`SerreWeightAndLevelOptimisation` uses §3.1'`s` constant/cyclotomic residual constituents, the character and Fricke normalization in §0.2, and §8.9'`s` distinction between a fixed vector and a nontrivial stable line. It must not turn the prime-torsion classification into general residual irreducibility.
+`SerreWeightAndLevelOptimisation` uses §3.1’s constant/cyclotomic residual constituents, the character and Fricke normalization in §0.2, and §8.9’s distinction between a fixed vector and a nontrivial stable line. It must not turn the prime-torsion classification into general residual irreducibility.
 
-`EllipticCurveModularity` uses rational fixed-vector exclusion, the genuine modular-Jacobian quotients and the formal-immersion theorem. Any separate exclusion of reducible representations requires its own rational-isogeny argument. Modular-form and modular-symbol developments use the integral winding lattice, the full dyadic normalization, local principality of `I` and the quotient `T/I=ℤ/n`. Arithmetic descent applications use `A_Eis(ℚ)=C`, the odd Eisenstein Sha vanishing and the finite dyadic remainder. Consumers of the order-thirteen exclusion, the all-prime theorem or the elliptic invariant-vector consequence retain §8.1’s modular-curve data and §8.5’s `hClass13` as explicit hypotheses.
+`EllipticCurveModularity` uses rational fixed-vector exclusion, the genuine modular-Jacobian quotients and the formal-immersion theorem. Any separate exclusion of reducible representations requires its own rational-isogeny argument. Modular-form and modular-symbol developments use the integral winding lattice, the full dyadic normalization, local principality of `I` and the quotient `T/I=ℤ/n`. Arithmetic descent applications use `A_Eis(ℚ)=C`, the odd Eisenstein Sha vanishing and the finite dyadic remainder. The order-thirteen exclusion, all-prime theorem and elliptic invariant-vector consequence are unconditional for elliptic curves over ℚ. EllipticCurveModularityPartII §6.0c uses §7.9’s general geometric cuspidal-divisor torsion theorem.
 
 ## References
 
 - **[Mazur1977]** Barry Mazur, [Modular curves and the Eisenstein ideal](https://www.numdam.org/item/PMIHES_1977__47__33_0.pdf), Publications mathématiques de l’IHÉS 47 (1977), 33–186; appendix by Barry Mazur and Michael Rapoport.
 - **[Elkik1990]** Renée Elkik, [Le théorème de Manin–Drinfeld](https://www.numdam.org/item/AST_1990__183__59_0.pdf), Astérisque 183 (1990), 59–67.
 - **[Mazur1978]** Barry Mazur (with an appendix by D. Goldfeld), [Rational isogenies of prime degree](https://www.math.columbia.edu/~goldfeld/Mazur-Goldfeld1978.pdf), Inventiones mathematicae 44 (1978), 129–162.
-- **[MazurTate1973]** Barry Mazur and John Tate, [Points of order 13 on elliptic curves](https://gdz.sub.uni-goettingen.de/download/PPN356556735_0022/PPN356556735_0022___LOG_0008.pdf), Inventiones mathematicae 22 (1973), 41–49.
+- **[MazurTate1973]** Barry Mazur and John Tate, [Points of order 13 on elliptic curves](https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0022/LOG_0008.pdf), Inventiones mathematicae 22 (1973), 41–49.
 - **[DeligneRapoport1973]** Pierre Deligne and Michael Rapoport, *Les schémas de modules de courbes elliptiques*, Modular Functions of One Variable II, LNM 349 (1973), 143–316; corrected printing 1986.
 - **[MazurWiles1984Errata]** Barry Mazur and Andrew Wiles, [Class fields of abelian extensions of Q: errata to the Eisenstein ideal paper](https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0076/LOG_0020.pdf), Inventiones mathematicae 76 (1984), 179–330, §8.I on pp. 187–188.
 - **[FaltingsChai1990]** Gerd Faltings and Ching-Li Chai, *Degeneration of Abelian Varieties*, Ergebnisse der Mathematik 22 (1990), III §§7–8, pp. 76–78.
