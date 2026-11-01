@@ -1,708 +1,586 @@
-# Roadmap: root systems, Weyl groups, and the Cartan-Killing classification
+# Roadmap: root systems, Weyl groups, and the Cartan–Killing classification
 
-Mathlib has a large, actively developed theory of **abstract root systems**
-(`Mathlib/LinearAlgebra/RootSystem/*`) and a substantial theory of **Coxeter groups**
-(`Mathlib/GroupTheory/Coxeter/*`), but the two are not yet connected, and the payload that
-makes the subject a *classification* is absent. On the root-system side there is the
-unifying `RootPairing` structure, the `IsRootSystem`/`IsReduced`/`IsCrystallographic`/`IsIrreducible`
-predicates, bases and simple roots (`RootPairing.Base`), the Cartan matrix
-(`RootPairing.Base.cartanMatrix`) with its nondegeneracy and the striking fact that a root system is
-**determined up to isomorphism by its Cartan matrix** (`equivOfCartanMatrixEq`), root strings
-(`chainTopCoeff`), the canonical positive-definite form (`posRootForm`,
-`posRootForm_rootFormIn_posDef`), and the Weyl group as a group of automorphisms
-(`RootPairing.weylGroup`). On the Coxeter side there is `CoxeterMatrix`, the presented
-`CoxeterMatrix.Group`, `CoxeterSystem`, the length function `CoxeterSystem.length`, reduced words,
-descents, reflections and inversion sequences, and the explicit finite-type Coxeter matrices
-`CoxeterMatrix.A`, `.B`, `.D`, `.I`, `.E₆`, `.E₇`, `.E₈`, `.F₄`, `.G₂`, `.H₃`, `.H₄`.
+**Summary.** Starting with native finite root pairings, bases, Cartan classification,
+numbered integral root data and Weyl chambers, complete the Coxeter presentation on
+specified simple reflections. Develop the based complement in root automorphism
+groups, its full integral root-datum form, componentwise invariant metrics and
+highest-root theory. The endpoints include the length–inversion formula, the
+semidirect decomposition of root automorphisms, the unique greatest positive root,
+and concrete Weyl groups of types A and G₂.
 
-What is missing is exactly the spine that turns this into the Cartan-Killing story. **Nothing
-identifies `RootPairing.weylGroup` as a `CoxeterSystem`** on the simple reflections: the order of a
-product of two simple reflections, the fact that the simple reflections generate, and the Coxeter
-presentation (Tits' theorem, that there are no relations beyond the braid relations) are all
-unbuilt. On the pure Coxeter side, **Matsumoto's theorem and the strong exchange condition are
-explicit TODOs** (`Coxeter/Basic.lean`: "State and prove Matsumoto's theorem"). There is **no theory
-of positive roots as a set, no Weyl chambers, no dominant (fundamental) chamber and no proof that it
-is a fundamental domain**, no longest element. And there is **no Dynkin diagram and no
-classification**: Mathlib's `CartanMatrix.lean` names the Dynkin diagram in its docstrings and proves
-the connectedness characterization (`induction_on_cartanMatrix`), and `Coxeter/Matrix.lean` lists the
-finite irreducible Coxeter matrices while stating "we do not prove" that these are all of them, but the
-theorem that an irreducible reduced crystallographic root system is one of
-`Aₙ, Bₙ, Cₙ, Dₙ, E₆, E₇, E₈, F₄, G₂` is nowhere in the library.
+## Scope and ownership
 
-This roadmap builds that spine, ending at the **Cartan-Killing classification**: a finite list of
-Dynkin types, a proof that every irreducible reduced crystallographic finite root system realizes
-exactly one valid type (existence + uniqueness), with the final isomorphism-from-Cartan-matrix step
-supplied by `equivOfCartanMatrixEq`, and the identification of the Weyl group of each as a concrete
-Coxeter/reflection group. The two load-bearing
-theorems along the way are the **Coxeter presentation of the Weyl group** (`weylCoxeterSystem`) and
-the **classification of finite-type Cartan matrices** (`DynkinType`). It is the shared foundation for
-[the highest-weight representation theory roadmap](../LieHighestWeight/README.md) (which needs bases,
-dominant chambers, the Weyl group action, and the classification to state and prove the
-theorem of the highest weight and Weyl character formula) and for
-[the classical groups roadmap](../ClassicalGroups/README.md) (which needs the `Aₙ`/`Bₙ`/`Cₙ`/`Dₙ`
-root systems and their Weyl groups `Sₙ`, `Sₙ ⋉ (ℤ/2)ⁿ`, and so on).
+This roadmap owns the remaining root-system conclusions above. Mathlib supplies
+root pairings, bases, integral coordinates, root strings and abstract Coxeter
+systems. Tau Ceti supplies positive roots, lowering, inversions, exchange,
+chambers, the longest element, Bruhat order, Poincaré polynomials, finite Cartan classification and the numbered
+simply connected root data. These are inputs, not construction targets here.
+In particular there is one native `TauCeti.DynkinType`, one standard Cartan family
+and one integral datum per valid type; no second enumeration or transport to a
+local copy is needed. The exported `DynkinType` in Suggested.lean denotes that
+same native type for consumers using this namespace. The exports of its constructors,
+rank, validity and long-root predicate are names for the native declarations, not new definitions.
 
-**Scope boundary.** This roadmap stops at the root system, its Weyl group, chambers, and the
-classification. The weight and root lattices, the coweight and coroot lattices, the fundamental
-weights, dominant integral weights, and `ρ` - the lattice apparatus that the Weyl character and
-dimension formulas run on - are **not** built here; they belong to
-[the highest-weight roadmap](../LieHighestWeight/README.md), which layers them on top of the chambers
-and the Weyl-group action supplied here.
+[LieHighestWeight, Layers 1–2](../LieHighestWeight/README.md#layer-2-weights-of-a-module-and-their-integrality)
+owns the representation-theoretic weight lattices, fundamental and dominant
+weights; its Layer 6 owns the Weyl character and dimension formulas.
+[ReflectionInvariantTheory, §4](../../ReflectionInvariantTheory/README.md#4-crystallographic-weylcoxeter-dictionary)
+owns exponents, invariant degrees and their product formulas. Its §3 owns the
+hyperplane-arrangement development for general finite real reflection groups;
+our chambers are the native algebraic cones.
+[RootSystemsPartII, §§2–4](../../RootSystemsPartII/README.md) extends the base
+roadmap to folds, fixed Weyl groups and equivariant integral dominance; it is not
+an input here. [ReductiveGroups, §9A.1a-L](../../ReductiveGroups/README.md) owns
+kernel-fixing ADE cover lifts. [ZigzagPreprojective, Layer 0](../../ZigzagPreprojective/README.md)
+owns affine diagrams, quivers and gradings. No stuck-position classification is
+attributed to it. Computational enumeration and general games on arbitrary
+integer vectors are outside this roadmap.
 
-Suggested home: `TauCeti/LinearAlgebra/RootSystem/` (the geometry, chambers, Coxeter presentation, and
-classification) and `TauCeti/GroupTheory/Coxeter/` (the strong exchange condition and Matsumoto's
-theorem, which are group-theory statements independent of root systems).
+## Conventions
 
-## Standing conventions
+Use `RootPairing ι R M N`, with its perfect pairing and injective root and coroot
+families. `RootPairing.IsRootSystem` asserts spanning of both modules; it does not
+assert finiteness, reducedness or crystallographicity. Unless a subsection says
+otherwise, assume a commutative characteristic-zero domain R, finite ι, spanning,
+reducedness, crystallographicity, and a chosen base b. Irreducible statements
+add `RootPairing.IsIrreducible`; this native predicate includes nontriviality of
+both modules. Geometric and metric statements use ℝ. Full integral data use
+`RootDatum` with both lattices finite free over ℤ and do not assume integral
+spanning. The empty spanning system is allowed except in irreducible statements.
 
-- **`RootPairing` is primary; `IsRootSystem` is the mixin.** Mathlib has refactored so that
-  `RootPairing ι R M N` is the *structure* (two perfectly paired modules `M`, `N` over a commutative
-  ring `R`, an `ι`-indexed family of roots `root : ι ↪ M`, coroots `coroot : ι ↪ N`, and reflection
-  permutations), and `RootPairing.IsRootSystem` is a *class* asserting the roots and coroots span
-  (`RootPairing.IsRootSystem` deprecated-aliases the old `RootSystem`). Use this vocabulary
-  throughout, never a private `RootSystem` structure. `RootDatum X₁ X₂ = RootPairing ι ℤ X₁ X₂` is the
-  integral form. State every result at the generality it needs, adding mixins
-  (`[P.IsRootSystem]`, `[P.IsReduced]`, `[P.IsCrystallographic]`, `[P.IsIrreducible]`, `[Finite ι]`)
-  rather than bundling them into one class. Do not reintroduce a monolithic "root system" datum.
-- **The default arena for the classification is finite, reduced, crystallographic.** The
-  Cartan-Killing classification is a theorem about `RootPairing ι R M N` with `[Finite ι]`,
-  `[P.IsRootSystem]`, `[P.IsReduced]`, `[P.IsCrystallographic]` (`= P.IsValuedIn ℤ`), and, for the
-  irreducible pieces, `[P.IsIrreducible]`. Work over a field `R` of characteristic zero
-  (`[CharZero R] [IsDomain R]` is what Mathlib's Cartan-matrix lemmas take); the Cartan entries then
-  live in `ℤ` via `pairingIn ℤ`. Keep `IsCrystallographic` explicit: the classification is false
-  without it (there are non-crystallographic finite reflection groups `H₃`, `H₄`, `I₂(m)`, which is
-  why the Coxeter classification is strictly longer than the Cartan one).
-- **The geometry (chambers, dominant weights) is stated over an ordered field, by default `ℝ`.** Weyl
-  chambers and the fundamental-domain statement need an order on the coefficients, so pin
-  `P : RootPairing ι ℝ M N` (or base-change a rational root system to `ℝ`) for the chamber layer, and
-  consume the canonical positive-definite form `posRootForm ℝ` /
-  `posRootForm_rootFormIn_posDef`. Do **not** state the chamber geometry over an unordered ring.
-- **The Weyl group is `RootPairing.weylGroup`, a `Subgroup (Aut P)`; the target vocabulary is
-  `CoxeterSystem`.** Mathlib defines `P.weylGroup := Subgroup.closure (range (Equiv.reflection P))`
-  inside `Aut P = RootPairing.Equiv P P`, with `weylGroup.ofIdx P i` the `i`-th simple reflection as a
-  group element and `weylGroupToPerm : P.weylGroup →* Equiv.Perm ι` its action on indices. Reuse these
-  rather than a fresh group. The central construction of this roadmap, `weylCoxeterSystem`, produces a
-  `CoxeterSystem (coxeterMatrixOfBase b) P.weylGroup`: the *same* group, now equipped with the
-  isomorphism to the presented Coxeter group. Downstream length/reduced-word/descent statements are
-  then Mathlib's `CoxeterSystem.length`, `CoxeterSystem.IsReduced`, `CoxeterSystem.IsLeftDescent`,
-  applied to `P.weylGroup`.
-- **Simple roots come from a `RootPairing.Base`.** A base is `b : P.Base` with
-  `b.support : Finset ι` the indices of the simple roots, `b.linearIndepOn_root`, and the
-  closure conditions. Existence for finite crystallographic root systems is
-  `RootPairing.Base.nonempty_base`. Positive roots are `{i | b.IsPos i}` where
-  `b.IsPos i ↔ 0 < b.height i` (`RootPairing.Base.height`, `RootPairing.Base.IsPos`); the Cartan
-  matrix is `b.cartanMatrix : Matrix b.support b.support ℤ`. Everything indexed by simple roots is
-  indexed by `b.support`, never by an ad hoc `Fin n`, until the classification step pins a concrete
-  reindexing to `Fin (rank)`.
-- **Dynkin types are a finite enumeration with a validity predicate, and the classification is
-  existence + uniqueness over the valid types.** `DynkinType` enumerates `A n`, `B n`, `C n`, `D n`,
-  `E₆`, `E₇`, `E₈`, `F₄`, `G₂` with a `rank` and a standard integer Cartan matrix
-  `DynkinType.cartanMatrix t : Matrix (Fin t.rank) (Fin t.rank) ℤ`. The enumeration is deliberately
-  plain (bare `ℕ` constructors); the rank ranges `A n (n ≥ 1)`, `B n (n ≥ 2)`, `C n (n ≥ 3)`,
-  `D n (n ≥ 4)` are carried by a `DynkinType.Valid` predicate, not baked into the constructors. These
-  bounds eliminate the low-rank coincidences (`B₁ = C₁ = A₁`, `C₂ = B₂`, `D₂ = A₁×A₁`, `D₃ = A₃`) and
-  the degenerate `A 0`, `B 0`/`B 1`, `C 0`–`C 2`, `D 0`–`D 3`; without them realization and uniqueness
-  are literally false. "Classification" then means: (existence/realization) each **valid** `t` is the
-  Cartan matrix of some irreducible reduced crystallographic finite root system, and (uniqueness) the
-  Cartan matrix of such a root system reindexes to `DynkinType.cartanMatrix t` for a **unique valid**
-  `t`. The final isomorphism step (from equal standard Cartan matrices to an isomorphism of root
-  systems) is Mathlib's `equivOfCartanMatrixEq`. The `DynkinType.cartanMatrix` reindexing is oriented
-  (a single simultaneous row/column relabelling), so `Bₙ` and `Cₙ`, whose standard Cartan matrices are
-  transposes, stay distinct types.
+Cartan entries have root rows and coroot columns: Cᵢⱼ = ⟨αᵢ,αⱼ∨⟩. A coefficient
+vector is a column; reflection changes its i-th entry by subtracting Σⱼ Cⱼᵢcⱼ.
+The native Bourbaki node k is at zero-based index k−1. Bₙ has short last root,
+Cₙ long last root; G₂ has short first root and matrix `!![2, -1; -3, 2]`.
+Root lengths in this document are squared lengths. The positive cone uses
+nonnegative **integer** simple-root coordinates. Weyl multiplication acts on
+the left; inversions of w are the positive roots sent negative by w.
+The forward cocharacter map of a root-pairing equivalence is the inverse of its
+contravariant `RootPairing.Equiv.coweightEquiv`.
 
-## What Mathlib already has (consume)
+**Checks.**
 
-- **The `RootPairing` structure and predicates** - `Mathlib/LinearAlgebra/RootSystem/Defs.lean`:
-  `RootPairing`, `RootPairing.IsRootSystem`, `RootDatum`, `RootPairing.reflection` (as `M ≃ₗ[R] M`),
-  `RootPairing.coreflection`, `RootPairing.reflectionPerm`, `RootPairing.pairing`,
-  `RootPairing.coxeterWeight`, `RootPairing.IsOrthogonal`, `RootPairing.flip`.
-- **Value subrings and crystallographic condition** - `.../RootSystem/IsValuedIn.lean`:
-  `RootPairing.IsValuedIn`, `RootPairing.IsCrystallographic` (`= IsValuedIn ℤ`),
-  `RootPairing.pairingIn`, `RootPairing.coxeterWeightIn`, `algebraMap_pairingIn`.
-- **Finite crystallographic pairing constraints** - `.../RootSystem/Finite/Lemmas.lean`:
-  `RootPairing.coxeterWeightIn_mem_set_of_isCrystallographic`, `coxeterWeightIn_le_four`,
-  `linearIndependent_iff_coxeterWeightIn_ne_four`, and most directly
-  `pairingIn_pairingIn_mem_set_of_isCrystal_of_isRed` (for `[P.IsReduced]`, the pair
-  `(pairingIn i j, pairingIn j i)` lies in an explicit finite list). These discharge the
-  `{0,1,2,3}` Coxeter-product bound consumed by `coxeterMatrixOfBase` and the rank-2 subdiagram
-  case analysis in `existsUnique_dynkinType`; the difficulty there is assembly, not new estimates.
-- **Reduced and irreducible** - `.../RootSystem/Reduced.lean` (`RootPairing.IsReduced`, with
-  `isReduced_iff'`, `IsReduced.linearIndependent`, the four-Coxeter-weight dichotomy
-  `linearIndependent_iff_coxeterWeight_ne_four`, and `pairingIn_two_two_iff` etc.),
-  `.../RootSystem/Irreducible.lean` (`RootPairing.IsIrreducible`, `isIrreducible_iff_invtRootSubmodule`,
-  `isSimpleModule_weylGroupRootRep`).
-- **Bases and simple roots** - `.../RootSystem/Base.lean`: `RootPairing.Base` (`support`,
-  `linearIndepOn_root/coroot`, `root_mem_or_neg_mem`), `Base.height`, `Base.IsPos`, `Base.IsPos.or_neg`,
-  `Base.toWeightBasis`, `exists_root_eq_sum_nat_or_neg`, `exists_root_eq_sum_int`; existence
-  `.../RootSystem/BaseExists.lean`: `RootPairing.nonempty_base`, `Base.mk'`.
-- **Cartan matrices** - `.../RootSystem/CartanMatrix.lean`: `RootPairing.Base.cartanMatrixIn`,
-  `RootPairing.Base.cartanMatrix : Matrix b.support b.support ℤ`, `RootPairing.Base.cartanMatrix_apply_same` (`= 2`),
-  `RootPairing.Base.cartanMatrix_le_zero_of_ne`, `RootPairing.Base.cartanMatrix_mem_of_ne`, `RootPairing.Base.cartanMatrix_nondegenerate`,
-  `RootPairing.Base.cartanMatrix_eq_neg_chainTopCoeff`, the connectedness characterization
-  `induction_on_cartanMatrix`, and **`equivOfCartanMatrixEq`** - a root system is determined up to
-  isomorphism by its Cartan matrix. This is the *final isomorphism step* of the classification: once
-  the finite-type Cartan matrices are classified and a base is matched to a standard Cartan matrix, it
-  produces the isomorphism. It is not itself the uniqueness argument: it does not classify finite-type
-  matrices, prove independence of the base, or eliminate the low-rank coincidences, all of which are
-  built here.
-- **Root strings** - `.../RootSystem/Chain.lean`: `chainTopCoeff`, `chainBotCoeff`, `chainTopIdx`,
-  `root_add_nsmul_mem_range_iff_le_chainTopCoeff`, `chainBotCoeff_add_chainTopCoeff_le_three`.
-- **The canonical form and root lengths** - `.../RootSystem/RootPositive.lean`
-  (`RootPairing.InvariantForm`, `RootPositiveForm`, `RootPairing.posForm`, `RootPairing.rootLength`,
-  `rootLength_pos`, `zero_lt_pairingIn_iff`, `coxeterWeight_nonneg`),
-  `.../RootSystem/Finite/CanonicalBilinear.lean` (`RootPairing.RootForm`, `Polarization`,
-  `rootForm_self_sum_of_squares`), `.../RootSystem/Finite/Nondegenerate.lean`
-  (`rootForm_nondegenerate`, `posRootForm`, `posRootForm_rootFormIn_posDef` - positive-definiteness of
-  the canonical form on the root span).
-- **The Weyl group** - `.../RootSystem/WeylGroup.lean`: `RootPairing.weylGroup` (`Subgroup (Aut P)`),
-  `reflection_mem_weylGroup`, `weylGroup.ofIdx`, `weylGroup.induction`, `weylGroupToPerm`,
-  `range_weylGroupToPerm`, `weylGroupRootRep`; `.../RootSystem/Hom.lean` for `Aut P`,
-  `Equiv.reflection P i : Aut P`, `RootPairing.indexHom`.
-- **The G₂ special case** - `.../RootSystem/Finite/G2.lean`: `RootPairing.IsG2` (extends
-  crystallographic, reduced, irreducible), `IsNotG2`, `EmbeddedG2`, `IsG2.pairingIn_mem_zero_one_three`.
-- **The Chevalley/Geck link to Lie algebras** - `.../RootSystem/GeckConstruction/*`:
-  `GeckConstruction.lieAlgebra`, `GeckConstruction.cartanSubalgebra`, `equivRootSystem`. This is the
-  hook the [highest-weight roadmap](../LieHighestWeight/README.md) consumes; it is not extended here.
-- **Coxeter groups** - `Mathlib/GroupTheory/Coxeter/`: `CoxeterMatrix`, `CoxeterMatrix.Group`,
-  `CoxeterSystem`, `IsCoxeterGroup`, `CoxeterSystem.simple`, `CoxeterSystem.wordProd`,
-  `CoxeterSystem.lift`, `CoxeterSystem.alternatingWord` (`Coxeter/Basic.lean`);
-  `CoxeterSystem.length`, `CoxeterSystem.IsReduced`, `exists_isReduced`, `length_mul_le`,
-  `length_simple`, `IsLeftDescent`/`IsRightDescent`, `exists_leftDescent_of_ne_one`,
-  `not_isReduced_alternatingWord` (`Coxeter/Length.lean`); `CoxeterSystem.IsReflection`,
-  `IsLeftInversion`/`IsRightInversion`, `leftInvSeq`/`rightInvSeq` (`Coxeter/Inversion.lean`); the
-  standard finite-type matrices `CoxeterMatrix.A/B/D/I/E₆/E₇/E₈/F₄/G₂/H₃/H₄` (`Coxeter/Matrix.lean`).
+- In B₂, C is `!![2, -2; -1, 2]`; reflection at the short node sends (1,0) to
+  (1,2). Using C instead of its transpose in the column formula gives (1,1).
+- In A₂, the inversions of s₁s₂ are α₂ and α₁+α₂; α₁ is not an inversion.
+  Reversing the action convention interchanges α₁ and α₂.
+- For the coordinate permutation σ=(123), the weight map sends e₁ to e₂,
+  the contravariant coweight map sends e₁ to e₃, and its inverse sends e₁ to e₂.
+  An involution alone would not distinguish these maps.
 
-## What is missing (build here)
+## Exact supplier contracts
 
-The **set of positive roots** and its inversion combinatorics - inversion sets of Weyl-group elements,
-simple-root lowering, the fact that a simple reflection permutes the positive roots other than its own
-(consuming Mathlib's `Base.IsPos.reflectionPerm`), and the **root-level exchange step** (appending a
-simple reflection changes the inversion count by exactly one); the **order of a product of simple
-reflections** and the **Coxeter matrix of a base** (`coxeterMatrixOfBase`); the theorem that the
-**simple reflections generate the Weyl group**; the **Coxeter presentation**
-`weylCoxeterSystem : CoxeterSystem (coxeterMatrixOfBase b) P.weylGroup` (Tits' theorem: the braid
-relations are a *complete* set of relations, with completeness proved through the root-level exchange
-condition - a nonempty reduced word has a nonempty inversion set, so acts nontrivially - **not** through
-the faithfulness of the existing Weyl-group action, which is orthogonal to the kernel question); the
-**strong exchange condition** and **Matsumoto's theorem** on the Coxeter side (both stated as open
-items in Mathlib's `Coxeter/Basic.lean`); the **length-equals-inversions** identity linking `CoxeterSystem.length` on `P.weylGroup` to
-the number of positive roots made negative; **Weyl chambers** as sign-pattern cones, the **dominant
-chamber**, and the theorem that the dominant chamber is a **fundamental domain** for the Weyl-group
-action with the Weyl group acting **simply transitively on chambers** (the closed-chamber
-uniqueness, walls included, is consumed from Tau Ceti `FundamentalDomain.lean`, see Layer 4); the **longest element** `w₀` of
-a finite Weyl group with `ℓ(w₀) = |Φ⁺|` and `w₀ Φ⁺ = Φ⁻`; **finiteness** of the Weyl group of a finite
-root system (via the faithful action on the finite root index set);
-the **`DynkinType` enumeration** with its standard Cartan matrices; the **finite-type Cartan-matrix
-condition** (positive-definite symmetrizable) and its classification into the `DynkinType` list; the
-**realization** of each `DynkinType` by an explicit root system; and the assembled **Cartan-Killing
-classification** of irreducible reduced crystallographic finite root systems, together with the
-identification of the classical Weyl groups (`Aₙ ↦ Sₙ₊₁`, `G₂ ↦ DihedralGroup 6`). None of this is
-upstream.
+### From Mathlib
 
-`Suggested.lean` pins the load-bearing objects (`posRoots`, `inversions`,
-`inversions_ncard_mul_ofIdx`, `coxeterMatrixOfBase`, `weylCoxeterSystem`, `dominantChamber`,
-`longestElement`, `DynkinType`, `DynkinType.Valid`, `DynkinType.cartanMatrix`, `IsFiniteType`,
-`existsUnique_dynkinType`, `exists_rootPairing_of_dynkinType`, `DynkinType.IsLongSimpleRoot`,
-`DynkinType.numRoots`, `DynkinType.simplyConnectedRootDatum`) and the milestones below as
-`sorry`-targets, so each is claimable and the summit statements are machine-checked to be expressible
-against the pinned Mathlib.
+Paths in this subsection are relative to Mathlib.
 
----
+- `RootPairing`, `RootDatum`, `RootPairing.IsRootSystem`, and the reflection
+  identities in `Mathlib/LinearAlgebra/RootSystem/Defs.lean`; add finiteness and
+  the three other predicates explicitly when needed.
+- `RootPairing.IsCrystallographic` and `RootPairing.pairingIn` in
+  `Mathlib/LinearAlgebra/RootSystem/IsValuedIn.lean`; integral pairings under the
+  characteristic-zero domain hypotheses. `RootPairing.IsReduced` and
+  `RootPairing.IsIrreducible` are in `Reduced.lean` and `Irreducible.lean` in that directory.
+- `RootPairing.Base.toWeightBasisInt`, `RootPairing.Base.IsPos` and
+  `RootPairing.Base.height` in `Mathlib/LinearAlgebra/RootSystem/Base.lean`.
+  The basis is on `RootPairing.rootSpan` over ℤ, not the whole weight lattice;
+  `RootPairing.rootSpanMem` embeds each root into that span.
+- `RootPairing.Base.cartanMatrix` and `RootPairing.Base.equivOfCartanMatrixEq` in
+  `Mathlib/LinearAlgebra/RootSystem/CartanMatrix.lean`; the latter compares
+  finite reduced crystallographic spanning systems over characteristic-zero domains.
+- `RootPairing.chainTopCoeff`, `RootPairing.chainBotCoeff` and
+  `RootPairing.root_add_nsmul_mem_range_iff_le_chainTopCoeff` in
+  `Mathlib/LinearAlgebra/RootSystem/Chain.lean`; use the native independent-root
+  hypotheses when interpreting a root string.
+- `RootPairing.InvariantForm` in `Mathlib/LinearAlgebra/RootSystem/RootPositive.lean`,
+  its symmetric bilinear form, nonzero root self-values and reflection invariance; positive definiteness
+  is an additional hypothesis. `RootPairing.posRootForm` in
+  `Mathlib/LinearAlgebra/RootSystem/Finite/CanonicalBilinear.lean` supplies the canonical form;
+  `RootPairing.posRootForm_rootFormIn_posDef` in `Finite/Nondegenerate.lean` proves
+  positive definiteness on the root span.
+- `RootPairing.Equiv.indexHom`, `RootPairing.Equiv.weightHom` and
+  `RootPairing.Equiv.coweightHom` in `Mathlib/LinearAlgebra/RootSystem/Hom.lean`;
+  the last has opposite-group target. `RootPairing.weylGroup` and
+  `RootPairing.weylGroup.ofIdx` are in `WeylGroup.lean` in that directory.
+- `CoxeterSystem`, `CoxeterSystem.simple`, `CoxeterMatrix.Group` and
+  `CoxeterSystem.lift` in `Mathlib/GroupTheory/Coxeter/Basic.lean`, and
+  `CoxeterSystem.length` in `Length.lean` in that directory.
+- `MulAction.stabilizer`, `Subgroup.comap` and `Subgroup.IsComplement'` supply
+  setwise stabilizers and subgroup complements; `SemidirectProduct.mulEquivSubgroup`
+  in `Mathlib/GroupTheory/SemidirectProduct.lean` turns a complement with a normal
+  factor into the conjugation semidirect product. No replacement generic API is required.
 
-## The build, in layers
+### From Tau Ceti
 
-The ordering below is the dependency order. The root combinatorics of Layer 1 come first, because the
-Coxeter presentation of Layer 2 is *built from* the positive-root sign changes and the exchange step,
-not the other way round. The abstract Coxeter combinatorics of Layer 3 and the chamber geometry of
-Layer 4 are then largely independent lanes.
+Paths in this subsection are relative to Tau Ceti; all preserve their native hypotheses.
 
-### Layer 1: root combinatorics (positive roots, lowering, inversions, exchange)
+- `TauCeti.posRoots`, `TauCeti.negRoots` in
+  `TauCeti/LinearAlgebra/RootSystem/Positive.lean`, and
+  `TauCeti.exists_mem_support_height_reflectionPerm_lt` in `Lowering.lean` in that
+  directory: finite, reduced, crystallographic, characteristic-zero domain; a
+  positive nonsimple root stays positive and strictly lowers under some simple reflection.
+- `TauCeti.inversions` in `TauCeti/LinearAlgebra/RootSystem/Inversions/Basic.lean`,
+  `TauCeti.ncard_inversions_mul_ofIdx` in `Inversions/Exchange.lean`, and
+  `TauCeti.exists_wordProd_eraseIdx_eq_mul_ofIdx` in `Inversions/StrongExchange.lean`:
+  the root-level deletion and inversion-count statements, before any presentation isomorphism.
+- `RootPairing.weylGroupToPerm_injective` and `RootPairing.finite_weylGroup` in
+  `TauCeti/LinearAlgebra/RootSystem/Weyl/Group.lean`, with finite spanning root-system hypotheses.
+- `TauCeti.coxeterMatrixOfBase` in `TauCeti/LinearAlgebra/RootSystem/Coxeter/Matrix.lean`,
+  and `TauCeti.weylGroup_eq_closure_simple` in `SimpleReflections.lean` in the root-system directory.
+  `TauCeti.weylCoxeterHom`, `TauCeti.weylCoxeterHom_apply_simple` and
+  `TauCeti.weylCoxeterHom_surjective` in `Coxeter/Presentation.lean` give the
+  homomorphism from the native presented group, its generator equation and surjectivity.
+  Injectivity is the remaining assertion in §1.1.
+- `CoxeterSystem.strongExchange` in `TauCeti/GroupTheory/Coxeter/StrongExchange.lean` and
+  `TauCeti.matsumoto` in `TauCeti/GroupTheory/Coxeter/Matsumoto.lean` give abstract
+  Coxeter exchange and reduced-word independence under the braid relations.
+- `CoxeterSystem.BruhatLE` and `CoxeterSystem.bruhatLE_iff_exists_sublist_wordProd_eq`
+  in `TauCeti/GroupTheory/Coxeter/Bruhat.lean` supply the partial order and
+  reduced-subword criterion; `TauCeti.poincarePolynomial` and
+  `TauCeti.poincarePolynomial_eq_sum` in `TauCeti/GroupTheory/Coxeter/Poincare.lean`
+  supply the length-generating polynomial for any finite Coxeter group.
+- `RootPairing.dominantChamber` in `TauCeti/LinearAlgebra/RootSystem/Chamber.lean`;
+  `TauCeti.smul_eq_self_of_smul_mem_dominantChamber` and
+  `TauCeti.stabilizer_eq_closure_wallReflections` in `FundamentalDomain.lean`;
+  `RootPairing.openDominantChamber` and `TauCeti.openWeylChamber` with chamber
+  freeness, transitivity and covering in `Weyl/Chamber.lean`. Use ordered
+  coefficients and reduced dual pairing as required by these declarations.
+- `TauCeti.longestElement`, `TauCeti.inversions_longestElement` and
+  `TauCeti.longestElement_sq` in `TauCeti/LinearAlgebra/RootSystem/LongestElement.lean`.
+  The supplied length invariant is inversion cardinality; §1.2 compares it to Coxeter length.
+- `TauCeti.DynkinType`, `TauCeti.DynkinType.Valid`, `TauCeti.HasCartanType` and the
+  native Cartan matrices in `TauCeti/LinearAlgebra/RootSystem/DynkinType.lean`;
+  `TauCeti.IsFiniteType` in `FiniteType/Basic.lean`, and
+  `TauCeti.existsUnique_dynkinType` in `FiniteType/Classification.lean` in the same
+  directory. Classification assumes nonempty irreducible finite reduced
+  crystallographic spanning systems. Finite type means a generalized Cartan
+  matrix with positive rational diagonal symmetrizer and positive-definite symmetrization.
+- `TauCeti.DynkinType.numRoots` in `TauCeti/LinearAlgebra/RootSystem/NumberOfRoots.lean`,
+  `TauCeti.DynkinType.rootLength` and `TauCeti.DynkinType.IsLongSimpleRoot` in
+  `RootLength.lean`; the lengths satisfy the root-row Cartan convention.
+- `TauCeti.DynkinType.simplyConnectedRootDatum`, `TauCeti.DynkinType.simplyConnectedBase`,
+  `TauCeti.DynkinType.simpleIndex` and
+  `TauCeti.DynkinType.hasCartanType_simplyConnectedRootDatum` in
+  `TauCeti/LinearAlgebra/RootSystem/SimplyConnectedRootDatum/Assembly.lean`;
+  `TauCeti.DynkinType.rationalRootSystem`, `TauCeti.DynkinType.rationalBase` and
+  `TauCeti.DynkinType.hasCartanType_rationalRootSystem` in `Rational.lean` in that
+  directory. Roots use `Fin t.numRoots`, both lattices use `Fin t.rank → ℤ`,
+  character coordinates are fundamental weights, and cocharacter coordinates
+  are simple coroots. `TauCeti.rootPairingBaseChange` in
+  `TauCeti/LinearAlgebra/RootSystem/BaseChange.lean` is the dot-product base change.
+- `TauCeti.DynkinType.diagramSymmetry`, `TauCeti.DynkinType.rationalDiagramAut`,
+  `TauCeti.DynkinType.diagramAut` and `TauCeti.DynkinType.diagramAutHom` from
+  `TauCeti/LinearAlgebra/RootSystem/SimplyConnectedRootDatum/DiagramAutomorphism.lean`
+  and its imports give the numbered diagram action, with its simple-root and
+  coordinate equations. The converse based-automorphism identification is §2.2.
+- `RootPairing.InvariantForm.two_mul_apply_root` in
+  `TauCeti/LinearAlgebra/RootSystem/InvariantForm/Basic.lean` gives
+  2B(x,αⱼ) = ⟨x,αⱼ∨⟩B(αⱼ,αⱼ), used in §3.2.
 
-Stated for `P` finite, reduced, crystallographic over a characteristic-zero field, with a base `b`,
-indexed by root indices `ι` throughout. This layer is the combinatorial engine underneath the Coxeter
-presentation, so it precedes it.
+**Checks of the supplied conventions.**
 
-- **Positive and negative roots.** `posRoots b = {i | b.IsPos i}`, `negRoots b = {i | ¬ b.IsPos i}`;
-  the partition into positive and negative (`Base.IsPos.or_neg`), the swap by root negation, and every
-  `i ∈ posRoots b` a nonnegative integer combination of simple roots (`exists_root_eq_sum_nat_or_neg`).
-  `posRoots b` is finite (`[Finite ι]`).
-- **Simple-root lowering.** A positive root that is not a simple root is lowered in height by some
-  simple reflection (`exists_mem_support_height_reflectionPerm_lt`), the base case of the positive-root
-  induction (consume `Base.height`, `Base.IsPos.induction_on_reflect`). A simple reflection `sᵢ`
-  permutes the positive roots other than `αᵢ` (consume `Base.IsPos.reflectionPerm`).
-- **Inversion sets and the exchange step.** `inversions b w = {i | b.IsPos i ∧ ¬ b.IsPos (P.weylGroupToPerm w i)}`
-  is the set of positive roots sent to negative roots by `w`. The **root-level exchange step**
-  (`inversions_ncard_mul_ofIdx`) is that appending a simple reflection changes `(inversions b w).ncard`
-  by exactly one; iterated, this is the exchange/deletion condition for the geometric action and the
-  combinatorial core that Layer 2's generation and presentation consume. A companion pair of lemmas
-  identifies these index-level inversions with the vector-root inversions `{α ∈ Φ⁺ | wα ∈ Φ⁻}`, so
-  cardinalities are counting roots, not indices.
-- **Finiteness of the Weyl group.** The permutation action `weylGroupToPerm` is faithful for a root
-  system (the roots span, so an automorphism fixing every root index is the identity;
-  `weylGroupToPerm_injective`), whence `Finite P.weylGroup` for finite `ι` (`finite_weylGroup`).
-  Finiteness needs the spanning hypothesis `[P.IsRootSystem]`, not merely `[Finite ι]`: a subgroup
-  generated by finitely many linear automorphisms need not be finite without it.
+- Finite type holds for [2] with symmetrizer [1] and value 2 at 1. It also
+  holds for the empty matrix. For affine A₁, `!![2, -2; -2, 2]`, the value
+  at (1,1) is 0 for every symmetrizer, so positive definiteness fails.
+- Native validity admits A₁ and B₂ but rejects A₀, B₁, C₂ and D₃. The B₂
+  Cartan matrix is `!![2, -2; -1, 2]`, its Coxeter off-diagonal is 4, and the
+  A₁ Coxeter matrix is [1], not its Cartan matrix [2].
+- The native A₁ datum has root 2 and coroot 1 in simple coordinates; their
+  pairing is 2, while a fundamental weight pairs to 1. Reflection sends these
+  to −2 and −1. An unmarked isomorphism therefore cannot certify identity of
+  the designated simple index.
+- In the infinite rational pairing H=`!![2, -3; -3, 2]`, take integral norm
+  ±2 vectors as roots and put v∨=(H(v,v)/2)v. The two coordinate vectors form
+  a base: opposite-sign nonzero coordinates have norm at least 10. Both
+  embeddings are injective and reflection is an integral isometry. The root
+  (1,1) has height 2, but its simple reflections (2,1) and (1,2) have height 3.
+  Iterating s₁s₂ on (1,0) gives (8,3), (55,21), (377,144); finiteness cannot
+  be dropped from lowering. In A₂, (1,1) instead lowers to height 1.
+- In A₁ the closed chamber is [0,∞); reflection fixes 0 but sends 1 to −1.
+  Thus uniqueness of a dominant representative does not imply a trivial wall
+  stabilizer. The longest element is reflection, has one inversion and squares to 1;
+  in rank zero it is identity and has zero inversions.
 
-### Layer 2: the Weyl group as a Coxeter system
+## How to read the build
 
-Built on Layer 1's inversion combinatorics.
+Layer 1 completes the marked presentation using the supplied root exchange theory.
+Layer 2 uses native chambers for automorphism complements and then retains the
+full integral lattices. Layer 3 develops components and metrics independently of
+the presentation. Layer 4 uses native integral coordinates and root strings for
+greatest roots. Layer 5 identifies concrete Weyl groups. Classification and the
+numbered family supply all these layers directly; none is a premise for rebuilding them.
 
-- **The Coxeter matrix of a base.** `coxeterMatrixOfBase b : CoxeterMatrix b.support`, whose off-
-  diagonal entry `m i j` is the order of `sᵢ sⱼ`, read off the Cartan product
-  `b.cartanMatrix i j * b.cartanMatrix j i ∈ {0, 1, 2, 3}` (equivalently `coxeterWeightIn ℤ`): value
-  `0 ↦ 2`, `1 ↦ 3`, `2 ↦ 4`, `3 ↦ 6`. That the product lands in `{0,1,2,3}`, so the entry is a genuine
-  Coxeter order, needs the full reduced crystallographic finite-type context; the pinned signature
-  carries `[Finite ι] [CharZero R] [IsDomain R] [P.IsRootSystem] [P.IsCrystallographic] [P.IsReduced]`,
-  not `[P.IsCrystallographic]` alone (consume `chainBotCoeff_add_chainTopCoeff_le_three`,
-  `coxeterWeight_nonneg`). Prove it is a genuine `CoxeterMatrix` (symmetric, diagonal `1`).
-- **Simple reflections generate.** `⊤ = Subgroup.closure (range fun i : b.support => weylGroup.ofIdx P i)`
-  as subgroups of `P.weylGroup`: every reflection is a product of simple reflections. Prove via the
-  positive-root induction of Layer 1 (a positive non-simple root is lowered by some simple reflection).
-- **The presentation (Tits' theorem).** `weylCoxeterSystem b : CoxeterSystem (coxeterMatrixOfBase b) P.weylGroup`.
-  The braid relations `(sᵢ sⱼ)^{m i j} = 1` hold in `W` (from `coxeterMatrixOfBase`); the induced map
-  from the presented group `(coxeterMatrixOfBase b).Group → P.weylGroup` (via `CoxeterSystem.lift`) is
-  surjective (generation) and injective (**no further relations**). Injectivity is proved through the
-  **root-level exchange condition** of Layer 1: a nonempty reduced word in the presented group maps to
-  an element with a nonempty inversion set, so it moves some positive root to a negative root and is
-  not the identity; hence the map has trivial kernel. This is a non-circular route - it does **not**
-  appeal to faithfulness of the existing Weyl-group action, which says only that distinct elements of
-  `P.weylGroup` act distinctly and is silent about the kernel of the map from the abstract presented
-  group. This is the summit of the layer and the single hardest theorem in the roadmap.
-- **Length equals inversions.** With `cs := weylCoxeterSystem b`, for `w : P.weylGroup`
-  `cs.length w = (inversions b w).ncard`. In particular `cs.length (weylGroup.ofIdx P i) = 1` for
-  simple `i`, and `cs.IsReduced` words correspond to reduced reflection expressions.
+## Layer 1: the marked Coxeter presentation
 
-### Layer 3: the missing Coxeter combinatorics (root-system-free)
+### 1.1 Completeness of the relations
 
-Stated for a general `cs : CoxeterSystem M W`, independent of root systems; these fill Mathlib's
-declared TODOs and belong in `TauCeti/GroupTheory/Coxeter/`.
+For the standing finite reduced crystallographic spanning pairing over a
+characteristic-zero domain, prove `exists_marked_weylCoxeterSystem`: there is
+cs on `TauCeti.coxeterMatrixOfBase P b` with cs.simple i equal to the actual
+reflection `RootPairing.weylGroup.ofIdx P i` for every simple index. Prove
+injectivity of the supplied homomorphism; combine it with surjectivity to obtain
+this marked system (Milne C.22, p. 612, milne17 line 25096).
+A route uses root exchange to compare minimal reflection words with abstract
+reduced words; every word in the kernel must reduce to the empty word by the
+Coxeter relations. Faithfulness of the Weyl action alone does not prove this.
+*Needs:* native Coxeter homomorphism and generator equation; root deletion;
+abstract strong exchange and Matsumoto.
 
-- **The strong exchange condition.** If `t` is a reflection (`cs.IsReflection t`) and
-  `ℓ(t · π ω) < ℓ(π ω)` for a reduced word `ω`, then `t · π ω` is obtained by deleting exactly one
-  letter of `ω`; the deleted letter is located by `leftInvSeq`. Derive the **deletion condition** (a
-  non-reduced word can be shortened by deleting two letters) and the **exchange condition** as corollaries.
-- **Matsumoto's theorem.** State it in two matching forms. The **relational form**: any two reduced
-  words for the same `w : W` are connected by braid moves (`alternatingWord` swaps). The **lift form**
-  that downstream users consume (`matsumoto`): a function `f : B → G` into a monoid that is constant on
-  braid relations has `wordProd`-image depending only on `π ω` for reduced `ω`, so there is a
-  well-defined "value of `w` along any reduced word". The braid-relation hypothesis is stated for all
-  pairs `i i'`, so the finite and infinite `cM i i'` entries are handled uniformly. Consume
-  `not_isReduced_alternatingWord`, the strong exchange condition, and `CoxeterSystem.lift`.
-- **Consequences.** The Bruhat order's basic well-definedness, and the identity
-  `∑_{w ∈ W} qℓ(w)` (the length generating function) is a well-defined element of `ℤ[q]` for finite
-  `W` - the Poincaré polynomial. This is a companion result, not on the critical path: the order of
-  the Weyl group is `Nat.card P.weylGroup` directly (Layer 4), and the type-specific product formulas
-  would additionally need the exponents/degrees, which are out of scope here.
+### 1.2 Length and reduced expressions
 
-### Layer 4: chambers, the fundamental domain, and the longest element
+For every such marked cs and every w, prove `length_eq_inversions`:
+cs.length w equals the number of positive roots made negative by w. Deduce that
+reduced words are precisely minimal simple-reflection expressions, that the
+native longest element has length the positive-root count. Identify the
+coefficients of the native Poincaré polynomial with counts by inversion
+cardinality, and express its native Bruhat subword criterion using the actual
+simple reflections (Bourbaki, Chapter VI §1, no. 6; Björner–Brenti,
+§2.2 and Theorem 3.3.1). *Needs:* §1.1; inversion exchange;
+`CoxeterSystem.length`; native longest element; abstract Matsumoto.
 
-Stated for `P : RootPairing ι ℝ M N` finite, reduced, crystallographic, with a base `b`. Over `ℝ` the
-canonical form is positive-definite and the chambers are sign-pattern cones, so this layer needs no
-topology.
+### Examples
 
-- **Weyl chambers as cones.** The **dominant chamber** `dominantChamber b = {x : M | ∀ i ∈ b.support, 0 ≤ P.coroot' i x}`
-  and its interior `{x | ∀ i ∈ b.support, 0 < P.coroot' i x}`, defined directly as the sign-pattern
-  cones of the simple coroot functionals; the general chambers are the `W`-translates of the dominant
-  chamber. Defining chambers as cones (rather than as connected components of a hyperplane complement)
-  keeps the layer inside `[Module ℝ M]` without importing topology or finite-dimensionality; the
-  identification with topological components is deferred and not needed downstream.
-- **The fundamental domain.** Every point of `M` is `W`-conjugate into `dominantChamber b`
-  (`exists_mem_dominantChamber`). A point of the *open* dominant chamber has trivial stabilizer, stated
-  as two theorems: if `x` is interior and `w • x` is again dominant then `w • x = x`
-  (`eq_of_mem_dominantChamber_interior`), and an element fixing an interior point is the identity
-  (`eq_one_of_smul_eq_self_of_interior`). With the existence statement these give that `W` acts
-  **simply transitively on the open chambers**. They do not give uniqueness of the dominant
-  representative on the walls: a point `x` with `⟨αᵢ^∨, x⟩ = 0` is fixed by `sᵢ ≠ 1`, so no
-  interior argument applies to it. The closed dominant chamber being a **strict fundamental domain**
-  (two dominant points in one `W`-orbit are equal, for every point of the closed chamber) is the
-  pinned Tau Ceti theorem `TauCeti.smul_eq_self_of_smul_mem_dominantChamber` (if `x` and `w • x`
-  are both in `RootPairing.dominantChamber P b` then `w • x = x`) and its orbit form
-  `TauCeti.eq_of_mem_orbit_of_mem_dominantChamber`, in `TauCeti/LinearAlgebra/RootSystem/FundamentalDomain.lean`,
-  for a finite crystallographic pairing over a strictly ordered commutative ring with `P` and
-  `P.flip` reduced; its proof shows that the stabilizer of a dominant point is generated by the
-  simple reflections in the walls through it (`TauCeti.stabilizer_eq_closure_wallReflections`). The two interior statements above are its special case and
-  are at the pin as `TauCeti.eq_one_of_smul_mem_dominantChamber` and
-  `TauCeti.eq_one_of_smul_eq_self_of_mem_openDominantChamber`. This is the geometric heart used by
-  highest-weight theory.
-  - **Check.** In type `A₁` over `ℝ` with `M = ℝ`, `α = 2`, `α^∨ = 1`: the point `x = 0` lies on the
-    wall, `s • 0 = 0` with `s ≠ 1`, so the stabilizer of a closed-chamber point need not be trivial,
-    while the dominant representative of the orbit `{0}` is still unique; the point `x = 1` is
-    interior, `s • 1 = −1` is not dominant, and its stabilizer is trivial.
-- **The longest element.** For finite `ι` the Weyl group is finite (`finite_weylGroup`, Layer 1) and
-  has a unique `longestElement b : P.weylGroup` with `w₀ • posRoots b = negRoots b`,
-  `(weylCoxeterSystem b).length w₀ = (posRoots b).ncard`, and `w₀ ^ 2 = 1`; every `w` satisfies
-  `ℓ(w) ≤ ℓ(w₀)`. The order of the Weyl group is `Nat.card P.weylGroup`.
+- In A₂, swapping the two abstract generators preserves all lengths but sends
+  α₁ to α₁+α₂ at generator 0 instead of −α₁. The marking in §1.1 excludes it.
+- In A₂, 1, s₁, s₁s₂, s₁s₂s₁ have lengths and inversion counts 0,1,2,3;
+  s₁s₁ has both values 0. The polynomial is 1+2q+2q²+q³.
+- In rank zero both groups have one element, the marking is empty, and the
+  length polynomial is 1. In A₁ it is 1+q.
 
-#### 4A. Finite root automorphisms and the based complement
+### Dependencies
 
-For the finite reduced crystallographic real root pairing of Layer 4, spanning both
-spaces, construct the full native `RootPairing.Aut P` action on roots, coroots,
-positive systems and chambers. Use native reflection conjugation to prove that
-`P.weylGroup` is normal. Define `basedAut P b` as the subgroup preserving the
-actual base support, equivalently the open dominant chamber. Prove that a root
-automorphism takes that chamber to a chamber: transport the actual coroot
-inequalities and positive-system/base comparison. Chamber covering at one regular
-point alone is not this set-level transport theorem.
+Only the Mathlib and Tau Ceti contracts for root exchange and abstract Coxeter
+systems; no chamber or classification proof depends on this layer.
 
-Native chamber freeness/transitivity gives a unique factorization `g=wδ` with
-`w∈W` and `δ∈basedAut P b`. Construct the actual `W.IsComplement' (basedAut P b)`
-witness, then consume Mathlib's
-[`SemidirectProduct.mulEquivSubgroup`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/GroupTheory/SemidirectProduct.lean#L236-L240), not a second
-generic semidirect-equivalence construction. Its action is conjugation and its
-multiplication is `(w,δ)(v,η)=(w δ(v),δη)`. Export the map `(w,δ)↦wδ`, inverse
-`g↦(w,w⁻¹g)`, both inverse and multiplication equations, the two subgroup
-inclusions, projections, unique-factor theorem, intersection and normality laws,
-and their root/coroot, chamber and change-of-base equations. Keep native
-`RootPairing.Equiv.coweightEquiv` contravariant: its inverse is the geometric
-forward cocharacter action, including order-3 triality.
+## Layer 2: root automorphisms and the based complement
 
-After Layers 5–6, identify the based subgroup with automorphisms of the oriented Cartan matrix,
-using the actual finite root/coroot realization and inverse maps. Connected
-`A_r` has the reversal for `r≥2`, `D_r` the fork interchange for `r≥5`, `D₄`
-has triality `S₃`, and `E₆` has its involution; the other valid connected types
-have trivial based subgroup. Include `A₁`, and permutations of isomorphic
-components in reducible systems. Non-W root automorphisms exist in examples
-such as `A₂`; strict `Aut(Φ)>W` is not asserted for every type. In the spanning
-semisimple rank-0 case both spaces and all three groups are trivial.
+### 2.1 The actual base stabilizer
 
-The inverse direction, from Cartan-matrix symmetries to root automorphisms, is at the pin for the
-pinned native family: `TauCeti.DynkinType.diagramSymmetry t` is the subgroup of permutations of
-`Fin t.rank` preserving the native Cartan matrix, and
-`TauCeti/LinearAlgebra/RootSystem/SimplyConnectedRootDatum/DiagramAutomorphism.lean` sends each
-such `σ` to `TauCeti.DynkinType.rationalDiagramAut` on the rational system and
-`TauCeti.DynkinType.diagramAut` on the integral datum, multiplicatively
-(`TauCeti.DynkinType.diagramAutHom`), injectively (the automorphism is trivial only for
-`σ = 1`), extending `σ` on the simple roots along the Bourbaki numbering, and as the unique
-automorphism of the integral datum with that coordinate weight map. The
-identification of the based subgroup consumes these through the dictionary of Layer 6 and adds
-the converse: every based automorphism is one of them. The character map of `diagramAut` is
-precomposition with `σ⁻¹` and its cocharacter map precomposition with `σ`; the identification
-keeps these two transposes apart.
+Define `basedAut` as the inverse image under the native index homomorphism of
+the setwise stabilizer of b.support. For finite reduced crystallographic
+spanning real pairings, prove `weyl_based_complement`: W complements that
+subgroup in the full root-pairing automorphism group (SGA 3 XXI, Prop. 6.7.2,
+sga3iii line 1374; Milne C.53, p. 624). *Needs:* native set stabilizer and comap;
+chamber covering, freeness and transitivity; transport of base inequalities.
 
-The statements of this section are the root-datum results of SGA 3, Exp. XXI: transport of
-bases, positive systems and chambers along a root-datum isomorphism (Prop. 6.1.3), normality of
-the Weyl group with `u s_α u⁻¹ = s_{u(α)}` (Lemma 6.7.1), the semidirect decomposition of `Aut`
-by `W` and the stabilizer of a base (Prop. 6.7.2), and the identification of that stabilizer, for
-a reduced simply connected or adjoint datum, with the Cartan-matrix symmetries of the base
-(Cor. 7.3.4) and with the Dynkin-diagram automorphisms (Cor. 7.4.5), the connected diagrams being
-listed in Rem. 7.4.6.
+- Membership is exactly g.indexEquiv '' b.support = b.support; identity,
+  composition and inverse preserve the support.
+- Prove that a root automorphism carries positive systems and open chambers
+  to positive systems and open chambers, using the actual coroot inequalities;
+  preservation of the base is equivalent to preservation of the open chamber
+  (SGA 3 XXI, Prop. 6.1.3, sga3iii line 1051).
+- Prove normality by conjugating each generating reflection to the reflection
+  at its image root (SGA 3 XXI, Lemma 6.7.1, sga3iii line 1368).
+- Obtain the conjugation semidirect equivalence from the native complement API.
+  Its forward map is (w,δ) ↦ wδ; its inverse gives the unique two factors.
+  Prove the root, coroot and change-of-base transport equations. The product
+  is (w,δ)(v,η)=(wδ(v),δη); the intersection of the two factors is trivial.
 
-For an actual finite-free integral root datum retain both lattices and compare
-with its rational/real scalar extension; do not impose integral `IsRootSystem`
-or identify an arbitrary isogeny lattice with the full weight lattice. For
-semisimple intermediate `Q⊆X⊆P`, `Q∨⊆Y⊆P∨`, construct the subgroup of based
-automorphisms preserving these actual dual lattices and the corresponding
-decomposition of full-datum automorphisms. Prove the integral/field extension
-and restriction maps inverse. A `D₄` vector isogeny form need not admit all
-triality permutations. For full reductive data use the cylinder chambers of
-the rational root span and carry the actual central/derived lattice gluing;
-the based full-datum stabilizer includes the compatible central automorphisms
-and need not be finite. A root-free rank-r datum has trivial W but its full
-datum automorphism group is `GL_r(ℤ)`, not the trivial group when r>0. State
-the finite root-space decomposition and this full-datum decomposition as
-different scopes, with their actual lattice and pairing maps.
+**Checks.**
 
-The signed ADE cover-lift group belongs to
-[ReductiveGroups §9A.1a-L](../../ReductiveGroups/README.md), and the compact
-normalizer/Tits application to [LieGroups Layer 8N](../LieGroups/README.md). Neither
-the affine coweight quotient nor a based Lie functor is identified with a
-compact normalizer section.
+- In A₁ the base stabilizer is {1}; reflection takes the positive simple index
+  to the negative one and is excluded. Aut has order 2=2·1.
+- In A₂ the base reversal has order 2 and is outside W; Aut has order 12=6·2.
+  Replacing the base stabilizer by all automorphisms would give a nontrivial intersection.
+- For the empty spanning real system W and Aut are trivial. For a root-free
+  rank-one integral datum the base stabilizer instead has order 2, as in §2.3.
 
-### Layer 5: Dynkin diagrams and the Cartan-Killing classification
+### 2.2 Oriented diagrams and actual isogeny lattices
 
-- **The Dynkin type enumeration.** `DynkinType` : `A n | B n | C n | D n | E₆ | E₇ | E₈ | F₄ | G₂`, with
-  `DynkinType.rank : DynkinType → ℕ`, the validity predicate `DynkinType.Valid` (the rank ranges), and
-  the standard integer Cartan matrix `DynkinType.cartanMatrix t : Matrix (Fin t.rank) (Fin t.rank) ℤ`
-  (diagonal `2`, the off-diagonal entries encoding the edges and their multiplicities, with the single
-  double edge of `Bₙ`/`Cₙ`/`F₄` and the triple edge of `G₂`). The Cartan matrix is **oriented**: it
-  is not merely an unoriented labeled graph, since an unoriented multiply-laced diagram cannot separate
-  `Bₙ` from `Cₙ`. Concretely `DynkinType.cartanMatrix (.B n)` is the transpose of
-  `DynkinType.cartanMatrix (.C n)`; the two are distinct root systems, identified only after `flip`
-  (duality). Connectedness of the diagram is irreducibility (consume `induction_on_cartanMatrix`).
-- **The finite-type condition.** `IsFiniteType (A : Matrix B B ℤ) : Prop`: `A` is a *Cartan matrix*
-  (diagonal `2`, off-diagonal `≤ 0`, `A i j = 0 ↔ A j i = 0`) that is **symmetrizable with
-  positive-definite symmetrization**. Prove that `b.cartanMatrix` of a finite crystallographic root
-  system is of finite type (consume `posRootForm_rootFormIn_posDef`, `RootPairing.Base.cartanMatrix_nondegenerate`).
-- **The classification of finite-type Cartan matrices.** An indecomposable finite-type Cartan matrix
-  reindexes, up to a single simultaneous row/column relabelling, to `DynkinType.cartanMatrix t` for a
-  **unique valid** `t`. This is the combinatorial core: the positive-definiteness bound on subdiagrams
-  (no vertex of degree `> 3`, at most one multiple edge, the chain/fork length constraints) eliminates
-  everything outside the list, and validity removes the low-rank coincidences. Stated for a root system
-  as `existsUnique_dynkinType`.
-- **Realization.** `exists_rootPairing_of_dynkinType t ht`: each **valid** local `DynkinType t` is the
-  Cartan matrix of an irreducible reduced crystallographic finite root system. Its root-index carrier
-  is `Fin t.numRoots`, while its ambient vector and covector carriers are `Fin t.rank → ℚ`; these differ
-  already for `A₁`, with rank one and two roots. The realization is obtained by transporting the
-  existing native `rationalRootSystem` and `rationalBase` through `toNativeDynkinType`, the proved
-  node/root-index casts, and the root-pairing equivalence. The native source constructs the nine family
-  data explicitly, so this lane is independent of this roadmap's uniqueness/classification theorem.
-  The local root datum and realization targets consume that same family data and prove the coordinate,
-  Cartan, length, and base equations needed by local consumers; they do not define a parallel model.
-- **The Cartan-Killing classification (summit).** Combining realization, `existsUnique_dynkinType`, and
-  the final isomorphism step `nonempty_equiv_of_hasCartanType` (consuming Mathlib's
-  `equivOfCartanMatrixEq`): every irreducible reduced crystallographic finite root system is isomorphic
-  (as a `RootPairing`) to the root system of a **unique valid** `DynkinType t` - a bijection between
-  isomorphism classes of such root systems and the valid Dynkin types.
+For a finite reduced crystallographic spanning system, identify its based
+subgroup with the permutations of its simple support preserving every Cartan
+entry. Use the native diagram automorphisms on the simply connected family
+for existence and determination on a base for uniqueness (SGA 3 XXI,
+Cor. 7.3.4, Cor. 7.4.5 and Rem. 7.4.6, sga3iii lines 1627, 1654, 1660).
+For the full integral version this unrestricted diagram identification applies
+to semisimple simply connected or adjoint data. For intermediate isogeny forms,
+restrict to diagram automorphisms preserving the **actual dual lattices**.
+*Needs:* §2.1; native classification, diagram actions and Cartan determination.
 
-### Layer 6: the Bourbaki numbering and integral root data
+Define the lattice-preserving subgroup by the two equations g(X₀)=X₀ and
+(g.coweightEquiv)⁻¹(Y₀)=Y₀ for specified dual integral lattices in the rational
+pairing. Here the lattices are finite free ℤ-submodules spanning the rational
+spaces, the pairing restricts to perfect ℤ-duality, and they contain all roots
+and coroots respectively. This is the intersection of the inverse images of their native setwise
+stabilizers, using the forward weight and cocharacter actions.
 
-Layer 5 classifies root systems up to isomorphism, and `exists_rootPairing_of_dynkinType` realizes
-each valid type. That is not enough for a consumer that needs a *carrier*: an existence statement can
-only be turned into data by `Classical.choose`, and a development that then builds a group out of the
-chosen root system has no way to show a reviewer what its group is made of. The
-CFSGStatement roadmap (workstreams L0 and L1) needs exactly this, for the
-Chevalley--Demazure construction of the finite groups of Lie type, and it is not the only consumer:
-any explicit construction of a semisimple group scheme starts here.
+- Prove identity, product and inverse closure and that restriction yields an
+  integral root-datum automorphism when the lattices contain the respective roots.
+- Construct scalar extension from integral automorphisms and prove extension
+  and restriction inverse, with root/coroot and pairing equations.
+- Identify the based lattice stabilizer under these inverse maps, and restrict
+  the semidirect decomposition to it. For reducible systems include permutations
+  of isomorphic components that preserve the lattice gluing.
 
-- **Pin the node numbering.** `DynkinType.cartanMatrix` is indexed by the Bourbaki labels, with
-  Bourbaki node `i` at `Fin` index `i - 1`, and `cartanMatrix t i j = ⟨α_i, α_j^∨⟩`. This is
-  currently unstated, so nothing downstream can say which node is which. Fix it as part of pinning
-  `cartanMatrix` itself: the `A_n` chain in order; the `B_n`/`C_n` double edge between the last two
-  nodes, short last in `B_n` and long last in `C_n`; the `D_n` fork at index `n - 3`; Bourbaki's
-  branch node for `E₆`, `E₇`, `E₈`; `F₄` long then short; and `G₂` short then long, giving
-  `!![2, -1; -3, 2]` as the worked example below already records. Add
-  `DynkinType.IsLongSimpleRoot` so downstream length-exchanging maps have something to refer to.
-  Zero-based `Fin` indices against one-based Bourbaki labels are the standing trap here, so state the
-  offset rather than leaving it to be inferred.
+**Checks.**
 
-- **Reuse the pinned native family, through a stated dictionary.** The local roadmap enumeration
-  `TauCetiRoadmap.RepresentationTheory.RootSystems.DynkinType` and the installed
-  `_root_.TauCeti.DynkinType` are distinct inductive types, even though their nine constructors
-  correspond. The realization and pinned-datum targets must not silently identify them or build a
-  second family of coordinates. Define the constructor map `toNativeDynkinType` case-by-case, then
-  prove, for every local `t`, preservation of `Valid`, `rank`, `numRoots`, the oriented Cartan
-  entries under the induced `Fin` casts, and `IsLongSimpleRoot` at each Bourbaki node. The G₂ arrow
-  orientation and B/C distinction are part of these equations. This map is a literal dictionary, not
-  a classification theorem, so it does not depend on Layer 5.
+- A₂ has its reversal, D₄ has S₃ triality, and E₆ has its involution; A₁ has no
+  nontrivial diagram permutation. In D₄ the three transpositions and two
+  3-cycles give six based automorphisms.
+- B₂'s node swap changes entries (−2,−1) to (−1,−2) and is excluded;
+  an unoriented graph stabilizer would incorrectly include it.
+- D₄ has discriminant group (ℤ/2)². Fixing one nonzero discriminant class
+  leaves a subgroup of order 2 in S₃, not all six triality permutations.
+- Under σ=(123), forward weight and cocharacter maps both send e₁ to e₂;
+  using the contravariant cocharacter map itself sends e₁ to e₃ and fails
+  the pairing test ⟨e₂,e₂⟩=1 versus ⟨e₂,e₃⟩=0.
 
-  Reuse `_root_.TauCeti.DynkinType.rationalRootSystem` and `rationalBase` from
-  `TauCeti.LinearAlgebra.RootSystem.SimplyConnectedRootDatum.Rational`, with
-  `_root_.TauCeti.DynkinType.hasCartanType_rationalRootSystem` as the supplied realization. State
-  the local `HasCartanType` result after transporting the native standard matrix through the
-  dictionary and its oriented-node cast. Any local realization/equivalence target must identify the
-  native root-index equivalence, the rank-coordinate equivalence, and its root, coroot, pairing,
-  reflection-permutation and simple-base equations. Keep the existing `Fin t.numRoots` root carrier
-  separate from `Fin t.rank` coordinates. This reuse is independent of `existsUnique_dynkinType` and
-  of any classification argument. Keep the explicit family-coordinate descriptions as comparisons:
-  type A in the sum-zero hyperplane, the classical B/C/D systems, E8 with E6/E7 subsystems, and
-  standard F4/G2 coordinates must agree with the transported native model. They audit the family
-  constructions and local naming; they are not a second implementation.
+### 2.3 Full integral data and central directions
 
-  Likewise, define the local pinned integral datum by transporting the actual native
-  `_root_.TauCeti.DynkinType.simplyConnectedRootDatum` from
-  `SimplyConnectedRootDatum.Assembly`, whose dispatcher is defined by cases into the nine family
-  data and whose `simpleIndex` is `Fin.castLE (rank_le_numRoots ht)`. The rational layer is in
-  `SimplyConnectedRootDatum.Rational`: `rationalRootSystem` is `TauCeti.rootPairingBaseChange`
-  (`TauCeti/LinearAlgebra/RootSystem/BaseChange.lean`, the entrywise base change of a dot-product
-  root pairing along an injective ring map, with its base `TauCeti.rootPairingBaseChangeBase`) of that
-  datum, `rationalBase` is its transported base, and `hasCartanType_rationalRootSystem` consumes
-  native `hasCartanType_simplyConnectedRootDatum`. The local constructor map is a separate, explicit
-  dictionary; use it to transport rather than treating the two enums or their families as definitionally
-  identical. The transport contract
-  must give the root-index equivalence and coordinate equivalences on both character and
-  cocharacter lattices, and explicitly commute with root/coroot, pairing, and base change to ℚ.
-  Its simple-root map is the native `simpleIndex` followed by the root-index transport; identify the
-  local support equivalence with native `simpleSupportEquivSimplyConnectedBase`. Prove the simple
-  root rows are the local Bourbaki Cartan matrix and the simple coroot pairing is the Kronecker
-  pairing, preserving the chosen weight/coweight convention. These are target-level comparison
-  obligations; do not claim they are already implemented in the native import or proved by merely
-  citing `rationalRootSystem`.
+For finite reduced crystallographic `RootDatum` with both lattices finite free,
+prove `full_datum_complement`. Construct its rational scalar extension with
+maps from both lattices, preserving the perfect pairing, roots, coroots, base
+and reflections. Build the chamber argument on the root span and its cylinder
+in the ambient rational space. Retain the central/derived lattice gluing; an
+integral direct-sum decomposition is not assumed (SGA 3 XXI, Prop. 6.7.2,
+sga3iii line 1374; Milne C.43 and C.51, pp. 617, 620).
+*Needs:* §2.1's base-transport argument; §2.2's lattice restriction;
+finite-free scalar extension and duality in Mathlib.
 
-- **A named datum per valid type.** `DynkinType.simplyConnectedRootDatum t ht`, a `RootDatum` over
-  `ℤ` with roots indexed by `Fin t.numRoots` and both lattices pinned to `Fin t.rank → ℤ`: the
-  cocharacter lattice with the simple coroots as its standard basis, the character lattice with the
-  fundamental weights as its standard basis, so that `⟨ω_i, α_j^∨⟩ = δ_ij` and the simple root `α_i`
-  is the `i`-th row of the Cartan matrix. The first `t.rank` root indices are the simple roots in
-  Bourbaki order, and `DynkinType.simplyConnectedBase` is the corresponding base. Acceptance is
-  `DynkinType.hasCartanType_simplyConnectedRootDatum`, which says the pinned datum realizes its own
-  type against the pinned numbering, and `DynkinType.span_coroot_simplyConnectedRootDatum`, which
-  says the form is the simply connected one. The adjoint form is `RootPairing.flip` of the dual
-  type's datum, not a second pinned definition.
+- Scalar extension and restriction preserve both pairings and the simple
+  indices, and their composites are identity on the specified integral maps.
+- The cylinder chamber is the inverse image of the chamber in the root span
+  under rational projection along the common coroot kernel. It is preserved
+  by exactly the based full-datum automorphisms.
+- The based subgroup contains the compatible central automorphisms and may
+  be infinite; the complement theorem is not a finiteness theorem about Aut.
 
-  `DynkinType.numRoots` is part of this: `n(n+1)` for `A n`, `2n²` for `B n` and `C n`, `2n(n-1)`
-  for `D n`, and `72, 126, 240, 48, 12` for the exceptional types.
+**Checks.**
 
-### Layer 6A: invariant metrics and root lengths by component
+- A root-free rank-r datum has W=1 and Aut=GLᵣ(ℤ); r=0 gives one element,
+  r=1 gives {±1}, and r=2 admits the infinite-order shear `!![1, 1; 0, 1]`.
+- For GL₂, root (1,−1) and central direction (1,1) span an index-2 subgroup
+  of ℤ²: their determinant is 2. A rational splitting does not split the lattice.
+- For simply connected A₁, the roots span 2ℤ in the character lattice ℤ;
+  imposing integral spanning would exclude this basic case.
 
-Work over ℝ on the span of the roots; use `[P.IsRootSystem]` when identifying
-that span with the whole weight space. For a finite reduced crystallographic
-root pairing and a base b, form the finite graph on b.support with an edge
-between distinct i,j exactly when the Cartan entry C_ij is nonzero. Construct
-the component subspaces M_D spanned by their simple roots. Prove their internal
-direct-sum decomposition, that every root lies in exactly one M_D, and that
-the induced root systems are irreducible. Prove independence of the component
-partition under change of base and its transport under native root-pairing
-equivalences. This is the decomposition underlying the irreducible classification
-of Layer 5, constructed on the actual root and coroot subspaces.
+### Examples
 
-Use native `RootPairing.InvariantForm` with its underlying symmetric bilinear
-form positive-definite. Prove distinct M_D are orthogonal for every such form.
-On an irreducible component prove that any two such forms differ by a unique
-positive scalar. Pin the proof to the native identity
-`2 B(α_i,α_j)=C_ij B(α_j,α_j)`: symmetry fixes the ratio of squared simple-root
-lengths along each edge; connectedness and the simple-root basis determine the
-whole form. Relative to the canonical positive form restricted to each M_D,
-construct the bijection between all invariant positive-definite forms and one
-positive scalar per component. Prove restriction, reconstruction, inverse,
-reindexing and equivalence-transport identities. The empty root system has the
-unique form on its zero-dimensional span and an empty scalar family.
+The A₂ factorization gives 12 elements from W of order 6 and the based involution.
+The D₄ isogeny example distinguishes the six diagram symmetries from the two
+preserving one nontrivial lattice class. The root-free datum tests every central branch.
 
-After Layers 5–6, compare any such form with the native
-`TauCeti.DynkinType.rootLength` tables. Every root is Weyl-conjugate to a simple
-root, so in each irreducible component its squared length is s or r s for
-some s>0: r=1 for A,D,E, r=2 for B,C,F₄, and r=3 for G₂, with the valid-rank
-conventions of Layer 5. Prove that the two values both occur in the nonsimply
-laced cases. Native `RootPositiveForm.rootLength` is a squared length; the
-corresponding ratio of ordinary lengths is √r. Prove independence of these
-ratios from the chosen invariant form, their transport under real linear
-root-pairing equivalences, and their agreement with the transposed Cartan-entry
-normalization.
+### Dependencies
 
-For a reducible system the component scales are independent. As a concrete
-acceptance case construct A₁³ on ℝ³ with roots ±e_i, coroots ±2e_i under the
-standard coordinate duality, Cartan matrix 2I, and reflections changing one
-coordinate's sign. The invariant positive-definite form
-`B(x,y)=x₁y₁+2x₂y₂+5x₃y₃` has squared root lengths exactly {1,2,5}.
-Prove its reflection invariance, positivity and exact length set, together
-with the unchanged root/coroot pairing and reduced crystallographic axioms.
-Thus the two-length theorem is stated component by component. In general
-A₁^k permits any prescribed positive squared length in each coordinate.
+Native chamber geometry, classification, diagram actions and Mathlib subgroup
+complements; full integral data additionally need §2.3's general scalar extension.
 
-[InvariantMetricTargets.lean](InvariantMetricTargets.lean) gives suggested
-native invariant-form statements. Layer 6A consumes the root-span, base and
-classification targets above; it is not an input to their construction.
-For invariant metrics, decomposition and the length comparison, see
-[Milne, *Algebraic Groups*, Appendix C](https://www.jmilne.org/math/Books/iAG2017.pdf).
+## Layer 3: invariant metrics and root lengths
 
-## Worked examples (acceptance criteria)
+### 3.1 Irreducible components
 
-- **`Aₙ` and the symmetric group.** Fix the indexing convention once: type `A n` (for `n ≥ 1`) has
-  rank `n`, roots `eᵢ - eⱼ` (`i ≠ j`, `i, j : Fin (n+1)`) in the sum-zero hyperplane of `ℚ^{n+1}`,
-  simple roots `eᵢ - eᵢ₊₁`, and Weyl group `Equiv.Perm (Fin (n+1))` - so the classical `GLₖ` sits at
-  type `A (k-1)` after quotienting the central direction. Acceptance: `b.cartanMatrix` reindexes to
-  `DynkinType.cartanMatrix (.A n)`; `P.weylGroup ≃* Equiv.Perm (Fin (n+1))`, with simple reflections
-  the adjacent transpositions; `Nat.card P.weylGroup = (n+1)!`; and `(posRoots b).ncard = (n+1).choose 2`.
-  Via Layers 1-2 this exhibits `Sₙ₊₁` as the Coxeter system of type `Aₙ`, recovering
-  `CoxeterMatrix.A n` (`Coxeter/Matrix.lean`) as `coxeterMatrixOfBase b`.
-- **The classification list is exactly A-D-E-B-C-F-G.** The classification is a bijection between
-  isomorphism classes of irreducible reduced crystallographic finite root systems and the **valid**
-  Dynkin types: no such root system falls outside `Aₙ (n≥1), Bₙ (n≥2), Cₙ (n≥3), Dₙ (n≥4), E₆, E₇, E₈,
-  F₄, G₂`, and each of these occurs. The simply-laced types `A`, `D`, `E` are exactly those with all
-  off-diagonal Cartan products `≤ 1` (single edges); `B`, `C`, `F₄` carry one double edge and `G₂` the
-  triple edge, and `B` and `C` are distinguished by the orientation of that double edge.
-- **`G₂` explicitly.** The `G₂` root system (12 roots, 6 long and 6 short) with Cartan matrix
-  `!![2, -1; -3, 2]`. Acceptance: it satisfies Mathlib's `RootPairing.IsG2`, its Cartan matrix
-  reindexes to `DynkinType.cartanMatrix .G₂`, its Weyl group is the dihedral group of order 12,
-  `P.weylGroup ≃* DihedralGroup 6`, `coxeterMatrixOfBase b` reindexes to `CoxeterMatrix.G₂`, the
-  long/short root lengths differ by a factor of `3` (`RootPairing.rootLength`), and
-  `(posRoots b).ncard = 6`, `(weylCoxeterSystem b).length (longestElement b) = 6`.
+For a finite reduced crystallographic spanning real pairing and base, take the
+connected components of the graph on b.support whose distinct vertices are
+adjacent when Cᵢⱼ≠0. Define each component space as the real span of its simple
+roots and give it the restricted root/coroot pairing (Milne C.23, p. 612,
+milne17 line 25102). *Needs:* native Cartan entries and simple-root basis;
+Mathlib graph components and submodules; `RootPairing.isIrreducible_of_connected_diagramGraph_cartanMatrix`
+in `TauCeti/LinearAlgebra/RootSystem/FiniteType/Irreducible.lean`.
 
-### Finite coefficient reflections and the highest-root game
+- Prove that the component spaces form an internal direct sum and that each
+  root belongs to exactly one component; the restricted pairings are irreducible.
+- Prove that this partition of the roots is independent of the base and is
+  carried to the corresponding partition by any root-pairing equivalence.
+- Prove different component spaces orthogonal under every positive-definite
+  invariant form; construct restrictions and reconstruction by orthogonal sum.
 
-For a finite reduced crystallographic root system with base b, use native
-`b.toWeightBasisInt` on the actual root lattice to extract each root's
-integer simple-root coefficients. If
-`C_ij=⟨α_i,α_j∨⟩`, prove that reflection at i sends the coefficient
-column c to
-`s_i(c)_k=c_k−δ_ki Σ_j C_ji c_j`.
-Construct this integral linear involution, the coefficient/evaluation
-intertwiner with `P.reflectionPerm`, and its compatibility with reindexing
-and the specified root datum. With `A=2I−Cᵀ`, the changed coordinate is
-`Σ_j A_ij c_j−c_i`. This A is the **update** adjacency matrix; for
-multiply-laced types it is not `2I−C` in our root/coroot convention.
+**Checks.**
 
-Give a terminating finite-set algorithm starting with **all** simple
-coefficient vectors, adjoining their images under every s_i until stable.
-Prove every intermediate vector is a root coefficient, strict growth
-before stabilization is bounded by the finite root count, and the final
-set is exactly the coefficient set of the native root carrier. Consume
-Layer 1's simple-root lowering for completeness and retain negative roots
-in this closure. Extract positive roots by nonnegative coordinates and
-prove agreement with `b.IsPos`. Give duplicate elimination, index/root
-reconstruction and invariance under the order of adjoining reflections.
-This comparison algorithm does not replace the existing explicit family
-root enumerations or construct another root datum from scratch.
+- A₂ has one component of dimension 2, and (1,1) is in that component.
+- A₁² has two one-dimensional components; (1,1) is not a root and does not
+  join them. A graph that treats zero Cartan entries as edges gives the wrong partition.
+- The empty root system has no components and direct-sum dimension 0.
 
-For irreducible finite systems, construct the unique greatest positive
-root θ in the componentwise simple-coefficient order, proving existence
-and the comparison with the root-string/highest-root characterization.
-It uniquely maximizes `Σ_i w_i c_i` for any strictly positive integer
-weights w_i; this includes the printout's `(r,r−1,…,1)` sorting weights.
-These sorting weights are not asserted to be the Lie-theoretic Weyl vector.
-In the simply-laced case prove that a positive root other than θ admits
-an increasing simple reflection, that each such step adds exactly one
-simple root, and that every maximal increasing play ends at θ. Termination
-is by strict height increase in the finite positive-root set; uniqueness
-uses Layer 4's chamber/orbit comparison. Every intermediate position here
-is a root, not an arbitrary nonnegative integer vector.
+### 3.2 Positive invariant forms and squared lengths
 
-For other types retain the actual root-string membership when adding one
-simple root. An increasing reflection can jump by two or three; its first
-unit increment is a root by the unbroken string, but this alone does not
-make the two games have the same terminal positions. Check type B2 with
-α₁=e₁−e₂, α₂=e₂: α₁+α₂=e₁ has no increasing simple reflection, while
-`e₁+α₂=e₁+e₂` is still a root and is the highest root. Export the
-root-string coefficient comparison that explains this distinction.
+Prove `invariantMetric_unique_scale` for a finite irreducible spanning real
+root pairing: any positive-definite invariant forms B,C satisfy C=cB for a
+unique real c>0. Reducedness and crystallographicity are not needed for this
+statement. A route uses the invariant-form identity and irreducibility of the
+reflection representation (Milne Appendix C(g), p. 621, milne17 line 25421;
+native `RootPairing.InvariantForm.two_mul_apply_root`).
+*Needs:* native invariant forms, irreducibility, positive definiteness and spanning.
 
-After Layer 6, identify these computations with the SAME native type data.
-For E_r, r=6,7,8, use computational node labels with the chain
-1—2—⋯—(r−1) and extra node r attached to 3, and explicitly transport
-them to Bourbaki by `(1,2,…,r−1,r)↦(1,3,…,r,2)`.
-In this computational order recover E6's 36 positive roots and highest
-`(1,2,3,2,1,2)`, E7's 63 and `(2,3,4,3,2,1,2)`, and E8's 120 and
-`(2,4,6,5,4,3,2,3)`. For A7 recover 28 positive roots and highest
-`(1,1,1,1,1,1,1)`. For C_N, N≥3, use the chain update matrix with
-`A_(N−1,N)=2`, `A_(N,N−1)=1`; compare its transpose with the native
-Cartan convention, obtain N² positive roots and highest `(2,…,2,1)`.
-Check the complete sixteen-vector C4 list, C9's displayed highest root
-and C13's 169 positive roots. Provide actual node and root-index comparison
-maps before comparing coefficient lists. The finite enumeration follows
-Layer 1; greatest-root/game statements use Layer 4; these numbered examples
-use Layer 6. The general stuck-position/affine-graph classification is owned
-by ZigzagPreprojective Layer 0 and has no dependency on this computation.
+For the reduced crystallographic case prove `squared_lengths_two_values`:
+there are s>0 and r∈{1,2,3} with each squared root length equal to s or rs.
+Refine this componentwise using the native Dynkin type: r=1 for A,D,E, r=2
+for B,C,F₄, and r=3 for G₂; both values occur in nonsimply-laced types
+(Milne C(g), table (180), pp. 621–622, milne17 line 25438, and C.56).
+*Needs:* §3.1; unique scaling; native classification and length tables;
+simple-root lowering and reflection invariance.
 
+Relative to the canonical positive form on each component, construct the
+bijection between invariant positive-definite forms and one positive real
+scale per component. Restriction and orthogonal reconstruction must be inverse;
+prove compatibility with component reindexing and root-pairing equivalences.
+Ordinary length ratios are √r, so the squared-length convention is essential.
 
-## Ordering
+**Checks.**
 
-Layer 1 (root combinatorics: positive roots, simple-root lowering, inversion sets, the exchange step,
-finiteness of the Weyl group) is the foundation and comes first, because the Coxeter presentation is
-built on it rather than the reverse. Layer 2 (the Coxeter presentation of the Weyl group) consumes it;
-its hardest target, `weylCoxeterSystem`, proves completeness of the braid relations through the
-root-level exchange condition of Layer 1 - a nonempty reduced word acts nontrivially because its
-inversion set is nonempty - so there is no circularity with the Coxeter machinery it is establishing.
-Layer 3 (the strong exchange condition and Matsumoto for abstract Coxeter systems) is a parallel,
-root-system-independent lane that only needs Mathlib's Coxeter API.
-Layer 4 (chambers, the fundamental domain, the longest element) needs Layers 1-2 for the Weyl-group
-action and the length-equals-inversions identity. Layer 5 (the classification) needs Layer 4 for the
-positive-definite geometry that bounds the Cartan matrices; its uniqueness half (`existsUnique_dynkinType`)
-and its realization half (`exists_rootPairing_of_dynkinType`, transported native family data) are
-independent and proceed in parallel, and the final isomorphism step consumes `equivOfCartanMatrixEq`.
-Layer 6 (the Bourbaki numbering and the pinned integral root data) needs only the `DynkinType`
-enumeration and its Cartan matrices, so it does not wait on either half of Layer 5, and the numbering
-convention should be fixed at the same time as `DynkinType.cartanMatrix` rather than afterwards. The
-worked examples are built alongside the layer that first makes them expressible: `Aₙ` after Layer 2,
-`G₂` after Layer 5.
+- In A₁, B(x,y)=xy and C(x,y)=3xy give the unique scale c=3; c=0
+  fails positivity and c=2 fails equality at (1,1).
+- In B₂, squared lengths of e₁−e₂ and e₂ are 2 and 1. In G₂,
+  squared lengths 1 and 3 give ordinary ratio √3, not 3.
+- A₁³ with roots ±eᵢ, coroots ±2eᵢ and B=diag(1,2,5) has squared length
+  set {1,2,5}. Coordinate sign changes preserve B; the three independent
+  scales disprove an irreducibility-free two-length theorem.
+- On the zero space the zero form is positive definite vacuously and every
+  positive scalar leaves it unchanged. Native irreducibility excludes this
+  from unique scaling; the componentwise parameterization is instead a singleton.
 
-The Layer 4A chamber-complement application uses Layer 4 and native subgroup complements. Its oriented-Dynkin and integral/full-datum adapters follow Layers 5–6 and are not premises of that classification. ReductiveGroups consumes the ADE cover comparison; LieGroups consumes the compact normalizer application only after its own period theorem.
+### Examples
+
+The pair B₂/C₂ transposes the Cartan entries while interchanging long and short
+nodes; the unordered squared-length ratio remains 2. Three A₁ components permit
+any three positive scales. These test both the uniqueness and independence claims.
+
+### Dependencies
+
+Mathlib invariant forms, bases and graph components; native classification and
+root-length tables. This layer does not consume the Coxeter presentation.
+
+## Layer 4: coefficient reflections and the greatest root
+
+### 4.1 Integral coordinates and reflection orbits
+
+Use `RootPairing.Base.toWeightBasisInt` on the root lattice. For Cᵢⱼ=⟨αᵢ,αⱼ∨⟩,
+construct the integral linear reflection on simple-root coefficient columns:
+its k-th entry is cₖ−δₖᵢΣⱼCⱼᵢcⱼ. Evaluation into the root lattice intertwines
+this map with the actual reflection. Thus with A=2I−Cᵀ the changed coordinate
+is ΣⱼAᵢⱼcⱼ−cᵢ (SGA 3 XXI, §1.1.1–§1.1.2, formulas (1)–(3)).
+*Needs:* native integral basis; root reflection formula; Cᵢᵢ=2.
+
+- Prove involutivity, ℤ-linearity and evaluation compatibility, with source
+  and target both the integral coefficient module indexed by b.support.
+- Prove compatibility with base reindexing and the numbered native datum.
+- Identify the union of the Weyl orbits of all simple coefficient vectors
+  with the coefficient set of all roots, including negative roots. Identify
+  its nonnegative part with the positive roots (Milne C.21–C.22, p. 612,
+  milne17 lines 25088, 25096). This is equality of sets, not an enumeration procedure.
+
+**Checks.**
+
+- In B₂, s₂(1,0)=(1,2) and s₂(1,2)=(1,0). Evaluation gives
+  e₁−e₂ ↔ e₁+e₂, agreeing on both sides of the intertwiner.
+- In A₁, 1 reflects to −1 and back; the orbit set is {−1,1} and its
+  positive part is {1}. Zero is not a root coefficient.
+- In B₂, starting with both simples gives all eight roots; starting with
+  only the long root gives four and misses the short-root orbit.
+
+### 4.2 Greatest positive roots
+
+Prove `existsUnique_greatest_positive_root` for an irreducible finite reduced
+crystallographic spanning system over a characteristic-zero domain: there is
+one positive root θ whose integral simple coefficients dominate those of every
+positive root. This is a greatest element, not merely a maximal one (Milne
+C.24, p. 612, milne17 line 25111). Compare it with the root-string highest-root
+characterization. Every strictly positive integer weighting of the coefficients
+has θ as its unique maximum. *Needs:* native basis coordinates; root strings;
+irreducibility and native classification, or the chamber proof of highest-root existence.
+
+In the simply-laced case, prove that every other positive root admits a simple
+reflection increasing height by exactly one, and that every maximal sequence
+of such steps ends at θ. Positions are roots; finiteness bounds strictly
+increasing sequences. In other types retain the root-string membership test
+for addition of a simple root; reflection may increase a coefficient by 2 or 3
+(Bourbaki, Chapter VI §1, nos. 3 and 8).
+*Needs:* §4.1; greatest-root theorem; native root strings and chamber uniqueness.
+
+**Checks.**
+
+- A₂ has positive coefficient vectors (1,0),(0,1),(1,1). The last is greatest;
+  weights (2,1) give 2,1,3, and each simple root rises to it by one step.
+- A₁ has greatest vector (1). A₁² has incomparable (1,0),(0,1) and no
+  greatest root; the zero-dimensional system has no positive root at all.
+- In B₂, positive coefficients are (1,0),(0,1),(1,1),(1,2).
+  The root e₁=(1,1) has no increasing simple reflection, but e₁+e₂=(1,2)
+  is a root and is greatest. The simply-laced hypothesis cannot be dropped.
+
+### 4.3 Numbered family comparisons
+
+Compare coefficients with the native Bourbaki-numbered data, retaining the
+actual root-index correspondence induced by evaluation; no unmarked equivalence
+suffices. In the Eᵣ chain order 1—2—⋯—(r−1), with extra node r attached to 3,
+transport to Bourbaki labels by (1,2,…,r−1,r)↦(1,3,…,r,2). Prove the Cartan,
+root and coroot equations for this reindexing. The coordinates below are
+simple-root coefficients, not the fundamental-weight coordinates of the
+integral datum (Bourbaki, Chapter VI §4, Planches I–IX).
+*Needs:* §4.1–§4.2; native Cartan family, simple indices and root coordinates.
+
+**Checks.**
+
+- E₆,E₇,E₈ have respectively 36,63,120 positive roots, with greatest
+  coefficients (1,2,3,2,1,2), (2,3,4,3,2,1,2), (2,4,6,5,4,3,2,3)
+  in the stated chain order. Their heights are 11,17,29.
+- A₇ has 28 positive roots and greatest vector (1,1,1,1,1,1,1), height 7.
+- Cₙ, n≥3, has n² positive roots and greatest vector (2,…,2,1).
+  Its update matrix has Aₙ₋₁,ₙ=2 and Aₙ,ₙ₋₁=1. C₄ has 16 positives
+  and greatest (2,2,2,1), C₉ has 81 and greatest (2,2,2,2,2,2,2,2,1),
+  and C₁₃ has 169. The C₄ positive coefficient set is
+  {(1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1),(1,1,0,0),(0,1,1,0),
+  (0,0,1,1),(1,1,1,0),(0,1,1,1),(0,0,2,1),(1,1,1,1),(0,1,2,1),
+  (1,1,2,1),(0,2,2,1),(1,2,2,1),(2,2,2,1)}.
+
+### Examples
+
+A₂ distinguishes greatest from maximal, B₂ distinguishes reflection steps from
+unit root-string steps, and C₄ distinguishes the two Cartan transposes.
+
+### Dependencies
+
+Native integral coordinates, root strings, lowering, chambers and numbered
+families; this layer does not require a computational root enumeration.
+
+## Layer 5: concrete Weyl groups
+
+### 5.1 Type A
+
+For the standing system with base of native type Aₙ, n≥1, prove
+`weylGroup_equiv_perm_of_typeA`. On the sum-zero model with roots eᵢ−eⱼ
+in rank n+1 coordinates, identify the simple reflections with adjacent
+transpositions, then transport to an arbitrary based system of that Cartan
+type. Prove order (n+1)! and positive-root count n(n+1)/2
+(Milne C.16 and C.25, pp. 611–613). *Needs:* native classification and Cartan
+comparison; §1.1; the sum-zero realization and its marked simple roots.
+
+### 5.2 Type G₂
+
+For a finite spanning `RootPairing.IsG2` system over a characteristic-zero
+domain, prove `weylGroup_equiv_dihedral_of_isG2`: its base has native G₂ Cartan
+type and its Weyl group is `DihedralGroup 6`. Fix the short-first Bourbaki
+orientation, six positive roots and longest length 6 (Milne Appendix C(g),
+rank-two diagrams, p. 622). *Needs:* native G₂ predicate and rank-two Cartan
+constraints; §1.1–§1.2; native classification and longest element.
+
+### Examples
+
+A₁ gives S₂ of order 2, A₂ gives the nonabelian S₃ of order 6, and G₂ gives
+a dihedral group of order 12 with reflection product of order 6. The G₂
+Cartan off-diagonals are −1,−3; their product 3 gives Coxeter order 6.
+
+### Dependencies
+
+The native finite classification, numbered family and marked presentation.
+
+## Downstream consumers
+
+LieHighestWeight Layers 2 and 6 consume the root and chamber vocabulary for
+integral weights and character formulas. ClassicalGroups Layer 3 consumes the
+classical Weyl groups. CFSGStatement workstreams L0–L1 consume the native
+numbered integral data. LieGroups Layer 6 consumes the finite Weyl action for
+maximal tori; its Layer 8 consumes lengths for Bruhat cell dimensions.
+ReductiveGroups §9A.1a-L consumes the based-automorphism comparison for ADE
+cover lifts. These are consumers, not prerequisites for the root-system proofs.
 
 ## References
 
-- N. Bourbaki, *Lie Groups and Lie Algebras, Chapters 4-6*, Springer (2002) - the definitive source:
-  Coxeter systems, the exchange condition and reduced words (Ch. 4), Weyl chambers and the
-  fundamental domain (Ch. 5), root systems, bases, and the Weyl group (Ch. 6), and the
-  classification via Cartan matrices and Dynkin diagrams (Ch. 6, §4).
-- J. E. Humphreys, *Reflection Groups and Coxeter Groups*, CUP (1990) - Layers 1-4: the root
-  combinatorics, the Coxeter presentation of a reflection group, the strong exchange condition,
-  Matsumoto's word property, the length function and Poincaré polynomial, and the geometry of chambers.
-- J. E. Humphreys, *Introduction to Lie Algebras and Representation Theory*, Springer GTM 9 (1972),
-  Ch. III - root systems, bases, the Weyl group, Cartan matrices and Dynkin diagrams, and the
-  classification (the cleanest route to the A-D-E-B-C-F-G list).
-- V. G. Kac, *Infinite Dimensional Lie Algebras*, 3rd ed., CUP (1990), Ch. 4 - generalized Cartan
-  matrices, the finite/affine/indefinite trichotomy, and symmetrizability, the general framework in
-  which the finite-type classification is the positive-definite case.
-- M. Demazure, A. Grothendieck (eds.), *Schémas en groupes (SGA 3), Tome III*, Exp. XXI
-  "Données radicielles", re-edition by P. Gille and P. Polo, Documents Mathématiques 8, SMF (2011);
-  numbering as in the re-edition - Layer 4A: Prop. 6.1.3, Lemma 6.7.1, Prop. 6.7.2, Cor. 7.3.4,
-  Cor. 7.4.5, Rem. 7.4.6.
-- A. Björner, F. Brenti, *Combinatorics of Coxeter Groups*, Springer GTM 231 (2005) - the combinatorial
-  side of Layer 3: length, reduced words, the exchange and deletion conditions, and the Bruhat order.
+- J. S. Milne, *Algebraic Groups*, 2017, Appendix C, especially C.19–C.25,
+  C.43, C.51, C.53 and C.56, pp. 611–626; source id milne17,
+  [author's edition](https://www.jmilne.org/math/Books/iAG2017.pdf).
+- M. Demazure, *SGA 3*, Tome III, Exposé XXI, §§1.1, 6.1, 6.7, 7.3–7.4;
+  source id sga3iii, [Gille–Polo re-edition, 13 October 2024](https://webusers.imj-prg.fr/~patrick.polo/SGA3/Exp21-13oct24.pdf).
+  Proposition numbers above refer to this edition.
+- N. Bourbaki, *Lie Groups and Lie Algebras, Chapters 4–6*, Springer, 2002,
+  Chapter VI §1, nos. 3, 6, 8, and §4, Planches I–IX; source id bourbaki46.
+- A. Björner and F. Brenti, *Combinatorics of Coxeter Groups*, Springer GTM 231,
+  2005, §2.2 and Theorem 3.3.1; source id bjornerbrenti05.
