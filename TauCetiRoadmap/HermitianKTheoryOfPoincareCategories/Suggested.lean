@@ -1,10 +1,10 @@
 import Mathlib
 
 /-!
-# Hermitian K-theory of Poincaré categories: headline target signatures
+# Hermitian K-theory of Poincaré categories: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`.
+`README.md`. This file states the roadmap’s headline theorems against the pinned APIs.
 
 Section 7.9's Arf classification is stated on Mathlib's finite-dimensional quadratic
 spaces over `ZMod 2`. The invariant is defined by the cardinalities of its zero and
@@ -22,6 +22,10 @@ comparison (Layer 4), connective ring-spectrum surgery and the comparison with
 π₀ (Layer 5), symmetric surgery (Layer 6), the genuine-to-symmetric and field
 L-group comparisons and multiplicative L-to-Tate refinement (Layer 7), and the
 classical GW fibre sequences, splitting and comparison ranges (Layer 8).
+The odd-formation comparison (§4.5a), Segal–Lin and ko Tate calculations
+(§5.1a), Laurent splitting and normal/comparison-fibre theorems (§7.3),
+and derived form-parameter extension (§7.7) also lack these spectrum or
+Poincaré-category carriers at the pins.
 Layer 2's symmetry and quadraticity bounds share the missing Poincaré and spectrum
 carriers. The enhanced Postnikov statement needs the stable perfect-derived
 enhancement. Ordinary chain-complex and resolution infrastructure is specified in
@@ -33,6 +37,8 @@ submodule on which the orthogonal-sum quadratic form vanishes instead.
 -/
 
 namespace TauCetiRoadmap.HermitianKTheoryOfPoincareCategories
+
+/-! ## Layer 7: comparison ranges and field computations -/
 
 variable {V W : Type*} [AddCommGroup V] [Module (ZMod 2) V]
   [AddCommGroup W] [Module (ZMod 2) W]
@@ -46,7 +52,8 @@ noncomputable def arfInvariantF2 [FiniteDimensional (ZMod 2) V]
 
 /-- The intrinsic invariant equals the Arf sum in every symplectic basis of the
 polar form. In particular, the sum is independent of that basis.
-README §7.9; Paper III, proof of Corollary 2.3.10, p. 45.
+README §7.9; Pyronneau, Definition 2.9, Lemmas 2.11–2.13 and Corollary 2.14,
+pp. 4–5, with the explicit count recurrence and dimension-zero case in the README.
 -/
 theorem arfInvariantF2_eq_sum [FiniteDimensional (ZMod 2) V]
     (q : QuadraticForm (ZMod 2) V) (n : ℕ)
@@ -61,7 +68,9 @@ theorem arfInvariantF2_eq_sum [FiniteDimensional (ZMod 2) V]
 nonsingular forms have equal invariants exactly when their orthogonal sum has a
 quadratic Lagrangian. The hypotheses say that the polar forms have zero radical;
 the conclusion describes a Lagrangian by vanishing and half dimension.
-README §7.9; Paper III, proof of Corollary 2.3.10, p. 45.
+README §7.9; Pyronneau, Lemmas 2.11–2.13 and Theorem 2.15, pp. 4–5,
+with the half-dimensional zero-subspace argument in the README; Paper III,
+proof of Corollary 2.3.10, p. 45, for the Witt-group identification.
 -/
 theorem arfInvariantF2_classifies [FiniteDimensional (ZMod 2) V]
     [FiniteDimensional (ZMod 2) W]
