@@ -51,14 +51,27 @@ H-unitality or comparison with the naive nonunital bar complex is assumed.
 | Supplier | Interface consumed here |
 | --- | --- |
 | [BanachAlgebras A1–A4,A6](../BanachAlgebras/README.md) | Banach-valued holomorphic calculus, spectra, bounded Hochschild cochains and the A4 dual-bimodule convention. N1 owns its resolution comparisons. |
-| [CStarAlgebras C1–C5](../CStarAlgebras/README.md) | C*-ideals, matrices and the comparison with the existing continuous functional calculus. V0 supplies representations/GNS. |
+| [CStarAlgebras C1–C5](../CStarAlgebras/README.md) | C*-ideals, matrices and the comparison with the existing continuous functional calculus. Representations are native star homomorphisms into bounded operators. |
 | [OperatorTheory/SelfAdjointSpectralTheory](../OperatorTheory/SelfAdjointSpectralTheory/README.md) | Native `LinearPMap` closed operators, adjoints, spectral calculus and graph norms. N5 constructs the compact-resolvent/summability consequences. |
 | [OperatorTheory/OperatorIdeals](../OperatorTheory/OperatorIdeals/README.md) | Compact operators, singular values, Schatten spaces and trace-class norm. N4 adds the logarithmic ideal and singular traces. |
 | [OperatorKTheory K1–K7](../OperatorKTheory/README.md) | Idempotent/unitary K-theory, inverse-closed Fréchet comparison (K3), native Fredholm/Atkinson theory (K4), Hilbert-space KK cycles and their index products. K7 owns all real-parameter rotation C*-presentations and the irrational K-group computation. |
-| [HilbertModules H1–H6](../HilbertModules/README.md) | Module inner products, completions, compact endomorphisms, projective-module frames, tensoring representations and regular-operator bounded transforms (H6). N6–N7 supply smooth connections and their torus instances. |
-| [NoncommutativeIntegration I1](../NoncommutativeIntegration/README.md) | Tracial Lp over a normal semifinite trace, including 0<p<1, Hölder/quasi-norm inequalities, weak Lp, the trace on L¹ with its cyclicity `τ(xy)=τ(yx)`, and the identification of `Lp(B(H),Tr)` with the Schatten scale; N4 specializes to B(H). |
-| [VonNeumannAlgebras V0,V4](../VonNeumannAlgebras/README.md) | Representations/GNS and positive functionals (V0); preduals, normal functionals and normal representations (V4), against which N4 states the non-normality of Dixmier traces. No general nontracial Dixmier-trace theory is asserted here. |
 | [OperatorAlgebraDynamics D1–D2,D4](../OperatorAlgebraDynamics/README.md) | Rotation crossed products, Fourier coefficient maps and the dual circle action. N6 constructs the two-torus gauge action. |
+
+Hilbert C*-modules are Mathlib's `CStarModule`, and `L²(A,τ)` with its
+left regular representation is Mathlib's `PositiveLinearMap.GNS` with
+`gnsStarAlgHom`. The general theory of adjointable and regular module
+operators, the bounded transform of a regular operator on a Hilbert
+C*-module and module tensor products belong to HilbertModules; tracial Lp
+spaces over a semifinite trace, their Hölder inequality and the
+identification of `Lp(B(H),Tr)` with the Schatten scale belong to
+NoncommutativeIntegration; von Neumann algebras, preduals and normal
+functionals belong to VonNeumannAlgebras. None of those three roadmaps is an
+input here: N3 builds the trace on trace-class operators, Hölder's
+inequality and the Schatten quasi-ideals for 0<p<1 on a Hilbert space, N4
+the weak Schatten ideals, N5 the bounded transform of a self-adjoint
+operator with compact resolvent, and N7 the Heisenberg module's inner
+product and completion, each from OperatorIdeals' singular values or
+Mathlib's carriers.
 
 Use native `MultilinearMap`, continuous multilinear maps, and Mathlib
 `Derivation` for the commutative specialization. For noncommutative
@@ -361,6 +374,37 @@ comparison with the unitization conventions specified here,
 including the even compression to π(1)H and the odd extension of a
 unitary by the identity on the complement of π(1)H.
 
+Using OperatorIdeals' singular values μ_j and its Schatten classes S_p,
+1≤p≤∞, define for 0<p<1 the quasi-ideal
+`S_p={T compact : Σ_j μ_j(T)^p<∞}` with `‖T‖_p=(Σ_j μ_j(T)^p)^(1/p)`;
+prove the p-triangle inequality `‖S+T‖_p^p≤‖S‖_p^p+‖T‖_p^p`, the ideal
+bounds `‖ATB‖_p≤‖A‖‖T‖_p‖B‖`, adjoint invariance and completeness of
+the p-metric. Prove Hölder's inequality `‖ST‖_r≤‖S‖_p‖T‖_q` for
+0<p,q≤∞ with 1/r=1/p+1/q, hence `S_(p₁)⋯S_(p_k)⊆S_p` for 1/p=Σ_j 1/p_j,
+and the inclusions S_p⊆S_q for p≤q, from the singular-value inequality
+`μ_(j+k)(ST)≤μ_j(S)μ_k(T)` (Connes IV, Appendix C, Lemma 1, p. 450).
+Define the trace of a trace-class operator as `Tr(T)=Σ_j⟨e_j,Te_j⟩`
+over an orthonormal basis; prove absolute convergence, independence of
+the basis, `|Tr T|≤‖T‖₁`, `Tr(T*)=conj(Tr T)`, `Tr T=Σ_j μ_j(T)` for
+positive T, and the cyclicity `Tr(ST)=Tr(TS)` for S∈S_p, T∈S_q with
+1/p+1/q=1, 1≤p≤∞ (Connes IV.1, p. 300). These are the Hilbert-space
+objects every trace, character and Dixmier-trace statement below uses.
+
+**Checks.**
+- `diag(1/(j+1)²)` lies in S_p exactly when p>1/2, so S_(1/2) excludes
+  it while S_1 contains it; summing μ_j(T) instead of μ_j(T)^p would
+  make S_(1/2)=S_1.
+- For p=1/2 and the orthogonal rank-one projections e₁₁, e₂₂,
+  `‖e₁₁+e₂₂‖_(1/2)=4>2=‖e₁₁‖_(1/2)+‖e₂₂‖_(1/2)`: the triangle
+  inequality fails, while the p-triangle inequality holds with equality
+  `2≤1+1`.
+- For S=diag(2,1), T=diag(1,2): `‖ST‖₁=4≤‖S‖₂‖T‖₂=5`; for S=T=diag(1,1)
+  the Hölder bound is the equality `2=√2·√2`.
+- Cyclicity needs a trace-class factor: for the unilateral shift S on
+  ℓ²(ℕ), `S*S−SS*` is the rank-one projection onto e₀, of trace 1, so
+  `Tr(AB)=Tr(BA)` fails for bounded A, B whose commutator is trace
+  class; this is why the conditional trace Tr′ below is not Tr.
+
 For normalized F and a chosen dense smooth algebra require
 `[F,π(a)]∈S_p` for every a, and continuity of this commutator map
 into its Schatten norm or quasi-norm. Prove matrix, sum, algebra-product,
@@ -454,12 +498,14 @@ logarithmic trace ideal
 
 Prove its ideal/quasi-norm structure, completeness, adjoint/unitary
 invariance, singular-value inequalities, finite-rank and trace-class
-inclusions and bounded left/right multiplication. Distinguish it from
-`S_(1,∞)={T: sup_(j≥0)(j+1)μ_j(T)<∞}`, supplied by I1's weak L₁
-specialization, and construct a diagonal operator in the former but not
-the latter. For p>1 write `L^(p,∞)` for I1's weak Schatten space
-`sup_(j≥0)(j+1)^(1/p)μ_j(T)<∞`; prove its equivalent partial-sum
-description and compare its power/product estimates with the logarithmic
+inclusions and bounded left/right multiplication. Distinguish it from the weak trace ideal
+`S_(1,∞)={T: sup_(j≥0)(j+1)μ_j(T)<∞}`, defined from the same singular
+values, and construct a diagonal operator in the former but not
+the latter. For p>1 define the weak Schatten ideal `L^(p,∞)` by
+`sup_(j≥0)(j+1)^(1/p)μ_j(T)<∞`; prove its quasi-norm, adjoint and ideal
+bounds, its equivalent partial-sum description
+`sup_(N≥1)N^(1/p−1)Σ_(j<N)μ_j(T)<∞`, which is a Banach norm (Connes IV,
+Appendix C, p. 453), and compare its power/product estimates with the logarithmic
 ideal. In particular `T∈L^(n,∞)` implies `|T|^n∈L^(1,∞)`.
 For n=1 use the logarithmic ideal itself. Do not replace the logarithmic p=1
 ideal by the smaller pointwise singular-value condition.
@@ -475,7 +521,11 @@ rescalings and complex linear extension. For positive T define
 Prove additivity on the positive cone with the dilation-invariance
 hypothesis, positive homogeneity and extension to a linear trace on
 L^(1,∞). Prove unitary invariance, `Tr_ω(AT)=Tr_ω(TA)` for bounded A,
-boundedness, vanishing on trace class and its singularity/non-normality.
+boundedness and vanishing on trace class. Call a linear functional on
+B(H) normal when it is `T↦Tr(ρT)` for a trace-class ρ; prove that no
+Dixmier trace is normal: a functional of that form vanishing on every
+rank-one operator has ρ=0, while Tr_ω vanishes on finite-rank operators
+and is nonzero.
 Give diagonal examples with nonzero trace, zero trace outside trace
 class, and dependence on ω. A general positive extension of limits
 without dilation invariance is not asserted to give an additive trace.
@@ -510,8 +560,8 @@ counting multiplicity, and give the graph-domain series criterion
 In this basis define f(D) on
 `{ξ:Σ_j |f(λ_j)|²|ξ_j|²<∞}` for Borel f, proving domain,
 closedness, adjoint and composition laws and independence of the
-eigenbasis. Compare its spectral projections with
-SelfAdjointSpectralTheory SA-E and its continuous calculus with H6.
+eigenbasis. Compare its spectral projections with the spectral measure of
+SelfAdjointSpectralTheory SA-E.
 This supplies |D|, sign D, heat operators and inverse powers, including
 their kernel conventions, for the compact-resolvent triples here.
 
@@ -523,9 +573,20 @@ Develop spectral triples (𝒜,H,D), their even/odd versions, operator-domain
 invariance, bounded commutator extension, graph-norm estimates and
 unitary/smooth-algebra transport. Build `[D,ab]=[D,a]b+a[D,b]`
 and dagger identities on the common domain before extending boundedly.
-Specialize H6's bounded transform to Hilbert spaces and compare the
-resulting Fredholm class with N3; prove compactness and the Schatten bounds from stated spectral
-summability. Develop resolvent, heat-functional-calculus and truncation
+Construct the bounded transform `F_D=D(1+D²)^(−1/2)` from this
+calculus, `F_Dξ_j=λ_j(1+λ_j²)^(−1/2)ξ_j` on the eigenbasis: a self-adjoint
+contraction with `1−F_D²=(1+D²)⁻¹` compact. Prove `[F_D,π(a)]` compact for
+every a, so that (H,F_D), with γ in the even case, is a Fredholm module of
+N3, and compare the resulting Fredholm class with N3; prove the Schatten
+bounds `[F_D,π(a)]∈S_p` from stated spectral summability.
+
+**Checks.**
+- For D=diag(0,1,−1), `F_D=diag(0,1/√2,−1/√2)` and
+  `1−F_D²=diag(1,1/2,1/2)=(1+D²)⁻¹`; the phase `sign D=diag(0,1,−1)` has
+  `1−(sign D)²=diag(1,0,0)`, the kernel projection, so it is not the
+  bounded transform.
+
+Develop resolvent, heat-functional-calculus and truncation
 estimates needed for these assertions without invoking manifold
 elliptic theory.
 
@@ -636,7 +697,10 @@ Do not apply the Diophantine hypothesis to the periodic result.
 
 ## N7. Fourier spectral triples and Heisenberg indices
 
-Identify L²(A_θ,τ) with ℓ²(ℤ²) by the ordered Fourier basis and use
+Take L²(A_θ,τ) to be Mathlib's GNS space `τ.GNS` of the trace τ, with
+inner product `⟪a,b⟫=τ(a*b)` and left regular representation
+`τ.gnsStarAlgHom`; identify it with ℓ²(ℤ²) by the ordered Fourier basis,
+orthonormal because `τ((U₁^mU₂^n)*U₁^(m′)U₂^(n′))=δ_(mm′)δ_(nn′)`, and use
 left multiplication for π. On its tensor product with ℂ² take
 `D=−i(σ₁δ₁−σ₂δ₂)`, `γ=σ₃`, with the usual Pauli matrices.
 Thus D⁺=−i(δ₁−iδ₂); this pins the orientation of the index and φ.
@@ -660,9 +724,12 @@ compare the periodic character using N6's basis and its value on [1].
 
 For 0<θ<1 construct the smooth Heisenberg right module on 𝒮(ℝ) with
 `(ξU₁)(s)=ξ(s+θ)` and `(ξU₂)(s)=exp(2πis)ξ(s)`.
-Build its A_θ-valued inner product, positivity, complete Hilbert module,
-finite smooth projective frames and identification with a smooth
-Powers–Rieffel projection of trace θ. Prove the frame/trace dictionary
+Build its A_θ-valued inner product `⟨ξ,η⟩`, conjugate-linear in ξ and
+right A_θ-linear in η, and prove its positivity and definiteness, so that
+with `op(a)•ξ=ξa` the module is a `CStarModule` over the opposite algebra
+of A_θ in Mathlib's convention `⟪ξ,a•η⟫=a⟪ξ,η⟫`; complete it for the
+module norm `‖⟨ξ,ξ⟩‖^(1/2)`. Build finite smooth projective frames and the
+identification with a smooth Powers–Rieffel projection of trace θ. Prove the frame/trace dictionary
 and, for irrational θ, compare its K₀ class with K7's positive-trace
 generator. Construct
 `∇₁ξ=−2πis ξ/θ`, `∇₂ξ=dξ/ds`, prove the right Leibniz and
@@ -697,6 +764,15 @@ with its Fourier/de Rham calculations. Rational parameters retain the
 periodic cyclic theorem and Fourier triple; the irrational unique-trace
 and K-generator assertions are not imposed on them.
 
+**Checks.**
+- The opposite-algebra dictionary: for a C*-algebra A as a right module
+  over itself with `⟨x,y⟩=x*y`, the matrix units x=e₁₂, y=e₁₁ of M₂(ℂ)
+  give `⟨x,y⟩=e₂₁`, while Mathlib's self-module instance `⟪x,y⟫=y x*`
+  gives 0; the transport `⟪x,y⟫=op(x*y)` satisfies
+  `⟪x,op(a)•y⟫=op(x*ya)=op(a)·op(x*y)`, Mathlib's law, whereas keeping
+  `⟪x,y⟫=x*y` in A with `a•y=ya` gives `⟪x,a•y⟫=⟪x,y⟫a`, the wrong side
+  for noncommutative A.
+
 ## Downstream consumers
 
 - SmoothBanachRepresentations SB7 consumes N1.Tensor's completed locally
@@ -717,14 +793,18 @@ and K-generator assertions are not imposed on them.
   triangle, Theorem 26, p. 208. III §2: the torus Hochschild and periodic
   computations, Proposition 5 and Theorem 7, pp. 217–218. III §3: the even
   and odd K-theory pairings, Propositions 2–3, pp. 229–230. Chapter IV §1:
-  matrix amplification, Proposition 2, p. 295; the conditional trace and
+  p-summability for p≥1 and the Hölder corollary, Definition 3, p. 296;
+  matrix amplification, Proposition 2, p. 295; the trace cyclicity on
+  dual Schatten classes, p. 300; the conditional trace and
   its cycle, Proposition 1, p. 299; compatibility with S, Proposition 2,
   p. 300; the character normalization, Definition 3, p. 302; the index
   theorem, Proposition 4, p. 303. IV §2: the Dixmier trace, Definition 2,
   p. 312; the Tauberian criteria, Propositions 3–4, pp. 312–313; the
   Hochschild class, Theorem 8, p. 315. IV §6: the Heisenberg module and
   its connection, pp. 356–357; its elliptic index formula, pp. 358–361, is
-  cited for comparison only.
+  cited for comparison only. IV Appendix C: the singular-value
+  inequalities, Lemma 1, p. 450; the partial-sum norms of `L^(p,∞)` and
+  `L^(1,∞)`, p. 453.
 - N3's odd character coefficient is minus the coefficient printed in
   Connes IV §1, Definition 3, p. 302, while N2's odd pairing constant is
   positive; the Hardy compression calculation fixes agreement with
