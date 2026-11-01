@@ -1861,11 +1861,11 @@ version (TeX source of 13 May 2026, compiled).
 
 | Source requirements | Construction target |
 | --- | --- |
-| Salamon, *Lectures on Floer homology* §1.4 (action) and §2.4 (Conley–Zehnder index), and Floer–Hofer–Salamon: action, capped indices and variational equation | 7.C.0–2 |
-| Floer–Hofer–Salamon and Salamon's lectures §§2.2, 2.4–2.5 (linearized operator, Conley–Zehnder index, spectral flow): capped generators, linearized/asymptotic operators, relative index and variational exercise | 7.C.1–2 |
-| Salamon's lectures §3.7 (Novikov rings) and Hofer–Salamon, *Floer homology and Novikov rings*: cap/degree/monotone coefficient comparisons | 7.C.1,7.C.3–6 |
-| Salamon's lectures §3.4 (continuation maps), §3.5 (the PSS isomorphism) and Piunikhin–Salamon–Schwarz: individual continuation, identity, relative homotopy/composition and small-autonomous setup | 7.C.2b,7.C.3c,7.C.4–5 |
-| Piunikhin–Salamon–Schwarz and Hofer–Salamon: classical Floer, autonomous symmetry, PSS/Novikov and Arnold applications | 7.C.2–7, with the explicit shifted/module/coefficient formulas |
+| Salamon, *Lectures on Floer homology* §1.4 (action) and §2.4 (Conley–Zehnder index), and Floer–Hofer–Salamon §5 (transversality): action, capped indices and variational equation | 7.C.0–2 |
+| Floer–Hofer–Salamon §§5–6 (transversality, symmetric matrices) and Salamon's lectures §§2.2, 2.4–2.5 (linearized operator, Conley–Zehnder index, spectral flow): linearized/asymptotic operators, relative index and variational exercise; the capped generators are set up here, not taken from these sources | 7.C.1–2 |
+| Salamon's lectures §3.7 (Novikov rings) and Hofer–Salamon, *Floer homology and Novikov rings* §1 (weak monotonicity, Lemma 1.1) and §4 (generalized Laurent series): cap/degree/monotone coefficient comparisons | 7.C.1,7.C.3–6 |
+| Salamon's lectures §3.4 (continuation maps), §3.5 (the PSS isomorphism) and Piunikhin–Salamon–Schwarz §2 (independence of the Hamiltonian): individual continuation, identity, relative homotopy/composition and small-autonomous setup | 7.C.2b,7.C.3c,7.C.4–5 |
+| Piunikhin–Salamon–Schwarz §§4–5 (the isomorphism with Morse and quantum homology) and Hofer–Salamon §§5–6 (Floer cohomology, the isomorphism with homology over the Novikov ring): classical Floer, autonomous symmetry, PSS/Novikov and Arnold applications | 7.C.2–7, with the explicit shifted/module/coefficient formulas |
 | ℂPⁿ cyclic module and Γ=0 reflected comparison | 7.C convention/application checks and7.C.6f |
 
 ## Prior formalization
@@ -1910,7 +1910,7 @@ are not targets here.
 - R. Bott, *The stable homotopy of the classical groups*, Ann. of Math. 70 (1959); W. Ziller,
   *The free loop space of globally symmetric spaces*, Invent. Math. 41 (1977).
 - M. Audin, M. Damian, *Morse Theory and Floer Homology*, Universitext, Springer, 2014.
-- A. Floer, H. Hofer, D. Salamon, *Transversality in elliptic Morse theory for the symplectic action*, Duke Math. J.80(1) (1995),251–292, [DOI10.1215/S0012-7094-95-08010-7](https://doi.org/10.1215/S0012-7094-95-08010-7). Layer7.C.2 proves the stated orthogonality and symmetric-matrix lemma in its localized transversality application.
+- A. Floer, H. Hofer, D. Salamon, *Transversality in elliptic Morse theory for the symplectic action*, Duke Math. J.80(1) (1995),251–292, [DOI10.1215/S0012-7094-95-08010-7](https://doi.org/10.1215/S0012-7094-95-08010-7). Layer7.C.2 proves the stated orthogonality and symmetric-matrix lemma (§6, Theorem 6.1) in its localized transversality application (§5).
 - S. Piunikhin, D. Salamon, M. Schwarz, *Symplectic Floer–Donaldson theory and quantum cohomology*, in *Contact and Symplectic Geometry*, ed.C.B.Thomas, Publications of the Newton Institute8, Cambridge University Press (1996),171–200: the punctured comparison construction with the coefficient/sign/regularity applications specified here.
 - D. Salamon, *Lectures on Floer homology*, IAS/Park City Math. Ser. 7 (1999).
 - H. Hofer, D. Salamon, *Floer homology and Novikov rings*, in *The Floer Memorial Volume*, Progr. Math. 133, Birkhäuser (1995), 483–524.
