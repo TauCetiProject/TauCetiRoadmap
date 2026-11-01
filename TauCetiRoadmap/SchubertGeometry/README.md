@@ -43,6 +43,26 @@ representing that functor. For the symplectic coordinate comparison use
 `Matrix.J` and `SymplecticGroup.mem_iff'` in
 `Mathlib/LinearAlgebra/SymplecticGroup.lean`.
 
+### From Tau Ceti
+
+`TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology`, in
+`TauCeti/AlgebraicGeometry/Cohomology/Basic.lean`, is the Zariski sheaf
+cohomology Hⁱ(X,M) of a sheaf of modules M on a scheme X, obtained by
+forgetting the module structure and applying Mathlib's sheaf cohomology. S3,
+S5 and S9.0 use it as the carrier of coherent cohomology and assume of it only
+additivity, functoriality in M and the identification of H⁰ with global
+sections; coherence, Serre vanishing and derived pushforward are the
+SchemeAndStackFoundations contracts below.
+`TauCeti.AlgebraicGeometry.InvertibleSheaf`, in
+`TauCeti/AlgebraicGeometry/LineBundle/Basic.lean`, is the full subcategory of
+module sheaves cut out by the locally-free-of-rank-one predicate
+`TauCeti.AlgebraicGeometry.SheafOfModules.isInvertible`. S3.1 and S9.8 use it
+as the carrier of the associated lines; no chosen trivialization, linearization
+or tensor structure is assumed of it. The pinned library has no flag or
+Bott–Samelson scheme, LS path, crystal, Demazure operator, Frobenius-splitting
+carrier, Chow group, algebraic K-ring or complex analytic space; those carriers
+are targets of the layers below.
+
 ### From the named roadmap suppliers
 
 - [ModularCurves §0G](../ModularCurves/README.md) owns finite-locally-free Grassmannian representability, its charts and universal quotient. Native `Module.Grassmannian R M q` stores a submodule with locally free quotient of rank q; an r-dimensional subspace of k^N corresponds to q=N−r. S1.1 constructs flags as closed incidence subschemes of products of those Grassmannians; a coherent quotient of a non-locally-free sheaf is not needed for this construction.
@@ -149,7 +169,7 @@ SchemeAndStackFoundations Layer 1 closed immersions and base change.
 
 ### 1.2 Root-cell dictionary
 
-Use S1.0’s Par_t(G), actual G/P− and integral root-coordinate charts. Construct the full source-to-model dictionary: standard and opposite cells, minimal coset representatives, chosen normalizer representatives, T-fixed points, inversion sets, relative dimension and parabolic projection. The left/right quotient map is P−g↦g^−1P− and on Weyl indices W_Pw↦w^−1W_P; prove its root-coordinate and associated-line character formulas before using the source's left-coset statements. The fixed scheme is the finite disjoint union of the indicated sections in the split model; do not identify a general twisted form with that split list. Use actual root subgroup multiplication and quotient universal properties, not merely the cardinality of the Weyl group. Include rank-zero groups, P=G, empty root systems and nontrivial central tori.
+Use S1.0’s Par_t(G), actual G/P− and integral root-coordinate charts. Construct the full dictionary from the positive-Borel/left-coset conventions of the Knutson handouts to this model: standard and opposite cells, minimal coset representatives, chosen normalizer representatives, T-fixed points, inversion sets, relative dimension and parabolic projection. The left/right quotient map is P−g↦g^−1P− and on Weyl indices W_Pw↦w^−1W_P; prove its root-coordinate and associated-line character formulas before using the handouts' left-coset statements. The fixed scheme is the finite disjoint union of the indicated sections in the split model; do not identify a general twisted form with that split list. Use actual root subgroup multiplication and quotient universal properties, not merely the cardinality of the Weyl group. Include rank-zero groups, P=G, empty root systems and nontrivial central tori.
 
 - Quotient inversion sends each Weyl coset to its inverse coset and intertwines the actual quotient actions.
 - The torus-fixed section indexed by w retains the chosen normalizer representative.
@@ -197,11 +217,11 @@ Construct the determinantal rank-condition schemes relative to an actual complet
 
 ### 1.5 Symplectic isotropic flags
 
-Retain the symplectic exercise: for a nondegenerate alternating form, prove dim U≤m for isotropic U⊂k^(2m), and construct the isotropic Grassmannian as the universal zero locus of the restricted form on the tautological bundle. Compare its split group quotient, transitivity, parabolic stabilizer and dimension r(2m−r)−r(r−1)/2, including characteristic2 with an actual alternating form. Rank0 is a point and r>m is empty. Distinguish orthogonal characteristic2/non-smooth stabilizer issues. General root-type flag examples use the actual corresponding reductive model.
+For a nondegenerate alternating form on k^(2m), prove dim U≤m for isotropic U⊂k^(2m), and construct the isotropic Grassmannian as the universal zero locus of the restricted form on the tautological bundle. Compare its split group quotient, transitivity, parabolic stabilizer and dimension r(2m−r)−r(r−1)/2, including characteristic2 with an actual alternating form. Rank0 is a point and r>m is empty. Distinguish orthogonal characteristic2/non-smooth stabilizer issues. General root-type flag examples use the actual corresponding reductive model.
 
 
-   **Symplectic stabilizer in the exercise coordinates.** For 0≤r≤m put
-   s=m−r and take the source form
+   **Symplectic stabilizer in antidiagonal coordinates.** For 0≤r≤m put
+   s=m−r and take the antidiagonal form
    `Q_src=[[0,H_m],[−H_m,0]]`, where H_m has ones on its antidiagonal.
    In one-based coordinates set u_i=e_i and f_i=e_(2m+1−i).
    Let C have ordered columns
@@ -276,7 +296,7 @@ ModularCurves §0G; ReductiveGroups Layers 7–9; SchemeAndStackFoundations Laye
 
 ### 2.1 Left and right cranks
 
-For each simple root use the actual minimal parabolic P_i− and projection G/B−→G/P_i−. For X→G/B− construct the right crank X×_(G/P_i−)G/B−, a P¹-bundle over X; construct the left crank P_i−×^(B−)X, an X-bundle over P¹, with its map to G/B− when X is a B−-space. Distinguish the two projection directions, group actions and universal properties. The right projection is smooth proper of relative dimension1; if X is smooth/proper over k, so is its total space in the corresponding assertion. The left construction is locally an X-bundle over P¹ and inherits smoothness/properness over k when X has that property. Export their base-change and equivariance laws; no absolute properness is asserted for an arbitrary nonproper X.
+For each simple root use the actual minimal parabolic P_i− and projection G/B−→G/P_i−. For X→G/B− construct the right crank X×_(G/P_i−)G/B−, a P¹-bundle over X; construct the left crank P_i−×^(B−)X, an X-bundle over P¹, with its map to G/B− when X is a B−-space. Distinguish the two projection directions, group actions and universal properties. The right crank is the right Bott–Samelson operation of KnutsonBottSamelson §1, p. 1, and the left crank its left operation (KnutsonBottSamelson §5, p. 4). The right projection is smooth proper of relative dimension1; if X is smooth/proper over k, so is its total space in the corresponding assertion. The left construction is locally an X-bundle over P¹ and inherits smoothness/properness over k when X has that property. Export their base-change and equivariance laws; no absolute properness is asserted for an arbitrary nonproper X.
 
 The two constructions have separate universal maps: the right crank is a fibre product, and the left crank is an associated bundle.
 
@@ -294,7 +314,7 @@ The two constructions have separate universal maps: the right crank is a fibre p
 
 ### 2.2 Word schemes
 
-For every finite word i₁…i_r, including empty and nonreduced words, construct the integral iterated-rank-one model as the contracted product P_i₁−×^(B−)…×^(B−)P_ir−/B−. Construct its quotient charts, scheme structure, iterated P¹-bundle maps, universal flag-chain description and multiplication map π to G/B−. Fix factor order and compare the crank order used in the handout. Prove dimension r, smoothness/properness, the B−/T actions, and base-change compatibility. No reducedness of the word is required for these constructions.
+For every finite word i₁…i_r, including empty and nonreduced words, construct the integral iterated-rank-one model as the contracted product P_i₁−×^(B−)…×^(B−)P_ir−/B−. Construct its quotient charts, scheme structure, iterated P¹-bundle maps, universal flag-chain description and multiplication map π to G/B−. Fix the factor order and compare it with the right-crank iteration order of KnutsonBottSamelson §2, pp. 1–2, and with the contracted-product description of its §5, p. 4. Prove dimension r, smoothness/properness, the B−/T actions, and base-change compatibility. No reducedness of the word is required for these constructions.
 
 - Successively forgetting the last factor gives the specified P¹-bundle tower.
 - Multiplication sends the class of (p₁,…,p_r) to p₁⋯p_r B− and is independent of quotient representatives.
@@ -317,7 +337,7 @@ Construct subword closed embeddings, the 2^r T-fixed sections and the image of e
    rank-one cell multiplication and induction, with its reduced closure
    and field/base-change comparison. Do not substitute the ordinary group
    product of the letters. At Q=(i,i), the image is X(s_i), not X(e);
-   at the empty word it is the identity flag. Reduced words recover item3.
+   at the empty word it is the identity flag. Reduced words recover the reduced-word birational statement above.
    Keep the all-word map distinct from a reduced-word birational resolution.
 
 - Subword embeddings set omitted factors to the identity coset and commute with multiplication.
@@ -334,7 +354,7 @@ Construct subword closed embeddings, the 2^r T-fixed sections and the image of e
 
 ### 2.4 Parabolic words and refinements
 
-Construct generalized words with parabolic letters and their longest elements, refinement/unrefinement maps and composites. Prove the needed reduced-word comparisons by finite zigzags of refinements and unrefinements from actual Coxeter braid/length data. Ordinary reduced words121 and212 have no further simple-letter refinements, so no single common word refinement is assumed. The resulting diagrams/correspondences are over the flag; a braid move is not asserted to give an isomorphism of the two word schemes. A parabolic longest element reverses the positive subsystem; it need not fix the other simple roots or negate every simple root individually. Give rank-two braid and nonreduced examples.
+Construct generalized words with parabolic letters and their longest elements, refinement/unrefinement maps and composites. Prove the needed reduced-word comparisons by finite zigzags of refinements and unrefinements from actual Coxeter braid/length data. Ordinary reduced words121 and212 have no further simple-letter refinements, so no single common word refinement is assumed. The resulting diagrams/correspondences are over the flag; a braid move is not asserted to give an isomorphism of the two word schemes. A parabolic longest element reverses the positive subsystem; it need not fix the other simple roots or negate every simple root individually. Give rank-two braid and nonreduced examples. The parabolic letters and their longest elements follow KnutsonBottSamelson §6, p. 5.
 
 - Refinement multiplies the factors inside the specified parabolic letter.
 - Unrefinement respects the final flag and composes with further unrefinements.
@@ -428,12 +448,22 @@ Construct L(λ) on the supplied quotient by descent, with its actual linearizati
 
 Construct the regular-function realization ∇λ from the rational representation supplier and the natural section map. Prove its inverse on quotient charts. On the full flag and dominant λ, compare it with the canonical Weyl/induced pair. On X(w), define sections geometrically and identify the dual of restriction with the actual B−-span in Δ(κ), κ=−w₀λ, generated by the extremal vector of weight−wλ. Prove this comparison using the normalized pairing and the actual section-extension theorem of S5. For λ ample on G/P_λ, prove that inclusion of the corresponding geometric Schubert varieties is equivalent to inclusion of these actual extremal-span modules, using the extremal-weight/subword criterion. On walls compare the correct cosets in W/W_λ; a line contracted by the parabolic projection cannot detect distinct full-flag indices. Convert to positive-Borel Demazure modules using pinned contravariant duality/opposition; ordinary dualization alone changes λ.
 
-*Needs:* S3.1; ReductiveGroups' induction, extremal vectors and contravariant duality; S5.5 for section extension. The extremal-span comparison uses restriction and the normalized pairing, not a dimension identification.
+- The section map from the induced module to λ-twisted regular functions is a B−-equivariant isomorphism, inverse to evaluation on every quotient chart.
+- Restriction from the full flag to X(w) is surjective, and its dual is the B−-submodule of Δ(κ) generated by the extremal vector of weight −wλ.
+- For λ ample on G/P_λ, X(v)⊆X(w) holds exactly when the extremal span of v lies in the extremal span of w; on a wall the comparison is made in W/W_λ.
+
+**Checks.**
+
+- For SL₂ and λ=1, X(e) gives the fibre, of dimension 1 and T-weight λ, so its dual has weight −1, the weight of the extremal vector −eλ; X(s)=ℙ¹ gives ∇(1), of dimension 2 and weights ±1, whose dual is all of Δ(1). A model generating the span from weight +wλ would place the wrong weight at e.
+- For λ=0 both X(e) and X(s) give the constants k, and restriction is the identity on constants.
+- For GL₃ and λ=ω₁, the line L(ω₁) has degree ⟨ω₁,α₂∨⟩=0 on X(s₂), so X(e) and X(s₂) have the same one-dimensional section space and the same extremal span: e and s₂ are one coset in W/W_λ, and comparing full-flag indices instead would separate them.
+
+*Needs:* S3.1; ReductiveGroups' induction, extremal vectors and contravariant duality; S5.5 for section extension. The extremal-span comparison uses restriction and the normalized pairing, not a dimension identification. The extremal span is the Demazure module of LLM §1.1, p. 294, realized as sections in LLM §4.1, p. 315; Jantzen, *Representations of Algebraic Groups*, Part II, Chapter 14 gives the arbitrary-field statement and its contravariant dual.
 
 ### 3.3 Integral signed-string operators
 
 For every integer m, specialize SchemeAndStackFoundations §2.6's projective-space cohomology to H⁰/H¹(P¹,O(m)), and construct its actual rank-one T-weight, functoriality, residue/Serre pairing and zero-case comparisons. Build the relative P¹ pushforward and higher-direct-image comparison on the actual rank-one bundle. Define the integral Demazure Euler operator by finite signed root strings. For dominant string length m=⟨λ,α_i∨⟩≥0 it gives Σ_(j=0)^m e^(λ−jα_i); for m=−1 it is0, and for m≤−2 use the negative H¹ string. Prove its localization identity D_i(eλ)=(eλ−e^(−α_i)e^(s_iλ))/(1−e^(−α_i)).
-   **Positive-denominator convention.** Also construct the source operator
+   **Positive-denominator convention.** Also construct the Knutson Demazure handout's operator
    Δ_i(p)=(p−e^(α_i)s_i(p))/(1−e^(α_i)) on the integral group ring of the
    actual character lattice. With weight inversion ι(eλ)=e^(−λ), prove
    Δ_i=ιD_iι. Define it integrally before localization: for
@@ -446,12 +476,12 @@ For every integer m, specialize SchemeAndStackFoundations §2.6's projective-spa
    rather than unweighted antisymmetry. Deduce s_iΔ_i(p)=Δ_i(p),
    Δ_i²=Δ_i and the braid comparisons by the actual inversion conjugacy.
 
-   Compare the source's positive-Borel/left-crank convention with the
+   Compare the positive-Borel/left-crank convention of KnutsonDemazure, pp. 1–4, with the
    current negative-Borel/right-word one through S1's inversion and S3's
    associated-line/opposition maps. In particular left multiplication
    s_iw becomes w⁻¹s_i after inverting the Weyl index; retain the actual
    character inversion and longest-representative fibre factors as well.
-   For the source's left-crank map, compute the two base fixed fibres with
+   For that handout's left-crank map, compute the two base fixed fibres with
    their actual bundle lift, obtaining Δ_i. Use S5's cohomological comparison
    to pass from Euler character to H⁰ in the dominant case. If the next
    Demazure product is unchanged, the same comparison proves that Δ_i fixes
@@ -692,7 +722,7 @@ After S5 and the divisor calculation S7.1–2, construct geometric path sections
 
 ### 4.7 Opposition and section weights
 
-Print the opposition/dual dictionary. Set κ=−w₀λ and θ(w)=w₀ww₀. Conjugating G/B− to G/B+ by the chosen longest representative sends X(w) to the positive-Borel X(θ(w)) and pulls the positive-Borel line with fibre−κ back to L(λ), with the actual linearization comparison. In the positive-Borel convention, LS path sections indexed by π∈B(κ) have weight−π(1) and survive on X(θ(w)) exactly when their initial direction is≤θ(w). Transporting gives weight−w₀π(1) on the chosen X(w). For partial flags use the actual minimal-coset projection W/W_P→W/W_λ before making this comparison; do not compare indices in different stabilizer quotients as though they were equal. Prove the terminal-direction formulation in the notebooks by explicit opposition/reversal, rather than equating their untransported symbols w. The point and longest-word tests must recover the single fibre λ and the full ∇λ.
+Print the opposition/dual dictionary. Set κ=−w₀λ and θ(w)=w₀ww₀. Conjugating G/B− to G/B+ by the chosen longest representative sends X(w) to the positive-Borel X(θ(w)) and pulls the positive-Borel line with fibre−κ back to L(λ), with the actual linearization comparison. In the positive-Borel convention, LS path sections indexed by π∈B(κ) have weight−π(1) and survive on X(θ(w)) exactly when their initial direction is≤θ(w). Transporting gives weight−w₀π(1) on the chosen X(w). For partial flags use the actual minimal-coset projection W/W_P→W/W_λ before making this comparison; do not compare indices in different stabilizer quotients as though they were equal. Prove the terminal-direction formulation from the initial-direction condition of LLM §3, p. 309 by explicit opposition/reversal, rather than equating the two untransported symbols w. The point and longest-word tests must recover the single fibre λ and the full ∇λ.
 
 *Needs:* S4.6; S1.0's inversion and ReductiveGroups opposition/contravariant duality; S3.1–3.2's fibre character and ordinary-dual comparison.
 
@@ -723,11 +753,11 @@ The Frobenius module has scalar action a·F_*b=F_*(a^p b). On a polynomial chart
 - With s=x, σ(F_*1)=1 and σ(F_*(x²))=x; demanding ordinary k[x]-linearity on the underlying polynomial ring would instead give x².
 - For n=0 over a perfect field, Tr(c)=c^(1/p); in particular Tr(1)=1. The zero map fails normalization.
 
-*Needs:* S1's smooth root charts; SchemeAndStackFoundations coherent duality; ReductiveGroups' independent Steinberg representation and extremal pairing.
+*Needs:* S1's smooth root charts; SchemeAndStackFoundations coherent duality; ReductiveGroups' independent Steinberg representation and extremal pairing. The splitting formalism, the duality Hom(F_*O,O)≅F_*(ω^(1−p)) and the exponent p−1 criterion are Ramanathan1987 Definition 1.1, p. 65, §1.16 and Lemmas 1.18–1.19, pp. 70–71.
 
 ### 5.2 Compatible ideals
 
-Prove the resulting splitting is compatible with every standard and opposite Schubert ideal by actual B-canonical/rank-one root-subgroup calculations and word induction. For an ideal I the required statement is σ(F_*I)⊂I, not just reducedness of its zero set. Prove closure under finite sums/intersections of compatible ideals, then conclude scheme-theoretic intersections and reduced unions in this family are reduced in positive characteristic. Item6 constructs their characteristic-zero mixed-family comparison. The rank-one, point, empty and whole-flag ideals are explicit tests. Do not infer arbitrary Richardson transversality from this reducedness statement.
+Prove the resulting splitting is compatible with every standard and opposite Schubert ideal by actual B-canonical/rank-one root-subgroup calculations and word induction. For an ideal I the required statement is σ(F_*I)⊂I, not just reducedness of its zero set. Prove closure under finite sums/intersections of compatible ideals, then conclude scheme-theoretic intersections and reduced unions in this family are reduced in positive characteristic. S5.6 constructs their characteristic-zero mixed-family comparison. The rank-one, point, empty and whole-flag ideals are explicit tests. Do not infer arbitrary Richardson transversality from this reducedness statement.
 
 - Compatibility means preservation of the ideal as a subsheaf of F_*O.
 - Finite sums and intersections of compatible ideals remain compatible.
@@ -739,17 +769,17 @@ Prove the resulting splitting is compatible with every standard and opposite Sch
 - The ideal (x²) is not preserved: σ(x²)=x lies outside (x²); its nonreduced quotient cannot be split.
 - On ℙ¹ the standard and opposite closed points form {0,∞}; its structure ring is k×k, of dimension 2, not k.
 
-*Needs:* S5.1; S2's rank-one induction; ideal-sheaf sums and intersections from SchemeAndStackFoundations Layer 1.
+*Needs:* S5.1; S2's rank-one induction; ideal-sheaf sums and intersections from SchemeAndStackFoundations Layer 1. Compatible splitting is Ramanathan1987 Definition 1.1(b–c), p. 65 and Proposition 1.4, p. 66; the simultaneous compatible splitting of all Schubert varieties through the word resolution of w₀ is its Theorem 3.5(i), pp. 82–83.
 
 ### 5.3 Central-isogeny descent
 
 Carry out the construction on the derived simply connected cover, where ρ and the Steinberg weight exist in the actual character lattice. Prove the induced map of flags is an fpqc quotient isomorphism and transport the splitting/ideal identities, even when the central kernel is nonreduced. No étale-cover or differential-isomorphism assumption is substituted for that quotient argument. Keep actual line linearizations when passing between isogeny types.
 
-*Needs:* ReductiveGroups central isogenies and fpqc quotients; S5.1–5.2. For SL₂→PGL₂ in characteristic 2 the central kernel is μ₂ with ring k[u]/((u−1)²), so the flag comparison must not use an étale-kernel argument.
+*Needs:* ReductiveGroups central isogenies and fpqc quotients; S5.1–5.2. For SL₂→PGL₂ in characteristic 2 the central kernel is μ₂ with ring k[u]/((u−1)²), so the flag comparison must not use an étale-kernel argument. Ramanathan1987 §3.4, p. 82 states the splitting on the simply connected group; the descent to other isogeny types is a target here.
 
 ### 5.4 Normality and structure-sheaf pushforward
 
-Prove normality of each Schubert variety. Construct geometrically connected fibres of the reduced-word map by the actual rank-one gallery/partial-flag induction, with the closed fibre pieces and their intersections; do not infer connectedness merely from a fixed-point count. Apply proper Stein factorization and finite normalization to prove geometric unibranchness. In characteristicp prove the needed weak-normality consequence of Frobenius purity: principal ideals are Frobenius closed, and a finite universal-homeomorphic normalization in the total fraction ring must equal the original ring. Combine this with the constructed unibranchness; splitting alone is not a normality theorem. Item6 constructs the corresponding characteristic-zero/integral comparison from the actual identified integral fibres, before using the characteristic-zero conclusions of this paragraph. Once X(w) is normal, prove π_*O_Z=O_X(w) by the actual proper birational/Stein comparison. Reduced unions need not be normal; retain their actual ideal exact sequences.
+Prove normality of each Schubert variety. Construct geometrically connected fibres of the reduced-word map by the actual rank-one gallery/partial-flag induction, with the closed fibre pieces and their intersections; do not infer connectedness merely from a fixed-point count. Apply proper Stein factorization and finite normalization to prove geometric unibranchness. In characteristicp prove the needed weak-normality consequence of Frobenius purity: principal ideals are Frobenius closed, and a finite universal-homeomorphic normalization in the total fraction ring must equal the original ring. Combine this with the constructed unibranchness; splitting alone is not a normality theorem. S5.6 constructs the corresponding characteristic-zero/integral comparison from the actual identified integral fibres, before using the characteristic-zero conclusions of this paragraph. Once X(w) is normal, prove π_*O_Z=O_X(w) by the actual proper birational/Stein comparison. Reduced unions need not be normal; retain their actual ideal exact sequences.
 
 *Needs:* S2 reduced-word maps; S5.1–5.2; SchemeAndStackFoundations normalization and Stein factorization; S5.6 for characteristic-zero comparison. BrionFlags Theorems 2.1.1 and 2.2.3 give the complex case, not a positive-characteristic proof.
 
@@ -757,17 +787,17 @@ Prove normality of each Schubert variety. Construct geometrically connected fibr
 
 In positive characteristic, for dominant λ first prove H^q(Z,π*Lλ)=0 for q>0 by the actual rank-one/word splitting calculation: construct a stable splitting along a boundary-supported ample divisor, prove the required iterated splitting and tensor/pushforward maps, and combine it with nefness and Serre vanishing. Construct the ample combination with positive coefficients on every word-boundary component from the iterated projective bundles; compatibility with the reduced boundary alone is not sufficient. Deduce R^qπ_*O_Z=0 for q>0 by twisting with all sufficiently high powers of an ample line on X(w), using projection formula, coherent Leray and Serre to detect the vanishing direct-image sheaves. This deduction does not use the same direct-image theorem as its premise. Then prove H^q(X(w),Lλ)=0, restriction surjectivity from the full flag, and the same statements for finite reduced unions of Schubert varieties for one fixed Borel (or for their common opposite-Borel transforms). Compare H⁰ on X(w) and Z using the already proved π_*O statement. For ample λ use Frobenius iteration and Serre vanishing with the actual ideal sequence. For merely nef/dominant λ, including0, prove the needed parabolic projection/fibre O-cohomology and pullback comparison; ampleness is not silently assumed. Include empty unions, H⁰(point,L)=its fibre and H⁰(O_Y)=k for a nonempty common-Borel Schubert union Y. Mixed standard/opposite compatible unions retain S5.2's ideal and reducedness conclusions, but their section comparison uses the actual ideal/cohomology exact sequence and proved vanishing hypotheses. It does not assert dominant restriction surjectivity or a common-Borel path basis for every mixed union: in P¹, Y={0,∞} and λ=0 give H⁰(O_Y)=k² and the diagonal restriction k→k², with H¹(I_Y)=k.
 
-*Needs:* S5.1–5.4; S2's iterated projective bundles; SchemeAndStackFoundations §2.2 and §2.6 coherent pushforward, Serre vanishing and projective cohomology. LLM Theorem 6, p. 301 supplies the word vanishing comparison; the mixed-union counterexample retains the separate ideal exact sequence.
+*Needs:* S5.1–5.4; S2's iterated projective bundles; SchemeAndStackFoundations §2.2 and §2.6 coherent pushforward, Serre vanishing and projective cohomology. LLM Theorem 6, p. 301 supplies the word vanishing comparison, and Ramanathan1987 Theorem 3.7, p. 84 the Schubert vanishing and restriction surjectivity; the mixed-union counterexample retains the separate ideal exact sequence.
 
 ### 5.6 Integral coherent comparisons
 
-Construct the integral Schubert closure and base-change comparison here. Start with S1.0’s smooth projective integral full flag F/ℤ and each smooth iterated-P¹ word model Z/ℤ of S2, their multiplication map π:Z→F and the open root-cell isomorphism; the schematic Schubert closure is not yet assumed to commute with base change. Choose λ in the actual character lattice strictly positive off the chosen parabolic, so Lλ is ample on that flag, and set A_m=H⁰(Z,π*Lλ^(⊗m)), m≥0. First prove the characteristic-p vanishing of these actual nef pullback bundles for every m≥0 by item5's stable ample-divisor splitting construction, not by splitting alone. Do the same on F. Construct derived cohomology/base-change on these smooth proper integral sources using their flat bundles, actual coherent complexes and the finite affine Čech comparison. Prove the complexes are perfect over ℤ; the positive-characteristic fibre vanishing and constant Euler ranks then give finite-free H⁰, no higher cohomology, and the required arbitrary-ring base-change maps. This step uses neither flatness nor fibre identification of a putative Schubert closure.
+Construct the integral Schubert closure and base-change comparison here. Start with S1.0’s smooth projective integral full flag F/ℤ and each smooth iterated-P¹ word model Z/ℤ of S2, their multiplication map π:Z→F and the open root-cell isomorphism; the schematic Schubert closure is not yet assumed to commute with base change. Choose λ in the actual character lattice strictly positive off the chosen parabolic, so Lλ is ample on that flag, and set A_m=H⁰(Z,π*Lλ^(⊗m)), m≥0. First prove the characteristic-p vanishing of these actual nef pullback bundles for every m≥0 by S5.5's stable ample-divisor splitting construction, not by splitting alone. Do the same on F. Construct derived cohomology/base-change on these smooth proper integral sources using their flat bundles, actual coherent complexes and the finite affine Čech comparison. Prove the complexes are perfect over ℤ; the positive-characteristic fibre vanishing and constant Euler ranks then give finite-free H⁰, no higher cohomology, and the required arbitrary-ring base-change maps. This step uses neither flatness nor fibre identification of a putative Schubert closure.
 
-   Construct every restriction map H⁰(F,Lλ^(⊗m))→A_m, including m=0. Their reductions at each prime are surjective by the independently proved characteristic-p Schubert restriction and word direct-image comparisons. The cokernel is a finite ℤ-module; its reduction at every prime is zero, so it is zero. Prove this argument with the actual H⁰ base-change identifications. The resulting graded algebra map is surjective in every degree. Prove finite generation of A via its finite coherent module over the ample section algebra on F, construct Proj A and its closed immersion into F, and compare the morphism from Z given by the pulled-back ample line. Identify its scheme-theoretic image with the schematic root-cell closure using the open-cell isomorphism and the actual homogeneous kernel, not just an equality of geometric point sets. Prove A is normal from the normal integral Z and its invertible sheaf, using the intersection-of-local-valuation or total-line-space argument; hence its Proj is normal. This establishes the characteristic-zero normality needed in item4, as well as the integral fibre/section comparison. Treat partial flags with an actual ample character of their lattice and the specified projection, not an assumed fundamental weight outside that lattice.
+   Construct every restriction map H⁰(F,Lλ^(⊗m))→A_m, including m=0. Their reductions at each prime are surjective by the independently proved characteristic-p Schubert restriction and word direct-image comparisons. The cokernel is a finite ℤ-module; its reduction at every prime is zero, so it is zero. Prove this argument with the actual H⁰ base-change identifications. The resulting graded algebra map is surjective in every degree. Prove finite generation of A via its finite coherent module over the ample section algebra on F, construct Proj A and its closed immersion into F, and compare the morphism from Z given by the pulled-back ample line. Identify its scheme-theoretic image with the schematic root-cell closure using the open-cell isomorphism and the actual homogeneous kernel, not just an equality of geometric point sets. Prove A is normal from the normal integral Z and its invertible sheaf, using the intersection-of-local-valuation or total-line-space argument; hence its Proj is normal. This establishes the characteristic-zero normality needed in S5.4, as well as the integral fibre/section comparison. Treat partial flags with an actual ample character of their lattice and the specified projection, not an assumed fundamental weight outside that lattice.
 
    For the mixed standard/opposite comparison, construct its additional homological inputs on these same Schubert and opposite Schubert loci. The word boundary has affine-space complement; prove the stable ample-boundary splitting plus strong F-regularity of that regular affine complement gives global F-regularity. Push the actual Frobenius retractions through the proper word map with π_*O=O to obtain global F-regularity of field Schubert images, and prove their Cohen–Macaulay consequence at the stated F-finite/perfect-field hypotheses. Use the identified flat integral models and the precise openness/spreading comparison to obtain the characteristic-zero Cohen–Macaulay statement. Prove proper standard/opposite intersection and Tor independence in the smooth flag by the actual root-cell dimension and Cohen–Macaulay intersection calculation; construct the corresponding flat integral Richardson model and its fibre ideals before spreading reducedness to characteristic0. Finite compatible mixed unions/intersections require their actual ideal-lattice and exact-sequence/base-change induction. Neither flatness of an intersection nor base change of an arbitrary ideal intersection is assumed for free. These constructions give reducedness/ideal comparisons, not the false all-dominant mixed-union section-surjectivity theorem.
 
-   Export the resulting finite-free section/restriction modules and their arbitrary-base-change maps on these integral Schubert schemes. For common-Borel unions use their actual ideal/section exact sequences and the field restriction/vanishing theorem to construct and compare the integral union; do not normalize a reducible union or infer fibrewise reducedness from saturation alone. Establish the characteristic-zero and arbitrary-field versions of items4–5 on the identified schemes; descend geometric conclusions from perfect algebraic closures by their actual faithfully flat comparison. Transport these coherent comparisons to relative split Schubert bundles by pullback and to twisted forms by descent for specified torsors preserving the Schubert family and its line linearizations. Prove their fibre and cohomology comparisons using the base-change maps just constructed; the smooth-source H⁰ argument uses the independent splitting calculation.
+   Export the resulting finite-free section/restriction modules and their arbitrary-base-change maps on these integral Schubert schemes. For common-Borel unions use their actual ideal/section exact sequences and the field restriction/vanishing theorem to construct and compare the integral union; do not normalize a reducible union or infer fibrewise reducedness from saturation alone. Establish the characteristic-zero and arbitrary-field versions of S5.4–5.5 on the identified schemes; descend geometric conclusions from perfect algebraic closures by their actual faithfully flat comparison. Transport these coherent comparisons to relative split Schubert bundles by pullback and to twisted forms by descent for specified torsors preserving the Schubert family and its line linearizations. Prove their fibre and cohomology comparisons using the base-change maps just constructed; the smooth-source H⁰ argument uses the independent splitting calculation.
 
 - Pullback identifies the section modules and their restriction maps degree by degree.
 - Their finite-free integral models have the same ranks on every field fibre.
@@ -785,7 +815,7 @@ Construct the integral Schubert closure and base-change comparison here. Start w
 
 Construct the all-word coherent comparison with the actual image
    X(δ(Q)) from S2, including nonreduced Q. Use the reduced-word instances
-   of items4–6 first; no assertion that π_Q is birational is made. Prove
+   of S5.4–5.6 first; no assertion that π_Q is birational is made. Prove
    O_X→Rπ_Q*O_Z is a quasi-isomorphism, with its actual unit, equivariance,
    field-change and restriction comparisons. Give the rank-one induction:
    for w=δ(Q), factor the next crank through
@@ -796,7 +826,7 @@ Construct the all-word coherent comparison with the actual image
    is a P¹-bundle. Construct its unit and higher-O-vanishing by the rank-one
    projective-bundle calculation and descent. If ws_i>w, compare Y with
    the reduced word for w followed by i. Its proper reduced-word resolution
-   of X(ws_i) has the item4–6 direct-image comparison, while its map to Y
+   of X(ws_i) has the S5.4–5.6 direct-image comparison, while its map to Y
    has the same flat-base-change comparison. The derived composition and
    Leray maps then give the comparison for Y→X(ws_i). Prove these factor
    and base-change squares on the actual flag/word schemes, rather than
@@ -804,7 +834,7 @@ Construct the all-word coherent comparison with the actual image
 
    Apply projection formula to any specified line bundle L on the flag
    to construct RΓ(X(δ(Q)),L)≃RΓ(Z_Q,π_Q*L), naturally and equivariantly.
-   For dominant λ, items5–6 supply the corresponding higher-cohomology
+   For dominant λ, S5.5–5.6 supply the corresponding higher-cohomology
    vanishing on the image and hence on the word model. This constructs the
    actual H⁰ restriction/pullback isomorphism as well as its higher-degree
    comparison; equality of dimensions or of Euler characters is insufficient.
@@ -860,9 +890,9 @@ For typeA Grassmannians and flags consume GG's polynomial maximal-minor/flag-min
 
 ### 6.3 Minuscule induction
 
-Give the source's minuscule induction in full on G/P_λ with its actual ample minuscule polarization; full-flag pullbacks use the already proved parabolic cohomology comparison before any Serre argument. The extremal section divisor is a reduced lower-dimensional Schubert union; multiplication gives 0→O_X(m−1)→O_X(m)→O_D(m)→0. Prove the union intersection ideals are reduced by S5 before using Mayer–Vietoris. Prove both the higher-cohomology descent from actual Serre vanishing and the H¹/restriction/dimension step by the exact maps and standard sections. An unexplained dimension count cannot assume the restriction surjectivity being proved. The m=0 boundary case and all nonnegative twists stay included.
+Give the minuscule standard-monomial induction in full on G/P_λ with its actual ample minuscule polarization; full-flag pullbacks use the already proved parabolic cohomology comparison before any Serre argument. The extremal section divisor is a reduced lower-dimensional Schubert union; multiplication gives 0→O_X(m−1)→O_X(m)→O_D(m)→0. Prove the union intersection ideals are reduced by S5 before using Mayer–Vietoris. Prove both the higher-cohomology descent from actual Serre vanishing and the H¹/restriction/dimension step by the exact maps and standard sections. An unexplained dimension count cannot assume the restriction surjectivity being proved. The m=0 boundary case and all nonnegative twists stay included.
 
-*Needs:* S5.2 and S5.5 for reduced unions and cohomology; S7.1–7.2 for minuscule divisor multiplicity; S6.1 for graded restriction.
+*Needs:* S5.2 and S5.5 for reduced unions and cohomology; S7.1–7.2 for minuscule divisor multiplicity; S6.1 for graded restriction. LLM Theorem 4, p. 299 states the resulting basis; the induction is the route to it.
 
 ### 6.4 Standard products
 
@@ -882,7 +912,7 @@ For arbitrary finite root type and dominant λ use S4's geometric path sections 
 
 ### 6.5 Ideals and normal generation
 
-Give the compatible ideal and multiplication API: for the fixed-Borel Schubert family, basis vectors failing its support test span the vanishing ideal, ideal intersections/sums match its reduced unions/intersections, and restriction maps are coordinate projections in that compatible basis. Mixed standard/opposite intersections keep their actual S5.2 ideal identities; any section basis or surjectivity comparison there requires its own proved restriction/vanishing hypothesis, not this fixed-Borel assertion. For each normal Schubert variety and the full flag, prove projective normality and normal generation in the ample/actual embedding lane using these all-degree maps and integrality, not by defining the section ring to be the coordinate ring. Reduced unions retain their all-degree coordinate/section comparison and normal-generation theorem, but are not asserted normal without an actual normality hypothesis; a reducible union can fail normality along its intersections. For the source's toric degeneration consume GG's Rees/SAGBI comparison and identify the initial algebra; an associated graded toric algebra does not make the original flag algebra toric. General path-based degenerations may be unions of toric components and must keep their actual fan/valuation hypotheses.
+Give the compatible ideal and multiplication API: for the fixed-Borel Schubert family, basis vectors failing its support test span the vanishing ideal, ideal intersections/sums match its reduced unions/intersections, and restriction maps are coordinate projections in that compatible basis. Mixed standard/opposite intersections keep their actual S5.2 ideal identities; any section basis or surjectivity comparison there requires its own proved restriction/vanishing hypothesis, not this fixed-Borel assertion. For each normal Schubert variety and the full flag, prove projective normality and normal generation in the ample/actual embedding lane using these all-degree maps and integrality, not by defining the section ring to be the coordinate ring. Reduced unions retain their all-degree coordinate/section comparison and normal-generation theorem, but are not asserted normal without an actual normality hypothesis; a reducible union can fail normality along its intersections. For the toric degeneration of the flag coordinate ring consume GroebnerGeometry G5's Rees/SAGBI comparison and identify the initial algebra; an associated graded toric algebra does not make the original flag algebra toric. General path-based degenerations may be unions of toric components and must keep their actual fan/valuation hypotheses.
 
 *Needs:* S5.2, S5.5–5.6; S6.1–6.4; GroebnerGeometry G5 for the Rees/initial-algebra comparison. Normality is asserted only for the normal Schubert components, not their reducible unions.
 
@@ -899,13 +929,33 @@ S1–S5 and S7.1–2 for geometric path sections; GroebnerGeometry G5 for the po
 
 ### 7.1 Divisor valuations
 
-Choose the normalized extremal section nonzero on C(w). For v=w s_β with β>0 and ℓ(v)=ℓ(w)−1, prove that its divisor along X(v) has coefficient ⟨λ,β∨⟩. Show support, valuation at the codimension-one local ring, actual rank-one transverse parameter and compatibility with the chosen left/right quotient and weight. Equivalently express it using the transported extremal weight at v; prove the equality of these formulas rather than guessing the source's β side.
+Choose the normalized extremal section nonzero on C(w). For v=w s_β with β>0 and ℓ(v)=ℓ(w)−1, prove that its divisor along X(v) has coefficient ⟨λ,β∨⟩. Show support, valuation at the codimension-one local ring, actual rank-one transverse parameter and compatibility with the chosen left/right quotient and weight. Equivalently express it using the transported extremal weight at v; prove the equality of these formulas rather than transcribing a β convention from BrionFlags Proposition 1.4.5.
+
+- The divisor of the normalized extremal section on X(w) is supported on the Schubert divisors X(v), v=ws_β<w, with coefficient ⟨λ,β∨⟩, computed as a valuation in the rank-one transverse parameter at the generic point of X(v).
+- The coefficient is additive in λ and unchanged by central translation of λ.
+- It equals S4.3's cover bond b_λ(w,v) for the positive root −wβ, since wλ−vλ=⟨λ,β∨⟩wβ and wβ is negative when ℓ(ws_β)<ℓ(w).
+
+**Checks.**
+
+- For SL₂ and λ=m, the section of O(m) nonzero on the open cell has divisor m·X(e); m=0,1,2 give coefficients 0,1,2.
+- On the GL₃ full flag with λ=ω₁ and w=s₁s₂, the covers are v=s₁ with β=α₂ and v=s₂ with β=α₁+α₂, so the coefficients are ⟨ω₁,α₂∨⟩=0 and ⟨ω₁,(α₁+α₂)∨⟩=1: the pulled-back hyperplane section vanishes along X(s₂) only.
+- With the same w and λ=ρ the coefficients are 1 on X(s₁) and 2 on X(s₂); a model assigning coefficient 1 to every boundary component is wrong already here.
 
 *Needs:* S3.1–3.2; S5.4 for codimension-one valuations; ReductiveGroups root coordinates; S4.3's coroot bonds. BrionFlags Proposition 1.4.5 gives the complex type-A formula; the rank-one local-parameter calculation establishes the stated root-datum form.
 
 ### 7.2 Boundary multiplicities
 
 Distinguish the effective Cartier divisor of the full section from individual Schubert boundary Weil divisors, which need not be Cartier. In the minuscule lane all nonzero coefficients are1 and recover the reduced hyperplane/Pieri boundary used in S6. For general λ retain multiplicities in the cycle/class formula and use an actual coherent boundary filtration; do not tensor a fictitious invertible O(−X(v)) for every component. Include zero coefficients, λ=0 and the empty divisor.
+
+- The Cartier divisor of the normalized section on X(w) has Weil class Σ⟨λ,β∨⟩[X(v)], and its ideal sheaf is the image of L(λ)^(−1)→O_X(w).
+- In the minuscule lane every cover in W/W_λ has coefficient 1, so the divisor is the reduced union of the boundary Schubert divisors.
+- Individual boundary components are Weil divisors; only their stated combinations are asserted Cartier.
+
+**Checks.**
+
+- For O(m) on ℙ¹ the Cartier divisor is m·[e], of multiplicity 0,1,2 for m=0,1,2; λ=0 gives the empty divisor and the unit section.
+- In Gr(2,4) with the standard flag, the Schubert variety X_(2,1)={V : V∩F₂≠0} is the quadric cone p₃₄=0, p₁₃p₂₄=p₁₄p₂₃ in ℙ⁴ with vertex the point p₁₂; its extremal Plücker coordinate p₂₄ cuts the reduced Cartier divisor X_(2)+X_(1,1), the planes p₁₄=p₂₄=0 and p₂₃=p₂₄=0 through the vertex, and neither plane alone is Cartier at the vertex.
+- On the GL₃ full flag with λ=ω₁ and w=s₁s₂, the divisor is X(s₂) with multiplicity 1 and X(s₁) does not occur, in agreement with S7.1's coefficients 1 and 0.
 
 *Needs:* S7.1; SchemeAndStackFoundations divisor and cycle classes; S5.2's reduced boundary ideals. For O(m) on ℙ¹ the multiplicity is m, giving 0,1,2 at m=0,1,2 rather than a constant multiplicity 1.
 
@@ -940,6 +990,16 @@ S1–S3; S5 normality and cohomology; S4.3 cover bonds; SchemeAndStackFoundation
 
 Consume the generic coherent/exact Grothendieck and perfect-complex owners. On smooth projective G/P verify the hypotheses of the supplied regular/quasi-projective finite-resolution comparison and identify its vector-bundle K₀≃coherent G₀ maps. Do not assert this equality on singular Schubert varieties. Their structure sheaves define ambient classes by proper coherent pushforward and the regular ambient resolution. Export the supplied products, duals, tensor twists, derived proper pushforwards and Tor/flat/perfect-range pullbacks on these flag objects, and construct their actual equivariant character/Schubert comparisons.
 
+- On smooth projective G/P the comparison K₀→G₀ is an isomorphism, by finite locally free resolutions of coherent sheaves.
+- The ambient class of a Schubert variety is the proper pushforward of its structure sheaf; S7.2's boundary exact sequences relate structure-sheaf and ideal-sheaf classes.
+- Rank and Euler characteristic are additive functionals on these classes; they do not determine the class.
+
+**Checks.**
+
+- On ℙ¹, [O_e]=[O]−[O(−1)] from 0→O(−1)→O→O_e→0; it has rank 0 and Euler characteristic 1.
+- For the point flag K₀=G₀=ℤ and the structure-sheaf class is the unit 1.
+- On Gr(2,4) all six Schubert structure sheaves, including the singular X_(2,1), have Euler characteristic 1 by S5.5, and their classes form a ℤ-basis of G₀≅K₀ of rank 6; rank and Euler characteristic alone cannot separate them, and no K₀≃G₀ identification is asserted on X_(2,1) itself.
+
 *Needs:* SchemeAndStackFoundations coherent/perfect K-theory and regular finite resolutions; S1's smooth flag and proper Schubert immersions. BrionFlags §3.3 gives the smooth-variety K₀/G₀ comparison.
 
 ### 8.2 Ordinary characteristic map
@@ -956,11 +1016,11 @@ Construct c:ℤ[X]=R(T)→K₀(G/B−), eλ↦[Lλ], its augmentation, restricti
 - At λ=0 the class is 1, not 0; quotienting by all invariants would kill this unit.
 - For a torus flag the quotient is ℤ: every character becomes 1 under augmentation.
 
-*Needs:* S3.1; S8.1; ReductiveGroups rational representation rings; S5–S7's geometric push-pull and Schubert filtration. The kernel and surjectivity are integral assertions in the simply-connected-derived range.
+*Needs:* S3.1; S8.1; ReductiveGroups rational representation rings; S5–S7's geometric push-pull and Schubert filtration. The kernel and surjectivity are integral assertions in the simply-connected-derived range (Pittie1972, pp. 199–203, and Steinberg1975, pp. 173–177, the freeness of R(T) over R(G) with its explicit basis; both cited by locator).
 
 ### 8.3 Equivariant characteristic map
 
-In the same simply-connected-derived range construct K₀^T(G/B−)≅R(T)⊗_(R(G))R(T), specify which factor is the base character and which gives associated lines, and compare its augmentation to item2. For a partial flag use R(P−)=R(L) and the corresponding character presentation, with the actual Levi Weyl subgroup and bundle comparison. Prove the finite free/basis statements needed for these tensors; do not assume rational invariants imply their integral version.
+In the same simply-connected-derived range construct K₀^T(G/B−)≅R(T)⊗_(R(G))R(T), specify which factor is the base character and which gives associated lines, and compare its augmentation to S8.2. For a partial flag use R(P−)=R(L) and the corresponding character presentation, with the actual Levi Weyl subgroup and bundle comparison. Prove the finite free/basis statements needed for these tensors; do not assume rational invariants imply their integral version.
 
 Specify the equivariant map by a⊗eλ↦a·[L(λ)]: the first factor is the base T-character, the second the associated line. Forgetting equivariance augments the first factor, giving the ordinary presentation after swapping the two displayed tensor factors.
 
@@ -974,7 +1034,7 @@ Specify the equivariant map by a⊗eλ↦a·[L(λ)]: the first factor is the bas
 - At λ=0, 1⊗1 restricts to 1 at both fixed points.
 - For P=G, the partial presentation is R(T)⊗_(R(G))R(G)=R(T); forgetting equivariance gives ℤ.
 
-*Needs:* S3.1; S8.1–8.2; ReductiveGroups Levi representation rings and restriction; S8.1's equivariant flag comparisons.
+*Needs:* S3.1; S8.1–8.2; ReductiveGroups Levi representation rings and restriction; S8.1's equivariant flag comparisons. The equivariant presentation is the tensor form of Steinberg1975's freeness theorem, pp. 173–177.
 
 ### 8.4 General isogeny types
 
@@ -990,7 +1050,7 @@ For a general isogeny type retain c and its actual integral image. Use the deriv
 - On the SL₂ cover the weight-one character gives 1+u, recovering the missing primitive class.
 - After tensoring with ℚ, u=([O(2)]−1)/2 is in the image; over ℤ this division is not allowed.
 
-*Needs:* S8.2–8.3; ReductiveGroups central-isogeny quotient comparison; S3.1's fibre-character and forgetful maps.
+*Needs:* S8.2–8.3; ReductiveGroups central-isogeny quotient comparison; S3.1's fibre-character and forgetful maps. The simply-connected hypothesis is the one of Pittie1972 and Steinberg1975; the PGL₂ counterexample shows it is needed integrally.
 
 ### 8.5 K-theoretic push-pull
 
@@ -1185,13 +1245,23 @@ height and changes the endpoint to (2,1).
 
 ### 9.6 Cellular and normalizer comparison
 
-Compare the resulting integral full-flag CW classes with the Schubert Chow/degree comparison of S7.3; no new Grassmannian characteristic-map owner is introduced. As the compact-normalizer application, for compact connected K and maximal torus T use the actual free finite covering K/T→K/N(T) with deck W, AlgebraicTopology Stage 5 item 3's singular-cohomology transfer over ℚ and the flag's even-cell Euler characteristic |W|. Prove H⁰(K/N(T);ℚ)=ℚ and all positive-degree groups vanish. Over ℤ averaging is unavailable: for SU₂ identify K/N(T)=ℝP² and compute H⁰=ℤ, H²=ℤ/2 and other positive cohomology zero. The generic compact BG/BT invariant/Chern–Weil comparison remains at CharacteristicClasses C5; the source's invariant-degree/Coxeter-exponent and exterior-cohomology formulas require that owner's actual invariant-theory/transgression interfaces and are not inferred from this rational-normalizer calculation.
+Compare the resulting integral full-flag CW classes with the Schubert Chow/degree comparison of S7.3; no new Grassmannian characteristic-map owner is introduced. As the compact-normalizer application, for compact connected K and maximal torus T use the actual free finite covering K/T→K/N(T) with deck W, the singular-cohomology transfer of AlgebraicTopology Stage 5, item 3, over ℚ and the flag's even-cell Euler characteristic |W|. Prove H⁰(K/N(T);ℚ)=ℚ and all positive-degree groups vanish. Over ℤ averaging is unavailable: for SU₂ identify K/N(T)=ℝP² and compute H⁰=ℤ, H²=ℤ/2 and other positive cohomology zero. The generic compact BG/BT invariant/Chern–Weil comparison remains at CharacteristicClasses C5; the invariant-degree and exterior-cohomology statements quoted in KnutsonSymplectic §4, pp. 4–5 require that owner's actual invariant-theory/transgression interfaces and are not inferred from this rational-normalizer calculation.
 
-*Needs:* S7.3; LieGroups Layer 8; AlgebraicTopology Stage 5 item 3 finite-covering transfer. For SU₂ the rational quotient has only H⁰=ℚ, while integral H²=ℤ/2; averaging over its order-two Weyl group cannot be performed integrally.
+- K/T→K/N(T) is a finite covering with deck group W, and the rational transfer identifies H*(K/N(T);ℚ) with the W-invariants of H*(K/T;ℚ).
+- H*(K/T;ℚ) is concentrated in even degrees with total dimension |W|, and its W-invariants are ℚ in degree 0.
+- Over ℤ the transfer gives no averaging; the integral groups are computed directly in the stated cases.
+
+**Checks.**
+
+- For SU₂, K/T=S² and N(T)/T=ℤ/2 acts antipodally, so K/N(T)=ℝP² with H⁰=ℤ, H¹=0 and H²=ℤ/2; rationally only H⁰ survives.
+- For a torus K=T the Weyl group is trivial and K/N(T) is a point with H⁰=ℤ.
+- The Euler characteristic of K/N(T) is χ(K/T)/|W|=1, for SU₃ 6/6=1; a model identifying H*(K/N(T);ℚ) with H*(K/T;ℚ) would give 6.
+
+*Needs:* S7.3; LieGroups Layer 8; AlgebraicTopology Stage 5, item 3 (finite-covering transfer). For SU₂ the rational quotient has only H⁰=ℚ, while integral H²=ℤ/2; averaging over its order-two Weyl group cannot be performed integrally.
 
 ### 9.7 Moment–Morse comparison
 
-Construct the compact moment-Morse comparison with [HamiltonianReduction R2a](../HamiltonianReduction/README.md) on its SAME homogeneous coadjoint orbit. For compact connected K, a real dominant μ∈t and H=K_μ, use LieGroups Layer8 and S9.1 to identify K/H with the analytic partial flag G/P− whose Levi roots vanish on μ. No integrality or prequantization of μ is required for this diffeomorphism; an associated line still requires the actual character lattice. Compare the inclusion derivative, root-plane coordinates, T action and the actual KKS form. At p∈O_μ∩t construct the invariant complex structure by J_flag|E_α=sign(α(p))J_α on the tangent planes α(p)≠0 and prove that it is the integrable structure transported from this flag. Then ω(v,J_flag w)=B(v,w)/|α(p)| on those planes. Extend the equality equivariantly and construct the positive K-invariant Kähler metric, rather than assume the arbitrary metric used for the Morse chart has this property.
+Construct the compact moment-Morse comparison with [HamiltonianReduction R2a](../HamiltonianReduction/README.md) on its same homogeneous coadjoint orbit (KnutsonSymplectic §§1–3, pp. 1–3, for the KKS form, stabilizers and even-index Morse route). For compact connected K, a real dominant μ∈t and H=K_μ, use LieGroups Layer8 and S9.1 to identify K/H with the analytic partial flag G/P− whose Levi roots vanish on μ. No integrality or prequantization of μ is required for this diffeomorphism; an associated line still requires the actual character lattice. Compare the inclusion derivative, root-plane coordinates, T action and the actual KKS form. At p∈O_μ∩t construct the invariant complex structure by J_flag|E_α=sign(α(p))J_α on the tangent planes α(p)≠0 and prove that it is the integrable structure transported from this flag. Then ω(v,J_flag w)=B(v,w)/|α(p)| on those planes. Extend the equality equivariantly and construct the positive K-invariant Kähler metric, rather than assume the arbitrary metric used for the Morse chart has this property.
 
    For regular X in the negative chamber, prove grad(f_X)=J_flag X_O and the complete negative-gradient flow is the complexified action exp(−itX). Construct its coordinate action in the actual root-subgroup charts and prove its unstable manifolds are the standard B− cells C(w), of complex dimension ℓ(w), with backward limit wμ; its stable manifolds are the opposite cells. The compact flow model is being compared to those root-coordinate cells, not used to define the algebraic Schubert schemes. For positive X, retain index(f_X)=dim(O_μ)−2ℓ(w) and use −f_X for the same index-2ℓ(w) model. Zero stabilizer roots are omitted on partial flags, and central components change only the height constant. Prove the convergence/limit and cell-coordinate statements and the parabolic projection when μ lies on a wall, with X still regular in the chosen chamber, not just agreement of cell counts or characters. If instead X lies on a wall, use R2a's centralizer-orbit Morse–Bott strata and their negative normal bundles; do not assert the same isolated-critical-point/Bruhat-cell statement for that height. An arbitrary invariant metric need not have these Bruhat unstable manifolds.
 
@@ -1243,11 +1313,11 @@ For the proper dual-number point, algebraic and analytic H⁰ both retain ℂ[ε
 
 ### Dependencies
 
-S1–S8 at the targets that use them; S9.0 for coherent analytification and proper GAGA; LieGroups Layer 8; IndexTheory I8; HamiltonianReduction R2a; AlgebraicTopology Stage 5 item 3 and MorseTheory M2.
+S1–S8 at the targets that use them; S9.0 for coherent analytification and proper GAGA; LieGroups Layer 8; IndexTheory I8; HamiltonianReduction R2a; AlgebraicTopology Stage 5, item 3 (finite-covering transfer) and MorseTheory M2.
 
 ## Worked examples
 
-- TypeA: the six minors of an actual two-frame in k⁴, their signs/change of frame, the Gr(2,4) Plücker quadric, coordinate-chart inverse, Schubert ideals, dimensions and all-degree bases. Include signed determinant-one SL representatives, the full block-monomial normalizer/stabilizer dictionary, the symplectic antidiagonal-form block parabolic and the source root-action/contragredient wedge signs. Include zero subspace/full subspace and the determinant line; claims that a tautological subbundle has no global sections need the correct nontrivial-rank range.
+- TypeA: the six minors of an actual two-frame in k⁴, their signs/change of frame, the Gr(2,4) Plücker quadric, coordinate-chart inverse, Schubert ideals, dimensions and all-degree bases. Include signed determinant-one SL representatives, the full block-monomial normalizer/stabilizer dictionary, the symplectic antidiagonal-form block parabolic and KnutsonBorelWeil's root-action/contragredient wedge signs (pp. 2–4). Include zero subspace/full subspace and the determinant line; claims that a tautological subbundle has no global sections need the correct nontrivial-rank range.
 - **A fixed-plane stabilizer on a Grassmannian.** Over a field k, fix
   V=k^n, 0≤k₀≤n and a specified k₀-plane U⊂V; write P=Stab_GL(V)(U).
   Use the existing Grassmannian and tautological subbundle S, and the
@@ -1322,7 +1392,7 @@ S1–S8 at the targets that use them; S9.0 for coherent analytification and prop
   Preserve this dual distinction when applying S3's line convention.
   Compare negative determinant twists, which change the GL₃ module
   while preserving the underlying projective flag embedding. These maps
-  supply BorelWeil pp4–5's explicit8-versus9 calculation.
+  supply the explicit eight-versus-nine calculation of KnutsonBorelWeil, pp. 4–5.
 - For the finite chain/convexity API include a single cover, an equal endpoint with gcd0, incomparable endpoints, the arithmetic a-chain criterion with denominator1 (outside the internal LS break range), a chamber-wall stabilizer, nonsimply-laced rank-two bonds, and a pure central straight path. The wall case must give equality of cosets when the coroot pairing vanishes; the pure central case must retain the scaled convexity statement.
 - For central transport in GL₂, take π(t)=(t,0), χ=(1,1) and the increasing rational PL reparametrization φ(t)=t/2 for t≤1/2 and φ(t)=3t/2−1/2 for t≥1/2. The paths π and π∘φ represent the same class. The shifted π lies on x=2y, whereas (π∘φ)(1/2)+(1/2)χ=(3/4,1/2) does not. Verify this regression against an ambient quotient-level central action, and recover B(λ)→B(λ+χ) through the canonical LS representative instead.
 - For SL₂ use P¹, O(m), the m+1 character string and degree m. In characteristicp compare induced, Weyl and simple modules, including the pth symmetric-power/Frobenius stabilizer example and the n=4,p=3 binomial cyclicity counterexample. A unique highest line need not imply a module is generated by that line.
@@ -1380,7 +1450,7 @@ comparisons for its ordinary Picard and forgetful-map conclusions.
 
 ## References
 
-Proof routes include the original Knutson Bott–Samelson/Demazure handouts and algebraic-varieties notes for these applications; Littelmann's *Paths and root operators in representation theory* for the finite path/linking construction; Lakshmibai–Littelmann–Magyar's *Standard monomial theory for Bott–Samelson varieties*, Compositio Mathematica 130 (2002), Theorem 4 (§1.3, p. 299) and Theorem 6 (§1.4, p. 301), for the standard bases and section/vanishing comparisons; and the root-coordinate/splitting/coherent constructions stated in S5. For the finite saturated-chain bond theorem use Chirivì–Fang–Littelmann, [*LS algebras, valuations and Schubert varieties*, arXiv:2203.12992v1, Definition 2.1 (p. 4) and §7.1 (p. 18)](https://arxiv.org/abs/2203.12992v1), in its dominant-weight/minimal-parabolic-coset setting; construct its chain-independent gcd through the combinatorial targets of S4.3. Each cited generic foundation retains its single owner.
+Proof routes include Allen Knutson's Math 261 handouts named below; Littelmann's *Paths and root operators in representation theory* for the finite path/linking construction; Lakshmibai–Littelmann–Magyar's *Standard monomial theory for Bott–Samelson varieties*, Compositio Mathematica 130 (2002), Theorem 4 (§1.3, p. 299) and Theorem 6 (§1.4, p. 301), for the standard bases and section/vanishing comparisons; and the root-coordinate/splitting/coherent constructions stated in S5. For the finite saturated-chain bond theorem use Chirivì–Fang–Littelmann, [*LS algebras, valuations and Schubert varieties*, arXiv:2203.12992v1, Definition 2.1 (p. 4) and §7.1 (p. 18)](https://arxiv.org/abs/2203.12992v1), in its dominant-weight/minimal-parabolic-coset setting; construct its chain-independent gcd through the combinatorial targets of S4.3. Each cited generic foundation retains its single owner.
 
 Source keys: LLM denotes the published 2002 article, with
 Theorem 4 at LLM line 251 and Theorem 6 at LLM line 324. CFL denotes
@@ -1406,6 +1476,38 @@ Michel Brion, *Lectures on the geometry of flag varieties*,
 arXiv:math/0410240v1 (2004), §§1.1–1.4, 2.1–2.3 and 3.3–3.4
 (BrionFlags). This source works over ℂ, with type-A coordinates; its
 complex proofs do not supply the positive-characteristic splitting argument.
-Allen Knutson, *Demazure character formula* course notes, §4.0.2, p. 4
-(KnutsonDemazure line 142), supplies the A₂ diagram; S3.6 derives its
-coefficient formula from the stated signed strings.
+Allen Knutson's handouts for Math 261 (Berkeley, 2001–2002), on his Cornell
+course pages: KnutsonBorelWeil, *Representations of U(n): the Borel–Weil
+theorem* (Fall 2001, 5 pages, pi.math.cornell.edu/~allenk/courses/16spring/BorelWeil.pdf),
+pp. 4–5 for the eight-versus-nine section calculation and pp. 2–4 for the
+wedge-sign conventions; KnutsonBottSamelson, *The Bott–Samelson cranks and
+Bott–Samelson manifolds* (Spring 2002, 6 pages,
+pi.math.cornell.edu/~allenk/courses/12spring/6500/notes2/BottSamelsons8.pdf),
+§1, p. 1 (right crank), §2, pp. 1–2 (iteration order), §5, p. 4 (contracted
+product and left crank) and §6, p. 5 (parabolic letters); KnutsonSymplectic,
+*Symplectic geometry of K/T* (Spring 2002, 5 pages,
+pi.math.cornell.edu/~allenk/courses/12spring/6500/notes2/symplectic3.pdf),
+§§1–3, pp. 1–3 (KKS form, stabilizers, even-index Morse functions) and §4,
+pp. 4–5 (rational cohomology of K/N(T) and the SU₂ exercise); and
+KnutsonDemazure, *The Atiyah–Bott formula and the Demazure character formula*
+(Spring 2002, 4 pages,
+pi.math.cornell.edu/~allenk/courses/12spring/6500/notes2/Demazure9.pdf),
+pp. 1–4 for the positive-denominator operator and left-crank convention and
+§4.0.2, p. 4 (KnutsonDemazure line 142) for the A₂ diagram; S3.6 derives its
+coefficient formula from the stated signed strings. These handouts work over
+ℂ with positive Borels; S1.2 and S3.3 give the conversions.
+
+A. Ramanathan, *Equations defining Schubert varieties and Frobenius splitting
+of diagonals*, Publications Mathématiques de l'IHÉS 65 (1987), 61–90
+(Ramanathan1987, Numdam): Definition 1.1, p. 65, Proposition 1.4, p. 66,
+§1.16, Proposition 1.17 and Lemmas 1.18–1.19, pp. 70–71, Theorem 3.5(i),
+pp. 82–83 and Theorem 3.7, p. 84. The original splitting paper is
+V. B. Mehta and A. Ramanathan, *Frobenius splitting and cohomology vanishing
+for Schubert varieties*, Annals of Mathematics 122 (1985), 27–40, cited only
+through Ramanathan1987. H. Pittie, *Homogeneous vector bundles on homogeneous
+spaces*, Topology 11 (1972), 199–203 (Pittie1972), and R. Steinberg, *On a
+theorem of Pittie*, Topology 14 (1975), 173–177 (Steinberg1975), give the
+freeness of R(T) over R(G) and the K-ring presentation; both are cited by
+locator only. J. C. Jantzen, *Representations of Algebraic Groups*, second
+edition, Part II, Chapter 14, gives Demazure modules and their contravariant
+duals over an arbitrary field; cited by locator only.
