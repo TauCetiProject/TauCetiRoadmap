@@ -2,6 +2,7 @@ import Mathlib
 import TauCeti.Geometry.Manifold.Morse.Basic
 import TauCeti.Geometry.Manifold.Morse.Index
 import TauCeti.Analysis.Calculus.Morse.NormalForm
+import TauCeti.Geometry.Manifold.VectorBundle.Riemannian.Riesz
 
 /-!
 # Morse functions, sublevel topology and Morse–Bott attachments: target signatures
@@ -20,8 +21,9 @@ the critical categorical cover and the finite minimum of critical counts (M4); t
 two-Euclidean-open cover, the two-open-cell recognition of the sphere and the degenerate
 two-critical-point sphere theorem (M4.1); the convergence of a compact-trapped
 negative-gradient trajectory of a Morse function to a critical point and its exponential
-decay for the Riemannian distance (M6), with the gradient the Riesz dual of the manifold
-derivative for Mathlib's `RiemannianBundle` inner product on the tangent spaces.
+decay for the Riemannian distance (M6), with the gradient DifferentialGeometry Layer 12.2's:
+the pinned `Riemannian.Tensor.rieszDual` of the manifold derivative, for Mathlib's
+`RiemannianBundle` inner product on the tangent spaces.
 
 Not stated: the handle-attachment homeomorphism across a critical level (M2), whose
 statement quantifies over chart-dependent attaching maps of the handles
@@ -308,12 +310,13 @@ section Gradient
 
 open scoped Bundle
 
-/-- The gradient of `f` for a Riemannian metric on the tangent bundle: the Riesz dual of
-the differential `df_x` for the inner product on `TangentSpace I x`, so that
-`⟪mgradient f x, v⟫ = df_x v`. -/
+/-- The gradient of `f` for a Riemannian metric on the tangent bundle, DifferentialGeometry
+Layer 12.2's definition restated so that the M6 headlines are statable: the pinned
+fibrewise Riesz dual `Riemannian.Tensor.rieszDual` of the differential `df_x` for the inner
+product on `TangentSpace I x`, so that `⟪mgradient f x, v⟫ = df_x v`. -/
 def mgradient [Bundle.RiemannianBundle (fun (x : M) ↦ TangentSpace I x)]
     (f : M → ℝ) (x : M) : TangentSpace I x :=
-  (InnerProductSpace.toDual ℝ (TangentSpace I x)).symm (mfderiv I 𝓘(ℝ) f x)
+  Riemannian.Tensor.rieszDual (I := I) x (mfderiv I 𝓘(ℝ) f x)
 
 /-- M6: a forward negative-gradient trajectory of a Morse function for a smooth metric,
 trapped in a compact set `K`, converges to a critical point in `K`: the ω-limit set is

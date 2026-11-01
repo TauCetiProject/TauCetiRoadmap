@@ -71,11 +71,23 @@ only foundational products and native homotopies, not Morse theory or
 manifold duality. [GT Layer 1](../GeometricTopology/README.md) supplies
 normal/tubular geometry, collars, handle gluing and disc bundles; this
 roadmap owns Brown's bicollared generalized Schoenflies theorem as the input
-of M4.1, while GT Layer 2 keeps local flatness, codimension-one collaring and
-the annulus theorem. [CharacteristicClasses C2](../CharacteristicClasses/README.md)
+of M4.1. The pinned Tau Ceti supplies local flatness (`IsLocallyFlat`, in
+`Geometry/Manifold/LocallyFlat/Basic`) and Brown's codimension-one
+bicollaring theorem (`brownBicollaring` in `LocallyFlat/Brown` and
+`IsLocallyBicollaredWithSides.exists_isBicollar` in `LocallyFlat/TwoSided`),
+and states the annulus conjecture (`AnnulusConjecture` in
+`LocallyFlat/Annulus`) without proving it; GT Layer 2 keeps the annulus
+theorem. [CharacteristicClasses C2](../CharacteristicClasses/README.md)
 supplies ordinary Thom classes and their local orientation coefficients.
-This roadmap owns Brouwer's invariance of domain in M4.1, the one
-topological input of Brown's Theorem 0 beyond Mayer–Vietoris.
+This roadmap owns Brouwer's invariance of domain in M4.1, in its
+equal-dimension form: a continuous injection from an open subset of ℝ^m into
+ℝ^m is an open map, and so, in charts, is a continuous injection between
+topological m-manifolds without boundary. Its homological inputs, the
+Jordan–Brouwer separation theorem and the acyclicity of the complement of an
+embedded closed ball in S^m, are the pinned Tau Ceti's
+`natCard_zerothHomotopy_sphere_compl_range_eq_two` and
+`isZero_reducedSingularHomologyFunctor_compl_range_closedBall`; M4.1 owns
+only the open-map deduction.
 
 This roadmap owns ordinary finite Morse deformation/attachment and their
 abstract Morse–Bott extension. RiemannianGeometry R3 owns the broken-geodesic
@@ -656,42 +668,64 @@ and q.
 Next prove **Brown's generalized Schoenflies theorem**, owned here as the
 topological input of M4.1: for m≥1 and a topological embedding
 β:S^(m−1)×[−1,1]→S^m, the complement of Σ=β(S^(m−1)×{0}) has exactly two
-components, each containing one open collar side, and the closure of each is
-homeomorphic to the closed ball D^m by a homeomorphism carrying its frontier
-Σ onto ∂D^m (Brown 1960, Theorem 5, p. 76; Theorem 5 states only that each
-closure is an m-cell, and the frontier clause holds for the homeomorphism of
-Brown's proof of Theorem 2, which agrees near the frontier with the collapsing
-map of the proof of Theorem 5, and that map carries Σ onto the equator). The
-separation statement is
-Jordan–Brouwer for a bicollared sphere, from the reduced singular homology of
-S^m∖Σ by Mayer–Vietoris on the collar
-([AlgebraicTopology Stage 3](../AlgebraicTopology/README.md#stage-3-subdivision-excision-and-mayer--vietoris)). Follow Brown's route: a cellular subset of an m-cell has an m-cell
-quotient (Theorems 0–2), a map of S^m onto itself whose only point preimages
-with more than one point are two sets A,B has A and B cellular (Theorems 3–4), and the map collapsing
-the two outer collar pieces to the poles has exactly those two inverse sets.
-The hypothesis is the explicit bicollar β; no local-flatness theorem,
-annulus theorem or Alexander-horned-sphere analysis is an input, and the
-statement is false for the horned sphere, which has no bicollar.
-Brown's Theorem 0 uses Brouwer's invariance of domain, owned in this target:
-for m≥1 a continuous injection from an open subset of ℝ^m into ℝ^m is an open
-map, hence so is a continuous injection from an open subset of an m-cell or
-of S^m into S^m, read in charts (Hatcher, *Algebraic Topology*, Theorem 2B.3,
-p. 172). Prove it from the vanishing of the reduced homology of the
-complement of an embedded closed ball in S^m and the single ℤ in degree 0 of
-the reduced homology of the complement of an embedded (m−1)-sphere (Hatcher,
-Proposition 2B.1, p. 169), both by Mayer–Vietoris induction on the dimension of
-the embedded ball or sphere: the image of the interior of a small closed ball
-around a point is then a path component of the complement of the image of
-its boundary sphere, and such components are open. In Theorem 0 this applies
-to f on the complement of its finitely many inverse sets, so that only
-finitely many points of f(Q)∩D are frontier points of f(Q).
-GeometricTopology Layer 2 owns locally flat embeddings, Brown's 1962
-codimension-one collaring theorem and the annulus theorem; none of those is
-used here, because the bicollar below is written down in coordinates.
+components, and the closure of each is homeomorphic to the closed ball D^m by
+a homeomorphism carrying its frontier Σ onto ∂D^m (Brown 1960, Theorem 5,
+p. 76; Theorem 5 states only that each closure is an m-cell, and the frontier
+clause holds for the homeomorphism of Brown's proof of Theorem 2, which
+agrees near the frontier with the collapsing map of the proof of Theorem 5,
+and that map carries Σ onto the equator). For m≥2 the two open collar sides
+β(S^(m−1)×(0,1]) and β(S^(m−1)×[−1,0)) are connected and lie one in each
+component; for m=1 each of the two points of Σ has one of its two collar
+arcs in each component. The separation statement is the pinned Tau Ceti's
+Jordan–Brouwer theorem `natCard_zerothHomotopy_sphere_compl_range_eq_two`
+(`AlgebraicTopology/Singular/JordanBrouwer`): the complement of the image of
+a continuous injection of the unit sphere of a finite-dimensional real
+normed space E into the unit sphere of a space of dimension dim E+1 has
+exactly two path components. It applies to β(·,0) on the unit sphere of
+`EuclideanSpace ℝ (Fin m)`, and S^m∖Σ is open in S^m, so its components are
+its path components. Follow Brown's route: a cellular subset of an m-cell has
+an m-cell quotient (Theorems 0–2), a map of S^m onto itself whose only point
+preimages with more than one point are two sets A,B has A and B cellular
+(Theorems 3–4), and the map collapsing the two outer collar pieces to the
+poles has exactly those two inverse sets. The hypothesis is the explicit
+bicollar β; no local-flatness theorem, annulus theorem or
+Alexander-horned-sphere analysis is an input, and the statement is false for
+the horned sphere, which has no bicollar.
+Brown's Theorem 0 uses Brouwer's invariance of domain, whose open-map step is
+owned in this target: for every m a continuous injection from an open subset
+of ℝ^m into ℝ^m is an open map, hence, read in charts, so is a continuous
+injection from an open subset of a topological m-manifold without boundary
+(in particular of the interior of an m-cell, or of S^m) into another, and
+such an injection is an open embedding (Hatcher, *Algebraic Topology*,
+Theorem 2B.3, p. 172). Its two homological inputs are at the pin: for a
+continuous injection h of the closed m-ball into S^m, the reduced homology
+of S^m∖h(D^m) vanishes in every degree,
+`isZero_reducedSingularHomologyFunctor_compl_range_closedBall`
+(`AlgebraicTopology/Singular/CubeComplement`, stated for a Hausdorff space
+whose point complements are acyclic, which S^m is by
+`isZero_reducedSingularHomologyFunctor_sphere_compl_singleton`), and
+S^m∖h(∂D^m) has exactly two path components, the Jordan–Brouwer theorem
+above (Hatcher, Proposition 2B.1 and Corollary 2B.2, p. 169). What is
+proved here is Hatcher's deduction for m≥1: h(int D^m) and S^m∖h(D^m) are
+disjoint with union S^m∖h(∂D^m); the first is path connected, and the
+second is nonempty, since otherwise S^m∖h(∂D^m) would be path connected,
+and hence path connected by the vanishing of its reduced H̃₀; so they are the
+two path components, and they are open because S^m∖h(∂D^m) is open in S^m.
+For m=0 the statement concerns a point. In Theorem 0 this applies to f on
+the interior of Q minus its finitely many inverse sets, an open subset of
+int Q, so that only finitely many points of f(Q)∩D are frontier points of
+f(Q).
+The pinned Tau Ceti's local-flatness theory (`IsLocallyFlat`,
+`brownBicollaring`, `IsLocallyBicollaredWithSides.exists_isBicollar`) and
+GeometricTopology Layer 2's annulus theorem are not inputs here, because the
+bicollar below is written down in coordinates.
 
-*Needs:* AlgebraicTopology Stage 3's Mayer–Vietoris sequence and reduced
-singular homology, for the separation statement and for invariance of domain;
-Brown's Theorems 0–4 and invariance of domain, owned in this target; Mathlib's
+*Needs:* the pinned Tau Ceti's
+`natCard_zerothHomotopy_sphere_compl_range_eq_two`,
+`isZero_reducedSingularHomologyFunctor_compl_range_closedBall` and
+`isZero_reducedSingularHomologyFunctor_sphere_compl_singleton`, for the
+separation statement and for invariance of domain; Brown's Theorems 0–4 and
+the open-map step of invariance of domain, owned in this target; Mathlib's
 `OnePoint` compactification.
 
 **Checks.**
@@ -703,15 +737,25 @@ Brown's Theorems 0–4 and invariance of domain, owned in this target; Mathlib's
 - Negative control: the Alexander horned sphere in S³ has a complementary
   domain that is not simply connected, so its closure is not D³; it admits
   no bicollar and does not satisfy the hypothesis.
-- Separation: H̃₀(S^m∖Σ)≅ℤ by Mayer–Vietoris on the open collar, so there are
-  exactly two components; "at least two components" would not determine
-  which closure is which cell.
+- Separation: the pinned Jordan–Brouwer theorem gives exactly two path
+  components of S^m∖Σ, which are its components because S^m∖Σ is open in
+  S^m; "at least two components" would not determine which closure is which
+  cell.
+- Collar sides at m=1: with Σ={p,q} at the angles 0 and π on S¹ and the
+  bicollar β(+1,t) at the angle εt, β(−1,t) at the angle π−εt, both halves of
+  the side β(S⁰×(0,1]) lie in the upper arc; so at m=1 the two components are
+  not labelled by the two sides, while for m≥2 each side is connected and
+  lies in one component.
 - Invariance of domain: x↦x³ on ℝ is injective and carries (a,b) onto
   (a³,b³), an open set; x↦x² is not injective and carries (−1,1) onto [0,1),
   not open, so injectivity is not removable.
 - Invariance of domain, equal dimensions: x↦(x,0) from ℝ into ℝ² is a
   continuous injection whose image contains no open set of ℝ²; the theorem
   compares ℝ^m with itself.
+- Invariance of domain, cell interior: the inclusion of D¹=[−1,1] as an arc
+  of S¹ is a continuous injection carrying [−1,0), open in D¹, onto a
+  half-open arc, which is not open in S¹; the statement is about open
+  subsets of the interior of the cell.
 
 Then prove the **two-open-cell lemma**
 `nonempty_homeomorph_sphere_of_two_euclidean_opens`. For any compact Hausdorff
@@ -724,9 +768,11 @@ U∩V, and by compactness so does a thin coordinate annulus
 inside V. Identify the one-point compactification of V≃ₜℝ^m with S^m using
 native `Homeomorph.onePointCongr` and `onePointEquivSphereOfFinrankEq`, and
 apply Brown's theorem to β there. The two open sets X\D and
-(int D∩V)∪{∞} partition S^m\Σ (the second is open because its complement
-C is compact in V), and β places one collar side in each. Hence C is the
-closure of the complementary component not containing ∞, and Brown gives
+(int D∩V)∪{∞} are nonempty and disjoint and partition S^m\Σ (the second is
+open because its complement C is compact in V); since S^m\Σ has exactly two
+components, each of the two sets is one of them, the outer collar side
+{r<|u|≤r+η} lying in the first and the inner side in the second. Hence C is
+the closure of the complementary component not containing ∞, and Brown gives
 C≃ₜD^m with its actual boundary map. D is the other closed cell. Compare
 their union with the boundary pushout, and extend the boundary gluing
 homeomorphism radially by the Alexander map to obtain X≃ₜS^m. Include m=1
@@ -848,12 +894,15 @@ applications supply their own critical components and Jacobi negative bundles.
 
 ## M6. Gradient convergence and exponential decay
 
-Consume `TauCeti.Manifold.mgradient` from
-[Geometry/Manifold/Riemannian/Gradient/Basic](https://github.com/TauCetiProject/TauCeti/blob/e8375e4fdc90df4033f28291a72d5f64234a301a/TauCeti/Geometry/Manifold/Riemannian/Gradient/Basic.lean);
-its pinned form `mgradient` is the Riesz dual of `mfderiv I 𝓘(ℝ) f x` for the
-inner product that Mathlib's `RiemannianBundle` puts on `TangentSpace I x`,
-the same vector, and the smoothness of the metric is the hypothesis
-`IsContMDiffRiemannianBundle I ∞ E` on the tangent bundle. Consume DG's maximal smooth gradient
+The gradient is [DifferentialGeometry 12.2](../DifferentialGeometry/README.md)'s
+`mgradient`: the pinned `Riemannian.Tensor.rieszDual`
+(`Geometry/Manifold/VectorBundle/Riemannian/Riesz`, the inverse of
+`InnerProductSpace.toDual` on the fibre) applied to `mfderiv I 𝓘(ℝ) f x`, for
+the inner product that Mathlib's `RiemannianBundle` puts on `TangentSpace I x`.
+The `mgradient` of `Suggested.lean` is that definition with the same body,
+restated so that the M6 headlines are statable; the smoothness of the metric
+is the hypothesis `IsContMDiffRiemannianBundle I ∞ E` on the tangent bundle.
+Consume DG's maximal smooth gradient
 flow and native vector-space
 `Morse/{GradientFlow,Convergence,Linearization,ExponentialConvergence}` estimates,
 including `IsIntegralCurveOn.exists_tendsto_atTop`,
@@ -882,10 +931,12 @@ compact sublevel, giving that corollary.
 - Negative control: f(x)=x on ℝ has trajectories x(t)=x₀−t, trapped in no
   compact set and convergent to no point; the compact-trapping hypothesis is
   not removable.
-- Negative control: with a merely pointwise metric g=λg₀, where λ⁻¹ vanishes
-  to second order at a regular point q, the field −grad_g f=−λ⁻¹grad_(g₀)f
-  vanishes at q and a trajectory converges to the regular point q; the
-  conclusion needs the smooth-metric hypothesis `IsContMDiffRiemannianBundle`.
+- Negative control: on ℝ with f(x)=x and the pointwise metric g=λg₀, where
+  λ(x)=x⁻² for x≠0 and λ(0)=1, an inner product at every point but
+  discontinuous at the regular point q=0, the field −grad_g f=−λ⁻¹ is −x² off
+  0 and −1 at 0; the trajectory from x₀>0 is x(t)=x₀/(1+x₀t), which converges
+  to the regular point 0 without reaching it, so the conclusion fails; the
+  theorem needs the smooth-metric hypothesis `IsContMDiffRiemannianBundle`.
 - A trajectory trapped in a compact K of a noncompact manifold has its limit
   in K, since K is closed; the theorem needs no compactness of the manifold.
 
@@ -934,8 +985,8 @@ hypotheses.
   Bull. Amer. Math. Soc.66 (1960) 74–76, Theorems 0–5; Theorem 5 (p. 76) is
   the bicollared Schoenflies theorem owned in M4.1.
 - A. Hatcher, [*Algebraic Topology*](https://pi.math.cornell.edu/~hatcher/AT/AT.pdf),
-  Cambridge University Press, 2002, Proposition 2B.1 and Theorem 2B.3, for
-  invariance of domain in M4.1.
+  Cambridge University Press, 2002, Proposition 2B.1, Corollary 2B.2 and
+  Theorem 2B.3, for the open-map step of invariance of domain in M4.1.
 - F. Takens, [*The minimal number of critical points of a function on a
   compact manifold and the Lusternik-Schnirelman category*](https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0006/LOG_0025.pdf),
   Invent. Math. 6 (1968) 197–244, Introduction (p. 198), for the
