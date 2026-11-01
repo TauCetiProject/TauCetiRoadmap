@@ -61,7 +61,8 @@ This roadmap owns the following, by layer.
   knots and of non-split links, rational tangles and two-bridge knots, torus knots and
   satellites, the Garside structure of braid groups, the Morton–Franks–Williams bound,
   Kondo's realization theorem, and exponential bounds on the number of knot types.
-  Layer 4.2.8 owns the smooth geometric braid carrier, its isotopy, the based Artin action
+  Layer 4.2.8 owns the smooth geometric braid carrier, its isotopy, the reading of a braid
+  word off a generic projection, the based Artin action
   and the faithfulness of braids among relative tangles; the identification of strand
   systems with the native presented braid group is ReductiveGroups §11A's and is consumed,
   not re-planned.
@@ -442,7 +443,8 @@ collision-free strand systems in `ℂ×[0,1]` with `TauCeti.BraidGroup n` with s
 to the fundamental-group product, the endpoint permutation as `permHom`, the pure part as
 `pureSubgroup n`, the exact sequence `1 → P_n → B_n → S_n → 1` and the convention of its
 positive half-twist. Layer 4.2.8 consumes it for smooth geometric braids, owning the smooth
-carrier, the smooth adapter and the calibration of that half-twist against the pinned closure.
+carrier, the smooth adapter, the calibration of that half-twist against the pinned closure
+and the reading of a braid word off a generic projection.
 
 ### From TauCetiRoadmap.SuccessiveMinima
 
@@ -2442,7 +2444,10 @@ tangle isotopy back to braid equality. The tangle categories and coherence theor
 built on these carriers are the work of the consumer listed under *Downstream consumers*.
 
 **Artin.P: smooth geometric braids and the imported presentation comparison.** Fix n
-ordered points P in the interior of the closed disc. A geometric braid on n strands is a
+ordered points P in the interior of the closed disc, on its horizontal diameter in
+increasing order of the first coordinate, so that position `i` is the `i`-th point in that
+order; the image of the base configuration of ReductiveGroups §11A under its homeomorphism
+is such a choice. A geometric braid on n strands is a
 disjoint union of n smooth arcs in `int(D²)×[0,1]`, each meeting every level `D²×{t}` in
 exactly one point, with endpoint sets `P×{0}` and `P×{1}`, and straight in collars of the
 two faces. Two
@@ -2479,11 +2484,13 @@ uniform distance is less than half the least distance between two distinct point
 the original path, with monotonicity in the height automatic since the height is the path
 parameter. Prove that two smooth geometric braids homotopic through continuous strand
 systems are isotopic through smooth geometric braids, by the same approximation applied to
-the homotopy (Artin, Theorems 1–7, compare s-isotopy with isotopy in the polygonal
-setting). Hence the composite of this adapter with the identification of ReductiveGroups
-§11A is an isomorphism of groups between isotopy classes of smooth geometric braids and
-`TauCeti.BraidGroup n`, compatible with the endpoint permutation and `permHom` and
-sending pure braids to `pureSubgroup n`. Calibrate it: prove that the elementary braid
+the homotopy (Artin, Theorem 1 and the Lemma on p. 103, whose straight-line argument is
+the one used here; Artin's strings are continuous, and the comparison of isotopy with
+s-isotopy is his Theorem 12, cited above). Hence the composite of this adapter with the
+identification of ReductiveGroups §11A is an isomorphism of groups between isotopy
+classes of smooth geometric braids and `TauCeti.BraidGroup n`, compatible with the
+endpoint permutation and `permHom` and sending pure braids to `pureSubgroup n`.
+Calibrate it: prove that the elementary braid
 `σ_i` above, with the front/back convention pinned by the closure, corresponds to
 `sigma i`, inserting the automorphism of `TauCeti.BraidGroup n` inverting every generator
 if the positive half-twist of ReductiveGroups §11A is the mirror of `σ_i`; the Check on
@@ -2493,6 +2500,38 @@ braids, is this isomorphism composed with `BraidWord.toBraid`; that the `σ_i` g
 is Artin, Theorem 16, and the presentation is the one of Birman–Brendle, §1.2, whose
 proofs are Artin (1925) and Bohnenblust (1947) under *References*, none of which is
 re-proved here.
+
+Call the projection of a smooth geometric braid to the plane of the first disc coordinate
+and the height generic when it has finitely many double points, each transverse (the two
+first coordinates cross with distinct derivatives), at pairwise distinct heights and away
+from the collars, and no other multiple points. Each such crossing exchanges two strands
+adjacent in the order of the first coordinate just below it, say at positions `i` and
+`i+1`; its letter is `σ_i` when the strand leaving position `i` passes in front of the
+other, by the front/back convention above, and `σ_i⁻¹` otherwise. Prove the reading lemma:
+a smooth geometric braid with a generic projection is isotopic to the stack, read upward,
+of the elementary braids of its crossings, so that the word of its crossings, listed from
+the bottom, is a native `TauCeti.BraidWord n` whose realization is the braid. Route: at
+each height order the strands lexicographically by the first coordinate, ties broken by
+the second; between consecutive crossing heights this height-pattern is constant and
+agrees with the pattern of the stack, and at a crossing height the tie-break records which
+strand is in front, so the patterns agree there exactly when the letter is read by the
+front/back convention; a diffeomorphism of the height interval matching the crossing
+heights of the two braids is itself realized by an isotopy, and two braids with the same
+height-pattern at every level are joined by the straight-line homotopy, which is
+collision-free because a convex combination of two vectors with the same lexicographic
+sign keeps that sign, stays in the disc by convexity and is straight in the collars
+(Artin, the Lemma on p. 103, whose proof is this computation, and Theorem 2, Corollary 1
+for the reparametrisation). Prove that every smooth geometric braid is isotopic to one
+with a generic projection: apply 4.2.4's polygonal perturbation to the lifted path with
+the end
+vertices fixed, adding the pairwise distinctness of the crossing heights and the absence
+of a vertex at a crossing height to the finite list of proper polynomial conditions
+avoided there, round the corners in vertex balls that avoid the crossing levels (4.2.4's
+corner rounding, or a mollification), and join the result to the original braid by the
+straight-line homotopy of the adapter. Reading upward is the order in which
+`BraidWord.toBraid` multiplies letters, since stacking β below γ realizes βγ. The
+consumers of this lemma, §§4.2.10 and 4.10.5, need the word of a given projection, which
+the identification of ReductiveGroups §11A does not supply.
 
 **Artin.A: the algebraic action.** Put `F_n=FreeGroup (Fin n)` and write
 `x_j=FreeGroup.of j`. For `i:Fin(n−1)`, let a,b be native `strand i`, `strandSucc i`.
@@ -2605,6 +2644,9 @@ formulas must be transported to the explicit pullback convention above.
   isomorphism onto `TauCeti.BraidGroup n` sending the elementary braid `σ_i` to `sigma i`.
 - The endpoint permutation of a geometric braid is `permHom` of the corresponding native
   element; a pure geometric braid corresponds to an element of `pureSubgroup n`.
+- A smooth geometric braid with a generic projection is isotopic to the stack, read upward,
+  of the elementary braids of its crossings, and every smooth geometric braid is isotopic
+  to one with a generic projection (the reading lemma).
 - A relative isotopy of tangles between two geometric braids induces a braid isotopy
   (Artin.T), so the map from braid classes to relative tangle classes is injective.
 
@@ -2640,6 +2682,24 @@ formulas must be transported to the explicit pullback convention above.
   approximations within `1/4` of it keep `|z₀ − z₁| ≥ 1/2` along the straight-line
   homotopy, while the approximations `z₀ = 1/2`, `z₁(t) = e^(2πit)/2`, each within
   `1/2`, collide at `t = 0`; so a bound of half the least distance is needed and suffices.
+- The height-pattern of the reading lemma needs the second-coordinate tie-break: the
+  standard models of `σ_0` and `σ_0⁻¹` on two strands have the same first-coordinate order
+  at every height, but at the crossing height their strands sit at `(0, 1)`, `(0, −1)` and
+  at `(0, −1)`, `(0, 1)` respectively, so the straight-line homotopy between them puts both
+  strands at `(0, 0)` halfway and is not an isotopy; a reading that ignored the tie-break
+  would give both braids the same word, although their closures have writhes `+1` and `−1`.
+- The reading order is pinned by the endpoint permutation: a three-strand braid with a
+  `σ_0` crossing at height `1/3` and a `σ_1` crossing at height `2/3` reads upward as
+  `σ_0 σ_1`, whose permutation is one of the two three-cycles, while reading downward gives
+  `σ_1 σ_0`, whose permutation is the other three-cycle, so the downward reading would
+  assign the braid the wrong permutation.
+- Transversality is needed: the two-strand braid whose strands have first coordinates
+  `(t − 1/2)²` and `0` and distinct constant second coordinates has one double point in its
+  projection, at height `1/2`, but the first coordinates touch there without exchanging, so
+  the braid is the straight braid with trivial endpoint permutation, while reading the
+  double point as a letter would give `σ_0^(±1)` with endpoint permutation `(0 1)`; a
+  crossing-free generic braid reads as the empty word and is isotopic to the straight
+  braid, as `BraidWord.toBraid_nil` requires.
 
 ### 4.2.9 Figure-eight inversion, reflection and projected transparencies
 
@@ -2845,10 +2905,11 @@ disc-core family and identify it with the standard marked disc times an
 interval to obtain a geometric n-braid. Specify the transported endpoint
 order and
 orientation, the sign of each crossing and the identification between
-increasing clockwise angle and 4.2.8's bottom-to-top height parameter. Read the
-native word in bottom-to-top order, so successive pieces concatenate by
-`BraidWord.toBraid_append`. Construct the comparison with native
-`BraidWord.closure` including its crossing-free circles, and the actual
+increasing clockwise angle and 4.2.8's bottom-to-top height parameter. After a
+perturbation making the projection to the chosen disc coordinate and the angle generic in
+the sense of 4.2.8, read the native word by 4.2.8's reading lemma in bottom-to-top order,
+so successive pieces concatenate by `BraidWord.toBraid_append`. Construct the comparison
+with native `BraidWord.closure` including its crossing-free circles, and the actual
 closure ambient isotopy. Export component count as the cycle count of
 native `permHom`; relate each cycle length to that component's covering
 degree. Changing the regular cut page and its compatible markings gives
@@ -9428,16 +9489,16 @@ tD, identity off tD. On the cone over an affine simplex f(x)=Ax+b it is Ax+tb; p
 this gives a jointly finite PL family, with H_0=id and H_1=f. Reparameterize to be
 stationary near the two time endpoints. Prove that its four point trajectories are
 pairwise disjoint and piecewise linear on a finite subdivision of time. They form a
-progressive geometric four-braid. Use 4.2.8's generic projection and word comparison
-(Artin.P) to extract its finite native half-twist word, with all crossing and endpoint
-records.
+progressive geometric four-braid. Round its corners by 4.2.4 and perturb it to a generic
+projection, then use 4.2.8's reading lemma (Artin.P) to extract its finite native
+half-twist word, with all crossing and endpoint records.
 
 Construct the point-and-collar isotopy-extension adapter carrying equality of these
 braid traces to an isotopy of actual boundary maps relative to the marked points. Extend
 the trace to a family K_t fixing the disc boundary, with K_t(p)=H_t(p) for each marked
 point p. Then K_t⁻¹H_t fixes P pointwise, starts at id and ends at K_1⁻¹f. Give this
 residual isotopy, its local point/collar lifts and the comparison of K_1 with the
-elementary half-twist maps read by Artin.P's word comparison. Retain the port
+elementary half-twist maps read by Artin.P's reading lemma. Retain the port
 permutation and collar rotations;
 prove that every remaining stabilizer map extends over the standard trivial tangle by
 cutting along its discs and extending over the resulting balls. Give a finite
