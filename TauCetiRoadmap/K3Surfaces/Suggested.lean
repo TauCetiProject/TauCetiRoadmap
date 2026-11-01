@@ -22,7 +22,7 @@ The remaining headlines cannot yet be stated on their geometric carriers:
 * Local Torelli, twistor realization, global period surjectivity, strong Torelli,
   monodromy and the full cone/polarized period-image theorems need those families,
   the geometric period map and its integral marking and Kähler-cone comparisons.
-* Free-involution realization, its root-complement period image and the nodal
+* Free-involution realization, fixed-locus classification, the root-complement period image and the nodal
   divisor need geometric involutions on analytic K3 surfaces and their quotient
   and period constructions. The abstract gluing theorem below does not assert them.
 -/
