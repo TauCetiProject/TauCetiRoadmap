@@ -2,10 +2,11 @@ import Mathlib
 import TauCeti.AlgebraicGeometry.EllipticCurve.MordellWeil.SelmerGroup
 
 /-!
-# Arithmetic statistics, Part II: headline target statements
+# Arithmetic statistics, Part II: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. These statements are acceptance targets; proving them does not finish
+`README.md`. These statements are the roadmap’s headline theorems against the pinned APIs;
+proving them does not finish
 all the definitions, basic theory and comparisons specified there.
 
 The quartic headlines can be stated on coefficient vectors, Mathlib multivariate
@@ -40,6 +41,8 @@ noncomputable section
 open scoped BigOperators Classical NumberField
 
 namespace TauCetiRoadmap.ArithmeticStatisticsPartII
+
+/-! ## Layer 1: Integral orbit dictionaries -/
 
 namespace BinaryQuartic
 
