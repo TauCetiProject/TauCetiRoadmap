@@ -323,7 +323,8 @@ Here `k` is a field and `G` a group scheme of finite type over `k`.
 - **GS4.1 Quotients.** For a closed subgroup scheme `H ⊆ G` the fppf quotient sheaf `G/H` is
   represented by a scheme of finite type over `k`, `G → G/H` is faithfully flat, and `G/H` is
   quasi-projective; for `H` normal it is a group scheme (SGA 3, Exp. VI_A, 3.2; Demazure–Gabriel,
-  III, §3, 5.4). It satisfies the quotient predicates of SchemeAndStackFoundations §1.17, and for
+  III, §3, 5.4; existence over an Artin base, Grothendieck, FGA III, Théorème 7.2). It satisfies
+  the quotient predicates of SchemeAndStackFoundations §1.17, and for
   `G` affine it represents Tau Ceti's fppf quotient sheaf and agrees with ReductiveGroups Layer 3.
 - **GS4.2 Chevalley's theorem.** For `k` perfect and `G` smooth connected, there is a unique
   smooth connected affine normal subgroup `L` with `G/L` an abelian variety
@@ -653,6 +654,9 @@ is a source of examples, not a specification.
   algebraically closed field, 1.4, 7.1, 7.9 and 8.1 for simply connected ones.
 - A. Grothendieck, J. Dieudonné, *Éléments de géométrie algébrique* IV, Publ. Math. IHÉS 24, 28,
   32 (1965–1967): 11.3.10 (fibrewise flatness), 17.9.5 (fibrewise isomorphism criterion).
+- A. Grothendieck, « Techniques de construction et théorèmes d'existence en géométrie
+  algébrique III : préschémas quotients », Séminaire Bourbaki 6 (1960/61), exp. 212, 99–118,
+  [Numdam](http://www.numdam.org/item/SB_1960-1961__6__99_0): Théorème 7.2.
 - P. Slodowy, *Simple singularities and simple algebraic groups*, LNM 815 (1980), ch. 3–4.
 - J. C. Jantzen, *Representations of algebraic groups*, 2nd ed., AMS (2003), I.5.8, II.1.8, II.2.1,
   II.2.6, II.4.4.
