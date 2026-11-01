@@ -71,6 +71,18 @@ The division of ownership is as follows.
   recognition arguments.  Its exact supplier contract consists of the representative
   `relativeHurewicz`, `homologicalWhitehead`, `poincareDualityMap_isIso`, and
   `compactManifoldFiniteCWType` declarations.  This roadmap owns the sphere-specific stable comparisons and low stable-stem calculations.
+- [CharacteristicClasses C1.2b](../CharacteristicClasses/README.md) owns the actual
+  singular-realization counit and its weak-equivalence theorem; AlgebraicTopology Stage 4
+  item 7 owns its realization CW structure. Section 3B adds the pointed compact-generation
+  and basepoint-cofibration comparisons and the raw-versus-derived James comparison on
+  those supplied objects.
+- [GeneralizedCohomology G4.0a–G4.0b](../GeneralizedCohomology/README.md) owns the
+  quaternionic projective charts, smooth Hopf quotient and HP¹-to-S⁴ comparison.
+  [ComplexKahlerGeometry K7.1](../ComplexKahlerGeometry/README.md) owns the complex
+  projective charts; [RiemannianGeometry R3.3c](../RiemannianGeometry/README.md) supplies
+  the based complex Hopf bundle and CP¹-to-S² comparison. Sections 4A, 5.0b and 9.1
+  retain the based homotopy-sequence, finite-framing and generator/sign comparisons on
+  these maps.
 - The [geometric-topology roadmap](../GeometricTopology/README.md) owns manifolds with
   boundary and corners, collars, boundary gluing, standard handles, handle attachment, tubular
   neighbourhoods, connected sum, general framed surgery, general oriented cobordisms,
@@ -268,6 +280,9 @@ These conventions apply throughout the layers.
 - `HomotopyGroup`, based cubes, `ContinuousMap.HomotopyEquiv`, `Quotient`,
   `TopologicalSpace.coinduced`, homotopy lifting, and fundamental groupoids. The pointed
   cone, suspension and mapping-cone comparisons are specified in Section 3A.2.
+- `TopCat.toSSet`, `SSet.toTop` and `sSetTopAdj` in
+  `Mathlib/AlgebraicTopology/SingularSet.lean`, lines 50, 65 and 73, supply singular
+  simplicial sets, their realization and the adjunction defining the counit.
 - Singular homology, `TopPair`, Mathlib's CW-complex structures, metric spheres, and the
   algebraic-topology roadmap's relative Hurewicz, Whitehead, duality, and finite-CW-type results.
 - `ModelWithCorners`, `ChartedSpace`, `IsManifold`, tangent bundles, smooth maps,
@@ -332,6 +347,9 @@ and transversality inputs for handle cancellation, in their relative compact set
 **From TauCetiRoadmap.AlgebraicTopology.** Stages 2–4, 6 and 8 supply relative chains,
 CW comparison, duality, Hurewicz and Whitehead; use `relativeHurewicz`,
 `homologicalWhitehead`, `poincareDualityMap_isIso` and `compactManifoldFiniteCWType`.
+Stage 4 item 7 supplies the realization CW structure on `SSet.toTop.obj K`, with
+one cell for each nondegenerate simplex, and realizes sub-simplicial inclusions as CW
+subcomplexes. Apply it to the singular set and its basepoint vertex in Section 3B.
 Completed/UniversalCovers supplies covering maps and basepoint transport.
 
 **From TauCetiRoadmap.TopologicalKTheory.** T1.5a gives the finite Stiefel sphere fibrations,
@@ -345,8 +363,17 @@ classifiers, RiemannianGeometry R1–R3 and MorseTheory M5, not T7.
 suspension comparison: π_q(Sᵐ)→π_(q+1)(S^(m+1)) is an isomorphism for
 q≤2m−2 and a surjection at q=2m−1, m≥2. Section 3A.4 transports its actual map
 to the convenient suspension and colimit models. R1–R3 also supply the metric, Jacobi
-and finite broken-geodesic inputs of Section 4B.
-**From TauCetiRoadmap.CharacteristicClasses.** C6.2–C6.3 give the normalized multiplicative
+and finite broken-geodesic inputs of Section 4B. R3.3c supplies the actual principal
+circle Hopf map from the unit sphere in ℂ² and its based CP¹-to-S² comparison: the
+real coordinates are (Re z₀, Im z₀, Re z₁, Im z₁), [1:0] maps to the north pole,
+and the projective chart has positive complex orientation. Retain its chart transition
+and disc-boundary sign comparison in the induced homotopy sequence.
+**From TauCetiRoadmap.ComplexKahlerGeometry.** K7.1 supplies the designated complex
+projective carrier, its affine charts and complex orientation used by that Hopf comparison.
+**From TauCetiRoadmap.CharacteristicClasses.** C1.2b supplies the actual evaluation
+ε_X : |Sing X| → X, identified with `sSetTopAdj.counit.app X`, and its weak-equivalence
+theorem on all components and at all basepoints. Section 3B transports this map to
+pointed compactly generated spaces. C6.2–C6.3 give the normalized multiplicative
 Chern character; C7.3 gives the native sphere tangent/hyperplane comparison; C7 gives
 formal L and Â polynomials. These polynomials alone assert no equality with a geometric index.
 **From TauCetiRoadmap.SpinRepresentations.** L7 supplies the real Clifford algebra table
@@ -377,7 +404,13 @@ oriented smooth 4k-manifold. I7.5 with the trivial complex line twist supplies
 indℂ(D⁺)=⟨Â(TM),[M]⟩∈ℤ for a closed Spin manifold, with its chosen orientation and Spin
 structure. In dimension eight these give σ=(7p₂−p₁²)/45 and
 Â₂=(7p₁²−4p₂)/5760=(p₁²−4σ)/896. They are independent of the homotopy-sphere classification.
-**From TauCetiRoadmap.GeneralizedCohomology.** G5 item 6 supplies π⁽S⁾ᵢ⊗ℚ=0 for i>0
+**From TauCetiRoadmap.GeneralizedCohomology.** G4.0a supplies the right-quaternionic-line
+carrier and projective charts. G4.0b supplies its smooth sphere quotient
+S^(4r+3) → HPʳ with fibre Sp(1), the comparison of Sp(1) with unit quaternions,
+and HP¹ ≃ S⁴ with positive reference class fixed by the (1,i,j,k) chart.
+Use its last-coordinate line basepoint and repeated (1,i,j,k) real-coordinate blocks;
+Section 5.0b compares the resulting based maps with its finite framed fibres.
+G5 item 6 supplies π⁽S⁾ᵢ⊗ℚ=0 for i>0
 and π⁽S⁾₀⊗ℚ=ℚ. **From TauCetiRoadmap.DGFloer.** Layer 1 item 2 supplies the
 Serre spectral sequence and item 4 supplies the Serre-class
 Hurewicz theorem; apply the class of finitely generated abelian groups to finite simply
@@ -785,10 +818,20 @@ item 2's suspension maps; item 4 is the Freudenthal comparison for those maps.
 
 Use a path-connected well-pointed CW complex for the literal homotopy-equivalence theorem;
 well-pointed means that the basepoint inclusion is a closed cofibration. Do not assume simple
-connectivity. For a general pointed compactly generated space `X`, construct functorially a
-well-pointed CW approximation `QX -> X` inducing all homotopy-group and path-component
-isomorphisms, by geometric realization of the pointed singular complex and a based
-cofibration replacement. Prove its naturality and independence up to based weak equivalence.
+connectivity. For a general pointed compactly generated space X with basepoint x₀, use
+CharacteristicClasses C1.2b's counit ε_X : |Sing X| → X and AlgebraicTopology Stage 4
+item 7's CW structure. Point |Sing X| at the vertex representing x₀. Let QX be its
+compact-generation model from 3A.1, with the transported vertex, and let
+c_X : QX → |Sing X| be the comparison homeomorphism for this CW space. Define
+q_X : QX → X by q_X = ε_X ∘ c_X, so q_X sends the designated vertex to x₀.
+Transport the vertex subcomplex inclusion to prove that QX is well-pointed; this gives
+the basepoint-cofibration comparison without rebuilding the underlying CW structure.
+The component and homotopy-group isomorphisms are the supplied counit's isomorphisms
+transported through c_X. For a based continuous f : X → Y, use the induced
+Qf = c_Y⁻¹ ∘ |Sing f| ∘ c_X and prove q_Y ∘ Qf = f ∘ q_X. Compare the
+cofibration models of 3A.2 by based weak equivalences whose triangles to X commute
+up to based homotopy (Hatcher, Proposition 4.13 and the uniqueness
+argument preceding it, pp.352–353; Proposition A.19, pp.537–538).
 Define the derived word and suspension-loop models by `J(QX)` and `Omega Sigma(QX)`.
 The connected theorem for this generality assumes `pi_0(X)=*` and is a weak equivalence
 between those derived models; construct the comparison with the raw models and upgrade to
@@ -850,14 +893,15 @@ for the EHP range.
 
 The CW approximation and James word model have the following APIs.
 
-- Approximation is natural, induces bijections on components and all based homotopy groups, and is independent up to based weak equivalence.
+- The pointed approximation commutes with the supplied counit through c_X, is natural for based maps, and transports its component and homotopy-group bijections; changes of cofibration model give based weak equivalences commuting with the maps to X up to based homotopy.
 - The word model preserves maps, has the empty word as unit, concatenates words and deletes exactly the basepoint letters.
 - The length filtration has the stated smash-power quotients, and the James map respects multiplication up to a specified based homotopy.
 
 **Checks for the approximation.**
 
-- Q(*) has one component and all positive homotopy groups zero; Q(S¹) has π₁=ℤ, so replacing every connected space by a point fails.
-- A discrete two-point based space retains two components under Q, not one; the connected James theorem does not apply.
+- Q(*) has one component and all positive homotopy groups zero. On S¹, q_X induces ℤ → ℤ sending the singular loop of winding 1 to 1, just as ε_X does; a constant map sends it to 0.
+- For discrete S⁰, c_X and q_X induce the identity on its two components, and the basepoint vertex is a one-point subcomplex. A constant replacement has a one-element component image; the connected James theorem does not apply.
+- For the based degree-two map f : S¹ → S¹, both q_Y ∘ Qf and f ∘ q_X send the winding generator to 2; the identity sends it to 1. This tests the naturality equation, not just isomorphism of the groups.
 - On S¹, both sides of the literal James equivalence have π₁=ℤ, and the induced generator maps to 1, not 0.
 
 **Checks for words and their maps.**
@@ -887,7 +931,9 @@ the sphere fibre/connectivity comparison. On a one-letter word its output is emp
 these distinguish it from concatenation and from an unordered symmetric-square map.
 
 *Needs:* Section 3A; AlgebraicTopology Stages 4–6 cellular chains, Künneth including Tor,
-CW comparison and Whitehead; Completed/UniversalCovers; DGFloer Layer 1 item 2 CW approximation.
+CW comparison and Whitehead, specifically Stage 4 item 7's realization CW structure;
+CharacteristicClasses C1.2b's actual singular counit and weak equivalence;
+Completed/UniversalCovers; DGFloer Layer 1 item 2's abstract CW-approximation comparison.
 The literal theorem uses path-connected well-pointed CW input, and the raw upgrade requires CW type.
 
 ### 3C. EHP, Hopf invariants and secondary composition
@@ -1252,7 +1298,17 @@ groups or a homotopy equivalence does not discharge them. Their construction
 uses finite Euclidean sphere/tangent/frame charts and the existing quaternion
 quotient, independently of stable Bott periodicity and the BSO classifier.
 
-For the first-two-stem output of9.1, export its low unstable adapters explicitly: n>=4 uses Freudenthal j=n+2<=2n-2; n=3 uses the quaternionic Hopf LES pi5S3≃pi6S4 because pi6S7=pi5S7=0; n=2 uses the complex Hopf LES pi4S2≃pi4S3 because higher Circle groups vanish, then the first stable stem. n0/n1 give zero. Keep the actual pointed maps, native sphere/circle models and group structures. HS3B's connected James theorem and3C's valid-range EHP and nonvanishing/composition proofs are indispensable before9.1; the first-two-stem phase does not assume the nu/Z24 table or all later stems.
+Use the supplied Hopf maps of GeneralizedCohomology G4.0a–G4.0b and
+RiemannianGeometry R3.3c throughout the following adapters, with the latter on
+ComplexKahlerGeometry K7.1's carrier. For the first-two-stem output of 9.1,
+export its low unstable adapters explicitly: n≥4 uses Freudenthal
+j=n+2≤2n−2; n=3 uses the quaternionic Hopf LES π₅(S³)≅π₆(S⁴) because
+π₆(S⁷)=π₅(S⁷)=0; n=2 uses the complex Hopf LES π₄(S²)≅π₄(S³) because
+higher circle groups vanish, then the first stable stem. Dimensions zero and one
+give zero. Keep the actual pointed maps, native sphere/circle models and group
+structures. Section 3B's connected James theorem and 3C's valid-range EHP and
+nonvanishing/composition proofs precede 9.1; the first-two-stem phase does not
+assume the ν/ℤ/24 table or later stems.
 
 The stable orthogonal groups and smooth classifier comparison have the following API.
 
@@ -1278,7 +1334,9 @@ with determinant +1. The cyclic column permutation has sign (−1)²=+1. Using
 
 *Needs:* TopologicalKTheory T1.5a–T1.6; Section 3A; DifferentialGeometry smooth bundle
 and collar comparison; CharacteristicClasses C7.3 tangent/hyperplane adapter; AlgebraicTopology
-Stage 4.6 projective quotient. The finite comparisons do not use Bott periodicity.
+Stage 4.6 projective quotient; GeneralizedCohomology G4.0a–G4.0b and
+ComplexKahlerGeometry K7.1/RiemannianGeometry R3.3c for the Hopf maps.
+The finite comparisons do not use Bott periodicity.
 
 ### 4B. Full real Bott proof spine
 
@@ -1514,7 +1572,7 @@ extends their framing exactly when the total calibrated parity is zero.
 Construct the pair-of-pants parity law and both obstruction directions.
 Under5.0 this computes π_(c+1)(S^c). For c=2 construct the integral
 linking/push-off invariant and compare it with the Hopf invariant under 5.0.
-The complex Hopf fibration gives π₃(S³)≅π₃(S²) since π₃(S¹)=π₂(S¹)=0;
+RiemannianGeometry R3.3c's based complex Hopf fibration gives π₃(S³)≅π₃(S²) since π₃(S¹)=π₂(S¹)=0;
 degree on S³ then proves completeness of the integral invariant and π₃(S²)=ℤ. Identify the positively normalized Hopf regular fibre as1
 and its finite suspensions as the parity generator, using the actual
 normal derivative and suspension comparison, not a generator label.
@@ -1546,14 +1604,20 @@ composition comparison that identifies this torus with η², including
 the Hopf-fibre calibration. This gives the actual group and its marked
 generator for π_(c+2)(S^c), c≥4, without using a later stable table.
 
-Handle the two exceptional ranks by explicit Hopf fibrations and their
-based LES. The complex Hopf fibration S1→S3→S2 gives
-π4S2≅π4S3, since π4S1=π3S1=0 by the universal covering R→S1.
-The quaternionic Hopf fibration S3→S7→S4 gives
-π5S3≅π6S4, since π6S7=π5S7=0 by sphere connectivity.
-Construct the local projective charts, actual bundle maps/basepoints
-and connecting/generator comparisons, not merely these abstract group
-isomorphisms. Thus the second-offset Z/2 claim has c≥2; c=1 has
+Handle the two exceptional ranks on the supplied Hopf fibrations (Hatcher,
+Examples 4.45–4.46, pp.377–378). Use RiemannianGeometry R3.3c's based
+S¹ → S³ → S² on ComplexKahlerGeometry K7.1's projective charts.
+Its projection induces π₄(S³) ≅ π₄(S²), since π₄(S¹)=π₃(S¹)=0 by the
+universal covering ℝ → S¹. Use GeneralizedCohomology G4.0a–G4.0b's
+S³ → S⁷ → HP¹ and its HP¹ ≃ S⁴ comparison. Point its total space at (0,1),
+its base at the last-coordinate line and its fibre at the unit quaternion 1,
+so the fibre inclusion is a ↦ (0,a); point S⁴ at the image of that line under the
+supplied comparison. The based connecting map
+∂ : π₆(S⁴) → π₅(S³) is an isomorphism since π₆(S⁷)=π₅(S⁷)=0.
+Construct the naturality diagrams from these supplied bundle maps to the based LES
+and the finite PT models of 5.0; compare their generators and signs using the
+complex north-pole convention and the quaternionic positive (1,i,j,k) four-cell.
+These diagrams retain the actual projections and fibre inclusions. Thus the second-offset Z/2 claim has c≥2; c=1 has
 π3S1=0. The zeroth-offset degree computation is Z for c≥1 by the
 signed zero-dimensional framed fibre; c=0 retains its separate
 component/based-set convention. The full existing Freudenthal, EHP,
@@ -1572,10 +1636,15 @@ part of the cited B3.2(b–c) supplier, not inferred from Atiyah's count alone.
 - The bounding disc circle has q=0, and the Lie circle has q=1; on the Lie torus q(a)=q(b)=q(a+b)=1 and Arf=1.
 - S² has zero H₁ and Arf=0. Two Lie tori have Arf 1+1=0 and bound after the supplied Spin surgery construction.
 - For c=4, a three-dimensional filling embeds relatively in ambient dimension 7, and the normal-frame cancellation uses a 3-connected Stiefel fibre; c=3 gives only 2-connectivity and does not instantiate this relative three-dimensional assertion.
+- At quaternionic projective dimension one the total space, base and fibre have dimensions 7, 4 and 3. The exact segment is 0 → ℤ/2 → ℤ/2 → 0, and ∂ sends the nonzero class to the nonzero class; a zero connecting map is not exact.
+- The complex projection sends (1,0) to the north pole and (0,1) to the south pole. For its chart sections on w=e^(iθ), the fibre transition is w⁻¹ with winding −1; using w instead reverses the sign before the supplied disc-boundary comparison.
+- The quaternionic fibre inclusion sends 1 to (0,1) and −1 to (0,−1), distinct points over the same line. The ordered basis (1,i,j,k) has orientation +1, whereas (1,i,j,−k) has determinant −1; such a coordinate change requires an explicit sign adapter.
 
 *Needs:* Section 5.0; TopologicalKTheory T1.5a; SpinGeometry G4; TangentialBordism
 B1 and B3.2(b–c); AlgebraicTopology relative duality and the fibration LES from DGFloer
-Layer 1 item 2. Honest-rank cancellation applies to the relative pair of dimension at most 3
+Layer 1 item 2; GeneralizedCohomology G4.0a–G4.0b's quaternionic charts and smooth
+Hopf quotient; ComplexKahlerGeometry K7.1's complex charts and RiemannianGeometry
+R3.3c's based complex Hopf comparison. Honest-rank cancellation applies to the relative pair of dimension at most 3
 and uses connectivity at least 3; it is a separate lifting argument over that pair.
 
 ### 5.1 Smooth stable tangent and normal comparison
@@ -2391,7 +2460,9 @@ as a field of a low-stem data record.
 
 *Needs:* 3B–3C EHP/Hopf maps; 5.0b first two offsets; StringOrientation S2.3 normalized third stem.
 
-Construct the stable Hopf classes `eta` and `nu` from the complex and quaternionic Hopf
+Use RiemannianGeometry R3.3c and GeneralizedCohomology G4.0a–G4.0b's supplied maps,
+with the based and framing comparisons of 5.0b, to construct the stable Hopf classes
+`eta` and `nu` from the complex and quaternionic Hopf
 fibrations. Use 5.0b's framed calculations and their suspension comparisons to obtain
 π₁⁽S⁾≅ℤ/2{η} and π₂⁽S⁾≅ℤ/2{η²} (Hatcher, Corollary 4J.4, p.474, and
 §4.J, pp.474–475, using Proposition 4L.11 for nonvanishing of η²). Import π₃⁽S⁾≅ℤ/24{ν} from
@@ -2880,7 +2951,10 @@ compact smooth recognition theorem of Layer 10.
   77 (1963), 504--537.
 - Allen Hatcher, [*Algebraic Topology*](https://pi.math.cornell.edu/~hatcher/AT/AT.pdf),
   2002, §4.2, p.387 and Exercise 39, p.392 (Toda brackets); §4.J, pp.474–475
-  (integral metastable EHP), Corollary 4J.4, p.474 (the first sphere stem).
+  (integral metastable EHP), Corollary 4J.4, p.474 (the first sphere stem);
+  Proposition 4.13 and its preceding uniqueness argument, pp.352–353, and Proposition
+  A.19, pp.537–538 (CW approximation and simplicial realization); Examples 4.45–4.46,
+  pp.377–378 (complex and quaternionic Hopf bundles).
 - Brayton Gray, [*Composition methods in the homotopy groups of ring spectra*](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/aguade%2B.pdf),
   in *Cohomological Methods in Homotopy Theory*, Progress in Mathematics 196 (2001),
   §2, pp.131–133, Propositions 2.1–2.4 and the fourth-stem calculation.
