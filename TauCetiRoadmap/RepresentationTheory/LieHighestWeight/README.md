@@ -1,85 +1,68 @@
 # Roadmap: representations of semisimple Lie algebras, highest weight theory, and the Weyl formulas
 
-Mathlib has climbed most of the way to the structure theory of semisimple Lie algebras but stops
-just short of their **representation theory**. It has `sl₂` triples and the primitive-vector argument
-(`Mathlib/Algebra/Lie/Sl2.lean`: `IsSl2Triple`, `IsSl2Triple.HasPrimitiveVectorWith`, and the
-integrality lemma `HasPrimitiveVectorWith.exists_nat`), Cartan subalgebras and their existence
-(`Mathlib/Algebra/Lie/CartanSubalgebra.lean`, `CartanExists.lean`), the generalized weight-space
-machinery (`Mathlib/Algebra/Lie/Weights/*`: `LieModule.genWeightSpace`, `LieModule.Weight`,
-`LieAlgebra.rootSpace`, `iSup_genWeightSpace_eq_top`), the semisimplicity theory
-(`Mathlib/Algebra/Lie/Semisimple/*`, `Killing.lean`), and, as the capstone of that work, the **root
-system of a Killing-semisimple Lie algebra as an honest `RootPairing`**
-(`LieAlgebra.IsKilling.rootSystem`), with one-dimensional root spaces
-(`finrank_rootSpace_eq_one`), coroots (`LieAlgebra.IsKilling.coroot`), and `sl₂` triples attached to
-roots (`exists_isSl2Triple_of_weight_isNonZero`). The abstract root-system side
-(`Mathlib/LinearAlgebra/RootSystem/*`) supplies bases, positive systems, Cartan matrices, and Weyl
-groups.
+**Summary.** Develop normalized polynomial tensor comparisons, tensor-product rules,
+Lie–Chevalley and filtered Harish-Chandra isomorphisms, split Serre presentations,
+exceptional algebra models, reductive center comparisons and affine Weyl geometry.
+The inputs are native highest-weight modules, PBW, complete reducibility and Weyl
+formulas; the new comparisons retain the actual generators, products, actions and
+integral lattices. The split characteristic-zero and compact real forms are separate.
 
-What Mathlib does **not** have is the theory those pieces exist to support: the classification of the
-finite-dimensional irreducible representations of `sl₂` by their highest weight; the weight-space
-decomposition of a module over a semisimple Lie algebra and the integrality of its weights; the
-universal enveloping algebra's PBW basis; **Verma modules** and their unique irreducible quotient
-`L(λ)`; the classification of finite-dimensional irreducibles by **dominant integral highest
-weights**; **Weyl's complete reducibility theorem** and the Casimir element that proves it; and the
-**Weyl character formula**, the **Weyl dimension formula**, and **Kostant's multiplicity formula**.
-None of this is upstream: a search for `Verma`, `HighestWeight`, `WeylCharacter`, `Casimir` in
-Mathlib returns nothing in Lie theory. Nor is there a **decomposition interface**: Mathlib has the
-ring-level isotypic machinery (`IsIsotypicOfType`, `isotypicComponent` in
-`Mathlib/RingTheory/SimpleModule/Isotypic.lean`), but nothing connects it to Lie modules, and a
-search for `minuscule` returns nothing. And the **reductive** case is absent at the Lie-algebra
-level: Mathlib defines `LieAlgebra.HasCentralRadical` (`radical = center`, exactly characteristic-zero
-reductivity) but proves no structure theory for it, and `gl_n` has no highest-weight theory at all
-(its Killing form is degenerate, so the Killing-semisimple machinery never applies to it).
+## Scope and ownership
 
-Three further structural pillars complete the targets. Layer 7 completes the **center of the
-universal enveloping algebra**, the filtered **Harish-Chandra isomorphisms** onto dot and linear
-invariants, and **base-indexed central characters**. It consumes native raw projection, Verma
-characters and dot-invariant inclusion, then proves the full bijective and filtered comparison.
-The central-character orbit theorem and the strictly stronger category-`O` linkage principle
-have distinct hypotheses and conclusions. The layer consumes native **Freudenthal's multiplicity
-recursion** and supplies its callable downward-computation interface. And on the concrete side the
-**exceptional Lie algebras** are barely touched: here Mathlib is further along than elsewhere, since
-`Mathlib/Algebra/Lie/SerreConstruction.lean` gives the Serre presentation `Matrix.ToLieAlgebra` of a
-Lie algebra from a Cartan matrix and even names the five exceptional split algebras `LieAlgebra.e₆`,
-`e₇`, `e₈`, `f₄`, `g₂` (as `Matrix.ToLieAlgebra K CartanMatrix.E₆` and friends). It defines these
-algebras as quotients but establishes **none of their structural theorems**: not that they are
-finite-dimensional or Killing-semisimple, not their dimensions `78, 133, 248, 52, 14`, and none of the
-**octonion / Jordan / magic-square** models that realize them. The **octonions** are absent from
-Mathlib entirely.
+This roadmap owns the comparisons and extensions in Layers 0–10 below. The
+rank-one classification, integer spectrum, weight strings, PBW basis and filtration,
+Verma modules, dominant-integral classification, complete reducibility, Weyl formulas,
+and general-linear highest-weight carrier and the integral-weight lattice are already in Tau Ceti and are consumed
+through the exact contracts below. The native split octonion and Albert carriers,
+their dimensions and the dimension of split-octonion derivations are inputs, not
+new construction targets. The exceptional-model identifications remain targets.
 
-This roadmap builds that representation theory, and it is organized around a single methodological
-commitment that the subject itself forces: **`sl₂` is the engine, and it is a foundational node
-precisely because the general theorems reduce to it**. This is not an easy-case-first pedagogy. The
-integrality of a weight `χ` against a coroot `α^∨` is proved by restricting the module to the `sl₂`
-triple `⟨eₐ, hₐ, fₐ⟩` attached to the root `α` and reading off `HasPrimitiveVectorWith.exists_nat`.
-The finite-dimensionality criterion for `L(λ)` is the statement that `L(λ)` is `sl₂`-finite along
-every simple direction. Weyl's complete reducibility, in the highest-weight-module route, turns on
-the `sl₂`-representation-theoretic behaviour of the Casimir. So `sl₂` is built first and in full,
-**as the thing the later proofs literally call**, and the "genuinely unlocks" test is what decides
-that it is a node rather than an example.
+[RootSystems, Layers 1–6](../RootSystems/README.md) owns finite root geometry,
+chambers, Weyl groups and finite-type classification. This roadmap owns the
+representation-theoretic comparison of opposition and integral weight lattices with
+those root systems. [ClassicalGroups, Layers 2–4](../ClassicalGroups/README.md)
+owns Schur modules, the group classification, group characters and branching;
+its Layer 3 uses Lie highest-weight theory. The Haar character argument below uses
+that classification and is independent only of the character formula, not of
+Lie highest-weight classification. [SchurWeyl, Layer 7](../SchurWeyl/README.md)
+owns Schur polynomials, Jacobi–Trudi and RSK. The Lie differentiation and
+intertwiner comparisons belong here.
 
-Suggested home: `TauCeti/Algebra/Lie/HighestWeight/` (the representation theory) and
-`TauCeti/Algebra/Lie/Sl2/` (the engine, extending Mathlib's `Sl2.lean`), mirroring Mathlib's
-`Algebra/Lie/`.
+[CharacteristicClasses, C5.1](../../CharacteristicClasses/README.md#c5-compact-lie-restriction-and-universal-rational-rings)
+owns compact infinitesimal invariance, geometric Cartan transport and real descent.
+[TangentialBordism, B3](../../TangentialBordism/README.md#b3-low-groups-and-specified-geometric-examples)
+owns the compact Albert idempotent geometry and automorphism transitivity.
+[LieGroupoidsPoisson, G4.6A–G4.6B](../../LieGroupoidsPoisson/README.md)
+owns the positive geometric Lie–Poisson structure and its coadjoint leaves.
+The PBW/Rees bracket comparison here uses that sign and owns the algebraic deformation.
 
-This roadmap **shares vocabulary with, and depends on,** the root-systems roadmap
-([../RootSystems/README.md](../RootSystems/README.md)), which owns abstract root systems, bases and
-positive systems, Weyl groups, chambers, and finite-type classification. This roadmap constructs the
-integral weight lattice and its representation-theoretic API on those actual carriers; it does not
-reintroduce the root-system or Weyl-group engine. It **feeds** the classical
-groups roadmap ([../ClassicalGroups/README.md](../ClassicalGroups/README.md)), whose representations
-of `SLₙ`, `SOₙ`, `Sp₂ₙ` are governed by exactly the highest-weight classification built here, and it
-shares its `FDRep`-flavoured vocabulary with the finite-group
-[character theory roadmap](../CharacterTheory/README.md).
+The following external contracts are required by the indicated applications and
+are not assertions about the cited roadmap sections:
 
-## Standing conventions
+- The type-A Haar route requires a regular extension theorem for a homomorphism
+  of compact real forms of connected complex reductive algebraic groups, with
+  its restriction, intertwiner and tensor compatibility. LieGroups Layer 7 supplies
+  a holomorphic extension and does not specify this algebraic strengthening.
+- The LR application requires the skew-tableau carrier, ballot reading word and
+  weight-preserving tableau-product bijection specified in Layer 9. SchurWeyl
+  Layer 7 specifies finite Schur polynomials and RSK but not that contract.
+- The compact opposition application requires comparison with the actual maximal
+  torus character lattice and the Frobenius–Schur sign theorem. CompactGroups
+  Layer 6 supplies character orthogonality, not these two comparisons.
+
+These requirements do not change the ownership of generic complexification,
+tableaux or compact character theory. The applications retain the full statements;
+holomorphic extension, unnamed structure constants and a simply connected weight
+lattice are not substitutes for the respective requirements.
+
+## Conventions
 
 - **The base field.** Work over a field `K` that is **algebraically closed and of characteristic
   zero** for the representation theory proper (so the characteristic polynomials of `H`-actions split
   and all weights take values in `K`), matching Mathlib's `[Field K] [CharZero K] [IsAlgClosed K]`.
   Algebraic closure and finite-dimensionality give only the **generalized** weight-space decomposition
   (`iSup_genWeightSpace_eq_top`, once `IsTriangularizable K H M` is in place); that the generalized
-  weight spaces are honest simultaneous eigenspaces is a **separate theorem** (Layer 2), coming from the
+  weight spaces are honest simultaneous eigenspaces is a **separate theorem** (the native diagonalizability theorem), coming from the
   semisimplicity of the `H`-action, not from algebraic closure alone. State each result at the
   generality it actually needs, in the Zulip house style: the `sl₂` weight-string arguments need only
   `CharZero` and finite-dimensionality; the generalized decomposition needs `IsTriangularizable`; the
@@ -120,10 +103,9 @@ shares its `FDRep`-flavoured vocabulary with the finite-group
   one: a weight `λ : Module.Dual K H` is **integral** when `λ (α^∨) ∈ ℤ` (the image of `ℤ` in `K`) for
   every root `α`, and **dominant integral** when `λ (αᵢ^∨) ∈ ℕ` for every simple root `αᵢ`. The
   **integral weight lattice** `X` is therefore a `ℤ`-submodule of `Module.Dual K H`, **not** a
-  `K`-subspace; a named milestone constructs it as such, proves the roots lie in it, exhibits `ρ` (the
-  half-sum of positive roots) as an element of it, and shows the coroot pairings land in `ℤ`. The
-  `ℤ`-module structure of `X` and its Weyl action are built here from the actual root-system
-  carrier and coroot pairing; RootSystems supplies the finite root geometry, not a second lattice owner.
+  `K`-subspace. Use the native integral-weight lattice and integer coroot pairings.
+  Its comparison with a based root datum retains the actual root-system carrier;
+  the character lattice of a non-simply-connected group need not be the full weight lattice.
 - **Modules are `LieModule`s; the categorical `FDRep` is a mirror.** Develop the theory on the
   Mathlib-native module core: `M` with `[LieRingModule L M] [LieModule K L M]`, irreducibility as
   `LieModule.IsIrreducible K L M` (`= IsSimpleOrder (LieSubmodule K L M)`), and the enveloping algebra
@@ -141,7 +123,7 @@ shares its `FDRep`-flavoured vocabulary with the finite-group
   general definition and the `sl₂` structure literally the same notion so the reductions typecheck.
 - **Characters live in the group algebra of the weight lattice.** The **formal character** of a
   finite-dimensional module is the multiplicity function `μ ↦ dim Mμ` (honest weight multiplicities,
-  legitimate once the diagonalizability theorem of Layer 2 is in place), an element of the integral
+  legitimate once the native diagonalizability theorem is in place), an element of the integral
   group algebra `ℤ[X]` of the weight lattice (a `Module.Dual K H →₀ ℤ` supported on integral weights).
   The Weyl group `(rootSystem H).weylGroup` acts on it. The Weyl character formula is an identity in
   this group algebra, stated with the **integral denominator** `∏_{α>0}(1 - e^{-α})` (all exponents in
@@ -155,7 +137,7 @@ shares its `FDRep`-flavoured vocabulary with the finite-group
   `LieAlgebra.derivedSeries K L 1`, never on `L`; `IsAlgClosed` appears per-theorem exactly where a
   Schur-type argument needs it. The concrete `gl_n` is `Matrix (Fin n) (Fin n) K` with its
   `LieRing.ofAssociativeRing` bracket (Mathlib names no separate carrier), its Cartan is the diagonal
-  `diagonalCartan`, and its positive system is the matrix-unit order (`Matrix.single i j 1` raising for
+  diagonalCartan, and its positive system is the matrix-unit order (`Matrix.single i j 1` raising for
   `i < j`), since `LieAlgebra.IsKilling.rootSystem` is unavailable for it. On `gl_n` the **Killing form
   is degenerate**, so the pinned invariant form is the **trace form of the standard representation**
   (`⟨X, Y⟩ = tr (X * Y)`, `LieModule.traceForm`); the trace-form Casimir scalar
@@ -166,16 +148,13 @@ shares its `FDRep`-flavoured vocabulary with the finite-group
   does not see. The dictionary to the abstract semisimple theory is the restriction to
   `LieAlgebra.SpecialLinear.sl (Fin n) K`, pinned by the Layer 9 transfer targets, not left as prose.
 
-## What Mathlib already has (consume)
+## Exact supplier contracts
 
-Three sources must be kept apart. **Mathlib now** supplies the objects listed here: `RootPairing`,
-bases, Weyl groups, Cartan matrices, the crystallographic/reduced instances, `genWeightSpace`, the
-enveloping algebra, the Killing form, and the Serre construction. The **integral weight lattice, fundamental weights, `ρ`, dominance API, and Weyl action on integral
-weights** are not supplied by Mathlib as such; they are constructed in this roadmap from the actual
-root-system and coroot-pairing carriers. RootSystems supplies the abstract roots, bases, and Weyl
-group, and this roadmap consumes those objects rather than duplicating them. Everything else, the
-representation-theoretic use of all of the above, is built here. The bullets
-below are the Mathlib-now column.
+### From Mathlib
+
+Use the following native carriers and their stated hypotheses. In particular,
+generalized weight spaces alone do not assert diagonalizability, and a
+nondegenerate Killing form is not a hypothesis on the reductive matrix algebra.
 
 - **`sl₂` triples and the primitive-vector argument:** `Mathlib/Algebra/Lie/Sl2.lean`,
   `IsSl2Triple h e f` (with `lie_e_f`, `lie_h_e_nsmul`, `lie_h_f_nsmul`), `IsSl2Triple.toLieSubalgebra`,
@@ -208,8 +187,8 @@ below are the Mathlib-now column.
 - **Abstract root systems, bases, Weyl groups:** `Mathlib/LinearAlgebra/RootSystem/*`,
   `RootPairing`, `RootSystem`, `RootPairing.Base` with `RootPairing.nonempty_base` and `Base.IsPos`,
   `Base.height`, `RootPairing.Base.cartanMatrix`, and `RootPairing.weylGroup`,
-  `RootPairing.Equiv.reflection`. The integral weight lattice and its dominance/Weyl-action API are
-  constructed in this roadmap from these finite root-system objects.
+  `RootPairing.Equiv.reflection`. The corresponding Lie integral lattice is
+  `TauCeti.integralWeightLattice`; the based-lattice comparisons retain these actual carriers.
 - **The universal enveloping algebra:** `Mathlib/Algebra/Lie/UniversalEnveloping.lean`,
   `UniversalEnvelopingAlgebra K L`, `UniversalEnvelopingAlgebra.ι` (the Lie map `L →ₗ⁅K⁆ U(L)`),
   `UniversalEnvelopingAlgebra.lift` (the universal property, an equiv `(L →ₗ⁅K⁆ A) ≃ (U(L) →ₐ[K] A)`),
@@ -255,110 +234,126 @@ below are the Mathlib-now column.
 - **Module constructions and the ring-level isotypic machinery (for the Layer 6 toolkit):** tensor
   products of Lie modules (`Mathlib/Algebra/Lie/TensorProduct.lean`), Hom and dual Lie modules
   (`Module.Dual.instLieRingModule`, `Mathlib/Algebra/Lie/Basic.lean`), direct sums
-  (`Mathlib/Algebra/Lie/DirectSum.lean`), and `IsIsotypicOfType`, `IsIsotypic`, `isotypicComponent`
+  (`Mathlib/Algebra/Lie/DirectSum.lean`), and `IsIsotypicOfType`, `IsIsotypic`, isotypicComponent
   (`Mathlib/RingTheory/SimpleModule/Isotypic.lean`, consumed also by
   [../SemisimpleAlgebras/README.md](../SemisimpleAlgebras/README.md)), reached for Lie modules
   through the enveloping-algebra dictionary of Layer 6 rather than rebuilt.
 
-## The development (native suppliers and construction targets)
+### From Tau Ceti
 
-The **classification of finite-dimensional `sl₂`-irreducibles** `V(n)` by highest weight and the
-`sl₂` complete-reducibility and Clebsch-Gordan facts; the **weight-space decomposition of a module**
-over a semisimple `L` (triangularizability of finite-dimensional modules, so `iSup_genWeightSpace_eq_top`
-applies) and the **integrality of weights** against coroots (the `sl₂`-string reduction); the **PBW
-theorem** for `U(L)` and the triangular decomposition `U(L) ≅ U(n⁻) ⊗ U(H) ⊗ U(n⁺)`; **Verma modules**
-`M(λ)`, their universal property, their unique maximal submodule and unique irreducible quotient
-**`L(λ)`**, and the highest-weight-module theory; the **classification of finite-dimensional
-irreducibles** by dominant integral highest weights (both directions: every finite-dimensional
-irreducible is an `L(λ)` with `λ` dominant integral, and `L(λ)` is finite-dimensional exactly when `λ`
-is dominant integral); the **Casimir element** and **Weyl's complete reducibility theorem**; and the
-**Weyl character formula**, the **Weyl dimension formula**, and **Kostant's multiplicity formula**,
-together with the formal-character group algebra they are stated in. These describe the consumed
-native suppliers wherever the layer below cites a native implementation; the additional
-construction and comparison targets are stated separately. Mathlib does not supply this theory.
+- `TauCeti.isIrreducible_restrict_derivedSeries` and
+  `TauCeti.sup_center_derivedSeries_eq_top`, in `TauCeti/Algebra/Lie/Reductive.lean`,
+  supply restriction to the semisimple part and the spanning statement for reductive L.
+  `TauCeti.exists_centralWeight_of_isIrreducible`, in
+  `TauCeti/Algebra/Lie/Weights/Central.lean`, gives scalar central action over an
+  algebraically closed field on a finite-dimensional irreducible module.
+- `TauCeti.isGlHighestWeightVector_glIrreducibleGenerator`,
+  `TauCeti.nonempty_lieModuleEquiv_glIrreducible`, `TauCeti.finrank_glIrreducible_le`
+  and `TauCeti.isIrreducible_glIrreducible_restrict_sl`, in
+  `TauCeti/Algebra/Lie/GeneralLinear/Carrier.lean`, supply the normalized carrier,
+  uniqueness, minimum cyclic dimension and restriction. These are not new targets.
 
-Beyond these, this roadmap builds the **center of `U(L)` and the Harish-Chandra isomorphism**
-`Z(U(L)) ≅ S(H)^{W·}` (affine dot action), the **central characters** `χ_λ` and the
-**central-character / dot-orbit theorem** `χ_λ = χ_μ ⟺ μ ∈ W·λ` (the strictly stronger category-`O`
-linkage principle is a separate development), and **Freudenthal's multiplicity recursion**; the **Serre
-presentation theorem** identifying Mathlib's already-defined `Matrix.ToLieAlgebra K base.cartanMatrix.transpose`
-(for simple `L`) with the Killing Lie algebra `L` of its root system (the Lie-algebra companion to the
-root-datum existence of [../RootSystems/README.md](../RootSystems/README.md)); and the **exceptional
-Lie algebras explicitly** in the **split track**, from the **split octonions** `𝕆` (built here, since
-Mathlib has none) through `G₂ = Der(𝕆)`, the **split Albert algebra** `H₃(𝕆)` with `F₄ = Der(H₃(𝕆))`,
-and the split `E`-series `E₆, E₇, E₈`, with their smallest representations and the identification of
-each with Mathlib's
-`LieAlgebra.g₂`, `f₄`, `e₆`, `e₇`, `e₈`. Two further units round out the roadmap: the **decomposition
-toolkit** of Layer 6 (isotypic components and multiplicities, reached from Mathlib's ring-level
-isotypic machinery through the enveloping-algebra dictionary; the generated copy of `L(λ)`; the
-single-weight isotypic criterion; tensor multiplicities and the **minuscule Pieri rule**), and the
-**reductive layer** 9 (the structure theory of `HasCentralRadical`, the classification of
-irreducibles of a reductive algebra as (derived-ideal irreducible) × (central weight), and the
-concrete highest-weight theory of `gl_n`: the named carrier `glIrreducible`, the pinned `sl ↔ gl`
-transfer, the trace-form Casimir, and the dual-standard Pieri rule). None of this is upstream.
+- `TauCeti.integralWeightLattice`, `TauCeti.mem_integralWeightLattice_iff` and
+  `TauCeti.root_mem_integralWeightLattice`, in
+  `TauCeti/Algebra/Lie/Weights/WeightLattice.lean`, supply the actual integral
+  weights as a ℤ-submodule and the inclusion of the roots; they do not identify
+  an arbitrary compact group's character lattice with the full weight lattice.
 
-`Suggested.lean` pins the load-bearing objects (`Sl2Irrep`/the `V(n)` classification,
-`IsHighestWeightVector`, `vermaModule`, `irreducibleQuotient` `L(λ)`, `IsDominantIntegral`,
-`casimirElement`, `formalCharacter`, `weylCharacter`, the Weyl dimension and Kostant statements, the
-`centralCharacter` and `harishChandraIso`, `freudenthal_multiplicity_formula`, the Serre-presentation
-equivalence, the `Octonion`/`AlbertAlgebra` carriers, the exceptional `g₂`/`f₄`/`e₈`
-identifications, the toolkit's `isotypicComponent`/`isotypicMultiplicity`/`IsMinuscule`/
-`minuscule_pieri` with the enveloping-algebra dictionary, and the reductive layer's
-`diagonalCartan`/`glIrreducible`/`glCasimir`/`gl_dual_standard_pieri`) and the named milestones below
-as `sorry`-targets, so each is claimable and the summit
-statements are machine-checked to be expressible against the pinned Mathlib.
+- `TauCeti.exists_int_of_hasEigenvalue`, in `TauCeti/Algebra/Lie/Sl2/Spectrum.lean`,
+  gives integer eigenvalues for a finite-dimensional module over a characteristic-zero
+  field, without irreducibility or algebraic closure.
+- `TauCeti.finrank_eq_of_hasPrimitiveVectorWith`, in
+  `TauCeti/Algebra/Lie/Sl2/WeightString.lean`, gives dimension n+1 under irreducibility
+  over the triple's own subalgebra. `TauCeti.isSemisimple_toEnd_cartan` and
+  `TauCeti.exists_int_apply_coroot` supply the Cartan weight theory.
+- `Module.Basis.pbwBasis` and its ordered-product equation, together with
+  `TauCeti.UniversalEnvelopingAlgebra.pbwFiltration`, its associated-graded comparison,
+  and its injectivity, finite-spanning and Noetherian theorems, are consumed over
+  their native coefficient rings. In particular the ordered PBW input to
+  Ado–Iwasawa has no characteristic-zero restriction.
+- `TauCeti.VermaModule`, `TauCeti.irreducibleQuotient`, their generators and
+  universal properties, and
+  `TauCeti.existsUnique_isDominantIntegral_highestWeight_of_finiteDimensional_irreducible`
+  supply the highest-weight classification. `TauCeti.IsMinuscule` and
+  `TauCeti.tensorMultiplicity` are the carriers used by `minuscule_pieri`.
+- `TauCeti.invForm` and `TauCeti.invForm_coroot`, in
+  `TauCeti/Algebra/Lie/Weights/InvariantForm.lean`, and `TauCeti.casimirElement`
+  and `TauCeti.casimir_smul_of_isHighestWeightVector_of_lieSpan_eq_top`, in
+  `TauCeti/Algebra/Lie/HighestWeight/Casimir.lean`, supply the Killing normalization.
+  `TauCeti.exists_isCompl_of_isKilling`, in
+  `TauCeti/Algebra/Lie/HighestWeight/CompleteReducibility.lean`, supplies invariant
+  complements over every characteristic-zero field; it has no algebraic-closure binder.
+- `TauCeti.formalCharacter_mul_weylDenominator_eq_weylNumerator`,
+  `TauCeti.finrank_eq_prod_coweightPairing_div` and
+  `TauCeti.formalCharacter_coeff_eq_kostantMultiplicity` supply the three Weyl/Kostant
+  formulas in `HighestWeight/Weyl/Character.lean`, `Weyl/Dimension.lean` and
+  `KostantMultiplicity.lean`. Freudenthal's formula is supplied by
+  `TauCeti.freudenthal_multiplicity_formula` in `HighestWeight/Freudenthal.lean`.
+- `TauCeti.hcProjection`, `TauCeti.vermaCentralCharacter`, `TauCeti.dotInvariants`
+  and `TauCeti.hcProjection_mem_dotInvariants` supply the raw projection and its
+  inclusion in dot invariants, in `HighestWeight/CentralCharacter/HarishChandra.lean`
+  and `DotOrbit.lean`. Bijectivity and the filtered comparison remain Layer 7 targets.
+- `TauCeti.opposition`, `TauCeti.root_opposition`, `TauCeti.coroot'_opposition`,
+  `TauCeti.opposition_involutive` and `TauCeti.oppositionPerm`, in
+  `TauCeti/LinearAlgebra/RootSystem/Opposition.lean`, supply the actual root involution
+  and base permutation. They do not identify a compact group's integral character lattice.
+- `TauCeti.Octonion K`, its norm and trace, and
+  `TauCeti.Octonion.finrank_derivationLieAlgebra`, in
+  `TauCeti/Algebra/Octonion/Basic.lean` and `Derivation.lean`, supply the split
+  octonions and the dimension 14 of their derivations. The native nonassociative
+  derivation carrier is `TauCeti.derivationLieAlgebra`.
+- `TauCeti.AlbertAlgebra K`, `TauCeti.AlbertAlgebra.finrank_eq_twentySeven` and
+  `TauCeti.AlbertAlgebra.finrank_traceZero`, in
+  `TauCeti/Algebra/AlbertAlgebra/Basic.lean`, supply the split product and dimensions
+  27 and 26. The Jordan and exceptional-type identifications are distinct targets.
+- `TauCeti.glIrreducible`, in `TauCeti/Algebra/Lie/GeneralLinear/Carrier.lean`,
+  supplies the highest-weight carrier with its native module instances.
+  `TauCeti.glCasimir` and
+  `TauCeti.glCasimir_smul_of_isGlHighestWeightVector_of_lieSpan_eq_top`, in
+  `TauCeti/Algebra/Lie/GeneralLinear/Casimir.lean`, supply the trace-form Casimir
+  and its scalar on every cyclic highest-weight module.
+- `TauCeti.UniversalEnvelopingAlgebra.prodEquivTensor` and
+  `TauCeti.UniversalEnvelopingAlgebra.symmetricAlgebraEquiv`, in
+  `TauCeti/Algebra/Lie/UniversalEnveloping/Prod.lean` and `Abelian.lean`, supply
+  the maps composing `productEnveloping`; the center comparison is
+  `exists_productCenterEquiv`.
 
----
+### From other roadmaps
 
-## The build, in layers
+Use RootSystems Layers 1–6 for the finite root data, ClassicalGroups Layers 2–4
+for rational group representations, SchurWeyl Layer 7 for finite Schur polynomials,
+CompactGroups Layers 0–6 for compact characters, and LieGroups Layers 2–4, 6–7
+for Lie integration, Haar Weyl integration and holomorphic complexification.
+The additional contracts listed in Scope and ownership are not part of these imports.
+TensorProductCombinatorics §1.6 supplies the cone Fourier boundary construction
+used by Layer 6.2. ReductiveGroups Layers 2 and 5P supply the tangent and
+characteristic-zero closed-subgroup smoothness cut used by Layer 9.
 
-The engine (`sl₂`) is Layer 0 and is built in full first, because Layers 2, 4, and 5 call it. Layer 1
-assembles the Cartan/root-space picture from Mathlib. The general highest-weight theory is Layers 2-4,
-complete reducibility Layer 5, and the character and dimension formulas Layer 6.
+## How to read the build
 
-### Layer 0: `sl₂` representation theory (the engine)
+Layer 0 fixes normalized rank-one comparisons and Layer 3 constructs the
+PBW deformation. The native highest-weight inputs are listed in the supplier contracts;
+Layer 5 develops their duality and compact-character applications. Layer 6 builds tensor and character comparisons; Layer 7 constructs
+Chevalley restriction before filtered Harish-Chandra, and proves the split Serre
+presentation. Layer 8 gives the exceptional models, Layer 9 the reductive comparisons,
+and Layer 10 the affine lattice geometry. Each proof route names its inputs;
+other proofs can establish the same mathematical targets. `Suggested.lean` states
+only the headline theorems on available carriers, and its docstring identifies
+headlines whose construction carriers are unavailable.
 
-Built first and completely, because it is what the later reductions invoke, not because it is easy.
+## Layer 0: normalized rank-one tensor comparisons
 
-- **The weight string.** For an `sl₂` triple `t : IsSl2Triple h e f` in `L` and a finite-dimensional
-  module `M`, `e` and `f` are the raising and lowering (ladder) operators between consecutive
-  `h`-eigenspaces, and the highest weight of any primitive vector is a **natural number**
-  (`HasPrimitiveVectorWith.exists_nat`, with the ladder lemmas `lie_h_pow_toEnd_f`,
-  `lie_e_pow_succ_toEnd_f` of `Sl2.lean`). Integer-eigenvalue integrality (`∃ n : ℤ, μ = n` for every
-  `h`-eigenvalue `μ`) and the **diagonalizability** of `h` on all of `M` are **not** immediate from that
-  lemma: they are corollaries of the classification and complete reducibility below, and are proved in
-  that order. Do not state diagonalizability as the first theorem.
-- **The standard irreducible `V(n)`.** For each `n : ℕ`, the `(n+1)`-dimensional irreducible with a
-  highest weight vector of weight `n`, with `h` acting with eigenvalues `n, n-2, …, -n` each with
-  multiplicity one, and `e`, `f` the explicit ladder. Construct it (as a `U(sl₂)`-module on `Kⁿ⁺¹`,
-  or as `Sym^n` of the standard `2`-dimensional module) and prove it irreducible.
-- **The classification.** Every finite-dimensional irreducible `sl₂`-module is isomorphic to exactly
-  one `V(n)`: it has a highest weight vector (a primitive vector, by finite-dimensionality and
-  `exists_hasPrimitiveVectorWith`), its highest weight is a natural number `n`, and highest weight
-  determines it up to `LieModuleEquiv`. So `{finite-dim irreducibles}/≅ ≃ ℕ` by highest weight, with
-  dimension `n+1`.
-- **Complete reducibility for `sl₂`.** Every finite-dimensional `sl₂`-module is a direct sum of
-  `V(nᵢ)`; equivalently every `LieSubmodule` has a complement. Prove it by the weight-string /
-  primitive-vector argument (the elementary route, independent of the general Casimir argument of
-  Layer 5), so it is available to Layer 2's reductions without circularity.
-- **Diagonalizability and the integer spectrum, as a corollary.** With complete reducibility in hand,
-  every finite-dimensional `sl₂`-module is `⨁ V(nᵢ)`, so `h` acts **diagonalizably** with an
-  integer spectrum. This is the corollary Layer 2 and its `sl₂`-string symmetry arguments call, and it
-  is stated only here, after the classification, not before it.
-- **Clebsch-Gordan.** `V(m) ⊗ V(n) ≅ ⨁_{k} V(m+n-2k)` for `0 ≤ k ≤ min m n`. The decomposition of
-  tensor products, a check on the character theory of Layer 6 in the rank-one case.
-
-#### Layer 0T: concrete polynomial tensor strings and their Hermitian orthogonality
+### 0.1 concrete polynomial tensor strings and their Hermitian orthogonality
 
 Construct the concrete rank-one tensor comparison here, alongside Layer 0. It consumes
-native symmetric powers and their standard `GL₂(ℂ)`/`SU(2)` actions, the elementary
-single-module ladder above, and finite-dimensional tensor linear algebra. It does not
+native symmetric powers and their standard `GL₂(ℂ)`/`SU(2)` actions, the native
+single-module ladder, and finite-dimensional tensor linear algebra. It does not
 consume Layer 6's character formula, general compact Haar theory, either existence or
 orthogonality of an abstract Clebsch–Gordan decomposition, or the later reductive `gl_n`
 classification. The resulting
-concrete decomposition is a comparison with the preceding abstract Clebsch–Gordan target.
-The illustrative [Sl2TensorOrthogonalityTargets.lean](Sl2TensorOrthogonalityTargets.lean)
-suggests native carriers and formulas; this README is definitive and that file is not exhaustive.
+concrete decomposition is a comparison with the native abstract Clebsch–Gordan theorem.
+The monomial normalization is stated by `exists_polynomialSymmetric`;
+the coefficient formulas and Checks below specify the rest of the tensor comparison.
 
 1. **Polynomial, symmetric-tensor and action dictionaries.** Let
    `P_d = MvPolynomial.homogeneousSubmodule (Fin 2) ℂ d`, and put
@@ -418,6 +413,13 @@ suggests native carriers and formulas; this README is definitive and that file i
    `u_i/sqrt(binom(d,i))` is the same orthonormal tensor basis. Neither formula
    licenses silently replacing one dictionary with the other.
 
+   **Checks.**
+
+   - For d=0, the unit monomial has squared norm 1/choose(0,0)=1.
+   - For d=2, xy has squared norm 1/choose(2,1)=1/2, and its averaged tensor is
+     (x⊗y+y⊗x)/2; the unweighted coefficient form would give 1.
+   - For d=2, x² and xy have inner product 0, since their coefficient supports differ.
+
 4. **Orthogonality before decomposition.** Prove directly from the adjoint identities
    that `⟨F_tot^k v_r,F_tot^l v_s⟩=0` whenever r≠s (all k,l), and that different
    H-weights are orthogonal. For equal weights and r<s, `k-l=s-r>0`; move the
@@ -458,76 +460,25 @@ suggests native carriers and formulas; this README is definitive and that file i
    decomposition. For n=0 there is only r=0; for n=1 only r=0,1. Treat m=0,
    n=0, r=0, the trivial representation, empty lowering ranges and every zero
    endpoint explicitly, without assigning meaning to a negative symmetric power.
-   The source's undefined p49 operator and overwritten p172 scalar expressions are
-   separate source-reading questions; the specified E and the proved formulas here
-   give precise mathematical targets without authenticating those glyphs.
 
+### Examples
 
-### Layer 1: Cartan subalgebras and the root-space decomposition
+V(2) has weights 2,0,−2 and dimension 3; the d=2 monomial xy has norm squared 1/2.
 
-Mostly an assembly of Mathlib, made into the working vocabulary for the module theory.
+### Dependencies
 
-- **The Cartan subalgebra and the root-space decomposition.** Fix `[H.IsCartanSubalgebra]`; over
-  algebraically closed `K` of characteristic zero, `L` is triangularizable over `H`, so
-  `iSup_genWeightSpace_eq_top` gives `L = H ⊕ ⨁_{α ∈ roots} Lα` with `finrank_rootSpace_eq_one` making
-  each `Lα` a line. Package this as the root-space decomposition of `L`, with the bracket relation
-  `⁅Lα, Lβ⁆ ⊆ L(α+β)` (`rootSpaceWeightSpaceProduct`).
-- **The root system and a choice of positive system.** Consume `LieAlgebra.IsKilling.rootSystem H` and
-  fix a base `base : (rootSystem H).Base` (existence: `RootPairing.nonempty_base`); its simple roots
-  `base.support`, positive roots (`Base.IsPos`), Weyl group `(rootSystem H).weylGroup`, and Cartan
-  matrix `Base.cartanMatrix` are the combinatorial input. This roadmap constructs the integral weight lattice and Weyl action from the finite root geometry;
-  this layer fixes the notation `ρ` for the half-sum of positive roots and states dominance and
-  integrality of weights in `Module.Dual K H` against coroots.
-- **The `sl₂` attached to a root.** For a root `α`, `exists_isSl2Triple_of_weight_isNonZero` gives the
-  triple `⟨eₐ, hₐ, fₐ⟩` with `hₐ` a coroot; record `hₐ = α^∨` under `IsKilling.coroot` and that
-  `sl2SubmoduleOfRoot` is a copy of `sl₂`. This is the object Layer 2 restricts modules to.
+*Needs:* native rank-one modules and symmetric powers; Mathlib homogeneous polynomials and tensor products.
 
-### Layer 2: weights of a module and their integrality
-
-Consume native `isSemisimple_toEnd_cartan`, `exists_int_apply_coroot` and the
-Cartan weight/reflection APIs; the local names expose these same results.
-
-The first place the engine is called. The layer proceeds in a fixed order: the **generalized**
-decomposition first, then its refinement to **honest** weight spaces, then integrality, then
-Weyl-invariance, so that no later step silently assumes a decomposition that has not yet been earned.
-
-- **The generalized weight-space decomposition.** For a finite-dimensional `L`-module `M`, consume Mathlib's
-  `instIsTriangularizableOfIsAlgClosed` instance, so
-  `iSup_genWeightSpace_eq_top` gives `M = ⨁_χ genWeightSpace M χ` over the finite set of weights
-  `LieModule.Weight K H M`, with `⁅Lα, genWeightSpace M χ⁆ ⊆ genWeightSpace M (α+χ)`. These are Mathlib's
-  **generalized** weight spaces; over an algebraically closed field they exhaust `M`, but they are not
-  yet asserted to be honest eigenspaces.
-- **Honest weight spaces (the diagonalizability theorem).** For a finite-dimensional module over a
-  Killing-semisimple `L`, every `x ∈ H` acts by a **semisimple** endomorphism, so the generalized weight
-  spaces are genuine simultaneous eigenspaces and `μ ↦ dim Mμ` counts honest multiplicities. This is the
-  **abstract Jordan decomposition** (each `x ∈ H` is `ad`-semisimple in `L`, and semisimplicity
-  transfers to every finite-dimensional representation), so it stands **before** complete reducibility
-  (Layer 5) and is independent of it, with no circularity. Only after this theorem is `M = ⨁_χ Mχ`
-  stated as an honest weight-space decomposition and the formal character defined.
-- **Integrality of weights (the `sl₂` reduction).** For every weight `χ` of `M` and every root `α`, the
-  value `χ(α^∨) ∈ ℤ`. **Proof: restrict `M` to the `sl₂` triple of `α` (Layer 1), where `χ(α^∨)` is an
-  `hₐ`-eigenvalue, and apply Layer 0's integer eigenvalue theorem** (ultimately
-  `HasPrimitiveVectorWith.exists_nat`). This is the load-bearing use of the engine and the reason `sl₂`
-  is a node: there is no route to integrality that does not pass through the rank-one subalgebra.
-- **Weyl-invariance of multiplicities, directly from `sl₂`.** Weights of finite-dimensional modules are
-  integral, so they lie in this roadmap's weight lattice `X`, and `μ ↦ dim Mμ` is
-  invariant under the Weyl group. Prove this **directly**, by restricting `M` to the `sl₂` of each root
-  `α` and using **Layer 0's complete reducibility for `sl₂`** to pair up the `μ`- and `s_α(μ)`-weight
-  spaces along each string. This must **not** be routed through Weyl's complete reducibility (Layer 5),
-  which would be circular; the rank-one complete reducibility of Layer 0 is exactly what makes the direct
-  argument available here.
-
-### Layer 3: enveloping algebra, Verma modules, and `L(λ)`
+## Layer 3: enveloping algebra, Verma modules, and `L(λ)`
 
 - **Concrete PBW normalization and its extensions.** Consume
   `TauCeti.UniversalEnvelopingAlgebra.pbwFiltration`, `pbwFiltrationPrevious`,
-  `PBWGradedPiece`, the ring-filtration/exhaustiveness API, `ι_injective`,
-  `pbwAssociatedGradedEquiv` and the domain theorem. The local stage/graded names
-  are aliases. Consume `Module.Basis.pbwBasis`, `pbwBasis_eq_prod_pow`,
+  `PBWGradedPiece`, the ring-filtration/exhaustiveness API, ι_injective,
+  `pbwAssociatedGradedEquiv` and the domain theorem. Consume `Module.Basis.pbwBasis`, `pbwBasis_eq_prod_pow`,
   `pbwBasis_zero` and `pbwBasis_single`: the vector at a multi-exponent is exactly
   the increasing product of `ι(bᵢ)^{mᵢ}`. Derive the graded-basis value equation
   from `pbwAssociatedGradedEquiv` and `pbwHomogeneousComponentMap` on these same
-  ordered monomials. Consume `map_pbwFiltration_le` for native induced maps;
+  ordered monomials. Consume map_pbwFiltration_le for native induced maps;
   expose its subalgebra, quotient and direct-sum ordered-span specializations.
   Consume native `PBW.Noetherian.Basic` and `.Opposite` for left/right
   Noetherianity of finite-dimensional L, including the explicit opposite-ring instance. These interfaces are over an arbitrary field, including F₂, for
@@ -614,10 +565,12 @@ Weyl-invariance, so that no later step silently assumes a decomposition that has
   generator relations. In `sl₂` prove that
   `j(h)²+2ħ j(h)+4j(f)j(e)` is central and that its zero-fibre symbol
   is the Poisson-central polynomial `h²+4ef`. These examples check the
-  parameter, sign and order conventions against the same concrete algebra.
+  parameter, sign and order conventions against the same concrete algebra (Gutt, *Deformation Quantization and Symmetries*,
+  Lecture 1, slide 14, 2019).
 
-  <a id="affine-pbw-first-order-example"></a>
-  **Ordered and symmetrized first-order products, explicitly.** Let L be
+### 3.2 Ordered and symmetrized first-order products
+
+ Let L be
   the Lie R-algebra on the free module Rx⊕Ry with `[x,y]=y`. Realize it as
   the matrix Lie subalgebra spanned by `H=E₀₀`, `N=E₀₁` in
   `Matrix (Fin 2) (Fin 2) R`; prove the span/bracket/basis dictionary.
@@ -653,9 +606,7 @@ Weyl-invariance, so that no later step silently assumes a decomposition that has
   `B_sym(p,q)=B_ord(p,q)+D(p)q+pD(q)−D(pq)=(1/2){p,q}`.
 
   Thus even the symmetric splitting gives half the bracket as its product
-  coefficient; the full first-order commutator gives the bracket. State
-  the distinction for UEAlgebra10 p2's quasi-classical exercise with this
-  fixed parameter, rather than identifying its two coefficients. The
+  coefficient; the full first-order commutator gives the bracket. Retain this distinction with the fixed parameter. The
   ordered integral construction remains valid in characteristic2; the
   averaging/half-bracket comparison has its stated ℚ-algebra hypothesis.
   This example uses only the preceding arbitrary-ring PBW/Rees construction
@@ -665,112 +616,27 @@ Weyl-invariance, so that no later step silently assumes a decomposition that has
   Suggested first-order polynomial statements are in
   [`AffinePBWFirstOrderTargets.lean`](AffinePBWFirstOrderTargets.lean).
 
-- **The Borel and the nilradicals.** Name the subalgebras the base determines, keeping `base` for the
-  root-system base alone: `positiveNilradical base = n⁺ = ⨁_{α>0} Lα`, its opposite
-  `negativeNilradical base = n⁻`, and `borelSubalgebra base = 𝔟 = H ⊕ n⁺`. Consume native `TauCeti.positiveNilradical H base`, `negativeNilradical H base` and
-  `borelSubalgebra H base`; all three local names are identical aliases, so the native
-  triangular PBW projection uses these same subalgebras. The Verma tensor product is
-  written over `U(𝔟)`, never over `U(base)`.
-- **Highest weight vectors and modules.** Consume native `TauCeti.IsHighestWeightVector` through the identical local alias `IsHighestWeightVector base λ v`: `v ≠ 0`, `H` acts by `λ`,
-  and every positive root space kills `v`. A **highest weight module** of weight `λ` is one generated by
-  such a `v`; its weights all lie in `λ - (ℕ-span of simple roots)`, and its `λ`-weight space is the
-  line `K·v`.
-- **Verma modules.** `vermaModule base λ := U(L) ⊗_{U(𝔟)} K_λ` for the Borel `𝔟 = borelSubalgebra base`,
-  the universal highest weight module of weight `λ`. The local name is an alias of native
-  `TauCeti.VermaModule base λ`, with its existing additive/module/Lie structures; compare the
-  induced-tensor presentation with this same native module. Use native `vermaGenerator`
-  and `isHighestWeightVector_vermaGenerator`; consume
-  `existsUnique_lieModuleHom_apply_vermaGenerator` for the exact-generator universal property
-  (evaluation at its generator identifies `Hom_L(M(λ), N)` with the vector subspace
-  satisfying the Cartan eigenvalue and n⁺-annihilation equations, **including zero**), its weight-space decomposition with
-  multiplicities the Kostant partition function below, that its `λ`-weight space is a line, and that it
-  is free of rank one over `U(n⁻)` through native `universalEnvelopingEquivVermaModule`,
-  with its explicit canonical-generator and left-action comparison.
-- **The Kostant partition function.** Consume native `kostantPartition base ν = P(ν)`, the number of ways to
-  write `ν` as a sum of positive roots with multiplicity, **here** in Layer 3 as a combinatorial object
-  attached to the positive roots: it is already needed for the Verma weight multiplicities, and Layer 6
-  reuses it for Kostant's multiplicity formula.
-- **The irreducible quotient `L(λ)`.** `M(λ)` has a **unique maximal submodule** (the sum of all
-  submodules meeting the `λ`-weight space trivially), hence a unique irreducible quotient
-  `L(λ) := irreducibleQuotient base λ`, an alias of native `TauCeti.irreducibleQuotient`
-  with its native module structures, projection/generator and irreducibility/highest-weight
-  theorems. Its universe is `max` of the scalar and Lie-algebra universes; all module
-  consumers, including characters and traces, allow that universe. `L(λ)` is the unique irreducible highest weight module of weight
-  `λ`, and `L(λ) ≅ L(μ)` iff `λ = μ`. This is the classification of **all** irreducible highest weight
-  modules, finite-dimensional or not.
+Prove the induced-tensor presentation of the native Verma module:
+U(L) ⊗ over U(𝔟) with the one-dimensional highest-weight character is isomorphic
+to the native quotient, taking 1⊗1 to its generator and intertwining the left
+U(L)-action. The source uses the actual Borel and its inclusion, and the
+comparison includes zero among possible images of the universal generator
+(Humphreys, *Introduction to Lie Algebras and Representation Theory*, §20.3).
 
-### Layer 4: the classification of finite-dimensional irreducibles
+*Needs:* native Borel and Verma universal properties; balanced tensor products;
+the triangular PBW equivalence.
 
-Consume native `finiteDimensional_iff_isDominantIntegral_of_isHighestWeightVector`
-and `existsUnique_isDominantIntegral_highestWeight_of_finiteDimensional_irreducible`
-on the native quotient/generator. The support and integrability arguments below
-describe those suppliers.
+### Examples
 
-- **Every finite-dimensional irreducible is an `L(λ)`.** A finite-dimensional irreducible `L`-module
-  has a highest weight vector (a nonzero vector in the top weight space for the height order, killed by
-  `n⁺`), so it is a highest weight module, hence `≅ L(λ)` for a unique `λ`; and `λ` is **dominant
-  integral** (`λ(αᵢ^∨) ∈ ℕ` for simple `αᵢ`), because restricting to each simple `sl₂` and applying
-  Layer 0 forces the highest weight along `αᵢ` to be a natural number.
-- **`L(λ)` is finite-dimensional iff `λ` is dominant integral.** The hard direction (dominant integral
-  ⇒ finite-dimensional) is a genuine theorem, not a one-line corollary; it unpacks into named
-  milestones:
-    - **The integrability relation.** For dominant integral `λ`, the vector `fᵢ^{λ(αᵢ^∨)+1} · v` is a
-      highest weight vector of weight `λ - (λ(αᵢ^∨)+1)αᵢ` in `M(λ)`, hence zero in `L(λ)`: `L(λ)` is
-      `sl₂`-finite along every simple root.
-    - **The maximal integrable quotient and local nilpotence.** `L(λ)` is the maximal integrable
-      quotient of `M(λ)`; the local nilpotence of each simple `fᵢ` (and `eᵢ`) propagates, via the Serre
-      relations, to local nilpotence of the root vectors along **every** positive and negative root.
-    - **The weight-cone bound.** The weight support of `L(λ)` is then stable under the whole Weyl group
-      and bounded inside the convex hull of `W·λ` (a finite downward root cone), hence **finite**.
-    - **Finite-dimensionality.** Each weight space is finite-dimensional (the PBW / Kostant partition
-      bound of Layer 3), and finitely many nonzero weight spaces give `dim L(λ) < ∞`.
-- **The classification theorem.** `λ ↦ L(λ)` is a bijection from **dominant integral weights** to
-  isomorphism classes of **finite-dimensional irreducible** `L`-modules, with inverse "highest weight".
-  This is the summit of the classification and the interface consumed by
-  [../ClassicalGroups/README.md](../ClassicalGroups/README.md).
+For [x,y]=y, the ordered first-order coefficients are B(x,y)=y and B(y,x)=0; their difference is y.
 
-### Layer 5: complete reducibility (Weyl's theorem)
+### Dependencies
 
-Consume native `exists_isCompl_of_isKilling` for complete reducibility; its API
-requires characteristic zero and nondegenerate Killing form, without algebraic closure.
+*Needs:* native ordered PBW, filtration, associated grading and Verma modules; LieGroupoidsPoisson G4.6A for the smooth sign comparison.
 
-Use native `TauCeti.invForm` (the Killing transport through `cartanEquivDual`) and
-`TauCeti.casimirElement K L` through the identical local aliases. Consume their
-normalization/centrality and `vermaCentralCharacter_casimirElement`;
-`centralCharacter_casimirElement` records its actual native scalar evaluation.
-The highest-weight predicates, Verma modules, weight form and Casimir in Layers 3,
-5 and 7 are the same objects.
+## Layer 5: opposition, invariant forms and compact characters
 
-- **The invariant form on weights (a prerequisite of the Casimir).** Before the Casimir element, build
-  the induced symmetric bilinear form `⟨·,·⟩` on `Module.Dual K H`, transported from the Killing form on
-  `H` via `cartanEquivDual`. Prove its normalization against coroots, `⟨λ, α^∨⟩ ⟨α, α⟩ = 2 ⟨λ, α⟩`
-  (i.e. `α^∨` pairs as `2α/⟨α, α⟩`), and its compatibility with `rootSystem_pairing_apply` and
-  `IsKilling.coroot`. Only with this form pinned is the Casimir scalar `⟨λ+ρ, λ+ρ⟩ - ⟨ρ, ρ⟩`
-  well-defined and equal to the coroot pairings.
-- **The Casimir element.** `casimirElement : U(L)` built from a basis of `L` and its dual basis under
-  the non-degenerate Killing form (`Killing.lean`, `traceForm_cartan_nondegenerate`), central in `U(L)`,
-  acting on `L(λ)` by the scalar `⟨λ+ρ, λ+ρ⟩ - ⟨ρ, ρ⟩` in the form just built. Prove centrality and
-  compute the eigenvalue.
-- **Dual and Hom modules (the reduction machinery).** The Casimir argument splits an arbitrary short
-  exact sequence, and the standard reduction to the extension-by-the-trivial-module case needs the
-  **dual Lie module** `M*` and the internal-Hom Lie module `Hom_K(M, N)` (with the tensor-Hom
-  adjunction). Consume Mathlib's dual, Hom and tensor-Hom APIs first; then splitting an extension `0 → N → M → K → 0` becomes the vanishing
-  of a suitable invariant, which the Casimir supplies.
-- **Weyl's complete reducibility theorem.** Every finite-dimensional module over a semisimple `L` over
-  an arbitrary characteristic-zero field is a direct sum of irreducibles; equivalently every
-  `LieSubmodule N ≤ M` has a complement (`∃ N', IsCompl N N'`). Consume native
-  `exists_isCompl_of_isKilling`. Its proof treats the algebraically closed case via the Casimir (the eigenvalue separates the trivial module from nontrivial irreducibles, splitting off
-  invariants and reducing a general extension, through the Hom module above, to an extension by the
-  trivial module). For the general field the proof preserves semisimplicity under extension to an
-  algebraic closure, expresses an invariant complement as a solution of finite linear equations, and
-  descends that solution. Consume the arbitrary-field public theorem; the
-  Ado–Iwasawa roadmap consumes it in the direct-induction proof of Levi decomposition. The `sl₂` case of
-  Layer 0 is the rank-one instance and a consistency check.
-- **Consequences.** The category of finite-dimensional `L`-modules is semisimple with simple objects
-  the `L(λ)` (dominant integral `λ`), so every finite-dimensional module has a well-defined
-  multiplicity decomposition `M ≅ ⨁_λ L(λ)^{⊕ mλ}`, the setting in which characters are additive.
-
-#### Opposition, ordinary duality and self-duality
+### 5.1 Opposition, ordinary duality and self-duality
 
 Use the split characteristic-zero semisimple scope and chosen Cartan/base of
 Layers1–5, with the standing algebraically closed coefficient field. Consume
@@ -787,8 +653,8 @@ a contravariant dual defined using a Chevalley anti-involution.
 Consume `TauCeti.opposition`, `oppositionPerm`, `root_opposition`,
 `coroot'_opposition` and `opposition_mem_support` from native
 `TauCeti.LinearAlgebra.RootSystem.Opposition`. Identify this actual involution
-with the based root automorphism `δ=−w₀` on the rational/real root realization of
-[RootSystems4A](../RootSystems/README.md): give its root, coroot, fundamental-weight
+with the based root automorphism `δ=−w₀` on the rational/real root realization constructed by the integral-lattice comparison
+here, using [RootSystems, Layer 4](../RootSystems/README.md) for its chamber and longest-element data: give its root, coroot, fundamental-weight
 and oriented Cartan-matrix equations, preserving the native contravariant
 coweight convention. Construct its based-automorphism witness and change-of-base
 comparison; reuse the existing involution and base permutation.
@@ -813,50 +679,74 @@ element, hence is w₀, whereas its based diagram automorphism group is S3.
 This root-level example asserts no triality automorphism of every isogeny form.
 
 For compact connected SEMISIMPLE groups, compare this criterion through
-[CompactGroups6a](../CompactGroups/README.md)'s actual character lattice X and
-LieGroups' differentiation/integration maps. An irreducible of actual highest
+the actual character lattice X and LieGroups' differentiation/integration maps.
+The character-lattice comparison is the external contract specified in Scope and ownership;
+[CompactGroups, Layer 6](../CompactGroups/README.md) supplies the character theory. An irreducible of actual highest
 character λ∈X is dual to the one labeled `−w₀λ`; retain the actual group form.
 All such representations are self-dual iff δ fixes X, equivalently the real
 weight space since X has finite index in the semisimple weight lattice. A
 central torus is a separate obstruction: the character z↦z of S1 is not
 self-dual although there are no roots or diagram automorphisms. Self-duality
 does not assert real type: the standard complex SU2 representation is
-quaternionic, as detected by CompactGroups6b's Frobenius–Schur criterion.
+quaternionic, with Frobenius–Schur sign −1. The required compact sign criterion is
+the separate external contract in Scope and ownership; root opposition does not decide it.
+The Lie invariant-form headline is `invariantForm_isSymm_iff_tits_sign`: for a nonzero
+invariant bilinear form on L(λ), symmetry is equivalent to
+(−1) raised to the sum of λ evaluated on the positive coroots being +1, and
+skew-symmetry to the same sign being −1. The sum uses the integral pairings.
 
-### Precursor to Layer 6: integral type-A characters from Haar measure
+**Checks.**
 
-Construct the following independent type-A character route over ℂ. Its inputs are
+- In type A₁, opposition is the identity, while SU(2) permits highest weight 1
+  and SO(3) permits only even weights. Replacing the actual lattice by P fails here.
+- On SU(2), weight 1 has alternating matrix [[0,1],[−1,0]] and sign −1;
+  weight 2 has sign +1. Both weights are fixed by opposition.
+- For the circle, characters z and z⁻¹ are different: at z=i their values are i
+  and −i. A root-free group need not have all representations self-dual.
+
+*Needs:* native opposition and dual-module theorems; RootSystems Layer 4;
+native integral-weight lattice; the compact contracts in Scope and ownership.
+
+### 5.2 Integral type-A characters from Haar measure
+
+Construct the following type-A character route over ℂ, independent of the character formula. Its inputs are
 ClassicalGroups Layer 3's group-level classification of rational GLₙ-representations,
 highest-weight cone, one-dimensional highest-weight line and torus weights;
 CompactGroups' invariant Hermitian forms, complete reducibility and character
 orthogonality; LieGroups Layer 6's normalized Haar Weyl integration formula and
 Layer 7's compact-complexification equivalence for finite-dimensional continuous
 U(n)-representations; and SchurWeyl Layer 7's combinatorial Schur polynomials and
-division-free bialternant identity. The GLₙ classification uses torus weights and
-transvections before comparison with glₙ Lie modules. The compact-complexification
-equivalence uses the compact polar and algebraic-realization constructions before
-the Tannakian reconstruction layer. Retain these phase boundaries: neither input
+division-free bialternant identity. The GLₙ classification consumes the Lie highest-weight theorem. The regular
+compact-complexification comparison is the additional contract in Scope and ownership. Retain these phase boundaries: neither input
 uses ClassicalGroups Layer 4's character–Schur identification, this layer's Weyl
 formula, its Fourier-boundary comparison, or a formula for tensor multiplicities.
 These inputs commission the following construction, separately from the native
 Freudenthal–Casimir proof used in Layer 6.
 
-Apply the complete LieGroups Layer 7 compact-real-form-pair *morphism* theorem:
+The required regular-extension contract has the following application:
 average a positive Hermitian form on a continuous U(n)-module, choose a Gram
 change of basis carrying its image into U(V), and extend this compact-pair
 homomorphism to a regular GLₙ→GL(V) morphism. Conjugate back by the constant
 Gram matrix to obtain a rational representation on the original vector space.
 Prove that restriction and this extension preserve intertwiners, direct sums,
 tensor products and irreducibility. Holomorphic extension alone is not the
-rationality statement required by ClassicalGroups Layer 3. The compact-pair
-morphism theorem uses Layer 7's graph/polar algebraicity proof before RG10;
-do not replace it with Tannakian reconstruction or a character formula.
+rationality statement required by ClassicalGroups Layer 3. LieGroups Layer 7's holomorphic equivalence does not establish regularity;
+the application requires the algebraic strengthening specified in Scope and ownership.
+
+**Checks.**
+
+- The U(1) character z↦z⁻¹ must extend to the regular Gₘ character t↦t⁻¹,
+  whose value at t=2 is 1/2; a holomorphic extension alone does not specify regularity.
+- The trivial character extends to the constant 1; tensoring the characters of
+  weights 1 and −1 gives weight 0 on both sides.
+- A nonintegral Lie weight 1/2 gives differential 1/2, but does not define a
+  single-valued circle character, so it is outside this group extension contract.
 
 **Integral weights, finite induction and virtual characters.** Use the native
 `TauCeti.DominantWeight n`, its determinant shift and bounded Young diagram, and
 the integral group algebra ℤ[ℤⁿ]. Fix the action `(w·β)ᵢ=β_(w⁻¹(i))`; let m_λ
 sum each *distinct* weight in the orbit of λ once. For dominant λ, prove the
-group-level analogue of `formalCharacter_eq_orbitSum_add_lower` from the highest-weight
+group-level analogue of formalCharacter_eq_orbitSum_add_lower from the highest-weight
 cone, top-line dimension and Weyl invariance. Use the actual GLₙ torus weight-space
 dimensions to construct its integral Laurent character and prove the trace-evaluation
 dictionary. Do not instantiate a Killing-semisimple Lie-algebra theorem at glₙ:
@@ -876,8 +766,7 @@ integer gap; the gaps and S determine λ, subject to the integral congruence for
 strict decrease of the score, and a well-order on each fixed-sum dominant lattice
 when the coordinates of x are ℚ-linearly independent. For x=(n,…,1), retain
 well-foundedness but do not assert injectivity: for n=3 the different weights
-(1,1,−2) and (2,−1,−1) have equal score. Supply a deterministic finite tie order
-when a total algorithmic order is needed. No assertion concerns the unrestricted
+(1,1,−2) and (2,−1,−1) have equal score. No assertion concerns the unrestricted
 integer lattice or a cone whose defining inequalities have not been supplied.
 
 Invert the unitriangular character/orbit-sum matrix on each finite dominance
@@ -889,7 +778,7 @@ give actual *virtual* representations. For an actual representation, realize the
 highest-weight summands through its Hom spaces and complete reducibility before
 subtracting their nonnegative multiplicities; formal integer subtraction alone
 does not prove a subrepresentation exists. This supplies both the virtual
-character expansion and the source's decomposition procedure.
+character expansion and the virtual-character decomposition.
 
 **Polynomiality before character identification.** For dominant λ set
 ρ=(n−1,…,0), D=∏_(i>j)(1−tᵢ/tⱼ),
@@ -933,7 +822,7 @@ sum; its restriction is P_λ, and conjugacy into T determines it. This explicitl
 supplies the class function needed by the Haar integral, rather than presupposing
 that a rational torus expression extends continuously to U(n).
 
-Use probability Haar measures on U(n) and T. Compare the source's right-trivialized
+Use probability Haar measures on U(n) and T. Compare the right-trivialized
 Jacobian X−Ad_t X with LieGroups Layer 6's left-trivialized Ad_(t⁻¹)X−X by the
 actual translation on the target tangent space; root-plane absolute determinants
 agree. Consume its regular conjugation covering, null singular locus and measure
@@ -965,7 +854,7 @@ put it in the permutahedron of μ; therefore λ+γ is dominant. In the alternati
 coefficient formula a nonidentity permutation of λ+ρ has an inversion. If a
 dominant ν and `ν+ρ=w·(λ+ρ)+γ` occurred for that permutation, the inverted gap
 would exceed μ₁−μₙ, whereas the correction γ cannot remove it. Thus only the
-identity contributes. Keep the precise total spread μ₁−μₙ and the source's strict
+identity contributes. Keep the precise total spread μ₁−μₙ and the strict
 inequality, rather than replacing it by a bound on adjacent gaps of μ. For n=0
 and n=1 the empty adjacent conditions give the direct character identities.
 
@@ -981,21 +870,26 @@ weight-multiplicity count. SchurWeyl owns the combinatorial interlacing identity
 ClassicalGroups owns the group restriction and line decomposition, and this
 precursor owns their comparison with the independent character proof.
 
-In applying this determinant to the notes, retain the printed p5 `+i`/`+j`
-indicator separately from the corrected `n−i`/`n−j` indexing above, whose strict
-interlacing comparison is given on p6. The corrected contract does not authenticate
-that earlier source formula. The n=0 restriction boundary is the trivial group;
-it has no GL_(−1) target.
+For n=0 the restriction boundary is the trivial group; there is no GL_(−1) target.
+For λ=(2,1,0), the GL₂ middle rows are (1,0), (1,1), (2,0), (2,1),
+with dimensions 2,1,3,2, whose sum is 8.
 
+### Examples
 
-### Layer 6: the Weyl character, dimension, and Kostant formulas
+The real module ℝ²⊕ℝ² splits into its two 2-dimensional summands; SU(2) weights 1 and 2 have signs −1 and +1.
+
+### Dependencies
+
+*Needs:* native arbitrary-field complete reducibility and duality; RootSystems Layer 4; the external compact contracts in Scope and ownership.
+
+## Layer 6: the Weyl character, dimension, and Kostant formulas
 
 Consume native `TauCeti.formalCharacter K H M`,
-`formalCharacter_coeff_eq_finrank_weightSpace`, `formalCharacter_tensor`,
-`weylDenominator`/`weylNumerator`, `coweightPairing`, and the Kostant partition/
-multiplicity functions. `formalCharacter_coeff` pins the local alias to the
+`formalCharacter_coeff_eq_finrank_weightSpace`, formalCharacter_tensor,
+weylDenominator/weylNumerator, coweightPairing, and the Kostant partition/
+multiplicity functions. formalCharacter_coeff pins the local alias to the
 actual Cartan weight-space dimension. Consume `finrank_weightSpace_vermaModule`
-for the Verma partition bound. The native `freudenthal_multiplicity_formula`
+for the Verma partition bound. The native freudenthal_multiplicity_formula
 and `casimirScalar_eq_of_coeff_formalCharacter_mul_weylDenominator_ne_zero`
 precede native `formalCharacter_mul_weylDenominator_eq_weylNumerator`;
 this proof uses no HC or category-O linkage. Consume
@@ -1009,88 +903,52 @@ Before Lie–Chevalley restriction, construct the finite set of **distinct** Wey
 translates `weylWeightOrbit λ` with its membership equation, and its integral group-
 algebra orbit sum `weightOrbitSum λ` (each distinct weight occurs once). Define
 `dominantWeightBelow base λ μ` by dominant integrality of μ and λ−μ in the nonnegative
-integral span of the simple roots. Prove `finite_dominantWeightBelow` and
-`formalCharacter_eq_orbitSum_add_lower`: ch L(λ)=m_λ+Σ_(μ<λ)c_μ m_μ with finite support,
+integral span of the simple roots. Prove finite_dominantWeightBelow and
+formalCharacter_eq_orbitSum_add_lower: ch L(λ)=m_λ+Σ_(μ<λ)c_μ m_μ with finite support,
 c_μ∈ℕ and leading coefficient 1. This triangular expansion follows the highest-weight
 cone, one-dimensional top line and Weyl invariance, independently of HC. Prove
-`polynomial_eq_zero_of_dominantIntegral` on Mathlib's S(H): evaluation zero at every
+polynomial_eq_zero_of_dominantIntegral on Mathlib's S(H): evaluation zero at every
 dominant integral weight forces zero, using the fundamental-weight coordinates and
 successive one-variable polynomial vanishing on ℕ in characteristic zero. These are
 the explicit orbit/density precursors used by Layer 7's trace/polarization argument.
 
-- **The representation ring and the character algebra.** `formalCharacter` is meant to be a ring
+- **The representation ring and the character algebra.** `TauCeti.formalCharacter` is meant to be a ring
   homomorphism, which presupposes its domain and codomain. Consume Mathlib's
   **tensor product of Lie modules** and build the Grothendieck ring (or semiring) of finite-dimensional
   `L`-modules, and the group algebra `ℤ[X]` of the integral weight lattice with the Weyl action. These
   are the objects the three formulas are stated in.
-- **Formal characters.** `formalCharacter M : Module.Dual K H →₀ ℤ`, `μ ↦ dim Mμ` (honest weight
-  multiplicities, by the Layer 2 diagonalizability theorem), supported on integral weights, **additive
-  on short exact sequences** and **multiplicative on tensor products** (so it is a ring homomorphism from
-  the representation ring above to `ℤ[X]`). The Weyl group acts, and `formalCharacter` is Weyl-invariant
-  (proved in Layer 2, directly from `sl₂`, not from Weyl's theorem).
-- **The Weyl character formula.** State it in the integral group algebra `ℤ[X]` with the **integral
-  denominator**: with `ρ` the half-sum of positive roots,
-  `formalCharacter (L(λ)) · ∏_{α>0}(1 - e^{-α}) = ∑_{w ∈ W} sgn(w) e^{w(λ+ρ) - ρ}` for dominant integral
-  `λ`. Every exponent here lies in `X`; the symmetric form `∏(e^{α/2} - e^{-α/2})` differs by the factor
-  `e^{ρ}` and involves half-weights `α/2 ∉ X`, so it is not the form used. Consume native
-  `formalCharacter_mul_weylDenominator_eq_weylNumerator`, on the native irreducible
-  quotient and its canonical highest-weight generator. Its Freudenthal/Casimir
-  coefficient route is independent of HC and full linkage; the finite Weyl group
-  is `(rootSystem H).weylGroup`.
-- **The Weyl dimension formula.** Specializing at the trivial character,
-  `dim L(λ) = ∏_{α>0} ⟨λ+ρ, α^∨⟩ / ⟨ρ, α^∨⟩`, an identity in `ℚ` (the product is a positive integer).
-  Consume native `finrank_eq_prod_coweightPairing_div`, with its character-specialization proof.
-- **Kostant's multiplicity formula.** Reusing the Kostant partition function `P(ν)` of Layer 3, the
-  multiplicity of the weight `μ` in `L(λ)` is `mult_μ L(λ) = ∑_{w ∈ W} sgn(w) P(w(λ+ρ) - (μ+ρ))`. Consume native `formalCharacter_coeff_eq_kostantMultiplicity`, whose proof expands
-  the character formula against the geometric-series expansion of the inverse
-  denominator (whose coefficients are `P`). This is the weight-by-weight refinement of the character
-  formula and the finest of the three.
-
-Consume native `asModule`/`asModule_ι_smul`, `lieSubmoduleOrderIso_isotypicComponent`,
-`lieSpan_equiv_irreducibleQuotient_of_isHighestWeightVector` and
-`isotypicComponent_eq_top_of_forall_isHighestWeightVector`, and
-`LieModule.finrank_isotypicComponent` for the module dictionary,
-generated copy and single-weight criterion below.
-
-The remaining Layer 6 milestones are **the decomposition toolkit**: complete reducibility makes
+The Layer 6 comparisons form the decomposition toolkit: complete reducibility makes
 "decompose `M` into irreducibles" well-posed, and these targets package it as the callable interface a
 downstream application actually invokes.
 
 - **Isotypic components and multiplicities, through the enveloping-algebra dictionary.** The
-  **multiplicity** `m_λ = dim Hom_L(L(λ), M)` (`isotypicMultiplicity`, with `Hom` the definition that
-  makes uniqueness automatic and `formalCharacter` the way to compute it), the **isotypic component**
+  **multiplicity** `m_λ = dim Hom_L(L(λ), M)` (isotypicMultiplicity, with `Hom` the definition that
+  makes uniqueness automatic and `TauCeti.formalCharacter` the way to compute it), the **isotypic component**
   (the sum of all submodules isomorphic to `L(λ)`), the finrank identity
   `dim (isotypic component) = m_λ · dim L(λ)`, and the packaged decomposition
   `M ≅ ⊕_λ L(λ)^{⊕ m_λ}`. Mathlib already has the ring-level isotypic machinery
-  (`IsIsotypicOfType`, `isotypicComponent` in `Mathlib/RingTheory/SimpleModule/Isotypic.lean`); the
+  (`IsIsotypicOfType`, isotypicComponent in `Mathlib/RingTheory/SimpleModule/Isotypic.lean`); the
   **enveloping-algebra dictionary** - Lie submodules of `M` are exactly the `U(L)`-submodules for the
   module structure from `UniversalEnvelopingAlgebra.lift` - is its own named milestone, and the
   Lie-level notions consume the ring-level ones through it rather than duplicating them.
-- **A highest weight vector generates a copy of `L(λ)`, and the single-weight criterion.** In a
-  finite-dimensional module the submodule generated by a highest weight vector of weight `λ` is
-  `≅ L(λ)` (finite-dimensionality is essential: in general the vector generates a Verma quotient), so
-  `dim L(λ) ≤ dim M` whenever such a vector exists; and if **every** highest weight vector of `M` has
-  weight `λ`, then `M` is `L(λ)`-isotypic. The latter is the statement a Fock-space-style
-  decomposition consumes verbatim: exhibit the highest weight vectors, check they share one weight,
-  conclude `M ≅ L(λ)^{⊕ m}`.
 - **Tensor multiplicities and the minuscule Pieri rule.** The multiplicity `c^ν_{λμ}` of `L(ν)` in
   `L(λ) ⊗ L(μ)` (tensor products of Lie modules are Mathlib's), with the character identity
-  `ch L(λ) · ch L(μ) = Σ_ν c^ν_{λμ} ch L(ν)` through `formalCharacter_tensor`. A dominant integral
+  `ch L(λ) · ch L(μ) = Σ_ν c^ν_{λμ} ch L(ν)` through formalCharacter_tensor. A dominant integral
   `μ` is **minuscule** when all weights of `L(μ)` form one Weyl orbit; the **minuscule Pieri rule**
-  gives `L(λ) ⊗ L(μ) ≅ ⊕_τ L(λ+τ)` over the weights `τ` of `L(μ)` with `λ+τ` dominant, each with
+  `minuscule_pieri` gives `L(λ) ⊗ L(μ) ≅ ⊕_τ L(λ+τ)` over the weights `τ` of `L(μ)` with `λ+τ` dominant, each with
   multiplicity one. The dominance of the target weight is essential (for `sl₂` with `λ = 0`, `μ = ω`,
   the weight `-ω` of `L(ω)` satisfies the weight condition while `L(0) ⊗ L(ω) = L(ω)`). For `gl_n`
   this specializes to the classical Pieri rules for the standard module and its dual (Layer 9).
-  The type-A polynomial Littlewood–Richardson counts come from
-  [SchurWeyl Layer 7](https://github.com/TauCetiProject/TauCetiRoadmap/blob/149fe79fc7f66b28ec635f15ec6553c7eff79b17/TauCetiRoadmap/RepresentationTheory/SchurWeyl/README.md#layer-7-symmetric-functions-the-frobenius-characteristic-and-rsk), specifically its shared skew-tableau, ballot-count and tableau-product contracts; ClassicalGroups Layer 4 identifies them
+  The type-A polynomial Littlewood–Richardson application requires the additional
+  tableau contract in Scope and ownership, beyond [SchurWeyl Layer 7](../SchurWeyl/README.md#layer-7-symmetric-functions-the-frobenius-characteristic-and-rsk); ClassicalGroups Layer 4 identifies polynomial character coefficients
   with group tensor multiplicities. Layer 9 below compares them with gl_n Lie modules.
 
-### Layer 6F: Fourier boundary values of the Weyl formula
+### 6.2 Fourier boundary values of the Weyl formula
 
 Consume Layer6's actual integral weight group algebra, denominator-cleared
 Weyl formula and Kostant coefficient theorem, ClassicalGroups Layers3–4's
 group-character comparison, and
-[TensorProductCombinatorics H1.6](../../TensorProductCombinatorics/README.md#h16-rational-cone-series-fourier-boundary-values-and-lattice-endpoints)'s
+[TensorProductCombinatorics §1.6](../../TensorProductCombinatorics/README.md#h16-rational-cone-series-fourier-boundary-values-and-lattice-endpoints)'s
 localization, common-chamber series and Fourier/distribution comparisons.
 This is a comparison after the independent character theorem; it is not a
 new proof premise for Freudenthal, Casimir, highest weights or generic cones.
@@ -1138,7 +996,7 @@ normalized Weyl integration theorem if rewriting it as a weighted torus norm. Th
 are distinct from polynomiality or an unweighted torus norm.
 
 In type A compose the same coefficient theorem with H2.6's exact root-lattice
-count and H1.6's directional discrete/continuous/Todd comparison, including
+count and §1.6's directional discrete/continuous/Todd comparison, including
 boundary weights and empty-root cases. Supply GL2's standard character
 `t1+t2`, SU2's weights n,n−2,…,−n, and a nontrivial A2 chamber/wall example.
 Compare the integer staircase, inversion-set polarization offsets and the
@@ -1146,7 +1004,15 @@ direction chosen to restrict piecewise polynomials as distinct operations.
 This complete convention API does not identify an ambiguous source symbol
 with any of those independently defined operations.
 
-### Layer 7: the center of `U(L)`, Harish-Chandra, Freudenthal, and Serre's relations
+### Examples
+
+For sl₂, V(1)⊗V(1)=V(2)⊕V(0), with dimensions 4=3+1 and multiplicities one.
+
+### Dependencies
+
+*Needs:* native characters, Weyl and Kostant formulas; Layers 0–5; the cone boundary construction specified in the supplier contracts.
+
+## Layer 7: the center of `U(L)`, Harish-Chandra, Freudenthal, and Serre's relations
 
 The structural layer behind the character formula: the center that the Casimir of Layer 5 sits inside,
 the recursion that computes multiplicities in practice, and the presentation that recovers `L` from
@@ -1163,7 +1029,7 @@ its root system.
   the Layer 5 eigenvalue `⟨λ+ρ,λ+ρ⟩−⟨ρ,ρ⟩`, retaining the chosen base.
 - **The Harish-Chandra isomorphisms and their conventions.** Write `ev_λ : S(H) →ₐ[K] K`
   for `SymmetricAlgebra.lift λ`, viewing `S(H)` as polynomial functions on `H*`. The dot action is
-  `w·λ = w(λ+ρ)−ρ`. Consume native `dotInvariants`, with its exact evaluation
+  `w·λ = w(λ+ρ)−ρ`. Consume native `TauCeti.dotInvariants`, with its exact evaluation
   characterization `ev_(w·λ)(p)=ev_λ(p)`. Define the ordinary linear Weyl-invariant
   subalgebra `linearInvariants` by `ev_(wλ)(p)=ev_λ(p)`, with the corresponding
   membership equation and subalgebra API.
@@ -1178,8 +1044,9 @@ its root system.
   `TauCeti.Algebra.Lie.HighestWeight.CentralCharacter.DotOrbit`, with the native Weyl
   vector and action-law API; there is no translation in the raw map. Augmentations and
   triangular multiplication are supplied by its imported native enveloping-algebra modules.
-  `hcProjection` packages its center restriction as an algebra homomorphism. Its range is exactly `S(H)^{W·}`, giving
-  `harishChandraIso : Z(U(L)) ≃ₐ[K] S(H)^{W·}`.
+  `TauCeti.hcProjection` packages its center restriction as an algebra homomorphism. Its range is exactly `S(H)^{W·}`, giving
+  the normalized existence theorem `exists_harishChandraIso`, including both
+  directions of PBW/degree-filtration preservation.
 
   Define the polynomial translation `τ_μ` by `ev_λ(τ_μ p)=ev_(λ+μ)(p)`, including its
   generator formula, composition, inverse, and degree-filtration preservation. The **linear**
@@ -1188,8 +1055,8 @@ its root system.
   to ordinary invariants; construct `harishChandraLinearIso : Z(U(L)) ≃ₐ[K] S(H)^W`.
   Use native `TauCeti.UniversalEnvelopingAlgebra.pbwFiltration K L n` and
   `TauCeti.SymmetricAlgebra.homogeneousSubmodule K H k`; degree≤n is their sum over k≤n.
-  Export `hcProjection_mem_degreeLE`, `hcProjectionLinear_mem_degreeLE`, and
-  `weightTranslation_mem_degreeLE` for forward filtration preservation. Prove the
+  Export hcProjection_mem_degreeLE, hcProjectionLinear_mem_degreeLE, and
+  weightTranslation_mem_degreeLE for forward filtration preservation. Prove the
   central-character equations
   `χ_λ(z)=ev_λ(HC_dot(z))=ev_(λ+ρ)(HC_lin(z))`, including compatibility with the
   independently constructed action on the Verma top line. These equations fix the shift signs.
@@ -1200,18 +1067,18 @@ its root system.
   killed by native `TauCeti.SymmetricAlgebra.adjointDerivation`. Consume the canonical
   Mathlib `Module.Dual` action `⁅x,φ⁆(y)=−φ(⁅x,y⁆)`, with
   `coadjointRepresentation := LieModule.toEnd K L (Module.Dual K L)`, and its
-  `coadjointDerivation` through native `derivationOfEnd`, with the generator equation.
-  Export `killingSymmetricEquiv_lie` for infinitesimal transport; C5.1 consumes this
+  coadjointDerivation through native `derivationOfEnd`, with the generator equation.
+  Export killingSymmetricEquiv_lie for infinitesimal transport; C5.1 consumes this
   in addition to the restriction square. Under the Killing
   identifications L≃L* and H≃H*, restriction of polynomial functions is the symmetric-
   algebra map of the Killing-orthogonal projection L→H (`lieCartanRestriction`).
-  Define `killingDuality` by Mathlib's `(killingForm K L).toDual` and
+  Define killingDuality by Mathlib's `(killingForm K L).toDual` and
   `IsKilling.killingForm_nondegenerate`, with κ(x,y) evaluation; use native
-  `SymmetricAlgebra.mapEquiv` for `killingSymmetricEquiv` and its actual-map equation.
+  `SymmetricAlgebra.mapEquiv` for killingSymmetricEquiv and its actual-map equation.
   Construct `lieCartanRestriction` as the symmetric map of κ-duality followed by
   H-subtype dual restriction and `cartanEquivDual.symm`; compare its generator evaluations
   with native `TauCeti.killingExtend` (identity on H, zero on nonzero root spaces). Export
-  `killingSymmetricEquiv_cartan_restriction`: restriction S(L*)→S(H*) along H→L
+  killingSymmetricEquiv_cartan_restriction: restriction S(L*)→S(H*) along H→L
   commutes with this equivalence, `lieCartanRestriction` and Mathlib's `cartanEquivDual`.
   Pin this map on generators: identity on H and zero on every nonzero root space,
   and prove its homogeneous-degree compatibility. Own the Lie-algebraic inner-automorphism
@@ -1219,27 +1086,27 @@ its root system.
   `TauCeti.expAd`, `expAd_apply_eq_sum`, `ratLieAlgebra` and `TauCeti.weylAut`
   from `TauCeti.Algebra.Lie.InnerAutomorphism` / `Sl2.Weyl.Automorphism`, including
   their finite truncation and Weyl coreflection formulas. Construct
-  `nilpotentInnerLieAutomorphism_symm` equation exp(ad x)⁻¹=exp(ad(−x)), consuming
+  nilpotentInnerLieAutomorphism_symm equation exp(ad x)⁻¹=exp(ad(−x)), consuming
   Mathlib's `IsNilpotent.neg`. Define Int(L) as the subgroup
   of Mathlib's `LinearMap.GeneralLinearGroup K L` generated by the underlying linear equivalences; prove
   bracket preservation and expose its native Lie-equivalence adapter. Export
-  `killingSymmetricEquiv_intLieAlgebra` with inverse-transpose transport and
-  `polynomial_evaluation_intLieAlgebra` with transpose evaluation, joining the
+  killingSymmetricEquiv_intLieAlgebra with inverse-transpose transport and
+  polynomial_evaluation_intLieAlgebra with transpose evaluation, joining the
   S(L) invariant and S(L*) density arguments. Construct
   its action on symmetric polynomials and prove infinitesimal invariants are fixed by it.
-  Prove `polynomial_eq_zero_of_intCartan` directly by polynomial dominance. Export
-  `polynomialDifferential` on coordinate tuples and
-  `polynomial_eq_zero_of_surjective_polynomialDifferential`: over any characteristic-zero
+  Prove polynomial_eq_zero_of_intCartan directly by polynomial dominance. Export
+  polynomialDifferential on coordinate tuples and
+  polynomial_eq_zero_of_surjective_polynomialDifferential: over any characteristic-zero
   field, a polynomial vanishing on a polynomial map's image is zero if the map has a
   surjective differential at one point. Prove it by induction on derivative order at that
   image point: the chain rule and previously zero lower derivatives identify the next
   derivative with its pullback along the surjective differential; Taylor coefficients
   then determine the polynomial. Polynomial-function vanishing equals polynomial zero
-  over the infinite field. Export `symmetricPolynomialCoordinates_evaluation`, joining
+  over the infinite field. Export symmetricPolynomialCoordinates_evaluation, joining
   Mathlib's `SymmetricAlgebra.equivMvPolynomial b.dualBasis` with evaluation at
   `b.equivFun x`; this is the coordinate adapter for the symmetric-algebra density
   statement. This uses no constructibility theorem.
-  Construct `exists_rootExponentialPolynomialParametrization`: choose one generator of
+  Construct exists_rootExponentialPolynomialParametrization: choose one generator of
   each one-dimensional root space and a basis of H, and form
   φ(t,h)=∏_α exp(t_α ad e_α)(h). Native `expAd_apply_eq_sum` gives its polynomial
   coordinates. At (0,h₀), choose all α(h₀) nonzero by avoiding finitely many hyperplanes;
@@ -1247,7 +1114,7 @@ its root system.
   The root-space direct sum makes this differential surjective. Every image point lies
   in Int(L)·H, so the named vanishing lemma proves the needed density and injectivity.
   For the separate Cartan-conjugacy theorem, export
-  `polynomialMap_image_contains_principalOpen_of_jacobian_surjective` for square polynomial
+  polynomialMap_image_contains_principalOpen_of_jacobian_surjective for square polynomial
   maps over algebraically closed K. Use the preceding injection of coordinate rings,
   equal transcendence degrees and a finite extension of fraction fields; localize one
   nonzero target polynomial to make each source coordinate integral. Finite integral
@@ -1261,47 +1128,48 @@ its root system.
   `polyCharpoly_coeff_rank_ne_zero`, `isRegular_iff_finrank_engel_eq_rank` and
   `exists_isCartanSubalgebra_engel`, with the split root-space centralizer calculation.
   Cartan conjugacy is not used by the preceding Chevalley injectivity proof.
-  Export `weylAut_cartan_apply` from native `weylAut_apply_of_lie_eq_smul`: in a root
+  Export weylAut_cartan_apply from native `weylAut_apply_of_lie_eq_smul`: in a root
   triple the finite product exp(ad e_α)exp(−ad f_α)exp(ad e_α) sends h to
   h−α(h)α∨. Its simple-root products give the native Weyl action and restriction
   invariance, independently of algebraic groups and compact-group C5.1.
-  For surjectivity use earlier Layers 4–6: the polynomials
+  For surjectivity use native highest-weight classification and Layer 6: the polynomials
   `x↦tr(ρ_λ(x)^m)` of finite-dimensional highest-weight modules are invariant. Their
-  restrictions are the mth power sums of weights. Construct `tracePowerPolynomial`
+  restrictions are the mth power sums of weights. Construct tracePowerPolynomial
   on S(L*) with trace-of-ρ(x)^m evaluation, its Killing-transported Lie invariance and
-  `tracePowerPolynomial_cartan` coefficient-sum formula using actual `formalCharacter`.
+  tracePowerPolynomial_cartan coefficient-sum formula using actual `TauCeti.formalCharacter`.
   Transport it to S(L) by `killingSymmetricEquiv.symm`, using the restriction square.
   Character/orbit-sum unitriangularity,
   finite downward dominance recursion and polarization show these span every homogeneous
   Weyl-invariant polynomial; prove the dominant-integral cone in the weight lattice is Zariski dense.
-  Export `span_pow_eq_homogeneous_of_polynomial_vanishing`: for a polynomially dense
+  Export span_pow_eq_homogeneous_of_polynomial_vanishing: for a polynomially dense
   subset of a finite-dimensional space over a characteristic-zero field, its nth powers
   span S^n, by degreewise perfect duality and polarization. Apply it to the dominant integral
-  weights using `polynomial_eq_zero_of_dominantIntegral`, identifying H with H** by
+  weights using polynomial_eq_zero_of_dominantIntegral, identifying H with H** by
   Mathlib's evaluation equivalence and transporting by `cartanEquivDual`; then Weyl-average. Export the
-  actual `highestWeightTracePowerRestriction` and
-  `span_tracePowerRestriction_eq_linearInvariants_homogeneous` on S(H).
-  Export `lieChevalleyRestrictionIso`, its actual restriction-map equation `_coe`,
-  and `lieChevalleyRestrictionIso_mem_homogeneous_iff` in both directions.
+  actual highestWeightTracePowerRestriction and
+  span_tracePowerRestriction_eq_linearInvariants_homogeneous on S(H).
+  Prove `exists_lieChevalleyRestrictionIso`, identifying the forward map with
+  `lieCartanRestriction` and preserving every homogeneous degree in both directions.
 
   The Lie-invariant subalgebra and coadjoint action are generic Lie constructions.
   PBW symmetrization and the center-symbol comparison hold for every Lie algebra over
   a characteristic-zero field, without finite-dimensionality, Killing or algebraic-closure
   assumptions; state their APIs at this generality. The HC and Lie–Chevalley isomorphisms
-  in this layer are pinned over algebraically closed characteristic-zero K with finite-dimensional
-  Killing-semisimple L. Construct `pbwSymmetrization : S(L) ≃ₗ[K] U(L)` by averaging ordered monomials
+  for the HC comparison use algebraically closed characteristic-zero K and finite-dimensional
+  Killing-semisimple L. The theorem `exists_pbwSymmetrization` itself applies to every
+  Lie algebra over every characteristic-zero field: average ordered monomials
   over permutations with coefficient 1/m!, with its product formula, commutator equivariance,
-  inverse and filtration API, including `pbwSymmetrization_symm_mem_degreeLE`. Consume native `pbwHomogeneousComponentMap`,
+  inverse and filtration API, including pbwSymmetrization_symm_mem_degreeLE. Consume native `pbwHomogeneousComponentMap`,
   `pbwAssociatedGradedEquiv` and `TauCeti.SymmetricAlgebra.gradedAlgebra` for the
-  direct homogeneous grading and leading symbols. Export `pbwSymmetrization_symbol`
-  and `pbwSymmetrization_mem_center_iff`. Filter the actual center by the comaps of native
+  direct homogeneous grading and leading symbols. Export pbwSymmetrization_symbol
+  and pbwSymmetrization_mem_center_iff. Filter the actual center by the comaps of native
   PBW steps; its associated graded is the direct sum of successive submodule quotients
   (degree 0 predecessor is⊥). The symbol and center-membership theorems identify this
   graded algebra with S(L)^L; export `centerPBWGradedInvariantIso n` on the actual
   center successive quotient and homogeneous Lie-invariant submodule, with
   its native PBW-symbol equation. Export the normalized representative multiplication
-  `centerPBWGradedMul` and its compatibility under these isomorphisms; direct-sum
-  assembly gives the graded algebra identification; `centerPBWGradedMul` is bilinear
+  centerPBWGradedMul and its compatibility under these isomorphisms; direct-sum
+  assembly gives the graded algebra identification; centerPBWGradedMul is bilinear
   in the two native quotient modules. Symmetrization itself is linear, not multiplicative.
 
   After the PBW Rees construction of Layer 3, compare its first-order
@@ -1315,42 +1183,43 @@ its root system.
   construction. This comparison follows the general symmetrization
   construction here and is not an input to it or to the earlier PBW theorem.
 
-  Export `hcProjection_pbwSymmetrization_sub_mem_degreeLE`: for homogeneous invariant p of
+  Export hcProjection_pbwSymmetrization_sub_mem_degreeLE: for homogeneous invariant p of
   positive degree n, HC_dot(sym p)−lieCartanRestriction(p) lies in degree≤n−1;
-  for n=0 the two are equal. Export `weightTranslation_lower_degree`, with the same
+  for n=0 the two are equal. Export weightTranslation_lower_degree, with the same
   degree 0 equality and positive-degree lower discrepancy for τ_μp−p, and
-  `weightTranslationDotLinearIso` with its actual translated-map equation.
+  weightTranslationDotLinearIso with its actual translated-map equation.
   Thus the linear projection has the same leading restriction map as the raw one.
-  Prove `linearInvariants_homogeneous_component` using the native symmetric grading;
+  Prove linearInvariants_homogeneous_component using the native symmetric grading;
   ordinary invariants form a graded subalgebra, whereas dot invariants need not.
-  Likewise export `lieInvariantSymmetricAlgebra_homogeneous_component` from native
-  `adjointDerivation_mem_homogeneousSubmodule`, and `cartanEquivDual_weylGroup`
+  Likewise export lieInvariantSymmetricAlgebra_homogeneous_component from native
+  `adjointDerivation_mem_homogeneousSubmodule`, and cartanEquivDual_weylGroup
   from native `rootInvariantForm.isOrthogonal_reflection` and simple-coreflection
   generation, to transport polynomial restrictions between S(H*) and S(H).
   Degree induction on the linear side using graded Chevalley and these exhaustive nonnegative filtrations
   proves HC injectivity/surjectivity and exports
-  `harishChandraIso_symm_mem_pbwFiltration` /
-  `harishChandraLinearIso_symm_mem_pbwFiltration` for inverse filtration.
-  The dependency order is earlier root/weight and highest-weight Layers 1–6 → the
+  harishChandraIso_symm_mem_pbwFiltration /
+  harishChandraLinearIso_symm_mem_pbwFiltration for inverse filtration.
+  The dependency order is native root, weight, classification and Weyl formulas, together with Layer 6 → the
   independent inner-automorphism/trace-polynomial Lie Chevalley precursor → equivariant
   PBW center symbols → HC bijectivity/inverse filtration. Compact-group C5.1 branches from the
   earlier Lie–Chevalley restriction/infinitesimal transport step and does not consume HC.
   [CharacteristicClasses C5.1](../../CharacteristicClasses/README.md#c5-compact-lie-restriction-and-universal-rational-rings)
   consumes these generic Lie-algebra results, and owns compact-group invariance, its
   geometric root-data comparison, reductive central factors and real descent. The trace
-  route and normalized HC agree with [Etingof §§10.1,13.3,14.1](https://arxiv.org/html/2401.01446v2#S10.SS1).
+  route and normalized HC agree with Etingof, Theorem 10.1 and Remark 10.2, pp. 51–52,
+  Theorem 13.5 and proof, p. 69, and Theorem 14.1, pp. 70–71; see [Etingof, arXiv:2401.01446v2](https://arxiv.org/html/2401.01446v2#S10.SS1).
 - **Central characters and the dot orbit.** `χ_λ = χ_μ ⟺ μ ∈ W·λ` (dot action)
   (`centralCharacter_eq_iff_dotOrbit`): two central characters coincide iff the weights lie in one dot
-  orbit. Prove it from `harishChandraIso` (a central character is a `W·`-orbit of points of `S(H)`).
+  orbit. Prove it from harishChandraIso (a central character is a `W·`-orbit of points of `S(H)`).
   This is the central-character / orbit theorem behind Verma-module homomorphisms. The full **linkage
   principle** of category `O` (the precise statement about composition factors of `M(λ)`, the integral
   Weyl group, and the order constraints of the block decomposition) is strictly stronger and is a
   separate development, not identified with this orbit statement.
-First export `linearInvariants_separate_orbits`: finite distinct Weyl orbits are
+First export linearInvariants_separate_orbits: finite distinct Weyl orbits are
 separated by invariant polynomials, by interpolation on their union followed by averaging
 over W. Translation gives dot-orbit separation. For dominant-integral uniqueness use the
 Mathlib `RootPairing.restrictScalarsRat` and the native ordered rational chamber theorem.
-Construct `dominantIntegral_eq_of_dotAction_eq`: the inverse rational Cartan matrix
+Construct dominantIntegral_eq_of_dotAction_eq: the inverse rational Cartan matrix
 puts dominant-integral weights in the rational root span; transport the base, ρ and Weyl
 action, apply `eq_of_dotAction_eq_of_mem_dominantChamber` over ℚ, then extend scalars to K;
 no ordered-field structure on algebraically closed K is used.
@@ -1364,13 +1233,13 @@ no ordered-field structure on algebraically closed K is used.
 - **Freudenthal's multiplicity formula.** The recursion is **anchored at the base case** `mult_λ = 1`
   (the top weight has multiplicity one); for `μ` a weight of `L(λ)`,
   `(⟨λ+ρ,λ+ρ⟩ - ⟨μ+ρ,μ+ρ⟩) · mult_μ = 2 Σ_{α>0} Σ_{j≥1} mult_{μ+jα} · ⟨μ+jα, α⟩`
-  (`freudenthal_multiplicity_formula`). The inner sum over `j ≥ 1` is **finite**: `μ + jα` leaves the
+  (freudenthal_multiplicity_formula). The inner sum over `j ≥ 1` is **finite**: `μ + jα` leaves the
   (finite) weight set for large `j`, so `j` ranges over a finite set. For an actual weight `μ ≠ λ` of `L(λ)` the
   Casimir denominator `⟨λ+ρ,λ+ρ⟩ - ⟨μ+ρ,μ+ρ⟩` is nonzero, so the identity **solves for** `mult_μ`
   downward from `λ`, complementing the closed form of Kostant. Consume native
-  `freudenthal_multiplicity_formula` and
+  freudenthal_multiplicity_formula and
   `casimirScalar_ne_casimirScalar_of_genWeightSpace_ne_bot_of_isHighestWeightVector`.
-  Export `coeff_formalCharacter_eq_freudenthalRHS_div` with the actual-weight and
+  Export coeff_formalCharacter_eq_freudenthalRHS_div with the actual-weight and
   non-top hypotheses; the recursion has no nonzero-denominator claim for absent weights.
   It is a check on Kostant's formula and the route for the worked examples below.
 - **Serre's relations and the split-field presentation of `L`.** Work over any
@@ -1395,7 +1264,7 @@ no ordered-field structure on algebraically closed K is used.
   `L`, using root strings, Jacobi and characteristic-zero coefficients. Their independent
   images then prove injectivity. Combine it with the supplied surjection to construct
   the presentation equivalence from that same lift, with its H/E/F value equations.
-  The all-root normalization `exists_chevalleySystem` and `serre_presentation_equiv`
+  The all-root normalization exists_chevalleySystem and serre_presentation_equiv
   are split-field contracts, independent of the HC isomorphism. Writing
   `A = base.cartanMatrix`, the native root convention is `A i j = αᵢ(hⱼ)`, whereas
   `CartanMatrix.Relations.HE` imposes `⁅Hᵢ, Eⱼ⁆ = CM i j • Eⱼ`. Hence
@@ -1412,7 +1281,80 @@ no ordered-field structure on algebraically closed K is used.
   (`GeckConstruction`) of [../RootSystems/README.md](../RootSystems/README.md), and the input to Layer
   8's identification of the exceptional models.
 
-### Layer 8: the exceptional Lie algebras, explicitly
+### 7.1 Polynomial carriers for the headline comparisons
+
+Over any field K, define `symmetricDegreeLE` as the sum of the native homogeneous submodules in
+degrees k≤n. This is the ordinary degree filtration, including constants at n=0
+(Etingof, Theorem 14.1(iv), pp. 70–71).
+
+- Prove monotonicity and exhaustiveness and that multiplying degrees ≤m and ≤n
+  gives degree ≤m+n.
+- Compare it with the symmetric grading and the associated PBW filtration through
+  `exists_pbwSymmetrization` and `exists_harishChandraIso`.
+
+**Checks.**
+
+- For a one-dimensional Cartan, degree≤0 contains 1 and excludes h.
+- Degree≤1 contains 1+h and excludes h²; a homogeneous-only definition loses 1+h.
+- For H=0 every degree filtration step is K, including step 0.
+
+For a split finite-dimensional Killing-semisimple Lie algebra over a
+characteristic-zero field, define `linearInvariants` by equality of polynomial evaluations at λ and wλ.
+Its carrier is a subalgebra of S(H), not a set of weights (Etingof, Theorem 10.1,
+p. 51, and Remark 10.2(1), p. 52).
+
+- Give the membership equation and closure under scalar, additive and multiplicative operations.
+- Prove compatibility with each homogeneous component and transport under the Killing duality.
+
+**Checks.**
+
+- In A₁, 1 and h² are invariant because evaluating at t and −t gives 1 and t².
+- The polynomial h is not invariant: its evaluations at 1 and −1 differ.
+- The dot-invariant h²+2h is not linearly invariant: its values at 1 and −1 are 3 and −1.
+
+Define `lieInvariantSymmetricAlgebra` as the subalgebra killed by every native
+adjoint derivation. This definition applies to every Lie algebra over a
+characteristic-zero field (Etingof, proof of Theorem 13.5, p. 69).
+
+- Give the exact annihilation membership equation, closure under products by Leibniz,
+  and compatibility with the homogeneous grading.
+- Identify its underlying submodule with the native maximal trivial Lie submodule.
+
+**Checks.**
+
+- For abelian L every polynomial is invariant, including the degree-one generators.
+- In sl₂, h is not invariant because e·h=−2e≠0.
+- In sl₂, h²+4ef is invariant: e acts by −4eh+4eh=0 and f by 4fh−4hf=0.
+
+Define `lieCartanRestriction` by the symmetric-algebra map of the
+Killing-orthogonal projection L→H. The Killing form is nondegenerate on both
+L and H; this map needs a field, a finite-dimensional Killing-semisimple L
+and a Cartan H, without algebraic closure or characteristic zero, by the native
+Killing/Cartan dualities. Etingof, Remark 10.2(1), p. 52 describes the complex specialization.
+
+- Prove that it fixes Cartan generators, kills all nonzero-root generators and
+  preserves homogeneous degree.
+- Prove the square with polynomial restriction on the dual spaces, then
+  `exists_lieChevalleyRestrictionIso` with the same forward map.
+
+**Checks.**
+
+- In sl₂, h maps to h, and each of e and f maps to 0.
+- The invariant h²+4ef maps to h²; a zero restriction map fails this test.
+- For L=0 the map is the identity of K and sends 1 to 1.
+
+*Needs:* native symmetric grading and adjoint derivations; the nondegenerate
+Killing/Cartan dualities; Layer 6 characters and the Layer 7 density and polarization route.
+
+### Examples
+
+For sl₂, the dot reflection sends t to −t−2; the raw Casimir polynomial h²+2h has equal values 3 at t=1 and t=−3.
+
+### Dependencies
+
+*Needs:* native root/weight theory and classification; Layer 6; native triangular PBW, symmetric grading, Killing duality and Serre lift.
+
+## Layer 8: the exceptional Lie algebras, explicitly
 
 Mathlib names `LieAlgebra.e₆`, `e₇`, `e₈`, `f₄`, `g₂` as Serre-construction quotients.
 This layer identifies concrete **split** models over every characteristic-zero field `K`,
@@ -1431,32 +1373,31 @@ the stated scalar extension; “formally real” is never asserted over algebrai
   `TauCeti/Algebra/Octonion/Basic.lean`. Construct the split Cayley–Dickson doubling
   comparison by an explicit `K`-linear equivalence preserving unit, product, conjugation,
   norm and trace; it is a comparison of nonassociative algebras, not an associative
-  `AlgEquiv`. Export its eight-dimensionality, alternative/Moufang and composition APIs
-  using the native facts where present and proving the remaining targets. The illustrative
-  `Octonion K` doubling interface is transported through this comparison. The compact
+  `AlgEquiv`. Preserve its native dimension and composition laws and prove the
+  alternative/Moufang comparison laws on the doubling presentation. The doubling interface is transported through this comparison. The compact
   division octonions are the separate real form and are not `Der`-matched with split
   `LieAlgebra.g₂ ℝ`.
 - **`G₂ = Der(𝕆)`.** The derivation algebra of the split `𝕆` is a `14`-dimensional simple Lie algebra of
   type `G₂`, with its `7`-dimensional **fundamental representation** the imaginary octonions `Im 𝕆`
-  (`imaginaryOctonion`). Build `TauCeti.derivationLieAlgebra K (TauCeti.Octonion K)` (derivations of the non-associative
-  algebra `𝕆`, a Lie algebra under commutator), prove `finrank = 14`, that it is Killing-simple of type
-  `G₂`, and that `Im 𝕆` is its `7`-dimensional irreducible; identify it with the **split**
-  `LieAlgebra.g₂ K` via the Serre presentation of Layer 7.
+  (imaginaryOctonion). Use `TauCeti.derivationLieAlgebra K (TauCeti.Octonion K)` with its native
+  commutator bracket and dimension theorem; prove that it is Killing-simple of type
+  `G₂`, and use the native imaginary-module irreducibility theorem; identify it with the **split**
+  `LieAlgebra.g₂ K` via `derivationOctonion_equiv_g2` and the Serre presentation of Layer 7.
 - **The split Albert algebra `H₃(𝕆)` and `F₄ = Der(H₃(𝕆))`.** Consume the native
   `TauCeti.AlbertAlgebra K` coordinate carrier and symmetrized product from
   `TauCeti/Algebra/AlbertAlgebra/Basic.lean`, with its actual cyclic off-diagonal layout,
   trace and trace-zero submodule. Transport the Hermitian-matrix/doubling presentation
   by an explicit product-preserving linear equivalence, using the octonion comparison;
-  preserve trace and hence its kernel. Prove the Jordan, dimension and representation
-  targets using those native interfaces, extending them where needed. Its derivation
+  preserve trace and hence its kernel. Prove the Jordan and representation targets on those native interfaces;
+  the dimensions 27 and 26 are the supplier theorems. Its derivation
   algebra is a 52-dimensional Killing-simple split algebra with fundamental 26-dimensional
   trace-zero representation. Construct its split Cartan and concrete root-matrix
-  comparison before identifying it with `LieAlgebra.f₄ K` by Layer 7.
+  comparison before the identification `derivationAlbert_equiv_f4` with `LieAlgebra.f₄ K`.
   On this native split carrier build `TauCeti.AlbertAlgebra.det`, using its
   existing cyclic off-diagonal layout: for a_i=diag(i), x_i=offDiag(i),
   `det A=a0*a1*a2−a0*N(x0)−a1*N(x1)−a2*N(x2)+tr_O((x0*x1)*x2)`,
   with native `TauCeti.Octonion.norm` and `TauCeti.Octonion.trace`, following
-  [Baez's trace-power identity](https://math.ucr.edu/home/baez/octonions/node12.html),
+  [Baez, *The Octonions*, §3.4, p. 32](https://arxiv.org/abs/math/0105155),
   with the cyclic coordinate formula verified against the native layout.
   Give its homogeneous cubic/polarization and scalar-extension APIs,
   and prove `A³−trace(A)*A²+s(A)*A−det(A)*1=0`,
@@ -1473,7 +1414,8 @@ the stated scalar extension; “formally real” is never asserted over algebrai
 - **The compact real algebra suppliers.** This algebraic sublane of Layer 8 is
   independent of Layers 0–7's representation/classification results and of projective
   geometry. Follow the proposed global `CayleyDickson A` and
-  `_root_.Octonion R := CayleyDickson (Quaternion R)` design of [Mathlib PR41919](https://github.com/leanprover-community/mathlib4/pull/41919).
+  `_root_.Octonion R := CayleyDickson (Quaternion R)` ordered-pair convention, compared with Baez, *The Octonions*, §2.2,
+  equations (2)–(3) and Propositions 4–5, pp. 8–10, by the map (a,b)↦(a,conj(b)).
   Build the unavailable doubling APIs in Tau Ceti as a distinct ordered-pair structure
   `TauCeti.CayleyDickson A` with fields `(fst,snd) : A×A`, and name the real division carrier
   `TauCeti.DivisionOctonionReal := TauCeti.CayleyDickson (Quaternion ℝ)`.
@@ -1487,14 +1429,15 @@ the stated scalar extension; “formally real” is never asserted over algebrai
   `Star.star(a,b)=(Star.star(a),−b)` and `N(a,b)=‖a‖²+‖b‖²`. Define its scalar trace T(a,b)=2*re(a),
   and prove `x+Star.star x=T(x)•1`, with linearity and T(1)=2.
   Give component/extensionality and linear-coordinate APIs,
-  conjugation and real scalars, the alternative/flexible/Moufang identities, multiplicative
+  conjugation and real scalars, the alternative laws
+  `(x*x)*y=x*(x*y)` and `(y*x)*x=y*(x*x)`, the flexible/Moufang identities, multiplicative
   positive-definite quadratic norm, its polarization and `‖x‖²=N(x)`, nonzero inverse `Star.star(x)/N(x)`
   and both inverse/cancellation laws. Prove that each two-generated subalgebra is
   associative, including its closure under conjugation, and give the smooth real
   multiplication/conjugation/inverse-on-nonzero maps under the ordered eight-coordinate
   Euclidean model. Give one explicit `NonAssocRing` record: reuse exactly the
   transferred `AddCommGroup` parent and fix its unit, multiplication and casts to the
-  displayed coordinate operations; only the true algebra-law proofs are admitted.
+  displayed coordinate operations; prove all algebra laws for these operations.
   Install this positive conjugation as the actual `Star` operation on the distinct pair-record
   carrier; do not use an independently inferred pointwise `Star` on `ℍ × ℍ`. Prove the real
   scalar `SMulCommClass` and `IsScalarTower` laws for this multiplication, together
@@ -1533,6 +1476,14 @@ both inclusions between the native derivation Lie algebra and the infinitesimal 
 without presupposing norm preservation for an arbitrary Leibniz map. A trace shortcut would
 need an additional trace-to-norm argument: taking traces in `[D,L_x]=L_(Dx)` gives
 `tr(L_(Dx))=0`, not `tr(D L_x)=0`.
+
+**Checks.**
+
+- In the split Zorn algebra the idempotent with diagonal entries (1,0) and zero
+  vectors is nonzero and has norm 0. In the division double the unit (1,0) has norm 1.
+- For x=(i,0), y=(j,0), both (yx)x and y(xx) equal (−j,0); this tests right alternativity.
+- With i=(i,0), j=(j,0) and ℓ=(0,1), (ij)ℓ=(0,k) while i(jℓ)=(0,−k).
+  Thus their sum is 0, and the algebra is not associative.
 
 **Complex scalar-extension boundary.** Compare this real algebra with the split
 Zorn carrier only after explicit scalar extension to ℂ, through a complex-linear,
@@ -1645,74 +1596,64 @@ classification is used.
       concrete targets here; the native matrix representation alone does not supply them.
   Build each, prove its dimension and Killing-simplicity of the stated type, and identify it with the
   split `LieAlgebra.e₆`, `e₇`, `e₈ K` via Layer 7. The **fundamental representations** `27` for `E₆`,
-  `56` for `E₇`, and the adjoint `248` for `E₈` are the smallest ones and the acceptance targets.
+  `56` for `E₇`, and the adjoint `248` for `E₈` are the smallest nontrivial ones.
+  Their algebra-dimension headlines are `finrank_e6_e7` and `finrank_e8`.
 
-### Layer 9: reductive Lie algebras and `gl_n`
+### Examples
+
+The native dimensions are 8, 8+3+3=14, 3+3·8=27 and 26; the E8 model has 80+84+84=248 dimensions.
+
+### Dependencies
+
+*Needs:* native split octonion and Albert products; Layer 7 for split-type identification; quaternion algebra for the independent compact real track.
+
+## Layer 9: reductive Lie algebras and `gl_n`
 
 The layers above fix a Killing-semisimple `L`. `gl_n` is **reductive, not semisimple**: its Killing
 form is degenerate and its centre is the scalar matrices, so none of the `IsKilling` machinery
 applies to it directly. This layer supplies the Lie-algebra-level `gl_n` theory.
 For its polynomial comparison consume the concrete Schur modules of
 [ClassicalGroups Layers 2–4](../ClassicalGroups/README.md), their group-level irreducibility,
-highest weights and Schur characters, and the native torus/transvection tools those
-constructions use. These tools do not already prove the full abstract rational-group
-classification or highest-weight uniqueness; those remain ClassicalGroups targets.
-The comparison here constructs the needed differentiation, stable-subspace and
-intertwiner dictionaries without assuming that entire classification. This layer is that theory, under the
+highest weights and Schur characters, and the actual group actions on those modules.
+The comparison here constructs differentiation, stable-subspace and intertwiner
+dictionaries; it uses the native Lie classification and the specified concrete
+ClassicalGroups modules, not an asserted independent transvection classification. This layer is that theory, under the
 conventions of the reductive standing-conventions bullet (Mathlib's `HasCentralRadical` as the
 unbundled reductivity hypothesis, the trace form as the invariant form, the matrix-unit positive
 system). It is independent of Layer 8.
 
-- **The structure of reductive Lie algebras.** `radical = center` iff `L` is the direct sum of its
-  centre and its derived ideal with the derived ideal semisimple - both conjuncts are required
-  (`sl₂ ⋉ K²` has trivial centre and derived ideal everything, so the complement half alone is
-  satisfied by a non-reductive algebra). Concretely for `gl_n`: the centre is the scalar matrices,
-  the derived ideal is `sl n`, and `gl_n` is reductive.
-- **Irreducibles of a reductive algebra.** Over algebraically closed `K` the centre acts on a
-  finite-dimensional irreducible by a **central weight**, a functional on the centre with **no
-  integrality constraint**; the restriction to the derived ideal is irreducible (`IsAlgClosed` is
-  essential: over `ℝ` a one-dimensional abelian algebra acting by rotation on `ℝ²` is irreducible
-  with zero derived ideal); and complete reducibility holds under the honest extra hypothesis that
-  every central element acts semisimply (without it, a nilpotent Jordan block over the abelian
-  `L = K` is the counterexample). Together these classify the irreducibles as (derived-ideal
-  irreducible) × (central weight).
+- **Reconstruction for reductive irreducibles.** Over an algebraically closed
+  characteristic-zero field, reconstruct an irreducible module from an irreducible
+  module of the semisimple derived ideal and a functional on the center, and prove
+  uniqueness up to module equivalence. The functional has no integrality condition.
+  Prove complete reducibility of a finite-dimensional reductive module when every
+  central element acts semisimply. A nilpotent two-by-two Jordan block for the
+  abelian Lie algebra K has an invariant kernel without an invariant complement,
+  so the central semisimplicity hypothesis cannot be omitted.
+
+  *Needs:* native reductive center/derived splitting and irreducible restriction;
+  native arbitrary-field complete reducibility; the scalar-extension and central-weight APIs.
+
 - **The diagonal Cartan and `gl_n` weights.** `diagonalCartan n`, a Cartan subalgebra of `gl_n`;
-  weights are `n`-tuples via `μ ↦ (A ↦ Σᵢ μᵢ Aᵢᵢ)` (`glWeightEquiv`); **dominance is a condition on
-  differences** (`IsGlDominantIntegral`: consecutive differences in `ℕ`, entries free in `K`), and a
+  weights are `n`-tuples via `μ ↦ (A ↦ Σᵢ μᵢ Aᵢᵢ)` (glWeightEquiv); **dominance is a condition on
+  differences** (`TauCeti.IsGlDominantIntegral`: consecutive differences in `ℕ`, entries free in `K`), and a
   **highest weight vector** is a simultaneous eigenvector of the diagonal killed by the strict upper
-  triangle (`IsGlHighestWeightVector`). The staircase `ν = (N - 1/2, …, 1/2)` is dominant with no
+  triangle (`TauCeti.IsGlHighestWeightVector`). The staircase `ν = (N - 1/2, …, 1/2)` is dominant with no
   integer entry.
-- **The classification and the named carrier.** Every finite-dimensional `gl_n`-irreducible has a
-  dominant highest weight; the highest weight determines the irreducible; and for each dominant `μ`
-  the carrier `glIrreducible n μ` is **named** (with its instances and the anti-vacuity pin that it
-  has a highest weight vector of weight `μ`), so the Pieri and isotypic statements are canonically
-  statable rather than existentially quantified. The **universality substitute**: an irreducible with
-  a highest weight vector of weight `μ` has minimal dimension among modules with a **cyclic** highest
-  weight vector of weight `μ`.
-- **The `sl ↔ gl` transfer, pinned.** The restriction of `glIrreducible n μ` to
-  `sl (Fin n) K` is irreducible, and an `sl_n`-equivalence between modules on which the identity
-  matrix acts by the same scalar upgrades to a `gl_n`-equivalence (`gl_n` is spanned by `sl_n` and
-  `1`). These two targets are the dictionary through which the semisimple theory of Layers 2-6 - in
-  particular the Layer 6 toolkit and the minuscule Pieri rule - reaches `gl_n`; the dictionary is
-  pinned, not prose, because nothing in the `IsKilling` sections applies to `gl_n` directly.
 - **The `gl_n` Pieri rule and the single-weight criterion.** The **dual-standard Pieri rule**
-  `V* ⊗ L(μ) ≅ ⊕_t L(μ - ε_t)` over the `t` with `μ - ε_t` dominant, multiplicity one (the standard
+  `gl_dual_standard_pieri`, with formula `V* ⊗ L(μ) ≅ ⊕_t L(μ - ε_t)` over the `t` with `μ - ε_t` dominant, multiplicity one (the standard
   module is Mathlib's `Fin n → K` instance, `ε_t = Pi.single t 1`; the `V ⊗ L(μ)` mirror is not
   separately pinned), and the **single-weight isotypic criterion** at the `gl` level: a nontrivial
   finite-dimensional module, with `n > 0` and semisimple action of the identity matrix, all of whose
   highest weight vectors have weight `μ` is a direct sum of copies of one irreducible with highest
   weight `μ`. The identity spans the centre of `gl_n`, so its semisimplicity gives semisimple
-  action of every central element. Apply this layer's `reductive_complete_reducibility`, then
+  action of every central element. Apply this layer's reductive_complete_reducibility, then
   existence of a highest weight vector in each simple summand and uniqueness of the irreducible
   of highest weight `μ`. The central hypothesis is essential: for `gl₁`, a nonzero nilpotent
   two-by-two Jordan block has only highest weight `0` but has no invariant complement to its kernel.
-- **The trace-form Casimir.** `glCasimir n = Σ_{i,j} E_ij E_ji`, central in `U(gl_n)`, acting on a
-  module generated by a highest weight vector of weight `μ` by the scalar
-  `Σᵢ μᵢ (μᵢ + n - 1 - 2i)` (zero-based). The scalar is specific to the trace form, which is why the
-  form is a standing convention and not a per-theorem choice.
 - **The dictionary to the group level.** The `DominantWeight n` of
   [../ClassicalGroups/README.md](../ClassicalGroups/README.md) (weakly decreasing integer tuples)
-  sits inside `IsGlDominantIntegral` as the integer-coordinate weights. Changing
+  sits inside `TauCeti.IsGlDominantIntegral` as the integer-coordinate weights. Changing
   such a tuple by `m · (1, …, 1)`, `m∈ℤ`, is the visible determinant twist.
   The Lie condition also permits shifts by arbitrary `c∈K`; such weights need
   not integrate to rational group representations.
@@ -1725,14 +1666,14 @@ system). It is independent of Layer 8.
   is GL_n-stable, using connectedness of GL_n and integration of its infinitesimal
   action; include the connectedness/integration lemmas as targets of this bridge.
   Prove that the group character `t ↦ ∏ t_i^λ_i` differentiates to the
-  `diagonalCartan` functional `diag(a) ↦ Σ λ_i a_i`, and that group highest-weight
+  diagonalCartan functional `diag(a) ↦ Σ λ_i a_i`, and that group highest-weight
   vectors satisfy the corresponding Lie highest-weight conditions. Then identify the differentiated
   shape-λ Schur module with `glIrreducible n λ` by its highest weight and irreducibility.
   For λ, μ with at most n rows, identify the multiplicity of `glIrreducible n ν` in their
   tensor product with the actual finite tableau count
-  `Nat.card (LRTableau λ ν μ)` for every ν with at most n rows. Consume
-  [SchurWeyl Layer 7](https://github.com/TauCetiProject/TauCetiRoadmap/blob/149fe79fc7f66b28ec635f15ec6553c7eff79b17/TauCetiRoadmap/RepresentationTheory/SchurWeyl/README.md#layer-7-symmetric-functions-the-frobenius-characteristic-and-rsk),
-  whose skew carrier requires λ≤ν, has weak rows and strict columns, and fixes content
+  `Nat.card (LRTableau λ ν μ)` for every ν with at most n rows. The required extension of
+  [SchurWeyl Layer 7](../SchurWeyl/README.md#layer-7-symmetric-functions-the-frobenius-characteristic-and-rsk),
+  has the following exact contract: its skew carrier requires λ≤ν, has weak rows and strict columns, and fixes content
   μ.rowLen and the top-to-bottom, right-to-left reading word with zero-indexed prefix
   condition `#(k+1)≤#k`. Its insertion/rectification/dual-equivalence tableau-product
   bijection preserves weight and proves the finite-alphabet polynomial identity
@@ -1747,11 +1688,23 @@ system). It is independent of Layer 8.
   `s_(1)^2=s_(2)+s_(1,1)` vanishes. The generic tableau/count/product theorem has
   one owner, SchurWeyl; this layer owns its application to the actual Lie modules.
 
-#### Reductive enveloping centers and the actual invariant maps
+**Checks.**
+
+- For λ=μ=(1), the LR counts of ν=(2) and ν=(1,1) are both 1; in two
+  variables (x+y)²=(x²+xy+y²)+xy.
+- In one variable the taller shape has Schur polynomial 0, so the same identity
+  becomes x²=x²+0. Dropping taller shapes from the count rather than the evaluation is wrong.
+- For empty λ the unique tableau has shape ν and content μ only when ν=μ;
+  a failed containment or size sum has count 0.
+
+*Needs:* the external skew-tableau/product contract in Scope and ownership;
+ClassicalGroups Layers 2–4; the differentiation and intertwiner comparisons of Layer 9.
+
+### 9.2 Reductive enveloping centers and the actual invariant maps
 
 Work first over a characteristic-zero field K with a finite-dimensional reductive
 Lie algebra L, using this layer's actual central/derived splitting
-`e:L≃ₗ⁅K⁆z(L)×[L,L]`. The center factor is abelian. Consume native
+`e:L≃ₗ⁅K⁆z(L)×[L,L]`. The center factor is abelian. The map `productEnveloping` uses native
 `TauCeti.UniversalEnvelopingAlgebra.mapEquiv`, `prodEquivTensor` and
 `symmetricAlgebraEquiv`; do not reconstruct their generic engines. Compose them
 to construct the actual algebra equivalence
@@ -1768,8 +1721,8 @@ commutativity of the symmetric factor and tensor injectivity over K. Prove that
 `id⊗center.val` is injective and that its range is exactly the tensor algebra's
 center: commute with the right-factor generators to obtain central coefficients
 in a basis of the left factor; the left factor already commutes with everything.
-Export the resulting algebra equivalence
-`Z(U(L))≃Sym(z(L))⊗Z(U([L,L]))` with its inclusion square and pure-tensor formula,
+Prove `exists_productCenterEquiv` on an abelian direct-product factor; transport it
+through the specified splitting to obtain `Z(U(L))≃Sym(z(L))⊗Z(U([L,L]))` with its inclusion square and pure-tensor formula,
 not just an equality of dimensions or a linear bijection. This center-factor
 argument also applies to an explicitly supplied product with any abelian factor;
 it uses no classification or algebraic closure. The reductive decomposition
@@ -1833,6 +1786,28 @@ real forms; do not add another compact Chevalley or Chern–Weil engine here.
 The connected algebraic PBW-piece comparison above has no compact form, C5
 cohomology, Borel–Weil, affine oper or invariant-evaluation theorem as a premise.
 
+### 9.3 The normalized product map
+
+Define `productEnveloping` by composing the native enveloping-product equivalence
+with the inverse abelian enveloping comparison. Its coefficients form an arbitrary
+field and the first Lie factor is abelian; neither finite dimensionality nor
+algebraic closure is required. Prove `exists_productCenterEquiv` with its inclusion
+square (Dixmier, *Enveloping Algebras*, §1.6, for the reductive specialization).
+
+- Prove the generator equation (z,s)↦z⊗1+1⊗s and the inverse product formula.
+- Preserve units and algebra operations, and prove naturality for maps of each factor.
+- Identify the center through the actual tensor inclusion, retaining the order of factors.
+
+**Checks.**
+
+- For Z=S=0 the map is K≃K⊗K, and 1 maps to 1⊗1.
+- For Z=K abelian and S=0, the degree-one generator maps to t⊗1, not 0.
+- For Z=K and S=sl₂, a scalar-direction generator maps to t⊗1 and the quadratic
+  Casimir from S maps to 1⊗C; the center is K[t]⊗K[C].
+
+*Needs:* native product, abelian and functorial enveloping equivalences;
+Mathlib tensor injectivity over a field and the include-right centralizer theorem.
+
 **Matrices and trace duality.** Specialize to `gl_n(K)=Matrix (Fin n) (Fin n) K`.
 Consume native center/derived theorems in `GeneralLinear.Basic` and
 `TauCeti.traceBilinForm`, its nondegeneracy and Lie invariance in
@@ -1869,120 +1844,40 @@ symmetric-polynomial theorem. Treat n=0 and1 directly. Export the full algebra
 maps, their generator evaluations, both inverse identities and homogeneous
 filtrations: gl_n has generators of degrees1,…,n, whereas sl_n has trace zero
 and generators of degrees2,…,n. Compose these actual maps with the reductive HC
-and trace squares. The questioned source algebra chain is thereby interpreted
-by three distinct specified comparisons, with its question mark preserved.
+and trace squares. The three comparisons are respectively linear, graded algebraic and filtered
+algebraic (Etingof, arXiv:2401.01446v2, Theorem 13.5 and its proof, p. 69;
+Theorem 14.1(iv)–(v), pp. 70–71; Example 10.3, pp. 52–53).
 
-The illustrative [ReductiveCenterTargets.lean](ReductiveCenterTargets.lean)
-retains the actual splitting, native maps and covering-product operands. Its
-proof targets are nonexhaustive; this README specifies the complete construction.
+`productEnveloping` fixes the native product map; `exists_productCenterEquiv`
+states the center equivalence with its inclusion square.
 
 ---
 
-## Worked examples (acceptance criteria)
+### Examples
 
-- **`sl₂` irreducibles `V(n)`.** For `L = sl (Fin 2) K` with its standard triple: construct `V(n)`,
-  prove `dim V(n) = n+1`, that `h` acts with spectrum `{n, n-2, …, -n}`, and that `V(0), V(1), V(2)`
-  are the trivial, standard, and adjoint modules. Verify Clebsch-Gordan `V(1) ⊗ V(1) ≅ V(2) ⊕ V(0)`.
-  Weyl dimension formula: `dim V(n) = (n+1)`, matching directly.
-- **The adjoint representation.** For any `L` (e.g. `sl (Fin 3) K`), the adjoint module `L` itself is
-  finite-dimensional irreducible (for simple `L`), its weights are the roots together with `0` (with
-  multiplicity `rank L`), its highest weight is the **highest root** `θ`, and it is `L(θ)`. Check
-  `dim L` against the Weyl dimension formula at `λ = θ`.
-- **`sl₃` weight diagrams.** For `L = sl (Fin 3) K` (type `A₂`), with fundamental weights `ω₁, ω₂`:
-  the standard `V(ω₁)` (dimension `3`) and its dual `V(ω₂)` (dimension `3`), the adjoint `V(ω₁+ω₂)`
-  (dimension `8`) with its hexagonal weight diagram and the `0` weight of multiplicity `2` (Kostant's
-  formula gives the `2`), and `V(2ω₁)` (dimension `6`). Reproduce the weight diagrams as the supports
-  of `formalCharacter`.
-- **The Weyl dimension formula on a few reps.** For type `A₂`: `dim V(aω₁+bω₂) = (a+1)(b+1)(a+b+2)/2`,
-  checked against `3, 3, 8, 6, 10` for `ω₁, ω₂, ω₁+ω₂, 2ω₁, 3ω₁`. For type `B₂`/`G₂`, at least the
-  adjoint and one fundamental representation, as a check that the positive-root product is computed with
-  the right multiplicities.
-- **Complete reducibility in action.** A chosen reducible-but-indecomposable-looking extension (e.g. a
-  non-split-looking submodule of `V(1) ⊗ V(1)`) is split by Layer 5, decomposing as predicted by
-  Clebsch-Gordan and the character ring.
-- **The center and linkage for `sl₂`.** Consume native
-  `TauCeti.SpecialLinear.instHasTrivialRadicalSl` from `GeneralLinear.Radical` and
-  Mathlib `HasTrivialRadical.instIsKilling`; construct `slTwoDiagonalCartan`, with
-  generator h=E₀₀−E₁₁, its Cartan instance, root decomposition and `slTwoPositiveBase`
-  selecting e=E₀₁ as positive (with f=E₁₀). These concrete instance/base targets belong
-  here before any application of Layer 7; triangularizability is the native
-  `instIsTriangularizableOfIsAlgClosed` consequence. Consume the existing native standard
-  `TauCeti.isSl2Triple_single` triple. For `L=sl (Fin 2) K`, this diagonal Cartan H
-  and standard triple `[h,e]=2e`, `[h,f]=−2f`, `[e,f]=h`, choose the positive base {α} with e∈L_α and `ρ(h)=1`. Set
-  `Ω=h²+2h+4fe`. Prove `Ω` is central and construct
-  `Polynomial K ≃ₐ[K] Z(U(sl₂))` sending X to Ω, and
-  prove `Ω=8·TauCeti.casimirElement K (sl (Fin 2) K)` for Layer 5's Killing-dual normalization
-  (`κ(h,h)=8`, `κ(e,f)=4`). In the coordinate
-  `t=λ(h)`, `ρ(h)=1`, the raw map sends `Ω` to `t²+2t`, invariant under `t↦−t−2`;
-  the linear map sends it to `t²−1`, invariant under `t↦−t`. Hence the two image
-  subalgebras are `K[t²+2t]` and `K[t²]`, respectively, and `χ_n(Ω)=n(n+2)`.
-  Check `χ_λ=χ_μ` iff `μ=λ` or `μ=−λ−2`. Freudenthal on `V(n)` returns
-  multiplicity `1` for each of `n,n−2,…,−n`, matching Layer 0.
-- **`sl₃` multiplicities by Freudenthal.** For type `A₂`, recompute the `0`-weight multiplicity `2` of
-  the adjoint `V(ω₁+ω₂)` by Freudenthal's recursion (a check on the Kostant computation in the `sl₃`
-  worked example above) and the multiplicities of `V(2ω₁+2ω₂)`.
-- **`G₂ = Der(𝕆)` and its `7`.** Build `𝕆 = Octonion K`, verify the alternative identities and the
-  multiplicative norm, build `Der(𝕆)`, and check `finrank K (Der 𝕆) = 14`, that it is Killing-simple of
-  type `G₂` (Cartan matrix reindexes to `CartanMatrix.G₂`), that `Im 𝕆` is its `7`-dimensional
-  irreducible `V(ω₁)`, and `Der(𝕆) ≃ₗ⁅K⁆ LieAlgebra.g₂ K`. The Weyl dimension formula on `G₂` returns
-  `7` and `14` for the two fundamental weights.
-- **`F₄ = Der(H₃(𝕆))` and `E₈`.** Build the Albert algebra `H₃(𝕆)`, check `finrank = 27` and the Jordan
-  identity, build `Der(H₃(𝕆))` and check `finrank = 52`, type `F₄`, the `26`-dimensional representation
-  `J₀`, and `≃ₗ⁅K⁆ LieAlgebra.f₄ K`. For `E₈`, check `finrank (𝔰𝔩₉ ⊕ ⋀³(K⁹) ⊕ ⋀³(K⁹)^*) = 248 =
-  80 + 84 + 84`, Killing-simplicity of type `E₈`, and `≃ₗ⁅K⁆ LieAlgebra.e₈ K`; the Weyl dimension
-  formula at the adjoint highest weight returns `248`.
-- **Isotypic components against characters (the toolkit check).** For `L = sl (Fin 2) K` and
-  `M = (V(1) ⊗ V(1)) ⊕ V(0)`: the isotypic multiplicities are `1, 0, 2` at the weights `2, 1, 0`,
-  agreeing with the coefficients extracted from `formalCharacter M`, and the component finranks
-  `3 + 0 + 2` sum to `dim M = 5`, checking `finrank_isotypicComponent` and the packaged
-  decomposition against Clebsch-Gordan.
-- **`gl_2`, the classification concretely.** The irreducibles of `gl_2` are the pairs `(μ₁, μ₂)` with
-  `μ₁ - μ₂ ∈ ℕ`, of dimension `μ₁ - μ₂ + 1`; the restriction to `sl (Fin 2) K` is `V(μ₁ - μ₂)` and
-  the centre acts by `μ₁ + μ₂`. The trace-form Casimir scalar is `μ₁(μ₁ + 1) + μ₂(μ₂ - 1)`, matching
-  `glCasimir_smul_of_isGlHighestWeightVector` at `n = 2`. `gl_1` is the degenerate check: every
-  `μ : K` is dominant, so the non-integral central direction is visible already in rank one, where
-  the group-level `DominantWeight 1` sees only `ℤ`.
-- **The staircase weight and Casimir separation on `gl_N`.** `ν = (N - 1/2, …, 1/2)`: no entry is an
-  integer, every consecutive difference is `1`, so `IsGlDominantIntegral ν` holds, and every lowered
-  weight `ν - ε_t` is still dominant. The Casimir scalars separate them:
-  `C(ν - ε_t) - C(ν - ε_s) = 4 (t - s)` (zero-based), pairwise distinct, so on a module whose
-  irreducible constituents all have highest weights among the `ν - ε_t` the single operator
-  `glCasimir` already distinguishes the summands.
-- **Minuscule Pieri for the standard module and its dual on `gl_N`.** The standard module (weights
-  `ε_t`) and its dual (weights `-ε_t`) are minuscule; `gl_dual_standard_pieri` gives
-  `V* ⊗ L(ν) ≅ ⨁_{t} L(ν - ε_t)` with all `N` summands surviving for the staircase `ν`, the uniform
-  decomposition the motivating CAR application reads off
-  ([../SpinRepresentations/README.md](../SpinRepresentations/README.md) Layer 9).
-- **The single-weight criterion in action.** For the `gl_N` action by fermionic bilinears on the
-  exterior algebra of an `N²`-dimensional space (the CAR module of
-  [../SpinRepresentations/README.md](../SpinRepresentations/README.md) Layer 9), every highest
-  weight vector has weight `ν`. First prove `N≥1`. With the actual supplier normalization
-  `F_ij=½Σ_k d_ik d_kj` and `d_ab d_cd+d_cd d_ab=2δ_bcδ_ad`, prove
-  `Σ_i F_ii=((N:K)^2/2) • (1 : Cliff(M_N))`: diagonal terms have `d_ii²=1`, and
-  each unordered off-diagonal pair contributes `d_ik d_ki+d_ki d_ik=2`, so the
-  unhalved sum is `N+N(N−1)=N²`. Thus the identity matrix acts by this scalar on
-  the left-regular module and acts semisimply. The scalar equals `Σ_i ν_i=N²/2`.
-  With these hypotheses, `gl_isotypic_of_forall_isGlHighestWeightVector` forces
-  the module to be `L(ν)`-isotypic, necessarily with multiplicity `2^{N(N+1)/2}` by dimension count
-  (`2^{N²} / 2^{N(N-1)/2}`). Fock spaces themselves are never named in this roadmap's general
-  statements; the layer must make that external computation expressible with no new general lemmas.
+For gl₂ at μ=(3/2,1/2), the trace Casimir scalar is 15/4−1/4=7/2; at μ=0 only the dual-standard dominant summand survives.
 
-### Layer 10: affine Weyl geometry and the compact coweight quotient
+### Dependencies
+
+*Needs:* native reductive splitting and general-linear modules; Layers 6–7; ReductiveGroups Layers 2 and 5P; the external LR contract.
+
+## Layer 10: affine Weyl geometry and the compact coweight quotient
 
 This layer consumes the finite root geometry and classification of
 [RootSystems](../RootSystems/README.md), and the integral weight lattice and Weyl action constructed
-in this roadmap's Layer 1–2 lattice work. It builds the coweight and coroot lattice comparison from
+on the native integral-weight carrier. It builds the coweight and coroot lattice comparison from
 those actual carriers. It does not consume a compact Lie group, a compact torus, or a period
 theorem; the compact-group application is a later consumer in [LieGroups](../LieGroups/README.md).
 
-Before this layer, expose the representation-theoretic integral weights as an actual `ℤ`-submodule
-`P` of `Module.Dual K H`, with its Weyl action; do not use the ambient `K`-dual as though every
+Write P for the native `TauCeti.integralWeightLattice H`, a ℤ-submodule
+of `Module.Dual K H`, with the Weyl action; do not use the ambient `K`-dual as though every
 element were integral. Construct the based root-datum comparison from this `P` to the actual
 character lattice, preserving roots, coroot pairings, and the Weyl action. For the simply connected
 finite-type datum this identifies `P` with its character lattice `X_sc`. For another semisimple
 isogeny form retain its actual intermediate lattice `Q ⊆ X ⊆ P`; do not assert `X ≃ P` (for example,
-adjoint type A₁ has `X=2ℤω`). These are construction targets of Layers 1–2 and the boundary adapter
-consumed here, not equivalences inferred from the type classification alone.
+adjoint type A₁ has `X=2ℤω`). This layer constructs the based-datum comparison, distinct from the native
+lattice construction and from a compact character-lattice comparison; it cannot
+be inferred from the type classification alone.
 
 For the affine construction retain an actual integral root datum `D : RootDatum ι X Y` with
 `Module.Finite ℤ X`, `Module.Free ℤ X`, and the corresponding properties on `Y`. Form its rational
@@ -1993,11 +1888,8 @@ transport the scalar actions along that flip when using those models. Prove the 
 spans both rational spaces. Root-system irreducibility and spanning are hypotheses on this rational
 pairing: the integral `IsRootSystem`/`IsIrreducible` mixins are too strong for a non-unimodular root
 datum and do not express the intended semisimple condition. Keep the integral root datum, its maps,
-and its actual lattice data as the source of the construction. The prototype stores the actual
-`Module.Finite`/`Module.Free` witnesses for both lattices and the `Fintype`/`DecidableEq`
-witnesses for root indices inside `RationalizedAffineDatum`, rather than relying on unused section-instance capture.
-Install these native witnesses locally when a proof needs them. Every admitted affine data operation
-is a whole function of this record and its chosen rational base, including the fundamental alcove.
+and its actual lattice data as the source of the construction. Carry finite-free hypotheses on both lattices and finite root indices
+explicitly in every rationalization and affine-construction theorem.
 Use the actual finite root index set of the datum (for the native `DynkinType` datum, `Fin t.numRoots`, not `Fin t.rank`).
 
 For a finite irreducible reduced crystallographic rationalized root system with chosen base `Δ`,
@@ -2023,6 +1915,15 @@ Prove the quotient map gives an isomorphism `Ω ≃ P∨/Q∨`, construct a repr
 coweight class, and prove the induced action on the affine simple walls preserves their Cartan
 integers. This is the length-zero subgroup and its action, not an assertion that every element of
 `W_ext` stabilizes `A`.
+
+**Checks.**
+
+- For A₁ in the coordinate α(x), the closed alcove is [0,1]. The affine reflection
+  at 0 fixes 0, so that endpoint has stabilizer of order 2, while 1/3 has trivial stabilizer.
+- The affine orbit of 2/3 has the single representative 2/3 in [0,1], whereas the
+  extended translation lattice identifies 2/3 with 1/3 through x↦1−x.
+- In rank 0 the space and its orbit quotient are a point, the Weyl group is trivial,
+  and both lattice quotients are 0.
 
 **Closed alcoves and point orbits.** On this same affine space and action,
 construct the closed alcove
@@ -2102,7 +2003,7 @@ node, orientation, and semidirect-product convention. For an actual isogeny form
 quotient is equivariant under `Γ_Y`. Do not claim that an arbitrary isogeny lattice is preserved by
 every root-system diagram automorphism.
 
-#### Late compact-center application in LieGroups
+### 10.2 Compact-center application
 
 After LieGroups Layer 7 has constructed the actual compact torus period quotient, consume this
 layer's lattice calculation for a compact connected semisimple simply connected group `G_sc` and
@@ -2124,7 +2025,7 @@ For `t ∈ T`, centrality is equivalent to `α(t)=1` for every root. Lift throug
 cover of `T`: this condition says its coordinate is in `P∨`, and two lifts represent the same point
 exactly when they differ by `Y`. Thus prove, equivariantly for based root-datum automorphisms, `Z(G)
 ≃ P∨/Y`. The rank-one coroot maps give `Q∨ ⊆ Y`. In the simply connected case, integrate the
-fundamental highest-weight modules to `G_sc` by Layer 4 and restrict to `T`. Their character
+fundamental highest-weight modules to `G_sc` using LieGroups Layer 4 integration and restrict to `T`. Their character
 differentials, compared with the Layer 6–7 period normalization, show that every `y ∈ Y` pairs
 integrally with every fundamental weight. Those weights form a basis of `P`, whose integral dual is
 `Q∨`; hence `Y ⊆ Q∨` and `Y=Q∨`. For an intermediate semisimple isogeny form retain its actual
@@ -2133,66 +2034,133 @@ affine-stabilizer quotients separately. Do not assert the center is finite for a
 with a positive-dimensional central torus; this finite quotient theorem is for the semisimple
 factor, with the central torus carried separately.
 
-## Ordering
+### Examples
 
-Layer 0 (`sl₂`) is built first and in full, because Layers 2, 4, and 5 call it. Layer 1 (Cartan,
-root-space decomposition, positive system) is an assembly of Mathlib and can proceed in parallel with
-Layer 0; it fixes the `sl₂` triple of each root, which Layer 2 needs. Layer 2 (the generalized
-decomposition, its refinement to honest weight spaces via the diagonalizability theorem, integrality,
-and Weyl-invariance) needs Layers 0 and 1: integrality **is** the `sl₂` reduction, and both
-diagonalizability and Weyl-invariance are proved directly, ahead of and independently of Layer 5's
-complete reducibility, so there is no circularity. Layer 3 (PBW, the Borel and nilradicals, Verma
-modules, the Kostant partition function, `L(λ)`) needs Layer 1's positive system and the enveloping
-algebra; PBW is a substantial independent sub-project and can start early. Layer 4 (the classification) needs Layers 2 and 3:
-dominance is the `sl₂`-finiteness condition read through Layer 0. Layer 5 (Weyl's theorem via the
-Casimir) needs the Killing form (Mathlib) and Layer 3's `L(λ)` for the eigenvalue computation; the
-`sl₂` complete reducibility of Layer 0 is its rank-one check. Layer 6 (the character, dimension, and
-Kostant formulas) consumes their native no-HC route and uses Layer 5's semisimplicity (so characters are additive) and Layer 3's Verma
-theory (for the resolution route). A contributor can complete Layers 0-2 (the engine, the
-decomposition, integrality) as a self-contained first unit, then Layers 3-4 (highest weight theory and
-the classification), then Layers 5-6 (complete reducibility and the formulas). Layer 7 (the center,
-Harish-Chandra, Freudenthal, Serre) uses Layer 3's native triangular PBW/Verma characters and
-Layer 5's Casimir. Its Lie Chevalley/HC bijectivity precursor additionally consumes Layers 1–6's
-root decomposition, integrability, complete reducibility and character/orbit-sum theory, and owns
-root-exponential polynomial dominance before the HC isomorphisms; C5.1 consumes only that earlier Chevalley/transport step;
-Freudenthal needs Layer 2's `sl₂` strings, and the Serre presentation needs Layer 1's simple `sl₂`
-triples and consumes `equivOfCartanMatrixEq` of [../RootSystems/README.md](../RootSystems/README.md).
-Layer 8 (the exceptional algebras, split track) is the most independent lane: the **split octonions**
-and the **split Albert algebra** can be built from scratch at any time (they need no prior layer), and
-their derivation algebras and the `E`-series constructions need only the linear-algebra machinery; the
-identification of each with the split `LieAlgebra.g₂`/`f₄`/`e₆`/`e₇`/`e₈` uses Layer 7's Serre
-presentation (for simple `L`), and the dimensions and weights of their fundamental representations are
-checked against Layer 6's Weyl dimension formula.
-A contributor can build `𝕆`, `G₂ = Der(𝕆)`, and its `7` as a self-contained capstone unit.
-The **Layer 6 decomposition toolkit** needs Layers 3-6: the enveloping-algebra dictionary can start
-as soon as Layer 3's `L(λ)` exists, the isotypic targets need Layer 5's complete reducibility, the
-minuscule Pieri rule needs the character machinery, and the central-character separation is the
-toolkit's Layer 7 refinement. **Layer 9** is independent of Layer 8 and splits into two
-self-contained units: the reductive structure theory (`HasCentralRadical` through
-`reductive_complete_reducibility`) needs only Mathlib and can be claimed first, and the `gl_n` unit
-(`diagonalCartan` through `glCasimir_smul_of_isGlHighestWeightVector`) consumes Layers 0, 2, 4, and
-5 through the pinned `sl ↔ gl` transfer, plus the Layer 6 minuscule Pieri rule for
-`gl_dual_standard_pieri`. The polynomial differentiation/LR comparison is a third
-unit, sequenced after this core gl_n theory and the concrete polynomial Schur-module
-irreducibility/highest-weight/character contracts in ClassicalGroups Layers 2–4.
-It consumes [SchurWeyl Layer 7's explicit LR tableau-count/product construction](https://github.com/TauCetiProject/TauCetiRoadmap/blob/149fe79fc7f66b28ec635f15ec6553c7eff79b17/TauCetiRoadmap/RepresentationTheory/SchurWeyl/README.md#layer-7-symmetric-functions-the-frobenius-characteristic-and-rsk).
-The generic combinatorial proof is independent of group or Lie tensor multiplicities.
-The polynomial group-side input uses its native torus/transvection and independent
-Schur-character route; the stable-subspace and intertwiner comparison is proved here.
-The full abstract ClassicalGroups classification is not an input to this comparison,
-so no dependency backedge is introduced.
+For SU(2), Y=Q∨ gives affine stabilizer quotient 0 and center P∨/Q∨ of order 2; for SO(3), Y=P∨ reverses these two sizes.
 
-Layer9's reductive enveloping-product and center-factor constructions consume the native product/abelian/tensor-centralizer APIs and the existing early reductive splitting. Its HC and invariant-polynomial refinements consume Layer7; its connected algebraic fixed-vector comparison consumes only RG2/5P's tangent/Cartier cut, and its complex analytic comparison consumes LG2–4. None consumes Borel–Weil or characteristic-class cohomology. CompactGroups6a separately consumes the actual compact integration/period/global-form phases and CompactGroups0–6's group characters; its Lie input is LHW0–5 plus only the early6 finite-character/triangular block, not6F.
+### Dependencies
 
-Layer 10 consumes the Layer 1–2 integral-lattice carrier and comparison, plus RootSystems Layers 1–6 finite root geometry, based classification, and actual Weyl group. It builds the affine action without a Lie-group or period input. Only after that output exists does LieGroups' late compact-center application consume it together with LieGroups Layers 6–7 compact roots and actual torus periods; there is no dependency from this layer back into RootSystems or LieGroups.
+*Needs:* RootSystems Layers 1–6; native integral-weight lattice; LieGroups Layers 4, 6–7 only for the compact application.
+
+## Worked examples
+
+- **`sl₂` irreducibles `V(n)`.** For `L = sl (Fin 2) K` with its standard triple: construct `V(n)`,
+  prove `dim V(n) = n+1`, that `h` acts with spectrum `{n, n-2, …, -n}`, and that `V(0), V(1), V(2)`
+  are the trivial, standard, and adjoint modules. Verify Clebsch-Gordan `V(1) ⊗ V(1) ≅ V(2) ⊕ V(0)`.
+  Weyl dimension formula: `dim V(n) = (n+1)`, matching directly.
+- **The adjoint representation.** For any `L` (e.g. `sl (Fin 3) K`), the adjoint module `L` itself is
+  finite-dimensional irreducible (for simple `L`), its weights are the roots together with `0` (with
+  multiplicity `rank L`), its highest weight is the **highest root** `θ`, and it is `L(θ)`. Check
+  `dim L` against the Weyl dimension formula at `λ = θ`.
+- **`sl₃` weight diagrams.** For `L = sl (Fin 3) K` (type `A₂`), with fundamental weights `ω₁, ω₂`:
+  the standard `V(ω₁)` (dimension `3`) and its dual `V(ω₂)` (dimension `3`), the adjoint `V(ω₁+ω₂)`
+  (dimension `8`) with its hexagonal weight diagram and the `0` weight of multiplicity `2` (Kostant's
+  formula gives the `2`), and `V(2ω₁)` (dimension `6`). Reproduce the weight diagrams as the supports
+  of `TauCeti.formalCharacter`.
+- **The Weyl dimension formula on a few reps.** For type `A₂`: `dim V(aω₁+bω₂) = (a+1)(b+1)(a+b+2)/2`,
+  checked against `3, 3, 8, 6, 10` for `ω₁, ω₂, ω₁+ω₂, 2ω₁, 3ω₁`. For type `B₂`/`G₂`, at least the
+  adjoint and one fundamental representation, as a check that the positive-root product is computed with
+  the right multiplicities.
+- **Complete reducibility in action.** A chosen reducible-but-indecomposable-looking extension (e.g. a
+  non-split-looking submodule of `V(1) ⊗ V(1)`) is split by Layer 5, decomposing as predicted by
+  Clebsch-Gordan and the character ring.
+- **The center and linkage for `sl₂`.** Consume native
+  `TauCeti.SpecialLinear.instHasTrivialRadicalSl` from `GeneralLinear.Radical` and
+  Mathlib `HasTrivialRadical.instIsKilling`; construct slTwoDiagonalCartan, with
+  generator h=E₀₀−E₁₁, its Cartan instance, root decomposition and slTwoPositiveBase
+  selecting e=E₀₁ as positive (with f=E₁₀). These concrete instance/base targets belong
+  here before any application of Layer 7; triangularizability is the native
+  `instIsTriangularizableOfIsAlgClosed` consequence. Consume the existing native standard
+  `TauCeti.isSl2Triple_single` triple. For `L=sl (Fin 2) K`, this diagonal Cartan H
+  and standard triple `[h,e]=2e`, `[h,f]=−2f`, `[e,f]=h`, choose the positive base {α} with e∈L_α and `ρ(h)=1`. Set
+  `Ω=h²+2h+4fe`. Prove `Ω` is central and construct
+  `Polynomial K ≃ₐ[K] Z(U(sl₂))` sending X to Ω, and
+  prove `Ω=8·TauCeti.casimirElement K (sl (Fin 2) K)` for Layer 5's Killing-dual normalization
+  (`κ(h,h)=8`, `κ(e,f)=4`). In the coordinate
+  `t=λ(h)`, `ρ(h)=1`, the raw map sends `Ω` to `t²+2t`, invariant under `t↦−t−2`;
+  the linear map sends it to `t²−1`, invariant under `t↦−t`. Hence the two image
+  subalgebras are `K[t²+2t]` and `K[t²]`, respectively, and `χ_n(Ω)=n(n+2)`.
+  Check `χ_λ=χ_μ` iff `μ=λ` or `μ=−λ−2`. Freudenthal on `V(n)` returns
+  multiplicity `1` for each of `n,n−2,…,−n`, matching Layer 0.
+- **`sl₃` multiplicities by Freudenthal.** For type `A₂`, recompute the `0`-weight multiplicity `2` of
+  the adjoint `V(ω₁+ω₂)` by Freudenthal's recursion (a check on the Kostant computation in the `sl₃`
+  worked example above) and the multiplicities of `V(2ω₁+2ω₂)`.
+- **`G₂ = Der(𝕆)` and its `7`.** On the native split octonions verify the alternative identities and the
+  multiplicative norm, build `Der(𝕆)`, and check `finrank K (Der 𝕆) = 14`, that it is Killing-simple of
+  type `G₂` (Cartan matrix reindexes to `CartanMatrix.G₂`), that `Im 𝕆` is its `7`-dimensional
+  irreducible `V(ω₁)`, and `Der(𝕆) ≃ₗ⁅K⁆ LieAlgebra.g₂ K`. The Weyl dimension formula on `G₂` returns
+  `7` and `14` for the two fundamental weights.
+- **`F₄ = Der(H₃(𝕆))` and `E₈`.** Build the Albert algebra `H₃(𝕆)`, check `finrank = 27` and the Jordan
+  identity, build `Der(H₃(𝕆))` and check `finrank = 52`, type `F₄`, the `26`-dimensional representation
+  `J₀`, and `≃ₗ⁅K⁆ LieAlgebra.f₄ K`. For `E₈`, check `finrank (𝔰𝔩₉ ⊕ ⋀³(K⁹) ⊕ ⋀³(K⁹)^*) = 248 =
+  80 + 84 + 84`, Killing-simplicity of type `E₈`, and `≃ₗ⁅K⁆ LieAlgebra.e₈ K`; the Weyl dimension
+  formula at the adjoint highest weight returns `248`.
+- **Isotypic components against characters (the toolkit check).** For `L = sl (Fin 2) K` and
+  `M = (V(1) ⊗ V(1)) ⊕ V(0)`: the isotypic multiplicities are `1, 0, 2` at the weights `2, 1, 0`,
+  agreeing with the coefficients extracted from `formalCharacter M`, and the component finranks
+  `3 + 0 + 2` sum to `dim M = 5`, checking finrank_isotypicComponent and the packaged
+  decomposition against Clebsch-Gordan.
+- **`gl_2`, the classification concretely.** The irreducibles of `gl_2` are the pairs `(μ₁, μ₂)` with
+  `μ₁ - μ₂ ∈ ℕ`, of dimension `μ₁ - μ₂ + 1`; the restriction to `sl (Fin 2) K` is `V(μ₁ - μ₂)` and
+  the centre acts by `μ₁ + μ₂`. The trace-form Casimir scalar is `μ₁(μ₁ + 1) + μ₂(μ₂ - 1)`, matching
+  glCasimir_smul_of_isGlHighestWeightVector at `n = 2`. `gl_1` is the degenerate check: every
+  `μ : K` is dominant, so the non-integral central direction is visible already in rank one, where
+  the group-level `DominantWeight 1` sees only `ℤ`.
+- **The staircase weight and Casimir separation on `gl_N`.** `ν = (N - 1/2, …, 1/2)`: no entry is an
+  integer, every consecutive difference is `1`, so `IsGlDominantIntegral ν` holds, and every lowered
+  weight `ν - ε_t` is still dominant. The Casimir scalars separate them:
+  `C(ν - ε_t) - C(ν - ε_s) = 4 (t - s)` (zero-based), pairwise distinct, so on a module whose
+  irreducible constituents all have highest weights among the `ν - ε_t` the single operator
+  `TauCeti.glCasimir` already distinguishes the summands.
+- **Minuscule Pieri for the standard module and its dual on `gl_N`.** The standard module (weights
+  `ε_t`) and its dual (weights `-ε_t`) are minuscule; `gl_dual_standard_pieri` gives
+  `V* ⊗ L(ν) ≅ ⨁_{t} L(ν - ε_t)` with all `N` summands surviving for the staircase `ν`, the uniform
+  decomposition the motivating CAR application reads off
+  ([../SpinRepresentations/README.md](../SpinRepresentations/README.md) Layer 9).
+- **The single-weight criterion in action.** For the `gl_N` action by fermionic bilinears on the
+  exterior algebra of an `N²`-dimensional space (the CAR module of
+  [../SpinRepresentations/README.md](../SpinRepresentations/README.md) Layer 9), every highest
+  weight vector has weight `ν`. First prove `N≥1`. With the actual supplier normalization
+  `F_ij=½Σ_k d_ik d_kj` and `d_ab d_cd+d_cd d_ab=2δ_bcδ_ad`, prove
+  `Σ_i F_ii=((N:K)^2/2) • (1 : Cliff(M_N))`: diagonal terms have `d_ii²=1`, and
+  each unordered off-diagonal pair contributes `d_ik d_ki+d_ki d_ik=2`, so the
+  unhalved sum is `N+N(N−1)=N²`. Thus the identity matrix acts by this scalar on
+  the left-regular module and acts semisimply. The scalar equals `Σ_i ν_i=N²/2`.
+  With these hypotheses, gl_isotypic_of_forall_isGlHighestWeightVector forces
+  the module to be `L(ν)`-isotypic, necessarily with multiplicity `2^{N(N+1)/2}` by dimension count
+  (`2^{N²} / 2^{N(N-1)/2}`). Fock spaces themselves are never named in this roadmap's general
+  statements; the layer must make that external computation expressible with no new general lemmas.
+
+## Downstream consumers
+
+AdoIwasawa consumes the arbitrary-field ordered PBW and central-monic finiteness
+interface in Layer 3. CharacteristicClasses C5.1 consumes Layer 7's actual
+Lie–Chevalley restriction and its Killing-duality comparison. The split
+exceptional identifications in Layer 8 use the split Serre presentation in
+Layer 7; the compact Albert geometry in TangentialBordism B3 uses the separate
+positive real algebra track. SpinRepresentations consumes the dual-standard
+Pieri rule in Layer 9. The LR application requires the exact tableau contract
+listed in Scope and ownership, in addition to the concrete ClassicalGroups
+Schur-module character comparison.
+
+Layer9's reductive enveloping-product and center-factor constructions consume the native product/abelian/tensor-centralizer APIs and the existing early reductive splitting. Its HC and invariant-polynomial refinements consume Layer7; its connected algebraic fixed-vector comparison consumes only RG2/5P's tangent/Cartier cut, and its complex analytic comparison consumes LG2–4. None consumes Borel–Weil or characteristic-class cohomology. The compact character-lattice and sign applications require the external contracts
+specified in Scope and ownership, in addition to compact integration and group characters.
+
+Layer 10 consumes the native integral-weight predicates and constructs the lattice comparison, plus RootSystems Layers 1–6 finite root geometry, based classification, and actual Weyl group. It builds the affine action without a Lie-group or period input. Only after that output exists does LieGroups' late compact-center application consume it together with LieGroups Layers 6–7 compact roots and actual torus periods; there is no dependency from this layer back into RootSystems or LieGroups.
 
 ## References
 
+- P. Etingof, *Representations of Lie Groups*, arXiv:2401.01446v2 (2024),
+  Theorem 10.1 and Remark 10.2, pp. 51–52; Theorem 13.5, p. 69;
+  Theorem 14.1, pp. 70–71. The Chevalley/HC source is over ℂ; the algebraic
+  characteristic-zero extension requires the polynomial arguments stated in Layer 7.
+- S. Gutt, *Deformation Quantization and Symmetries*, Lectures 1–2 (2019),
+  Lecture 1, slide 14: PBW symmetrization and the positive linear Poisson convention.
 - J. E. Humphreys, *Introduction to Lie Algebras and Representation Theory*, Springer GTM 9 (1972),
   the primary reference: `sl₂` (Ch. II §7), root-space decomposition and root systems (Ch. III), the
   universal enveloping algebra and PBW (Ch. V §17), Verma modules, `L(λ)`, and the finite-dimensional
   classification (Ch. VI §20-21), Weyl's complete reducibility via the Casimir (Ch. II §6, Ch. VI),
-  and the Weyl character and dimension formulas and Kostant's formula (Ch. VI §22-24).
+  and the Weyl character, dimension and Kostant formulas (§22.3, §24.1 and §24.2).
 - J.-P. Serre, *Complex Semisimple Lie Algebras*, Springer (1987), the concise development of `sl₂`,
   root systems, and the highest-weight classification.
 - W. Fulton, J. Harris, *Representation Theory: A First Course*, Springer GTM 129 (1991), `sl₂`,
@@ -2212,9 +2180,11 @@ Layer 10 consumes the Layer 1–2 integral-lattice carrier and comparison, plus 
 - N. Jacobson, *Exceptional Lie Algebras*, Marcel Dekker (1971), and R. D. Schafer, *An Introduction
   to Nonassociative Algebras*, Academic Press (1966), the octonions, the Albert algebra `H₃(𝕆)`, and
   the derivation algebras `G₂ = Der(𝕆)` and `F₄ = Der(H₃(𝕆))`; the source for Layer 8.
-- J. C. Baez, *The Octonions*, Bull. AMS 39 (2002), and J. M. Landsberg, L. Manivel, the
-  Freudenthal-Tits magic square and the exceptional series with their smallest representations; the
-  concrete magic-square constructions of `E₆, E₇, E₈` used in Layer 8.
+- J. C. Baez, *The Octonions*, arXiv:math/0105155v4 (2002), §2.2, pp. 8–10
+  for Cayley–Dickson conventions and §3.4, p. 32 for the Albert determinant.
+- J. M. Landsberg and L. Manivel, *The projective geometry of Freudenthal’s magic square*,
+  arXiv:math/9908039v1 (1999), §1.1, pp. 2–3, for the complex magic-square background.
+  This background does not supply the arbitrary-field bracket comparisons of Layer 8.
 - R. Goodman, N. R. Wallach, *Symmetry, Representations, and Invariants*, Springer GTM 255 (2009),
   highest-weight theory for `gl_n` and the classical groups, the trace-form Casimir, isotypic
   decompositions, and the Pieri rules; the primary source for Layer 9 and the minuscule Pieri
@@ -2226,8 +2196,3 @@ Layer 10 consumes the Layer 1–2 integral-lattice carrier and comparison, plus 
   (2007), Ch. 1-2, `gl_n` highest weight modules with arbitrary entries and integral differences,
   and the Gelfand-Tsetlin bases; the source for the "entries in `K`, differences in `ℕ`"
   formulation of `gl_n` dominance.
-
-
-**Prototype carrier and chart boundary.** The LHW prototype uses a distinct pair-record carrier whose Euclidean normed additive group is transported through `euclideanEquiv` from `WithLp 2 (Quaternion ℝ × Quaternion ℝ)`. Its real module and normed-space structures are transported through the same additive equivalence. Its single `NonAssocRing` record reuses that exact additive parent and fixes the coordinate unit, multiplication and casts; only the law fields are admitted. The positive real conjugation is installed as `Star.star`. The tensor `ℂ ⊗[ℝ] A` retains the native tensor multiplication, and the positive conjugation extension fixes complex coefficients, unlike tensor `Star.star`.
-
-The LG prototype imports the actual `TauCeti.Algebra.Octonion.Basic`, `TauCeti.Algebra.Octonion.Derivation`, and `TauCeti.Algebra.Lie.Derivation.Basic` modules. Its product-automorphism closedness and faithfulness statements carry the real scalar compatibility instances required to interpret the displayed bilinear product equations. Every helper converting a linear automorphism to a bounded operator binds finite dimensionality. Ambient forward/inverse chart domains contain the exact orbit/product coordinate values, and smoothness is all-orders `ContDiffOn` on those open ambient domains. The split-complexification comparison is an explicit generic datum over `PositivePairCoordinates A`, with actual unit, product, trace and conjugation maps to the native split carrier; it does not refer to an unimported lower-owner namespace.
