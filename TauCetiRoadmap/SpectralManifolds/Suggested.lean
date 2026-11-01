@@ -13,6 +13,11 @@ theorems against the pinned Mathlib and Tau Ceti, each with `sorry`.
 Stated here: the open mapping theorem and the closed graph theorem of SM3 for
 complete metrizable Hausdorff topological vector spaces over `ℝ` or `ℂ`
 (F-spaces; the Fréchet spaces of the roadmap are the locally convex ones).
+The locally convex case over any complete nontrivially normed field, a
+continuous linear surjection between Fréchet spaces given by countable seminorm
+families, is LocallyAnalyticDistributions §0.2 and is consumed there; this
+file states the extension to F-spaces, where no seminorm family is given, and
+the closed graph theorem, which LocallyAnalyticDistributions does not state.
 Mathlib at the pin proves the open mapping theorem for normed spaces
 (`ContinuousLinearMap.isOpenMap`) and for σ-compact topological groups
 (`AddMonoidHom.isOpenMap_of_sigmaCompact`); a Fréchet space is σ-compact only
@@ -42,7 +47,8 @@ namespace TauCetiRoadmap.SpectralManifolds
 Theorem 2.11). Let `E` and `F` be complete metrizable Hausdorff topological vector
 spaces over `𝕜 = ℝ` or `ℂ`; metrizability is expressed by a countably generated
 uniformity of the additive group. Every continuous surjective linear map `E → F` is
-open. Local convexity is not assumed. The Hausdorff hypothesis on `F` cannot be
+open. Local convexity is not assumed: the locally convex case is
+LocallyAnalyticDistributions §0.2. The Hausdorff hypothesis on `F` cannot be
 dropped: the identity from `ℝ` to `ℝ` with the indiscrete topology is a continuous
 linear surjection between complete pseudometrizable spaces and is not open. -/
 theorem isOpenMap_of_surjective {𝕜 : Type*} [RCLike 𝕜] {E F : Type*}
