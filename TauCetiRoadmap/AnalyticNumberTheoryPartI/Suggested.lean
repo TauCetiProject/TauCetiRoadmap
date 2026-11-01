@@ -109,8 +109,9 @@ theorem dirichlet_polynomial_mean_square :
         (6 * Real.pi) * ∑ n ∈ Finset.Icc 1 N, (n : ℝ) * ‖a n‖ ^ 2 := by
   sorry
 
-/-- The log-free primitive-character density estimate (Jutila's form implies it); the bound
-is at least one, so every exceptional zero is counted without a separate term. -/
+/-- The log-free primitive-character density estimate (Jutila's bound for `σ ≥ 4/5` and
+Montgomery's for `σ ≤ 4/5` imply it); the bound is at least one, so every exceptional zero is
+counted without a separate term. -/
 theorem selberg_zero_density {ε : ℝ} (hε : 0 < ε) :
     ∃ C > 0, ∀ Q T σ : ℝ, 2 ≤ Q → 2 ≤ T → 1 / 2 ≤ σ → σ ≤ 1 →
       (∑ q : Fin ⌊Q⌋₊, ∑ χ : DirichletCharacter ℂ (q.val + 1),

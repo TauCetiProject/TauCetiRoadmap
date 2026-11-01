@@ -665,7 +665,7 @@ Use conductor-uniform character PNT, imprimitive corrections and finite progress
 
 For `B=1` one may take `ε=1/4`; the exceptional relative term is `≤exp(−c(log x)^(3/4))`. The assertion is restricted to reduced classes and logarithmic modulus growth; it is not an effective uniform theorem for every modulus.
 
-See [53][R53], §10.5 Theorem10.9 pp.62–63 and Theorem10.11 p.63; corrected coprimality, range and ineffectivity.
+See [53][R53], §10.5 Theorem10.9 pp.62–63 and Theorem10.11 p.63; the statement here requires `a` coprime to `q`, restricts `q` to a logarithmic range and allows an ineffective constant, as Siegel's theorem forces.
 
 *Needs:* §0.30; §0.9 (ImaginaryQuadraticClassNumber H2.4); §0.18; `DirichletCharacter.sum_char_inv_mul_char_eq`; `DirichletCharacter.LFunctionTrivChar_eq_mul_riemannZeta`; `Chebyshev.isBigO_psi_sub_theta_sqrt`; [ArithmeticDirichletSeries 6][R1]; §0.31b.
 
@@ -778,7 +778,7 @@ Use `k₀=4` and the direct subtracted Perron contour below. Its entire kernel r
 
 For odd `k, k/2` is a half integer; for even `k` both integer endpoint corrections are included. The constant is independent of `q,k,T`; nonprincipal and primitive are actual hypotheses. An arbitrarily small real zero has a bounded half-interval kernel; no absolute `1/|ρ|` bound is assumed.
 
-See [47][R47], Bennett–Siksek §12 Proposition12.2 p.387; Kedlaya §§10.1–10.2 pp.59–60, parity corrected the normalization convention; [53][R53], §10.2 Lemma10.3 p.60, uniform local count used in the explicit-formula route.
+See [47][R47], Bennett–Siksek §12 Proposition12.2 p.387; Kedlaya §§10.1–10.2 pp.59–60, where the parity `a` of the character is assigned oppositely in Theorem10.2 and after Lemma10.3, while here `a=0` for even and `a=1` for odd characters throughout; [53][R53], §10.2 Lemma10.3 p.60, uniform local count used in the explicit-formula route.
 
 *Needs:* §0.30; [ZerosOfLFunctions Layer 4 divisor and high-height estimates][R14]; [ZerosOfLFunctions its Gamma estimates][R12]; Completed/ArithmeticDirichletSeries Layer 6 finite Perron; §0.30a; §1.4a; §1.4c; §1.4d.
 
@@ -802,7 +802,7 @@ See [53][R53], §8.3 negative log-derivative series, p.50; `LSeries_vonMangoldt_
 
 Integrate the derivative of `t^ρ` on `[x/2,x]`: the quotient is `∫t^(ρ−1)dt`, bounded by `x^Reρlog2`. The direct numerator bound is `2x^Reρ/|ρ|`. Split at `|ρ|=1`, using `log2≤2`. The limit at `ρ=0` is `log2`; subtract before taking norms.
 
-See [47][R47], Bennett–Siksek §12 Proposition12.2 p.387, repaired half-interval deduction.
+See [47][R47], Bennett–Siksek §12 Proposition12.2 p.387; the half-interval deduction is completed here.
 
 **§1.4d Logarithmic-square sum of zero weights.** There is an absolute `C>0` such that for every primitive Dirichlet character `χ` of conductor `q≥1` and every `T≥2, Σ_(nontrivial zeros |Imρ|≤T)mρ min(1,1/|ρ|)≤C log²(q(T+2))`. Nontrivial means `0<Reρ<1`, and multiplicity is analytic order.
 
@@ -860,9 +860,9 @@ The signature `selberg_zero_density` counts zeros with `Re ρ≥σ`, `Re ρ<1` a
 
 For `ε>0, Q≥2, T≥2`, and `1/2≤σ≤1, Σ_{q≤Q} Σ_{χ primitive mod q} N(σ,T,χ) ≤ C_ε (Q^(5+ε)*T^(3+ε))^(1-σ)`. The bound is log-free: at `σ=1−1/log(QT)` the right side is at most `C_ε e^(5+ε)`, so the count includes a possible exceptional zero without a separate term; and `(Q^(5+ε)T^(3+ε))^(1−σ)≥1` throughout the range, so no additive constant is needed.
 
-Route: Jutila's Theorem 1, (1.8), gives `Σ_{q≤Q}Σ*_χ N(σ,T,χ)≪_ε (Q²T)^((2+ε)(1−σ))` uniformly for `1/2≤σ≤1` and `T≥1`, by Selberg pseudocharacters, a zero-detecting Dirichlet polynomial averaged over the pseudocharacter parameter, the large sieve and Halász's inequality; since `Q^(4+2ε)T^(2+ε)≤Q^(5+2ε)T^(3+2ε)` for `Q,T≥1`, the statement follows with `ε` replaced by `2ε`. Selberg's estimate `(Q⁵T³)^((1+ε)(1−σ))`, quoted as (1.4) in the same paper, is unpublished and is not an input. A density bound whose exponent carries an additive `+ε`, such as `(Q²T)^(A(σ)(1−σ)+ε)`, or a factor `(log QT)^A`, is not bounded at `σ=1−1/log(QT)` and does not imply this statement.
+Route, in two ranges. For `4/5≤σ≤1`, Jutila's Theorem 1, (1.8), gives `Σ_{q≤Q}Σ*_χ N(σ,T,χ)≪_ε (Q²T)^((2+ε)(1−σ))` uniformly for `T≥1`, by Selberg pseudocharacters, a zero-detecting Dirichlet polynomial averaged over the pseudocharacter parameter, the large sieve and Halász's inequality; since `Q^(4+2ε)T^(2+ε)≤Q^(5+2ε)T^(3+2ε)` for `Q,T≥1`, the statement follows on that range with `ε` replaced by `2ε`. For `1/2≤σ≤4/5`, Montgomery's density theorem gives `Σ_{q≤Q}Σ*_χ N(σ,T,χ)≪(Q²T)^(3(1−σ)/(2−σ))(log QT)^A` with an absolute `A`, uniformly for `1/2≤σ≤1` and `T≥2`; there `3/(2−σ)≤5/2`, so the power is at most `(Q⁵T^(5/2))^(1−σ)≤(Q⁵T³)^(1−σ)`, and since `1−σ≥1/5` the logarithm is absorbed: `(log QT)^A≤C_ε(QT)^(ε/5)≤C_ε(QT)^(ε(1−σ))`. Neither input alone covers the statement: Jutila's theorem is stated only for `σ≥4/5`, and Montgomery's logarithmic factor is not absorbed as `σ→1`. At `σ=3/4` and `Q=1` the second range gives `N(3/4,T)≪T^(3/5)(log T)^A≤C_εT^((3+ε)/4)`, which is what the statement asserts there. Selberg's estimate `(Q⁵T³)^((1+ε)(1−σ))`, quoted as (1.4) in the same paper, is unpublished and is not an input. A density bound whose exponent carries an additive `+ε`, such as `(Q²T)^(A(σ)(1−σ)+ε)`, or a factor `(log QT)^A`, is not bounded at `σ=1−1/log(QT)` and does not imply this statement.
 
-See Jutila, *On Linnik's constant*, Math. Scand. 41 (1977), p.46, Theorem 1, (1.8), and its proof §3, pp.51–54; [47][R47], §12, p.386, for the form of the bound used there.
+See [Jutila][R97], Math. Scand. 41 (1977), p.46, Theorem 1, (1.8), and its proof §3, pp.51–54; [Bombieri][R99], §10, Théorème 20, p.77, with its proof pp.77–82, for Montgomery's theorem in the form used here (primitive characters, `(log QT)^A`), and Montgomery [100], Theorem 12.1, for the original; [47][R47], §12, p.386, for the form of the bound used there.
 
 *Needs:* §1.5; `DirichletCharacter.LFunction`; native large-sieve inequality for Dirichlet polynomials.
 
@@ -1020,7 +1020,7 @@ Route: AdelicAlgebraicGroups AA.2.4's ramified induction formula with `L=E`, `H=
 
 Checks: `F=ℚ` recovers ImaginaryQuadraticClassNumber H2.2's `ζ_K=ζ·L(s,χ_D)` and LFunctions Layer 4's `dedekindZetaC_quadratic`; for `E=ℚ(i)`, `p=2` is ramified with one prime above it of residue degree 1, so both sides have the factor `1−T` and `χ₋₄(2)=0`; `p=5` splits and gives `(1−T)²`; `p=3` is inert and gives `1−T²`.
 
-See Neukirch, *Algebraic Number Theory*, Chapter VII §10, Definition (10.1) with its inertia-invariant local factors and the corollary expressing `ζ_L` as the product of the Artin `L`-series `L(L|K,χ,s)^(χ(1))` over the irreducible characters, specialized to a quadratic extension.
+See Neukirch [98], Chapter VII §10, Definition (10.1) with its inertia-invariant local factors and the corollary expressing `ζ_L` as the product of the Artin `L`-series `L(L|K,χ,s)^(χ(1))` over the irreducible characters, specialized to a quadratic extension.
 
 *Needs:* AdelicAlgebraicGroups AA.2.4; [GlobalNumberFields 9][R19]; [ClassFieldTheory 11][R27]; [ClassFieldTheory 13][R28].
 
@@ -2163,13 +2163,13 @@ See [86][R86], Introduction, p.411 (terminology); p.414 equation(1.5); §2 Lemma
 
 For `x≥2, Σ_{1≤n≤x}τ(n)=x log x+(2γ−1)x+O(√x)`, with an absolute constant and inclusive real cutoff.
 
-Put `M=⌊√x⌋≥1` and use §3.22b. Replacing `⌊x/a⌋` by `x/a` costs `O(M)`; §3.22a gives `H_M=log M+γ+O(1/M)`. With `δ=√x−M∈0,1)`, expansion shows `2xlog M−M²=xlog x−x+O(1)` and `x/M=O(√x)`. Combine with absolute constants, without divisor subpower bounds.
+Put `M=⌊√x⌋≥1` and use §3.22b. Replacing `⌊x/a⌋` by `x/a` costs `O(M)`; §3.22a gives `H_M=log M+γ+O(1/M)`. With `δ=√x−M∈[0,1)`, expansion shows `2xlog M−M²=xlog x−x+O(1)` and `x/M=O(√x)`. Combine with absolute constants, without divisor subpower bounds.
 
 The exact divisor sums at `x=1` and `x=4` are1 and8; the asymptotic is asserted on `x≥2` with a single absolute constant. A perfect-square endpoint is included once. The error `O(sqrt x)` requires the harmonic remainder rate, not merely existence of the Euler-constant limit.
 
 See Koukoulopoulos, *The Distribution of Prime Numbers*, Theorem3.3 and complete hyperbola proof, pp.38–39; Theorem1.11 pp.15–16.
 
-*Needs:* `Real.eulerMascheroniSeq_lt_eulerMascheroniConstant`; `Real.eulerMascheroniConstant_lt_eulerMascheroniSeq'`; `Real.log_le_sub_one_of_pos`; [§3.22a; §3.22b.
+*Needs:* `Real.eulerMascheroniSeq_lt_eulerMascheroniConstant`; `Real.eulerMascheroniConstant_lt_eulerMascheroniSeq'`; `Real.log_le_sub_one_of_pos`; §3.22a; §3.22b.
 
 **§3.22a Harmonic sum remainder.** For each integer `N≥1, 0<H_N−log N−γ<log(1+1/N)≤1/N`, where `H_N=Σ_{1≤n≤N}1/n` and `γ` is the Euler–Mascheroni constant.
 
@@ -2240,7 +2240,7 @@ and `T^(1/4)|I_1(T,7/4)−κ₇|≤1/2`. Here `D(u)=1` almost everywhere on `[1,
 
 The coefficient API is finite Möbius inversion, specialization at D=1 and evaluation of each finite divisor sum. Checks: `divisorCoprimeError 1 x=Δ(x)`; `divisorCoprimeError 2 x=Δ(x)−Δ(x/4)`; at `x=0` every summand is0. The integral API is its defining interval integral, reversal of endpoints, and additivity on positive compact intervals. Checks: `I_D(1,σ)=0`; `I_1(T,σ)=∫_1^T Δ(u)u^(−σ)du`; for positive `S,T`, `I_D(T,σ)−I_D(S,σ)=∫_S^T divisorCoprimeError D u·u^(−σ)du`, including `S=T` and reversed endpoints. Local integrability follows from finitely many divisor jumps on compact positive intervals.
 
-These aggregate finite bounds are supplied as hypotheses, not as floating-point certificates. Their source is [BBR], §§6–7 pp.1034–1037, Lemmas8.3,8.6,8.9 pp.1040–1041, Lemmas9.1,9.4 p.1042 and Lemmas10.1,10.3 pp.1042–1043. The real intervals include all integer right values and, by taking left limits, their left values; between integers the smooth main term is retained. Prove the analytic tails by BBR §§8–10, including (10.1)–(10.2), with the finite bounds substituted only at the indicated split points. In particular the global square-root and cubic bounds, all literal bounds in §§3.23a–g that use them, the explicit Atkinson remainder bound, `zetaSecondMoment.atkinson_bound` and `zetaSecondMoment.mean_square` carry the same `BBRFiniteInput`. The qualitative divisor and moment-error identities require no such input.
+These aggregate finite bounds are supplied as hypotheses, not as floating-point certificates. Their source is [BBR], §§6–7 pp.1034–1037, Lemmas8.3,8.6,8.9 pp.1040–1041, Lemmas9.1,9.4 p.1042 and Lemmas10.1,10.3 pp.1042–1043. The real intervals include all integer right values and, by taking left limits, their left values; between integers the smooth main term is retained. Prove the analytic tails by BBR §§8–10, including (10.1)–(10.2), with the finite bounds substituted only at the indicated split points. In particular the global square-root and cubic bounds, all literal bounds in §§3.23a–g that use them, the explicit Atkinson remainder bound and `zetaSecondMoment.atkinson_bound` carry the same `BBRFiniteInput`; `zetaSecondMoment.mean_square` is unconditional (§3.23). The qualitative divisor and moment-error identities require no such input.
 
 For the split-point estimates put `R₇(T)=T^(1/4)|I_1(T,7/4)−κ₇|`. The initial estimate and the overlapping finite ranges give `R₇≤1/2` on `[1,10^7]`. Before using any cubic bound, the hyperbola inequality `|Δ(u)|≤√u+1/2` gives `R₇(T)≤4+2/(3√T)` by integration from T to ∞. For `T≥10^7`, this yields `|I_1(T,7/4)|<0.479`; [BBR], Lemma8.2 gives `|I_1(T,3/2)|≤κ₃+4+7/(6√T)+(9/2)T^(−0.72)<4.71`. Together with the finite absolute-integral bounds these are the global inputs of §9. Its detailed estimate and the finite divisor bounds give `|Δ(u)|≤0.475√u` for `u≥4033`. Hence `R₇≤1.90` there by tail integration, and on `[1,4033]` by the finite estimate. Lemma8.2 now gives `|I_1(T,3/2)|<2.61` for `T≥10^7`; the finite interval supplies the rest. Thus §10 retains the constants0.953,0.163 for the two coprime `7/4` integrals and3.91,5.98 for the two coprime `3/2` integrals. In (10.1) every scaled argument has `T/δ²≥10^7/36>4033`; in the `3/2` comparison it exceeds1, so the global `R₇≤1.90` applies. These estimates give the same cubic divisor bound and the same Atkinson budget in §3.23g.
 
@@ -2913,7 +2913,7 @@ See [90][R90], Theorem1 p.2; entire §§3–4 pp.4–11, Theorem2, Proposition1,
 
 *Needs:* §3.25; §3.36; §3.42b; §3.36a; §3.42c.
 
-**§3.42a Smooth Laplace boundary and one-sided remainder.** Use Debruyne–Vindas, [On general prime number theorems with remainder][R93], Theorem2 and its proof pp.4–5, Proposition1 pp.6–7, Theorem3 and Lemma1 pp.7–11, with their Fourier convention `f̂(t)=∫e^(−itu)f(u)du`. The input is a nondecreasing, right-continuous `S` supported on `[0,∞)`, a locally bounded-variation `T`, eventually absolutely continuous with `T′≤Ae^u`, and convergence of `L(dS−dT)` for `Re s>1`. The boundary is a `C∞` extension of this transform, with `|G^(n)(1+it)|≤C_n(1+|t|)^{β_n}` and `β_n/n→0`. No ordinary prime spacing or density hypothesis is added.
+**§3.42a Smooth Laplace boundary and one-sided remainder.** Use Debruyne–Vindas, [On general prime number theorems with remainder][R90], Theorem2 and its proof pp.4–5, Proposition1 pp.6–7, Theorem3 and Lemma1 pp.7–11, with their Fourier convention `f̂(t)=∫e^(−itu)f(u)du`. The input is a nondecreasing, right-continuous `S` supported on `[0,∞)`, a locally bounded-variation `T`, eventually absolutely continuous with `T′≤Ae^u`, and convergence of `L(dS−dT)` for `Re s>1`. The boundary is a `C∞` extension of this transform, with `|G^(n)(1+it)|≤C_n(1+|t|)^{β_n}` and `β_n/n→0`. No ordinary prime spacing or density hypothesis is added.
 
 To prove `S−T=O_m(e^u/u^m)` for all `m`, modify `T` on a bounded interval and split its signed variation so `0≤T′≤Ae^u`. Put `Δ=e^−u(S−T)`, zero for negative `u`. Integration by parts gives `LΔ(s)=G(s+1)/(s+1)`. Damped Laplace limits against Schwartz tests identify the distributional Fourier boundary with `G(1+it)/(1+it)`; after making `β_n` nondecreasing, its nth derivative is `O_n((1+|t|)^(β_n−1))`. This justifies Fourier pairing without assuming `Δ` integrable.
 
@@ -3064,6 +3064,17 @@ Downstream consumers AnalyticNumberTheoryPartII, the ArithmeticStatistics parts 
 - [94][R94] TauCetiRoadmap, *Arithmetic Galois Representations*, Layer3 §§3.2–3.5.
 - [95][R95] A. Kupers, *Lectures on complex analysis*, 30 April 2020, §14.1 pp.89–93.
 - [96][R96] `H`. Kösters, *The Riemann Zeta-Function and the Sine Kernel*, arXiv:0803.1141v1, §3 pp.9–15 and AppendixA p.20.
+- [97][R97] Matti Jutila, *On Linnik's constant*, Math. Scand. 41 (1977), 45–62; Theorem 1 and §3.
+- [98] Jürgen Neukirch, *Algebraic Number Theory*, Grundlehren der mathematischen Wissenschaften 322, Springer, 1999; Chapter VII §10.
+- [99][R99] Enrico Bombieri, *Le grand crible dans la théorie analytique des nombres*, Astérisque 18 (second edition, 1987); §10, Théorème 20.
+- [100] Hugh L. Montgomery, *Topics in Multiplicative Number Theory*, Lecture Notes in Mathematics 227, Springer, 1971; Theorem 12.1.
+- [101][R55] Gergő Nemes, *Error bounds and exponential improvements for the asymptotic expansions of the gamma function and its reciprocal*, Proc. Roy. Soc. Edinburgh Sect. A 145 (2015), 571–596; arXiv:1310.0166v2.
+- [102][R68] Habiba Kadiri and Nathan Ng, *Explicit zero density theorems for Dedekind zeta functions*, J. Number Theory 132 (2012), 748–775; arXiv:1201.3932v1.
+- [103][R69] Andrew M. Odlyzko, *Lower bounds for discriminants of number fields II*, Tôhoku Math. J. 29 (1977), 209–216.
+- [104][R70] Habiba Kadiri, *Explicit zero-free regions for Dedekind zeta functions*, Int. J. Number Theory 8 (2012), 125–147.
+- [105][R74] Harold M. Stark, *Some effective cases of the Brauer–Siegel theorem*, Invent. Math. 23 (1974), 135–152.
+- [106][R75] Peter J. Cho, Robert J. Lemke Oliver and Asif Zaman, *Effective Brauer–Siegel theorems for Artin `L`-functions*, arXiv:2510.02309v2.
+- [107][R81] Andrew Granville and Dimitris Koukoulopoulos, *Beyond the LSD method for the partial sums of multiplicative functions*, Ramanujan J. 49 (2019), 287–319; arXiv:1710.01389v2.
 
 - **Bessel functions.** [NIST Digital Library of Mathematical Functions, Chapter10][DLMF-Bessel], particularly §§10.2,10.4,10.6,10.9,10.16; equation numbers are the locators in this unpaginated reference.
 - **Nemes.** [Gergő Nemes — Error bounds for the large-argument asymptotic expansions of the Hankel and Bessel functions][Nemes], arXiv:1606.07961v2, 2017; positive-axis remainder theory and AppendixA.
@@ -3154,12 +3165,13 @@ Downstream consumers AnalyticNumberTheoryPartII, the ArithmeticStatistics parts 
 [R90]: https://arxiv.org/pdf/1601.05324
 [R91]: https://gdz.sub.uni-goettingen.de/download/pdf/PPN243919689_0313/LOG_0015.pdf
 [R92]: https://arxiv.org/pdf/1908.01752
-[R93]: https://arxiv.org/pdf/1601.05324v2
 
 [R94]: ../ArithmeticGaloisRepresentations/README.md#layer-3-artin-and-swan-conductors
 
 [R95]: https://www.utsc.utoronto.ca/people/kupers/wp-content/uploads/sites/50/2020/12/complex-analysis-2019.pdf
 [R96]: https://arxiv.org/pdf/0803.1141v1
+[R97]: https://journals.msp.org/mscand/article/download/1943/1942
+[R99]: https://www.numdam.org/item/AST_1987__18__1_0/
 
 [DLMF-Bessel]: https://dlmf.nist.gov/10
 [Nemes]: https://arxiv.org/pdf/1606.07961v2
