@@ -11,7 +11,7 @@ examples with each object, not just a path to these headline theorems.
 
 This roadmap owns:
 
-- currents `F ⊗ L` and their completion, continuous cochains, the residue cocycle, the
+- the arbitrary-dimensional completion comparison for currents `F ⊗ L`, continuous cochains, the residue cocycle, the
   finite-dimensional complex Whitehead lemmas and the classification of continuous two-cohomology
   of `g((t))` (A1);
 - the central extensions `ĝκ`, levels, `h∨`, the affine loop lift and the coordinate group
@@ -28,6 +28,9 @@ This roadmap owns:
   Feigin–Frenkel, coordinate and Poisson normalizations (A8).
 
 It leaves to their owners, consumed by section:
+
+- vector-valued Laurent currents, their convolution Lie bracket, polynomial-loop embedding and
+  finite-dimensional tensor, topology and completeness comparisons: FormalLaurentPuiseux L3;
 
 - group versus Lie-algebra invariants `V^G = V^g` for connected groups and the finite Chevalley
   restriction and Kostant slice theorems: FormalConnectionsOpers F4.3;
@@ -105,8 +108,12 @@ coefficientwise annihilation by a power of `z − w`, not analytic convergence.
 - `TauCeti.SpecialLinear.coordinateHopfAlgebra`, `SpecialLinear.pointsMulEquiv`,
   `GeneralLinear.genericMatrix` (`Algebra/AlgebraicGroup/SpecialLinear/Basic`).
 
-**From TauCetiRoadmap.FormalLaurentPuiseux.** L1–L3: Laurent coefficient topology, substitution
-(anti-composition of substitution parameters) and continuous differential/residue calculus.
+**From TauCetiRoadmap.FormalLaurentPuiseux.** L1–L2: Laurent coefficient topology, substitution
+(anti-composition of substitution parameters) and continuous differential/residue calculus. L3:
+`HahnModule ℤ 𝕜 L` with its convolution Lie bracket for arbitrary `L`, the coefficient-preserving
+polynomial-loop embedding, and, for finite-dimensional `L`, the coefficient-preserving tensor
+Lie equivalence, basis-independent topology, completeness and lattice/finite-jet comparisons.
+L3 also supplies the derivative and residue-pairing comparison with polynomial loops.
 
 **From TauCetiRoadmap.FormalConnectionsOpers.** F1–F3: pinned `G(R((t)))`, positive congruence
 groups `K_N`, the exponential `exp : a_N ≃ K_N` with inverse `log`, finite-jet and BCH
@@ -144,29 +151,35 @@ and pins the Feigin–Frenkel normalizations. Each subsection's Needs line speci
 
 ### A1.1 Algebraic and completed currents
 
-Construct `F ⊗_𝕜 L`, positive currents `O ⊗ L` and order subspaces `a_N = t^N O ⊗ L` as base
-change of a Lie `𝕜`-algebra `L`, with the topology for which the `a_N` form a basis of
-neighbourhoods of zero. Construct the completed currents `L((t))^ = lim_N (F ⊗ L)/a_N` and identify
-them with `L`-coefficient Laurent series of finite lower order, which may have infinitely many
-nonzero positive coefficients. Derive this coefficient description from the compatible quotients:
-a compatible family fixes a finite negative tail at its order-one stage, and each subsequent stage
-fixes one further coefficient (Frenkel, §1.3.1, pp. 19–20, for finite-dimensional currents;
-FormalLaurentPuiseux L1 for the scalar topology). The arbitrary-dimensional extension and its
-completeness criterion are proved here by this argument. *Needs:* FormalLaurentPuiseux L1; Mathlib `LieAlgebra.loopAlgebra`.
+Give the scalar-extended Lie algebra `F ⊗_𝕜 L` the linear topology with neighbourhoods
+`a_N = t^N O ⊗ L`, for every Lie `𝕜`-algebra `L`. Identify its inverse-limit completion
+`lim_N (F ⊗ L)/a_N` with the L3 carrier `HahnModule ℤ 𝕜 L` by a coefficient-preserving,
+bracket-preserving linear homeomorphism. A compatible family fixes a finite negative tail at
+its order-one stage, and each subsequent stage fixes one further coefficient; conversely, each
+bounded-below coefficient sequence gives compatible truncations. This extends the
+finite-dimensional tensor comparison to arbitrary `L` and proves the converse completeness
+criterion (Frenkel, §1.3.1, pp. 19–20, for finite-dimensional currents; the compatible-quotient
+argument gives the extension). *Needs:* FormalLaurentPuiseux L1 and L3; Mathlib
+`LieAlgebra.loopAlgebra` and scalar extension of Lie algebras.
 
 **API.**
 
-- Coefficient maps `F ⊗ L → L`, coefficient extensionality on `F ⊗ L` and on the completion, and
-  bracket convolution of coefficients, by the preceding compatible-quotient construction.
-- `[a_M, a_N] ⊆ a_(M+N)` for all integers `M, N`; the bracket extends continuously to the
-  completion and makes it a Lie algebra, by the coefficient convolution and its finite sums at each order.
-- The polynomial inclusion from `loopAlgebra 𝕜 ℤ L` is injective with dense image, by the
-  coefficient extensionality and truncations just constructed (scalar comparison: FormalLaurentPuiseux L1).
-- The completion is Hausdorff and complete; `F ⊗ L` embeds in it as a dense Lie subalgebra, and
-  the embedding is surjective exactly when `L` is finite-dimensional. In particular `F ⊗ L` is
-  complete exactly when `L` is finite-dimensional; for finite-dimensional `L` the topology and
-  the identification are independent of the basis; prove the converse by a sequence of linearly
-  independent coefficients, as in the first Check below, rather than citing a finite-dimensional result.
+- The map from `F ⊗ L` to the coefficient carrier sends `f ⊗ x` to the sequence with coefficient
+  `f_n x`; it is injective, preserves brackets, and sends `a_N` to the intersection of its image
+  with the coefficient filtration of order at least `N`. Prove these by expanding each tensor
+  in a finite linearly independent family of vectors of `L`.
+- `[a_M, a_N] ⊆ a_(M+N)` for all integers `M, N`. The L3 bracket is jointly continuous in the
+  coefficient topology: at a pair of orders `r, s`, perturbations of orders `M, N` change the
+  bracket only in orders at least `min(M+s, r+N, M+N)`. The completion comparison intertwines
+  this bracket with the continuous extension from the tensor currents.
+- The L3 polynomial-loop embedding has dense image: truncation below order `N` agrees with the
+  original series modulo the coefficient filtration of order `N`.
+- The inverse limit is Hausdorff and complete, and `F ⊗ L` embeds densely. The embedding is
+  surjective, equivalently `F ⊗ L` is complete, exactly when `L` is finite-dimensional: the
+  finite-dimensional direction is the L3 comparison, while the converse uses a sequence of
+  independent coefficients outside every finite-dimensional subspace. In finite dimension the
+  inverse-limit comparison agrees with the L3 tensor comparison and its topology, without a
+  choice of basis.
 
 **Checks.**
 
@@ -175,7 +188,8 @@ completeness criterion are proved here by this argument. *Needs:* FormalLaurentP
   `F ⊗ L` would have `t^n`-coefficient `e_n` for every `n`, but every element of `F ⊗ L` has its
   coefficients in one finite-dimensional subspace; in the completion the limit is `Σ_(n≥0) t^n e_n`.
 - For `g = sl₂`, `e ⊗ t ∈ a_1` and `f ⊗ t⁻¹ ∈ a_(−1)` have bracket `h ⊗ 1 ∈ a_0`, which is not in
-  `a_1`: the filtration estimate is sharp.
+  `a_1`: the filtration estimate is sharp. Both the tensor bracket and the L3 coefficient bracket
+  have coefficient `h` in degree zero and zero elsewhere, fixing the comparison without rescaling.
 - `Σ_(n≥0) t^n ⊗ e` lies in `F ⊗ sl₂` but not in the polynomial image (infinitely many nonzero
   coefficients), while its truncations converge to it: density without surjectivity.
 
@@ -189,11 +203,21 @@ pair of formal currents. *Needs:* A1.1; Mathlib `d₁₂`, `d₂₃`, `twoCocycl
 
 **API.**
 
-- `d² = 0` and functoriality of `H*_cont`.
+- `d² = 0` and functoriality of `H*_cont`, by restriction of the Chevalley–Eilenberg
+  differential and pullback along continuous Lie homomorphisms; finite sums and the continuous
+  bracket preserve continuity, and the algebraic square-zero identity restricts.
 - A bilinear cochain is jointly continuous exactly when it is separately continuous and
-  `c(a_N, a_N) = 0` for some `N`; this criterion agrees with continuity for the product topology.
+  `c(a_N, a_N) = 0` for some `N`. Necessity follows by restricting a jointly continuous map
+  and taking a product neighbourhood at zero; sufficiency follows by expanding
+  `c(x+u,y+v) − c(x,y) = c(x,v) + c(u,y) + c(u,v)` and intersecting the two open kernels
+  from separate continuity with `a_N`.
 - `cκ` is jointly continuous, alternating, a cocycle and invariant under formal coordinate
-  changes; its restriction to polynomial currents is Mathlib's residue cocycle for `Φ = −κ`.
+  changes; its restriction to polynomial currents is Mathlib's residue cocycle for `Φ = −κ`
+  (Frenkel, Lemma 1.3.2, equation (1.3-3), p. 28; FormalLaurentPuiseux L2–L3 for substitution
+  and the polynomial comparison). Alternation uses the zero residue of an exact derivative;
+  the cocycle identity uses invariance of `κ` and the product rule. For fixed order `r` the
+  pairing vanishes against order at least `1−r`, and it vanishes on `a_0 × a_0`; these give
+  separate and then joint continuity by the preceding criterion.
 
 **Checks.**
 
@@ -282,13 +306,20 @@ the formal-current linear topology with this kernel by exhibiting an open subspa
 kernel trivially and extending its linear splitting. No undefined Tate-space hypothesis is used.
 Prove the nonzero residue extension's universal property among continuously linearly split central
 extensions with arbitrary discrete vector-space kernels, using A1.3, and give the universal-kernel
-comparison. *Needs:* A1.3; Mathlib `LieAlgebra.ofTwoCocycle`, `Extension.twoCocycleOf`,
+comparison (Frenkel, Lemma 1.3.2 and §1.3.6, pp. 28–29, for scalar kernels;
+A1.3 supplies the arbitrary-discrete-kernel extension). *Needs:* A1.3; Mathlib `LieAlgebra.ofTwoCocycle`, `Extension.twoCocycleOf`,
 `d₁₂_oneCochainOfTwoSplitting`.
 
 **API.**
 
-- `g((t))` is perfect; `ĝκ` is perfect exactly when `κ ≠ 0`.
-- Positive currents and `a_N` for `N ≥ 0` split canonically because their cocycle vanishes.
+- `g((t))` is perfect: express a basis of `g` as sums of brackets and tensor one factor with
+  each Laurent coefficient series. The extension `ĝκ` is perfect exactly when `κ ≠ 0`: for a
+  Cartan element `h` with `κ(h,h) ≠ 0`, `[h_1,h_(−1)] = κ(h,h)K` supplies the central
+  direction, and perfectness of the quotient supplies the rest; for `κ = 0` no bracket has a
+  central component. These are direct consequences of the bracket in §1.3.6, equation (1.3-4).
+- Positive currents and `a_N` for `N ≥ 0` split by the zero-central-coordinate section because
+  their cocycle vanishes (Frenkel, §1.3.6, p. 29). This splitting is relative to the fixed
+  cocycle model; no uniqueness of splittings on every `a_N` is asserted.
 
 **Checks.**
 
@@ -648,9 +679,17 @@ whose (2.14) is the covariance axiom and (2.17) the derivative identity as its c
 
 (Kac, *Introduction to vertex algebras…*, Proposition 3.1, p. 18, and (4.33), p. 29). Prove skew
 symmetry `Y(a,z)b = e^(zT) Y(b,−z) a` (ibid. (3.24), p. 18), morphisms and modules, and the
-extension theorem: translation-covariant, mutually local fields generating `V` from the vacuum
-extend uniquely to a `FormalVertexAxioms` structure (ibid. Theorem 1.1, p. 5). Generator covariance
-is a hypothesis of the extension theorem and is never inferred from the state-derivative identity.
+extension theorem `formalVertex_reconstruction`: over every characteristic-zero field, let
+`F_i` be native Hahn-series fields on `V`, let `vac ∈ V` and `T ∈ End(V)` satisfy `T vac = 0`,
+and assume `[T,(F_i).coeff n] = (n+1)(F_i).coeff (n+1)` and pairwise locality. Require every
+submodule containing `vac` and stable under every coefficient of every `F_i` to be all of `V`.
+Then there is a unique `FormalVertexAxioms` structure with vacuum `vac`, translation `T` and
+`Y((F_i).coeff 0 vac,z) = F_i(z)` (ibid. Theorem 1.1, p. 5). The source assumes a nonzero
+vacuum; if `vac = 0`, generation forces `V = 0`, where the same statement holds uniquely.
+Lower truncation and covariance force `F_i(z)vac` to have no negative powers: a lowest negative
+exponent `r` would give `0 = r (F_i).coeff r vac`, contradicting characteristic zero. The
+coefficient recurrence then gives the full creation identity. Generator covariance is a
+hypothesis and is never inferred from the state-derivative identity.
 *Needs:* Mathlib `HVertexOperator`, `HVertexOperator.coeff`, Hahn summable families.
 
 **API.**
@@ -663,6 +702,12 @@ is a hypothesis of the extension theorem and is never inferred from the state-de
 
 - Over any characteristic-zero field `𝕜`, the commutative vertex algebra `𝕜[x]` with `T = d/dx` and `Y(a,z)b = (e^(zT)a)·b` satisfies all
   axioms; all `a_(n)` with `n ≥ 0` vanish, and Borcherds reduces to associativity of `𝕜[x]`.
+- For reconstruction on `ℚ[x]`, take `vac = 1`, `T = d/dx` and `F(z)b = (x+z)b`.
+  The coefficients in degrees zero and one are multiplication by `x` and the identity;
+  their commutators with `T` are `id` and `0`, equal to the derivative coefficients.
+  Locality holds with `N = 0`, and iterating the constant coefficient on `1` gives
+  `1,x,x²,…`, so generation holds and the reconstructed field of `x` is exactly `F`.
+  The unshifted `F(z)b = xb` fails covariance in degree zero: `id ≠ 0`.
 - Non-example: on `𝕜[x]` with `T = d/dx` but `Y(a,z)b = a·b` (no shift), creation fails:
   the `z^1`-coefficient of `Y(x,z)1` is `0`, whereas `Tx = 1`.
 - On the rank-one Heisenberg vertex algebra (A7.1) with `B(h,h) = 1`, the commutator formula
@@ -677,20 +722,26 @@ is a hypothesis of the extension theorem and is never inferred from the state-de
 
 Construct `Vκ = Ind_(g[[t]] ⊕ ℂK)^(ĝκ) ℂ`, `g[[t]]` acting trivially and `K` by 1. Give its PBW
 identification with `U(t⁻¹g[t⁻¹])`, vacuum, grading, translation, current fields and
-reconstruction, and its `FormalVertexAxioms` structure from A6.1's extension theorem. Define its
+reconstruction, and its `FormalVertexAxioms` structure from A6.1's extension theorem
+(Frenkel, §§2.2.4–2.2.5 and Theorem 2.2.2, pp. 44–50). Define its
 center by vanishing of all nonnegative products, prove it is a commutative differential algebra
-with product `u_(−1)v`, and identify it with the `g[[t]]`-invariants of `Vκ`. For noncritical `k`
+with product `u_(−1)v`, and identify it with the `g[[t]]`-invariants of `Vκ`
+(Frenkel, §3.3.1, equation (3.3-1) and Lemma 3.3.2, pp. 76–77; §2.2.2 for the differential
+algebra correspondence). For noncritical `k`
 build the `κ0`-dual-basis Sugawara conformal vector, basis independence, current/Virasoro
-commutators and central charge `k·dim(g)/(k + h∨)`. At critical level use `S = ½Σ_a :J^a J_a:`
-without division by `k + h∨`, and prove its coefficients central and nonscalar by PBW. Construct the
-`Aut(O)` action from current reconstruction at every level. *Needs:* A6.1, A5.4, A2.2, A4.2.
+commutators and central charge `k·dim(g)/(k + h∨)`, where `k + h∨ ≠ 0`
+(Frenkel, §§3.1.1–3.1.4, equations (3.1-1)–(3.1-3), pp. 62–69). At critical level use
+`S = ½Σ_a :J^a J_a:` without division by `k + h∨`, and prove its coefficients central
+(Frenkel, Corollary 3.2.2, p. 74). Its quadratic state is nonscalar: its leading PBW symbol
+is the nonzero quadratic Casimir. Construct the `Aut(O)` action from current reconstruction
+at every level, using A4.2 and the uniqueness in A6.1. *Needs:* A6.1, A5.4, A2.2, A4.2.
 
 **Checks.**
 
 - For `sl₂` the graded dimensions of `Vκ` are `1, 3, 9` in weights `0, 1, 2`
   (`∏_(n≥1)(1 − q^n)^(−3)`).
 - Sugawara central charge for `sl₂` is `3k/(k + 2)`: `c = 1` at `k = 1`, undefined at the critical
-  level `k = −2`.
+  level `k = −2`; the undivided critical state instead has PBW symbol `ef + h²/4 ≠ 0`.
 - For `E₈` at `k = 1`, `c = 248/(1 + 30) = 8`.
 
 ### A6.3 The deformation family and the critical bracket

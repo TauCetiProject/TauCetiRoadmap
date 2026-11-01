@@ -7,7 +7,8 @@ The roadmap is `README.md`; this file is not the roadmap. It states the roadmap'
 theorems whose carriers exist at the pinned Mathlib and Tau Ceti, each with `sorry`:
 the degree-one and degree-two Whitehead lemmas for finite-dimensional complex semisimple Lie
 algebras on Mathlib's Chevalley–Eilenberg cochains (A1), the smooth/continuous module adapter for a ring with a left-ideal neighbourhood basis (A5),
-the Borcherds identity for formal vertex algebras on Mathlib's Hahn-series field carrier (A6),
+generic reconstruction from local translation-covariant generating fields and the Borcherds
+identity for formal vertex algebras on Mathlib's Hahn-series field carrier (A6),
 and the Lie algebra structure on the weight-one space of a graded formal vertex algebra (A6).
 The generic vertex statements are over every characteristic-zero field.
 
@@ -128,6 +129,31 @@ structure FormalVertexAxioms (𝕜 : Type v) [Field 𝕜] [CharZero 𝕜] (V : T
           (HVertexOperator.coeff (field b) (-(n + (i : ℤ)) - 1) c) -
          HVertexOperator.coeff (field b) (-(n + (i : ℤ)) - 1)
           (HVertexOperator.coeff (field a) (-(m + N - (i : ℤ)) - 1) c)) = 0
+
+/-- Translation-covariant, pairwise local fields whose coefficients generate `V` from a
+vacuum killed by `T` extend uniquely to a formal vertex algebra with those fields, vacuum and
+translation (Kac, Theorem 1.1). Generation is expressed by invariant submodules. If the vacuum
+is zero, generation forces the zero space, where the conclusion remains valid. -/
+theorem formalVertex_reconstruction {𝕜 : Type*} [Field 𝕜] [CharZero 𝕜]
+    {V : Type*} [AddCommGroup V] [Module 𝕜 V] {ι : Type*}
+    (vac : V) (T : Module.End 𝕜 V) (F : ι → HVertexOperator ℤ 𝕜 V V)
+    (hT : T vac = 0)
+    (hcov : ∀ i (n : ℤ),
+      T * HVertexOperator.coeff (F i) n - HVertexOperator.coeff (F i) n * T =
+        ((n + 1 : ℤ) : 𝕜) • HVertexOperator.coeff (F i) (n + 1))
+    (hloc : ∀ i j, ∃ N : ℕ, ∀ (p q : ℤ) (v : V),
+      ∑ k ∈ Finset.range (N + 1),
+        (((-1 : 𝕜) ^ k) * (Nat.choose N k : 𝕜)) •
+          (HVertexOperator.coeff (F i) (p - N + k)
+            (HVertexOperator.coeff (F j) (q - k) v) -
+           HVertexOperator.coeff (F j) (q - k)
+            (HVertexOperator.coeff (F i) (p - N + k) v)) = 0)
+    (hgen : ∀ W : Submodule 𝕜 V, vac ∈ W →
+      (∀ i n v, v ∈ W → HVertexOperator.coeff (F i) n v ∈ W) → W = ⊤) :
+    ∃! A : FormalVertexAxioms 𝕜 V,
+      A.vacuum = vac ∧ A.translation = T ∧
+      ∀ i, A.field (HVertexOperator.coeff (F i) 0 vac) = F i := by
+  sorry
 
 /-- The `n`-th mode `a_(n)` of a state `a`: the coefficient of `z^(-n-1)` in `Y(a,z)`. -/
 def formalMode {𝕜 : Type v} [Field 𝕜] [CharZero 𝕜] {V : Type u} [AddCommGroup V] [Module 𝕜 V]
