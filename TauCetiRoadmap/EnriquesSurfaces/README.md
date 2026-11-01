@@ -6,15 +6,15 @@
 
 This roadmap owns the Enriques-specific integral Picard and numerical comparisons, linear systems, resolved presentations, Reye geometry and automorphism actions. WeilConjectures WC.7 supplies the Enriques predicate, its field-extension invariance, projectivity and the invariant theorem b₁=0, b₂=ρ=10, including characteristic two. Layer 1 supplies the characteristic-not-two adapter and integral refinements, not a second predicate or rational invariant theorem.
 
-SchemeAndStackFoundations §§0–5 supplies the general scheme, divisor, intersection and deformation theory; AlgebraicVectorBundles L0A–L1 supplies invertible sheaves. AbelianSchemesAndArithmeticModuli A4.8 supplies general polarized formal algebraization, and ComplexComparisonPartII C5.4 supplies the integral exponential/Chern comparison. RootSystems Layer 3 supplies abstract exchange and Matsumoto; its finite-root chambers do not supply indefinite geometric faithfulness. The additional generic faithfulness contract is specified below as gap:coxeter-geometric-faithfulness.
+SchemeAndStackFoundations §§0–5 supplies the general scheme, divisor, intersection and deformation theory; AlgebraicVectorBundles L0A–L1 supplies invertible sheaves. AbelianSchemesAndArithmeticModuli A4.8 supplies general polarized formal algebraization, and ComplexComparisonPartII C5.4 supplies the integral exponential/Chern comparison. RootSystems Layer 3 supplies abstract exchange and Matsumoto; its finite-root chambers do not supply indefinite geometric faithfulness. Section 5.2 owns the general geometric-faithfulness theorem and its root-sign theory on the native Coxeter representation, beyond those abstract and finite-root inputs.
 
-K3Surfaces K0–K6 and K7.A–B supply independent K3 theory, the integral involution model and its fixed-locus realization. The canonical-cover adapter and descent belong here in §6.2, after the integral comparison of Layer 1: the supplier contract excludes K7.C. In particular, no result consumed from K3Surfaces may use an Enriques numerical-lattice or automorphism theorem. FourManifolds F7 owns its topological Enriques example. EnriquesSurfacesAndIntegralNonexistence consumes the surface geometry and retains the arithmetic nonexistence application.
+K3Surfaces K0–K6, K7.A–B and §7.3 supply independent K3 theory, the integral involution model, its fixed-locus realization and the independent free/nodal period criteria. The canonical-cover adapter and descent belong here in §6.2, after the integral comparison of Layer 1: the supplier contract excludes K7.C. In particular, no result consumed from K3Surfaces may use an Enriques numerical-lattice or automorphism theorem. FourManifolds F7 owns its topological Enriques example. EnriquesSurfacesAndIntegralNonexistence consumes the surface geometry and retains the arithmetic nonexistence application.
 
 ## Conventions
 
 Use schemes and morphisms over the actual `Spec k`, their native `Over` category, `Scheme.Modules`, native invertible sheaves and `LineBundleClass`, and the existing Cartier divisor class map. A smooth projective surface has pure relative dimension two and is geometrically integral. Projective embeddings, an ample bundle, a basis of sections, a resolution and a marking are additional data, not hidden fields in a competing surface carrier.
 
-Use WeilConjectures WC.7's Enriques condition: a smooth proper geometrically connected surface with numerically trivial canonical bundle and χ(O)=1. Over algebraically closed k of characteristic different from two, prove its equivalence with h¹(O)=0 and nontrivial canonical bundle K satisfying K^⊗2≃O. Prove pg=0 and minimality on this domain; the numerical invariants enter through WC.7 (Dolgachev, §2, pp. 7–9). General sheaf, double-cover and divisor constructions retain their natural wider bases with explicitly stated hypotheses. Characteristic-two classical, singular and supersingular Enriques theories require separate statements; none is inferred from this core. The 1985 generic-nodal theorem retains characteristic zero or p outside{2,3,5,7,17}.
+Use WeilConjectures WC.7's Enriques condition: a smooth proper geometrically connected surface with numerically trivial canonical bundle and χ(O)=1. Over algebraically closed k of characteristic different from two, prove its equivalence with h¹(O)=0 and nontrivial canonical bundle K satisfying K^⊗2≃O. Prove pg=0 and minimality on this domain; the numerical invariants enter through WC.7 (Dolgachev, §3, pp. 7–9). General sheaf, double-cover and divisor constructions retain their natural wider bases with explicitly stated hypotheses. Characteristic-two classical, singular and supersingular Enriques theories require separate statements; none is inferred from this core. The 1985 generic-nodal theorem retains characteristic zero or p outside{2,3,5,7,17}.
 
 Keep Pic, the Néron–Severi group, and the numerical divisor quotient distinct. Tensor product is the group law of native LineBundleClass; additive divisor notation denotes its translated additive group. Intersections use the single intersection pairing and numerical divisor quotient of SchemeAndStackFoundations5.9–5.10. Its signature is expressed as(t₊,t₀,t₋), as in IntegralLattices. A root of the geometric intersection lattice has square−2. The source's positive-root T246 Gram is the negative of that intersection form. An isometry must preserve the complete form and integral carrier.
 
@@ -22,7 +22,7 @@ Keep Pic, the Néron–Severi group, and the numerical divisor quotient distinct
 
 ### From Mathlib and Tau Ceti
 
-Use Mathlib `CoxeterMatrix`, `CoxeterSystem`, `Module.End`, `LinearEquiv` and `ZMod`. Tau Ceti `CoxeterSystem.geometricRepresentation` in `TauCeti/GroupTheory/Coxeter/Geometric.lean` supplies the actual representation and its simple-generator equation, not faithfulness. Use `Scheme.Modules.baseRingToGlobalSections` and `Scheme.Modules.globalSectionsSmul_naturality` from `TauCeti/AlgebraicGeometry/Modules/GlobalSections.lean` for the scalar action; neither is a new acceptance target. Native schemes, scheme modules and invertible sheaves are the carriers throughout.
+Use Mathlib `CoxeterMatrix`, `CoxeterSystem`, `Module.End`, `LinearEquiv` and `ZMod`. Tau Ceti `CoxeterSystem.geometricRepresentation` in `TauCeti/GroupTheory/Coxeter/Geometric.lean` supplies the actual representation and its simple-generator equation, not faithfulness. Use `Scheme.Modules.baseRingToGlobalSections` and `Scheme.Modules.globalSectionsSmul_naturality` from `TauCeti/AlgebraicGeometry/Modules/GlobalSections.lean` for the scalar action; neither is a new acceptance target. Native schemes, scheme modules and invertible sheaves are the carriers throughout. The Coxeter proof inputs also include `CoxeterSystem.strongExchange` and `CoxeterSystem.deletionCondition` in `TauCeti/GroupTheory/Coxeter/StrongExchange.lean`, `CoxeterSystem.exists_isMinimalCosetRep` and `CoxeterSystem.length_mul_of_isMinimalCosetRep` in `TauCeti/GroupTheory/Coxeter/Parabolic.lean`, and `CoxeterSystem.wordProd_alternatingWord_eq_of_mem_parabolic_pair` in `TauCeti/GroupTheory/Coxeter/Dihedral.lean`; their length and standard-parabolic theory does not assume geometric faithfulness.
 
 ### From the named roadmaps
 
@@ -39,11 +39,9 @@ Each row specifies the mathematical output and its hypotheses, not whole-roadmap
 | [ComplexComparisonPartII C3.2d.1–C3.2d.2, C6.3, C6.5 and C6.6](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ComplexComparisonPartII/README.md) | Represented relative Picard sheaf/algebraic space and its bundle-class dictionary; finite Artin, smooth cup/trace and normalized integral adic Betti comparisons, with twists and complex orientation |
 | [AlgebraicModuliForArithmeticGeometry7.3,7.6.1 and7.6.1a](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AlgebraicModuliForArithmeticGeometry/README.md) | Framed line-bundle obstruction groupoid, relative Picard sheaf/base change and actual class/section-splitting hypotheses, with scalar automorphisms retained |
 | [RootSystems Layer 3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/RootSystems/README.md) and native Coxeter.Geometric | Abstract exchange and Matsumoto; finite-root positive-definite chamber theorems do not apply to T246 |
-| [K3Surfaces K0.A, K1–K6 and K7.A–B](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/K3Surfaces/README.md) | Early algebraic global-differential vanishing for the obstruction consumer; independently, actual complex cohomology/marked families/periods/cones/Torelli and independent integral involution gluing and fixed-locus realization for §6.2. No complex result supplies the tame nodal proof |
+| [K3Surfaces K0.A, K1–K6, K7.A–B and §7.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/K3Surfaces/README.md) | Early algebraic global-differential vanishing for the obstruction consumer; independently, actual complex cohomology/marked families/periods/cones/Torelli and independent integral involution gluing, fixed-locus realization and §7.3’s free/nodal period criteria for §6.2. No complex result supplies the tame nodal proof |
 
 Additional exact contracts are WeilConjectures WC.7 (the predicate and rational invariants), AbelianSchemesAndArithmeticModuli A4.8 (a cartesian proper system over an ideal-adically complete Noetherian ring with compatible line bundles ample on the initial fibre algebraizes to a proper scheme with an ample bundle), and ComplexComparisonPartII C5.4 (the integral exponential connecting map equals the first Chern class, compatibly with the sheaf/singular comparison). For the Witt lift, the polarized algebraization contract is applied to all W(k)/pⁿ and compatible ample bundles, not to coherent sheaves on an assumed algebraization.
-
-The supplier gap **gap:coxeter-geometric-faithfulness** has the following exact contract: for every Coxeter matrix on any index type, the native standard real geometric representation of its Coxeter group is injective, with root signs characterized by length change under a simple reflection. It includes infinite entries, degenerate and indefinite standard forms. An extension of RootSystems must be a Part II contract; Layer 3's abstract exchange and pairwise reflection orders alone do not assert this result. The T246 faithfulness target remains in §5.2 and in the acceptance file, rather than being treated as supplied.
 
 Use only the named independent producer cuts. General characteristic-zero resolution cannot discharge positive-characteristic branch resolution. FourManifolds owns its topological Enriques example; complex analytification consumes, and never replaces, the algebraic constructions here.
 
@@ -66,11 +64,12 @@ Specialize the producer intersection/duality theory to smooth projective surface
 
 - On P¹×P¹ the two ruling classes have squares 0 and mutual intersection 1.
 - For a blowup exceptional curve E, E²=−1 and K·E=−1; it cannot be an Enriques root.
+- On the blowup chart y=xt, dx∧d(xt)=x dx∧dt has vanishing order 1 on E; a negative discrepancy would give order −1.
 - For L=O the RR polarization gives χ(M)−χ(O)−χ(M)+χ(O)=0.
 
-Surface RR and intersection are the supplier theorems specialized to this domain.
+These are constructed adapters: the intersection and restriction-degree comparisons are SchemeAndStackFoundations §5.9’s surface pairing, and adjunction, RR and Num are §5.10’s adjunction, surface Riemann–Roch and numerical-equivalence targets. Trace-duality is §2.20; Chern-class pullback and projection formulas are §§5.3 and 5.6. For blowups, use StableReduction Layer 4’s exceptional-divisor/intersection construction and derive the canonical discrepancy K_(Bl S)=π*K_S+E at a smooth point from the chart y=xt, where π*(dx∧dy)=x dx∧dt; transport along the divisor–line-bundle comparison of SchemeAndStackFoundations §5.3. Field-extension identities use coherent flat base change (§2.6) and flat pullback and degree compatibility (§§5.2–5.3), together with the intersection product (§5.6), with the same smooth projective hypotheses. The degree compatibility preserves intersection numbers after field extension; tensor extension preserves each coherent-cohomology dimension and hence χ.
 
-*Needs:* SchemeAndStackFoundations §§5.9–5.10; AlgebraicVectorBundles L0A–L1.
+*Needs:* SchemeAndStackFoundations §§2.6, 2.20, 5.2–5.3, 5.6, 5.9–5.10; StableReduction Layer 4; AlgebraicVectorBundles L0A–L1.
 
 ### 0.2 Linear systems and base ideals
 
@@ -88,9 +87,9 @@ For actual invertible L, construct the finite-dimensional section module H⁰(S,
 - The section t gives ideal (t), hence the reduced origin; the empty section family gives ideal (0), hence all of A¹.
 - Section dimensions 0, 1 and 3 give no map, a map to P⁰ and a map to P² respectively; no natural subtraction h⁰−1 is used at zero.
 
-These are the evaluation/blowup adapters of the named projective and blowup constructions.
+These are constructed adapters, with finite-dimensional H⁰ from SchemeAndStackFoundations §2.6’s proper coherent-cohomology finiteness and evaluation from the quotient universal property of AlgebraicModuliForArithmeticGeometry §1.1. Its projective-bundle dual-convention comparison identifies the dual-line convention and O(1). The image of evaluation tensored by L⁻¹ defines the base ideal; StableReduction Layer 4’s blowup universal property and exceptional-ideal formula give the resolved quotient. Use its flat-base-change comparison only when the section module also satisfies SchemeAndStackFoundations §2.6’s quasi-compact, quasi-separated and flat-base-change hypotheses; Stein factorization is §4.9. These ingredient statements do not assert arbitrary base change for normalization.
 
-*Needs:* §0.1; AlgebraicModuliForArithmeticGeometry §§1.1–1.3; StableReduction §§2, 4.
+*Needs:* §0.1; SchemeAndStackFoundations §§2.6, 4.9; AlgebraicModuliForArithmeticGeometry §§1.1–1.3; StableReduction Layers 2, 4.
 
 ### 0.3 Polarized isomorphisms
 
@@ -143,7 +142,7 @@ Apply SchemeAndStackFoundations4.6's actual smooth-proper deformation obstructio
 - K3 and abelian surfaces have χ(O)=2 and 0 respectively, excluding both from WC.7; a blowup has K·E=−1.
 - Over W(k)/pⁿ the ideal of the next thickening is square-zero and H²(T)⊗I=H²(O)⊗I=0; coherent existence on an already constructed scheme alone does not produce a scheme.
 
-Dolgachev, §2, pp. 7–10; Stacks, tag 089A for the algebraization step.
+Dolgachev, §3, pp. 7–10; Stacks, tag 089A for the algebraization step.
 
 *Needs:* §0.1; WeilConjectures WC.7; K3Surfaces K0.A; SchemeAndStackFoundations §§4.6, 4.10; AlgebraicModuliForArithmeticGeometry §7.3; AbelianSchemesAndArithmeticModuli A4.8.
 
@@ -199,7 +198,7 @@ Extend the result to any algebraically closed characteristic-zero field by finit
 - For the Enriques K, c₁(K) has exact order 2 and rational image 0; c₁(O)=0.
 - The free form has rank 10 and signature (1,0,9); neither these values nor determinant alone determine a general integral form.
 
-Dolgachev, §2, pp. 8–10, with the integral comparison supplied by ComplexComparisonPartII C5.4.
+Dolgachev, §3, pp. 8–10, with the integral comparison supplied by ComplexComparisonPartII C5.4.
 
 *Needs:* §1.2; WeilConjectures WC.7; ComplexComparisonPartII C1.9, C3.2d.1–C3.2d.2 and C5.4; AlgebraicTopology integral Poincaré duality; SchemeAndStackFoundations §5.10.
 
@@ -238,7 +237,7 @@ Identify the Picard torsion separately, in particular the nontrivial canonical c
 - For n=1, H³(C)[2]=ℤ/2, so finite reduction cannot be just H²(C)/2.
 - In characteristic p the µ_p cover has infinitesimal fibres; the étale Kummer statement requires ℓ≠p.
 
-Dolgachev, §2, pp. 8–10; the integral refinement uses the stated coefficient and duality suppliers.
+Dolgachev, §3, pp. 8–10; the integral refinement uses the stated coefficient and duality suppliers.
 
 *Needs:* §§1.2–1.3; K3Surfaces K1–K2; EtaleCohomologyFoundations F.0.3, F.2, F.4–F.6; ComplexComparisonPartII C6.3, C6.5–C6.6.
 
@@ -257,7 +256,7 @@ Apply IntegralLattices6A to the actual even, nondegenerate, indefinite unimodula
 - The determinant is −1 and signature (1,0,9); U⊕E₇(−1)⊕⟨−2⟩ instead has determinant −4.
 - Scaling the form by 2 multiplies determinant by 2¹⁰, so it cannot be the unscaled Num isometry.
 
-Dolgachev, §2, p. 9; the even indefinite unimodular classification is supplied by IntegralLattices §6A.
+Dolgachev, §3, p. 9; the even indefinite unimodular classification is supplied by IntegralLattices §6A.
 
 *Needs:* §§1.2–1.4; IntegralLattices §6A.
 
@@ -279,7 +278,7 @@ Develop effective and nef classes, genus-one fibrations and half-fibres. Prove e
 - D=0 has minimum intersection 0 and is excluded from the big-nef positive minimum.
 - For an effective nodal root R and ample H, H·R>0 while H·(−R)<0, so numerical roots are not all effective.
 
-Dolgachev, §3, pp. 11–13; genus-one carriers are supplied by the named owners.
+Dolgachev, §4, pp. 11–13; genus-one carriers are supplied by the named owners.
 
 *Needs:* §1.5; NeronModelsAndSemistableAbelianVarietiesPartII §2.1; WeilConjectures WC.7.
 
@@ -330,7 +329,7 @@ Factor the resolved square-four map X→P² through a normal finite cover Y→P�
 - In characteristic 2 with b=1 the algebra has (t−1)²=0; separability and trace splitting fail.
 - A=O(4) gives b in O(8), hence branch degree 8; a degree-6 branch would use A=O(3).
 
-Dolgachev, §3, pp. 12–13, for the double-plane model; the algebra and its maps are constructed on the supplied module carrier.
+Dolgachev, §4, pp. 12–13, for the double-plane model; the algebra and its maps are constructed on the supplied module carrier.
 
 *Needs:* §2.1; AlgebraicVectorBundles L0A–L1; SchemeAndStackFoundations relative Spec and duality.
 
@@ -351,7 +350,7 @@ Construct the sextic-plus-two-distinguished-lines branch models, their actual ba
 - At m=2 the new branch is strict(B) and A′=σ*A−E; at m=3 it is strict(B)+E with the same A′.
 - At an odd-odd transverse crossing m=2, blowup removes the double exceptional contribution; omitting this step leaves the cover singular.
 
-Dolgachev, §3, pp. 12–13; the branch transform follows by removing the square exceptional factor in the local cover equation.
+Dolgachev, §4, pp. 12–13; the branch transform follows by removing the square exceptional factor in the local cover equation.
 
 *Needs:* §2.2; StableReduction §4; SchemeAndStackFoundations §§4.11, 4.13; the embedded plane-curve resolution target in this subsection.
 
@@ -398,7 +397,7 @@ This is the intrinsic groupoid theorem defined here; Cossec–Dolgachev, Theorem
 
 ### 3.2 Branch presentations and minimalization
 
-Compare finite-cover/branch presentations separately. On P², Pic has no2-torsion and every nonzero scalar has a square root over k; prove the resulting uniqueness on isomorphism classes of the double cover. The cover retains its deck μ₂ automorphism: forgetting it is not an equivalence of unrigidified groupoids. Birational minimalization recovers S only through the nonruled minimal-surface uniqueness theorem, with the actual graph and contraction maps. Prove the needed surface birational factorization/minimality adapter; do not identify arbitrary resolutions with a canonical plane presentation.
+Compare the normal finite-cover/branch presentations of §2.2 separately, with nonzero branch section. On P², Pic has no2-torsion and every nonzero scalar has a square root over k; prove the resulting uniqueness on isomorphism classes of the double cover. The cover retains its deck μ₂ automorphism: forgetting it is not an equivalence of unrigidified groupoids. Birational minimalization recovers S only through the nonruled minimal-surface uniqueness theorem, with the actual graph and contraction maps. Prove the needed surface birational factorization/minimality adapter; do not identify arbitrary resolutions with a canonical plane presentation.
 
 **API — Cover comparison and minimalization.**
 
@@ -407,13 +406,15 @@ Compare finite-cover/branch presentations separately. On P², Pic has no2-torsio
 
 **Checks.**
 
-- The deck t↦−t has order 2 and fixes the branch datum; the forgetful fibre therefore has µ₂ isotropy.
+- For a nonzero branch section the deck t↦−t has order 2 and fixes the branch datum; the forgetful fibre therefore has µ₂ isotropy.
+- For b=0 in k[t]/(t²), every t↦ct with c∈k× is an automorphism; this nonnormal cover is excluded from the µ₂ assertion.
 - Multiplying b by c² gives an isomorphic cover via t↦ct for c≠0; c=0 is not invertible.
+- P² and P¹×P¹ are birational minimal rational surfaces with Picard ranks 1 and 2; omitting the nonruled hypothesis would give false uniqueness.
 - The two line bundles with the same square on a base with nontrivial Pic[2] need not coincide; Pic(P²)[2]=0 is essential.
 
-The uniqueness is derived from the explicit cover algebra; the surface birational-factorization/minimality adapter is part of this subsection.
+This is a constructed comparison, not a groupoid theorem attributed to the survey. In §2.2’s algebra, a fixed nonzero branch section determines its square-root line uniquely on P² because Pic(P²)=ℤ (Stacks, Lemma 31.29.5, tag 0BXJ); two sections with the same divisor differ by a global unit, which is a square over the algebraically closed field. The resulting cover isomorphism retains its deck μ₂. Construct the smooth projective surface birational-factorization adapter from point blowups (Stacks, Lemmas 54.17.1–54.17.2, tags 0C5R–0C5S), and the minimalization and uniqueness theorem for nonruled smooth projective surfaces over algebraically closed k (Cossec–Dolgachev–Liedtke, Theorem 1.1.3 and Remark 1.1.4(1), p. 201). These give the comparison with S using its minimality from §1.1; uniqueness is relative to the birational identification, not uniqueness of a chosen resolution.
 
-*Needs:* §§2.2–2.3; §3.1; SchemeAndStackFoundations birational and blowup theory.
+*Needs:* §§1.1, 2.2–2.3, 3.1; StableReduction Layer 4’s blowup construction; the surface factorization and nonruled minimalization targets of this subsection.
 
 ### 3.3 Ordered systems and Picard lifts
 
@@ -433,7 +434,7 @@ For special D=3F+R(+K) construct h=2F+R. Prove h²=2, h·R=0, nefness, bigness a
 - For h=2F+R, h²=2 and h·R=0; h is not ample.
 - A trivial stabilizer action on the two Picard lifts gives two orbits, while a transposition gives one.
 
-Dolgachev, §3, pp. 12–13; the Picard-lift bookkeeping refines that class-level geometry.
+Dolgachev, §4, pp. 12–13; the Picard-lift bookkeeping refines that class-level geometry.
 
 *Needs:* §§1.1, 2.1, 3.1–3.2.
 
@@ -465,7 +466,7 @@ Construct the Plücker embedding, canonical bundle, cohomological Enriques invar
 - A zero restriction map satisfies every 3-minor but is not a regular codimension-two point; regular-locus hypotheses cannot be dropped.
 - A 4×4 symmetric matrix with linear entries has determinant of degree 4; Plücker degree of the regular Reye surface is 10, a different degree.
 
-Cossec–Dolgachev, Proposition 2 and §4, p. 248; Dolgachev, §4, pp. 16–18.
+Cossec–Dolgachev, Proposition 2 and §4, p. 248; Dolgachev, §5, pp. 16–18.
 
 *Needs:* §§0.1–0.2; AlgebraicModuliForArithmeticGeometry §§1.1–1.3; SchemeAndStackFoundations intersection theory.
 
@@ -521,7 +522,24 @@ Peters–Sterk, Appendix A.2, Lemma A.5, pp. 1624–1625.
 
 ### 5.2 Coxeter comparison and normal kernels
 
-Define the ten-generator W as the image of the actual integral simple reflections, and the abstract T246 Coxeter matrix with diagonal1, adjacent3 and other off-diagonal2. Use the native geometric representation and prove their faithful comparison, with the general proof input specified by gap:coxeter-geometric-faithfulness; 2 times the native standard real form is the positive integral Gram. Finite E7/E8 parabolic subgroups use their existing finite-root/Coxeter API. The group generated by ALL roots of R is larger than W: construct the extra reflection in r, its normal closure and the exact chamber/semidirect comparison needed for the nodal ample cone. Neither finite-root positive-definiteness nor equality of rank/determinant proves these facts.
+First prove `coxeterGeometricFaithful`: for every index type I, group W, Coxeter matrix M and Coxeter system cs on W, the native real representation `CoxeterSystem.geometricRepresentation` on I →₀ ℝ is injective. No finiteness, nondegeneracy or positive-definiteness hypothesis is imposed. The standard form has diagonal 1 and off-diagonal entry −cos(π/m); native m=0 denotes an infinite Coxeter exponent, so that entry is −1 (Davis, second edition, §6.12, equations (6.32)–(6.33), pp. 108–109; Corollary D.1.2, p. 446).
+
+Develop its root-sign theory on the orbit of the simple basis vectors: a positive root has all coordinates nonnegative and is nonzero, and a negative root is the negative of a positive root. Prove every root has exactly one sign, and ρ(w)eᵢ is positive precisely when ℓ(wsᵢ)=ℓ(w)+1, negative precisely when ℓ(wsᵢ)+1=ℓ(w). Establish transport under reindexing and restriction to standard parabolics. These are properties of the native form and representation, not assumptions on an arbitrary action. One proof route constructs the dual half-spaces, proves the rank-two sign alternative for finite and infinite exponents, and proves the half-space induction and chamber-disjointness theorem before deducing faithfulness and the right-multiplication root criterion (Davis, Lemma 4.8.3, pp. 51–53, Lemma D.1.5 and Theorem D.1.1, pp. 446–448). The half-space induction is a target here; it is not imported as a consequence of pairwise reflection orders. For an infinite I, carry out the induction on finite words and their finite coordinate supports, with no interior in an infinite-dimensional topology required.
+
+**API — General geometric faithfulness and root signs.**
+
+- Prove injectivity for every native Coxeter system, including degenerate and indefinite forms.
+- Prove the two root-sign/length equivalences, with right multiplication by the simple generator and disjoint positive and negative root sets.
+- Compare the action and the signs under index equivalences and standard-parabolic inclusions.
+
+**Checks.**
+
+- For I empty, W is trivial and the zero vector space has one endomorphism; the representation is injective. In rank one, e maps to −e under s, ℓ(1)=0 and ℓ(s)=1; the zero vector is not a root.
+- In A₂, ρ(s₁)e₂=e₁+e₂ and ℓ(s₁s₂)=2, whereas ρ(s₂s₁)e₁=−e₁−e₂ and ℓ(s₂s₁s₁)=1. The identity action would fail the simple-root negation equation.
+- For the infinite dihedral matrix, B=[[1,−1],[−1,1]] has determinant 0; (s₁s₂)ⁿe₁=(2n+1)e₁+2ne₂, giving (1,0), (3,2), (5,4) for n=0,1,2. Degeneracy does not destroy faithfulness.
+- For T246, the positive integral Gram 2B has determinant −4 and signature (9,0,1); its chain 1–9 is positive definite of determinant 10, so the negative determinant forces exactly one negative direction. This indefinite case is in the theorem's domain.
+
+Define the ten-generator W as the image of the actual integral simple reflections, and the abstract T246 Coxeter matrix with diagonal1, adjacent3 and other off-diagonal2. Use the native geometric representation and prove their faithful comparison, using the general faithfulness theorem above; 2 times the native standard real form is the positive integral Gram. Finite E7/E8 parabolic subgroups use their existing finite-root/Coxeter API. The group generated by ALL roots of R is larger than W: construct the extra reflection in r, its normal closure and the exact chamber/semidirect comparison needed for the nodal ample cone. Neither finite-root positive-definiteness nor equality of rank/determinant proves these facts.
 
 Define B and K as the longest elements in E8 on{0,2,…,8} and E7 on{0,1,…,6}; let G be the longest element in E7 on{0,2,…,7} times s₉, with the rightmost reflection applied first. Construct these elements and actual matrices. Define W(2) as the kernel of action on R/2R and prove it equals the normal closure of B,K. Define Wbar(2) by normal closure of B,K,G.
 
@@ -540,7 +558,7 @@ Define B and K as the longest elements in E8 on{0,2,…,8} and E7 on{0,1,…,6};
 
 Cossec–Dolgachev, Proposition 1, p. 248; Peters–Sterk, Lemma A.5, for the indefinite lattice/chamber comparison.
 
-*Needs:* §5.1; RootSystems Layers 3–4 for abstract exchange and finite parabolics; native geometric representation; gap:coxeter-geometric-faithfulness.
+*Needs:* for the general theorem, the native representation, exchange, length and parabolic declarations listed in the supplier contracts, real trigonometry and the half-space induction constructed here; for T246 and its normal kernels, §5.1, the general theorem of this subsection and RootSystems Layer 4’s finite-parabolic longest elements.
 
 ### 5.3 The reduction and its two kernels
  Use the β-basis of R to identify
@@ -600,7 +618,7 @@ The shear G fixes the eight-dimensional symplectic quotient but moves e₈ by u,
 
 ### Dependencies
 
-Layer 1 integral marking, native Coxeter representations, finite-root and lattice suppliers, and the stated generic geometric-faithfulness gap.
+Layer 1 integral marking, native Coxeter representations, finite-root and lattice suppliers, and §5.2’s general geometric faithfulness and root-sign theory.
 
 ## Layer 6: surface automorphism groups
 
@@ -629,13 +647,13 @@ Cossec–Dolgachev, §1 and Theorem 1, p. 247; Theorem 3, p. 248; §5, pp. 248�
 
 ### 6.2 Complex unnodal covers, periods and descent
 
-The unnodal comparison has its own required producer, [K3Surfaces K0–K6 and K7.A–B](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/K3Surfaces/README.md). Keep the complex period-theoretic very-general statement and the algebraic generic-open statement as distinct theorems. Neither is an input to the preceding tame positive-characteristic nodal Reye/Coble theorem. A general nodal surface, an unnodal surface and the source's model classes are three different carriers.
+The unnodal comparison has its own required producer, [K3Surfaces K0–K6, K7.A–B and §7.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/K3Surfaces/README.md). Keep the complex period-theoretic very-general statement and the algebraic generic-open statement as distinct theorems. Neither is an input to the preceding tame positive-characteristic nodal Reye/Coble theorem. A general nodal surface, an unnodal surface and the source's model classes are three different carriers.
 
 **U0 — actual cover and markings.** For a complex Enriques surface S, form the canonical finite étale cover π:Y→S from E1's actual canonical algebra. Use E1's integral numerical-lattice isometry Num(S)≃M=U⊕E₈(−1); this theorem is not supplied by comparing ranks. K3K0/K1 identifies Y as an algebraic/analytic K3. Construct the primitive pullback π*:Num(S)(2)→H²(Y,ℤ), the invariant lattice S₊=M(2), the anti-invariant T=U⊕M(2), and the actual markings and discriminant anti-isometry γ by comparison with the independent model of K3Surfaces K7.A. The scaling equation is (π*x,π*y)=2(x,y). Do not replace π* by an unscaled integral isometry. In coordinates Λ=U₀⊕U₁⊕U₂⊕E_a⊕E_b the deck action is (−1,swap,swap), as specified in K3Surfaces K7.A.
 
 Construct the canonical-cover adapter here: prove that primitive pullback identifies Num(S)(2) with the invariant lattice and construct its discriminant gluing with the anti-invariant lattice. Construct lifting of surface isomorphisms through the canonical algebra and effective finite-étale descent. Every automorphism has two lifts, differing by the deck involution; establish Aut(S)≃Centralizer(ι)/⟨ι⟩ with composition and marking-change laws. These are Enriques constructions after Layer 1, not consequences imported from K3Surfaces K7.C (Peters–Sterk, §2 and Proposition A.6).
 
-**U1 — the precise very-general condition.** On one component of the type-IV domain Ω_T define the free-cover period locus by the actual K3Surfaces K7.B fixed-point-free criterion and the unnodal locus by its lifted-rational-curve criterion. Remove the rational hyperplanes that would enlarge NS(Y) beyond S₊. In addition, for each a∈O(T) other than ±id remove every proper locus on which a fixes the period line. Such loci may be projective eigenspace intersections, not merely rational hyperplanes. Prove none fills Ω_T: an integral linear isometry that fixes all lines of its open isotropic quadric is scalar, hence is ±id. Since the integral isometry group is countable, local period charts and Baire give a nonempty dense complement in every nonempty appropriate period ball. Construct a free algebraic cover at such a period using K3Surfaces K6 and K7.B; the positive class in S₊ supplies projectivity. Denote this complement Ω_T^vg. Its properties are
+**U1 — the precise very-general condition.** On one component of the type-IV domain Ω_T define the free-cover period locus by K3Surfaces §7.3, ‘Free and nodal period loci’: remove the hyperplanes perpendicular to square −2 vectors in T for the free locus, then the hyperplanes perpendicular to primitive square −4 vectors of divisibility two for the unnodal locus. Here divisibility is the positive generator of the pairing ideal in ℤ; K7.B supplies the geometric fixed-locus theorem used by §7.3. Remove the rational hyperplanes that would enlarge NS(Y) beyond S₊. In addition, for each a∈O(T) other than ±id remove every proper locus on which a fixes the period line. Such loci may be projective eigenspace intersections, not merely rational hyperplanes. Prove none fills Ω_T: an integral linear isometry that fixes all lines of its open isotropic quadric is scalar, hence is ±id. Since the integral isometry group is countable, local period charts and Baire give a nonempty dense complement in every nonempty appropriate period ball. Construct a free algebraic cover at such a period using K3Surfaces K6, K7.B and §7.3; the positive class in S₊ supplies projectivity. Denote this complement Ω_T^vg. Its properties are
 
     NS(Y)=S₊,   O_Hdg(T)= {id,−id},   S is unnodal.
 
@@ -653,7 +671,7 @@ Conversely lift an automorphism of S to Y through the actual cover algebra. Its 
 
 on the stated very-general complex locus. Supply identity/composition/inverse equations, conjugacy under re-marking, and the equivalent centralizer/deck quotient. The argument computes the kernel here; it does not assert numerical faithfulness for every Enriques surface from the lattice alone.
 
-**U3 — the T237 identification in the same lattice.** Use E5's isotropic ten-sequence f_i in M and δ=(Σf_i)/3. Set α₀=δ−f₁−f₂−f₃ and α_i=f_i−f_(i+1), 1≤i≤9. Prove these ten vectors are an integral basis of M, with square−2, consecutive-chain pairings1 and α₀ attached to α₃. The Gram determinant is−1. This is T237; E5's four-f-vector β₀ attached to β₄ instead spans the index-two T246 lattice R and must not be substituted. Construct the chamber action of the simple reflections s_α(x)=x+(x,α)α, prove they generate O⁺(M) by a well-founded ample-height descent argument on positive integral vectors, and prove the Coxeter presentation using RootSystems Layer 3's exchange/deletion theorem and the geometric faithfulness contract with its actual geometric action. Keep chamber orientation and inverse maps in the presentation equivalence. Define W_T237(2) as the kernel of its *actual* reduction action on M/2M. U2 then gives Aut(S)≃W_T237(2), not W_T246(2), not the T246 symplectic quotient and not an all-root group chosen by matching notation.
+**U3 — the T237 identification in the same lattice.** Use E5's isotropic ten-sequence f_i in M and δ=(Σf_i)/3. Set α₀=δ−f₁−f₂−f₃ and α_i=f_i−f_(i+1), 1≤i≤9. Prove these ten vectors are an integral basis of M, with square−2, consecutive-chain pairings1 and α₀ attached to α₃. The Gram determinant is−1. This is T237; E5's four-f-vector β₀ attached to β₄ instead spans the index-two T246 lattice R and must not be substituted. Construct the chamber action of the simple reflections s_α(x)=x+(x,α)α, prove they generate O⁺(M) by a well-founded ample-height descent argument on positive integral vectors, and prove the Coxeter presentation using RootSystems Layer 3's exchange/deletion theorem and §5.2’s general geometric faithfulness theorem with its actual geometric action. Keep chamber orientation and inverse maps in the presentation equivalence. Define W_T237(2) as the kernel of its *actual* reduction action on M/2M. U2 then gives Aut(S)≃W_T237(2), not W_T246(2), not the T246 symplectic quotient and not an all-root group chosen by matching notation.
 
 **U4 — full geometric lift criterion beyond the very-general locus.** Retain a theorem for every complex unnodal canonical cover: a specified numerical isometry g lifts precisely when there is an integral Hodge isometry h of the actual anti-invariant lattice satisfying γḡ=h̄γ and whose glued action preserves the actual ample cone. Construct the set/group of compatible pairs, the cohomology lift and the deck quotient, with all restriction and descent maps. Very-general U2 is a specialization with h=±id. Special rank-ten covers can have additional anti-invariant Hodge isometries; their existence is not excluded by NS(Y)=S₊. Preserve their actual extra automorphisms and stabilizers rather than force the generic group onto them.
 
@@ -666,6 +684,7 @@ on the stated very-general complex locus. Supply identity/composition/inverse eq
 **Checks.**
 
 - For e·f=1, (π*e)·(π*f)=2; using an unscaled isometry would give 1.
+- In T=U⊕M(2), e′−f′ in the U(2) summand has square −4 and divisibility 2, while e−2f in U has square −4 and divisibility 1; only the former meets the nodal-hyperplane condition.
 - In M(2) every norm is divisible by 4, excluding roots of norm −2; its discriminant has 2¹⁰ elements.
 - On the exponent-two discriminant, +id and −id agree; on T itself they differ, producing the two lifts modulo the deck action.
 - An extra Hodge isometry on a special period is not ruled out by NS=M(2); the ±id condition is separately imposed.
@@ -673,7 +692,7 @@ on the stated very-general complex locus. Supply identity/composition/inverse eq
 
 Peters–Sterk, §2 and Proposition A.6, pp. 1625–1626; the very-general specialization uses the stated Torelli and period suppliers.
 
-*Needs:* §1.5; §5.2; K3Surfaces K0–K6 and K7.A–B; IntegralLattices §§1, 5.
+*Needs:* §1.5; §5.2; K3Surfaces K0–K6, K7.A–B and §7.3; IntegralLattices §§1, 5.
 
 ### 6.3 Algebraic generic-open comparison
 
@@ -775,9 +794,10 @@ EnriquesSurfacesAndIntegralNonexistence consumes the characteristic-sensitive su
 ## References
 
 - Cossec–Dolgachev, *On Automorphisms of Nodal Enriques Surfaces*, Bulletin AMS 12 (1985), pp. 247–249: §1 (field and generic-locus hypotheses), Theorem 1 (nodal automorphisms), Theorem 2 (announced representation counts), Theorem 3 (rational-curve transitivity), Proposition 1 (the two normal kernels), Proposition 2 (Reye recognition). [Author copy](https://sites.lsa.umich.edu/idolga/wp-content/uploads/sites/1334/2024/08/nodal85.pdf).
-- Dolgachev, *A brief introduction to Enriques surfaces*, arXiv:1412.7744v2: §2, pp. 7–10 (invariants and numerical lattice), §3, pp. 11–15 (polarizations and double planes), §4, pp. 16–18 (nodal geometry), §5, pp. 19–26 (automorphisms). [Preprint](https://arxiv.org/abs/1412.7744).
+- Dolgachev, *A brief introduction to Enriques surfaces*, arXiv:1412.7744v2: §3, pp. 7–10 (invariants and numerical lattice), §4, pp. 11–15 (polarizations and double planes, especially p. 12 for the degree-two map and octic branch), §5, pp. 15–18 (nodal geometry), §6, pp. 19–26 (automorphisms). [Preprint](https://arxiv.org/abs/1412.7744).
 - Martin, *Automorphisms of unnodal Enriques surfaces*, arXiv:1908.00049v1: Theorems 1.2 and 1.4, Proposition 1.9, Theorem 3.7, Lemma 5.4 and Corollary 5.5. [Preprint](https://arxiv.org/abs/1908.00049).
 - Peters–Sterk, *On K3 double planes covering Enriques surfaces*, Mathematische Annalen 376 (2020), pp. 1599–1628: §2 (cover lattice), §5 (automorphism comparison), Appendix A.2, Lemma A.5 (Reye lattice), Proposition A.6 (integral gluing). These are complex statements. [Institutional copy](https://pure.tue.nl/ws/portalfiles/portal/149561221/Peters_Sterk2020_Article_OnK3DoublePlanesCoveringEnriqu.pdf).
 - Averbukh, Chapter X in Shafarevich (ed.), *Algebraic surfaces*, Proceedings of the Steklov Institute 75 (1964 Russian edition). This is the terminology source cited in Cossec–Dolgachev, Theorem 2; its precise equivalence relation is a separate source-reconciliation condition in §7.2.
-- Cossec–Dolgachev–Liedtke, *Enriques Surfaces I*, author manuscript dated April 19, 2024: Proposition 2.6.1, pp. 290–291; Proposition 2.6.4 and Corollary 2.6.5, pp. 292–294; Proposition 3.2.1, pp. 308–309. [Author copy](https://sites.lsa.umich.edu/idolga/wp-content/uploads/sites/1334/2024/08/EnriquesOne.pdf).
-- Stacks Project, [Theorem 30.28.4, tag 089A](https://stacks.math.columbia.edu/tag/089A), for the general algebraization theorem consumed from AbelianSchemesAndArithmeticModuli A4.8.
+- Cossec–Dolgachev–Liedtke, *Enriques Surfaces I*, author manuscript dated April 19, 2024: Theorem 1.1.3 and Remark 1.1.4(1), p. 201; Proposition 2.6.1, pp. 290–291; Proposition 2.6.4 and Corollary 2.6.5, pp. 292–294; Proposition 3.2.1, pp. 308–309. [Author copy](https://sites.lsa.umich.edu/idolga/wp-content/uploads/sites/1334/2024/08/EnriquesOne.pdf).
+- Stacks Project, [Theorem 30.28.4, tag 089A](https://stacks.math.columbia.edu/tag/089A), for polarized algebraization; [§54.17, Lemmas 54.17.1–54.17.2, tags 0C5R–0C5S](https://stacks.math.columbia.edu/tag/0C5Q), for surface birational factorization; [Lemma 31.29.5, tag 0BXJ](https://stacks.math.columbia.edu/tag/0BXJ), for Pic(P²).
+- Davis, *The Geometry and Topology of Coxeter Groups*, second edition (2025): §6.12, equations (6.32)–(6.33), pp. 108–109; Lemma 4.8.3, pp. 51–53; Theorem D.1.1, Corollary D.1.2 and Lemma D.1.5, pp. 446–448. [Author copy](https://people.math.osu.edu/davis.12/second_edition.pdf).

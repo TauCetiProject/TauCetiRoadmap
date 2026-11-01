@@ -1,11 +1,12 @@
 import Mathlib
+import TauCeti.GroupTheory.Coxeter.Geometric
 
 /-!
 # Enriques surfaces: target signatures
 
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's
-headline theorems against the pinned APIs: faithfulness of the T246 geometric
-representation and the full image of its mod-two reflection action.
+headline theorems against the pinned APIs: general Coxeter geometric faithfulness,
+its T246 realization and the full image of the mod-two T246 reflection action.
 
 The remaining headlines are not statable at the pins with a few simple definitions.
 Layer 1's canonical K3 cover, Picard specialization and integral numerical-lattice
@@ -16,7 +17,7 @@ complete linear systems and their resolved presentation carrier. Layer 3's equiv
 needs that presentation groupoid. Layer 4's Reye-family theorem needs the universal
 web degeneracy family and its parameter quotient. Layer 5's normal-closure and
 integral overlattice comparisons need the geometric Reye lattice and its marking
-adapter; the two statable representation headlines below are retained.
+adapter; the statable representation headlines below are retained.
 Layer 6's nodal automorphism and curve-transitivity theorems need the Reye open locus
 and its surface action. Its unnodal lifting criterion, very-general automorphism
 theorem and algebraic generic-open theorem need canonical-cover markings, Hodge
@@ -28,6 +29,13 @@ the intrinsic groupoid. No formal placeholder for any of these objects is introd
 namespace TauCetiRoadmap.EnriquesSurfaces
 
 /-! ## Layer 5: the two lattices and the faithful reflection action -/
+
+/-- The standard real geometric representation of any Coxeter system is faithful,
+including systems with infinite exponents or degenerate or indefinite standard form
+(Davis, second edition, Corollary D.1.2). -/
+theorem coxeterGeometricFaithful {I W : Type*} [Group W] {M : CoxeterMatrix I}
+    (cs : CoxeterSystem M W) : Function.Injective cs.geometricRepresentation := by
+  sorry
 
 /-- The T246 graph has chain 1--9 and the extra edge 0--4. -/
 def reyeAdjacent (i j : Fin 10) : Prop :=
