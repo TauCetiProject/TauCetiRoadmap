@@ -5,11 +5,11 @@ import TauCeti.NumberTheory.DirichletCharacter.GeneralizedBernoulli
 import TauCeti.NumberTheory.ModularForms.Newforms.Newform
 
 /-!
-# Cyclotomic class groups and Stickelberger theory: headline statements
+# Cyclotomic class groups and Stickelberger theory: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. These statements suggest Lean forms for headline results; discharging
-all of them finishes neither a layer nor the roadmap.
+`README.md`. This file states the roadmap’s headline theorems against the pinned
+Mathlib and Tau Ceti APIs; discharging all of them finishes neither a layer nor the roadmap.
 
 The statements cover Hilbert 92 and exact Hilbert 94, full integral Stickelberger
 annihilation, Bernoulli annihilators, signed Gauss sums and abelian
@@ -41,6 +41,9 @@ open CategoryTheory NumberField
 
 namespace TauCetiRoadmap.CyclotomicClassGroupsAndStickelberger
 
+/-! ## Layer 0: native class modules and arithmetic characters -/
+
+/-- The native cyclotomic field has its canonical cyclotomic-extension structure. -/
 local instance (m : ℕ) [NeZero m] :
     IsCyclotomicExtension {m} ℚ (CyclotomicField m ℚ) :=
   CyclotomicField.isCyclotomicExtension m ℚ
@@ -65,6 +68,8 @@ noncomputable def cyclotomicClassEigenspace (p r : ℕ) [Fact p.Prime] [NeZero p
       (((ω (ZMod.unitsMap (dvd_pow_self p (by omega : r ≠ 0)) a.val)) ^ i : ℤ_[p]ˣ) :
         ℤ_[p]) • LinearMap.id)
 
+/-! ## Layer 1: relative units, capitulation and one-prime control -/
+
 /-- Hilbert 92: in a prime-degree cyclic extension unramified at infinity,
 there exists a norm-one integral unit which is not a unit coboundary (README §1.3). -/
 theorem hilbert92 (K L : Type*) [Field K] [NumberField K]
@@ -86,6 +91,8 @@ theorem hilbert94_card (K L : Type*) [Field K] [NumberField K]
     Nat.card (ClassGroup.extendedHom (𝓞 K) (𝓞 L)).ker =
       Module.finrank K L * (Units.map (RingOfIntegers.norm K (L := L))).range.index := by
   sorry
+
+/-! ## Layer 2: the integral Stickelberger ideal at every conductor -/
 
 /-- The rational Stickelberger element, with the inverse on the group-ring basis. -/
 noncomputable def stickelberger (m : ℕ) [NeZero m] : MonoidAlgebra ℚ (ZMod m)ˣ :=
@@ -122,6 +129,8 @@ theorem stickelbergerIdeal_annihilates (m : ℕ) [NeZero m]
           (((IsCyclotomicExtension.Rat.galEquivZMod m K).symm a).toRingEquiv)) c) ^
         x.coeff a) = 1 := by
   sorry
+
+/-! ## Layer 3: Bernoulli annihilators, reflection and class-number products -/
 
 /-- The primitive-conductor Bernoulli scalar is integral and kills the odd
 ωⁱ class component for i ≢ 1 modulo p−1 (README §3.2). -/
@@ -193,6 +202,8 @@ theorem realClassNumber_log_product (m : ℕ) [NeZero m]
         else 1 := by
   sorry
 
+/-! ## Layer 4: the modular construction and Herbrand–Ribet -/
+
 /-- The relative class-number bound at every odd prime (README §4.1). -/
 theorem relativeClassNumber_lt (p : ℕ) [NeZero p] (hp : p.Prime) (hodd : p ≠ 2) :
     (NumberField.classNumber (CyclotomicField p ℚ) : ℝ) /
@@ -238,6 +249,8 @@ theorem herbrand_ribet (p : ℕ) [Fact p.Prime] [NeZero p]
       (p : ℤ) ∣ (bernoulli k).num := by
   sorry
 
+/-! ## Layer 5: regular primes, primary units and prime-power stability -/
+
 /-- Nondivisibility of the full native class number; primality is a theorem hypothesis. -/
 def IsRegularPrime (p : ℕ) [NeZero p] : Prop :=
   ¬ p ∣ NumberField.classNumber (CyclotomicField p ℚ)
@@ -279,6 +292,8 @@ theorem regular_prime_power_real_class_number (p : ℕ) [NeZero p]
       (NumberField.maximalRealSubfield (CyclotomicField (p ^ r) ℚ)) := by
   sorry
 
+/-! ## Layer 6: circular units and the real class-number index -/
+
 /-- The native integral geometric-sum unit with field value (1−ζᵃ)/(1−ζ). -/
 noncomputable def cyclotomicUnit {A : Type*} [CommRing A] [IsDomain A]
     {m : ℕ} [NeZero m] (ζ : A) (hζ : IsPrimitiveRoot ζ m) (hm : 2 ≤ m)
@@ -300,6 +315,8 @@ theorem circularUnit_index (p r : ℕ) [NeZero p] (hp : p.Prime) (hr : 1 ≤ r)
     (circularUnits K ζ hζ hm).index = NumberField.classNumber (maximalRealSubfield K) := by
   sorry
 
+/-! ## Layer 7: the cyclotomic norm limit and class-number growth -/
+
 /-- Eventual Iwasawa class-number growth for every prime, with base conductor
 p at odd p and four at p=2 (README §7.3). -/
 theorem cyclotomic_class_number_growth (p : ℕ) [NeZero p] (hp : p.Prime) :
@@ -308,6 +325,8 @@ theorem cyclotomic_class_number_growth (p : ℕ) [NeZero p] (hp : p.Prime) :
         (CyclotomicField (p ^ (n + (if p = 2 then 2 else 1))) ℚ)) : ℤ) =
         (mu : ℤ) * (p : ℤ) ^ n + (lam : ℤ) * n + nu := by
   sorry
+
+/-! ## Layer 8: inverse-character vanishing and unramified quotients -/
 
 /-- The inverse tame-character component vanishes at every positive
 prime-power level, without regularity or Vandiver (README §8.1). -/
