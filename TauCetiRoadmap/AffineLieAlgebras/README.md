@@ -78,7 +78,7 @@ coefficientwise annihilation by a power of `z − w`, not analytic convergence.
 **From Mathlib.**
 
 - `LieAlgebra.loopAlgebra`, `LoopAlgebra.toFinsupp`, `LoopAlgebra.residuePairing` and
-  `loopAlgebra.twoCocycleOfBilinear` (`Mathlib/Algebra/Lie/Loop.lean`): the polynomial loop
+  `LieAlgebra.LoopAlgebra.twoCocycleOfBilinear` (`Mathlib/Algebra/Lie/Loop.lean`): the polynomial loop
   algebra and its residue cocycle, with `+Res(f dg)` in the second mode index.
 - `LieModule.Cohomology.d₁₂`, `d₂₃`, `twoCocycle` (`Mathlib/Algebra/Lie/Cochain.lean`): alternating
   Chevalley–Eilenberg cochains; `d₁₂` has trivial-coefficient formula `−f([x,y])`.
@@ -449,8 +449,11 @@ sense, not for arbitrary discontinuous pronilpotent representations.
 Prove the finite-generation theorem: every finitely generated smooth `Uκ`-module admits a rational
 integrating `K_N`-action for some `N > 0`; if `M > 0` is a common annihilating order for finitely
 many generators, `N` may be taken to be `M`. Present the module as a quotient of a finite sum of
-congruence-induced modules; on each `Q_M`, `a_M` does not increase PBW length while raising the loop
-degree of its finite orbit, giving finite-jet rationality; descend the action and prove uniqueness
+congruence-induced modules. Prove that every vector of `Q_M` lies in an `a_M`-stable
+finite-dimensional subspace factoring through a finite jet, on which all sufficiently long
+products of elements of `a_M` act by zero. Use PBW estimates depending on both the length and
+the mode indices of the vector's monomials; PBW length alone gives no uniform nilpotence bound.
+These subspaces give finite-jet rationality; descend the action and prove uniqueness
 and intertwining with the current-level A2.3 lift (Frenkel, *Langlands correspondence for loop groups*,
 §1.3.1 and Lemma 1.3.1). *Needs:* A3.1, A2.3; the formal loop and oper supplier contract F3.1.
 
@@ -462,10 +465,21 @@ and intertwining with the current-level A2.3 lift (Frenkel, *Langlands correspon
   `exp : a_0 → K_0` is not surjective.
 - Objectwise isomorphisms with `K_N`-modules alone give no coherent rational action: finite
   generation is retained in the uniform-`N` theorem.
+- In `Q_1(sl₂)` with cyclic vector `v`, for every `r ≥ 1`,
+  `h_1^r e_(−r)v = 2^r e_0v ≠ 0`, whereas `h_1^(r+1) e_(−r)v = 0`.
+  All `e_(−r)v` have PBW length one, excluding a bound depending only on length.
+- For `r ≥ 1`, `W_r = span(v, x_n v : x ∈ sl₂, −r ≤ n ≤ 0)` has dimension
+  `1 + 3(r+1)`, is stable under `a_1`, is killed by `a_(r+1)`, and is killed by every
+  product of `r+1` elements of `a_1`. At `r = 1` its dimension is 7 and at `r = 2`
+  its dimension is 10, while `h_1 e_(−1)v = 2e_0v` and `h_1² e_(−2)v = 4e_0v`.
+- At level `κ = kκ0`, `h_1 h_(−1)v = 2k v` and `a_1 v = 0`: the stable
+  subspace must include the vacuum to contain central terms; this also covers `k = 0`.
 
 ### Examples
 
-The induced modules `Q_M` for `sl₂`, with `a_M` acting nilpotently on each finite PBW-length piece.
+The induced modules `Q_M` for `sl₂`, with every vector contained in a finite-dimensional
+nilpotent `a_M`-submodule factoring through a finite jet; the subspaces `W_r` above exhibit
+the dependence of the nilpotence bound on mode indices.
 
 ### Dependencies
 
