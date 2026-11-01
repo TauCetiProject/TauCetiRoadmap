@@ -1,13 +1,14 @@
 import Mathlib
 
 /-!
-# Analytic number theory, Part I: headline theorems
+# Analytic number theory, Part I: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
 `README.md`; these statements suggest Lean forms for its headline results.
 
-Layer 0 states finite-order Hadamard factorization, Siegel's lower bound and
-Siegel–Walfisz. Layer 1 states Davenport cancellation, the half-interval explicit
+Layer 0 states finite-order Hadamard factorization and Siegel–Walfisz; Siegel's
+theorem itself is ImaginaryQuadraticClassNumber's (`quadratic_LFunction_siegel`) and is
+not restated. Layer 1 states Davenport cancellation, the half-interval explicit
 formula, Dirichlet-polynomial means, Selberg density, Mestre's general Weil formula
 and the conditional RH/GRH prime estimates. Layer 2 states Louboutin's residue bound
 and bounded-degree Brauer–Siegel. Layer 3 states the Landau–Ramanujan and restricted
@@ -44,13 +45,6 @@ def psiAP (q : ℕ) (a : ZMod q) (x : ℝ) : ℝ :=
 /-- The number `π(x; a, q)` of primes `p ≤ x` with `p ≡ a mod q`. -/
 def primeCountAP (q : ℕ) (a : ZMod q) (x : ℝ) : ℕ :=
   ((Finset.Ioc 0 ⌊x⌋₊).filter fun p : ℕ => p.Prime ∧ (p : ZMod q) = a).card
-
-/-- Siegel's lower bound is uniform over primitive nonprincipal quadratic characters. -/
-theorem siegel_lower_bound {ε : ℝ} (hε : 0 < ε) :
-    ∃ c > 0, ∀ (N : ℕ) [NeZero N] (χ : DirichletCharacter ℂ N),
-      χ.IsPrimitive → χ ≠ 1 → χ ^ 2 = 1 →
-      c * (N : ℝ) ^ (-ε) ≤ (DirichletCharacter.LFunction χ 1).re := by
-  sorry
 
 /-- Siegel–Walfisz in ψ form, uniformly for q ≤ (log x)^B; the constant can be ineffective. -/
 theorem siegel_walfisz (A B : ℝ) (hA : 0 < A) (hB : 0 < B) :
@@ -115,7 +109,8 @@ theorem dirichlet_polynomial_mean_square :
         (6 * Real.pi) * ∑ n ∈ Finset.Icc 1 N, (n : ℝ) * ‖a n‖ ^ 2 := by
   sorry
 
-/-- Selberg's primitive-character density estimate includes every exceptional zero. -/
+/-- The log-free primitive-character density estimate (Jutila's form implies it); the bound
+is at least one, so every exceptional zero is counted without a separate term. -/
 theorem selberg_zero_density {ε : ℝ} (hε : 0 < ε) :
     ∃ C > 0, ∀ Q T σ : ℝ, 2 ≤ Q → 2 ≤ T → 1 / 2 ≤ σ → σ ≤ 1 →
       (∑ q : Fin ⌊Q⌋₊, ∑ χ : DirichletCharacter ℂ (q.val + 1),
@@ -123,7 +118,7 @@ theorem selberg_zero_density {ε : ℝ} (hε : 0 < ε) :
           ∑ᶠ z : {z : ℂ // σ ≤ z.re ∧ z.re < 1 ∧ |z.im| ≤ T ∧
             DirichletCharacter.LFunction χ z = 0},
             ((analyticOrderAt (DirichletCharacter.LFunction χ) z.val).toNat : ℝ)
-        else 0) ≤ C * ((Q ^ (5 + ε) * T ^ (3 + ε)) ^ (1 - σ) + 1) := by
+        else 0) ≤ C * (Q ^ (5 + ε) * T ^ (3 + ε)) ^ (1 - σ) := by
   sorry
 
 /-- The Riemann hypothesis for one Dirichlet `L`-function.
@@ -435,8 +430,9 @@ theorem atkinson_bound (hBBR : BBRFiniteInput) {T : ℝ} (hT : (10 : ℝ) ^ 30 �
     |error T| ≤ 110 * Real.sqrt T * Real.log T := by
   sorry
 
-/-- The second-moment asymptotic from the BBR finite input has an absolute constant. -/
-theorem mean_square (hBBR : BBRFiniteInput) : error =O[atTop] (fun T : ℝ => Real.sqrt T * Real.log T) := by
+/-- Ingham's unconditional second-moment asymptotic with an absolute constant; it follows from
+`atkinson_formula` and the weighted divisor sums alone. -/
+theorem mean_square : error =O[atTop] (fun T : ℝ => Real.sqrt T * Real.log T) := by
   sorry
 
 end zetaSecondMoment
