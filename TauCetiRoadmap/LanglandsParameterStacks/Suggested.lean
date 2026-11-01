@@ -1,41 +1,43 @@
 import Mathlib
+import TauCeti.NumberTheory.ClassFieldTheory.WeilGroup.Basic
 
 /-!
-# Parameter stacks, invariant theory and spectral coefficients: headline targets
+# Parameter stacks, invariant theory and spectral coefficients: target signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. Suggested signatures express particular milestones; discharging them finishes
-neither a layer nor the roadmap.
+The roadmap is `README.md`; this file is not the roadmap. This is its headline acceptance
+test: it states the headline theorems against the pinned Mathlib and Tau Ceti APIs whenever
+their carriers are available. API lists and Checks belong to the README.
 
-No headline theorem can be stated against the pinned Mathlib and Tau Ceti APIs. The missing
-objects for the headline results are:
+The centre theorem for the local Weil group (0.7) is statable on the pinned carrier and is
+stated below. The other headline theorems lack the following objects:
 
-* LP0: finite wild ramification of every condensed L-parameter (LP0.3), the condensed extension
-  comparison (LP0.4), and restriction of enhanced wild parameters (LP0.8) need the local Weil
-  group with wild inertia, the relatively discrete coefficient functor, and classical admissible
-  parameters with their enhancement groups. The Weil-group centre theorem (LP0.6a) also needs
-  the local Weil group.
-* LP1: complete-intersection representability (LP1.5), derived classicality (LP1.8), cotangent
-  duality (LP1.9–LP1.10), the Weil–Deligne comparison (LP1.12), and singular-support theorems
-  (LP1.13–LP1.15) need finite-wild cocycle schemes, condensed Weil cochains, animated parameter
-  stacks and their full cotangent complexes and coherent-complex support theory.
-* LP2e: classification of coarse geometric points by semisimple parameters (LP2e.6,
+* Layer 0: finite wild ramification of every condensed L-parameter (0.3), the condensed extension
+  comparison (0.4), and restriction of enhanced wild parameters (0.9) need the local Weil
+  group with its condensed coefficient and finite-wild parameter interfaces, the relatively
+  discrete coefficient functor, and classical admissible parameters with their enhancement
+  groups. The topological local Weil group itself is supplied by Tau Ceti.
+* Layer 1: complete-intersection representability (1.5), derived classicality (1.9), cotangent
+  duality (1.10–1.11), the Lie-invariant and coadjoint zero-fibre comparison (1.12),
+  the Weil–Deligne comparison (1.15), and singular-support theorems (1.16–1.18) need finite-wild cocycle schemes, condensed Weil cochains, animated parameter
+  stacks and their full cotangent complexes, coadjoint invariant quotients of reductive
+  group schemes, and coherent-complex support theory.
+* Layer 2: classification of coarse geometric points by semisimple parameters (2.6,
   Fargues–Scholze, Proposition VIII.3.2) needs cocycle schemes and algebraic complete reducibility
-  for the L-group. The derived free-cocycle presentation (LP2e.8) needs animated cocycle algebras.
-  The abstract excursion centre map (LP2e.15, Theorem VIII.4.1) needs the excursion algebra and
+  for the L-group. The derived free-cocycle presentation (2.8) needs animated cocycle algebras.
+  The abstract excursion centre map (2.15, Theorem VIII.4.1) needs the excursion algebra and
   coherent categorical Hecke data.
-* LP2c: generalized reductive reconstruction (LP2c.2), the continuous semisimple character
-  bijections (LP2c.5, Proposition VIII.3.8), and parameters of Schur objects (LP2c.8) need
+* Layer 3: generalized reductive reconstruction (3.3), the continuous semisimple character
+  bijections (3.6, Proposition VIII.3.8), and parameters of Schur objects (3.9) need
   invariant-family pseudocharacters, semisimple parameter moduli and the categorical excursion
   action, together with the relatively discrete Weil-continuity convention.
-* LP3: the good-filtration theorems (LP3.0), solvable fixed-group theorems (LP3.13–LP3.17),
-  wild gerbe elimination (LP3.20) and tame reduction (LP3.21) need highest-weight modules and
+* Layer 4: the good-filtration theorems (4.1), solvable fixed-group theorems (4.14–4.18),
+  wild gerbe elimination (4.21) and tame reduction (4.22) need highest-weight modules and
   rational algebraic-group cohomology, as well as enhanced perfect categories of classifying
   and mapping stacks.
-* LP2i: the integral equivariant excursion comparison and invariant base change (LP2i.1–LP2i.2)
+* Layer 5: the integral equivariant excursion comparison and invariant base change (5.1–5.2)
   need the cocycle algebra as an object of the stable infinity-category `Ind Perf(BĤ)` and its
   derived rational invariants.
-* LP4: perfect generation (LP4.2) and the module comparison (LP4.3), Fargues–Scholze,
+* Layer 6: perfect generation (6.2) and the module comparison (6.3), Fargues–Scholze,
   Theorem VIII.5.1, need perfect complexes on parameter quotient stacks, their Ind-completions
   and module objects in `Ind Perf(BĤ)`.
 
@@ -45,5 +47,17 @@ these missing objects. None of these gaps is a definition of a few lines on the 
 -/
 
 namespace TauCetiRoadmap.LanglandsParameterStacks
+
+open scoped ValuativeRel
+
+/-! ## Layer 0: cocycles, coefficients and wild enhancements -/
+
+/-- The local Weil group of a nonarchimedean local field of odd residue characteristic
+has trivial centre (Kurinczuk–Skodlerack–Stevens, §1.21, equation (1.1)). -/
+theorem weilGroup_center_eq_bot (K : Type*) [Field K] [ValuativeRel K]
+    [TopologicalSpace K] [IsNonarchimedeanLocalField K]
+    (hodd : Odd (ringChar 𝓀[K])) :
+    Subgroup.center (TauCeti.ClassFieldTheory.WeilGroup K) = ⊥ := by
+  sorry
 
 end TauCetiRoadmap.LanglandsParameterStacks
