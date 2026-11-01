@@ -26,15 +26,16 @@ are `littlewoodRichardson`, `murnaghanNakayama`, `hallForm_frobeniusCharacterist
 This roadmap owns: the sign-transpose intertwiner `T_λ`, its scalar `κ_t`, the character identity
 `χ^(λᵗ) = sgn · χ^λ`, Specht self-duality through the tabloid form, and the induction and Kronecker
 transpose comparisons (Layer 4, §§4.1–4.4); the comparison of `κ_t` with `n!/f^λ` (Layer 5, §5.1);
-the identification of the integer character table with the complex one of CharacterTheory
-(Layer 6, §6.1); skew tableaux and their conversions, jeu de taquin, Knuth equivalence, dual
+the transpose-sign identity on the symmetric character table (Layer 6, §6.1); skew tableaux and
+their conversions, jeu de taquin, Knuth equivalence, dual
 equivalence, the Littlewood–Richardson tableaux and rule, evacuation and full RSK, the
 character-side Murnaghan–Nakayama rule, the Hall form on the finite symmetric polynomials and the
 isometry property of the native Frobenius characteristic, the stable ring `Λ_R` with its Hall form,
 `ω`, free generators, Hopf structure and rational power-sum presentation, the stable Frobenius
 characteristic with its induction product, and the matrix specialization of Newton's identities
 (Layer 7, §§7.1–7.9); the simultaneous equivariant decomposition of `(ℂᵈ)^(⊗n)` and its balanced
-tensor presentation (Layer 8, §§8.1–8.2); the Brauer algebra `B_k(δ)` with its loop rule, the
+tensor presentation and transpose comparisons (Layer 8, §§8.1–8.3); the Brauer algebra `B_k(δ)`
+with its loop rule, the
 orthogonal and symplectic Brauer actions, the first fundamental theorem on tensors and the reverse
 centralizer, the harmonic tensors and the shape spaces `E_λ`, the trace filtration and cup
 expansions, the multiplicity spaces and cell comparisons, and the three semisimplicity statements
@@ -48,7 +49,11 @@ consumed by the names listed under *From Tau Ceti*. Of Layers 4–6, irreducibil
 irreducibility, distinctness, completeness over `ℚ` and over `ℂ`, Young's rule, the trivial, sign
 and standard identifications, the standard basis, the hook-length formula, the sum of squares,
 the integer character, the character table with both orthogonality relations and the class sizes
-are likewise in Tau Ceti; each layer below lists only what the library lacks.
+are likewise in Tau Ceti, including the integer/complex table comparison
+`TauCeti.symmetricCharacterTableℂ_apply` and `TauCeti.symmetricCharacterTableℂ_eq_characterTable`.
+The generic external product belongs to CharacterTheory §3.6; induction and its projection
+comparison are `Representation.ind` and `TauCeti.indProjection`. The targets here are their
+Specht-specific transpose comparisons.
 
 Left to named roadmaps: the Schur functor `𝕊^λ(ℂᵈ)` as a `GLₔ`-subrepresentation, its vanishing
 criterion and symmetric and exterior extremes belong to ClassicalGroups Layer 2, and the
@@ -66,7 +71,8 @@ saturation theorem to TensorProductCombinatorics.
 A kept variant: the finite-variable Hall form `hallForm` of §7.4 lives on the native
 `TauCeti.symmetricHomogeneousSubmodule`, so that its power-sum normalisation and the isometry
 property are stated against the native Frobenius characteristic; the stable Hall form of §7.5 is
-its inverse limit and is the form consumers use in `Λ_R`.
+defined by stable Schur coordinates, equivalently by any projection to `d ≥ n` in degree `n`,
+and is the form consumers use in `Λ_R`. Projection to `d < n` need not preserve it.
 
 ## Conventions
 
@@ -94,7 +100,10 @@ its inverse limit and is the form consumers use in `Λ_R`.
 - **Tensor powers.** The `n`-th tensor power of `V = Fin d → ℂ` is `⨂[ℂ] (_ : Fin n), V`; the
   `Sₙ`-action is `TauCeti.permTensorAction ℂ d n` (dimension first, degree second) and the
   `GLₔ`-action is `TauCeti.tensorPowerRep ℂ d n`. No bespoke tensor-power type is introduced.
-- **Orthogonal and symplectic groups.** `O_n` is `Matrix.orthogonalGroup (Fin n) ℂ`, the symmetric
+- **Coefficients in Layer 9.** The diagram algebra and tensor actions of §§9.1–9.2 are over
+  any commutative ring `R`. The FFT of §9.3 is over an infinite field `K`, with `2 ≠ 0` for
+  the orthogonal group. Reverse commutants by complete reducibility and §§9.4–9.9 use `ℂ`.
+- **Orthogonal and symplectic groups.** In the complex statements, `O_n` is `Matrix.orthogonalGroup (Fin n) ℂ`, the symmetric
   bilinear orthogonal group (Mathlib's star on `ℂ` here is `starRingOfComm`, so no conjugation
   enters); `Sp_(2l)` is `Matrix.symplecticGroup (Fin l) ℂ` on `(Fin l ⊕ Fin l) → ℂ` with the form
   `ω(v, w) = vᵀ J w`, `J = Matrix.J`, so that for the basis vectors `e = Sum.inl 0`, `f = Sum.inr 0`
@@ -117,7 +126,7 @@ its inverse limit and is the form consumers use in `Λ_R`.
   with `content`; `Nat.Partition n` with its `Fintype` instance; `Equiv.Perm.cycleType`,
   `Equiv.Perm.partition`, `Equiv.Perm.sign`.
 - `MonoidAlgebra`, `Representation`, `Representation.ofMulAction`, `Representation.ind`,
-  `Representation.dual`, `Representation.IntertwiningMap`, `Subrepresentation`, `Rep`, `FDRep`
+  `Representation.dual`, `Representation.tprod`, `Representation.comp`, `Representation.IntertwiningMap`, `Subrepresentation`, `Rep`, `FDRep`
   with its monoidal structure, `FDRep.character`, `Representation.IsIrreducible`,
   `CategoryTheory.Simple`, Maschke's theorem and Schur's lemma.
 - `MvPolynomial.esymm`, `hsymm`, `psum`, `msymm`, `esymmPart`, `hsymmPart`, `psumPart`,
@@ -179,7 +188,8 @@ Layers 4–6, classification, basis, characters (`RepresentationTheory/Symmetric
 `TauCeti.sum_sq_standardCount`, `TauCeti.spechtChar` with `TauCeti.spechtChar_cast`,
 `TauCeti.spechtCharValue`, `TauCeti.symmetricCharacterTable`,
 `TauCeti.symmetricCharacterTable_column_orthogonality`, `TauCeti.symmetricCharacterTable_row_orthogonality`,
-`TauCeti.symmetricCharacterTableℂ` with `TauCeti.isCharacterTableSpec_symmetricCharacterTableℂ`,
+`TauCeti.symmetricCharacterTableℂ` with `TauCeti.symmetricCharacterTableℂ_apply`,
+`TauCeti.symmetricCharacterTableℂ_eq_characterTable`, `TauCeti.isCharacterTableSpec_symmetricCharacterTableℂ`,
 `TauCeti.partMultiplicity`, `TauCeti.zPart` and `TauCeti.card_partition_parts_mul_zPart_fin`;
 `TauCeti.signLinearCharacter` and `FDRep.ofLinearCharacter` (`RepresentationTheory/Symmetric/SignCharacter.lean`,
 `RepresentationTheory/LinearCharacter/Basic.lean`).
@@ -205,7 +215,7 @@ Layer 7, finite Schur theory and class functions (`RingTheory/MvPolynomial/Symme
 `ch(f) = ∑_μ f(μ) p_μ / z_μ`); `TauCeti.ClassFunction` with `TauCeti.ClassFunction.ofCharacter`,
 `TauCeti.ClassFunction.toConjClasses`, `TauCeti.ClassFunction.characterPairing`
 (`(1/|G|) ∑_g f(g) h(g⁻¹)`, bilinear), `TauCeti.virtualCharacters`, and induction of class functions
-along a subgroup of finite index, `Subgroup.indClassFunction`; `YoungDiagram.IsRimHook μ ν` (`μ / ν`
+along a subgroup `S` with `[S.FiniteIndex]`, `Subgroup.indClassFunction`; `YoungDiagram.IsRimHook μ ν` (`μ / ν`
 is a rim hook, ambient shape first) and `YoungDiagram.rimHookHeight` (rows met, minus one);
 `TauCeti.rowInsert`, `TauCeti.reverseRowInsert`, `TauCeti.rowInsertEquiv` and `List.IsTableauRows`;
 `Equiv.Perm.finSumPermHom` (the block embedding `Sₙ × Sₘ → S_(n+m)`); `Multiset.mul_esymm_eq_sum`.
@@ -244,6 +254,10 @@ with its parity and composition bounds, `TauCeti.BrauerDiagram.relabel`, `TauCet
 (`= cup ∘ cap`), `TauCeti.symplecticCrossing`, `TauCeti.symplecticCap_comp_symplecticCup`
 (`= −2l`) and `TauCeti.piTensorProductMap_comp_symplecticCup`.
 
+The projection formula `TauCeti.indProjection`
+(`RepresentationTheory/Induction/Projection.lean`) is an isomorphism in `Rep` over any commutative
+ring along any group homomorphism: `Ind(X ⊗ Res Y) ≅ Ind(X) ⊗ Y`; §4.4 uses its inverse.
+
 ### From TauCetiRoadmap.ClassicalGroups
 
 Layer 2 owns the Schur functor `𝕊^λ(ℂᵈ)` as a `GLₔ`-subrepresentation of the tensor power, its
@@ -255,8 +269,9 @@ consumes.
 ### From TauCetiRoadmap.CharacterTheory
 
 Layer 2 owns the count of irreducibles over a splitting field; Layer 5 owns
-`TauCeti.IsCharacterTableSpec` and its uniqueness statement. §6.1 here compares the symmetric
-character table with that specification.
+`TauCeti.IsCharacterTableSpec` and its uniqueness statement; §3.6 supplies external tensor
+products, formed by `Representation.tprod` after pullback along the two projections.
+§4.4 uses these products and §6.1 uses the table convention.
 
 ### From TauCetiRoadmap.InductionRestriction
 
@@ -266,23 +281,24 @@ them for the induction product of the stable Frobenius characteristic.
 ### From TauCetiRoadmap.ReductiveGroups
 
 Layer 3 owns identity components and component groups; Layer 6 owns, in characteristic zero,
-reductive ⇔ linearly reductive. §9.6 here consumes both for complete reducibility of the tensor
+reductive ⇔ linearly reductive. §9.3 here consumes both for complete reducibility of the tensor
 representations of `O_n` and `Sp_(2l)`.
 
 ## How to read the build
 
 Layers 0–3 are consumed from Tau Ceti and introduce nothing. Layer 4 builds the sign-transpose
 intertwiner `T_λ`, its character form, Specht self-duality and the induction and Kronecker
-transpose comparisons; Layer 5 compares its scalar with the hook-length dimension; Layer 6 ties the
-integer character table to the complex specification. Layer 7 builds, in independent lanes, the
+transpose comparisons; Layer 5 compares its scalar with the hook-length dimension; Layer 6
+transports the transpose-sign identity through the native integer/complex table comparison. Layer 7 builds, in independent lanes, the
 skew-tableau and Littlewood–Richardson theory with RSK (§§7.1–7.2), the Murnaghan–Nakayama rule from
 the native Frobenius formula (§7.3), the finite Hall form and the isometry (§7.4), the stable ring
 `Λ_R` with its Hall form, `ω` and the rational presentation (§7.5), the stable Frobenius
 characteristic and its induction product (§7.6), the Hopf structure (§7.7), the matrix Newton
 identities (§7.8) and the power-sum basis comparisons (§7.9). Layer 8 builds the simultaneous
 decomposition of the tensor power from the native centralizer theorems and the Schur functor
-(§8.1) and its balanced-tensor presentation (§8.2). Layer 9 builds the Brauer algebra (§9.1), its
-two geometric actions (§9.2), the invariant-tensor bridge and the first fundamental theorem (§9.3),
+(§8.1), its balanced-tensor presentation (§8.2) and the Schur-functor transpose comparison (§8.3).
+Layer 9 builds the Brauer algebra (§9.1), its two geometric actions (§9.2), group-image complete
+reducibility over `ℂ`, the invariant-tensor bridge, FFT and reverse commutant (§9.3),
 the harmonic tensors and shape spaces (§9.4), the trace filtration (§9.5), cup expansions and their
 relations (§9.6), the multiplicity spaces and cell comparisons (§9.7), the semisimplicity
 statements (§9.8) and the rank-one symplectic examples (§9.9). The order of construction is
@@ -383,9 +399,8 @@ symmetrizer of `tᵗ` in the opposite product order (Fulton–Harris, Lecture 4,
 **Checks.**
 
 - For the row tableau of shape `(2)`, `tᵗ` is the column tableau of shape `(1,1)`; `ε(a_t) =
-  ε(1 + (0 1)) = 1 − (0 1) = b_(tᵗ)`. A sign automorphism defined with `sgn(σ)⁻¹` gives the same
-  value here and is excluded only by the integer-coefficient comparison `ε(σ) = sgn(σ) σ` with
-  `sgn(σ) ∈ {±1}`.
+  ε(1 + (0 1)) = 1 − (0 1) = b_(tᵗ)`. In `S₃`, `ε((0 1 2)) = (0 1 2)`, whereas inversion
+  sends it to `(0 2 1)`; these are distinct basis vectors of `ℚ[S₃]`.
 - For `n = 0` and `n = 1`, `ε` is the identity and `tᵗ` is the empty, respectively one-cell,
   tableau.
 - For the self-transpose shape `(2,1)`, `tᵗ` of the tableau with rows `0 1 / 2` is the tableau
@@ -466,21 +481,21 @@ field: over `ℂ` this is a complex-bilinear duality, distinct from a Hermitian 
 ### 4.4 Induction and Kronecker transpose comparisons
 
 For `λ ⊢ a`, `μ ⊢ b`, `ν ⊢ a+b`, let `C_((λ,μ))^ν` be the space of intertwiners from `S^ν` to the
-representation of `S_(a+b)` induced along the block embedding `Equiv.Perm.finSumPermHom a b` from
-the external tensor product `S^λ ⊠ S^μ` of `S_a × S_b`. Construct the external tensor product of
-two representations of a product group and the induction along an injective homomorphism
-(`Representation.ind`), prove that the restriction of `sgn_(a+b)` along the block embedding is
-`sgn_a ⊠ sgn_b`, and construct the comparison `Ind(W) ⊗ sgn ≅ Ind(W ⊗ Res sgn)`. With
+representation `inducedSpecht λ μ` of `S_(a+b)` induced along the block embedding `Equiv.Perm.finSumPermHom a b` from
+the external tensor product `S^λ ⊠ S^μ` of `S_a × S_b` from CharacterTheory §3.6. Use
+`Representation.ind` along the block embedding, prove that the restriction of `sgn_(a+b)` is
+`sgn_a ⊠ sgn_b`, and apply the inverse of `TauCeti.indProjection` to obtain
+`Ind(W) ⊗ sgn ≅ Ind(W ⊗ Res sgn)`. With
 `T_λ, T_μ, T_ν` this gives a linear equivalence `C_((λ,μ))^ν ≃ C_((λᵗ,μᵗ))^(νᵗ)` with explicit
-inverse. Through §8.1 and ClassicalGroups Layer 2, derive the transposed Schur-functor product
-decomposition with the same multiplicity spaces, with the zero value for shapes of more than `d`
-rows. Compare with §7.5's `ω(s_λ) = s_(λᵗ)` rather than substituting it for the intertwiner. For
+inverse, stated as `inducedSpechtTranspose`. For
 tensor products inside one `Sₙ` the two sign twists cancel: construct
-`S^(λᵗ) ⊗ S^(μᵗ) ≅ S^λ ⊗ S^μ` and `S^(λᵗ) ⊗ S^μ ≅ (S^λ ⊗ S^μ) ⊗ sgn_n`, hence the two-factor and
+`kroneckerDoubleTranspose`, `S^(λᵗ) ⊗ S^(μᵗ) ≅ S^λ ⊗ S^μ`, and
+`kroneckerSingleTranspose`, `S^(λᵗ) ⊗ S^μ ≅ (S^λ ⊗ S^μ) ⊗ sgn_n`, hence the two-factor and
 factor/output transpose symmetries of the Kronecker multiplicity spaces; simultaneous
 transposition of all three indices is a different assertion and is not claimed (James,
 Theorem 16.4 for the Littlewood–Richardson rule on induced modules). *Needs:* §4.2; Tau Ceti
-`Equiv.Perm.finSumPermHom`; Mathlib `Representation.ind`, `Representation.IntertwiningMap`.
+`Equiv.Perm.finSumPermHom`, `TauCeti.indProjection`; Mathlib `Representation.ind`,
+`Representation.IntertwiningMap`; CharacterTheory §3.6.
 
 **Checks.**
 
@@ -538,12 +553,10 @@ orthogonality, and the class sizes `n!/z_μ` are consumed (*From Tau Ceti*, Laye
 
 ### 6.1 The character table against the specification
 
-Prove that the integer table `TauCeti.symmetricCharacterTable n`, cast to `ℂ` and reindexed through
-`TauCeti.partitionEquivConjClasses`, is the matrix `TauCeti.symmetricCharacterTableℂ n` that
-satisfies `TauCeti.IsCharacterTableSpec`, so that the symmetric character table of CharacterTheory
-Layer 5 is the one computed here from partitions; prove `spechtChar_conjugate` on the table as
-`X(λᵗ, μ) = sgn(μ) X(λ, μ)` with `sgn(μ) = (−1)^(n − ℓ(μ))`. *Needs:* §4.3; Tau Ceti
-`TauCeti.symmetricCharacterTable`, `TauCeti.symmetricCharacterTableℂ`,
+Prove `spechtChar_conjugate` on the table as `X(λᵗ, μ) = sgn(μ) X(λ, μ)` with
+`sgn(μ) = (−1)^(n − ℓ(μ))`. Use the integer/complex table comparison to transport this
+identity to the character-table specification. *Needs:* §4.3; Tau Ceti
+`TauCeti.symmetricCharacterTableℂ_apply`, `TauCeti.symmetricCharacterTableℂ_eq_characterTable`,
 `TauCeti.isCharacterTableSpec_symmetricCharacterTableℂ`; CharacterTheory Layer 5.
 
 **Checks.**
@@ -632,9 +645,16 @@ Corollary 2 and §5.2; Macdonald I.9, (9.2); Stanley, *Enumerative Combinatorics
 A1.3). Prove Schützenberger evacuation on standard tableaux of a straight shape (remove the entry
 `0`, rectify, record the vacated cell with the largest remaining label) is an involution preserving
 shape. Build RSK for permutations, words and nonnegative integer matrices from `TauCeti.rowInsert`
-through the conversions of §7.1, with inverse, shape and weight identities, the transpose symmetry
-`RSK(σ⁻¹) = (Q, P)` and the evacuation compatibility (reversing the word evacuates the insertion
-tableau and transposes the shape); its permutation case is a bijection from `Equiv.Perm (Fin n)`
+through the conversions of §7.1, with inverse, shape and weight identities. For permutations,
+prove `RSK(σ⁻¹) = (Q, P)` and `RSK(reverse σ) = (Pᵗ, evac(Q)ᵗ)`
+(Stanley, *Increasing and decreasing subsequences*, equation (7), p. 5).
+For words on `Fin d`, use weak rows and strict columns; define semistandard evacuation by
+rotating the tableau by 180 degrees inside its bounding rectangle, complementing entries by `i ↦ d−1−i`, and rectifying the
+resulting skew tableau. Prove it is a shape-preserving involution reversing the content, and
+`P(reverseComplement w) = evac_d(P(w))` (Lenart, arXiv v6, §2.4, pp. 6–7).
+For nonnegative integer matrices, order the biword
+lexicographically (top entries first, bottom entries increasing on ties), and prove
+`RSK(Aᵀ) = (Q(A), P(A))`. Its permutation case is a bijection from `Equiv.Perm (Fin n)`
 onto pairs of standard tableaux of a common shape, whose cardinality identity is the native
 `TauCeti.sum_sq_standardCount` (Fulton, *Young Tableaux*, §§4.1–4.3; Stanley 2, Theorem 7.11.5 and
 §A1.2). *Needs:* §7.1; Tau Ceti `TauCeti.schurPoly`, `TauCeti.diagramSchurPoly`,
@@ -660,7 +680,15 @@ onto pairs of standard tableaux of a common shape, whose cardinality identity is
   `1 1`, has reading word `0 0 1 1` and is the single Littlewood–Richardson tableau.
 - RSK of the permutation `1 0 2` (one-line notation, zero-indexed) gives `P` with rows `0 2 / 1`
   and `Q` with rows `0 2 / 1`; the identity permutation gives a single row; the reversal
-  `2 1 0` gives a single column.
+  `2 1 0` gives a single column. Reversing `1 0 2` gives `2 0 1`, with
+  `P = 0 1 / 2 = P(1 0 2)ᵗ` and `Q = 0 2 / 1 = evac(Q(1 0 2))ᵗ`.
+- The empty word on `Fin 0` gives two empty tableaux; evacuation fixes the empty tableau.
+- The word `0 0` equals its reversal and has shape `(2)`, excluding shape transposition for
+  plain word reversal; on `Fin 2`, its reverse complement is `1 1`, still shape `(2)`.
+- On `Fin 2`, `0 1 0` has insertion tableau `0 0 / 1`; its reverse complement `1 0 1`
+  has tableau `0 1 / 1`, the semistandard evacuation, with content `(1,2)` instead of `(2,1)`.
+- The matrix `[[1,1],[0,0]]` gives `P = 0 1`, `Q = 0 0`; its transpose gives
+  `P = 0 0`, `Q = 0 1`.
 
 ### 7.3 The Murnaghan–Nakayama rule
 
@@ -699,7 +727,7 @@ Theorem 4.10.2). *Needs:* Tau Ceti `TauCeti.spechtCharValue`, `TauCeti.psumPart_
   `r = 2`, `ν = (2)`, the rim hook `(2,2)/(2)` (the second row, height `0`) leaves `(2)` and the
   rim hook `(2,2)/(1,1)` (the second column, height `1`) leaves `(1,1)`, so
   `χ^((2,2))((2,2)) = χ^((2))((2)) − χ^((1,1))((2)) = 1 − (−1) = 2`, the table value; the column
-  convention gives `−1 + 1 = 0`.
+  convention gives `−1 − 1 = −2`.
 
 ### 7.4 The Hall form on finite symmetric polynomials and the isometry
 
@@ -752,8 +780,9 @@ generation by the `h_r` through the triangular change of generators, and constru
 complementary-minor identity for the mutually inverse Toeplitz matrices `H` and `E`
 (`∑_(i=0)^r (−1)^i e_i h_(r−i) = δ_(r,0)`), prove `ω(s_λ) = s_(λᵗ)` from the two Jacobi–Trudi
 identities, `ω² = id`, and recover each Pieri rule from the other under `ω`. Define the degreewise
-Hall form as the inverse limit of §7.4's `hallForm` (equivalently, the dot product of Schur
-coordinates), pair different degrees by zero, and prove `⟨p_μ, p_ν⟩ = δ_(μν) z_μ` from
+Hall form by the dot product of stable Schur coordinates. Prove that it agrees with §7.4's
+`hallForm` after projection to any `d ≥ n` in degree `n`, independently of the chosen `d`;
+only this stable tail preserves the form. Pair different degrees by zero, and prove `⟨p_μ, p_ν⟩ = δ_(μν) z_μ` from
 `hallForm_psumPart`. Give the rational power-sum presentation: for `[Algebra ℚ R]`, the
 `R`-algebra `MvPolynomial ℕ R` with `X r` representing `p_(r+1)` maps isomorphically onto `Λ_R`,
 with inverse through the free elementary generators and Newton's recursion
@@ -777,8 +806,8 @@ Tau Ceti `TauCeti.symmetricHomogeneousSubmodule`, `TauCeti.schurPolyBasis`,
 - `e_2 = (p_1² − p_2)/2`, `h_2 = (p_1² + p_2)/2`; `ω(e_2) = h_2` and `ω(p_2) = −p_2`.
 - `s_((2,1)) = h_2 h_1 − h_3 = e_2 e_1 − e_3` by both Jacobi–Trudi identities, and
   `ω(s_((2,1))) = s_((2,1))`.
-- In `d = 1` variable, `s_((1,1)) = 0`: the projection in degree `2` is not injective, so `d ≥ n`
-  is needed for the equivalence.
+- Stable `s_((1,1))` has norm `1`, as does its image in every `d ≥ 2`. In one variable its
+  image is `0` with norm `0`: projection below degree is neither injective nor an isometry.
 - The specialisation `MvPolynomial.psum (Fin d) R 0 = d` depends on `d`, so there is no stable
   `P_0`; an algebra map sending `X 0 ↦ p_1` with the index shift is the right model, one sending
   `X 0 ↦ p_0` is excluded.
@@ -828,6 +857,8 @@ primitive-power-sum Hopf structure (Macdonald I.5, Example 25). *Needs:* §7.5.
 
 - `Δ(e_1) = e_1 ⊗ 1 + 1 ⊗ e_1` and `S(e_1) = −e_1`; `Δ(h_2) = h_2 ⊗ 1 + h_1 ⊗ h_1 + 1 ⊗ h_2`.
 - `S(e_2) = h_2`, consistent with `e_2 − e_1 h_1 + h_2 = 0`.
+- The coefficient of `e_1 ⊗ e_1` in `Δ(e_2)` is `1`: splitting the alphabet `{x,y}` as
+  `{x}` and `{y}` gives `e_2(x,y) = xy`; a primitive coproduct for `e_2` would give `0`.
 
 ### 7.8 Matrix trace specialisation of Newton's identities
 
@@ -852,8 +883,7 @@ basis-independent statement for an endomorphism of a finite-dimensional vector s
 representation identify `p_j(ρ(g)) = χ_ρ(g^j)`, so that the dimension and the character values on
 `g, g², …, g^d` determine the characteristic polynomial of `ρ(g)`; prove transport under
 isomorphism and scalar extension (Macdonald I.2, (2.11′) and (2.14′); the matrix form is the
-specialisation at the eigenvalue multiset). The signature of the integral recurrence is in
-`MatrixTraceNewtonTargets.lean`. *Needs:* §7.5; Mathlib `Matrix.charpoly`, `Matrix.charpolyRev`,
+specialisation at the eigenvalue multiset). The integral recurrence is `matrixTraceNewton` in `Suggested.lean`. *Needs:* §7.5; Mathlib `Matrix.charpoly`, `Matrix.charpolyRev`,
 `Matrix.reverse_charpoly`, `Matrix.charpoly.univ_map_eval₂Hom`, `MvPolynomial.mul_esymm_eq_sum`,
 `LinearMap.charpoly_toMatrix`, `LinearMap.trace_eq_matrix_trace`; Tau Ceti
 `Multiset.mul_esymm_eq_sum`.
@@ -876,13 +906,13 @@ specialisation at the eigenvalue multiset). The signature of the integral recurr
 
 ### 7.9 Power-sum bases in finitely many variables
 
-Over `ℚ`, prove that the products `p_μ` over all partitions `μ ⊢ r` specialise to a basis of the
+Prove `finitePowerSumBasis`: over `ℚ`, the products `p_μ` over all partitions `μ ⊢ r` specialise to a basis of the
 degree-`r` symmetric polynomials in `d ≥ r` variables, from the stable comparison and its finite
 projection; in `d < r` variables the Schur or monomial basis indexed by partitions with at most
 `d` parts gives the dimension, and the full power-sum family is dependent. Supply the
 specialisation and quotient equations. These are statements about bases of symmetric-polynomial
 spaces, not about values at a single matrix; the finite zeroth trace `p_0 = d` is a dimension
-parameter and not a generator (Macdonald I.2, (2.12)). *Needs:* §§7.5, 7.8; Tau Ceti
+parameter and not a generator (Macdonald I.2, (2.12)). *Needs:* §7.5; Tau Ceti
 `TauCeti.msymmBasis`, `TauCeti.schurPolyBasis`, `TauCeti.zPart`; Mathlib `MvPolynomial.psumPart`.
 
 **Checks.**
@@ -952,6 +982,26 @@ equivalence with `𝕊^μ(ℂᵈ)` through Specht self-duality (§4.3) and the i
 
 - `μ = (n)`: the balanced tensor with the trivial module is the coinvariants `Symⁿ(ℂᵈ)`.
 - `μ = (1ⁿ)`: the sign-coinvariants `⋀ⁿ(ℂᵈ)`, zero for `n > d`.
+- In `S₃`, set `σ = (0 1)`, `τ = (1 2)` and `v = e₀ ⊗ e₁ ⊗ e₂`. Then
+  `(v · σ) · τ = v · (στ) = e₁ ⊗ e₂ ⊗ e₀`, so balancing twice gives
+  `[(v · σ) · τ ⊗ s] = [v ⊗ σ(τ s)]`. Using the left action as a right action instead
+  gives `e₂ ⊗ e₀ ⊗ e₁`, detecting the reversed product.
+
+### 8.3 Schur-functor and stable-character transpose comparisons
+
+For `λ ⊢ a`, `μ ⊢ b`, compare §4.4's induced multiplicity spaces with the multiplicities in
+`𝕊^λ(ℂᵈ) ⊗ 𝕊^μ(ℂᵈ)` using §8.1 and the balanced presentation. Prove that replacing
+`λ, μ, ν` by their transposes preserves these abstract multiplicity spaces; each finite-rank
+Schur summand vanishes when its shape has more than `d` rows. Under the stable character map,
+identify this comparison with `ω(s_λ s_μ) = s_(λᵗ) s_(μᵗ)` (James, Theorem 16.4;
+Macdonald I.7 and I.9). *Needs:* §§4.4, 7.5–7.6, 8.1–8.2; ClassicalGroups Layer 2.
+
+**Checks.**
+
+- `λ = μ = (1)`: both `(2)` and `(1,1)` have multiplicity `1`; transposition exchanges them.
+- At `d = 1`, `𝕊^((1,1)) = 0` but `𝕊^((2))` has dimension `1`, so transposition does not
+  assert equality of finite-rank dimensions.
+- `ω(s_1²) = s_1² = s_2 + s_11` agrees with the exchanged multiplicities.
 
 ### Examples
 
@@ -968,31 +1018,34 @@ Layer 8 is the `GLₔ × Sₙ` duality on `V^(⊗n)` with no extra structure. Fi
 invariant form on `V` cuts `GLₔ` to `O_n` or `Sp_(2l)`, and the centralizer of the smaller group is
 the image of the Brauer algebra `B_k(δ)`, whose diagrams may join two bottom or two top points by
 an arc that contracts the paired slots against the form. The permutation diagrams form `ℂ[S_k]`
-inside it and the planar diagrams form the Temperley–Lieb subalgebra of TemperleyLieb Layer 2.
+inside it over `ℂ` (and `R[S_k]` over a general coefficient ring); the planar diagrams form the Temperley–Lieb subalgebra of TemperleyLieb Layer 2.
 The diagram combinatorics, the standard representations, the equivariant self-dualities and the
 cup, cap, crossing and cup-cap operators with their relations are consumed (*From Tau Ceti*,
 Layer 9).
 
 ### 9.1 The Brauer algebra
 
-Define `B_k(δ)` over `ℂ` as the free module on `TauCeti.BrauerDiagram k` with the product
+For a commutative ring `R` and `δ ∈ R`, define `B_k(δ)` as the free module on `TauCeti.BrauerDiagram k` with the product
 `D₁ * D₂ = δ^(loop(D₁, D₂)) • (D₁ ∘ D₂)`, `loop = TauCeti.middleLoopCount` and `∘ = TauCeti.composeDiagram`;
 prove the three-layer loop identity `loop(D₁, D₂) + loop(D₁ ∘ D₂, D₃) = loop(D₂, D₃) + loop(D₁, D₂ ∘ D₃)`,
 hence associativity from `TauCeti.composeDiagram_assoc`; the unit is the identity diagram
-`TauCeti.permToBrauer 1`; `finrank = (2k − 1)!!` by `TauCeti.card_brauerDiagram`. Build the algebra
-map `ℂ[S_k] → B_k(δ)` sending `σ` to `TauCeti.permToBrauer σ`, injective by `TauCeti.permToBrauer_injective`,
+`TauCeti.permToBrauer 1`. The diagram basis has cardinality `(2k − 1)!!` for `k > 0`
+and `1` for `k = 0`, by `TauCeti.card_brauerDiagram`; over a field this is the dimension.
+For a ring homomorphism `f : R → S`, construct the coefficient-change map
+`B_k(δ) → B_k(f(δ))` and the scalar-extension isomorphism `S ⊗_R B_k(δ) ≅ B_k(f(δ))`,
+with identity and composition laws. Build the algebra map `R[S_k] → B_k(δ)` sending `σ` to `TauCeti.permToBrauer σ`, injective by `TauCeti.permToBrauer_injective`,
 multiplicative by `TauCeti.composeDiagram_permToBrauer`. Prove the generator presentation: `s_i`
 (adjacent crossings) and `e_i = TauCeti.capCup i (i+1)` satisfy `s_i² = 1`, `e_i² = δ e_i`,
 `s_i e_i = e_i s_i = e_i`, the braid relations, `e_i e_(i±1) e_i = e_i`, `s_i e_(i+1) e_i = s_(i+1) e_i`,
 and commutation at distance, from `TauCeti.composeDiagram_capCup_capCup`,
 `TauCeti.middleLoopCount_capCup_capCup` and the relations file; prove they generate `B_k(δ)`
-(Brauer 1937, §5; Goodman–Wallach, §10.1.1). *Needs:* Tau Ceti `TauCeti.BrauerDiagram`,
+(Brauer 1937, §5; Doty–Hu, §1, p. 2, for the integral algebra and base change). *Needs:* Tau Ceti `TauCeti.BrauerDiagram`,
 `TauCeti.composeDiagram`, `TauCeti.middleLoopCount`, `TauCeti.composeDiagram_assoc`,
 `TauCeti.permToBrauer`, `TauCeti.capCup`, `TauCeti.card_brauerDiagram`; Mathlib `MonoidAlgebra`,
 `Module.Basis`.
 
-- `B_k(δ)` is a unital associative `ℂ`-algebra with the diagram basis, functorial in `δ`.
-- `B_0(δ) = B_1(δ) = ℂ`; `B_2(δ)` has basis `1, s, e` with `s² = 1`, `e² = δe`, `se = es = e`.
+- `B_k(δ)` is a unital associative `R`-algebra with the diagram basis and coefficient-change maps.
+- `B_0(δ) = B_1(δ) = R`; `B_2(δ)` has basis `1, s, e` with `s² = 1`, `e² = δe`, `se = es = e`.
 
 **Checks.**
 
@@ -1001,54 +1054,67 @@ and commutation at distance, from `TauCeti.composeDiagram_capCup_capCup`,
   `δ` fails at `k = 4` on `(e_1 e_3)(e_1 e_3) = δ² e_1 e_3`.
 - `(2k − 1)!!` for `k = 3` is `15`; the `6` permutation diagrams plus `9` diagrams with one arc.
 - The loop identity for `D₁ = D₂ = D₃ = e` in `B_2`: `1 + 1 = 1 + 1`.
+- Over `ℤ` and `𝔽₂`, `B_2(0)` has diagram basis `1,s,e` with `s² = 1`, `se = e`, `e² = 0`;
+  reduction modulo two preserves all three products. Over the zero ring the same basis index
+  type exists but the module is zero, so no unconditional natural-number dimension is asserted.
 
 ### 9.2 The orthogonal and symplectic actions
 
-Construct `ρ_O : B_k(n) →ₐ[ℂ] End(V^(⊗k))` for `V = Fin n → ℂ`: through-strands permute slots by
-`TauCeti.permTensorAction ℂ n k`, each bottom arc contracts a pair of slots by the dot product
+Over every commutative ring `R`, use the standard nondegenerate dot product or standard
+alternating form on the finite free coordinate module. Construct `ρ_O : B_k(n) →ₐ[R] End(V^(⊗k))` for `V = Fin n → R`: through-strands permute slots by
+`TauCeti.permTensorAction R n k`, each bottom arc contracts a pair of slots by the dot product
 (cap) and each top arc expands a pair by `∑ e_i ⊗ e_i` (cup); prove `ρ_O(e_(ab)) =
-TauCeti.orthogonalCupCapAt ℂ n k a b` for `a ≠ b`, that `ρ_O` is an algebra map (the generator
+TauCeti.orthogonalCupCapAt R n k a b` for `a ≠ b`, that `ρ_O` is an algebra map (the generator
 relations at `δ = n`, from `TauCeti.orthogonalCupCapAt_mul_self`,
 `TauCeti.permTensorAction_mul_orthogonalCupCapAt` and the relations file), and that it commutes
-with `orthAction n k`, the native `(TauCeti.stdOrthogonalRep ℂ n).tensorPower k`, by
-`TauCeti.commute_orthogonalCupCapAt_tensorPower`. Construct `ρ_Sp : B_k(−2l) →ₐ[ℂ] End(V^(⊗k))` for
-`V = (Fin l ⊕ Fin l) → ℂ`: order every cap and cup by increasing slot index and use the inverse-form
+with `orthAction R n k`, the native `(TauCeti.stdOrthogonalRep R n).tensorPower k`, by
+`TauCeti.commute_orthogonalCupCapAt_tensorPower`. Construct `ρ_Sp : B_k(−2l) →ₐ[R] End(V^(⊗k))` for
+`V = (Fin l ⊕ Fin l) → R`: order every cap and cup by increasing slot index and use the inverse-form
 cup `TauCeti.symplecticCup`; the permutation diagram of `σ` acts as `sgn(σ) •
 PiTensorProduct.reindexRepresentation` so that an adjacent crossing is minus the flip and
 `s_i e_i = e_i` holds for the alternating cup-cap; the two-strand cup-cap acts as the native
-`TauCeti.symplecticCupCap ℂ l`; build its placements at arbitrary ordered pairs of slots by
+`TauCeti.symplecticCupCap R l`; build its placements at arbitrary ordered pairs of slots by
 tensoring with identities and reindexing; prove the generator relations with these signs at
 `δ = −2l` from `TauCeti.symplecticCap_comp_symplecticCup` and the symplectic relations file, and
-commutation with `(TauCeti.stdSymplecticRep ℂ l).tensorPower k` (Goodman–Wallach, §10.1.1;
-Dipper–Doty–Hu, §2). *Needs:* §9.1; Tau Ceti `TauCeti.orthogonalCupCapAt`,
+commutation with `(TauCeti.stdSymplecticRep R l).tensorPower k` (Goodman–Wallach, §10.1.1;
+Dipper–Doty–Hu, §2; Doty–Hu, §1, pp. 2–3, for coefficient rings). *Needs:* §9.1; Tau Ceti `TauCeti.orthogonalCupCapAt`,
 `TauCeti.orthogonalCupCapAt_mul_self`, `TauCeti.permTensorAction_mul_orthogonalCupCapAt`,
 `TauCeti.commute_orthogonalCupCapAt_tensorPower`, `TauCeti.symplecticCup`, `TauCeti.symplecticCupCap`,
 `TauCeti.symplecticCrossing`, `TauCeti.symplecticCap_comp_symplecticCup`,
 `TauCeti.commute_symplecticCupCap_tensorPower`, `PiTensorProduct.reindexRepresentation`.
 
 - `orthAction`: the native diagonal action of `O_n` on `V^(⊗k)`.
-- `brauerGenerators n k`: the set of the permutation operators and the cup-caps `e_(ab)`, `a ≠ b`;
-  `ρ_O` maps `B_k(n)` onto `Algebra.adjoin ℂ (brauerGenerators n k)`.
-- `ρ_O(permToBrauer σ) = TauCeti.permTensorAction ℂ n k σ` and
+- `brauerGenerators R n k`: the set of the permutation operators and the cup-caps `e_(ab)`, `a ≠ b`;
+  `ρ_O` maps `B_k(n)` onto `Algebra.adjoin R (brauerGenerators R n k)`.
+- `ρ_O(permToBrauer σ) = TauCeti.permTensorAction R n k σ` and
   `ρ_Sp(permToBrauer σ) = sgn(σ) • reindexRepresentation σ`.
 
 **Checks.**
 
 - Orthogonal loop value: `cap ∘ cup = ∑_i e_i · e_i = n`, so `e² = n e` on `V^(⊗2)`.
-- Symplectic, `l = 1`: `cap(θ) = ω(e, f) − ω(f, e) = −2`, so `e² = −2 e`; the flip sends `θ` to
+- Symplectic over `ℤ`, `l = 1`: `cap(θ) = ω(e, f) − ω(f, e) = −2`, so `e² = −2 e`; the flip sends `θ` to
   `−θ`, so minus the flip fixes `θ` and `s e = e`. With the flip itself, `s e = −e` and the
   Brauer relation fails: this pins the sign on permutation diagrams.
 - `orthogonalCupCapAt` at `a = b` is not an arc; `brauerGenerators` excludes it. Including it
   would add the rank-one map `v ↦ (∑_a v_a) 1` on one slot, which does not commute with `O_n`
-  for `n ≥ 2`.
+  over `ℂ` for `n ≥ 2` (for `n = 2`, the reflection `diag(−1,1)` gives
+  `(−1,1)` versus `(−1,−1)` on the first basis vector).
 - `n = 0`: `V = 0`, `V^(⊗k) = 0` for `k ≥ 1`, every statement is about the zero algebra; `k = 0`:
-  `V^(⊗0) = ℂ`, `B_0 = ℂ` acting by scalars.
+  `V^(⊗0) = R`, `B_0 = R` acting by scalars.
 
 ### 9.3 The invariant-tensor bridge and the first fundamental theorem
 
-Write `G` for `O_n` or `Sp_(2l)`, `V` for its standard module, `φ : V ≃ V^*` for the native
+First, over `ℂ`, prove complete reducibility of each rational tensor representation of `O_n`
+and `Sp_(2l)`, using ReductiveGroups Layers 3 and 6 and averaging over the finite component group.
+Deduce that its generated group-image algebra is a product of full matrix algebras on the
+irreducible factors, and equals its double commutant. This input uses neither the Brauer FFT
+nor the filtration. After the FFT below, its commutant is the Brauer image, also semisimple.
+
+For the bridge and FFT, let `K` be an infinite field, with `2 ≠ 0` in the orthogonal case;
+no characteristic restriction is imposed in the symplectic case. Write `G` for `O_n` or
+`Sp_(2l)`, `V` for its standard module, `φ : V ≃ V^*` for the native
 equivariant self-duality (`TauCeti.stdOrthogonalRepToDual`, `v ↦ v ⬝ᵥ ·`, or
-`TauCeti.stdSymplecticRepToDual`, `v ↦ ω(v, ·)`), and `T^(k,k) = ⨂[ℂ] (_ : Fin k ⊕ Fin k), V`
+`TauCeti.stdSymplecticRepToDual`, `v ↦ ω(v, ·)`), and `T^(k,k) = ⨂[K] (_ : Fin k ⊕ Fin k), V`
 with `Sum.inl` the input slots and `Sum.inr` the output slots, the boundary of a `TauCeti.BrauerDiagram k`.
 
 1. *Endomorphisms as tensors.* Construct `Ξ_k : End(T^k) ≃ T^(k,k)` as the composite of the inverse
@@ -1066,20 +1132,23 @@ with `Sum.inl` the input slots and `Sum.inr` the output slots, the boundary of a
    reverses; prove `Ξ_k(ρ(D)) = ε(D) t_D` with `ε = 1` orthogonally and an explicit sign
    `ε(D) ∈ {±1}` symplectically.
 3. *The tensor theorem, in every dimension.* Prove the `G`-invariants of `T^(k,k)` are the span of
-   the `t_D`, for every `n`, `l`, `k`, and that invariants in odd tensor degree vanish because
-   `−1 ∈ G` acts by `−1`. Only spanning is claimed; independence holds only for `n ≥ 2k`,
-   respectively `l ≥ k`, and is not used.
+   the `t_D`, for every `n`, `l`, `k`, and that invariants in odd tensor degree vanish.
+   In characteristic different from two this
+   follows from `−1 ∈ G`; for symplectic groups in characteristic two use the weights of the
+   split diagonal torus (an odd sum of standard weights cannot be zero). Matching tensors
+   are independent for `n ≥ k`, respectively `l ≥ k`; independence is not used for spanning.
 4. *The commutant.* `f` centralizes the image of `G` iff `Ξ_k(f)` is invariant iff it lies in the
    span of the `t_D = ε(D) Ξ_k(ρ(D))` iff `f ∈ range ρ`. This is `orthogonal_centralizer_eq_adjoin_brauerGenerators`
-   (the centralizer of `orthAction n k` equals `Algebra.adjoin ℂ (brauerGenerators n k)`, the image of
+   (the centralizer of `orthAction K n k` equals `Algebra.adjoin K (brauerGenerators K n k)`, the image of
    `ρ_O`) and its symplectic analogue with `B_k(−2l)` (Doty–Hu, Theorem 1.2(b), every infinite
    field of odd characteristic; Dipper–Doty–Hu, Theorem 1.2(1) over `ℂ` and Theorem 1.4 over every
    infinite field; Goodman–Wallach, §5.3.2). The kernel of `ρ` (the second fundamental theorem) is
    not needed. Prove the reverse centralizer
    `centralizer_adjoin_brauerGenerators_eq_adjoin_orthAction` and its symplectic analogue as a
-   double-centralizer statement for the semisimple image algebras of §9.8.
+   double-centralizer statement over `ℂ`, using the group-image semisimplicity proved first
+   in this subsection. No semisimplicity assertion in positive characteristic is inferred.
 
-A route for step 3, not mandatory. Fix an invariant `u`. The polynomial map `μ(g) = g^(⊗2k) u` on
+A characteristic-zero route for step 3 over `ℂ`. Fix an invariant `u`. The polynomial map `μ(g) = g^(⊗2k) u` on
 square matrices of size `dim V` satisfies `μ(gh) = μ(g)` for `h ∈ G`. Put `c = g c₀ gᵀ`, `c₀` the
 coefficient matrix of the native cup (`1` for `O`, `−J` for `Sp`), so that `G` is the stabilizer of
 `c₀`. Over the dense open set where the leading principal minors of `c` (for `O`), or its leading
@@ -1096,23 +1165,40 @@ symmetrisation of the `k` pairs: this gives a linear map `L_F` of `T^(2k)` commu
 `h^(⊗2k)` with `L_F(c^(⊗k)) = F(c)`. By `TauCeti.mem_range_permTensorActionAlgHom_iff_forall_commute`
 (`(2k)!` is invertible in `ℂ`), `L_F` is the action of an element of `ℂ[S_(2k)]`, so
 `u = F(c₀) = L_F(c₀^(⊗k))` is a combination of permuted copies of `c₀^(⊗k)`, which after reindexing
-along `finSumFinEquiv` are `±t_D`. Weyl's polynomial vector-invariant theorem with polarisation,
-or De Concini–Procesi's characteristic-free route, replace this. *Needs:* §9.2; Tau Ceti
+along `finSumFinEquiv` are `±t_D`. Weyl's polynomial vector-invariant theorem with polarisation
+is another route. For the stated infinite-field generality, develop the invariant-spanning
+and scalar-extension arguments of Doty–Hu, Theorem 1.2(b), and Dipper–Doty–Hu, Theorem 1.4;
+the complex polarization argument does not supply this generality. Include the change-of-form
+comparison after extension to an algebraic closure and descent back to the dot-product model:
+prove the `K`-points of the orthogonal group are Zariski dense, using the Cayley chart at the
+identity and its translates by reflections, and descend the finite-dimensional invariant
+spaces and the diagram span along the field extension. *Needs:* §9.2;
+ReductiveGroups Layers 3 and 6 for the complex reverse commutant only; Tau Ceti
 `TauCeti.stdOrthogonalRepToDual_equivariant`, `TauCeti.stdSymplecticRepToDual_equivariant`,
 `TauCeti.piTensorProductMap_comp_orthogonalCup`, `TauCeti.piTensorProductMap_comp_symplecticCup`,
 `TauCeti.mem_range_permTensorActionAlgHom_iff_forall_commute`, `TauCeti.BrauerDiagram.relabel`;
 Mathlib `dualTensorHomEquiv`, `PiTensorProduct.dualDistribEquiv`, `PiTensorProduct.tmulEquiv`,
 `LinearMap.BilinForm.exists_orthogonal_basis`, `Subalgebra.centralizer`, `Algebra.adjoin`.
 
-- `orthogonal_centralizer_eq_adjoin_brauerGenerators`: for every `n` and `k`.
-- `centralizer_adjoin_brauerGenerators_eq_adjoin_orthAction`: for every `n` and `k`.
-- The symplectic statements, with `Matrix.symplecticGroup (Fin l) ℂ` and `B_k(−2l)`.
+- `orthogonal_centralizer_eq_adjoin_brauerGenerators`: for every infinite field `K` with
+  `2 ≠ 0` and every `n`, `k`.
+- `centralizer_adjoin_brauerGenerators_eq_adjoin_orthAction`: over `ℂ`, for every `n` and `k`.
+- The symplectic FFT uses `Matrix.symplecticGroup (Fin l) K` over every infinite field;
+  the reverse commutant here is over `ℂ`.
 
 **Checks.**
 
 - `k = 0`: `Ξ_0` is the identity of `ℂ` and the empty matching tensor is `1`. `V = 0`, `k > 0`:
   both sides of step 3 are zero.
-- Orthogonal, `k = 1`: `Ξ_1(id_V) = ∑_i e_i ⊗ e_i`, the orthogonal cup, so `ε = 1`.
+- Orthogonal, `k = 1`: `Ξ_1(id_V) = ∑_i e_i ⊗ e_i`, so `ε = 1`; at `n = 1` the
+  single matching tensor is nonzero although `n < 2k`. Over `ℚ`, for `n = k = 2`, the three matching
+  tensors have Gram matrix with diagonal `4`, off-diagonal `2`, determinant `32 ≠ 0`.
+- For `O_3`, degree two, complete reducibility gives dimensions `5,3,1`, so the group image
+  has dimension `25+9+1 = 35`; the FFT gives its commutant dimension `3`, and the double
+  commutant dimension `35`, without any filtration input.
+- In characteristic two, the symplectic loop `−2l` is zero, but over an infinite field the
+  torus still has nontrivial standard weights: for `Sp_2`, weights `1,−1` have no zero
+  odd-length sum. This replaces the unavailable `−1` argument.
 - `Sp_2`, `k = 1`, basis `e, f`: `φ(e) = −f^*`, `φ(f) = e^*`, so `Ξ_1(id_V) = f ⊗ e − e ⊗ f = −θ`;
   dropping the sign of `φ⁻¹` gives `+θ`; so `ε(id) = −1` at `k = 1`.
 - `Sp_2`, `k = 2`: the native cap `x ⊗ y ↦ ω(x, y)` is sent to `−θ` in the input slots, so
@@ -1129,6 +1215,8 @@ Mathlib `dualTensorHomEquiv`, `PiTensorProduct.dualDistribEquiv`, `PiTensorProdu
 
 ### 9.4 Harmonic tensors and the shape spaces `E_λ`
 
+For this subsection and §§9.5–9.9, coefficients are `ℂ`.
+
 Define `harmonicTensors n q ⊆ V^(⊗q)` as the common kernel of the cup-caps `TauCeti.orthogonalCupCapAt ℂ n q a b`
 over `a ≠ b` (the cup is injective for `n ≥ 1`, so this is the common kernel of the contractions;
 for `q ≤ 1` it is all of `V^(⊗q)`), and in the symplectic case the common kernel of the
@@ -1141,15 +1229,17 @@ admissibility `OrthAdmissible n λ`, `λᵗ₁ + λᵗ₂ ≤ n` (first two colu
 (`E_λ ≠ 0 ↔ λᵗ₁ + λᵗ₂ ≤ n`), `orthShapeSpace_irreducible` (every `O_n`-stable subspace of an
 admissible `E_λ` is `0` or `E_λ`), pairwise inequivalence of the admissible `E_λ`, and
 `harmonicTensors_decomposition`: `H^q ≅ ⊕_(λ ⊢ q admissible) E_λ ⊗ S^λ_ℂ` as `O_n × S_q`-modules,
-the `O_n`-action on `H^q` and `E_λ` the restriction of `orthAction` and the `S_q`-action on `H^q` the
+the `O_n`-action on `H^q` and `E_λ` the restriction of `orthAction ℂ n q` and the `S_q`-action on `H^q` the
 restriction of the permutation action, for any choice of tableaux. The orthogonal theorem is for
 the full disconnected `O_n` with its determinant twists. In the symplectic case the admissible
 shapes are those with `ℓ(λ) = λᵗ₁ ≤ l`, a different condition, and all permutations in the shape
 construction act by the ordinary unsigned permutation action. Each `E_λ` is built in degree
 `q = |λ|`, independently of the ambient degree `k`; for `V = 0`, `T^0 = ℂ` and `T^q = 0` for
 `q > 0`, stated separately so that the empty shape does not assert a nonzero summand in positive
-degree (Goodman–Wallach, §§10.2.1, 10.2.4, 10.2.5; Weyl, *The Classical Groups*, V.7). *Needs:*
-§9.2; Tau Ceti `TauCeti.orthogonalCupCapAt`, `TauCeti.permTensorAction`,
+degree (Goodman–Wallach, §10.2.1; symplectic §10.2.3, p. 440; odd orthogonal
+§10.2.4, p. 442; even orthogonal §10.2.5, p. 446; the zero-dimensional boundary above is direct;
+Weyl, *The Classical Groups*, V.7). *Needs:*
+§§9.2–9.3; Tau Ceti `TauCeti.orthogonalCupCapAt`, `TauCeti.permTensorAction`,
 `TauCeti.YoungTableau.youngSymmetrizerOver`, `TauCeti.spechtModuleℂ`, `TauCeti.diagramOf`;
 Mathlib `Submodule`, `LinearMap.restrict`, `DirectSum.lmap`; ReductiveGroups Layer 6 (complete
 reducibility behind the decomposition).
@@ -1162,7 +1252,8 @@ reducibility behind the decomposition).
 **Checks.**
 
 - `n = 1`, `O_1 = {±1}`: `V^(⊗q)` is spanned by `e^(⊗q)`, `cap(e ⊗ e) = 1 ≠ 0`, so `H^q = 0` for
-  `q ≥ 2` and `H^1 = V`; the admissible shapes are `(1)` only (`λᵗ₁ + λᵗ₂ ≤ 1`), in agreement.
+  `q ≥ 2` and `H^1 = V`; the admissible shapes are `∅` and `(1)`, with column sums
+  `0` and `1`, respectively, and `H^0 = ℂ`.
 - `n = 2`, `q = 2`: `E_((2))` is the traceless symmetric square, dimension `2`; `E_((1,1)) =
   ⋀²(ℂ²)`, dimension `1`, harmonic since `cap(e₁ ⊗ e₂ − e₂ ⊗ e₁) = 0`; `(1,1,1)` has `λᵗ₁ = 3 > 2`
   and `E = 0`. `H² = E_((2)) ⊗ S^((2)) ⊕ E_((1,1)) ⊗ S^((1,1))` has dimension `2 + 1 = 3 = 4 − 1`.
@@ -1186,13 +1277,11 @@ tensor basis use the positive Hermitian product: the Hermitian adjoint of each c
 cup, with a uniform sign in the symplectic convention, so the common cap kernel is the orthogonal
 complement of the sum of the cup images; prove that sum is `F_1`, hence `T^q = H^q ⊕ F_1` as group
 modules and `H^q ≅ T^q / F_1`. The positivity is Hermitian coordinate linear algebra, not
-positivity of the complex bilinear form, and uses no averaging over an infinite group. For
-complete reducibility of the whole geometric action consume ReductiveGroups Layer 6 for `Sp` and
-`SO`, and for `O_n`, `n ≥ 1`, turn an `SO`-equivariant projection onto an `O`-submodule into an
-`O`-equivariant one by averaging its two conjugates over `O/SO` (ReductiveGroups Layer 3 for the
-component quotient); `O` in dimension zero is the trivial boundary case (Goodman–Wallach, §10.2.1).
-*Needs:* §§9.2, 9.4; Tau Ceti `TauCeti.BrauerDiagram.propagatingNumber`,
-`TauCeti.BrauerDiagram.propagatingNumber_composeDiagram_le_left`; ReductiveGroups Layers 3 and 6.
+positivity of the complex bilinear form, and uses no averaging over an infinite group. For complete reducibility of the whole geometric action use §9.3, including its
+finite-component averaging for `O_n`; the zero-dimensional case is direct (Goodman–Wallach,
+Appendix F, Theorem F.1.1, p. 2).
+*Needs:* §§9.2–9.4; Tau Ceti `TauCeti.BrauerDiagram.propagatingNumber`,
+`TauCeti.BrauerDiagram.propagatingNumber_composeDiagram_le_left`.
 
 **Checks.**
 
@@ -1229,12 +1318,14 @@ permutation; the normalised map `C_j D_j` (cups `ε(P) cup_P`) intertwines `ρ_s
 intertwine `ρ_raw`. Prove the algebra laws and the compatibility with the tensor action on
 adjacent crossings and adjacent contractions, including closed loops and stacks that lose
 propagating strands, then the general diagram formula; `R_j` is `ρ_raw`-stable and `D_j R_j` is
-the relation space for `Ψ_j D_j`. As a separate stability theorem prove `Ψ_j` injective for
+the relation space for `Ψ_j D_j`. As a separate stability theorem, for `0 ≤ j ≤ ⌊k/2⌋`, prove `Ψ_j` injective for
 `n ≥ 2k` (orthogonal) or `l ≥ k` (symplectic), so `R_j = 0` and
-`dim gr_j = |P_(k,j)| · dim H^(k−2j)` with `|P_(k,j)| = k!/(2^j j! (k−2j)!)`, by the diagram cell
-basis and its nonsingular Gram form in this range or an independent leading-term argument;
+`dim gr_j = |P_(k,j)| · dim H^(k−2j)` with `|P_(k,j)| = k!/(2^j j! (k−2j)!)`, by an independent
+leading-term argument in the coordinate tensor basis, separating placements by distinct basis
+indices (and distinct symplectic pairs), without using cell modules or their Gram forms;
 require the cup maps and quotient actions to commute with relabelling and identify `F_j` with
-the sum of the `j`-cup and higher components (Goodman–Wallach, §10.2.1; Brauer 1937, §§3–4).
+the sum of the `j`-cup and higher components (Goodman–Wallach, Appendix F, Theorems F.1.1–F.1.2, pp. 2–4, for filtration and cup spanning;
+Brauer 1937, §§3–4, for diagram actions).
 *Needs:* §9.5; Tau Ceti `TauCeti.orthogonalCup`, `TauCeti.symplecticCup`,
 `TauCeti.BrauerDiagram.propagatingNumber`; Mathlib `PiTensorProduct.lift`, `DirectSum.toModule`,
 `Equiv.Perm.sign`.
@@ -1267,7 +1358,7 @@ group-module shape. Both the matching signs `ε(P)` and this free-slot twist are
 including `q = 1` where the latter is trivial. Transport the Gram pairing by `D_j` (raw matrix
 `= D_j · standard · D_j`) with the transported radical; construct the evaluation and cup
 compatibilities and prove simplicity over the image algebra; at dimension zero use the boundary
-statements of §9.4 (Goodman–Wallach, §10.1.2; Dipper–Doty–Hu, §§3–4). *Needs:* §§4.2, 9.4–9.6;
+statements of §9.4 (Goodman–Wallach, §10.1.2; Dipper–Doty–Hu, §§3–4). *Needs:* §§4.2, 9.3–9.6;
 Tau Ceti `TauCeti.BrauerDiagram.flip`, `TauCeti.spechtModuleℂ`; Mathlib `Representation.IntertwiningMap`.
 
 **Checks.**
@@ -1282,17 +1373,15 @@ Tau Ceti `TauCeti.BrauerDiagram.flip`, `TauCeti.spechtModuleℂ`; Mathlib `Repre
 
 ### 9.8 Three semisimplicity statements
 
-Over `ℂ` the finite-dimensional rational tensor representations of `O_n` and `Sp_(2l)` are
-completely reducible (ReductiveGroups Layer 6 for the identity component, the component group of
-Layer 3 for `O_n`), so their commutants are products of matrix algebras; after the surjection of
-§9.3 the Brauer image is semisimple in every dimension, which gives the image-level evaluation
-decomposition and the equivariant splitting of the `F_j` filtration even where the abstract
-algebra is not semisimple. Cup-placement independence is the separate stability theorem of §9.6.
+Over `ℂ`, §9.3 gives the semisimple Brauer image in every dimension. Apply it to split the
+`F_j` filtration equivariantly and to the evaluation decomposition of §9.7, even where the
+abstract algebra is not semisimple. Cup-placement independence is the separate sufficient
+stability theorem of §9.6.
 For the abstract algebra: for generic `δ`, `B_k(δ)` is split semisimple with simples indexed by the
 partitions of `k, k−2, …`; for integer `δ` the bound `|δ| ≥ 2k − 2` is sufficient, not sharp, with
 `k = 0, 1` proved directly; prove it from Rui's criterion (`B_k(δ)` over `ℂ`, `δ ≠ 0`, is semisimple
-iff `δ ∉ Z(k)`, where the positive elements of `Z(k)` lie in `[1, k − 2]` and the least element is
-`4 − 2k`; `B_k(0)` is semisimple iff `k ∈ {1, 3, 5}`), at both `δ = n` and `δ = −2l`. The abstract
+iff `δ ∉ Z(k)`; for `k ≥ 2`, the positive elements of `Z(k)` lie in `[1, k − 2]` and the least element is
+`4 − 2k`; `B_k(0)` for `k ≥ 1` is semisimple iff `k ∈ {1, 3, 5}`), at both `δ = n` and `δ = −2l`. The abstract
 criterion gives a nonsingular cell Gram form and stable diagram-module dimensions where those are
 needed; it is not a hypothesis of the geometric decomposition. Outside it the cell radical and the
 tensor-action kernel are distinguished; the modular cellular theory of `B_k(δ)` is the Brauer
@@ -1304,8 +1393,10 @@ ReductiveGroups Layers 3 and 6; Mathlib `IsSemisimpleRing`.
 
 - `k = 2`: the bound is `|δ| ≥ 2`; `B_2(δ)` fails to be semisimple only at `δ = 0`
   (`Z(2) = {0}`), so the bound is not sharp.
-- `k = 3`: the bound is `4`; the nonsemisimple integer parameters are `{−2, 0, 1}`, all inside
-  `[4 − 2k, k − 2] = [−2, 1]`.
+- `k = 3`: the bound is `4`; the nonsemisimple integer parameters are `{−2, 1}`. The
+  three-dimensional cell Gram determinant is `(δ+2)(δ−1)²`, equal to `2` at `δ = 0`
+  and `0` at `δ = −2, 1`. Thus `B_3(0)` is semisimple; its simple dimensions `1,2,1,3`
+  have squared sum `1+4+1+9 = 15`.
 - `B_3(−2)`: the `j = 1` cell Gram matrix in the normalised placement basis is
   `[[−2, 1, 1], [1, −2, 1], [1, 1, −2]]`, determinant `−6 + 3 + 3 = 0`, so `B_3(−2)` is not
   semisimple while its image on `(ℂ²)^(⊗3)` is.
@@ -1392,6 +1483,10 @@ ReductiveGroups Layers 3 and 6; Mathlib `Subalgebra.centralizer`, `Algebra.adjoi
   Example 25; I.7 and its Example 5; I.9 (9.2).
 - R. P. Stanley, *Enumerative Combinatorics*, vol. 2, CUP (1999): Theorem 7.11.5, Appendix A1
   §§A1.1–A1.3.
+- R. P. Stanley, *Increasing and decreasing subsequences and their variants*, ICM survey (2006),
+  equation (7), p. 5; author version https://math.mit.edu/~rstan/papers/ids.pdf .
+- C. Lenart, *On the combinatorics of crystal graphs, I. Lusztig’s involution*,
+  arXiv:math/0509200v6 (2007), §2.4, pp. 6–7 (semistandard evacuation).
 - M. Haiman, *Math 249: Algebraic Combinatorics*, lecture notes, Berkeley (2015),
   https://math.berkeley.edu/~mhaiman/math249-spring15/ : lectures 33–36 (jeu de taquin, dual
   equivalence, the Littlewood–Richardson rule).
@@ -1399,7 +1494,8 @@ ReductiveGroups Layers 3 and 6; Mathlib `Subalgebra.centralizer`, `Algebra.adjoi
 - R. Brauer, *On algebras which are connected with the semisimple continuous groups*, Ann. of
   Math. 38 (1937), 857–872, §§3–5.
 - R. Goodman, N. R. Wallach, *Symmetry, Representations, and Invariants*, GTM 255, Springer
-  (2009): §5.3.2, §9.1.1, §§10.1.1–10.1.2, §§10.2.1, 10.2.4, 10.2.5.
+  (2009): §5.3.2, §9.1.1, §§10.1.1–10.1.2, §§10.2.1, 10.2.3–10.2.5; Appendix F, Theorems F.1.1–F.1.2, pp. 2–4, author supplement
+  https://sites.math.rutgers.edu/~goodman/pub/symmetry/appf.pdf .
 - H. Rui, *A criterion on the semisimple Brauer algebras*, J. Combin. Theory Ser. A 111 (2005),
   78–88, Theorem 1.2; preprint https://math.ecnu.edu.cn/preprint/2004-012.pdf .
 - R. Dipper, S. Doty, J. Hu, *Brauer algebras, symplectic Schur algebras and Schur–Weyl duality*,

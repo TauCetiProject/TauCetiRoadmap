@@ -5,6 +5,7 @@ import TauCeti.RepresentationTheory.Symmetric.FrobeniusCharacteristic
 import TauCeti.RepresentationTheory.Symmetric.Specht.Complex
 import TauCeti.RepresentationTheory.Symmetric.Specht.Character
 import TauCeti.RepresentationTheory.Symmetric.ClassSize
+import TauCeti.GroupTheory.Perm.SumCongr
 import TauCeti.RepresentationTheory.Symmetric.SignCharacter
 import TauCeti.RepresentationTheory.LinearCharacter.Basic
 import TauCeti.Combinatorics.Enumerative.Partition.Conjugate
@@ -22,27 +23,27 @@ theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, together wi
 definitions those statements need.
 
 Stated here: the Specht sign-transpose isomorphism `S^λ ⊗ sgn ≅ S^{λᵗ}` with its character form and
-the Specht self-duality (Layer 4); the Littlewood–Richardson rule with the coefficient defined by
+the Specht self-duality and the induced and Kronecker transpose comparisons (Layer 4); the Littlewood–Richardson rule with the coefficient defined by
 ballot tableaux, the character-side Murnaghan–Nakayama rule, the Hall form on the finite-variable
 symmetric polynomials with its power-sum normalisation and the isometry property of the native
-Frobenius characteristic (Layer 7); the simultaneous `Sₙ × GLₔ` decomposition of the tensor power
-(Layer 8); the orthogonal first fundamental theorem and the reverse centralizer, the harmonic
+Frobenius characteristic, the integral matrix Newton recurrence and the finite power-sum basis
+(Layer 7); the simultaneous `Sₙ × GLₔ` decomposition of the tensor power
+(Layer 8); the orthogonal first fundamental theorem over infinite fields of characteristic different from
+two and the complex reverse centralizer, the harmonic
 tensors and the orthogonal shape spaces `E_λ` with their nonvanishing criterion, irreducibility and
 the harmonic decomposition (Layer 9).
 
 Not statable at the pins, and therefore not stated: the stable ring `Λ_R` with its Hall form,
 `ω`, the free elementary generators and the stable Frobenius characteristic (no inverse-limit
-carrier of symmetric functions exists at the pins); the induction compatibility
-`ch(Ind(f ⊠ g)) = ch(f) ch(g)` (the external product of class functions on the block subgroup has
-no carrier); the RSK bijection as an equivalence and its compatibility with evacuation (no carrier
+carrier of symmetric functions exists at the pins); the stable induction compatibility
+`ch(Ind(f ⊠ g)) = ch(f) ch(g)` (its target is that same missing stable ring); the RSK bijection as an equivalence and its compatibility with evacuation (no carrier
 links `TauCeti.rowInsert` on row lists to `TauCeti.StandardYoungTableau`); the Brauer algebra
 `B_k(δ)`, its loop rule, its semisimplicity for `|δ| ≥ 2k − 2`, the nonsemisimplicity of `B₃(−2)`,
 its cell modules and the trace filtration (no Brauer-algebra carrier exists; only the diagram
 combinatorics and the orthogonal and symplectic generator actions do); the symplectic first
 fundamental theorem, the symplectic harmonic classification `ℓ(λ) ≤ l` and the symplectic
 multiplicity spaces (only the two-strand `TauCeti.symplecticCupCap` exists, no cup-cap at an
-arbitrary pair of slots); the induction and Kronecker transpose comparisons of Layer 4 (no external
-tensor product of representations of a product group).
+arbitrary pair of slots).
 -/
 
 namespace TauCetiRoadmap.RepresentationTheory.SchurWeyl
@@ -74,6 +75,36 @@ theorem spechtModule_self_dual {n : ℕ} (μ : n.Partition) :
       Function.Bijective f ∧
         ∀ (σ : Equiv.Perm (Fin n)) (v : TauCeti.spechtModule μ),
           f ((TauCeti.spechtModule μ).ρ σ v) = Representation.dual (TauCeti.spechtModule μ).ρ σ (f v) := sorry
+
+/-- The representation induced from the external product of the rational Specht modules along
+`S_a × S_b → S_(a+b)`, using the two projection pullbacks and native tensor and induction. -/
+noncomputable def inducedSpecht {a b : ℕ} (lam : a.Partition) (mu : b.Partition) :=
+  Representation.ind (Equiv.Perm.finSumPermHom a b)
+    (Representation.tprod
+      ((TauCeti.spechtModule lam).ρ.comp (MonoidHom.fst _ _))
+      ((TauCeti.spechtModule mu).ρ.comp (MonoidHom.snd _ _)))
+
+/-- Transposing the two inducing shapes and the output shape preserves the induced Specht
+multiplicity space (James, Theorem 16.4; the sign projection formula). -/
+theorem inducedSpechtTranspose {a b : ℕ} (lam : a.Partition) (mu : b.Partition)
+    (nu : (a + b).Partition) :
+    Nonempty (Representation.IntertwiningMap (TauCeti.spechtModule nu).ρ (inducedSpecht lam mu)
+      ≃ₗ[ℚ] Representation.IntertwiningMap (TauCeti.spechtModule (TauCeti.conjugate nu)).ρ
+        (inducedSpecht (TauCeti.conjugate lam) (TauCeti.conjugate mu))) := sorry
+
+/-- Transposing both factors of an internal Specht tensor product cancels the two sign twists. -/
+theorem kroneckerDoubleTranspose {n : ℕ} (lam mu : n.Partition) :
+    Nonempty (MonoidalCategoryStruct.tensorObj
+      (TauCeti.spechtModule (TauCeti.conjugate lam)) (TauCeti.spechtModule (TauCeti.conjugate mu)) ≅
+      MonoidalCategoryStruct.tensorObj (TauCeti.spechtModule lam) (TauCeti.spechtModule mu)) := sorry
+
+/-- Transposing one factor of an internal Specht tensor product twists the product by sign. -/
+theorem kroneckerSingleTranspose {n : ℕ} (lam mu : n.Partition) :
+    Nonempty (MonoidalCategoryStruct.tensorObj
+      (TauCeti.spechtModule (TauCeti.conjugate lam)) (TauCeti.spechtModule mu) ≅
+      MonoidalCategoryStruct.tensorObj
+        (MonoidalCategoryStruct.tensorObj (TauCeti.spechtModule lam) (TauCeti.spechtModule mu))
+        (FDRep.ofLinearCharacter (TauCeti.signLinearCharacter ℚ (Fin n)))) := sorry
 
 /-! ## Layer 7: Littlewood–Richardson, Murnaghan–Nakayama and the Hall form -/
 
@@ -173,6 +204,21 @@ theorem hallForm_frobeniusCharacteristic (n d : ℕ) (h : n ≤ d)
     hallForm d ℂ n (TauCeti.frobeniusCharacteristic n d h f) (TauCeti.frobeniusCharacteristic n d h g)
       = TauCeti.ClassFunction.characterPairing f g := by sorry
 
+/-- Newton's integral trace recurrence for the coefficients of `det(1-tA)`, over any
+commutative ring and in every positive degree (Macdonald I.2, (2.11′), specialized to matrices). -/
+theorem matrixTraceNewton {R : Type*} [CommRing R] {d : ℕ}
+    (A : Matrix (Fin d) (Fin d) R) (r : ℕ) (hr : 0 < r) :
+    (r : R) * A.charpolyRev.coeff r =
+      -(∑ j ∈ Finset.range r,
+        A.charpolyRev.coeff (r - (j + 1)) * Matrix.trace (A ^ (j + 1))) := sorry
+
+/-- In degree `r ≤ d`, all partition-indexed power-sum products are a rational basis of the
+symmetric homogeneous polynomials in `d` variables (Macdonald I.2, (2.12)). -/
+theorem finitePowerSumBasis (d r : ℕ) (h : r ≤ d) :
+    LinearIndependent ℚ (fun mu : r.Partition => MvPolynomial.psumPart (Fin d) ℚ mu) ∧
+      Submodule.span ℚ (Set.range fun mu : r.Partition => MvPolynomial.psumPart (Fin d) ℚ mu) =
+        TauCeti.symmetricHomogeneousSubmodule (Fin d) ℚ r := sorry
+
 /-! ## Layer 8: Schur–Weyl duality -/
 
 /-- **Schur–Weyl duality**: `(ℂᵈ)^{⊗n} ≅ ⊕_{λ ⊢ n, ℓ(λ) ≤ d} S^λ ⊗ 𝕊^λ(ℂᵈ)` as an
@@ -204,39 +250,39 @@ theorem schurWeylDecomposition (d n : ℕ) :
 
 /-! ## Layer 9: orthogonal Schur–Weyl duality and harmonic tensors -/
 
-/-- The native diagonal action of the complex orthogonal group `O_n = Matrix.orthogonalGroup (Fin n) ℂ`
-(the symmetric bilinear orthogonal group, since Mathlib's star on `ℂ` here is trivial) on the
-`k`-th tensor power of `ℂⁿ`. -/
-noncomputable abbrev orthAction (n k : ℕ) :
-    Representation ℂ (Matrix.orthogonalGroup (Fin n) ℂ) (⨂[ℂ] (_ : Fin k), (Fin n → ℂ)) :=
-  (TauCeti.stdOrthogonalRep ℂ n).tensorPower k
+/-- The native diagonal action of the bilinear orthogonal group over a commutative ring on
+the tensor power of its standard coordinate module; the form is the dot product. -/
+noncomputable abbrev orthAction (R : Type*) [CommRing R] (n k : ℕ) :
+    Representation R (Matrix.orthogonalGroup (Fin n) R) (⨂[R] (_ : Fin k), (Fin n → R)) :=
+  (TauCeti.stdOrthogonalRep R n).tensorPower k
 
-/-- The Brauer generators on `V^{⊗k}`: the native permutation action of `S_k` and the cup-cap
-operators `e_{ab}` contracting two distinct slots against the dot product and re-expanding them. The
-subalgebra they generate is the image of the Brauer algebra `B_k(n)`. -/
-def brauerGenerators (n k : ℕ) : Set (Module.End ℂ (⨂[ℂ] (_ : Fin k), (Fin n → ℂ))) :=
-  Set.range (TauCeti.permTensorAction ℂ n k) ∪
-    {f | ∃ a b : Fin k, a ≠ b ∧ f = TauCeti.orthogonalCupCapAt ℂ n k a b}
+/-- The Brauer generators over a commutative ring: permutations of slots and cup-caps on
+distinct slots. Their generated algebra is the image of the orthogonal Brauer action. -/
+def brauerGenerators (R : Type*) [CommRing R] (n k : ℕ) :
+    Set (Module.End R (⨂[R] (_ : Fin k), (Fin n → R))) :=
+  Set.range (TauCeti.permTensorAction R n k) ∪
+    {f | ∃ a b : Fin k, a ≠ b ∧ f = TauCeti.orthogonalCupCapAt R n k a b}
 
-/-- **The orthogonal first fundamental theorem on tensors (Brauer)**: the centralizer of `O_n` on
-`V^{⊗k}` is the algebra generated by the permutations and the cup-caps, in every dimension `n`
-(Goodman–Wallach, §10.1.1 and §5.3.2; Doty–Hu, Theorem 1.2(b)). It holds for the
-full disconnected `O_n`: for `SO_2` on `V ⊗ V` the vector `e₁ ⊗ e₂ − e₂ ⊗ e₁` is an extra invariant. -/
-theorem orthogonal_centralizer_eq_adjoin_brauerGenerators (n k : ℕ) :
-    Subalgebra.centralizer ℂ (Set.range fun g : Matrix.orthogonalGroup (Fin n) ℂ => orthAction n k g)
-      = Algebra.adjoin ℂ (brauerGenerators n k) := sorry
+/-- The orthogonal tensor FFT: over an infinite field of characteristic different from two,
+the commutant of the full orthogonal group is generated by permutations and cup-caps in every
+dimension (Doty–Hu, Theorem 1.2(b), with change of form and descent to the dot product). -/
+theorem orthogonal_centralizer_eq_adjoin_brauerGenerators
+    (K : Type*) [Field K] [Infinite K] [NeZero (2 : K)] (n k : ℕ) :
+    Subalgebra.centralizer K
+      (Set.range fun g : Matrix.orthogonalGroup (Fin n) K => orthAction K n k g)
+      = Algebra.adjoin K (brauerGenerators K n k) := sorry
 
 /-- **The reverse centralizer**: the centralizer of the Brauer image is the algebra generated by the
 image of `O_n`, the double-centralizer form of orthogonal Schur–Weyl duality (Goodman–Wallach,
 §10.1.1). -/
 theorem centralizer_adjoin_brauerGenerators_eq_adjoin_orthAction (n k : ℕ) :
-    Subalgebra.centralizer ℂ (Algebra.adjoin ℂ (brauerGenerators n k) : Set _)
-      = Algebra.adjoin ℂ (Set.range fun g : Matrix.orthogonalGroup (Fin n) ℂ => orthAction n k g) :=
+    Subalgebra.centralizer ℂ (Algebra.adjoin ℂ (brauerGenerators ℂ n k) : Set _)
+      = Algebra.adjoin ℂ (Set.range fun g : Matrix.orthogonalGroup (Fin n) ℂ => orthAction ℂ n k g) :=
   sorry
 
 /-- **The harmonic (traceless) tensors** `H^k ⊆ V^{⊗k}`: the common kernel of the contractions of two
 distinct slots against the dot product. The cup is injective for `n ≥ 1`, so the kernel of the
-cup-cap `e_{ab}` is the kernel of the contraction at `(a, b)`; for `n = 0` every space is zero.
+cup-cap `e_{ab}` is the kernel of the contraction at `(a, b)`; for `n = 0` every positive tensor power is zero, while the empty tensor power is `ℂ`.
 For `k ≤ 1` the intersection is empty and `H^k = V^{⊗k}`. -/
 noncomputable def harmonicTensors (n k : ℕ) : Submodule ℂ (⨂[ℂ] (_ : Fin k), (Fin n → ℂ)) :=
   ⨅ (a : Fin k) (b : Fin k) (_ : a ≠ b), LinearMap.ker (TauCeti.orthogonalCupCapAt ℂ n k a b)
@@ -244,7 +290,7 @@ noncomputable def harmonicTensors (n k : ℕ) : Submodule ℂ (⨂[ℂ] (_ : Fin
 /-- The harmonic tensors are stable under `O_n`. -/
 theorem harmonicTensors_orthAction_mem (n k : ℕ) (g : Matrix.orthogonalGroup (Fin n) ℂ)
     {v : ⨂[ℂ] (_ : Fin k), (Fin n → ℂ)} (hv : v ∈ harmonicTensors n k) :
-    orthAction n k g v ∈ harmonicTensors n k := sorry
+    orthAction ℂ n k g v ∈ harmonicTensors n k := sorry
 
 /-- The harmonic tensors are stable under the permutation action of `S_k`. -/
 theorem harmonicTensors_permTensorAction_mem (n k : ℕ) (σ : Equiv.Perm (Fin k))
@@ -271,26 +317,26 @@ theorem orthShapeSpace_orthAction_mem (n : ℕ) {q : ℕ} (lam : q.Partition)
     (t : TauCeti.YoungTableau (TauCeti.diagramOf lam)) (g : Matrix.orthogonalGroup (Fin n) ℂ)
     {v : ⨂[ℂ] (_ : Fin (TauCeti.diagramOf lam).card), (Fin n → ℂ)}
     (hv : v ∈ orthShapeSpace n lam t) :
-    orthAction n (TauCeti.diagramOf lam).card g v ∈ orthShapeSpace n lam t := sorry
+    orthAction ℂ n (TauCeti.diagramOf lam).card g v ∈ orthShapeSpace n lam t := sorry
 
 /-- **Nonvanishing of `E_λ`**: the shape space is nonzero exactly when `λᵗ₁ + λᵗ₂ ≤ n`
-(Goodman–Wallach, §10.2.5). -/
+(Goodman–Wallach, §§10.2.4–10.2.5, pp. 442, 446; dimension zero is direct). -/
 theorem orthShapeSpace_ne_bot_iff (n : ℕ) {q : ℕ} (lam : q.Partition)
     (t : TauCeti.YoungTableau (TauCeti.diagramOf lam)) :
     orthShapeSpace n lam t ≠ ⊥ ↔ OrthAdmissible n lam := sorry
 
 /-- **Irreducibility of `E_λ`** for admissible `λ`: every `O_n`-stable subspace of `E_λ` is `0` or
-`E_λ` (Goodman–Wallach, §10.2.5). -/
+`E_λ` (Goodman–Wallach, §§10.2.4–10.2.5, pp. 442, 446; dimension zero is direct). -/
 theorem orthShapeSpace_irreducible (n : ℕ) {q : ℕ} (lam : q.Partition)
     (t : TauCeti.YoungTableau (TauCeti.diagramOf lam)) (hlam : OrthAdmissible n lam)
     (W : Submodule ℂ (⨂[ℂ] (_ : Fin (TauCeti.diagramOf lam).card), (Fin n → ℂ)))
-    (hW : ∀ g : Matrix.orthogonalGroup (Fin n) ℂ, W.map (orthAction n (TauCeti.diagramOf lam).card g) ≤ W)
+    (hW : ∀ g : Matrix.orthogonalGroup (Fin n) ℂ, W.map (orthAction ℂ n (TauCeti.diagramOf lam).card g) ≤ W)
     (hWE : W ≤ orthShapeSpace n lam t) :
     W = ⊥ ∨ W = orthShapeSpace n lam t := sorry
 
 /-- **The harmonic decomposition** `H^q ≅ ⊕_{λ ⊢ q admissible} E_λ ⊗ S^λ` as an
 `O_n × S_q`-representation, for any choice of a `λ`-tableau for each `λ` (Goodman–Wallach,
-§10.2.4). The `O_n`-action on `E_λ` and on `H^q` is the restriction of `orthAction`
+§§10.2.4–10.2.5, pp. 442, 446; dimension zero is direct). The `O_n`-action on `E_λ` and on `H^q` is the restriction of `orthAction`
 (stable by `orthShapeSpace_orthAction_mem` and `harmonicTensors_orthAction_mem`), the `S_q`-action on
 `H^q` the restriction of the permutation action, and on `S^λ` the complex Specht action. -/
 theorem harmonicTensors_decomposition (n q : ℕ)
@@ -300,11 +346,11 @@ theorem harmonicTensors_decomposition (n q : ℕ)
           (fun lam => TensorProduct ℂ (orthShapeSpace n lam.1 (t lam.1)) (TauCeti.spechtModuleℂ lam.1)),
       (∀ g : Matrix.orthogonalGroup (Fin n) ℂ,
         e.toLinearMap ∘ₗ
-            (orthAction n q g).restrict (fun _ hv => harmonicTensors_orthAction_mem n q g hv)
+            (orthAction ℂ n q g).restrict (fun _ hv => harmonicTensors_orthAction_mem n q g hv)
           = DirectSum.lmap
               (fun lam : {lam : q.Partition // OrthAdmissible n lam} =>
                 TensorProduct.map
-                  ((orthAction n (TauCeti.diagramOf lam.1).card g).restrict
+                  ((orthAction ℂ n (TauCeti.diagramOf lam.1).card g).restrict
                     (fun _ hv => orthShapeSpace_orthAction_mem n lam.1 (t lam.1) g hv))
                   LinearMap.id)
             ∘ₗ e.toLinearMap) ∧
