@@ -30,15 +30,22 @@ spectrum and dimensions, and general-linear classification are supplier contract
 The compact real-form comparisons lack the positive division-octonion and formally real
 Albert carriers. The Vinberg E8 and Freudenthal E6/E7 model comparisons lack their constructed
 brackets and modules; the dimensions of the native Serre algebras are statable below.
-The closed-alcove and compact-center headlines lack the constructed affine Weyl action and
-actual compact period-lattice comparison. The algebraic compact-complexification and LR
-application lack, respectively, the compact-pair algebraic extension comparison and the
-specified LR-tableau carrier. The Rees special-fibre and first-order Poisson comparison
-lack the constructed filtered Rees algebra and its fibre maps. The cone Fourier-boundary and endpoint-reconstruction headlines lack the constructed
+The closed-alcove headline lacks the constructed affine Weyl action, and the compact-center
+headline lacks a compact Lie group's maximal torus and its period lattice. The LR
+application lacks the Littlewood-Richardson tableau carrier. The Rees special-fibre and
+first-order Poisson comparison lack the constructed filtered Rees algebra and its fibre
+maps. The cone Fourier-boundary and endpoint-reconstruction headlines lack the constructed
 common-chamber series ring, smooth torus test-density dual, and directional spline/Todd
 operators. The smooth linear Poisson bracket is specified in README.md by its derivative
-formula; its Poisson packaging is a downstream geometric construction. Category-O linkage lacks its category and
-integral block carriers. None is replaced here by admitted data.
+formula; its Poisson packaging is a downstream geometric construction. Category-O linkage lacks its category and integral
+block carriers. None is replaced here by admitted data.
+
+The type-A identification of a rational irreducible GL_n-character with the
+determinant-shifted Schur polynomial is statable, but it is the headline of ClassicalGroups
+Layer 4; this roadmap gives an independent Haar-measure proof of it and does not restate it.
+The regular extension of unitary representations, the torus period lattice, the compact
+Frobenius-Schur criterion and the skew Littlewood-Richardson rule are supplier gaps named in
+README.md, not headlines of this roadmap.
 -/
 
 namespace TauCetiRoadmap.RepresentationTheory.LieHighestWeight
