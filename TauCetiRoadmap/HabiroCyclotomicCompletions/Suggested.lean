@@ -1,15 +1,15 @@
 import Mathlib
 
 /-!
-# Habiro cyclotomic completions: headline theorems
+# Habiro cyclotomic completions: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`; these statements suggest Lean forms for its headline results, and
+`README.md`; this file states its headline theorems against the pinned APIs, and
 discharging them finishes neither a layer nor the roadmap.
 
 The statements cover the completion universal property (§1.3), unique normalized
 factorial expansions (§2.1), convergent close-root Taylor re-expansion (§3.3),
-restriction and single-root Taylor rigidity (§§4.2–4.3), evaluation uniqueness and proper integral Taylor images (§4.4), joint Taylor
+restriction and single-root Taylor rigidity (§§4.2–4.3), evaluation uniqueness, proper integral restrictions and Taylor images (§4.4), joint Taylor
 injectivity and the rational Taylor isomorphism (§4.6), arbitrary comaximal
 component decompositions (§5.2), and the domain factors, Taylor rigidity and
 evaluation uniqueness over localized integers (§5.3). The supporting definitions use actual polynomial products, Mathlib's
@@ -39,6 +39,8 @@ open Polynomial
 open scoped Topology
 
 namespace TauCetiRoadmap.HabiroCyclotomicCompletions
+
+/-! ## Layer 1: completion systems and factorial ideals -/
 
 /-- Actual cyclotomic products, with coincident polynomials identified (§1.2). -/
 def cycloIndex (R : Type*) [CommRing R] (S : Set ℕ) : Submonoid R[X] :=
@@ -95,6 +97,10 @@ theorem completion_universal_property (R : Type*) [CommRing R] (S : Set ℕ)
       Continuous φ ∧ φ.comp (fromPoly R S).toRingHom = ψ := by
   sorry
 
+/-- The factorial polynomial `P_N = ∏_{i=1}^N (1-X^i)` (§1.4). -/
+def factorialPoly (R : Type*) [CommRing R] (N : ℕ) : R[X] :=
+  ∏ i ∈ Finset.range N, (1 - X ^ (i + 1))
+
 /-- Forgetting quotient coordinates outside a smaller order set (§1.5). -/
 def restrict (R : Type*) [CommRing R] {S T : Set ℕ} (hTS : T ⊆ S) :
     CycloCompletion R S →ₐ[R] CycloCompletion R T where
@@ -108,6 +114,18 @@ def restrict (R : Type*) [CommRing R] {S T : Set ℕ} (hTS : T ⊆ S) :
   map_zero' := rfl
   map_add' _ _ := rfl
   commutes' _ := rfl
+
+/-! ## Layer 2: factorial series, canonical digits, and arithmetic -/
+
+/-- Every completed element has unique bounded-degree factorial digits, converging in every quotient (§2.1). -/
+theorem factorial_expansion (R : Type*) [CommRing R]
+    (x : CycloCompletion R {n | 0 < n}) :
+    ∃! a : ℕ → R[X], (∀ n, (a n).degree ≤ n) ∧
+      ∀ f : cycloIndex R {n | 0 < n}, ∀ᶠ N in Filter.atTop,
+        AdjoinRoot.mk (f : R[X]) (∑ n ∈ Finset.range N, a n * factorialPoly R n) = x.1 f := by
+  sorry
+
+/-! ## Layer 3: values, Taylor expansions, and p-adic translation -/
 
 /-- Additive Taylor coefficients from reduced representatives modulo `Φ_n^(k+1)` (§3.1). -/
 def taylorAt {R : Type*} [CommRing R] {S : Set ℕ}
@@ -135,6 +153,8 @@ theorem close_root_taylor_reexpansion {R B : Type*} [CommRing R] [CommRing B]
   sorry
 
 
+/-! ## Layer 4: rigidity and the integral Taylor image -/
+
 /-- Order adjacency through separation at a prime-power ratio (§4.1, for positive orders). -/
 def Adjacent (R : Type*) [CommRing R] (m n : ℕ) : Prop :=
   Subsingleton R ∨ m = n ∨ ∃ p : ℕ, p.Prime ∧
@@ -145,40 +165,6 @@ def Adjacent (R : Type*) [CommRing R] (m n : ℕ) : Prop :=
 def IsAdjConnected (R : Type*) [CommRing R] (S : Set ℕ) : Prop :=
   S.Nonempty ∧ ∀ m ∈ S, ∀ n ∈ S,
     Relation.ReflTransGen (fun a b => a ∈ S ∧ b ∈ S ∧ Adjacent R a b) m n
-
-/-- Universal root algebras retain every cyclotomic component (§4.5). -/
-abbrev TaylorProduct (R : Type*) [CommRing R] :=
-  ∀ m : ℕ+, PowerSeries (AdjoinRoot (cyclotomic (m : ℕ) R))
-
-/-- The product topology of discrete universal Taylor coefficients (§4.5). -/
-instance (R : Type*) [CommRing R] : TopologicalSpace (TaylorProduct R) :=
-  TopologicalSpace.induced (fun f (i : ℕ+ × ℕ) => PowerSeries.coeff i.2 (f i.1))
-    (@Pi.topologicalSpace (ℕ+ × ℕ)
-      (fun i => AdjoinRoot (cyclotomic (i.1 : ℕ) R)) (fun _ => ⊥))
-
-/-- The joint universal Taylor collection in coordinates `q = z_m(1-u)` (§4.6). -/
-def iota (R : Type*) [CommRing R] (x : CycloCompletion R {n | 0 < n}) :
-    TaylorProduct R :=
-  fun m => PowerSeries.rescale (-AdjoinRoot.root (cyclotomic (m : ℕ) R))
-    (taylorAt (m : ℕ) m.2 (AdjoinRoot.root (cyclotomic (m : ℕ) R)) x)
-
-/-- Entire cyclotomic residues at the retained orders, without selecting roots (§4.4). -/
-def universalValues (R : Type*) [CommRing R] (S T : Set ℕ) (hTS : T ⊆ S)
-    (x : CycloCompletion R S) : ∀ m : T, AdjoinRoot (cyclotomic (m : ℕ) R) :=
-  fun m => x.1 ⟨cyclotomic (m : ℕ) R,
-    Submonoid.subset_closure (Set.mem_image_of_mem (fun n => cyclotomic n R) (hTS m.2))⟩
-
-/-- The factorial polynomial `P_N = ∏_{i=1}^N (1-X^i)` (§1.4). -/
-def factorialPoly (R : Type*) [CommRing R] (N : ℕ) : R[X] :=
-  ∏ i ∈ Finset.range N, (1 - X ^ (i + 1))
-
-/-- Every completed element has unique bounded-degree factorial digits, converging in every quotient (§2.1). -/
-theorem factorial_expansion (R : Type*) [CommRing R]
-    (x : CycloCompletion R {n | 0 < n}) :
-    ∃! a : ℕ → R[X], (∀ n, (a n).degree ≤ n) ∧
-      ∀ f : cycloIndex R {n | 0 < n}, ∀ᶠ N in Filter.atTop,
-        AdjoinRoot.mk (f : R[X]) (∑ n ∈ Finset.range N, a n * factorialPoly R n) = x.1 f := by
-  sorry
 
 /-- Adjacency chains inside the source order set make restriction injective (§4.2). -/
 theorem restrict_injective_of_chain (R : Type*) [CommRing R]
@@ -199,11 +185,41 @@ theorem taylorAt_injective {R K : Type*} [CommRing R] [IsDomain R] [CharZero R]
       (⟨ζ, Algebra.subset_adjoin (Set.mem_singleton ζ)⟩ : Algebra.adjoin R {ζ})) := by
   sorry
 
+/-- Entire cyclotomic residues at the retained orders, without selecting roots (§4.4). -/
+def universalValues (R : Type*) [CommRing R] (S T : Set ℕ) (hTS : T ⊆ S)
+    (x : CycloCompletion R S) : ∀ m : T, AdjoinRoot (cyclotomic (m : ℕ) R) :=
+  fun m => x.1 ⟨cyclotomic (m : ℕ) R,
+    Submonoid.subset_closure (Set.mem_image_of_mem (fun n => cyclotomic n R) (hTS m.2))⟩
+
 /-- Infinitely many orders adjacent to one order determine the completed element (§4.4). -/
 theorem universalValues_injective (R : Subring (AlgebraicClosure ℚ))
     {S T : Set ℕ} (hS : S ⊆ {n | 0 < n}) (hconn : IsAdjConnected R S)
     (hTS : T ⊆ S) (hadj : ∃ n ∈ S, Set.Infinite {m | m ∈ T ∧ Adjacent R n m}) :
     Function.Injective (universalValues R S T hTS) := by
+  sorry
+
+/-- Restriction from two distinct adjacent integral orders to one has proper image
+(Habiro, Proposition 7.4(1); §4.4). -/
+theorem adjacent_restrict_not_surjective (m n : ℕ) (hm : 0 < m) (hn : 0 < n)
+    (hne : m ≠ n) (hadj : Adjacent ℤ m n) :
+    ¬ Function.Surjective (restrict ℤ (S := {m, n}) (T := {m})
+      (by intro k hk; simp only [Set.mem_singleton_iff] at hk; subst k; simp)) := by
+  sorry
+
+/-- Restriction between positive divisor sets for a proper divisibility has proper image
+(Habiro, Proposition 7.4(2); §4.4). -/
+theorem divisor_restrict_not_surjective (m n : ℕ) (hm : 0 < m) (hn : 0 < n)
+    (hmn : m ∣ n) (hne : m ≠ n) :
+    ¬ Function.Surjective (restrict ℤ
+      (S := {d | 0 < d ∧ d ∣ n}) (T := {d | 0 < d ∧ d ∣ m})
+      (fun _ hd => ⟨hd.1, dvd_trans hd.2 hmn⟩)) := by
+  sorry
+
+/-- Restriction from all positive integral orders to a nonempty finite set has proper image
+(Habiro, Proposition 7.4(3); §4.4). -/
+theorem finite_restrict_not_surjective (T : Set ℕ) (hT : T.Finite)
+    (hne : T.Nonempty) (hpos : T ⊆ {n | 0 < n}) :
+    ¬ Function.Surjective (restrict ℤ hpos) := by
   sorry
 
 /-- Every integral single-root Taylor map has proper image (§4.4). -/
@@ -212,6 +228,22 @@ theorem integral_taylor_not_surjective {K : Type*} [Field K] [CharZero K]
     ¬Function.Surjective (taylorAt (R := ℤ) (S := {m | 0 < m}) n hn
       (⟨ζ, Algebra.subset_adjoin (Set.mem_singleton ζ)⟩ : Algebra.adjoin ℤ {ζ})) := by
   sorry
+
+/-- Universal root algebras retain every cyclotomic component (§4.5). -/
+abbrev TaylorProduct (R : Type*) [CommRing R] :=
+  ∀ m : ℕ+, PowerSeries (AdjoinRoot (cyclotomic (m : ℕ) R))
+
+/-- The product topology of discrete universal Taylor coefficients (§4.5). -/
+instance (R : Type*) [CommRing R] : TopologicalSpace (TaylorProduct R) :=
+  TopologicalSpace.induced (fun f (i : ℕ+ × ℕ) => PowerSeries.coeff i.2 (f i.1))
+    (@Pi.topologicalSpace (ℕ+ × ℕ)
+      (fun i => AdjoinRoot (cyclotomic (i.1 : ℕ) R)) (fun _ => ⊥))
+
+/-- The joint universal Taylor collection in coordinates `q = z_m(1-u)` (§4.6). -/
+def iota (R : Type*) [CommRing R] (x : CycloCompletion R {n | 0 < n}) :
+    TaylorProduct R :=
+  fun m => PowerSeries.rescale (-AdjoinRoot.root (cyclotomic (m : ℕ) R))
+    (taylorAt (m : ℕ) m.2 (AdjoinRoot.root (cyclotomic (m : ℕ) R)) x)
 
 /-- Joint universal Taylor expansions are injective over every integer-torsion-free ring (§4.6). -/
 theorem iota_injective (R : Type*) [CommRing R] [Module.IsTorsionFree ℤ R] :
@@ -223,6 +255,8 @@ theorem rational_taylor_isomorphism (R : Type*) [CommRing R] [Algebra ℚ R] :
     ∃ e : CycloCompletion R {n | 0 < n} ≃ₐ[R] TaylorProduct R,
       (∀ x, e x = iota R x) ∧ Continuous e ∧ Continuous e.symm := by
   sorry
+
+/-! ## Layer 5: modules, components, and localization -/
 
 /-- Arbitrary pairwise comaximal order parts give a product of complete topological algebras (§5.2). -/
 theorem comaximal_decomposition (R : Type*) [CommRing R] {I : Type*}
