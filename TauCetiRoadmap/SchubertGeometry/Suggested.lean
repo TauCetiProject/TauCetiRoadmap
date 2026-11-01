@@ -8,7 +8,8 @@ headline theorems against the pinned APIs. The simple-lowering obstruction of
 S4.4a is statable on native polynomial and submodule carriers.
 
 The other headlines are not statable at the pins:
-* S1's relative Schubert/incidence comparison needs relative flag schemes with
+* S1's relative parabolic representability and Schubert/incidence comparison
+  need relative parabolic and flag schemes with
   their determinantal Schubert subschemes; the native Grassmannian is a module carrier.
 * S2/S5's all-word image and derived pushforward theorems need Bott–Samelson
   schemes, their multiplication maps and their associated invertible sheaves.
@@ -22,7 +23,9 @@ The other headlines are not statable at the pins:
   the Schubert section ring, not just a polynomial ring with named minors.
 * S7's Chevalley and cycle comparisons need Schubert cycles and their Chow classes.
 * S8's flag K-ring presentation needs the flag's algebraic K-ring and characteristic map.
-* S9's GAGA, holomorphic Lefschetz and moment–Morse comparisons need the flag
+* S9.0's general proper coherent GAGA needs complex analytic spaces with
+  nilpotents, coherent analytification and its derived exchange maps.
+* S9's holomorphic Lefschetz and moment–Morse comparisons need the flag
   and word analytifications, equivariant bundles and compatible cellular maps;
   S9.8's associated-line adapter needs their tensor-compatible analytification.
 -/
