@@ -13,8 +13,8 @@ and concrete Weyl groups of types A and G₂.
 This roadmap owns the remaining root-system conclusions above. Mathlib supplies
 root pairings, bases, integral coordinates, root strings and abstract Coxeter
 systems. Tau Ceti supplies positive roots, lowering, inversions, exchange,
-chambers, the longest element, Bruhat order, Poincaré polynomials, finite Cartan classification and the numbered
-simply connected root data. These are inputs, not construction targets here.
+chambers, the longest element, Bruhat order, Poincaré polynomials, G₂ Cartan recognition,
+finite Cartan classification and the numbered simply connected root data. These are inputs, not construction targets here.
 In particular there is one native `TauCeti.DynkinType`, one standard Cartan family
 and one integral datum per valid type; no second enumeration or transport to a
 local copy is needed. The exported `DynkinType` in Suggested.lean denotes that
@@ -155,6 +155,10 @@ Paths in this subsection are relative to Tau Ceti; all preserve their native hyp
   directory. Classification assumes nonempty irreducible finite reduced
   crystallographic spanning systems. Finite type means a generalized Cartan
   matrix with positive rational diagonal symmetrizer and positive-definite symmetrization.
+- `TauCeti.hasCartanType_G2_of_isG2` in
+  `TauCeti/LinearAlgebra/RootSystem/RankTwo.lean` identifies the Cartan type of
+  any base of a finite crystallographic characteristic-zero-domain pairing
+  satisfying `RootPairing.IsG2`; §5.2 consumes this recognition.
 - `TauCeti.DynkinType.numRoots` in `TauCeti/LinearAlgebra/RootSystem/NumberOfRoots.lean`,
   `TauCeti.DynkinType.rootLength` and `TauCeti.DynkinType.IsLongSimpleRoot` in
   `RootLength.lean`; the lengths satisfy the root-row Cartan convention.
@@ -259,7 +263,7 @@ systems; no chamber or classification proof depends on this layer.
 Define `basedAut` as the inverse image under the native index homomorphism of
 the setwise stabilizer of b.support. For finite reduced crystallographic
 spanning real pairings, prove `weyl_based_complement`: W complements that
-subgroup in the full root-pairing automorphism group (SGA 3 XXI, Prop. 6.7.2,
+subgroup in the full root-pairing automorphism group (SGA 3 XXI, Prop. 6.7.2, p. 99,
 sga3iii line 1374; Milne C.53, p. 624). *Needs:* native set stabilizer and comap;
 chamber covering, freeness and transitivity; transport of base inequalities.
 
@@ -268,9 +272,9 @@ chamber covering, freeness and transitivity; transport of base inequalities.
 - Prove that a root automorphism carries positive systems and open chambers
   to positive systems and open chambers, using the actual coroot inequalities;
   preservation of the base is equivalent to preservation of the open chamber
-  (SGA 3 XXI, Prop. 6.1.3, sga3iii line 1051).
+  (SGA 3 XXI, Prop. 6.1.3, p. 90, sga3iii line 1051).
 - Prove normality by conjugating each generating reflection to the reflection
-  at its image root (SGA 3 XXI, Lemma 6.7.1, sga3iii line 1368).
+  at its image root (SGA 3 XXI, Lemma 6.7.1, p. 98, sga3iii line 1368).
 - Obtain the conjugation semidirect equivalence from the native complement API.
   Its forward map is (w,δ) ↦ wδ; its inverse gives the unique two factors.
   Prove the root, coroot and change-of-base transport equations. The product
@@ -287,15 +291,21 @@ chamber covering, freeness and transitivity; transport of base inequalities.
 
 ### 2.2 Oriented diagrams and actual isogeny lattices
 
-For a finite reduced crystallographic spanning system, identify its based
-subgroup with the permutations of its simple support preserving every Cartan
-entry. Use the native diagram automorphisms on the simply connected family
-for existence and determination on a base for uniqueness (SGA 3 XXI,
-Cor. 7.3.4, Cor. 7.4.5 and Rem. 7.4.6, sga3iii lines 1627, 1654, 1660).
+For the standing finite reduced crystallographic spanning system over a
+characteristic-zero domain, prove `existsUnique_basedAut_of_cartanMatrix`:
+for each permutation σ of b.support preserving every Cartan entry, there is
+exactly one g in `basedAut` whose index action on every simple i is σ(i).
+Together with preservation of the pairings by native root-pairing equivalences,
+this identifies the based subgroup with the oriented diagram automorphisms.
+A route extends σ using the native Cartan comparison and uses determination on
+the simple-root basis for uniqueness (SGA 3 XXI, Prop. 7.3.2, pp. 104–105,
+Cor. 7.3.4 and Cor. 7.4.5, p. 105, and Rem. 7.4.6, p. 106;
+sga3iii lines 1608, 1627, 1654, 1660).
 For the full integral version this unrestricted diagram identification applies
 to semisimple simply connected or adjoint data. For intermediate isogeny forms,
 restrict to diagram automorphisms preserving the **actual dual lattices**.
-*Needs:* §2.1; native classification, diagram actions and Cartan determination.
+*Needs:* §2.1; `RootPairing.Base.equivOfCartanMatrixEq`; native simple-root
+bases, pairing preservation and determination of root-pairing equivalences.
 
 Define the lattice-preserving subgroup by the two equations g(X₀)=X₀ and
 (g.coweightEquiv)⁻¹(Y₀)=Y₀ for specified dual integral lattices in the rational
@@ -332,8 +342,8 @@ prove `full_datum_complement`. Construct its rational scalar extension with
 maps from both lattices, preserving the perfect pairing, roots, coroots, base
 and reflections. Build the chamber argument on the root span and its cylinder
 in the ambient rational space. Retain the central/derived lattice gluing; an
-integral direct-sum decomposition is not assumed (SGA 3 XXI, Prop. 6.7.2,
-sga3iii line 1374; Milne C.43 and C.51, pp. 617, 620).
+integral direct-sum decomposition is not assumed (SGA 3 XXI, Prop. 6.7.2, p. 99,
+sga3iii line 1374; Milne C.43 and C.51, pp. 618, 620).
 *Needs:* §2.1's base-transport argument; §2.2's lattice restriction;
 finite-free scalar extension and duality in Mathlib.
 
@@ -372,8 +382,10 @@ complements; full integral data additionally need §2.3's general scalar extensi
 For a finite reduced crystallographic spanning real pairing and base, take the
 connected components of the graph on b.support whose distinct vertices are
 adjacent when Cᵢⱼ≠0. Define each component space as the real span of its simple
-roots and give it the restricted root/coroot pairing (Milne C.23, p. 612,
-milne17 line 25102). *Needs:* native Cartan entries and simple-root basis;
+roots and give it the restricted root/coroot pairing. Identify this graph
+decomposition with the irreducible decomposition (Milne C.23, p. 612, and
+C.55, p. 625; milne17 lines 25102, 25585).
+*Needs:* native Cartan entries and simple-root basis;
 Mathlib graph components and submodules; `RootPairing.isIrreducible_of_connected_diagramGraph_cartanMatrix`
 in `TauCeti/LinearAlgebra/RootSystem/FiniteType/Irreducible.lean`.
 
@@ -396,10 +408,17 @@ in `TauCeti/LinearAlgebra/RootSystem/FiniteType/Irreducible.lean`.
 Prove `invariantMetric_unique_scale` for a finite irreducible spanning real
 root pairing: any positive-definite invariant forms B,C satisfy C=cB for a
 unique real c>0. Reducedness and crystallographicity are not needed for this
-statement. A route uses the invariant-form identity and irreducibility of the
-reflection representation (Milne Appendix C(g), p. 621, milne17 line 25421;
-native `RootPairing.InvariantForm.two_mul_apply_root`).
-*Needs:* native invariant forms, irreducibility, positive definiteness and spanning.
+statement. Milne Appendix C(g), p. 621 (milne17 line 25421), states the
+reduced crystallographic case. For the generality here, a route starts with a
+nonzero root α and sets c=C(α,α)/B(α,α)>0; positivity makes the denominator
+nonzero. Apply `RootPairing.InvariantForm.two_mul_apply_root` to both forms:
+the symmetric invariant bilinear form D=C−cB satisfies D(x,α)=0 for every x.
+Its radical contains α and is reflection-stable, so native irreducibility makes
+that radical the whole module. Hence C=cB; evaluating at (α,α) proves uniqueness.
+Spanning and nontriviality ensure that a root exists. This derivation uses neither
+reducedness nor crystallographicity.
+*Needs:* native invariant forms and their coroot identity; native irreducibility;
+positive definiteness; spanning; bilinearity and invariance of the radical of D.
 
 For the reduced crystallographic case prove `squared_lengths_two_values`:
 there are s>0 and r∈{1,2,3} with each squared root length equal to s or rs.
@@ -419,6 +438,9 @@ Ordinary length ratios are √r, so the squared-length convention is essential.
 
 - In A₁, B(x,y)=xy and C(x,y)=3xy give the unique scale c=3; c=0
   fails positivity and c=2 fails equality at (1,1).
+- In the nonreduced real rank-one pairing with roots ±1, ±2 and respective
+  coroots ±2, ±1, B(x,y)=xy and C(x,y)=3xy still give c=3; at α=2,
+  the quotient is 12/4=3 and D(x,2)=6x−6x=0. Reducedness is unnecessary.
 - In B₂, squared lengths of e₁−e₂ and e₂ are 2 and 1. In G₂,
   squared lengths 1 and 3 give ordinary ratio √3, not 3.
 - A₁³ with roots ±eᵢ, coroots ±2eᵢ and B=diag(1,2,5) has squared length
@@ -447,7 +469,8 @@ Use `RootPairing.Base.toWeightBasisInt` on the root lattice. For Cᵢⱼ=⟨α�
 construct the integral linear reflection on simple-root coefficient columns:
 its k-th entry is cₖ−δₖᵢΣⱼCⱼᵢcⱼ. Evaluation into the root lattice intertwines
 this map with the actual reflection. Thus with A=2I−Cᵀ the changed coordinate
-is ΣⱼAᵢⱼcⱼ−cᵢ (SGA 3 XXI, §1.1.1–§1.1.2, formulas (1)–(3)).
+is ΣⱼAᵢⱼcⱼ−cᵢ (SGA 3 XXI, §1.1.1–§1.1.2, formulas (1)–(3), pp. 63–64;
+sga3iii lines 19–42).
 *Needs:* native integral basis; root reflection formula; Cᵢᵢ=2.
 
 - Prove involutivity, ℤ-linearity and evaluation compatibility, with source
@@ -543,14 +566,25 @@ type. Prove order (n+1)! and positive-root count n(n+1)/2
 (Milne C.16 and C.25, pp. 611–613). *Needs:* native classification and Cartan
 comparison; §1.1; the sum-zero realization and its marked simple roots.
 
+**Checks.**
+
+- A₁ has two Weyl elements, matching S₂; A₂ has six, matching the nonabelian S₃.
+- Over R=ℤ[1/2], take M=N=R with dot pairing, roots ±1 and coroots ±2.
+  Both families span, the positive singleton has Cartan matrix [2], and
+  reflection is x↦−x, giving W≅S₂. The proper nonzero submodule 3R is
+  reflection-stable: 3↦−3, whereas 1∉3R since 3a=2ᵏ has no integer solution.
+  Thus type A does not require native module irreducibility over a domain.
+- The empty system has trivial Weyl group but is not of valid type Aₙ for n≥1;
+  the type hypothesis prevents treating rank zero as A₁.
+
 ### 5.2 Type G₂
 
 For a finite spanning `RootPairing.IsG2` system over a characteristic-zero
-domain, prove `weylGroup_equiv_dihedral_of_isG2`: its base has native G₂ Cartan
-type and its Weyl group is `DihedralGroup 6`. Fix the short-first Bourbaki
+domain and a chosen base, prove `weylGroup_equiv_dihedral_of_isG2`:
+its Weyl group is isomorphic to `DihedralGroup 6`. Fix the short-first Bourbaki
 orientation, six positive roots and longest length 6 (Milne Appendix C(g),
-rank-two diagrams, p. 622). *Needs:* native G₂ predicate and rank-two Cartan
-constraints; §1.1–§1.2; native classification and longest element.
+rank-two diagrams, p. 622). *Needs:* native G₂ predicate;
+`TauCeti.hasCartanType_G2_of_isG2`; §1.1–§1.2; native classification and longest element.
 
 ### Examples
 
@@ -575,11 +609,12 @@ cover lifts. These are consumers, not prerequisites for the root-system proofs.
 ## References
 
 - J. S. Milne, *Algebraic Groups*, 2017, Appendix C, especially C.19–C.25,
-  C.43, C.51, C.53 and C.56, pp. 611–626; source id milne17,
+  C.43, C.51, C.53, C.55 and C.56, pp. 611–626; source id milne17,
   [author's edition](https://www.jmilne.org/math/Books/iAG2017.pdf).
 - M. Demazure, *SGA 3*, Tome III, Exposé XXI, §§1.1, 6.1, 6.7, 7.3–7.4;
   source id sga3iii, [Gille–Polo re-edition, 13 October 2024](https://webusers.imj-prg.fr/~patrick.polo/SGA3/Exp21-13oct24.pdf).
-  Proposition numbers above refer to this edition.
+  Proposition and printed-page numbers above refer to this re-edition, not
+  the original pagination reproduced in its margins.
 - N. Bourbaki, *Lie Groups and Lie Algebras, Chapters 4–6*, Springer, 2002,
   Chapter VI §1, nos. 3, 6, 8, and §4, Planches I–IX; source id bourbaki46.
 - A. Björner and F. Brenti, *Combinatorics of Coxeter Groups*, Springer GTM 231,

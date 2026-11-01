@@ -8,7 +8,8 @@ import TauCeti.LinearAlgebra.RootSystem.RootLength
 
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's
 headline theorems against the pinned APIs: the marked Coxeter presentation and
-length formula, root-automorphism complements, invariant metrics, greatest roots,
+length formula, root-automorphism complements and the based diagram identification,
+invariant metrics, greatest roots,
 and the type A and G₂ Weyl-group identifications.
 
 The componentwise metric parameterization needs the constructed family of
@@ -68,6 +69,18 @@ theorem weyl_based_complement {ι M N : Type*}
     [P.IsCrystallographic] [P.IsReduced] (b : P.Base) :
     P.weylGroup.IsComplement' (basedAut P b) := sorry
 
+/-- Every permutation of the simple indices preserving Cartan entries extends to exactly one
+based root-pairing automorphism, with that specified action on simple indices. -/
+theorem existsUnique_basedAut_of_cartanMatrix {ι R M N : Type*}
+    [CommRing R] [CharZero R] [IsDomain R]
+    [AddCommGroup M] [Module R M] [AddCommGroup N] [Module R N]
+    (P : RootPairing ι R M N) [Finite ι] [P.IsRootSystem]
+    [P.IsCrystallographic] [P.IsReduced] (b : P.Base)
+    (σ : Equiv.Perm b.support)
+    (hσ : ∀ i j, b.cartanMatrix (σ i) (σ j) = b.cartanMatrix i j) :
+    ∃! g : basedAut P b, ∀ i : b.support,
+      g.val.indexEquiv (i : ι) = ((σ i : b.support) : ι) := sorry
+
 /-- The complement theorem for full finite-free integral root data retains the central lattice. -/
 theorem full_datum_complement {ι X Y : Type*} [Finite ι]
     [AddCommGroup X] [AddCommGroup Y]
@@ -116,15 +129,15 @@ theorem weylGroup_equiv_perm_of_typeA {ι R M N : Type*}
     [CommRing R] [CharZero R] [IsDomain R]
     [AddCommGroup M] [Module R M] [AddCommGroup N] [Module R N]
     (P : RootPairing ι R M N) [Finite ι] [P.IsRootSystem]
-    [P.IsCrystallographic] [P.IsReduced] [P.IsIrreducible]
+    [P.IsCrystallographic] [P.IsReduced]
     (b : P.Base) {n : ℕ} (hn : 1 ≤ n) (h : TauCeti.HasCartanType P b (.A n)) :
     Nonempty (P.weylGroup ≃* Equiv.Perm (Fin (n + 1))) := sorry
 
-/-- A finite spanning G₂ system has the oriented G₂ Cartan type and dihedral Weyl group of order 12. -/
+/-- A finite spanning G₂ system has dihedral Weyl group of order 12. -/
 theorem weylGroup_equiv_dihedral_of_isG2 {ι R M N : Type*}
     [CommRing R] [CharZero R] [IsDomain R]
     [AddCommGroup M] [Module R M] [AddCommGroup N] [Module R N]
     (P : RootPairing ι R M N) [Finite ι] [P.IsRootSystem] [P.IsG2] (b : P.Base) :
-    TauCeti.HasCartanType P b .G2 ∧ Nonempty (P.weylGroup ≃* DihedralGroup 6) := sorry
+    Nonempty (P.weylGroup ≃* DihedralGroup 6) := sorry
 
 end TauCetiRoadmap.RepresentationTheory.RootSystems
