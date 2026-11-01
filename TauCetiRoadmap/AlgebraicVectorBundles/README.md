@@ -70,7 +70,11 @@ the clopen rank decomposition, equal-rank determinant maps, base change) is
 PadicMeasuresIwasawaAlgebras §5.1; Layer 3 compares its sheaf determinant with it on affine
 opens. The rank-one theory, Picard group and Jacobian are JacobianChallenge's. Curve-specific
 degree theory is AlgebraicCurves'. Relative Proj is StableReduction's and
-SchemeAndStackFoundations', consuming the graded algebras of Layer 6.
+SchemeAndStackFoundations', consuming the graded algebras of Layer 6. General closure of
+quasi-coherent sheaves under kernels and general quasi-compact quasi-separated pushforward
+belong to SchemeAndStackFoundations §0.4. Layers 2 and 4 use affine tilde calculations and the
+pinned pushforward between spectra for their internal-Hom and structure-algebra constructions;
+they do not consume that downstream roadmap.
 
 ## Conventions
 
@@ -108,7 +112,9 @@ At Mathlib `6b7abb3`:
 subscheme (Mathlib/AlgebraicGeometry/Restrict.lean); `TopologicalSpace.Clopens.toOpens`;
 `SheafOfModules.IsQuasicoherent`, `SheafOfModules.IsFinitePresentation`,
 `SheafOfModules.IsLocallyFree`; `SheafOfModules.pullbackObjUnitToUnit`;
-`AlgebraicGeometry.tilde` and `AlgebraicGeometry.tildeEquiv`; `IsAffineHom`, `Scheme.Spec`,
+`AlgebraicGeometry.tilde`, its fully faithful functor `AlgebraicGeometry.tilde.fullyFaithfulFunctor`,
+and the affine quasi-coherent equivalence `AlgebraicGeometry.tildeEquiv`
+(Mathlib/AlgebraicGeometry/Modules/Tilde.lean); `IsAffineHom`, `Scheme.Spec`,
 `AffineSpace`, `AffineSpace.homOfVector`, `AffineSpace.homOverEquiv`, `AffineSpace.SpecIso`;
 `CommMon`, `Functor.mapCommMon`, `GradedObject`, `ObjectProperty.IsMonoidal`,
 `ObjectProperty.fullMonoidalSubcategory`, `HasLeftDual`, `ExactPairing`;
@@ -126,8 +132,19 @@ At Tau Ceti `a91d3aa`:
   `SheafOfModules.dual` (TauCeti/Algebra/Category/ModuleCat/Sheaf/TensorProduct/Closed.lean);
   `SheafOfModules.ihomStalkEquiv` for a finitely presented source
   (TauCeti/Algebra/Category/ModuleCat/Sheaf/InternalHom/FinitePresentation.lean);
+- pullback: `Scheme.Modules.pullbackOplaxMonoidal`, the canonical comparison
+  `Functor.OplaxMonoidal.δ`, its unit identification `Scheme.Modules.pullback_η`, symmetry law
+  `Scheme.Modules.pullback_map_braiding_hom_comp_δ` and composition law
+  `Scheme.Modules.pullback_comp_δ`, together with `Scheme.Modules.pullbackObjUnitIso_comp`
+  (TauCeti/AlgebraicGeometry/Modules/Pullback/Basic.lean);
 - quasi-coherent sheaves: `QuasicoherentSheaf X` with its monoidal structure
   (TauCeti/AlgebraicGeometry/Modules/Quasicoherent/Basic.lean);
+  `TauCeti.AlgebraicGeometry.preservesFiniteLimits_tildeFunctor`, exactness on finite limits
+  of the associated-sheaf functor on modules over any commutative ring
+  (TauCeti/AlgebraicGeometry/Modules/Tilde/Basic.lean);
+  `Scheme.Modules.isQuasicoherent_pushforward_specMap`, preservation of quasi-coherence under
+  pushforward along a map of spectra
+  (TauCeti/AlgebraicGeometry/Modules/Quasicoherent/Pushforward.lean);
 - finite locally free sheaves (TauCeti/AlgebraicGeometry/VectorBundle/): `Scheme.Modules.isFiniteLocallyFree`,
   `FiniteLocallyFreeSheaf`, `FiniteLocallyFreeSheaf.free`, `FiniteLocallyFreeSheaf.pullback`,
   `FiniteLocallyFreeSheaf.pullbackId`, `FiniteLocallyFreeSheaf.pullbackComp`,
@@ -182,14 +199,16 @@ and dictionary.
 
 ### 1.1 Strong monoidal pullback
 
-Make `Scheme.Modules.pullback f`, for `f : Y ⟶ X`, a strong symmetric monoidal functor for the
-canonical structures on `X.Modules` and `Y.Modules`: the comparison
-`f^* E ⊗ f^* F → f^* (E ⊗ F)` and `f^* 𝒪_X → 𝒪_Y` are isomorphisms, the latter being Mathlib's
-`SheafOfModules.pullbackObjUnitToUnit`, and they are compatible with the braiding. Prove that
-`Scheme.Modules.pullbackId` and `Scheme.Modules.pullbackComp` are monoidal natural isomorphisms
-(Stacks Project, Tag 01CD for the tensor comparison, which is the sheafification of the
-sectionwise base change). *Needs:* Mathlib `Scheme.Modules.pullback`, `Scheme.Modules.pullbackComp`;
-Tau Ceti `Scheme.Modules.instMonoidalCategory`.
+Prove `pullback_tensor_isIso`: for every `f : Y ⟶ X` and `E F : X.Modules`, the canonical
+oplax comparison `f^* (E ⊗ F) → f^* E ⊗ f^* F` is invertible (Stacks Project, Tag 01CD).
+Use its inverse as the strong monoidal tensor map `f^* E ⊗ f^* F → f^* (E ⊗ F)`, together with
+the unit isomorphism `f^* 𝒪_X → 𝒪_Y`, to make pullback strong symmetric monoidal. Identify the
+resulting identity and composition coherences with `Scheme.Modules.pullbackId` and
+`Scheme.Modules.pullbackComp`, using the unit, symmetry and composition laws in the supplier
+contract. *Needs:* Mathlib `Scheme.Modules.pullback`, `Scheme.Modules.pullbackComp`;
+Tau Ceti `Scheme.Modules.pullbackOplaxMonoidal`, `Scheme.Modules.pullback_η`,
+`Scheme.Modules.pullback_map_braiding_hom_comp_δ`, `Scheme.Modules.pullback_comp_δ`,
+`Scheme.Modules.pullbackObjUnitIso_comp`.
 
 - On free sheaves the tensor comparison is the identity of `𝒪_Y^(I × J)` under the free
   presentations.
@@ -244,13 +263,18 @@ monoidal (Layer 1) and preserves duals, and Tau Ceti's affine case of this very 
 Prove `ihom_isQuasicoherent`: the internal Hom `Hom(E, F)` of `Scheme.Modules.instMonoidalClosed`
 is quasi-coherent when `E` is finitely presented and `F` is quasi-coherent. For finitely presented
 `E` the sheaf `Hom(E, F)` is locally the kernel of a map between finite direct sums of copies of
-`F` (Stacks Project, Tag 01CQ), and the kernel of a map of quasi-coherent sheaves on a scheme is
-quasi-coherent (Stacks Project, Tag 01LB), which this layer proves as its input. Construct the
+`F` (Stacks Project, Tag 01CQ). Refine to affine charts `Spec R` carrying a finite presentation
+of `E` and write `F = N~`. Full faithfulness of tilde identifies the presentation-induced map
+with a finite matrix `N^a → N^b`; preservation of finite limits by tilde identifies the sheaf
+kernel with `(ker(N^a → N^b))~`. Quasi-coherence follows locally, without a separate general
+kernel-closure theorem. Construct the
 canonical comparison `f^* Hom(E, F) → Hom(f^* E, f^* F)` from Layer 1 and the adjunction, and prove
 that it is an isomorphism when `E` is finitely presented and `f` is flat, or when `E` is finite
 locally free and `f` is arbitrary (Stacks Project, Tag 0C6I). For finite locally free `E`, give the
-isomorphism `Hom(E, F) ≅ E^∨ ⊗ F`. *Needs:* Layer 1; closure of quasi-coherent sheaves under
-kernels, proved in this layer; Tau Ceti `SheafOfModules.ihomStalkEquiv`, `SheafOfModules.dual`.
+isomorphism `Hom(E, F) ≅ E^∨ ⊗ F`. *Needs:* Layer 1 for the base-change comparison;
+Mathlib `AlgebraicGeometry.tilde.fullyFaithfulFunctor`, `AlgebraicGeometry.tildeEquiv`;
+Tau Ceti `TauCeti.AlgebraicGeometry.preservesFiniteLimits_tildeFunctor`,
+`SheafOfModules.ihomStalkEquiv`, `SheafOfModules.dual`.
 
 - The comparison is natural in `E`, `F` and compatible with `Scheme.Modules.pullbackComp`.
 - For a non-flat `f` and finitely presented `E`, the comparison is only a map.
@@ -260,9 +284,17 @@ kernels, proved in this layer; Tau Ceti `SheafOfModules.ihomStalkEquiv`, `SheafO
   `f^* Hom(E, 𝒪_X) = 0`, but `Hom(f^* E, 𝒪_pt) = k`. The comparison is not surjective, so the
   flatness hypothesis cannot be dropped.
 - For `E = 𝒪_X^r`, both sides are `(f^* F)^r` and the comparison is the identity.
-- For `E = 𝒪_X^(ℕ)` (free of countable rank, not finitely presented) on `Spec ℤ` and `f` the flat
-  inclusion of the generic point, the comparison
-  `(∏ ℤ) ⊗ ℚ → ∏ ℚ` is not surjective, which is why finite presentation is assumed.
+- Over `R = k[ε]/(ε²)`, take `E = (R/(ε))~` and `F = R~`. The presentation gives
+  multiplication by `ε` on `R`, whose kernel is `(ε) = Hom_R(R/(ε), R)`; exact tilde gives
+  `Hom(E, F) = (ε)~`, without requiring `E` to be flat or the base to be reduced.
+- For `E = 𝒪_X^(ℕ)` (free of countable rank, not finitely presented), `F = 𝒪_X` on
+  `X = Spec ℤ`, and `f : Spec ℚ → X`, internal Hom is the product sheaf. Its pullback is
+  `colim_{m ≠ 0} ∏ᵢ ℤ[1/m]`, using restriction maps between basic neighbourhoods of the generic
+  point, and maps into `∏ᵢ ℚ`. The sequence `(1/pᵢ)ᵢ` for distinct primes `pᵢ` has no preimage:
+  each source vector uses only finitely many denominator primes. Thus the flat comparison
+  need not be surjective without finite presentation. The sequence `(2⁻ⁱ)ᵢ` does lie in the
+  source, already over `D(2)`, but not in `(∏ᵢ ℤ) ⊗ ℚ`, whose elements have one common
+  denominator; localizing global sections would compute the wrong source.
 
 ### Examples
 
@@ -298,7 +330,8 @@ right size. *Needs:* Tau Ceti power functors, `FiniteLocallyFreeSheaf.rank`,
 
 ### 3.2 Pullback comparisons
 
-Construct natural isomorphisms `f^* Sym^n(E) ≅ Sym^n(f^* E)` and `f^* ∧^n(E) ≅ ∧^n(f^* E)` for
+Prove `symmetricPower_pullback` and `exteriorPower_pullback`, giving natural isomorphisms
+`f^* Sym^n(E) ≅ Sym^n(f^* E)` and `f^* ∧^n(E) ≅ ∧^n(f^* E)` for
 every `f : Y ⟶ X` and every `𝒪_X`-module `E` (Stacks Project, Tag 01CI), compatible with
 `Scheme.Modules.pullbackComp`, with the degree-zero and degree-one isomorphisms of Tau Ceti, and
 with Layer 1. *Needs:* Layer 1; Tau Ceti power functors.
@@ -372,10 +405,15 @@ Layer 1; Tau Ceti power functors, rank and rank loci; PadicMeasuresIwasawaAlgebr
 Construct the pushforward algebra `p_* 𝒪_V` of `V : AffineSchemeOver X`: the carrier is the
 actual pushforward of the structure sheaf, the unit and multiplication are those of regular
 functions, and a morphism `g : V ⟶ W` over `X` acts by pulling back regular functions. This gives
-a functor `AffineSchemeOver X ⥤ (QuasicoherentAlgebra X)ᵒᵖ`. Using Layer 1, pull back quasi-coherent
-commutative algebras along `f : Y ⟶ X` via `Functor.mapCommMon`, and identify the pullback of the
-structure algebra with the structure algebra. *Needs:* Layer 1; Tau Ceti `QuasicoherentAlgebra`,
-`AffineSchemeOver`; quasi-coherence of the pushforward along an affine morphism, proved in this layer.
+a functor `AffineSchemeOver X ⥤ (QuasicoherentAlgebra X)ᵒᵖ` (Stacks Project, Tag 01SA).
+For quasi-coherence, work over each affine open `Spec A ⊆ X`: its inverse image is `Spec R`,
+and the pinned pushforward between spectra identifies the underlying sheaf with `R~` as an
+`A`-module. This is the affine structure-sheaf case of Tag 01LC (affine morphisms are
+quasi-compact and quasi-separated). Using Layer 1, pull back quasi-coherent commutative algebras
+along `f : Y ⟶ X` via `Functor.mapCommMon`, and identify the pullback of the structure algebra
+with the structure algebra (Stacks Project, Tag 01LQ). *Needs:* Layer 1; Tau Ceti
+`QuasicoherentAlgebra`, `AffineSchemeOver`, `Scheme.Modules.isQuasicoherent_pushforward_specMap`;
+Mathlib `AlgebraicGeometry.tildeEquiv`.
 
 **Checks.**
 - For `V = Spec R ⟶ Spec A`, the pushforward algebra is `R` as an `A`-algebra.
@@ -519,11 +557,22 @@ Prove as natural isomorphisms: pullback `f^* E` corresponds to the base change `
 sections to sections of `V(E) → X`; the fibre `E_x ⊗ κ(x)` to `Spec_{κ(x)} Sym((E_x ⊗ κ(x))^∨)`,
 whose `κ(x)`-points are the vectors of the fibre; direct sum to fibre product over `X`; zero and
 addition to the zero section and fibrewise addition; dual, tensor and internal Hom, symmetric and
-exterior powers and the determinant to the corresponding geometric bundles. *Needs:* the total space of Layer 7, Layer 3.
+exterior powers and the determinant to the corresponding geometric bundles. For sections,
+fibres, direct sums and base change, apply EGA II, §§1.7.9–1.7.10 and Proposition 1.7.11
+(iii)–(iv), pp. 16–17, to `E^∨` and use finite-locally-free biduality and compatibility of the
+dual with pullback. Zero and addition are the maps induced on points by zero and addition in
+`f^* E`, under §7.1's universal property. Define the geometric dual, tensor, internal Hom,
+powers and determinant by transporting the sheaf operations of Layers 2–3 through §7.1's
+equivalence, and prove that its comparison isomorphisms respect those operations.
+*Needs:* the total space and equivalence of §7.1; the internal-Hom and dual comparisons of
+Layer 2; the powers and determinant of Layer 3; the base-change comparison of Layer 5.
 
 **Checks.**
 - The fibre of `V(𝒪_X²)` at `x` is `𝔸²_{κ(x)}`.
-- `V(E ⊕ E') = V(E) ×_X V(E')`, not the product over `Spec ℤ`.
+- For `E = 𝒪_X²` and `E' = 𝒪_X`, the direct-sum comparison is
+  `𝔸³_X ≅ 𝔸²_X ×_X 𝔸¹_X`, sending `(a, b, c)` to `((a, b), c)`; the product is over `X`.
+- For `X = Spec k` and `E = k²`, both sections and `k`-points of the fibre are vectors
+  `(a, b) ∈ k²`; the function on `E^∨` evaluates `λ` as `λ(a, b)`.
 - The tautological case `InvertibleSheaf.trivial`: `V(𝒪_X) = 𝔸¹_X` is the trivial line bundle.
 
 ### Examples
@@ -547,7 +596,7 @@ NilpotentOrbits (total spaces), ReductiveGroups and SchubertGeometry.
 ## References
 
 - The Stacks Project, Sheaves of Modules (Tags 01CD, 01CI, 01CK, 01CL, 01CQ, 0C6I, 0FNU),
-  Algebra (Tag 00NX), Schemes (Tag 01LB), Constructions of Schemes (Tags 01LQ, 01LX, 01M1, 062N),
+  Algebra (Tag 00NX), Schemes (Tags 01LB, 01LC), Constructions of Schemes (Tags 01LQ, 01LX, 01M1, 062N),
   Morphisms of Schemes (Tag 01SA).
 - A. Grothendieck and J. Dieudonné, *Éléments de géométrie algébrique* II, §1.
 - R. Hartshorne, *Algebraic Geometry*, II.5.

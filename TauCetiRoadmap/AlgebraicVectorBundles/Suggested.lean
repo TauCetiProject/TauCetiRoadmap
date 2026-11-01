@@ -3,6 +3,7 @@ import TauCeti.AlgebraicGeometry.VectorBundle.Rank
 import TauCeti.AlgebraicGeometry.VectorBundle.Dual.Basic
 import TauCeti.AlgebraicGeometry.LineBundle.Basic
 import TauCeti.AlgebraicGeometry.Modules.TensorProduct
+import TauCeti.AlgebraicGeometry.Modules.Pullback.Basic
 import TauCeti.AlgebraicGeometry.RelativeSpec.Functor
 import TauCeti.Algebra.Category.ModuleCat.Sheaf.SymmetricPower
 import TauCeti.Algebra.Category.ModuleCat.Sheaf.ExteriorPower
@@ -27,8 +28,8 @@ roadmap's namespace, kept because consumers build on them under these names.
 Headline theorems of the roadmap that are not statable at the pins:
 
 * the base-change isomorphism `Y ×_X Spec_X(A) ≅ Spec_Y(f^* A)` of Layer 5: pulling back a
-  quasi-coherent algebra needs a monoidal structure on `Scheme.Modules.pullback`, which neither
-  library has;
+  quasi-coherent algebra needs the strong monoidal structure on `Scheme.Modules.pullback`
+  constructed in Layer 1; the pinned comparison is only oplax monoidal;
 * the linear-scheme equivalence `QCoh(X)ᵒᵖ ≌ LinearSch(X)` of Layer 6: the sheaf symmetric
   algebra `Sym_{𝒪_X}(F)` as a quasi-coherent commutative algebra, the category of nonnegatively
   graded quasi-coherent algebras and the category of linear schemes are all missing;
@@ -43,6 +44,17 @@ namespace TauCetiRoadmap.AlgebraicVectorBundles
 open CategoryTheory Limits MonoidalClosed TauCeti.AlgebraicGeometry AlgebraicGeometry
 
 universe u
+
+/-! ## Layer 1: sheaves of modules -/
+
+/-- The canonical oplax tensor comparison of module pullback is invertible for every scheme
+morphism and every pair of module sheaves, without flatness or quasi-coherence assumptions
+(Stacks Project, Tag 01CD). Together with the pinned unit isomorphism and symmetry law this
+makes pullback strong symmetric monoidal. -/
+theorem pullback_tensor_isIso {X Y : Scheme.{u}} (f : Y ⟶ X)
+    (E F : X.Modules) :
+    IsIso (Functor.OplaxMonoidal.δ (Scheme.Modules.pullback f) E F) := by
+  sorry
 
 /-! ## Layer 2: quasi-coherent and finite locally free sheaves -/
 
@@ -75,8 +87,9 @@ theorem isFiniteLocallyFree_iff_nonempty_hasLeftDual {X : Scheme.{u}}
 
 /-- The internal Hom `Hom(E, F)` of the closed structure on `X.Modules` is quasi-coherent when
 `E` is finitely presented and `F` is quasi-coherent: locally it is the kernel of a map between
-finite direct sums of copies of `F` (Stacks Project, Tag 01CQ), and kernels of maps of
-quasi-coherent sheaves on a scheme are quasi-coherent (Stacks Project, Tag 01LB). -/
+finite direct sums of copies of `F` (Stacks Project, Tag 01CQ). On an affine chart, the
+exact tilde functor identifies this kernel with the associated sheaf of the kernel of the
+corresponding finite matrix on the module of sections of `F`. -/
 theorem ihom_isQuasicoherent {X : Scheme.{u}} (E F : X.Modules)
     [E.IsFinitePresentation] [F.IsQuasicoherent] :
     ((ihom E).obj F).IsQuasicoherent := by
@@ -110,6 +123,20 @@ theorem exteriorPower_isFiniteLocallyFree_rank {X : Scheme.{u}}
       ∀ x : X, FiniteLocallyFreeSheaf.rank
         (⟨(SheafOfModules.exteriorPower X.sheaf n).obj E.obj, h⟩ : FiniteLocallyFreeSheaf X) x =
           (FiniteLocallyFreeSheaf.rank E x).choose n := by
+  sorry
+
+/-- Symmetric powers commute with arbitrary scheme pullback, naturally in every module
+sheaf (Stacks Project, Tag 01CI, on homogeneous components). -/
+theorem symmetricPower_pullback {X Y : Scheme.{u}} (f : Y ⟶ X) (n : ℕ) :
+    Nonempty ((SheafOfModules.symmetricPower X.sheaf n ⋙ Scheme.Modules.pullback f) ≅
+      (Scheme.Modules.pullback f ⋙ SheafOfModules.symmetricPower Y.sheaf n)) := by
+  sorry
+
+/-- Exterior powers commute with arbitrary scheme pullback, naturally in every module
+sheaf (Stacks Project, Tag 01CI, on homogeneous components). -/
+theorem exteriorPower_pullback {X Y : Scheme.{u}} (f : Y ⟶ X) (n : ℕ) :
+    Nonempty ((SheafOfModules.exteriorPower X.sheaf n ⋙ Scheme.Modules.pullback f) ≅
+      (Scheme.Modules.pullback f ⋙ SheafOfModules.exteriorPower Y.sheaf n)) := by
   sorry
 
 /-- The determinant of a finite locally free sheaf `E` as an `𝒪_X`-module: the product over
