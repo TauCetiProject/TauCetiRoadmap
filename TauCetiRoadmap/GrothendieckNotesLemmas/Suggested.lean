@@ -272,6 +272,27 @@ end Matrix
 
 end
 
+/-! ### Powers of a product whose commutator commutes with both factors (1.7) -/
+section
+open scoped commutatorElement
+variable {G : Type*} [Group G]
+
+/-- If the commutator `⁅v, u⁆ = v * u * v⁻¹ * u⁻¹` commutes with `u` and with `v`, then
+`(u * v) ^ n = u ^ n * v ^ n * ⁅v, u⁆ ^ n.choose 2`. -/
+theorem mul_pow_of_commute_commutatorElement {u v : G} (hu : Commute u ⁅v, u⁆)
+    (hv : Commute v ⁅v, u⁆) (n : ℕ) :
+    (u * v) ^ n = u ^ n * v ^ n * ⁅v, u⁆ ^ n.choose 2 := by
+  sorry
+
+/-- For an odd prime `p`, if `⁅v, u⁆` commutes with `u` and `v` and `⁅v, u⁆ ^ p = 1`, then
+`(u * v) ^ p = u ^ p * v ^ p`. -/
+theorem mul_pow_prime_of_commute_commutatorElement {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
+    {u v : G} (hu : Commute u ⁅v, u⁆) (hv : Commute v ⁅v, u⁆) (hd : ⁅v, u⁆ ^ p = 1) :
+    (u * v) ^ p = u ^ p * v ^ p := by
+  sorry
+
+end
+
 /-! ## Layer 2: modules, flatness, finite presentation -/
 
 /-! ### `FlatProdPi` -/
@@ -788,6 +809,54 @@ theorem rat_smul_mem_iff {V : Type*} [AddCommGroup V] [Module ℚ V] {P : AddSub
   sorry
 
 end AddSubgroup
+
+end
+
+/-! ### Injective modules over a principal ideal domain (2.10) -/
+section
+universe u v
+namespace Module
+variable {R : Type u} [CommRing R] {Q : Type v} [AddCommGroup Q] [Module R Q]
+
+/-- Over a commutative principal ideal ring, a module on which every nonzero `r` acts
+surjectively satisfies Baer's criterion. -/
+theorem Baer.of_isPrincipalIdealRing [IsPrincipalIdealRing R]
+    (hQ : ∀ r : R, r ≠ 0 → Function.Surjective (r • · : Q → Q)) : Module.Baer R Q := by
+  sorry
+
+/-- Over a principal ideal domain, a module is injective iff it is divisible. -/
+theorem injective_iff_forall_smul_surjective [IsDomain R] [IsPrincipalIdealRing R]
+    [Small.{v} R] :
+    Module.Injective R Q ↔ ∀ r : R, r ≠ 0 → Function.Surjective (r • · : Q → Q) := by
+  sorry
+
+/-- Over a principal ideal domain, every quotient of an injective module is injective. -/
+theorem Injective.quotient [IsDomain R] [IsPrincipalIdealRing R] [Small.{v} R]
+    [Module.Injective R Q] (N : Submodule R Q) : Module.Injective R (Q ⧸ N) := by
+  sorry
+
+end Module
+end
+
+/-! ### Flat modules modulo a prime (2.11) -/
+section
+variable {A : Type*} [CommRing A] {F : Type*} [AddCommGroup F] [Module A F]
+
+/-- If `F` is flat over `A`, `p` is prime and `a ∉ p`, then `a` is a nonzerodivisor on
+`F ⧸ p • ⊤`. -/
+theorem Module.Flat.isSMulRegular_quotient_smul_top [Module.Flat A F] {p : Ideal A} [p.IsPrime]
+    {a : A} (ha : a ∉ p) : IsSMulRegular (F ⧸ p • (⊤ : Submodule A F)) a := by
+  sorry
+
+variable {B : Type*} [CommRing B] [Algebra A B] [Module B F] [IsScalarTower A B F]
+
+/-- If the `B`-module `F` is flat over `A` and `p` is a prime of `A`, every associated prime of
+the `B`-module `F ⧸ (p B) • ⊤` (in Mathlib's sense, with the radical) lies over `p`. -/
+theorem Submodule.IsAssociatedPrime.comap_eq_of_flat [Module.Flat A F] {p : Ideal A}
+    [p.IsPrime] {P : Ideal B}
+    (hP : ((p.map (algebraMap A B)) • (⊤ : Submodule B F)).IsAssociatedPrime P) :
+    P.comap (algebraMap A B) = p := by
+  sorry
 
 end
 
@@ -1333,4 +1402,33 @@ end Polynomial
 
 end
 
+end
+
+/-! ### Odd powers of a difference of idempotents (5.5) -/
+section
+
+/-- For idempotent square matrices `P`, `Q` over a commutative ring, every odd power of `P - Q`
+has trace `tr P - tr Q`. -/
+theorem Matrix.trace_sub_pow_odd_of_isIdempotentElem {n R : Type*} [Fintype n] [DecidableEq n]
+    [CommRing R] {P Q : Matrix n n R} (hP : IsIdempotentElem P) (hQ : IsIdempotentElem Q)
+    (k : ℕ) : ((P - Q) ^ (2 * k + 1)).trace = P.trace - Q.trace := by
+  sorry
+
+end
+
+/-! ### Fractions in the Grothendieck group of a commutative monoid (5.6) -/
+section
+namespace Algebra.GrothendieckGroup
+variable {M : Type*} [CommMonoid M]
+
+/-- Every element of the Grothendieck group of `M` is a quotient `of a / of b`. -/
+theorem exists_eq_of_div_of (x : GrothendieckGroup M) : ∃ a b : M, x = of a / of b := by
+  sorry
+
+/-- Any two elements of the Grothendieck group of `M` have a common denominator in `M`. -/
+theorem exists_eq_div_of_and_eq_div_of (x y : GrothendieckGroup M) :
+    ∃ a b c : M, x = of a / of c ∧ y = of b / of c := by
+  sorry
+
+end Algebra.GrothendieckGroup
 end
