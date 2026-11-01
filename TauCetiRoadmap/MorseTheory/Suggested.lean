@@ -9,8 +9,8 @@ import TauCeti.Analysis.Calculus.Morse.NormalForm
 The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's
 headline theorems against the pinned Mathlib and Tau Ceti, each admitted with `sorry`,
 together with the few definitions those statements need: the critical set and its
-extended counts, the sublevel inclusion, the finite-critical-set witness and the Betti
-numbers of singular homology with field coefficients.
+extended counts, the sublevel inclusion, the finite-critical-set witness, the Betti
+numbers of singular homology with field coefficients and the Riemannian gradient.
 
 Stated here: the normalized Morse chart and compact finiteness (M1); the regular-level
 atlas, the critical-free band deformations and the CW model of a proper bounded-below
@@ -18,19 +18,22 @@ Morse function, one cell of dimension λ per critical point of index λ (M2); th
 Morse inequalities with field coefficients, the degenerate critical-level deformation,
 the critical categorical cover and the finite minimum of critical counts (M4); the
 two-Euclidean-open cover, the two-open-cell recognition of the sphere and the degenerate
-two-critical-point sphere theorem (M4.1).
+two-critical-point sphere theorem (M4.1); the convergence of a compact-trapped
+negative-gradient trajectory of a Morse function to a critical point and its exponential
+decay for the Riemannian distance (M6), with the gradient the Riesz dual of the manifold
+derivative for Mathlib's `RiemannianBundle` inner product on the tangent spaces.
 
-Not statable at the pins, and therefore not stated: the handle-attachment homeomorphism
-across a critical level (M2), which lacks the topological handle adjunction of the lower
-sublevel with the handles along their attaching faces, a construction target of M2; the
+Not stated: the handle-attachment homeomorphism across a critical level (M2), whose
+statement quantifies over chart-dependent attaching maps of the handles
+`Σ_p D^{λ_p} × D^{m−λ_p}` along their attaching faces, a long encoding this file does not
+make; its cumulative form is the CW model `exists_cwComplex_homotopyEquiv`. Not statable at
+the pins, and therefore not stated: the
 Lusternik–Schnirelmann inequality in its categorical form (M4), which lacks
 AlgebraicTopology's `lsCategoryCount` and is represented by the explicit critical
 categorical cover; Morse approximation in the strong smooth topology (M3), which lacks
-that topology on `C^∞⟮I, M; ℝ⟯`; the Morse–Bott negative-disc-bundle attachment and
-inequalities (M5), which lack the Morse–Bott predicate on normal bundles; and the
-exponential convergence of negative-gradient trajectories on manifolds (M6), which lacks
-a Riemannian gradient on manifolds at the pins. Counts have extended natural values before
-finiteness is proved.
+that topology on `C^∞⟮I, M; ℝ⟯`; and the Morse–Bott negative-disc-bundle attachment and
+inequalities (M5), which lack the Morse–Bott predicate on normal bundles. Counts have
+extended natural values before finiteness is proved.
 -/
 
 noncomputable section
@@ -132,13 +135,14 @@ theorem exists_sublevelDeformation
   sorry
 
 /-- The CW model of a proper bounded-below Morse function (Milnor, *Morse Theory*,
-Theorem 3.5): `M` is homotopy equivalent to a CW complex with exactly one cell of
+Theorem 3.5): `M` is homotopy equivalent to a Hausdorff CW complex with exactly one cell of
 dimension `λ` for each critical point of index `λ`, the cell counts compared as
 extended natural numbers so that infinitely many critical points of one index give
 infinitely many cells of that dimension. -/
 theorem exists_cwComplex_homotopyEquiv (f : M → ℝ) (hf : TauCeti.IsMorse I f)
     (hp : IsProperMap f) (hlower : ∃ a : ℝ, ∀ x, a ≤ f x) :
-    ∃ (X : Type u) (_ : TopologicalSpace X) (C : Set X) (cw : Topology.CWComplex C),
+    ∃ (X : Type u) (_ : TopologicalSpace X) (_ : T2Space X) (C : Set X)
+      (cw : Topology.CWComplex C),
       Nonempty (ContinuousMap.HomotopyEquiv M C) ∧
         ∀ n : ℕ, ENat.card (cw.cell n) = criticalCount (I := I) f n := by
   sorry
@@ -297,5 +301,50 @@ theorem nonempty_homeomorph_sphere_of_two_criticalPoints
     exists_twoEuclideanOpenCover_of_two_criticalPoints (I := I) hdim f hf hcrit
   exact nonempty_homeomorph_sphere_of_two_euclidean_opens
     (Module.finrank ℝ E) hdim U V hcover hU hV
+
+/-! ## M6: gradient convergence and exponential decay -/
+
+section Gradient
+
+open scoped Bundle
+
+/-- The gradient of `f` for a Riemannian metric on the tangent bundle: the Riesz dual of
+the differential `df_x` for the inner product on `TangentSpace I x`, so that
+`⟪mgradient f x, v⟫ = df_x v`. -/
+def mgradient [Bundle.RiemannianBundle (fun (x : M) ↦ TangentSpace I x)]
+    (f : M → ℝ) (x : M) : TangentSpace I x :=
+  (InnerProductSpace.toDual ℝ (TangentSpace I x)).symm (mfderiv I 𝓘(ℝ) f x)
+
+/-- M6: a forward negative-gradient trajectory of a Morse function for a smooth metric,
+trapped in a compact set `K`, converges to a critical point in `K`: the ω-limit set is
+nonempty, connected and consists of critical points, which are isolated. -/
+theorem tendsto_of_isMIntegralCurveOn_neg_mgradient
+    [Bundle.RiemannianBundle (fun (x : M) ↦ TangentSpace I x)]
+    [IsContMDiffRiemannianBundle I ∞ E (fun (x : M) ↦ TangentSpace I x)]
+    (f : M → ℝ) (hf : TauCeti.IsMorse I f) (γ : ℝ → M)
+    (hγ : IsMIntegralCurveOn γ (fun x ↦ -mgradient (I := I) f x) (Set.Ici 0))
+    {K : Set M} (hK : IsCompact K) (hmaps : Set.MapsTo γ (Set.Ici 0) K) :
+    ∃ p ∈ K, p ∈ criticalPoints (I := I) f ∧ Filter.Tendsto γ Filter.atTop (nhds p) := by
+  sorry
+
+/-- M6: a forward negative-gradient trajectory of a Morse function for a smooth metric
+that converges to `p` does so exponentially for the Riemannian distance: the limit is a
+nondegenerate critical point, and the trajectory lies in its stable manifold. The manifold
+`N` carries the extended distance of its Riemannian metric (`IsRiemannianManifold`), which
+replaces the standing topology; the finite entry time is absorbed into `C`. -/
+theorem exists_edist_le_exp_of_tendsto_neg_mgradient
+    {N : Type u} [EMetricSpace N] [SecondCountableTopology N] [ChartedSpace H N]
+    [IsManifold I ∞ N]
+    [Bundle.RiemannianBundle (fun (x : N) ↦ TangentSpace I x)]
+    [IsContMDiffRiemannianBundle I ∞ E (fun (x : N) ↦ TangentSpace I x)]
+    [IsRiemannianManifold I N]
+    (f : N → ℝ) (hf : TauCeti.IsMorse I f) (γ : ℝ → N)
+    (hγ : IsMIntegralCurveOn γ (fun x ↦ -mgradient (I := I) f x) (Set.Ici 0))
+    {p : N} (hp : Filter.Tendsto γ Filter.atTop (nhds p)) :
+    ∃ C c : ℝ, 0 < c ∧ ∀ t : ℝ, 0 ≤ t →
+      edist (γ t) p ≤ ENNReal.ofReal (C * Real.exp (-c * t)) := by
+  sorry
+
+end Gradient
 
 end TauCetiRoadmap.MorseTheory
