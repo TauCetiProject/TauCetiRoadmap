@@ -1032,7 +1032,7 @@ The higher implementation module is
 `TauCeti.Analysis.Complex.RiemannSurface.Degree` module and the Fuchsian compactification
 application modules, with literal checks for `RiemannSurface.genus`,
 `RiemannSurface.localMultiplicity`, `RiemannSurface.degree`, `RiemannSurface.degree_comp`,
-`RiemannSurface.divisor_pullback`, `RiemannSurface.biholomorph_of_degree_eq_one`, and
+`RiemannSurface.divisorPullback`, `RiemannSurface.biholomorphOfDegreeEqOne`, and
 `RiemannSurface.riemannHurwitz`.  It does not import `ModularForms.LevelOne.JInputs` through a
 Fuchsian module: that lower module points only toward `Fuchsian.LevelOne` as displayed above.
 

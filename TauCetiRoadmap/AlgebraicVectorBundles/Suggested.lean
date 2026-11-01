@@ -66,7 +66,7 @@ noncomputable local instance modulesMonoidalCategoryInstance (X : Scheme.{u}) :
 /-- Same sheafification construction as Tau Ceti's `Scheme.Modules.tensorProduct`. -/
 noncomputable def tensorUnderlyingIso (X : Scheme.{u}) (E F : X.Modules) :
     E ⊗ F ≅ (PresheafOfModules.sheafification (𝟙 X.ringCatSheaf.obj)).obj
-      (PresheafOfModules.Monoidal.tensorObj (R := X.sheaf.obj) E.val F.val) := by
+      (PresheafOfModulesOfCommRing.Monoidal.tensorObj (R := X.sheaf.obj) E.val F.val) := by
   sorry
 
 theorem tensorUnderlyingIso_naturality {X : Scheme.{u}} {E E' F F' : X.Modules}
@@ -74,7 +74,7 @@ theorem tensorUnderlyingIso_naturality {X : Scheme.{u}} {E E' F F' : X.Modules}
     (f ⊗ₘ g) ≫ (tensorUnderlyingIso X E' F').hom =
       (tensorUnderlyingIso X E F).hom ≫
         (PresheafOfModules.sheafification (𝟙 X.ringCatSheaf.obj)).map
-          (PresheafOfModules.Monoidal.tensorHom (R := X.sheaf.obj) f.val g.val) := by
+          (PresheafOfModulesOfCommRing.Monoidal.tensorHom (R := X.sheaf.obj) f.val g.val) := by
   sorry
 
 set_option backward.isDefEq.respectTransparency false in
@@ -83,7 +83,7 @@ noncomputable def tensorSection {X : Scheme.{u}} (E F : X.Modules) (U : X.Opens)
     (e : Γ(E, U)) (f : Γ(F, U)) : Γ(E ⊗ F, U) :=
   (tensorUnderlyingIso X E F).inv.app U
     (((PresheafOfModules.sheafificationAdjunction (𝟙 X.ringCatSheaf.obj)).unit.app
-      (PresheafOfModules.Monoidal.tensorObj (R := X.sheaf.obj) E.val F.val)).app (op U)
+      (PresheafOfModulesOfCommRing.Monoidal.tensorObj (R := X.sheaf.obj) E.val F.val)).app (op U)
         (TensorProduct.tmul Γ(X, U) e f))
 
 @[instance_reducible]

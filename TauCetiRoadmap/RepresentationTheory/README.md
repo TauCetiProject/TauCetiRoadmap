@@ -21,6 +21,11 @@ primary and Mathlib-native; the analytic and categorical layers are introduced w
 - [**Induction, restriction, and Mackey theory**](InductionRestriction/README.md) - induced and
   restricted representations, Frobenius reciprocity, the projection formula, induced characters, the
   Mackey decomposition and irreducibility criterion, and Clifford theory.
+- [**Induction theorems in Grothendieck groups of modular representations**](ModularInduction/README.md)
+  - the Grothendieck group `G₀(k[G])` over an arbitrary field as a ring with restriction, induction,
+  and permutation classes, the reduction of `G`-modules modulo `ℓ`, and Artin's induction theorem in
+  `G₀` in every characteristic, including the modular form consumed by the local Euler
+  characteristic formula.
 - [**Root systems, Weyl groups, and the Cartan-Killing classification**](RootSystems/README.md) - the
   shared combinatorial foundation: root systems, the Weyl group as a Coxeter system, positive roots and
   the fundamental domain, and the Dynkin-diagram classification.
@@ -103,11 +108,13 @@ Schur-Weyl roadmap borders [Temperley-Lieb](../TemperleyLieb/README.md).
 Three deliberate exclusions bound this family; they are choices, not omissions, and roadmaps for the
 excluded material are welcome as separate future work.
 
-- **No modular representation theory of finite groups.** Where individual roadmaps work over general
-  fields or rings they say so (the semisimple-algebra and quiver-representation theory is stated over
-  arbitrary fields, and the induction/restriction functorial layer over commutative rings), but the
-  modular theory proper — Brauer characters, decomposition matrices, blocks with defect, the modular
-  representation theory of symmetric groups — is out of scope for every roadmap here.
+- **No modular representation theory proper.** Where individual roadmaps work over general fields
+  or rings they say so (the semisimple-algebra and quiver-representation theory is stated over
+  arbitrary fields, and the induction/restriction functorial layer over commutative rings), and
+  Grothendieck groups of modular representations, with the induction theorems stated in them, are in
+  scope (the [modular-induction roadmap](ModularInduction/README.md)); but the modular theory
+  proper — Brauer characters, decomposition matrices, blocks with defect, the modular representation
+  theory of symmetric groups — is out of scope for every roadmap here.
 - **Finite and compact groups only, on the unitary side.** The analytic representation theory stops at
   compact groups (Peter-Weyl, compact Frobenius-Schur): no infinite-dimensional unitary
   representations of noncompact groups, no Plancherel theory, no tempered spectrum. The *structure*

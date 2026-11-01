@@ -94,8 +94,8 @@ The roadmap is complete when Tau Ceti proves the following.
 This roadmap supplies the shared module `TauCeti.Analysis.Complex.RiemannSurface.Degree`. Its
 public contract is `RiemannSurface.genus`, `RiemannSurface.localMultiplicity`,
 `RiemannSurface.degree`,
-`RiemannSurface.degree_comp`, `RiemannSurface.biholomorph_of_degree_eq_one`,
-`RiemannSurface.divisor_pullback`, and `RiemannSurface.riemannHurwitz`, all on the compact-surface
+`RiemannSurface.degree_comp`, `RiemannSurface.biholomorphOfDegreeEqOne`,
+`RiemannSurface.divisorPullback`, and `RiemannSurface.riemannHurwitz`, all on the compact-surface
 and finite holomorphic-map carriers pinned in `Suggested.lean`. These are Layer 5 deliverables,
 not imports from a prospective supplier. If matching Mathlib declarations appear, replace the
 local declarations and update imports immediately; no work waits for upstream changes.
@@ -321,7 +321,7 @@ No step identifies the carrier with `P^1`, a torus, or another classified surfac
    Prove positivity, fibre finiteness, independence of the chosen fibre, multiplicativity under
    composition, and the degree-one biholomorphism theorem.  The returned biholomorphism has the
    given finite holomorphic map as its forward function, exposed by the simp theorem
-   `RiemannSurface.biholomorph_of_degree_eq_one_toFun`.
+   `RiemannSurface.biholomorphOfDegreeEqOne_toFun`.
 3. Define pullback of finite divisors by local multiplicity and construct the ramification
    divisor. Prove first the branched-cover Euler-characteristic formula
    `chi(X) = degree(f) * chi(Y) - ramificationDegree(f)` by excising pairwise-disjoint branch

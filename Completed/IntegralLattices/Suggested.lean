@@ -11,7 +11,7 @@ import TauCeti.LinearAlgebra.IntegralLattice.Overlattice.OrthogonalQuotient.Quad
 import TauCeti.LinearAlgebra.IntegralLattice.RadicalQuotient
 import TauCeti.LinearAlgebra.IntegralLattice.RankOne
 import TauCeti.LinearAlgebra.IntegralLattice.RootLattice.D8Plus.Isometry
-import TauCeti.LinearAlgebra.IntegralLattice.RootLattice.TypeA
+import TauCeti.LinearAlgebra.IntegralLattice.RootLattice.TypeA.Basic
 import TauCeti.LinearAlgebra.IntegralLattice.RootLattice.TypeD.SimpleRoots
 import TauCeti.LinearAlgebra.IntegralLattice.RootLattice.TypeE
 import TauCeti.LinearAlgebra.IntegralLattice.Unimodular
