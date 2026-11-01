@@ -8,6 +8,7 @@ This part owns the Selmer averages of the arithmetic-statistics roadmap and thei
 
 The following boundaries fix the carriers and prevent parallel versions of existing mathematics.
 
+- This part owns the comparison of local quotients and rational torsion images for nearby elliptic curves over Qℓ, for every prime p≥5, and its quinary orbit-label compatibility (§4.22).
 - TauCetiRoadmap.EllipticCurves Layers 1, 4–8 supply isogenies, local point groups, quadratic twists, Mordell–Weil, finite Selmer groups and their exact sequence, and the unique integral minimal short pair over Q. Here the new elliptic-family adapter sends that pair `(A,B)` to `(-3A,-27B)` and tracks the resulting height and local-density factors. Tau Ceti's pointwise `WeierstrassCurve.Affine.Point.naiveHeight` is a height on points and is not this curve-family height.
 - SchemeAndStackFoundations §§3.6–3.7 owns unpointed Picard schemes and their degree torsors, the Picard–Brauer obstruction, rational-divisor-class comparison and the section-free Abel maps; TauCetiRoadmap.JacobianChallenge Layer D supplies the Abel maps `Sym^k C → Pic^k`. The hyperelliptic targets below use them without choosing a base point. AbelianSchemesAndArithmeticModuli:A3 supplies theta groups and Cartier-dual isogeny kernels.
 - ArithmeticStatisticsPartII §1.12 owns the oriented-ideal dictionary and integral pencil representatives. HeightsRationalPointsAndObstructions §§3.18–3.18c supplies the Bhargava–Gross–Wang route for locally soluble hyperelliptic models: coordinate-chart transport of the supplied pencil orbit parametrization and integral representatives (`PencilSelmerOrbit`, §3.18a); the weighted pencil orbit count, the local masses `a_v` (with `a_∞=2^(−g)`, `a_2=2^g`, `a_p=1` otherwise), the Tamagawa number `tamagawa_SLquotient_two` of `SL_n/μ₂` for even `n`, the codimension-two coefficient tail `codimensionTwo_congruenceTail` and the average bound `average_SelmerPicOne_le_two` (§3.18b); and the biquadratic two-Selmer parity `biquadratic_SelmerParity`, the real effective fraction and the qualitative real-root count (§3.18c). The hyperelliptic targets of §§4.15–4.21 import those statements where they coincide. What they add is the family generality: actual-Div¹-soluble and admissible congruence families, the corank and finite-dimension parities of BGW Appendix A, the order-k averages, the index and Sha consequences, and the corrected two-prime criterion.
@@ -38,9 +39,11 @@ The elliptic family consists of curves `E_{A,B}` : y² = x³ + Ax + B with A, B 
 
 From Mathlib use finite sets, `Set.ncard`, `Nat.card`, `Nat.choose`, quotient and orbit types (`QuotientGroup.rightRel`, `MulAction.stabilizer`, `MulAction.card_orbit_mul_card_stabilizer_eq_card_group`, `Subgroup.card_mul_index`, `Subgroup.index_ker`); `Polynomial.discr`, `Polynomial.resultant_deriv`, `Polynomial.resultant_eq_zero_iff`, `PerfectField.separable_iff_squarefree`, `Cubic.discr_eq_prod_three_roots` and `isInteger_of_is_root_of_monic`; `PadicInt`, `padicValRat` and `hensels_lemma`; `Matrix.ProjGenLinGroup`, `Matrix.card_GL_field`, `Matrix.det` and `Submodule.smithNormalForm`; `MeasureTheory.Measure.haarMeasure`, real and extended nonnegative integrals, filters, `Filter.limsup` and `Filter.liminf`; `riemannZeta_eulerProduct_tprod` and `riemannZeta_two`; `WeierstrassCurve.Affine.Point`, `WeierstrassCurve.IsMinimal`, `WeierstrassCurve.HasGoodReduction` and `WeierstrassCurve.HasMultiplicativeReduction`; `ZMod` and `Real.sqrt`. The prime-counting estimate is `Chebyshev.eventually_primeCounting_le` in `Mathlib.NumberTheory.Chebyshev`: for every ε>0 and eventually x, `π(⌊x⌋)≤(log 4+ε)x/log x`. The prime tails below use partial summation from that estimate.
 
-From Tau Ceti use `WeierstrassCurve.Affine.finite_point` (finiteness of the point group over a finite field), `AddSubgroup.index_range_nsmul_mul_card_ker` (for a finite-index subgroup `U ≤ G`, `(G : nG)·#U[n] = #G[n]·(U : nU)`), and the explicit descent statements `WeierstrassCurve.Affine.card_range_μ` and `pow_rank_le_card_of_range_μ_le`.
+For local analytic charts use `HasStrictFDerivAt.toOpenPartialHomeomorph` in `Mathlib.Analysis.Calculus.InverseFunctionTheorem.FDeriv`: over a nontrivially normed field, a strict derivative that is a continuous linear equivalence and a complete domain give an inverse chart. In the same file `HasStrictFDerivAt.map_nhds_eq_of_surj` requires complete domain and codomain and a surjective strict derivative, and identifies the image neighbourhood filter. Finite-dimensional Qp spaces satisfy these completeness hypotheses. These are the topological inputs to the [Haar change-of-variables target](#p-adic-change-of-variables-on-the-nonsingular-locus); `hensels_lemma` is used for one-variable root lifting.
 
-From TauCetiRoadmap.EllipticCurves require the finite exact sequence `0→E(K)/nE(K)→Sel_n(E/K)→Sha(E/K)[n]→0`, compatibility with localization, naturality under isogenies, and rational torsion. Over Q require a unique integral short pair with no prime satisfying `p⁴|A` and `p⁶|B`, nonsingular discriminant, finiteness of bounded-height pairs and invariance under Q-isomorphism. Over `Q_p` require a finite-index open formal subgroup isomorphic to an open additive `Z_p` subgroup and the reduction/component/Tamagawa dictionary. Over R require the one- or two-component compact Lie-group description. These exact local groups, not only their cardinalities, enter the five-adic labels.
+From Tau Ceti use `WeierstrassCurve.separable_preΨ` in `TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny.MulByInt.DivisionPolynomialSeparable` (for an elliptic Weierstrass curve over a field, with n nonzero in that field, the normalized division polynomial preΨₙ is separable), `WeierstrassCurve.Affine.finite_point` (finiteness of the point group over a finite field), `AddSubgroup.index_range_nsmul_mul_card_ker` (for a finite-index subgroup `U ≤ G`, `(G : nG)·#U[n] = #G[n]·(U : nU)`), and the explicit descent statements `WeierstrassCurve.Affine.card_range_μ` and `pow_rank_le_card_of_range_μ_le`.
+
+From TauCetiRoadmap.EllipticCurves require the finite exact sequence `0→E(K)/nE(K)→Sel_n(E/K)→Sha(E/K)[n]→0`, compatibility with localization, naturality under isogenies, and rational torsion. Over Q require a unique integral short pair with no prime satisfying `p⁴|A` and `p⁶|B`, nonsingular discriminant, finiteness of bounded-height pairs and invariance under Q-isomorphism. Over `Q_p` require a finite-index open formal subgroup isomorphic to an open additive `Z_p` subgroup and the reduction/component/Tamagawa dictionary. Over R require the one- or two-component compact Lie-group description. Layer 4 supplies the reduction filtration, formal group and point-level Tate uniformization; the comparison between different nearby curves is the [local quotient target here](#local-p-quotient-comparison). These exact local groups, not only their cardinalities, enter the five-adic labels.
 
 From HeightsRationalPointsAndObstructions §1.17 require `card_quotient_two_padic` and its real counterpart, specialized to dimension one over Q_p and R, for the local-mass contracts. From TauCetiRoadmap.ReductiveGroupsPartII RG2.4.4 require both the PGL₂ indices in “rank-one-and-nonsplit-examples” and the Cartan decomposition `G(E) = ⊔ Kλ(ϖ)K` over dominant cocharacters for split `G` and hyperspecial `K`. From TauCetiRoadmap.ClassFieldTheory Layer 10 require the global Brauer sequence, in particular injectivity of `Br(Q)` into the sum of the local Brauer groups, used in the degree-one comparison. From TauCetiRoadmap.JacobianChallenge Layer D require the Abel maps `Sym^k C → Pic^k`, `D ↦ O(D)`. From TauCetiRoadmap.ModularForms Layer 7 require the analytic continuation and Mellin transform of weight-two newforms used in the analytic-rank inputs. From TauCetiRoadmap.RepresentationTheory.InductionRestriction Layer 0 require induction, restriction and transitivity for finite groups.
 
@@ -1871,15 +1874,34 @@ At two use y²+y=x³+(A/16)x+(B/16−1)/4. Its coefficients are integral and its
 - The dyadic coefficient cylinder has mass 1/2048 before the other local restrictions.
 - The pair (−136,16) has v₂(c₄)=7 and v₂(Δ)=12, so scaling the discriminant to a unit would give v₂(c₄)=3, impossible for an integral Weierstrass model.
 
+#### Local p quotient comparison
+
+Let p≥5 and ℓ be primes, and let E/Qℓ be a nonsingular Weierstrass equation y²+a₁xy+a₃y=x³+a₂x²+a₄x+a₆, with no minimality or reduction-type restriction. Prove that there is an integer h≥2 such that every nonsingular equation E′ whose five coefficients satisfy |aᵢ′−aᵢ|ℓ≤ℓ^(−h) admits a group isomorphism E′(Qℓ)/pE′(Qℓ)→E(Qℓ)/pE(Qℓ). Require that affine points P′=(x′,y′), P=(x,y) with |x′−x|ℓ, |y′−y|ℓ≤ℓ^(−h) have corresponding quotient classes, and that the isomorphism carries the image of E′(Qℓ)[p] onto the image of E(Qℓ)[p]. The identity classes correspond as well. This is a comparison of finite quotients with specified torsion subgroups, not a claim that nearby curves are isomorphic.
+
+One proof route first makes a fixed admissible change to a minimal equation and shrinks the coefficient neighbourhood so the same change works for E′. Outside split multiplicative reduction the component index is at most four, hence prime to p. Use the smooth reduction group modulo ℓ² (modulo ℓ when ℓ≠p) and the formal group to compare the quotients. In the split multiplicative case use the point-level Tate uniformization Qℓ×/qℤ and the openness of p-th powers to compare the Tate parameters and quotient classes. Transport the point-closeness bound back through the fixed coordinate change.
+
+For torsion compatibility, prove the following division-polynomial comparison: for every prescribed positive coordinate tolerance, sufficiently close nonsingular Weierstrass coefficients give a Galois-equivariant bijection between the nonzero geometric p-torsion points, with corresponding coordinates within that tolerance. Use separability of the odd p division polynomial and unique nearby simple roots in a finite splitting field, and lift the two ordinates with their signs; their derivative difference is nonzero because a nonzero odd-order point is not two-torsion. Uniqueness makes the matching Galois-equivariant, so it restricts to rational p-torsion. Choose the tolerance small enough for the quotient comparison. In particular ℓ=p is allowed: separability is over the characteristic-zero field, not an assertion of separable reduction modulo p.
+
+*Needs:* TauCetiRoadmap.EllipticCurves Layers 1–2 (coordinate changes and torsion) and Layer 4 (minimal equations, reduction filtration, component indices, formal groups and point-level Tate uniformization); `WeierstrassCurve.separable_preΨ` (Tau Ceti); the strict inverse-function charts in the Mathlib supplier contract (nearby simple roots).
+
+([[112]](#reference-112), Proposition 11 and its proof, pp.11–12.)
+
+**Checks.**
+
+- For p=5 and the split Tate curve q=11⁵ over Q₁₁, Q₁₁×/(Q₁₁×⁵qℤ)≅(ℤ/5)², of order 25. Its rational-five-torsion image is the whole quotient: the classes of 11 and a primitive fifth root of unity generate it. For q′=11⁵(1+11ʰ), h≥1, the unit factor is a fifth power, so both quotient and torsion-image orders remain 25. This covers bad reduction with ℓ≠p.
+- For q=11²⁵ the quotient still has order 25, but the rational-five-torsion image has order 5: the torsion generator 11⁵ maps to zero and the root-of-unity class survives. Thus quotient cardinality alone does not determine the marked torsion image.
+- Over Q₂ the good curve y²+y=x³ has three points over F₂, so its quotient by 5 and its rational-five-torsion image both have order one. Over Q₃, y²=x³−x has four points over F₃ and the same two orders are one. No restriction ℓ≥5 is present.
+- At p=ℓ=5 a good ordinary curve with rational-five-torsion order 1 or 5 has quotient order 5 or 25, respectively, by the local index formula; the quotient is not determined by the reduction group alone. For E′=E the identity comparison fixes every class, including zero.
+
 #### Local five quotient comparison
 
-For E/`Q_5` of good ordinary reduction, a sufficiently small open coefficient disc W identifies the finite groups E′(`Q_5`)/5E′(`Q_5`) with E(`Q_5`)/5E(`Q_5`) and identifies their actual rational-five-torsion images. In the quinary covering representation the soluble G(`Q_5`)-orbits admit corresponding disjoint compact open integral labels over W. Under the covering-to-Kummer map these labels agree with the point-group identifications. A bijection of sets that fails to preserve the torsion image is insufficient.
+Specialize the local p quotient comparison to p=ℓ=5 and E/Q₅ of good ordinary reduction. Shrink its coefficient disc W so that in the quinary covering representation the soluble G(Q₅)-orbits admit corresponding disjoint compact open integral labels over W. Under the covering-to-Kummer map these labels agree with the point-group identifications, including the actual rational-five-torsion images.
 
-Import the local point-group comparison (good reduction suffices for this application), using smooth reduction and closeness of torsion division-polynomial roots. Separate compact stable integral orbit fibres and shrink the invariant disc using openness of the invariant map. Verify compatibility via nearby points on the covering. This requires the exact Layer 1 quinary covering supplier contract, not just its invariant polynomials.
+Separate compact stable integral orbit fibres and shrink the invariant disc using openness of the invariant map. Verify compatibility via nearby points on the covering and the preceding quotient comparison.
 
-*Needs:* [Supporting descent and integral realization](../ArithmeticStatisticsPartII/README.md#supporting-descent-and-integral-realization), NeronModelsAndSemistableAbelianVarieties §1.7, SelmerIwasawaCohomology §§2.10–2.12a.
+*Needs:* [local p quotient comparison](#local-p-quotient-comparison), [Supporting descent and integral realization](../ArithmeticStatisticsPartII/README.md#supporting-descent-and-integral-realization), SelmerIwasawaCohomology §§2.10–2.12a.
 
-([[112]](#reference-112), Propositions 11–12 and Theorem 7 deduction pp.11–13.)
+([[112]](#reference-112), Proposition 12 and Theorem 7 deduction, pp.12–13.)
 
 **Checks.**
 
@@ -2007,6 +2029,25 @@ The positive-rank count is the input to this algebraic transport; it follows fro
 
 - The exponent is ten because invariant height has degree twelve and the elliptic count exponent is 5/6.
 - A multiplicity bound depending on the dilation would not give the stated positive coefficient density.
+
+#### Ternary cubic evaluation
+
+Define `ternaryCubicValue` on integral coefficient vectors c∈ℤ¹⁰ and rational coordinate vectors (x,y,z)∈ℚ³ by evaluation in the ordered ordinary monomial basis x³,x²y,x²z,xy²,xyz,xz²,y³,y²z,yz²,z³. Each coefficient multiplies its monomial once; no multinomial factors occur. This is the coefficient evaluation used in the plane-cubic solubility statement ([[113]](#reference-113), §1.1, p.2, coefficient space and equation (3)).
+
+Required API:
+
+- Evaluation is the sum of the ten coefficient-times-monomial terms in that order, with integers mapped to ℚ.
+- For all integral c,d and rational v, evaluation of c+d at v equals the sum of their evaluations; the zero coefficient vector evaluates to zero.
+- For every λ∈ℚ, evaluation at λv equals λ³ times evaluation at v. In particular evaluation at the zero coordinate vector is zero; a projective zero requires v≠0, and multiplication by λ≠0 preserves that condition and vanishing.
+
+*Needs:* integer-to-rational coercions and finite sums in Mathlib.
+
+**Checks.**
+
+- If eᵢ denotes the coefficient vector with a single 1 in position i, then e₀(2,0,0)=8 and e₉(0,0,2)=8. Reversing the coefficient order makes both values zero.
+- e₄(1,2,3)=6, whereas e₅(1,2,3)=9; exchanging xyz with xz² gives the wrong values, and a symmetric-tensor multinomial convention gives 36 for e₄.
+- (e₀+e₄)(1,2,3)=7=1+6, and e₄(2,4,6)=48=2³·6; degree-two scaling would give 24.
+- Every coefficient vector evaluates to zero at (0,0,0), which is excluded from projective solubility. The zero cubic also vanishes at (1,0,0), while e₀ evaluates to 1 there; e₀ does have a nonzero zero at (0,1,0).
 
 #### Positive plane cubic solubility
 
@@ -2301,14 +2342,15 @@ For every integral binary cubic form `v` of nonzero discriminant, prove that `#{
 
 #### P-adic change of variables on the nonsingular locus
 
-The p-adic orbit-integral argument requires a polynomial inverse-function/change-of-variables theorem on the nonsingular submersion locus, with the normalized Jacobian absolute value, measurable extension by monotone convergence and nullity of the critical discriminant locus. Prove that pulling back a null invariant-boundary set through this submersion gives a null set in the coefficient representation. A local specification's null boundary does not imply the same property for an arbitrary closed subset. For a positive-mass large family, CRT and the discriminant tail identify its actual local invariant closure and establish the boundary statement used by the weight. With zero local mass prove the numerator's upper estimate directly rather than divide by a vanishing main term.
+For a prime p, equip Qpⁿ with additive Haar measure assigning Zpⁿ mass one. For a polynomial map f:Qpⁿ→Qpⁿ and an open inverse chart U on which det Df is nonzero, prove μ(f(A))=∫_A |det Df(x)|p dμ(x) for every measurable A⊆U, and the corresponding nonnegative-integrand formula by monotone convergence. For a polynomial map Qpᵐ→Qpⁿ with surjective derivative on an open U, use complementary coordinates and these inverse charts to prove μ(U∩f⁻¹(B))=0 for every Haar-null B⊆Qpⁿ. Establish also Haar-nullity of the proper critical discriminant locus in the coefficient representation. These Jacobian and null-preimage statements are the measure-theoretic input to the orbit integral, including pullbacks of null invariant boundaries. A local specification's null boundary does not imply the same property for an arbitrary closed subset. For a positive-mass large family, CRT and the discriminant tail identify its actual local invariant closure and establish the boundary statement used by the weight. With zero local mass prove the numerator's upper estimate directly rather than divide by a vanishing main term.
 
-*Needs:* Mathlib `MeasureTheory.Measure.addHaarMeasure` on the compact coefficient lattice, `PadicInt` and `hensels_lemma` (the p-adic inverse function theorem for polynomial maps), [Jacobian of the orbit map](#jacobian-of-the-orbit-map), [tail estimate for square divisors of the discriminant](#tail-estimate-for-square-divisors-of-the-discriminant) (the boundary statement for positive-mass large families), [locally soluble forms attached to a family](#locally-soluble-forms-attached-to-a-family).
+*Needs:* Mathlib `MeasureTheory.Measure.addHaarMeasure` on the compact coefficient lattice, `PadicInt`, `HasStrictFDerivAt.toOpenPartialHomeomorph` (invertible strict derivative, complete domain) and `HasStrictFDerivAt.map_nhds_eq_of_surj` (surjective strict derivative, complete domain and codomain), both over the nontrivially normed field Qp, [Jacobian of the orbit map](#jacobian-of-the-orbit-map), [tail estimate for square divisors of the discriminant](#tail-estimate-for-square-divisors-of-the-discriminant) (the boundary statement for positive-mass large families), [locally soluble forms attached to a family](#locally-soluble-forms-attached-to-a-family).
 
 ([[1]](#reference-1), Propositions 3.7, 3.12 and the proof of Theorem 3.19, §§3.3–3.4, pp. 25–33.)
 
 **Checks.**
 
+- Over Q₂, squaring maps 1+4Z₂ bijectively onto 1+8Z₂. Their Haar masses are 1/4 and 1/8, and |2x|₂=1/2 throughout the source, so 1/8=(1/2)(1/4). An inverse chart without its Jacobian factor would give 1/4.
 - The critical locus Δ=0 is a proper Zariski-closed subset of the five-dimensional coefficient space and is Haar-null; pulling a null set back through the submersion gives a null set, whereas pulling it back through a constant map whose value lies in that set gives the whole space, so the submersion hypothesis is necessary.
 - A closed nowhere dense subset of `Z_p` of positive measure (the complement of a dense open set of measure less than one) has a boundary of positive measure; null boundary is a hypothesis on the local specification, not a consequence of closedness.
 - With zero local mass the main term vanishes and the weighted count is bounded above directly; dividing by the vanishing main term would be 0/0.
