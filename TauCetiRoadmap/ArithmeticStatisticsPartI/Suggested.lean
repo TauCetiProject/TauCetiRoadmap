@@ -1,5 +1,6 @@
 import Mathlib
 import TauCeti.AlgebraicGeometry.AbelianVariety.Hom.Iso
+import TauCeti.FieldTheory.SquareClassGroup.Basic
 
 /-!
 # Arithmetic statistics, Part I: headline target signatures
@@ -8,14 +9,16 @@ import TauCeti.AlgebraicGeometry.AbelianVariety.Hom.Iso
 `README.md`. These statements suggest Lean forms for headline milestones; discharging
 all of them finishes neither a layer nor the roadmap.
 
-The targets stated here are integral quartic eligibility (§0.3), squarefree residue
-counts (§0.6), the finite-field squarefree count (§0.9), the local maximal-order
+The targets stated here are integral quartic eligibility (§0.3), the squareclass height
+and its Northcott property on the square-class group of a number field (§0.5), squarefree
+residue counts (§0.6), the finite-field squarefree count (§0.9), the local maximal-order
 proportion (§0.12), finiteness of unpolarized abelian-variety classes (§0.16), the
 symmetric-pencil invariant ring and binary-form trace dual (§0.22), universal binary
 Stickelberger congruences and monic local densities (§0.23), and the positive monic
 Euler products and their degree limit (§0.24). The definitions are coefficient
-polynomials, finite residue counts, native categorical isomorphism classes, and
-submodules of native algebras.
+polynomials, finite residue counts, the odd support and unit height descended to the
+square-class group, native categorical isomorphism classes, and submodules of native
+algebras.
 
 The exact quadratic function-field slice parametrizations (§§0.11, 0.20) need the
 extension discriminant divisor and the split or specified ramified infinity-localization
@@ -37,7 +40,7 @@ These geometric and marked-arithmetic statements are deferred for those missing 
 
 noncomputable section
 open scoped BigOperators Topology
-open Polynomial Filter
+open Polynomial Filter IsDedekindDomain NumberField
 
 namespace TauCetiRoadmap.ArithmeticStatisticsPartI
 
@@ -71,6 +74,46 @@ theorem isEligible_iff (I J : ℤ) : IsEligible I J ↔ EligibilityCongruence I 
   sorry
 
 end BinaryQuartic
+
+section SquareclassHeight
+
+variable (F : Type*) [Field F] [NumberField F]
+
+/-- The finite primes of a number field at which a unit has odd valuation; finite, since
+only finitely many primes have valuation other than one. -/
+def oddSupport (u : Fˣ) : Set (HeightOneSpectrum (𝓞 F)) :=
+  {v | Odd (Multiplicative.toAdd (v.valuationOfNeZero (K := F) u))}
+
+/-- The product of the absolute norms of the odd-support primes of a unit, the norm of its
+squarefree support ideal. -/
+def unitHeight (u : Fˣ) : ℕ := ∏ᶠ v ∈ oddSupport F u, Ideal.absNorm v.asIdeal
+
+/-- Multiplying a unit by a square does not change its odd support. -/
+theorem oddSupport_mul_sq (u y : Fˣ) : oddSupport F (u * y ^ 2) = oddSupport F u := by
+  ext v
+  simp only [oddSupport, Set.mem_ofPred_eq, map_mul, map_pow, toAdd_mul, toAdd_pow, Int.odd_iff,
+    nsmul_eq_mul]
+  push_cast
+  omega
+
+/-- The squareclass height `H(t) = ∏_{v : ord_v(t) odd} N(v)` on `F×/F×²`, descended from the
+unit height, which is invariant under multiplication by squares. -/
+def squareclassHeight : TauCeti.SquareClassGroup F → ℕ :=
+  Quotient.lift (fun u : Additive Fˣ => unitHeight F (Additive.toMul u)) (by
+    intro a b hab
+    have h : IsSquare (Additive.toMul (-a + b)) := QuotientAddGroup.leftRel_apply.mp hab
+    obtain ⟨y, hy⟩ := h
+    have hb : Additive.toMul b = Additive.toMul a * y ^ 2 := by
+      rw [toMul_add, toMul_neg] at hy
+      rw [sq, ← hy, mul_inv_cancel_left]
+    simp only [unitHeight, hb, oddSupport_mul_sq])
+
+/-- §0.5: for every number field the squareclass height is Northcott: only finitely many
+squareclasses have height at most any given bound (BKLOS §2). -/
+theorem northcott_squareclassHeight : Northcott (squareclassHeight F) := by
+  sorry
+
+end SquareclassHeight
 
 /-- §0.6: the squarefree progression count has a uniform square-root error at fixed modulus. -/
 theorem SquarefreeFamily.squarefree_residue_count (q : ℕ) (hq : 0 < q) :
