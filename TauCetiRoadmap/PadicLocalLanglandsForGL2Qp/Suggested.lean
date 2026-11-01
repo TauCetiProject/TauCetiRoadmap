@@ -3,10 +3,10 @@ import TauCeti.NumberTheory.LocalField.AbsoluteRamificationIndex
 import TauCeti.RepresentationTheory.Homological.ContCohomology.SmoothDiscrete.Basic
 
 /-!
-# P-adic local Langlands for GL₂(ℚ_p): headline target signatures
+# P-adic local Langlands for GL₂(ℚ_p): target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`; these statements suggest Lean forms for its headline targets.
+`README.md`; this file states its headline theorems against the pinned APIs.
 
 The statements here give shared Hilbert–Samuel existence and uniqueness for finite
 modules over noetherian local rings with an ideal of definition on the module (§0.5),
@@ -83,6 +83,10 @@ de Rham cohomology. Their ρ-superscripts denote continuous equivariant-Hom
 multiplicity spaces, with the subspace topology in the finite product Hom_L(ρ, X).
 Over the splitting coefficient field, evaluation identifies ρ ⊗ Hom_D×(ρ, X)
 with the full projector image.
+The global-dependent cases remain conditional local criteria in this roadmap:
+§§6.3 and 6.5 take actual arithmetic-action and multiplicity comparisons, and
+§6.9 takes a nonzero global map and global de Rham data. The unconditional
+conclusions have the downstream owners recorded in README.md's Scope and ownership.
 These results have no substitute statements here.
 -/
 
