@@ -154,9 +154,10 @@ theorem legendreTorsionSpecializations_infinite (a : ℂ) (ha : IsAlgebraic ℚ 
       OnePoint.some a ∈ legendreTorsionImages t} := sorry
 
 /-- Return times to any affine line form finitely many progressions, including when
-one or both polynomials are constant (Ghioca–Tucker–Zieve Theorem 1.4; README §6.90). -/
+one or both polynomials are constant and when `A = B = 0` (Ghioca–Tucker–Zieve
+Theorem 1.4; README §6.90). -/
 theorem polynomialLine_returnTimes {K : Type*} [Field K] [CharZero K]
-    (F G : K[X]) (x y A B C : K) (hline : A ≠ 0 ∨ B ≠ 0) :
+    (F G : K[X]) (x y A B C : K) :
     IsFiniteUnionAP {n : ℕ | A * (fun z : K ↦ F.eval z)^[n] x +
       B * (fun z : K ↦ G.eval z)^[n] y = C} := sorry
 
