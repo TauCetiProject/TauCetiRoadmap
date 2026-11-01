@@ -628,6 +628,15 @@ this layer.
   so the corresponding étale morphism is a point of `B G` whose inverse image is the forgetful
   functor; the points of `B G` form a connected groupoid in which each object has automorphism
   group isomorphic to `G` (the `G`-torsors, by Diaconescu's theorem).
+- For a commutative monoid `M`, the functor `SingleObj M ⥤ SingleObj (Algebra.GrothendieckGroup M)`
+  induced by `Algebra.GrothendieckGroup.of` is `RepresentablyFlat`: its comma category at the
+  object is the set of elements of the group with arrows `g ⟶ g'` the `m : M` with `m g = g'`, and
+  it is cofiltered because two elements are translates of a common one (write both over a common
+  denominator) and two arrows `g ⟶ g'` are equalised by one more translation (`m₁ = m₂` in the
+  group gives `m m₁ = m m₂` in `M`). Hence the induced adjunction of presheaf topoi is a geometric
+  morphism (Layer 2, Diaconescu) and the functor is final (Mathlib's
+  `CategoryTheory.final_of_representablyFlat`). A check computes both axioms for `M = ℕ`, where the
+  comma category is `ℤ` with arrows `n ⟶ n + k`, `k ≥ 0`.
 
 ## Dependency order
 
