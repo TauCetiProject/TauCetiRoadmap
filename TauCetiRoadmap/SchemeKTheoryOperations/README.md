@@ -57,7 +57,7 @@ Import AlgebraicVectorBundles L0B–L0C’s finite locally free category, scalar
 
 ### From GeneralAlgebraicKTheory
 
- Sections 3.12 and 3.14 supply plus/Q and the absolute K₀/K₁ comparisons; §§4.14 and 4.16 supply Serre localisation and the coker-minus-ker automorphism boundary. Layers 5–6 supply the S-construction, Gillet–Waldhausen, approximation and cofinality. §§7.2–7.7 supply stabilized biexact pairings, their natural homotopies and projection formulas; §8.13 supplies the right-linear Serre-localisation boundary pairing. Layers 9–10 supply ring localisation, Nil terms and the all-integer ring Bass theorem, independently of the scheme theorem here. §§11.7–11.16 supply Frobenius localisation, additivity, filtered continuity and derived invariance; §§12.10–12.11 compare with Bass and §13.6 states the enhanced derived-invariance restriction. Scheme complicial models must additionally verify the corrected approximation criterion of Thomason's 1993 §4, pp.213–215: in each category a retract, up to weak equivalence, of an acyclic object is acyclic. Layer 1 verifies it for the perfect and bounded-coherent models. Completion of stable GL, finite-rank stabilization and representation-operation homotopies belong to §§6.3–6.8 here, rather than to these categorical K-theorems. The coefficient Adams/Bockstein construction in §6.9 uses the pointed-sheaf Adams maps and Moore-space comparison constructed here; it is not an additional categorical pairing theorem.
+ Sections 3.12 and 3.14 supply plus/Q and the absolute K₀/K₁ comparisons; §§4.14 and 8.11 supply Serre localisation and the coker-minus-ker automorphism boundary. Layers 5–6 supply the S-construction, Gillet–Waldhausen, approximation and cofinality. §§7.2–7.7 supply stabilized biexact pairings, their natural homotopies and projection formulas; §8.13 supplies the right-linear Serre-localisation boundary pairing. Layers 9–10 supply ring localisation, Nil terms and the all-integer ring Bass theorem, independently of the scheme theorem here. §§11.7–11.16 supply Frobenius localisation, additivity, filtered continuity and derived invariance; §§12.10–12.11 compare with Bass and §13.6 states the enhanced derived-invariance restriction. Scheme complicial models must additionally verify the corrected approximation criterion of Thomason's 1993 §4, pp.213–215: in each category a retract, up to weak equivalence, of an acyclic object is acyclic. Layer 1 verifies it for the perfect and bounded-coherent models. Completion of stable GL, finite-rank stabilization and representation-operation homotopies belong to §§6.3–6.8 here, rather than to these categorical K-theorems. The coefficient Adams/Bockstein construction in §6.9 uses the pointed-sheaf Adams maps and Moore-space comparison constructed here; it is not an additional categorical pairing theorem.
 
 ### Low-degree supplier comparisons
 
@@ -88,7 +88,7 @@ Import AlgebraicVectorBundles L0B–L0C’s finite locally free category, scalar
 
 ### From StableReduction, AlgebraicModuliForArithmeticGeometry and JacobianChallenge
 
- StableReduction Layer 4 supplies Rees blowups and their exceptional-divisor geometry; Layer 5 here proves the additional regular-immersion and K-theoretic comparisons. SchemeAndStackFoundations §§0.3 and 5.4 supply projective bundles; its line convention is `P_quot(E∨)`, so apply the supplied dual-convention comparison to obtain `P_quot(E)` here. AlgebraicModuliForArithmeticGeometry §1.3 supplies flags built from that geometry and §1.5 supplies field projective-space regularity; §5.4 extends its predicate and propagation theorem to relative projective bundles, with an explicit field comparison. The flag interfaces are `flagBundle`, `flagBundle.projection`, `flagBundle.toGrassmann` and `flagBundle.baseChange`, with their universal nested kernels; Layer 6 adds the K₀ class identity of the universal line quotients and the K-theoretic splitting theorem. JacobianChallenge A supplies Picard/divisor dictionaries with residue degrees; B supplies curve Riemann–Roch, Serre duality and the function-field/geometric comparison; C supplies coherent higher direct images for every proper scheme morphism over a locally Noetherian base, without flatness of the morphism or coefficient, and finite cohomology over a Noetherian affine base. Its cohomology-and-base-change criteria retain flatness of the coherent coefficient over the base; the curve case is a specialization. The general derived Tor-independent theorem comes from SchemeAndStackFoundations §2.18; its K/G-transfer homotopy is constructed here.
+ StableReduction Layer 4 supplies Rees blowups and their exceptional-divisor geometry; Layer 5 here proves the additional regular-immersion and K-theoretic comparisons. SchemeAndStackFoundations §§0.3 and 5.4 supply projective bundles; its line convention is `P_quot(E∨)`, so apply the supplied dual-convention comparison to obtain `P_quot(E)` here. AlgebraicModuliForArithmeticGeometry §1.3 supplies flags built from that geometry and §1.5 supplies field projective-space regularity; §5.4 extends its predicate and propagation theorem to relative projective bundles, with an explicit field comparison. The flag interfaces are §1.3’s `flagBundle` target and its prose API: the structure map, the ith quotient of rank n−aᵢ with nested universal kernels, and arbitrary base change of flags and universal steps; Layer 6 adds the K₀ class identity of the universal line quotients and the K-theoretic splitting theorem. JacobianChallenge A supplies Picard/divisor dictionaries with residue degrees; B supplies curve Riemann–Roch, Serre duality and the function-field/geometric comparison; C supplies coherent higher direct images for every proper scheme morphism over a locally Noetherian base, without flatness of the morphism or coefficient, and finite cohomology over a Noetherian affine base. Its cohomology-and-base-change criteria retain flatness of the coherent coefficient over the base; the curve case is a specialization. The general derived Tor-independent theorem comes from SchemeAndStackFoundations §2.18; its K/G-transfer homotopy is constructed here.
 
 ### From ReductiveGroups and quasicoherent descent
 
@@ -911,7 +911,7 @@ For connective K the target is the cover of `K(U on U∩Z)` whose π₀ is the i
 
 Choose the localization boundary `∂ₙ:Kₙ(U on U∩Z)→Kₙ₋₁(X on Y∩Z)` to be right `K_*(X)`-linear and to send the loop of an endomorphism invertible on U to its cone class in degree zero. In particular `∂[π]=+[k]`. The left-linear convention is `∂ₙˡ=(−1)ⁿ⁻¹∂ₙ`; specify its comparison with the supplier's suspension convention. ([TT90, Theorem 7.4, (7.4.2) (p. 365)](https://gwern.net/doc/math/1990-thomason.pdf); [Weibel, Theorem V.7.6 (PDF p. 433)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, Example V.6.1.2 (PDF p. 414)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
-*Needs:* the fibre sequence above; GeneralAlgebraicKTheory §§4.16 and 8.13, cone orientation and boundary pairing; §2.4, tensor.
+*Needs:* the fibre sequence above; GeneralAlgebraicKTheory §§8.11 and 8.13, cone orientation and boundary pairing; §2.4, tensor.
 
 Expose the following interface:
 
@@ -1008,7 +1008,7 @@ For regular Noetherian X, `𝕂(X on Z)≃G(Z)` for every closed Z. If Z itself 
 
 For Noetherian R and α:`M→M` invertible after inverting s, `∂[α]=[coker α]−[ker α]` in coherent supported K₀. In particular `∂[s]=[R/s]−[Ann(s)]`, and the second term vanishes only for a nonzerodivisor. The cochain cone occupies degrees −1 and 0 with this order of signs. ([Weibel, Example V.6.1.2 (PDF p. 414)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, Exercise V.5.1 (PDF p. 413)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, Exercise IV.7.9 (PDF pp. 340-341)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
-*Needs:* the coherent localization above; GeneralAlgebraicKTheory §4.16, coker-minus-ker boundary.
+*Needs:* the coherent localization above; GeneralAlgebraicKTheory §8.11, coker-minus-ker boundary.
 
 G commutes with inverse limits of Noetherian schemes along affine flat transitions when the limit is Noetherian. Apply this to neighborhoods of a point and to nonempty opens of an integral scheme. The resulting generic group is K of the function field; arbitrary nonflat G-pullback is not used. ([Quillen, §7, Proposition 2.2 (printed p. 117)](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/Quillen-Higher-I.pdf)).
 
@@ -2371,7 +2371,7 @@ Expose the following interface:
 - For the trivial group the result is `K₀(A)` with its supplied λ-structure.
 - Over ℂ, the group of order two gives `ℤ[σ]`/`(σ²−1)`, with `λ²(1+σ)=σ`.
 - Using only free modules would lose the nontrivial class group of a Dedekind domain already for the trivial group.
-- A representation pulled back from `GL_N` has underlying class `[Aᴺ]`.
+- Pulling back the standard N-dimensional representation of `GL_N` has underlying class `[Aᴺ]`; for an arbitrary representation σ, forgetting the action gives `[σ_A]`. Over ℚ with N=2 and trivial G, the standard representation, its determinant and the zero representation have ranks 2, 1 and 0, respectively; the latter two exclude assigning rank N to every pullback.
 
 In characteristic p, `ψ^p` of the standard `GL_N` representation is its Frobenius twist. More generally `ψ^p(x)=Φ*x` on the projective representation ring over every commutative `F_p`-algebra. The Frobenius pullback is scalar extension, not the original representation with unchanged coefficients. ([Weibel, Ex. II.4.2(b) (PDF p. 109)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, Proof of Corollary IV.5.5.2 (PDF p. 322)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
@@ -2400,9 +2400,19 @@ Expose the following interface:
 
 Here A is commutative. The universal lifting assertion is proved before it is used to define genuine operations. The same-degree product supplied by a pointed-space diagonal is separate from Loday’s degree-adding product.
 
-With the genuine-map lifting and uniqueness theorem below, lift each reduced λ-expression to an operation on BGL(A)⁺ and hence `K_m(A)`, `m≥1`. Extend it to `K₀(A)×[T,BGL(A)⁺]` by the unitization formula, with the rank part supplied by finite-projective λ-operations. State the lifting hypothesis explicitly wherever its use precedes its proof. ([Weibel, Definition IV.5.4 (PDF p. 321)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, IV.5, before Theorem 5.5 (PDF p. 322)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Soulé, §1.3 (p. 492)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427)).
+For a connected pointed CW complex T, write `q_T:R_A(π₁T)→[T,BGL(A)⁺]` for the reduced representation classifying map of §6.3.4, composed with T→Bπ₁T. Prove that, for every connected H-space H and natural transformation `η_T:R_A(π₁T)→[T,H]` of group-valued functors, there is a unique homotopy class `f:BGL(A)⁺→H` with `η_T=f_*q_T` for all T. The obstruction and uniqueness argument for this universal lifting property is a target here: a proof route evaluates η on the tautological representations of GL_N(A), constructs compatible maps along stabilization, and proves independence of the choices before extending through the plus construction. Include the uniqueness argument on the whole source, rather than inferring it from agreement at each finite rank. In the same lifting stage, prove existence and choice independence for the compatible finite-rank classes associated to each reduced λ-expression in §6.3.4; this is the stabilization and obstruction argument needed before defining the operations. ([Weibel, Example IV.5.3.1 and (5.3.2) (PDF p. 321), Proposition IV.5.7 and its proof (PDF p. 323)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
-*Needs:* §6.3.4, representations and stable families; StableHomotopyKTheory Layer 3, plus universality; the genuine-map lifting construction in this subsection.
+*Needs:* §6.3.4, exact representation classifying maps and stabilization; GeneralAlgebraicKTheory §§3.12–3.14, the plus/Q comparison; StableHomotopyKTheory §§3.10, 3.15, 3.21–3.22 and 3.25, the plus construction, abelianness of connected H-spaces, obstruction theory and extension uniqueness.
+
+**Checks.**
+
+- With H=BGL(A)⁺ and η=q, the unique factor is the identity, so over ℚ its value on the unit loop [2] is [2], not zero.
+- With η=0 the unique factor is the constant map, sending [2] to zero; with H a point there is exactly one factorization.
+- On T a point, q sends every class of K₀(A) to zero; the universal property concerns the reduced classifying map and does not identify K₀(A) with maps from a point to a connected H-space.
+
+Using the universal lifting property and its stabilization argument above, lift each reduced λ-expression to an operation on BGL(A)⁺ and hence `K_m(A)`, `m≥1`. Extend it to `K₀(A)×[T,BGL(A)⁺]` by the unitization formula, with the rank part supplied by finite-projective λ-operations. ([Weibel, Definition IV.5.4 (PDF p. 321)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, IV.5, before Theorem 5.5 (PDF p. 322)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Soulé, §1.3 (p. 492)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427)).
+
+*Needs:* §6.3.4, representations and stable families; the universal lifting property and obstruction/uniqueness argument above; §6.2.3, finite-projective λ-operations.
 
 Expose the following interface:
 
@@ -2417,16 +2427,16 @@ Expose the following interface:
 
 - The first operation is identity and the zeroth operation on a unitized pair is `(1,0)`.
 - On K₁ unit classes, `ψᵏ[u]=k[u]`, multiplicatively uᵏ.
-- Taking Λ² of a rank-one automorphism gives the zero bundle, while the actual `λ²[u]=−[u]` can be nonzero.
+- For the unit 2 over ℚ, taking Λ² of its rank-one automorphism gives the zero bundle, while the actual `λ²[2]=−[2]=[1/2]≠0` in K₁(ℚ); the second Adams operation gives `ψ²[2]=2[2]=[4]`.
 - At degree zero the operations agree with exterior powers of projectives.
 
 Prove these operations make `K₀(A)×[T,BGL(A)⁺]` a special λ-ring with its diagonal-space product. On spheres of positive dimension the internal same-degree product is zero, so `λ^k` is additive and `ψ^k=(−1)^{k−1}kλ^k` on each `K_m(A)`, with Adams composition and K₀-module compatibility. ([Weibel, Theorem IV.5.5 (PDF p. 322)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, Corollary IV.5.5.1 (PDF p. 322)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Soulé, §1.4 (p. 492)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427)).
 
 *Needs:* the genuine operations above; §§6.2.2 and 6.3.4, integral identities.
 
-Let A be commutative. For a connected pointed CW complex T, write `q_T:R_A(π₁T)→[T,BGL(A)⁺]` for the reduced representation classifying map. Prove that, for every connected H-space H and natural transformation `η_T:R_A(π₁T)→[T,H]`, there is a unique homotopy class `f:BGL(A)⁺→H` with `η_T=f_*q_T` for all T. Apply this to lift reduced representation operations to genuine maps, with the obstruction/phantom uniqueness argument included. Also transport transformations between representation functors and prove commutation with their λ-operations by this uniqueness. ([Weibel, Proposition IV.5.7 (PDF p. 323)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
+For commutative A and B and a family of λ-ring homomorphisms R_A(G)→R_B(G) natural in G, prove that the induced map BGL(A)⁺→BGL(B)⁺ commutes with λ-operations, using the universal lifting uniqueness. ([Weibel, Proposition IV.5.7 and Example IV.5.7.1 (PDF p. 323)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
-*Needs:* §6.3.4, exact representation maps; the lifting and uniqueness construction above.
+*Needs:* the universal lifting property above; the constructed operations and their representation comparison.
 
 For the actual Loday degree-adding product, Adams operations are multiplicative, so rational weights add. For rational positive-degree inputs and `k≥1`, prove the full formula
 
