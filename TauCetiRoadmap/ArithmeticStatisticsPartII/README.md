@@ -1,6 +1,6 @@
 # Roadmap: arithmetic statistics, Part II: integral orbit dictionaries
 
-**Summary.** Construct the integral orbit dictionaries for cubic, quartic and quintic rings, genus-one coverings and symmetric pencils. Keep the change-of-variables convention, stabilizer, integral representative and local Kummer comparison in every parametrization.
+**Summary.** Extend ArithmeticStatisticsPartI’s coefficient and family interfaces to cubic maximality and index-p switching, integral quartic and quintic ring dictionaries, genus-one coverings and symmetric pencils. Use the cubic-algebra equivalence of AnalyticNumberTheoryPartII §5.5, retaining its based coordinate adapters. Keep the change-of-variables convention, stabilizer, integral representative and local Kummer comparison in every parametrization.
 
 ## Scope and ownership
 
@@ -8,7 +8,7 @@ This part owns integral orbit dictionaries. Its numbered subsections retain the 
 
 The following boundaries fix the carriers and prevent parallel versions of existing mathematics.
 
-- ArithmeticStatisticsPartI Layer 0 owns arithmetic families, coefficient lattices, binary cubic and quartic coefficients, invariant heights and local proportions. Its “Cubic supplier conventions”, §0.22 “Binary form order” and “Symmetric pencil”, and §0.12 “Strong weak discriminant” targets supply the exact carriers and normalizations used below. AnalyticNumberTheoryPartII §§5.4–5.5 owns the twisted cubic action and the general projective cubic-algebra equivalence. The based index forms here are sign adapters to those suppliers.
+- ArithmeticStatisticsPartI Layer 0 owns arithmetic families, coefficient lattices, binary cubic and quartic coefficients, invariant heights and local proportions. Its “Cubic supplier conventions”, §0.22 “Binary form order” and “Symmetric pencil”, and §0.12 “Strong weak discriminant” targets supply the exact carriers and normalizations used below. AnalyticNumberTheoryPartII §§5.4–5.5 owns the twisted cubic action, normal-basis normalization, the free/local and projective cubic-algebra equivalences, and their stabilizer identifications. Section 1.1 retains the based index-form sign adapter and the inverse-transpose convention for the supplied stabilizer isomorphism.
 - EllipticCurves Layers 1, 5–8 owns isogenies, quadratic twists, Mordell–Weil, finite Selmer groups, their exact sequence and integral minimal short models. This part constructs orbit dictionaries and their comparison with the native explicit two-descent interface; ArithmeticStatisticsPartI §0.4 owns the elliptic-family height adapter.
 - PolynomialGaloisGroups Layers 0, 2, 4 and 6 owns root permutation actions, generic orbit resolvents and transitive-group predicates. Tau Ceti's quartic three-element and quintic six-element resolvents below are reused. The integral resolvent-order comparisons retain their lattices, quadratic maps and orientations. A monic integral sextic resolvent polynomial alone does not specify the sextic lattice or its discriminant factor 16.
 - GlobalNumberFields Layer 11 owns the number-field-order specialization of orders, Picard groups, overorders, trace duals and ideal norms. The full-lattice order comparison below covers finite étale product algebras; degenerate rings use the localization predicates below over Z or a DVR. GlobalQuadraticForms Layer 5 owns the Hasse principle used in two-descent. OrthogonalSpinGroups Layer 0 owns the general orthogonal group; §1.13 here specializes it to a fixed arithmetic matrix and lattice. GeometryOfNumbersAndQuadraticArithmetic §0.2 owns adapted primitive lattice bases; the representation-specific minor fibres remain here.
@@ -49,7 +49,7 @@ From SchemeAndStackFoundations Layers 0–3 and §§3.6–3.7 require finite ét
 
 SchemeAndStackFoundations Layer 2 supplies fppf cohomology and torsors. From SelmerIwasawaCohomology §2.12a require number-field abelian Kummer localization and finite Selmer groups, specifically its “Abelian Kummer, Selmer and Sha carriers” and “Finite Selmer and reduced primary groups” targets, including the local H¹ comparison and exact descent sequence. The global-function-field Jacobian adapter below constructs the prime-to-characteristic comparison using ArithmeticGaloisDuality §R02.4.5. ArithmeticGaloisDuality Layer R02.4 supplies the global-to-local Brauer injection used by the marked quartic embedding. The degree-one-divisor assertions retain SchemeAndStackFoundations §3.6's Brauer obstruction: a rational Picard point is not identified with a line bundle until it vanishes.
 
-From AnalyticNumberTheoryPartII require binary-cubic action and discriminant (AnalyticNumberTheoryPartII §5.4) and projective cubic-algebra equivalence (AnalyticNumberTheoryPartII §5.5), including nonprincipal rank-two modules, stabilizers, determinant-line discriminants and the nonzero-discriminant étale comparison. ArithmeticStatisticsPartI's “Cubic supplier conventions” specializes this interface to free coefficient lattices. The based index-form and normal-basis statements below fix signs and weights for that specialization. DiophantineApproximationAndTranscendence §4.3 supplies effective Thue finiteness; the uniform bound N in §1.8 is an explicit additional hypothesis, with its source constants retained there. Its §2.4 supplies finite-rank unit-equation bounds for the order/cross-ratio comparisons consumed by downstream statistical applications.
+From AnalyticNumberTheoryPartII require binary-cubic action and discriminant (AnalyticNumberTheoryPartII §5.4) and projective cubic-algebra equivalence (AnalyticNumberTheoryPartII §5.5), including the free/local multiplication tables in both simultaneous-sign conventions, unique normalizing scalar shifts, the inverse index form, nonprincipal rank-two modules, stabilizers, determinant-line discriminants and the local-field nonzero-discriminant étale comparison. Consume its free/local equivalence over a PID or local ring, including zero-discriminant forms, without constructing another inverse. ArithmeticStatisticsPartI's “Cubic supplier conventions” specializes this interface to free coefficient lattices. Section 1.1 compares the based determinant formula and inverse-transpose stabilizer coordinates with this interface; its étale criterion over arbitrary fields also includes positive characteristic. DiophantineApproximationAndTranscendence §4.3 supplies effective Thue finiteness; the uniform bound N in §1.8 is an explicit additional hypothesis, with its source constants retained there. Its §2.4 supplies finite-rank unit-equation bounds for the order/cross-ratio comparisons consumed by downstream statistical applications.
 
 ### From earlier arithmetic-statistics parts
 
@@ -104,7 +104,7 @@ For the proof, Injectivity: if `r.1 = 0` then r annihilates the nonzero free mod
 
 **Index form of a based cubic ring.** Let A be an R-algebra with an R-basis `b = <1, b_1, b_2>`. For u, v in A let `D_b(u, v)` be the determinant of the coordinate vectors of 1, u, v in b. The index form of b is the binary cubic form `I_b(x, y) = D_b(ξ, ξ^2)` for `ξ = x b_1 + y b_2`, i.e. `1 ^ ξ ^ ξ^2 = I_b(x,y) (1 ^ b_1 ^ b_2)` in the top exterior power; its coefficients are `(D(b_1, b_1^2), D(b_2, b_1^2) + 2 D(b_1, b_1 b_2), 2 D(b_2, b_1 b_2) + D(b_1, b_2^2), D(b_2, b_2^2))`. It depends only on the images of `b_1`, `b_2` in `A/R.1`; a change of basis of `A/R.1` by `γ` in `GL2(R)` replaces `I_b` by `γ . I_b` (twisted action); the normal basis `<1, ω, θ>` of `R(f)` has index form f; and over `ℤ`, `|I_b(m, n)|` is the index of `ℤ[m b_1 + n b_2]` in A when it is nonzero.
 
-**Supplier ownership.** AnalyticNumberTheoryPartII §5.5 supplies the inverse index-form construction; the chosen based formula below is the required sign adapter. The following based specialization fixes its signs and arithmetic weights.
+This coordinate adapter evaluates the inverse index form in a specified basis, fixing the sign and determinant weight used by the arithmetic dictionaries.
 
 The determinant is taken in the coordinates of the same basis b, which is what produces the twist `(det γ)^{-1}`. Orientation convention: with Bhargava-Shankar-Tsimerman's table the normal basis has index form `+f`; with Gross-Lucianovic's basis `<1, i, j> = <1, -ω, -θ>` the index form is -f.
 
@@ -126,7 +126,7 @@ The required API is:
 
 For the proof, Polarization of the trilinear expression `D(ξ, ξ^2)` gives the four coefficients. Translation invariance: adding scalars to `b_1`, `b_2` changes `ξ` by a scalar and `ξ^2` by a scalar plus a multiple of `ξ`, which do not change the determinant with first row the coordinates of 1. Change of basis: take the column of new basis vectors to be `γ` times the column `(b_1,b_2)`, modulo scalars. Then the row of coordinates `(x,y)` is replaced by `(x,y) γ` and `D_{b'} = (det γ)^{-1} D_b`; hence `I_{b'} = γ . I_b`. With a row of basis vectors transformed on the right, the acting matrix would instead be `γ` transposed. For the normal basis of `R(f)` the coefficients are computed from the multiplication table: `I(x,y) = det(1; ξ; ξ^2) = f(x, y)` (the footnote of Gross-Lucianovic). Index formula (Gan-Gross-Savin, Lemma 5.3): `<1, ξ, ξ^2>` spans `ℤ[ξ]`, and its coordinate matrix in b has determinant `I_b(m, n)`.
 
-*Needs:* ArithmeticStatisticsPartI, binary cubic forms and the twisted action (Cubic supplier conventions), ArithmeticStatisticsPartI, cubic ring (Cubic supplier conventions), ArithmeticStatisticsPartI, cubic ring of a binary cubic form (Cubic supplier conventions), `Matrix.det` (Mathlib), `Basis` (Mathlib).
+*Needs:* AnalyticNumberTheoryPartII §§5.4–5.5 (twisted action, inverse index form and normal multiplication tables); ArithmeticStatisticsPartI “Cubic supplier conventions” (coefficient-lattice specialization); `Matrix.det` (Mathlib); `Basis` (Mathlib).
 
 ([3], Proof of Theorem 9, printed p. 5; [5], Lemma 5.3, printed pp. 117-118.)
 
@@ -140,63 +140,26 @@ For the proof, Polarization of the trilinear expression `D(ξ, ξ^2)` gives the 
 
 - Negating `b_1` and `b_2` negates the index form (the twisted action of -1).
 
-**Normal bases of a cubic ring.** Let A be an R-algebra with basis `<1, b_1, b_2>`. There are unique r, s in R such that `b'_1 = b_1 + r`, `b'_2 = b_2 + s` satisfy `b'_1 b'_2` in R (a normal, or good, basis). For a normal basis `<1, ω, θ>` with index form `f = (a, b, c, d)` the multiplication table is `ω θ = -ad`, `ω^2 = -ac - b ω + a θ`, `θ^2 = -bd - d ω + c θ`; in particular A is isomorphic to `R(f)` by `ω ↦ ω`, `θ ↦ θ`.
+**Based coordinates for cubic stabilizers.** For a binary cubic form f over a PID or local ring R, express the stabilizer isomorphism in the basis `<ω, θ>` of `R(f)/R`. If `T_sigma` is the usual column-coordinate matrix of an R-algebra automorphism σ, its image in the twisted row-variable stabilizer is `(T_sigma⁻¹)ᵀ`. This adapter fixes the arithmetic weight and composition convention without constructing a second equivalence.
 
-**Supplier ownership.** AnalyticNumberTheoryPartII §5.5 supplies local normal-basis normalization; the scalar shifts below pin the free-basis specialization. The following based specialization fixes its signs and arithmetic weights.
+The required API is:
 
-A is associative and commutative; the basis contains 1.
+- The quotient matrix of σ is carried to its inverse transpose in the stabilizer.
+- Composition of algebra automorphisms agrees with multiplication of these stabilizer matrices.
+- Over Z, finite stabilizers have the same cardinality as the algebra automorphism group, so the reciprocal weights agree; finiteness is required before taking a cardinality weight.
 
-For the proof, Write `b_1 b_2 = n + s b_1 + t b_2` with n, s, t in R; then `(b_1 - t)(b_2 - s) = n + st` is in R, so `b'_1 = b_1 - t`, `b'_2 = b_2 - s` is normal (Gross-Lucianovic, proof of Proposition 2.1: `i = omega_2 - t`, `j = omega_3 - s`). Uniqueness: if `(b'_1 + u)(b'_2 + v)` is also in R then `v b'_1 + u b'_2` is in R, so `u = v = 0` because `<1, b'_1, b'_2>` is a basis. In a normal basis write `ω^2 = m + β ω + α θ` and `θ^2 = l + δ ω + γ θ`; the coefficients of the index form are then read off (the determinant computation of the index form), identifying `(α, β, γ, δ)` with `(a, -b, c, -d)`. Associativity forces the constants n, m, `l = -ad`, -ac, -bd (as in the construction of `R(f)`).
+For the coordinate comparison, the image basis is `T_sigmaᵀ` times the column of basis vectors. Its index form is therefore `T_sigmaᵀ . f = f`, and the inverse matrix also stabilizes f. The identity `(ST)⁻ᵀ=S⁻ᵀT⁻ᵀ` gives the group-homomorphism convention. Bijectivity is transported through the supplied stabilizer isomorphism.
 
-*Needs:* index form of a based cubic ring (§1.1), ArithmeticStatisticsPartI, cubic ring of a binary cubic form (Cubic supplier conventions).
+*Needs:* AnalyticNumberTheoryPartII §5.5 (normalization, cubic equivalence and stabilizer isomorphism); index form of a based cubic ring (§1.1); `MulAction.stabilizer` (Mathlib).
 
-([4], Proof of Proposition 2.1, printed p. 3.)
-
-**Checks.**
-
-- `ℤ[x]/(x^3 - 2)` with basis `<1, x, x^2>` is already normal `(x . x^2 = 2)`; its index form is `x^3 - 2y^3` in the pinned determinant convention.
-
-- In the same ring, `b₁=x+1` and `b₂=x²+2` satisfy `b₁b₂=2b₁+b₂`. The unique shifts are `−1` and `−2`, yielding the original normal basis; interchanging the two shift coefficients fails this computation.
-
-- In `ℤ[ε,η]/(ε²,εη,η²)`, the basis `(1,ε,η)` is normal. The translated basis `(1,ε+1,η)` has product `η` and normalizes by shifts `(−1,0)`. Returning zero shifts for every basis fails this degenerate example.
-
-**Delone faddeev parametrization of cubic rings.** Let R be a principal ideal domain or a local ring (e.g. `ℤ`, `ℤ_p`, Q, `Q_p`, R, `F_p`). The map `f ↦ R(f)` induces a bijection between the `GL2(R)`-orbits (twisted action) on binary cubic forms over R and the isomorphism classes of cubic R-algebras. The inverse sends A to the index form of any basis `<1, b_1, b_2>` (which exists by quotient-by-scalars-is-free); `disc(R(f)) = disc(f)`, so the discriminant (in `R/(R^x)^2`; in `ℤ` for `R = ℤ`) is preserved. Concretely: every cubic R-algebra A is isomorphic to `R(f)` for some f; and `R(f)` is isomorphic to `R(g)` if and only if `g = γ . f` for some `γ` in `GL2(R)`.
-
-**Supplier ownership.** AnalyticNumberTheoryPartII §5.5 supplies the more general projective equivalence; the PID/local statement below is its free-lattice specialization. The following based specialization fixes its signs and arithmetic weights.
-
-R a PID or a local ring (Gross-Lucianovic's hypothesis); over `ℤ` this is Delone-Faddeev (for nonzero discriminant) and Gan-Gross-Savin (in general). The action is the twisted action; with the untwisted action the statement is false (the scalar u would act by `u^3`).
-
-For the proof, Existence: choose a basis `<1, b_1, b_2>` (quotient-by-scalars-is-free), normalize it (normal-bases-of-a-cubic-ring), and send `ω ↦ b_1`, `θ ↦ b_2`; the multiplication tables agree, giving `A = R(I_b)`. Well-definedness of the inverse on isomorphism classes: an isomorphism `A → A'` carries bases to bases, and two bases of `A/R.1` differ by `γ` in `GL2(R)`, changing the index form to `γ . I` (index-form-of-a-based-cubic-ring). `R(γ . f) = R(f)` (cubic-ring-of-a-binary-cubic-form); combining: `R(f) = R(g)` iff g is in the orbit of f. Discriminant: discriminant-of-the-cubic-ring-of-a-form.
-
-*Needs:* ArithmeticStatisticsPartI, binary cubic forms and the twisted action (Cubic supplier conventions), ArithmeticStatisticsPartI, cubic ring (Cubic supplier conventions), quotient by scalars is free (§1.1), ArithmeticStatisticsPartI, cubic ring of a binary cubic form (Cubic supplier conventions), ArithmeticStatisticsPartI, discriminant of the cubic ring of a form (Cubic supplier conventions), index form of a based cubic ring (§1.1), normal bases of a cubic ring (§1.1).
-
-([3], Theorem 9, printed p. 4; [4], Proposition 2.1, printed p. 4; [3], End of Section 2, printed p. 6.)
+([3], Proposition 12 and proof, printed p. 6; [4], Proposition 2.1 and its basis-change calculation, printed pp. 3–4.)
 
 **Checks.**
 
-- disc is preserved: the orbit of `x^2 y - x y^2 (disc 1)` corresponds to `ℤ^3`.
-
-- The zero form corresponds to `ℤ + ℤ ω + ℤ θ` with all products 0 (content ∞); `x^3` corresponds to `ℤ[x]/(x^3)`.
-
-- Over `F_p` the five `GL2(F_p)`-orbit types of nonzero forms with distinct factorization patterns `(111)`, `(12)`, `(3)`, `(1^2 1)`, `(1^3)` give `F_p^3`, `F_p x F_{p^2}`, `F_{p^3}`, `F_p[t]/(t^2) x F_p`, `F_p[t]/(t^3)` (Bhargava-Shankar-Tsimerman, Section 4).
-
-**Automorphisms of cubic rings are stabilizers.** For a binary cubic form f over a PID or local ring R, the group of R-algebra automorphisms of `R(f)` is isomorphic to the stabilizer of f in `GL2(R)` under the twisted row-variable action. If `T_sigma` is the usual column-coordinate matrix of `σ` on `R(f)/R` in the basis `<ω, θ>`, the group homomorphism sends `σ` to (`T_sigma` inverse) transposed. Conversely each stabilizer element determines a unique automorphism.
-
-**Supplier ownership.** AnalyticNumberTheoryPartII §5.5 supplies stabilizer/automorphism compatibility; this statement fixes the arithmetic weight used by later counts. The following based specialization fixes its signs and arithmetic weights.
-
-Twisted action; R a PID or local ring.
-
-For the proof, The image basis has column of vectors `T_sigma` transposed times the original column, and hence index form (`T_sigma` transposed) . f. Automorphisms preserve the index form, so this equals f. The inverse matrix also stabilizes f. Since `T_`(`σ` tau) `= T_sigma T_tau`, inverse-transpose, unlike transpose alone, respects multiplication for the chosen left action. A stabilizer element determines the quotient matrix by inverse-transpose. Lift its two basis vectors and normalize them; normality uniquely determines the scalar translates. The multiplication table then gives the unique algebra automorphism, inverse to the preceding construction.
-
-*Needs:* delone faddeev parametrization of cubic rings (§1.1), `MulAction.stabilizer` (Mathlib).
-
-([3], Proposition 12 and proof, printed p. 6.)
-
-**Checks.**
-
-- For `f = x^2 y - x y^2`, `R(f) = ℤ^3` has automorphism group `S_3`, and the stabilizer of `x^2 y - x y^2` in `GL2(ℤ)` has order 6.
-
-- For irreducible f defining a non-Galois cubic field the stabilizer is trivial.
+- For `f=xy(x−y)`, take `ω=−e₀`, `θ=−e₁` in `Z³`. Then `ω²=−ω`, `θ²=−θ`, `ωθ=0`, the index form is f and its discriminant is 1. Both automorphism and stabilizer groups are S₃ of order 6, giving weight `1/6`.
+- In that split algebra, exchanging e₀ and e₁ gives `S=[[0,1],[1,0]]` on the quotient, and exchanging e₁ and e₂ gives `T=[[1,−1],[0,−1]]`. The inverse-transpose image of ST is `[[−1,−1],[1,0]]`, equal to `S⁻ᵀT⁻ᵀ`; transpose alone gives `[[0,1],[−1,−1]]` and reverses the product.
+- For the zero form, the algebra is `Z[ε,η]/(ε²,εη,η²)`, the index form and trace discriminant are both zero, and both groups are `GL₂(Z)`. The convention still applies, but no finite reciprocal stabilizer weight is assigned.
+- For `f=x³−2y³` over Q, the non-Galois cubic field has one automorphism and its stabilizer has one element.
 
 **Reducible forms and zero divisors.** (a) For a nonzero integral binary cubic form f, `R(f)` is an integral domain if and only if `f(x, y) ≠ 0` for all `(x, y)` in `ℤ^2 \ {0}`, i.e. f has no linear factor over Q (f is irreducible over Q). `(b)` Over a field K, `R(f)` is a field if and only if `f ≠ 0` and f has no zero in `P^1(K)`. In particular the irreducible integral forms correspond to the orders `R(f)` whose fraction algebra `R(f)` tensor Q is a cubic field.
 
@@ -204,7 +167,7 @@ For the proof, The image basis has column of vectors `T_sigma` transposed times 
 
 For the proof, Over a field K, a projective zero can be moved to `(1:0)` by `GL2(K)`. Then `a = 0` and `ω θ = 0`, with both `ω` and `θ` nonzero basis vectors. If f has no projective zero, `a = f(1,0)` is nonzero. Scaling f by the unit a inverse preserves `R(f)` up to isomorphism. For `a = 1` the multiplication table gives `θ = omega² + b ω + c` and `omega³ + b omega² + c ω + d = 0`. Thus `R(f)` is `K[t]/(t³ + bt² + ct + d)`, which is a field because a cubic without a K-root is irreducible. For integral f, `R(f)` is torsion-free and embeds in `R(f)` tensor Q. A nontrivial zero-divisor relation in the latter can have its denominators cleared to give one in `R(f)`; hence `R(f)` is a domain exactly when its rational algebra is. Apply the field argument, and clear denominators in projective roots to obtain the stated integral criterion. This avoids treating a primitive element of R as a primitive class in `R/ℤ`.
 
-*Needs:* delone faddeev parametrization of cubic rings (§1.1), normal bases of a cubic ring (§1.1).
+*Needs:* AnalyticNumberTheoryPartII §5.5 (cubic equivalence and normal-basis normalization).
 
 ([3], Proposition 11 and proof, printed pp. 5-6.)
 
@@ -216,7 +179,7 @@ For the proof, Over a field K, a projective zero can be moved to `(1:0)` by `GL2
 
 **Nondegenerate forms and etale cubic algebras.** For a binary cubic form f over a field K, `R(f)` is an etale K-algebra if and only if `disc(f) ≠ 0`. Over `ℤ`, `disc(f) ≠ 0` if and only if `R(f)` tensor Q is a product of number fields (an order in an etale cubic Q-algebra); forms of discriminant 0 are the degenerate locus.
 
-**Supplier ownership.** AnalyticNumberTheoryPartII §5.5 supplies the nonzero-discriminant étale comparison; the field and integral statements below specify its statistical domain. The following based specialization fixes its signs and arithmetic weights.
+Unlike the characteristic-zero local-field restriction of the cubic dictionary, this criterion applies over every field, including imperfect fields of positive characteristic.
 
 K any field.
 
@@ -272,7 +235,7 @@ p prime; R free of rank 3 over `ℤ`.
 
 For the proof, Choose a finite overring R′ with nontrivial p-primary quotient over R by intersecting an overring with `R[1/p]`. Let `m ≥ 1` be the least integer with `p^m R′` contained in R. Then `S = R + p^(m−1)R′` is a ring, strictly contains R, and pS is contained in R. The ring property follows by expanding products; every cross term lies in `p^(m−1)R′`. The unit 1 is primitive in S because a finite ℤ-algebra has no nonintegral rational scalars. Smith normal form on `R/ℤ` inside `S/ℤ`, followed by normalization of the chosen basis, gives the shapes `(ω/p,θ)` and `(ω/p,θ/p)`. The multiplication table gives `p² | a` and `p | b` in the first shape, and `p | a`,b,c,d in the second. Their indices are p and `p²` respectively. This argument avoids the exponent-reduction iteration and any negative congruence exponents. When normalizing a Smith basis after the overring has been chosen, closure of the divided basis implies that each scalar translation of `alpha_i` used to impose the normal-basis convention is divisible by `p^{e_i}`. Thus the translation preserves the scaled overring lattice; arbitrary integral translations would not suffice.
 
-*Needs:* ArithmeticStatisticsPartI, cubic ring (Cubic supplier conventions), normal bases of a cubic ring (§1.1), delone faddeev parametrization of cubic rings (§1.1).
+*Needs:* ArithmeticStatisticsPartI, cubic ring (Cubic supplier conventions), AnalyticNumberTheoryPartII §5.5 (normal-basis normalization and cubic equivalence).
 
 ([3], Lemma 13 and proof, printed pp. 6-7.)
 
@@ -302,7 +265,7 @@ p prime.
 
 For the proof, If S subset `R' = R(f')` has index p, then `S = ℤ +` pR' `+ ℤ θ` for `θ` well defined in `(R'/ℤ)/p`; extending to a normal basis `<1, ω, θ>` of R', `S = <1, p ω, θ>` is a ring iff `d' = 0` mod p, i.e. the image of `θ` is a zero of f' mod p. Then `f(x, y) = a' p^2 x^3 + b' p x^2 y + c' x y^2 + (d'/p) y^3` is the form of the basis `<1, p ω, θ>` (BST, proof of Propositions `15-16`).
 
-*Needs:* ArithmeticStatisticsPartI, cubic ring of a binary cubic form (Cubic supplier conventions), normal bases of a cubic ring (§1.1).
+*Needs:* ArithmeticStatisticsPartI, cubic ring of a binary cubic form (Cubic supplier conventions), AnalyticNumberTheoryPartII §5.5 (normal-basis normalization).
 
 ([3], Proposition 15, printed p. 7.)
 
@@ -316,7 +279,7 @@ p prime.
 
 For the proof, If R subset R' with index p, write `R = ℤ +` pR' `+ ℤ θ` and normalize; with f the form of the basis `<1, p ω, θ>` of R, the module spanned by 1, `ω`, `θ` is a ring iff `p^2 | a` and `p | b`, i.e. the image of `p ω` is a double zero with `f(p ω) = 0` mod `p^2` (BST, proof of Proposition 16). The form of R' is then `f' = (a/p^2) x^3 + (b/p) x^2 y + c x y^2 + d p y^3`.
 
-*Needs:* ArithmeticStatisticsPartI, cubic ring of a binary cubic form (Cubic supplier conventions), normal bases of a cubic ring (§1.1).
+*Needs:* ArithmeticStatisticsPartI, cubic ring of a binary cubic form (Cubic supplier conventions), AnalyticNumberTheoryPartII §5.5 (normal-basis normalization).
 
 ([3], Proposition 16, printed p. 7.)
 
@@ -406,7 +369,7 @@ The required API is:
 
 For the proof, State the based conditions (determinant identity `(12)` and the index-form identity) and the coordinate-free Definition 20; show that changing bases of `Q/ℤ` and `C/ℤ` by `(g_3, g_2)` replaces `(A, B)` by `(g_3, g_2) . (A, B)`, so the based notion descends to the coordinate-free one. The discriminant comparison is proved in quartic ring of a pair (§1.3) after constructing its multiplication table. Content: define as the supremum; it is finite for nondegenerate rings and ∞ only for the trivial ring `ℤ + ℤ x_1 + ℤ x_2 + ℤ x_3` with all `x_i x_j = 0`.
 
-*Needs:* pairs of ternary quadratic forms (§1.3), ArithmeticStatisticsPartI, cubic ring (Cubic supplier conventions), index form of a based cubic ring (§1.1), delone faddeev parametrization of cubic rings (§1.1), `Basis` (Mathlib).
+*Needs:* pairs of ternary quadratic forms (§1.3), ArithmeticStatisticsPartI, cubic ring (Cubic supplier conventions), index form of a based cubic ring (§1.1), AnalyticNumberTheoryPartII §5.5 (cubic equivalence), `Basis` (Mathlib).
 
 ([6], Section 3.9, Definitions 19-20, printed pp. 1351-1352; [6], Lemma 9 and (13), printed pp. 1340-1341; [17], Theorems 8.4 and 8.7.)
 
@@ -454,7 +417,7 @@ The required API is:
 
 For the proof, The structure constants are forced by Lemma 9 (identity `(12)`) with `φ = (B, A)`: equating the coefficients of the degree-4 polynomials `p = q` in `r_1`, ..., `s_3` (HCL III `(17)-(18)`) gives the linear system with the unique solution `(21)-(22)`; associativity then forces `(23)`. Associativity of the resulting table, the independence of `c^0_ij` from `k ≠ i` and integrality are universal polynomial identities in `ℤ[a_ij, b_ij]`. `Disc Q(A,B) = Disc(A,B)`: explicit polynomial identity (HCL III Proposition 10), by universal expansion. For the generic nondegenerate pair, identity `(25)` gives the cubic index form `−4 Det`(`Ax −` By) in the pinned orientation. Verify that equality as an integral polynomial identity, so it also holds after specialization to degenerate pairs and arbitrary base rings. Together with identity `(29)`, this supplies the full discriminant/index-form condition `(34)`. Identity `(25)` alone does not determine a resolvent for a degenerate pair. Construct `Q(A,B)` as `R[X_1, X_2, X_3]` modulo the six relations `X_i X_j - c^0_ij - sum_k c^k_ij X_k`; freeness of rank 4 is the Groebner-basis argument as for cubic rings.
 
-*Needs:* pairs of ternary quadratic forms (§1.3), quartic ring and cubic resolvent (§1.3), ArithmeticStatisticsPartI, cubic ring of a binary cubic form (Cubic supplier conventions), delone faddeev parametrization of cubic rings (§1.1), `MvPolynomial` (Mathlib), `Algebra.discr` (Mathlib).
+*Needs:* pairs of ternary quadratic forms (§1.3), quartic ring and cubic resolvent (§1.3), ArithmeticStatisticsPartI, cubic ring of a binary cubic form (Cubic supplier conventions), AnalyticNumberTheoryPartII §5.5 (cubic equivalence), `MvPolynomial` (Mathlib), `Algebra.discr` (Mathlib).
 
 ([6], Section 3.2, (21)-(23), printed pp. 1342-1343; [6], Propositions 10-11, printed pp. 1343-1344.)
 
@@ -518,7 +481,7 @@ Base `ℤ` (the same proof works over `ℤ_p` and `F_p` with the appendix's defi
 
 For the proof, `(A,B) ↦ (Q(A,B), R(A,B))` is a based cubic resolvent (quartic-ring-of-a-pair). Conversely, for a based cubic resolvent the identity `(12)` determines the structure constants of the normal basis as in `(21)-(23)`, so Q is `Q(A,B)` (HCL III Proposition 10), and `(34)` determines R as `R(A,B)` by Delone-Faddeev (Proposition 11; in the degenerate case by the appendix's definition). The two constructions are mutually inverse on based objects; changing bases of `Q/ℤ` and `R/ℤ` by `(g_3, g_2)` acts on `(A,B)` by the action of pairs-of-ternary-quadratic-forms, so isomorphism classes correspond to orbits. Discriminants: quartic-ring-of-a-pair.
 
-*Needs:* quartic ring of a pair (§1.3), quartic ring and cubic resolvent (§1.3), pairs of ternary quadratic forms (§1.3), delone faddeev parametrization of cubic rings (§1.1).
+*Needs:* quartic ring of a pair (§1.3), quartic ring and cubic resolvent (§1.3), pairs of ternary quadratic forms (§1.3), AnalyticNumberTheoryPartII §5.5 (cubic equivalence).
 
 ([6], Theorem 1, printed p. 1330; [6], Proposition 13, printed p. 1345.)
 
@@ -2030,9 +1993,9 @@ For the proof, Use `Δ(xf)=Δ(f)f(0,1)²` to preserve weak divisibility. Define 
 
 ### 1.14 Genus-one stabilizer group schemes
 
-**Genus one stabilizer schemes.** Over a field of characteristic different from 2,3,5, the nondegenerate binary quartic, ternary cubic, pair of quaternary quadrics and quintuple of quinary alternating matrices give the degree `d=2`,3,4,5 line-bundle presentations of smooth genus-one curves. Their full linear-group stabilizers are extensions of `Aut(Jac(C))` (automorphisms fixing its elliptic origin) by the `θ` group `Θ_{Jac(C),d}`, which extends `Jac(C)[d]` by `G_m`. For rational-divisor formulations quotient the central `G_m` of line-bundle scalings; the stabilizer becomes the corresponding extension by `Jac(C)[d]`. In degree two this means `PGL₂×2G_m`, retaining the `μ₂` kernel of the square-scaling action: dividing out every ineffective element would also lose the hyperelliptic involution. In degree three use `PGL₃×G_m`, and in degrees four and five use the displayed one-dimensional central quotient. For fixed invariants and the differential-preserving degree2 `PGL₂` action, recover the `E[2]` stabilizer with Galois action. These are different acting groups and must not be conflated. The acting groups are `GL₂` twisted by `det⁻²` times the weight-two scalar `G_m` for degree2; `GL₃` twisted by `det⁻¹` times `G_m` for degree3; `GL₂×GL₄` for degree4; and `GL₅×GL₅` for degree5. The last two act naturally on `2⊗Sym²(4)` and `5⊗∧²(5)`; their ineffective scalar kernel is `(a,b)` with `ab²=1`.
+**Genus one stabilizer schemes.** Let K be a field of characteristic different from 2 and 3 for degrees `d=2,3,4`, and different from 2, 3 and 5 for degree `d=5`. The nondegenerate binary quartic, ternary cubic, pair of quaternary quadrics and quintuple of quinary alternating matrices give, respectively, the degree-d line-bundle presentations of smooth genus-one curves over K. Their full linear-group stabilizers are extensions of `Aut(Jac(C))` (automorphisms fixing its elliptic origin) by the `θ` group `Θ_{Jac(C),d}`, which extends `Jac(C)[d]` by `G_m`. For rational-divisor formulations quotient the central `G_m` of line-bundle scalings; the stabilizer becomes the corresponding extension by `Jac(C)[d]`. In degree two this means `PGL₂×2G_m`, retaining the `μ₂` kernel of the square-scaling action: dividing out every ineffective element would also lose the hyperelliptic involution. In degree three use `PGL₃×G_m`, and in degrees four and five use the displayed one-dimensional central quotient. For fixed invariants and the differential-preserving degree2 `PGL₂` action, recover the `E[2]` stabilizer with Galois action. These are different acting groups and must not be conflated. The acting groups are `GL₂` twisted by `det⁻²` times the weight-two scalar `G_m` for degree2; `GL₃` twisted by `det⁻¹` times `G_m` for degree3; `GL₂×GL₄` for degree4; and `GL₅×GL₅` for degree5. The last two act naturally on `2⊗Sym²(4)` and `5⊗∧²(5)`; their ineffective scalar kernel is `(a,b)` with `ab²=1`.
 
-The conservative common characteristic restriction is stronger than each degree2–4 source theorem and avoids the degree5 exceptional characteristic. Degree d line bundles and rational divisor classes are distinguished where the Brauer obstruction matters.
+The degree-two, three and four statements include characteristic five; the degree-five statement retains its separate characteristic restriction. Degree-d line bundles and rational divisor classes are distinguished where the Brauer obstruction matters.
 
 For the proof, Use the complete linear system of the degree-d line bundle for the geometric inverse. For `d=3` this is the plane cubic; for `d=4` the two-dimensional space of quadrics cuts out the curve; for `d=5` the alternating presentation comes from its codimension-three resolution. Identify the automorphism group of the framed geometric data and then remove frames. Track the scalar kernel and differential to compare to the stabilizer. Use the group-scheme and differential comparison stated in this layer.
 
@@ -2043,6 +2006,8 @@ For the proof, Use the complete linear system of the degree-d line bundle for th
 **Checks.**
 
 - For degree5 there are five alternating matrices, while the quintic-ring representation has four.
+
+- Over an algebraic closure of F₅, take `E:y²=x³+x+1` with the divisor `dO`. Its discriminant is `−16(4+27)=4` and `j=1728·4/(4+27)=2`, distinct from 0 and `1728=3`. For `d=2,3,4`, the geometric groups E[d] have orders 4, 9 and 16, and the full rational-divisor stabilizers have orders 8, 18 and 32. All three presentations are included, while the degree-five statement does not apply in this characteristic.
 
 - The extension need not split, particularly at special j-invariants.
 
@@ -2147,7 +2112,7 @@ Proportional coefficient rows have zero quartic minors, and the characteristic-t
 
 ### Dependencies
 
-ArithmeticStatisticsPartI Layer 0 and its symmetric-pencil and binary-order targets; polynomial resultants and finite free algebras; the full-lattice order comparison and GlobalNumberFields Layer 11’s number-field specialization; EllipticCurves Layers 1, 6 and 7; GlobalQuadraticForms Layer 5; SchemeAndStackFoundations Layers 2–3, AbelianSchemesAndArithmeticModuli Layers A2–A3; GeometryOfNumbersAndQuadraticArithmetic §§0.2–0.3 and 4.1; and DiophantineApproximationAndTranscendence §4.3 (Thue finiteness), with the uniform bound N assumed in §1.8. Symmetric group closures, genus-one integral-model dictionaries and the specialized mirror-algebra adapter are supporting constructions of this layer.
+ArithmeticStatisticsPartI Layer 0 and its symmetric-pencil and binary-order targets; AnalyticNumberTheoryPartII §§5.4–5.5 (cubic action, normalization, equivalence and stabilizers); polynomial resultants and finite free algebras; the full-lattice order comparison and GlobalNumberFields Layer 11’s number-field specialization; EllipticCurves Layers 1, 6 and 7; GlobalQuadraticForms Layer 5; SchemeAndStackFoundations Layers 2–3, AbelianSchemesAndArithmeticModuli Layers A2–A3; GeometryOfNumbersAndQuadraticArithmetic §§0.2–0.3 and 4.1; and DiophantineApproximationAndTranscendence §4.3 (Thue finiteness), with the uniform bound N assumed in §1.8. Symmetric group closures, genus-one integral-model dictionaries and the specialized mirror-algebra adapter are supporting constructions of this layer.
 
 ## Downstream consumers
 

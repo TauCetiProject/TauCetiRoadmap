@@ -20,10 +20,12 @@ All fields of characteristic different from two and three, including F₅, occur
 in the point-orbit and stabilizer statements. Only the admissible-evaluation
 construction of the cubic invariant excludes F₅.
 
+Cubic normalization and equivalence are inputs from AnalyticNumberTheoryPartII
+§5.5; their based coordinate adapters are specified in the README.
 The other headline signatures require objects absent from the pinned libraries.
-The cubic, quartic and quintic ring dictionaries (§§1.1–1.4, 1.10–1.11, 1.15)
-need based index forms, integral multiplication tables, and oriented quadratic
-or sextic resolvent data; the polynomial Galois resolvents do not supply them.
+The quartic and quintic ring dictionaries
+(§§1.3–1.4, 1.10–1.11, 1.15) need integral multiplication tables and oriented
+quadratic or sextic resolvent data; the polynomial Galois resolvents do not supply them.
 The ternary-pair orbit and fibre theorems (§1.8) need the integer-valued
 quadratic-pair action and its resolvent construction.
 The local-density and weak-lift results (§§1.9, 1.13) need fixed-degree binary
