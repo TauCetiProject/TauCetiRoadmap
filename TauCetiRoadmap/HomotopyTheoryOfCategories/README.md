@@ -328,7 +328,8 @@ instance `reflectsIsomorphisms_of_monadicRightAdjoint`. Dually
 ### Layer 1: the 1-truncated layer
 
 - **Fundamental groupoid.** The carrier, its universal property and its functoriality are
-  Mathlib's `FreeGroupoid` (convention 5). Prove `Π₁ G ≌ G` for a groupoid `G`, through
+  Mathlib's `FreeGroupoid` (convention 5), the category of fractions inverting every morphism
+  (Gabriel–Zisman, Chapter I, 1.1). Prove `Π₁ G ≌ G` for a groupoid `G`, through
   `FreeGroupoid.lift (𝟭 G)` and `FreeGroupoid.of G` (`lift_spec`, `lift_id_comp_of`), and
   `ConnectedComponents (Π₁ A) ≃ ConnectedComponents A`, natural in `A`.
 - **The classes `W₀` and `W₁`.** Prove that `F ∈ W₁` iff `F ∈ W₀` and for every `a` the map
@@ -843,6 +844,8 @@ Existing formalizations of Layers 7–9 to port or consult (cited sources, not s
   categories recalled: 2.1–2.5, Theorem 2.6), §3, §5.
 - A. Grothendieck, *Pursuing Stacks* (ed. G. Maltsiniotis, Documents Mathématiques 20, SMF,
   2022), and *Les Dérivateurs* (ed. M. Künzer, J. Malgoire, G. Maltsiniotis).
+- P. Gabriel, M. Zisman, *Calculus of Fractions and Homotopy Theory*, Ergebnisse der
+  Mathematik 35, Springer (1967), Zbl 0186.56802: Chapter I, 1.1 (categories of fractions).
 - D. Quillen, « Higher algebraic K-theory I », LNM 341 (1973), §1, Theorems A and B.
 - R. W. Thomason, « Cat as a closed model category », *Cahiers Top. Géom. Diff.* 21 (1980),
   305–324: Definitions 2.1–2.3, 4.1, Propositions 4.2, 4.3, Corollary 4.4, Theorem 4.9,
