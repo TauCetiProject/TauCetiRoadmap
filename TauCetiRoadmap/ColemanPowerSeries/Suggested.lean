@@ -1,11 +1,11 @@
 import Mathlib
 
 /-!
-# Coleman power series: headline theorem signatures
+# Coleman power series: target signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. These statements suggest Lean forms for headline milestones; discharging
-them finishes neither a layer nor the roadmap.
+**This file is not the roadmap.** The definitive document is `README.md`.
+This file states the roadmap’s headline theorems against the pinned APIs;
+discharging them finishes neither a layer nor the roadmap.
 
 The statements are corrected-norm convergence with uniform integral precision over
 finite unramified coefficient rings (Layer 1), and the all-prime logarithmic-derivative
@@ -18,7 +18,7 @@ multiplication by `p` is injective. No averaging operator is assumed as an input
 
 The arithmetic interpolation and Frobenius/semilocal comparisons (Layers 0–1),
 Bernoulli reciprocity (Layer 2), principal Coleman sequence (Layer 3), and real
-cyclotomic-unit image and quotient (Layer 4) are deferred as Lean signatures.
+cyclotomic-unit image and quotient (Layer 4) are not statable at the pins.
 The pins lack the chosen compatible cyclotomic integer-ring tower and its norm limit,
 the arithmetic Coleman map, the normalized Bernoulli pseudomeasure and the global
 circular-unit closures supplied by IntegralIwasawaTheory and PMIA. The independent
@@ -31,6 +31,8 @@ arbitrary subgroups or linear maps.
 
 noncomputable section
 open scoped PowerSeries.WithPiTopology Topology
+
+/-! ## Layer 1: Integral norm, trace and Coleman interpolation -/
 
 namespace TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries
 
@@ -96,10 +98,14 @@ local notation "τ[" O "," p "]" =>
 local notation "Φ[" O "," p "]" =>
   @algebraMap (PowerSeries O) (PowerSeries O) _ _ (UnramifiedSeries.scalarAlgebra O p)
 
+/-! ## Layer 2: The arithmetic Coleman map and reciprocity -/
+
 /-- The weighted logarithmic derivative on native power-series units (§2.1). -/
 def logDeriv {R : Type*} [CommRing R] (f : (PowerSeries R)ˣ) : PowerSeries R :=
   (1 + PowerSeries.X) * PowerSeries.derivative (f : PowerSeries R) *
     ((f⁻¹ : (PowerSeries R)ˣ) : PowerSeries R)
+
+/-! ## Layer 3: Kernel, first moment and the principal exact sequence -/
 
 /-- Every integral series fixed by bounded averaging is the logarithmic derivative
 of a norm-fixed unit, for every prime including two (§3.35). -/
