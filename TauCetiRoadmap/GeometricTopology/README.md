@@ -2682,24 +2682,42 @@ formulas must be transported to the explicit pullback convention above.
   approximations within `1/4` of it keep `|z₀ − z₁| ≥ 1/2` along the straight-line
   homotopy, while the approximations `z₀ = 1/2`, `z₁(t) = e^(2πit)/2`, each within
   `1/2`, collide at `t = 0`; so a bound of half the least distance is needed and suffices.
-- The height-pattern of the reading lemma needs the second-coordinate tie-break: the
-  standard models of `σ_0` and `σ_0⁻¹` on two strands have the same first-coordinate order
-  at every height, but at the crossing height their strands sit at `(0, 1)`, `(0, −1)` and
-  at `(0, −1)`, `(0, 1)` respectively, so the straight-line homotopy between them puts both
-  strands at `(0, 0)` halfway and is not an isotopy; a reading that ignored the tie-break
-  would give both braids the same word, although their closures have writhes `+1` and `−1`.
+- The height-pattern of the reading lemma needs the second-coordinate tie-break, and the
+  tie-break pins the side called front: take `P = {(−1/4, 0), (1/4, 0)}` and the model of
+  `σ_0` on two strands in which the strand leaving position `0` passes the crossing height
+  at `(0, −1/2)` and the strand leaving position `1` at `(0, 1/2)`, the model of `σ_0⁻¹`
+  being the same with the two second coordinates exchanged. In the coordinates (first disc
+  coordinate, second disc coordinate, height) with `ℝ³` standard-oriented, the crossing of
+  the first model is right-handed: the determinant of the over-tangent `(1, 0, 1)`, the
+  under-tangent `(−1, 0, 1)` and the vector `(0, −1, 0)` from the under-strand to the
+  over-strand is `+2`, as the closure convention requires (the standard positive picture
+  with over-tangent `(1, 1, 0)`, under-tangent `(−1, 1, 0)` and `(0, 0, 1)` from under to
+  over gives `+2` as well), while the model with the second coordinates exchanged gives
+  `−2`; so the strand leaving position `i` passes `σ_i` at negative second coordinate, and
+  the convention putting it at positive second coordinate would make the closure of
+  `sigma 0` a left-handed crossing, against the writhe `+1` of the pinned closure. The two
+  models have the same first-coordinate order at every height, but the straight-line
+  homotopy between them puts both strands at `(0, 0)` halfway and is not an isotopy; a
+  reading that ignored the tie-break would give both braids the same word, although their
+  closures have writhes `+1` and `−1`.
 - The reading order is pinned by the endpoint permutation: a three-strand braid with a
   `σ_0` crossing at height `1/3` and a `σ_1` crossing at height `2/3` reads upward as
   `σ_0 σ_1`, whose permutation is one of the two three-cycles, while reading downward gives
   `σ_1 σ_0`, whose permutation is the other three-cycle, so the downward reading would
   assign the braid the wrong permutation.
-- Transversality is needed: the two-strand braid whose strands have first coordinates
-  `(t − 1/2)²` and `0` and distinct constant second coordinates has one double point in its
-  projection, at height `1/2`, but the first coordinates touch there without exchanging, so
-  the braid is the straight braid with trivial endpoint permutation, while reading the
-  double point as a letter would give `σ_0^(±1)` with endpoint permutation `(0 1)`; a
-  crossing-free generic braid reads as the empty word and is isotopic to the straight
-  braid, as `BraidWord.toBraid_nil` requires.
+- Transversality is needed: take `P = {(0, 0), (1/4, 0)}`, the strand `B` constant at
+  `(0, 0)`, and the strand `A` at `(1/4 − φ(t), ψ(t))` with `φ` and `ψ` smooth functions on
+  `[0, 1]` vanishing on the collars, `0 ≤ φ ≤ 1/4` with `φ(t) = 1/4` only at `t = 1/2`,
+  and `0 ≤ ψ ≤ 1/2` with `ψ(1/2) = 1/2`. This is a geometric braid with endpoints `P`,
+  straight in the collars, and `A` and `B` never meet, since where `φ = 1/4` the second
+  coordinate of `A` is `1/2 ≠ 0`. Its projection has one double point, at height `1/2`,
+  which is not transverse (`φ′(1/2) = 0` at the interior maximum), and the first
+  coordinates touch there without exchanging: `A` is lexicographically above `B` at every
+  height, which is the height-pattern of the straight braid, so the straight-line homotopy
+  to the straight braid is collision-free and the braid is the straight braid with trivial
+  endpoint permutation, while reading the double point as a letter would give `σ_0^(±1)`
+  with endpoint permutation `(0 1)`; a crossing-free generic braid reads as the empty word
+  and is isotopic to the straight braid, as `BraidWord.toBraid_nil` requires.
 
 ### 4.2.9 Figure-eight inversion, reflection and projected transparencies
 
@@ -6011,9 +6029,7 @@ closure-arc and linking comparisons. No β_(n,p) closure can be isotopic to any 
 exchange-shaped closure, even forgetting component orientations. For n=1 the
 exchange-shaped closure is the two-component unlink and β_(1,p)=σ₁^(2p).
 This proves pairwise inequivalent links, and hence infinitely many source words,
-using only the earlier braid and linking theory. `ExchangeFamily.lean` supplies
-native ordered-word and endpoint interfaces; its geometric linking outputs remain
-required here.
+using only the earlier braid and linking theory.
 
 Also treat the source's particular four-strand word w=σ₁⁻¹σ₂σ₃. Produce an
 explicit finite set E⊂ℤ and a proof that for every p∉E its realized closure
