@@ -12,9 +12,10 @@ countability, duals of arbitrary products, compact abelian Fourier theory, and S
 The implemented Haar, unitarization, Peter–Weyl, character and SU(2) theorems are
 inputs, identified in the README's supplier contracts.
 
-The global representation-ring comparison is not stated: the pins do not supply
-its continuous-representation Grothendieck ring, maximal-torus character-lattice
-comparison, or finite central covering construction. The full multiplicity-space
+The global representation-ring comparison and the Layer 6 root dictionary are
+not stated: the pins do not supply the continuous-representation Grothendieck
+ring, maximal tori of compact Lie groups with their character lattices, or the
+finite central covering construction. The full multiplicity-space
 metric comparison needs the chosen unitary isotypic tensor decomposition; the
 continuous-kernel comparison needs the Hilbert–Schmidt operator carrier. These
 constructions remain README targets, without substitute predicates here.
@@ -52,14 +53,56 @@ def IsGFinite {k G V : Type*} [Field k] [Group G] [AddCommGroup V] [Module k V]
     (ρ : Representation k G V) (v : V) : Prop :=
   FiniteDimensional k (Submodule.span k (Set.range fun g : G => ρ g v))
 
+/-- The submodule of orbit-finite vectors of a representation over any field: the
+orbit span of a sum lies in the sum of the orbit spans, and the orbit span of a
+scalar multiple lies in the orbit span of the vector. -/
+def gFiniteSubmodule {k G V : Type*} [Field k] [Group G] [AddCommGroup V] [Module k V]
+    (ρ : Representation k G V) : Submodule k V where
+  carrier := {v | IsGFinite ρ v}
+  zero_mem' := by
+    change FiniteDimensional k (Submodule.span k (Set.range fun g : G => ρ g 0))
+    have hle : Submodule.span k (Set.range fun g : G => ρ g 0) ≤ ⊥ := by
+      rw [Submodule.span_le]
+      rintro _ ⟨g, rfl⟩
+      simp
+    exact Submodule.finiteDimensional_of_le hle
+  add_mem' := by
+    intro v w hv hw
+    have : FiniteDimensional k (Submodule.span k (Set.range fun g : G => ρ g v)) := hv
+    have : FiniteDimensional k (Submodule.span k (Set.range fun g : G => ρ g w)) := hw
+    change FiniteDimensional k (Submodule.span k (Set.range fun g : G => ρ g (v + w)))
+    have hle : Submodule.span k (Set.range fun g : G => ρ g (v + w)) ≤
+        Submodule.span k (Set.range fun g : G => ρ g v) ⊔
+          Submodule.span k (Set.range fun g : G => ρ g w) := by
+      rw [Submodule.span_le]
+      rintro _ ⟨g, rfl⟩
+      dsimp only
+      rw [map_add]
+      exact Submodule.add_mem_sup (Submodule.subset_span ⟨g, rfl⟩)
+        (Submodule.subset_span ⟨g, rfl⟩)
+    exact Submodule.finiteDimensional_of_le hle
+  smul_mem' := by
+    intro c v hv
+    have : FiniteDimensional k (Submodule.span k (Set.range fun g : G => ρ g v)) := hv
+    change FiniteDimensional k (Submodule.span k (Set.range fun g : G => ρ g (c • v)))
+    have hle : Submodule.span k (Set.range fun g : G => ρ g (c • v)) ≤
+        Submodule.span k (Set.range fun g : G => ρ g v) := by
+      rw [Submodule.span_le]
+      rintro _ ⟨g, rfl⟩
+      dsimp only
+      rw [map_smul]
+      exact Submodule.smul_mem _ _ (Submodule.subset_span ⟨g, rfl⟩)
+    exact Submodule.finiteDimensional_of_le hle
+
 /-- G-finite vectors are dense for every strongly continuous representation of a
 compact Hausdorff group on a complex Banach space; no operator-norm continuity
-or separability of the Banach space is assumed. -/
-theorem gFinite_dense (G : Type u) [Group G] [TopologicalSpace G]
+or separability of the Banach space is assumed. The statement is density of
+the submodule of such vectors as a subset of the Banach space. -/
+theorem gFiniteSubmodule_dense (G : Type u) [Group G] [TopologicalSpace G]
     [IsTopologicalGroup G] [CompactSpace G] [T2Space G]
     (E : Type v) [NormedAddCommGroup E] [NormedSpace ℂ E] [CompleteSpace E]
     (π : ContRepresentation ℂ G E) (hπ : ∀ v : E, Continuous fun g : G => π g v) :
-    Dense {v : E | IsGFinite π.toRepresentation v} := by
+    Dense (gFiniteSubmodule π.toRepresentation : Set E) := by
   sorry
 
 /-! ## Layer 3: countability and metrizability -/

@@ -26,8 +26,11 @@ AutomorphicFormsOnReductiveGroups §2.7 supplies the complex smooth result. Neit
 Completed/OrthogonalL2Bases Part B owns generic weighted L² basis assembly;
 CharacterTheory Layers 0–4 own finite-group character theory. LieGroups Layers 2,
 4–6 supply automatic smoothness, Lie integration, covering groups and maximal
-tori; the compact center/derived splitting and finite-cover refinement needed
-for descent are explicit targets of Layer 6 here. OperatorTheory/OperatorIdeals
+tori; the compact center/derived splitting, the complexified root dictionary
+and the finite-cover refinement needed for descent are explicit targets of
+Layer 6 here. LieGroups Layer 7 owns the group complexification and the
+equivalence between continuous and holomorphic representations; neither is a
+premise here, and it states no Cartan or root identification. OperatorTheory/OperatorIdeals
 Part C owns the generic Hilbert–Schmidt theory; Layer 0 only compares continuous
 kernels with it. LieHighestWeight Layers 7 and 9 own the algebraic universal-enveloping center
 and reductive trace-form comparison; CharacteristicClasses §C5.1 owns compact invariant
@@ -165,7 +168,12 @@ Paths in this list are below `TauCeti/RepresentationTheory/` unless given in ful
 LieGroups Layers 2, 4, 5 and 6 supply respectively automatic smoothness,
 integration of homomorphisms from simply connected groups, universal covering
 homomorphisms and maximal tori with Weyl groups. LieHighestWeight Layers 0–5
-supply finite-dimensional semisimple highest-weight modules; its Layer 6 supplies
+supply finite-dimensional semisimple highest-weight modules: Layer 1 the
+Killing-semisimple, Cartan and root-system vocabulary with a chosen base,
+Layer 2 integral weights and Layer 4 the dominant integral classification,
+all for a complex semisimple Lie algebra with a Cartan subalgebra acting
+diagonalizably; §6.5 proves that the complexified derived pair of a compact
+connected group satisfies these hypotheses. Its Layer 6 supplies
 formal-character additivity and lower-weight bounds. Only these interfaces are
 needed for Layer 6, not the compact Haar applications of its Weyl formula.
 OperatorTheory/OperatorIdeals Part C supplies Hilbert–Schmidt operators and their
@@ -390,8 +398,10 @@ Native unitarization, complete reducibility and scalar Schur; finite-dimensional
 For a compact Hausdorff topological group G, a complete complex normed space E
 and a representation by continuous linear automorphisms, assume explicitly
 that g↦π(g)v is continuous for every v. First define `IsGFinite` for a representation ρ of any group on a module over any
-field k: the k-span of {ρ(g)v | g∈G} is finite dimensional. Construct its submodule
-of vectors. Its underlying set is exactly {v | IsGFinite ρ v}; no topology enters
+field k: the k-span of {ρ(g)v | g∈G} is finite dimensional. Construct
+`gFiniteSubmodule`, the submodule of G-finite vectors of ρ, whose underlying
+set is exactly {v | IsGFinite ρ v}; its closure under zero, addition and
+scalars is proved from the orbit-span inclusions below, and no topology enters
 this definition.
 
 - The orbit span of v+w lies in the sum of the two orbit spans, so two G-finite
@@ -400,6 +410,10 @@ this definition.
   is invariant under the action.
 - An equivariant k-linear map sends the orbit span into the image of that span,
   hence maps the G-finite submodule into the G-finite submodule of its target.
+
+AutomorphicFormsOnReductiveGroups §2.1 names the closure and equivariance
+facts gFinite_add, gFinite_smul and gFinite_map; they are API of the
+submodule here and are not separate acceptance statements.
 
 Uniform boundedness on compact orbit maps gives a constant C_π≥1 with
 ‖π(g)‖≤C_π for all g, without operator-norm continuity; choosing C_π≥1 also
@@ -412,7 +426,8 @@ covariance, whose additive argument −h+g becomes h⁻¹g. The native compact
 approximate identities have mass 1, L¹ norm 1 and shrinking support, so
 `ContRepresentation.tendsto_integratedOperatorL1_apply` applies.
 
-Prove `gFinite_dense`, the density of G-finite vectors, by integrated representative functions. For a finite sum p of matrix
+Prove `gFiniteSubmodule_dense`, the density of the G-finite submodule as a
+subset of E, by integrated representative functions. For a finite sum p of matrix
 coefficients, left translates span a finite-dimensional space; covariance
 makes T_p v G-finite. Given v and ε>0, retain an approximate-identity
 kernel u with ‖T_u v−v‖<ε/2 and a representative function p with
@@ -559,9 +574,9 @@ Own the finite-coordinate lemma first for arbitrary families of topological
 groups, without compactness or commutativity assumptions on the factors.
 Continuity of χ at 1 gives a basic identity cylinder restricting only finitely
 many coordinates and mapped into `Circle.centeredArc (π/2)`. The subgroup
-whose restricted coordinates are1 lies in that cylinder. All positive powers
+whose restricted coordinates are 1 lies in that cylinder. All positive powers
 of each of its elements still lie there; use native
-`Circle.eq_one_of_forall_pow_mem_centeredArc_pi_div_two` to show χ is1 on
+`Circle.eq_one_of_forall_pow_mem_centeredArc_pi_div_two` to show χ is 1 on
 this tail subgroup. Decompose x into its finitely supported coordinate part
 and a tail element. This proves the finite product formula and the exact
 support characterization, with no countability or sequential argument.
@@ -580,12 +595,12 @@ multi-index n and is `z↦∏_j z_j^(n_j)`, giving the discrete dual
 theorem. Include the empty index type and negative exponents.
 For J=ℕ, the coordinate-restriction tuples of the characters χ_n(z)=z_n
 converge coordinatewise to the all-trivial tuple in the product of the discrete
-coordinate duals. The characters do not converge to1 in the compact-open dual
-of Circle^ℕ, which is discrete. They also do not converge pointwise to1 on Circle^ℕ:
+coordinate duals. The characters do not converge to 1 in the compact-open dual
+of Circle^ℕ, which is discrete. They also do not converge pointwise to 1 on Circle^ℕ:
 evaluate them on the constant tuple −1. Prove these topology distinctions.
 
 This is Conway, *A Course in Functional Analysis*, second edition, VII.9,
-exercise11, with the maps and topologies fixed explicitly.
+Exercise 11, with the maps and topologies fixed explicitly.
 The signatures `character_finite_coordinates`, `exists_productDualEquiv` and
 `circleProduct_character` pin the finite-coordinate factorization and evaluation maps.
 
@@ -612,9 +627,9 @@ Mathlib PontryaginDual, the small-arc power lemma, direct sums and Tychonoff; Ta
 
 For every compact Hausdorff abelian group G, identify the native unitary dual
 `TauCeti.IrrepClass ℂ G` with `PontryaginDual G`. Prove that each complex
-irreducible has dimension1: commutativity makes every action operator an
+irreducible has dimension 1: commutativity makes every action operator an
 intertwiner, so Schur's lemma makes it scalar; irreducibility then forces
-dimension1. Its scalar action is a continuous circle-valued character,
+dimension 1. Its scalar action is a continuous circle-valued character,
 independent of the unit vector used to read it. Conversely a continuous
 circle character acts on ℂ by scalar multiplication and is irreducible.
 Prove these constructions inverse on unitary-equivalence classes, with the
@@ -627,7 +642,8 @@ linear span of the c_χ. Its API is:
 - Pointwise multiplication gives c_χ c_ψ=c_(χψ).
 - Complex conjugation sends c_χ to c_(χ⁻¹).
 - The trivial character gives the constant 1; evaluation at g agrees with χ(g).
- Deduce point separation and uniform density
+
+Deduce point separation and uniform density
 from the native Peter–Weyl theorem. This is the compact abelian specialization
 of that construction; it uses neither the general LCA Fourier-inversion
 engine nor Pontryagin biduality.
@@ -636,7 +652,7 @@ Construct
 a Hilbert basis b of Haar L² indexed by `PontryaginDual G`
 with the exact equation
 `b χ = ContinuousMap.toLp 2 (TauCeti.haarProb G) ℂ c_χ`.
-The normalized Haar measure makes these vectors have norm1. Fix the
+The normalized Haar measure makes these vectors have norm 1. Fix the
 comparison with the native Peter–Weyl basis explicitly: its coefficient
 `g↦⟪π(g)v,w⟫` is conjugate-linear in π(g)v, so the character vector c_χ
 corresponds to the one-dimensional scalar representation χ⁻¹, not χ.
@@ -740,12 +756,12 @@ Let `X=Additive (PontryaginDual T)` be the actual character group (native
 `PontryaginDual`, whose carrier is `ContinuousMonoidHom T Circle`), not the full
 real dual Lie algebra and not an automatically simply connected weight lattice.
 Construct torus weight spaces and their finite internal sum from commuting
-unitaries; one-dimensionality of irreducibles gives `R(T)≃Z[X]`, using
+unitaries; one-dimensionality of irreducibles gives `R(T)≃ℤ[X]`, using
 Mathlib `AddMonoidAlgebra ℤ X` after the explicit additive-character convention.
 Prove the character/Fourier coefficient equation and uniqueness, and the finite
 rank/lattice identification from LieGroups Layer 6's identification of a compact torus with a finite product of circles.
-For `chi(exp X)=exp(i ell_chi(X))`, the differential is `i ell_chi` and
-`ell_chi(ker exp_T)⊆2πZ`. The period lattice is measured with this 2π normalization (Knapp,
+For `χ(exp X)=exp(i ℓ_χ(X))`, the differential is `i ℓ_χ` and
+`ℓ_χ(ker exp_T)⊆2πℤ`. The period lattice is measured with this 2π normalization (Knapp,
 Proposition 4.58, pp.264–265).
 
 - Define the χ-weight space by π(t)v=χ(t)v for every t∈T; the distinct
@@ -773,8 +789,8 @@ For a real finite-dimensional continuous T-module, use its scalar extension
 ℂ⊗ℝV. Use `TauCeti.Hodge.complexificationConjugation` and
 `LinearMap.map_eigenspace_baseChange` to restrict the existing conjugation
 to the simultaneous torus weight spaces, giving a conjugate-linear map
-on its complexification sending the chi-weight space bijectively to the
-chi-inverse weight space, with its involution and dimension equations. This
+on its complexification sending the χ-weight space bijectively to the
+χ⁻¹-weight space, with its involution and dimension equations. This
 proves opposite multiplicities without assuming semisimple root theory; the
 compact adjoint application uses the full central/Cartan zero-weight space
 from §6.5. This is a deduction from the real scalar extension formula
@@ -803,9 +819,9 @@ The adjoint specialization additionally needs §6.5's center/derived splitting.
 
 ### 6.4 The left Weyl action
 
-Pin the left Weyl action by `(w·chi)(t)=chi(n⁻¹tn)` for n representing w;
+Pin the left Weyl action by `(w·χ)(t)=χ(n⁻¹tn)` for n representing w;
 it is independent of the representative modulo T. On the integral group
-algebra send `e^chi` to `e^(w·chi)`, with fixed subring `Z[X]^W`.
+algebra send `e^χ` to `e^(w·χ)`, with fixed subring `ℤ[X]^W`.
 
 This is the action induced by conjugation of T by its normalizer, using
 LieGroups Layer 6's normalizer quotient.
@@ -827,7 +843,7 @@ Weyl group; Mathlib `AddMonoidAlgebra`.
 - The SU(3) wall weight (1,1,0) is fixed by s₁; its orbit has three
   distinct weights, so its orbit sum has three terms rather than six.
 
-### 6.5 Compact structure and the finite central cover
+### 6.5 Compact structure, the root dictionary and the finite central cover
 
 Build the following
 compact structural prerequisites before descent, using LieGroups Layers 4–6
@@ -843,8 +859,10 @@ for integration, universal covering homomorphisms and maximal tori.
 - Construct the actual smooth covering homomorphism q:Z(K)^0×K_der,sc→K,
   q(z,s)=z·p(s), with finite central kernel F, its quotient topology and
   derivative isomorphism. Its restriction to covering maximal tori gives
-  the injection X*(T)→X*(Z(K)^0)⊕P_der, whose image consists precisely of
-  characters trivial on F. This is a deduction from the preceding two targets,
+  the injection X*(T)→X*(Z(K)^0)⊕P_der, where P_der is the weight lattice
+  of the derived algebra, identified with the character group of the
+  covering torus by the root dictionary below; the image consists precisely
+  of characters trivial on F. This is a deduction from the preceding two targets,
   the maximal-torus theorem and the period criterion of Proposition 4.58;
   the descent argument is Knapp, proof of Theorem 5.110, pp.335–336.
 
@@ -853,16 +871,76 @@ only on the derived coordinate; the zero-root case retains the full central
 character. The pullback and descent APIs preserve addition, tensor products,
 duals and intertwiners, and their composites are identity.
 
+**The complexified root dictionary.** Write 𝔨 for the Lie algebra of K, 𝔷
+for its center, 𝔨_der for its derived algebra, 𝔱 for the Lie algebra of T
+and 𝔱' = 𝔱 ∩ 𝔨_der. The highest-weight theory of LieHighestWeight is stated
+for a complex semisimple Lie algebra with a Cartan subalgebra acting
+diagonalizably; §§6.6–6.7 apply it to the derived algebra, so prove here
+that the compact pair satisfies those hypotheses and how its weights are
+read. Fix an Ad(K)-invariant inner product on 𝔨 (Knapp, Proposition 4.24,
+p.249); every ad X is then skew-adjoint, so every element of ad(𝔱) is
+diagonalizable over ℂ with purely imaginary eigenvalues. Prove that
+𝔱 = 𝔷 ⊕ 𝔱' with 𝔱' maximal abelian in 𝔨_der; that `𝔤' = 𝔨_der ⊗ ℂ` is a
+complex semisimple Lie algebra, its Killing form being the complex-bilinear
+extension of the Killing form of 𝔨_der, which is negative definite (Knapp,
+Corollary 4.25 and Corollary 4.26, p.249); and that `𝔥 = 𝔱' ⊗ ℂ` is a Cartan
+subalgebra of 𝔤' with ad(𝔥) simultaneously diagonalizable (Knapp,
+Proposition 2.13, p.136, applied as in §IV.5, pp.253–254). Thus (𝔤', 𝔥)
+satisfies the standing hypotheses of LieHighestWeight Layer 1, and its root
+system, base, positive roots and coroots are available for this pair. Prove
+that the weight-space decomposition of 𝔨 ⊗ ℂ under ad(𝔱 ⊗ ℂ) is the
+root-space decomposition of (𝔤', 𝔥) with 𝔷 ⊗ ℂ added to the zero space and
+each root extended by zero on 𝔷 (Knapp, (4.31), p.253), and that each root
+space is a line on which T acts by a character ξ_α with Ad(t)X = ξ_α(t)X
+(Knapp, (4.32), p.254); hence every root is the differential of a character
+of T, imaginary-valued on 𝔱 and real-valued on i𝔱.
+
+For χ ∈ X, the differential i·ℓ_χ of §6.2 extends complex-linearly to a
+functional λ_χ on 𝔱 ⊗ ℂ; it is Knapp's analytically integral form of χ, the
+condition λ_χ(H) ∈ 2πiℤ whenever exp H = 1 being exactly
+ℓ_χ(ker exp_T) ⊆ 2πℤ (Knapp, Proposition 4.58, pp.264–265). Prove that
+χ ↦ λ_χ is an injective group homomorphism from X onto the analytically
+integral forms and sends ξ_α to α; that the restriction of λ_χ to 𝔥 is an
+integral weight of (𝔤', 𝔥) in the sense of LieHighestWeight Layer 2, its
+value on the coroot α^∨ being the integer 2⟨λ_χ,α⟩/|α|² for the negative
+of the invariant form (Knapp, Proposition 4.59, p.265); that for a positive
+system chosen as a base in LieHighestWeight Layer 1, χ is dominant in
+Knapp's sense (⟨λ_χ,α⟩ ≥ 0 for every positive root α, p.335) iff the
+restriction of λ_χ to 𝔥 is a dominant integral weight of LieHighestWeight
+Layer 4, dominance depending only on 𝔱'; and that for the simply connected
+compact semisimple cover K_der,sc of the preceding target, with its maximal
+torus T_sc = exp(𝔱'), whose Lie algebra is 𝔱', the map χ ↦ λ_χ restricted to
+𝔥 is a bijection from X*(T_sc) onto the algebraically integral weights, the
+weight lattice P_der of LieHighestWeight Layer 2 (Knapp, Theorem 5.107,
+p.334). Under a finite covering of compact connected groups the analytically
+integral forms of the quotient have index the kernel order in those of the
+cover (Knapp, Proposition 4.67, p.267); this is the descent condition of the
+third target read on lattices.
+
 - The cover q maps (z,s) to z·p(s), has finite central kernel, and
   induces an isomorphism of the quotient by that kernel with K.
 - Its derivative identifies the center and derived summands with the Lie
   algebra of K; restriction to the covering torus is onto T.
 - Pullback identifies X*(T) with the characters of the covering torus
   trivial on F; it preserves addition and inversion and detects equality.
+- The complexified derived pair (𝔤', 𝔥) is Killing-semisimple with a
+  Cartan subalgebra acting diagonalizably; its roots, extended by zero on
+  the center, are the nonzero Ad(T)-weights on 𝔨 ⊗ ℂ, each root space a
+  line carrying the character ξ_α.
+- χ ↦ λ_χ identifies X with the analytically integral forms, sends ξ_α to
+  α, restricts to integral weights with integer coroot values, and matches
+  Knapp's dominance with LieHighestWeight's dominant integral weights;
+  dominance is read on 𝔱' alone.
+- For the simply connected derived cover, χ ↦ λ_χ restricted to 𝔥 is a
+  bijection from X*(T_sc) onto the weight lattice P_der; under a finite
+  covering the analytically integral lattice has index the kernel order.
 
 *Needs:* LieGroups Layers 4–6 for integration, covering groups and maximal
-tori; §6.2's period lattice. The compactness and splitting theorems are
-the targets in this subsection, with the Knapp locators above.
+tori; LieGroups Layer 0 for the exponential; §6.2's period lattice;
+LieHighestWeight Layer 1 for the root-system vocabulary, Layer 2 for
+integral weights and Layer 4 for dominant integral weights. The
+compactness, splitting and dictionary theorems are the targets in this
+subsection, with the Knapp locators above.
 
 **Checks.**
 
@@ -873,21 +951,44 @@ the targets in this subsection, with the Knapp locators above.
 - For U(2), q(z,A)=zA has kernel {(1,I),(−1,−I)} and Lie dimensions
   1+3=4. A pair (q,a) of central exponent and SU(2) weight is trivial on
   this kernel iff (−1)^(q−a)=1, so (1,1) descends and (0,1) does not.
+- For SU(2), 𝔰𝔲(2) ⊗ ℂ = 𝔰𝔩₂(ℂ) and 𝔥 = ℂ·H with H = diag(1,−1). The
+  roots are ±α with α(diag(iθ,−iθ)) = 2iθ, imaginary on 𝔱, and α(H) = 2,
+  real on i𝔱; using ℓ_χ in place of i·ℓ_χ would make the roots real on 𝔱,
+  contradicting (4.32). The character z ↦ zⁿ has λ(diag(iθ,−iθ)) = inθ and
+  λ(H) = n = ⟨λ,α^∨⟩, is dominant iff n ≥ 0, and is then the highest
+  weight of Symⁿ. The functional with λ(H) = 1/2 has value iπ on
+  diag(2πi,−2πi), whose exponential is I, so it is neither analytically
+  integral nor a weight.
+- For U(2), 𝔲(2) = iℝ·I ⊕ 𝔰𝔲(2) and 𝔲(2) ⊗ ℂ = 𝔤𝔩₂(ℂ) is reductive but
+  not semisimple, its Killing form vanishing on I; the dictionary applies to
+  𝔰𝔩₂(ℂ) only and the central line carries no root. The character
+  t₁ᵃt₂ᵇ has derived coordinate λ(H) = a−b and central coordinate a+b, so
+  the pair (q,a') of the preceding Check is (a+b, a−b) with q−a' = 2b even;
+  (1,1) is (a,b) = (1,0) and (0,1) is realized by no integer pair.
+- For a torus K = T = Circle^r the derived algebra is 0, the root system is
+  empty, every character is dominant, and χ ↦ λ_χ identifies X = ℤ^r with
+  the forms taking 2πiℤ-values on the kernel (2πi ℤ)^r of exp; the functional
+  with λ(2πi e₁) = πi is excluded. For SO(3) the analytically integral forms
+  have index 2 in those of SU(2), namely even λ(H), matching the first Check
+  of §6.6.
 
 ### 6.6 Highest-weight representations and descent
 
-For each dominant element of X, integrate the derived highest-weight module to
-K_der,sc by LieGroups Layer 4, and use its specified central-torus character. The
+For each dominant element χ of X, take the irreducible highest-weight module
+of LieHighestWeight Layer 4 for the pair (𝔤', 𝔥) of §6.5 with highest weight
+the restriction of λ_χ to 𝔥, integrate it to K_der,sc by LieGroups Layer 4,
+and use the specified central-torus character of χ. The
 covering-product action is the actual map
-`(z,s)↦chi(z)·rho_lambda(s)`. Compute its restriction to F; the actual X condition
+`(z,s)↦χ(z)·ρ_λ(s)`. Compute its restriction to F; the actual X condition
 makes it the identity. Descend through q, proving continuity and smoothness from
 the quotient/local-cover charts, not an unproved abstract representation of K.
 (Knapp, Theorem 5.110, pp.335–336.) Construct and prove the descent on intertwiners, tensor and dual maps, unique
 factorization and the top weight line. Prove irreducibility and uniqueness by
 the derivative/connected-group stable-subspace dictionary. Conversely pull
 back an irreducible K-module, use Schur for the central torus, and restrict to
-the semisimple derived factor; its Lie highest weight and actual torus
-character give exactly that dominant element of X. State all differentiability,
+the semisimple derived factor; its Lie highest weight is the restriction of
+λ_χ to 𝔥 for exactly one dominant χ ∈ X by §6.5's dictionary, and the
+actual torus character recovers χ. State all differentiability,
 Lie-to-group invariant-subspace and intertwiner comparisons at this cut.
 A Lie-algebra central functional can be arbitrary; it integrates only when the
 actual periods and the finite kernel conditions hold.
@@ -900,8 +1001,8 @@ actual periods and the finite kernel conditions hold.
   invariant under a connected group iff it is invariant under its differential;
   the analogous equivalence holds for intertwiners.
 
-*Needs:* §§6.2 and 6.5; LieHighestWeight Layers 0–5;
-LieGroups Layers 0, 2–4 for exponentials, automatic smoothness,
+*Needs:* §§6.2 and 6.5, including §6.5's root dictionary; LieHighestWeight
+Layers 0–5; LieGroups Layers 0, 2–4 for exponentials, automatic smoothness,
 differentiation and integration; native scalar Schur.
 
 **Checks.**
@@ -917,10 +1018,10 @@ differentiation and integration; native scalar Schur.
 ### 6.7 Restriction to the maximal torus
 
 By triangular highest-weight expansion (a deduction from Knapp, Theorem 5.110, pp.335–336, and LieHighestWeight Layer 6), restriction gives the ring isomorphism
-`R(K)≃Z[X*(T)]^W`. Injectivity follows from all-element conjugacy into T and
+`R(K)≃ℤ[X*(T)]^W`. Injectivity follows from all-element conjugacy into T and
 compact character injectivity. For surjectivity, give the orbit-sum basis of
-`Z[X]^W`, summing each DISTINCT weight in W·lambda once, including walls and
-lambda=0. Prove the irreducible-character formula with leading orbit sum coefficient 1,
+`ℤ[X]^W`, summing each distinct weight in W·λ once, including walls and
+λ=0. Prove the irreducible-character formula with leading orbit sum coefficient 1,
 and triangular spanning by induction on the finite lower-weight sets. Each such
 set has fixed central character and bounded semisimple weights; no ordering of
 arbitrary central real directions is used. Construct the inverse ring
@@ -936,7 +1037,8 @@ the irreducible basis nor that every Lie dominant weight integrates to K.
 - Finite triangular induction gives an inverse additive map, which is
   multiplicative by restriction injectivity, hence a ring isomorphism.
 
-*Needs:* §§6.1, 6.2, 6.4 and 6.6; LieHighestWeight Layer 6's formal
+*Needs:* §§6.1, 6.2, 6.4 and 6.6, and §6.5's root dictionary for the
+weights and positive system; LieHighestWeight Layer 6's formal
 character additivity and lower-weight bounds; LieGroups Layer 6's conjugacy
 into a maximal torus; native compact character injectivity.
 
@@ -952,16 +1054,16 @@ into a maximal torus; native compact character injectivity.
 
 ### 6.8 Classical global forms
 
- For a torus W is trivial and all
-irreducibles are its actual characters. For the trivial group R(K)=Z and X=0.
-For SU2 all highest integers n≥0 occur, whereas for SO3 only even SU2 highest
+For a torus W is trivial and all
+irreducibles are its actual characters. For the trivial group R(K)=ℤ and X=0.
+For SU(2) all highest integers n≥0 occur, whereas for SO(3) only even SU(2) highest
 integers descend. The positive torus character `e²+e⁻²=chi_(Sym²)−1` is
-virtual but not a positive SU2 character, testing the positive-cone distinction. For U(n), n>0, use the actual covering
-`S1×SU(n)→U(n), (z,A)↦zA`, with kernel `(z,z⁻¹I)` for zⁿ=1. A central exponent
+virtual but not a positive SU(2) character, testing the positive-cone distinction. For U(n), n>0, use the actual covering
+`S¹×SU(n)→U(n), (z,A)↦zA`, with kernel `(z,z⁻¹I)` for zⁿ=1. A central exponent
 q and derived highest coefficients a_i descend exactly when
 `q≡Σ_(i=1)^(n−1) i a_i (mod n)`. Compare this with the full integer tuple
-lambda, where q=Σlambda_i and a_i=lambda_i−lambda_(i+1). This is a congruence,
-not an independent central/derived lattice split. Exterior powers1,…,n and
+λ, where q=Σλ_i and a_i=λ_i−λ_(i+1). This is a congruence,
+not an independent central/derived lattice split. Exterior powers 1,…,n and
 determinant inverse give the U(n) ring generators; include n=1, and treat U(0)
 as trivial without a purported injective scalar-circle inclusion. Other global
 forms need not admit all fundamental modules or a polynomial representation
@@ -994,7 +1096,7 @@ then apply the fundamental theorem of symmetric polynomials.
 
 ### 6.9 Recognizing genuine U(2) weight characters
 
- For a finitely supported
+For a finitely supported
 function `f:ℤ²→ℕ`, the signature `u2_weight_character_iff` states that f is the diagonal-torus weight-multiplicity
 function of a finite-dimensional continuous complex U(2) representation iff the following two conditions hold (deduced from Knapp, Theorem 5.110, pp.335–336, and the native SU(2) weight strings):
 
@@ -1004,12 +1106,12 @@ f(a,b)≥f(a+1,b−1)                    whenever a≥b.
 ```
 
 Finite support is a hypothesis, not a consequence of these two conditions.
-Use this layer's actual character lattice and the engine's SU2 strings;
+Use this layer's actual character lattice and the engine's SU(2) strings;
 retain every central degree `a+b`, including negative determinant twists.
 For each dominant pair `a≥b`, construct
 `L_(a,b)=det^b⊗Sym^(a−b)(ℂ²)` restricted to U(2), and prove its weights
 are `(a−j,b+j)`, `0≤j≤a−b`, each with multiplicity 1. Equivalently descend
-`z^(a+b)⊗Sym^(a−b)` through `S1×SU2→U2`: the kernel element
+`z^(a+b)⊗Sym^(a−b)` through `S¹×SU(2)→U(2)`: the kernel element
 `(−1,−I)` acts trivially since `(a+b)−(a−b)=2b` is even.
 Prove irreducibility, the actual comparison of these two constructions,
 and exhaustion using the preceding global existence/descent theorem.
@@ -1025,7 +1127,7 @@ For instance multiplicities `1,2,1` at `(2,0),(1,1),(0,2)` give
 `Sym²(ℂ²)⊕det`. The Weyl-invariant function supported with value 1 at
 `(1,−1),(−1,1)` fails the inequality at `(0,0)` and is only the virtual
 character `det⁻¹⊗Sym²(ℂ²)−1`. This criterion identifies the genuine
-positive cone in rank2; it does not infer positivity from Weyl invariance.
+positive cone in rank 2; it does not infer positivity from Weyl invariance.
 
 
 The trace formulation in `u2_weight_character_iff` quantifies over every
@@ -1061,7 +1163,7 @@ The U(2) criterion is a deduction from the global highest-weight classification 
 
 ### Dependencies
 
-Native compact characters, complete reducibility and SU(2) classification; LieGroups Layers 2 and 4–6; LieHighestWeight Layers 0–6; the center/derived and finite-cover targets of this layer.
+Native compact characters, complete reducibility and SU(2) classification; LieGroups Layers 2 and 4–6; LieHighestWeight Layers 0–6; the center/derived, root-dictionary and finite-cover targets of this layer.
 
 ## Layer 7: unitary SU(2) actions and embeddings
 
@@ -1134,7 +1236,12 @@ Native SU(2) classification and torus formulas; native unitary intertwiner compa
 ## Downstream consumers
 
 AutomorphicFormsOnReductiveGroups §2.1 consumes Banach G-finite density and supplies
-the locally convex extension. SmoothBanachRepresentations §4.1 consumes compact-finite
+the locally convex extension. It records that contract as the supplier gap
+(gap:banach-gfinite-density): the predicate `IsGFinite`, the submodule
+`gFiniteSubmodule` with its closure and equivariance facts, which it names
+gFinite_add, gFinite_smul and gFinite_map, and the density theorem
+`gFiniteSubmodule_dense`, stated there as density of the submodule as a subset
+of the Banach space, which is the statement of §2.1 here. SmoothBanachRepresentations §4.1 consumes compact-finite
 approximation for the real as well as complex smooth topology, building on
 AutomorphicFormsOnReductiveGroups §2.7 for the complex case. The global-form ring comparison
 supplies actual continuous characters with their central and period restrictions.
