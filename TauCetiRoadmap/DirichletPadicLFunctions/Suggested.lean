@@ -16,7 +16,10 @@ interpolation and tame interpolation (§§1.2, 2.2 and 2.4), complex and p-adic 
 (§§3.4, 3.6–3.7), continuous and locally analytic Morita Gamma, Gross–Koblitz,
 Ferrero–Greenberg and the finite-level distribution rank theorem (Layer 4), and the full
 localized Eisenstein specialization and classical character q-expansion (§§5.5 and 5.9).
-All definitions have bodies on native Mathlib or Tau Ceti carriers.
+All definitions have bodies on native Mathlib or Tau Ceti carriers. The cyclotomic denominator
+`f_a = Σ_(i<a) (1+T)^i` and the smoothed series are owned by ColemanPowerSeries §§2.10–2.10a; the
+statements here write `f_a` as that finite geometric sum and characterize the smoothing measure by
+the defining equation `T f_a A = f_a − a` of its Amice transform `A`.
 
 The global GL₁/Dedekind comparison (§0.5) requires the standard global L-function and its
 specified archimedean factors, absent at the pins; the native Hecke-character carrier alone
@@ -119,33 +122,19 @@ theorem existsUnique_isIwasawaLog_of_finiteDimensional (p : ℕ) [Fact p.Prime] 
     ∃! L : K → K, IsIwasawaLog p L := by
   sorry
 
-/-- Dividing the binomial polynomial by its zero at the origin shifts coefficients once. -/
-def smoothingDenominator (R : Type*) [CommRing R] (a : ℕ) : PowerSeries R :=
-  PowerSeries.mk fun n => (a.choose (n + 1) : R)
-
-/-- The second coefficient shift is the integral numerator of the smoothing series. -/
-def smoothingTail (R : Type*) [CommRing R] (a : ℕ) : PowerSeries R :=
-  PowerSeries.mk fun n => (a.choose (n + 2) : R)
-
-/-- Only the scalar `a` must be a unit; no inverse of the variable is used. -/
-def smoothedSeries (R : Type*) [CommRing R] (a : ℕ) (ha : IsUnit (a : R)) :
-    PowerSeries R :=
-  smoothingTail R a * (smoothingDenominator R a).invOfUnit ha.unit
-
-/-- The arithmetic measure is a specialization of the existing inverse Amice transform. -/
-def smoothedMeasure (p : ℕ) [Fact p.Prime] (a : ℕ) (ha : IsUnit (a : ℤ_[p])) :
-    AbstractMeasure ℤ_[p] ℤ_[p] ℤ_[p] :=
-  AbstractMeasure.invTransform (smoothedSeries ℤ_[p] a ha)
-
 /-- The ordinary moment of the original smoothing measure. -/
 def smoothingMoment (a k : ℕ) : ℚ :=
   (1 - (a : ℚ) ^ (k + 1)) * bernoulli (k + 1) / (k + 1)
 
-/-- Ordinary moments are obtained by iterated Mahler differentiation, not coefficient extraction. -/
+/-- The integral measure whose Amice transform is the smoothed series `F_a` of
+ColemanPowerSeries §2.10a, characterized by `T f_a F_a = f_a − a` for the cyclotomic denominator
+`f_a = Σ_(i<a) (1+T)^i`, has the smoothed Bernoulli quotients as ordinary moments. -/
 theorem smoothedMeasure_moment (p : ℕ) [Fact p.Prime]
-    (a : ℕ) (ha : IsUnit (a : ℤ_[p])) (k : ℕ) :
-    algebraMap ℤ_[p] ℚ_[p]
-        ((smoothedMeasure p a ha) ⟨fun x => x ^ k, by fun_prop⟩) =
+    (a : ℕ) (ha : IsUnit (a : ℤ_[p])) (μ : AbstractMeasure ℤ_[p] ℤ_[p] ℤ_[p])
+    (hμ : PowerSeries.X * (∑ i ∈ Finset.range a, (1 + PowerSeries.X) ^ i) * μ.amiceTransform =
+      (∑ i ∈ Finset.range a, (1 + PowerSeries.X) ^ i) - PowerSeries.C (a : ℤ_[p]))
+    (k : ℕ) :
+    algebraMap ℤ_[p] ℚ_[p] (μ ⟨fun x => x ^ k, by fun_prop⟩) =
       (smoothingMoment a k : ℚ_[p]) := by
   sorry
 
@@ -161,26 +150,32 @@ def characterMoment (p : ℕ) [Fact p.Prime] {K : Type*} [CommRing K] [Algebra �
         (f := fun d : ZMod (p ^ n) => if d = c then (1 : ℤ_[p]) else 0)).comp
           (PadicInt.continuous_toZModPow n))⟩)
 
-/-- Kubota–Leopoldt interpolation for the smoothing measure: against every Dirichlet character of
-level `p ^ n` with `n ≥ 1` (primitive or not, the level-`p ^ n` generalized Bernoulli number carrying
-the Euler factor at `p`), the `k`-th character moment is the smoothed algebraic Dirichlet value
+/-- Kubota–Leopoldt interpolation for the smoothing measure of ColemanPowerSeries §2.10a,
+characterized as in `smoothedMeasure_moment`: against every Dirichlet character of level `p ^ n`
+with `n ≥ 1` (primitive or not, the level-`p ^ n` generalized Bernoulli number carrying the Euler
+factor at `p`), the `k`-th character moment is the smoothed algebraic Dirichlet value
 `(χ(a)a^(k+1) − 1)·L(χ, −k)`. -/
 theorem smoothedMeasure_characterMoment (p : ℕ) [Fact p.Prime]
-    (a : ℕ) (ha : IsUnit (a : ℤ_[p])) {K : Type*} [Field K] [Algebra ℤ_[p] K] [Algebra ℚ K]
+    (a : ℕ) (ha : IsUnit (a : ℤ_[p])) (μ : AbstractMeasure ℤ_[p] ℤ_[p] ℤ_[p])
+    (hμ : PowerSeries.X * (∑ i ∈ Finset.range a, (1 + PowerSeries.X) ^ i) * μ.amiceTransform =
+      (∑ i ∈ Finset.range a, (1 + PowerSeries.X) ^ i) - PowerSeries.C (a : ℤ_[p]))
+    {K : Type*} [Field K] [Algebra ℤ_[p] K] [Algebra ℚ K]
     {n : ℕ} (hn : 0 < n) (χ : DirichletCharacter K (p ^ n)) (k : ℕ) :
-    characterMoment p (smoothedMeasure p a ha) χ k =
+    characterMoment p μ χ k =
       (χ a * (a : K) ^ (k + 1) - 1) * (-χ.generalizedBernoulli (k + 1) / (k + 1)) := by
   sorry
 
-/-- Finite character cancellation produces an integral polynomial numerator. -/
+/-- Finite character cancellation against the cyclotomic denominators `Σ_(i<a) (1+T)^i` of
+ColemanPowerSeries §2.10 produces an integral polynomial numerator. -/
 def tameNumerator {R : Type*} [CommRing R] {D : ℕ} [NeZero D]
     (η : DirichletCharacter R D) : PowerSeries R :=
-  -∑ a : ZMod D, PowerSeries.C (η a) * smoothingDenominator R a.val
+  -∑ a : ZMod D, PowerSeries.C (η a) * ∑ i ∈ Finset.range a.val, (1 + PowerSeries.X) ^ i
 
 /-- The tame quotient is defined over any commutative ring in which its level is a unit. -/
 def tameSeries {R : Type*} [CommRing R] {D : ℕ} [NeZero D]
     (η : DirichletCharacter R D) (hD : IsUnit (D : R)) : PowerSeries R :=
-  tameNumerator η * (smoothingDenominator R D).invOfUnit hD.unit
+  tameNumerator η *
+    (∑ i ∈ Finset.range D, (1 + PowerSeries.X : PowerSeries R) ^ i).invOfUnit hD.unit
 
 /-- The finite tame kernel is the Amice transform of a unique integral measure, and its
 ordinary moments are the algebraic Dirichlet special values, also for imprimitive characters. -/
@@ -240,12 +235,16 @@ theorem leopoldt_value_one (p : ℕ) [Fact p.Prime]
       (1 - θ p / (p : K)) * cyclotomicLogConstant θ ε L := by
   sorry
 
-/-- The inverse-coordinate smoothing integral has the central mass determined by the
-principal residue normalization. -/
+/-- The inverse-coordinate integral of the smoothing measure at `a = p + 1`, characterized as in
+`smoothedMeasure_moment`, has the central mass determined by the principal residue normalization. -/
 theorem principalNumerator_mass (p : ℕ) [Fact p.Prime]
-    (ha : IsUnit ((p + 1 : ℕ) : ℤ_[p])) (f : C(ℤ_[p], ℤ_[p]))
-    (hf : ∀ x, (IsUnit x → x * f x = 1) ∧ (¬IsUnit x → f x = 0)) :
-    ((smoothedMeasure p (p + 1) ha f : ℤ_[p]) : ℚ_[p]) =
+    (ha : IsUnit ((p + 1 : ℕ) : ℤ_[p])) (μ : AbstractMeasure ℤ_[p] ℤ_[p] ℤ_[p])
+    (hμ : PowerSeries.X * (∑ i ∈ Finset.range (p + 1), (1 + PowerSeries.X) ^ i) *
+        μ.amiceTransform =
+      (∑ i ∈ Finset.range (p + 1), (1 + PowerSeries.X) ^ i) -
+        PowerSeries.C ((p + 1 : ℕ) : ℤ_[p]))
+    (f : C(ℤ_[p], ℤ_[p])) (hf : ∀ x, (IsUnit x → x * f x = 1) ∧ (¬IsUnit x → f x = 0)) :
+    ((μ f : ℤ_[p]) : ℚ_[p]) =
       -(1 - (p : ℚ_[p])⁻¹) * NormedSpace.logOneAdd ℚ_[p] ℚ_[p] (p : ℚ_[p]) := by
   sorry
 

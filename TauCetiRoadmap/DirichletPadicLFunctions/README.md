@@ -4,7 +4,7 @@
 
 ## Scope and ownership
 
-This roadmap owns the integral smoothing-series comparisons, logarithmic special values, arithmetic branch comparisons, Morita Gamma, the Gamma–Gauss comparison, universal distribution presentations and arithmetic Eisenstein measures. IntegralIwasawaTheory §5.0 owns the canonical zeta pseudomeasure, tame Dirichlet measures, interpolation, coefficient descent, conductor comparisons and principal residue; the names here adapt those objects through its §6.3 normalization maps. It works for every prime, including 2, with the separate dyadic angular coordinate. Its finite-level distribution theory is stated on positive-dimensional rational tori; its L-functions are those of characters of GL₁. CharacterSumsOverFiniteFields §§6.4–6.5 state Morita's Gamma function, its reflection formula and the Gross–Koblitz formula for their Jacobi-sum evaluations; those are consumers of §§4.1, 4.4 and 4.5 here, where the signed Gamma function, its functional equations, reflection and digit identities, and the Gauss-sum comparison are constructed for every prime.
+This roadmap owns the moment, residue, p-adic-parameter and analytic theory of the integral smoothing series, their comparisons with the canonical pseudomeasure at every unit parameter, logarithmic special values, arithmetic branch comparisons, Morita Gamma, the Gamma–Gauss comparison, universal distribution presentations and arithmetic Eisenstein measures. IntegralIwasawaTheory §5.0 owns the canonical zeta pseudomeasure, tame Dirichlet measures, interpolation, coefficient descent, conductor comparisons and principal residue; the names here adapt those objects through its §6.3 normalization maps. ColemanPowerSeries §§2.10–2.10a owns the natural-parameter objects: the cyclotomic denominator `f_a=Σ_(i<a)(1+T)^i` (`cyclotomicSeries`), the smoothed series `F_a` with `T f_a F_a=f_a−a` (`smoothingSeries`), the identification of `F_a` with the Amice transform of the integral Bernoulli smoothing μ_a of IntegralIwasawaTheory §5.0, and the comparison of the inverse-weighted unit restriction λ_a with `([a]−1)ζ_p` (`smoothingSeries_bernoulli_comparison`). Sections 1.1–1.2, 1.6 and 2.3 here consume them. This roadmap works for every prime, including 2, with the separate dyadic angular coordinate. Its finite-level distribution theory is stated on positive-dimensional rational tori; its L-functions are those of characters of GL₁. CharacterSumsOverFiniteFields §§6.4–6.5 state Morita's Gamma function, its reflection formula and the Gross–Koblitz formula for their Jacobi-sum evaluations; those are consumers of §§4.1, 4.4 and 4.5 here, where the signed Gamma function, its functional equations, reflection and digit identities, and the Gauss-sum comparison are constructed for every prime.
 
 The generic theory of nonarchimedean measures, completed group algebras, Mahler transforms, character evaluation, unit restriction, inverse-coordinate weighting and pseudomeasures belongs to **PadicMeasuresIwasawaAlgebras**, Layers 0–3 and §3a.1. Generic locally analytic distributions, their coefficient series and integration against analytic families belong to **LocallyAnalyticDistributions**, §§0.1–0.3, 1.1–1.4 and 3.1–3.2. Generic logarithm-series convergence, continuity and addition for commutative Banach Q_p-algebras belong to **PadicFunctionalAnalysis**, §4.5; that roadmap names no Lean carrier, and the identification of its logarithm with the pinned `NormedSpace.logOneAdd` series, together with its field specialization, is a target of §0.6 here. The normalized Iwasawa logarithm on C_p and on complete normed Q_p-fields with the Iwasawa decomposition is constructed here in §0.6. General branches of the logarithm, Coleman integration and polylogarithms belong to **ColemanIntegration**, a downstream consumer of this decomposition and normalized logarithm in L0 and of Layer 3 for special values. The present arithmetic comparisons use the measure and distribution interfaces above; they do not introduce alternative measure or distribution carriers.
 
@@ -100,6 +100,17 @@ Its §3a.1 consumes the odd-prime and dyadic product decompositions from PadicFu
 
 Finite projections and their refinement maps are supplied by §§1.1 and 2.12. The arithmetic cyclic recurrence, its uniqueness from the total mass and its explicit solution are targets of §1.5 here; they identify the existing inverse-Mahler measure.
 
+### From ColemanPowerSeries
+
+Its §2.10 supplies, over every commutative ring R and every natural a, the cyclotomic denominator `cyclotomicSeries`, `f_a=Σ_(i<a)(1+T)^i`, with `T f_a=(1+T)^a−1`, constant coefficient a, coefficients `f_a[n]=choose(a,n+1)`, the unit criterion `IsUnit f_a ↔ IsUnit (a : R)` and compatibility with coefficient ring maps. Its §2.10a supplies, when a is a unit of R, `smoothingSeries`: the unique `F_a` with `T f_a F_a=f_a−C(a)`, equal to `b_a f_a⁻¹` for the quotient `b_a` of `f_a−a` by T (coefficients `choose(a,n+2)`), with uniqueness, coefficient-map compatibility and `2F_a[0]=a−1` over every R. For p prime and p∤a, including p=2, its `smoothingSeries_bernoulli_comparison` identifies `F_a` with the Amice transform of the integral Bernoulli smoothing μ_a of IntegralIwasawaTheory §5.0, and the inverse-coordinate weighting λ_a of the restriction of μ_a to U with `(δ_a−1)ζ_p` for the supplied pseudomeasure. Below, `q_a` denotes `f_a`. By injectivity of multiplication by T, the defining equation is equivalent to `f_a F_a=b_a`. The ColemanPowerSeries module is not at the pins, so Suggested.lean writes `f_a` as its finite geometric sum and characterizes μ_a by the defining equation of its Amice transform; injectivity of the Amice transform makes that measure unique. (ColemanPowerSeries §§2.10–2.10a; RJW, Proposition 4.4, p.137, and Lemma 10.5, p.165.)
+
+**Checks.**
+
+* `f_2=2+T` and `F_2=1/(2+T)`, so `f_2F_2=b_2=1`; when 2 is invertible the coefficients of F₂ begin `1/2,−1/4,1/8`.
+* `f_1=1` and `F_1=0`, so μ₁ is the zero measure at every prime.
+* At p=2, a=3 the series `F_3=(3+T)/(3+3T+T²)` has `F_3(0)=1` in Z₂, as `2F_3[0]=2` requires; integrality does not need 2 invertible.
+* Over `𝔽₂`, `f_2=T` is defined but not a unit, so the smoothed-series constructor is excluded by its unit hypothesis.
+
 ### From IntegralIwasawaTheory
 
 Use §5.0, `kubotaLeopoldtPseudomeasure` and `kubotaLeopoldt_interpolation`, for the canonical pseudomeasure, its tame measure components, integral smoothing, coefficient descent, conductor Euler deletions and principal residue. Use §6.3, `bernoulliStickelberger_dictionary`, for inverse arithmetic reciprocity, coordinate weighting, the Teichmüller projection and the Bernoulli sign. Sections 1.6, 2.6–2.8 and 3.1–3.2 here identify the series and analytic adapters with those supplied objects on all tests, not just at one weight. Section 3.7 transports the supplied pole and residue to the smoothing quotient; §§5.4–5.9 use the same transported object for the Eisenstein constant. The finite tame kernels also exist for principal characters, but their principal boundary is distinct from the canonical pseudomeasure.
@@ -159,7 +170,7 @@ Suggested.lean states headline results on the pinned native carriers. Names else
 
 * `exists_normalizedMellinContinuation`, `bernoulliKernel_normalizedMellin` and `smoothedMellinKernel_normalizedMellin` give the entire continuations (§§0.1–0.3); `algebraicDirichletValue_complex` gives the common algebraic special value (§0.4).
 * `existsUnique_isIwasawaLog`, `existsUnique_isIwasawaLog_padicComplex` and `existsUnique_isIwasawaLog_of_finiteDimensional` construct the normalized logarithm (§0.6).
-* `smoothedMeasure_moment` identifies the binomial smoothing measure's ordinary moments (§1.2); `smoothedMeasure_characterMoment` gives its Kubota–Leopoldt interpolation at every character of positive p-power level through the residue-class sum `characterMoment` (§2.2); `existsUnique_tameMeasure` constructs the bounded finite-kernel measure and identifies all its ordinary moments, including imprimitive nonprincipal characters (§2.4).
+* `smoothedMeasure_moment` identifies the ordinary moments of the smoothing measure, characterized by the defining equation of ColemanPowerSeries §2.10a for its Amice transform (§1.2); `smoothedMeasure_characterMoment` gives its Kubota–Leopoldt interpolation at every character of positive p-power level through the residue-class sum `characterMoment` (§2.2); `existsUnique_tameMeasure` constructs the bounded finite-kernel measure and identifies all its ordinary moments, including imprimitive nonprincipal characters (§2.4).
 * `complexGaussLogValue_eq_LValue` and `complexDirichletValue_one_transcendental` give the complex logarithmic value and its transcendence (§3.4). `leopoldt_value_one` gives the p-adic logarithmic value for tame, mixed and wild conductors (§3.6); `principalNumerator_mass` and `bernoulliQuotient_tendsto` give the smoothing mass and Bernoulli residue limit (§3.7).
 * `existsUnique_moritaGamma`, `moritaGamma_locallyAnalytic`, `grossKoblitz_formula` and `ferreroGreenberg_derivative` give the continuous and analytic Gamma function and its two arithmetic comparisons (§§4.1, 4.3, 4.5 and 4.14). `universalWeightedDistribution_finiteBasis` gives freeness and primitive-point rank for every positive-dimensional finite torus level and every nonnegative weight (§§4.8 and 4.11).
 * `existsUnique_fullEisensteinAwaySeries` gives the full localized Eisenstein family at every infinite-order smoothing unit, including its integral cleared constant and all nonnegative moments (§5.5). `characterEisenstein_stabilized_qExpansion` gives the classical character expansion with its Bernoulli constant (§5.9).
@@ -290,37 +301,34 @@ Mathlib’s Mellin, Γ, zeta, Bernoulli and Dirichlet-character theory; Arithmet
 
 ### 1.1 Binomial cancellation without inverting T
 
-For a commutative ring R and a natural number a, define `smoothingDenominator R a` and `smoothingTail R a` coefficientwise by `q_a[n]=choose(a,n+1)` and `b_a[n]=choose(a,n+2)`. Prove the coefficient equations, `q_a[0]=a`, `Tq_a=(1+T)^a−1`, `q_a=a+Tb_a`, and naturality under every coefficient ring map. Their exponential-substitution identities are over a ℚ-algebra and use formal composition only with a zero-constant series. These statements include a=0 and rings of positive characteristic. (RJW, Proposition 4.4, p.137; the coefficientwise division is the integral algebra in its proof.)
-
-If a is a unit of R, define `smoothedSeries a = b_a q_a⁻¹`, using the supplied unit inverse of q_a. Its full specification is `q_a F_a=b_a`, equivalently `Tq_a F_a=q_a−a`; uniqueness follows from the unit witness. Prove coefficient-map compatibility, independence of the unit witness, and the recurrence
+The denominator `q_a=f_a`, its quotient `b_a`, the smoothed series `F_a` and their coefficient, unit and coefficient-map interfaces are the `cyclotomicSeries` and `smoothingSeries` of ColemanPowerSeries §§2.10–2.10a, as recorded in Exact supplier contracts; nothing here redefines them. For a commutative ring R in which the natural number a is a unit, prove that the coefficients `f_n` of F_a satisfy the recurrence
 
 ```text
-a f_n = choose(a,n+2) − Σ_(i<n) choose(a,n−i+1) f_i.
+a f_n = choose(a,n+2) − Σ_(i<n) choose(a,n−i+1) f_i,
 ```
 
-In a Laurent-series extension this agrees with `1/T−a/((1+T)^a−1)`, but the integral definition uses neither inverse of T. Over a ℚ-algebra, composition with `exp(t)−1` agrees with the formal smoothing kernel of Layer 0. Multiplying by q_a first proves the comparison without manipulating a nonexistent formal inverse of T.
+which is the coefficient form of `q_a F_a=b_a`. In a Laurent-series extension `F_a` agrees with `1/T−a/((1+T)^a−1)`, but the integral series uses neither inverse of T. Over a ℚ-algebra, substituting the zero-constant series `exp(t)−1` into `T q_a=(1+T)^a−1` gives `(e^t−1)q_a(e^t−1)=e^(at)−1`, and `F_a(exp(t)−1)` agrees with the formal smoothing kernel of Layer 0. Multiplying by q_a first proves the comparison without manipulating a nonexistent formal inverse of T. (RJW, Proposition 4.4, p.137; the coefficientwise division is the integral algebra in its proof.)
 
-The coefficient identities, unit-denominator equation, coefficient-map compatibility and uniqueness form the basic series interface.
+The recurrence, the Laurent comparison and the exponential-substitution comparison with Layer 0 are the targets of this section.
 
 **Checks.**
 
-* `q_0=0`, `q_1=1`, `q_2=2+T`; the companion tails are respectively 0,0,1.
-* If 2 is invertible, `F_2=1/(2+T)` has first coefficients `1/2,−1/4,1/8,−1/16`. Reversing the geometric-series sign changes the linear coefficient.
-* `F_1=0`; a=0 does not have the required unit witness in a nonzero ring.
-* Over `𝔽₂`, q₂ is T and is not invertible. The natural-number constructor q₂ is still defined; its smoothed-series constructor is excluded.
-* In `F_2(exp(t)−1)` the cubic coefficient is `1/48`, hence its third derivative is `1/8`. Using the ordinary cubic coefficient of F₂ would give the wrong moment.
+* At a=2 the recurrence gives `f_0=1/2`, `f_1=−1/4`, `f_2=1/8`, the coefficients of the supplied `F_2=1/(2+T)`. Reversing the geometric-series sign changes the linear coefficient.
+* At a=3 over Z₂ the recurrence gives `f_0=1` and `f_1=−2/3` without inverting 2.
+* At a=2 the Laurent expression is `1/T−2/(T(2+T))=1/(2+T)`; at a=1 it is `1/T−1/T=0=F_1`.
+* In `F_2(exp(t)−1)=1/(1+e^t)` the cubic coefficient is `1/48`, hence its third derivative is `1/8`. Using the ordinary cubic coefficient of F₂ would give the wrong moment.
 
 ### 1.2 The arithmetic smoothing measure
 
-For p∤a, define `smoothedMeasure p a` to be the existing integral inverse Amice transform of `F_a∈Z[[T]]`. Prove `amice_smoothedMeasure`, mass `(a−1)/2`, the all-test norm bound, uniqueness from its transform, and compatibility with every bounded coefficient extension. The rational mass formula is interpreted in Q and shown to be in Z; when p=2 the hypothesis forces a odd. Establish
+For p∤a, the smoothing measure `μ_a` is the integral Bernoulli smoothing of IntegralIwasawaTheory §5.0; ColemanPowerSeries §2.10a identifies its Amice transform with `F_a`, so μ_a is the existing integral inverse Amice transform of `F_a∈Z[[T]]`, its mass is `(a−1)/2` and it is unique given its transform. Here prove compatibility with every bounded coefficient extension and
 
 ```text
 μ_a(x^k) = (1−a^(k+1))B_(k+1)/(k+1),        k≥0.
 ```
 
-The proof compares ∂ with ordinary differentiation after the exponential substitution and uses the common rational scalar. Define the light rational abbreviation `smoothingMoment a k` by the right side. Its API includes a=1, k=0, scalar inclusion, and the derivative/ordinary-moment comparison. There is no assertion that every rational Bernoulli quotient is integral without its smoothing factor. (RJW, Definition 4.5 and Proposition 4.6, p.137; Lemmas 4.2–4.3, p.136.)
+The proof compares ∂ with ordinary differentiation after the exponential substitution of §1.1 and uses the common rational scalar. Define the light rational abbreviation `smoothingMoment a k` by the right side. Its API includes a=1, k=0, scalar inclusion, and the derivative/ordinary-moment comparison. There is no assertion that every rational Bernoulli quotient is integral without its smoothing factor. (RJW, Definition 4.5 and Proposition 4.6, p.137; Lemmas 4.2–4.3, p.136.)
 
-The signature `smoothedMeasure_moment` identifies the ordinary moments of the actual inverse-Amice smoothing measure. Its transform, all-test bound, natural-parameter cocycle and uniqueness are part of the construction; the cocycle is the natural specialization of §1.4.
+The signature `smoothedMeasure_moment` identifies the ordinary moments of every integral measure whose Amice transform satisfies `T q_a A=q_a−a`; by uniqueness of `F_a` and injectivity of the Amice transform that measure is μ_a. The natural-parameter cocycle is the natural specialization of §1.4.
 
 **Checks.**
 
@@ -337,7 +345,7 @@ Prove `psi_smoothedMeasure : ψμ_a=μ_a` on the actual integral measure. The co
 ρ_a(x^k)=(1−p^k)(1−a^(k+1))B_(k+1)/(k+1).
 ```
 
-Define `smoothedNumerator a = ν_a = Jμ_a` on Z, and `intrinsicNumerator a = λ_a = r_Uν_a` on U. Their API gives all-test evaluation, extension by zero, support, `xν_a=ρ_a`, `ψν_a=0`, norm at most 1, and for k≥1
+Define `smoothedNumerator a = ν_a = Jμ_a` on Z, and `intrinsicNumerator a = λ_a = r_Uν_a` on U; this λ_a is the inverse-weighted unit restriction of ColemanPowerSeries §2.10a. Their API gives all-test evaluation, extension by zero, support, `xν_a=ρ_a`, `ψν_a=0`, norm at most 1, and for k≥1
 
 ```text
 λ_a(x^k) = (1−p^(k−1))(1−a^k)B_k/k.
@@ -357,7 +365,7 @@ Use `unitSmoothedMeasure_apply`, `_moment`, `_support`, `smoothedNumerator_coord
 
 ### 1.4 Smoothing by every p-adic unit
 
-For u∈U, use the existing integral binomial coefficients `binom(u,n)` to define `padicSmoothingDenominator` and its tail with the same coefficient shifts. Define `padicSmoothedSeries u = b_u q_u⁻¹`, and its inverse-Amice measure `padicSmoothedMeasure u`. Apply E, J and intrinsic restriction to define `padicSmoothedNumerator u` and `padicIntrinsicNumerator u`. These are extensions of the natural-a constructions, proved by equality of binomial coefficients. Their API consists of coefficient recurrence, mass `(u−1)/2`, coefficient-map naturality, uniqueness, agreement at natural units, all-test continuity in u, and the same positive-moment formula with u^k. Continuity first on binomial/polynomial tests and then on all continuous tests uses a uniform norm bound and Mahler approximation. At p=2 the displayed half is interpreted in Q and proved integral for u odd. (Extension of the algebra in RJW, Proposition 4.4 and §4.3, pp.137–139, using its §3 binomial calculus; continuity in a is obtained by that calculus.)
+For u∈U, use the existing integral binomial coefficients `binom(u,n)` to define `padicSmoothingDenominator` and its tail with the same coefficient shifts. Define `padicSmoothedSeries u = b_u q_u⁻¹`, and its inverse-Amice measure `padicSmoothedMeasure u`. Apply E, J and intrinsic restriction to define `padicSmoothedNumerator u` and `padicIntrinsicNumerator u`. These extend the natural-parameter series of ColemanPowerSeries §§2.10–2.10a and the measures of §§1.2–1.3, proved by equality of binomial coefficients. Their API consists of coefficient recurrence, mass `(u−1)/2`, coefficient-map naturality, uniqueness, agreement at natural units, all-test continuity in u, and the same positive-moment formula with u^k. Continuity first on binomial/polynomial tests and then on all continuous tests uses a uniform norm bound and Mahler approximation. At p=2 the displayed half is interpreted in Q and proved integral for u odd. (Extension of the algebra in RJW, Proposition 4.4 and §4.3, pp.137–139, using its §3 binomial calculus; continuity in a is obtained by that calculus.)
 
 Prove the cocycles
 
@@ -406,7 +414,7 @@ Use `smoothingResidueCandidate_eq_mass`, `_sum`, `_refine` and `_difference`; `s
 
 ### 1.6 Removing the smoothing parameter
 
-Let `kubotaLeopoldtPseudomeasure ζ_p` be the unit-measure adapter of IntegralIwasawaTheory §5.0, normalized by `bernoulliStickelberger_dictionary` in its §6.3 and the equations in Exact supplier contracts. Take the natural unit a=p+1. Its infinite-order group element has `δ_a−1` regular by the precise generic supplier contract for the actual unit group. Identify the local smoothing numerator on every continuous test by `(δ_u−1)ζ_p=λ_u`, for every u∈U. Thus the adapter satisfies `ζ_p=λ_a/(δ_a−1)` and agrees with every other regular smoothing presentation. Uniqueness and parameter independence are transported from the canonical object. This includes dyadic U, which is not procyclic; no “choose a topological generator of all of U₂” argument is used. For any nontrivial continuous K-valued unit character κ, an admissible smoothing unit u gives
+Let `kubotaLeopoldtPseudomeasure ζ_p` be the unit-measure adapter of IntegralIwasawaTheory §5.0, normalized by `bernoulliStickelberger_dictionary` in its §6.3 and the equations in Exact supplier contracts. Take the natural unit a=p+1. Its infinite-order group element has `δ_a−1` regular by the precise generic supplier contract for the actual unit group. For a=p+1, `smoothingSeries_bernoulli_comparison` of ColemanPowerSeries §2.10a supplies `(δ_a−1)ζ_p=λ_a` on every continuous test. Extend it to `(δ_u−1)ζ_p=λ_u` for every u∈U: multiply by `δ_a−1`, use the cross-relation `(δ_a−1)λ_u=(δ_u−1)λ_a` of §1.4, and cancel the regular element `δ_a−1`; `(δ_u−1)ζ_p` is integral because ζ_p is a pseudomeasure. Thus the adapter satisfies `ζ_p=λ_a/(δ_a−1)` and agrees with every other regular smoothing presentation. Uniqueness and parameter independence are transported from the canonical object. This includes dyadic U, which is not procyclic; no “choose a topological generator of all of U₂” argument is used. For any nontrivial continuous K-valued unit character κ, an admissible smoothing unit u gives
 
 ```text
 ev_κ(ζ_p) = λ_u(κ)/(κ(u)−1).
@@ -458,7 +466,7 @@ At p=3,a=2 one construction yields simultaneously Amice coefficients `(1/2,−1/
 
 ### Dependencies
 
-Layer 0; IntegralIwasawaTheory §5.0, `kubotaLeopoldtPseudomeasure` and `kubotaLeopoldt_interpolation`, and §6.3, `bernoulliStickelberger_dictionary`; PadicMeasuresIwasawaAlgebras §§0.1, 1.1–1.7, 2.1–2.6, 2.8, 2.11–2.12, 3.1–3.3 and 3a.1 for measures, unit charts, coefficient extension, regularity and localization comparisons; existing Bernoulli denominator arithmetic. The finite residue recurrence uses no locally analytic distribution or logarithmic primitive.
+Layer 0; ColemanPowerSeries §§2.10–2.10a for `cyclotomicSeries`, `smoothingSeries` and `smoothingSeries_bernoulli_comparison`; IntegralIwasawaTheory §5.0, `kubotaLeopoldtPseudomeasure` and `kubotaLeopoldt_interpolation`, and §6.3, `bernoulliStickelberger_dictionary`; PadicMeasuresIwasawaAlgebras §§0.1, 1.1–1.7, 2.1–2.6, 2.8, 2.11–2.12, 3.1–3.3 and 3a.1 for measures, unit charts, coefficient extension, regularity and localization comparisons; existing Bernoulli denominator arithmetic. The finite residue recurrence uses no locally analytic distribution or logarithmic primitive.
 
 ## Layer 2: finite characters, tame measures and coefficient descent
 
@@ -522,8 +530,10 @@ Let D>0, let η be an R-valued character modulo D, and suppose D is a unit of th
 
 ```text
 Q_η(T)=−Σ_(a mod D) η(a)q_(a.val)(T),
-F_η(T)=Q_η(T)/q_D(T).
+F_η(T)=Q_η(T)/q_D(T),
 ```
+
+where `q_m=Σ_(i<m)(1+T)^i` is the cyclotomic denominator `cyclotomicSeries` of ColemanPowerSeries §2.10 and the inverse of q_D is supplied by its unit criterion.
 
 The definitions make sense for principal η as algebraic expressions, but their L-function interpretation below requires η nonprincipal. Prove `coeff_tameNumerator`, coefficient-map compatibility, the unit-denominator identity and unique solution property. The recurrence is
 
