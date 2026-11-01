@@ -6,17 +6,18 @@ import Mathlib
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's
 headline theorems against the pinned APIs, for real and complex coefficients.
 The headlines are smoothing and density with the real/general-group extensions,
-support-controlled vector and function Dixmier–Malliavin, smooth lifting, and
-inverse closure (including matrix Banach algebras).
+the scalar compact-support parametrix, support-controlled vector and function
+Dixmier–Malliavin, smooth lifting, and inverse closure (including matrix Banach algebras).
 
 The complete mixed-word topology and its finite-regularity criterion, continuous
 Lie/enveloping action, smooth-topology approximation, topological exactness and
 dense smooth tensor comparison need the constructed mixed-domain Fréchet carrier
 and completed locally convex tensor from the README. Those carriers are not at
 the pins; the algebraic submodule below does not substitute its ambient topology.
-The scalar parametrix with fixed-support strong distribution convergence and its
-vector passage need the fixed-support distribution-to-smooth-dual comparison;
-the native distribution topology alone is not that interface. Holomorphic closure
+The scalar parametrix is stated in the native distribution topology. Its
+fixed-support strong-dual comparison and Banach-vector passage still need the
+distribution-to-smooth-dual interface; native distribution convergence alone
+does not state those comparisons. Holomorphic closure
 needs the general Banach-algebra holomorphic functional calculus of BanachAlgebras
 A2; the pinned continuous functional calculus does not supply that carrier.
 The one-parameter generator adapter and local integral estimates are supporting
@@ -24,7 +25,7 @@ APIs in the README, not additional acceptance theorems.
 -/
 
 open scoped Manifold ContDiff Topology
-open MeasureTheory
+open MeasureTheory TopologicalSpace Filter
 
 noncomputable section
 namespace TauCetiRoadmap.SmoothBanachRepresentations
@@ -100,6 +101,29 @@ theorem isSmoothLieVector_smear (π : ContRepresentation 𝕜 G E)
 theorem dense_smoothLieVectors (π : ContRepresentation 𝕜 G E)
     (hπ : HasContinuousOrbits π) :
     Dense (smoothLieVectors (I := I) π : Set E) := by
+  sorry
+
+/-! ## Layer 5: The scalar parametrix -/
+
+omit hFD hLie hManifold hT2 hBoundary hComplete hBorel hLC in
+/-- The compact-support scalar parametrix: positive coefficients with arbitrary
+nonconstant upper bounds give alternating even derivatives converging to a Dirac
+mass plus a smooth remainder in the native distribution topology. Both test
+functions have arbitrarily small prescribed support (Casselman, Lemma 5.1, p.12). -/
+theorem scalarParametrix (ε : ℝ) (hε : 0 < ε)
+    (β : ℕ → ℝ) (hβ : ∀ n, 0 < n → 0 < β n) :
+    ∃ α : ℕ → ℝ, ∃ g h : TestFunction (⊤ : Opens ℝ) ℝ ⊤,
+      (∀ n, 0 < α n) ∧ (∀ n, 0 < n → α n ≤ β n) ∧
+      tsupport (g : ℝ → ℝ) ⊆ Set.Icc (-ε) ε ∧
+      tsupport (h : ℝ → ℝ) ⊆ Set.Icc (-ε) ε ∧
+      Tendsto (fun N : ℕ => ∑ n ∈ Finset.range (N + 1),
+        ((-1 : ℝ)^n * α n) •
+          ((Distribution.lineDerivCLM (1 : ℝ) :
+            Distribution (⊤ : Opens ℝ) ℝ ⊤ →L[ℝ]
+              Distribution (⊤ : Opens ℝ) ℝ ⊤)^[2*n])
+            (Distribution.ofFun ⊤ (g : ℝ → ℝ) volume ⊤))
+        atTop (𝓝 (Distribution.delta 0 +
+          Distribution.ofFun ⊤ (h : ℝ → ℝ) volume ⊤)) := by
   sorry
 
 /-! ## Layer 6: Support-controlled factorization -/

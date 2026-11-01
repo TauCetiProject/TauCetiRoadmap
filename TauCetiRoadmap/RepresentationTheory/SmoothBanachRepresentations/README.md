@@ -316,6 +316,8 @@ Layers 1–3; AutomorphicFormsOnReductiveGroups §§2.1,2.7; CompactGroups Layer
 
 The scalar targets refine Casselman, Lemmas 4.1–4.2, pp.9–10, and Lemma 5.1, p.12; the vector passage expands the proof of Proposition 6.1, p.13. The simultaneous bounds and Banach-norm comparison are explicit proof obligations below.
 
+The headline `scalarParametrix` states the scalar existence and convergence theorem on native `TestFunction` and `Distribution`: for every ε>0 and β:ℕ→ℝ positive at every n≥1, there are α:ℕ→ℝ positive at every n≥0 and real smooth tests g,h supported in [−ε,ε], with α_n≤β_n for n≥1, whose alternating even-derivative partial sums converge to δ₀+[h] in the native compact-convergence topology. Here [g] is `Distribution.ofFun` with Lebesgue measure, δ₀ is `Distribution.delta 0`, and D is `Distribution.lineDerivCLM (1 : ℝ)` at infinite order. Smooth compact support ensures local integrability, so [g] is integration against g, not the zero value assigned to non-locally-integrable functions. The fixed-support strong-dual comparison and vector passage below are additional targets.
+
 Prove the analytic lemma used by full Dixmier–Malliavin, rather than treating it as an unnamed supplier. For ε>0 and arbitrary positive numbers β_n (n≥1), construct positive α_n with α_n≤β_n (n≥1) and g,h∈C_c∞(ℝ) supported in [−ε,ε], such that
 
 `(Σ_(n≤N) (−1)^n α_n δ^(2n))*g → δ+h`
@@ -342,6 +344,8 @@ The scalar-parametrix API includes arbitrary positive bounds on every nonconstan
 
 **Checks.**
 
+- The scalar partial sums at N=0 and N=1 are α₀[g] and α₀[g]−α₁D²[g]. A compactly supported test equal to 1 near [−ε,ε] pairs with either sum as α₀∫g and with the limit as 1+∫h. Omitting the n=0 term would instead give 0 on the left.
+- At ε=0, smooth functions supported in {0} are zero, so the proposed limit would read 0=δ₀, contradicted by a test taking value 1 at 0. The strict positivity of ε excludes this case; β₀ can be 0 or negative because no bound on α₀ uses it.
 - On the exponential orbit e^t v, A^(2n)v=v. Pairing δ^(2n) with that orbit gives v, so the vector series coefficient remains (−1)^nα_n; dropping the alternating sign changes the n=1 term from −α₁v to +α₁v.
 - At frequency y=0 the partial/full multiplier ratio is 1; for y real it lies in [0,1] because all coefficients are positive and the partial sum omits positive terms. At N=0 and y≠0 it is strictly below 1.
 - For r=0, λe^(−2πλ) has derivative e^(−2πλ)(1−2πλ), positive at λ=1/(4π) and negative at λ=1/π; its maximum is at 1/(2π). A globally decreasing bound is false.
