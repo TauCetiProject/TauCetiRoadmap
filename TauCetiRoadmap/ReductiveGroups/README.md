@@ -17,8 +17,11 @@ rational representation theory and spectral quotient. Generic descent is supplie
 SchemeAndStackFoundations §§1.1, 1.14–1.18 and ModularCurves §§0E–0F; Layer 8 applies it
 to reductive groups rather than defining another descent theory. RootSystems Layers 5–6
 owns the abstract root data and diagram theory; the group extraction and integral realization
-are the distinct targets here. ComplexComparisonPartII §C−1.1 owns analytification;
-the group-operation and tangent-bracket comparisons are adapters here.
+are the distinct targets here. Section 3A.5 owns the classical topology on complex
+scheme points and its smooth-chart and properness comparisons; §11.0 supplies the
+group-operation and tangent-bracket adapters. ComplexComparisonPartII §C−1.1 is a
+consumer of this topological and smooth prefix for its ringed analytification,
+which retains the analytic structure sheaf and its nilpotents.
 
 The general Lang theorem and finite-field exactness belong to Layer 7a; rational
 cohomology and cotensor induction to §1.1; the group-specific analytic dictionary to §11.0.
@@ -82,6 +85,11 @@ prove them equivalent** rather than committing.
 - **Affine group schemes and Hopf algebras:** `Mathlib/AlgebraicGeometry/Group/Affine.lean`
   provides `hopfSpec.fullyFaithful` and `essImage_hopfSpec` for affine group schemes over
   `Spec R`; use this dictionary for the corresponding Layer 0 targets.
+- **Classical-topology and chart inputs:** `AlgebraicGeometry.Smooth.exists_isStandardSmooth`
+  in `Mathlib/AlgebraicGeometry/Morphisms/Smooth.lean` supplies local standard-smooth
+  presentations. `TopCat.GlueData` and `IsProperMap` supply topological gluing and
+  proper continuous maps; the latter includes continuity and does not impose
+  Hausdorffness on either space.
 - **Smoothness ingredient:** `Mathlib/RingTheory/Nilpotent/GeometricallyReduced.lean`.
 - **Combinatorial prerequisites** (not ready-made algebraic-group infrastructure; they
   supply abstract root systems/Weyl groups; extracting a *root datum from a group* still
@@ -93,6 +101,10 @@ prove them equivalent** rather than committing.
 
 ### From Tau Ceti
 
+- `AnalyticAt.exists_openPartialHomeomorph`, in
+  `TauCeti/Analysis/Analytic/Inverse.lean`, supplies analytic local inverses when
+  the derivative is a continuous linear equivalence, over a complete normed
+  source. Section 3A.5 applies it over ℂ in finite-dimensional coordinate spaces.
 - Mathlib `AlgebraicGeometry.Group.Affine` provides `hopfSpec.fullyFaithful` and
   `essImage_hopfSpec`; use this affine group scheme/Hopf-algebra dictionary. Its scope is
   affine group schemes over `Spec R`. Mathlib `AlgebraicGeometry.Group.Smooth` provides
@@ -130,7 +142,8 @@ prove them equivalent** rather than committing.
 
 Sections 1.1 and 1.14–1.18 supply fpqc quasi-coherent descent, sheaf descent,
 group actions, torsors and quotient-stack interfaces. They do not turn every group
-quotient sheaf into a scheme. Section 0.7 supplies scheme dimension theory.
+quotient sheaf into a scheme. Section 0.7 supplies scheme dimension theory;
+§4.12 supplies Chow's lemma for the properness comparison in §3A.5.
 
 ### From TauCetiRoadmap.ModularCurves
 
@@ -513,18 +526,71 @@ Define `AlgebraicOrbits.orbitBoundary` as closure minus orbit, and
 *Needs:* Layers 0–1; §3A.1 action maps; §3A.2 constructibility;
 SchemeAndStackFoundations §0.7 scheme dimension and reduction.
 
-**3A.5 Properness and the complex comparison.** If X is proper over k,
-the closed orbit model is proper; in particular apply the existing
-SchemeAndStackFoundations0.3 relative-Proj/projective-space carrier and
-the projective-morphism properness theorem to projective X. Consume native
-`IsProper (Proj.toSpecZero 𝒜)` at its `Algebra.FiniteType (𝒜 0) A`
-hypothesis and transport through the actual projective-space/closed-immersion
-maps. Over ℂ,
-consume ComplexComparisonPartII C−1.1's actual `.complexPoints`,
-`.closedSubspace`, `.proper`, `.separatedHausdorff` and `.smooth`
-interfaces, not a proper-GAGA theorem or an invented analytification
-functor. Prove the point-map, subspace-topology and properness comparison
-at these finite-type hypotheses. A proper scheme over ℂ has compact
+### 3A.5 Classical complex points, smooth charts and properness
+
+For every scheme X locally of finite type over ℂ, put the classical topology on
+X(ℂ)=Hom_ℂ(Spec ℂ,X). On Spec(ℂ[t₁,…,tₙ]/I) it is the topology of the common
+zero locus of I in ℂⁿ. Prove independence of the finite presentation and glue over
+arbitrary affine open covers, with no separatedness, reducedness or smoothness
+assumption. This constructs a functor to topological spaces on the native scheme
+point carrier (SGA 1, Exposé XII, Theorem and Definition 1.1 and §1.2,
+retyped pp. 239–241). The defining affine charts and their open gluing determine
+the topology, including for infinite covers.
+
+Its API is:
+
+- Every scheme morphism over ℂ induces its usual point map continuously; identity,
+  composition, open restrictions and fibre products commute with this construction.
+  Open and closed immersions induce open and closed embeddings, respectively;
+  reduction induces a homeomorphism (SGA 1 XII, §1.1(a)–(c), §1.2).
+- A separated X has Hausdorff complex points. A proper morphism between locally
+  finite-type complex schemes induces a proper continuous map; in particular a
+  proper complex scheme has compact Hausdorff points (SGA 1 XII, Proposition 3.1(viii)
+  and Proposition 3.2(v), pp. 244–247). One route uses the closed diagonal, projective
+  space compactness and SchemeAndStackFoundations §4.12's Chow lemma, locally on
+  the target, as in the proof of Proposition 3.2(v).
+- For smooth X, construct holomorphic charts from local standard-smooth
+  presentations and prove compatibility under changes of presentation. On each
+  locus of constant dimension d, these give the native complex manifold modeled
+  on ℂᵈ; regular maps between smooth schemes are holomorphic, and étale maps are
+  local biholomorphisms. No constant dimension is imposed across different
+  components. For finite-type X the point topology is second countable; Hausdorffness
+  still requires separatedness (SGA 1 XII, Proposition 3.1(iii)–(iv), pp. 244–245;
+  Serre, GAGA, §2 no. 5, pp. 8–9, for the affine-chart topology).
+
+**Checks.**
+
+- A⁰(ℂ) is one point, A¹(ℂ) is ℂ with its usual topology, and the unit ideal gives
+  no points. The discrete topology would incorrectly make the sequence 1/n
+  fail to converge to 0 in A¹(ℂ).
+- Spec ℂ[ε]/(ε²) and its reduction both have one complex point, but their algebraic
+  tangent dimensions are 1 and 0. Topological reduction invariance does not identify
+  their structure sheaves or assert that the nonreduced scheme is smooth.
+- The line with doubled origin has two distinct origins whose neighborhoods always
+  intersect. Its charts are copies of ℂ, but its point space is not Hausdorff.
+- P¹(ℂ) has the two charts z and w with w=1/z: at z=2, w=1/2 and dw/dz=−1/4.
+  It is compact; A¹(ℂ) is not, since the sequence of positive integers is unbounded.
+- The node xy=0 has tangent dimension 2 at (0,0) and dimension 1 along each
+  punctured branch, so smooth one-dimensional charts cannot be assigned there.
+  On Gₘ, z↦z² has derivative 2 at 1 and local inverse derivative 1/2; at 0 on A¹
+  its derivative is 0 and there is no local inverse.
+- An uncountable disjoint union of complex points is locally of finite type with
+  discrete topology and is not second countable. The finite-type hypothesis in
+  the countability assertion cannot be dropped.
+
+*Needs:* native scheme points, affine presentations and open gluing;
+Mathlib `TopCat.GlueData`, `IsProperMap`,
+`AlgebraicGeometry.Smooth.exists_isStandardSmooth` and finite-dimensional complex
+manifold carriers; Tau Ceti `AnalyticAt.exists_openPartialHomeomorph`;
+SchemeAndStackFoundations §4.12 for the Chow-lemma proof route.
+
+For the orbit application, if X is proper over k, the closed orbit model is proper.
+Use SchemeAndStackFoundations §0.3's relative-Proj/projective-space carrier and the
+projective-morphism properness theorem for projective X. Consume native
+`IsProper (Proj.toSpecZero 𝒜)` at its `Algebra.FiniteType (𝒜 0) A` hypothesis and
+transport through the actual projective-space/closed-immersion maps. Apply the
+preceding complex-points functor and its subspace and properness comparisons.
+A proper scheme over ℂ has compact
 Hausdorff complex points; the closed orbit therefore has compact complex
 points. To obtain its complex manifold, prove that the reduced orbit
 model is smooth: over the perfect field ℂ its nonempty smooth locus
@@ -601,8 +667,8 @@ without the actual stabilizer/separability hypotheses.
 
 The generic algebraic construction belongs here. SchemeAndStackFoundations
 retains generic constructibility/dimension/projective/coherent geometry,
-ComplexComparisonPartII retains generic analytification and properness,
-and LieGroups retains finite-dimensional analytic quotient/manifold theory.
+Section 3A.5 supplies the classical topology and smooth charts, while
+LieGroups supplies finite-dimensional analytic quotient/manifold theory.
 NilpotentOrbits' adjoint orbit and SchubertGeometry's highest-line/flag
 comparison consume or compare with this earlier phase without becoming
 its prerequisites. The orbit headline statements are in
@@ -2586,8 +2652,8 @@ and runs once RootSystems' finite Coxeter presentation is available.
 
 ### 11.0 The group-specific analytic dictionary
 
-For a smooth affine finite-type complex group G=Spec H, use the analytification
-of ComplexComparisonPartII §C−1.1. Transport its topology and atlas to native
+For a smooth affine finite-type complex group G=Spec H, use §3A.5's classical
+complex points and smooth charts. Transport its topology and atlas to native
 Hopf points, preserving convolution, counit and antipode. Prove that the regular
 group operations give a complex Lie group and identify its Lie algebra with
 counit-valued derivations on H. The comparison takes a tangent vector to its
@@ -2606,8 +2672,8 @@ comparisons supply the spectral charts and the corresponding oper applications.
 - In SL₂, E=E₁₂ and F=E₂₁ give [E,F]=diag(1,−1); right-invariant vector
   fields would give the opposite sign and are excluded by the convention.
 
-*Needs:* Layers 0–2 dictionaries and tangent spaces; ComplexComparisonPartII §C−1.1
-analytification, smooth charts and regular-map comparison.
+*Needs:* Layers 0–2 dictionaries and tangent spaces; §3A.5 classical complex
+points, smooth charts and regular-map comparison.
 
 **11A. Plane configurations, geometric braids and their basepoints.** Construct
 injective ordered complex tuples, their permutation quotient, the disc comparison,
@@ -2879,6 +2945,11 @@ those points. Their CFSG milestone L5 needs constructions rather than existence 
 
 ## References
 
+- A. Grothendieck et al., *Revêtements étales et groupe fondamental* (SGA 1),
+  retyped edition, arXiv:math/0206203v2, Exposé XII by M. Raynaud, §§1–3,
+  pp. 239–247: complex points, charts and properness.
+- J.-P. Serre, *Géométrie algébrique et géométrie analytique* (1956),
+  §2 no. 5, pp. 8–9: the classical topology and regular maps.
 - J. S. Milne, *Algebraic Groups* (2017): a scheme-theoretic reference.
 - W. C. Waterhouse, *Introduction to Affine Group Schemes*: Hopf algebras, comodules,
   closed subgroups, the unipotent radical.

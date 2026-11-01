@@ -14,7 +14,9 @@ relative split reductive group with prescribed full root datum and pinning. The
 highest-weight classification lacks the rational highest-weight modules and their
 identification with the prescribed integral model. The spectral monodromy theorem
 lacks the constructed regular-semisimple quotient and its analytic comparison on
-the native group-point carrier. Lang surjectivity lacks the general scheme Frobenius
+the native group-point carrier. The complex-points properness and smooth-chart
+comparisons lack the classical-topology functor and its compatible manifold atlas
+on native scheme points; these are constructions of README §3A.5. Lang surjectivity lacks the general scheme Frobenius
 and geometric-connectedness comparison on that carrier. These endpoints remain in
 the README; no surrogate constructor or arbitrary maps are assumed here.
 -/
