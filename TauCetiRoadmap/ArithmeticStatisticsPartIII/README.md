@@ -8,6 +8,8 @@ This is Part III of the eight-part arithmetic-statistics roadmap. It owns Layer 
 
 The boundaries fix the carriers and prevent parallel versions of existing mathematics.
 
+- ArithmeticStatisticsPartI §0.3, **Eligible pairs are nine lattice translates**, owns the eligibility classification; §2.4 here counts those translates in bounded-height sign regions. AnalyticNumberTheoryPartII §§5.4–5.5 own the cubic action, real orbit classification and stabilizers; §2.6 here defines their counting regions. ArithmeticStatisticsPartII §1.2, **Index p subrings of a cubic ring** and **Index p overrings of a cubic ring**, owns both basis-change dictionaries; §2.7 here deduces the orbit-fibre bound. Its §1.3, **Pairs of ternary quadratic forms**, owns the coefficient, determinant and resolvent algebra; §2.8 uses polynomial specializations of it to state the statistical theorem.
+
 - PolynomialGaloisGroups Layers 0, 2 and 4 supply the root-permutation action and static integral resolvents. InverseGaloisAndArithmeticFundamentalGroups §§IG.0–IG.2 supply specialization and quantitative Hilbert irreducibility. The anisotropic weighted-box exclusion and its uniform rectangular curve estimate are targets here.
 - GlobalNumberFields Layers 0–3 and 11 supply places, ideal classes, units, ideal lattices, order classes and discriminant/index-square identities. GeometryOfNumbersAndQuadraticArithmetic Layers 0–4 supply primitive-vector saturation, successive minima and bounded semialgebraic lattice counts. The new estimates use skew, truncated and averaged arithmetic regions, with the cusp and divisor-multiplicity errors retained.
 - For number fields, AdelicAlgebraicGroups Layers 0–4 supply adelic Haar measures, quotient integration, arithmetic reduction and fundamental multisets. The function-field lattice and reduction branch is owned in §2.10. The representation-specific Jacobians, cusp estimates and the `SL₂` Tamagawa value in the Local mass and assembly target of the Supporting uniform estimates are targets here.
@@ -59,13 +61,15 @@ AbelianSchemesAndArithmeticModuli §§`A3`.1–`A3`.6 supply isogenies, finite-f
 
 AnalyticNumberTheoryPartI §3.26 supplies `τ(n)≪_ε n^ε` for every positive integer `n`, with the constant retained at small inputs; §3.22 supplies `Σ_(n≤Y)τ(n)=O(Y log Y)`. Its §§3.3–3.4 and §3.27 supply ideal-coefficient and fixed-degree ideal-count bounds; Layer 0 supplies prime selection, and Layer 3 supplies multiplicative sums and partial summation for the weighted sieve. Completed ArithmeticDirichletSeries Layer 3 supplies `EulerProductData`; Layer 6 supplies `perronFormula` and `continuedLFunctionOfWeight`; Layer 9 supplies `wienerIkehara` with its `LSeriesHasSum`, nonnegative coefficient/residue and continuous boundary remainder hypotheses. The arithmetic residue and boundary verification are application targets here or in the cited denominator owner. AutomorphicLFunctionsAndLocalFactors §AL.0, **Vector-space Poisson comparison and compact-uniform estimates**, supplies the additive adelic Fourier/Poisson interface used in the `SL₂` volume argument, with the required absolute sums and integrability.
 
-AnalyticNumberTheoryPartII supplies the binary-cubic action and discriminant (§5.4), projective cubic-algebra equivalence (§5.5), finite weighted cubic coefficients (§5.6), uniform small-degree field bound (§5.7), cubic continuation and residues (§5.21), pole-aware cubic convexity (§5.28), and quadratic large sieve and real-character moment (§5.29). The projective equivalence includes nonprincipal rank-two modules, stabilizers and determinant-line discriminants; the free-lattice counting adapters retain these inputs. The source-specific local selectors, secondary densities, sieve estimates and statistical applications are targets here.
+AnalyticNumberTheoryPartII supplies the binary-cubic action and discriminant (§5.4), projective cubic-algebra equivalence (§5.5), finite weighted cubic coefficients (§5.6), uniform small-degree field bound (§5.7), cubic continuation and residues (§5.21), pole-aware cubic convexity (§5.28), and quadratic large sieve and real-character moment (§5.29). Over ℝ, §5.5 identifies the two étale cubic algebras ℝ³ and ℝ×ℂ and their automorphism orders 6 and 2. The projective equivalence includes nonprincipal rank-two modules, stabilizers and determinant-line discriminants; the free-lattice counting adapters retain these inputs. The source-specific local selectors, secondary densities, sieve estimates and statistical applications are targets here.
 
 ### From earlier arithmetic-statistics parts
 
+ArithmeticStatisticsPartI §0.3, **Eligible pairs are nine lattice translates**, supplies the nine residues modulo 9×27 and density 1/27. ArithmeticStatisticsPartII §1.2, **Index p subrings of a cubic ring** and **Index p overrings of a cubic ring**, supplies the root/subring and double-root/overring correspondences with their normal-basis substitutions and discriminant scaling by p². Its §1.3, **Pairs of ternary quadratic forms**, supplies the six-coefficient integer-valued convention, integral four-times-determinant polynomial, resolvent 4 Det(Ax−By), and covariance under pair and variable changes. These are used at every prime, including 2 and 3.
+
 ArithmeticStatisticsPartI, **Strong weak discriminant**, supplies the strong and weak square-divisibility predicates on coefficient vectors, their partition and coefficient-residue invariance; §2.1 here extends the exponent and proves derivative and binary splitting-type criteria. ArithmeticStatisticsPartII, **Supporting descent and integral realization**, supplies the divided-coefficient cubic discriminant of its target **Divided-coefficient cubic discriminant**, its homogeneity and ordinary-discriminant comparison, and **Three-isogeny mirror dictionary** with the actual Kummer images, local integral representatives and rational/integral stabilizer mass identity. The counting charts and adelic multiplicity assembly here specialize those objects.
 
-From ArithmeticStatisticsPartI require [ArithmeticStatisticsPartI, invariants height and eligible pairs][AS-I-1], [ArithmeticStatisticsPartI, acceptable weight function][AS-I-2], [ArithmeticStatisticsPartI, refinement binary discriminant][AS-I-3], [ArithmeticStatisticsPartI, refinement symmetric pencil][AS-I-4], [ArithmeticStatisticsPartI, family defined by local conditions][AS-I-5], [ArithmeticStatisticsPartI, stabilizer weighted orbit count][AS-I-6], [ArithmeticStatisticsPartI, twist denominator frontier][AS-I-7], [ArithmeticStatisticsPartI, binary cubic forms and the twisted action][AS-I-8]. Their hypotheses, weights, cutoffs and normalizations are retained at the point of use below.
+From ArithmeticStatisticsPartI require [ArithmeticStatisticsPartI, invariants height and eligible pairs][AS-I-1], [ArithmeticStatisticsPartI, acceptable weight function][AS-I-2], [ArithmeticStatisticsPartI, §0.12, Binary discriminant][AS-I-3], [ArithmeticStatisticsPartI, §0.22, Symmetric pencil][AS-I-4], [ArithmeticStatisticsPartI, family defined by local conditions][AS-I-5], [ArithmeticStatisticsPartI, stabilizer weighted orbit count][AS-I-6], [ArithmeticStatisticsPartI, §0.15, Positive squareclass denominator][AS-I-7], [ArithmeticStatisticsPartI, binary cubic forms and the twisted action][AS-I-8]. Their hypotheses, weights, cutoffs and normalizations are retained at the point of use below.
 
 From ArithmeticStatisticsPartII require [ArithmeticStatisticsPartII, stabilizer of a binary quartic is two torsion][AS-II-1], [ArithmeticStatisticsPartII, embedding into pairs of ternary quadratic forms][AS-II-2], [ArithmeticStatisticsPartII, fibres of the embedding are uniformly bounded][AS-II-3], [ArithmeticStatisticsPartII, binary quartic parametrization of e mod 2e][AS-II-4], [ArithmeticStatisticsPartII, delone faddeev parametrization of cubic rings][AS-II-5], [ArithmeticStatisticsPartII, pairs of ternary quadratic forms][AS-II-6], [ArithmeticStatisticsPartII, bhargava parametrization of quartic rings][AS-II-7], [ArithmeticStatisticsPartII, quartic ring and cubic resolvent][AS-II-8], [ArithmeticStatisticsPartII, existence and number of cubic resolvents][AS-II-9], [ArithmeticStatisticsPartII, maximality of quartic rings at p][AS-II-10], [ArithmeticStatisticsPartII, quadruples of quinary alternating forms][AS-II-11], [ArithmeticStatisticsPartII, bhargava parametrization of quintic rings][AS-II-12], [ArithmeticStatisticsPartII, maximality of quintic rings at p][AS-II-13], [ArithmeticStatisticsPartII, refinement one matrix slice][AS-II-14], [ArithmeticStatisticsPartII, refinement marked q][AS-II-15], [ArithmeticStatisticsPartII, refinement q discriminant divisibility][AS-II-16], [ArithmeticStatisticsPartII, refinement weak lift odd][AS-II-17], [ArithmeticStatisticsPartII, refinement even weak lift][AS-II-18], [ArithmeticStatisticsPartII, refinement q hyperdeterminant][AS-II-19], [ArithmeticStatisticsPartII, refinement integral pencil orbits][AS-II-20], [ArithmeticStatisticsPartII, ternary cubic forms and their invariants][AS-II-21], [ArithmeticStatisticsPartII, invariance of ternary cubic invariants][AS-II-22], [ArithmeticStatisticsPartII, refinement genus one stabilizer schemes][AS-II-23]. Their hypotheses, weights, cutoffs and normalizations are retained at the point of use below.
 
@@ -209,9 +213,9 @@ The required API is:
 
 - Substitution invariance: `γ ∈ GL_2(ℤ)`: `γ·f ∈ W_p(V) ↔ f ∈ W_p(V)`, and likewise for `W_p^(1)(V), W_p^(2)(V), W_p(U), W_p^(1)(U), W_p^(2)(U)`.
 
-- `quarticW1_iff_splittingType`: For `p ≥ 3`: `f ∈ W_p^(1)(V)` iff `f ∈ pV_ℤ` or `f mod p` has splitting type `(1^3 1), (1^2 1^2), (2^2)` or `(1^4)`.
+- For integral binary quartics and `p ≥ 3`: `f ∈ W_p^(1)(V)` iff `f ∈ pV_ℤ` or `f mod p` has splitting type `(1^3 1), (1^2 1^2), (2^2)` or `(1^4)`.
 
-- `cubicW1_iff_tripleRoot`: For `p ≥ 3`: `f ∈ W_p^(1)(U)` iff `f ∈ pU_ℤ` or `f mod p` has a triple root in `ℙ^1(𝔽_p)`.
+- For integral binary cubics and `p ≥ 3`: `f ∈ W_p^(1)(U)` iff `f ∈ pU_ℤ` or `f mod p` has a triple root in `ℙ^1(𝔽_p)`.
 
 For the proof, The predicates are decidable conditions on residue classes: strong divisibility quantifies over the finitely many `a′ mod p^j` with `a′ ≡ a (mod p)`. For `j = 2`, Taylor expansion `f(a + pb) ≡ f(a) + p Σ_i b_i ∂f/∂x_i(a) (mod p^2)` (MvPolynomial.pderiv) shows: `f` is strongly a multiple of `p^2` at a iff `p^2 | f(a)` and `p | ∂f/∂x_i(a)` for every `i`. `GL_2(ℤ)`-invariance of `W_p, W_p^(1), W_p^(2)` on `V_ℤ` and `U_ℤ`: `Δ(γ·f) = Δ(f)` (resp. `Disc(γ·f) = Disc(f)`) for `γ ∈ GL_2(ℤ)` because `det γ = ±1` and the weights are even, and `γ·(f + pg) = γ·f + p(γ·g)` with `γ·g` integral.
 
@@ -719,13 +723,13 @@ For the proof, Combine averaging over the fundamental domain and cutting the cus
 
 - Consistency with Theorem 1.8: dividing by the number of eligible invariant pairs gives `ζ(2)/2, ζ(2), ζ(2)` (average number of classes per eligible invariant pair (§2.4)).
 
-**Eligible invariant pairs of bounded height.** (a) The set of eligible pairs `(I, J) ∈ ℤ^2` (those occurring as the invariants of an integral binary quartic form) is the union of 9 distinct translates of the lattice `9ℤ × 27ℤ`. (b) Let `N^±_{I,J}(X)` be the number of eligible `(I, J)` with `H(I, J) < X` and `±(4I^3 − J^2) > 0`. Then `N^+_{I,J}(X) = (8/135)X^{5/6} + O(X^{1/2})` and `N^−_{I,J}(X) = (32/135)X^{5/6} + O(X^{1/2})`.
+**Eligible invariant pairs of bounded height.** Let `N^±_{I,J}(X)` be the number of eligible `(I, J)` with `H(I, J) < X` and `±(4I^3 − J^2) > 0`. Then `N^+_{I,J}(X) = (8/135)X^{5/6} + O(X^{1/2})` and `N^−_{I,J}(X) = (32/135)X^{5/6} + O(X^{1/2})`.
 
-Eligibility is characterised by the congruences of Theorem 1.7, owned by [ArithmeticStatisticsPartI, invariants height and eligible pairs][AS-I-1]
+Use the nine lattice translates supplied by ArithmeticStatisticsPartI §0.3, **Eligible pairs are nine lattice translates**.
 
-For the proof, (a) By Theorem 1.7, `(I, J)` is eligible iff `I ≡ 0 (mod 3)` and `J ≡ 0 (mod 27)`, or `I ≡ 1, 4, 7 (mod 9)` with `J ≡ ±2, ±16, ±7 (mod 27)` respectively. The first condition is 3 classes of `I mod 9` times 1 class of `J mod 27`; the others are `3·2 = 6` classes; 9 classes of `(I mod 9, J mod 27)` in all. (b) The region `R^±_{I,J}(X) = {(i, j) : |i| < X^{1/3}, |j| < 2X^{1/2}, ±(4i^3 − j^2) > 0}` is semialgebraic with bounded complexity and its coordinate projections have length `O(X^{1/2})`; Davenport's lemma (requested from GeometryOfNumbersAndQuadraticArithmetic §4.1) applied to each of the 9 translates of `9ℤ × 27ℤ` (index 243) gives `N^± = (9/243)Vol(R^±_{I,J}(X)) + O(X^{1/2})`. `Vol(R^+_{I,J}(X)) = (8/5)X^{5/6}` and `Vol(R^−_{I,J}(X)) = (32/5)X^{5/6}` (the areas of volume of the fundamental region for binary quartic forms (§2.4), computed there by elementary integration); `(1/27)(8/5) = 8/135` and `(1/27)(32/5) = 32/135`.
+For the proof, The region `R^±_{I,J}(X) = {(i, j) : |i| < X^{1/3}, |j| < 2X^{1/2}, ±(4i^3 − j^2) > 0}` is semialgebraic with bounded complexity and its coordinate projections have length `O(X^{1/2})`; Davenport's lemma (requested from GeometryOfNumbersAndQuadraticArithmetic §4.1) applied to each of the 9 translates of `9ℤ × 27ℤ` (index 243) gives `N^± = (9/243)Vol(R^±_{I,J}(X)) + O(X^{1/2})`. `Vol(R^+_{I,J}(X)) = (8/5)X^{5/6}` and `Vol(R^−_{I,J}(X)) = (32/5)X^{5/6}` (the areas of volume of the fundamental region for binary quartic forms (§2.4), computed there by elementary integration); `(1/27)(8/5) = 8/135` and `(1/27)(32/5) = 32/135`.
 
-*Needs:* [ArithmeticStatisticsPartI, invariants height and eligible pairs][AS-I-1], GeometryOfNumbersAndQuadraticArithmetic §4.1.
+*Needs:* ArithmeticStatisticsPartI §0.3, **Eligible pairs are nine lattice translates**; GeometryOfNumbersAndQuadraticArithmetic §4.1.
 
 ([1], Section 2.4, Lemma 2.9 and Proposition 2.10 with proof, printed p. 14; [1], Proof of Proposition 2.10, printed p. 14.)
 
@@ -891,17 +895,15 @@ For the proof, For `n≥1`, define `psi_{p,n}` and `psiPrime_{p,n}` as the infim
 
 ### 2.6 Cubic fundamental regions and finite congruences
 
-**Real orbits and stabilizers of binary cubic forms.** Let `U_ℝ` be the space of real binary cubic forms `f = ax^3 + bx^2y + cxy^2 + dy^3` with the twisted action `γ·f := (det γ)^{−1} f((x, y)γ)` of `GL_2(ℝ)` (the action (9) of [ArithmeticStatisticsPartII, delone faddeev parametrization of cubic rings][AS-II-5]), and `Disc(f) = b^2c^2 − 4ac^3 − 4b^3d − 27a^2d^2 + 18abcd`. (a) `Disc(γ·f) = (det γ)^2 Disc(f)`, and the scalar matrix `λ·1` acts by `f ↦ λf`. (b) `U_ℝ^(0) := {Disc > 0}`, the forms with three distinct real roots in `ℙ^1(ℝ)`, and `U_ℝ^(1) := {Disc < 0}`, the forms with one real root and a pair of complex conjugate roots, are each a single `GL_2(ℝ)`-orbit. (c) The stabiliser in `GL_2(ℝ)` of `f ∈ U_ℝ^(0)` has order `n_0 := 6` and acts on the three roots as the full symmetric group; the stabiliser of `f ∈ U_ℝ^(1)` has order `n_1 := 2`. Put `U_ℤ^(i) := U_ℝ^(i) ∩ U_ℤ`.
+**Real sign regions for binary cubic counting.** Define `U_ℝ^(0)={f : Disc(f)>0}` and `U_ℝ^(1)={f : Disc(f)<0}` in the real binary cubic coefficient space, and put `U_ℤ^(i)=U_ℝ^(i)∩U_ℤ`. Use the determinant-twisted action and real orbit/stabilizer classification of AnalyticNumberTheoryPartII §§5.4–5.5 to identify these counting regions with the types ℝ³ and ℝ×ℂ, respectively. Write their full stabilizer orders as `n_0=6` and `n_1=2` in the averaging formulas.
 
-**Supplier ownership.** AnalyticNumberTheoryPartII §5.5 supplies the real local types and stabilizer orders; the real sign-region notation below is the counting adapter. The detailed contract and Checks are retained below for the specialization.
+- The two regions are disjoint and their union is the nonzero-discriminant locus.
+- Under an invertible real change of variables, the discriminant is multiplied by the positive square of the determinant; membership in each region is preserved.
+- The supplied real types identify three distinct projective real roots in the positive region and one in the negative region. The scalar matrix λ·1 acts by f↦λf, so integral negation preserves the region and contributes no ineffective central stabilizer.
 
-The twisted action `(det gamma)^{-1}` is the Delone–Faddeev action; the untwisted scalar action would be `lambda³` instead of `lambda`, although over `R` the stabilizer orders are still 6 and 2 because every nonzero real scalar has a unique real cube root. Only forms with `Disc ≠ 0` are in `U_ℝ^(0) ∪ U_ℝ^(1)`
+*Needs:* AnalyticNumberTheoryPartII §§5.4–5.5, binary-cubic action and cubic-algebra equivalence with stabilizers.
 
-For the proof, (a) `Disc` is homogeneous of degree 4 and relatively invariant of weight 6 under substitution, `Disc(f((x, y)γ)) = (det γ)^6 Disc(f)`; the factor `(det γ)^{−1}` multiplies `Disc` by `(det γ)^{−4}`. For `λ·1`: `f((x, y)λ)/λ^2 = λf`. (b) Roots: by `Cubic.discr_eq_prod_three_roots` (after moving a root away from `[1 : 0]` if `a = 0`), `Disc > 0` iff the three roots are real and distinct, and `Disc < 0` iff one is real and two are complex conjugate. `PGL_2(ℝ)` is simply 3-transitive on `ℙ^1(ℝ)`, and transitive on pairs (real point, conjugate pair) (move the pair to `±i`, then rotate by the stabiliser `SO_2(ℝ)` of `i`, which is transitive on `ℙ^1(ℝ)`). A form is determined by its roots up to a nonzero scalar, and the scalars `λ·1` realise every scalar factor by (a). (c) An element of the stabiliser permutes the roots; the map to permutations is injective (an element fixing three points of `ℙ^1` is a scalar `λ·1`, which fixes `f` only for `λ = 1`). Every permutation of three real roots is induced by a unique class in `PGL_2(ℝ)`, and exactly one scalar multiple of a representative fixes `f`; for one real root and a conjugate pair, only the identity and the swap of the pair preserve the real structure, and the swap is realised by a reflection.
-
-*Needs:* [ArithmeticStatisticsPartII, delone faddeev parametrization of cubic rings][AS-II-5], `Cubic.discr_eq_prod_three_roots` (Mathlib).
-
-([2], Section 5, opening, p. 9; [2], Section 5.1, p. 10.)
+([2], §5, printed pp. 9–10, for the real counting regions and their multiplicities.)
 
 **Checks.**
 
@@ -915,9 +917,9 @@ For the proof, (a) `Disc` is homogeneous of degree 4 and relatively invariant of
 
 Irreducibility over `ℚ` is essential: `xy(x − y)` has a stabiliser of order 6 in `GL_2(ℤ)`
 
-For the proof, As in part (c) of real orbits and stabilizers of binary cubic forms (§2.6), `Stab_{GL_2(ℚ)}(f)` embeds into the permutations of the three roots of `f` in `ℙ^1(ℚ̄)`, and the image commutes with the action of `Gal(ℚ̄/ℚ)` because the elements are rational. `f` irreducible: `Gal(ℚ̄/ℚ)` acts transitively on the roots, through `A_3` or `S_3`. The centraliser of `A_3` in `S_3` is `A_3` and that of `S_3` is trivial. If the stabiliser is `A_3 ≅ C_3`, the Galois image is `A_3`, so `√Disc(f) = a^2(r_1 − r_2)(r_1 − r_3)(r_2 − r_3) (Cubic.discr_eq_prod_three_roots)` is fixed by Galois and rational; a cyclic cubic splits over `ℝ` as soon as one root is real, so `Disc(f) > 0`.
+For the proof, By the stabilizer comparison of AnalyticNumberTheoryPartII §5.5, `Stab_{GL_2(ℚ)}(f)` embeds into the permutations of the three roots of `f` in `ℙ^1(ℚ̄)`, and the image commutes with the action of `Gal(ℚ̄/ℚ)` because the elements are rational. `f` irreducible: `Gal(ℚ̄/ℚ)` acts transitively on the roots, through `A_3` or `S_3`. The centraliser of `A_3` in `S_3` is `A_3` and that of `S_3` is trivial. If the stabiliser is `A_3 ≅ C_3`, the Galois image is `A_3`, so `√Disc(f) = a^2(r_1 − r_2)(r_1 − r_3)(r_2 − r_3) (Cubic.discr_eq_prod_three_roots)` is fixed by Galois and rational; a cyclic cubic splits over `ℝ` as soon as one root is real, so `Disc(f) > 0`.
 
-*Needs:* real orbits and stabilizers of binary cubic forms (§2.6), [ArithmeticStatisticsPartII, delone faddeev parametrization of cubic rings][AS-II-5], `Cubic.discr_eq_prod_three_roots` (Mathlib).
+*Needs:* real sign regions for binary cubic counting (§2.6), [ArithmeticStatisticsPartII, delone faddeev parametrization of cubic rings][AS-II-5], `Cubic.discr_eq_prod_three_roots` (Mathlib).
 
 ([2], Section 5.1, p. 10; [2], Section 5.2, before Lemma 22, p. 11.)
 
@@ -935,7 +937,7 @@ Only `a ≠ 0`; the forms with `a = 0` have the factor `y` When concluding that 
 
 For the proof, Coefficient bounds: `f ∈ N′A′KΛv` with `λ < X^{1/4} (Disc(λ·v) = λ^4 Disc(v))`; the twisted action of `a(t)` multiplies the coefficients by `t^{−3}, t^{−1}, t, t^3`, so `a = O(λ/t^3) = O(X^{1/4}), ab = O(λ^2/t^4), ac, ad = O(λ^2) = O(X^{1/2}), abc = O(λ^3/t^3)` and `abd = O(λ^3/t) = O(X^{3/4})`. `d = 0` with `a ≠ 0`: `O(X^{3/4+ε})` forms from the bounds on `(a, b, c)`. a, `d ≠ 0`: `O(X^{3/4+ε})` triples `(a, b, d)`; a linear factor `rx + sy` has `r | a` and `s | d, O(X^ε)` choices by the divisor bound (requested from AnalyticNumberTheoryPartI §§3.22,3.26), and then `f(−s, r) = 0` determines `c`.
 
-*Needs:* gauss fundamental domain in iwasawa coordinates (§2.2), real orbits and stabilizers of binary cubic forms (§2.6), AnalyticNumberTheoryPartI §§3.22,3.26.
+*Needs:* gauss fundamental domain in iwasawa coordinates (§2.2), real sign regions for binary cubic counting (§2.6), AnalyticNumberTheoryPartI §§3.22,3.26.
 
 ([2], Section 5.2, Lemma 21 and proof, pp. 10-11.)
 
@@ -965,9 +967,9 @@ For the proof, The orbit-multiplicity ratio is `6/3=2` away from the modular bou
 
 The constant depends on the normalisation of dk; the source's `1/(2π)` is off by a factor 2 for its stated normalisation
 
-For the proof, At `g = n(u)a(t)k(θ)λ` the Jacobian determinant of `(u, t, θ, λ) ↦ g·v` with respect to da db dc dd equals `±2|Disc(g·v)|·t^{−3}λ^{−1}` (checked symbolically at the forms `xy(x − y), x^3 + xy^2, x^3 − 3xy^2` and `2x^3 + x^2y − 5xy^2 + 7y^3`); since `t^{−3}λ^{−1} du dt dθ dλ = 2π·dg, dv = 4π|Disc(g·v)| dg` on `GL_2^+(ℝ)`. `|Disc|^{−1}dv` is then `GL_2(ℝ)`-invariant (`Disc(γ·v) = (det γ)^2 Disc(v)` and the twisted action has determinant `(det γ)^2` on `U_ℝ`). The orbit map is `n_i`-to-one onto `U_ℝ^(i)` (real orbits and stabilizers of binary cubic forms (§2.6)); decompose into injective pieces and apply the change-of-variables formula `(MeasureTheory.integral_image_eq_integral_abs_det_fderiv_smul)`. The component of determinant `−1` contributes the same as `GL_2^+(ℝ)` by right translation.
+For the proof, At `g = n(u)a(t)k(θ)λ` the Jacobian determinant of `(u, t, θ, λ) ↦ g·v` with respect to da db dc dd equals `±2|Disc(g·v)|·t^{−3}λ^{−1}` (checked symbolically at the forms `xy(x − y), x^3 + xy^2, x^3 − 3xy^2` and `2x^3 + x^2y − 5xy^2 + 7y^3`); since `t^{−3}λ^{−1} du dt dθ dλ = 2π·dg, dv = 4π|Disc(g·v)| dg` on `GL_2^+(ℝ)`. `|Disc|^{−1}dv` is then `GL_2(ℝ)`-invariant (`Disc(γ·v) = (det γ)^2 Disc(v)` and the twisted action has determinant `(det γ)^2` on `U_ℝ`). The orbit map is `n_i`-to-one onto `U_ℝ^(i)` (real sign regions for binary cubic counting (§2.6)); decompose into injective pieces and apply the change-of-variables formula `(MeasureTheory.integral_image_eq_integral_abs_det_fderiv_smul)`. The component of determinant `−1` contributes the same as `GL_2^+(ℝ)` by right translation.
 
-*Needs:* real orbits and stabilizers of binary cubic forms (§2.6), gauss fundamental domain in iwasawa coordinates (§2.2), `MeasureTheory.integral_image_eq_integral_abs_det_fderiv_smul` (Mathlib).
+*Needs:* real sign regions for binary cubic counting (§2.6), gauss fundamental domain in iwasawa coordinates (§2.2), `MeasureTheory.integral_image_eq_integral_abs_det_fderiv_smul` (Mathlib).
 
 ([2], Section 5.3, Proposition 23, p. 12.)
 
@@ -1003,7 +1005,7 @@ The required API is:
 
 For the proof, The denominator is positive and finite for `C≥2`: the positive-discriminant form `(a,b,c,d)=(1/3,0,−1,0)` has Bombieri expression `4/3<2` and discriminant `4/3>1`; the negative form `(1/2,0,0,1/2)` has expression `3/2<2` and `|Disc|=27/16>1`. Thus both loci contain an open subset of `B(C)`; compactness and `|Disc|≥1` give finiteness. For `GL_2(ℤ)`-invariant `S` the integrand is, for almost every `v`, with respect to `|Disc(v)|^{-1}dv` (the boundary exceptions are null under the orbit-map change of variables), `Σ` over irreducible classes `[x] ⊆ S` with `|Disc(x)| < X` of `n_i/#Stab_{GL_2(ℤ)}(x)` (`F·v` is `n_i` fundamental domains), so `N(S; X) = Σ_{[x]} 1/#Stab_{GL_2(ℤ)}(x)`: classes are counted with weight 1, and the classes with stabiliser `C_3` with weight `1/3`.
 
-*Needs:* real orbits and stabilizers of binary cubic forms (§2.6), stabilizers of irreducible integral binary cubic forms (§2.6), gauss fundamental domain in iwasawa coordinates (§2.2).
+*Needs:* real sign regions for binary cubic counting (§2.6), stabilizers of irreducible integral binary cubic forms (§2.6), gauss fundamental domain in iwasawa coordinates (§2.2).
 
 ([2], Section 5.3, (17), p. 12; [2], Section 5.3, p. 12.)
 
@@ -1093,19 +1095,17 @@ For the proof, (a) Repeat the proof of davenport count of binary cubic forms (§
 
 ### 2.7 Cubic switching and infinite local conditions
 
-**Index p switching for binary cubic forms.** Let `p` be a prime and use the twisted action on `U_ℚ`. (a) If `f = (a, b, c, d) ∈ U_ℤ` has `p^2 | a` and `p | b`, then `f′ := diag(p^{−1}, 1)·f = (a/p^2, b/p, c, pd) ∈ U_ℤ, Disc(f′) = p^{−2}Disc(f), f′(0, 1) ≡ 0 (mod p)`, and `f = diag(p, 1)·f′`. (b) Conversely, if `g ∈ U_ℤ` and `α ∈ ℙ^1(𝔽_p)` is a root of `g mod p`, choose `γ_α ∈ GL_2(ℤ)` whose bottom row reduces to a representative of `α`; then `f_{g,α} := diag(p, 1)·(γ_α·g) ∈ U_ℤ` has `p^2 | a` and `p | b`, and its `GL_2(ℤ)`-class depends only on the `GL_2(ℤ)`-class of `g` and on `α` modulo the action of `Stab_{GL_2(ℤ)}(g)`. (c) Consequently every `GL_2(ℤ)`-class of forms `f` with `Disc(f) ≠ 0` having a translate with `p^2 | a` and `p | b` is the class of some `f_{g,α}` with `|Disc(g)| = |Disc(f)|/p^2`, and the number of such classes attached to one class `[g]` is at most the number of roots of `g mod p` in `ℙ^1(𝔽_p)`: at most 3 if `g ≢ 0 (mod p)`, at most `p + 1` otherwise.
+**Index p switching for binary cubic forms.** For a prime p and an integral binary cubic g with nonzero discriminant, consider the integral equivalence classes of forms arising from index-p subrings of R(g). Their number is at most the number of projective roots of g modulo p: at most 3 if g is nonzero modulo p, and at most p+1 otherwise. Conversely, every nonzero-discriminant integral class with a representative `(a,b,c,d)` satisfying p²∣a and p∣b occurs from a class [g] with `|Disc(g)|=|Disc(f)|/p²` in this way.
 
-This is the form-theoretic content of BST Lemma 13 and Propositions `15-16` (index-`p` overrings and subrings of cubic rings); no ring theory is used The twisted action is the one of [ArithmeticStatisticsPartII, delone faddeev parametrization of cubic rings][AS-II-5]
+For the proof, apply ArithmeticStatisticsPartII §1.2, **Index p subrings of a cubic ring** and **Index p overrings of a cubic ring**, and its Delone–Faddeev equivalence. The supplied dictionaries identify actual subrings with roots, and identify their normal-basis forms and discriminants. Passing from embedded subrings to isomorphism classes is surjective, so it can only decrease the count. Automorphisms of R(g) may identify different roots; no injectivity on classes is claimed. Bound the roots of a nonzero homogeneous cubic by dehomogenization, retaining the possible root at infinity.
 
-For the proof, (a) `diag(p^{−1}, 1)·f = f(x/p, y)/det(diag(p^{−1}, 1)) = p·f(x/p, y) = (a/p^2)x^3 + (b/p)x^2y + cxy^2 + pdy^3`, and `Disc(γ·f) = (det γ)^2 Disc(f)` with `det γ = 1/p` (real orbits and stabilizers of binary cubic forms (§2.6) (a)). (b) `γ_α·g` vanishes at `[0 : 1]` `mod p`, i.e. its `y^3`-coefficient d′ is divisible by `p`; then `diag(p, 1)·(γ_α·g) = (p^2a′, pb′, c′, d′/p)` is integral. Two choices `γ_α, γ′_α` differ by `δ ∈ GL_2(ℤ)` with `p | δ_21`, and `diag(p, 1)δ diag(p, 1)^{−1} = [[δ_11, pδ_12], [δ_21/p, δ_22]] ∈ GL_2(ℤ)`; replacing `g` by `ε·g (ε ∈ GL_2(ℤ))` moves `α` accordingly. (c) Given `f`, move it so that `p^2 | a` and `p | b`, and take `g = f′` from `(a), α =` `[0 : 1]`; then `f = f_{g,α}`. A nonzero binary cubic form over `𝔽_p` has at most 3 roots in `ℙ^1(𝔽_p)` (`Polynomial.card_roots'` for its dehomogenisation, plus possibly `[1 : 0]`); the zero form has `p + 1`.
+*Needs:* ArithmeticStatisticsPartII §1.2, **Index p subrings of a cubic ring**, **Index p overrings of a cubic ring**, and **Delone Faddeev parametrization of cubic rings**; Mathlib `Polynomial.card_roots'`.
 
-*Needs:* [ArithmeticStatisticsPartII, delone faddeev parametrization of cubic rings][AS-II-5], real orbits and stabilizers of binary cubic forms (§2.6), `Polynomial.card_roots'` (Mathlib).
-
-([2], Section 3, Lemma 13 and the sentence after it, pp. 6-7; [2], Proof of Propositions 15 and 16, pp. 7-8.)
+([2], §3, Propositions 15–16 and their proofs, printed pp. 7–8.)
 
 **Checks.**
 
-- For `p = 5` and `g = x^3 + xy^2` (which vanishes at `[0 : 1]`), `f_{g,[0:1]} = diag(5, 1)·g = g(5x, y)/5 = 25x^3 + xy^2`, and `Disc(f) = −100 = 25·Disc(g)`.
+- For p=5 and g=x³+xy², the supplied basis dictionary at the root [0:1] gives f=25x³+xy², with Disc(f)=−100=25·(−4). The inverse overring dictionary recovers g.
 
 - The bound 3 (not `p + 1`) for `g ≢ 0 mod p` is what makes the switching estimate `O(X/p^2)` rather than `O(X/p)`.
 
@@ -1113,7 +1113,7 @@ For the proof, (a) `diag(p^{−1}, 1)·f = f(x/p, y)/det(diag(p^{−1}, 1)) = p�
 
 `W_p^DH` is the complement of the Davenport-Heilbronn set `U_p`; by BST Theorem 14 (owned with the Delone-Faddeev correspondence) it is the set of forms whose cubic ring is not maximal at `p`, but only the form definition is used here
 
-For the proof, Let `N(Y)` be the number of classes of irreducible integral binary cubic forms with `0 < |Disc| < Y`; by davenport count of binary cubic forms (§2.6), `N(Y) ≤ C_0·Y` for `Y ≥ 1`, and `N(Y) = 0` for `Y ≤ 1`. `f ∈ pU_ℤ`: `f = pf_0` with `f_0` irreducible and `Disc(f) = p^4 Disc(f_0)`, at most `N(X/p^4)` classes. Otherwise, by index p switching for binary cubic forms (§2.7), the classes are among the `f_{g,α}` with `|Disc(g)| < X/p^2` and `g` irreducible (`g` is `GL_2(ℚ)`-equivalent to `f`): at most `3N(X/p^2)` from `g ≢ 0 (mod p)`, and at most `(p + 1)N(X/p^6)` from `g = pg_0`. Total `≤ C_0(X/p^4 + 3X/p^2 + (p + 1)X/p^6) ≤ 5C_0·X/p^2`.
+For the proof, Let `N(Y)` be the number of classes of irreducible integral binary cubic forms with `0 < |Disc| < Y`; by davenport count of binary cubic forms (§2.6), `N(Y) ≤ C_0·Y` for `Y ≥ 1`, and `N(Y) = 0` for `Y ≤ 1`. `f ∈ pU_ℤ`: `f = pf_0` with `f_0` irreducible and `Disc(f) = p^4 Disc(f_0)`, at most `N(X/p^4)` classes. Otherwise, by index p switching for binary cubic forms (§2.7), the classes arise from index-p subrings of R(g) with `|Disc(g)| < X/p^2` and `g` irreducible (`g` is `GL_2(ℚ)`-equivalent to `f`): at most `3N(X/p^2)` from `g ≢ 0 (mod p)`, and at most `(p + 1)N(X/p^6)` from `g = pg_0`. Total `≤ C_0(X/p^4 + 3X/p^2 + (p + 1)X/p^6) ≤ 5C_0·X/p^2`.
 
 *Needs:* index p switching for binary cubic forms (§2.7), davenport count of binary cubic forms (§2.6).
 
@@ -1163,17 +1163,100 @@ For the proof, Approximate `φ_p` from above and below by functions defined modu
 
 **Quartic finite congruence count.** For integral pairs `(A,B)` of ternary quadratic forms in a `G_Z`-invariant union `S` of finitely many residue classes, `G_Z=GL₂(ℤ)×SL₃(ℤ)`, count absolutely irreducible orbits with `0<|Disc|<X` in real signature `i=0,1,2`, where the pair has `4−2i` common zeros in `ℙ²(ℝ)` and `Disc(A,B)` is the discriminant of the resolvent binary cubic form `4 Det(Ax−By)`. Then `N_i(S;X)=C_i X nu(S)+o_S(X)`, with normalized coefficient Haar measures, `C_i=zeta(2)^2 zeta(3)/(2 n_i)` and `(n_0,n_1,n_2)=(24,4,8)`. Absolutely irreducible means, as in the source, that the two conics have no common zero in `ℙ²(ℚ)` and that the resolvent cubic is irreducible over `ℚ`; equivalently the quartic algebra is a field whose Galois closure has group `A4` or `S4`. This is not an all-etale-orbit count.
 
-`Counting.quartic_pair_count` states the case without congruence conditions, the source's Theorem 7: for `4`, `2` or `0` common real zeros the number of classes with `|Disc|<X`, divided by `X`, tends to `zeta(2)^2 zeta(3)/48`, `zeta(2)^2 zeta(3)/8` and `zeta(2)^2 zeta(3)/16`. Its classes `Counting.quarticPairClasses` are the quotient by `Counting.pairOrbitSetoid`, the relation generated by `SL₃(ℤ)` substitutions in the three variables and `GL₂(ℤ)` combinations of the pair, of the pairs of homogeneous quadratics that satisfy `Counting.AbsolutelyIrreduciblePair` (no common rational projective zero, irreducible resolvent) and have `Counting.commonRealZeros` common real projective zeros. The resolvent `Counting.pairResolvent` is `4 Det(Ax−By)` written through the integral coefficient polynomial `Counting.ternaryDet4` in the coefficients `Counting.ternaryCoeff`, so that no half-integral Gram entry is formed, and the discriminant of the pair is its `Counting.cubicDiscriminant`. Here `nu(S)` is the actual proportion of allowed coefficient residues modulo a defining modulus `m`, with denominator `m^dim(V)`. It equals the product of normalized prime-power densities only when the conditions are imposed independently at those primes; coupled CRT conditions use `nu(S)`.
+`Counting.quartic_pair_count` states the finite-congruence theorem. Fix a positive integer m and a set R of pairs of homogeneous ternary quadratics over ℤ/mℤ. Require membership after coefficient reduction to be invariant under integral pair equivalence. The density is `nu(S)=#R/m^12`; R is finite because each quadratic has six coefficients. The theorem includes finiteness for every real cutoff X and convergence to `C_i nu(S)` for each of 4, 2 or 0 common real zeros. Independently imposed prime-power conditions give a product of densities; coupled CRT conditions use their actual joint proportion.
+
+The following definitions specialize ArithmeticStatisticsPartII §1.3, **Pairs of ternary quadratic forms**, to the native polynomial carriers needed by the count. Their algebraic identities use that supplier's coefficient and covariance laws ([6], §2, printed pp. 1035–1037); the projective predicates and the orbit-count restriction use [6], Theorem 7 and (32), printed pp. 1037 and 1055.
+
+**Coefficient extraction.** For a commutative ring R and a polynomial Q in three variables, `Counting.ternaryCoeff Q i j` is the coefficient of the monomial xᵢxⱼ, including xᵢ² when i=j. On homogeneous quadratics these are the six integer-valued coefficients, not off-diagonal Gram entries.
+
+- Extraction is R-linear in Q and symmetric in i,j.
+- A homogeneous quadratic is reconstructed by summing these coefficients over i≤j; each mixed monomial occurs once.
+- Extraction commutes with coefficient ring homomorphisms. It ignores all terms of degrees other than two.
+
+**Checks.**
+
+- For Q=u²+v²+w², the diagonal coefficients are (1,1,1) and the three mixed coefficients are zero; summing over all ordered pairs would double mixed terms in other examples.
+- For Q=uv+w², the uv coefficient is 1 in either index order, and the w² coefficient is 1. A half-Gram convention would incorrectly return 1/2 for uv.
+- For Q=0 all six coefficients are zero; for Q=1+u³ they are also zero, so the reconstruction assertion must assume homogeneity of degree two.
+
+**Integral determinant.** Define `Counting.ternaryDet4` by the integral six-coefficient polynomial `4adf+bce-ae²-dc²-fb²` for `Q=au²+buv+cuw+dv²+evw+fw²`. It equals four times the Gram determinant when 2 is invertible; its definition requires no division in the coefficient ring.
+
+- It is homogeneous of degree three in the six coefficients, so scaling Q by t scales this value by t³.
+- It commutes with every coefficient ring homomorphism, including reduction at 2 and 3.
+- For a homogeneous quadratic and an invertible variable change δ, its value scales by det(δ)², as in the supplied covariance law.
+
+**Checks.**
+
+- For u²+v²+w² the value is 4; the ordinary Gram determinant alone would give 1.
+- For uv+w² the value is −1; in characteristic 2 it is 1, whereas dividing a Gram matrix by 2 is undefined.
+- For the zero quadratic the value is 0. Scaling u²+v²+w² by 2 gives 32=2³·4, which distinguishes cubic from quadratic scaling.
+
+**Resolvent.** For an integral pair P=(A,B), define `Counting.pairResolvent P` to be the binary cubic `4 Det(Ax−By)`, evaluating the preceding integral coefficient polynomial after forming the pencil. Its source is a pair of ternary polynomials and its target is an integral binary polynomial; on quadratic pairs it is the supplied cubic resolvent.
+
+- The result is homogeneous of degree three in x,y; its fixed-degree `Counting.cubicDiscriminant` is the pair discriminant.
+- For pair change `(A,B)↦(aA+bB,cA+dB)`, substitute `(x,y)↦(ax−cy,dy−bx)` in the resolvent. A variable change δ contributes det(δ)².
+- Swapping A and B gives `−f(y,x)`. Simultaneously scaling both forms by t multiplies f by t³ and its discriminant by t¹².
+
+**Checks.**
+
+- For A=u²+v²+w² and B=u²+2v²+3w², f=4(x−y)(x−2y)(x−3y)=4x³−24x²y+44xy²−24y³; its discriminant is 1024. Swapping gives 24x³−44x²y+24xy²−4y³, exactly −f(y,x).
+- For A=uv+w² and B=0, f=−x³ and its discriminant is 0; for the zero pair both are zero. This checks the factor and sign without requiring nonsingularity.
+- For A=uw−v² and B=u²−vw−w², f=x³+4xy²+y³ and Disc=−283. Scaling the pair by 2 gives 8f and discriminant −1159168=4096·(−283).
+
+**Integral equivalence.** Define `Counting.pairOrbitSetoid` on integral polynomial pairs by the equivalence relation generated by `GL₂(ℤ)` combinations of the two forms and simultaneous `SL₃(ℤ)` substitutions in their three variables. On homogeneous quadratic pairs it is the supplied orbit relation.
+
+- The identity, inverse and composition of invertible pair and variable changes realize reflexivity, symmetry and transitivity; generated equivalence agrees with a single group orbit.
+- Homogeneity, pair discriminant, absolute irreducibility and common real projective zero count are preserved on quadratic pairs.
+- Coefficient reduction commutes with these changes. An invariant allowed residue set therefore defines a property of integral equivalence classes.
+
+**Checks.**
+
+- Swapping the two diagonal forms above twice recovers the original pair. Both resolvents have discriminant 1024 despite their different coefficients.
+- The variable substitution `(u,v,w)↦(u+v,v,w)` has determinant 1 and inverse `(u,v,w)↦(u−v,v,w)`. Applied to the diagonal A it gives u²+2uv+2v²+w² with determinant polynomial 4, equal to that of A.
+- Scaling both diagonal forms by 2 changes their discriminant from 1024 to 4194304. These pairs cannot be integrally equivalent; a nonunit pair change must not be admitted.
+
+**Real zeros.** On homogeneous integral quadratic pairs, `Counting.commonRealZeros` is the natural cardinal of the common zero set in the real projective plane, evaluated through representatives. Homogeneity makes vanishing independent of the representative.
+
+- Invertible pair changes preserve the zero set; invertible real variable changes induce a bijection of zero sets.
+- Nonzero pair discriminant gives four distinct geometric intersection points, so the real cardinal is 0, 2 or 4.
+- For an infinite zero set the totalized natural cardinal is 0. This value is not evidence that the zero set is empty; the counting theorem uses the nonsingular locus forced by absolute irreducibility.
+
+**Checks.**
+
+- For A=u²−w² and B=v²−w² the points are `[±1:±1:1]`, giving 4 rather than 8 signed vectors.
+- For the positive definite A=u²+v²+w² and any B the real zero set is empty, giving 0. For `(uw−v²,u²−vw−w²)` it has 2 points: w≠0, v/w=t, u/w=t², and t⁴−t−1 has exactly two real roots (its derivative has one zero and its minimum is negative).
+- For A=u²+v² and B=0 there is exactly one real projective zero [0:0:1]; for the zero pair there are infinitely many and the natural cardinal is 0. These singular examples cannot be assigned the nonsingular three-type classification.
+
+**Absolute irreducibility.** Define `Counting.AbsolutelyIrreduciblePair` by absence of a common rational projective zero and irreducibility over ℚ of the binary resolvent. This is the source's arithmetic meaning of absolute irreducibility, not geometric irreducibility of a conic.
+
+- For homogeneous quadratic pairs it is invariant under invertible rational pair and variable changes.
+- It forces nonzero discriminant: an irreducible binary cubic in characteristic zero is separable.
+- Under the supplied quartic parametrization it selects quartic fields with Galois closure group A₄ or S₄, retaining both groups.
+
+**Checks.**
+
+- For `(uw−v²,u²−vw−w²)`, a rational common zero would give a rational root of t⁴−t−1. The only candidates ±1 give 1 and −1; the resolvent x³+4xy²+y³ has rational-root candidates ±1 giving −4 and 6 after y=1, and no root at infinity. Thus both conditions hold and Disc=−283.
+- The diagonal pair `(u²+v²+w²,u²+2v²+3w²)` has no rational common zero but its resolvent splits into three factors; the predicate is false. Absence of rational points alone is insufficient.
+- For `(u²−w²,v²−w²)`, [1:1:1] is a rational common zero, so the predicate is false. The zero pair also fails: it has that common zero and its zero resolvent is not irreducible.
+
+**Counted classes.** Define `Counting.quarticPairClasses m R r X` as the image in the quotient by the preceding equivalence of homogeneous quadratic pairs satisfying absolute irreducibility, real zero count r, strict absolute discriminant bound X, and coefficient reduction in R. A modulus in the headline is positive, and R contains only homogeneous quadratic pairs and is invariant under integral equivalence.
+
+- The residue condition is independent of the chosen representative. For a positive modulus there are m¹² quadratic coefficient pairs; hence the density lies in [0,1].
+- Increasing X or enlarging an invariant R enlarges the class set. Disjoint invariant residue sets give disjoint class sets, and finite disjoint unions give additive finite counts.
+- Nonpositive X or empty R gives the empty set. Taking all homogeneous residues recovers the unrestricted count; the headline supplies finiteness for every X before using its natural cardinal.
+
+**Checks.**
+
+- For all homogeneous residues, #R=m¹² and density 1, including m=1; for R empty both count and density are 0. At m=0 the denominator would be zero, so that modulus is excluded.
+- For m=2 and R consisting of the zero pair, all twelve coefficients are even and the density is 1/4096. Dividing both forms by 2 bijects these classes of bound X with unrestricted classes of bound X/4096, agreeing with the main coefficient.
+- The pair `(uw−v²,u²−vw−w²)` gives a class of real type 2 at X=284 with unrestricted residues, but not at X=283. At X=−1 the whole class set is empty. This distinguishes strict from inclusive cutoffs.
+- Coupled CRT conditions retain their joint density: the two residues `(0 mod 3,0 mod 5)` and `(1 mod 3,1 mod 5)` in one coefficient have density 2/15, whereas the product of their marginal densities is 4/15. This is a density check; applying the orbit theorem additionally requires invariance of the full residue set.
 
 For the proof, Average the finite-cover fundamental domain with its stabilizer multiplicities. Use GeometryOfNumbersAndQuadraticArithmetic §4.1 on each congruence translate in the main body. Use the source cusp/reducibility estimate, including Lemma 12; integrate the explicitly normalized discriminant volume. Finite congruence conditions do not change the discarded error.
 
 *Needs:* [ArithmeticStatisticsPartII, pairs of ternary quadratic forms][AS-II-6], [ArithmeticStatisticsPartII, bhargava parametrization of quartic rings][AS-II-7], GeometryOfNumbersAndQuadraticArithmetic §4.1.
 
-([6], Theorem 22 and (32), pp.1054–1055.)
-
-**Checks.**
-
-- Test coupled CRT conditions: the two residues `(0 mod 3,0 mod 5)` and `(1 mod 3,1 mod 5)` have density `2/15`, whereas the product of their marginal densities is `4/15`. Finite disjoint residue sums must retain this coupling.
+([6], Theorem 7, printed p. 1037, and its finite-congruence refinement (32), printed p. 1055. For coupled residue conditions, sum the congruence translates with their actual densities.)
 
 **Quartic maximal-order suborders.** For a quartic étale `Q`-algebra `L`, let `s_L(k)` count the unital suborders of positive index `k` in the maximal order `O_L`, as embedded subrings. Here `O_L` is the product of the maximal orders of the field factors; suborders may couple those factors. Prove finiteness and multiplicativity in `k`. Establish these estimates with constants independent of `L` and the prime `p`:
 
@@ -1187,7 +1270,7 @@ Prove the local estimates by enumerating multiplicatively closed index lattices 
 
 *Needs:* GlobalNumberFields Layer 11; ArithmeticStatisticsPartII **Existence and number of cubic resolvents**; AnalyticNumberTheoryPartI §3.26.
 
-([6], Lemma 12, pp. 1044–1046, and proof of Proposition 23, pp. 1056–1057, for the suborder/content reduction; [17], §11, Proposition 11.2, (46), and Corollary 11.3, p. 53, for the local index dependence and the content-weighted fixed-index bound deduced from Nakagawa’s enumeration.)
+([6], Lemma 12, pp. 1044–1046, and proof of Proposition 23, pp. 1056–1057, for the suborder/content reduction; [17], §11, Proposition 11.2, (46), and Corollary 11.3, printed p. 41 (PDF p. 53), for the local index dependence and the content-weighted fixed-index bound deduced from Nakagawa’s enumeration.)
 
 **Checks.**
 
@@ -1267,10 +1350,6 @@ For the proof, Use the 40-dimensional finite-cover domain and lattice-translate 
 *Needs:* [ArithmeticStatisticsPartII, quadruples of quinary alternating forms][AS-II-11], [ArithmeticStatisticsPartII, bhargava parametrization of quintic rings][AS-II-12], GeometryOfNumbersAndQuadraticArithmetic §4.1.
 
 ([7], Theorems 17–18, §2.7, pp.1585–1586; Lemma 14, p.1583; proof §3.2, pp.1587–1588.)
-
-**Checks.**
-
-- Test coupled CRT conditions: the two residues `(0 mod 3,0 mod 5)` and `(1 mod 3,1 mod 5)` have density `2/15`, whereas the product of their marginal densities is `4/15`. Finite disjoint residue sums must retain this coupling.
 
 - For the full residue set `nu(S)=1`; a single residue class modulo `m` has density `m⁻⁴⁰` before imposing invariance.
 
@@ -1420,7 +1499,7 @@ The weight predicate records residue dependence, range `[0,1]`, and one eventual
 
 For the proof, Compare coordinates modulo `p^kappa`. Keep a single threshold valid for every coefficient vector. The modulus dependence is what controls the total small-modulus error.
 
-*Needs:* [ArithmeticStatisticsPartI, Kappa acceptable specifications](../ArithmeticStatisticsPartI/README.md#kappa-acceptable-specifications), [ArithmeticStatisticsPartI, acceptable weight function][AS-I-2], strongly and weakly divisible values (§2.1).
+*Needs:* [ArithmeticStatisticsPartI, Kappa acceptable specifications](../ArithmeticStatisticsPartI/README.md#012-coefficient-boxes-and-local-discriminants), [ArithmeticStatisticsPartI, acceptable weight function][AS-I-2], strongly and weakly divisible values (§2.1).
 
 ([5], Definition of kappa-acceptability preceding Theorem 4.1, pp.20–21.)
 
@@ -1826,10 +1905,6 @@ For the proof, Choose the real component section and finite-cover domain with th
 
 ([4], Theorem 36, §§10–11, pp.29–30; real components pp.28–29.)
 
-**Checks.**
-
-- Test coupled CRT conditions: the two residues `(0 mod 3,0 mod 5)` and `(1 mod 3,1 mod 5)` have density `2/15`, whereas the product of their marginal densities is `4/15`. Finite disjoint residue sums must retain this coupling.
-
 **Pencil infinite weight upper bound.** Let `phi` be a `G_Z`-invariant BGW congruence-defined weight with factors in `[0,1]`, locally constant off closed null sets, convergent product, and each local integral nonzero. For a `G_Z`-invariant finite-congruence `S` in `V^(m,r)` imposed independently by local sets `S_p, limsup_{X→infinity} N_phi(S;X)/X^(n+1)<=c_(m,r) product_p integral_{S_p} phi_p`. Equivalently use an upper estimate by that main term plus `o(X^(n+1))`. This is an upper bound, and contains no equality assertion.
 
 For the proof, For a fixed finite prime set the full weight is at most its truncated product. Apply the finite weighted count. Take the height `limsup` first and then the decreasing finite-prime integrals. No tail equality is used; every local integral is nonzero but the infinite product can still vanish. Absorb the local indicators `1_(S_p)` into the corresponding truncated factors. For a coupled finite CRT condition first split into disjoint product residue conditions and sum their upper bounds, rather than multiplying its marginal closures.
@@ -1864,10 +1939,6 @@ For the proof, Use the `SL3` finite-cover domain, normalized Jacobian and strong
 
 ([11], Theorem 8, pp.2–3; finite congruence Theorems 17–18, p.11; c4,c6 normalization, p.12.)
 
-**Checks.**
-
-- Test coupled CRT conditions: the two residues `(0 mod 3,0 mod 5)` and `(1 mod 3,1 mod 5)` have density `2/15`, whereas the product of their marginal densities is `4/15`. Finite disjoint residue sums must retain this coupling.
-
 **Ternary cubic prime tail.** For `W_p={f:p^2 divides Delta(f)}`, every truncation `epsilon>0` admits constants `C_epsilon,C` such that `N_±(union_{p>M} W_p;X)<=C_epsilon(X^(5/6)/(M log M)+X^(3/4))+C epsilon X^(5/6)`, for `X,M>=2`, on strongly irreducible orbits. The final `epsilon` is a compact-domain truncation error, not a loss in an exponent.
 
 For the proof, On a compact fundamental-domain truncation apply the geometric sieve to the strong locus; the cusp contributes `C epsilon X^(5/6)`. Use the discriminant-preserving weak-to-strong map with at `most3` orbit preimages. Treat the finite bad primes separately.
@@ -1894,10 +1965,6 @@ For the proof, Use the integral half-Gram convention and the correct determinant
 
 ([12], Group (3), p.4; Theorem 10, pp.5–6; §3.3 (17), pp.13–14; Theorems 19–20, p.14.)
 
-**Checks.**
-
-- Test coupled CRT conditions: the two residues `(0 mod 3,0 mod 5)` and `(1 mod 3,1 mod 5)` have density `2/15`, whereas the product of their marginal densities is `4/15`. Finite disjoint residue sums must retain this coupling.
-
 **Quaternary prime tail.** For `W_p={v:p^2 divides Delta(v)}`, strongly irreducible real-type-`i` orbit counts satisfy `N_i(union_{p>M} W_p;X)<=C_epsilon(X^(5/6)/(M log M)+X^(19/24))+C epsilon X^(5/6)`, for each `epsilon>0` and `X,M>=2`.
 
 For the proof, Compact truncation of the 20-dimensional height slice gives the strong term and projection exponent `19/24`. For `p>2` move weakly divisible pairs to strongly divisible pairs without changing discriminant, with at `most2` orbit preimages. Include `p=2` in the finite initial conditions.
@@ -1923,10 +1990,6 @@ For the proof, Use the 50-dimensional height slice, Jacobian `J` and real stabil
 *Needs:* [ArithmeticStatisticsPartII, genus one stabilizer schemes][AS-II-23], GeometryOfNumbersAndQuadraticArithmetic §4.1.
 
 ([13], Group (2), p.5; real stabilizer §3.1; Proposition 24 and (18), p.17; Theorems 25–26, pp.17–18; introductory Theorem 12, p.7, corrected by (18).)
-
-**Checks.**
-
-- Test coupled CRT conditions: the two residues `(0 mod 3,0 mod 5)` and `(1 mod 3,1 mod 5)` have density `2/15`, whereas the product of their marginal densities is `4/15`. Finite disjoint residue sums must retain this coupling.
 
 - The leading coefficient must agree with dividing the finite-cover volume by a real stabilizer of size 5. Changing Haar normalization rescales `J` inversely and does not erase this divisor.
 
@@ -2242,7 +2305,7 @@ ArithmeticStatisticsPartIV–PartVIII and ModularityAndLanglandsExtensions are d
 
 [16] Manjul Bhargava, Arul Shankar, Xiaoheng Wang. [Geometry-of-numbers methods over global fields II: Coregular representations](https://arxiv.org/pdf/2604.16978v1). arXiv:2604.16978v1, 18 April 2026. Locators use the printed preprint pages; §2.2 pp.6–9, §3 pp.10–16 and §4.1 pp.16–20.
 
-[17] Arul Shankar, Jacob Tsimerman. [Secondary terms in the counting functions of quartic fields I](https://arxiv.org/abs/2503.02381v2). arXiv:2503.02381v2, 13 August 2025, 63 pages; locators are to this version (§11, pp. 52–54).
+[17] Arul Shankar, Jacob Tsimerman. [Secondary terms in the counting functions of quartic fields I](https://arxiv.org/abs/2503.02381v2). arXiv:2503.02381v2, 13 August 2025, 63 pages; locators are to this version (§11, PDF pp. 52–54).
 
 [18] Henri Cohen, Francisco Diaz y Diaz, Michel Olivier. Enumerating quartic dihedral extensions of ℚ. Compositio Mathematica 133 (2002), 65–93. DOI 10.1023/A:1016310902973; cited by locator.
 
@@ -2258,14 +2321,14 @@ ArithmeticStatisticsPartIV–PartVIII and ModularityAndLanglandsExtensions are d
 
 [24] Vladimir Platonov, Andrei Rapinchuk, Igor Rapinchuk. Algebraic Groups and Number Theory, Volume I, second edition. Cambridge Studies in Advanced Mathematics 205, Cambridge University Press, 2023; §5.3, Example 5.23, p. 316; cited by locator.
 
-[AS-I-1]: ../ArithmeticStatisticsPartI/README.md#invariants-height-and-eligible-pairs
-[AS-I-2]: ../ArithmeticStatisticsPartI/README.md#acceptable-weight-function
-[AS-I-3]: ../ArithmeticStatisticsPartI/README.md#refinement-binary-discriminant
-[AS-I-4]: ../ArithmeticStatisticsPartI/README.md#refinement-symmetric-pencil
-[AS-I-5]: ../ArithmeticStatisticsPartI/README.md#family-defined-by-local-conditions
-[AS-I-6]: ../ArithmeticStatisticsPartI/README.md#stabilizer-weighted-orbit-count
-[AS-I-7]: ../ArithmeticStatisticsPartI/README.md#twist-denominator-frontier
-[AS-I-8]: ../ArithmeticStatisticsPartI/README.md#binary-cubic-forms-and-the-twisted-action
+[AS-I-1]: ../ArithmeticStatisticsPartI/README.md#04-elliptic-invariant-families
+[AS-I-2]: ../ArithmeticStatisticsPartI/README.md#02-local-specifications-and-acceptable-weights
+[AS-I-3]: ../ArithmeticStatisticsPartI/README.md#012-coefficient-boxes-and-local-discriminants
+[AS-I-4]: ../ArithmeticStatisticsPartI/README.md#022-symmetric-pencils-and-binary-form-orders
+[AS-I-5]: ../ArithmeticStatisticsPartI/README.md#02-local-specifications-and-acceptable-weights
+[AS-I-6]: ../ArithmeticStatisticsPartI/README.md#01-counting-families-and-relative-density
+[AS-I-7]: ../ArithmeticStatisticsPartI/README.md#015-restricted-radicands-and-squareclass-denominators
+[AS-I-8]: ../ArithmeticStatisticsPartI/README.md#cubic-supplier-conventions
 [AS-II-1]: ../ArithmeticStatisticsPartII/README.md#stabilizer-of-a-binary-quartic-is-two-torsion
 [AS-II-2]: ../ArithmeticStatisticsPartII/README.md#embedding-into-pairs-of-ternary-quadratic-forms
 [AS-II-3]: ../ArithmeticStatisticsPartII/README.md#fibres-of-the-embedding-are-uniformly-bounded
@@ -2289,5 +2352,5 @@ ArithmeticStatisticsPartIV–PartVIII and ModularityAndLanglandsExtensions are d
 [AS-II-21]: ../ArithmeticStatisticsPartII/README.md#ternary-cubic-forms-and-their-invariants
 [AS-II-22]: ../ArithmeticStatisticsPartII/README.md#invariance-of-ternary-cubic-invariants
 [AS-II-23]: ../ArithmeticStatisticsPartII/README.md#refinement-genus-one-stabilizer-schemes
-[AS-I-9]: ../ArithmeticStatisticsPartI/README.md#strong-weak-discriminant
+[AS-I-9]: ../ArithmeticStatisticsPartI/README.md#012-coefficient-boxes-and-local-discriminants
 [AS-II-24]: ../ArithmeticStatisticsPartII/README.md#supporting-descent-and-integral-realization

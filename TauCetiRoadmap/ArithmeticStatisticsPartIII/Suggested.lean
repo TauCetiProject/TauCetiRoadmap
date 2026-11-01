@@ -2,15 +2,15 @@ import Mathlib
 import TauCeti.RingTheory.MvPolynomial.LinearSubst
 
 /-!
-# Arithmetic statistics, Part III: headline target statements
+# Arithmetic statistics, Part III: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive specification is
 `README.md`, including its hypotheses, source locators and supplier contracts.
 
-The statements below give the quantitative Ekedahl sieve; the cubic and quartic class
-asymptotics and their weighted infinite sieves; Bhargava's count of classes of pairs of
-integral ternary quadratic forms by real intersection type; the monic and odd-degree binary
-summed discriminant tails; the monic fixed-modulus sieve; and the degree-uniform smooth-point
+The statements below state the roadmap's headline theorems against the pinned APIs:
+the quantitative Ekedahl sieve; the cubic and quartic class asymptotics and their weighted
+infinite sieves; Bhargava's count of integral ternary-quadratic pairs with finite congruence
+conditions by real intersection type; the monic and odd-degree binary summed discriminant tails; the monic fixed-modulus sieve; and the degree-uniform smooth-point
 bound and positive local-solubility density for projective hypersurfaces. All auxiliary
 definitions have bodies on Mathlib carriers. Integral substitutions use Tau Ceti's
 `MvPolynomial.linearSubst`; the binary orbit quotients retain the specified determinant twist.
@@ -171,10 +171,13 @@ def AbsolutelyIrreduciblePair (P : Fin 2 → MvPolynomial (Fin 3) ℤ) : Prop :=
   Irreducible (MvPolynomial.map (Int.castRingHom ℚ) (pairResolvent P))
 
 /-- Unweighted `GL₂(ℤ) × SL₃(ℤ)`-classes of absolutely irreducible pairs of integral ternary
-quadratic forms with `r` common real projective zeros and strict absolute discriminant bound. -/
-def quarticPairClasses (r : ℕ) (X : ℝ) : Set (Quotient pairOrbitSetoid) :=
+quadratic forms with coefficient residues in `R` modulo `m`, `r` common real projective zeros,
+and strict absolute discriminant bound. -/
+def quarticPairClasses (m : ℕ) (R : Set (Fin 2 → MvPolynomial (Fin 3) (ZMod m)))
+    (r : ℕ) (X : ℝ) : Set (Quotient pairOrbitSetoid) :=
   Quotient.mk _ '' {P | (∀ i, (P i).IsHomogeneous 2) ∧ AbsolutelyIrreduciblePair P ∧
-    commonRealZeros P = r ∧ |(cubicDiscriminant (pairResolvent P) : ℝ)| < X}
+    commonRealZeros P = r ∧ |(cubicDiscriminant (pairResolvent P) : ℝ)| < X ∧
+    (fun i => MvPolynomial.map (Int.castRingHom (ZMod m)) (P i)) ∈ R}
 
 /-- Homogeneous coefficients indexed by degree-d monomials on projective n-space. -/
 def hypersurfaceForm {R : Type*} [CommRing R] {n d : ℕ}
@@ -258,15 +261,23 @@ theorem cubic_count (positive : Bool) :
           C * X ^ (5 / 6 : ℝ) := by
   sorry
 
-/-- Section 2.8: Bhargava's count of `GL₂(ℤ) × SL₃(ℤ)`-classes of absolutely irreducible pairs of
-integral ternary quadratic forms with `4 − 2i` common real zeros and `|Disc| < X`: the class count
-divided by `X` tends to `ζ(2)²ζ(3)/48`, `ζ(2)²ζ(3)/8` and `ζ(2)²ζ(3)/16` for `i = 0, 1, 2`
-(quartic paper, Theorem 7). -/
-theorem quartic_pair_count (r : ℕ) (hr : r = 0 ∨ r = 2 ∨ r = 4) :
-    (∀ X : ℝ, (quarticPairClasses r X).Finite) ∧
-    Tendsto (fun X : ℝ => ((quarticPairClasses r X).ncard : ℝ) / X) atTop
-      (𝓝 ((riemannZeta 2).re ^ 2 * (riemannZeta 3).re /
-        (if r = 4 then 48 else if r = 2 then 8 else 16))) := by
+/-- Section 2.8: the finite-congruence refinement of Bhargava's quartic-pair count.
+For an invariant set of homogeneous quadratic residues modulo a positive modulus, the
+unweighted class count divided by `X` tends to the real-type constant times `#R / m¹²`
+(quartic paper, equation (32), printed p. 1055). -/
+theorem quartic_pair_count (m : ℕ) (hm : 1 ≤ m)
+    (R : Set (Fin 2 → MvPolynomial (Fin 3) (ZMod m)))
+    (hR : ∀ Q ∈ R, ∀ i, (Q i).IsHomogeneous 2)
+    (hInv : ∀ P Q : Fin 2 → MvPolynomial (Fin 3) ℤ,
+      pairOrbitSetoid.r P Q →
+      ((fun i => MvPolynomial.map (Int.castRingHom (ZMod m)) (P i)) ∈ R ↔
+       (fun i => MvPolynomial.map (Int.castRingHom (ZMod m)) (Q i)) ∈ R))
+    (r : ℕ) (hr : r = 0 ∨ r = 2 ∨ r = 4) :
+    (∀ X : ℝ, (quarticPairClasses m R r X).Finite) ∧
+    Tendsto (fun X : ℝ => ((quarticPairClasses m R r X).ncard : ℝ) / X) atTop
+      (𝓝 (((riemannZeta 2).re ^ 2 * (riemannZeta 3).re /
+        (if r = 4 then 48 else if r = 2 then 8 else 16)) *
+        ((R.ncard : ℝ) / (m : ℝ) ^ 12))) := by
   sorry
 
 /-- Section 2.13: the summed monic discriminant tail counts every squarefree square divisor on
