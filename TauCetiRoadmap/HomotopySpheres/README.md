@@ -73,8 +73,9 @@ The division of ownership is as follows.
   `compactManifoldFiniteCWType` declarations.  This roadmap owns the sphere-specific stable comparisons and low stable-stem calculations.
 - The [geometric-topology roadmap](../GeometricTopology/README.md) owns manifolds with
   boundary and corners, collars, boundary gluing, standard handles, handle attachment, tubular
-  neighbourhoods, connected sum, general framed surgery, the collared oriented-cobordism
-  carrier, and smooth triangulation.  This roadmap uses those same objects.  It introduces no
+  neighbourhoods, connected sum, general framed surgery, general oriented cobordisms,
+  and smooth triangulation. TangentialBordism B1.1–B1.2 packages the structured collared
+  witnesses and their operations used here.  This roadmap uses those same objects.  It introduces no
   second boundary, collar, gluing, handle, surgery, connected-sum, cobordism, or triangulation
   type.
 - [DifferentialGeometry Layers 2 and 10](../DifferentialGeometry/README.md) own chosen
@@ -301,17 +302,26 @@ Section 3A.2 constructs the pointed quotient comparisons from these primitives.
 normal tubes, connected sum and handles; Layer 6 supplies oriented cobordisms in general dimension;
 The smoothing-and-triangulation comparison, item 1, supplies smooth triangulation.
 
-**What GeometricTopology must provide (gap:collared-oriented-bordism):** a carrier of compact
-oriented bordisms with specified closed oriented incoming M₀ and outgoing M₁, allowing empty
-and disconnected manifolds. Each element has two disjoint boundary embeddings whose images
-cover the whole boundary, induced orientation −M₀ ⊔ M₁, and positive collars. Composition
-and product cylinders preserve these data. The carrier for a given pair may be empty; no
-existence assertion is made for arbitrary M₀ and M₁.
-In particular the empty cylinder has no boundary components and the cylinder on M ⊔ N has
-exactly the two prescribed components at each end. General collar existence does not specify
-these endpoint identifications. Section 6A owns the sphere-specific closed defect exterior,
-half-space chart comparison, proper defect tube and its lateral/endpoint equations; these
-are adapters over Layer 1, not new general cobordism carriers.
+**Oriented specialization of TangentialBordism B1.1–B1.2.** Use its collared
+witnesses with tangential structure SO and parameter space a point, forgetting the
+unique parameter map. Retain the compact smooth manifold W, orientation, collars,
+and structured boundary diffeomorphism from −M₀ ⊔ M₁ onto ∂W. Restrict that
+diffeomorphism to the two summands and compose with ∂W → W to obtain the endpoint
+embeddings. Injectivity gives disjoint endpoint images and surjectivity gives their
+union equal to ∂W; the structure equation gives the incoming minus sign and outgoing
+plus sign. These are consequences of the supplied boundary diffeomorphism, not extra
+existence hypotheses. A witness between prescribed ends need not exist.
+Cylinders, reversal, disjoint union and collar gluing are the B1.2 operations;
+Section 1.1 adds only the requirement that both endpoint inclusions be homotopy
+equivalences. Section 6A owns the sphere-specific closed defect exterior,
+half-space chart comparison, proper defect tube and its lateral/endpoint equations
+as adapters over these witnesses and GeometricTopology Layer 1.
+
+**Checks.**
+
+- The empty cylinder has empty incoming and outgoing ends, so its boundary has zero components.
+- For connected nonempty M and N, the cylinder on M ⊔ N has two components at each end, with boundary signs −,−,+,+; neither connectedness nor a single boundary component is built into the witness.
+- Gluing two cylinders on M leaves one incoming −M and one outgoing M; the two identified middle copies are interior, not extra boundary components.
 
 **From TauCetiRoadmap.DifferentialGeometry.** Layers 2 and 5.1 supply orientations,
 pointwise comparison, reversal and outward-normal-first boundary orientation; Layers 3
@@ -343,7 +353,8 @@ formal L and Â polynomials. These polynomials alone assert no equality with a g
 with its native signature convention. **From TauCetiRoadmap.SpinGeometry.** G4 gives
 Spin lifts and G6 item 5 their circle and torus conventions.
 
-**From TauCetiRoadmap.TangentialBordism.** B1's relative approximation/transversality fixes
+**From TauCetiRoadmap.TangentialBordism.** B1.1–B1.2 supplies the structured collared
+witnesses with the oriented specialization above. B1's relative approximation/transversality fixes
 a closed subset only when every fixed face is already transverse there; it gives neat inverse
 images and product-collar comparisons. B5.2 gives the marked-sphere finite PT bijection for
 normal rank c≥1 and cycle dimension d≥0, both inverse bordisms, pinch addition,
@@ -352,7 +363,8 @@ q, its polarization, and the Spin filling criterion Arf(q)=0. Its declared
 gap:finite-quadratic-arf specifies the needed finite nonsingular quadratic algebra over 𝔽₂:
 basis-independent Arf invariant, orthogonal sums, hyperbolic/anisotropic decomposition and
 Arf zero exactly when a q-zero Lagrangian exists, including the zero-dimensional form.
-B4.1–2 and B4.7 give ordinary operations and convergent Adams towers for the finite-type
+B4.1–2 and B4.7 give ordinary operations, Eilenberg–Mac Lane cohomology and
+transgression for 9.2, and convergent Adams towers for the finite-type
 bounded-below sphere calculation in 9A.
 **From TauCetiRoadmap.StringOrientation.** S2.2–S2.3 give coefficient PT for bundle diagrams,
 its multiplicativity and the stable framed specialization Ω⁽fr⁾ₙ ≅ π⁽S⁾ₙ; Section 5 constructs
@@ -366,7 +378,8 @@ indℂ(D⁺)=⟨Â(TM),[M]⟩∈ℤ for a closed Spin manifold, with its chosen 
 structure. In dimension eight these give σ=(7p₂−p₁²)/45 and
 Â₂=(7p₁²−4p₂)/5760=(p₁²−4σ)/896. They are independent of the homotopy-sphere classification.
 **From TauCetiRoadmap.GeneralizedCohomology.** G5 item 6 supplies π⁽S⁾ᵢ⊗ℚ=0 for i>0
-and π⁽S⁾₀⊗ℚ=ℚ. **From TauCetiRoadmap.DGFloer.** Layer 1 item 4 supplies the Serre-class
+and π⁽S⁾₀⊗ℚ=ℚ. **From TauCetiRoadmap.DGFloer.** Layer 1 item 2 supplies the
+Serre spectral sequence and item 4 supplies the Serre-class
 Hurewicz theorem; apply the class of finitely generated abelian groups to finite simply
 connected spheres, then the finite-to-stable comparison of 3A.4, to get finitely generated stems.
 
@@ -390,6 +403,7 @@ identifiers 3A–3C, 4A–4C, 5.0, 5.0b, 6A–6C and 7A–7C name these same sub
 `orthogonalGroup_fourthHomotopyGroup`, `orthogonalGroup_fifthHomotopyGroup`,
 `orthogonalGroup_sixthHomotopyGroup`, `orthogonalGroup_seventhHomotopyGroup`,
 `orthogonalGroup_eighthHomotopyGroup`,
+`sphere_homotopyGroup_fourthStem`, `sphere_homotopyGroup_fifthStem`,
 `sphere_homotopyGroup_sixthStem`, `sphere_homotopyGroup_seventhStem`,
 `smoothPoincareSix_oriented` and `smoothPoincareSix`.
 `Sphere n` is the native unit sphere in ℝⁿ⁺¹, and `OrthogonalGroup n` is
@@ -406,12 +420,14 @@ Heegaard-Floer trajectory and Morse–Smale foundations.
 
 ### 1.1 H-cobordism witnesses
 
-*Needs:* GeometricTopology Layer 6 and gap:collared-oriented-bordism; AlgebraicTopology homotopy equivalences.
+*Needs:* TangentialBordism B1.1–B1.2 oriented witnesses; AlgebraicTopology homotopy equivalences.
 
 On the existing oriented collared-cobordism carrier, define an h-cobordism W by requiring
 both boundary inclusions to be homotopy equivalences.  Prove invariance under equivalence,
 reversal, composition, and boundary connected sum.  Prove that h-cobordism induces an
-equivalence relation on closed oriented manifolds.
+equivalence relation on closed oriented manifolds (Milnor, Definition 9.2, p.107;
+the collared boundary inclusions are cofibrations, so the homotopy-equivalence and
+deformation-retract formulations agree).
 
 ### 1.2 Morse handles
 
@@ -422,7 +438,14 @@ Prove independence under reordering of disjoint critical levels, creation/cancel
 cancelling pair, and handle slides.  Identify attaching spheres, belt spheres, and their
 algebraic intersection matrices. The handle and deformation-retract inputs are
 Milnor, Theorems 3.13–3.14 and Corollary 3.15, pp.31–32; ordered critical levels
-use Theorem 4.8, p.44. The translation to the shared handle and collar data is an adapter here.
+use Theorem 4.8, p.44. Cancellation in an isolated Morse block with two
+critical points of adjacent indices requires a single transverse intersection of its attaching and belt spheres, as in Theorem 5.4, p.48;
+its reverse gives pair creation. For a connected total N-dimensional Morse block whose critical points all have
+index λ and lie at one level, the basis change by handle slides, 2≤λ≤N−2,
+uses Theorem 7.6 and
+its elementary basis-change construction, pp.92–96. These are separate inputs from
+the attachment and ordering theorems. The translation to the shared handle and collar
+data is an adapter here.
 
 ### 1.3 Handle trading
 
@@ -515,7 +538,7 @@ The level-dimension-five case has dimensions 2+3=5 and is not covered by p,q≥3
 
 ### Dependencies
 
-*Needs:* GeometricTopology Layers 1 and 6, including gap:collared-oriented-bordism;
+*Needs:* GeometricTopology Layer 1; TangentialBordism B1.1–B1.2 oriented witnesses;
 DifferentialGeometry Layers 2, 3 and 10; HeegaardFloer M/F0; AlgebraicTopology Stages 2–4, 6 and 8.
 The simply connected theorem assumes a compact smooth h-cobordism, simply connected
 boundary and total dimension n+1≥6; no such dimension bound is imposed on the predicate.
@@ -920,10 +943,81 @@ his notation lists the maps in the opposite order).
 
 #### 3C.4 Barratt–Toda comparison
 
-*Needs:* 3C.1–3; the same Whitehead-product and suspension sign conventions.
+Prove the full 2-local EHP sequence for n≥2,
 
-Prove the Barratt--Toda formula relating Whitehead products to `P`, `E`, and `H`.  This makes
-each low-stem EHP differential a theorem rather than a lookup.
+    … → π_(j+2)(S^(2n+1))_(2) →ᴾ π_j(Sⁿ)_(2) →ᴱ π_(j+1)(S^(n+1))_(2) →ᴴ π_(j+1)(S^(2n+1))_(2) → … ,
+
+with j≥2. Prove that the natural map Sⁿ→hofib(H:ΩS^(n+1)→ΩS^(2n+1))
+induces isomorphisms on homotopy groups after tensoring with ℤ_(2), in every positive degree;
+transport the fibre sequence through these isomorphisms to define P. Here the subscript
+(2) means tensoring the abelian homotopy group with ℤ_(2). Identify these maps with the
+localized integral maps of 3C.1 in their common range; the integral range in 3C.1
+is unchanged (Gray, §2, p.131). Use this full sequence for the low-dimensional
+terms lying outside that range, and the all-prime argument of 9.2 for integral conclusions.
+
+*Needs:* 3B.5 James–Hopf fibre comparison; 3A.4 suspension comparison;
+DGFloer Layer 1 items 2 and 4 fibration sequence and mod-Serre-class Hurewicz;
+Mathlib's localization and tensor products.
+
+For based sphere maps prove the following composition laws after localization at 2.
+Compositions and smash maps are formed before passing to localized classes; no
+bilinearity of unstable composition is assumed. Write juxtaposition for composition
+with the right-hand map applied first.
+
+- If α:Sᵃ→Sᵇ and β:S^(c−1)→S^(a−1), with a,b,c≥2, then
+  H(α Eβ)=(Hα) Eβ in π_c(S^(2b−1))_(2).
+
+  *Needs:* 3A.2 suspension; 3B.5 James–Hopf naturality; the EHP H above.
+- If α:S^(a−1)→S^(b−1) and β:Sᶜ→Sᵃ, with a,b,c≥2, then
+  H((Eα)β)=E(α∧α) Hβ in π_c(S^(2b−1))_(2).
+
+  *Needs:* 3A.2 ordered sphere smash and suspension; 3B.5 James–Hopf naturality; the EHP H above.
+- If α:S^(a+2)→S^(2n+1) and β:Sᵇ→Sᵃ, with a,b,n≥2, then
+  P(α E²β)=(Pα)β in π_b(Sⁿ)_(2).
+
+  *Needs:* 3A.2 suspension; the fibre connecting map and comparison defining P above.
+
+Each law uses the indicated suspended map, rather than arbitrary precomposition
+(Gray, Proposition 2.1(a–c), p.132).
+
+For based sphere maps α∈π_r(Sⁿ), β∈π_s(Sᵐ), n,m≥2 and r,s≥2, prove the
+Barratt–Hilton interchange identity in π_(r+s)(S^(n+m))_(2),
+
+    (E^m α)(E^r β) = (−1)^((r−n)(s−m)) (E^n β)(E^s α).
+
+The exponent is an integer, including when an offset is negative; it is not
+truncated natural subtraction (Gray, Proposition 2.2, p.132).
+
+*Needs:* 3A.2 ordered smash, its swap degree, and suspension; 3A.3 product comparison.
+
+One suspension lower, define the composition difference C(α,β) by
+
+    C(α,β) = (E^(m−1) α)(E^(r−1) β) − (−1)^((r−n)(s−m)) (E^(n−1) β)(E^(s−1) α)
+            ∈ π_(r+s−1)(S^(n+m−1))_(2).
+
+For the same inputs prove the Barratt–Toda identity
+
+    C(α,β) = P((EHα) ∧ (Hβ)).
+
+Here Hα:Sʳ→S^(2n−1), Hβ:Sˢ→S^(2m−1), and the ordered smash on the
+right is S^(r+s+1)→S^(2n+2m−1); P has sphere parameter n+m−1.
+Use the ordered smash orientations of 3A and the sign Pι=[ι,ι] of 3C.1.
+C is a difference of composites, not the Whitehead product of α and β.
+This is a primary equality: no adjacent nullhomotopies or Toda-bracket
+indeterminacy is involved (Gray, Proposition 2.4, p.133).
+
+*Needs:* the 2-local EHP maps above; 3A.2 smash/suspension and product-cell orientations;
+3B.5 Hopf comparison; 3C.2 Whitehead-square sign.
+
+The API for C consists of this equality, its typed composition expression and
+its vanishing after one suspension by the interchange identity.
+
+**Checks.**
+
+- At n=2, Pι₅=2η₂ and E(2η₂)=0; after localization im(P)=2ℤ_(2)=ker(ℤ_(2)→ℤ/2). The composition law with α=ι₅ and β=ι₃ returns 2η₂ on both sides. A zero P would instead have image 0.
+- For α=β=η₂, both offsets are 1, so C=2η₃η₄=0=Pι₇=[ι₃,ι₃]; the interchange sign is −1, even though this order-two value is unchanged by negation.
+- For α=ι₂ and β=η₂ the sign is +1 and C=η₃−η₃=0; Hι₂=0 makes the right side 0 too. The zero-map model for C fails the next example.
+- For (α,β)=(η₂,ν₄), 9.2 gives C=0+ν₅η₈=Pι₁₁≠0 in π₉(S⁵)_(2), of order two. For (η₂,ν′) it gives C=0+(Eν′)η₇=Pη₉≠0 in π₈(S⁴)_(2). The respective smash maps are ι₁₁:S¹¹→S¹¹ and η₉:S¹⁰→S⁹.
 
 #### 3C.5 Hopf invariant one and smooth sphere frames
 
@@ -1001,9 +1095,11 @@ not supply it. Algebraic Clifford classification retains its L7 owner.
 
 James, *Reduced Product Spaces*, Annals of Mathematics 62 (1955), Sections 1--6, supplies the
 filtered reduced product and equivalence with `Omega Sigma X`.  Whitehead, *Elements of Homotopy
-Theory*, Chapters VII--XI, supplies Freudenthal, Whitehead products, and EHP.  Toda,
-*Composition Methods in Homotopy Groups of Spheres*, Chapters I--V, fixes compositions,
-secondary operations, suspension sequences, and the low-stem calculation.
+Theory*, Chapters VII--XI, supplies Whitehead-product and EHP background. The precise
+primary composition identities are Gray, Propositions 2.1–2.4, pp.132–133, as stated in
+3C.4; the secondary-operation definition uses the Hatcher locators in 3C.3.
+The low-stem proofs use Toda, Propositions 5.8, 5.9 and 5.11, pp.43–46,
+cited as uncertified and distinguished from the integral group table in 9.2–9.3.
 
 Adams and Atiyah, [*K-theory and the Hopf invariant*](https://doi.org/10.1093/qmath/17.1.31),
 Quarterly Journal of Mathematics 17 (1966), 31–38, supplies the integral Adams-operation
@@ -1562,7 +1658,7 @@ and low-dimensional comparisons precede stable Bott and Layer 9's higher-stem co
 
 #### 6A.1 Almost-framed cycles and defect traces
 
-*Needs:* GeometricTopology Layer 1; gap:collared-oriented-bordism; Sections 4A and 5.1.
+*Needs:* GeometricTopology Layer 1; TangentialBordism B1.1–B1.2 oriented witnesses; Sections 4A and 5.1.
 
 In the Kervaire–Milnor range `n ≥ 5`, define a geometric almost-framed `n`-cycle as a
 connected closed oriented smooth manifold `M`, an embedded defect disc, and a stable
@@ -1653,7 +1749,7 @@ The almost-framed cycle, its trace and its historical comparison have the follow
 - The product trace has two endpoint discs, and conversion tangent→normal→tangent returns the original stable framing class at both ends; dropping one endpoint would not witness the same relation.
 - The hemisphere exterior has one boundary sphere in both presentations, while allowing the top cell to be the whole sphere would give zero boundary components and violate the comparison.
 
-*Needs:* GeometricTopology Layer 1 and gap:collared-oriented-bordism; Layers 2, 4A and 5;
+*Needs:* GeometricTopology Layer 1; TangentialBordism B1.1–B1.2 oriented witnesses; Layers 2, 4A and 5;
 Kervaire–Milnor §3 for the stable framing obstruction and §§5–6 for its geometric comparison.
 The defect adapters are targets here; no absent named supplier carrier is assumed.
 
@@ -2297,7 +2393,8 @@ as a field of a low-stem data record.
 
 Construct the stable Hopf classes `eta` and `nu` from the complex and quaternionic Hopf
 fibrations. Use 5.0b's framed calculations and their suspension comparisons to obtain
-π₁⁽S⁾≅ℤ/2{η} and π₂⁽S⁾≅ℤ/2{η²}. Import π₃⁽S⁾≅ℤ/24{ν} from
+π₁⁽S⁾≅ℤ/2{η} and π₂⁽S⁾≅ℤ/2{η²} (Hatcher, Corollary 4J.4, p.474, and
+§4.J, pp.474–475, using Proposition 4L.11 for nonvanishing of η²). Import π₃⁽S⁾≅ℤ/24{ν} from
 StringOrientation S2.3. Compare its quaternionic Hopf generator with the chosen EHP
 representative and the normal derivative framing of a Hopf regular fibre, preserving
 the sphere orientation and PT product convention. This comparison fixes the sign of ν
@@ -2305,21 +2402,82 @@ used in 9.3 and 9.5; a second computation of the third-stem group is not a targe
 
 ### 9.2 Fourth and fifth stems
 
-*Needs:* 9.1; 3C EHP and Barratt–Toda identities.
+*Needs:* 9.1; 3C.4 full 2-local EHP and composition identities; 3A.4 stable-range
+comparison. The all-prime passage additionally uses DGFloer Layer 1 items 2 and 4,
+TangentialBordism B4.1–2/B4.7 and GeneralizedCohomology G5 item 6.
 
-Work through Toda's suspension-sequence diagonals in stems four and five.  Compute every
-occurring `E`, `H`, and `P` map from the Barratt--Toda and Hopf-invariant formulas and prove
-`pi_4^S=0` and `pi_5^S=0`.
+Prove π₄⁽S⁾=0 and π₅⁽S⁾=0. The native stable-range acceptance statements are
+`sphere_homotopyGroup_fourthStem`, asserting π_(n+4)(Sⁿ,x)=0 for n≥6,
+and `sphere_homotopyGroup_fifthStem`, asserting π_(n+5)(Sⁿ,x)=0 for n≥7,
+for every base point x (Kervaire–Milnor, p.512, stable-group table, records the
+integral values). The proof locators for the 2-primary suspension calculations are
+Toda, Propositions 5.8, p.43, and 5.9, p.44; the table alone is not their proof.
+
+Here is a route with its actual substitutions. Write η_j=E^(j−2)η₂ for j≥2 and
+ν_j=E^(j−4)ν₄ for j≥4. In the 2-local groups compare the unstable class
+ν′∈π₆(S³)_(2) of order four with the supplied stable ν, proving
+E²ν′=2ν₅ and Hν′=η₅. Prove η₃ν₄=ν′η₆ and
+η₅ν₆=2ν₅η₈=0 by the composition and interchange laws
+(Gray, Proposition 2.3 and its fourth-stem calculation, pp.132–133;
+Toda, Lemma 5.4, p.41, and Proposition 5.6, p.42, uncertified).
+These are unstable comparisons, not a second construction of the supplied third stem.
+
+For (α,β)=(η₂,ν₄), the two terms of C lie in π₉(S⁵)_(2) and are
+η₅ν₆ and −ν₅η₈; Hη₂=ι₃ and Hν₄=ι₇ give
+Pι₁₁=ν₅η₈. For (η₂,ν′), they lie in π₈(S⁴)_(2):
+C=η₄E²ν′+(Eν′)η₇=(Eν′)η₇, while its smash input is η₉.
+Thus Pη₉=(Eν′)η₇ (Gray, Proposition 2.4, p.133).
+
+Prove π₈(S⁴)_(2)=ℤ/2{a}⊕ℤ/2{b}, where a=(Eν′)η₇ and b=ν₄η₇.
+The n=4 EHP sequence kills a and sends b to the generator c=ν₅η₈ of
+π₉(S⁵)_(2)=ℤ/2; its H is zero since its target π₉(S⁹)_(2)=ℤ_(2)
+is torsion-free. The n=5 sequence has Pι₁₁=c and π₁₀(S¹¹)_(2)=0,
+hence π₁₀(S⁶)_(2)=0 (Gray, pp.132–133, calculation after Proposition 2.3;
+Toda, Proposition 5.8, p.43, uncertified).
+
+For the fifth stem, prove π₉(S⁴)_(2)=ℤ/2{aη₈}⊕ℤ/2{bη₈}.
+Apply P(α E²β)=(Pα)β to (α,β)=(η₉,η₈) and (ι₁₁,η₉):
+P(η₉η₁₀)=aη₈ and Pη₁₁=cη₉. The successive EHP quotients give
+π₁₀(S⁵)_(2)=ℤ/2{d}, d=cη₉, and then π₁₁(S⁶)_(2)=ℤ_(2){[ι₆,ι₆]},
+whose H embeds it as 2ℤ_(2) in π₁₁(S¹¹)_(2)=ℤ_(2).
+Finally Pι₁₃=[ι₆,ι₆] and π₁₂(S¹³)_(2)=0 give π₁₂(S⁷)_(2)=0
+(Toda, Proposition 5.9, p.44, uncertified). This calculation uses primary
+composition identities, not a choice of representative in a Toda bracket.
+
+For the integral passage prove finite generation of stable sphere groups from
+DGFloer Layer 1 item 4 and 3A.4; the rational vanishing in GeneralizedCohomology
+G5 item 6 then makes every positive stem finite. Prove the general odd-primary
+gap: for every odd prime p, the p-primary component of π_k⁽S⁾ vanishes if
+1≤k<2p−3 or 2p−3<k<4p−5, and has order p at k=2p−3 and k=4p−5
+(Fomenko–Fuchs, §27.4, Corollary, p.387). A route uses the connected-cover
+Serre sequences and mod-Serre-class Hurewicz theorem, the shared Eilenberg–Mac Lane
+cohomology and Steenrod transgression, including the nonzero differential needed
+at the upper endpoint (§§27.3–27.4, pp.382–387). Use the finite abelian primary
+decomposition to combine these statements with the 2-local calculation.
+For p=3 the offsets 4,5,6 lie strictly between 3 and 7; for p≥5 they lie
+below 2p−3. Thus no odd-primary part is discarded, including in 9.3.
+
+**Checks.**
+
+- The chosen ν′ has 4ν′=0 and 2ν′≠0 in π₆(S³)_(2); choosing zero would lose its order-four summand.
+- Its double suspension is 2ν₅ in the cyclic order-eight group. Negating ν′ gives 6ν₅ instead, fixing the generator comparison beyond its order alone.
+- Hν′=η₅≠0 in π₆(S⁵)_(2)=ℤ/2, while the zero class has H=0. The Hopf map ν₄ has Hν₄=ι₇ of degree 1.
+- At n=6 the fourth-stem statement gives π₁₀(S⁶)=0 and 10=2·6−2. The preceding group π₉(S⁵) has a nonzero order-two class c, so n≥5 would be false.
+- At n=7 the fifth-stem statement gives π₁₂(S⁷)=0 and 12=2·7−2. The preceding π₁₁(S⁶) has a nonzero infinite-order Whitehead square with H=2, so n≥6 would be false.
+- For the fourth diagonal, (ℤ/2⊕ℤ/2)/⟨a⟩ has order 2 and (ℤ/2{c})/⟨c⟩ has order 1. A zero P leaves orders 4 and 2, contradicting both quotients.
+- For the fifth diagonal H[ι₆,ι₆]=2 and ker(ℤ_(2)→ℤ/2)=2ℤ_(2); replacing H by multiplication by 1 gives the wrong image. The next quotient ℤ_(2){[ι₆,ι₆]}/⟨Pι₁₃⟩ is zero.
+- The odd-primary gap gives zero at (p,k)=(3,4),(3,5),(3,6),(5,6), but order 3 at (3,3) and (3,7). Including either endpoint in a vanishing interval would be false.
 
 ### 9.3 The sixth stem and its representative
 
-*Needs:* 9.1–2; 3A.4 Freudenthal; 3C composition and nonvanishing.
+*Needs:* 9.1–2, including the all-prime passage; 3A.4 Freudenthal; 3C composition and nonvanishing.
 
 Normalize the unstable representative before entering the colimit.  Write
 `nu_4 : S^7 -> S^4` for the quaternionic Hopf map and define the class called `nu^2` by
 `nu_4 o Sigma^3(nu_4) : S^10 -> S^4`, with the composition order fixed by this displayed
 formula.  Prove that its stabilization is independent of this representative, has order two,
-and is nonzero by the indicated EHP/Toda calculation.  Show all other generators in the
+and is nonzero by the EHP/Toda calculation (Toda, Proposition 5.11, p.46,
+for the 2-primary composition and its suspensions).  Show all other generators in the
 relevant unstable groups either desuspend to the computed `P` image or die under suspension.
 Freudenthal identifies the resulting colimit from `pi_(n+6)(S^n)` for `n>=8`, giving
 `pi_6^S ~= Z/2{nu^2}`; in unstable form, `sphere_homotopyGroup_sixthStem` states
@@ -2375,8 +2533,12 @@ segment
 `P_7 -> Theta_6 -> coker(J_6) -> P_6`, the left image `bP_7` is zero and the right kernel is
 zero.  Conclude `Theta_6=0`.
 
-Toda, Chapters I--V, is normative for the unstable representative, its composition order, and
-its stabilization in Steps 1--4.  Kervaire--Milnor, Sections 4--6, supplies the geometric refinement and the
+The low-stem proof locators are Toda, Propositions 5.8, 5.9 and 5.11,
+pp.43–46, for the fourth, fifth and sixth 2-primary diagonals respectively;
+Lemma 5.4 and equation (5.8), pp.41–43, fix the quaternionic Hopf and
+Whitehead-square comparison. These Toda locators are cited as uncertified.
+Kervaire–Milnor's p.512 table records the integral group orders and does not
+identify ν² or prove these suspension and generator comparisons.  Kervaire--Milnor, Sections 4--6, supplies the geometric refinement and the
 comparison with `P_6`, while Browder, *The Kervaire Invariant of Framed Manifolds and its
 Generalization*, supplies the framed quadratic refinement, Arf invariant, and Pontryagin--Thom
 comparison.  The EHP/Toda and geometric comparison targets specify how the table and its generators
@@ -2412,7 +2574,7 @@ models; none may be stored as an assumed field of a group/classification record.
 
 ### 9A.1 Seventh stem and primitive real J
 
-*Needs:* TangentialBordism B4.1–2/B4.7; DGFloer 1.4; GeneralizedCohomology G5.6; 3A,4C; TopologicalKTheory T7; CharacteristicClasses C6.
+*Needs:* TangentialBordism B4.1–2/B4.7; DGFloer 1.4; GeneralizedCohomology G5.6; 3A,4C; 9.2 finiteness; TopologicalKTheory T7; CharacteristicClasses C6.
 
 **Seventh-stem upper bound and stable J.** Extend the actual sphere-spectrum
 computation to stem7. Use the mod-p Adams towers on the shared HF_p
@@ -2429,11 +2591,7 @@ uncomputed E2 towers for these abutment bounds. At primes p>=7 use the normalize
 words made only of tau0 have t-s=0, and a word containing any other
 positive generator has t-s>=2p-3>8. Thus the needed positive E2
 groups vanish; actual convergence excludes the completed abutment.
-Prove finite generation of each stable sphere group by DGFloer Layer 1 item 4 applied to the Serre class
-of finitely generated abelian groups on a finite sphere in a genuine
-Freudenthal range. GeneralizedCohomology G5 item 6
-then makes
-positive stems finite. Prove the finite-primary completion/localization
+Use 9.2’s finite-generation and rational-vanishing argument to make positive stems finite. Prove the finite-primary completion/localization
 comparisons and absence of hidden infinite filtrations before assembling
 the integral bound240. These generic ordinary operations/Adams inputs
 precede the MSO/MSpin coefficient calculations and use no such tables. Retain the explicit matrices/differentials as reusable
@@ -2723,6 +2881,11 @@ compact smooth recognition theorem of Layer 10.
 - Allen Hatcher, [*Algebraic Topology*](https://pi.math.cornell.edu/~hatcher/AT/AT.pdf),
   2002, §4.2, p.387 and Exercise 39, p.392 (Toda brackets); §4.J, pp.474–475
   (integral metastable EHP), Corollary 4J.4, p.474 (the first sphere stem).
+- Brayton Gray, [*Composition methods in the homotopy groups of ring spectra*](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/aguade%2B.pdf),
+  in *Cohomological Methods in Homotopy Theory*, Progress in Mathematics 196 (2001),
+  §2, pp.131–133, Propositions 2.1–2.4 and the fourth-stem calculation.
+- Anatoly Fomenko and Dmitry Fuchs, [*Homotopical Topology*](https://www.cimat.mx/~gil/docencia/2020/topologia_diferencial/%5BFomenko%2CFuchs%5DHomotopical_Topology%282016%29.pdf),
+  2nd ed., 2016, §§27.3–27.4, pp.382–387, especially the Corollary on p.387.
 - I. M. James, *Reduced Product Spaces*, Annals of Mathematics 62 (1955), 170--197.
 - Norman Steenrod, [*A Convenient Category of Topological
   Spaces*](https://doi.org/10.1307/mmj/1028999711), Michigan Mathematical Journal 14 (1967),
@@ -2734,7 +2897,8 @@ compact smooth recognition theorem of Layer 10.
   (1954), 17--86, Chapters I--II.
 - George W. Whitehead, *Elements of Homotopy Theory*, Springer GTM 61, 1978.
 - Hirosi Toda, *Composition Methods in Homotopy Groups of Spheres*, Princeton University Press,
-  1962, Chapters I--V.
+  1962, Lemma 5.4 and equation (5.8), pp.41–43; Propositions 5.8, 5.9, 5.11,
+  pp.43–46; Chapter XIV, pp.186–191, for tables. These locators are uncertified.
 - Raoul Bott, [*The Stable Homotopy of the Classical
   Groups*](https://doi.org/10.2307/1970106), Annals of Mathematics 70 (1959), 313--337.
 - Norman Steenrod, *The Topology of Fibre Bundles*, Princeton University Press, 1951, and Dale
