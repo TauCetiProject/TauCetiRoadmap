@@ -82,7 +82,7 @@ OperatorAlgebraDynamics is a Tau Ceti roadmap; D1, D2 and D7 supply its generic 
 
 ### From VonNeumannAlgebras
 
-Consume VonNeumannAlgebras on its native carriers: Mathlib's `VonNeumannAlgebra H` for concrete algebras on complete complex Hilbert spaces, `WStarAlgebra` for abstract algebras, and the supplied `VonNeumannAlgebra.CrossedProduct` for analytic crossed products. Corners act on the complete range of their projection, with that projection as identity. The BC applications in §§6.5 and 6.41–6.42 use these algebras, expectations, weights, cores and type predicates.
+Consume VonNeumannAlgebras on its native carriers: Mathlib's `VonNeumannAlgebra H` for concrete algebras on complete complex Hilbert spaces, `WStarAlgebra` for abstract algebras, and V8's regular crossed product of a countable nonsingular action for analytic crossed products. Corners act on the complete range of their projection, with that projection as identity. The BC applications in §§6.5 and 6.41–6.42 use these algebras, expectations, weights, cores and type predicates.
 
 Consume V0's completed `PositiveLinearMap.GNS` and `gnsStarAlgHom` comparison, cyclic-vector recovery and unitary uniqueness; V1's bicommutant, closure and Kaplansky density results; and V4's predual, normality, faithful-normal GNS and corner comparisons. Consume V10.ModularTheory and V10.KMS for the state Tomita convention `σ_t=Δ^(it)(·)Δ^(−it)` and its strip characterization. V11 supplies faithful normal semifinite weights, their GNS left ideals, modular groups and CentralizerCornerRestriction. The local expectation-state/GNS comparison is §6.41, on these carriers. See [Hiai][R127], §§1.1–1.4, §2 Theorems 2.2 and 2.14, §3.1 Proposition 3.8, and §7.1 for the corresponding conventions and comparisons.
 
@@ -546,7 +546,7 @@ See [94][R94], §3.4 Theorem3.5 and complete proof pp.28–31; §3.5 Theorem3.6 
 
 Lift `Z₀` by the exponential cover to a path from `a=1/2` to3/2 in the upper half-plane; the initial Fourier series is periodic there, so `Φ` has zero `Z₀` monodromy. `Z₁` lifts to the `a=0` based loop, giving the existing a-monodromy residue. The continued `Log z` increases by `2πik` along `Z₀^k`. Its factor `z^−c` contributes `e^(−2πikc)`; combined with `e^(2πipc)` this is the phase in `f_(p−k)`. Track the cut of `a−p` using the stated positive-real-part bases, including a sign change of `p−k`. The principal-germ identities then have unique analytic continuations on the universal cover. The `Z₁` lift winds positively once around `a=0`, while its logarithm lift has no increment around `z=0`. Thus `a^(s−1)` gains `e^(2πis)` for `p=0`. For `p≠0`, the corresponding `a−p` factor has zero winding. Repetition gives `e^(2πiks)`. These principal-germ relations extend analytically on the connected universal cover. The descent argument must use this corrected diagonal action, not published `(3.28)`.
 
-See [94][R94], §3.2 Lemma3.1 pp.21–24; §3.3 Theorem3.4 pp.25–28, (3.24)–(3.35); [101][R101], Definition3.3 (3.23), (3.24), Theorem3.4 (3.25)–(3.30), arXiv v1 printed pp.26–27.
+See [94][R94], §3.2 Lemma3.1 pp.21–24; §3.3 Theorem3.4 pp.25–28, (3.24)–(3.35); [arXiv v1][R101], Definition3.3 (3.23), (3.24), Theorem3.4 (3.25)–(3.30), arXiv v1 printed pp.26–27.
 
 ### Examples
 
@@ -637,7 +637,7 @@ Over `R`, let `D=P(∂)` with the dual-pairing coordinates and `b(v)=2⁴3⁶(v�
 
 The complex version uses D and its conjugate and the angular character `m∈Z`: the recurrences shift (u,m) to `(u−1,m∓1)`. Divide by `Γ((u+|m|±1/3)/2)Γ((u+|m|)/2)²`. Datskovsky–Wright, [105][R105], Proposition3.2 pp.40–41, gives the resulting entire Schwartz distributions; the preceding differential identity supplies their recurrence. The same finite-order support argument uses `|P|²` and the two recurrences. Positivity and the abscissa-of-convergence lemma extend the original integrals down to `Re u>1/3` (Corollaries3.1–3.2, pp.41,45).
 
-**Nonarchimedean local distribution theorem.** At a finite place, for every Schwartz–Bruhat function and every quasicharacter, ramified ones included and in every residue characteristic including 2 and 3, the orbital zeta distributions continue meromorphically as rational functions of `q^(−u)` and satisfy the local Fourier functional equation with an involutive matrix (Datskovsky–Wright Theorem3.2, p.47). Its proof applies Igusa's theorem on p-adic complex powers (Igusa, *Some results on p-adic complex powers*, American Journal of Mathematics `106 (1984)`, 1013–1032, Theorem1), which is the proof source for this target. The five unramified standard-function factors below are special cases and do not imply it. API targets are `.meromorphic_distribution`, `.fourier_equation`, `.rational_in_q_pow`, `.involutive_matrix`; checks require support on `P=0` to cause no extra term, equality first in `1/3<Re u<5/3`, and both `p=2` and `p=3` without a tameness hypothesis. *Needs:* AL.0 Fourier; §5.10b; for the nonarchimedean case, Igusa `1984`, Theorem1.
+**Nonarchimedean local distribution theorem.** At a finite place, for every Schwartz–Bruhat function and every quasicharacter, ramified ones included and in every residue characteristic including 2 and 3, the orbital zeta distributions continue meromorphically as rational functions of `q^(−u)` and satisfy the local Fourier functional equation with an involutive matrix (Datskovsky–Wright Theorem3.2, p.47). Its proof applies Igusa's theorem on p-adic complex powers (Igusa, *Some results on p-adic complex powers*, American Journal of Mathematics `106 (1984)`, 1013–1032, Theorem1), which is the proof source for this target. The five unramified standard-function factors below are special cases and do not imply it. The four properties to prove are the meromorphic continuation of each distribution, the local Fourier functional equation, rationality in `q^(−u)` and involutivity of the matrix; checks require support on `P=0` to cause no extra term, equality first in `1/3<Re u<5/3`, and both `p=2` and `p=3` without a tameness hypothesis. *Needs:* AL.0 Fourier; §5.10b; for the nonarchimedean case, Igusa `1984`, Theorem1.
 
 **§5.3d Real binary-cubic Fourier matrix.** In DW's orbital basis ordered split/real-complex, with u the orbital exponent and `γ(v)=Γ(v−1/6)Γ(v)²Γ(v+1/6)`, the matrix is
 `C_R(u)=π^(−2u)3^(3u−3)γ(u/2)/2` · `[[sin(πu),3sin(πu/2)],[sin(πu/2),sin(πu)]]`.
@@ -878,11 +878,17 @@ See [105][R105], Theorem 3.1 proof, p.45.
 
 Use the cubic uniformizer integral basis; its field norm has valuation one. The three support pieces contribute `1,u,u^2` against the step-three tail, which simplifies to 1/(1-u). Keep the wild discriminant in the preceding Jacobian.
 
-**§5.13f Five local orbital Euler factors.** For `Φ0=1_(O⁴)`, an unramified quasicharacter `ω` and a DW standard representative, put `u=ω(π)`. Then `Zα(ω,Φ0)=ηα(u)/[(1−qu³)(1−u²)]`, with `η=(1+u)²,1+u²,1+u,1−u+u²,1` for types split, unramified quadratic, ramified quadratic, unramified cubic, ramified cubic respectively. A ramified `ω` gives zero. Characteristic zero permits residue characteristics 2 and 3; their discriminant and self-dual-measure factors remain in the preceding normalization.
+**§5.13f Five local orbital Euler factors.** For `Φ0=1_(O⁴)`, an unramified quasicharacter `ω` and a DW standard representative, put `u=ω(π)`. Then `Zα(ω,Φ0)=ηα(u)/[(1−qu³)(1−u)]`, with `η=(1+u)²,1+u²,1+u,1−u+u²,1` for types split, unramified quadratic, ramified quadratic, unramified cubic, ramified cubic respectively. A ramified `ω` gives zero. Characteristic zero permits residue characteristics 2 and 3; their discriminant and self-dual-measure factors remain in the preceding normalization.
 
-Use the shell-removal differential identity and its integral evaluation from Propositions 3.1–3.2, pp.39–41: `Z(Φ0)=(1−u)/[(1−qu³)(1−u²)] I(Φ1)`. Insert the five auxiliary factors, one declaration per orbit type. Compact determinant-character integration gives zero for ramified `ω`.
+Use the shell-removal operator `DΦ(x)=Φ(x)−Φ(π⁻³x₁,π⁻²x₂,π⁻¹x₃,x₄)` and its identity `I(ω,DΦ)=(1−qu³)I(ω,Φ)` from the proof of Theorem 3.1, p.42; since `DΦ0=Φ1`, this gives `Z(Φ0)=I(Φ1)/(1−qu³)`. Insert the five auxiliary factors, one declaration per orbit type. Compact determinant-character integration gives zero for ramified `ω`.
 
-See [105][R105], Theorem 3.1, p.42; Euler-product comparison Theorem 6.1, p.68.
+**Checks.**
+
+- At a split place the factor is `(1+u)²/((1−u)(1−qu³))`, the §5.13a value `(1+u)²/(1−u)` divided by `(1−qu³)`; a shell law with denominator `(1−u²)` would give `(1+u)/((1−u)(1−qu³))` instead.
+- With `u=q^(−2s)` the five factors are the local factors of the §5.13 Euler product `ζF(4s)ζF(6s−1)ζA(2s)/ζA(4s)`: a split place contributes `(1−u²)⁻¹(1−qu³)⁻¹(1−u)⁻³(1−u²)³=(1+u)²/((1−u)(1−qu³))`, and the unramified quadratic, ramified quadratic, unramified cubic and ramified cubic places contribute `1+u²`, `1+u`, `1−u+u²` and `1` over the same denominator `(1−u)(1−qu³)`.
+- For `F=ℚ` and `A=ℚ³` the product of the split factors over all primes is `ζ(2s)³ζ(6s−1)/ζ(4s)²`; the denominator `(1−u²)` would give `ζ(2s)²ζ(6s−1)/ζ(4s)`, which differs by `ζ(2s)/ζ(4s)=∏p(1+p^(−2s))`.
+
+See [105][R105], Theorem 3.1 and its proof, p.42; Euler-product comparison Theorem 6.1, p.68.
 
 ### 5.14 The selected quadratic double Dirichlet series
 
@@ -1359,7 +1365,7 @@ The proof target is Heath-Brown's reciprocity/duality recursion: dyadically loca
 - The principal conductor-one character is present in the finite polynomial bound, but excluded from the pole-sensitive fourth moment at `s=1`.
 - For `σ=1/2` the fourth-moment bound has size `Q(1+|t|)`, up to `ε` powers; `σ=1` gives Q+1. No asymptotic fourth-moment formula at the critical line is asserted.
 
-See [Heath-Brown, A mean value estimate for real character sums][R108], Theorem 1 and Corollary 1 p.237, Corollary 2 and Theorem 2 p.238, proof of Theorem 1 §§2–9 pp.239–267, fourth-moment proof §10 pp.267–269. The headline statements are `quadratic_large_sieve`, the odd squarefree form, whose primitive-real form and square-pair correction are its corollaries, and `quadratic_fourth_moment`; the latter allows any finite subset of this primitive real family. *Needs:* Mathlib `jacobiSym`, quadratic reciprocity and finite Dirichlet characters; Fourier/Poisson from AutomorphicLFunctionsAndLocalFactors AL.0; the primitive functional equation and the imported Gamma bounds.
+See [Heath-Brown, A mean value estimate for real character sums][R109], Theorem 1 and Corollary 1 p.237, Corollary 2 and Theorem 2 p.238, proof of Theorem 1 §§2–9 pp.239–267, fourth-moment proof §10 pp.267–269. The headline statements are `quadratic_large_sieve`, the odd squarefree form, whose primitive-real form and square-pair correction are its corollaries, and `quadratic_fourth_moment`; the latter allows any finite subset of this primitive real family. *Needs:* Mathlib `jacobiSym`, quadratic reciprocity and finite Dirichlet characters; Fourier/Poisson from AutomorphicLFunctionsAndLocalFactors AL.0; the primitive functional equation and the imported Gamma bounds.
 
 ### 5.30 Meromorphic continuation and the three polar hyperplanes
 
@@ -1629,7 +1635,7 @@ See [115][R115], §1, (1.1)–(1.5), p.603.
 
 *Needs:* FuchsianOrbifolds Layers 0–2, 4; §6.12b; `Complex.cpow`; §6.4a.
 
-**§6.4a Spectral continuation output.** The heat-asymptotic contract yields actual positive and shifted meromorphic functions, regular at `z=0`, agreeing with their convergent series on `Rez>1`. It also yields an analytic function `F=(z−1)ζ+(z)` near 1. These are the fields of SpectralContinuation; existence follows from the Mellin subtraction chain, not from an arbitrary function-valued placeholder.
+**§6.4a Spectral continuation output.** The heat-asymptotic contract yields actual positive and shifted meromorphic functions, regular at `z=0`, agreeing with their convergent series on `Rez>1`. It also yields an analytic function `F=(z−1)ζ+(z)` near 1. These three functions, the two continued functions and the pole-cleared germ, are the continuation data consumed below; their existence follows from the Mellin subtraction chain, not from an arbitrary function-valued placeholder.
 
 Assemble the normally convergent right-half-plane series, the subtracted Mellin germs and regularity at zero into actual continuation functions. Their overlapping germs agree by the identity theorem. The pole-cleared germ near one is the data used in the genus-one prefactor.
 
@@ -1715,7 +1721,7 @@ See [114][R114], Projection exhaustion in the Proposition proof, p.2.
 
 ### 6.10 All normalized scaling measures
 
-For `β>0`, a `β-scaling` measure is a positive Radon measure `μ` on `A_f` with `μ(Ẑ)=1` and `μ(qE)=q^(−β)μ(E)` for every positive rational q and Borel set `E`. These two conditions force `μ({0})=0`. No unit invariance is assumed; the canonical product measure is one element.
+For `β>0`, a `β-scaling` measure is a positive Radon measure `μ` on `A_f` with `μ(Ẑ)=1` and `μ(qE)=q^(−β)μ(E)` for every positive rational q and Borel set `E`. These two conditions force `μ({0})=0`. No unit invariance is assumed; the canonical product measure is one element. `IsScalingMeasure` is this notion on Mathlib's finite adeles `IsDedekindDomain.FiniteAdeleRing ℤ ℚ` with the Borel σ-algebra: inner regular and locally finite, of mass one on the integral adeles, and `q_*μ=q^β μ` for every positive rational `q`.
 
 Use Radon regularity and normalized rational scaling. Since `μ({0})≤μ(Ẑ)=1` and dilation2 fixes0, `β>0` forces `μ({0})=2⁻ᵝμ({0})=0`.
 
@@ -2278,7 +2284,7 @@ See [112][R112], Chapter 3, Definitions 3.4–3.6, pp.445–447.
 
 *Needs:* §6.24; §6.22.
 
-**§6.30a Entire spectral core to bounded-strip KMS.** OperatorAlgebraDynamics D7 proves, for a point-norm-continuous dynamics `σ` on a unital `C⋆-algebra` and `β>0`, that a state satisfies the bounded closed-strip `KMS_β` condition of §6.30 if and only if the analytic identity holds on a norm-dense `σ-invariant star` subalgebra of entire elements, with the strip bound `|F_(a,b)(z)|≤‖a‖‖b‖`. For the BC system take D to be the image of the finite-support Hecke core: it is dense by §6.24, `σ-invariant`, and spanned by entire eigenvectors, since `σ_t(μ_n e(γ) μ_m*)=(n/m)^(it) μ_n e(γ) μ_m*`. Hence a completed state is `KMS_β` exactly when `φ(ab)=φ(bσ_(iβ)(a))` for `a,b∈D`; this is `kms_finite_spectral_core_iff` for the BC core. The `β=0` case is the trace condition and is not used.
+**§6.30a Entire spectral core to bounded-strip KMS.** OperatorAlgebraDynamics D7 proves, for a point-norm-continuous dynamics `σ` on a unital `C⋆-algebra` and `β>0`, that a state satisfies the bounded closed-strip `KMS_β` condition of §6.30 if and only if the analytic identity holds on a norm-dense `σ-invariant star` subalgebra of entire elements, with the strip bound `|F_(a,b)(z)|≤‖a‖‖b‖`. For the BC system take D to be the image of the finite-support Hecke core: it is dense by §6.24, `σ-invariant`, and spanned by entire eigenvectors, since `σ_t(μ_n e(γ) μ_m*)=(n/m)^(it) μ_n e(γ) μ_m*`. Hence a completed state is `KMS_β` exactly when `φ(ab)=φ(bσ_(iβ)(a))` for `a,b∈D`; this is the finite-spectral-core criterion for the BC core. The `β=0` case is the trace condition and is not used.
 
 **Checks.** For `σ_t(a)=r^(it)a` the imaginary-time factor is `r^−β`. Taking `r=2,β=1` gives `1/2`. For trivial dynamics on `M₂(ℂ)`, `a=E12,b=E21` have products E11,E22, so evaluation at the (1,1) entry fails KMS. Invariance of D matters: the span of `μ_2` alone is not a `star` subalgebra, and density of a non-invariant set of entire elements does not suffice.
 
@@ -2430,7 +2436,7 @@ See [113][R113], §4, Proposition 18 and complete proof, pp.431–433.
 
 For each core element the orbit is a finite sum of scalar exponentials. Approximate an arbitrary completed element in norm by a core element and bound the two approximation terms using the isometric dynamics.
 
-**§6.34e The analytic core and the strip KMS condition.** For `β>0 a` completed state is `KMSβ` exactly when its restriction to the dense Hecke core satisfies IsKMS `β`. In the core-to-strip direction, approximate both completed arguments by core arguments; the uniform strip estimate makes their correlation functions Cauchy uniformly on the closed strip.
+**§6.34e The analytic core and the strip KMS condition.** For `β>0 a` completed state is `KMSβ` exactly when its restriction to the dense Hecke core satisfies the core `KMS_β` condition of §6.29. In the core-to-strip direction, approximate both completed arguments by core arguments; the uniform strip estimate makes their correlation functions Cauchy uniformly on the closed strip.
 
 Restrict a bounded strip correlation and use uniqueness against the entire core orbit to evaluate the upper boundary. For the converse take norm approximations `a_j,b_j` in the core. The bound on differences gives uniform convergence on the full closed strip. Locally uniform limits remain holomorphic, and the limits have the required two boundary values.
 
@@ -2605,7 +2611,7 @@ See [112][R112], Ch.3, Theorem 3.30 and surrounding discussion, pp.460–470.
 
 For each unit character `u`, the representation `πu` has a continuous extension to `C_Q`. Its vector functional at `ε1` is a normalized positive state `φ∞,u`. It is the weak limit of Gibbsβ,u as `β→∞` and hence a KMS-infinity state. Evaluation on `μn eγ μm*` is zero unless `n=m=1`, when it is `exp(2πi uγ)`.
 
-Extend the bounded core representation to the completion. Its `epsilon_1` vector functional is positive and normalized. Dominate the Gibbs tail by the zeta tail to prove pointwise convergence as `beta` grows, then evaluate the normalized monomial on `epsilon_1`.
+Extend the bounded core representation to the completion. Its `ε1` vector functional is positive and normalized. Dominate the Gibbs tail by the zeta tail to prove pointwise convergence as `β` grows, then evaluate the normalized monomial on `ε1`.
 
 - `φ∞,u(1)=1`.
 - The normalized basis has the stated zero/character values.
@@ -2639,7 +2645,7 @@ See [112][R112], Ch. 3, §4.6, (3.142), p. 476; [112][R112], Ch. 3, §4.6, (3.14
 
 ### 6.40 Critical-regime KMS uniqueness
 
-For `0<β≤1` every normalized `β-scaling` measure equals the canonical `μβ`, and therefore there is exactly one completed `KMSβ` state. `critical_scaling_measure_unique` states existence and uniqueness of the normalized Radon scaling measure on `IsDedekindDomain.FiniteAdeleRing ℤ ℚ`, with pushforward law `q_*μ=q^β μ`. The proof uses the explicit canonical extremality and compact-unit average rigidity, rather than assuming a general Choquet decomposition.
+For `0<β≤1` every normalized `β-scaling` measure equals the canonical `μβ`, and therefore there is exactly one completed `KMSβ` state. `critical_scaling_measure_unique` states that for `0<β≤1` exactly one measure on `IsDedekindDomain.FiniteAdeleRing ℤ ℚ` satisfies `IsScalingMeasure`, the normalized Radon scaling predicate of §6.10 with pushforward law `q_*μ=q^β μ`. The proof uses the explicit canonical extremality and compact-unit average rigidity, rather than assuming a general Choquet decomposition.
 
 Unit averaging identifies an arbitrary scaling measure's barycentre with the canonical measure. Ergodicity/RN makes the latter extreme; extreme-average rigidity forces the continuous unit orbit constant. Transfer uniqueness through the affine KMS/scaling correspondence. Fourier values are a separate consequence, without a Choquet premise.
 
@@ -2691,7 +2697,7 @@ The intended interface is:
 - At `β=1`, `ψ(S₂S₂*)=μ₁(2Ẑ)=1/2` and `ψ(S₂*S₂)=1`, agreeing with V10.AffineHecke's canonical Haar state.
 - For `q=2,β=1` the BC imaginary-time eigenvalue `is2⁻¹=1/2`. Its Tomita modular value at time+i has eigenvalue2, so using+βt for the Tomita group reverses the KMS identity.
 
-See Neshveyev, [Ergodicity of the action of the positive rationals on the group of finite adeles][R123], corollary proof, p.3; and [Von Neumann algebras of the Bost–Connes type][R124], §1, pp.1–2 and Theorem 2.1, p.3. These sources prove the arithmetic application. The general classification and flow-of-weights contracts come from VonNeumannAlgebras V11, with the convention adapter above.
+See Neshveyev, [Ergodicity of the action of the positive rationals on the group of finite adeles][R114], corollary proof, p.3; and [Von Neumann algebras of the Bost–Connes type][R117], §1, pp.1–2 and Theorem 2.1, p.3. These sources prove the arithmetic application. The general classification and flow-of-weights contracts come from VonNeumannAlgebras V11, with the convention adapter above.
 
 *Needs:* VonNeumannAlgebras V0–V4, V8, V10.ModularTheory, V10.KMS, V10.AffineHecke and V11; §6.5; the BC expectation/compression construction; the arithmetic ergodicity and full-ratio-set proofs.
 
@@ -2705,7 +2711,7 @@ For `0<β≤1` the GNS von Neumann algebra of the unique completed `KMSβ` state
 
 See [117][R117], §1 and §2, Lemma 2.3 and Theorem 2.1, pp.2–5.
 
-*Needs:* `B1`; §6.34; §6.9; §6.10; AnalyticNumberTheoryPartI, Prerequisites and boundaries; §6.5; §6.2; §6.9c; §6.42a; §6.42b; §6.42c; §6.42d; §6.42e; §6.42f; §6.42g; §6.42h; §6.42i.
+*Needs:* `B1`; §6.34; §6.9; §6.10; AnalyticNumberTheoryPartI, Prerequisites and boundaries, for the prime number theorem `TauCeti.primeCount_univ_isEquivalent_div_log` and its progression form `NumberField.Chebotarev.tendsto_frobeniusPrimeCount` at `ℚ(ζN)/ℚ`, which §§6.42a and 6.42c use; §6.5; §6.2; §6.9c; §6.42a; §6.42b; §6.42c; §6.42d; §6.42e; §6.42f; §6.42g; §6.42h; §6.42i.
 
 **§6.42a Prime pairs with prescribed ratio and divergent weights.** For `0<β≤1`, `λ>1` and `ε>0` there are disjoint prime pairs(pn,qn) with `|(qn/pn)^β−λ|<ε` and `Σn qn^(−β)=∞`.
 
@@ -2735,7 +2741,7 @@ Approximate a positive-measure set by a finite valuation-and-residue cylinder. S
 
 See [117][R117], Theorem 2.1 proof, pp.4–5; specialized congruence-cylinder lifting.
 
-**§6.42f All positive numbers belong to the ratio set.** For `0<β≤1` the nonsingular `Q+×` action on `(A_f,μβ)` has RatioSet=[0,∞). Its pushforward density is `ρq(x)=q^β`. Prime pairs with fixed unit congruences give every `λ>1` after the `β` power; inverses give `λ∈(0,1)`, and closure gives 0.
+**§6.42f All positive numbers belong to the ratio set.** For `0<β≤1` the nonsingular `Q+×` action on `(A_f,μβ)` has ratio set `[0,∞)`. Its pushforward density is `ρq(x)=q^β`. Prime pairs with fixed unit congruences give every `λ>1` after the `β` power; inverses give `λ∈(0,1)`, and closure gives 0.
 
 Approximate any finite positive-measure set by a finite valuation and unit cylinder. Use congruence-controlled disjoint pairs and the independent-tail inclusion; the inverse swap fixes the derivative convention. Close the resulting multiplicative subgroup and use a rational-dilate exhaustion for arbitrary positive-measure sets.
 
@@ -2904,6 +2910,17 @@ See [114][R114], Introduction, unit-orbit decomposition after (1β), pp.1–2.
 
 For the normalization on `Ẑ`, only `q∈N+` contributes, giving `ζ(β)`. On compact rational dilates the sum is finite as a measure after the same convergent bound. Recover each `qW` component by scaling; the complement is null by the high-beta orbit theorem.
 
+`finiteAdeleUnits` is `W` on Mathlib's finite adeles: the adeles whose every coordinate has valuation one. `unitOrbitSum` sends a measure `ν` on the finite adeles to `ζ(β)⁻¹Σq∈Q_+× q^(−β)(q_*ν)`, a countable sum of pushforwards with the inverse of the real number `ζ(β)` as constant. `supercritical_scaling_measures` states, for `β>1`, that the unit-orbit sum of every Borel probability measure `ν` carried by `W` satisfies `IsScalingMeasure`, gives `W` mass `1/ζ(β)` and has normalized unit restriction `ν`, and that every measure satisfying `IsScalingMeasure` gives `W` mass `1/ζ(β)` and is the unit-orbit sum of exactly one Borel probability measure carried by `W`.
+
+**Checks.**
+
+- For `ν` the point mass at the unit adele 1, the unit-orbit sum gives the point `n` mass `ζ(β)⁻¹n^(−β)` for every positive integer `n` and no mass to any other point of `Ẑ`; its mass on `Ẑ` is 1 and on `W` is `ζ(β)⁻¹`.
+- For `q=a/b` in lowest terms with `b>1`, `(q_*ν)(Ẑ)=0` for every `ν` carried by `W`, since `qx` is integral at a prime divisor of `b` for no unit `x`; so only positive integers enter the normalization and the constant is `ζ(β)`, not the divergent sum over all positive rationals.
+- For `ν` the normalized Haar measure of `W` the unit-orbit sum is `W`-invariant, hence the canonical `μβ` of §6.2, and `μβ(W)=ζ(β)⁻¹` agrees with §6.48a.
+- A measure carried by `W` of total mass `m≠1` has a unit-orbit sum of mass `m` on `Ẑ`; the probability hypothesis is what normalizes.
+- For `0<β≤1` every scaling measure gives `W` mass zero, so no probability measure on `W` can be recovered and the parametrization fails; the hypothesis `β>1` is essential.
+- The zero adele has valuation zero at every place and is not in `finiteAdeleUnits`; the condition that `a` and `a⁻¹` are both integral would admit it, since the inverse of zero in each completion is zero.
+
 See [114][R114], Neshveyev 2000, pp.1–2.
 
 **§6.48c Probability measures parameterize high-beta KMS states.** For `β>1`, `ν↦∫W φβ,u dν(u)` is an affine homeomorphism from Radon probability measures on the existing compact group `W=Ẑ×` to completed `KMSβ` states. The inverse is the normalized unit restriction of the corresponding scaling measure.
@@ -2968,19 +2985,21 @@ The ArithmeticStatistics parts consume Layer 5’s cubic parametrization, finite
 
 ## References
 
-- **94.** [Jeffrey C. Lagarias and Wen-Ching Winnie Li — The Lerch Zeta function III. Polylogarithms and special values][R94].
+- **94.** [Jeffrey C. Lagarias and Wen-Ching Winnie Li — The Lerch Zeta function III. Polylogarithms and special values][R94]; the [arXiv v1][R101] of the same paper has its own page numbers.
 - **95.** [Jeffrey C. Lagarias and Wen-Ching Winnie Li — The Lerch zeta function II. Analytic continuation][R95].
 - **96.** [F. W. J. Olver, A. B. Olde Daalhuis, D. W. Lozier et al. (eds.); Chapter 5 by R. A. Askey and R. Roy — NIST Digital Library of Mathematical Functions, §5.17 Barnes’ G-function (double gamma function)][R96].
 - **97.** [Victor S. Adamchik — Contributions to the Theory of the Barnes Function][R97].
 - **98.** [Gergő Nemes — Error bounds and exponential improvement for the asymptotic expansion of the Barnes G-function][R98].
 - **99.** [Jeffrey C. Lagarias and Wen-Ching Winnie Li — The Lerch zeta function I. Zeta integrals][R99].
 - **100.** [J. P. Keating and N. C. Snaith — Random Matrix Theory and ζ(1/2+it)][R100].
-- **101.** [Jeffrey C. Lagarias and Wen-Ching Winnie Li — The Lerch zeta function III. Polylogarithms and special values][R101].
 - **102.** [Valentin Blomer — Subconvexity for a double Dirichlet series][R102].
 - **103.** [D. J. Wright — The adelic zeta function associated to the space of binary cubic forms. Part I: global theory][R103].
+- **104.** [Takuro Shintani — On Dirichlet series whose coefficients are class numbers of integral binary cubic forms][R104].
 - **105.** [Boris Datskovsky and David J. Wright — The adelic zeta function associated to the space of binary cubic forms. II: local theory][R105].
+- **106.** [Melanie Matchett Wood — Parametrizing quartic algebras over an arbitrary base][R106].
 - **107.** [Robert J. Lemke Oliver, Jiuya Wang and Melanie Matchett Wood — The average size of 3-torsion in class groups of 2-extensions][R107].
 - **109.** [D. R. Heath-Brown — A mean value estimate for real character sums][R109].
+- **110.** [Jorge Hounie — A proof of Bochner's tube theorem][R110].
 - **111.** [Adrian Diaconu, Dorian Goldfeld and Jeffrey Hoffstein — Multiple Dirichlet series and moments of zeta and L-functions][R111].
 - **112.** [Alain Connes and Matilde Marcolli — Noncommutative Geometry, Quantum Fields and Motives][R112].
 - **113.** [Jean-Benoît Bost and Alain Connes — Hecke algebras, type III factors and phase transitions with spontaneous symmetry breaking in number theory][R113].
@@ -2992,6 +3011,8 @@ The ArithmeticStatistics parts consume Layer 5’s cubic parametrization, finite
 - **119.** [Étienne Le Masson — Quantum chaos on hyperbolic surfaces][R119].
 - **121.** [Jens Marklof — Selberg's trace formula: an introduction][R121].
 - **122.** [Marcelo Laca — From endomorphisms to automorphisms and back: dilations and full corners][R122].
+- **126.** [Bernard Helffer — Spectral theory and applications. An elementary introductory course, version 2008–2009][R126].
+- **127.** [Fumio Hiai — Lectures on selected topics in von Neumann algebras][R127].
 
 [R94]: https://link.springer.com/content/pdf/10.1186/s40687-015-0049-2.pdf
 [R95]: https://arxiv.org/pdf/1005.4967v2
@@ -3007,8 +3028,7 @@ The ArithmeticStatistics parts consume Layer 5’s cubic parametrization, finite
 [R105]: https://gdz.sub.uni-goettingen.de/download/pdf/PPN243919689_0367/LOG_0007.pdf
 [R106]: https://msp.org/ant/2011/5-8/ant-v5-n8-p05-p.pdf
 [R107]: https://arxiv.org/pdf/2110.07712
-[R108]: https://matwbn.icm.edu.pl/ksiazki/aa/aa72/aa7234.pdf
-[R109]: https://ora.ox.ac.uk/objects/uuid:b188b365-d8d1-4267-8548-49f01e6cb6a7/files/m6af40476f1b860392271a2d8ecae593b
+[R109]: https://matwbn.icm.edu.pl/ksiazki/aa/aa72/aa7234.pdf
 [R110]: https://www.dm.ufscar.br/cursos/pos/preprintsDM/preprints2009/JH7.pdf
 [R111]: https://www.math.columbia.edu/~goldfeld/GoldfeldDiaconuHoffstein.pdf
 [R112]: https://www.its.caltech.edu/~matilde/coll-55.pdf
@@ -3021,7 +3041,5 @@ The ArithmeticStatistics parts consume Layer 5’s cubic parametrization, finite
 [R119]: https://perso.u-cergy.fr/~elemasson/qchyp.pdf
 [R121]: https://people.maths.bris.ac.uk/~majm/bib/selberg.pdf
 [R122]: https://arxiv.org/pdf/math/9911135
-[R123]: https://arxiv.org/pdf/math/0002141
-[R124]: https://arxiv.org/pdf/0907.1456
 [R126]: https://www.imo.universite-paris-saclay.fr/~helffer/deamain2008.pdf
 [R127]: https://arxiv.org/pdf/2004.02383v1

@@ -26,10 +26,13 @@ coefficients. Those objects are absent at the pins and need the constructions of
 §§5.5–5.6; arbitrary coefficient sequences would not state these theorems.
 
 Layer 6 states generation of the native rational torsion group algebra by first
-Eisenstein functions and existence and uniqueness of critical scaling measures on
-Mathlib's finite adeles. The completed Bost–Connes algebra, its dynamics and KMS
-state space are absent at the pins, so its phase transition, cyclotomic state
-values and type III₁ classification have no signatures here. The compact scalar
+Eisenstein functions, existence and uniqueness of critical scaling measures on
+Mathlib's finite adeles, and the supercritical parametrization of scaling
+measures by probability measures on the profinite units, which is the measure
+form of both halves of the phase transition. The completed Bost–Connes algebra,
+its dynamics and KMS state space are absent at the pins, so the KMS-state form
+of the phase transition, the cyclotomic state values and the type III₁
+classification have no signatures here. The compact scalar
 Selberg determinant comparison and spectral zero theorem likewise need the
 geometric scalar Laplacian realization, its spectrum and the primitive geodesic
 product of §§6.11–6.12. No arbitrary spectrum substitutes for these objects.
@@ -247,16 +250,51 @@ theorem firstEisenstein_generate :
 local instance : MeasurableSpace (IsDedekindDomain.FiniteAdeleRing ℤ ℚ) :=
   borel (IsDedekindDomain.FiniteAdeleRing ℤ ℚ)
 
+/-- A normalized `β`-scaling Radon measure on the finite adeles: inner regular,
+locally finite, of mass one on `Ẑ`, with `q_*μ = q^β μ` for every positive
+rational `q` (§6.10). -/
+def IsScalingMeasure (β : ℝ) (μ : Measure (IsDedekindDomain.FiniteAdeleRing ℤ ℚ)) : Prop :=
+  μ.InnerRegular ∧ IsLocallyFiniteMeasure μ ∧
+    μ {a | ∀ v : IsDedekindDomain.HeightOneSpectrum ℤ,
+      a v ∈ v.adicCompletionIntegers ℚ} = 1 ∧
+    ∀ q : ℚ, 0 < q →
+      Measure.map (fun x : IsDedekindDomain.FiniteAdeleRing ℤ ℚ => q • x) μ =
+        ENNReal.ofReal ((q : ℝ) ^ β) • μ
+
 /-- In the critical interval there is exactly one normalized Radon scaling
 measure on the finite adeles (§6.40); no unit invariance is assumed. -/
 theorem critical_scaling_measure_unique (β : ℝ) (hβ : 0 < β) (hβ' : β ≤ 1) :
-    ∃! μ : Measure (IsDedekindDomain.FiniteAdeleRing ℤ ℚ),
-      μ.InnerRegular ∧ IsLocallyFiniteMeasure μ ∧
-      μ {a | ∀ v : IsDedekindDomain.HeightOneSpectrum ℤ,
-        a v ∈ v.adicCompletionIntegers ℚ} = 1 ∧
-      ∀ q : ℚ, 0 < q →
-        Measure.map (fun x : IsDedekindDomain.FiniteAdeleRing ℤ ℚ => q • x) μ =
-          ENNReal.ofReal ((q : ℝ) ^ β) • μ := by
+    ∃! μ : Measure (IsDedekindDomain.FiniteAdeleRing ℤ ℚ), IsScalingMeasure β μ := by
+  sorry
+
+/-- The profinite units `W = Ẑ^×` inside the finite adeles: every coordinate has
+valuation one (§6.48). -/
+def finiteAdeleUnits : Set (IsDedekindDomain.FiniteAdeleRing ℤ ℚ) :=
+  {a | ∀ v : IsDedekindDomain.HeightOneSpectrum ℤ, Valued.v (a v) = 1}
+
+/-- The unit-orbit sum `ζ(β)⁻¹ Σ_{q ∈ ℚ_+^×} q^(−β) (q_*ν)` of a measure on the
+finite adeles (§6.48b). -/
+def unitOrbitSum (β : ℝ) (ν : Measure (IsDedekindDomain.FiniteAdeleRing ℤ ℚ)) :
+    Measure (IsDedekindDomain.FiniteAdeleRing ℤ ℚ) :=
+  (ENNReal.ofReal (riemannZeta (β : ℂ)).re)⁻¹ •
+    Measure.sum fun q : {q : ℚ // 0 < q} =>
+      ENNReal.ofReal (((q : ℚ) : ℝ) ^ (-β)) •
+        Measure.map (fun x : IsDedekindDomain.FiniteAdeleRing ℤ ℚ => (q : ℚ) • x) ν
+
+/-- Above the critical inverse temperature the normalized scaling measures are
+exactly the unit-orbit sums of the Borel probability measures carried by `Ẑ^×`,
+and each gives `Ẑ^×` mass `1/ζ(β)` (§6.48b, the measure form of §6.50). -/
+theorem supercritical_scaling_measures (β : ℝ) (hβ : 1 < β) :
+    (∀ ν : Measure (IsDedekindDomain.FiniteAdeleRing ℤ ℚ),
+      IsProbabilityMeasure ν → ν finiteAdeleUnitsᶜ = 0 →
+        IsScalingMeasure β (unitOrbitSum β ν) ∧
+        unitOrbitSum β ν finiteAdeleUnits = (ENNReal.ofReal (riemannZeta (β : ℂ)).re)⁻¹ ∧
+        ENNReal.ofReal (riemannZeta (β : ℂ)).re •
+          (unitOrbitSum β ν).restrict finiteAdeleUnits = ν) ∧
+    ∀ μ : Measure (IsDedekindDomain.FiniteAdeleRing ℤ ℚ), IsScalingMeasure β μ →
+      μ finiteAdeleUnits = (ENNReal.ofReal (riemannZeta (β : ℂ)).re)⁻¹ ∧
+      ∃! ν : Measure (IsDedekindDomain.FiniteAdeleRing ℤ ℚ),
+        IsProbabilityMeasure ν ∧ ν finiteAdeleUnitsᶜ = 0 ∧ μ = unitOrbitSum β ν := by
   sorry
 
 end TauCetiRoadmap.AnalyticNumberTheoryPartII
