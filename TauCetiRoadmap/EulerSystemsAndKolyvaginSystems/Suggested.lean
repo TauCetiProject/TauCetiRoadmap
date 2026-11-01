@@ -1,5 +1,6 @@
 import Mathlib
-import TauCeti.RepresentationTheory.Homological.ContCohomology.LowDegree
+import TauCeti.RepresentationTheory.Homological.ContCohomology.ExplicitFunctoriality
+import TauCeti.Topology.Algebra.Group.Generation
 
 /-!
 # Euler systems, Kolyvagin systems and higher-rank descent: target signatures
@@ -7,10 +8,11 @@ import TauCeti.RepresentationTheory.Homological.ContCohomology.LowDegree
 **This file is not the roadmap and is not exhaustive.** The definitive document is
 `README.md`. This file states the roadmap’s statable headline theorems against the pinned APIs;
 discharging them finishes neither a layer nor the roadmap. The compact irreducible
-rational vanishing theorem (§4.2a) uses the native additive continuous cohomology carrier.
-The integral finite-cokernel and infinite-base classification (§§4.2a–4.2b) additionally
-need the lattice quotient comparison maps and the joint arithmetic extension with its
-quotient Galois action; these are not stated through substitute carriers.
+rational vanishing and integral finite-cokernel comparison theorems (§4.2a) use native
+additive continuous cohomology, the lattice quotient and its coefficient map. The latter
+also identifies the image as the maximal divisible subgroup. The infinite-base
+classification (§4.2b) needs the joint arithmetic extension with its quotient Galois
+action, which is absent at the pins; it is not stated through a substitute carrier.
 
 The arithmetic headline theorems require arithmetic Selmer structures with coefficient-linear
 cohomology, propagated and dual local conditions, and the Euler, Kolyvagin and Stark system carriers.
@@ -107,6 +109,34 @@ theorem compactIrreducible_h1_vanish
     [FaithfulSMul G V]
     [Representation.IsIrreducible (Representation.ofDistribMulAction Φ G V)] :
     Subsingleton (TauCeti.ContCohomology.H1 G V) := by
+  sorry
+
+/-- For a topologically finitely generated profinite group acting continuously and linearly
+on a finite-dimensional space over a finite extension of `ℚ_p`, quotienting by a stable
+finite free full lattice induces a map on continuous `H¹` with finite cokernel. Its image
+is divisible and contains every divisible subgroup of the target.
+Rubin, Appendix C, proof of Corollary 2.2, with the lattice-cohomology comparison of
+Appendix B, Proposition 2.4. The quotient action is fixed by equivariance of `L.mkQ`. -/
+theorem integralComparison_finiteCokernel_maximalDivisible
+    (p : ℕ) [Fact p.Prime]
+    (Φ : Type*) [NormedField Φ] [NormedAlgebra ℚ_[p] Φ] [FiniteDimensional ℚ_[p] Φ]
+    (O : Subring Φ) (hO : ∀ x : Φ, x ∈ O ↔ ‖x‖ ≤ 1)
+    (G : Type*) [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
+    [CompactSpace G] [T2Space G] [TotallyDisconnectedSpace G]
+    (hG : TauCeti.IsTopologicallyFinitelyGenerated G)
+    (V : Type*) [NormedAddCommGroup V] [NormedSpace Φ V] [FiniteDimensional Φ V]
+    [DistribMulAction G V] [SMulCommClass G Φ V] [ContinuousSMul G V]
+    (L : Submodule O V) [Module.Finite O L] [Module.Free O L]
+    (hfull : Submodule.span Φ (L : Set V) = ⊤)
+    [DistribMulAction G (V ⧸ L)] [ContinuousSMul G (V ⧸ L)]
+    (hq : ∀ (g : G) (v : V), L.mkQ (g • v) = g • L.mkQ v) :
+    let q : V →+[G] (V ⧸ L) :=
+      { L.mkQ.toAddMonoidHom with map_smul' := hq }
+    let I := (TauCeti.ContCohomology.explicitCoeff1 G V q L.continuous_mkQ).range
+    Finite ((TauCeti.ContCohomology.H1 G (V ⧸ L)) ⧸ I) ∧
+      (∀ (n : ℕ), n ≠ 0 → Function.Surjective (fun x : I => n • x)) ∧
+      (∀ D : AddSubgroup (TauCeti.ContCohomology.H1 G (V ⧸ L)),
+        (∀ (n : ℕ), n ≠ 0 → Function.Surjective (fun x : D => n • x)) → D ≤ I) := by
   sorry
 
 end TauCetiRoadmap.EulerSystemsAndKolyvaginSystems
