@@ -1,46 +1,208 @@
-# Orthogonal Tamagawa comparison, arbitrary lattice masses, and certified class counts
+# Roadmap: orthogonal Tamagawa comparison, arbitrary lattice masses, and class counts
 
-Construct orthogonal gauge and quotient comparisons, arbitrary integral-genus mass formulas, general unramified dyadic integral models and certified class-count applications. Reuse the existing lattice, orthogonal group, local field, restricted-product and generic Haar/Tamagawa carriers; build the missing comparison maps and their complete APIs here.
+**Summary.** Construct orthogonal gauge and quotient comparisons, arbitrary integral-genus mass formulas, general unramified dyadic integral models and exact class-count applications. Reuse the existing lattice, orthogonal group, local field, restricted-product and generic Haar/Tamagawa carriers; build the missing comparison maps and their complete APIs here.
 
-## Conventions and actual suppliers
+## Scope and ownership
 
-Use native TauCeti.IntegralLattice with its rational form B and integral restriction. Over a characteristic-zero field distinguish norm B(x,x) from the half-norm Q(x)=B(x,x)/2. Their orthogonal point groups agree, but the bilinear dyadic automorphism congruence count and the integral quadratic count differ. Keep both symbols and their exact scalar dictionary. Positive definite class sets may be represented by positive symmetric integer Gram matrices modulo GL_n(Z); prove the equivalence with native embedded-lattice isometries using ofIntegralForm/carrierEquiv. This supplies a small quotient without quantifying over all carrier universes. Rank zero has the unique empty matrix and trivial automorphism group.
+This roadmap owns the orthogonal algebraic-group/point and gauge comparisons, the rational arbitrary-genus mass formula, arbitrary unramified dyadic smooth models, the binary analytic comparison, and the rank-16/24 classification and rank-32/40 bounds. It builds on IntegralLattices and OrthogonalSpinGroups; it does not re-plan their lattice and point-group theories.
 
-IntegralLattices0–5 supplies integral forms, inertia, duality, Jordan symbols, positive-definite reduction/class finiteness, proper/full classes, local density limits and their stabilization. Its6D/6E construct reference lattices and prove nonisomorphism; a list of references is not completeness. Its7A proves m_proper=2m_full in positive rank; its7G owns the direct low-rank branches. RootSystems supplies the actual reduced crystallographic root classification and lattice comparison, not a presumed table of automorphism orders. OrthogonalSpinGroups0–3 supplies native point groups, local spinor norms, controlled restricted-product references and point-group diagonals. It supplies neither the algebraic groups O_Q, SO_Q, Spin_Q (its §3A assigns their construction and structure theorems to 0.2 below), nor strong approximation, nor Tamagawa measures.
+IntegralLattices §§2C/2G own automorphism and class finiteness, §6C owns rank-eight uniqueness, §§6D/6E own the rank-16/24 reference lattices and nonisomorphism, §7A owns proper/full masses, §7G and B8 own the direct small-rank masses, and §9B owns completeness from a distinct mass-saturating list. RootSystems Layers 5–6 own root classification and integral root data. OrthogonalSpinGroups §3A assigns the algebraic Spin groups and approximation applications here; its Layers 0–3 supply the native point groups. GeometryOfNumbersAndQuadraticArithmetic §3.3 owns the number-field orthogonal Tamagawa value and shared gauges, and its maximal-lattice specialization stops short of the rational arbitrary integral genera treated here. TauberianBoundaryConvergence N2/N3 owns the ordered endpoint theorem; this roadmap constructs its same-form arithmetic application.
 
-Consume [AdelicAlgebraicGroups AA.1–4](https://github.com/TauCetiProject/TauCetiRoadmap/pull/792), [GeometryOfNumbersAndQuadraticArithmetic §§2.4/3.3](https://github.com/TauCetiProject/TauCetiRoadmap/pull/851), and [EndoscopicTransferAndUnitaryTraceComparison §6.2](https://github.com/TauCetiProject/TauCetiRoadmap/pull/999) at their stated hypotheses; a written supplier contract does not assert its implementation. In particular §3.3 owns orthogonalTamagawa_two, orthogonalPinnedGaugeJacobian, compactOrthogonalGaugeVolume and orthogonalIntegralRealGaugeCompatibility for number-field rank≥3; its maximal-lattice numerical specialization has totally real degree≥2, total positivity and maximality hypotheses. The extension to rational arbitrary integral genera is constructed below, not claimed from that specialization. AA.2.4 fixes |d_K|^(-dimG/2) rho_G^(-1) product_v lambda_v |omega|_v, vol(O_v)=1 additive measures, dx and 2 dxdy and counting measure on rational points. A different convention requires a proved transport scalar. §6.2's tau=1 has no set S; §6.5's scoped ratios are not an arbitrary finite-central-isogeny library.
+The comparison of Tamagawa numbers along an arbitrary central isogeny 1→Z→G′→G→1 of connected reductive groups over a number field (local and adelic lifting obstructions, rational and adelic images, the finite cohomological defect, character-lattice and gauge-Jacobian factors, and the resulting quotient-volume formula) is not part of this roadmap and nothing here consumes it. No roadmap on main or earlier in the merge order owns it: AdelicAlgebraicGroups AA.2 supplies quotient integration and the normalized Tamagawa measure only, and EndoscopicTransferAndUnitaryTraceComparison §6.5 gives scoped Kottwitz ratios only. It is an extension in the direction of AdelicAlgebraicGroups, whose Part II is its home. Its data are not finite in general: for the squaring isogeny of G_m over ℚ the rational cokernel ℚ×/ℚ×² is infinite and the adelic image is not open (AA.1.4), so any such formula must name the finite defect groups it uses. The mass formulas here use only the direct orthogonal value of 1.3 (orthogonalTamagawa_two with the 1.1–1.2 comparisons); neither tau(Spin)=1 nor |mu2| is used as a substitute for that value.
 
-## 0. Native and scheme dictionaries, before numerical theorems
 
-0.1 Construct the group-scheme/point comparisons between the actual OG Spin/SO groups and ReductiveGroups' affine Hopf points over the number field, completions and adeles. Retain matrix action, Spin projection, coefficient change, determinant, rational diagonals, continuity in both directions and compatibility with AA integral models outside an explicitly proved finite exceptional set. Transport compatible reference tuples through finite-change and away-S identifications. A bare forward map or equality of abstract groups is insufficient.
+## Conventions
 
-0.2 Construct here the algebraic groups O(V,Q), SO(V,Q) and Spin(V,Q) of a nondegenerate quadratic space of dimension n over a field K of characteristic different from 2, with an arbitrary Gram matrix C, and prove their structure theorems. No earlier roadmap owns this: OrthogonalSpinGroups §3A and its consumer contract assign it to this roadmap, its Layers 0–3 are point groups only, and ReductiveGroups supplies the general theory (Layer 6 semisimplicity and central isogenies, Layer 8 isomorphism theorem for split groups and root data) but no orthogonal or Spin instance.
+Use native `TauCeti.IntegralLattice` over ℚ, with symmetric bilinear form B integral on the lattice. Write Q(x)=B(x,x)/2 for the half-norm; it is integral exactly when the lattice is even. All positive-definite class sets below classify full integral isometries, not determinant-one isometries. A Gram matrix acts on column vectors, so its isometry equation is AᵀBA=B. The scheme convention M B Mᵀ=B is transported by M↦M⁻ᵀ. Gram representatives use `Fin n → ℚ` and therefore a fixed small universe. The rank-zero empty matrix has determinant 1 and one automorphism. The normalizer construction of Spin is used only in positive rank; Spin of the zero space means the trivial group.
+
+For local densities use the stabilized bilinear matrix count of IntegralLattices §7C, denoted α_p, and put β_p=α_p/2 in positive rank. This division by two is a density normalization, not an assertion that every integral stabilizer contains a determinant-minus-one element. Every determinant, local density and Haar volume used as a denominator below is positive; number-field quadratic spaces are nondegenerate and local residue fields have cardinality at least two.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+Use `Matrix.PosDef`, integral matrix multiplication, determinant and nonsingular inverse for the small Gram presentation; `QuadraticForm`, `CliffordAlgebra`, `lipschitzGroup`, `spinGroup` for point comparisons. Use `Real.Gamma` for real factors, and `bernoulli`, `bernoulli_one`, `sum_bernoulli`, `bernoulliPowerSeries_mul_exp_sub_one` for the Bernoulli convention and recurrence. The native Dirichlet-character conductor, complexification, analytic continuation and nonvanishing declarations consumed by §1.4 retain the nonzero-level and nontrivial-character hypotheses stated there.
+
+### From Tau Ceti
+
+Use `IntegralLattice.ofGramMatrix` in `TauCeti/LinearAlgebra/IntegralLattice/Basic.lean`, `IntegralLattice.Isometry` and its group structure in `TauCeti/LinearAlgebra/IntegralLattice/Isometry/Group.lean`, `IntegralLattice.IsPosDef.finite_isometry` in `TauCeti/LinearAlgebra/IntegralLattice/PosDef/Finite.lean`, `IntegralLattice.IsEven` and `IntegralLattice.IsUnimodular` in the corresponding Even and Unimodular modules. An integral lattice itself need not be positive definite; the Gram subtype in §0.0 carries that hypothesis. The split carriers `TauCeti.TypeBSpinCarrier.groupScheme` and `TauCeti.TypeDSpinCarrier.groupScheme` in the TypeB and TypeD SpinCarrier/Basic modules are also native; the missing comparison attaches a group scheme to an arbitrary nondegenerate form. The form-preserving and standard special orthogonal group schemes used in §0.1, and the character/order/discriminant/residue declarations used in §1.4, are consumed with their actual coefficient hypotheses.
+
+### From TauCetiRoadmap.IntegralLattices
+
+Consume §§0A–0E for the lattice/basis dictionary; §§2C/2G for finiteness; §§3C/3E/3I and §5A for local classification and Jordan data; §§4B/4C for genus and proper spinor-genus carriers; §§6C–6E for reference lattices; §§7A/7C/7E/7G for masses, stabilized local counts, sphere volumes and elementary ranks; B1–B4/B7/B8 for binary orders, genus maps and direct masses; §9B for the general exhaustion implication. The local count of §7C is consumed before the global analytic conclusion, so the mass evaluation does not enter its own premises.
+
+### From TauCetiRoadmap.OrthogonalSpinGroups and TauCetiRoadmap.ReductiveGroups
+
+Consume OrthogonalSpinGroups Layers 0–3 for native point groups, spinor norms, compact-open reference families and rational diagonals. Consume ReductiveGroups Layers 6/8 for semisimplicity, central isogenies, descent and the split root-datum classification. The arbitrary-form Spin instance is constructed in §0.1.
+
+### From TauCetiRoadmap.AdelicAlgebraicGroups
+
+Consume AA.1–4, specifically AA.2.4's normalization `|d_K|^(-dim G/2) rho_G^(-1) product_v lambda_v |omega|_v`, additive volume one on O_v, dx at real places, 2 dxdy at complex places, and counting measure on rational points. AA.4.2 supplies strong approximation for simply connected semisimple groups when each almost-simple factor has noncompact product over S. Retain finite-change and away-S reference maps from AA.1.
+
+### From TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic
+
+Consume §§2.4/3.3, in particular `orthogonalTamagawa_two`, `orthogonalPinnedGaugeJacobian`, `compactOrthogonalGaugeVolume` and `orthogonalIntegralRealGaugeCompatibility`, for nondegenerate number-field forms of rank at least three. The maximal-lattice numerical theorem has totally real degree at least two, total positivity and maximality hypotheses; it is not the arbitrary rational-genus formula.
+
+### From TauCetiRoadmap.GlobalNumberFields and TauCetiRoadmap.TauberianBoundaryConvergence
+
+Consume GlobalNumberFields §9's conductor/parity-compatible Hecke/Dirichlet dictionary and the native quadratic order maps. Consume TauberianBoundaryConvergence N2/N3's increasing-prime endpoint, cofinal cutoff and finite-deletion comparisons. No unordered product at s=1 is imported.
+
+### From TauCetiRoadmap.RootSystems
+
+Consume RootSystems Layers 5–6, the reduced crystallographic root classification and lattice comparison for the root and glue stabilizer arguments in Layer 4. Exact lattice automorphism orders are conclusions here, not entries assumed from a root table.
+
+## How to read the build
+
+Layer 0 fixes the small Gram presentation, algebraic groups and point comparisons; its approximation branch is independent of masses. Layer 1 compares quotient measures and gauges and states the density identity, with a separate binary analytic branch. Layer 2 evaluates the arbitrary dyadic factors and assembles the numerical formula. Layer 3 specializes it to even unimodular lattices. Layer 4 applies the supplied exhaustion implication to proved automorphism orders and derives the class-count bounds.
+
+## Layer 0: native and scheme dictionaries
+
+### 0.0 Small Gram presentation of native lattice classes
+
+Define `GramMatrix n` as integral matrices indexed by Fin n and `PositiveGram n` as the subtype of symmetric matrices whose rational extension is positive definite. Define `nativeLattice G` by `IntegralLattice.ofGramMatrix` on the standard rational basis. Define `GramEquivalent G H` by existence of an integral A with unit determinant and AᵀGA=H; its equivalence relation is `gramSetoid n`, its quotient is `GramClass n`, and `classOf G` is the quotient map. This is a presentation of native integral isometry classes, not a new lattice carrier (IntegralLattices §§0B/0E).
+
+The API is:
+
+- prove that integral congruence is equivalent in both directions to a native integral isometry, and that every rank-n positive native lattice admits such a basis presentation;
+- transport inverse and composition of isometries to inverse and multiplication of matrices, retaining determinant ±1;
+- prove independence of basis for parity, determinant and the full automorphism order, by conjugation of native self-isometries.
+
+*Needs:* Mathlib matrix algebra and `Matrix.PosDef`; Tau Ceti `IntegralLattice.ofGramMatrix` and native isometries; IntegralLattices §§0B/0E.
+
+**Checks.**
+
+- In rank zero the empty Gram matrix is positive definite vacuously, has determinant 1, represents one class, and gives the zero native lattice.
+- The matrices [1] and [2] are positive but not integrally congruent: unit 1×1 matrices have square 1, not 2; the zero matrix [0] fails positivity.
+- For G=diag(1,2) and A=[[1,1],[0,1]], AᵀGA=[[1,1],[1,3]] represents the same class and native lattice; A=diag(2,1) has determinant 2 and cannot witness integral equivalence.
+
+Define `fullAutomorphismOrder G` as the natural cardinal of the native self-isometry group of `nativeLattice G`. Define `classAutomorphismOrder c` by choosing a Gram representative of c and taking that order. Prove that conjugation by an integral isometry makes it independent of the representative, and identify it with the full order used in IntegralLattices §7A's mass.
+
+The API is positivity from the identity and definite-lattice finiteness, equality on congruent Gram matrices, and transport of reciprocal weights to the native genus class set. *Needs:* the preceding Gram dictionary and IntegralLattices §§2C/7A.
+
+**Checks.**
+
+- The empty Gram matrix has order 1; [1] and [2] each have order 2, from their two sign isometries.
+- diag(1,2) has full order 4, whereas its determinant-one subgroup has order 2.
+- The congruent matrix [[1,1],[1,3]] also has order 4; replacing an integral basis does not change a class weight of 1/4.
+
+### 0.1 Algebraic orthogonal and Spin groups
+
+Construct the algebraic groups O(V,Q), SO(V,Q) and Spin(V,Q) of a nondegenerate quadratic space of dimension n over a field K of characteristic different from 2, with an arbitrary Gram matrix C, and prove their structure theorems using the general structure and descent contracts above.
 
 - O(V,Q) is Tau Ceti's form-preserving group scheme `TauCeti.ConstantForm.groupScheme K n C`, whose points are the matrices M with M C Mᵀ = C (`TauCeti.ConstantForm.mem_definingPointsSubgroup_iff`); SO(V,Q) is its determinant-one closed subgroup, cut out as `TauCeti.SpecialOrthogonal.definingHopfIdeal` does for C = 1. Prove for every nondegenerate C what the pinned library proves only for the standard form: smoothness (`TauCeti.SpecialOrthogonal.smoothCommHopfAlgProperty_finiteTypeCoordinateHopfAlgebra`) and, for SO, geometric connectedness and reductivity (`TauCeti.SpecialOrthogonal.reductiveCommHopfAlgProperty_finiteTypeCoordinateHopfAlgebra`). Route: over an algebraic closure C is congruent to the identity, so the base change is isomorphic to the standard group, and these properties are geometric. Do not reconstruct the form-preserving Hopf ideal or the standard-form SO package.
-- Spin(V,Q) is the affine group scheme whose A-points are the even invertible elements g of the Clifford algebra of Q ⊗ A with g V_A g⁻¹ = V_A and spinor norm g ḡ = 1. Prove that on K-points it is Mathlib's `spinGroup` of Q, compatibly with base change. Construct the morphism Spin(V,Q) → SO(V,Q), v ↦ g v g⁻¹, prove that it is a central isogeny in the sense of `TauCeti.CommHopfAlgCat.IsCentralIsogeny` with kernel μ₂, and prove that on K-points it is OrthogonalSpinGroups' native projection `spinToSpecialOrthogonal Q`. Its image on K-points is the spinor-norm kernel, not all of SO(V,Q)(K).
+- For n > 0, Spin(V,Q) is the affine group scheme whose A-points are the even invertible elements g of the Clifford algebra of Q ⊗ A with g V_A g⁻¹ = V_A and spinor norm g ḡ = 1. Prove that on K-points it is Mathlib's `spinGroup` of Q, compatibly with base change. Construct the morphism Spin(V,Q) → SO(V,Q), v ↦ g v g⁻¹, prove that it is a central isogeny in the sense of `TauCeti.CommHopfAlgCat.IsCentralIsogeny` with kernel μ₂ in positive rank, and prove that on K-points it is OrthogonalSpinGroups' native projection `spinToSpecialOrthogonal Q`. Its image on K-points is the spinor-norm kernel, not all of SO(V,Q)(K).
 - For n ≥ 3 prove that Spin(V,Q) is smooth of dimension n(n−1)/2, geometrically connected, semisimple (`TauCeti.semisimpleCommHopfAlgProperty K`) and simply connected (`TauCeti.simplyConnectedSemisimpleCommHopfAlgProperty K`), both over K and after base change to an algebraic closure. Route: over an algebraic closure Q is split; compute a split maximal torus of Spin, its roots and coroots, and show that its cocharacter lattice is the coroot lattice of type B_m (n = 2m+1) or D_m (n = 2m), so that ReductiveGroups Layer 8 identifies it with the split simply connected group of that type; for n = 3 (type A₁, Spin ≅ SL₁ of the even Clifford quaternion algebra) and n = 6 (Spin ≅ SL₄ split) compare directly. Descend to K with Tau Ceti's `TauCeti.CommHopfAlgCat.IsCentralIsogeny.baseChange` and `TauCeti.CommHopfAlgCat.isCentralIsogeny_baseChangeMap_iff`: a central isogeny onto Spin over K becomes one over the closure, hence an isomorphism there, hence over K by faithfully flat descent.
-- Almost-K-simple factors: for n ≥ 3, n ≠ 4, Spin(V,Q) is absolutely almost simple. For n = 4 let Z be the centre of the even Clifford algebra, the étale quadratic algebra K[t]/(t² − d) with d the signed discriminant. Prove Spin(V,Q) ≅ Res_(Z/K) SL₁(C₀(Q)) over Z: if d is a square this is a product of two forms of SL₂ (two almost-K-simple factors); if not, it is one almost-K-simple factor that is not absolutely almost simple. 0.3 quantifies over exactly these factors.
-- For n = 2, Spin(V,Q) is the one-dimensional norm-one torus of K[t]/(t² + det C) and is not semisimple; for n = 1 it is μ₂ and for n = 0 trivial. None of these is used as a semisimple simply connected group.
+- Almost-K-simple factors: for n ≥ 3, n ≠ 4, Spin(V,Q) is absolutely almost simple. For n = 4 let Z be the centre of the even Clifford algebra, the étale quadratic algebra K[t]/(t² − d) with d the signed discriminant. Prove an isomorphism of K-groups Spin(V,Q) ≅ Res_(Z/K) SL₁(C₀(Q)): if d is a square this is a product of two forms of SL₂ (two almost-K-simple factors); if not, it is one almost-K-simple factor that is not absolutely almost simple. 0.3 quantifies over exactly these factors.
+- For n = 2, Spin(V,Q) is the one-dimensional norm-one torus of K[t]/(t² + det C) and is not semisimple; for n = 1 it is μ₂ and for n = 0 define it separately as the trivial group, with trivial projection kernel. None of these is used as a semisimple simply connected group.
 
-**Checks for 0.2.**
+For positive rank the construction and central cover use Milne, *Algebraic Groups* (2022 corrected version), §24i, pp.535–537; the zero branch is the convention determined by native `spinGroup`. The structure and root-datum arguments use the cited ReductiveGroups contracts.
+
+*Needs:* Mathlib Clifford algebra and native Spin; Tau Ceti form-preserving and standard SO group schemes; ReductiveGroups Layers 6/8; OrthogonalSpinGroups §3A point comparison contract.
+
+**Checks.**
+
+- For V=0 over ℚ the unrestricted norm-one normalizer in C⁰=ℚ is {1,−1}, of order 2. The invertible-vector generating set is empty, so native Spin has order 1; the separate zero branch and its kernel both have order 1.
+- For a rank-one form ⟨a⟩ with a≠0, Spin=μ₂ has two geometric points while SO has one; the positive-rank kernel has order 2.
+
 - For Q = x² + y² over ℚ, Spin(ℚ) is the group of norm-one elements of ℚ(i), an infinite abelian group containing (3+4i)/5; a definition that declared every Spin group semisimple, or allowed n = 2 in 0.3, would assert strong approximation for a torus, which fails.
 - For Q = x² + y² + z² + w² over ℚ the discriminant is 1, a square, and Spin ≅ SL₁(H) × SL₁(H) with H the Hamilton quaternions over ℚ: two almost-ℚ-simple factors, each compact at ∞. For x² + y² + z² + 2w² the discriminant 2 is not a square and Spin is one factor Res_(ℚ(√2)/ℚ) SL₁(D). A model treating rank 4 as one absolutely almost simple group gets the first case wrong.
 - For Q = x² + y² + z² over ℚ the product of the reflections in e₁ and e₁ + e₂ lies in SO(ℚ) with spinor norm Q(e₁)Q(e₁ + e₂) = 2, not a square, so it is not the image of a rational Spin point although Spin → SO is a central isogeny: a central isogeny is not surjective on K-points.
 - SO(V,Q) for n ≥ 3 is semisimple but not simply connected: Spin → SO is a central isogeny that is not an isomorphism, its kernel μ₂ being nontrivial. A definition of simple connectedness that SO satisfied would be wrong.
 
+### 0.2 Point, topology and stabilizer comparisons
+
+Construct the group-scheme/point comparisons between the actual OG Spin/SO groups and ReductiveGroups' affine Hopf points over the number field, completions and adeles. Retain matrix action, Spin projection, coefficient change, determinant, rational diagonals, continuity in both directions and compatibility with AA integral models outside an explicitly proved finite exceptional set. Transport compatible reference tuples through finite-change and away-S identifications. A bare forward map or equality of abstract groups is insufficient.
+
+
 Prove the finite-prime lattice stabilizers compact open on these exact point carriers, consuming IL4B and the completed-lattice embedding dictionary, and identify proper/full arithmetic stabilizers with native integral isometry groups.
 
-0.3 Retain the entire required approximation programme: instantiate AA.4.2 with a finite S containing all archimedean places and, for every almost-K-simple factor H, noncompact product_(v∈S)H(K_v). Prove rational Spin density in Spin(A^S) and the closure of its image in the SAME SO(A^S) equals the reference-controlled spinor kernel. Specialization to finite adeles requires these hypotheses for S=all archimedean places; a definite form may instead require finite places in S and does not thereby acquire the finite-adelic conclusion. Prove the IL4D Eichler and indefinite rank≥3 class-finiteness applications separately. Keep definite forms and full-adeles distinctions. This lane is not a prerequisite of the positive-definite mass lane.
+The matrix comparison from scheme points to column isometries is M↦M⁻ᵀ, with inverse A↦A⁻ᵀ. Its API consists of group multiplication, coefficient-change naturality, determinant and Spin projection commutation, and continuous inverse maps on local and restricted-product topologies.
 
-## 1. Quotient and gauge transport
+*Needs:* §0.1; OrthogonalSpinGroups Layers 0–3; IntegralLattices §4B; AdelicAlgebraicGroups AA.1–2.
 
-1.1 On the proper finite-adelic double coset set IL4B, construct the measurable decomposition of SO(V)(K)\SO(V)(A) into pieces indexed by actual proper lattice classes, with arithmetic stabilizer SO(M). Compare this quotient and its measure to AA's actual quotient integration and the shared §3.3 proper mass identity. In the positive-definite rational branch the archimedean group is compact. Each piece has volume vol(K_infinity) product_p vol(K_p^+(M))/|SO(M)|. Prove measurability/disjointness, positivity, independence of representative and finiteness using actual lattice reduction, not strong approximation.
+**Checks.**
 
-1.2 Transport orthogonalPinnedGaugeJacobian and orthogonalIntegralRealGaugeCompatibility to B and B/2 conventions. For rank n>=3 let V_n be the IL7E sphere-fibration volume of SO(n) for the metric making E_ij-E_ji orthonormal. For the pinned mass gauge in the shared §3.3, prove compactOrthogonalGaugeVolume=s_n V_n, where s_n=2^(-floor(n/2)) in odd rank and s_n=1 in even rank. In particular V_3=8π² while the rank-three mass-gauge volume is 4π². Keep this pinned-gauge scalar distinct from the B versus B/2 coefficient transport and from the global integral/real gauge compatibility. Identify the local Haar density with the stabilized bilinear count IL7C, including the determinant-component index and every factor of two. Do not declare vol(K_p)=alpha_p without this Jacobian theorem. Prove model-independence and form-twist transport with the gauge scaling and global product formula. State measure equality before substituting any numerical tau value.
+- With C=diag(1,4) and M=[[0,1/2],[2,0]], MCMᵀ=C whereas MᵀCM=diag(16,1/4); A=M⁻ᵀ gives AᵀCA=C.
+- Identity matrices map to identity matrices, and a diagonal reflection has determinant −1 on both sides; a map landing only in SO would lose it.
+- For C=[2] at p=3 the stabilizer is {±1}, its determinant-one subgroup is {1}, and their finite Haar volumes have ratio 2. The full/proper distinction survives transport.
 
-1.3 Consume §3.3 orthogonalTamagawa_two for rank≥3 only AFTER1.1–1.2 and0.1. Derive the rational arbitrary-genus proper/full mass formula. Good-prime factors are beta_p=alpha_p/2; their inverse Euler product converges absolutely for rank≥3. Use the signed determinant character, not the raw determinant, and retain the bad-prime factors. The rank0 mass is1, rank1 full mass1/2/proper mass1, and positive binary masses use IL's separate ideal-class/norm-torus route. A rank≥3 tau theorem does not establish those cases.
+### 0.3 Approximation and Eichler applications
 
-## 1.4 Binary quadratic analytic normalization
+For rank n≥3 instantiate AdelicAlgebraicGroups AA.4.2 with a finite S containing all archimedean places and, for every almost-K-simple factor H, noncompact product_(v∈S)H(K_v). Prove rational Spin density in Spin(A^S) and the closure of its image in the same SO(A^S) equals the reference-controlled spinor kernel. Specialization to finite adeles requires these hypotheses for S=all archimedean places; a definite form may instead require finite places in S and does not thereby acquire the finite-adelic conclusion. Prove the IL4D Eichler and indefinite rank≥3 class-finiteness applications separately. Keep definite forms and full-adeles distinctions. This lane is not a prerequisite of the positive-definite mass lane.
+
+*Needs:* §0.1–0.2; AdelicAlgebraicGroups AA.4.2; IntegralLattices §4D's class/spinor-genus interface. The Eichler conclusion is equality of proper classes and proper spinor genera for indefinite rational forms of rank at least three (O’Meara, 104:4–5).
+
+**Checks.**
+
+- A definite ternary form has compact Spin(ℝ); S={∞} fails the noncompactness hypothesis and gives no finite-adelic density assertion.
+- For split rank three Spin=SL₂, the real factor is noncompact and S={∞} meets the factor condition.
+- In split rank four there are two SL₂ factors; compactness of either S-product would fail the hypothesis even if the other is noncompact.
+
+### Examples
+
+The rank-zero comparison gives the trivial group; rank two gives a norm-one torus; rank four tests two almost-simple factors. These cases separate the domains of the structure and approximation theorems.
+
+### Dependencies
+
+Mathlib matrix/Clifford algebra, Tau Ceti lattice and group schemes, IntegralLattices §§0/4, OrthogonalSpinGroups Layers 0–3, ReductiveGroups Layers 6/8, and AdelicAlgebraicGroups AA.1–4.
+
+## Layer 1: quotient and gauge transport
+
+### 1.1 Proper adelic quotient
+
+On the proper finite-adelic double coset set IL4B, construct the measurable decomposition of SO(V)(K)\SO(V)(A) into pieces indexed by actual proper lattice classes, with arithmetic stabilizer SO(M). Compare this quotient and its measure to AA's actual quotient integration and the shared §3.3 proper mass identity. In the positive-definite rational branch the archimedean group is compact. Each piece has volume vol(K_infinity) product_p vol(K_p^+(M))/|SO(M)|. Prove measurability/disjointness, positivity, independence of representative and finiteness using actual lattice reduction, not strong approximation.
+
+The inverse of the quotient decomposition sends a class and an archimedean coset modulo its finite arithmetic stabilizer to its adelic double coset; it is independent of the chosen rational representative. Prove equivariance under basis change and equality of the induced measures (Belolipetsky–Gan v2, §2, pp.2–3).
+
+*Needs:* §0.2; IntegralLattices §§2C/2G/4B/7A; AdelicAlgebraicGroups AA.2 quotient integration; GeometryOfNumbersAndQuadraticArithmetic §3.3 proper mass identity.
+
+**Checks.**
+
+- A full class with |O(M)|=12 and |SO(M)|=6 contributes 1/12 and 1/6 to full and proper mass respectively.
+- If O(M)=SO(M) has order 2, its full class splits into two proper classes, each of weight 1/2: the total proper weight is 1 versus full weight 1/2.
+- In rank zero the quotient and stabilizer are singletons and both masses are 1; the positive-rank factor 2 does not extend there.
+
+### 1.2 Gauge and local-density transport
+
+Transport orthogonalPinnedGaugeJacobian and orthogonalIntegralRealGaugeCompatibility to B and B/2 conventions. For rank n>=3 let V_n be the IL7E sphere-fibration volume of SO(n) for the metric making E_ij-E_ji orthonormal. For the pinned mass gauge in the shared §3.3, prove compactOrthogonalGaugeVolume=s_n V_n, where s_n=2^(-floor(n/2)) in odd rank and s_n=1 in even rank. In particular V_3=8π² while the rank-three mass-gauge volume is 4π². Keep this pinned-gauge scalar distinct from the B versus B/2 coefficient transport and from the global integral/real gauge compatibility. Identify the local Haar density with the stabilized bilinear count IL7C, including the determinant-component index and every factor of two. Do not declare vol(K_p)=alpha_p without this Jacobian theorem. Prove model-independence and form-twist transport with the gauge scaling and global product formula. State measure equality before substituting any numerical tau value.
+
+For a positive-definite integral Gram matrix B of rank n≥3, write D=det B>0, d=n(n−1)/2, and Rₙ=π^(−n(n+1)/4)∏_(j=1..n)Γ(j/2). Let v∞ and v_p be the volumes of SO(B)(ℝ) and K_p⁺(L) in the local measures whose product is the specified Tamagawa measure. Construct the local change-of-gauge maps and prove the combined Jacobian identity
+
+    v∞ · product_p v_p = product_p beta_p / (2 R_n D^((n+1)/2)).
+
+At finite primes the comparison includes the index [K_p:K_p⁺]. For rational integral lattices prove this index is 2 using a reflection in a Jordan constituent (including an even binary constituent at 2); do not infer it from the definition of β_p. The gauge identity includes the B versus B/2 transport and the product formula. It is not the assertion v_p=β_p. Both products converge in the rank range here (Conway–Sloane, equations (2), (3), (6); Belolipetsky–Gan v2, §2, p.3, for the real gauge).
+
+*Needs:* §1.1; IntegralLattices §§3C/3I/7C/7E; GeometryOfNumbersAndQuadraticArithmetic §3.3 gauge/Jacobian contracts; AdelicAlgebraicGroups AA.2.4 and the number-field product formula. Closed dyadic evaluations are supplied by Layer 2, independently of this measure comparison.
+
+**Checks.**
+
+- Rank three has V₃=8π² and s₃=1/2, giving gauge volume 4π²; rank four has V₄=16π⁴ and s₄=1, giving 16π⁴.
+- Replacing B by tB for positive integer t preserves all integral isometries; D changes by tⁿ and β_p changes by p^(v_p(t)·n(n+1)/2), cancelling D^((n+1)/2) in the global formula.
+- For U=[[0,1],[1,0]] at 2, reflection in (1,1) is [[0,−1],[−1,0]], integral with determinant −1. Its norm is 2; requiring unit norm would miss this local determinant-component witness.
+
+### 1.3 Arbitrary-genus mass identity
+
+For every positive-definite integral lattice L over ℤ of rank n≥3 with nondegenerate Gram matrix B, identify its full genus mass with
+
+    m_full(gen L) = tau(SO(B)) / (2 v_infinity product_p v_p).
+
+First prove this measure identity using §1.1 and IntegralLattices §7A. Then use GeometryOfNumbersAndQuadraticArithmetic §3.3's value τ(SO(B))=2 and §1.2 to obtain
+
+    m_full(gen L) = 2 R_n (det B)^((n+1)/2) product_p beta_p(L)^(-1).
+
+The real power uses det B>0. The finite bad-prime set is S={p : p divides 2 det B}; β_p is the positive stabilized bilinear density α_p/2 at every prime, including S. Section 2.3 specifies the good factors and convergence and evaluates the bad factors, so this is a formula for every integral genus, with no maximality or unimodularity restriction (Conway–Sloane, equations (2), (3), (6)).
+
+Rank zero has full mass 1, rank one has full mass 1/2 and proper mass 1, by IntegralLattices §7G. Positive rank two uses the independent binary ideal-class/norm-torus comparison of §1.4; the same numerical density expression then holds with R₂=1/π and the increasing-prime convention, not from the rank≥3 Tamagawa theorem.
+
+*Needs:* §§0.2/1.1/1.2; IntegralLattices §7A; GeometryOfNumbersAndQuadraticArithmetic §3.3 `orthogonalTamagawa_two`. The binary branch instead needs §1.4 and IntegralLattices B7/B8.
+
+**Checks.**
+
+- For A₂, D=3, β₂=6, β₃=6 and the good product is (3/2)L(1,χ₋₃); with L(1,χ₋₃)=π/(3√3), the expression gives (2/π)·3√3·(1/36)·π/(2√3)=1/12.
+- For B=[[4,1],[1,6]], D=23, β₂=2, β₂₃=46 and the good product is L(1,χ₋₂₃)/2; with L(1,χ₋₂₃)=3π/√23 the expression gives (2/π)·23√23·(1/92)·3π/(2√23)=3/4.
+- For E₈, D=1, the dyadic factor β₂ is 2⁸ times its good-factor expression. Thus the product is 2⁻⁸ζ(2)ζ(4)²ζ(6); 2R₈=135/(8π¹⁶) gives 1/696729600.
+
+### 1.4 Binary quadratic analytic normalization
 
 Construct the rank-two analytic endpoint independently of the rank≥3 orthogonal
 value and AA split-measure lanes. The positive binary class-count mass remains
@@ -76,9 +238,7 @@ Instantiate the existing native
 `isPrimitive_fundamentalDiscriminantChar`, `fundamentalDiscriminantChar_isQuadratic`,
 `fundamentalDiscriminantChar_neg_one` and the odd-prime Legendre evaluation,
 and native `DirichletCharacter.conductor_ringHomComp` /
-`isPrimitive_ringHomComp_iff` with `Int.cast_injective`. The CRT/prime-discriminant,
-quadratic character and primitive-conductor constructions already exist and are
-not commissioned again. Derive `χ_D≠1` from the fundamental nonsplit `D≠1`
+`isPrimitive_ringHomComp_iff` with `Int.cast_injective`. Retain the native CRT/prime-discriminant, quadratic-character and primitive-conductor normalizations. Derive `χ_D≠1` from the fundamental nonsplit `D≠1`
 and conductor, and keep `[NeZero D.natAbs]` explicit. For the field dictionary,
 extract the actual squarefree integral radicand of `−det B` and transport its
 square-root field to the chosen native quadratic field. Reuse native
@@ -97,6 +257,16 @@ carrier. For a changed level or finite excluded prime set use native
 `LFunction_changeLevel` with its `χ≠1 ∨ s≠1` and nonzero-level hypotheses; prove
 the finite deleted factors individually nonzero at1.
 
+The adapter has source nondegenerate integral binary Gram lattices with a chosen orientation and target primitive integral binary forms, their quadratic orders and native fundamental characters; content is retained as a separate positive integer. Prove that orientation-preserving integral basis changes induce proper form equivalences and order-ideal correspondences; orientation reversal induces conjugation. Coefficient change commutes with the field and local-form comparisons.
+
+*Needs:* §0.0; IntegralLattices B1/B2; GlobalNumberFields §9; native fundamental-discriminant characters, their conductor and field-discriminant theorems cited above.
+
+**Checks.**
+
+- A₂ with B=[[2,−1],[−1,2]] has norm content 2, primitive form (1,−1,1), half-norm content 1, and Δ=−3 by both formulas.
+- B=diag(1,1) has primitive norm (1,0,1), Δ=−4 and half-norm (x²+y²)/2, which is not an integral form.
+- B=[[4,1],[1,6]] has norm content 2, primitive form (2,1,3), Δ=−23 and conductor 1; replacing B by 2B changes the content to 4 and leaves Δ unchanged.
+
 **1.4b Native endpoint application.** Consume TauberianBoundaryConvergence N2/N3
 on the actual primitive native `χ_D` constructed in1.4a, or its explicitly changed
 level. Retain `[NeZero N]`, `χ≠1`, native `differentiable_LFunction` and
@@ -108,6 +278,14 @@ Its exact output is `Tendsto` of finite increasing-prime products outside `S` to
 `LFunction χ 1 * ∏ p∈S, (1−χ(p)/p) ≠ 0`. The cutoff comparison, conductor change,
 finite deletion factors and real positivity for quadratic `χ_D` are mandatory.
 No unordered `HasProd`/`HasSum` or totalized `LSeries` value at1 is substituted.
+
+*Needs:* §1.4a; TauberianBoundaryConvergence N2/N3; native Dirichlet L-function continuation and closed-half-plane nonvanishing with positive level.
+
+**Checks.**
+
+- For D=−3, deleting p=2 multiplies L(1,χ) by 1−χ(2)/2=3/2, not its reciprocal.
+- For D=−4 the prime 2 is ramified and χ(2)=0, so deleting it multiplies the endpoint by 1.
+- The trivial level-one character gives factors (1−1/p)⁻¹ and diverges; χ≠1 excludes it from the endpoint theorem.
 
 **1.4c Quadratic residue, order and genus dictionary.** Before using an analytic
 class-number value, construct the all-prime coefficient identity
@@ -193,27 +371,102 @@ rescaling is not assumed. Indefinite branches use units/regulators/Haar,
 not a finite automorphism cardinality. These calibrations test the general
 adapter; they do not replace its proof.
 
-## 2. Arbitrary dyadic integral models and densities
+*Needs:* §1.4a–b; IntegralLattices B2/B3/B4/B7/B8; native norm-fibre finiteness, quadratic ideal factorization, Dirichlet-series regrouping, `NumberField.tendsto_sub_one_mul_dedekindZeta_nhdsGT`, `riemannZeta_residue_one`, and the stated order extension/contraction and narrow-unit maps. The order exact sequence is the comparison to be constructed from these maps, not a consequence of the character endpoint alone.
 
-2.1 For a nondegenerate quadratic lattice over EVERY unramified finite extension R/Z_2, construct Cho's smooth affine integral model from the actual IL3I Jordan data; construct its coordinate Hopf algebra, generic-fibre O(V,q) comparison and equality of R-points with O(L). Prove smoothness of relative dimension n(n−1)/2, the successive congruence kernels and their counts. This is genuine new integral-model work at this owner, not supplied by a model name or the existing maximal-lattice theorem. Include rank0 separately.
+The API for the order maps is extension/contraction on conductor-coprime invertible ideals, identity at f=1, composition for nested conductors, the two kernel/image equalities in the displayed exact sequence, and compatibility with proper forms and conjugation. The regulator map sends a positive unit to its logarithm at the chosen real embedding and changes sign under conjugation before choosing the positive generator.
 
-2.2 Construct the special fibre, its unipotent radical and reductive quotient, the product of the specified reduced orthogonal factors and elementary abelian2 component group. Consume from IL3I only what it defines: the Jordan splitting L=⊕L_i, the parity types I/II, bound/free, t, b, c, d_i and N_M, N_Q, N=N_Q−N_M. Construct here the finer special-fibre data that IL3I does not define, in Cho's normalization:
+**Checks.**
 
-- the sublattices of Cho attached to each rescaled constituent (A_i, 2^(−i) q), namely X_i, B_i, W_i, Y_i, Z_i (Cho2015, Remark 2.6 and the definitions preceding it), with Z_i/2A_i the kernel of the quadratic form 2^(−i−1)q mod 2 on B_i/2A_i;
-- the refined types: I^o (type I, odd rank), I^e (type I, even rank), and, for a FREE constituent of type I^e only, I^e_1 when dim(B_i/Z_i) is odd and I^e_2 otherwise (Cho2015, the type assignment after Remark 2.6); no refined type is given to bound constituents, and the zero lattice counts as modular of parity type II (Cho2015, Definition 2.1(c));
-- the residue quadratic spaces V̄_i = B_i/Z_i over the residue field k with the nonsingular form q̄_i induced by 2^(−i−1)q, the morphisms φ_i from the special fibre to O(V̄_i, q̄_i)_red (Cho2015, §4.1), and their images by refined type and bound/free (Cho2015, Remark 4.3);
-- Cho's component-group exponents: α = the number of free constituents of type I^e_1, and β = the number of j with L_j of type I and L_(j+2) of type II, the zero lattice included (Cho2015, Lemma 4.2). These are not the densities α_p and Cho's local density β_L, and the README never writes them under one symbol: write them α_Cho, β_Cho.
+- For D=−3, f=2, the residue unit quotient has order 3, the global unit index is 3, and h(−12)=1; dividing by no unit index would incorrectly give 3.
+- For D=5, the positive generator is ε², so h⁺R⁺=2R=2hR. For D=12 it is ε, so h⁺R⁺=2R=2hR with h⁺=2; identifying ordinary and narrow class numbers would fail.
+- For Δ=−23 the reduced proper forms are (1,1,6), (2,−1,3), (2,1,3). The class group has order 3 and trivial 2-torsion, so the full mass is 3/(2·2·1)=3/4, although there are only two full classes.
 
-Prove that types, V̄_i up to isometry, α_Cho and β_Cho are independent of the Jordan splitting, and that the special fibre maps onto ∏_i O(V̄_i, q̄_i)_red × (ℤ/2)^(α_Cho+β_Cho) with connected unipotent kernel (Cho2015, Theorem 4.12).
+### Examples
 
-**Checks for the 2.2 data.**
+A₂ and the discriminant −23 genus test the binary character, order and mass together. The real discriminants 5 and 12 separate the two ordinary/narrow unit-index possibilities.
+
+### Dependencies
+
+Layer 0, IntegralLattices §§2C/2G/3/4B/7A/7C/7E and B1–B8, AdelicAlgebraicGroups AA.2, GeometryOfNumbersAndQuadraticArithmetic §3.3, GlobalNumberFields §9, TauberianBoundaryConvergence N2/N3, and the native analytic/arithmetic declarations named above.
+
+## Layer 2: arbitrary dyadic integral models and densities
+
+### 2.1 Smooth integral model
+
+For a nondegenerate quadratic lattice over every unramified finite extension R/Z_2, construct Cho's smooth affine integral model from the actual IL3I Jordan data; construct its coordinate Hopf algebra, generic-fibre O(V,q) comparison and equality of R-points with O(L). Prove smoothness of relative dimension n(n−1)/2, the successive congruence kernels and their counts. Include rank zero separately (Cho v3, Theorem 3.7, p.15). The model's generic-fibre map has source 𝒢_L⊗Frac(R) and target O(V,Q), and its point comparison is an isomorphism on every étale R-algebra; it is natural in that algebra and in integral lattice isometries. This does not identify its special-fibre points with all points of the naive equation scheme.
+
+The API is generic-fibre compatibility with multiplication and inverse, étale-point naturality, change of integral basis, and the smooth reduction maps and congruence-kernel cardinalities.
+
+*Needs:* IntegralLattices §3I Jordan data and §7C stabilization; §0.1's orthogonal group schemes; the smooth affine model construction in Cho v3, §§2–3.
+
+**Checks.**
+
+- Rank zero gives the trivial smooth model with one residue point and relative dimension 0; the positive-rank density division by 2 is not applied.
+- For ⟨1⟩ over ℤ₂ the smooth model has two 𝔽₂-points, whereas the naive equation x²=1 has one; equality of integral points is not equality of special fibres.
+- Smooth reduction over a residue field of order f has successive kernels of size f^d, d=n(n−1)/2: rank one gives 1 and rank two over 𝔽₄ gives 4, not 2.
+
+### 2.2 Special fibre and local density
+
+Construct the special fibre, its unipotent radical and reductive quotient, the product of the specified reduced orthogonal factors and elementary abelian2 component group. Consume from IL3I only what it defines: the Jordan splitting L=⊕L_i, the parity types I/II, bound/free, t, b, c, d_i and N_M, N_Q, N=N_Q−N_M. Construct here the finer special-fibre data that IL3I does not define, in Cho's normalization:
+
+- the sublattices of Cho attached to each rescaled constituent (A_i, 2^(−i) q), namely X_i, B_i, W_i, Y_i, Z_i (Cho v3, §2.3 and Remark 2.6, pp.5–6), with Z_i/2A_i the kernel of the quadratic form 2^(−i−1)q mod 2 on B_i/2A_i;
+- the refined types: I^o (type I, odd rank), I^e (type I, even rank), and, for a FREE constituent of type I^e only, I^e_1 when dim(B_i/Z_i) is odd and I^e_2 otherwise (Cho v3, the type assignment after Remark 2.6, p.6); no refined type is given to bound constituents, and the zero lattice counts as modular of parity type II (Cho v3, Definition 2.1(c), p.3);
+- the residue quadratic spaces V̄_i = B_i/Z_i over the residue field k with the nonsingular form q̄_i induced by 2^(−i−1)q, the morphisms φ_i from the special fibre to O(V̄_i, q̄_i)_red (Cho v3, §4.1, pp.16–18), and their images by refined type and bound/free (Cho v3, Remark 4.3, p.18);
+- Cho's component-group exponents: α = the number of free constituents of type I^e_1, and β = the number of j with L_j of type I and L_(j+2) of type II, the zero lattice included (Cho v3, Lemma 4.2, p.18). These are not the densities α_p and Cho's local density β_L, and the README never writes them under one symbol: write them α_Cho, β_Cho.
+
+Prove that types, V̄_i up to isometry, α_Cho and β_Cho are independent of the Jordan splitting, and that the special fibre maps onto ∏_i O(V̄_i, q̄_i)_red × (ℤ/2)^(α_Cho+β_Cho) with connected unipotent kernel (Cho v3, Theorem 4.12, p.24).
+
+The maps from 𝒢̃_L to the reduced orthogonal factors and component groups have the stated source and targets, are homomorphisms and are natural under lattice isometries. Their API includes image by refined type, surjectivity of the combined map, the connected unipotent kernel, and the multiplicative finite-point count. Prove the resulting density invariant under change of Jordan splitting and integral basis (Cho v3, Lemma 4.2 and Remark 4.3, p.18; Theorem 4.12, p.24; Lemma 5.1 and Theorem 5.2, pp.24–25).
+
+*Needs:* §2.1; IntegralLattices §3I and §7C; finite-field reduced orthogonal groups from §0.1; Cho v3, Remark 2.6, p.6, for the auxiliary sublattices and refined types.
+
+**Checks.**
 - ⟨1⟩ over ℤ₂: one free I^o constituent at i=0 with O(V̄_0) trivial; L_2 is the zero lattice, of type II, so β_Cho=1 and #𝒢̃(𝔽₂)=2, giving α_2 = 2^(N−0)·2 = 4 with N=1. Omitting the zero-lattice convention gives β_Cho=0 and α_2=2, contradicting the direct count of x² ≡ 1 mod 2^r.
 - ⟨2⟩ over ℤ₂: type I at i=1, L_3 zero, β_Cho=1, N=2, so α_2 = 2²·2 = 8, the count of 2x² ≡ 2 mod 2^r.
 - U over ℤ₂: one free type II constituent of rank 2, image O(V̄_0) = O₂⁺(𝔽₂) of order 2, α_Cho=β_Cho=0, N=2, α_2 = 2^(2−1)·2 = 4. Taking the image to be the identity component SO(V̄_0), whose 𝔽₂-points are trivial, would give #𝒢̃(𝔽₂)=1 and α_2=2. Prove #U(k)=f^dimU, the quotient count and Cho's beta_L=(1/2)f^(N-dimO)#G_tilde(k) in positive rank; compare to the actual stabilized IL7C bilinear count. For R=Z_2 prove alpha_2=2 beta_L, never erase the type-II +c conversion. The tests U (N=2,alpha2=4), <1> (4), <2> (8), and E8 (N=8) distinguish conventions. General unramified R and arbitrary Jordan scales precede the rational specialization.
 
-2.3 Assemble the full Conway–Sloane normalization against IL7C/7E, including gamma factors, all bad primes and scaling. Prove the normalized good Euler product, local formulas and the archimedean identity before cancellation. Supply rank8 and A2 checks, but do not use checks as the proof of a general mass formula. These constructions preserve all arbitrary-genus, general dyadic and binary branches already required at this successor.
+### 2.3 Numerical arbitrary-genus formula
 
-## 3. Even-unimodular specialization and exact arithmetic
+For positive-definite integral L of rank n≥3, with D=det B>0 and S the primes dividing 2D, prove the explicit numerical formula
+
+    m_full(gen L) = 2 pi^(-n(n+1)/4) (product_(j=1..n) Gamma(j/2))
+                   D^((n+1)/2) (product_(p in S) beta_p^(-1)) E_S.
+
+For n=2m+1 set E_S=∏_(i=1..m)ζ^(S)(2i). For n=2m set E_S=L^(S)(m,χ)∏_(i=1..m−1)ζ^(S)(2i), where χ is the primitive quadratic character of the signed determinant (−1)^mD, with the trivial character when that square class is trivial. At every p∉S the normalized density is ∏_(i=1..m)(1−p^(−2i)) in odd rank, and (1−χ(p)p^(−m))∏_(i=1..m−1)(1−p^(−2i)) in even rank. The superscript S deletes the indicated Euler factors, including those at 2. All products converge absolutely and are nonzero for n≥3; all bad factors are the stabilized densities, evaluated by IntegralLattices §7C at odd primes and §2.2 at 2 (Conway–Sloane, equations (2), (3), (6); Cho v3, Theorem 5.2, p.25).
+
+For n=2 positive definite, replace E_S by the increasing-prime limit L^(S)(1,χ) of §1.4, with R₂=1/π; the signed determinant is negative and χ is nontrivial. The split indefinite binary case has a divergent Euler product and uses its separate norm-torus quotient, not this definite formula. Ranks 0 and 1 retain IntegralLattices §7G's values. No normalization is inferred from a test value.
+
+*Needs:* §§1.2/1.3 for the measure and Jacobian identities; §1.4 for the binary endpoint; §2.2 and IntegralLattices §7C for all local factors; IntegralLattices §7E for the real factor.
+
+**Checks.**
+
+- A₂ has bad factors β₂=β₃=6 and gives 1/12 by the explicit substitution in §1.3.
+- The discriminant −23 genus has β₂=2, β₂₃=46 and gives 3/4; using all three proper classes as full classes of weight 1/2 would give 3/2.
+- E₈ has β₂=2⁸(1−2⁻⁴)∏_(i=1..3)(1−2^(−2i)) and gives 1/696729600; dropping the dyadic power gives a result 256 times too large.
+
+### Examples
+
+The unary dyadic factors 4 and 8, the hyperbolic-plane factor 4, and the E₈ factor test the same bilinear density normalization at different scales and ranks.
+
+### Dependencies
+
+IntegralLattices §§3I/7C/7E, §0.1's algebraic groups, Layers 1 and 2.1–2.2. The integral-model construction uses local counts, never the global mass formula it will evaluate.
+
+## Layer 3: even-unimodular specialization and exact arithmetic
+
+### 3.1 The mass and Bernoulli product
+
+Define `evenUnimodularClasses n` as the subset of `GramClass n` with a representative whose native lattice is even and unimodular. Define `evenUnimodularMass n` as the rational sum of reciprocal `classAutomorphismOrder` over this set. Transport IntegralLattices §§2G/7A's finiteness and mass to this presentation, so the displayed infinite sum is a finite sum and all denominators are nonzero.
+
+The API is representative independence, equality with the native full genus mass when the one-genus theorem applies, invariance under integral isometry, and positivity for a nonempty class set. These properties are consequences of the native lattice comparison and the supplied mass theory.
+
+*Needs:* §0.0; IntegralLattices §§2C/2G/3C/3E/5A/7A; Layer 2's arbitrary-genus formula.
+
+**Checks.**
+
+- In rank zero the empty matrix is even and unimodular and has weight 1, so the class set has one element and mass 1.
+- In rank one [1] is unimodular but odd, and [2] is even but not unimodular; neither belongs to the even-unimodular set.
+- E₈ belongs to the rank-eight set with weight 1/696729600, whereas the identity matrix I₈ is odd and is excluded even though its determinant is 1.
 
 For n=2m>0 divisible by8 prove all positive even unimodular rank-n lattices belong to the single genus, using the real signature and the odd/dyadic local classifications (IL3/5A). Apply1–2 to that genus; prove the rational full O-mass is
 
@@ -221,26 +474,93 @@ For n=2m>0 divisible by8 prove all positive even unimodular rank-n lattices belo
 
 Here t/(exp(t)-1)=sum B_k t^k/k!, B_1=-1/2, and all displayed Bernoulli indices are even. Derive this identity from the normalized local and real factors; it is not the odd-unimodular formula. A second check uses the Belolipetsky–Gan proper-SO formula: for even unimodular rational lattices, the local correction lambda2=1, whereas the article's §6 odd-lattice correction is not used. Compare proper mass to full O mass by IL7A, giving exactly a factor2, including classes that split into two proper classes. Rank8 must yield1/696729600. Rank0 is not obtained by this formula.
 
-The Bernoulli numbers are Mathlib's `bernoulli : ℕ → ℚ`, with `bernoulli_one : bernoulli 1 = -1/2`; the recurrence sum_(j=0)^k binom(k+1,j)B_j=0 for k≥1 is Mathlib's `sum_bernoulli` at n=k+1, and the generating function t/(exp(t)−1) is Mathlib's `bernoulliPowerSeries_mul_exp_sub_one`. None of these is constructed again. The new work is the evaluation: compute B_2,…,B_20 from `sum_bernoulli` in ℚ, prove each value as an equality of `bernoulli k` with an explicit rational, and evaluate M8,M16,M24,M32,M40 from them by exact rational arithmetic. Check: the recurrence at k=1 reads B_0+2B_1=0, forcing B_1=−1/2, which `bernoulli` satisfies and Mathlib's `bernoulli'` (with B_1=+1/2) does not; since m=n/2 is even and every index in M_(2m) is even, both conventions give the same masses, so only the recurrence detects a wrong choice. Check: `bernoulli 4 = -1/30`, and M8=|B_4/8|·|B_2/4|·|B_4/8|·|B_6/12| = (1/240)(1/24)(1/240)(1/504) = 1/696729600.
+The headline `evenUnimodularMass_eq` says that for every n>0 divisible by eight, `evenUnimodularMass n = bernoulliFullMass (n / 2)`. Here `bernoulliFullMass m` is the rational absolute-value product displayed above, defined for every natural m; the theorem does not claim a mass interpretation outside its rank hypotheses (Belolipetsky–Gan v2, Theorem 3.1, p.4, and §5, p.11; Conway–Sloane, §9).
 
-## 4. Finite automorphism and completeness certificates
+The API of this product is its expression as a finite rational product, positivity when m is positive and divisible by four, and the evaluations needed in Layer 4. The lattice-to-product theorem requires the one-genus and all local/real normalization comparisons.
 
-Use a positive rational Gram matrix G on Z^n. Produce a positive rational c with c sum_i x_i²≤x^T Gx (e.g. rational lower bound below the least real eigenvalue, justified by the native finite-dimensional positivity theorem). For each column j of an integral automorphism, norm is G_jj, so |a_ij|≤sqrt(G_jj/c). A certificate supplies integer bounds whose squares dominate G_jj/c. Enumerate every column in these finite boxes and retain matrices satisfying A^TGA=G. Such a matrix has determinant±1 by determinant comparison; therefore it is an integral automorphism and the enumeration is exact, not a heuristic root search. Prove both directions, no duplicates, basis-change transport and the n0 singleton. This is an executable finite certificate model on native Matrix/Fin/Fintype, prior to large actual certificates.
+**Checks.**
 
-4.1 Rank8 uses IL6C and actual O(E8) order696729600. Rank16 first constructs the two IL6D classes and proves nonisomorphism. Root/glue automorphisms give orders2*696729600² and2^15*16!, respectively. Prove these orders by actual root action and glue stabilizer, or by the complete Gram enumeration above. Verify the sum of reciprocals equals M16. Finite class-set reduction and positivity of each omitted reciprocal prove no third class.
+- At m=0 totalized rational division gives `bernoulliFullMass 0 = 0`; it is not the rank-zero mass 1.
+- At m=4 the product is (1/240)(1/24)(1/240)(1/504)=1/696729600.
+- At m=8 the product is 691/277667181515243520000; using proper mass doubles it and would contradict the full reciprocal weights of §4.1.
 
-4.2 For rank24 bind ALL24 explicit IL6E Gram/glue constructions and their actual pairwise nonisomorphism proofs. Construct a full finite certificate, with its explicit bounds/matrices or an equivalent proved root/glue stabilizer enumeration, for EACH automorphism order. Prove the exact reciprocal sum is M24. The same positivity argument proves completeness. This target includes the rootless Leech row; no claim that its automorphisms are detected only by roots is allowed. A named list, its length24 or a table of purported group orders is not the certificate. Uniqueness of the rootless class follows only AFTER this exhaustion, not from calling the row Leech. The actual24 certificates remain implementation work; they are specified finite mathematical objects, not assumed numerical data.
+### 3.2 Exact Bernoulli evaluations
 
-4.3 In positive rank -id≠id, so each automorphism group has size≥2 and each reciprocal≤1/2. For the finite class number h_n, M_n≤h_n/2. Use the exact recurrence certificates to prove 2M32>10^7 and 2M40>10^51, hence the source lower bounds (with strict inequality). No enumeration of all rank32/40 classes is required for these bounds. The mass theorem and one-genus theorem remain indispensable; the inequality alone is not a count proof.
+The Bernoulli numbers are Mathlib's `bernoulli : ℕ → ℚ`, with `bernoulli_one : bernoulli 1 = -1/2`; the recurrence sum_(j=0)^k binom(k+1,j)B_j=0 for k≥1 is Mathlib's `sum_bernoulli` at n=k+1, and the generating function t/(exp(t)−1) is Mathlib's `bernoulliPowerSeries_mul_exp_sub_one`. None of these is constructed again. The new work is the evaluation: compute B_2,B_4,…,B_38 from `sum_bernoulli` in ℚ, prove each value as an equality of `bernoulli k` with an explicit rational, and evaluate M8,M16,M24,M32,M40 from them by exact rational arithmetic. Check: the recurrence at k=1 reads B_0+2B_1=0, forcing B_1=−1/2, which `bernoulli` satisfies and Mathlib's `bernoulli'` (with B_1=+1/2) does not; since m=n/2 is even and every index in M_(2m) is even, both conventions give the same masses, so only the recurrence detects a wrong choice. Check: `bernoulli 4 = -1/30`, and M8=|B_4/8|·|B_2/4|·|B_4/8|·|B_6/12| = (1/240)(1/24)(1/240)(1/504) = 1/696729600.
 
-## 5. Limits and dependency order
+*Needs:* Mathlib `sum_bernoulli`, `bernoulli_one` and rational arithmetic; §3.1's product definition. The native generating function fixes the convention; no new Bernoulli carrier is constructed.
 
-The comparison of Tamagawa numbers along an arbitrary central isogeny 1→Z→G′→G→1 of connected reductive groups over a number field (local and adelic lifting obstructions, rational and adelic images, the finite cohomological defect, character-lattice and gauge-Jacobian factors, and the resulting quotient-volume formula) is not part of this roadmap and nothing here consumes it. No roadmap on main or earlier in the merge order owns it: AdelicAlgebraicGroups AA.2 supplies quotient integration and the normalized Tamagawa measure only, and EndoscopicTransferAndUnitaryTraceComparison §6.5 gives scoped Kottwitz ratios only. It is an extension in the direction of AdelicAlgebraicGroups, whose Part II is its home. Its data are not finite in general: for the squaring isogeny of G_m over ℚ the rational cokernel ℚ×/ℚ×² is infinite and the adelic image is not open (AA.1.4), so any such formula must name the finite defect groups it uses. The mass formulas here use only the direct orthogonal value of 1.3 (orthogonalTamagawa_two with the 1.1–1.2 comparisons); neither tau(Spin)=1 nor |mu2| is used as a substitute for that value.
+**Checks.**
 
-Dependency order is0.1/0.2→1.1/1.2→1.3, IL3I→2.1→2.2, then2.3→3→4. The separate binary lane is IL B1–B4 and GNF9/native quadratic characters→1.4a; native Dirichlet Euler/continuation/nonvanishing and TauberianBoundaryConvergence N2/N3→1.4b; actual quadratic ideal factorization, native Dedekind residue and the order/unit comparison→1.4c. IL B8 direct class-count mass is an independent earlier algebraic output, compared only after these maps exist. Consume only IL7C local factors here, never its later global analytic conclusion; no owner-level circular premise is intended. Approximation0.3 is independent of this positive mass route. Native lattice finiteness/class reduction, AA quotients/gauges and the actual shared orthogonal-value contracts are mandatory lower suppliers; integral-model construction2 is this owner's explicit earlier target.
+- The recurrence for k=1 gives 1+2(−1/2)=0; choosing +1/2 instead gives 2.
+- Rank 24 needs B₂₂, rank 32 needs B₃₀, and rank 40 needs B₃₈, because the largest index is 2(m−1); stopping at B₂₀ misses all three.
+- B₃₈=2929993913841559/6 is included, and the exact products give 80618465<2M₃₂<80618466 and 8·10⁵¹<2M₄₀<9·10⁵¹.
+
+### Examples
+
+The rank-eight mass is the reciprocal E₈ order, and the rank-16 mass is the reciprocal sum of the two distinct reference classes. Rank zero is the separate empty-lattice case.
+
+### Dependencies
+
+IntegralLattices §§2C/2G/3C/3E/5A/7A, Layers 0–2, and Mathlib's Bernoulli recurrence and zeta special values used to convert the mass product.
+
+## Layer 4: automorphism orders and class counts
+
+### 4.1 Automorphism bounds and the rank-16 classification
+
+For a positive rational Gram matrix G on ℤⁿ, prove the existence of c∈ℚ with c>0 and c∑xᵢ²≤xᵀGx for every rational vector x. Each column j of a form-preserving integral matrix then satisfies |aᵢⱼ|²≤Gⱼⱼ/c. Prove that AᵀGA=G forces det A=±1 and identifies exactly the native lattice automorphisms, compatibly with integral basis change. These are boundedness and isometry comparisons; no enumeration procedure is a deliverable.
+
+For the two reference classes of IntegralLattices §6D, prove the full automorphism orders 2·696729600² and 2¹⁵·16!, using root actions and stabilizers of the actual glue subgroup. The first uses the two E₈ components and their interchange; the second uses the D₁₆ roots and the stabilizer of the chosen spinor glue class. Their reciprocal sum is 691/277667181515243520000. Transport IntegralLattices §9B's completeness implication to the Gram quotient and apply §3.1's mass value to prove `rank16_classNumber`: `Nat.card (evenUnimodularClasses 16) = 2`. Rank-eight uniqueness is the supplied §6C theorem, not a new classification target (Conway–Sloane, §9).
+
+*Needs:* §0.0's Gram/native comparison; IntegralLattices §§2C/2G/6C/6D/9B; RootSystems Layers 5–6; §3.1.
+
+**Checks.**
+
+- For G=diag(1,2), c=1 works and the automorphisms are the four diagonal sign matrices; a determinant-one restriction would count only two.
+- In rank zero the empty matrix is the single automorphism; −id=id, so the positive-rank bound of §4.3 cannot be used.
+- The two rank-16 orders are 970864271032320000 and 685597979049984000; their reciprocal sum equals the stated mass exactly, while retaining just one gives a strictly smaller sum.
+
+### 4.2 Rank-24 classification
+
+For all twenty-four actual Gram/glue lattices and their nonisomorphism proofs from IntegralLattices §6E, prove the full automorphism orders and that their reciprocal sum equals the rank-24 mass. A proof route for a lattice with roots is the action on its root lattice, Weyl subgroup and glue stabilizer, including the kernel and image of that action. For the rootless Leech lattice use the action on its minimal vectors and the supplied lattice construction; an empty root system cannot determine its automorphisms. Apply IntegralLattices §9B to obtain `rank24_classNumber`: `Nat.card (evenUnimodularClasses 24) = 24`, and deduce uniqueness of the rootless class (Conway–Sloane, §9).
+
+*Needs:* IntegralLattices §§2C/2G/6E/9B; RootSystems Layers 5–6; §§0.0/3.1/4.1 for Gram transport and mass.
+
+**Checks.**
+
+- The Leech root count is 0 but its minimal-vector count is 196560; the empty-root permutation group has order 1 and cannot be its full automorphism group.
+- The full Leech automorphism order is 8315553613086720000, giving reciprocal contribution 1/8315553613086720000; quotienting by {±1} would double this contribution.
+- Twenty-four distinct classes are required: repeating any one representative violates injectivity even if a numerical list still has length 24.
+
+### 4.3 Class-count lower bounds
+
+In positive rank, −id≠id, so every full automorphism group has order at least two. For the finite class set, prove 2Mₙ≤hₙ. Use the exact Bernoulli recurrence through index 38 and §3.1 to obtain `rank32_classNumber_lower_bound`, `10 ^ 7 < Nat.card (evenUnimodularClasses 32)`, and `rank40_classNumber_lower_bound`, `10 ^ 51 < Nat.card (evenUnimodularClasses 40)`. These are conclusions about lattice classes (Conway–Sloane, §9).
+
+*Needs:* IntegralLattices §§2C/2G; §§0.0/3.1 and the exact Bernoulli evaluations of §3.2.
+
+**Checks.**
+
+- The rank-zero mass and class number are both 1, so 2M≤h would read 2≤1; positive rank is essential.
+- Exact rational evaluation gives 80618465 < 2M₃₂ < 80618466, hence the strict bound 10⁷.
+- Exact rational evaluation gives 8·10⁵¹ < 2M₄₀ < 9·10⁵¹, hence the strict bound 10⁵¹.
+
+### Examples
+
+The two rank-16 reciprocal contributions exhaust the mass; the rank-32 and rank-40 masses force large numbers of classes without listing them.
+
+### Dependencies
+
+IntegralLattices §§2C/2G/6C–6E/9B, RootSystems, and Layers 0/3. The exhaustion implication takes this roadmap's mass evaluation as an input and is never used to prove that evaluation.
+
+## Downstream consumers
+
+IntegralLattices §§7H/7I and §9B consume the mass values and unconditional classifications. Lattice-count applications consume the rank-32/40 lower bounds. The approximation branch supplies the higher-rank Eichler application independently of the positive-definite mass branch.
 
 ## References
 
 - Sungmun Cho, [Group schemes and local densities of quadratic lattices in residue characteristic2](https://arxiv.org/abs/1210.7625v3), for smooth integral models and local densities over unramified dyadic extensions.
-- M. Belolipetsky and W. T. Gan, [The mass of unimodular lattices](https://arxiv.org/abs/math/0307195v2), for the parahoric/proper-SO mass comparison; retain the even-versus-odd normalization in Section3.
+- M. Belolipetsky and W. T. Gan, [The mass of unimodular lattices](https://arxiv.org/abs/math/0307195v2), for the parahoric/proper-SO mass comparison; retain the even-versus-odd normalization in §2, p.3, and Theorem 3.1, p.4; even unimodular correction in §5, p.11.
 - The IntegralLattices, OrthogonalSpinGroups and linked adelic/orthogonal-value specifications above, at their actual coefficient, rank and gauge hypotheses.
+- J. S. Milne, [Algebraic Groups, corrected 2022 version](https://www.jmilne.org/math/Books/iAG2022.pdf), §24i, pp.535–537, for the Clifford construction and simply connected Spin cover.
+- J. H. Conway and N. J. A. Sloane, *Low-dimensional lattices. IV. The mass formula*, Proc. Roy. Soc. London A 419 (1988), 259–286, DOI [10.1098/rspa.1988.0107](https://doi.org/10.1098/rspa.1988.0107), equations (2), (3), (6) and §9. These locators identify the normalization and applications; the source text is uncertified.
+- O. T. O’Meara, *Introduction to Quadratic Forms* (1963), 104:4–5, for strong approximation and Eichler's theorem; source text uncertified.

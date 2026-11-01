@@ -1,7 +1,6 @@
 import Mathlib
 import TauCeti.LinearAlgebra.IntegralLattice.Basic
 import TauCeti.LinearAlgebra.IntegralLattice.Isometry.Group
-import TauCeti.LinearAlgebra.IntegralLattice.PosDef.Finite
 import TauCeti.LinearAlgebra.IntegralLattice.Even
 import TauCeti.LinearAlgebra.IntegralLattice.Unimodular
 
@@ -10,17 +9,24 @@ import TauCeti.LinearAlgebra.IntegralLattice.Unimodular
 
 The roadmap is `README.md`; this file is not the roadmap. It states, against the pinned Mathlib
 and Tau Ceti, the headline theorems of the positive-definite even-unimodular lane: the mass
-formula, its exhaustion and counting consequences, over a small Gram-matrix presentation of
+formula and the unconditional class counts in ranks 16, 24, 32 and 40, over a small Gram-matrix presentation of
 native integral-lattice isometry classes (no second lattice or orthogonal-group carrier).
 
 Not statable at the pins, and therefore not stated here:
-* the structure theorems of 0.2 (Spin of an arbitrary nondegenerate form is a semisimple simply
+* the structure theorems of 0.1 (Spin of an arbitrary nondegenerate form is a semisimple simply
   connected central μ₂-cover of SO for rank at least three): Tau Ceti has the form-preserving
-  and standard special orthogonal group schemes, but no Spin group scheme;
+  and standard special orthogonal group schemes, but no Spin group scheme attached to an arbitrary nondegenerate form;
 * the arbitrary-genus mass formula of 1.3 and the orthogonal quotient comparison of 1.1–1.2:
   there is no adelic orthogonal quotient with its Tamagawa measure, and no local density;
 * Cho's smooth dyadic model and density formula of 2.1–2.2: there is no smooth integral model
-  attached to a Jordan splitting over an unramified extension of `ℤ₂`.
+  attached to a Jordan splitting over an unramified extension of `ℤ₂`;
+* the away-S Spin approximation and Eichler applications of 0.3: the algebraic Spin group
+  with its almost-simple factors and its comparison with the native restricted product is
+  missing, as is the proper spinor-genus class carrier needed by the Eichler conclusion;
+* the same-form binary analytic and order/genus comparisons of 1.4: the native characters,
+  quadratic fields and order Picard groups exist, but the comparison from an integral lattice
+  to its primitive quadratic order, signed character and local-density genus has not been
+  constructed. No theorem on unrelated character and scalar variables stands in for it.
 -/
 
 noncomputable section
@@ -29,12 +35,16 @@ open TauCeti
 
 namespace TauCetiRoadmap.OrthogonalTamagawaAndLatticeMass
 
+/-! ## Layer 0: Gram presentations and native lattices -/
+
+/-- Integral square matrices of the specified rank. -/
 abbrev GramMatrix (n : ℕ) := Matrix (Fin n) (Fin n) ℤ
 
 /-- Integral positive Gram presentations, including the empty rank-zero matrix. -/
 abbrev PositiveGram (n : ℕ) :=
   {G : GramMatrix n // G.IsSymm ∧ (G.map (algebraMap ℤ ℚ)).PosDef}
 
+/-- The native rational integral lattice with Gram matrix `G` in the standard basis. -/
 def nativeLattice {n : ℕ} (G : PositiveGram n) :
     IntegralLattice (Fin n → ℚ) :=
   IntegralLattice.ofGramMatrix (Pi.basisFun ℚ (Fin n)) G.1 G.2.1
@@ -62,64 +72,29 @@ def gramSetoid (n : ℕ) : Setoid (PositiveGram n) where
         rw [← hBHK, ← hAGH, Matrix.transpose_mul]
         simp only [Matrix.mul_assoc] }
 
+/-- Positive integral Gram forms modulo invertible integral change of basis. -/
 abbrev GramClass (n : ℕ) := Quotient (gramSetoid n)
 
+/-- The integral isometry class represented by a positive Gram matrix. -/
 def classOf {n : ℕ} (G : PositiveGram n) : GramClass n :=
   Quotient.mk (gramSetoid n) G
 
-/-- The comparison includes both directions and respects the actual native lattice carrier. -/
-theorem gramEquivalent_iff_native_isometry {n : ℕ} (G H : PositiveGram n) :
-    GramEquivalent G H ↔ Nonempty (IntegralLattice.Isometry (nativeLattice G) (nativeLattice H)) := by
-  sorry
-
-/-- Preservation of a nondegenerate integral Gram form forces determinant ±1. -/
-theorem determinant_eq_one_or_neg_one {n : ℕ} (G : PositiveGram n) (A : GramMatrix n)
-    (hA : A.transpose * G.1 * A = G.1) : A.det = 1 ∨ A.det = -1 := by
-  sorry
-
-abbrev GramAutomorphism {n : ℕ} (G : PositiveGram n) :=
-  {A : GramMatrix n // A.transpose * G.1 * A = G.1}
-
-/-- Matrix enumeration counts the full O group, with no determinant-one restriction: the
-integral matrices preserving `G` are exactly the native self-isometries of its lattice. -/
-theorem card_gramAutomorphism {n : ℕ} (G : PositiveGram n) :
-    Nat.card (GramAutomorphism G) =
-      Nat.card (IntegralLattice.Isometry (nativeLattice G) (nativeLattice G)) := by
-  sorry
-
-/-- A finite box covers every automorphism; its construction uses positive definiteness. -/
-theorem exists_automorphism_box {n : ℕ} (G : PositiveGram n) :
-    ∃ b : Fin n → Fin n → ℕ, ∀ A : GramAutomorphism G,
-      ∀ i j, Int.natAbs (A.1 i j) ≤ b i j := by
-  sorry
-
-theorem gramAutomorphism_finite {n : ℕ} (G : PositiveGram n) :
-    Finite (GramAutomorphism G) := by
-  sorry
-
+/-- The order of the full native integral isometry group of a Gram lattice. -/
 def fullAutomorphismOrder {n : ℕ} (G : PositiveGram n) : ℕ :=
   Nat.card (IntegralLattice.Isometry (nativeLattice G) (nativeLattice G))
-
-theorem fullAutomorphismOrder_pos {n : ℕ} (G : PositiveGram n) :
-    0 < fullAutomorphismOrder G := by
-  sorry
 
 /-- Descent is justified by conjugation under actual integral isometries. -/
 def classAutomorphismOrder {n : ℕ} (c : GramClass n) : ℕ :=
   fullAutomorphismOrder (Quotient.out c)
 
-theorem classAutomorphismOrder_classOf {n : ℕ} (G : PositiveGram n) :
-    classAutomorphismOrder (classOf G) = fullAutomorphismOrder G := by
-  sorry
+/-! ## Layer 3: The even-unimodular mass -/
 
 /-- Evenness and unimodularity use the native lattice predicates. -/
 def evenUnimodularClasses (n : ℕ) : Set (GramClass n) :=
   {c | ∃ G : PositiveGram n, classOf G = c ∧
     (nativeLattice G).IsEven ∧ (nativeLattice G).IsUnimodular}
 
-theorem finite_evenUnimodularClasses (n : ℕ) : (evenUnimodularClasses n).Finite := by
-  sorry
-
+/-- The rational sum of reciprocal full automorphism orders over even unimodular classes. -/
 def evenUnimodularMass (n : ℕ) : ℚ :=
   ∑' c : evenUnimodularClasses n, (classAutomorphismOrder c.1 : ℚ)⁻¹
 
@@ -128,32 +103,27 @@ def bernoulliFullMass (m : ℕ) : ℚ :=
   |bernoulli m / (2 * (m : ℚ))| *
     ∏ j ∈ Finset.Ico 1 m, |bernoulli (2 * j) / (4 * (j : ℚ))|
 
+/-- The full orthogonal mass formula for positive rank divisible by eight. -/
 theorem evenUnimodularMass_eq (n : ℕ) (hn : 0 < n) (h8 : 8 ∣ n) :
     evenUnimodularMass n = bernoulliFullMass (n / 2) := by
   sorry
 
-theorem rankZero_mass : evenUnimodularMass 0 = 1 := by
+/-! ## Layer 4: Classification and class-count bounds -/
+
+/-- There are exactly two positive definite even unimodular integral isometry classes in rank 16. -/
+theorem rank16_classNumber : Nat.card (evenUnimodularClasses 16) = 2 := by
   sorry
 
-theorem bernoulliFullMass_four : bernoulliFullMass 4 = (696729600 : ℚ)⁻¹ := by
+/-- There are exactly twenty-four positive definite even unimodular integral classes in rank 24. -/
+theorem rank24_classNumber : Nat.card (evenUnimodularClasses 24) = 24 := by
   sorry
 
-/-- A mass-saturating injective list is exhaustive because every omitted term is positive. -/
-theorem complete_of_mass_eq {n : ℕ} {ι : Type*} [Fintype ι]
-    (f : ι → evenUnimodularClasses n) (hf : Function.Injective f)
-    (hmass : (∑ i, (classAutomorphismOrder (f i).1 : ℚ)⁻¹) = evenUnimodularMass n) :
-    Function.Surjective f := by
+/-- The rank-32 positive definite even unimodular class number exceeds ten million. -/
+theorem rank32_classNumber_lower_bound : 10 ^ 7 < Nat.card (evenUnimodularClasses 32) := by
   sorry
 
-theorem two_mul_mass_le_classNumber (n : ℕ) (hn : 0 < n) :
-    2 * evenUnimodularMass n ≤ (Nat.card (evenUnimodularClasses n) : ℚ) := by
-  sorry
-
-/-- Exact rational arithmetic; the separate mass and single-genus comparisons remain required. -/
-theorem rank32_arithmetic_bound : (10 : ℚ) ^ 7 < 2 * bernoulliFullMass 16 := by
-  sorry
-
-theorem rank40_arithmetic_bound : (10 : ℚ) ^ 51 < 2 * bernoulliFullMass 20 := by
+/-- The rank-40 positive definite even unimodular class number exceeds ten to the fifty-first power. -/
+theorem rank40_classNumber_lower_bound : 10 ^ 51 < Nat.card (evenUnimodularClasses 40) := by
   sorry
 
 end TauCetiRoadmap.OrthogonalTamagawaAndLatticeMass
