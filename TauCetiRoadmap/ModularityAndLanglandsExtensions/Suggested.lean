@@ -2,10 +2,10 @@ import Mathlib
 import TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny.Hom.Ring
 
 /-!
-# Modularity and Langlands extensions: headline target signatures
+# Modularity and Langlands extensions: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`; these signatures suggest Lean forms for its headline results.
+`README.md`; this file states its headline theorems against the pinned APIs.
 
 The Sato–Tate theorem for every non-CM elliptic curve over ℚ (§4.34) is stated using
 Mathlib's minimal local reductions and Tau Ceti's geometric endomorphism ring. Non-CM
@@ -21,7 +21,12 @@ objects. The packet classifications (Layer 3) need admissible L- and Arthur para
 local packets and normalized trace distributions. Symmetric-power functoriality,
 completed symmetric-power L-functions and the Bianchi purity, Ramanujan and
 equidistribution results (Layer 4) need these automorphic and Weil–Deligne objects;
-classical newforms and their Satake parameters alone do not supply them.
+classical newforms and their Satake parameters alone do not supply them. Marshall's
+conditional cohomological mass-equidistribution theorem (§4.41) additionally needs
+minimal-K-type cuspidal embeddings on the arithmetic quotient, their associated
+bundles and invariant volume; the shifted-convolution and weak-subconvexity mass
+estimates use the same missing carriers. A measure on an arbitrary type would not
+state these results.
 
 Generic transfer and descent, the general Langlands conjectures and the Whittaker
 adjunction and torus equivalence (Layer 5) also need the missing automorphic carriers,

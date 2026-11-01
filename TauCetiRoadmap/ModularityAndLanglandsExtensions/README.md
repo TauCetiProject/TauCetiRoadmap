@@ -16,6 +16,10 @@ PadicFunctionalAnalysis/CompactOperators own Banach modules,orthonormalizability
 
 PhiGammaModulesAndIwasawaCohomology §§1.1–1.2, 3.4–3.6, 4.4–4.5 and 7.8 owns relative Robba modules, their family realization, Herr theory and coherent triangulations. §4.3 uses these objects for the definite-unitary eigenvariety and its Jacquet and tangent comparisons.
 
+ModularCurvesPartII §§5.13–5.14 owns compactified paired twists of representations over ℚ at every level N≥3 and their field extensions; EllipticCurveModularityImaginaryQuadratic §0.2 owns the arbitrary-number-field twists at primes 3 and 5, their point dictionaries and genus-zero rationality. Section 2.23 uses these objects and extends the paired construction only to higher-prime representations over arbitrary number fields, with comparison on the common domain. PotentialModularityAndCompatibleSystems §§2.8–2.10 and 2.23 supplies point selection and prescribed local Galois data.
+
+Section 4.41 owns minimal-K-type probability mass, Marshall's conditional cohomological equidistribution theorem over number fields of arbitrary signature, and its shifted-convolution and weak-subconvexity mass estimates. The ambient automorphic spectrum and L-functions come from AutomorphicSpectralTheory §§1.2, 1.6 and 4.1–4.3 and AutomorphicLFunctionsAndLocalFactors AL.2–AL.3; these do not supply the mass estimates.
+
 ## Conventions
 
 RA = regular algebraic; RAC = regular algebraic cuspidal; RACP = regular algebraic cuspidal polarized; HT = Hodge–Tate; LGC = local–global compatibility. RAESDC/RAECSDC/RACSDC retain their usual essentially self-dual/conjugate-self-dual/cuspidal meanings.
@@ -99,7 +103,7 @@ For [§4.3](#43-definite-unitary-eigenvarieties-and-the-trianguline-comparison),
 
 #### C-MODULI: from PotentialModularityAndCompatibleSystems, §§2.8–2.10 and 2.23
 
-Moret–Bailly takes a smooth geometrically connected number-field scheme and local opens, returning a point in those opens under specified field/completion embeddings, with the stated Galois/disjointness/local properties. Descend full-level modular curves by the actual E[q] cocycle and Weil-pairing multiplier `ε̄`; their points are symplectic isomorphisms of the specified torsion modules.
+Moret–Bailly takes a smooth geometrically connected number-field scheme and local opens, returning a point in those opens under specified field/completion embeddings, with the stated Galois/disjointness/local properties. This is the point-selection input. For the curves, use ModularCurvesPartII §5.14, **Compactified twisted curves**, for paired representations over ℚ and their base changes, and EllipticCurveModularityImaginaryQuadratic §0.2, **fixed_pairing_twist** and **fixed_pairing_twist_rational**, over any number field at primes 3 and 5. Their points preserve the specified pairing to μ_q; the determinant is cyclotomic. Section 2.23 extends this interface to higher-prime representations over the number field itself, and identifies it with these suppliers wherever they apply.
 
 #### C-ARTHUR: actual packets and EndoscopicTransferAndUnitaryTraceComparison §§11.2–11.4
 
@@ -115,7 +119,7 @@ Import characters, Haar probability, `SU₂` powers and class-function completen
 
 #### C-CATEGORICAL: the geometric categories
 
-AutomorphicGaloisRepresentationsPartII AG2.6 supplies `relativePeriodChart`, `relativeFarguesFontaineCurve`, `relativeDegreeOneDivisor`, `BunG`, `newtonStratum`, `DLisBunG`, `HeckeModification`, `HeckeFunctor`, `parameterStack`, `geometricSpectralAction`, `excursionOperator` and `semisimpleParameter`. Use its general-local-field, reductive-group carriers, integral Satake normalization and coefficient restrictions. LanglandsParameterStacks LP1.5, LP1.10 and LP1.13–LP1.15 supply the LCI refinement, cotangent complex, singularities and coherent support on this same parameter stack. §§5.7–5.9 retain comparison statements, specialize the quasicompact support categories and own the canonical Whittaker adjunction used in FS I.10.2. The categorical equivalence remains conjectural. Tori retain condensed homology and the character gerbe.
+AutomorphicGaloisRepresentationsPartII AG2.6 supplies `relativePeriodChart`, `relativeFarguesFontaineCurve`, `relativeDegreeOneDivisor`, `BunG`, `newtonStratum`, `DLisBunG`, `HeckeModification`, `HeckeFunctor`, `parameterStack`, `geometricSpectralAction`, `excursionOperator` and `semisimpleParameter`. Use its general-local-field, reductive-group carriers, integral Satake normalization and coefficient restrictions. LanglandsParameterStacks §§1.5, 1.11 and 1.16–1.18 supply the LCI refinement, cotangent complex, singularities and coherent support on this same parameter stack. §§5.7–5.9 retain comparison statements, specialize the quasicompact support categories and own the canonical Whittaker adjunction used in FS I.10.2. The categorical equivalence remains conjectural. Tori retain condensed homology and the character gerbe.
 
 ### Required exports from neighbouring theories
 
@@ -199,7 +203,7 @@ Import `rank_two_large_residual_image` and `corrected_rank_two_large_image`, wit
 
 Use [SmoothRepresentationsOfLocalGroups with the ReductiveGroupsPartII conventions](../SmoothRepresentationsOfLocalGroups/README.md): SR.0 supplies smooth representations and compact-open invariants, SR.0d their derived category, SR.2 normalized induction/Jacquet functors, and SR.5.2's **Classical parameters and the generic convention** supplies characteristic-zero finite-place `GL_n` LLC. Its `rec` sends parameters to representations; write `rec_K` here for its inverse, transporting arithmetic reciprocity to the geometric convention. Retain twists, duals, central characters and pair factors. SR.6.1's **Crossed cocycles and gauge action**, **Finite-wild Weil discretization**, **One integral finite-wild cocycle scheme** and **ℓ-adic cocycle extension and changes of discretization**, SR.6.2 and SR.6.3 supply precisely the cocycle, invariant and excursion inputs of §§5.8–5.9.
 
-[IntegralHeckeAndGaloisDeterminants at its supplier contract](../IntegralHeckeAndGaloisDeterminants/README.md) supplies §1.6's **Local lifts compatible with global quotient reconstruction**: a surjection `B→A`, B local, A henselian local, a selected two-block GMA corner, equality of full determinant laws with residually absolutely irreducible global representation, and specified local/generic-fibre identifications. In the arithmetic application B is finite flat over O; A may have torsion. Continuity of the selected local corner is an additional arithmetic premise. Sections 2.1–2.2 supply derived Hecke images/ghost nilpotence, §4.2 compatible quotient determinants, and §5.2 `Nilpotence.inverse_limit` supplies detection with one uniform exponent and separated coefficient quotients; §5.3 reconstructs over henselian local nilpotent quotients. These contracts preserve the actual coefficient and comparison maps.
+[IntegralHeckeAndGaloisDeterminants at its supplier contract](../IntegralHeckeAndGaloisDeterminants/README.md) supplies §1.6's **Local lifts compatible with global quotient reconstruction**: a surjection `B→A`, B local, A henselian local, a selected two-block GMA corner, equality of full determinant laws with residually absolutely irreducible global representation, and specified local/generic-fibre identifications. In the arithmetic application B is finite flat over O; A may have torsion. Continuity of the selected local corner is an additional arithmetic premise. Sections 2.1–2.2 supply derived Hecke images/ghost nilpotence, §4.2 compatible quotient determinants, and §5.2, **Uniform nilpotence in an inverse limit**, supplies detection with one uniform exponent and separated coefficient quotients; §5.3 reconstructs over henselian local nilpotent quotients. These contracts preserve the actual coefficient and comparison maps.
 
 #### From EndoscopicTransferAndUnitaryTraceComparison, §§6.24, 6.26–6.27
 
@@ -251,11 +255,11 @@ Use `geometricArtinMap`, the arithmetic `artinMap` precomposed with inversion, s
 
 #### From TauCetiRoadmap.ModularCurves, Layer 10
 
-The compactified modular curve X(q) and its cusps, for the twisted modular curve `X_E(q)`.
+Use the finite-normal recognition of compactified coarse curves and their cusps. The paired compactification and its base-change comparisons used in §2.23 are specified in C-MODULI, including ModularCurvesPartII §§5.13–5.14.
 
 #### From TauCetiRoadmap.ModularCurves, Layer 5
 
-The fine moduli scheme Y(q) of elliptic curves with full level-q structure `(q ≥ 3)` over `ℤ`[1/q], twisted by E[q] to give `Y_E(q)`.
+Use Layer 5B's full ordered-basis scheme and its fixed-pairing fibres for q≥3, and Layer 5C's symplectic-frame descent. Section 2.23 uses this descent for higher-prime paired representations over arbitrary number fields; the lower-prime and rational-field twists are the C-MODULI objects.
 
 #### From ReductiveGroups Layers 6–8 and ReductiveGroupsPartII RG2.5
 
@@ -839,7 +843,7 @@ Degree shifting: transport CrystallineLocalGlobalCompatibilityCM §§6.6–6.13�
 
 For imaginary CM F containing an imaginary quadratic subfield split at p, fix a finite c-stable set `T⊃{v|p}` of finite places. For `v∉T` of residue characteristic `ℓ` require either `T∩{w|ℓ}=∅` and `ℓ` unramified in F, or `ℓ` split in an imaginary quadratic subfield of F. Take good K hyperspecial outside T, dominant `λ`, distinct p-places `v̄,v̄′` of `F⁺` with `Σ_{ū≠v̄,v̄′}[F⁺_{ū}:ℚ_p]≥[F⁺:ℚ]/2`. Choose `Q_{v̄}⊂P_{v̄}`, `K_{v̄}=Q_{v̄}∩GL_n(F⊗F⁺_{v̄})`, and non-Eisenstein decomposed-generic `𝔪` in `H*(X_K,V_λ)`’s support with all `X_{Q_{v̄}}` rescaled operators invertible. The **derived integral** Hecke algebra modulo J, `J^N=0`,`N=N(n,[F⁺:ℚ])`, carries continuous `r_𝔪` with good polynomials. Local maps factor through: `Q=P`, crystalline at both conjugate places; `Q=B_{2n}`, semistable ordinary at both; `Q=(n,1,…,1)`, ordinary at selected/crystalline at conjugate place. `Weights={λ_{τ,n},…,λ_{τ,1}+n−1}`. If `p∤n`, fixing an O-valued crystalline determinant `ψ` of these summed weights gives fixed-determinant factorization.
 
-Construct normalization adapters to `CrystallineCM.integral_local_global_deformation_factorization` and `CrystallineCM.fixed_determinant_factorization`. Transport CrystallineLocalGlobalCompatibilityCM §§7.4–7.6’s representations and coefficient maps to the conventions here. The local lifting ring’s scheme-theoretic characterization applies over finite, possibly nonreduced coefficient algebras, rather than only field-valued points.
+Construct normalization adapters to CrystallineLocalGlobalCompatibilityCM §7.5, **Local–global compatibility at p via deformation rings**, and §7.6, **Fixed-determinant refinement**. Transport CrystallineLocalGlobalCompatibilityCM §§7.4–7.6’s representations and coefficient maps to the conventions here. The local lifting ring’s scheme-theoretic characterization applies over finite, possibly nonreduced coefficient algebras, rather than only field-valued points.
 
 **Checks.**
 
@@ -874,7 +878,7 @@ Proof route: BCGNT §3.2 component-restricted arithmetic patching and CN §4.3 c
 
 For imaginary CM F, odd p and continuous finitely ramified `ρ:G_F→GL₂(ℚ̄_p)`, assume `det=ε_p⁻¹`, potentially semistable `HT={0,1}` at p, decomposed-generic `ρ̄` and cyclotomically irreducible `ρ̄`. If `p=5` and its cyclotomic projective image is `PSL₂(𝔽₅)`, the projective `G_F` fixed field must exclude `ζ₅`. Assume additionally `[F(ζ_p):F]≠3` or `im(ρ̄)^proj≇A₄`. Take a weight-zero cuspidal `PGL₂` seed `π` with matching reduction: at potentially crystalline `ρ`-places, `r_ι(π)` is potentially ordinary iff `ρ` is, and `N(rec π_v)=0`; elsewhere `π` is `ι`-ordinary and `r_ι(π)` not potentially crystalline. Then `ρ≅r_ι(Π)` for weight-zero cuspidal `PGL₂` `Π`.
 
-Construct the normalization adapter to `CrystallineCM.potentially_barsotti_tate_lifting_qualified` in CrystallineLocalGlobalCompatibilityCM §9.12. Transport its fixed determinant, labelled weights, seed components and qualified auxiliary-prime argument. No polarization, enormous image or scalar-outside-cyclotomic hypothesis is added.
+Construct the normalization adapter to CrystallineLocalGlobalCompatibilityCM §9.12, **Potentially Barsotti–Tate automorphy lifting over imaginary CM fields**, with its additional cubic-tetrahedral qualification. Transport its fixed determinant, labelled weights, seed components and qualified auxiliary-prime argument. No polarization, enormous image or scalar-outside-cyclotomic hypothesis is added.
 
 **Checks.**
 
@@ -885,7 +889,7 @@ Construct the normalization adapter to `CrystallineCM.potentially_barsotti_tate_
 
 ([Caraiani–Newton], Thm. 5.2 and Remarks 5.2.1–5.2.3, pp.73–74; §§5.3–5.6 pp.74–86.)
 
-*Needs:* CrystallineLocalGlobalCompatibilityCM §9.12, `CrystallineCM.potentially_barsotti_tate_lifting_qualified`; [§2.4](#24-crystalline-and-semistable-ordinary-integral-hecke-representations); AG2, normalization of the same realization.
+*Needs:* CrystallineLocalGlobalCompatibilityCM §9.12, **Potentially Barsotti–Tate automorphy lifting over imaginary CM fields**, with its stated qualification; [§2.4](#24-crystalline-and-semistable-ordinary-integral-hecke-representations); AG2, normalization of the same realization.
 
 ### 2.7 The complete Calegari–Geraghty Hecke-cohomology hypothesis
 
@@ -1180,25 +1184,25 @@ Proof route: Chebotarev and PAI §2.12 `rank_two_large_residual_image` (ACC+ 7.1
 
 ### 2.23 The twisted modular curve `X_E(q)`
 
-For number field K, elliptic E/K and prime `q≥3`, `X_E(q)` compactifies the fine moduli `Y_E(q)` of elliptic A with Weil-pairing-preserving A[q]≅E[q]. It is the geometrically connected E[q]-twist of X(q), genus zero for `q≤5`. CG’s auxiliary curve is obtained by applying BLGHT11 6.2 to such twists.
+For a number field K, elliptic E/K and prime q≥3, write X_E(q) and Y_E(q) for the C-MODULI paired compactification and elliptic open applied to E[q] with its Weil pairing. Apply the point-selection theorem to this smooth geometrically connected open when choosing the auxiliary curve; its local opens prescribe symplectic identifications, not merely equality of residual traces (Calegari–Geraghty, §10, pp.97–98).
 
-- The fixed-pairing twist is a curve over K.
-- Its noncuspidal L-points classify symplectic `(A/L,φ)` up to isomorphism, `q≥3`.
-- This twisted modular curve is geometrically connected.
-- Its base change from K to L identifies with the fixed-pairing twist for E_L.
-- The identity symplectic identification gives the K-point (E,id).
+**Higher-prime number-field extension.** For prime q≥7, a continuous representation ρ̄:G_K→GL₂(𝔽_q) and a specified perfect alternating equivariant pairing ∧²ρ̄≅μ_q, construct the fine curve Y_ρ̄/K classifying elliptic A with a pairing-preserving identification A[q]≅V_ρ̄, and its smooth proper completion X_ρ̄/K. Here V_ρ̄ is the finite étale K-group scheme attached to ρ̄. Use ModularCurves §0E and §5C's effective descent on the symplectic-frame torsor over K, then normalize the j-line. Identify this construction with ModularCurvesPartII §5.14 when the paired representation descends to ℚ. Together with EllipticCurveModularityImaginaryQuadratic §0.2 at q=3,5 this gives a single paired interface for every prime q≥3, agreeing with that supplier's point and field-change dictionaries. The extension concerns the field of definition of ρ̄, not a second construction in the supplied cases (Stacks, Tag 03GV; ModularCurvesPartII §§5.13–5.14).
 
-Construction: descend full symplectic level-q by E[q] and its Weil pairing, then compactify via ModularCurves. The basis cocycle is `GL₂` with cyclotomic determinant, not `SL₂` unless `µ_q⊂K`. The fixed-pairing geometric fibre is connected; (E,id) is rational.
+- For each K-scheme T, the elliptic open represents isomorphism classes of pairs (A/T,φ:A[q]≅V_ρ̄,T) preserving the pairing, with the corresponding universal elliptic curve.
+- A symplectic frame over a finite splitting extension L identifies Y_ρ̄,L and X_ρ̄,L with the fixed-pairing full-level curves over L, compatibly with j and the cusp complement; hence they are smooth and geometrically connected, and the completion is proper.
+- Field extension K→L commutes with these objects, their universal family and the point dictionary, with identity and composition laws. The comparison with the rational-field construction is over j and respects these maps.
+- For ρ̄=E[q], the identity gives the K-point (E,id), and field extension sends it to (E_L,id). At q=3,5 the supplied genus-zero completion is ℙ¹_K; no rationality assertion is made at higher q.
+
+The frame cocycle lies in GL₂ with cyclotomic determinant; after choosing a fixed pairing value, changes between symplectic frames lie in SL₂. The fixed-pairing geometric fibre is one component. Normalization commutes with the finite separable frame extension by Stacks Tag 03GV; descent and uniqueness give the comparison over K.
 
 **Checks.**
 
-- `q=3` gives genus zero and the K-point (E,id), hence `X_E(3)≅ℙ¹_K`.
-- Trivial E[q] action with `µ_q⊂K` gives `X_E(q)≅X(q)_K`.
-- Full level is not cyclic level: at `q=7`, X(7) has genus 3 and `X₀(7)` genus 0. At `q=3`,5 both curves are `ℙ¹_K`, but their moduli problems differ.
+- For K=ℚ(i), q=3 and ρ̄=E[3], the supplied object contains (E,id), has geometric genus 0 and is ℙ¹_K. Extending K sends that same point to (E_L,id).
+- With trivial E[q] action and μ_q⊂K, a chosen symplectic frame gives the fixed-pairing X(q)_K. Forgetting the pairing gives q−1 geometric components: six at q=7, instead of one.
+- Full level is not cyclic level: at q=7, the full-level index and number of cusps are 168 and 24, so the genus is 1+168/12−24/2=3; X₀(7) has genus 0. At q=3,5 the paired E[q]-twists have genus 0 and the identity point, but the full-level and cyclic-level moduli problems still differ.
+- Over a splitting field at q=7, changing a frame by diag(2,1) sends its pairing value ζ₇ to ζ₇² and is not symplectic; diag(2,4) preserves it because 2·4=1 in 𝔽₇. At q=2 the automorphism [−1] fixes every level point, so the fine q≥3 interface cannot be extended to q=2.
 
-([Calegari–Geraghty](#reference-cg-2018), §10, general case, p. 97 = Invent. p. 429.)
-
-*Needs:* PMCS §§2.8–2.10 and 2.23; ModularCurves, Layer 5; ModularCurves, Layer 10.
+*Needs:* C-MODULI: EllipticCurveModularityImaginaryQuadratic §0.2 and ModularCurvesPartII §§5.13–5.14; ModularCurves §§0E, 5B–5C and Layer 10; ModularCurvesPartII §§4.10 and 6.4–6.5 for fixed-pairing connectedness and comparison; ModularForms Layer 10B for the full-level genus calculation; PMCS §§2.8–2.10 and 2.23 for point selection and local Galois conditions.
 
 ### 2.24 The p–r switch for symmetric powers over CM fields (BCGNT Proposition 6.2.3)
 
@@ -3058,15 +3062,74 @@ Proof route: the Fourier coefficient is `α+β`; [§4.38] gives `|α|=|β|=N(�
 
 ### 4.41 Mass equidistribution for level-one Bianchi eigenforms of growing weight (BCGNT Theorem G)
 
-Let F be imaginary quadratic of class number one and `Γ = SL₂(O_F)`. For any sequence of level-one Bianchi eigenforms f of weight tending to `∞`, the normalised measures `μ_f` on `Γ\ℍ³` (Marshall) converge weakly to the normalised hyperbolic volume.
+#### Minimal-K-type mass
 
-F imaginary quadratic of class number one; level one.
+Fix a number field F of narrow class number one, with r₁ real places and r₂ complex places. Put G equal to the product of GL₂⁺(ℝ) and GL₂(ℂ) over those places, modulo their centres, let Γ be the image of GL₂⁺(O_F), and let K∞ be a maximal compact subgroup. Write X=Γ\G and Y=X/K∞. Equip Y with product hyperbolic volume dv and X with the compatible invariant measure dg, using probability Haar measure on K∞. These are the full-level quotients of Marshall §2.1, pp.1052–1053, on the automorphic carriers of C-AUTOMORPHIC.
 
-Proof route: Marshall Cor. 3 with the Ramanujan bound supplied by [§4.38].
+For a cuspidal cohomological representation π of full level and trivial central character, let ρ_k be its minimal K∞-type: a weight-k_i character at a real place and the (k_i+1)-dimensional SU₂ representation at a complex place. At real places k_i is positive even and at complex places the spectral parameter is zero. Fix an automorphic realization of π in L²_cusp(X) and a nonzero K∞-equivariant embedding R:ρ_k→π∞ into its smooth vectors; compose with that realization to construct its vector-valued section F_R of the associated bundle over Y with fibre ρ_k∨. For an orthonormal basis (e_j) of ρ_k of dimension d_K, its squared norm is the basis-independent function D_R(x)=d_K⁻¹Σ_j |R(e_j)(x)|². Define the mass map from such embeddings to Borel probability measures on Y by μ_R(B)=∫_B D_R dv / ∫_Y D_R dv. Prove measurability, integrability and 0<∫_Y D_R dv<∞ from the nonzero cuspidal embedding before normalizing (Marshall §2.4, pp.1055–1056).
 
-([BCGNT], Thm. G and proof, §1.3, p. 11 (published p. 10).)
+- The K∞-invariant density descends to Y, is independent of orthonormal basis, and gives a countably additive probability measure, absolutely continuous with respect to dv.
+- Multiplication of R by any nonzero complex scalar leaves μ_R unchanged; unitary identification of the minimal K∞-type also leaves it unchanged.
+- For any unit vector e in ρ_k, μ_R is the pushforward along X→Y of |R(e)|²dg divided by its integral. Compact-group averaging gives D_R; one must average before regarding a scalar minimal-type vector as a function on Y.
+- For a totally real field, the density is the Petersson density y^k|f|² up to the scalar removed by normalization. For the Bianchi quotient SL₂(O_F)\ℍ³, the same construction on SL₂(O_F)\SL₂(ℂ) agrees, after normalization, with the squared norm of the corresponding harmonic form in Sym^d ℂ²⊗overline(Sym^d ℂ²); Marshall's complex K-type weight is 2d+2. Under §4.27's weight k, d=k−2, so that weight is 2k−2 (Marshall §3, pp.1057–1058; §4.26's cohomological comparison).
 
-*Needs:* [§4.27].
+**Checks.**
+
+- If ∫D_R=1, then D(2R)=4D_R and ∫D(2R)=4, so μ(2R)(Y)=4/4=1 and μ(2R)(B)=μ_R(B). For R=0 the numerator and denominator are both zero, and no probability mass is assigned.
+- For the two-dimensional unitary representation, a vector with coordinates (1,0) has sum of squared coordinates 1, as does its unitary image (1/√2,1/√2); the averaged density is 1/2 in both bases. A single unaveraged coordinate instead changes from 1 to 1/2.
+- A vector with components in Hecke eigenspaces of eigenvalues 1 and 2 is sent from (1,1) to (1,2), which is not a scalar multiple of (1,1); such a mixture is not the fixed-π embedding used in the estimates.
+- At a real place, weight 2 and y=2 multiply |f|² by 4, whereas using y^(−2) multiplies it by 1/4. For a Bianchi weight-2 form d=0 and Marshall weight=2; for weight 3, d=1 and Marshall weight=4.
+
+#### The two analytic mass estimates
+
+In the preceding full-level setting, assume π satisfies the finite-place Ramanujan bound in unitary normalization, |α_π(𝔭)|=|β_π(𝔭)|=1, at every finite prime. Normalize ∫D_R dv=1. Put T=max_i k_i>e and P equal to the product of the real-place k_i and the squares of the complex-place k_i. Fix ν>0 with k_i≥T^ν for every i. Write L₁=L(1,Sym²π)>0, λ_π(𝔭)=α_π(𝔭)+β_π(𝔭), and define
+
+    M = (log T)⁻² L₁⁻¹ ∏_{N𝔭≤T} (1 + 2|λ_π(𝔭)|/N𝔭).
+    R_A = P^(−1/2) L₁⁻¹ Σ_{m∈ℤ^(r₁+r₂−1)} ∫_ℝ |L(1/2+it,Sym²π⊗χ_(−m))| (1+|t|+‖m‖)^(−A) dt.
+
+Here χ_m are the unitary Hecke characters trivial on units constructed from their logarithmic lattice in Marshall §2.2, pp.1053–1054; choose a fixed sufficiently large A, for example A>3[F:ℚ]/4+r₁+r₂+1. Use C-AUTOMORPHIC's characters and AL's L-functions. Prove positivity of L₁, finiteness and nonnegativity of M and R_A, and independence from scaling R; the L₁ lower bound below supplies the nonvanishing needed in both definitions.
+
+- Every local factor of M is at least 1, and M is positive since T>e and L₁>0; a finite product over no primes has value 1.
+- Every summand and integrand of R_A is nonnegative. For the stated A its sum and integral converge; increasing A decreases R_A with all other data fixed.
+- Both quantities depend on the Hecke representation and weights, not on the scalar used to normalize its minimal-type embedding. Fixing the unit-lattice basis fixes χ_m and the norm in the damping term.
+
+Prove the following analytic estimates as targets, with constants independent of π and k, and allowed to depend on F, ε, ν, A and the fixed test function. For every ε>0 and each fixed Hecke–Maass cusp form φ on Y,
+
+    |∫_Y φ D_R dv| ≪ (log T)^ε M^(1/2),
+    |∫_Y φ D_R dv| ≪ (log T)^(−1/2+ε) / L₁.
+
+For a fixed pure incomplete Eisenstein series φ, the first bound holds for the difference from Vol(Y)⁻¹∫φ dv with an extra factor 1+R_A. For the unitary Eisenstein series E(1/2+it,m), the second bound is
+
+    |∫_Y E(1/2+it,m) D_R dv| ≪ (1+|t|+‖m‖)^(2[F:ℚ]) (log T)^(−1+ε) / L₁.
+
+These are the shifted-convolution and weak-subconvexity estimates of Marshall Theorems 4–5, p.1058. Their analytic proofs are included: Fourier unfolding and shifted Hecke-coefficient estimates over the number field (Propositions 9–10 and 13, §§5–7, pp.1063–1086), and the minimal-type triple-product and Eisenstein period comparisons with their archimedean integrals (Propositions 14–15, §8.1, pp.1086–1088), followed by weak subconvexity (§8.2, pp.1089–1092). These are mathematical estimate targets, not assumptions on the sequence. A proof can instead establish the displayed estimates by another route.
+
+Also prove, in this same family, L₁≫(log T)⁻¹, R_A≪(log T)^ε and M≪(log T)^(1/6)(log log T)^(9/2)L₁^(1/2) (Marshall §9, equation (83) and Lemmas 18–20, pp.1092–1093). Retain the Ramanujan hypothesis, the full Hecke eigensystem and all real and complex weights throughout; the logarithmic lower bound and the comparison between M and L₁ are analytic targets here, not consequences of qualitative nonvanishing alone.
+
+**Checks.**
+
+- The local M-factor with N𝔭=2 is 3 for (α,β)=(1,1), and 1 for (α,β)=(i,−i). Both pairs have determinant 1 and unit-modulus parameters, but their Hecke sums are 2 and 0.
+- For r₁+r₂=1, the character index ℤ⁰ is a singleton, not an empty sum. With a constant test numerator 1, its model damping integral ∫_ℝ(1+|t|)^(−A)dt equals 2/(A−1) for A>1; at A=2 it is 2, while at A=1 it diverges.
+- For one real weight 4, P=4 and P^(−1/2)=1/2; for one complex weight 4, P=16 and P^(−1/2)=1/4. Treating a complex place as real loses this factor.
+- In the one-prime product model with N𝔭=2 and λ_π(𝔭)=2, the product is 3; replacing λ by −2 leaves it 3, while the empty product is 1. With log T=2 and L₁=1, these give M=3/4 and M=1/4, respectively.
+- With one complex weight 4, L₁=1 and constant test numerator 1, the singleton-index damping model gives R₂=(1/4)·2=1/2 and R₃=(1/4)·1=1/4. Replacing the numerator by zero gives zero; scalar multiplication of the automorphic embedding leaves its actual L-function, M and R_A unchanged.
+- At the cusp-form threshold L₁=(log T)^(−7/15), the second estimate has exponent −1/2+7/15=−1/30, while the bound for M has exponent 1/6−7/30=−1/15 and its square root again gives −1/30, apart from arbitrarily small logarithmic losses.
+
+*Needs:* the mass construction above; C-AUTOMORPHIC, minimal K∞-types and full-level cuspidal realizations; AutomorphicLFunctionsAndLocalFactors AL.2–AL.3, standard and Rankin–Selberg functions; AutomorphicSpectralTheory §§1.2 and 1.6, Eisenstein and pseudo-Eisenstein series. The additional period and quantitative estimates are owned in this subsection.
+
+#### Conditional cohomological equidistribution and the Bianchi consequence
+
+For any sequence of the preceding nonzero full-level, trivial-central-character cohomological Hecke eigenforms over a fixed number field F of narrow class number one, assume Ramanujan at every finite place and a fixed ν>0 such that every weight k_i≥(max_j k_j)^ν, with max_j k_j→∞. Prove that μ_R tends weakly to dv/Vol(Y), meaning convergence against every bounded continuous function on Y. More precisely, the cusp-form tests have error O((log T)^(−1/30+ε)), and fixed pure incomplete Eisenstein tests have error O((log T)^(−2/15+ε)); take ε smaller than the corresponding positive exponent. Prove tightness, so the noncompact cusps lose no mass, and pass from the spectral tests to weak convergence (Marshall Theorem 1 and §9, pp.1057 and 1092–1094). This is an implication with a Ramanujan hypothesis, not a conjectural analytic premise. It includes real, complex and mixed signatures at the stated full level.
+
+For F imaginary quadratic of class number one, apply the SL₂ mass comparison above to nonzero level-one cuspidal Bianchi Hecke eigenforms f of weight k→∞. There is one complex weight coordinate, 2k−2, so uniform growth holds with ν=1. Section 4.38 supplies temperedness, equivalently the unitary Ramanujan bound; §4.40 gives the corresponding Fourier bound. Thus μ_f on SL₂(O_F)\ℍ³ converges weakly to normalized hyperbolic volume (Marshall Corollary 3, pp.1057–1058, retaining its Ramanujan input; BCGNT Theorem G and proof, published p.10).
+
+**Checks.**
+
+- Over ℚ(i) the single weight w=2k−2 satisfies w≥w¹ with equality. Over two infinite places, weights (t,t²) satisfy min=t=(max)^(1/2); weights (2,t) violate min≥(max)^ν eventually for every ν>0.
+- Testing either probability measure against 1 gives 1; testing against 0 gives 0. A putative limit with half of its mass lost in a cusp gives 1/2 on the constant test and is excluded by tightness.
+- Taking ε=1/60 makes the cusp error exponent −1/60 and the incomplete Eisenstein error exponent −7/60, both negative. Ramanujan alone controls |α+β|≤2; it supplies neither these negative exponents nor tightness.
+
+*Needs:* the mass construction and analytic estimates of this §4.41; AutomorphicSpectralTheory §§4.1–4.3, complete spectral decomposition; [§4.26] and [§4.27], the Bianchi realization and weight comparison; [§4.38], the Ramanujan input for the Bianchi specialization.
 
 ### 4.42 The Sato–Tate conjecture in parallel weight over imaginary CM fields (BCGNT Theorem B = Theorem 7.2.3)
 
@@ -3265,11 +3328,11 @@ The targets below identify the geometric inputs to the singular-support and Whit
 
 Fix finite-quotient Q pinned `W_E`-action on `Ĝ`, `ℓ≠p` and FS VIII coefficients Λ. Use AutomorphicGaloisRepresentationsPartII AG2.6, **The parameter stack and geometric spectral action**, for `parameterStack=Z¹(W_E,Ĝ)_Λ/Ĝ`, its universal torsor, finite-wild open-and-closed levels and perfect categories. Its cocycle carrier and continuity are those of SR.6.1–2, including coefficient base change and the continuous extension. Write `Par_G` for this same quotient. The target `parameterStack` here identifies the stack used for coherent support with that supplied quotient, including stabilizers; the perfect-generation comparisons below use the supplier's integral generation theorem.
 
-Identify `Par_G` with LanglandsParameterStacks LP1.7–LP1.8's `DerivedParameterStack` on the same SR.6 cocycle carrier; its derived refinement is classical. Consume LP1.5's LCI refinement, LP1.10's cotangent comparison, LP1.13's `ParameterSingularities`, `dualNilpotentCone` and `NilpotentSingularSupport`, LP1.14's `cotangentToHochschild` and `hochschildSelfExtAction`, and LP1.15's nilpotence criterion. These are the common support objects on the supplied stack.
+Identify `Par_G` with LanglandsParameterStacks §§1.8–1.9, **Derived parameter stacks** and **Classicality of the derived cocycle scheme**, on the same SR.6 cocycle carrier; its derived refinement is classical. Consume its §1.5, **Flat complete-intersection parameter schemes**; §1.11, **Cotangent complexes of parameter stacks**; §1.16, **Singularities of parameter stacks**, including the dual nullcone and nilpotent singular support; §1.17, **Hochschild operators and singular support of parameter complexes**; and §1.18, **Nilpotence of singularity fibres**. These are the common support objects on the supplied stack.
 
-Transport the supplied syntomic structure and cotangent complex along this stack equivalence. At `φ`, identify the tangent and cotangent with `RΓ(W_E,ĝ_φ)[1]` and `RΓ(W_E,ĝ*_φ(1))[1]`, respectively. On an affine syntomic chart `Spec B`, identify the singularity algebra with `Sym_B H¹(L^∨)` and the degree-two operator action on self-`Ext` with the composite of the supplied cotangent-to-Hochschild and Hochschild-to-`Ext` maps. Intertwine these actions under smooth chart changes and the natural derived coefficient-change maps. Flat coefficient change transports conical support by pullback; general derived coefficient change carries bounded-coherence hypotheses. The finite-generation, zero-section/perfectness and smooth-descent theorems are supplied by LP1.13–LP1.14 for syntomic charts over regular noetherian bases. In particular, integral support uses that complete-intersection theorem, whereas [Arinkin–Gaitsgory](#reference-arinkin-gaitsgory), Appendix D Thm. D pp.135–136, has characteristic-zero field coefficients.
+Transport the supplied syntomic structure and cotangent complex along this stack equivalence. At `φ`, identify the tangent and cotangent with `RΓ(W_E,ĝ_φ)[1]` and `RΓ(W_E,ĝ*_φ(1))[1]`, respectively. On an affine syntomic chart `Spec B`, identify the singularity algebra with `Sym_B H¹(L^∨)` and the degree-two operator action on self-`Ext` with the composite of the supplied cotangent-to-Hochschild and Hochschild-to-`Ext` maps. Intertwine these actions under smooth chart changes and the natural derived coefficient-change maps. Flat coefficient change transports conical support by pullback; general derived coefficient change carries bounded-coherence hypotheses. The finite-generation, zero-section/perfectness and smooth-descent theorems are supplied by LanglandsParameterStacks §§1.16–1.17 for syntomic charts over regular noetherian bases. In particular, integral support uses that complete-intersection theorem, whereas [Arinkin–Gaitsgory](#reference-arinkin-gaitsgory), Appendix D Thm. D pp.135–136, has characteristic-zero field coefficients.
 
-Form the perfect category with quasicompact support (`Perf_qc`), the bounded coherent category with quasicompact support and its nilpotent singular-support subcategory (`D_coh,Nilp^{b,qc}`) by imposing quasicompact ordinary support on the supplied perfect and bounded coherent categories, and LP1.13's nilpotent singular support on the latter. Identify the perfect category with quasicompact support with the quasicompact-support subcategory of AG2.6's perfect category. Restriction and extension by zero along clopen finite-wild levels preserve these support conditions; each object has support in finitely many levels, with its own finite wild bound. The singularity fibre is the supplied `H⁰(W_E,ĝ*_φ(1))`; nilpotence means the coadjoint orbit closure contains 0, and `ĝ≅ĝ*` requires a chosen invariant perfect pairing. Transport LP1.15's automatic nilpotence over characteristic-zero fields and over residue fields satisfying `ℓ∤q^{en}−1` for every degree e of a Chevalley invariant, where n is the residue degree cutting out the pinned Weil action. Integral bad-prime coefficients retain the nilpotent-support condition.
+Form the perfect category with quasicompact support (`Perf_qc`), the bounded coherent category with quasicompact support and its nilpotent singular-support subcategory (`D_coh,Nilp^{b,qc}`) by imposing quasicompact ordinary support on the supplied perfect and bounded coherent categories, and LanglandsParameterStacks §1.16's nilpotent singular support on the latter. Identify the perfect category with quasicompact support with the quasicompact-support subcategory of AG2.6's perfect category. Restriction and extension by zero along clopen finite-wild levels preserve these support conditions; each object has support in finitely many levels, with its own finite wild bound. The singularity fibre is the supplied `H⁰(W_E,ĝ*_φ(1))`; nilpotence means the coadjoint orbit closure contains 0, and `ĝ≅ĝ*` requires a chosen invariant perfect pairing. Transport LanglandsParameterStacks §1.18's automatic nilpotence over characteristic-zero fields and over residue fields satisfying `ℓ∤q^{en}−1` for every degree e of a Chevalley invariant, where n is the residue degree cutting out the pinned Weil action. Integral bad-prime coefficients retain the nilpotent-support condition.
 
 For `ℓ∤|π₁(Ĝ)_tor|`, use the supplier's integral perfect-generation comparison. Identify its good-filtration and prime-to-`ℓ` central-cover models with the models on the syntomic charts used for singular support. Compare the twisted-power, relation-fibre and finite-wild-level generators inside the same `Ind Perf(BĜ)`, retaining derived relation fibres and coefficient reduction. Dual root data identify this prime restriction with `ℓ∤|π₀Z(G)|`. The good-filtration and animated presentations use the supplied generators/relations description.
 
@@ -3277,9 +3340,9 @@ For `ℓ∤|π₁(Ĝ)_tor|`, use the supplier's integral perfect-generation comp
 
 - identify the filtration models with those in the supplier’s generation comparison, transporting acyclicity, tensor products and centralizer restriction under the supplier's solvable finite prime-to-`ℓ` action hypotheses.
 - compare the supplied prime-restricted tame/wild generators with the chart models, including derived relation fibres.
-- identify AG2.6's cocycle quotient and finite-wild levels with LP1's derived stack, including stabilizers, `Λ`-base change and continuity; transport LP1.5's LCI structure on those same levels.
+- identify AG2.6's cocycle quotient and finite-wild levels with LanglandsParameterStacks §§1.8–1.9's derived stack, including stabilizers, `Λ`-base change and continuity; transport LanglandsParameterStacks §1.5's LCI structure on those same levels.
 - identify the supplied `Ĝ⋊Q`-torsor and its `W_E`-equivariance on these charts, retaining stabilizers.
-- identify LP1.10's cotangent, LP1.13's singularity stack and LP1.14's operator action on the common charts, compatibly with smooth descent and derived coefficient change with the hypotheses above.
+- identify LanglandsParameterStacks §1.11's cotangent, §1.16's singularity stack and §1.17's operator action on the common charts, compatibly with smooth descent and derived coefficient change with the hypotheses above.
 - the quasicompact-support specializations of the supplied categories and support predicate, preserving level restriction/extension and per-object finite wild bounds.
 - transport the supplier’s FS I.8.2 comparison to the chart categories, with its prime restriction; coarse semisimple classes cannot replace the torsor/categories.
 
@@ -3301,7 +3364,7 @@ For `ℓ∤|π₁(Ĝ)_tor|`, use the supplier's integral perfect-generation comp
 
 ([Fargues–Scholze], Thms. VIII.1.3 and VIII.5.1 with proofs, pp.278–281 and 293–315; Prop. VIII.2.1–Cor. VIII.2.3 pp.281–282, Defs. VIII.2.6/VIII.2.8 and Thms. VIII.2.7/VIII.2.9 pp.283–284, Prop. VIII.2.11 pp.284–285; §I.10 pp.37–38 for the conjectural support convention.)
 
-*Needs:* AutomorphicGaloisRepresentationsPartII AG2.6, **The parameter stack and geometric spectral action**, `parameterStack` and its torsor/perfect-generation comparisons; LanglandsParameterStacks LP1.5, LP1.7–LP1.10 and LP1.13–LP1.15, `DerivedParameterStack`, its cotangent complex, `ParameterSingularities`, `dualNilpotentCone`, `NilpotentSingularSupport`, `cotangentToHochschild`, `hochschildSelfExtAction`, complete-intersection finite generation, the perfectness criterion and smooth descent; SR §§SR.6.1–SR.6.2, the common cocycle carrier; SchemeAndStackFoundations, quotient-stack charts; EnhancedDerivedSheaves E5, stable categories and Ind-completion; ReductiveGroupsPartII RG2.5, dual root data; ClassFieldTheory Layer 9, Weil groups. Own the comparisons between these supplied models and the quasicompact-support category specializations used in §5.9.
+*Needs:* AutomorphicGaloisRepresentationsPartII AG2.6, **The parameter stack and geometric spectral action**, `parameterStack` and its torsor/perfect-generation comparisons; LanglandsParameterStacks §§1.5, 1.8–1.11 and 1.16–1.18, derived parameter stacks, cotangent complexes, singularities, the dual nullcone, nilpotent singular support and Hochschild operators, complete-intersection finite generation, the perfectness criterion and smooth descent; SR §§SR.6.1–SR.6.2, the common cocycle carrier; SchemeAndStackFoundations, quotient-stack charts; EnhancedDerivedSheaves E5, stable categories and Ind-completion; ReductiveGroupsPartII RG2.5, dual root data; ClassFieldTheory Layer 9, Weil groups. Own the comparisons between these supplied models and the quasicompact-support category specializations used in §5.9.
 
 ### 5.9 The spectral action and canonical Whittaker adjunction
 
@@ -3460,6 +3523,10 @@ Unless marked journal/published or otherwise, locators use the linked edition be
 ### Reference: bcg-2025
 
 - George Boxer, Frank Calegari, Toby Gee. [Cuspidal cohomology classes for GL_n(Z)](https://arxiv.org/pdf/2309.15944v3). (12 Sep 2024); published J. Amer. Math. Soc. 38 (2025)
+
+### Reference: marshall
+
+- Simon Marshall, *Mass equidistribution for automorphic forms of cohomological type on GL₂*, Journal of the American Mathematical Society 24 (2011), 1051–1103. [Publisher open text](https://www.ams.org/journals/jams/2011-24-04/S0894-0347-2011-00700-5/S0894-0347-2011-00700-5.pdf), §§2.1–2.4, Theorem 1, Corollary 3, Theorems 4–5 and §§5–9. The numbered locators here use the published version, not arXiv:1006.3305v2; the imaginary-quadratic conclusion uses the Ramanujan hypothesis discharged by BCGNT Theorem G's proof.
 
 ### Reference: bcgnt-2025
 
