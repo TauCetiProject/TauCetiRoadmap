@@ -46,7 +46,7 @@ For rings and modules use `ModuleCat`, finite generation and projectivity, finit
 
 The following modules supply the exact-category and degree-zero interfaces. Their existing carriers and algebraic universal properties are used directly.
 
-From `TauCeti.CategoryTheory.Exact.ExactStructure`, `TauCeti.CategoryTheory.Exact.Functor`, `TauCeti.CategoryTheory.Exact.Equivalence` and `TauCeti.CategoryTheory.Exact.AdmissibleBaseChange`, use `TauCeti.ExactStructure`, its `Conflation`, `IsInflation`, `IsDeflation`, exact base-change axioms and `IsConflationExact`. An additive functor preserving conflations is the exact-functor input. Use `ExactStructure.transport` for the supplied exact-structure transport. From `TauCeti.CategoryTheory.Exact.Conflation`, use `TauCeti.ExactStructure.ConflationCategory` and `TauCeti.ConflationClass.ConflationCategory.π₁`, `π₂`, `π₃` for the underlying category and its subobject, total and quotient evaluations in §4.2.
+From `TauCeti.CategoryTheory.Exact.ExactStructure`, `TauCeti.CategoryTheory.Exact.Functor`, `TauCeti.CategoryTheory.Exact.Equivalence` and `TauCeti.CategoryTheory.Exact.BaseChange`, use `TauCeti.ExactStructure`, its `Conflation`, `IsInflation`, `IsDeflation`, `ExactStructure.conflation_cobaseChange`, `ExactStructure.conflation_baseChange` and `IsConflationExact`. The two base-change theorems preserve conflations under a specified pushout of the inflation or pullback of the deflation, respectively. An additive functor preserving conflations is the exact-functor input. Use `ExactStructure.transport` for the supplied exact-structure transport. From `TauCeti.CategoryTheory.Exact.Conflation`, use `TauCeti.ExactStructure.ConflationCategory` and `TauCeti.ConflationClass.ConflationCategory.π₁`, `π₂`, `π₃` for the underlying category and its subobject, total and quotient evaluations in §4.2.
 
 From `TauCeti.CategoryTheory.GrothendieckGroup.Exact` and `TauCeti.Algebra.Category.ModuleCat.CartanMap.Basic`, use `TauCeti.ExactK0`, `ExactK0.of`, `ExactK0.map`, `ExactK0.of_conflation` and its split comparison. The construction is available for essentially small exact categories. Use `finiteProjectiveModules`, `finiteProjectiveModulesExactStructure`, `finiteProjectiveModulesExactStructure_eq_split` and the existing Cartan map; these fix both the ring `K₀` carrier and its generators. Throughout, `K₀(R)` means `TauCeti.ExactK0 (TauCeti.finiteProjectiveModulesExactStructure R)`, and its map under an exact finite-projective functor is `TauCeti.ExactK0.map`. `TauCeti.CategoryTheory.GrothendieckGroup.Monoidal.Basic` supplies `TauCeti.SplitK0.of_mul_of`, identifying the degree-zero tensor product on generators.
 
@@ -2549,27 +2549,37 @@ The indexing category is small filtered. A mere natural transformation has no ad
 
 ### 11.9 The weak inflation replacement of an exact functor
 
-For an exact map F of Frobenius pairs inducing a derived equivalence, form the category of triples `(a,b,i:F(a)↣b)`. A conflation is detected on a, b and coker i. Restrict to weak inflations i to obtain the replacement C, with the `C₀`. Prove it is a Frobenius pair. The section `a↦(a,F(a),id)` and the a-projection induce inverse connective K-equivalences, by additivity applied to the triple and its weak quotient.
+For an exact map F:(A,A₀)→(B,B₀) of Frobenius pairs inducing a derived equivalence, first replace A₀ and B₀ by the full subcategories of objects sent to zero in their respective derived quotients, with induced exact structures. Prove these saturated subcategories are Frobenius, their inclusions preserve projective-injectives, and their derived quotients agree with the original ones. This replacement leaves the ambient categories, cofibrations and weak equivalences unchanged, since weakness means invertibility in the derived quotient. F restricts to the saturated subcategories; henceforth A₀ and B₀ denote them.
 
-F preserves projective-injectives and both subpairs. The weak-inflation restriction is part of the model; the full inflation category alone is not this replacement.
+Form the inflation category of triples (a,b,i:F(a)↣b); a morphism is a pair (u:a→a′,v:b→b′) satisfying v i=i′F(u). A conflation is detected on a, b and coker i. Let C be its full subcategory where i is weak, equivalently coker i belongs to B₀. Define C₀ as the full subcategory of C with a∈A₀ and b∈B₀, with the induced conflations. Equivalently C₀ is the inflation category of F₀:A₀→B₀; saturation ensures that every such inflation is weak and its cokernel lies in B₀.
 
-(Schlichting 2003, P 11.15 proof, pp.22–23/PDF22–23.)
+Prove C and C₀ are Frobenius: in each, a triple is projective-injective exactly when a and b are projective-injective in the respective component categories. The inclusion C₀→C is fully faithful and exact and preserves projective-injectives. A morphism (u,v) in this pair is weak exactly when both u and v are weak in the original pairs.
+
+Define the section s:A→C by s(a)=(a,F(a),id), and projections p:C→A and q:C→B by the a- and b-components; prove they are exact pair maps preserving projective-injectives. Then ps=id_A and the maps (id_a,i):sp(a,b,i)→(a,b,i) give a natural componentwise weak equivalence sp→id_C. On each wSₙ this is a natural transformation, so its nerve homotopy and realization show that s and p induce inverse connective K-equivalences.
+
+F preserves projective-injectives and both subpairs. The weak-inflation restriction and the specified acyclic subcategory are part of the replacement.
+
+(Schlichting 2003, P 11.15 proof, pp.22–23/PDF22–23; saturation also in the T 11.10 proof, p.22.)
 
 Use:
 
-- Objects `(a,i:F(a)↣b)` with i weak.
-- Conflations on `a,b,coker(i)`.
-- Projection to a.
-- Projection to b.
-- Source embedding and retraction induce inverse K-equivalences.
+- Saturating the acyclic subcategories preserves the associated Waldhausen categories and the derived quotients.
+- Objects (a,b,i:F(a)↣b) of C have weak i; objects of C₀ additionally have a∈A₀ and b∈B₀.
+- Conflations are detected on a, b and coker i; projective-injectives are detected on a and b.
+- The inclusion C₀→C preserves the exact and projective-injective structures, and weak maps are precisely componentwise weak maps.
+- Both projections and the section are maps of Frobenius pairs.
+- The identities ps=id_A and sp→id_C via (id,i) give inverse K-equivalences for s and p.
 
 **Checks.**
 
-- For `F=id`, `a↦(a,id)` retracts onto a.
-- `(0,0↣I)` is allowed for projective-injective I and is weakly zero.
-- For `F=id` on bounded complexes over k, `0↣k[0]` has nonzero derived cokernel and is excluded.
+- For F=id on bounded finite-dimensional k-complexes with the acyclic subcategory, (k[0],k[0],id) belongs to C but not C₀: its image under p has Euler class 1. Taking C₀=C would instead kill that class.
+- For the contractible two-term identity complex I=(k --id→k), (I,I,id) belongs to C₀ and has Euler class 1−1=0; sp preserves this class and the class 1 of the preceding object.
+- For X=k[0]⊕k[1] with zero differential, the diagonal triple (X,X,id) has Euler class 1−1=0 but is not in C₀: its two nonzero cohomology groups are both k. Vanishing of the Euler class does not define the acyclic subcategory.
+- For projective-injective I, (0,I,0↣I) belongs to C₀. The comparison from sp(0,I,0↣I)=(0,0,id) has components id₀ and 0→I, both weak; the second need not be an isomorphism when I is nonzero.
+- For F=id on bounded k-complexes, 0↣k[0] has cokernel k[0] with Euler class 1 and is excluded from C.
+- On (k[0],k[0],id), the endomorphism (0,0) induces zero on H⁰=k in each component, so neither component is weak; the identity endomorphism induces id_k in each component and is weak.
 
-*Needs:* §11.1; §11.2; §4.1; Layer 1.
+*Needs:* §11.1 (pairs and derived quotients); §11.2 (Frobenius factorizations); §5.2 (S-construction and objectwise weak maps); §5.7 (K-space functor); §1.1 (realized-nerve homotopies); Tau Ceti exact base change.
 
 ### 11.10 Strictify the roof diagram for dual approximation
 
@@ -2744,7 +2754,7 @@ Use:
 
 - A finite A-complex has `f=g=id,h=0`.
 - A contractible complex is dominated by the zero complex.
-- A supplied homotopy `(fg)²≃fg` does not justify an idempotent-completion object (D,fg).
+- Take A=U to be finite free ℤ-modules and V=D the cochain complex ℤ --id→ℤ in degrees 0,1, with f=2id and g=id. Let h have its only nonzero component id:V¹→V⁰. In degrees 0 and 1, dh+hd=id=gf−id, so these are finite-domination data with support {0,1}. But fg=2id and (fg)²=4id, whose difference is 2id≠0; thus (D,fg) is not an object of the strict Karoubi envelope. The homotopy 2h gives (fg)²≃fg, while both Euler classes are 1−1=0.
 
 *Needs:* §12.1.
 
