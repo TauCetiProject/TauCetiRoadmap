@@ -1,5 +1,4 @@
 import Mathlib
-import TauCeti.NumberTheory.ClassFieldTheory.WeilGroup.Basic
 
 /-!
 # Parameter stacks, invariant theory and spectral coefficients: target signatures
@@ -8,14 +7,16 @@ The roadmap is `README.md`; this file is not the roadmap. This is its headline a
 test: it states the headline theorems against the pinned Mathlib and Tau Ceti APIs whenever
 their carriers are available. API lists and Checks belong to the README.
 
-The centre theorem for the local Weil group (0.7) is statable on the pinned carrier and is
-stated below. The other headline theorems lack the following objects:
+At the dependency revisions locked by this repository's `lake-manifest.json`, none of the
+headline theorems is statable. They lack the following objects:
 
-* Layer 0: finite wild ramification of every condensed L-parameter (0.3), the condensed extension
+* Layer 0: the trivial-centre theorem for the local Weil group in odd residue characteristic
+  (0.7) needs the local Weil-group carrier of ClassFieldTheory layer 9, which is not available
+  at these revisions. Finite wild ramification of every condensed L-parameter (0.3), the condensed extension
   comparison (0.4), and restriction of enhanced wild parameters (0.9) need the local Weil
   group with its condensed coefficient and finite-wild parameter interfaces, the relatively
   discrete coefficient functor, and classical admissible parameters with their enhancement
-  groups. The topological local Weil group itself is supplied by Tau Ceti.
+  groups.
 * Layer 1: complete-intersection representability (1.5), derived classicality (1.9), cotangent
   duality (1.10–1.11), the Lie-invariant and coadjoint zero-fibre comparison (1.12),
   the Weil–Deligne comparison (1.15), and singular-support theorems (1.16–1.18) need finite-wild cocycle schemes, condensed Weil cochains, animated parameter
@@ -48,16 +49,5 @@ these missing objects. None of these gaps is a definition of a few lines on the 
 
 namespace TauCetiRoadmap.LanglandsParameterStacks
 
-open scoped ValuativeRel
-
-/-! ## Layer 0: cocycles, coefficients and wild enhancements -/
-
-/-- The local Weil group of a nonarchimedean local field of odd residue characteristic
-has trivial centre (Kurinczuk–Skodlerack–Stevens, §1.21, equation (1.1)). -/
-theorem weilGroup_center_eq_bot (K : Type*) [Field K] [ValuativeRel K]
-    [TopologicalSpace K] [IsNonarchimedeanLocalField K]
-    (hodd : Odd (ringChar 𝓀[K])) :
-    Subgroup.center (TauCeti.ClassFieldTheory.WeilGroup K) = ⊥ := by
-  sorry
 
 end TauCetiRoadmap.LanglandsParameterStacks
