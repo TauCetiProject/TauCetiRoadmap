@@ -56,8 +56,8 @@ H-unitality or comparison with the naive nonunital bar complex is assumed.
 | [OperatorTheory/OperatorIdeals](../OperatorTheory/OperatorIdeals/README.md) | Compact operators, singular values, Schatten spaces and trace-class norm. N4 adds the logarithmic ideal and singular traces. |
 | [OperatorKTheory K1–K7](../OperatorKTheory/README.md) | Idempotent/unitary K-theory, inverse-closed Fréchet comparison (K3), native Fredholm/Atkinson theory (K4), Hilbert-space KK cycles and their index products. K7 owns all real-parameter rotation C*-presentations and the irrational K-group computation. |
 | [HilbertModules H1–H6](../HilbertModules/README.md) | Module inner products, completions, compact endomorphisms, projective-module frames, tensoring representations and regular-operator bounded transforms (H6). N6–N7 supply smooth connections and their torus instances. |
-| [NoncommutativeIntegration I1](../NoncommutativeIntegration/README.md) | Tracial Lp, including 0<p<1, Hölder/quasi-norm inequalities and weak Lp; specialize to B(H) and compare with the Schatten scale. |
-| [VonNeumannAlgebras V0,V4,V6,V10](../VonNeumannAlgebras/README.md) | Representations/GNS, basis-independent Hilbert trace, cyclicity, normal tracial weights and the tracial Lp comparison; no general nontracial Dixmier-trace theory is asserted here. |
+| [NoncommutativeIntegration I1](../NoncommutativeIntegration/README.md) | Tracial Lp over a normal semifinite trace, including 0<p<1, Hölder/quasi-norm inequalities, weak Lp, the trace on L¹ with its cyclicity `τ(xy)=τ(yx)`, and the identification of `Lp(B(H),Tr)` with the Schatten scale; N4 specializes to B(H). |
+| [VonNeumannAlgebras V0,V4](../VonNeumannAlgebras/README.md) | Representations/GNS and positive functionals (V0); preduals, normal functionals and normal representations (V4), against which N4 states the non-normality of Dixmier traces. No general nontracial Dixmier-trace theory is asserted here. |
 | [OperatorAlgebraDynamics D1–D2,D4](../OperatorAlgebraDynamics/README.md) | Rotation crossed products, Fourier coefficient maps and the dual circle action. N6 constructs the two-torus gauge action. |
 
 Use native `MultilinearMap`, continuous multilinear maps, and Mathlib
@@ -85,8 +85,8 @@ abstract or torus index computations here.
 
 ### N1.Tensor. Completed locally convex projective tensors
 
-This is the sole generic locally convex tensor supplier, independent of
-cyclic theory and of every SmoothBanachRepresentations result. Work over
+This is the generic locally convex tensor supplier of the library; it
+uses nothing from the cyclic theory below. Work over
 𝕜=ℝ or ℂ on Hausdorff locally convex 𝕜-spaces E,F. Use the actual
 algebraic `TensorProduct 𝕜 E F`, `Seminorm`, `WithSeminorms`, separated
 quotient and `UniformSpace.Completion`, without assigning a fictitious
@@ -124,11 +124,27 @@ For complex Fréchet E,F construct instead the canonical real-linear quotient
 `E_ℝ⊗̂_(π,ℝ) F_ℝ → (E⊗̂_(π,ℂ) F)_ℝ`: its kernel is the closed span
 of `(ix)⊗y−x⊗(iy)`, and the induced quotient is a topological real-linear
 equivalence. Do not identify the unquotiented real and complex tensors.
-These maps and pure-tensor equations supply scalar restriction and
-extension for SmoothBanachRepresentations SB7, which owns the diagonal
-action, shuffle derivatives, smooth tensor comparison and dense range.
-N1.Tensor precedes SB7; the later SB8→N6 Fourier application creates no
-reverse dependency.
+
+**Checks.**
+
+- On ℓ¹⊗̂_π ℓ¹ the projective norm of a pure tensor x⊗y is ‖x‖‖y‖:
+  the one-term representation gives the upper bound, and norming
+  functionals f,g with f(x)=‖x‖, g(y)=‖y‖ give
+  `‖x‖‖y‖=Σf(x_i)g(y_i)≤Σ‖x_i‖‖y_i‖` for every representation. The
+  representation `e₀⊗e₀=(e₀+e₁)⊗e₀−e₁⊗e₀` has sum of products 3, so the
+  value 1 is the infimum and a quantity read off one fixed representation is
+  not a function of the tensor.
+- On ℓ²⊗̂_π ℓ² the element `Σ_(i<n) e_i⊗e_i` has projective norm n (as a
+  trace-class operator it is a rank-n projection, of trace norm n) while its
+  Hilbert tensor norm is √n. The comparison map to the Hilbert tensor product
+  is continuous and not an isometry; a construction yielding the injective or
+  Hilbert norm would give √n.
+- For complex Fréchet E,F and nonzero x∈E, y∈F, the element
+  `x⊗y+(ix)⊗(iy)` of `E_ℝ⊗_ℝF_ℝ` is nonzero, since x,ix and y,iy are
+  ℝ-linearly independent, but it equals `−((i·ix)⊗y−(ix)⊗(iy))`, so it lies
+  in the kernel of the quotient map and vanishes in `E⊗_ℂF`, where
+  `(ix)⊗(iy)=−x⊗y`. The unquotiented real tensor and the complex tensor
+  are therefore not identified by the canonical map.
 
 ### N1.Cyclic. Universal forms and complexes
 
@@ -324,10 +340,10 @@ whose `(F−F*)π(a)` is compact, construct the self-adjoint replacement
 Define even
 and odd Fredholm modules with bounded representation π, F*=F,
 `[F,π(a)]` compact and `(F²−1)π(a)` compact; even modules carry the
-specified γ. In the unital normalized case, `NormalizedEvenCycle` records
-on a separable Hilbert space a self-adjoint involution F, odd for a
-self-adjoint involutive grading commuting with π, with every `[F,π(a)]`
-compact. Develop unitary equivalence, direct sums, degenerate cycles,
+specified γ. In the unital normalized case an even cycle on a separable
+Hilbert space is a self-adjoint involution F, odd for a self-adjoint
+involutive grading commuting with π, with every `[F,π(a)]` compact.
+Develop unitary equivalence, direct sums, degenerate cycles,
 compact perturbation, homotopy and the K4 Fredholm compressions. Build
 normalization to F²=1 by first applying functional calculus to replace F
 by the self-adjoint contraction `sin(πF/2)`, preserving the essential
@@ -417,8 +433,9 @@ The arithmetic is: `τ₁=2ψ` on the circle and `λ₁=−(1+i)sqrt(π)/2`, so
 `Tr₂(σ₃[D,a][D,b])=2i(δ₁aδ₂b−δ₂aδ₁b)`, and N5 with λ₂=−1 and N7's
 spin factor 1/(4π) gives the Hochschild class `(−1)(2i)/(4π)·τ(⋯)=φ`,
 which pairs +1 with β.
-Keep K5's matrices and swapped adapter and N2's Bott orientation
-unchanged. Point factors contribute no additional adapter sign. These
+K5's matrices e₁=σ₁, e₂=−σ₂, its swapped reduction and N2's Bott
+orientation are the conventions used here. Point factors contribute no
+additional adapter sign. These
 computations concern the explicitly finitely summable point/circle
 products. A general KK product is not assumed to have a finitely
 summable representative on the given smooth algebra. Work out point cycles,
@@ -498,7 +515,7 @@ SelfAdjointSpectralTheory SA-E and its continuous calculus with H6.
 This supplies |D|, sign D, heat operators and inverse powers, including
 their kernel conventions, for the compact-resolvent triples here.
 
-A unital `SpectralTriple` on a separable Hilbert space consists of a
+A unital spectral triple on a separable Hilbert space consists of a
 self-adjoint `LinearPMap` D whose resolvent at i is compact, whose domain
 π(A) preserves, with `[D,π(a)]` agreeing on that domain with a bounded
 operator depending linearly on a.
@@ -559,21 +576,21 @@ Construct 𝒜_θ, the rapidly decreasing Fourier series
 Develop rapid-decay seminorms, convergence, complete Fréchet star-algebra
 structure, the injective dense map into A_θ and Fourier coefficient
 uniqueness. Identify 𝒜_θ with the smooth vectors of the two-torus gauge
-action, comparing the two seminorm families by explicit finite-order estimates in
-both directions with
-[SmoothBanachRepresentations SB2/SB8](../RepresentationTheory/SmoothBanachRepresentations/README.md).
-For Q_k(a)=sup_(r,s)(1+|r|+|s|)^k|a_(r,s)| and the coordinate-word
-sums P_m, prove Q_k≤C_k P_k and P_m≤D_m Q_(m+3), with constants
-independent of a and θ. Use contractive Fourier coefficient extraction
-for the first inequality and absolute Fourier summability for the
-second, keeping the actual 2πi derivative multipliers. These establish
-the same Fréchet topology, not equality of individual seminorms;
-at θ=0, a=1+U₁ gives Q_0=1 and P_0=2.
-Consume that roadmap's generic density, complete Fréchet star-algebra,
-Lie-derivation and all-matrix inverse/holomorphic-closure theorems through
-this identification. Retain the torus Fourier proof and the explicit inverse
-derivative comparison here; K3 supplies the K-theory comparison for this
-inverse-closed algebra. For every real θ identify the underlying
+action β: the elements a of A_θ for which `z↦β_z(a)` is a smooth map into
+A_θ, with the derivative seminorms `P_m(a)=Σ_(|w|≤m)‖∂^w a‖` over words
+w in the two coordinate generators of the action. Compare the two
+seminorm families by explicit finite-order estimates in both directions:
+for `Q_k(a)=sup_(r,s)(1+|r|+|s|)^k|a_(r,s)|` prove `Q_k≤C_k P_k` and
+`P_m≤D_m Q_(m+3)`, with constants independent of a and θ. The first
+uses contractive Fourier coefficient extraction, `|a_(r,s)|≤‖a‖`, applied
+to the derivatives with their actual 2πi multipliers; the second uses the
+absolute summability of `(1+|r|+|s|)^(−3)` over ℤ². These establish the
+same Fréchet topology, not equality of individual seminorms: at θ=0,
+a=1+U₁ gives Q_0=1 and P_0=2. Prove spectral invariance in all matrix
+levels by differentiating inverses, `δ_j(a⁻¹)=−a⁻¹δ_j(a)a⁻¹` and its
+iterates, so that `M_n(𝒜_θ)` is closed under inversion and holomorphic
+functional calculus in `M_n(A_θ)`; K3 supplies the K-theory comparison
+for this inverse-closed algebra. For every real θ identify the underlying
 C*-algebra with K7's rotation crossed product by `U₁=v,U₂=u`.
 
 Construct the canonical faithful trace τ(a)=a_00 and the derivations
@@ -680,18 +697,37 @@ with its Fourier/de Rham calculations. Rational parameters retain the
 periodic cyclic theorem and Fourier triple; the irrational unique-trace
 and K-generator assertions are not imposed on them.
 
+## Downstream consumers
+
+- SmoothBanachRepresentations SB7 consumes N1.Tensor's completed locally
+  convex projective tensors and their scalar restriction/extension maps for
+  its diagonal actions, shuffle derivatives and smooth tensor comparison;
+  AutomorphicSpectralTheory, GanGrossPrasadUnitaryGroups and
+  RefinedTraceMethods consume N1's completed tensors and cyclic complexes.
+- SpectralManifolds consumes N1–N2 and N4–N5; CompactQuantumMetricSpaces
+  consumes N6's smooth two-torus; HilbertModules/HeisenbergImprimitivity
+  consumes N6–N7's torus connections and Heisenberg modules.
+
 ## Sources and API evidence
 
-- Connes, [*Noncommutative Geometry*](https://alainconnes.org/wp-content/uploads/book94bigpdf.pdf),
-  Chapter III §§1–3, pp.187–205,216–218,229–231, for cycles, the cyclic
-  bicomplex/SBI, torus cohomology and pairings; Chapter IV §1,
-  pp.295,299–303, for the conditional trace, character normalization
-  and index theorem; IV §2, pp.310–317, for Dixmier traces,
-  Tauberian criteria and Theorem8's Hochschild class; IV §6,
-  pp.356–362, for the smooth torus and Heisenberg connection.
+- Connes, [*Noncommutative Geometry*](https://alainconnes.org/wp-content/uploads/book94bigpdf.pdf).
+  Chapter III §1: universal forms and the cycle characterization of cyclic
+  cocycles, Propositions 3–4, pp. 190–191; the cup product, Theorem 12,
+  p. 197; the periodicity operator S, Lemma 14, p. 198; the SBI exact
+  triangle, Theorem 26, p. 208. III §2: the torus Hochschild and periodic
+  computations, Proposition 5 and Theorem 7, pp. 217–218. III §3: the even
+  and odd K-theory pairings, Propositions 2–3, pp. 229–230. Chapter IV §1:
+  matrix amplification, Proposition 2, p. 295; the conditional trace and
+  its cycle, Proposition 1, p. 299; compatibility with S, Proposition 2,
+  p. 300; the character normalization, Definition 3, p. 302; the index
+  theorem, Proposition 4, p. 303. IV §2: the Dixmier trace, Definition 2,
+  p. 312; the Tauberian criteria, Propositions 3–4, pp. 312–313; the
+  Hochschild class, Theorem 8, p. 315. IV §6: the Heisenberg module and
+  its connection, pp. 356–357; its elliptic index formula, pp. 358–361, is
+  cited for comparison only.
 - N3's odd character coefficient is minus the coefficient printed in
-  Connes IV §1, Definition 3, p.302. The positive N2 odd pairing is
-  retained; the Hardy compression calculation fixes agreement with
+  Connes IV §1, Definition 3, p. 302, while N2's odd pairing constant is
+  positive; the Hardy compression calculation fixes agreement with
   the kernel-minus-cokernel index and OperatorKTheory K6.
 - The ordered Fourier triple, its chosen second Clifford sign and its
   Gaussian chiral calculation in N7 specify the comparison required
@@ -700,8 +736,10 @@ and K-generator assertions are not imposed on them.
 - Mathlib's multilinear, derivation, homological-complex, compact-operator
   and Fredholm APIs fix the foundational vocabulary. Tau Ceti's
   `Algebra/Lie/Derivation/Basic` supplies the noncommutative derivation
-  carrier and its Leibniz/inner/conjugation API. Its existing
+  carrier and its Leibniz/inner/conjugation API. Its
   `Analysis/Fredholm/{SmallPerturbation,CompactPerturbation,ContinuousFamily}`
-  and the K4 index comparisons are suppliers, not private substitutes.
-  [Mathlib's Fredholm design discussion](https://leanprover.zulipchat.com/#narrow/channel/144837-PR-reviews/topic/.2341189.3A.20define.20Fredholm.20operators.20between.20TVSs/near/609444718)
-  fixes the native operator/index interface.
+  modules and the K4 index comparisons are suppliers, not private
+  substitutes. Mathlib's `ContinuousLinearMap.IsFredholm`,
+  `FredholmPackage` and `IsFredholm.index_comp` in
+  `Mathlib/Analysis/Normed/Operator/Fredholm/Basic.lean` fix the native
+  operator/index interface.
