@@ -8,26 +8,32 @@ import TauCeti.RingTheory.MvPolynomial.LinearSubst
 `README.md`, including its hypotheses, source locators and supplier contracts.
 
 The statements below give the quantitative Ekedahl sieve; the cubic and quartic class
-asymptotics and their weighted infinite sieves; the monic and odd-degree binary summed
-discriminant tails; the monic fixed-modulus sieve; and the degree-uniform smooth-point
+asymptotics and their weighted infinite sieves; Bhargava's count of classes of pairs of
+integral ternary quadratic forms by real intersection type; the monic and odd-degree binary
+summed discriminant tails; the monic fixed-modulus sieve; and the degree-uniform smooth-point
 bound and positive local-solubility density for projective hypersurfaces. All auxiliary
-definitions have bodies on Mathlib carriers. Integral binary substitutions use Tau Ceti's
-`MvPolynomial.linearSubst`; their orbit quotients retain the specified determinant twist.
-The universal binary discriminant is specialized only after taking its fixed-degree form.
+definitions have bodies on Mathlib carriers. Integral substitutions use Tau Ceti's
+`MvPolynomial.linearSubst`; the binary orbit quotients retain the specified determinant twist.
+The universal binary discriminant is specialized only after taking its fixed-degree form, and
+the discriminant of a pair of ternary forms is the cubic discriminant of its resolvent form
+`4 Det(Ax − By)`, written as an integral coefficient polynomial.
 
 The binary fixed-modulus statement takes the full quantitative summed tail as an explicit
 hypothesis. Existence of even-degree tail parameters is deferred: the marked pencil lifts
 with their flags and rulings, paired-fibre summations and restricted Gram hypothesis are
 not available at the pins. A condition on real parameters alone cannot supply that tail.
 
-The quartic-pair, quintic-ring, global-field, symmetric-pencil and higher genus-one orbit
-counts, secondary cubic densities and sparse smoothed quaternary count are deferred.
-Their representation-specific integral orbit dictionaries, invariant maps, real component
-sections and arithmetic fundamental multisets are absent at the pins; generic matrices
-and a chosen discriminant function would not state those results. The global-field branch
-also needs the specified commensurable S-integer lattice charts and function-field shells.
-The general invariant sieve criterion needs its algebraic group and relative-invariant
-fundamental-domain interfaces.
+The quintic-ring count is not stated: its discriminant is a degree-40 polynomial in the forty
+coefficients of a quadruple of quinary alternating forms with no short closed form, so the
+statement has no simple definition at the pins. The ternary-cubic count needs the degree-4 and
+degree-6 Aronhold invariants, long explicit polynomials, and the quaternary and quinary
+genus-one counts and the symmetric-pencil counts have main-term constants (a Jacobian times a
+fundamental-domain volume) that the roadmap specifies as integrals rather than closed forms;
+none is stated. The global-field counts need the commensurable S-integer lattice charts and
+function-field shells, the secondary cubic densities need the smoothed slicing constants, the
+sparse smoothed quaternary count needs the fixed-slice smoothing data, and the general
+invariant sieve criterion needs its algebraic group and relative-invariant fundamental-domain
+interfaces; none of these carriers exists at the pins.
 
 The number-field three-isogeny twist count is deferred. Abelian varieties and isogenies
 exist in Tau Ceti, but their quadratic twists, the arbitrary-dimensional degree-three
@@ -124,6 +130,52 @@ def cubicClasses (positive : Bool) (X : ℝ) : Set (Quotient (binaryOrbitSetoid 
     0 < (if positive then cubicDiscriminant f else -cubicDiscriminant f) ∧
     |(cubicDiscriminant f : ℝ)| < X}
 
+/-- The coefficient of `x_i x_j` (`i ≠ j`) or of `x_i²` (`i = j`) in a ternary quadratic form. -/
+def ternaryCoeff {R : Type*} [CommRing R] (Q : MvPolynomial (Fin 3) R) (i j : Fin 3) : R :=
+  Q.coeff (Finsupp.single i 1 + Finsupp.single j 1)
+
+/-- Four times the determinant of the half-integral Gram matrix of a ternary quadratic form, as the
+integral coefficient polynomial `4a₁₁a₂₂a₃₃ + a₁₂a₁₃a₂₃ − a₁₁a₂₃² − a₂₂a₁₃² − a₃₃a₁₂²`. -/
+def ternaryDet4 {R : Type*} [CommRing R] (Q : MvPolynomial (Fin 3) R) : R :=
+  4 * ternaryCoeff Q 0 0 * ternaryCoeff Q 1 1 * ternaryCoeff Q 2 2 +
+    ternaryCoeff Q 0 1 * ternaryCoeff Q 0 2 * ternaryCoeff Q 1 2 -
+    ternaryCoeff Q 0 0 * ternaryCoeff Q 1 2 ^ 2 -
+    ternaryCoeff Q 1 1 * ternaryCoeff Q 0 2 ^ 2 -
+    ternaryCoeff Q 2 2 * ternaryCoeff Q 0 1 ^ 2
+
+/-- The binary cubic resolvent form `4 Det(Ax − By)` of a pair `(A, B)` of integral ternary
+quadratic forms; its discriminant is the discriminant of the pair. -/
+def pairResolvent (P : Fin 2 → MvPolynomial (Fin 3) ℤ) : MvPolynomial (Fin 2) ℤ :=
+  ternaryDet4 ((MvPolynomial.X 0 : MvPolynomial (Fin 2) ℤ) •
+      MvPolynomial.map (MvPolynomial.C : ℤ →+* MvPolynomial (Fin 2) ℤ) (P 0) -
+    (MvPolynomial.X 1 : MvPolynomial (Fin 2) ℤ) •
+      MvPolynomial.map (MvPolynomial.C : ℤ →+* MvPolynomial (Fin 2) ℤ) (P 1))
+
+/-- `GL₂(ℤ) × SL₃(ℤ)` acting on pairs of ternary quadratic forms: `SL₃(ℤ)` substitutes in the
+three variables of both forms and `GL₂(ℤ)` replaces the pair by two integral linear combinations. -/
+def pairOrbitSetoid : Setoid (Fin 2 → MvPolynomial (Fin 3) ℤ) :=
+  Relation.EqvGen.setoid fun P Q => ∃ (γ : Matrix.GeneralLinearGroup (Fin 2) ℤ)
+    (δ : Matrix.SpecialLinearGroup (Fin 3) ℤ),
+    Q = fun i => ∑ j, (γ.val i j) • MvPolynomial.linearSubst δ.val (P j)
+
+/-- The number of common zeros of the two forms in the real projective plane. -/
+def commonRealZeros (P : Fin 2 → MvPolynomial (Fin 3) ℤ) : ℕ :=
+  {x : Projectivization ℝ (Fin 3 → ℝ) |
+    ∀ i, MvPolynomial.eval x.rep (MvPolynomial.map (Int.castRingHom ℝ) (P i)) = 0}.ncard
+
+/-- Bhargava's absolute irreducibility of a pair: the two conics have no common rational
+projective zero and the resolvent cubic is irreducible over the rationals. -/
+def AbsolutelyIrreduciblePair (P : Fin 2 → MvPolynomial (Fin 3) ℤ) : Prop :=
+  (¬ ∃ x : Fin 3 → ℚ, x ≠ 0 ∧
+    ∀ i, MvPolynomial.eval x (MvPolynomial.map (Int.castRingHom ℚ) (P i)) = 0) ∧
+  Irreducible (MvPolynomial.map (Int.castRingHom ℚ) (pairResolvent P))
+
+/-- Unweighted `GL₂(ℤ) × SL₃(ℤ)`-classes of absolutely irreducible pairs of integral ternary
+quadratic forms with `r` common real projective zeros and strict absolute discriminant bound. -/
+def quarticPairClasses (r : ℕ) (X : ℝ) : Set (Quotient pairOrbitSetoid) :=
+  Quotient.mk _ '' {P | (∀ i, (P i).IsHomogeneous 2) ∧ AbsolutelyIrreduciblePair P ∧
+    commonRealZeros P = r ∧ |(cubicDiscriminant (pairResolvent P) : ℝ)| < X}
+
 /-- Homogeneous coefficients indexed by degree-d monomials on projective n-space. -/
 def hypersurfaceForm {R : Type*} [CommRing R] {n d : ℕ}
     (a : Sym (Fin (n + 1)) d → R) : MvPolynomial (Fin (n + 1)) R :=
@@ -206,6 +258,17 @@ theorem cubic_count (positive : Bool) :
           C * X ^ (5 / 6 : ℝ) := by
   sorry
 
+/-- Section 2.8: Bhargava's count of `GL₂(ℤ) × SL₃(ℤ)`-classes of absolutely irreducible pairs of
+integral ternary quadratic forms with `4 − 2i` common real zeros and `|Disc| < X`: the class count
+divided by `X` tends to `ζ(2)²ζ(3)/48`, `ζ(2)²ζ(3)/8` and `ζ(2)²ζ(3)/16` for `i = 0, 1, 2`
+(quartic paper, Theorem 7). -/
+theorem quartic_pair_count (r : ℕ) (hr : r = 0 ∨ r = 2 ∨ r = 4) :
+    (∀ X : ℝ, (quarticPairClasses r X).Finite) ∧
+    Tendsto (fun X : ℝ => ((quarticPairClasses r X).ncard : ℝ) / X) atTop
+      (𝓝 ((riemannZeta 2).re ^ 2 * (riemannZeta 3).re /
+        (if r = 4 then 48 else if r = 2 then 8 else 16))) := by
+  sorry
+
 /-- Section 2.13: the summed monic discriminant tail counts every squarefree square divisor on
 the nonsingular locus. -/
 theorem monic_summed_tail (n : ℕ) (hn : 2 ≤ n) (ε : ℝ) (hε : 0 < ε) :
@@ -239,7 +302,7 @@ theorem degree_uniform_hypersurface_smooth_points (n d : ℕ) (hn : 2 ≤ n) (hd
 
 /-- Section 2.23: the positive Euler-product density of everywhere locally soluble
 hypersurfaces, with primitive Euclidean coefficient height modulo sign. -/
-theorem hypersurface_local_density (n d : ℕ) (hd : 2 ≤ d) (hnd : d ≤ n)
+theorem hypersurface_local_density (n d : ℕ) (hn : 2 ≤ n) (hd : 2 ≤ d)
     (hconic : (n, d) ≠ (2, 2)) :
     Multipliable (hypersurfacePadicDensity n d) ∧
       0 < hypersurfaceRealDensity n d * ∏' p : Nat.Primes, hypersurfacePadicDensity n d p ∧
