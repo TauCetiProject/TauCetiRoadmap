@@ -58,11 +58,19 @@ fixed-rank predicate is `FiniteLocallyFreeSheaf.isConstantRank`, the rank is
 `SheafOfModules.symmetricPower` and `SheafOfModules.exteriorPower`, and relative Spec is
 `TauCeti.AlgebraicGeometry.relativeSpec` on `QuasicoherentAlgebra X` and `AffineSchemeOver X`.
 
+Four names are declared under this roadmap's namespace for its consumers: `isFiniteLocallyFree`
+and `FiniteLocallyFreeSheaf` are the Tau Ceti notions above under this roadmap's name,
+`isFiniteLocallyFreeOfRank` is finite local freeness of constant rank `r`, and `determinantObj`
+is the determinant `determinantModule` of Layer 3 as an object of `InvertibleSheaf X`;
+SchemeAndStackFoundations builds its Grothendieck group of finite locally free sheaves and its
+determinant on them.
+
 The ring-level determinant of a finite projective module (invertible modules, the determinant by
 the clopen rank decomposition, equal-rank determinant maps, base change) is
-PadicMeasuresIwasawaAlgebras §5.1; Layer 3 glues it. The rank-one theory, Picard group and
-Jacobian are JacobianChallenge's. Curve-specific degree theory is AlgebraicCurves'. Relative Proj
-is StableReduction's and SchemeAndStackFoundations', consuming the graded algebras of Layer 6.
+PadicMeasuresIwasawaAlgebras §5.1; Layer 3 compares its sheaf determinant with it on affine
+opens. The rank-one theory, Picard group and Jacobian are JacobianChallenge's. Curve-specific
+degree theory is AlgebraicCurves'. Relative Proj is StableReduction's and
+SchemeAndStackFoundations', consuming the graded algebras of Layer 6.
 
 ## Conventions
 
@@ -93,8 +101,11 @@ is StableReduction's and SchemeAndStackFoundations', consuming the graded algebr
 ### From Mathlib
 
 At Mathlib `6b7abb3`:
-`Scheme.Modules`, `Scheme.Modules.pullback`, `Scheme.Modules.pullbackPushforwardAdjunction`,
-`Scheme.Modules.pullbackId`, `Scheme.Modules.pullbackComp` (Mathlib/AlgebraicGeometry/Modules/Sheaf.lean);
+`Scheme.Modules`, `Scheme.Modules.pullback`, `Scheme.Modules.pushforward`,
+`Scheme.Modules.pullbackPushforwardAdjunction`, `Scheme.Modules.pullbackId`,
+`Scheme.Modules.pullbackComp`, and the instance `HasLimits X.Modules` giving products
+(Mathlib/AlgebraicGeometry/Modules/Sheaf.lean); `Scheme.Opens.ι`, the inclusion of an open
+subscheme (Mathlib/AlgebraicGeometry/Restrict.lean); `TopologicalSpace.Clopens.toOpens`;
 `SheafOfModules.IsQuasicoherent`, `SheafOfModules.IsFinitePresentation`,
 `SheafOfModules.IsLocallyFree`; `SheafOfModules.pullbackObjUnitToUnit`;
 `AlgebraicGeometry.tilde` and `AlgebraicGeometry.tildeEquiv`; `IsAffineHom`, `Scheme.Spec`,
@@ -121,17 +132,19 @@ At Tau Ceti `a91d3aa`:
   `FiniteLocallyFreeSheaf`, `FiniteLocallyFreeSheaf.free`, `FiniteLocallyFreeSheaf.pullback`,
   `FiniteLocallyFreeSheaf.pullbackId`, `FiniteLocallyFreeSheaf.pullbackComp`,
   `FiniteLocallyFreeSheaf.toQuasicoherent`, `FiniteLocallyFreeSheaf.toFinitelyPresented`,
-  `Scheme.Modules.isFiniteLocallyFree_iff_exists_openCover`; `FiniteLocallyFreeSheaf.rank`, `FiniteLocallyFreeSheaf.rankLocus`,
-  `FiniteLocallyFreeSheaf.rank_pullback_apply`, `FiniteLocallyFreeSheaf.rank_biprod_apply`,
-  `FiniteLocallyFreeSheaf.rank_tensor_apply`,
+  `Scheme.Modules.isFiniteLocallyFree_iff_exists_openCover`; `FiniteLocallyFreeSheaf.rank`,
+  `FiniteLocallyFreeSheaf.rankLocus`, the rank formulas `rank_pullback_apply`,
+  `rank_biprod_apply` and `rank_tensor_apply` in the namespace `FiniteLocallyFreeSheaf`,
   `FiniteLocallyFreeSheaf.isInvertible_iff_forall_rank_eq_one` (Rank.lean);
   `FiniteLocallyFreeSheaf.isConstantRank`, `FiniteLocallyFreeSheaf.FixedRank`, `InvertibleSheaf.fixedRankOneEquiv`
   (FixedRank.lean); `FiniteLocallyFreeSheaf.dual`, `FiniteLocallyFreeSheaf.rigidCategory`,
   `FiniteLocallyFreeSheaf.evalIso`, `QuasicoherentSheaf.nonempty_hasLeftDual_of_isFiniteLocallyFree`
   (Dual/); `FiniteLocallyFreeSheaf.finiteProjectiveEquiv` and its monoidal and dual comparisons
-  (Affine/);
-- `InvertibleSheaf X` (TauCeti/AlgebraicGeometry/LineBundle/Basic.lean) and
-  `FinitelyPresentedSheaf X`;
+  (Affine/); the affine dualizability criterion
+  `QuasicoherentSheaf.nonempty_hasLeftDual_iff_isFiniteLocallyFree`, stated for an affine scheme
+  (TauCeti/AlgebraicGeometry/Modules/Tilde/Dual.lean);
+- `SheafOfModules.isInvertible` and `InvertibleSheaf X`, the full subcategory it cuts out
+  (TauCeti/AlgebraicGeometry/LineBundle/Basic.lean), and `FinitelyPresentedSheaf X`;
 - powers: `SheafOfModules.symmetricPower`, `SheafOfModules.exteriorPower`, the sheafification of
   the sectionwise powers, with their degree-zero and degree-one isomorphisms
   (TauCeti/Algebra/Category/ModuleCat/Sheaf/SymmetricPower.lean, ExteriorPower.lean);
@@ -146,8 +159,10 @@ built on `Scheme.Modules.instMonoidalCategory`.
 
 §5.1: the determinant of a finite projective module by its clopen rank decomposition, the
 determinant maps between finite projectives of equal rank function, and their base change.
-Layer 3 glues these on affine opens; on `Spec A` the determinant sheaf is the associated sheaf
-of the ring-level determinant.
+On `Spec A` the determinant sheaf of Layer 3 is the associated sheaf of the ring-level
+determinant, as graded lines: the comparison retains the rank function and its parity and is
+compatible with the equal-rank determinant maps, with affine pullback and with the Koszul
+symmetry of graded lines, and only then is the grading forgotten.
 
 ## How to read the build
 
@@ -172,7 +187,7 @@ canonical structures on `X.Modules` and `Y.Modules`: the comparison
 `f^* E ⊗ f^* F → f^* (E ⊗ F)` and `f^* 𝒪_X → 𝒪_Y` are isomorphisms, the latter being Mathlib's
 `SheafOfModules.pullbackObjUnitToUnit`, and they are compatible with the braiding. Prove that
 `Scheme.Modules.pullbackId` and `Scheme.Modules.pullbackComp` are monoidal natural isomorphisms
-(Stacks Project, Tag 01CI for the tensor algebra; the tensor case is the sheafification of the
+(Stacks Project, Tag 01CD for the tensor comparison, which is the sheafification of the
 sectionwise base change). *Needs:* Mathlib `Scheme.Modules.pullback`, `Scheme.Modules.pullbackComp`;
 Tau Ceti `Scheme.Modules.instMonoidalCategory`.
 
@@ -208,10 +223,10 @@ Prove `isFiniteLocallyFree_iff_nonempty_hasLeftDual`: for `E : QuasicoherentShea
 monoidal subcategory is a dual in `X.Modules`, so the sheaf is finitely presented and flat
 (Stacks Project, Tag 0FNU), and on an affine open a finitely presented flat module is finite
 locally free (Stacks Project, Tag 00NX). Alternatively, restriction to an affine open is strong
-monoidal (Layer 1) and preserves duals, and Tau Ceti's affine criterion
-`QuasicoherentSheaf.nonempty_hasLeftDual_iff_finite_projective` applies there. *Needs:* Tau Ceti
+monoidal (Layer 1) and preserves duals, and Tau Ceti's affine case of this very statement,
+`QuasicoherentSheaf.nonempty_hasLeftDual_iff_isFiniteLocallyFree`, applies there. *Needs:* Tau Ceti
 `QuasicoherentSheaf`, `Scheme.Modules.isFiniteLocallyFree_iff_exists_openCover`,
-`QuasicoherentSheaf.nonempty_hasLeftDual_iff_finite_projective`; Layer 1 on the second route.
+`QuasicoherentSheaf.nonempty_hasLeftDual_iff_isFiniteLocallyFree`; Layer 1 on the second route.
 
 - The categorical dual agrees with `FiniteLocallyFreeSheaf.dual`, and the double-dual map is
   `FiniteLocallyFreeSheaf.evalIso`; these are at the pin and are not restated.
@@ -226,13 +241,16 @@ monoidal (Layer 1) and preserves duals, and Tau Ceti's affine criterion
 
 ### 2.2 Internal Hom comparisons
 
-Prove that the internal Hom `Hom(E, F)` of `Scheme.Modules.instMonoidalClosed` is quasi-coherent
-when `E` is finitely presented and `F` is quasi-coherent (Stacks Project, Tag 01CM). Construct the
+Prove `ihom_isQuasicoherent`: the internal Hom `Hom(E, F)` of `Scheme.Modules.instMonoidalClosed`
+is quasi-coherent when `E` is finitely presented and `F` is quasi-coherent. For finitely presented
+`E` the sheaf `Hom(E, F)` is locally the kernel of a map between finite direct sums of copies of
+`F` (Stacks Project, Tag 01CQ), and the kernel of a map of quasi-coherent sheaves on a scheme is
+quasi-coherent (Stacks Project, Tag 01LB), which this layer proves as its input. Construct the
 canonical comparison `f^* Hom(E, F) → Hom(f^* E, f^* F)` from Layer 1 and the adjunction, and prove
 that it is an isomorphism when `E` is finitely presented and `f` is flat, or when `E` is finite
 locally free and `f` is arbitrary (Stacks Project, Tag 0C6I). For finite locally free `E`, give the
-isomorphism `Hom(E, F) ≅ E^∨ ⊗ F`. *Needs:* Layer 1; Tau Ceti `SheafOfModules.ihomStalkEquiv`,
-`SheafOfModules.dual`.
+isomorphism `Hom(E, F) ≅ E^∨ ⊗ F`. *Needs:* Layer 1; closure of quasi-coherent sheaves under
+kernels, proved in this layer; Tau Ceti `SheafOfModules.ihomStalkEquiv`, `SheafOfModules.dual`.
 
 - The comparison is natural in `E`, `F` and compatible with `Scheme.Modules.pullbackComp`.
 - For a non-flat `f` and finitely presented `E`, the comparison is only a map.
@@ -293,21 +311,50 @@ with Layer 1. *Needs:* Layer 1; Tau Ceti power functors.
 
 ### 3.3 The determinant
 
-Construct the determinant of a finite locally free sheaf as an invertible sheaf: on the clopen
-rank locus where the rank is `r` it is `∧^r E`, glued from PadicMeasuresIwasawaAlgebras §5.1 on
-affine opens. Construct, for each `r`, the determinant functor from
+Define `determinantModule E`, for a finite locally free `E`, as the product over `n : ℕ` of
+`ι_{n*} ι_n^* (∧^n E)`, where `ι_n` is the inclusion of the clopen rank locus
+`FiniteLocallyFreeSheaf.rankLocus E n` as an open subscheme: over an open `V` its sections are
+the tuples of sections of `∧^n E` over `V ∩ U_n`, so on the locus `U_r` of rank `r` every factor
+with `n ≠ r` has only the zero section and `determinantModule E` is `∧^r E` there (Hartshorne,
+II, Exercise 5.16; local freeness of `∧^r E` is Stacks Project, Tag 01CL). Prove
+`isInvertible_determinantModule`: it is an invertible sheaf, since on `U_r` it is `∧^r E` of rank
+`Nat.choose r r = 1` by the rank formula of Layer 3 and
+`FiniteLocallyFreeSheaf.isInvertible_iff_forall_rank_eq_one`; `determinantObj E` is the resulting
+object of `InvertibleSheaf X`. Prove
+`determinantModule_restrict_rankLocus`: the restriction of `determinantModule E` to `U_r` is
+isomorphic to the restriction of `∧^r E`. Construct, for each `r`, the determinant functor from
 `FiniteLocallyFreeSheaf.FixedRank X r` to `InvertibleSheaf X`, identify it with
-`SheafOfModules.exteriorPower X.sheaf r` on underlying sheaves, and with the locally constant rank
-determinant on objects; on the core of all finite locally free sheaves it is functorial for
-isomorphisms. Construct its pullback comparison. *Needs:* the rank formulas of Layer 3, the pullback comparisons of Layer 3,
-PadicMeasuresIwasawaAlgebras §5.1, Tau Ceti `InvertibleSheaf.fixedRankOneEquiv`.
+`SheafOfModules.exteriorPower X.sheaf r` on underlying sheaves and with `determinantObj` on
+objects; on the core of all finite locally free sheaves `determinantObj` is functorial for
+isomorphisms. Construct its pullback comparison. On an affine open `Spec A`, with `E` the sheaf of
+the finite projective module `P`, prove that `determinantModule E` is the associated sheaf of
+the ring-level determinant of PadicMeasuresIwasawaAlgebras §5.1 as an isomorphism of graded
+lines: it carries the rank function `x ↦ rank(P_x)` and its parity `x ↦ rank(P_x) mod 2`, is
+compatible with the ring-level determinant map of every map between finite projectives of equal
+rank function and with affine pullback, and matches the Koszul symmetry `(−1)^{εε′}` of graded
+lines; the functor to `InvertibleSheaf X` is this comparison followed by forgetting the grading.
+Prove `det(E ⊕ F) ≅ det E ⊗ det F`, compatible with the swap of summands up to the sign
+`(−1)^{rank E · rank F}` on each clopen piece. *Needs:* the rank formulas of Layer 3, the
+pullback comparisons of Layer 3, PadicMeasuresIwasawaAlgebras §5.1; Tau Ceti
+`InvertibleSheaf.fixedRankOneEquiv`, `FiniteLocallyFreeSheaf.rankLocus`,
+`FiniteLocallyFreeSheaf.isInvertible_iff_forall_rank_eq_one`, `SheafOfModules.isInvertible`;
+Mathlib `Scheme.Modules.pushforward`, `Scheme.Opens.ι`, products in `X.Modules`.
 
 **Checks.**
 - `det(𝒪_X^r) ≅ 𝒪_X`, and the automorphism given by an invertible matrix `A` acts by `det A`;
   the dual convention would give `det A⁻¹`.
 - On `X = Spec k ⊔ Spec k` with `E` of rank 1 on one component and rank 2 on the other, the
-  determinant is invertible of rank 1 everywhere, while `∧¹ E` and `∧² E` are not invertible.
+  determinant is invertible of rank 1 everywhere, while `∧¹ E` and `∧² E` are not invertible:
+  over the first component the sections of `determinantModule E` are those of `∧¹ E`, the `∧²`
+  factor contributing only the zero module of sections over the empty open.
+- Without the restriction to the rank loci, `∏_n ∧^n E` has `∧⁰ E = 𝒪_X` and `∧¹ E = E` as two
+  nonzero factors wherever `E` has rank at least 1, so it is not invertible; the restriction is
+  what makes the product a line.
 - `r = 0`: `det(0) = 𝒪_X`.
+- `E = F = 𝒪_X`: the swap of the two summands of `𝒪_X²` acts on `det(𝒪_X²) = ∧² 𝒪_X²` by `−1`,
+  the determinant of the swap matrix and the value PadicMeasuresIwasawaAlgebras §5.1 fixes; a
+  comparison `det(E ⊕ F) ≅ det E ⊗ det F` that intertwined the swap with the braiding of
+  `InvertibleSheaf X` without the sign `(−1)^{rank E · rank F}` would give `+1` here.
 
 ### Examples
 
@@ -316,7 +363,7 @@ PadicMeasuresIwasawaAlgebras §5.1, Tau Ceti `InvertibleSheaf.fixedRankOneEquiv`
 
 ### Dependencies
 
-Layers 1 and 2; Tau Ceti power functors and rank; PadicMeasuresIwasawaAlgebras §5.1.
+Layer 1; Tau Ceti power functors, rank and rank loci; PadicMeasuresIwasawaAlgebras §5.1.
 
 ## Layer 4: relative Spec
 
@@ -376,7 +423,8 @@ Project, Tag 01SA). *Needs:* the pushforward algebra of Layer 4, the functor of 
 ### 5.2 Base change
 
 Construct the isomorphism `Y ×_X Spec_X(A) ≅ Spec_Y(f^* A)` over `Y`, natural in `A` and
-pseudofunctorial in `f`, compatible with `Scheme.Modules.pullbackComp` (Stacks Project, Tag 01LQ).
+pseudofunctorial in `f`, compatible with `Scheme.Modules.pullbackComp` (Stacks Project, Tag
+01LX (2); the compatibility of the anti-equivalence with arbitrary base change is Tag 01SA).
 *Needs:* the pushforward algebra of Layer 4, the functor of points of Layer 4.
 
 **Checks.**
@@ -407,7 +455,9 @@ functor on graded algebras; an algebra is free in degree one when the canonical 
 sections on affine opens, the graded multiplication and unit, the direct-sum underlying algebra,
 the localization, affine-restriction and arbitrary-base-change comparisons, preservation of finite
 generation and of generation in degree one, and the symmetric-algebra comparison on affine
-modules (Stacks Project, Tag 01CI). *Needs:* the pullback comparisons of Layer 3, the base change of Layer 5; Mathlib `GradedObject`, `SymmetricAlgebra`.
+modules (Stacks Project, Tag 01CL for quasi-coherence and local freeness of `Sym(F)`). *Needs:*
+the pullback comparisons of Layer 3, the base change of Layer 5; Mathlib `GradedObject`,
+`SymmetricAlgebra`.
 
 **Checks.**
 - The degree-one piece of `Sym(𝒪_X²)` is `𝒪_X²`, and the degree-two piece has rank 3.
@@ -451,7 +501,10 @@ finite locally free. Define the total space `V(E) = V_lin(E^∨)` of a finite lo
 using `FiniteLocallyFreeSheaf.dual`, and prove that it is the forward functor of an equivalence
 `FinLocFree(X) ≌ GeomVB(X)`, natural under base change (Stacks Project, Tag 01M1). Prove the
 universal property `Hom_X(T, V(E)) ≃ Γ(T, f^* E)` as a natural isomorphism in the test scheme and
-in `E`. *Needs:* the linear schemes of Layer 6, the base change of Layer 5; Tau Ceti `FiniteLocallyFreeSheaf.dual`, `FiniteLocallyFreeSheaf.evalIso`.
+in `E`; the universal property identifies `Hom_{𝒪_T}(f^*(E^∨), 𝒪_T)` with `Γ(T, f^* E)` through
+`f^*(E^∨) ≅ (f^* E)^∨`. *Needs:* the linear schemes of Layer 6, the base change of Layer 5, the
+base-change comparison of Layer 2 for finite locally free `E`; Tau Ceti
+`FiniteLocallyFreeSheaf.dual`, `FiniteLocallyFreeSheaf.evalIso`.
 
 **Checks.**
 - `E = 𝒪_X^r`: `V(E) = 𝔸^r_X`, and the universal property is Mathlib's `AffineSpace.homOverEquiv`;
@@ -485,14 +538,16 @@ Layers 2, 3, 5 and 6.
 
 ## Downstream consumers
 
-SchemeAndStackFoundations (all layers; relative Proj and Chern classes are its own),
-StableReduction (Layer 6 for relative Proj), GroebnerGeometry (Layers 1–3 and 6), AdicSpacesPartIII
-(Layers 1 and 2), NilpotentOrbits (total spaces), ReductiveGroups, SchubertGeometry, and
-PadicMeasuresIwasawaAlgebras §5.1, which shares the determinant with Layer 3.
+SchemeAndStackFoundations (all layers; it builds its Grothendieck group of finite locally free
+sheaves on `FiniteLocallyFreeSheaf` and `isFiniteLocallyFreeOfRank` and its determinant on
+`determinantObj`; relative Proj and Chern classes are its own), StableReduction (Layer 6 for
+relative Proj), GroebnerGeometry (Layers 1–3 and 6), AdicSpacesPartIII (Layers 1 and 2),
+NilpotentOrbits (total spaces), ReductiveGroups and SchubertGeometry.
 
 ## References
 
-- The Stacks Project, Sheaves of Modules (Tags 01CI, 01CK, 01CM, 0C6I, 0FNU), Algebra (Tag 00NX),
-  Constructions of Schemes (Tags 01LQ, 01M1, 062N), Morphisms of Schemes (Tag 01SA).
+- The Stacks Project, Sheaves of Modules (Tags 01CD, 01CI, 01CK, 01CL, 01CQ, 0C6I, 0FNU),
+  Algebra (Tag 00NX), Schemes (Tag 01LB), Constructions of Schemes (Tags 01LQ, 01LX, 01M1, 062N),
+  Morphisms of Schemes (Tag 01SA).
 - A. Grothendieck and J. Dieudonné, *Éléments de géométrie algébrique* II, §1.
 - R. Hartshorne, *Algebraic Geometry*, II.5.
