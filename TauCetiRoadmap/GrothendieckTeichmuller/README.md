@@ -624,7 +624,9 @@ and Hausdorffness. Then `χ` is continuous. *Source:* `GT̂` as a group of autom
 Ihara 1991, §3.3; Harbater–Schneps 2000, §0; `GT̂` profinite as the inverse limit of its images in
 `Aut(F̂₂/N)`: Schneps 1997, §1.3, remark (3).
 
-Prove `GTHat.isClosedEmbedding_betaEquiv`: for the topology of the units of `GT̂^{mon}` and Tau Ceti's congruence topology, `g ↦ β_g` is a closed embedding of `GT̂` into
+Prove `GTHat.isClosedEmbedding_betaEquiv`: for the topology of the units of `GT̂^{mon}`
+and Tau Ceti's congruence topology, `g ↦ β_g` is a closed embedding
+of `GT̂` into
 `ContinuousAut F̂₂`, and its composite with `ContinuousOut.mk` is a homeomorphism onto a closed
 subgroup of `ContinuousOut F̂₂`. The action of 4.4 on surjections to a finite group factors through
 a finite quotient of `GT̂₀`. *Needs:* 0.1, 1.5, 3.3, 4.2, Tau Ceti `congruenceTopology`,
