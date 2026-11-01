@@ -31,9 +31,20 @@ numbers and finite-rank approximability, as well as Hilbert-space Schatten ideal
 trace norms and singular values; B4 owns the nuclear/trace-class comparison.
 [Operator theory](../OperatorTheory/README.md) owns
 the Hilbert-space spectral theory. C*-tensor norms are outside this Banach-space
-scope. BanachAlgebras A1/A8 supplies the scalar/compact operator-algebra
-comparisons used in B4's examples; its early compact layer is independent
-of these tensor/AP constructions. B5 consumes SelfAdjointSpectralTheory Part B's generic scalar-measure
+scope. BanachAlgebras consumes B1–B2 and B4–B5 (dual quotients, weak compactness,
+completed projective tensors and scalar measure representation); this roadmap cites
+nothing from it. The finite-eigenvalue input of B4's Schmidt series is derived in B4
+from Tau Ceti's compact-operator API, and the spectral and invariant-subspace
+consequences of B4.1's scalar-plus-compact theorem (countable spectra, invariant
+subspaces on the real and complex models) are BanachAlgebras A8's deliverables, not
+targets here. B5 owns Hilbert dimension, the cardinality of a Hilbert basis of a
+complete inner-product space over ℝ or ℂ, with its basis independence and the
+unitary classification; the unbounded-operator roadmap (OperatorTheory/UnboundedOperators
+§4.1) and the index-theory roadmap (IndexTheory Layer 1) consume it. B6 owns Rademacher
+type p and cotype q with their transport API; NoncommutativeIntegration §7.5 consumes
+them. B5.LocalHaarDual owns the local-null L∞ carrier of an arbitrary regular Haar
+measure; AmenableGroups Layer 7 works on the native global `Lp ℝ ∞ μ` and declines a
+local carrier, and no roadmap on main consumes the local one. B5 consumes SelfAdjointSpectralTheory Part B's generic scalar-measure
 integration, regularity and bounded continuous-approximation layer
 (SA-B81–84 and SA-B58), which is independent
 of PVMs, representations and this roadmap's bidual comparison.
@@ -124,10 +135,10 @@ of the introductory metric example.
 Prove the following with reusable intermediate separation, compactness and
 subsequence lemmas.
 
-* **Eberlein–Šmulian:** a subset of a normed space is weakly compact iff it is
-  weakly sequentially compact. Also prove the relative version, where subsequential
+* **Eberlein–Šmulian** (`eberlein_smulian`, over either scalar field): a subset of a
+  normed space is weakly compact iff it is weakly sequentially compact. Also prove the relative version, where subsequential
   limits may lie in the ambient space. No separability assumption is allowed.
-* **James:** for a nonempty norm-closed bounded convex subset `A` of a Banach space, weak
+* **James** (`james`): for a nonempty norm-closed bounded convex subset `A` of a Banach space, weak
   compactness is equivalent to attainment on `A` of the supremum of `Re f` for every
   continuous linear functional `f`. Attainment includes existence of a finite
   maximum. Deduce reflexivity iff every functional attains its norm on the closed
@@ -137,19 +148,19 @@ subsequence lemmas.
   compact. Establish invariance under bounded linear equivalence, inheritance by
   closed subspaces and quotients, and equivalence with reflexivity of the dual.
   Consume native `UniformConvexSpace` to prove Milman–Pettis: every
-  complete uniformly convex normed space over ℝ or ℂ is reflexive.
-  Develop its modulus of convexity, passage to closed subspaces and
+  complete uniformly convex normed space over ℝ or ℂ is reflexive
+  (`milman_pettis`). Develop its modulus of convexity, passage to closed subspaces and
   invariance of reflexivity under equivalent norms. Prove Clarkson's
   inequalities and the standard uniform convexity of Lᵖ, 1<p<∞;
   B5 consumes these results.
   First prove that a sequence of unit vectors maximizing the real part
   of a nonzero dual functional is Cauchy by uniform convexity; completeness
   gives norm attainment, then use the preceding James criterion.
-* **Krein–Šmulian:** a convex subset of the dual of a Banach space is weak-star
+* **Krein–Šmulian** (`krein_smulian`): a convex subset of the dual of a Banach space is weak-star
   closed iff its intersection with every closed ball centered at zero is weak-star
   closed. Include the linear-subspace criterion using just the unit ball.
-* **Bishop–Phelps:** for a Banach space, norm-attaining continuous linear
-  functionals are norm dense in the dual. For a nonzero Banach space, support
+* **Bishop–Phelps** (`bishop_phelps`): for a Banach space, norm-attaining continuous
+  linear functionals are norm dense in the dual. For a nonzero Banach space, support
   points are dense in the boundary of a nonempty closed convex set, and support
   functionals are norm dense in the dual when that set is also bounded.
   A support functional is nonzero and its real part attains its supremum on the
@@ -181,12 +192,13 @@ space X, yₙ∈X need not lie in its closed span, and
 the isometric inclusion plus `Σ xₙ*(·)(yₙ−xₙ)`, prove convergence,
 the lower bound and closed range, and identify that range with [yₙ].
 
-A basis is shrinking when its coordinate functionals span a norm-dense subspace of
-the dual. It is boundedly complete when every scalar sequence with bounded initial
+A basis is shrinking (`SchauderBasis.IsShrinking`) when its coordinate functionals span
+a norm-dense subspace of the dual. It is boundedly complete
+(`SchauderBasis.IsBoundedlyComplete`) when every scalar sequence with bounded initial
 partial sums gives a norm-convergent series. Develop the dual basic sequence on its
-closed span, the shrinking/boundedly-complete duality, and James's basis criterion:
-a Banach space with a Schauder basis is reflexive iff that basis is both shrinking
-and boundedly complete. Do not equate an ordinary Schauder expansion with `tsum`
+closed span, the shrinking/boundedly-complete duality, and James's basis criterion
+(`SchauderBasis.reflexive_iff`): a Banach space with a Schauder basis is reflexive iff
+that basis is both shrinking and boundedly complete. Do not equate an ordinary Schauder expansion with `tsum`
 using the unconditional filter.
 
 Use `UnconditionalSchauderBasis ℕ 𝕜 E` for sequence-indexed unconditional
@@ -230,15 +242,16 @@ tensor/operator identifications, nuclear operators and scalar-unit isometries
 use Banach factors. In particular the target `F` is complete in the operator
 identifications involving `E* ⊗ε F` and `E* ⊗π F`.
 
-Define the approximation property by uniform approximation of the identity on
-each norm-compact subset by bounded finite-rank operators. The `λ`-bounded
+Define the approximation property (`HasApproximationProperty`) by uniform approximation
+of the identity on each norm-compact subset by bounded finite-rank operators. The `λ`-bounded
 approximation property adds `‖T‖ ≤ λ`; BAP means such a finite `λ` exists and MAP
 means `λ = 1`. Prove MAP implies BAP implies AP. Under a bounded linear
 equivalence `U`, transport `λ`-BAP to `λ‖U‖‖U⁻¹‖`-BAP; AP and BAP
 are invariant under these equivalences, while MAP is preserved by isometric
 equivalences. For a bounded projection `P` onto a closed subspace, prove
 inheritance of AP and transport `λ`-BAP to `λ‖P‖`-BAP. Prove BAP from
-a Schauder basis with its basis constant. Prove MAP for
+a Schauder basis with its basis constant (`SchauderBasis.approximationProperty`
+records the resulting AP). Prove MAP for
 `c₀`, `ℓᵖ` and `Lᵖ([0,1])`, `1 ≤ p < ∞`, using the explicit projections.
 
 Prove Grothendieck's equivalence: `E` has AP iff every compact operator `F → E`
@@ -288,8 +301,13 @@ Tau Ceti's `exists_hilbertBasis_forall_hasEigenvector` in
 `TauCeti.Analysis.InnerProductSpace.Spectrum`. For compact `T:H→K` on
 complete real or complex Hilbert spaces, apply these to `T†T`. Order the
 positive eigenvalues `λ_j` with multiplicity and put `s_j=√λ_j`.
-Consume BanachAlgebras A8’s finite nonzero-eigenvalue threshold theorem
-(whose compact-operator layer is independent of B4), and choose the associated finite or countable
+Prove here that a compact self-adjoint operator on a Hilbert space has only
+finitely many eigenvalues of modulus at least ε for each ε>0: eigenvectors for
+distinct eigenvalues are orthogonal, each nonzero eigenspace is finite-dimensional
+by Tau Ceti's `IsCompactOperator.finiteDimensional_eigenspace`, and the images of
+an infinite orthonormal family of eigenvectors with eigenvalues of modulus at
+least ε are at mutual distance at least ε√2, so no subsequence of images
+converges, contradicting compactness. Choose the associated finite or countable
 orthonormal families `(e_j),(f_j)`, with `f_j=s_j⁻¹T e_j` and
 `s_j>0` nonincreasing, tending to zero in the infinite-rank case. Prove
 `Tx=∑ s_j⟪e_j,x⟫f_j`, vanishing on ker T, and operator-norm convergence
@@ -333,6 +351,9 @@ construct the bounded complex-linear equivalence between
 `φ(x+iy)=g(x)−h(y)+i(h(x)+g(y))` (`exists_complexificationStrongDualEquiv`,
 an equivalence whose value on `g+ih` is this φ); pin the norm bounds rather than
 asserting an isometry of their different dual norms.
+*Needs:* Tau Ceti `TauCeti.Complexification`, `ContinuousLinearMap.complexify`, `ofRealLI`,
+`reCLM`, `imCLM`; Mathlib `StrongDual` and `NormedSpace.inclusionInDoubleDual`; B4's
+approximation-property definitions.
 ### B4.0. An explicit failure of the approximation property
 
 Prove Grothendieck’s reflexive comparison: a reflexive real or complex
@@ -395,7 +416,8 @@ trace-pairing convention for the integral/nuclear comparison of
 [Daws, §2.3, Theorems 2.3.14 and 2.3.23](https://matthewdaws.github.io/files/thesis.pdf)
 (printed pp.43–47); the assigned theorem here is the reflexive case.
 
-Construct Enflo’s separable reflexive real counterexample as a closed
+Construct Enflo’s separable reflexive real counterexample
+(`exists_reflexive_not_hasApproximationProperty`) as a closed
 subspace of the native `lp (fun m=>C(K_m,ℝ)) 2`, with finite discrete
 K_m. Prove reflexivity of this countable ℓ² sum through its dual ℓ²
 identification; the finite fibers have supremum norms and the sum need
@@ -429,11 +451,26 @@ to the trace comparison; it also implies the bound
 `t_(m+1)²/n_(m+1)` once t_(m+1)≥2.
 For the averaging vector x corresponding to Uf in
 span(N_(m,j)∪M_(m+1,j)), set |||x|||=‖x|_(K_(m+1,j))‖∞
-and prove its local-to-ambient estimate ‖x‖≤2|||x|||. Prove the Krawtchouk
-bound |F_(n−1)(a)|=|F_(n+1)(a)|≤binomial(2n,n−1)/n for
-0<|a|<2n, using the coefficient integral of
-(1−z)^|a|(1+z)^(2n−|a|). These are the precise Walsh estimates
-used by the averaged trace comparison.
+and prove its local-to-ambient estimate ‖x‖≤2|||x|||. Write `K_k(j)=Σ_i (−1)^i binomial(j,i) binomial(2n−j,k−i)`, the
+coefficient of z^k in (1−z)^j(1+z)^(2n−j), for the Krawtchouk value, so that
+the Walsh layer sums satisfy F_k(a)=K_k(|a|). Prove |K_(n+1)(j)|=|K_(n−1)(j)|
+from the reversal z^(2n)(1−1/z)^j(1+1/z)^(2n−j)=(−1)^j(1−z)^j(1+z)^(2n−j), and
+prove the Krawtchouk bound `|K_(n−1)(j)|≤binomial(2n,n−1)/n` for 0<j<2n as
+follows. The symmetry `binomial(2n,j)K_(n−1)(j)=binomial(2n,n−1)K_j(n−1)`
+reduces it to `n|K_j(n−1)|≤binomial(2n,j)`, and K_j(n−1) is the coefficient
+of z^j in (1−z²)^(n−1)(1+z)²: it equals `2(−1)^m binomial(n−1,m)` for j=2m+1
+and `(−1)^m(binomial(n−1,m)−binomial(n−1,m−1))` for j=2m. By the symmetry
+j↔2n−j it suffices to take 1≤j≤n. In the odd case Vandermonde gives
+`binomial(n−1,m)binomial(n,m)≤binomial(2n−1,2m)` with `binomial(n,m)≥n≥2m+1`
+for m≥1, and the case m=0 is an equality; in the even case 1≤m≤n/2 gives
+`0≤binomial(n−1,m)−binomial(n−1,m−1)≤binomial(n−1,m)` and
+`n·binomial(n−1,m)≤binomial(n,m)²≤binomial(2n,2m)`. The bound is attained
+exactly at j=1 and j=2n−1, where `K_(n−1)(1)=binomial(2n,n−1)/n`. Neither of
+two shorter routes gives it: the values are not monotone in j on 1≤j≤n
+(for n=3 they are 5, 1, 3 and for n=4 they are 14, 4, 6, 0), and bounding
+the coefficient integral by the integral of the absolute value gives
+`4ⁿ/(πn)` at j=1, larger than the bound for every n≥4. These are the precise
+Walsh estimates used by the averaged trace comparison.
 
 Prove the coordinate property
 `‖∑_j c_j e_j‖≥‖c_k e_k‖` on the generating independent family;
@@ -465,10 +502,15 @@ endomorphism `(x,y)↦(0,Sx)` and prove it also cannot be approximated by
 finite-rank endomorphisms, using its coordinate inclusions and projections.
 This gives the operator-on-one-space counterexample as well as the
 more general between-spaces failure.
+*Needs:* Mathlib `lp` over a dependent family, `ZMod 2`, `Nat.choose` identities
+and bounds; B2's reflexivity criteria; B3's basis-implies-BAP implication; B4's
+compact-approximation equivalence and B4.C's complexification comparisons;
+Enflo 1973, §§1–4.
 
 ### B4.1. Bourgain–Delbaen spaces and the scalar-plus-compact example
 
-Construct the Argyros–Haydon real Banach space X_K as the closed span of
+Construct the Argyros–Haydon real Banach space X_K (`exists_scalarPlusCompact`
+records its scalar-plus-compact conclusion) as the closed span of
 its biorthogonal vectors in native bounded functions `lp (fun _ : Γ=>ℝ) ∞`.
 Build the generic Bourgain–Delbaen construction first: countably many
 finite rank layers Γ_q, triangular `d_γ*=e_γ*−c_γ*` in native ℓ¹(Γ),
@@ -558,18 +600,14 @@ complex scalar-plus-compact theorem. Retain hereditary indecomposability
 as a proved property of the real construction; it is not inferred for
 an arbitrary complexification.
 
-Identify the real and complex operator-algebra quotient by compact
-operators with the corresponding scalar field, with quotient-norm equality
-and a bounded scalar projection. Derive countability of every operator’s
-spectrum on the complex model, using BanachAlgebras A8’s compact eigenvalue-threshold
-theorem. Thus not every nonempty compact subset of ℂ can be realized on
-this particular infinite-dimensional Banach space. Construct a nontrivial
-closed invariant subspace for each operator on the complex model, applying A8’s compact-commutation
-theorem for nonscalar operators and an invariant line for scalar operators.
-For the real model, consume A8's real compact-commutation invariant-subspace
-theorem (its compact case is Aronszajn–Smith), again handling scalar operators
-by a line. No real hyperinvariance statement is inferred from the complex
-hyperinvariant theorem.
+Identify the real and complex operator-algebra quotient L(X_K)/K(X_K) by
+compact operators with the corresponding scalar field, with quotient-norm
+equality and a bounded scalar projection, on Mathlib's normed quotient of
+`X_K →L[𝕜] X_K` by the closed ideal of compact operators; no operator-algebra
+input beyond this quotient is used. The spectral and invariant-subspace
+consequences of the scalar-plus-compact theorem (countability of every
+operator's spectrum on the complex model, invariant subspaces on both models)
+are BanachAlgebras A8's deliverables and are not targets here.
 For a blocking l_(n−1)+1<l_n and finite-dimensional
 F_n⊆⊕_(l_(n−1)<k<l_n)M_k, prove the closed sum W is reflexive and
 W* is hereditarily indecomposable. Build its dual FDD, the quotient
@@ -753,8 +791,9 @@ block-subsequence realization. Exclude both ℓ¹ and c₀ skipped-block
 sequences using
 the RIS estimates. Supply the c₀ case as well as the displayed ℓ¹ proof.
 
-A1/A8’s needed quotient/compact layers are independent of B4’s tensor and
-approximation targets.
+*Needs:* Mathlib `lp (fun _ : Γ => ℝ) ∞`, `IsCompactOperator`, normed
+quotients; B3's ambient small-perturbation theorem and basic sequences;
+B4.C; Argyros–Haydon §§2–9; AOST Theorem 5.4; DOSZ Theorems 2.1–2.2.
 
 ## B5. Function spaces and weak compactness
 
@@ -782,6 +821,19 @@ lp(S,𝕜,2) is separable exactly when S is countable. This corrects the
 source's finitely supported `[0,1]` example: its complete Hilbert space
 is lp on the uncountable interval index set. It is distinct from the
 Lebesgue/a.e. carrier L²([0,1],𝕜); no point-evaluation on that L² is inferred.
+
+**Checks.**
+- For finite S, D_S is the whole space lp(S,𝕜,2): a definition of D_S through a
+  proper dense subspace would make the finite case incomplete.
+- For S=ℕ the vector `(2^(−(n+1)))_n` lies in lp, has infinite support and is the
+  limit of its partial sums in D_S, so D_S is dense and not closed; a definition
+  identifying D_S with its completion gets this wrong.
+- For uncountable S the unit vectors are at mutual distance √2, so lp(S,𝕜,2) is
+  not separable, while for S=ℕ the finite rational (Gaussian rational) combinations
+  are a countable dense set; separability of lp(S,𝕜,2) is exactly countability of S.
+
+*Needs:* Mathlib `lp`, `lp.single`, `lp.hasSum_single`, `lp.completeSpace`,
+`UniformSpace.Completion`.
 
 For a complete real or complex inner-product space consume native
 `exists_hilbertBasis` and `HilbertBasis.repr`. Prove it is separable iff
@@ -823,11 +875,28 @@ finite integer, or ℵ₀. In particular the assertion that all separable Hilber
 spaces are isomorphic requires equal dimension; ℝ and ℝ², or ℂ and ℂ²,
 are counterexamples over their respective fields.
 
-[HilbertBasisSuggested.lean](HilbertBasisSuggested.lean) records suggested
-forms for basis equivalence and the basis-preserving unitary statements.
+The basis-cardinality invariance is `hilbertBasis_lift_mk_eq`, the unitary
+classification is `nonempty_linearIsometryEquiv_iff_lift_mk_eq` and the
+basis-preserving unitary is `exists_linearIsometryEquiv_hilbertBasis`.
 This Hilbert-basis layer uses only native inner-product and cardinal APIs
 and the lp support lemmas above, independently of the later measure-duality
 and spectral applications in B5.
+
+**Checks.**
+- ℝ and ℝ² over ℝ (and ℂ and ℂ² over ℂ) have Hilbert dimensions 1 and 2 and admit
+  no linear isometric equivalence; a classification of separable spaces by
+  separability alone would identify them.
+- lp(S,𝕜,2) has Hilbert dimension `#S`, witnessed by the unit vectors; for S=ℕ this
+  is ℵ₀ while the Hamel rank `Module.rank` of ℓ² is the continuum, so the algebraic
+  rank is the wrong invariant.
+- The zero space has the empty Hilbert basis and dimension 0, and ℂⁿ has dimension
+  n for every orthonormal basis, in agreement with `finrank`; lp(ℕ,𝕜,2) and
+  lp(ℤ,𝕜,2) both have dimension ℵ₀ and are unitarily equivalent through any
+  bijection ℕ≃ℤ, so the dimension does not depend on the chosen basis.
+
+*Needs:* Mathlib `HilbertBasis`, `HilbertBasis.repr`, `exists_hilbertBasis`,
+`HilbertBasis.toOrthonormalBasis`, `Orthonormal`, `Cardinal.lift`, `Cardinal.mk`;
+the lp support lemmas above.
 
 Construct the explicit complex unitary `ℓ²(ℕ,ℂ)≃L²([0,1],ℂ)` using native
 `fourierBasis` on UnitAddCircle, its a.e. unit-interval/Haar comparison,
@@ -925,11 +994,14 @@ singleton variation identity for the restriction: ν({∞})=0 implies
 so its kernel is closed in the already complete compact-space M(X⁺).
 Transport completeness through this isometry. Include empty and already
 compact X, and compare with the preceding M(K) construction when X=K.
+*Needs:* Mathlib `OnePoint`, `MeasureTheory.VectorMeasure`,
+`VectorMeasure.variation`, `VectorMeasure.variation_smul`; the compact-space
+M(K) construction above; SelfAdjointSpectralTheory SA-B81–84.
 
 For nonempty `K`, prove that the extreme points of its dual unit ball are
 exactly `λδ_x`, `|λ|=1`, by splitting variation on measurable sets and
 using regularity; handle empty spaces separately.
-Prove the Banach–Stone theorem in its operator form: a surjective linear
+Prove the Banach–Stone theorem (`banach_stone`) in its operator form: a surjective linear
 isometry `C(K,𝕜) → C(L,𝕜)` is `f ↦ h · (f ∘ φ)`, where `φ : L ≃ₜ K` and
 `h : C(L,𝕜)` has pointwise modulus one; include uniqueness and the converse.
 Construct `φ` and `h` from the adjoint action on extreme Dirac functionals,
@@ -972,11 +1044,13 @@ prove |h|=1 ν-a.e. Use these derivatives to transfer weak
 nullity to the densities in the displayed dominating-measure construction.
 Uniform integrability of those densities and bounded convergence of the weakly
 null continuous functions then prove the `C(K)` sequence criterion.
-Construct the isometric duality `(L¹(μ))*≃L∞(μ)` for σ-finite μ by the integral pairing,
+Construct the isometric duality `(L¹(μ))*≃L∞(μ)` for σ-finite μ by the integral pairing
+(`exists_lpInftyDualEquiv`),
 with indicator tests and Radon–Nikodym densities giving surjectivity and the
 essential-bound norm equality. For 1<p<∞ and q=p/(p−1), on native
 scalar Lp spaces over an arbitrary measure μ prove the isometric linear
-duality `(Lᵖ(μ))*≃L^q(μ)` by φ_g(f)=∫fg, bilinear without conjugation.
+duality `(Lᵖ(μ))*≃L^q(μ)` by φ_g(f)=∫fg, bilinear without conjugation
+(`exists_lpDualEquiv`).
 Consume B2's Clarkson inequalities and `UniformConvexSpace` instances;
 B2's norm-attainment theorem and the derivative of the p-norm identify
 every functional with g=‖φ‖|f|^(p−2)conjugate(f) at a normalized
@@ -984,13 +1058,21 @@ maximizing f. At f=0 the pointwise expression is zero. Prove the
 differentiation/domination, Hölder and exact-norm statements on actual
 a.e. classes; this proof requires no σ-finiteness. Include zero measure
 and zero functional and uniqueness almost everywhere.
+*Needs:* Mathlib `MeasureTheory.Lp`, `ContinuousLinearMap.lpPairing`,
+`ENNReal.HolderConjugate`, signed and complex Radon–Nikodym derivatives; B2's
+Clarkson inequalities and `UniformConvexSpace` instances; B2's norm-attainment
+theorem.
 **B5.LocalHaarDual — the local-null Haar endpoint.** For a locally compact Hausdorff topological group G with its Borel measurable space and a nonzero regular left Haar measure μ, and scalars 𝕜=ℝ or ℂ, construct the following separate Banach space. A Borel function is locally essentially bounded if one finite bound works almost everywhere on every finite-μ-measure Borel set. Identify two such functions when they agree almost everywhere on every such set. Define the norm as the infimum of the common bounds, and prove that the bound at this infimum holds locally, using the countable bounds M+1/n on each test set. Call the resulting normed quotient `LocalHaarLInfinity 𝕜 μ`. Its integral pairing is bilinear, without conjugation, `⟨[g],f⟩=∫f g dμ` for native `MeasureTheory.Lp 𝕜 1 μ`. Construct the linear isometric equivalence
-`LocalHaarLInfinity 𝕜 μ ≃ₗᵢ[𝕜] NormedSpace.Dual 𝕜 (MeasureTheory.Lp 𝕜 1 μ)`.
+`LocalHaarLInfinity 𝕜 μ ≃ₗᵢ[𝕜] NormedSpace.Dual 𝕜 (MeasureTheory.Lp 𝕜 1 μ)`
+(Hewitt–Ross, *Abstract Harmonic Analysis I*, Theorem 12.18, which identifies
+`L¹(G)*` with `L∞(G)` in the locally null convention; the locally Borel and
+locally null vocabulary is that of Bekka–de la Harpe–Valette, *Kazhdan's
+Property (T)*, Appendix C.5).
 Define addition, scalar multiplication, conjugation, pointwise multiplication and constants on the quotient and prove their representative independence. Supply the norm bounds, unit norm1, complex C*-identity and the real lattice/absolute-value comparisons by finite-test restrictions or the component model below. The zero class is exactly local nullity. Give bounded restriction maps, the displayed bilinear pairing/evaluation equations, and its order/positivity compatibility for real scalars. Prove compatibility with positive Haar rescaling and group/coset transport; keep the rescaled L¹ norm and integral pairing factors explicit. These are basic APIs of the introduced carrier, not a second harmonic or invariant-mean theory.
 
 No sigma-compactness, sigma-finiteness, countability of the dual or second countability of G is a standing hypothesis. This extends the preceding sigma-finite endpoint with a different carrier; it does not identify arbitrary native global `Lp 𝕜 ∞ μ` with this dual.
 
-Use the following explicit decomposition and gluing proof. Choose a symmetric compact identity neighbourhood and let H be the union of its finite powers, an open sigma-compact subgroup. H is also closed. Index the disjoint open left cosets by a set J; no quotient-group structure or normality is assumed. Choose representatives and transport the restricted measure on each coset to H by left translation. Each restricted measure μ_j is sigma-finite. Consume only the early raw Haar support/localization and Baire/null-envelope contract of AmenableGroups7.1, with its actual locally finite and finite-set compact-inner-regular hypotheses, not its later global-L∞ means, smoothing conclusion or amenability theorem. Its finite-level-set compact approximation puts each integrable function, modulo a global null set, on a countable union of compacts; each compact meets finitely many open cosets. Apply the same argument to a finite-measure Borel test set. This gives the precise countable-coset concentration needed below without declaring G sigma-compact or taking an arbitrary uncountable union of null sets.
+Use the following explicit decomposition and gluing proof. Choose a symmetric compact identity neighbourhood and let H be the union of its finite powers, an open sigma-compact subgroup. H is also closed. Index the disjoint open left cosets by a set J; no quotient-group structure or normality is assumed. Choose representatives and transport the restricted measure on each coset to H by left translation. Each restricted measure μ_j is sigma-finite. Consume only the early raw Haar support/localization and Baire/null-envelope contract of AmenableGroups Layer 7, item 1, with its actual locally finite and finite-set compact-inner-regular hypotheses, not its later global-L∞ means, smoothing conclusion or amenability theorem. Its finite-level-set compact approximation puts each integrable function, modulo a global null set, on a countable union of compacts; each compact meets finitely many open cosets. Apply the same argument to a finite-measure Borel test set. This gives the precise countable-coset concentration needed below without declaring G sigma-compact or taking an arbitrary uncountable union of null sets.
 
 Construct restriction as a linear isometric equivalence from `Lp 𝕜 1 μ` to the native dependent `lp (fun j ↦ Lp 𝕜 1 μ_j) 1`, with norm the sum of the component norms. In the inverse direction the summable norm family has countable nonzero support; choose Borel representatives only for those components, glue on their countable union of clopen cosets and put zero elsewhere. Prove integrability, both inverse laws and the sum-of-norms formula. Native `lp.hasSum_single` supplies convergence of finite-coordinate sums. This is an actual restriction/extension construction on a.e. classes, not a presumed uncountable product-measure identity.
 
@@ -1005,7 +1087,27 @@ Apply the preceding sigma-finite L¹ duality separately on each coset. Reuse the
 Construct the natural contractive surjection `Lp 𝕜 ∞ μ →L[𝕜] LocalHaarLInfinity 𝕜 μ`, with kernel exactly the globally represented classes that vanish locally. The Borel gluing above supplies a globally bounded representative for every local class. Under the additional hypothesis `SigmaFinite μ`, use a countable finite-measure exhaustion to prove local nullity equals global nullity and upgrade this map to the isometric equivalence with native global `Lp 𝕜 ∞ μ`. Do not assert injectivity or norm equality for the global-to-local map at arbitrary Haar generality. State the same comparison for completed Haar conventions via Borel a.e. representatives, with its actual null ideals explicit.
 
 Prove that left translations descend to linear isometries of the local quotient and satisfy
-`⟨L_x g,f⟩=⟨g,L_(x⁻¹) f⟩`, where `L_x f(y)=f(x⁻¹y)`. The integral is well defined by the L¹ countable-coset localization and the local bound. For bounded continuous functions the supremum norm equals the local essential norm, since any strict pointwise lower bound persists on an open set containing a compact subset of positive finite Haar mass. These facts supply the source local weak-star and continuous-representative interfaces used by A7. They add no local-dual prerequisite to AmenableGroups7's already stated global-carrier mean theorem. The B5 sigma-finite endpoint and native/raw Haar contract precede this new unit; later source translations consume it.
+`⟨L_x g,f⟩=⟨g,L_(x⁻¹) f⟩`, where `L_x f(y)=f(x⁻¹y)`. The integral is well defined by the L¹ countable-coset localization and the local bound. For bounded continuous functions the supremum norm equals the local essential norm, since any strict pointwise lower bound persists on an open set containing a compact subset of positive finite Haar mass. No roadmap on main consumes this local carrier: AmenableGroups Layer 7 states its invariant-mean theorem on the native global `Lp ℝ ∞ μ` and declines a local carrier. The B5 sigma-finite endpoint and the raw Haar contract precede this unit.
+
+**Checks.**
+- On an uncountable discrete group with counting measure the finite-measure sets are
+  the finite sets, so a local bound is one uniform bound and the local quotient is
+  ℓ∞(G)=(ℓ¹(G))*, with the global-to-local map an isometric equivalence; a
+  definition that imposed σ-finiteness would exclude this group.
+- On `ℝ_d × ℝ` (the discrete reals times the line, counting measure times Lebesgue
+  measure) the indicator of `ℝ_d × {0}` has global essential norm 1, is locally null
+  (it meets every finite-measure set in a null set), and its support has infinite
+  Haar measure since every open superset has measure `Σ_x 2ε_x = ∞`; so the
+  global-to-local map is not injective and the local quotient is not the global
+  `Lp 𝕜 ∞ μ`.
+- For σ-finite μ, in particular for every σ-compact G, local nullity equals global
+  nullity through a countable finite-measure exhaustion, and the global-to-local map
+  is an isometric equivalence; a definition whose zero class were smaller than local
+  nullity would not recover the σ-finite endpoint.
+
+*Needs:* Mathlib `Measure.haar`, `Measure.Regular`, `lp` over a dependent family,
+`lp.dualPairing`, `ContinuousLinearMap.lpPairing`, `lp.hasSum_single`; AmenableGroups
+Layer 7, item 1; the σ-finite duality above.
 
 Construct `(L∞(μ))*` as bounded-variation finitely additive charges on
 the measurable sets, vanishing on μ-null sets. Use native
@@ -1045,10 +1147,10 @@ sequence criterion, so it supplies the claimed counterexample.
 The operator-ideal completeness and series characterizations below use Banach
 source and target spaces; finite-family inequalities retain normed-space scope.
 
-For real `1 ≤ p < ∞`, define the weak `p`-norm of a finite family `(xᵢ)` as
-`sup_{‖f‖≤1} (∑ |f(xᵢ)|ᵖ)^(1/p)`. A bounded operator is absolutely `p`-summing
-if `(∑ ‖Txᵢ‖ᵖ)^(1/p)` is bounded by a constant times that weak norm; `πₚ(T)`
-is the least constant. Bundle the operators satisfying this finite-family
+For real `1 ≤ p < ∞`, define the weak `p`-norm (`weakNorm`) of a finite family
+`(xᵢ)` as `sup_{‖f‖≤1} (∑ |f(xᵢ)|ᵖ)^(1/p)`. A bounded operator is absolutely
+`p`-summing with constant `C` (`IsAbsolutelySumming`) if `(∑ ‖Txᵢ‖ᵖ)^(1/p)` is
+bounded by `C` times that weak norm; `πₚ(T)` is the least constant. Bundle the operators satisfying this finite-family
 inequality as an underlying submodule of `E →L[𝕜] F`. Use a separate normed
 type synonym `Π_p(E,F)` carrying the `π_p` norm, with a contractive
 forgetful inclusion into the operator-norm carrier. Construct the Banach operator ideal, with rank-one norm,
@@ -1056,7 +1158,7 @@ forgetful inclusion into the operator-norm carrier. Construct the Banach operato
 for `p ≤ q`. For `p = 1`, prove the characterization by taking unconditionally
 convergent series to absolutely convergent series.
 
-Prove Pietsch domination: `πₚ(T) ≤ C`, for `C ≥ 0`, iff there is a regular Borel
+Prove Pietsch domination (`pietsch_domination`): `πₚ(T) ≤ C`, for `C ≥ 0`, iff there is a regular Borel
 probability measure `ν` on the weak-star compact dual unit ball such that
 `‖Tx‖ ≤ C (∫ |f(x)|ᵖ dν(f))^(1/p)` for all `x`. Include the separating-convex-sets
 argument constructing `ν`, measurability of evaluations, and factorization through
@@ -1064,18 +1166,40 @@ the closure of the canonical image of `E` in `Lᵖ(ν)` when the target `F` is
 complete, with factor norm at most `C`. For normed incomplete targets,
 construct the factor on the canonical image itself.
 Do not assert extension of this factor to all `Lᵖ(ν)` with arbitrary codomain.
-Use the closed dual unit ball as a subtype of `WeakDual 𝕜 E`, with the inherited
+Use the closed dual unit ball (`DualBall`) as a subtype of `WeakDual 𝕜 E`, with the inherited
 compact topology and its Borel measurable structure, for the carrier of `ν`.
 
 **B6.Cotype2 — Gaussian comparison and the finite-Hilbert summing bound.**
 For a finite family y in a real Banach space Y, put
 `R₂(y)=(E_ε‖Σ ε_i y_i‖²)^(1/2)` on the uniform finite sign cube and
 `G₂(y)=(E_g‖Σ g_i y_i‖²)^(1/2)` for independent real standard Gaussians.
-Define a cotype-2 bound C≥1 by `√(Σ‖y_i‖²)≤C R₂(y)` for every finite
-y. Supply reindexing, zero-padding, homogeneity, closed-subspace and bounded-
-isomorphism transport, Hilbert cotype with C=1, and finite Hilbert-direct-sum
-bounds. Use these same definitions on the underlying real space of a complex
-Banach space. Construct the shared finite Gaussian model here, before its
+Define Rademacher type p, for 1≤p≤2, with constant C by
+`R₂(y)≤C(Σ‖y_i‖^p)^(1/p)` and Rademacher cotype q, for 2≤q<∞, with constant C by
+`(Σ‖y_i‖^q)^(1/q)≤C R₂(y)`, both for every finite family y (`HasType`,
+`HasCotype`, on the sign average `rademacherSecondMoment`); a cotype-2 bound is
+cotype 2 with constant C≥1 (Pisier, *Grothendieck's theorem, past and present*,
+Definition 9.6, for cotype 2, type 2 and the cotype-q variant). Supply
+reindexing, zero-padding, homogeneity, closed-subspace transport with the same
+constant, bounded-isomorphism transport with constant multiplied by
+`‖U‖‖U⁻¹‖`, finite direct sums, monotonicity (type p implies type p′ for
+p′≤p, cotype q implies cotype q′ for q′≥q), every space has type 1 and no
+nonzero space has cotype q<2 or type p>2 (by the two-point family y,y), and
+Hilbert type 2 and cotype 2 with C=1 by the parallelogram law. Prove Kahane's
+inequality so that the first-moment and second-moment definitions agree up to a
+universal constant. Use these same definitions on the underlying real space of a
+complex Banach space.
+
+**Checks.**
+- In c₀ the unit vectors e₁,…,e_n have `Σ‖e_i‖^q=n` while every signed sum has
+  supremum norm 1, so `n^(1/q)≤C` fails for large n and c₀ has no finite cotype;
+  a definition with the roles of the two sides exchanged would give c₀ cotype 2.
+- In ℓ¹ the unit vectors have `(Σ‖e_i‖²)^(1/2)=√n` and every signed sum has norm
+  n, so ℓ¹ has cotype 2 with constant 1 on this family, while type p>1 fails since
+  `n≤C n^(1/p)` fails for large n.
+- In a Hilbert space `E_ε‖Σ ε_i y_i‖²=Σ‖y_i‖²` exactly, so type 2 and cotype 2
+  hold with constant 1; the family (y,y) in any nonzero space gives
+  `R₂=√2‖y‖` against `2^(1/q)‖y‖`, excluding cotype q<2 with constant 1 and
+  type p>2 with any constant. Construct the shared finite Gaussian model here, before its
 use in this argument and Grothendieck's inequality below; prove the required
 Banach-valued integrability and sign/Gaussian law comparisons.
 
@@ -1093,7 +1217,8 @@ Choose t=t(C)>0 with `C(E[g² 1_{|g|>t}])^(1/2)≤1/2`. Split each Gaussian
 into its bounded and tail parts. Sign contraction bounds the bounded sum by
 `t R₂(y)`; the 2-summing/Pietsch bound and the tail covariance bound its
 L² norm by `C(E[g² 1_{|g|>t}])^(1/2)G₂(y)`. Absorption proves
-`G₂(y)≤2t(C)R₂(y)` and hence `π₂(U)≤2C t(C)R₂(Ue_i)`.
+`G₂(y)≤2t(C)R₂(y)` and hence `π₂(U)≤2C t(C)R₂(Ue_i)`
+(`cotype2_summing_bound` records this with a constant depending only on C).
 For complex-linear U, pass to its realification and the real orthonormal basis
 `(e_i,i e_i)`: compare the real and complex weak-2 norms and use the Gaussian
 triangle inequality to obtain `π₂(U)≤4C t(C)R₂(Ue_i)`.
@@ -1103,9 +1228,12 @@ hypothesis version of the first bound. This is Pisier, *Factorization of
 Linear Operators and Geometry of Banach Spaces*, §3, Lemma3.5,
 Proposition3.7, Lemma3.8 and Theorem3.9 (pp33–37). It uses neither a
 noncommutative Khintchine theorem nor a predual cotype assertion.
+*Needs:* Mathlib Bochner integration and finite sign averages, `EuclideanSpace`;
+B6's summing-operator carrier and Pietsch domination; the finite Gaussian model
+of this layer.
 
-Prove the real and complex Grothendieck inequalities with finite universal
-constants `κ_ℝ=8` and `κ_ℂ=16`: for any finite scalar matrix `a`, the supremum of
+Prove the real and complex Grothendieck inequalities (`grothendieck_real`,
+`grothendieck_complex`) with finite universal constants `κ_ℝ=8` and `κ_ℂ=16`: for any finite scalar matrix `a`, the supremum of
 `|∑ aᵢⱼ ⟨uᵢ,vⱼ⟩|` over Hilbert unit-ball vectors is bounded by `κ_𝕜` times the
 supremum of `|∑ aᵢⱼ sᵢtⱼ|` over scalar unit balls. First use finite-dimensional
 Euclidean vectors; pass from any Hilbert space to their finite-dimensional
@@ -1139,7 +1267,7 @@ triangle inequality, invariance under isometry and distance one iff isometry.
 Define finite representability using arbitrarily small distortion embeddings of
 each finite-dimensional subspace; prove transitivity and inheritance by subspaces.
 
-Prove local reflexivity: for finite-dimensional `F ≤ E**`, `G ≤ E*` and `ε > 0`,
+Prove local reflexivity (`local_reflexivity`): for finite-dimensional `F ≤ E**`, `G ≤ E*` and `ε > 0`,
 there is a linear embedding `T : F → E` with distortion at most `1+ε`, preserving
 every pairing with `G` and satisfying `T(J_E x) = x` whenever `J_E x ∈ F`.
 Make the two-sided `(1−ε,1+ε)` norm bounds for `0 < ε < 1` the primary
@@ -1168,13 +1296,15 @@ In the position where the maximal-volume inscribed ellipsoid is the Euclidean
 unit ball, construct contact points `u_i∈∂K∩S^(n−1)` and positive weights
 `c_i` with `∑ c_i(u_i⊗u_i)=I` and `∑ c_i=n`, for `n≥1`; here
 `u_i⊗u_i` denotes the rank-one map `x↦⟨u_i,x⟩u_i`. Derive
-`d(E,ℓ²_n) ≤ √n` and the Kadec–Snobar projection theorem: every `n`-dimensional
-subspace of a real Banach space admits a projection of norm at most `√n`.
+`d(E,ℓ²_n) ≤ √n` and the Kadec–Snobar projection theorem (`kadec_snobar`): every `n`-dimensional
+subspace of a real normed space is the range of a projection of norm at most `√n`.
 
-Prove Dvoretzky's theorem: for every `k ≥ 1` and `ε > 0` there is `N` such that
-every real normed space of dimension at least `N` has a `k`-dimensional subspace
-at Banach–Mazur distance less than `1+ε` from `ℓ²_k`. Deduce that `ℓ²` is finitely
-representable in every infinite-dimensional real Banach space. Build the sphere
+Prove Dvoretzky's theorem (`dvoretzky_finite`): for every `k` and `ε > 0` there is
+`N` such that every real normed space of dimension at least `N` admits an embedding
+`T:ℓ²_k→E` with `(1−ε)‖x‖≤‖Tx‖≤(1+ε)‖x‖`, so a `k`-dimensional subspace at
+Banach–Mazur distance at most `(1+ε)/(1−ε)` from `ℓ²_k`; any prescribed distortion
+follows by choosing `ε` smaller, and `k=0` is trivial. Deduce that `ℓ²` is finitely
+representable in every infinite-dimensional real Banach space (`dvoretzky`). Build the sphere
 concentration and net estimates used for this: normalized spherical measure,
 rotation invariance, a bound `2 exp(−c n t²/L²)` about a median for real
 `L`-Lipschitz functions on `Sⁿ⁻¹` with its Euclidean distance, for `n ≥ 2`, `L > 0`
@@ -1230,6 +1360,11 @@ for `n≥4`, without an optimality claim.
   and approximation/tensor comparisons.
 * Ball, [*An Elementary Introduction to Modern Convex Geometry*](https://math.uchicago.edu/~shmuel/AAT-readings/Combinatorial%20Geometry%2C%20Concentration%2C%20Real%20Algebraic%20Geometry/ball.pdf),
   Lecture 3, Theorem 3.1: John's ellipsoid and the contact-point decomposition.
+* Hewitt–Ross, *Abstract Harmonic Analysis I*, Theorem 12.18: the duality
+  `L¹(G)*=L∞(G)` for an arbitrary locally compact group in the locally null
+  convention (B5.LocalHaarDual).
+* Pisier, [*Grothendieck's theorem, past and present*](https://arxiv.org/abs/1101.4195),
+  Definition 9.6: cotype 2, type 2 and cotype q (B6.Cotype2).
 * Garrido–Jaramillo, [*Variations on the Banach–Stone theorem*](https://matematicas.unex.es/~extracta/Vol-17-3/17J3Mari.pdf),
   §2, Theorems 2 and 4: the real weighted-composition theorem and Arens–Kelley
   extreme points. The complex version uses the variation splitting and phase
