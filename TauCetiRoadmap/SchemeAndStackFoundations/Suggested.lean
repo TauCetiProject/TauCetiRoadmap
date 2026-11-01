@@ -29,7 +29,7 @@ Headline theorems that are not statable at the pins, and what each lacks:
 * §1.23: the Keel–Mori theorem (an algebraic stack of finite presentation with finite inertia
   has a coarse moduli space). The pins have no algebraic stack (a stack in groupoids with
   representable diagonal and a smooth atlas), no inertia stack and no coarse moduli space;
-  this file has only `Stacks.StackInGroupoids`.
+  their construction is specified in README.md §§1.18–1.23.
 * §2.19–§2.20: coherent Grothendieck duality (the right adjoint `f^!` of `Rf_*` on `D_qc` for
   proper `f`, and the dualizing complex). The pins have no derived pushforward of module
   sheaves on schemes between the categories `DQCoh`.
@@ -248,21 +248,6 @@ def IsJ2 (R : Type u) [CommRing R] : Prop :=
 
 /-- Stacks, Definition 15.53.1 (1); no catenarity is required. -/
 def IsQuasiExcellentRing (R : Type u) [CommRing R] : Prop := IsGRing R ∧ IsJ2 R
-
-/-- Catenary rings: chains between two primes are bounded and all saturated chains between them
-have one length. Stacks, Definition 10.105.1 (00NI). -/
-def IsCatenary (R : Type u) [CommRing R] : Prop :=
-  ∀ p q : PrimeSpectrum R, p ≤ q →
-    (∃ n : ℕ, ∀ s : LTSeries (PrimeSpectrum R), s.head = p → s.last = q → s.length ≤ n) ∧
-    ∀ s t : LTSeries (PrimeSpectrum R),
-      s.head = p → s.last = q → t.head = p → t.last = q →
-      (∀ i : Fin s.length, s (Fin.castSucc i) ⋖ s i.succ) →
-      (∀ i : Fin t.length, t (Fin.castSucc i) ⋖ t i.succ) → s.length = t.length
-
-/-- Quasi-excellent and universally catenary. Stacks, Definition 15.53.1 (2). -/
-def IsExcellentRing (R : Type u) [CommRing R] : Prop :=
-  IsQuasiExcellentRing R ∧ ∀ (B : Type u) [CommRing B] [Algebra R B],
-    Algebra.FiniteType R B → IsCatenary B
 
 /-- Quasi-excellent rings are Nagata. Stacks, Lemma 15.53.5 (07QV). -/
 theorem IsQuasiExcellentRing.isNagata (R : Type u) [CommRing R]
@@ -504,9 +489,6 @@ open _root_.CategoryTheory _root_.CategoryTheory.Limits _root_.Opposite _root_.A
 /-- Presheaves of sets on the big category of schemes. -/
 abbrev SchemePresheaf := Scheme.{u}ᵒᵖ ⥤ Type u
 
-/-- `Cat`-valued pseudofunctors on schemes, the carriers of stacks. -/
-abbrev SchPseudofunctor := Pseudofunctor (LocallyDiscrete Scheme.{u}ᵒᵖ) Cat.{u, u + 1}
-
 /-! ### §1.3–§1.10 Algebraic spaces -/
 
 namespace Spaces
@@ -593,10 +575,6 @@ structure GroupSpace (S : Scheme.{u}) where
 
 attribute [instance] GroupSpace.grp
 
-/-- An action of a group space: Mathlib's `ModObj`. Stacks, Definition 78.8.1 (043Q). -/
-abbrev Action {S : Scheme.{u}} (G : GroupSpace S) (X : Over (yoneda.obj S)) : Type _ :=
-  ModObj G.obj X
-
 /-- The action morphism `G × X → X`. -/
 def act {S : Scheme.{u}} (G : GroupSpace S) (X : Over (yoneda.obj S)) [ModObj G.obj X] :
     G.obj ⊗ X ⟶ X := ModObj.smul (M := G.obj) (X := X)
@@ -640,16 +618,6 @@ theorem torsorRepresentability {S : Scheme.{u}} (G : GroupSpace S) (P : Over (yo
     IsAlgebraicSpace P.left ∧ IsTorsor G P := by
   sorry
 
-/-- Invariant morphisms for a pre-relation `s, t : R → U`. -/
-def IsInvariant {U R X : SchemePresheaf.{u}} (s t : R ⟶ U) (φ : U ⟶ X) : Prop :=
-  s ≫ φ = t ≫ φ
-
-/-- Categorical quotients in algebraic spaces. Stacks, Definition 83.4.1 (048J). -/
-def IsCategoricalQuotient {U R X : SchemePresheaf.{u}} (s t : R ⟶ U) (φ : U ⟶ X) : Prop :=
-  IsAlgebraicSpace X ∧ IsInvariant s t φ ∧
-    ∀ (Y : SchemePresheaf.{u}), IsAlgebraicSpace Y → ∀ ψ : U ⟶ Y, IsInvariant s t ψ →
-      ∃! χ : X ⟶ Y, φ ≫ χ = ψ
-
 /-- Artin's bootstrap: an fppf sheaf with a flat, locally finitely presented, fppf-surjective
 map from an algebraic space, representable by algebraic spaces, is an algebraic space.
 Stacks, Theorem 80.10.1 (04S6). -/
@@ -665,56 +633,6 @@ theorem artinBootstrap (F : SchemePresheaf.{u}) (hF : Presheaf.IsSheaf Scheme.fp
   sorry
 
 end Groups
-
-/-! ### §1.18 Stacks in groupoids -/
-
-namespace Stacks
-
-/-- A stack in groupoids over the big fppf site. Stacks, Definitions 8.4.1 (026F) and
-8.5.1 (02ZI). -/
-structure StackInGroupoids where
-  toPseudofunctor : SchPseudofunctor.{u}
-  isGroupoid : ∀ T : Scheme.{u}, IsGroupoid (toPseudofunctor.obj ⟨op T⟩)
-  isStack : toPseudofunctor.IsStack Scheme.fppfTopology
-
-/-! ### §1.20 Compatible valuative lifts -/
-
-/-- A lift of a specified 2-commutative square, retaining the generic identification,
-the base identification and their compatibility with the strong naturality constraint.
-For a valuation ring this is the dotted-arrow datum of Stacks, Definition 101.39.1 (0CLA). -/
-structure ValuativeLift {X Y : StackInGroupoids.{u}}
-    (f : Pseudofunctor.StrongTrans X.toPseudofunctor Y.toPseudofunctor)
-    {T S : Scheme.{u}} (j : T ⟶ S)
-    (x : X.toPseudofunctor.obj ⟨op T⟩) (y : Y.toPseudofunctor.obj ⟨op S⟩)
-    (γ : (Y.toPseudofunctor.map ⟨j.op⟩).toFunctor.obj y ≅
-      (f.app ⟨op T⟩).toFunctor.obj x) where
-  obj : X.toPseudofunctor.obj ⟨op S⟩
-  genericIso : (X.toPseudofunctor.map ⟨j.op⟩).toFunctor.obj obj ≅ x
-  baseIso : y ≅ (f.app ⟨op S⟩).toFunctor.obj obj
-  compatibility :
-    (Y.toPseudofunctor.map ⟨j.op⟩).toFunctor.mapIso baseIso ≪≫
-      ((Cat.Hom.toNatIso (f.naturality ⟨j.op⟩)).app obj).symm ≪≫
-      (f.app ⟨op T⟩).toFunctor.mapIso genericIso = γ
-
-/-- Transport a lift along a chosen isomorphism of generic objects, carrying that
-isomorphism into both the generic identification and the specified square.
-Stacks, Definition 101.39.1 (0CLA). -/
-def ValuativeLift.reidentify {X Y : StackInGroupoids.{u}}
-    {f : Pseudofunctor.StrongTrans X.toPseudofunctor Y.toPseudofunctor}
-    {T S : Scheme.{u}} {j : T ⟶ S}
-    {x x' : X.toPseudofunctor.obj ⟨op T⟩} {y : Y.toPseudofunctor.obj ⟨op S⟩}
-    {γ : (Y.toPseudofunctor.map ⟨j.op⟩).toFunctor.obj y ≅
-      (f.app ⟨op T⟩).toFunctor.obj x}
-    (L : ValuativeLift f j x y γ) (e : x ≅ x') :
-    ValuativeLift f j x' y (γ ≪≫ (f.app ⟨op T⟩).toFunctor.mapIso e) where
-  obj := L.obj
-  genericIso := L.genericIso ≪≫ e
-  baseIso := L.baseIso
-  compatibility := by
-    simpa only [Functor.mapIso_trans, Iso.trans_assoc] using
-      congrArg (fun δ => δ ≪≫ (f.app ⟨op T⟩).toFunctor.mapIso e) L.compatibility
-
-end Stacks
 
 /-! ### §1.24 Galois descent -/
 
@@ -877,11 +795,6 @@ structure ElementaryDistinguishedSquare (X : Scheme.{u}) where
 namespace ElementaryDistinguishedSquare
 
 attribute [instance] isOpenImmersion etale
-
-/-- The cartesian square `U ×_X V → V, U`, `j`, `p`. -/
-def toSquare {X : Scheme.{u}} (S : ElementaryDistinguishedSquare X) : Square Scheme.{u} :=
-  { f₁₂ := pullback.fst S.j S.p, f₁₃ := pullback.snd S.j S.p, f₂₄ := S.j, f₃₄ := S.p,
-    fac := pullback.condition }
 
 /-- Every Nisnevich sheaf sends an elementary distinguished square to a pullback square: the sheaf
 condition for the covering `{j, p}`. Morel–Voevodsky, §3.1, Lemma 1.6 and Remark 1.7. -/
@@ -1540,12 +1453,6 @@ def ChowGroup (X : Scheme.{u}) [X.Over (Spec (.of κ))]
 instance (X : Scheme.{u}) [X.Over (Spec (.of κ))] [LocallyOfFiniteType (X ↘ Spec (.of κ))]
     (k : ℤ) : AddCommGroup (ChowGroup κ X k) :=
   inferInstanceAs (AddCommGroup (cyclesOfDimension κ X k ⧸ RatEquiv κ X k))
-
-/-- The class of a cycle. -/
-def cycleClass (X : Scheme.{u}) [X.Over (Spec (.of κ))]
-    [LocallyOfFiniteType (X ↘ Spec (.of κ))] (k : ℤ) :
-    cyclesOfDimension κ X k →+ ChowGroup κ X k :=
-  QuotientAddGroup.mk' _
 
 /-- Chow groups of a coproduct are the product of the Chow groups, for any small family.
 Stacks, Definition 42.19.1 (02RW). -/
