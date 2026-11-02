@@ -843,7 +843,8 @@ Existing formalizations of Layers 7–9 to port or consult (cited sources, not s
   *Homology Homotopy Appl.* 11 (2009), 309–326: §1.1–1.2 (cube categories), §2 (test
   categories recalled: 2.1–2.5, Theorem 2.6), §3, §5.
 - A. Grothendieck, *Pursuing Stacks* (ed. G. Maltsiniotis, Documents Mathématiques 20, SMF,
-  2022), and *Les Dérivateurs* (ed. M. Künzer, J. Malgoire, G. Maltsiniotis).
+  2022; the 1983 typescript is open access as
+  [arXiv:2111.01000](https://arxiv.org/abs/2111.01000)), and *Les Dérivateurs* (ed. M. Künzer, J. Malgoire, G. Maltsiniotis).
 - P. Gabriel, M. Zisman, *Calculus of Fractions and Homotopy Theory*, Ergebnisse der
   Mathematik 35, Springer (1967), Zbl 0186.56802: Chapter I, 1.1 (categories of fractions).
 - D. Quillen, « Higher algebraic K-theory I », LNM 341 (1973), §1, Theorems A and B.
