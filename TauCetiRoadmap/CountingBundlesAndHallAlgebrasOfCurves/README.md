@@ -14,7 +14,7 @@ The following constructions belong to the named suppliers and have no second con
 - EndoscopicTransferAndUnitaryTraceComparison §3.6 owns the reductive bundle Higgs stack in characteristic prime to the Weyl order; §3.7 owns the all-field coherent canonical Higgs carrier with ordinary slope stability, existential good lines and the bounded Quot presentations of Higgs sheaves. AutomorphicSpectralTheory §6.22c owns ordinary bundle Higgs HN theory and coprime stability; §6.24 owns the canonical bundle Higgs deformation complex and strict-slope extension formula. Section 7.1 here adds the positive exact category and the coherent derived comparison. ReductiveGroupsPartII §RG2.3.7 owns Lang's theorem; the descent-gerbe neutrality statement of §1.6 is a separate theorem.
 - ClassicalGroupsPartII §§CG.0.4–CG.0.5 and CG.2.4–CG.2.6 owns the reciprocal torus, Weyl action and full character ring. Section 0.1 specializes them to counting coefficients. FunctionFieldArithmetic §§0.2–0.3 and 5.1–5.4 owns the degree-one divisor, Picard comparison and zeta formulas.
 - SchemeKTheoryOperations §§6.2.1–6.2.2 owns special λ-rings and Adams operations. HabiroNahmSeries §5.1 owns the augmentation-complete ordinary multivariate logarithm and exponential over a ℚ-algebra and the plethystic coefficient family over ℚ(q), including uniqueness and admissibility. HabiroCyclotomicCompletions §1.1 owns elementary simultaneous q-and-series Adams substitution and its plethystic exponential on tℚ((q))[[t]]. The complete-Adams contract below extends the supplied plethystic calculus to complete filtered rational special λ-algebras and their coefficient parameters.
-- QSeriesPartitionsAndMockModularForms §§2.4 and 3.5 owns q-binomial and ordinary partition-series interfaces. Its Macdonald admissibility contract below asks that one roadmap for both generic modified Macdonald admissibility and Mellit's regular-sequence deformation theorem. RepresentationTheory/SchurWeyl Layer 7 owns symmetric functions: Schur polynomials and the Frobenius characteristic, and the stable symmetric-function ring with its Hall inner product, which that layer names as its step after the finite-variable Frobenius characteristic. The Macdonald contract is built on that ring and pairing, with no second symmetric-function carrier. The generic theorem is an input to Layer 10, whose own deformation is the curve partition identity.
+- QSeriesPartitionsAndMockModularForms §§2.4 and 3.5 owns q-binomial and ordinary partition-series interfaces. Its Macdonald admissibility contract below asks that one roadmap for both generic modified Macdonald admissibility and Mellit's regular-sequence deformation theorem. RepresentationTheory/SchurWeyl Layer 7 supplies finite-variable Schur polynomials and the Frobenius characteristic. Its stable symmetric-function continuation is specified by the separate contract below, including the Hall pairing and finite-alphabet maps. The Macdonald contract depends on that continuation, with no second symmetric-function carrier. The generic theorem is an input to Layer 10, whose own deformation is the curve partition identity.
 - DeligneWeightsAndPurity §§0.10, 0.12, 0.16–0.18, 7.15 and 10.5 owns Frobenius linear algebra, projective purity and equidistribution. EtaleDualityAndPerverseSheaves §§0.4 and 0.6–0.7 owns duality and trace comparisons. CohomologicalPointCounting’s “The combined endpoint” section and ComplexComparisonPartII §C6.6 own compact cohomology and comparison. Section 9.3 compares the compact cohomology of a fixed complex Higgs space with a finite-field fibre of its spread-out.
 - Mathlib already has Young diagrams, transpose, Jacobson-radical structure and the general-linear-group cardinality; Tau Ceti already has arm and leg lengths; these are used with their pinned hypotheses. No second partition carrier or general-linear-group counting theorem is planned.
 
@@ -46,7 +46,7 @@ Every API bullet and Check below has the hypotheses and source locators of its s
 
 ## Exact supplier contracts
 
-The named sections specify the material consumed. A paragraph beginning “Required extension” specifies additional mathematics needed from that owner; it does not attribute that extension to the cited section. The scope of each counting theorem includes the corresponding contract.
+The named sections specify the material consumed. Each paragraph labelled with a gap specifies additional mathematics needed from the named owner, beyond the cited section; extensions of an existing roadmap belong to its Part II, and the contract does not attribute them to the base roadmap. The scope of each counting theorem includes the corresponding contract.
 
 ### From Mathlib
 
@@ -92,7 +92,7 @@ WC.1, “Finite groupoid mass”, supplies the mass of an essentially finite gro
 
 Sections 1.18–1.21 give effective coherent and flag descent, quotient stacks, stabilizers, gerbes and atlas independence. Sections 2.6, 2.18, 2.20 and 3.3 give finite-dimensional proper coherent cohomology, derived Hom and direct image, natural duality, degree and Riemann–Roch. Sections 3.6–3.7 give Picard torsors and stacks, and §4.14 gives projective Quot with a fixed source. Sections 4.1 and 4.5 supply natural infinitesimal deformation maps and their tangent-obstruction sequences.
 
-Required extension of SchemeAndStackFoundations (coherent Ext–Serre duality): For every smooth projective geometrically connected curve and coherent U,V, provide a natural isomorphism Ext¹(U,V)* ≃ Hom(V,U⊗Ω), compatible with restriction, pushout and field extension, without requiring U locally free.
+What SchemeAndStackFoundations must provide (gap:coherent-ext-serre-duality): For every smooth projective geometrically connected curve and coherent U,V, provide a natural isomorphism Ext¹(U,V)* ≃ Hom(V,U⊗Ω), compatible with restriction, pushout and field extension, without requiring U locally free.
 
 The general coherent Ext–Hom contract is restricted here to smooth curves: on a nodal cubic the node skyscraper has Ext¹ dimension 2 but self-Hom dimension 1. On a smooth local curve k[t], Ext¹(k,k) and Hom(k,k) both have dimension 1. Strong generation means both Ext¹(L,F)=0 and surjectivity of Hom(L,F)⊗L→F; on P¹ the line O(−1) has Ext¹(O,O(−1))=0 but zero evaluation.
 
@@ -100,13 +100,13 @@ The general coherent Ext–Hom contract is restricted here to smooth curves: on 
 
 Section 1.3 supplies coherent quotients and relative partial flags. The fixed-source Quot construction of SchemeAndStackFoundations §4.14 supplies the charts and their family base change. Section 4.19's affine-stabilizer quotients require the following reductive character-quotient extension; finite-inertia coarse-space results alone cannot quotient a scalar G_m stabilizer.
 
-Required extension of AlgebraicModuliForArithmeticGeometry (reductive character GIT): Provide character-linearized reductive GIT for products of general linear groups, the Hilbert–Mumford criterion, geometric free projective-group quotients, base change and the projective morphism from the character quotient to the affine quotient.
+What AlgebraicModuliForArithmeticGeometry must provide (gap:reductive-character-git): Provide character-linearized reductive GIT for products of general linear groups, the Hilbert–Mumford criterion, geometric free projective-group quotients, base change and the projective morphism from the character quotient to the affine quotient.
 
 ### From TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison
 
 Section 3.7 supplies coherent canonical Higgs sheaves and ordinary geometric slope (semi)stability over every field, and the bounded good-line presentation: the strongly L₁-generated sheaves of class α form the quotient of the single-frame Quot open by GL_N, N=χ(L₁,F), and §3.7(a) puts every semistable Higgs bundle of class α there. Section 3.6 supplies the general reductive bundle Higgs stack, with its stated restriction on the characteristic and Weyl order. Use the coherent GL_r carrier of §3.7 with this bounded presentation for the stable moduli of §7.3. The locally free open gives the all-characteristic bundle carrier; comparison with §3.6 uses that section’s characteristic restriction.
 
-Required extension of EndoscopicTransferAndUnitaryTraceComparison (locally free canonical Higgs locus): For every field, construct the canonical GL_r Higgs bundle stack as the locally free open substack of the coherent canonical Higgs carrier of §3.7, with its bounded Quot charts; over finite fields identify it with the GL_r Hitchin stack of §3.6 when the characteristic does not divide r!.
+What EndoscopicTransferAndUnitaryTraceComparison must provide (gap:fixed-source-good-lines): For every field, construct the canonical GL_r Higgs bundle stack as the locally free open substack of the coherent canonical Higgs carrier of §3.7, with its bounded Quot charts; over finite fields identify it with the GL_r Hitchin stack of §3.6 when the characteristic does not divide r!.
 
 The stable canonical coarse geometry and the positive exact category are targets here. The generic higher-degree-twist smoothness and anisotropic properness results are not used as canonical-twist stable coarse theorems. For r=1 every Higgs bundle of class (1,d) is semistable and lies in the presentation. On P¹ with L₁=O(−n), the bundle O(a)⊕O(−a) with a≥n+2 has Ext¹(L₁,O(−a))=H¹(O(n−a))≠0 and lies outside it; every Higgs field on it leaves O(a) invariant, since O(a)→O(−a−2) vanishes, so it is unstable, as §3.7(a) requires.
 
@@ -122,7 +122,7 @@ Section RG2.3.7, “Lang's theorem and lifting”, supplies surjectivity of g↦
 
 Section 5.1 supplies ordinary multivariate augmentation logarithms and exponentials over a ℚ-algebra, their inverse and product/sum laws, and coefficientwise finite zero-augmentation substitutions. It also supplies the unique plethystic family L_n for constant-one series over ℚ(q), its triangular coefficient laws, product/inversion closure and Laurent admissibility. With the conventions here, L_n=(q−1)[t^n]Log F; the coefficient Adams structure on R_g is additional. For log(1+uv), the coefficients of uv and u²v² are 1 and −1/2, and exp(log(1+uv))=1+uv.
 
-Required extension of HabiroNahmSeries (complete Adams series): Extend the plethystic coefficient family and inverse Exp/Log calculus of §5.1 from ℚ(q) coefficients to augmentation-complete series over complete filtered rational special λ-algebras supplied by SchemeKTheoryOperations §§6.2.1–6.2.2, with continuous Adams operations acting on every coefficient parameter and grading variable; include coefficientwise functoriality, the finite-extension Möbius identity and agreement with HabiroCyclotomicCompletions §1.1 under Laurent-series specialization.
+What HabiroNahmSeries must provide (gap:complete-adams-series): Extend the plethystic coefficient family and inverse Exp/Log calculus of §5.1 from ℚ(q) coefficients to augmentation-complete series over complete filtered rational special λ-algebras supplied by SchemeKTheoryOperations §§6.2.1–6.2.2, with continuous Adams operations acting on every coefficient parameter and grading variable; include coefficientwise functoriality, the finite-extension Möbius identity and agreement with HabiroCyclotomicCompletions §1.1 under Laurent-series specialization.
 
 ### From TauCetiRoadmap.SchemeKTheoryOperations
 
@@ -134,13 +134,28 @@ Section 1.1 supplies the simultaneous substitutions q↦q^m, t↦t^m on tℚ((q)
 
 ### From TauCetiRoadmap.RepresentationTheory.SchurWeyl
 
-Layer 7 supplies Schur polynomials in finitely many variables and the finite-variable Frobenius characteristic, and names the stable symmetric-function ring with the Hall inner product, in which the Frobenius characteristic is an isometry, as its separately stated step after them. That ring and pairing are the carrier of the Macdonald admissibility contract below; no second symmetric-function carrier is introduced here or there. In the Hall inner product (p_λ,p_λ)=z_λ and distinct power-sum products are orthogonal: (p₂,p₂)=2 and (p₁²,p₁²)=2, while (p₁²,p₂)=0.
+Layer 7 supplies finite-variable Schur polynomials and the degree-n Frobenius characteristic in N≥n variables. The stable continuation has the following contract (M20P, §2.1, Proposition 2.1, pp.6–7, and §2.3, pp.10–11; M20P line 203 and M20P line 415).
+
+What RepresentationTheory/SchurWeyl must provide (gap:stable-symmetric-functions): For every commutative ring R, construct the graded ring Λ_R whose degree-n part consists of families of symmetric homogeneous degree-n polynomials in N variables, N≥0, compatible under setting the last variable to zero, and whose elements have only finitely many nonzero homogeneous degrees. Provide its coefficient-change maps, finite-alphabet specialization maps Λ_R→R[x₁,…,x_N]^(S_N), and transition maps from N+1 variables to N variables, with the following interface.
+
+- Specialization is a graded R-algebra map, commutes with coefficient change and the transition maps, and is an isomorphism on degree n when N≥n. It sends the stable Schur, elementary and complete functions to their finite-variable versions, and p_j to ∑ᵢxᵢʲ for j>0.
+- The degree-n Schur functions form an R-basis. Supply the R-bilinear Hall pairing with this basis orthonormal and distinct degrees orthogonal, compatible with coefficient change; over a rational algebra, the power-sum products form a basis and have pairing (p_λ,p_μ)=δ_(λ,μ)z_λ, where z_λ=∏_(j≥1)j^(m_j)m_j! and m_j is the multiplicity of j in λ. The pairing is perfect on each homogeneous part; no identification with the full dual of the infinite direct sum is asserted.
+- Over ℂ, supply the degree-n stable Frobenius characteristic from class functions of S_n to Λ_(ℂ,n), sending each irreducible character χ^λ to s_λ and preserving the bilinear pairing (f,g)=(1/n!)∑_(σ∈S_n)f(σ)g(σ⁻¹). Its specialization in N≥n variables equals the finite-variable characteristic of Layer 7; these compatibility and isometry statements follow from that layer's character expansion and orthogonality. Finite-alphabet specialization below this range is not required to preserve the pairing.
+
+This is the single stable carrier used by the Macdonald admissibility contract. Its degree completion is used only with the complete-Adams contract's convergence conditions.
+
+**Checks.**
+
+- Over ℚ, degree zero consists of ℚ·1, even in zero variables, with (1,1)=1. Degree one has p₁=s_(1), of norm 1, but zero-variable specialization sends it to 0; the degree-one specialization is an isomorphism only for N≥1.
+- Over ℚ in degree two, p₂=s_(2)−s_(1,1) and p₁²=s_(2)+s_(1,1), giving norms 2 and 2 and mixed pairing 0. In one variable both specialize to x², while s_(1,1) specializes to 0 although its stable norm is 1. Thus the stable dimension 2 drops to 1 and the Hall pairing cannot descend through that specialization.
+- In two variables s_(1,1)=x₁x₂ and s_(2)=x₁²+x₁x₂+x₂². Setting x₂=0 gives 0 and x₁²; setting both variables to zero gives 0 in either order. Over 𝔽₂, p₂=p₁² while these two Schur polynomials remain independent, so the power-sum basis assertion needs rational coefficients.
+- For S₂ the trivial and sign characters have pairing (1−1)/2=0 and self-pairings (1+1)/2=1, matching s_(2) and s_(1,1). Multiplying the trivial character by i gives self-pairing −1 on both sides; a Hermitian convention would give +1 and is excluded.
 
 ### From TauCetiRoadmap.QSeriesPartitionsAndMockModularForms
 
 Sections 2.4 and 3.5 supply q-binomial and Euler series and native partition adapters. Use the formal Euler specialization at base v=q⁻¹ for Heine summation; the corresponding logarithm is formed with the ordinary augmentation calculus supplied by HabiroNahmSeries §5.1, and the Laurent-series specialization agrees with HabiroCyclotomicCompletions §1.1. The symmetric-function continuation has the following exact contract (M20, Definition 5.1 and Lemma 5.1, pp.315–319).
 
-Required extension of QSeriesPartitionsAndMockModularForms (Macdonald admissibility): On the stable symmetric-function ring and Hall inner product of RepresentationTheory/SchurWeyl Layer 7, with no second carrier, provide modified Macdonald functions, the S-twisted Hall pairing `(p_λ,p_μ)_S=(p_λ,p_μ)∏_i S(q^(λ_i),t^(λ_i))` with S(q,t)=−(q−1)(t−1), equivalently (f,g)_S=(f,g[SX]) under plethystic substitution, ∇ and τ, integral HLV logarithms and Mellit’s regular symmetric Laurent sequence deformation theorem over rational λ-rings with injective localization.
+What QSeriesPartitionsAndMockModularForms must provide (gap:macdonald-admissibility): Using the stable symmetric-function contract of RepresentationTheory/SchurWeyl above as a prerequisite, on its ring and Hall pairing provide modified Macdonald functions, the S-twisted Hall pairing `(p_λ,p_μ)_S=(p_λ,p_μ)∏_i S(q^(λ_i),t^(λ_i))` with S(q,t)=−(q−1)(t−1), equivalently (f,g)_S=(f,g[SX]) under plethystic substitution, ∇ and τ, integral HLV logarithms and Mellit’s regular symmetric Laurent sequence deformation theorem over rational λ-rings with injective localization.
 
 Specifically, for a rational λ-ring R containing ℚ(t)[q±1], with injective localization `R→R⊗_{ℚ(t)[q±1]}ℚ(q,t)`, take Ω=∑c_λ H̃_λ with c_empty=1 and (q−1)Log Ω integral over R. For a regular symmetric Laurent sequence `f(u)=1+∑_{j>0}u^j f^(j)`, the deformed Ω_f has (q−1)Log Ω_f in R[[u]], with the same reduction modulo q−1. Here q is the deformation variable, which becomes z in Layer 10; the Hall pairing uses S=−(q−1)(t−1). In these generic variables the sequence condition is `f_{n+1}(1,x1,...,xn)=f_n(t*x1,...,t*xn)`. Under q_M=z and t_M=q this becomes the q-scaling condition of §10.2. The same contract also asks for the integral HLV conclusion (M20, Definition 5.1 and Lemma 5.1, pp.315–319; M18, Theorem 7.1 and Corollary 7.2, pp.29–31). Layer 10 consumes this generic theorem under the stated contract.
 
@@ -158,7 +173,7 @@ Section 5.17, “Mod l hyperelliptic monodromy is symplectic”, “Integral lif
 
 Sections 0.4 and 0.6–0.7 supply Frobenius-equivariant duality and integration. For smooth projective Z of dimension m, H^(2m−j)(Z)*(−m)≃H^j(Z), with geometric Frobenius.
 
-Required extension of EtaleDualityAndPerverseSheaves (affine bundle compact shift): Export the Frobenius-equivariant compact-cohomology comparison for every Zariski locally trivial rank-a affine bundle, with degree shift 2a, twist −a and compatibility with base change and the localization filtration.
+What EtaleDualityAndPerverseSheaves must provide (gap:affine-bundle-compact-shift): Export the Frobenius-equivariant compact-cohomology comparison for every Zariski locally trivial rank-a affine bundle, with degree shift 2a, twist −a and compatibility with base change and the localization filtration.
 
 Section 0.4 supplies top cohomology on the geometric components, including Frobenius descent; §0.6 supplies rational realization. Its dimension counts geometric components even if Frobenius permutes them; its trace counts the fixed components. For two exchanged components the top representation has dimension 2 and trace 0 at the first Frobenius power, so dimension is not inferred from that trace alone.
 
@@ -1370,7 +1385,7 @@ Prove the following statement. For every g≥1,r>0, `H_{g,r}` belongs to Z[q±1,
 
 One route is as follows. Apply HLV-kernel admissibility to remove denominators from H_g. Apply the regular-sequence deformation and finite denominator bounds to obtain the global Laurent conclusion of Mellit Theorem 5.2(i); use part (ii) for equality at z=1. Keep q_M=z and t_M=q throughout. Upgrade rational coefficients to integral coefficients through the integral modified-Macdonald expansion. Use the integral HLV supplier theorem.
 
-*Needs:* supplier contract for QSeriesPartitionsAndMockModularForms (Macdonald admissibility contract) on RepresentationTheory/SchurWeyl Layer 7; §10.2; §10.1; HabiroNahmSeries §5.1 and its complete-Adams contract; QSeriesPartitionsAndMockModularForms §3.5 and its Macdonald contract.
+*Needs:* supplier contract for QSeriesPartitionsAndMockModularForms (Macdonald admissibility contract) on the stable symmetric-function contract of RepresentationTheory/SchurWeyl; §10.2; §10.1; HabiroNahmSeries §5.1 and its complete-Adams contract; QSeriesPartitionsAndMockModularForms §3.5 and its Macdonald contract.
 
 **Checks.**
 
@@ -1413,7 +1428,7 @@ The one-box Mellit coefficient is ∏ᵢ(z−aᵢ)(1−q/aᵢ); its value at z=1
 - §5.9.
 - §5.10.
 - supplier contract for QSeriesPartitionsAndMockModularForms (Macdonald admissibility contract).
-- RepresentationTheory/SchurWeyl Layer 7.
+- RepresentationTheory/SchurWeyl Layer 7 and its stable symmetric-function contract.
 - §6.3.
 - §6.2.
 - §4.9.

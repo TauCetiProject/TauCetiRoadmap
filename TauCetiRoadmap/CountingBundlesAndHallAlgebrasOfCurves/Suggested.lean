@@ -31,7 +31,8 @@ The other headlines are not statable at the pins:
   Frobenius compact cohomology and complex comparison.
 * The nilpotent-cone reciprocal trace and component formula lack the stable reduced Hitchin
   zero fibre, its cohomology and the universal count.
-* Mellit's Laurent integrality lacks the plethystic logarithm on its rational
+* Mellit's Laurent integrality lacks the stable symmetric-function ring, its Hall
+  pairing and modified Macdonald functions, and the plethystic logarithm on its rational
   coefficient series. The scalar degree-independence consequence is stated below;
   its universal coefficient-ring identification lacks curve specialization.
 * Positivity in every degree lacks the universal bundle-count invariant.
