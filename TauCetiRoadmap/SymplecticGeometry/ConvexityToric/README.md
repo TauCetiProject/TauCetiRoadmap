@@ -21,9 +21,10 @@ complex realization. Layer 3 owns its symplectic form and moment image.
 OperatorTheory/Majorization Part A, MAJ-A18–A25, owns forward diagonal inequalities;
 Layer 3 adds realization of every majorized diagonal and the exact unitary-orbit image.
 LieGroups Layer 6 owns maximal tori, conjugacy and the Weyl comparison. The
-normalized rank-one map has the explicit supplier gap specified below; Layer 1
-owns its period/character comparison, conditional on that exact input contract.
-HamiltonianReduction R2 and R3 own coadjoint orbits and reduction, respectively;
+normalized compact rank-one construction and its period/character comparison belong
+to Layer 1. HamiltonianReduction R2 owns coadjoint orbits, R2a.2–4 owns their
+root-plane Hessians, generic isolated-critical-point heights and even-cell consequences,
+and R3 owns reduction;
 MorseTheory M1–M5 owns ordinary Morse–Bott attachments. Algebraic/analytic toric varieties,
 cones and fans belong to AnalyticToricGeometry, independently of symplectic classification.
 
@@ -54,15 +55,26 @@ and reduced symplectic classes use ℝ. Lean carriers have arbitrary type univer
   `convexHull`, `Set.extremePoints`, `Representation.invariants`, `mfderiv`,
   `LieGroup`, `IsZLattice` and `Basis.addHaar`. These give matrices, fixed subspaces,
   derivatives, convex sets and lattice-normalized Haar measure, without Hamiltonian hypotheses.
+  For the complexified semisimple summand use
+  `LieAlgebra.IsKilling.exists_isSl2Triple_of_weight_isNonZero` and
+  `LieAlgebra.IsKilling.finrank_rootSpace_eq_one` in
+  `Mathlib/Algebra/Lie/Weights/Killing.lean`, after proving the finite-dimensional,
+  characteristic-zero, Killing, Cartan and split-weight hypotheses in §1.1.
 - **From Tau Ceti:** `TauCeti.SmoothTwoForm` in
   `TauCeti/Geometry/Manifold/TwoForm/Basic.lean`, with
   `TauCeti.SmoothTwoForm.IsSymplectic` in
   `TauCeti/Geometry/Symplectic/Manifold/TwoForm.lean`, and
   `TauCeti.Toric.IsIntegralLattice` in `TauCeti/Geometry/Toric/Algebraic/Lattice.lean`.
   The last includes finite freeness and real scalar extension, rather than merely an
-  injective additive map with spanning image.
+  injective additive map with spanning image. For smooth Riemannian isometries use
+  `TauCeti.RiemannianIsometry.riemannianExp_mfderiv` in
+  `TauCeti/Geometry/Manifold/Riemannian/Isometry/Exponential.lean`: on finite-dimensional
+  smooth boundaryless Hausdorff manifolds with smooth Riemannian metrics, it intertwines
+  exponential maps with the actual differential; completeness is not assumed.
 - **From TauCetiRoadmap.HamiltonianReduction:** R1's smooth action and equivariant
-  moment-map equations, R2's coadjoint orbit/KKS and chamber comparisons, R3's free and
+  moment-map equations, R2's coadjoint orbit/KKS and chamber comparisons,
+  R2a.2–4's root-plane Hessians, critical set Wμ for regular heights, generic distinct
+  values and even-cell consequences on compact connected coadjoint orbits, R3's free and
   locally free reduction, and R3.1's proper-orbit symplectic slice normal form.
 - **From TauCetiRoadmap.LieGroups:** Layer 6's maximal tori, conjugacy, normalizer/Weyl
   comparison and exponential surjectivity; Layer 4's integration of Lie algebra
@@ -81,22 +93,13 @@ and reduced symplectic classes use ℝ. Lean carriers have arbitrary type univer
 - **From TauCetiRoadmap.DifferentialGeometry:** Layers 0–1's forms and exterior
   derivative, §5.5's density integration and Layer 6's de Rham cohomology.
   From TauCetiRoadmap.HeegaardFloer, §4.1's Darboux/Moser theory;
-  from TauCetiRoadmap.HopfRinow, Layer 1's local exponential map and isometry transport;
+  from TauCetiRoadmap.HopfRinow, Layer 1's local exponential map and Layer 4's
+  transport under smooth Riemannian isometries;
   from TauCetiRoadmap.GeometricTopology, Layer 1's tubular neighborhoods.
 - **From TauCetiRoadmap.SchubertGeometry:** S2's Bott–Samelson space and word121
   incidence/flag projection, and S9's complex realization.
   From TauCetiRoadmap.ComplexKahlerGeometry, K7.2's Fubini–Study form of line area 1.
   From TauCetiRoadmap.AnalyticToricGeometry, the integral cone/fan and lattice dictionary.
-
-**Supplier gap: normalized-compact-rank-one.** For every compact connected real Lie
-group G and maximal torus T, the required input consists of actual adjoint characters
-χ_α:T→S¹ with dχ_α=iα, the corresponding real coroots and smooth homomorphisms
-φ_α:SU(2)→G. Their diagonal circles land in T, their complexified differentials
-realize the root spaces, and dφ_α(diag(i,−i))=α∨ with α(α∨)=2. The maps must
-intertwine exponentials and be compatible with torus conjugation; a finite central
-kernel is allowed. This contract is stronger than LieGroups Layer 6's maximal-torus
-and Weyl comparison: it requires the realized map with its calibrated differential.
-The integral comparison in §1.1 uses this input, including its rank-zero empty-root case.
 
 ## How to read the build
 
@@ -112,10 +115,28 @@ native carriers; its docstring identifies the missing carriers for the other hea
 
 ### 1.1 Periods, characters and rank-one normalization
 
-Use the normalized compact rank-one input described by the supplier gap in the exact contracts.
-For its actual homomorphism φ_α, compare its diagonal circle with the period lattice
-and the abstract coroot (Conrad–Landesman, *Compact Lie Groups*, Appendix R,
-Proposition R.2.1 and its proof, pp. 254–256).
+For every compact connected real Lie group G with maximal torus T, construct the
+normalized compact rank-one comparison on its actual Lie algebra. Average an inner
+product under the adjoint action, split off the center, and prove that the complexified
+semisimple summand [g,g] is Killing-semisimple and that the complexification of
+t∩[g,g] is Cartan with a split adjoint weight decomposition. Decompose the adjoint
+T-representation on this summand into actual characters χ_α:T→S¹,
+with real differentials dχ_α=iα. Compare its weight spaces with Mathlib's root spaces;
+use their one-dimensionality and sl₂ triples to construct the compact real root planes.
+For each nonzero root define α∨=2α♯/‖α‖², with the norm and dual taken in the
+invariant metric on t; prove ‖α‖²>0 and independence from the chosen invariant metric.
+Construct a real Lie homomorphism su(2)→g taking H=diag(i,−i) to α∨. With
+A=((0,1),(−1,0)) and B=((0,i),(i,0)), prove that its images satisfy
+[H,A]=2B, [A,B]=2H and [B,H]=2A, and identify its complexified root lines.
+Integrate using LieGroups Layer 4 to a smooth homomorphism φ_α:SU(2)→G.
+Prove that its diagonal circle lands in T and
+φ_α(diag(e^(it),e^(−it)))=exp_G(tα∨), with α(α∨)=2 and
+ker(φ_α) contained in {I,−I}. Transport the construction under torus conjugation;
+changing the chosen unit root vector conjugates the map by its diagonal torus,
+so no choice-independent map is asserted. For a torus the root family is empty.
+Compare the resulting coroot cocharacter and reflection with the abstract root
+pairing (Conrad–Landesman, *Compact Lie Groups*, Appendix R, Proposition R.2.1
+and its proof, pp. 254–256; Appendix Q, pp. 248–253, for the compact rank-one reduction).
 
 Build the 2π-normalized period/weight dictionary: compare T with t/ker(exp), put
 Λ_Z=(2π)⁻¹ker(exp), and identify a character with (1/i)dχ. Prove duality, restriction,
@@ -127,19 +148,29 @@ integral center/semisimple splitting (Conrad–Landesman, Appendix R, §§R.1–
 
 - Characters add under multiplication, and their real differentials pair integrally with Λ_Z.
 - Restriction of characters is dual to inclusion of cocharacters; quotient tori use the quotient lattice.
-- The supplied rank-one homomorphism intertwines exponentials, so its diagonal circle
-  yields the normalized period 2πα∨.
+- The constructed rank-one homomorphism intertwines exponentials, so its diagonal circle
+  yields the normalized period 2πα∨; its normalizer representative acts by
+  X↦X−α(X)α∨, agreeing with the abstract root reflection.
+- Torus conjugation transports characters, coroots and rank-one maps; central quotients
+  compose the maps and transport their differentials, retaining any order-two kernel.
 
 **Checks.**
 
 - For S¹, exp(t)=e^(it), Λ_Z=ℤ and χ_k has real differential k; χ_k(2π)=1.
 - For SU(2), H=diag(i,−i) has α(H)=2 and exp(2πH)=1; choose φ as the identity,
-  so dφ(H)=H. The zero homomorphism fails α(dφ(H))=2.
+  so dφ(H)=H. The zero homomorphism has pairing 0 and fails the required value 2;
+  H/2 has pairing 1 and exp(2πH/2)=−I, excluding a half-coroot.
+- For SU(2)→SO(3), H maps to 2Z for a period-2π rotation generator Z;
+  α(2Z)=2 and the kernel is {I,−I}, so injectivity is not required.
+- For a torus, including the trivial group, there are no nonzero roots or rank-one
+  maps; no division by the squared norm of the zero weight is performed.
 - In U(2), the central and semisimple generators (1,1),(1,−1) span index 2 in ℤ²;
   the lattice vector (1,0) is not their integral combination. In rank zero all lattices vanish.
 
-*Needs:* LieGroups Layers 3–4 and 6; the normalized-compact-rank-one supplier gap;
-RootSystems Layer 4; Tau Ceti's integral lattice API.
+*Needs:* LieGroups Layers 2–4 and 6 (adjoint representation, Lie integration and maximal tori);
+Mathlib Haar integration and complex Killing root-space/sl₂ theory;
+RootSystems Layer 4; Tau Ceti's integral lattice API. The compact-real comparison
+and verification of the complex Killing hypotheses are targets of this subsection.
 
 Define `HamiltonianTorusData` on a smooth two-form σ, a torus action and a map
 μ:M→t* by smoothness of both maps, preservation of σ, invariance of μ and
@@ -221,6 +252,9 @@ The common fixed-set and polar-complex-structure API includes:
   coordinate gives M^K={0}×ℂ with tangent dimension 2.
 - The shear on ℝ² fixes p=0, where the form restricts to zero; for an invariant metric
   its derivative would send e₂ to e₁+e₂ with equal norm for every iterate, contradicting positivity.
+- On ℝ², exp₀(v)=v; for the quarter-turn R and v=(1,0),
+  exp₀(dR₀v)=(0,1)=R(exp₀v). On an open unit disk the same identity holds
+  for v=(1/2,0), giving (0,1/2) on both sides without completeness.
 - With Euclidean g and ω=dq∧dp, A(q,p)=(−p,q), −A²=1, J=A and ω(e₁,Je₁)=1;
   replacing J by −J gives −1 and fails positivity.
 - A positive weight +1 gives μ=−(q²+p²)/2 with Hessian −Id and index 2;
@@ -229,10 +263,13 @@ The common fixed-set and polar-complex-structure API includes:
 For the fixed-locus proof use Cannas da Silva, Homework 21, exercise 2, p. 174,
 with the specified invariant metric supplying the same equivariant exponential argument
 for arbitrary K; the polar construction is Proposition 12.6, p. 70.
-The local moment formula is its §27.1, proof of Theorem 27.1, pp. 170–171,
-transported to the stated contraction sign.
+The local model and quadratic weight formula use Hilgert–Neeb–Plank, Lemmas 2.1–2.2,
+pp. 141–143. Translate their infinitesimal-action and compatible-complex-structure
+conventions to the positive fundamental field and ω(v,Jv)>0 used here; the weight +1
+calculation above fixes the resulting minus sign.
 
-*Needs:* HopfRinow Layer 1; HeegaardFloer §4.1; GeometricTopology Layer 1;
+*Needs:* HopfRinow Layers 1 and 4; Tau Ceti's Riemannian-isometry exponential identity;
+HeegaardFloer §4.1; GeometricTopology Layer 1;
 HamiltonianReduction R3.1; Layer 1.1's weight dictionary.
 
 ### Examples
@@ -242,8 +279,8 @@ from the preserved-metric hypothesis. The weight +1 and −1 planes pin the mome
 
 ### Dependencies
 
-LieGroups Layers 3–4 and 6, RootSystems Layer 4, HamiltonianReduction R1/R3.1,
-HopfRinow Layer 1, HeegaardFloer §4.1 and GeometricTopology Layer 1.
+LieGroups Layers 2–4 and 6, RootSystems Layer 4, HamiltonianReduction R1/R3.1,
+HopfRinow Layers 1 and 4, HeegaardFloer §4.1 and GeometricTopology Layer 1.
 
 ## Layer 2: Morse–Bott and moment-map topology
 
@@ -276,9 +313,11 @@ free/even. These constructions are explicit targets here over AT’s ordinary co
 Build equivariant Morse exact sequences and prove rational perfection.
 Integral conclusions require their own proof and torsion hypotheses: when fixed points are isolated,
 even cells give free integral homology/cohomology, vanishing odd groups, rank H^(2k) equal to the number of critical points of index 2k, unique maximum/minimum and simple connectedness. Do not assert these conclusions for arbitrary
-positive-dimensional fixed components. For compact coadjoint orbits prove existence of a generic height
-with isolated fixed points via root tangent planes and torus-centralizer structure, rather than a generic
-Sard argument that never proves the fixed set is discrete.
+positive-dimensional fixed components. Apply HamiltonianReduction R2a.2–4
+to compact coadjoint orbits: its regular heights have critical set Wμ, its root-plane
+Hessians give the indices, and its finite hyperplane avoidance gives distinct values.
+The general Hamiltonian torus Morse–Bott and equivariant-perfection targets above
+apply beyond coadjoint orbits.
 
 For the Borel construction and equivariant Euler classes prove:
 
@@ -293,8 +332,10 @@ exercises 3–5, pp. 170–175; rational equivariant perfection uses Kirwan,
 
 **Checks.**
 
-- On S² the height indices are 0 and 2, giving integral Betti numbers (1,0,1)
-  and a single minimum and maximum.
+- On the SU(2) coadjoint sphere, HamiltonianReduction R2a.2–4 gives two height
+  critical points of indices 0 and 2, hence integral Betti numbers (1,0,1).
+- For a central coadjoint orbit there is one point, its index is 0 and its only
+  nonzero Betti number is b₀=1; the sphere's two-point count does not apply.
 - A trivial action on a symplectic two-torus has one fixed component, but H¹ has rank 2;
   the isolated-fixed-point hypothesis cannot be dropped from the even-cell conclusion.
 - For the trivial rank-zero torus, M_T=M and BT is a point; for a weight-2 circle line,
@@ -302,18 +343,20 @@ exercises 3–5, pp. 170–175; rational equivariant perfection uses Kirwan,
 - An irrational ξ in a two-torus has closure T, whereas ξ=0 has closure {1};
   the critical sets are respectively M^T and all of M.
 
-*Needs:* Layer 1; MorseTheory M1–M5; CharacteristicClasses C1–C3;
+*Needs:* Layer 1; HamiltonianReduction R2a.2–4 for the coadjoint application;
+MorseTheory M1–M5; CharacteristicClasses C1–C3;
 AlgebraicTopology Stage 6. The isolated-fixed-point integral conclusions additionally
 use the complex orientations of the negative bundles.
 
 ### Examples
 
 S² and CP² have even cells; a trivial action on a positive-genus surface retains
-its odd cohomology. Root-plane heights on compact coadjoint orbits use R2's centralizers.
+its odd cohomology. Compact coadjoint-orbit heights and their even-cell models
+use HamiltonianReduction R2a.2–4.
 
 ### Dependencies
 
-Layer 1, HamiltonianReduction R2, MorseTheory M1–M5, CharacteristicClasses C1–C3,
+Layer 1, HamiltonianReduction R2a.2–4, MorseTheory M1–M5, CharacteristicClasses C1–C3,
 and AlgebraicTopology Stage 6.
 
 ## Layer 3: Convexity and matrix examples
@@ -880,8 +923,9 @@ van den Berg–Moerdijk, [*Univalent completion*](https://eprints.whiterose.ac.u
 uses its comparison on the actual Hamiltonian level bundle.
 
 Conrad–Landesman, [*Compact Lie Groups*, Spring 2018](https://math.stanford.edu/~conrad/210CPage/handouts/lie_groups_notes.pdf),
-Appendix R, Proposition R.2.1, pp. 254–256, for the coroot and rank-one comparison.
+Appendix Q, pp. 248–253, and Appendix R, Proposition R.2.1, pp. 254–256,
+for the compact rank-one and coroot comparison.
 Escobar, [*Brick manifolds and toric varieties of brick polytopes*](https://www.combinatorics.org/ojs/index.php/eljc/article/download/v23i2p25/pdf/),
 Electronic Journal of Combinatorics 23(2) (2016), P2.25, §3.2 p. 8 and §4.1 pp. 12–13.
 Hilgert–Neeb–Plank, *Symplectic convexity theorems and coadjoint orbits*, Compositio
-Mathematica 94 (1994), Theorems 3.10 and 4.1, pp. 149–151.
+Mathematica 94 (1994), Lemmas 2.1–2.2, pp. 141–143, and Theorems 3.10 and 4.1, pp. 149–151.
