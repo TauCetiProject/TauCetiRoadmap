@@ -2,10 +2,10 @@ import Mathlib
 import TauCeti.RingTheory.FittingIdeal.Basic
 
 /-!
-# Integral Hecke actions, determinants and interpolation: headline statements
+# Integral Hecke actions, determinants and interpolation: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`; these statements are acceptance targets for its headline results.
+`README.md`; this file states its headline theorems against the pinned Mathlib and Tau Ceti APIs.
 
 Mathlib's polynomial laws support the concrete determinant and trace definitions below.
 The statements cover coefficient reconstruction and trace comparison (IHG.0), Azumaya reduced
@@ -37,6 +37,8 @@ noncomputable section
 open TensorProduct Polynomial
 
 universe u
+
+/-! ## Layer 0: polynomial laws, determinants and invariant evaluations -/
 
 namespace PolynomialLaw
 
@@ -164,6 +166,8 @@ theorem Determinant.existsUnique_of_isAzumaya {A R : Type u} [CommRing A] [Ring 
     [Algebra A R] [IsAzumaya A R] (d : ℕ) (hd : 0 < d)
     (hrank : Module.rankAtStalk (R := A) R = d * d) :
     Nonempty (Determinant A R d) ∧ Subsingleton (Determinant A R d) := sorry
+
+/-! ## Layer 1: Cayley–Hamilton algebras and reconstruction -/
 
 /-- The vector module `Kᵈ` of a matrix representation `ρ : R → M_d(K)`, through
 `M_d(K) ≃ End(Kᵈ)` and restriction of scalars. -/
@@ -299,7 +303,7 @@ theorem classical_ribet_lattice {A K G : Type u} [CommRing A] [IsDomain A]
         IsLocalRing.residue A ((ρA g : Matrix (Fin 2) (Fin 2) A) 0 1) =
           ((ψ g : IsLocalRing.ResidueField A) - (χ g : IsLocalRing.ResidueField A)) * v := sorry
 
-/-! ## Layer IHG.2: integral and derived Hecke actions -/
+/-! ## Layer 2: integral and derived Hecke actions -/
 
 namespace HeckeImage
 
@@ -307,6 +311,7 @@ open CategoryTheory
 
 variable {A : Type u} [CommRing A]
 
+/-- The standard derived category of modules, supplied by `HasDerivedCategory.standard`. -/
 local instance : HasDerivedCategory.{u + 1} (ModuleCat.{u} A) :=
   HasDerivedCategory.standard (ModuleCat.{u} A)
 
@@ -336,6 +341,8 @@ theorem ghost_nilpotence (C : DerivedCategory (ModuleCat.{u} A)) (a b : ℤ) (ha
     (List.ofFn fs).prod = 0 := sorry
 
 end HeckeImage
+
+/-! ## Layer 4: interpolation over integral coefficient rings -/
 
 namespace Determinant
 
@@ -391,6 +398,8 @@ theorem existsUnique_interpolation {G V : Type*} [Group G] [TopologicalSpace G]
 
 end Determinant
 
+/-! ## Layer 5: quantified nilpotent comparison -/
+
 /-- Descent through a Hecke comparison `φ : T → B`: for compact `G`, compact Hausdorff `T / ker φ`
 with continuous injective lift to Hausdorff `B`, a continuous determinant over `B` whose
 coefficients on a dense set lie in the image descends uniquely to `T / ker φ`; the nilpotence
@@ -406,6 +415,8 @@ theorem Determinant.existsUnique_descent_kerLift {T B G : Type u} [CommRing T] [
       (D.charpoly (MonoidAlgebra.of B G g)).coeff k = RingHom.kerLift φ a) :
     ∃! E : Determinant (T ⧸ RingHom.ker φ) (MonoidAlgebra (T ⧸ RingHom.ker φ) G) d,
       E.IsContinuous ∧ E.IsCoefficientChange (RingHom.kerLift φ) D := sorry
+
+/-! ## Layer 6: integral Ribet modules and Fitting ideals -/
 
 namespace IntegralRibet
 
