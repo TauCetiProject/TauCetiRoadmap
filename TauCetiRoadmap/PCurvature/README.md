@@ -70,11 +70,11 @@ RD.1.1–RD.1.6, owns differential modules `DifferentialModule` over differentia
 characteristic `0` and cyclic vectors; this roadmap is in characteristic `p` and does not use
 them. DiophantineApproximationAndTranscendence §§5.1–5.3 owns D-finite series, G-functions and
 the Galochkin condition; the
-relation between the Galochkin condition and nilpotent `p`-curvature (Chudnovsky, André, Katz) is
-outside this roadmap. Smooth connections and monodromy belong to SmoothBundlesConnections (#887),
-and the complex Riemann–Hilbert comparison to ComplexComparisonPartII (#848); Grothendieck's
-complex formulation (finite monodromy) is therefore stated in this roadmap only through finite
-étale covers.
+relation between the Galochkin condition and nilpotent `p`-curvature (Chudnovsky 1985; André
+1989; Katz 1970) is outside this roadmap. Smooth connections and monodromy belong to
+SmoothBundlesConnections (#887), and the complex Riemann–Hilbert comparison to
+ComplexComparisonPartII (#848); Grothendieck's complex formulation (finite monodromy) is
+therefore stated in this roadmap only through finite étale covers.
 
 **Out of scope.** Restricted enveloping algebras and their Poincaré–Birkhoff–Witt bases; the
 centre of the ring of differential operators in characteristic `p`; the nilpotence of the
@@ -421,7 +421,8 @@ reductions have zero `p`-curvature at all closed points of a dense open of `S`, 
 becomes trivial on a finite étale cover of the generic fibre (Katz 1972; Katz 1982, which
 reformulates it through the Lie algebra of the differential Galois group). Known cases: Gauss–
 Manin connections (Katz 1972), rank one over curves (Chudnovsky 1985, Theorem 8.1, as cited by
-Bostan–Caruso–Roques 2024, §3.3.2), solvable differential Galois group (Bost 2001; André 2004).
+Bostan–Caruso–Roques 2024, §3.3.2), solvable differential Galois group (Bost 2001; André 2004);
+Chambert-Loir 2002 surveys these three methods.
 In rank one, Grothendieck's notes (folder 93, pp. 193–197) separate a torsion question for the
 class of `M` in the Picard group from the question whether a closed `1`-form whose reductions are
 logarithmic has an integral multiple that is logarithmic; Layer 4 answers the second over open
@@ -453,10 +454,14 @@ by `p`-curvatures (Bostan–Caruso–Roques 2024; Fürnsinn–Pannier).
 - D. V. Chudnovsky, G. V. Chudnovsky, « Applications of Padé approximations to the Grothendieck
   conjecture on linear differential equations », *Number theory (New York, 1983–84)*, Lecture
   Notes in Math. 1135, Springer (1985), 52–100.
+- Y. André, *G-functions and Geometry*, Vieweg, Braunschweig (1989).
 - J.-B. Bost, « Algebraic leaves of algebraic foliations over number fields », *Publ. Math.
   IHÉS* 93 (2001), 161–221.
 - Y. André, « Sur la conjecture des p-courbures de Grothendieck–Katz et un problème de Dwork »,
   in *Geometric aspects of Dwork theory*, de Gruyter (2004), 55–112.
+- A. Chambert-Loir, « Théorèmes d'algébricité en géométrie diophantienne (d'après J.-B. Bost,
+  Y. André, D. & G. Chudnovsky) », Séminaire Bourbaki, exposé 886, *Astérisque* 282 (2002).
+  (Numdam SB_2000-2001__43__175_0.)
 - A. Ogus, V. Vologodsky, « Nonabelian Hodge theory in characteristic p », *Publ. Math. IHÉS*
   106 (2007), 1–138.
 - A. Bostan, X. Caruso, J. Roques, « Algebraic solutions of linear differential equations: an
