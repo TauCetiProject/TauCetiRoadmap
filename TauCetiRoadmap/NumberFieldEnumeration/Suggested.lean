@@ -1,39 +1,26 @@
-import Mathlib
-import TauCeti.NumberTheory.NumberField.Index.Basic
-import TauCeti.NumberTheory.NumberField.IntrinsicLabel
-import TauCeti.NumberTheory.NumberField.Discriminant.Relative
-import TauCeti.NumberTheory.EffectiveBounds.HermiteCount.Basic
+module
+
+public import Mathlib
+public import TauCeti.NumberTheory.NumberField.Index.Basic
+public import TauCeti.NumberTheory.EffectiveBounds.HermiteCount.Basic
 
 /-!
 # Number fields of bounded discriminant: target signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive specification is
-`README.md`. This file states only what can be stated over Mathlib and the pinned Tau Ceti: the
-`T₂` norm and its candidate sets, the polredabs key and the canonical defining polynomial,
-Hunter's theorem and its relative form, the Hunter candidate sets, and the complete lists of
-canonical polynomials. The other targets (the relative candidate sets of 2.2 and the
-composite-degree list of 2.3), with their definitions and Checks, are specified in `README.md`
-only. Every `def` has its real body; the theorems are targets and are proved by `sorry`, which
-this human-owned repository permits.
+The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
+theorems against the pinned Mathlib and Tau Ceti APIs: complex coefficient bounds and finite
+candidate sets, canonical defining polynomials and their classification property, absolute and
+relative Hunter bounds, relative completeness, and complete canonical lists in every degree.
+All these headlines are statable at the pins. Relative polynomials use `(𝓞 F)[X]`; their images
+are described by integral generating roots in number fields, without a new tower carrier.
 
-Three conventions are visible in the signatures. A number field is a type `K` with
-`[Field K] [NumberField K]`, and its defining polynomials are the integer minimal polynomials of
-Tau Ceti's `TauCeti.NumberField.IntegralPrimitiveElement K`. `t2 P` is the sum of `‖α‖ ^ 2` over
-the complex roots of `P` with multiplicity, never the power sum `∑ α ^ 2`. The polredabs key is
-`toLex (t2 P, toLex (|disc P|, S P))`, so the canonical polynomial minimizes `T₂` first, then
-`|disc P|`, then `S P` lexicographically.
-
-Hermite's constant is not declared here. Every theorem that needs it takes a real `Γ` with the
-hypothesis that it bounds the Hermite invariant in the relevant rank, written out over Mathlib's
-`Matrix.PosDef`: every positive definite real symmetric `m × m` matrix `A` has a nonzero integer
-vector `x` with `x ⬝ᵥ A *ᵥ x ≤ Γ * (det A) ^ (1 / m)`. That hypothesis says `γ_m ≤ Γ`.
-
-The exceptions to "every proof is `sorry`" are the bridge checks: `admissible_rank_one` (the
-rank-one admissible constant `Γ = 1`) and `discr_pow_finrank_dvd_discr` (the subfield
-discriminant divisibility, through Tau Ceti's `relDiscr_tower` and
-`relDiscr_int_ringOfIntegers`) are proved. `polredabs` is a choice: the minimum of the key when
-one exists, which `polredabs_mem` asserts always.
+The root norm sums squared absolute values with multiplicity. The canonical polynomial minimizes
+that norm, then absolute discriminant, then the sign-interleaved coefficient list. Hermite bounds
+are explicit hypotheses on positive definite matrices of positive rank. The composite equality
+uses any chosen finite covering sets of residue classes, with their covering property explicit.
 -/
+
+public section
 
 namespace TauCetiRoadmap.NumberFieldEnumeration
 
@@ -41,14 +28,21 @@ open Polynomial NumberField Matrix
 
 /-! ## Layer 1: `T₂`, the canonical polynomial and Hunter's theorem -/
 
+/-- The sum of the squared norms of all complex roots, counted with multiplicity. -/
+noncomputable def complexT2 (P : ℂ[X]) : ℝ :=
+  (P.roots.map (fun z : ℂ => ‖z‖ ^ 2)).sum
+
+/-- For a monic complex polynomial of positive degree, each coefficient is bounded by
+its root norm and the corresponding binomial coefficient. -/
+theorem norm_coeff_le_of_complexT2 {P : ℂ[X]} (hP : P.Monic) {n : ℕ}
+    (hn : P.natDegree = n) (hpos : 0 < n) (k : ℕ) (hk : k ≤ n) :
+    ‖P.coeff (n - k)‖ ≤ (n.choose k : ℝ) * (complexT2 P / n) ^ ((k : ℝ) / 2) := by
+  sorry
+
 /-- `README.md`, Layer 1, 1.1. The `T₂` norm of an integer polynomial: the sum of the squared
 absolute values of its complex roots, with multiplicity. -/
 noncomputable def t2 (P : ℤ[X]) : ℝ :=
-  ((P.map (Int.castRingHom ℂ)).roots.map (fun α : ℂ => ‖α‖ ^ 2)).sum
-
-/-- `README.md`, Layer 1, 1.1. `T₂` is nonnegative. -/
-theorem t2_nonneg (P : ℤ[X]) : 0 ≤ t2 P := by
-  sorry
+  complexT2 (P.map (Int.castRingHom ℂ))
 
 /-- `README.md`, Layer 1, 1.1. Monic polynomials of degree `n` with bounded `T₂`. -/
 def candidates (n : ℕ) (B : ℝ) : Set ℤ[X] := {P | P.Monic ∧ P.natDegree = n ∧ t2 P ≤ B}
@@ -64,13 +58,6 @@ theorem abs_coeff_le_of_t2 {P : ℤ[X]} (hP : P.Monic) {n : ℕ} (hn : P.natDegr
 theorem candidates_finite (n : ℕ) (B : ℝ) : (candidates n B).Finite := by
   sorry
 
-/-- `README.md`, Layer 1, 1.1. For an algebraic integer `θ` of `K`, the sum of `‖σ θ‖ ^ 2` over
-the embeddings of `K` is `[K : ℚ(θ)]` times `T₂` of its minimal polynomial. -/
-theorem sum_norm_sq_eq_t2_minpoly (K : Type*) [Field K] [NumberField K] (θ : 𝓞 K) :
-    ∑ σ : K →+* ℂ, ‖σ θ‖ ^ 2 =
-      (Module.finrank ℚ K / (minpoly ℤ θ).natDegree : ℝ) * t2 (minpoly ℤ θ) := by
-  sorry
-
 /-- `README.md`, Layer 1, 1.2. The sign-interleaved coefficient vector
 `S(P) = (|a₁|, a₁, …, |aₙ|, aₙ)` of `P = Xⁿ + a₁ Xⁿ⁻¹ + … + aₙ`. -/
 def signVector (P : ℤ[X]) : List ℤ :=
@@ -82,28 +69,10 @@ lexicographically least `S(P)`, the rule of the LMFDB knowl `nf.polredabs`. -/
 noncomputable def polredabsKey (P : ℤ[X]) : Lex (ℝ × Lex (ℕ × List ℤ)) :=
   toLex (t2 P, toLex ((P.discr).natAbs, signVector P))
 
-/-- `README.md`, Layer 1, 1.2. The key determines a monic polynomial of given degree. -/
-theorem polredabsKey_injective_of_natDegree_eq {P Q : ℤ[X]} (hP : P.Monic) (hQ : Q.Monic)
-    (hdeg : P.natDegree = Q.natDegree) (h : polredabsKey P = polredabsKey Q) : P = Q := by
-  sorry
-
 /-- `README.md`, Layer 1, 1.2. The defining polynomials of `K`: the integer minimal polynomials
 of its integral primitive elements. -/
 def definingPolys (K : Type*) [Field K] [NumberField K] : Set ℤ[X] :=
   Set.range fun θ : TauCeti.NumberField.IntegralPrimitiveElement K => minpoly ℤ θ.1
-
-/-- `README.md`, Layer 1, 1.2. A defining polynomial is monic, irreducible, of degree `[K : ℚ]`. -/
-theorem monic_irreducible_natDegree_of_mem_definingPolys {K : Type*} [Field K] [NumberField K]
-    {P : ℤ[X]} (hP : P ∈ definingPolys K) :
-    P.Monic ∧ Irreducible P ∧ P.natDegree = Module.finrank ℚ K := by
-  sorry
-
-/-- `README.md`, Layer 1, 1.2. Defining polynomials are exactly the monic integer polynomials with
-a root generating `K`. -/
-theorem mem_definingPolys_iff {K : Type*} [Field K] [NumberField K] {P : ℤ[X]} :
-    P ∈ definingPolys K ↔ P.Monic ∧ P.natDegree = Module.finrank ℚ K ∧
-      ∃ θ : K, aeval θ P = 0 ∧ Algebra.adjoin ℚ {θ} = ⊤ := by
-  sorry
 
 open scoped Classical in
 /-- `README.md`, Layer 1, 1.2. The canonical defining polynomial of `K`: the
@@ -133,13 +102,6 @@ theorem nonempty_algEquiv_of_polredabs_eq {K K' : Type*} [Field K] [NumberField 
     [NumberField K'] (h : polredabs K = polredabs K') : Nonempty (K ≃ₐ[ℚ] K') := by
   sorry
 
-/-- `README.md`, Layer 1, 1.2. The field `ℚ[X]/(P)` of a defining polynomial is `K`. -/
-theorem nonempty_algEquiv_adjoinRoot {K : Type*} [Field K] [NumberField K] {P : ℤ[X]}
-    (hP : P ∈ definingPolys K) (h : Irreducible (P.map (Int.castRingHom ℚ))) :
-    haveI : Fact (Irreducible (P.map (Int.castRingHom ℚ))) := ⟨h⟩
-    Nonempty (AdjoinRoot (P.map (Int.castRingHom ℚ)) ≃ₐ[ℚ] K) := by
-  sorry
-
 /-- `README.md`, Layer 1, 1.3. **Hunter's theorem.** If `Γ` bounds Hermite's constant in rank
 `n - 1` (the hypothesis `hΓ`, written out), a number field of degree `n ≥ 2` has a non-rational
 algebraic integer `θ` with `0 ≤ Tr θ ≤ n / 2` and
@@ -157,16 +119,6 @@ theorem hunter (K : Type*) [Field K] [NumberField K] (hn : 2 ≤ Module.finrank 
           Γ * ((|discr K| : ℝ) / Module.finrank ℚ K) ^ (1 / ((Module.finrank ℚ K : ℝ) - 1)) := by
   sorry
 
-/-- `README.md`, Layer 1, 1.3. The rank-one admissible constant: `Γ = 1` bounds Hermite's
-constant in rank one. A bridge check, proved: it is the hypothesis of `hunter` for quadratic
-fields. -/
-theorem admissible_rank_one :
-    ∀ A : Matrix (Fin 1) (Fin 1) ℝ, A.PosDef → ∃ x : Fin 1 → ℤ, x ≠ 0 ∧
-      (fun i => (x i : ℝ)) ⬝ᵥ A *ᵥ (fun i => (x i : ℝ)) ≤ 1 * A.det ^ (1 / (1 : ℝ)) := by
-  intro A _
-  refine ⟨fun _ => 1, fun h => by simpa using congrFun h 0, ?_⟩
-  simp [Matrix.det_unique, dotProduct, Matrix.mulVec]
-
 /-! ## Layer 2: complete lists of number fields -/
 
 /-- `README.md`, Layer 2, 2.1. Hunter's bound on `T₂` for degree `n` and `|discr| ≤ D`,
@@ -179,10 +131,6 @@ degree `n` with `T₂` at most Hunter's bound whose discriminant is a square tim
 def hunterCandidates (n D : ℕ) (Γ : ℝ) : Set ℤ[X] :=
   {P | P ∈ candidates n (hunterBound n D Γ) ∧ Irreducible P ∧
     ∃ f D' : ℕ, D' ≤ D ∧ P.discr.natAbs = f ^ 2 * D'}
-
-/-- `README.md`, Layer 2, 2.1. -/
-theorem hunterCandidates_finite (n D : ℕ) (Γ : ℝ) : (hunterCandidates n D Γ).Finite := by
-  sorry
 
 /-- `README.md`, Layer 2, 2.1. **Completeness in prime degree**: a field of prime degree `n` and
 `|discr| ≤ D` has a defining polynomial among the Hunter candidates. -/
@@ -206,19 +154,6 @@ theorem exists_mem_hunterCandidates_of_primitive (K : Type*) [Field K] [NumberFi
           Γ * A.det ^ (1 / ((Module.finrank ℚ K : ℝ) - 1))) :
     ∃ P ∈ hunterCandidates (Module.finrank ℚ K) D Γ, P ∈ definingPolys K := by
   sorry
-
-/-- `README.md`, Layer 2, 2.2. **The subfield reduction**: `discr F ^ [K : F]` divides
-`discr K`. A bridge check, proved from Tau Ceti's tower formula for the relative discriminant
-over `ℤ`. -/
-theorem discr_pow_finrank_dvd_discr (F K : Type*) [Field F] [NumberField F] [Field K]
-    [NumberField K] [Algebra F K] :
-    discr F ^ Module.finrank F K ∣ discr K := by
-  have h := TauCeti.relDiscr_tower (A := ℤ) (B := 𝓞 F) (C := 𝓞 K)
-  rw [TauCeti.NumberField.relDiscr_int_ringOfIntegers,
-    TauCeti.NumberField.relDiscr_int_ringOfIntegers,
-    ← IsFractionRing.finrank_eq (𝓞 F) F (𝓞 K) K, Ideal.span_singleton_pow] at h
-  rw [← Ideal.span_singleton_dvd_span_singleton_iff_dvd, h]
-  exact dvd_mul_right _ _
 
 /-- `README.md`, Layer 2, 2.2. The dichotomy behind the composite-degree reduction: either some
 Hunter candidate defines `K`, or the Hunter element generates an intermediate field `F` with
@@ -257,6 +192,58 @@ theorem hunter_relative (F K : Type*) [Field F] [NumberField F] [Field K] [Numbe
             (1 / ((Module.finrank ℚ K : ℝ) - Module.finrank ℚ F)) := by
   sorry
 
+/-- The relative root norm sums the complex polynomial norms over all embeddings of the base. -/
+noncomputable def relT2 (F : Type*) [Field F] [NumberField F] (P : (𝓞 F)[X]) : ℝ :=
+  ∑ τ : F →+* ℂ, complexT2 (P.map (τ.comp (algebraMap (𝓞 F) F)))
+
+/-- Monic polynomials over the integers of the base field, of fixed degree and bounded root norm. -/
+def relCandidates (F : Type*) [Field F] [NumberField F] (r : ℕ) (B : ℝ) : Set (𝓞 F)[X] :=
+  {P | P.Monic ∧ P.natDegree = r ∧ relT2 F P ≤ B}
+
+/-- Bounded relative root norm leaves only finitely many monic polynomials of fixed degree. -/
+theorem relCandidates_finite (F : Type*) [Field F] [NumberField F] (r : ℕ) (B : ℝ) :
+    (relCandidates F r B).Finite := by
+  sorry
+
+/-- The relative Hunter bound, maximized over a finite covering set of trace residues.
+The real supremum of the empty set is zero; completeness only uses covering sets, which are
+nonempty, and relative degrees at least two. -/
+noncomputable def relativeBound (F : Type*) [Field F] [NumberField F]
+    (r D : ℕ) (Γ : ℝ) (R : Finset (𝓞 F)) : ℝ :=
+  sSup ((fun a : 𝓞 F => (1 / r : ℝ) * ∑ τ : F →+* ℂ, ‖τ a‖ ^ 2) '' (R : Set (𝓞 F))) +
+    Γ * ((D : ℝ) / ((r : ℝ) ^ Module.finrank ℚ F * (|discr F| : ℝ))) ^
+      (1 / ((Module.finrank ℚ F : ℝ) * ((r : ℝ) - 1)))
+
+/-- A primitive extension of number fields has an integral generating root whose relative
+minimal polynomial lies in the relative Hunter candidate set. -/
+theorem exists_mem_relCandidates_of_maximal (F K : Type*) [Field F] [NumberField F]
+    [Field K] [NumberField K] [Algebra F K]
+    (hr : 2 ≤ Module.finrank F K)
+    (hmax : ∀ E : IntermediateField F K, E = ⊥ ∨ E = ⊤)
+    (D : ℕ) (hD : |discr K| ≤ D) (Γ : ℝ)
+    (hΓ : ∀ A : Matrix (Fin (Module.finrank ℚ K - Module.finrank ℚ F))
+        (Fin (Module.finrank ℚ K - Module.finrank ℚ F)) ℝ,
+      A.PosDef → ∃ x : Fin (Module.finrank ℚ K - Module.finrank ℚ F) → ℤ, x ≠ 0 ∧
+        (fun i => (x i : ℝ)) ⬝ᵥ A *ᵥ (fun i => (x i : ℝ)) ≤
+          Γ * A.det ^ (1 / ((Module.finrank ℚ K : ℝ) - Module.finrank ℚ F)))
+    (R : Finset (𝓞 F))
+    (hR : ∀ a : 𝓞 F, ∃ b ∈ R, a - b ∈ Ideal.span {(Module.finrank F K : 𝓞 F)}) :
+    ∃ (θ : 𝓞 K) (P : (𝓞 F)[X]),
+      IntermediateField.adjoin F {(θ : K)} = ⊤ ∧ aeval (θ : K) P = 0 ∧
+      P ∈ relCandidates F (Module.finrank F K)
+        (relativeBound F (Module.finrank F K) D Γ R) := by
+  sorry
+
+/-- Canonical polynomials of degree-r extensions of F generated by integral roots of the
+bounded relative candidates, with the absolute field discriminant checked. -/
+def relativeImage (F : Type) [Field F] [NumberField F]
+    (r D : ℕ) (Γ : ℝ) (R : Finset (𝓞 F)) : Set ℤ[X] :=
+  {Q | ∃ (K : Type) (_ : Field K) (_ : NumberField K) (_ : Algebra F K),
+    Module.finrank F K = r ∧ |discr K| ≤ D ∧ polredabs K = Q ∧
+    ∃ (θ : 𝓞 K) (P : (𝓞 F)[X]),
+      P ∈ relCandidates F r (relativeBound F r D Γ R) ∧
+      aeval (θ : K) P = 0 ∧ IntermediateField.adjoin F {(θ : K)} = ⊤}
+
 /-- `README.md`, Layer 2, 2.3. The canonical polynomials of the number fields of degree `n` and
 `|discr| ≤ D`. Every number field has a model in `Type`, so the universe is no restriction. -/
 def canonicalPolys (n D : ℕ) : Set ℤ[X] :=
@@ -271,16 +258,6 @@ def hunterImage (n D : ℕ) (Γ : ℝ) : Set ℤ[X] :=
     |discr (AdjoinRoot (P.map (Int.castRingHom ℚ)))| ≤ D ∧
       polredabs (AdjoinRoot (P.map (Int.castRingHom ℚ))) = Q}
 
-/-- `README.md`, Layer 2, 2.3. The polredabs image is a finite set. -/
-theorem hunterImage_finite (n D : ℕ) (Γ : ℝ) : (hunterImage n D Γ).Finite := by
-  sorry
-
-/-- `README.md`, Layer 2, 2.3. Every polynomial of the polredabs image is the canonical
-polynomial of a field of degree `n` and `|discr| ≤ D`. -/
-theorem hunterImage_subset_canonicalPolys (n D : ℕ) (Γ : ℝ) :
-    hunterImage n D Γ ⊆ canonicalPolys n D := by
-  sorry
-
 /-- `README.md`, Layer 2, 2.3. **The complete list in prime degree**: the polredabs image of the
 Hunter candidates is exactly the set of canonical polynomials of fields of degree `n` and
 `|discr| ≤ D`. -/
@@ -289,6 +266,28 @@ theorem hunterImage_eq_canonicalPolys_of_prime {n : ℕ} (hn : n.Prime) (D : ℕ
       ∃ x : Fin (n - 1) → ℤ, x ≠ 0 ∧
         (fun i => (x i : ℝ)) ⬝ᵥ A *ᵥ (fun i => (x i : ℝ)) ≤ Γ * A.det ^ (1 / ((n : ℝ) - 1))) :
     hunterImage n D Γ = canonicalPolys n D := by
+  sorry
+
+/-- The complete list in every degree at least two: absolute Hunter images together with
+relative images over canonical models of proper subfields with the discriminant power bound.
+Only positive ranks below n are required. -/
+theorem hunter_relativeImage_eq_canonicalPolys {n : ℕ} (hn : 2 ≤ n) (D : ℕ)
+    (Γ : ℕ → ℝ)
+    (hΓ : ∀ k, 1 ≤ k → k < n →
+      ∀ A : Matrix (Fin k) (Fin k) ℝ, A.PosDef →
+        ∃ x : Fin k → ℤ, x ≠ 0 ∧
+          (fun i => (x i : ℝ)) ⬝ᵥ A *ᵥ (fun i => (x i : ℝ)) ≤
+            Γ k * A.det ^ (1 / (k : ℝ)))
+    (R : ∀ (F : Type) [Field F] [NumberField F], ℕ → Finset (𝓞 F))
+    (hR : ∀ (F : Type) [Field F] [NumberField F] (r : ℕ), 2 ≤ r →
+      ∀ a : 𝓞 F, ∃ b ∈ R F r, a - b ∈ Ideal.span {(r : 𝓞 F)}) :
+    canonicalPolys n D = hunterImage n D (Γ (n - 1)) ∪
+      {Q | ∃ m : ℕ, 1 < m ∧ m < n ∧ m ∣ n ∧
+        ∃ D' : ℕ, D' ^ (n / m) ≤ D ∧
+        ∃ P ∈ canonicalPolys m D', ∃ h : Irreducible (P.map (Int.castRingHom ℚ)),
+          haveI : Fact (Irreducible (P.map (Int.castRingHom ℚ))) := ⟨h⟩
+          Q ∈ relativeImage (AdjoinRoot (P.map (Int.castRingHom ℚ))) (n / m) D
+            (Γ (n - m)) (R (AdjoinRoot (P.map (Int.castRingHom ℚ))) (n / m))} := by
   sorry
 
 /-- `README.md`, Layer 2, 2.3. The canonical polynomials of fields of degree `n` and
@@ -304,15 +303,6 @@ theorem ncard_canonicalPolys_le (n D : ℕ) :
       (2 * NumberField.coeffBoundOfDiscrBdd D + 1) ^
           (NumberField.hermiteTheorem.rankOfDiscrBdd D + 1) *
         NumberField.hermiteTheorem.rankOfDiscrBdd D := by
-  sorry
-
-/-- `README.md`, Layer 2, 2.3. The canonical polynomials of the fields with LMFDB prefix
-`d.r.D` (Tau Ceti's `HasLMFDBIntrinsicLabel`) lie in `canonicalPolys d D`, hence form a finite
-set by `canonicalPolys_finite`. -/
-theorem setOf_hasLMFDBIntrinsicLabel_subset (d r D : ℕ) :
-    {Q : ℤ[X] | ∃ (K : Type) (_ : Field K) (_ : NumberField K),
-      TauCeti.NumberField.HasLMFDBIntrinsicLabel K d r D ∧ polredabs K = Q} ⊆
-      canonicalPolys d D := by
   sorry
 
 end TauCetiRoadmap.NumberFieldEnumeration
