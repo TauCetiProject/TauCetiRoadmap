@@ -10,7 +10,7 @@ AKS equivalence (§1.14) and Pocklington criterion (§1.16); coprime Hensel fact
 integral Miller and modular bases and the congruence Sturm bound (§§3.3–3.4);
 the nonordinary classification below 200 and the companion eigensystem theorems
 (§§3.13–3.16); complete local descent images and the finite elliptic p-saturation
-criterion (§§3.19–3.26); complete root isolation (§4.19), quantitative continued
+criterion (§§3.19–3.20, 3.26); complete root isolation (§4.19), quantitative continued
 Dirichlet and cusp-form error bounds (§§4.19a, 4.20a), and Platt's finite-conductor
 zero and central nonvanishing theorems (§§4.22–4.23).
 
@@ -29,7 +29,7 @@ this document specifies every construction, API fact and Check.
 This roadmap owns:
 
 1. **Exact presentations** (Layer 0): isolated algebraic numbers with exact arithmetic and
-   equality predicates; canonical rational-centred finite `p`-adic balls; Rabin irreducibility predicates,
+   equality comparisons for prescribed polynomials; Rabin irreducibility predicates,
    finite-field presentations and changes of presentation with explicit inverses.
 2. **Primality and factorization presentations** (Layer 1): Pratt trees with soundness,
    completeness and size bounds; strong liars and the Miller–Rabin bound; the AKS congruence criterion and
@@ -50,7 +50,7 @@ This roadmap owns:
    outward dyadic rounding, unique-integer recovery, `p`-adic precision propagation, the Odlyzko
    kernel and the eight scalar quantities of Chenevier–Lannes and Chenevier–Taïbi with exact
    enclosures, complete root isolation, enclosures of Dirichlet and level-one cusp-form `L`-values,
-   Platt's finite-conductor theorems, Gram negativity witnesses, finite integer ellipsoids,
+   Platt's finite-conductor theorems, Gram negativity witnesses, integral-coordinate ellipsoid comparisons,
    and validity of finite families.
 6. **Interpretation of finite arithmetic families** (Layer 5).
 
@@ -77,7 +77,7 @@ It consumes the following mathematics by its existing ownership:
   uniformizers, residue fields, ramification indices and residue degrees, Teichmüller
   representatives. Its Layer 2 supplies surjectivity of the norm on units in unramified
   extensions, provided by `TauCeti.map_normUnits_unitFiltration` at depth zero in
-  `NumberTheory/LocalField/Norm/Unramified/Basic`; this is an input to the good-odd-prime count.
+  `NumberTheory/LocalField/Norm/Unramified/Basic`; this is an input to the unramified norm comparisons.
 - **TauCetiRoadmap RealAlgebraicGeometry** (Layers 1–4): Sturm–Tarski, signed remainder sequences,
   subresultants, distinct-root counts, root separation and multiplicity-sensitive root matching.
   Layers 0 and 4 add finite rational presentations and rational-box comparison on top of that theory.
@@ -111,29 +111,26 @@ It consumes the following mathematics by its existing ownership:
   statement in §1.26a differs by allowing every complete DVR, including mixed characteristic
   and arbitrary residue field; no separate K[[t]] lifting target is specified here.
 - **IntegralLattices** Layer 2, milestone 2A owns positive-definite bounded-norm
-  finiteness. Sections 4.26–4.27 add the rational affine-coordinate comparison and exact
-  boundary membership; they use that finiteness theorem without a second lattice carrier.
+  finiteness. Section 4.26 compares rational affine coordinates with an integral lattice
+  and a congruence class; affine finiteness itself comes from EffectiveDiophantineMethods §§1.7–1.8.
 - **GlobalNumberFields** Layer 11 owns intrinsic orders and their fractional ideals. The
   finite rational bases in §2.1 and arbitrary-submodule stabilizers in §2.2 are presentation
   comparisons with those carriers, rather than another order or ideal-class theory.
 
-The common foundations used by EffectiveDiophantineMethods have one owner here:
+**EffectiveDiophantineMethods** supplies the following shared foundations; the
+comparisons here consume them in that direction.
 
-| Foundation owned here | Consumer refinement in EffectiveDiophantineMethods |
+| Foundation and supplier section | Additional comparison owned here |
 | --- | --- |
-| Canonical rational-centred p-adic records and normalization (§§0.14, 4.10–4.13) | Enclosures of a specified value (§0.1), and balls in general number-field completions (§0.9) |
-| Rectangular isolated-root presentations, arithmetic, equality and complete isolation (§§0.8–0.13, 4.19) | Squarefree annihilators, labelled embeddings, discs and quantitative refinement (§§0.2–0.3) |
-| Local-image spans, cardinality completeness and good-odd-prime equality (§§3.18–3.21) | Factorwise coordinates, square witnesses and global Selmer data (§§3.2–3.5) |
-| Generic p-saturation, finite-index and joint-reduction criteria (§§3.22–3.25) | Height and index data and Mordell–Weil assembly (§§3.17–3.22) |
-| Rational affine ellipsoid membership and its reduction to IntegralLattices 2A (§§4.26–4.27) | LDL identities and Fincke–Pohst tail witnesses (§§1.7–1.8) |
+| Canonical rational-centred p-adic records and normalization, §§0.1, 0.9 | Exact set images of independent balls under addition, multiplication and inversion (§§4.11–4.13), strengthening pointwise error containment |
+| Squarefree selected-root data, arithmetic, equality and finite simultaneous isolation, §§0.2–0.3 | Rectangles for a prescribed nonzero polynomial, including repeated roots, and value-preserving conversion (§§0.8–0.13, 4.19) |
+| Coordinate local-image data, cardinality completeness and good-odd-prime equality, §§3.2–3.4 | Forgetting square-class coordinates (§3.18), cardinality comparison for arbitrary local models (§3.19), and rational-abscissa existence without integral-model assumptions (§3.20) |
+| Generic p-saturation, finite-index and joint-reduction criteria, §§3.17–3.18 | Quotient-generating finite divisibility tests and division-polynomial comparisons for elliptic points (§§3.23–3.26) |
+| Rational affine ellipsoid membership, finiteness and distance comparisons, §§1.7–1.8 | Clearing denominators into an integral lattice with its congruence condition (§4.26), and nonnegative Gram covers (§4.31) |
 
-These consumer refinements retain their extra data and use the shared objects through
-value-, subgroup- and membership-preserving comparisons described under *Downstream consumers*.
-The direction of supply is from this roadmap to EffectiveDiophantineMethods.
-
-Downstream roadmaps build on this one and are listed at the end. In particular the `2`-Selmer
-groups, rank bounds, canonical-height enclosures, index bounds and Mordell–Weil bases of elliptic
-curves are built on Layers 2–4 by the effective Diophantine roadmap, while intrinsic automorphic positivity statements are outside this roadmap's scope.
+Canonical heights, global index bounds, Selmer assembly and Mordell–Weil bases
+remain with EffectiveDiophantineMethods §§3.5–3.22. This roadmap supplies no
+input back to that roadmap.
 
 ## Conventions
 
@@ -425,7 +422,41 @@ positive-definite integral lattice L and rational C. Section 4.26 applies it aft
 clearing denominators in G and in the rational translate t; it constructs no new
 lattice, bounded-norm theorem, reduction theory or successive-minimum interface.
 
+### From TauCetiRoadmap.EffectiveDiophantineMethods
+
+- §0.1: for prime p, rational c and integer N, the canonical ball record is
+  (N,N,0) when c=0 or v_p(c)≥N; otherwise v=v_p(c)<N and the mantissa is the
+  unique nonzero residue of c·p^(−v) modulo p^(N−v), prime to p. Its denotation
+  is the whole ball c+p^Nℤ_p. Section 0.9 supplies the field-operation error
+  containments for independent values in balls in every number-field completion,
+  with ord(π)=1 and the strict nonzero-centre hypothesis for inversion.
+- §§0.2–0.3: a selected algebraic value has nonzero squarefree annihilators,
+  rational isolating boxes or discs, arbitrarily fine isolation and compatible
+  field operations; a finite set of distinct values admits disjoint isolations.
+  Our conversion uses the fixed complex embedding and rational rectangles.
+- §§3.2–3.3: for a rational integral normal-form elliptic model and its base change
+  at a place, the coordinate subgroup is the inverse image of the span of the
+  displayed x−T classes under the specified square-class isomorphism; its target
+  cardinality is (1+r_v)·|2|_v^(−1), or (1+r_v)/2 over ℝ. Equality of cardinalities
+  characterizes completeness. Section 3.4 supplies the unramified norm-kernel
+  equality for an elliptic normal-form model over ℚ_p with p odd and
+  `W.badPrimes ℤ_[p] = ∅`; coefficient integrality is part of that hypothesis.
+- §§3.17–3.18: for an additive commutative group A, subgroup G and prime p,
+  p-saturation means ∀a, pa∈G → a∈G. It is equivalent to A[p]≤G and G∩pA=pG;
+  for finite index it is equivalent to p not dividing the index. For finite G/pG,
+  a finite family A→C_i with pC_i=0 proves saturation when G/pG→∏C_i is
+  injective and A[p]≤G. The small predicate `IsPSaturated` in the acceptance
+  file spells this imported notion on native groups for §3.26; it claims no
+  second generic saturation theory.
+- §§1.7–1.8: for n≥1, symmetric positive-definite G∈ℚⁿˣⁿ, t∈ℚⁿ and R∈ℚ,
+  the integer vectors satisfying (x−t)ᵀG(x−t)≤R form a finite set, with the
+  closed boundary included, and identify with the corresponding lattice-distance
+  set. In dimension zero the same set is the singleton empty vector when R≥0
+  and empty when R<0. Section 4.26 uses these native sets, with no new carrier.
+
 ### From TauCetiRoadmap.HeightsRationalPointsAndObstructions
+
+What HeightsRationalPointsAndObstructions must provide (gap:local-two-quotient):
 
 - §1.17 `card_quotient_two_padic`, with its real analogue: `#(A(F)/2A(F)) = |2|_F^(−g)·#A(F)[2]` for an abelian
   variety of dimension `g` over a finite extension `F` of `ℚ_p`, and `#A(ℝ)[2]/2^g` over `ℝ`.
@@ -443,7 +474,7 @@ criteria and factor presentations. Layer 2 develops order presentations, prime d
 φ-Newton factorization and local square and root criteria. Layer 3 binds integral Fourier
 coefficients and matrices to modular forms, and finite local-image and divisibility data to
 elliptic curves. Layer 4 supplies quantitative analytic error estimates and rational enclosures,
-finite ellipsoid sets and Gram inequalities. Layer 5 interprets finite families using these
+integral-coordinate ellipsoid comparisons and Gram inequalities. Layer 5 interprets finite families using these
 comparisons. Root presentation arithmetic specifies existence independently of the disjoint-root
 existence theorem in Layer 4.
 
@@ -455,8 +486,13 @@ of how the finite data are obtained.
 
 ### 0.8 Isolated algebraic root presentation (`IsolatedAlgebraicRoot`)
 
-This is a presentation adapter for Mathlib's relative algebraic closure. Its native
-intermediate-field structure supplies closure under addition, multiplication and inversion.
+This is a presentation adapter for Mathlib's relative algebraic closure and the
+selected-root data of EffectiveDiophantineMethods §0.2. From a rectangular datum,
+forget the squarefree condition and embedding label after applying its complex
+embedding. Conversely, replace a presentation's polynomial by its monic squarefree
+part and keep the rectangle and value; the distinct complex root set is unchanged.
+These maps preserve decoded values; they need not preserve the original polynomial.
+The native intermediate-field structure supplies closure under addition, multiplication and inversion.
 A nonzero polynomial has finitely many distinct complex roots, separated by rational rectangles.
 Arb §5 (Arb line 779) supplies only the meaning of enclosing a value and bounding its error.
 
@@ -466,14 +502,17 @@ An IsolatedAlgebraicRoot stores a nonzero polynomial f∈ℚ[X], two closed rati
 - `IsolatedAlgebraicRoot.value`: Decode the unique root in ℂ, together with its algebraicity comparison.
 - The decoded value is a root lying in both displayed intervals.
 - Any root in the rectangle equals the decoded value.
+- The two conversions preserve that value, and their composites preserve it even when
+  squarefree replacement changes the polynomial.
 
 Use native Polynomial and NonemptyInterval for finite data. Define the root-and-rectangle predicate explicitly and require unique existence. The uniqueness proof is part of the mathematical presentation. (Mathlib `algebraicClosure` and `mem_algebraicClosure_iff`,
-`Mathlib/FieldTheory/AlgebraicClosure.lean`, lines 39 and 54.) *Needs:* Mathlib `algebraicClosure`; Mathlib `mem_algebraicClosure_iff`; Mathlib `NonemptyInterval`.
+`Mathlib/FieldTheory/AlgebraicClosure.lean`, lines 39 and 54.) *Needs:* EffectiveDiophantineMethods §0.2; Mathlib `algebraicClosure`; Mathlib `mem_algebraicClosure_iff`; Mathlib `NonemptyInterval`.
 
 **Checks.**
 
 - *Degenerate case.* X with both intervals [0,0] isolates zero.
-- *Computed value.* X² with the singleton zero rectangle is allowed.
+- *Computed value.* X² with the singleton zero rectangle is allowed; squarefree
+  conversion replaces X² by X, and both decoded values are 0.
 - *Non-example.* X²−1 cannot isolate a unique root in [−2,2]×[0,0].
 
 ### 0.9 Exact rational root presentation
@@ -496,12 +535,11 @@ The linear polynomial has exactly the root r. The rational casts commute with ad
 ### 0.9a Every algebraic value has an isolated presentation
 
 For every z∈ℂ algebraic over ℚ, prove that there is an
-`IsolatedAlgebraicRoot` whose value is z. Choose a nonzero annihilating polynomial and
-separate z from its other finitely many distinct roots by a closed rational rectangle
-with z in its interior. Rationality of z is unnecessary; repeated roots remain single values.
+`IsolatedAlgebraicRoot` whose value is z. Convert a rectangular selected-root datum of EffectiveDiophantineMethods §0.2;
+its squarefree annihilator is permitted by §0.8. Choose the rectangle with z in its interior. Rationality of z is unnecessary; repeated roots remain single values.
 This is finite-root separation on Mathlib `IsAlgebraic` and `mem_algebraicClosure_iff`
 (`Mathlib/FieldTheory/AlgebraicClosure.lean`, line 54).
-*Needs:* §0.8; native polynomial root finiteness and density of ℚ in ℝ.
+*Needs:* §0.8; EffectiveDiophantineMethods §§0.2–0.3.
 
 **Checks.**
 
@@ -513,22 +551,22 @@ This is finite-root separation on Mathlib `IsAlgebraic` and `mem_algebraicClosur
 
 Given isolated algebraic inputs a,b, there exists an isolated-root presentation whose value is their sum.
 
-Closure of the native algebraic-number field gives an annihilating rational polynomial. Its finite distinct root set allows a rational rectangle isolating the desired root. (Mathlib `algebraicClosure` and `mem_algebraicClosure_iff`,
-`Mathlib/FieldTheory/AlgebraicClosure.lean`, lines 39 and 54.) *Needs:* `IsolatedAlgebraicRoot` (0.8); every algebraic value has an isolated presentation (0.9a); Mathlib `algebraicClosure`.
+Transport the field operation of EffectiveDiophantineMethods §0.2 through the value-preserving conversions of §0.8; the resulting rectangle presents the native field value. (Mathlib `algebraicClosure` and `mem_algebraicClosure_iff`,
+`Mathlib/FieldTheory/AlgebraicClosure.lean`, lines 39 and 54.) *Needs:* EffectiveDiophantineMethods §0.2; `IsolatedAlgebraicRoot` (0.8); every algebraic value has an isolated presentation (0.9a); Mathlib `algebraicClosure`.
 
 ### 0.11 Multiplication of isolated algebraic numbers
 
 Given isolated algebraic inputs a,b, there exists an isolated-root presentation whose value is their product.
 
-Closure of the native algebraic-number field gives an annihilating rational polynomial. Its finite distinct root set allows a rational rectangle isolating the desired root. (Mathlib `algebraicClosure` and `mem_algebraicClosure_iff`,
-`Mathlib/FieldTheory/AlgebraicClosure.lean`, lines 39 and 54.) *Needs:* `IsolatedAlgebraicRoot` (0.8); every algebraic value has an isolated presentation (0.9a); Mathlib `algebraicClosure`.
+Transport the field operation of EffectiveDiophantineMethods §0.2 through the value-preserving conversions of §0.8; the resulting rectangle presents the native field value. (Mathlib `algebraicClosure` and `mem_algebraicClosure_iff`,
+`Mathlib/FieldTheory/AlgebraicClosure.lean`, lines 39 and 54.) *Needs:* EffectiveDiophantineMethods §0.2; `IsolatedAlgebraicRoot` (0.8); every algebraic value has an isolated presentation (0.9a); Mathlib `algebraicClosure`.
 
 ### 0.12 Inversion of a nonzero algebraic number
 
 Given an isolated algebraic input a with nonzero decoded value, there exists an isolated-root presentation whose value is its inverse.
 
-Closure of the native algebraic-number field gives an annihilating rational polynomial. Its finite distinct root set allows a rational rectangle isolating the desired root. (Mathlib `algebraicClosure` and `mem_algebraicClosure_iff`,
-`Mathlib/FieldTheory/AlgebraicClosure.lean`, lines 39 and 54.) *Needs:* `IsolatedAlgebraicRoot` (0.8); every algebraic value has an isolated presentation (0.9a); Mathlib `algebraicClosure`.
+Transport the field operation of EffectiveDiophantineMethods §0.2 through the value-preserving conversions of §0.8; the resulting rectangle presents the native field value. (Mathlib `algebraicClosure` and `mem_algebraicClosure_iff`,
+`Mathlib/FieldTheory/AlgebraicClosure.lean`, lines 39 and 54.) *Needs:* EffectiveDiophantineMethods §0.2; `IsolatedAlgebraicRoot` (0.8); every algebraic value has an isolated presentation (0.9a); Mathlib `algebraicClosure`.
 
 ### 0.13 Equality of isolated algebraic numbers
 
@@ -538,7 +576,8 @@ The equality predicate compares the decoded native algebraic numbers of two exac
 - Every presentation equals itself.
 - The verdict is symmetric.
 
-Use equality of the decoded values. A common root of both annihilating polynomials in both isolating rectangles characterizes this equality. (Mathlib `algebraicClosure` and `mem_algebraicClosure_iff`,
+The conversions of §0.8 preserve and reflect equality of decoded values in
+EffectiveDiophantineMethods §0.2. Use equality of the decoded values. A common root of both annihilating polynomials in both isolating rectangles characterizes this equality. (Mathlib `algebraicClosure` and `mem_algebraicClosure_iff`,
 `Mathlib/FieldTheory/AlgebraicClosure.lean`, lines 39 and 54.) *Needs:* `IsolatedAlgebraicRoot` (0.8).
 
 **Checks.**
@@ -546,23 +585,6 @@ Use equality of the decoded values. A common root of both annihilating polynomia
 - *Degenerate case.* Two rational zero inputs compare equal.
 - *Computed value.* Different rational expressions for the same number compare equal.
 - *Non-example.* One half and one third compare unequal.
-
-### 0.14 Canonical finite p-adic approximation
-
-For prime p, p-adic approximation p stores integers N,v and a natural mantissa s. It is either (N,N,0), or v<N with 0<s<p^(N−v) and p∤s. Its centre is p^v·s∈ℚ and its denotation is {x∈ℚ_p | ‖x−centre‖≤p^(−N)}. N is absolute precision and N−v is relative precision in the nonzero case. Zero mantissa means the entire ball p^Nℤ_p, not the exact number zero.
-
-- The exact rational centre is p^v s.
-- The ball has radius p^(−N) in the native p-adic field.
-- The centre always belongs to its ball.
-- Zero belongs precisely to the zero-mantissa ball.
-
-Store the two normalization alternatives. Use a rational centre and the native p-adic field/norm to define the closed ball. Prime p is a hypothesis of semantic theorems; syntax is parameterized by p. ([CarusoPublished](#source-carusopublished), §2.1.1, pp.17–19.) *Needs:* Mathlib `padicValRat`; Mathlib `PadicInt.toZModPow`.
-
-**Checks.**
-
-- *Degenerate case.* The canonical zero ball at precision N has valuation N.
-- *Computed value.* The tuple (N,v,s)=(0,−1,1) is permitted at p=3 and has centre 1/3.
-- *Non-example.* A nonzero mantissa divisible by p cannot be canonical.
 
 ### 0.15 Rabin irreducibility criterion (`RabinCriterion`)
 
@@ -629,13 +651,13 @@ The divisibilities say that b is a root of f modulo g and c a root of g modulo f
 ### Examples
 
 - The rational presentations of `1/2` and `1/3` add to the presentation of `5/6`, and the presentations of `1/2` and `1/3` compare unequal (rational root presentation (0.9), equality of algebraic values (0.13)).
-- At `p = 3` the canonical approximation `(N, v, s) = (0, −1, 1)` has centre `1/3` and denotes `1/3 + ℤ_3` (p-adic approximation (0.14)).
+- At `p = 3` the canonical approximation `(N, v, s) = (0, −1, 1)` has centre `1/3` and denotes `1/3 + ℤ_3` (EffectiveDiophantineMethods §0.1).
 - Over `ZMod 2`, `X²+X+1` has the Rabin presentation `X⁴ ≡ X (mod f)`, `1·(X²−X) + 1·f = 1`, and presents `GaloisField 2 2` (`RabinCriterion` (0.15), finite-field presentation (0.16)).
 - Over `ZMod 3`, `(X+2, X+1)` changes the presentation `X²+1` of `𝔽₉` into `X²+X+2` (change of presentation (0.17)).
 
 ### Dependencies
 
-Mathlib (integers, rationals, lists, `NonemptyInterval`, `algebraicClosure`, `Polynomial`, `AdjoinRoot`, finite fields, `padicValRat`, `PadicInt.toZModPow`); TauCetiRoadmap RealAlgebraicGeometry Layers 1–4; TauCetiRoadmap PolynomialGaloisGroups Layer 5.
+EffectiveDiophantineMethods §§0.1–0.3; Mathlib (integers, rationals, lists, `NonemptyInterval`, `algebraicClosure`, `Polynomial`, `AdjoinRoot`, finite fields, `padicValRat`, `PadicInt.toZModPow`); TauCetiRoadmap RealAlgebraicGeometry Layers 1–4; TauCetiRoadmap PolynomialGaloisGroups Layer 5.
 
 ## Layer 1: primality and factorization presentations
 
@@ -1336,7 +1358,7 @@ For a normed field L, chosen nonzero element π with ‖π‖<1, element x and d
 - The supplied exact x lies in the exact local ball.
 - Every exact digit has norm at most one.
 
-Store exact native field elements and the norm inequality. A choice of residue section is additional data for any digit normalization; the record itself asserts precisely the displayed finite error inequality. Layer 0 supplies field and valuation structure, not an expansion theorem. Preserve the chosen prime, embedding and uniformizer normalization in comparisons. ([CarusoPublished](#source-carusopublished), §2.1.1, pp.17–19.) *Needs:* TauCetiRoadmap LocalFieldsRamification Layer 0; p-adic approximation (0.14); prime-ideal decomposition (2.9).
+Store exact native field elements and the norm inequality. A choice of residue section is additional data for any digit normalization; the record itself asserts precisely the displayed finite error inequality. Layer 0 supplies field and valuation structure, not an expansion theorem. Preserve the chosen prime, embedding and uniformizer normalization in comparisons. ([CarusoPublished](#source-carusopublished), §2.1.1, pp.17–19.) *Needs:* TauCetiRoadmap LocalFieldsRamification Layer 0; EffectiveDiophantineMethods §0.1; prime-ideal decomposition (2.9).
 
 **Checks.**
 
@@ -1382,7 +1404,7 @@ TauCetiRoadmap LocalFieldsRamification Layer 0.
 
 ### Dependencies
 
-Layers 0–1; NewtonPolygons §§0.1, 0.3, 3.2; ClassicalArithmeticCompletion §§3.25, 3.27 and 3.48; Completed NumberFieldArithmetic Layers 3, 5 and 7; TauCetiRoadmap LocalFieldsRamification Layers 0–1; Mathlib (number fields, `Ideal.radical`, Frobenius); Tau Ceti `TauCeti.kernelBasis`.
+Layers 0–1; EffectiveDiophantineMethods §0.1; NewtonPolygons §§0.1, 0.3, 3.2; ClassicalArithmeticCompletion §§3.25, 3.27 and 3.48; Completed NumberFieldArithmetic Layers 3, 5 and 7; TauCetiRoadmap LocalFieldsRamification Layers 0–1; Mathlib (number fields, `Ideal.radical`, Frobenius); Tau Ceti `TauCeti.kernelBasis`.
 
 ## Layer 3: exact modular and elliptic arithmetic data
 
@@ -1719,6 +1741,12 @@ The filtered set is the solution subtype whose `Nat.card` defines W.pointCount (
 
 ### 3.18 Exact local image of the 2-descent map
 
+Define the coordinate-free abscissa presentation below and compare it with
+EffectiveDiophantineMethods §3.2: under its specified square-class isomorphism κ_v,
+the inverse image of the span of its coordinate vectors is `localImageSpan` of
+its abscissae. The map from coordinate data to this presentation forgets κ_v and
+the factorwise witnesses while preserving the subgroup and its cardinality.
+
 Let W be an elliptic Weierstrass curve over ℚ with a₁ = a₃ = 0 and integral a₂, a₄, a₆, with cubic f, and let v be a prime p or the real place, K_v = ℚ_p or ℝ. Write W_v for its base change, A_v = K_v[X]/(f), M_v = A_v^×/A_v^(×2) (Tau Ceti `W_v.M`) and μ_v : W_v(K_v) → M_v the x − T map (Tau Ceti `μ`). A local image presentation W v consists of: (i) finitely many rationals x₁, …, x_k with f(x_i) a nonzero square in K_v, checked exactly (at ℝ: f(x_i) > 0; at p: the p-adic valuation of f(x_i) is even and its unit part passes the square test of `isSquare_iff_isSquare_mod` (2.22)); (ii) the number r_v of roots of f in K_v, exact at ℝ by the sign of the discriminant (three real roots when it is positive, one when it is negative) and at p by `card_padicRoots_eq` (2.23); (iii) the subgroup H_v of M_v generated by the classes of x_i − T. Its target size is N_v = (1 + r_v)·|2|_v^(−1) at a prime and N_v = (1 + r_v)/2 at ℝ, and the presentation is complete when #H_v = N_v. The order of H_v is computed by deciding which products of the generators are squares in each field factor of A_v.
 
 - `localImageSpan`: The subgroup H_v ≤ W_v.M generated by the classes `W_v.μX x_i` of the x_i − T.
@@ -1727,7 +1755,7 @@ Let W be an elliptic Weierstrass curve over ℚ with a₁ = a₃ = 0 and integra
 - The predicate #H_v = N_v.
 - #H_v = 2^(rank over 𝔽₂ of the classes of the x_i − T).
 
-Each x_i is the abscissa of a point P_i ∈ W_v(K_v), and μ_v(P_i) is the class of x_i − T because f(x_i) ≠ 0 (Tau Ceti μX_of_eval_f_ne_zero), so the y-coordinate is never needed. A_v is the product of the fields K_v[X]/(f_j) for the irreducible factors f_j of f over K_v, and a class is trivial exactly when each component is a square, which the square test decides. The discriminant criterion over ℝ is the statement that E(ℝ) has one or two components according to its sign. ([FPS](#source-fps), §7, Lemma 4 and its proof, p.17; [Cremona](#source-cremona), §3.6, printed p.93, the two discriminant signs.) *Needs:* `isSquare_iff_isSquare_mod` (2.22); `card_padicRoots_eq` (2.23); Tau Ceti `WeierstrassCurve.Affine.μ`; Tau Ceti `WeierstrassCurve.Affine.M`; Tau Ceti `WeierstrassCurve.Affine.μX_of_eval_f_ne_zero`.
+Each x_i is the abscissa of a point P_i ∈ W_v(K_v), and μ_v(P_i) is the class of x_i − T because f(x_i) ≠ 0 (Tau Ceti μX_of_eval_f_ne_zero), so the y-coordinate is never needed. A_v is the product of the fields K_v[X]/(f_j) for the irreducible factors f_j of f over K_v, and a class is trivial exactly when each component is a square, which the square test decides. The discriminant criterion over ℝ is the statement that E(ℝ) has one or two components according to its sign. ([FPS](#source-fps), §7, Lemma 4 and its proof, p.17; [Cremona](#source-cremona), §3.6, printed p.93, the two discriminant signs.) *Needs:* EffectiveDiophantineMethods §3.2; `isSquare_iff_isSquare_mod` (2.22); `card_padicRoots_eq` (2.23); Tau Ceti `WeierstrassCurve.Affine.μ`; Tau Ceti `WeierstrassCurve.Affine.M`; Tau Ceti `WeierstrassCurve.Affine.μX_of_eval_f_ne_zero`.
 
 **Checks.**
 
@@ -1735,7 +1763,11 @@ Each x_i is the abscissa of a point P_i ∈ W_v(K_v), and μ_v(P_i) is the class
 - *Degenerate case.* With no abscissae H_v is trivial; this is complete exactly when N_v = 1, for example at ℝ for y² = x³ + 1, whose discriminant is negative.
 - *Non-example.* For y² = x³ − x at p = 2, N_2 = (1+3)·2 = 8, while the single abscissa 1/4 (f(1/4) = −15/64, unit part −15 ≡ 1 mod 8) gives #H_2 ≤ 2; the presentation is not complete.
 
-### 3.19 The size check completes a local image
+### 3.19 Cardinality completeness for arbitrary local models
+
+This extends the rational integral-model comparison of
+EffectiveDiophantineMethods §3.3 to models defined over the local field itself;
+no rational descent of the coefficients or integral model is assumed.
 
 The local comparison holds for every elliptic W over ℚ_p, with prime p, or over ℝ,
 with a₁=a₃=0, and every finite list of abscissae in that local field for which f(x) is a
@@ -1745,7 +1777,16 @@ nonzero square. In these general forms, `localImageSpan_eq_range_of_card_padic` 
 
 For every local image presentation C of W at v, H_v ≤ range μ_v. If C is complete then H_v = range μ_v, and Tau Ceti's local condition W.localCondition K_v is the preimage of H_v under W.localRes K_v. If #H_v < N_v then H_v ≠ range μ_v, so the size check is both sufficient and necessary.
 
-Every generator is μ_v of an actual point. The kernel of μ_v is 2W_v(K_v) (Tau Ceti ker_μ_eq), so #range μ_v = [W_v(K_v) : 2W_v(K_v)]. This index is #W_v(K_v)[2]·|2|_v^(−1) at a prime and #W_v(ℝ)[2]/2 at ℝ, and #W_v(K_v)[2] = 1 + r_v (Tau Ceti card_ker_nsmul_two); so #range μ_v = N_v. A subgroup of a finite group with the same order is the whole group, and mem_localCondition_iff identifies the local condition. ([Mattuck](#source-mattuck), Theorem 7, p.114, for the local subgroup used in the index calculation; [FPS](#source-fps), §7, proofs of Lemmas 3 and 4, pp.16–17, for the dimension-two application of that calculation.) *Needs:* local image presentation (3.18); HeightsRationalPointsAndObstructions §1.17 (local indices of multiplication by two); Tau Ceti `WeierstrassCurve.Affine.ker_μ_eq`; Tau Ceti `WeierstrassCurve.Affine.card_ker_nsmul_two`; Tau Ceti `WeierstrassCurve.Affine.mem_localCondition_iff`.
+Every generator is μ_v of an actual point. The kernel of μ_v is 2W_v(K_v) (Tau Ceti ker_μ_eq), so #range μ_v = [W_v(K_v) : 2W_v(K_v)]. This index is #W_v(K_v)[2]·|2|_v^(−1) at a prime and #W_v(ℝ)[2]/2 at ℝ, and #W_v(K_v)[2] = 1 + r_v (Tau Ceti card_ker_nsmul_two); so #range μ_v = N_v. A subgroup of a finite group with the same order is the whole group, and mem_localCondition_iff identifies the local condition. ([Mattuck](#source-mattuck), Theorem 7, p.114, for the local subgroup used in the index calculation; [FPS](#source-fps), §7, proofs of Lemmas 3 and 4, pp.16–17, for the dimension-two application of that calculation.) *Needs:* EffectiveDiophantineMethods §3.3; local image presentation (3.18); HeightsRationalPointsAndObstructions §1.17 (local indices of multiplication by two); Tau Ceti `WeierstrassCurve.Affine.ker_μ_eq`; Tau Ceti `WeierstrassCurve.Affine.card_ker_nsmul_two`; Tau Ceti `WeierstrassCurve.Affine.mem_localCondition_iff`.
+
+**Checks.**
+
+- Over ℝ take y²=x³−√2·x, with a nonrational displayed coefficient. With roots ordered as −2^(1/4),0,2^(1/4), abscissae −1/2 and 2 have
+  positive cubic values √2/2−1/8 and 8−2√2, and signs (+,−,−) and (+,+,+).
+  Their span has order 2=(1+3)/2, testing the local-model generality.
+- Over ℝ for y²=x³+1, the empty span has order 1=(1+1)/2 and is complete.
+- For y²=x³−x over ℚ₂, a singleton span has order at most 2<8=(1+3)·2;
+  the size hypothesis rejects it, so no odd-prime restriction enters the theorem.
 
 ### 3.20 Complete local images exist
 
@@ -1754,8 +1795,10 @@ The acceptance theorems `exists_complete_localImage_padic` and
 `exists_complete_localImage_real` express this with finite lists of rational abscissae.
 Their base changes retain a₁=a₃=0. The existence statements hold for every rational
 elliptic model in this normal form, independently of coefficient integrality.
+They compare the rational-abscissa data of EffectiveDiophantineMethods §3.2
+with the subgroup presentation of §3.18 without its integral-model restriction.
 
-Every coset of 2W_v(K_v) is open and infinite: multiplication by two maps a sufficiently small local Lie subgroup onto an open subgroup. Thus each coset has a point away from the finite 2-torsion subgroup and the point at infinity. The map P ↦ μ_v(P) is locally constant there, and the abscissa determines the class. The set of x ∈ K_v with f(x) a nonzero square is open, and ℚ is dense in K_v, so every class in the finite group range μ_v is the class of x − T for some rational x. Finitely many such x generate range μ_v, which gives the required finite presentation. ([Mattuck](#source-mattuck), Theorem 7, p.114, for the nonarchimedean local subgroup; [FPS](#source-fps), §7, Lemma 4, p.17, as a concrete local-generator example. The general argument uses openness of nonzero square classes, local constancy of μ, and density of ℚ in ℝ and ℚ_p.) *Needs:* the size check completes a local image (3.19); Tau Ceti `WeierstrassCurve.Affine.μ`; `TauCeti.isOpen_range_powMonoidHom` in `TauCeti.NumberTheory.LocalField.PowerSubgroup.Open`; density of rational casts in ℝ and ℚ_p.
+Every coset of 2W_v(K_v) is open and infinite: multiplication by two maps a sufficiently small local Lie subgroup onto an open subgroup. Thus each coset has a point away from the finite 2-torsion subgroup and the point at infinity. The map P ↦ μ_v(P) is locally constant there, and the abscissa determines the class. The set of x ∈ K_v with f(x) a nonzero square is open, and ℚ is dense in K_v, so every class in the finite group range μ_v is the class of x − T for some rational x. Finitely many such x generate range μ_v, which gives the required finite presentation. ([Mattuck](#source-mattuck), Theorem 7, p.114, for the nonarchimedean local subgroup; [FPS](#source-fps), §7, Lemma 4, p.17, as a concrete local-generator example. The general argument uses openness of nonzero square classes, local constancy of μ, and density of ℚ in ℝ and ℚ_p.) *Needs:* cardinality completeness for arbitrary local models (3.19); Tau Ceti `WeierstrassCurve.Affine.μ`; `TauCeti.isOpen_range_powMonoidHom` in `TauCeti.NumberTheory.LocalField.PowerSubgroup.Open`; density of rational casts in ℝ and ℚ_p.
 
 **Checks.**
 
@@ -1766,42 +1809,11 @@ Every coset of 2W_v(K_v) is open and infinite: multiplication by two maps a suff
   Their x−T classes are independent and generate order eight; retaining only 1/4
   would generate order two.
 
-### 3.21 Local images at good odd primes (`localImage_of_good_odd`)
-
-Let p be an odd prime and W an elliptic Weierstrass curve over ℚ_p with a₁ = a₃ = 0, integral coefficients and no bad primes over ℤ_p (Tau Ceti `badPrimes`). Then range μ equals the intersection of Tau Ceti's unramified subgroup W.selmerGroupA ℤ_p with the kernel of the norm map W.normM. In particular, for a curve over ℚ and a set S containing 2 and the bad primes, the local conditions at primes outside S impose nothing beyond being unramified with square norm, so the Selmer local conditions reduce to those at S and ℝ together with unramifiedness and square norm.
-
-The inclusion is Tau Ceti's range_μ_le_selmerGroupA together with range_μ_le_ker_normM. For the count, f has distinct roots modulo p, so every field factor of A is unramified over ℚ_p and contributes two unit square classes. The unramified norm-on-units contract of LocalFieldsRamification Layer 2 makes the norm on unit square classes onto ℤ_p^×/ℤ_p^(×2). Thus its kernel has order 2^((number of factors) − 1) = 1 + r_p: the cubic splitting types are (3), (1,2) and (1,1,1), with kernel orders 1, 2 and 4. The index formula at odd p gives #range μ = 1 + r_p, so the inclusion is an equality. This count is the argument for the equality; Cremona supplies the local-solubility context, rather than this norm-kernel theorem. ([Cremona](#source-cremona), §3.6, Checking local solubility, p.80; [FPS](#source-fps), §7, proof of Lemma 3, pp.16–17, for the local index argument in dimension two.) *Needs:* the size check completes a local image (3.19); HeightsRationalPointsAndObstructions §1.17 (local indices of multiplication by two); TauCetiRoadmap LocalFieldsRamification Layer 2; Tau Ceti `WeierstrassCurve.Affine.selmerGroupA`; Tau Ceti `WeierstrassCurve.Affine.normM`.
-
-**Checks.**
-
-- At p=5, y²=x³−x has three residue roots, three unramified factors and norm-kernel order 2²=4.
-- At p=5, X³+X+1 has no residue root, one unramified cubic factor and norm-kernel order 2⁰=1.
-- At p=5, X³+1 has one residue root and two unramified factors, giving norm-kernel order 2¹=2.
-- At p=2 the factor |2|₂⁻¹ is two; the image of y²=x³−x has order eight,
-  so the good-odd comparison cannot replace the all-prime local-image theorem.
-
-### 3.22 p-saturated subgroups (`IsPSaturated`)
-
-Let A be an additive commutative group, G ≤ A a subgroup and p a natural number. G is p-saturated in A when every a ∈ A with p·a ∈ G lies in G. Equivalently A[p] ≤ G and G ∩ pA = pG. When [A : G] is finite and p is prime, G is p-saturated exactly when p does not divide [A : G], and G = A exactly when it is p-saturated for every prime p dividing the index.
-
-- IsPSaturated G p ↔ A[p] ≤ G ∧ G ⊓ p•⊤ = p•G.
-- For finite index and prime p: IsPSaturated G p ↔ ¬ p ∣ G.index.
-- The whole group is p-saturated.
-- A finite-index subgroup that is p-saturated for every prime p ≤ [A : G] is the whole group.
-
-If G is p-saturated then A[p] ≤ G, and pa ∈ G forces a ∈ G. Conversely, if pa = pg with g ∈ G then a − g ∈ A[p] ≤ G. For finite index, Cauchy's theorem in A/G gives a ∉ G with pa ∈ G when p divides the index; when it does not, the class of such an a has order dividing both p and the index, so it is trivial. ([Siksek](#source-siksek), §4, p.17, equation (39).) *Needs:* Mathlib `AddSubgroup.index`.
-
-**Checks.**
-
-- *Computed value.* In ℤ, 6ℤ is 5-saturated and is neither 2- nor 3-saturated.
-- *Degenerate case.* ⊤ ≤ A is p-saturated for every p.
-- *Non-example.* In ℤ × ℤ/2, G = ℤ × 0 satisfies G ∩ 2A = 2G but is not 2-saturated, because A[2] is not contained in G.
-
 ### 3.23 p-saturation reduces to finitely many divisibility tests
 
 Let A be an additive commutative group, p a prime and G ≤ A generated by g₁, …, g_m. The set V_p of b̄ ∈ 𝔽_p^m with Σ b_i g_i ∈ pA is a well-defined 𝔽_p-subspace, because p·g_i ∈ pA. Then V_p = 0 and A[p] ≤ G hold together exactly when G is p-saturated and the classes of g₁, …, g_m are linearly independent in G/pG. V_p = 0 is decided by testing Σ b_i g_i ∈ pA for one representative of each line of 𝔽_p^m: use |b_i| ≤ (p−1)/2 for odd p and b_i ∈ {0,1} for p = 2. In particular the nonzero class modulo 2 must be tested.
 
-Suppose V_p = 0 and A[p] ≤ G. If pa ∈ G, write pa = Σ c_i g_i; then c̄ ∈ V_p, so c = p·c′, and a − Σ c′_i g_i lies in A[p] ≤ G, hence a ∈ G. Independence in G/pG holds because pG ⊆ pA. Conversely, saturation gives A[p] ≤ G and G ∩ pA = pG, so an element of V_p has Σ b_i g_i ∈ pG and b̄ = 0 by independence. Lines suffice because V_p is a subspace. ([Siksek](#source-siksek), §4, equation (39), and §4.1, p.17; §4.2, projective representatives and the p = 2 exception, p.18.) *Needs:* `IsPSaturated` (3.22).
+Suppose V_p = 0 and A[p] ≤ G. If pa ∈ G, write pa = Σ c_i g_i; then c̄ ∈ V_p, so c = p·c′, and a − Σ c′_i g_i lies in A[p] ≤ G, hence a ∈ G. Independence in G/pG holds because pG ⊆ pA. Conversely, saturation gives A[p] ≤ G and G ∩ pA = pG, so an element of V_p has Σ b_i g_i ∈ pG and b̄ = 0 by independence. Lines suffice because V_p is a subspace. ([Siksek](#source-siksek), §4, equation (39), and §4.1, p.17; §4.2, projective representatives and the p = 2 exception, p.18.) *Needs:* EffectiveDiophantineMethods §3.17.
 
 The variant is psaturated iff forall not dvd of span quotient assumes only g_i ∈ G and that their classes generate G/pG: every x ∈ G can be written Σ c_i g_i + py with y ∈ G. It has the same equivalence between V_p = 0 together with A[p] ≤ G, and p-saturation together with independence in G/pG. In the forward proof write pa = Σ c_i g_i + py, then apply the preceding argument to a − y. This is the version used when prime-to-p torsion is omitted from the generator list.
 
@@ -1819,26 +1831,31 @@ If pQ = P with Q = (x₀, y₀), Tau Ceti's mul_eval_ΨSq_eq_eval_Φ_of_zsmul gi
 
 ### 3.25 The reduction sieve for p-saturation
 
-First prove the generic joint-reduction criterion. Let A and C_i be additive
-commutative groups, G≤A, p prime, and ψ_i:A→C_i a finite family of homomorphisms
-with pC_i=0. If their induced joint map G/pG→∏_i C_i is injective and A[p]≤G,
-then G is p-saturated. Every ψ_i kills pA, so injectivity gives G∩pA=pG;
-§3.22 then applies. This criterion needs neither finite index nor a free generator list.
+Compare the coefficient map below with the induced map from G/pG in
+EffectiveDiophantineMethods §3.18, where G is generated by the displayed points.
+Keep the coefficient relations when the list is redundant: injectivity on G/pG
+alone does not imply injectivity on the coefficient space.
 
 **Checks.**
 
-- In A=ℤ, G=3ℤ, p=2, reduction to ℤ/2 sends the generator 3 to 1. The induced
-  map G/2G is injective and G is 2-saturated: 2a divisible by 3 forces 3 to divide a.
-- In A=ℤ, G=2ℤ, p=2, reduction modulo 2 sends the generator 2 to 0. Its joint
-  kernel is nonzero, and 2·1∈G with 1∉G witnesses failure of saturation.
-- In A=ℤ/2, G=0, p=2, the map from G/2G=0 is injective even for an empty
-  reduction family, but 2·1=0 with 1∉G. The ambient-torsion condition excludes it.
+- For A=ℤ, G=3ℤ and p=2, the generator 3 maps to 1 modulo 2; both kernels
+  are zero and 2-saturation holds.
+- For A=ℤ, G=2ℤ and p=2, the generator 2 maps to 0; the coefficient kernel
+  has two elements, and 2·1∈G with 1∉G witnesses failure of saturation.
+- For A=ℤ, G=ℤ, g=(1,2) and p=2, the induced map on G/2G is injective,
+  but the coefficient kernel is {(0,0),(0,1)}; redundant generators are detected.
+- For A=ℤ/2, G=0 and p=2, the empty reduction family has zero kernel on
+  G/2G, but 2·1=0 with 1∉G; containment of ambient p-torsion is essential.
 
 Let W be an elliptic Weierstrass curve over ℚ with integral coefficients, p a prime and g₁, …, g_m ∈ W(ℚ). For a prime q of good reduction let ρ_q : W(ℚ) → W̃(𝔽_q)/pW̃(𝔽_q) be reduction followed by the quotient. Each ρ_q vanishes on pW(ℚ), so V_p is contained in the kernel of the 𝔽_p-linear map 𝔽_p^m → W̃(𝔽_q)/pW̃(𝔽_q), b ↦ Σ b_i ρ_q(g_i). If the intersection of these kernels over finitely many good primes is 0, then V_p = 0. A prime q contributes only when p divides #W̃(𝔽_q).
 
-Reduction at a prime of good reduction is a group homomorphism W(ℚ) → W̃(𝔽_q), so it sends pW(ℚ) into pW̃(𝔽_q). Hence an element of V_p maps to zero under every ρ_q. The p-part of W̃(𝔽_q)/pW̃(𝔽_q) is trivial unless p divides the group order. ([Siksek](#source-siksek), §4.1, equation (40), pp.17–18.) *Needs:* p-saturation reduces to finitely many divisibility tests (3.23); TauCetiRoadmap EllipticCurves Layer 4; point counts over a finite field by enumeration (3.17).
+Reduction at a prime of good reduction is a group homomorphism W(ℚ) → W̃(𝔽_q), so it sends pW(ℚ) into pW̃(𝔽_q). Hence an element of V_p maps to zero under every ρ_q. The p-part of W̃(𝔽_q)/pW̃(𝔽_q) is trivial unless p divides the group order. ([Siksek](#source-siksek), §4.1, equation (40), pp.17–18.) *Needs:* EffectiveDiophantineMethods §3.18; p-saturation reduces to finitely many divisibility tests (3.23); TauCetiRoadmap EllipticCurves Layer 4; point counts over a finite field by enumeration (3.17).
 
 ### 3.26 Finite p-saturation criterion
+
+The predicate `IsPSaturated G p` in Suggested.lean is the formula
+∀a∈A, pa∈G → a∈G on an additive commutative group A, subgroup G and natural p; its real body
+allows the elliptic acceptance theorem to use the supplier's notion at the pins.
 
 Define the finite p-saturation criterion for an integral elliptic Weierstrass curve W/ℚ,
 a prime p, rational points g₁,…,g_r and representatives t₁,…,t_s of a basis of
@@ -1878,11 +1895,11 @@ the division-polynomial comparison of §3.24 identifies the exact divisibility c
 - At weight `38` the integral matrix of `T₇₉` in the Miller basis reduces modulo `79` to `[[3, 17], [25, 10]]`, whose determinant `30 − 425 = −395 = −5·79` vanishes modulo `79` (nonordinary determinant at weight 38 and prime 79 (3.10)).
 - `y² = x³ + x + 1` over `ZMod 5` has `9` points and Frobenius trace `−3` (point counts over a finite field by enumeration (3.17)).
 - For `y² = x³ − x` at the real place the abscissae `−1/2` and `2` give a complete local image of order `2` (local image presentation (3.18)).
-- In `ℤ`, `6ℤ` is `5`-saturated and neither `2`- nor `3`-saturated (`IsPSaturated` (3.22)).
+- In `ℤ`, `6ℤ` is `5`-saturated and neither `2`- nor `3`-saturated (EffectiveDiophantineMethods §3.17).
 
 ### Dependencies
 
-Layers 0–2; TauCetiRoadmap LocalFieldsRamification Layer 2; TauCetiRoadmap ModularForms Layers 7–11; AlgebraicModularFormsAndSerreWeights R15.1–R15.3, R15.5; TauCetiRoadmap EllipticCurves Layers 4 and 6; EllipticLegendreCharacterInterfaces §§5.1–5.2; HeightsRationalPointsAndObstructions §1.17; Mathlib (level-one modular forms, `quadraticChar`, division polynomials); Tau Ceti (Sturm bound, Hecke recurrence, point count, `x − T` descent, division-polynomial identity).
+Layers 0–2; EffectiveDiophantineMethods §§3.2–3.4, 3.17–3.18; TauCetiRoadmap LocalFieldsRamification Layer 2; TauCetiRoadmap ModularForms Layers 7–11; AlgebraicModularFormsAndSerreWeights R15.1–R15.3, R15.5; TauCetiRoadmap EllipticCurves Layers 4 and 6; EllipticLegendreCharacterInterfaces §§5.1–5.2; HeightsRationalPointsAndObstructions §1.17; Mathlib (level-one modular forms, `quadraticChar`, division polynomials); Tau Ceti (Sturm bound, Hecke recurrence, point count, `x − T` descent, division-polynomial identity).
 
 ## Layer 4: quantitative analytic bounds and finite Gram data
 
@@ -2003,71 +2020,64 @@ If z is an integer, its real image belongs to I, and unique-integer recovery I=s
 
 Cast the rational endpoint inequalities and apply uniqueInteger_iff to the known integer z. ([Arb](#source-arb), §2.3, pp.3–4.) *Needs:* unique-integer recovery (4.8).
 
-### 4.10 Normalize a rational p-adic ball
-
-For prime p, rational centre c and absolute precision N∈ℤ, padicNormalize p c N returns the unique canonical p-adic approximation at precision N with denotation {x | ‖x−c‖≤p^(−N)}. Its valuation field is N if c=0, and min(v_p(c),N) otherwise. For v<N the mantissa is the unique residue in [1,p^(N−v)) prime to p representing c·p^(−v) modulo p^(N−v).
-
-- Absolute precision is retained.
-- Normalization preserves the entire rational-centred ball.
-- The zero branch avoids the native valuation-at-zero default.
-- Normalizing an already canonical centre and precision recovers the approximation.
-
-Separate the zero and high-valuation cases. Otherwise invert the denominator prime to p modulo p^(N−v) and reduce the scaled numerator. Native p-adic truncation compares this residue with the original rational centre. ([CarusoPublished](#source-carusopublished), §2.1.1, Proposition 2.1.1 and Definition 2.1.2, pp.II–17–II–18.) *Needs:* p-adic approximation (0.14); Mathlib `PadicInt.toZModPow`; Mathlib `padicValRat`.
-
-**Checks.**
-
-- *Degenerate case.* Zero at precision 5 has valuation 5 and mantissa zero.
-- *Computed value.* 5 modulo 3 normalizes to mantissa 2.
-- *Non-example.* 9 at absolute precision 2 is a zero-centred ball, not a unit with valuation zero.
-
 ### 4.11 Exact p-adic addition
 
-Add two canonical p-adic approximations by normalizing the sum of centres at absolute precision min(N,N′). For every independently chosen x in the first ball and y in the second, the sum lies in the output ball. This enclosure does not recover correlations between repeated occurrences of an uncertain input.
+Add two canonical p-adic approximations by normalizing the sum of centres at absolute precision min(N,N′). The denotation of the result equals {x+y | x∈B, y∈B′}, where B and B′ are the input denotations. This enclosure does not recover correlations between repeated occurrences of an uncertain input.
 
 - The output has the stated absolute precision.
 - The output contains every result from independently chosen inputs.
+- Every element of the output is realized by such a pair of inputs.
 - The canonical result is symmetric in its inputs.
 
-Expand the error around the exact rational centres and apply the ultrametric inequality. ([CarusoPublished](#source-carusopublished), §2.1.2, Proposition 2.1.3, equation (2.1), p.II–18.) *Needs:* normalize a rational p-adic ball (4.10); p-adic approximation (0.14).
+For containment use EffectiveDiophantineMethods §0.9. For the reverse inclusion,
+fix the centre of the smaller ball and absorb the error in the larger ball. ([CarusoPublished](#source-carusopublished), §2.1.2, Proposition 2.1.3, equation (2.1), p.II–18.) *Needs:* EffectiveDiophantineMethods §§0.1, 0.9.
 
 **Checks.**
 
 - *Degenerate case.* The operation on two precision-zero zero-centred balls contains zero.
-- *Computed value.* At p = 3, (1 + O(3²)) + (2 + O(3³)) has centre 3 and absolute precision 2, so its canonical form is (N, v, s) = (2, 1, 1).
+- *Computed value.* At p = 3, (1 + O(3²)) + (2 + O(3³)) has centre 3 and absolute precision 2, so its canonical form is (N, v, s) = (2, 1, 1). Modulo 27 the sums are exactly {3,12,21}; fixing the second input at 2 realizes all three.
 - *Agreement with the library notion.* At p = 3, O(3²) + (1 + O(3⁴)) is 1 + O(3²), with canonical tuple (2,0,1); using the larger input precision would lose admissible sums.
 
 ### 4.12 Exact p-adic multiplication
 
-Multiply two canonical p-adic approximations by normalizing the product of centres at absolute precision min(v+N′,N+v′). For every independently chosen x in the first ball and y in the second, the product lies in the output ball. This enclosure does not recover correlations between repeated occurrences of an uncertain input.
+Multiply two canonical p-adic approximations by normalizing the product of centres at absolute precision min(v+N′,N+v′). The denotation of the result equals {x*y | x∈B, y∈B′}, where B and B′ are the input denotations. This enclosure does not recover correlations between repeated occurrences of an uncertain input.
 
 - The output has the stated absolute precision.
 - The output contains every result from independently chosen inputs.
+- Every element of the output is realized by such a pair of inputs.
 - The canonical result is symmetric in its inputs.
 
-Expand the error around the exact rational centres and apply the ultrametric inequality. For multiplication the mixed error has valuation at least N+N′, which is no smaller than either retained bound because v≤N and v′≤N′. ([CarusoPublished](#source-carusopublished), §2.1.2, Proposition 2.1.3, equation (2.3) and its proof, pp.II–18–II–19.) *Needs:* normalize a rational p-adic ball (4.10); p-adic approximation (0.14).
+For containment use EffectiveDiophantineMethods §0.9. For the reverse inclusion,
+choose the factor whose valuation plus the other precision is minimal. If its
+ball contains zero, replace its centre by a member of valuation exactly that
+ball's precision. Division by that member absorbs any output error into the
+other ball. This also treats two zero-centred balls. ([CarusoPublished](#source-carusopublished), §2.1.2, Proposition 2.1.3, equation (2.3) and its proof, pp.II–18–II–19.) *Needs:* EffectiveDiophantineMethods §§0.1, 0.9.
 
 **Checks.**
 
 - *Degenerate case.* The operation on two precision-zero zero-centred balls contains zero.
 - *Computed value.* At p = 3, O(3²)·(1 + O(3⁴)) is O(3²), with canonical tuple (2,2,0); replacing the zero centre by valuation zero would give the wrong precision.
-- *Agreement with the library notion.* At p = 3, O(3²)·O(3⁴) is O(3⁶), with canonical tuple (6,6,0); taking the minimum of the input precisions would miss this gain.
+- *Agreement with the library notion.* At p = 3, O(3²)·O(3⁴) is O(3⁶), with canonical tuple (6,6,0); every 3⁶u is the product 3²·(3⁴u), including u=0. Taking the minimum of the input precisions would miss this gain.
 - *Computed value.* At p=3, multiply 3+O(3^4) by 1/3+O(3^2): the normalized output has centre 1 and absolute precision min(1+2,4−1)=3.
 
 ### 4.13 Partial p-adic inversion
 
-padicInverse rejects a zero-mantissa approximation, because its ball contains zero. Otherwise it returns the normalized reciprocal of the rational centre at absolute precision N−2v. Every element in the input ball is nonzero and its inverse lies in this output. The input relative precision N−v is preserved.
+padicInverse rejects a zero-mantissa approximation, because its ball contains zero. Otherwise it returns the normalized reciprocal of the rational centre at absolute precision N−2v. Every element in the input ball is nonzero, and the output denotation equals the set of inverses of all input elements. The input relative precision N−v is preserved.
 
 - Rejection is exactly the presence of zero in the input ball.
 - A successful output has precision N−2v.
 - A successful output encloses reciprocals of every input value.
+- Inversion maps the output back onto the input ball.
 
-Write x=c+h with v(h)≥N>v(c). Then x has the same valuation as c and x⁻¹−c⁻¹=−h/(cx), of valuation at least N−2v. ([CarusoPublished](#source-carusopublished), §2.1.2, proof of Proposition 2.1.3, equation (2.5), p.II–19.) *Needs:* normalize a rational p-adic ball (4.10); p-adic approximation (0.14).
+Use EffectiveDiophantineMethods §0.9 for containment. Inversion is an involution
+on the principal-unit ball 1+p^(N−v)ℤ_p, where N−v>0; scaling by the nonzero
+centre gives both inclusions and preserves relative precision. ([CarusoPublished](#source-carusopublished), §2.1.2, proof of Proposition 2.1.3, equation (2.5), p.II–19.) *Needs:* EffectiveDiophantineMethods §§0.1, 0.9.
 
 **Checks.**
 
 - *Degenerate case.* The zero-centred ball is rejected.
 - *Computed value.* Inverting a precision-four unit preserves absolute precision four.
-- *Non-example.* Inverting 3+O(3⁴) loses two absolute digits, yielding precision two.
+- *Non-example.* Inverting 3+O(3⁴) loses two absolute digits, yielding precision two: x=84 lies in the input and x⁻¹−1/3=−9/28 has valuation 2. Conversely, 1/3+9=28/3 has inverse 3/28, differing from 3 by −81/28 of valuation 4.
 
 ### 4.14 Odlyzko tail kernel
 
@@ -2202,11 +2212,12 @@ For every nonzero f∈ℚ[X], there exists a list of `IsolatedAlgebraicRoot`s
 all using f, with distinct decoded values, pairwise disjoint closed rational rectangles,
 and decoded root set exactly the complex roots of f. Multiplicities are not counted.
 
-Finiteness of the distinct root set gives pairwise disjoint rational neighborhoods;
-isolation uses the root-count and separation comparisons of RealAlgebraicGeometry
-Layers 1–4 (Arb §5, printed pp.7–8, for enclosure semantics).
-*Needs:* §0.8; every algebraic value has an isolated presentation (0.9a); polynomial root finiteness;
-RealAlgebraicGeometry Layers 1–4.
+Apply the simultaneous separation of EffectiveDiophantineMethods §0.2 to the
+finite distinct roots of f. Choose each rectangle small enough to exclude every
+other root of f, and replace its squarefree annihilator by the prescribed f.
+This keeps the value and disjointness while recording f itself, including its
+multiplicities (Arb §5, printed pp.7–8, for enclosure semantics).
+*Needs:* §0.8; EffectiveDiophantineMethods §§0.2–0.3; polynomial root finiteness.
 
 **Checks.**
 
@@ -2496,42 +2507,38 @@ Let A,B be real n×n matrices. If B_ij≤A_ij for every i,j and x_i≥0 for ever
 
 Every x_i x_j is nonnegative. Multiply each entry inequality by this number and sum. ([CT](#source-ct), Remark 2.11, pp.281–282.) *Needs:* enclosure under multiplication (4.2).
 
-### 4.26 Integer points of a rational ellipsoid
+### 4.26 Integral-coordinate comparison for rational ellipsoids
 
-For any rational n×n matrix G, t∈ℚⁿ and R∈ℚ, define
-integer ellipsoid set G t R as the native set of x∈ℤⁿ satisfying `(x-t)ᵀG(x-t) ≤ R`.
-When G is symmetric and positive definite, this sublevel set is bounded, hence finite.
-Dimension zero is allowed; all finiteness statements require positive definiteness.
+For a symmetric positive-definite G∈ℚⁿˣⁿ, t∈ℚⁿ and R∈ℚ, use the native
+sublevel set E={x∈ℤⁿ | (x−t)ᵀG(x−t)≤R}. Choose positive integers a,D with
+aG integral and Dt∈ℤⁿ. Prove that x↦D(x−t) is a bijection from E to
+{y∈ℤⁿ | y+Dt∈Dℤⁿ and yᵀ(aG)y≤aD²R}; its inverse is y↦(y+Dt)/D.
+The congruence condition is coordinatewise and ensures the inverse is integral.
+This comparison retains the boundary and permits dimension zero.
 
-- For positive-definite G and R<0 the set is empty.
-- For t=0 it is closed under negation.
-- Increasing R gives an inclusion.
-- For t=0 and R≥0 it contains zero.
+- The map has integral coordinates and satisfies y+Dt∈Dℤⁿ.
+- Its quadratic value is exactly aD² times the original quadratic value.
+- The displayed inverse preserves the bound and both composites are identities.
+- For t=0 the map commutes with negation; for general t it need not.
 
-For positive-definite G choose positive integers a,D so that aG has integral entries
-and Dt∈ℤⁿ. The injective map x↦D(x−t) sends the set into the bounded-norm set of
-the integral lattice with Gram matrix aG, at bound aD²R, because
+Expand the quadratic form and cancel the positive scalars:
 `(D(x-t))^T (aG) (D(x-t)) = a*D^2*((x-t)^T G (x-t))`.
-Apply IntegralLattices Layer 2, milestone 2A; positive scaling preserves definiteness.
-The coordinate comparison retains equality at the boundary (deWeger, §3.6, printed pp.51–53).
-*Needs:* Mathlib `Matrix.PosDef`; IntegralLattices Layer 2, milestone 2A.
+Use the affine finite set and its membership contract from
+EffectiveDiophantineMethods §§1.7–1.8 and the integral bounded-norm set of
+IntegralLattices Layer 2, milestone 2A (deWeger, §3.6, printed pp.51–53).
+*Needs:* EffectiveDiophantineMethods §§1.7–1.8; IntegralLattices Layer 2,
+milestone 2A; Mathlib `Matrix.PosDef`.
 
 **Checks.**
 
-- G=I₂, t=0, R=1 gives `{0, ±(1,0), ±(0,1)}`.
-- G=`[[2,1],[1,2]]`, t=0, R=2 gives seven points; `(1,1)` has value six and is excluded.
-- G=`[1]`, t=1/2, R=1/4 gives `{0,1}`; negation symmetry requires t=0.
-- In dimension zero the empty vector belongs iff R≥0.
-- G=`[0]` at R=0 has infinitely many integer points, showing why definiteness is required.
-
-### 4.27 Completeness of the ellipsoid set
-
-For symmetric positive-definite G and arbitrary rational t,R,
-integer ellipsoid set G t R is finite and membership is equivalent to the defining quadratic inequality. For t=0, if this set is `{0}`,
-every nonzero integer vector has value strictly above R. If R≤R′, the set at R′
-is a finite cover of the set at R, with the extra points retained explicitly
-(deWeger, §3.6, printed pp.51–53).
-*Needs:* §4.26.
+- G=[1], t=1/2, R=1/4, a=1,D=2: E={0,1} maps to {−1,1}; both values
+  are 1=4·(1/4). The norm-bounded integer y=0 is excluded by y+1∈2ℤ.
+- G=[1/2], t=0, R=1/2, a=2,D=1: E={−1,0,1}; y=±1 has value
+  1=2·(1/2), testing the Gram scaling as well as the coordinate scaling.
+- In dimension zero the empty vector maps to itself; both sets have size one
+  at R=0 and zero at R=−1.
+- D=0 would send every x to zero and make the inverse undefined; positivity
+  excludes it. For G=[0], R=0 the set is infinite, so definiteness remains required.
 
 ### 4.28 Loewner lower bounds on unrestricted vectors
 
@@ -2570,7 +2577,8 @@ Given an exact finite cover S of all integer vectors x with xᵀBx≤c, effectiv
 - Filtering never invents a vector.
 - Every nonnegative B-short vector is retained when S is exhaustive.
 
-For symmetric positive-definite B, the finite set integer ellipsoid set B 0 c supplies S by §4.27. Intersect S with the nonnegative orthant and the stated quadratic sublevel set. The effective Gram comparison proves that each required A-short vector is B-short and therefore belongs to S. ([CT](#source-ct), Remark 2.11 and §2.4.3, pp.281–282.) *Needs:* completeness of the ellipsoid set (4.27); entrywise lower bounds on effective vectors (4.25).
+For symmetric positive-definite B in positive dimension, EffectiveDiophantineMethods
+§§1.7–1.8 supplies S; in dimension zero use the empty vector exactly when c≥0. Intersect S with the nonnegative orthant and the stated quadratic sublevel set. The effective Gram comparison proves that each required A-short vector is B-short and therefore belongs to S. ([CT](#source-ct), Remark 2.11 and §2.4.3, pp.281–282.) *Needs:* EffectiveDiophantineMethods §§1.7–1.8; entrywise lower bounds on effective vectors (4.25).
 
 **Checks.**
 
@@ -2646,13 +2654,13 @@ Sum each constant block contribution and the diagonal terms separately. Each dia
 - At precision `2` the outward dyadic hull of `1/3` is `[1/4, 1/2]`; at precision `0` that of `−1/3` is `[−1, 0]` (outward dyadic hull (4.5)).
 - At `p = 3`, `(3 + O(3⁴))·(1/3 + O(3²))` has centre `1` and absolute precision `min(1 + 2, 4 − 1) = 3`, and inverting `3 + O(3⁴)` gives absolute precision `2` (exact p-adic multiplication (4.12), partial p-adic inversion (4.13)).
 - The shared Fourier value `8ℓ/π²` at `ℓ = 1` lies in `(4/5, 41/50)` (CT scalar enclosure (4.18)).
-- For `G = [[2, 1], [1, 2]]` and `R = 2` the ellipsoid has seven integer vectors and excludes `(1, 1)` (integer ellipsoid set (4.26)).
+- For `G = [[2, 1], [1, 2]]` and `R = 2` the ellipsoid has seven integer vectors and excludes `(1, 1)` (EffectiveDiophantineMethods §1.7).
 - The multiplicity lift sends `t_i` to `t_i/m_i`, so each diagonal block contributes `A·m_i·(t_i/m_i)² = A t_i²/m_i` (correct multiplicity lift for gram witnesses (4.34)).
 - With two block sizes `(2,3)`, `A = 6`, `K = [[1,2],[2,4]]` and `t = (2,3)`, the reduced matrix is `[[2,−2],[−2,−2]]` and its value is `8 − 24 − 18 = −34`. The lift is the five-coordinate vector `(1,1,1,1,1)`, whose expanded value is `30 − (4 + 24 + 36) = −34`; division by square roots of block sizes would give a different value (correct multiplicity lift for gram witnesses (4.34)).
 
 ### Dependencies
 
-Layers 0–3; IntegralLattices Layer 2, milestone 2A; Mathlib (`NonemptyInterval`, digamma, `DirichletCharacter.LFunction`, `ModularForm.L`, `WeakFEPair`, `Matrix.PosDef`); TauCetiRoadmap RealAlgebraicGeometry Layers 1–4; ContourIntegration Layer 3; ZerosOfLFunctions §§4.1, 4.3–4.4, 4.9, 7.1–7.2a and Layer 9.
+Layers 0–3; EffectiveDiophantineMethods §§0.1, 0.9, 1.7–1.8; IntegralLattices Layer 2, milestone 2A; Mathlib (`NonemptyInterval`, digamma, `DirichletCharacter.LFunction`, `ModularForm.L`, `WeakFEPair`, `Matrix.PosDef`); TauCetiRoadmap RealAlgebraicGeometry Layers 1–4; ContourIntegration Layer 3; ZerosOfLFunctions §§4.1, 4.3–4.4, 4.9, 7.1–7.2a and Layer 9.
 
 ## Layer 5: interpretation of finite arithmetic families
 
@@ -2687,31 +2695,10 @@ Layers 0, 3 and 4.
 
 ## Downstream consumers
 
-- **EffectiveDiophantineMethods** consumes the common foundations through these comparisons:
-  - For its §0.1 proof-bearing p-adic enclosure of x with rational centre c and precision N,
-    use §4.10's normalized record and transport containment along equality of denotations.
-    For its §0.9 general-completion balls this comparison applies only to K=ℚ, K_v=ℚ_p,
-    ord(p)=1 and rational centres; it does not identify general-completion records.
-  - Its §§0.2–0.3 rectangular selected-root data forget squarefreeness and the embedding
-    label to give `IsolatedAlgebraicRoot`, with exactly the same complex value. A disc
-    datum first chooses a rational rectangle containing the selected root and contained
-    in the disc's interior, so this restriction requires the root to be in that interior;
-    for boundary roots choose a new isolating rectangle by §0.9a instead. Arithmetic and
-    equality use §§0.10–0.13, and complete isolation uses §4.19.
-  - Its §§3.2–3.4 coordinate-rich local-image data transport their coordinate subgroup to
-    `localImageSpan` under the specified square-class isomorphism. Cardinality completeness
-    uses §3.19 and good-odd-prime equality uses `localImage_of_good_odd` (§3.21), with
-    all square witnesses and the integral good-model hypothesis retained.
-  - Its §§3.17–3.18 saturation and joint-reduction data use `IsPSaturated` (§3.22) and
-    §§3.23–3.25, retaining A[p]≤G; §3.26 specializes the finite criterion to rational
-    elliptic points. Heights, global index bounds and Mordell–Weil assembly remain
-    its §§3.5–3.22's applications of these foundations.
-  - Its §§1.7–1.8 LDL and Fincke–Pohst witnesses identify their finite output with
-    §§4.26–4.27's affine integer set by the same inequality, including equality at the
-    boundary. This comparison assumes positive definiteness; an empty totalized output
-    for a non-positive-definite matrix is not identified with the native sublevel set.
-  Its worked Diophantine examples also consume the order presentations of Layer 2,
-  the enclosures of Layer 4 and the finite-family comparisons of Layer 5.
+Arithmetic applications can use the order and factor presentations of Layers 1–2,
+the integral Fourier lattices and finite elliptic comparisons of Layer 3, and the
+quantitative analytic bounds and finite Gram families of Layers 4–5. Their inputs
+retain the displayed embeddings, local normalizations and completeness hypotheses.
 
 ## References
 

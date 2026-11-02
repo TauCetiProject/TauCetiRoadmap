@@ -1,6 +1,5 @@
 import Mathlib
 import TauCeti.AlgebraicGeometry.EllipticCurve.MordellWeil.XSubT
-import TauCeti.AlgebraicGeometry.EllipticCurve.MordellWeil.SelmerGroupA
 
 /-!
 # ComputationalNumberTheory: target signatures
@@ -421,7 +420,8 @@ def localImageSpan {K : Type*} [Field K] [DecidableEq K]
     (W : WeierstrassCurve.Affine K) [W.IsElliptic] [W.IsCharNeTwoNF] (xs : List K) : Subgroup W.M :=
   Subgroup.closure ((fun x => W.μX x) '' {x | x ∈ xs})
 
-/-- **The size check completes a local image at a prime** (README 3.19). -/
+/-- Cardinality completeness for a model over the local field itself, without
+rational descent or integral coefficients (README §3.19). -/
 theorem localImageSpan_eq_range_of_card_padic (p : ℕ) [Fact p.Prime] [DecidableEq ℚ_[p]]
     (W : WeierstrassCurve.Affine ℚ_[p]) [W.IsElliptic] [W.IsCharNeTwoNF] (xs : List ℚ_[p])
     (hxs : ∀ x ∈ xs, W.f.eval x ≠ 0 ∧ IsSquare (W.f.eval x))
@@ -430,7 +430,8 @@ theorem localImageSpan_eq_range_of_card_padic (p : ℕ) [Fact p.Prime] [Decidabl
     localImageSpan W xs = (WeierstrassCurve.Affine.μ (W := W)).range := by
   sorry
 
-/-- **The size check at the real place** (README 3.19). -/
+/-- Cardinality completeness for a real model, without rational descent or
+integral coefficients (README §3.19). -/
 theorem localImageSpan_eq_range_of_card_real [DecidableEq ℝ] (W : WeierstrassCurve.Affine ℝ)
     [W.IsElliptic] [W.IsCharNeTwoNF] (xs : List ℝ)
     (hxs : ∀ x ∈ xs, 0 < W.f.eval x)
@@ -461,15 +462,8 @@ theorem exists_complete_localImage_real [DecidableEq ℝ]
         (WeierstrassCurve.Affine.μ (W := W.map (algebraMap ℚ ℝ))).range := by
   sorry
 
-/-- At every good odd prime, the local descent image is exactly the unramified
-square classes of square norm (README §3.21). -/
-theorem localImage_of_good_odd (p : ℕ) [Fact p.Prime] (hp : p ≠ 2) [DecidableEq ℚ_[p]]
-    (W : WeierstrassCurve.Affine ℚ_[p]) [W.IsElliptic] [W.IsCharNeTwoNF]
-    (hgood : W.badPrimes ℤ_[p] = ∅) :
-    (WeierstrassCurve.Affine.μ (W := W)).range = W.selmerGroupA ℤ_[p] ⊓ W.normM.ker := by
-  sorry
-
-/-- **`p`-saturated subgroups** (README 3.22). -/
+/-- The p-saturation predicate of EffectiveDiophantineMethods §3.17 on native groups,
+used to state the elliptic finite-divisibility comparison (README §3.26). -/
 def IsPSaturated {A : Type*} [AddCommGroup A] (G : AddSubgroup A) (p : ℕ) : Prop :=
   ∀ a : A, p • a ∈ G → a ∈ G
 
