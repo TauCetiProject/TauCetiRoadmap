@@ -16,10 +16,10 @@ function. The conormal of Q⊂M uses covectors in T*_qM annihilating the image o
 
 Consume Tau Ceti's `SymplecticForm.IsIsotropic`, `IsCoisotropic`, `IsLagrangian`, linear cotangent
 form and Liouville identity. Consume ordinary Darboux and compact-manifold Moser with a given smooth symplectic path from
-[HeegaardFloer](https://github.com/TauCetiProject/TauCetiRoadmap/pull/957), F2.1. Generic differential-form calculus belong to
+[HeegaardFloer](../../HeegaardFloer/README.md), F2.1. Generic differential-form calculus belong to
 [DifferentialGeometry](../../DifferentialGeometry/README.md); generic tubular neighborhoods belong to
 [GeometricTopology](../../GeometricTopology/README.md); bundle duals and smooth operations belong
-to [SmoothBundlesConnections](https://github.com/TauCetiProject/TauCetiRoadmap/pull/887). The missing instances or
+to [SmoothBundlesConnections](../../SmoothBundlesConnections/README.md). The missing instances or
 lemmas needed to connect these interfaces are explicit work here or there, not assumptions.
 
 ## C1. Intrinsic cotangent phase space
@@ -28,10 +28,14 @@ lemmas needed to connect these interfaces are explicit work here or there, not a
    model `I.prod 𝓘(ℝ,E →L[ℝ] ℝ)`. Use the existing continuous-linear-map bundle charts and prove
    projection smooth with `Manifold.IsSubmersion`; zero section and smooth one-form sections; local transition
    formula `(q,p)↦(φ(q),p∘(dφ_q)⁻¹)`; fiberwise addition/scaling and vector-bundle laws.
-2. Construct λ(v)=p(dπ(v)) as a globally smooth one-form. Establish naturality, pullback by a section
-   s_α gives α, and chart formula Σpᵢdqᵢ. Construct ω=−dλ, prove closed and nondegenerate,
-   and identify it with `strongDualCotangentSymplecticForm` in charts. This chart identification is
-   required evidence that no convention has changed.
+2. Construct λ(v)=p(dπ(v)) as a globally smooth one-form (`liouville`). Establish naturality,
+   pullback by a smooth section s_α gives α (`liouville_section`, with the section smoothness
+   predicate `IsSmoothOneForm`), and the chart formula Σpᵢdqᵢ (`liouville_inChart`). Construct
+   ω=−dλ, prove closed and nondegenerate, and identify it with
+   `strongDualCotangentSymplecticForm` in charts (Cannas da Silva, §§2.2–2.3, pp. 9–10).
+   `canonicalForm_exists` states that a smooth two-form on T*M exists which is symplectic and has
+   this expression in every cotangent chart; the chart expression determines it. This chart
+   identification is required evidence that no convention has changed.
 3. A diffeomorphism f:M→N has cotangent lift `(q,p)↦(f(q),p∘(df_q)⁻¹)`.
    Prove identity/composition/inverse, preservation of λ and ω, equivariance for group actions.
    Define cotangent pullback along a general map as a relation over the map, rather than a false
@@ -45,7 +49,7 @@ lemmas needed to connect these interfaces are explicit work here or there, not a
 
 Define symplectic tangent images by disjointness from their symplectic orthogonal and nondegenerate
 restriction, then define symplectic/isotropic/coisotropic/Lagrangian embeddings through tangent images using existing
-linear predicates. Prove independence of parametrization, transport by symplectomorphisms, dimension
+linear predicates (`IsLagrangianEmbedding` for the Lagrangian case). Prove independence of parametrization, transport by symplectomorphisms, dimension
 bounds/equalities, products and restriction to open sets. Nonzero real rescaling of a
 symplectic form preserves all four tangent-subspace predicates; prove its form and primitive API. A Lagrangian immersion is a separate notion;
 define its `Manifold.IsImmersion` and tangent-isotropy/half-dimension predicate and prove its
@@ -202,7 +206,7 @@ H₁=π₁^ab using SmoothBundlesConnections B6.1’s degree-one comparison, and
 DifferentialGeometry’s de Rham comparison. Construct its closed nondegenerate form and odd first
 Betti number obstruction using the compact Kähler
 Hodge parity theorem: consume the degree-one Kähler harmonic/type decomposition and conjugation symmetry of
-[ComplexKahlerGeometry](https://github.com/TauCetiProject/TauCetiRoadmap/pull/953), including its explicit Hodge
+[ComplexKahlerGeometry](../../ComplexKahlerGeometry/README.md), including its explicit Hodge
 parity theorem. That parity theorem is not a consequence of de Rham theory alone.
 
 For a Riemannian Q of positive dimension, build its unit cosphere and consume
@@ -251,87 +255,112 @@ invertibility without a global inverse.
 
 **Fixed points and finite iterates.** Let S be a smooth generating function
 on an open W⊂Q×Q whose relation `p=d_1S(q,Q), P=−d_2S(q,Q)` is the graph
-of a specified symplectomorphism between open cotangent domains. On
+of a specified symplectomorphism φ between open cotangent domains. On
 `{q : (q,q)∈W}`, put ψ(q)=S(q,q). Prove
 `dψ_q=d_1S(q,q)+d_2S(q,q)` and the bijection between its critical points
-and fixed phase points with base pair in W, sending q to `(q,d_1S(q,q))`.
-For N≥2, define the cyclic action
-`A_N(q_0,…,q_(N−1))=Σ_i S(q_i,q_(i+1 mod N))`
-on the open configuration domain where every edge lies in W. Its critical
-equations are the matching-covector equations at each vertex. Prove the
-bijection with marked phase points fixed by the Nth iterate, retaining the
-domains on which all intermediate iterates are defined. The least period
-may divide N; cyclic shifts change the starting collision, and must be
-accounted for before counting unmarked periodic orbits.
+and the fixed phase points of φ with base pair in W, sending q to
+`(q,d_1S(q,q))` (Cannas da Silva, Prop. 5.1, p. 29).
+
+**Chains of generating functions.** Let `S_0,…,S_(N−1)`, N≥1, be generating
+functions as above on open domains `W_i⊂Q×Q`, generating symplectomorphisms
+`φ_0,…,φ_(N−1)` between open cotangent domains. Define the cyclic action
+`A(q_0,…,q_(N−1))=Σ_i S_i(q_i,q_(i+1 mod N))`
+on the open configuration domain where every edge `(q_i,q_(i+1 mod N))` lies
+in `W_i`. Its critical equations are the matching-covector equations
+`−d_2S_(i−1)(q_(i−1),q_i)=d_1S_i(q_i,q_(i+1))` at each vertex, indices mod N:
+the outgoing covector of edge i−1 equals the incoming covector of edge i.
+Prove the bijection between critical configurations and the phase points
+fixed by the composite `φ_(N−1)∘…∘φ_0` whose every intermediate state
+`φ_(i−1)∘…∘φ_0(z)` lies in the domain of `φ_i`, sending a configuration to
+`(q_0,d_1S_0(q_0,q_1))` and a fixed point to its base points along the chain.
+Iterates are the case of equal summands `S_i=S`: the critical points of
+`A_N(q_0,…,q_(N−1))=Σ_i S(q_i,q_(i+1 mod N))` correspond to the marked
+phase points fixed by the Nth iterate of φ with all intermediate iterates
+defined, and N=1 recovers ψ. The least period may divide N; a cyclic shift
+of a configuration is the same periodic orbit with another marked point, and
+these shifts are identified before counting unmarked periodic orbits. This
+chain form, after its sign change and deck quotient, is the dictionary that
+IntegrableSystems I5.2's cyclic configurations instantiate.
 
 For fixed endpoints q_0,q_N, use the open-chain action
-`F_N=Σ_(i=0)^(N−1) S(q_i,q_(i+1))`. At a stationary internal configuration
+`F_N=Σ_(i=0)^(N−1) S_i(q_i,q_(i+1))`. At a stationary internal configuration
 with invertible full Hessian in `(q_1,…,q_(N−1))`, apply the implicit
 function theorem to construct a smooth local critical branch and evaluate
-F_N there to obtain S_N(q_0,q_N). Prove the endpoint derivative formulas,
-the mixed-Hessian nondegeneracy and the identification of its generating
-relation with the Nth iterate on the resulting cotangent domains. Give
-N=2 and N=3 explicitly. A global generating function requires the
+F_N there to obtain `S_(0…N)(q_0,q_N)`. Prove the endpoint derivative
+formulas, the mixed-Hessian nondegeneracy and the identification of its
+generating relation with the composite on the resulting cotangent domains.
+Give N=2 and N=3 explicitly (Cannas da Silva, Prop. 5.2, p. 30, for the
+second iterate under a global uniqueness hypothesis, and the exercise
+following it for the third). A global generating function requires the
 corresponding global uniqueness and graph-projection hypotheses; local
 elimination alone supplies a local branch. The cyclic critical-point
 correspondence does not require eliminating the internal variables or
 assuming nondegeneracy of the periodic orbit.
 
-**Convex planar billiards.** Let χ:ℝ/(Lℤ)→ℝ² be a smooth positively oriented
-arclength embedding, L>0, bounding a bounded strictly convex table: every
-tangent support line meets its boundary only at its point of tangency.
-Use [I2.0's positive-period circle](../IntegrableSystems/README.md#i20-positive-period-circles-and-families)
-and define the collision phase space
-`P=(ℝ/(Lℤ))×(−1,1)`, where v is the unit outgoing velocity's component
-along χ′(s). Construct the next-collision map by the straight chord and
-specular reflection. Prove existence, uniqueness, smoothness and the smooth
-inverse on this open phase space. Tangent collisions v=±1 are excluded.
+**Convex planar billiards.** Let χ:ℝ→ℝ² be a smooth L-periodic arclength
+parametrization, L>0, of the boundary of a bounded strictly convex table,
+positively oriented and injective on `[0,L)`: every tangent support line
+meets the boundary only at its point of tangency. Work on the open strip
+`ℝ×(−1,1)` with the translation `τ(s,v)=(s+L,v)`, where v is the component
+of the unit outgoing velocity along χ′(s); the collision states are the
+τ-orbits, and the quotient `(ℝ/Lℤ)×(−1,1)` is used below only as the
+topological space `AddCircle L × (−1,1)`, with Mathlib's instances, never
+as a manifold. Construct the next-collision map β̃ on the strip by the
+straight chord and specular reflection. Prove existence, uniqueness,
+smoothness, the smooth inverse and τ-equivariance `β̃∘τ=τ∘β̃`, so that β̃
+descends to a homeomorphism β of the quotient. Tangent collisions v=±1 are
+excluded (Cannas da Silva, §5.2, pp. 30–32, with period 1).
 
-On distinct boundary pairs put `S(s,t)=−‖χ(t)−χ(s)‖`. For lifts with
-`s<t<s+L`, derive `v=∂_sS` and `w=−∂_tS` for the next state (t,w).
-Prove `∂_s∂_tS<0` from strict convexity and the non-tangency of each chord,
-so `∂t/∂v<0` on the lifted return map. The generating function is invariant
-under changing either boundary parameter by L; its smooth domain excludes
-the diagonal. Set λ=v ds and ω=ds∧dv. If ℓ(s,v) is the chord length of the
-next collision, prove `β*λ−λ=dℓ`, hence `β*ω=ω`, for the return map β:P→P. Construct the corresponding invariant
-Borel area measure `ds dv`, of total mass 2L, by product of the period-L
-circle's length measure with Lebesgue measure on (−1,1). Supply the
-change-of-variables and quotient-chart comparisons establishing actual
-`MeasureTheory.MeasurePreserving` for this measure. Under the period-one
-coordinate u=s/L, the canonical covector is p=Lv, so λ=p du and
-ω=du∧dp. Carry this factor through the area and generating formulas.
+On `{(s,t) : s<t<s+L}` put `S(s,t)=−‖χ(t)−χ(s)‖`. Derive `v=∂_sS` and
+`w=−∂_tS` for the next state (t,w) (Cannas da Silva, §5.2, pp. 31–32). Prove
+`∂_s∂_tS<0` from strict convexity and the non-tangency of each chord, so
+`∂t/∂v<0` for the strip map. S is invariant under translating both
+arguments by L; its smooth domain excludes the diagonal and its
+translates. Set λ=v ds and ω=ds∧dv on the strip. If ℓ(s,v) is the chord
+length of the next collision, prove `β̃*λ−λ=dℓ`, hence `β̃*ω=ω`. On the
+quotient take the product of the Haar measure `volume` of `AddCircle L`,
+of total mass L by `AddCircle.measure_univ`, with Lebesgue measure on
+(−1,1): a finite Borel measure of full support and total mass 2L. Prove
+that β is `MeasureTheory.MeasurePreserving` for it, by the change of
+variables `β̃*ω=ω` on the fundamental domain `[0,L)×(−1,1)` and the
+quotient-measure comparison. Under the period-one coordinate u=s/L, the
+canonical covector is p=Lv, so λ=p du and ω=du∧dp. Carry this factor
+through the area and generating formulas.
 
-Use the cyclic action above to identify critical inscribed N-gons with
-marked N-periodic billiard states. Its negative is perimeter. Require
+Use the cyclic action above, with every `S_i=S`, to identify critical
+inscribed N-gons with marked N-periodic billiard states (Cannas da Silva,
+§5.2, p. 32); the negative of the cyclic action is the perimeter. Require
 consecutive vertices to be distinct, allow nonconsecutive repetitions and
 periods dividing N, and prove the equal-angle law at every vertex. For each
-N≥2, maximize perimeter on the compact full configuration space
-`(ℝ/(Lℤ))^N`. Show that a maximizer has no consecutive coincident vertices:
-move a repeated vertex off the chord between its neighbors and use the
-strict triangle inequality to increase perimeter. The maximum therefore
-lies in the smooth collision domain and gives a periodic billiard state
-whose least period divides N. As an explicit test, for the circle of
-radius R and L=2πR derive
-`β(s,v)=(s+2R arccos(v) mod L,v)`, together with its rational-rotation
-periodicity criterion and the chord-length primitive formula.
+N≥2, maximize the perimeter, a continuous function on the compact space
+`(AddCircle L)^N`. Show that a maximizer has no consecutive coincident
+vertices: move a repeated vertex off the chord between its neighbors and
+use the strict triangle inequality to increase the perimeter. A maximizer
+therefore lifts into the smooth configuration domain of the strip, where it
+is critical for `A_N`, and gives a periodic billiard state whose least
+period divides N. As an explicit test, for the circle of radius R and
+L=2πR derive `β(s,v)=(s+2R arccos(v) mod L,v)`, together with its
+rational-rotation periodicity criterion and the chord-length primitive
+formula; for N=4 the perimeter maximizer is the doubled diameter, of least
+period 2, not the inscribed square.
 
 **Finite-volume recurrence.** Consume Mathlib's
 `MeasureTheory.MeasurePreserving.conservative`,
 `Conservative.ae_mem_imp_frequently_image_mem` and
 `Conservative.ae_frequently_mem_of_mem_nhds` from
-`Mathlib.Dynamics.Ergodic.Conservative`. For a symplectomorphism preserving
-a specified finite Borel measure of full support, prove the neighborhood
-return formulation: every nonempty open U contains a point returning to U
-after a positive number of iterates. On a second-countable space, also
-retain the native almost-everywhere conclusion of infinitely many returns
-to every neighborhood of the starting point. Apply both statements to the
-billiard area measure above. For higher-dimensional symplectic systems,
-consume the Liouville measure and symplectomorphism-invariance theorem from
-[ConvexityToric T4](../ConvexityToric/README.md#t4-liouville-and-duistermaatheckman),
-requiring finite total measure for this recurrence application. Only T4's
-orientation/integration-based Liouville construction is used here; its
-reduction and Duistermaat–Heckman theorems are separate prerequisites for
-their own applications.
+`Mathlib.Dynamics.Ergodic.Conservative`. For a measurable self-map of a
+topological space with its Borel σ-algebra, preserving a specified finite
+measure of full support, prove the neighborhood return formulation: every nonempty
+open U contains a point returning to U after a positive number of iterates
+(Cannas da Silva, Thm. 5.3, p. 32, stated there for area-preserving
+diffeomorphisms of finite-area surfaces; the measure-theoretic statement
+needs no symplectic structure). On a second-countable space with its Borel
+σ-algebra, also retain the native almost-everywhere conclusion of
+infinitely many returns to every neighborhood of the starting point. Apply
+both statements to the billiard map β and the finite invariant measure
+above. Symplectomorphisms of higher-dimensional phase spaces preserving a
+finite smooth measure are instances of the same two statements; the
+Liouville measure that supplies such an instance is not constructed here.
 
 ## C4. Relative symplectic germs
 
@@ -339,7 +368,8 @@ Build the relative Poincaré lemma from fiber scaling in a tubular neighborhood
 and DifferentialGeometry Layer 5.4's homotopy operator. On a fiberwise
 star-shaped tube, or an adapted coordinate box, let i:Q→M be the zero-section
 inclusion and r the retraction. For a closed form η of positive degree, construct
-β with `dβ=η−r*(i*η)` and with β zero as a full ambient tensor along Q.
+β with `dβ=η−r*(i*η)` and with β zero as a full ambient tensor along Q (Cannas da Silva,
+Prop. 6.8, p. 39, for `i*η=0`; the tube is Thm. 6.5, p. 37).
 In particular, `i*η=0` gives `dβ=η`, even when η does not vanish as a full
 ambient tensor along Q. Full ambient vanishing is a stronger hypothesis that
 also gives the zero-first-jet primitive used below. Consume HeegaardFloer F2.1’s local smooth-parameter primitive selection
@@ -350,7 +380,7 @@ lemma and prove its submanifold-fixing refinement from these relative primitives
 
 Prove relative Moser on the same ambient M: if two closed symplectic forms agree as bilinear forms on **all ambient tangent
 fibers along a compact embedded Q**, there are neighborhoods and a diffeomorphism fixing Q pointwise
-which pulls one form back to the other. The relative Poincaré primitive vanishes on Q; the affine
+which pulls one form back to the other (Cannas da Silva, Thm. 7.4, p. 45). The relative Poincaré primitive vanishes on Q; the affine
 interpolation is symplectic on a uniform neighborhood of Q, and the time-dependent flow stays there
 after shrinking. State the symplectic-path hypothesis explicitly in every global comparison theorem; equality of
 endpoint cohomology classes alone does not imply such a path.
@@ -367,11 +397,11 @@ Use the variational equation for its flow to obtain the ambient differential ide
 This strengthening requires full ambient tensor equality, not merely equality of
 the pulled-back forms on TQ.
 
-<a id="c4-relative-darboux-point-germs"></a>
 For an arbitrary embedded submanifold Q and p∈Q, prove the point-germ relative
 Darboux theorem: two symplectic forms on an ambient manifold of the same
 dimension with equal pullbacks to Q have symplectomorphic germs at p by a map
-fixing Q as a germ. The restricted two-form may have varying rank. First extend
+fixing Q as a germ (for Q a point this is Darboux, Cannas da Silva, Thm. 8.1, p. 46, proved
+from Thm. 7.4). The restricted two-form may have varying rank. First extend
 the identity of T_pQ to an ambient symplectic linear isomorphism. Own the
 finite-dimensional symplectic Witt-extension lemma used here: any linear isomorphism preserving the restricted forms
 between arbitrary subspaces of equal-dimensional symplectic vector spaces,
@@ -394,14 +424,15 @@ below retain their specified normal-bundle data.
 [RelativeDarbouxTargets.lean](RelativeDarbouxTargets.lean) gives suggested
 linear extension signatures using Tau Ceti's symplectic-form carrier.
 
-<a id="c4-full-ambient-bundle-germs"></a>
 **Neighborhood germs with prescribed ambient derivative.** Let
 `i:Q→(M,ω_M)` and `j:Q′→(N,ω_N)` be smooth embeddings of compact
 submanifolds, and let f:Q→Q′ be a diffeomorphism. Given a smooth symplectic
 vector-bundle isomorphism `A:i*TM→j*TN` over f satisfying
 `A_q ∘ di_q = dj_(f(q)) ∘ df_q`, construct open neighborhoods U of i(Q)
 and V of j(Q′) and a symplectomorphism Φ:U→V with
-`Φ ∘ i = j ∘ f` and `dΦ_(i(q)) = A_q`. Conversely, differentiation of
+`Φ ∘ i = j ∘ f` and `dΦ_(i(q)) = A_q` (Cannas da Silva, Thm. 8.4, p. 48, and Weinstein 1971
+give the Lagrangian case without the derivative prescription; the general statement is
+proved here by the construction below). Conversely, differentiation of
 any such symplectomorphism gives these bundle data. No constant-rank
 hypothesis on the pulled-back two-form is required when A is supplied.
 
@@ -434,15 +465,16 @@ symplectic neighborhood theorem: a symplectic normal-bundle isomorphism over a s
 submanifolds extends to a symplectomorphism of neighborhood germs. Construct a smooth compatible J/complement along the submanifold and a symplectic connection
 from SmoothBundlesConnections B2–B4 by preserving the fiber form. Build its model closed form,
 nondegenerate on a neighborhood of the zero section, and show the germ is independent of connection. For a compact Lagrangian Q,
-identify the normal quotient with T*Q by `[n]↦ω(·,n)|TQ` and prove Weinstein's neighborhood theorem with zero-section
-restriction fixed. Distinguish pullback agreement on TQ from agreement on the ambient tangent bundle;
+identify the normal quotient with T*Q by `[n]↦ω(·,n)|TQ` (Cannas da Silva, Thm. 9.1, p. 51) and prove Weinstein's neighborhood theorem with zero-section
+restriction fixed (Cannas da Silva, Thm. 9.3, p. 51; Weinstein 1971). Distinguish pullback agreement on TQ from agreement on the ambient tangent bundle;
 the linear extension/tubular realization is the step connecting them.
 
 For an abstract compact presymplectic Q with closed constant-rank σ, build its kernel smooth
 distribution, prove involutivity with the closed-form formula and construct its characteristic
 foliation using DifferentialGeometry Layer 4. Construct the coisotropic embedding model near the
 zero section of (ker σ)* and prove nondegeneracy there. Prove uniqueness: two coisotropic embeddings
-inducing the same σ have symplectomorphic neighborhood germs relative to Q. For already embedded
+inducing the same σ have symplectomorphic neighborhood germs relative to Q (Cannas da Silva,
+Thm. 8.6, p. 49, for two forms on one ambient manifold). For already embedded
 coisotropics the kernel rank equals codimension automatically. This is
 consumed by regular reduction/DH, with compactness only for uniform neighborhoods, not for fiberwise
 linear statements. Develop the kernel/leaf/quotient tangent API used by R3 and T4.
@@ -450,9 +482,9 @@ linear statements. Develop the kernel/leaf/quotient tangent API used by R3 and T
 ## Acceptance and dependencies
 
 C1 precedes C2/C3; C4 consumes C2.2, tubular realization and relative forms.
-C3.1 consumes C3's generating relations and I2.0's independent positive-period
-circle construction. Its recurrence application consumes only T4's generic
-Liouville-measure construction and Mathlib's finite-measure recurrence. Verify conormal examples for
+C3.1 consumes C3's generating relations, Mathlib's `AddCircle` measure and compactness
+instances and Mathlib's finite-measure recurrence; it consumes nothing from the later
+roadmaps of this family. Verify conormal examples for
 points, all of M and coordinate submanifolds; graphs of closed nonexact torus one-forms; product/transpose
 signs; free-particle generating function; compact Lagrangian zero-section neighborhood and symplectic
 normal germ. Reuse chart formulas for every intrinsic construction. Floer theory, quantum invariants
@@ -464,5 +496,10 @@ single contact predicate; its metric-radial comparison belongs to C2.2.
 ## References
 
 Cannas da Silva, [*Lectures on Symplectic Geometry*](https://people.math.ethz.ch/~acannas/Papers/lsg.pdf),
-§§2–8 (cotangent forms, Lagrangians, Darboux–Moser–Weinstein), §11 (contact example).
-Weinstein, *Symplectic manifolds and their Lagrangian submanifolds*, Adv. Math. 6 (1971), 329–346.
+§§2–8 (cotangent forms, Lagrangians, Darboux–Moser–Weinstein), §11 (contact example); in
+particular Prop. 5.1, Prop. 5.2 and §5.2 (generating functions of iterates, billiards), Thm. 5.3
+(recurrence), Prop. 6.8 (relative Poincaré lemma), Thm. 7.4 (relative Moser), Thms. 8.1, 8.4, 8.6
+and 9.3 (Darboux, Lagrangian and coisotropic neighborhoods). Page numbers are those of the
+author's 2006 version.
+Weinstein, *Symplectic manifolds and their Lagrangian submanifolds*, Adv. Math. 6 (1971), 329–346
+(Lagrangian neighborhood theorem; cited by locator).
