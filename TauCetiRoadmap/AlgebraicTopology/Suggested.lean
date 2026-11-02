@@ -13,7 +13,8 @@ against the pinned Mathlib and Tau Ceti APIs. The headlines are cellular compari
 transfer, Wang and Künneth, Cartan–Leray and Serre convergence, local orientation and
 Poincaré–Lefschetz duality, Euler characteristic, Hurewicz and Whitehead, countable
 derived limits and Milnor sequences, ordinary representability and obstruction theory,
-Brouwer, proper deformation retraction, and the LS cup-length bound.
+Brouwer, proper deformation retraction, finite CW type of compact smooth manifolds and the
+homology-sphere recognition corollary, and the LS cup-length bound.
 
 Of the duality headlines, the closed-manifold form with coefficients in a commutative
 ring in which `2 = 0` is stated below through the native cap product. The twisted,
@@ -31,7 +32,12 @@ the supplier's functorial normalized EM family and its universal class. The obst
 extension criteria lack the cellular obstruction and difference constructions with
 their transport. The integer-graded Milnor comparison lacks the skeletal
 restriction/cohomology comparison and its derived-limit cone. Proper Whitehead lacks
-the supported cellular/singular comparison. These constructions remain README
+the supported cellular/singular comparison. Of the smooth-manifold CW-type headlines,
+the compact closed and compact-with-boundary finite-CW-type statements and the
+homology-sphere recognition corollary are stated below (`FiniteCWTypeModel`); the
+boundary-pair form and the marked-point form lack a native homotopy equivalence of
+pairs, and the countable locally finite CW type of a noncompact manifold lacks a
+local-finiteness predicate on CW models. These constructions remain README
 targets, not admitted data here.
 
 The README also specifies the full naturality and filtration conclusions of Wang,
@@ -285,6 +291,45 @@ theorem homologicalWhitehead_cwType {X Y : Type u}
     (hf : ∀ n : ℕ, IsIso (((AlgebraicTopology.singularHomologyFunctor
       (ModuleCat.{u} ℤ) n).obj (ModuleCat.of ℤ (ULift.{u} ℤ))).map (TopCat.ofHom f))) :
     ∃ e : X ≃ₕ Y, e.toFun = f := by
+  sorry
+
+/-- A finite-CW-type witness: a Hausdorff finite CW model together with a homotopy
+equivalence to it. -/
+structure FiniteCWTypeModel (X : Type u) [TopologicalSpace X] extends CWTypeModel X where
+  finite : letI := topology; letI := cw; CWComplex.Finite (Set.univ : Set carrier)
+
+open scoped ContDiff Manifold in
+/-- A compact Hausdorff second-countable smooth manifold without boundary (Euclidean model)
+has finite CW type: GeometricTopology's smooth triangulation (Whitehead) is finite by
+compactness and its realization homeomorphism is the model equivalence. -/
+theorem compactManifoldFiniteCWType (n : ℕ) (M : Type u) [TopologicalSpace M]
+    [ChartedSpace (EuclideanSpace ℝ (Fin n)) M] [IsManifold (𝓡 n) ∞ M]
+    [T2Space M] [SecondCountableTopology M] [CompactSpace M] :
+    Nonempty (FiniteCWTypeModel M) := by
+  sorry
+
+open scoped ContDiff Manifold in
+/-- A compact Hausdorff second-countable smooth manifold with boundary (half-space model)
+has finite CW type, by the same finite smooth triangulation. -/
+theorem compactManifoldWithBoundaryFiniteCWType (n : ℕ) [NeZero n] (M : Type u)
+    [TopologicalSpace M] [ChartedSpace (EuclideanHalfSpace n) M] [IsManifold (𝓡∂ n) ∞ M]
+    [T2Space M] [SecondCountableTopology M] [CompactSpace M] :
+    Nonempty (FiniteCWTypeModel M) := by
+  sorry
+
+/-- A simply connected space of CW type whose integral singular homology vanishes in every
+degree other than `0` and `n` and is `ℤ` in degree `n ≥ 2` is homotopy equivalent to the
+standard sphere `Sⁿ`: Hurewicz gives a map `Sⁿ → X` inducing an isomorphism on homology
+(Hatcher, Theorem 4.32, p.366) and homological Whitehead makes it a homotopy equivalence
+(Hatcher, Corollary 4.33, p.367). -/
+theorem simplyConnectedHomologySphere_homotopyEquiv_sphere (n : ℕ) (hn : 2 ≤ n)
+    (X : Type u) [TopologicalSpace X] [SimplyConnectedSpace X] (model : CWTypeModel X)
+    (hvanish : ∀ k : ℕ, k ≠ 0 → k ≠ n →
+      IsZero (((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{u} ℤ) k).obj
+        (ModuleCat.of ℤ (ULift.{u} ℤ))).obj (TopCat.of X)))
+    (htop : Nonempty ((((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{u} ℤ) n).obj
+        (ModuleCat.of ℤ (ULift.{u} ℤ))).obj (TopCat.of X)) ≅ ModuleCat.of ℤ (ULift.{u} ℤ))) :
+    Nonempty (X ≃ₕ Metric.sphere (0 : EuclideanSpace ℝ (Fin (n + 1))) 1) := by
   sorry
 
 /-- A compact Hausdorff source and a Hausdorff target of CW type have a mapping
