@@ -205,7 +205,8 @@ Prove the entireness criterion: for Φ ∈ Mat_ℓ(K̄[t]) with det Φ(0) ≠ 0 
 
 - For Φ = ((t−θ,0),(t−θ,1)), det Φ = t−θ and det Φ(0) = −θ ≠ 0. Its column (Ω,𝓛(1)) has second-row equation 𝓛(1)⁽⁻¹⁾ = (t−θ)Ω+𝓛(1).
 - For Φ = I₂, ψ = (1,1)ᵀ and ρ = (1,−1), the lift P = (1,−1) has Pψ = 0 and P(θ) = ρ.
-- The zero square matrix has determinant zero and fails both hypotheses. The nonzero determinant c(t−θ)^m evaluates to c(−θ)^m ≠ 0 at zero, so lifting's determinant condition implies the entireness determinant condition.
+- The zero square matrix of positive size has determinant zero and fails both hypotheses. The nonzero determinant c(t−θ)^m evaluates to c(−θ)^m ≠ 0 at zero, so lifting's determinant condition implies the entireness determinant condition.
+- In size zero the empty matrix has determinant 1 = 1·(t−θ)⁰ and satisfies both determinant hypotheses. Its unique empty solution column has all coordinates in E; the unique empty row P lifts the empty row ρ, with P(θ) = ρ and Pψ = 0 (the empty sum). In size one the zero matrix instead has determinant 0.
 
 *Needs:* §0.0 (arithmetic series and twist); for the first route, ReductiveGroupsPartII §RG2.3.7 (Lang’s theorem for GL_ℓ and coefficient extension), and algebraic coefficient descent by the finite-field matrix equation and restricted-series coefficient estimates (ABP04 proof of Proposition 3.1.3, ABP04 lines 416–469); RestrictedPowerSeries §§1.1 and 7.2.
 
