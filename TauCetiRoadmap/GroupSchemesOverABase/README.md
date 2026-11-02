@@ -240,7 +240,8 @@ special fibre at `2` is connected while its generic fibre has two components.
 - **GS2.1 Definitions.** `IsMultiplicativeType G`: there is an fppf cover `{Uᵢ → S}` and finitely
   generated `Mᵢ` with `baseChange G ≅ D_{Uᵢ}(Mᵢ)` (SGA 3, Exp. IX, 1.1). `IsTorus G`: the same
   with `Mᵢ` free; `IsSplitTorus G`: `G ≅ D_S(ℤ^r)` globally. Over a field these are Tau Ceti's
-  `multiplicativeTypeCommHopfAlgProperty` and `torusCommHopfAlgProperty` (`_iff` lemmas). A
+  `multiplicativeTypeCommHopfAlgProperty` and `torusCommHopfAlgProperty` (`_iff` lemmas); the
+  field case is treated in Milne, *Algebraic Groups*, Chapter 12. A
   finite locally free group that is étale locally a product of groups `μ_n`, the finite
   multiplicative type of FiniteFlatGroups R07.1.4 (#879), satisfies `IsMultiplicativeType`
   (`isMultiplicativeType_of_finiteFlat`), and conversely a finite `H` with `IsMultiplicativeType H`
@@ -648,6 +649,9 @@ is a source of examples, not a specification.
   Thm. 6.1.17, Exercise 6.5.2, Thm. 7.1.9, Appendix B (Lemma B.3.1).
 - B. Conrad, *A modern proof of Chevalley's theorem on algebraic groups*, J. Ramanujan Math. Soc.
   17 (2002), 1–18, Thm. 1.1.
+- J. S. Milne, *Algebraic Groups: The theory of group schemes of finite type over a field*,
+  Cambridge Stud. Adv. Math. 170, Cambridge University Press (2017), doi:10.1017/9781316711736:
+  Chapter 12 (groups of multiplicative type), pp. 230–253.
 - M. Demazure, P. Gabriel, *Groupes algébriques* I, Masson (1970), III, §3, 5.4 and 8.2.
 - R. Steinberg, *Regular elements of semisimple algebraic groups*, Publ. Math. IHÉS 25 (1965),
   49–80: Theorems 1.1, 1.3, 1.4, 1.5, 6.1, 7.1, 7.9 and 8.1, all for semisimple groups over an
