@@ -12,7 +12,8 @@ where they are needed to state those targets.
 
 The headline inventory comprises compatible CRT and power residues; Lucas and Ward strong
 divisibility, Christol and Cobham; rectangular Smith forms and cokernels, Perron and Capelli;
-Markoff descent, three squares, Egyptian fractions and Ramanujan–Nagell; negative Pell,
+Jacobi triple products and four-square counts, Markoff descent, three squares,
+Egyptian fractions and Ramanujan–Nagell; negative Pell,
 factor-base generation and class-number/unit completeness; Smyth, explicit and asymptotic
 Dobrowolski, the smallest Pisot number, Salem-field generators, Schinzel–Zassenhaus,
 Dubinin and Bertrandias; reduced-norm existence, local Noether, Hilbert–Speiser,
@@ -204,6 +205,32 @@ end Certificates
 
 namespace Diophantine
 
+open scoped PowerSeries.WithPiTopology
+
+/-- Jacobi's formal triple product with square exponents, over any Hausdorff
+commutative coefficient ring and any unit parameter (Pak §6.1.1). -/
+theorem jacobiTripleProduct (R : Type*) [CommRing R] [TopologicalSpace R]
+    [T2Space R] (a : Rˣ) :
+    HasProd (fun n : ℕ =>
+      (1 - (PowerSeries.X : PowerSeries R) ^ (2 * n + 2)) *
+      (1 + PowerSeries.C (a : R) * PowerSeries.X ^ (2 * n + 1)) *
+      (1 + PowerSeries.C (↑(a⁻¹) : R) * PowerSeries.X ^ (2 * n + 1)))
+      (∑' k : ℤ, PowerSeries.C (↑(a ^ k) : R) *
+        PowerSeries.X ^ (k * k).toNat) := by
+  sorry
+
+/-- Jacobi's formal triple product with triangular exponents; the initial
+factor includes the zero part (Pak §6.2.1). -/
+theorem jacobiTripleProduct_triangular (R : Type*) [CommRing R] [TopologicalSpace R]
+    [T2Space R] (s : Rˣ) :
+    HasProd (fun n : ℕ =>
+      (1 - (PowerSeries.X : PowerSeries R) ^ (n + 1)) *
+      (1 + PowerSeries.C (s : R) * PowerSeries.X ^ (n + 1)) *
+      (1 + PowerSeries.C (↑(s⁻¹) : R) * PowerSeries.X ^ n))
+      (∑' k : ℤ, PowerSeries.C (↑(s ^ k) : R) *
+        PowerSeries.X ^ (k * (k + 1) / 2).toNat) := by
+  sorry
+
 /-- Ordered coefficient-three Markoff triples.
 -/
 def markoffSet (R : Type*) [CommRing R] : Set (Fin 3 → R) :=
@@ -243,6 +270,13 @@ theorem exists_egyptianExpansion {r : ℚ} (hr : 0 < r) :
 theorem ramanujan_nagell {x : ℤ} {n : ℕ} :
     x ^ 2 + 7 = 2 ^ n ↔
       (x.natAbs, n) ∈ [(1, 3), (3, 4), (5, 5), (11, 7), (181, 15)] := by
+  sorry
+
+/-- Jacobi's count of ordered, signed four-square representations of a positive
+integer (Hirschhorn, Theorem 1). -/
+theorem jacobiFourSquares (n : ℕ) (hn : 0 < n) :
+    Nat.card {x : Fin 4 → ℤ // ∑ i, x i ^ 2 = (n : ℤ)} =
+      8 * ∑ d ∈ n.divisors.filter (fun d => ¬ 4 ∣ d), d := by
   sorry
 
 end Diophantine

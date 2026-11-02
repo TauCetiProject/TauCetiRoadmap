@@ -12,6 +12,8 @@ Use Mathlib's integer gcd, Bézout identities, arithmetic functions, valuations,
 
 ClassFieldTheory owns cohomological local symbols, local and global Artin maps, archimedean reciprocity, Kronecker–Weber and Hilbert reciprocity (Layers 5–7, 10–11, 13–14). QuadraticFormInvariants 6C owns the quadratic norm-equation Hilbert symbol and its closed local formulas; GlobalQuadraticForms 4 owns its global comparison. NumberFieldArithmetic Layers 1, 3–5 and 7 own field splitting, primitive integral generators and their indices, discriminants, the global–local dictionary and Dirichlet units. LocalFieldsRamification Layers 1–3 own principal units, ramification groups, unramified and tame local extensions. CharacterTheory Layers 3, 4 and 7, InductionRestriction 6, and SemisimpleAlgebras 1–2, 5–6 own virtual characters, character fields, indicators, ordinary Brauer induction and central-simple-algebra structure. ReductiveGroups 6 owns semisimple algebraic groups; ReductiveGroupsPartII RG2.0.1 and RG2.0a own affine point topology and Weil restriction. EllipticCurves 1 owns the formal group of a Weierstrass equation. IntegralLattices owns integral quadratic lattices, discriminant forms and their binary-form/order dictionary; the lattice comparisons here concern integer matrices and number-field ideals rather than a second integral quadratic-lattice carrier.
 
+Tau Ceti owns the division-polynomial annihilation criterion ψₙ(P)=0 if and only if n·P=O for every integer n and nonsingular affine point P of a Weierstrass curve over a field, including singular curves. Section 2.22 adds coprimality of the evaluated coordinates and the explicit affine-coordinate formula.
+
 The Tau Ceti library supplies `Matrix.exists_smith_normal_form_of_det_ne_zero` and `Matrix.smith_normal_form_unique` in `TauCeti.LinearAlgebra.Matrix.SmithNormalForm`; their square-matrix statements are inputs. It also supplies the primitive-generator discriminant/index identity, local reciprocity and Kummer cup-product machinery, integral semilocal comparisons, and both the split and exact Grothendieck groups of finite projectives. Their exact restrictions matter: ordinary character induction does not supply field-of-definition induction, and a cohomological symbol needs an invariant-normalised coordinate before its sign can be compared with an Artin definition. The library also has the primitive character of a fundamental discriminant (TauCeti.Multiquadratic.fundamentalDiscriminantChar, with its quadraticity, its value at −1, its values at odd primes and `isPrimitive_fundamentalDiscriminantChar`), so these are not targets here; Layer 1 adds the rest of its value table. For a quadratic presentation θ² = d it has the direction from a solution of the negative Pell equation to a unit of norm `−1 (NumberField.exists_norm_eq_neg_one_of_sq_sub_mul_sq_eq_neg_one)`, the narrow class of an element of negative norm `(NumberField.mkPrincipal_eq_mkPrincipal_gen_of_norm_neg)` and the injectivity criterion `NarrowClassGroup.toClassGroup_injective_iff_exists_norm_eq_neg_one`; Layer 5 adds the converse direction through cubing, the triviality criterion for the narrow class of θ and the two-primary form of the comparison. Its tameness predicate TauCeti.IsTamelyRamified is for extensions of nonarchimedean local fields; Layer 7 uses the predicate for extensions of Dedekind domains at every prime, which includes residue separability.
 
 NewtonPolygons owns the general supporting-value, contact, width, slope-multiset, product, root and Eisenstein–Dumas theory (§§0.3, 2.2–2.3, 3.1–3.3 and 6.1). §§3.11, 3.18, 3.32–3.33, 3.46 and 3.52–3.53 here consume those interfaces in reflected coefficient coordinates and supply their arithmetic applications. FormalLaurentPuiseux L5 supplies the Laurent-field specialization through NewtonPolygons §§1.2 and 2.1; §3.18 fixes the sign comparison.
@@ -81,6 +83,8 @@ NewtonPolygons §§1.2 and 2.1 compare this interface with FormalLaurentPuiseux 
 ### From Mathlib and Tau Ceti
 
 Mathlib `Nat.Partition.genFun` and `Nat.Partition.hasProd_genFun` in `Mathlib/Combinatorics/Enumerative/Partition/GenFun.lean` supply the weighted partition generating series and its Euler product over a commutative semiring with a Hausdorff topology. In §4.40 use them over the discrete Laurent-polynomial ring; §4.20 then transports the resulting finite coefficient identities to every commutative coefficient ring and every topology. The strict-partition bijection proving the triple product is the target of §4.40.
+
+For §2.22, `WeierstrassCurve.zsmul_eq_zero_of_evalEval_ψ_eq_zero` and `WeierstrassCurve.evalEval_ψ_eq_zero_of_zsmul_eq_zero` in `TauCeti/AlgebraicGeometry/EllipticCurve/DivisionPolynomial/ZSMul.lean` give the two implications of ψₙ(P)=0 if and only if n·P=O in Jacobian coordinates. Both take a field, a Weierstrass equation, a nonsingular affine point and an arbitrary integer n; neither requires nonzero discriminant or nonzero n. `WeierstrassCurve.zsmul_fromAffine_eq_zero_iff_zsmul_eq_zero` transports annihilation to the affine point group (with decidable equality on the field). The coordinate input `WeierstrassCurve.zsmul_point_eq_smulEval` and nonsingularity input `WeierstrassCurve.nonsingular_smulEval` in the same file supply the remaining coordinate targets.
 
 The signatures use the pinned Mathlib and Tau Ceti APIs. Each mathematical subsection names the exact declarations it needs. Use the genuine library carriers, including `Polynomial`, `PowerSeries`, `LaurentSeries`, `LinearRecurrence`, `Matrix`, `Module`, `Ideal`, `FractionalIdeal`, `ClassGroup`, `MonoidAlgebra`, `WeierstrassCurve`, `IsNonarchimedeanLocalField` and roots of unity. In particular, symmetric Rouché compares analytic-order sums under strict symmetric boundary domination; it is not an equality-case extension of ordinary strict domination. `SplitK0` is the split group completion of finite projectives. The same library supplies `ExactK0`, `ExactK0.fromSplitEquiv` for the split exact structure, and `finiteProjectiveModulesExactStructure_eq_split`; use these to identify the two groups. Layer 7 adds the stable-free equality criterion and balanced scalar-change comparison, rather than a second construction of either group.
 
@@ -852,7 +856,7 @@ The supporting API comprises:
 - For u ≠ 0 and d squarefree, ratSquarefreePart u = d if and only if `u = d · c^2` for some nonzero rational c.
 - Later API (§1.28), `ratSquarefreePart_mul_sq`: `ratSquarefreePart (u · t^2) = ratSquarefreePart u` for nonzero u and t.
 - On a squarefree integer d, ratSquarefreePart d = d.
-- Later API (§1.37), `prime_dvd_ratSquarefreePart_iff`: For u ≠ 0 and a prime p, p divides ratSquarefreePart u if and only if padicValRat p u is odd.
+- For u ≠ 0 and a prime p, p divides the rational squarefree part of u if and only if padicValRat p u is odd (§1.37).
 - ratSquarefreePart u > 0 if and only if u > 0.
 - ratSquarefreePart 0 = 0.
 
@@ -1691,7 +1695,7 @@ Primitivity with conductor |D(u)| is the primitivity of the Kronecker character.
 
 At an odd prime p with `v_p(u) = 0`: fundamentalDiscriminantChar D(u) p = legendreSym p D(u) = legendreSym p d = legendreSym p (num u · den u), since D(u) and num u · den u differ from d by squares prime to `p (TauCeti.legendreSym_mul_sq)`.
 
-Square-class invariance is `ratSquarefreePart_mul_sq`; the odd part and the 2-part of |D(u)| are read off the squarefree part `(prime_dvd_ratSquarefreePart_iff)`; u ∈ {±1, ±2}(ℚˣ)² exactly when d ∈ {±1, ±2}.
+Use square-class invariance; the odd part and the 2-part of |D(u)| are read off the squarefree part `(the odd-valuation criterion of §1.37)`; u ∈ {±1, ±2}(ℚˣ)² exactly when d ∈ {±1, ±2}.
 
 Uniqueness among primitive characters is the lemma on primitive characters agreeing at almost all primes.
 
@@ -2461,15 +2465,15 @@ The supporting API comprises:
 
 (Victor Shoup, [A Computational Introduction to Number Theory and Algebra (Version 2)](#victor-shoup--a-computational-introduction-to-number-theory-and-algebra-version-2), Section 18.1, printed p. 486, the definition of a linearly generated sequence.) The target's predicate of linear generation; the case k = 0 (the empty recurrence, forcing s = 0) is the result's own choice, since the printed definition does not discuss it. The convention that the zero polynomial counts as a generating polynomial is stated on printed p. 487, just before Theorem 18.1.
 
-(Victor Shoup, [A Computational Introduction to Number Theory and Algebra (Version 2)](#victor-shoup--a-computational-introduction-to-number-theory-and-algebra-version-2), Section 18.1, printed p. 487, Theorem 18.1 and the paragraph after it.) The ideal `generatingIdeal`, the monic generator the monic generating polynomial and the lemmas `minPoly_dvd` and `isLinearlyGenerated_iff`.
+(Victor Shoup, [A Computational Introduction to Number Theory and Algebra (Version 2)](#victor-shoup--a-computational-introduction-to-number-theory-and-algebra-version-2), Section 18.1, printed p. 487, Theorem 18.1 and the paragraph after it.) The generating ideal, its monic generator, the divisibility criterion and the equivalence with linear generation.
 
-(Victor Shoup, [A Computational Introduction to Number Theory and Algebra (Version 2)](#victor-shoup--a-computational-introduction-to-number-theory-and-algebra-version-2), Section 18.1, printed p. 488, Example 18.2.) The compatibility item `minPoly_of_powers`; the result extends it to every F-algebra, using Mathlib's convention that `minpoly` is 0 off the integral elements.
+(Victor Shoup, [A Computational Introduction to Number Theory and Algebra (Version 2)](#victor-shoup--a-computational-introduction-to-number-theory-and-algebra-version-2), Section 18.1, printed p. 488, Example 18.2.) The minimal-polynomial comparison for a sequence of powers; the result extends it to every F-algebra, using Mathlib's convention that `minpoly` is 0 off the integral elements.
 
 (Victor Shoup, [A Computational Introduction to Number Theory and Algebra (Version 2)](#victor-shoup--a-computational-introduction-to-number-theory-and-algebra-version-2), Section 18.1, printed p. 489, Exercise 18.1.) Source for the Check that 1 generates only the zero sequence.
 
 To prove this, define the pairing g ⋆ s by `Polynomial.sum`; it is additive in g and F-homogeneous (Shoup's two observations in the proof of Theorem 18.1).
 
-G(s) is closed under addition and scalar multiplication by additivity and homogeneity, and under multiplication by X because (Xⁱ(Xg)) `⋆ s = (X^{i+1}g) ⋆ s`; a subset of F[X] with these closures is an ideal (Shoup Exercise 7.27), which defines `generatingIdeal`.
+G(s) is closed under addition and scalar multiplication by additivity and homogeneity, and under multiplication by X because (Xⁱ(Xg)) `⋆ s = (X^{i+1}g) ⋆ s`; a subset of F[X] with these closures is an ideal (Shoup Exercise 7.27), which defines the generating ideal.
 
 F[X] is a principal ideal ring (`IsPrincipalIdealRing`); take the generator `Submodule.IsPrincipal.generator` of G(s), normalise it to be monic when nonzero, and define the monic generating polynomial as that monic generator (0 when G(s) = 0). Divisibility characterisation: g ∈ G(s) iff minPoly ∣ g.
 
@@ -2639,7 +2643,7 @@ The supporting API comprises:
 
 (J. S. Milne, [Algebraic Number Theory (course notes)](#j-s-milne--algebraic-number-theory-course-notes), Chapter 7, Proposition 7.26, printed p. 116.) The general statement; the result is the case `A = ℤ_(p)`, π = p, S = {0, …, p − 1}, restricted to `ℤ_p` (no negative powers).
 
-(J. S. Milne, [Algebraic Number Theory (course notes)](#j-s-milne--algebraic-number-theory-course-notes), Chapter 7, after Proposition 7.26, printed p. 117.) Source for `sum_digitsEquiv_eq_appr` and `digitsEquiv_apply`.
+(J. S. Milne, [Algebraic Number Theory (course notes)](#j-s-milne--algebraic-number-theory-course-notes), Chapter 7, after Proposition 7.26, printed p. 117.) Source for the partial-sum approximation and recovery of each digit.
 
 To prove this, digits: dᵢ(x) = (toZModPow (i+1) x).val / pⁱ; equivalently (appr x (i+1) − appr x i)/pⁱ, which is < p by `PadicInt.appr_lt` and `PadicInt.dvd_appr_sub_appr`.
 
@@ -2778,7 +2782,7 @@ The supporting API comprises:
 
 (G. Christol, T. Kamae, M. Mendès France, G. Rauzy, [Suites algébriques, automates et substitutions](#g-christol-t-kamae-m-mendès-france-g-rauzy--suites-algébriques-automates-et-substitutions), Section 6, p. 407.) The source has q = |K| ≥ 2 and r ∈ [q] = {0,…,q−1}. The definition extends to positive q and arbitrary natural r on Laurent series; power-series preservation retains r < q.
 
-(G. Christol, T. Kamae, M. Mendès France, G. Rauzy, [Suites algébriques, automates et substitutions](#g-christol-t-kamae-m-mendès-france-g-rauzy--suites-algébriques-automates-et-substitutions), Sections 6 and 7, pp. 407 to 408.) Source for `eq_sum_single_mul_cartier_pow` and `cartier_pow_card_mul`.
+(G. Christol, T. Kamae, M. Mendès France, G. Rauzy, [Suites algébriques, automates et substitutions](#g-christol-t-kamae-m-mendès-france-g-rauzy--suites-algébriques-automates-et-substitutions), Sections 6 and 7, pp. 407 to 408.) Source for the Cartier decomposition and the rule for Cartier operators on a product with a q-th power.
 
 (Eric Rowland, Manon Stipulanti, Reem Yassawi, [An elementary proof of Bridy's theorem](#eric-rowland-manon-stipulanti-reem-yassawi--an-elementary-proof-of-bridys-theorem), Section 3, Proposition 4 and the display before it, p. 5.) The same identity; the display before it gives the degree bound for polynomials (the sum stops at ⌊N/q⌋).
 
@@ -3142,26 +3146,23 @@ Base change: the coefficients are rational functions of b, c, d, so `(E_{b,c,d})
 
 ### 2.22 Division polynomials at a nonsingular point
 
-Let W be a Weierstrass curve over a field F (possibly singular) and P = (x, y) a nonsingular affine point. For every n ∈ ℤ: (a) ψₙ(P) = 0 if and only if n·P = O in the group of nonsingular points; (b) φₙ(P) and ψₙ(P) are not both 0 (Ayad's coprimality); (c) if ψₙ(P) ≠ 0 then n·P = (φₙ(P)/ψₙ(P)², ωₙ(P)/ψₙ(P)³).
+Let W be a Weierstrass curve over a field F (possibly singular) and P = (x, y) a nonsingular affine point. For every n ∈ ℤ, prove that φₙ(P) and ψₙ(P) are not both 0 (Ayad's coprimality), and that if ψₙ(P) ≠ 0 then n·P = (φₙ(P)/ψₙ(P)², ωₙ(P)/ψₙ(P)³). These targets identify the nonvanishing numerator and the affine coordinates, beyond the annihilation criterion in the supplier contract.
 
 F a field; P nonsingular. No hypothesis on Δ(W), on n or on the characteristic.
 
 (Katherine E. Stange, [Integral points on elliptic curves and explicit valuations of division polynomials](#katherine-e-stange--integral-points-on-elliptic-curves-and-explicit-valuations-of-division-polynomials), §2, Proposition 5 and the multiplication-by-n formulas, pp. 6–7 (arXiv v4).) States that a point of an elliptic curve is a nontrivial n-torsion point iff Ψₙ vanishes there, and the formula [n]P = (φₙ/Ψₙ², ωₙ/Ψₙ³).
 
-(Katherine E. Stange, [Integral points on elliptic curves and explicit valuations of division polynomials](#katherine-e-stange--integral-points-on-elliptic-curves-and-explicit-valuations-of-division-polynomials), §6, proof of Theorem 14, p. 13 (arXiv v4).) Quotes Ayad's Theorem A: for a point of nonzero nonsingular reduction, at least one of v(Ψₙ) and v(φₙ) is zero for each n — the reduction of statement (b).
+(Katherine E. Stange, [Integral points on elliptic curves and explicit valuations of division polynomials](#katherine-e-stange--integral-points-on-elliptic-curves-and-explicit-valuations-of-division-polynomials), §6, proof of Theorem 14, p. 13 (arXiv v4).) Quotes Ayad's Theorem A: for a point of nonzero nonsingular reduction, at least one of v(Ψₙ) and v(φₙ) is zero for each n — the reduction of the coprimality statement.
 
-To prove this, tau Ceti's `zsmul_point_eq_smulEval`: the Jacobian coordinates of n·P are the triple (φₙ(P) : ωₙ(P) : ψₙ(P)) for every n, with no hypothesis on the characteristic.
-
-This triple represents a nonsingular Jacobian point, hence is a nonsingular triple. A nonsingular Jacobian triple is the point at infinity exactly when its Z-coordinate vanishes, and then its X-coordinate is nonzero `(WeierstrassCurve.Jacobian.X_ne_zero_of_Z_eq_zero)`; this gives (a) and (b).
-
-(c) A nonsingular Jacobian triple with Z ≠ 0 is the affine point (X/Z², Y/Z³).
+Use `WeierstrassCurve.nonsingular_smulEval` for nonsingularity of the triple (φₙ(P) : ωₙ(P) : ψₙ(P)). If its Z-coordinate vanishes, `WeierstrassCurve.Jacobian.X_ne_zero_of_Z_eq_zero` gives a nonzero X-coordinate, proving coprimality. For the affine formula, `WeierstrassCurve.zsmul_point_eq_smulEval` identifies this triple with n·P; when Z≠0 the affine coordinates are (X/Z², Y/Z³).
 
 **Checks.**
 
 - On y² + y = x³ − x with P = (0, 0) (order ∞), ψ₅(P) = 2 ≠ 0, so 5P = (φ₅/4, ω₅/8) is affine; over 𝔽₂, ψ₅ vanishes and 5P̃ = O.
-- For the 2-torsion point (0, 0) of y² = x³ − x: ψ₂ = 2y vanishes there and φ₂(P) = 1 ≠ 0.
+- For the 2-torsion point (0, 0) of y² = x³ − x over ℚ: ψ₂ = 2y vanishes there and φ₂(P) = 1 ≠ 0.
+- At n=0, ψ₀(P)=0 and φ₀(P)=1 for every nonsingular affine point; the imported criterion gives 0P=O, and the coprimality target still applies.
 
-*Needs:* Tau Ceti `WeierstrassCurve.zsmul_point_eq_smulEval`; Tau Ceti `WeierstrassCurve.smulEval`; Mathlib `WeierstrassCurve.Jacobian.X_ne_zero_of_Z_eq_zero`; Mathlib `WeierstrassCurve.Jacobian.nonsingular_of_Z_eq_zero`; Mathlib `WeierstrassCurve.Jacobian.Point.fromAffine`; Mathlib `WeierstrassCurve.φ`; Tau Ceti `WeierstrassCurve.ω`.
+*Needs:* Tau Ceti `WeierstrassCurve.zsmul_point_eq_smulEval`; Tau Ceti `WeierstrassCurve.nonsingular_smulEval`; Tau Ceti `WeierstrassCurve.smulEval`; Mathlib `WeierstrassCurve.Jacobian.X_ne_zero_of_Z_eq_zero`; Mathlib `WeierstrassCurve.Jacobian.nonsingular_of_Z_eq_zero`; Mathlib `WeierstrassCurve.Jacobian.Point.fromAffine`; Mathlib `WeierstrassCurve.φ`; Tau Ceti `WeierstrassCurve.ω`.
 
 ### 2.23 The filtration `E_k(ℚ_p)` for an arbitrary integral Weierstrass equation
 
@@ -3282,7 +3283,7 @@ The supporting API comprises:
 
 (Jan-Hendrik Evertse, [Diophantine Approximation (Leiden/Mastermath lecture notes), Chapter 8](#jan-hendrik-evertse--diophantine-approximation-leidenmastermath-lecture-notes-chapter-8), Section 8.4, printed p. 172, (8.18) and the definition of the companion polynomial.) The recurrence attached to the monic polynomial `f_U`; Evertse's coefficient `c_i` is ofMonic's −p.coeff (k − i). The condition `c_k ≠ 0` is the nonzero constant term, which the construction does not impose.
 
-(Victor Shoup, [A Computational Introduction to Number Theory and Algebra (Version 2)](#victor-shoup--a-computational-introduction-to-number-theory-and-algebra-version-2), Section 18.1, printed p. 487.) For monic `g (a_k = 1)` this is exactly ofMonic g, and the source for `isSolution_ofMonic_iff`.
+(Victor Shoup, [A Computational Introduction to Number Theory and Algebra (Version 2)](#victor-shoup--a-computational-introduction-to-number-theory-and-algebra-version-2), Section 18.1, printed p. 487.) For monic `g (a_k = 1)` this is exactly ofMonic g, and gives the equivalence between solving this recurrence and annihilation by g.
 
 To prove this, define ofMonic p := ⟨p.natDegree, fun i ↦ −p.coeff i⟩; the order is p.natDegree by definition, so the state vectors of the companion-matrix results live in Fin p.natDegree → R without a cast.
 
@@ -3684,7 +3685,7 @@ K a field, b ≠ 0, c ≠ 0 in K. For the reading mod p, b, c, d ∈ ℤ and the
 
 To prove this, by [The Weierstrass curve of a normalised elliptic divisibility sequence](#221-the-weierstrass-curve-of-a-normalised-elliptic-divisibility-sequence), normEDS b c d n = ψₙ(P) on `E_{b,c,d}` with P nonsingular.
 
-By [Division polynomials at a nonsingular point](#222-division-polynomials-at-a-nonsingular-point) (a), ψₙ(P) = 0 iff n·P = O, iff the additive order of P divides n (`orderOf_dvd_iff_zpow_eq_one` in its additive form `addOrderOf_dvd_iff_zsmul_eq_zero`).
+By `WeierstrassCurve.zsmul_eq_zero_of_evalEval_ψ_eq_zero`, `WeierstrassCurve.evalEval_ψ_eq_zero_of_zsmul_eq_zero` and `WeierstrassCurve.zsmul_fromAffine_eq_zero_iff_zsmul_eq_zero`, ψₙ(P) = 0 iff n·P = O, iff the additive order of P divides n (`orderOf_dvd_iff_zpow_eq_one` in its additive form `addOrderOf_dvd_iff_zsmul_eq_zero`).
 
 For p ∤ bc apply this over `𝔽_p` to the reduced parameters, using `map_normEDS` for the reduction `ℤ → 𝔽_p`.
 
@@ -3693,7 +3694,7 @@ For p ∤ bc apply this over `𝔽_p` to the reduced parameters, using `map_norm
 - Over 𝔽₂ the sequence 1, 1, −1, 1, 2, … of y² + y = x³ − x reads 1, 1, 1, 1, 0, …: its zeros are 5ℤ, the order of (0, 0) in E(𝔽₂).
 - Over ℚ, normEDS 2 3 2 = id vanishes only at 0: P has infinite order on the cusp curve.
 
-*Needs:* [The Weierstrass curve of a normalised elliptic divisibility sequence](#221-the-weierstrass-curve-of-a-normalised-elliptic-divisibility-sequence); [Division polynomials at a nonsingular point](#222-division-polynomials-at-a-nonsingular-point); Mathlib `orderOf_dvd_iff_zpow_eq_one`; Mathlib `map_normEDS`.
+*Needs:* [The Weierstrass curve of a normalised elliptic divisibility sequence](#221-the-weierstrass-curve-of-a-normalised-elliptic-divisibility-sequence); Tau Ceti `WeierstrassCurve.zsmul_eq_zero_of_evalEval_ψ_eq_zero`; Tau Ceti `WeierstrassCurve.evalEval_ψ_eq_zero_of_zsmul_eq_zero`; Tau Ceti `WeierstrassCurve.zsmul_fromAffine_eq_zero_iff_zsmul_eq_zero`; Mathlib `orderOf_dvd_iff_zpow_eq_one`; Mathlib `map_normEDS`.
 
 ### 2.43 Strong divisibility of an integral EDS at primes not dividing W₂W₃
 
@@ -3709,9 +3710,9 @@ b, c, d ∈ ℤ, bc ≠ 0; p prime, p ∤ bc; `Δ(E_{b,c,d}) ≠ 0`. No coprimal
 
 To prove this, since p ∤ bc, the coefficients a₁ = (d + b⁴)/(bc), a₂ = c/b², a₃ = b of `E = E_{b,c,d}` lie in `ℤ_(p)`, P = (0, 0) is integral, and P is nonsingular modulo p because a₃ = b is a p-unit. By [The Weierstrass curve of a normalised elliptic divisibility sequence](#221-the-weierstrass-curve-of-a-normalised-elliptic-divisibility-sequence), Wₙ = ψₙ(P), and φₙ(P), `ψₙ(P) ∈ ℤ_(p)`.
 
-Reduction: the division polynomials have coefficients in `ℤ[a₁, …, a₆] (WeierstrassCurve.map_ψ, map_φ)`, so their values at P reduce to those of the reduced curve at P̃. By [Division polynomials at a nonsingular point](#222-division-polynomials-at-a-nonsingular-point) (b) over `𝔽_p`, p does not divide both φₙ(P) and ψₙ(P).
+Reduction: the division polynomials have coefficients in `ℤ[a₁, …, a₆] (WeierstrassCurve.map_ψ, map_φ)`, so their values at P reduce to those of the reduced curve at P̃. By the coprimality statement of [Division polynomials at a nonsingular point](#222-division-polynomials-at-a-nonsingular-point) over `𝔽_p`, p does not divide both φₙ(P) and ψₙ(P).
 
-By [Division polynomials at a nonsingular point](#222-division-polynomials-at-a-nonsingular-point) (c) over `ℚ_p`, if Wₙ ≠ 0 then x(nP) = φₙ(P)/ψₙ(P)²; so x(nP) is p-integral when p ∤ Wₙ, and `v_p(x(nP)) = −2v_p(Wₙ)` when p | Wₙ. If Wₙ = 0 then nP = O. Hence for V ≥ 1, `p^V | Wₙ iff nP ∈ E_V(ℚ_p)`.
+By the affine-coordinate formula of [Division polynomials at a nonsingular point](#222-division-polynomials-at-a-nonsingular-point) over `ℚ_p`, if Wₙ ≠ 0 then x(nP) = φₙ(P)/ψₙ(P)²; so x(nP) is p-integral when p ∤ Wₙ, and `v_p(x(nP)) = −2v_p(Wₙ)` when p | Wₙ. If Wₙ = 0 then nP = O. Hence for V ≥ 1, `p^V | Wₙ iff nP ∈ E_V(ℚ_p)`.
 
 By [The filtration `E_k(ℚ_p)` for an arbitrary integral Weierstrass equation](#223-the-filtration-e_kℚ_p-for-an-arbitrary-integral-weierstrass-equation) (applied to the `ℤ_p`-model E), `{n : nP ∈ E_V}` is a subgroup of ℤ; for V = 0 the set is ℤ.
 
@@ -3777,7 +3778,7 @@ The supporting API comprises:
 - C(p): ones on the subdiagonal, −p.coeff i in the last column, indexed by Fin p.natDegree.
 - The entries of C(p).
 - For monic p, the matrix of multiplication by the root of AdjoinRoot p in the power basis 1, X, …, `X^{d−1}` is C(p).
-- `Polynomial.toLin'_companion_transpose`: Matrix.toLin' C(p)ᵀ = (ofMonic p).tupleSucc, Mathlib's state shift of the recurrence.
+- For monic p, the linear map of C(p)ᵀ equals the tuple shift of its recurrence, Mathlib's `LinearRecurrence.tupleSucc`.
 - For monic p, `det C(p) = (−1)^{natDegree p} · p.coeff 0`.
 - Over a field, for monic p, minpoly K C(p) = p.
 - Over a field, for monic p and q ∈ K: q is an eigenvalue of C(p) iff p(q) = 0 (no extension of scalars).
@@ -3794,7 +3795,7 @@ The transpose acts on a state vector `(s₀, …, s_{d−1})` by `(s₁, …, s_
 
 Determinant: expanding along the last column, `det C(p) = (−1)^d p.coeff 0` for monic p.
 
-Over a field, for monic p: minpoly K C(p) = minpoly K (root p), because `Algebra.leftMulMatrix` is an injective K-algebra homomorphism (`Algebra.leftMulMatrix_injective`, `minpoly.algHom_eq`), and minpoly K (root p) = p for monic p (`AdjoinRoot.minpoly_root`). This gives `minpoly_companion`; `Matrix.minpoly_dvd_charpoly` alone yields only the divisibility.
+Over a field, for monic p: minpoly K C(p) = minpoly K (root p), because `Algebra.leftMulMatrix` is an injective K-algebra homomorphism (`Algebra.leftMulMatrix_injective`, `minpoly.algHom_eq`), and minpoly K (root p) = p for monic p (`AdjoinRoot.minpoly_root`). This gives the claimed minimal polynomial of the companion matrix; `Matrix.minpoly_dvd_charpoly` alone yields only the divisibility.
 
 **Checks.**
 
@@ -4214,7 +4215,7 @@ d ≥ 1 (for d = 0 the state space is 0 and the equivalence fails: only u = 0 so
 
 (Victor Shoup, [A Computational Introduction to Number Theory and Algebra (Version 2)](#victor-shoup--a-computational-introduction-to-number-theory-and-algebra-version-2), Section 18.1, Example 18.1, printed p. 488.) The register is the state vector sₙ; its update is C(p)ᵀ.
 
-To prove this, `c(p)ᵀ s_n = (u(n + 1), …, u(n + d − 1), −∑ p.coeff i u(n + i))` by the companion-matrix API (`toLin'_companion_transpose`, `Matrix.mulVec`).
+To prove this, `c(p)ᵀ s_n = (u(n + 1), …, u(n + d − 1), −∑ p.coeff i u(n + i))` by the companion-matrix transpose comparison of §2.46 and `Matrix.mulVec`.
 
 So `s_{n+1} = C(p)ᵀ s_n` for all n iff the last coordinates agree, which is the recurrence u(n + d) = −∑ p.coeff i u(n + i); induct on n for the power form.
 
@@ -5400,7 +5401,7 @@ Let `Q_1`, …, `Q_k (k ≥ 1)` be nonzero polynomials in ℤ[X]. Their primitiv
 The supporting API comprises:
 
 - G := the primitive part of the normalized gcd of the family in the GCD monoid ℤ[X] (whose normalization makes the leading coefficient positive); equivalently the primitive integer polynomial associated in ℚ[X] to the monic gcd.
-- G is primitive (and `PrimitiveGcd.leadingCoeff_pos`: 0 < leadingCoeff G) for a nonempty family of nonzero polynomials.
+- G is primitive and has positive leading coefficient for a nonempty family of nonzero polynomials.
 - `G ∣ Q_i` in ℤ[X] for each i.
 - A primitive H ∈ ℤ[X] dividing every `Q_i` in ℚ[X] divides G in ℤ[X].
 - natDegree G = natDegree of Finset.gcd of the images in ℚ[X] (G mapped to ℚ[X] is associated to that gcd).
@@ -5506,7 +5507,7 @@ The supporting API comprises:
 - its nonzero rows and pivots are the supplied reduced rows and pivots; all other rows are zero.
 - if R₁ and R₂ are reduced and R₂ = Q R₁ for invertible Q, then R₁ = R₂.
 - the number of nonzero rows is rank A.
-- `ker_toLin'_reducedRowForm`: ker A = ker (reducedRowForm A).
+- Row reduction preserves the kernel of the associated linear map.
 
 (Jim Hefferon, [Linear Algebra, fourth edition](#jim-hefferon--linear-algebra-fourth-edition), Chapter One, Section III, Definition 1.3 (printed p. 51), Lemmas 1.5–1.6 (pp. 52–53), Theorem 2.6 with proof (pp. 59–60), Corollary 2.7 (p. 60).) Definition 1.3 defines the reduced echelon form; Lemmas 1.5–1.6 say row operations are reversible and row equivalence is an equivalence relation; Theorem 2.6 (with Yuster's proof) says every matrix is row equivalent to a unique reduced echelon form matrix, and Corollary 2.7 that the free variables do not depend on the reduction. These give uniqueness; the reduced rows are supplied by Tau Ceti. The book works over ℝ; the arguments are field-independent.
 
@@ -7411,13 +7412,20 @@ A Euclidean domain is a principal ideal domain and a unique factorisation monoid
 - Rounding both coordinates of ℤ[√−7] would only give N ≤ 2: the half-integers are essential.
 - The same computation fails for ℤ[√−5], whose class number is 2.
 
-Name the carrier `RamanujanNagellRing = QuadraticAlgebra ℤ (-2) 1`, its standard generator `rnTheta`, its conjugate `rnThetaPrime = 1-rnTheta`, and its nonnegative integer norm `rnNorm`. The carrier already exists; the Euclidean instance is a construction to prove. Required laws are `rnTheta_sq = rnTheta-2`, `rnTheta_mul_conj = 2`, `rnNorm_coords (x+y*rnTheta) = x²+xy+2y²`, `rnNorm_mul`, `rnNorm_eq_zero_iff`, and `rnEuclideanDivision`: for β≠0, there exist q,r with α=βq+r and `rnNorm r < rnNorm β`. Use the natural-valued norm for the Euclidean relation and prove its well-foundedness, including the zero-divisor exclusion from positivity. The rounded half-integer construction above supplies division; it cannot be replaced by integer rounding in ℤ[√−7] (Banwait, §2.1–§2.3, pp. 2–4).
+Use the ring `QuadraticAlgebra ℤ (-2) 1`, with standard generator θ and conjugate θ′=1−θ. Its integer norm takes nonnegative values; write N for this norm regarded as a natural number. Construct the Euclidean domain structure using N (Banwait, §2.1–§2.3, pp. 2–4). Its supporting API comprises:
+
+- The generator satisfies θ²=θ−2 and θθ′=2.
+- For x,y∈ℤ, the norm of x+yθ is x²+xy+2y², regarded as a natural number.
+- The norm is multiplicative and vanishes exactly at zero; in particular the ring has no zero divisors.
+- For α,β in the ring with β≠0, there exist q,r with α=βq+r and N(r)<N(β). The norm defines a well-founded Euclidean relation.
+
+The rounded half-integer construction above supplies division; integer rounding in ℤ[√−7] does not give the same norm bound.
 
 **Checks for the ring, generator and norm.**
 
-- `rnNorm rnTheta = rnNorm rnThetaPrime = 2`, and their product is exactly 2.
-- `rnNorm (1+rnTheta)=4`; this fixes the positive cross term, while `rnNorm (1-rnTheta)=2`.
-- The units are ±1, of norm one; rnTheta is a nonunit. The zero element has norm zero and is excluded as the divisor in Euclidean division.
+- N(θ)=N(θ′)=2 and θθ′=2, so N(θθ′)=4=2·2.
+- N(1+θ)=4; this fixes the positive cross term, while N(1−θ)=2.
+- The units are ±1, of norm one; θ is a nonunit. The zero element has norm zero and is excluded as the divisor in Euclidean division.
 
 *Needs:* Mathlib `QuadraticAlgebra`; Mathlib `QuadraticAlgebra.norm`; Mathlib `EuclideanDomain`; Mathlib `UniqueFactorizationMonoid`.
 
@@ -8136,7 +8144,7 @@ Conversely a positive solution of x⁴ + y⁴ = z² gives the rational point ((x
 - The analogous statement for y² = x³ − x (points O, (0, 0), (±1, 0)) is the routing of [Fermat's right-triangle theorem: x⁴ − y⁴ = z² has no solution in positive integers](#421-fermats-right-triangle-theorem-x⁴--y⁴--z²-has-no-solution-in-positive-integers) (Conrad, Corollary 3.19).
 - This compares a Layer 4 descent statement with Mathlib's Weierstrass-curve points, the carrier used by the elliptic-curve and rational-point owners (Tau Ceti's Mordell–Weil theorem `WeierstrassCurve.Affine.fg_point_of_numberField` is stated for these points).
 
-Give the denominator step its own named interface for positive weighted coordinates. For an affine rational point with x≠0, there exist integers a,b,c with `a>0`, `b≠0`, `c>0`, `gcd(a,c)=gcd(b,c)=1`, `x=a/c²`, `y=b/c³` and `b²=a³+a*c⁴`; conversely these data define an affine point. Prove that gcd(a,a²+c⁴)=1, then apply integer square-factor separation to obtain positive u,v with `a=u²` and `u⁴+c⁴=v²`. State `fermatFourthPoint` on positive integer solutions `(u,c,v)` with c≠0, using `(x,y)=((u/c)²,u*v/c³)`; both denominators are nonzero. These are the exact interfaces connecting primitive integral coordinates to the elliptic-curve equation (Conrad, Corollary 3.8 and Remark 3.9, pp. 6–7).
+Give the denominator step its own named interface for positive weighted coordinates. For an affine rational point with x≠0, there exist integers a,b,c with `a>0`, `b≠0`, `c>0`, `gcd(a,c)=gcd(b,c)=1`, `x=a/c²`, `y=b/c³` and `b²=a³+a*c⁴`; conversely these data define an affine point. Prove that gcd(a,a²+c⁴)=1, then apply integer square-factor separation to obtain positive u,v with `a=u²` and `u⁴+c⁴=v²`. State the map to an affine point on positive integer solutions `(u,c,v)` with c≠0, using `(x,y)=((u/c)²,u*v/c³)`; both denominators are nonzero. These are the exact interfaces connecting primitive integral coordinates to the elliptic-curve equation (Conrad, Corollary 3.8 and Remark 3.9, pp. 6–7).
 
 **Checks for the coordinate maps.**
 
@@ -8229,6 +8237,8 @@ A negative d has no solution since x² + |d|y² ≥ 0 > −1, so imposing d > 0 
 *Needs:* Mathlib `Squarefree`; Mathlib `Finset.filter`; [The solution set of the generalised Pell equation x² − dy² = n](#48-the-solution-set-of-the-generalised-pell-equation-x²--dy²--n).
 
 ### 4.40 Jacobi's triple product identity in formal power series
+
+The acceptance statements are `Diophantine.jacobiTripleProduct` and `Diophantine.jacobiTripleProduct_triangular`, the two HasProd identities with their sums written as tsums under the Hausdorff hypothesis.
 
 Let R be a commutative ring with a Hausdorff topology (any topology for the multipliability and the coefficient form), and give R⟦x⟧ the pi topology (PowerSeries.WithPiTopology). (a) For a ∈ Rˣ the family `n ↦ (1 − x^{2n})(1 + a x^{2n−1})(1 + a⁻¹x^{2n−1}) (n ≥ 1)` is multipliable, `n ↦ aⁿx^{n²} (n ∈ ℤ)` is summable, and `∏_{n≥1}(1 − x^{2n})(1 + a x^{2n−1})(1 + a⁻¹x^{2n−1}) = Σ_{n∈ℤ} aⁿx^{n²}`. (b) For s ∈ Rˣ, in R⟦t⟧: `∏_{i≥1}(1 − tⁱ)(1 + s tⁱ)(1 + s⁻¹t^{i−1}) = Σ_{k∈ℤ} s^k t^{k(k+1)/2}`. Equivalently, the coefficients of the finite products are eventually equal to those of the sums. The universal cases are R = ℤ[a, a⁻¹] (Mathlib's LaurentPolynomial ℤ, a = T 1), of which every other case is the image under a ring homomorphism.
 
@@ -9757,11 +9767,13 @@ Induct on the Vieta word supplied by [Markoff's theorem: every positive Markoff 
 
 ### 4.102 Jacobi's four-square theorem
 
+The acceptance statement is `Diophantine.jacobiFourSquares`; the count is the cardinality of ordered signed integer four-tuples with sum of squares n.
+
 For every n ≥ 1, `r₄(n) = 8 Σ_{d∣n, 4∤d} d`. Equivalently r₄(n) = 8σ(n) for n odd and `r₄(n) = 24σ(n_odd)` for n even, where `n_odd` is the odd part of n.
 
 n ≥ 1 (r₄(0) = 1).
 
-(M. D. Hirschhorn, [A simple proof of Jacobi's four-square theorem](#m-d-hirschhorn--a-simple-proof-of-jacobis-four-square-theorem), Theorem 1, p. 436.) The theorem in the notation and hypotheses used here.
+(M. D. Hirschhorn, [A simple proof of Jacobi's four-square theorem](#m-d-hirschhorn--a-simple-proof-of-jacobis-four-square-theorem), Theorem 1, p. 1 of the author's version.) The theorem in the notation and hypotheses used here.
 
 (Chris Wuthrich, [Further Number Theory G13FNT, Chapter 5: Gaussian integers and sums of squares](#chris-wuthrich--further-number-theory-g13fnt-chapter-5-gaussian-integers-and-sums-of-squares), Theorem 5.14, p. 7.) The equivalent odd/even form of the formula, stated without proof in this source (for n > 1; the case n = 1 also holds, r₄(1) = 8).
 
@@ -9774,6 +9786,7 @@ Compare coefficients in [θ(x)⁴ as a Lambert series](#493-θx⁴-as-a-lambert-
 **Checks.**
 
 - r₄(1) = 8, r₄(2) = 24, r₄(3) = 32, r₄(4) = 24, r₄(5) = 48.
+- At n=0 the only tuple is (0,0,0,0), so the count is 1; Mathlib’s finite divisor set at zero is empty and the displayed divisor sum is 0. This excludes zero from the counting identity.
 - It implies Lagrange's four-square theorem (r₄(n) ≥ 8 > 0), which Mathlib already has as `Nat.sum_four_squares`.
 - The two forms of the formula agree: for n = 12, 8(1 + 2 + 3 + 6) = 96 = 24σ(3).
 
@@ -10180,7 +10193,7 @@ For positive k, `a ≤ k^{1/3}`. In the negative fundamental region, the quadrat
 
 For k ≥ 5 define the bounded Markoff fundamental set at k as the set of integer triples satisfying 3 ≤ u₁ ≤ u₂ ≤ u₃, u₁²+u₂²+u₃²+u₁u₂u₃=k, 3u₁²+u₁³≤k and u₁²+2u₂²+u₁u₂²≤k. For k<0 use 3≤u₁≤u₂≤u₃≤u₁u₂/2, u₁²+u₂²+u₃²−u₁u₂u₃=k and u₂≤√(|k|+9), the fundamental region U(k) of §4.87. Prove finiteness and the equalities its equality with the positive-sign fundamental region and its equality with the negative-sign fundamental region with `F⁺_k` and `F⁻_k`. At other k set this bounded set to ∅; the levels 0≤k≤4 have the separate orbit classifications of §§4.95–4.96 and §4.103.
 
-For 5≤k or k<0, prove the bounded Hasse-failure criterion: MarkoffHasseFailure k iff MarkoffAdmissible k, ¬ MarkoffExceptional k and this set is empty. For such k not exceptional, prove the bounded class-number formula: `h_M(k)` equals its cardinality. Exceptionality is the mathematical predicate of §4.73, characterized by integral representations u²+v²=k, u²+3v²=4(k−1) or u²=k−4; these representation sets have coordinate bounds |u|,|v|≤2√|k|+2. Prove `markoffExceptional_iff_bounded_representations` with those bounds.
+For 5≤k or k<0, prove the bounded Hasse-failure criterion: MarkoffHasseFailure k iff MarkoffAdmissible k, ¬ MarkoffExceptional k and this set is empty. For such k not exceptional, prove the bounded class-number formula: `h_M(k)` equals its cardinality. Exceptionality is the mathematical predicate of §4.73, characterized by integral representations u²+v²=k, u²+3v²=4(k−1) or u²=k−4; these representation sets have coordinate bounds |u|,|v|≤2√|k|+2. Prove that exceptionality is equivalent to the existence of one of these representations within those bounds.
 
 (Amit Ghosh and Peter Sarnak, [Integral points on Markoff type cubic surfaces](#amit-ghosh-and-peter-sarnak--integral-points-on-markoff-type-cubic-surfaces), §1, Theorem 1.1, pp.3–4, §2, Lemma 2.2, and §10, Table 5, pp.34–41.) The orbit theorem and explicit bounds identify the finite representative sets and their cardinalities. For positive k, u₃ is a root of u₃²+u₁u₂u₃+u₁²+u₂²−k; for negative k it is a root of u₃²−u₁u₂u₃+u₁²+u₂²−k in the stated interval. These equations and bounds are the intrinsic finite-set specification.
 
@@ -10656,7 +10669,7 @@ The supporting API comprises:
 
 (Karim Belabas, [Topics in computational algebraic number theory](#karim-belabas--topics-in-computational-algebraic-number-theory), Section 5.3.1, printed p. 36.) The target is the canonical HNF representation of the source, with the canonicity proved by Layer 3.
 
-(Karim Belabas, [Topics in computational algebraic number theory](#karim-belabas--topics-in-computational-algebraic-number-theory), Section 5.3.2, printed p. 36.) The corner property (API `comap_eq_span_corner`).
+(Karim Belabas, [Topics in computational algebraic number theory](#karim-belabas--topics-in-computational-algebraic-number-theory), Section 5.3.2, printed p. 36.) The corner property identifying the inverse image with the span of the corner columns.
 
 To prove this, the coordinate map ω.equivFun identifies `𝓞_K` with `ℤ^n` and I with a full-rank sublattice.
 
@@ -11514,9 +11527,9 @@ The supporting API comprises:
 
 To prove this, define IsPisot θ as the conjunction of IsIntegral ℤ θ, 1 < θ and the modulus condition on the roots of minpoly ℤ θ in ℂ other than θ.
 
-Projections isIntegral, `one_lt`, `norm_lt_one` are the three conjuncts.
+Integrality, the strict lower bound and the bound on the other conjugates are the three conjuncts.
 
-`eq_of_one_le_norm`: a root z with |z| ≥ 1 cannot be ≠ θ by the modulus condition.
+For uniqueness of the root outside the open unit disc, a root z with |z| ≥ 1 cannot be ≠ θ by the modulus condition.
 
 the rational minimal-polynomial Pisot criterion: for θ integral over ℤ, minpoly ℤ θ maps to `minpoly ℚ θ (minpoly.isIntegrallyClosed_eq_field_fractions')`, so the two root multisets in ℂ agree.
 
@@ -11564,9 +11577,9 @@ To prove this, define IsSalem τ as the conjunction of IsIntegral ℤ τ, 1 < τ
 
 Projections are the four conjuncts.
 
-`not_isPisot`: a root z with |z| = 1 is ≠ τ (as τ > 1), so the Pisot condition |z| < 1 fails for it.
+For failure of the Pisot condition, a root z with |z| = 1 is ≠ τ (as τ > 1), so the Pisot condition |z| < 1 fails for it.
 
-`isConjRoot_inv`, `four_le_natDegree`, `even_natDegree`: read off from [Salem's lemma: the conjugates of a Salem number](#624-salems-lemma-the-conjugates-of-a-salem-number) (τ⁻¹ is a conjugate; the conjugates other than `τ^{±1}` lie on the circle, are non-real and come in complex-conjugate pairs, so the degree is 2 + an even number ≥ 2).
+Reciprocity of the conjugate set, degree at least four and even degree follow from [Salem's lemma: the conjugates of a Salem number](#624-salems-lemma-the-conjugates-of-a-salem-number) (τ⁻¹ is a conjugate; the conjugates other than `τ^{±1}` lie on the circle, are non-real and come in complex-conjugate pairs, so the degree is 2 + an even number ≥ 2).
 
 **Checks.**
 
@@ -12387,7 +12400,7 @@ With y = N/d ≥ 13: 3x/(5 log x) = 9y log y/(5 log(3y log y)) > y ⟺ y⁴ > 24
 
 - y = 13: x = 100.0…, 3x/(5 log x) = 13.03 > 13 = y; at y = 10 the inequality 9.79 > 10 fails.
 
-**Auxiliary proof target.** Name `dyadicPrimeCount` as the exact real inequality `π(2x)-π(x)>3x/(5 log x)` for `x≥41/2`, where `π(t)` counts primes at most t. Its denominator is positive on this domain. Berrevoets’s Lemma 4.5, printed p. 16, attributes it to Rosser–Schoenfeld (1962), Corollary 3; no source cited here gives its proof. A weaker asymptotic prime-count theorem does not suffice for the numerical threshold. Require the exact bound, and check x=41/2 (five primes in the interval), y=13 in the application, and failure of the application’s final inequality at y=10.
+**Auxiliary proof target.** Prove the exact real inequality `π(2x)-π(x)>3x/(5 log x)` for `x≥41/2`, where `π(t)` counts primes at most t. Its denominator is positive on this domain. Berrevoets’s Lemma 4.5, printed p. 16, attributes it to Rosser–Schoenfeld (1962), Corollary 3; no source cited here gives its proof. A weaker asymptotic prime-count theorem does not suffice for the numerical threshold. Require the exact bound, and check x=41/2 (five primes in the interval), y=13 in the application, and failure of the application’s final inequality at y=10.
 
 *Needs:* [If `α^k` and `α^l` are conjugate (k ≠ l) then α is 0 or a root of unity](#610-if-αk-and-αl-are-conjugate-k--l-then-α-is-0-or-a-root-of-unity); Mathlib `minpoly.dvd`; Mathlib `minpoly.irreducible`; Mathlib `minpoly.isIntegrallyClosed_dvd`.
 
@@ -13474,9 +13487,9 @@ If P₂ is a square, P₂ = Q² with Q = minpoly α₁², deg Q = n/2, roots α�
 
 ### 6.76 Totally positive trace ratios and auxiliary resultants
 
-Define total positivity for an algebraic integer α for α∈ℂ by integrality over ℤ and strict positivity of every complex conjugate, all of which must be real. For such α set the normalized trace ratio to trace(α)/degree(α); the degree is positive. Define the finite-exception trace threshold as the supremum of the real λ such that, for every ε>0, only finitely many totally positive algebraic integers satisfy `trace(α)/degree(α)<λ-ε`. Use finiteness of elements, equivalently finiteness of minimal polynomials because each has finitely many roots. Require `traceRatio_conjugate`, `traceRatio_positive`, finiteness under bounded degree and bounded trace, and the downward-closed threshold property, together with nonemptiness and boundedness before applying the real supremum. This corrects the “least” direction in Smith’s introductory definition: every smaller λ also has the finite-exception property (Smith, §1, pp. 1–2). Historical formulations predicted threshold 2; Smith’s Theorem 1.1 contradicts that prediction, and its proof belongs to LogarithmicPotentialTheoryAndAlgebraicIntegers.
+Define total positivity for an algebraic integer α for α∈ℂ by integrality over ℤ and strict positivity of every complex conjugate, all of which must be real. For such α set the normalized trace ratio to trace(α)/degree(α); the degree is positive. Define the finite-exception trace threshold as the supremum of the real λ such that, for every ε>0, only finitely many totally positive algebraic integers satisfy `trace(α)/degree(α)<λ-ε`. Use finiteness of elements, equivalently finiteness of minimal polynomials because each has finitely many roots. Require invariance of the trace ratio under algebraic conjugacy, strict positivity of the ratio, finiteness under bounded degree and bounded trace, and the downward-closed threshold property, together with nonemptiness and boundedness before applying the real supremum. This corrects the “least” direction in Smith’s introductory definition: every smaller λ also has the finite-exception property (Smith, §1, pp. 1–2). Historical formulations predicted threshold 2; Smith’s Theorem 1.1 contradicts that prediction, and its proof belongs to LogarithmicPotentialTheoryAndAlgebraicIntegers.
 
-For a finite family of nonzero integer polynomials `Q_k`, positive real weights `a_k` and real λ, name `auxiliaryResultantTraceBound`: suppose `x≥λ+Σ a_k log|Q_k(x)|` for every positive real x at which all `Q_k(x)` are nonzero. If α is totally positive and its minimal polynomial P is coprime to every `Q_k` in ℚ[X], then `trace(α)≥λ*degree(α)`. The roots of P avoid every `Q_k`; the products of `Q_k` over those roots are nonzero integral resultants, of absolute value at least one. Sum the pointwise inequality and use positivity of the weights. A totalized `Real.log 0` must never substitute for the nonvanishing requirement (Smith, §1, (1.2) and resultant argument, pp. 2–3).
+For a finite family of nonzero integer polynomials `Q_k`, positive real weights `a_k` and real λ, prove the auxiliary-resultant trace bound: suppose `x≥λ+Σ a_k log|Q_k(x)|` for every positive real x at which all `Q_k(x)` are nonzero. If α is totally positive and its minimal polynomial P is coprime to every `Q_k` in ℚ[X], then `trace(α)≥λ*degree(α)`. The roots of P avoid every `Q_k`; the products of `Q_k` over those roots are nonzero integral resultants, of absolute value at least one. Sum the pointwise inequality and use positivity of the weights. A totalized `Real.log 0` must never substitute for the nonvanishing requirement (Smith, §1, (1.2) and resultant argument, pp. 2–3).
 
 **Checks for positivity, ratio and threshold.**
 
@@ -13741,7 +13754,7 @@ The ramification index is the unprimed Mathlib P.ramificationIdx A (prime P of B
 The supporting API comprises:
 
 - `GaloisModules.IsTamelyRamifiedAt`: Tameness at a prime P of B: separable residue extension and residue characteristic not dividing e(P|p).
-- `IntegralGaloisModule.IsTamelyRamified`: Tameness at every nonzero prime of B.
+- `GaloisModules.IsTamelyRamified`: Tameness at every nonzero prime of B.
 - With finite residue fields, tameness at P is p ∤ e(P|p).
 - An unramified prime with separable residue extension is tame.
 - `GaloisModules.isTamelyRamified_trans_iff`: For inclusions A ⊆ B ⊆ C of Dedekind domains with B finite over A and C finite over B, C/A is tame exactly when B/A and C/B are. The suggested `GaloisModules.isTamelyRamified_trans_iff` carries the injective scalar maps, scalar tower, finite-module and torsion-free hypotheses.
@@ -13818,7 +13831,7 @@ To prove this, define IsOrder Λ as Submodule.IsLattice F applied to the underly
 
 Every element of an order is integral over R: R[x] ⊆ Λ is a finitely generated R-module.
 
-Assume R integrally closed and noetherian, and assume explicitly that `(x,y) -> trace_F(leftMul(x*y))` is nondegenerate. Choose an F-basis `alpha_i` inside the spanning subalgebra. Integrality makes the trace of each product lie in R, since it is integral and lies in F. Cramer's rule then bounds the coordinates of each beta in the subalgebra by `det(trace(alpha_i*alpha_j))^(-1) R`; noetherianity makes this submodule finite. This is the hypothesis in the native `isOrder_of_isIntegral` signature. For `M_p(F)` in characteristic p the regular trace is zero, so separability alone cannot supply that signature's premise.
+Assume R integrally closed and noetherian, and assume explicitly that `(x,y) -> trace_F(leftMul(x*y))` is nondegenerate. Choose an F-basis `alpha_i` inside the spanning subalgebra. Integrality makes the trace of each product lie in R, since it is integral and lies in F. Cramer's rule then bounds the coordinates of each beta in the subalgebra by `det(trace(alpha_i*alpha_j))^(-1) R`; noetherianity makes this submodule finite. These hypotheses ensure the finite-module condition for an order. For `M_p(F)` in characteristic p the regular trace is zero, so separability alone does not give the required nondegenerate trace pairing.
 
 Group rings: the images of the group elements form an R-basis of R[G] and an F-basis of F[G].
 
