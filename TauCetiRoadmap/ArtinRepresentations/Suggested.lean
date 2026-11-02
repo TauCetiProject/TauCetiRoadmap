@@ -14,7 +14,8 @@ against the pinned APIs, with only definitions needed to state them.
 
 The headlines are finite Galois factorization over arbitrary fields, semisimplicity and
 character recognition, meromorphic continuation and the orders at zero and one, Dedekind zeta
-factorization, rank-one Artin holomorphy, Klein's classification, and finite-quotient
+factorization, rank-one Artin holomorphy, Klein's classification including uniqueness up to
+conjugacy, and finite-quotient
 Frobenius recognition. The analytic statements use an arbitrary finite Galois presentation,
 not a chosen faithful presentation. Thus they cover every Artin representation. The local
 polynomial uses the finite inertia averaging projector: on its image it is Frobenius on
@@ -163,6 +164,14 @@ theorem klein_classification (Γ : Subgroup (Matrix.ProjGenLinGroup (Fin 2) ℂ)
     IsCyclic Γ ∨ (∃ n, 2 ≤ n ∧ Nonempty (Γ ≃* DihedralGroup n)) ∨
       Nonempty (Γ ≃* alternatingGroup (Fin 4)) ∨ Nonempty (Γ ≃* Equiv.Perm (Fin 4)) ∨
         Nonempty (Γ ≃* alternatingGroup (Fin 5)) := sorry
+
+/-- Isomorphic finite subgroups of PGL₂(ℂ) are conjugate as subgroups; the conjugating
+map need not induce a prescribed abstract isomorphism (Beauville, Introduction, p. 1). -/
+theorem finite_pgl2_iso_implies_conjugate
+    (H K : Subgroup (Matrix.ProjGenLinGroup (Fin 2) ℂ)) [Finite H] [Finite K]
+    (h : Nonempty (H ≃* K)) :
+    ∃ g : Matrix.ProjGenLinGroup (Fin 2) ℂ,
+      ∀ x, x ∈ H ↔ g * x * g⁻¹ ∈ K := sorry
 
 section FiniteLevel
 

@@ -19,9 +19,9 @@ determinant, conductor prime to `ℓ`, Frobenius matrices and the kernel fields 
 
 This roadmap builds the Artin representation as an object with its complete basic theory, the
 Artin L-function with Artin's formalism (additivity, invariance under induction and inflation,
-`ζ_K = ∏_χ L(s, χ)^{χ(1)}`), its meromorphic continuation and functional equation through Brauer
-induction and the Hecke L-functions of the [L-functions roadmap](../LFunctions/README.md), the
-global root number and the general conductor–discriminant formula, the root numbers of `p`-adic
+`ζ_K = ∏_χ L(s, χ)^{χ(1)}`), its meromorphic continuation through Brauer induction and the Hecke L-functions of the
+[L-functions roadmap](../LFunctions/README.md), the comparison with the finite-character
+completion and analytic root number of ClassicalArithmeticCompletion §7.30 and the general conductor–discriminant formula, the root numbers of `p`-adic
 fields and the local root numbers of elliptic curves, every invariant the LMFDB displays or
 searches on, the statements of Artin's conjecture, the weight-one dictionary and Stark's
 conjecture at `s = 0`, and a final layer on finite-image representations into `GL_n(𝔽̄_ℓ)`.
@@ -73,8 +73,9 @@ containers, stem fields, Galois conjugates), `Conjectures/` (Artin, weight one, 
   unramified places, the local polynomial at a real place (the `±1`-eigenspace dimensions of
   complex conjugation), and the Euler product `L(s, ρ)` on `Re s > 1` with Artin's formalism.
 - **The Artin L-function as a meromorphic function** (Layer 4): artinLFunctionC ρ, its
-  characterization, the completion completedArtinLFunction ρ, the functional equation, the root
-  number `W(ρ)` with `|W(ρ)| = 1` and `W(ρ^∨) = conj W(ρ)`, the order of vanishing at `s = 0`, the
+  characterization, and the adapters from ClassicalArithmeticCompletion §7.30's finite-character
+  completion, functional equation and analytic root number to `ArtinRep F V` through finite
+  Galois factorization. These give completedArtinLFunction ρ and the root number `W(ρ)` with `|W(ρ)| = 1` and `W(ρ^∨) = conj W(ρ)`, the order of vanishing at `s = 0`, the
   analytic card of the L-functions roadmap, and Artin's conjecture as a named proposition.
 - **The conductor–discriminant formula** (Layer 5) for an arbitrary finite Galois extension of
   number fields, and the identification of the conductor of a one-dimensional `ρ` with the
@@ -216,11 +217,13 @@ containers, stem fields, Galois conjugates), `Conjectures/` (Artin, weight one, 
   Heilbronn–Aramata theorems, effective Chebotarev, and every estimate uniform in the conductor
   belong to the [analytic number theory roadmap](../AnalyticNumberTheoryPartI/README.md) and the
   zeros roadmaps; Chebotarev density itself belongs to the [Chebotarev roadmap](../Chebotarev/README.md).
-- **Galois module structure.** Tame local Galois Gauss sums, symplectic root signs as Galois
-  module invariants, Fröhlich's Hom-description and Taylor's theorem are
-  [`ClassicalArithmeticCompletion`](../ClassicalArithmeticCompletion/README.md) Layer 7, which
-  consumes completedArtinLFunction and the functional equation of Layer 4 here under exactly
-  those names.
+- **Finite-character analytic completion and Galois module structure.**
+  [`ClassicalArithmeticCompletion`](../ClassicalArithmeticCompletion/README.md) §7.30 owns
+  completedArtinLFunction on finite Galois characters, analyticArtinRootNumber, its
+  functional equation, uniqueness and normalized all-place product. Sections 4.2–4.3
+  and 6.1 here transport that interface to ArtinRep through finite Galois factorization
+  and compare it with §2.4's local constants. Its tame algebraic Gauss factors,
+  symplectic root signs, Fröhlich Hom-description and Taylor theorem remain in its Layer 7.
 - **Labels, orderings and normal forms.** Label components beyond the intrinsic prefix (the
   orbit letter `a` and the conjugate letter `b` of a label `dim.cond.dtj.a.b`, and the `T`-number
   of a container of degree above 5), the choice of displayed stem field among several, the stored
@@ -374,6 +377,17 @@ leaves one open gets implemented twice.
 ### From named roadmaps
 
 The section contracts in Scope and ownership fix the imported objects and their conventions.
+From ClassicalArithmeticCompletion §7.30, **Analytic Artin root numbers**, consume the
+finite-character completedArtinLFunction, analyticArtinRootNumber, functional-equation
+and uniqueness statements, and the normalized all-place product. Its arithmetic-Frobenius
+completion uses `Cχ = |disc F|^χ(1) Nfχ`, the exponent s/2, real shifts n₊, n₋, and
+complex factor Γℂ(s)^χ(1), exactly as here. The comparison takes the character of any
+finite Galois presentation of ρ, with independence under inflation and isomorphism.
+This contract imports the finite-character interface; §2.4 separately constructs the
+characteristic-zero higher-rank local constants from ArithmeticGaloisRepresentations §2.7's
+scalar constants and globalization. No higher-rank existence theorem is assumed from
+that scalar contract. GL2AutomorphicRepresentationsAndTransfer R17.5's local-constant
+contracts likewise supply no additional construction to §2.4.
 AutomorphicLFunctionsAndLocalFactors AL.3.10.3 supplies the equal-characteristic
 local-constant construction, including monodromy, norm twisting and conductor compatibility;
 §2.4 here compares its coefficient models with complex Artin representations.
@@ -416,7 +430,9 @@ and ℂ has characteristic zero.
 `exists_meromorphicContinuation` combines §4.1's continuation and pole at one with §4.4's
 order at zero. The latter uses `finiteNPlus`, the +1-eigenspace dimension of conjugation
 at a real place, or the full dimension when all places above it are real.
-`klein_classification` states §7.6's five abstract group possibilities.
+`klein_classification` states §7.6's five abstract group possibilities;
+`finite_pgl2_iso_implies_conjugate` states that isomorphic finite subgroups of PGL₂(ℂ)
+are conjugate, giving uniqueness of the conjugacy class for each possibility.
 `rank_one_artin_holomorphy` is §8.1's analytic continuation away from one for a rank-one
 representation, with the exact pole order there.
 `finite_frobenius_recognition` is §9.3 on two semisimple representations of a common finite
@@ -529,7 +545,7 @@ equivalently `characterPairing χ χ = 1`. The multiplicity of an irreducible
 `π` in `ρ` is `⟨χ_ρ, χ_π⟩`, and `dim V^{G_F} = ⟨χ_ρ, 1⟩`. The character of `ρ` determines
 `artinField ρ`, `dim ρ`, the invariants under every closed subgroup, and (Layer 7) every LMFDB
 invariant, so the LMFDB's storage of a representation by its character table is a faithful
-storage.
+storage (Serre, *Linear Representations*, §§2.3–2.6, character orthogonality and decomposition).
 
 *Needs:* Mathlib Maschke (`IsSemisimpleRepresentation` for `char ∤ |G|`),
 `char_orthonormal`; Tau Ceti `characterPairing`, `irreducibleCharacters`,
@@ -551,7 +567,18 @@ det (dual ρ) = (det ρ)⁻¹; the twist `ρ ⊗ ψ` by a continuous character `
 det (ρ ⊗ ψ) = det ρ · ψ^(dim ρ); and the symmetric and exterior squares with their characters
 `½(χ(g)² ± χ(g²))`, consumed from the Frobenius–Schur layer of
 [`RepresentationTheory/CharacterTheory`](../RepresentationTheory/CharacterTheory/README.md) at the
-finite level. Each operation commutes with ofFinite.
+finite level. Each operation commutes with ofFinite (Serre, *Linear Representations*,
+§§1.5, 2.1 and 2.3, direct sums, tensor products and symmetric and alternating squares).
+
+The supporting API is:
+
+- The projections identify the underlying space of prod with V×V′; its trace is the sum
+  and its determinant the product, including zero-dimensional factors.
+- On a pure tensor, g acts by ρ(g)v⊗ρ′(g)v′, so its trace is χ(g)χ′(g).
+- A dual vector f is sent to f∘ρ(g⁻¹); evaluation V∨×V→ℂ is invariant and the dual
+  character is χ(g⁻¹). The twist uses ρ(g) multiplied by the nonzero scalar ψ(g).
+- The quotient V⊗V→Sym²V and the alternating quotient V⊗V→⋀²V intertwine the
+  actions; their traces are respectively (χ(g)²+χ(g²))/2 and (χ(g)²−χ(g²))/2.
 
 *Needs:* Mathlib Representation.prod, `tprod`, dual, `char_tensor`, `char_dual`,
 LinearMap.det; Tau Ceti `Representation.charTwist`; Layer 1.2.
@@ -576,6 +603,9 @@ independence of the embedding `σ` up to isomorphism (`exists_absoluteGaloisGrou
 ind (trivial L) ≅ ofFinite of the permutation representation of `Gal(K/F)` on
 `Hom_F(L, K)` for any Galois `K ⊇ L` (Tau Ceti `indTrivialIso`, `char_ofMulAction`); and
 for nonzero `W`, the kernel of the induced representation is the normal core in `G_F` of the embedded kernel of `τ`, hence its Artin field is the Galois closure over `F` of `artinField τ`. For `W = 0`, induction is zero and its Artin field is `F`.
+
+The finite-level induction and reciprocity identities are Serre, *Linear Representations*,
+§§7.1–7.3; the open-subgroup version follows by the finite Galois factorization of §1.2.
 
 *Needs:* Mathlib `Representation.ind`, `Subgroup.normalCore`; Tau Ceti `galoisSubgroup`,
 `galoisSubgroupEquiv`, `absoluteGaloisGroupExtend`, `indFDRep`, `TauCeti.character_indFDRep`,
@@ -626,6 +656,9 @@ theorem), hence every virtual Artin representation of `F` is `Σ nᵢ ind_{Lᵢ/
 and `ψᵢ` one-dimensional Artin representations of `Lᵢ` (exists_brauer_expression). This is the
 only form in which Brauer induction is used below; no second induction theorem is proved.
 
+The character-field and conjugation statements are Serre, *Linear Representations*,
+§12.1; the virtual-character induction expression is Chapter 10, Brauer's theorem.
+
 *Needs:* Tau Ceti `ClassFunction.map`, `virtualCharacters`,
 `char_mem_adjoin_of_isPrimitiveRoot`, `FDRep.map_character_eq_character_pow`,
 `ClassFunction.character_mem_indCharacterSpanInt_isElementary`, `FDRep.exists_character_eq_indClassFun_of_isNilpotent`;
@@ -656,14 +689,30 @@ cardinality, `I_K := inertiaSubgroup K`, `P_K := wildInertiaSubgroup K`, and `ρ
 ### 2.1 Inertia invariants and the ramification predicates
 
 Define inertiaInvariants ρ : Submodule ℂ V := (ρ.toRepresentation.comp I_K.subtype).invariants
-and wildInvariants ρ likewise for `P_K`; prove both are `G_K`-stable (inertia is normal), that
-inertiaInvariants ρ ≤ wildInvariants ρ, and that inertiaInvariants of prod, dual,
-restrict and ofFinite are the expected ones (for ofFinite L W it is the invariants of the
-image of `I_K` in `Gal(L/K)`, Tau Ceti's `lowerRamificationGroup_zero_eq_map_inertiaSubgroup`).
-Define IsUnramified ρ := I_K ≤ ρ.ker and IsTame ρ := P_K ≤ ρ.ker, and prove
-IsUnramified ρ ↔ inertiaInvariants ρ = ⊤, IsTame ρ ↔ wildInvariants ρ = ⊤, that
-IsUnramified ρ iff `artinField ρ` is unramified over `K`, and that IsTame ρ iff it is tamely
-ramified; the image `ρ(P_K)` is a `p`-group (Tau Ceti `isProP_wildInertiaSubgroup`).
+and wildInvariants ρ by the same formula for P_K. Define IsUnramified ρ to mean
+I_K ≤ ker ρ, and IsTame ρ to mean P_K ≤ ker ρ. These use the given local-field
+inertia subgroups (Serre, *Local Fields*, Ch. IV §2, inertia and wild inertia;
+for the fixed-space linear algebra, Serre, *Linear Representations*, §§1.5–1.6 and 2.6).
+
+The supporting API is:
+
+- Normality makes both fixed spaces G_K-stable, and P_K≤I_K gives the inclusion
+  V^(I_K)→V^(P_K), v↦v. IsUnramified ρ iff V^(I_K)=V and IsTame ρ iff V^(P_K)=V;
+  the first implies the second. For the faithful finite quotient these are respectively
+  unramifiedness and tame ramification of its Artin field.
+- For either J=I_K or J=P_K, coordinate projection gives
+  (V×W)^J ≃ V^J×W^J. Restriction of functionals gives (V∨)^J ≃ (V^J)∨;
+  the inverse sends f to f∘e_J, where e_J is the average over the finite image of J.
+  Its denominator is the positive order of that image, invertible in ℂ.
+- For a finite separable local extension L/K and a compatible embedding G_L→G_K,
+  I_L maps into I_K, giving the injective map V^(I_K)→(Res ρ)^(I_L), v↦v.
+  This map is an isomorphism when L/K is unramified, because the two inertia
+  groups then coincide. For arbitrary ramified L/K it need not be surjective.
+  Likewise P_L maps into P_K, giving V^(P_K)→(Res ρ)^(P_L).
+- For a finite Galois presentation τ over M/K, the identity on V identifies
+  (Infl τ)^(I_K) with V^(image(I_K→Gal(M/K))), and similarly for wild inertia.
+  The image of P_K is a p-group, p the residue characteristic (Serre, *Local Fields*,
+  Ch. IV §2; the finite quotient comparison is the supplied ramification contract).
 
 *Needs:* Mathlib `Representation.invariants`; Tau Ceti `inertiaSubgroup`,
 `wildInertiaSubgroup`, `isProP_wildInertiaSubgroup`, `lowerRamificationGroup_zero_eq_map_inertiaSubgroup`;
@@ -671,9 +720,18 @@ Layer 1.
 
 **Checks.**
 
-- For an unramified line, inertia and wild-inertia fixed dimensions are both 1.
-- For a nontrivial tame quadratic line at odd residue characteristic, inertia fixes dimension 0 while wild inertia fixes dimension 1; tame does not mean unramified.
-- For χ₋₄ over ℚ₂, both fixed dimensions are 0; the zero representation instead has both fixed spaces equal to its whole zero space.
+- For an unramified line, both fixed dimensions are 1 and (IsUnramified,IsTame)=(true,true).
+  Products of two such lines have fixed dimension 2; both dual comparison spaces have dimension 1.
+- For a nontrivial tame quadratic line at odd residue characteristic, the fixed dimensions
+  are (0,1) and the predicates (false,true). After restriction to its ramified quadratic
+  splitting field they become (1,1) and (true,true): the inertia inclusion is 0→ℂ,
+  disproving an unconditional restriction isomorphism. The dual comparison is 0≃0.
+- For χ₋₄ over ℚ₂, the fixed dimensions are (0,0) and the predicates (false,false);
+  after restriction to ℚ₂(i), both fixed dimensions are 1. For the zero representation
+  both fixed spaces are the whole zero space, giving (true,true), not (false,false).
+- For the direct sum of an unramified line and χ₋₄ over ℚ₂, the inertia and wild projectors
+  are diag(1,0), of rank 1. Restriction of invariant functionals and its inverse f↦f∘e
+  both retain precisely the first coordinate; finite inflation gives the same projector.
 
 ### 2.2 The local polynomial and the local Euler factor
 
@@ -724,6 +782,9 @@ a(dual ρ) = a(ρ), the lower-sum formula on any finite Galois quotient, and for
 [class field theory roadmap](../ClassFieldTheory/README.md) Layer 7. Nothing is proved here; the
 milestone is the adapter from `ArtinRep` to that roadmap's hypotheses (finite wild image is
 automatic) and the statement of these equalities on this carrier.
+
+For the lower-filtration expression and the tame specialization, see Martinet 1977,
+Ch. II §1, pp. 21–23; the rank-one comparison is Ch. I §4, p. 17.
 
 *Needs:* [arithmetic Galois representations](../ArithmeticGaloisRepresentations/README.md)
 §§3.1, 3.2, 3.4, 3.5; [class field theory](../ClassFieldTheory/README.md) Layer 7; Layer 2.1.
@@ -781,6 +842,12 @@ Basic API:
   W(ρ,ψ) W(ρ∨,ψ)=det ρ(Art_K(-1)), and unramified ρ with conductor-zero ψ has W=1.
 - Induction satisfies `W(Ind τ,ψ)=λ(L/K,ψ)^(dim τ) W(τ,ψ ∘ Tr)`, including ramified L/K;
   twisting by a positive real power of the norm preserves W.
+- For finite-image ρ of dimension d and an unramified unitary character η,
+  `W(ρ⊗η,ψ)=η(ϖ)^(a(ρ)+d n(ψ)) W(ρ,ψ)`. Here n(ψ) is the integer such that ψ is
+  trivial on ϖ^(−n(ψ))O_K and nontrivial on ϖ^(−n(ψ)−1)O_K; thus
+  n(ψ(b·))=n(ψ)+v_K(b). Negative exponents are integer powers of the nonzero unit
+  η(ϖ). The trace character has n(ψ) equal to the different exponent
+  (Rohrlich 1994, §11, Proposition (iii), p. 143).
 - The LMFDB field root number of finite K/ℚ_p is `W(Ind 1_K,ψ̄_p)` with
   `ψ̄_p(x)=exp(2πi{x}_p)`; it equals `χ_disc(-1) λ(K/ℚ_p,ψ_p)`.
 
@@ -839,6 +906,9 @@ polynomial of `W(σ)` for any `σ` in `artinSymbol 𝔭`, with
 localPolynomialAt ρ v = (frobeniusCharpoly ρ v).reverse there; the trace of Frobenius
 frobeniusTrace ρ v = character ρ (σ); and localPolynomialAt_prod, `_dual`, `_ofFinite`.
 
+The local-factor comparison uses Neukirch VII §10, (10.1), including inertia at ramified
+places; the Frobenius direction is the one fixed in Conventions.
+
 *Needs:* Mathlib `IsArithFrobAt`, `Ideal.inertia`, `MulAction.stabilizer`; Tau Ceti
 `exists_isArithFrobAt`, `isArithFrobAt_eq_of_isUnramifiedAt`, `artinSymbol`,
 `Frobenius/Restriction.lean`, `decompositionEquiv`, `card_ramificationGroup_eq_card_lowerRamificationGroup`,
@@ -859,6 +929,9 @@ through §3.1's polynomial comparison. It gives
 `∏_{w|v}(1-X^(f(w/v)))`, including ramified v. The adapter identifies the norm relation
 `Nw=(Nv)^(f(w/v))`; no ramified factor is omitted.
 
+This is the induction identity of Neukirch VII §10, (10.4), at each finite place,
+including the ramified ones.
+
 *Needs:* [completed number-field arithmetic](../../Completed/NumberFieldArithmetic/README.md)
 Layer 1.4; Layers 1.5, 2.2, 3.1; AdelicAlgebraicGroups AA.2.4, artin-local-factors.
 
@@ -873,6 +946,9 @@ det ρ(c) = (−1)^(n₋), so IsOddAt ρ v ↔ Odd n₋, and the compatibility w
 (unchanged), twists by a character `ψ` (`ψ(c) = −1` swaps the two), ofFinite and `ind`
 (`n₊(ind τ, v) = Σ_{w|v real} n₊(τ, w) + Σ_{w|v complex} dim τ`). For `F = ℚ` these are the
 LMFDB's `trace_complex_conjugation` and its `(dim ± trace)/2`.
+
+The archimedean multiplicities and their gamma shifts are Neukirch VII §12, (12.6);
+induction at a real place with a complex place above it gives the two opposite eigenspaces.
 
 *Needs:* Tau Ceti `complexConjugationAt`, `isConj_complexConjugationAt`,
 `complexConjugationAt_restrictNormal_eq_one_of_isReal`, `_of_isComplex`; Mathlib
@@ -917,6 +993,8 @@ representation decomposition gives the zeta factorization:
 ⚠ Both sides of each identity are stated as functions on the half-plane `Re s > 1`, where the
 products converge; their meromorphic forms are Layer 4.
 
+The formalism and irreducible zeta factorization are Neukirch VII §10, (10.4)–(10.5).
+
 *Needs:* Tau Ceti `EulerProductData`, `eulerFactor`, `dedekindZeta_eulerProduct_hasProd`,
 `TauCeti.character_eq_sum_nsmul_irreducibleCharacter`, `indTrivialIso`, `ratDirichletEquiv`; Mathlib
 `NumberField.dedekindZeta`, `LSeries`; [class field theory](../ClassFieldTheory/README.md)
@@ -941,6 +1019,9 @@ analyticConductor ρ : ℕ := |discr F|^(dim V) · absNorm 𝔣(ρ) and prove it
 multiplicative on prod, and analyticConductor (ind τ) = analyticConductor τ (the
 discriminant tower formula `|d_L| = |d_F|^{[L:F]} N(𝔡_{L/F})`). Over `ℚ`, analyticConductor ρ
 is the LMFDB's `Conductor`, and ramifiedSet ρ its prime support.
+
+The induction formula is Neukirch VII §11, (11.7); compare Martinet 1977,
+Ch. I §4, pp. 15–16, for the discriminant-balanced conductor.
 
 *Needs:* [arithmetic Galois representations](../ArithmeticGaloisRepresentations/README.md)
 §§3.3, 3.5; Mathlib `NumberField.discr`, `Ideal.absNorm`; [completed number-field arithmetic](../../Completed/NumberFieldArithmetic/README.md)
@@ -972,6 +1053,9 @@ the earlier Artin-factor development into this carrier.
 - For χ₋₄ at 2, both primitive factors are 1 because the invariant space is zero.
 - The trivial character presented modulo 2 has presented factor 1 at 2, while its Artin
   factor is `(1-2^(-s))^(-1)`; the Euler correction supplies precisely that ratio.
+
+The normalization being compared is Neukirch VII §10, (10.1) and (10.4); the primitive
+versus presented correction is also explained in Martinet 1977, Ch. I §2, pp. 3–4.
 
 *Needs:* AdelicAlgebraicGroups AA.2.4, artin-local-factors and convergence-factors;
 LFunctions Layer 5, primitive versus presented characters; Layers 3.1–3.4.
@@ -1015,6 +1099,10 @@ that (s − 1)^(dim V^(G)) artinLFunctionC ρ s has a finite nonzero limit at `1
 ⚠ A Brauer expression has negative coefficients; artinLFunctionC ρ is meromorphic, not
 asserted holomorphic. Holomorphy away from `s = 1` is Artin's conjecture, Layer 8.1.
 
+The meromorphic continuation and Brauer route are Neukirch VII §12, (12.6), and
+Martinet 1977, Ch. I §4, pp. 14–18; the pole multiplicity additionally uses the
+nonvanishing contract of LFunctions Layer 7.
+
 *Needs:* [L-functions](../LFunctions/README.md) Layers 3, 5, 7
 (`heckeLFunctionC`, `eventuallyEq_of_meromorphic_of_eqOn_halfPlane`, `dedekindZetaC`, entirety
 and nonvanishing of primitive Hecke L-functions); Mathlib `MeromorphicOn`,
@@ -1026,9 +1114,12 @@ and nonvanishing of primitive Hecke L-functions); Mathlib `MeromorphicOn`,
 - The trivial line over ℚ has L=ζ, order −1 at 1 and order 0 at 0; the pole order uses the multiplicity of the trivial constituent, not the dimension alone.
 - The odd nontrivial line χ₋₄ has order 0 at both 0 and 1; the odd two-dimensional S₃ representation has order 1 at 0 and order 0 at 1.
 
-### 4.2 The completed L-function
+### 4.2 Comparison with the finite-character completion
 
-Define the archimedean factor gammaFactor ρ s := ∏_(v real) Γ_ℝ(s)^(n₊(ρ,v)) Γ_ℝ(s+1)^(n₋(ρ,v)) · ∏_(v complex) Γ_ℂ(s)^(dim V)
+For any finite Galois presentation τ of ρ from §1.2, transport the completion of
+ClassicalArithmeticCompletion §7.30 along τ ↦ χ_τ. Prove independence of the presentation
+using inflation and equality of the uncompleted functions on Re(s)>1. The adapter has the
+following formula as meromorphic germs (Neukirch VII §12, (12.6)). Define the archimedean factor gammaFactor ρ s := ∏_(v real) Γ_ℝ(s)^(n₊(ρ,v)) Γ_ℝ(s+1)^(n₋(ρ,v)) · ∏_(v complex) Γ_ℂ(s)^(dim V)
 from Layer 3.3, and
 
 ```text
@@ -1048,7 +1139,7 @@ nonnegative (the general statement is Layer 8.1's hypothesis).
 
 *Needs:* Mathlib `Complex.Gammaℝ`, `Gammaℂ`, the duplication formula
 `Complex.Gammaℝ_mul_Gammaℝ_add_one`; [L-functions](../LFunctions/README.md) Layers 3, 5;
-Layers 3.3, 3.5, 4.1.
+ClassicalArithmeticCompletion §7.30; Layers 1.2, 3.3, 3.5, 4.1.
 
 
 **Checks.**
@@ -1064,27 +1155,27 @@ Layers 3.3, 3.5, 4.1.
 
 ### 4.3 The functional equation and the root number
 
-Prove, as germs at every point and pointwise off the poles,
+For a finite Galois presentation τ of ρ, set rootNumber ρ to the
+analyticArtinRootNumber of χ_τ from ClassicalArithmeticCompletion §7.30. Prove that
+this is independent of τ: the comparison in §4.2 identifies the completed germs, and
+the supplier's uniqueness statement identifies their constants. Transport its equation
+and unit-modulus assertion to this carrier:
 
-```text
-completedArtinLFunction ρ s = rootNumber ρ · completedArtinLFunction (dual ρ) (1 − s),
-```
+    completedArtinLFunction ρ s = rootNumber ρ · completedArtinLFunction (dual ρ) (1 − s).
 
-with rootNumber ρ : ℂ a constant of absolute value `1`: by Brauer induction and Layers 4.2 and
-3.4 the completed function is `∏ Λ(ψᵢ, s)^{nᵢ}` for one-dimensional `ψᵢ` over `Lᵢ`, each of which
-satisfies the L-functions roadmap's `Λ(ψ, s) = W(ψ) Λ(ψ⁻¹, 1 − s)`, and dual commutes with
-induction. Define rootNumber ρ as that constant (functionalEquation, rootNumber_unique: it is
-determined by the equation since completedArtinLFunction ρ is a nonzero germ) and prove:
-norm_rootNumber = 1; rootNumber_prod; rootNumber_ind; rootNumber_inflate;
-rootNumber_dual = conj (rootNumber ρ); rootNumber (trivial) = 1;
-rootNumber_one_dim = W(ψ) of the L-functions roadmap; over `ℚ`, for one-dimensional `ρ` with
-primitive Dirichlet character `χ` of conductor `N` and parity `a`,
-rootNumber ρ = gaussSum χ / (i^a √N) (the L-functions roadmap's `dirichletData`); and
-rootNumber ρ = ∏ rootNumber(ψᵢ)^(nᵢ) for every Brauer expression (rootNumber_brauer), which
-is how it is computed. Layer 6.1 identifies this functional-equation constant with the product of the local constants constructed in §2.4.
+The equality is of meromorphic germs everywhere and of values off the poles. Prove the
+carrier comparisons for direct sums, induction and inflation, duality
+`W(ρ∨)=conj W(ρ)`, the trivial root 1, and the one-dimensional Hecke root. In particular,
+over ℚ a primitive Dirichlet character χ of conductor N and parity a gives
+`W(ρ)=τ(χ)/(i^a √N)`, with N>0 and the positive square root. Transport the supplier's
+multiplicativity to virtual characters to obtain `W(ρ)=∏ W(ψᵢ)^(nᵢ)` for every Brauer
+expression. These are consequences on ArtinRep of the imported equation and uniqueness
+(Neukirch VII §12, (12.6); Martinet 1977, Ch. I §4, pp. 17–18).
+Section 6.1 compares the imported all-place product with the local construction in §2.4.
 
-*Needs:* [L-functions](../LFunctions/README.md) Layers 4, 5 (the functional equation of
-`completedHeckeLFunction`, `dirichletData`); Layers 1.4–1.6, 4.1, 4.2.
+*Needs:* ClassicalArithmeticCompletion §7.30, **Analytic Artin root numbers**;
+[L-functions](../LFunctions/README.md) Layers 4–5, primitive Hecke and Dirichlet comparisons;
+Layers 1.2, 1.4–1.6, 4.1–4.2.
 
 
 **Checks.**
@@ -1096,6 +1187,9 @@ is how it is computed. Layer 6.1 identifies this functional-equation constant wi
 - (convention) the equation reflects `ρ` to dual ρ: dual χ = χ³ has root number
   conj (rootNumber χ) ≈ 0.8507 − 0.5257 i.
 - (boundary) rootNumber (trivial F) = 1; over `ℚ` the equation is Riemann's for `ζ`.
+- On 1⊕1 over ℚ, both the finite-character interface and the ArtinRep adapter give
+  ζ(s)², uncompleted order −2 at 1, completion Γℝ(s)²ζ(s)², and root number 1.
+  On rank zero both completions are 1, so uniqueness still fixes the root number as 1.
 
 ### 4.4 The order of vanishing at `s = 0` and the analytic card
 
@@ -1132,7 +1226,7 @@ For χ₋₄, W=1 and the order at zero is 0; for the S₃ degree-two representa
 
 ### Dependencies
 
-Layer 3; Brauer induction and LFunctions Layers 0, 3, 5 and 7. The finite polar divisor requires the explicit holomorphy hypothesis.
+Layer 3; ClassicalArithmeticCompletion §7.30; Brauer induction and LFunctions Layers 0, 3, 5 and 7. The finite polar divisor requires the explicit holomorphy hypothesis.
 
 ## Layer 5: the conductor–discriminant formula
 
@@ -1153,6 +1247,9 @@ and over `F = ℚ`, `|discr K| = ∏_χ N(𝔣(ρ_χ))^{χ(1)}`: `ind_{K/F} 1 �
 Prove the local form `v_𝔭(𝔡_{K/F}) = Σ_χ χ(1) a_𝔭(ρ_χ)` and the corollary that `𝔭` ramifies in
 `K` iff some irreducible `ρ_χ` is ramified at `𝔭`.
 
+The conductor–discriminant identity is Neukirch VII §11, (11.9); its local exponents
+are obtained by applying valuations to that equality of ideals.
+
 *Needs:* [arithmetic Galois representations](../ArithmeticGaloisRepresentations/README.md)
 §3.5; [completed number-field arithmetic](../../Completed/NumberFieldArithmetic/README.md)
 Layer 4; [class field theory](../ClassFieldTheory/README.md) Layer 13; Layers 3.4, 3.5.
@@ -1166,6 +1263,19 @@ conductor `HeckeCharacter.conductor` of `ρ ∘ globalArtinMap` (Layer 2.3's loc
 analyticConductor ρ = N(𝔣(ρ)). Prove 𝔣(det ρ) ∣ 𝔣(ρ) (termwise in the lower-sum formula:
 (det V)^(G_i) = 0 forces `V^{G_i} ≠ V`); for `ρ` of dimension two and `F = ℚ` this is the
 statement that the nebentypus of the weight-one form of Layer 8.2 divides its level.
+The rank-one conductor comparison is Martinet 1977, Ch. I §4, p. 17 in the author's
+pagination; the determinant bound follows term by term from the lower-filtration formula
+in Ch. II §1, p. 22. Deligne–Serre 1974, Theorem 4.6(a), p. 514, identifies the newform level.
+
+**Checks.**
+
+- For χ₋₄ over ℚ, the finite Artin and primitive Dirichlet conductors are both 4;
+  infinity contributes odd parity, not another factor of 2 to the finite ideal.
+- For the trivial line both conductors are 1. Presenting it modulo 5 still gives
+  primitive conductor 1, so a modulus is not interchangeable with a conductor.
+- The standard S₃ representation of conductor 23 has determinant χ₋₂₃ of conductor 23,
+  giving equality in the bound. The determinant-one binary-tetrahedral ρ₀ has
+  determinant conductor 1 and conductor 163², giving strict divisibility.
 
 *Needs:* [class field theory](../ClassFieldTheory/README.md) Layers 7, 11; Tau Ceti
 `HeckeCharacter.conductor`, `ratDirichletEquiv`, `conductor_finitePart_eq_span`; Mathlib
@@ -1183,19 +1293,29 @@ Layer 3; ArithmeticGaloisRepresentations §3.5; ClassFieldTheory Layer 13 and th
 
 ### 6.1 The product formula
 
-Prove rootNumber ρ = ∏_v W(ρ_v, ψ_v) over all places, finite and infinite, for `ψ` the standard
-additive character of `𝔸_F/F` of the [arithmetic Galois representations roadmap](../ArithmeticGaloisRepresentations/README.md)
-§2.7, with `ρ_v` the restriction to a decomposition group at `v` (Layer 3.1's completion
-comparison at finite `v`; at a real place `W(ρ_v, ψ_∞) = i^{n₋(ρ,v)}`, at a complex place `1`),
-almost all factors being `1`: by rootNumber_brauer and inductivity in degree zero it reduces to
-one-dimensional `ψᵢ`, where it is that roadmap's `rootNumber_eq_prod_tateLocalConstant` at
-`s = 1/2`. Prove independence of the global additive character (the product of the scaling
-factors det ρ(Art(b)) over all `v` is `1` by global reciprocity, `globalArtinMap` killing the
-diagonal `F^×`).
+For any finite Galois presentation τ of ρ, identify §2.4's normalized local constants
+with the factors in ClassicalArithmeticCompletion §7.30's analyticArtinRootNumber of χ_τ.
+At finite places the comparison uses the same additive character and self-dual measure,
+and the inverse-Frobenius/dual adapter of ArithmeticGaloisRepresentations §2.5a;
+local uniqueness identifies the resulting constants. At real places both factors are
+i^(n₋(ρ,v)); at complex places both are 1. Transport the supplier's product identity to
+obtain `rootNumber ρ = ∏_v W(ρ_v,ψ_v)` with almost all factors 1, and prove independence
+of the finite presentation. For a global additive-character change ψ↦ψ(b·), b∈F×,
+the determinant scaling factors multiply to 1 by global reciprocity, so the product
+is unchanged (Deligne 1973, §3.12(C)–(D), pp. 533–534).
 
-*Needs:* [arithmetic Galois representations](../ArithmeticGaloisRepresentations/README.md)
-§2.7 (*Root-number product formula*); Layer 2.4; [class field theory](../ClassFieldTheory/README.md)
-Layer 11; Layers 2.4, 3.1, 4.3.
+**Checks.**
+
+- For χ₋₄, both interfaces have conductor 4 and real gamma factor Γℝ(s+1);
+  the finite phase is −i, the real phase is i, and their product is 1.
+- For 1⊕1 over ℚ, all local phases and the global root are 1, while L=ζ²
+  has a pole of order 2 at 1; the comparison does not impose entirety.
+- Changing the standard character by −1 changes χ₋₄'s finite phase to i and its
+  real phase to −i. Their product remains 1; either local phase alone changes sign.
+
+*Needs:* ClassicalArithmeticCompletion §7.30, **Analytic Artin root numbers**;
+ArithmeticGaloisRepresentations §§2.5a, 2.7, scalar normalization and product law;
+ClassFieldTheory Layer 11, global reciprocity; Layers 1.2, 2.4, 3.1, 4.2–4.3.
 
 ### 6.2 Self-dual representations: real root numbers
 
@@ -1382,6 +1502,9 @@ for one-dimensional `ρ` it is `1` if `ρ² = 1`, else `0`; and for a dihedral i
 `g ∈ G_F \ G_L` (the value is `±1` and independent of `g`; Tau Ceti
 `TauCeti.frobeniusSchurIndicator_indFDRep_ofLinearCharacter_eq_apply_sq_of_conj_eq_inv`).
 
+The indicator and invariant-form classification are Serre, *Linear Representations*,
+§13.2; the index-two formula is the cited finite induction theorem specialized to this carrier.
+
 *Needs:* Tau Ceti frobeniusSchurIndicator and its trichotomy; Layers 1.4, 1.6.
 
 **Checks.**
@@ -1399,6 +1522,9 @@ galoisOrbit ρ : Finset of isomorphism classes with card = [characterField ρ : 
 their coefficientwise conjugated invariants (det, local polynomials, characterField itself),
 with localPolynomialAt (conj σ ρ) v = σ (localPolynomialAt ρ v) coefficientwise and
 the duality relation rootNumber (dual ρ) = conj (rootNumber ρ). No action on normalized root numbers is specified by an automorphism of the character field alone.
+
+The character-field action is Serre, *Linear Representations*, §12.1. The root-number
+claim here is duality only, as in §4.3; it is not a coefficient-field Galois-action law.
 
 *Needs:* Layers 1.6, 3.1, 4.3.
 
@@ -1458,7 +1584,12 @@ Prove **Klein's theorem**: a finite subgroup of `PGL₂(ℂ)` is conjugate to ex
 cyclic group `C_n` (`n ≥ 1`), the dihedral group `D_n` of order `2n` (`n ≥ 2`, `D₂ = V₄`), `A₄`,
 `S₄`, `A₅` (realized as the rotation groups of the regular solids in `PSL₂(ℂ) ≅ SO₃(ℂ)`, or
 directly: the stabilizers of the points of `ℙ¹(ℂ)` with nontrivial stabilizer and the orbit-count
-identity `2 − 2/|Γ| = Σ (1 − 1/eᵢ)` with at most three orbits; Beauville, arXiv:0909.3942v1, Introduction, p. 1). Define the predicates
+identity `2 − 2/|Γ| = Σ (1 − 1/eᵢ)` with at most three orbits; Beauville, arXiv:0909.3942v1, Introduction, p. 1).
+The abstract alternatives are `klein_classification`. The conjugacy assertion
+`finite_pgl2_iso_implies_conjugate` says that for finite H,K ≤ PGL₂(ℂ) with H ≃ K,
+there exists g ∈ PGL₂(ℂ) such that, for every x, x ∈ H iff gxg⁻¹ ∈ K;
+it does not require a prescribed isomorphism to be conjugation by g.
+Define the predicates
 IsCyclicType ρ, IsDihedralType ρ n, IsTetrahedralType ρ, IsOctahedralType ρ,
 IsIcosahedralType ρ on projectiveImage ρ for `dim ρ = 2`, prove they are exhaustive and
 exclusive, that an irreducible `ρ` is not cyclic, that IsDihedralType ρ n iff `ρ ≅ ind_{L/F} ψ`
@@ -1476,6 +1607,12 @@ Layers 1.5, 7.5. Klein's theorem is a classification with five cases and is prov
 **Checks.**
 
 - The trivial subgroup is C₁; D₁ would duplicate C₂ and is excluded by n≥2.
+- For H=⟨z↦−z⟩ and K=⟨z↦2−z⟩, conjugation by g(z)=z+1 sends −z to
+  2−z and identity to identity, giving both directions of the membership equivalence.
+  For H=K={1}, g=1 works; C₄ and V₄ have the same order 4 but are not isomorphic.
+- For C₅ generated by z↦ζ₅z, an ambient conjugation preserving this subgroup sends
+  the generator to itself or its inverse. The abstract automorphism ζ₅↦ζ₅² is not
+  realized in this way; the theorem asserts subgroup conjugacy, not realization of every isomorphism.
 - For D₂=V₄, the orbit-count sides are 2−2/4=3/2 and 3(1−1/2)=3/2.
 - For A₄, S₄ and A₅ the branch orders are (2,3,3), (2,3,4), (2,3,5); both sides are respectively 11/6, 23/12 and 59/30.
 
@@ -1492,6 +1629,9 @@ conjugacy in `Sₙ`; prove it is transitive and that `K^H` is a stem field of `�
 faithful and `H` is core-free. The LMFDB's `Container` is containerDegree ρ together with the
 `T`-number of containerPermutationGroup; for containerDegree ρ ≤ 5 the `T`-number is
 [polynomial Galois groups](../PolynomialGaloisGroups/README.md)' `TransitiveGroupLabel` (its Layer 6, for degree at most 5). At every degree the transitive permutation action remains a target; no numerical label above degree 5 is supplied here.
+
+The characterization by a permutation constituent is Frobenius reciprocity, Serre,
+*Linear Representations*, §7.2, applied to Ind_H^G 1 and the invariant space V^H.
 
 *Needs:* Tau Ceti `frobenius_reciprocity`, `indTrivialIso`, `char_ind_trivial`; Mathlib
 `Subgroup.index`, `MulAction.IsPretransitive`; Layers 1.3, 1.5, 7.4.
@@ -1555,6 +1695,9 @@ Layers 1, 3–4; finite character theory and the degree-at-most-5 transitive-lab
 
 ### 8.1 Artin's conjecture
 
+The holomorphy assertion is Artin's conjecture in the form of Martinet 1977, Ch. I §5,
+pp. 18–19 of the author's text: nontrivial irreducible characters have entire L-functions.
+The version for arbitrary representations retains the trivial constituent's pole.
 Define ArtinHolomorphic ρ: artinLFunctionC ρ is analytic at every `s ≠ 1`, and
 meromorphicOrderAt (artinLFunctionC ρ) 1 = −dim V^(G_F); and ArtinConjecture F: every
 Artin representation of `F` is ArtinHolomorphic (quantified over the representations on
@@ -1577,6 +1720,35 @@ localPolynomialAt). Record the proved cases: solvable projective image
 ([`GL₂` automorphic representations](../GL2AutomorphicRepresentationsAndTransfer/README.md)
 R17.5.8), `A₅` image over totally real fields for totally odd `ρ`
 ([modularity and Langlands extensions](../ModularityAndLanglandsExtensions/README.md) §1.9).
+
+The predicate APIs are:
+
+- ArtinHolomorphic is invariant under equivariant isomorphism and under changing the
+  finite Galois presentation. Direct sums add the invariant dimension and their orders at 1;
+  induction preserves the L-function and that dimension by Frobenius reciprocity.
+- ArtinConjecture F is equivalent to entirety for every nontrivial irreducible Artin
+  representation of F, by semisimplicity and the simple pole of ζ_F. Its quantification
+  includes rank zero and all trivial summands; it is not a quantification over one
+  selected finite quotient. Transport along a field isomorphism preserves this proposition.
+
+**Checks for ArtinHolomorphic.**
+
+- For zero, L=1 and the order at 1 is 0=−dim(0); the predicate holds.
+- For the trivial line over ℚ, L=ζ has order −1=−1 at 1; the predicate holds although
+  ζ is not entire. Requiring entirety would reject this input.
+- For 1⊕1, L=ζ² has order −2=−2 at 1; the predicate holds. Requiring at most a
+  simple pole would reject this input.
+
+**Checks for ArtinConjecture.**
+
+- On the trivial finite quotient, its rank-n instances give L=ζ_F^n and order −n
+  at 1, including n=0,1,2. Checking the trivial character alone does not test all ranks.
+- On the quotient C₂ cut out by ℚ(i), m trivial plus n sign constituents give
+  L=ζ^m L(χ₋₄)^n and order −m at 1. Thus the assertion is true on all representations
+  of that quotient, but is not thereby proved for all representations of G_ℚ.
+- On an S₃ quotient, the regular representation decomposes as 1⊕sgn⊕2·std,
+  of dimension 6 and invariant dimension 1. Its L-function ζ_K has order −1,
+  not −6; all three irreducibles must be considered, including the monomial std.
 
 *Needs:* Layers 4.1, 4.2; Tau Ceti `FDRep.exists_character_eq_indClassFun_of_isNilpotent`;
 the three roadmaps cited.
@@ -1601,7 +1773,46 @@ L-function of an imaginary quadratic field), and `ind_{L/ℚ} ψ` is odd iff `ψ
 signature at the two real places of a real quadratic `L`, and is always odd for imaginary
 quadratic `L` (Layer 3.3). Define HasRealMultiplication f/HasComplexMultiplication f for the corresponding
 `ρ` as the existence of a self-twist by a real, resp. imaginary, quadratic character, and prove
-they are the dihedral cases by real, resp. imaginary, quadratic fields.
+they are the dihedral cases by real, resp. imaginary, quadratic fields
+(Deligne–Serre 1974, §4, Theorems 4.1 and 4.6, pp. 513–514, and the dihedral examples
+on pp. 516–517; the self-twist criterion is the index-two restriction/induction argument
+of Serre, *Linear Representations*, §7.2 and §8.2).
+
+The supporting API is:
+
+- A quadratic self-twist means a nontrivial character η with η²=1 and ρ⊗η≅ρ;
+  its kernel cuts out L/ℚ. In characteristic zero, irreducibility and dimension 2
+  imply that the restriction to G_L is ψ⊕ψ^σ with ψ≠ψ^σ, and ρ≅Ind ψ.
+  Conversely the induction is fixed by η since η restricts trivially to G_L.
+- HasRealMultiplication holds exactly when such an η has η(c)=1; HasComplexMultiplication
+  exactly when such an η has η(c)=−1. Both are invariant under isomorphism and twists.
+- For projective dihedral image of order greater than 4 the inducing quadratic field is
+  unique, so these two predicates are exclusive. For projective image V₄ there are
+  three quadratic self-twists; an odd representation has one real and two imaginary
+  quadratic fields, so both predicates hold. Do not impose exclusivity in that case.
+
+**Checks for HasRealMultiplication.**
+
+- The S₃ representation of conductor 23 is induced from ℚ(√−23). Its only nontrivial
+  quadratic self-twist has η(c)=−1, so HasRealMultiplication is false.
+- For induction from a real quadratic L with ψ of mixed signature (1,−1) and
+  ψ/ψ^σ of order 4, ρ(c)=diag(1,−1), det ρ(c)=−1, while η(c)=1.
+  The projective image is D₄ of order 8, and HasRealMultiplication is true.
+- For an irreducible tetrahedral representation the projective image A₄ has no cyclic
+  subgroup of index 2 (its cyclic subgroup orders are 1,2,3, not 6). No quadratic
+  self-twist exists, so HasRealMultiplication is false.
+
+**Checks for HasComplexMultiplication.**
+
+- For the conductor-23 S₃ representation, η(c)=−1, so HasComplexMultiplication is true;
+  conjugation acts by a swap matrix with trace 0 and determinant −1.
+- For the mixed-signature real quadratic induction just described, the unique η has
+  η(c)=1, so HasComplexMultiplication is false despite the odd determinant of ρ.
+- For tetrahedral image there is no quadratic self-twist, so HasComplexMultiplication
+  is false. Oddness alone therefore does not imply this predicate.
+- For an odd projective V₄ representation, the three quadratic characters have values
+  (1,−1,−1) at c. Both multiplication predicates are true, distinguishing this case
+  from a falsely exclusive dihedral classification.
 
 *Needs:* Layers 1.5, 3.3, 3.4, 4.1, 7.6; [`GL₂` automorphic representations](../GL2AutomorphicRepresentationsAndTransfer/README.md)
 R17.5.1, R17.5.9; [automorphic Galois representations](../AutomorphicGaloisRepresentations/README.md)
@@ -1751,6 +1962,9 @@ over `AlgebraicClosure 𝔽`, and with equal traces when `n! ≠ 0` in `𝔽`; a
 over `AlgebraicClosure 𝔽` is defined over the field generated by its Frobenius polynomials'
 coefficients. Prove the finite-level consequence used by the LMFDB: the Frobenius polynomials at
 a finite set of good primes meeting every conjugacy class of a specified finite Galois quotient determine the semisimplification among representations factoring through that same quotient. Both factorization hypotheses are required.
+
+The characteristic-polynomial recognition argument is Deligne–Serre 1974, Lemma 3.2,
+p. 513: semisimplicity and density are required in positive characteristic as well.
 
 *Needs:* Tau Ceti `exists_isArithFrobAt`, `isArithFrobAt_eq_of_isUnramifiedAt`; Mathlib
 `ConjClasses`, `Matrix.charpoly`, `orderOf`; [arithmetic Galois representations](../ArithmeticGaloisRepresentations/README.md)
@@ -1941,7 +2155,11 @@ field of conductor `163`). Then:
   inertia is the involution `−1`): `1 + X`. The conjugate `ρ₀ ⊗ ω²` has the conjugate table (7.3).
 - `ρ₀` itself is an Artin representation of *conductor* `163²` (`V^I = 0` under inertia of
   order `3`), *determinant* trivial, *parity* even with trace of conjugation `−2`, *indicator*
-  `−1`, symplectic (`ρ₀` factors through `Q₈ ⊂ SL₂(ℂ)` restricted from `SL(2,3)`), *root number*
+  `−1`, symplectic: `ρ₀` is the defining binary-tetrahedral representation with image
+  `SL(2,3) ⊂ SL₂(ℂ)` of order 24; its restriction to `Q₈` is the faithful quaternionic
+  representation of image order 8 and indicator −1. The determinant-one action preserves
+  the alternating form on ℂ². An order-3 element has eigenvalues ζ₃, ζ₃² and trace −1,
+  so the full representation cannot factor through Q₈. Its *root number*
   `±1` (6.2), the same projective image and fields. It is the regression for the indicator value
   `−1` and for a conductor exponent `2` at a tame prime.
 - `ζ_M(s) = ζ(s) L(s, ω) L(s, ω²) L(s, ρ₃)³` with `ρ₃` the three-dimensional representation of
@@ -1952,13 +2170,24 @@ field of conductor `163`). Then:
 ### Root numbers of `p`-adic fields (Layer 6.4)
 
 In the LMFDB's convention (`W(sgn, ψ̄_∞) = −i`), by the global product formula applied to the
-quadratic fields `ℚ(√d)` and the scaling law `W(χη) = η(ϖ) W(χ)` for the unramified quadratic
-`η`: padicFieldRootNumber takes the values `ℚ₂(√−3) : 1` (unramified); `ℚ₂(i) : i`; `ℚ₂(√−2) : i` (from `ℚ(√−2)`, odd, one finite ramified place);
+quadratic fields `ℚ(√d)` and the unramified-twist law
+`W(χη,ψ̄_p) = η(ϖ)^(a(χ)) W(χ,ψ̄_p)` for the unramified quadratic `η`
+(the additive character here has conductor exponent 0; Rohrlich 1994, §11, Proposition (iii),
+p. 143): padicFieldRootNumber takes the values `ℚ₂(√−3) : 1` (unramified); `ℚ₂(i) : i`; `ℚ₂(√−2) : i` (from `ℚ(√−2)`, odd, one finite ramified place);
 `ℚ₂(√2) : 1` (from `ℚ(√2)`, even); `ℚ₃(√−3) : i` (from `ℚ(√−3)`); `ℚ₃(√3) : −i` (the twist
 of the previous by the unramified quadratic character, `η(3) = −1`); `ℚ₂(√3) : i` and
 `ℚ₂(√6) : −i`, `ℚ₂(√−6) : −1` (from `ℚ(√3)`, `ℚ(√6)`, `ℚ(√−6)` with the `3`-adic values just
 listed). In the convention of Layer 2.4 every value is conjugated. The fourth-root-of-unity
 property (6.4) and padicFieldRootNumber = 1 for unramified fields hold in every case.
+
+**Checks.**
+
+- At 2, χ for ℚ₂(i) has a(χ)=2, so its unramified quadratic twist has root
+  (−1)²i=i, the value for ℚ₂(√3); a single factor −1 would give −i.
+- At 3, χ for ℚ₃(√−3) has a(χ)=1, so the twist has root (−1)i=−i,
+  the value for ℚ₃(√3).
+- For ψ̄₂(2·), n(ψ)=1 and the twisting multiplier in the first test becomes
+  (−1)^(2+1)=−1. The additive-character scaling law changes the ratio by η(2)=−1 as well.
 
 ### Elliptic curves (Layer 6.5)
 
@@ -1988,7 +2217,21 @@ generate `S₃`); projective kernel field `=` splitting field (`𝔽₂^× = 1`)
 `ρ̄_{11.a2, 5}`: reducible (a rational `5`-torsion point), `ρ̄^{ss} = 1 ⊕ χ₅` with `χ₅` the
 mod-`5` cyclotomic character, Frobenius polynomials `(X − 1)(X − p)` modulo `5`: `(X+2)(X+4)` at
 `3`, `(X+3)(X+4)` at `7`, `(X+4)²` at `31`; determinant surjective (index `1`), image contained in
-a Borel, not absolutely irreducible, conductor `11`.
+a Borel, not absolutely irreducible, prime-to-5 conductor `1`. For this minimal equation,
+`c₄ = 496` and `Δ = −11⁵`, so the split Tate parameter at 11 has valuation 5.
+The inertia parameter on E[5] is 5 mod 5 = 0; its fixed space has dimension 2 and its
+conductor exponent is 0. Good reduction at every other prime away from 5 gives conductor 1,
+whereas the elliptic curve itself has conductor 11 (ArithmeticGaloisRepresentations §6.3,
+**The Tate curve** and **Multiplicative residual unramified criterion**).
+
+**Checks.**
+
+- On E[3] at 11 the inertia generator is the matrix with rows (1,2), (0,1): its fixed
+  space has dimension 1, Swan conductor 0, and conductor exponent 2−1=1; the prime-to-3 conductor is 11.
+- On E[5] that matrix is the identity: fixed dimension 2, Swan conductor 0, and exponent
+  2−2=0; the prime-to-5 conductor is 1. Reducing the elliptic conductor would give the wrong answer.
+- On the rational Tate module the parameter 5 is nonzero even over ℚ₅, giving fixed
+  dimension 1 and exponent 1 at 11. Passing to E[5] changes the conductor.
 
 ### Boundary and off-hypothesis checks
 
@@ -2014,7 +2257,6 @@ a Borel, not absolutely irreducible, conductor `11`.
 
 ## Downstream consumers
 
-ClassicalArithmeticCompletion Layer 7 consumes completed Artin equations and root signs;
 HilbertModularForms uses the weight-one and Stark dictionaries. The neighboring field and
 representation invariant roadmaps consume the intrinsic fields, images and local polynomials.
 
@@ -2029,7 +2271,7 @@ The layer numbering is a dependency order. The useful extra information:
 - **Layer 3** needs Layers 1 and 2; 3.3 is independent of 3.1–3.2; 3.4 needs 3.1–3.2 and the
   class field theory and L-functions roadmaps' Layer 5 only for the one-dimensional comparison;
   3.5 needs 3.1 and the conductor supplier.
-- **Layer 4** needs Layer 3 and the L-functions roadmap's Layer 5; 4.4 needs 4.3.
+- **Layer 4** needs Layer 3, ClassicalArithmeticCompletion §7.30 and the L-functions roadmap's Layer 5; 4.4 needs 4.3.
 - **Layer 5** needs 3.4, 3.5 and the supplier's §3.5; it is independent of Layer 4.
 - **Layer 6** needs Layer 4 (6.1–6.2), Layer 2.4 (6.3–6.5); 6.5 is independent of 6.1–6.4.
 - **Layer 7** needs Layers 1, 3.1, 3.3, 3.5 and 4.3 (for `Sign`); 7.6 (Klein) is independent
@@ -2080,7 +2322,9 @@ reading of orthogonal local constants named in Layer 6.3.
 
 **J. Martinet, "Character theory and Artin L-functions", in *Algebraic Number Fields* (Durham
 1975), Academic Press 1977.** The survey of Artin's formalism, Brauer induction, the conductor
-and the functional equation followed in Layers 3–5.
+and the functional equation followed in Layers 3–5. Page locators here use the
+[author's text](https://jamartin.perso.math.cnrs.fr/AlgNT/durham1.pdf), whose chapters are
+paginated consecutively from 1; Ch. I §4, pp. 14–18, and Ch. II §1, pp. 21–25.
 
 **J. Tate, *Les Conjectures de Stark sur les Fonctions L d'Artin en s = 0*, Progress in Math.
 47, Birkhäuser 1984.** Ch. I §3 Prop. 3.4 the order of vanishing at `s = 0`; Ch. I §5 the Stark
