@@ -10,21 +10,21 @@ This roadmap owns the arithmetic connections between those subjects, including t
 
 Use Mathlib's integer gcd, Bézout identities, arithmetic functions, valuations, coprime CRT, Legendre and Jacobi symbols, quadratic reciprocity, Dirichlet characters, Gauss and Jacobi sums, `LinearRecurrence`, `bernoulli`, `normEDS`, division polynomials, PID module decomposition, submodule Smith forms, polynomial resultants and Mahler measure, normal bases, Pell solutions, and the existing sum-of-two/four-squares theorems. These library objects are inputs. For arbitrary integer moduli, `Int.modEq_and_modEq_iff_modEq_lcm` already identifies the intersection of the zero congruence classes with the class modulo their lcm; translated to any chosen solution, it gives uniqueness for the compatible CRT below. The matrix work here adds rectangular integer normal forms and their invariant-factor comparisons to the supplied square existence and uniqueness statements; the generating-function work adds rationality and closed-form comparisons to the existing recurrence solution space; the representation-count work adds exact counts to existence of square representations.
 
-ClassFieldTheory owns cohomological local symbols, local and global Artin maps, archimedean reciprocity, Kronecker–Weber and Hilbert reciprocity (Layers 5–7, 10–11, 13–14). QuadraticFormInvariants 6C owns the quadratic norm-equation Hilbert symbol and its closed local formulas; GlobalQuadraticForms 4 owns its global comparison. NumberFieldArithmetic Layers 1, 3–5 and 7 own field splitting, primitive integral generators and their indices, discriminants, the global–local dictionary and Dirichlet units. LocalFieldsRamification Layers 1–3 own principal units, unramified and tame local extensions. CharacterTheory Layers 3, 4 and 7, InductionRestriction 6, and SemisimpleAlgebras 1–2, 5–6 own virtual characters, character fields, indicators, ordinary Brauer induction and central-simple-algebra structure. ReductiveGroups 6 owns semisimple algebraic groups. EllipticCurves 1 owns the formal group of a Weierstrass equation. IntegralLattices owns integral quadratic lattices, discriminant forms and their binary-form/order dictionary; the lattice comparisons here concern integer matrices and number-field ideals rather than a second integral quadratic-lattice carrier.
+ClassFieldTheory owns cohomological local symbols, local and global Artin maps, archimedean reciprocity, Kronecker–Weber and Hilbert reciprocity (Layers 5–7, 10–11, 13–14). QuadraticFormInvariants 6C owns the quadratic norm-equation Hilbert symbol and its closed local formulas; GlobalQuadraticForms 4 owns its global comparison. NumberFieldArithmetic Layers 1, 3–5 and 7 own field splitting, primitive integral generators and their indices, discriminants, the global–local dictionary and Dirichlet units. LocalFieldsRamification Layers 1–3 own principal units, ramification groups, unramified and tame local extensions. CharacterTheory Layers 3, 4 and 7, InductionRestriction 6, and SemisimpleAlgebras 1–2, 5–6 own virtual characters, character fields, indicators, ordinary Brauer induction and central-simple-algebra structure. ReductiveGroups 6 owns semisimple algebraic groups; ReductiveGroupsPartII RG2.0.1 and RG2.0a own affine point topology and Weil restriction. EllipticCurves 1 owns the formal group of a Weierstrass equation. IntegralLattices owns integral quadratic lattices, discriminant forms and their binary-form/order dictionary; the lattice comparisons here concern integer matrices and number-field ideals rather than a second integral quadratic-lattice carrier.
 
-The current Tau Ceti library supplies `Matrix.exists_smith_normal_form_of_det_ne_zero` and `Matrix.smith_normal_form_unique` in `TauCeti.LinearAlgebra.Matrix.SmithNormalForm`; their square-matrix statements are inputs. It also supplies the primitive-generator discriminant/index identity, local reciprocity and Kummer cup-product machinery, integral semilocal comparisons, and both the split and exact Grothendieck groups of finite projectives. Their exact restrictions matter: ordinary character induction does not supply field-of-definition induction, and a cohomological symbol needs an invariant-normalised coordinate before its sign can be compared with an Artin definition. The current library also has the primitive character of a fundamental discriminant (TauCeti.Multiquadratic.fundamentalDiscriminantChar, with its quadraticity, its value at −1, its values at odd primes and `isPrimitive_fundamentalDiscriminantChar`), so these are not targets here; Layer 1 adds the rest of its value table. For a quadratic presentation θ² = d it has the direction from a solution of the negative Pell equation to a unit of norm `−1 (NumberField.exists_norm_eq_neg_one_of_sq_sub_mul_sq_eq_neg_one)`, the narrow class of an element of negative norm `(NumberField.mkPrincipal_eq_mkPrincipal_gen_of_norm_neg)` and the injectivity criterion `NarrowClassGroup.toClassGroup_injective_iff_exists_norm_eq_neg_one`; Layer 5 adds the converse direction through cubing, the triviality criterion for the narrow class of θ and the two-primary form of the comparison. Its tameness predicate TauCeti.IsTamelyRamified is for extensions of nonarchimedean local fields; Layer 7 uses the predicate for extensions of Dedekind domains at every prime, which includes residue separability.
+The Tau Ceti library supplies `Matrix.exists_smith_normal_form_of_det_ne_zero` and `Matrix.smith_normal_form_unique` in `TauCeti.LinearAlgebra.Matrix.SmithNormalForm`; their square-matrix statements are inputs. It also supplies the primitive-generator discriminant/index identity, local reciprocity and Kummer cup-product machinery, integral semilocal comparisons, and both the split and exact Grothendieck groups of finite projectives. Their exact restrictions matter: ordinary character induction does not supply field-of-definition induction, and a cohomological symbol needs an invariant-normalised coordinate before its sign can be compared with an Artin definition. The library also has the primitive character of a fundamental discriminant (TauCeti.Multiquadratic.fundamentalDiscriminantChar, with its quadraticity, its value at −1, its values at odd primes and `isPrimitive_fundamentalDiscriminantChar`), so these are not targets here; Layer 1 adds the rest of its value table. For a quadratic presentation θ² = d it has the direction from a solution of the negative Pell equation to a unit of norm `−1 (NumberField.exists_norm_eq_neg_one_of_sq_sub_mul_sq_eq_neg_one)`, the narrow class of an element of negative norm `(NumberField.mkPrincipal_eq_mkPrincipal_gen_of_norm_neg)` and the injectivity criterion `NarrowClassGroup.toClassGroup_injective_iff_exists_norm_eq_neg_one`; Layer 5 adds the converse direction through cubing, the triviality criterion for the narrow class of θ and the two-primary form of the comparison. Its tameness predicate TauCeti.IsTamelyRamified is for extensions of nonarchimedean local fields; Layer 7 uses the predicate for extensions of Dedekind domains at every prime, which includes residue separability.
 
 NewtonPolygons owns the general supporting-value, contact, width, slope-multiset, product, root and Eisenstein–Dumas theory (§§0.3, 2.2–2.3, 3.1–3.3 and 6.1). §§3.11, 3.18, 3.32–3.33, 3.46 and 3.52–3.53 here consume those interfaces in reflected coefficient coordinates and supply their arithmetic applications. FormalLaurentPuiseux L5 supplies the Laurent-field specialization through NewtonPolygons §§1.2 and 2.1; §3.18 fixes the sign comparison.
 
-HeightsAndUnits §1.3 owns scalar Kronecker and the absolute scalar power laws on the DiophantineApproximationAndTranscendence height foundation; §§6.15–6.16 consume these results. ArithmeticGaloisRepresentations §2.7 owns Deligne–Langlands local constants and completed finite-image Artin equations, using AdelicAlgebraicGroups AA.2.4 for the arithmetic-Frobenius Artin function. AutomorphicLFunctionsAndLocalFactors AL.0–AL.1 supplies the standard trace characters, self-dual measures and rank-one Tate factors. §§7.13 and 7.30 here own their Fröhlich–Taylor normalization adapters, determinant comparisons and tame symplectic signs.
+HeightsAndUnits §1.3 owns scalar Kronecker and the absolute scalar power laws on the DiophantineApproximationAndTranscendence height foundation; §§6.15–6.16 consume these results. LFunctions Layers 3 and 5 own the continued Dedekind and finite-order Hecke functions, their completions and functional equations. Layer 5 here owns the class-character explicit formula, its admissible weights and the GRH premises in §5.0, followed by the quantitative factor-base and residue estimates; §§5.1b, 5.1c and clauses (i)–(ii) of §5.16a carry those premises explicitly.
 
-Three further roadmaps supply inputs. TauCetiRoadmap.AdelicAlgebraicGroups supplies the group SL₁(D) (§3.4) and strong approximation (§4.2); TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants supplies the Azumaya reduced-norm determinant and its characteristic polynomial (§§0.5–0.6); TauCetiRoadmap.DiophantineApproximationAndTranscendence supplies primitive minimal polynomials, heights, the house and Mahler measure of an algebraic number and bounded-house finiteness (§§0.1–0.3), the existence of recurrence closed forms (§2.4) and the relative Siegel lemma (§2.8). Minkowski's convex body theorem is Mathlib's. The recurrence target here adds uniqueness to the closed-form existence statement. Pseudobases and Steinitz classes of lattices over a Dedekind domain are targets here ([Pseudobases and Steinitz classes of lattices over a Dedekind domain](#70-pseudobases-and-steinitz-classes-of-lattices-over-a-dedekind-domain)). IntegralLattices B4 supplies the proper-automorphism/norm-one-unit equivalence; [Proper automorphs of indefinite binary forms and the Pell equation](#40-proper-automorphs-of-indefinite-binary-forms-and-the-pell-equation) supplies its Pell-coordinate comparison.
+Layer 7 owns reduced norms and reduced characteristic polynomials for constant-rank Azumaya algebras (§7.10), their norm-one groups (§7.26), and the strong-approximation theorem used in §7.44. It also owns the local Tate functional equation, Deligne–Langlands constants and finite-image Artin functional equation (§§7.12a–7.12c), on the Weil groups and reciprocity maps of ClassFieldTheory Layers 7 and 9; §§7.13 and 7.30 give their Fröhlich–Taylor normalization comparisons. These foundational targets supply the arithmetic-order and Galois-module theorems in this roadmap.
 
-TauCetiRoadmap.AnalyticNumberTheoryPartI supplies the continued Dedekind zeta function and the L-functions of class-group characters (§§2.5, 2.12), the hypotheses DedekindERH and HeckeGRH (§2.42), Weil's explicit formula (§1.8) and the analytic inputs of its conditional effective Chebotarev theorem (§2.49). Layer 5 owns the factor-base, saturation and residue statements built on them; §§5.1b, 5.1c and clauses (i)–(ii) of §5.16a carry those hypotheses explicitly, and every other Layer 5 target is unconditional.
+DiophantineApproximationAndTranscendence supplies primitive minimal polynomials, heights, the house and Mahler measure of an algebraic number and bounded-house finiteness (§§0.1–0.3), the existence of recurrence closed forms (§2.4) and the relative Siegel lemma (§2.8). Minkowski's convex body theorem is Mathlib's. The recurrence target here adds uniqueness to the closed-form existence statement. Pseudobases and Steinitz classes of lattices over a Dedekind domain are targets in §7.0. IntegralLattices B4 supplies the proper-automorphism/norm-one-unit equivalence; §4.0 supplies its Pell-coordinate comparison.
 
 General Catalan–Mihăilescu is outside the elementary exponential-equation scope: the cyclotomic-unit, Stickelberger-ideal and Thaine arguments need a cyclotomic arithmetic development. The powers-of-two/three result here is an elementary special case. Markoff orbit growth and strong-approximation theorems belong to ArithmeticDynamics; this roadmap supplies their carriers, moves, reductions and the surjectivity predicate. ArithmeticStatistics consumes the negative-Pell families; ComputationalNumberTheory consumes the intrinsic arithmetic comparisons; K2SymbolsBrauer and HigherLocalFields consume the degree-n norm-residue symbol; QSeriesPartitionsAndMockModularForms consumes the formal triple product; KTheoryLowDegrees consumes stable equality and scalar-change comparisons; LogarithmicPotentialTheoryAndAlgebraicIntegers consumes the capacity and rationality interfaces. None of these consumers supplies a prerequisite back to this roadmap.
 
-The prime-factorisation equivalence and its residue and ramification formulas are supplied by Mathlib's Dedekind–Kummer API. The characteristic polynomial of an Azumaya reduced-norm law is supplied by TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants §0.5 (the characteristic polynomial law of a determinant) and §0.6 (the Azumaya reduced-norm determinant). Their exact specialisations and checks are recorded here as input contracts. TauCetiRoadmap.AdelicAlgebraicGroups §3.4 already constructs the group SL₁(D) for a central division algebra D over a number field; Layer 7 extends that carrier to matrix components and products and supplies its arithmetic-idele comparison. TauCetiRoadmap.AdelicAlgebraicGroups §4.6 already supplies quaternion norm images over ℚ; the arithmetic norm-image target here has arbitrary central-simple number-field components.
+The prime-factorisation equivalence and its residue and ramification formulas are supplied by Mathlib's Dedekind–Kummer API. The exact specialisations and checks are recorded in the following input contract. The reduced characteristic polynomial, including its constant-coefficient sign, is constructed in §7.10 for all constant-rank Azumaya algebras; its arithmetic applications include arbitrary central-simple number-field components.
 
 ### Monogenic prime-factorisation input
 
@@ -56,32 +56,6 @@ Apply Mathlib NumberField.Ideal.primesOverSpanEquivMonicFactorsMod with that hyp
 
 *Needs:* Mathlib `NumberField.Ideal.primesOverSpanEquivMonicFactorsMod`; Mathlib `RingOfIntegers.exponent_eq_one_iff`; Mathlib `RingOfIntegers.monicFactorsMod`; Mathlib `NumberField.Ideal.inertiaDeg_primesOverSpanEquivMonicFactorsMod_symm_apply`; Mathlib `NumberField.Ideal.ramificationIdx_primesOverSpanEquivMonicFactorsMod_symm_apply`; Mathlib `NumberField.Ideal.primesOverSpanEquivMonicFactorsMod_symm_apply_eq_span`.
 
-### Reduced-characteristic-polynomial input
-
-For a central simple C/F of degree d, `rchar_C(c)` is the characteristic polynomial `χ(c,T)=Nrd_{C[T]}(T−c)` of the Azumaya reduced-norm determinant law of TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants §0.6; it is the degree-d monic polynomial that becomes det(TI−ρ(c)) in any splitting `C⊗E≅M_d(E)`. For semisimple B use one polynomial in each centre. The constant coefficient is (−1)ᵈ Nrd(c).
-
-The following names specify the required specialisations of the supplier law and its characteristic-polynomial API:
-
-- `rchar_C(c)` is monic of degree d.
-- Under a splitting isomorphism it is the usual matrix characteristic polynomial.
-- Its constant coefficient is (−1)ᵈNrd(c).
-- Conjugating c by a unit does not change `rchar_C(c)`.
-
-(Martin Kneser; notes by P. Jothilingam, [Lectures on Galois Cohomology of Classical Groups](#martin-kneser-notes-by-p-jothilingam--lectures-on-galois-cohomology-of-classical-groups), §5.4, principal polynomial paragraph, retypeset p.67, original p.88.) The principal polynomial of an element is its characteristic polynomial after a splitting; its coefficients lie in the centre and do not depend on the splitting field or isomorphism.
-
-(Vladimir Platonov, Andrei Rapinchuk and Igor Rapinchuk, [Algebraic Groups and Number Theory, Volume I](#vladimir-platonov-andrei-rapinchuk-and-igor-rapinchuk--algebraic-groups-and-number-theory-volume-i), §1.4.1, p.29.) The reduced norm is the determinant after a splitting, which is the constant coefficient up to sign.
-
-To use this input, apply the characteristic polynomial of a determinant law (TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants §0.5) to the reduced-norm law of each simple component: it is monic of degree d with last coefficient the law itself, and the matrix comparison after a splitting identifies it with the matrix characteristic polynomial. Assemble the components.
-
-**Checks.**
-
-- For C=M₂(F) and c=diag(a,b), rchar=(T−a)(T−b).
-- For C=F the polynomial is T−c.
-- For a scalar c in degree d the polynomial is (T−c)ᵈ, not T−c.
-- The constant term agrees with the reduced-norm construction including the parity sign.
-
-*Needs:* TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants, §0.5 characteristic polynomial law; TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants, §0.6 Azumaya reduced-norm determinant; [Reduced norm of a semisimple number-field algebra](#710-reduced-norm-of-a-semisimple-number-field-algebra).
-
 ## Conventions
 
 Rings are unital; finite group actions and group-ring modules act on the left. A number field has characteristic zero and its full ring of integers is written `𝓞_K`. Matrix entries act on column vectors. Hermite form is column-style upper form with positive pivots and specified residue intervals; Smith invariant factors are positive nonzero entries in a divisibility chain, followed by zero entries. Normal-form equations use integer unimodular transformations; the inverse equations fix their coefficient ring. A zero-size matrix and a rank-zero matrix remain legitimate inputs.
@@ -108,7 +82,9 @@ NewtonPolygons §§1.2 and 2.1 compare this interface with FormalLaurentPuiseux 
 
 Mathlib `Nat.Partition.genFun` and `Nat.Partition.hasProd_genFun` in `Mathlib/Combinatorics/Enumerative/Partition/GenFun.lean` supply the weighted partition generating series and its Euler product over a commutative semiring with a Hausdorff topology. In §4.40 use them over the discrete Laurent-polynomial ring; §4.20 then transports the resulting finite coefficient identities to every commutative coefficient ring and every topology. The strict-partition bijection proving the triple product is the target of §4.40.
 
-The signatures use Mathlib `6b7abb3c7686292736be2955bd3eb9ebf63b456a` and Tau Ceti `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`. Each mathematical subsection names the exact declarations it needs. Use the genuine library carriers, including `Polynomial`, `PowerSeries`, `LaurentSeries`, `LinearRecurrence`, `Matrix`, `Module`, `Ideal`, `FractionalIdeal`, `ClassGroup`, `MonoidAlgebra`, `WeierstrassCurve`, `IsNonarchimedeanLocalField` and roots of unity. In particular, symmetric Rouché compares analytic-order sums under strict symmetric boundary domination; it is not an equality-case extension of ordinary strict domination. `SplitK0` is the split group completion of finite projectives. The same library supplies `ExactK0`, `ExactK0.fromSplitEquiv` for the split exact structure, and `finiteProjectiveModulesExactStructure_eq_split`; use these to identify the two groups. Layer 7 adds the stable-free equality criterion and balanced scalar-change comparison, rather than a second construction of either group.
+The signatures use the pinned Mathlib and Tau Ceti APIs. Each mathematical subsection names the exact declarations it needs. Use the genuine library carriers, including `Polynomial`, `PowerSeries`, `LaurentSeries`, `LinearRecurrence`, `Matrix`, `Module`, `Ideal`, `FractionalIdeal`, `ClassGroup`, `MonoidAlgebra`, `WeierstrassCurve`, `IsNonarchimedeanLocalField` and roots of unity. In particular, symmetric Rouché compares analytic-order sums under strict symmetric boundary domination; it is not an equality-case extension of ordinary strict domination. `SplitK0` is the split group completion of finite projectives. The same library supplies `ExactK0`, `ExactK0.fromSplitEquiv` for the split exact structure, and `finiteProjectiveModulesExactStructure_eq_split`; use these to identify the two groups. Layer 7 adds the stable-free equality criterion and balanced scalar-change comparison, rather than a second construction of either group.
+
+For §7.10 use Mathlib `PolynomialLaw` in `Mathlib/RingTheory/PolynomialLaw/Basic.lean`, `IsAzumaya` in `Mathlib/Algebra/Azumaya/Defs.lean`, `Module.rankAtStalk` and `Module.FaithfullyFlat`. A polynomial law is natural on commutative scalar algebras in the base universe; `IsAzumaya` includes finite projectivity and a faithful scalar action. For §7.44 use `TauCeti.SemisimpleCommHopfAlgCat` in `TauCeti/Algebra/AlgebraicGroup/Semisimple/Basic.lean`, `TauCeti.simplyConnectedSemisimpleCommHopfAlgProperty` in `TauCeti/Algebra/AlgebraicGroup/SimplyConnected/Basic.lean`, and `TauCeti.AlgHom.mapValue` in `TauCeti/Algebra/AlgebraicGroup/Hopf/Map.lean`. The semisimple carrier includes smoothness and geometric connectedness; simple connectedness is a separate hypothesis. The scalar adelic topology is in `TauCeti/NumberTheory/NumberField/Global/Adeles/LocallyCompact.lean`.
 
 The character carrier is supplied by `TauCeti.Multiquadratic.fundamentalDiscriminantChar` in `TauCeti.NumberTheory.Multiquadratic.FundamentalDiscriminant.Character`: for D : ℤ and hD : IsFundamentalDiscriminant D, it is a DirichletCharacter ℤ D.natAbs. Use `fundamentalDiscriminantChar_apply_int` for any prime-discriminant factorization, `fundamentalDiscriminantChar_neg_one` for D.sign, `fundamentalDiscriminantChar_isQuadratic`, `isPrimitive_fundamentalDiscriminantChar`, and `fundamentalDiscriminantChar_natCast_eq_legendreSym` at an odd prime q. The extra value laws of §1.7 refer directly to this character, with hD understood in formulas.
 
@@ -133,14 +109,6 @@ For a characteristic-zero field F and x algebraic over Q, the supplier's `absMul
 ### From [TauCetiRoadmap.DiophantineApproximationAndTranscendence, §2.8](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/DiophantineApproximationAndTranscendence/README.md#28-auxiliary-polynomials-and-quantitative-subspaces)
 
 `siegelRelativeKernelBasis`: for a finite extension F/K of number fields of degree r, K of degree D, and `A ∈ F^(M×V)` whose equations restricted to `K^V` have rank R < V, the K-kernel has an integral K-basis `x_1`, …, `x_k (k = V − R)` with `∏ Habs(x_j) ≤ |disc K|^(k/(2D)) ∏_i H₂,proj(A_i)^r`. It is used with K = ℚ and F = ℚ(α) for Dobrowolski's auxiliary polynomial ([Dobrowolski's auxiliary polynomial](#612-dobrowolskis-auxiliary-polynomial)).
-
-### From TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants, §§0.5–0.6
-
-The characteristic polynomial law of a determinant law (§0.5), and the Azumaya reduced-norm determinant: for an Azumaya algebra R of constant rank d² over A, `Nrd_R` : R → A is the unique degree-d determinant law that becomes Matrix.det under every faithfully flat matrix splitting (§0.6).
-
-### From TauCetiRoadmap.AdelicAlgebraicGroups, §4.2
-
-Strong approximation for a connected, absolutely almost simple, simply connected group G over a number field F with respect to a finite set S of places containing the archimedean ones and with `G(F_S)` noncompact, in the form `G(𝔸^S) = G(F)U` for every open subgroup U. It is applied to the groups SL₁(C) of [Inner forms meet the strong-approximation hypotheses](#744-inner-forms-meet-the-strong-approximation-hypotheses), with S the archimedean places.
 
 ### From [TauCetiRoadmap.ClassFieldTheory, layer 10 global carriers the brauer sequence and the sum of local invariants](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ClassFieldTheory/README.md#layer-10-global-carriers-the-brauer-sequence-and-the-sum-of-local-invariants)
 
@@ -250,31 +218,31 @@ The virtual character ring, restriction and induction with the projection formul
 
 ### From [TauCetiRoadmap.RepresentationTheory/SemisimpleAlgebras, layer 6 the brauer group and splitting fields](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/SemisimpleAlgebras/README.md#layer-6-the-brauer-group-and-splitting-fields)
 
-Simple modules and Artin–Wedderburn with its dimension formula (Layers1–2), Skolem–Noether (Layer5), and Layer6: base change of central simple algebras, finite separable splitting fields, splitting by maximal subfields, and the Brauer groups of finite fields and of ℝ. The étale embedding criterion is proved inside [Local–global realization of separable reduced characteristic polynomials](#745-localglobal-realization-of-separable-reduced-characteristic-polynomials); reduced norms are those of TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants §0.6.
-
-### From TauCetiRoadmap.AdelicAlgebraicGroups, §3.4
-
-For a central division algebra D over a number field F, the affine group SL₁(D) has the reduced-norm-one units as its points over each commutative F-algebra; its Hopf-group structure and splitting comparison are supplied there. Layer 7 uses this division-algebra carrier in constructing the corresponding group for matrix components, products and restriction of scalars, and proves the arithmetic restricted-product comparison.
+Simple modules and Artin–Wedderburn with its dimension formula (Layers1–2), Skolem–Noether (Layer5), and Layer6: base change of central simple algebras, finite separable splitting fields, splitting by maximal subfields, and the Brauer groups of finite fields and of ℝ. The étale embedding criterion is proved inside [Local–global realization of separable reduced characteristic polynomials](#745-localglobal-realization-of-separable-reduced-characteristic-polynomials); reduced norms are constructed in §7.10.
 
 ### From [TauCetiRoadmap.IntegralLattices, B4 automorphisms](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/IntegralLattices/README.md#layer-b-binary-lattices-and-quadratic-orders)
 
 For a nondegenerate binary lattice of nonsquare discriminant, B4 supplies SO(L) ≅ {u ∈ 𝒪(L)ˣ : N(u)=1}, including positive discriminant. §4.0 consumes this equivalence for a primitive indefinite binary form and computes its matrix in Pell coordinates.
 
-### From TauCetiRoadmap.ArithmeticGaloisRepresentations, §2.7 local constants
+### From TauCetiRoadmap.ReductiveGroupsPartII, RG2.0.1 and RG2.0a
 
-The analytic carriers `tateLocalConstant` and `epsilonWeil`, their Deligne–Langlands existence and uniqueness, exact-sequence multiplicativity, degree-zero induction, measure scaling and additive-character laws, and §2.7's completed finite-image functional equation. Its rank-one constants are identified with AL.1's Tate factors under the same character and measure. §3.3 supplies the conductor dependence of epsilon factors; §3.5 supplies `a_F(Ind_E/F θ)=f(E/F)a_E(θ)+v_F(discriminant(E/F))deg θ`. The primary locators are Deligne (1973), §3.12(A)–(D), pp.533–534, Theorem4.1, p.535, and §8.12, p.572; the conductor induction formula is Serre (1961), n°3.7, (31), p.138, as cited by §3.5. §§7.13 and 7.30 consume this one local-constant theory and equation. For our arithmetic character χ use the supplier on χ∨: its rank-one character through geometric reciprocity is χ∘artinMap, and its geometric-Frobenius Euler polynomial is AA.2.4's arithmetic-Frobenius polynomial for χ. The exact additive-character, different, induction and global completion conversions are stated in those adapters.
+RG2.0.1 supplies the evaluation topology on affine group points, its functoriality and finite-generator comparison. Section 7.44 uses the same topology through the simple scoped definition needed for its signature. RG2.0a, “Weil restriction of an affine group scheme”, supplies restriction of scalars and the point-functor comparison used in §7.26; no second restriction-of-scalars construction is planned here.
 
-### From TauCetiRoadmap.AdelicAlgebraicGroups, AA.2.4 finite-image Artin functions
+### From TauCetiRoadmap.LFunctions, Layers 3 and 5
 
-The convergence-factors target supplies arithmetic-Frobenius local determinants on inertia invariants, ramified induction, the Artin–Hecke comparison and meromorphic assembly by Brauer induction. §7.30 uses this Artin function in its conductor-balanced completion, rather than constructing another finite Euler product.
+Use `dedekindZetaC`, `completedDedekindZeta`, their agreement with `NumberField.dedekindZeta` on Re s > 1, full-plane meromorphic continuation, simple poles, residue at 1 and functional equation (Layer 3). Use `heckeLFunctionC`, `completedHeckeLFunction`, the primitive finite-order character completion and its functional equation (Layer 5). Characters of Cl(K) are unramified characters of trivial modulus; their Euler factors are (1−χ(P)N(P)⁻ˢ)⁻¹. Layer 7's intrinsic nonvanishing on Re s=1 supplies the boundary needed to compare the strip and half-plane formulations of GRH.
 
-### From TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors, AL.0–AL.1
+### From TauCetiRoadmap.GlobalNumberFields, Layers 4–9
 
-`AL0.StandardAdditiveCharacter.conductor`, `.diagonal` and `.nontrivial` fix the trace character with positive infinity component and negative finite component. `TateZeta.epsilonFactor`, `TateZeta.epsilonFactor_smul_char`, `TateZeta.epsilonFactor_mul_inv`, `TateZeta.epsilonFactor_unramified_zero` and `TateZeta.epsilonFactor_real_sign` supply the analytic one-dimensional factors and their character-change laws. AL.0 supplies self-dual Haar measure. Kudla (2004), §3, Propositions3.5–3.8, pp.120–124, and §4, pp.127–129, fixes these normalizations; §7.30 transports them to the finite additive character of §7.13 and the infinite factor of Fröhlich (1976), (2.3), p.390.
+Use the additive adeles, their restricted-product topology, discrete diagonal and compact quotient (Layers 4–6), and the idele-class and ray-class dictionary (Layers 6–7) and finite-order character interfaces (Layer 9). The local trace character and its Fourier normalization are constructed in §7.12a. The native carriers are `NumberField.AdeleRing`, `NumberField.InfiniteAdeleRing` and `IsDedekindDomain.FiniteAdeleRing`.
 
-### From TauCetiRoadmap.AnalyticNumberTheoryPartI, §§1.8, 2.5, 2.12, 2.42 and 2.49
+### From TauCetiRoadmap.ClassFieldTheory, Layers 7 and 9
 
-§2.5 identifies the continued Dedekind zeta function with `NumberField.dedekindZeta K` on Re s > 1 and its residue at 1 with `NumberField.dedekindZeta_residue K`; §2.12 supplies L(s, χ) for a finite class character χ, with Euler factors `(1 − χ(P) N(P)^(−s))^(−1)`. A character of Cl(K) is used through the narrow class group and is primitive of trivial modulus. §2.42's DedekindERH K and HeckeGRH χ say that the continued functions have no zero with 0 < Re s < 1 off the line Re s = 1/2; §§5.1b, 5.1c and 5.16a carry them as explicit premises. §1.8 is Weil's explicit formula for a pair of completed functions with Gamma factors and Euler products over the rational primes, applied here to the completed L-functions of class-group characters. §2.49 supplies, on its conditional route, the truncated explicit formula for ψ_K and the zero count of `ζ_K`.
+Use `artinMap` with arithmetic Frobenius, the character conductor (Layer 7), and `WeilGroup`, its open inertia subgroup, integral degree map, finite-extension functoriality and reciprocity comparison (Layer 9). The geometric convention in §7.12b is the inverse of this Artin map.
+
+### From TauCetiRoadmap.SchemeAndStackFoundations, §2.22
+
+Use `IsAzumaya.exists_etale_matrix_splitting`: a constant-rank Azumaya algebra of rank d², d>0, has a faithfully flat étale matrix splitting, including the finite-product adapter from a covering family. Section 7.10 descends the determinant and characteristic polynomial along this splitting.
 
 ### Layers 6–7 ownership index
 
@@ -282,8 +250,8 @@ The convergence-factors target supplies arithmetic-Frobenius local determinants 
 | --- | --- | --- |
 | Imported height foundation | DiophantineApproximationAndTranscendence §§0.1–0.3, §2.8; HeightsAndUnits §1.3 | Minimal polynomials, Mahler measure, field-independent height, relative Siegel bounds, scalar homogeneity and Kronecker (§§6.12, 6.15–6.16) |
 | Imported arithmetic and representation theory | NumberFieldArithmetic, LocalFieldsRamification, ClassFieldTheory; CharacterTheory, InductionRestriction, SemisimpleAlgebras | Field and conductor carriers, arithmetic Artin maps, virtual characters and ordinary Brauer induction |
-| Imported analytic foundations | AL.0–AL.1; ArithmeticGaloisRepresentations §§2.7, 3.3, 3.5; AA.2.4 | Trace characters, self-dual measures, Tate and Deligne–Langlands constants, conductor induction and completed Artin equations |
-| Imported order inputs | IntegralHeckeAndGaloisDeterminants §§0.5–0.6; AdelicAlgebraicGroups §§3.4, 4.2 | Reduced norms, norm-one algebraic groups and strong approximation |
+| Analytic foundations | §§7.12a–7.12c | Trace characters, self-dual measures, Tate and Deligne–Langlands constants, conductor induction and completed Artin equations |
+| Order foundations | §§7.10, 7.26, 7.44 | Reduced norms, norm-one algebraic groups and strong approximation |
 | New general foundations here | §§6.17–6.21, 6.40–6.44; §§7.0–7.11, 7.23–7.28, 7.54, 7.72, 7.77–7.79 | Schur series, diameter/capacity and Hankel comparisons; lattices, orders, stable classes, ideles and character determinants |
 | Normalization adapters here | §§7.13, 7.30, 7.44, 7.47, 7.100 | Fröhlich–Taylor Gauss/root factors, coefficient Frobenius, common-base lattice twists and norm resolvents |
 | Specialized proof inputs here | §§6.12–6.14, 6.31–6.39, 6.50–6.57, 6.61–6.69; §§7.62–7.63, 7.80, 7.86, 7.93, 7.107–7.119 | Auxiliary polynomial and capacity estimates; field-of-definition induction, determinant descent and Taylor's local identities |
@@ -10422,6 +10390,44 @@ Earlier internal inputs are Layer 3. The declarations and supplier layers used b
 
 Turn ideal bases, relation matrices and regulator bounds into intrinsic arithmetic comparisons. Certify generation of the class group by small primes, unconditionally or under the generalized Riemann hypothesis, and certify p-saturation of unit groups and relation lattices by residue characters. Compare quadratic Pell equations with units, narrow classes and the Galois action on the full unit group.
 
+### 5.0 Class-character explicit formula and Riemann hypotheses
+
+For a number field K and a character χ of Cl(K), use the continued function L(s,χ) of LFunctions Layer 5, with the trivial character identified with Layer 3's Dedekind zeta. Define HeckeGRH χ to mean that every zero ρ with 0<Re ρ<1 has Re ρ=1/2, and DedekindERH K to be this assertion for the trivial character. These are propositions about the specified functions, not assumptions on arbitrary functions. The Euler product and the boundary nonvanishing from LFunctions Layer 7 identify this with absence of zeros in Re s>1/2, with the pole of the trivial character excluded. Neither predicate is asserted to hold (Bach, §3, p.360; Belabas–Diaz y Diaz–Friedman, §2, pp.1187–1188).
+
+The supporting API comprises:
+
+- DedekindERH K is precisely the trivial-character case; HeckeGRH χ is invariant under replacing χ by its inverse.
+- For K=ℚ, the trivial-character predicate agrees with Mathlib's RiemannHypothesis, by uniqueness of continuation.
+- GRH(K) in §5.1b is the conjunction of DedekindERH K and HeckeGRH for all nontrivial class characters; §5.1c requires only the latter.
+
+**Checks.**
+
+- For Cl(ℚ)={1}, the nontrivial-character conjunction is empty and hence true, whereas the Dedekind assertion is RiemannHypothesis, not an empty condition.
+- A hypothetical zero ρ=3/4+2i violates the predicate, while 1/2+2i satisfies its conclusion; zeros on the real axis at 1/2 are included.
+- The pole s=1 of ζ_K is not a zero; assigning a totalized value 0 at that pole must not make GRH false.
+
+Define an admissible weight to be a continuous F:[0,∞)→ℂ for which some ε>0 makes F(x)exp((1/2+ε)x) integrable and of bounded variation, and for which (F(0)−F(x))/x on x>0 has bounded variation and a finite limit at zero. Define Φ_F(s)=2∫₀∞F(x)cosh(x(s−1/2))dx for 0≤Re s≤1. For n=[K:ℚ], r₁ real places, Δ=|disc K| and δχ=1 for χ trivial and 0 otherwise, prove the class-character explicit formula
+
+`Σ_ρ Φ_F(ρ) = 4δχ ∫₀∞ F(x)cosh(x/2)dx + F(0)(log Δ − nγ − n log(8π) − r₁π/2) − Σ_(P,m≥1) log N(P) N(P)^(−m/2) F(m log N(P))(χ(P)^m+χ(P)^(−m)) + r₁∫₀∞(F(0)−F(x))/(2cosh(x/2))dx + n∫₀∞(F(0)−F(x))/(2sinh(x/2))dx`.
+
+The zeros have multiplicity and 0<Re ρ<1; their sum is the limit of the sums over |Im ρ|≤R as R→∞. The prime sum ranges over all nonzero primes and all positive powers. The two terms in each archimedean numerator are combined before integration. This is Belabas–Diaz y Diaz–Friedman §2, (3)–(4), p.1188, in the stated class-character generality. Establish the contour shift, convergence of the symmetric zero sums, and the gamma-factor contribution from LFunctions Layers 3 and 5; this formula does not assume GRH.
+
+The supporting API comprises:
+
+- Admissibility implies convergence of the displayed transforms, prime sums and archimedean integrals; the zero sum has the stated symmetric limiting meaning.
+- Addition and scalar multiplication of admissible weights preserve admissibility and the formula is linear in the weight.
+- For L>0 the triangle F(x)=max(1−x/L,0) is admissible; on the critical line its transform is 2(1−cos(tL))/(Lt²) for t≠0 and L for t=0.
+- Subtracting the formulas for two characters whose values agree on every prime P for which F(m log N(P))≠0 for some m≥1 cancels the prime terms; the trivial character alone contributes the pole term.
+
+**Checks.**
+
+- F=0 gives Φ=0 and both sides 0, including the trivial-character pole term.
+- For L=1, the triangle gives Φ(1/2)=1 and Φ(1/2+iπ)=4/π²; replacing the transform by a single half-line integral loses the factor 2.
+- For K=ℚ, χ=1 and the triangle with L=log 2, the prime sum is 0 because the only possible boundary contribution has F(log 2)=0; the pole term is 4∫₀^(log 2)(1−x/log 2)cosh(x/2)dx, not 0.
+- The continuous sum of triangles in §5.1c has divergent ∫₀¹(1−F(x))/x dx and fails admissibility; nonnegative Fourier transform alone is insufficient.
+
+*Needs:* TauCetiRoadmap.LFunctions Layers 3, 5 and 7; Mathlib complex integration, residues, bounded variation and Gamma functions. Section 5.16a owns its integrated explicit formula, quantitative zero bounds and finite-difference estimates.
+
 ### 5.1 The class group is generated by the primes of norm at most the Minkowski bound
 
 Let K be a number field of degree n with `r_2` complex places and discriminant `d_K`, and `M_K = (4/π)^{r_2} · n!/nⁿ · √|d_K|` (Mathlib's Minkowski bound, a local notation M K in Mathlib.NumberTheory.NumberField.ClassNumber). The classes of the nonzero prime ideals P of `𝓞_K` with `N(P) ≤ M_K` generate the class group Cl(K).
@@ -10480,7 +10486,7 @@ For the reduction, the hypothesis places every generator for T in the subgroup f
 
 Let K be a number field with `Δ_K = |d_K|`, and assume GRH(K): the continued Dedekind zeta function `ζ_K` and the continued L-function L(s, χ) of every nontrivial character χ of Cl(K) have no zero with Re s > 1/2. Then every nontrivial character χ of Cl(K) satisfies χ([P]) ≠ 1 for some nonzero prime P with `N(P) ≤ 12 (log Δ_K)²`, and consequently IsFactorBaseBound K `12 (log Δ_K)²`.
 
-GRH(K) is a stated premise: DedekindERH K together with HeckeGRH χ for every nontrivial character χ of Cl(K), in the terms of AnalyticNumberTheoryPartI §2.42. It has no Lean carrier at the pins. Mathlib `NumberField.dedekindZeta` is the Dirichlet series, meaningful only for Re s > 1; Tau Ceti `TauCeti.exists_differentiableOn_eq_dedekindZeta_sub` continues `ζ_K` only to `Re s > 1 − 1/[K:ℚ]`; and the L-functions of class-group characters have no carrier. This is therefore a README target without a Lean signature. For K = ℚ the bound is 0 and IsFactorBaseBound ℚ 0 holds without the premise (§5.1a).
+GRH(K) is a stated premise: DedekindERH K together with HeckeGRH χ for every nontrivial character χ of Cl(K), as defined in §5.0. It has no Lean carrier at the pins. Mathlib `NumberField.dedekindZeta` is the Dirichlet series, meaningful only for Re s > 1; Tau Ceti `TauCeti.exists_differentiableOn_eq_dedekindZeta_sub` continues `ζ_K` only to `Re s > 1 − 1/[K:ℚ]`; and the L-functions of class-group characters have no carrier. This is therefore a README target without a Lean signature. For K = ℚ the bound is 0 and IsFactorBaseBound ℚ 0 holds without the premise (§5.1a).
 
 The supporting API comprises:
 
@@ -10493,9 +10499,9 @@ The supporting API comprises:
 
 To prove this, the character form implies generation. If the subgroup H generated by the primes of norm at most `12 (log Δ_K)²` were proper, Mathlib `CommGroup.forall_monoidHom_apply_eq_one_iff` would give a character of the finite group Cl(K) that is trivial on H and nontrivial.
 
-For the character form, suppose χ ≠ 1 and χ([P]) = 1 whenever `N(P) ≤ T`. Apply Weil's explicit formula (AnalyticNumberTheoryPartI §1.8) to the completed L-functions of χ and of the trivial character, with Bach's weight supported in [0, log T]. The prime sides of the two formulas agree, so their difference equates the pole term of `ζ_K` at 1, which grows like √T, with the two zero sums.
+For the character form, suppose χ ≠ 1 and χ([P]) = 1 whenever `N(P) ≤ T`. Apply Weil's explicit formula (§5.0) to the completed L-functions of χ and of the trivial character, with Bach's weight supported in [0, log T]. The prime sides of the two formulas agree, so their difference equates the pole term of `ζ_K` at 1, which grows like √T, with the two zero sums.
 
-Under GRH(K) every zero in the strip has real part 1/2, and Stark's formula bounds the zero sums by multiples of `log Δ_K`. Bach's constants (his Lemmas 7.1 and 7.2 with a = 1) give a contradiction for `T = 12 (log Δ_K)²`. The completed functions and their functional equations are those of AnalyticNumberTheoryPartI §2.12 for χ and §2.5 for `ζ_K`.
+Under GRH(K) every zero in the strip has real part 1/2, and Stark's formula bounds the zero sums by multiples of `log Δ_K`. Bach's constants (his Lemmas 7.1 and 7.2 with a = 1) give a contradiction for `T = 12 (log Δ_K)²`. The completed functions and their functional equations are those of LFunctions Layer 5 for χ and Layer 3 for `ζ_K`.
 
 **Checks.**
 
@@ -10503,7 +10509,7 @@ Under GRH(K) every zero in the strip has real part 1/2, and Stark's formula boun
 - For imaginary quadratic fields, `12 (log Δ)²` is below `M_K = (2/π)√Δ` exactly when Δ exceeds about `3.16 · 10⁷`; at `Δ = 10⁸` the two bounds are about 4072 and 6366.
 - GRH(K) does not reduce to DedekindERH K: the argument controls the zeros of L(s, χ) with χ ≠ 1, which are zeros of the Dedekind zeta function of the Hilbert class field and need not be zeros of `ζ_K`.
 
-*Needs:* [Factor-base bounds for the class group](#51a-factor-base-bounds-for-the-class-group); TauCetiRoadmap.AnalyticNumberTheoryPartI, §1.8 Weil's explicit formula; TauCetiRoadmap.AnalyticNumberTheoryPartI, §2.5 Dedekind continuation; TauCetiRoadmap.AnalyticNumberTheoryPartI, §2.12 ideal-character Hecke L-function; TauCetiRoadmap.AnalyticNumberTheoryPartI, §2.42 extended Riemann hypothesis for Dedekind and Hecke L-functions; Mathlib `CommGroup.forall_monoidHom_apply_eq_one_iff`; Mathlib `NumberField.discr`.
+*Needs:* [Factor-base bounds for the class group](#51a-factor-base-bounds-for-the-class-group); [Class-character explicit formula and Riemann hypotheses](#50-class-character-explicit-formula-and-riemann-hypotheses); Mathlib `CommGroup.forall_monoidHom_apply_eq_one_iff`; Mathlib `NumberField.discr`.
 
 ### 5.1c The Belabas–Diaz y Diaz–Friedman factor-base criterion
 
@@ -10513,18 +10519,18 @@ Let K have degree n, `r_1` real places and `Δ_K = |d_K|`, and assume that L(s, 
 
 the sum running over the nonzero primes P and integers m ≥ 1 with `N(P)^m < T`, then the classes of the primes of norm less than T generate Cl(K); in particular IsFactorBaseBound K T.
 
-The premise is HeckeGRH χ (AnalyticNumberTheoryPartI §2.42) for the nontrivial class-group characters only. DedekindERH K is not assumed: the criterion uses the zero sum of `ζ_K` through its exact value in the explicit formula instead of bounding it. As in §5.1b the premise has no carrier at the pins, so this is a README target. The left side tends to +∞ with T, so for every K some T satisfies the inequality.
+The premise is HeckeGRH χ (§5.0) for the nontrivial class-group characters only. DedekindERH K is not assumed: the criterion uses the zero sum of `ζ_K` through its exact value in the explicit formula instead of bounding it. As in §5.1b the premise has no carrier at the pins, so this is a README target. The left side tends to +∞ with T, so for every K some T satisfies the inequality.
 
 The supporting API comprises:
 
-- assume T > 1, the stated HeckeGRH premises, and a continuous F : [0,∞) → ℝ with F ≥ 0, F(0) = 1 and support in [0, log T]. Require that the even extension `F_even(x) = F(|x|)` satisfies the admissible Weil test-function predicate of AnalyticNumberTheoryPartI §1.3 with c = 0, and that `2∫₀^∞ F(x) cos(tx) dx ≥ 0` for every real t. Put `I(F) = ∫₀^∞ (1 − F(x))/(2 sinh(x/2)) dx` and `J(F) = ∫₀^∞ F(x)/(2 cosh(x/2)) dx`. Then
+- assume T > 1, the stated HeckeGRH premises, and a continuous F : [0,∞) → ℝ with F ≥ 0, F(0) = 1 and support in [0, log T]. Require that the even extension `F_even(x) = F(|x|)` satisfies the admissible Weil test-function predicate of §5.0, and that `2∫₀^∞ F(x) cos(tx) dx ≥ 0` for every real t. Put `I(F) = ∫₀^∞ (1 − F(x))/(2 sinh(x/2)) dx` and `J(F) = ∫₀^∞ F(x)/(2 cosh(x/2)) dx`. Then
   `2 Σ_(P,m≥1) log N(P) · N(P)^(−m/2) F(m log N(P)) > log Δ_K − n(γ + log(8π)) + n I(F) − r_1 J(F)`
   implies generation by primes of norm less than T, hence IsFactorBaseBound K T; γ is Euler's constant. The two archimedean integrals are convergent integrals. In I(F) the numerator is combined before integration; its two subtraction terms are not integrated separately.
 - the displayed numerical criterion, obtained from the admissible triangle `F(x) = max(1 − x/log T, 0)`.
 
 (Karim Belabas, Francisco Diaz y Diaz and Eduardo Friedman, [Small generators of the ideal class group](#karim-belabas-francisco-diaz-y-diaz-and-eduardo-friedman--small-generators-of-the-ideal-class-group), Theorem 1.1 with inequality (2), printed pp. 1186–1187, Theorem 2.1, printed pp. 1188–1189, and Corollary 2.2, printed p. 1190.) Theorem 2.1 is the weighted form, Corollary 2.2 its specialisation to F(x) = 1 − x/log T, and Theorem 1.1 the numerical form of the archimedean terms.
 
-To prove this, suppose the primes of norm less than T generate a proper subgroup; as in §5.1b some nontrivial character κ of Cl(K) is trivial on all of them. Subtract Weil's explicit formula (AnalyticNumberTheoryPartI §1.8) for L(s, κ) from the one for `ζ_K`, with the weight F. The prime sums cancel, since κ(P) = 1 for N(P) < T and F vanishes beyond log T, and the archimedean terms cancel because κ is unramified.
+To prove this, suppose the primes of norm less than T generate a proper subgroup; as in §5.1b some nontrivial character κ of Cl(K) is trivial on all of them. Subtract Weil's explicit formula (§5.0) for L(s, κ) from the one for `ζ_K`, with the weight F. The prime sums cancel, since κ(P) = 1 for N(P) < T and F vanishes beyond log T, and the archimedean terms cancel because κ is unramified.
 
 What remains equates the zero sum of `ζ_K` minus that of L(s, κ) with the pole term of `ζ_K`. Under the premise each zero of L(s, κ) contributes a value of the cosine transform of F, which is nonnegative, so that sum can be dropped. Substituting the zero sum of `ζ_K` from its own explicit formula gives the negation of the weighted inequality above. Admissibility bounds `|F(x) − 1|` by a constant times x near zero, so I(F) converges there; compact support gives convergence at infinity, and J(F) converges absolutely.
 
@@ -10538,7 +10544,7 @@ For `L = log T > 0`, the even triangle is continuous and piecewise affine with c
 - For the single triangle, the difference quotient has finite one-sided values ±1/log T at zero; admissibility does not require differentiability there.
 - The criterion is sufficient, not necessary: for ℚ(√−14) and T = 3 the left side is about 0.18 and the right side about 2.71, although IsFactorBaseBound K 3 holds (§5.1a); for a field with `h_K = 1` the premise is empty and the conclusion holds for every T, yet ℚ(ζ_11), of class number one, needs T > 19.25 to pass.
 
-*Needs:* [Factor-base bounds for the class group](#51a-factor-base-bounds-for-the-class-group); [Bach's factor-base bound under the generalized Riemann hypothesis](#51b-bachs-factor-base-bound-under-the-generalized-riemann-hypothesis); TauCetiRoadmap.AnalyticNumberTheoryPartI, §1.3 admissible Weil test functions; TauCetiRoadmap.AnalyticNumberTheoryPartI, §1.8 Weil's explicit formula; TauCetiRoadmap.AnalyticNumberTheoryPartI, §2.12 ideal-character Hecke L-function; TauCetiRoadmap.AnalyticNumberTheoryPartI, §2.42 extended Riemann hypothesis for Dedekind and Hecke L-functions; Mathlib `CommGroup.forall_monoidHom_apply_eq_one_iff`.
+*Needs:* [Factor-base bounds for the class group](#51a-factor-base-bounds-for-the-class-group); [Bach's factor-base bound under the generalized Riemann hypothesis](#51b-bachs-factor-base-bound-under-the-generalized-riemann-hypothesis); [Class-character explicit formula and Riemann hypotheses](#50-class-character-explicit-formula-and-riemann-hypotheses); Mathlib `CommGroup.forall_monoidHom_apply_eq_one_iff`.
 
 ### 5.2 The class-group presentation by a family of ideals and its relation lattice
 
@@ -11047,7 +11053,7 @@ Under DedekindERH K and RiemannHypothesis, for every T ≥ 100, `|log κ_K − S
 
 (iii) If `|log κ_K − S| ≤ ε` for real numbers S and ε, then `h* = w_K √Δ_K / (2^(r_1) (2π)^(r_2)) · exp(S − ε)` satisfies `h* ≤ h_K R_K ≤ h* · exp(2ε)`.
 
-With `S = S_K(T)` and `ε = ε_K(T)`, the lower bound of (iii) is the specified `h*` of [The class-number–regulator completeness criterion](#516-the-class-numberregulator-completeness-criterion), and the interval of (iii) gives the a and η of §5.22. Equivalently `S_K(T) = Σ 1/(k N(P)^k) − Σ 1/(k p^k)`, the first sum over the prime powers `P^k` of norm at most T and the second over the rational prime powers `p^k ≤ T`: a truncation of the logarithm of the Euler product of `ζ_K/ζ`. Clauses (i) and (ii) carry DedekindERH K (AnalyticNumberTheoryPartI §2.42), which has no carrier at the pins, so they are README targets; RiemannHypothesis is Mathlib's. Clause (iii) has a Lean signature.
+With `S = S_K(T)` and `ε = ε_K(T)`, the lower bound of (iii) is the specified `h*` of [The class-number–regulator completeness criterion](#516-the-class-numberregulator-completeness-criterion), and the interval of (iii) gives the a and η of §5.22. Equivalently `S_K(T) = Σ 1/(k N(P)^k) − Σ 1/(k p^k)`, the first sum over the prime powers `P^k` of norm at most T and the second over the rational prime powers `p^k ≤ T`: a truncation of the logarithm of the Euler product of `ζ_K/ζ`. Clauses (i) and (ii) carry DedekindERH K (§5.0), which has no carrier at the pins, so they are README targets; RiemannHypothesis is Mathlib's. Clause (iii) has a Lean signature.
 
 The supporting API comprises:
 
@@ -11059,7 +11065,7 @@ The supporting API comprises:
 
 (Jean-François Biasse and Claus Fieker, [Subexponential class group and unit group computation in large degree number fields](#jean-françois-biasse-and-claus-fieker--subexponential-class-group-and-unit-group-computation-in-large-degree-number-fields), Section 4.3, printed p. 398.) The source writes `hR = (|μ| √|Δ| / (2^(r_1) (2π)^(r_2))) · lim_(s→1) (s − 1) ζ_K(s)` and certifies with a bound `h*` satisfying `h* ≤ hR < 2h*`, obtained from the Euler product under GRH; clause (iii) reads that formula as an interval.
 
-The following three auxiliary targets belong to this section. They supply the numerical bounds and finite-range inequalities needed for clause (i); the asymptotic bounds of AnalyticNumberTheoryPartI §2.49 supply the qualitative route, without these constants.
+The following three auxiliary targets belong to this section. They supply the numerical bounds and finite-range inequalities needed for clause (i); the continued function and functional equation come from LFunctions Layer 3, and the contour and zero estimates are targets of this section.
 
 **Explicit zero estimates.** For any number field K, write each nontrivial zero with multiplicity as `ρ = β + iγ`, let `N_K(U)` count those with `|γ| ≤ U`, and put `W_K(U) = log Δ_K + n log(U/(2π))`. For every U ≥ 5, prove
 
@@ -11137,7 +11143,7 @@ Clause (iii) is Mathlib `NumberField.dedekindZeta_residue_def` solved for `h_K R
 - The truncated sum alone gives no lower bound: for ℚ(i), `(4/π) exp(S_K(10⁴)) ≈ 1.0004 > h_K R_K = 1`. The error term of (ii) is what makes `h*` a lower bound.
 - At the endpoint T = 100 for K = ℚ(i), `S_K(100) ≈ −0.242013` and `ε_K(100) ≈ 0.966517`; the actual logarithmic error is about 0.000449, and `L = log 100 > 0` makes every denominator well defined. At T = 121, the inert prime 11 contributes a jump `1/242` to S_K; `A(T)` includes the jump at the cutoff.
 
-*Needs:* [The class-number–regulator completeness criterion](#516-the-class-numberregulator-completeness-criterion); TauCetiRoadmap.AnalyticNumberTheoryPartI, §1.8 Weil’s explicit formula; TauCetiRoadmap.AnalyticNumberTheoryPartI, §2.42 extended Riemann hypothesis for Dedekind and Hecke L-functions; TauCetiRoadmap.AnalyticNumberTheoryPartI, §2.49 effective Chebotarev density theorem; Mathlib `NumberField.dedekindZeta_residue`; Mathlib `NumberField.dedekindZeta_residue_def`; Mathlib `NumberField.tendsto_sub_one_mul_dedekindZeta_nhdsGT`; Mathlib `riemannZeta_residue_one`; Mathlib `RiemannHypothesis`; Mathlib `Chebyshev.psi`; Mathlib `ArithmeticFunction.vonMangoldt`; Mathlib `sum_mul_eq_sub_integral_mul`; Tau Ceti `TauCeti.primePsi`; Tau Ceti `TauCeti.primeVonMangoldtCoeff`; Tau Ceti `TauCeti.log_dedekindZeta_re_eq_tsum_neg_log_one_sub`.
+*Needs:* [The class-number–regulator completeness criterion](#516-the-class-numberregulator-completeness-criterion); [Class-character explicit formula and Riemann hypotheses](#50-class-character-explicit-formula-and-riemann-hypotheses); Mathlib `NumberField.dedekindZeta_residue`; Mathlib `NumberField.dedekindZeta_residue_def`; Mathlib `NumberField.tendsto_sub_one_mul_dedekindZeta_nhdsGT`; Mathlib `riemannZeta_residue_one`; Mathlib `RiemannHypothesis`; Mathlib `Chebyshev.psi`; Mathlib `ArithmeticFunction.vonMangoldt`; Mathlib `sum_mul_eq_sub_integral_mul`; Tau Ceti `TauCeti.primePsi`; Tau Ceti `TauCeti.primeVonMangoldtCoeff`; Tau Ceti `TauCeti.log_dedekindZeta_re_eq_tsum_neg_log_one_sub`.
 
 ### 5.17 The negative Pell equation and units of norm −1
 
@@ -11292,7 +11298,7 @@ Positive integers i,j therefore both equal one. Apply relative-index-one and ind
 
 ### 5.23 Negative Pell and the narrow principal square-root class
 
-Under the quadratic presentation hypotheses, x²-dy²=-1 has an integral solution iff mkPrincipal(θ)=1 in Cl⁺(K). Here θ is read as a unit of the field K, not as an integral unit; θ≠0 by the pinned `coe_gen_ne_zero`. The current Tau Ceti library, identifies the narrow class of any element of negative norm with that of `(θ) (NumberField.mkPrincipal_eq_mkPrincipal_gen_of_norm_neg)`; the target is the criterion for this class to be trivial.
+Under the quadratic presentation hypotheses, x²-dy²=-1 has an integral solution iff mkPrincipal(θ)=1 in Cl⁺(K). Here θ is read as a unit of the field K, not as an integral unit; θ≠0 by the pinned `coe_gen_ne_zero`. The Tau Ceti library, identifies the narrow class of any element of negative norm with that of `(θ) (NumberField.mkPrincipal_eq_mkPrincipal_gen_of_norm_neg)`; the target is the criterion for this class to be trivial.
 
 d>1 is a squarefree integer; K is a number field with θ in `O_K`. `minpoly_Z(θ)=X²-d` and Q[θ]=K; these hypotheses specify the quadratic presentation.
 
@@ -11314,7 +11320,7 @@ Replacing θ by −θ changes neither the principal ideal nor its narrow class, 
 
 ### 5.24 Negative Pell and the canonical two-primary forgetful map
 
-Under the quadratic presentation hypotheses, x²-dy²=-1 has an integral solution iff the natural map q:Cl⁺(K)→Cl(K) restricts bijectively from Cl⁺(K)[2∞] to Cl(K)[2∞]. This is a statement about q, not merely about abstract isomorphism types. The current Tau Ceti library, proves that q is injective exactly when `𝓞_K` has a unit of norm `−1 (NarrowClassGroup.toClassGroup_injective_iff_exists_norm_eq_neg_one)`; the target is the two-primary form of this comparison, read through integral solubility of the negative Pell equation.
+Under the quadratic presentation hypotheses, x²-dy²=-1 has an integral solution iff the natural map q:Cl⁺(K)→Cl(K) restricts bijectively from Cl⁺(K)[2∞] to Cl(K)[2∞]. This is a statement about q, not merely about abstract isomorphism types. The Tau Ceti library, proves that q is injective exactly when `𝓞_K` has a unit of norm `−1 (NarrowClassGroup.toClassGroup_injective_iff_exists_norm_eq_neg_one)`; the target is the two-primary form of this comparison, read through integral solubility of the negative Pell equation.
 
 d>1 is a squarefree integer; K is a number field with θ in `O_K`. `minpoly_Z(θ)=X²-d` and Q[θ]=K; these hypotheses specify the quadratic presentation.
 
@@ -11371,11 +11377,11 @@ Quadratic examples distinguish ℤ[√d] from the full integer ring when d≡1 m
 
 Earlier internal inputs are Layer 3, Layer 4. The declarations and supplier layers used by this layer are:
 
-- TauCetiRoadmap.AnalyticNumberTheoryPartI, §1.8 Weil's explicit formula.
-- TauCetiRoadmap.AnalyticNumberTheoryPartI, §2.5 Dedekind continuation.
-- TauCetiRoadmap.AnalyticNumberTheoryPartI, §2.12 ideal-character Hecke L-function.
-- TauCetiRoadmap.AnalyticNumberTheoryPartI, §2.42 extended Riemann hypothesis for Dedekind and Hecke L-functions.
-- TauCetiRoadmap.AnalyticNumberTheoryPartI, §2.49 effective Chebotarev density theorem.
+- [Class-character explicit formula and Riemann hypotheses](#50-class-character-explicit-formula-and-riemann-hypotheses)
+- [Class-character explicit formula and Riemann hypotheses](#50-class-character-explicit-formula-and-riemann-hypotheses)
+- [Class-character explicit formula and Riemann hypotheses](#50-class-character-explicit-formula-and-riemann-hypotheses)
+- [Class-character explicit formula and Riemann hypotheses](#50-class-character-explicit-formula-and-riemann-hypotheses)
+- [Class-character explicit formula and Riemann hypotheses](#50-class-character-explicit-formula-and-riemann-hypotheses)
 - Mathlib `AddSubgroup.index_eq_natAbs_det`.
 - Mathlib `Algebra.discr`.
 - Mathlib `Algebra.discr_of_matrix_vecMul`.
@@ -13935,7 +13941,9 @@ To prove this, i⊕J and A⊕IJ are rank-two lattices in K². [Pseudobases and S
 
 ### 7.10 Reduced norm of a semisimple number-field algebra
 
-Write `B=∏i B_i` with centres `F_i`. Each `B_i` is central simple, hence Azumaya of `rank d_i²` over `F_i`, and `Nrd_{B_i}`:`B_i→F_i` is the Azumaya reduced-norm determinant law of TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants §0.6, the degree-`d_i` law that becomes the matrix determinant after a splitting. Layer 7 assembles these into `Nrd=∏Nrd_{B_i}`:B→Z(B), restricts to units and extends placewise to completions and ideles. Degree means the square root of dimension over the centre, not dimension over the original base field.
+For a commutative ring A and an Azumaya A-algebra R of constant rank d² with d>0, construct the reduced norm as a native `PolynomialLaw A R A`. The predicate `GaloisModules.IsReducedNormLaw` says that after every faithfully flat matrix splitting B⊗ₐR≃M_d(B), evaluation of the law agrees with the matrix determinant, using B⊗ₐA≃B for its target. Prove `GaloisModules.existsUnique_reducedNormLaw`: there is exactly one such law. Its construction descends the determinant along the supplied étale matrix splitting; invariance under matrix-algebra automorphisms supplies the descent compatibility (Grothendieck, *Le groupe de Brauer I*, Theorem 5.10 and §5.13, pp.212–213).
+
+Write B=∏ᵢBᵢ for a semisimple number-field algebra with centres Fᵢ. Apply this construction to each component, of degree dᵢ, and assemble Nrd:B→Z(B). Restrict to units and extend placewise to completions and ideles. Degree means the square root of dimension over the centre, not dimension over the original number field.
 
 The supporting API comprises:
 
@@ -13949,16 +13957,48 @@ The supporting API comprises:
 
 (Vladimir Platonov, Andrei Rapinchuk and Igor Rapinchuk, [Algebraic Groups and Number Theory, Volume I](#vladimir-platonov-andrei-rapinchuk-and-igor-rapinchuk--algebraic-groups-and-number-theory-volume-i), §1.4.1, p.29; §1.4.3, p.33.) The reduced norm is the determinant after a splitting, multiplicative and independent of the splitting (p.29); a central division algebra over a local field has full reduced-norm image (§1.4.3).
 
-To prove this, import the Wedderburn decomposition and, on each simple component, the Azumaya reduced-norm determinant of TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants §0.6: its uniqueness gives independence of the splitting, and its comparison with the matrix determinant gives multiplicativity and the scalar formula. Take the product over the components. A completion is a scalar extension of each component, so the law base-changes to `B_v`; reduced norms of order units are units of the centre's integers, which gives the placewise map on ideles.
+Prove the polynomial-law naturality, degree-d homogeneity, multiplicativity, value 1 at 1, and scalar-extension laws by faithfully flat descent of these matrix identities. Import the Wedderburn decomposition and apply the construction to each simple component; uniqueness gives independence of the splitting. Take the product over the components. A completion is a scalar extension of each component, so the law base-changes to `B_v`; reduced norms of order units are units of the centre's integers, which gives the placewise map on ideles.
 
 **Checks.**
 
+- Over A=𝔽₂[ε]/(ε²), the matrix diag(1+ε,1) has norm 1+ε, not 1; naturality must hold on nonreduced coefficient algebras as well as fields.
+- For M₂(𝔽₃) and the transposition matrix [[0,1],[1,0]], the reduced norm is −1=2. Its regular representation determinant is 1, so that determinant is not the reduced norm.
+- Over the zero ring every coefficient and norm is 0=1 and there is exactly one polynomial law; over a nonzero ring the zero law fails the value at identity. Degree 1 gives the identity law.
 - On M₂(ℚ), Nrd(diag(2,3))=6 and Nrd(2·1)=4.
 - For a field component, Nrd is identity.
 - On a split matrix algebra it is Mathlib matrix determinant.
 - On Hamilton quaternions Nrd(1+i)=2, whereas the determinant of left multiplication by 1+i on ℍ as a four-dimensional real space is 4=Nrd(1+i)².
 
-*Needs:* TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants, §0.6 Azumaya reduced-norm determinant; [TauCetiRoadmap.RepresentationTheory/SemisimpleAlgebras, layer 6 the brauer group and splitting fields](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/SemisimpleAlgebras/README.md#layer-6-the-brauer-group-and-splitting-fields).
+*Needs:* TauCetiRoadmap.SchemeAndStackFoundations §2.22 étale matrix splitting; Mathlib `PolynomialLaw`; Mathlib `Matrix.det`; [TauCetiRoadmap.RepresentationTheory/SemisimpleAlgebras, layer 6 the brauer group and splitting fields](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/SemisimpleAlgebras/README.md#layer-6-the-brauer-group-and-splitting-fields).
+
+### Reduced characteristic polynomials
+
+For the same constant-rank Azumaya R/A, define the reduced characteristic polynomial of r∈R by Nrd(T−r) over A[T]. It is monic with coefficient 1 at degree d, has constant term (−1)ᵈNrd(r), satisfies Cayley–Hamilton and commutes with arbitrary scalar extension; over a nonzero base ring its degree is d. These assertions descend from the matrix identities (Grothendieck, §5.13, p.213). Over the zero ring all coefficients vanish, so the coefficient laws still hold with 1=0 but the ordinary degree statement is not asserted.
+
+For a central simple C/F of degree d, `rchar_C(c)` is the characteristic polynomial `χ(c,T)=Nrd_{C[T]}(T−c)` of the reduced-norm law constructed in §7.10; it is the degree-d monic polynomial that becomes det(TI−ρ(c)) in any splitting `C⊗E≅M_d(E)`. For semisimple B use one polynomial in each centre. The constant coefficient is (−1)ᵈ Nrd(c).
+
+Prove the following specialisations of the reduced-norm law:
+
+- `rchar_C(c)` is monic of degree d.
+- Under a splitting isomorphism it is the usual matrix characteristic polynomial.
+- Its constant coefficient is (−1)ᵈNrd(c).
+- Conjugating c by a unit does not change `rchar_C(c)`.
+
+(Martin Kneser; notes by P. Jothilingam, [Lectures on Galois Cohomology of Classical Groups](#martin-kneser-notes-by-p-jothilingam--lectures-on-galois-cohomology-of-classical-groups), §5.4, principal polynomial paragraph, retypeset p.67, original p.88.) The principal polynomial of an element is its characteristic polynomial after a splitting; its coefficients lie in the centre and do not depend on the splitting field or isomorphism.
+
+(Vladimir Platonov, Andrei Rapinchuk and Igor Rapinchuk, [Algebraic Groups and Number Theory, Volume I](#vladimir-platonov-andrei-rapinchuk-and-igor-rapinchuk--algebraic-groups-and-number-theory-volume-i), §1.4.1, p.29.) The reduced norm is the determinant after a splitting, which is the constant coefficient up to sign.
+
+Define the polynomial by evaluating the reduced-norm law at T−c over the polynomial coefficient algebra. Faithfully flat matrix splitting proves monicity, degree and the constant term (−1)ᵈNrd(c); coefficient descent gives independence of the splitting. Assemble the simple components separately.
+
+**Checks.**
+
+- For C=M₂(F) and c=diag(a,b), rchar=(T−a)(T−b).
+- For C=F the polynomial is T−c.
+- For a scalar c in degree d the polynomial is (T−c)ᵈ, not T−c.
+- The constant term agrees with the reduced-norm construction including the parity sign.
+- Over 𝔽₂[ε]/(ε²), diag(1+ε,1) has polynomial T²+εT+1+ε; substitution of either diagonal entry gives 0. Over the zero ring its coefficients are all 0, and no degree-d conclusion is imposed.
+
+*Needs:* [Reduced norm of a semisimple number-field algebra](#710-reduced-norm-of-a-semisimple-number-field-algebra).
 
 ### 7.11 Eichler’s condition for semisimple algebras
 
@@ -14000,9 +14040,102 @@ To prove this, expand normalized Jacobi sums modulo P using finite-field power s
 
 *Needs:* Mathlib `gaussSum`; Mathlib `gaussSum_mul`; Mathlib `gaussSum_one_left`.
 
+### 7.12a Tate factors and trace characters
+
+For a number field F define the additive trace character on its adeles by exp(2πix) on the real component of ℚ, exp(−2πi frac_p(x)) on ℚ_p, and local traces from F. Prove continuity, nontriviality and triviality on diagonal F. At each finite place the annihilator of O_v is the inverse different; the self-dual measure gives O_v volume q_v^(−d_v/2), where d_v is the different exponent. At real and complex places use dx and 2 dx dy. Construct the local Schwartz–Bruhat spaces (Schwartz functions at infinity, locally constant compactly supported functions at finite places), their Fourier transform with positive kernel ψ(xy), and Fourier inversion. Identify every continuous additive character of a local field as x↦ψ(bx), for a unique b, and show that the standard adelic character is the product of its local components (Deligne, §3.1–§3.11, pp.524–532; Kudla, §3, pp.120–125 and §4, pp.127–129).
+
+The supporting API comprises:
+
+- The standard character is nontrivial locally and trivial on the global diagonal; its local conductor is O_v's inverse different.
+- Fourier inversion with the self-dual measure sends f to x↦f(−x) after two transforms.
+- Replacing ψ by ψ_b(x)=ψ(bx), b≠0, multiplies the self-dual measure by |b|^(1/2); a fixed Haar measure and a self-dual measure are distinguished throughout.
+- Local trace and finite-extension trace composition give compatible characters at every place, including ramified places.
+
+**Checks.**
+
+- For x=1/3∈ℚ, the infinity and 3-adic values are exp(2πi/3) and exp(−2πi/3); their product is 1, while replacing the finite minus sign by plus gives exp(4πi/3)≠1.
+- Over ℚ₂, d=0 and vol(ℤ₂)=1; replacing ψ by ψ(2x) changes the self-dual volume to 2^(−1/2), not 2^(1/2).
+- For F=ℚ₃(√3), the different exponent is 1 and q=3, so vol(O_F)=3^(−1/2); omitting the different incorrectly gives 1. For the wild extension ℚ₂(i), the different exponent is 2 and the self-dual volume is 1/2.
+
+For every local field F of characteristic zero, nontrivial continuous additive character ψ and positive Haar measure dx, construct the Tate local constant ε(χ,ψ,dx) for every continuous quasi-character χ:F×→ℂ×. At a finite place put q=|k_F|, ν=n(ψ) with annihilator P^(−ν), and a=a(χ). For a>0 choose c with v(c)=a+ν and set
+
+`ε(χ,ψ,dx)=χ(c) q^ν vol_dx(O_F) Σ_(u∈(O_F/P^a)×) χ(u)^(−1) ψ(u/c)`.
+
+For a=0 set ε(χ,ψ,dx)=χ(c)q^ν vol_dx(O_F), where v(c)=ν. Prove independence of representatives and c, and nonvanishing. For a unitary ω define ε(s,ω,ψ,dx)=ε(ω|·|ˢ,ψ,dx). With d×x=(1−q⁻¹)⁻¹dx/|x| at finite places and dx/|x| at infinity, prove the local functional equation
+
+`Z(f̂,ω⁻¹,1−s)/L(1−s,ω⁻¹)=ε(s,ω,ψ,dx) Z(f,ω,s)/L(s,ω)`.
+
+Here Z(f,ω,s)=∫F×f(x)ω(x)|x|ˢd×x, f̂ uses dx, and the identity is between meromorphic continuations for every local Schwartz–Bruhat f. At infinity define ε by this equation and evaluate the Gaussian and its parity/angular variants: with the positive trace character, ε(s,sgn^b)=i^b on ℝ and ε(s,(z/|z|)^k)=i^|k| on ℂ. Prove meromorphic continuation of the integrals and uniqueness of ε, as well as their identification with the finite sum above (Deligne, §3.3–§3.4, pp.527–528, §5.8, p.550; Kudla, Propositions 3.5–3.8, pp.120–124).
+
+The supporting API comprises:
+
+- A twist by |·|ᵗ multiplies the finite-place constant by q^(−t(a+ν)); scaling dx by r>0 multiplies ε by r.
+- For b≠0, ε(χ,ψ_b,dx)=χ(b)|b|⁻¹ε(χ,ψ,dx). Using self-dual measures on both sides changes the modulus exponent to −1/2.
+- With Fourier-dual measures dx,dx′, the product ε(χ,ψ,dx)ε(χ⁻¹|·|,ψ(−x),dx′) is 1.
+- For unitary ω and self-dual dx, |ε(1/2,ω,ψ,dx)|=1. At unramified ω and ν=0 its value is 1 for every s.
+
+**Checks.**
+
+- Over ℚ₃ with the negative trace character, the quadratic residue character ω with ω(3)=1 has sum exp(−2πi/3)−exp(−4πi/3)=−i√3; thus ε(s,ω)=−i·3^(1/2−s), and ε(1/2,ω)=−i.
+- For unramified ω with ω(ϖ)=−1 and ν=1, the self-dual constant is −q^(1/2−s); at s=1/2 it is −1, so the conductor-zero condition in the value-one rule is necessary.
+- Replacing dx by 2dx doubles ε. For the odd quadratic character at 3, replacing ψ by ψ(−x) changes −i to i; their product is 1 under the dual-character formula.
+- The real sign character has constant i and its square is −1=sgn(−1); the complex angular characters k=1 and k=−1 both have constant i, whereas k=0 gives 1.
+
+*Needs:* TauCetiRoadmap.GlobalNumberFields Layers 4–9; TauCetiRoadmap.ClassFieldTheory Layer 7; TauCetiRoadmap.LocalFieldsRamification Layers 1–3; Mathlib Haar measures, Fourier transforms, Schwartz functions and finite Gauss sums.
+
+### 7.12b Weil local constants
+
+For each finite extension F/ℚ_p use ClassFieldTheory Layer 9's Weil group and the inverse Art_F of its arithmetic Artin map, so a uniformizer maps to geometric Frobenius. Work with finite-dimensional smooth complex Weil representations, equivalently representations with open inertia kernel, and their Grothendieck group. Define the Artin conductor a_F(V) by the ramification-group codimension sum; include the Swan term and prove additivity, nonnegativity for actual representations, and a_F(V)=0 precisely for unramified actual representations. For a finite extension E/F prove
+
+`a_F(Ind_E^F V)=f(E/F)a_E(V)+v_F(disc(E/F))dim V`.
+
+Construct the unique nonzero ε_F(V,ψ,dx) which is multiplicative on exact sequences, scales by r^(dim V) under dx↦r dx, agrees in dimension one with §7.12a through Art_F, and satisfies induction for virtual representations of dimension zero. These properties apply for arbitrary positive Haar measure and nontrivial continuous additive character (Deligne, Theorem 4.1, p.535; conductor §4.5, p.538; §5.6, p.549). Prove existence and independence of Brauer presentations, including the relations between induced characters; induction is a theorem about the constructed constants, not an assumed relation among arbitrary assigned numbers.
+
+The supporting API comprises:
+
+- The zero virtual representation has constant 1; direct sums multiply and negatives invert constants.
+- For b≠0, ε_F(V,ψ_b,dx)=det(V)(Art_F(b))|b|^(−dim V)ε_F(V,ψ,dx).
+- Twisting by the unramified character corresponding to |·|ᵗ multiplies ε by q^(−t(a_F(V)+n(ψ)dim V)).
+- With fixed measures define λ(E/F,ψ) as ε_F(Ind 1,ψ)/ε_E(1,ψ∘Tr); then ε_F(Ind V,ψ)=λ(E/F,ψ)^(dim V)ε_E(V,ψ∘Tr). Degree-zero induction has no λ factor.
+- Duality with V∨⊗|·| and Fourier-dual measures gives ε_F(V,ψ,dx)ε_F(V∨⊗|·|,ψ(−x),dx′)=1. For unitary V the central normalized constant has absolute value 1.
+
+These laws are Deligne §5.3–§5.7, pp.548–550, with the geometric reciprocity convention fixed above. At infinity use the rank-one real factors and the induced two-dimensional real Weil representations, with complex factors from §7.12a; extend by direct sum and induction. All finite-image representations are included, without a tameness assumption.
+
+**Checks.**
+
+- V=0 has a=0, determinant 1 and ε=1; scaling the measure by 2 multiplies by 2⁰=1. A one-dimensional V instead scales by 2.
+- For the quadratic ramified character of ℚ₃, a=1 and ν=0, twisting by |·| gives multiplier 1/3; its finite-sum values −i√3 and −i/√3 have exactly that ratio.
+- For E=ℚ₃(√3), V=1 has a_E=0 and dimension 1. Its induction is 1⊕η, with a_F=1=1·0+1·1; omitting the discriminant would give 0. For E=ℚ₂(i), the corresponding value is 2, detecting the wild conductor.
+- For unramified E/F of degree 2 and conductor-zero ψ, Ind 1=1⊕η with η unramified, all three constants are 1 and λ=1. The identity extension gives λ=1 in every dimension.
+- In an S₃ extension, the regular character is the sum of 1, sign and twice the standard character; its local constant is the corresponding product. Its conductor has the same weighted additive decomposition, even at wild primes 2 and 3.
+
+*Needs:* §7.12a; TauCetiRoadmap.ClassFieldTheory Layers 7 and 9; TauCetiRoadmap.LocalFieldsRamification Layers 2–3; TauCetiRoadmap.RepresentationTheory/InductionRestriction Layer 6; TauCetiRoadmap.RepresentationTheory/CharacterTheory Layers 3–4.
+
+### 7.12c Finite-image Artin functions
+
+For a finite Galois extension L/F of number fields and a complex representation ρ of Gal(L/F), define the finite-place polynomial as det(1−ρ(Frob_v)T on V^(I_v)), with arithmetic Frobenius and the inertia invariants at every finite place. Construct its Euler product for Re s>1 and prove absolute convergence, nonvanishing there, direct-sum multiplicativity, inflation invariance and induction over finite extensions, including ramified primes. Identify rank-one factors with LFunctions Layer 5 through arithmetic reciprocity and use Brauer induction to construct the unique meromorphic continuation. No holomorphy assertion for a nonabelian irreducible representation is imposed (Deligne, §2.10, pp.522–523, and §3.12(A)–(D), pp.533–534).
+
+For χ the character of ρ, put Cχ=|disc F|^(dim V)N(fχ) and define its completed function by multiplying L(s,χ) by Cχ^(s/2), by Γ_R(s)^n₊Γ_R(s+1)^n₋ at each real place, and by Γ_C(s)^(dim V) at each complex place. Prove its functional equation Λ(s,χ)=W(χ)Λ(1−s,χ̄), where W(χ) is the product of the central local constants of §7.12b applied to χ∨ and the positive archimedean constants of §7.12a. Extend the equation to virtual characters as an equality of meromorphic germs. Prove that the rank-one global equation from LFunctions agrees with this local product by the product formula for Gauss sums and the different; induction and its conductor formula then establish the general equation (Deligne, §3.11–§3.12, pp.532–534, and §4.12, pp.543–544).
+
+The supporting API comprises:
+
+- Rank zero has every local polynomial 1 and completed function 1; virtual subtraction takes quotients of nonzero meromorphic functions.
+- Rank one agrees with the continued Hecke function; the trivial character gives the Dedekind zeta completion.
+- Changing ψ_v to ψ_v(bx) for a diagonal b∈F× leaves the global root factor unchanged, by reciprocity and the product formula.
+- Nonvanishing on Re s>1 makes the root scalar unique. The conductor exponent includes the different at every finite place.
+
+**Checks.**
+
+- For χ=1 over ℚ, Cχ=1, Λ is completed Riemann zeta and W=1; its poles at 0 and 1 remain poles.
+- For a cyclic cubic unramified local character with χ(Frob)=ζ₃, the polynomial is 1−ζ₃T, whereas geometric Frobenius on χ gives 1−ζ₃⁻¹T; geometric Frobenius on χ∨ restores 1−ζ₃T.
+- For the quadratic character of ℚ(i)/ℚ at 2, the invariant space is zero and the factor is 1, not (1+2⁻ˢ)⁻¹. The global conductor is 4 and the infinity factor is Γ_R(s+1).
+- For the S₃ standard character at a 3-cycle the local polynomial is 1+T+T², and at a transposition it is 1−T². The regular representation identity gives L(s,reg)=ζ_L(s), retaining all ramified factors.
+
+*Needs:* §§7.12a–7.12b; TauCetiRoadmap.LFunctions Layers 3 and 5; TauCetiRoadmap.ClassFieldTheory Layers 7, 10–11; TauCetiRoadmap.NumberFieldArithmetic Layers 1 and 5; TauCetiRoadmap.RepresentationTheory/InductionRestriction Layer 6; Mathlib determinants and characteristic polynomials.
+
 ### 7.13 Tame local Galois Gauss sums
 
-Fix a finite extension `F/Q_p`, with residue cardinality q and different `D_F/Q_p=P^d`. Let `frac_p`:`Q_p/Z_p→Q/Z` be the canonical inclusion and set `ψ_F⁺(x)=exp(2πi frac_p(Tr_F/Q_p x))`, `ψ_F⁻(x)=ψ_F⁺(−x)`. Both have conductor `D_F/Q_p⁻¹` and self-dual additive measure giving `O_F` volume `q^(−d/2)`. The minus character is AL.0's finite component. Use ClassFieldTheory's arithmetic Artin map `art_F`, sending uniformisers to arithmetic Frobenius. For a ramified one-dimensional finite-order χ of conductor `fχ=P^a`, choose c generating `D_F/Q_p·fχ` and set `τ_F(χ)=Σ_(u∈(O_F/fχ)×) χ(art_F(u/c))ψ_F⁺(u/c)`. For unramified χ set `τ_F(χ)=χ(D_F/Q_p)⁻¹`. Extend to virtual finite-image characters through the supplied Deligne–Langlands constants and the normalization adapter below, then form `τ(χ)=∏_`(v finite)`τ_Fv(χ_v)`. The general local constants and their relation independence belong to ArithmeticGaloisRepresentations §2.7.
+Fix a finite extension `F/Q_p`, with residue cardinality q and different `D_F/Q_p=P^d`. Let `frac_p`:`Q_p/Z_p→Q/Z` be the canonical inclusion and set `ψ_F⁺(x)=exp(2πi frac_p(Tr_F/Q_p x))`, `ψ_F⁻(x)=ψ_F⁺(−x)`. Both have conductor `D_F/Q_p⁻¹` and self-dual additive measure giving `O_F` volume `q^(−d/2)`. The minus character is §7.12a’s finite component. Use ClassFieldTheory's arithmetic Artin map `art_F`, sending uniformisers to arithmetic Frobenius. For a ramified one-dimensional finite-order χ of conductor `fχ=P^a`, choose c generating `D_F/Q_p·fχ` and set `τ_F(χ)=Σ_(u∈(O_F/fχ)×) χ(art_F(u/c))ψ_F⁺(u/c)`. For unramified χ set `τ_F(χ)=χ(D_F/Q_p)⁻¹`. Extend to virtual finite-image characters through the supplied Deligne–Langlands constants and the normalization adapter below, then form `τ(χ)=∏_`(v finite)`τ_Fv(χ_v)`. The general local constants and their relation independence belong to §7.12b.
 
 The supporting API comprises:
 
@@ -14015,15 +14148,15 @@ The supporting API comprises:
 
 (Martin J. Taylor, [On Fröhlich’s conjecture for rings of integers of tame extensions](#m-j-taylor--on-fröhlichs-conjecture-for-rings-of-integers-of-tame-extensions), §3 (3.4), p.46.) Taylor fixes the canonical additive character as the composite of the trace to `ℚ_p`, `ℚ_p/ℤ_p⊂ℚ/ℤ` and x↦exp(2πix), and gives the same unramified and genuinely ramified degree-one formulas.
 
-The normalization adapter uses `E_F^±(s,χ)`, the supplier's `epsilonWeil` on χ∨ with its unramified `|·|^s` twist, additive character `ψ_F^±` and self-dual measure. This dual converts the supplier's geometric reciprocity `Art_F(x)=art_F(x)⁻¹` to the arithmetic rank-one character `ω=χ∘art_F`. At s=1/2 prove
+The normalization adapter uses `E_F^±(s,χ)`, the Weil epsilon constant of §7.12b on χ∨ with its unramified `|·|^s` twist, additive character `ψ_F^±` and self-dual measure. This dual converts the geometric reciprocity of §7.12b `Art_F(x)=art_F(x)⁻¹` to the arithmetic rank-one character `ω=χ∘art_F`. At s=1/2 prove
 
 `E_F⁺(1/2,χ)=τ_F(χ̄)/(N_F fχ)^(1/2)`,
 
 `E_F⁻(1/2,χ)=detχ(art_F(−1)) E_F⁺(1/2,χ)=(N_F fχ)^(1/2)/τ_F(χ)`.
 
-The square roots are positive. For rank one, with a≥1, the first equality is the Tate finite-sum formula `ω(c)(q^a)^(−1/2)Σ_u ω(u)⁻¹ψ_F⁺(u/c)`; the self-dual measure `q^(−d/2)` cancels the different in the finite-sum normalization. For a=0 both E-values are `ω(D_F/Q_p)`, giving exactly `τ_F(χ)=ω(D_F/Q_p)⁻¹`. For all virtual χ, the first equality and the additive-character change follow from the supplied duality and multiplicativity; they imply `τ_F(χ)τ_F(χ̄)=detχ(art_F(−1)) N_F fχ`. Relation independence is inherited from the supplied local constants.
+The square roots are positive. For rank one, with a≥1, the first equality is the Tate finite-sum formula `ω(c)(q^a)^(−1/2)Σ_u ω(u)⁻¹ψ_F⁺(u/c)`; the self-dual measure `q^(−d/2)` cancels the different in the finite-sum normalization. For a=0 both E-values are `ω(D_F/Q_p)`, giving exactly `τ_F(χ)=ω(D_F/Q_p)⁻¹`. For all virtual χ, the first equality and the additive-character change follow from §7.12b’s duality and multiplicativity; they imply `τ_F(χ)τ_F(χ̄)=detχ(art_F(−1)) N_F fχ`. Relation independence follows from §7.12b.
 
-For K/F finite separable put `λ_K/F⁻=E_F⁻(1/2,Ind_K/F 1)/E_K⁻(1/2,1)`, with the trace character and self-dual measure on K. The supplier's degree-zero induction gives `E_F⁻`(1/2,Ind θ)`=(λ_K/F⁻)^(deg θ) E_K⁻(1/2,θ)`. Its §3.5 conductor induction gives `N_F f_`(Ind θ)`=(N_F discriminant(K/F))^(deg θ) N_K fθ`. Consequently
+For K/F finite separable put `λ_K/F⁻=E_F⁻(1/2,Ind_K/F 1)/E_K⁻(1/2,1)`, with the trace character and self-dual measure on K. Section 7.12b’s degree-zero induction gives `E_F⁻`(1/2,Ind θ)`=(λ_K/F⁻)^(deg θ) E_K⁻(1/2,θ)`. Its conductor induction formula gives `N_F f_`(Ind θ)`=(N_F discriminant(K/F))^(deg θ) N_K fθ`. Consequently
 
 `τ_F(Ind_K/F θ)=((N_F discriminant(K/F))^(1/2)/λ_K/F⁻)^(deg θ) τ_K(θ)`.
 
@@ -14031,7 +14164,7 @@ The formula applies to virtual θ, with integer powers and multiplicative conduc
 
 (Deligne, [Les constantes des équations fonctionnelles des fonctions L](#pierre-deligne--les-constantes-des-équations-fonctionnelles-des-fonctions-l), Theorem4.1, p.535, and §8.12, p.572; Kudla, [Tate's Thesis](#stephen-s-kudla--tates-thesis), §3, (3.29) and Proposition3.8, pp.123–125; Fröhlich (1976), (2.11)–(2.16), pp.392–393.) These fix the dual, measure, sign and induction conversions.
 
-To prove the adapter, reindex the degree-one conductor sum to compare it with the supplied Tate formula. Use Deligne–Langlands uniqueness to transport the rank-one comparison to virtual characters; relation independence, duality and degree-zero induction are supplier theorems. The conductor induction formula supplies the remaining degree correction. Galois covariance of the resulting algebraic sums is the Fröhlich comparison target of §7.107.
+To prove the adapter, reindex the degree-one conductor sum to compare it with §7.12a’s Tate formula. Use Deligne–Langlands uniqueness to transport the rank-one comparison to virtual characters; relation independence, duality and degree-zero induction are proved in §7.12b. The conductor induction formula supplies the remaining degree correction. Galois covariance of the resulting algebraic sums is the Fröhlich comparison target of §7.107.
 
 **Checks.**
 
@@ -14042,7 +14175,7 @@ To prove the adapter, reindex the degree-one conductor sum to compare it with th
 - Over Q₇ take the cubic residue character ω with ω(3)=ζ₃ and ω(7)=1. Put ζ₇=exp(2πi/7). Then τ(χ)=(ζ₇+ζ₇⁶)+ζ₃(ζ₇³+ζ₇⁴)+ζ₃²(ζ₇²+ζ₇⁵), which differs from τ(χ̄) since cos(6π/7)≠cos(4π/7). Here detχ(−1)=1 and τ(χ)τ(χ̄)=7, so E⁻(1/2,χ)=τ(χ̄)/√7=√7/τ(χ), not τ(χ)/√7.
 - For K/F and θ=1, `τ_F`(Ind 1)`/τ_K(1)=(N_F discriminant(K/F))^(1/2)/λ_K/F⁻`. Degree-zero induction cannot omit this factor for a character of positive degree.
 
-*Needs:* TauCetiRoadmap.ArithmeticGaloisRepresentations, §§2.7, 3.3, 3.5; TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors, AL.0–AL.1; [TauCetiRoadmap.ClassFieldTheory, layer 7 the absolute local artin map its normalizations and conductors](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ClassFieldTheory/README.md#layer-7-the-absolute-local-artin-map-its-normalizations-and-conductors); [TauCetiRoadmap.RepresentationTheory/InductionRestriction, layer 6 the virtual character ring artin and brauer induction](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/InductionRestriction/README.md#layer-6-the-virtual-character-ring-artin-and-brauer-induction); Mathlib `gaussSum`.
+*Needs:* [Weil local constants](#712b-weil-local-constants); [Tate factors and trace characters](#712a-tate-factors-and-trace-characters); [TauCetiRoadmap.ClassFieldTheory, layer 7 the absolute local artin map its normalizations and conductors](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ClassFieldTheory/README.md#layer-7-the-absolute-local-artin-map-its-normalizations-and-conductors); [TauCetiRoadmap.RepresentationTheory/InductionRestriction, layer 6 the virtual character ring artin and brauer induction](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/InductionRestriction/README.md#layer-6-the-virtual-character-ring-artin-and-brauer-induction); Mathlib `gaussSum`.
 
 ### 7.14 The p-th Adams operation on virtual characters
 
@@ -14339,7 +14472,7 @@ To prove this, for A[G], coinvariants are A by augmentation, and invariants are 
 
 ### 7.26 Norm-one groups of semisimple matrix components
 
-Extend the supplier’s division-algebra group to each matrix component `C=M_r(D)` with r>1: SL₁(C) is the affine F-group whose points over every commutative F-algebra T are ker((C⊗F T)×→T×) under the reduced norm polynomial. For semisimple B use the product over its centres, importing the r=1 components, then restriction of scalars to the original number field as needed. A field component has the trivial group.
+For every central-simple F-algebra C, including division algebras and matrix algebras, construct SL₁(C) as the affine F-group whose points over every commutative F-algebra T are ker((C⊗F T)×→T×) under the reduced norm polynomial. For semisimple B take the product over its centres and apply the restriction of scalars of ReductiveGroupsPartII RG2.0a to the original number field. A field component has the trivial group.
 
 The supporting API comprises:
 
@@ -14350,7 +14483,7 @@ The supporting API comprises:
 
 (Albrecht Fröhlich, [Locally free modules over arithmetic orders](#albrecht-fröhlich--locally-free-modules-over-arithmetic-orders), §3 VII and Lemma1, p.117; §2 norm kernels, p.114.) Strong approximation applies to each component’s reduced-norm-one group; the split form is special linear.
 
-To prove this, write each central-simple component as `M_r(D)`. Use the division-algebra norm-one carrier from AdelicAlgebraicGroups §3.4 for r=1. For r>1 use the unit locus cut out by the component reduced-norm equation, with the imported Hopf-group and scalar-extension interfaces; after splitting it is `SL_(r deg D)`. Take products over the centres and restrict scalars. Identify its adelic points with the restricted product of the local norm kernels, checking that the compact-open subgroup is the intersection with the stated order units.
+To prove this, write each central-simple component as `M_r(D)`. For every r≥1 use the affine equation Nrd=1; multiplication, identity and inversion descend from the split determinant-one group, giving the Hopf-group and scalar-extension interfaces; after splitting it is `SL_(r deg D)`. Take products over the centres and restrict scalars. Identify its adelic points with the restricted product of the local norm kernels, checking that the compact-open subgroup is the intersection with the stated order units.
 
 **Checks.**
 
@@ -14359,7 +14492,7 @@ To prove this, write each central-simple component as `M_r(D)`. Use the division
 - For split C it agrees with the determinant-one matrix group from ReductiveGroups.
 - Over ℝ, SL₁(ℍ) is compact; it does not satisfy the archimedean noncompactness needed for strong approximation.
 
-*Needs:* TauCetiRoadmap.AdelicAlgebraicGroups, §3.4 norm-one group; [Reduced norm of a semisimple number-field algebra](#710-reduced-norm-of-a-semisimple-number-field-algebra); [TauCetiRoadmap.ReductiveGroups, layer 6 reductive and semisimple groups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ReductiveGroups/README.md#layer-6-reductive-and-semisimple-groups); [TauCetiRoadmap.RepresentationTheory/SemisimpleAlgebras, layer 6 the brauer group and splitting fields](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/SemisimpleAlgebras/README.md#layer-6-the-brauer-group-and-splitting-fields).
+*Needs:* TauCetiRoadmap.ReductiveGroupsPartII RG2.0a; [Reduced norm of a semisimple number-field algebra](#710-reduced-norm-of-a-semisimple-number-field-algebra); [TauCetiRoadmap.ReductiveGroups, layer 6 reductive and semisimple groups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ReductiveGroups/README.md#layer-6-reductive-and-semisimple-groups); [TauCetiRoadmap.RepresentationTheory/SemisimpleAlgebras, layer 6 the brauer group and splitting fields](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/SemisimpleAlgebras/README.md#layer-6-the-brauer-group-and-splitting-fields).
 
 ### 7.27 Semilocal elimination preserves the determinant image
 
@@ -14445,9 +14578,9 @@ To prove this, import the Frobenius–Schur classification, local conductors and
 - For symplectic χ the formula W(χ)τ(χ)=(Nfχ)¹ᐟ²W∞(χ)⁻¹ fixes the sign convention.
 - For an odd-order group every irreducible is non-symplectic, so `W_G` is one.
 
-**Analytic Artin root numbers.** For a finite Galois extension L/F of number fields and an actual complex character χ of its Galois group, `completedArtinLFunction` is the supplier's completed finite-image function evaluated on χ∨, identified with the meromorphic completion of AA.2.4's arithmetic-Frobenius function for χ. Use `Cχ = |disc F|^χ(1) Nfχ` and the factor `Cχ^(s/2)`. At each real place use `Γ_R(s)^n₊ Γ_R(s+1)^n₋`, with n₊ and n₋ the conjugation multiplicities, and at each complex place use `Γ_C(s)^χ(1)`. Extend multiplicatively to virtual characters as meromorphic germs, retaining poles and zeros. Consume ArithmeticGaloisRepresentations §2.7's completed finite-image equation and analytic local constants, including `epsilonWeil`, and AL.0–AL.1's standard trace characters and self-dual measures.
+**Analytic Artin root numbers.** For a finite Galois extension L/F of number fields and an actual complex character χ of its Galois group, the completed Artin L-function is the arithmetic-Frobenius function of §7.12c evaluated on χ itself. Its local epsilon factors use χ∨ under the geometric reciprocity convention of §7.12b; the global function is not dualized a second time. Use `Cχ = |disc F|^χ(1) Nfχ` and the factor `Cχ^(s/2)`. At each real place use `Γ_R(s)^n₊ Γ_R(s+1)^n₋`, with n₊ and n₋ the conjugation multiplicities, and at each complex place use `Γ_C(s)^χ(1)`. Extend multiplicatively to virtual characters as meromorphic germs, retaining poles and zeros. Use §7.12c’s completed finite-image equation and analytic local constants, including the Weil epsilon constant, and §7.12a’s standard trace characters and self-dual measures.
 
-Define the analytic Artin root number of χ as `∏_`(v finite)`E_Fv⁻(1/2,χ_v) · ∏_`(v real)`i^(n₋(χ,v))`; the complex-place factor is 1 for finite-image characters. The finite factors use AL.0's negative trace character, while infinity uses its positive trace character and self-dual measures dx on R and 2 dx dy on C. Each E uses the supplier on χ∨ with the `|·|^(1/2)` twist, as in §7.13. Thus the product is precisely the normalized global epsilon factor for the arithmetic Artin function. Require `analyticArtinRootNumber_functionalEquation`: Λ(s,χ)=analyticArtinRootNumber(χ) Λ(1−s,χ̄), with the conductor-balanced completion above. Require `analyticArtinRootNumber_unique`: this scalar is determined by that equation, since the Artin function is a nonzero meromorphic germ (its Euler product is nonzero on Re s>1). The equation is transported from the supplier; uniqueness follows from that equation and nonvanishing, and both assertions precede the algebraic comparison. Their analytic inputs are precisely ArithmeticGaloisRepresentations §2.7 (Tate's constants, Deligne–Langlands existence/uniqueness and Global inputs), AA.2.4 (finite-image meromorphic assembly), and AL.0–AL.1 (trace characters, self-dual measures and archimedean Tate factors).
+Define the analytic Artin root number of χ as `∏_`(v finite)`E_Fv⁻(1/2,χ_v) · ∏_`(v real)`i^(n₋(χ,v))`; the complex-place factor is 1 for finite-image characters. The finite factors use §7.12a’s negative trace character, while infinity uses its positive trace character and self-dual measures dx on R and 2 dx dy on C. Each E uses §7.12b on χ∨ with the `|·|^(1/2)` twist, as in §7.13. Thus the product is precisely the normalized global epsilon factor for the arithmetic Artin function. Require the analytic Artin root-number functional equation: Λ(s,χ)=analyticArtinRootNumber(χ) Λ(1−s,χ̄), with the conductor-balanced completion above. Require uniqueness of the analytic Artin root number: this scalar is determined by that equation, since the Artin function is a nonzero meromorphic germ (its Euler product is nonzero on Re s>1). The equation is transported from §7.12c; uniqueness follows from that equation and nonvanishing, and both assertions precede the algebraic comparison. Their analytic inputs are precisely §§7.12a–7.12b (Tate factors and Deligne–Langlands existence and uniqueness), §7.12c (finite-image meromorphic assembly), and §7.12a (trace characters, self-dual measures and archimedean Tate factors).
 
 (Deligne, [Les constantes des équations fonctionnelles des fonctions L](#pierre-deligne--les-constantes-des-équations-fonctionnelles-des-fonctions-l), §3.12(A)–(D), pp.533–534, Theorem4.1, p.535, and §8.12, p.572; Kudla, [Tate's Thesis](#stephen-s-kudla--tates-thesis), §3, Propositions3.5–3.8, pp.120–124, and §4, Corollary4.4, p.128.) These supply the finite-image functional equation, local-constant uniqueness and the rank-one archimedean normalization. Transport the additive character by its explicit scaling law, the self-dual measure by the corresponding modulus, and the conductor exponent including the different; no equality of differently normalized epsilon factors is presumed.
 
@@ -14459,7 +14592,7 @@ Define the analytic Artin root number of χ as `∏_`(v finite)`E_Fv⁻(1/2,χ_v
 
 **Auxiliary proof target.** Require equality of the algebraic root sign and the analytic root number for symplectic virtual characters of Gal(L/F). The adapter of §7.13 gives the product of the finite E⁻-values as `(Nfχ)^(1/2)/τ(χ)`, and the positive archimedean epsilon product is W∞(χ)⁻¹. Hence the normalized analytic factor is exactly `(Nfχ)^(1/2)/(τ(χ)W∞(χ))`, with positive square root, as in Fröhlich (1976), (2.4)–(2.5), p.390.
 
-The full conductor in the equation is `Cχ=|disc F|^(deg χ)Nfχ`. At a finite v, the supplier's §3.3 twist law gives `E_Fv⁻(s,χ_v)=E_Fv⁻(1/2,χ_v) q_v^((1/2−s)(a_v(χ)+d_v deg χ))`. Since `∏q_v^d_v=|disc F|`, the global epsilon factor for the completion with gamma factors and without the conductor power is `analyticArtinRootNumber(χ) Cχ^(1/2−s)`. Multiplication by `Cχ^(s/2)` gives the displayed balanced equation. The discriminant therefore enters through the different and conductor dependence; it is not an extra square root in the Fröhlich root sign. Use the supplied equation, uniqueness and induction to transport these formulas to virtual characters. General local-constant existence and completed Artin equations remain supplier results.
+The full conductor in the equation is `Cχ=|disc F|^(deg χ)Nfχ`. At a finite v, §7.12b’s twist law gives `E_Fv⁻(s,χ_v)=E_Fv⁻(1/2,χ_v) q_v^((1/2−s)(a_v(χ)+d_v deg χ))`. Since `∏q_v^d_v=|disc F|`, the global epsilon factor for the completion with gamma factors and without the conductor power is `analyticArtinRootNumber(χ) Cχ^(1/2−s)`. Multiplication by `Cχ^(s/2)` gives the displayed balanced equation. The discriminant therefore enters through the different and conductor dependence; it is not an extra square root in the Fröhlich root sign. Use §7.12c’s equation, uniqueness and induction to transport these formulas to virtual characters. General local-constant existence and the completed Artin equation are the targets of §§7.12b–7.12c.
 
 **Checks.**
 
@@ -14467,7 +14600,7 @@ The full conductor in the equation is `Cχ=|disc F|^(deg χ)Nfχ`. At a finite v
 - For virtual −χ, the root number, Gauss factor and infinite factor are inverted; every comparison is multiplicative on the virtual-character group.
 - For the zero character, Λ=1 and both root factors are 1, so uniqueness also applies at virtual rank zero.
 
-*Needs:* [Tame local Galois Gauss sums](#713-tame-local-galois-gauss-sums); TauCetiRoadmap.ArithmeticGaloisRepresentations, §2.7 local constants and completed finite-image equations; TauCetiRoadmap.AdelicAlgebraicGroups, AA.2.4 convergence factors; TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors, AL.0 trace characters and self-dual measures; TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors, AL.1 analytic epsilon factors; [TauCetiRoadmap.ClassFieldTheory, layer 7 the absolute local artin map its normalizations and conductors](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ClassFieldTheory/README.md#layer-7-the-absolute-local-artin-map-its-normalizations-and-conductors); [TauCetiRoadmap.RepresentationTheory/CharacterTheory, layer 7 the frobenius schur indicator and realquaternionic type](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/CharacterTheory/README.md#layer-7-the-frobeniusschur-indicator-and-realquaternionic-type); [TauCetiRoadmap.RepresentationTheory/CharacterTheory, layer 4 the arithmetic of character values](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/CharacterTheory/README.md#layer-4-the-arithmetic-of-character-values).
+*Needs:* [Tame local Galois Gauss sums](#713-tame-local-galois-gauss-sums); [Weil local constants](#712b-weil-local-constants); [Finite-image Artin functions](#712c-finite-image-artin-functions); [Tate factors and trace characters](#712a-tate-factors-and-trace-characters); [TauCetiRoadmap.ClassFieldTheory, layer 7 the absolute local artin map its normalizations and conductors](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ClassFieldTheory/README.md#layer-7-the-absolute-local-artin-map-its-normalizations-and-conductors); [TauCetiRoadmap.RepresentationTheory/CharacterTheory, layer 7 the frobenius schur indicator and realquaternionic type](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/CharacterTheory/README.md#layer-7-the-frobeniusschur-indicator-and-realquaternionic-type); [TauCetiRoadmap.RepresentationTheory/CharacterTheory, layer 4 the arithmetic of character values](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/CharacterTheory/README.md#layer-4-the-arithmetic-of-character-values).
 
 ### 7.31 Odd-order group algebras satisfy Eichler’s condition
 
@@ -14773,13 +14906,46 @@ To prove this, restrict the additive module functor to the existing finite-proje
 
 ### 7.44 Inner forms meet the strong-approximation hypotheses
 
+For every connected semisimple simply connected group G over a number field F and every finite S containing the archimedean places, prove strong approximation provided each nontrivial F-simple factor has noncompact S-points. Equivalently, the same noncompactness holds for every nontrivial connected semisimple quotient Q of G. Then G(F) is dense in G(𝔸_F^S), and G(𝔸_F^S)=G(F)U for every open subgroup U. This theorem applies to all such groups and all finite S, not only to the norm-one application (Rapinchuk, *On strong approximation for algebraic groups*, arXiv:1207.4425v1, Theorem 2.3 and the reduction preceding it, pp.11–12).
+
+Use the native commutative Hopf-algebra point functor for G=Spec H. Write its evaluation topology as the infimum of the induced topologies of evaluation at every h∈H; this is `Approximation.evaluationTopology`. Define `Approximation.Points` to be H→ₐ[F]R with its convolution group for a topological F-algebra R. It is the same affine point functor over F, the adele ring, the infinite adele ring and each completion, with no new integral-model choice. Construct and prove the comparison with the restricted product of local points using any finite-presentation integral model outside a finite set: extend the finitely many Hopf operations over S-integers, impose integrality on generators, and prove independence after enlarging S. GlobalNumberFields supplies the scalar adele topology, and finite presentation identifies evaluation neighborhoods with the local congruence neighborhoods.
+
+The restricted-product comparison has the following API:
+
+- A finite set of evaluations on integral generators gives the local congruence neighborhoods of the comparison.
+- Enlarging the finite exceptional set or changing the integral presentation leaves the adelic topology unchanged.
+- The evaluation topology over the adeles equals the restricted-product topology with these integral points, and projection to each local point group is continuous.
+
+**Checks.**
+
+- For H=F, there is one F-algebra map into every coefficient algebra; the point group is the one-element space.
+- For the additive group and R=ℚ_p, evaluation on the coordinate X identifies its points with ℚ_p, and evaluation on X² is x↦x²; a discrete topology would fail this local identification.
+- For SL₂ over ℚ_p, the matrices [[1,p^m],[0,1]] tend to the identity as m→∞; the four matrix-coordinate evaluations are 1,p^m,0,1.
+
+For S=∞∪S_f define `Approximation.HasStrongApproximation` by density, in the full adelic point group, of the products γy with γ∈G(F) and y equal to the identity at every finite place outside S_f. The multiplication is in that order. This is equivalent to density of the diagonal outside S; no compactness assumption is folded into the definition. State the theorem as `Approximation.strongApproximation`, with the quotient condition expressed by injective maps O(Q)→O(G) of Hopf algebras and nontriviality by failure of surjectivity F→O(Q). The semisimple and simply connected predicates are the native Tau Ceti predicates.
+
+The supporting API comprises:
+
+- Projection away from S identifies the density assertion with density of the rational diagonal.
+- Enlarging S preserves strong approximation, and finite products preserve it when each factor satisfies it.
+- Strong approximation gives G(F)U=G(𝔸_F^S) for every open subgroup U; the converse follows from the compact-open neighborhood basis.
+
+**Checks.**
+
+- The trivial group has one point and dense diagonal for every S; the quotient condition is empty.
+- For SL₂/ℚ and S={∞}, diag(t,t⁻¹) for t>0 is unbounded, and the theorem gives one rational double coset for each compact open finite level.
+- The norm-one group of the Hamilton algebra over ℚ has real points a²+b²+c²+d²=1, hence compact; adjoining an SL₂ factor makes the full real group noncompact but leaves this compact quotient. The factorwise hypothesis still fails.
+- For G_m/ℚ, take x₂=2 and x_p=1 at every other finite place, and U with U₅=1+5ℤ₅ and U_p=ℤ_p× for p≠5. A rational point in xU would have to be ±2 by its valuations, but their residues at 5 are 2 and 3, not 1. Thus xU contains no rational point; noncompactness alone does not imply strong approximation.
+
+*Needs:* TauCetiRoadmap.ReductiveGroupsPartII RG2.0.1; TauCetiRoadmap.ReductiveGroups Layer 6 and the native semisimple and simply connected Hopf-algebra predicates; TauCetiRoadmap.GlobalNumberFields Layers 4–6; Mathlib restricted products, affine algebra maps and topology. The norm-one application additionally needs §§7.10, 7.11 and 7.26.
+
 For a central simple C/F of degree d>1, SL₁(C) is connected semisimple and simply connected. Its archimedean product is noncompact unless C is itself a totally definite quaternion division algebra. Consequently, if semisimple B satisfies Eichler’s condition, J(B)′=B×′·(J(B)′∩U(Γ)) for every arithmetic order Γ, including every idele-conjugate order. Trivial field factors are omitted.
 
 (Albrecht Fröhlich, [Locally free modules over arithmetic orders](#albrecht-fröhlich--locally-free-modules-over-arithmetic-orders), §3 VII, Eichler theorem and Lemma1, p.117; Jacobinski (1968), §4 Theorem4.1 and Lemma4.2, pp.15–16.) Norm-one strong approximation under Eichler’s condition makes every relevant finite adelic double-coset fibre a singleton.
 
 (Vladimir Platonov, Andrei Rapinchuk and Igor Rapinchuk, [Algebraic Groups and Number Theory, Volume I](#vladimir-platonov-andrei-rapinchuk-and-igor-rapinchuk--algebraic-groups-and-number-theory-volume-i), §2.3.4 Proposition2.37 and proof, pp.100–101.) The determinant-one group of a central simple algebra is an inner form of `SL_d`.
 
-To prove this, after a splitting field this is `SL_d`; descend the connected, semisimple and simply connected properties through the inner form. Inspect C⊗ℝ: `SL_d(ℝ)`, `SL_d(ℂ)`, or quaternionic `SL_r`; the sole compact nontrivial case is r=1 over ℍ. Apply strong approximation (TauCetiRoadmap.AdelicAlgebraicGroups §4.2) with S the archimedean places and the compact open intersection with Γ-units. The inner-form identification is Platonov–Rapinchuk–Rapinchuk Proposition2.37: a splitting trivialization gives an inner cocycle in `PGL_d` and descent of the determinant-one equations. Geometric connectedness and simple connectedness are preserved by this form. Explicit diagonal one-parameter subgroups prove noncompactness in all allowed real or complex matrix cases.
+To prove this, after a splitting field this is `SL_d`; descend the connected, semisimple and simply connected properties through the inner form. Inspect C⊗ℝ: `SL_d(ℝ)`, `SL_d(ℂ)`, or quaternionic `SL_r`; the sole compact nontrivial case is r=1 over ℍ. Apply the general strong-approximation theorem of this section with S the archimedean places and the compact open intersection with Γ-units. The inner-form identification is Platonov–Rapinchuk–Rapinchuk Proposition2.37: a splitting trivialization gives an inner cocycle in `PGL_d` and descent of the determinant-one equations. Geometric connectedness and simple connectedness are preserved by this form. Explicit diagonal one-parameter subgroups prove noncompactness in all allowed real or complex matrix cases.
 
 **Checks.**
 
@@ -14787,7 +14953,7 @@ To prove this, after a splitting field this is `SL_d`; descend the connected, se
 - C the Hamilton quaternions over ℚ: SL₁(C)(ℝ) = SU(2) is compact, the excluded case.
 - `C = M₂(ℍ_ℚ)` of degree 4: SL₁(C)(ℝ) = SL₂(ℍ) is noncompact, so Eichler's condition allows matrix algebras over definite quaternions.
 
-*Needs:* [Norm-one groups of semisimple matrix components](#726-norm-one-groups-of-semisimple-matrix-components); [Eichler’s condition for semisimple algebras](#711-eichlers-condition-for-semisimple-algebras); [TauCetiRoadmap.ReductiveGroups, layer 6 reductive and semisimple groups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ReductiveGroups/README.md#layer-6-reductive-and-semisimple-groups); TauCetiRoadmap.AdelicAlgebraicGroups, §4.2 Strong approximation and arithmetic closures.
+*Needs:* [Norm-one groups of semisimple matrix components](#726-norm-one-groups-of-semisimple-matrix-components); [Eichler’s condition for semisimple algebras](#711-eichlers-condition-for-semisimple-algebras); [TauCetiRoadmap.ReductiveGroups, layer 6 reductive and semisimple groups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ReductiveGroups/README.md#layer-6-reductive-and-semisimple-groups).
 
 ### 7.45 Local–global realization of separable reduced characteristic polynomials
 
@@ -14803,7 +14969,7 @@ To prove this, for a separable algebra E=F[X]/f, its embedding in C with total d
 - C the Hamilton quaternions over ℚ: f = X² + 1 is realised by i, while f = X² − 2 is not, because its reduced norm −2 is negative and ℚ(√2) does not split C at the real place.
 - f = (X − 1)² is not separable and lies outside the statement.
 
-*Needs:* [Reduced norm of a semisimple number-field algebra](#710-reduced-norm-of-a-semisimple-number-field-algebra); [TauCetiRoadmap.RepresentationTheory/SemisimpleAlgebras, layer 6 the brauer group and splitting fields](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/SemisimpleAlgebras/README.md#layer-6-the-brauer-group-and-splitting-fields); [TauCetiRoadmap.ClassFieldTheory, layer 10 global carriers the brauer sequence and the sum of local invariants](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ClassFieldTheory/README.md#layer-10-global-carriers-the-brauer-sequence-and-the-sum-of-local-invariants); [TauCetiRoadmap.NumberFieldArithmetic, layer 5 the global local dictionary at finite places](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/NumberFieldArithmetic/README.md#layer-5-the-global-local-dictionary-at-finite-places); [Reduced characteristic polynomials](#reduced-characteristic-polynomial-input).
+*Needs:* [Reduced norm of a semisimple number-field algebra](#710-reduced-norm-of-a-semisimple-number-field-algebra); [TauCetiRoadmap.RepresentationTheory/SemisimpleAlgebras, layer 6 the brauer group and splitting fields](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/SemisimpleAlgebras/README.md#layer-6-the-brauer-group-and-splitting-fields); [TauCetiRoadmap.ClassFieldTheory, layer 10 global carriers the brauer sequence and the sum of local invariants](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ClassFieldTheory/README.md#layer-10-global-carriers-the-brauer-sequence-and-the-sum-of-local-invariants); [TauCetiRoadmap.NumberFieldArithmetic, layer 5 the global local dictionary at finite places](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/NumberFieldArithmetic/README.md#layer-5-the-global-local-dictionary-at-finite-places); [Reduced characteristic polynomials](#reduced-characteristic-polynomials).
 
 ### 7.46 The integral group logarithm
 
@@ -16561,9 +16727,6 @@ The Gaussian integer extension has a rational normal basis and no integral norma
 
 The declarations and supplier layers used by this layer are:
 
-- TauCetiRoadmap.AdelicAlgebraicGroups, §4.2 Strong approximation and arithmetic closures.
-- TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants, §0.6 Azumaya reduced-norm determinant.
-- TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants, §0.5 characteristic polynomial law.
 - Mathlib `Algebra.IsInvariant`.
 - Mathlib `Algebra.IsSeparable`.
 - Mathlib `Algebra.IsSeparable.trans`.
@@ -16692,6 +16855,14 @@ The scope boundaries give the direction of each cross-roadmap import. In particu
 ## References
 
 Page numbers in the layers refer to the edition or preprint version named below; a PDF page number is stated separately when it differs from printed pagination.
+
+### Andrei S. Rapinchuk — On strong approximation for algebraic groups
+
+Andrei S. Rapinchuk. [On strong approximation for algebraic groups](https://arxiv.org/abs/1207.4425v1). Version 1 (2012), Theorem 2.3, pp.11–12.
+
+### Alexander Grothendieck — Le groupe de Brauer I
+
+Alexander Grothendieck. [Le groupe de Brauer I: algèbres d'Azumaya et interprétations diverses](https://www.numdam.org/item/SB_1964-1966__9__199_0/). Séminaire Bourbaki, exposé 290 (1966), Theorem 5.10 and §5.13, printed pp.212–213.
 
 ### Pierre Deligne — Les constantes des équations fonctionnelles des fonctions L
 

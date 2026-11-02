@@ -1,4 +1,7 @@
 import Mathlib
+import TauCeti.Algebra.AlgebraicGroup.Hopf.Map
+import TauCeti.Algebra.AlgebraicGroup.SimplyConnected.Basic
+import TauCeti.NumberTheory.NumberField.Global.Adeles.LocallyCompact
 
 /-!
 # ClassicalArithmeticCompletion: target signatures
@@ -12,7 +15,8 @@ divisibility, Christol and Cobham; rectangular Smith forms and cokernels, Perron
 Markoff descent, three squares, Egyptian fractions and Ramanujan–Nagell; negative Pell,
 factor-base generation and class-number/unit completeness; Smyth, explicit and asymptotic
 Dobrowolski, the smallest Pisot number, Salem-field generators, Schinzel–Zassenhaus,
-Dubinin and Bertrandias; local Noether, Hilbert–Speiser and tame determinant descent.
+Dubinin and Bertrandias; reduced-norm existence, local Noether, Hilbert–Speiser,
+strong approximation and tame determinant descent.
 These have signatures below, in README layer order.
 
 The remaining headline theorems are not statable at the pins on their intended carriers:
@@ -27,6 +31,10 @@ The remaining headline theorems are not statable at the pins on their intended c
   character-idele quotient, root-number class and their comparison with the locally free
   class group of an arithmetic order. Its logarithmic proof inputs (§§7.115–7.118) lack
   the integral group logarithm on the equivariant virtual-character Hom group.
+* Tate's local functional equation and Deligne–Langlands existence (§§7.12a–7.12b)
+  lack the local zeta-integral/epsilon-constant constructions and their virtual Weil-character
+  interface. Finite-image Artin continuation and its equation (§7.12c) lack the ramified
+  Artin Euler product and its completed meromorphic function.
 No free predicates or substitute theorems stand for these missing constructions.
 -/
 
@@ -484,6 +492,25 @@ end SmallHeight
 
 namespace GaloisModules
 
+open scoped TensorProduct
+
+/-- A reduced-norm law agrees with the determinant after every faithfully flat
+matrix splitting, including scalar extensions with nilpotents (README §7.10). -/
+def IsReducedNormLaw {A R : Type u} [CommRing A] [Ring R] [Algebra A R]
+    (d : ℕ) (N : PolynomialLaw A R A) : Prop :=
+  ∀ (B : Type u) [CommRing B] [Algebra A B] [Module.FaithfullyFlat A B]
+    (e : B ⊗[A] R ≃ₐ[B] Matrix (Fin d) (Fin d) B) (x : B ⊗[A] R),
+    Algebra.TensorProduct.rid A B B (N.toFun' B x) = Matrix.det (e x)
+
+/-- Reduced norm descends uniquely for every constant-rank Azumaya algebra
+(README §7.10; Grothendieck, Brauer I, §5.13). -/
+theorem existsUnique_reducedNormLaw {A R : Type u} [CommRing A] [Ring R]
+    [Algebra A R] [IsAzumaya A R] (d : ℕ) (hd : 0 < d)
+    (hrank : Module.rankAtStalk (R := A) R = d * d) :
+    ∃! N : PolynomialLaw A R A, IsReducedNormLaw d N := by
+  sorry
+
+
 /-- Conjugates must be linearly independent and span the full integral module.
 -/
 def IsNIBGenerator (A B G : Type*) [CommRing A] [CommRing B] [Algebra A B]
@@ -585,5 +612,53 @@ theorem tameInertia_determinant_descent
   sorry
 
 end GaloisModules
+
+namespace Approximation
+
+noncomputable section
+
+open scoped NumberField
+
+/-- The affine point functor of a commutative Hopf algebra with convolution group
+structure (README §7.44). -/
+abbrev Points (F : Type) [Field F] (H : Type) [CommRing H] [HopfAlgebra F H]
+    (R : Type) [CommRing R] [Algebra F R] := WithConv (H →ₐ[F] R)
+
+/-- The evaluation topology on affine group points (README §7.44). -/
+scoped instance evaluationTopology (F : Type) [Field F] (H : Type) [CommRing H]
+    [HopfAlgebra F H] (R : Type) [CommRing R] [Algebra F R] [TopologicalSpace R] :
+    TopologicalSpace (Points F H R) :=
+  ⨅ h : H, TopologicalSpace.induced (fun x : Points F H R => x.ofConv h) inferInstance
+
+/-- Density of rational points times the points supported at infinity and S_f,
+equivalently strong approximation away from those places (README §7.44). -/
+def HasStrongApproximation (F : Type) [Field F] [NumberField F]
+    (H : Type) [CommRing H] [HopfAlgebra F H]
+    (Sf : Finset (IsDedekindDomain.HeightOneSpectrum (𝓞 F))) : Prop :=
+  Dense {x : Points F H (NumberField.AdeleRing (𝓞 F) F) |
+    ∃ g : Points F H F, ∃ y : Points F H (NumberField.AdeleRing (𝓞 F) F),
+      (∀ v ∉ Sf, ∀ h : H,
+        (TauCeti.AlgHom.mapValue (AlgHom.snd F _ _) y).ofConv h v =
+          (1 : Points F H (IsDedekindDomain.FiniteAdeleRing (𝓞 F) F)).ofConv h v) ∧
+      x = TauCeti.AlgHom.mapValue (Algebra.ofId F _) g * y}
+
+/-- Strong approximation for simply connected semisimple groups, with noncompact
+S-points in every nontrivial semisimple quotient (README §7.44; Rapinchuk,
+Theorem 2.3 and its semisimple reduction). -/
+theorem strongApproximation (F : Type) [Field F] [NumberField F]
+    (G : TauCeti.SemisimpleCommHopfAlgCat F)
+    (hsc : TauCeti.simplyConnectedSemisimpleCommHopfAlgProperty F G)
+    (Sf : Finset (IsDedekindDomain.HeightOneSpectrum (𝓞 F)))
+    (hS : ∀ (Q : TauCeti.SemisimpleCommHopfAlgCat F) (f : Q.obj →ₐc[F] G.obj),
+      Function.Injective f → ¬ Function.Surjective (algebraMap F Q.obj) →
+        ¬ IsCompact (Set.univ : Set
+          (Points F Q.obj (NumberField.InfiniteAdeleRing F) ×
+            ∀ v : Sf, Points F Q.obj (v.val.adicCompletion F)))) :
+    HasStrongApproximation F (G.obj : Type) Sf := by
+  sorry
+
+end
+
+end Approximation
 
 end TauCetiRoadmap.ClassicalArithmeticCompletion
