@@ -25,7 +25,15 @@ group laws (A1), duality, Picard and Poincaré geometry, polarizations (A2), iso
 cohomology, its Hodge sequence and Tate systems (A4), complex uniformization and
 the Hodge dictionary (A5), and finite-rank Hom groups, characteristic polynomials,
 semisimple endomorphism algebras and complete reducibility (A6). These objects
-are inputs here. B2 constructs uniform Manin–Mumford, Lang–Néron modulo trace and their finite-maximal-special application.
+are inputs here. **HeightsRationalPointsAndObstructions**, §§1.9–1.10, owns the
+primary-extension trace, its universal, base-change and tower API, and Lang–Néron
+modulo trace for every regular finitely generated extension in any characteristic,
+including the proof inputs in §§1.9a–1.9c.
+**InverseGaloisAndArithmeticFundamentalGroups**, IG.3 “Finitely many covers of
+bounded degree”, owns the characteristic-zero cover-finiteness input.
+B2 constructs uniform Manin–Mumford,
+bounded-degree torsion over characteristic-zero curve fields, the geometric
+constant-part comparison and the finite-maximal-special application.
 In particular, a second dual abelian scheme, Picard functor,
 polarization definition or quotient construction is outside this roadmap.
 
@@ -102,20 +110,26 @@ integer characteristic polynomials, degree and prime independence; F0 adds recip
 finite-field product corollaries rather than a second integrality theorem. The integer-character theorem and its finite-equation
 consequence have one owner, B2's integer-character construction.
 
-The independent prerequisite extensions belong here: B2 owns uniform torsion closures,
-Lang–Néron, polarized fixed parts and the abelian Ax theorem; B3 owns the mixed Kuga inputs;
+The independent prerequisite extensions belong here: B2.3 owns uniform torsion closures
+and bounded-degree torsion, B2.4 polarized fixed parts, B2.6 semirational block counting
+and B2.15 the abelian Ax theorem; B3.1 owns the mixed Kuga inputs;
 B4 owns fine curve moduli; F4 owns semisimple lattice bounds; F5 owns CM unitary masses.
 **ArithmeticStatisticsPartI**, earlier in the build, states in its supporting constructions
 the four finite-field theorems its counting fibres need: the finiteness of Weil polynomials
 with the bound (4g+1)^g q^(g(g+1)/4), Tate's theorem over a finite field at every prime (on
 Tate modules for ℓ≠p and on contravariant Dieudonné modules for ℓ=p) with the isogeny criterion
 by Frobenius polynomials, the characteristic-prime order and the finiteness of an isogeny class
-and of unpolarized isomorphism classes (its §0.16). These are imported here and never restated:
+and of unpolarized isomorphism classes (its §0.16). Its supporting construction
+“Finiteness of an isogeny class and of unpolarized classes” also owns the general
+finite-support all-prime lattice space, the marked quasi-isogeny correspondence
+and its rational-orbit quotient over every F_q. These are imported here:
 F0 and F1 own the inputs that its route names and uses nowhere else, the split-prime commutant
 dimension (F0.6), the saturated characteristic-prime injection (F1.2) and the cyclic block
 algebra with its commutant dimension and local invariant (F1.4–F1.7, F1.11); F3–F6 own
-Honda–Tate, the lattice classification, the adelic bounds and every counting asymptotic, which
-that roadmap names as owned later in the build.
+Honda–Tate, the prime-field covariant linear-dual adapters (F3.5, F3.7 and F3.10),
+order realization (F3.8), adelic bounds and counting asymptotics. The adapters
+replace the contravariant p-lattice by its integral linear dual, retaining the
+same marked objects and rational orbits.
 
 ## Conventions
 
@@ -181,6 +195,13 @@ Use Mathlib's `TensorPower`, `PiTensorProduct.reindex`, `reindex_tprod` and
 submodules with `LinearMap.eqLocus` and `Submodule.mem_iInf`. The existing
 `DividedPowerAlgebra` is the source of the comparison in P0, rather than a new
 presentation of the divided power algebra.
+
+For F3's integral linear-dual adapter, use `LinearMap.dualMap` and
+`Module.evalEquiv` in `Mathlib/LinearAlgebra/Dual/Defs.lean`;
+`Module.IsReflexive.of_finite_of_free` in
+`Mathlib/LinearAlgebra/Dual/Lemmas.lean` supplies reflexivity for finite free
+ℤ_p-modules. The new comparison identifies the transported realization
+lattices under this duality.
 
 ### From TauCetiRoadmap.DerivedModuleAlgebra
 
@@ -286,10 +307,43 @@ modules at ℓ=p, with the commutant identifications after ⊗ℚ and the criter
 F_q-isogenous exactly when their Frobenius characteristic polynomials agree), "The
 characteristic-prime order" and "Finiteness of an isogeny class and of unpolarized classes",
 together with §0.16's unpolarized count B(k,g) and its finiteness over every finite field.
-Retain its conventions: D is contravariant with D(uv)=D(v)D(u), and the unit group acts on
-Dieudonné lattices through u↦D(u⁻¹). F0 and F1 state the commutant dimensions its route uses;
+Consume also the marked-lattice correspondence and rational-orbit quotient in
+“Finiteness of an isogeny class and of unpolarized classes”. For A₀/F_q, write
+X^p for tuples of Frobenius-stable full ℤ_ℓ-lattices in V_ℓ(A₀), ℓ≠p, equal to
+T_ℓ(A₀) almost everywhere, and X_p for full F,V-stable W(F_q)-lattices in
+C(A₀)[1/p]. A rational marking f:B→A₀ gives
+(f_ℓ(T_ℓB), C(f)⁻¹C(B)); two markings are equivalent exactly when f′u=f for
+an F_q-isomorphism u:B→B′. This gives an equivariant bijection with X_p×X^p,
+and forgetting the marking gives End⁰_Fq(A₀)^×∖(X_p×X^p).
+Here C is the supplier's contravariant D: C(uv)=C(v)C(u), so the left action
+at p is u↦C(u⁻¹); at ℓ≠p it is the covariant action u_ℓ. In dimension zero
+both tuple and class sets are singletons. F0 and F1 state the commutant dimensions its route uses;
 F3 and F4 consume the integral Hom dictionary at every prime; F6 consumes the count and the two
 finiteness statements as the finiteness conjuncts of its headlines.
+
+### From TauCetiRoadmap.HeightsRationalPointsAndObstructions
+
+Consume §1.9's trace for every primary extension K/k: an abelian variety T/k and
+τ:T_K→A inducing Hom_k(B,T)≃Hom_K(B_K,A) for every B/k. Retain its finite kernel,
+the closed immersion in characteristic zero, and primary towers. For a
+constant-field extension E/k, retain the trace comparison isomorphism when
+E/k is separable or K/k is regular. Both K=k(S) and Kbar/k
+with algebraically closed k are within this contract; their traces need not agree.
+Consume §§1.9a–1.9c's curve Kummer finiteness, bounded sections modulo trace and
+constant-extension/tower reduction, and §1.10's finite generation of
+A(K)/τ(T(k)) for every regular finitely generated K/k, in every characteristic
+(ConradTrace, Theorems 6.2, 6.4, 6.8 and 7.1, pp.20–23; ConradTrace line 971,
+ConradTrace line 1007, ConradTrace line 1036, ConradTrace line 1079). B2.3 applies the theorem on
+finite covers; B2.4 and B2.12 compare the trace with invariant homology.
+
+### From TauCetiRoadmap.InverseGaloisAndArithmeticFundamentalGroups
+
+Consume IG.3 “Finitely many covers of bounded degree”: for a connected smooth
+quasi-projective variety U over an algebraically closed characteristic-zero
+field and d≥1, its étale fundamental group is topologically finitely generated,
+and connected finite étale covers of U of degree at most d have finitely many
+isomorphism classes over U. B2.3 uses this for the good-reduction open curve
+(GH, Proposition 3.1 proof, GH line 640–650).
 
 ### From TauCetiRoadmap.FiniteFlatGroupsAndIntegralPadicHodgeTheory
 
@@ -373,8 +427,7 @@ Consume Layer 5 §5.2 `rigidLevelStructure`, `ArithmeticModuli.auxiliary_level_c
 and the level quotient-recovery interface. A representable finite étale level cover changes
 objects and their automorphism stabilizers; trivial sheaf-valued inertia is required before
 calling the level moduli an algebraic space. B4 proves curve-specific full-level rigidity and
-schematicity on the curve stack. Generic Hilbert and Hom families enter B2's trace argument
-through Layer 2's projective Hom and bounded-family constructions.
+schematicity on the curve stack.
 
 ### From the remaining arithmetic and geometric suppliers
 
@@ -411,7 +464,8 @@ The headline theorems are the shuffle-compatible divided-power comparison (P0.5)
 completed Poincaré cohomology (P2.8), logarithm and smooth comparisons (P3.3–P3.4),
 ordinary CM trivialization (P4.2–P4.3), the Betti-rank, specialness and degeneracy
 criteria and their fibre-power applications (B1.4, B2.3–B2.4, B2.21–B2.23, B3–B4),
-Honda–Tate with integral lattice classification (F3.2, F3.4–F3.10), fixed-level isomorphism
+Honda–Tate, prime-field linear-dual lattice comparison and order realization
+(F3.2, F3.4–F3.5, F3.7–F3.8, F3.10), fixed-level isomorphism
 bounds (F4.8), CM mass and polarization growth
 (F5.7–F5.9), and the counting and proportion theorems (F6.3–F6.6). Resultant recognition
 (F2.2) is an independent algebraic endpoint used by the characteristic-prime realization.
@@ -1186,8 +1240,9 @@ B0 supplies real period coordinates and frame changes; DifferentialGeometry Laye
 
 ## Layer B2: Curve monodromy and constant traces
 
-The curve argument combines local Betti leaves, monodromy and the constant trace. Construct
-trace functors and closed torus characters before using definability. Keep actual and geometric
+The curve argument combines local Betti leaves, monodromy and the constant trace. Use
+the trace contract of HeightsRationalPointsAndObstructions §1.9 and construct closed torus
+characters before using definability. Keep actual and geometric
 traces separate, and use the fixed-part theorem only with an equivariant Hodge morphism.
 
 ### B2.1 Degeneracy over a curve
@@ -1217,54 +1272,27 @@ despite positive definite form on each individual fibre.
 *Needs:* [B0](#layer-b0-period-coordinates-and-betti-maps), Period-coordinate trivializations;
 [B1](#layer-b1-betti-forms-and-non-degeneracy), Non-degenerate subvarieties.
 
-### B2.2 Function-field trace and constant part
-
-For an algebraically closed field k of characteristic zero, a smooth irreducible
-curve S/k, K=k(S) and an abelian variety A/K, a k-trace is an abelian variety
-T/k with a K-homomorphism
-τ:T_K→A universal among maps from constant abelian varieties. In characteristic zero τ has
-finite kernel. Its image has a complementary abelian subvariety up to isogeny by imported
-Poincaré reducibility. For k=ℂ, universal equivariant Hodge-Hom detects this trace.
-Also construct the trace over Kbar/k for a chosen algebraic closure Kbar of K. The latter is the
-geometric trace used in Definition 1.2; it can grow after finite extension and is not identified
-with the K/k trace without an explicit descent argument.
-
-- τ:T_K→A is the universal homomorphism from the constant trace.
-
-- For every B/k, Hom_k(B,T)→Hom_K(B_K,A), f↦τ∘f_K, is a bijection.
-
-- In characteristic zero there is an abelian complement B and a K-isogeny T_K×B→A.
-
-**Checks.**
-
-- The k-trace of a constant B_K is B with identity map.
-- The zero abelian variety has zero trace.
-- For a non-isotrivial elliptic variety over C(S), the trace
-is zero even though its complex fibres are nonzero elliptic curves.
-
-([ConradTrace][ConradTrace], Definition 6.1 and Theorems 6.2, 6.4,
-author version pp.20–21 (ConradTrace line 966, ConradTrace line 1007);
-[GH][GH], Lemma 5.6 and §5.4, PDF pp.25,28–29 for the complex application).
-
-*Needs:* **AbelianSchemesAndArithmeticModuli**, A6.5 `poincareReducibility`.
-
-### B2.3 Uniform torsion closures and Lang–Néron modulo trace
+### B2.3 Uniform torsion closures and bounded-degree torsion
 
 Prove uniform Manin–Mumford in families: for an abelian variety A over an algebraically closed field Ω of characteristic zero, an irreducible quasi-projective Ω-variety V and an irreducible closed Y⊂V×A, there are a finite family of abelian subvarieties B_i⊂A and D≥0 such that, for every v∈V(Ω), the Zariski closure of the torsion points in Y_v is a union of at most D torsion translates of members of that family, including empty fibres; the requirement includes the characteristic-zero Manin–Mumford theorem and its uniform-family proof ([GH][GH], Theorem 3.2, PDF p.13; GH line 546).
 
-Prove Lang–Néron modulo trace: for every finitely generated regular extension K/k of fields, in any characteristic, and abelian variety A/K with K/k-trace (T,τ), the group A(K)/τ(T(k)) is finitely generated; also supply its bounded-degree torsion consequence over curve fields: if k is algebraically closed of characteristic zero, K=k(S) for a smooth irreducible curve, A/K has zero geometric trace and D≥1, then the orders of P∈A(Kbar)_tors with [K(P):K]≤D are bounded in terms of A and D, using the finiteness of finite étale covers of bounded degree of the good-reduction open curve ([ConradTrace][ConradTrace], Theorem 7.1, author version p.23, ConradTrace line 1079; [GH][GH], Proposition 3.1 proof, PDF pp.14–15, GH line 610).
+Prove the bounded-degree torsion consequence: if k is algebraically closed of
+characteristic zero, K=k(S) for a smooth irreducible curve, A/K has zero geometric
+trace and D≥1, then there is an integer N≥1 such that [N]P=0 for every
+P∈A(Kbar)_tors with [K(P):K]≤D. The bound depends only on A and D
+([GH][GH], Proposition 3.1 proof, PDF pp.14–15, GH line 610).
 
-Construct the trace over any regular finitely generated extension as the universal map from
-constant abelian varieties, compatible with scalar extension and towers; B2's function-field
-trace is its curve-field specialization. The proof of finite generation includes the reduction
-to algebraically closed constants and a curve field, bounded section graphs modulo trace,
-finite prime-to-characteristic Kummer quotients, and descent in the trace quotient
-(ConradTrace, Theorem 7.1 and Lemmas 7.3–7.5, pp.23–27). In characteristic zero, obtain uniform
-torsion closures by Manin–Mumford and parameter-uniformity for algebraic families, including a
-uniform bound on fibre components and the finite set of abelian-subvariety directions (GH,
-Theorem 3.2 proof, p.13). Prove the bounded-degree torsion assertion using the good-reduction curve's
-finitely many finite étale covers of bounded degree and Lang–Néron on each cover. These are
-proof obligations here, with no restriction to one fixed fibre or one bounded-degree level.
+One route to uniform torsion closures is Manin–Mumford and parameter-uniformity
+for algebraic families, including a uniform bound on fibre components and a
+finite set of abelian-subvariety directions (GH, Theorem 3.2 proof, p.13).
+For bounded-degree torsion, take a good-reduction open U⊂S. Torsion point
+fields are unramified over U in characteristic zero; finite generation of the
+étale fundamental group, by InverseGaloisAndArithmeticFundamentalGroups
+IG.3 “Finitely many covers of bounded degree”, gives finitely many connected
+covers of degree at most D.
+Their compositum L/K is finite. Zero geometric trace implies zero L/k-trace,
+so HeightsRationalPointsAndObstructions §1.10 makes A(L) finitely generated.
+The exponent of its finite torsion subgroup gives N (GH line 632–650).
 
 **Checks.**
 
@@ -1272,12 +1300,19 @@ proof obligations here, with no restriction to one fixed fibre or one bounded-de
   with D=1 and the single direction A.
 - For V×{P}, torsion P gives the singleton closure and non-torsion P gives the empty closure;
   arbitrary translates would incorrectly include the latter.
-- For K=k the trace is A and the quotient is zero, including when A(k) is not finitely generated.
-- For A=0 the trace and quotient vanish; for a geometrically trace-free curve-field variety,
-  D=1 gives finite rational torsion, while higher D requires the cover argument.
+- For A=0, N=1 kills the only point for every D. At D=1 the assertion is
+  finite rational torsion, while higher D requires the cover argument.
+- For a nonzero constant elliptic curve over ℂ(t), every n-torsion point is
+  rational over ℂ(t); D=1 permits arbitrarily large orders n. Its geometric
+  trace has dimension one, so the zero-geometric-trace hypothesis excludes it.
+- The quadratic twist t y²=x³−x over ℂ(t) has trace dimension zero over ℂ(t),
+  but becomes constant over ℂ(√t) and has geometric trace dimension one.
+  All its torsion points have degree at most 2 and their orders are unbounded;
+  zero original trace cannot replace zero geometric trace.
 
-*Needs:* B2, Function-field trace and constant part; AbelianSchemesAndArithmeticModuli A3,
-A6.5 and A6.7; SchemeAndStackFoundations §§2.11,2.16 and algebraic Hom/Hilbert families.
+*Needs:* HeightsRationalPointsAndObstructions §§1.9–1.10;
+AbelianSchemesAndArithmeticModuli A3, A6.5 and A6.7;
+InverseGaloisAndArithmeticFundamentalGroups IG.3 “Finitely many covers of bounded degree”.
 
 ### B2.4 Polarized fixed parts and equivariant Hodge Hom
 
@@ -1317,9 +1352,9 @@ identification (Deligne, Rappel 4.4.3, printed p.51, Deligne line 1698).
 
 *Needs:* Completed/HodgeStructures L0–L3; ShimuraVarieties §3.5b.1's variation
 carrier and §5.2 `TauCeti.Shimura.weight_one_algebraization`;
-AbelianSchemesAndArithmeticModuli A5.5–A5.6 and A6.25; B2.2–B2.3's trace universal
-property for regular finitely generated function fields, for the abelian
-constant-part adapter.
+AbelianSchemesAndArithmeticModuli A5.5–A5.6 and A6.25;
+HeightsRationalPointsAndObstructions §1.9's trace universal property,
+for the abelian constant-part adapter.
 
 ### B2.5 Integer characters and countably many closed torus subgroups
 
@@ -1527,8 +1562,7 @@ unrestricted Hom of a single Hodge fibre is insufficient.
 
 ([GH][GH], Lemma 5.6 proof, PDF p.25).
 
-*Needs:* [B2](#layer-b2-curve-monodromy-and-constant-traces), Function-field trace and constant
-part; B2, Polarized fixed parts and equivariant Hodge Hom; **AbelianSchemesAndArithmeticModuli**, A5.
+*Needs:* HeightsRationalPointsAndObstructions §1.9; B2, Polarized fixed parts and equivariant Hodge Hom; **AbelianSchemesAndArithmeticModuli**, A5.
 
 ### B2.13 Generically special subvarieties
 
@@ -1558,8 +1592,7 @@ defined over C is supplied by the imported trace map.
 
 ([GH][GH], Definition 1.2, PDF pp.2–3).
 
-*Needs:* [B2](#layer-b2-curve-monodromy-and-constant-traces), Function-field trace and constant
-part.
+*Needs:* HeightsRationalPointsAndObstructions §1.9.
 
 ### B2.14 Invariant definable sets of Ax-type
 
@@ -1671,8 +1704,7 @@ base.
 
 *Needs:* [B2](#layer-b2-curve-monodromy-and-constant-traces), Fixed homology and equivariant Hom;
 [B2](#layer-b2-curve-monodromy-and-constant-traces), Integer characters and countably many closed
-torus subgroups; [B2](#layer-b2-curve-monodromy-and-constant-traces), Function-field trace and
-constant part; [B2](#layer-b2-curve-monodromy-and-constant-traces), Monodromy-invariant subvarieties
+torus subgroups; HeightsRationalPointsAndObstructions §1.9; [B2](#layer-b2-curve-monodromy-and-constant-traces), Monodromy-invariant subvarieties
 of a fibre; [B2](#layer-b2-curve-monodromy-and-constant-traces), Transport along nonisolated Betti
 fibres; [B2](#layer-b2-curve-monodromy-and-constant-traces), Free subgroups in curve monodromy;
 [B2](#layer-b2-curve-monodromy-and-constant-traces), Invariant homology gives the function-field
@@ -1713,8 +1745,8 @@ are separate inputs to this argument.
 (GH line 120, GH line 512)).
 
 *Needs:* [B2](#layer-b2-curve-monodromy-and-constant-traces), Generically special subvarieties;
-[B2](#layer-b2-curve-monodromy-and-constant-traces), Function-field trace and constant part;
-AbelianSchemesAndArithmeticModuli A3; B2, Uniform torsion closures and Lang–Néron modulo trace.
+HeightsRationalPointsAndObstructions §1.9;
+AbelianSchemesAndArithmeticModuli A3; B2, Uniform torsion closures and bounded-degree torsion.
 
 ### B2.22 Curve degeneracy implies GH generic specialness
 
@@ -1725,7 +1757,7 @@ subvariety Y dominating S which is curve-degenerate is GH generically special.
 
 *Needs:* [B2](#layer-b2-curve-monodromy-and-constant-traces), Degeneracy over a curve;
 [B2](#layer-b2-curve-monodromy-and-constant-traces), Generically special subvarieties;
-[B2](#layer-b2-curve-monodromy-and-constant-traces), Function-field trace and constant part;
+HeightsRationalPointsAndObstructions §1.9;
 [B2](#layer-b2-curve-monodromy-and-constant-traces), Virtually invariant subvarieties in kernels;
 [B2](#layer-b2-curve-monodromy-and-constant-traces), Finitely many maximal GH generically special subvarieties.
 
@@ -1747,13 +1779,17 @@ that rank_R d(b|X)_P=2 dim_C X.
 
 ### B2.24 Construction requirements
 
-Prove existence and the finite-kernel property of the C(S)/C trace and the geometric trace,
-their finite-cover descent, and extension over the smooth curve. The trace reduction also needs
+Apply HeightsRationalPointsAndObstructions §1.9 to the C(S)/C and geometric
+traces. For the geometric trace first choose a finite extension of ℂ(S)
+over which its map is defined, and take the corresponding smooth curve.
+Extend the generic-fibre homomorphism over its good-reduction open using
+AbelianSchemesAndArithmeticModuli A6.25;
+compare the invariant constant part as in B2.4 and B2.12. The trace reduction also needs
 two specific assertions: after making connected monodromy, all fibres outside a countable set
 are extendable (Gao–Habegger, Lemma 5.7, pp.25–26), and
 B2.21's finiteness theorem supplies the finite union of special closures.
 Establish the endomorphism-extension argument for the first and use the precise
-B2’s uniform torsion-closure theorem and B2’s Lang–Néron theorem contracts for the second. The local Néron factor theory
+B2.3's uniform torsion-closure and bounded-degree torsion theorems for the second. The local Néron factor theory
 is not a substitute for either assertion.
 
 For the definable argument, prove integer-character separation for closed torus subgroups
@@ -1774,7 +1810,9 @@ A constant genus-two curve inside its constant Jacobian is GH generically specia
 ### Dependencies
 
 The prerequisite interfaces for each target are the *Needs* clauses above. External inputs include AbelianSchemesAndArithmeticModuli, ShimuraVarieties §5.2,
-LieGroupoidsPoisson G0.1 and SmoothBundlesConnections B6.0, with the exact contracts above. The order is trace construction, uniform torsion and fixed parts, character separation and block counting, then the monodromy and specialness arguments. The abelian Ax target uses only the definition of Ax-type, and precedes its algebraic-subvariety application.
+HeightsRationalPointsAndObstructions §§1.9–1.10, InverseGaloisAndArithmeticFundamentalGroups IG.3,
+LieGroupoidsPoisson G0.1 and
+SmoothBundlesConnections B6.0, with the exact contracts above. The order is the trace input, uniform torsion and fixed parts, character separation and block counting, then the monodromy and specialness arguments. The abelian Ax target uses only the definition of Ax-type, and precedes its algebraic-subvariety application.
 
 ## Layer B3: Degeneracy loci and quotient criteria
 
@@ -2517,33 +2555,10 @@ FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.2 supplies the contravariant rea
 ## Layer F3: Honda–Tate and lattice classifications
 
 Honda–Tate combines the Frobenius commutant with existence for every Weil number and the global
-Brauer invariants. Classification of integral objects requires a separate lattice theorem, with
-finite support and the contravariant characteristic-prime marking. The characteristic-prime lattice theorem uses C; its prime-field corollaries use the explicit linear dual.
-
-### F3.1 Prime-to-p and p lattice spaces
-
-Fix A₀/F_q. X^p is the restricted product of Frobenius-stable full Z_ℓ-lattices in V_ℓ(A₀),
-equal to T_ℓ(A₀) almost everywhere. X_p consists of full W(F_q)-lattices in C(A₀)[1/p] stable
-under F and V, where C is the contravariant Dieudonné functor. For Γ=End⁰_Fq(A₀)^× use the left
-action α·(Λ_p,(Λ_ℓ))=(C(α)⁻¹Λ_p,(α_ℓΛ_ℓ)).
-
-- The prime-to-p part consists of a Frobenius-stable full Z_ℓ-lattice in V_ℓA for each ℓ≠p, equal to T_ℓA at all but finitely many ℓ.
-
-- The characteristic-prime part is a full F,V-stable W(F_q)-lattice in the contravariant isocrystal C(A₀)[1/p].
-
-- The left action of Γ is α_ℓ at ℓ≠p and C(α)⁻¹ at p. Contravariance reverses composition; taking inverses restores the left action.
-
-**Checks.**
-
-- The identity marking gives exactly T_ℓ(A₀) at ℓ≠p and C(A₀) at p.
-- The zero-dimensional abelian variety has one lattice tuple.
-- A tuple differing from the standard lattice at infinitely many primes
-is excluded from the finite-support space.
-
-([Waterhouse][Waterhouse], §1.2 and §3.1, printed pp.524–525,529–531 (PDF pp.5–6,10–12)).
-
-*Needs:* **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, R07.2.10 `dieudonnePDivisible`;
-**FiniteFlatGroupsAndIntegralPadicHodgeTheory**, R07.1.2 `etaleGroupEquivContAction`.
+Brauer invariants. Use ArithmeticStatisticsPartI's supporting construction
+“Finiteness of an isogeny class and of unpolarized classes” for the general
+marked and unmarked lattice correspondence. The prime-field adapters use
+the explicit integral linear dual of its contravariant p-lattice.
 
 ### F3.1a CM fields and types with prescribed slopes
 
@@ -2736,42 +2751,39 @@ P_A(T)∈Z[T] occurring on every V_ℓ(A), ℓ≠p.
 p-realization; **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, R07.2.10 `dieudonnePDivisible`;
 [F1](#layer-f1-characteristic-prime-realization), Frobenius adapter on the isocrystal.
 
-### F3.6 Marked quasi-isogenies classified by lattices
-
-Isomorphism classes of pairs (B,f:B→A₀ a rational quasi-isogeny over F_q), with (B,f)≅(B′,f′)
-when f′u=f for an F_q-isomorphism u:B→B′, correspond to X_p×X^p by Λ_ℓ=f_ℓ(T_ℓB) and
-Λ_p=C(f)⁻¹(C(B)). This bijection is equivariant for postcomposition on f and the action
-specified in the prime-to-p and p lattice spaces above.
-
-([Waterhouse][Waterhouse], §1.2 and §3.1, printed pp.524–525,529–531 (PDF pp.5–6,10–12)).
-
-*Needs:* [F3](#layer-f3-hondatate-and-lattice-classifications), Prime-to-p and p lattice spaces;
-**FiniteFlatGroupsAndIntegralPadicHodgeTheory**, R07.1.2 `etaleGroupEquivContAction`;
-**FiniteFlatGroupsAndIntegralPadicHodgeTheory**, R07.2.10 `dieudonnePDivisible`;
-**AbelianSchemesAndArithmeticModuli**, A3; ArithmeticStatisticsPartI, Supporting constructions (Tate's theorem over a finite field), at every prime.
-
 ### F3.7 Finite-support lattice tuples are realized over the prime field
 
 Fix A₀/F_p. Let M_ℓ be full π-stable Z_ℓ-lattices in V_ℓ(A₀) for ℓ≠p and M_p a full F,V-stable
 Z_p-lattice in V_p^lin(A₀), equal to the reference realization lattices T₀,ℓ=T_ℓ(A₀) and
 T₀,p=D^lin(A₀) at all but finitely many primes. There exist B/F_p and a rational quasi-isogeny
 f:B→A₀ with transported realization lattices f_ℓ(T_ℓB)=M_ℓ, including f_*(D^lin(B))=M_p at p.
+Obtain this covariant adapter by sending M_p to its integral dual lattice
+M_p^∨={v∈C(A₀)[1/p] : φ(v)∈ℤ_p for all φ∈M_p}, applying the general marked
+correspondence, and dualizing back. Transposed F,V-stability makes M_p^∨
+F,V-stable; finite freeness and the evaluation equivalence give
+(M_p^∨)^∨=M_p. The new comparison identifies these dual lattices with the
+transported abelian-variety realizations.
 
 **Checks.**
 
 - The marking p⁻¹·id_A₀ transports T₀,p to p⁻¹D^lin(A₀), which lies in V_p^lin(A₀)
   but not in D^lin(A₀) when dim A₀>0; the ambient space must be rational.
+- For f=p⁻¹id, the contravariant transport is C(f)⁻¹C(A₀)=pC(A₀);
+  its integral dual is p⁻¹D^lin(A₀). At p=2 these are 2C and (1/2)D^lin,
+  so using C(f) instead of its inverse reverses the scale.
 - For A₀=0 every space is zero and the only tuple is the reference tuple.
 - Taking every M_ℓ and M_p equal to the reference lattices, B=A₀ with the identity marking works.
 
 ([Waterhouse][Waterhouse], §3.1 and Theorem 6.1 proof, printed pp.530–531,550–551
 (PDF pp.11–12,31–32)).
 
-*Needs:* [F3](#layer-f3-hondatate-and-lattice-classifications), Prime-to-p and p lattice spaces;
+*Needs:* ArithmeticStatisticsPartI, Supporting constructions, “Finiteness of an isogeny class and of unpolarized classes” (marked lattice correspondence);
 **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, R07.1.2 `etaleGroupEquivContAction`;
 **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, R07.2.10 `dieudonnePDivisible`;
 [F3](#layer-f3-hondatate-and-lattice-classifications), Prime-field p-realization Frobenius polynomial;
-ArithmeticStatisticsPartI, Supporting constructions (Tate's theorem over a finite field), at p; **AbelianSchemesAndArithmeticModuli**, A3.
+ArithmeticStatisticsPartI, Supporting constructions (Tate's theorem over a finite field), at p;
+Mathlib `LinearMap.dualMap`, `Module.evalEquiv` and
+`Module.IsReflexive.of_finite_of_free`.
 
 ### F3.8 Realization of nonreal prime-field orders
 
@@ -2804,30 +2816,23 @@ lattice tuples are realized over the prime field; F3.5's prime-field
 linear realization; ArithmeticStatisticsPartI's Tate's theorem over a finite field for the
 integral Hom dictionary at all primes.
 
-### F3.9 Isomorphism classes as rational orbits
-
-The underlying F_q-isomorphism classes in the isogeny class of A₀ are End⁰(A₀)^×∖(X_p×X^p).
-
-([Waterhouse][Waterhouse], §3.1, printed pp.530–532 (PDF pp.11–13)).
-
-*Needs:* [F3](#layer-f3-hondatate-and-lattice-classifications), Prime-to-p and p lattice spaces;
-[F3](#layer-f3-hondatate-and-lattice-classifications), Marked quasi-isogenies classified by lattices.
-
 ### F3.10 Prime-field marked and unmarked classification
 
 For A₀/F_p, the transport map is a bijection from isomorphism classes of marked pairs (B,f:B→A₀
 a rational quasi-isogeny) to the finite-support lattice tuples of the finite-support prime-field
 realization theorem above. Here (B,f)≅(B′,f′) means an F_p-isomorphism u:B→B′ with f′u=f. Under
 this bijection Γ=End⁰_Fp(A₀)^× acts by postcomposition, and Γ-orbits are precisely underlying
-F_p-isomorphism classes in the isogeny class of A₀.
+F_p-isomorphism classes in the isogeny class of A₀. Prove that the integral-dual
+comparison with the supplied contravariant classification intertwines actions:
+(C(α)⁻¹Λ_p)^∨=C(α)^*(Λ_p^∨). Thus it also identifies the two rational-orbit
+quotients without changing the underlying abelian varieties.
 
 ([Waterhouse][Waterhouse], §3.1 and Theorem 6.1, printed pp.530–532,550–551 (PDF
 pp.11–13,31–32)).
 
-*Needs:* [F3](#layer-f3-hondatate-and-lattice-classifications), Prime-to-p and p lattice spaces;
+*Needs:* ArithmeticStatisticsPartI, Supporting constructions, “Finiteness of an isogeny class and of unpolarized classes” (marked lattice correspondence);
 [F3](#layer-f3-hondatate-and-lattice-classifications), Finite-support lattice tuples are realized over
-the prime field; [F3](#layer-f3-hondatate-and-lattice-classifications), Isomorphism classes as
-rational orbits.
+the prime field; ArithmeticStatisticsPartI, Supporting constructions, “Finiteness of an isogeny class and of unpolarized classes” (rational-orbit quotient).
 
 ### F3.11 Construction requirements
 
@@ -2836,10 +2841,10 @@ Weil q-number and prove its multiplicity; a reciprocal polynomial alone does not
 existence. Construct the prescribed CM type, its polarized realization and an
 effective power by F3.1a–F3.1c, then use F3.1d's Weil restriction to descend
 effectivity to F_q and select a simple factor. Only then use the characteristic-prime invariant and the real-place invariants to determine the
-division-algebra index e and hence dimension. For marked lattices, clear denominators and
-realize the resulting finite flat subgroup using the quotient theorem A3 and the integral
-realizations R07.1–R07.2. Prove the resulting integral Hom dictionary in both directions before
-passing to rational orbits. Over F_p define D_lin = Hom_Zp(C, Z_p) and transpose F and V; this
+division-algebra index e and hence dimension. For prime-field marked lattices,
+use the integral-dual comparison F3.7 and the equivariance F3.10 to transport
+ArithmeticStatisticsPartI's marked correspondence and rational-orbit quotient.
+Over F_p define D_lin = Hom_Zp(C, Z_p) and transpose F and V; this
 is linear duality. Preserve V-integrality as well as F-stability. For a nonreal simple
 prime-field class put K=ℚ(π). Identify each rational realization with the rank-one
 K⊗ℚ_ℓ module, using V_p^lin at p with F=π and V=p/π. For any order R containing
@@ -2859,7 +2864,7 @@ The zero-dimensional variety gives one marked lattice tuple; the identity markin
 
 F3.1a–F3.1d construct Honda existence from GlobalNumberFields Layer 1, the parent
 A5.1–A5.3 and A6.32–A6.33, and ShimuraVarieties §§5.5–5.8, before classification.
-ArithmeticStatisticsPartI supplies Tate's theorem at every prime, and F0 and F1 the commutant dimensions and the characteristic-prime realization behind it; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1–R07.2 supplies torsion realization and Dieudonné lattices; AbelianSchemesAndArithmeticModuli A3 supplies finite-flat quotients. ClassFieldTheory Layer 10 supplies the invariant sum used in Honda–Tate. Marked realization precedes rational orbits and the prime-field order theorem.
+ArithmeticStatisticsPartI supplies Tate's theorem at every prime and the general marked and unmarked lattice classifications; F0 and F1 supply the commutant dimensions and the characteristic-prime realization behind it; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1–R07.2 supplies torsion realization and Dieudonné lattices; AbelianSchemesAndArithmeticModuli A3 supplies finite-flat quotients. ClassFieldTheory Layer 10 supplies the invariant sum used in Honda–Tate. The integral-dual comparison transports the supplied marked and unmarked classifications before the prime-field order theorem.
 
 ## Layer F4: Adelic class sets and local bounds
 
@@ -2881,16 +2886,16 @@ G(Q)\G(A_fin)/Stab(L).
 **Checks.**
 
 - Any rational unit e∈E^×(Q) has the identity class.
-- Changing a local lattice by conjugation replaces K by its conjugate
-and induces the corresponding class-set bijection.
+- Replacing K by K′=aKa⁻¹ gives the class-set bijection
+  Γ∖G_f/K′→Γ∖G_f/K, [x]↦[xa], with inverse [y]↦[ya⁻¹];
+  conjugation of representatives would also change Γ.
 - For a nonmaximal order R the entire full-lattice class monoid can
 include nonprojective lattices and need not be Pic(R). A single fixed local genus may have its
 own double-coset class set; in the commutative genus of R itself this is Pic(R).
 
 ([LT][LT], §3 and §3.2(15), v1 pp.6,11).
 
-*Needs:* [F3](#layer-f3-hondatate-and-lattice-classifications), Isomorphism classes as rational
-orbits; [AdelicAlgebraicGroups,
+*Needs:* ArithmeticStatisticsPartI, Supporting constructions, “Finiteness of an isogeny class and of unpolarized classes” (rational-orbit quotient); [AdelicAlgebraicGroups,
 AA.1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AdelicAlgebraicGroups/README.md#layer-1-adelic-points-of-algebraic-groups).
 
 ### F4.2 The prime-field p-component reduction
@@ -2957,7 +2962,7 @@ Frobenius centralizer act on F-stable lattices, with the same local bound.
 ([LT][LT], §§3.1–3.2.1, (14), (15) and (20), v1 pp.7–14; local orbit/stabilizer adaptation).
 
 *Needs:* [F4](#layer-f4-adelic-class-sets-and-local-bounds), Adelic class set of the endomorphism
-group; [F3](#layer-f3-hondatate-and-lattice-classifications), Prime-to-p and p lattice spaces;
+group; ArithmeticStatisticsPartI, Supporting constructions, “Finiteness of an isogeny class and of unpolarized classes” (marked lattice correspondence);
 [F3](#layer-f3-hondatate-and-lattice-classifications), Prime-field marked and unmarked classification;
 [F4](#layer-f4-adelic-class-sets-and-local-bounds), The prime-field p-component reduction;
 F4, Local semisimple stable-lattice bounds; [AdelicAlgebraicGroups,
@@ -2989,7 +2994,10 @@ h=#(Γ\G_f/K₀)<∞ for a fixed compact level K₀. For every orbit representat
 `Stab(M)=∏S_{M,ℓ}`, contained in `K_M=∏H_{M,ℓ}=a_M K₀ a_M⁻¹` with a_M∈G_f, equality `S_{M,ℓ}=H_{M,ℓ}`
 away from finitely many primes, and `∏[H_{M,ℓ}:S_{M,ℓ}]≤D_*⁴`. Then Γ\X is finite and #Γ\X≤D_*⁸h:
 the Γ-orbits inside the G_f-orbit of M are the double cosets Γ\G_f/Stab(M), of which there are at
-most [K_M:Stab(M)]·#(Γ\G_f/K_M), and conjugation by a_M identifies Γ\G_f/K_M with Γ\G_f/K₀.
+most [K_M:Stab(M)]·#(Γ\G_f/K_M). Right multiplication gives the bijection
+Γ\G_f/K_M→Γ\G_f/K₀, [x]↦[xa_M], with inverse [y]↦[ya_M⁻¹]:
+(γx a_M k a_M⁻¹)a_M=γ(xa_M)k for γ∈Γ and k∈K₀.
+It requires no normalization of Γ by a_M.
 If the relevant Weil-lattice tuple satisfies these assumptions and `D_*≤(2√p)^{m(m−1)}`, the
 resulting conditional bound is `#Γ\X≤(2√p)^{8m(m−1)}h`.
 
@@ -2997,6 +3005,19 @@ The abstract counting lemma needs only a group action, finitely many G_f-orbits 
 cosets, and stabilizers contained with finite index at most D_*⁴ in conjugates of K₀. The local
 product decomposition supplies that index hypothesis. State finiteness separately from the
 numerical index bound: Mathlib's subgroup index and `Nat.card` assign zero to infinite quotients.
+
+**Checks.**
+
+- In S₃ take Γ=K₀=⟨(12)⟩ and a=(123), so K_M=⟨(23)⟩.
+  The source double cosets are {1,(12),(23),(123)} and {(13),(132)};
+  the target double cosets are {1,(12)} and {(13),(23),(123),(132)}.
+  Right multiplication by a sends the first source class to the second target
+  class and the second to the first. Conjugation by a⁻¹ sends the source-equivalent
+  1 and (12) to target-inequivalent 1 and (13).
+- In that example X=G_f/K_M and D_*=1 give one G_f-orbit, stabilizer index 1,
+  h=2 and #Γ∖X=2=1⁸·2.
+- For the trivial group acting on a singleton, D_*=1 and h=1 give 1≤1.
+  For an empty X the orbit count is 0 and the bound is 0≤D_*⁸h.
 
 ([LT][LT], §3.2(15),(20)–(21),(28), v1 pp.11,14,16; coarse orbit-count adaptation).
 

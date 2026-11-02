@@ -25,14 +25,15 @@ The other headlines are not statable at the pins:
   comparisons, and P4.2–P4.3's ordinary CM trivialization and connection
   compatibility need relative abelian schemes, their universal vector
   extensions, completed Poincaré coefficient sheaves and connection carriers.
-* B1.4's Betti-form rank criterion, B2.3–B2.4's uniform torsion, Lang–Néron
+* B1.4's Betti-form rank criterion, B2.3–B2.4's uniform torsion, bounded-degree torsion
   and fixed-part theorems, B2.21–B2.23's specialness and full-rank theorems,
   B3's mixed Ax–Schanuel, closed degeneracy loci and quotient criterion,
   and B4's fibre-power and curve-difference non-degeneracy need relative
   abelian-family analytification and Betti maps, trace and Hodge-variation
   carriers, mixed Kuga uniformizations and fine curve moduli, respectively.
-* F3.2's Honda–Tate correspondence, F3.6–F3.10's integral lattice
-  classification, and F4.8's fixed-level isomorphism bound need the abelian
+* F3.2's Honda–Tate correspondence, F3.4–F3.5/F3.7–F3.8/F3.10's
+  prime-field linear-dual comparisons and order realization, and F4.8's
+  fixed-level isomorphism bound need the abelian
   Frobenius characteristic polynomial, the Galois-equivariant Tate functor on
   abelian varieties, the contravariant Dieudonné realization, rational
   markings and all-prime realization lattice spaces.
@@ -41,6 +42,13 @@ The other headlines are not statable at the pins:
   and polarization carriers with their orbit dictionaries. The finite-n
   ordinary-isogeny lower bound in F6.5 additionally needs the ordinary
   abelian-variety predicate.
+
+The general trace and Lang–Néron theorem are inputs from
+HeightsRationalPointsAndObstructions §§1.9–1.10. The general marked all-prime
+lattice correspondence and rational-orbit quotient are inputs from
+ArithmeticStatisticsPartI's supporting construction "Finiteness of an isogeny
+class and of unpolarized classes"; only their prime-field linear-dual adapters
+are new headlines here.
 
 No auxiliary theorem or weakened substitute represents a missing headline.
 -/
