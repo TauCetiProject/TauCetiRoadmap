@@ -19,10 +19,20 @@ Headline theorems of the roadmap that are not statable at the pins:
   A7, and every statement about the `K₀` map of a ring homomorphism: these need extension of
   scalars along an arbitrary ring homomorphism on finitely generated projective right modules
   over noncommutative rings. Mathlib's `ModuleCat.extendScalars` requires commutative rings,
-  and the pinned Tau Ceti's `TauCeti.BalancedTensorProduct` (module
-  `TauCeti.LinearAlgebra.TensorProduct.Balanced.Basic`, with `Unit`, `Corner` and
-  `OuterFactors`) is only a module over the ground ring, with no outer action of the target
-  ring.
+  and neither pinned library supplies the ordinary balanced tensor product over an arbitrary
+  associative ring with its outer target-ring action.
+
+* The real tangent-section module's nonfreeness, stable splitting and K₀ class (0.5)
+  require the continuous section submodule cut out by the sphere projection, with its
+  finite-projective object in `FiniteProjectiveRight`.
+* The free rank-two complexified sphere module and its scalar-extension comparison (0.6)
+  require that section module over `C(S², ℂ)` and the extension functor of 0.2; the Chern
+  number comparison additionally requires the oriented tangent complex line and its first
+  Chern class. The pointwise unitary-frame identity alone is not the module conclusion.
+* The real Möbius module's nonfreeness and order-two reduced K₀ class, and its free complex
+  scalar extension (0.7), require the antiperiodic section module over `C(AddCircle 1, 𝕜)`,
+  its descended scalar action and finite-projective object, and the same extension functor.
+  The intermediate-value and phase-factorization identities alone do not state these results.
 * The relative exact sequences of A3 and the boundary map of A6: these need A3's relative
   triple group and A2's automorphism presentation of `K₁`, which neither library has, and for
   rings that same base change.
@@ -56,6 +66,15 @@ theorem kZero_divisionRing (D : Type u) [DivisionRing D] :
     ∃ e : KZero D ≃+ ℤ,
       e (TauCeti.SplitK0.of
         (⟨ModuleCat.of Dᵐᵒᵖ Dᵐᵒᵖ, ⟨inferInstance, inferInstance⟩⟩ : FiniteProjectiveRight D)) =
+        1 := by
+  sorry
+
+/-- `K₀(ℤ)` is `ℤ`, with the class of the free module of rank one going to `1`
+(Weibel, *The K-book*, Chapter II, §2, chapter p. 5). -/
+theorem kZero_int :
+    ∃ e : KZero ℤ ≃+ ℤ,
+      e (TauCeti.SplitK0.of
+        (⟨ModuleCat.of ℤᵐᵒᵖ ℤᵐᵒᵖ, ⟨inferInstance, inferInstance⟩⟩ : FiniteProjectiveRight ℤ)) =
         1 := by
   sorry
 
