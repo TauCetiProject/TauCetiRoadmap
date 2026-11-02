@@ -11,7 +11,7 @@ public import TauCeti.Geometry.Manifold.Riemannian.Geodesic.HopfRinow
 
 **This file is not the roadmap.** The roadmap is `README.md`; this file states the roadmap's
 headline theorems against the pinned Mathlib and Tau Ceti, each admitted with `sorry`, with only
-the simple definitions (`IsJacobiFieldOn` and `paraboloidGraph`) those headlines need.
+the simple Jacobi-field, paraboloid and polynomial definitions those headlines need.
 
 Statable at the pins and stated here: the algebraic characterization of constant sectional
 curvature (R1), Schur's theorem and Einstein-factor constancy (R1), existence and interval uniqueness of Jacobi fields (R2),
@@ -19,15 +19,15 @@ the absence of endpoint-zero Jacobi fields under nonpositive sectional curvature
 Cartan–Hadamard (R4), Bonnet–Myers in its distance form (R4), two distinct fixed-interval geodesics between
 distinct points of a connected closed positive-dimensional manifold (R4.8), the three simple closed geodesic
 images on a smooth two-sphere (R4.9) and the smooth-function duality for the Riemannian distance
-(R7.8), and the paraboloid crossing and vertex-pole theorems (R5a.3).
+(R7.8), the paraboloid crossing and vertex-pole theorems (R5a.3), and the finite
+Fischer splitting and its iterated harmonic decomposition over real or complex coefficients (R8.1).
 
 Not statable at the pins, hence not stated: the Morse index theorem (R3) and its focal-point
 version (R6), which need the index form on continuous piecewise `C¹` sections of `γ*TM` and the
 conjugate-point multiplicity, neither of which has a carrier at the pin; the Gauss, Codazzi and
 Ricci equations and the first and second variation of volume (R5a, R5b), which need the second
 fundamental form of an isometric immersion, hence the pullback ambient connection, absent at the
-pin; the canonical Bochner-connection decomposition (R7A), which needs the finite-rank
-bundle differential-operator and principal-symbol carriers, absent at the pin; the Bochner vanishing theorems (R7.6, R7.7), which need the Hodge Laplacian on forms and the
+pin; the Bochner vanishing theorems (R7.6, R7.7), which need the Hodge Laplacian on forms and the
 de Rham cohomology of a manifold, absent at the pin; and Takahashi's eigenmap theorem (R8.4),
 which needs a Laplacian on functions on the round sphere, absent at the pin.
 -/
@@ -288,5 +288,38 @@ theorem riemannianDist_eq_sSup_smooth (x y : M) :
   sorry
 
 end SmoothDistanceDuality
+
+/-! ## Layer 8: Finite Fischer decomposition -/
+
+/-- The Euclidean polynomial Laplacian, the sum of the ordinary second partial
+ derivatives, over real or complex coefficients. -/
+def polynomialLaplacian {𝕜 : Type*} [RCLike 𝕜] {n : ℕ}
+    (p : MvPolynomial (Fin n) 𝕜) : MvPolynomial (Fin n) 𝕜 :=
+  ∑ i, MvPolynomial.pderiv i (MvPolynomial.pderiv i p)
+
+/-- The real Euclidean squared-radius polynomial, extended algebraically to the
+ coefficient field. Over complex coefficients this is a sum of squares, not a
+ Hermitian norm on complex points. -/
+def squaredRadius (𝕜 : Type*) [RCLike 𝕜] (n : ℕ) : MvPolynomial (Fin n) 𝕜 :=
+  ∑ i : Fin n, (MvPolynomial.X i) ^ 2
+
+/-- R8.1, Fischer splitting: a homogeneous polynomial of degree `d + 2` has a
+ unique homogeneous radial quotient of degree `d` whose subtraction leaves a
+ harmonic polynomial. This applies to both real and complex coefficients. -/
+theorem fischer_split {𝕜 : Type*} [RCLike 𝕜] (n d : ℕ) (hn : 2 ≤ n)
+    (p : MvPolynomial (Fin n) 𝕜) (hp : p.IsHomogeneous (d + 2)) :
+    ∃! q : MvPolynomial (Fin n) 𝕜,
+      q.IsHomogeneous d ∧ polynomialLaplacian (p - squaredRadius 𝕜 n * q) = 0 := by
+  sorry
+
+/-- R8.1, iterated Fischer decomposition: a homogeneous degree-`d` polynomial is
+ uniquely a finite sum of powers of the squared radius times harmonic homogeneous
+ polynomials of degrees `d - 2*k`, for `0 ≤ k ≤ d/2`. -/
+theorem fischer_decomposition {𝕜 : Type*} [RCLike 𝕜] (n d : ℕ) (hn : 2 ≤ n)
+    (p : MvPolynomial (Fin n) 𝕜) (hp : p.IsHomogeneous d) :
+    ∃! h : Fin (d / 2 + 1) → MvPolynomial (Fin n) 𝕜,
+      (∀ k, (h k).IsHomogeneous (d - 2 * k.val) ∧ polynomialLaplacian (h k) = 0) ∧
+      p = ∑ k, squaredRadius 𝕜 n ^ k.val * h k := by
+  sorry
 
 end TauCetiRoadmap.RiemannianGeometry

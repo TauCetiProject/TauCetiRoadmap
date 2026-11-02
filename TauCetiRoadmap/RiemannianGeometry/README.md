@@ -21,11 +21,10 @@ differentiable germs. GeometricTopology Layer 1 and its smoothing-and-triangulat
 item 1 own normal bundles, tubular neighbourhoods and smooth triangulation;
 R5a owns the metric orthogonal-to-quotient comparison and R3.2 the finite marked-point
 refinement. ComplexKahlerGeometry K5a owns the bundle analytic and Hodge theory;
-R7A owns the smooth differential-operator, jet, symbol, formal-adjoint and
-Bochner-connection core on finite-rank bundles; R7 owns its geometric curvature
-identities and vanishing consequences. PseudodifferentialOperators P1.1 and
-P2–P6 extend this core by Peetre locality, pseudodifferential calculus and
-all-order Lᵖ estimates; they are downstream consumers of the core. UnboundedOperators §4.7
+PseudodifferentialOperators P1.0 owns the smooth differential-operator, jet,
+symbol, formal-adjoint and Bochner-connection core on finite-rank bundles;
+R7 consumes that core for geometric curvature identities and vanishing
+consequences. UnboundedOperators §4.7
 owns general closed-form representation, and VariationalMethods §§2.3, 5.1–5.2
 its energy-space and compact-pair specializations; R5b owns the normal-Jacobi
 geometric form and its boundary-domain identification.
@@ -34,6 +33,10 @@ The constant-curvature Ricci and scalar contractions are already in Tau Ceti,
 and real Lipschitz extension is already in Mathlib; the exact declarations
 are in the supplier contracts. These are inputs to the curvature and smoothing
 applications, not additional construction targets.
+DGFloer Layer 1 item 7 owns the complex projective form comparison
+ω_g=π·ω_FS, including closedness and the integral-one normalization on CP¹.
+R1 owns the round Hopf quotient metrics, curvature and geodesic periods;
+its metric construction does not consume that later form comparison.
 
 ## Conventions
 
@@ -155,8 +158,17 @@ The following contracts specify each supplier and section consumed.
   bundle L² construction. [PDE](../PDE/README.md) supplies scalar weak-derivative,
   extension and elliptic estimates through K5a. R3 owns the vector-valued
   interval weak-derivative/absolutely-continuous comparison needed for paths. K7.1 supplies
-  the smooth complex projective carrier used by R1; K7.2 supplies its normalized
-  Fubini–Study form. R7A constructs the smooth formal differential adjoints used here.
+  the smooth complex projective carrier used by R1.
+- [PseudodifferentialOperators](../PseudodifferentialOperators/README.md), P1.0:
+  smooth section differential operators, finite jets and truncations, equivalent
+  iterated-commutator order, geometric/Fourier principal symbols, density
+  transposes and metric formal adjoints. Consume its negative-trace connection
+  Laplacian, compact-support energy identity and canonical Bochner decomposition
+  of a Laplace-type operator with leading coefficient c>0. The canonical
+  connection is metric for an operator formally self-adjoint with respect to
+  the canonical Riemannian density and the chosen fibre metrics. Its polarized
+  isometric-symbol theorem applies to D:E→F even when the ranks differ.
+  R7 computes the curvature potentials of the geometric operators.
 - [PDE A.1–6/D16–19/E20–22](../PDE/README.md) and
   VariationalMethods §2.3–§2.4 and Layers 3–5.2: Sobolev,
   trace, energy/interior estimates and abstract closed-form/represented-operator
@@ -210,10 +222,11 @@ The following contracts specify each supplier and section consumed.
   representation and identifies its complexification with the specific
   highest-weight module; it does not assume a supplied harmonic-tensor carrier.
 
-The smooth operator core in R7A uses the bundle operations and connections of
-SmoothBundlesConnections B2–B4, DifferentialGeometry's compact-support integration,
-and ComplexKahlerGeometry K5a's pointwise metric and density line.
-It is independent of distributional and Sobolev completions. R7's global
+The PseudodifferentialOperators P1.0 smooth core uses the bundle operations
+and connections of SmoothBundlesConnections B2–B4, DifferentialGeometry's
+compact-support integration, and ComplexKahlerGeometry K5a's pointwise metric
+and density line, independently of distributional and Sobolev completions.
+R7's global
 consequences consume K5a's real/complex Sobolev scales, weak H² realization,
 compact resolvent and real de Rham Hodge theory. K5a applies in arbitrary real
 base dimension and identifies real bundles with conjugation-fixed complexifications.
@@ -357,24 +370,80 @@ it normal without the Ad(G)-invariant full-group product.
 This generic connection/submersion lane precedes R2 and uses no projective
 carrier or normal-coordinate jet theorem.
 
-The curvature-operator API uses the Gram metric on Λ²TM, its self-adjointness,
-contraction formulas and isometry naturality; the O'Neill tensor API uses
-restriction, horizontal/vertical type, and the curvature comparisons above.
+The curvature-operator API comprises:
+
+- Its pairing is the curvature pairing on the Gram exterior square, with
+  self-adjointness given by pair interchange.
+- Restriction and isometries intertwine the operators on the identified exterior squares.
+- Its contractions recover Ricci and scalar curvature with the standing sign.
 
 **Checks.**
 
-- In flat space Rop=0 on every bivector; in dimension one Λ² is zero,
-  so this carries no information determining a curvature parameter.
-- On the unit sphere Rop(e₁∧e₂)=e₁∧e₂, with norm square 1; on curvature −1
-  space the same eigenvalue is −1. Reversing the last two curvature slots
-  would reverse both signs.
-- For a product submersion with product metric A=T=0, and horizontal
-  sectional curvature is the base curvature. For S³→CP¹, a horizontal
-  orthonormal pair spanning a complex line has |[X,Y]^v|²=4, giving
-  base curvature 1+3·4/4=4.
+- In flat space Rop=0; in dimension one Λ² is zero, so this does not determine κ.
+- On curvature +1 and −1 spaces the eigenvalues on unit simple bivectors are
+  +1 and −1 respectively; exchanging the last curvature slots reverses them.
+- On S²×H² with unit curvature magnitudes, the two factor bivectors have
+  eigenvalues +1 and −1 and the four mixed bivectors have eigenvalue 0.
+  Thus the operator is neither positive nor negative semidefinite.
 
-*Needs:* R1 curvature algebra; SmoothBundlesConnections B1.5 and B2.1;
-ComplexKahlerGeometry K5a's degree-two Gram form metric.
+*Needs:* R1 pair symmetry, product curvature and SmoothBundlesConnections B2.1
+exterior bundles; ComplexKahlerGeometry K5a's degree-two Gram metric.
+
+The horizontal/vertical projection API comprises:
+
+- h+v=Id, h²=h, v²=v and hv=vh=0 on the total tangent bundle.
+- Their ranges are the orthogonal complement of ker(dπ) and ker(dπ), respectively.
+- They are smooth and commute with restriction and submersion-preserving isometries.
+
+**Checks.**
+
+- For ℝ²→ℝ, (x,y)↦x, with the product metric, h(a,b)=(a,0), v(a,b)=(0,b).
+- For the identity submersion h=Id and v=0; for the submersion to a point
+  h=0 and v=Id. Interchanging the two projections fails these cases.
+- For dx²+e^(2x)dy² at x=log 2, v(∂y)=∂y has norm 2 while h(∂y)=0;
+  projection does not normalize its nonzero output to length one.
+
+*Needs:* SmoothBundlesConnections B1.5's kernel subbundle and metric orthogonal
+splitting; smooth positive Gram inversion.
+
+The O'Neill A-tensor API comprises:
+
+- The displayed formula is tensorial in both entries; only the horizontal
+  part of its first entry contributes, and its second entry switches type.
+- On horizontal X,Y, A_XY=½v[X,Y] and A_XY=−A_YX.
+- A vanishes exactly when the horizontal distribution is integrable;
+  restriction and submersion-preserving isometries intertwine it.
+
+**Checks.**
+
+- On a product submersion A=0 for every pair of tangent vectors.
+- For the unit Hopf submersion S³→CP¹, a horizontal orthonormal complex-line
+  pair has |v[X,Y]|=2 and |A_XY|=1, yielding base curvature 1+3=4.
+- Interchanging that pair negates its nonzero vertical A-value; with vertical
+  first entry A_UY=0. A symmetric bracket formula fails the first test.
+
+*Needs:* h,v, the Levi-Civita connection and torsion-free bracket identity;
+SmoothBundlesConnections B1.5. The Hopf Check uses the quotient metric below.
+
+The O'Neill T-tensor API comprises:
+
+- The displayed formula is tensorial in both entries; only the vertical
+  part of its first entry contributes, and its second entry switches type.
+- On vertical U,V, T_UV=T_VU is the second fundamental form of a fibre.
+- T vanishes exactly when the fibres are totally geodesic; restriction and
+  submersion-preserving isometries intertwine it.
+
+**Checks.**
+
+- For a product submersion T=0, including its vertical-vertical component.
+- For (ℝ²,dx²+e^(2x)dy²)→ℝ, the unit vertical U=e^(−x)∂y satisfies
+  T_UU=−∂x and |T_UU|=1: Γˣ_yy=−e^(2x) and U has no x-component.
+- For dx²+e^(4x)dy², U=e^(−2x)∂y gives T_UU=−2∂x and norm 2.
+  Thus T≡0 and a fixed unit normalization both fail.
+
+*Needs:* h,v, the Levi-Civita connection and metric compatibility; the
+vertical distribution is integrable because it is the kernel of a submersion.
+The warped-product Checks follow directly from the metric Christoffel formula.
 
 **Projective metric examples.** This block follows the generic submersion
 construction and the indicated smooth-carrier suppliers. Its curvature and
@@ -414,13 +483,7 @@ through z. Pin the normalization by the orbit map: for X in the orthogonal
 complement of u(d)⊕u(1) in u(d+1), `−½ Re tr(X²)=|X e_(d+1)|²` is the round
 norm of the orbit velocity, while on the u(1) summand `−½ Re tr(X²)` is half of
 it, so the comparison is a statement about the quotient U(d+1)/(U(d)×U(1)) and
-not about the orbit map onto the sphere. Compare the complex Kähler
-form with K7.2's integral-one normalization: `ω_g=π·ω_FS`,
-with `ω_g(u,v)=g(Ju,v)` and hence `ω_g(u,Jv)=g(u,v)`. Both are
-U(d+1)-invariant real 2-forms and the U(d)×U(1)-invariant 2-forms on a
-tangent space are one-dimensional, so they are proportional; a projective
-line carries the round metric of radius ½ with area π, where ω_FS has
-integral one, which fixes the constant.
+not about the orbit map onto the sphere.
 
 **Checks.**
 
@@ -429,11 +492,11 @@ integral one, which fixes the constant.
   the projective quotient, not the sphere orbit map on all Lie-algebra vectors.
 - A horizontal great circle returns to its projective line after π, when
   its sphere representative is −z; the sphere representative first returns at 2π.
-- CP¹ has radius 1/2 and area π, so its metric Kähler form is π times
-  the integral-one form. CP⁰ is a point and has zero two-form, not area π.
+- CP¹ has radius 1/2, curvature 4 and metric area π. CP⁰ is a point
+  with no tangent two-plane or nonconstant unit-speed geodesic.
 
 *Needs:* R1 submersion formulas; R4.7 direct round model;
-ComplexKahlerGeometry K7.1–K7.2; GeneralizedCohomology G4.0b;
+ComplexKahlerGeometry K7.1; GeneralizedCohomology G4.0b;
 TopologicalKTheory T6.6.
 
 ### Examples
@@ -447,7 +510,7 @@ recovers s′+as, fixing the supplier convention.
 R1 connection algebra uses HopfRinow Layer 0, SmoothBundlesConnections B2–B5
 and finite-dimensional tensor algebra. Its homogeneous metrics use LieGroups
 L0–L2 and SmoothBundlesConnections B1.4–B1.5. The projective examples additionally
-use ComplexKahlerGeometry K7.1–K7.2, GeneralizedCohomology G4.0b,
+use ComplexKahlerGeometry K7.1, GeneralizedCohomology G4.0b,
 TopologicalKTheory T6.6 and the direct round-model calculation in R4.7.
 
 ## Layer 2: Jacobi fields and normal-coordinate jets
@@ -1242,6 +1305,32 @@ Fix 0<η_def<inj_g(S²)/4 using R4.6. For C of positive length, let D_(η_def)(C
 
 If 0<L_min≤L(C_j)≤B_len, L(C_j)→c and D_(η_def)(C_j)→0, prove uniform subsequential convergence of constant-speed representatives modulo rotation/reversal. For short parameter intervals the limiting endpoint distance equals c times interval length. Deduce a nonconstant constant-speed locally minimizing geodesic, smooth by the geodesic ODE at every point including the periodic seam, with length EXACTLY c. Lower semicontinuity alone does not prove that equality. The compactness conclusion applies to this specified small-defect class.
 
+The geodesic-defect API comprises:
+
+- It is independent of rotation, reversal and choice of constant-speed representative.
+- It is nonnegative, bounded above by min(η_def,L/2), and continuous on
+  every positive bounded-length band in d_V.
+- It vanishes precisely when all arcs in its defining length range minimize
+  distance; under g↦a²g and η_def↦aη_def, for a>0, it scales by a.
+
+**Checks.**
+
+- A unit-round great circle has defect 0 for 0<η_def<π/4: every tested arc
+  of length s has endpoint distance s.
+- For the latitude of colatitude π/6 on the unit sphere, L=π and an arc
+  of length s≤η_def<π/4 has endpoint distance arccos(3/4+cos(2s)/4).
+  Its defect is η_def−arccos(3/4+cos(2η_def)/4)>0; the difference increases
+  with s. The identically zero definition fails this example.
+- Replacing g by 4g and η_def by 2η_def doubles both arc lengths and endpoint
+  distances, so the preceding positive defect becomes exactly twice its value;
+  a dimensionless quotient of length and distance fails this scaling test.
+
+*Needs:* R4.9.1 constant-speed representatives and Fréchet-plus-length topology;
+R4.6 injectivity radius; HopfRinow local minimizing segments and geodesic ODE.
+The compactness route uses equicontinuity, compactness of S² and the endpoint
+length equality on short intervals, without any parabolic-flow theorem.
+
+
 #### R4.9.5. Simplicity, primitive traversal and critical-set localization
 
 Exclude transverse crossings of the limiting geodesic by a planar alternating-endpoint/Jordan stability lemma for two disjoint parameter arcs of the embedded approximants. At tangential returns use ODE uniqueness: equal velocities give a shorter period; opposite velocities imply a reversal symmetry forcing zero velocity at its midpoint. Thus a limit without transverse crossings traverses a primitive embedded closed geodesic k times.
@@ -1511,14 +1600,49 @@ For tangent X,Y,Z,W and normal η,ξ pin
 `⟨R^⊥(X,Y)η,ξ⟩=⟨R^N(X,Y)η,ξ⟩+⟨[S_η,S_ξ]X,Y⟩`,
 with the normal covariant derivative of B also differentiating its tangent slots.
 
+The second fundamental form API comprises:
+
+- B is a smooth symmetric normal-valued bilinear form, independent of tangent frames.
+- It transforms naturally under ambient isometry and open restriction.
+- B=0 is equivalent to total geodesicity; its contractions give the averaged
+  mean curvature only in positive source dimension.
+
 **Checks.**
 
-- For an affine Euclidean plane, B=S=H=0 and the Gauss equation gives K=0.
-- For the outward unit sphere, B(X,Y)=−⟨X,Y⟩ν and S_ν=−Id;
-  orthonormal tangent X,Y give K=0+1−0=1 in the Gauss equation.
-- Reversing ν changes S_ν from −Id to Id, but leaves the vector B and
-  averaged vector H unchanged. A zero-dimensional immersion has tr B=0;
-  the averaged formula is used only in positive dimension.
+- On an affine Euclidean plane B=0; a fixed nonzero bilinear form is excluded.
+- On the outward unit sphere B(X,Y)=−⟨X,Y⟩ν, so a unit tangent e has B(e,e)=−ν.
+- On the unit cylinder in ℝ³, B(e_θ,e_θ)=−ν and B(e_z,e_z)=0.
+  Its two principal values differ, excluding the model B=−gν for every immersion.
+
+The shape-operator API comprises:
+
+- S is linear in the normal argument and self-adjoint on each tangent fibre.
+- It is paired with B by ⟨S_ηX,Y⟩=⟨B(X,Y),η⟩.
+- Normal-frame changes, ambient isometries and restriction preserve that pairing.
+
+**Checks.**
+
+- On an affine Euclidean plane S_η=0 for every η.
+- On the outward unit sphere S_ν=−Id and S_(−ν)=Id; forgetting normal linearity fails.
+- On the unit cylinder S_ν has eigenvalues −1,0; its Gauss curvature is
+  (−1)·0=0, whereas the unit sphere gives (−1)·(−1)=1.
+
+The normal-connection API comprises:
+
+- It is the normal projection of the pullback ambient derivative, satisfies
+  the scalar Leibniz law, and preserves the induced normal metric.
+- It commutes with restriction and immersion-preserving ambient isometries.
+- Normal-frame changes obey the connection transformation law; its curvature
+  is the Rᵖᵉʳᵖ used in the Ricci equation above.
+
+**Checks.**
+
+- For ℝ²⊂ℝ⁴ with constant normal e₃, ∇ᵖᵉʳᵖ_(∂x)e₃=0.
+- For the same inclusion ∇ᵖᵉʳᵖ_(∂x)(x e₃)=e₃; the identically zero
+  operation fails the Leibniz law.
+- With n₁=cos x e₃+sin x e₄ and n₂=−sin x e₃+cos x e₄,
+  ∇ᵖᵉʳᵖ_(∂x)n₁=n₂ and ∇ᵖᵉʳᵖ_(∂x)n₂=−n₁, so its matrix is skew
+  and the derivative of ⟨n₁,n₂⟩ is 1−1=0.
 
 *Needs:* R1 curvature and tensor connections; R5a smooth normal comparison;
 SmoothBundlesConnections B2–B4.
@@ -1559,6 +1683,13 @@ earlier immersion carriers. R5a.2's first variation and R5b's Hessian use this
 same relative-volume functional. CalibratedGeometry C3 consumes its C²
 dependence and supplies the comparison with C2's oriented chain integration.
 
+The relative-density API comprises:
+
+- J_t is positive and smooth, independent of charts and bases, and J_0=1.
+- Its multiplication with the reference density gives the induced volume density.
+- Restriction and change of reference metric respect the density ratio, and
+  joint smooth variation permits the stated two derivatives under the integral.
+
 **Checks.**
 
 - For the constant immersion family, J_t=1 and both variation derivatives
@@ -1576,8 +1707,35 @@ support condition handles noncompact sources.
 
 #### R5a.2. First variation and immersion examples
 
-Build the principal-curvature and averaged-H APIs; prove total geodesicity iff
-B=0 and hence minimality. For compact boundaryless immersions, and for
+Define principal curvatures as the eigenvalues of S_ν for a chosen unit normal
+on a hypersurface, and for source dimension m>0 define H=(tr B)/m.
+
+- The principal values are real with multiplicities, independent of tangent
+  orthonormal frame, and change sign when ν is reversed.
+- H is a smooth normal vector field, independent of all frame choices; for a
+  hypersurface ⟨H,ν⟩ is the average of the principal values.
+- Ambient isometries and restriction preserve H; minimality is H=0.
+
+**Checks (principal curvatures).**
+
+- A Euclidean hyperplane has every principal value 0.
+- The unit sphere has outward values all −1 and inward values all +1.
+- The unit cylinder has values −1,0, including the zero multiplicity in its spectrum.
+
+**Checks (averaged mean curvature).**
+
+- On an affine plane H=0.
+- On the unit two-sphere tr B=−2ν and H=−ν; on the radius-two sphere
+  H=−ν/2. Using the trace without division gives −2ν in the first case.
+- On the unit cylinder tr B=−ν and H=−ν/2; reversing the choice of ν changes
+  both scalar principal signs and ν, leaving this vector unchanged.
+
+*Needs:* R5a's B/S pairing; the finite-dimensional self-adjoint spectral theorem;
+positive source dimension for division by m. The first-variation theorem below
+additionally uses R5a.1's relative-volume functional and DifferentialGeometry
+Layer 12 integration and divergence.
+
+Prove total geodesicity iff B=0 and hence minimality. For compact boundaryless immersions, and for
 compactly supported variations on noncompact boundaryless immersions, derive
 the first volume variation
 `δVol=∫div_M X^⊤−m⟨H,X^⊥⟩`; compact support kills the divergence term.
@@ -1939,213 +2097,43 @@ No finite fundamental group or global space-form theorem enters the Euclidean pr
 
 ### R7. Rough Laplacians, Weitzenböck and curvature vanishing
 
-### R7A. Smooth differential operators and their canonical connections
-
-On any manifold in the standing scope and every finite-rank real or complex
-smooth bundle E, use its smooth sections as a module over the corresponding
-smooth scalar-function algebra, with pointwise multiplication and restriction.
-Define the order-m jet bundle JᵐE, for each natural m, by equality of derivatives
-through order m in local bundle charts. Glue the finite Taylor coefficient
-spaces by the chain and product rules; prove independence of charts and
-identify J⁰E with E (Kolář–Michor–Slovák, §§12.2–12.5, pp. 117–119, and
-§§12.16–12.17, pp. 124–125).
-
-Its API comprises:
-
-- Jet extension sends a smooth section s to its value and derivatives through
-  order m, and commutes with open restriction and bundle isomorphisms over
-  base diffeomorphisms.
-- Truncation Jᵐ⁺¹E → JᵐE is surjective, with kernel Symᵐ⁺¹(T*M)⊗E;
-  the inclusion, truncation and coordinate identifications are natural.
-- A bundle connection, together with the base Levi–Civita connection,
-  identifies jets with the sum of symmetric covariant derivatives through
-  order m. Changing connections changes lower-order coefficients but not the
-  highest symbol of an operator.
-
-**Checks.**
-
-- At 0 on the real line, x² and 0 have equal 1-jets but second derivatives
-  2 and 0; the 2-jet distinguishes them.
-- The 0-jet of x+3 at 0 is 3, whereas that of x is 0; discarding values
-  would identify different jets.
-- For rank zero all jet fibres are zero; on a zero-dimensional base JᵐE=E
-  for every m, with every positive-degree symmetric cotangent summand zero.
-
-*Needs:* SmoothBundlesConnections B2–B3 section, dual, tensor and connection
-operations; finite Taylor calculus in Mathlib; HopfRinow Layer 1's base connection
-only for the covariant-derivative splitting.
-
-Define a differential operator P:E→F of order at most m to be an ℝ-linear or ℂ-linear
-map on smooth sections, according to the bundle coefficients, which locally is a finite sum of derivatives through
-order m with smooth matrix coefficients. Prove the equivalent descriptions
-as a smooth bundle map JᵐE→F composed with jet extension, and as vanishing of
-all (m+1)-fold commutators with scalar multiplications. For the commutator equivalence, use local Hadamard
-factorization and induction on m, with chart cutoffs to pass between global
-sections and germs (Kolář–Michor–Slovák, §§1.5–1.6, pp. 6–7, for point
-factorization; the proof of Lemma 3.3, p. 16, supplies the smooth-coordinate
-recovery at order one). Prove the higher-order and bundle versions here.
-Keep arbitrary finite rank, arbitrary natural order and noncompact bases.
-
-Its API comprises:
-
-- Order zero is exactly a smooth bundle homomorphism. Restriction, addition
-  and scalar multiplication preserve the filtration; composition adds order bounds.
-- With [P,f]=P∘M_f−M_f∘P, scalar commutation lowers positive order by one
-  and kills order zero. For two matrix-valued operators an order drop requires
-  commuting principal symbols.
-- The jet factorization determines the operator, and covariant derivatives
-  give a coordinate-independent expansion with smooth coefficient maps.
-
-**Checks.**
-
-- For P=∂² on ℝ, [P,x]=2∂, [[P,x],x]=2 Id, and the third commutator is 0;
-  P has order two, not one.
-- Multiplication by 3 has every scalar commutator zero but sends 1 to 3;
-  order zero does not mean the zero operator.
-- On the trivial rank-two bundle [e₁₂,e₂₁]=diag(1,−1), so matrix commutation
-  does not lower two order-zero operators to zero.
-
-*Needs:* the jet bundle and section module; local smooth Hadamard factorization
-with chart cutoffs from SmoothBundlesConnections B2 and Mathlib smooth partitions.
-
-Define the homogeneous geometric principal symbol by the highest jet coefficient,
-evaluated on ξ⊗…⊗ξ, and its complexified Fourier version by
-σ_F(P)(ξ)=iᵐσ_geom(P)(ξ). In particular
-σ_geom(P)(df)=(1/m!)[…[P,f],…,f], with m commutators; at m=0 this means P
-itself. The factorial is nonzero over ℝ and ℂ. Construct also the bilinear
-density transpose and the metric/density formal adjoint P* from their local
-integration-by-parts formulas (Gilkey, §2, pp. 288–289, for the operator and
-local leading coefficient; the factors iᵐ and the transpose formulas follow
-from the displayed convention and DifferentialGeometry's Stokes).
-For an arbitrary smooth positive density ρ and fibre metrics, characterize P*
-by the equality of the two integrals on compactly supported smooth sections.
-
-Their API comprises:
-
-- Symbols are natural under restrictions, frame changes and base
-  diffeomorphisms, multiply under composition and depend only on top order.
-- Formal adjoints reverse composition and satisfy (P*)*=P. The geometric
-  symbol of P* is (−1)ᵐσ_geom(P)*, while its Fourier symbol is σ_F(P)*.
-- The density transpose has target the source dual tensored with densities,
-  from the target dual tensored with densities; the metric adjoint has source F
-  and target E. Both commute with open restriction and satisfy their compact-support
-  integration identities without orientability or compactness of M.
-
-**Checks.**
-
-- For ∂² at ξ=2, the geometric and Fourier symbols are 4 and −4;
-  dividing its double commutator 2 Id by 2! recovers coefficient 1.
-- For P=x∂ with density dx on ℝ, P*=−x∂−1; it sends the local constant
-  section 1 to −1, detecting the derivative of the coefficient.
-- With density exp(sin x) dx on the unit circle, ∂*=−∂−cos x; at x=0 the
-  zero-order coefficient is −1, whereas the unweighted adjoint has coefficient 0.
-
-*Needs:* the differential/jet filtration, SmoothBundlesConnections B2–B4 metrics
-and duals, DifferentialGeometry compact-support integration and Stokes, and
-ComplexKahlerGeometry K5a's initial pointwise density bundle.
-
-For a chosen connection ∇ define its connection Laplacian by the negative
-metric trace of the second covariant derivative. For metric ∇ and the canonical
-Riemannian density prove that it is ∇*∇, is formally self-adjoint and has
-nonnegative compact-support energy. Define Laplace type with leading scale c>0
-by order at most two and Fourier symbol c|ξ|² Id. For every such operator L
-construct the unique connection ∇ᴸ and endomorphism V with
-L=c(−tr_g (∇ᴸ)²)+V; V is the added potential in this convention.
-If L is formally self-adjoint for the canonical density and fibre metrics,
-prove that ∇ᴸ is metric and V is self-adjoint. These conclusions do not follow
-for an unrelated positive density (Gilkey, §2, Lemma 2.1 and the following
-paragraph, p. 289, applied to c⁻¹L; his potential has the opposite sign).
-
-Its API comprises:
-
-- The decomposition is unique, commutes with restriction and isometries,
-  and is independent of the connection first used to expand L.
-- Relative to any initially chosen connection, a Laplace-type operator minus
-  its scaled connection Laplacian has order at most one; the canonical
-  connection absorbs that first-order term.
-- Positive rescaling preserves the canonical connection and rescales c and V.
-  For a metric connection the energy integral of ∇*∇ is the integral of |∇s|².
-
-**Checks.**
-
-- On the flat circle with ∇=d, the modes exp(ikx) have rough eigenvalues 0,1,4
-  for k=0,1,2; ∇*∇ has Fourier symbol 4 at ξ=2.
-- The operators −∂² and −2∂² have scales 1 and 2, connection d and V=0;
-  −∂⁴ has order four and is not Laplace type.
-- For L=−∂²−cos x∂ with density exp(sin x) dx, the canonical connection is
-  d+(cos x/2)dx and V=−sin x/2+cos²x/4. At x=0 its coefficient is 1/2
-  and V=1/4; metric compatibility on the constant unit section would require
-  0=1, so self-adjointness in that weighted density does not imply a metric connection.
-
-*Needs:* symbols and formal adjoints above, SmoothBundlesConnections B3 connections,
-HopfRinow Layer 1 Levi–Civita connection, the fixed metric and its canonical density.
-
-For an operator D:E→F of order at most one require its geometric symbol a to satisfy
- a(ξ)*a(ξ)=|ξ|² Id_E; call this the isometric-symbol condition. Prove the polarized identity
- a(α)*a(β)+a(β)*a(α)=2⟨α,β⟩ Id_E and deduce that D*D is Laplace type
-with scale one, using the canonical density. This follows from the adjoint
-symbol formula above and uses the Laplace-type convention of Gilkey, §2,
-pp. 288–289; it also covers rectangular symbols, beyond his square
-Clifford-module definition of Dirac type.
-
-Its API comprises:
-
-- Polarization and the squared-symbol identity are equivalent for every real
-  cotangent vector, including zero.
-- D*D has a unique metric Bochner connection and self-adjoint potential;
-  a chosen metric connection need not be that connection.
-- Restriction and isometric bundle identifications preserve the symbol
-  condition. Adjunction preserves it when source and target have equal rank;
-  the D*D conclusion also holds without equal ranks.
-
-**Checks.**
-
-- For D=∂ on the flat real line, a(2)=2 and a(2)*a(2)=4; D*D=−∂².
-- For d:Ω⁰→Ω¹ in dimension two, a(ξ) sends 1 to ξ and has squared norm
-  |ξ|², but is not surjective for ξ≠0. The adjoint symbol on Ω¹ is therefore
-  not isometric; equal rank is necessary for that assertion.
-- For α=1 and β=2 on the line, the polarized expression is 2+2=4,
-  equal to 2⟨1,2⟩; replacing the sum by a difference would give 0.
-
-*Needs:* the symbol/adjoint and canonical-connection results above.
-
 ### R7.0. Scalar Bochner identity and the first positive eigenvalue
 
 For a smooth real function f on a smooth finite-dimensional Riemannian manifold with Levi-Civita connection, prove in the positive-Laplacian convention
 `Delta^+ |df|^2 + 2|Hess f|^2 + 2 Ric(grad f,grad f) = 2 <df,d Delta^+ f>`.
-The statement is local and needs no compactness, Hodge theorem, cohomology or Spin structure. Derive it in a normal frame from the product/metric connection rule, symmetry of Hess f and curvature commutation of its third derivatives; compare its sign with `Delta^+=−div grad` and the native curvature convention. Prove frame/coordinate and isometry/pullback invariance. Give the finite-regularity version only with the actual derivative regularity needed for every term. On a closed connected manifold of real dimension n>=2 integrate using DG Green to obtain the Hessian/Ricci identity and, for Ric>=(n−1)k g with k>0, combine trace Cauchy-Schwarz and the actual eigen-equation with the energy identity to prove lambda1>=nk. Equality forces Hess f=−k f g for a mean-zero first eigenfunction; [Yamabe Y9](../Yamabe/README.md#y9-existence-uniqueness-and-rigidity) supplies the separate complete Obata radial-rigidity theorem. Boundary/noncompact versions retain the actual boundary or compact-support terms. This refines the scalar consequence of R7's Weitzenbock calculus without consuming its later harmonic-form vanishing theorem.
+The statement is local and needs no compactness, Hodge theorem, cohomology or Spin structure. Derive it in a normal frame from the product/metric connection rule, symmetry of Hess f and curvature commutation of its third derivatives; compare its sign with `Delta^+=−div grad` and the native curvature convention. Prove frame/coordinate and isometry/pullback invariance. Give the finite-regularity version only with the actual derivative regularity needed for every term. On a closed connected manifold of real dimension n>=2 integrate using DG Green to obtain the Hessian/Ricci identity and, for Ric>=(n−1)k g with k>0, combine trace Cauchy-Schwarz and the actual eigen-equation with the energy identity to prove lambda1>=nk. Equality forces Hess f=−k f g for a mean-zero first eigenfunction; [Yamabe Y9](../Yamabe/README.md#y9-existence-uniqueness-and-rigidity) supplies the separate complete Obata radial-rigidity theorem. Boundary/noncompact versions retain the actual boundary or compact-support terms. This refines the scalar consequence of R7's Weitzenbock calculus without consuming its later harmonic-form vanishing theorem (Homma, arXiv:math/0307022v1, Example 8.2, p. 27, for the integrated Ricci eigenvalue estimate).
 
 The local identity includes dimensions0 and1. The positive first-eigenvalue and equality statements require n>=2, a nonzero mean-zero eigenfunction, and the actual positive first eigenvalue supplied by the compact scalar spectral construction. In dimension1 the Ricci bound Ric>=(n−1)k g is vacuous and yields no bound depending on an arbitrary k: a circle of circumference L has first eigenvalue(2*pi/L)^2. A connected dimension0 manifold is a point and has no first positive scalar eigenspace. Boundary and noncompact statements keep the boundary or compact-support terms instead of applying the closed integral argument.
 
 ### R7.1–R7.8. Bundle identities and geometric consequences
 
 1. On actual finite-rank metric bundles with compatible connections, consume
-   R7A’s rough-Laplacian definition, invariant negative covariant trace,
+   PseudodifferentialOperators P1.0’s rough-Laplacian definition, invariant negative covariant trace,
    formal L² identification with ∇*∇ and nonnegative energy identity.
    Specialize those supplier identities to geometric moving frames and
    coordinates: `∇*∇φ=−Σ(∇_ei∇_eiφ−∇_(∇_ei ei)φ)`; the shorter sum
    is valid only in a normal frame at its center. Supply the geometric product
    rule `∇*∇(fφ)=(Δ⁺f)φ−2∇_(grad f)φ+f∇*∇φ`, scalar sign, induced tensor/curvature computations and smooth
    distributional/operator-domain comparison with K5a.
-2. Consume R7A’s differential-operator filtration on bundle sections:
+2. Consume PseudodifferentialOperators P1.0’s differential-operator filtration on bundle sections:
    locality/restriction, order≤k via iterated commutators, principal symbol on
    symmetric cotangent tensors, connection-independent leading term, coordinate
    and covariant-derivative expansion, composition and formal adjoint symbols.
    Use its `[D,f]` order≤k−1 theorem and geometric/Fourier symbol dictionary
    to compute the d/d*/∇ symbols on the actual DG/SBC carriers: wedge by ξ,
    minus contraction by ξ♯, and tensoring by ξ, respectively; compare their
-   adjoints with R7A. The jet symbol
-   without i and Fourier `σ(∂_j)=iξ_j` are R7A’s convention dictionary;
+   adjoints with PseudodifferentialOperators P1.0. The jet symbol
+   without i and Fourier `σ(∂_j)=iξ_j` are PseudodifferentialOperators P1.0’s convention dictionary;
    use that dictionary in the geometric identities below. Degreewise d is not an
    invertible-symbol operator in dimension ≥2; in dimension 1, d:Ω⁰→Ω¹
    is elliptic. De Rham ellipticity is exactness of its symbol
    complex, while d+d* is elliptic on the sum of degrees.
-3. Consume R7A’s Dirac/Laplace-type and Bochner-connection theorem. For
+3. Consume PseudodifferentialOperators P1.0’s Dirac/Laplace-type and Bochner-connection theorem. For
    a first-order geometric operator D:E→F with jet symbol c(ξ) and
    `c(ξ)*c(ξ)=|ξ|² Id_E`, use its **symmetric** polarization
    `c(α)*c(β)+c(β)*c(α)=2⟨α,β⟩Id_E`.
    Identify D*D’s Laplace-type symbol and its difference from the rough Laplacian for an
-   arbitrary chosen metric connection by order≤1. Consume R7A’s unique canonical
+   arbitrary chosen metric connection by order≤1. Consume PseudodifferentialOperators P1.0’s unique canonical
    Bochner connection/potential; here compute the potential for the actual
    geometric operators and identify the induced metric connection. K5a supplies
    the Laplace-type estimates used in these geometric consequences.
@@ -2165,7 +2153,10 @@ The local identity includes dimensions0 and1. The positive first-eigenvalue and 
    `ℛ_p=−Σ_(i,j) a_i*a_j R^Λ(e_i,e_j)`.
    Prove `Δ_p=∇*∇+ℛ_p`, self-adjointness/frame independence, and ℛ_1=Ric with
    the metric musical identifications. Supply the ordered/increasing-pair
-   dictionaries and Rop spectral-expression API, not just one frame formula.
+   dictionaries and Rop spectral-expression API, not just one frame formula
+   (Homma, arXiv:math/0307022v1, Theorem 7.1, p. 24, and Example 8.2,
+   equations (8.1), p. 27, for the complexified associated-bundle formulas;
+   the real and orientation-independent comparisons use the shared Gram carriers).
 5. Prove the section-norm identity
    `Δ⁺|φ|²+2|∇φ|²=2Re⟨∇*∇φ,φ⟩` and Kato's inequality. The classical derivative
    formula is on φ≠0; at its zero set prove the Sobolev weak/a.e. inequality
@@ -2233,7 +2224,7 @@ may choose g=0 and both the approximation error and derivative bound are zero.
 ### Dependencies
 
 R7 uses R1 tensor curvature, DifferentialGeometry exterior calculus and
-integration, SmoothBundlesConnections B2–B4, the smooth operator core R7A
+integration, SmoothBundlesConnections B2–B4, PseudodifferentialOperators P1.0
 and ComplexKahlerGeometry K5a. The scalar local identity precedes the global
 analytic realization. R7.8 uses Mathlib real Lipschitz extension and owns
 the quantitative smooth gluing and Clifford-module norm comparison.
@@ -2244,13 +2235,63 @@ the quantitative smooth gluing and Clifford-module norm comparison.
 
 ### R8.1. Finite harmonic-polynomial construction
 
-Let m>=1, n=m+1 and d>=0. On Euclidean R^n use its actual standard quadratic norm r^2=sum x_i^2 and ordinary Euclidean differential Laplacian sum partial_i^2; on the unit round S^m use the geometric nonnegative Laplacian Delta_S^+=-div grad. Use native homogeneous MvPolynomial carriers, their ordinary derivative/evaluation maps and the actual round metric from R4.7. All assertions below are finite polynomial/differential constructions; no analytic completeness or classification of every spherical eigenfunction is an input or an output.
+Let m≥1, n=m+1 and d≥0, and take real or complex polynomial coefficients
+through `RCLike`. On `MvPolynomial (Fin n) 𝕜` define `squaredRadius` by
+ΣᵢXᵢ² and `polynomialLaplacian` by Σᵢ∂ᵢ², using `MvPolynomial.pderiv`.
+The complex quadratic polynomial is the coefficient extension of the real one;
+it is not the Hermitian squared norm on complex points. Homogeneous degree is
+`MvPolynomial.IsHomogeneous`. On the real unit round Sᵐ use the geometric
+nonnegative Laplacian Δ⁺_S=−div grad. The finite algebraic splitting below uses
+no spherical Laplacian or analytic spectral completeness.
+
+The squared-radius API comprises:
+
+- It is homogeneous of degree two and evaluates to the real Euclidean squared norm
+  on real points; complex coefficient extension preserves the polynomial.
+- It is invariant under real orthogonal substitutions and is nonzero for n≥1.
+- Multiplication by it raises homogeneous degree by two and is injective for n≥1.
+
+**Checks.**
+
+- At (1,2) its real value is 5, not √5.
+- At the zero vector its value is 0, and with no variables the polynomial is 0;
+  the injectivity statement therefore explicitly requires n≥1.
+- At the complex point (1,i) its value is 0, whereas the Hermitian squared norm
+  is 2; the complex coefficient version is algebraic extension.
+
+The polynomial-Laplacian API comprises:
+
+- It is coefficient-linear, commutes with real-to-complex coefficient extension,
+  and sends degree d to degree d−2, with degrees zero and one sent to zero.
+- It commutes with orthogonal substitutions and has the ordinary second-derivative
+  product rule, with twice the dot product of first derivatives as the cross term.
+- On r^(2k)h with h harmonic homogeneous of degree ℓ, it has the coefficient
+  2k(2ℓ+n+2k−2) displayed below, without using the polar-coordinate theorem.
+
+**Checks.**
+
+- In three variables Δ(r²)=6, while Δ(X₁²−X₂²)=0; this excludes the zero operator.
+- In two variables Δ(X₁⁴)=12X₁², so at (1,0) it is 12; a first derivative gives 4.
+- Δ1=ΔX₁=0 and Δ(iX₁²)=2i over ℂ; complex conjugation would give the wrong sign.
+
+*Needs:* Mathlib `MvPolynomial.IsHomogeneous`, `MvPolynomial.pderiv`, Euler's
+homogeneous identity and finite-dimensional polynomial linear algebra. The
+spherical restriction below additionally needs R4.7's round metric and polar
+coordinate divergence.
 
 The round polar metric away from0 is dr^2+r^2 g_S and its density is r^m dr dV_S. The coordinate divergence formula therefore gives Delta_R=partial_r^2+(m/r)partial_r-r^(-2)Delta_S^+. For p homogeneous of degree d and h=p restricted to the unit sphere, p(r theta)=r^d h(theta). Substitution yields Delta_R p=r^(d-2)[d(d+m-1)h-Delta_S^+h]. Hence a harmonic homogeneous p restricts to a smooth spherical eigenfunction with eigenvalue d(d+m-1). This is a one-way inclusion, not surjectivity onto the whole eigenspace. Its O(n)-equivariance follows from the norm and Euclidean Laplacian invariance and the action (g.p)(x)=p(g^(-1)x). Restriction is injective: if h=0, homogeneity gives p=0 away from0; continuity gives the origin too, and the real polynomial evaluation map is injective. For complex coefficients apply this to real and imaginary parts.
 
 Write P_d for homogeneous degree-d polynomials, with P_e=0 for negative e, and H_d=ker(Delta_R:P_d->P_(d-2)). For harmonic homogeneous h_l, Euler's degree equation and the product rule give
 Delta_R(r^(2k) h_l)=2k(2l+n+2k-2) r^(2k-2) h_l.
 For k>=1 this coefficient is strictly positive because n>=2. Induct on d, starting d=0,1 where every homogeneous polynomial is harmonic. The inductive decomposition of P_(d-2) into the summands r^(2k) H_(d-2-2k) diagonalizes the map q->Delta_R(r^2 q): each summand is multiplied by the nonzero coefficient 2(k+1)(2(d-2-2k)+n+2k). It is therefore a linear isomorphism of P_(d-2). For p in P_d choose its unique q with Delta_R(r^2 q)=Delta_R p; then h=p-r^2q is harmonic. The same invertibility proves uniqueness, giving P_d=H_d directsum r^2 P_(d-2), and iterating gives the harmonic homogeneous decomposition.
+The headline `fischer_split` states, for n≥2 and homogeneous p of degree d+2,
+the existence of exactly one homogeneous q of degree d for which p−r²q is
+harmonic. The headline `fischer_decomposition` states the unique expansion
+p=Σₖ(r²)ᵏhₖ for homogeneous p of degree d, with k ranging from 0 to ⌊d/2⌋
+and hₖ harmonic homogeneous of degree d−2k; this finite range excludes all
+out-of-range indices before natural subtraction is used. Both statements use
+`RCLike` coefficients (Axler–Bourdon–Ramey, second edition, electronic version
+of 17 July 2020, Proposition 5.5, p. 76, and Theorem 5.7, p. 77).
 
 The native monomial basis gives dim P_d=binomial(n+d-1,d). Thus dim H_d=binomial(m+d,d)-binomial(m+d-2,d-2), with the second term zero for d<2. This proves the dimension of the constructed harmonic-polynomial subspace and its injective spherical restriction. It does not identify every smooth/L2 eigenfunction, construct the global spectral Hilbert basis or prove highest-weight irreducibility. Those remain the separate full R8/CK spectrum/representation phases, with their actual mandatory suppliers.
 
@@ -2272,7 +2313,13 @@ supplies the algebraic decomposition independently of spectral completeness.
   is 2 and the constructed space has dimension 3.
 - On ℝ³, Δ|x|²=6, whereas Δ(x₁²−x₂²)=0. Thus degree two has a
   one-dimensional radial summand and a five-dimensional harmonic summand;
-  including |x|² as harmonic would give the wrong dimension 6.
+  including |x|² as harmonic would give the wrong dimension 6. In the unique
+  splitting, p=r² gives q=1,h=0, while p=X₁²−X₂² gives q=0,h=p.
+- In three variables p=r⁴ has Δp=20r², unique one-step quotient q=r²,
+  and iterated components h₀=h₁=0,h₂=1. A coefficient 6 in every degree
+  would instead give the incorrect Laplacian 6r².
+- The zero polynomial has all components zero; over ℂ, p=i r² has q=i,h=0.
+  Thus coefficient extension preserves both uniqueness and the factor 6.
 
 *Needs:* R4.7 round metric and polar-coordinate divergence; native homogeneous
 polynomials and finite-dimensional linear algebra. R8.2 spectral completeness
@@ -2348,7 +2395,7 @@ constructions from their comparison and analytic applications.
 R1's generic connection/tensor/submersion algebra precedes R2; R1's normal
 jets follow R2. R4.7's direct model geometry uses R1's connection formulas
 and HopfRinow without R3 or R4's comparison theorems. R1's projective metric
-examples consume K7.1/K7.2/G4.0b, that round-model geometry and the generic submersion
+examples consume K7.1/G4.0b, that round-model geometry and the generic submersion
 formulas; R3's projective examples consume those metrics and R2. SBC B6.0
 precedes R3's finite-vertex choice and R4.6's injectivity-radius consequence.
 R4's comparison theorems use R1–R3; construct R4.6's cut-locus/nullity part before R4.1's
@@ -2361,7 +2408,7 @@ input. R6's Euclidean comparison follows R5a and
 owns its chart Hessian/normal-derivative pairing, squared-distance exhaustion
 and genericity theorems, consuming GT Layer 1 only for the normal bundle and
 tubular neighbourhood theorem. General
-R6 focal/Jacobi/index theory then uses R2–R3/R5a and R4.2’s moving-endpoint comparison. R7 uses R1, DG/SBC, R7A and K5a;
+R6 focal/Jacobi/index theory then uses R2–R3/R5a and R4.2’s moving-endpoint comparison. R7 uses R1, DG/SBC, PseudodifferentialOperators P1.0 and K5a;
 R8 uses R5a/R7, R4.7’s RP² quotient, and K5a/classical groups.
 TopK T6.6 precedes R1's projective comparison; CC C2.0, GT's smooth triangulation and AT's §8.11a mapping-CW targets
 precede R3's finite marked-point refinement and path-space comparison. Spin
@@ -2413,13 +2460,8 @@ minimization nor GeometricCurrents regularity enters R5b.
   introduction and spherical-harmonic setup, for Takahashi/eigenmap normalization
   and the distinction between full eigenspace maps and arbitrary eigenfunction lists.
 
-- I. Kolář, P. W. Michor and J. Slovák,
-  [Natural Operations in Differential Geometry](https://www.mat.univie.ac.at/~michor/kmsbookh.pdf),
-  author's electronic edition of the 1993 book, §§1.5–1.6, pp. 6–7,
-  Lemma 3.3, p. 16, §§12.2–12.5, pp. 117–119, and §§12.16–12.17,
-  pp. 124–125: local factorization, smooth coordinate recovery and finite jets.
-- P. Gilkey,
-  [The spectral geometry of operators of Dirac and Laplace type](https://pages.uoregon.edu/gilkey/dirPDF/E27Handbook.pdf),
-  author manuscript with 2007 imprint, §2, pp. 288–289, especially Lemma 2.1
-  and its following paragraph, p. 289: the canonical connection/potential and
-  its metric compatibility for a formally self-adjoint Laplace-type operator.
+
+- S. Axler, P. Bourdon and W. Ramey, [*Harmonic Function Theory*](https://www.axler.net/HFT.pdf),
+  second edition (2001), electronic version of 17 July 2020, Proposition 5.5,
+  p. 76, and Theorem 5.7, p. 77: unique finite harmonic decomposition
+  of a homogeneous polynomial, over real or complex coefficients.
