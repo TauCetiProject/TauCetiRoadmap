@@ -54,7 +54,10 @@ configuration space of `n` points on `ℙ¹ ∖ {0, 1, ∞}` over `ℚ̄`) are l
 [BelyiMaps](../BelyiMaps/README.md) Layer 12 (`BelyiArithmeticActions`) and to
 InverseGaloisAndArithmeticFundamentalGroups §IG.1.2 (tangential base points) and §IG.5.1
 (configuration spaces). The pro-unipotent and graded groups `GT(k)`,
-`GRT(k)` and the Lie algebra `𝔤𝔯𝔱` are not in this roadmap. Neither is their motivic counterpart
+`GRT(k)` and the Lie algebra `𝔤𝔯𝔱` are not in this roadmap; Bar-Natan 1998 obtains `GT(k)` as the
+automorphism group of the unipotent completion of the category of parenthesised braids
+(Definition 2.4), with defining relations a pentagon and hexagons in the unipotent completions
+of `P₄` and `B₃` (Proposition 5.3). Neither is their motivic counterpart
 (mixed Tate motives over `ℤ`, their Galois group and the motivic path torsor are stated in
 PeriodsAndSpecialValues §§PS.9.8–9.10, and Brown's basis theorem in §PS.9.22):
 Brown 2012 proves that the motivic Galois group of the mixed Tate motives over `ℤ` acts faithfully
@@ -660,6 +663,13 @@ InverseGaloisAndArithmeticFundamentalGroups §IG.1.2; relation (III) in `P̂₄`
 form in `K̂(0,5)` are what that successor compares with the fundamental groups of the
 configuration spaces of InverseGaloisAndArithmeticFundamentalGroups §IG.5.1.
 
+## Research context
+
+Whether every `(λ, f) ∈ ẑˣ × F̂₂'`, or every one satisfying (I), (II) and (III), gives a bijective
+`β_{λ,f}` is open (Lochak–Schneps 2006, §1, Question 1.1), which is why 3.2 asks for bijectivity
+and 3.3 takes `GT̂` to be the group of units of `GT̂^{mon}`; so is the question of which
+non-abelian finite groups are quotients of `GT̂` (ibid., Questions 1.6 and 1.7).
+
 ## References
 
 - V. G. Drinfel'd, « On quasitriangular quasi-Hopf algebras and on a group that is closely
@@ -694,3 +704,8 @@ configuration spaces of InverseGaloisAndArithmeticFundamentalGroups §IG.5.1.
 - Y. Hoshi, A. Minamide, S. Mochizuki, « Group-theoreticity of numerical invariants and
   distinguished subgroups of configuration space groups », *Kodai Math. J.* 45 (2022), no. 3,
   295–348. Zbl 1511.14050.
+- D. Bar-Natan, « On associators and the Grothendieck–Teichmuller group, I », *Selecta Math.
+  (N.S.)* 4 (1998), no. 2, 183–212. doi:10.1007/s000290050029; arXiv:q-alg/9606021.
+- P. Lochak, L. Schneps, « Open problems in Grothendieck–Teichmüller theory », in B. Farb (ed.),
+  *Problems on mapping class groups and related topics*, Proc. Sympos. Pure Math. 74, Amer. Math.
+  Soc. (2006), 165–186. doi:10.1090/pspum/074/2264540.
