@@ -1,26 +1,29 @@
 import Mathlib
+import TauCeti.Analysis.Complex.Fuchsian.Compactification.Manifold
+import TauCeti.Analysis.Complex.Fuchsian.Covolume
+import TauCeti.Geometry.Manifold.Instances.OnePoint
 
 /-!
 # Conformal mapping, part II: target signatures
 
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's
 headline theorems against the pinned APIs: global analytic initial values;
-noncompact surface uniformization and disc covers of hyperbolic plane domains;
+noncompact surface uniformization, disc covers of hyperbolic plane domains and
+finite-puncture cusp compactification with primitive local coordinates;
 the roots-cover Schwarzian and hypergeometric inverse germ; Nevanlinna's quotient
 representation; the exact Gamma radius and its positive expansion; the half-rotation
 identity; the disc-local first main theorem; and the maximum, logarithmic-derivative
 and uniform mean-growth bounds.
 
-The finite-puncture cusp comparison and the symmetric polygon and group-presentation
-headlines are not statable at the pins: the puncture-to-cusp compactification map and
-the roots-cover projective deck subgroup with its marked polygon have yet to be
-constructed. The continued zero-balanced connection formula and uniform cusp
+The symmetric polygon and group-presentation headlines are not statable at the
+pins: the roots-cover projective deck subgroup with its marked polygon has yet to
+be constructed. The continued zero-balanced connection formula and uniform cusp
 asymptotic likewise lack the constructed continued hypergeometric branch. No
 stand-in for these constructions is stated here. The scalar inverse ratio below is
 only a germ of the native convergent series, not such a continued branch.
 -/
 
-open scoped BigOperators Topology Manifold ContDiff
+open scoped BigOperators Topology Manifold ContDiff MatrixGroups
 open Complex Metric Set
 
 noncomputable section
@@ -91,6 +94,36 @@ theorem PointedCover.exists_cover {Ω : Set ℂ} {a : ℂ}
  The totalizations outside that common class are kept distinct. -/
 def conformalRadius (Ω : Set ℂ) (a : ℂ) : ℝ :=
   sInf {r : ℝ | ∃ F : PointedCover Ω a, r = ‖deriv F.toFun 0‖}
+
+/-- A holomorphic universal cover of a sphere with at least three punctures has a
+cofinite effective deck group. Its quotient identification extends biholomorphically
+across exactly the cusps. In every native primitive cusp chart the sphere-coordinate
+representative is analytic with nonzero first derivative, using the reciprocal chart
+at infinity (Hem88, Theorem 3.1; CDT (5.1.13), p.670). -/
+theorem finite_puncture_cusp_comparison
+    (S : Finset (OnePoint ℂ)) (hS : 3 ≤ S.card)
+    (f : UpperHalfPlane → OnePoint ℂ)
+    (hf : ContMDiff 𝓘(ℂ) 𝓘(ℂ) ω f)
+    (hm : ∀ z, f z ∉ S)
+    (hc : IsCoveringMap (fun z ↦
+      (⟨f z, hm z⟩ : {x : OnePoint ℂ // x ∉ S})))
+    (hs : ∀ x ∉ S, ∃ z, f z = x) :
+    ∃ Γ : Subgroup PSL(2, ℝ),
+      (∀ g : PSL(2, ℝ), g ∈ Γ ↔
+        ∀ z : UpperHalfPlane, f (g • z) = f z) ∧
+      ∃ hd : DiscreteTopology Γ, letI := hd;
+        Γ.IsCofinite ∧
+        ∃ e : Diffeomorph 𝓘(ℂ) 𝓘(ℂ)
+          Γ.CompactifiedQuotient (OnePoint ℂ) ω,
+          (∀ z : UpperHalfPlane,
+            e (.ofQuotient (Quotient.mk _ z)) = f z) ∧
+          Set.range (fun c : Γ.CuspOrbit ↦ e (.ofCusp c)) =
+            (S : Set (OnePoint ℂ)) ∧
+          ∀ (D : Γ.CuspDatum) (A : ℝ) (hA : D.width ≤ A),
+            let u : ℂ → ℂ := fun q ↦
+              chartAt ℂ (e (.ofCusp D.cuspOrbit))
+                (e ((Subgroup.CompactifiedQuotient.cuspChart D hA).symm q))
+            AnalyticAt ℂ u 0 ∧ deriv u 0 ≠ 0 := by sorry
 
 /-- The oriented roots cover fixes the phase of the inverse germ. Cusp limits are
  proved separately, not stored as fields (CDT Definition 5.1.1, p.667). -/
