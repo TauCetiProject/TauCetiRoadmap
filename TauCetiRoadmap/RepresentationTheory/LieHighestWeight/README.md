@@ -34,15 +34,19 @@ owns compact infinitesimal invariance, geometric Cartan transport and real desce
 owns the compact Albert idempotent geometry and automorphism transitivity.
 [LieGroupoidsPoisson, G4.6A](../../LieGroupoidsPoisson/README.md) owns the
 positive smooth Lie–Poisson bracket on the dual of a finite-dimensional real
-Lie algebra. Layer 3 owns its comparison with the polynomial bracket of the
-PBW zero fibre. The coadjoint-leaf theorem belongs to G4.6B.
+Lie algebra, including its smooth Poisson packaging; G4.6B owns the
+coadjoint-leaf theorem. Layer 3 supplies the polynomial evaluation and
+derivative identity directly from the PBW zero fibre.
 [PseudodifferentialOperators, §3.1](../../PseudodifferentialOperators/README.md)
 owns smooth periodic Fourier expansions and rapid decay in derivative seminorms.
 [TensorProductCombinatorics, §§1.5–1.6 and 2.6](../../TensorProductCombinatorics/README.md)
 owns lattice cone series, their Fourier boundary values, directional endpoint
-reconstruction and the type-A root-coordinate specialization. Layer 6.2 owns
-their application to the actual Weyl character and its weight multiplicities.
-The generic constructions have no character-theoretic premise.
+reconstruction and the type-A root-coordinate specialization. Its §1.6
+comparison for every rational expression equal to a Laurent polynomial
+already covers the normalized Weyl identity. Layer 6.2 supplies that finite
+identity and identifies the finite torus Fourier coefficients with weight
+multiplicities. The generic constructions have no character-theoretic premise;
+the finite identities here have no distributional premise.
 
 Four inputs of the compact and type-A applications in Layers 5, 9 and 10 are
 not supplied by the cited sections of the roadmaps on which they depend. Their
@@ -240,8 +244,10 @@ The torus coefficient definition is Mathlib `mFourierCoeff`, in
 `Mathlib/Analysis/Fourier/AddCircleMulti.lean`: it integrates f against the
 negative-frequency character. `UnitAddTorus.mFourierBasis` supplies the L²
 basis, and `UnitAddTorus.hasSum_mFourier_series_of_summable` supplies the
-continuous-function Fourier expansion under summability. Their smooth-test
-estimates and distributional cone comparisons are the targets of §6.2.
+continuous-function Fourier expansion under summability. For §6.2 use
+`UnitAddTorus.orthonormal_mFourier` and the definition of `mFourierCoeff`
+to extract the coefficients of the finite character sum; no convergence
+estimate is needed for that finite sum.
 
 ### From Tau Ceti
 
@@ -350,14 +356,6 @@ for rational group representations, SchurWeyl Layer 7 for finite Schur polynomia
 CompactGroups Layers 0–6 for compact characters, and LieGroups Layers 2–4, 6–7
 for Lie integration, maximal tori, Haar Weyl integration and holomorphic
 complexification. The supplier gaps below are not part of these imports.
-LieGroupoidsPoisson G4.6A supplies the positive smooth Lie–Poisson bracket
-with {ℓ_x,ℓ_y}=ℓ_[x,y] on L*. TensorProductCombinatorics §1.6 supplies the
-common-height cone-series localization, polynomial-growth Fourier boundary
-map and directional reconstruction with every toric contribution for
-nonunimodular lists; §2.6 supplies the type-A interval-column dictionary.
-These use PseudodifferentialOperators §3.1's rapid Fourier decay and
-ComplexKahlerGeometry K5a's smooth test-density duals. The comparisons here
-retain those suppliers' lattice, Haar, Fourier-sign and directional conventions.
 ReductiveGroups Layers 2 and 5P supply the tangent and
 characteristic-zero closed-subgroup smoothness cut used by Layer 9.
 
@@ -657,31 +655,38 @@ V(2) has weights 2,0,−2 and dimension 3; the d=2 monomial xy has norm squared 
   `B₁(p,q)-B₁(q,p)={p,q}`. The full first-order product coefficient
   is not asserted to be the Poisson bracket or to be alternating.
 
-  For a finite-dimensional real Lie algebra L, compare the algebraic zero-fibre
-  bracket with LieGroupoidsPoisson G4.6A's positive smooth Lie–Poisson bracket
-  `{f,g}(ξ)=ξ([Df(ξ),Dg(ξ)])`. Construct the algebra map
-  Sym_ℝ(L)→C∞(L*,ℝ) by x↦ℓ_x, where ℓ_x(ξ)=ξ(x), and prove injectivity
-  and bracket preservation (Gutt, *Deformation Quantization and Symmetries*,
-  Lecture 1, slide 14). Polynomial evaluation and the generator equation
-  determine this comparison; no orbit theorem enters its proof.
+  For a finite-dimensional real Lie algebra L, construct the algebra map
+  E:Sym_ℝ(L)→C∞(L*,ℝ) by x↦ℓ_x, where ℓ_x(ξ)=ξ(x), and prove
+  injectivity. For every p,q∈Sym_ℝ(L) and ξ∈L*, prove
+  `E({p,q})(ξ)=ξ([d(E(p))_ξ,d(E(q))_ξ])`, identifying the derivatives
+  in L** with vectors of L through the finite-dimensional evaluation
+  isomorphism. This is an identity on polynomial evaluations, proved from
+  the generator equation and the product rule (Gutt, *Deformation
+  Quantization and Symmetries*, Lecture 1, slide 14). It gives the comparison
+  with any smooth bracket having the displayed differential formula without
+  using the construction or Jacobi identity of a bracket on all smooth functions.
 
-  - The map sends 1 to 1 and the algebraic bracket of x,y to ℓ_[x,y].
+  - E sends 1 to 1 and E({x,y})(ξ) to ξ([x,y]); sums and products are preserved.
   - For any real Lie homomorphism u:L→M, its symmetric-algebra map and
-    pullback along u*:M*→L* give a commuting square of these comparisons.
-  - Products and sums are preserved, and polynomial evaluation is injective
-    over ℝ; the constant-zero map fails the unit and generator equations.
+    pullback along u*:M*→L* give a commuting square of evaluations.
+  - Polynomial evaluation is injective over ℝ. Its derivative obeys the
+    product rule, and the derivative identity holds for all polynomials,
+    without a nonzero or nonconstant hypothesis.
 
   **Checks.**
 
-  - For L=0 and for an abelian real line all brackets are zero; the polynomial
-    map sends 1 to the constant function 1, excluding the zero map.
-  - For [x,y]=y, at ξ(x)=2, ξ(y)=3, {ℓ_x,ℓ_y}(ξ)=3 and the reversed
-    bracket is −3; the negative Poisson convention gives the wrong sign.
+  - For L=0 and for an abelian real line the two sides of the derivative
+    identity are 0; E(1)=1, excluding the zero map.
+  - For [x,y]=y, at ξ(x)=2, ξ(y)=3, both sides for p=x,q=y are 3;
+    reversing p,q gives −3, excluding the negative bracket convention.
+  - For the same algebra, p=x²,q=y gives 12 on both sides at (2,3),
+    testing the product rule beyond linear generators.
   - For sl₂, {h,e}=2e and {e,f}=h, so {e,h²+4ef}=−4eh+4eh=0.
     The polynomial e is not central since {h,e}=2e is nonzero.
 
-  *Needs:* the algebraic bracket above; LieGroupoidsPoisson G4.6A;
-  symmetric-algebra evaluation and polynomial identity over ℝ.
+  *Needs:* the algebraic bracket above; symmetric-algebra evaluation;
+  finite-dimensional biduality, the derivative product rule and polynomial
+  identity over ℝ.
   The noncommutative Rees carrier is distinct from the commutative
   weight-Rees families of GroebnerGeometry G4.
 
@@ -721,8 +726,9 @@ V(2) has weights 2,0,−2 and dimension 3; the d=2 monomial xy has norm squared 
   first-order coefficient is `B_ord(p,q)=(∂_x p)y(∂_y q)`. Hence
   `B_ord(x,y)=y`, `B_ord(y,x)=0` and
   `B_ord(p,q)−B_ord(q,p)=y((∂_x p)(∂_y q)−(∂_y p)(∂_x q))`.
-  Identify this last expression with the positive Lie–Poisson bracket by
-  the preceding symmetric-generator comparison. Ordered first-order
+  Identify this last expression with the algebraic zero-fibre bracket by
+  its symmetric-generator equation; over ℝ the preceding derivative identity
+  evaluates it as `y((∂_x p)(∂_y q)−(∂_y p)(∂_x q))`. Ordered first-order
   multiplication is not alternating, including on the two generators.
 
   When R is a ℚ-algebra, also construct the symmetrized PBW comparison by
@@ -773,7 +779,8 @@ For [x,y]=y, the ordered first-order coefficients are B(x,y)=y and B(y,x)=0; the
 
 ### Dependencies
 
-*Needs:* native ordered PBW, filtration, associated grading and Verma modules; LieGroupoidsPoisson G4.6A for the smooth target of §3.1's polynomial comparison.
+*Needs:* native ordered PBW, filtration, associated grading and Verma modules;
+for §3.1's real polynomial comparison, finite-dimensional differential calculus.
 
 ## Layer 5: opposition, invariant forms and compact characters
 
@@ -968,14 +975,18 @@ Analytic removal of an apparent pole, by itself, is not a proof of an integral
 Laurent quotient. On the unit torus use evaluation of P_λ at *every* point,
 including repeated eigenvalues; do not define a value by a pointwise 0/0 quotient.
 
-Construct the negative-simple-root completion in which D⁻¹ is the product of the
-specified geometric series. A fixed exponent receives finitely many contributions
-because positive-root height bounds every summation index. Prove that the map
-from finite Laurent polynomials is injective, multiplication by D cancels this
-inverse, and N_λ/D has support ≤λ with coefficient 1 at λ. Pin the fact that
-λ+ρ is strictly decreasing: for w≠1 its permuted exponent is strictly below
-λ+ρ in dominance order. This supplies the leading coefficient and support
-without an analytic expansion at a wall or a character-formula assumption.
+Prove the leading coefficient and support directly in the finite Laurent
+ring from D·P_λ=N_λ. The constant coefficient of D is 1 and every other
+weight of D is a nonzero negative sum of positive roots. If P_λ had a
+weight outside λ−Q₊, choose a maximal such weight in its finite support:
+its coefficient in D·P_λ could not be cancelled by a higher weight of P_λ,
+so N_λ would also have that weight. This contradicts the support of N_λ.
+Since λ+ρ is strictly decreasing, every nonidentity permutation of it is
+strictly lower in dominance order; therefore N_λ has coefficient 1 at λ.
+With the support bound established, D·P_λ=N_λ now gives coefficient 1 at λ
+for P_λ as well. This finite triangular argument uses the alternating
+numerator and integral polynomial quotient above, without a completion
+or a character-formula assumption.
 
 **Haar norm and identification.** This is the integral norm-one argument of
 Woit, *The Weyl Character Formula* (2012), §3, Theorem 2 and its proof,
@@ -1129,81 +1140,73 @@ downstream application actually invokes.
   SchurWeyl gap:skew-lr-tableaux (Supplier gaps), beyond [SchurWeyl Layer 7](../SchurWeyl/README.md#layer-7-symmetric-functions-the-frobenius-characteristic-and-rsk); ClassicalGroups Layer 4 identifies polynomial character coefficients
   with group tensor multiplicities. Layer 9 below compares them with gl_n Lie modules.
 
-### 6.2 Fourier boundary values of the Weyl formula
+### 6.2 Rational Weyl identities and finite torus characters
 
 Consume the native integral weight group algebra, denominator-cleared Weyl
 formula and Kostant coefficient theorem, and ClassicalGroups Layers 3–4's
-group-character comparison. Apply TensorProductCombinatorics §1.6's chosen
-cone expansion and Fourier boundary map with one common regular height for
-every denominator in a rational identity. Its directional reconstruction
-retains all toric points for nonunimodular spanning lists and uses an alcove
-inside the positive cone with 0 in its closure; rank-deficient lists use
-their saturated span, and the empty list gives the delta at 0. Its torus
-convention is z^b(θ)=exp(2πi⟨b,θ⟩), probability Haar measure, and
-Θ(c)(φ)=Σ_b c(b) φ̂(−b). These specify the inputs to the character comparison.
-
-**Checks of the imported conventions.**
-
-- For A=(1), the positive expansion has coefficient 1 at b=0; the negative
-  expansion has coefficient 0 there and −1 at b=−1. Thus flipping a root
-  introduces an open negative ray, not a closed one.
-- For A=(2), the two toric contributions at b≥0 are 1/2 and (−1)^b/2;
-  their sums at b=0,1,2 are 1,0,1. The character application retains both.
-- For c=δ₁ on the circle, Θ(c)(z⁻¹)=1 and Θ(c)(z)=0. With the unshifted empty root
-  list the coefficient at 0 is 1 and the resulting torus character is 1.
-
-For each actual finite crystallographic root datum and group character
-lattice X, place all monomials in ℤ[X] before localization. Prove
-`wρ−ρ=−Σ_(α>0,w⁻¹α<0) α`, with the inversion convention pinned by the
-specified Weyl action and base. Only wρ−ρ and w(λ+ρ)−ρ need belong to X;
-ρ itself need not be a character. The normalized formula is
+group-character comparison. For each finite reduced crystallographic root
+datum, actual group character lattice X and dominant highest weight λ∈X,
+work in ℤ[X] and its localization at the factors
+1−e^(−α) for positive roots α. Prove
+`wρ−ρ=−Σ_(α>0,w⁻¹α<0) α`, with the inversion convention fixed by the
+Weyl action and base. Only wρ−ρ and w(λ+ρ)−ρ need belong to X; ρ itself
+need not be a character. Rewrite the native Weyl identity as
 
 `ch L(λ) = [Σ_w sgn(w)e^(w(λ+ρ)−ρ)] / ∏_(α>0)(1−e^(−α))`.
 
-Prove equality with the fixed-point rational sum
-`Σ_w e^(wλ)/∏_(α>0)(1−e^(−wα))` and retain the signs and the shift produced
-by every inverted denominator factor. For GL_n, compare the half-sum ρ
-with the integral staircase δ=(n−1,…,0); their difference is W-fixed,
-so shifted exponents agree without adjoining fractional characters. Do not
-substitute an unshifted positive-root denominator into this identity.
+Prove its equality with the fixed-point rational sum
+`Σ_w e^(wλ)/∏_(α>0)(1−e^(−wα))`, retaining the signs and shifts from
+inverted denominator factors. This is an algebraic adapter of the native
+Weyl formula: each inverted factor satisfies
+`1−e^α=−e^α(1−e^(−α))`, and the inversion-set identity supplies exactly
+the numerator shift (Etingof, *Lie Groups and Lie Algebras I & II*,
+Proposition 26.3 and Theorem 26.4, pp. 139–140). The factors are nonzero because roots are
+nonzero lattice elements; ℤ[X] is a domain since X is free abelian.
+For GL_n, compare ρ with the integral staircase δ=(n−1,…,0); their
+difference is W-fixed, so shifted exponents agree without adjoining
+fractional characters. No root-system rank or global-form restriction is added.
 
-For every covector regular on all roots apply ONE common cone expansion
-to the whole rational equality. Define every polarized summand's actual
-coefficient function and its Fourier boundary value and prove their finite
-alternating sum equals the finite weight multiplicity function/ordinary
-torus character. For a covector negative on the positive roots this is the
-existing Kostant partition formula, with argument
-`w(λ+ρ)−(μ+ρ)`; for another covector construct the explicit change-of-base/
-wall-crossing comparison. Individual summands depend on the covector; the
-sum does not. No product or cancellation of arbitrary singular distributions
-is inferred from the fraction-field identity alone.
+Using a lattice basis X≃ℤ^r, evaluate the finite character as
+`χ(θ)=Σ_μ dim L(λ)_μ · exp(2πi⟨μ,θ⟩)` on the native unit torus.
+This evaluation is the finite sum of native torus characters. Its API is:
 
-Transport to the actual compact maximal torus through its character-lattice
-and normalized Haar dictionary. Prove the coefficient sign with native
-`mFourierCoeff` and the Cartan angular/2π normalization. The character's
-Fourier coefficients are its integral weight multiplicities. Singular torus
-elements are covered by the finite polynomial equality and continuity, not
-by evaluating an individual pole. Differentiate neither chamber series nor
-distributional boundary values without their specified topology/support
-hypotheses. The Weyl-invariant integral finite character lattice and the
-triangular irreducible-character basis then give the virtual-character
-expansion; [CompactGroups Layer6](../CompactGroups/README.md#layer-6-characters-of-compact-groups)'s
-actual compact-group character orthogonality gives its squared group-Haar
-norm. State that norm on the group, and consume
-[LieGroups Layer6](../LieGroups/README.md#layer-6-maximal-tori-the-weyl-group-and-weyl-integration)'s
-normalized Weyl integration theorem if rewriting it as a weighted torus norm. These inputs
-are distinct from polynomiality or an unweighted torus norm.
+- Addition and multiplication of finite characters become pointwise addition
+  and multiplication, and the zero weight maps to the constant function 1.
+- Its native Fourier coefficient at μ is dim L(λ)_μ, by integrating the
+  finite sum and using orthogonality; a lattice-basis change uses the dual
+  torus map and preserves these coefficients.
+- Through the actual character lattice of a compact maximal torus, this
+  finite sum agrees with the restricted group character. It is continuous
+  at singular torus elements, where separate rational summands can have poles.
 
-In type A use TensorProductCombinatorics §2.6's identification of positive
-roots ε_i−ε_j (i<j) with interval columns in the simple-root basis. Compare
-its nonnegative solution fibre with the native Kostant partition fibre at β,
-retaining the root lattice. Compose that native-carrier comparison with the
-supplied directional reconstruction, including boundary weights and empty-root cases. Supply GL2's standard character
-`t1+t2`, SU2's weights n,n−2,…,−n, and a nontrivial A2 chamber/wall example.
-Compare the integer staircase, inversion-set polarization offsets and the
-direction chosen to restrict piecewise polynomials as distinct operations.
-This complete convention API does not identify an ambiguous source symbol
-with any of those independently defined operations.
+These are adapters of ClassicalGroups Layer 4 and Mathlib's finite Fourier
+orthogonality, not a construction of distributions or infinite series. The
+coefficient sign is the negative-frequency sign in `mFourierCoeff`.
+
+**Checks.**
+
+- For GL₂ and λ=(1,0), the fixed-point sum is
+  `t1/(1−t2/t1)+t2/(1−t1/t2)=t1+t2`. At (t1,t2)=(2,3), its summands
+  are −4 and 9 and their sum is 5. Here δ−ρ=(1/2,1/2) is fixed by
+  swapping the coordinates; at t1=t2=1 the finite character has value 2.
+- For SU₂, χ_n(z)=z^n+z^(n−2)+⋯+z^(−n), so its Fourier coefficients
+  are 1 precisely at those weights. For n=1, integration against z⁻¹
+  gives 1 and against z gives 1; for the single monomial z alone these
+  values are 1 and 0, excluding the opposite Fourier sign.
+- For the A₂ adjoint representation, the coefficient at weight 0 is 2
+  and at each of the six roots is 1; at the identity the value is 8.
+  Native Kostant counting in simple-root coordinates gives
+  P(0,0)=1, P(1,0)=1 and P(1,1)=2, retaining both walls and the origin.
+- For X=0 the root product and Weyl sum each have one term, λ=0,
+  the character is 1, and the sole Fourier coefficient is 1. For an
+  empty root system with X=ℤ, the weight-m torus character is z^m,
+  with coefficient 1 at m and 0 elsewhere; empty roots do not force a
+  trivial central character. For the zero module every coefficient is 0.
+
+*Needs:* native characters, Weyl and Kostant formulas; RootSystems Layers
+1–6; ClassicalGroups Layers 3–4; LieGroups Layer 6 for the compact torus
+comparison; Mathlib's unit torus, normalized Haar measure and finite
+Fourier orthogonality.
 
 ### Examples
 
@@ -1211,7 +1214,9 @@ For sl₂, V(1)⊗V(1)=V(2)⊕V(0), with dimensions 4=3+1 and multiplicities one
 
 ### Dependencies
 
-*Needs:* native characters, Weyl and Kostant formulas; Layers 0–5; TensorProductCombinatorics §§1.6 and 2.6; PseudodifferentialOperators §3.1; ComplexKahlerGeometry K5a.
+*Needs:* native characters, Weyl and Kostant formulas; Layers 0–5;
+RootSystems Layers 1–6; ClassicalGroups Layers 3–4; LieGroups Layer 6;
+Mathlib's finite Fourier orthogonality.
 
 ## Layer 7: the center of `U(L)`, Harish-Chandra, Freudenthal, and Serre's relations
 
@@ -2625,6 +2630,19 @@ Layer 7; the compact Albert geometry in TangentialBordism B3 uses the separate
 positive real algebra track. SpinRepresentations consumes the dual-standard
 Pieri rule in Layer 9.
 
+The polynomial derivative identity in §3.1 identifies the PBW zero-fibre
+bracket with the differential formula used by LieGroupoidsPoisson G4.6A.
+Its smooth Poisson structure supplies the geometric interpretation of that
+identity. Likewise §6.2's finite Laurent identity is an input to
+TensorProductCombinatorics §1.6's theorem for rational expressions equal to
+Laurent polynomials: one common regular height expands every summand, and
+the resulting boundary value is the ordinary finite torus character.
+Its coefficient reconstruction applies to native Kostant fibres through
+§2.6's type-A dictionary. This composition retains both toric terms for
+A=(2), giving 1/2+(−1)^b/2=1,0,1 at b=0,1,2, and its empty-list coefficient
+is δ₀. The analytic constructions use PseudodifferentialOperators §3.1;
+the finite identities exported here do not depend on those constructions.
+
 Layer9's reductive enveloping-product and center-factor constructions consume the native product/abelian/tensor-centralizer APIs and the existing early reductive splitting. Its HC and invariant-polynomial refinements consume Layer7; its connected algebraic fixed-vector comparison consumes only RG2/5P's tangent/Cartier cut, and its complex analytic comparison consumes LG2–4. None consumes Borel–Weil or characteristic-class cohomology.
 
 Layer 10 consumes the native integral-weight predicates and constructs the lattice comparison, plus RootSystems Layers 1–6 finite root geometry, based classification, and actual Weyl group. It builds the affine action without a Lie-group or period input. Only §10.2's compact-center application uses Lie groups, through LieGroups Layers 4 and 6 and gap:torus-period-lattice; nothing in this roadmap is supplied back to RootSystems or LieGroups.
@@ -2632,7 +2650,8 @@ Layer 10 consumes the native integral-weight predicates and constructs the latti
 ## References
 
 - P. Etingof, *Lie Groups and Lie Algebras I & II*, MIT 18.755 lecture notes
-  (Spring 2024), §11.4 and Theorems 11.16/11.18, pp. 65–68; Example 32.13
+  (Spring 2024), §11.4 and Theorems 11.16/11.18, pp. 65–68;
+  Proposition 26.3 and Theorem 26.4, pp. 139–140; Example 32.13
   and Proposition 32.14, pp. 176–177; Theorem 43.4 and Corollaries 43.5–43.6,
   pp. 231–232. These page numbers are the printed pages of the
   [MIT course notes](https://ocw.mit.edu/courses/18-755-lie-groups-and-lie-algebras-ii-spring-2024/mit18_755_s24_lec_full.pdf).
