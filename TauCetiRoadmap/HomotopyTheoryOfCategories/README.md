@@ -455,7 +455,9 @@ instance `reflectsIsomorphisms_of_monadicRightAdjoint`. Dually
   model axioms (Theorem 4.9) as a Mathlib `HomotopicalAlgebra.ModelCategory Cat.{u, u}`,
   properness (Corollary 5.5), that every cofibrant category is a poset (Proposition 5.7), and that
   `c Sd² ⊣ Ex² nerve` is a Quillen equivalence with the Kan–Quillen structure of
-  GeneralizedCohomology.
+  GeneralizedCohomology. The same classes restrict to a proper, cofibrantly generated model
+  structure on posets, Quillen equivalent to Thomason's through the inclusion of posets into
+  categories and its left adjoint (Raptis 2010, Theorem 2.6).
 
 ### Layer 6: test categories
 
@@ -622,6 +624,9 @@ morphism is a monomorphism, and derive the `[IsDirect C]` form; the ordered set 
 these hypotheses without being direct.
 
 ### Layer 10: derivators
+
+Heller 1988 introduced the same structure independently, as a « homotopy theory »: a
+hyperfunctor `J ↦ T(J)` on small categories subject to axioms abstracted from simplicial sets.
 
 - **Prederivators** (convention 9): morphisms (pseudonatural transformations), the represented
   prederivator `J ↦ (J ⥤ C)` (Groth 2013, Example 1.11: a derivator iff `C` is complete and
@@ -856,6 +861,10 @@ Existing formalizations of Layers 7–9 to port or consult (cited sources, not s
   3.4, 3.9, 3.10, 3.19, 3.21, 4.1; Example 1.11; Lemmas 1.18–1.20, 1.23, 1.27, 3.7;
   Propositions 1.12, 1.24, 1.26, 1.29, 1.30, 1.36, 3.2, 3.6, 3.11, 3.13, 3.14, 3.20,
   3.23–3.25, 4.3–4.7; Theorems 1.31, 1.38, 4.15; Corollaries 3.8, 4.8, 4.14, 4.19.
+- A. Heller, *Homotopy theories*, Mem. Amer. Math. Soc. 71 (1988), no. 383,
+  doi:10.1090/memo/0383, Zbl 0643.55015.
+- G. Raptis, « Homotopy theory of posets », *Homology Homotopy Appl.* 12 (2010), no. 2, 211–230,
+  doi:10.4310/HHA.2010.v12.n2.a7: Theorem 2.6.
 - H.-J. Baues, *Algebraic Homotopy*, Cambridge Studies in Adv. Math. 15 (1989), Chapter I,
   (1.1) (cofibration categories).
 - K. S. Brown, « Abstract homotopy theory and generalized sheaf cohomology », *Trans. AMS* 186
