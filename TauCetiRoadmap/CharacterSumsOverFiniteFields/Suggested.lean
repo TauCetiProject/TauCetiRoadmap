@@ -1,4 +1,6 @@
-import Mathlib
+module
+
+public import Mathlib
 
 /-!
 # Character sums over finite fields: target signatures
@@ -39,6 +41,8 @@ theorem; the identification of `kloostermanSum 1 ψ a b` with the rank-two hyper
 of `CongruenceSpectralGap` §4.2a and of `S(m, n; c)` with `AutomorphicSpectralTheory` §1.16's sum
 (7.3), neither of whose carriers is at the pins; and 7.7, which only names characters.
 -/
+
+@[expose] public section
 
 namespace TauCetiRoadmap.CharacterSumsOverFiniteFields
 
@@ -454,3 +458,5 @@ end Layer7
 end
 
 end TauCetiRoadmap.CharacterSumsOverFiniteFields
+
+end
