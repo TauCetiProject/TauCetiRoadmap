@@ -287,11 +287,14 @@ conversion and scale invariance are acceptance examples.
 
 ## P4. Ancient κ-solutions and shrinking asymptotic models
 
-An ancient `κ`-solution is a complete nonflat flow on `(-∞,0]` with bounded
-curvature on compact time slabs, nonnegative curvature operator, positive scalar
-curvature and `κ`-noncollapse on all scales. Develop its pointed/isometric,
-restriction and rescaling API, together with the positivity consequences of
-the strong maximum principle.
+An ancient `κ`-solution is a complete nonflat flow on `(-∞,0]` with a connected
+manifold carrier, bounded curvature on compact time slabs, nonnegative curvature
+operator, positive scalar curvature and `κ`-noncollapse on all scales. Develop
+its pointed/isometric, restriction and rescaling API, together with the
+positivity consequences of the strong maximum principle. Its classifications
+and pointed compactness theorems concern that connected carrier, and pointed
+limits retain the connected component containing the basepoint. P7's finite disjoint unions
+describe surgery slices.
 
 Construct backward blowdown sequences at reduced-distance-controlled points.
 Prove the required curvature, distance, noncollapse and injectivity estimates,
@@ -486,14 +489,33 @@ disk, with the weak conformality, interior branched harmonic regularity and
 boundary regularity required by its curvature/area estimates. Boundary values
 are allowed monotone circle reparametrizations, with the precise normalization
 and nondegeneracy conditions included in the variational problem. Construct
-annular near-minimizers and the modulus estimates used for ramp comparison.
+annular near-minimizers and their boundary-reparametrization and gluing laws.
 For disjoint embedded nullhomotopic `C²` boundary loops, prove annular
 attainment under the strict Douglas gap
 `inf Area(annuli) < Fill_g(γ₀)+Fill_g(γ₁)`; include boundary parametrizations
 and the modulus compactness proof. Establish the comparison for general nearby
 loops using spanning annuli and near-minimizers. Prove approximation back to
-the original `C¹` competitors. This layer owns these nonlinear existence and
-regularity results.
+the original `C¹` competitors.
+
+For P10, also construct annular minimization between ramps in
+`M×S¹_λ`, where `M` is a closed smooth manifold of dimension `n≥3` with
+`π₂(M)=0` and the circle has a fixed positive circumference `λ`.
+For two disjoint embedded `C²` boundary ramps with circle projection of degree
+one and a specified free homotopy between them, prove attainment of the infimum
+over all spanning annuli, allowing
+monotone boundary reparametrizations, by a weakly conformal branched minimal
+annulus. The boundary loops represent a common nontrivial free homotopy
+class in the product. Construct a finite-energy annular competitor from the
+specified homotopy. Establish modulus compactness for minimizing sequences
+at each fixed `λ>0`: use the positive lower bound on lengths of core curves
+from their degree-one circle projection and the positive separation of the
+boundary images to control the two degenerations of modulus. Include weak
+compactness, bubbling control, interior/boundary regularity and branch-point handling needed for
+area variation and small-area comparison. Prove approximation and annular
+gluing estimates for intersecting boundary ramps. These are the noncontractible
+boundary results used in Morgan–Tian, Lemma 19.15 and Section 19.7; the
+Douglas-gap result above supplies the null-loop case. This layer owns these
+nonlinear existence and regularity results.
 
 Develop sphere area/energy, weak conformality, branched minimal spheres and
 the bubble-compactness analysis needed for the least nontrivial sphere-area
@@ -536,12 +558,20 @@ by `sqrt(k²+η²)`, integrate before taking `η↓0`, and obtain a total-curvat
 bound with the length-dependent term. Constants depend on the displayed ambient
 bounds and initial family bounds and apply uniformly to the parameter family.
 
-Construct the ramp curves in `M×S¹` with the small circle metric, their local
-flows, angle/length/curvature control and continuation on the controlled slab.
-Prove annular comparison of the projected loops, with errors tending to zero
-in the ramp parameter and with quantitative bounds uniform over a fixed compact
-parameter family. Construct polygonal approximation, compatible smoothing and
-finite nets of loop families in the topology actually used for these estimates.
+For P9's null-loop families, construct the degree-one ramp curves
+`θ↦(γ(θ),θ)` in `M×S¹_λ`, their local flows, angle/length/curvature control
+and continuation on the controlled slab. Their circle projection represents
+the nontrivial degree-one class; their projections to `M` are the null loops
+used for filling area. Use P9's annulus theorem for noncontractible boundary
+loops to prove continuity and
+the forward growth bound for the infimum of annular areas along ramp flows in
+Morgan–Tian, Lemma 19.15 and Corollary 19.16, with growth constants independent
+of `λ`. Project the resulting comparison annuli to `M` and use P9's
+disk/annulus gluing inequality to compare filling areas of the projected loops.
+Establish errors tending to zero as `λ↓0`, with quantitative bounds uniform
+over a fixed compact parameter family. Construct polygonal approximation,
+compatible smoothing and finite nets of loop families in the topology actually
+used for these estimates.
 
 Assemble family deformation preserving the relevant homotopy class, with all
 small-loop, filling-area and annulus errors displayed. Prove the deformation
