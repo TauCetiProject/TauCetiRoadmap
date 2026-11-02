@@ -29,7 +29,7 @@ surface theory and classification.
 The summits, in order of construction:
 
 1. **The Jordan curve theorem and the crosscut theorem**, with the frontier and
-   accessibility API that `ConformalMapping` consumes, and **invariance of domain** in
+   accessibility API used by `ConformalMapping`, and **invariance of domain** in
    dimension two, by way of Brouwer's fixed-point theorem.
 2. **Radó's theorem**: every compact surface is triangulable.
 3. **The two-dimensional Hauptvermutung and Pachner's theorem**: homeomorphic triangulated
@@ -53,15 +53,25 @@ Each layer below is organized around a theorem, its mathematical dependencies, a
 
 ## Relationship to other roadmaps
 
-### This roadmap supplies
+### Downstream consumers
 
 | Consumer | What it needs | Where it is proved here |
 |---|---|---|
-| `ConformalMapping` layer 5, applied to Jordan interiors | `IsJordanDomain hJ.inside` supplies the open, connected, bounded, and Jordan-frontier hypotheses of the boundary correspondence; simple connectivity follows from `TauCeti.IsJordanDomain.isSimplyConnected` | layer 2 |
+| `ConformalMapping` layer 5, elementary proof comparison | `IsJordanDomain hJ.inside` is the shared open, connected, bounded, and Jordan-frontier interface; simple connectivity follows from `TauCeti.IsJordanDomain.isSimplyConnected` | layer 2 |
 | `GeometricTopology` layer 11 | triangulability is unconditional in dimension two; the two-dimensional Hauptvermutung and Pachner's theorem; the compatibility of `IsCombinatorialSurface` with `IsCombinatorialManifold K 2` | layers 3 and 5 |
 | `GeometricTopology` layer 2 | local flatness of embedded circles and arc interiors in a surface interior; half-line slices at arc endpoints; tameness of finite graphs with finite-star vertex models | layer 7 |
 | `GeometricTopology` layer 1 | invariance of domain in dimension two, hence chart-independence of the manifold boundary in the topological case `k = 0` that `isBoundaryPoint_iff_mem_frontier_range` excludes | layer 2 |
 | `SurfaceTopology` | Radó, the Hauptvermutung, Pachner, the Euler characteristic, orientability and orientations, the boundary count, Schoenflies, tameness, Epstein's theorem, and the comparison of the topological, PL, and smooth categories | layers 2, 5, 6, 7, and 8 |
+
+The [completed ConformalMapping area](../../Completed/ConformalMapping/README.md) already
+supplies general Jordan separation and the Jordan-domain interface. Layer 2 develops the
+elementary polygonal and crosscut route to those statements, with the accessibility and
+finite decomposition results needed by layer 7. It uses the shared native predicates and
+compares its conclusions with the existing theorems. Likewise,
+[AlgebraicTopology, Stage 2, item 7](../AlgebraicTopology/README.md#stage-2-relative-singular-chains-and-homology)
+owns general no-retraction and Brouwer theorems; layer 2 retains the elementary winding-number
+proofs of their two-dimensional specializations. These proof routes keep the geometric
+surface programme independent of general homology and complex analysis.
 
 ### Existing library prerequisites
 
@@ -74,12 +84,14 @@ Additional elementary infrastructure constructed here is listed in the next subs
 | --- | --- |
 | `Isotopy`, `Isotopic` | `TauCeti/Topology/Homotopy/Isotopy/{Basic,Comp,Prod}.lean` |
 | `AmbientIsotopy`, `AmbientIsotopic` | `TauCeti/Topology/Homotopy/AmbientIsotopic/{Basic,Complement,Naturality}.lean` |
-| `Realization`, `Face`, `faceInclusion`, `StandardSimplex` | `TauCeti/AlgebraicTopology/SimplicialComplex/Realization.lean` |
+| `Realization`, `Face`, `faceInclusion`, `StandardSimplex` | `TauCeti/AlgebraicTopology/SimplicialComplex/Realization/{Basic,Map,Subcomplex}.lean` |
 | `link`, `closedStar`, `deletion` | `TauCeti/AlgebraicTopology/SimplicialComplex/LinkStar.lean` |
 | barycentric subdivision, `barycentricSubdivisionMap`, and `barycentricSubdivisionRealizationHomeomorph` | `TauCeti/AlgebraicTopology/SimplicialComplex/Subdivision/{Basic,Realization,Homeomorph}.lean` |
 | stellar subdivision and `StellarEquivalent` | `TauCeti/AlgebraicTopology/SimplicialComplex/Subdivision/Stellar/{Basic,Equivalence}.lean` |
 | `IsCombinatorialBall`, `IsCombinatorialSphere`, `IsCombinatorialManifold` | `TauCeti/AlgebraicTopology/SimplicialComplex/CombinatorialManifold.lean` |
 | `SimplicialMap`, `domainRestrict` | `TauCeti/AlgebraicTopology/SimplicialComplex/Maps.lean` |
+| `SimplicialMap.realizationMap`, its barycentric-coordinate formula, vertex, identity and composition laws | `TauCeti/AlgebraicTopology/SimplicialComplex/Realization/Map.lean` |
+| `Geometry.SimplicialComplex.isPLOn_of_locallyFinite` | `TauCeti/Topology/PL/Simplicial.lean` |
 | `dimension` | `TauCeti/AlgebraicTopology/SimplicialComplex/Dimension.lean` |
 | the collapse API | `TauCeti/AlgebraicTopology/SimplicialComplex/Collapse/`, `ElementaryCollapse.lean` |
 | `IsTriangulable` | `TauCeti/Topology/Triangulable.lean` |
@@ -166,7 +178,7 @@ simplicial isomorphisms here.
 
 ---
 
-## Layer Dependency Chart
+## Dependencies
 
 ```
 L0 conventions
@@ -275,7 +287,7 @@ theorem exists_jordanCurve_volume_pos : ∃ J : Set ℂ, IsJordanCurve J ∧ 0 <
 **Mathematical route and formalization notes.**
 
 - Alexander's trick is short but needed in three places. L4 uses the PL version to correct the 2-skeleton and fills each triangle. L7 uses the topological version when it glues the two Schoenflies discs along the curve. L5 uses the isotopy form in `exists_isotopic_plHomeomorph`.
-- The half-space transport is what makes Mathlib's sphere, the plane, and every Euclidean-charted surface a surface in the sense of the conventions. Its boundary is empty because every transported chart lands in the interior of the half-space. The closed disc is charted by hand, interior points by the identity and boundary points by straightening the circle, and its boundary is the unit circle.
+- The half-space transport is what makes Mathlib's sphere, the plane, and every Euclidean-charted surface a surface in the sense of the conventions. Its boundary is empty because every transported chart lands in the interior of the half-space. The native closed-ball atlas uses the identity at interior points and straightens the circle at boundary points; its boundary theorem identifies the boundary with the unit circle.
 - Second countability of a compact surface is `ChartedSpace.secondCountable_of_sigmaCompact` and is not restated here.
 
 - The space-filling curve is why the Jordan curve theorem needs injectivity, and the non rectifiable curve (Koch snowflake) shows why one may not assume a curve is rectifiable.  The positive measure Osgood curve is why one may not assume the curve is measure 0.
@@ -350,7 +362,8 @@ theorem exists_ear (P : PolygonalLoop) (hP : P.IsSimple) (h : 3 < P.vertices.len
 
 /-- Polygonal Schoenflies. The closed inside of a simple polygon is PL-homeomorphic to a triangle, and the homeomorphism extends to the plane. -/
 theorem polygonal_schoenflies (P : PolygonalLoop) (hP : P.IsSimple) :
-    ∃ h : ℂ ≃ₜ ℂ, IsPLOn h univ ∧ IsPLOn h.symm univ ∧ h '' P.carrier = standardTriangle.boundary
+    ∃ h : ℂ ≃ₜ ℂ, IsPLOn h univ ∧ IsPLOn h.symm univ ∧ h '' P.carrier =
+      segment ℝ (0 : ℂ) 1 ∪ segment ℝ (1 : ℂ) I ∪ segment ℝ I 0
 
 /-- A polygonal drawing of a finite simple graph: distinct points for the vertices, a polygonal
     chain for each edge, chains meeting only at shared endpoints. -/
@@ -500,10 +513,25 @@ theorem boundaryComponentCount_congr (e : M ≃ₜ N) :
 
 **Mathematical route and formalization notes.**
 
-- **The conformal interface.** Apply `TauCeti.IsJordanDomain.isSimplyConnected` (`TauCeti/Analysis/Complex/Conformal/Jordan/Domain.lean`) to `isJordanDomain_inside`. The Carathéodory declaration `TauCeti.exists_homeomorph_closedBall_closure_of_isJordanCurve_frontier` (`Jordan/Approach.lean`) takes exactly the four Jordan-domain fields: openness, connectedness, boundedness, and a Jordan frontier. Layer 2 supplies them for the inside of every Jordan curve. This application uses no Layer 7 result; the Schoenflies development below follows its elementary geometric route.
+- **The conformal interface.** Apply `TauCeti.IsJordanDomain.isSimplyConnected` (`TauCeti/Analysis/Complex/Conformal/Jordan/Domain.lean`) to `isJordanDomain_inside`. The Carathéodory declaration `TauCeti.exists_homeomorph_closedBall_closure_of_isJordanCurve_frontier` (`Jordan/Approach.lean`) takes exactly the four Jordan-domain fields: openness, connectedness, boundedness, and a Jordan frontier. Layer 2 proves these fields by its elementary route for the inside of every Jordan curve, using the same interface as the existing separation theorems. This application uses no Layer 7 result; the Schoenflies development below follows its elementary geometric route.
 - The order of development follows Thomassen. Approximate the paths that would have to cross the curve, not the curve itself, because Osgood gives an obstruction to curve approximation.  A curve can have positive measure (layer 0) whereas the crossing paths are compact arcs in an open set and are cheap to control. A hypothetical failure of separation, or a third complementary component, would result in a polygonal drawing of `K₃,₃`.
 - Arc non-separation is proved by the chain-of-small-squares argument using the small-arc diameter bounds in `TauCeti/Topology/JordanCurve/SmallArc.lean`.
-- ⚠ `invarianceOfDomain₂` is key. Without it neither `∂M` nor the boundary count is known to be a topological invariant of a surface. Its route needs nothing from the Jordan curve theorem: layer 1's integer winding number and its homotopy invariance show that the circle is not a retract of the disc, that gives Brouwer's fixed-point theorem by the usual construction of a retraction from a fixed-point-free map, and invariance of domain follows from Brouwer by Kulpa's argument: extend the inverse of the embedding off the embedded closed ball by Tietze, and use Brouwer to force the points near an image point into the image. Neither step needs a regularity hypothesis on the paths: Tau Ceti's `windingNumber_eq_of_pathHomotopy` (`Analysis/Contour/Winding/Number/Homotopy.lean`) is invariance under continuous fixed-endpoint homotopies of piecewise-`C¹` paths, and a retraction `r` of the disc onto its circle contracts the standard loop `p` through `H s t = r ((1 - s) * p t + s)`, which is valued in the circle and fixes both endpoints since the disc is convex and `r 1 = 1`. Mathlib has neither Brouwer nor invariance of domain nor degree theory for $C^0$ manifolds, and Brouwer is a reusable theorem in its own right.
+- ⚠ `invarianceOfDomain₂` is key. Without it neither `∂M` nor the boundary count is known to be a topological invariant of a surface. Its route needs nothing from the Jordan curve theorem: layer 1's integer winding number and its homotopy invariance show that the circle is not a retract of the disc, that gives Brouwer's fixed-point theorem by the usual construction of a retraction from a fixed-point-free map, and invariance of domain follows by the finite approximation argument of Kulpa (1998), pp. 127–129 and 132–133, with its auxiliary lemma constructed below. Neither step needs a regularity hypothesis on the paths: Tau Ceti's `windingNumber_eq_of_pathHomotopy` (`Analysis/Contour/Winding/Number/Homotopy.lean`) is invariance under continuous fixed-endpoint homotopies of piecewise-`C¹` paths, and a retraction `r` of the disc onto its circle contracts the standard loop `p` through `H s t = r ((1 - s) * p t + s)`, which is valued in the circle and fixes both endpoints since the disc is convex and `r 1 = 1`. AlgebraicTopology Stage 2, item 7 owns the dimension-general no-retraction and Brouwer interfaces; the plane proofs here use the shared specializations and the earlier winding-number calculation.
+
+**The finite approximation input for invariance of domain.** Build Kulpa's plane
+zero-avoidance lemma: for compact `X, Y ⊆ ℂ` with `interior Y = ∅`, continuous
+`f : X → ℂ \ {0}`, and `ε > 0`, construct continuous
+`F : X ∪ Y → ℂ \ {0}` within `ε` of `f` on `X`. Use coordinatewise Tietze extension,
+affine interpolation on a fine finite triangular grid, and a small translation avoiding
+the interpolant's image of `Y`. Each affine piece is invertible or has image in a line,
+so that compact image has empty interior. This uses ordinary continuous-map
+approximation before layer 4's homeomorphism approximation.
+
+Transport disc Brouwer radially to the square; derive Poincaré–Miranda by coordinatewise
+clipping. A point outside an embedded square but near its centre image then gives, by
+radial pushing and the lemma applied to its inverse, a zero-free square map with the
+forbidden opposite-face signs. The input lemma and deduction are explicit layer 2
+targets (Kulpa, pp. 127–129, 132–133).
 
 **Examples and mathematical checks.** `subset_closure_inside` is stated in the same form as `TauCeti/Topology/FilledHull.lean`. `isJordanDomain_inside` is checked against the constructors of `IsJordanDomain` from a ball and from a convex set, which it subsumes. `crosscut` is checked on a worked example where the two pieces are visibly different (an off-centre chord of a disc). Brouwer is exercised on a rotation of the disc, whose only fixed point is the centre, and `boundaryComponentCount` is computed for the closed disc, one, and the transported sphere, zero.
 
@@ -515,9 +543,9 @@ For accessibility, the radial approaches to `1` and `I` are positive examples, w
 is not a boundary point. A path approaching `1` from outside the disc does not witness
 accessibility from the inside. These checks precede the Schoenflies construction.
 
-**Natural intermediate results.** (i) `inside`, `outside`, boundedness, and connectedness; (ii) the crosscut and interior-accessibility definitions, the endpoint and reversal API, and compactness of crosscut carriers; (iii) the common frontier and arc non-separation; (iv) accessibility of crosscut endpoints and density of accessible boundary points; (v) the crosscut theorem; (vi) the component count; (vii) no retraction, Brouwer, `invarianceOfDomain₂`, chart-independence of `∂M`, and the boundary count.
+**Natural intermediate results.** (i) `inside`, `outside`, boundedness, and connectedness; (ii) the crosscut and interior-accessibility definitions, the endpoint and reversal API, and compactness of crosscut carriers; (iii) the common frontier and arc non-separation; (iv) accessibility of crosscut endpoints and density of accessible boundary points; (v) the crosscut theorem; (vi) the component count; (vii) no retraction, Brouwer, the finite-grid zero-avoidance lemma, Poincaré–Miranda, `invarianceOfDomain₂`, chart-independence of `∂M`, and the boundary count.
 
-**Consequences.** `ConformalMapping` layer 5, through `isJordanDomain_inside`. Layer 7. `∂M` and the boundary count for the rest of this roadmap and for `SurfaceTopology`.
+**Consequences.** An elementary proof comparison for `ConformalMapping` layer 5 through `isJordanDomain_inside`. Layer 7. `∂M` and the boundary count for the rest of this roadmap and for `SurfaceTopology`.
 
 ---
 
@@ -576,16 +604,12 @@ def Subdivision.barycentric (K : AbstractSimplicialComplex ι) : Subdivision K.b
 theorem Subdivision.barycentric_toHomeomorph (K : AbstractSimplicialComplex ι) :
     (Subdivision.barycentric K).toHomeomorph = barycentricSubdivisionRealizationHomeomorph K
 
-/-- The realization of a simplicial map, affine on each closed simplex. Tau Ceti has
-    `SimplicialMap` but not yet its realization. -/
-noncomputable def SimplicialMap.realization (g : SimplicialMap K L) : Realization K → Realization L
-theorem SimplicialMap.continuous_realization (g : SimplicialMap K L) : Continuous g.realization
-theorem SimplicialMap.realization_vertex (g : SimplicialMap K L) (v : ι) :
-    g.realization (vertex K v) = vertex L (g v)
+-- Use the native continuous map `g.realizationMap`, with `realizationMap_val`,
+-- `realizationMap_vertex`, `realizationMap_id`, and `realizationMap_comp`.
 /-- `g` realizes `f` through two chosen subdivisions: the square `f ∘ s = t ∘ |g|` commutes. -/
 def SimplicialRealizes (s : Subdivision K' K) (t : Subdivision L' L) (g : SimplicialMap K' L')
     (f : Realization K → Realization L) : Prop :=
-  f ∘ s.toHomeomorph = t.toHomeomorph ∘ g.realization
+  f ∘ s.toHomeomorph = t.toHomeomorph ∘ g.realizationMap
 
 /-- Realizations of finite complexes are metrized by barycentric coordinates; the metric induces
     the existing topology, and it is what the approximation theorems measure with. -/
@@ -654,7 +678,8 @@ theorem isPLMap_iff_isPLOn (e : Realization K ≃ₜ P) (e' : Realization L ≃�
 - Stellar subdivision is defined for every nonempty face, including a singleton. Its result is an `AbstractSimplicialComplex` on the support of the resulting pre-complex, rather than on all of `Option ι`. Starring `{v}` removes `some v` and replaces it by `none`, including in every incident face; starring an edge or triangle retains its old vertices and introduces `none`. The support-reindexing API includes the face correspondence above and preservation of finite faces. The stellar realization homeomorphism is a target of this layer, with the specified affine placement.
 - The common-subdivision theorem in this layer starts with a **PL** homeomorphism (or, equivalently, two PL triangulations of one polyhedron). Its conclusion is best stated as subdivisions of the two complexes together with a simplicial isomorphism. The two-dimensional Hauptvermutung in layer 5 is the deeper theorem that starts with an arbitrary topological homeomorphism and produces such a PL comparison. Keeping these two statements separate exposes a genuine mathematical distinction which could be hidden by a convenient choice of vertex types.
 - The compatibility theorem with Tau Ceti's `IsCombinatorialManifold K 2` is proved here: a finite complex whose vertex links are circles or arcs is one whose vertex links are stellar equivalent to the boundary of a triangle or to a triangle, and conversely. No dimension-two result depends on it.
-- Tau Ceti already has stellar subdivision with `StellarEquivalent`, and the homeomorphism between the realizations of a complex and its barycentric subdivision. `Subdivision` is the general notion both instantiate, and it is data: the realization homeomorphism is a field, fixed by the vertex placement, not something extracted from a proof, because layer 4's relative approximation, layer 8's smoothing, and `SimplicialRealizes` all depend on which placement was chosen. The realization of a simplicial map is a target too; Tau Ceti has the maps but not their realizations.
+- Tau Ceti already has stellar subdivision with `StellarEquivalent`, and the homeomorphism between the realizations of a complex and its barycentric subdivision. `Subdivision` is the general notion both instantiate, and it is data: the realization homeomorphism is a field, fixed by the vertex placement, not something extracted from a proof, because layer 4's relative approximation, layer 8's smoothing, and `SimplicialRealizes` all depend on which placement was chosen. Simplicial maps use the native `realizationMap`, whose coordinates add the weights of vertices with the same image; its identity, composition, and vertex laws are imported from `Realization/Map.lean`.
+- `GeometricTopology` layer 11 owns the dimension-general reconciliation of combinatorial manifolds with PL chart structures. The additional comparison here, `isPLMap_iff_isPLOn`, concerns a specified map between finite polyhedra affinely realized in the plane: it identifies the subdivision-based map predicate with the native local polyhedral predicate. Its forward implication uses `Geometry.SimplicialComplex.isPLOn_of_locallyFinite` (`Topology/PL/Simplicial.lean`); the reverse refines a finite polyhedral cover into triangles. The circle/arc link construction of surface charts is the direct dimension-two proof.
 - The realization of a finite complex is metrized by its barycentric coordinates. This metric is what layer 4's `ε` and layer 7's small-cell estimates measure with; no metric on realizations exists in Tau Ceti.
 - Combinatorial circles and arcs in dimension one are concrete: a combinatorial circle is a finite connected 1-complex in which every vertex has exactly two neighbours; a combinatorial arc is a finite connected 1-complex in which exactly two vertices have one neighbour and the rest have two. These should not be based on a general sphere-recognition recursion.
 
@@ -741,17 +766,17 @@ theorem exists_pl_approximation_rel
     (hK : IsCombinatorialSurface K) (hL : IsCombinatorialSurface L)
     (f : Realization K ≃ₜ Realization L)
     (iA : SimplicialMap KA K) (hiA : Function.Injective iA)
-    (hf : IsPLMap (f ∘ iA.realization)) (ε : ℝ) (hε : 0 < ε) :
+    (hf : IsPLMap (f ∘ iA.realizationMap)) (ε : ℝ) (hε : 0 < ε) :
     ∃ g : Realization K ≃ₜ Realization L,
       IsPLMap g ∧ IsPLMap g.symm ∧
-      (∀ a : Realization KA, g (iA.realization a) = f (iA.realization a)) ∧
+      (∀ a : Realization KA, g (iA.realizationMap a) = f (iA.realizationMap a)) ∧
       ∀ x, realizationDist L (f x) (g x) < ε
 ```
 
 **Mathematical route and formalization notes.**
 
 - The proof first approximates the image of the 1-skeleton by a polygonal embedding and then extends across each 2-simplex by polygonal Schoenflies. The locally positive lower bound supplies a positive working margin in each neighbourhood, while allowing the error to tend to zero towards the boundary or infinity of a noncompact open source. This is the local control needed in Radó's inductive construction.
-- The relative form is needed for surfaces with boundary and for the isotopy statement in layer 8. The image of an injective simplicial map is the specified subcomplex, on its actual vertex support. The PL condition on `f ∘ iA.realization` is a map from the source complex `KA` into `L`, so it includes the data needed to leave that restriction fixed. The local forms also include relative versions: a closed, locally finite polyhedral subcomplex of the source on which `f` is already PL is kept fixed, with the same local error condition. Include the boundary-line case used when gluing the half-plane approximation.
+- The relative form is needed for surfaces with boundary and for the isotopy statement in layer 8. The image of an injective simplicial map is the specified subcomplex, on its actual vertex support. The PL condition on `f ∘ iA.realizationMap` is a map from the source complex `KA` into `L`, so it includes the data needed to leave that restriction fixed. The local forms also include relative versions: a closed, locally finite polyhedral subcomplex of the source on which `f` is already PL is kept fixed, with the same local error condition. Include the boundary-line case used when gluing the half-plane approximation.
 - The argument uses polygonal Schoenflies, but it does not need the topological Schoenflies theorem or the tameness results of layer 7.
 - The half-plane form is what layer 5's boundary case consumes. Construct the reflection extension and the boundary-line PL approximation first, then approximate the two sides with that common boundary approximation and glue. The output preserves both `H` and `B`; restrict it to the original relative-open half-plane source. This uses only the planar and interval arguments of the preceding layers.
 
@@ -831,9 +856,9 @@ theorem exists_isotopicRel_plHomeomorph {K L} (hK : IsCombinatorialSurface K)
     (hL : IsCombinatorialSurface L) (f : Realization K ≃ₜ Realization L)
     {ιA : Type*} {KA : AbstractSimplicialComplex ιA}
     (iA : SimplicialMap KA K) (hiA : Function.Injective iA)
-    (hf : IsPLMap (f ∘ iA.realization)) :
+    (hf : IsPLMap (f ∘ iA.realizationMap)) :
     ∃ g : Realization K ≃ₜ Realization L, IsPLMap g ∧ IsPLMap g.symm ∧
-      IsotopicRel (Set.range iA.realization) f g
+      IsotopicRel (Set.range iA.realizationMap) f g
 
 /-- Pachner's theorem in dimension two: triangulations with a common subdivision are related by
     the bistellar moves `1 ↔ 3` and `2 ↔ 2`, and, for surfaces with boundary, by those together with
@@ -1001,7 +1026,12 @@ theorem schoenflies_closure {J : Set ℂ} (hJ : IsJordanCurve J) :
 
 local notation "S²" => Metric.sphere (0 : EuclideanSpace ℝ (Fin 3)) 1
 theorem schoenflies_sphere {J : Set S²} (hJ : IsJordanCurve J) :
-    ∃ h : S² ≃ₜ S², h '' J = equator
+    ∃ h : S² ≃ₜ S², h '' J = {p | (p : EuclideanSpace ℝ (Fin 3)) 2 = 0}
+
+/-- Extend the prescribed boundary correspondence pointwise. -/
+theorem schoenflies_extend {J K : Set ℂ}
+    (hJ : IsJordanCurve J) (hK : IsJordanCurve K) (e : J ≃ₜ K) :
+    ∃ h : ℂ ≃ₜ ℂ, ∀ z : J, h z = (e z : ℂ)
 
 variable {M : Type*} [TopologicalSpace M] [ChartedSpace (EuclideanHalfSpace 2) M] [T2Space M]
 
@@ -1279,7 +1309,7 @@ Moore's decomposition theorem is the two-dimensional ancestor of the cell-like a
 - Anything in dimension three or higher is owned by `GeometricTopology`.
 - The general (chart-based) `PLGroupoid` is owned by `GeometricTopology` layer 1. This roadmap's PL language is subdivisions and simplicial maps.
 - Combinatorial maps, hypermaps, generalized maps, cellulations, polygon words, the classification of surfaces, mapping class groups, graph embeddings. [SurfaceTopology](../SurfaceTopology/README.md) develops all of this.
-- Riemann surfaces, conformal structure, uniformization, Carathéodory's theorem. `ConformalMapping` owns it. This roadmap supplies its missing input and consumes nothing analytic in return.
+- Riemann surfaces, conformal structure, uniformization, Carathéodory's theorem. `ConformalMapping` owns it. This roadmap develops the elementary separation and crosscut route to the shared Jordan-domain interface, followed by geometric Schoenflies.
 - Singular homology, Mayer–Vietoris, excision, van Kampen, cohomology, duality.
 - Continuum theory beyond the local-connectedness lemmas actually consumed. See the roadmap-for-a-roadmap above.
 - Noncompact surfaces beyond what the compact proofs require. The classification of noncompact surfaces (Kerékjártó) is a natural follow-on roadmap.
@@ -1308,14 +1338,21 @@ vocabulary: `TauCeti.IsJordanCurve` rather than a parametrized definition, `ℂ`
 
 ## References
 
+Stable bibliographic keys and printed-page locators are recorded in `sources.toml`.
+
 - C. Thomassen, *The Jordan–Schönflies theorem and the classification of surfaces*,
-  Amer. Math. Monthly **99** (1992), 116–130. The route for layers 1, 2, and 7.
+  Amer. Math. Monthly **99** (1992), 116–131. Polygonal separation and crosscuts are Lemmas 2.3–2.4, pp. 119–120; polygonal nonplanarity of `K₃,₃` is Lemma 2.5, p. 120; the Jordan curve theorem is Theorem 2.12, p. 122; the Jordan crosscut lemma is Lemma 2.13, pp. 122–123; the prescribed-boundary Schoenflies extension is Theorem 3.1, pp. 123–125. These are the inputs for layers 1, 2, and 7.
 - `alonamaloh/jordan-schoenflies`, the blueprint. The only source cited here written at
   formalization granularity, with a statement-level index and a suggested module order.
   Treat it as the primary route document for layers 1, 2, and 7.
-- E. Moise, *Geometric Topology in Dimensions 2 and 3*, chapters 1–9. The route for layers 3,
-  4, 5, and 8. Note in particular his remark following the triangulation theorem that
-  deriving it from Schoenflies "is in a way misleading".
+- E. Moise, *Geometric Topology in Dimensions 2 and 3* (1977). PL vocabulary and coning are
+  §5, pp. 42–45; strong positivity is defined at the start of §6, p. 46;
+  Theorems 6.2–6.4, pp. 46–50, give the PL approximation argument. The open-set
+  triangulation lemma is Theorem 8.2, pp. 58–59; Radó is Theorem 8.3, pp. 60–62;
+  the same-image approximation is Theorem 8.4, p. 63; the Hauptvermutung is
+  Theorem 8.5, p. 64. The half-plane and relative approximation forms are the
+  explicit extensions targeted here. Note in particular his remark following the triangulation theorem that
+  a derivation from Schoenflies can obscure the independent approximation argument.
 - C. Rourke and B. Sanderson, *Introduction to Piecewise-Linear Topology*, chapters 1–3.
   The PL vocabulary, already followed by `TauCeti/AlgebraicTopology/SimplicialComplex/`.
 - M. H. A. Newman, *Elements of the Topology of Plane Sets of Points*. Classical reference
@@ -1335,3 +1372,13 @@ vocabulary: `TauCeti.IsJordanCurve` rather than a parametrized definition, `ℂ`
   point-set lemmas in layer 0, and the reference for the roadmap-for-a-roadmap above. Note
   that it is an idiosyncratic tour rather than a reference text, and its selection principle
   is explicitly aesthetic; it should not be used to scope a roadmap.
+- U. Pachner, *Shellings of simplicial balls and P.L. manifolds with boundary*,
+  Discrete Math. **81** (1990), 37–47,
+  [doi:10.1016/0012-365X(90)90178-K](https://doi.org/10.1016/0012-365X(90)90178-K).
+  Bistellar moves together with boundary shellings; layer 5 constructs the
+  dimension-two move sequences from common subdivisions.
+- W. Kulpa, [*Poincaré and domain invariance theorem*](https://dml.cz/dmlcz/702050),
+  Acta Univ. Carolin. Math. Phys. **39** (1998), no. 1–2, 127–136.
+  The preliminary zero-avoidance lemma is stated on p. 127 and proved by finite affine
+  interpolation on pp. 132–133; invariance of domain is deduced on pp. 128–129.
+  Layer 2 specializes this elementary proof to the plane.

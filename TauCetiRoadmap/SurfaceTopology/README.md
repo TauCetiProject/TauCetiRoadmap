@@ -31,7 +31,7 @@ Each layer below is organized around its principal theorem, mathematical depende
 
 ## Relationship to other roadmaps
 
-### This roadmap supplies
+### Downstream consumers
 
 | Consumer | What it needs | Where it is proved here |
 |---|---|---|
@@ -42,7 +42,7 @@ Each layer below is organized around its principal theorem, mathematical depende
 
 The relationship with [BelyiMaps](../BelyiMaps/README.md) is a boundary, stated once. BelyiMaps owns dessins, passports, triangle groups, finite covers of the punctured sphere and their completion; this roadmap owns maps on surfaces in general, with boundary and non-orientability, their realization, and the classification. BelyiMaps' `PermutationTriple` is layer 2's hypermap presentation, used as it stands, and its `BipartiteRibbonGraph` is the dessin case of layer 2's oriented maps; layer 2 targets the conversions between the vocabularies and the agreement of the Euler characteristics.
 
-### This roadmap consumes
+### Exact supplier contracts
 
 From [PlanarTopology](../PlanarTopology/README.md), at the following points:
 
@@ -56,13 +56,13 @@ From [PlanarTopology](../PlanarTopology/README.md), at the following points:
 | isotopy to a PL homeomorphism (layer 5) | 7, 9 |
 | Epstein's theorem, the smoothing theorems, and isotopy to a diffeomorphism (layer 8) | 9 |
 
-From [GraphConnectivityAndFlows](../GraphConnectivityAndFlows/README.md), under review as [#444](https://github.com/TauCetiProject/TauCetiRoadmap/pull/444), which owns the connectivity and components of Mathlib's `Graph α β`:
+From [GraphConnectivityAndFlows](../GraphConnectivityAndFlows/README.md), which owns the connectivity and components of Mathlib's `Graph α β`:
 
 | Item | Which layer here |
 |---|---|
-| `Graph.Connected`, in the shape of mathlib4 #37861, and its agreement with `SimpleGraph.Connected` across `Graph.ofSimpleGraph` (Target 1.1) | 5, 7, 10 |
+| `Graph.Connected`, in the shape of [Mathlib multigraph walks](https://github.com/leanprover-community/mathlib4/pull/37861), and its agreement with `SimpleGraph.Connected` across `Graph.ofSimpleGraph` (Target 1.1) | 5, 7, 10 |
 | the number of connected components of a finite multigraph, written `Γ.componentCount` here (Milestone 2) | 10 |
-| `SimpleGraph.IsVertexConnected k`, in the shape of mathlib4 #33355 (conventions and Target 1.5) | 10 |
+| `SimpleGraph.IsVertexConnected k`, in the shape of [Mathlib vertex connectivity](https://github.com/leanprover-community/mathlib4/pull/33355) (conventions and Target 1.5) | 10 |
 | the additional cut API and its incidence comparisons (Target 1.2), extending native `Graph.edgeCut` and `Graph.IsEdgeCut` | 10 |
 
 From [FreeGroupsAndLimitGroups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/FreeGroupsAndLimitGroups/README.md), the following individual elementary inputs:
@@ -116,7 +116,7 @@ From Tau Ceti and Mathlib:
 
 Mathlib's `Graph α β` supplies incidence, subgraphs, `SimpleGraph` conversions, and
 native cuts (`Graph.edgeCut` and `Graph.IsEdgeCut` in
-`Mathlib/Combinatorics/Graph/Connected/EdgeCut.lean`). Connectivity and the component count of a multigraph, and `k`-vertex-connectivity of a simple graph, are GraphConnectivityAndFlows', shaped there after mathlib4 #37861 and #33355; this roadmap defines no second connectivity or component theory. Degree, minors, and planarity are targets of layers 5 and 10, shaped after the open Mathlib pull requests that define them (degree by incidence counting and, for `SimpleGraph`, contraction and minors; mathlib4 #38326, #36210), so that the eventual swap is a deletion.
+`Mathlib/Combinatorics/Graph/Connected/EdgeCut.lean`). Connectivity and the component count of a multigraph, and `k`-vertex-connectivity of a simple graph, are GraphConnectivityAndFlows', shaped there after [Mathlib multigraph walks](https://github.com/leanprover-community/mathlib4/pull/37861) and [Mathlib vertex connectivity](https://github.com/leanprover-community/mathlib4/pull/33355); this roadmap defines no second connectivity or component theory. Degree, minors, and planarity are targets of layers 5 and 10, shaped after the linked Mathlib designs (degree by incidence counting and, for `SimpleGraph`, contraction and minors; [Mathlib graph degree](https://github.com/leanprover-community/mathlib4/pull/38326), [Mathlib graph contractions and minors](https://github.com/leanprover-community/mathlib4/pull/36210)), so that the eventual swap is a deletion.
 
 `TauCeti/LinearAlgebra/Matrix/SmithNormalForm.lean` provides
 `Matrix.exists_smith_normal_form_of_det_ne_zero` for nonsingular square integer
@@ -190,30 +190,31 @@ Consequently, ⚠ **the homology and fundamental group here are named for what t
 
 ---
 
-## Structure
+## Dependencies
 
+```mermaid
+flowchart TD
+  L0["L0 Finite conventions"] --> L1["L1 Generalized maps"]
+  L1 --> L2["L2 Presentation adapters"]
+  L2 --> L3["L3 Realization and invariants"]
+  L3 --> L4["L4 Surface operations"]
+  L3 --> L5["L5 Embedded graphs and HER"]
+  L3 --> L6["L6 Polygonal realization comparisons"]
+  L3 --> L7["L7 Finite homology"]
+  L4 --> L7
+  L3 --> L8["L8 Classification"]
+  L6 --> L8
+  L4 --> L9["L9 Mapping class groups"]
+  L7 --> L9
+  L8 --> L9
+  L4 --> L10["L10 Planarity"]
+  L5 --> L10
+  L8 --> L10
 ```
-L0 finite conventions
- |
-L1 generalized maps --------------------------------.
- |                                                  |
-L2 presentations and comparison theorems            |
- |                                                  |
-L3 realization  <---- PlanarTopology L3, L5, L6     |
- |                                                  |
-L4 operations on finite surfaces --------------.    |
- |                                               \  |
-L5 embedded graphs and HER                 L6 schemas and normal forms
- |   <---- PlanarTopology L7                |
- |   <---- GraphConnectivityAndFlows        |
- |                                         L7 homology and edge-path group  <---- PlanarTopology L5, GraphConnectivityAndFlows
- |                                          |
- |                                         L8 classification  <---- PlanarTopology L2, L5, L6
- |                                          |
- |                                         L9 mapping class groups  <---- PlanarTopology L5, L7, L8
- |                                          |
- '---------------------------------------- L10 planarity  <---- GraphConnectivityAndFlows
-```
+
+The supplier table above gives the individual PlanarTopology, graph, polygonal and
+chain inputs. In particular, layer 7 is not an input to classification: layer 8
+uses the geometric invariants from layer 3 and polygonal normal forms from layer 6.
 
 ---
 
@@ -476,7 +477,7 @@ Where the finite side meets [PlanarTopology](../PlanarTopology/README.md).
 ```lean
 /-- Direct. No hypotheses, no abstract simplicial complex. -/
 def GMap2.realization (G : GMap2 D) : Type* :=
-  Quotient (gluingSetoid G)    -- of `D × StandardSimplex (Fin 3)`
+  Quotient (gluingSetoid G)    -- of `Σ _ : D, Convexity.StdSimplex ℝ (Fin 3)`
 
 instance : TopologicalSpace (GMap2.realization G)
 instance : T2Space (GMap2.realization G)
@@ -684,7 +685,7 @@ This externally validates the finite model.  It says the maps are not merely an 
 variable {M : Type*} [TopologicalSpace M] [ChartedSpace (EuclideanHalfSpace 2) M] [T2Space M]
   [CompactSpace M] {Γ : Graph α β} [Finite V(Γ)] [Finite E(Γ)]
 
-/-- Degree of a finite multigraph, in the shape Mathlib is adopting (mathlib4 #38326): the number
+/-- Degree of a finite multigraph, in the shape Mathlib is adopting ([Mathlib graph degree](https://github.com/leanprover-community/mathlib4/pull/38326)): the number
     of darts at `v`, so a loop counts twice. It is not GraphConnectivityAndFlows' `incidenceCount`,
     which counts each edge identity once; the two differ by the number of loops at `v`, and both
     agree with `SimpleGraph.degree` on `Graph.ofSimpleGraph`. -/
@@ -698,7 +699,7 @@ theorem Graph.degree_ofSimpleGraph {V : Type*} (G : SimpleGraph V) [Fintype V] [
 def GMap2.underlyingGraph (G : GMap2 D) : Graph (G.Cell 0) (G.Cell 1)
 
 /-- The range of a path injective except that its two endpoints may coincide, in the shape of
-    Mathlib's draft `IsPrimitiveLink` (mathlib4 #43687). -/
+    the linked Mathlib `IsPrimitiveLink` design ([Mathlib graph drawings](https://github.com/leanprover-community/mathlib4/pull/43687)). -/
 def IsPrimitiveLink (A : Set M) (x y : M) : Prop
 
 /-- A drawing of a multigraph in a surface, in the shape of Mathlib's `Drawing`: an injective
@@ -773,7 +774,9 @@ def OrientedCellularDrawings (Γ : Graph α β) : Type*   -- likewise, with an o
     rotation at its vertex; they are not the bidirected arrow family of GraphConnectivityAndFlows,
     which gives a loop a single arrow. -/
 def RotationSystem (Γ : Graph α β) : Type* := ...
-def SignedRotationSystem (Γ : Graph α β) : Type* := ...
+structure SignedRotationSystem (Γ : Graph α β) where
+  rotation : RotationSystem Γ
+  twist : E(Γ) → ZMod 2
 
 /-- `K₁` is excluded: its one-point drawing in the sphere is cellular, and no generalized map has
     it as underlying graph, since an empty dart type has no vertex and a nonempty one an edge. -/
@@ -852,11 +855,25 @@ def Graph.genus (Γ : Graph α β) : ℕ            -- needs layer 8
 def Graph.nonorientableGenus (Γ : Graph α β) : ℕ
 ```
 
+**Equivalence of rotation data.** An isomorphism over `Γ` preserves its vertex and
+edge labels and the dart incidences, including the two darts of each loop. For signed
+rotation systems also allow a change of the chosen local orientation at any vertex.
+A switch `ε : V(Γ) → ZMod 2` reverses the cyclic order at `v` when `ε(v) = 1` and
+changes the twist on an edge with endpoints `u,v` by `ε(u) + ε(v)`. A loop has both
+ends at the same vertex, so its twist bit is unchanged. `EquivalenceOfSignedRotations`
+is generated by these switches and isomorphisms over `Γ`; `EquivalenceOfRotations`
+for an oriented surface uses the isomorphisms without the local orientation switches.
+The API includes identity and composition of switches, the involution law for a
+single switch, and preservation of the boundary circuits and generalized-map
+realization. Check that a twist on a tree edge can be removed by switching an
+endpoint; that an untwisted versus twisted one-loop neighbourhood gives an annulus
+versus a Möbius band; and that the total twist around a cycle is switching-invariant.
+
 **Proof strategy and formalization notes.**
 
 - ⚠ The correspondence is only for **cellular** drawings. A graph drawn in a torus with a non-disc face is the counter-witness and is given in the examples and mathematical checks. ⚠ And only for drawings in **closed** surfaces: the disc and the sphere both carry `C₃` cellularly with the same rotation at every vertex. With boundary, `GMap2.toDrawing` still produces a cellular drawing whose support contains the boundary, and that is the only direction stated.
 - The correspondence is proved on PL drawings, where a cellular drawing is a cell structure and the rotation at a vertex is read off the triangulation, and transported to all noncrossing drawings by `Drawing.exists_isotopic_isPL`. The orientable form is the general form read through layer 2's `toCombinatorialMap` with `PlanarTopology`'s `Surface.Orientation`.
-- The drawing structure follows the draft Mathlib `Drawing` of an incidence graph in a topological space (mathlib4 #43687), so that the eventual swap is a deletion; the PL subclass and cellularity are this roadmap's.
+- The drawing structure follows the draft Mathlib `Drawing` of an incidence graph in a topological space ([Mathlib graph drawings](https://github.com/leanprover-community/mathlib4/pull/43687)), so that the eventual swap is a deletion; the PL subclass and cellularity are this roadmap's.
 - **Local degrees and global degree.** The charts in `HasPowerMapModelAt` are
   topological charts, with no analytic compatibility condition. Their sources lie in
   the interiors, their targets are unit discs, and the map takes the source chart into
@@ -1366,7 +1383,10 @@ theorem exists_twists_reduce_intersection (o : Surface.Orientation M) (p q : Sim
       f '' p.carrier meets q at most once, or twice with zero algebraic intersection
 
 /-- The action on `H₁`, through layer 7, and the torus. -/
-def MappingClassGroupFull.actH₁ : MappingClassGroupFull M →* (H₁ M ≃ₗ[ℤ] H₁ M)
+def MappingClassGroupFull.actH₁ (G : GMap2 D) (hG : IsSurfaceGMap G)
+    (c : G.CellOrientations) (e : G.realization ≃ₜ M) :
+    MappingClassGroupFull M →*
+      (G.homology hG c ℤ 1 ≃ₗ[ℤ] G.homology hG c ℤ 1)
 theorem mcg_torus_plus (o : Surface.Orientation Torus) :
     MappingClassGroupPlus Torus o ≃* Matrix.SpecialLinearGroup (Fin 2) ℤ
 theorem mcg_torus_full : MappingClassGroupFull Torus ≃* Matrix.GeneralLinearGroup (Fin 2) ℤ
@@ -1390,6 +1410,13 @@ theorem exists_dehnTwist_generatingSet_card (o : Surface.Orientation M) (hb : (�
 - A **Dehn twist** about a two-sided simple closed curve is supported in the annular collar that `PlanarTopology` layer 7 provides for a curve in the interior, rotates once across the annulus, and is the identity outside. The class is independent of the collar, isotopic curves have conjugate twists by isotopy extension for tame curves, and a twist about a curve bounding a disc is trivial.
 - The distinction between `MappingClassGroupPlus`, `MappingClassGroupRel`, and `MappingClassGroupFull` is essential. Dehn twists generate the orientation-preserving group: for the torus this is `SL(2,ℤ)`, whereas the full group is `GL(2,ℤ)`. The disc and annulus base cases require the boundary to be fixed pointwise.
 - **The route is Lickorish's**, in his 1962 and 1964 papers, and it runs in the piecewise-linear category: by `PlanarTopology` layer 8 every mapping class has a PL representative, and PL homeomorphisms are PL isotopic exactly when they are topologically isotopic, so nothing is lost. The steps: isotopic curves have conjugate twists; Lickorish's Lemma 2, by induction on the number of intersection points with a two-case analysis on the orientations of consecutive intersections, each step a twist or an inverse twist, the sign decided by that case, about a curve made from an arc of `p` and an arc near `q`; every orientation-preserving homeomorphism rel boundary is a product of twists, by a double induction. On genus: twists move the image of a nonseparating curve `a` back onto `a` up to isotopy, the homeomorphism is isotoped rel boundary to fix `a`, and cutting along `a` gives a surface of lower genus with two more boundary circles, where the statement rel boundary applies and whose twists are twists of `M`. On the number of holes, once the genus is zero: a proper arc `a` joining two distinct boundary circles is carried by the homeomorphism to an arc with the same ends, the arc form of Lemma 2 brings that arc back to `a` by twists, the homeomorphism is isotoped rel boundary to fix `a`, and cutting along `a` leaves a sphere with one hole fewer. The disc is the base case by Alexander's trick, and the annulus is the first instance, its group generated by the twist about the core. Repeated handle cuts alone end at a sphere with `2g` holes, where neither base case applies, which is why the second induction is needed. And the `3g − 1` set, by Lickorish's Lemmas 3 to 5 of the 1964 paper as corrected in the 1966 corrigendum, which replaces the case analysis in the first half of its §3: explicit relations among twists on a torus minus two discs verified by tracking a filling system of curves, and his induction on the number of intersections with the standard reference curves. Farb–Margalit chapters 1 to 3 are the reference for the change-of-coordinates principle, intersection numbers, and the Alexander method; their chapter 4 proves finite generation through the curve complex and the Birman exact sequence, both out of scope, and is not the route.
+- The action uses a chosen finite presentation `e : G.realization ≃ₜ M` and its
+  actual finite homology module, as the signature states. A mapping class acts by
+  conjugating a representative through `e` and applying layer 7's `homologyMap`.
+  Isotopy invariance makes this independent of the representative; functoriality
+  gives the group law. The comparison for a change of finite presentation
+  intertwines the actions. For the torus, use its canonical model and the explicit
+  ordered basis from layer 7's normal-form computation.
 - The torus computation goes through the action on `H₁` from layer 7: the twists about the two standard curves act by the elementary matrices, so the map to `SL(2,ℤ)` is surjective, and it is injective by the Alexander method: a homeomorphism acting trivially on `H₁` fixes the two standard curves up to isotopy, which is proved by straightening arcs on the universal cover `ℝ² → T²`, and after cutting along both it is a homeomorphism of a disc rel boundary, hence isotopic to the identity.
 - Target Lickorish's generating set of `3g − 1` twists. Humphries' minimal `2g + 1` set and its minimality proof are a separate theorem and remain out of scope.
 - Do not write "of finite type" for compact surfaces. In this literature the phrase normally signals punctures as well as boundary components, leading to the Birman exact sequence and point-pushing, which are out of scope.
@@ -1426,7 +1453,7 @@ The intended scope is **Mohar and Thomassen, *Graphs on Surfaces*, chapter 2**, 
 
 **From GraphConnectivityAndFlows.** `Graph.Connected` and the component count (Target 1.1, Milestone 2), `SimpleGraph.IsVertexConnected` (conventions and Target 1.5), and cuts (Target 1.2).
 
-**Vocabulary.** Planarity is a property of a finite multigraph: `Γ.IsPlanar` says `Γ` has a rotation system that is spherical on each component, a *plane map*, so it is decidable, and by layer 5 it says equally that `Γ` has a noncrossing drawing in the sphere. Sphericity is read off the Euler characteristic componentwise, not globally: a toroidal `K₅` beside a spherical triangle has Euler characteristic two and is not planar. Theorems whose hypotheses say *simple graph* are stated for `G : SimpleGraph V` with `V` finite, with planarity applied to `Graph.ofSimpleGraph G`, so that `completeGraph`, `completeBipartiteGraph (Fin 3) (Fin 3)`, and `Colorable` are Mathlib's. Minors, topological minors, and contraction are targets here, shaped after the open Mathlib pull request that defines them for `SimpleGraph` (mathlib4 #36210). Connectivity is not: 3-connectivity is GraphConnectivityAndFlows' `G.IsVertexConnected 3`, in the shape of mathlib4 #33355, which asks for at least four vertices and that every pair stay reachable after deleting any two other vertices, and the component count in `PlaneMap` is that roadmap's. The wheel theorem and contractible edges, which it leaves out of its scope, are targets here. Every theorem carries finiteness, and the two Whitney theorems carry the hypotheses their proofs need: 3-connectivity for uniqueness of embeddings, and no isolated vertices for 2-isomorphism, since the cycle matroid cannot see them.
+**Vocabulary.** Planarity is a property of a finite multigraph: `Γ.IsPlanar` says `Γ` has a rotation system that is spherical on each component, a *plane map*, so it is decidable, and by layer 5 it says equally that `Γ` has a noncrossing drawing in the sphere. Sphericity is read off the Euler characteristic componentwise, not globally: a toroidal `K₅` beside a spherical triangle has Euler characteristic two and is not planar. Theorems whose hypotheses say *simple graph* are stated for `G : SimpleGraph V` with `V` finite, with planarity applied to `Graph.ofSimpleGraph G`, so that `completeGraph`, `completeBipartiteGraph (Fin 3) (Fin 3)`, and `Colorable` are Mathlib's. Minors, topological minors, and contraction are targets here, shaped after the linked Mathlib design for `SimpleGraph` ([Mathlib graph contractions and minors](https://github.com/leanprover-community/mathlib4/pull/36210)). Connectivity is not: 3-connectivity is GraphConnectivityAndFlows' `G.IsVertexConnected 3`, in the shape of [Mathlib vertex connectivity](https://github.com/leanprover-community/mathlib4/pull/33355), which asks for at least four vertices and that every pair stay reachable after deleting any two other vertices, and the component count in `PlaneMap` is that roadmap's. The wheel theorem and contractible edges, which it leaves out of its scope, are targets here. Every theorem carries finiteness, and the two Whitney theorems carry the hypotheses their proofs need: 3-connectivity for uniqueness of embeddings, and no isolated vertices for 2-isomorphism, since the cycle matroid cannot see them.
 
 **Representative formal statements.**
 
@@ -1465,11 +1492,11 @@ theorem exists_vertex_degree_le_five (h : G.IsPlanar) (hV : 0 < Fintype.card V) 
 theorem not_isPlanar_K5  : ¬ (completeGraph (Fin 5)).IsPlanar
 theorem not_isPlanar_K33 : ¬ (completeBipartiteGraph (Fin 3) (Fin 3)).IsPlanar
 
-/-- Minors, in the shape of the open Mathlib definitions (mathlib4 #36210). -/
+/-- Minors, in the shape of the linked Mathlib definitions ([Mathlib graph contractions and minors](https://github.com/leanprover-community/mathlib4/pull/36210)). -/
 def SimpleGraph.IsContraction (G : SimpleGraph V) (G' : SimpleGraph V') : Prop
 def SimpleGraph.IsMinor (G : SimpleGraph V) (G' : SimpleGraph V') : Prop        -- a contraction of a subgraph
 def SimpleGraph.IsTopologicalMinor (G : SimpleGraph V) (G' : SimpleGraph V') : Prop   -- a subdivision of `G'` inside `G`
--- 3-connectivity is GraphConnectivityAndFlows' `G.IsVertexConnected 3` (mathlib4 #33355): at least
+-- 3-connectivity is GraphConnectivityAndFlows' `G.IsVertexConnected 3` ([Mathlib vertex connectivity](https://github.com/leanprover-community/mathlib4/pull/33355)): at least
 -- four vertices, and every pair stays reachable after deleting any two other vertices.
 
 /-- Tutte's Wheel Theorem. -/
@@ -1548,6 +1575,12 @@ theorem colorable_five_of_noncrossing_drawing (G : SimpleGraph V)
   `span{(1,1)}`, of dimension `1`; a single loop also has dimension `1`, and a single
   non-loop edge has dimension `0`. This layer proves cut-space orthogonality, planar
   duality and Mac Lane's criterion using that common kernel.
+- Five-colouring uses the finite Euler bound and induction on the vertex count.
+  Remove a vertex of degree at most five and colour the remaining graph. If all
+  five colours occur around its five neighbours, use their cyclic order and Jordan
+  separation to show that the two relevant alternating-colour paths cannot both
+  connect their respective pairs of neighbours. A Kempe-chain interchange frees
+  a colour for the removed vertex. Include the empty and disconnected cases.
 - The dual of a simple plane graph need not be simple, which is why duality lives on multigraphs and why layer 1 didn't build on `SimpleGraph` as the foundation.
 - Tutte's spring embedding is a linear-algebra argument and is unusually formalization-friendly for its strength. Its precise form fixes a facial cycle as a convex outer polygon and produces a straight-line embedding with convex faces. It is the natural bridge toward Steinitz.
 - Prove Fáry via Tutte. Given simple planar Γ on at least 4 vertices, add edges within a fixed embedding until it is maximal planar. Maximal planar graphs on at least 4 vertices are 3-connected. Apply Tutte, then delete the added edges. The remaining segments are still non-crossing.
@@ -1586,11 +1619,13 @@ encoded, and its use of hypermaps is the reason this roadmap builds on permutati
 
 ## References
 
-- G. Damiand and P. Lienhardt, *Combinatorial Maps: Efficient Data Structures for Computer Graphics and Image Processing*, CRC Press (2014). Generalized maps and their realization (§2.4), folded cells and the constraint excluding them (§4.3.4.2, pp. 106–107), the classification of 2-maps (§4.5.4), the Euler characteristic as an orbit count (§8.3.2.1, p. 331, and Definition 91), and the operations in layer 4.
+Stable bibliographic keys and printed-page locators are recorded in `sources.toml`.
+
+- G. Damiand and P. Lienhardt, *Combinatorial Maps: Efficient Data Structures for Computer Graphics and Image Processing*, CRC Press (2014). Generalized-map construction and completeness (§§4.3.1–4.3.3, pp. 97–105), multi-incidence and folded cells (§4.3.4, pp. 105–107), the boundary map (§4.5.1, pp. 123–125), orientability (§4.5.3, pp. 127–130), and classification of 2-Gmaps (§4.5.4, pp. 130–131). Definition 91 and the flag-triangulation orbit sum are on p. 329; the surface-map reduction to `V−E+F` is on p. 331.
 - J.-F. Dufourd and collaborators, and Dehlinger–Dufourd, *Formalizing generalized maps in Coq*. The prior formalization experience.
 - G. Gonthier, *Formal proof: the four-color theorem*, Notices AMS **55** (2008). The hypermap encoding and the discipline of deriving graphs from maps.
 - S. Lando and A. Zvonkin, *Graphs on Surfaces and Their Applications*, chapter 1. The identification of embedded graphs with combinatorial maps, which is layer 5.
-- B. Mohar and C. Thomassen, *Graphs on Surfaces*, chapter 2. The scope statement for layer 10, and the proof strategy for Whitney and Mac Lane.
+- B. Mohar and C. Thomassen, *Graphs on Surfaces* (2001). Planar graphs and Jordan separation: §§2.1–2.2, pp. 18–29; Kuratowski: §2.3, pp. 30–32; planarity characterizations: §2.4, pp. 33–38; 3-connected embeddings: §2.5, pp. 39–42; dual graphs: §2.6, pp. 42–49. Rotation systems and embedding schemes are §§3.2–3.3, pp. 87–93; the vertex-orientation switching equivalence is on p. 92.
 - C. Thomassen, *Kuratowski's theorem*, J. Graph Theory **5** (1981). Kuratowski reference for layer 10.
 - W. B. R. Lickorish, *A representation of orientable combinatorial 3-manifolds*, Ann. of Math. **76** (1962). Every orientation-preserving homeomorphism is a product of twists, and the intersection-reduction lemma; the route of layer 9.
 - W. B. R. Lickorish, *A finite set of generators for the homeotopy group of a 2-manifold*, Proc. Cambridge Philos. Soc. **60** (1964). The generating set of `3g − 1` twists targeted in layer 9.
@@ -1598,5 +1633,5 @@ encoded, and its use of hypermaps is the reason this roadmap builds on permutati
 - D. B. A. Epstein, [*Curves on 2-manifolds and isotopies*](https://doi.org/10.1007/BF02392203), Acta Math. **115** (1966), 83–107, Theorems 6.3–6.4 (printed pp. 99–103). The closed and boundary-relative homeomorphism-isotopy theorems are consumed from `PlanarTopology` layer 8 for the injectivity of layer 9's comparison maps; their curve and arc prerequisites are developed there.
 - B. Farb and D. Margalit, *A Primer on Mapping Class Groups*, chapters 1–3. The change-of-coordinates principle, intersection numbers, and the Alexander method, cited for conventions; the route is Lickorish's.
 - J. R. Munkres, *Topology*, chapter 12. The normal forms and the abelianization computations of layer 7; uniqueness here goes through the Euler characteristic, orientability, and the boundary count instead.
-- E. Moise, *Geometric Topology in Dimensions 2 and 3*, chapter 8. The classification via triangulations.
-- J. Gallier and D. Xu, *A Guide to the Classification Theorem for Compact Surfaces*, Springer (2013). Cell complexes with boundary edges (Definition 6.1), the normal forms with hole blocks (Definition 6.5), and the reduction (Theorem 6.1), which is the route of layer 6.
+- E. Moise, *Geometric Topology in Dimensions 2 and 3* (1977), §§21–22, pp. 147–164. Euler characteristic and classification via triangulations; §8, pp. 58–64, treats triangulation and the Hauptvermutung.
+- J. Gallier and D. Xu, *A Guide to the Classification Theorem for Compact Surfaces*, Springer (2013); locators here use the authors' revision dated January 8, 2025. Cell complexes are Definition 6.1, pp. 80–83; subdivisions are Definition 6.3 and Proposition 6.1, pp. 84–87; normal forms with hole blocks are Definition 6.5, pp. 88–91; reduction is Lemma 6.1, pp. 92–95; classification is Theorems 6.1–6.2, pp. 96–97. Keep the sphere digon instead of deleting its final inverse pair. Only the finite reduction is an input to layer 6; Euler invariance here follows PlanarTopology's elementary move counts.

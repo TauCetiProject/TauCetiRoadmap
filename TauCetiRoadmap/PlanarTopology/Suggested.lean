@@ -1,10 +1,10 @@
 import Mathlib
-import TauCeti.AlgebraicTopology.SimplicialComplex.Realization
 import TauCeti.Analysis.Complex.Conformal.Jordan.Domain
 import TauCeti.Geometry.Manifold.Instances.ClosedBall
 import TauCeti.Geometry.Manifold.LocallyFlat.Basic
 import TauCeti.Topology.FilledHull
 import TauCeti.Topology.JordanCurve.Basic
+import TauCeti.Topology.Homotopy.Isotopy.Basic
 import TauCeti.Topology.PL.Map
 import TauCeti.Topology.Triangulable
 
@@ -44,8 +44,8 @@ The closed-disc charts and boundary identification are imported from
 `boundary_closedBall`). No private admitted disc atlas is used.
 
 The README also requires the following headlines whose input carriers are absent at
-the library pin: polygonal ears/crosscut splitting and PL Schoenflies need the ear,
-polygonal-crosscut and standard-triangle APIs; Radó's combinatorial form, the
+the library pin: polygonal ears and crosscut splitting need the ear and
+polygonal-crosscut APIs; Radó's combinatorial form, the
 Hauptvermutung and Pachner need IsCombinatorialSurface and support-aware heterogeneous
 Subdivides; orientation transport needs the simplicial orientation double cover and
 its realization comparisons; Euler characteristic needs those finite invariance
@@ -206,6 +206,14 @@ theorem polygonal_jordan_separation (P : PolygonalLoop) (hP : P.IsSimple) :
     Nat.card (ConnectedComponents ((P.carrier)ᶜ : Set ℂ)) = 2 := by
   sorry
 
+/-- Polygonal Schoenflies, with an explicit reference triangle. Both the map and its
+inverse are PL, and the homeomorphism is defined on the whole plane. -/
+theorem polygonal_schoenflies (P : PolygonalLoop) (hP : P.IsSimple) :
+    ∃ h : ℂ ≃ₜ ℂ, IsPLHomeomorph h ∧
+      h '' P.carrier = segment ℝ (0 : ℂ) 1 ∪ segment ℝ (1 : ℂ) Complex.I ∪
+        segment ℝ Complex.I 0 := by
+  sorry
+
 /-! ## Layer 2: Jordan separation, crosscuts, Brouwer, and invariance of domain -/
 
 namespace IsJordanCurve
@@ -344,8 +352,8 @@ approximation back afterwards. These are the local forms Radó consumes.
 The compact and relative forms use the layer 3 subdivision, realization-metric, and simplicial
 map APIs. Present a subcomplex by an injective simplicial map `iA : SimplicialMap KA K`.
 Carry `hK`, `hL`, and `f : Realization K ≃ₜ Realization L` explicitly; require
-`IsPLMap (f ∘ iA.realization)` and conclude agreement on every `iA.realization a`.
-The corresponding relative isotopy fixes `Set.range iA.realization`.
+`IsPLMap (f ∘ iA.realizationMap)` and conclude agreement on every `iA.realizationMap a`.
+The corresponding relative isotopy fixes `Set.range iA.realizationMap`.
 Include local relative versions fixing a closed, locally finite polyhedral subcomplex on
 which `f` is PL, with the same error condition, including the boundary-line gluing case.
 -/
@@ -404,6 +412,20 @@ theorem schoenflies_closed_inside {J : Set ℂ} (hJ : TauCeti.IsJordanCurve J) :
     Nonempty (closure (TauCeti.filledHull J \ J) ≃ₜ Metric.closedBall (0 : ℂ) 1) := by
   sorry
 
+local notation "S²" => Metric.sphere (0 : EuclideanSpace ℝ (Fin 3)) 1
+
+/-- Spherical Schoenflies, with the coordinate equator as its reference circle. -/
+theorem schoenflies_sphere {J : Set S²} (hJ : TauCeti.IsJordanCurve J) :
+    ∃ h : S² ≃ₜ S², h '' J = {p | (p : EuclideanSpace ℝ (Fin 3)) 2 = 0} := by
+  sorry
+
+/-- Every prescribed homeomorphism between planar Jordan curves extends pointwise
+on its domain to a homeomorphism of the plane. -/
+theorem schoenflies_extend {J K : Set ℂ}
+    (hJ : TauCeti.IsJordanCurve J) (hK : TauCeti.IsJordanCurve K) (e : J ≃ₜ K) :
+    ∃ h : ℂ ≃ₜ ℂ, ∀ z : J, h z = (e z : ℂ) := by
+  sorry
+
 /-!
 The Schoenflies proof follows the elementary crosscut and matched-cellulation route.
 The conformal application and its simple-connectivity consequence are supplied in Layer 2.
@@ -427,5 +449,18 @@ theorem isSliceEmbedding_arc (f : unitInterval → M) (hf : IsEmbedding f)
   sorry
 
 end Tameness
+
+/-! ## Layer 8: isotopy of closed-surface homeomorphisms -/
+
+/-- Epstein's closed-surface headline. Compactness and empty manifold boundary give
+the closed case; the README separately requires the boundary-relative theorem. -/
+theorem isotopic_of_homotopic_closedSurface
+    {M N : Type*} [TopologicalSpace M] [TopologicalSpace N]
+    [ChartedSpace (EuclideanHalfSpace 2) M] [ChartedSpace (EuclideanHalfSpace 2) N]
+    [T2Space M] [T2Space N] [CompactSpace M]
+    (hclosed : (𝓡∂ 2).boundary M = ∅) (f g : M ≃ₜ N)
+    (h : ContinuousMap.Homotopic (⟨f, f.continuous⟩ : C(M, N)) ⟨g, g.continuous⟩) :
+    TauCeti.Isotopic (⟨f, f.continuous⟩ : C(M, N)) ⟨g, g.continuous⟩ := by
+  sorry
 
 end TauCetiRoadmap.PlanarTopology

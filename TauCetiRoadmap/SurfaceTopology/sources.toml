@@ -1,0 +1,95 @@
+# Bibliographic keys. Locators refer to printed pages.
+schema = 1
+
+[sources.damiand_lienhardt]
+title = "Combinatorial Maps: Efficient Data Structures for Computer Graphics and Image Processing"
+authors = ["Guillaume Damiand", "Pascal Lienhardt"]
+year = 2014
+locators = ["§§4.3.1–4.3.3, pp. 97–105: construction and completeness", "§4.3.4, pp. 105–107: multi-incidence and folded cells", "§4.5.1, pp. 123–125: boundary maps", "§4.5.3, pp. 127–130: orientability", "§4.5.4, pp. 130–131: 2-Gmap classification", "Definition 91, p. 329: flag-triangulation Euler sum", "§8.3.2.1, p. 331: V-E+F reduction"]
+
+[sources.dehlinger_dufourd]
+title = "Formalizing generalized maps in Coq"
+authors = ["Christophe Dehlinger", "Jean-François Dufourd"]
+year = 2004
+url = "https://doi.org/10.1016/j.tcs.2004.05.003"
+locators = ["Theoretical Computer Science 323, pp. 351–397"]
+
+[sources.gonthier2008]
+title = "Formal proof—the four-color theorem"
+authors = ["Georges Gonthier"]
+year = 2008
+locators = ["Notices of the AMS 55, pp. 1382–1393"]
+
+[sources.lando_zvonkin]
+title = "Graphs on Surfaces and Their Applications"
+authors = ["Sergei K. Lando", "Alexander K. Zvonkin"]
+year = 2004
+url = "https://doi.org/10.1007/978-3-540-38361-1"
+locators = ["Chapter 1: maps and permutation presentations"]
+
+[sources.mohar_thomassen]
+title = "Graphs on Surfaces"
+authors = ["Bojan Mohar", "Carsten Thomassen"]
+year = 2001
+url = "https://doi.org/10.56021/9780801866890"
+locators = ["§§2.1–2.2, pp. 18–29: planar separation", "§2.3, pp. 30–32: Kuratowski", "§2.4, pp. 33–38: planarity characterizations", "§2.5, pp. 39–42: 3-connected embeddings", "§2.6, pp. 42–49: duality", "§§3.2–3.3, pp. 87–93: rotations and embedding schemes", "p. 92: switching local orientations"]
+
+[sources.thomassen1981]
+title = "Kuratowski's theorem"
+authors = ["Carsten Thomassen"]
+year = 1981
+url = "https://doi.org/10.1002/jgt.3190050304"
+locators = ["Journal of Graph Theory 5, pp. 225–241"]
+
+[sources.lickorish1962]
+title = "A representation of orientable combinatorial 3-manifolds"
+authors = ["W. B. R. Lickorish"]
+year = 1962
+url = "https://doi.org/10.2307/1970373"
+locators = ["Annals of Mathematics 76, pp. 531–540", "§2, Lemma 2 and Theorem 1"]
+
+[sources.lickorish1964]
+title = "A finite set of generators for the homeotopy group of a 2-manifold"
+authors = ["W. B. R. Lickorish"]
+year = 1964
+locators = ["Proc. Cambridge Philos. Soc. 60, pp. 769–778", "Lemmas 3–5; §3, with the 1966 corrigendum"]
+
+[sources.lickorish1966]
+title = "On the homeotopy group of a 2-manifold (corrigendum)"
+authors = ["W. B. R. Lickorish"]
+year = 1966
+url = "https://doi.org/10.1017/S0305004100040330"
+locators = ["Proc. Cambridge Philos. Soc. 62, pp. 679–681", "Correction to the first half of §3 of the 1964 paper"]
+
+[sources.farb_margalit]
+title = "A Primer on Mapping Class Groups"
+authors = ["Benson Farb", "Dan Margalit"]
+year = 2012
+locators = ["Chapters 1–3: curves, isotopy, twists and the Alexander method"]
+
+[sources.munkres_topology]
+title = "Topology"
+authors = ["James R. Munkres"]
+year = 2000
+edition = "Second edition"
+locators = ["Chapter 12: surface words and abelianization computations"]
+
+[sources.gallier_xu]
+title = "A Guide to the Classification Theorem for Compact Surfaces"
+authors = ["Jean Gallier", "Dianna Xu"]
+year = 2013
+edition = "Author revision dated January 8, 2025"
+locators = ["Definition 6.1, pp. 80–83: cell complexes", "Definition 6.3 and Proposition 6.1, pp. 84–87: subdivisions", "Definition 6.5, pp. 88–91: normal forms", "Lemma 6.1, pp. 92–95: reduction", "Theorems 6.1–6.2, pp. 96–97: classification"]
+
+[sources.moise]
+title = "Geometric Topology in Dimensions 2 and 3"
+authors = ["Edwin E. Moise"]
+year = 1977
+locators = ["§5, pp. 42–45: PL maps and coning", "§6, p. 46: strong positivity", "Theorems 6.2–6.4, pp. 46–50: PL approximation", "Theorem 8.2, pp. 58–59: open-set triangulation", "Theorem 8.3, pp. 60–62: Radó", "Theorem 8.4, p. 63: same-image approximation", "Theorem 8.5, p. 64: Hauptvermutung", "§§21–22, pp. 147–164: Euler characteristic and classification"]
+
+[sources.epstein1966]
+title = "Curves on 2-manifolds and isotopies"
+authors = ["D. B. A. Epstein"]
+year = 1966
+url = "https://doi.org/10.1007/BF02392203"
+locators = ["Acta Math. 115, pp. 83–107", "Theorem 2.1, p. 86: two-sided curves", "Theorem 3.1, p. 89: proper arcs", "Theorems 3.3–3.4, pp. 90–91: one-sided curves and Möbius bands", "Theorem 4.1, p. 91: based curves", "Theorems 6.3–6.4, pp. 99–103: homeomorphism isotopies"]

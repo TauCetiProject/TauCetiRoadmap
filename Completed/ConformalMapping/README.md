@@ -160,12 +160,13 @@ deliberately scoped to the conformal-mapping spine that none of them build:
 
 - **Below — `ContourIntegration` (PR #35).** Provides residues, winding numbers, the
   argument principle, and the global Cauchy theorem (Dixon). **L0 consumes it.**
-- **Application — Jordan interiors from `PlanarTopology`.** Its layer 2 proves
-  `IsJordanDomain hJ.inside`, so L5's boundary correspondence applies to the inside of every
-  Jordan curve: openness, connectedness, boundedness, and the Jordan frontier are the four
-  domain fields. `TauCeti.IsJordanDomain.isSimplyConnected` supplies simple connectivity
-  from the same predicate (`TauCeti/Analysis/Complex/Conformal/Jordan/Domain.lean`).
-  `PlanarTopology` develops its geometric Schoenflies proof independently of this analytic route.
+- **Elementary proof comparison — [PlanarTopology](../../TauCetiRoadmap/PlanarTopology/README.md).**
+  Its layer 2 develops the polygonal and crosscut route to the same Jordan-separation and
+  `IsJordanDomain hJ.inside` interface already supplied by L5's topological prerequisites.
+  Openness, connectedness, boundedness, and the Jordan frontier are the four domain fields;
+  `TauCeti.IsJordanDomain.isSimplyConnected` supplies simple connectivity from that predicate
+  (`TauCeti/Analysis/Complex/Conformal/Jordan/Domain.lean`). PlanarTopology's geometric
+  Schoenflies proof uses its elementary crosscut and accessibility results.
 - **Above — `ModularForms` (PR #47).** A 13-layer entry targeting the complex modular curves
   `Y(Γ)(ℂ) ≅ Γ\ℍ` (the complex-analytic versions, not the moduli-space framing). The
   **modular & elliptic uniformization** — including the
