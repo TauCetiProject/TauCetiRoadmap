@@ -228,8 +228,10 @@ characters ψ modulo u and φ modulo v, ψ(−1)φ(−1)=(−1)ᵏ, and t≥1 wi
 For k=2 exclude ψ=φ=1 from this extension and use the corrected E₂ contract instead.
 At t=1 require the positive-coefficient formula
 `a(n) = sum_{d | n} psi(n/d)*phi(d)*d^(k-1)`.
-Express the constant term by the generalized Bernoulli number with this ordering of the
-characters. At k=1 impose the symmetry relations between the two character parameters
+Write B_(k,φ)=v^(k−1)Σ_(a=1)^v φ(a)B_k(a/v), with B₁(x)=x−1/2.
+At weight two the constant term is −B_(2,φ)/4 if ψ=1 and zero otherwise.
+At weight one it is −(1_(ψ=1)B_(1,φ)+1_(φ=1)B_(1,ψ))/2; this symmetric formula
+is required when either character is trivial. At k=1 impose the symmetry relations between the two character parameters
 instead of counting them as independent generators (Diamond–Shurman §§4.5–4.8;
 Stein, Chapter 5, Theorems 5.8–5.9).
 
@@ -248,6 +250,9 @@ weight-two corrections. The extension and comparison API must include:
 **Checks.**
 - At level one, E₄ has a₀=1, a₁=240, while the divisor-sum normalization has a₁=1
   and a₀=1/240; these are scalar multiples, not identical normalizations.
+- For the odd quadratic character χ modulo 3, B_(1,χ)=1/3−2/3=−1/3.
+  Both weight-one orderings (1,χ) and (χ,1) therefore have a₀=1/6 and a₁=1;
+  using only the weight-two constant-term rule would give zero in the second ordering.
 - E₂−2E₂(2z) has first coefficients (−1,−24,−24); at t=1 the correction is zero.
 - A nonzero odd-weight form with trivial character is excluded by χ(−1)=1≠−1;
   the zero form lies in every character space.
