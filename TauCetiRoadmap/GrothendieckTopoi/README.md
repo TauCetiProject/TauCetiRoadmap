@@ -85,8 +85,10 @@ Outside every layer: elementary topoi axiomatized without a site (the subobject 
 sheaf category is used, from Mathlib, as a property of that category); ringed and
 module-theoretic topoi; fibred and indexed topoi beyond the slice-wise conditions stated in
 Layer 5; open, proper, tidy and atomic geometric morphisms; classifying topoi of geometric
-theories. Points of a topos enter only through geometric morphisms from `Type u` and Mathlib's
-fibre functors, never through models of theories.
+theories. Open morphisms, their descent theory and the representation of every Grothendieck topos
+by a localic groupoid are Joyal–Tierney 1984; proper and tidy morphisms, with their stability
+under pullback, are Moerdijk–Vermeulen 2000. Points of a topos enter only through geometric
+morphisms from `Type u` and Mathlib's fibre functors, never through models of theories.
 
 ## Conventions
 
@@ -533,7 +535,8 @@ this layer.
 - **Sublocales are subtopoi.** Prove an order isomorphism `Sublocale L ≃o Subtopos Sh(L)` (nuclei,
   through `nucleusIsoSublocale`, correspond to universal closure operators on subterminals and
   thence to Layer 4). Open sublocales correspond to open subtopoi and closed sublocales to closed
-  subtopoi. Every subtopos of a localic topos is localic.
+  subtopoi. Every subtopos of a localic topos is localic. The locale side, sublocales of frames,
+  is Picado–Pultr 2012, Chapters III and VI.
 - **The localic reflection.** For every Grothendieck topos `E`, the geometric morphism
   `E → Sh(Subobject (⊤_ E))` whose direct image sends `X` to the sheaf `U ↦ (U ⟶ X)` on
   subterminals is the hyperconnected part of the hyperconnected–localic factorization of
@@ -706,3 +709,13 @@ for Layer 8, not its specification.
 - [Hofmann–Lawson 1978] K. H. Hofmann, J. D. Lawson, "The spectral theory of distributive
   continuous lattices", *Transactions of the American Mathematical Society* 246 (1978), 285–310:
   core-compact spaces and continuous frames of opens.
+- [Joyal–Tierney 1984] A. Joyal, M. Tierney, *An extension of the Galois theory of Grothendieck*,
+  Memoirs of the American Mathematical Society 51 (1984), no. 309. doi:10.1090/memo/0309;
+  Zbl 0541.18002: open geometric morphisms, descent along open surjections, and every Grothendieck
+  topos as the topos of equivariant sheaves on a localic groupoid.
+- [Moerdijk–Vermeulen 2000] I. Moerdijk, J. J. C. Vermeulen, *Proper maps of toposes*, Memoirs of
+  the American Mathematical Society 148 (2000), no. 705. doi:10.1090/memo/0705; Zbl 0961.18003:
+  proper and tidy geometric morphisms.
+- [Picado–Pultr 2012] J. Picado, A. Pultr, *Frames and Locales: Topology without points*,
+  Frontiers in Mathematics, Birkhäuser (2012). doi:10.1007/978-3-0348-0154-6. Chapters III and VI
+  (sublocales).
