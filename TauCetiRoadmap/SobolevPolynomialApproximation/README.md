@@ -17,9 +17,8 @@ Brenner–Scott, Chapter 4, or Ciarlet, Chapter 3.
 This roadmap owns, for scalar real-valued functions on open subsets of `EuclideanSpace ℝ (Fin n)`:
 
 - Layer 1: contractions, polynomials of bounded degree and their Sobolev classes, order truncation
-  and seminorms, change of exponent in every order, all-order directional derivatives and the
-  symmetry of weak derivatives, the polynomial Poincaré lemma, the kernel of the top seminorm, and
-  the quotient by polynomials;
+  and seminorms, change of exponent in every order, the bundled directional derivative of all orders,
+  the polynomial Poincaré lemma, the kernel of the top seminorm, and the quotient by polynomials;
 - Layer 2: composition with `C^k` diffeomorphisms, affine scaling and its geometric bounds;
 - Layer 3: Taylor polynomials, the averaged Taylor polynomial on `L¹`, and the representation
   formula;
@@ -30,8 +29,8 @@ This roadmap owns, for scalar real-valued functions on open subsets of `Euclidea
 It leaves to named owners:
 
 - `W^{k,p}` and its first-order theory, Meyers–Serrin density, Poincaré inequalities, Lipschitz
-  domains, first-order Rellich and extension to PDE Lane A, consumed as listed in the supplier
-  contracts; nothing there is redefined here;
+  domains, first-order Rellich and extension to PDE Lane A, implemented in Tau Ceti and consumed as
+  listed in the supplier contracts; nothing there is redefined here;
 - the Sobolev theory of differential forms to SobolevDifferentialForms.
 
 It does not contain fractional Sobolev spaces, approximation by piecewise polynomials on partitions
@@ -81,31 +80,43 @@ All at the pinned Mathlib.
 
 ### From Tau Ceti
 
-All at the pinned Tau Ceti; file paths under `TauCeti/Analysis/`.
+All on Tau Ceti `main`, checked at revision `a318838`; file paths under `TauCeti/Analysis/`.
+`Suggested.lean` builds against the Tau Ceti revision in this repository's `lake-manifest.json`, so it
+states only what that revision supports.
 
 - `TauCeti.Wkp`, `Wkp.lowerOrderL`, `Wkp.iteratedGradient`, `Wkp.value`, `Wkp.ext`, `Wkp.mk`,
   `Wkp.hasWeakFDerivOn_iteratedGradient`, and the recursive norm
-  `Wkp.norm_sq_eq_norm_lowerOrder_sq_add_norm_iteratedGradient_sq_succ`
-  (`Sobolev/Wkp/Basic.lean`); `Wkp.restrictL` (`Sobolev/Wkp/Restriction.lean`);
-  `Wkp.iteratedGradient_ae_eq_of_contDiffOn` (`Sobolev/Wkp/Classical.lean`);
-  `Wkp.tendsto_mollified_iteratedGradient` (`Sobolev/Wkp/Approximation.lean`), for `p ≠ ∞`.
+  `Wkp.norm_sq_eq_norm_lowerOrder_sq_add_norm_iteratedGradient_sq_succ` (`Sobolev/Wkp/Basic.lean`);
+  `Wkp.restrictL` (`Sobolev/Wkp/Restriction.lean`); `Wkp.iteratedGradient_ae_eq_of_contDiffOn`
+  (`Sobolev/Wkp/Classical.lean`); `Wkp.tendsto_mollified_iteratedGradient`
+  (`Sobolev/Wkp/Approximation.lean`), for `p ≠ ∞`.
+- Directional derivatives: `Wkp.exists_hasWeakLineDerivOn_value`,
+  `Wkp.exists_value_eq_iff_forall_exists_hasWeakLineDerivOn`,
+  `Wkp.inner_iteratedGradient_one_apply_ae_eq` (`Sobolev/Wkp/LineDeriv.lean`);
+  `HasWeakLineDerivOn.comm` (`Sobolev/WeakDeriv/Symmetry.lean`).
+- Meyers–Serrin in every order: `Wkp.dense_contDiffOn_representatives`
+  (`Sobolev/Wkp/MeyersSerrin.lean`), for `p ≠ ∞` and arbitrary open `Ω`.
 - `TauCeti.IteratedGradient`, `TauCeti.iteratedGradientChain` (`Calculus/IteratedGradient.lean`).
-- `TauCeti.W1p`, `W1p.norm_value_le`, `W1p.norm_gradient_le`, `W1p.ofExponentLE`
-  (`Sobolev/W1p/Basic.lean`).
-- `TauCeti.HasWeakLineDerivOn`, `TauCeti.HasWeakFDerivOn`, `HasWeakLineDerivOn.ae_eq`
-  (`Sobolev/WeakDeriv/Basic.lean`).
-- `W1p.eLpNorm_value_sub_setAverage_le_of_eq_ball` (`Sobolev/Poincare/Wirtinger/W1p.lean`).
-- `TauCeti.enorm_sub_setAverage_le_of_starConvex` (`Sobolev/Poincare/Potential.lean`):
-  star-convexity
+- `TauCeti.W1p`, `W1p.norm_value_le`, `W1p.norm_gradient_le`, `W1p.norm_le_norm_value_add_norm_gradient`,
+  `W1p.ofExponentLE` (`Sobolev/W1p/Basic.lean`).
+- `W1p.compL`, `W1p.value_compL_ae`, `W1p.gradient_compL_ae` (`Sobolev/W1p/ChangeOfVariables.lean`):
+  first-order change of variables for `p ≠ ∞`, with `‖DΦ‖ ≤ L` and `c ≤ |det DΦ|`.
+- `W1p.exists_value_ae_eq_const_of_gradient_eq_zero` (`Sobolev/Poincare/Wirtinger/W1p.lean`).
+- `Set.IsLipschitzDomainWith`, on open subsets of `WithLp 2 (ℝ × E')` (`Sobolev/LipschitzDomain/Basic.lean`);
+  `W1p.isCompactOperator_valueL_of_isLipschitzDomainWith`
+  (`Sobolev/LipschitzDomain/RellichKondrachov.lean`).
+- `ContinuousLinearMap.exists_pos_mul_norm_le_of_compact_estimate` (Peetre's estimate) and its use in
+  `W1p.exists_eLpNorm_value_sub_setAverage_le_of_isCompactOperator`
+  (`Sobolev/Poincare/Wirtinger/Compactness.lean`).
+- `TauCeti.enorm_sub_setAverage_le_of_starConvex` (`Sobolev/Poincare/Potential.lean`): star-convexity
   with respect to the evaluation point and an arbitrary set average, so a related estimate, not the
   case `m = 0` of §3.5.
 
 ### From TauCetiRoadmap.PDE
 
-- Lane A.2: Meyers–Serrin density of `C^∞ ∩ W^{k,p}` in `W^{k,p}(Ω)`, `p < ∞`, on an arbitrary open
-  `Ω`.
-- Lane A.6: the Lipschitz-domain predicate for open Euclidean sets and, on bounded Lipschitz domains
-  and for `1 ≤ p < ∞`, the compactness of `W^{1,p}(Ω) ↪ Lᵖ(Ω)`.
+Lane A owns the Tau Ceti declarations above; this roadmap adds no target to it. On `E`, a **bounded
+Lipschitz domain** for `n ≥ 1` means the image of an open `Ω' ⊆ WithLp 2 (ℝ × E')` satisfying
+`Set.IsLipschitzDomainWith`, bounded, under a linear isometry onto `E`, with `finrank ℝ E' = n − 1`.
 
 ## How to read the build
 
@@ -207,25 +218,17 @@ Its API: `|u|_{j,q} ≤ volume Ω ^ (1/q − 1/p) · |u|_{j,p}` for every `j ≤
 - `Ω = ℝ`, `p = 2`, `q = 1`: `1/(1 + |x|)` is in `L²` and not in `L¹`, so finite measure is
   load-bearing.
 
-### 1.5 Directional derivatives and symmetry
+### 1.5 The bundled directional derivative
 
-**Symmetry of weak derivatives.** If `∂_w u = a`, `∂_v a = b`, `∂_v u = c` and `∂_w c = d` weakly on
-`Ω` (`HasWeakLineDerivOn`), then `b = d` a.e. on `Ω`. Proof: for a test function `φ`,
-`∫ φ b = −∫ (∂_v φ) a = ∫ (∂_w ∂_v φ) u = ∫ (∂_v ∂_w φ) u = −∫ (∂_w φ) c = ∫ φ d`, using the
-classical
-symmetry of second derivatives of `φ`.
+Tau Ceti supplies existence and symmetry: `Wkp.exists_hasWeakLineDerivOn_value` gives each directional
+weak derivative in `W^{k,p}(Ω)`, and `HasWeakLineDerivOn.comm` commutes them. Bundle them: for `v : E`,
+the continuous linear map `∂_v : W^{k+1,p}(Ω) →L[ℝ] W^{k,p}(Ω)` has value the weak derivative, unique by
+`Wkp.ext`, and for `j + 1 ≤ k` it satisfies `D^{j+1} (∂_v u) = (D^{j+2} u)⟨v⟩¹` a.e.
 
-**Directional derivative.** For `v : E`, the continuous linear map `∂_v : W^{k+1,p}(Ω) →L[ℝ]
-W^{k,p}(Ω)`
-has value the `Lᵖ` function `x ↦ ⟪(D¹ u)(x), v⟫`, and for `j + 1 ≤ k` it satisfies
-`D^{j+1} (∂_v u) = (D^{j+2} u)⟨v⟩¹` a.e. The construction builds the element stage by stage with
-`Wkp.mk`, from `Wkp.hasWeakFDerivOn_iteratedGradient` and the symmetry above.
-
-Its API: linearity in `v`; `|∂_v u|_{j,p} ≤ ‖v‖ |u|_{j+1,p}`; the components of `D^j u` along
-directions
+Its API: linearity in `v`; `|∂_v u|_{j,p} ≤ ‖v‖ |u|_{j+1,p}`; the components of `D^j u` along directions
 `h₁, …, h_j` are the values of the iterates `∂_{h₁} ⋯ ∂_{h_j} u ∈ W^{k−j,p}(Ω)`, in every order.
 
-*Needs:* §1.1, §1.3; Tau Ceti `HasWeakLineDerivOn`, `HasWeakLineDerivOn.ae_eq`, `Wkp.mk`,
+*Needs:* §1.1, §1.3; Tau Ceti `Wkp.exists_hasWeakLineDerivOn_value`, `HasWeakLineDerivOn.comm`, `Wkp.ext`,
 `Wkp.hasWeakFDerivOn_iteratedGradient`.
 
 **Checks.** On `Ω = (0,1)`, `u = x²`, `v = 3`:
@@ -272,20 +275,13 @@ components and Euler's identity:
 
 ### 1.7 Kernel of the top seminorm
 
-**Constants.** On a preconnected `Ω`, `u ∈ W^{1,p}(Ω)` with zero gradient has an a.e. constant
-value.
-Proof: `W1p.eLpNorm_value_sub_setAverage_le_of_eq_ball` gives a constant on each ball in `Ω` (for
-`p = ∞` after `W1p.ofExponentLE` on the ball), and these agree on overlaps.
-
-**Kernel** (`seminorm_top_eq_zero_iff`). On a preconnected `Ω`, for `u ∈ W^{m+1,p}(Ω)`:
-`|u|_{m+1,p} = 0` if and only if `Wkp.value u` is a.e. equal to an element of `polynomialsDegLE n
-m`.
-Proof by induction on `m`, from the constants above. In the step, `∂ᵢ u := ∂_{eᵢ} u ∈ W^{m,p}(Ω)`
-have
+`seminorm_top_eq_zero_iff`: on a preconnected `Ω`, for `u ∈ W^{m+1,p}(Ω)`, `|u|_{m+1,p} = 0` if and only if
+`Wkp.value u` is a.e. equal to an element of `polynomialsDegLE n m`. Proof by induction on `m`, from
+`W1p.exists_value_ae_eq_const_of_gradient_eq_zero`. In the step, `∂ᵢ u := ∂_{eᵢ} u ∈ W^{m,p}(Ω)` have
 vanishing top seminorm, so they are polynomials `Pᵢ` of degree `≤ m − 1`, closed by §1.5. §1.6 gives
 `Q` with `∂ᵢ Q = Pᵢ`, and `u − Q` has zero gradient.
 
-*Needs:* §1.5, §1.6; Tau Ceti `W1p.eLpNorm_value_sub_setAverage_le_of_eq_ball`, `W1p.ofExponentLE`.
+*Needs:* §1.5, §1.6; Tau Ceti `W1p.exists_value_ae_eq_const_of_gradient_eq_zero`.
 
 **Checks.**
 
@@ -332,14 +328,14 @@ on `Ω`.
 This gives `|det DΦ| ≥ L^{−n}`. Then `u ↦ u ∘ Φ` is a bounded linear operator
 `W^{k,p}(Ω) → W^{k,p}(Ω')` with operator norm at most `C(n, k, p, L)` (`exists_norm_comp_le`).
 
-Its weak derivatives are given by the chain rule: `HasFTaylorSeriesUpToOn.comp` gives the classical
-fields. They carry to weak derivatives through the weak identities, which are local: on relatively
-compact open subsets, use `Wkp.tendsto_mollified_iteratedGradient` at finite exponent, reaching
-`p = ∞` through §1.4 on those subsets.
+At `k = 1` and `p ≠ ∞` this is `W1p.compL`, with its value and gradient laws `W1p.value_compL_ae` and
+`W1p.gradient_compL_ae`. For `k ≥ 2`, `HasFTaylorSeriesUpToOn.comp` gives the classical fields for smooth
+`u`, and `Wkp.dense_contDiffOn_representatives` carries them to every `u`, since `W^{k,p}(Ω')` is closed
+under the graph limit. At `p = ∞` the weak identities are local: on relatively compact open subsets,
+apply the finite-exponent case through §1.4.
 
-*Needs:* §1.3, §1.4, §1.5; Mathlib `HasFTaylorSeriesUpToOn.comp`, Lebesgue change of variables; Tau
-Ceti
-`Wkp.tendsto_mollified_iteratedGradient`, `Wkp.restrictL`.
+*Needs:* §1.3, §1.4, §1.5; Mathlib `HasFTaylorSeriesUpToOn.comp`; Tau Ceti `W1p.compL`,
+`Wkp.dense_contDiffOn_representatives`, `Wkp.restrictL`.
 
 **Checks.**
 
@@ -510,12 +506,12 @@ supported
 in the convex hull of `{x}` and the ball, and `‖K x z‖ ≤ C(n, m, γ) · ‖x − z‖^{m+1−n}`. This covers
 `W^{m+1,p}(Ω)` through §1.4. Prove it for smooth `u` from §3.2 and extend by Meyers–Serrin density
 in
-`W^{m+1,1}(Ω)` (PDE Lane A.2). The kernel estimate integrates along the segments from points of the
+`W^{m+1,1}(Ω)` (`Wkp.dense_contDiffOn_representatives`). The kernel estimate integrates along the segments from points of the
 ball to `x`, the same tool as `TauCeti/Analysis/Sobolev/Poincare/Potential.lean`. For `n = 0`, `Ω`
 is a
 point and both sides vanish.
 
-*Needs:* §1.4, §3.1, §3.2, §3.4; PDE Lane A.2.
+*Needs:* §1.4, §3.1, §3.2, §3.4; Tau Ceti `Wkp.dense_contDiffOn_representatives`.
 
 **Checks.**
 
@@ -531,7 +527,7 @@ The interval `(−1,1)` with an even cutoff, computing `Q⁰, Q¹, Q²` on `1, x
 
 ### Dependencies
 
-Layers 1 and 2; PDE Lane A.2.
+Layers 1 and 2; Tau Ceti's Meyers–Serrin.
 
 ## Layer 4: Bramble–Hilbert and Deny–Lions
 
@@ -602,27 +598,26 @@ With `C_BH(m, p)` the constant of §4.1 for the same `Ω`:
 
 ### 4.3 Rellich–Kondrachov in `W^{k,p}`
 
-For bounded Lipschitz `Ω` (the predicate of PDE Lane A.6) and `1 ≤ p < ∞`, the map
-`Wkp.lowerOrderL k : W^{k+1,p}(Ω) → W^{k,p}(Ω)` is compact, from A.6's first-order compactness
-applied
+For bounded Lipschitz `Ω` (as in the supplier contracts) and `1 ≤ p < ∞`, the map
+`Wkp.lowerOrderL k : W^{k+1,p}(Ω) → W^{k,p}(Ω)` is compact, from
+`W1p.isCompactOperator_valueL_of_isLipschitzDomainWith`, transported along the isometry by §2.1, applied
 to the components of §1.5.
 
-*Needs:* §1.5; PDE Lane A.6.
+*Needs:* §1.5, §2.1; Tau Ceti `W1p.isCompactOperator_valueL_of_isLipschitzDomainWith`.
 
 **Checks.**
 
 - `Ω = (0,π)`, `p = 2`, `k = 0`, `u_N = sin(Nx)/N`: bounded in `W^{1,2}`, with `‖u_N‖²₀ = π/(2N²) →
   0`.
 - The same `u_N` have `‖u_N′‖² = π/2`, so the identity of `W^{1,2}` is not compact.
-- `k = 0` is A.6's statement.
+- `k = 0` is `W1p.isCompactOperator_valueL_of_isLipschitzDomainWith`.
 
 ### 4.4 The Deny–Lions lemma
 
 For bounded connected Lipschitz `Ω` and `1 ≤ p < ∞`: the quotient norm of §1.8 is equivalent to the
-descended seminorm `|·|_{m+1,p}`, with a non-explicit constant. Proof by the compactness argument
-(Peetre–Tartar): a sequence with quotient norm `1` and top seminorm tending to `0` has, by §4.3, a
-limit
-in `W^{m+1,p}(Ω)` with vanishing top seminorm, which is a polynomial by §1.7, a contradiction.
+descended seminorm `|·|_{m+1,p}`, with a non-explicit constant. Proof by Peetre's compact-error estimate
+`ContinuousLinearMap.exists_pos_mul_norm_le_of_compact_estimate` with §4.3, generalizing
+`W1p.exists_eLpNorm_value_sub_setAverage_le_of_isCompactOperator`; §1.7 identifies the kernel.
 
 (Bramble–Hilbert, Theorem 1, p. 114, on strong-cone domains with a diameter-weighted norm;
 Deny–Lions,
@@ -630,7 +625,7 @@ Chapter III §2, Definition 2.1 and Theorem 2.1, p. 366, for the abstract quotie
 on
 Lipschitz domains is this roadmap's.)
 
-*Needs:* §1.7, §1.8, §4.3.
+*Needs:* §1.7, §1.8, §4.3; Tau Ceti `ContinuousLinearMap.exists_pos_mul_norm_le_of_compact_estimate`.
 
 **Checks.**
 
@@ -649,7 +644,7 @@ cube, using §3.1, and reads off the constant's dependence on `n, m, p` and `γ`
 
 ### Dependencies
 
-Layers 1 to 3; PDE Lane A.6.
+Layers 1 to 3; Tau Ceti's Lipschitz domains and Rellich.
 
 ## Layer 5: higher-order embedding and point evaluation
 
@@ -670,7 +665,7 @@ a point and there is nothing to prove; below, `k ≥ 1`.
   `∫_Ω ‖x − z‖^{k−n} |f z| dz ≤ C(n, k, p) (diam Ω)^{k−n/p} ‖f‖_p`, by Hölder.
 - `Q^{k−1} u`: directly from its derivative form, `|x − y| ≤ diam Ω` and `‖φ‖_∞ ≤ C(n) ρ^{−n}` give
   `sup_Ω |Q^{k−1} u| ≤ C(n, k) γ^{n/p} ∑_{j < k} (diam Ω)^{j−n/p} |u|_{j,p}`.
-- **Continuity.** For `p < ∞`, the smooth approximants of PDE Lane A.2 converge uniformly by the
+- **Continuity.** For `p < ∞`, the smooth approximants of `Wkp.dense_contDiffOn_representatives` converge uniformly by the
   same
   bound. For `p = ∞`, smooth functions are not dense in the `W^{k,∞}` norm, so fix a finite `r ≥ 1`
   with
@@ -678,7 +673,7 @@ a point and there is nothing to prove; below, `k ≥ 1`.
 
 Point evaluation `u ↦ u x` is then a bounded linear functional on `W^{k,p}(Ω)`.
 
-*Needs:* §1.3, §1.4, §3.4, §3.5; PDE Lane A.2.
+*Needs:* §1.3, §1.4, §3.4, §3.5; Tau Ceti `Wkp.dense_contDiffOn_representatives`.
 
 **Checks.**
 
@@ -731,7 +726,7 @@ uniformly continuous functions is uniformly continuous.
 
 ### Dependencies
 
-Layers 1 to 4; PDE Lane A.2.
+Layers 1 to 4; Tau Ceti's Meyers–Serrin.
 
 ## Downstream consumers
 

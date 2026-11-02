@@ -15,8 +15,9 @@ is a target of the README. These headlines are stated in `README.md` alone:
 * the averaged Taylor polynomial (§3.3) and the representation formula (§3.5): they need the
   contractions of §1.1 and the kernel of §3.3; `exists_bramble_hilbert` records the approximating
   polynomial without its construction;
-* Rellich–Kondrachov in `W^{k,p}` (§4.3) and Deny–Lions (§4.4): they need the Lipschitz-domain
-  predicate and first-order Rellich of PDE Lane A.6.
+* Rellich–Kondrachov in `W^{k,p}` (§4.3) and Deny–Lions (§4.4): they need
+  `Set.IsLipschitzDomainWith` and its first-order Rellich theorem, which are not in the Tau Ceti
+  revision this file builds against.
 -/
 
 noncomputable section
