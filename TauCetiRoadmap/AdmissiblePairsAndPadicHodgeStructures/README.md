@@ -6,13 +6,13 @@
 
 This roadmap owns the two-lattice theory of goodness, neutral admissible pairs and neutral p-adic Hodge structures, their connected Tannakian groups, the extension of period-domain geometry to connected linear groups, Hodge and Hodge–Tate line loci, and bi-analytic Ax–Lindemann. Its end results are HKII Theorem 9.1.3, p. 55 (HKII line 2481), Theorem A, p. 6 (HKII line 268), and Theorem B, p. 11 (HKII line 501). The two-lattice CM theorem is HKI Theorem B, p. 5 (HKI line 204).
 
-The fixed Fargues–Fontaine curve belongs to AdicSpaces Layer 6; general bundles, tensor constructions and descent belong to AlgebraicVectorBundles L0A–L0C and L2A–L2B. RelativeFarguesFontaine §§4.10–4.12, 6.6–6.9 and 7.0–7.6 own relative period completions, modifications and tensor gluing. VectorBundlesAndIsocrystals VB0–VB2 and VB4 own full slope classification and relative constant-slope local triviality. VStackSheavesAndLisseCategories §VS4.0 owns the reductive bundle-stack, Newton-geometry and full-automorphism constructions (BunGeometry, BunNewtonGeometry and BunAutomorphisms). BunGAndNewtonStrata §§0.5, 2.3, 3.4 and 3.7 expose their reductive interfaces; its additional Newton classification and arithmetic theory remain there. Here the group-valued extensions concern arbitrary connected linear groups; reductive constructions are imported without a second definition or proof target. The classical complex period domains of HodgeStructures are a different object.
+The fixed Fargues–Fontaine curve belongs to AdicSpaces Layer 6; general bundles, tensor constructions and descent belong to AlgebraicVectorBundles L0A–L0C and L2A–L2B. RelativeFarguesFontaine §§4.10–4.12, 6.6–6.9 and 7.0–7.6 own relative period completions, modifications and tensor gluing. VectorBundlesAndIsocrystals Layers 1, 2, 4 and 6 own full slope classification and relative constant-slope local triviality. VStackSheavesAndLisseCategories §VS4.0 owns the reductive bundle-stack, Newton-geometry and full-automorphism constructions (its paragraphs The stack of bundles, Newton geometry and Full stratum automorphisms), and RelativeFarguesFontaine §7.0 owns the torsor–tensor dictionary. BunGAndNewtonStrata §§0.6, 1.8, 1.13, 1.23, 1.33, 1.36 and 2.12 expose the reductive arithmetic interfaces used here (B(G) with its representative groupoid, Newton and Kottwitz invariants, σ-centralizers, acceptable classes with their basic member, the torus norm and Beauville–Laszlo uniformization); its additional Newton classification and arithmetic theory remain there. Here the group-valued extensions concern arbitrary connected linear groups; reductive constructions are imported without a second definition or proof target. The classical complex period domains of HodgeStructures are a different object.
 
-GeometricSatakeAndFusion GS0 owns the reductive Grassmannian and Schubert geometry. HeckeStacksAndLocalShtukas §§HS2.12 and HS2.15 owns reductive nonemptiness, classical period points and connectedness. The non-reductive statements here add the unipotent and Levi analysis. DiamondsAndVStacks D2, D4–D6 owns general sites, local systems, descent and seminormal diamondification. The definitions in Layer 4 specialize those carriers to two period lattices and retain the field of definition; they introduce no new site or general bundle-descent theorem. PerfectoidSpaces §§P4.15.6 and P6.11 owns strong closed quotients; PerfectoidQuotients does not supply a second such quotient.
+GeometricSatakeAndFusion Layer GS0 (§§0.1–0.15) owns the reductive Grassmannian and Schubert geometry. HeckeStacksAndLocalShtukas §§HS2.12 and HS2.15 owns reductive nonemptiness, classical period points and connectedness. The non-reductive statements here add the unipotent and Levi analysis. DiamondsAndVStacks D2, D4–D6 owns general sites, local systems, descent and seminormal diamondification. The definitions in Layer 4 specialize those carriers to two period lattices and retain the field of definition; they introduce no new site or general bundle-descent theorem. PerfectoidSpaces §§P4.15.6 and P6.11 owns strong closed quotients; PerfectoidQuotients does not supply a second such quotient.
 
 PadicHodgeTheory §§5.5, 7.1 and 7.4 owns perfect-residue-field period functors, associated filtered-connection lattices, their position and uniqueness, and change of coefficient site. In §4.6, M0 is the trivial-filtration specialization of that associated-lattice functor; its construction and horizontal full faithfulness are imported. This roadmap proves the two-lattice essential-image and trace-exactness statements. MotivesAndAlgebraicCycles §§6.1–6.3 and 6.8 owns abstract neutral reconstruction, the subquotient/subobject criteria, connectedness recognition and tensor-Isom torsors. Only their application to the new categories belongs here; canonical reduction to the reconstructed subgroup is requested from MotivesAndAlgebraicCycles (gap:tannakian-canonical-reduction).
 
-ReductiveGroups Layers 1–3, 5, 6A and 7 owns representations, Lie theory, subgroups, quotients, the unipotent radical and parabolic Levi decomposition. HodgeTateAndCanonicalSubgroups §2.14 owns splitting and type of exact tensor filtrations, their stabilizers and flag schemes, including for finite-type affine groups; AdicSpacesPartII R1.3 owns their analytification. HodgeTateAndCanonicalSubgroups §5.1 owns the ordinary Igusa tower and finite étale formal models, and AlgebraicModularFormsAndSerreWeights R15.3, The Igusa interpretation, owns full finite-level unit monodromy. Layer 6A supplies the characteristic-zero Levi complement and equivariant vector-layer central series. The adjoint-kernel and observable-quotient refinements have the extension contracts below. AInfCohomology §§AI.2.2–AI.2.3 owns BKF modules, their valid operations, its crystalline-rigidified variant and finite-free Fargues classification; its extension supplies rational rigidified modifications. FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.4 owns finite-height Breuil–Kisin modules, which are a distinct category. The comparison in §2.7 consumes the BKF equivalence and is independent of Ax–Lindemann.
+ReductiveGroups Layers 1–3, 5, 6A and 7 owns representations, Lie theory, subgroups, quotients, the unipotent radical and parabolic Levi decomposition. HodgeTateAndCanonicalSubgroups §2.14 owns splitting and type of exact tensor filtrations, their stabilizers and flag schemes, including for finite-type affine groups; AdicSpacesPartII R1.3 owns their analytification. HodgeTateAndCanonicalSubgroups §5.1 owns the ordinary Igusa tower and finite étale formal models, and AlgebraicModularFormsAndSerreWeights §3.5, The Igusa interpretation, owns full finite-level unit monodromy. Layer 6A supplies the characteristic-zero Levi complement and equivariant vector-layer central series. The adjoint-kernel and observable-quotient refinements have the extension contracts below. AInfCohomology §§AI.2.2–AI.2.3 owns BKF modules, their valid operations, its crystalline-rigidified variant and finite-free Fargues classification; its extension supplies rational rigidified modifications. FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.4 owns finite-height Breuil–Kisin modules, which are a distinct category. The comparison in §2.7 consumes the BKF equivalence and is independent of Ax–Lindemann.
 
 At the library pins, Mathlib already provides one-dimensional isocrystals and their classification, the absolute de Rham completion, and the Baire theorems listed below. Tau Ceti already reconstructs points of a known Hopf algebra from tensor automorphisms, supplies finite-subcomodule exhaustion, and realizes closed subgroups with finitely generated defining ideals as exterior-line stabilizers with their subgroup characters. These are used directly. Its Frobenius orbit space is topological and does not supply the sheafed curve or the period moduli used here. General Galois theory, rigid Zariski geometry and six operations retain the owners in the contracts; their lemmas are not repackaged as new theorems.
 
@@ -52,7 +52,7 @@ All imported statements retain their supplier's hypotheses. General local coeffi
 Use Mathlib at `6b7abb3c7686292736be2955bd3eb9ebf63b456a`.
 
 - `WittVector.Isocrystal`, `WittVector.IsocrystalHom` and `WittVector.IsocrystalEquiv` in `Mathlib/RingTheory/WittVector/Isocrystal.lean`, lines 113, 132 and 138, give modules with a Frobenius-semilinear automorphism and Frobenius-compatible maps. The class itself imposes no finite-dimensionality; finite-dimensional objects are selected explicitly.
-- `WittVector.StandardOneDimIsocrystal` and `WittVector.StandardOneDimIsocrystal.frobenius_apply`, in that file, lines 157 and 172, use Frobenius p^m σ. `WittVector.isocrystal_classification`, line 180, requires an algebraically closed characteristic-p field and finrank = 1. Full Dieudonné–Manin classification comes from VectorBundlesAndIsocrystals VB0.
+- `WittVector.StandardOneDimIsocrystal` and `WittVector.StandardOneDimIsocrystal.frobenius_apply`, in that file, lines 157 and 172, use Frobenius p^m σ. `WittVector.isocrystal_classification`, line 180, requires an algebraically closed characteristic-p field and finrank = 1. Full Dieudonné–Manin classification comes from VectorBundlesAndIsocrystals Layer 1, Dieudonné–Manin classification of finite isocrystals.
 - `dense_iInter_of_isOpen` and `nonempty_interior_of_iUnion_of_closed` in `Mathlib/Topology/Baire/Lemmas.lean`, lines 141 and 256, require a Baire space and a countable index type; the second requires a nonempty space and a closed cover. `BaireSpace.of_completelyPseudoMetrizable` in `Mathlib/Topology/Baire/CompleteMetrizable.lean`, line 25, supplies the complete-metrizable instance.
 - The absolute `BDeRhamPlus` completion in `Mathlib/RingTheory/Perfectoid/BDeRham.lean`, line 75, is the adic completion of p-localized Witt vectors of the pretilt at the kernel of Fontaine θ. Its signature requires a commutative p-adically complete ring with p noninvertible and p prime; it does not require a perfectoid instance and does not itself assert a geometric DVR. If p = 0 in the input it is the zero ring. It supplies a native completion carrier. Its geometric DVR hypotheses and the relative coefficient sheaves are consumed through PadicHodgeTheory and RelativeFarguesFontaine; an absolute ring is not a relative period-local-system category.
 
@@ -65,9 +65,9 @@ Use Tau Ceti at `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`. The declaration `Tau
 
 ### From TauCetiRoadmap.RelativeFarguesFontaine
 
-Use completed single-leg period rings, intrinsic Cartier fractional powers, meromorphic modifications, exact tensor gluing, change of structure group and positive-ring descent. The torsor-local-triviality theorem in §7.6 is reductive; extension to connected linear groups in Layers 1 and 5 uses their unipotent series.
+Use completed single-leg period rings, intrinsic Cartier fractional powers, meromorphic modifications, exact tensor gluing, change of structure group and positive-ring descent, and §7.0's torsor–tensor dictionary (geometric torsors, fppf torsors and exact tensor functors on finite-free representations are equivalent, for a linear algebraic group over the coefficient field). The torsor-local-triviality theorem in §7.6 is reductive; extension to connected linear groups in Layers 1 and 5 uses their unipotent series.
 
-Consumed sections: RelativeFarguesFontaine §4.10; RelativeFarguesFontaine §4.11; RelativeFarguesFontaine §4.12; RelativeFarguesFontaine §6.9; RelativeFarguesFontaine §7.2; RelativeFarguesFontaine §7.4; RelativeFarguesFontaine §7.6; RelativeFarguesFontaine §§6.6–6.8; RelativeFarguesFontaine §§6.6–6.9 and 7.6.
+Consumed sections: RelativeFarguesFontaine §4.10; RelativeFarguesFontaine §4.11; RelativeFarguesFontaine §4.12; RelativeFarguesFontaine §6.9; RelativeFarguesFontaine §7.0; RelativeFarguesFontaine §7.2; RelativeFarguesFontaine §7.4; RelativeFarguesFontaine §7.6; RelativeFarguesFontaine §§6.6–6.8; RelativeFarguesFontaine §§6.6–6.9 and 7.6.
 
 What RelativeFarguesFontaine must provide (gap:localized-period-module-descent): For an affine perfectoid untilt with degree-one divisor, identify v-locally finite free B_D-sheaves with finite projective B_D(S)-modules, including effective descent and compatibility with B_D+ restriction and tensor operations.
 
@@ -77,7 +77,7 @@ Use representations/comodules and faithful embeddings from Layer 1, Lie algebras
 
 Consumed sections: ReductiveGroups Layers 1–3, 5, 6A and 7; Layer 6A item 1 supplies the equivariant central series.
 
-What ReductiveGroups must provide (gap:adjoint-kernel-and-orbit-differential): Prove ker(Ad) = Z(G) for connected characteristic-zero linear groups and the image and kernel formulas for differentials of their flag-orbit maps.
+What ReductiveGroups must provide (gap:adjoint-kernel-and-orbit-differential): Prove that the kernel of the adjoint representation of a connected linear algebraic group over a field of characteristic zero is its centre. Submersivity of the flag-orbit maps on rational points is not part of this contract; it is AdicSpacesPartV RZ.6 / smooth-morphism-submersion.
 
 What ReductiveGroups must provide (gap:observable-subgroup-embedding): Prove that a closed subgroup realized as a vector stabilizer is observable and has a representable quasi-affine homogeneous quotient, and distinguish this conclusion from the stronger affine-quotient hypothesis.
 
@@ -91,9 +91,9 @@ Consumed sections: HodgeTateAndCanonicalSubgroups §2.14; HodgeTateAndCanonicalS
 
 ### From TauCetiRoadmap.AlgebraicModularFormsAndSerreWeights
 
-Use R15.3, The Igusa interpretation (anchor target-igusa-interpretation-of-hasse-and-theta), for the full finite-level unit monodromy of the ordinary elliptic tower. Retain auxiliary rigidifying level before effective stabilizer quotients and the small primes. Surjectivity at every finite level gives surjectivity onto Z_p× by compactness of the profinite monodromy image.
+Use §3.5, The Igusa interpretation, for the full finite-level unit monodromy of the ordinary elliptic tower. Retain auxiliary rigidifying level before effective stabilizer quotients and the small primes. Surjectivity at every finite level gives surjectivity onto Z_p× by compactness of the profinite monodromy image.
 
-Consumed sections: AlgebraicModularFormsAndSerreWeights R15.3 / target-igusa-interpretation-of-hasse-and-theta.
+Consumed sections: AlgebraicModularFormsAndSerreWeights §3.5, The Igusa interpretation.
 
 ### From TauCetiRoadmap.AdicSpacesPartII
 
@@ -109,21 +109,21 @@ Consumed sections: PadicPeriodRings §2; PadicPeriodRings §4.1; PadicPeriodRing
 
 ### From TauCetiRoadmap.VStackSheavesAndLisseCategories
 
-Use §VS4.0's reductive BunGeometry, BunNewtonGeometry and BunAutomorphisms: the bundle v-stack with tensor/torsor descent, Newton strata and their full automorphism v-groups. Basic strata have constant rational-point automorphism groups; nonbasic strata retain the connected automorphism kernel. The connected-linear-group extensions use these reductive inputs.
+Use §VS4.0's paragraphs The stack of bundles, Newton geometry and Full stratum automorphisms: the bundle v-stack with tensor/torsor descent, Newton strata with Harder–Narasimhan semicontinuity, and their full automorphism v-groups. Basic strata have constant rational-point automorphism groups; nonbasic strata retain the connected automorphism kernel. The connected-linear-group extensions use these reductive inputs.
 
-Consumed sections: VStackSheavesAndLisseCategories §VS4.0 / bundle-stack-geometry.
+Consumed sections: VStackSheavesAndLisseCategories §VS4.0 / bundle-stack-geometry; VStackSheavesAndLisseCategories §VS4.0, The stack of bundles; VStackSheavesAndLisseCategories §VS4.0, Newton geometry; VStackSheavesAndLisseCategories §VS4.0, Full stratum automorphisms.
 
 ### From TauCetiRoadmap.BunGAndNewtonStrata
 
-Use the reductive G-isocrystal and torsor dictionaries, Newton and Kottwitz invariants, basicness, sigma-centralizers, the bundle v-stack and the full automorphism diamond. No nonbasic automorphism group is replaced by its rational constant subgroup.
+Use the Kottwitz set B(G) with its representative groupoid (§0.6), Newton and Kottwitz invariants (§1.8), the algebraic σ-centralizer J_b (§1.13), acceptable classes with their finiteness and basic member (§§1.23 and 1.33), the torus norm description (§1.36) and Beauville–Laszlo uniformization (§2.12). The bundle v-stack and the full stratum automorphism v-groups are consumed from VStackSheavesAndLisseCategories §VS4.0 and the torsor–tensor dictionary from RelativeFarguesFontaine §7.0. No nonbasic automorphism group is replaced by its rational constant subgroup.
 
-Consumed sections: BunGAndNewtonStrata BG0 / g-isocrystals-and-B-of-G; BunGAndNewtonStrata BG0 / g-torsors-three-descriptions; BunGAndNewtonStrata BG1 §1.13 / sigma-centralizer-J-b; BunGAndNewtonStrata BG1 / admissible-finiteness-and-basic; BunGAndNewtonStrata BG1 / newton-and-kottwitz-maps; BunGAndNewtonStrata BG1 / torus-norm-description; BunGAndNewtonStrata BG2:uniformization / beauville-laszlo-surjectivity; BunGAndNewtonStrata BG2:uniformization / bun-g-as-v-stack; BunGAndNewtonStrata BG3 / full-automorphism-v-group; BunGAndNewtonStrata BG3 / semistable-locus-and-basic-strata.
+Consumed sections: BunGAndNewtonStrata §0.6; BunGAndNewtonStrata §1.8; BunGAndNewtonStrata §1.13; BunGAndNewtonStrata §§1.23 and 1.33; BunGAndNewtonStrata §1.36; BunGAndNewtonStrata §2.12.
 
 ### From TauCetiRoadmap.VectorBundlesAndIsocrystals
 
 Use finite-dimensional slope decompositions, reversal of Newton slope by the isocrystal-to-bundle functor, full bundle classification, fixed-slope abelianness, Hom/Ext computations and relative slope-zero local systems and constant-slope local triviality.
 
-Consumed sections: VectorBundlesAndIsocrystals VB0 / dieudonne-manin-isocrystals; VectorBundlesAndIsocrystals VB0 / tensor-and-dual-slopes; VectorBundlesAndIsocrystals VB1 / cohomology-of-twists; VectorBundlesAndIsocrystals VB1 / isocrystal-to-bundle-functor; VectorBundlesAndIsocrystals VB2:classification / dieudonne-manin-classification-of-bundles; VectorBundlesAndIsocrystals VB2:classification / fixed-slope-abelian-category; VectorBundlesAndIsocrystals VB2:classification / hom-and-ext-calculus; VectorBundlesAndIsocrystals VB4 / relative-HN-filtration-and-proetale-splitting; VectorBundlesAndIsocrystals VB4 / slope-zero-local-systems.
+Consumed sections: VectorBundlesAndIsocrystals Layer 1, Dieudonné–Manin classification of finite isocrystals; VectorBundlesAndIsocrystals Layer 1, Tensor and dual calculus for isocrystals; VectorBundlesAndIsocrystals Layer 2, Slope-sensitive cohomology of standard bundles; VectorBundlesAndIsocrystals Layer 2, The exact tensor isocrystal-to-bundle functor; VectorBundlesAndIsocrystals Layer 4, Geometric classification of vector bundles; VectorBundlesAndIsocrystals Layer 4, Fixed-slope abelian finite-length category; VectorBundlesAndIsocrystals Layer 4, Hom and extension calculus for geometric bundles; VectorBundlesAndIsocrystals Layer 6, Relative HN filtration and pro-étale splitting; VectorBundlesAndIsocrystals Layer 6, Slope-zero bundles and E-local systems.
 
 ### From TauCetiRoadmap.ReductiveGroupsPartII
 
@@ -193,7 +193,7 @@ Consumed sections: PerfectoidSpaces §P4.15.6, completed integral quotient and i
 
 Use reductive loop quotients, Schubert bounds, local spatiality, open-cell stabilizers, smooth truncated positive loops and action truncation. No minuscule hypothesis is imposed on the general Schubert theory.
 
-Consumed sections: GeometricSatakeAndFusion GS0:Schubert-smoothness / open-cell-stabilizer-and-smoothness; GeometricSatakeAndFusion GS0:Schubert-smoothness / truncated-positive-loops; GeometricSatakeAndFusion GS0:Schubert-smoothness / truncation-of-the-loop-action; GeometricSatakeAndFusion GS0:loop-geometry / grassmannian; GeometricSatakeAndFusion GS0:loop-geometry / schubert-bounds-and-properness.
+Consumed sections: GeometricSatakeAndFusion §0.13; GeometricSatakeAndFusion §0.12; GeometricSatakeAndFusion §0.14; GeometricSatakeAndFusion §§0.1 and 0.3; GeometricSatakeAndFusion §0.6.
 
 ### From TauCetiRoadmap.DiamondSixOperations
 
@@ -209,9 +209,9 @@ Consumed sections: EndoscopicTransferAndUnitaryTraceComparison §12.11; Endoscop
 
 ### From TauCetiRoadmap.IgusaVarietiesAndTorsionConcentration
 
-Layer IG.1 supplies Igusa moduli and their group actions. Import the ordinary elliptic tower and its finite étale formal models from HodgeTateAndCanonicalSubgroups §5.1, and full finite-level unit monodromy from AlgebraicModularFormsAndSerreWeights R15.3, The Igusa interpretation. The remaining extension compares these supplied objects with crystalline frames.
+Layer 1 (§§1.1 and 1.6) supplies Igusa moduli and their group actions. Import the ordinary elliptic tower and its finite étale formal models from HodgeTateAndCanonicalSubgroups §5.1, and full finite-level unit monodromy from AlgebraicModularFormsAndSerreWeights §3.5, The Igusa interpretation. The remaining extension compares these supplied objects with crystalline frames.
 
-Consumed sections: IgusaVarietiesAndTorsionConcentration Layer IG.1.
+Consumed sections: IgusaVarietiesAndTorsionConcentration Layer 1.
 
 What IgusaVarietiesAndTorsionConcentration must provide (gap:ordinary-katz-igusa-monodromy): Compare the supplied ordinary elliptic Igusa tower and its full unit monodromy with the integral frame reduction of the rational crystalline-frame torsor, preserving the unit-root crystalline trivialization, Tate normalization and special/generic-fibre transition.
 
@@ -395,7 +395,7 @@ The consuming constructions use this interface as follows. §§2.1–2.2: Matche
 
 **Acceptance.** Basicness must be tested in G, not merely its Levi quotient.
 
-*Needs:* BunGAndNewtonStrata BG0 / g-isocrystals-and-B-of-G; BunGAndNewtonStrata BG1 §1.13 / sigma-centralizer-J-b; BunGAndNewtonStrata BG0 / g-torsors-three-descriptions; BunGAndNewtonStrata BG1 / newton-and-kottwitz-maps; BunGAndNewtonStrata BG1 / admissible-finiteness-and-basic; BunGAndNewtonStrata BG1 / torus-norm-description; VectorBundlesAndIsocrystals VB0 / dieudonne-manin-isocrystals; VectorBundlesAndIsocrystals VB0 / tensor-and-dual-slopes; ReductiveGroupsPartII RG2.1 / steinberg-quasi-split; ReductiveGroups Layers 5 and 6A; ReductiveGroups Layer 2; `WittVector.Isocrystal`; `WittVector.StandardOneDimIsocrystal`; `WittVector.isocrystal_classification`.
+*Needs:* BunGAndNewtonStrata §0.6; BunGAndNewtonStrata §1.13; RelativeFarguesFontaine §7.0; BunGAndNewtonStrata §1.8; BunGAndNewtonStrata §§1.23 and 1.33; BunGAndNewtonStrata §1.36; VectorBundlesAndIsocrystals Layer 1, Dieudonné–Manin classification of finite isocrystals; VectorBundlesAndIsocrystals Layer 1, Tensor and dual calculus for isocrystals; ReductiveGroupsPartII RG2.1 / steinberg-quasi-split; ReductiveGroups Layers 5 and 6A; ReductiveGroups Layer 2; `WittVector.Isocrystal`; `WittVector.StandardOneDimIsocrystal`; `WittVector.isocrystal_classification`.
 
 ### 1.2 Levi invariance of B(G)
 
@@ -434,7 +434,7 @@ The consuming constructions use this interface as follows. §1.5: Identifies aut
 
 **Acceptance.** The inner-form assertion has a basicness hypothesis.
 
-*Needs:* §1.1; BunGAndNewtonStrata BG0 / g-isocrystals-and-B-of-G; BunGAndNewtonStrata BG1 §1.13 / sigma-centralizer-J-b; BunGAndNewtonStrata BG0 / g-torsors-three-descriptions; MotivesAndAlgebraicCycles §§6.1–6.2; MotivesAndAlgebraicCycles §6.8.
+*Needs:* §1.1; BunGAndNewtonStrata §0.6; BunGAndNewtonStrata §1.13; RelativeFarguesFontaine §7.0; MotivesAndAlgebraicCycles §§6.1–6.2; MotivesAndAlgebraicCycles §6.8.
 
 ### 1.4 Bundles for connected linear groups
 
@@ -456,12 +456,12 @@ The consuming constructions use this interface as follows. Layer 1 §1.5: Identi
 **Checks.**
 
 - Bun_1 is terminal.
-- For reductive G this is the imported BG2 stack, with its tensor/torsor comparison.
+- For reductive G this is the imported stack of bundles of VStackSheavesAndLisseCategories §VS4.0, with its tensor/torsor comparison.
 - For a Borel, bundles can have nontrivial negative-degree unipotent extensions; their classification is not obtained from the bijection B(G)≅B(M).
 
 **Acceptance.** Nonbasic bundle forms and automorphism kernels are not discarded.
 
-*Needs:* §1.1; DiamondsAndVStacks D4 / small-v-sheaves-and-small-v-stacks; DiamondsAndVStacks D4 / spaces-and-surjectivity-for-small-v-stacks; VectorBundlesAndIsocrystals VB1 / isocrystal-to-bundle-functor; VectorBundlesAndIsocrystals VB1 / cohomology-of-twists; BunGAndNewtonStrata BG2:uniformization / bun-g-as-v-stack; BunGAndNewtonStrata BG2:uniformization / beauville-laszlo-surjectivity; VStackSheavesAndLisseCategories §VS4.0 / bundle-stack-geometry.
+*Needs:* §1.1; DiamondsAndVStacks D4 / small-v-sheaves-and-small-v-stacks; DiamondsAndVStacks D4 / spaces-and-surjectivity-for-small-v-stacks; VectorBundlesAndIsocrystals Layer 2, The exact tensor isocrystal-to-bundle functor; VectorBundlesAndIsocrystals Layer 2, Slope-sensitive cohomology of standard bundles; VStackSheavesAndLisseCategories §VS4.0, The stack of bundles; BunGAndNewtonStrata §2.12; VStackSheavesAndLisseCategories §VS4.0 / bundle-stack-geometry.
 
 ### 1.5 Basic-stratum theorem
 
@@ -473,7 +473,7 @@ Twist the vector-group quotients of U by E_b. Basicness makes their isocrystals 
 
 **Acceptance.** The Borel example at nonbasic b must fail the claimed extension.
 
-*Needs:* §1.4; §1.3; §1.2; BunGAndNewtonStrata BG3 / semistable-locus-and-basic-strata; BunGAndNewtonStrata BG3 / full-automorphism-v-group; VectorBundlesAndIsocrystals VB1 / isocrystal-to-bundle-functor; VectorBundlesAndIsocrystals VB1 / cohomology-of-twists; VStackSheavesAndLisseCategories §VS4.0 / bundle-stack-geometry.
+*Needs:* §1.4; §1.3; §1.2; VStackSheavesAndLisseCategories §VS4.0, Newton geometry; VStackSheavesAndLisseCategories §VS4.0, Full stratum automorphisms; VectorBundlesAndIsocrystals Layer 2, The exact tensor isocrystal-to-bundle functor; VectorBundlesAndIsocrystals Layer 2, Slope-sensitive cohomology of standard bundles; VStackSheavesAndLisseCategories §VS4.0 / bundle-stack-geometry.
 
 ### 1.6 Basic twisting of bundle stacks
 
@@ -511,14 +511,14 @@ For the basic slope-zero matrix b = [[1,1],[0,1]] and x = diag(2,1), both fixed 
 ### Dependencies
 
 - VStackSheavesAndLisseCategories §VS4.0 / bundle-stack-geometry.
-- BunGAndNewtonStrata BG0 / g-isocrystals-and-B-of-G.
-- BunGAndNewtonStrata BG1 §1.13 / sigma-centralizer-J-b.
-- BunGAndNewtonStrata BG0 / g-torsors-three-descriptions.
-- BunGAndNewtonStrata BG1 / newton-and-kottwitz-maps.
-- BunGAndNewtonStrata BG1 / admissible-finiteness-and-basic.
-- BunGAndNewtonStrata BG1 / torus-norm-description.
-- VectorBundlesAndIsocrystals VB0 / dieudonne-manin-isocrystals.
-- VectorBundlesAndIsocrystals VB0 / tensor-and-dual-slopes.
+- BunGAndNewtonStrata §0.6.
+- BunGAndNewtonStrata §1.13.
+- RelativeFarguesFontaine §7.0.
+- BunGAndNewtonStrata §1.8.
+- BunGAndNewtonStrata §§1.23 and 1.33.
+- BunGAndNewtonStrata §1.36.
+- VectorBundlesAndIsocrystals Layer 1, Dieudonné–Manin classification of finite isocrystals.
+- VectorBundlesAndIsocrystals Layer 1, Tensor and dual calculus for isocrystals.
 - ReductiveGroupsPartII RG2.1 / steinberg-quasi-split.
 - ReductiveGroups Layers 5 and 6A.
 - ReductiveGroups Layer 2.
@@ -529,12 +529,12 @@ For the basic slope-zero matrix b = [[1,1],[0,1]] and x = diag(2,1), both fixed 
 - MotivesAndAlgebraicCycles §6.8.
 - DiamondsAndVStacks D4 / small-v-sheaves-and-small-v-stacks.
 - DiamondsAndVStacks D4 / spaces-and-surjectivity-for-small-v-stacks.
-- VectorBundlesAndIsocrystals VB1 / isocrystal-to-bundle-functor.
-- VectorBundlesAndIsocrystals VB1 / cohomology-of-twists.
-- BunGAndNewtonStrata BG2:uniformization / bun-g-as-v-stack.
-- BunGAndNewtonStrata BG2:uniformization / beauville-laszlo-surjectivity.
-- BunGAndNewtonStrata BG3 / semistable-locus-and-basic-strata.
-- BunGAndNewtonStrata BG3 / full-automorphism-v-group.
+- VectorBundlesAndIsocrystals Layer 2, The exact tensor isocrystal-to-bundle functor.
+- VectorBundlesAndIsocrystals Layer 2, Slope-sensitive cohomology of standard bundles.
+- VStackSheavesAndLisseCategories §VS4.0, The stack of bundles.
+- BunGAndNewtonStrata §2.12.
+- VStackSheavesAndLisseCategories §VS4.0, Newton geometry.
+- VStackSheavesAndLisseCategories §VS4.0, Full stratum automorphisms.
 - RelativeFarguesFontaine §7.2.
 - RelativeFarguesFontaine §7.4.
 
@@ -567,7 +567,7 @@ The consuming constructions use this interface as follows. §7.1: Defines the ge
 
 **Acceptance.** Audit the slope sign against the Tate example before implementing any comparison.
 
-*Needs:* §0.1; VectorBundlesAndIsocrystals VB2:classification / dieudonne-manin-classification-of-bundles; VectorBundlesAndIsocrystals VB2:classification / fixed-slope-abelian-category; VectorBundlesAndIsocrystals VB2:classification / hom-and-ext-calculus; RelativeFarguesFontaine §§6.6–6.8; RelativeFarguesFontaine §6.9.
+*Needs:* §0.1; VectorBundlesAndIsocrystals Layer 4, Geometric classification of vector bundles; VectorBundlesAndIsocrystals Layer 4, Fixed-slope abelian finite-length category; VectorBundlesAndIsocrystals Layer 4, Hom and extension calculus for geometric bundles; RelativeFarguesFontaine §§6.6–6.8; RelativeFarguesFontaine §6.9.
 
 ### 2.2 Pointwise admissible pairs
 
@@ -594,7 +594,7 @@ The consuming constructions use this interface as follows. §3.1: Recognizes pai
 
 **Acceptance.** Admissible means slope zero of the modified bundle, not merely its degree.
 
-*Needs:* §1.1; VectorBundlesAndIsocrystals VB2:classification / dieudonne-manin-classification-of-bundles; VectorBundlesAndIsocrystals VB2:classification / fixed-slope-abelian-category; VectorBundlesAndIsocrystals VB2:classification / hom-and-ext-calculus; RelativeFarguesFontaine §§6.6–6.8; RelativeFarguesFontaine §6.9.
+*Needs:* §1.1; VectorBundlesAndIsocrystals Layer 4, Geometric classification of vector bundles; VectorBundlesAndIsocrystals Layer 4, Fixed-slope abelian finite-length category; VectorBundlesAndIsocrystals Layer 4, Hom and extension calculus for geometric bundles; RelativeFarguesFontaine §§6.6–6.8; RelativeFarguesFontaine §6.9.
 
 ### 2.3 Pointwise Tannakian theorems
 
@@ -606,7 +606,7 @@ Compute saturated kernels and images in a fixed slope using degree inequalities.
 
 **Acceptance.** Do not infer connectedness from neutrality alone.
 
-*Needs:* §2.1; §2.2; MotivesAndAlgebraicCycles §§6.1–6.3 and 6.8; VectorBundlesAndIsocrystals VB2:classification / dieudonne-manin-classification-of-bundles; VectorBundlesAndIsocrystals VB2:classification / fixed-slope-abelian-category; VectorBundlesAndIsocrystals VB2:classification / hom-and-ext-calculus; MotivesAndAlgebraicCycles §§6.1–6.2; MotivesAndAlgebraicCycles §6.8; MotivesAndAlgebraicCycles §6.3.
+*Needs:* §2.1; §2.2; MotivesAndAlgebraicCycles §§6.1–6.3 and 6.8; VectorBundlesAndIsocrystals Layer 4, Geometric classification of vector bundles; VectorBundlesAndIsocrystals Layer 4, Fixed-slope abelian finite-length category; VectorBundlesAndIsocrystals Layer 4, Hom and extension calculus for geometric bundles; MotivesAndAlgebraicCycles §§6.1–6.2; MotivesAndAlgebraicCycles §6.8; MotivesAndAlgebraicCycles §6.3.
 
 ### 2.4 Basic pairs and Hodge structures
 
@@ -678,7 +678,7 @@ Read the Newton homomorphism from the weight grading. Use the reductive admissib
 
 **Acceptance.** Keep [mu^-1] in B(G,−), rather than silently reversing the lattice convention. Keep the standard-rational-fibre condition: triviality of every associated vector bundle does not trivialize the G-bundle.
 
-*Needs:* §0.4; §1.1; §2.4; BunGAndNewtonStrata BG1 / newton-and-kottwitz-maps; BunGAndNewtonStrata BG1 / admissible-finiteness-and-basic; BunGAndNewtonStrata BG1 / torus-norm-description; HeckeStacksAndLocalShtukas §HS2.15; HeckeStacksAndLocalShtukas §HS2.12; §0.5.
+*Needs:* §0.4; §1.1; §2.4; BunGAndNewtonStrata §1.8; BunGAndNewtonStrata §§1.23 and 1.33; BunGAndNewtonStrata §1.36; HeckeStacksAndLocalShtukas §HS2.15; HeckeStacksAndLocalShtukas §HS2.12; §0.5.
 
 ### 2.7 Rigidified BKF comparison
 
@@ -702,9 +702,9 @@ A rank-two modification O(1)⊕O(−1) has total degree zero and fails admissibi
 
 - `TauCeti.HopfIdeal.exists_finite_subcomodule_exteriorPower_line_stabilizer`.
 - Layer 0.
-- VectorBundlesAndIsocrystals VB2:classification / dieudonne-manin-classification-of-bundles.
-- VectorBundlesAndIsocrystals VB2:classification / fixed-slope-abelian-category.
-- VectorBundlesAndIsocrystals VB2:classification / hom-and-ext-calculus.
+- VectorBundlesAndIsocrystals Layer 4, Geometric classification of vector bundles.
+- VectorBundlesAndIsocrystals Layer 4, Fixed-slope abelian finite-length category.
+- VectorBundlesAndIsocrystals Layer 4, Hom and extension calculus for geometric bundles.
 - RelativeFarguesFontaine §§6.6–6.8.
 - RelativeFarguesFontaine §6.9.
 - Layer 1.
@@ -714,9 +714,9 @@ A rank-two modification O(1)⊕O(−1) has total degree zero and fails admissibi
 - MotivesAndAlgebraicCycles §6.3.
 - ReductiveGroups Layer 3.
 - `TauCeti.Tannaka.pointsFunctorIsoTensorAutFunctor`.
-- BunGAndNewtonStrata BG1 / newton-and-kottwitz-maps.
-- BunGAndNewtonStrata BG1 / admissible-finiteness-and-basic.
-- BunGAndNewtonStrata BG1 / torus-norm-description.
+- BunGAndNewtonStrata §1.8.
+- BunGAndNewtonStrata §§1.23 and 1.33.
+- BunGAndNewtonStrata §1.36.
 - HeckeStacksAndLocalShtukas §HS2.15.
 - HeckeStacksAndLocalShtukas §HS2.12.
 - AInfCohomology §AI.2.2.
@@ -1024,13 +1024,13 @@ The consuming constructions use this interface as follows. Layer 6 §6.5: Realiz
 
 **Checks.**
 
-- For reductive G this agrees with the one-leg Grassmannian supplied by GS0.
+- For reductive G this agrees with the one-leg Grassmannian supplied by GeometricSatakeAndFusion §0.3.
 - For G_m/L each integer type a has cell Spd L and flag Spa L; after any p-adic extension L′/L that cell is Spd L′. BB has one geometric point on either side.
 - Gr_Ga=B_dR/B_dR+ has nonzero geometric points, while its only good cocharacter cell is the zero point.
 
 **Acceptance.** A non-reductive Grassmannian need not be the union of its good cocharacter cells.
 
-*Needs:* §4.5; §1.4; GeometricSatakeAndFusion GS0:loop-geometry / grassmannian; GeometricSatakeAndFusion GS0:loop-geometry / schubert-bounds-and-properness; DiamondsAndVStacks D6 / gluing-and-the-diamond-functor; DiamondsAndVStacks D6 / etale-site-comparison; DiamondsAndVStacks D6 / seminormal-rigid-full-faithfulness; HodgeTateAndCanonicalSubgroups §2.14; AdicSpacesPartII R1.3 / analytification-functor.
+*Needs:* §4.5; §1.4; GeometricSatakeAndFusion §§0.1 and 0.3; GeometricSatakeAndFusion §0.6; DiamondsAndVStacks D6 / gluing-and-the-diamond-functor; DiamondsAndVStacks D6 / etale-site-comparison; DiamondsAndVStacks D6 / seminormal-rigid-full-faithfulness; HodgeTateAndCanonicalSubgroups §2.14; AdicSpacesPartII R1.3 / analytification-functor.
 
 ### 5.2 Subgroup immersion criterion
 
@@ -1060,7 +1060,7 @@ Embed G observably into GL(V)×G_m and import reductive bounded diamonds. Use Le
 
 **Acceptance.** Do not strengthen local closedness to closedness for an arbitrary cocharacter.
 
-*Needs:* §5.1; §5.2; §0.3; GeometricSatakeAndFusion GS0:loop-geometry / grassmannian; GeometricSatakeAndFusion GS0:loop-geometry / schubert-bounds-and-properness; `TauCeti.HopfIdeal.exists_finite_subcomodule_exteriorPower_line_stabilizer`.
+*Needs:* §5.1; §5.2; §0.3; GeometricSatakeAndFusion §§0.1 and 0.3; GeometricSatakeAndFusion §0.6; `TauCeti.HopfIdeal.exists_finite_subcomodule_exteriorPower_line_stabilizer`.
 
 ### 5.4 Faithful-representation cutout
 
@@ -1072,7 +1072,7 @@ Specialization puts every actual representation type above the induced Levi type
 
 **Acceptance.** Both the Levi-type condition and the representation bound are necessary.
 
-*Needs:* §0.3; §5.1; GeometricSatakeAndFusion GS0:loop-geometry / grassmannian; GeometricSatakeAndFusion GS0:loop-geometry / schubert-bounds-and-properness.
+*Needs:* §0.3; §5.1; GeometricSatakeAndFusion §§0.1 and 0.3; GeometricSatakeAndFusion §0.6.
 
 ### 5.5 Rigid sources and Griffiths transversality
 
@@ -1111,8 +1111,8 @@ On a reductive GL_2 cell of type (1,0), adjoint weights are −1,0,1 and BB iden
 - `TauCeti.HopfIdeal.exists_finite_subcomodule_exteriorPower_line_stabilizer`.
 - Layer 4.
 - Layer 1.
-- GeometricSatakeAndFusion GS0:loop-geometry / grassmannian.
-- GeometricSatakeAndFusion GS0:loop-geometry / schubert-bounds-and-properness.
+- GeometricSatakeAndFusion §§0.1 and 0.3.
+- GeometricSatakeAndFusion §0.6.
 - DiamondsAndVStacks D6 / gluing-and-the-diamond-functor.
 - DiamondsAndVStacks D6 / etale-site-comparison.
 - DiamondsAndVStacks D6 / seminormal-rigid-full-faithfulness.
@@ -1150,7 +1150,7 @@ The consuming constructions use this interface as follows. Layer 6 §6.2: Proves
 
 **Acceptance.** Do not replace the fixed isocrystal by an arbitrary isocrystal local system.
 
-*Needs:* §2.2; §4.2; §4.4; VectorBundlesAndIsocrystals VB4 / slope-zero-local-systems; VectorBundlesAndIsocrystals VB4 / relative-HN-filtration-and-proetale-splitting.
+*Needs:* §2.2; §4.2; §4.4; VectorBundlesAndIsocrystals Layer 6, Slope-zero bundles and E-local systems; VectorBundlesAndIsocrystals Layer 6, Relative HN filtration and pro-étale splitting.
 
 ### 6.2 Family Tannakian theorem
 
@@ -1162,7 +1162,7 @@ Take isocrystal kernels and intersect the lattice. Use exactness in each point c
 
 **Acceptance.** The evaluation remains faithful even for disconnected Y because the isocrystal maps are fixed.
 
-*Needs:* §6.1; §2.3; MotivesAndAlgebraicCycles §§6.1–6.3 and 6.8; VectorBundlesAndIsocrystals VB4 / slope-zero-local-systems; VectorBundlesAndIsocrystals VB4 / relative-HN-filtration-and-proetale-splitting; MotivesAndAlgebraicCycles §§6.1–6.2; MotivesAndAlgebraicCycles §6.8; MotivesAndAlgebraicCycles §6.3.
+*Needs:* §6.1; §2.3; MotivesAndAlgebraicCycles §§6.1–6.3 and 6.8; VectorBundlesAndIsocrystals Layer 6, Slope-zero bundles and E-local systems; VectorBundlesAndIsocrystals Layer 6, Relative HN filtration and pro-étale splitting; MotivesAndAlgebraicCycles §§6.1–6.2; MotivesAndAlgebraicCycles §6.8; MotivesAndAlgebraicCycles §6.3.
 
 ### 6.3 G-families and canonical reduction
 
@@ -1264,7 +1264,7 @@ Use the pullback description of the trivial stratum to check U-invariance. Compu
 
 **Acceptance.** The hypothesis excludes the empty locus; connected is used in the nonempty sense here.
 
-*Needs:* §6.6; §6.7; §1.5; GeometricSatakeAndFusion GS0:Schubert-smoothness / open-cell-stabilizer-and-smoothness; GeometricSatakeAndFusion GS0:Schubert-smoothness / truncated-positive-loops; GeometricSatakeAndFusion GS0:Schubert-smoothness / truncation-of-the-loop-action; HeckeStacksAndLocalShtukas §HS2.15; HeckeStacksAndLocalShtukas §HS2.12.
+*Needs:* §6.6; §6.7; §1.5; GeometricSatakeAndFusion §0.13; GeometricSatakeAndFusion §0.12; GeometricSatakeAndFusion §0.14; HeckeStacksAndLocalShtukas §HS2.15; HeckeStacksAndLocalShtukas §HS2.12.
 
 ### Examples
 
@@ -1276,8 +1276,8 @@ On a disconnected base the defining W of a neutral pair remains one globally fix
 
 - Layer 2.
 - Layer 4.
-- VectorBundlesAndIsocrystals VB4 / slope-zero-local-systems.
-- VectorBundlesAndIsocrystals VB4 / relative-HN-filtration-and-proetale-splitting.
+- VectorBundlesAndIsocrystals Layer 6, Slope-zero bundles and E-local systems.
+- VectorBundlesAndIsocrystals Layer 6, Relative HN filtration and pro-étale splitting.
 - MotivesAndAlgebraicCycles §§6.1–6.3 and 6.8.
 - MotivesAndAlgebraicCycles §§6.1–6.2.
 - MotivesAndAlgebraicCycles §6.8.
@@ -1299,9 +1299,9 @@ On a disconnected base the defining W of a neutral pair remains one globally fix
 - DiamondSixOperations §S4.2.
 - DiamondSixOperations §S4.3.
 - DiamondSixOperations §S2.4.
-- GeometricSatakeAndFusion GS0:Schubert-smoothness / open-cell-stabilizer-and-smoothness.
-- GeometricSatakeAndFusion GS0:Schubert-smoothness / truncated-positive-loops.
-- GeometricSatakeAndFusion GS0:Schubert-smoothness / truncation-of-the-loop-action.
+- GeometricSatakeAndFusion §0.13.
+- GeometricSatakeAndFusion §0.12.
+- GeometricSatakeAndFusion §0.14.
 
 ## Layer 7: Neutral Hodge structures and period domains
 
@@ -1333,7 +1333,7 @@ The consuming constructions use this interface as follows. Layer 7 §7.3: Define
 
 **Acceptance.** Fixed grading and fixed V distinguish neutral objects from arbitrary variations.
 
-*Needs:* §2.1; §4.4; §2.5; VectorBundlesAndIsocrystals VB4 / slope-zero-local-systems; VectorBundlesAndIsocrystals VB4 / relative-HN-filtration-and-proetale-splitting.
+*Needs:* §2.1; §4.4; §2.5; VectorBundlesAndIsocrystals Layer 6, Slope-zero bundles and E-local systems; VectorBundlesAndIsocrystals Layer 6, Relative HN filtration and pro-étale splitting.
 
 ### 7.2 Tannakian structure of Hodge families
 
@@ -1345,7 +1345,7 @@ Construct graded kernels and images; the constant-slope theorem makes their latt
 
 **Acceptance.** Fibrewise finite freeness is not used as a substitute for a family theorem.
 
-*Needs:* §7.1; §2.3; MotivesAndAlgebraicCycles §§6.1–6.3 and 6.8; VectorBundlesAndIsocrystals VB4 / slope-zero-local-systems; VectorBundlesAndIsocrystals VB4 / relative-HN-filtration-and-proetale-splitting; MotivesAndAlgebraicCycles §§6.1–6.2; MotivesAndAlgebraicCycles §6.8; MotivesAndAlgebraicCycles §6.3.
+*Needs:* §7.1; §2.3; MotivesAndAlgebraicCycles §§6.1–6.3 and 6.8; VectorBundlesAndIsocrystals Layer 6, Slope-zero bundles and E-local systems; VectorBundlesAndIsocrystals Layer 6, Relative HN filtration and pro-étale splitting; MotivesAndAlgebraicCycles §§6.1–6.2; MotivesAndAlgebraicCycles §6.8; MotivesAndAlgebraicCycles §6.3.
 
 ### 7.3 The Hodge period domain
 
@@ -1453,8 +1453,8 @@ A Hodge family need not carry a global isocrystal frame. Its constant-slope bund
 - `TauCeti.HopfIdeal.exists_finite_subcomodule_exteriorPower_line_stabilizer`.
 - Layer 2.
 - Layer 4.
-- VectorBundlesAndIsocrystals VB4 / slope-zero-local-systems.
-- VectorBundlesAndIsocrystals VB4 / relative-HN-filtration-and-proetale-splitting.
+- VectorBundlesAndIsocrystals Layer 6, Slope-zero bundles and E-local systems.
+- VectorBundlesAndIsocrystals Layer 6, Relative HN filtration and pro-étale splitting.
 - MotivesAndAlgebraicCycles §§6.1–6.3 and 6.8.
 - MotivesAndAlgebraicCycles §§6.1–6.2.
 - MotivesAndAlgebraicCycles §6.8.
@@ -1579,7 +1579,7 @@ Use the torus Kottwitz formula and trivial adjoint representation. For height tw
 
 **Acceptance.** Avoid counting inertia conjugates twice over Q_p-breve([mu]).
 
-*Needs:* §8.4; BunGAndNewtonStrata BG1 / newton-and-kottwitz-maps; BunGAndNewtonStrata BG1 / admissible-finiteness-and-basic; BunGAndNewtonStrata BG1 / torus-norm-description; EndoscopicTransferAndUnitaryTraceComparison §12.11; EndoscopicTransferAndUnitaryTraceComparison §12.5.
+*Needs:* §8.4; BunGAndNewtonStrata §1.8; BunGAndNewtonStrata §§1.23 and 1.33; BunGAndNewtonStrata §1.36; EndoscopicTransferAndUnitaryTraceComparison §12.11; EndoscopicTransferAndUnitaryTraceComparison §12.5.
 
 ### 8.6 Borel and parabolic boundary examples
 
@@ -1612,9 +1612,9 @@ For the neutral-piece issue take the norm-one torus T of an unramified quadratic
 - ReductiveGroups Layer 3.
 - MotivesAndAlgebraicCycles §§6.1–6.2.
 - MotivesAndAlgebraicCycles §6.8.
-- BunGAndNewtonStrata BG1 / newton-and-kottwitz-maps.
-- BunGAndNewtonStrata BG1 / admissible-finiteness-and-basic.
-- BunGAndNewtonStrata BG1 / torus-norm-description.
+- BunGAndNewtonStrata §1.8.
+- BunGAndNewtonStrata §§1.23 and 1.33.
+- BunGAndNewtonStrata §1.36.
 - EndoscopicTransferAndUnitaryTraceComparison §12.11.
 - EndoscopicTransferAndUnitaryTraceComparison §12.5.
 
@@ -1951,7 +1951,7 @@ Assume the arbitrary-field full-rank de Rham criterion in the PadicHodgeTheory s
 
 (HKII, arXiv v2, Proof of Theorem 9.1.3, pp. 57–58; HKII line 2574).
 
-Pass to the strict completed maximal unramified extension of the residue field of the generic classical point and use an open inertia orbit contained in the original orbit. Descend through strata of strictly decreasing dimension until rank is constant on a stratum meeting that orbit openly. Constant rank produces a transverse vanishing coordinate if rank is deficient. Pull it back along the G(C)-orbit map, which is submersive by gap:adjoint-kernel-and-orbit-differential; its vanishing on K0 contradicts the identity theorem across Q_p. Surjectivity and Griffiths transversality give the adjoint bound, then the full-dimensional closed-subspace criterion gives the component equality.
+Pass to the strict completed maximal unramified extension of the residue field of the generic classical point and use an open inertia orbit contained in the original orbit. Descend through strata of strictly decreasing dimension until rank is constant on a stratum meeting that orbit openly. Constant rank produces a transverse vanishing coordinate if rank is deficient. Pull it back along the G(C)-orbit map, which is submersive by AdicSpacesPartV RZ.6 / smooth-morphism-submersion; its vanishing on K0 contradicts the identity theorem across Q_p. Surjectivity and Griffiths transversality give the adjoint bound, then the full-dimensional closed-subspace criterion gives the component equality.
 
 **Acceptance.** This proves submersion at the translated lift in the selected smooth stratum; it does not claim smoothness at every original point.
 
@@ -1999,7 +1999,7 @@ Assume the arbitrary-field full-rank de Rham criterion in the PadicHodgeTheory s
 
 (HKII, arXiv v2, Theorem B, p. 11; proof, p. 58; HKII line 501, HKII line 2632).
 
-Obtain the group and type by canonical reduction and the rigid-base theorem. Choose a Hodge-generic classical point. Apply the same orbit/constant-rank argument, using gap:adjoint-kernel-and-orbit-differential, directly to a closed rigid analytic condition in the flag target, without using duality. Propagate the resulting open flag image within each connected open by the rigid identity theorem.
+Obtain the group and type by canonical reduction and the rigid-base theorem. Choose a Hodge-generic classical point. Apply the same orbit/constant-rank argument, with the orbit map submersive by AdicSpacesPartV RZ.6 / smooth-morphism-submersion, directly to a closed rigid analytic condition in the flag target, without using duality. Propagate the resulting open flag image within each connected open by the rigid identity theorem.
 
 **Acceptance.** This proof shares the orbit argument, not the basicness-dependent infinite-level duality.
 
@@ -2027,7 +2027,7 @@ Compute the slope filtration and the fixed Hodge–Tate flag in this ordinary ex
 
 If the family of opposite-level closed rigid targets containing A is empty, its intersection is all M_C. Even if M_C is disconnected, this is the defined closure; no connected special component is selected in that case. If the family is nonempty, the orbit argument after canonical motivic reduction supplies a single opposite-special component contained in every such target. Since that component is itself opposite analytically closed, it is exactly the intersection. Enlarging A shrinks the family of qualifying containers, so it enlarges the intersection. (HK II Definition 9.1.1, Remark 9.1.2 and Theorem 9.1.3, p. 55; HKII line 2458)
 
-For an irreducible rigid source choose a generic classical point after resolution and passage to its constant field. If its field F is not strict, replace it by the completion F′ of its maximal unramified extension. Restriction to inertia yields an open subgroup in the same motivic group; its orbit is contained in the original orbit. A translate of the lift meets a smooth maximal-rank stratum, after shrinking the compact group. Rank deficiency would produce a transverse coordinate vanishing on that open rational group orbit; pullback along the submersive group orbit map (gap:adjoint-kernel-and-orbit-differential) contradicts the identity theorem. Griffiths transversality then gives the lower adjoint bound and the full-dimensional closed-subspace criterion gives the desired component. (HK II proof of Theorem 9.1.3, pp. 57–58, using HK I Corollary 5.5.3; HKI line 2167, HKII line 2574)
+For an irreducible rigid source choose a generic classical point after resolution and passage to its constant field. If its field F is not strict, replace it by the completion F′ of its maximal unramified extension. Restriction to inertia yields an open subgroup in the same motivic group; its orbit is contained in the original orbit. A translate of the lift meets a smooth maximal-rank stratum, after shrinking the compact group. Rank deficiency would produce a transverse coordinate vanishing on that open rational group orbit; pullback along the group orbit map, which is submersive by AdicSpacesPartV RZ.6 / smooth-morphism-submersion, contradicts the identity theorem. Griffiths transversality then gives the lower adjoint bound and the full-dimensional closed-subspace criterion gives the desired component. (HK II proof of Theorem 9.1.3, pp. 57–58, using HK I Corollary 5.5.3; HKI line 2167, HKII line 2574)
 
 For the upper Borel with b=diag(1,p) and mu=(0,−1), the nonbasic ordinary Serre–Tate family has Hodge cell A¹ and Hodge–Tate period image a point. Its canonical torus lift is proper, but its flag image is identical to that of the whole family. A condition on that image cannot cut out the lift. This witnesses the basicness hypothesis in Ax–Lindemann. Theorem B retains its geometrically irreducible rigid-base and actual generic-group hypotheses, and works directly in the flag target without duality. This does not assert that the entire nonbasic infinite-level Serre–Tate space satisfies those hypotheses. (HK II Remark 9.1.4, p. 56, and proof of Theorem B, p. 58; HKII line 2499)
 
@@ -2063,7 +2063,7 @@ Define variations and de Rham torsors, construct the crystalline-frame cover and
 
 ### 12.1 Variations of p-adic Hodge structure
 
-For smooth rigid S/L, a variation of p-adic Hodge structure is a finite Q-graded de Rham Q_p-local system L=⊕L_lambda for which each fibre (L_lambda,M0,lambda) is a weight-lambda p-adic Hodge structure. Here M0 is the lattice from the trivial filtration on the associated flat bundle, while the original local system determines the étale rational structure. A G-variation is an exact tensor functor Rep_Qp G into this category. A pro-étale K-torsor for open K≤G(Q_p) is de Rham if its associated representation local systems are de Rham, equivalently for one closed faithful representation.
+For smooth rigid S/L, a variation of p-adic Hodge structure is a finite Q-graded de Rham Q_p-local system L=⊕L_lambda for which each fibre (L_lambda,M0,lambda) is a weight-lambda p-adic Hodge structure. Here M0 is the lattice from the trivial filtration on the associated flat bundle, while the original local system determines the étale rational structure. A G-variation is an exact tensor functor Rep_Qp G into this category. A pro-étale K-torsor for open K≤G(Q_p) is de Rham if the Q_p-local system associated with every representation of G is de Rham. Testing one closed faithful representation suffices exactly when de Rham local systems on S are closed under subquotients, since every representation is a subquotient of a tensor construction on a faithful one and tensor constructions preserve the de Rham comparison. For L a finite extension of Q_p that closure holds unconditionally: the stalks of a sub- or quotient local system at classical points are de Rham, and Liu–Zhu rigidity makes it de Rham (LiuZhu, Theorem 3.9(iii)–(iv), pp. 24–25; LiuZhu line 1154). For a general p-adic L the one-representation test is used only under the arbitrary-field full-rank de Rham criterion in the PadicHodgeTheory supplier contract, as in §§6.4 and 10.3.
 
 (HKII, arXiv v2, Definition 10.1.1 and §10.1, pp. 62–63; HKII line 2839).
 
@@ -2071,7 +2071,7 @@ The interface consists of the following operations and laws.
 
 - The second lattice is M0 of the underlying flat bundle with trivial filtration.
 - Pullback preserves the graded de Rham system and its weight conditions.
-- Tensor G-variations are independent of a chosen closed faithful representation for the de Rham test.
+- Under the arbitrary-field full-rank de Rham criterion, or for L finite over Q_p, the de Rham test is independent of the chosen closed faithful representation.
 - Each geometric fibre gives the pointwise HS object with the stated weight.
 
 Use the de Rham comparison functor representationwise. Form M0 after forgetting the Hodge filtration of the flat bundle. Impose the pure bundle condition on each graded fibre.
@@ -2082,11 +2082,12 @@ The consuming constructions use this interface as follows. Layer 12 §12.2: Cons
 
 - The trivial de Rham local system in weight zero is a variation.
 - The Tate local system has weight −2n with its de Rham comparison lattice.
+- For a Borel subgroup B of GL_2 the standard representation is faithful, but its nontrivial subrepresentation (the Borel-stable line) is not a direct summand of any tensor construction on it, only a subquotient; so a test on the standard representation alone reaches that character only through subquotient closure; closure under tensor constructions and direct summands does not. For G=GL_n every representation is a direct summand of sums of tensor constructions on the standard representation and its dual, so the two tests agree without subquotient closure.
 - A nontrivial quadratic finite étale rank-one character has de Rham weight zero and monodromy image {1,−1}, whereas the neutral unit has image {1}. Equal geometric unit fibres do not identify these two families. Other finite orders are allowed: at p=7, a primitive cube root ζ₃ lies in Q₇, and the unramified character sending arithmetic Frobenius to ζ₃ has weight zero and image μ₃ of order 3. Finite étale pullback trivializes each finite character, giving its weight-zero de Rham filtration.
 
 **Acceptance.** The Q_p-local system is allowed to have monodromy here; this is a distinct family notion from the neutral category.
 
-*Needs:* §4.6; §2.1; §4.2; PadicHodgeTheory §7.1; PadicHodgeTheory §7.1, lattice-position uniqueness; PadicHodgeTheory §7.4.
+*Needs:* §4.6; §2.1; §4.2; PadicHodgeTheory §7.1; PadicHodgeTheory §7.1, lattice-position uniqueness; PadicHodgeTheory §7.4; PadicHodgeTheory §§7.1 and 7.4.
 
 ### 12.2 Crystalline-frame cover and period map
 
@@ -2113,7 +2114,7 @@ The consuming constructions use this interface as follows. Layer 12 §12.4: Unif
 
 **Acceptance.** The frame cover is a pro-étale torsor; this construction makes no general rigid representability assertion.
 
-*Needs:* §12.1; §1.5; §9.2; §4.5; HodgeTateAndCanonicalSubgroups §5.1; AlgebraicModularFormsAndSerreWeights R15.3 / target-igusa-interpretation-of-hasse-and-theta; IgusaVarietiesAndTorsionConcentration Layer IG.1 (gap:ordinary-katz-igusa-monodromy).
+*Needs:* §12.1; §1.5; §9.2; §4.5; HodgeTateAndCanonicalSubgroups §5.1; AlgebraicModularFormsAndSerreWeights §3.5, The Igusa interpretation; IgusaVarietiesAndTorsionConcentration Layer 1 (gap:ordinary-katz-igusa-monodromy).
 
 ### 12.3 Katz–Igusa obstruction
 
@@ -2121,7 +2122,7 @@ On the ordinary locus of a connected finite-level modular curve without p-level,
 
 (HKII, arXiv v2, §10.1, p. 64; HKII line 2882).
 
-Import the ordinary elliptic formal tower and generic fibre from HodgeTateAndCanonicalSubgroups §5.1, and full finite-level unit monodromy from AlgebraicModularFormsAndSerreWeights R15.3, The Igusa interpretation. Compactness gives surjective Z_p× monodromy. Use the comparison requested from IgusaVarietiesAndTorsionConcentration (gap:ordinary-katz-igusa-monodromy) to identify its integral frames with the unit-root crystalline trivialization in the matching covariant or dual Tate normalization; extension of structure group then gives the full rational cover. A reduction to a rigid de Jong covering forces the corresponding compact fibre monodromy to have finite orbits, contradicting the infinite transitive Z_p× action. The obstruction is local finite type, not merely failure of quasicompactness.
+Import the ordinary elliptic formal tower and generic fibre from HodgeTateAndCanonicalSubgroups §5.1, and full finite-level unit monodromy from AlgebraicModularFormsAndSerreWeights §3.5, The Igusa interpretation. Compactness gives surjective Z_p× monodromy. Use the comparison requested from IgusaVarietiesAndTorsionConcentration (gap:ordinary-katz-igusa-monodromy) to identify its integral frames with the unit-root crystalline trivialization in the matching covariant or dual Tate normalization; extension of structure group then gives the full rational cover. A reduction to a rigid de Jong covering forces the corresponding compact fibre monodromy to have finite orbits, contradicting the infinite transitive Z_p× action. The obstruction is local finite type, not merely failure of quasicompactness.
 
 **Checks.**
 
@@ -2131,7 +2132,7 @@ Import the ordinary elliptic formal tower and generic fibre from HodgeTateAndCan
 
 **Acceptance.** The infinite monodromy obstructs the stated rigid de Jong refinement; rational extension of frames preserves that obstruction in each valuation component.
 
-*Needs:* §12.2; HodgeTateAndCanonicalSubgroups §5.1; AlgebraicModularFormsAndSerreWeights R15.3 / target-igusa-interpretation-of-hasse-and-theta; IgusaVarietiesAndTorsionConcentration Layer IG.1 (gap:ordinary-katz-igusa-monodromy).
+*Needs:* §12.2; HodgeTateAndCanonicalSubgroups §5.1; AlgebraicModularFormsAndSerreWeights §3.5, The Igusa interpretation; IgusaVarietiesAndTorsionConcentration Layer 1 (gap:ordinary-katz-igusa-monodromy).
 
 ### 12.4 Conditional basic Hodge-type application
 
@@ -2165,7 +2166,7 @@ Apply the supplied Čerednik–Drinfeld theorem separately to each factor, track
 
 ### Examples
 
-For a variation the original graded de Rham local system can have nontrivial étale monodromy. M0 is formed from its associated flat bundle after forgetting the filtration. If the resulting bundle has fixed basic class b, its crystalline-frame cover is a G_b(Q_p)-torsor, and the original K-frame data gives the K-level period map. This is a frame construction; it makes no general potential-unramifiedness assertion. Using the ordinary tower from HodgeTateAndCanonicalSubgroups §5.1, the full unit monodromy from AlgebraicModularFormsAndSerreWeights R15.3, The Igusa interpretation, and their crystalline-frame comparison requested from IgusaVarietiesAndTorsionConcentration (gap:ordinary-katz-igusa-monodromy), the tower on the ordinary modular locus has infinite Z_p× monodromy and gives the obstruction to a rigid analytic de Jong refinement described in HK II §10.1, pp. 63–64.
+For a variation the original graded de Rham local system can have nontrivial étale monodromy. M0 is formed from its associated flat bundle after forgetting the filtration. If the resulting bundle has fixed basic class b, its crystalline-frame cover is a G_b(Q_p)-torsor, and the original K-frame data gives the K-level period map. This is a frame construction; it makes no general potential-unramifiedness assertion. Using the ordinary tower from HodgeTateAndCanonicalSubgroups §5.1, the full unit monodromy from AlgebraicModularFormsAndSerreWeights §3.5, The Igusa interpretation, and their crystalline-frame comparison requested from IgusaVarietiesAndTorsionConcentration (gap:ordinary-katz-igusa-monodromy), the tower on the ordinary modular locus has infinite Z_p× monodromy and gives the obstruction to a rigid analytic de Jong refinement described in HK II §10.1, pp. 63–64.
 
 For a quaternion algebra D/Q split at infinity and ramified at p, its inner form B is ramified at infinity, split at p, and ramified at exactly the same finite places as D away from p. A chosen product component of the associated Shimura curves has a Čerednik–Drinfeld presentation Ω^n/Γ with the actual arithmetic component stabilizers. After base change to C, the local Drinfeld product, its two period maps and the global infinite tower are compared through this quotient. In a general Hodge-type basic locus the analogous step is conditional on the explicit basic uniformization contract, including the diagonal arithmetic quotient. Local special points concern the Q_p-structure of the p-divisible group and need not be global motivic CM points. (HK II §10.1–§10.2, pp. 64–66; HKII line 2892)
 
@@ -2180,8 +2181,8 @@ For a quaternion algebra D/Q split at infinity and ramified at p, its inner form
 - Layer 9.
 - Layer 6.
 - HodgeTateAndCanonicalSubgroups §5.1.
-- AlgebraicModularFormsAndSerreWeights R15.3 / target-igusa-interpretation-of-hasse-and-theta.
-- IgusaVarietiesAndTorsionConcentration Layer IG.1 (gap:ordinary-katz-igusa-monodromy).
+- AlgebraicModularFormsAndSerreWeights §3.5, The Igusa interpretation.
+- IgusaVarietiesAndTorsionConcentration Layer 1 (gap:ordinary-katz-igusa-monodromy).
 - Layer 11.
 - PerfectoidShimuraVarieties §2.2.
 - PerfectoidShimuraVarieties §§3.1 and 3.5.
