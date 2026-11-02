@@ -1609,7 +1609,7 @@ The source for this target is [Antonio Lei, David Loeffler and Sarah Livia Zerbe
 
 **Checks.**
 
-- E = 14a1, p = 5: with KMC^1(T_pE), the weight-two case of gap:tate-twisted-components and the same equality as gap:central-critical-specialization, `SMC^{1,1}` and `SMC^{2,1}` hold with the LLZ basis; Theorem 5.1's KMC^1(T_pE^∨) gives only `SMC^{1,ω}`.
+- E = 14a1, p = 5: with KMC^1(T_pE), the weight-two case of gap:tate-twisted-components and the same equality as gap:central-critical-equality, `SMC^{1,1}` and `SMC^{2,1}` hold with the LLZ basis; Theorem 5.1's KMC^1(T_pE^∨) gives only `SMC^{1,ω}`. Here r=1=k−1=k/2, so both equality contracts use the original tame/Γ evaluation (−1,1/6) at δ=−1 and κ(γ)=6; untwisted augmentation gives (1,1). Kato's gap:central-critical-specialization supplies the separate reciprocity/control comparison.
 - A form with k ≥ 3 that is good ordinary but locally split at p is excluded by (A').
 
 ### 4.4 Removing the Coleman-image term
