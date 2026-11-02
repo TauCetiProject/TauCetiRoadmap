@@ -177,7 +177,10 @@ algebra, and §5.3 combines §5.2 with the consumed dimension count of §4.4. Th
 input of §4.1 is available before the square dimension of §4.2, and Brauer functoriality in
 Layer 6 uses the specified group law. No result of Layer 5 is an input to any supplied
 declaration used to prove Layer 5. Suggested.lean contains exactly the three headline theorems of
-Layer 5, all on native carriers, with no auxiliary definitions.
+Layer 5, all on native carriers, with no auxiliary definitions; it also imports the pinned
+Brauer group law `TauCeti.BrauerGroup.instCommGroup` and re-exports
+`TauCeti.Algebra.IsSplittingField` into its namespace, which is how QuadraticFormInvariants reads
+both.
 
 ## Layer 0: the Jacobson radical and the semisimplicity criterion
 
@@ -823,7 +826,9 @@ uses §6.1, and §6.3 uses §6.1–6.2.
   dictionary.
 - QuadraticFormInvariants consumes Layer 4 (tensor products of central simple algebras and the
   opposite-algebra package) and Layer 6 (trivial classes, the group law, and finite separable
-  splitting).
+  splitting); it reads the group law `TauCeti.BrauerGroup.instCommGroup` and the predicate
+  `TauCeti.Algebra.IsSplittingField` through this roadmap's acceptance file, which imports the
+  first and re-exports the second.
 - ClassicalArithmeticCompletion consumes Layers 1–2, Layer 5 (Skolem–Noether), and Layer 6
   (base change, finite separable and maximal-subfield splitting, and the Brauer groups of finite
   fields and of ℝ).

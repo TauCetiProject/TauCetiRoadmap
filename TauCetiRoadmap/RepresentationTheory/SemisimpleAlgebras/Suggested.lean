@@ -1,4 +1,6 @@
 import Mathlib
+import TauCeti.Algebra.BrauerGroup.Group
+import TauCeti.Algebra.CentralSimple.Splitting
 
 /-!
 # Semisimple algebras: target signatures
@@ -16,9 +18,15 @@ dimₖ B · dimₖ Cₐ(B) = dimₖ A for a simple subalgebra B, which Tau Ceti 
 of B ⊗ₖ Aᵒᵖ (`TauCeti.finrank_mul_finrank_centralizer_of_isSimpleRing_tensorProduct_mulOpposite`).
 All three headlines are statable on native carriers; none requires an unavailable carrier or a
 new definition.
+
+The file imports Tau Ceti's Brauer group law (`TauCeti.BrauerGroup.instCommGroup`) and re-exports
+the splitting predicate `TauCeti.Algebra.IsSplittingField` into this namespace, because
+QuadraticFormInvariants reads both through this module; neither is a new declaration.
 -/
 
 namespace TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras
+
+export TauCeti.Algebra (IsSplittingField)
 
 universe u v w
 
