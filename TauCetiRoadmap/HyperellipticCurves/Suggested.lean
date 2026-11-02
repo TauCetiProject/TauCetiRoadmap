@@ -10,17 +10,35 @@ public import TauCeti.RingTheory.DedekindDomain.LocalizationAtPrime
 /-!
 # Hyperelliptic curves: target signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive specification is
-`README.md`. This file states only what can be stated over Mathlib and the pinned Tau Ceti: the
-carrier, the binary-form and model discriminants, the action of changes of coordinates, the
-function-field bridge, integral and minimal models, and the cluster-picture carrier with its
-vocabulary. Every definition here has its real body. The other targets — the group law on
-changes of coordinates and the automorphism group (1.1, 1.4), the genus-2 invariants (Layer 2),
-the cluster picture of a polynomial (4.1), the two-torsion rank (5.1) and everything after them —
-are specified, with their definitions and Checks, in `README.md` only. Theorem proofs are
-`sorry`; the bridge checks (`ofWeierstrass`, `involution`, `simplified`, `quadraticTwist`, the
-non-vacuity models `model3125`, `model169`) are real terms so that the elaborator checks the
-degree bounds the README promises.
+The roadmap is `README.md`; this file is not the roadmap. It states its headline
+theorems against the pinned Mathlib and Tau Ceti APIs, with `sorry` proofs.
+The headlines represented here are binary-discriminant covariance and integrality,
+the discriminant criterion and elliptic discriminant comparison, the function-field
+bridge and genus formula, the coordinate-change isomorphism theorem, discriminant
+covariance and twisting, and existence and invariance of minimal models.
+Definitions have real bodies and are retained only for these statements.
+
+The following headlines are not statable at the pins without substantial new
+constructions, so no substitute signatures are supplied:
+- The geometric smoothness comparison (0.3) needs the two-chart projective curve
+  attached to a model and its comparison with the function field.
+- Geometric automorphism classification and twist descent (1.4, 1.5, 2.6) need the
+  curve automorphism group and its descent action.
+- Igusa classification and Mestre's obstruction (2.4, 2.7) need the integral Igusa
+  polynomials, their weighted projective moduli point, and the Mestre conic and cubic.
+- The Dedekind-domain obstruction (3.4) needs the hyperelliptic Weierstrass class.
+- Good-reduction comparison, conductor–discriminant inequality and Liu's dictionary
+  (3.5–3.7) need the model-to-stable-curve and model-to-Jacobian constructions.
+- Cluster semistability, the reduction dictionary, the special fibre and its lattice,
+  Galois representation, Tamagawa, conductor, minimal discriminant, deficiency,
+  root numbers and reduction-type classification (4.4–4.13) need a valued root
+  cluster picture with inertia and the comparison to the geometric special fibre;
+  an abstract laminar family alone is not that object.
+- Jacobian two-torsion, descent and Euler-factor bridges (5.1–5.4) need the Jacobian
+  of the model and its torsion and cohomological Galois representations.
+- Local solubility (5.5) needs points of the projective two-chart curve.
+- The conductor, period and BSD interfaces (5.6–5.7) need that Jacobian's Néron
+  model, invariant-differential lattice and compatible-system L-function.
 
 The carrier is `Model R g`, a pair of polynomials `f, h` over a commutative ring `R` with
 `natDegree f ≤ 2g + 2` and `natDegree h ≤ g + 1`, the equation `y² + h(x) y = f(x)` of a curve of
@@ -44,9 +62,7 @@ height-one prime (convention 11).
 
 The function field of a model is `AdjoinRoot (X² + h X − f)` over `RatFunc k`, so that Tau Ceti's
 `IsHyperellipticFunctionField`, `genus` and the Layer-10/11 theorems of the algebraic curves
-roadmap apply to it directly; `genus_functionField` is the contract (Layer 0.4). Cluster pictures
-are an abstract combinatorial carrier `ClusterPicture X` (DDMM Definition 1.26); the picture of
-the roots of a polynomial is README 4.1's target.
+roadmap apply to it directly; `genus_functionField` is the contract (Layer 0.4).
 -/
 
 @[expose] public section
@@ -55,7 +71,7 @@ namespace TauCetiRoadmap.HyperellipticCurves
 
 open Polynomial
 
-/-! ### Layer 0.1: the discriminant of a binary form -/
+/-! ## Layer 0: models, discriminants and function fields -/
 
 /-- The universal discriminant of a binary form of degree `n`: Mathlib's `Polynomial.discr` of
 the universal polynomial `Σ aᵢ Tⁱ` over `ℤ[a₀, …, aₙ]` (`README.md`, Layer 0, 0.1). -/
@@ -64,31 +80,13 @@ noncomputable def universalDiscr (n : ℕ) : MvPolynomial (Fin (n + 1)) ℤ :=
     (∑ i : Fin (n + 1), Polynomial.C (MvPolynomial.X i) * Polynomial.X ^ (i : ℕ))
 
 /-- The discriminant of `G`, viewed as a binary form of degree `n` (`README.md`, Layer 0, 0.1).
-When `natDegree G = n` it is `Polynomial.discr G`; when `natDegree G = n - 1` it is
-`lc(G)² · discr G`; when `natDegree G ≤ n - 2` it is `0`. -/
+When `natDegree G = n` it is `Polynomial.discr G`. For `n ≥ 2`, degree `n - 1`
+gives `lc(G)² · discr G`, and degree at most `n - 2` gives `0`. At `n = 1`
+it is always `1`, including on constant polynomials. -/
 noncomputable def formDiscr {R : Type*} [CommRing R] (n : ℕ) (G : R[X]) : R :=
   MvPolynomial.aeval (fun i : Fin (n + 1) => G.coeff i) (universalDiscr n)
 
 variable {R : Type*} [CommRing R]
-
-/-- `README.md`, Layer 0, 0.1: the binary-form discriminant of a form of full degree. -/
-theorem formDiscr_eq_discr_of_natDegree_eq {n : ℕ} {G : R[X]} (hG : G.natDegree = n) :
-    formDiscr n G = Polynomial.discr G := sorry
-
-/-- `README.md`, Layer 0, 0.1: one root at infinity contributes the square of the leading
-coefficient. The hypothesis `2 ≤ n` is needed: `formDiscr 1 G = 1` for every `G`, while the
-constant `G = 2` has `2² · discr 2 = 4`. -/
-theorem formDiscr_eq_of_natDegree_eq_pred {n : ℕ} (hn : 2 ≤ n) {G : R[X]}
-    (hG : G.natDegree = n - 1) :
-    formDiscr n G = G.leadingCoeff ^ 2 * Polynomial.discr G := sorry
-
-/-- `README.md`, Layer 0, 0.1: a double root at infinity. -/
-theorem formDiscr_eq_zero_of_natDegree_le {n : ℕ} (hn : 2 ≤ n) {G : R[X]}
-    (hG : G.natDegree ≤ n - 2) : formDiscr n G = 0 := sorry
-
-/-- `README.md`, Layer 0, 0.1: homogeneity of degree `2n - 2`. -/
-theorem formDiscr_C_mul (n : ℕ) (c : R) (G : R[X]) :
-    formDiscr n (C c * G) = c ^ (2 * n - 2) * formDiscr n G := sorry
 
 /-- The homogeneous substitution `(G ∘ M)(X) = Σ Gᵢ (aX + b)ⁱ (cX + d)^{n-i}`, the action of a
 `2 × 2` matrix on binary forms of degree `n` written without division (`README.md`, Layer 0, 0.1
@@ -136,30 +134,6 @@ variable {g : ℕ}
 away from characteristic 2 (`README.md`, convention 6). -/
 noncomputable def weierstrassForm (W : Model R g) : R[X] := 4 * W.f + W.h ^ 2
 
-/-- `README.md`, convention 1: the Weierstrass form is a binary form of degree `2g + 2`. -/
-theorem weierstrassForm_natDegree_le (W : Model R g) : W.weierstrassForm.natDegree ≤ 2 * g + 2 := by
-  unfold weierstrassForm
-  refine (natDegree_add_le _ _).trans (max_le ?_ ?_)
-  · calc (4 * W.f).natDegree ≤ (4 : R[X]).natDegree + W.f.natDegree := natDegree_mul_le
-      _ ≤ 0 + (2 * g + 2) := Nat.add_le_add (by simp) W.f_natDegree_le
-      _ = 2 * g + 2 := by simp
-  · calc (W.h ^ 2).natDegree ≤ 2 * W.h.natDegree := natDegree_pow_le
-      _ ≤ 2 * (g + 1) := Nat.mul_le_mul_left 2 W.h_natDegree_le
-      _ = 2 * g + 2 := by ring
-
-/-- The simplified equation `y² = 4f + h²` as a model (`README.md`, Layer 1, 1.2). A real
-definition: over `ℤ[1/2]` it is `(1, 1/2, −h/2) • W`, and over `ℤ` it is never minimal at `2`
-(`Δ_simplified`). -/
-noncomputable def simplified (W : Model R g) : Model R g :=
-  ⟨W.weierstrassForm, 0, W.weierstrassForm_natDegree_le, by simp⟩
-
-/-- Base change of a model along a ring homomorphism (`README.md`, Layer 0, 0.2). -/
-noncomputable def map {S : Type*} [CommRing S] (φ : R →+* S) (W : Model R g) : Model S g where
-  f := W.f.map φ
-  h := W.h.map φ
-  f_natDegree_le := natDegree_map_le.trans W.f_natDegree_le
-  h_natDegree_le := natDegree_map_le.trans W.h_natDegree_le
-
 /-- The universal model, whose coefficients are the variables `a₀, …, a_{2g+2}, b₀, …, b_{g+1}`
 (`README.md`, Layer 0, 0.3). -/
 noncomputable def universal (g : ℕ) : Model (MvPolynomial (Fin (2 * g + 3) ⊕ Fin (g + 2)) ℤ) g where
@@ -189,23 +163,6 @@ noncomputable def Δ (W : Model R g) : R :=
   MvPolynomial.aeval (Sum.elim (fun i : Fin (2 * g + 3) => W.f.coeff i)
     (fun j : Fin (g + 2) => W.h.coeff j)) (universalΔ g)
 
-/-- `README.md`, Layer 0, 0.3: `2^{4(g+1)} Δ = disc_{2g+2}(4f + h²)`; over a ring in which `2` is
-a unit this determines `Δ`. -/
-theorem two_pow_mul_Δ (W : Model R g) :
-    (2 : R) ^ (4 * (g + 1)) * W.Δ = formDiscr (2 * g + 2) W.weierstrassForm := sorry
-
-/-- `README.md`, Layer 0, 0.3: `Δ(f, 0) = 2^{4g} disc_{2g+2} f`. -/
-theorem Δ_of_h_eq_zero (W : Model R g) (hW : W.h = 0) :
-    W.Δ = 2 ^ (4 * g) * formDiscr (2 * g + 2) W.f := sorry
-
-/-- `README.md`, Layer 1, 1.2: the discriminant of the simplified equation `y² = 4f + h²` is
-`2^{4(2g+1)} Δ(W)` (`2^{20} Δ(W)` at `g = 2`), so the simplified model is never minimal at `2`. -/
-theorem Δ_simplified (W : Model R g) : W.simplified.Δ = 2 ^ (4 * (2 * g + 1)) * W.Δ := sorry
-
-/-- `README.md`, Layer 0, 0.3: the discriminant commutes with base change. -/
-theorem Δ_map {S : Type*} [CommRing S] (φ : R →+* S) (W : Model R g) : (W.map φ).Δ = φ W.Δ :=
-  sorry
-
 /-- A model is **smooth** (defines a hyperelliptic curve, for `g ≥ 2`) when its discriminant is
 a unit (`README.md`, convention 4, Layer 0, 0.3). -/
 class IsSmooth (W : Model R g) : Prop where
@@ -216,38 +173,6 @@ of the Weierstrass form together with full degree `2g + 1` or `2g + 2` (a simple
 `Separable`, not `Squarefree`: over `𝔽₅(t)` the form `x⁵ − t` is squarefree and `Δ = 0`. -/
 theorem isSmooth_iff_separable {k : Type*} [Field k] (h2 : (2 : k) ≠ 0) (W : Model k g) :
     W.IsSmooth ↔ W.weierstrassForm.Separable ∧ 2 * g + 1 ≤ W.weierstrassForm.natDegree := sorry
-
-/-! ### Layer 0.5: Weierstrass curves as genus-1 models (bridge check) -/
-
-/-- A Weierstrass curve as a genus-1 model, the sub-case `f` monic cubic, `natDegree h ≤ 1`
-(`README.md`, Layer 0, 0.5). This is a real definition: the degree bounds are checked by the
-elaborator. -/
-noncomputable def ofWeierstrass (E : WeierstrassCurve R) : Model R 1 where
-  f := X ^ 3 + C E.a₂ * X ^ 2 + C E.a₄ * X + C E.a₆
-  h := C E.a₁ * X + C E.a₃
-  f_natDegree_le := by compute_degree!
-  h_natDegree_le := by compute_degree!
-
-/-- `README.md`, Layer 0, 0.5: the two discriminants agree, an identity of integer polynomials in
-`a₁, …, a₆` (`2^{-8} disc_4(4f + h²) = Δ_W`). -/
-theorem Δ_ofWeierstrass (E : WeierstrassCurve R) : (ofWeierstrass E).Δ = E.Δ := sorry
-
-/-- `README.md`, Layer 0, 0.5: smooth genus-1 models are elliptic curves. -/
-theorem isSmooth_ofWeierstrass_iff (E : WeierstrassCurve R) :
-    (ofWeierstrass E).IsSmooth ↔ E.IsElliptic := sorry
-
-/-- Non-vacuity: `y² + y = x⁵` (LMFDB 3125.a.3125.1) is a genus-2 model over `ℚ`
-(`README.md`, worked examples). -/
-noncomputable def model3125 : Model ℚ 2 :=
-  ⟨X ^ 5, 1, (natDegree_X_pow_le 5).trans (by norm_num), natDegree_one.le.trans (by norm_num)⟩
-
-/-- Non-vacuity: `y² + (x³ + x + 1) y = x⁵ + x⁴` (LMFDB 169.a.169.1, the curve `X₁(13)`;
-`README.md`, worked examples). -/
-noncomputable def model169 : Model ℚ 2 where
-  f := X ^ 5 + X ^ 4
-  h := X ^ 3 + X + 1
-  f_natDegree_le := by compute_degree!
-  h_natDegree_le := by compute_degree!
 
 /-! ### Layer 0.4: the function field -/
 
@@ -286,50 +211,24 @@ theorem isHyperellipticFunctionField (W : Model k g) [Fact (Irreducible W.equati
 
 end FunctionField
 
-/-! ### Layer 0.6: affine points and the hyperelliptic involution (bridge check) -/
+/-! ### Layer 0.5: Weierstrass curves as genus-1 models (bridge check) -/
 
-/-- An affine point of a model (`README.md`, Layer 0, 0.6). -/
-structure AffinePoint (W : Model R g) where
-  /-- The `x`-coordinate. -/
-  x : R
-  /-- The `y`-coordinate. -/
-  y : R
-  equation : y ^ 2 + W.h.eval x * y = W.f.eval x
+/-- A Weierstrass curve as a genus-1 model, the sub-case `f` monic cubic, `natDegree h ≤ 1`
+(`README.md`, Layer 0, 0.5). This is a real definition: the degree bounds are checked by the
+elaborator. -/
+noncomputable def ofWeierstrass (E : WeierstrassCurve R) : Model R 1 where
+  f := X ^ 3 + C E.a₂ * X ^ 2 + C E.a₄ * X + C E.a₆
+  h := C E.a₁ * X + C E.a₃
+  f_natDegree_le := by compute_degree!
+  h_natDegree_le := by compute_degree!
 
-/-- The hyperelliptic involution `(x, y) ↦ (x, −y − h(x))` on affine points (`README.md`,
-convention 6, Layer 0, 0.6). A real definition: the equation is checked. -/
-def involution (W : Model R g) : W.AffinePoint ≃ W.AffinePoint where
-  toFun P := ⟨P.x, -P.y - W.h.eval P.x, by linear_combination P.equation⟩
-  invFun P := ⟨P.x, -P.y - W.h.eval P.x, by linear_combination P.equation⟩
-  left_inv P := by
-    obtain ⟨x, y, hP⟩ := P
-    simp only [AffinePoint.mk.injEq, true_and]
-    ring
-  right_inv P := by
-    obtain ⟨x, y, hP⟩ := P
-    simp only [AffinePoint.mk.injEq, true_and]
-    ring
-
-/-- The number of `k`-rational Weierstrass points of a smooth model, the LMFDB's `num_rat_wpts`
-(`README.md`, convention 6, Layer 0, 0.6): the affine points fixed by the involution, plus the
-points at infinity `y² + h_{g+1} y = f_{2g+2}` fixed by `y ↦ −y − h_{g+1}`. -/
-noncomputable def numRationalWeierstrassPoints {k : Type*} [Field k] (W : Model k g) : ℕ :=
-  Nat.card {P : W.AffinePoint // W.involution P = P} +
-    Nat.card {y : k // y ^ 2 + W.h.coeff (g + 1) * y = W.f.coeff (2 * g + 2) ∧
-      -y - W.h.coeff (g + 1) = y}
-
-open Classical in
-/-- `README.md`, Layer 0, 0.6: away from characteristic 2 the rational Weierstrass points are the
-rational roots of `4f + h²`, plus the point at infinity when the form has degree `2g + 1`. -/
-theorem numRationalWeierstrassPoints_eq {k : Type*} [Field k] (h2 : (2 : k) ≠ 0) (W : Model k g)
-    [W.IsSmooth] :
-    W.numRationalWeierstrassPoints =
-      W.weierstrassForm.roots.toFinset.card +
-        if W.weierstrassForm.natDegree = 2 * g + 1 then 1 else 0 := sorry
+/-- `README.md`, Layer 0, 0.5: the two discriminants agree, an identity of integer polynomials in
+`a₁, …, a₆` (`2^{-8} disc_4(4f + h²) = Δ_W`). -/
+theorem Δ_ofWeierstrass (E : WeierstrassCurve R) : (ofWeierstrass E).Δ = E.Δ := sorry
 
 end Model
 
-/-! ### Layer 1: changes of coordinates -/
+/-! ## Layer 1: changes of coordinates -/
 
 /-- A change of coordinates `(M, e, t)`: `x = (ax' + b)/(cx' + d)`,
 `y = (e y' + t(x'))/(cx' + d)^{g+1}` (`README.md`, convention 5, Layer 1, 1.1). -/
@@ -372,23 +271,11 @@ noncomputable def act (γ : CoordChange R g) (W : Model R g) : Model R g where
 left action for the group law of 1.1 is a target of 1.2. -/
 noncomputable instance : SMul (CoordChange R g) (Model R g) := ⟨act⟩
 
-/-- The hyperelliptic involution as the change of coordinates `(1, −1, −h)` (`README.md`,
-convention 6). -/
-noncomputable def involution (W : Model R g) : CoordChange R g where
-  M := 1
-  e := -1
-  t := -W.h
-  t_natDegree_le := (natDegree_neg W.h).le.trans W.h_natDegree_le
-
 /-- `README.md`, Layer 1, 1.2: **the transformation law of the discriminant**,
 `Δ(C • W) = e^{-4(2g+1)} det(M)^{(2g+1)(2g+2)} Δ(W)`. -/
 theorem Δ_smul (C : CoordChange R g) (W : Model R g) :
     (C • W).Δ = ((C.e⁻¹ : Rˣ) : R) ^ (4 * (2 * g + 1)) *
       ((Matrix.GeneralLinearGroup.det C.M : Rˣ) : R) ^ ((2 * g + 1) * (2 * g + 2)) * W.Δ := sorry
-
-/-- `README.md`, Layer 1, 1.2: smoothness is invariant. -/
-theorem isSmooth_smul (C : CoordChange R g) (W : Model R g) [W.IsSmooth] : (C • W).IsSmooth :=
-  sorry
 
 end CoordChange
 
@@ -432,7 +319,7 @@ theorem exists_smul_quadraticTwist_ofWeierstrass (E : WeierstrassCurve k) (t n :
     ∃ C : CoordChange k 1,
       C • (ofWeierstrass E).quadraticTwist t n = ofWeierstrass (E.quadraticTwistOf t n) := sorry
 
-/-! ### Layer 3: integral and minimal models -/
+/-! ## Layer 3: integral and minimal models -/
 
 section Local
 
@@ -458,19 +345,9 @@ variable [IsDomain R] [IsDiscreteValuationRing R] [IsFractionRing R K]
 theorem exists_isMinimal (W : Model K g) [W.IsSmooth] :
     ∃ C : CoordChange K g, IsMinimal R (C • W) := sorry
 
-/-- `README.md`, Layer 3, 3.3: two minimal models of one curve have discriminants differing by a
-unit of `R`, so the minimal discriminant valuation is an invariant of the curve. -/
-theorem exists_unit_Δ_eq_of_isMinimal (W : Model K g) [W.IsSmooth] (C : CoordChange K g)
-    [IsMinimal R W] [IsMinimal R (C • W)] :
-    ∃ u : Rˣ, (C • W).Δ = algebraMap R K u * W.Δ := sorry
-
 /-- `README.md`, Layer 3, 3.3: at `g = 1`, minimality is Mathlib's `WeierstrassCurve.IsMinimal`. -/
 theorem isMinimal_ofWeierstrass_iff (E : WeierstrassCurve K) [E.IsElliptic] :
     IsMinimal R (ofWeierstrass E) ↔ WeierstrassCurve.IsMinimal R E := sorry
-
-/-- `README.md`, Layer 3, 3.5: a minimal model has good reduction iff `Δ` is a unit of `R`. -/
-def HasGoodReduction (W : Model K g) : Prop :=
-  ∃ C : CoordChange K g, IsMinimal R (C • W) ∧ ∃ u : Rˣ, (C • W).Δ = algebraMap R K u
 
 end Local
 
@@ -488,10 +365,6 @@ prime `v` (`README.md`, convention 11, Layer 3, 3.4), the shape of Tau Ceti's
 def IsGlobalMinimal (W : Model K g) : Prop :=
   ∀ v : HeightOneSpectrum O, IsMinimal (Localization.AtPrime v.asIdeal) W
 
-/-- `README.md`, Layer 3, 3.4: a globally minimal model is integral over `O`. -/
-theorem IsGlobalMinimal.isIntegral {W : Model K g} (hW : IsGlobalMinimal O W) :
-    IsIntegral O W := sorry
-
 /-- `README.md`, Layer 3, 3.4: **global minimal models exist over a principal ideal domain**. -/
 theorem exists_isGlobalMinimal [IsPrincipalIdealRing O] (W : Model K g) [W.IsSmooth] :
     ∃ C : CoordChange K g, IsGlobalMinimal O (C • W) := sorry
@@ -503,117 +376,7 @@ be related by an element of `𝒢_g(ℤ)`. -/
 theorem Δ_eq_of_isGlobalMinimal (W : Model ℚ g) [W.IsSmooth] (C : CoordChange ℚ g)
     (hW : IsGlobalMinimal ℤ W) (hC : IsGlobalMinimal ℤ (C • W)) : (C • W).Δ = W.Δ := sorry
 
-open Classical in
-/-- The minimal discriminant of a curve over `ℚ`, with its sign: the discriminant of a chosen
-global minimal model, an integer since that model is integral (`README.md`, Layer 3, 3.4);
-`abs_disc = |minimalDiscriminant|`. It does not depend on the choice by
-`Δ_eq_of_isGlobalMinimal`; the value `0` when no global minimal model exists is junk, excluded by
-`exists_isGlobalMinimal`. -/
-noncomputable def minimalDiscriminant (W : Model ℚ g) : ℤ :=
-  if h : ∃ C : CoordChange ℚ g, IsGlobalMinimal ℤ (C • W) then (h.choose • W).Δ.num else 0
-
-/-- `README.md`, Layer 3, 3.4: the defining property of `minimalDiscriminant`. -/
-theorem minimalDiscriminant_spec (W : Model ℚ g) [W.IsSmooth] (C : CoordChange ℚ g)
-    (hC : IsGlobalMinimal ℤ (C • W)) : ((W.minimalDiscriminant : ℤ) : ℚ) = (C • W).Δ := sorry
-
 end Global
-
-end Model
-
-/-! ### Layer 4.1–4.2: cluster pictures -/
-
-/-- An abstract cluster picture on a finite set `X` (DDMM Definition 1.26; `README.md`,
-convention 12, Layer 4, 4.1): a laminar family of nonempty subsets containing the singletons
-and `X`, with a depth on the proper clusters that increases strictly along inclusion. -/
-structure ClusterPicture (X : Type*) [Fintype X] [DecidableEq X] where
-  /-- The clusters. -/
-  clusters : Finset (Finset X)
-  /-- The depth `d_𝔰` (its value on improper clusters is junk). -/
-  depth : Finset X → ℚ
-  singleton_mem : ∀ x : X, {x} ∈ clusters
-  univ_mem : (Finset.univ : Finset X) ∈ clusters
-  nonempty_of_mem : ∀ s ∈ clusters, s.Nonempty
-  laminar : ∀ s ∈ clusters, ∀ t ∈ clusters, s ⊆ t ∨ t ⊆ s ∨ Disjoint s t
-  depth_lt_of_ssubset : ∀ s ∈ clusters, ∀ t ∈ clusters, 1 < t.card → t ⊂ s → depth s < depth t
-
-namespace ClusterPicture
-
-variable {X : Type*} [Fintype X] [DecidableEq X] (Ψ : ClusterPicture X)
-
-/-- A proper cluster has more than one element (`README.md`, Layer 4, 4.2). -/
-def IsProper (s : Finset X) : Prop := s ∈ Ψ.clusters ∧ 1 < s.card
-
-/-- The children of a cluster: its maximal proper subclusters (DDMM Definition 1.3). -/
-def children (s : Finset X) : Finset (Finset X) :=
-  Ψ.clusters.filter fun t => t ⊂ s ∧ ∀ u ∈ Ψ.clusters, t ⊂ u → ¬ u ⊂ s
-
-/-- The parent of a cluster `s ≠ X`: the unique cluster of which it is a child, as the meet of
-the clusters having `s` as a child (the value `X` at `s = X`, which has no parent, is junk). -/
-noncomputable def parent (s : Finset X) : Finset X :=
-  (Ψ.clusters.filter fun u => s ∈ Ψ.children u).inf id
-
-/-- The smallest cluster containing `s` and `t` (DDMM Definition 1.3, `𝔰 ∧ 𝔰'`). -/
-noncomputable def meet (s t : Finset X) : Finset X :=
-  (Ψ.clusters.filter fun u => s ⊆ u ∧ t ⊆ u).inf'
-    ⟨Finset.univ, Finset.mem_filter.2 ⟨Ψ.univ_mem, Finset.subset_univ _, Finset.subset_univ _⟩⟩ id
-
-/-- Relative depth `δ_𝔰 = d_𝔰 − d_{P(𝔰)}` (DDMM Definition 1.5). -/
-noncomputable def relDepth (s : Finset X) : ℚ := Ψ.depth s - Ψ.depth (Ψ.parent s)
-
-/-- `ν_𝔰 = v(c_f) + Σ_{r ∈ ℛ} d_{r ∧ 𝔰}` (DDMM Definition 1.6), given `v(c_f)`. -/
-noncomputable def nu (vcf : ℚ) (s : Finset X) : ℚ :=
-  vcf + ∑ r : X, Ψ.depth (Ψ.meet {r} s)
-
-/-- A twin is a cluster of size 2 (DDMM Definition 1.4). -/
-def IsTwin (s : Finset X) : Prop := s ∈ Ψ.clusters ∧ s.card = 2
-
-/-- An even cluster has even size. -/
-def IsEven (s : Finset X) : Prop := s ∈ Ψ.clusters ∧ Even s.card
-
-/-- An übereven cluster is a proper cluster all of whose children are even (DDMM
-Definition 1.4). -/
-def IsUbereven (s : Finset X) : Prop := Ψ.IsProper s ∧ ∀ t ∈ Ψ.children s, Even t.card
-
-/-- A cotwin is a non-übereven cluster with a child of size `2g` (DDMM Definition 1.11). -/
-def IsCotwin (g : ℕ) (s : Finset X) : Prop :=
-  s ∈ Ψ.clusters ∧ ¬ Ψ.IsUbereven s ∧ ∃ t ∈ Ψ.children s, t.card = 2 * g
-
-/-- A principal cluster: proper, not a twin, not a cotwin, and with at least three children when
-it is `ℛ` of even size `2g + 2` (DDMM Definition 1.4). -/
-def IsPrincipal (g : ℕ) (s : Finset X) : Prop :=
-  Ψ.IsProper s ∧ ¬ Ψ.IsTwin s ∧ ¬ Ψ.IsCotwin g s ∧
-    (s = Finset.univ → Even s.card → 3 ≤ (Ψ.children s).card)
-
-open Classical in
-/-- The potential toric rank read off the picture: the number of even non-übereven clusters
-other than `ℛ`, less one if `ℛ` is übereven (DDMM Theorem 1.8 (7); `README.md`, Layer 4, 4.5).
-It is also the conductor exponent of a semistable curve (Theorem 1.20 (iii); 4.9). -/
-noncomputable def potentialToricRank : ℕ :=
-  (Ψ.clusters.filter fun s => s ≠ Finset.univ ∧ Even s.card ∧ ¬ Ψ.IsUbereven s).card -
-    if Ψ.IsUbereven Finset.univ then 1 else 0
-
-/-- The combinatorial half of the semistability criterion (DDMM Definition 1.7 (2)–(3)), for an
-inertia action `I` on the roots and `v(c_f)`: proper clusters are inertia-invariant, principal
-clusters have integral depth and even `ν` (`README.md`, Layer 4, 4.4). The ramification-degree
-condition (1) is a hypothesis of the theorems, not a field of this structure. -/
-structure SemistabilityCriterion (g : ℕ) (vcf : ℚ) (I : Subgroup (Equiv.Perm X)) : Prop where
-  inertia_invariant : ∀ s, Ψ.IsProper s → ∀ σ ∈ I, s.map σ.toEmbedding = s
-  depth_int : ∀ s, Ψ.IsPrincipal g s → ∃ n : ℤ, Ψ.depth s = n
-  nu_even : ∀ s, Ψ.IsPrincipal g s → ∃ n : ℤ, Ψ.nu vcf s = 2 * n
-
-end ClusterPicture
-
-/-! ### Layer 5.1: two-torsion -/
-
-namespace Model
-
-variable {g : ℕ} {k : Type*} [Field k]
-
-/-- The splitting field of the Weierstrass form, the field of definition of the Weierstrass
-points (`README.md`, Layer 5, 5.1). For `g ≥ 2` and characteristic `≠ 2` it is the two-torsion
-field `k(J[2])` of the Jacobian; in genus 1 it can be larger (`y² = x⁴ + 1` over `ℚ` gives
-`ℚ(ζ₈)` while `ℚ(J[2]) = ℚ`), and in genus 0 the Jacobian is trivial. -/
-abbrev twoTorsionField (W : Model k g) : Type _ := W.weierstrassForm.SplittingField
 
 end Model
 
