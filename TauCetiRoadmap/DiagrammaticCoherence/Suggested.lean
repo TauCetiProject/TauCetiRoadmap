@@ -2,135 +2,51 @@
 Copyright (c) 2026 The Tau Ceti contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-module
-
-public import Mathlib.CategoryTheory.Monoidal.Free.Coherence
+import Mathlib
 
 /-!
-**This file is not the roadmap and is not exhaustive.**
-These are suggested forms. The README is the definitive specification.
+# Diagrammatic coherence: target signatures
 
-The prototype fixes C0's arbitrary-arity signature, raw terms and syntactically generated
-monoidal congruence against Mathlib's existing object-generated structural category. The
-geometric categories, their independently defined isotopies, and the five duality/braiding
-extensions are targets of the README, not uninterpreted `Prop` fields in this prototype.
+The roadmap is README.md; this file is not the roadmap. It states the roadmap's
+headline theorems against the pinned APIs when their carriers can be expressed
+using those APIs and a few simple definitions.
+
+The following headline theorems are not statable at the pins:
+
+* Layer 2 (C1), monoidal coherence: the free monoidal category on an arbitrary
+  tensor signature with coupon generators and the independently defined category
+  of progressive planar diagrams modulo relative isotopy are missing.
+  Mathlib's object-generated `FreeMonoidalCategory` supplies neither carrier.
+* Layer 3 (C2), braided coherence and the geometric braid comparison: the free
+  braided category on a tensor signature and the progressive spatial coupon-diagram
+  quotient with front-facing coupons are missing. The native Artin braid groups
+  do not supply this geometric quotient or its colored categorical comparison.
+* Layer 4 (C3), rigid coherence: the free autonomous category with integer dual
+  levels and the independently defined winding-labelled planar-isotopy category
+  are missing. Lists of integer-labelled objects alone do not supply these carriers.
+* Layer 5 (C4), pivotal coherence: the free pivotal category and the marked-coupon
+  planar-isotopy category with mate transport are missing, as is the pivotal
+  structure supplied by PivotalSpherical Layers 0–2.
+* Layer 6 (C5), braided-pivotal coherence: the free braided-pivotal category and the
+  projection-regular, front-facing coupon-diagram quotient are missing, together
+  with the pivotal structure and derived twist of PivotalSpherical Layer 10.
+* Layer 7 (C6), ribbon coherence, including Shum's one-object specialization:
+  the free ribbon category and the independently defined framed oriented tangle
+  category with boundary collars, marked coupons and normal fields are missing.
+  The ribbon structure is supplied by PivotalSpherical Layer 10. Native smooth
+  link embeddings have no boundary ports, coupons or framing fields.
+* Layer 8 (C7), evaluation and the general Reshetikhin–Turaev functor: the six
+  source diagram categories, their geometric relations and, in the ribbon case,
+  the ribbon target structure are missing. The closure, mirror and normalized
+  ordinary-knot endpoints additionally need these evaluation and framing
+  comparisons; bare scalar identities would not state those endpoints.
+
+Layer 0's functor-level twist/pivotal comparison also needs the supplier's
+pivotal, twist and double-dual structures. The generic monoidal presentation
+belongs to TemperleyLieb Layer 2. Neither a second syntax development nor
+winding-word cancellation substitutes for a geometric headline here.
 -/
 
-@[expose] public section
+namespace TauCetiRoadmap.DiagrammaticCoherence
 
-namespace DiagrammaticCoherence
-
-open CategoryTheory MonoidalCategory
-
-universe u v w w'
-
-/-- Coupon boundaries are actual tensor expressions, not independent names for such expressions.
-The formal unit admits coupons with no input or no output. -/
-structure TensorSignature where
-  Obj : Type u
-  Gen : Type v
-  source : Gen → FreeMonoidalCategory Obj
-  target : Gen → FreeMonoidalCategory Obj
-
-abbrev Object (sig : TensorSignature.{u, v}) := FreeMonoidalCategory sig.Obj
-
-/-- The structural arrows reuse native Mac Lane coherence. Arbitrary coupon arrows are new. -/
-inductive Raw (sig : TensorSignature.{u, v}) : Object sig → Object sig → Type (max u v)
-  | structural {X Y} (f : X ⟶ Y) : Raw sig X Y
-  | coupon (g : sig.Gen) : Raw sig (sig.source g) (sig.target g)
-  | comp {X Y Z} (f : Raw sig X Y) (g : Raw sig Y Z) : Raw sig X Z
-  | tensor {X X' Y Y'} (f : Raw sig X X') (g : Raw sig Y Y') :
-      Raw sig (X ⊗ Y) (X' ⊗ Y')
-
-/-- Interpret object generators and coupons in an arbitrary, possibly non-strict target. -/
-structure Interpretation (sig : TensorSignature.{u, v}) (C : Type w)
-    [Category.{w'} C] [MonoidalCategory C] where
-  obj : sig.Obj → C
-  map (g : sig.Gen) : FreeMonoidalCategory.projectObj obj (sig.source g) ⟶
-    FreeMonoidalCategory.projectObj obj (sig.target g)
-
-namespace Interpretation
-
-variable {sig : TensorSignature.{u, v}} {C : Type w} [Category.{w'} C] [MonoidalCategory C]
-
-abbrev evalObj (I : Interpretation sig C) : Object sig → C :=
-  FreeMonoidalCategory.projectObj I.obj
-
-def eval (I : Interpretation sig C) : {X Y : Object sig} → Raw sig X Y →
-    (I.evalObj X ⟶ I.evalObj Y)
-  | _, _, .structural f => (FreeMonoidalCategory.project I.obj).map f
-  | _, _, .coupon g => I.map g
-  | _, _, .comp f g => I.eval f ≫ I.eval g
-  | _, _, .tensor f g => I.eval f ⊗ₘ I.eval g
-
-end Interpretation
-
-/-- The monoidal relations are syntax, independent of interpretations or geometric isotopy.
-The native structural category supplies its own associator/unit coherence; the last three
-constructors impose their naturality with respect to the new coupon terms. -/
-inductive MonoidalRel (sig : TensorSignature.{u, v}) :
-    {X Y : Object sig} → Raw sig X Y → Raw sig X Y → Prop
-  | refl {X Y} (f : Raw sig X Y) : MonoidalRel sig f f
-  | symm {X Y} {f g : Raw sig X Y} : MonoidalRel sig f g → MonoidalRel sig g f
-  | trans {X Y} {f g h : Raw sig X Y} :
-      MonoidalRel sig f g → MonoidalRel sig g h → MonoidalRel sig f h
-  | comp {X Y Z} {f f' : Raw sig X Y} {g g' : Raw sig Y Z} :
-      MonoidalRel sig f f' → MonoidalRel sig g g' →
-        MonoidalRel sig (.comp f g) (.comp f' g')
-  | tensor {X X' Y Y'} {f f' : Raw sig X X'} {g g' : Raw sig Y Y'} :
-      MonoidalRel sig f f' → MonoidalRel sig g g' →
-        MonoidalRel sig (.tensor f g) (.tensor f' g')
-  | id_comp {X Y} (f : Raw sig X Y) :
-      MonoidalRel sig (.comp (.structural (𝟙 X)) f) f
-  | comp_id {X Y} (f : Raw sig X Y) :
-      MonoidalRel sig (.comp f (.structural (𝟙 Y))) f
-  | assoc {X Y Z W} (f : Raw sig X Y) (g : Raw sig Y Z) (h : Raw sig Z W) :
-      MonoidalRel sig (.comp (.comp f g) h) (.comp f (.comp g h))
-  | structural_comp {X Y Z} (f : X ⟶ Y) (g : Y ⟶ Z) :
-      MonoidalRel sig (.comp (.structural f) (.structural g)) (.structural (f ≫ g))
-  | structural_tensor {X X' Y Y'} (f : X ⟶ X') (g : Y ⟶ Y') :
-      MonoidalRel sig (.tensor (.structural f) (.structural g)) (.structural (f ⊗ₘ g))
-  | tensor_comp {X X' X'' Y Y' Y''}
-      (f : Raw sig X X') (f' : Raw sig X' X'')
-      (g : Raw sig Y Y') (g' : Raw sig Y' Y'') :
-      MonoidalRel sig (.tensor (.comp f f') (.comp g g'))
-        (.comp (.tensor f g) (.tensor f' g'))
-  | associator_naturality {X X' Y Y' Z Z'}
-      (f : Raw sig X X') (g : Raw sig Y Y') (h : Raw sig Z Z') :
-      MonoidalRel sig
-        (.comp (.tensor (.tensor f g) h) (.structural (α_ X' Y' Z').hom))
-        (.comp (.structural (α_ X Y Z).hom) (.tensor f (.tensor g h)))
-  | leftUnitor_naturality {X Y} (f : Raw sig X Y) :
-      MonoidalRel sig
-        (.comp (.tensor (.structural (𝟙 (𝟙_ (Object sig)))) f)
-          (.structural (λ_ Y).hom))
-        (.comp (.structural (λ_ X).hom) f)
-  | rightUnitor_naturality {X Y} (f : Raw sig X Y) :
-      MonoidalRel sig
-        (.comp (.tensor f (.structural (𝟙 (𝟙_ (Object sig)))))
-          (.structural (ρ_ Y).hom))
-        (.comp (.structural (ρ_ X).hom) f)
-
-/-- C0 soundness in a genuinely non-strict target. Completeness with respect to the independent
-geometric relation is a further target; it is not the definition of `MonoidalRel`. -/
-theorem eval_eq_of_monoidalRel {sig : TensorSignature.{u, v}} {C : Type w}
-    [Category.{w'} C] [MonoidalCategory C] (I : Interpretation sig C)
-    {X Y : Object sig} {f g : Raw sig X Y} (h : MonoidalRel sig f g) :
-    I.eval f = I.eval g := by
-  sorry
-
-/-- Rigid boundary normal forms retain the integer number of dual operations. -/
-abbrev WindingWord (A : Type u) := List (A × ℤ)
-
-def rightDualWord {A : Type u} (w : WindingWord A) : WindingWord A :=
-  w.reverse.map (fun p => (p.1, p.2 + 1))
-
-def leftDualWord {A : Type u} (w : WindingWord A) : WindingWord A :=
-  w.reverse.map (fun p => (p.1, p.2 - 1))
-
-/-- Mixed dual cancellation is already a word identity. Same-handed double duals are not. -/
-theorem leftDualWord_rightDualWord {A : Type u} (w : WindingWord A) :
-    leftDualWord (rightDualWord w) = w := by
-  sorry
-
-end DiagrammaticCoherence
+end TauCetiRoadmap.DiagrammaticCoherence
