@@ -34,8 +34,9 @@ lemmas needed to connect these interfaces are explicit work here or there, not a
    ω=−dλ, prove closed and nondegenerate, and identify it with
    `strongDualCotangentSymplecticForm` in charts (Cannas da Silva, §§2.2–2.3, pp. 9–10).
    `canonicalForm_exists` states that a smooth two-form on T*M exists which is symplectic and has
-   this expression in every cotangent chart; the chart expression determines it. This chart
-   identification is required evidence that no convention has changed.
+   this expression in every cotangent chart; since the chart expression at the chart centre is
+   the form itself, the chart identity fixes the form. This chart identification is required
+   evidence that no convention has changed.
 3. A diffeomorphism f:M→N has cotangent lift `(q,p)↦(f(q),p∘(df_q)⁻¹)`.
    Prove identity/composition/inverse, preservation of λ and ω, equivariance for group actions.
    Define cotangent pullback along a general map as a relation over the map, rather than a false
@@ -123,8 +124,9 @@ use `finSumFinEquiv` to reach `Fin (n+n)` and then the equivalence
 `Matrix.reindex` identities. Identify `(x,y)` with
 `x+iy`, so multiplication by i is `J=[[0,−I],[I,0]]`.
 
-Build the injective ℝ-algebra homomorphism
-`realify(X+iY)=Matrix.fromBlocks X (−Y) Y X`. Prove its image is exactly
+Define the realification `realify` of a complex matrix,
+`realify(X+iY)=Matrix.fromBlocks X (−Y) Y X`, and prove it is an injective ℝ-algebra
+homomorphism. Prove its image is exactly
 the matrices commuting with J and that it sends conjugate transpose to
 transpose. The induced map on units `GL_C → GL_R` is a topological group
 isomorphism onto the commuting-J subgroup: its inverse extracts the two real
@@ -165,11 +167,11 @@ homeomorphism. Avoid relying on a global matrix norm instance.
 
 First prove that the C2.0 polar factors of a symplectic matrix are themselves symplectic. For A=P U∈Sp_R, use the native membership/transpose identities and functional calculus to prove `JPJ⁻¹=P⁻¹`, hence `JP^sJ⁻¹=P^(−s)` for every real s. Thus every P^s is symplectic and U=P⁻¹A belongs to Sp_R∩O_R, the realified U(n). The positive-factor path contracts P to id.
 
-Prove U(n) connected by diagonalizing each unitary matrix, choosing eigenvalue phases, and writing it as exp(iH) for a Hermitian H; t↦exp(tiH) is a path from id. This constructs a path for each matrix, not a globally continuous unitary logarithm. Complex polar decomposition then proves GL(n,ℂ) and its realified group C_R connected: combine a path to U with the positive Hermitian path P^t. The preceding symplectic polar preservation gives the analogous path inside Sp_R and proves Sp(2n,ℝ) connected. For n=0 all these groups are trivial.
+Prove U(n) connected by diagonalizing each unitary matrix, choosing eigenvalue phases, and writing it as exp(iH) for a Hermitian H; t↦exp(tiH) is a path from id. This constructs a path for each matrix, not a globally continuous unitary logarithm. Complex polar decomposition then proves GL(n,ℂ) connected (`generalLinearGroup_connectedSpace`, for the units of the complex matrix algebra) and its realified group C_R connected: combine a path to U with the positive Hermitian path P^t. The preceding symplectic polar preservation gives the analogous path inside Sp_R and proves Sp(2n,ℝ) connected (`symplecticGroup_isConnected`, for the native symplectic carrier as a subset of the matrix space). For n=0 all these groups are trivial.
 
-Prove directly that U(n) is maximal compact in GL(n,ℂ). If compact K contains U(n), and A=P U∈K is the complex polar factorization, then P=A U⁻¹∈K. If P≠1, some positive eigenvalue λ differs from1, so replace P by P⁻¹ if necessary and take λ>1. The continuous real trace is bounded on K, whereas `Re(tr(P^k))=Σ_i λ_i^k≥λ^k` is unbounded. Hence P=1 for every A∈K and K=U(n). This proof consumes C2.0 and the compact/intersection identities above, with no generic maximal-compact theorem as a premise. LieGroups Layer7 retains the general compact-complexification theorem.
+Prove directly that U(n) is maximal compact in GL(n,ℂ) (`unitaryGroup_maximal_compact`: the range of `Unitary.toUnits` in `GL_C` is `Maximal` among the compact subgroups of `GL_C`, so the statement includes its compactness). If compact K contains U(n), and A=P U∈K is the complex polar factorization, then P=A U⁻¹∈K. If P≠1, some positive eigenvalue λ differs from1, so replace P by P⁻¹ if necessary and take λ>1. The continuous real trace is bounded on K, whereas `Re(tr(P^k))=Σ_i λ_i^k≥λ^k` is unbounded. Hence P=1 for every A∈K and K=U(n). This proof consumes C2.0 and the compact/intersection identities above, with no generic maximal-compact theorem as a premise. LieGroups Layer7 retains the general compact-complexification theorem.
 
-Prove directly that the realified U(n)=Sp_R∩O_R is maximal compact in Sp_R. For compact K≤Sp_R containing it, write A=P U using C2.0 and the Sp-preservation theorem. Then P=A U⁻¹∈K. Positive symplectic P≠1 has an eigenvalue larger than1 after inversion; `Re tr(P^k)=Σ_i λ_i^k≥λ^k` contradicts bounded trace on K. Thus P=1 and A∈U(n). Treat n=0 separately as the trivial case. Apply LieGroups Layer2's generic closed-subgroup structure theorem to the explicitly defined closed matrix subgroups and identify their embedded structures through the established topological group equivalences.
+Prove directly that the realified U(n)=Sp_R∩O_R is maximal compact in Sp_R (`realifiedUnitary_maximal_compact_symplectic`: a compact subgroup of `GL_R` whose matrices are symplectic and which contains `realify U` for every unitary U consists of such matrices). For compact K≤Sp_R containing it, write A=P U using C2.0 and the Sp-preservation theorem. Then P=A U⁻¹∈K. Positive symplectic P≠1 has an eigenvalue larger than1 after inversion; `Re tr(P^k)=Σ_i λ_i^k≥λ^k` contradicts bounded trace on K. Thus P=1 and A∈U(n). Treat n=0 separately as the trivial case. Apply LieGroups Layer2's generic closed-subgroup structure theorem to the explicitly defined closed matrix subgroups and identify their embedded structures through the established topological group equivalences.
 
 Construct the required separate Sp structural and adjoint-model comparison. For n≥1 prove its real Lie algebra semisimple, its group center `{±I}`, and that `θ(A)=A⁻ᵀ` is a smooth involutive automorphism preserving Sp_R. Compute `dθ(X)=−Xᵀ` and `B(X,Y)=(2n+2)tr(XY)`, so `−B(X,dθ(X))=(2n+2)tr(XXᵀ)>0` for X≠0. Use LieGroups Layer9's generic adjoint-model construction with this actual positive Cartan metric and finite center. Identify its compact adjoint subgroup with Ad(U(n)) and prove `Ad⁻¹(Ad(U(n)))=U(n)`, using the central kernel `{±I}⊂U(n)`. Give the matrix comparison: if A=P U and Ad(A) is orthogonal for the Cartan metric, Ad(P) is both positive self-adjoint and orthogonal, hence id; positivity and the central-kernel calculation force P=1. These structural, Killing and adjoint comparisons are required targets; they are not hypotheses of the two preceding trace-growth proofs.
 
