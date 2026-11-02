@@ -9,14 +9,15 @@ import TauCeti.Analysis.Sobolev.W1p.Basic
 APIs, so that contributors and reviewers converge on names and signatures; discharging all of them
 finishes neither a layer nor the roadmap.
 
-These headlines are stated in `README.md` alone, with what each one needs:
+These headlines are stated in `README.md` alone, with what each one needs. The Tau Ceti declarations named
+here are not in the revision this file builds against:
 
-* the Hodge star and the codifferential (§1.2): the pointwise star of ComplexKahlerGeometry K5a;
+* the Hodge star and the codifferential (§1.2): `Orientation.formHodgeStar`;
 * density (§3.3), the adjoints of `d` (§3.4) and the divergence link (§3.6): the Banach space
   `WᵖΛᵏ(Ω)` with its weak `d` and the codifferential;
 * pullback (§4.1): `WᵖΛᵏ(Ω)` and Rademacher's derivative of a bi-Lipschitz map;
-* traces, Green's formula, the zero-trace characterization and gluing (§5.1–§5.4): the
-  Lipschitz-domain predicate of PDE Lane A.6 and the tangential trace;
+* traces, Green's formula, the zero-trace characterization and gluing (§5.1–§5.4):
+  `Set.IsLipschitzDomainWith` and the tangential trace;
 * Gaffney on the cube (§7.1): `HΛᵏ₀(Q)`, `H*Λᵏ(Q)` and the codifferential;
 * Picard's compactness and its consequences (§7.3, §7.4): the same spaces on a Lipschitz domain.
 -/

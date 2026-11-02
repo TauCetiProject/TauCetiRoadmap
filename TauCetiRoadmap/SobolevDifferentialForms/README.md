@@ -17,9 +17,8 @@ to the scalar Sobolev spaces in degree `0` and to the divergence in degree `n �
 
 This roadmap owns, for real-valued forms on open subsets of `EuclideanSpace ℝ (Fin n)`:
 
-- Layer 1: the type `Covector n k` carrying the Gram inner product, `LᵖΛᵏ(Ω)`, the agreement of the
-  star's
-  volume form with the standard normalization, the codifferential, and `d` on test forms;
+- Layer 1: the type `Covector n k` carrying the Gram inner product, `LᵖΛᵏ(Ω)`, the star and
+  codifferential on it, and the adjointness of `d` and `δ` on test forms;
 - Layers 2 and 3: the weak exterior derivative, `WᵖΛᵏ(Ω)`, `WᵖΛᵏ₀(Ω)`, `H*Λᵏ(Ω)`, the adjoints of
   `d`, density,
   the degree-zero and top-degree identifications, and the weak divergence link;
@@ -33,9 +32,9 @@ This roadmap owns, for real-valued forms on open subsets of `EuclideanSpace ℝ 
 It leaves to named owners:
 
 - the Gram inner product on alternating maps, their identification with exterior powers and the
-  pointwise
-  Hodge star to ComplexKahlerGeometry K5a;
-- scalar Sobolev spaces, Lipschitz domains, the scalar trace and Rellich to PDE Lane A;
+  pointwise Hodge star to ComplexKahlerGeometry K5a, implemented in Tau Ceti;
+- scalar Sobolev spaces, Lipschitz domains, the scalar trace and Rellich to PDE Lane A, implemented in
+  Tau Ceti;
 - Gauss–Green, BV traces and BV gluing to GeometricMeasureTheory G6;
 - smooth forms and `extDeriv` to Mathlib, and forms on manifolds to DifferentialGeometry.
 
@@ -88,38 +87,47 @@ All at the pinned Mathlib; file paths under `Mathlib/`.
 
 ### From Tau Ceti
 
-All at the pinned Tau Ceti; file paths under `TauCeti/Analysis/`.
+All on Tau Ceti `main`, checked at revision `a318838`; file paths under `TauCeti/Analysis/`.
+`Suggested.lean` builds against the Tau Ceti revision in this repository's `lake-manifest.json`, so it
+states only what that revision supports.
 
-- `TauCeti.HasWeakFDerivOn`, `TauCeti.HasWeakLineDerivOn` (`Sobolev/WeakDeriv/Basic.lean`).
+- `TauCeti.alternatingFormEquiv`, `TauCeti.alternatingFormInner`, `TauCeti.alternatingFormInner_eq_sum`
+  (`InnerProductSpace/AlternatingForm.lean`).
+- `Orientation.formHodgeStar`, `Orientation.wedge_formHodgeStar_apply`,
+  `Orientation.alternatingFormInner_formHodgeStar`, `Orientation.formHodgeStar_formHodgeStar`
+  (`InnerProductSpace/HodgeStar/AlternatingForm.lean`).
+- `TestFunction.extDerivCLM`, `TestFunction.extDerivCLM_apply`, `TestFunction.extDerivCLM_extDerivCLM`
+  (`Distribution/TestFunction/ExtDeriv.lean`); `TestFunction.divergenceCLM`
+  (`Distribution/TestFunction/Divergence.lean`).
+- `TauCeti.HasWeakFDerivOn`, `TauCeti.HasWeakLineDerivOn` (`Sobolev/WeakDeriv/Basic.lean`);
+  `HasWeakFDerivOn.integral_inner_gradient_eq_neg_integral_smul_trace`
+  (`Sobolev/WeakDeriv/Divergence.lean`).
 - `TauCeti.W1p`, with jets `WithLp 2 (ℝ × E)` (`Sobolev/W1p/Basic.lean`); `TauCeti.W1p0`
-  (`Sobolev/W1p/Zero.lean`); `TauCeti.Wkp`.
-- `W1p0.isCompactOperator_valueL` (`Sobolev/RellichKondrachov.lean`);
-  `W1p.dense_contDiffOn_representatives` (`Sobolev/W1p/MeyersSerrin.lean`).
-- Test functions `𝓓(Ω, F)`.
+  (`Sobolev/W1p/Zero.lean`); `W1p.compL` (`Sobolev/W1p/ChangeOfVariables.lean`).
+- `Wkp.dense_contDiffOn_representatives` (`Sobolev/Wkp/MeyersSerrin.lean`) and
+  `Wkp0.extendByZeroₗᵢ` (`Sobolev/Wkp/Extension.lean`), as patterns for §3.2 and §3.3.
+- `Set.IsLipschitzDomainWith` (`Sobolev/LipschitzDomain/Basic.lean`);
+  `IsLipschitzDomainWith.exists_contDiff_partitionOfUnity` (`Sobolev/LipschitzDomain/PartitionOfUnity.lean`);
+  `W1p.isCompactOperator_valueL_of_isLipschitzDomainWith`
+  (`Sobolev/LipschitzDomain/RellichKondrachov.lean`); `W1p.frontierTrace`, `W1p.ker_frontierTrace`
+  (`Sobolev/LipschitzDomain/Trace/Frontier.lean`).
 
 ### From TauCetiRoadmap.ComplexKahlerGeometry
 
-K5a, specialised to `V = E` with the standard orientation: the Gram inner product on `E [⋀^Fin
-k]→L[ℝ] ℝ` and its
-identification with `⋀[ℝ]^k E`; the pointwise Hodge star, characterized by `α ∧ ⋆β = ⟪α, β⟫ vol`,
-with
-`⋆⋆ = (−1)^{k(n−k)}` on degree `k`, isometry and oriented-isometry naturality.
+K5a owns the pointwise Gram inner product and Hodge star, specialised here to `V = E` with the standard
+orientation. They are implemented by the Tau Ceti declarations above.
 
 ### From TauCetiRoadmap.PDE
 
-Lane A.6: the Lipschitz-domain predicate for open Euclidean sets (at each frontier point, after an
-affine
-isometry, the domain in an open product cylinder is the region above a Lipschitz graph over a
-hyperplane); on
-bounded Lipschitz domains the `W^{1,p}` trace, extension, and Rellich; the normalized Hausdorff
-measure
-`μHE[n−1]` on the frontier.
+Lane A.6 owns the Lipschitz, trace and Rellich declarations above, and the normalized Hausdorff measure
+`μHE[n−1]` on the frontier. Tau Ceti states them on open subsets of `WithLp 2 (ℝ × E')`. On `E`, a **bounded
+Lipschitz domain** for `n ≥ 1` means the image of such a bounded set under a linear isometry onto `E`, with
+`finrank ℝ E' = n − 1`, and those theorems are transported along the isometry.
 
 ### From TauCetiRoadmap.GeometricMeasureTheory
 
-G6: Gauss–Green with the outward normal, BV traces, integration by parts with the trace term on
-Lipschitz domains,
-and gluing across a Lipschitz interface.
+G6: Gauss–Green with the outward normal, BV traces, integration by parts with the trace term on Lipschitz
+domains, and gluing across a Lipschitz interface.
 
 ## How to read the build
 
@@ -139,33 +147,21 @@ Rellich. Each layer uses only earlier layers and the suppliers above.
 
 ### 1.1 Covectors
 
-Mathlib's norm on `E [⋀^Fin k]→L[ℝ] ℝ` is the operator norm, which is not a Hilbert norm, so the
-Hilbert structure
-lives on a type wrapper: `Covector n k` is a one-field structure around `E [⋀^Fin k]→L[ℝ] ℝ` in the
-shape of
-Mathlib's `WithLp`, with `toCovector` and `ofCovector`.
+Mathlib's norm on `E [⋀^Fin k]→L[ℝ] ℝ` is the operator norm, which is not a Hilbert norm, so the Hilbert
+structure lives on a type wrapper: `Covector n k` is a one-field structure around `E [⋀^Fin k]→L[ℝ] ℝ` in the
+shape of Mathlib's `WithLp`, with `toCovector` and `ofCovector`. It carries the `NormedAddCommGroup`,
+`InnerProductSpace ℝ` and `FiniteDimensional ℝ` instances induced by the musical map
+`Covector.toExteriorPower` into `⋀[ℝ]^k E`, which is `TauCeti.alternatingFormEquiv` inverted, so its inner
+product is `TauCeti.alternatingFormInner`. It is injective (`injective_toExteriorPower`).
 
-The musical map `Covector.toExteriorPower : Covector n k →ₗ[ℝ] ⋀[ℝ]^k E` sends a covector to a
-linear functional on
-`⋀[ℝ]^k E` by `exteriorPower.alternatingMapLinearEquiv`, and that functional to an element of
-`⋀[ℝ]^k E` by the
-bijection `LinearMap.BilinForm.exteriorPower (innerₗ E) k`. It is injective
-(`injective_toExteriorPower`), and `Covector n k` carries the induced
-`NormedAddCommGroup`, `InnerProductSpace ℝ` and `FiniteDimensional ℝ` instances. This is K5a's Gram
-inner product.
+`LᵖΛᵏ(Ω) := Lp (Covector n k) p (volume.restrict Ω)`, a Banach space, and a Hilbert space for `p = 2`.
 
-`LᵖΛᵏ(Ω) := Lp (Covector n k) p (volume.restrict Ω)`, a Banach space, and a Hilbert space for `p =
-2`.
+Its API: the musical map is a surjective isometry; for the standard orthonormal basis
+`⟪α, β⟫ = ∑_I α(e_I) β(e_I)` (`TauCeti.alternatingFormInner_eq_sum`); every linear isometry of `E` acts
+isometrically; a two-sided comparison with the operator norm, with constants in `n, k`.
 
-Its API: the musical map is a surjective isometry; the bilinear form above is Mathlib's inner
-product on `⋀[ℝ]^k E`;
-for the standard orthonormal basis `⟪α, β⟫ = ∑_I α(e_I) β(e_I)`, with `I` over `Set.powersetCard
-(Fin n) k`; every
-linear isometry of `E` acts isometrically; a two-sided comparison with the operator norm, with
-constants in `n, k`.
-
-*Needs:* Mathlib `exteriorPower.alternatingMapLinearEquiv`,
-`LinearMap.BilinForm.bijective_exteriorPower`; K5a.
+*Needs:* Tau Ceti `TauCeti.alternatingFormEquiv`, `TauCeti.alternatingFormInner`; Mathlib
+`LinearMap.BilinForm.bijective_exteriorPower`.
 
 **Checks.**
 
@@ -176,15 +172,12 @@ constants in `n, k`.
 
 ### 1.2 The Hodge star and the codifferential
 
-The star `⋆ : Covector n k ≃ₗᵢ[ℝ] Covector n l` for `k + l = n` is K5a's pointwise star for the
-standard orientation,
-transported along §1.1. Mathlib's `exteriorPower.hodgeStar` with `vol` of the Conventions gives the
-same map, through
-the musical map; prove this agreement. On forms it acts pointwise. On a smooth `k`-form, `δ` is the
-codifferential of
-the Conventions.
+The star `⋆ : Covector n k ≃ₗᵢ[ℝ] Covector n l` for `k + l = n` is `Orientation.formHodgeStar` of the standard
+orientation of `E`, transported along §1.1, whose laws are `Orientation.wedge_formHodgeStar_apply`,
+`Orientation.formHodgeStar_formHodgeStar` and `Orientation.alternatingFormInner_formHodgeStar`. On forms it acts
+pointwise. On a smooth `k`-form, `δ` is the codifferential of the Conventions.
 
-*Needs:* §1.1; K5a; Mathlib `exteriorPower.hodgeStar`, `Orientation.volumeForm_robust`.
+*Needs:* §1.1; Tau Ceti `Orientation.formHodgeStar`; Mathlib `Orientation.volumeForm_robust`.
 
 **Checks.**
 
@@ -194,14 +187,12 @@ the Conventions.
 
 ### 1.3 `d` on test forms
 
-Define `d : 𝓓(Ω, Covector n k) → 𝓓(Ω, Covector n (k+1))`, the pointwise `extDeriv` with its support
-and smoothness
-proofs, and the test-form codifferential `δ` in the same way.
-
-Its API: linearity and continuity; `d ∘ d = 0`, from `extDeriv_extDeriv`; the adjointness
+`TestFunction.extDerivCLM` is `d` on `𝓓(Ω, E [⋀^Fin k]→L[ℝ] ℝ)`, with `d ∘ d = 0`
+(`TestFunction.extDerivCLM_extDerivCLM`). Through `ofCovector`, which is a linear homeomorphism in finite
+dimension, it acts on `𝓓(Ω, Covector n k)`. Define the test-form codifferential `δ` from §1.2, and prove the adjointness
 `∫ ⟪dφ, ψ⟫ = ∫ ⟪φ, δψ⟫` on test forms (Arnold–Falk–Winther 2006, (2.8)).
 
-*Needs:* §1.1, §1.2; Mathlib `extDeriv`, `extDeriv_extDeriv`; Tau Ceti test functions.
+*Needs:* §1.1, §1.2; Tau Ceti `TestFunction.extDerivCLM`.
 
 **Checks.**
 
@@ -266,10 +257,9 @@ exterior derivative is therefore weakly closed.
 ### 2.3 Leibniz rule with smooth factors
 
 `d(φ ∧ u) = dφ ∧ u + (−1)^j φ ∧ du` for a smooth bounded `j`-form `φ` with bounded derivative, with
-the wedge product
-of covectors as the alternatization of the tensor product.
+`ContinuousAlternatingMap.wedge`, Tau Ceti's wedge of forms, normalized by `1 / (k! l!)`.
 
-*Needs:* §2.1; Mathlib `ContinuousAlternatingMap`.
+*Needs:* §2.1; Tau Ceti `ContinuousAlternatingMap.wedge`.
 
 **Checks.**
 
@@ -311,7 +301,7 @@ For `p < ∞`, `WᵖΛᵏ₀(Ω)` is the closure of test forms and `HΛᵏ₀(Ω
 into `WᵖΛᵏ⁺¹₀`; extension
 by zero is an isometry `WᵖΛᵏ₀(Ω) → WᵖΛᵏ(E)` commuting with `d`.
 
-*Needs:* §1.3, §3.1.
+*Needs:* §1.3, §3.1; Tau Ceti `Wkp0.extendByZeroₗᵢ` as the pattern.
 
 **Checks.**
 
@@ -325,7 +315,7 @@ For `p < ∞`, `C^∞(Ω) ∩ WᵖΛᵏ(Ω)` is dense in `WᵖΛᵏ(Ω)` for eve
 argument with mollification
 commuting with `d` on interior subdomains.
 
-*Needs:* §2.3, §3.1; Tau Ceti `W1p.dense_contDiffOn_representatives` as the pattern.
+*Needs:* §2.3, §3.1; Tau Ceti `Wkp.dense_contDiffOn_representatives` as the pattern.
 
 **Checks.**
 
@@ -370,13 +360,12 @@ for `p < ∞`
 
 ### 3.6 Divergence in degree `n − 1`
 
-The **weak divergence** of a field `g` with weak derivative `G` (`TauCeti.HasWeakFDerivOn volume Ω g
-G`) is `x ↦ tr (G x)`.
-Then the `(n−1)`-form `⋆` of the `1`-form `x ↦ ⟪g x, ·⟫` has weak exterior derivative `tr G · vol`.
-The weak `d` in degree
-`n − 1` itself needs no weak derivative of `g`.
+For a field `g` with weak derivative `G` (`TauCeti.HasWeakFDerivOn volume Ω g G`), the weak divergence is
+`x ↦ tr (G x)`, as in `HasWeakFDerivOn.integral_inner_gradient_eq_neg_integral_smul_trace`. Then the `(n−1)`-form
+`⋆` of the `1`-form `x ↦ ⟪g x, ·⟫` has weak exterior derivative `tr G · vol`. The weak `d` in degree `n − 1` itself
+needs no weak derivative of `g`.
 
-*Needs:* §1.2, §2.1; Tau Ceti `HasWeakFDerivOn`.
+*Needs:* §1.2, §2.1; Tau Ceti `HasWeakFDerivOn.integral_inner_gradient_eq_neg_integral_smul_trace`.
 
 **Checks.**
 
@@ -408,7 +397,8 @@ a.e. by Rademacher's theorem: `Φ^*` maps `WᵖΛᵏ(Ω)` to `WᵖΛᵏ(Ω')` an
 `WᵖΛᵏ₀(Ω')`, commutes with the
 weak `d`, and has norm bounds in `n, k, p, L` (Picard, Chapter 3, pp. 161–162).
 
-*Needs:* §3.1, §3.2, §3.3; Mathlib Rademacher's theorem and change of variables.
+*Needs:* §3.1, §3.2, §3.3; Mathlib Rademacher's theorem and change of variables; Tau Ceti `W1p.compL` for
+`k = 0`.
 
 **Checks.**
 
@@ -434,7 +424,7 @@ For a bounded Lipschitz domain `Ω` and a form `u` continuous on `closure Ω`, t
 restriction of `u x` to the approximate tangent space, defined `μHE[n−1]`-a.e. through the outward
 normal of G6.
 
-*Needs:* §1.1; PDE Lane A.6; GeometricMeasureTheory G6.
+*Needs:* §1.1; Tau Ceti `Set.IsLipschitzDomainWith`; GeometricMeasureTheory G6.
 
 **Checks.**
 
@@ -464,7 +454,7 @@ For bounded Lipschitz `Ω` and `p < ∞`: `u ∈ WᵖΛᵏ₀(Ω)` if and only i
 `∫_Ω du ∧ φ + (−1)^k ∫_Ω u ∧ dφ = 0` for every smooth `φ` on `E`, smooth up to the boundary and not
 compactly supported in `Ω`.
 
-*Needs:* §3.2, §3.3, §5.2; PDE Lane A.6.
+*Needs:* §3.2, §3.3, §5.2; Tau Ceti `W1p.ker_frontierTrace` for `k = 0`.
 
 **Checks.**
 
@@ -482,7 +472,7 @@ only if on every shared boundary piece `frontier Ωᵢ ∩ frontier Ωⱼ ∩ Ω
 `Ωᵢ` and `Ωⱼ` agree `μHE[n−1]`-a.e.
 For `k = 0`, with §3.5, a function Lipschitz on each piece is in `W^{1,p}(Ω)` if and only if its
 traces agree on interfaces, from G6's
-BV gluing and A.6's trace.
+BV gluing and `W1p.frontierTrace`.
 
 *Needs:* §3.5, §5.1, §5.2; GeometricMeasureTheory G6.
 
@@ -499,7 +489,7 @@ The two half-cubes of §5.4 in dimension `3`, with `dx₁`, `dx₂` and piecewis
 
 ### Dependencies
 
-Layers 1 to 3; PDE Lane A.6; GeometricMeasureTheory G6.
+Layers 1 to 3; Tau Ceti's Lipschitz domains and trace; GeometricMeasureTheory G6.
 
 ## Layer 6: the L² de Rham complex as a Hilbert complex
 
@@ -582,10 +572,9 @@ proof). The forms whose coefficient `u(e_I)` is a product of cosines in the dire
 sines in the others, so that the tangential part
 vanishes on every face, span a common core for `d` on `HΛᵏ₀(Q)` and `δ` on `H*Λᵏ(Q)`; on that core
 the identity follows by integrating by parts,
-and it extends by closedness. Hence `HΛᵏ₀(Q) ∩ H*Λᵏ(Q) ↪ L²Λᵏ(Q)` is compact, by PDE Lane A.6's
-Rellich applied to each coefficient.
+and it extends by closedness. Hence `HΛᵏ₀(Q) ∩ H*Λᵏ(Q) ↪ L²Λᵏ(Q)` is compact, by `W1p.isCompactOperator_valueL_of_isLipschitzDomainWith` applied to each coefficient.
 
-*Needs:* §3.2, §3.4; PDE Lane A.6; Tau Ceti `W1p`.
+*Needs:* §3.2, §3.4; Tau Ceti `W1p.isCompactOperator_valueL_of_isLipschitzDomainWith`.
 
 **Checks.**
 
@@ -597,13 +586,13 @@ Rellich applied to each coefficient.
 
 ### 7.2 Lipschitz charts are bi-Lipschitz cubes
 
-Every chart region of a Lipschitz domain of PDE Lane A.6, the part of an open product cylinder above
+Every chart region of a domain satisfying `Set.IsLipschitzDomainWith`, the part of an open product cylinder above
 a Lipschitz graph, is the image of `Q` under a
 bi-Lipschitz homeomorphism of `E`, with constants in terms of the chart's Lipschitz constant and
 dimensions. Every bounded Lipschitz domain is covered by
 finitely many open sets `Uᵢ` such that each `Uᵢ ∩ Ω` is a bi-Lipschitz image of `Q`.
 
-*Needs:* PDE Lane A.6.
+*Needs:* Tau Ceti `Set.IsLipschitzDomainWith`.
 
 **Checks.**
 
@@ -615,7 +604,8 @@ finitely many open sets `Uᵢ` such that each `Uᵢ ∩ Ω` is a bi-Lipschitz im
 
 For a bounded Lipschitz domain `Ω`, `HΛᵏ₀(Ω) ∩ H*Λᵏ(Ω) ↪ L²Λᵏ(Ω)` is compact.
 
-- Multiplication by a smooth partition of unity subordinate to §7.2's cover is bounded on `HΛᵏ₀ ∩
+- Multiplication by a smooth partition of unity subordinate to §7.2's cover
+  (`IsLipschitzDomainWith.exists_contDiff_partitionOfUnity`) is bounded on `HΛᵏ₀ ∩
   H*Λᵏ` (§2.3 for `d`, and through `⋆` for `δ`), which reduces
   the claim to a single `Uᵢ ∩ Ω`.
 - The bi-Lipschitz pullback (§4.1) maps `HΛᵏ₀(Uᵢ ∩ Ω)` onto `HΛᵏ₀(Q)` and turns `δ` into a weighted
@@ -628,7 +618,7 @@ For a bounded Lipschitz domain `Ω`, `HΛᵏ₀(Ω) ∩ H*Λᵏ(Ω) ↪ L²Λᵏ
 **Checks.**
 
 - `k = 0`: `HΛ⁰₀ ∩ H*Λ⁰ = H¹₀`, compact into `L²` by Rellich.
-- `k = n`: `HΛⁿ₀ ∩ H*Λⁿ ≅ H¹(Ω)`, as `d = 0` on `n`-forms, compact by A.6.
+- `k = n`: `HΛⁿ₀ ∩ H*Λⁿ ≅ H¹(Ω)`, as `d = 0` on `n`-forms, compact by `W1p.isCompactOperator_valueL_of_isLipschitzDomainWith`.
 - `Ω = Q`: this is §7.1, with no pullback.
 
 ### 7.4 Consequences
@@ -657,7 +647,7 @@ The unit square with `k = 1`, and the annulus, using §7.4.
 
 ### Dependencies
 
-Layers 2 to 6; PDE Lane A.6.
+Layers 2 to 6; Tau Ceti's Lipschitz domains and Rellich.
 
 ## Downstream consumers
 
