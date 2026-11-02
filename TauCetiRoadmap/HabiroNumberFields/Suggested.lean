@@ -9,9 +9,7 @@ the phase-free value at one, the cyclic hypergeometric difference equation, and
 the Kashaev–Mangazeev–Stroganov identity at every positive invertible order.
 
 The finite Chern unit theorem and its regulator comparison lack the algebraic
-K-theory and Bloch-group carriers. The integral local Coleman lattice
-isomorphism and finite root-class generation also lack the completed local K₃
-and Bloch carriers. The arithmetic Habiro comparison lacks the
+K-theory and Bloch-group carriers. The arithmetic Habiro comparison lacks the
 cyclotomic completion and arithmetic Taylor carriers. Local freeness, effective
 global descent, tensor equivalences, the Picard character, scalar base change
 and multiplicative transfer lack the completed local K-theory, Chern root-line
