@@ -1,13 +1,33 @@
 import Mathlib
 
 /-!
-# ClassicalArithmeticCompletion: representative target signatures
+# ClassicalArithmeticCompletion: target signatures
 
-The mathematical roadmap is `README.md`. This file records light definitions and theorem
-signatures statable against the pinned Mathlib APIs; it is not exhaustive. In particular it
-fixes the direction of radix reading, the positivity of Smith factors, the two Markoff
-coefficients, the conjugate-modulus predicates, and the left-module convention. The theorem
-proofs are roadmap targets. The source qualifications in the README apply to their signatures.
+The roadmap is README.md; this file is not the roadmap. It states the roadmap's headline
+theorem targets against the pinned Mathlib and Tau Ceti APIs, using simple definitions only
+where they are needed to state those targets.
+
+The headline inventory comprises compatible CRT and power residues; Lucas and Ward strong
+divisibility, Christol and Cobham; rectangular Smith forms and cokernels, Perron and Capelli;
+Markoff descent, three squares, Egyptian fractions and Ramanujan–Nagell; negative Pell,
+factor-base generation and class-number/unit completeness; Smyth, explicit and asymptotic
+Dobrowolski, the smallest Pisot number, Salem-field generators, Schinzel–Zassenhaus,
+Dubinin and Bertrandias; local Noether, Hilbert–Speiser and tame determinant descent.
+These have signatures below, in README layer order.
+
+The remaining headline theorems are not statable at the pins on their intended carriers:
+* Higher reciprocity (Layer 1) lacks the general higher residue symbols and their
+  invariant-normalised comparison with local Artin symbols.
+* Bach's GRH factor-base bound (§5.1b) lacks the continued Dedekind zeta function with its
+  Dedekind-ERH predicate. The Belabas–Diaz y Diaz–Friedman criteria (§5.1c) additionally lack
+  the continued class-character L-functions and the admissible Weil-test-function interface.
+  The explicit prime-ideal and truncated Euler-sum bounds (§5.16a(i)–(ii)) lack those same
+  continued functions; the residue-to-class-number comparison is stated below.
+* The Fröhlich–Taylor identity and its class-group consequences (§§7.120–7.123) lack the
+  character-idele quotient, root-number class and their comparison with the locally free
+  class group of an arithmetic order. Its logarithmic proof inputs (§§7.115–7.118) lack
+  the integral group logarithm on the equivariant virtual-character Hom group.
+No free predicates or substitute theorems stand for these missing constructions.
 -/
 
 namespace TauCetiRoadmap.ClassicalArithmeticCompletion
@@ -50,11 +70,6 @@ theorem card_nonzero_pow_roots {F : Type*} [Field F] [Fintype F] (n : ℕ)
     Nat.card {b : F // b ≠ 0 ∧ b ^ n = a} = (Fintype.card F - 1).gcd n := by
   sorry
 
-/-- A primary Gaussian integer has residue one modulo `(1+i)^3`.
--/
-def IsPrimaryGaussian (z : GaussianInt) : Prop :=
-  (⟨1, 1⟩ : GaussianInt) ^ 3 ∣ z - 1
-
 end Residues
 
 /-! ## Layer 2: sequences and generating functions -/
@@ -71,13 +86,6 @@ def lucasU {R : Type*} [CommRing R] (P Q : R) : ℕ → R
   | 0 => 0
   | 1 => 1
   | n + 2 => P * lucasU P Q (n + 1) - Q * lucasU P Q n
-
-/-- Second-kind Lucas sequence with initial values two and P.
--/
-def lucasV {R : Type*} [CommRing R] (P Q : R) : ℕ → R
-  | 0 => 2
-  | 1 => P
-  | n + 2 => P * lucasV P Q (n + 1) - Q * lucasV P Q n
 
 /-- Strong divisibility requires coprime integer parameters. -/
 theorem gcd_lucasU {P Q : ℤ} (h : IsCoprime P Q) (m n : ℕ) :
@@ -166,17 +174,20 @@ theorem nonempty_cokernel_equiv_of_smith {m n r : ℕ}
       (Π i : Fin r, ZMod (d i)) × (Fin (m - r) → ℤ)) := by
   sorry
 
-/-- Integer-valued means values in the coefficient domain, rather than coefficients in it. -/
-def IsIntegerValued {D K : Type*} [CommRing D] [Field K] [Algebra D K]
-    (f : Polynomial K) : Prop :=
-  ∀ x : D, ∃ y : D, f.eval (algebraMap D K x) = algebraMap D K y
-
 /-- Perron's weak criterion includes both endpoint exclusions and nonzero constant term. -/
 theorem perron_irreducible_of_le {f : ℤ[X]} (hmon : f.Monic) (h2 : 2 ≤ f.natDegree)
     (h0 : f.coeff 0 ≠ 0)
     (hP : 1 + ∑ i ∈ Finset.range (f.natDegree - 1), |f.coeff i| ≤
       |f.coeff (f.natDegree - 1)|)
     (hpos : f.eval 1 ≠ 0) (hneg : f.eval (-1) ≠ 0) : Irreducible f := by
+  sorry
+
+/-- Capelli's binomial criterion over any field, including positive characteristic
+(README §3.29; Szechtman, Irreducibility Criterion (C)). -/
+theorem capelli (K : Type*) [Field K] (a : K) (n : ℕ) (hn : 0 < n) :
+    Irreducible (X ^ n - C a : Polynomial K) ↔
+      (∀ p : ℕ, p.Prime → p ∣ n → ¬ ∃ b : K, b ^ p = a) ∧
+      (4 ∣ n → ¬ ∃ b : K, -(4 : K) * b ^ 4 = a) := by
   sorry
 
 end Certificates
@@ -203,32 +214,11 @@ theorem markoff_descent (x : Fin 3 → ℤ) (hx : x ∈ markoffSet ℤ)
       (∑ j, markoffVieta i x j) < ∑ j, x j := by
   sorry
 
-/-- Markoff–Hurwitz sets retain all coordinates, ring characteristics and parameters.
--/
-def markoffHurwitzSet {R : Type*} [CommRing R] (n : ℕ) (a k : R) :
-    Set (Fin n → R) := {x | ∑ i, x i ^ 2 = a * ∏ i, x i + k}
-
-/-- Generalised Vieta move for coefficient a.
--/
-def markoffHurwitzMove {R : Type*} [CommRing R] {n : ℕ} (a : R) (j : Fin n)
-    (x : Fin n → R) : Fin n → R :=
-  fun i => if i = j then a * ∏ t ∈ Finset.univ.erase j, x t - x j else x i
-
 /-- Three-square classification includes zero and excludes the complete 4-adic obstruction. -/
 theorem legendre_three_square (n : ℕ) :
     (∃ x y z : ℤ, x ^ 2 + y ^ 2 + z ^ 2 = n) ↔
       ¬ ∃ a b : ℕ, n = 4 ^ a * (8 * b + 7) := by
   sorry
-
-/-- Numerical semigroups use the existing additive submonoid carrier. -/
-structure NumericalSemigroup where
-  /-- Additive submonoid of natural numbers. -/
-  monoid : AddSubmonoid ℕ
-  finite_gaps : ((monoid : Set ℕ)ᶜ).Finite
-
-/-- An Apéry set is defined relative to a positive semigroup element. -/
-def aperySet (S : AddSubmonoid ℕ) (n : ℕ) : Set ℕ :=
-  {s | s ∈ S ∧ (s < n ∨ s - n ∉ S)}
 
 /-- A finite set of positive denominators whose unit fractions sum to `r`; being a set, it
 cannot repeat a denominator.
@@ -252,16 +242,6 @@ end Diophantine
 /-! ## Layer 5: number-field presentations and comparisons -/
 
 namespace NumberFieldCertificates
-
-/-- Conjugation in additive unit coordinates; its shear records the norm sign.
--/
-def quadraticUnitAction (s : ZMod 2) (x : ℤ × ZMod 2) : ℤ × ZMod 2 :=
-  (-x.1, x.2 + s * (x.1 : ZMod 2))
-
-/-- The unit-coordinate action is an involution. -/
-theorem quadraticUnitAction_involutive (s : ZMod 2) :
-    Function.Involutive (quadraticUnitAction s) := by
-  sorry
 
 /-- Full integer-ring units, including squarefree radicands one modulo four. -/
 theorem negativePell_iff_norm_neg_one {K : Type*} [Field K] [NumberField K]
@@ -290,7 +270,6 @@ theorem relations_units_complete_of_intervals {K : Type*} [Field K] [NumberField
       A.det.natAbs = NumberField.classNumber K ∧
       NumberField.Units.regOfFamily u = NumberField.Units.regulator K := by
   sorry
-
 
 section FactorBases
 
@@ -416,13 +395,6 @@ theorem schinzel_zassenhaus {P : Polynomial ℤ} (hP : P.Monic) (hirr : Irreduci
     ∃ z ∈ P.aroots ℂ, Real.rpow 2 (1 / (4 * (P.natDegree : ℝ))) ≤ ‖z‖ := by
   sorry
 
-/-- Schur sequences have a holomorphic witness and a closed norm bound on the open disc.
--/
-def RealSchurSeries (e : ℕ → ℝ) : Prop :=
-  ∃ f : ℂ → ℂ, DifferentiableOn ℂ f (Metric.ball 0 1) ∧
-    ∀ z ∈ Metric.ball (0 : ℂ) 1,
-      HasSum (fun j : ℕ => (e j : ℂ) * z ^ j) (f z) ∧ ‖f z‖ ≤ 1
-
 /-- Finite pair-product diameter, with the unused small indices fixed to zero.
 -/
 noncomputable def finiteFeketeDiameter (K : Set ℂ) (n : ℕ) : ℝ :=
@@ -447,11 +419,6 @@ theorem dubinin_hedgehog_bound {n : ℕ} (hn : 1 ≤ n) (a : Fin n → ℂ) :
       sSup (Set.range (fun i => ‖a i‖)) * Real.rpow 4 (-(1 / (n : ℝ))) := by
   sorry
 
-/-- The Hankel convention has a +1 shift, and the empty determinant equals one.
--/
-def shiftedHankelDet {R : Type*} [CommRing R] (a : ℕ → R) (n : ℕ) : R :=
-  Matrix.det (fun i j : Fin n => a (i.val + j.val + 1))
-
 /-- Exterior continuation includes the actual Laurent germ, not only a holomorphic function. -/
 def ExteriorLaurentContinuation (a : ℕ → ℂ) (K : Set ℂ) : Prop :=
   IsCompact K ∧ K.Nonempty ∧ ∃ G : ℂ → ℂ,
@@ -463,6 +430,52 @@ theorem bertrandias_rationality (a : ℕ → ℤ) (K : Set ℂ)
     (h : ExteriorLaurentContinuation (fun j => (a j : ℂ)) K)
     (hd : transfiniteDiameter K < 1) :
     Sequences.IsRational (PowerSeries.mk fun j => (a j : ℚ)) := by
+  sorry
+
+/-- The explicit Dobrowolski bound for primitive minimal polynomials, including
+nonmonic ones (README §6.60; Berrevoets, Theorem 4.1). -/
+theorem dobrowolski {P : Polynomial ℤ} (hprim : P.IsPrimitive)
+    (hlead : 0 < P.leadingCoeff) (hirr : Irreducible P)
+    (hdeg : 2 ≤ P.natDegree) (h0 : P.coeff 0 ≠ 0)
+    (hcycl : ∀ n : ℕ, 0 < n → P ≠ cyclotomic n ℤ) :
+    1 + (1 / 11700 : ℝ) * (Real.log (Real.log P.natDegree) / Real.log P.natDegree) ^ 3 ≤
+      Polynomial.mahlerMeasure (P.map (Int.castRingHom ℂ)) := by
+  sorry
+
+/-- The Salem numbers in a Salem-generated real field are exactly the positive powers
+of one Salem number (README §6.66; Smyth, Proposition 3(iii)). -/
+theorem salem_field_generator (K : Subfield ℝ) (τ : ℝ) (hτ : IsSalem τ)
+    (hK : K = Subfield.closure ({τ} : Set ℝ)) :
+    ∃ σ : ℝ, σ ∈ K ∧ IsSalem σ ∧
+      ∀ x : ℝ, x ∈ K → (IsSalem x ↔ ∃ n : ℕ, 0 < n ∧ x = σ ^ n) := by
+  sorry
+
+/-- Smyth's sharp bound for nonreciprocal algebraic integers (README §6.70;
+Smyth's Mahler-measure survey, §5.1, equation (15)). -/
+theorem smyth {P : Polynomial ℤ} (hmon : P.Monic) (hirr : Irreducible P)
+    (h0 : P.coeff 0 ≠ 0) (hrec : P.reverse ≠ P ∧ P.reverse ≠ -P) :
+    Polynomial.mahlerMeasure ((X ^ 3 - X - 1 : Polynomial ℤ).map (Int.castRingHom ℂ)) ≤
+      Polynomial.mahlerMeasure (P.map (Int.castRingHom ℂ)) := by
+  sorry
+
+/-- The Mahler measure of the plastic polynomial is itself Pisot and is the least
+Pisot number (README §6.73; Siegel's theorem). -/
+theorem smallest_pisot :
+    IsPisot (Polynomial.mahlerMeasure
+      ((X ^ 3 - X - 1 : Polynomial ℤ).map (Int.castRingHom ℂ))) ∧
+    ∀ θ : ℝ, IsPisot θ →
+      Polynomial.mahlerMeasure ((X ^ 3 - X - 1 : Polynomial ℤ).map (Int.castRingHom ℂ)) ≤ θ := by
+  sorry
+
+/-- The asymptotic Dobrowolski estimate with its bounded-degree completion
+(README §6.77). The cutoff exceeds e, so both logarithms in the upper branch are positive. -/
+theorem asymptoticDobrowolskiBound :
+    ∃ C c : ℝ, Real.exp 1 < C ∧ 1 ≤ c ∧
+      ∀ P : Polynomial ℤ, P.Monic → Irreducible P → P.coeff 0 ≠ 0 →
+        0 < P.natDegree → (∀ n : ℕ, 0 < n → P ≠ cyclotomic n ℤ) →
+        Real.exp (1 / (if C < (P.natDegree : ℝ)
+          then 2 * (Real.log P.natDegree / Real.log (Real.log P.natDegree)) ^ 3 else c)) ≤
+          Polynomial.mahlerMeasure (P.map (Int.castRingHom ℂ)) := by
   sorry
 
 end SmallHeight
@@ -513,22 +526,29 @@ theorem local_noether (A B G : Type*) [CommRing A] [IsDomain A]
     HasNIB A B G ↔ IsTamelyRamified A B := by
   sorry
 
-/-- Stable equivalence adds the same finite free summand to both modules.
--/
-def StableEquivalent (R P Q : Type*) [Ring R] [AddCommGroup P] [AddCommGroup Q]
-    [Module R P] [Module R Q] : Prop :=
-  ∃ n : ℕ, Nonempty ((P × (Fin n → R)) ≃ₗ[R] (Q × (Fin n → R)))
+/-- Hilbert–Speiser: for an abelian number field, a normal integral basis is equivalent
+to tameness and to embedding in a cyclotomic field of positive odd squarefree level
+(README §7.89; Johnston, Theorem 8.4). -/
+theorem hilbert_speiser (K : Type*) [Field K] [NumberField K]
+    (G : Type*) [CommGroup G] [Fintype G] [MulSemiringAction G (NumberField.RingOfIntegers K)]
+    [IsGaloisGroup G ℤ (NumberField.RingOfIntegers K)] :
+    (HasNIB ℤ (NumberField.RingOfIntegers K) G ↔
+      IsTamelyRamified ℤ (NumberField.RingOfIntegers K)) ∧
+    (IsTamelyRamified ℤ (NumberField.RingOfIntegers K) ↔
+      ∃ n : ℕ, 0 < n ∧ Odd n ∧ Squarefree n ∧ Nonempty (K →ₐ[ℚ] CyclotomicField n ℚ)) := by
+  sorry
 
-/-- A group element invisible to every linear character has determinant one in every
-finite-dimensional representation. The determinant of the representation is a linear
-character, so this criterion applies to group-element determinants. -/
-theorem groupElement_determinant_eq_one_of_linear_characters
-    {Ω G : Type*} [Field Ω] [Group G] (g : G)
-    (hlinear : ∀ χ : G →* Ω, χ g = 1)
-    (n : ℕ) (ρ : Representation Ω G (Fin n → Ω)) :
-    LinearMap.det (ρ g) = 1 := by
-  exact hlinear ((LinearMap.det :
-    ((Fin n → Ω) →ₗ[Ω] (Fin n → Ω)) →* Ω).comp ρ)
+/-- The Gauss period at any positive odd squarefree cyclotomic level containing K
+is an integral normal basis generator (README §7.89; Johnston, Proposition 6.6 and Theorem 8.4). -/
+theorem hilbert_speiser_gauss_period (K L : Type*) [Field K] [NumberField K]
+    [Field L] [NumberField L] [Algebra K L] [IsScalarTower ℚ K L]
+    (G : Type*) [CommGroup G] [Fintype G] [MulSemiringAction G (NumberField.RingOfIntegers K)]
+    [IsGaloisGroup G ℤ (NumberField.RingOfIntegers K)]
+    (n : ℕ) (hn : 0 < n) (hodd : Odd n) (hsq : Squarefree n)
+    [IsCyclotomicExtension {n} ℚ L] (ζ : L) (hζ : IsPrimitiveRoot ζ n) :
+    ∃ α : NumberField.RingOfIntegers K,
+      (α : K) = Algebra.trace K L ζ ∧ IsNIBGenerator ℤ (NumberField.RingOfIntegers K) G α := by
+  sorry
 
 /-- Evaluation in a finite-dimensional representation gives the splitting-field determinant. -/
 noncomputable def groupRingDeterminant {R Ω G : Type*} [CommRing R] [Field Ω]
@@ -565,32 +585,5 @@ theorem tameInertia_determinant_descent
   sorry
 
 end GaloisModules
-
-/-!
-The attached-curve identities `eval_preΨ₄_edsCurve` and `eval_Ψ₃_edsCurve` are specified
-in README §2.21 on its explicitly constructed Weierstrass curve.
-
-The README also states the interfaces for higher residue symbols, Cartier operators,
-matrix normal forms, integer-valued polynomial ideals, numerical semigroups,
-number-field presentations, capacity and conformal radius, and integral Galois modules.
-Bach's bound `isFactorBaseBound_of_grh`, the Belabas–Diaz y Diaz–Friedman targets
-`isFactorBaseBound_of_weil_inequality` (with an admissible even Weil test function) and
-`isFactorBaseBound_of_sum_gt`, the explicit prime
-ideal theorem and the truncated Euler sum (§§5.1b, 5.1c and 5.16a (i)–(ii)) assume Riemann hypotheses for
-continued Dedekind and class-group L-functions, which have no carrier at the pins; they are
-README targets.
-Their constructions require carriers or comparison theory beyond the light definitions
-in this file. In particular, balanced scalar change, the character-idele quotient,
-root-number classes and the integral group logarithm remain README targets. The Gauss/root
-interfaces of §§7.13 and 7.30 transport ArithmeticGaloisRepresentations' local constants
-and completed Artin equation with the stated dual, trace character and self-dual measure;
-§7.47 carries the common coefficient-base map through its lattice twist and projection
-formula. Sections 7.115 and 7.118 specify the logarithm on the full equivariant,
-unit-valued virtual-character Hom group, the residual torsion in that carrier, and the
-paired Gauss/determinant congruences that prove integrality. The group-element criterion
-`groupElement_determinant_eq_one_of_linear_characters` records its narrower domain;
-the quaternion rejection example has trivial linear values without belonging to that domain.
-The README also specifies the projective height comparison with its actual point at infinity.
--/
 
 end TauCetiRoadmap.ClassicalArithmeticCompletion
