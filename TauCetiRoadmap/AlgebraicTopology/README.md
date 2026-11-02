@@ -116,15 +116,14 @@ groups.  Those theories consume this roadmap's chain, CW, duality, and homotopy 
   DGFloer's sequence targets through that same disc/cube characterization. DGFloer's CW
   approximation is used in 8.11b.
   The standing Moore-loop comparison and Layer 2 item 3 supply loop carriers.
-- HomotopySpheres §3A.1 owns the compact-generation coreflection, convenient
-  products, exponentials and CW comparisons. Its §3A.2 foundation-only portion
-  owns pointed smash, suspension and loops and their adjunction on maps and
-  pointed homotopy classes, using §3A.1 alone. Layer 4 consumes these and owns
-  the additional raw-quotient comparisons and their interval-last normalization.
-  The cofiber/Puppe and stabilization applications of HomotopySpheres consume
-  this roadmap's cofibration and relative-homotopy results; they supply none of
-  the inputs of Layer 4. GeneralizedCohomology G2.1 supplies the
-  simplicial-realization product comparison from the same foundations,
+- Layer 4.0 owns the single compact-generation coreflection, convenient products,
+  exponentials, CW comparisons and foundational pointed suspension–loop adjunction.
+  HomotopySpheres §3A.1 and the foundation-only suspension–loop portion of §3A.2
+  use this foundation; their cofiber/Puppe and stabilization applications also consume
+  this roadmap's cofibration and relative-homotopy results. Supply runs from this
+  roadmap to those applications. Layer 4.4 owns the additional raw-quotient comparisons
+  and their interval-last normalization. GeneralizedCohomology G2.1 owns the
+  simplicial-realization product comparison from these foundations,
   without ordinary representability.
 - DerivedModuleAlgebra §§1.T.1 and 1.1 own the generic module difference map,
   lim/lim¹, six-term sequence, Mittag–Leffler vanishing, integer-graded Milnor
@@ -213,6 +212,16 @@ These choices are part of the specification.
 
 The development starts from these pinned APIs.
 
+- `CompactlyGenerated`, `CompactlyGenerated.compactlyGeneratedToTop` and
+  `CompactlyGenerated.fullyFaithfulCompactlyGeneratedToTop` in
+  `Mathlib/Topology/Category/CompactlyGenerated.lean` supply the category and
+  its fully faithful inclusion, without a separation axiom. The topology
+  `TopologicalSpace.compactlyGenerated`, `eq_compactlyGenerated`,
+  `continuous_from_compactlyGenerated` and
+  `continuous_from_uCompactlyGeneratedSpace` in
+  `Mathlib/Topology/Compactness/CompactlyGeneratedSpace.lean` supply the compact-test
+  topology and continuity criterion. Layer 4.0 packages these into the categorical
+  coreflection and pointed constructions; it does not redefine the topology.
 - `TopCat`, `TopCat.toSSet`, `SSet.chainComplex`, `singularChainComplexFunctor`, and
   `singularHomologyFunctor`.
 - `TopPair`, `TopPair.ofSubset`, `TopPair.incl`, `TopPair.diag`, and the
@@ -339,17 +348,6 @@ Stage 3 items 11–15 (maps out of a cellular K(G,1), uniqueness, CW structures 
 coverings, agreement of the models, homotopy functoriality) and Stage 4 items 16–18
 (chain-level comparison, group homology, bar-resolution comparison), consumed only by
 8.8b's normalized model comparison.
-
-### From TauCetiRoadmap.HomotopySpheres
-
-§3A.1 supplies the right adjoint to the native compactly generated inclusion,
-its identity-on-points counit, convenient products and compact-open exponentials,
-pointed objects, and CW/locally compact Hausdorff comparisons. The early
-suspension–loop portion of §3A.2 supplies the adjunction on actual pointed maps
-and pointed homotopy classes, independently of its cofiber/Puppe, relative-homotopy
-and stable applications. Layer 4.0 transports this adjunction through Layer 4.4's
-raw-quotient comparisons. Layers 4.5, 8.10 and 8.11 use the same foundation,
-with the displayed compact-test universe and actual evaluation hypotheses.
 
 ### From TauCetiRoadmap.DerivedModuleAlgebra
 
@@ -775,37 +773,59 @@ For the two arcs of S¹, the intersection map sends (a,b) to (a+b,−a−b); its
 *Needs:* Layer 2 local systems and relative chains; native subdivision, excision and Mayer–Vietoris.
 ## Layer 4: CW pairs, cellular homology, and cofibrations
 
-### 4.0 Raw-quotient comparisons and the pointed adjunction
+### 4.0 Compact generation and the pointed adjunction
 
-Use the compact-generation functor k, convenient products k(X×Y), pointed
-smash and compact-open exponentials of the HomotopySpheres supplier contract.
-Transport its suspension–loop adjunction through the raw-quotient comparisons
-of §4.4. Reduced suspension has interval coordinate last, and the transported
-adjoint of f sends x to the based loop (t↦f([x,t])). The comparisons use the
-compact-test exponential law (Hatcher, Appendix, pp.523–524 and
-Propositions A.14–A.16, pp.530–531).
+Define the compact-generation functor k using native
+`TopologicalSpace.compactlyGenerated`, with the same universe of compact Hausdorff
+test spaces as `CompactlyGenerated`. Bundle it as the right adjoint to the native
+fully faithful inclusion into `TopCat`; the counit kX→X is the identity on points.
+Use pointed objects in this category, products k(X×Y), compact-open mapping spaces
+followed by k, and the smash quotient. Reduced suspension is X∧S¹ with the interval
+coordinate last; loops are based interval maps. Prove the suspension–loop adjunction
+on actual pointed maps and on pointed homotopy classes. Pin its map formula:
+the adjoint of f sends x to the based loop (t↦f([x,t])). The categorical
+coreflection is derived from the native compact-test continuity criterion. The
+exponential-law route uses compact tests; its ordinary compact-open comparisons
+retain local compactness of the evaluation source, and the ordinary exponential
+homeomorphism retains the Hausdorff hypotheses on both source factors
+(Hatcher, Propositions A.14–A.16, pp.530–531). The CW comparisons use
+Hatcher, Appendix, pp.523–524 and Theorem A.6.
 
-- For compact based Hausdorff spaces, compare the raw smash and raw reduced
-  suspension with the convenient smash and suspension through §4.4's Kelley
-  coreflections; both maps send each quotient class to the same class.
-- For a pointed Hausdorff CW complex, compare its raw reduced suspension with
-  the convenient suspension using §4.4's CW quotient and counit comparison.
-- Transport the adjunction on maps and pointed homotopy classes through these
-  comparisons, preserving basepoints, interval order, naturality and homotopies
-  relative to a specified based subspace.
+- Use the native compact-test continuity criterion to construct the natural
+  adjunction and prove its triangle identities.
+- Prove the counit is a homeomorphism for Hausdorff CW complexes and locally compact
+  Hausdorff spaces; colimits are created by the inclusion and limits are kified.
+- Prove the pointed exponential law and relative homotopy compatibility. Own the three
+  comparisons of raw quotients with their convenient counterparts: the compact based smash
+  with the convenient smash, the compact reduced suspension with the convenient suspension,
+  and the reduced suspension of a pointed Hausdorff CW complex with the convenient
+  suspension, each through the Kelley coreflection of the raw quotient supplied by 4.4.
+  Transport the adjunction through those comparisons, preserving basepoints and interval
+  order, naturality and homotopies relative to a specified based subspace.
 
 **Checks.**
 
-- For a point, k(*)=* and both transported triangle composites are id;
-  an empty-space model gives ∅ instead.
-- For I=[0,1], the counit sends 0 to 0 and 1 to 1; reversing it exchanges the endpoints.
-- For S⁰ pointed at one vertex, S⁰∧S¹≅S¹ and the transported adjunction identifies
-  degree +1 with t↦exp(2πit), of winding +1; reflection gives winding −1.
+- For a point, k(*)=* and both triangle composites are id; an empty-space model gives ∅ instead.
+- For I=[0,1], the counit sends 0 to 0 and 1 to 1; reversing it exchanges the two endpoints.
+- For S⁰ pointed at one vertex, S⁰∧S¹≅S¹ and adjunction identifies degree +1
+  with the loop t↦exp(2πit), of winding +1; reflection gives winding −1.
+- The two-point Sierpiński space has opens ∅,{1},{0,1}; its compact generation
+  has the same three opens and is still not Hausdorff. Compact generation alone
+  cannot supply the separation hypothesis of the CW comparisons.
+- Convenient products give k(∅×I)=∅, k(*×I)=I and k(I×I)=I²;
+  the last retains both coordinates, excluding a projection as the comparison.
+- Exponentials give C(∅,I)=*, C(*,I)=I and C(S⁰,I)=I². Under evaluation,
+  the pair (0,1) takes the two vertices to 0 and 1; a constant-map model loses it.
+- Pointed smash gives *∧S¹=* and S⁰∧S¹=S¹; reduced suspension gives
+  Σ*=*, ΣS⁰=S¹ and ΣS¹=S², with reduced H₂ respectively 0,0,ℤ.
+  An unreduced suspension of the point is an interval, not this one-point quotient.
 
-*Needs:* HomotopySpheres §3A.1 and only the foundation-only suspension–loop
-portion of §3A.2; §4.4's raw quotient comparisons. Those comparisons use §3A.1
-alone, so their construction does not use this transported adjunction or the
-supplier's cofiber/Puppe applications.
+*Needs:* Mathlib `CompactlyGenerated`, `CompactlyGenerated.compactlyGeneratedToTop`,
+`TopologicalSpace.compactlyGenerated`, compact-open topology, quotient topology,
+and native continuous maps and homotopies. CW comparison additionally uses the
+native weak topology of CW complexes. The raw-quotient comparisons use §4.4,
+whose construction needs only the coreflection portion of this section, not the
+transported adjunction. No Hurewicz, EM model or stabilization is an input.
 
 
 This layer consumes Layers 2 and 3. Use the native cellular complex and its
@@ -870,7 +890,7 @@ Consume native `cellularSingularHomologyIso` for finite-dimensional relative
 
 ### 4.4 Pointed quotients and suspension
 
-*Needs:* §2.5 and native pointed quotients; HomotopySpheres §3A.1 for the coreflection comparisons.
+*Needs:* §2.5 and native pointed quotients; §4.0 for the coreflection comparisons.
 
 Consume native finite-CW Euler--Poincare and finite-generation results;
    extend their coefficient hypotheses, naturality and local-coefficient consequences.
@@ -1137,7 +1157,7 @@ Consume existing `TauCeti.HasHomotopyExtensionProperty` and
    Prove its weak topology is the compactly generated
    product topology (Hatcher Appendix A.6), and its comparison with the
    ordinary product when either factor is locally compact. Consume the
-   single k coreflection/CW compact-generation API of HomotopySpheres §3A.1.
+   single k coreflection/CW compact-generation API of §4.0.
    Construct the cellular approximation of the actual diagonal X→k(X×X)
    and its homotopy, using this product structure. DGFloer 1.2 consumes that
    diagonal in the multiplicative Serre construction; G2.1 retains ownership
@@ -3152,8 +3172,8 @@ forms below retain the relative data.
     suspension preserves the ordinary cup ring.
     Prove σ sends the distinguished universal class to the class whose adjoint
     induces identity under the native last-coordinate shift. Consume
-    HomotopySpheres §3A.2's foundation-only suspension–loop adjunction
-    transported through Layer 4.0
+    Layer 4.0's foundation-only suspension–loop adjunction
+    transported through Layer 4.4's raw-quotient comparisons
     and G2.1's foundation-only realization-product comparison for addition.
     Only after 8.11a's independent CW-type proof, consume
     DGFloer 1.2's CW approximation and 8.5 to upgrade the EM loop weak
@@ -3220,8 +3240,9 @@ Identity maps on ∅, a point, S¹ and S² induce identity maps on components an
 
 ## Downstream consumers
 
-HomotopySpheres uses Layer 4.0's normalized quotient comparisons and Layer 8
-only in its cofiber/stabilization applications; CharacteristicClasses consumes
+HomotopySpheres uses Layer 4.0's compact-generation and pointed adjunction
+foundation in §3A.1 and the foundation-only portion of §3A.2, and Layer 4.4's
+normalized quotient comparisons and Layer 8 in its cofiber/stabilization applications; CharacteristicClasses consumes
 cohomology, compact supports and the tower comparison; DGFloer consumes the raw bar,
 CW and Serre-fibration foundations; DifferentialGeometry consumes singular integration
 inputs and the homological fundamental classes. Stable and geometric applications use
@@ -3259,7 +3280,7 @@ supplement or the categorical LS supplement unless named explicitly.
 | 1 van Kampen | Mathlib  | 2--8 |
 | 2 relative homology | Mathlib  | 1 |
 | 3 subdivision/excision | 2 | 1 |
-| 4 CW/cellular and raw quotient comparisons | 2--3, native cochain algebra, HomotopySpheres §3A.1 for kified CW products; Layer 4.0 for normalized raw quotient comparisons; 2.5 supplies sphere reference shuffles; general cohomological product/suspension compatibility belongs to 8.11b | 1 |
+| 4 CW/cellular and raw quotient comparisons | 2--3, native cochain algebra, Layer 4.0 for kified CW products; Layer 4.4 for normalized raw quotient comparisons; 2.5 supplies sphere reference shuffles; general cohomological product/suspension compatibility belongs to 8.11b | 1 |
 | 5 product maps (item 1) | 2 | 1, 3, 4 |
 | 5 bundles/covers/finite covers | 2--4; Layer 5.0 Serre carrier/bundle API; DGFloer 1.2 homotopy LES/homology SS from 1–4 and DGFloer Layer 1 item 3, cohomology SS additionally from independent 6.0–6.2 | 1 |
 | 6.0 topological tower adapters | 2–4; DerivedModuleAlgebra §§1.T.1 and 1.1 | 5, 7–8 |
@@ -3272,9 +3293,9 @@ supplement or the categorical LS supplement unless named explicitly.
 | 8.8a raw bar/abelian input | 4, ordinary 6, native nerve/realization and universal-cover APIs | DGFloer Layer 1 item 4 abelian K(A,1) specialization |
 | 8.8b normalized model comparison | Layer 8.8a bar model; ClassifyingSpaces Stage 3 items 11–15 and Stage 4 items 16–18 | 8.9 |
 | 8.9 primary relative obstructions | 4, DGFloer 1.2 fibre transport, ordinary 6 cellular cochains, 8.1–8.7 | 8.8b |
-| 8.10 ordinary representability | 4, ordinary 6, 8.3/8.6, 8.9, DGFloer Layer 1 items 1 and 4, GeneralizedCohomology G2.1 foundational product comparison and HomotopySpheres §3A.1 kification and Layer 4.0 normalized comparisons | 7 |
-| 8.11a mapping-space and based-loop CW type | Earlier CW/pair foundations (4) and HomotopySpheres §3A.1 compact-generation/product API and Layer 4.0 normalized comparisons; no 8.10 or the EM loop comparison input | 7 |
-| 8.11b ordinary EM loops | 8.5, 8.10, 8.11a, DGFloer Layer 1 item 2 and standing/Layer 2 item 3 loop comparison, HomotopySpheres §3A.1 and the foundation-only adjunction of §3A.2, with Layer 4.0 normalized comparisons, G2.1 foundation-only realization-product comparison | 7 |
+| 8.10 ordinary representability | 4, ordinary 6, 8.3/8.6, 8.9, DGFloer Layer 1 items 1 and 4, GeneralizedCohomology G2.1 foundational product comparison and Layer 4.0 kification and Layer 4.4 normalized comparisons | 7 |
+| 8.11a mapping-space and based-loop CW type | Earlier CW/pair foundations (4) and Layer 4.0 compact-generation/product API and Layer 4.4 normalized comparisons; no 8.10 or the EM loop comparison input | 7 |
+| 8.11b ordinary EM loops | 8.5, 8.10, 8.11a, DGFloer Layer 1 item 2 and standing/Layer 2 item 3 loop comparison, Layer 4.0 compact generation and foundational adjunction, with Layer 4.4 normalized comparisons, G2.1 foundation-only realization-product comparison | 7 |
 | 8.12 classical EM comparisons | 8.8b, 8.10, TopologicalKTheory T1.6 carrier construction and DGFloer 1.2 Serre LES via CharacteristicClasses C1.1 bundle adapter/C1.5 finite comparisons and universal sphere-bundle portion | 7 |
 
 In particular, Layer 1 is independent; the chain `2 -> 3 -> 4` is strict; Layers 2--4 all feed
