@@ -1,5 +1,5 @@
 import Mathlib
-import TauCeti.LinearAlgebra.IntegralLattice.Discriminant.Quadratic
+import TauCeti.LinearAlgebra.IntegralLattice.Discriminant.Group
 import TauCeti.LinearAlgebra.IntegralLattice.Examples
 import TauCeti.LinearAlgebra.IntegralLattice.RootLattice.D8Plus.Basic
 import TauCeti.LinearAlgebra.IntegralLattice.Orthogonal.Sum
@@ -11,7 +11,7 @@ import TauCeti.LinearAlgebra.IntegralLattice.Scaling
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's
 headline theorems against the pinned APIs: the positive-cone decomposition in the
 Enriques numerical lattice, the dyadic representative comparison, and the two native
-discriminant groups with their isotropic classes. The pins are
+discriminant groups. The pins are
 Mathlib 6b7abb3c7686292736be2955bd3eb9ebf63b456a and
 Tau Ceti a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039.
 
@@ -115,20 +115,8 @@ noncomputable def secondLattice : IntegralLattice (Fin 10 → ℚ) :=
 theorem firstLattice_discriminant_group :
     Nonempty (firstLattice.DiscriminantGroup ≃+ (ZMod 2 × ZMod 2)) := by sorry
 
-/-- Zero and the two spinor classes are exactly the isotropic discriminant classes
-of the first ten-curve lattice, which is even, in the native half-norm convention. -/
-theorem firstLattice_isotropic_card :
-    ∃ hL : firstLattice.IsEven, Nat.card {x : firstLattice.DiscriminantGroup //
-      firstLattice.discriminantQuadraticMap hL x = 0} = 3 := by sorry
-
 /-- The second ten-curve lattice has discriminant group `(ℤ/2)²`. -/
 theorem secondLattice_discriminant_group :
     Nonempty (secondLattice.DiscriminantGroup ≃+ (ZMod 2 × ZMod 2)) := by sorry
-
-/-- Zero and the two spinor classes are exactly the isotropic discriminant classes
-of the second ten-curve lattice, which is even, in the native half-norm convention. -/
-theorem secondLattice_isotropic_card :
-    ∃ hL : secondLattice.IsEven, Nat.card {x : secondLattice.DiscriminantGroup //
-      secondLattice.discriminantQuadraticMap hL x = 0} = 3 := by sorry
 
 end TauCetiRoadmap.EnriquesSurfacesAndIntegralNonexistence
