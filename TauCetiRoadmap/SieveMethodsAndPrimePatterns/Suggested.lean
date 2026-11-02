@@ -8,9 +8,9 @@ theorems against the pinned Mathlib and Tau Ceti APIs, with only their simple de
 The headlines are the Selberg weighted Gram, Brun fundamental and upper-sieve inequalities; interval,
 progression and twin/Goldbach upper bounds; Brun convergence; additive, primitive and
 polynomial Farey large sieves; the prime quadratic-symbol bilinear bound;
-Jutila’s real-character mean; Linnik's exceptional-prime bound; Smith's bilinear bound and the
-Koymans–Pagano row mean; Vaughan's identity; Bombieri–Vinogradov and its maximal and
-second-moment forms; Maynard clusters and variational growth; and Chen's two theorems.
+Jutila’s unweighted and weighted real-character means; Linnik's exceptional-prime bound; Smith's bilinear bound and the
+Koymans–Pagano row mean; Vaughan's identity; logarithm-square convolution, variance and
+congruence-correlation estimates; Bombieri–Vinogradov and its maximal and second-moment forms; Maynard clusters and variational growth; and Chen's two theorems.
 
 The finite-character
 Gram bound from lattice discrepancies and binary convex sieve lack the L-domain
@@ -214,6 +214,15 @@ theorem prime_quadratic_bilinear (ε : ℝ) (hε : 0 < ε) :
         C * A * B * (Real.rpow ((K : ℝ) * L) (1+ε) /
           Real.sqrt (min (K : ℝ) L) + K) := by sorry
 
+/-- Jutila's unweighted real-character mean square over all nonsquare discriminants,
+including nonfundamental ones; Lemma 2, printed p.194. The constant is absolute. -/
+theorem jutila_unweighted_mean_square :
+    ∃ C : ℝ, 0 < C ∧ ∀ X Y : ℕ, 3 ≤ X → 1 ≤ Y →
+      (∑ D ∈ (Icc (-(X : ℤ)) (X : ℤ)).filter
+          (fun D => (D % 4 = 0 ∨ D % 4 = 1) ∧ ¬ IsSquare D),
+        |∑ n ∈ Icc 1 Y, SieveRealCharacters.discriminantValue D n| ^ 2) ≤
+        C * (X : ℝ) * Y * (Real.log X) ^ 8 := by sorry
+
 /-- Jutila’s mean-value lemma on all nonsquare discriminants, including nonfundamental ones;
 Lemma 3, equation (12), printed p.194, with its sixth power of log N. -/
 theorem jutila_mean_value : ∃ C : ℝ, 0 < C ∧ ∀ X N : ℕ, 3 ≤ X → 2 ≤ N →
@@ -326,6 +335,31 @@ namespace SieveArithmeticDistribution
 open Finset
 attribute [local instance] Classical.propDecidable
 
+/-- Progression discrepancy centred on the reduced-residue mean; zero at modulus zero.
+The arithmetic function vanishes at zero by its native carrier. -/
+def arithmeticDiscrepancy (f : ArithmeticFunction ℂ) (x : ℝ) (q a : ℕ) : ℂ :=
+  if q = 0 then 0 else
+    (∑ n ∈ (Icc 1 ⌊x⌋₊).filter (fun n => n ≡ a [MOD q]), f n) -
+      (∑ n ∈ (Icc 1 ⌊x⌋₊).filter (fun n => n.Coprime q), f n) / (q.totient : ℂ)
+
+/-- Kedlaya's convolution mean value with two logarithmic powers and an absolute constant.
+The discrepancy hypothesis concerns f at every positive modulus. Multiplication is Dirichlet
+convolution on the native arithmetic-function carrier. -/
+theorem convolution_discrepancy_mean :
+    ∃ C : ℝ, 0 < C ∧ ∀ (f g : ArithmeticFunction ℂ) (x y Q Δ : ℝ),
+      1 ≤ x → 1 ≤ y → 2 ≤ Q → 0 < Δ → Δ ≤ 1 →
+      (∀ n : ℕ, x < (n : ℝ) → f n = 0) →
+      (∀ n : ℕ, y < (n : ℝ) → g n = 0) →
+      let E_f := Real.sqrt (∑ n ∈ Icc 1 ⌊x⌋₊, ‖f n‖ ^ 2)
+      let E_g := Real.sqrt (∑ n ∈ Icc 1 ⌊y⌋₊, ‖g n‖ ^ 2)
+      (∀ q a : ℕ, 0 < q → a < q → a.Coprime q →
+        ‖arithmeticDiscrepancy f x q a‖ ≤ Real.sqrt x * Δ ^ 9 * E_f) →
+      (∑ q ∈ Icc 1 ⌊Q⌋₊,
+        sSup {v : ℝ | ∃ a : ℕ, a < q ∧ a.Coprime q ∧
+          v = ‖arithmeticDiscrepancy (f * g) (x * y) q a‖}) ≤
+        C * E_f * E_g * (Δ * Real.sqrt (x * y) + Real.sqrt x + Real.sqrt y + Q) *
+          (1 + Real.log Q) ^ 2 := by sorry
+
 /-- Maximal von Mangoldt distribution: the supremum includes both residue and cutoff.
 The centre y/φ(q) includes prime powers. -/
 theorem bombieri_vinogradov_maximal (A : ℝ) (hA : 0 < A) :
@@ -338,6 +372,19 @@ theorem bombieri_vinogradov_maximal (A : ℝ) (hA : 0 < A) :
               ArithmeticFunction.vonMangoldt n) - y / (q.totient : ℝ)|}) ≤
         C * x / Real.log x ^ A := by sorry
 
+/-- The logarithm-square variance bound under small discrepancy at every positive modulus;
+Kedlaya Theorem 18.5, with the squared L² norm explicit. -/
+theorem arithmetic_discrepancy_second_moment :
+    ∃ C : ℝ, 0 < C ∧ ∀ (f : ArithmeticFunction ℂ) (x Q Δ : ℝ),
+      1 ≤ x → 2 ≤ Q → 0 < Δ → Δ ≤ 1 →
+      (∀ n : ℕ, x < (n : ℝ) → f n = 0) →
+      let E := ∑ n ∈ Icc 1 ⌊x⌋₊, ‖f n‖ ^ 2
+      (∀ q a : ℕ, 0 < q → a < q → a.Coprime q →
+        ‖arithmeticDiscrepancy f x q a‖ ≤ Real.sqrt x * Δ ^ 9 * Real.sqrt E) →
+      (∑ q ∈ Icc 1 ⌊Q⌋₊, ∑ a ∈ (range q).filter (fun a => a.Coprime q),
+        ‖arithmeticDiscrepancy f x q a‖ ^ 2) ≤
+        C * E * (Δ * x + Q) * (1 + Real.log Q) ^ 2 := by sorry
+
 /-- The second moment sums all reduced residues, with its own logarithmic modulus cutoff. -/
 theorem barban_davenport_halberstam (A : ℝ) (hA : 0 < A) :
     ∃ B C x₀ : ℝ, 0 < B ∧ 0 < C ∧ 3 ≤ x₀ ∧ ∀ x Q : ℝ,
@@ -346,6 +393,27 @@ theorem barban_davenport_halberstam (A : ℝ) (hA : 0 < A) :
         ((∑ n ∈ (Icc 1 ⌊x⌋₊).filter (fun n => n ≡ a [MOD q]),
           ArithmeticFunction.vonMangoldt n) - x / (q.totient : ℝ)) ^ 2) ≤
         C * x ^ 2 / Real.log x ^ A := by sorry
+
+/-- The logarithm-square bilinear congruence correlation, with the Δ improvement on f's
+support length x. The reduced-residue main term uses the product without conjugation. -/
+theorem bilinear_congruence_correlation :
+    ∃ C : ℝ, 0 < C ∧ ∀ (f g : ArithmeticFunction ℂ) (x y Q Δ : ℝ) (a b : ℤ),
+      1 ≤ x → 1 ≤ y → 2 ≤ Q → 0 < Δ → Δ ≤ 1 → a ≠ 0 → b ≠ 0 →
+      (∀ n : ℕ, x < (n : ℝ) → f n = 0) →
+      (∀ n : ℕ, y < (n : ℝ) → g n = 0) →
+      let E_f := Real.sqrt (∑ n ∈ Icc 1 ⌊x⌋₊, ‖f n‖ ^ 2)
+      let E_g := Real.sqrt (∑ n ∈ Icc 1 ⌊y⌋₊, ‖g n‖ ^ 2)
+      (∀ q c : ℕ, 0 < q → c < q → c.Coprime q →
+        ‖arithmeticDiscrepancy f x q c‖ ≤ Real.sqrt x * Δ ^ 9 * E_f) →
+      (∑ q ∈ (Icc 1 ⌊Q⌋₊).filter (fun q => q.Coprime (a * b).natAbs),
+        ‖(∑ m ∈ (Icc 1 ⌊x⌋₊).filter (fun m => m.Coprime q),
+            ∑ n ∈ (Icc 1 ⌊y⌋₊).filter
+              (fun n : ℕ => n.Coprime q ∧ Int.ModEq (q : ℤ) (a * (m : ℤ)) (b * (n : ℤ))), f m * g n) -
+          (∑ m ∈ (Icc 1 ⌊x⌋₊).filter (fun m => m.Coprime q), f m) *
+            (∑ n ∈ (Icc 1 ⌊y⌋₊).filter (fun n => n.Coprime q), g n) / (q.totient : ℂ)‖) ≤
+        C * E_f * E_g * Real.sqrt (Δ * x + Q) * Real.sqrt (y + Q) *
+          (1 + Real.log Q) ^ 2 := by sorry
+
 end SieveArithmeticDistribution
 
 /-! ## Layer 4: prime tuples and Maynard clusters -/

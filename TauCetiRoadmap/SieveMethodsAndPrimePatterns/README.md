@@ -50,7 +50,7 @@ For simplex mollification, use the supremum norm on `Fin k → ℝ`: `Pi.norm_de
 
 For finite polynomial counts, use `Polynomial.monicEquivDegreeLT` and `Polynomial.degreeLTEquiv` from `Mathlib/RingTheory/Polynomial/Basic.lean` (lines 141 and 114): their composition identifies monic polynomials of degree j over a finite field with its j coefficient choices. Neither equivalence counts irreducibles.
 
-Reuse native `ArithmeticFunction`, Dirichlet convolution, Möbius, von Mangoldt, Liouville, multiplicative functions, prime-factor finsets and lists, `Nat.IsAtMostAlmostPrime`, `Nat.primeCounting`, totients and prime enumeration. Reuse `Matrix.gram`, finite Euclidean spaces, inner products, the period-one additive circle and Fourier characters. For characters use `DirichletCharacter`, its conductor, primitive-character reduction, Gauss sums and unit-group orthogonality, including modulus one. Native finite fields, `Polynomial`, `MvPolynomial`, derivatives, Schwartz–Zippel, power series, ideal factorization, absolute norms and finite residue-field quadratic characters provide the algebraic carriers. They supply none of the analytic large-sieve or prime-distribution conclusions specified below.
+Reuse native `ArithmeticFunction` (functions vanishing at zero, without a support restriction) and `ArithmeticFunction.mul_apply` from `Mathlib/NumberTheory/ArithmeticFunction/Defs.lean:236` for Dirichlet convolution. Reuse native Möbius, von Mangoldt, Liouville, multiplicative functions, prime-factor finsets and lists, `Nat.IsAtMostAlmostPrime`, `Nat.primeCounting`, totients and prime enumeration. Reuse `Matrix.gram`, finite Euclidean spaces, inner products, the period-one additive circle and Fourier characters. For characters use `DirichletCharacter`, its conductor, primitive-character reduction, Gauss sums and unit-group orthogonality, including modulus one. Native finite fields, `Polynomial`, `MvPolynomial`, derivatives, Schwartz–Zippel, power series, ideal factorization, absolute norms and finite residue-field quadratic characters provide the algebraic carriers. They supply none of the analytic large-sieve or prime-distribution conclusions specified below.
 
 For approximate groups use `IsApproximateSubgroup`, `IsApproximateSubgroup.subgroup` and `IsApproximateSubgroup.of_small_tripling` from `Mathlib/Combinatorics/Additive/ApproximateSubgroup.lean` (lines 63, 119 and 127). The native fields are identity membership, invariance under inversion and a bound on the number of translates covering the square. They include no finiteness or probability-mass hypothesis; §5.4 states those separately.
 
@@ -2182,7 +2182,7 @@ The definition exposes the following operations and laws:
 
 *Needs:* Layer 2 §2.7 heath-brown quadratic bilinear estimate; Layer 2 `SieveQuadratic.primeDenominatorSymbol`.
 
-**Jutila unweighted mean square.** There is an absolute C>0 such that for integers X≥3,Y≥1,
+**Jutila unweighted mean square.** Prove `SieveQuadratic.jutila_unweighted_mean_square`. There is an absolute C>0 such that for integers X≥3,Y≥1,
 
 `Σ_(|D|≤X, D≡0,1 mod 4, D not a square) |Σ_(1≤n≤Y) χ_D(n)|² ≤ C X Y (log X)^8`.
 
@@ -2193,6 +2193,7 @@ Here χ_D is precisely §0.6's numerical adapter, including nonfundamental discr
 - X=3,Y=1 has only D=−3, giving left side 1 and right side 3C(log 3)⁸.
 - X=3,Y=2 has χ_(−3)(1)+χ_(−3)(2)=1−1=0, so its left side is zero.
 - Adding square D=1 would contribute Y², rather than a uniformly linear Y term. At Y=2 that extra contribution is 4.
+- At X=12,Y=1 the nine nonsquare discriminants contribute 9; restricting to fundamental discriminants would lose D=−12 and give 8. Its value at 2 is 0, whereas the inducing character of D=−3 has value −1.
 
 *Needs:* Layer 0 §0.6 real discriminant character adapter; ThetaSeries §2H reciprocity and characters; AnalyticNumberTheoryPartI §§3.22 and 1.2a divisor moments; JUTILA-ORIGINAL Lemma 2, p.194.
 
@@ -2476,9 +2477,9 @@ The level is a statement for every A>0, with an implied constant depending on A.
 
 ### 3.2 arithmetic discrepancies and the maximal Bombieri–Vinogradov theorem
 
-**Arithmetic progression discrepancy.** For f:N→C, x≥0, q≥1 and integer a, `D_f(x;q,a)=Σ_{1≤n≤floor x,n≡a modq}f(n)−φ(q)⁻¹Σ_{1≤n≤floor` x,(n,q)=1}f(n). The modulus-zero extension is explicitly zero. The reduced-residue mean is not Σall f/φ(q).
+**Arithmetic progression discrepancy.** Define `SieveArithmeticDistribution.arithmeticDiscrepancy` on the native carrier `ArithmeticFunction ℂ`. For f:N→C with f(0)=0, x≥0, q≥1 and integer a, `D_f(x;q,a)=Σ_{1≤n≤floor x,n≡a modq}f(n)−φ(q)⁻¹Σ_{1≤n≤floor` x,(n,q)=1}f(n). The modulus-zero extension is explicitly zero. The reduced-residue mean is not Σall f/φ(q).
 
-Native natural/integer congruences, totient and finite sums.
+Native natural/integer congruences, totient and finite sums. Natural residue representatives 0≤a<q give the same unit-residue values as integer representatives; the function is defined for every natural a. In §§3.2–3.4, E_f denotes the square root of Σ_(1≤n≤⌊x⌋)|f(n)|² when f is supported in [1,x], and E_g uses [1,y].
 
 ([KED-ANT-18](#references), Definition 18.1, §18.1.)
 
@@ -2498,7 +2499,7 @@ The definition exposes the following operations and laws:
 
 - For `f=1_{n=2},x=2,q=2,a=1` the discrepancy is zero, since the mass at a nonunit is omitted from the mean.
 - For `f=1_{n=1},x=1,q=3,` D at a=1 is 1/2 and at a=2 is −1/2.
-- At modulus one every discrepancy vanishes.
+- At modulus one every discrepancy vanishes. At q=0 the explicit branch is 0; at x=−1,0,1/2 the positive-index sums are empty and every discrepancy is 0.
 - For f,g at a fixed positive modulus, D_(2f−g)=2D_f−D_g.
 
 *Needs:* Mathlib `Nat.totient`; Mathlib `DirichletCharacter`.
@@ -2523,15 +2524,47 @@ Positive moduli; f,g supported in positive integer intervals; native character c
 
 *Needs:* Layer 3 §3.2 arithmetic progression discrepancy; Mathlib `DirichletCharacter.conductor`; Mathlib `DirichletCharacter.IsPrimitive`; Mathlib `ArithmeticFunction`.
 
-**Convolution discrepancy mean value.** Under the preceding all-moduli discrepancy hypothesis for f and finite supports x,y≥1, Q≥2, `Σ_{q≤Q}max_unit|D_(f*g)(xy;q,a)|≤C` E_f E_g(Δsqrt(xy)+sqrt x+sqrt y+Q)(1+log Q)^3. This is a conservative finite replacement for the printed log²Q statement: the non-sharp dyadic J loss is absorbed, not dropped.
+**Convolution discrepancy mean value with a retained dyadic loss.** There is an absolute C>0 such that, for real x,y≥1,Q≥2, 0<Δ≤1 and complex arithmetic functions f,g supported in [1,x],[1,y], the hypothesis |D_f(x;N,a)|≤√x Δ⁹ E_f for every positive N and every unit a gives
 
-0<Δ≤1; x,y≥1; Q≥2; support and global discrepancy hypotheses as in the transfer theorem.
+`Σ_(1≤q≤Q) max_unit a |D_(f*g)(xy;q,a)| ≤ C E_f E_g (Δ√(xy)+√x+√y+Q)(1+log Q)^3`.
 
-([KED-ANT-18](#references), Theorem 18.3, §18.1.)
+Here f*g is Dirichlet convolution, not pointwise multiplication. The constant is independent of f,g,x,y,Q,Δ. This intermediate estimate retains the finite dyadic J loss ([KED-ANT-18](#references), Theorem 18.3, §18.1, with the finite summation expanded).
 
-*Proof sketch.* Split primitive r at Δ⁻¹. Apply the corrected transfer for small r and Cauchy–Schwarz for the g sum. For large r import the retained finite dyadic bound including its J factor, use J≪1+log Q, then sum the cofactor using Στ(s)/φ(s)≪(1+log Q)². The stated log³ exponent is the target; the sharper log² exponent is outside its scope.
+*Proof sketch.* Split primitive r at Δ⁻¹, apply discrepancy transfer for small r and the finite bilinear dyadic bound for large r. Using the same cofactor majorant Στ(s)/φ(s) in both ranges gives the displayed power three.
 
 *Needs:* Layer 3 §3.2 primitive-conductor reduction of discrepancies; Layer 3 §3.2 discrepancy to restricted character sums; Layer 2 §2.5 primitive bilinear tail through a dyadic endpoint; Layer 3 §3.0 divisor moments over reciprocal totients at j=1.
+
+**Separate cofactor bounds for convolution.** Under the preceding support and all-moduli hypotheses, put R=Δ⁻¹ and L=1+log Q. In the primitive-conductor sum of §3.2, retain rs≤Q and split at r≤R. Prove that its small-conductor part is at most C E_f E_g Δ√(xy)L² and its large-conductor part is at most
+
+`C E_f E_g (Q L + (√x+√y)L² + Δ√(xy)L)`.
+
+One absolute positive C works for all the data. These are the refined aggregate estimates for the convolution endpoint ([KED-ANT-18](#references), Theorem 18.3 proof, equation (18.1.2) and subsequent dyadic sums).
+
+*Proof sketch.* In the small range the transfer bound contributes τ(s), and Σ_(r≤R)r≤R² gives Δ³R²=Δ. In the large range the coprimality masks only decrease each coefficient energy: no τ(s) factor is introduced. For each s the finite dyadic estimate, with upper endpoint Q/s, costs at most C E_f E_g[Q/s+(√x+√y)L+√(xy)/R]. Sum this against 1/φ(s), using the j=0 moment O(L). Thus the J factor remains, but costs only one of the two available logarithms. For the natural-cutoff dyadic theorem use ⌊R⌋≥R/2, absorbing the factor two; empty ranges contribute zero. No assertion that the unweighted dyadic sum loses no logarithm is needed.
+
+**Checks.**
+
+- For x=y=1, f=g the point mass at 1, Q=3, Δ=1, only r=3,s=1 contributes: the small part is 0 and the large part is 1/2. The convolution discrepancy sum is also 1/2.
+- Q=2 has no nonprincipal characters and both conductor parts are zero; r=1 must remain excluded.
+- For L=11 and 101, a dyadic factor L followed by the j=0 cofactor factor L gives L²=121 and 10201. Using the j=1 factor in that range would give L³=1331 and 1030301.
+
+*Needs:* Layer 3 §3.2 primitive-conductor reduction of discrepancies; Layer 3 §3.2 discrepancy to restricted character sums; Layer 2 §2.5 primitive bilinear tail at an arbitrary cutoff; Layer 3 §3.0 divisor moments over reciprocal totients at j=0,1.
+
+**Convolution discrepancy mean value.** Prove `SieveArithmeticDistribution.convolution_discrepancy_mean`. There is an absolute C>0 such that for every real x,y≥1,Q≥2, 0<Δ≤1 and complex arithmetic functions f,g supported in [1,x],[1,y], if |D_f(x;N,a)|≤√x Δ⁹ E_f for every positive modulus N and unit a, then
+
+`Σ_(1≤q≤Q) max_unit a |D_(f*g)(xy;q,a)| ≤ C E_f E_g (Δ√(xy)+√x+√y+Q)(1+log Q)^2`.
+
+The maximum is over all reduced residues, and C is independent of every displayed parameter ([KED-ANT-18](#references), Theorem 18.3, §18.1). The logarithm normalization avoids a separate small-Q convention.
+
+*Proof sketch.* Add the two separate cofactor bounds. Since L≥1, each L term is bounded by its L² counterpart. This obtains the full endpoint while retaining the finite dyadic loss in its proper range.
+
+**Checks.**
+
+- For f=g the point mass at 1, x=y=1,Q=3,Δ=1, the left side is 1/2; the right side is 6C(1+log 3)².
+- For f=0 both sides are 0 for every admissible Δ; no division by E_f is used.
+- The point masses f at 2 and g at 3 have convolution value 1 at 6, whereas their pointwise product is zero. At q=5 the maximal discrepancy of the convolution is 3/4, excluding that wrong multiplication.
+
+*Needs:* Layer 3 §3.2 arithmetic progression discrepancy; Layer 3 §3.2 primitive-conductor reduction of discrepancies; Layer 3 §3.2 separate cofactor bounds for convolution; Mathlib `ArithmeticFunction.mul_apply`.
 
 **Maximal Bombieri–Vinogradov theorem.** Prove `SieveArithmeticDistribution.bombieri_vinogradov_maximal`. For every A>0 there exist B,C>0 and x₀≥3 such that x≥x₀ and 1≤Q≤sqrt x/(log x)^B imply `Σ_{1≤q≤Q}` `max_{(a,q)=1}` `sup_{0≤y≤x}|ψ(y;q,a)−y/φ(q)|≤Cx/(log` x)^A. ψ includes prime powers through native von Mangoldt. Maximality in y is explicitly required by Chen and weighted sieves. The source’s fixed-x version is a consequence.
 
@@ -2577,15 +2610,52 @@ The maximal π target weighted_prime_distribution_pi takes the supremum over rea
 
 *Needs:* Layer 3 `SieveArithmeticDistribution.bombieri_vinogradov_maximal`; Layer 3 §3.0 divisor moments over reciprocal totients for the fixed divisor powers; AnalyticNumberTheoryPartI §0.32 at q=1.
 
-**Arithmetic discrepancy second moment.** With the transfer theorem’s all-moduli hypothesis, x≥1,Q≥2, `Σ_{q≤Q}Σ_{a` units modq}|D_f(x;q,a)|²≤C E_f²(Δx+Q)(1+log Q)^5. The power five is a conservative replacement retaining conductor and dyadic losses. For arbitrary f the corresponding estimate uses x+Q and no Δ improvement.
+**Arithmetic discrepancy second moment with retained losses.** There is an absolute C>0 such that for x≥1,Q≥2, 0<Δ≤1 and f supported in [1,x] with |D_f(x;N,a)|≤√x Δ⁹ E_f for every positive N and unit a,
 
-0<Δ≤1; support in [1,x]; all positive moduli in the discrepancy hypothesis.
+`Σ_(1≤q≤Q) Σ_(a units mod q) |D_f(x;q,a)|² ≤ C E_f²(Δx+Q)(1+log Q)^5`.
 
-([KED-ANT-18](#references), Theorem 18.5 and Exercise 18.4.4, §18.3.)
+This is an intermediate estimate; for arbitrary f the corresponding bound uses x+Q. The constant is independent of f,x,Q,Δ ([KED-ANT-18](#references), Theorem 18.5 and Exercise 18.4.4, §18.3, with conductor and dyadic losses retained).
 
-*Proof sketch.* Use finite Parseval and primitive-conductor reduction. Apply transfer below r=Δ⁻¹ and large sieve on dyadic intervals above it. Sum τ(s)²/φ(s) with its four logarithmic powers and retain the remaining dyadic logarithm. Do not use the source’s unexplained norm symbol as a first moment.
+*Proof sketch.* Parseval and conductor reduction give squared restricted character sums. Splitting at r=Δ⁻¹, transfer costs Δ⁶xR³Στ(s)²/φ(s); the large range uses the squared large sieve. The bounds below retain these terms separately and imply this intermediate inequality.
 
-*Needs:* Layer 3 §3.2 arithmetic progression discrepancy; Layer 3 §3.2 discrepancy to restricted character sums; Layer 2 §2.5 primitive bilinear tail through a dyadic endpoint; Layer 3 §3.0 divisor moments over reciprocal totients at j=2.
+*Needs:* Layer 3 §3.2 arithmetic progression discrepancy; Layer 3 §3.2 discrepancy to restricted character sums; Layer 2 `SieveCharacters.primitive_largeSieve`; Layer 3 §3.0 divisor moments over reciprocal totients at j=0,2.
+
+**Squared conductor sums with separate ranges.** For f supported in [1,x], x≥1,Q≥2 and real R≥1, write F_s(χ)=Σ_(1≤n≤x,(n,s)=1)f(n)χ(n), and L=1+log Q. Prove the large-conductor estimate
+
+`Σ_(1≤s≤Q) 1/φ(s) Σ_(R<r≤Q/s) 1/φ(r) Σ_(χ primitive mod r) |F_s(χ)|² ≤ C E_f² (x/R+Q)L`.
+
+Under the all-moduli Δ hypothesis of §3.2, also prove the small-conductor estimate
+
+`Σ_(1≤s≤Q) 1/φ(s) Σ_(2≤r≤min(R,Q/s)) 1/φ(r) Σ_(χ primitive mod r) |F_s(χ)|² ≤ C E_f² Δ^6 x R^3 L^4`.
+
+There is an absolute positive C uniform in all the data in both statements; neither assumes coprimality of r and s ([KED-ANT-18](#references), Theorem 18.5 and Exercise 18.4.4, using the restricted sums in the proof of Theorem 18.3).
+
+*Proof sketch.* In a large dyadic band P<r≤2P, the squared large sieve gives C E_f²(x/P+P); summing the geometric series gives C E_f²(x/R+Q/s), without a middle J term. Natural cutoffs use ⌊R⌋≥R/2 and ⌊Q/s⌋≤Q/s. The j=0 cofactor moment gives the first estimate. For small r, square the transfer estimate, bound the number of primitive characters by φ(r), sum r²≤R³ and use the j=2 cofactor moment O(L⁴). Parseval identifies the variance with the same conductor sums weighted by 1/φ(rs); φ(rs)≥φ(r)φ(s) bounds it by the displayed sums. At R=1 the large range covers every nonprincipal conductor, giving the ordinary variance bound C E_f²(x+Q)L for arbitrary f.
+
+**Checks.**
+
+- At x=1,Q=3, f the point mass at 1, the total squared conductor sum and the variance both equal 1/2. R=1 places that term in the large range; R=3 places it in the small range.
+- At Q=2 both ranges and the variance vanish. At R=Q the large range is empty, even if f is nonzero.
+- For r=4,s=2, φ(rs)=4 while φ(r)φ(s)=2: the exact Parseval weight 1/4 is at most the majorant 1/2. Requiring coprimality would incorrectly discard this conductor pair.
+- For f=0, both sums and E_f² are 0, including at R=1.
+
+*Needs:* Layer 3 §3.2 discrepancy to restricted character sums; Layer 3 §3.2 primitive-conductor reduction of discrepancies and finite character orthogonality; Layer 2 `SieveCharacters.primitive_largeSieve`; Layer 3 §3.0 divisor moments over reciprocal totients at j=0,2.
+
+**Arithmetic discrepancy second moment.** Prove `SieveArithmeticDistribution.arithmetic_discrepancy_second_moment`. There is an absolute C>0 such that for every real x≥1,Q≥2, 0<Δ≤1 and complex arithmetic function f supported in [1,x], if |D_f(x;N,a)|≤√x Δ⁹ E_f for every positive N and unit a, then
+
+`Σ_(1≤q≤Q) Σ_(a units mod q) |D_f(x;q,a)|² ≤ C E_f²(Δx+Q)(1+log Q)^2`.
+
+The constant is independent of f,x,Q,Δ; the norm is explicitly squared ([KED-ANT-18](#references), Theorem 18.5 and Exercise 18.4.4, §18.3).
+
+*Proof sketch.* The separate squared conductor estimates at R=Δ⁻¹ give C E_f²[Δ³xL⁴+(Δx+Q)L]. If ΔL≤1, then Δ³L⁴≤ΔL² and L≤L². If ΔL≥1, use the ordinary variance estimate C E_f²(x+Q)L: here xL≤ΔxL². The two ranges recover power two without dropping a cofactor or dyadic loss. The ordinary squared-conductor bound is independent of this endpoint, so this argument is not circular.
+
+**Checks.**
+
+- For f the point mass at 1, x=1,Q=3,Δ=1, the two nonzero discrepancies are 1/2 and −1/2. The variance is 1/2, whereas the sum of their absolute values is 1.
+- With L=10,Δ=1/100, Δ³L⁴=1/100≤ΔL²=1; with L=10,Δ=1/2, the ordinary coefficient L=10≤ΔL²=50. At ΔL=1 both comparisons are equalities.
+- For zero f the variance and its bound are 0; for q=1 every discrepancy is 0.
+
+*Needs:* Layer 3 §3.2 arithmetic progression discrepancy; Layer 3 §3.4 squared conductor sums with separate ranges.
 
 **Barban–Davenport–Halberstam theorem.** Prove `SieveArithmeticDistribution.barban_davenport_halberstam`. For every A>0 there are B,C>0,x₀≥3 such that x≥x₀ and 1≤Q≤x/(log x)^B imply `Σ_{q≤Q}Σ_{a` units modq}|ψ(x;q,a)−x/φ(q)|²≤Cx²/(log x)^A. This is a second moment, not a maximum over residues.
 
@@ -2597,21 +2667,38 @@ Unconditional theorem; all constants quantified; prime powers included.
 
 *Needs:* Layer 3 §3.4 arithmetic discrepancy second moment; Layer 3 `SieveArithmeticDistribution.bombieri_vinogradov_maximal`; AnalyticNumberTheoryPartI §0.32; Layer 3 §3.0 maximal small-conductor estimates; Layer 3 §3.0 divisor moments over reciprocal totients; AnalyticNumberTheoryPartI §0.32 at q=1.
 
-**Bilinear congruence correlation.** For a,b nonzero integers, x,y≥1,Q≥2, supports [1,x],[1,y] and the all-moduli Δ hypothesis for f, sum over q≤Q coprime to ab of the absolute deviation of `Σ_{am≡bn modq,(mn,q)=1}f(m)g(n)` from φ(q)⁻¹(Σ_(m,q)=1 f(m))(Σ_(n,q)=1 g(n)) is ≤C E_f E_g sqrt(Δx+Q)sqrt(y+Q)(1+log Q)^4. The Δ improvement stays on f’s x variable.
+**Bilinear congruence correlation with retained losses.** For nonzero integers a,b, real x,y≥1,Q≥2, supports [1,x],[1,y] and the all-moduli Δ hypothesis for f, the sum over q≤Q coprime to ab of the absolute deviation of Σ_(am≡bn modq,(mn,q)=1)f(m)g(n) from φ(q)⁻¹(Σ_(m,q)=1 f(m))(Σ_(n,q)=1 g(n)) is at most
 
-0<Δ≤1; a,b nonzero and q coprime to ab.
+`C E_f E_g √(Δx+Q)√(y+Q)(1+log Q)^4`.
 
-([KED-ANT-18](#references), Corollary 18.6 and Exercise 18.4.5, §18.3.)
+There is one absolute C>0 for all f,g,a,b,x,y,Q,Δ with 0<Δ≤1 ([KED-ANT-18](#references), Corollary 18.6 and Exercise 18.4.5, §18.3, retaining the intermediate losses).
 
-*Proof sketch.* Expand the congruence through characters with the correct conjugation, and use Cauchy–Schwarz across characters and moduli. Apply the improved variance to f and the ordinary finite large sieve to g, retaining conservative logarithmic powers. This corrects the source’s assignment of Δ to y although its hypothesis is on f.
+*Proof sketch.* Character orthogonality and Cauchy–Schwarz combine the power-five variance estimate for f with the ordinary variance estimate for g. Enlarge the resulting logarithmic power to four, using 1+log Q≥1.
 
-*Needs:* Layer 3 §3.4 arithmetic discrepancy second moment; Layer 3 §3.2 arithmetic progression discrepancy; Layer 2 `SieveCharacters.primitive_largeSieve`.
+*Needs:* Layer 3 §3.4 arithmetic discrepancy second moment with retained losses; Layer 3 §3.4 squared conductor sums with separate ranges; Layer 3 §3.2 arithmetic progression discrepancy.
+
+**Bilinear congruence correlation.** Prove `SieveArithmeticDistribution.bilinear_congruence_correlation`. There is an absolute C>0 such that for every nonzero integers a,b, real x,y≥1,Q≥2, 0<Δ≤1 and complex arithmetic functions f,g supported in [1,x],[1,y], with |D_f(x;N,c)|≤√x Δ⁹ E_f for every positive N and unit c, the same sum of absolute congruence deviations is at most
+
+`C E_f E_g √(Δx+Q)√(y+Q)(1+log Q)^2`.
+
+The modulus sum includes every positive q≤Q coprime to |ab|; C is independent of a,b as well as the other parameters. The product in the main term has no complex conjugation. The Δ improvement is on f's support length x ([KED-ANT-18](#references), Corollary 18.6 and Exercise 18.4.5, §18.3, correcting the assignment of Δ in the printed conclusion).
+
+*Proof sketch.* Express the deviation as a sum over reduced classes of D_f(x;q,c)D_g(y;q,ab⁻¹c). Since q is coprime to ab, the map on classes is a permutation. Cauchy–Schwarz over moduli and residues bounds it by the geometric mean of the two variances. Use the power-two variance endpoint for f and the ordinary variance bound for g, enlarged from L to L². This yields the stated L² bound without interchanging the two support lengths.
+
+**Checks.**
+
+- For f=g the point mass at 1, x=y=1,Q=3,Δ=1,a=b=1, q=3 contributes |1−1/2|=1/2 and q=1,2 contribute zero. Taking a=−1,b=1 makes the q=3 deviation −1/2 with the same absolute value.
+- Replacing g by i times that point mass gives deviation i/2 at q=3. Conjugating g would give −i/2 and would not be the stated congruence sum.
+- For a=3,b=1,Q=3 only q=1,2 remain; both deviations are zero. For zero f all deviations and the bound vanish.
+- At Δ=1/16,x=16,y=1,Q=2, the support factor is √3√3=3. Moving Δ to y would give √18√(33/16)=√(297/8), a different value, about 6.093.
+
+*Needs:* Layer 3 §3.4 arithmetic discrepancy second moment; Layer 3 §3.4 squared conductor sums with separate ranges; Layer 3 §3.2 arithmetic progression discrepancy; finite Cauchy–Schwarz and permutation of unit residue classes.
 
 ### Analytic requirements
 
 Write q=rs with primitive conductor r and cofactor s=q/r; r and s need not be coprime. The induced character is its primitive character times 1_(gcd(n,s)=1). Retain this coprimality mask in every coefficient sequence and use the all-cofactor estimates. Use an exact Vaughan hyperbola covering, retaining dyadic J until a stronger aggregate removes it. Choose U,V and the mesh for every prescribed saving, including maximal cutoff decomposition. AnalyticNumberTheoryPartI §0.32 and Layer 3 §3.0 maximal small-conductor estimates give the required small-conductor, cofactor and exceptional-zero estimates and their conductor/log ranges.
 
-The variance retains log⁵Q and the cofactor τ(s)²/φ(s) sum. Each divisor exponent j and saving A requires a fresh BV budget. Partial summation for π is uniform in real 2≤y≤x and centred at li(y)/φ(q); the ψ maximum still ranges over 0≤y≤x; fixed-x π(x)/φ(q) centering is a separate transfer.
+The intermediate log³, log⁵ and log⁴ estimates coexist with the full log² convolution, variance and correlation endpoints. The convolution separates the j=0 and j=1 cofactor moments; the variance retains the τ(s)²/φ(s) sum and splits according to Δ(1+log Q)≤1 or ≥1. Each divisor exponent j and saving A requires a fresh BV budget. Partial summation for π is uniform in real 2≤y≤x and centred at li(y)/φ(q); the ψ maximum still ranges over 0≤y≤x; fixed-x π(x)/φ(q) centering is a separate transfer.
 
 ### Examples
 
