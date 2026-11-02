@@ -22,8 +22,10 @@ fixed-subalgebra and Serre-presentation carriers alone do not identify these obj
 The general pinned integral model and its change-of-choice theorem lack the bundled
 relative split reductive group with prescribed full root datum and pinning.
 Relative structure and base-change comparisons lack the constructed relative center,
-derived subgroup, maximal-torus and Borel schemes. Complex reductive coset affineness
-lacks the constructed homogeneous quotient and its invariant-coordinate comparison. The
+derived subgroup, maximal-torus and Borel schemes. Affineness of quotients of affine
+algebraic groups by closed subgroups with reductive identity component over an
+algebraically closed characteristic-zero field lacks the constructed homogeneous
+quotient and its invariant-coordinate comparison. The
 highest-weight classification lacks the rational highest-weight modules and their
 identification with the prescribed integral model. The spectral monodromy theorem
 lacks the constructed regular-semisimple quotient and its analytic comparison on

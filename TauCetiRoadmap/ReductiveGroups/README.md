@@ -1539,28 +1539,32 @@ retains its hypotheses and is not replaced by this characteristic-zero lane.
 The regular extension/cohomology route is discussed in
 [McNinch §§2.2–2.3,3.1,4.1,4.3–4.5,5.1–5.2](https://arxiv.org/html/1007.2777v1).
 
-### 6B: complex reductive coset affineness
+### 6B: affine quotients by reductive subgroups
 
-For a smooth connected affine reductive complex algebraic group A and a closed
-connected reductive subgroup H, construct the fpqc quotient A/H and identify it
+Let k be an algebraically closed field of characteristic zero, A an affine
+algebraic group of finite type over k, and H a closed subgroup whose identity
+component is reductive. Neither A nor H is required to be connected, and A
+need not be reductive. Construct the fpqc quotient A/H and identify it
 with Spec(O(A)^H), where H acts on O(A) by right translations. The quotient is
 therefore affine (Arzhantsev, *Invariant Ideals and Matsushima’s Criterion*,
 arXiv:math/0506430v1, Proposition 2.2, p. 2). Construct its quotient map and
 H-torsor comparison A×H→A×_(A/H)A, (a,h)↦(a,ah).
 
-Build the Reynolds projection O(A)→O(A)^H from §6.2, prove finite generation
+Build the Reynolds projection O(A)→O(A)^H from §6.2, first projecting to
+H⁰-invariants and then averaging over the finite group H/H⁰; its order is
+invertible in k. Prove finite generation
 of the invariant algebra and separation of closed H-orbits, and identify the
 resulting affine quotient with the homogeneous quotient of Layer 3. These are
 construction targets, including the invariant-theory steps used in Arzhantsev's
 proof of Proposition 2.2, not consequences of an arbitrary orbit-set bijection.
 
 - The quotient map q:A→A/H is faithfully flat and its pullback identifies
-  O(A/H) with O(A)^H. For every complex scheme Y, composition with q identifies
+  O(A/H) with O(A)^H. For every k-scheme Y, composition with q identifies
   morphisms A/H→Y with H-invariant morphisms A→Y, by fpqc descent.
-- For every complex scheme S, identify (A/H)×S with the quotient A_S/H_S;
+- For every k-scheme S, identify (A/H)×ₖS with the quotient A_S/H_S;
   the torsor comparison and the invariant-algebra comparison commute with
   this pullback. Over affine S=Spec R the coordinate equation is
-  O(A)^H⊗ℂ R ≃ (O(A)⊗ℂ R)^(H_R).
+  O(A)^H⊗ₖ R ≃ (O(A)⊗ₖ R)^(H_R).
 - The Reynolds projection fixes each invariant and is O(A)^H-linear;
   it need not preserve products of arbitrary functions. The inclusion of
   invariants, rather than this projection, is the coordinate algebra map.
@@ -1569,19 +1573,27 @@ proof of Proposition 2.2, not consequences of an arbitrary orbit-set bijection.
 
 - For H=1 the invariant algebra is O(A), q is the identity, and
   A×1→A×_A A is the diagonal isomorphism; the quotient has dimension dim A.
-- For H=A, invariants are ℂ and the quotient is Spec ℂ, of dimension 0;
+- For H=A with A⁰ reductive, invariants are k and the quotient is Spec k, of dimension 0;
   (a,h)↦(a,ah) has inverse (a,b)↦(a,a⁻¹b).
 - For A=SL₂ and H=T diagonal, write its coordinates as a,b,c,d with ad−bc=1.
   The right-T invariants x=ab, y=cd and z=ad satisfy xy=z(z−1), giving
-  the affine surface Spec ℂ[x,y,z]/(xy−z(z−1)), of dimension 2.
+  the affine surface Spec k[x,y,z]/(xy−z(z−1)), of dimension 2.
+- For A=Gₐ×Gₘ and H=Gₘ, right translation fixes x and sends t to ts.
+  Thus k[x,t,t⁻¹]^H=k[x] and A/H=Gₐ has dimension 1, although A has
+  a one-dimensional unipotent radical. Over R=k[ε]/(ε²), the same comparison
+  gives R[x,t,t⁻¹]^(H_R)=R[x], retaining the nonzero nilpotent ε.
+- For A=Gₘ and H=μ₂, H⁰=1 and averaging sends t to 0 and t² to t².
+  The invariant algebra is k[t²,t⁻²]; the quotient map t↦t² has degree 2.
+  For a constant S₃ ambient group and a transposition subgroup C₂, the
+  invariant algebra is k³ and each of the three quotient fibers has two points.
 - For the upper Borel B⊂SL₂, the quotient is ℙ¹ and has only constant
   regular functions. Its dimension is 1 whereas Spec O(ℙ¹) has dimension 0;
   B is not reductive, so the asserted affine identification does not apply.
 - On O(Gₘ), the projection for translation sends t and t⁻¹ to 0 but
   sends tt⁻¹=1 to 1; the two products are 0 and 1 respectively.
 
-Apply this construction to GLₙ/G for every faithful closed connected reductive
-G→GLₙ. FormalConnectionsOpers §3A.5 consumes it for its loop-Grassmannian
+Specialize to k=ℂ and apply this construction to GLₙ/G for every faithful closed
+connected reductive G→GLₙ. FormalConnectionsOpers §3A.5 consumes it for its loop-Grassmannian
 reduction-locus application.
 
 *Needs:* Layer 1 rational comodules; §6.2 complete reducibility and invariant
@@ -1881,7 +1893,9 @@ Let `Λ` be a commutative ring in which `p` is invertible, and let `P=L⋉U` be 
 `F`-stable parabolic with `F`-stable Levi complement. Work in the categories of all left
 modules over the finite group algebras (equivalently, Mathlib's `Rep Λ G^F` and
 `Rep Λ L^F` at `[CommRing Λ]`); the finitely generated and finite-dimensional subcategories
-are consequences where their hypotheses apply. Define
+are consequences where their hypotheses apply. Define Harish–Chandra induction
+and restriction by the following permutation bimodules (Dudas–Michel,
+Definition 9.2, Remark 9.3 and Proposition 9.4(i), pp. 35–36):
 
     R^G_{L⊂P}(M) = Λ[G^F/U^F] ⊗_{Λ L^F} M
     *R^G_{L⊂P}(N) = Λ[U^F\G^F] ⊗_{Λ G^F} N ≃ N^{U^F}.
@@ -1890,7 +1904,56 @@ The first permutation module is a `(ΛG^F,ΛL^F)`-bimodule; the second is a
 `(ΛL^F,ΛG^F)`-bimodule. The actions of `L^F` come from `P^F=L^F⋉U^F`. Prove the displayed
 invariant identification using the averaging idempotent
 `e_U=|U^F|⁻¹∑_{u∈U^F}u`. Prove that rational points of each connected unipotent radical form a finite p-group; hence
-`p∈Λˣ` implies `|U^F|∈Λˣ`.
+`p∈Λˣ` implies `|U^F|∈Λˣ` (Dudas–Michel, proof of Proposition 9.4, p. 36).
+
+- On an L^F-linear map f:M→M′, induction sends gU^F⊗m to gU^F⊗f(m).
+  Prove well-definedness for the balanced tensor relations, identity and
+  composition laws, and G^F-equivariance.
+- On a G^F-linear map f:N→N′, restriction is f on U^F-invariant vectors.
+  The tensor-to-invariants map sends [U^F g]⊗n to e_U·(g·n), with inverse
+  v↦[U^F]⊗v; prove both inverse equations and L^F-equivariance.
+- The induction module has one copy of M for each coset of P^F in G^F.
+  A chosen Λ-basis of M of size d induces a basis of size [G^F:P^F]d; the action
+  on these copies includes the section cocycle when M is nontrivial.
+- The invariant projector n↦e_U·n is idempotent, has image N^(U^F), and
+  commutes with module maps and the L^F-action. These identities give a
+  natural comparison between coinvariants and invariants, including for
+  non-free modules. They imply exactness of restriction; induction is exact
+  since its right ΛL^F permutation module is free.
+
+**Checks for induction.**
+
+- For G^F=P^F=L^F=1, U^F=1 and Λ=ℚ, induction sends Λ to Λ, with rank 1;
+  multiplication Λ⊗Λ→Λ sends 2⊗3 to 6.
+- For the finite-group adapter 1⊂C₂ with U=1 and Λ=ℤ, induction of
+  the trivial line is ℤ² and the nonidentity element has matrix
+  `[[0,1],[1,0]]`. Its trace is 0, whereas two trivial lines have trace 2.
+- For GL₂(𝔽₂)=S₃, take its upper Borel P^F=U^F=C₂ and L^F=1,
+  with Λ=ℤ[1/2]. Induction of Λ has rank 3; a transposition fixes one
+  coset and exchanges two, so its trace is 1, not 3.
+
+**Checks for restriction and averaging.**
+
+- For U^F=1 and Λ=ℚ, restriction on N=Λ² has projector I₂ and rank 2;
+  on a zero module its rank is 0. It does not take G^F-invariants.
+- For GL₂(𝔽₂), its U^F=C₂, and the regular module Λ[S₃] over
+  Λ=ℤ[1/2], averaging pairs the six basis vectors into three U^F-orbits.
+  The invariant submodule has rank 3, and [U^F]⊗1 maps to (1+u)/2;
+  its inverse maps this vector back to [U^F]⊗1, not twice that tensor.
+- For the sign representation of S₃ over ℤ[1/2], the nontrivial element
+  of U^F=C₂ acts by −1, so e_U acts by (1−1)/2=0 and restriction is zero.
+  For the trivial line it acts by (1+1)/2=1 and restriction has rank 1.
+- Over 𝔽₂, the augmentation 𝔽₂[C₂]→𝔽₂ is surjective, but sends
+  the invariant vector 1+u to 0. Invariants are not exact there; this
+  excludes using the averaging comparison when p is not invertible.
+- For the zero coefficient ring, every unital module is zero. Both functors
+  and all averaging maps are the unique zero maps; basis-size comparisons
+  assert the specified indexed bases, not uniqueness of rank over this ring.
+
+*Needs:* Layer 7a finite rational points; Layer 7b's F-compatible semidirect
+product and projection; §7.2's split unipotent radical; the native
+induction and representation/module equivalence specified below. The
+averaging comparison is constructed here before either biadjunction.
 
 First prove the induction-side adapter, naturally in every left `ΛL^F`-module `M`:
 
@@ -1900,12 +1963,15 @@ First prove the induction-side adapter, naturally in every left `ΛL^F`-module `
 The left side uses the right `L^F`-action on `G^F/U^F`; the right side is ordinary
 finite-group induction from `P^F`. Use `P^F=L^F⋉U^F` and the section/cocycle model for
 nontrivial `M`. The restriction-side adapter identifying
-`Λ[U^F\G^F] ⊗_{ΛG^F} N` with `N^{U^F}` is proved in Layer 7d, where it is first used.
+`Λ[U^F\G^F] ⊗_{ΛG^F} N` with `N^{U^F}` is the averaging comparison above;
+Layer 7d consumes it in the Mackey decomposition.
 
 Prove inflation/invariants adjunctions, exactness, and the finite-index biadjunctions
 
     R^G_{L⊂P} ⊣ *R^G_{L⊂P} ⊣ R^G_{L⊂P}.
 
+Prove exactness and both biadjunctions with these hypotheses
+(Dudas–Michel, Proposition 9.4(ii)–(iii), p. 36).
 Derive both adjunctions from finite-group induction/coinduction and the averaging equivalence
 between `U^F`-invariants and `U^F`-coinvariants. State naturality, conjugation compatibility,
 finite-free permutation-bimodule bases, and the exact module categories. For general `Λ`,
@@ -1933,14 +1999,53 @@ For S₃ and C₂, induction of the trivial line has dimension 3=3·1. This test
 ## Layer 7d: rational transport and the specialized Mackey theorem
 
 For `F`-stable Levis `L,M` in `F`-stable parabolics `P,Q`, define `ad_x(V)` for an `M`-module as the `xMx⁻¹`-module with action
-`(xmx⁻¹)·v := m·v`; use this direction throughout. Define
+`(xmx⁻¹)·v := m·v`; use this direction throughout (Dudas–Michel,
+Theorem 9.6, p. 37). Define the transporter subset
 
     S(L,M) = {x∈G | L∩xMx⁻¹ contains a maximal torus of G}.
+
+- Conjugation transport keeps the underlying Λ-module and linear maps, sends
+  the action of xmx⁻¹ to the action of m, and has inverse transport by x⁻¹.
+  Transport first by x and then by y agrees with transport by yx.
+- The subset S(L,M) is stable under left multiplication by L and right
+  multiplication by M, and inversion identifies it with S(M,L). For L=M=T
+  a maximal torus, it is N_G(T); for L=G it is all of G
+  (Dudas–Michel, Lemma 9.10 and its proof, pp. 38–39).
+
+**Checks for conjugation transport.**
+
+- At x=1 a complex one-dimensional character of C₃ with value ζ on a
+  generator, where ζ is a primitive cube root of unity,
+  still has value ζ; transport does not dualize the representation.
+- In S₃ let M=⟨(123)⟩ and x=(12). A complex character with value ζ at (123)
+  transports to a character with value ζ at (132), hence ζ⁻¹ at (123).
+  The unchanged character would give ζ at (123) and is the wrong model.
+- For the algebraic conjugation adapter on GL₃ over ℂ, take M diagonal,
+  x=(123) as a permutation matrix, and the
+  character diag(a,b,c)↦a. The transported character is diag(a,b,c)↦b;
+  at diag(2,3,5) it is 3. Using x rather than x⁻¹ to pull back would
+  give c=5. A second transport by x gives c, and a third gives a.
+
+**Checks for the transporter subset.**
+
+- For G=T=Gₘ and L=M=T, S(T,T)=T and T\S(T,T)/T has one element.
+- For G=GL₂ and L=M=T diagonal, S(T,T)=N_G(T), whose quotient by T
+  has two elements, represented by I and the coordinate swap. For
+  u=`[[1,1],[0,1]]`, T∩uTu⁻¹ consists only of scalar matrices, of
+  dimension 1 rather than 2, so u is excluded.
+- For G=GL₂, L=G and M=T, S(G,T)=G and G\S(G,T)/T has one element;
+  restricting this subset to N_G(T) would wrongly exclude the same u.
+
+*Needs:* Layer 7b's algebraic Levi intersections; §7.1's maximal-torus
+conjugacy; native restriction of representations along group isomorphisms.
 
 Prove the geometric transporter equivalence `L\S(L,M)/M ≃ P\G/Q` and the rational
 bijection
 
     L^F\S(L,M)^F/M^F ≃ P^F\G^F/Q^F.
+
+Both maps are induced by inclusion of S(L,M) into G
+(Dudas–Michel, Lemma 9.10, pp. 38–39).
 
 The rational proof consumes Layer 7a’s Lang theorem and fixed-coset lifting, after Layer 7a/7b establish their exact finite-type, smooth,
 geometrically-connected, F-stable subgroup and restricted-Frobenius hypotheses. It also uses
@@ -1950,7 +2055,7 @@ each stabilizer, as required by the Lang application; do not infer either proper
 equality of point groups. Consume Layer 7b's intersection and restricted-Frobenius facts.
 
 Use the source permutation-bimodule route for the parabolic Mackey theorem. Reuse Layer 7c's
-induction-side adapter and prove the restriction-side bimodule equivalence
+induction-side adapter and restriction-side bimodule equivalence
 
     Λ[U^F\G^F] ⊗_{ΛG^F} −  ≃  (−)^{U^F}
 
@@ -1982,7 +2087,8 @@ isomorphism
 
 where `[x]` ranges over `L^F\S(L,M)^F/M^F`. The intermediate functors use the finite-point
 parabolic, Levi, and unipotent-radical intersections from Layer 7b. Prove naturality and
-compatibility with the pinned conjugation convention. This supplies parabolic Mackey from explicit bisets.
+compatibility with the pinned conjugation convention (Dudas–Michel,
+Theorem 9.6 and Lemma 9.11, pp. 37–39). This supplies parabolic Mackey from explicit bisets.
 
 ### Examples
 
@@ -3777,15 +3883,64 @@ of `x,y`; finite real chamber freeness then gives `w=1`. Construct the finite co
 `V_reg→B_W` and local charts, with their transition permutations.
 
 Build the finite face/chamber Salvetti model and its equivariant comparison with the
-complex complement: specify its cells by real arrangement faces with incident chambers,
+complex complement (Ernst, *Cell Complexes for Arrangements with Group Actions*,
+arXiv:0905.4434v1, Definition 5.1, pp. 27–28, Theorem 5.11 and its proof,
+pp. 32–35, and Theorem 6.1, p. 41): specify its cells by real arrangement faces with incident chambers,
 construct a good open-star cover and its contractible intersections, and prove the
 homotopy or sufficient two-skeleton comparison using the based van Kampen and CW-cell
-interfaces of [AlgebraicTopology](../AlgebraicTopology/README.md). In the quotient, prove
+interfaces of [AlgebraicTopology Stages 1 and 4](../AlgebraicTopology/README.md). Construct
+maps from the realization of the Salvetti complex to V_reg and back, together
+with W-equivariant homotopies of both composites to the identity; these induce
+the quotient comparison. Apply the essential-arrangement construction on the
+root span and contract the W-fixed central vector summand separately.
+In the quotient, prove
 there is one vertex, one oriented one-cell for each simple wall and exactly the rank-two
 alternating-word relations of length `m_ij`. Both generation and completeness of the
-relations are targets. This gives a generator-characterized based isomorphism
+relations are targets (Ernst, Theorem 6.10, p. 46). This gives a generator-characterized based isomorphism
 `π₁(B_W,[b]) ≃ TauCeti.ArtinGroup (coxeterMatrixOfBase P base)` at a specified chamber point,
 with explicit basepoint-change transport for any other basepoint.
+
+- Changing the chosen chamber point transports each fundamental group by a
+  specified path and commutes with the covering homomorphism; changing that
+  path changes the identification by the corresponding inner automorphism.
+- A product of root pairings gives a product of complements, quotient spaces
+  and Salvetti homotopy types. A W-fixed complex vector summand contracts
+  equivariantly and contributes no fundamental group.
+- The reflection-wall loop downstairs has a lift joining b to its simple
+  reflection; its image in W is that reflection. Squares lie in the pure
+  kernel, and the inclusion of that kernel is induced by V_reg→B_W.
+
+**Checks for the complement and covering.**
+
+- With no roots in ℝᵈ, V_reg=ℂᵈ and W=1; both fundamental groups are
+  zero and the covering degree is 1. At d=0 the complement has one point,
+  not zero points.
+- In A₁, V_reg=ℂˣ, the quotient coordinate is u=z², and the covering
+  has degree 2. The loop u(t)=exp(2πit) lifts from 1 to −1 via exp(πit);
+  on fundamental groups the covering sends 1 to 2.
+- In A₁×A₁, the covering is (z,w)↦(z²,w²), of degree 4; its map on
+  fundamental groups ℤ²→ℤ² is (a,b)↦(2a,2b). Adding a central ℂ
+  factor leaves degree 4 and fundamental group ℤ², not ℤ³.
+
+**Checks for the Salvetti comparison and presentation.**
+
+- The rank-zero model is a point, with one vertex and no edges; its
+  fundamental group is zero, agreeing with the empty-root complement.
+- The A₁ model before quotient has two vertices and two edges, hence
+  fundamental group ℤ. Its W-quotient has one vertex and one loop;
+  the two-edge cycle upstairs traverses the quotient loop twice.
+- For A₁×A₁ the quotient two-skeleton has one vertex, two edges and
+  one square, with relation ab=ba and fundamental group ℤ². For A₂
+  the attaching word instead gives aba=bab; for B₂ it gives
+  abab=baba and for G₂ ababab=bababa, of lengths 3, 4 and 6 on
+  each side. Replacing every rank-two face by an A₂ hexagon fails
+  the B₂ and G₂ checks.
+
+*Needs:* RootSystems Layers 2 and 4 for the finite Coxeter and chamber
+structure; AlgebraicTopology Stages 1 and 4 for CW realization and the
+van Kampen theorem; the native homotopy equivalences, finite covering and
+fundamental-group maps.
+The central-factor contraction uses scalar multiplication on a vector space.
 
 Consume [RootSystems Layer2](../RepresentationTheory/RootSystems/README.md)'s
 `weylCoxeterSystem`, with its exact spanning/reduced/characteristic-zero hypotheses and
@@ -3994,6 +4149,10 @@ those points. Their CFSG milestone L5 needs constructions rather than existence 
 - M. Fang, K. J. Lim, K. M. Tan, *Jantzen filtration of Weyl modules, product
   of Young symmetrizers and denominator of Young’s seminormal basis*,
   arXiv:1904.13040v2 (2020), §2.1, pp. 2–3: integral Weyl lattices and forms.
+- D. C. Ernst, *Cell Complexes for Arrangements with Group Actions*,
+  revised M.S. thesis, arXiv:0905.4434v1 (2009), Definition 5.1,
+  pp. 27–28, Theorem 5.11, pp. 32–35, Theorem 6.1, p. 41, and
+  Theorem 6.10, p. 46: the Salvetti and finite reflection-quotient comparisons.
 
 - A. Grothendieck et al., *Revêtements étales et groupe fondamental* (SGA 1),
   retyped edition, arXiv:math/0206203v2, Exposé XII by M. Raynaud, §§1–3,
