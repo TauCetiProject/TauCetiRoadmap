@@ -1,32 +1,32 @@
+module
+
 import Mathlib
 
 /-!
 # Modular forms of half-integral weight: target signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive specification is
-`README.md`. This file states only what can be stated over Mathlib and the pinned Tau Ceti: the
-carrier with its linear structure, `q`-expansion and cusp forms, `θ`, the level-`4` dimensions,
-Dedekind sums with the closed forms of the `η` transformation, the unary theta series with the
-Serre–Stark theorems in their `Γ₁(N)` form, and Kohnen's plus space with its dimension. The other
-targets (the diamond operators and the nebentypus spaces `M_{k+1/2}(N, χ)`, multiplication by `θ`,
-the Petersson product, `T(p²)`, the Shimura lift, the odd-rank theta series, the character of a
-unary theta series, `T⁺(4)` and Kohnen's isomorphism, and Layers 6–7), with their definitions and
-Checks, are specified in `README.md` only. Every proof here is `sorry`: these are targets, not
-implementations. The exceptions are the linear structure, `cuspSpace`, `thetaForm`'s holomorphy
-and `T ∈ Γ₀(4)`, whose proofs are real; `thetaForm`'s cusp bound and `plusSpace`'s closure cite
-the named theorems `boundedAtCusps_theta`, `coeff_add` and `coeff_smul`.
+The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
+theorems against the pinned Mathlib and Tau Ceti APIs, using simple definitions on native
+carriers. The headlines stated here are finite-dimensionality, Cohen's level-four dimension
+formulas, Dedekind reciprocity and the eta transformation formulas, the theta eta quotient,
+even and odd unary-theta modularity, both Serre–Stark basis theorems, the two unary eta
+identities, and the dimension consequence of Kohnen's correspondence.
 
-The carrier is `HalfIntegralForm k Γ`: a function `ℍ → ℂ`, holomorphic, satisfying the
-transformation law of weight `k + 1/2` on a subgroup `Γ ≤ Γ₀(4)` of `SL(2, ℤ)` in the
-**multiplied-out form** `f(γz) θ(z)^{2k+1} = θ(γz)^{2k+1} f(z)`, with `θ(z) = jacobiTheta (2z)`,
-and bounded at every cusp. Weights are `k + 1/2` with `k : ℕ`; the LMFDB's odd `k` is our
-`2k + 1`. The theta multiplier `j(γ, z) = θ(γz)/θ(z)` of GeometryOfNumbersAndQuadraticArithmetic
-§4.3 is not declared here: the law is spelled with `θ` on both sides, which is the same condition
-because `θ` has no zero on `ℍ`. Holomorphy at the cusps is boundedness of
-`|f(Az)| |cz + d|^{−(2k+1)/2}`, branch-free, as in Mathlib's `ModularForm`. A form on `Γ₁(N)` is
-the direct sum of its nebentypus components (README 0.4), so a statement about every
-`M_{k+1/2}(N, χ)` at once is stated here on `HalfIntegralForm k (Gamma1 N)`, and the level-`4`,
-trivial-character space `M_{k+1/2}(Γ₀(4))` is `HalfIntegralForm k (Gamma0 4)`.
+The following headlines are not statable with these definitions at the pins. The Shimura
+lift, its Euler product and its decomposition lack the half-integral Hecke action and the
+constructed lift. Odd-rank lattice modularity lacks ThetaSeries' real-lattice theta-form
+bridge. Kohnen's Hecke correspondence and higher-level newform theorem lack the plus-space
+Hecke and newspace carriers. Kohnen–Zagier, Waldspurger and the normalized Shintani adjunction
+lack the half-integral Petersson space, the Shimura maps and the cycle-integral construction.
+The Jacobi theta-component comparison, dimension theorem and Skoruppa–Zagier correspondence
+lack the supplier's holomorphic Jacobi carrier and its classical comparison. These remain
+proof targets in the README; no replacement predicates or admitted constructions are used here.
+
+The carrier `HalfIntegralForm k Γ` has weight `k+1/2`, a multiplied-out theta transformation
+law and branch-free bounds at every cusp. Finite-dimensionality requires finite index.
+Levels are positive and divisible by four. The Serre–Stark family is indexed by primitive
+characters of positive conductor and positive dilations, with no repeated imprimitive
+characters. Its totally-even predicate tests the signs of the coprime local factors.
 -/
 
 namespace TauCetiRoadmap.HalfIntegralWeightModularForms
@@ -70,28 +70,12 @@ namespace HalfIntegralForm
 
 variable {k : ℕ} {Γ Γ' : Subgroup SL(2, ℤ)}
 
+/-- Evaluation of a form as its underlying function. -/
 instance : FunLike (HalfIntegralForm k Γ) ℍ ℂ where
   coe := toFun
   coe_injective f g h := by cases f; cases g; congr
 
-theorem ext {f g : HalfIntegralForm k Γ} (h : ∀ z, f z = g z) : f = g := DFunLike.ext f g h
-
-theorem law (f : HalfIntegralForm k Γ) {γ : SL(2, ℤ)} (hγ : γ ∈ Γ) (z : ℍ) :
-    f (γ • z) * theta z ^ (2 * k + 1) = theta (γ • z) ^ (2 * k + 1) * f z := f.law' γ hγ z
-
-theorem bdd (f : HalfIntegralForm k Γ) : BoundedAtCusps k f := f.bdd'
-
-theorem holo (f : HalfIntegralForm k Γ) : MDifferentiable 𝓘(ℂ) 𝓘(ℂ) f := f.holo'
-
-/-- **0.3**, restriction to a smaller group. -/
-def ofLe (h : Γ' ≤ Γ) (f : HalfIntegralForm k Γ) : HalfIntegralForm k Γ' where
-  toFun := f
-  holo' := f.holo'
-  law' := fun γ hγ z => f.law' γ (h hγ) z
-  bdd' := f.bdd'
-
-/-- The zero form: the law is `0 = 0`. Together with `thetaForm` below it witnesses that the
-carrier is not empty. -/
+/-- The zero form: the law is `0 = 0`. It is the additive identity of the space. -/
 def zeroForm : HalfIntegralForm k Γ where
   toFun := fun _ => 0
   holo' := mdifferentiable_const
@@ -103,40 +87,55 @@ def zeroForm : HalfIntegralForm k Γ where
 /-! **0.3**, the `ℂ`-vector space structure: pointwise operations, since the law and the bound
 are linear. -/
 
+/-- The zero function as additive identity. -/
 instance : Zero (HalfIntegralForm k Γ) := ⟨zeroForm⟩
 
+/-- Addition of holomorphic sections and their cusp bounds. -/
 instance : Add (HalfIntegralForm k Γ) where
   add f g :=
     { toFun := ⇑f + ⇑g
-      holo' := f.holo.add g.holo
+      holo' := f.holo'.add g.holo'
       law' := fun γ hγ z => by
+        have hf : f (γ • z) * theta z ^ (2 * k + 1) =
+            theta (γ • z) ^ (2 * k + 1) * f z := f.law' γ hγ z
+        have hg : g (γ • z) * theta z ^ (2 * k + 1) =
+            theta (γ • z) ^ (2 * k + 1) * g z := g.law' γ hγ z
         simp only [Pi.add_apply]
-        rw [add_mul, mul_add, f.law hγ z, g.law hγ z]
+        rw [add_mul, mul_add, hf, hg]
       bdd' := fun A => by
-        refine (Asymptotics.isBigO_of_le _ fun z => ?_).trans ((f.bdd A).add (g.bdd A))
+        refine (Asymptotics.isBigO_of_le _ fun z => ?_).trans ((f.bdd' A).add (g.bdd' A))
         simp only [Pi.add_apply, Real.norm_eq_abs]
         rw [abs_of_nonneg (by positivity), abs_of_nonneg (by positivity), ← add_div]
         gcongr
         exact norm_add_le _ _ }
 
+/-- Negation of holomorphic sections. -/
 instance : Neg (HalfIntegralForm k Γ) where
   neg f :=
     { toFun := -⇑f
-      holo' := f.holo.neg
+      holo' := f.holo'.neg
       law' := fun γ hγ z => by
         simp only [Pi.neg_apply, neg_mul, mul_neg]
-        rw [f.law hγ z]
-      bdd' := fun A => by simpa only [Pi.neg_apply, norm_neg] using f.bdd A }
+        exact congrArg Neg.neg (f.law' γ hγ z)
+      bdd' := fun A => by
+        have hf : BoundedAtCusps k (f : ℍ → ℂ) := f.bdd'
+        simpa only [Pi.neg_apply, norm_neg] using hf A }
 
+/-- Pointwise subtraction of forms. -/
 instance : Sub (HalfIntegralForm k Γ) := ⟨fun f g => f + -g⟩
 
+/-- Scalar multiplication compatible with the complex action. -/
 instance {α : Type*} [SMul α ℂ] [IsScalarTower α ℂ ℂ] : SMul α (HalfIntegralForm k Γ) where
   smul c f :=
     { toFun := c • ⇑f
-      holo' := by simpa using f.holo.const_smul (c • (1 : ℂ))
+      holo' := by
+        have hf : MDifferentiable 𝓘(ℂ) 𝓘(ℂ) (f : ℍ → ℂ) := f.holo'
+        simpa using hf.const_smul (c • (1 : ℂ))
       law' := fun γ hγ z => by
         simp only [Pi.smul_apply]
-        rw [← smul_one_mul c (f (γ • z)), ← smul_one_mul c (f z), mul_assoc, f.law hγ z]
+        have hf : f (γ • z) * theta z ^ (2 * k + 1) =
+            theta (γ • z) ^ (2 * k + 1) * f z := f.law' γ hγ z
+        rw [← smul_one_mul c (f (γ • z)), ← smul_one_mul c (f z), mul_assoc, hf]
         ring
       bdd' := fun A => by
         have e : (fun z : ℍ => ‖(c • ⇑f) (A • z)‖ / ‖denomZ A z‖ ^ ((2 * k + 1 : ℝ) / 2)) =
@@ -146,20 +145,26 @@ instance {α : Type*} [SMul α ℂ] [IsScalarTower α ℂ ℂ] : SMul α (HalfIn
           rw [← smul_one_mul c (f (A • z)), norm_mul, mul_div_assoc]
         show IsBoundedAtImInfty _
         rw [e]
-        exact (f.bdd A).smul _ }
+        exact (f.bdd' A).smul _ }
 
+/-- The zero form has the zero underlying function. -/
 @[simp] theorem coe_zero : ⇑(0 : HalfIntegralForm k Γ) = 0 := rfl
 
+/-- Addition is pointwise. -/
 @[simp] theorem coe_add (f g : HalfIntegralForm k Γ) : ⇑(f + g) = f + g := rfl
 
+/-- Negation is pointwise. -/
 @[simp] theorem coe_neg (f : HalfIntegralForm k Γ) : ⇑(-f) = -f := rfl
 
+/-- Subtraction is pointwise. -/
 @[simp] theorem coe_sub (f g : HalfIntegralForm k Γ) : ⇑(f - g) = f - g :=
   (sub_eq_add_neg _ _).symm
 
+/-- Scalar multiplication is pointwise. -/
 @[simp] theorem coe_smul {α : Type*} [SMul α ℂ] [IsScalarTower α ℂ ℂ] (c : α)
     (f : HalfIntegralForm k Γ) : ⇑(c • f) = c • ⇑f := rfl
 
+/-- The additive commutative group of forms. -/
 instance : AddCommGroup (HalfIntegralForm k Γ) :=
   DFunLike.coe_injective.addCommGroup _ coe_zero coe_add coe_neg coe_sub
     (fun _ _ => coe_smul _ _) (fun _ _ => coe_smul _ _)
@@ -170,39 +175,39 @@ def coeHom : HalfIntegralForm k Γ →+ (ℍ → ℂ) where
   map_zero' := coe_zero
   map_add' := coe_add
 
+/-- The complex vector space of forms. -/
 instance : Module ℂ (HalfIntegralForm k Γ) :=
   DFunLike.coe_injective.module ℂ coeHom fun _ _ => rfl
 
-/-- **0.3**, the Fourier coefficient `a(n)` of `f = ∑ a(n) qⁿ`, `q = e(z)`; every `Γ` considered
-contains `T`, on which the multiplier is `1`, so the period is `1`. -/
-def coeff (f : HalfIntegralForm k Γ) (n : ℕ) : ℂ := (qExpansion 1 (f : ℍ → ℂ)).coeff n
+/-- The period-one Fourier coefficient, evaluated on the horizontal line of height one.
+For a form with `T ∈ Γ`, this equals `(qExpansion 1 f).coeff n`. -/
+def coeff (f : HalfIntegralForm k Γ) (n : ℕ) : ℂ :=
+  ∫ x : ℝ in 0..1, cexp (-2 * π * I * n * ((x : ℂ) + I)) *
+    f ⟨(x : ℂ) + I, by simp⟩
 
-theorem hasSum_coeff (hT : ModularGroup.T ∈ Γ) (f : HalfIntegralForm k Γ) (z : ℍ) :
-    HasSum (fun n : ℕ => coeff f n * cexp (2 * π * I * z) ^ n) (f z) := sorry
+/-- Integration on the horizontal line makes Fourier coefficients additive. -/
+theorem coeff_add (f g : HalfIntegralForm k Γ) (n : ℕ) :
+    coeff (f + g) n = coeff f n + coeff g n := by
+  simp only [coeff, coe_add, Pi.add_apply, mul_add]
+  apply intervalIntegral.integral_add
+  · apply Continuous.intervalIntegrable
+    have hf : Continuous f := f.holo'.continuous
+    fun_prop
+  · apply Continuous.intervalIntegrable
+    have hg : Continuous g := g.holo'.continuous
+    fun_prop
 
-/-- **0.3**, the coefficients are additive (given period `1`). -/
-theorem coeff_add (hT : ModularGroup.T ∈ Γ) (f g : HalfIntegralForm k Γ) (n : ℕ) :
-    coeff (f + g) n = coeff f n + coeff g n := sorry
+/-- Integration on the horizontal line makes Fourier coefficients complex-linear. -/
+theorem coeff_smul (c : ℂ) (f : HalfIntegralForm k Γ) (n : ℕ) :
+    coeff (c • f) n = c * coeff f n := by
+  simp only [coeff, coe_smul, Pi.smul_apply, smul_eq_mul]
+  simp_rw [mul_left_comm _ c]
+  exact intervalIntegral.integral_const_mul _ _
 
-/-- **0.3**, the coefficients are `ℂ`-homogeneous (given period `1`). -/
-theorem coeff_smul (hT : ModularGroup.T ∈ Γ) (c : ℂ) (f : HalfIntegralForm k Γ) (n : ℕ) :
-    coeff (c • f) n = c * coeff f n := sorry
-
-/-- **0.3**, the equivalence of the branch-free cusp condition with Shimura's: at a cusp `A∞` of
-width `h` and multiplier phase `κ_A ∈ [0, 1)`, boundedness is the absence of negative exponents in
-`f(Az)(cz + d)^{−(2k+1)/2} = ∑_{n ≥ 0} b(n) e((n + κ_A) z/h)`. Stated as the existence of the
-expansion. -/
-theorem exists_expansion_at_cusp (hΓ : Γ ≤ Gamma0 4) [Γ.FiniteIndex] (f : HalfIntegralForm k Γ)
-    (A : SL(2, ℤ)) :
-    ∃ (h : ℝ) (κ : ℚ) (b : ℕ → ℂ), 0 < h ∧ 0 ≤ κ ∧ κ < 1 ∧ ∀ z : ℍ,
-      HasSum (fun n : ℕ => b n * cexp (2 * π * I * ((n : ℂ) + κ) * z / h))
-        (f (A • z) / (denomZ A z) ^ ((2 * k + 1 : ℂ) / 2)) := sorry
-
-/-- **0.3, finite-dimensionality**, reduced to the integral-weight target: the route of record
-pulls back the finite-dimensionality of `M_{k+1}` along the injection `f ↦ fθ` (README 0.3). -/
-theorem finiteDimensional (hΓ : Γ ≤ Gamma1 4)
-    [FiniteDimensional ℂ
-      (ModularForm (Γ.map (Matrix.SpecialLinearGroup.mapGL ℝ)) ((k : ℤ) + 1))] :
+/-- Forms of weight `k+1/2` on a finite-index subgroup of `Γ₀(4)` form a
+finite-dimensional complex vector space. Multiplication by theta injects into integral
+weight on `Γ ∩ Γ₁(4)`. -/
+theorem finiteDimensional (hΓ : Γ ≤ Gamma0 4) [Γ.FiniteIndex] :
     FiniteDimensional ℂ (HalfIntegralForm k Γ) := sorry
 
 /-- **0.5**, cusp forms. -/
@@ -225,38 +230,9 @@ def cuspSpace : Submodule ℂ (HalfIntegralForm k Γ) where
     simpa only [IsCuspForm, ZeroAtCusps, IsZeroAtImInfty, coe_smul, Pi.smul_apply, Pi.smul_def,
       smul_eq_mul, norm_mul, mul_div_assoc] using (hf A).smul ‖c‖
 
-theorem mem_cuspSpace_iff (f : HalfIntegralForm k Γ) : f ∈ cuspSpace k Γ ↔ IsCuspForm f :=
-  Iff.rfl
-
-theorem coeff_zero_of_isCuspForm (hT : ModularGroup.T ∈ Γ) {f : HalfIntegralForm k Γ}
-    (hf : IsCuspForm f) : coeff f 0 = 0 := sorry
-
 end HalfIntegralForm
 
-/-- **0.2**, the boundedness of `θ` at every cusp: at `∞` from `hasSum_nat_jacobiTheta`, at `0`
-from the `W₄`-law of 0.1, at `1/2` from `θ(z + 1/2) = ∑ (−1)ⁿ qⁿ²` with the `W₄`-law. -/
-theorem boundedAtCusps_theta : BoundedAtCusps 0 theta := sorry
-
-/-- **0.2, non-vacuity.** `θ ∈ M_{1/2}(Γ₀(4))`. Its law is `θ(γz)θ(z) = θ(γz)θ(z)`; holomorphy
-is `differentiableAt_jacobiTheta` at `2z`; boundedness at the cusps is `boundedAtCusps_theta`. -/
-def thetaForm : HalfIntegralForm 0 (Gamma0 4) where
-  toFun := theta
-  holo' := fun τ => by
-    have h : DifferentiableAt ℂ (fun w : ℂ => jacobiTheta (2 * w)) τ :=
-      (differentiableAt_jacobiTheta (by simpa using τ.im_pos)).comp (τ : ℂ)
-        (differentiableAt_id.const_mul (2 : ℂ))
-    exact h.mdifferentiableAt.comp τ τ.mdifferentiable_coe
-  law' := fun _ _ _ => by simp
-  bdd' := boundedAtCusps_theta
-
-@[simp] theorem thetaForm_apply (z : ℍ) : thetaForm z = theta z := rfl
-
-/-- **0.2**, `θ` is not a cusp form: its constant term is `1`. -/
-theorem thetaForm_coeff_zero : HalfIntegralForm.coeff thetaForm 0 = 1 := sorry
-
-theorem not_isCuspForm_thetaForm : ¬ thetaForm.IsCuspForm := sorry
-
-/-! ## 0.6: level `4` -/
+/-! ### Cohen's level-four dimensions -/
 
 namespace HalfIntegralForm
 
@@ -268,10 +244,6 @@ theorem finrank_four (k : ℕ) :
 /-- **0.6**, `dim S_{k+1/2}(Γ₀(4)) = ⌊k/2⌋ − 1` for `k ≥ 2`. -/
 theorem finrank_cuspSpace_four (k : ℕ) (hk : 2 ≤ k) :
     Module.finrank ℂ (cuspSpace k (Gamma0 4)) = k / 2 - 1 := sorry
-
-/-- **0.6, 4.2**, the level-`4` case: `M_{1/2}(Γ₀(4)) = ℂθ`. -/
-theorem eq_span_thetaForm :
-    (⊤ : Submodule ℂ (HalfIntegralForm 0 (Gamma0 4))) = Submodule.span ℂ {thetaForm} := sorry
 
 end HalfIntegralForm
 
@@ -342,26 +314,46 @@ theorem exists_unaryTheta_eq {r : ℕ} [NeZero r] (ψ : DirichletCharacter ℂ r
     (hev : ψ (-1) = 1) (t : ℕ) [NeZero (4 * r ^ 2 * t)] :
     ∃ f : HalfIntegralForm 0 (Gamma1 (4 * r ^ 2 * t)), ⇑f = unaryTheta ψ t := sorry
 
-/-- **4.1**, `θ_{ψ,t} = 0` for odd `ψ`. -/
-theorem unaryTheta_eq_zero_of_odd {r : ℕ} (ψ : DirichletCharacter ℂ r) (hodd : ψ (-1) = -1)
-    (t : ℕ) : unaryTheta ψ t = 0 := sorry
+/-- A primitive odd character of positive conductor gives a cuspidal unary theta
+series of weight `3/2`, on the full positive level `4r²t`. -/
+theorem exists_unaryThetaOdd_eq {r : ℕ} [NeZero r] (ψ : DirichletCharacter ℂ r)
+    (hψ : ψ.IsPrimitive) (hodd : ψ (-1) = -1) (t : ℕ) [NeZero (4 * r ^ 2 * t)] :
+    ∃ f : HalfIntegralForm.cuspSpace 1 (Gamma1 (4 * r ^ 2 * t)),
+      ∀ z : ℍ, (f : HalfIntegralForm 1 (Gamma1 (4 * r ^ 2 * t))) z =
+        unaryThetaOdd ψ t z := sorry
 
-/-- **4.2, the Serre–Stark basis theorem** (Theorem A), summed over the characters modulo `N`:
-`M_{1/2}(Γ₁(N))` is spanned by the `θ_{ψ,t}` with `ψ` primitive even and `r² t ∣ N/4`. README 4.2
-states the theorem for each `M_{1/2}(N, χ)`, where `θ_{ψ,t}` lies for `χ = ψ χ_t`. -/
+/-- The Serre–Stark indices at level `N`: a positive primitive even conductor and a
+positive dilation satisfying the full divisibility condition `r²t ∣ N/4`. -/
+structure UnaryIndex (N : ℕ) where
+  r : ℕ
+  t : ℕ
+  r_pos : 0 < r
+  t_pos : 0 < t
+  psi : DirichletCharacter ℂ r
+  primitive : psi.IsPrimitive
+  even : psi (-1) = 1
+  level_dvd : r ^ 2 * t ∣ N / 4
+
+/-- A character is totally even when it is one on every sign supported on a coprime
+factor of its modulus; by the Chinese remainder theorem this says every local component
+is even. -/
+def TotallyEven {r : ℕ} (ψ : DirichletCharacter ℂ r) : Prop :=
+  ∀ a b : ℕ, a * b = r → Nat.Coprime a b →
+    ∀ u : ℤ, Int.ModEq a u (-1) → Int.ModEq b u 1 → ψ u = 1
+
+/-- Serre–Stark Theorem A: the correctly indexed unary theta family is a basis,
+including linear independence as well as spanning, on `Γ₁(N)`. -/
 theorem serreStark {N : ℕ} [NeZero N] (hN : 4 ∣ N) :
-    (⊤ : Submodule ℂ (HalfIntegralForm 0 (Gamma1 N))) = Submodule.span ℂ
-      {f : HalfIntegralForm 0 (Gamma1 N) | ∃ (r t : ℕ) (ψ : DirichletCharacter ℂ r),
-        ψ.IsPrimitive ∧ ψ (-1) = 1 ∧ r ^ 2 * t ∣ N / 4 ∧ ⇑f = unaryTheta ψ t} := sorry
+    ∃ b : Module.Basis (UnaryIndex N) ℂ (HalfIntegralForm 0 (Gamma1 N)),
+      ∀ i z, b i z = unaryTheta i.psi i.t z := sorry
 
-/-- **4.3** (Serre–Stark, Theorem B): the cusp forms of weight `1/2` are the `θ_{ψ,t}` with `ψ`
-not totally even, so there are none on `Γ₁(N)` when `N/4` is squarefree (then `r = 1`, `ψ = 1`),
-for every character at once. A trivial character alone does not force vanishing:
-`η(72z) = ½ θ_{χ₁₂,3} ∈ S_{1/2}(1728, 1)`. The first cusp form of weight `1/2` is
-`η(24z) = ½ θ_{χ₁₂,1}` at level `576`. -/
-theorem cuspSpace_zero_eq_bot_of_squarefree {N : ℕ} [NeZero N] (hN : 4 ∣ N)
-    (hsq : Squarefree (N / 4)) :
-    HalfIntegralForm.cuspSpace 0 (Gamma1 N) = ⊥ := sorry
+/-- Serre–Stark Theorem B: the subfamily whose primitive character is not totally
+even is a basis of the entire weight-one-half cusp space. -/
+theorem serreStark_cusp {N : ℕ} [NeZero N] (hN : 4 ∣ N) :
+    ∃ b : Module.Basis {i : UnaryIndex N // ¬ TotallyEven i.psi} ℂ
+      (HalfIntegralForm.cuspSpace 0 (Gamma1 N)),
+      ∀ i z, (b i : HalfIntegralForm 0 (Gamma1 N)) z =
+        unaryTheta i.val.psi i.val.t z := sorry
 
 /-- **4.1, 4.5**, the two identities of Shimura's Remark: `θ_{χ₁₂,1} = 2 η(24z)` and
 `h_{χ₋₄,1} = 2 η(8z)³`. Here `χ₁₂ = χ₋₄ χ₋₃` with `χ₋₃(n) = (n/3)`, Mathlib's `quadraticChar`. -/
@@ -372,6 +364,7 @@ theorem unaryTheta_chi12 (z : ℍ) :
         ((quadraticChar (ZMod 3)).ringHomComp (Int.castRingHom ℂ))) 1 z =
       2 * ModularForm.eta (24 * (z : ℂ)) := sorry
 
+/-- Jacobi's unary identity: the odd character modulo four gives twice eta cubed at eight times the argument. -/
 theorem unaryThetaOdd_chi4 (z : ℍ) :
     unaryThetaOdd (ZMod.χ₄.ringHomComp (Int.castRingHom ℂ)) 1 z =
       2 * ModularForm.eta (8 * (z : ℂ)) ^ 3 := sorry
@@ -382,11 +375,6 @@ end Unary
 
 namespace HalfIntegralForm
 
-/-- **5.1**, `T ∈ Γ₀(4)`: forms on `Γ₀(4)` have period `1`, so their coefficients are linear. -/
-theorem T_mem_Gamma0_four : ModularGroup.T ∈ Gamma0 4 := by
-  rw [Gamma0_mem]
-  simp [ModularGroup.T]
-
 variable (k : ℕ)
 
 /-- **5.1, Kohnen's plus space** `M⁺_{k+1/2}(Γ₀(4))`: the forms whose coefficients vanish off
@@ -395,21 +383,18 @@ def plusSpace : Submodule ℂ (HalfIntegralForm k (Gamma0 4)) where
   carrier := {f | ∀ n : ℕ, ((-1 : ℤ) ^ k * n) % 4 ≠ 0 → ((-1 : ℤ) ^ k * n) % 4 ≠ 1 →
     coeff f n = 0}
   zero_mem' := fun n h0 h1 => by
-    simpa using coeff_smul T_mem_Gamma0_four 0 (0 : HalfIntegralForm k (Gamma0 4)) n
+    simpa using coeff_smul 0 (0 : HalfIntegralForm k (Gamma0 4)) n
   add_mem' := fun hf hg n h0 h1 => by
-    rw [coeff_add T_mem_Gamma0_four, hf n h0 h1, hg n h0 h1, add_zero]
+    rw [coeff_add, hf n h0 h1, hg n h0 h1, add_zero]
   smul_mem' := fun c f hf n h0 h1 => by
-    rw [coeff_smul T_mem_Gamma0_four, hf n h0 h1, mul_zero]
+    rw [coeff_smul, hf n h0 h1, mul_zero]
 
 /-- **5.3**, `dim M⁺_{k+1/2}(4) = dim M_{2k}(SL₂(ℤ))`, the dimension count of Kohnen's
 isomorphism (README 5.3). -/
-theorem finrank_plusSpace :
+theorem finrank_plusSpace (hk : 1 ≤ k) :
     Module.finrank ℂ (plusSpace k) = Module.finrank ℂ
       (ModularForm ((CongruenceSubgroup.Gamma 1).map (Matrix.SpecialLinearGroup.mapGL ℝ))
         (2 * k : ℤ)) := sorry
-
-/-- **5.1**, `M⁺_{3/2}(4) = 0`. -/
-theorem plusSpace_one_eq_bot : plusSpace 1 = ⊥ := sorry
 
 end HalfIntegralForm
 
