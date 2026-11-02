@@ -70,7 +70,7 @@ noncomputable def zetaEntireCompletion (s : ℂ) : ℂ :=
 
 /-! ## Layer 3: convexity -/
 
-/-- **Layer 3.3, the convexity bound, uniform in the conductor.** For every `ε > 0` there is
+/-- **Layer 3.4, the convexity bound, uniform in the conductor.** For every `ε > 0` there is
 `C` such that every primitive Dirichlet character `χ` modulo `q` satisfies
 `‖L(1/2 + it, χ)‖ ≤ C (q (|t| + 3))^{1/4 + ε}` for all real `t`. At `q = 1` this is
 `ζ(1/2 + it) ≪ |t|^{1/4 + ε}` (Titchmarsh §5.1); the general form is the convexity bound of
@@ -82,7 +82,7 @@ theorem dirichletLFunction_convexity (ε : ℝ) (hε : 0 < ε) :
 
 /-! ## Layer 5: Hadamard factorization -/
 
-/-- **Layer 5.6, Hadamard's factorization at order at most one.** An entire `f` of order at most
+/-- **Layer 5.5, Hadamard's factorization at order at most one.** An entire `f` of order at most
 `1` with `f 0 ≠ 0` is `exp (a + b s) ∏_ρ ((1 − s/ρ) e^{s/ρ})^{m_ρ}`, the product over its zeros
 `ρ` with their multiplicities `m_ρ`, unconditionally convergent for every `s` (Davenport,
 *Multiplicative Number Theory*, §11). The index is all of `ℂ`, the exponent being `0` off the
@@ -96,11 +96,11 @@ theorem hadamard_of_orderLE_one (f : ℂ → ℂ) (hf : Differentiable ℂ f) (h
         (MeromorphicOn.divisor f univ ρ).toNat :=
   sorry
 
-/-- **Layer 5.6 at the `ζ` instance.** There are constants `A, B` with
+/-- **Layer 5.5 at the `ζ` instance.** There are constants `A, B` with
 `zetaEntireCompletion s = exp (A + B s) ∏_ρ ((1 − s/ρ) e^{s/ρ})^{m_ρ}` for every `s`, the
 product over the zeros of `zetaEntireCompletion` with their multiplicities and unconditionally
 convergent (Davenport §12). Its content beyond `hadamard_of_orderLE_one` is that
-`zetaEntireCompletion` has order at most `1` (Layer 3.4). -/
+`zetaEntireCompletion` has order at most `1` (Layer 3.1). -/
 theorem zetaEntireCompletion_hadamard :
     ∃ A B : ℂ, ∀ s : ℂ,
       Multipliable (fun ρ : ℂ ↦ ((1 - s / ρ) * cexp (s / ρ)) ^
@@ -197,7 +197,7 @@ theorem riemannZeta_weilExplicitFormula (φ : ℝ → ℂ) (hφ : ContDiff ℝ �
 /-- **Layer 8.5, the effective prime ideal theorem.** For a number field `K` there is `c > 0`
 such that the number of nonzero prime ideals of `𝓞 K` of norm at most `x` is
 `Li(x) + O(x exp(−c √log x))`, with `Li x = ∫₂ˣ dt / log t` (the body of Tau Ceti's
-`TauCeti.Real.logIntegral`) and the constants depending on `K`. For fixed `K` a possible
+`TauCeti.Real.logIntegral` contract from Arithmetic Dirichlet Series §6.2) and the constants depending on `K`. For fixed `K` a possible
 exceptional zero `β` of `ζ_K` contributes `Li(x^β)`, which the error absorbs. -/
 theorem primeIdealCount_effective (K : Type*) [Field K] [NumberField K] :
     ∃ c : ℝ, 0 < c ∧
