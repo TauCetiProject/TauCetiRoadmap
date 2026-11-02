@@ -39,6 +39,9 @@ at these pins with only a few simple definitions on existing carriers.
 * Weight splitting over arbitrary algebraically closed fields lacks the geometric
   ℓ-adic model and its spread-independent cohomological weight realization.
 * Proper smooth formality lacks the geometric ℓ-adic algebra and Sullivan model.
+* Continuous presentation duality for a 1-minimal model lacks the Sullivan carrier,
+  its finite Lie tower and the completed relation quotient with its continuous dual;
+  the graded form also needs compatible weight-stable stages and a weight-preserving lift.
 * The étale 1-minimal/Tannakian comparison lacks the degree-one Sullivan Lie tower and
   the geometric unipotent étale Tannaka group.
 * The normal-variety presentation theorem lacks that geometric unipotent Lie algebra,
