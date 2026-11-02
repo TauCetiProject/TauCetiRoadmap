@@ -941,7 +941,14 @@ skeletal data although TS² has no global frame. Match the edge differences
 on S¹ and T² with G6.5's two circle lifts and four torus lifts, including
 the lift defined by the Lie framing and their G4.4 twists.
 
-*Needs:* G4.2–G4.4; AlgebraicTopology §8.9; SpinRepresentations Layer 2; G5.3 for the square-root comparison.
+(Kirby, *The topology of 4-manifolds*, Chapter IV, pp. 33–34, for the
+skeletal and principal descriptions, stabilization and the H¹ torsor.)
+The cellular cochains, moving-vertex homotopies and infinite-CW naturality
+use AlgebraicTopology §8.9; the integral rank-two criterion uses
+CharacteristicClasses C3.2's equality w₂=ρe and the coefficient exact sequence.
+The comparison retains the root isomorphism from G5.3.
+
+*Needs:* G4.2–G4.4; AlgebraicTopology §8.9; SpinRepresentations Layer 2; CharacteristicClasses C3.2 and C7.3 for the Euler comparison and radial stable framing; G5.3 for the square-root comparison.
 
 **Checks.**
 
@@ -958,7 +965,7 @@ existence and a chosen trivialization.
 ### Dependencies
 
 G1.1, the native covering/Lie projection, TopologicalKTheory T6.4,
-CharacteristicClasses C1/C3.5, AlgebraicTopology §8.9 and SpinRepresentations
+CharacteristicClasses C1/C3.2/C3.5/C7.3, AlgebraicTopology §8.9 and SpinRepresentations
 Layer 2. The final low-rank square-root comparison also uses G5.3.
 ## Layer 5: Spinor bundles, chiral products and rank-two roots
 
@@ -972,7 +979,7 @@ The required API includes:
 Construct realCliffordSpinorBundle
 for an oriented rank-n metric Spin bundle P as
 P×_Spin(n)Cl(0,n), with Spin acting by left multiplication through
-G1.1/G4's specified negative even-unitary comparison. Give its smooth
+G1.1/G4.1's specified negative even-unitary comparison. Give its smooth
 quotient/local-transition, vector-bundle, pullback, Spin-isometry,
 metric-change and change-of-lift APIs. The ordered Clifford monomials
 are an orthonormal real basis; prove the Spin action preserves this
@@ -999,11 +1006,23 @@ parity-twisted right negative Clifford action with GeneralizedCohomology
 G5.5's mixed-signature operator conventions. Positive and negative
 odd generators are not identified by an algebra isomorphism.
 
-*Needs:* G1.1/G1.3; G3; G4; a principal Spin connection; GeneralizedCohomology G5.5 action conventions.
+The regular-module metric and parity follow from the ordered-monomial
+Clifford/exterior identification and its adjoint identity (Nicolaescu,
+§12.1.2, pp. 628–629, Exercise 12.1.15 and Example 12.1.18).
+For the external action, write C₊(w)=R_(ι₋(w))ε: right multiplication
+is skew-adjoint and anticommutes with ε, so their composite is
+self-adjoint and has square |w|²Id. Even left Spin multiplication commutes
+with both factors. SmoothBundlesConnections B2.1 and B3.3 then descend
+these identities and their invariant tensors to the associated bundle
+and connection. This derives the fixed positive action from G1.3 and
+the stated suppliers; it is not an additional real-module theorem claimed
+from the source's complex spinor construction.
+
+*Needs:* G1.1/G1.3; G3.1/G3.3; G4.1–G4.4; SmoothBundlesConnections B2.1/B3.3; a principal Spin connection; GeneralizedCohomology G5.5 action conventions.
 
 **Checks.**
 
-- On Cl(0,1) with basis (1,e), C₊(e) sends 1 to e and e to 1, hence C₊²=Id; left c₋ sends e to −1 and has square −Id.
+- On Cl(0,1) with basis (1,e), C₊(e) has symmetric matrix [[0,1],[1,0]] and square Id; left c₋ has skew-symmetric matrix [[0,−1],[1,0]] and square −Id.
 - On the same basis, C₊c₋+c₋C₊=0; untwisted right multiplication would have square −Id and fail the required positive action.
 - At a signed rank-zero point the real fiber has dimension 1 and parity σ: σ=1 gives an even line and σ=−1 gives an odd line.
 
@@ -1032,7 +1051,7 @@ the Levi-Civita connection, and prove Γ parallel.
 
 (Nicolaescu, §12.2.3 and Lemma 12.2.32, pp. 670–672.)
 
-*Needs:* G1–G4; SmoothBundlesConnections B2–B3; HopfRinow L1 for tangent bundles.
+*Needs:* G1–G3; G4.1–G4.4; SmoothBundlesConnections B2–B3; HopfRinow L1 for tangent bundles.
 
 **Checks.**
 
@@ -1099,7 +1118,7 @@ and the square-root label.
 
 ### Dependencies
 
-G1–G4 and associated connections; TopologicalKTheory T2 for virtual classes
+G1–G3, G4.1–G4.4 and associated connections; TopologicalKTheory T2 for virtual classes
 and GeneralizedCohomology G5.5 for mixed-signature conventions.
 ## Layer 6: Dirac operators and curvature formulas
 
@@ -1240,6 +1259,21 @@ the Lie-framed T² is η², and a torus with an antiperiodic factor is 0.
 TangentialBordism B3.0 owns the equality of this analytic class with
 the geometric ABS/PT genus and its complexification/Â formula.
 
+The geometric comparison uses Nicolaescu, Proposition 12.1.66, p. 655,
+Theorem 12.1.67, p. 656, and the curvature contraction in the proof of
+Theorem 12.2.33, pp. 672–673. The last calculation uses the Clifford
+relations and curvature symmetries, so applies to the full complexified
+regular module; its real equality follows by the injective real inclusion.
+These passages supply the formal-adjoint and square identities. The closed
+H¹ domain is G6.1's consequence of PDO P6 and ComplexKahlerGeometry K5a.
+The real analytic class is then the application of GeneralizedCohomology
+G5.5's real regular-operator comparison, closed functional calculus,
+stabilization and negative-Clifford family-index classification to that
+realization. Its finite-kernel calibration is the comparison with
+TopologicalKTheory T7 specified above. The KO-valued construction is this
+derivation from supplier targets, rather than a claim of a real analytic
+index theorem in Nicolaescu or in ABS §§6 and 11.
+
 *Needs:* G5.0/G5.1; G6.1–G6.3; GeneralizedCohomology G5.5; TopologicalKTheory T7; PDO P1.0/P4–P6; ComplexKahlerGeometry K5a.
 
 **Checks.**
@@ -1248,6 +1282,7 @@ the geometric ABS/PT genus and its complexification/Â formula.
 - The periodic circle gives η and the antiperiodic circle 0; their product gives η² or 0 according to whether both factors are periodic.
 - For Cl(0,4), the two regular-module volume-sign contributions are a and −a, sum 0; for Cl(0,8) they are 8b and −8b, sum 0.
 - For a constant scalar eigenvalue λ, the bounded transform is λ/√(1+λ²); at λ=0 it is 0 and at λ=1 it is 1/√2, with positive denominator in both cases.
+- On the unit S² the real regular spin curvature is Rᴿ(e₁,e₂)=−L_(e₁e₂)/2, so its square-formula remainder is −L_((e₁e₂)²)/2=Id/2=Scal·Id/4; the same equality holds after full complexification.
 
 ### 6.1 Dirac operators and closed domains (G6.1)
 
@@ -1540,12 +1575,12 @@ uses G4.1a and native Lie differential APIs, independently of C3.5.
 G4.4's torsor uses a given lift and central-bundle descent independently of
 that obstruction equality. G4.4a additionally consumes AT8.9's CW obstruction
 API and SpinRepresentations Layer2's independent compact-real simple-connectivity
-foundation; its low-rank root comparison follows G5.3. G5 follows G1–G4. G6 follows G3/G5 and uses
+foundation; its low-rank root comparison follows G5.3. G5 uses G1–G3 and G4.1–G4.4. G6 follows G3/G5 and uses
 K5/PDO analysis; the exterior instance only needs G2/G3. Numerical topological index theorems are separate consumers of this development. For each object supply constructors/characterization,
 extensionality, regularity, naturality, local-frame/gluing comparison and edge
 cases, not only the headline theorem.
 
-For the real KO lane, GeneralizedCohomology G5.5 and TopologicalKTheory T7 supply the functional-calculus, Clifford and KO interfaces consumed by SpinGeometry G5.0/G6.0. The algebraic real regular bundle/action SpinGeometry G5.0 consumes G1.1/G1.3/G3/G4 and any supplied principal Spin connection. G5.1 separately supplies the Levi-Civita principal Spin connection and associated connection, which specialize this general G5.0 construction for TM. G6.1–G6.3 are prerequisites and do not consume G6.0. Spin G6.0 consumes G5.0, the G5.1 Levi-Civita specialization and G6.1–G6.3; its arbitrary-boundaryless local operator/elliptic branch precedes the closed-manifold functional-calculus and index branch. Spin G6.7 consumes G5.1, G6.0 and G6.1's domain/chiral-adjoint results. GeneralizedCohomology G5.5 consumes Spin G1.3's trace but is independent of Spin G6.0. TangentialBordism B3.0 is downstream: it consumes the KO-valued analytic class and owns its comparison with the geometric ABS/PT genus. IndexTheory I7.5 is another downstream consumer, not an input. This names SpinGeometry G5.0 explicitly to distinguish it from GeneralizedCohomology G5.0.
+For the real KO lane, GeneralizedCohomology G5.5 and TopologicalKTheory T7 supply the functional-calculus, Clifford and KO interfaces consumed by SpinGeometry G5.0/G6.0. The algebraic real regular bundle/action SpinGeometry G5.0 consumes G1.1/G1.3/G3.1/G3.3/G4.1–G4.4 and any supplied principal Spin connection. G5.1 separately supplies the Levi-Civita principal Spin connection and associated connection, which specialize this general G5.0 construction for TM. G6.1–G6.3 are prerequisites and do not consume G6.0. Spin G6.0 consumes G5.0, the G5.1 Levi-Civita specialization and G6.1–G6.3; its arbitrary-boundaryless local operator/elliptic branch precedes the closed-manifold functional-calculus and index branch. Spin G6.7 consumes G5.1, G6.0 and G6.1's domain/chiral-adjoint results. GeneralizedCohomology G5.5 consumes Spin G1.3's trace but is independent of Spin G6.0. TangentialBordism B3.0 is downstream: it consumes the KO-valued analytic class and owns its comparison with the geometric ABS/PT genus. IndexTheory I7.5 is another downstream consumer, not an input. This names SpinGeometry G5.0 explicitly to distinguish it from GeneralizedCohomology G5.0.
 
 ## References
 
@@ -1559,3 +1594,6 @@ For the real KO lane, GeneralizedCohomology G5.5 and TopologicalKTheory T7 suppl
 - M. F. Atiyah, R. Bott and A. Shapiro,
   [*Clifford modules*](https://doi.org/10.1016/0040-9383(64)90003-5), §§6 and 11, for
   graded products and the distinction between algebraic and topological classes.
+- R. C. Kirby, [*The topology of 4-manifolds*](https://math.berkeley.edu/~kirby/papers/Kirby%20-%20The%20topology%20of%204-manifolds%20-%20MR1001966.pdf)
+  (1989), Chapter IV, pp. 33–34, for skeletal Spin structures, stabilization
+  and comparison with principal lifts.
