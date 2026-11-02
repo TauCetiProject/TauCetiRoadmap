@@ -537,7 +537,9 @@ has exactly the nine three-point lines `{0,1,2}, {3,4,5}, {6,7,8}, {0,4,8}, {0,5
 (and the alternating values on its permutations). Theorems: `nonPappus` is a simple rank-3
 chirotope; it is not realizable over any ordered field; hence (5.5) there is a monotone arrangement
 of nine pseudolines whose chirotope, with the line at infinity deleted, is isomorphic to
-`nonPappus`: a non-stretchable arrangement.
+`nonPappus`: a non-stretchable arrangement. As context, not a target: by Mnëv's universality
+theorem every singularity type appears on some incidence scheme of marked points and lines in
+`ℙ²` (Vakil 2006, Theorem 3.1, in scheme-theoretic form).
 
 6.4 **Small cases.** Every uniform rank-3 chirotope on `Fin n`, `n ≤ 6`, is realizable over `ℚ`
 (from 4.6 and explicit coordinates for each class).
@@ -715,6 +717,9 @@ reflection representation used for the icosahedral maps of 9.4 and 9.5.
   pseudolines and pseudocircles*, arXiv:2310.19711 (2023).
 - H. Bergold, L. Egeling, H. P. Hoang, *Signotopes with few plus signs*, SoCG 2025, LIPIcs 332
   (2025), 16:1–16:14.
+- R. Vakil, *Murphy's law in algebraic geometry: badly-behaved deformation spaces*, Invent. Math.
+  164 (2006), 569–590, doi:10.1007/s00222-005-0481-9, arXiv:math/0411469 (Theorem 3.1, Mnëv's
+  universality theorem for incidence schemes).
 - A. Grothendieck, *Esquisse d'un programme* (1984), §§2–3, in *Geometric Galois Actions 1*, LMS
   Lecture Note Series 242, Cambridge University Press, 1997, 5–48 (n-cartes, cartographic groups).
 - A. Vince, *Combinatorial maps*, J. Combin. Theory Ser. B 34 (1983), 1–21.
