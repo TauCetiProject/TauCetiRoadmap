@@ -6,9 +6,9 @@ import TauCeti.Algebra.Coalgebra.Comodule.Finite.Symmetric
 # Motives and algebraic cycles: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. The statements here suggest Lean forms for particular milestones, so that
-contributors and reviewers converge on names and signatures; discharging all of them
-finishes neither a layer nor the roadmap.
+`README.md`. This file states the roadmap's headline theorems that are statable against the
+pinned Mathlib and Tau Ceti APIs; discharging them finishes neither a layer nor the
+roadmap.
 
 The stated headlines are Jannsen's endomorphism-algebra criterion (§3.2), coalgebra
 reconstruction from an exact faithful finite-dimensional fiber (§5.2), neutral Tannaka
@@ -30,8 +30,9 @@ The geometric headlines require carriers absent at Mathlib `6b7abb3` and Tau Cet
   projective-bundle decompositions, all-degree realization comparisons and Jannsen's
   numerical-motive theorem cannot yet be stated on their geometric objects.
 * Layer 4 needs finite correspondences, transfer sheaves, Suslin/Tate complexes,
-  higher-cycle complexes and motivic localizations. The unrestricted Verdier universal
-  property concerns exact functors annihilating the whole localization kernel; the
+  higher-cycle complexes and motivic localizations, including the derived-coefficient
+  equidimensional-cycle complex and bivariant groups of README §§4.15–4.18. The unrestricted
+  Verdier universal property concerns exact functors annihilating the whole localization kernel; the
   projection-cone test also requires preservation of the relevant coproducts (README §4.6).
   Cancellation, higher-Chow comparison, the Chow embedding, compact-support duality and
   the motivic measure need these objects.
