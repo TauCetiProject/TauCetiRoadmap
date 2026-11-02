@@ -4,6 +4,7 @@ public import Mathlib
 public import TauCeti.FieldTheory.Galois.AbsoluteGaloisGroup.Basic
 public import TauCeti.NumberTheory.NumberField.ComplexConjugation.Basic
 public import TauCeti.NumberTheory.NumberField.Frobenius
+public import TauCeti.NumberTheory.ModularForms.Newforms.Newform
 public import TauCeti.RepresentationTheory.CharacterTable.Table
 
 /-!
@@ -15,7 +16,7 @@ against the pinned APIs, with only definitions needed to state them.
 The headlines are finite Galois factorization over arbitrary fields, semisimplicity and
 character recognition, meromorphic continuation and the orders at zero and one, Dedekind zeta
 factorization, rank-one Artin holomorphy, Klein's classification including uniqueness up to
-conjugacy, and finite-quotient
+conjugacy, the full L-series comparison for weight-one newforms, and finite-quotient
 Frobenius recognition. The analytic statements use an arbitrary finite Galois presentation,
 not a chosen faithful presentation. Thus they cover every Artin representation. The local
 polynomial uses the finite inertia averaging projector: on its image it is Frobenius on
@@ -24,9 +25,9 @@ exactly det(1-X Frobenius | V^I), including ramified primes.
 
 The completed functional equation, conductor-discriminant identity, local and global root
 number theorems, orthogonal obstruction comparison, and elliptic root-number formulas lack
-the conductor and Weil--Deligne epsilon carriers at the pins. Weight-one and Stark-unit comparisons lack
-the newform-to-Artin comparison and regulator carriers. These remain README targets, with no
-stand-ins here. The finite-polar-divisor analytic card additionally requires Artin holomorphy.
+the conductor and Weil--Deligne epsilon carriers at the pins. The weight-one conductor-level
+refinement lacks the Artin conductor carrier, and Stark-unit comparisons lack the regulator
+carrier. These remain README targets, with no stand-ins here. The finite-polar-divisor analytic card additionally requires Artin holomorphy.
 -/
 
 public section
@@ -178,7 +179,7 @@ section FiniteLevel
 variable (F L : Type*) [Field F] [NumberField F] [Field L] [NumberField L]
     [Algebra F L] [FiniteDimensional F L] [IsGalois F L]
 
-/-! ## Layer 8: proved rank-one Artin holomorphy -/
+/-! ## Layer 8: Artin holomorphy and the weight-one dictionary -/
 
 /-- A one-dimensional Artin representation has continuation analytic away from one, and
 is entire when nontrivial; the pole order is the dimension of its global invariants. -/
@@ -191,6 +192,19 @@ theorem rank_one_artin_holomorphy {V : Type*} [AddCommGroup V] [Module ℂ V]
       meromorphicOrderAt f 1 = -(Module.finrank ℂ ρ.invariants : ℤ) := sorry
 
 end FiniteLevel
+
+/-- Every normalized cuspidal weight-one newform has an irreducible two-dimensional
+finite Galois Artin representation whose full Euler product equals its Fourier-coefficient
+L-series on Re(s)>1, including the ramified factors (Deligne--Serre, Theorem 4.6). -/
+theorem weight_one_full_artin_comparison (N : ℕ) [NeZero N]
+    (f : HeckeRing.GL2.Newform N 1) :
+    ∃ (E : Type) (_ : Field E) (_ : NumberField E) (_ : IsGalois ℚ E)
+      (ρ : Representation ℂ (E ≃ₐ[ℚ] E) (Fin 2 → ℂ)),
+      Representation.IsIrreducible ρ ∧
+      ∀ s : ℂ, 1 < s.re →
+        finiteArtinLSeries ℚ E ρ s =
+          LSeries (fun n : ℕ =>
+            (UpperHalfPlane.qExpansion 1 f.toCuspForm).coeff n) s := sorry
 
 /-! ## Layer 9: finite-field Frobenius recognition -/
 
