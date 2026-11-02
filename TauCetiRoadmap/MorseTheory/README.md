@@ -509,7 +509,7 @@ are retained on decreasing ε. For a chart φ use χ_φ(w)=φ⁻¹(√ε·w,0)
 and α_φ=χ_φ|∂D. For two choices construct
 h∈O(λ), its boundary restriction h_∂ and a homotopy of characteristic maps
 of pairs K:χ₁≃χ₀∘h. Write H=K|∂D with H(·,0)=α₁ and
-H(·,1)=α₀∘h_∂. Construct the particular Milnor comparison (Lemma 3.6)
+H(·,1)=α₀∘h_∂. Construct the particular Milnor comparison (Lemma 3.6, pp. 20–21)
 E_H:M_(c−ε)∪_(α₁)D^λ→M_(c−ε)∪_(α₀)D^λ: it is identity on the lower
 sublevel, sends x to the target disk point h(2x) for |x|≤1/2, and sends x
 to H(x/|x|,2−2|x|) for 1/2≤|x|≤1. Prove agreement at the seam and on
@@ -595,7 +595,7 @@ fixed and the attachment pairs are homeomorphic rel the lower sublevel.
 The handle API includes simultaneous attachments, the relative homology of
 each disc pair, chart comparisons and their coherent parameter restrictions.
 *Needs:* §1.3, §2.2; GeometricTopology Layer 1; AlgebraicTopology Stage 4;
-Milnor, Lemma 3.6 for the homotopic-attaching-map comparison.
+Milnor, Lemma 3.6, pp. 20–21, for the homotopic-attaching-map comparison.
 
 **Checks.**
 - At index 0 the attaching sphere is empty and the handle adds one component.
@@ -638,7 +638,7 @@ j-cell type and the index-j critical-point subtype, assuming f is Morse,
 proper and bounded below (Milnor, Theorem 3.5, p. 20). The CW-model API
 identifies one cell per critical point, gives the specified
 strict sublevel comparison maps, and recovers relative models for regular bands
-(Cohen–Iga–Norbury, Theorem 5.7 for compact M); the proper case uses the
+(Cohen–Iga–Norbury, Theorem 5.7, pp. 40–41, for compact M); the proper case uses the
 specified compatible tower and exhaustion comparison.
 *Needs:* §2.1–§2.3; AlgebraicTopology §4.4–§4.5.
 
@@ -895,7 +895,8 @@ functions has the following API, using §3.2 for nonemptiness:
 - Every smooth function has extended critical count at least that minimum; category and cup-length give the stated universal lower bounds.
 
 *Needs:* Layer 2 compact-band flows; Layer 3 only for the finite witness;
-AlgebraicTopology's categorical-cover supplement after §6.2; Weber, Theorem 1.1.
+AlgebraicTopology's categorical-cover supplement after §6.2; Weber, Theorem 1.1,
+p. 2, with its finite-cover proof on pp. 2–3.
 
 **Checks.**
 - On the empty manifold the unique function has count 0, so the minimum c(∅)=0.
@@ -1194,9 +1195,11 @@ Layer 5 for Hamiltonian critical submanifolds and equivariant perfection.
 ## References
 
 - Milnor, *Morse Theory* (1963), §§2–6 for the classical development and
-  Lemma 3.6 for homotopic attaching maps.
+  Lemma 3.6, pp. 20–21, for homotopic attaching maps; Theorem 3.1, p. 12,
+  Theorem 3.5, p. 20, and Corollary 6.7, p. 36.
 - Cohen, Iga and Norbury, [*Topics in Morse Theory*](https://math.stanford.edu/~ralph/morsecourse/biglectures.pdf),
-  author course notes (2006): Theorems 5.1, 5.3, 5.6–5.7;
+  author course notes (2006): Theorem 5.1, pp. 33–35; Theorem 5.3,
+  pp. 36–37; Theorems 5.6–5.7, pp. 38–41;
   Corollaries 5.8–5.11, pp. 41–42; Application 5.13, p. 43;
   Theorems 15.1, 15.4, 15.6–15.7, pp. 143, 146–148, for Morse–Bott theory.
 - Hirsch, *Differential Topology* (1976), Chapter 2, §1
@@ -1210,3 +1213,4 @@ Layer 5 for Hamiltonian critical submanifolds and equivariant perfection.
   pp. 6–7 (critical-free bands on complete manifolds).
 - Thomas Mark, *Math240 Riemannian Geometry* (2001), Homework 10,
   problem 3, scan 0228_001, physical p. 3; Homework 11 (Morse–Bott examples).
+  Bibliographic attribution only; the mathematical targets use the references above.

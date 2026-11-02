@@ -104,7 +104,7 @@ theorem exists_sublevelDeformation
   sorry
 
 /-- A proper bounded-below Morse function has a Hausdorff CW model with one cell for each
-critical point, in its Morse-index dimension (Milnor, Theorem 3.5). -/
+critical point, in its Morse-index dimension (Milnor, Theorem 3.5, p. 20). -/
 theorem exists_morseCWModel (f : M → ℝ) (hf : TauCeti.IsMorse I f)
     (hp : IsProperMap f) (hb : BddBelow (Set.range f)) :
     ∃ (X : Type _) (t : TopologicalSpace X),
