@@ -1,6 +1,4 @@
-module
-
-public import Mathlib
+import Mathlib
 
 /-!
 # Character sums over finite fields: target signatures
@@ -11,14 +9,17 @@ definitions those statements need (the canonical additive character, the lifts o
 through norm and trace, the multiple Jacobi and Jacobsthal sums, the `L`-series of a monic
 multiplicative function, the Kloosterman sum, the Chinese-remainder factors of a Dirichlet
 character). Every definition has a real body on Mathlib's carriers; nothing in the README's API
-lists or Checks is restated here.
+lists or Checks is restated here. The headline results are the cyclotomic field of definition,
+multiple Jacobi and diagonal-solution formulas, Jacobsthal evaluations, the root-power and lifting
+identities, uniform Stepanov bounds, character-sum L-polynomials and Weil bounds, Salié and
+Kloosterman evaluations and bounds, and the global valuation and p-adic comparisons of Layer 6.
 
 The carrier is a finite field `F` (`[Field F] [Fintype F]`) with Mathlib's multiplicative
 characters `MulChar F ℂ` and additive characters `AddChar F ℂ`; the Gauss and Jacobi sums are
 Mathlib's `gaussSum` and `jacobiSum`, never redefined. Four conventions are visible in the
 signatures. The canonical additive character is `stdAddChar F`, `x ↦ e(Tr_{F/𝔽_p}(x)/p)`, and
 `gauss χ` abbreviates `gaussSum χ (stdAddChar F)`; every additive character is a `mulShift` of it
-(`exists_unique_mulShift_eq`). `χ 0 = 0` for every character including `χ = 1`, so `gauss 1 = -1`
+(README §0.2). `χ 0 = 0` for every character including `χ = 1`, so `gauss 1 = -1`
 and `jacobiSum 1 1 = q - 2` (Mathlib's convention and the LMFDB's). The Kloosterman sum
 `kloostermanSum χ ψ a b` is a sum over the **units** of an arbitrary finite commutative ring, so
 the finite-field sums of Layer 5 and the integer-modulus sums `S_χ(m, n; c)` of Layer 7 are one
@@ -29,7 +30,8 @@ their minus signs: `-g' = (-g)^n` and `S_n = -∑ ω_i^n`.
 Not statable at the pins, and therefore stated in `README.md` only: the Teichmüller character
 `ω_𝔓` of 6.1 (its carrier is a multiplicative character of the residue field of a prime of
 `ℚ(ζ_{q−1})` with values in the ring of integers, whose construction is itself the bijection
-between roots of unity and the residue field that 6.1 proves), and with it the Stickelberger
+between roots of unity and the residue field supplied by ClassicalArithmeticCompletion §1.23;
+6.1 specializes its power residue symbol at order q − 1), and with it the Stickelberger
 corollaries 6.2, the Jacobi digit-sum formula 6.3 and the Gross–Koblitz evaluation 6.4–6.5 (whose
 Gamma function and formula are `DirichletPadicLFunctions`' carriers, not at the pins); the sign of
 the quadratic Gauss sum over the prime field (1.4), which is `AnalyticNumberTheoryPartI` §2.30's
@@ -39,8 +41,6 @@ of `CongruenceSpectralGap` §4.2a and of `S(m, n; c)` with `AutomorphicSpectralT
 -/
 
 namespace TauCetiRoadmap.CharacterSumsOverFiniteFields
-
-@[expose] public section
 
 open Complex Finset Polynomial
 
@@ -66,42 +66,23 @@ def stdAddChar : AddChar F ℂ :=
   (ZMod.stdAddChar : AddChar (ZMod (ringChar F)) ℂ).compAddMonoidHom
     (Algebra.trace (ZMod (ringChar F)) F).toAddMonoidHom
 
-/-- **0.1.** The canonical character is primitive (`AddChar.IsPrimitive.of_ne_one` and the
-nondegeneracy of the trace). -/
-theorem isPrimitive_stdAddChar : (stdAddChar F).IsPrimitive := sorry
-
-/-- **0.2.** Every additive character of `F` is a unique multiplicative shift of `ψ_F`. -/
-theorem exists_unique_mulShift_eq (ψ : AddChar F ℂ) :
-    ∃! a : F, (stdAddChar F).mulShift a = ψ := sorry
-
 variable {F}
 
 /-- **0.4.** The quadratic character with complex values; `1` when `ringChar F = 2`. -/
 abbrev quadChar [DecidableEq F] : MulChar F ℂ :=
   (quadraticChar F).ringHomComp (Int.castRingHom ℂ)
 
-/-- **0.5.** The Galois action on values: a ring endomorphism of `ℂ` raising a primitive
-`m`-th root of unity, `m = orderOf χ`, to the power `t` carries `χ` to `χ ^ t`. -/
-theorem ringHomComp_eq_pow (χ : MulChar F ℂ) (σ : ℂ →+* ℂ) {ζ : ℂ}
-    (hζ : IsPrimitiveRoot ζ (orderOf χ)) {t : ℕ} (hσ : σ ζ = ζ ^ t) :
-    χ.ringHomComp σ = χ ^ t := sorry
-
 variable {E : Type u} [Field E] [Fintype E] [Algebra F E]
 
 /-- **0.6.** The lift of a multiplicative character through the norm, `χ ∘ N_{E/F}`. -/
-def _root_.MulChar.liftNorm (χ : MulChar F ℂ) : MulChar E ℂ :=
+def _root_.MulChar.liftNorm {F E : Type u} [Field F] [Fintype F] [Field E] [Fintype E]
+    [Algebra F E] (χ : MulChar F ℂ) : MulChar E ℂ :=
   MulChar.ofUnitHom (χ.toUnitHom.comp (Units.map (Algebra.norm F : E →* F)))
 
 /-- **0.6.** The lift of an additive character through the trace, `ψ ∘ Tr_{E/F}`. -/
-def _root_.AddChar.liftTrace (ψ : AddChar F ℂ) : AddChar E ℂ :=
+def _root_.AddChar.liftTrace {F E : Type u} [Field F] [Fintype F] [Field E] [Fintype E]
+    [Algebra F E] (ψ : AddChar F ℂ) : AddChar E ℂ :=
   ψ.compAddMonoidHom (Algebra.trace F E).toAddMonoidHom
-
-/-- **0.6.** Lifting preserves the order (the norm `E → F` is onto). -/
-theorem orderOf_liftNorm (χ : MulChar F ℂ) : orderOf (χ.liftNorm (E := E)) = orderOf χ := sorry
-
-/-- **0.6.** The characters of `E^×` of order dividing `d ∣ q − 1` are exactly the lifts. -/
-theorem exists_liftNorm_eq_of_orderOf_dvd {d : ℕ} (hd : d ∣ Fintype.card F - 1)
-    (χ' : MulChar E ℂ) (hχ' : orderOf χ' ∣ d) : ∃ χ : MulChar F ℂ, χ.liftNorm = χ' := sorry
 
 end Layer0
 
@@ -115,10 +96,6 @@ variable {F : Type u} [Field F] [Fintype F]
 canonical additive character; nothing is redefined. -/
 abbrev gauss (χ : MulChar F ℂ) : ℂ := gaussSum χ (stdAddChar F)
 
-/-- **1.2.** `|g(χ)| = √q` for `χ ≠ 1`. -/
-theorem norm_gauss {χ : MulChar F ℂ} (hχ : χ ≠ 1) :
-    ‖gauss χ‖ = Real.sqrt (Fintype.card F) := sorry
-
 /-- **1.3.** `g(χ)^m` lies in `ℤ[ζ_m]`, `m = orderOf χ`, for any primitive `m`-th root `ζ`: the
 Gauss sum is fixed up to the root of unity `χ(c)⁻¹` by every automorphism `ζ_p ↦ ζ_p^c`. -/
 theorem gauss_pow_orderOf_mem (χ : MulChar F ℂ) {ζ : ℂ} (hζ : IsPrimitiveRoot ζ (orderOf χ)) :
@@ -131,10 +108,6 @@ end Layer1
 section Layer2
 
 variable {F : Type u} [Field F] [Fintype F]
-
-/-- **2.2.** `|J(χ, ψ)| = √q` when `χ`, `ψ`, `χψ` are nontrivial. -/
-theorem norm_jacobiSum {χ ψ : MulChar F ℂ} (hχ : χ ≠ 1) (hψ : ψ ≠ 1) (hχψ : χ * ψ ≠ 1) :
-    ‖jacobiSum χ ψ‖ = Real.sqrt (Fintype.card F) := sorry
 
 /-- **2.4.** The `r`-fold Jacobi sum `J(χ₁, …, χ_r) = ∑_{x₁ + ⋯ + x_r = 1} ∏ χ_i(x_i)`. -/
 def multiJacobiSum [DecidableEq F] {r : ℕ} (χ : Fin r → MulChar F ℂ) : ℂ :=
@@ -164,14 +137,14 @@ def jacobsthalPsi [DecidableEq F] (n : ℕ) (a : F) : ℂ :=
 
 /-- **2.5.** The Jacobi-sum expansion of `ψ_n(a)`, over the nontrivial characters of order
 dividing `n`. -/
-theorem jacobsthalPsi_eq_sum_jacobiSum [DecidableEq F] (hF : ringChar F ≠ 2) (n : ℕ) {a : F}
+theorem jacobsthalPsi_eq_sum_jacobiSum [DecidableEq F] (hF : ringChar F ≠ 2) (n : ℕ) (hn : 0 < n) {a : F}
     (ha : a ≠ 0) :
     jacobsthalPsi n a = quadChar (F := F) a *
       ∑ χ ∈ (univ : Finset (MulChar F ℂ)).filter (fun χ => χ ^ n = 1 ∧ χ ≠ 1),
         χ (-a) * jacobiSum χ (quadChar (F := F)) := sorry
 
 /-- **2.5.** The Jacobi-sum expansion of `φ_n(a)`, over the characters `χ` with `χ^n = η`. -/
-theorem jacobsthalPhi_eq_sum_jacobiSum [DecidableEq F] (hF : ringChar F ≠ 2) (n : ℕ) {a : F}
+theorem jacobsthalPhi_eq_sum_jacobiSum [DecidableEq F] (hF : ringChar F ≠ 2) (n : ℕ) (hn : 0 < n) {a : F}
     (ha : a ≠ 0) :
     jacobsthalPhi n a = quadChar (F := F) a *
       ∑ χ ∈ (univ : Finset (MulChar F ℂ)).filter (fun χ => χ ^ n = quadChar (F := F)),
@@ -192,11 +165,11 @@ section Layer3
 variable {F : Type u} [Field F] [Fintype F]
 
 /-- The monic polynomial `X^d + ∑_{i<d} c_i X^i` with the given lower coefficients. -/
-def monicOfCoeffs {d : ℕ} (c : Fin d → F) : F[X] :=
+def monicOfCoeffs {F : Type u} [Field F] [Fintype F] {d : ℕ} (c : Fin d → F) : F[X] :=
   X ^ d + ∑ i : Fin d, C (c i) * X ^ (i : ℕ)
 
 /-- **3.1.** A complex-valued function on `F[X]` that is multiplicative on monic polynomials. -/
-def IsMonicMultiplicative (lam : F[X] → ℂ) : Prop :=
+def IsMonicMultiplicative {F : Type u} [Field F] [Fintype F] (lam : F[X] → ℂ) : Prop :=
   lam 1 = 1 ∧ ∀ g h : F[X], g.Monic → h.Monic → lam (g * h) = lam g * lam h
 
 /-- **3.1.** The `L`-series `L(λ, T) = ∑_{g monic} λ(g) T^{deg g}`, coefficientwise the sums
@@ -204,16 +177,11 @@ over the `q^d` monic polynomials of degree `d`. -/
 def lSeries (lam : F[X] → ℂ) : PowerSeries ℂ :=
   PowerSeries.mk fun d => ∑ c : Fin d → F, lam (monicOfCoeffs c)
 
-/-- **3.1.** The polynomial criterion: vanishing coefficient sums from degree `d₀` on make the
-`L`-series a polynomial of degree `< d₀` (the zero polynomial, of degree `⊥`, when `d₀ = 0`). -/
-theorem lSeries_eq_polynomial {lam : F[X] → ℂ} {d₀ : ℕ}
-    (h : ∀ d, d₀ ≤ d → ∑ c : Fin d → F, lam (monicOfCoeffs c) = 0) :
-    ∃ P : ℂ[X], P.degree < d₀ ∧ lSeries lam = P.toPowerSeries := sorry
-
 variable (E : Type u) [Field E] [Fintype E] [Algebra F E]
 
 /-- **3.2.** The lifted sum `S_n(λ) = ∑_{α ∈ E} λ(minpoly α)^{n / deg α}`, `n = [E : F]`. -/
-def extensionSum (lam : F[X] → ℂ) : ℂ :=
+def extensionSum {F : Type u} [Field F] [Fintype F]
+    (E : Type u) [Field E] [Fintype E] [Algebra F E] (lam : F[X] → ℂ) : ℂ :=
   ∑ α : E, lam (minpoly F α) ^ (Module.finrank F E / (minpoly F α).natDegree)
 
 /-- **3.2.** The root-power identity: when `L(λ, T) = ∏ (1 − ωᵢ T)`, the lifted sum of degree `n`
@@ -237,17 +205,6 @@ theorem gauss_quadChar_eq [DecidableEq F] (hF : ringChar F ≠ 2) {p f : ℕ} [F
     gauss (quadChar (F := F)) =
       (-1) ^ (f - 1) * ((if p % 4 = 1 then (1 : ℂ) else Complex.I) * Real.sqrt p) ^ f := sorry
 
-/-- **3.4.** The Hasse–Davenport product formula, for `λ` of exact order `m` and every `χ`:
-`∏_{j<m} g(χ λ^j) = χ(m)⁻ᵐ g(χ^m) ∏_{1 ≤ j < m} g(λ^j)`. -/
-theorem hasseDavenport_product (χ lam : MulChar F ℂ) {m : ℕ} (hm : orderOf lam = m) (hm0 : 0 < m) :
-    ∏ j ∈ range m, gauss (χ * lam ^ j) =
-      (χ (m : F))⁻¹ ^ m * gauss (χ ^ m) * ∏ j ∈ Ico 1 m, gauss (lam ^ j) := sorry
-
-/-- **3.4.** The duplication formula, `m = 2`. -/
-theorem gauss_sq_eq [DecidableEq F] (hF : ringChar F ≠ 2) (χ : MulChar F ℂ) :
-    gauss (χ ^ 2) = χ 4 * gauss χ * gauss (χ * quadChar (F := F)) / gauss (quadChar (F := F)) :=
-  sorry
-
 /-- **3.5.** Jacobi sums lift with the same signs as Gauss sums. -/
 theorem jacobiSum_lift {χ ψ : MulChar F ℂ} (hχ : χ ≠ 1) (hψ : ψ ≠ 1) :
     -jacobiSum (χ.liftNorm (E := E)) (ψ.liftNorm (E := E)) =
@@ -263,46 +220,50 @@ open scoped Classical
 
 variable {F : Type u} [Field F] [Fintype F]
 
-/-- **4.2.** Stepanov's bound for `y^d = f(x)`, uniform over all finite extensions: constants
-`C`, `Q₀` depending only on `d` and `deg f`. The hypothesis says `f` is not a constant times a
-`d`-th power over the algebraic closure. -/
-theorem stepanov_kummer {d : ℕ} (hd : 2 ≤ d) (f : F[X]) (hf0 : f ≠ 0)
-    (hf : ¬ ∃ (c : AlgebraicClosure F) (e : ℕ) (g : (AlgebraicClosure F)[X]),
-      1 < e ∧ e ∣ d ∧ f.map (algebraMap F (AlgebraicClosure F)) = C c * g ^ e) :
-    ∃ C₀ Q₀ : ℝ, ∀ (E : Type u) [Field E] [Fintype E] [Algebra F E],
-      Q₀ ≤ Fintype.card E →
-      |(((univ : Finset (E × E)).filter
-          (fun z : E × E => z.2 ^ d = (f.map (algebraMap F E)).eval z.1)).card : ℝ) -
-          Fintype.card E| ≤
-        C₀ * Real.sqrt (Fintype.card E) := sorry
+/-- **4.2.** For fixed degrees `d,m`, one pair of constants bounds the point counts of
+`y^d = f(x)` over every finite base field and all its finite extensions, when `f` has degree
+`m` and is not a scalar times an `e`-th power for any divisor `e > 1` of `d`. -/
+theorem stepanov_kummer (d m : ℕ) (hd : 2 ≤ d) (hm : 0 < m) :
+    ∃ C₀ Q₀ : ℝ, ∀ (F : Type u) [Field F] [Fintype F] (f : F[X]),
+      f.natDegree = m →
+      (¬ ∃ (c : AlgebraicClosure F) (e : ℕ) (g : (AlgebraicClosure F)[X]),
+        1 < e ∧ e ∣ d ∧ f.map (algebraMap F (AlgebraicClosure F)) = C c * g ^ e) →
+      ∀ (E : Type u) [Field E] [Fintype E] [Algebra F E],
+        Q₀ ≤ Fintype.card E →
+        |(((univ : Finset (E × E)).filter
+            (fun z : E × E => z.2 ^ d = (f.map (algebraMap F E)).eval z.1)).card : ℝ) -
+            Fintype.card E| ≤ C₀ * Real.sqrt (Fintype.card E) := sorry
 
-/-- **4.3 (i).** Stepanov's bound for `y^q − y = f(x)`, `p ∤ deg f`, uniform over extensions. -/
-theorem stepanov_artinSchreier (f : F[X]) (hf : 0 < f.natDegree)
-    (hp : ¬ ringChar F ∣ f.natDegree) :
-    ∃ C₀ Q₀ : ℝ, ∀ (E : Type u) [Field E] [Fintype E] [Algebra F E],
-      Q₀ ≤ Fintype.card E →
-      |(((univ : Finset (E × E)).filter
-          (fun z : E × E => z.2 ^ Fintype.card F - z.2 =
-            (f.map (algebraMap F E)).eval z.1)).card : ℝ) -
-          Fintype.card E| ≤ C₀ * Real.sqrt (Fintype.card E) := sorry
+/-- **4.3 (i).** For fixed `q,n`, one pair of constants bounds `y^q − y = f(x)` over
+all fields of cardinality `q`, all degree-`n` polynomials with characteristic not dividing `n`,
+and every finite extension. -/
+theorem stepanov_artinSchreier (q n : ℕ) (hn : 0 < n) :
+    ∃ C₀ Q₀ : ℝ, ∀ (F : Type u) [Field F] [Fintype F],
+      Fintype.card F = q → ∀ (f : F[X]), f.natDegree = n →
+      (¬ ringChar F ∣ n) →
+      ∀ (E : Type u) [Field E] [Fintype E] [Algebra F E],
+        Q₀ ≤ Fintype.card E →
+        |(((univ : Finset (E × E)).filter
+            (fun z : E × E => z.2 ^ q - z.2 = (f.map (algebraMap F E)).eval z.1)).card : ℝ) -
+            Fintype.card E| ≤ C₀ * Real.sqrt (Fintype.card E) := sorry
 
-/-- **4.3 (ii).** Stepanov's bound for the Kloosterman curve `y^q − y = a x^d + b x^{−d}` on
-`x ≠ 0`, `p ∤ d`, uniform over extensions. -/
-theorem stepanov_kloostermanCurve (a b : Fˣ) {d : ℕ} (hd : 0 < d) (hp : ¬ ringChar F ∣ d) :
-    ∃ C₀ Q₀ : ℝ, ∀ (E : Type u) [Field E] [Fintype E] [Algebra F E],
-      Q₀ ≤ Fintype.card E →
-      |(((univ : Finset (Eˣ × E)).filter
-          (fun z : Eˣ × E => z.2 ^ Fintype.card F - z.2 =
-            algebraMap F E a * (z.1 : E) ^ d + algebraMap F E b * ((z.1⁻¹ : Eˣ) : E) ^ d)).card :
-            ℝ) - (Fintype.card E - 1)| ≤ C₀ * Real.sqrt (Fintype.card E) := sorry
-
-/-- **4.4.** The power-sum lemma: a uniform bound `|∑ ωᵢ^n| ≤ C ρ^n` forces `|ωᵢ| ≤ ρ`. -/
-theorem norm_le_of_sum_pow_le {k : ℕ} (ω : Fin k → ℂ) {ρ C₀ : ℝ} (hρ : 0 < ρ) (n₀ : ℕ)
-    (h : ∀ n, n₀ ≤ n → ‖∑ i, ω i ^ n‖ ≤ C₀ * ρ ^ n) : ∀ i, ‖ω i‖ ≤ ρ := sorry
+/-- **4.3 (ii).** For fixed `q,d`, one pair of constants bounds the Laurent curve
+`y^q − y = a x^d + b x^(−d)` on `x ≠ 0`, uniformly in the fields of cardinality `q`, the
+nonzero coefficients and all finite extensions, when the characteristic does not divide `d`. -/
+theorem stepanov_kloostermanCurve (q d : ℕ) (hd : 0 < d) :
+    ∃ C₀ Q₀ : ℝ, ∀ (F : Type u) [Field F] [Fintype F],
+      Fintype.card F = q → (¬ ringChar F ∣ d) → ∀ (a b : Fˣ),
+      ∀ (E : Type u) [Field E] [Fintype E] [Algebra F E],
+        Q₀ ≤ Fintype.card E →
+        |(((univ : Finset (Eˣ × E)).filter
+            (fun z : Eˣ × E => z.2 ^ q - z.2 =
+              algebraMap F E a * (z.1 : E) ^ d +
+                algebraMap F E b * ((z.1⁻¹ : Eˣ) : E) ^ d)).card : ℝ) -
+            (Fintype.card E - 1)| ≤ C₀ * Real.sqrt (Fintype.card E) := sorry
 
 /-- **4.5.** The multiplicative function `λ_f(g) = χ(N_{F[X]/(g)}(f))`, the character of the
 resultant `∏_{g(α)=0} f(α)` for monic `g`. -/
-def mulCharResultant (χ : MulChar F ℂ) (f : F[X]) (g : F[X]) : ℂ :=
+def mulCharResultant {F : Type u} [Field F] [Fintype F] (χ : MulChar F ℂ) (f : F[X]) (g : F[X]) : ℂ :=
   χ (Algebra.norm F (AdjoinRoot.mk g f))
 
 /-- **4.5.** The `L`-polynomial of a multiplicative character sum has degree at most `m − 1`,
@@ -314,7 +275,7 @@ theorem lSeries_mulCharResultant {χ : MulChar F ℂ} (hχ : χ ≠ 1) (f : F[X]
       lSeries (mulCharResultant χ f) = P.toPowerSeries := sorry
 
 /-- **4.6.** The multiplicative function `μ_f(g) = ψ(∑_{g(α)=0} f(α))`. -/
-def addCharTrace (ψ : AddChar F ℂ) (f : F[X]) (g : F[X]) : ℂ :=
+def addCharTrace {F : Type u} [Field F] [Fintype F] (ψ : AddChar F ℂ) (f : F[X]) (g : F[X]) : ℂ :=
   ψ (Algebra.trace F (AdjoinRoot g) (AdjoinRoot.mk g f))
 
 /-- **4.6.** The `L`-polynomial of an additive character sum has degree at most `deg f − 1`. -/
@@ -410,12 +371,12 @@ theorem gaussSum_eq_moebius_mul {N : ℕ} [NeZero N] (χ : DirichletCharacter �
 variable {c₁ c₂ : ℕ} [NeZero c₁] [NeZero c₂] (h : c₁.Coprime c₂)
 
 /-- **0.7.** The first Chinese-remainder factor of a Dirichlet character modulo `c₁ c₂`. -/
-def crtFactorLeft (χ : DirichletCharacter ℂ (c₁ * c₂)) : DirichletCharacter ℂ c₁ :=
+def crtFactorLeft {c₁ c₂ : ℕ} [NeZero c₁] [NeZero c₂] (h : c₁.Coprime c₂) (χ : DirichletCharacter ℂ (c₁ * c₂)) : DirichletCharacter ℂ c₁ :=
   MulChar.ofUnitHom (χ.toUnitHom.comp (Units.map
     ((ZMod.chineseRemainder h).symm.toRingHom.toMonoidHom.comp (MonoidHom.inl _ _))))
 
 /-- **0.7.** The second Chinese-remainder factor. -/
-def crtFactorRight (χ : DirichletCharacter ℂ (c₁ * c₂)) : DirichletCharacter ℂ c₂ :=
+def crtFactorRight {c₁ c₂ : ℕ} [NeZero c₁] [NeZero c₂] (h : c₁.Coprime c₂) (χ : DirichletCharacter ℂ (c₁ * c₂)) : DirichletCharacter ℂ c₂ :=
   MulChar.ofUnitHom (χ.toUnitHom.comp (Units.map
     ((ZMod.chineseRemainder h).symm.toRingHom.toMonoidHom.comp (MonoidHom.inr _ _))))
 
@@ -489,8 +450,6 @@ theorem norm_kloostermanSum_zmod_le_of_cubefree {c : ℕ} [NeZero c]
   sorry
 
 end Layer7
-
-end
 
 end
 

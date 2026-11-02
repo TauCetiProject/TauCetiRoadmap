@@ -31,7 +31,8 @@ Gross–Koblitz corollaries, and the integer-modulus sums.
 Several roadmaps border this one. The
 [classical arithmetic roadmap](../ClassicalArithmeticCompletion/README.md) owns the cubic and
 quartic Gauss and Jacobi sums of primary primes, power residue symbols, the Stickelberger
-congruence and Stickelberger's relation for `Φ(P) = g(P)^m`, and the reciprocity laws; this roadmap
+congruence and Stickelberger's relation for `Φ(P) = g(P)^m`, the Hasse–Davenport product
+relation (§7.29), and the reciprocity laws; this roadmap
 consumes those milestones by number (Layer 1, 1.55 and 7.12 there) and proves nothing about primary
 elements or reciprocity. The [theta-series roadmap](../ThetaSeries/README.md) owns the Gauss sums
 of a lattice and their reciprocity law, which are sums of `e(a‖y‖²/2c)` over `L/cL` and not
@@ -58,8 +59,8 @@ for every prime, its §4.4 the reflection formula and the digit identities, and 
 Gross–Koblitz formula `g_q(a) = π^{S_p(a)} ∏_{j<f} Γ_p(a_j/(q − 1))` for the negative Gauss sum
 `g_q(a) = −∑_x ω(x)^{−a} ζ_p^{Tr x}` of the Teichmüller lift of a local field's residue field.
 Nothing about `Γ_p` is defined or proved here. Layer 6 owns what that roadmap leaves to its
-consumers: the global Teichmüller character `ω_𝔓` of a prime of `ℚ(ζ_{q−1})` as a multiplicative
-character with values in the ring of integers (6.1), the Stickelberger corollaries stated against it
+consumers: the residue-cardinality argument and specialization of the supplied power residue
+character at `n = q − 1` (6.1), the Stickelberger corollaries stated against it
 (6.2–6.3), the identification of `ω_𝔓` with the local Teichmüller lift under completion and the
 transport of the Gauss sums of Layer 1 into the completed field (6.4), and the resulting evaluation
 of `g(ω_𝔓^{−a})` and of the Jacobi sums `J(ω_𝔓^{−a}, ω_𝔓^{−b})` in this roadmap's normalization
@@ -100,7 +101,7 @@ Artin–Schreier covers are `FunctionFieldArithmetic`'s (Layer 5), and the state
 - The **`L`-series of a completely multiplicative function on monic polynomials**, its Euler
   product, the identity between its logarithmic derivative and the lifted sums over `𝔽_{q^n}`, and
   the root-power identity `S_n = −∑ ω_i^n` for an `L`-polynomial; the **Hasse–Davenport lifting
-  relation** for Gauss and Jacobi sums, the **Hasse–Davenport product formula**, and the sign of
+  relation** for Gauss and Jacobi sums, and the sign of
   the quadratic Gauss sum over every `𝔽_q` (Layer 3).
 - **Stepanov's method**: the uniform point-count bounds for `y^d = f(x)`, `y^q − y = f(x)` and
   `y^q − y = a x^d + b x^{−d}`; the power-sum lemma; the polynomiality and degree of the
@@ -110,7 +111,8 @@ Artin–Schreier covers are `FunctionFieldArithmetic`'s (Layer 5), and the state
 - **Kloosterman sums** `K(χ; a, b)` on a finite commutative ring, their expansion in Gauss sums,
   **Salié's evaluation** for the quadratic character, the degree-two `L`-polynomial and the lifting
   relation, **Weil's bound** `|K(χ; a, b)| ≤ 2√q`, and the Kloosterman angle (Layer 5).
-- The **Teichmüller character** of a prime of `ℚ(ζ_{q−1})` above `p` as a `MulChar`, the prime
+- The residue-cardinality argument for the **Teichmüller character** supplied by
+  `ClassicalArithmeticCompletion` §1.23 at `n = q − 1`, the prime
   factorization of `g(ω^{−a})` in `ℚ(ζ_{q−1}, ζ_p)` for every `a` as a corollary of the consumed
   Stickelberger congruence, the **digit-sum formula for Jacobi sums**, the identification of the
   Teichmüller character with the local Teichmüller lift of `DirichletPadicLFunctions` §4.5, and
@@ -141,7 +143,10 @@ Artin–Schreier covers are `FunctionFieldArithmetic`'s (Layer 5), and the state
   it), and 4.19 (the quadratic exponential sum `S_p(a)` and `S_p(1) = gaussSum χ ψ`). Layer 6
   states 1.55 and 7.12 against the Teichmüller character 6.1 and derives from them the
   factorization of `(g(ω^{−a}))` for every `a` and the Jacobi digit-sum formula; it re-derives
-  neither.
+  neither. Its §1.23 supplies `powerResidueSymbol`, its unique-root congruence and exact-order
+  API, specialized at `n = q − 1` in 6.1. Its §7.29 supplies the full Hasse–Davenport product
+  formula for every multiplicative character and every nontrivial additive character; 3.4
+  records its duplication consequence and normalization Checks.
 - From `AnalyticNumberTheoryPartI` §2.30 (ii): the Gauss sum of the primitive quadratic character
   `ε_D` of a fundamental discriminant `D` equals `κ(D) |D|^{1/2}`, `κ(D) = 1` for `D > 0` and `i`
   for `D < 0`. At `D = (−1)^{(p−1)/2} p` for an odd prime `p` this is the sign `g(η_p) = ε_p √p` of
@@ -231,7 +236,7 @@ Artin–Schreier covers are `FunctionFieldArithmetic`'s (Layer 5), and the state
 | The quadratic character | `η_F := (quadraticChar F).ringHomComp (Int.castRingHom ℂ)`, the unique character of order `2` when `p ≠ 2`; for `p = 2` it is `1`. "`η`" always means this. |
 | Characters of order `d` | Exist iff `d ∣ q − 1` (`MulChar.exists_mulChar_orderOf`). A **generator** `ω` of the character group is a character of exact order `q − 1`; the choice is a parameter of every statement that mentions one. The Teichmüller character of Layer 6 is the generator canonically attached to a prime of `ℚ(ζ_{q−1})` above `p`. |
 | The canonical additive character | `ψ_F(x) = e(Tr_{F/𝔽_p}(x)/p)`, in Lean `stdAddChar F := (ZMod.stdAddChar).compAddMonoidHom (Algebra.trace (ZMod p) F)`, with `e(t) = exp(2πit)`. For `F = ZMod p` it is Mathlib's `ZMod.stdAddChar`. It is primitive. **Every unqualified `ψ` means `ψ_F`**, and `g(χ)`, `J`, `K(χ; a, b)` without a second argument are taken against it. Mathlib's `FiniteField.primitiveChar_to_Complex F` is a primitive additive character chosen through an abstract cyclotomic extension; 0.2 shows it is `ψ_F.mulShift u` for a unique unit `u`, and no theorem here is stated against it. |
-| Gauss sums | `g(χ, ψ) = gaussSum χ ψ = ∑_{x ∈ F} χ(x) ψ(x)`, with the **plus sign** `e(+Tr(x)/p)`; `g(χ) := g(χ, ψ_F)`; the shifted sum `g_a(χ) := gaussSum χ (ψ_F.mulShift a) = ∑_x χ(x) ψ_F(a x)`, so `g_a(χ) = χ(a)⁻¹ g(χ)` for `a ≠ 0` (`gaussSum_mulShift`). The LMFDB's `τ_a(χ)` is `g_a(χ)` over `ZMod q`. Sources using `e(−Tr(x)/p)` (Katre) get the complex conjugate; the ideal `(g)` and `|g|` are unchanged. |
+| Gauss sums | `g(χ, ψ) = gaussSum χ ψ = ∑_{x ∈ F} χ(x) ψ(x)`, with the **plus sign** `e(+Tr(x)/p)`; `g(χ) := g(χ, ψ_F)`; the shifted sum `g_a(χ) := gaussSum χ (ψ_F.mulShift a) = ∑_x χ(x) ψ_F(a x)`, so `g_a(χ) = χ(a)⁻¹ g(χ)` for `a ≠ 0` (`gaussSum_mulShift_eq`). The LMFDB's `τ_a(χ)` is `g_a(χ)` over `ZMod q`. Changing only the additive sign gives `g(χ, ψ⁻¹) = χ(−1) g(χ, ψ)`; conjugation inverts both characters: `conj(g(χ, ψ)) = g(χ⁻¹, ψ⁻¹)` (`gaussSum_mulShift_eq`, `star_gaussSum_eq`). The ideal `(g)` and `|g|` are unchanged by the additive sign change. |
 | Jacobi sums | `J(χ, ψ) = jacobiSum χ ψ = ∑_{x ∈ F} χ(x) ψ(1 − x)`; the `r`-fold sum `J(χ₁, …, χ_r) = ∑_{x₁ + ⋯ + x_r = 1} ∏ χ_i(x_i)` and `J₀(χ₁, …, χ_r)` with `∑ x_i = 0`. |
 | Kloosterman sums | `K(χ; a, b) = K(χ, ψ; a, b) := ∑_{x ∈ R^×} χ(x) ψ(a x + b x⁻¹)` on a finite commutative ring `R`, `ψ` an additive character of `R`, `a, b ∈ R`. The sum is over **units**. `K(a, b) := K(1; a, b)`. On `ZMod c` with `ψ = ZMod.stdAddChar`: `S(m, n; c) := K(1; m, n)` and, for a Dirichlet character `χ` of modulus `N ∣ c`, `S_χ(m, n; c) := K(changeLevel χ; m, n)`. The LMFDB's `K(a, b, χ)` is `S_χ(a, b; q)` with `N = c = q`. |
 | Salié sums | `S(χ := η; a, b)`, that is `K(η; a, b)`; no separate name. |
@@ -277,7 +282,7 @@ Multiplicative characters: `MulChar`, `map_nonunit`, `MulChar.inv_apply'`, `star
 `exists_apply_eq_pow` (every value of `χ` is a power of a primitive root of unity of order
 `orderOf χ`), `apply_mem_algebraAdjoin` (values in `ℤ[ζ_m]`), `val_neg_one_eq_one_of_odd_order`.
 
-Gauss sums (`Mathlib/NumberTheory/GaussSum.lean`): `gaussSum`, `gaussSum_mulShift`
+Gauss sums (`Mathlib/NumberTheory/GaussSum.lean`): `gaussSum`, `gaussSum_mulShift_eq`
 (`gaussSum χ (mulShift ψ a) = χ a⁻¹ * gaussSum χ ψ`), `star_gaussSum_eq`
 (`star (gaussSum χ ψ) = gaussSum χ⁻¹ ψ⁻¹`), `gaussSum_one_one`, `gaussSum_one_right`
 (`gaussSum χ 1 = 0` for `χ ≠ 1`), `gaussSum_one_left` (`gaussSum 1 ψ = −1` for `ψ ≠ 1`),
@@ -342,9 +347,12 @@ Conrey character at the pin; 0.5 and 7.7 are written without them and 1.4 consum
 ### From ClassicalArithmeticCompletion
 
 1.19, 1.23 (`powerResidueSymbol`, `powerResidueSymbol_spec`), 1.36, 1.46, 1.47, 1.53, 1.55, 1.60,
-4.19 (`quadraticExpSum`, `quadraticExpSum_one_eq_gaussSum`) and 7.12, with the statements listed
+4.19 (`quadraticExpSum`, `quadraticExpSum_one_eq_gaussSum`), 7.12 and 7.29, with the statements listed
 under *Consumed, not redefined*. 1.47's `χ_P = (·/P)_m⁻¹` is `ω_𝔓^{−(q−1)/m}` (6.1); 7.12's
 congruence is stated with the uniformizer `ζ_p − 1` and the sign `−g(ω^{−a})` (6.2).
+Section 1.23 supplies the residue character, its uniqueness and order at `n = q − 1`;
+§7.29 supplies `g(χ^m) ∏_{1≤j<m} g(λ^j) = χ(m)^m ∏_{0≤j<m} g(χλ^j)`
+for exact-order `λ`, `m ∣ q − 1`, and nontrivial additive character, including `χ = 1`.
 
 ### From AnalyticNumberTheoryPartI
 
@@ -356,7 +364,7 @@ at `D = (−1)^{(p−1)/2} p`, where `ε_D` is the Legendre symbol modulo `p`.
 ### From DirichletPadicLFunctions
 
 §4.1 (`existsUnique_moritaGamma`, `moritaGamma_unit_step`, `moritaGamma_nonunit_step`), §4.4 (the
-reflection formula at odd `p` and the digit identity `∑_{j<f} a_j/(q − 1) = S_p(a)/(p − 1)`) and
+reflection formula, including `Γ_2(x) Γ_2(1 − x) = (−1)^{1+x₁}` for the second binary digit `x₁`, and the digit identity `∑_{j<f} a_j/(q − 1) = S_p(a)/(p − 1)`) and
 §4.5 (`grossKoblitz_formula` for the negative Gauss sum of the local Teichmüller lift, with
 `π^{p−1} = −p`, `π ≡ ζ_p − 1 (mod (ζ_p − 1)²)`, and its corollaries `grossKoblitz_formula_valuation`
 `‖g_q(a)‖ = ‖p‖^{S_p(a)/(p−1)}` and the leading residue `g_q(a)/π^{S_p(a)} ≡ (∏ a_i!)⁻¹`), with
@@ -386,7 +394,7 @@ Chinese-remainder factors of a Dirichlet character. Layer 1 records Mathlib's Ga
 against the canonical character and adds the norm, the field of definition and the Galois action;
 Layer 2 does the same for Jacobi sums and adds the multiple Jacobi sums, diagonal equations and
 Jacobsthal sums. Layer 3 builds the `L`-series of a monic multiplicative function once and uses it
-for the Hasse–Davenport lifting relation and product formula; Layer 4 proves Stepanov's uniform
+for the Hasse–Davenport lifting relation, with the supplied product formula giving duplication; Layer 4 proves Stepanov's uniform
 point-count bounds and converts them through the `L`-series and the power-sum lemma into Weil's
 bounds for polynomial sums; Layer 5 defines Kloosterman sums on a finite ring and proves Salié's
 evaluation, the degree-two `L`-polynomial and Weil's bound by the same route. Layer 6 constructs the
@@ -407,15 +415,23 @@ Define `stdAddChar F : AddChar F ℂ` as `ψ_F(x) = ZMod.stdAddChar (Tr_{F/𝔽_
 `e(Tr(x)/p)` with the trace read in `{0, …, p − 1}`, through `Algebra.trace (ZMod p) F` for the
 algebra structure `ZMod.algebra F p`. Prove: the value formula
 `ψ_F(x) = exp(2πi · (Tr x).val / p)`; `ψ_F ≠ 1` (`FiniteField.trace_to_zmod_nondegenerate`), hence
-`isPrimitive_stdAddChar` by `AddChar.IsPrimitive.of_ne_one`; for `F = ZMod p`,
+its primitivity by `AddChar.IsPrimitive.of_ne_one`; for `F = ZMod p`,
 `stdAddChar (ZMod p) = ZMod.stdAddChar` (the trace of `ZMod p` over itself is the identity);
 `ψ_F(−x) = conj (ψ_F x)` and `|ψ_F x| = 1`; `∑_x ψ_F(a x) = q·[a = 0]` (`AddChar.sum_mulShift`).
 *Needs:* Mathlib.
 
+The supporting API comprises:
+
+- The trace character is primitive and specializes to `ZMod.stdAddChar` on prime fields.
+- For every `x`, its value has norm one and its value at `−x` is the conjugate of its value at `x`.
+- For every `a ∈ F`, its sum on the multiples `a x` is `q` if `a = 0` and zero otherwise.
+
 **Checks.**
 
 - (prime field) over `𝔽_7`, `ψ(1) = e(1/7)` and `ψ(3) = e(3/7)`; the definition with
-  `exp(−2πi …)` gives `e(6/7)` at `x = 1` instead, and conjugates every Gauss sum below.
+  `exp(−2πi …)` gives `e(6/7)` at `x = 1` instead. For `ω(3) = e(1/6)`,
+  `g(ω, ψ) = −2.440133 + 1.022619 i`, while `g(ω, ψ⁻¹) = 2.440133 − 1.022619 i`;
+  this is `ω(−1) g(ω, ψ)`, not `conj(g(ω, ψ)) = −2.440133 − 1.022619 i`.
 - (extension) over `𝔽_9 = 𝔽_3(i)`, `i² = −1`: `Tr(1) = 2` and `Tr(i) = i + i³ = 0`, so
   `ψ(1) = e(2/3)` and `ψ(i) = 1`; the kernel of `ψ_F` is the trace-zero line `{a i : a ∈ 𝔽_3}`,
   of size `q/p = 3`, so `ψ_F` is not injective although it is primitive.
@@ -429,10 +445,22 @@ algebra structure `ZMod.algebra F p`. Prove: the value formula
 `a ↦ ψ_F.mulShift a` is a group isomorphism `(F, +) ≃ AddChar F ℂ`: injective by
 `to_mulShift_inj_of_isPrimitive`, bijective by `AddChar.card_eq`. Consequently every nontrivial
 additive character of `F` is primitive and equals `ψ_F.mulShift u` for a unique `u ≠ 0`
-(`exists_unique_mulShift_eq`); in particular `FiniteField.primitiveChar_to_Complex F` is
+; in particular `FiniteField.primitiveChar_to_Complex F` is
 `ψ_F.mulShift u` for a unique unit `u`, and `gaussSum χ (ψ_F.mulShift u) = χ(u)⁻¹ g(χ)`, so every
 statement about `g(χ)` transfers to any primitive character up to a root of unity. The dual
 orthogonality `∑_{ψ} ψ(x) = q·[x = 0]` is Mathlib's `AddChar.sum_apply_eq_ite`. *Needs:* 0.1.
+The supporting API comprises:
+
+- The shift map is an isomorphism from the additive group of `F` onto its additive characters.
+- Nonzero parameters correspond exactly to nontrivial characters.
+- The shifted Gauss sum at nonzero parameter `u` is `χ(u)⁻¹ g(χ)`.
+
+**Checks.**
+
+- Over `𝔽_3`, shift zero gives values `1,1,1`, the trivial additive character.
+- Over `𝔽_3`, shifts one and two take different values `e(1/3),e(2/3)` at one, so the parameter is unique.
+- Over `𝔽_9 = 𝔽_3(i)`, shift one has value one at `i` but value `e(2/3)` at one; primitivity does not mean pointwise injectivity.
+
 
 ### 0.3 The multiplicative character group
 
@@ -453,6 +481,12 @@ every character is `ω^m` for a unique `m mod q − 1`, and that `ω^m` has orde
 Record `MulChar.exists_mulChar_orderOf` as the existence of characters of each order `d ∣ q − 1`
 and `orderOf_dvd_card_sub_one` as the converse. *Needs:* Mathlib.
 
+The supporting API comprises:
+
+- For a generator of `F^×` and a primitive `(q − 1)`-th root of unity, the specified generator character has order `q − 1`.
+- Each character is a unique power modulo `q − 1`; its order is `(q − 1)/gcd(m,q−1)` at exponent `m`.
+- Both orthogonality formulas, the power count for `d ∣ q − 1`, and the Fourier expansion at nonzero arguments hold with zero extension at zero.
+
 **Checks.**
 
 - (generator) over `𝔽_7` with `γ = 3` and `ζ = e(1/6)`: `ω(3) = e(1/6)`, `ω(2) = ω(3²) = e(1/3)`,
@@ -467,13 +501,26 @@ and `orderOf_dvd_card_sub_one` as the converse. *Needs:* Mathlib.
 
 ### 0.4 The quadratic character and parity
 
-`η_F := (quadraticChar F).ringHomComp (Int.castRingHom ℂ)` (`quadChar`). Prove: for `p ≠ 2`,
-`η ≠ 1`, `η² = 1`, `η` is the unique character of order `2` (0.3 with `d = 2`), `η(x) = 1` iff `x`
-is a nonzero square, `η(−1) = (−1)^{(q−1)/2}` (`quadraticChar_neg_one`), and `#{y : y² = x} = 1 + η(x)`
-(`quadraticChar_card_sqrts`). For every `χ`, `χ(−1) = ±1` and `χ(−1) = 1` when `orderOf χ` is odd
-(`val_neg_one_eq_one_of_odd_order`), and `χ(−1) = (−1)^{(q−1)/orderOf χ}` when `orderOf χ` is
-even, because `−1 = γ^{(q−1)/2}` for a generator `γ` and `χ(γ)` is a primitive root of unity of
-order `orderOf χ`. *Needs:* 0.3, Mathlib.
+Define `quadChar` by `η_F := (quadraticChar F).ringHomComp (Int.castRingHom ℂ)`.
+Its API consists of the following facts.
+
+- For odd characteristic, `η` is nontrivial and is the unique character of order two;
+  `η² = 1`. In characteristic two it is the trivial multiplicative character.
+- For odd characteristic, `η(x) = 1` exactly for nonzero squares, and the square-root
+  count is `#{y : y² = x} = 1 + η(x)` (`quadraticChar_card_sqrts`).
+- For odd characteristic, `η(−1) = (−1)^{(q−1)/2}` (`quadraticChar_neg_one`).
+- For every multiplicative character, `χ(−1) = ±1`; it is `1` for odd character order
+  (`val_neg_one_eq_one_of_odd_order`), and `(−1)^{(q−1)/orderOf χ}` for even order,
+  by evaluating at a generator of `F^×`.
+
+*Needs:* 0.3, Mathlib's quadratic-character API.
+
+**Checks.**
+
+- Over `𝔽_3`, `η(0) = 0`; the square-root count at zero is `1`, excluding a wrong value of one at zero.
+- Over `𝔽_3`, `η(2) = −1` and two has no square root: `1 + η(2) = 0`, excluding the trivial character.
+- Over `𝔽_7`, `η(−1) = η(6) = −1`, agreeing with `(−1)^3`; the wrong parity gives `1`.
+- Over `𝔽_2`, `η = 1` as a multiplicative character: its values at `0,1` are `0,1`, not a character of order two.
 
 ### 0.5 Conjugation and the Galois action on character values
 
@@ -482,7 +529,7 @@ in `ℤ[ζ_m]` (`MulChar.apply_mem_algebraAdjoin`) and are powers of a primitive
 (`exists_apply_eq_pow`); prove that `χ(γ)` is itself a primitive `m`-th root of unity for every
 generator `γ` of `F^×`, because `χ(γ)^k = 1` forces `χ^k = 1`. For a ring endomorphism `σ` of `ℂ`
 with `σ(ζ_m) = ζ_m^t` for a primitive `m`-th root of unity `ζ_m`, prove `χ.ringHomComp σ = χ^t`
-(`ringHomComp_eq_pow`): both sides are characters of the cyclic group `F^×` and agree at `γ`.
+: both sides are characters of the cyclic group `F^×` and agree at `γ`.
 Consequently the Galois conjugates of `χ`, its orbit under `Gal(ℚ(ζ_m)/ℚ)`, are exactly the
 characters `χ^t` with `gcd(t, m) = 1`, the generators of the subgroup `⟨χ⟩`. *Needs:* 0.3, Mathlib.
 
@@ -505,11 +552,17 @@ For a finite extension `E/F` of degree `n` define `χ.liftNorm : MulChar E ℂ :
 `ψ.liftTrace : AddChar E ℂ := ψ ∘ Tr_{E/F}` (`AddChar.compAddMonoidHom`). Prove: `N_{E/F}` and
 `Tr_{E/F}` are surjective onto `F` (the norm because `E^×` is cyclic of order `q^n − 1` and
 `N(x) = x^{(q^n−1)/(q−1)}`; the trace by nondegeneracy); hence `orderOf χ.liftNorm = orderOf χ`
-(`orderOf_liftNorm`), lifting is an injective group homomorphism `MulChar F ℂ →* MulChar E ℂ`
+, lifting is an injective group homomorphism `MulChar F ℂ →* MulChar E ℂ`
 whose image is the subgroup of characters trivial on `ker N`, and
 `(stdAddChar F).liftTrace = stdAddChar E` (transitivity of the trace). `η_F.liftNorm = η_E` when
 `p ≠ 2`. The characters of `E^×` of order dividing `d ∣ q − 1` are exactly the lifts of those of
-`F^×` (`exists_liftNorm_eq_of_orderOf_dvd`). *Needs:* 0.1, 0.3, Mathlib.
+`F^×` . *Needs:* 0.1, 0.3, Mathlib.
+
+The supporting API comprises:
+
+- Norm lifting preserves order and is injective on the character group of the finite base field.
+- For `d ∣ q − 1`, its image contains exactly the extension-field characters of order dividing `d` when restricted to the base characters of order dividing `d`.
+- Trace lifting carries the canonical additive character to the canonical extension character; norm lifting carries the quadratic character to the quadratic character in odd characteristic.
 
 **Checks.**
 
@@ -538,6 +591,12 @@ characters `χ₁ := crtFactorLeft χ`, `χ₂ := crtFactorRight χ` of a Dirich
 `(ZMod.stdAddChar c₁).mulShift c̄₂ × (ZMod.stdAddChar c₂).mulShift c̄₁`, with `c̄₂ c₂ ≡ 1 (mod c₁)`
 and `c̄₁ c₁ ≡ 1 (mod c₂)`. Prove that `χ` is primitive iff both factors are, and
 `conductor χ = conductor χ₁ · conductor χ₂`. *Needs:* Mathlib.
+
+The supporting API comprises:
+
+- The two CRT factors recover the original multiplicative character by multiplying their values on the coordinate residues.
+- The additive factors use the inverse-modulus shifts `c̄₂,c̄₁`.
+- The conductor is the product of the conductors of the two factors, and primitivity is equivalent to primitivity of both factors.
 
 **Checks.**
 
@@ -576,11 +635,23 @@ of 0.1–0.6.
 `gaussSum 1 1 = q − 1`; `g_a(χ) = χ(a)⁻¹ g(χ)` for `a ≠ 0` (`gaussSum_mulShift`);
 `g_0(χ) = (q − 1)[χ = 1]`; `g(χ, ψ⁻¹) = χ(−1) g(χ, ψ)` (`mul_gaussSum_inv_eq_gaussSum`); and the
 sum over all shifts `∑_a g_a(χ) = 0` for `χ ≠ 1` (swap the sums). *Needs:* 0.1, Mathlib.
+The supporting API comprises:
+
+- With the canonical additive character, the trivial multiplicative character has Gauss sum `−1`.
+- The trivial additive character gives zero for a nontrivial multiplicative character and `q − 1` for the trivial one.
+- Nonzero shifts multiply by `χ(a)⁻¹`; the zero shift is `(q − 1)[χ = 1]`.
+
+**Checks.**
+
+- Over `𝔽_3`, `g(1) = e(1/3) + e(2/3) = −1`, not zero.
+- Over `𝔽_3`, the quadratic character with trivial additive character gives `1 − 1 = 0`; the two trivial characters give `2`.
+- Over `𝔽_3`, the quadratic sum is `i√3`; shift two gives `−i√3`, while shift zero gives `0`.
+
 
 ### 1.2 Absolute value and conjugation
 
 For `χ ≠ 1`: `g(χ) g(χ⁻¹) = χ(−1) q` (`gaussSum_mul_gaussSum_eq_card` and 1.1), `|g(χ)| = √q`
-(`norm_gauss`, through `star_gaussSum_eq`), `conj g(χ) = χ(−1) g(χ⁻¹)`, `g(χ) ≠ 0`, and
+(through `star_gaussSum_eq`), `conj g(χ) = χ(−1) g(χ⁻¹)`, `g(χ) ≠ 0`, and
 `g(χ)⁻¹ = χ(−1) g(χ⁻¹)/q`. For `χ = 1`, `|g(1)| = 1`. A **boundary check**: `|g(χ, ψ)| = √q` for
 every nontrivial `ψ` (0.2), and `|gaussSum χ 1| = 0`: the primitivity hypothesis in
 `gaussSum_mul_gaussSum_eq_card` is not decorative. *Needs:* 1.1, 0.2.
@@ -594,7 +665,8 @@ products of roots of unity), and the Galois group acts by: `σ_c : ζ_p ↦ ζ_p
 `g(χ)` to `g(χ^t)` for `t ∈ (ℤ/m)^×` (0.5). Hence `g(χ)^m ∈ ℤ[ζ_m]` (`gauss_pow_orderOf_mem`:
 fixed by all `σ_c`), `g(χ)^m` is the classical arithmetic roadmap's `Φ(P)` when `χ` is the inverse
 power residue character of 1.47 there, and `τ_t(g(χ)^m) = g(χ^t)^m`: conjugate algebraic integers
-of the same absolute value `q^{m/2}` whose quotient is not a unit in general (for `q = 7`, `m = 3`,
+of the same absolute value `q^{m/2}` when `χ ≠ 1` (for `χ = 1`, `m = 1` and the value is `−1`,
+of absolute value `1`) whose quotient is not a unit in general (for `q = 7`, `m = 3`,
 `g(χ)³/g(χ²)³ = π/π̄` for the prime `π` of norm `7`). Prove also the **Frobenius invariance**
 `g(χ^p) = g(χ)`: `x ↦ x^p` permutes `F` and `Tr(x^p) = Tr(x)`. *Needs:* 1.1, 0.5, Mathlib's
 cyclotomic fields. (The `p`-adic refinement of this factorization, the Gross–Koblitz evaluation,
@@ -602,7 +674,7 @@ is 6.5.)
 
 ### 1.4 Quadratic Gauss sums over the prime field
 
-For `p ≠ 2`: `g(η)² = η(−1) q` (`gaussSum_sq` with `isPrimitive_stdAddChar`). For `F = ZMod p`:
+For `p ≠ 2`: `g(η)² = η(−1) q` (`gaussSum_sq` with the primitivity proved in 0.1). For `F = ZMod p`:
 `g(η_p) = ∑_{r mod p} e(r²/p)` (4.19 (iii) of the classical arithmetic roadmap,
 `quadraticExpSum_one_eq_gaussSum`, read against `ZMod.stdAddChar`, which is `ψ_{ZMod p}` by 0.1).
 The **sign** is consumed from `AnalyticNumberTheoryPartI` §2.30 (ii): for the fundamental
@@ -649,7 +721,7 @@ and `∑_x χ(x) ψ(a − b x) = χ(b)⁻¹ χψ(a) J(χ, ψ)` for `a ≠ 0`, `b
 ### 2.2 The Gauss–Jacobi relation, absolute value and integrality
 
 For `χ, ψ ≠ 1`, `χψ ≠ 1`: `J(χ, ψ) = g(χ) g(ψ) / g(χψ)` (Mathlib), `|J(χ, ψ)| = √q`
-(`norm_jacobiSum`, from 1.2), `J(χ, ψ) J(χ⁻¹, ψ⁻¹) = q`, `conj J(χ, ψ) = J(χ⁻¹, ψ⁻¹)`, and
+(from 1.2), `J(χ, ψ) J(χ⁻¹, ψ⁻¹) = q`, `conj J(χ, ψ) = J(χ⁻¹, ψ⁻¹)`, and
 `J(χ, ψ) ∈ ℤ[ζ_m]` for `m` the lcm of the orders (`jacobiSum_mem_algebraAdjoin_of_pow_eq_one`).
 For `χ, ψ ≠ 1` with `χψ = 1` the value is `−χ(−1)`, of absolute value `1`; this is the **boundary
 check** on the hypothesis `χψ ≠ 1`. *Needs:* 1.2, Mathlib.
@@ -672,14 +744,20 @@ Define `J(χ₁, …, χ_r) = ∑_{x₁ + ⋯ + x_r = 1} ∏ χ_i(x_i)` (`multiJ
 `J₀ = χ_r(−1)(q − 1) J(χ₁, …, χ_{r−1})` if `∏χ_i = 1` and `r ≥ 1`;
 `J(χ₁, …, χ_r) = g(χ₁)⋯g(χ_r) / g(∏χ_i)` if all `χ_i ≠ 1` and `∏χ_i ≠ 1`
 (`multiJacobiSum_eq_prod_gauss_div`), and `J(χ₁, …, χ_r) = −χ_r(−1) J(χ₁, …, χ_{r−1})` if all
-`χ_i ≠ 1` and `∏χ_i = 1`; hence `|J(χ₁, …, χ_r)| = q^{(r−1)/2}` in the first case and `q^{(r−2)/2}`
-in the second. Deduce the **number of solutions of a diagonal equation**: for `a_i ∈ F^×`,
+`χ_i ≠ 1`, `∏χ_i = 1` and `r ≥ 1`; hence `|J(χ₁, …, χ_r)| = q^{(r−1)/2}` in the first case and `q^{(r−2)/2}`
+in the second, with `r ≥ 1` in both norm assertions. Deduce the **number of solutions of a diagonal equation**: for `r ≥ 1`, `a_i ∈ F^×`,
 `d_i ∣ q − 1` and `b ∈ F`, `#{x ∈ F^r : ∑ a_i x_i^{d_i} = b} = q^{r−1} + ∑ ∏χ_i(a_i)⁻¹ · (J or J₀ term)`
 over the tuples of characters `χ_i ≠ 1` with `χ_i^{d_i} = 1` (the `J` term, times `∏χ_i(b)`, for
 `b ≠ 0`; the `J₀` term for `b = 0`), and the bound `|N − q^{r−1}| ≤ ∏(d_i − 1) · q^{(r−1)/2}` for
 `r ≥ 1` and `b ≠ 0` (`card_diagonal_sub_le`; Ireland–Rosen Ch. 8 §7 and Ch. 10 §3). *Needs:* 2.2, 0.3 (the
 power count `#{y : y^d = c} = 1 + ∑_{χ^d = 1, χ ≠ 1} χ(c)`; the tuples with a trivial entry
 contribute `q^{r−1}` and `0`, the all-nontrivial tuples the Jacobi sums).
+
+The supporting API comprises:
+
+- The sums on fibres of one and zero specialize at two entries to the ordinary Jacobi sum and its zero-fibre counterpart.
+- For nonempty families the product character determines the recursion and the two norm formulas with their stated nontriviality hypotheses.
+- For `r ≥ 1`, the character expansion counts diagonal solutions and yields `card_diagonal_sub_le` when `b ≠ 0`.
 
 **Checks.**
 
@@ -692,6 +770,9 @@ contribute `q^{r−1}` and `0`, the all-nontrivial tuples the Jacobi sums).
   `J(χ, χ, χ) = −χ(−1) J(χ, χ) = −(0.5 − 2.5981 i) = −0.5 + 2.5981 i`, of absolute value
   `√7 = q^{(3−2)/2}`; with `(χ, χ, χ⁻¹)` the product is `χ ≠ 1` and
   `J = g(χ) g(χ) g(χ⁻¹)/g(χ) = χ(−1) q = 7`, which is `q^{(3−1)/2}`.
+- (empty diagonal equation) at `r = 0`, `b = 1` the count is `0`; no nonempty-family
+  baseline applies. At `r = 1`, `d₁ = 1`, `a₁ = b = 1`, the count is `1`, the baseline is `1`,
+  and the error bound is `0`.
 - (diagonal count) `x² + y² = 1` over `𝔽_7` has `8` solutions: `q^{r−1} + J(η, η) = 7 − η(−1) = 8`,
   and `|8 − 7| ≤ 1 · 1 · √7`; `x² + y² = 0` has the single solution `(0, 0)`:
   `7 + J₀(η, η) = 7 + η(−1)(q − 1) J(η) = 7 − 6 = 1`, where a definition dropping the `J₀` branch
@@ -699,8 +780,8 @@ contribute `q^{r−1}` and `0`, the all-nontrivial tuples the Jacobi sums).
 
 ### 2.5 Jacobsthal sums
 
-For `p ≠ 2` and `n ≥ 1` define `φ_n(a) = ∑_{x ∈ F} η(x) η(x^n + a)` (`jacobsthalPhi`) and
-`ψ_n(a) = ∑_{x ∈ F} η(x^n + a)` (`jacobsthalPsi`). Prove, for `a ≠ 0`:
+For `p ≠ 2` and `n ≥ 0` define `φ_n(a) = ∑_{x ∈ F} η(x) η(x^n + a)` (`jacobsthalPhi`) and
+`ψ_n(a) = ∑_{x ∈ F} η(x^n + a)` (`jacobsthalPsi`). Prove, for `n ≥ 1` and `a ≠ 0`:
 `ψ_n(a) = η(a) ∑_{χ^n = 1, χ ≠ 1} χ(−a) J(χ, η)` (`jacobsthalPsi_eq_sum_jacobiSum`; from
 `#{x : x^n = y} = ∑_{χ^n=1} χ(y)` for `y ≠ 0`, the term `x = 0` contributing `η(a)`, and 2.1), and
 `φ_n(a) = η(a) ∑_{χ^n = η} χ(−a) J(χ, η)` (`jacobsthalPhi_eq_sum_jacobiSum`), the sum over the
@@ -715,8 +796,17 @@ count of `y² = x³ + a x` is `q + 1 + φ_2(a)`, its trace `−φ_2(a)`, by the 
 roadmap's `symmetric_cubic_trace_zero` (count `q + 1`, trace `0` for `q ≡ 3 (mod 4)`). *Needs:*
 2.2, 2.3, 0.4; `EllipticLegendreCharacterInterfaces` 5.1 for the elliptic reading.
 
+The supporting API comprises:
+
+- For `n ≥ 1` and `a ≠ 0`, the two sums have the stated Jacobi expansions.
+- For `a ≠ 0`, the closed forms are `ψ_2(a) = −1` and `φ_1(a) = −1`; scaling `a` by `s²` scales `φ_2(a)` by `η(s)`, including `s = 0` when both sides vanish.
+- At primes congruent to one modulo four, the signed two-squares evaluation is `jacobsthalPhi_two_one`.
+
 **Checks.**
 
+- (zero exponent) over `𝔽_3`, `ψ_0(1) = 3η(2) = −3`, whereas the proposed
+  Jacobi expansion would give `−1`; at `n = 1` both sides are `0`. Thus the expansion
+  requires positive exponent even though the sum is defined at zero.
 - (`p = 5`) `φ_2(1) = −2`, `φ_2(2) = −4`, `ψ_2(1) = −1`; `5 = 1² + 2²` with `a = 1 ≡ 1 (mod 4)`,
   so `φ_2(1) = −2a` and `φ_2(2) = −2b`.
 - (sign of `a`) `p = 13 = (−3)² + 2²` with `a = −3 ≡ 1 (mod 4)`: `φ_2(1) = 6 = −2a`; a statement
@@ -758,9 +848,15 @@ being over the `q^d` monic polynomials `X^d + ∑_{i<d} c_i X^i` indexed by `c :
 factorization in `F[X]`, with the finite products converging `T`-adically), and the **logarithmic
 derivative identity** `T · L'(λ, T) / L(λ, T) = ∑_{n ≥ 1} S_n(λ) T^n` with
 `S_n(λ) = ∑_{P} deg P · λ(P)^{n / deg P}` over the monic irreducibles of degree dividing `n`.
-Prove the **polynomial criterion** (`lSeries_eq_polynomial`): if `∑_{deg g = d} λ(g) = 0` for all
+Prove the **polynomial criterion**: if `∑_{deg g = d} λ(g) = 0` for all
 `d ≥ d₀`, then `L(λ, T)` is a polynomial of degree `< d₀` (the zero polynomial, of degree `−∞`,
 when `d₀ = 0`). *Needs:* Mathlib's `Polynomial`, `PowerSeries`, `UniqueFactorizationMonoid`.
+
+The supporting API comprises:
+
+- The coefficient in degree `d` is the sum over the monic polynomials parametrized by `monicOfCoeffs`; degree zero contributes `λ(1)`.
+- For monic multiplicative `λ`, the constant coefficient is one and unique factorization gives the Euler product.
+- The logarithmic derivative has the stated irreducible-polynomial coefficients; vanishing coefficient sums from `d₀` on imply degree less than `d₀`.
 
 **Checks.**
 
@@ -775,7 +871,8 @@ when `d₀ = 0`). *Needs:* Mathlib's `Polynomial`, `PowerSeries`, `UniqueFactori
   are all `1`: the polynomial criterion does not apply and `L` is not a polynomial.
 - (criterion at the boundary) for the `λ` of 3.3 with `χ ≠ 1`, `ψ ≠ 1` the coefficient sums vanish
   from `d₀ = 2` on and `L(λ, T) = 1 + g(χ, ψ) T` has degree `1 < 2`; with `χ = ψ = 1` the degree-`d`
-  sum is `q^d` and `L = (1 − qT)⁻¹`.
+  sum is `(q − 1)q^{d−1}` for `d ≥ 1` and `L = (1 − T)/(1 − qT)`: over `𝔽_3`
+  the expansion begins `1 + 2T + 6T²`. Polynomials with zero constant coefficient contribute zero.
 
 ### 3.2 Lifted sums and the root-power identity
 
@@ -785,6 +882,12 @@ irreducibles of degree `d ∣ n` are exactly the minimal polynomials of the elem
 those irreducibles). Call the right side `extensionSum E λ`. Prove the **root-power identity**
 (`extensionSum_eq_neg_sum_pow`): if `L(λ, T) = ∏_{i<k} (1 − ω_i T)` then `S_n(λ) = −∑_{i<k} ω_i^n`
 for every `n ≥ 1`. *Needs:* 3.1, Mathlib's finite-field splitting lemmas.
+
+The supporting API comprises:
+
+- The element sum equals the sum over irreducibles with degree dividing the extension degree, counted with their degrees.
+- For the identity extension it is the degree-one coefficient of the `L`-series.
+- If the `L`-series is a product of linear factors, `extensionSum_eq_neg_sum_pow` gives the negative sum of reciprocal-root powers.
 
 **Checks.**
 
@@ -818,18 +921,28 @@ degenerate cases separately: for `χ = 1`, `ψ ≠ 1` the relation holds as well
 `η_{𝔽_p}.liftNorm = η_F` (0.6); so `g(η) = 3` for `𝔽_9`, `−5` for `𝔽_25`, `−3√3 i` for `𝔽_27`,
 `7` for `𝔽_49`. *Needs:* 3.2, 1.4, 0.6. (Ireland–Rosen Ch. 11 §4, Theorem 1; Lidl–Niederreiter
 Ch. 5 §5.2.)
+The supporting API comprises:
+
+- Set `λ(1) = 1`; for positive degree the constant and next-to-leading coefficients give the displayed formula, which is monic multiplicative.
+- The degree-one coefficient is the Gauss sum; every coefficient in degree at least two vanishes if at least one character is nontrivial.
+- The lifted element sum is the Gauss sum of the norm and trace lifts, giving `hasseDavenport_lift` with its minus sign.
+
+**Checks.**
+
+- For `g = 1`, empty root product and sum give `λ(1) = χ(1)ψ(0) = 1`; the positive-degree coefficient formula is not used at degree zero.
+- For two trivial characters over `𝔽_3`, the first coefficients are `1,2,6`; polynomials divisible by `X` have value zero.
+- For the quadratic and canonical additive characters over `𝔽_3`, `L = 1 + i√3 T`; the degree-two lift is `3 = −(i√3)²`.
+
 
 ### 3.4 The Hasse–Davenport product formula
 
-For `m ∣ q − 1`, `λ` a character of exact order `m`, and any `χ`
-(`hasseDavenport_product`): `∏_{j=0}^{m−1} g(χ λ^j) = χ(m)^{−m} g(χ^m) ∏_{j=1}^{m−1} g(λ^j)`, valid
-for every `χ` (when `χ^m = 1` both sides contain the factor `g(1) = −1`). The case `m = 2` is the
-**duplication formula** `g(χ) g(χη) = χ(4)⁻¹ g(χ²) g(η)`, equivalently
-`g(χ²) = χ(4) g(χ) g(χη) / g(η)` (`gauss_sq_eq`). Route of record: Davenport–Hasse's original,
-which expresses both sides through Jacobi sums by 2.2 and proves the resulting Jacobi-sum identity
-by counting solutions of `y^m = x` with 0.3, as in Berndt–Evans–Williams Ch. 11 §11.3. The
-duplication formula is what the finite hypergeometric sums of Beukers–Cohen–Mellit (Theorem 1.3
-there) are reduced with. *Needs:* 2.2, 0.3.
+Specialize the product relation in the supplier contract to `ψ_F`. For `p ≠ 2`, its case
+`m = 2` gives the duplication consequence `g(χ) g(χη) = χ(4)⁻¹ g(χ²) g(η)`, equivalently
+`g(χ²) = χ(4) g(χ) g(χη) / g(η)`; the denominator is nonzero by 1.2.
+This consequence applies to every `χ`, including `χ² = 1`. It is the form used to reduce
+finite hypergeometric Gauss products (Beukers–Cohen–Mellit, arXiv:1505.02900v2,
+Theorem 1.3, p. 3; Conrad, Appendix (A.6), p. 19).
+*Needs:* `ClassicalArithmeticCompletion` §7.29, 0.4, 1.2.
 
 **Checks.**
 
@@ -849,7 +962,10 @@ there) are reduced with. *Needs:* 2.2, 0.3.
 For `χ, ψ ≠ 1` with `χψ ≠ 1` and `E/F` of degree `n`: `−J(χ.liftNorm, ψ.liftNorm) = (−J(χ, ψ))^n`
 (`jacobiSum_lift`), from 2.2 and 3.3 applied to `χ`, `ψ`, `χψ`; and for `χψ = 1` the same
 relation holds, since then `J(χ', ψ') = −χ'(−1) = −χ(−1)^n` and `−(−J(χ, ψ))^n = −χ(−1)^n`. Hence
-`|J(χ', ψ')| = q^{n/2}`. *Needs:* 3.3, 2.2.
+`|J(χ', ψ')| = q^{n/2}` when `χψ ≠ 1`, and `|J(χ', ψ')| = 1` when `χψ = 1`.
+For the quadratic character over `𝔽_3` lifted to `𝔽_9`, the sum is `−1`, of norm `1`,
+not `3`; for an order-six character over `𝔽_7` paired with itself and lifted to `𝔽_49`,
+the norm is `7`. *Needs:* 3.3, 2.2.
 
 ### Examples
 
@@ -861,20 +977,21 @@ characters and every `m ∣ 12`).
 ### Dependencies
 
 3.1–3.2 are polynomial algebra over `F` and need Mathlib only; 3.3–3.5 need Layers 0 (0.6) and 1
-(1.4), and 2.2.
+(1.4), and 2.2; 3.4 consumes `ClassicalArithmeticCompletion` §7.29.
 
 ## Layer 4: Stepanov's method and Weil's bounds for polynomial sums
 
 The bounds of this layer are proved by the elementary method of Stepanov, as organized by Schmidt
 and by Iwaniec–Kowalski: an auxiliary polynomial vanishing to high order at the points to be counted
-gives a *weak* bound `|N − q| ≤ C √q` with `C` depending only on the degrees, uniformly over all
+gives a *weak* bound `|N − q| ≤ C √q` with `C` depending only on the degrees in both variables (including the degree `q` in `y`
+for Artin–Schreier equations), uniformly over all
 finite extensions; the `L`-series of Layer 3 then converts the uniform weak bound into the sharp
 one through the power-sum lemma. No zeta function and no curve beyond the affine point set of a
 single equation appears.
 
 ### 4.1 Hasse derivatives and the multiplicity criterion
 
-For `f ∈ F[X]` and `k ≥ 1`: `x` is a root of `f` of multiplicity `≥ k` iff `(hasseDeriv j f)(x) = 0`
+For nonzero `f ∈ F[X]` and `k ≥ 1`: `x` is a root of `f` of multiplicity `≥ k` iff `(hasseDeriv j f)(x) = 0`
 for all `j < k` (Mathlib's `Polynomial.hasseDeriv`, `hasseDeriv_apply`, `rootMultiplicity`; the
 criterion is Taylor's formula `f(X + x) = ∑_j (hasseDeriv j f)(x) X^j`, valid in every
 characteristic). Prove the **Leibniz rule**
@@ -883,11 +1000,18 @@ characteristic). Prove the **Leibniz rule**
 degree `D` with roots of multiplicity `≥ k` at every point of a set `S` has `k · #S ≤ D`. *Needs:*
 Mathlib.
 
+**Checks.**
+
+- For `f = X`, `x = 0`, `k = 1`, the multiplicity is `1` and the zeroth Hasse derivative is `0`.
+- For `f = 1`, `x = 0`, `k = 1`, the multiplicity is `0` and the zeroth derivative is `1`; both sides of the criterion are false.
+- For `f = 0`, Mathlib's `rootMultiplicity` is `0`, but all Hasse derivatives vanish; the nonzero hypothesis excludes this counterexample. The unrestricted criterion uses divisibility by `(X − C x)^k`, which holds for zero.
+
 ### 4.2 Stepanov's bound for `y^d = f(x)`
 
 Let `d ≥ 2`, `f ∈ F[X]` of degree `m ≥ 1`, and suppose `f` is not of the form `c · g^e` with
 `e > 1`, `e ∣ d`, `g ∈ F̄[X]` (equivalently, over `F` itself once `d ∣ q − 1`). There are `C`
-and `Q₀`, depending only on `d` and `m`, such that for every finite extension `E/F` with
+and `Q₀`, depending only on `d` and `m`: fix `d,m` first, choose the constants,
+then quantify over every finite base field `F`, every such `f` of degree `m`, and every finite extension `E/F` with
 `|E| = Q ≥ Q₀`, `| #{(x, y) ∈ E² : y^d = f(x)} − Q | ≤ C √Q` (`stepanov_kummer`). Route of record:
 Stepanov's auxiliary polynomial on the `d` branches, as in Schmidt, *Equations over Finite
 Fields*, Ch. I (the method for `y^d = f(x)`), with 4.1; any explicit admissible `(C, Q₀)` is
@@ -896,40 +1020,68 @@ extension of `F`, which is what makes the bound uniform in `E`. *Needs:* 4.1.
 
 ### 4.3 Stepanov's bound for Artin–Schreier equations
 
-(i) For `f ∈ F[X]` of degree `n ≥ 1` with `p ∤ n`, there are `C, Q₀` depending only on `n` such
-that for every finite extension `E/F` with `|E| = Q ≥ Q₀`,
+(i) For `f ∈ F[X]` of degree `n ≥ 1` with `p ∤ n`, there are `C, Q₀` depending only on `q,n` such
+that for every finite base field of cardinality `q`, every such polynomial of degree `n`, and every finite extension `E/F` with `|E| = Q ≥ Q₀`,
 `| #{(x, y) ∈ E² : y^q − y = f(x)} − Q | ≤ C √Q` (`stepanov_artinSchreier`). (ii) For `a, b ∈ F^×`
-and `d ≥ 1` with `p ∤ d`, there are `C, Q₀` depending only on `d` such that
+and `d ≥ 1` with `p ∤ d`, there are `C, Q₀` depending only on `q,d`, chosen before the base field of cardinality `q`
+and the units `a,b`, such that
 `| #{(x, y) ∈ E^× × E : y^q − y = a x^d + b x^{−d}} − (Q − 1) | ≤ C √Q` for `|E| = Q ≥ Q₀`
 (`stepanov_kloostermanCurve`). Route of record: Schmidt Ch. I for (i); for (ii) the auxiliary
 polynomial in `F[x, x⁻¹]` of Iwaniec–Kowalski Ch. 11 §11.7 (the case `d = 1` is their proof of
 Weil's bound for Kloosterman sums), with `x^d` in place of `x`. The coefficient `q` in `y^q − y` is
 `|F|`, so that `#{y ∈ E : y^q − y = c} = q · [Tr_{E/F} c = 0]`. *Needs:* 4.1.
 
+**Checks.**
+
+- For `y² = x` over any finite field, each `y` gives exactly one `x`; `N = Q`, so the Kummer constants may be `C = Q₀ = 0` for degrees `(2,1)`.
+- For `y^q − y = x²` with odd `q` and `Q = q^{4r}`, `r ≥ 1`, additive orthogonality and the lifted quadratic Gauss sum give `N = Q − (q − 1)√Q`. At `(q,Q) = (3,81)` and `(5,625)`, `N = 63,525` and the normalized errors are `2,4`; the constants cannot depend only on the degree in `x`.
+- For `q = Q = 3`, `a = b = 1`, `d = 1`, the Laurent equation has no points: its right side is `2,1` at the two units, while `y³ − y = 0`. Its error from `Q − 1` is `2`.
+
 ### 4.4 The power-sum lemma
 
 If `ω : Fin k → ℂ`, `ρ > 0`, `C ≥ 0` and `|∑_i ω_i^n| ≤ C ρ^n` for all `n ≥ n₀`, then `|ω_i| ≤ ρ`
-for every `i` (`norm_le_of_sum_pow_le`). Proof of record: the rational function
-`∑_i ω_i T / (1 − ω_i T)` has a pole at `1/ω` for every value `ω` taken by the family (the residues
-`#{i : ω_i = ω}` are positive and cannot cancel), while its Taylor series `∑_n (∑_i ω_i^n) T^n` has
-radius of convergence `≥ 1/ρ`. *Needs:* Mathlib's complex analysis (radius of convergence of a
-power series; `HasFPowerSeriesOnBall` and the isolated-singularity lemma for a rational function
-with simple poles), or, equivalently, Vandermonde linear algebra on the distinct values of `ω`.
+for every `i`. One route uses finite Vandermonde linear algebra: group the distinct nonzero
+values as `z_j` with positive integer multiplicities `m_j`. Invert the matrix `(z_j^h)` for
+`0 ≤ h < l`, where `l` is the number of distinct nonzero values. Applied to the consecutive
+power sums at `n,…,n+l−1`, its fixed inverse expresses each `m_j z_j^n` as a fixed linear
+combination of them. Thus `|m_j z_j^n| ≤ D_j ρ^n` for a constant independent of `n`; if
+`|z_j| > ρ`, division by `|z_j|^n` would force the positive integer `m_j` to tend to zero.
+Zero roots already satisfy the bound. *Needs:* Mathlib's `Matrix.det_vandermonde`
+(`Mathlib/LinearAlgebra/Vandermonde.lean`), `Matrix.mul_nonsing_inv`
+(`Mathlib/LinearAlgebra/Matrix/NonsingularInverse.lean`) and
+`tendsto_pow_atTop_nhds_zero_of_norm_lt_one` (`Mathlib/Analysis/SpecificLimits/Normed.lean`).
+
+**Checks.**
+
+- For the empty family every power sum is `0` and there is no root to bound.
+- For roots `2,−2` and `ρ = 1`, odd power sums vanish but the even sums are `2·2^n`;
+  a bound only on odd indices would miss both roots.
+- For roots `1,1`, every power sum is `2`; grouping gives multiplicity `2`, so equal
+  roots cannot cancel. For roots `0,1`, every positive power sum is `1` and both norms are at most `1`.
 
 ### 4.5 The `L`-polynomial of a multiplicative character sum
 
 For `χ ≠ 1` of order `d` and `f ∈ F[X]` nonzero, put `λ_f(g) := χ(N_{F[X]/(g)}(f))`
 (`mulCharResultant χ f`), the character of the resultant `Res(g, f) = ∏_{g(α)=0} f(α)` for monic
 `g` (`Algebra.norm F` on `AdjoinRoot g`). It is monic multiplicative, `λ_f(X − c) = χ(f(c))`, and
-`λ_f(g)` depends only on `g` modulo the radical `rad f` (it is a function of the values `g(α)` at
-the distinct roots `α` of `f`). Prove (`lSeries_mulCharResultant`): if `f` is not of the form
+for `f = c ∏_P P^{e_P}` with monic irreducibles `P`, resultant reciprocity gives
+`λ_f(g) = χ((−1)^{deg f} c)^{deg g} ∏_P (χ^{e_P} ∘ N_{(F[X]/P)/F})(g mod P)`.
+The product is the character of the quotient by `rad f`, extended by zero on nonunits;
+the scalar factor depends on `deg g` and is constant within each coefficient sum. Prove (`lSeries_mulCharResultant`): if `f` is not of the form
 `c · h^d`, `h ∈ F[X]`, then `∑_{deg g = e} λ_f(g) = 0` for every `e ≥ m := deg(rad f)`, because
 the map `g ↦ g mod rad f` from monic polynomials of degree `e` onto `F[X]/(rad f)` is
-`q^{e−m}`-to-one and `λ_f` is a nontrivial character of `(F[X]/(rad f))^×` extended by zero;
+`q^{e−m}`-to-one and the quotient-character factor is nontrivial on `(F[X]/(rad f))^×`,
+extended by zero; its sum vanishes, and multiplication by the fixed scalar preserves zero;
 hence `L(λ_f, T)` is a polynomial of degree `≤ m − 1`, with `S_1(λ_f) = ∑_{x ∈ F} χ(f(x))` and
 `S_n(λ_f) = ∑_{x ∈ E} χ(N_{E/F} f(x))`, the lifted sum. *Needs:* 3.1, 3.2, 0.3, 0.6 (the
 characters of order dividing `d` of `E^×` are lifts). The boundary case: for `f = c h^d`,
 `∑_x χ(f(x)) = χ(c) (q − #{roots of h in F})`, which is not `O(√q)`; the hypothesis is necessary.
+
+The supporting API comprises:
+
+- On monic products the resultant character is multiplicative, and at `X − c` it is `χ(f(c))`.
+- At each fixed degree it is the displayed scalar times a quotient character modulo the radical.
+- For non-power `f`, the quotient character is nontrivial, giving the degree bound and the norm-lifted root-power identity.
 
 **Checks.**
 
@@ -940,6 +1092,9 @@ characters of order dividing `d` of `E^×` are lifts). The boundary case: for `f
   with `Res(g, X) = (−1)² g(0) = 1`.
 - (degree zero) `g = 1`: `F[X]/(1)` is the zero algebra, Mathlib's norm on it is `1`, and
   `λ_f(1) = χ(1) = 1`, as monic multiplicativity requires.
+- (degree factor) over `𝔽_7`, `f = X`, `χ = η`, both `X − 1` and `X² − 1`
+  reduce to `−1` modulo `X`, but their values are `1,−1`. The quotient character is
+  `η(−1) = −1`, multiplied by `(−1)^{deg g}`; omitting that factor gives the wrong first value.
 - (dependence on the radical) `f = X²`, `χ = η`: `λ_f(g) = η(g(0)²) = [g(0) ≠ 0]` depends on `g`
   modulo `rad f = X` only; the degree-`e` coefficient sum is `q^e − q^{e−1} ≠ 0`, and indeed
   `f = X² = 1 · X^2` is excluded by the hypothesis.
@@ -958,6 +1113,12 @@ vanishes because `n f_n ≠ 0`. Hence `L(μ_f, T)` is a polynomial of degree `�
 (`lSeries_addCharTrace`), `S_1(μ_f) = ∑_x ψ(f(x))`, and `S_n(μ_f) = ∑_{x ∈ E} ψ(Tr_{E/F} f(x))`.
 *Needs:* 3.1, 3.2. Boundary: for `f = X^p − X` over `F = 𝔽_p`, `∑_x ψ(f(x)) = p`, and `p ∤ n`
 fails; the hypothesis is necessary.
+
+The supporting API comprises:
+
+- The trace character is multiplicative on monic products and evaluates at `X − c` as `ψ(f(c))`.
+- When the positive degree of `f` is prime to the characteristic, the free coefficient in Newton’s identity forces all coefficient sums from that degree on to vanish.
+- The resulting polynomial and its trace-lifted sums satisfy `lSeries_addCharTrace` and the root-power identity of 3.2.
 
 **Checks.**
 
@@ -1002,9 +1163,15 @@ For `d ∣ q − 1` and `f` nonzero with `m` distinct roots that is not of the f
 `χ'^d = 1`): `|#{(x, y) ∈ F² : y^d = f(x)} − q| ≤ (d − 1)(m − 1) √q`. The stronger hypothesis is
 necessary here, unlike in 4.7: `y⁴ = x²` over `𝔽_5` has `9` points, not `5`, and `y⁴ = (x² − 1)²` over
 `𝔽_25` has `46`, while `(d − 1)(m − 1)√q` is `0` and `15`. In particular for a squarefree `f` of degree
-`m` and `p ≠ 2`, `|#{y² = f(x)} − q| ≤ (m − 1) √q` (`card_hyperelliptic_sub_le`). For `f` as in 4.8:
+`m ≥ 1` and `p ≠ 2`, `|#{y² = f(x)} − q| ≤ (m − 1) √q` (`card_hyperelliptic_sub_le`). For `f` as in 4.8:
 `|#{(x, y) ∈ F² : y^p − y = f(x)} − q| ≤ (p − 1)(n − 1) √q`. Both are the counting identities of
 4.7–4.8 at `E = F` with the bounds summed. *Needs:* 4.7, 4.8.
+
+**Checks.**
+
+- Over `𝔽_3`, `f = X` gives `N = 3`, so the degree-one bound is `0 ≤ 0`.
+- Over `𝔽_3`, `f = 1` is squarefree but gives `N = 6`: the proposed degree-zero bound would be `3 ≤ −√3`, so positive degree is essential.
+- Over `𝔽_5`, `f = X²` gives `N = 9`; squarefreeness fails, and the squarefree bound `4 ≤ √5` would be false.
 
 ### Examples
 
@@ -1037,6 +1204,12 @@ purely imaginary according as `η(−1) = ±1`. On a field `F` with `a ≠ 0`, `
 `CongruenceSpectralGap` §4.2a (the map `x ↦ (a x, b x⁻¹)` is a bijection from `Fˣ` onto the pairs
 of units with product `a b`); the twist `χ` and the finite ring `R` are what this milestone adds
 to it. *Needs:* 1.1, Mathlib; `CongruenceSpectralGap` §4.2a.
+
+The supporting API comprises:
+
+- At zero second frequency the sum is the shifted Gauss sum; with both frequencies zero and trivial multiplicative character it counts units.
+- Inversion exchanges the two frequencies and inverts the multiplicative character; unit scaling contributes the stated inverse character value.
+- Conjugation inverts both characters; over a field the untwisted sum at unit frequencies agrees with the rank-two hyper-Kloosterman sum.
 
 **Checks.**
 
@@ -1125,6 +1298,12 @@ every reciprocal root of every `L(κ_{χ', t}, T)`; and `|ω₁ ω₂| = q` forc
 identification; the proof of record above is the one that covers every `χ`. (Weil 1948;
 Iwaniec–Kowalski Ch. 11 §11.7; Lidl–Niederreiter Ch. 5 §5.5.) *Needs:* 5.4, 4.3, 4.4, 3.2.
 
+The supporting API comprises:
+
+- For unit frequencies the untwisted sum determines a unique angle in `[0,π]` through the negative-cosine convention.
+- The reciprocal roots have arguments equal to this angle and its negative.
+- Over a degree-`n` extension the untwisted sum is `−2 q^{n/2} cos(nθ)`.
+
 **Checks.**
 
 - `S(1, 1; 5) = (3 − √5)/2 = 0.3820`, `S(1, 1; 7) = 2.0489`, `S(1, 1; 11) = −2.3579`,
@@ -1132,7 +1311,8 @@ Iwaniec–Kowalski Ch. 11 §11.7; Lidl–Niederreiter Ch. 5 §5.5.) *Needs:* 5.4
   all `≤ 6`.
 - (angle) `θ_7(1, 1) = arccos(−2.0489/(2√7)) = 1.9684`, in `[0, π]`; the lifted value is
   `K_{49}(1, 1) = −14 cos(2 θ_7(1, 1)) = 9.8019 = −(K_7² − 14)`; Katz's normalization
-  `Kl = 2√q cos θ'` for `−K` gives `θ' = π − θ`.
+  `Kl = 2√q cos θ'` for `−K` gives `θ' = θ`, with both sides `−2.0489`.
+  The complement `π − θ` applies only when the same sum `K` is written with a positive cosine.
 - (endpoints) `θ = 0` would mean `K = −2√q` and `θ = π` would mean `K = 2√q`, both irrational for a
   prime field with `q > 4` while `K(1; a, b)` is an algebraic integer of `ℚ(ζ_p)^+`; neither
   endpoint is attained over `𝔽_p`, `p ≥ 5`.
@@ -1167,31 +1347,31 @@ uniformizer at `𝔓̃` in which the Stickelberger congruence is written; the Gr
 of 6.4 is a different element of the completion, congruent to `λ` modulo `𝔓̃²`. The Stickelberger
 congruence and the digit-sum valuation of `g(ω^{−a})` are the classical arithmetic roadmap's 7.12
 and 1.55; Morita's `Γ_p` and the Gross–Koblitz formula are `DirichletPadicLFunctions` §§4.1, 4.4
-and 4.5. This layer supplies the carrier those statements are made against, the corollaries they
+and 4.5. This layer specializes the residue character of `ClassicalArithmeticCompletion` §1.23, proves
+the residue cardinality, and supplies the corollaries the two roadmaps
 leave open, the identification of the two Teichmüller lifts, and the transport of the
 Gross–Koblitz formula to the Gauss and Jacobi sums of this roadmap.
 
 ### 6.1 The residue field and the Teichmüller character
 
-Prove `𝓞_K ⧸ 𝔓` is a finite field with `q` elements (the residue degree of `p` in `ℚ(ζ_{q−1})` is
-the order of `p` modulo `q − 1`, which is `f`) and that reduction modulo `𝔓` is a bijection from
-the `(q − 1)`-th roots of unity of `𝓞_K` onto `(𝓞_K ⧸ 𝔓)^×` (`X^{q−1} − 1` is separable modulo
-`p`). Define the Teichmüller character `ω_𝔓 : MulChar (𝓞_K ⧸ 𝔓) 𝓞_K` as the inverse bijection
-extended by zero, prove that `ω_𝔓(x)` reduces to `x` modulo `𝔓`, that it has order `q − 1` (a
-generator of the character group, 0.3), and that for `m ∣ q − 1`, `ω_𝔓^{(q−1)/m}` is the `m`-th
-power residue character `x ↦ x^{(q−1)/m} mod 𝔓` of the classical arithmetic roadmap's 1.23, so that
-1.47's `χ_P` there is `ω_𝔓^{−(q−1)/m}`. Tau Ceti's `TauCeti.teichmuller`
-(`TauCeti.RingTheory.Henselian.Teichmuller`) is the local lift `(ResidueField R)ˣ →* Rˣ` of a
-Henselian ring; `ω_𝔓` takes its values in the global `𝓞_K`, and composing with `𝓞_K → 𝓞_{K,𝔓}`
-recovers the local lift (6.4 proves this). *Needs:* 0.3, Mathlib's cyclotomic fields and
-`Ideal.Quotient.field`.
+Prove `𝓞_K ⧸ 𝔓` is a finite field with `q` elements: for `q > 2` its residue degree is
+the order of `p` modulo `q − 1`, namely `f`; for `q = 2`, `K = ℚ` and the residue field is
+`𝔽_2`. Write `ω_𝔓` for the specialization of the supplied power residue symbol to `n = q − 1`.
+Its source is `𝓞_K ⧸ 𝔓` and its target is `𝓞_K`; the exponent `(q − 1)/n` in the defining
+congruence is one. The specialization has the following API:
 
-The definition, in full: `ω_𝔓` is the multiplicative character of the finite field `𝓞_K ⧸ 𝔓` with
-values in `𝓞_K` that sends `0` to `0` and a unit `x` to the unique `(q − 1)`-th root of unity
-`ζ ∈ 𝓞_K` with `ζ ≡ x (mod 𝔓)`. It depends on `𝔓`: the primes above `p` are permuted by
-`Gal(K/ℚ)`, and so are their Teichmüller characters. Its carrier is the bijection proved above,
-which no pinned declaration supplies, so this milestone and every statement about `ω_𝔓` (6.2–6.5)
-are specified here only.
+- It sends zero to zero and sends each nonzero `x` to the unique `(q − 1)`-th root of unity
+  reducing to `x`; multiplication and exact order `q − 1` follow from the supplied API.
+- For `m ∣ q − 1`, its power `ω_𝔓^{(q−1)/m}` is the `m`-th power residue character, so
+  the inverse character used in §1.47 of the supplier is `ω_𝔓^{−(q−1)/m}`.
+- Under the ring map `𝓞_K → 𝓞_{K,𝔓}` to the completed valuation ring, it agrees on units
+  with `TauCeti.teichmuller`; 6.4 proves this comparison by the unique-root congruence.
+
+The character depends on the prime: Galois conjugation moves both `𝔓` and its character.
+The supplied global residue-character carrier is not compiled at the pins, so the global-to-local
+comparison and the ensuing global evaluations are specified in prose.
+*Needs:* `ClassicalArithmeticCompletion` §1.23, Mathlib's cyclotomic residue-degree theory,
+`Ideal.Quotient.field`.
 
 **Checks.**
 
@@ -1210,8 +1390,8 @@ are specified here only.
 
 ### 6.2 Stickelberger's congruence and theorem, consumed
 
-Let `ψ` be a primitive additive character of `𝓞_K ⧸ 𝔓` with values in `𝓞_L` (for instance
-`x ↦ ζ_p^{Tr(x)}`), and for `0 ≤ a < q − 1` put
+Let `ψ(x) = ζ_p^{Tr(x)}` be the trace additive character of `𝓞_K ⧸ 𝔓` with values in `𝓞_L`,
+using the same `ζ_p` as `λ = ζ_p − 1`, and for `0 ≤ a < q − 1` put
 `g_a := gaussSum (ω_𝔓.ringHomComp (algebraMap 𝓞_K 𝓞_L))^{−a} ψ ∈ 𝓞_L`, with `a = ∑_{i<f} a_i p^i`,
 `0 ≤ a_i < p`, and `s(a) = ∑ a_i`. **Consumed** from the
 [classical arithmetic roadmap](../ClassicalArithmeticCompletion/README.md): its 7.12, the
@@ -1222,8 +1402,10 @@ the full factorization of `(g(χ_P))` in `ℚ(ζ_m, ζ_p)` by Galois conjugation
 for the character `ω` of 6.1 and this `ψ`; the identification is 6.1's defining congruence
 `ω_𝔓(x) ≡ x (mod 𝔓)`. Prove here what they leave open: `𝔓 𝓞_L = 𝔓̃^{p−1}` (`λ` generates the
 prime of `ℚ(ζ_p)` above `p`, `IsCyclotomicExtension.Rat.zeta_sub_one_prime'`, and `p` is
-unramified in `K`); `g_a g_{q−1−a} = ω^{−a}(−1) q` (1.2 read in `𝓞_L`); `v_𝔔(g_a) = 0` for every
-prime `𝔔` of `𝓞_L` not above `p` (`|g_a|² = q` in every embedding); and, for `t ∈ (ℤ/(q−1))^×`
+unramified in `K`); for `0 < a < q − 1`, `g_a g_{q−1−a} = ω^{−a}(−1) q`
+(1.2 read in `𝓞_L`) and `|g_a|² = q` in every complex embedding. At `a = 0`, `g_0 = −1`,
+so its absolute value is `1`, every prime valuation is zero and its ideal is the unit ideal.
+For every `a`, `v_𝔔(g_a) = 0` at primes `𝔔` not above `p`; and, for `t ∈ (ℤ/(q−1))^×`
 with `τ_t : ζ_{q−1} ↦ ζ_{q−1}^t` fixing `ζ_p`, `v_{τ_t^{−1}(𝔓̃)}(g_a) = s(t a mod (q − 1))` (1.3:
 `τ_t g_a = g_{ta}`), hence the **ideal factorization for every `a`**
 `(g_a) = ∏_{t ∈ (ℤ/(q−1))^× / ⟨p⟩} τ_t^{−1}(𝔓̃)^{s(ta)}`,
@@ -1234,12 +1416,17 @@ and the decomposition group of `𝔓` is `⟨p⟩`); 1.55 is its case `a = (q �
 **Checks.**
 
 - (`q = 7`, `L = ℚ(ζ_42)`) the two primes above `7` have `(e, f) = (6, 1)`, `v_𝔓̃(g_a) = a` and
-  `v(g_a) = 6 − a` at the other prime, and `N_{L/ℚ}(g_a) = 7^6` for `a ≠ 0`.
+  `v(g_a) = 6 − a` at the other prime for `1 ≤ a ≤ 5`, and `N_{L/ℚ}(g_a) = 7^6` for `a ≠ 0`.
+- (trivial character) `g_0 = −1`, both valuations at `q = 7` are `0`, and
+  `g_0² = 1`, not `7`. At `a = 1`, the valuation pair is `(1,5)` and `g_1 g_5 = −7`.
+- (additive shift) at `q = 3`, `a = 1`, replacing `ψ(x)` by `ψ(2x)` gives
+  `g = ζ_3² − ζ_3 ≡ λ (mod λ²)`. The leading term of `−g` is `−λ`,
+  the original leading term multiplied by `ω(2)^a = −1`; valuations stay unchanged.
 - (the congruence, `q = 7`) `v_𝔓̃(g_a + λ^a/a!) = a + 1` for `a = 1, …, 5`, with `λ = ζ_7 − 1`;
   with the Gross–Koblitz element `π` of 6.4 in place of `λ` the valuation is at least `a + 6`
   instead, because `Γ_7(a/6) ≡ 1/a! (mod 7)`: the congruence is a statement about `λ`.
 - (`q = 9`, `a = 5 = 2 + 1·3`) `s(a) = 3` and `v_𝔓̃(g_5 + λ³/2) ≥ 4`.
-- (direction of the exponent) `v_𝔓̃(g(ω^{+a}))` at the same prime is `6 − a` for `q = 7`, not `a`:
+- (direction of the exponent) `v_𝔓̃(g(ω^{+a}))` at the same prime is `6 − a` for `q = 7` and `1 ≤ a ≤ 5`, not `a`:
   the theorem is about `ω^{−a}`.
 
 ### 6.3 Jacobi sums and the digit-sum formula
@@ -1327,12 +1514,17 @@ sums; the statement here is about 6.3's global Jacobi sum and carries 6.3's digi
 
 **Checks.**
 
-- (reflection consistency) `g_a g_{q−1−a} = ω^{−a}(−1) q` (6.2) against the product of the two
+- (reflection consistency, odd `p`, `0 < a < q − 1`) `g_a g_{q−1−a} = ω^{−a}(−1) q` (6.2) against the product of the two
   evaluations: `s(a) + s(q − 1 − a) = f(p − 1)`, `π^{f(p−1)} = (−p)^f`, and the reflection formula
   of `DirichletPadicLFunctions` §4.4 gives `∏_i Γ_p(x_i) Γ_p(1 − x_i) = (−1)^{∑ R(x_i)}`, so the
   identity requires `ω^{−a}(−1) = (−1)^{f + ∑_i R(⟨p^i a/(q−1)⟩)}`. For `q = 7`: `a = 1`,
   `R(1/6) = 6` (`6 · 6 ≡ 1`), `(−1)^{1+6} = −1 = ω^{−1}(−1)`; `a = 2`, `R(1/3) = 5`,
   `(−1)^6 = 1 = ω^{−2}(−1)`; `a = 3`, `R(1/2) = 4`, `(−1)^5 = −1 = ω^{−3}(−1)`.
+- (binary reflection) for `p = 2`, use the mod-four formula of `DirichletPadicLFunctions` §4.4:
+  `Γ_2(x) Γ_2(1 − x) = (−1)^{1+x₁}`, where `x₁` is the second binary digit.
+  At `q = 4`, `a = 1`, the arguments `1/3,2/3` reduce to `3,2` modulo `4`,
+  so both have `x₁ = 1`. The Gamma product is `1`, and the Gauss product is `4`,
+  agreeing with `ω^{−1}(−1) · 4 = 4`; the odd-prime parity formula would give the wrong sign.
 - (`q = 7`, the cubic Jacobi sum) `J(ω^{−4}, ω^{−4}) = −π^{6} Γ_7(2/3)²/Γ_7(1/3) = 7 Γ_7(2/3)²/Γ_7(1/3)`,
   of valuation `1` at `𝔓`, the image in `ℤ_7` of the primary prime `−1 − 3 e(1/3)` of norm `7`
   (classical arithmetic 1.53, with `e(1/3) = ω_𝔓(2)` sent to the Teichmüller representative of
@@ -1448,8 +1640,8 @@ For `p` odd, `k ≥ 2`, `c = p^k` and `p ∤ m n`: if `m n ≡ ℓ² (mod p^k)` 
 Proof of record (stationary phase): write `d = u(1 + p^h v)` with `h = ⌈k/2⌉`; the inner sum over
 `v mod p^{k−h}` vanishes unless `u` is a critical point, `m u² ≡ n (mod p^{k−h})`, and the critical
 points contribute the two terms of the formula, with the quadratic Gauss sum 1.4 entering for odd
-`k` (Iwaniec–Kowalski Ch. 12 §12.3, their evaluation (12.39)). For a Dirichlet character `χ` modulo
-`p^j`, `j ≤ k`, prove the **twisted prime-power bounds**: for `k = 2` and every prime `p`,
+`k` (Iwaniec–Kowalski Ch. 12 §12.3, their evaluation (12.39)). For a Dirichlet character `χ` of conductor
+`p^j`, induced to modulus `p^k`, `j ≤ k`, prove the **twisted prime-power bounds**: for `k = 2` and every prime `p`,
 `|S_χ(m, n; p²)| ≤ 2 (m, n, p²)^{1/2} p` (`norm_kloostermanSum_zmod_primeSq_le`); and for `p` odd,
 `k ≥ 2`, `p ∣ m`, `p ∤ n`, `|S_χ(m, n; p^k)| ≤ p^{⌈k/2⌉}`. Proof of record, the same stationary
 phase: `χ(1 + p^h v)` is additive in `v` because `2h ≥ k`, say `e(λ_χ v/p^{k−h})`, so the inner sum
@@ -1458,7 +1650,9 @@ and `p ∤ mn` there are at most two roots, each contributing `p`; for `p ∣ m`
 congruence has at most one root (Hensel, the derivative being the unit `λ_χ`, or none when
 `p ∣ λ_χ`), and its `p^{2h−k}` lifts contribute at most `p^{2h−k}` each; for `p ∣ gcd(m, n)` the
 sum is `0` when `j = k` (a primitive `χ` summed over a coset of `1 + p^{k−1}ℤ`) and
-`p · S_χ(m/p, n/p; p^{k−1})` when `j < k`, which 5.5 and 5.6 bound at `k = 2`. ⚠ For `k ≥ 3` and
+`p · S_χ(m/p, n/p; p^{k−1})` when `j < k`, which 5.5 and 5.6 bound at `k = 2`. For the principal character modulo `25`,
+`j = 0` and `S_χ(5,5;25) = 5 S(1,1;5) = 5(3 − √5)/2 ≈ 1.909830`; its modulus
+does not make it primitive (Knightly–Li, Theorem 9.3, p. 120). ⚠ For `k ≥ 3` and
 `p ∤ mn` the untwisted constant does not persist: the two roots coincide modulo `p` when
 `λ_χ² + 4mn ≡ 0 (mod p)`, and then `|S_χ(m, n; p^k)|` reaches `p^{(k+1)/2}`:
 `|S_χ(7, 7; 125)| = 25` for a primitive `χ` of order `50` modulo `125`, and
@@ -1524,7 +1718,9 @@ Assemble, for a Dirichlet character `χ` of modulus `q`, named by its Conrey ind
 with `χ(g) = e(a/(q − 1))`, `g` the least primitive root and `n ≡ g^a`, and no construction of the
 pairing is a target), the three displayed quantities: `τ_2(χ)` (7.1), `J(χ, χ_q(1, ·))` (7.2) and
 `K(1, 2, χ) = S_χ(1, 2; q)` (7.3), together with the theorems that evaluate them: `|τ_2(χ)| = √q`
-for `χ` primitive, `J(χ, 1) = −1` for prime `q` and `χ ≠ 1`, `|K(1, 2, χ)| ≤ τ(q) 𝔠_χ^{1/2} √q`, and
+for `χ` primitive and `q` odd; for primitive `χ` and even `q`, `τ_2(χ) = 0`
+by `DirichletCharacter.gaussSum_mulShift_of_isPrimitive`. The primitive character modulo `4`
+has `τ_2 = −1 + 1 = 0`, while the quartic character modulo `5` has `|τ_2| = √5`. Also `J(χ, 1) = −1` for prime `q` and `χ ≠ 1`, `|K(1, 2, χ)| ≤ τ(q) 𝔠_χ^{1/2} √q`, and
 `|K(1, 2, χ)| ≤ τ(q) √q` for cube-free `q` (7.6). Nothing here depends on the Conrey labelling
 beyond naming the character. *Needs:* 7.1–7.3, 7.6.
 
@@ -1593,7 +1789,8 @@ the least primitive root and `n ≡ g^a`.
   `g(χ)³ = 3.5 − 18.1865 i = 7(−1 − 3ω)`.
 - 6.1–6.3: with `𝔓` a prime of `ℚ(ζ_6) = ℚ(ζ_3)` above `7` and `ω_𝔓` its Teichmüller character,
   `χ = ω_𝔓^{±2}` according to the choice of `𝔓`; in `L = ℚ(ζ_42)` the two primes above `7` have
-  `(e, f) = (6, 1)`, `v_𝔓̃(g(ω^{−a})) = a` for `a = 0, …, 5`, the other prime has valuation `6 − a`,
+  `(e, f) = (6, 1)`, `v_𝔓̃(g(ω^{−a})) = a` for `a = 1, …, 5`, the other prime has valuation `6 − a`;
+  at `a = 0` both valuations are `0` and `g_0 = −1`;
   `N_{L/ℚ}(g(ω^{−a})) = 7^6` for `a ≠ 0`, and `v_𝔓̃(g(ω^{−a}) + λ^a/a!) = a + 1` with `λ = ζ_7 − 1`.
 - 6.4–6.5: in `ℚ_7(ζ_7)`, `g(ω^{−a}) = −π^a Γ_7(a/6)` for `a = 1, …, 5` with `π^6 = −7`,
   `π ≡ λ (mod 𝔓̃²)`, `v_𝔓̃(π − λ) = 2`; and `J(ω^{−4}, ω^{−4}) = 7 Γ_7(2/3)²/Γ_7(1/3)` is the
@@ -1664,12 +1861,11 @@ the least primitive root and `n ≡ g^a`.
 
 ### Jacobi and Gauss sums modulo composite `N`
 
-- 7.2: for every pair of characters modulo `9`, `12`, `15`, `8`, `16`, `25`, `27`, `24`, `45`,
-  `J(χ, ψ) = τ(χ)τ(ψ)/τ(χψ)` holds whenever `χψ` is primitive; when `χψ` is imprimitive it fails for
-  every pair modulo `9`, `15`, `8`, `16`, `25`, `27` (and for `N = 9`, `χ` primitive of order `6`:
-  `J(χ, χ⁻¹) = 0`, `τ(χ)τ(χ⁻¹) = −9`, `τ(1_9) = 0`), but it happens to hold for `4` imprimitive
-  pairs modulo `12`, `16` modulo `24` and `64` modulo `45`: primitivity of `χψ` is sufficient, not
-  necessary.
+- 7.2: whenever `χψ` is primitive, `J(χ, ψ)τ(χψ) = τ(χ)τ(ψ)` and the denominator
+  is nonzero, so the quotient formula holds. For an order-six character modulo `9`,
+  `J(χ,χ⁻¹) = 0`, `τ(χ)τ(χ⁻¹) = −9`, and `τ(1_9) = 0`: the cross-multiplied
+  equality fails (`0 ≠ −9`). Classical division by `τ(1_9)` is undefined; Lean's
+  totalized division gives `−9/0 = 0`, so this pair does not refute the quotient equality.
 - 7.1: `τ(χ) = μ(N/f) χ^∗(N/f) τ(χ^∗)` for every `χ` modulo `12, 15, 18, 20`; `τ(1_{12}) = 0`,
   `τ(1_7) = −1`.
 
@@ -1681,11 +1877,12 @@ the least primitive root and `n ≡ g^a`.
 - `K(1; a, 0) = −1`, `K(1; 0, 0) = q − 1`: the Weil bound `2√q` fails only at `(0, 0)`.
 - `K(η; a, b) = 0` when `ab` is a non-square (5.3): the bound `2√q` is not attained there.
 - `J(χ, χ⁻¹) = −χ(−1)`, not of absolute value `√q`: the hypothesis `χψ ≠ 1` of 2.2.
-- `J(χ, χ⁻¹) = 0 ≠ τ(χ)τ(χ⁻¹)/τ(1)` modulo `9`: the primitivity hypothesis of 7.2.
+- `J(χ, χ⁻¹)τ(1) = 0 ≠ −9 = τ(χ)τ(χ⁻¹)` for the order-six character modulo `9`:
+  the cross-multiplied identity requires the primitivity hypothesis of 7.2; totalized division masks this failure.
 - `f = X²` in 4.7 and `f = X^p − X` in 4.8: the non-power and `p ∤ n` hypotheses.
 - `S(1, 2; 25) = 0`: the non-square branch of 7.5; `S(0, 0; 12) = φ(12)`, not `12`: the sum is over
   units.
-- Stickelberger: `v(g(ω^{+a}))` at the same prime is `6 − a` for `q = 7`, not `a`: the theorem is
+- Stickelberger: `v(g(ω^{+a}))` at the same prime is `6 − a` for `q = 7` and `1 ≤ a ≤ 5`, not `a`: the theorem is
   about `ω^{−a}`.
 - Gross–Koblitz: `g(ω^{−a}) = −π^a Γ_7(a/6)` and not `−π^a Γ_7(1 − a/6)` for `a ≠ 3` (6.4): the
   fractional part is `⟨a/(q−1)⟩`; the congruence of 6.2 holds for `λ = ζ_7 − 1` and not for `π`.
@@ -1743,6 +1940,9 @@ Stickelberger's theorem (6.1–6.2).
 Definition 1.1 (Gauss sums `g(ω^m)` for a fixed generator `ω`) and Theorem 1.3 (the reduction
 using the Hasse–Davenport product formula): the shape of the API that `HypergeometricMotives`
 consumes from Layers 1 and 3.
+
+**K. Conrad, *Gauss and Jacobi sums on finite fields and Z/mZ*.**
+Appendix (A.6), p. 19: the product normalization used in the supplier contract of 3.4.
 
 **B. H. Gross and N. Koblitz, *Gauss sums and the p-adic Γ-function*, Ann. of Math. 109 (1979),
 569–581.** Theorem 1.7: the formula consumed in 6.4 through `DirichletPadicLFunctions` §4.5, with
