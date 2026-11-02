@@ -14,7 +14,9 @@ Geometric connectedness of the absolute trace-minus-two level stack and the gene
 coarse-degree congruence are not statable at the pins: the elliptic G-level stack,
 its rigidified compactification and its coarse forgetful degree are missing.
 Finite primitive-group structure and its quantitative order and section bounds
-are supporting targets in README.md.
+are supporting targets in README.md. The general arithmetic Nullstellensatz and
+complex plane-curve torsion bound used by coefficient-uniform elimination are
+also stated below on native multivariate polynomials.
 The explicit connectivity criterion of README §5.13 is stated with the
 cage–endgame condition as a hypothesis on native triples and companion orders.
 Parabolic alternating containment of §7.4a is stated on the quotient of nonzero
@@ -80,6 +82,37 @@ theorem rotation_orbit_count (p : ℕ) [Fact p.Prime] (hp : 2 < p) :
   sorry
 
 /-! ## Layer 3: the giant orbit and sparse exceptions -/
+
+/-- The arithmetic Nullstellensatz bounds the integer multiplier uniformly in the
+coefficients for fixed numbers of variables and equations (CKSZ14, Lemma 2.1). Coefficient bounds express
+logarithmic height bounds while admitting zero polynomials. -/
+theorem arithmetic_nullstellensatz (n N : ℕ) (hn : 0 < n) (hN : 0 < N) :
+    ∃ C : ℝ, 0 < C ∧ ∀ (D d : ℕ), 3 ≤ D → 3 ≤ d →
+      ∀ (H h : ℝ), 0 ≤ H → 0 ≤ h →
+      ∀ (F : Fin N → MvPolynomial (Fin n) ℤ) (G : MvPolynomial (Fin n) ℤ),
+        (∀ i, (F i).totalDegree ≤ D) → G.totalDegree ≤ d →
+        (∀ i m, |((F i).coeff m : ℝ)| ≤ Real.exp H) →
+        (∀ m, |(G.coeff m : ℝ)| ≤ Real.exp h) →
+        (∀ z : Fin n → ℂ,
+          (∀ i, MvPolynomial.eval₂ (Int.castRingHom ℂ) z (F i) = 0) →
+          MvPolynomial.eval₂ (Int.castRingHom ℂ) z G = 0) →
+        ∃ b r : ℕ, 0 < b ∧ 0 < r ∧
+          ∃ Q : Fin N → MvPolynomial (Fin n) ℤ,
+            (∑ i, F i * Q i) = MvPolynomial.C (b : ℤ) * G ^ r ∧
+            Real.log b ≤ C * ((D : ℝ) ^ (n + 1) * h +
+              d * (D : ℝ) ^ n * H + d * (D : ℝ) ^ (n + 1)) := by
+  sorry
+
+/-- A nonzero complex plane polynomial has at most eleven times its degree squared
+in torsion zeros, or infinitely many and a torsion-binomial factor (CKSZ14, Lemma 2.3). -/
+theorem complex_torsion_bound (f : MvPolynomial (Fin 2) ℂ) (hf : f ≠ 0) :
+    let S : Set (Fin 2 → ℂ) :=
+      {z | (∀ i, IsOfFinOrder (z i)) ∧ MvPolynomial.eval z f = 0}
+    (S.Finite ∧ S.ncard ≤ 11 * f.totalDegree ^ 2) ∨
+      (S.Infinite ∧ ∃ (i j : ℕ) (ρ : ℂ), 0 < i + j ∧ IsOfFinOrder ρ ∧
+        ((MvPolynomial.X (0 : Fin 2) ^ i - MvPolynomial.C ρ * MvPolynomial.X 1 ^ j) ∣ f ∨
+          (MvPolynomial.X (0 : Fin 2) ^ i * MvPolynomial.X 1 ^ j - MvPolynomial.C ρ) ∣ f)) := by
+  sorry
 
 /-- No nonempty finite nonzero Markoff subset over Qbar is stable under Gamma. -/
 theorem no_finite_orbit (S : Finset (Fin 3 → AlgebraicClosure ℚ))
