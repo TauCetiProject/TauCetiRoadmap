@@ -692,12 +692,12 @@ Provide the following operations and identities.
 **Checks.**
 
 - For A = 0, `φ_p` is the zero map 0 → 0.
-- `π_0(φ_p)` for A = S is ℤ → `ℤ_p`, the p-completion.
+- For A = S, compose `φ_p` with the Tate map induced by the unit S → Hℤ, with trivial Cₚ-actions: S → `S^{tC_p}` → `(Hℤ)^{tC_p}`. On π₀ this is ℤ → ℤ/p, n ↦ n mod p: naturality identifies it with the constant-to-fixed-point-to-Tate map, and the integral norm is multiplication by p. At p = 2 and 3 it sends 1 ↦ 1 and p ↦ 0; the zero map fails the first value. (NS, Definition I.1.13 and the following Eilenberg–Mac Lane calculation, Acta p. 218; Example II.1.2(ii), p. 240; KTheoryFiniteLocalFields §4.5.)
 - `φ_p` is not an equivalence in general: for A = `HF_p` its target `THH(𝔽_p)^{tC_p}` has nonzero negative homotopy while `THH(𝔽_p)` is connective.
 
 For A = S, `φ_p` : S → `S^{tC_p}` is the canonical map S → `S^{hC_p}` → `S^{tC_p}`. For A = `HF_p`, `φ_p` identifies `THH(𝔽_p)` with `τ_{≥0}((HZ_p)^{tC_p})` as `E_∞-cyclotomic` spectra (NS18 Corollary IV.4.16), the cyclotomic form of §2.6 (Bökstedt periodicity).
 
-*Needs:* §2.6 (Topological Hochschild homology of an `E_1-ring)`; AInfCohomology §AI.7.2 (Spectral Tate diagonal); §2.5 (Edgewise subdivision and Tate constructions of realisations); BordismFormalGroups §F6.5 and AInfCohomology §AI.7.2 (the lax symmetric monoidal Tate functor, with its residual `C_p` form).
+*Needs:* §2.6 (Topological Hochschild homology of an `E_1-ring)`; AInfCohomology §AI.7.2 (Spectral Tate diagonal); §2.5 (Edgewise subdivision and Tate constructions of realisations); BordismFormalGroups §F6.5 and AInfCohomology §AI.7.2 (the lax symmetric monoidal Tate functor, with its residual `C_p` form); KTheoryFiniteLocalFields §4.5 (the Eilenberg–Mac Lane/Tate comparison and integral norm calculation for the Check).
 
 **THH relative to an `E_∞-ring`.** For an `E_∞-ring` k and an `E_1-k-algebra` A (an `E_1-algebra` in `Mod_k)`, THH(A/k) ∈ `Mod_k^{BT}` is the realisation of the cyclic bar construction formed with `⊗_k`; equivalently THH(A/k) ≃ THH(A) `⊗_{THH(k)}` k, where k is a THH(k)-algebra through the T-equivariant augmentation THH(k) = k⊗T → k. For a commutative ring R and an R-algebra A, THH(HA/HR) ≃ HH(A/R) (the Eilenberg–Mac Lane spectrum of derived Hochschild homology, with its T-action). The cyclotomic Frobenius of THH does not in general induce one on THH(A/k) for k ≠ S, naturally in A; relative versions with Frobenius use a cyclotomic base structure on k (S[z], in AInfCohomology §AI.7.2; the spherical lifts `S_A` of §6.1), and over ku Layer 6 uses instead the cyclonic structures of §6.11. For A = k ⊗ B with B an `E_1-ring`, THH(A/k) ≃ k ⊗ THH(B) does carry the tensor product of the trivial cyclotomic structure on k with that of THH(B) (§5.2 (THH relative to ku and KU)).
 
@@ -965,11 +965,11 @@ Provide the following operations and identities.
 
 - For G = 1, GSp ≃ Sp.
 - `π_0(S_{C_2})^{C_2}` ≅ ℤ², the Burnside ring of `C_2`.
-- GSp → `Sp^{BG}` is not an equivalence: the `C_2-sphere` and its Borel completion have different genuine fixed points `(A(C_2)` versus ℤ ⊕ `ℤ_2^∧)`.
+- For G = C₂, take a free contractible G-CW space EG and let X be the genuine suspension spectrum of the based homotopy cofiber of EG₊ → S⁰, collapsing EG to the non-basepoint. The underlying spectrum of X is 0, but ΦᴳX ≃ S, with π₀ = ℤ; hence GSp → `Sp^{BG}` does not detect equivalences. Replacing geometric fixed points by underlying spectra would incorrectly give π₀ = 0. (NS, proof of Proposition II.2.14, Acta p. 255, with H = G = C₂.)
 
 For G trivial, GSp = Sp and `−^G` = `Φ^G` = id. `π_0` of the genuine fixed points of the G-sphere is the Burnside ring A(G) (tom Dieck), not ℤ.
 
-*Needs:* §2.11 (Orthogonal spectra); §2.1 (Spectra with an action of a group); §2.1 (Homotopy orbits and homotopy fixed points); EnhancedDerivedSheaves E5:abstract — symmetric monoidal infinity category.
+*Needs:* §2.11 (Orthogonal spectra); §2.1 (Spectra with an action of a group); §2.1 (Homotopy orbits and homotopy fixed points); EnhancedDerivedSheaves E5:abstract — symmetric monoidal infinity category; BordismFormalGroups §F6.5 (the free contractible bar G-CW space for the Check).
 
 **Geometric fixed points via complete universes.** For a finite group G with complete universe U (a countable sum of all irreducible representations) and H ⊆ G normal, `Φ^H_U` : `GSp^O` → `(G/H)Sp^O` has n-th space `hocolim_{V` ⊂ U, `V^H` = 0} `X(ℝ^n` ⊕ `V)^H` (Bousfield–Kan homotopy colimit), for H=G naturally zig-zag equivalent to the derived `Φ^G` functor on G-spectra; for normal H ⊆ H′ ⊆ G, `Φ^{H′/H}_{U^H}` `Φ^H_U` X ≃ `Φ^{H′}_U` X (geometric fixed points compose).
 
