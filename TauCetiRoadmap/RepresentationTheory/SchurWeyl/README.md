@@ -10,8 +10,8 @@ characteristic, row insertion, the tensor-power actions of `Sₙ` and `GLₔ` wi
 centralizers, the Schur functor, the Brauer diagram combinatorics and the orthogonal and symplectic
 cup, cap and crossing operators. This roadmap builds what joins these into the full theory: the
 Specht sign-transpose intertwiner `S^λ ⊗ sgn ≅ S^(λᵗ)` and Specht self-duality (Layer 4); skew
-tableaux, jeu de taquin, the Littlewood–Richardson rule, the character-side Murnaghan–Nakayama
-rule, full RSK, the stable ring `Λ_R` of symmetric functions with its Hall form, `ω`, the stable
+tableaux, jeu de taquin, the Littlewood–Richardson rule, the finite Frobenius formulas, the
+character-side Murnaghan–Nakayama rule, full RSK, the stable ring `Λ_R` of symmetric functions with its Hall form, `ω`, the stable
 Frobenius characteristic and its induction product, and the matrix form of Newton's identities
 (Layer 7); the simultaneous `Sₙ × GLₔ` decomposition of `(ℂᵈ)^(⊗n)` (Layer 8); and the Brauer
 algebra `B_k(δ)` with its actions on `V^(⊗k)` for the orthogonal and symplectic groups, the first
@@ -29,8 +29,8 @@ transpose comparisons (Layer 4, §§4.1–4.4); the comparison of `κ_t` with `n
 the transpose-sign identity on the symmetric character table (Layer 6, §6.1); skew tableaux and
 their conversions, jeu de taquin, Knuth equivalence, dual
 equivalence, the Littlewood–Richardson tableaux and rule, evacuation and full RSK, the
-character-side Murnaghan–Nakayama rule, the Hall form on the finite symmetric polynomials and the
-isometry property of the native Frobenius characteristic, the stable ring `Λ_R` with its Hall form,
+finite Frobenius formulas and character-side Murnaghan–Nakayama rule, the Hall form on the finite
+symmetric polynomials and the isometry property of the native Frobenius characteristic, the stable ring `Λ_R` with its Hall form,
 `ω`, free generators, Hopf structure and rational power-sum presentation, the stable Frobenius
 characteristic with its induction product, and the matrix specialization of Newton's identities
 (Layer 7, §§7.1–7.9); the simultaneous equivariant decomposition of `(ℂᵈ)^(⊗n)` and its balanced
@@ -207,15 +207,17 @@ Layer 7, finite Schur theory and class functions (`RingTheory/MvPolynomial/Symme
 `TauCeti.aeval_snoc_zero_hsymmInt`, `TauCeti.symmetricHomogeneousSubmodule`, `TauCeti.msymmBasis`,
 `TauCeti.schurPolyBasis` with `TauCeti.coe_schurPolyBasis`, `TauCeti.partitionEquivSchurIndex`,
 `TauCeti.psumPart_isSymmetric`, `TauCeti.isHomogeneous_psumPart`,
-`TauCeti.psumPart_eq_sum_card_fixedPoints_smul_msymm`, `TauCeti.frobeniusCharacteristic` with
+`TauCeti.psumPart_eq_sum_card_fixedPoints_smul_msymm`,
+`TauCeti.psumPart_eq_sum_character_smul_msymm`, `TauCeti.zPart_pos`, `TauCeti.zPart_dvd_factorial`,
+`TauCeti.frobeniusCharacteristic` with
 `TauCeti.frobeniusCharacteristic_spechtCharacter`, `TauCeti.schurPolyBasis_repr_frobeniusCharacteristic`,
-`TauCeti.psumPart_eq_sum_spechtCharValue_smul_schurPoly` (Frobenius's formula
-`p_ρ = ∑_λ χ^λ(ρ) s_λ`), `TauCeti.sum_spechtChar_smul_psumPart` and
-`TauCeti.frobeniusCharacteristic_eq_sum_psumPart` (the cycle-type formula
-`ch(f) = ∑_μ f(μ) p_μ / z_μ`); `TauCeti.ClassFunction` with `TauCeti.ClassFunction.ofCharacter`,
+`TauCeti.frobeniusCharacteristic_apply` (Schur-coordinate expansion); `TauCeti.ClassFunction` with
+`TauCeti.ClassFunction.ofCharacter`,
 `TauCeti.ClassFunction.toConjClasses`, `TauCeti.ClassFunction.characterPairing`
 (`(1/|G|) ∑_g f(g) h(g⁻¹)`, bilinear), `TauCeti.virtualCharacters`, and induction of class functions
-along a subgroup `S` with `[S.FiniteIndex]`, `Subgroup.indClassFunction`; `YoungDiagram.IsRimHook μ ν` (`μ / ν`
+along a subgroup `S : Subgroup G` with `[S.FiniteIndex]`,
+`TauCeti.ClassFunction.ind S : TauCeti.ClassFunction R S →ₗ[R] TauCeti.ClassFunction R G`
+over a semiring `R`; `YoungDiagram.IsRimHook μ ν` (`μ / ν`
 is a rim hook, ambient shape first) and `YoungDiagram.rimHookHeight` (rows met, minus one);
 `TauCeti.rowInsert`, `TauCeti.reverseRowInsert`, `TauCeti.rowInsertEquiv` and `List.IsTableauRows`;
 `Equiv.Perm.finSumPermHom` (the block embedding `Sₙ × Sₘ → S_(n+m)`); `Multiset.mul_esymm_eq_sum`.
@@ -290,8 +292,8 @@ Layers 0–3 are consumed from Tau Ceti and introduce nothing. Layer 4 builds th
 intertwiner `T_λ`, its character form, Specht self-duality and the induction and Kronecker
 transpose comparisons; Layer 5 compares its scalar with the hook-length dimension; Layer 6
 transports the transpose-sign identity through the native integer/complex table comparison. Layer 7 builds, in independent lanes, the
-skew-tableau and Littlewood–Richardson theory with RSK (§§7.1–7.2), the Murnaghan–Nakayama rule from
-the native Frobenius formula (§7.3), the finite Hall form and the isometry (§7.4), the stable ring
+skew-tableau and Littlewood–Richardson theory with RSK (§§7.1–7.2), the finite Frobenius formulas
+followed by the Murnaghan–Nakayama rule (§7.3), the finite Hall form and the isometry (§7.4), the stable ring
 `Λ_R` with its Hall form, `ω` and the rational presentation (§7.5), the stable Frobenius
 characteristic and its induction product (§7.6), the Hopf structure (§7.7), the matrix Newton
 identities (§7.8) and the power-sum basis comparisons (§7.9). Layer 8 builds the simultaneous
@@ -578,9 +580,10 @@ Tau Ceti Layers 4–6 suppliers; Layer 4; CharacterTheory Layer 5.
 ## Layer 7: symmetric functions, the Frobenius characteristic, and RSK
 
 The finite Schur polynomials with Jacobi–Trudi, the bialternant, horizontal Pieri, the Kostka
-expansion, the Schur and monomial bases, Frobenius's formula `p_ρ = ∑_λ χ^λ(ρ) s_λ`, the
-finite-variable Frobenius characteristic with its cycle-type formula, and row insertion are
-consumed (*From Tau Ceti*, Layer 7).
+expansion, the Schur and monomial bases, the Schur-coordinate Frobenius characteristic, and
+row insertion are the inputs listed under *From Tau Ceti*, Layer 7. The finite Frobenius
+formulas of §7.3 connect those coordinates with cycle types before the character rule and Hall
+normalisation use them.
 
 ### 7.1 Skew tableaux, jeu de taquin and Knuth equivalence
 
@@ -690,17 +693,72 @@ onto pairs of standard tableaux of a common shape, whose cardinality identity is
 - The matrix `[[1,1],[0,0]]` gives `P = 0 1`, `Q = 0 0`; its transpose gives
   `P = 0 0`, `Q = 0 1`.
 
-### 7.3 The Murnaghan–Nakayama rule
+### 7.3 Finite Frobenius formulas and the Murnaghan–Nakayama rule
+
+For every finite alphabet σ, commutative ring R and partition ρ of n, prove
+`finiteFrobenius`: `p_ρ = ∑_(λ ⊢ n) χ^λ(ρ) s_λ` in `MvPolynomial σ R`, with the integer
+character values mapped to R; there is no bound on the alphabet size and no characteristic
+restriction. One route expands the power sums in monomial symmetric polynomials, substitutes
+Young's rule for each permutation character, and collects the Kostka expansion of each Schur
+polynomial. Carry out this argument over ℚ, descend its equality to ℤ by coefficientwise
+injectivity of ℤ → ℚ, and then change coefficients to R. Over the same arbitrary commutative
+ring and finite alphabet prove `finiteFrobeniusInverse`:
+`n! • s_λ = ∑_(ρ ⊢ n) ((n!/z_ρ) χ^λ(ρ)) • p_ρ`, where n!/z_ρ is exact division in ℕ
+by `TauCeti.zPart_dvd_factorial`, followed by the coefficient map to R; this follows by
+substitution of `finiteFrobenius` and integral row orthogonality. For every commutative ℚ-algebra R,
+deduce the normalised inverse formula `s_λ = ∑_(ρ ⊢ n) (χ^λ(ρ)/z_ρ) • p_ρ`, where the fraction
+is formed in ℚ and mapped to R, using row orthogonality.
+For n ≤ d and a complex class function f on Sₙ, prove `finiteFrobeniusCharacteristic`:
+the underlying polynomial of `TauCeti.frobeniusCharacteristic n d h f` is
+`∑_(ρ ⊢ n) (f(ρ)/z_ρ) • p_ρ`, where
+`f(ρ) = TauCeti.ClassFunction.toConjClasses f (TauCeti.partitionEquivConjClasses n ρ)`.
+Derive this by the Schur-coordinate expansion and the inverse formula, or by class-size
+regrouping of the character pairing. In the normalised inverse and characteristic formulas
+z_ρ is positive by `TauCeti.zPart_pos`; division in the coefficient ring is used only
+over a ℚ-algebra (Etingof et al.,
+arXiv:0901.0827v5, Proposition 4.61, p. 66, for the complex forward formula; the integral
+form follows by the coefficient argument above, and the inverse and characteristic forms by
+character orthogonality). *Needs:* Tau Ceti
+`TauCeti.psumPart_eq_sum_character_smul_msymm`,
+`TauCeti.char_permutationModule_eq_sum_kostkaNumber_mul_spechtChar`,
+`TauCeti.schurPoly_eq_sum_kostkaNumber_smul_msymm`,
+`TauCeti.symmetricCharacterTable_row_orthogonality`, `TauCeti.frobeniusCharacteristic_apply`,
+`TauCeti.ClassFunction.toConjClasses`, `TauCeti.partitionEquivConjClasses`,
+`TauCeti.card_partition_parts_mul_zPart_fin`, `TauCeti.zPart_pos`,
+`TauCeti.zPart_dvd_factorial`; Mathlib
+`MvPolynomial.map`, `MvPolynomial.map_injective`.
+
+**Checks.**
+
+- In degree zero, the empty partition has z = 1 and both polynomial bases contain 1, even
+  in the empty alphabet; the characteristic of the scalar class function a is a.
+- In degree two, `p_2 = s_((2)) − s_((1,1))` and `p_1² = s_((2)) + s_((1,1))`.
+  At `(x,y) = (1,2)` the values are `5 = 7 − 2` and `9 = 7 + 2`; interchanging the
+  trivial and sign rows would give −5 in the first equation.
+- In one variable the same two identities give `x² = x² − 0 = x² + 0`; in the empty
+  alphabet and positive degree both sides vanish. No stable-range bound belongs on
+  `finiteFrobenius`.
+- Over 𝔽₂ at `(x,y) = (1,1)`, both degree-two equations give `0 = 1 + 1`; the integral inverse
+  still gives `2 s_((2)) = p_1² + p_2 = 0`, but division by z = 2 is impossible, so the
+  normalised inverse formula needs its rational-algebra hypothesis.
+- For S₂ with class-function values `(a,b)` on identity and transposition, the characteristic
+  is `(a/2) p_1² + (b/2) p_2 = ((a+b)/2) s_((2)) + ((a−b)/2) s_((1,1))`.
+  At `(a,b) = (1,0)` and `(x,y) = (1,2)`, both descriptions give 9/2, excluding a
+  missing class-size denominator.
+- For the standard character of S₃, the inverse formula is
+  `s_((2,1)) = p_1³/3 − p_3/3`; at `(x,y) = (1,2)` both sides are 6, with
+  character values `(2,0,−1)` and centralizer orders `(6,2,3)`; the integral inverse is
+  `6 s_((2,1)) = 2 p_1³ − 2 p_3`, giving `36 = 54 − 18`.
 
 State and prove `murnaghanNakayama` on cycle-type partitions: for `κ ⊢ n + r`, `r > 0`, and `ρ` the
 cycle type obtained from `ν ⊢ n` by adjoining a part `r`,
 `χ^κ(ρ) = ∑_μ (−1)^(height(κ/μ)) χ^μ(ν)`, the sum over `μ ⊢ n` such that `κ/μ` is a rim hook,
 read with `YoungDiagram.IsRimHook` (ambient shape first) and `YoungDiagram.rimHookHeight`. Prove it
-from Frobenius's formula `TauCeti.psumPart_eq_sum_spechtCharValue_smul_schurPoly` in at least
+from Frobenius's formula `finiteFrobenius` in at least
 `n + r` variables, the native polynomial rule `TauCeti.psum_mul_schurPoly` and the Schur basis
 `TauCeti.schurPolyBasis`; then prove compatibility with representatives `σ` and derive the values
 `χ^λ(1) = f^λ` and `χ^((1ⁿ)) = sgn` (Macdonald I.7, Example 5; James, Theorem 21.1; Sagan,
-Theorem 4.10.2). *Needs:* Tau Ceti `TauCeti.spechtCharValue`, `TauCeti.psumPart_eq_sum_spechtCharValue_smul_schurPoly`,
+Theorem 4.10.2). *Needs:* §7.3 `finiteFrobenius`; Tau Ceti `TauCeti.spechtCharValue`,
 `TauCeti.psum_mul_schurPoly`, `TauCeti.schurPolyBasis`; Mathlib `YoungDiagram.IsRimHook`,
 `YoungDiagram.rimHookHeight`.
 
@@ -739,8 +797,9 @@ formula and the native column orthogonality `TauCeti.symmetricCharacterTable_col
 Prove `hallForm_frobeniusCharacteristic`: for `n ≤ d` the native `TauCeti.frobeniusCharacteristic`
 is an isometry from `TauCeti.ClassFunction.characterPairing` to `hallForm d ℂ n`, from
 `TauCeti.schurPolyBasis_repr_frobeniusCharacteristic` and the orthonormality of the Specht
-characters (Macdonald I.4, (4.7)–(4.8); I.7). *Needs:* Tau Ceti `TauCeti.schurPolyBasis`,
-`TauCeti.symmetricHomogeneousSubmodule`, `TauCeti.psumPart_eq_sum_spechtCharValue_smul_schurPoly`,
+characters (Macdonald I.4, (4.7)–(4.8); I.7). *Needs:* §7.3 `finiteFrobenius`; Tau Ceti
+`TauCeti.schurPolyBasis`,
+`TauCeti.symmetricHomogeneousSubmodule`,
 `TauCeti.symmetricCharacterTable_column_orthogonality`, `TauCeti.frobeniusCharacteristic`,
 `TauCeti.schurPolyBasis_repr_frobeniusCharacteristic`, `TauCeti.ClassFunction.characterPairing`,
 `TauCeti.zPart`; Mathlib `Module.Basis.toDual`, `MvPolynomial.psumPart`.
@@ -817,7 +876,7 @@ Tau Ceti `TauCeti.symmetricHomogeneousSubmodule`, `TauCeti.schurPolyBasis`,
 
 Over `ℂ` construct `ch_n : TauCeti.ClassFunction ℂ (Equiv.Perm (Fin n)) ≃ₗ[ℂ] Λ_(ℂ,n)` with
 projection at every `d ≥ n` exactly `TauCeti.frobeniusCharacteristic n d h`; prove the stable
-cycle-type formula `ch(f) = ∑_μ f(μ) p_μ / z_μ` from `TauCeti.frobeniusCharacteristic_eq_sum_psumPart`,
+cycle-type formula `ch(f) = ∑_μ f(μ) p_μ / z_μ` from `finiteFrobeniusCharacteristic`,
 `ch(χ^λ) = s_λ`, and the isometry with the stable Hall form from `hallForm_frobeniusCharacteristic`.
 Identify `TauCeti.virtualCharacters ℂ Sₙ` with the `ℤ`-lattice of Schur coordinates and restrict
 `ch` to an isomorphism onto `Λ_(ℤ,n)` through the coefficient embedding `Λ_ℤ → Λ_ℂ`; the virtual
@@ -825,10 +884,12 @@ characters are a proper sublattice of the integer-valued class functions (for `n
 function with values `1, 0` is not virtual). Build the block embedding `Sₙ × Sₘ → S_(n+m)` from
 `Equiv.Perm.finSumPermHom`, its image subgroup and the inverse isomorphism, the external product
 class function `(σ, τ) ↦ f(σ) g(τ)` transported to that subgroup, and prove
-`ch(Ind(f ⊠ g)) = ch(f) · ch(g)` in `Λ_ℂ`, with induction the native `Subgroup.indClassFunction`
-and Frobenius reciprocity from InductionRestriction Layer 2 (Macdonald I.7). *Needs:* §§7.4–7.5; Tau Ceti `TauCeti.frobeniusCharacteristic`,
-`TauCeti.frobeniusCharacteristic_eq_sum_psumPart`, `TauCeti.virtualCharacters`,
-`Subgroup.indClassFunction`, `Equiv.Perm.finSumPermHom`; InductionRestriction Layer 2.
+`ch(Ind(f ⊠ g)) = ch(f) · ch(g)` in `Λ_ℂ`, with induction `TauCeti.ClassFunction.ind S` for the image subgroup
+`S : Subgroup (Equiv.Perm (Fin (n + m)))`, with `[S.FiniteIndex]` supplied by finiteness of S_(n+m),
+and Frobenius reciprocity from InductionRestriction Layer 2 (Macdonald I.7). *Needs:* §7.3
+`finiteFrobeniusCharacteristic`, §§7.4–7.5; Tau Ceti
+`TauCeti.frobeniusCharacteristic`, `TauCeti.virtualCharacters`,
+`TauCeti.ClassFunction.ind`, `Equiv.Perm.finSumPermHom`; InductionRestriction Layer 2.
 
 - `ch` is an isometric linear equivalence, `ch(χ^λ) = s_λ`, `ch(1_(Sₙ)) = h_n`, `ch(sgn) = e_n`.
 - `ch(Ind(f ⊠ g)) = ch(f) ch(g)`; in particular `ch(M^μ) = h_μ` and Young's rule is the Kostka
@@ -1532,3 +1593,5 @@ ReductiveGroups Layers 3 and 6; Mathlib `Subalgebra.centralizer`, `Algebra.adjoi
   (numbering of arXiv v2).
 - S. Doty, J. Hu, *Schur–Weyl duality for orthogonal groups*, Proc. Lond. Math. Soc. 98 (2009),
   679–713, arXiv:0712.0944: Theorem 1.2(b) (numbering of arXiv v3).
+- P. Etingof et al., *Introduction to Representation Theory*, arXiv:0901.0827v5 (2011),
+  §4.20, Proposition 4.61, p. 66 (finite Frobenius formula); §4.15, Theorem 4.47, p. 61.

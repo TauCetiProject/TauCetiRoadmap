@@ -24,7 +24,8 @@ definitions those statements need.
 
 Stated here: the Specht sign-transpose isomorphism `S^λ ⊗ sgn ≅ S^{λᵗ}` with its character form and
 the Specht self-duality and the induced and Kronecker transpose comparisons (Layer 4); the Littlewood–Richardson rule with the coefficient defined by
-ballot tableaux, the character-side Murnaghan–Nakayama rule, the Hall form on the finite-variable
+ballot tableaux, the finite Frobenius power-sum/Schur formulas in both directions and the cycle-type formula,
+the character-side Murnaghan–Nakayama rule, the Hall form on the finite-variable
 symmetric polynomials with its power-sum normalisation and the isometry property of the native
 Frobenius characteristic, the integral matrix Newton recurrence and the finite power-sum basis
 (Layer 7); the simultaneous `Sₙ × GLₔ` decomposition of the tensor power and the
@@ -170,6 +171,36 @@ theorem diagramLittlewoodRichardson (d : ℕ) (R : Type*) [CommSemiring R]
       ∑ κ : (μ.card + ν.card).Partition,
         (lrCoefficient μ ν (TauCeti.diagramOf κ) : R) •
           TauCeti.diagramSchurPoly d R (TauCeti.diagramOf κ) := by sorry
+
+/-- The integral finite Frobenius formula: a power-sum product expands in Schur polynomials
+with the integer Specht character values as coefficients, over every commutative ring and
+in every finite alphabet (Etingof et al., arXiv:0901.0827v5, Proposition 4.61,
+p. 66, followed by integral descent and coefficient change). -/
+theorem finiteFrobenius (σ R : Type*) [Fintype σ] [CommRing R]
+    {n : ℕ} (ρ : n.Partition) :
+    MvPolynomial.psumPart σ R ρ =
+      ∑ lam : n.Partition, (TauCeti.spechtCharValue lam ρ : R) •
+        TauCeti.schurPoly σ R lam := sorry
+
+/-- The integral inverse Frobenius formula, with class-size weights computed in the natural
+numbers before passage to the coefficient ring. It holds in every finite alphabet and over
+every commutative ring, by finite Frobenius and integral row orthogonality. -/
+theorem finiteFrobeniusInverse (σ R : Type*) [Fintype σ] [CommRing R]
+    {n : ℕ} (lam : n.Partition) :
+    (n.factorial : R) • TauCeti.schurPoly σ R lam =
+      ∑ ρ : n.Partition,
+        (((n.factorial / TauCeti.zPart ρ : ℕ) : R) * (TauCeti.spechtCharValue lam ρ : R)) •
+          MvPolynomial.psumPart σ R ρ := sorry
+
+/-- The cycle-type formula for the native Schur-coordinate Frobenius characteristic:
+each power-sum coefficient is the class-function value divided by its centralizer order
+(finite Frobenius formula and character orthogonality). -/
+theorem finiteFrobeniusCharacteristic (n d : ℕ) (h : n ≤ d)
+    (f : TauCeti.ClassFunction ℂ (Equiv.Perm (Fin n))) :
+    (TauCeti.frobeniusCharacteristic n d h f : MvPolynomial (Fin d) ℂ) =
+      ∑ ρ : n.Partition,
+        (TauCeti.ClassFunction.toConjClasses f (TauCeti.partitionEquivConjClasses n ρ) /
+          (TauCeti.zPart ρ : ℂ)) • MvPolynomial.psumPart (Fin d) ℂ ρ := sorry
 
 open scoped Classical in
 /-- **The Murnaghan–Nakayama rule** on cycle-type partitions: removing one part `r` from the cycle
