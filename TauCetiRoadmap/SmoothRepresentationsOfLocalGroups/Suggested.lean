@@ -1,3 +1,5 @@
+module
+
 import Mathlib
 import TauCeti.Algebra.AlgebraicGroup.FiniteType.CommHopfAlgCat
 import TauCeti.Algebra.AlgebraicGroup.Reductive.Basic
@@ -9,10 +11,10 @@ import TauCeti.NumberTheory.LocalField.Tame.PadicCharacter
 import TauCeti.FieldTheory.Galois.AbsoluteGaloisGroup.Cyclotomic.Character
 
 /-!
-# Smooth representations of local groups: headline target statements
+# Smooth representations of local groups: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is `README.md`.
-The statements here suggest Lean forms for headline milestones; proving them finishes neither
+This file states the roadmap’s headline theorems against the pinned APIs; proving them finishes neither
 a layer nor the roadmap.
 
 The statements cover the Grothendieck property of the smooth category (SR.0d), Whittaker
@@ -20,11 +22,15 @@ multiplicity one for irreducible infinite-dimensional complex representations of
 admissibility and uniform admissibility for all connected reductive local groups (SR.3a),
 Howe's finite-length theorem, noetherianity and finiteness of Hecke algebras over their centres
 (SR.3), and Grothendieck monodromy with complete normed coefficients and Frobenius
-semisimplification of raw Weil–Deligne parameters and scalar endomorphisms of co-Whittaker
+semisimplification of raw Weil–Deligne parameters and scalar endomorphisms of essentially AIG
+representations and co-Whittaker
 families (SR.5.2), together with their endomorphism comparison after arbitrary coefficient-module
 tensoring (SR.5.3).
 
-The Bernstein decomposition and its centre formula require cuspidal data and inertial blocks;
+The Iwahori–Matsumoto and Bernstein presentations (SR.1) are not statable at the pins:
+they need the actual Iwahori convolution algebra, its double-coset basis and the associated
+extended affine Weyl group with its length and translation data. The Bernstein decomposition
+and its centre formula require cuspidal data and inertial blocks;
 Casselman's criterion and the conditional Langlands classification require the split-centre
 exponents, cones and tempered-support datum. Their signatures are deferred to these
 constructions. The pins have algebraic induction and coinvariants but no smooth parabolic
@@ -45,6 +51,8 @@ carrier. The monodromy statement uses Tau Ceti's actual local inertia and tame c
 namespace TauCetiRoadmap.SmoothRepresentationsOfLocalGroups
 
 noncomputable section
+
+/-! ## Layer SR.0: the smooth category and its basic API -/
 
 namespace Representation
 
@@ -77,12 +85,16 @@ universe u v
 abbrev SmoothRep (A G : Type u) [CommRing A] [Group G] [TopologicalSpace G] :=
   ObjectProperty.FullSubcategory fun X : Rep.{u} A G => Representation.IsSmooth X.ρ
 
+/-! ## Layer SR.0d: derived smooth representations -/
+
 /-- SR.0d.1: smooth representations form a Grothendieck abelian category over any commutative
 ring ([Ber87], §§1.1–1.2, pp. 3–4). -/
 theorem SmoothRep.grothendieck (A G : Type u) [CommRing A] [Group G]
     [TopologicalSpace G] [IsTopologicalGroup G] [LocallyCompactSpace G]
     [TotallyDisconnectedSpace G] [T2Space G] :
     ∃ h : Abelian (SmoothRep A G), letI := h; IsGrothendieckAbelian.{u} (SmoothRep A G) := sorry
+
+/-! ## Layer SR.2: induction, Jacquet modules and Whittaker functionals -/
 
 /-- The canonical inverse-character-twist coinvariants, on Mathlib’s quotient carrier. -/
 abbrev WhittakerCoinvariants {A U V : Type*} [CommRing A] [Group U]
@@ -102,6 +114,8 @@ theorem whittakerCoinvariants_one_dimensional
     (hinf : ¬ Module.Finite ℂ V) :
     Nonempty (WhittakerCoinvariants
       (ρ.comp (TauCeti.upperUnitriangularGroup (Fin 2) F).subtype) ψ ≃ₗ[ℂ] ℂ) := sorry
+
+/-! ## Layer SR.3a: admissibility and uniform admissibility -/
 
 section Reductive
 
@@ -140,6 +154,8 @@ theorem exists_finrank_invariants_le
       Module.Finite ℂ (_root_.Representation.invariants (ρ.comp K.toSubgroup.subtype)) ∧
         Module.finrank ℂ (_root_.Representation.invariants (ρ.comp K.toSubgroup.subtype)) ≤ c := sorry
 
+/-! ## Layer SR.3: finite length and Bernstein finiteness -/
+
 /-- SR.3.1, Howe's theorem: a finitely generated admissible smooth complex representation
 has finite length ([Cas95], Corollaries 6.3.7–6.3.8 and Theorem 6.3.10, pp. 59–61). -/
 theorem isFiniteLength_of_isAdmissible
@@ -175,6 +191,8 @@ theorem heckeAlgebra_finite_over_center
       Algebra.FiniteType ℂ (Subalgebra.center ℂ R) := sorry
 
 end Reductive
+
+/-! ## Layer SR.5: integral families and Weil–Deligne parameters -/
 
 section CoWhittaker
 
@@ -215,6 +233,25 @@ def CoWhittaker (ρ : _root_.Representation A G V) (U : Subgroup G) (ψ : U →*
         U ((Units.map (algebraMap A P.ResidueField).toMonoidHom).comp ψ)
 
 end CoWhittaker
+
+open ValuativeRel in
+/-- SR.5.2: every endomorphism of an essentially AIG GL_n representation over a field
+of characteristic different from the residue characteristic is a unique scalar
+([EH], Lemma 3.2.3, p. 18). For n > 1, the actual upper-unitriangular character is
+induced by a nontrivial smooth additive character; n = 1 needs no additive character. -/
+theorem EssentiallyAIG.scalars {F : Type u} [Field F] [ValuativeRel F]
+    [TopologicalSpace F] [IsNonarchimedeanLocalField F]
+    {κ : Type u} [Field κ] (hκ : ringChar κ ≠ ringChar 𝓀[F])
+    (n : ℕ) (hn : 0 < n)
+    (ψ : TauCeti.upperUnitriangularGroup (Fin n) F →* κˣ)
+    (hψ : n = 1 ∨ ∃ χ : Multiplicative F →* κˣ,
+      IsOpen (χ.ker : Set (Multiplicative F)) ∧ χ ≠ 1 ∧
+      ∀ u, ψ u = χ (Multiplicative.ofAdd (∑ i : Fin n, ∑ j : Fin n,
+        if (j : ℕ) = i + 1 then ((u : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) i j else 0)))
+    {V : Type u} [AddCommGroup V] [Module κ V]
+    (ρ : _root_.Representation κ (GL (Fin n) F) V)
+    (h : EssentiallyAIG ρ (TauCeti.upperUnitriangularGroup (Fin n) F) ψ)
+    (f : ρ.IntertwiningMap ρ) : ∃! a : κ, ∀ v, f v = a • v := sorry
 
 open ValuativeRel in
 /-- SR.5.2: every endomorphism of a co-Whittaker GL_n family is a unique scalar
