@@ -172,7 +172,7 @@ Use precisely AdelicImagesAndModularCurves §2.2’s SL₂ theorem: for p≥5, a
 
 ### From SerreWeightAndLevelOptimisation and Mathlib's level-one forms
 
-SerreWeightAndLevelOptimisation §2.9 (Mazur's principle) supplies: for ℓ≥5, q∤Mℓ and q≢1 mod ℓ, an irreducible residual representation occurring at level Mq with the source's character convention and unramified at q occurs at level M in some weight (Ribet, *Report on mod ℓ representations*, (4.7) and Theorem 8.1). Its §3.9 (Ribet's four sets of levels) supplies, for ℓ≥5 and odd irreducible modular ρ̄, that occurrence in some weight at a level N prime to ℓ is equivalent to occurrence in `S_{k(ρ̄)}(Γ₁(N))` (Ribet, Theorem 3.3). Its §3.1 supplies the residual local form of an ordinary eigenform of weight 2≤k≤p+1 at p∤N, which fixes the Serre weight k(ρ̄) through the recipe of AlgebraicModularFormsAndSerreWeights R15.4. Mathlib supplies `CuspForm.rank_eq_zero_of_weight_lt_twelve`: level-one cusp forms of weight below 12 vanish, so S₄(SL₂(ℤ))=0. These inputs are used only in §5.11.
+SerreWeightAndLevelOptimisation §2.9 (Mazur's principle) supplies: for ℓ≥5, q∤Mℓ and q≢1 mod ℓ, an irreducible residual representation occurring at level Mq with the source's character convention and unramified at q occurs at level M in some weight (Ribet, *Report on mod ℓ representations*, (4.7) and Theorem 8.1). Its §3.9 (Ribet's four sets of levels) supplies, for ℓ≥5 and odd irreducible modular ρ̄, that occurrence in some weight at a level N prime to ℓ is equivalent to occurrence in `S_{k(ρ̄)}(Γ₁(N))` (Ribet, Theorem 3.3). Its §3.1 supplies the residual local form of an ordinary eigenform of weight 2≤k≤p+1 at p∤N, which fixes the Serre weight k(ρ̄) through the recipe of AlgebraicModularFormsAndSerreWeights §§4.1–4.5. Mathlib supplies `CuspForm.rank_eq_zero_of_weight_lt_twelve`: level-one cusp forms of weight below 12 vanish, so S₄(SL₂(ℤ))=0. These inputs are used only in §5.11.
 
 ### Downstream branch roadmaps
 
@@ -1953,7 +1953,7 @@ Check (FW1.6_5) in Fouquet–Wan's normalisation.
 
 The source for this target is [Olivier Fouquet and Xin Wan](https://arxiv.org/abs/2107.13726v3), Theorems 1.4 and 1.6, pp.5–7; [Christopher Skinner and Eric Urban](https://www.math.columbia.edu/~urban/eurp/MC.pdf), Theorem 3.6.4, p.43; [Kenneth A. Ribet](https://math.berkeley.edu/~ribet/Articles/motives.pdf), *Report on mod ℓ representations of Gal(Q̄/Q)*, (4.7) and Theorem 8.1 (Mazur's principle), Theorem 3.3 (the four sets of levels), author pp.8, 12 and 27–30.
 
-*Needs:* §1.4; §1.5; §1.1; §1.3; AutomorphicCongruences §2.21 with gap:tate-twisted-components; `SerreWeightAndLevelOptimisation` §2.9; `SerreWeightAndLevelOptimisation` §3.1; `SerreWeightAndLevelOptimisation` §3.9; `AlgebraicModularFormsAndSerreWeights` R15.4 (Serre's weight recipe); Mathlib `CuspForm.rank_eq_zero_of_weight_lt_twelve`.
+*Needs:* §1.4; §1.5; §1.1; §1.3; AutomorphicCongruences §2.21 with gap:tate-twisted-components; `SerreWeightAndLevelOptimisation` §2.9; `SerreWeightAndLevelOptimisation` §3.1; `SerreWeightAndLevelOptimisation` §3.9; `AlgebraicModularFormsAndSerreWeights` §§4.1–4.5 (Serre's weight recipe); Mathlib `CuspForm.rank_eq_zero_of_weight_lt_twelve`.
 
 **Checks.**
 
