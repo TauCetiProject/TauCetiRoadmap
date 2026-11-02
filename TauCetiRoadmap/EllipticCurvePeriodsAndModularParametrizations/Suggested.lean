@@ -1,45 +1,39 @@
+module
+
 import Mathlib
 import TauCeti.AlgebraicGeometry.EllipticCurve.MinimalModel.DiscriminantIdeal
 import TauCeti.AlgebraicGeometry.EllipticCurve.MinimalModel.Reduced
-import TauCeti.AlgebraicGeometry.EllipticCurve.MinimalModel.Semistable
 import TauCeti.AlgebraicGeometry.EllipticCurve.GlobalMinimalModel
-import TauCeti.AlgebraicGeometry.EllipticCurve.MordellWeil.Regulator
-import TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny.Basic
+import TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny.Differential
+import TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny.Degree
 
 /-!
 # Periods of elliptic curves and modular parametrizations: target signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive specification is
-`README.md`. This file states only what can be stated over Mathlib and the pinned Tau Ceti: the
-definitions below have their real bodies, and the theorems are the headline statements about them,
-with `sorry` proofs. The other targets — the multiplier of an isogeny (2.7), the period lattice of
-a newform, optimality, the Manin constant, the modular degree, the congruence modulus and the
-conjectures of Manin and Stevens (Layer 4), the BSD quotient and the analytic order of Ш (3.6) —
-are specified, with their definitions and Checks, in `README.md` only.
+The roadmap is README.md; this file is not the roadmap. It states the roadmap's headline
+theorems against the pinned Mathlib and Tau Ceti APIs, with real definitions and `sorry` proofs.
+The headlines are the invariant characterization and real shapes of the period lattice,
+model independence of the global period, the isogeny lattice inclusion and degree index,
+nonvanishing of the elliptic L-series and continuation-independent leading term, Stevens'
+minimal curve, rank-zero period rationality, and the characterization of Faltings ratio one.
 
-The carrier is Mathlib's `WeierstrassCurve K` with `[W.IsElliptic]`, as in the elliptic-curves
-roadmap; an invariant is a function of the equation, proved invariant under `VariableChange`.
-The period lattice of a complex equation is a `Submodule ℤ ℂ` with `DiscreteTopology` and
-`IsZLattice ℝ`, pinned by Mathlib's `PeriodPair.g₂ = c₄ / 12` and `PeriodPair.g₃ = c₆ / 216`
-(`README.md`, *Pinned conventions*); its covolume is `ZLattice.covolume` for the Lebesgue measure
-on `ℂ`. The `L`-series is Mathlib's `WeierstrassCurve.LSeries`, a `tsum` that is `0` outside its
-half-plane; every analytic quantity is read from a continuation `(U, F)` with `U` **convex**
-(`IsContinuation`), never from the `tsum`.
+The following headlines are not statable at the pins. The integral newform-period comparison,
+optimality, Manin constant and modular degree comparisons, the congruence theorem and the
+semistable Manin theorem lack the modular curve/Jacobian quotient and integral geometric
+homology carriers. The BSD quotient and analytic Sha order lack the arithmetic Tamagawa
+product on the Néron component groups. The comparisons called faltingsHeightLattice_eq and
+stableFaltingsHeightLattice_eq in README §5.2–§5.3, and the height interpretation of Stevens'
+curve and the Faltings ratio, lack the metrized Arakelov Hodge line and its relative and stable
+Faltings heights. No formula-defined height is substituted for these comparisons.
 
-Conventions visible in the signatures: the local period at a real place is
-`realComponentCount * leastPositiveRealPeriod` and at a complex place `2 * covolume` (the factor
-`2` is part of the definition); the global period carries the prefactor
-`(|N Δ| / N 𝔇)^(1/12)`; Tau Ceti's `regulator` is the Néron–Tate (non-normalised) regulator of
-the BSD formula, and `normalisedRegulator` divides it by `[K : ℚ] ^ r`; Stevens' curve
-`stevensCurve E` is presented as a reduced minimal model, so that it is a function of the isogeny
-class; the Faltings height formulas use covolumes of the lattices of *any* equation with the
-discriminant prefactor, in Faltings' normalisation.
+The native carrier is `WeierstrassCurve K` with ellipticity where required. Its differential
+is dx/(2y+a₁x+a₃); its lattice has g₂=c₄/12 and g₃=c₆/216. Complex local periods are twice the
+Lebesgue covolume. The global period includes (|N Δ|/N 𝔇)^(1/12). All central analytic values
+come from a continuation, never an unevaluated Dirichlet-series sum. Isogeny multipliers in
+the lattice theorem are signed scalars tied to the actual differential pullback.
 
-`periodLattice` and `stevensCurve` are defined by description, through `Classical.epsilon`: each
-is the object with the README's characterising property, whose existence is a theorem (1.1,
-Stevens' theorem). Exceptions to "every proof is `sorry`": the instances on these two
-definitions, `mem_scaleLattice` (unfolding) and `IsContinuation.eqOn_inter` (the identity theorem
-of Mathlib, applied as the README's 3.3 promises).
+The choices defining `periodLattice` and `stevensCurve` use `Classical.epsilon` on native data;
+the existence and characterizing properties are the headline targets, not assumptions.
 -/
 
 open WeierstrassCurve Complex NumberField
@@ -57,11 +51,6 @@ section Layer1
 def scaleLattice (c : ℂ) (L : Submodule ℤ ℂ) : Submodule ℤ ℂ :=
   L.map ((LinearMap.lsmul ℂ ℂ c).restrictScalars ℤ)
 
-/-- Bridge check (unfolding): membership in a scaled lattice (`README.md`, Layer 1, 1.3). -/
-theorem mem_scaleLattice {c z : ℂ} {L : Submodule ℤ ℂ} :
-    z ∈ scaleLattice c L ↔ ∃ w ∈ L, c * w = z := by
-  simp [scaleLattice, Submodule.mem_map]
-
 /-- **1.1** The period lattice of an elliptic Weierstrass equation over `ℂ`: the lattice of the
 unique `PeriodPair`-lattice with `g₂ = c₄ / 12`, `g₃ = c₆ / 216` (`README.md`, Layer 1, 1.1). -/
 def periodLattice (W : WeierstrassCurve ℂ) [W.IsElliptic] : Submodule ℤ ℂ :=
@@ -71,12 +60,12 @@ def periodLattice (W : WeierstrassCurve ℂ) [W.IsElliptic] : Submodule ℤ ℂ 
 variable (W : WeierstrassCurve ℂ) [W.IsElliptic]
 
 /-- **1.1** The period lattice is discrete (`README.md`, Layer 1, 1.1). -/
-instance : DiscreteTopology (periodLattice W) := by
+instance periodLatticeDiscrete : DiscreteTopology (periodLattice W) := by
   unfold periodLattice
   infer_instance
 
 /-- **1.1** The period lattice is a full lattice in `ℂ = ℝ²` (`README.md`, Layer 1, 1.1). -/
-instance : IsZLattice ℝ (periodLattice W) := by
+instance periodLatticeFull : IsZLattice ℝ (periodLattice W) := by
   unfold periodLattice
   infer_instance
 
@@ -219,16 +208,12 @@ def neronLattice : Submodule ℤ ℂ :=
   periodLattice ((reducedMinimalModel E).map (algebraMap ℚ ℂ))
 
 /-- **2.6** The Néron lattice is discrete (`README.md`, Layer 2, 2.6). -/
-instance : DiscreteTopology (neronLattice E) :=
+instance neronLatticeDiscrete : DiscreteTopology (neronLattice E) :=
   inferInstanceAs (DiscreteTopology (periodLattice ((reducedMinimalModel E).map (algebraMap ℚ ℂ))))
 
 /-- **2.6** The Néron lattice is a full lattice (`README.md`, Layer 2, 2.6). -/
-instance : IsZLattice ℝ (neronLattice E) :=
+instance neronLatticeFull : IsZLattice ℝ (neronLattice E) :=
   inferInstanceAs (IsZLattice ℝ (periodLattice ((reducedMinimalModel E).map (algebraMap ℚ ℂ))))
-
-/-- **2.6** The Néron lattice depends only on the `ℚ`-isomorphism class
-(`README.md`, Layer 2, 2.6). -/
-theorem neronLattice_smul (C : VariableChange ℚ) : neronLattice (C • E) = neronLattice E := sorry
 
 /-- **2.6** Every globally minimal equation of the class has the Néron lattice: two of them differ
 by a change with `u = ±1`, and `u = -1` fixes the lattice (`README.md`, Layer 2, 2.6). -/
@@ -242,16 +227,27 @@ theorem globalPeriod_eq_neronLattice :
 
 end NeronLattice
 
+section IsogenyLattices
+
+/-- **2.7** An isogeny over a characteristic-zero field with a specified complex embedding
+carries the source period lattice, scaled by its differential multiplier, into the target
+lattice, with index equal to its degree. -/
+theorem periodLattice_isogeny {F : Type*} [Field F] [CharZero F] (ι : F →+* ℂ)
+    (E E' : WeierstrassCurve F) [E.IsElliptic] [E'.IsElliptic]
+    (ψ : TauCeti.Isogeny E.toAffine E'.toAffine) (α : F) (hα : α ≠ 0)
+    (hω : ψ.pullbackDifferential (WeierstrassCurve.Affine.invariantDifferential E'.toAffine) =
+      α • WeierstrassCurve.Affine.invariantDifferential E.toAffine) :
+    scaleLattice (ι α) (periodLattice (E.map ι)) ≤ periodLattice (E'.map ι) ∧
+      (scaleLattice (ι α) (periodLattice (E.map ι))).toAddSubgroup.relIndex
+        (periodLattice (E'.map ι)).toAddSubgroup = ψ.degree := sorry
+
+end IsogenyLattices
+
 /-! ## Layer 3: the analytic side of Birch–Swinnerton-Dyer, as definitions -/
 
 section Layer3
 
 variable {K : Type*} [Field K] [NumberField K] (W : WeierstrassCurve K) [W.IsElliptic]
-
-/-- **3.1** Absolute convergence of the Hasse–Weil `L`-series for `Re s > 3/2`
-(`README.md`, Layer 3, 3.1). -/
-theorem LSeriesSummable_LFunction {s : ℂ} (hs : 3 / 2 < s.re) :
-    LSeriesSummable (fun n ↦ (W.LFunction n : ℂ)) s := sorry
 
 /-- **3.2** Nonvanishing on the half-plane of absolute convergence (`README.md`, Layer 3, 3.2). -/
 theorem LSeries_ne_zero {s : ℂ} (hs : 3 / 2 < s.re) : W.LSeries s ≠ 0 := sorry
@@ -266,21 +262,6 @@ structure IsContinuation (U : Set ℂ) (F : ℂ → ℂ) : Prop where
   one_mem : (1 : ℂ) ∈ U
   analyticOnNhd : AnalyticOnNhd ℂ F U
   eqOn : Set.EqOn F W.LSeries {s : ℂ | 3 / 2 < s.re}
-
-omit [W.IsElliptic] in
-/-- **3.3** Bridge check: two continuations agree on the intersection of their domains, by
-Mathlib's identity theorem on the convex (hence preconnected) set `U ∩ U'` and the point `2`
-of the half-plane (`README.md`, Layer 3, 3.3). -/
-theorem IsContinuation.eqOn_inter {U U' : Set ℂ} {F F' : ℂ → ℂ} (h : IsContinuation W U F)
-    (h' : IsContinuation W U' F') : Set.EqOn F F' (U ∩ U') := by
-  have hH : IsOpen {s : ℂ | 3 / 2 < s.re} := isOpen_lt continuous_const continuous_re
-  have h2 : (2 : ℂ) ∈ {s : ℂ | 3 / 2 < s.re} := by
-    simp only [Set.mem_ofPred_eq, Complex.re_ofNat]; norm_num
-  refine AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq
-    (h.analyticOnNhd.mono Set.inter_subset_left) (h'.analyticOnNhd.mono Set.inter_subset_right)
-    (h.convex.inter h'.convex).isPreconnected ⟨h.halfPlane_subset h2, h'.halfPlane_subset h2⟩ ?_
-  filter_upwards [hH.mem_nhds h2] with s hs
-  exact (h.eqOn hs).trans (h'.eqOn hs).symm
 
 /-- **3.3** Over `ℚ` a continuation on all of `ℂ` exists, from the modularity roadmap's entire
 completed `L`-function (`README.md`, Layer 3, 3.3). The non-vacuity witness for
@@ -317,28 +298,6 @@ theorem analyticRank_congr {U' : Set ℂ} {F' : ℂ → ℂ} (h : IsContinuation
 theorem leadingCoefficient_congr {U' : Set ℂ} {F' : ℂ → ℂ} (h : IsContinuation W U F)
     (h' : IsContinuation W U' F') : leadingCoefficient W h = leadingCoefficient W h' := sorry
 
-variable [DecidableEq K]
-
-/-- **3.5** The torsion order `#E(K)_tors` is positive and finite (`README.md`, Layer 3, 3.5). -/
-theorem torsion_card_pos : 0 < Nat.card (Submodule.torsion ℤ W.toAffine.Point) := sorry
-
-variable [Module.Finite ℤ (WeierstrassCurve.Affine.PointModTorsion W.toAffine)]
-
-/-- **3.5** The normalised regulator `Reg_NT / [K : ℚ]^r`, the LMFDB `regulator` over `K`; Tau
-Ceti's `regulator` is `Reg_NT` itself (`README.md`, Layer 3, 3.5). -/
-def normalisedRegulator : ℝ :=
-  WeierstrassCurve.Affine.regulator W.toAffine /
-    (Module.finrank ℚ K : ℝ) ^ Module.finrank ℤ (WeierstrassCurve.Affine.PointModTorsion W.toAffine)
-
-/-- **3.5** The normalised regulator is positive (`README.md`, Layer 3, 3.5). -/
-theorem normalisedRegulator_pos : 0 < normalisedRegulator W := sorry
-
-/-- **3.7** The weak Birch–Swinnerton-Dyer conjecture over `K`, as a statement: the analytic rank
-of every continuation is the Mordell–Weil rank (`README.md`, Layer 3, 3.7). -/
-def WeakBSD : Prop :=
-  ∀ (U : Set ℂ) (F : ℂ → ℂ) (h : IsContinuation W U F),
-    analyticRank W h = Module.finrank ℤ (WeierstrassCurve.Affine.PointModTorsion W.toAffine)
-
 end Layer3
 
 /-! ## Layer 4: the modular parametrization — Stevens' minimal curve and rationality in rank `0` -/
@@ -360,7 +319,7 @@ def stevensCurve (E : WeierstrassCurve ℚ) [E.IsElliptic] : WeierstrassCurve �
         Nonempty (TauCeti.Isogeny E.toAffine E''.toAffine) → neronLattice E'.1 ≤ neronLattice E'').1
 
 /-- **4.10** The minimal curve is elliptic (`README.md`, Layer 4, 4.10). -/
-instance : (stevensCurve E).IsElliptic := by
+instance stevensCurveElliptic : (stevensCurve E).IsElliptic := by
   unfold stevensCurve
   exact Subtype.property _
 
@@ -394,77 +353,20 @@ section Layer5
 
 variable {K : Type*} [Field K] [NumberField K] (W : WeierstrassCurve K) [W.IsElliptic]
 
-/-- **5.2** The Faltings height of `E/K` from any Weierstrass equation: the discriminant prefactor
-and the covolumes of the period lattices at the infinite places, weighted by `mult`, in Faltings'
-normalisation (`README.md`, Layer 5, 5.2). -/
-def faltingsHeightLattice : ℝ :=
-  (Module.finrank ℚ K : ℝ)⁻¹ *
-    (-(1 / 12 : ℝ) * Real.log (|Algebra.norm ℚ W.Δ| /
-        (Ideal.absNorm (minimalDiscriminantIdeal (𝓞 K) W) : ℝ)) -
-      (1 / 2 : ℝ) * ∑ v : InfinitePlace K,
-        (v.mult : ℝ) * Real.log (ZLattice.covolume (periodLattice (W.map v.embedding))))
-
-/-- **5.2** The formula is independent of the equation (`README.md`, Layer 5, 5.2). -/
-theorem faltingsHeightLattice_smul (C : VariableChange K) :
-    faltingsHeightLattice (C • W) = faltingsHeightLattice W := sorry
-
-/-- **5.2** On a globally minimal equation the prefactor vanishes (`README.md`, Layer 5, 5.2). -/
-theorem faltingsHeightLattice_eq_of_isGlobalMinimal (h : WeierstrassCurve.IsGlobalMinimal (𝓞 K) W) :
-    faltingsHeightLattice W = (Module.finrank ℚ K : ℝ)⁻¹ * (-(1 / 2 : ℝ) *
-      ∑ v : InfinitePlace K,
-        (v.mult : ℝ) * Real.log (ZLattice.covolume (periodLattice (W.map v.embedding)))) := sorry
-
-/-- **5.1** Over `ℚ`: `h_Fal(E) = −½ log covol Λ_E` for the Néron lattice
-(`README.md`, Layer 5, 5.1). -/
-theorem faltingsHeightLattice_eq_neronLattice (E : WeierstrassCurve ℚ) [E.IsElliptic] :
-    faltingsHeightLattice E = -(1 / 2 : ℝ) * Real.log (ZLattice.covolume (neronLattice E)) := sorry
-
 /-- **5.3** The denominator ideal of `j`, `∏_𝔭 𝔭^{max(0, −v_𝔭(j))}` (`README.md`, *Pinned
 conventions* and Layer 5, 5.3), written as `{a ∈ 𝓞 K | a j ∈ 𝓞 K}`: in the Dedekind domain `𝓞 K`,
 `a j` is integral exactly when `v_𝔭(a) ≥ max(0, −v_𝔭(j))` at every `𝔭`. -/
 def jDenominatorIdeal (W : WeierstrassCurve K) [W.IsElliptic] : Ideal (𝓞 K) :=
   (1 : Submodule (𝓞 K) K).colon {W.j}
 
-/-- **5.3** The denominator ideal of `j` is a `K`-isomorphism invariant
-(`README.md`, Layer 5, 5.3). -/
-theorem jDenominatorIdeal_smul (C : VariableChange K) :
-    jDenominatorIdeal (C • W) = jDenominatorIdeal W := sorry
-
 /-- **5.3** The denominator ideal of `j` divides the minimal discriminant ideal
 (`README.md`, Layer 5, 5.3). -/
-theorem minimalDiscriminantIdeal_dvd_jDenominatorIdeal :
-    minimalDiscriminantIdeal (𝓞 K) W ∣ jDenominatorIdeal W := sorry
-
-/-- **5.3** The stable Faltings height through the denominator of `j`
-(`README.md`, Layer 5, 5.3). -/
-def stableFaltingsHeightLattice : ℝ :=
-  (Module.finrank ℚ K : ℝ)⁻¹ *
-    ((1 / 12 : ℝ) * (Real.log (Ideal.absNorm (jDenominatorIdeal W) : ℝ) -
-        Real.log |Algebra.norm ℚ W.Δ|) -
-      (1 / 2 : ℝ) * ∑ v : InfinitePlace K,
-        (v.mult : ℝ) * Real.log (ZLattice.covolume (periodLattice (W.map v.embedding))))
-
-/-- **5.3** The stable height is at most the height (`README.md`, Layer 5, 5.3). -/
-theorem stableFaltingsHeightLattice_le : stableFaltingsHeightLattice W ≤ faltingsHeightLattice W :=
-  sorry
-
-/-- **5.3** Equality of the two heights is semistability (`README.md`, Layer 5, 5.3). -/
-theorem stableFaltingsHeightLattice_eq_iff :
-    stableFaltingsHeightLattice W = faltingsHeightLattice W ↔
-      WeierstrassCurve.IsSemistable (𝓞 K) W := sorry
-
-/-- **5.3** The stable height is independent of the equation (`README.md`, Layer 5, 5.3). -/
-theorem stableFaltingsHeightLattice_smul (C : VariableChange K) :
-    stableFaltingsHeightLattice (C • W) = stableFaltingsHeightLattice W := sorry
+theorem jDenominatorIdeal_dvd_minimalDiscriminantIdeal :
+    jDenominatorIdeal W ∣ minimalDiscriminantIdeal (𝓞 K) W := sorry
 
 section OverQ
 
 variable (E : WeierstrassCurve ℚ) [E.IsElliptic]
-
-/-- **5.5** The minimal curve has the least Faltings height in its class
-(`README.md`, Layer 5, 5.5). -/
-theorem faltingsHeightLattice_stevensCurve_le :
-    faltingsHeightLattice (stevensCurve E) ≤ faltingsHeightLattice E := sorry
 
 /-- **5.5** The Faltings ratio: the index of the Néron lattice of the minimal curve in that of `E`
 (`README.md`, Layer 5, 5.5). -/
@@ -473,16 +375,6 @@ def faltingsRatio : ℕ :=
 
 /-- **5.5** The Faltings ratio is positive (`README.md`, Layer 5, 5.5). -/
 theorem faltingsRatio_pos : 0 < faltingsRatio E := sorry
-
-/-- **5.5** The Faltings ratio is the ratio of covolumes (`README.md`, Layer 5, 5.5). -/
-theorem faltingsRatio_eq_covolume_div :
-    (faltingsRatio E : ℝ) =
-      ZLattice.covolume (neronLattice (stevensCurve E)) / ZLattice.covolume (neronLattice E) := sorry
-
-/-- **5.5** The Faltings ratio is `exp (2 (h(E) − h(E_min)))` (`README.md`, Layer 5, 5.5). -/
-theorem faltingsRatio_eq_exp :
-    (faltingsRatio E : ℝ) =
-      Real.exp (2 * (faltingsHeightLattice E - faltingsHeightLattice (stevensCurve E))) := sorry
 
 /-- **5.5** The Faltings ratio is `1` exactly for the minimal curve (`README.md`, Layer 5, 5.5). -/
 theorem faltingsRatio_eq_one_iff : faltingsRatio E = 1 ↔ reducedMinimalModel E = stevensCurve E :=
