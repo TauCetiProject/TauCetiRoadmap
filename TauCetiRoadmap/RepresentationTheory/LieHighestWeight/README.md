@@ -1093,7 +1093,9 @@ downstream application actually invokes.
 
   - For sl₂ and `M = V(2) ⊕ V(0) ⊕ V(0)` the multiplicities of V(2) and V(0) are 1 and 2
     and the isotypic components have dimensions 3 and 2; the formal character
-    `e^2 + 3 + e^(−2)` has orbit-sum coefficients 1 and 2.
+    `e^2 + 3 + e^(−2)` has orbit-sum coefficients 1 and 3, and triangular inversion against
+    `ch V(2) = (e^2 + e^(−2)) + 1` recovers the multiplicities 1 and 2. Reading the
+    orbit-sum coefficients as multiplicities gives the wrong value 3 for V(0).
   - For M = 0 every multiplicity is 0 and the decomposition is the empty sum.
   - `V(1) ⊗ V(1)` and `V(2) ⊕ V(0)` have the same character `e^2 + 2 + e^(−2)` and are
     equivalent, while `V(1) ⊕ V(1)` has character `2e^1 + 2e^(−1)` and is not: equal
