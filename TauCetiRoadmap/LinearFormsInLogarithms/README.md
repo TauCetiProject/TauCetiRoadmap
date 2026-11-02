@@ -1,8 +1,8 @@
 # Roadmap: linear forms in logarithms, Baker's theorem over `ℂ` and `ℂ_p`
 
-This roadmap is about the transcendence of values of the exponential function. Its main results
-are Baker's theorem on linear forms in logarithms, over `ℂ` and over `ℂ_p`, and the classical
-theorems that come before it.
+**Summary.** This roadmap is about the transcendence of values of the exponential function. Its
+main results are Baker's theorem on linear forms in logarithms, over `ℂ` and over `ℂ_p`, and the
+classical theorems that come before it.
 
 Over `ℂ`, **Baker's theorem** says: if `α₁, …, αₙ` are nonzero algebraic numbers whose logarithms
 are linearly independent over `ℚ`, then `1, log α₁, …, log αₙ` are linearly independent over the
@@ -25,49 +25,9 @@ instead, as in Chapter 2 of Baker's *Transcendental Number Theory*: it works wit
 variable along a diagonal and needs no multiplicity estimate. Layer 8 uses the arithmetic of Layer 3
 and nothing else from the complex part.
 
-Mathlib has Liouville numbers, the house of an algebraic number, Siegel's lemma over number fields,
-and the analytic half of Hermite's method for Lindemann–Weierstrass. It does not prove that `e` or
-`π` is transcendental, and it has no Gelfond–Schneider theorem. Two Mathlib formalisations cover
-part of this: Yuyang Zhao's proves Lindemann–Weierstrass, and `e` and `π` with it, and
-M. Karatarakis's proves Gelfond–Schneider by the one-variable method. *Coordination with Mathlib*
-below says how the roadmap treats them. The roadmap depends on no other roadmap; it consumes
-Mathlib and the Tau Ceti declarations listed below. Other roadmaps consume it by name; see
-*Downstream consumers*.
+## Scope and ownership
 
-Suggested homes:
-- `TauCeti/Analysis/Normed/Ring/InfiniteSum.lean`: products of absolutely summable families (0.1);
-- `TauCeti/Analysis/Analytic/`: sums of power series (0.2);
-- `TauCeti/Analysis/Analytic/MultiIndex/`: multi-index power series and Taylor coefficients
-  (0.3–0.5);
-- `TauCeti/Analysis/Complex/Polydisc/`: estimates on polydiscs (1.1, 1.2, the multi-index half of
-  1.4, and 1.6), with the one-variable Schwarz lemma of 1.3, the homogeneous-term half of 1.4 and
-  1.5, which hold on any complex normed space, in `TauCeti/Analysis/Complex/`;
-- `TauCeti/Analysis/Complex/ExpPolynomial/`: exponential polynomials (Layer 2);
-- `TauCeti/NumberTheory/NumberField/House/`: Liouville's inequality, sizes of algebraic numbers
-  and Siegel's lemma with a constant (3.1, 3.2, 3.3, 3.5), and the ultrametric Liouville
-  inequality of 8.2;
-- `TauCeti/NumberTheory/GeometryOfNumbers/`: the Thue–Siegel lemma (3.4), next to the packing
-  bound it resembles;
-- `TauCeti/NumberTheory/Transcendental/`: the auxiliary function, the criterion, its consequences
-  and Baker's theorem (Layers 4–7);
-- `TauCeti/Analysis/Analytic/Order.lean`: the order lemma of 1.3; `TauCeti/Analysis/Analytic/`:
-  the ultrametric Schwarz lemma of 8.2; `TauCeti/Analysis/Normed/Field/`: integral elements in an
-  ultrametric field (8.2);
-- `TauCeti/NumberTheory/Padics/`: the integer bound of 8.2, the exponential on its disc in a
-  normed field over `ℚ_p` (8.1), and the coefficient bound and the value of an exponential
-  polynomial there (8.4);
-- `TauCeti/RingTheory/PowerSeries/`: power series with many zeros (8.3), next to `GaussNorm.lean`,
-  and the derivatives of an exponential polynomial (8.4), next to `Exp.lean`;
-  `TauCeti/Algebra/Polynomial/`: `expDerivFactor` (8.4);
-  `TauCeti/RingTheory/Polynomial/HermiteInterpolation.lean`: Hermite interpolation (8.5), apart
-  from the Hermite polynomials in `TauCeti/RingTheory/Polynomial/Hermite/`;
-- `TauCeti/NumberTheory/Transcendental/Padic/`: Baker's auxiliary function over `ℂ_[p]` and
-  Baker's theorem over `ℂ_[p]` (8.6–8.10);
-- `TauCeti/Examples/`: the worked examples, normalisation checks and rejection tests.
-
-## Scope
-
-In scope:
+This roadmap owns:
 - multi-index coefficients and Taylor coefficients of analytic functions on `ι → 𝕜`, over any
   nontrivially normed field, with their basic API (Layer 0);
 - Cauchy, maximum-modulus and Schwarz estimates on polydiscs in `ι → ℂ` (Layer 1);
@@ -130,6 +90,35 @@ Not in this roadmap, and not owned by any other roadmap unless stated:
 - Weierstrass division and preparation, and the theory of Tate algebras, which the
   [Foundations of adic spaces](../AdicSpaces/README.md) roadmap owns (its §0.5). Tau Ceti already
   has Weierstrass division with Gauss-norm bounds, which 8.3 consumes.
+
+### Coordination with Mathlib
+
+Mathlib has Liouville numbers, the house of an algebraic number, Siegel's lemma over number fields,
+and the analytic half of Hermite's method for Lindemann–Weierstrass. It does not prove that `e` or
+`π` is transcendental, and it has no Gelfond–Schneider theorem. Two Mathlib formalisations cover
+part of this: Yuyang Zhao's proves Lindemann–Weierstrass, and `e` and `π` with it, and
+M. Karatarakis's proves Gelfond–Schneider by the one-variable method. This subsection says how the
+roadmap treats them. The roadmap depends on no other roadmap; it consumes Mathlib and the Tau Ceti
+declarations of *Exact supplier contracts*. Other roadmaps consume it by name; see *Downstream
+consumers*.
+
+M. Karatarakis's Mathlib formalisation of Gelfond–Schneider proves it directly, by Gelfond's
+one-variable method (Hua, *Introduction to Number Theory*, §17.9), as
+`GelfondSchneider.transcendental_cpow_of_isAlgebraic_of_irrational`. Target 6.4 takes that name and
+statement; when Mathlib has this theorem under this name, the Tau Ceti theorem is deleted in favour
+of Mathlib's. Here it is derived from the criterion, which this roadmap builds regardless. The same
+formalisation makes Siegel's constant public, which 3.5 does not need, and generalises Mathlib's
+`house_prod_le` to
+`house_prod_le {ι} (s : Finset ι) (f : ι → K) : house (∏ i ∈ s, f i) ≤ ∏ i ∈ s, house (f i)`;
+the product bound of 3.2 has that shape, and is taken from Mathlib when Mathlib has it. Its other
+house lemmas are not needed here.
+
+Yuyang Zhao's Mathlib formalisation of the Lindemann–Weierstrass theorem proves it by Hermite's
+method, and from it `transcendental_exp` (`exp a` is transcendental for algebraic `a ≠ 0`),
+`transcendental_e`, `transcendental_pi` and `transcendental_log`, stated with `IsAlgebraic ℤ` and
+`Transcendental ℤ`. Target 6.3 and the worked examples for `e` and `π` take those names and
+statements; when Mathlib has these theorems under these names, the Tau Ceti theorems are deleted in
+favour of Mathlib's. Here they are derived from the criterion.
 
 ## Conventions
 
@@ -217,9 +206,11 @@ These are fixed for every target below.
   `Mathlib/NumberTheory/Height/`) are not used: Liouville's inequality in the form 3.1 needs only
   the house, and the size bounds of 3.2 combine houses directly.
 
-## What Mathlib already has (consume)
+## Exact supplier contracts
 
 All references are to the Mathlib commit pinned by Tau Ceti.
+
+### From Mathlib
 
 - **Power series and analyticity:** `FormalMultilinearSeries`, `HasFPowerSeriesOnBall`,
   `AnalyticAt`, `AnalyticOnNhd` (`Mathlib/Analysis/Analytic/`), uniqueness of the homogeneous terms
@@ -284,14 +275,17 @@ All references are to the Mathlib commit pinned by Tau Ceti.
   zero of order at least `n` is a factor `(z - z₀) ^ n`) and
   `natCast_le_analyticOrderAt_iff_iteratedDeriv_eq_zero` (`Analysis/Analytic/Order.lean`).
 
-## What Tau Ceti already has
+### From Tau Ceti
 
 - `TauCeti.GeometryOfNumbers.box` (`TauCeti/NumberTheory/GeometryOfNumbers/Doubling.lean`), the
   closed polydisc of a given polyradius in `ι → ℂ`; see the conventions.
-- `TauCeti.GeometryOfNumbers.finite_and_ncard_le_of_subset_box_of_separated`, the same file: a
-  subset of `box r c` whose points are `ε`-separated has at most `(4 c / ε) ^ (2 · card ι)`
-  elements. It uses Waldschmidt's grid but counts its cells loosely; applied to the values of the
-  linear forms it gives 3.4 with `4` in place of `√2`. 3.4 keeps Waldschmidt's `√2`, because the
+- `TauCeti.GeometryOfNumbers.finite_and_ncard_le_of_subset_box_of_separated`, the same file: if
+  `r i > 0` for every `i`, `0 < ε ≤ c`, and `S ⊆ box r c` has any two distinct points `x, y`
+  satisfying `ε r i < ‖x i - y i‖` for some `i`, then `S` is finite with at most
+  `(4 c / ε) ^ (2 · card ι)` elements. ⚠ `ε ≤ c` is needed: for one coordinate, `r = c = 1`,
+  `ε = 5` and `S = {0}`, the bound would be `16 / 25 < 1`. It uses Waldschmidt's grid but counts
+  its cells loosely; applied to the values of the linear forms it gives 3.4 with `4` in place of
+  `√2`. 3.4 keeps Waldschmidt's `√2`, because the
   numerical conditions of 4.1 are the ones his Lemma 4.12 yields; sharpening the count in that
   lemma is the way to prove 3.4 from it.
 - `TauCeti.PowerSeries.gaussNorm_mul_of_isRestricted`
@@ -303,29 +297,17 @@ All references are to the Mathlib commit pinned by Tau Ceti.
 - `TauCeti/Analysis/Analytic/OfScalars.lean`, which extends Mathlib's `ofScalars` API, for the
   values `ofScalarsSum` of 8.3 and 8.6.
 
-## Coordination with Mathlib
+### From other roadmaps
 
-M. Karatarakis's Mathlib formalisation of Gelfond–Schneider proves it directly, by Gelfond's
-one-variable method (Hua, *Introduction to Number Theory*, §17.9), as
-`GelfondSchneider.transcendental_cpow_of_isAlgebraic_of_irrational`. Target 6.4 takes that name and
-statement; when Mathlib has this theorem under this name, the Tau Ceti theorem is deleted in favour
-of Mathlib's. Here it is derived from the criterion, which this roadmap builds regardless. The same
-formalisation makes Siegel's constant public, which 3.5 does not need, and generalises Mathlib's
-`house_prod_le` to
-`house_prod_le {ι} (s : Finset ι) (f : ι → K) : house (∏ i ∈ s, f i) ≤ ∏ i ∈ s, house (f i)`;
-the product bound of 3.2 has that shape, and is taken from Mathlib when Mathlib has it. Its other
-house lemmas are not needed here.
+None. The roadmaps named under *Scope and ownership* are named there only to draw the boundary.
 
-Yuyang Zhao's Mathlib formalisation of the Lindemann–Weierstrass theorem proves it by Hermite's
-method, and from it `transcendental_exp` (`exp a` is transcendental for algebraic `a ≠ 0`),
-`transcendental_e`, `transcendental_pi` and `transcendental_log`, stated with `IsAlgebraic ℤ` and
-`Transcendental ℤ`. Target 6.3 and the worked examples for `e` and `π` take those names and
-statements; when Mathlib has these theorems under these names, the Tau Ceti theorems are deleted in
-favour of Mathlib's. Here they are derived from the criterion.
+## How to read the build
 
----
-
-## The build, in layers
+Layers 0–2 build the analysis in several variables: multi-index Taylor coefficients, estimates on
+polydiscs, and exponential polynomials. Layer 3 is the arithmetic of algebraic numbers. Layer 4
+constructs the auxiliary function, Layer 5 proves the Schneider–Lang criterion with it, Layer 6
+derives Hermite–Lindemann and Gelfond–Schneider, and Layer 7 Baker's theorem. Layer 8 proves Baker's
+theorem over `ℂ_[p]` by Baker's own argument and uses only Layer 3 from the rest.
 
 Every statement below is expressible against Mathlib alone once `FormalMultilinearSeries.mvCoeff`,
 `mvTaylorCoeff` and `Polynomial.expDerivFactor` are defined, together with the auxiliary functions
@@ -333,639 +315,6 @@ of Layers 5 and 8 and the quantities their conditions are stated in. `Suggested.
 first three definitions, and a Lean form, under the name given here in parentheses, for every
 target that has one; the auxiliary functions and the steps of the proofs of 5.7 and 8.10 are
 specified here only.
-
-### Layer 0: multi-index power series
-
-Over a nontrivially normed field `𝕜`, values in a normed space `F`, complete where sums are formed.
-*Needs:* Mathlib only.
-
-- **0.1 Products of absolutely convergent series.** For finitely many absolutely summable families
-  `f i : κ i → R` in a complete normed commutative ring, `σ ↦ ∏ i, f i (σ i)` over
-  `σ : ∀ i, κ i` is absolutely summable with sum `∏ i, ∑' k, f i k`; Layer 0 uses it with
-  `κ i = ℕ`.
-- **0.2 Sums of power series.** If each `g n` (over an arbitrary index type) has the power series
-  `p n` on the ball of radius `r > 0` about `x`, and `(k, n) ↦ ‖p n k‖ r ^ k` is summable, then
-  `∑' n, g n` has the power series `k ↦ ∑' n, p n k` on that ball, and so is analytic at `x`.
-- **0.3 Multi-index coefficients of a formal series.** `mvCoeff p α` is the sum of
-  `p (∑ i, α i)` over the tuples of basis vectors whose coordinate counts are `α`; it vanishes on
-  the zero series, is additive and commutes with scalars in `p`. Milestones: the degree-`k` term is
-  `p k (fun _ => z) = ∑ α ∈ univ.piAntidiag k, (∏ i, z i ^ α i) • mvCoeff p α`
-  (`FormalMultilinearSeries.apply_eq_sum_mvCoeff`); the coefficients are normally summable on
-  every polydisc where `∑ (card ι) ^ k ‖p k‖ ρ ^ k` converges; **an analytic function is the sum
-  of its multi-index series** there (`HasFPowerSeriesOnBall.hasSum_mvCoeff`); conversely **a
-  normally convergent multi-index series `z ↦ ∑' α, (∏ i, z i ^ α i) • c α` has a power series on
-  the polydisc, with multi-index coefficients `c`** (`exists_hasFPowerSeriesOnBall_tsum`); and the
-  identity theorem in coefficient form: a function vanishing near a point has all coefficients
-  zero there (`HasFPowerSeriesAt.mvCoeff_eq_zero_of_eventuallyEq_zero`), and a normally convergent
-  series vanishing on a polydisc has all coefficients zero. The identity theorem comes from
-  `HasFPowerSeriesAt.apply_eq_zero` and the fact that a polynomial map `ι → 𝕜` to `F` vanishing
-  everywhere has zero coefficients (take coordinates in a basis of the span of the coefficients
-  and apply `MvPolynomial.funext`; `𝕜` is infinite). *Needs:* 0.1, 0.2.
-
-  **Checks.** On `Fin 2 → 𝕜`, with `e i = Pi.single i 1`:
-  - for the series whose only nonzero term is `p 2 (u, v) = u 0 * v 1`, `mvCoeff p (1, 1) = 1`,
-    the coefficient of `z 0 * z 1` in `p 2 (z, z) = z 0 * z 1`: the tuples `(e 0, e 1)` and
-    `(e 1, e 0)` contribute `1` and `0`, so a definition that keeps only one ordering of the basis
-    vectors can give `0`;
-  - for the series whose only nonzero term is `p 2 (u, v) = u 0 * v 0`, `mvCoeff p (2, 0) = 1`,
-    not `2`: the only tuple is `(e 0, e 0)`, and summing over the permutations of the positions
-    instead of over the tuples counts it twice;
-  - `mvCoeff p 0` is `p 0` at the empty tuple, the constant term: `0` for both series above, and
-    `c` for the series whose only nonzero term is the constant `p 0 = c`.
-- **0.4 Taylor coefficients at a point.** `mvTaylorCoeff f x α` as in the conventions, with:
-  independence of the chosen series (`HasFPowerSeriesAt.mvTaylorCoeff_eq`); the coefficient of order
-  `0` is `f x` for `f` analytic at `x`; agreement with iterated derivatives,
-  `(∏ i, (α i)!) • mvTaylorCoeff f x α = iteratedFDeriv 𝕜 (∑ i, α i) f x v` for `v` any tuple of
-  basis vectors with counts `α` (`AnalyticAt.prod_factorial_smul_mvTaylorCoeff`, from
-  `HasFPowerSeriesOnBall.iteratedFDeriv_eq_sum_of_completeSpace`), and in one variable
-  `k! • mvTaylorCoeff = iteratedDeriv k` (`AnalyticAt.factorial_smul_mvTaylorCoeff_of_unique`);
-  additivity (`AnalyticAt.mvTaylorCoeff_add`), subtraction and finite sums for functions analytic at
-  `x`; constant multiples, with no hypothesis (`mvTaylorCoeff_const_smul`), and constant functions,
-  whose only nonzero coefficient is the constant, at order `0`; **the product rule**
-  `mvTaylorCoeff (f • g) x α = ∑ β ∈ Iic α, mvTaylorCoeff f x β • mvTaylorCoeff g x (α - β)` for `f`
-  scalar and `g` vector-valued, both analytic at `x` (`AnalyticAt.mvTaylorCoeff_smul`); translation,
-  `mvTaylorCoeff (f (· + y)) x α = mvTaylorCoeff f (x + y) α` (`mvTaylorCoeff_comp_add_right`);
-  locality (functions equal near `x` have the same coefficients,
-  `Filter.EventuallyEq.mvTaylorCoeff_eq`); a monomial `∏ i, z i ^ τ i` has coefficient `1` at `τ`
-  and `0` at every other multi-index, at the origin; **the local
-  expansion**: an analytic `f` satisfies `f (x + y) = ∑' α, (∏ i, y i ^ α i) • mvTaylorCoeff f x α`
-  on some polydisc, normally convergently (`AnalyticAt.exists_hasSum_mvTaylorCoeff`); **coefficients
-  from an expansion**: any normally convergent expansion of `f (x + ·)` on a polydisc has the Taylor
-  coefficients as coefficients (`mvTaylorCoeff_eq_of_hasSum`); and **linear change of variables**:
-  if the Taylor coefficients of `G` at `A x` of total degree `k` all vanish, then so do those of
-  `G ∘ A` at `x`, for `A` a continuous linear map
-  (`ContinuousLinearMap.mvTaylorCoeff_comp_eq_zero`). ⚠ The factorial multiplies the Taylor
-  coefficient and is never inverted: in positive characteristic `α!` can vanish, and
-  `mvTaylorCoeff f x α = D^α f (x) / α!` is then false. ⚠ Vanishing of the coefficients with
-  `α i < m` in each coordinate is not preserved by a linear change of variables: with `m = 2`,
-  `z₁ ^ 2` has no coefficient of order `< 2` in both coordinates, while its image `(z₁ + z₂) ^ 2`
-  has the coefficient `2` at `(1, 1)`; only vanishing in each total degree is. *Needs:* 0.3.
-
-  **Checks** for `mvTaylorCoeff`, in one variable (`ι = Fin 1`).
-  - For `z ^ 2` at `0`, the coefficient of order `2` is `1`, while the second derivative is `2`; a
-    definition through iterated derivatives without the factorial gives `2`.
-  - For `z ^ 2` at `3`, the coefficient of order `1` is `6`, the coefficient of `w` in
-    `(3 + w) ^ 2`; a definition that expands about the origin instead of about `x` gives `0`.
-  - For `f z = 1 + conj (z 0)` over `ℂ`, which is analytic nowhere, every coefficient is `0`, and
-    in particular the coefficient of order `0` at `0` is `0`, not `f 0 = 1`.
-- **0.5 Division by a coordinate.** If the coefficients of `f` at `x` vanish whenever `α i < m`,
-  then `f (x + z) = z i ^ m • g z` with `g` analytic, on every polydisc about `0` on which the
-  expansion of `f` about `x` converges normally. The divided difference
-  `z ↦ dslope (fun w => f (Function.update z i w)) ζ (z i)`, which is
-  `(f z - f (update z i ζ)) / (z i - ζ)` off the hyperplane `z i = ζ`, is analytic at every `x`
-  at which `f` is analytic and `f` is analytic at `update x i ζ` (`analyticAt_dslope_update`);
-  **on the hyperplane** (`x i = ζ`) analyticity of `f` at `x` suffices. *Needs:* 0.4.
-
-### Layer 1: estimates on polydiscs
-
-Over `ℂ`, values in a complex normed space (Banach where sums are formed). *Needs:* Layer 0.
-
-- **1.1 Maximum modulus along a coordinate.** If `f` is analytic on the closed polydisc of radius
-  `R` and `‖f‖ ≤ C` wherever the `i`-th coordinate has modulus `R`, then `‖f‖ ≤ C` on the polydisc.
-- **1.2 Dividing by one-coordinate polynomials.** Let `g` be analytic on the closed polydisc of
-  radius `R` and `f = (∏ ζ ∈ S, (z i - ζ) ^ m) • g` there, with `‖f‖ ≤ M` and the points of the
-  finite set `S` in the closed disc of radius `r`, `0 ≤ r < R`. Then
-  `‖g‖ ≤ M / (R - r) ^ (m · card S)` on the polydisc of radius `R` and
-  `‖f‖ ≤ M (2r / (R - r)) ^ (m · card S)` on the polydisc of radius `r`. For a single power,
-  `f = z i ^ m • g`, the sharper bounds are `‖g‖ ≤ M / R ^ m` and `‖f‖ ≤ M (r / R) ^ m` on the
-  polydisc of radius `r ≤ R`. *Needs:* 1.1.
-- **1.3 Schwarz's lemma for a zero of order `T`** (one variable). If `g` is holomorphic and bounded
-  by `M` on the open disc of radius `ρ` about `c` and `(T : ℕ∞) ≤ analyticOrderAt g c`, then
-  `‖g w‖ ≤ M (‖w - c‖ / ρ) ^ T` there (`Complex.norm_le_mul_div_pow_of_le_analyticOrderAt`). For
-  `T ≥ 1` this is Mathlib's `Complex.dist_le_mul_div_pow_of_mapsTo_ball_of_isLittleO` with
-  `n = T - 1` (it bounds `dist (g w) (g c)` for `g` mapping the disc into
-  `Metric.closedBall (g c) M`, and here `g c = 0`), once `g w - g c = o (‖w - c‖ ^ (T - 1))` is
-  derived from the order
-  (`natCast_le_analyticOrderAt`; `isLittleO_sub_pow_sub_one_of_le_analyticOrderAt`, which holds
-  over any nontrivially normed field). *Needs:* Mathlib only.
-- **1.4 Cauchy's inequalities.** For `HasFPowerSeriesOnBall F p 0 R` on any complex normed space,
-  with values in a complex Banach space and `‖F‖ ≤ M` on the ball: every homogeneous term
-  satisfies `‖p n (fun _ => y)‖ ≤ M` for `‖y‖ < R`; and on `ι → ℂ`, **every multi-index
-  coefficient satisfies `‖mvCoeff p α‖ ρ ^ (∑ i, α i) ≤ M` for `0 ≤ ρ < R`**
-  (`HasFPowerSeriesOnBall.norm_mvCoeff_mul_pow_le`). The multi-index form is proved by averaging
-  the degree-`k` term against a character over the points `(ρ ω ^ j i)ᵢ` of the torus, with `ω` a
-  primitive `(k + 1)`-th root of unity: the average is exact on polynomials, so no integral in
-  several variables is needed. *Needs:* 0.3.
-- **1.5 Truncated Taylor interpolation** (Waldschmidt, Lemma 4.13). For
-  `HasFPowerSeriesOnBall F p 0 R` on any complex normed space, with values in any complex Banach
-  space and `‖F‖ ≤ M` on the ball, `‖F z - p.partialSum T z‖ ≤ (1 + T) M (‖z‖ / R) ^ T` for
-  `‖z‖ < R` (`HasFPowerSeriesOnBall.norm_sub_partialSum_le`); and on `ι → ℂ`,
-  `‖F z‖ ≤ (1 + T) M (r / R) ^ T + ∑_{k < T} ∑_{α ∈ univ.piAntidiag k} ‖mvCoeff p α‖ r ^ k` for
-  `‖z‖ ≤ r < R`. The constant is `1 + T`: Waldschmidt's `1 + √T` comes from Parseval's formula
-  and needs values in a Hilbert space, while `1 + T` follows from 1.3 and 1.4 in any Banach space
-  and is all Layer 4 uses. *Needs:* 1.3, 1.4.
-- **1.6 Schwarz's lemma for Cartesian products** (a variant of Waldschmidt, Proposition 4.7). Let
-  `ι` be nonempty with `n = card ι`, let `f` be analytic on the closed polydisc of radius `R` in
-  `ι → ℂ` with `‖f‖ ≤ M` there, and let `E i` (`i : ι`) be finite sets of exactly `S` points in
-  the closed disc of radius `r < R`. If `mvTaylorCoeff f ξ κ = 0` for every `ξ` with `ξ i ∈ E i`
-  for all `i` and every `κ` of order `< m` in each coordinate, then on the polydisc of radius `r`,
-  `‖f‖ ≤ n (4r / (R - r)) ^ (mS) K ^ n M` with `K = 1 + ∑_{k < mS} (2 (R + r) / (R - r)) ^ k`, and
-  for `5r ≤ R`, `‖f‖ ≤ n (5 · 3ⁿ r / R) ^ (mS) M` (`norm_le_of_mvTaylorCoeff_eq_zero`). The proof
-  divides one coordinate at a time in Newton form by the points of `E i`, each repeated `m` times,
-  writing `f` as a polynomial main term with constant coefficients plus one multiple of
-  `∏_{ζ ∈ E i} (z i - ζ) ^ m` for each coordinate. The vanishing forces the main term to be zero,
-  by root counting in one variable (a polynomial of degree `< m · card E` with a root of
-  multiplicity `≥ m` at each point of `E` is zero) and the injectivity of a tensor product of
-  injective maps; this adapts the argument of Waldschmidt's ideal-theoretic Lemma 4.8 to
-  operations on functions. Waldschmidt's Proposition 4.7 assumes `f` entire and `R ≥ 18ⁿ r` and
-  gives `|f|_r ≤ |f|_R (18ⁿ r / R) ^ (S₀ S₁)`; the constants here are the ones the Newton division
-  gives. *Needs:* 0.5, 1.1, 1.2, 1.3.
-
-### Layer 2: exponential polynomials
-
-*Needs:* Layer 0.
-
-- **2.1 Taylor coefficients** (Waldschmidt, Lemma 4.9, in coefficient form). For `τ : ι → ℕ` and
-  `w ξ : ι → ℂ`, `z ↦ (∏ v, z v ^ τ v) * exp (w · z)` has, at `ξ`, the Taylor coefficient
-  `exp (w · ξ) ∏ v, ∑_{j ≤ σ v} ((τ v).choose j) ξ v ^ (τ v - j) w v ^ (σ v - j) / (σ v - j)!`
-  of order `σ` (`mvTaylorCoeff_prod_pow_mul_cexp`), and its expansion about `ξ` converges
-  absolutely on every polydisc. The same holds for finite linear combinations, which have power
-  series on every polydisc about every point. *Needs:* 0.1, 0.4.
-- **2.2 Growth.**
-  `‖(∏ v, z v ^ τ v) * exp (w · z)‖ ≤ (1 + ‖z‖) ^ (∑ v, τ v) · exp ((∑ v, ‖w v‖) ‖z‖)`.
-- **2.3 Linear independence.** In one variable: if `∑_{c ∈ T} Q c (ζ) exp (c ζ) = 0` for all
-  `ζ ∈ ℂ`, with `Q c : ℂ[X]` and distinct `c`, then every `Q c = 0`. In several variables: if
-  `∑_{w ∈ T} MvPolynomial.eval z (P w) · exp (w · z) = 0` for all `z : ι → ℂ`, with distinct
-  `w`, then every `P w = 0` (`eq_zero_of_sum_eval_mul_cexp`); and both statements with the
-  frequencies given by a map injective on an arbitrary finite index set. The several-variable case
-  restricts to a line on which the frequencies stay distinct and the polynomials stay nonzero,
-  found as a nonvanishing point of a product of nonzero polynomials.
-
-### Layer 3: arithmetic
-
-Over a number field `K`. *Needs:* Mathlib only.
-
-- **3.1 Liouville's inequality.** A nonzero algebraic integer `α` satisfies
-  `1 ≤ ‖σ α‖ · house α ^ ([K : ℚ] - 1)` at every embedding `σ`
-  (`NumberField.one_le_norm_embedding_mul_house_pow`), since its field norm is a nonzero integer,
-  by `NumberField.norm_norm_le_norm_mul_house_pow`. (`one_le_house_of_isIntegral` is the weaker
-  `1 ≤ house α`.) ⚠ Integrality is needed: `α = 1 / 2` in `ℚ` has `‖α‖ = 1 / 2`.
-- **3.2 Sizes.** If `δ ^ a * α` and `δ ^ b * β` are algebraic integers of house at most `H` and
-  `H'`, then `δ ^ (a + b) * (α β)`, `δ ^ a * (α + β)` (for `a = b`), `δ ^ (a * k) * α ^ k` and
-  `δ ^ c * α` for `c ≥ a` are algebraic integers with the houses `H H'`, `H + H'`, `H ^ k` and
-  `δ ^ (c - a) H`, the last being at most `G ^ (c - a) H` when `δ ≤ G`; integers `x` have exponent
-  `0` and house `|x|`; finite sums follow (`house_sum_le_sum_house`), and so do products over an
-  indexed family (`house (∏ i ∈ s, f i) ≤ ∏ i ∈ s, house (f i)`, from the norm of the canonical
-  embedding; the pinned Mathlib `house_prod_le` covers only products of the elements of a finite
-  set). **Liouville's inequality for a number
-  of known size:** if `δ ≠ 0` and `δ ^ a * α` is a nonzero algebraic integer of house at most `H`,
-  then `1 ≤ δ ^ a ‖σ α‖ H ^ ([K : ℚ] - 1)` at every embedding
-  (`NumberField.one_le_pow_mul_norm_embedding_mul_pow`). *Needs:* 3.1.
-- **3.3 The field of the data.** Finitely many algebraic numbers in a field `L` of characteristic
-  `0` lie in `IntermediateField.adjoin ℚ S`, a number field, with a common denominator `δ ≥ 1`
-  from `exists_integral_multiples` and a common bound `G` for the houses of `δ` times each of them.
-  A number larger than such a bound is again such a bound, so `G` can be taken with `1 ≤ G` and
-  `δ ≤ G`.
-  Layer 5 uses it with `L = ℂ` and `G ≥ 1`, and Layer 8 with `L = ℂ_[p]` and `G ≥ δ` (8.7).
-- **3.4 Thue–Siegel's lemma** (Waldschmidt, Lemmas 4.11 and 4.12). Let `X ≥ 1` be an integer (for
-  real forms this follows from the count). For real forms: if `∑ᵢ |u i j| ≤ U` for every `j` and
-  `ℓ ^ (card κ) < (X + 1) ^ (card ι)` for a natural number `ℓ ≥ 1`, there is a nonzero `ξ : ι → ℤ`
-  with `|ξ i| ≤ X` and `|∑ᵢ u i j ξ i| ≤ U X / ℓ` for all `j`
-  (`ThueSiegel.exists_ne_zero_int_vec_abs_le_of_pow_lt`). For complex forms, with `ι` nonempty: if
-  `∑ᵢ ‖u i j‖ ≤ exp U` for every `j` and
-  `(√2 · X · exp (U + V) + 1) ^ (2 · card κ) ≤ (X + 1) ^ (card ι)`, there is a nonzero `ξ` with
-  `|ξ i| ≤ X` and `‖∑ᵢ u i j ξ i‖ ≤ exp (-V)`
-  (`ThueSiegel.exists_ne_zero_int_vec_norm_le_of_pow_le`). Both over arbitrary finite index types.
-  See *What Tau Ceti already has* for the packing bound.
-- **3.5 Siegel's lemma with a constant**
-  (`NumberField.house.exists_const_ne_zero_int_vec_house_le`). There is `C ≥ 1`, depending only
-  on `K`, such that every system `a` of linear equations over `𝓞 K` with at least one equation, at
-  least twice as many unknowns as equations and entries of house at most `A ≥ 1` has a nonzero
-  solution in `𝓞 K` of house at most `C · (number of unknowns) · A`. It follows from
-  `NumberField.house.exists_ne_zero_int_vec_house_le`, whose exponent is at most `1` in this
-  range; that lemma assumes `a ≠ 0`, and for `a = 0` a vector with one entry `1` is a solution.
-
-### Layer 4: the auxiliary function
-
-*Needs:* 1.4, 1.5 and 3.4.
-
-- **4.1 Proposition 4.10** (Waldschmidt, who takes the `φ_λ` entire;
-  `exists_ne_zero_int_norm_sum_le`). Let `φ_λ` (`λ` in a finite type of cardinality `L`) have power
-  series on the polydisc of radius `R` in `ι → ℂ`, with `ι` nonempty and `n = card ι`, with
-  `‖φ_λ‖ ≤ M_λ` there and `∑ M_λ ≤ exp U`. Let `N, r > 0`, put `W = N + U + V` and assume
-  `12 n² ≤ W`, `e ≤ R / r ≤ exp (W / 6)` and `(2W) ^ (n + 1) ≤ L N (log (R / r)) ^ n`. Then there
-  are integers `p_λ`, not all zero, with `|p_λ| ≤ exp N` and `‖∑ p_λ φ_λ‖ ≤ exp (-V)` on the closed
-  polydisc of radius `r`. The integers come from 3.4 applied to the Taylor coefficients of degree
-  `< T` at the origin, scaled to the radius `r` with 1.4, and the conclusion from 1.5.
-  *Needs:* 1.4, 1.5, 3.4.
-
-### Layer 5: the criterion of Schneider–Lang for `ℂ^{d₀} × (ℂˣ)^{d₁}`
-
-*Needs:* Layers 0–4.
-
-The main target is 5.7 (`SchneiderLang.exists_transcendental_of_linearIndependent`), and 5.1–5.6
-are the steps of its proof, stated without Lean names since they serve only this proof.
-
-Throughout, `d₀ ≤ n < d₀ + d₁`; `x : Fin d₁ → Fin n → ℂ` has algebraic coordinates and is linearly
-independent over `ℚ`; `y : Fin n → Fin n → ℂ` is a basis of `ℂⁿ`, with the change of variables
-`Yl z = ∑ⱼ zⱼ yⱼ` as a continuous linear equivalence; and `s · y = ∑ⱼ sⱼ yⱼ` for `s : Fin n → ℕ`.
-Towards a contradiction, the numbers `y j h` (`h < d₀`) and `exp (xᵢ · yⱼ)` are algebraic; by 3.3
-they and the coordinates of the `xᵢ` lie in a number field `K` of degree `D`, with an embedding
-`ι₀ : K →+* ℂ`, a common denominator `δ ≥ 1` and a bound `G ≥ 1` for the houses of `δ` times each
-of them. Write `A = ∑ᵢ ∑ᵥ ‖xᵢ v‖` and `A_y = ∑ⱼ ∑ᵥ ‖yⱼ v‖`.
-
-- **5.1 The auxiliary function.** For `T : ℕ` and
-  `p : (Fin d₀ → Fin (T + 1)) × (Fin d₁ → Fin (T + 1)) → ℂ`,
-  `F_p (z) = ∑_{(τ, t)} p (τ, t) (∏_{h < d₀} z_h ^ τ_h) exp ((∑ᵢ tᵢ xᵢ) · z)`, with `τ : Fin d₀ → ℕ`
-  placed in the first `d₀` coordinates of `Fin n` and `0` in the others. It is entire, and if
-  `‖p‖ ≤ e ^ N` then `‖F_p z‖ ≤ Γ (‖z‖)` (from 2.2), where
-  `Γ (ρ) = (T + 1) ^ (d₀ + d₁) e ^ N (1 + ρ) ^ (d₀ T) e ^ (T A ρ)`. *Needs:* 2.1, 2.2.
-
-  **Checks.**
-  - For `T = 0` the only index is `(0, 0)`, and `F_p` is the constant `p (0, 0)`; `Γ` is then
-    `e ^ N` for every `ρ`, which the constant `p (0, 0) = e ^ N` attains.
-  - For `n = 2`, `d₀ = d₁ = 1`, `x₁ = (0, 1)`, `T = 1` and `p` the indicator of
-    `(τ, t) = (1, 1)`, `F_p (z) = z 0 * exp (z 1)`: the monomial sits in the first coordinate,
-    and the frequency is `x₁`.
-  - For `n = 1`, `d₀ = 0`, `d₁ = 1`, `x₁ = 1`, `N = 0`, `T = 2` and `p` the indicator of `t = 2`,
-    `F_p (z) = exp (2 z)` and `Γ (ρ) = 3 e ^ (2 ρ)`; a bound with `e ^ (A ρ)` in place of
-    `e ^ (T A ρ)` would be `3 e ^ ρ`, smaller than `F_p (ρ) = e ^ (2 ρ)` for `ρ > log 3`.
-- **5.2 The Taylor coefficients at `s · y` are algebraic, of explicit size** (Waldschmidt §4.6,
-  step 2, with his Lemma 4.9). For integers `p` with `|p| ≤ e ^ N`, for `sⱼ ≤ S₁` and for `σ` of
-  total degree `M`, the number `σ! · mvTaylorCoeff F_p (s · y) σ` is `ι₀ θ` for some `θ ∈ K` such
-  that `δ ^ a θ` is an algebraic integer of house at most `H`, where `a (M) = d₀ T + M + d₁ n T S₁`
-  and `H (M) = (T + 1) ^ (d₀ + d₁) δ ^ a e ^ N (δ² M + n S₁ G + 1) ^ (d₀ T) (d₁ T G + 1) ^ M ·
-  G ^ (d₁ n T S₁)`. *Needs:* 2.1, 3.2, 3.3.
-
-  **Checks.**
-  - For `d₀ = d₁ = n = T = S₁ = 1`, `a (2) = 1 + 2 + 1 = 4`; without the derivative order it
-    would be `2`.
-  - For `T = 0`, `a (0) = 0` and `H (0) = e ^ N`: `F_p` is the integer constant `p (0, 0)`, of
-    house `|p (0, 0)| ≤ e ^ N`. For `d₀ = 0`, `d₁ = n = T = S₁ = 1`, `a (0) = 1` and
-    `H (0) = 2 δ e ^ N G`, which bounds the house of `δ (p 0 + p 1 ε ^ s)` for `s ≤ 1`, with
-    `ε = exp (x₁ · y₁)` and `δ ε` of house at most `G`: it is at most `δ e ^ N + e ^ N G`.
-  - For `d₀ = d₁ = n = T = S₁ = δ = 1`, `G = 1` and `N = 0`, `H (M) = 4 (M + 2) 2 ^ M`, which is
-    `8`, `24` and `64` at `M = 0, 1, 2`.
-- **5.3 Liouville's inequality for these coefficients** (step 2, inequality (4.14)). A nonzero
-  `c = mvTaylorCoeff F_p (s · y) σ` satisfies `1 ≤ Λ (M) ‖c‖` with
-  `Λ (M) = M ^ M δ ^ a H ^ (D - 1)`; the `M ^ M` bounds `σ!`. *Needs:* 3.2, 5.2.
-
-  **Checks.**
-  - For `D = 1` and `M = 0`, `Λ (0) = δ ^ a` (with `0 ^ 0 = 1`): Liouville's inequality over `ℚ`,
-    `|θ| ≥ δ ^ (-a)` for a nonzero rational `θ` with `δ ^ a θ` an integer.
-  - With the data of the last check of 5.2 and `D = 2`, `Λ` is `8`, `24` and `256` at
-    `M = 0, 1, 2`: the factor `M ^ M` appears only at `M = 2`, and the exponent `D - 1 = 1` keeps
-    one factor `H`.
-  - At `M = 2`, `M ^ M = 4` bounds `σ! ∈ {1, 2}` for every `σ` of total degree `2`.
-- **5.4 The auxiliary function is not zero.** If `p ≠ 0`, some Taylor coefficient of `F_p` at `0`
-  is nonzero: the frequencies `∑ᵢ tᵢ xᵢ` are distinct because the `xᵢ` are `ℚ`-linearly
-  independent, the monomials `z ^ τ` are distinct, and 2.3 applies. ⚠ The independence is needed:
-  if `x₂ = 2 x₁`, the terms for `t = (2, 0)` and `t = (0, 1)` are equal, and `p` with values `1`
-  and `-1` there gives `F_p = 0`. *Needs:* 2.3, 5.1.
-- **5.5 The argument, with the parameters as hypotheses** (Waldschmidt §4.6, steps 3 to 6). Let
-  `T, S₀`, `S₁ ≥ 1`, `N > 0`, `U`, `r`, `R` and `E : ℕ → ℝ` with `E ≥ 1` satisfy:
-  1. the conditions of 4.1 for the `(T + 1) ^ (d₀ + d₁)` monomials of 5.1 on the polydisc of
-     radius `R`, with `V = U` and `M_λ = (1 + R) ^ (d₀ T) e ^ (T A R)`;
-  2. `S₁ A_y + 2 ≤ r`;
-  3. **vanishing:** `Λ (M) · e ^ (-U) < 1` for every `M ≤ n S₀`;
-  4. **extrapolation:** `Λ (M) · n E (M) ^ (-⌊M / n⌋ S₁) · Γ (ρ_M) < 1` for every `M ≥ S₀`, where
-     `ρ_M = A_y · 5 · 3ⁿ E (M) (S₁ + 2 ‖Yl⁻¹‖)`.
-
-  Then the data cannot all be algebraic. The steps: 4.1 gives integers `p` with `‖F_p‖ ≤ e ^ (-U)`
-  on the polydisc of radius `r`; by 1.4 on a polydisc about each point `s · y` with `sⱼ < S₁`,
-  which lies inside that polydisc by (2), and by 5.3 with (3), every Taylor coefficient at these
-  points of total degree at most `n S₀` vanishes; by 5.4 there is a least total degree `M₀`,
-  necessarily `M₀ > n S₀ ≥ S₀`, at which some coefficient at some `s · y` is nonzero. Then
-  `z ↦ F_p (Yl z)` vanishes at the points `s` in each total degree `< M₀` (0.4), hence to order
-  `⌊M₀ / n⌋` in each coordinate, and 1.6 with 1.4 bounds that coefficient from above, which
-  contradicts 5.3 by (4). The order is measured by **total degree** because the change of
-  variables `Yl` preserves vanishing in each total degree but not in each coordinate (0.4);
-  Waldschmidt's step 5 measures it in each coordinate. *Needs:* 0.4, 1.4, 1.6, 4.1,
-  5.1–5.4.
-
-  **Checks.**
-  - In (4), `⌊M / n⌋ S₁` is a natural number: for `n = 2`, `M = 3` and `S₁ = 1` it is `1`, not
-    `3 / 2`.
-  - Parameters with `N = 0`, or with `E (0) = 0`, are not admissible, whatever the rest.
-  - For `n = 2` and `M₀ = 3`, the only `κ` with `κ i < ⌊3 / 2⌋ = 1` in each coordinate is
-    `(0, 0)`, of total degree `0 < 3`; every `κ` with `κ i < ⌊M₀ / n⌋` has total degree
-    `< n ⌊M₀ / n⌋ ≤ M₀`, which is how vanishing in each total degree `< M₀` gives vanishing to
-    order `⌊M₀ / n⌋` in each coordinate.
-- **5.6 The choice of parameters** (Waldschmidt §4.6, step 6). For fixed `n`, `d₀`, `d₁`, `D`,
-  `δ`, `G`, `A`, `A_y` and `B = ‖Yl⁻¹‖` there are parameters satisfying (1)–(4) of 5.5. With
-  `d = d₀ + d₁`, `c₃ = 1 / (4 D 6 ^ (n + 1))`, `K₁ = ⌈8 (n d + D n²) / c₃⌉ + 1`,
-  `S₁ = ⌈2 n d (2 + D n / d + c₃ K₁ / d)⌉ + 1` and `r = S₁ A_y + 3`, every sufficiently large
-  integer `q` gives admissible parameters `T = q ^ n`, `U = c₃ q ^ d log q`, `N = U / (4 D)`,
-  `S₀ = ⌊q ^ d / K₁⌋`, `R = q r` and `E (M) = exp (log M / d)`, which is `M ^ (1 / d)` for `M ≥ 1`
-  and `1` at `M = 0`. Each condition becomes a comparison of powers of `q` and `log q`, and it is
-  here that `n < d` is used. These are not Waldschmidt's values, which are `T₀ = T₁ = T`,
-  `S₀ = c₀ T ^ (d / n) / S₁` and `E = S₀ ^ ((d - n) / d)` (his step 6). *Needs:* the
-  quantities of 5.1–5.3.
-
-  **Checks**, for `n = d₀ = d₁ = D = δ = G = 1` and `A = A_y = B = 0`, so `d = 2`.
-  - `c₃ = 1 / 144`, `K₁ = 3457` and `S₁ = 60`.
-  - `q = 1` gives `U = 0`, hence `N = 0`, which (1) excludes.
-  - `q = 2` gives `R / r = 2 < e`, which (1) excludes: "sufficiently large" is needed.
-- **5.7 Corollary 4.2** (`SchneiderLang.exists_transcendental_of_linearIndependent`). Let
-  `d₀ ≤ n < d₀ + d₁`, let `x₁, …, x_{d₁} ∈ ℂⁿ` be linearly independent over `ℚ` with algebraic
-  coordinates, and let `y₁, …, yₙ` be a basis of `ℂⁿ` over `ℂ`. Then one of the numbers `y j h`
-  (`h < d₀`) and `exp (xᵢ · yⱼ)` is transcendental. *Needs:* 3.3, 5.5, 5.6.
-
-### Layer 6: consequences of the criterion
-
-*Needs:* 5.7.
-
-- **6.1 The case `d₀ = 0`** (Waldschmidt, Corollary 4.3, in the form with `ℚ`-linearly independent
-  `xᵢ`; `SchneiderLang.exists_transcendental_exp_of_span_eq_top`). If `x₁, …, x_d ∈ ℂⁿ` have
-  algebraic coordinates and are linearly independent over `ℚ` with `n + 1 ≤ d`, and
-  `y₁, …, y_ℓ` span `ℂⁿ` over `ℂ`, then some `exp (xᵢ · yⱼ)` is transcendental. The `yⱼ` need not
-  be a basis: extract one from them (`exists_linearIndependent'`) and apply 5.7 with `d₀ = 0`,
-  `d₁ = d`. *Needs:* 5.7.
-- **6.2 The case `d₀ = 1`, `d₁ = n = d`** (Waldschmidt, Corollary 4.4;
-  `SchneiderLang.exists_transcendental_exp_of_isAlgebraic_coord`). If `x₁, …, x_d ∈ ℂᵈ` have
-  algebraic coordinates and are linearly independent over `ℚ`, and `y₁, …, y_d` is a basis of `ℂᵈ`
-  with algebraic first coordinates, then some `exp (xᵢ · yⱼ)` is transcendental.
-  *Needs:* 5.7.
-- **6.3 Hermite–Lindemann** (`transcendental_of_isAlgebraic_exp`). If `x ≠ 0` and `exp x` is
-  algebraic, then `x` is transcendental. In the names and forms of Yuyang Zhao's Mathlib
-  formalisation, over `ℤ`: `exp a` is transcendental for algebraic `a ≠ 0` (`transcendental_exp`),
-  and so is `Complex.log u` for algebraic `u` with `Complex.log u ≠ 0` (`transcendental_log`).
-  Hence `e` and `π` are transcendental (`transcendental_e`, `transcendental_pi`). ⚠ `x ≠ 0` is
-  needed: `exp 0 = 1`. *Needs:* 6.2 with `d = 1`.
-- **6.4 Gelfond–Schneider** (`transcendental_exp_mul`). If `x ≠ 0` and `exp x` is algebraic, and
-  `b` is algebraic and not rational, then `exp (b x)` is transcendental. With Mathlib's principal
-  branch, in the name and form of M. Karatarakis's Mathlib formalisation
-  (`GelfondSchneider.transcendental_cpow_of_isAlgebraic_of_irrational`): `a ^ b` is transcendental
-  for algebraic `a, b` with `a ≠ 0 ∧ a ≠ 1` and `∀ i j : ℤ, b ≠ i / j`. Hence a quotient `y / x`
-  of logarithms of algebraic numbers, `x ≠ 0`, is rational or transcendental
-  (`exists_rat_eq_div_or_transcendental`); in particular so is `Complex.log a / Complex.log b` for
-  algebraic `a, b` with `Complex.log b ≠ 0`. ⚠ The exponent must be irrational:
-  `4 ^ (1 / 2) = 2`; and the quotient can be rational: `log 4 / log 2 = 2`. *Needs:* 6.1
-  with `n = 1`, `d = 2`.
-
-### Layer 7: Baker's theorem
-
-*Needs:* Layer 6.
-
-- **7.1 Theorem 4.5** (Waldschmidt; `Baker.eq_zero_of_isAlgebraic_sum_mul`). If `β₁, …, β_d` is a
-  `ℚ`-basis of a number field `K ⊆ ℂ` of degree `d`, and `l₁, …, l_d` are logarithms of algebraic
-  numbers with `∑ βᵢ lᵢ` algebraic, then every `lᵢ = 0`. The proof is Bertrand and Masser's: it
-  applies 6.1 or 6.2 to the conjugates of the `βᵢ` and needs the invertibility of the matrix of
-  embeddings of a basis (Waldschmidt's Lemma 4.6; see *Discriminants* above), twice: once to set
-  up the criterion, and once to pass from its conclusion to `lᵢ = 0`, a step Waldschmidt's §4.2
-  leaves implicit. *Needs:* 6.1, 6.2.
-- **7.2 Baker's theorem** (Waldschmidt, Theorem 1.6; Baker, Theorem 2.1;
-  `Baker.eq_zero_of_add_sum_mul_eq_zero`). If `l₁, …, lₙ` are logarithms of algebraic numbers,
-  linearly independent over `ℚ`, and `β₀ + ∑ βᵢ lᵢ = 0` with algebraic `β₀, βᵢ`, then `β₀ = 0`
-  and every `βᵢ = 0`; and the same for a family indexed by a finite set
-  (`Baker.eq_zero_of_add_sum_mul_eq_zero_of_linearIndepOn`). ⚠ The `ℚ`-linear independence is
-  needed: `2 log 2 - log 4 = 0`. *Needs:* 7.1.
-- **7.3 Corollaries** (Baker, *Transcendental Number Theory*, Theorems 2.2–2.4; his Theorem 2.1 is
-  7.2). For logarithms `lᵢ` of algebraic numbers and algebraic `βᵢ`: a nonzero `∑ βᵢ lᵢ` is
-  transcendental (`Baker.transcendental_sum_mul`), equivalently `β₀ + ∑ βᵢ lᵢ ≠ 0` for algebraic
-  `β₀ ≠ 0`, with no independence hypothesis (`Baker.add_sum_mul_ne_zero`; Theorem 2.2);
-  `exp (β₀ + ∑ βᵢ lᵢ)` is transcendental for algebraic `β₀ ≠ 0`
-  (`Baker.transcendental_exp_add_sum_mul`; Theorem 2.3, which Baker states with every `βᵢ`
-  nonzero, although only `β₀ ≠ 0` is used); and for a nonempty family, `exp (∑ βᵢ lᵢ)` is
-  transcendental when the `lᵢ` are nonzero and `1, β₁, …, βₙ` are linearly independent over `ℚ`
-  (`Baker.transcendental_exp_sum_mul`; Theorem 2.4, and Waldschmidt's corollary to Theorem 1.6),
-  by 7.2 applied to a `ℚ`-basis of the span of the `lᵢ`. In Mathlib's principal branch,
-  `α₁ ^ β₁ ⋯ αₙ ^ βₙ` is transcendental for algebraic `αᵢ ≠ 0, 1` under the same hypothesis on the
-  `βᵢ` (`Baker.transcendental_prod_cpow`); it is the case of principal logarithms `lᵢ`, and does
-  not give the branch-free form: `l = 2πi` and `β = √2` have `exp l = 1`, while
-  `exp (β l) ≠ 1 = 1 ^ √2`. ⚠ Irrationality of each `βᵢ` is not enough:
-  `2 ^ √2 · 2 ^ (-√2) = 1`. *Needs:* 7.2.
-
-### Layer 8: Baker's theorem over `ℂ_[p]`
-
-*Needs:* 3.2, 3.3 and 3.5, Mathlib, and the Tau Ceti declarations listed above; nothing else from
-the complex part.
-
-The main target is 8.10 (`PadicBaker.eq_zero_of_add_sum_mul_eq_zero`). 8.1–8.5 hold in general
-ultrametric settings, and 8.6–8.9 are the steps of the proof of 8.10, stated without Lean names
-since they serve only this proof. Brumer carried Baker's method over to `ℂ_p`; the statement here,
-with the constant term `β₀`, is proved by the argument of Chapter 2 of Baker's book, which handles
-`β₀`. That chapter is the route: Lemmas 1–7 and §5, with the maximum modulus principle replaced
-by the ultrametric inequality and Liouville's inequality taken at the embedding into `ℂ_[p]`.
-Write `ρ = p ^ (-1 / (p - 1))`.
-
-- **8.1 The exponential on its disc.** In a normed field `L` over `ℚ_[p]`, a nonzero natural
-  number has `‖n‖ = p ^ (-v_p (n))` (Mathlib's `norm_algebraMap'`,
-  `Padic.norm_eq_zpow_neg_valuation` and `Padic.valuation_natCast`), so by Legendre's formula
-  (`sub_one_mul_padicValNat_factorial`) `‖n!‖ ≥ p ^ (-n / (p - 1))`, and for nontrivially normed
-  `L` the radius of `expSeries` is at least `ρ` (`PadicExp.le_radius_expSeries`). If `L` is also
-  complete, then for `‖x‖, ‖y‖ < ρ`: `exp (x + y) = exp x · exp y`
-  (`PadicExp.exp_add`, from Mathlib's `NormedSpace.exp_add_of_mem_ball` and the radius),
-  `‖exp x - 1‖ = ‖x‖` (`PadicExp.norm_exp_sub_one`), hence `‖exp x‖ = 1`, and `exp` is injective
-  on the disc (`PadicExp.injOn_exp`); `exp (n • x) = exp x ^ n`, and `exp` of a finite sum in the
-  disc is the product. ⚠ At `p = 2` the point `2` has `‖2‖ = ρ` and the series diverges there.
-  *Needs:* Mathlib only.
-- **8.2 Liouville's inequality at an ultrametric place.** An element integral over `ℤ` has norm at
-  most `1` in an ultrametric normed field (`IsUltrametricDist.norm_le_one_of_isIntegral`, from
-  `Valuation.Integers.mem_of_integral` and `NormedField.valuation`); a nonzero integer has
-  `1 ≤ |n| ‖n‖` in `ℚ_[p]` (`Padic.one_le_abs_mul_norm_intCast`), hence, by `norm_algebraMap'`,
-  in every normed field over `ℚ_[p]`. In an ultrametric, algebraically closed
-  normed field `L` with that property, if `δ ^ a * x` is a nonzero algebraic integer of house at
-  most `H`, then `1 ≤ H ^ [K : ℚ] ‖σ x‖` at every embedding `σ : K →+* L`
-  (`NumberField.one_le_pow_mul_norm_embedding_of_isUltrametricDist`): the field norm of `δ ^ a * x`
-  is a nonzero integer of absolute value at most `H ^ [K : ℚ]` (`Algebra.norm_eq_prod_embeddings`),
-  and all its conjugates in `L` have norm at most `1`. The ultrametric form of Schwarz's lemma: if
-  `f` has the power series `q` about `0`, the terms of degree `< T` vanish and `‖q n‖ r ^ n ≤ M`,
-  then `‖f z‖ ≤ M (‖z‖ / r) ^ T` for `‖z‖ ≤ r` in the ball of convergence
-  (`HasFPowerSeriesOnBall.norm_le_mul_div_pow_of_isUltrametricDist`). ⚠ The exponent is `[K : ℚ]`,
-  not `[K : ℚ] - 1` as at an archimedean place (3.1): `x = p` in `ℚ` has `‖p‖ = 1 / p`.
-  *Needs:* Mathlib only.
-- **8.3 Many zeros in the unit disc force small coefficients**
-  (`PowerSeries.norm_coeff_le_of_ofScalarsSum_iterate_derivative_eq_zero`). Over a complete
-  ultrametric field `K` of characteristic `0`: if `f : PowerSeries K` has `‖coeff k f‖ r ^ k ≤ M`
-  for all `k` with `r > 1`, and `f` vanishes to order `S` (the values of its formal derivatives of
-  order `< S`, by `ofScalarsSum`, vanish) at every point of a finite set `A` with `‖a‖ ≤ 1`, then
-  `‖coeff k f‖ ≤ M r ^ (-(card A · S))` for every `k`; and the same bound holds for the value of `f`
-  at every `x` with `‖x‖ ≤ 1`
-  (`PowerSeries.norm_ofScalarsSum_le_of_ofScalarsSum_iterate_derivative_eq_zero`). Take
-  `1 < r' < r`: the bound makes `f` restricted at the radius `r'` (its coefficients times `r' ^ k`
-  tend to `0`), which the bound at `r` itself need not give. Divide `f` at the radius `r'` by the
-  distinguished polynomial `∏_{a ∈ A} (X - a) ^ S` (Tau Ceti's Weierstrass division). The remainder
-  has degree `< card A · S` and vanishes to order `S` at each `a`, so it is zero, and Gauss-norm
-  multiplicativity at the radii `1` and `r'` gives `‖coeff k f‖ ≤ M r' ^ (-(card A · S))`, since
-  `‖X - a‖` is `1` at radius `1` and `r'` at radius `r'`; let `r'` tend to `r`. This takes the place
-  of the maximum-modulus step in Baker's Lemmas 4 and 5: each zero gains a factor `r`, where Baker
-  gains a factor growing with `h`. *Needs:* Mathlib and the Tau Ceti files listed above.
-- **8.4 Exponential polynomials as power series.** Over a commutative ring,
-  `expDerivFactor c m = (D + c) ^ m`, a linear map on polynomials (`Polynomial.expDerivFactor`),
-  with `expDerivFactor c 0 P = P` and the recursion
-  `expDerivFactor c (m + 1) P = D (expDerivFactor c m P) + c · expDerivFactor c m P`, the
-  binomial form `∑_{j ≤ m} (m choose j) c ^ (m - j) P⁽ʲ⁾` (`Polynomial.expDerivFactor_eq_sum`),
-  and degree at most that of `P` (`Polynomial.natDegree_expDerivFactor_le`); in an ultrametric
-  field its coefficients are at most `max 1 ‖c‖ ^ m` times a bound for those of `P`
-  (`Polynomial.norm_coeff_expDerivFactor_le`). Over a commutative `ℚ`-algebra, `Q (X) exp (ψ X)` is
-  `(Q : PowerSeries A) * rescale ψ (exp A)`, and its `m`-th formal derivative is
-  `expDerivFactor ψ m Q · exp (ψ X)` (`PowerSeries.iterate_derivative_coe_mul_rescale_exp`). In a
-  normed field `L` over `ℚ_[p]`: if `‖Q.coeff j‖ r ^ j ≤ M` for all `j` and `‖ψ‖ r ≤ ρ`, then the
-  coefficients `c k` of `Q (X) exp (ψ X)` satisfy `‖c k‖ r ^ k ≤ M`, since `‖ψ ^ k / k!‖ r ^ k ≤ 1`
-  by 8.1 (`PowerSeries.norm_coeff_coe_mul_rescale_exp_mul_pow_le`); and if `L` is complete, the
-  series sums to `Q (x) exp (ψ x)` when `‖ψ x‖ < ρ`
-  (`PowerSeries.hasSum_coeff_coe_mul_rescale_exp`). *Needs:* 8.1.
-
-  **Checks** for `expDerivFactor`.
-  - `expDerivFactor c 1 X = 1 + c X`; the wrong sign, `(D - c)`, gives `1 - c X`.
-  - `expDerivFactor 0 m P` is the `m`-th derivative of `P`: `expDerivFactor 0 2 (X ^ 3) = 6 X`.
-  - `expDerivFactor c m 1 = c ^ m`, a constant: the derivative of a constant contributes nothing.
-- **8.5 Hermite interpolation with ultrametric bounds** (Baker, Lemma 7;
-  `Polynomial.exists_iterate_derivative_eval_eq_ite_of_isUltrametricDist`). For points `σ i` of norm
-  at most `1` with `‖σ i - σ j‖ ≥ ϱ` for `i ≠ j`, `0 < ϱ ≤ 1`, and `s < S`, there is a polynomial
-  `W` whose derivatives of order `< S` at the points vanish except the `s`-th at `σ r`, which is
-  `1`, with every coefficient at most `‖1 / s!‖ ϱ ^ (-(card ι · S))`. ⚠ `‖1 / s!‖ = p ^ (v_p (s!))`
-  is at least `1`, unlike at an archimedean place. *Needs:* Mathlib only.
-- **8.6 Baker's auxiliary function on the diagonal.** Suppose, to be refuted,
-  `ℓ none = β₀ + ∑ r, β r ℓ (some r)` for `ℓ : Option (Fin k) → ℂ_[p]` in the disc. For `P` indexed
-  by `d ≤ L` and `e : Option (Fin k) → Fin (L + 1)`, the derivative `f_m` of order `m` of Baker's
-  function `∑ P (d, e) z₀ ^ d exp (e_none β₀ z₀) ∏_r exp ((e_r + e_none β_r) ℓ_r z_r)`,
-  restricted to the diagonal, is a power series `f_m`, a sum of the exponential polynomials of 8.4
-  at the frequencies `ψ_e = ∑_o e_o ℓ_o`: the term of `(d, e)` is `P (d, e)` times
-  `(∏_r (γ_r ℓ_r) ^ m_r) expDerivFactor (e_none β₀) m_none (X ^ d)` times `exp (ψ_e X)`. The
-  relation gives `D f_m = ∑_o f_{m + e_o}`, and nothing else in 8.6 or 8.7 uses it: the series
-  `f_m` are defined for every `ℓ` in the disc and all `β₀`, `β`, and at a natural number `l`
-
-      f_m (l) = (∏_r ℓ_r ^ m_r) ∑_(d, e) P (d, e) (∏_r γ_r ^ m_r)
-                  expDerivFactor (e_none β₀) m_none (X ^ d) (l) ∏_o exp (ℓ_o) ^ (e_o l)
-
-  with `γ_r = e_r + e_none β_r`. *Needs:* 8.1, 8.4.
-
-  **Checks.**
-  - `ψ_0 = 0`, and `ψ_e = ℓ_o` for `e` the indicator of `o`; for `k = 1`, `e_none = 2` and
-    `e_0 = 3`, `ψ_e = 2 ℓ_none + 3 ℓ_0`.
-  - `γ_r = e_r` when `e_none = 0`, and `γ_r = β_r` for `e` the indicator of `none`. Under the
-    relation, `ψ_e = e_none β₀ + ∑_r γ_r ℓ_r`, which is how the relation gives `D f_m`.
-  - For `m = 0` the polynomial factor of the term of `(d, e)` is `X ^ d`, and for `m` the
-    indicator of `none` it is `d X ^ (d - 1) + e_none β₀ X ^ d`. For `k = 0`, `L = 1` and `P` the
-    indicator of `(d, e) = (0, 1)`, `f_0 = rescale ℓ_none (exp ℂ_[p])`, the series of
-    `exp (ℓ_none z)`, and `f_1 = β₀ · rescale ℓ_none (exp ℂ_[p])`; the second is the derivative of
-    the first exactly when `ℓ_none = β₀`, the relation for `k = 0`.
-- **8.7 The arithmetic** (Baker, Lemmas 2, 3 and 6). The data are: a number field `K` with an
-  embedding `ι₀ : K →+* ℂ_[p]`; `ℓ` in the disc, `β₀` and `β`, with `αK o`, `βK r` and `βK₀` in `K`
-  such that `ι₀ (αK o) = exp ℓ_o`, `ι₀ (βK r) = β r` and `ι₀ βK₀ = β₀`; and a natural number `δ`
-  and a real number `G` with `1 ≤ δ ≤ G`, such that `δ` times each of `αK o`, `βK r`, `βK₀` is an
-  algebraic integer of house at most `G`. The relation of 8.6 is not assumed. The inequality
-  `δ ≤ G` is a hypothesis of each of (a), (b) and (c), and the house bounds do not imply it: the
-  proofs bring numbers of different exponents to a common exponent, and bound the powers of `δ`
-  that this costs by powers of `G` (3.2). It gives `G ≥ 1`. For `P (d, e)` in `K` write
-
-      A_m (l) = ∑_(d, e) P (d, e) (∏_r γK_r ^ m_r)
-                  expDerivFactor (e_none βK₀) m_none (X ^ d) (l) ∏_o αK_o ^ (e_o l)
-
-  with `γK_r = e_r + e_none βK_r`, an element of `K`; by the formula of 8.6, the series `f_m` with
-  the coefficients `ι₀ (P (d, e))` has `f_m (l) = (∏_r ℓ_r ^ {m_r}) ι₀ (A_m (l))`.
-  (a) **Lemma 3:** if every `P (d, e)` is an algebraic integer (`IsIntegral ℤ (P (d, e))`) with
-  `house (P (d, e)) ≤ H_P`, then for `l ≥ 1` the size of `A_m (l)` in the sense of 3.2 has exponent
-  `∑ m + (k + 1) L l` and house at most
-  `(L + 1) ^ (k + 2) H_P (L + 1) l ^ L (2 L G) ^ (∑ m) G ^ ((k + 1) L l)`. ⚠ Integrality of the
-  `P (d, e)` is needed, and a bound for their houses does not give it: for `K = ℚ`, `δ = 1`,
-  `k = 0`, `L = l = 1`, `m = 0`, `αK = 4`, `βK₀ = 0`, `G = 4` (with `p = 3` and `ℓ` the point of
-  the disc with `exp ℓ = 4`) and `P` zero except for `P (0, 0) = 1 / 2`, the sum is
-  `A_0 (1) = 1 / 2`, and no power of `δ = 1` times it is an algebraic integer;
-  (b) **Lemma 2:** let `L, h ≥ 1` with `2 ((h ^ 2 + 1) ^ (k + 1) h) ≤ (L + 1) ^ (k + 2)`, and let
-  `C` be the constant of 3.5 for `K`. There are `P (d, e)` in `𝓞 K`, not all zero, of house at most
-  `C (L + 1) ^ (k + 2) E`, with `A_m (l) = 0`, and so `f_m (l) = 0`, for all `m o ≤ h ^ 2` and
-  `1 ≤ l ≤ h`. Here `E = G ^ a (L + 1) h ^ L (2 L G) ^ ((k + 1) h ^ 2) G ^ ((k + 1) L h)` with
-  `a = (k + 1) h ^ 2 + (k + 1) L h`: 3.5 is applied to the equations `A_m (l) = 0`
-  multiplied by `δ ^ a`, whose coefficients are algebraic integers by the sizes computed for (a),
-  and `G ^ a` bounds the powers of `δ` that this brings in, by `δ ≤ G`. These `P (d, e)` are
-  algebraic integers, so (a) applies to them, with this bound for their houses as `H_P`. Baker's
-  Lemma 2 asks only `∑ m ≤ h ^ 2`, and solves over `ℤ` rather than over `K`;
-  (c) **Lemma 6:** if `ℓ` is linearly independent over `ℚ`, distinct frequencies are far apart:
-  `((2 G ^ ((k + 1) L)) ^ [K : ℚ])⁻¹ ≤ ‖ψ_e - ψ_e'‖` for `e ≠ e'` with entries at most `L`,
-  by 8.1 and 8.2 applied to `∏ α_o ^ {e_o} - ∏ α_o ^ {e'_o}`.
-  ⚠ `δ ≤ G` is needed: for `p = 3`, `K = ℚ`, `k = 0`, `L = 1`, `αK = 1 / 4`, `βK₀ = 0`, `δ = 4`,
-  `G = 1` and `ℓ` the point of the disc with `exp ℓ = 1 / 4`, so that
-  `‖ℓ‖ = ‖exp ℓ - 1‖ = 1 / 3` (8.1), every other hypothesis holds, and `e = 0`, `e' = 1` would give
-  `1 / 2 ≤ 1 / 3`.
-  *Needs:* 3.2, 3.3, 3.5, 8.1, 8.2, 8.6.
-
-  **Checks** for `E`.
-  - For `k = 0` and `L = h = 1`, `E = G ^ 2 · (2 · 1 · 2 G · G) = 4 G ^ 4`: `4` at `G = 1` and `64`
-    at `G = 2`, where leaving out the factor `G ^ a` would give `16`.
-  - At `G = 1`, `E = (L + 1) h ^ L (2 L) ^ ((k + 1) h ^ 2)`.
-  - The factor after `G ^ a` is the bound of (a) for a single term, with `H_P = 1`, `l = h` and
-    `∑ m = (k + 1) h ^ 2`, without the count `(L + 1) ^ (k + 2)` of the terms.
-- **8.8 The argument, with the parameters as hypotheses** (Baker, Lemmas 4 and 5 and §5). Take
-  the data of 8.7, with
-  `1 ≤ δ ≤ G`, and `ℓ` linearly independent over `ℚ`. Let `r₀ > 1` with `‖ℓ_o‖ r₀ ≤ ρ`, `B ≥ 1` a
-  bound for the `β`'s, `0 < lmin ≤ ‖ℓ_o‖`, `C` the constant of 3.5 and `D = [K : ℚ]`, and write
-  `E` as in 8.7(b) and `Π = C (L + 1) ^ (k + 2) E`. The conditions on `L, h ≥ 1`, `Kmax`
-  and the sequences `S J`, `R J` are:
-  1. `2 ((h ^ 2 + 1) ^ (k + 1) h) ≤ (L + 1) ^ (k + 2)` (the count of 8.7(b));
-  2. `S 0 ≤ h ^ 2`, `R 0 ≤ h`, and `2 S (J + 1) ≤ S J` for `J < Kmax`;
-  3. **extrapolation**, for `J < Kmax`, with `S' = S (J + 1)` and `R' = R (J + 1)`:
-     `B ^ S' r₀ ^ L ((L + 1) ^ (k + 2) Π (L + 1) R' ^ L (2 L G) ^ S' G ^ ((k + 1) L R')) ^ D <
-     lmin ^ S' r₀ ^ (R J S')`;
-  4. **final:** `Π ^ D p ^ L (2 G ^ ((k + 1) L)) ^ (D (L + 1) ^ (k + 2)) r₀ ^ L <
-     r₀ ^ (R Kmax S Kmax)`.
-
-  They are incompatible with the relation of 8.6. The steps: Lemma 2 gives algebraic integers
-  `P`, not all zero, of house at most `Π`, so that 8.7(a) applies with `H_P = Π`; by induction on
-  `J ≤ Kmax`, `f_m (l) = 0` for `∑ m ≤ S J` and `1 ≤ l ≤ R J` (for `J + 1`: by `D f_m` in 8.6 the
-  series `f_m` with `∑ m ≤ S (J + 1)` vanish to order `S (J + 1)` at `1, …, R J`, so 8.3 makes
-  `f_m (l)` small for `l ≤ R (J + 1)`, and 8.2 with 8.7(a) and (3) makes it zero); at the end
-  `f_0` has all coefficients at most `r₀ ^ L r₀ ^ (-(R Kmax · S Kmax))` (8.3), and 8.5 at the
-  points `ψ_e`, separated by Lemma 6, writes some `P t ≠ 0`, a nonzero algebraic integer of house
-  at most `Π`, as a combination of these coefficients, which contradicts 8.2 by (4).
-  *Needs:* 8.2, 8.3, 8.5, 8.7.
-
-  **Checks.**
-  - For `k = 0` and `h = 1`, (1) reads `4 ≤ (L + 1) ^ 2`, true for every `L ≥ 1`.
-  - (2) gives `S J ≤ h ^ 2 / 2 ^ J` for `J ≤ Kmax`, as Baker's `[h² / 2 ^ J]`.
-  - For `k = 0`, `L = h = D = G = C = 1`, `p = 3`, `r₀ = 2` and `S = R = 0`, (1) holds (`4 ≤ 4`),
-    but the left side of (4) is `16 · 3 · 16 · 2 = 1536` and the right side is `1`: orders and
-    ranges that do not grow cannot close the argument.
-  - In (4), `(L + 1) ^ (k + 2) = (L + 1) ^ (k + 1) · (L + 1)` is the `card ι · S` of 8.5, for the
-    `(L + 1) ^ (k + 1)` points `ψ_e` and `S = L + 1`.
-- **8.9 The choice of parameters.** For `k + 1` logarithms put
-  `Kmax = (2k + 3)(3k + 7)` and, for an integer `t`, `X = 2 ^ t`, `h = X ^ (3k + 7)`,
-  `L = X ^ (6k + 11)`, `R J = X ^ (3k + 7 + J)` and `S J = 2 ^ (Kmax - J) X ^ (6k + 13)`. For all
-  large `t` these satisfy (1)–(4) of 8.8: each constant is at most a power of `r₀`, and each
-  inequality compares `r₀ ^ (c Y)` with `r₀ ^ (X Y)` for a `c` independent of `t`. These are not
-  Baker's values (`L = [h ^ (2 - 1/(4n))]`, `R J = [h ^ (1 + J/(8n))]`, `S J = [h² / 2 ^ J]`,
-  `J ≤ (8n)²`): the `p`-adic gain per zero is the fixed factor `r₀` of 8.3, not a power of `h`.
-  The conditions (1)–(4) contain `G` and not `δ`, and the choice works for every `r₀ > 1`,
-  `B, G, C ≥ 0` and `lmin > 0`, so in particular for a `G` taken with `δ ≤ G` as 8.7 requires.
-  *Needs:* the quantity `E` of 8.7.
-- **8.10 Baker's theorem over `ℂ_[p]`** (`PadicBaker.eq_zero_of_add_sum_mul_eq_zero`). If
-  `ℓ i ∈ ℂ_[p]` have `‖ℓ i‖ < ρ`, algebraic `exp (ℓ i)`, and are linearly independent over `ℚ`, and
-  `β₀ + ∑ β i ℓ i = 0` with algebraic `β₀, β i`, then `β₀ = 0` and every `β i = 0`. Hence a linear
-  form in such `ℓ i` with algebraic coefficients and some `β i ≠ 0` is transcendental
-  (`PadicBaker.transcendental_add_sum_mul`). The proof takes the number field `K` of the
-  `exp (ℓ i)`, the `β i` and `β₀` (3.3) and divides the relation by a nonzero coefficient `β i₀`
-  inside `K`, which gives the relation of 8.6 for `ℓ i₀`, with the coefficients `-β i / β i₀`
-  (`i ≠ i₀`) and `-β₀ / β i₀`. By 3.3 it takes a common denominator `δ ≥ 1` of the `exp (ℓ i)` and
-  these coefficients, and a bound `G` for the houses of `δ` times each of them, chosen with
-  `δ ≤ G`: a number larger than such a bound is again such a bound, so `δ + 1` plus the sum of
-  these houses will do. These are the data of 8.7. It takes `r₀ = ρ / max ‖ℓ i‖`, `B` a bound for
-  the coefficients, `lmin = min ‖ℓ i‖` and `C` from 3.5, and applies 8.8 with 8.9. ⚠ The norm
-  condition is needed (`NormedSpace.exp (1 : ℂ_[p]) = 0`: with `ℓ = 1`, `-1 + 1 · 1 = 0`). The
-  restriction to the disc loses nothing: every `p`-adic logarithm of an algebraic number has a
-  multiple by a power of `p` in the disc. *Needs:* 3.3, 3.5, 8.8, 8.9.
-
-## Worked examples (acceptance criteria, keeping the theory honest)
-
-- `Complex.exp 1` and `Real.pi` are transcendental over `ℤ` (6.3; `transcendental_e`,
-  `transcendental_pi`, in the form of Yuyang Zhao's Mathlib formalisation).
-- `Real.exp Real.pi` is transcendental: it is `(-1) ^ (-I)` in the principal branch (6.4;
-  `transcendental_exp_pi`).
-- `(2 : ℂ) ^ (Real.sqrt 2 : ℂ)` is transcendental (6.4; `transcendental_two_cpow_sqrt_two`).
-- `Real.log 2` is transcendental (6.3; `transcendental_log_two`), and `Real.log 2 / Real.log 3` is
-  transcendental (6.4, with its irrationality from `2 ^ q ≠ 3 ^ p`;
-  `transcendental_log_two_div_log_three`).
-- `Real.pi + Real.log 2` is transcendental (7.3; `transcendental_pi_add_log_two`): it is
-  `(-I) · (π I) + 1 · log 2`, a nonzero linear form in the logarithms `π I` of `-1` and `log 2`
-  of `2`.
-- `exp p` is transcendental in `ℂ_[p]` for odd `p` (8.10 with `ℓ = p`, since `‖p‖ = 1 / p < ρ`;
-  `PadicBaker.transcendental_exp_prime`). For `p = 2` the point `2` lies on the boundary of the
-  disc (8.1).
-
-Normalisation checks, which catch a wrong factorial or a wrong placeholder value early:
-- the Taylor coefficient of `z ^ 2` at `0` is `1`, while its second derivative is `2`;
-- a monomial `∏ i, z i ^ τ i` has Taylor coefficient `1` at `τ` and `0` at every other
-  multi-index, at the origin;
-- `mvTaylorCoeff f x α = 0` when `f` is not analytic at `x`; apart from constant multiples,
-  locality and translation in 0.4, which hold whether or not `f` is analytic, every target either
-  assumes analyticity or concerns an entire function, so none holds only through this value.
-
-Rejection tests, each showing that a hypothesis cannot be dropped: `4 ^ (1 / 2) = 2` for 6.4,
-`log 4 / log 2 = 2` for the quotient in 6.4, `2 log 2 - log 4 = 0` for 7.2, and
-`NormedSpace.exp (1 : ℂ_[p]) = 0` for the norm condition of Layer 8.
-
-## Ordering
 
 ```
 Layer 0 ──┬── Layer 1 ──┬── Layer 4 ──┐
@@ -985,6 +334,964 @@ independent of Layers 0–2. Layer 4 needs 1.4, 1.5 and 3.4. Within Layer 5, 5.1
 Layer 6 needs 5.7, and Layer 7 needs Layer 6. Layer 8 needs only 3.2, 3.3 and 3.5 and can proceed
 in parallel with Layers 0–7; within it, 8.1, 8.2, 8.3 and 8.5 are independent of one another, 8.4
 needs 8.1, then 8.6, 8.7, 8.8 and 8.9, and 8.10 last.
+
+### Suggested homes
+
+- `TauCeti/Analysis/Normed/Ring/InfiniteSum.lean`: products of absolutely summable families (0.1);
+- `TauCeti/Analysis/Analytic/`: sums of power series (0.2);
+- `TauCeti/Analysis/Analytic/MultiIndex/`: multi-index power series and Taylor coefficients
+  (0.3–0.5);
+- `TauCeti/Analysis/Complex/Polydisc/`: estimates on polydiscs (1.1, 1.2, the multi-index half of
+  1.4, and 1.6), with the one-variable Schwarz lemma of 1.3, the homogeneous-term half of 1.4 and
+  1.5, which hold on any complex normed space, in `TauCeti/Analysis/Complex/`;
+- `TauCeti/Analysis/Complex/ExpPolynomial/`: exponential polynomials (Layer 2);
+- `TauCeti/NumberTheory/NumberField/House/`: Liouville's inequality, sizes of algebraic numbers
+  and Siegel's lemma with a constant (3.1, 3.2, 3.3, 3.5), and the ultrametric Liouville
+  inequality of 8.2;
+- `TauCeti/NumberTheory/GeometryOfNumbers/`: the Thue–Siegel lemma (3.4), next to the packing
+  bound it resembles;
+- `TauCeti/NumberTheory/Transcendental/`: the auxiliary function, the criterion, its consequences
+  and Baker's theorem (Layers 4–7);
+- `TauCeti/Analysis/Analytic/Order.lean`: the order lemma of 1.3; `TauCeti/Analysis/Analytic/`:
+  the ultrametric Schwarz lemma of 8.2; `TauCeti/Analysis/Normed/Field/`: integral elements in an
+  ultrametric field (8.2);
+- `TauCeti/NumberTheory/Padics/`: the integer bound of 8.2, the exponential on its disc in a
+  normed field over `ℚ_p` (8.1), and the coefficient bound and the value of an exponential
+  polynomial there (8.4);
+- `TauCeti/RingTheory/PowerSeries/`: power series with many zeros (8.3), next to `GaussNorm.lean`,
+  and the derivatives of an exponential polynomial (8.4), next to `Exp.lean`;
+  `TauCeti/Algebra/Polynomial/`: `expDerivFactor` (8.4);
+  `TauCeti/RingTheory/Polynomial/HermiteInterpolation.lean`: Hermite interpolation (8.5), apart
+  from the Hermite polynomials in `TauCeti/RingTheory/Polynomial/Hermite/`;
+- `TauCeti/NumberTheory/Transcendental/Padic/`: Baker's auxiliary function over `ℂ_[p]` and
+  Baker's theorem over `ℂ_[p]` (8.6–8.10);
+- `TauCeti/Examples/`: the worked examples, normalisation checks and rejection tests.
+
+## Layer 0: multi-index power series
+
+Over a nontrivially normed field `𝕜`, values in a normed space `F`, complete where sums are formed.
+
+### 0.1 Products of absolutely convergent series
+
+*Source:* Mathlib's `summable_mul_of_summable_norm` and `tsum_mul_tsum_of_summable_norm` for two
+families; the finite case follows by induction on the index type.
+
+For finitely many absolutely summable families `f i : κ i → R` in a complete normed commutative
+ring, `σ ↦ ∏ i, f i (σ i)` over `σ : ∀ i, κ i` is absolutely summable with sum `∏ i, ∑' k, f i k`;
+Layer 0 uses it with `κ i = ℕ`. *Needs:* Mathlib only.
+
+### 0.2 Sums of power series
+
+*Source:* none; it is the interchange of summations of Mathlib's `HasSum.prod_fiberwise` and
+`Summable.tsum_comm`, applied to the homogeneous terms.
+
+If each `g n` (over an arbitrary index type) has the power series `p n` on the ball of radius
+`r > 0` about `x`, and `(k, n) ↦ ‖p n k‖ r ^ k` is summable, then `∑' n, g n` has the power series
+`k ↦ ∑' n, p n k` on that ball, and so is analytic at `x`. *Needs:* Mathlib only.
+
+### 0.3 Multi-index coefficients of a formal series
+
+*Source:* none; the definition is new, and the identity theorem is derived below from Mathlib.
+
+`mvCoeff p α` is the sum of `p (∑ i, α i)` over the tuples of basis vectors whose coordinate counts
+are `α`. Its API:
+- it vanishes on the zero series, is additive and commutes with scalars in `p`;
+- the degree-`k` term is
+  `p k (fun _ => z) = ∑ α ∈ univ.piAntidiag k, (∏ i, z i ^ α i) • mvCoeff p α`
+  (`FormalMultilinearSeries.apply_eq_sum_mvCoeff`);
+- the coefficients are normally summable on every polydisc where `∑ (card ι) ^ k ‖p k‖ ρ ^ k`
+  converges, and **an analytic function is the sum of its multi-index series** there
+  (`HasFPowerSeriesOnBall.hasSum_mvCoeff`);
+- conversely, **a normally convergent multi-index series `z ↦ ∑' α, (∏ i, z i ^ α i) • c α` has a
+  power series on the polydisc, with multi-index coefficients `c`**
+  (`exists_hasFPowerSeriesOnBall_tsum`);
+- the identity theorem in coefficient form: a function vanishing near a point has all coefficients
+  zero there (`HasFPowerSeriesAt.mvCoeff_eq_zero_of_eventuallyEq_zero`), and a normally convergent
+  series vanishing on a polydisc has all coefficients zero.
+
+The identity theorem comes from `HasFPowerSeriesAt.apply_eq_zero` and the fact that a polynomial
+map `ι → 𝕜` to `F` vanishing everywhere has zero coefficients (take coordinates in a basis of the
+span of the coefficients and apply `MvPolynomial.funext`; `𝕜` is infinite). *Needs:* 0.1, 0.2.
+
+**Checks.** On `Fin 2 → 𝕜`, with `e i = Pi.single i 1`:
+- for the series whose only nonzero term is `p 2 (u, v) = u 0 * v 1`, `mvCoeff p (1, 1) = 1`,
+  the coefficient of `z 0 * z 1` in `p 2 (z, z) = z 0 * z 1`: the tuples `(e 0, e 1)` and
+  `(e 1, e 0)` contribute `1` and `0`, so a definition that keeps only one ordering of the basis
+  vectors can give `0`;
+- for the series whose only nonzero term is `p 2 (u, v) = u 0 * v 0`, `mvCoeff p (2, 0) = 1`,
+  not `2`: the only tuple is `(e 0, e 0)`, and summing over the permutations of the positions
+  instead of over the tuples counts it twice;
+- `mvCoeff p 0` is `p 0` at the empty tuple, the constant term: `0` for both series above, and
+  `c` for the series whose only nonzero term is the constant `p 0 = c`.
+
+### 0.4 Taylor coefficients at a point
+
+*Source:* none; Waldschmidt's `D^σ f (ξ)` is `σ! • mvTaylorCoeff f ξ σ` (see *Conventions*).
+
+`mvTaylorCoeff f x α` as in the conventions. Its API:
+- independence of the chosen series (`HasFPowerSeriesAt.mvTaylorCoeff_eq`);
+- the coefficient of order `0` is `f x` for `f` analytic at `x`;
+- agreement with iterated derivatives,
+  `(∏ i, (α i)!) • mvTaylorCoeff f x α = iteratedFDeriv 𝕜 (∑ i, α i) f x v` for `v` any tuple of
+  basis vectors with counts `α` (`AnalyticAt.prod_factorial_smul_mvTaylorCoeff`, from
+  `HasFPowerSeriesOnBall.iteratedFDeriv_eq_sum_of_completeSpace`), and in one variable
+  `k! • mvTaylorCoeff = iteratedDeriv k` (`AnalyticAt.factorial_smul_mvTaylorCoeff_of_unique`);
+- additivity (`AnalyticAt.mvTaylorCoeff_add`), subtraction and finite sums for functions analytic
+  at `x`;
+- constant multiples, with no hypothesis (`mvTaylorCoeff_const_smul`), and constant functions,
+  whose only nonzero coefficient is the constant, at order `0`;
+- **the product rule**
+  `mvTaylorCoeff (f • g) x α = ∑ β ∈ Iic α, mvTaylorCoeff f x β • mvTaylorCoeff g x (α - β)` for
+  `f` scalar and `g` vector-valued, both analytic at `x` (`AnalyticAt.mvTaylorCoeff_smul`);
+- translation, `mvTaylorCoeff (f (· + y)) x α = mvTaylorCoeff f (x + y) α`
+  (`mvTaylorCoeff_comp_add_right`);
+- locality: functions equal near `x` have the same coefficients
+  (`Filter.EventuallyEq.mvTaylorCoeff_eq`);
+- a monomial `∏ i, z i ^ τ i` has coefficient `1` at `τ` and `0` at every other multi-index, at
+  the origin;
+- **the local expansion**: an analytic `f` satisfies
+  `f (x + y) = ∑' α, (∏ i, y i ^ α i) • mvTaylorCoeff f x α` on some polydisc, normally convergently
+  (`AnalyticAt.exists_hasSum_mvTaylorCoeff`);
+- **coefficients from an expansion**: any normally convergent expansion of `f (x + ·)` on a
+  polydisc has the Taylor coefficients as coefficients (`mvTaylorCoeff_eq_of_hasSum`);
+- **linear change of variables**: if the Taylor coefficients of `G` at `A x` of total degree `k`
+  all vanish, then so do those of `G ∘ A` at `x`, for `A` a continuous linear map
+  (`ContinuousLinearMap.mvTaylorCoeff_comp_eq_zero`).
+
+⚠ The factorial multiplies
+the Taylor coefficient and is never inverted: in positive characteristic `α!` can vanish, and
+`mvTaylorCoeff f x α = D^α f (x) / α!` is then false. ⚠ Vanishing of the coefficients with `α i < m`
+in each coordinate is not preserved by a linear change of variables: with `m = 2`, `z₁ ^ 2` has no
+coefficient of order `< 2` in both coordinates, while its image `(z₁ + z₂) ^ 2` has the coefficient
+`2` at `(1, 1)`; only vanishing in each total degree is. *Needs:* 0.3.
+
+**Checks** for `mvTaylorCoeff`, in one variable (`ι = Fin 1`).
+- For `z ^ 2` at `0`, the coefficient of order `2` is `1`, while the second derivative is `2`; a
+  definition through iterated derivatives without the factorial gives `2`.
+- For `z ^ 2` at `3`, the coefficient of order `1` is `6`, the coefficient of `w` in
+  `(3 + w) ^ 2`; a definition that expands about the origin instead of about `x` gives `0`.
+- For `f z = 1 + conj (z 0)` over `ℂ`, which is analytic nowhere, every coefficient is `0`, and
+  in particular the coefficient of order `0` at `0` is `0`, not `f 0 = 1`.
+
+### 0.5 Division by a coordinate
+
+*Source:* none; it extends Mathlib's one-variable divided differences
+(`Complex.differentiableOn_dslope`) to one coordinate.
+
+If the coefficients of `f` at `x` vanish whenever `α i < m`, then `f (x + z) = z i ^ m • g z` with
+`g` analytic, on every polydisc about `0` on which the expansion of `f` about `x` converges
+normally. The divided difference `z ↦ dslope (fun w => f (Function.update z i w)) ζ (z i)`, which is
+`(f z - f (update z i ζ)) / (z i - ζ)` off the hyperplane `z i = ζ`, is analytic at every `x` at
+which `f` is analytic and `f` is analytic at `update x i ζ` (`analyticAt_dslope_update`); **on the
+hyperplane** (`x i = ζ`) analyticity of `f` at `x` suffices. *Needs:* 0.4.
+
+### Examples
+
+- The Taylor coefficient of `z ^ 2` at `0` is `1`, while its second derivative is `2`: the factor
+  `α!` of 0.4 multiplies the coefficient.
+- A monomial `∏ i, z i ^ τ i` has Taylor coefficient `1` at `τ` and `0` at every other
+  multi-index, at the origin.
+- `mvTaylorCoeff f x α = 0` when `f` is not analytic at `x`; apart from constant multiples,
+  locality and translation in 0.4, which hold whether or not `f` is analytic, every target either
+  assumes analyticity or concerns an entire function, so none holds only through this value.
+
+### Dependencies
+
+Mathlib only. Within the layer, 0.1–0.3 come before 0.4, and 0.5 comes last.
+
+## Layer 1: estimates on polydiscs
+
+Over `ℂ`, values in a complex normed space (Banach where sums are formed).
+
+### 1.1 Maximum modulus along a coordinate
+
+*Source:* Mathlib's maximum modulus principle `Complex.norm_le_of_forall_mem_frontier_norm_le`, in
+the `i`-th coordinate.
+
+If `f` is analytic on the closed polydisc of radius `R` and `‖f‖ ≤ C` wherever the `i`-th coordinate
+has modulus `R`, then `‖f‖ ≤ C` on the polydisc. *Needs:* Mathlib only.
+
+### 1.2 Dividing by one-coordinate polynomials
+
+*Source:* none; it follows from 1.1.
+
+Let `g` be analytic on the closed polydisc of radius `R` and `f = (∏ ζ ∈ S, (z i - ζ) ^ m) • g`
+there, with `‖f‖ ≤ M` and the points of the finite set `S` in the closed disc of radius `r`,
+`0 ≤ r < R`. Then `‖g‖ ≤ M / (R - r) ^ (m · card S)` on the polydisc of radius `R` and
+`‖f‖ ≤ M (2r / (R - r)) ^ (m · card S)` on the polydisc of radius `r`. For a single power,
+`f = z i ^ m • g`, the sharper bounds are `‖g‖ ≤ M / R ^ m` and `‖f‖ ≤ M (r / R) ^ m` on the
+polydisc of radius `r ≤ R`. *Needs:* 1.1.
+
+### 1.3 Schwarz's lemma for a zero of order `T`, in one variable
+
+*Source:* Mathlib's `Complex.dist_le_mul_div_pow_of_mapsTo_ball_of_isLittleO`, as described below.
+
+If `g` is holomorphic and bounded by `M` on the open disc of radius `ρ` about `c` and
+`(T : ℕ∞) ≤ analyticOrderAt g c`, then `‖g w‖ ≤ M (‖w - c‖ / ρ) ^ T` there
+(`Complex.norm_le_mul_div_pow_of_le_analyticOrderAt`). For `T ≥ 1` this is Mathlib's
+`Complex.dist_le_mul_div_pow_of_mapsTo_ball_of_isLittleO` with `n = T - 1` (it bounds
+`dist (g w) (g c)` for `g` mapping the disc into `Metric.closedBall (g c) M`, and here `g c = 0`),
+once `g w - g c = o (‖w - c‖ ^ (T - 1))` is derived from the order (`natCast_le_analyticOrderAt`;
+`isLittleO_sub_pow_sub_one_of_le_analyticOrderAt`, which holds over any nontrivially normed field).
+*Needs:* Mathlib only.
+
+### 1.4 Cauchy's inequalities
+
+*Source:* Mathlib's `Complex.norm_iteratedDeriv_le_of_forall_mem_sphere_norm_le` in one variable;
+the multi-index form is new, by the averaging argument below.
+
+For `HasFPowerSeriesOnBall F p 0 R` on any complex normed space, with values in a complex Banach
+space and `‖F‖ ≤ M` on the ball: every homogeneous term satisfies `‖p n (fun _ => y)‖ ≤ M` for
+`‖y‖ < R`; and on `ι → ℂ`, **every multi-index coefficient satisfies
+`‖mvCoeff p α‖ ρ ^ (∑ i, α i) ≤ M` for `0 ≤ ρ < R`**
+(`HasFPowerSeriesOnBall.norm_mvCoeff_mul_pow_le`). The multi-index form is proved by averaging the
+degree-`k` term against a character over the points `(ρ ω ^ j i)ᵢ` of the torus, with `ω` a
+primitive `(k + 1)`-th root of unity: the average is exact on polynomials, so no integral in several
+variables is needed. *Needs:* 0.3.
+
+### 1.5 Truncated Taylor interpolation
+
+*Source:* Waldschmidt, Lemma 4.13, pp. 134–135, with `1 + T` in place of `1 + √T`.
+
+For `HasFPowerSeriesOnBall F p 0 R` on any complex normed space, with values in any complex Banach
+space and `‖F‖ ≤ M` on the ball, `‖F z - p.partialSum T z‖ ≤ (1 + T) M (‖z‖ / R) ^ T` for `‖z‖ < R`
+(`HasFPowerSeriesOnBall.norm_sub_partialSum_le`); and on `ι → ℂ`,
+`‖F z‖ ≤ (1 + T) M (r / R) ^ T + ∑_{k < T} ∑_{α ∈ univ.piAntidiag k} ‖mvCoeff p α‖ r ^ k` for
+`‖z‖ ≤ r < R`. The constant is `1 + T`: Waldschmidt's `1 + √T` comes from Parseval's formula and
+needs values in a Hilbert space, while `1 + T` follows from 1.3 and 1.4 in any Banach space and is
+all Layer 4 uses. *Needs:* 1.3, 1.4.
+
+### 1.6 Schwarz's lemma for Cartesian products
+
+*Source:* a variant of Waldschmidt, Proposition 4.7, p. 122, and his Lemma 4.8.
+
+Let `ι` be nonempty with `n = card ι`, let `f` be analytic on the closed polydisc of radius `R` in
+`ι → ℂ` with `‖f‖ ≤ M` there, and let `E i` (`i : ι`) be finite sets of exactly `S` points in the
+closed disc of radius `r < R`. If `mvTaylorCoeff f ξ κ = 0` for every `ξ` with `ξ i ∈ E i` for all
+`i` and every `κ` of order `< m` in each coordinate, then on the polydisc of radius `r`,
+`‖f‖ ≤ n (4r / (R - r)) ^ (mS) K ^ n M` with `K = 1 + ∑_{k < mS} (2 (R + r) / (R - r)) ^ k`, and for
+`5r ≤ R`, `‖f‖ ≤ n (5 · 3ⁿ r / R) ^ (mS) M` (`norm_le_of_mvTaylorCoeff_eq_zero`). The proof divides
+one coordinate at a time in Newton form by the points of `E i`, each repeated `m` times, writing `f`
+as a polynomial main term with constant coefficients plus one multiple of
+`∏_{ζ ∈ E i} (z i - ζ) ^ m` for each coordinate. The vanishing forces the main term to be zero, by
+root counting in one variable (a polynomial of degree `< m · card E` with a root of multiplicity
+`≥ m` at each point of `E` is zero) and the injectivity of a tensor product of injective maps; this
+adapts the argument of Waldschmidt's ideal-theoretic Lemma 4.8 to operations on functions.
+Waldschmidt's Proposition 4.7 assumes `f` entire and `R ≥ 18ⁿ r` and gives
+`|f|_r ≤ |f|_R (18ⁿ r / R) ^ (S₀ S₁)`; the constants here are the ones the Newton division gives.
+*Needs:* 0.5, 1.1, 1.2, 1.3.
+
+### Examples
+
+- 1.3 with `g w = w ^ 2`, `c = 0`, `ρ = 2`, `M = 4` and `T = 2`: at `w = 1` both sides are `1`.
+- 1.5 with `F z = z ^ 2`, `R = 2`, `M = 4` and `z = 1`: for `T = 0, 2, 3` the remainders are
+  `1, 1, 0` and the bounds `(1 + T) M (1 / 2) ^ T` are `4, 3, 2`.
+- 1.6 with one variable, `E = {0}`, `S = 1`, `m = 2`, `r = 1`, `R = 5`, `f z = z ^ 2` and `M = 25`:
+  at `z = 1` the left side is `1` and the bound `n (5 · 3ⁿ r / R) ^ (m S) M` is `225`.
+
+### Dependencies
+
+Layer 0 (0.3 and 0.5). Within the layer, 1.3 and 1.4 come before 1.5, and 1.1–1.3 before 1.6.
+
+## Layer 2: exponential polynomials
+
+### 2.1 Taylor coefficients
+
+*Source:* Waldschmidt, Lemma 4.9, pp. 130–131, in coefficient form.
+
+For `τ : ι → ℕ` and `w ξ : ι → ℂ`, `z ↦ (∏ v, z v ^ τ v) * exp (w · z)` has, at `ξ`, the Taylor
+coefficient
+`exp (w · ξ) ∏ v, ∑_{j ≤ σ v} ((τ v).choose j) ξ v ^ (τ v - j) w v ^ (σ v - j) / (σ v - j)!` of
+order `σ` (`mvTaylorCoeff_prod_pow_mul_cexp`), and its expansion about `ξ` converges absolutely on
+every polydisc. The same holds for finite linear combinations, which have power series on every
+polydisc about every point. *Needs:* 0.1, 0.4.
+
+### 2.2 Growth
+
+*Source:* none; it is elementary.
+
+`‖(∏ v, z v ^ τ v) * exp (w · z)‖ ≤ (1 + ‖z‖) ^ (∑ v, τ v) · exp ((∑ v, ‖w v‖) ‖z‖)`.
+*Needs:* Mathlib only.
+
+### 2.3 Linear independence
+
+*Source:* none; the proof, by restriction to a line, is given below.
+
+In one variable: if `∑_{c ∈ T} Q c (ζ) exp (c ζ) = 0` for all `ζ ∈ ℂ`, with `Q c : ℂ[X]` and
+distinct `c`, then every `Q c = 0`. In several variables: if
+`∑_{w ∈ T} MvPolynomial.eval z (P w) · exp (w · z) = 0` for all `z : ι → ℂ`, with distinct `w`, then
+every `P w = 0` (`eq_zero_of_sum_eval_mul_cexp`); and both statements with the frequencies given by
+a map injective on an arbitrary finite index set. The several-variable case restricts to a line on
+which the frequencies stay distinct and the polynomials stay nonzero, found as a nonvanishing point
+of a product of nonzero polynomials. *Needs:* Mathlib only.
+
+### Examples
+
+- For `z ^ 2 exp z` at `ξ = 1`, the coefficient of order `1` is `3 e`, the derivative
+  `(2 z + z ^ 2) exp z` at `1`; the formula of 2.1 gives `e (1 + 2)`.
+- 2.2 for `z ^ 2 exp z` at `z = 1`: `e ≤ (1 + 1) ^ 2 e`.
+- `1 - exp z` vanishes at `0` but not at `1`, where it is `1 - e`: 2.3 needs the vanishing for
+  every `z`.
+
+### Dependencies
+
+Layer 0 (0.1 and 0.4).
+
+## Layer 3: arithmetic
+
+Over a number field `K`.
+
+### 3.1 Liouville's inequality
+
+*Source:* Mathlib's `NumberField.norm_norm_le_norm_mul_house_pow`; compare Waldschmidt, Proposition
+3.14, p. 83, Liouville's inequality for the value of a polynomial.
+
+A nonzero algebraic integer `α` satisfies `1 ≤ ‖σ α‖ · house α ^ ([K : ℚ] - 1)` at every embedding
+`σ` (`NumberField.one_le_norm_embedding_mul_house_pow`), since its field norm is a nonzero integer,
+by `NumberField.norm_norm_le_norm_mul_house_pow`. (`one_le_house_of_isIntegral` is the weaker
+`1 ≤ house α`.) ⚠ Integrality is needed: `α = 1 / 2` in `ℚ` has `‖α‖ = 1 / 2`.
+*Needs:* Mathlib only.
+
+### 3.2 Sizes
+
+*Source:* none; it is derived from Mathlib's house lemmas (*Exact supplier contracts*).
+
+If `δ ^ a * α` and `δ ^ b * β` are algebraic integers of house at most `H` and `H'`, then
+`δ ^ (a + b) * (α β)`, `δ ^ a * (α + β)` (for `a = b`), `δ ^ (a * k) * α ^ k` and `δ ^ c * α` for
+`c ≥ a` are algebraic integers with the houses `H H'`, `H + H'`, `H ^ k` and `δ ^ (c - a) H`, the
+last being at most `G ^ (c - a) H` when `δ ≤ G`; integers `x` have exponent `0` and house `|x|`;
+finite sums follow (`house_sum_le_sum_house`), and so do products over an indexed family
+(`house (∏ i ∈ s, f i) ≤ ∏ i ∈ s, house (f i)`, from the norm of the canonical embedding; the pinned
+Mathlib `house_prod_le` covers only products of the elements of a finite set). **Liouville's
+inequality for a number of known size:** if `δ ≠ 0` and `δ ^ a * α` is a nonzero algebraic integer
+of house at most `H`, then `1 ≤ δ ^ a ‖σ α‖ H ^ ([K : ℚ] - 1)` at every embedding
+(`NumberField.one_le_pow_mul_norm_embedding_mul_pow`). *Needs:* 3.1.
+
+### 3.3 The field of the data
+
+*Source:* Mathlib's `exists_integral_multiples`, `IntermediateField.finiteDimensional_adjoin` and
+`NumberField.of_module_finite`.
+
+Finitely many algebraic numbers in a field `L` of characteristic `0` lie in
+`IntermediateField.adjoin ℚ S`, a number field, with a common denominator `δ ≥ 1` from
+`exists_integral_multiples` and a common bound `G` for the houses of `δ` times each of them. A
+number larger than such a bound is again such a bound, so `G` can be taken with `1 ≤ G` and `δ ≤ G`.
+Layer 5 uses it with `L = ℂ` and `G ≥ 1`, and Layer 8 with `L = ℂ_[p]` and `G ≥ δ` (8.7).
+*Needs:* Mathlib only.
+
+### 3.4 Thue–Siegel's lemma
+
+*Source:* Waldschmidt, Lemmas 4.11 and 4.12, pp. 132–134.
+
+Let `X ≥ 1` be an integer (for real forms this follows from the count). For real forms: if
+`∑ᵢ |u i j| ≤ U` for every `j` and `ℓ ^ (card κ) < (X + 1) ^ (card ι)` for a natural number `ℓ ≥ 1`,
+there is a nonzero `ξ : ι → ℤ` with `|ξ i| ≤ X` and `|∑ᵢ u i j ξ i| ≤ U X / ℓ` for all `j`
+(`ThueSiegel.exists_ne_zero_int_vec_abs_le_of_pow_lt`). For complex forms, with `ι` nonempty: if
+`∑ᵢ ‖u i j‖ ≤ exp U` for every `j` and
+`(√2 · X · exp (U + V) + 1) ^ (2 · card κ) ≤ (X + 1) ^ (card ι)`, there is a nonzero `ξ` with
+`|ξ i| ≤ X` and `‖∑ᵢ u i j ξ i‖ ≤ exp (-V)` (`ThueSiegel.exists_ne_zero_int_vec_norm_le_of_pow_le`).
+Both over arbitrary finite index types. See *Exact supplier contracts* for the packing bound.
+*Needs:* Mathlib only.
+
+### 3.5 Siegel's lemma with a constant
+
+*Source:* Mathlib's `NumberField.house.exists_ne_zero_int_vec_house_le`. *Lean:*
+`NumberField.house.exists_const_ne_zero_int_vec_house_le`.
+
+There is `C ≥ 1`, depending only on `K`, such that every system `a` of linear equations over `𝓞 K`
+with at least one equation, at least twice as many unknowns as equations and entries of house at
+most `A ≥ 1` has a nonzero solution in `𝓞 K` of house at most `C · (number of unknowns) · A`. It
+follows from `NumberField.house.exists_ne_zero_int_vec_house_le`, whose exponent is at most `1` in
+this range; that lemma assumes `a ≠ 0`, and for `a = 0` a vector with one entry `1` is a solution.
+*Needs:* Mathlib only.
+
+### Examples
+
+- 3.1 with `K = ℚ` and `α = 2`: `1 ≤ 2 · 2 ^ 0`.
+- 3.4 for real forms with the one form `(1, 1)` in two unknowns, `U = 2`, `X = 1` and `ℓ = 3`: the
+  count is `3 < 4`, and `ξ = (1, -1)` gives `|ξ 0 + ξ 1| = 0 ≤ 2 / 3`.
+- 3.5 for `K = ℚ` and the one equation `ξ 0 + ξ 1 = 0`, with `A = 1`: `ξ = (1, -1)` has house
+  `1 ≤ 2 C`.
+
+### Dependencies
+
+Mathlib only; independent of Layers 0–2.
+
+## Layer 4: the auxiliary function
+
+### 4.1 Proposition 4.10
+
+*Source:* Waldschmidt, Proposition 4.10, pp. 131–132, who takes the `φ_λ` entire. *Lean:*
+`exists_ne_zero_int_norm_sum_le`.
+
+Let `φ_λ` (`λ` in a finite type of cardinality `L`) have power series on the polydisc of radius `R`
+in `ι → ℂ`, with `ι` nonempty and `n = card ι`, with `‖φ_λ‖ ≤ M_λ` there and `∑ M_λ ≤ exp U`. Let
+`N, r > 0`, put `W = N + U + V` and assume `12 n² ≤ W`, `e ≤ R / r ≤ exp (W / 6)` and
+`(2W) ^ (n + 1) ≤ L N (log (R / r)) ^ n`. Then there are integers `p_λ`, not all zero, with
+`|p_λ| ≤ exp N` and `‖∑ p_λ φ_λ‖ ≤ exp (-V)` on the closed polydisc of radius `r`. The integers come
+from 3.4 applied to the Taylor coefficients of degree `< T` at the origin, scaled to the radius `r`
+with 1.4, and the conclusion from 1.5. *Needs:* 1.4, 1.5, 3.4.
+
+### Examples
+
+- 4.1 with `1024` constant functions `1` in one variable, `N = 1`, `U = log 1024`, `V = 6` and
+  `R / r = e ^ 2`: `W ≈ 13.93 ≥ 12`, `e ≤ e ^ 2 ≤ exp (W / 6)`, and the count is
+  `(2 W) ^ 2 ≈ 776.3 ≤ 1024 · 1 · 2`. The integers `(1, -1, 0, …, 0)` give the value `0 ≤ e ^ (-6)`.
+
+### Dependencies
+
+1.4, 1.5 and 3.4.
+
+## Layer 5: the criterion of Schneider–Lang for `ℂ^{d₀} × (ℂˣ)^{d₁}`
+
+The main target is 5.7 (`SchneiderLang.exists_transcendental_of_linearIndependent`), and 5.1–5.6
+are the steps of its proof, stated without Lean names since they serve only this proof.
+
+Throughout, `d₀ ≤ n < d₀ + d₁`; `x : Fin d₁ → Fin n → ℂ` has algebraic coordinates and is linearly
+independent over `ℚ`; `y : Fin n → Fin n → ℂ` is a basis of `ℂⁿ`, with the change of variables
+`Yl z = ∑ⱼ zⱼ yⱼ` as a continuous linear equivalence; and `s · y = ∑ⱼ sⱼ yⱼ` for `s : Fin n → ℕ`.
+Towards a contradiction, the numbers `y j h` (`h < d₀`) and `exp (xᵢ · yⱼ)` are algebraic; by 3.3
+they and the coordinates of the `xᵢ` lie in a number field `K` of degree `D`, with an embedding
+`ι₀ : K →+* ℂ`, a common denominator `δ ≥ 1` and a bound `G ≥ 1` for the houses of `δ` times each
+of them. Write `A = ∑ᵢ ∑ᵥ ‖xᵢ v‖` and `A_y = ∑ⱼ ∑ᵥ ‖yⱼ v‖`.
+
+### 5.1 The auxiliary function
+
+*Source:* Waldschmidt §4.6, p. 137.
+
+For `T : ℕ` and `p : (Fin d₀ → Fin (T + 1)) × (Fin d₁ → Fin (T + 1)) → ℂ`,
+`F_p (z) = ∑_{(τ, t)} p (τ, t) (∏_{h < d₀} z_h ^ τ_h) exp ((∑ᵢ tᵢ xᵢ) · z)`, with `τ : Fin d₀ → ℕ`
+placed in the first `d₀` coordinates of `Fin n` and `0` in the others. It is entire, and if
+`‖p‖ ≤ e ^ N` then `‖F_p z‖ ≤ Γ (‖z‖)` (from 2.2), where
+`Γ (ρ) = (T + 1) ^ (d₀ + d₁) e ^ N (1 + ρ) ^ (d₀ T) e ^ (T A ρ)`. *Needs:* 2.1, 2.2.
+
+**Checks.**
+- For `T = 0` the only index is `(0, 0)`, and `F_p` is the constant `p (0, 0)`; `Γ` is then
+  `e ^ N` for every `ρ`, which the constant `p (0, 0) = e ^ N` attains.
+- For `n = 2`, `d₀ = d₁ = 1`, `x₁ = (0, 1)`, `T = 1` and `p` the indicator of
+  `(τ, t) = (1, 1)`, `F_p (z) = z 0 * exp (z 1)`: the monomial sits in the first coordinate,
+  and the frequency is `x₁`.
+- For `n = 1`, `d₀ = 0`, `d₁ = 1`, `x₁ = 1`, `N = 0`, `T = 2` and `p` the indicator of `t = 2`,
+  `F_p (z) = exp (2 z)` and `Γ (ρ) = 3 e ^ (2 ρ)`; a bound with `e ^ (A ρ)` in place of
+  `e ^ (T A ρ)` would be `3 e ^ ρ`, smaller than `F_p (ρ) = e ^ (2 ρ)` for `ρ > log 3`.
+
+### 5.2 The Taylor coefficients at `s · y` are algebraic, of explicit size
+
+*Source:* Waldschmidt §4.6, step 2, with his Lemma 4.9.
+
+For integers `p` with `|p| ≤ e ^ N`, for `sⱼ ≤ S₁` and for `σ` of total degree `M`, the number
+`σ! · mvTaylorCoeff F_p (s · y) σ` is `ι₀ θ` for some `θ ∈ K` such that `δ ^ a θ` is an algebraic
+integer of house at most `H`, where `a (M) = d₀ T + M + d₁ n T S₁` and
+`H (M) = (T + 1) ^ (d₀ + d₁) δ ^ a e ^ N (δ² M + n S₁ G + 1) ^ (d₀ T) (d₁ T G + 1) ^ M ·
+G ^ (d₁ n T S₁)`.
+*Needs:* 2.1, 3.2, 3.3.
+
+**Checks.**
+- For `d₀ = d₁ = n = T = S₁ = 1`, `a (2) = 1 + 2 + 1 = 4`; without the derivative order it
+  would be `2`.
+- For `T = 0`, `a (0) = 0` and `H (0) = e ^ N`: `F_p` is the integer constant `p (0, 0)`, of
+  house `|p (0, 0)| ≤ e ^ N`. For `d₀ = 0`, `d₁ = n = T = S₁ = 1`, `a (0) = 1` and
+  `H (0) = 2 δ e ^ N G`, which bounds the house of `δ (p 0 + p 1 ε ^ s)` for `s ≤ 1`, with
+  `ε = exp (x₁ · y₁)` and `δ ε` of house at most `G`: it is at most `δ e ^ N + e ^ N G`.
+- For `d₀ = d₁ = n = T = S₁ = δ = 1`, `G = 1` and `N = 0`, `H (M) = 4 (M + 2) 2 ^ M`, which is
+  `8`, `24` and `64` at `M = 0, 1, 2`.
+
+### 5.3 Liouville's inequality for these coefficients
+
+*Source:* Waldschmidt §4.6, step 2, inequality (4.14).
+
+A nonzero `c = mvTaylorCoeff F_p (s · y) σ` satisfies `1 ≤ Λ (M) ‖c‖` with
+`Λ (M) = M ^ M δ ^ a H ^ (D - 1)`; the `M ^ M` bounds `σ!`. *Needs:* 3.2, 5.2.
+
+**Checks.**
+- For `D = 1` and `M = 0`, `Λ (0) = δ ^ a` (with `0 ^ 0 = 1`): Liouville's inequality over `ℚ`,
+  `|θ| ≥ δ ^ (-a)` for a nonzero rational `θ` with `δ ^ a θ` an integer.
+- With the data of the last check of 5.2 and `D = 2`, `Λ` is `8`, `24` and `256` at
+  `M = 0, 1, 2`: the factor `M ^ M` appears only at `M = 2`, and the exponent `D - 1 = 1` keeps
+  one factor `H`.
+- At `M = 2`, `M ^ M = 4` bounds `σ! ∈ {1, 2}` for every `σ` of total degree `2`.
+
+### 5.4 The auxiliary function is not zero
+
+*Source:* none; it is derived from 2.3.
+
+If `p ≠ 0`, some Taylor coefficient of `F_p` at `0` is nonzero: the frequencies `∑ᵢ tᵢ xᵢ` are
+distinct because the `xᵢ` are `ℚ`-linearly independent, the monomials `z ^ τ` are distinct, and 2.3
+applies. ⚠ The independence is needed: if `x₂ = 2 x₁`, the terms for `t = (2, 0)` and `t = (0, 1)`
+are equal, and `p` with values `1` and `-1` there gives `F_p = 0`. *Needs:* 2.3, 5.1.
+
+### 5.5 The argument, with the parameters as hypotheses
+
+*Source:* Waldschmidt §4.6, steps 3 to 6, pp. 137–141.
+
+Let
+`T, S₀`, `S₁ ≥ 1`, `N > 0`, `U`, `r`, `R` and `E : ℕ → ℝ` with `E ≥ 1` satisfy:
+1. the conditions of 4.1 for the `(T + 1) ^ (d₀ + d₁)` monomials of 5.1 on the polydisc of
+   radius `R`, with `V = U` and `M_λ = (1 + R) ^ (d₀ T) e ^ (T A R)`;
+2. `S₁ A_y + 2 ≤ r`;
+3. **vanishing:** `Λ (M) · e ^ (-U) < 1` for every `M ≤ n S₀`;
+4. **extrapolation:** `Λ (M) · n E (M) ^ (-⌊M / n⌋ S₁) · Γ (ρ_M) < 1` for every `M ≥ S₀`, where
+   `ρ_M = A_y · 5 · 3ⁿ E (M) (S₁ + 2 ‖Yl⁻¹‖)`.
+
+Then the data cannot all be algebraic. The steps: 4.1 gives integers `p` with `‖F_p‖ ≤ e ^ (-U)`
+on the polydisc of radius `r`; by 1.4 on a polydisc about each point `s · y` with `sⱼ < S₁`,
+which lies inside that polydisc by (2), and by 5.3 with (3), every Taylor coefficient at these
+points of total degree at most `n S₀` vanishes; by 5.4 there is a least total degree `M₀`,
+necessarily `M₀ > n S₀ ≥ S₀`, at which some coefficient at some `s · y` is nonzero. Then
+`z ↦ F_p (Yl z)` vanishes at the points `s` in each total degree `< M₀` (0.4), hence to order
+`⌊M₀ / n⌋` in each coordinate, and 1.6 with 1.4 bounds that coefficient from above, which
+contradicts 5.3 by (4). The order is measured by **total degree** because the change of
+variables `Yl` preserves vanishing in each total degree but not in each coordinate (0.4);
+Waldschmidt's step 5 measures it in each coordinate. *Needs:* 0.4, 1.4, 1.6, 4.1,
+5.1–5.4.
+
+**Checks.**
+- In (4), `⌊M / n⌋ S₁` is a natural number: for `n = 2`, `M = 3` and `S₁ = 1` it is `1`, not
+  `3 / 2`.
+- Parameters with `N = 0`, or with `E (0) = 0`, are not admissible, whatever the rest.
+- For `n = 2` and `M₀ = 3`, the only `κ` with `κ i < ⌊3 / 2⌋ = 1` in each coordinate is
+  `(0, 0)`, of total degree `0 < 3`; every `κ` with `κ i < ⌊M₀ / n⌋` has total degree
+  `< n ⌊M₀ / n⌋ ≤ M₀`, which is how vanishing in each total degree `< M₀` gives vanishing to
+  order `⌊M₀ / n⌋` in each coordinate.
+
+### 5.6 The choice of parameters
+
+*Source:* Waldschmidt §4.6, step 6, with other values (below).
+
+For fixed `n`, `d₀`, `d₁`, `D`, `δ`, `G`, `A`, `A_y` and `B = ‖Yl⁻¹‖` there are parameters
+satisfying (1)–(4) of 5.5. With `d = d₀ + d₁`, `c₃ = 1 / (4 D 6 ^ (n + 1))`,
+`K₁ = ⌈8 (n d + D n²) / c₃⌉ + 1`, `S₁ = ⌈2 n d (2 + D n / d + c₃ K₁ / d)⌉ + 1` and `r = S₁ A_y + 3`,
+every sufficiently large integer `q` gives admissible parameters `T = q ^ n`, `U = c₃ q ^ d log q`,
+`N = U / (4 D)`, `S₀ = ⌊q ^ d / K₁⌋`, `R = q r` and `E (M) = exp (log M / d)`, which is
+`M ^ (1 / d)` for `M ≥ 1` and `1` at `M = 0`. Each condition becomes a comparison of powers of `q`
+and `log q`, and it is here that `n < d` is used. These are not Waldschmidt's values, which are
+`T₀ = T₁ = T`, `S₀ = c₀ T ^ (d / n) / S₁` and `E = S₀ ^ ((d - n) / d)` (his step 6). *Needs:* the
+quantities of 5.1–5.3.
+
+**Checks**, for `n = d₀ = d₁ = D = δ = G = 1` and `A = A_y = B = 0`, so `d = 2`.
+- `c₃ = 1 / 144`, `K₁ = 3457` and `S₁ = 60`.
+- `q = 1` gives `U = 0`, hence `N = 0`, which (1) excludes.
+- `q = 2` gives `R / r = 2 < e`, which (1) excludes: "sufficiently large" is needed.
+
+### 5.7 Corollary 4.2
+
+*Source:* Waldschmidt, Corollary 4.2, p. 117, with the direct proof of §4.6. *Lean:*
+`SchneiderLang.exists_transcendental_of_linearIndependent`.
+
+Let `d₀ ≤ n < d₀ + d₁`, let `x₁, …, x_{d₁} ∈ ℂⁿ` be linearly independent over `ℚ` with algebraic
+coordinates, and let `y₁, …, yₙ` be a basis of `ℂⁿ` over `ℂ`. Then one of the numbers `y j h`
+(`h < d₀`) and `exp (xᵢ · yⱼ)` is transcendental. *Needs:* 3.3, 5.5, 5.6.
+
+### Examples
+
+- `n = 1`, `d₀ = d₁ = 1`, `x₁ = y₁ = 1`: the coordinate `y₁ = 1` is algebraic, so 5.7 says that
+  `exp 1 = e` is transcendental.
+- `n = 1`, `d₀ = 0`, `d₁ = 2`, `x = (1, √2)`, `y₁ = log 2`: one of `2` and `2 ^ √2` is
+  transcendental, hence `2 ^ √2`.
+
+### Dependencies
+
+0.4, 1.4, 1.6, Layer 2, 3.2, 3.3 and 4.1. Within the layer, 5.1 comes first, then 5.2, 5.4 and 5.6,
+then 5.3 (which needs 5.2); 5.5 needs 5.1–5.4, and 5.7 needs 5.5 and 5.6.
+
+## Layer 6: consequences of the criterion
+
+### 6.1 The case `d₀ = 0`
+
+*Source:* Waldschmidt, Corollary 4.3, p. 118, in the form with `ℚ`-linearly independent `xᵢ`.
+*Lean:* `SchneiderLang.exists_transcendental_exp_of_span_eq_top`.
+
+If `x₁, …, x_d ∈ ℂⁿ` have algebraic coordinates and are linearly independent over `ℚ` with
+`n + 1 ≤ d`, and `y₁, …, y_ℓ` span `ℂⁿ` over `ℂ`, then some `exp (xᵢ · yⱼ)` is transcendental. The
+`yⱼ` need not be a basis: extract one from them (`exists_linearIndependent'`) and apply 5.7 with
+`d₀ = 0`, `d₁ = d`. *Needs:* 5.7.
+
+### 6.2 The case `d₀ = 1`, `d₁ = n = d`
+
+*Source:* Waldschmidt, Corollary 4.4, p. 118. *Lean:*
+`SchneiderLang.exists_transcendental_exp_of_isAlgebraic_coord`.
+
+If `x₁, …, x_d ∈ ℂᵈ` have algebraic coordinates and are linearly independent over `ℚ`, and
+`y₁, …, y_d` is a basis of `ℂᵈ` with algebraic first coordinates, then some `exp (xᵢ · yⱼ)` is
+transcendental. *Needs:* 5.7.
+
+### 6.3 Hermite–Lindemann
+
+*Source:* derived here from 6.2; the forms over `ℤ` are those of Yuyang Zhao's Mathlib
+formalisation. *Lean:* `transcendental_of_isAlgebraic_exp`.
+
+If `x ≠ 0` and `exp x` is algebraic, then `x` is transcendental. In the names and forms of Yuyang
+Zhao's Mathlib formalisation, over `ℤ`: `exp a` is transcendental for algebraic `a ≠ 0`
+(`transcendental_exp`), and so is `Complex.log u` for algebraic `u` with `Complex.log u ≠ 0`
+(`transcendental_log`). Hence `e` and `π` are transcendental (`transcendental_e`,
+`transcendental_pi`). ⚠ `x ≠ 0` is needed: `exp 0 = 1`. *Needs:* 6.2 with `d = 1`.
+
+### 6.4 Gelfond–Schneider
+
+*Source:* derived here from 6.1; the principal-branch form is that of M. Karatarakis's Mathlib
+formalisation. *Lean:* `transcendental_exp_mul`.
+
+If `x ≠ 0` and `exp x` is algebraic, and `b` is algebraic and not rational, then `exp (b x)` is
+transcendental. With Mathlib's principal branch, in the name and form of M. Karatarakis's Mathlib
+formalisation (`GelfondSchneider.transcendental_cpow_of_isAlgebraic_of_irrational`): `a ^ b` is
+transcendental for algebraic `a, b` with `a ≠ 0 ∧ a ≠ 1` and `∀ i j : ℤ, b ≠ i / j`. Hence a
+quotient `y / x` of logarithms of algebraic numbers, `x ≠ 0`, is rational or transcendental
+(`exists_rat_eq_div_or_transcendental`); in particular so is `Complex.log a / Complex.log b` for
+algebraic `a, b` with `Complex.log b ≠ 0`. ⚠ The exponent must be irrational: `4 ^ (1 / 2) = 2`; and
+the quotient can be rational: `log 4 / log 2 = 2`. *Needs:* 6.1 with `n = 1`, `d = 2`.
+
+### Examples
+
+- `Complex.exp 1` and `Real.pi` are transcendental over `ℤ` (6.3; `transcendental_e`,
+  `transcendental_pi`, in the form of Yuyang Zhao's Mathlib formalisation).
+- `Real.exp Real.pi` is transcendental: it is `(-1) ^ (-I)` in the principal branch (6.4;
+  `transcendental_exp_pi`).
+- `(2 : ℂ) ^ (Real.sqrt 2 : ℂ)` is transcendental (6.4; `transcendental_two_cpow_sqrt_two`).
+- `Real.log 2` is transcendental (6.3; `transcendental_log_two`), and `Real.log 2 / Real.log 3` is
+  transcendental (6.4, with its irrationality from `2 ^ q ≠ 3 ^ p`;
+  `transcendental_log_two_div_log_three`).
+- Rejection tests: `4 ^ (1 / 2) = 2`, so 6.4 needs an irrational exponent; `log 4 / log 2 = 2`, so
+  the quotient in 6.4 can be rational; `exp 0 = 1`, so 6.3 needs `x ≠ 0`.
+
+### Dependencies
+
+5.7.
+
+## Layer 7: Baker's theorem
+
+### 7.1 Theorem 4.5
+
+*Source:* Waldschmidt, Theorem 4.5 and Lemma 4.6, pp. 119–121, after Bertrand and Masser. *Lean:*
+`Baker.eq_zero_of_isAlgebraic_sum_mul`.
+
+If `β₁, …, β_d` is a `ℚ`-basis of a number field `K ⊆ ℂ` of degree `d`, and `l₁, …, l_d` are
+logarithms of algebraic numbers with `∑ βᵢ lᵢ` algebraic, then every `lᵢ = 0`. The proof is Bertrand
+and Masser's: it applies 6.1 or 6.2 to the conjugates of the `βᵢ` and needs the invertibility of the
+matrix of embeddings of a basis (Waldschmidt's Lemma 4.6; see *Discriminants* above), twice: once to
+set up the criterion, and once to pass from its conclusion to `lᵢ = 0`, a step Waldschmidt's §4.2
+leaves implicit. *Needs:* 6.1, 6.2.
+
+### 7.2 Baker's theorem
+
+*Source:* Waldschmidt, Theorem 1.6, p. 3; Baker, Theorem 2.1. *Lean:*
+`Baker.eq_zero_of_add_sum_mul_eq_zero`.
+
+If `l₁, …, lₙ` are logarithms of algebraic numbers, linearly independent over `ℚ`, and
+`β₀ + ∑ βᵢ lᵢ = 0` with algebraic `β₀, βᵢ`, then `β₀ = 0` and every `βᵢ = 0`; and the same for a
+family indexed by a finite set (`Baker.eq_zero_of_add_sum_mul_eq_zero_of_linearIndepOn`). ⚠ The
+`ℚ`-linear independence is needed: `2 log 2 - log 4 = 0`. *Needs:* 7.1.
+
+### 7.3 Corollaries
+
+*Source:* Baker, Theorems 2.2–2.4 (his Theorem 2.1 is 7.2); Waldschmidt, the corollaries of Theorem
+1.6, p. 4.
+
+For logarithms `lᵢ` of algebraic numbers and algebraic `βᵢ`: a nonzero `∑ βᵢ lᵢ` is transcendental
+(`Baker.transcendental_sum_mul`), equivalently `β₀ + ∑ βᵢ lᵢ ≠ 0` for algebraic `β₀ ≠ 0`, with no
+independence hypothesis (`Baker.add_sum_mul_ne_zero`; Theorem 2.2); `exp (β₀ + ∑ βᵢ lᵢ)` is
+transcendental for algebraic `β₀ ≠ 0` (`Baker.transcendental_exp_add_sum_mul`; Theorem 2.3, which
+Baker states with every `βᵢ` nonzero, although only `β₀ ≠ 0` is used); and for a nonempty family,
+`exp (∑ βᵢ lᵢ)` is transcendental when the `lᵢ` are nonzero and `1, β₁, …, βₙ` are linearly
+independent over `ℚ` (`Baker.transcendental_exp_sum_mul`; Theorem 2.4, and Waldschmidt's corollary
+to Theorem 1.6), by 7.2 applied to a `ℚ`-basis of the span of the `lᵢ`. In Mathlib's principal
+branch, `α₁ ^ β₁ ⋯ αₙ ^ βₙ` is transcendental for algebraic `αᵢ ≠ 0, 1` under the same hypothesis on
+the `βᵢ` (`Baker.transcendental_prod_cpow`); it is the case of principal logarithms `lᵢ`, and does
+not give the branch-free form: `l = 2πi` and `β = √2` have `exp l = 1`, while
+`exp (β l) ≠ 1 = 1 ^ √2`. ⚠ Irrationality of each `βᵢ` is not enough: `2 ^ √2 · 2 ^ (-√2) = 1`.
+*Needs:* 7.2.
+
+### Examples
+
+- `Real.pi + Real.log 2` is transcendental (7.3; `transcendental_pi_add_log_two`): it is
+  `(-I) · (π I) + 1 · log 2`, a nonzero linear form in the logarithms `π I` of `-1` and `log 2`
+  of `2`.
+- Rejection test: `2 log 2 - log 4 = 0`, so 7.2 needs the `ℚ`-linear independence.
+- `l = 2πi` and `β = √2`: `exp l = 1` and `exp (β l) ≠ 1`, which the branch-free form of 7.3
+  covers and the principal-branch form does not.
+
+### Dependencies
+
+Layer 6.
+
+## Layer 8: Baker's theorem over `ℂ_[p]`
+
+The main target is 8.10 (`PadicBaker.eq_zero_of_add_sum_mul_eq_zero`). 8.1–8.5 hold in general
+ultrametric settings, and 8.6–8.9 are the steps of the proof of 8.10, stated without Lean names
+since they serve only this proof. Brumer carried Baker's method over to `ℂ_p`; the statement here,
+with the constant term `β₀`, is proved by the argument of Chapter 2 of Baker's book, which handles
+`β₀`. That chapter is the route: Lemmas 1–7 and §5, with the maximum modulus principle replaced
+by the ultrametric inequality and Liouville's inequality taken at the embedding into `ℂ_[p]`.
+Write `ρ = p ^ (-1 / (p - 1))`.
+
+### 8.1 The exponential on its disc
+
+*Source:* none; it is derived from Mathlib's `NormedSpace.exp` and Legendre's formula.
+
+In a normed field `L` over `ℚ_[p]`, a nonzero natural number has `‖n‖ = p ^ (-v_p (n))` (Mathlib's
+`norm_algebraMap'`, `Padic.norm_eq_zpow_neg_valuation` and `Padic.valuation_natCast`), so by
+Legendre's formula (`sub_one_mul_padicValNat_factorial`) `‖n!‖ ≥ p ^ (-n / (p - 1))`, and for
+nontrivially normed `L` the radius of `expSeries` is at least `ρ` (`PadicExp.le_radius_expSeries`).
+If `L` is also complete, then for `‖x‖, ‖y‖ < ρ`: `exp (x + y) = exp x · exp y` (`PadicExp.exp_add`,
+from Mathlib's `NormedSpace.exp_add_of_mem_ball` and the radius), `‖exp x - 1‖ = ‖x‖`
+(`PadicExp.norm_exp_sub_one`), hence `‖exp x‖ = 1`, and `exp` is injective on the disc
+(`PadicExp.injOn_exp`); `exp (n • x) = exp x ^ n`, and `exp` of a finite sum in the disc is the
+product. ⚠ At `p = 2` the point `2` has `‖2‖ = ρ` and the series diverges there. *Needs:* Mathlib
+only.
+
+### 8.2 Liouville's inequality at an ultrametric place
+
+*Source:* none; it is derived from Mathlib, as below.
+
+An element integral over `ℤ` has norm at most `1` in an ultrametric normed field
+(`IsUltrametricDist.norm_le_one_of_isIntegral`, from `Valuation.Integers.mem_of_integral` and
+`NormedField.valuation`); a nonzero integer has `1 ≤ |n| ‖n‖` in `ℚ_[p]`
+(`Padic.one_le_abs_mul_norm_intCast`), hence, by `norm_algebraMap'`, in every normed field over
+`ℚ_[p]`. In an ultrametric, algebraically closed normed field `L` with that property, if `δ ^ a * x`
+is a nonzero algebraic integer of house at most `H`, then `1 ≤ H ^ [K : ℚ] ‖σ x‖` at every embedding
+`σ : K →+* L` (`NumberField.one_le_pow_mul_norm_embedding_of_isUltrametricDist`): the field norm of
+`δ ^ a * x` is a nonzero integer of absolute value at most `H ^ [K : ℚ]`
+(`Algebra.norm_eq_prod_embeddings`), and all its conjugates in `L` have norm at most `1`. The
+ultrametric form of Schwarz's lemma: if `f` has the power series `q` about `0`, the terms of degree
+`< T` vanish and `‖q n‖ r ^ n ≤ M`, then `‖f z‖ ≤ M (‖z‖ / r) ^ T` for `‖z‖ ≤ r` in the ball of
+convergence (`HasFPowerSeriesOnBall.norm_le_mul_div_pow_of_isUltrametricDist`). ⚠ The exponent is
+`[K : ℚ]`, not `[K : ℚ] - 1` as at an archimedean place (3.1): `x = p` in `ℚ` has `‖p‖ = 1 / p`.
+*Needs:* Mathlib only.
+
+### 8.3 Many zeros in the unit disc force small coefficients
+
+*Source:* none; it takes the place of the maximum-modulus step of Baker's Lemmas 4 and 5, as below.
+*Lean:* `PowerSeries.norm_coeff_le_of_ofScalarsSum_iterate_derivative_eq_zero`.
+
+Over a complete ultrametric field `K` of characteristic `0`: if `f : PowerSeries K` has
+`‖coeff k f‖ r ^ k ≤ M` for all `k` with `r > 1`, and `f` vanishes to order `S` (the values of its
+formal derivatives of order `< S`, by `ofScalarsSum`, vanish) at every point of a finite set `A`
+with `‖a‖ ≤ 1`, then `‖coeff k f‖ ≤ M r ^ (-(card A · S))` for every `k`; and the same bound holds
+for the value of `f` at every `x` with `‖x‖ ≤ 1`
+(`PowerSeries.norm_ofScalarsSum_le_of_ofScalarsSum_iterate_derivative_eq_zero`). Take `1 < r' < r`:
+the bound makes `f` restricted at the radius `r'` (its coefficients times `r' ^ k` tend to `0`),
+which the bound at `r` itself need not give. Divide `f` at the radius `r'` by the distinguished
+polynomial `∏_{a ∈ A} (X - a) ^ S` (Tau Ceti's Weierstrass division). The remainder has degree
+`< card A · S` and vanishes to order `S` at each `a`, so it is zero, and Gauss-norm multiplicativity
+at the radii `1` and `r'` gives `‖coeff k f‖ ≤ M r' ^ (-(card A · S))`, since `‖X - a‖` is `1` at
+radius `1` and `r'` at radius `r'`; let `r'` tend to `r`. This takes the place of the
+maximum-modulus step in Baker's Lemmas 4 and 5: each zero gains a factor `r`, where Baker gains a
+factor growing with `h`.
+*Needs:* Mathlib and the Tau Ceti declarations of *Exact supplier contracts*.
+
+### 8.4 Exponential polynomials as power series
+
+*Source:* none; it is derived from Mathlib's `PowerSeries.exp` and 8.1.
+
+Over a commutative ring, `expDerivFactor c m = (D + c) ^ m`, a linear map on polynomials
+(`Polynomial.expDerivFactor`), with `expDerivFactor c 0 P = P` and the recursion
+`expDerivFactor c (m + 1) P = D (expDerivFactor c m P) + c · expDerivFactor c m P`, the binomial
+form `∑_{j ≤ m} (m choose j) c ^ (m - j) P⁽ʲ⁾` (`Polynomial.expDerivFactor_eq_sum`), and degree at
+most that of `P` (`Polynomial.natDegree_expDerivFactor_le`); in an ultrametric field its
+coefficients are at most `max 1 ‖c‖ ^ m` times a bound for those of `P`
+(`Polynomial.norm_coeff_expDerivFactor_le`). Over a commutative `ℚ`-algebra, `Q (X) exp (ψ X)` is
+`(Q : PowerSeries A) * rescale ψ (exp A)`, and its `m`-th formal derivative is
+`expDerivFactor ψ m Q · exp (ψ X)` (`PowerSeries.iterate_derivative_coe_mul_rescale_exp`). In a
+normed field `L` over `ℚ_[p]`: if `‖Q.coeff j‖ r ^ j ≤ M` for all `j` and `‖ψ‖ r ≤ ρ`, then the
+coefficients `c k` of `Q (X) exp (ψ X)` satisfy `‖c k‖ r ^ k ≤ M`, since `‖ψ ^ k / k!‖ r ^ k ≤ 1` by
+8.1 (`PowerSeries.norm_coeff_coe_mul_rescale_exp_mul_pow_le`); and if `L` is complete, the series
+sums to `Q (x) exp (ψ x)` when `‖ψ x‖ < ρ` (`PowerSeries.hasSum_coeff_coe_mul_rescale_exp`).
+*Needs:* 8.1.
+
+**Checks** for `expDerivFactor`.
+- `expDerivFactor c 1 X = 1 + c X`; the wrong sign, `(D - c)`, gives `1 - c X`.
+- `expDerivFactor 0 m P` is the `m`-th derivative of `P`: `expDerivFactor 0 2 (X ^ 3) = 6 X`.
+- `expDerivFactor c m 1 = c ^ m`, a constant: the derivative of a constant contributes nothing.
+
+### 8.5 Hermite interpolation with ultrametric bounds
+
+*Source:* Baker, Chapter 2, Lemma 7. *Lean:*
+`Polynomial.exists_iterate_derivative_eval_eq_ite_of_isUltrametricDist`.
+
+For points `σ i` of norm at most `1` with `‖σ i - σ j‖ ≥ ϱ` for `i ≠ j`, `0 < ϱ ≤ 1`, and `s < S`,
+there is a polynomial `W` whose derivatives of order `< S` at the points vanish except the `s`-th at
+`σ r`, which is `1`, with every coefficient at most `‖1 / s!‖ ϱ ^ (-(card ι · S))`. ⚠
+`‖1 / s!‖ = p ^ (v_p (s!))` is at least `1`, unlike at an archimedean place. *Needs:* Mathlib only.
+
+### 8.6 Baker's auxiliary function on the diagonal
+
+*Source:* Baker, Chapter 2: the auxiliary function of his proof of Theorem 2.1, on the diagonal.
+
+Suppose, to be refuted, `ℓ none = β₀ + ∑ r, β r ℓ (some r)` for `ℓ : Option (Fin k) → ℂ_[p]` in the
+disc. For `P` indexed by `d ≤ L` and `e : Option (Fin k) → Fin (L + 1)`, the derivative `f_m` of
+order `m` of Baker's function
+`∑ P (d, e) z₀ ^ d exp (e_none β₀ z₀) ∏_r exp ((e_r + e_none β_r) ℓ_r z_r)`, restricted to the
+diagonal, is a power series `f_m`, a sum of the exponential polynomials of 8.4 at the frequencies
+`ψ_e = ∑_o e_o ℓ_o`: the term of `(d, e)` is `P (d, e)` times
+`(∏_r (γ_r ℓ_r) ^ m_r) expDerivFactor (e_none β₀) m_none (X ^ d)` times `exp (ψ_e X)`. The relation
+gives `D f_m = ∑_o f_{m + e_o}`, and nothing else in 8.6 or 8.7 uses it: the series `f_m` are
+defined for every `ℓ` in the disc and all `β₀`, `β`, and at a natural number `l`
+
+    f_m (l) = (∏_r ℓ_r ^ m_r) ∑_(d, e) P (d, e) (∏_r γ_r ^ m_r)
+                expDerivFactor (e_none β₀) m_none (X ^ d) (l) ∏_o exp (ℓ_o) ^ (e_o l)
+
+with `γ_r = e_r + e_none β_r`. *Needs:* 8.1, 8.4.
+
+**Checks** for the frequencies `ψ_e`, with `k = 1` and `(ℓ_none, ℓ_0) = (3, 6)` in `ℂ_[3]`.
+- `ψ_0 = 0`.
+- `ψ_e = ℓ_o` for `e` the indicator of `o`: `3` for `o = none` and `6` for `o = 0`.
+- For `(e_none, e_0) = (2, 3)`, `ψ_e = 2 · 3 + 3 · 6 = 24`, of norm `1 / 3`.
+
+**Checks** for `γ_r` and `e_none β₀`, with `k = 1`, `β_0 = 2` and `β₀ = 5`.
+- For `(e_none, e_0) = (2, 3)`: `γ_0 = 3 + 2 · 2 = 7`, where a minus sign would give `-1`, and
+  `e_none β₀ = 10`.
+- For `e_none = 0` and `e_0 = 3`: `γ_0 = 3` and `e_none β₀ = 0`.
+- For `e` the indicator of `none`: `γ_0 = β_0 = 2` and `e_none β₀ = β₀ = 5`. Under the relation,
+  `ψ_e = e_none β₀ + ∑_r γ_r ℓ_r`, which is how the relation gives `D f_m`.
+
+**Checks** for the polynomial factor
+`(∏_r (γ_r ℓ_r) ^ m_r) expDerivFactor (e_none β₀) m_none (X ^ d)`, with `k = 1`,
+`(e_none, e_0) = (2, 3)`, `β_0 = 2`, `β₀ = 5`, `ℓ_0 = 6` and `d = 2`.
+- For `(m_none, m_0) = (0, 0)` it is `X ^ 2`.
+- For `(m_none, m_0) = (1, 0)` it is `2 X + 10 X ^ 2`: the derivative and the frequency `10`.
+- For `(m_none, m_0) = (0, 1)` it is `7 · 6 X ^ 2 = 42 X ^ 2`: the factor `γ_0 ℓ_0`, no derivative.
+
+**Checks** for the series `f_m`, with `k = 0` and `L = 1`.
+- For `P` the indicator of `(d, e) = (0, 1)`, `f_0 = rescale ℓ_none (exp ℂ_[p])`, the series of
+  `exp (ℓ_none z)`, with constant coefficient `1` and linear coefficient `ℓ_none`.
+- For the same `P`, `f_1 = β₀ · rescale ℓ_none (exp ℂ_[p])`, which is the derivative of `f_0`
+  exactly when `ℓ_none = β₀`, the relation for `k = 0`.
+- For `P = 0`, every `f_m` is `0`.
+
+### 8.7 The arithmetic
+
+*Source:* Baker, Chapter 2, Lemmas 2, 3 and 6.
+
+The data are: a number field `K` with an embedding `ι₀ : K →+* ℂ_[p]`; `ℓ` in the disc, `β₀` and
+`β`, with `αK o`, `βK r` and `βK₀` in `K` such that `ι₀ (αK o) = exp ℓ_o`, `ι₀ (βK r) = β r` and
+`ι₀ βK₀ = β₀`; and a natural number `δ` and a real number `G` with `1 ≤ δ ≤ G`, such that `δ` times
+each of `αK o`, `βK r`, `βK₀` is an algebraic integer of house at most `G`. The relation of 8.6 is
+not assumed. The inequality `δ ≤ G` is a hypothesis of each of (a), (b) and (c), and the house
+bounds do not imply it: the proofs bring numbers of different exponents to a common exponent, and
+bound the powers of `δ` that this costs by powers of `G` (3.2). It gives `G ≥ 1`. For `P (d, e)` in
+`K` write
+
+    A_m (l) = ∑_(d, e) P (d, e) (∏_r γK_r ^ m_r)
+                expDerivFactor (e_none βK₀) m_none (X ^ d) (l) ∏_o αK_o ^ (e_o l)
+
+with `γK_r = e_r + e_none βK_r`, an element of `K`; by the formula of 8.6, the series `f_m` with
+the coefficients `ι₀ (P (d, e))` has `f_m (l) = (∏_r ℓ_r ^ {m_r}) ι₀ (A_m (l))`.
+(a) **Lemma 3:** if every `P (d, e)` is an algebraic integer (`IsIntegral ℤ (P (d, e))`) with
+`house (P (d, e)) ≤ H_P`, then for `l ≥ 1` the size of `A_m (l)` in the sense of 3.2 has exponent
+`∑ m + (k + 1) L l` and house at most
+`(L + 1) ^ (k + 2) H_P (L + 1) l ^ L (2 L G) ^ (∑ m) G ^ ((k + 1) L l)`. ⚠ Integrality of the
+`P (d, e)` is needed, and a bound for their houses does not give it: for `K = ℚ`, `δ = 1`,
+`k = 0`, `L = l = 1`, `m = 0`, `αK = 4`, `βK₀ = 0`, `G = 4` (with `p = 3` and `ℓ` the point of
+the disc with `exp ℓ = 4`) and `P` zero except for `P (0, 0) = 1 / 2`, the sum is
+`A_0 (1) = 1 / 2`, and no power of `δ = 1` times it is an algebraic integer;
+(b) **Lemma 2:** let `L, h ≥ 1` with `2 ((h ^ 2 + 1) ^ (k + 1) h) ≤ (L + 1) ^ (k + 2)`, and let
+`C` be the constant of 3.5 for `K`. There are `P (d, e)` in `𝓞 K`, not all zero, of house at most
+`C (L + 1) ^ (k + 2) E`, with `A_m (l) = 0`, and so `f_m (l) = 0`, for all `m o ≤ h ^ 2` and
+`1 ≤ l ≤ h`. Here `E = G ^ a (L + 1) h ^ L (2 L G) ^ ((k + 1) h ^ 2) G ^ ((k + 1) L h)` with
+`a = (k + 1) h ^ 2 + (k + 1) L h`: 3.5 is applied to the equations `A_m (l) = 0`
+multiplied by `δ ^ a`, whose coefficients are algebraic integers by the sizes computed for (a),
+and `G ^ a` bounds the powers of `δ` that this brings in, by `δ ≤ G`. These `P (d, e)` are
+algebraic integers, so (a) applies to them, with this bound for their houses as `H_P`. Baker's
+Lemma 2 asks only `∑ m ≤ h ^ 2`, and solves over `ℤ` rather than over `K`;
+(c) **Lemma 6:** if `ℓ` is linearly independent over `ℚ`, distinct frequencies are far apart:
+`((2 G ^ ((k + 1) L)) ^ [K : ℚ])⁻¹ ≤ ‖ψ_e - ψ_e'‖` for `e ≠ e'` with entries at most `L`,
+by 8.1 and 8.2 applied to `∏ α_o ^ {e_o} - ∏ α_o ^ {e'_o}`.
+⚠ `δ ≤ G` is needed: for `p = 3`, `K = ℚ`, `k = 0`, `L = 1`, `αK = 1 / 4`, `βK₀ = 0`, `δ = 4`,
+`G = 1` and `ℓ` the point of the disc with `exp ℓ = 1 / 4`, so that
+`‖ℓ‖ = ‖exp ℓ - 1‖ = 1 / 3` (8.1), every other hypothesis holds, and `e = 0`, `e' = 1` would give
+`1 / 2 ≤ 1 / 3`.
+*Needs:* 3.2, 3.3, 3.5, 8.1, 8.2, 8.6.
+
+**Checks** for `E`, with `k = 0`.
+- For `L = h = 1`, `E = G ^ 2 · (2 · 1 · 2 G · G) = 4 G ^ 4`: `4` at `G = 1` and `64` at `G = 2`,
+  where leaving out the factor `G ^ a` would give `16`.
+- For `G = 1`, `L = 2` and `h = 1`, `E = 3 · 1 · 4 = 12`: the degree factor `L + 1` and the
+  factor `(2 L) ^ (h ^ 2)`.
+- For `G = 1`, `L = 1` and `h = 2`, `E = 2 · 2 · 2 ^ 4 = 64`: the factor `h ^ L` and the exponent
+  `h ^ 2` of the derivative orders.
+
+### 8.8 The argument, with the parameters as hypotheses
+
+*Source:* Baker, Chapter 2, Lemmas 4 and 5 and §5.
+
+Take the data of 8.7, with `1 ≤ δ ≤ G`, and `ℓ` linearly independent over `ℚ`. Let `r₀ > 1` with
+`‖ℓ_o‖ r₀ ≤ ρ`, `B ≥ 1` a bound for the `β`'s, `0 < lmin ≤ ‖ℓ_o‖`, `C` the constant of 3.5 and
+`D = [K : ℚ]`, and write `E` as in 8.7(b) and `Π = C (L + 1) ^ (k + 2) E`. The conditions on
+`L, h ≥ 1`, `Kmax` and the sequences `S J`, `R J` are:
+1. `2 ((h ^ 2 + 1) ^ (k + 1) h) ≤ (L + 1) ^ (k + 2)` (the count of 8.7(b));
+2. `S 0 ≤ h ^ 2`, `R 0 ≤ h`, and `2 S (J + 1) ≤ S J` for `J < Kmax`;
+3. **extrapolation**, for `J < Kmax`, with `S' = S (J + 1)` and `R' = R (J + 1)`:
+   `B ^ S' r₀ ^ L ((L + 1) ^ (k + 2) Π (L + 1) R' ^ L (2 L G) ^ S' G ^ ((k + 1) L R')) ^ D <
+   lmin ^ S' r₀ ^ (R J S')`;
+4. **final:** `Π ^ D p ^ L (2 G ^ ((k + 1) L)) ^ (D (L + 1) ^ (k + 2)) r₀ ^ L <
+   r₀ ^ (R Kmax S Kmax)`.
+
+They are incompatible with the relation of 8.6. The steps: Lemma 2 gives algebraic integers
+`P`, not all zero, of house at most `Π`, so that 8.7(a) applies with `H_P = Π`; by induction on
+`J ≤ Kmax`, `f_m (l) = 0` for `∑ m ≤ S J` and `1 ≤ l ≤ R J` (for `J + 1`: by `D f_m` in 8.6 the
+series `f_m` with `∑ m ≤ S (J + 1)` vanish to order `S (J + 1)` at `1, …, R J`, so 8.3 makes
+`f_m (l)` small for `l ≤ R (J + 1)`, and 8.2 with 8.7(a) and (3) makes it zero); at the end
+`f_0` has all coefficients at most `r₀ ^ L r₀ ^ (-(R Kmax · S Kmax))` (8.3), and 8.5 at the
+points `ψ_e`, separated by Lemma 6, writes some `P t ≠ 0`, a nonzero algebraic integer of house
+at most `Π`, as a combination of these coefficients, which contradicts 8.2 by (4).
+*Needs:* 8.2, 8.3, 8.5, 8.7.
+
+**Checks.**
+- For `k = 0` and `h = 1`, (1) reads `4 ≤ (L + 1) ^ 2`, true for every `L ≥ 1`.
+- (2) gives `S J ≤ h ^ 2 / 2 ^ J` for `J ≤ Kmax`, as Baker's `[h² / 2 ^ J]`.
+- For `k = 0`, `L = h = D = G = C = 1`, `p = 3`, `r₀ = 2` and `S = R = 0`, (1) holds (`4 ≤ 4`),
+  but the left side of (4) is `16 · 3 · 16 · 2 = 1536` and the right side is `1`: orders and
+  ranges that do not grow cannot close the argument.
+- In (4), `(L + 1) ^ (k + 2) = (L + 1) ^ (k + 1) · (L + 1)` is the `card ι · S` of 8.5, for the
+  `(L + 1) ^ (k + 1)` points `ψ_e` and `S = L + 1`.
+
+### 8.9 The choice of parameters
+
+*Source:* none; the values are chosen here, and are not Baker's (below).
+
+For `k + 1` logarithms put `Kmax = (2k + 3)(3k + 7)` and, for an integer `t`, `X = 2 ^ t`,
+`h = X ^ (3k + 7)`, `L = X ^ (6k + 11)`, `R J = X ^ (3k + 7 + J)` and
+`S J = 2 ^ (Kmax - J) X ^ (6k + 13)`. For all large `t` these satisfy (1)–(4) of 8.8: each constant
+is at most a power of `r₀`, and each inequality compares `r₀ ^ (c Y)` with `r₀ ^ (X Y)` for a `c`
+independent of `t`. These are not Baker's values (`L = [h ^ (2 - 1/(4n))]`,
+`R J = [h ^ (1 + J/(8n))]`, `S J = [h² / 2 ^ J]`, `J ≤ (8n)²`): the `p`-adic gain per zero is the
+fixed factor `r₀` of 8.3, not a power of `h`. The conditions (1)–(4) contain `G` and not `δ`, and
+the choice works for every `r₀ > 1`, `B, G, C ≥ 0` and `lmin > 0`, so in particular for a `G` taken
+with `δ ≤ G` as 8.7 requires. *Needs:* the quantity `E` of 8.7.
+
+### 8.10 Baker's theorem over `ℂ_[p]`
+
+*Source:* Brumer, after Baker, Chapter 2. *Lean:* `PadicBaker.eq_zero_of_add_sum_mul_eq_zero`.
+
+If `ℓ i ∈ ℂ_[p]` have `‖ℓ i‖ < ρ`, algebraic `exp (ℓ i)`, and are linearly independent over `ℚ`, and
+`β₀ + ∑ β i ℓ i = 0` with algebraic `β₀, β i`, then `β₀ = 0` and every `β i = 0`. Hence a linear
+form in such `ℓ i` with algebraic coefficients and some `β i ≠ 0` is transcendental
+(`PadicBaker.transcendental_add_sum_mul`). The proof takes the number field `K` of the `exp (ℓ i)`,
+the `β i` and `β₀` (3.3) and divides the relation by a nonzero coefficient `β i₀` inside `K`, which
+gives the relation of 8.6 for `ℓ i₀`, with the coefficients `-β i / β i₀` (`i ≠ i₀`) and
+`-β₀ / β i₀`. By 3.3 it takes a common denominator `δ ≥ 1` of the `exp (ℓ i)` and these
+coefficients, and a bound `G` for the houses of `δ` times each of them, chosen with `δ ≤ G`: a
+number larger than such a bound is again such a bound, so `δ + 1` plus the sum of these houses will
+do. These are the data of 8.7. It takes `r₀ = ρ / max ‖ℓ i‖`, `B` a bound for the coefficients,
+`lmin = min ‖ℓ i‖` and `C` from 3.5, and applies 8.8 with 8.9. ⚠ The norm condition is needed
+(`NormedSpace.exp (1 : ℂ_[p]) = 0`: with `ℓ = 1`, `-1 + 1 · 1 = 0`). The restriction to the disc
+loses nothing: every `p`-adic logarithm of an algebraic number has a multiple by a power of `p` in
+the disc. *Needs:* 3.3, 3.5, 8.8, 8.9.
+
+### Examples
+
+- `exp p` is transcendental in `ℂ_[p]` for odd `p` (8.10 with `ℓ = p`, since `‖p‖ = 1 / p < ρ`;
+  `PadicBaker.transcendental_exp_prime`). For `p = 2` the point `2` lies on the boundary of the
+  disc (8.1).
+- For `p = 3`, `‖exp 3 - 1‖ = ‖3‖ = 1 / 3` (8.1).
+- Rejection test: `NormedSpace.exp (1 : ℂ_[p]) = 0`, so every target of this layer keeps the norm
+  condition.
+
+### Dependencies
+
+3.2, 3.3 and 3.5, Mathlib, and the Tau Ceti declarations of *Exact supplier contracts*; nothing else
+from the complex part, so this layer can proceed in parallel with Layers 0–7. Within the layer, 8.1,
+8.2, 8.3 and 8.5 are independent of one another, 8.4 needs 8.1, then come 8.6, 8.7, 8.8 and 8.9, and
+8.10 last.
 
 ## Downstream consumers
 
@@ -1013,21 +1320,24 @@ below are interfaces: they change only together with the consumers.
 
 ## References
 
-- M. Waldschmidt, *Diophantine Approximation on Linear Algebraic Groups*, Grundlehren 326,
+The keys are those of `sources.toml`, which records the access status of each work.
+
+- [W00] M. Waldschmidt, *Diophantine Approximation on Linear Algebraic Groups*, Grundlehren 326,
   Springer, 2000: Chapter 1 (statements), Chapter 4 (the proof followed here), Proposition 3.14
-  (Liouville's inequality).
-- A. Baker, *Transcendental Number Theory*, Cambridge University Press, 1975; reissued in the
-  Cambridge Mathematical Library, 2022, with an introduction by D. Masser. Chapter 2: Theorems
+  (Liouville's inequality). Page numbers are those of the printed book.
+- [Baker75] A. Baker, *Transcendental Number Theory*, Cambridge University Press, 1975; reissued in
+  the Cambridge Mathematical Library, 2022, with an introduction by D. Masser. Chapter 2: Theorems
   2.1–2.4, and the proof followed in Layer 8.
-- D. Bertrand and D. W. Masser, *Linear forms in elliptic integrals*, Invent. Math. 58 (1980),
-  283–288 (the argument of 7.1).
-- A. Brumer, *On the units of algebraic number fields*, Mathematika 14 (1967), 121–124 (Baker's
-  method over `ℂ_p`, for the `p`-adic rank of units; Layer 8).
-- L. K. Hua, *Introduction to Number Theory*, Springer, 1982, §17.9 (Gelfond's one-variable proof
-  of Gelfond–Schneider, used by M. Karatarakis's Mathlib formalisation).
-- S. Lang, *Introduction to Transcendental Numbers*, Addison-Wesley, 1966 (the criterion).
-- E. Bombieri and W. Gubler, *Heights in Diophantine Geometry*, Cambridge University Press, 2006
-  (Siegel's lemma).
+- [BM80] D. Bertrand and D. W. Masser, *Linear forms in elliptic integrals*, Invent. Math. 58
+  (1980), 283–288 (the argument of 7.1).
+- [Brumer67] A. Brumer, *On the units of algebraic number fields*, Mathematika 14 (1967), 121–124
+  (Baker's method over `ℂ_p`, for the `p`-adic rank of units; Layer 8).
+- [Hua82] L. K. Hua, *Introduction to Number Theory*, Springer, 1982, §17.9 (Gelfond's one-variable
+  proof of Gelfond–Schneider, used by M. Karatarakis's Mathlib formalisation).
+- [Lang66] S. Lang, *Introduction to Transcendental Numbers*, Addison-Wesley, 1966 (background for
+  the criterion; no target uses a result of it).
+- [BG06] E. Bombieri and W. Gubler, *Heights in Diophantine Geometry*, Cambridge University Press,
+  2006, Chapter 2 (Siegel's lemma; background for 3.5, which uses Mathlib's form).
 
 ## Provenance
 

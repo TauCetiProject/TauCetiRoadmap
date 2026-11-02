@@ -1,12 +1,14 @@
+module
+
 import Mathlib
 
 /-!
 # Linear forms in logarithms, over `ℂ` and `ℂ_p`: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. The statements here suggest Lean forms for particular milestones, so that
-contributors and reviewers converge on names and signatures; discharging all of them
-finishes neither a layer nor the roadmap.
+`README.md`. The statements here are its acceptance test: suggested Lean forms for the headline
+theorems of each layer and the definitions they need, so that contributors and reviewers converge
+on names and signatures; discharging all of them finishes neither a layer nor the roadmap.
 
 The narrative roadmap (the layers, the conventions, the worked examples, the references and the
 provenance of these statements) is in `README.md`. Mathlib has power series in the sense of
@@ -18,9 +20,8 @@ no transcendence theorem for the exponential function. We build those here in `T
 named so as not to collide with Mathlib's one-variable `FormalMultilinearSeries.coeff`, and
 `mvTaylorCoeff` is the Taylor coefficient of a function at a point, `0` where the function is not
 analytic. Series in one variable over an ultrametric field (Layer 8) are Mathlib's `PowerSeries`,
-evaluated with `FormalMultilinearSeries.ofScalarsSum`. The statements are the acceptance test:
-the headline theorems of each layer and the definitions they need. The steps of the proofs of 5.7
-and 8.10 (5.1–5.6 and 8.6–8.9) are specified in `README.md` and have no Lean form here. Every
+evaluated with `FormalMultilinearSeries.ofScalarsSum`. The steps of the proofs of 5.7 and 8.10
+(5.1–5.6 and 8.6–8.9) are specified in `README.md` and have no Lean form here. Every
 target name that `README.md` uses is declared here, and the Mathlib declarations it cites in these
 namespaces are pinned by `#check` below. The targets elaborate against the pinned Mathlib and are
 stated with `sorry` (allowed in this human-owned roadmap library).

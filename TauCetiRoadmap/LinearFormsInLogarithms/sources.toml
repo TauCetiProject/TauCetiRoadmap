@@ -1,0 +1,109 @@
+schema = "tauceti-roadmap-sources/v1"
+roadmap = "LinearFormsInLogarithms"
+
+[[source]]
+id = "W00"
+authors = "Michel Waldschmidt"
+title = "Diophantine Approximation on Linear Algebraic Groups: Transcendence Properties of the Exponential Function in Several Variables"
+year = 2000
+venue = "Grundlehren der mathematischen Wissenschaften 326, Springer"
+doi = "10.1007/978-3-662-11569-5"
+locator_scheme = "theorem"
+locator = "Theorem 1.6 and its corollaries, pp. 3–4; Proposition 3.14, p. 83; Theorem 4.1 and Corollaries 4.2–4.4, pp. 116–118; Theorem 4.5 and Lemma 4.6, pp. 119–121; Proposition 4.7, p. 122; Lemma 4.8, pp. 123–124; Lemma 4.9, pp. 130–131; Proposition 4.10, pp. 131–132; Lemmas 4.11–4.13, pp. 132–135; §4.6, pp. 137–141"
+url = "https://webusers.imj-prg.fr/~michel.waldschmidt/articles/pdf/dalag.pdf"
+fetched_from = "https://webusers.imj-prg.fr/~michel.waldschmidt/articles/pdf/dalag.pdf"
+fetched_at = "2026-11-02T14:41:05Z"
+sha256 = "e04a822f5b5d61be78c290f508ee7c8a28766e060ef4ec62377d068a942e3d59"
+licence_class = "author-page"
+status = "certified"
+accessed = "2026-11-02"
+version_note = "The author's full-text copy of the book, linked from his publications page. Page numbers are the printed ones. The numbering of Theorem 1.6, Proposition 3.14, Corollaries 4.2 and 4.4, Theorem 4.5, Propositions 4.7 and 4.10, Lemma 4.13 and §4.6 was checked against this copy."
+cited_for = ["1.5", "1.6", "2.1", "3.1", "3.4", "4.1", "5.1", "5.2", "5.3", "5.5", "5.6", "5.7", "6.1", "6.2", "7.1", "7.2", "7.3"]
+
+[[source]]
+id = "Baker75"
+authors = "Alan Baker"
+title = "Transcendental Number Theory"
+year = 1975
+venue = "Cambridge University Press; reissued in the Cambridge Mathematical Library, 2022, with an introduction by D. Masser"
+doi = "10.1017/CBO9780511565977"
+locator_scheme = "theorem"
+locator = "Chapter 2: Theorems 2.1–2.4, Lemmas 1–7 and §5"
+url = "https://doi.org/10.1017/CBO9780511565977"
+licence_class = "none"
+status = "uncertified"
+version_note = "no open copy; cited by its locators without the text"
+cited_for = ["7.2", "7.3", "8.5", "8.6", "8.7", "8.8", "8.10"]
+
+[[source]]
+id = "BM80"
+authors = "Daniel Bertrand, David W. Masser"
+title = "Linear forms in elliptic integrals"
+year = 1980
+venue = "Inventiones Mathematicae 58, 283–288"
+doi = "10.1007/BF01390255"
+locator_scheme = "page"
+locator = "pp. 283–288, the argument reproduced in Waldschmidt's §4.2"
+url = "https://doi.org/10.1007/BF01390255"
+licence_class = "none"
+status = "uncertified"
+version_note = "paywalled; cited through W00, which reproduces the argument"
+cited_for = ["7.1"]
+
+[[source]]
+id = "Brumer67"
+authors = "Armand Brumer"
+title = "On the units of algebraic number fields"
+year = 1967
+venue = "Mathematika 14, 121–124"
+doi = "10.1112/S0025579300003703"
+locator_scheme = "page"
+locator = "pp. 121–124"
+url = "https://doi.org/10.1112/S0025579300003703"
+licence_class = "none"
+status = "uncertified"
+version_note = "paywalled; cited by its locator without the text"
+cited_for = ["8.10"]
+
+[[source]]
+id = "Hua82"
+authors = "Loo Keng Hua"
+title = "Introduction to Number Theory"
+year = 1982
+venue = "Springer"
+doi = "10.1007/978-3-642-68130-1"
+locator_scheme = "section"
+locator = "§17.9, Gelfond's proof of the Gelfond–Schneider theorem"
+url = "https://doi.org/10.1007/978-3-642-68130-1"
+licence_class = "none"
+status = "uncertified"
+version_note = "no open copy; cited for the method of M. Karatarakis's Mathlib formalisation, which no target uses"
+cited_for = ["Scope and ownership: Coordination with Mathlib"]
+
+[[source]]
+id = "Lang66"
+authors = "Serge Lang"
+title = "Introduction to Transcendental Numbers"
+year = 1966
+venue = "Addison-Wesley"
+locator_scheme = "chapter"
+locator = "background for the criterion of Layer 5; no target uses a result of it"
+licence_class = "none"
+status = "uncertified"
+version_note = "no open copy; cited as background only"
+cited_for = ["References"]
+
+[[source]]
+id = "BG06"
+authors = "Enrico Bombieri, Walter Gubler"
+title = "Heights in Diophantine Geometry"
+year = 2006
+venue = "Cambridge University Press"
+doi = "10.1017/CBO9780511542879"
+locator_scheme = "chapter"
+locator = "Chapter 2, Weil heights, pp. 34–81 (Siegel's lemma); background for 3.5, which uses Mathlib's form instead"
+url = "https://doi.org/10.1017/CBO9780511542879"
+licence_class = "none"
+status = "uncertified"
+version_note = "no open copy; cited as background only"
+cited_for = ["References"]
