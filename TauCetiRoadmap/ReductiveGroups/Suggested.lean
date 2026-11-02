@@ -31,7 +31,19 @@ identification with the prescribed integral model. The spectral monodromy theore
 lacks the constructed regular-semisimple quotient and its analytic comparison on
 the native group-point carrier. The full smooth-chart comparison lacks the compatible manifold atlas on native
 scheme points; this is a construction of README §3A.5. Lang surjectivity lacks the general scheme Frobenius
-and geometric-connectedness comparison on that carrier. These endpoints remain in
+and geometric-connectedness comparison on that carrier. The characteristic-zero
+Levi-complement theorem of §6A lacks the constructed scheme quotient by the unipotent
+radical and its scheme semidirect-product comparison; the native dynamic Levi of
+a cocharacter is a different construction. The Harish–Chandra biadjunctions, Mackey
+decomposition and common-Levi independence of §§7c–7e, including their Steinberg
+endomorphism extensions in §7g, lack the constructed
+Frobenius-fixed parabolic and Levi groups with their Harish–Chandra functors.
+The distribution comparison, Frobenius-kernel and contraction theorems of §9C
+lack the algebra of identity-supported distributions of the constructed integral
+group, its relative Frobenius map and the rational contracted-module construction.
+The Weyl/simple-module and Steinberg-module endpoints of §10 lack their
+rational highest-weight module constructions as well.
+These endpoints remain in
 the README; no surrogate constructor or arbitrary maps are assumed here.
 -/
 
