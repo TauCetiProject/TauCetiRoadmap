@@ -262,7 +262,9 @@ data, or manifolds with corners beyond the quadrant model.
 4. **The sphere.**  Stratify `S² = ℂ ∪ {∞}` by `{∞} < ℂ`.  Prove `Exit(S²)` is equivalent to
    the poset `Fin 2` regarded as a category, using (e) on a cone chart at `∞` and simple
    connectivity of `ℂ`.  Since the nerve of `Fin 2` is contractible, the exit-path category does
-   not determine the homotopy type of `S²`; record this as the docstring of the theorem.
+   not determine the homotopy type of `S²`; record this as the docstring of the theorem.  The
+   same category, two objects and one non-identity arrow, is computed in Treumann, "Exit paths
+   and constructible stacks", Example 1.4, where it classifies the constructible sheaves on `S²`.
 
 ### Layer 4: o-minimal structures, cells, dimension, triangulation
 
@@ -376,8 +378,10 @@ as in the conventions.
    stratum-preserving homeomorphism `f⁻¹(U) ≅ U × F`.  Corollaries: (a) **local conical
    structure**: each `x ∈ X_p` has a neighbourhood stratum-preservingly homeomorphic to
    `ℝ^{dim X_p} × C(L_p)` with `L_p = ρ_p⁻¹(ε) ∩ π_p⁻¹(x)`, so every Thom--Mather space is
-   conically stratified (Layer 2); (b) the link `L_p` is a compact Thom--Mather space when `X` is
-   locally compact, with control data induced from `X`, and its homeomorphism type is locally
+   conically stratified (Layer 2; Nocera and Volpe, Theorem 1.1, show more: a
+   finite-dimensional abstract stratified set in Mather's sense has a conically smooth atlas);
+   (b) the link `L_p` is a compact Thom--Mather space when `X` is locally compact, with control
+   data induced from `X`, and its homeomorphism type is locally
    constant along `X_p`; (c) `π_p : T_p(ε) ∩ π_p⁻¹(U) → U` is stratum-preservingly trivial over
    small `U`.
 
@@ -468,7 +472,8 @@ Fix a finite poset `I`.
    control conditions give `s_ik = s_ij ∘ s_jk`; the first isotopy lemma gives local triviality.
 4. **Reconstruction.**  For `X` and `Σ` as in 3, `glue(Σ)` is homeomorphic to `X` by a
    stratum-preserving homeomorphism that is the identity on the complement in each `Σ_j` of the
-   images of the collars `c_ij`.
+   images of the collars `c_ij`.  For conically smooth spaces the analogous resolution is the
+   unzipping functor to manifolds with corners of Ayala, Francis and Tanaka, Theorem 7.3.8.
 5. **Faces indexed by flags.**  For a chain `d = (i_1 < ⋯ < i_n)` let
    `Σ_d = ∂_{i_1}Σ_{i_n} ∩ ⋯ ∩ ∂_{i_{n−1}}Σ_{i_n}` (and `Σ_d = Σ_{i_1}` when `n = 1`); for `d` the
    initial segment `(i_1 < ⋯ < i_p)` of `d'`, the compatibilities make `s_{i_p i_n}` a map
@@ -596,5 +601,15 @@ tubes of folders 150--151.  None of this code is prescriptive.
   in Mathematics 21 (2012), 225--258, §2; numbering of arXiv:0910.3518v2: Definition 2.3
   (depth), Definitions 2.5--2.6 (local boundary components and the boundary `∂X`), Remark 2.11
   (manifolds with faces, embedded corners, the teardrop).
+- D. Treumann, "Exit paths and constructible stacks", *Compositio Mathematica* 145 (2009),
+  1504--1532, doi:10.1112/S0010437X09004229; numbering of arXiv:0708.0659: Example 1.4 (the
+  exit-path category of `S²` stratified by a point).
+- D. Ayala, J. Francis and H. L. Tanaka, "Local structures on stratified spaces", *Advances in
+  Mathematics* 307 (2017), 903--1028, doi:10.1016/j.aim.2016.11.032; numbering of
+  arXiv:1409.0501: Theorem 7.3.8 (unzipping).
+- G. Nocera and M. Volpe, "Whitney stratifications are conically smooth", *Selecta
+  Mathematica (N.S.)* 29 (2023), Paper No. 68, doi:10.1007/s00029-023-00877-4; numbering of
+  arXiv:2105.09243: Theorem 1.1 (abstract stratified sets) and Theorem 2.25 (Whitney
+  stratified spaces).
 - A. Grothendieck, *Esquisse d'un programme* (1984), §5 ("tame topology"), in *Geometric Galois
   Actions 1*, LMS Lecture Note Series 242 (1997).
