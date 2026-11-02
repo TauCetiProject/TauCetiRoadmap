@@ -25,7 +25,7 @@ The other headlines are not statable at the pins:
   comparisons, and P4.2–P4.3's ordinary CM trivialization and connection
   compatibility need relative abelian schemes, their universal vector
   extensions, completed Poincaré coefficient sheaves and connection carriers.
-* B1.4's Betti-form rank criterion, B2.3–B2.4's uniform torsion, bounded-degree torsion
+* B1.4's Betti-form rank criterion, B2.3–B2.4's bounded-degree torsion
   and fixed-part theorems, B2.21–B2.23's specialness and full-rank theorems,
   B3's mixed Ax–Schanuel, closed degeneracy loci and quotient criterion,
   and B4's fibre-power and curve-difference non-degeneracy need relative
@@ -44,7 +44,8 @@ The other headlines are not statable at the pins:
   abelian-variety predicate.
 
 The general trace and Lang–Néron theorem are inputs from
-HeightsRationalPointsAndObstructions §§1.9–1.10. The general marked all-prime
+HeightsRationalPointsAndObstructions §§1.9–1.10; uniform torsion closures in families
+are inputs from its §5.8. The general marked all-prime
 lattice correspondence and rational-orbit quotient are inputs from
 ArithmeticStatisticsPartI's supporting construction "Finiteness of an isogeny
 class and of unpolarized classes"; only their prime-field linear-dual adapters

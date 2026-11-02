@@ -31,8 +31,9 @@ modulo trace for every regular finitely generated extension in any characteristi
 including the proof inputs in §§1.9a–1.9c.
 **InverseGaloisAndArithmeticFundamentalGroups**, IG.3 “Finitely many covers of
 bounded degree”, owns the characteristic-zero cover-finiteness input.
-B2 constructs uniform Manin–Mumford,
-bounded-degree torsion over characteristic-zero curve fields, the geometric
+**HeightsRationalPointsAndObstructions**, §§5.6,5.8–5.8a, also owns
+characteristic-zero Manin–Mumford and uniform torsion closures in families.
+B2 constructs bounded-degree torsion over characteristic-zero curve fields, the geometric
 constant-part comparison and the finite-maximal-special application.
 In particular, a second dual abelian scheme, Picard functor,
 polarization definition or quotient construction is outside this roadmap.
@@ -110,9 +111,9 @@ integer characteristic polynomials, degree and prime independence; F0 adds recip
 finite-field product corollaries rather than a second integrality theorem. The integer-character theorem and its finite-equation
 consequence have one owner, B2's integer-character construction.
 
-The independent prerequisite extensions belong here: B2.3 owns uniform torsion closures
-and bounded-degree torsion under zero geometric trace, while the general trace and
-Lang–Néron theorem remain the inputs from HeightsRationalPointsAndObstructions §§1.9–1.10.
+The independent prerequisite extensions belong here: B2.3 owns bounded-degree torsion
+under zero geometric trace. General trace and Lang–Néron come from
+HeightsRationalPointsAndObstructions §§1.9–1.10, and uniform torsion closures from its §5.8.
 B2.4 owns polarized fixed parts and the constant-part comparison, B2.6 semirational
 block counting, B2.15 the abelian Ax theorem and its real-period adapter, and B3.1
 the mixed Kuga uniformization and quotient inputs. B4.1 owns fine full-level curve
@@ -375,6 +376,21 @@ A(K)/τ(T(k)) for every regular finitely generated K/k, in every characteristic
 (ConradTrace, Theorems 6.2, 6.4, 6.8 and 7.1, pp.20–23; ConradTrace line 971,
 ConradTrace line 1007, ConradTrace line 1036, ConradTrace line 1079). B2.3 applies the theorem on
 finite covers; B2.4 and B2.12 compare the trace with invariant homology.
+
+Consume §5.8 “Uniformity in families”, with §§5.6 and 5.8a's proof inputs,
+in characteristic zero: for an abelian variety A over an algebraically closed field Ω,
+an irreducible quasi-projective Ω-variety V and an irreducible closed Y⊂V×A,
+there are finitely many abelian subvarieties B_i⊂A and D≥0 such that every fibre's
+torsion closure is a union of at most D torsion translates of these B_i, including
+empty fibres (GH, Theorem 3.2, PDF p.13, GH line 546). B2.21 consumes this
+uniform-family conclusion together with B2.3's bounded-degree torsion theorem.
+
+**Checks.**
+
+- An empty fibre has empty torsion closure and needs zero cosets.
+- The family V×A has closure A in every fibre; D=1 and the single direction A suffice.
+- For V×{P}, torsion P gives one point in the closure and non-torsion P gives none;
+  allowing arbitrary translates would incorrectly include the latter.
 
 ### From TauCetiRoadmap.InverseGaloisAndArithmeticFundamentalGroups
 
@@ -1312,9 +1328,7 @@ despite positive definite form on each individual fibre.
 *Needs:* [B0](#layer-b0-period-coordinates-and-betti-maps), Period-coordinate trivializations;
 [B1](#layer-b1-betti-forms-and-non-degeneracy), Non-degenerate subvarieties.
 
-### B2.3 Uniform torsion closures and bounded-degree torsion
-
-Prove uniform Manin–Mumford in families: for an abelian variety A over an algebraically closed field Ω of characteristic zero, an irreducible quasi-projective Ω-variety V and an irreducible closed Y⊂V×A, there are a finite family of abelian subvarieties B_i⊂A and D≥0 such that, for every v∈V(Ω), the Zariski closure of the torsion points in Y_v is a union of at most D torsion translates of members of that family, including empty fibres; the requirement includes the characteristic-zero Manin–Mumford theorem and its uniform-family proof ([GH][GH], Theorem 3.2, PDF p.13; GH line 546).
+### B2.3 Bounded-degree torsion
 
 Prove the bounded-degree torsion consequence: if k is algebraically closed of
 characteristic zero, K=k(S) for a smooth irreducible curve, A/K has zero geometric
@@ -1322,9 +1336,6 @@ trace and D≥1, then there is an integer N≥1 such that [N]P=0 for every
 P∈A(Kbar)_tors with [K(P):K]≤D. The bound depends only on A and D
 ([GH][GH], Proposition 3.1 proof, PDF pp.14–15, GH line 610).
 
-One route to uniform torsion closures is Manin–Mumford and parameter-uniformity
-for algebraic families, including a uniform bound on fibre components and a
-finite set of abelian-subvariety directions (GH, Theorem 3.2 proof, p.13).
 For bounded-degree torsion, take a good-reduction open U⊂S. Torsion point
 fields are unramified over U in characteristic zero; finite generation of the
 étale fundamental group, by InverseGaloisAndArithmeticFundamentalGroups
@@ -1336,10 +1347,6 @@ The exponent of its finite torsion subgroup gives N (GH line 632–650).
 
 **Checks.**
 
-- An empty fibre has empty torsion closure; the family V×A has closure A in every fibre,
-  with D=1 and the single direction A.
-- For V×{P}, torsion P gives the singleton closure and non-torsion P gives the empty closure;
-  arbitrary translates would incorrectly include the latter.
 - For A=0, N=1 kills the only point for every D. At D=1 the assertion is
   finite rational torsion, while higher D requires the cover argument.
 - For a nonzero constant elliptic curve over ℂ(t), every n-torsion point is
@@ -1785,8 +1792,8 @@ are separate inputs to this argument.
 (GH line 120, GH line 512)).
 
 *Needs:* [B2](#layer-b2-curve-monodromy-and-constant-traces), Generically special subvarieties;
-HeightsRationalPointsAndObstructions §1.9;
-AbelianSchemesAndArithmeticModuli A3; B2, Uniform torsion closures and bounded-degree torsion.
+HeightsRationalPointsAndObstructions §§1.9,5.8 (trace and uniform torsion closures);
+AbelianSchemesAndArithmeticModuli A3; B2.3, Bounded-degree torsion.
 
 ### B2.22 Curve degeneracy implies GH generic specialness
 
@@ -1828,8 +1835,9 @@ compare the invariant constant part as in B2.4 and B2.12. The trace reduction al
 two specific assertions: after making connected monodromy, all fibres outside a countable set
 are extendable (Gao–Habegger, Lemma 5.7, pp.25–26), and
 B2.21's finiteness theorem supplies the finite union of special closures.
-Establish the endomorphism-extension argument for the first and use the precise
-B2.3's uniform torsion-closure and bounded-degree torsion theorems for the second. The local Néron factor theory
+Establish the endomorphism-extension argument for the first; for the second use
+HeightsRationalPointsAndObstructions §5.8's uniform torsion closures and B2.3's
+bounded-degree torsion theorem. The local Néron factor theory
 is not a substitute for either assertion.
 
 For the definable argument, prove integer-character separation for closed torus subgroups
@@ -1850,9 +1858,9 @@ A constant genus-two curve inside its constant Jacobian is GH generically specia
 ### Dependencies
 
 The prerequisite interfaces for each target are the *Needs* clauses above. External inputs include AbelianSchemesAndArithmeticModuli, ShimuraVarieties §5.2,
-HeightsRationalPointsAndObstructions §§1.9–1.10, InverseGaloisAndArithmeticFundamentalGroups IG.3,
+HeightsRationalPointsAndObstructions §§1.9–1.10,5.8, InverseGaloisAndArithmeticFundamentalGroups IG.3,
 LieGroupoidsPoisson G0.1 and
-SmoothBundlesConnections B6.0, with the exact contracts above. The order is the trace input, uniform torsion and fixed parts, character separation and block counting, then the monodromy and specialness arguments. The abelian Ax target uses only the definition of Ax-type, and precedes its algebraic-subvariety application.
+SmoothBundlesConnections B6.0, with the exact contracts above. The order is the trace and uniform-family inputs, bounded-degree torsion and fixed parts, character separation and block counting, then the monodromy and specialness arguments. The abelian Ax target uses only the definition of Ax-type, and precedes its algebraic-subvariety application.
 
 ## Layer B3: Degeneracy loci and quotient criteria
 
