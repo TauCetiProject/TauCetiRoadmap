@@ -531,10 +531,11 @@ classical elliptic theory (Schauder, De Giorgi–Nash–Moser).
 ### Lane G: mixed and Neumann boundary conditions
 
 Boundary conditions imposed on a part of the boundary, built on Lane A's Lipschitz domains and
-traces and Lane D's energy method. A domain is an open `Ω ⊆ WithLp 2 (ℝ × E)` for a
-finite-dimensional real inner product space `E`, under the Lipschitz-domain predicate of A.6 with
-its constant `L`; the trace is A.6's operator `W^{1,p}(Ω) → Lᵖ(frontier Ω, μHE[n−1])`, bounded for
-`1 ≤ p < ∞` on bounded Lipschitz domains. Admissible boundary parts are the strong Lipschitz pairs
+traces and Lane D's energy method, as implemented on Tau Ceti `main` (declarations checked at
+revision `a318838`). A domain is an open `Ω ⊆ WithLp 2 (ℝ × E)` for a finite-dimensional real inner
+product space `E`, with `Set.IsLipschitzDomainWith` and its constant `L`; the trace is
+`TauCeti.W1p.frontierTrace`, a bounded operator `W^{1,p}(Ω) → Lᵖ(frontier Ω, μHE[n−1])`, with
+`n − 1 = finrank ℝ E`, for `1 ≤ p < ∞` on bounded Lipschitz domains. Admissible boundary parts are the strong Lipschitz pairs
 of Bauer–Pauly–Schomburg (§2.1, p. 6), in every dimension. Their weak Lipschitz pairs
 (Definitions 2.3–2.6, p. 5), defined by bi-Lipschitz charts, are not part of this lane.
 
@@ -558,20 +559,24 @@ of Bauer–Pauly–Schomburg (§2.1, p. 6), in every dimension. Their weak Lipsc
     `closure Γ` (Lean: `w1pVanishingOnSubmodule Ω p Γ`).
     Prove:
     - `W^{1,p}_Γ = W^{1,p}_0` when `Γ = frontier Ω`, for every open `Ω` and every `p`;
-    - `W^{1,p}_∅ = W^{1,p}` for bounded Lipschitz `Ω` and `p < ∞` (from A.6's extension operator);
+    - `W^{1,p}_∅ = W^{1,p}` for bounded Lipschitz `Ω` and `p < ∞`
+      (`TauCeti.W1p.denseRange_restrictL_ofTestFunctionₗ_top`);
     - for bounded Lipschitz `Ω`, admissible `Γ` (item 28) and `p < ∞`,
-      `W^{1,p}_Γ(Ω) = {u ∈ W^{1,p}(Ω) | trace u = 0 μHE[n−1]-a.e. on Γ}`. For
-      `Γ = frontier Ω` this is A.6's identification `ker(trace) = W^{1,p}_0`. Bauer–Pauly–Schomburg
+      `W^{1,p}_Γ(Ω) = {u ∈ W^{1,p}(Ω) | W1p.frontierTrace u = 0 μHE[n−1]-a.e. on Γ}`. For
+      `Γ = frontier Ω` this is `TauCeti.W1p.ker_frontierTrace`. Bauer–Pauly–Schomburg
       prove the case `p = 2`, `n = 3` (Lemma 3.1, p. 7; proof in Appendix A). The general case is a
       theorem of this roadmap: by a partition of unity and a bi-Lipschitz flattening, reduce to a
       half-space with `Γ` the half-hyperplane `{s < 0}`; translate by `t > 0` in `s`, so the trace
       vanishes on `{s < t}`; split with a cutoff in `s` into a part with zero trace on the whole
-      hyperplane, which lies in `W^{1,p}_0` by A.6, and a part supported in `{s > 0}`, approximated
-      through A.6's extension operator; mollify in the original coordinates.
+      hyperplane, which lies in `W^{1,p}_0` by `W1p.ker_frontierTrace`, and a part supported in
+      `{s > 0}`, approximated through `W1p.denseRange_restrictL_ofTestFunctionₗ_top`; mollify in the original coordinates.
 30. **Poincaré–Friedrichs.** For a bounded connected `Ω`, an admissible `Γ` with
-    `μHE[n−1] Γ > 0` and `1 ≤ p < ∞`: `‖u‖_p ≤ C ‖∇u‖_p` on `W^{1,p}_Γ(Ω)`. The proof is by
-    contradiction from Rellich (A.6), so this constant is an existence statement, not an
-    explicit one.
+    `μHE[n−1] Γ > 0` and `1 ≤ p < ∞`: `‖u‖_p ≤ C ‖∇u‖_p` on `W^{1,p}_Γ(Ω)`. The proof is Peetre's
+    compact-error estimate `ContinuousLinearMap.exists_pos_mul_norm_le_of_compact_estimate` with
+    `W1p.isCompactOperator_valueL_of_isLipschitzDomainWith`, in the pattern of
+    `W1p.exists_eLpNorm_value_sub_setAverage_le_of_isCompactOperator`, with
+    `W1p.exists_value_ae_eq_const_of_gradient_eq_zero` and the vanishing trace on `Γ` excluding
+    nonzero constants. So this constant is an existence statement, not an explicit one.
 31. **The mixed and Neumann problems.** On a bounded Lipschitz `Ω` with admissible `Γ`, take the
     energy form `a` of D.16, Dirichlet data `g ∈ H¹(Ω)` and Neumann data
     `h ∈ L²(frontier Ω \ Γ, μHE[n−1])`. A weak solution is `u ∈ g + H¹_Γ(Ω)` with
@@ -582,12 +587,13 @@ of Bauer–Pauly–Schomburg (§2.1, p. 6), in every dimension. Their weak Lipsc
       Lax–Milgram, as in D.17);
     - the pure Neumann problem (`Γ = ∅`, `c = 0`, `b = 0`, `Ω` connected): a solution exists if
       and only if `∫_Ω f + ∫_{frontier Ω} h = 0`, and it is unique up to an additive constant
-      (from Poincaré–Wirtinger, A.5);
+      (from Poincaré–Wirtinger, `W1p.exists_eLpNorm_value_sub_setAverage_le_of_isCompactOperator`);
     - the Fredholm alternative for the mixed problem, as D.18 does for the Dirichlet problem.
 32. **Mixed and Neumann spectra.** Let `−Δ_Γ` be the Laplacian with the form `∫ ∇u · ∇v` on
     `H¹_Γ(Ω)`, for a bounded connected Lipschitz `Ω` and admissible `Γ`. The resolvent
     `(−Δ_Γ + 1)⁻¹ : L²(Ω) → L²(Ω)` exists by Lax–Milgram for the form `∫ ∇u · ∇v + ∫ u v` on
-    `H¹_Γ(Ω)`, is compact by Rellich on `H¹(Ω)` (A.6), and is self-adjoint. Its eigenvalues
+    `H¹_Γ(Ω)`, is compact by Rellich on `H¹(Ω)`
+    (`W1p.isCompactOperator_valueL_of_isLipschitzDomainWith`), and is self-adjoint. Its eigenvalues
     `μₖ ∈ (0, 1]` give the eigenvalues `λₖ = 1/μₖ − 1 ≥ 0` of `−Δ_Γ` and an orthonormal
     eigenfunction basis of `L²(Ω)`. Prove:
     - when `μHE[n−1] Γ > 0`, the first eigenvalue is positive and `−Δ_Γ` has a compact self-adjoint
