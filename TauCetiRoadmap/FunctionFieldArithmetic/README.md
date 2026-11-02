@@ -80,9 +80,9 @@ This roadmap owns:
 It leaves the following to the roadmaps that state them, and states none of them again:
 
 - **ArithmeticGaloisDuality**, §R02.3.2, *Function-field places, ideles and `S`-units*: the
-  idele group `GlobalFunctionField.ideles F`, the idele class group `ideleClassGroup F`, the
-  degree `ideleDegree`, F. K. Schmidt's theorem `ideleDegree_surjective`, compactness of the
-  degree-zero idele classes and the splitting `ideleClassGroup F ≅ ker(deg) × ℤ`, `S`-units and
+  idele group `J_F`, the idele class group `C_F`, the
+  valuation degree `deg`, F. K. Schmidt's degree-surjectivity theorem, compactness of the
+  degree-zero idele classes and the splitting `C_F ≅ ker(deg) × ℤ`, `S`-units and
   `S`-class groups; *The class formation of a global function field*: the Brauer sequence, the
   class formation, the reciprocity isomorphisms `C_F/N_{L/F}C_L ≅ Gal(L/F)^ab` compatible with
   local reciprocity, the description of norm groups as the open subgroups of finite index, and the
@@ -108,12 +108,11 @@ It leaves the following to the roadmaps that state them, and states none of them
   characteristic polynomials); §1.8 Brauer–Nesbitt.
 - **DeligneWeightsAndPurity**: §1.6 (the Weil estimate for curves through the Jacobian and
   `Z(C, t) = P^rev_{π_J}(t)/((1 − t)(1 − qt))`) and §1.9 (base extension).
-  Its §3.7 supplies `finiteCover_degreeChebotarev`, including the prescribed
-  constant-field Frobenius coset; §5.8 adds an explicit error estimate and compares it
-  with that supplied asymptotic statement.
-- **WeilConjectures**: WC.1 *A curve numerator before root bounds*
-  (`curve_zeta_numerator_without_rh`) and WC.5 *Recurrences and Newton recovery*
-  (`extension_count_recurrence`).
+  Its §3.7 supplies the Haar-null density-zero consequence of the degree-refined
+  Chebotarev theorem in ArithmeticGaloisRepresentations §5.13; §5.8 here adds an explicit
+  error estimate with the same constant-field Frobenius congruence and main term.
+- **WeilConjectures**: §1.16 *A curve numerator before root bounds* and §5.20
+  *Recurrences and Newton recovery*.
 - **SchemeAndStackFoundations**: §2.16 *Tsen's theorem*, §3.3 *Vector bundles and duality on
   curves*, §3.6 *Picard schemes and Picard torsors of a curve without a rational point*, and
   §5.11 *Weil bound via surfaces*.
@@ -177,7 +176,7 @@ Layer 12) `F = k(X)` for a smooth projective geometrically connected curve `X/k`
   valuations use extended value `∞` at zero; they do not use the native total additive
   order's junk value at zero.
 - **Two degrees of an idele.** The valuation degree of an idele `a` is
-  `deg a = Σ_v d_v ord_v(a_v)`; this is ArithmeticGaloisDuality's `ideleDegree`. Yu's degree is its
+  `deg a = Σ_v d_v ord_v(a_v)`; this is the valuation degree of ArithmeticGaloisDuality §R02.3.2. Yu's degree is its
   negative, `deg_Yu a = −deg a`, so that `|a| = q^(deg_Yu a)`. For `GL_n` the determinant degree
   of `a·1_n` is `n · deg a`. Every statement below says which degree it uses; Layer 6.7 uses Yu's.
 - **Frobenius.** The arithmetic Frobenius `φ_v` acts on an algebraic closure of `κ(v)` by
@@ -249,7 +248,9 @@ chosen-generator comparison transports this contract to the intrinsic
 `TauCeti.IsFunctionField` setting.
 Its compatible finite Artin quotients give the dense reciprocity map
 `C_F → Gal(F^ab/F)` and the isomorphism from the profinite completion of `C_F` onto that
-Galois group. The constant-field projection is arithmetic Frobenius to the valuation degree;
+Galois group. Its *Function-field places, ideles and S-units* degree-surjectivity API
+supplies a degree-one idele under these same finite exact-constant hypotheses.
+The constant-field projection is arithmetic Frobenius to the valuation degree;
 equivalently it is inverse Frobenius to Yu's degree. The discrete `ℤ` degree direction is
 completed to `ℤ̂`, so the uncompleted idele class group is not itself profinite.
 
@@ -269,7 +270,10 @@ arithmetic Artin itself, so passing to that local system inverts the character.
 
 ArithmeticGaloisRepresentations §2.5 defines `GaloisRep.localEulerFactor` as
 `det(1 − X ρ(Fr) | V^{ρ(I)})` for any coefficient field, independent of the lift of `Fr`;
-Layer 5.7 substitutes `X = T^(d_v)`.
+Layer 5.7 substitutes `X = T^(d_v)`. Section 5.13, *Chebotarev for function fields*,
+supplies degree-refined counts for connected finite étale Galois covers, with the
+prescribed constant-field Frobenius coset and main coefficient `|C|/|G_geom|`.
+Section 5.8 here compares its explicit error estimate with that asymptotic theorem.
 
 ### From TauCetiRoadmap.ClassFieldTheory
 
@@ -310,14 +314,14 @@ functions, compatibility with quotients and Hasse–Arf.
 ### From TauCetiRoadmap.DeligneWeightsAndPurity
 
 DeligneWeightsAndPurity §§1.6 and 1.9 provide the Jacobian numerator, the Weil bound and
-base extension. Section 3.7 supplies `finiteCover_degreeChebotarev` on each compatible
-constant-field Frobenius progression; §5.8 here adds its explicit numerical error.
+base extension. Section 3.7 supplies the Haar-null density-zero consequence, using
+ArithmeticGaloisRepresentations §5.13 for degree-refined finite-cover Chebotarev.
 
 ### From TauCetiRoadmap.WeilConjectures
 
-WeilConjectures WC.1, *A curve numerator before root bounds*, supplies
-`curve_zeta_numerator_without_rh` on the scheme zeta function. WC.5, *Recurrences and Newton
-recovery*, supplies `extension_count_recurrence` for a known-degree polynomial; §5.6 here
+WeilConjectures §1.16, *A curve numerator before root bounds*, supplies the
+scheme-theoretic curve numerator. Section 5.20, *Recurrences and Newton recovery*,
+supplies the recurrence and Newton identities for a known-degree polynomial; §5.6 here
 uses reciprocal symmetry to recover the numerator from only `g` point counts.
 
 ### From TauCetiRoadmap.SchemeAndStackFoundations
@@ -442,11 +446,11 @@ of the curve is assumed.
 Prove degree_conventions, comparing the supplied degrees and reciprocity maps:
 
 1. Under the valuation-divisor map of AutomorphicLFunctionsAndLocalFactors *Curve additive
-   analysis*, ArithmeticGaloisDuality's `ideleDegree a` equals `TauCeti.Divisor.degree` of the
-   divisor `Σ_v ord_v(a_v)[v]`. Yu's degree is `deg_Yu = −ideleDegree`, and `|a| = q^(deg_Yu a)`.
+   analysis*, the valuation degree `deg a` of ArithmeticGaloisDuality §R02.3.2 equals `TauCeti.Divisor.degree` of the
+   divisor `Σ_v ord_v(a_v)[v]`. Yu's degree is `deg_Yu a = −deg a`, and `|a| = q^(deg_Yu a)`.
 2. **Constant-field reciprocity.** For the global reciprocity map `Art` of ArithmeticGaloisDuality
    *The class formation of a global function field*, and `r ≥ 1`, the image of an idele class `a`
-   in `Gal(𝔽_{q^r}F/F) ≅ ℤ/r` is `φ^(ideleDegree a)`, where `φ` is arithmetic `q`-Frobenius;
+   in `Gal(𝔽_{q^r}F/F) ≅ ℤ/r` is `φ^(deg a)`, where `φ` is arithmetic `q`-Frobenius;
    equivalently `φ^(−deg_Yu a)`. In the geometric normalization the exponent changes sign.
 
 *Proof sketch.* (1) compares the two coordinate sums place by place. For (2), `Art` is compatible with local
@@ -462,7 +466,7 @@ analysis*; AlgebraicCurves Layer 0.
 
 **Checks.**
 
-- The idele equal to `π_v` at `v` and `1` elsewhere has `ideleDegree = d_v` and `deg_Yu = −d_v`;
+- The idele equal to `π_v` at `v` and `1` elsewhere has `deg a = d_v` and `deg_Yu = −d_v`;
   a degree that forgot the residue degree would give `±1`.
 - At `x=0`, the absolute value is `0`. Substituting the native total additive order
   `ord_v(0)=0` into the nonzero formula would give `q^0=1`.
@@ -483,8 +487,9 @@ Equivalently the greatest common divisor of the degrees of all places is `1`, an
 `Divisor.degree : Divisor k F →+ ℤ` is surjective (surjectivity of the degree map). This does not
 assert the existence of a place of degree one, nor of a rational point of the model.
 
-*Proof sketch.* This is the divisor form of F. K. Schmidt's theorem, ArithmeticGaloisDuality's
-`ideleDegree_surjective`, transported along the valuation-divisor map of
+*Proof sketch.* This is the divisor form of F. K. Schmidt's theorem, transported from
+the degree-surjectivity API of ArithmeticGaloisDuality §R02.3.2, *Function-field places,
+ideles and S-units*, along the valuation-divisor map of
 AutomorphicLFunctionsAndLocalFactors AL.3 and the comparison 0.1(1): a degree-one idele maps to
 a degree-one divisor. A direct proof, independent of class field theory, runs through the Weil
 bound: if `e > 1` divided every place degree, the model would have no `𝔽_{q^r}`-points for
@@ -494,7 +499,8 @@ then combines finitely many places into a degree-one divisor. (Roquette, *Class 
 characteristic p*, §4.3.3, p. 26, which records the theorem and its original zeta-function proof;
 §8.1 for Witt's algebraic proof.)
 
-*Needs:* ArithmeticGaloisDuality §R02.3.2 `ideleDegree_surjective`; AutomorphicLFunctionsAndLocalFactors
+*Needs:* ArithmeticGaloisDuality §R02.3.2, *Function-field places, ideles and S-units*,
+degree-surjectivity API; AutomorphicLFunctionsAndLocalFactors
 AL.3 *Curve additive analysis*; Layer 0.1.
 
 **Checks.**
@@ -536,7 +542,7 @@ Tau Ceti `Divisor.degreeClass`, `Divisor.finite_ker_degreeClass`, `Divisor.class
 ### Examples
 
 For `F = 𝔽_q(t)`: `k̃ = 𝔽_q`, `g = 0`, `h = 1`, the place `∞` has degree one, and the idele with
-`t⁻¹` at `∞` and `1` elsewhere has `ideleDegree = 1`.
+`t⁻¹` at `∞` and `1` elsewhere has valuation degree `1`.
 
 ### Dependencies
 
@@ -854,6 +860,14 @@ pairings. This inverse-limit duality is the meaning of perfectness at infinite l
 not a pairing into the Pontryagin dualizing group `ℚ_p/ℤ_p`. (iv) two classes generate the same subfield exactly when they
 generate the same cyclic subgroup of `Q_n(F)`.
 
+The finite-length underlying group equivalence is `artinSchreierWitt_galois`;
+its infinite-length counterpart is `artinSchreierWitt_infiniteCharacters`, for every
+prime `p` and every field `F` of characteristic `p`, without a perfectness assumption.
+The latter identifies `W(F)/℘W(F)` with continuous characters from the absolute Galois
+group to the additive group of `ℤ_p` with its p-adic topology. Both equivalences arise
+from the solution pairing above, and reduction modulo `p^n` agrees with Witt truncation
+(Kosters–Wan, Theorem 3.4 and its inverse-limit argument, pp. 8–9).
+
 The operator and quotient have the following API:
 
 - The operator is additive for the Witt group law and commutes with truncation.
@@ -885,6 +899,16 @@ Theorem 3.4 and proof, pp. 8–9.)
   `(x₀, x₁) ↦ (x₀² − x₀, x₁² − x₁)`: on the Teichmüller vector `[t] = (t,0,…)` its first two coordinates are
   `(t²+t, t²+t³)`, and `t²+t³ ≠ 0`. The class of `(t,0)` in `Q_2(F)` has order `4`;
   a coordinatewise additive quotient would have exponent `2`.
+- For `F=𝔽₂`, `℘=0` on `W(F)=ℤ₂`. The class of `1` gives the continuous
+  projection `ℤ̂ → ℤ₂`, sending arithmetic Frobenius to `1`; its reductions have
+  orders `2,4,8` at lengths `1,2,3`. Its infinite image excludes a finite-image-only
+  interpretation, while the zero class gives the zero character at every length.
+- For `F=𝔽₃`, the class of `1` sends arithmetic Frobenius to `1 ∈ ℤ₃`;
+  geometric Frobenius maps to `−1`, whose reductions at lengths `1,2` are `2,8`,
+  rather than `1,1`. This distinguishes the solution pairing from its negative.
+- For algebraically closed `F` of characteristic `p`, `℘` is onto at every length
+  and at infinite length, so both the Witt quotient and the character group are zero.
+  A quotient by the zero subgroup instead would retain the nonzero class of `1`.
 - Multiplying a class by a unit of `ℤ/p^n` preserves the generated field and changes the attached
   character; a definition that attached a field to a character, rather than to a cyclic
   subgroup, would distinguish them.
@@ -1815,7 +1839,7 @@ Tau Ceti `genus`, `Divisor.classNumber`.
 
 Prove zeta_eq_schemeZeta: `zeta F` equals the zeta function `Z(X, T)` of the regular projective
 model `X` (WeilConjectures WC.1, the closed-point Euler product), and `L_F`
-equals the curve numerator of WeilConjectures WC.1 (`curve_zeta_numerator_without_rh`) and the
+equals the curve numerator of WeilConjectures §1.16, *A curve numerator before root bounds*, and the
 reversed characteristic polynomial `P^rev_{π_J}` of the Frobenius endomorphism of the Jacobian
 (DeligneWeightsAndPurity §1.6). Consequently `N_r = q^r + 1 − Σ_{i=1}^{2g} α_i^r` with
 `L(T) = ∏_i (1 − α_i T)`, `|α_i| = √q` for every complex embedding, `#J(𝔽_q) = L(1) = h`, and
@@ -1880,11 +1904,11 @@ The polynomial-data API is:
 *Proof sketch.* The Newton identities are the first `g` coefficients of `T·L′/L = Σ (N_r − q^r − 1)T^r`
 (5.1 divided by the denominator), and they determine `a_1, …, a_g` recursively because the
 coefficient of `a_r` is `r`, nonzero in `ℤ`; the functional equation (5.3) gives the remaining
-coefficients. WeilConjectures WC.5 states the general recurrence for a factor of known degree from
+coefficients. WeilConjectures §5.20 states the general recurrence for a factor of known degree from
 its first `b` moments; the functional equation halves the number needed. (Roquette, §4.3.3, p. 28,
 for `a_1 = N_1 − (q + 1)`.)
 
-*Needs:* Layers 5.1 and 5.3; WeilConjectures WC.5 *Recurrences and Newton recovery*.
+*Needs:* Layers 5.1 and 5.3; WeilConjectures §5.20 *Recurrences and Newton recovery*.
 
 **Checks.**
 
@@ -2016,10 +2040,11 @@ degree, prove degree_sensitive_chebotarev:
 Here `g_M` is the genus over the exact constants of `M`, `g_X` is the genus of `F/k`,
 `R` is the sum of the degrees of the ramified places of `F`, and the inequality is in `ℝ`.
 Both `|N|` and `q` are positive, with `q > 1`. The factor `|C|/|N|`, rather than `|C|/|G|`,
-is essential when constants enlarge. The explicit error tends to zero after division by `q^r`, and recovers
-DeligneWeightsAndPurity §3.7's supplied `finiteCover_degreeChebotarev` on each compatible
-constant-field progression. Its asymptotic and Haar-null conclusions are imported there;
-the additional target here is this numerical bound, not their general proof.
+is essential when constants enlarge. The explicit error tends to zero after division by `q^r`,
+giving the same limiting main coefficient as ArithmeticGaloisRepresentations §5.13,
+*Chebotarev for function fields*, on each compatible constant-field progression.
+The additional target here is this numerical bound; the asymptotic theorem and the
+Haar-null consequence of DeligneWeightsAndPurity §3.7 retain their supplier proofs.
 
 For the proof, use Kosters, *A short proof of a Chebotarev density theorem for function fields*,
 Theorem 1.1 and Corollary 1.2, p. 2, with Lemmas 1.3–1.4 and proofs, pp. 3–5. The corollary's
@@ -2042,8 +2067,9 @@ displayed estimate. This deduction does not identify all rational points after b
 with places of degree exactly `r`.
 
 *Needs:* AlgebraicCurves Layers 6 and 8 (Galois places, constant-field components and genus);
-§5.1; DeligneWeightsAndPurity §§1.6 and 3.7 (`finiteCover_degreeChebotarev`, for
-comparison with its asymptotic); finite-group conjugacy and arithmetic Frobenius.
+§5.1; DeligneWeightsAndPurity §1.6 (the curve Weil bound); ArithmeticGaloisRepresentations
+§5.13, *Chebotarev for function fields* (comparison with its asymptotic);
+finite-group conjugacy and arithmetic Frobenius.
 
 **Checks.**
 
@@ -2065,7 +2091,7 @@ function field `y² = x³ + x + 1` over `𝔽_5` (discriminant `−16·31 ≢ 0`
 
 ### Dependencies
 
-Layers 0.1–0.2 and 4.5; AlgebraicCurves Layers 2, 3, 4, 5, 6, 8 and 12; DeligneWeightsAndPurity §§1.6 and 1.9; WeilConjectures WC.1 and WC.5; ArithmeticGaloisRepresentations §2.5;
+Layers 0.1–0.2 and 4.5; AlgebraicCurves Layers 2, 3, 4, 5, 6, 8 and 12; DeligneWeightsAndPurity §§1.6 and 1.9; WeilConjectures WC.1 and §5.20; ArithmeticGaloisRepresentations §§2.5 and 5.13;
 EtaleCohomologyFoundations §§F.2.5, F.3 and
 F.10.2–F.10.3; PadicMeasuresIwasawaAlgebras §5.1.
 

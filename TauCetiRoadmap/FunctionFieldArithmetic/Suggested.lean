@@ -8,7 +8,7 @@ The roadmap is README.md; this file is not the roadmap. It states its headline t
 against the pinned Mathlib and Tau Ceti APIs, using the few simple definitions they need.
 
 The degree-one divisor theorem, reduced-basis theorem, Witt-vector additive Hilbert 90,
-finite-length Artin–Schreier–Witt character classification, equal-characteristic local
+finite- and infinite-length Artin–Schreier–Witt character classification, equal-characteristic local
 abelian existence, divisor zeta identities and polynomial recovery are statable below.
 The remaining headline theorems lack the following carriers at the pins:
 divisor-lattice Fourier duality and volumes (§2) need completed adelic divisor lattices
@@ -118,6 +118,18 @@ functorial and topological characterizations are specified in the README. -/
 theorem artinSchreierWitt_galois (n : ℕ) :
     Nonempty (aswQuotient p F n ≃+
       Additive (ContinuousMonoidHom (Field.absoluteGaloisGroup F) (Multiplicative (ZMod (p ^ n))))) := by
+  sorry
+
+/-- The infinite-length Artin–Schreier–Witt quotient classifies continuous characters of the
+absolute Galois group with values in the additive group of the p-adic integers
+(README 3.1; Kosters–Wan, Theorem 3.4, pp. 8–9). This asserts the underlying group equivalence;
+the solution pairing, inverse-limit topology and reduction compatibility are specified in
+the README. No perfectness assumption on the field is needed. -/
+theorem artinSchreierWitt_infiniteCharacters
+    (p : ℕ) [Fact p.Prime] (F : Type*) [Field F] [CharP F p] :
+    Nonempty ((WittVector p F ⧸ (artinSchreierWitt p F).range) ≃+
+      Additive (ContinuousMonoidHom (Field.absoluteGaloisGroup F)
+        (Multiplicative (PadicInt p)))) := by
   sorry
 
 end ArtinSchreierWitt
