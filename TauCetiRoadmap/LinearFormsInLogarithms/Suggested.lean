@@ -471,19 +471,20 @@ theorem Baker.transcendental_exp_add_sum_mul {ι : Type*} [Fintype ι] {l : ι �
   sorry
 
 /-- **Layer 7.3** (Baker, Theorem 2.4), branch-free: `exp (∑ βᵢ lᵢ)` is transcendental for
-nonzero logarithms `lᵢ` of algebraic numbers when `1, β₁, …, βₙ` are `ℚ`-linearly
+logarithms `lᵢ` of algebraic numbers, not all zero, when `1, β₁, …, βₙ` are `ℚ`-linearly
 independent. -/
-theorem Baker.transcendental_exp_sum_mul {ι : Type*} [Fintype ι] [Nonempty ι] {l β : ι → ℂ}
-    (hl0 : ∀ i, l i ≠ 0) (hl : ∀ i, IsAlgebraic ℚ (Complex.exp (l i)))
+theorem Baker.transcendental_exp_sum_mul {ι : Type*} [Fintype ι] {l β : ι → ℂ}
+    (hl0 : ∃ i, l i ≠ 0) (hl : ∀ i, IsAlgebraic ℚ (Complex.exp (l i)))
     (hβ : ∀ i, IsAlgebraic ℚ (β i))
     (hβli : LinearIndependent ℚ (fun o : Option ι => o.elim 1 β)) :
     Transcendental ℚ (Complex.exp (∑ i, β i * l i)) :=
   sorry
 
 /-- **Layer 7.3** (Baker, Theorem 2.4), in Mathlib's principal branch: `∏ αᵢ ^ βᵢ` is
-transcendental when `1, β₁, …, βₙ` are `ℚ`-linearly independent. -/
-theorem Baker.transcendental_prod_cpow {ι : Type*} [Fintype ι] [Nonempty ι] {α β : ι → ℂ}
-    (hα : ∀ i, IsAlgebraic ℚ (α i)) (hα0 : ∀ i, α i ≠ 0) (hα1 : ∀ i, α i ≠ 1)
+transcendental for nonzero algebraic `αᵢ`, not all `1`, when `1, β₁, …, βₙ` are `ℚ`-linearly
+independent. -/
+theorem Baker.transcendental_prod_cpow {ι : Type*} [Fintype ι] {α β : ι → ℂ}
+    (hα : ∀ i, IsAlgebraic ℚ (α i)) (hα0 : ∀ i, α i ≠ 0) (hα1 : ∃ i, α i ≠ 1)
     (hβ : ∀ i, IsAlgebraic ℚ (β i))
     (hβli : LinearIndependent ℚ (fun o : Option ι => o.elim 1 β)) :
     Transcendental ℚ (∏ i, α i ^ β i) :=

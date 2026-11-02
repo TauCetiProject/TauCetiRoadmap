@@ -615,13 +615,21 @@ polydisc about every point. *Needs:* 0.1, 0.4.
 
 ### 2.3 Linear independence
 
-*Source:* none; the proof, by restriction to a line, is given below.
+*Source:* none for this form; the proof is given below. A related result is Waldschmidt, Exercise
+2.5, p. 60: for `ℚ`-linearly independent `w₁, …, w_t ∈ ℂⁿ`, the functions `exp (wⱼ · z)` are
+algebraically independent over `ℚ(z₁, …, zₙ)`. The statement here has complex polynomial
+coefficients and distinct, not independent, frequencies, and is not a case of it.
 
 In one variable: if `∑_{c ∈ T} Q c (ζ) exp (c ζ) = 0` for all `ζ ∈ ℂ`, with `Q c : ℂ[X]` and
 distinct `c`, then every `Q c = 0`. In several variables: if
 `∑_{w ∈ T} MvPolynomial.eval z (P w) · exp (w · z) = 0` for all `z : ι → ℂ`, with distinct `w`, then
 every `P w = 0` (`eq_zero_of_sum_eval_mul_cexp`); and both statements with the frequencies given by
-a map injective on an arbitrary finite index set. The several-variable case restricts to a line on
+a map injective on an arbitrary finite index set. In one variable, if some `Q c₀ ≠ 0`, apply
+`∏_{c ≠ c₀} (D - c) ^ (natDegree (Q c) + 1)`, with `D = d/dζ`. Since
+`(D - c) (Q (ζ) exp (c ζ)) = Q′ (ζ) exp (c ζ)`, it kills every term with `c ≠ c₀`; and
+`(D - c) (Q (ζ) exp (c₀ ζ)) = (Q′ + (c₀ - c) Q) (ζ) exp (c₀ ζ)` multiplies the leading coefficient
+of `Q` by `c₀ - c ≠ 0`. What is left is `R (ζ) exp (c₀ ζ)` with `R ≠ 0`, which is not identically
+zero. The several-variable case restricts to a line on
 which the frequencies stay distinct and the polynomials stay nonzero, found as a nonvanishing point
 of a product of nonzero polynomials. *Needs:* Mathlib only.
 
@@ -632,6 +640,8 @@ of a product of nonzero polynomials. *Needs:* Mathlib only.
 - 2.2 for `z ^ 2 exp z` at `z = 1`: `e ≤ (1 + 1) ^ 2 e`.
 - `1 - exp z` vanishes at `0` but not at `1`, where it is `1 - e`: 2.3 needs the vanishing for
   every `z`.
+- For `1 - exp (i z)`, with frequencies `0` and `i`, applying `D - i` leaves `-i ≠ 0`: the
+  operator of the proof of 2.3 removes the complex frequency `i`.
 
 ### Dependencies
 
@@ -763,7 +773,13 @@ For `T : ℕ` and `p : (Fin d₀ → Fin (T + 1)) × (Fin d₁ → Fin (T + 1)) 
 `F_p (z) = ∑_{(τ, t)} p (τ, t) (∏_{h < d₀} z_h ^ τ_h) exp ((∑ᵢ tᵢ xᵢ) · z)`, with `τ : Fin d₀ → ℕ`
 placed in the first `d₀` coordinates of `Fin n` and `0` in the others. It is entire, and if
 `‖p‖ ≤ e ^ N` then `‖F_p z‖ ≤ Γ (‖z‖)` (from 2.2), where
-`Γ (ρ) = (T + 1) ^ (d₀ + d₁) e ^ N (1 + ρ) ^ (d₀ T) e ^ (T A ρ)`. *Needs:* 2.1, 2.2.
+`Γ (ρ) = (T + 1) ^ (d₀ + d₁) e ^ N (1 + ρ) ^ (d₀ T) e ^ (T A ρ)`. Their API, for `A ≥ 0`:
+- `F_p` is linear in `p`, and `F_0 = 0`;
+- `F_p` is entire, and its Taylor coefficients at every point are given term by term by 2.1;
+- `‖F_p z‖ ≤ Γ (‖z‖)` when `‖p‖ ≤ e ^ N`;
+- `Γ (ρ) ≥ e ^ N > 0` for `ρ ≥ 0`, and `Γ` is nondecreasing in each of `ρ ≥ 0`, `T`, `N` and `A`.
+
+*Needs:* 2.1, 2.2.
 
 **Checks.**
 - For `T = 0` the only index is `(0, 0)`, and `F_p` is the constant `p (0, 0)`; `Γ` is then
@@ -783,7 +799,12 @@ For integers `p` with `|p| ≤ e ^ N`, for `sⱼ ≤ S₁` and for `σ` of total
 `σ! · mvTaylorCoeff F_p (s · y) σ` is `ι₀ θ` for some `θ ∈ K` such that `δ ^ a θ` is an algebraic
 integer of house at most `H`, where `a (M) = d₀ T + M + d₁ n T S₁` and
 `H (M) = (T + 1) ^ (d₀ + d₁) δ ^ a e ^ N (δ² M + n S₁ G + 1) ^ (d₀ T) (d₁ T G + 1) ^ M ·
-G ^ (d₁ n T S₁)`.
+G ^ (d₁ n T S₁)`. Their API, for `δ ≥ 1`, `G ≥ 1` and `N ≥ 0`:
+- `a (M + 1) = a (M) + 1`, with `a (0) = d₀ T + d₁ n T S₁`;
+- `H (M) ≥ 1`, and `H` is nondecreasing in `M`;
+- for every `σ` of total degree `M`, `δ ^ a (M) θ` is an algebraic integer of house at most
+  `H (M)`, as above.
+
 *Needs:* 2.1, 3.2, 3.3.
 
 **Checks.**
@@ -801,7 +822,13 @@ G ^ (d₁ n T S₁)`.
 *Source:* Waldschmidt §4.6, step 2, inequality (4.14).
 
 A nonzero `c = mvTaylorCoeff F_p (s · y) σ` satisfies `1 ≤ Λ (M) ‖c‖` with
-`Λ (M) = M ^ M δ ^ a H ^ (D - 1)`; the `M ^ M` bounds `σ!`. *Needs:* 3.2, 5.2.
+`Λ (M) = M ^ M δ ^ a H ^ (D - 1)`; the `M ^ M` bounds `σ!`. Its API, for `D ≥ 1` and the
+hypotheses of the API of 5.2:
+- `σ! ≤ M ^ M` for every `σ` of total degree `M`, with `0 ^ 0 = 1`;
+- `Λ (M) ≥ 1`, and `Λ` is nondecreasing in `M`;
+- `1 ≤ Λ (M) ‖c‖` for every nonzero coefficient `c` as above.
+
+*Needs:* 3.2, 5.2.
 
 **Checks.**
 - For `D = 1` and `M = 0`, `Λ (0) = δ ^ a` (with `0 ^ 0 = 1`): Liouville's inequality over `ℚ`,
@@ -990,12 +1017,15 @@ For logarithms `lᵢ` of algebraic numbers and algebraic `βᵢ`: a nonzero `∑
 (`Baker.transcendental_sum_mul`), equivalently `β₀ + ∑ βᵢ lᵢ ≠ 0` for algebraic `β₀ ≠ 0`, with no
 independence hypothesis (`Baker.add_sum_mul_ne_zero`; Theorem 2.2); `exp (β₀ + ∑ βᵢ lᵢ)` is
 transcendental for algebraic `β₀ ≠ 0` (`Baker.transcendental_exp_add_sum_mul`; Theorem 2.3, which
-Baker states with every `βᵢ` nonzero, although only `β₀ ≠ 0` is used); and for a nonempty family,
-`exp (∑ βᵢ lᵢ)` is transcendental when the `lᵢ` are nonzero and `1, β₁, …, βₙ` are linearly
-independent over `ℚ` (`Baker.transcendental_exp_sum_mul`; Theorem 2.4, and Waldschmidt's corollary
-to Theorem 1.6), by 7.2 applied to a `ℚ`-basis of the span of the `lᵢ`. In Mathlib's principal
-branch, `α₁ ^ β₁ ⋯ αₙ ^ βₙ` is transcendental for algebraic `αᵢ ≠ 0, 1` under the same hypothesis on
-the `βᵢ` (`Baker.transcendental_prod_cpow`); it is the case of principal logarithms `lᵢ`, and does
+Baker states with every `βᵢ` nonzero, although only `β₀ ≠ 0` is used); and `exp (∑ βᵢ lᵢ)` is
+transcendental when some `lᵢ` is nonzero and `1, β₁, …, βₙ` are linearly independent over `ℚ`
+(`Baker.transcendental_exp_sum_mul`; Theorem 2.4, and Waldschmidt's corollary to Theorem 1.6, which
+asks only that the `lᵢ` be not all zero). The indices with `lᵢ = 0` contribute nothing and are
+deleted, which keeps `1` and the remaining `βᵢ` independent; the family left is nonempty, and 7.2
+applies to a `ℚ`-basis of the span of its `lᵢ`. In Mathlib's principal branch,
+`α₁ ^ β₁ ⋯ αₙ ^ βₙ` is transcendental for nonzero algebraic `αᵢ`, not all equal to `1`, under the
+same hypothesis on the `βᵢ` (`Baker.transcendental_prod_cpow`; a factor with `αᵢ = 1` is `1`); it
+is the case of principal logarithms `lᵢ`, and does
 not give the branch-free form: `l = 2πi` and `β = √2` have `exp l = 1`, while
 `exp (β l) ≠ 1 = 1 ^ √2`. ⚠ Irrationality of each `βᵢ` is not enough: `2 ^ √2 · 2 ^ (-√2) = 1`.
 *Needs:* 7.2.
@@ -1008,6 +1038,9 @@ not give the branch-free form: `l = 2πi` and `β = √2` have `exp l = 1`, whil
 - Rejection test: `2 log 2 - log 4 = 0`, so 7.2 needs the `ℚ`-linear independence.
 - `l = 2πi` and `β = √2`: `exp l = 1` and `exp (β l) ≠ 1`, which the branch-free form of 7.3
   covers and the principal-branch form does not.
+- `l = (0, log 2)` and `β = (√2, √3)`: `exp (√2 · 0 + √3 log 2) = 2 ^ √3 ≈ 3.3220` is
+  transcendental by 7.3, although `l₀ = 0`; in the principal branch it is `1 ^ √2 · 2 ^ √3`. For
+  `l = 0` the exponential is `1`, and the hypothesis that some `lᵢ` is nonzero fails.
 
 ### Dependencies
 
@@ -1129,7 +1162,16 @@ defined for every `ℓ` in the disc and all `β₀`, `β`, and at a natural numb
     f_m (l) = (∏_r ℓ_r ^ m_r) ∑_(d, e) P (d, e) (∏_r γ_r ^ m_r)
                 expDerivFactor (e_none β₀) m_none (X ^ d) (l) ∏_o exp (ℓ_o) ^ (e_o l)
 
-with `γ_r = e_r + e_none β_r`. *Needs:* 8.1, 8.4.
+with `γ_r = e_r + e_none β_r`. Their API:
+- `ψ_0 = 0`, and `‖ψ_e‖ ≤ max_o ‖ℓ_o‖`, since the norm is ultrametric and `‖e_o‖ ≤ 1`; so every
+  `ψ_e` is in the disc;
+- under the relation, `ψ_e = e_none β₀ + ∑_r γ_r ℓ_r`;
+- the polynomial factor has degree at most `d` (`Polynomial.natDegree_expDerivFactor_le`);
+- `f_m` is linear in `P`, and `P = 0` gives `f_m = 0`;
+- the evaluation formula above, at every natural number `l`;
+- under the relation, `D f_m = ∑_o f_{m + e_o}`.
+
+*Needs:* 8.1, 8.4.
 
 **Checks** for the frequencies `ψ_e`, with `k = 1` and `(ℓ_none, ℓ_0) = (3, 6)` in `ℂ_[3]`.
 - `ψ_0 = 0`.
@@ -1154,7 +1196,8 @@ with `γ_r = e_r + e_none β_r`. *Needs:* 8.1, 8.4.
 - For `P` the indicator of `(d, e) = (0, 1)`, `f_0 = rescale ℓ_none (exp ℂ_[p])`, the series of
   `exp (ℓ_none z)`, with constant coefficient `1` and linear coefficient `ℓ_none`.
 - For the same `P`, `f_1 = β₀ · rescale ℓ_none (exp ℂ_[p])`, which is the derivative of `f_0`
-  exactly when `ℓ_none = β₀`, the relation for `k = 0`.
+  exactly when `ℓ_none = β₀`, the relation for `k = 0`: the derivative of `f_0` has constant
+  coefficient `ℓ_none`, and `f_1` has constant coefficient `β₀`.
 - For `P = 0`, every `f_m` is `0`.
 
 ### 8.7 The arithmetic
@@ -1199,6 +1242,12 @@ by 8.1 and 8.2 applied to `∏ α_o ^ {e_o} - ∏ α_o ^ {e'_o}`.
 `G = 1` and `ℓ` the point of the disc with `exp ℓ = 1 / 4`, so that
 `‖ℓ‖ = ‖exp ℓ - 1‖ = 1 / 3` (8.1), every other hypothesis holds, and `e = 0`, `e' = 1` would give
 `1 / 2 ≤ 1 / 3`.
+
+The API of `A_m (l)` and `E`, for `L, h ≥ 1` and `G ≥ 1`:
+- `A_m (l)` is linear in `P`, and `f_m (l) = (∏_r ℓ_r ^ {m_r}) ι₀ (A_m (l))`;
+- `E ≥ 1`, so in particular `E > 0`;
+- `E` is nondecreasing in each of `G`, `L` and `h`.
+
 *Needs:* 3.2, 3.3, 3.5, 8.1, 8.2, 8.6.
 
 **Checks** for `E`, with `k = 0`.
@@ -1320,7 +1369,9 @@ below are interfaces: they change only together with the consumers.
 
 ## References
 
-The keys are those of `sources.toml`, which records the access status of each work.
+Only [W00] has been read in full, in the author's copy at
+<https://webusers.imj-prg.fr/~michel.waldschmidt/articles/pdf/dalag.pdf>; the locators of the
+other works are cited without an open copy of the text.
 
 - [W00] M. Waldschmidt, *Diophantine Approximation on Linear Algebraic Groups*, Grundlehren 326,
   Springer, 2000: Chapter 1 (statements), Chapter 4 (the proof followed here), Proposition 3.14
