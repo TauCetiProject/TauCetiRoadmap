@@ -29,6 +29,16 @@ LieGroupoidsPoisson owns the manifold Lie-algebroid extension. VariationalMethod
 §§2–5 and UnboundedOperators UO-D06 own abstract form representation and compact
 spectral theory; Layer 5 identifies the geometric weak domains and regularity.
 
+Four roadmaps later in the build state objects that Layers 2, 5, 6 and 8 own here;
+nothing is imported from them, and their statements are reconciled on their side.
+GlobalHolomorphicFunctions §§0.3, 2.5 and 7.2 state the compact-support Cauchy–Green
+transform, the finite-rank Runge operator and planar two-form exactness.
+PseudodifferentialOperators P1.0 states the differential-operator, jet and
+density-transpose core. LieGroupoidsPoisson G1.3 states the all-degree real
+Chevalley–Eilenberg complex. DeRhamCohomologyAndDuality DR.3.8 and DR.4.4 state the
+relative de Rham cone and the compact and relative integration formulas that K6.1's
+relative integration contract constructs.
+
 The acceptance statements are `finite_rank_runge_approximation` and
 `mixed_parameter_solver` in Layer 2 and
 `realified_isManifold_analytic`, `holomorphicStalk_noetherian` and
@@ -140,6 +150,10 @@ Use `exteriorPower.hodgeStar` and
 module, a bilinear form inducing a bijection to its dual, a top exterior-power
 volume equivalence and k+l=dimension. Layer 5 supplies these from the real cotangent
 metric and orientation, and proves the additional identities and smooth transport.
+The reference connection of Layer 5's operator core and of K6's Kähler condition is
+`CovariantDerivative.leviCivitaConnection` in
+`Mathlib/Geometry/Manifold/VectorBundle/CovariantDerivative/LeviCivita.lean`, the
+Levi-Civita connection of a positive-definite metric.
 
 **From Tau Ceti.** The finite-dimensional Cauchy and parametric contour declarations
 in `TauCeti.Analysis.Complex.CauchyIntegralPolydisc` supply Layer 3's analytic
@@ -864,7 +878,7 @@ ComplexManifolds Milestone 7; SmoothBundlesConnections B2–B5; Layers 1–3 and
 layer uses DifferentialGeometry, SmoothBundlesConnections B2–B4, PDE Lane A.3,
 [VariationalMethods §§2–5](../VariationalMethods/README.md),
 [UnboundedOperators UO-D06](../OperatorTheory/UnboundedOperators/README.md),
-AlgebraicTopology and Mathlib, and HopfRinow Layer 1's Levi-Civita connection
+AlgebraicTopology and Mathlib, and Mathlib's `CovariantDerivative.leviCivitaConnection`
 directly. Construct its pointwise real star, orientation and density lines first,
 then its finite-order differential operators, symbols and transposes below.
 Distributional action and Laplace analysis use that core. It precedes the complex-manifold
@@ -875,7 +889,7 @@ bundle is DifferentialGeometry's actual alternating bundle
 `V_x=T_xM [⋀^Fin k]→L[ℝ] E_x`, with `E_x=𝕜` in the scalar real/complex cases.
 Prove its natural identification with the appropriate exterior-power bundle,
 its `VectorBundle 𝕜` structure and the basis-independent Gram⊗h_E metric as
-B2's `ContinuousFiberMetric`: `h.inner x : V_x →L⋆[𝕜] V_x →L[𝕜] 𝕜`.
+SBC B2.2's continuous fibre metric data h, with `h.inner x : V_x →L⋆[𝕜] V_x →L[𝕜] 𝕜`.
 Supply chartwise smoothness and positivity. Use `μ=TauCeti.riemannianVolume I M`;
 consume DifferentialGeometry 12.4's full-support/open-positive comparison to
 provide B2's `IsOpenPosMeasure μ`. Consume the native
@@ -1036,7 +1050,7 @@ including c=1 and finite-rank real/complex bundles.
 
 *Needs:* This section’s density line; native smooth sections; SmoothBundlesConnections
 B2–B4 bundle operations and induced connections; DifferentialGeometry §5.5 integration;
-HopfRinow Layer 1 Levi-Civita connection; local Taylor/chain rules and Hadamard factorization.
+Mathlib's `CovariantDerivative.leviCivitaConnection`; local Taylor/chain rules and Hadamard factorization.
 
 ### 5.2 Distribution local structure (K5a.DistributionLocalStructure)
  Own the continuous-primitive and supported
@@ -1382,14 +1396,15 @@ radial homotopy, to obtain smooth primitives `g_+` and `g_-` of `ω` on these do
 Split the positively oriented circle into four arcs: `1→i` and `−i→1` lie in `V_+`, while
 `i→−1` and `−1→−i` lie in `V_-`. The upper and lower overlap components are connected, so
 `g_+−g_-` is constant there, with values `c_U` and `c_L`. Apply the interval fundamental
-theorem to the four arcs, using DG's open-subtype flat adapter and DG1.5's comparison with
+theorem to the four arcs, using DG's open-subtype flat adapter and DG5.3's agreement with
 native `curveIntegral`. Their sum gives `Per(ω)=c_U−c_L`. Thus zero period makes the constants
 equal; after one constant adjustment the two local primitives glue to a global smooth primitive.
 For general `ω`, set `k=(2πi)⁻¹Per(ω)`; the closed form `ω−k dz/z` has zero period and is
 exact, so `[ω]=k[dz/z]`. Since `Per(dz/z)=2πi`, `P([dz/z])=1` and `P` is a
 complex-linear equivalence.
 For the normalization, construct `dz/z` as a smooth form through DG0.3 and prove
-`dz/z=β+iα` in the polar notation of DG1.5. Define `Log_+` as the principal logarithm on `V_+` with argument
+`dz/z=β+iα` with the real one-forms `β=(x dx+y dy)/(x²+y²)` and `α=(x dy−y dx)/(x²+y²)`,
+the real and imaginary parts of `(dx+i dy)(x−iy)/(x²+y²)`. Define `Log_+` as the principal logarithm on `V_+` with argument
 `(−π,π)`, and `Log_−(z)=log(−z)+iπ` on `V_-`, with argument `(0,2π)`. Then
 `Log_−−Log_+` is `0` on the upper overlap and `2πi` on the lower. Prove
 `d Log_±=dz/z` on the corresponding slit domains from the real derivative of the complex
@@ -1499,8 +1514,8 @@ compact-pair specialization of
 [UnboundedOperators §4.7 (UO-D06) `existsUnique_selfAdjoint_of_closed_form`](../OperatorTheory/UnboundedOperators/README.md).
 Use the unique operator characterized by that representation theorem.
 The representing graph is {(ju,f) | ∀v, a(u,v)=⟨f,jv⟩}; the form-domain
-preimage is `CompactFormPair.operatorDomainV`. Consume §5.1’s
-`CompactFormPair.exists_compact_selfAdjoint_shifted_inverse` and §5.2’s
+preimage is `CompactFormPair.operatorDomainV`. Consume VariationalMethods §5.1’s
+`CompactFormPair.exists_compact_selfAdjoint_shifted_inverse` and its §5.2’s
 `CompactFormPair.mem_operatorDomainV_iff_summable`.
 UO-D06 owns general closed-form representation, real-shift self-adjointness,
 both adjoint inclusions and witness independence; §5.1 applies these on the
@@ -1825,10 +1840,11 @@ existence at every point of holomorphic coordinates with `h_ij=δ_ij+O(|z|²)`
 (Demailly VI §4, Theorem 4.8, pp. 298–299, after the metric normalization in Conventions).
 
 - Restriction to open subsets and pullback along holomorphic immersions preserve
-  the metric predicate; positivity on the immersed tangent space follows from injectivity.
+  the metric predicate; positivity on the immersed tangent space follows from injectivity
+  (Demailly VI §4, Example 4.6, p. 297).
 - Construct adapted unitary frames and the standard Kähler metric on ℂⁿ; on a complex
-  curve every Hermitian metric is Kähler (Demailly VI §4, Example 4.6, p. 297,
-  and the vanishing of real degree-three forms on a surface).
+  curve every Hermitian metric is Kähler, because dω is a real three-form on a
+  two-dimensional real manifold and therefore vanishes.
 
 **Checks.**
 
@@ -1839,7 +1855,7 @@ existence at every point of holomorphic coordinates with `h_ij=δ_ij+O(|z|²)`
   ω_j=dx_j∧dy_j, has dω=exp(x₁) dx₁∧dx₂∧dy₂≠0; it is not Kähler.
 
 *Needs:* K1 realification, integrability and type projections; K2 differential
-calculus; SmoothBundlesConnections B2 metrics; HopfRinow Layer 1 Levi-Civita;
+calculus; SmoothBundlesConnections B2 metrics; Mathlib's `CovariantDerivative.leviCivitaConnection`;
 DifferentialGeometry exterior derivative and pullback. No compact Hodge theorem is used.
 
 #### Lefschetz operators and primitive forms
@@ -2319,7 +2335,7 @@ Stage6.3's fundamental class, and prove that evaluation is an isomorphism.
 Compute the integral degree-one cup pairing on the 2g polygon generators
 as the standard unimodular symplectic matrix, preserving the complex
 orientation and the cohomology comparison with the smooth surface.
-These are the integral fundamental/intersection comparisons used in Index I7.4.
+These are the integral fundamental/intersection comparisons used in IndexTheory I7, item 4.
 Define the geometric genus of a
 compact n-fold as `h^(n,0)`. The theta sections of positive torus line bundles and their
 quantization are GeometricQuantization's targets.
@@ -2552,7 +2568,7 @@ K4's holomorphic-section sheaf and ∂̄_E. The rest of K3 uses that local analy
 analytic-sheaf examples. K5a's pointwise real
 star, orientation line and density bundle use DG and SBC B2 independently
 of K1–K4. Its finite-order operator and jet construction uses that density line,
-HopfRinow Layer 1's Levi-Civita connection and SBC B3–B4's induced connections.
+Mathlib's `CovariantDerivative.leviCivitaConnection` and SBC B3–B4's induced connections.
 Its bundle tests, distributions and Fréchet sections use chart/frame analysis;
 the Hilbert scale, Laplace regularity and de Rham Hodge theory then use these
 constructions, SBC B2–B4, PDE Lane A.3 componentwise on finite-dimensional fibers,

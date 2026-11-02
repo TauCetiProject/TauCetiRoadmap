@@ -17,11 +17,14 @@ available at the pins with the geometric comparisons required by the README:
   a complex atlas and its induced smooth almost-complex structure.
 * Layer 2: Dolbeault–Grothendieck exactness and the Dolbeault/sheaf comparison need
   the manifold type-form bundles, their differential, and the holomorphic-form sheaf.
-* Layer 3: Weierstrass preparation/division and coherence,
-  the analytic Nullstellensatz and Hartogs extension on manifolds need the convergent
-  several-variable coordinate/power-series comparisons and reduced analytic subsets.
-  The stalk exists, but its distinguished-variable coefficient maps and the analytic
-  zero-locus carrier needed by those statements are not constructed at the pins.
+* Layer 3: Weierstrass preparation and division need the distinguished-variable
+  coefficient maps on the stalk, which are not constructed at the pins; the analytic
+  Nullstellensatz and Hartogs extension on manifolds need reduced analytic subsets and
+  their zero-locus carrier. Oka coherence of the stalks and Cartan coherence of ideal
+  sheaves need the sheaf of relations of finitely many sections and its finite
+  generation over a neighbourhood: the native stalks and germ maps exist, but a
+  relation module over them is only a long ad hoc encoding, so coherence is not
+  stated.
 * Layer 4: Chern uniqueness, Koszul–Malgrange and the flat holomorphic/smooth/local-system
   equivalences need holomorphic bundle and connection carriers, their section sheaves,
   and componentwise locally finite-rank assembly.
