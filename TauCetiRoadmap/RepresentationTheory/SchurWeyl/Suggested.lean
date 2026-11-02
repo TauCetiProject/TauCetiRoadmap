@@ -27,7 +27,8 @@ the Specht self-duality and the induced and Kronecker transpose comparisons (Lay
 ballot tableaux, the character-side Murnaghan–Nakayama rule, the Hall form on the finite-variable
 symmetric polynomials with its power-sum normalisation and the isometry property of the native
 Frobenius characteristic, the integral matrix Newton recurrence and the finite power-sum basis
-(Layer 7); the simultaneous `Sₙ × GLₔ` decomposition of the tensor power
+(Layer 7); the simultaneous `Sₙ × GLₔ` decomposition of the tensor power and the
+balanced-tensor presentation of each Schur functor
 (Layer 8); the orthogonal first fundamental theorem over infinite fields of characteristic different from
 two and the complex reverse centralizer, the harmonic
 tensors and the orthogonal shape spaces `E_λ` with their nonvanishing criterion, irreducibility and
@@ -247,6 +248,28 @@ theorem schurWeylDecomposition (d n : ℕ) :
                   (LinearMap.id : (TauCeti.spechtModuleℂ μ.1) →ₗ[ℂ] (TauCeti.spechtModuleℂ μ.1))
                   ((TauCeti.schurFunctor d (TauCeti.diagramOf μ.1)).ρ g))
             ∘ₗ e.toLinearMap := sorry
+
+/-- The balancing relations in the tensor power tensored with a complex Specht module.
+The tensor power is a right symmetric-group module via the inverse permutation action;
+linearity makes these group-element relations generate all group-algebra relations. -/
+noncomputable def balancedSchurRelations (d n : ℕ) (mu : n.Partition) :
+    Submodule ℂ ((⨂[ℂ] (_ : Fin n), (Fin d → ℂ)) ⊗[ℂ] (TauCeti.spechtModuleℂ mu)) :=
+  Submodule.span ℂ {x | ∃ (v : ⨂[ℂ] (_ : Fin n), (Fin d → ℂ))
+    (s : TauCeti.spechtModuleℂ mu) (g : Equiv.Perm (Fin n)),
+    x = (TauCeti.permTensorAction ℂ d n g⁻¹ v) ⊗ₜ[ℂ] s -
+      v ⊗ₜ[ℂ] ((TauCeti.spechtModuleℂ mu).ρ g s)}
+
+/-- The balanced tensor of the right tensor power with the left Specht module is the Schur
+functor, as a general-linear-group representation (Fulton–Harris, §6.1). The surjection and
+exact kernel specify the full quotient equivalence, including shapes with more than `d` rows. -/
+theorem balancedSchurPresentation (d n : ℕ) (mu : n.Partition) :
+    ∃ f : ((⨂[ℂ] (_ : Fin n), (Fin d → ℂ)) ⊗[ℂ] (TauCeti.spechtModuleℂ mu)) →ₗ[ℂ]
+        TauCeti.schurFunctor d (TauCeti.diagramOf mu),
+      Function.Surjective f ∧ LinearMap.ker f = balancedSchurRelations d n mu ∧
+      ∀ (g : GL (Fin d) ℂ) (v : ⨂[ℂ] (_ : Fin n), (Fin d → ℂ))
+        (s : TauCeti.spechtModuleℂ mu),
+      f ((TauCeti.tensorPowerRep ℂ d n g v) ⊗ₜ[ℂ] s) =
+        (TauCeti.schurFunctor d (TauCeti.diagramOf mu)).ρ g (f (v ⊗ₜ[ℂ] s)) := sorry
 
 /-! ## Layer 9: orthogonal Schur–Weyl duality and harmonic tensors -/
 
