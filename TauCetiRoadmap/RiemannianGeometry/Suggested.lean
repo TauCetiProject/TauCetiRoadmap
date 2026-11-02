@@ -27,7 +27,9 @@ version (R6), which need the index form on continuous piecewise `C¹` sections o
 conjugate-point multiplicity, neither of which has a carrier at the pin; the Gauss, Codazzi and
 Ricci equations and the first and second variation of volume (R5a, R5b), which need the second
 fundamental form of an isometric immersion, hence the pullback ambient connection, absent at the
-pin; the Bochner vanishing theorems (R7.6, R7.7), which need the Hodge Laplacian on forms and the
+pin; the canonical Bochner connection and potential of a Laplace-type operator (R7A),
+which need the smooth bundle differential-operator and principal-symbol carriers, absent
+at the pin; the Bochner vanishing theorems (R7.6, R7.7), which need the Hodge Laplacian on forms and the
 de Rham cohomology of a manifold, absent at the pin; and Takahashi's eigenmap theorem (R8.4),
 which needs a Laplacian on functions on the round sphere, absent at the pin.
 -/

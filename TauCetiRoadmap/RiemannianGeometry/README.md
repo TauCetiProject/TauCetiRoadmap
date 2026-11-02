@@ -21,10 +21,11 @@ differentiable germs. GeometricTopology Layer 1 and its smoothing-and-triangulat
 item 1 own normal bundles, tubular neighbourhoods and smooth triangulation;
 R5a owns the metric orthogonal-to-quotient comparison and R3.2 the finite marked-point
 refinement. ComplexKahlerGeometry K5a owns the bundle analytic and Hodge theory;
-PseudodifferentialOperators P1.0 owns the smooth differential-operator, jet,
-symbol, formal-adjoint and Bochner-connection core on finite-rank bundles;
-R7 consumes that core for geometric curvature identities and vanishing
-consequences. UnboundedOperators §4.7
+R7A owns the shared smooth differential-operator, jet, symbol, formal-adjoint
+and Bochner-connection core on finite-rank bundles. R7 specializes it to geometric
+curvature identities and vanishing consequences. PseudodifferentialOperators
+P1.0 uses this core for its pseudodifferential calculus, and P7a uses R4.7
+for free isometric quotients; both supply directions start here. UnboundedOperators §4.7
 owns general closed-form representation, and VariationalMethods §§2.3, 5.1–5.2
 its energy-space and compact-pair specializations; R5b owns the normal-Jacobi
 geometric form and its boundary-domain identification.
@@ -159,16 +160,6 @@ The following contracts specify each supplier and section consumed.
   extension and elliptic estimates through K5a. R3 owns the vector-valued
   interval weak-derivative/absolutely-continuous comparison needed for paths. K7.1 supplies
   the smooth complex projective carrier used by R1.
-- [PseudodifferentialOperators](../PseudodifferentialOperators/README.md), P1.0:
-  smooth section differential operators, finite jets and truncations, equivalent
-  iterated-commutator order, geometric/Fourier principal symbols, density
-  transposes and metric formal adjoints. Consume its negative-trace connection
-  Laplacian, compact-support energy identity and canonical Bochner decomposition
-  of a Laplace-type operator with leading coefficient c>0. The canonical
-  connection is metric for an operator formally self-adjoint with respect to
-  the canonical Riemannian density and the chosen fibre metrics. Its polarized
-  isometric-symbol theorem applies to D:E→F even when the ranks differ.
-  R7 computes the curvature potentials of the geometric operators.
 - [PDE A.1–6/D16–19/E20–22](../PDE/README.md) and
   VariationalMethods §2.3–§2.4 and Layers 3–5.2: Sobolev,
   trace, energy/interior estimates and abstract closed-form/represented-operator
@@ -222,7 +213,7 @@ The following contracts specify each supplier and section consumed.
   representation and identifies its complexification with the specific
   highest-weight module; it does not assume a supplied harmonic-tensor carrier.
 
-The PseudodifferentialOperators P1.0 smooth core uses the bundle operations
+The R7A smooth core uses the bundle operations
 and connections of SmoothBundlesConnections B2–B4, DifferentialGeometry's
 compact-support integration, and ComplexKahlerGeometry K5a's pointwise metric
 and density line, independently of distributional and Sobolev completions.
@@ -2097,6 +2088,241 @@ No finite fundamental group or global space-form theorem enters the Euclidean pr
 
 ### R7. Rough Laplacians, Weitzenböck and curvature vanishing
 
+### R7A. Smooth differential operators and their canonical connections
+
+On any manifold in the standing scope and every finite-rank real or complex
+smooth bundle E, use its smooth sections as a module over the corresponding
+smooth scalar-function algebra, with pointwise multiplication and restriction.
+Define the order-m jet bundle JᵐE, for each natural m, by equality of derivatives
+through order m in local bundle charts. Glue the finite Taylor coefficient
+spaces by the chain and product rules; prove independence of charts and
+identify J⁰E with E (Kolář–Michor–Slovák, §§12.2–12.5, pp. 117–119, and
+§§12.16–12.17, pp. 124–125).
+
+Its API comprises:
+
+- Jet extension sends a smooth section s to its value and derivatives through
+  order m, and commutes with open restriction and bundle isomorphisms over
+  base diffeomorphisms.
+- Truncation Jᵐ⁺¹E → JᵐE is surjective, with kernel Symᵐ⁺¹(T*M)⊗E;
+  the inclusion, truncation and coordinate identifications are natural.
+- A bundle connection, together with the base Levi–Civita connection,
+  identifies jets with the sum of symmetric covariant derivatives through
+  order m. Changing connections changes lower-order coefficients but not the
+  highest symbol of an operator.
+
+**Checks.**
+
+- At 0 on the real line, x² and 0 have equal 1-jets but second derivatives
+  2 and 0; the 2-jet distinguishes them.
+- The 0-jet of x+3 at 0 is 3, whereas that of x is 0; discarding values
+  would identify different jets.
+- For rank zero all jet fibres are zero; on a zero-dimensional base JᵐE=E
+  for every m, with every positive-degree symmetric cotangent summand zero.
+
+*Needs:* SmoothBundlesConnections B2–B3 section, dual, tensor and connection
+operations; finite Taylor calculus in Mathlib; HopfRinow Layer 1's base connection
+only for the covariant-derivative splitting.
+
+Define a differential operator P:E→F of order at most m to be an ℝ-linear or ℂ-linear
+map on smooth sections, according to the bundle coefficients, which locally is a finite sum of derivatives through
+order m with smooth matrix coefficients. Prove the equivalent descriptions
+as a smooth bundle map JᵐE→F composed with jet extension, and as vanishing of
+all (m+1)-fold commutators with scalar multiplications. For the commutator equivalence, use local Hadamard
+factorization and induction on m, with chart cutoffs to pass between global
+sections and germs (Kolář–Michor–Slovák, §§1.5–1.6, pp. 6–7, for point
+factorization; the proof of Lemma 3.3, p. 16, supplies the smooth-coordinate
+recovery at order one). Prove the higher-order and bundle versions here.
+Keep arbitrary finite rank, arbitrary natural order and noncompact bases.
+
+Its API comprises:
+
+- Order zero is exactly a smooth bundle homomorphism. Restriction, addition
+  and scalar multiplication preserve the filtration; composition adds order bounds.
+- With [P,f]=P∘M_f−M_f∘P, scalar commutation lowers positive order by one
+  and kills order zero. For two matrix-valued operators an order drop requires
+  commuting principal symbols.
+- The jet factorization determines the operator, and covariant derivatives
+  give a coordinate-independent expansion with smooth coefficient maps.
+
+**Checks.**
+
+- For P=∂² on ℝ, [P,x]=2∂, [[P,x],x]=2 Id, and the third commutator is 0;
+  P has order two, not one.
+- Multiplication by 3 has every scalar commutator zero but sends 1 to 3;
+  order zero does not mean the zero operator.
+- On the trivial rank-two bundle [e₁₂,e₂₁]=diag(1,−1), so matrix commutation
+  does not lower two order-zero operators to zero.
+
+*Needs:* the jet bundle and section module; local smooth Hadamard factorization
+with chart cutoffs from SmoothBundlesConnections B2 and Mathlib smooth partitions.
+
+Define the homogeneous geometric principal symbol of an order-at-most-m
+operator P:E→F as the highest jet coefficient, a fibre map
+Symᵐ(T*M)⊗E→F, evaluated on ξ⊗…⊗ξ. Its complexified Fourier version is
+σ_F(P)(ξ)=iᵐσ_geom(P)(ξ). In particular
+σ_geom(P)(df)=(1/m!)[…[P,f],…,f], with m commutators; at m=0 this means
+P's bundle homomorphism. The factorial is nonzero over ℝ and ℂ (Gilkey,
+§2, p. 288, for the local leading coefficient; the commutator formula follows
+by the product rule with this normalization).
+
+The symbol API comprises:
+
+- Symbols commute with open restrictions, frame changes and base diffeomorphisms.
+- Composition multiplies symbols at the sum of the chosen order bounds;
+  an operator of strictly smaller order has zero symbol at the larger bound.
+- The highest symbol is independent of the connection used for expansion;
+  the geometric and Fourier symbols are related by the displayed factor iᵐ.
+
+**Checks.**
+
+- For ∂² at ξ=2, the geometric and Fourier symbols are 4 and −4;
+  dividing its double commutator 2 Id by 2! recovers coefficient 1.
+- For ∂+3 the order-one symbols at ξ=2 are 2 and 2i; the constant term
+  changes neither. At order bound two both symbols are zero.
+- Multiplication by 3 has order-zero symbol 3, including at ξ=0;
+  the positive-order symbol of ∂ vanishes at ξ=0. Thus zero cotangent
+  input cannot be required to kill every order-zero symbol.
+
+*Needs:* the differential/jet filtration and its product rule.
+
+Construct the bilinear density transpose Pᵗ:F*⊗Dens(M)→E*⊗Dens(M)
+from local integration by parts. It acts on smooth sections, is characterized
+by the compact-support bilinear integral pairing, and uses no fibre metric
+or orientation (DifferentialGeometry §§5.2–5.5 integration and Stokes; the
+local finite-order expressions above).
+
+Its API comprises:
+
+- Transposition preserves order and reverses composition; its square is P
+  under the canonical bidual and density identifications.
+- Transposition commutes with open restriction and bundle-coordinate changes.
+- Its geometric symbol is (−1)ᵐ times the algebraic dual of P's symbol,
+  with the density factor retained. Over complex coefficients the dual is
+  bilinear, without complex conjugation.
+
+**Checks.**
+
+- On the line ∂ᵗ(u dx)=−u′ dx; u=x gives −dx, excluding the unsigned derivative.
+- For P=x∂, Pᵗ(dx)=−dx, detecting the derivative of the coefficient.
+- Multiplication by i on the complex line has transpose i on dual densities,
+  whereas its Hermitian adjoint is −i. Omitting the bilinear convention
+  interchanges these two values.
+
+*Needs:* the local differential-operator expressions, smooth dual and density
+bundles, DifferentialGeometry compact-support integration and Stokes.
+
+For an arbitrary smooth positive density ρ and fibre metrics, construct the
+metric formal adjoint P*:F→E, acting on smooth sections, by the equality of
+the two compact-support sesquilinear integral pairings. Obtain it from the
+density transpose and the metric dualities (Gilkey, §2, pp. 288–289, for the
+operator convention; the adjoint formulas follow from Stokes).
+
+Its API comprises:
+
+- Formal adjoints preserve order, reverse composition and satisfy (P*)*=P.
+- They commute with open restriction and isometric bundle identifications
+  preserving the density; their local expressions include derivatives of
+  coefficients, metrics and the density.
+- The geometric symbol of P* is (−1)ᵐσ_geom(P)*, while its Fourier
+  symbol is σ_F(P)*. Compactness and orientability are not required.
+
+**Checks.**
+
+- For P=x∂ with density dx on ℝ, P*=−x∂−1; its value on 1 is −1.
+- With density exp(sin x) dx on the circle, ∂*=−∂−cos x; at x=0 the
+  zero-order coefficient is −1, whereas the unweighted coefficient is 0.
+- Multiplication by i on the complex line has adjoint −i; applying
+  adjunction twice gives i. A bilinear transpose would give i at the first step.
+
+*Needs:* the density transpose, SmoothBundlesConnections B2–B4 metrics and
+metric duals, and the chosen positive density.
+
+For a chosen connection ∇ define its connection Laplacian by the negative
+metric trace of the second covariant derivative. For metric ∇ and the canonical
+Riemannian density prove that it is ∇*∇, is formally self-adjoint and has
+nonnegative compact-support energy. Define Laplace type with leading scale c>0
+by order at most two and Fourier symbol c|ξ|² Id. For every such operator L
+construct the unique connection ∇ᴸ and endomorphism V with
+L=c(−tr_g (∇ᴸ)²)+V; V is the added potential in this convention.
+If L is formally self-adjoint for the canonical density and fibre metrics,
+prove that ∇ᴸ is metric and V is self-adjoint. These conclusions do not follow
+for an unrelated positive density (Gilkey, §2, Lemma 2.1 and the following
+paragraph, p. 289, applied to c⁻¹L; his potential has the opposite sign).
+
+Its API comprises:
+
+- The decomposition is unique, commutes with restriction and isometries,
+  and is independent of the connection first used to expand L.
+- Relative to any initially chosen connection, a Laplace-type operator minus
+  its scaled connection Laplacian has order at most one; the canonical
+  connection absorbs that first-order term.
+- Positive rescaling preserves the canonical connection and rescales c and V.
+  For a metric connection the energy integral of ∇*∇ is the integral of |∇s|².
+
+**Checks (connection Laplacian).**
+
+- On the flat circle with ∇=d, the modes exp(ikx) have rough eigenvalues 0,1,4
+  for k=0,1,2; ∇*∇ has Fourier symbol 4 at ξ=2.
+- On a point the covariant trace is the empty sum 0 and the connection
+  energy is 0; adding an arbitrary endomorphism is not the connection Laplacian.
+- On the trivial line over ℝ with ∇=d+a dx for a real constant a,
+  the negative covariant trace is −∂²−2a∂−a², whereas ∇*∇=−∂²+a²
+  for the standard density and metric. At a=1 on 1 these give −1 and 1;
+  the identification requires a metric connection.
+
+**Checks (Laplace type).**
+
+- The operators −∂² and −2∂² have scales 1 and 2 and Fourier symbols
+  4 and 8 at ξ=2; a fixed scale must be rescaled with the operator.
+- On the nonzero trivial line over ℝ, ∂² has Fourier symbol −4 at ξ=2
+  and fails the positive-scale condition; −∂⁴ fails the order-at-most-two condition.
+- On a point every endomorphism has zero order-two symbol and |ξ|²=0;
+  it is Laplace type for each specified c>0. The scale is input, not uniquely recovered.
+
+**Checks (canonical connection and potential).**
+
+- For −∂²+3 on the line, the connection is d and V=3; on the constant
+  section 1 both sides give 3, excluding the opposite potential convention.
+- For −2∂² the connection is d and V=0; choosing d+a dx would introduce
+  first-order coefficient −4a, so a zero-order potential cannot repair a≠0.
+- For L=−∂²−cos x∂ with density exp(sin x) dx, the canonical connection is
+  d+(cos x/2)dx and V=−sin x/2+cos²x/4. At x=0 its coefficient is 1/2
+  and V=1/4; metric compatibility on the constant unit section would require
+  0=1, so self-adjointness in that weighted density does not imply a metric connection.
+
+*Needs:* symbols and formal adjoints above, SmoothBundlesConnections B3 connections,
+HopfRinow Layer 1 Levi–Civita connection, the fixed metric and its canonical density.
+
+For an operator D:E→F of order at most one require its geometric symbol a to satisfy
+ a(ξ)*a(ξ)=|ξ|² Id_E; call this the isometric-symbol condition. Prove the polarized identity
+ a(α)*a(β)+a(β)*a(α)=2⟨α,β⟩ Id_E and deduce that D*D is Laplace type
+with scale one, using the canonical density. This follows from the adjoint
+symbol formula above and uses the Laplace-type convention of Gilkey, §2,
+pp. 288–289; it also covers rectangular symbols, beyond his square
+Clifford-module definition of Dirac type.
+
+Its API comprises:
+
+- Polarization and the squared-symbol identity are equivalent for every real
+  cotangent vector, including zero.
+- D*D has a unique metric Bochner connection and self-adjoint potential;
+  a chosen metric connection need not be that connection.
+- Restriction and isometric bundle identifications preserve the symbol
+  condition. Adjunction preserves it when source and target have equal rank;
+  the D*D conclusion also holds without equal ranks.
+
+**Checks.**
+
+- For D=∂ on the flat real line, a(2)=2 and a(2)*a(2)=4; D*D=−∂².
+- For d:Ω⁰→Ω¹ in dimension two, a(ξ) sends 1 to ξ and has squared norm
+  |ξ|², but is not surjective for ξ≠0. The adjoint symbol on Ω¹ is therefore
+  not isometric; equal rank is necessary for that assertion.
+- For α=1 and β=2 on the line, the polarized expression is 2+2=4,
+  equal to 2⟨1,2⟩; replacing the sum by a difference would give 0.
+
+*Needs:* the symbol/adjoint and canonical-connection results above.
+
 ### R7.0. Scalar Bochner identity and the first positive eigenvalue
 
 For a smooth real function f on a smooth finite-dimensional Riemannian manifold with Levi-Civita connection, prove in the positive-Laplacian convention
@@ -2108,32 +2334,32 @@ The local identity includes dimensions0 and1. The positive first-eigenvalue and 
 ### R7.1–R7.8. Bundle identities and geometric consequences
 
 1. On actual finite-rank metric bundles with compatible connections, consume
-   PseudodifferentialOperators P1.0’s rough-Laplacian definition, invariant negative covariant trace,
+   R7A’s rough-Laplacian definition, invariant negative covariant trace,
    formal L² identification with ∇*∇ and nonnegative energy identity.
    Specialize those supplier identities to geometric moving frames and
    coordinates: `∇*∇φ=−Σ(∇_ei∇_eiφ−∇_(∇_ei ei)φ)`; the shorter sum
    is valid only in a normal frame at its center. Supply the geometric product
    rule `∇*∇(fφ)=(Δ⁺f)φ−2∇_(grad f)φ+f∇*∇φ`, scalar sign, induced tensor/curvature computations and smooth
    distributional/operator-domain comparison with K5a.
-2. Consume PseudodifferentialOperators P1.0’s differential-operator filtration on bundle sections:
+2. Consume R7A’s differential-operator filtration on bundle sections:
    locality/restriction, order≤k via iterated commutators, principal symbol on
    symmetric cotangent tensors, connection-independent leading term, coordinate
    and covariant-derivative expansion, composition and formal adjoint symbols.
    Use its `[D,f]` order≤k−1 theorem and geometric/Fourier symbol dictionary
    to compute the d/d*/∇ symbols on the actual DG/SBC carriers: wedge by ξ,
    minus contraction by ξ♯, and tensoring by ξ, respectively; compare their
-   adjoints with PseudodifferentialOperators P1.0. The jet symbol
-   without i and Fourier `σ(∂_j)=iξ_j` are PseudodifferentialOperators P1.0’s convention dictionary;
+   adjoints with R7A. The jet symbol
+   without i and Fourier `σ(∂_j)=iξ_j` are R7A’s convention dictionary;
    use that dictionary in the geometric identities below. Degreewise d is not an
    invertible-symbol operator in dimension ≥2; in dimension 1, d:Ω⁰→Ω¹
    is elliptic. De Rham ellipticity is exactness of its symbol
    complex, while d+d* is elliptic on the sum of degrees.
-3. Consume PseudodifferentialOperators P1.0’s Dirac/Laplace-type and Bochner-connection theorem. For
+3. Consume R7A’s Dirac/Laplace-type and Bochner-connection theorem. For
    a first-order geometric operator D:E→F with jet symbol c(ξ) and
    `c(ξ)*c(ξ)=|ξ|² Id_E`, use its **symmetric** polarization
    `c(α)*c(β)+c(β)*c(α)=2⟨α,β⟩Id_E`.
    Identify D*D’s Laplace-type symbol and its difference from the rough Laplacian for an
-   arbitrary chosen metric connection by order≤1. Consume PseudodifferentialOperators P1.0’s unique canonical
+   arbitrary chosen metric connection by order≤1. Consume R7A’s unique canonical
    Bochner connection/potential; here compute the potential for the actual
    geometric operators and identify the induced metric connection. K5a supplies
    the Laplace-type estimates used in these geometric consequences.
@@ -2224,7 +2450,7 @@ may choose g=0 and both the approximation error and derivative bound are zero.
 ### Dependencies
 
 R7 uses R1 tensor curvature, DifferentialGeometry exterior calculus and
-integration, SmoothBundlesConnections B2–B4, PseudodifferentialOperators P1.0
+integration, SmoothBundlesConnections B2–B4, R7A
 and ComplexKahlerGeometry K5a. The scalar local identity precedes the global
 analytic realization. R7.8 uses Mathlib real Lipschitz extension and owns
 the quantitative smooth gluing and Clifford-module norm comparison.
@@ -2408,7 +2634,7 @@ input. R6's Euclidean comparison follows R5a and
 owns its chart Hessian/normal-derivative pairing, squared-distance exhaustion
 and genericity theorems, consuming GT Layer 1 only for the normal bundle and
 tubular neighbourhood theorem. General
-R6 focal/Jacobi/index theory then uses R2–R3/R5a and R4.2’s moving-endpoint comparison. R7 uses R1, DG/SBC, PseudodifferentialOperators P1.0 and K5a;
+R6 focal/Jacobi/index theory then uses R2–R3/R5a and R4.2’s moving-endpoint comparison. R7 uses R1, DG/SBC, R7A and K5a;
 R8 uses R5a/R7, R4.7’s RP² quotient, and K5a/classical groups.
 TopK T6.6 precedes R1's projective comparison; CC C2.0, GT's smooth triangulation and AT's §8.11a mapping-CW targets
 precede R3's finite marked-point refinement and path-space comparison. Spin
@@ -2465,3 +2691,14 @@ minimization nor GeometricCurrents regularity enters R5b.
   second edition (2001), electronic version of 17 July 2020, Proposition 5.5,
   p. 76, and Theorem 5.7, p. 77: unique finite harmonic decomposition
   of a homogeneous polynomial, over real or complex coefficients.
+
+- I. Kolář, P. W. Michor and J. Slovák,
+  [Natural Operations in Differential Geometry](https://www.mat.univie.ac.at/~michor/kmsbookh.pdf),
+  author's electronic edition of the 1993 book, §§1.5–1.6, pp. 6–7,
+  Lemma 3.3, p. 16, §§12.2–12.5, pp. 117–119, and §§12.16–12.17,
+  pp. 124–125: local factorization, smooth coordinate recovery and finite jets.
+- P. Gilkey,
+  [The spectral geometry of operators of Dirac and Laplace type](https://pages.uoregon.edu/gilkey/dirPDF/E27Handbook.pdf),
+  author manuscript with 2007 imprint, §2, pp. 288–289, especially Lemma 2.1
+  and its following paragraph, p. 289: the canonical connection/potential and
+  its metric compatibility for a formally self-adjoint Laplace-type operator.
