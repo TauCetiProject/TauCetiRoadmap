@@ -47,7 +47,9 @@ Belyi-map identification of Layer 6 in `TauCeti/NumberTheory/ModularGroup/Belyi.
 - The permutation interpretation of the geometric level, its comparison with signed and
   strict widths, the congruence closure and finite-quotient obstructions (Layer 3).
   ModularFormsPartII W1.3, W1.5–W1.6 and W1.8 own geometric level, intersection/core
-  laws and signed Wohlfahrt. The strict-level extension retains signs in SL₂(ℤ).
+  laws and signed Wohlfahrt. The strict-level extension retains signs in SL₂(ℤ): the
+  strict level, its intersection and normal-core laws, and the strict form of Wohlfahrt's
+  theorem (`wohlfahrt_strict`) for subgroups that need not contain `−1`.
 - **Hsu's congruence criterion** as a finite list of relations on the permutation pair, with the
   Hamilton–Loeffler extension to subgroups of `SL₂(ℤ)` (Layer 4).
 - **Farey symbols**: the datum, its generators, Kulkarni's correspondence, and the invariant
@@ -135,7 +137,12 @@ Belyi-map identification of Layer 6 in `TauCeti/NumberTheory/ModularGroup/Belyi.
 - **Labels**: the enumerative tail of every `noncong` label — the index of a subgroup among
   those sharing its invariants, the ordering of cusps and of passport representatives, the
   canonical choice of a permutation pair inside a conjugacy class — is not a target. Layer 9
-  states the intrinsic prefix only.
+  states the intrinsic prefix only. Likewise the `nTk` name of the monodromy group: the
+  mathematical content of the `monodromy_group` column, the monodromy group of 1.1 as a
+  permutation group of degree `n` up to conjugacy in `Sₙ`, is a target in every degree, and
+  for `n ≤ 5` it is named by the reference family of PolynomialGaloisGroups Layer 6; in
+  larger degrees the `nTk` numbering is a convention of the transitive-group tables and is
+  not a target.
 - **Plane models** of `X(Γ̄)` (the `elliptic_curve`, `hyperelliptic_curve` columns): the
   elliptic-curves and hyperelliptic-curves roadmaps own the models; Layer 6 supplies the
   curve as a compact Riemann surface with a Belyi map, and the Belyi maps roadmap's Layers
@@ -256,7 +263,7 @@ Belyi-map identification of Layer 6 in `TauCeti/NumberTheory/ModularGroup/Belyi.
 | the groups | `Matrix.SpecialLinearGroup (Fin 2) ℤ`, `Matrix.ProjectiveSpecialLinearGroup (Fin 2) ℤ` with notations `SL(2, ℤ)`, `PSL(2, ℤ)`; `Subgroup.center`, `Matrix.SpecialLinearGroup.mem_center_iff`; `QuotientGroup.mk'` |
 | generators | `ModularGroup.S`, `ModularGroup.T`, `coe_S`, `coe_T`, `coe_T_zpow`, `S_mul_S_eq`, `S_inv`, `T_S_rel`, `SpecialLinearGroup.SL2Z_generators : closure {S, T} = ⊤`; `ModularGroup.exists_eq_T_zpow_of_c_eq_zero` |
 | congruence subgroups | `CongruenceSubgroup.Gamma`, `Gamma0`, `Gamma1`, `Gamma_mem`, `IsCongruenceSubgroup`, `isCongruenceSubgroup_trans`, `Gamma_is_cong_sub`, `Gamma_normal`, `conj_cong_is_cong`, `conjGL` |
-| index | `Subgroup.index`, `index_eq_card`, `index_comap_of_surjective`, `index_map_eq`, `index_map_of_injective`, `relIndex`, `FiniteIndex`, `IsFiniteRelIndex`, `normalCore`, `normalCore_eq_ker`, `index_normalCore` |
+| index | `Subgroup.index`, `index_eq_card`, `index_comap_of_surjective`, `index_map_eq`, `index_map_of_injective`, `relIndex`, `FiniteIndex`, `IsFiniteRelIndex`, `normalCore`, `normalCore_eq_ker`, `finiteIndex_normalCore` |
 | actions | `MulAction.quotient` (the left action on `G ⧸ H`), `MulAction.stabilizer_quotient`, `MulAction.IsPretransitive`, `MulAction.orbitRel`, `ConjAct` |
 | permutations | `Equiv.Perm`, `cycleType`, `cycleType_conj`, `sum_cycleType`, `card_cycleType_eq_one`, `cycleOf`, `support`, `orderOf`, `Equiv.Perm.exists_with_cycleType_iff` |
 | composition factors | `Subgroup.IsSubnormal`, `IsSimpleGroup`, `Matrix.ProjectiveSpecialLinearGroup.rank_two_simple` (`PSL₂(𝔽_q)` simple for `q ≥ 4`), `alternatingGroup.isSimpleGroup` |
@@ -282,6 +289,7 @@ Belyi-map identification of Layer 6 in `TauCeti/NumberTheory/ModularGroup/Belyi.
 | monodromy of covers | `TauCeti.AlgebraicTopology.ThricePuncturedSphere.MonodromyTriple`, `.PeripheralLoops`, `.FundamentalGroup` | `IsCoveringMap.monodromyTriple`, `monodromyGroup_monodromyTriple`, `isConnected_monodromyTriple_iff`, `isoClass_monodromyTriple_eq`, `ThricePuncturedSphere.permutationTriple` |
 | Sturm bound, finite dimension | `TauCeti.NumberTheory.ModularForms.SturmBound` | `TauCeti.ModularForm.sturm_bound_finiteIndex`, `sturm_bound_finiteIndex_SL2Z`, `eq_of_sturm_bound`, `finiteDimensional_modularForm_finiteIndex`, `finiteDimensional_cuspForm_finiteIndex` |
 | width at `∞` | `TauCeti.NumberTheory.ModularForms.Cusps.Basic` | `Subgroup.integerCuspWidth`, `integerCuspWidth_pos`, `T_pow_integerCuspWidth_mem`, `T_pow_mem_iff`, `natCast_mem_strictPeriods_iff`, `quotient_T_pow_integerCuspWidth_injective`, `exists_pos_nat_integerCuspWidth_eq_mul_strictWidthInfty`, `isCusp_infty_of_finiteRelIndex` |
+| index of `Γ₀(pᵏ)` | `TauCeti.NumberTheory.ModularForms.CongruenceSubgroups.Basic` | `CongruenceSubgroup.Gamma0_prime_index` (`[SL₂(ℤ) : Γ₀(p)] = p + 1`), `CongruenceSubgroup.Gamma0_prime_power_index` (`[SL₂(ℤ) : Γ₀(pᵏ)] = pᵏ⁻¹(p + 1)` for `k ≥ 1`); the index for composite `N`, the cusp widths and the elliptic counts of `Γ₀(N)` are not in Tau Ceti and are targets of 2.2 and 2.5 |
 | transitive-group labels | `TauCeti.GroupTheory.Perm.TransitiveGroupLabel.*`, `TauCeti.FieldTheory.GaloisGroups.Label` | `TauCeti.TransitiveGroupLabel`, `TauCeti.referenceSubgroup` for degrees `≤ 5` |
 
 ### From TauCetiRoadmap.ModularFormsPartII
@@ -315,8 +323,8 @@ Section 8.1 transports between that expansion and the strict-width expansion.
   triangle-group monodromy, analytic covers, algebraization and descent, with the
   marked branch points and field-of-definition hypotheses retained.
 - PolynomialGaloisGroups, Layers 0 and 6, supplies full cycle partitions
-  and transitive-group label semantics through degree 5. The required larger-degree
-  contract is stated separately in §6.2; it is not supplied by that roadmap.
+  and transitive-group label semantics through degree 5. In larger degrees no
+  label is a target (Scope and ownership); the monodromy group itself is.
 
 ### From the cohomological suppliers
 
@@ -606,11 +614,12 @@ element of order three come in threes).
   `g⁻¹ i` has stabilizer of order `2` in `Γ̄`. This uses 0.3's classification of torsion
   (every element of order `2` is conjugate to `S̄`, every element of order `3` to R̄ or R̄⁻¹)
   and Fuchsian orbifolds' stabilizer theory (`Fuchsian.Stabilizer`, `Elliptic.Basic`).
-- **Comparison at congruence level.** For `Γ̄ = Γ̄₀(N)` the counts agree with the formulas
+- **Comparison at congruence level.** For `Γ̄ = Γ̄₀(N)` prove here the formulas
   `ε₂ = ∏_{p | N} (1 + (−1/p))` (`0` if `4 ∣ N`) and `ε₃ = ∏_{p | N} (1 + (−3/p))` (`0` if
-  `9 ∣ N`) of Diamond–Shurman Corollary 3.7.2, which Tau Ceti proves in
-  `CongruenceSubgroups/Elliptic/Gamma0.lean`; the comparison is a theorem here, through the
-  action of `PSL₂(ℤ)` on `ℙ¹(ℤ/N)` of 2.5.
+  `9 ∣ N`) of Diamond–Shurman Corollary 3.7.2, with that corollary's conventions
+  `(−1/2) := 0`, `(−3/2) := −1` and `(−3/3) := 0` for the symbols at `2` and `3`, by
+  counting the fixed points of `σ1` and `σ0` on `ℙ¹(ℤ/N)` (2.5) one prime power at a time
+  through the Chinese remainder theorem. Tau Ceti has no elliptic-point count for `Γ₀(N)`.
 
 *Needs:* 1.1, 0.3; Fuchsian orbifolds Layers 0–1. *Source:* Diamond–Shurman §3.7,
 Corollary 3.7.2.
@@ -679,12 +688,18 @@ For `N ≠ 0`, `PSL₂(ℤ)` acts on `ℙ¹(ℤ/N)` (pairs `(x : y)` with `gcd(x
 units) through reduction, and the stabilizer of `(1 : 0)` is `Γ̄₀(N)`; so
 `modularTriple Γ̄₀(N)` is the triple of that action under a numbering of `ℙ¹(ℤ/N)`, with
 `σinf = (x : y) ↦ (x + y : y)`, `σ1 = (x : y) ↦ (−y : x)`, `σ0 = (x : y) ↦ (−y : x − y)`.
-Prove it, and derive from it: `[PSL₂(ℤ) : Γ̄₀(N)] = N ∏_{p ∣ N} (1 + 1/p)`
-(Tau Ceti's `Gamma0Projective_index`), the cusp widths of `Γ̄₀(N)`: the cusps of
-`Γ̄₀(N)` correspond to pairs `(d, u)` with `d ∣ N` and `u ∈ (ℤ/gcd(d, N/d))ˣ`, the cusp `u/d`
-having width `N/gcd(d², N) = N/(d · gcd(d, N/d))`, so there are `Σ_{d ∣ N} φ(gcd(d, N/d))`
-cusps (Diamond–Shurman §3.8 and Corollary 3.7.2; Tau Ceti's `Cusp/Width.lean` and
-`Cusp/Count.lean`) — and the elliptic counts of 2.2. Likewise for `Γ̄(N)`:
+Prove it, and derive from it: `[PSL₂(ℤ) : Γ̄₀(N)] = [SL₂(ℤ) : Γ₀(N)] = N ∏_{p ∣ N} (1 + 1/p)`
+(the first equality by 0.4, since `−1 ∈ Γ₀(N)`; the prime-power case `pᵏ⁻¹(p + 1)` is
+Tau Ceti's `CongruenceSubgroup.Gamma0_prime_index` and
+`CongruenceSubgroup.Gamma0_prime_power_index`, and the composite case is a target here:
+`ℙ¹(ℤ/N)` is the product of the `ℙ¹(ℤ/pᵏ)` over `pᵏ ∥ N` by the Chinese remainder
+theorem, so the index is multiplicative in coprime factors); the cusp widths of `Γ̄₀(N)`,
+a target here: the cusps of `Γ̄₀(N)` correspond to pairs `(d, u)` with `d ∣ N` and
+`u ∈ (ℤ/gcd(d, N/d))ˣ`, the cusp `u/d` having width `N/gcd(d², N) = N/(d · gcd(d, N/d))`,
+so there are `Σ_{d ∣ N} φ(gcd(d, N/d))` cusps (Diamond–Shurman Corollary 3.7.2 for the
+count, §3.8 for the widths; the cycles of `σinf` on `ℙ¹(ℤ/N)` through `(x : y)` with
+`gcd(y, N) = d` have length `N/(d · gcd(d, N/d))`) — and the elliptic counts of 2.2.
+Likewise for `Γ̄(N)`:
 cosets are `Q_N`, so `n = |Q_N|`, every cusp has width `N` and there are
 `n/N` of them, `ε₂ = ε₃ = 0` for `N ≥ 2`, and `|Q_N| = (N³/2) ∏_{p ∣ N} (1 − p⁻²)` for
 `N ≥ 3`, `= 6` for `N = 2`, `= 1` for `N = 1`; these are the theorems index Gamma,
@@ -730,13 +745,16 @@ least `m > 0` with `σ T^m σ⁻¹ ∈ ±Γ`, equivalently `±σ T^m σ⁻¹ ∈
 the `lcm` of the signed widths of `Γ`, and adjoining `−1` does not change it.
 
 **Intersections and normal cores.** The level is the order of `T̄` in `PSL₂(ℤ)/core(Γ̄)`
-(`ker ρ = Γ̄.normalCore`, 1.1), and `core(Γ̄₁ ⊓ Γ̄₂) = core(Γ̄₁) ⊓ core(Γ̄₂)`. Prove, for
-finite-index `Γ̄, Γ̄₁, Γ̄₂ ≤ PSL₂(ℤ)`: the width of `Γ̄₁ ⊓ Γ̄₂` at each cusp `σ∞` is the `lcm`
-of the widths of `Γ̄₁` and of `Γ̄₂` at `σ∞`; `N(Γ̄₁ ⊓ Γ̄₂) = lcm(N(Γ̄₁), N(Γ̄₂))`
-(generalLevel inf); and `N(Γ̄.normalCore) = N(Γ̄)` (generalLevel normalCore). The strict
-level satisfies the same two identities for finite-index `Γ, Γ₁, Γ₂ ≤ SL(2, ℤ)` with no
-hypothesis on `−1` (strictLevel inf, strictLevel normalCore): `{m ∈ ℤ | σ T^m σ⁻¹ ∈ Γ}`
-is a subgroup of `ℤ`, and `N_s(Γ)` generates the intersection of these subgroups over all `σ`.
+(`ker ρ = Γ̄.normalCore`, 1.1), and `core(Γ̄₁ ⊓ Γ̄₂) = core(Γ̄₁) ⊓ core(Γ̄₂)`. The cuspwise
+`lcm` of signed widths, `N(Γ̄₁ ⊓ Γ̄₂) = lcm(N(Γ̄₁), N(Γ̄₂))` and `N(Γ̄.normalCore) = N(Γ̄)`
+are ModularFormsPartII W1.5 and W1.6 on the lifts `±Γ̄`, which contain `−1`; 3.2 transports
+them and nothing is reproved here. Owned here is the strict analogue, for finite-index
+`Γ, Γ₁, Γ₂ ≤ SL(2, ℤ)` with no hypothesis on `−1` (W1.5 assumes `−1 ∈ Γ`): the strict
+width of `Γ₁ ⊓ Γ₂` at each cusp `σ∞` is the `lcm` of the strict widths of `Γ₁` and `Γ₂` at
+`σ∞`, `N_s(Γ₁ ⊓ Γ₂) = lcm(N_s(Γ₁), N_s(Γ₂))` and `N_s(Γ.normalCore) = N_s(Γ)`:
+`{m ∈ ℤ | σ T^m σ⁻¹ ∈ Γ}` is a subgroup of `ℤ` generated by the strict width, the subgroup
+for `Γ₁ ⊓ Γ₂` is the intersection of the two, and the finite-index normal core is the finite
+intersection of the conjugates `gΓg⁻¹`, whose strict width at `σ∞` is that of `Γ` at `g⁻¹σ∞`.
 
 *Needs:* 2.1, 0.4, 1.1; Mathlib `strictPeriods`, `IsRegularAtInfty`, `Subgroup.normalCore`.
 
@@ -745,14 +763,16 @@ is a subgroup of `ℤ`, and `N_s(Γ)` generates the intersection of these subgro
 - For the full group both levels are 1; for Γ(2) both are 2.
 - The width multiset {4,3} has sum 7 and lcm 12, refuting a level-at-most-index bound.
 - The subgroup {γ ∈ Γ(2) : aγ ≡ 1 mod 4} has signed level 2 and strict level 4, distinguishing the two definitions.
+- Strict laws: that subgroup meets Γ(2) in itself, with strict level 4 = lcm(4, 2); its normal core lies between Γ(4) and it, so has strict level 4 as well.
 
 ### 3.2 Comparison with the geometric level
 
 Identify `generalLevel` with ModularFormsPartII W1.3's geometric level on `lift Γ̄`:
 the latter is the lcm of the signed cusp widths, and §2.1 identifies those with the
 cycles of cusp monodromy. Transport W1.5 and W1.6 to projective intersections and
-normal cores. For strict levels, retain the translation subgroups in ℤ before
-adjoining −I; their intersection has positive generator the lcm.
+normal cores: the laws for `Γ̄₁ ⊓ Γ̄₂` and `Γ̄.normalCore` are those of W1.5 and W1.6 at
+`±Γ̄₁ ⊓ ±Γ̄₂ = ±(Γ̄₁ ⊓ Γ̄₂)` and `(±Γ̄).normalCore = ±(Γ̄.normalCore)`, read through 0.4.
+The strict-level laws are 3.1's, not transported.
 
 *Needs:* §§0.4, 2.1, 3.1; ModularFormsPartII W1.3, W1.5–W1.6.
 
@@ -762,21 +782,36 @@ Transport ModularFormsPartII W1.8 to obtain, for N = `generalLevel Γ̄ e`,
 `IsCongruenceSubgroup (lift Γ̄) ↔ Gamma N ≤ lift Γ̄`.
 The signed theorem concerns the full inverse image, not an arbitrary lift.
 For arbitrary finite-index Γ ≤ SL₂(ℤ), prove the strict version
-`IsCongruenceSubgroup Γ ↔ Gamma (strictLevel Γ) ≤ Γ`, using the elementary
-normal-generation argument of Kiming–Schütt–Verrill §3, Proposition 3 and Remark 8,
-with the actual strict translations. This retains the possibility that a projective
-congruence group has noncongruence lifts.
+`IsCongruenceSubgroup Γ ↔ Gamma (strictLevel Γ) ≤ Γ` (`wohlfahrt_strict`). The
+backward direction is the definition of a congruence subgroup, `strictLevel Γ` being
+positive at finite index. The forward direction is Kiming–Schütt–Verrill's elementary
+matrix reduction (§3, Proposition 3 and Remark 8) run with `N_s := strictLevel Γ` in
+place of their `2N`: if `Gamma ν ≤ Γ` then every strict width divides `ν`, so `N_s ∣ ν`,
+and the reduction of a matrix of `Gamma N_s` to one of `Gamma ν` multiplies only by
+`T^{N_s m}`, its transposes and conjugates, all in `Γ` by the definition of the strict
+level. Kiming–Schütt–Verrill's own conclusion, `Gamma (2N) ≤ Γ` for `N` the signed
+level, follows because `N_s ∣ 2N` (3.1). The statement retains the possibility that a
+projective congruence group has noncongruence lifts.
 
 **Checks.**
 
 - The full group has geometric and strict levels 1 and contains Γ(1).
 - Γ(2) has level 2, while {γ ∈ Γ(2) : aγ ≡ 1 mod 4} excludes −I,
-  has geometric level 2 and strict level 4: T² belongs but its S-conjugate does not.
+  has geometric level 2 and strict level 4: T² belongs but its conjugate by [[1,−1],[1,0]]
+  does not. It contains Γ(4) and not Γ(2) (−I ∉), so the strict version holds with both
+  sides true, whereas the inclusion of Γ(signed level) fails: the signed level is the wrong
+  modulus for lifts.
+- Γ₁(5) has odd strict level 5 and contains Γ(5): both sides true, with no doubling of the
+  modulus in the strict version.
 - The index-24 noncongruence lifts of Γ₀(6) have strict level 12 and do not contain
   Γ(12); their projective group has level 6 and is congruence (Kiming–Schütt–Verrill,
   §5, the Γ₀(6) example). Thus projective congruence does not imply congruence of a lift.
 
 *Needs:* §3.2; ModularFormsPartII W1.8; Mathlib `Gamma` and `Subgroup.normalClosure`.
+*Source:* Kiming–Schütt–Verrill 2011, §3, Lemma 7, Proposition 3 and Remark 8;
+Wohlfahrt 1964, Theorem 2.
+
+The strict headline is `wohlfahrt_strict`.
 
 ### 3.4 The congruence closure
 
@@ -911,9 +946,17 @@ classes (by (B1)–(B7) at `N = 6, 10, 12`) and on the two noncongruence index-`
 examples, with the witness of §4.3 as the independent check in the index-`8`
 case.
 
-*Needs:* 4.1; Mathlib `ZMod`, Chinese remainder. *Source:* Hsu 1996, Theorem 3.1 (the three
-cases); the mixed-case relations as implemented in Kurth's KFarey package and Sage's
-`arithgroup_perm`.
+*Needs:* 4.1; Mathlib `ZMod`, Chinese remainder. *Source:* Hsu 1996, Theorem 3.1,
+pp. 1353–1357 (the three cases, in the projective form, with the letters `L`, `R` as
+here); Hamilton–Loeffler 2014, Theorem 2 and the displayed list of relations, p. 2 (the
+same list in the signed form used in 4.4: its third 2-power relation has right-hand side
+`(L R_H⁻¹ L)²` where Hsu's has `1`). Two slips of that list are corrected here: it names
+`L` the matrix `!![1, 0; 1, 1]` and `R` the matrix `!![1, 1; 0, 1]`, interchanging Hsu's
+letters, which is harmless because conjugation by `!![0, 1; 1, 0] ∈ GL₂(ℤ)` exchanges the
+two matrices and preserves every `Gamma N`; and it reads the inverse of `5` in the mixed
+case modulo the odd part `m`, where the 2-power part `e` is meant: with the exponent taken
+modulo `m` the relations (B5) and (B7) fail in `SL₂(ℤ/12)` and `SL₂(ℤ/24)`, and at `N = 40`
+the inverse does not exist.
 
 The relation predicate is `hsuTest`, and the projective criterion is `hsu`.
 
@@ -951,9 +994,12 @@ redundant, when `-1 ∈ Γ`). The modulus is doubled for one reason: Hsu's odd-`
 not of `SL₂(ℤ/N)`, and on `SL(2, ℤ) ⧸ Γ` with `ρ(−1) ≠ 1` it fails for congruence subgroups
 of odd strict level (`Γ₁(5)`, strict level `5`); the relations of the two even cases evaluate
 to `1` in `SL₂(ℤ/N)`. The proof is 4.1 with `Gamma (2 N_s)` in place of `Gamma N`
-(`Gamma N_s ≤ Γ` by the `SL₂` form of 3.3, hence `Gamma (2 N_s) ≤ Γ.normalCore`) and
-Hamilton–Loeffler's theorem that at an even modulus the relations of 4.2 present
-`SL₂(ℤ/N)` on L̄, R̄_H. This is the layer in which 3.3(iii)'s witness is verified: its
+(`Gamma N_s ≤ Γ` by `wohlfahrt_strict`, hence `Gamma (2 N_s) ≤ Γ.normalCore`) and
+Hamilton–Loeffler's Proposition 3 that at an even modulus `M` the relations of 4.2 hold in
+`SL₂(ℤ/M)` and normally generate `Gamma M` in `SL(2, ℤ)`. Any even modulus `M` with
+`N_s ∣ M` therefore serves; Hamilton–Loeffler state the test at `M = 2 N(Γ̄)`, twice the
+signed level, which is such a modulus because `N_s ∣ 2 N(Γ̄)` (3.1), and `2 N_s ∈ {2N(Γ̄),
+4N(Γ̄)}` is another. This is the layer in which 3.3(iii)'s witness is verified: its
 `SL(2, ℤ)`-permutations on `24` points, read at modulus `2 · 12 = 24`, fail the mixed-case
 relations.
 
@@ -1192,15 +1238,12 @@ peripheral loops of the Belyi maps roadmap's Layer 5 map to `Ū` (around `0`), `
 theorem of the layer — and `J` is the Belyi map of the dessin of `Γ̄`. Corollaries: the
 `passport` of `Γ̄` is `passportOf (modularTriple Γ̄ e)` (reference subgroup the monodromy
 group, cycle partitions `(ε₃ ones and (n − ε₃)/3 threes; ε₂ ones and (n − ε₂)/2 twos;
-cuspWidths)`), its `monodromy_group` label is the transitive-group label of the monodromy
-group (PolynomialGaloisGroups Layer 6 for n ≤ 5). For degrees 6–11 the required
-supplier contract is a reference family of transitive subgroups with existence and
-uniqueness up to permutation conjugacy, together with its nTk numbering and agreement
-with the degree-≤5 family. PolynomialGaloisGroups does not contain this
-contract, and PolynomialGaloisGroupsPartII's ramified-merging theory does not supply it.
-The larger-degree label target requires that additional classification; abstract group
-names do not determine nTk labels. Above degree 11 the nTk label is outside the scope, and the genus of 2.3 is the genus of the dessin
-(Belyi maps 2.5).
+cuspWidths)`), its `monodromy_group` is the monodromy group of 1.1 as a permutation
+group of degree `n` up to conjugacy in `Sₙ`, named by the transitive-group label of
+PolynomialGaloisGroups Layer 6 when `n ≤ 5` (in larger degrees the `nTk` name is not a
+target, Scope and ownership; the group is, and the worked examples identify it as an
+abstract group: `AGL₁(𝔽₇)`, `S₇`, `PSL₂(𝔽₇)`, `PGL₂(𝔽₇)`, `GL₂(𝔽₃)`), and the genus of 2.3
+is the genus of the dessin (Belyi maps 2.5).
 
 *Needs:* 6.1; BelyiMaps Layers 5–6, 2.5; FuchsianOrbifolds Layer 6; ModularForms `JInputs`.
 
@@ -1213,8 +1256,8 @@ of moduli (11.3) is contained in every field of definition (11.5), and is one wh
 automorphism group `N(Γ̄)/Γ̄` of the triple is trivial (11.6); no milestone here assumes the
 two fields agree. The LMFDB's `K`, `belyi_map`, `passport_reps` and `passport_embeddings`
 columns are that roadmap's objects evaluated at `modularTriple Γ̄ e`, with `K` a stored field
-of definition. This milestone states the specialization only: `noncongruenceCurve Γ̄` is
-the algebraic Belyi pair of the class of `modularTriple Γ̄ e`, up to isomorphism, with the
+of definition. This milestone states the specialization only: the noncongruence curve of
+`Γ̄` is the algebraic Belyi pair of the class of `modularTriple Γ̄ e`, up to isomorphism, with the
 theorem that its analytic realization is `X(Γ̄)` with `J`. Nothing about models is proved
 here.
 
@@ -1650,7 +1693,9 @@ Each item names the LMFDB column it realizes and its mathematical definition.
   `(permS * permT, permS, permT⁻¹)`. `genus` — 2.3. `n_c` — `cuspCount`
   (2.1). `n_e2`, `n_e3` — 2.2. `cusp_widths` — `cuspWidths` (2.1). `is_congruence` —
   `IsCongruenceSubgroup (lift Γ̄)`, decided by 4.2 and certified by 3.5 or 4.3.
-  `monodromy_group` — the monodromy group of 1.1 with its transitive-group label (6.2).
+  `monodromy_group` — the monodromy group of 1.1 as a permutation group of degree `n` up
+  to conjugacy in `Sₙ`, with its transitive-group label for `n ≤ 5` (6.2); the `nTk` name
+  in larger degrees is a table convention and not a target.
   `passport_reps`, `passport_embeddings`, `belyi_map`, `K`, `L`, `v_L` — the Belyi pair of
   6.3, consumed from BelyiMaps. `elliptic_curve`, `hyperelliptic_curve` — models, not owned
   here. `label`, `friends` — not targets.

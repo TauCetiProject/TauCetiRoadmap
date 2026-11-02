@@ -16,8 +16,9 @@ import TauCeti.NumberTheory.ModularForms.HeckeSlash.ModularForm
 
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's
 headline theorems against the pinned APIs: the modular triangle presentation,
-Millington's correspondence, the cusp and genus dictionary, Hsu's criterion,
-Kulkarni's Farey correspondence, dimensions, algebraicity and denominator transport.
+Millington's correspondence, the cusp and genus dictionary, the strict form of Wohlfahrt's
+theorem, Hsu's criterion, Kulkarni's Farey correspondence, dimensions, algebraicity and
+denominator transport.
 Definitions have real bodies and the headline proofs are `sorry`.
 
 The geometric Belyi identification needs the analytic/algebraic Belyi-pair comparison
@@ -193,6 +194,14 @@ noncomputable def generalLevel (Γ' : Subgroup PSL(2, ℤ)) {n : ℕ}
 with `σ T^N σ⁻¹ ∈ Γ` for every `σ`. -/
 noncomputable def strictLevel (Γ : Subgroup SL(2, ℤ)) : ℕ :=
   sInf {N : ℕ | 0 < N ∧ ∀ σ : SL(2, ℤ), σ * T ^ N * σ⁻¹ ∈ Γ}
+
+/-- `README.md`, Layer 3, 3.3. **Wohlfahrt's theorem in strict form**: a finite-index subgroup
+of `SL(2, ℤ)`, whether or not it contains `−1`, is a congruence subgroup iff it contains the
+principal congruence subgroup of its strict level (Kiming–Schütt–Verrill's matrix reduction
+with the strict translations; Wohlfahrt's theorem when `−1 ∈ Γ`). Finite index makes
+`strictLevel Γ` positive, which the backward direction needs. -/
+theorem wohlfahrt_strict (Γ : Subgroup SL(2, ℤ)) [Γ.FiniteIndex] :
+    IsCongruenceSubgroup Γ ↔ Gamma (strictLevel Γ) ≤ Γ := sorry
 
 /-- `README.md`, Layer 3, 3.5. **The composition-factor obstruction**: when `±Γ'` is congruence,
 every nonabelian simple composition factor `H ⧸ K` of the monodromy group (`H` subnormal, `K`
