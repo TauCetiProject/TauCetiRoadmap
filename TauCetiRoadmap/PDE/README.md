@@ -101,8 +101,9 @@ statement time is what keeps the formalized API reusable.
   (`1 < p < ∞`, integer `s`; Calderón). Don't reuse the Bessel definition as the domain
   theory: it is a whole-space notion and the two scales genuinely differ at `p = 1, ∞`.
 - **Carry Poincaré's normalization.** `‖u‖ ≤ C‖∇u‖` holds on `W^{1,p}_0(Ω)` (zero trace),
-  on `W^{1,p}_Γ(Ω)` for a boundary part `Γ` of positive measure (Poincaré–Friedrichs, Lane G),
-  or modulo constants (Poincaré–Wirtinger, zero mean), for `Ω` bounded (or of finite
+  on `W^{1,p}_Γ(Ω)` for a boundary part `Γ` of positive measure and `Ω` connected
+  (Poincaré–Friedrichs, Lane G), or modulo constants for `Ω` connected (Poincaré–Wirtinger, zero
+  mean), for `Ω` bounded (or of finite
   measure, or bounded in one direction). State that side condition explicitly; it is the
   load-bearing hypothesis (the inequality fails outright on `ℝⁿ`).
 - **Pick the Sobolev-embedding regime by exponent.** Subcritical `p < n` gives
@@ -530,9 +531,12 @@ classical elliptic theory (Schauder, De Giorgi–Nash–Moser).
 ### Lane G: mixed and Neumann boundary conditions
 
 Boundary conditions imposed on a part of the boundary, built on Lane A's Lipschitz domains and
-traces and Lane D's energy method. As in Lane A.6's Tau Ceti implementation, a domain is an open
-`Ω ⊆ WithLp 2 (ℝ × E)` for a finite-dimensional real inner product space `E`
-(`Set.IsLipschitzDomainWith`), and the trace is `TauCeti.W1p.frontierTrace`.
+traces and Lane D's energy method. A domain is an open `Ω ⊆ WithLp 2 (ℝ × E)` for a
+finite-dimensional real inner product space `E`, under the Lipschitz-domain predicate of A.6 with
+its constant `L`; the trace is A.6's operator `W^{1,p}(Ω) → Lᵖ(frontier Ω, μHE[n−1])`, bounded for
+`1 ≤ p < ∞` on bounded Lipschitz domains. Admissible boundary parts are the strong Lipschitz pairs
+of Bauer–Pauly–Schomburg (§2.1, p. 6), in every dimension. Their weak Lipschitz pairs
+(Definitions 2.3–2.6, p. 5), defined by bi-Lipschitz charts, are not part of this lane.
 
 28. **Admissible boundary parts.** A relatively open `Γ ⊆ frontier Ω` is admissible with
     constant `L` when `Ω` satisfies the Lipschitz-domain predicate of A.6 with constant `L` and,
@@ -541,17 +545,29 @@ traces and Lane D's energy method. As in Lane A.6's Tau Ceti implementation, a d
     an `L`-Lipschitz graph in the base (after a rotation of the base). Supply the same
     restriction, transport and dilation API as A.6 supplies for the domain predicate, and prove
     that `Γ = ∅` and `Γ = frontier Ω` are admissible for every Lipschitz domain.
+    Checks, on the open unit square:
+    - `Γ = {0} × (0,1)` is admissible. At the corner `(0,0)` the chart is rotated by `π/4`, with
+      graph `t = |s|` of constant `1`, a base of dimension one and `Γ` over one side of the
+      single point `s = 0`.
+    - `Γ = {0} × ⋃ₖ (1/(2k+1), 1/(2k))` is relatively open and not admissible: over every chart at
+      `(0,0)` it alternates infinitely often, so it lies over neither all, nor none, nor one side
+      of the base.
 29. **Functions vanishing on a boundary part.** For a relatively open `Γ ⊆ frontier Ω` and
-    `1 ≤ p < ∞`, `W^{1,p}_Γ(Ω)` is the `W^{1,p}(Ω)`-closure of the restrictions to `Ω` of
+    `1 ≤ p ≤ ∞`, `W^{1,p}_Γ(Ω)` is the `W^{1,p}(Ω)`-closure of the restrictions to `Ω` of
     smooth compactly supported `φ` on the ambient space with `tsupport φ` disjoint from
-    `closure Γ` (Lean: `W1pVanishingOn Ω p Γ`).
+    `closure Γ` (Lean: `w1pVanishingOnSubmodule Ω p Γ`).
     Prove:
-    - `W^{1,p}_Γ = W^{1,p}_0` when `Γ = frontier Ω`, for every open `Ω`;
-    - `W^{1,p}_∅ = W^{1,p}` for Lipschitz `Ω` (from A.6's extension operator);
-    - for admissible `Γ` (item 28),
-      `W^{1,p}_Γ(Ω) = {u ∈ W^{1,p}(Ω) | W1p.frontierTrace u = 0 μHE[n−1]-a.e. on Γ}`. For
-      `Γ = frontier Ω` this is A.6's identification `ker(trace) = W^{1,p}_0`, one inclusion of
-      which is `TauCeti.W1p.w1p0Submodule_le_ker_frontierTrace`.
+    - `W^{1,p}_Γ = W^{1,p}_0` when `Γ = frontier Ω`, for every open `Ω` and every `p`;
+    - `W^{1,p}_∅ = W^{1,p}` for bounded Lipschitz `Ω` and `p < ∞` (from A.6's extension operator);
+    - for bounded Lipschitz `Ω`, admissible `Γ` (item 28) and `p < ∞`,
+      `W^{1,p}_Γ(Ω) = {u ∈ W^{1,p}(Ω) | trace u = 0 μHE[n−1]-a.e. on Γ}`. For
+      `Γ = frontier Ω` this is A.6's identification `ker(trace) = W^{1,p}_0`. Bauer–Pauly–Schomburg
+      prove the case `p = 2`, `n = 3` (Lemma 3.1, p. 7; proof in Appendix A). The general case is a
+      theorem of this roadmap: by a partition of unity and a bi-Lipschitz flattening, reduce to a
+      half-space with `Γ` the half-hyperplane `{s < 0}`; translate by `t > 0` in `s`, so the trace
+      vanishes on `{s < t}`; split with a cutoff in `s` into a part with zero trace on the whole
+      hyperplane, which lies in `W^{1,p}_0` by A.6, and a part supported in `{s > 0}`, approximated
+      through A.6's extension operator; mollify in the original coordinates.
 30. **Poincaré–Friedrichs.** For a bounded connected `Ω`, an admissible `Γ` with
     `μHE[n−1] Γ > 0` and `1 ≤ p < ∞`: `‖u‖_p ≤ C ‖∇u‖_p` on `W^{1,p}_Γ(Ω)`. The proof is by
     contradiction from Rellich (A.6), so this constant is an existence statement, not an
@@ -568,10 +584,19 @@ traces and Lane D's energy method. As in Lane A.6's Tau Ceti implementation, a d
       and only if `∫_Ω f + ∫_{frontier Ω} h = 0`, and it is unique up to an additive constant
       (from Poincaré–Wirtinger, A.5);
     - the Fredholm alternative for the mixed problem, as D.18 does for the Dirichlet problem.
-32. **Mixed and Neumann spectra.** As D.19, on `H¹_Γ(Ω)` for a bounded connected Lipschitz `Ω`
-    and admissible `Γ`: a compact self-adjoint inverse and an eigenfunction basis; the first
-    eigenvalue is positive when `μHE[n−1] Γ > 0`, and for `Γ = ∅` it is `0`, with exactly the
-    constants as eigenfunctions.
+32. **Mixed and Neumann spectra.** Let `−Δ_Γ` be the Laplacian with the form `∫ ∇u · ∇v` on
+    `H¹_Γ(Ω)`, for a bounded connected Lipschitz `Ω` and admissible `Γ`. The resolvent
+    `(−Δ_Γ + 1)⁻¹ : L²(Ω) → L²(Ω)` exists by Lax–Milgram for the form `∫ ∇u · ∇v + ∫ u v` on
+    `H¹_Γ(Ω)`, is compact by Rellich on `H¹(Ω)` (A.6), and is self-adjoint. Its eigenvalues
+    `μₖ ∈ (0, 1]` give the eigenvalues `λₖ = 1/μₖ − 1 ≥ 0` of `−Δ_Γ` and an orthonormal
+    eigenfunction basis of `L²(Ω)`. Prove:
+    - when `μHE[n−1] Γ > 0`, the first eigenvalue is positive and `−Δ_Γ` has a compact self-adjoint
+      inverse, as in D.19;
+    - for `Γ = ∅`, the first eigenvalue is `0` and its eigenspace is exactly the constants, since
+      `∫ |∇u|² = 0` forces `u` to be constant on a connected `Ω`; `−Δ_∅` has no inverse.
+
+    Check: on `(0,1)` with `Γ = ∅`, the resolvent has eigenvalues `1/(1 + m²π²)` for `m ≥ 0`, the
+    first being `1` on the constants.
 
 ### Stretch goals (state once the lanes above are solid)
 
@@ -625,7 +650,8 @@ Concrete sanity checks that rule out vacuous or mis-stated definitions:
   second order elliptic differential equations*, Math. Ann. 283 (1989): mixed boundary
   conditions and the function spaces `W^{1,p}_Γ`.
 - S. Bauer, D. Pauly, M. Schomburg, *The Maxwell compactness property in bounded weak
-  Lipschitz domains with mixed boundary conditions*, SIAM J. Math. Anal. 48 (2016):
+  Lipschitz domains with mixed boundary conditions*, SIAM J. Math. Anal. 48 (2016),
+  arXiv:1511.06697 (page numbers refer to the arXiv version):
   weak Lipschitz pairs, a bi-Lipschitz generalization of Lane G's admissible boundary parts.
 - L. Grafakos, *Classical Fourier Analysis* (and *Modern*) / E. Stein, *Singular Integrals
   and Differentiability Properties of Functions*: maximal function, interpolation,

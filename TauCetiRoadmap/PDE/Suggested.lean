@@ -9,7 +9,7 @@ import TauCeti.Analysis.Sobolev.W1p.Zero
 contributors and reviewers converge on names and signatures; discharging all of them
 finishes neither a layer nor the roadmap.
 
-The narrative roadmap, the build lanes (A–F), and the acceptance criteria are in
+The narrative roadmap, the build lanes (A–G), and the acceptance criteria are in
 `README.md`. Mathlib already carries a substantial prerequisite stack: distributions and
 test functions, the Schwartz space, the Fourier transform, convolution and mollifiers,
 the Gagliardo–Nirenberg–Sobolev inequality, the **Bessel-potential** Sobolev scale
@@ -39,6 +39,11 @@ natural first targets, in order:
 The first end-to-end milestone (Lane D.17) is the shortest path to a genuine PDE existence
 theorem, because Lax–Milgram is already in Mathlib; it only awaits `Wkp0` and Poincaré
 from Lane A.
+
+Of Lane G, this file states only the identification `w1pVanishingOnSubmodule_frontier`. The trace
+characterisation (G.29), Poincaré–Friedrichs (G.30), the mixed and Neumann problems (G.31) and the
+mixed spectra (G.32) are stated in `README.md` alone: they need the Lipschitz-domain predicate, the
+frontier trace and Rellich on `W^{1,p}(Ω)` of Lane A.6.
 -/
 
 namespace TauCetiRoadmap.PDE
@@ -261,13 +266,8 @@ noncomputable def w1pVanishingOnSubmodule (Ω : Opens F) (p : ℝ≥0∞) [Fact 
       Disjoint (tsupport φ) (closure Γ) ∧
       (W1p.value u : F → ℝ) =ᵐ[volume.restrict (Ω : Set F)] φ}).topologicalClosure
 
-/-- `W^{1,p}_Γ(Ω)` as a type, in the pattern of `TauCeti.W1p0`. -/
-noncomputable abbrev W1pVanishingOn (Ω : Opens F) (p : ℝ≥0∞) [Fact (1 ≤ p)] (Γ : Set F) :=
-  w1pVanishingOnSubmodule Ω p Γ
-
 /-- At the whole frontier, `W^{1,p}_Γ(Ω)` is `W^{1,p}_0(Ω)`, for every open `Ω` (G.29). -/
-theorem w1pVanishingOnSubmodule_frontier (Ω : Opens F) (p : ℝ≥0∞) [Fact (1 ≤ p)]
-    (hp : p ≠ (∞ : ℝ≥0∞)) :
+theorem w1pVanishingOnSubmodule_frontier (Ω : Opens F) (p : ℝ≥0∞) [Fact (1 ≤ p)] :
     w1pVanishingOnSubmodule Ω p (frontier (Ω : Set F)) = W1p0 volume Ω p := sorry
 
 end LaneG
