@@ -157,7 +157,8 @@ in characteristic `0`, for `m ≥ 2`), and `homogeneousUnitDegrees_depressed`: t
 
 For `G` acting on an `S`-scheme `X` by `a : G × X → X`, define a `G`-linearisation of an invertible
 sheaf `L` on `X` as an isomorphism `φ : a^* L ≅ pr₂^* L` satisfying the cocycle condition on
-`G × G × X` and the unit condition, and the groupoid `LinearizedLine G X` whose morphisms are the
+`G × G × X` and the unit condition (Mumford–Fogarty–Kirwan 1994, Chapter 1, §3),
+and the groupoid `LinearizedLine G X` whose morphisms are the
 isomorphisms of invertible sheaves compatible with the linearisations; its automorphisms of `O_X`
 with the trivial linearisation are the invariant units `Γ(X, O_X)^{*G}`, which the groupoid keeps.
 Construct tensor product, dual and the trivial object, pullback along `G`-equivariant morphisms,
@@ -181,7 +182,10 @@ Over a field: prove the exact sequence `0 → H¹(G, k[X]^*) → Pic^G(X) → Pi
 constant, the first map sending a cocycle of `G` in the units to `O_X` with that linearisation;
 and, for `G` connected and `X` a normal variety with `k[X]^* = k^*`, the exact sequence
 `0 → X^*(G) → Pic^G(X) → Pic(X)`, a character `χ` giving `O(χ)`: two linearisations of the same
-invertible sheaf differ by a unique character (Knop–Kraft–Luna–Vust).
+invertible sheaf differ by a unique character (Knop–Kraft–Luna–Vust). For `G` connected and `X`
+only reduced, Brion 2015, Proposition 2.10, extends the second sequence to
+`O(X)^* → Ĝ(X) → Pic^G(X) → Pic(X) → Pic(G × X)/pr₂^* Pic(X)`, with `Ĝ` the character group of
+`G` viewed as an étale sheaf.
 
 ### 1.4 Picard groups of quotient stacks, change of group, slices
 
@@ -308,6 +312,10 @@ MathOverflow answer cited below, which is not refereed; the theorem rests on ite
 - F. Knop, H. Kraft, D. Luna, T. Vust, « Local properties of algebraic group actions », in
   *Algebraische Transformationsgruppen und Invariantentheorie*, DMV Sem. 13, Birkhäuser (1989),
   63–75. Zbl 0722.14032.
+- D. Mumford, J. Fogarty, F. Kirwan, *Geometric Invariant Theory*, 3rd ed., Ergeb. Math.
+  Grenzgeb. (2) 34, Springer (1994), Chapter 1, §3. doi:10.1007/978-3-642-57916-5.
+- M. Brion, « On linearization of line bundles », *J. Math. Sci. Univ. Tokyo* 22 (2015), no. 1,
+  113–147, Proposition 2.10. Zbl 1342.14012; arXiv:1312.6267.
 - D. Mumford, « Picard groups of moduli problems », in *Arithmetical Algebraic Geometry*
   (Purdue, 1963), Harper & Row (1965), 33–81. Zbl 0187.42801.
 - W. Fulton, M. Olsson, « The Picard group of `M_{1,1}` », *Algebra Number Theory* 4 (2010), no. 1,
