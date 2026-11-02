@@ -84,7 +84,7 @@ Consume Layer AL.1, “CM quadratic completion and orbital comparisons”, for t
 
 ### From TauCetiRoadmap.AutomorphicBundles
 
-Consume §§1.1–1.3 for defining tensors, absolute Hodge tensor realizations with their Betti–de Rham and Betti–étale comparisons and descent to the reflex field; §§3.1, 3.4–3.8 for associated bundles, Betti and étale coefficients, filtered de Rham coefficients and tensor/Hecke compatibility; and §11.10 only for the classical GL₂ Hodge-line specialization. These sections make no crystalline or B_dR assertion (§3.7 excludes them explicitly); the p-adic comparison of the tensors is the contract below. The integral CM torsor on the locus with reductive unramified torus model is §2.3 here. Rational tensor descent does not imply an integral torsor at an arbitrary ramified prime.
+Consume §§1.1–1.3 for defining tensors, absolute Hodge tensor realizations with their Betti–de Rham and Betti–étale comparisons and descent to the reflex field; §§3.1, 3.4–3.8 for associated bundles, Betti and étale coefficients, filtered de Rham coefficients and tensor/Hecke compatibility. These sections make no crystalline or B_dR assertion (§3.7 excludes them explicitly); the p-adic comparison of the tensors is the contract below. The integral CM torsor on the locus with reductive unramified torus model is §2.3 here. Rational tensor descent does not imply an integral torsor at an arbitrary ramified prime.
 
 What AutomorphicBundles must provide (gap:absolute-hodge-padic-comparison), extending §1.3: For an abelian variety A over a number field K, every finite place v of K and every rational absolute Hodge tensor on A in a tensor construction of H¹, its dual and Tate twists whose de Rham and p-adic étale realizations are defined over K, prove that the B_dR comparison of A over K_v carries the étale realization to the algebraic de Rham realization, compatibly with tensor operations, Tate twists and finite base extension, and, where A has good reduction at v, with the B_cris comparison.
 
@@ -94,7 +94,7 @@ Consume §§R07.2.15–R07.2.16, R07.2.20 and Layer R07.4 for slope classificati
 
 ### From TauCetiRoadmap.LubinTateFormalModulesAndQuasiCanonicalLifts
 
-What LubinTateFormalModulesAndQuasiCanonicalLifts must provide (gap:lubin-tate-character-realizations): For every prime p, finite extension K/ℚ_p and uniformizer π of O_K, construct the one-dimensional Lubin–Tate formal O_K-module G_π and its finite flat πⁿ-torsion groups, for n≥1. Its integral Tate module T_π=lim_n G_π[πⁿ](K̄), with transition maps [π], is free of rank one over O_K; the actual G_K-action defines a continuous character χ_π:G_K→O_K×. Identify T_π/πⁿT_π with G_π[πⁿ](K̄), equivariantly and compatibly with the transition maps. For arithmetic reciprocity rec_K:K×→G_Kᵃᵇ prove χ_π(rec_K(πʳu))=u⁻¹ for r∈ℤ and u∈O_K×, and identify each torsion action with reduction of this character. Prove crystallinity of T_π[1/p] and its compatibility with restriction to finite extensions and the geometric local bases used in §§2.1–2.2. Through FiniteFlatGroupsAndIntegralPadicHodgeTheory Layer R07.4 identify the integral Breuil–Kisin and Dieudonné realizations with those of G_π, including Frobenius, filtration, O_K-action and duality: the cohomological module is attached to Hom_ℤp(T_π,ℤ_p), and the covariant realization is its dual. Include p=2 without a ramification bound. The general formal-module construction and these comparisons belong to this supplier; the CM complementary-type multipliers and their comparison modulo the different remain §6.2 here. ([A], §2.2, pp. 401–405, Proposition 3.5.2 and its proof, pp. 422–423, and §3.6, pp. 428–429; A lines 429–450, 1310–1355 and 1569–1586.)
+Consume LT.2, “Finite-height torsion comparison”, “Formal-module Tate module”, “Lubin–Tate character” and “Comparison with local reciprocity”. For every prime p, finite extension K/ℚ_p and uniformizer π of O_K, these supply the one-dimensional Lubin–Tate formal O_K-module G_π, its finite flat πⁿ-torsion group schemes for n≥1, identified with the π-power torsion of a p-divisible group over O_K, and its integral Tate module T_π=lim_n G_π[πⁿ](K̄) with transition maps [π], free of rank one over O_K, with T_π/πⁿT_π identified with G_π[πⁿ](K̄) equivariantly and compatibly with the transitions. The G_K-action on T_π is the continuous character χ_π:G_K→O_K×; each finite torsion action is its reduction, and its restriction to the Galois group of an extension L/K inside K̄, in particular to the groups Γ_y of §2.1, is the action on the same geometric torsion. For arithmetic reciprocity rec_K:K×→G_Kᵃᵇ the supplier proves χ_π(rec_K(πʳu))=u⁻¹ for r∈ℤ and u∈O_K×, so rec_K(π) acts trivially on the torsion tower. Its conventions place no ramification bound and include p=2. Crystallinity of T_π[1/p] and the Breuil–Kisin and Dieudonné realizations of G_π, with Frobenius, filtration and duality, are FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.4.18–R07.4.21 applied to the p-divisible group of G_π, over every complete discretely valued base of mixed characteristic with perfect residue field, which covers the geometric local rings O_y of §§2.1–2.2; at p=2 §§R07.4.18 and R07.4.21 are equivalences only up to isogeny, and the integral statement is §R07.4.23. The O_K-action on these realizations is the functorial image of the O_K-action on G_π. The variance is Kisin's contravariant one: the module attached to G_π is the module of Hom_ℤp(T_π,ℤ_p), and the covariant realization is its dual. The CM complementary-type multipliers and their comparison modulo the different are §6.2 here, not supplier material. ([A], §2.2, pp. 401–402, for T_π and M(G)=M(T_π(G)^∨), Proposition 3.5.2 and its proof, pp. 422–423, for the use of the character, and §3.6, pp. 428–429, for the Dieudonné crystal of G_q; A lines 429–450, 1310–1355 and 1569–1586.)
 
 **Checks.**
 
@@ -104,7 +104,7 @@ What LubinTateFormalModulesAndQuasiCanonicalLifts must provide (gap:lubin-tate-c
 
 ### From TauCetiRoadmap.NeronModelsAndSemistableAbelianVarieties
 
-Consume §§5.1–5.2 for Néron–Ogg–Shafarevich, good reduction and isogeny compatibility, and §1.5 for extension and uniqueness of homomorphisms. Inertia triviality is proved on the CM model before applying this criterion.
+Consume §§5.1–5.2 for Néron–Ogg–Shafarevich, good reduction and isogeny compatibility; extension of homomorphisms over the integral models is AbelianSchemesAndArithmeticModuli §A6.25. Inertia triviality is proved on the CM model before applying this criterion.
 
 ### From TauCetiRoadmap.ReductiveGroups and TauCetiRoadmap.ReductiveGroupsPartII
 
@@ -389,7 +389,7 @@ One proof route is as follows. Identify the inertia character with the unit char
 
 The representation is N_p,y[1/p]; the undefined symbol Λ in the printed proposition is not a new lattice.
 
-*Needs:* §1.3 finite étale cm models; LubinTateFormalModulesAndQuasiCanonicalLifts (gap:lubin-tate-character-realizations); FiniteFlatGroupsAndIntegralPadicHodgeTheory Layer R07.4.
+*Needs:* §1.3 finite étale cm models; LubinTateFormalModulesAndQuasiCanonicalLifts LT.2, “Lubin–Tate character” and “Comparison with local reciprocity”; FiniteFlatGroupsAndIntegralPadicHodgeTheory Layer R07.4.
 
 ### 2.2 CM Breuil–Kisin comparison
 
@@ -463,7 +463,7 @@ One proof route is as follows. Apply the local reciprocity character to the q-fa
 
 The local decomposition includes factors not above q, rather than treating the whole representation as one Lubin–Tate character.
 
-*Needs:* §2.1 local cm representations are crystalline; §2.2 cm breuil–kisin comparison; §2.4 cm bundles and crystals; §2.6 the standard cm quadratic line; LubinTateFormalModulesAndQuasiCanonicalLifts (gap:lubin-tate-character-realizations); FiniteFlatGroupsAndIntegralPadicHodgeTheory Layer R07.4.
+*Needs:* §2.1 local cm representations are crystalline; §2.2 cm breuil–kisin comparison; §2.4 cm bundles and crystals; §2.6 the standard cm quadratic line; LubinTateFormalModulesAndQuasiCanonicalLifts LT.2, “Lubin–Tate character” and “Comparison with local reciprocity”; FiniteFlatGroupsAndIntegralPadicHodgeTheory Layer R07.4.
 
 ### 2.8 Nonsplit CM crystals and supersingularity
 
@@ -483,7 +483,7 @@ For F=ℚ(√2) and E=ℚ(√2,i), the unit 3+2√2 has norm 9−8=1, so it lies
 
 ### Dependencies
 
-§1.3 finite étale cm models; LubinTateFormalModulesAndQuasiCanonicalLifts (gap:lubin-tate-character-realizations); FiniteFlatGroupsAndIntegralPadicHodgeTheory Layer R07.4; §1.4 integral polarized cm families; AutomorphicBundles §§1.1–1.3; AutomorphicBundles §1.3 (gap:absolute-hodge-padic-comparison); AutomorphicBundles §§3.1, 3.4–3.8; AbelianSchemesAndArithmeticModuli §§A6.22, A6.25, A6.37–A6.38; ShimuraVarieties §§8.1–8.6; ShimuraData Layer 1; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.2.15–R07.2.16, R07.2.20.
+§1.3 finite étale cm models; LubinTateFormalModulesAndQuasiCanonicalLifts LT.2, “Lubin–Tate character” and “Comparison with local reciprocity”; FiniteFlatGroupsAndIntegralPadicHodgeTheory Layer R07.4; §1.4 integral polarized cm families; AutomorphicBundles §§1.1–1.3; AutomorphicBundles §1.3 (gap:absolute-hodge-padic-comparison); AutomorphicBundles §§3.1, 3.4–3.8; AbelianSchemesAndArithmeticModuli §§A6.22, A6.25, A6.37–A6.38; ShimuraVarieties §§8.1–8.6; ShimuraData Layer 1; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.2.15–R07.2.16, R07.2.20.
 
 ## Layer 3: The total reflex determinant
 
@@ -876,7 +876,7 @@ One proof route is as follows. Apply the CM Kisin description of Propositions 4 
 
 Existence of one integral isomorphism is insufficient: the specified generic graph requires the automorphism-extension assertion.
 
-*Needs:* §6.1 different-torsion graph datum; FiniteFlatGroupsAndIntegralPadicHodgeTheory Layer R07.4; LubinTateFormalModulesAndQuasiCanonicalLifts (gap:lubin-tate-character-realizations).
+*Needs:* §6.1 different-torsion graph datum; FiniteFlatGroupsAndIntegralPadicHodgeTheory Layer R07.4; LubinTateFormalModulesAndQuasiCanonicalLifts LT.2, “Lubin–Tate character” and “Comparison with local reciprocity”.
 
 ### 6.3 Integral graph kernel and self-duality
 
@@ -912,7 +912,7 @@ For F_v=ℚ_p(√p), p odd, the opposite-eigenvalue quotient of a rank-one latti
 
 ### Dependencies
 
-§5.3 nearby cm types and their height; ComplexMultiplicationAndExplicitReciprocity §§2.1–2.3; AbelianSchemesAndArithmeticModuli §§A6.22, A6.25, A6.37–A6.38; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.2.15–R07.2.16, R07.2.20; FiniteFlatGroupsAndIntegralPadicHodgeTheory Layer R07.4; LubinTateFormalModulesAndQuasiCanonicalLifts (gap:lubin-tate-character-realizations); ArakelovGeometryAndAbelianHeights §§3.4–3.5; ArakelovGeometryAndAbelianHeights §4.7 (gap:ramified-component-determinants); HilbertModularVarietiesAndShimuraCurves Layer R18.1 (gap:embedded-quaternion-orders); HilbertModularVarietiesAndShimuraCurves Layer R18.5.
+§5.3 nearby cm types and their height; ComplexMultiplicationAndExplicitReciprocity §§2.1–2.3; AbelianSchemesAndArithmeticModuli §§A6.22, A6.25, A6.37–A6.38; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.2.15–R07.2.16, R07.2.20; FiniteFlatGroupsAndIntegralPadicHodgeTheory Layer R07.4; LubinTateFormalModulesAndQuasiCanonicalLifts LT.2, “Lubin–Tate character” and “Comparison with local reciprocity”; ArakelovGeometryAndAbelianHeights §§3.4–3.5; ArakelovGeometryAndAbelianHeights §4.7 (gap:ramified-component-determinants); HilbertModularVarietiesAndShimuraCurves Layer R18.1 (gap:embedded-quaternion-orders); HilbertModularVarietiesAndShimuraCurves Layer R18.5.
 
 ## Layer 7: Quaternionic CM points and Hodge lines
 
@@ -1090,7 +1090,7 @@ An unpolarized moduli field alone is not used as an unconditional fine moduli de
 - In E=ℚ(i,√2), the unit u=(1+√2)^8=577+408√2 satisfies u≡1 modulo 3 while u≠1 and uū=u²≠1. It gives an unpolarized automorphism invisible on 3-torsion, and fails the polarization-preservation equation.
 - For f=[2] on an elliptic curve, the factorization g₀f=[2] can use g₀=identity and leaves λ_A unchanged; an unrelated quotient polarization is extra data.
 
-*Needs:* ComplexMultiplicationAndExplicitReciprocity §§2.1–2.3; AbelianSchemesAndArithmeticModuli §§A6.22, A6.25, A6.37–A6.38; PELModuli §§M6.1, M6.8, M6.10; FaltingsFinitenessAndIsogenyTheoremsPartII §5.5, “Geometric isogeny estimate”.
+*Needs:* ComplexMultiplicationAndExplicitReciprocity §§2.1–2.3; AbelianSchemesAndArithmeticModuli §§A6.22, A6.25, A6.37–A6.38; PELModuli §§M2.1–M2.3, M6.1, M6.8, M6.10; FaltingsFinitenessAndIsogenyTheoremsPartII §5.5, “Geometric isogeny estimate”.
 
 ### 11.2 Primitive orbit exponent budget
 
@@ -1118,7 +1118,7 @@ For κ=2 and δ=1/16 choose a=3/16 and ε=1/32. Then δκ=1/8<a<1/4 and εκ=1/1
 
 ### Dependencies
 
-ComplexMultiplicationAndExplicitReciprocity §§2.1–2.3; AbelianSchemesAndArithmeticModuli §§A6.22, A6.25, A6.37–A6.38; PELModuli §§M6.1, M6.8, M6.10; FaltingsFinitenessAndIsogenyTheoremsPartII §5.5, “Geometric isogeny estimate”; §10.2 distant cm ideal isogenies; §10.3 individual cm heights are subpolynomial.
+ComplexMultiplicationAndExplicitReciprocity §§2.1–2.3; AbelianSchemesAndArithmeticModuli §§A6.22, A6.25, A6.37–A6.38; PELModuli §§M2.1–M2.3, M6.1, M6.8, M6.10; FaltingsFinitenessAndIsogenyTheoremsPartII §5.5, “Geometric isogeny estimate”; §10.2 distant cm ideal isogenies; §10.3 individual cm heights are subpolynomial.
 
 ## Layer 12: General CM orders and Galois orbits
 
