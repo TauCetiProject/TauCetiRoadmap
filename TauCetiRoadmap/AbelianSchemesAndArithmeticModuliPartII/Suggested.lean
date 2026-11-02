@@ -7,11 +7,15 @@ import TauCeti.AlgebraicGeometry.AbelianVariety.Isogeny
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's
 headline theorems against the pinned Mathlib and Tau Ceti APIs.
 
-The statable headlines are resultant recognition (F2.2), the Weil-polynomial
-bound (F6.2), the fixed-field isogeny-class asymptotic (F6.5), and the coarse
-prime-field isomorphism-class bound (F6.4). The last two use actual abelian
-varieties and quotients by isogenies and isomorphisms, including inseparable
-isogenies.
+The statable headlines are resultant recognition (F2.2), the fixed-field
+isogeny-class asymptotic (F6.5), and the coarse prime-field isomorphism-class
+bound (F6.4). The last two use actual abelian varieties and quotients by
+isogenies and isomorphisms, including inseparable isogenies. Their finiteness
+conjuncts (finitely many isogeny classes, finitely many isomorphism classes in
+each dimension over a finite field) are theorems of ArithmeticStatisticsPartI
+(§0.16 and its supporting constructions, which also own the Weil-polynomial
+bound and Tate's theorem at every prime); they are stated here only because the
+growth assertions are about their cardinalities.
 
 The other headlines are not statable at the pins:
 * P0.5's shuffle-compatible divided-power comparison needs the all-degree
@@ -27,14 +31,11 @@ The other headlines are not statable at the pins:
   and B4's fibre-power and curve-difference non-degeneracy need relative
   abelian-family analytification and Betti maps, trace and Hodge-variation
   carriers, mixed Kuga uniformizations and fine curve moduli, respectively.
-* F0.7 and F1.8–F1.10's all-prime Tate comparisons need the
-  Galois-equivariant Tate functor on abelian varieties and the contravariant
-  Dieudonné realization. Generic Tate modules and elliptic Tate modules do
-  not supply these abelian-variety functors.
-* F3.2–F3.3's Honda–Tate correspondence and Frobenius isogeny criterion,
-  F3.6–F3.10's integral lattice classification, and F4.8's fixed-level
-  isomorphism bound need the abelian Frobenius characteristic polynomial,
-  rational markings and all-prime realization lattice spaces.
+* F3.2's Honda–Tate correspondence, F3.6–F3.10's integral lattice
+  classification, and F4.8's fixed-level isomorphism bound need the abelian
+  Frobenius characteristic polynomial, the Galois-equivariant Tate functor on
+  abelian varieties, the contravariant Dieudonné realization, rational
+  markings and all-prime realization lattice spaces.
 * F5.7–F5.9's CM Hermitian mass and polarization growth and bounds, and
   F6.6's squarefree nonreal ppav proportion need integral Hermitian lattice
   and polarization carriers with their orbit dictionaries. The finite-n
@@ -84,20 +85,9 @@ def AbelianIsogenyClasses (k : Type u) [Field k] (g : ℕ) :=
 def AbelianIsomorphismClasses (k : Type u) [Field k] (g : ℕ) :=
   Quot (fun A B : AbelianVarietiesOfDimension k g => Nonempty (A.val ≅ B.val))
 
-/-- The number of degree-2g integral q-Weil polynomials is bounded by their first g power sums.
-LT, Lemma 2.1, v1 p.5; the interval count uses the README's enlarged constant
-and its explicit reciprocity hypothesis. -/
-theorem weilPolynomialCount (q g : ℕ) (hq : 2 ≤ q) (hg : 1 ≤ g) :
-    let W : Set (Polynomial ℤ) := {P | P.Monic ∧ P.natDegree = 2 * g ∧
-      P.coeff 0 = (q : ℤ) ^ g ∧
-      (∀ i ≤ g, P.coeff i = (q : ℤ) ^ (g - i) * P.coeff (2 * g - i)) ∧
-      ∀ z : ℂ, (P.map (Int.castRingHom ℂ)).eval z = 0 → ‖z‖ = Real.sqrt (q : ℝ)}
-    W.Finite ∧ (W.ncard : ℝ) ≤ ((4 * g + 1 : ℕ) : ℝ) ^ g *
-      (q : ℝ) ^ (((g * (g + 1) : ℕ) : ℝ) / 4) := by
-  sorry
-
 /-- Over a fixed finite field of cardinality q, the logarithm of the number of
-isogeny classes, divided by g², tends to (log q)/4. Finiteness is part of the assertion.
+isogeny classes, divided by g², tends to (log q)/4. Finiteness is part of the assertion;
+it is ArithmeticStatisticsPartI's Weil-polynomial finiteness with its isogeny criterion.
 DiPippo–Howe, Theorem 1.3; Lipnowski–Tsimerman, Corollary 2.2. -/
 theorem isogenyClassAsymptotic (k : Type u) [Field k] [Finite k] :
     (∀ g : ℕ, Finite (AbelianIsogenyClasses k g)) ∧
@@ -107,8 +97,8 @@ theorem isogenyClassAsymptotic (k : Type u) [Field k] [Finite k] :
   sorry
 
 /-- For a fixed prime p, dimension-g abelian varieties over F_p have finitely many
-isomorphism classes and their logarithmic count is O_p(g²). Lee, Theorem 1.1;
-only the coarse bound specified in F6.4 is asserted. -/
+isomorphism classes (ArithmeticStatisticsPartI §0.16) and their logarithmic count is
+O_p(g²). Lee, Theorem 1.1; only the coarse bound specified in F6.4 is asserted. -/
 theorem isomorphismClassCount (p : ℕ) [Fact p.Prime] :
     (∀ g : ℕ, Finite (AbelianIsomorphismClasses (ZMod p) g)) ∧
       Asymptotics.IsBigO Filter.atTop

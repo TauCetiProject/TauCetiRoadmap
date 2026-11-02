@@ -43,8 +43,8 @@ consequence using **ConformalMapping**, L3. B2.9 constructs the arbitrary-dimens
 invariance-of-domain extension in the shared topology API; its planar specialization
 agrees with **PlanarTopology**, Layer 2, under the usual real identification ℂ≃ℝ².
 
-**SchemeAndStackFoundations**, SF.2 and SF.4, supplies coherent direct images,
-formal functions, thickenings and formal completion. **ComplexComparisonPartII**,
+**SchemeAndStackFoundations**, §2.6, §4.1 and §§4.8–4.9, supplies coherent direct images,
+thickenings, formal completion and the theorem on formal functions. **ComplexComparisonPartII**,
 C0, supplies analytic sheaf and bundle carriers; C1.1 `localDolbeault` supplies
 the bundle-valued Dolbeault comparison.
 **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, R07.1 and R07.2, supplies the
@@ -62,10 +62,9 @@ Frobenius formula. B2 owns fixed parts, their trace adapter, algebraic monodromy
 and abelian Ax–Lindemann; B3 owns mixed Kuga uniformization and its counting
 application and abelian-family adapters. F3 owns prescribed-slope CM existence
 and finite-field effectivity, using the parent's A5.1–A5.3 algebraization and
-A6.32–A6.33 Weil restriction. **JacobianChallengePartII**, §2.6
-`RelativeJacobian.CurveDifference`, §§5.3–5.4 and §7.2
-`RelativeJacobian.levelFaltingsZhang`, supplies differences for a given curve
-family. B4 constructs the fine full-level curve moduli and universal family. **JacobianChallenge** supplies the
+A6.32–A6.33 Weil restriction. **JacobianChallengePartII**, §2.6 (curve difference
+morphism), §§5.3–5.4 and §7.2 (Faltings–Zhang for a curve family with full level),
+supplies differences for a given curve family. B4 constructs the fine full-level curve moduli and universal family. **JacobianChallenge** supplies the
 underlying Jacobian and curve Picard geometry.
 
 For arithmetic groups use **AdelicAlgebraicGroups**:
@@ -106,8 +105,17 @@ consequence have one owner, B2's integer-character construction.
 The independent prerequisite extensions belong here: B2 owns uniform torsion closures,
 Lang–Néron, polarized fixed parts and the abelian Ax theorem; B3 owns the mixed Kuga inputs;
 B4 owns fine curve moduli; F4 owns semisimple lattice bounds; F5 owns CM unitary masses.
-Tate full faithfulness and Honda–Tate are supplied to later arithmetic consumers by F0–F3.
-F0–F1 own the finite-field Tate comparison, including the characteristic prime.
+**ArithmeticStatisticsPartI**, earlier in the build, states in its supporting constructions
+the four finite-field theorems its counting fibres need: the finiteness of Weil polynomials
+with the bound (4g+1)^g q^(g(g+1)/4), Tate's theorem over a finite field at every prime (on
+Tate modules for ℓ≠p and on contravariant Dieudonné modules for ℓ=p) with the isogeny criterion
+by Frobenius polynomials, the characteristic-prime order and the finiteness of an isogeny class
+and of unpolarized isomorphism classes (its §0.16). These are imported here and never restated:
+F0 and F1 own the inputs that its route names and uses nowhere else, the split-prime commutant
+dimension (F0.6), the saturated characteristic-prime injection (F1.2) and the cyclic block
+algebra with its commutant dimension and local invariant (F1.4–F1.7, F1.11); F3–F6 own
+Honda–Tate, the lattice classification, the adelic bounds and every counting asymptotic, which
+that roadmap names as owned later in the build.
 
 ## Conventions
 
@@ -208,9 +216,7 @@ fibre, while the period charts and transition maps are constructed in B0.
 For resultants use `Polynomial.resultant`; its Sylvester degree arguments are
 retained in congruence statements. `PadicInt.appr_spec` supplies coefficient
 lifts modulo p^N. Mathlib's natural-valued `PadicInt.valuation` sends zero to
-zero, so recognition statements explicitly exclude zero resultants. For F6
-evaluate `MvPolynomial.mul_esymm_eq_sum` on the root occurrences; the new work
-is the coefficient and reciprocity adapter, not another Newton-identity proof.
+zero, so recognition statements explicitly exclude zero resultants.
 For CM power effectivity use `NumberField.Embeddings.pow_eq_one_of_norm_eq_one`
 in `Mathlib/NumberTheory/NumberField/InfinitePlace/Embeddings.lean`: an integral
 number-field element whose complex conjugates all have norm one has a positive
@@ -269,6 +275,22 @@ extensions, with dimension multiplied by the extension degree and the induced
 prime-to-characteristic Tate module. F3 derives the finite-field Frobenius
 polynomial of that restriction.
 
+### From TauCetiRoadmap.ArithmeticStatisticsPartI
+
+Consume the supporting constructions "Finiteness of Weil polynomials" (for g≥1 and a prime
+power q, the monic integer polynomials of degree 2g with constant term q^g and all roots of
+absolute value √q number at most (4g+1)^g q^(g(g+1)/4)), "Tate's theorem over a finite field"
+(for A,B over F_q, `Hom(A,B)⊗ℤ_ℓ→Hom_Gal(T_ℓA,T_ℓB)` is an isomorphism for ℓ≠p and
+`Hom(A,B)⊗ℤ_p→Hom_{W(F_q),F,V}(D(B),D(A))` is an isomorphism for the contravariant Dieudonné
+modules at ℓ=p, with the commutant identifications after ⊗ℚ and the criterion that A and B are
+F_q-isogenous exactly when their Frobenius characteristic polynomials agree), "The
+characteristic-prime order" and "Finiteness of an isogeny class and of unpolarized classes",
+together with §0.16's unpolarized count B(k,g) and its finiteness over every finite field.
+Retain its conventions: D is contravariant with D(uv)=D(v)D(u), and the unit group acts on
+Dieudonné lattices through u↦D(u⁻¹). F0 and F1 state the commutant dimensions its route uses;
+F3 and F4 consume the integral Hom dictionary at every prime; F6 consumes the count and the two
+finiteness statements as the finiteness conjuncts of its headlines.
+
 ### From TauCetiRoadmap.FiniteFlatGroupsAndIntegralPadicHodgeTheory
 
 Consume R07.1.2 `etaleGroupEquivContAction`, R07.2.10
@@ -326,8 +348,8 @@ for a CM polarizing element with prescribed imaginary signs.
 
 Consume PELModuli M3.5–M3.6's complex uniformization, M5's Siegel family and
 M6.11 `finiteFieldFiniteness`. Consume
-JacobianChallengePartII §2.6 `RelativeJacobian.CurveDifference` and §7.2
-`RelativeJacobian.levelFaltingsZhang` with their section-free base-change maps
+JacobianChallengePartII §2.6 (curve difference morphism) and §7.2 (Faltings–Zhang
+for a curve family with full level) with their section-free base-change maps
 for a supplied smooth projective genus-g family with full symplectic level.
 
 ### From TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic
@@ -337,8 +359,9 @@ and §3.3's weighted genus sums. Its orthogonal mass formula is used only in its
 
 ### From TauCetiRoadmap.SchemeAndStackFoundations
 
-Consume SF.2 and SF.4 for coherent direct images, formal functions, unit thickenings and
-formal completion; §1.18 `Stack.stackification` and §1.21 `Stack.quotient`, `actionQuotient`
+Consume §2.6 (quasi-coherent cohomology and higher direct images), §4.1 (thickenings),
+§4.8 (formal completion and coherent formal modules) and §4.9 (the theorem on formal
+functions); §1.18 `Stack.stackification` and §1.21 `Stack.quotient`, `actionQuotient`
 and `quotientStack_algebraic` for finite descent with isotropy; and §4.15 `StableCurves.Mbar`,
 `Mbar.smooth`, `Mbar.algebraicFiniteTypeDM` and `isom_stable_curves` for the finite-type smooth
 curve stack and its finite unramified isomorphism schemes. B4 constructs its full-level
@@ -355,14 +378,16 @@ through Layer 2's projective Hom and bounded-family constructions.
 
 ### From the remaining arithmetic and geometric suppliers
 
-Consume SchemeAndStackFoundations SF.2 and SF.4 for coherent direct images,
-formal functions and unit thickenings; AlgebraicVectorBundles L0B and L2B for
+Consume SchemeAndStackFoundations §2.6, §4.1 and §§4.8–4.9 for coherent direct images,
+unit thickenings, formal completion and formal functions; AlgebraicVectorBundles L0B and L2B for
 finite locally free sheaves, their tensor operations and vector groups;
 DifferentialGeometry Layers 0–1 for forms and exterior differentiation and
 12.1 for existence of smooth Riemannian metrics;
 AdelicAlgebraicGroups AA.1, AA.3 and AA.4 for restricted products, compact
 open levels, class-set finiteness and level double quotients with the group
-hypotheses retained; ClassFieldTheory Layers 5,10,13 for local Brauer invariants
+hypotheses retained; ReductiveGroupsPartII §RG2.3.7 for Lang's theorem and
+H¹(F_q,H)=1 for smooth connected groups H over F_q, specialized in F5.1 to an
+abelian variety; ClassFieldTheory Layers 5,10,13 for local Brauer invariants
 and norms; RepresentationTheory/SemisimpleAlgebras Layers 4–5 for central
 simple algebras and centralizers; Completed/EffectiveBounds Layer 1 for
 number-field bounds; Chebotarev Layer 14 for natural density; and
@@ -377,8 +402,8 @@ F0 keeps only its isogeny and product corollaries.
 The geometric branches run P0 → P1 → P2 → P3 and P4, and B0 → B1 → B2 → B3 → B4.
 The arithmetic branch starts with F0 and the independent polynomial layer F2,
 then runs F1 → F3 → F4 → F5 → F6. In particular, polynomial recognition precedes
-the characteristic-prime comparison; no counting theorem is used to establish
-Tate's theorem. Each target gives its source and the interfaces it needs.
+the characteristic-prime realization; Tate's theorem at every prime is imported from
+ArithmeticStatisticsPartI, and no counting theorem enters it. Each target gives its source and the interfaces it needs.
 References to targets within a layer refer to the construction order dictated
 by their stated dependencies.
 
@@ -386,11 +411,11 @@ The headline theorems are the shuffle-compatible divided-power comparison (P0.5)
 completed Poincaré cohomology (P2.8), logarithm and smooth comparisons (P3.3–P3.4),
 ordinary CM trivialization (P4.2–P4.3), the Betti-rank, specialness and degeneracy
 criteria and their fibre-power applications (B1.4, B2.3–B2.4, B2.21–B2.23, B3–B4),
-all-prime Tate and Honda–Tate with integral lattice classification (F0.7, F1.8–F1.10,
-F3.2–F3.10), fixed-level isomorphism bounds (F4.8), CM mass and polarization growth
-(F5.7–F5.9), and the counting and proportion theorems (F6.2, F6.4–F6.6). Resultant recognition
-(F2.2) is an independent algebraic endpoint used by the characteristic-prime comparison.
-`Suggested.lean` states `resultantRecognition`, `weilPolynomialCount`,
+Honda–Tate with integral lattice classification (F3.2, F3.4–F3.10), fixed-level isomorphism
+bounds (F4.8), CM mass and polarization growth
+(F5.7–F5.9), and the counting and proportion theorems (F6.3–F6.6). Resultant recognition
+(F2.2) is an independent algebraic endpoint used by the characteristic-prime realization.
+`Suggested.lean` states `resultantRecognition`,
 `isogenyClassAsymptotic` and `isomorphismClassCount`; its module docstring identifies
 the missing carriers for the other headlines. API facts and Checks remain in this README.
 
@@ -643,7 +668,7 @@ zero because p!=0; the integral moment map is not automatically an isomorphism.
 
 *Needs:* [P0](#layer-p0-symmetric-tensors-and-moment-coefficients), Invariant tensor powers;
 [P0](#layer-p0-symmetric-tensors-and-moment-coefficients), Degree completion of symmetric tensors;
-**SchemeAndStackFoundations**, SF.4.
+**SchemeAndStackFoundations**, §4.1 and §4.8.
 
 ### P2.2 Finite and completed Poincaré sheaves
 
@@ -691,7 +716,7 @@ completed, rather than only finite-level, cohomology.
 
 ([KS][KS], Theorem 2.15 and its proof, PDF pp.18–19).
 
-*Needs:* **AbelianSchemesAndArithmeticModuli**, A2; **SchemeAndStackFoundations**, SF.2;
+*Needs:* **AbelianSchemesAndArithmeticModuli**, A2; **SchemeAndStackFoundations**, §2.6 and §4.9;
 [P2](#layer-p2-completed-poincaré-bundles), Finite and completed Poincaré sheaves.
 
 ### P2.4 Isogeny functoriality of completed Poincaré sheaves
@@ -727,7 +752,7 @@ make 𝒫̂ and 𝒫̂^♮ Γ-equivariant sheaves.
 ([KS][KS], Corollary 2.11, PDF p.17).
 
 *Needs:* [P2](#layer-p2-completed-poincaré-bundles), Isogeny functoriality of completed Poincaré
-sheaves; **SchemeAndStackFoundations**, SF.2.
+sheaves; **SchemeAndStackFoundations**, §2.6.
 
 ### P2.7 Poincaré comultiplication and symmetric levels
 
@@ -768,7 +793,7 @@ ordinary inverse limits. Grothendieck duality identifies det ω_A with det ω_A�
 line after the Ω^d twist. These comparisons must be established over the noetherian base before
 reading the cohomology groups; finite-level vanishing alone is insufficient. The normalization
 and formal-functions route are Kings–Sprang, Theorem 2.15, pp.18–19. Equivariance uses coherent
-pullback and identity/composition maps from SF.2.
+pullback and identity/composition maps from SchemeAndStackFoundations §§2.1 and 2.6.
 
 ### Examples
 
@@ -776,7 +801,7 @@ On an elliptic scheme the ordinary and connection coefficients at level two have
 
 ### Dependencies
 
-P0 coefficient tensors and P1 connection notation precede moments and finite coefficients. AbelianSchemesAndArithmeticModuli A2–A3 supplies biextension and isogeny maps; SchemeAndStackFoundations SF.2,SF.4 supplies formal functions and unit thickenings. The normalized transform precedes the top-cohomology conclusion.
+P0 coefficient tensors and P1 connection notation precede moments and finite coefficients. AbelianSchemesAndArithmeticModuli A2–A3 supplies biextension and isogeny maps; SchemeAndStackFoundations §2.6, §4.1 and §§4.8–4.9 supplies coherent direct images, unit thickenings, formal completion and formal functions. The normalized transform precedes the top-cohomology conclusion.
 
 ## Layer P3: Logarithm and smooth realizations
 
@@ -2070,7 +2095,7 @@ alone does not specify a universal curve.
 ([DGH][DGH], Theorem 6.2 and proof, PDF pp.26–28).
 
 *Needs:* [B4](#layer-b4-fibre-powers-and-differences), The fibre-power dimension induction;
-**JacobianChallengePartII**, §7.2 `RelativeJacobian.levelFaltingsZhang`;
+**JacobianChallengePartII**, §7.2 (Faltings–Zhang for a curve family with full level);
 B4, Fine curve moduli with symplectic level.
 
 ### B4.5 Non-degeneracy criterion for fibre powers
@@ -2096,7 +2121,7 @@ map. Choose the dominating irreducible components when needed.
 ([Gao–Survey][Gao–Survey], Lemma 6.2 and §8.3 Step 1, PDF pp.15,22).
 
 *Needs:* [B4](#layer-b4-fibre-powers-and-differences), Non-degeneracy of a dominant fibre product;
-**JacobianChallengePartII**, §2.6 `RelativeJacobian.CurveDifference`.
+**JacobianChallengePartII**, §2.6 (curve difference morphism).
 
 ### B4.7 Construction requirements
 
@@ -2119,8 +2144,10 @@ SchemeAndStackFoundations §4.15 supplies curve moduli stacks; PELModuli M6 supp
 ## Layer F0: Finite-field Frobenius and Tate
 
 Start with polarized-moduli finiteness and compact lattice limits. Tate's isotropic-image lemma
-yields the split-prime commutant calculation, and prime independence plus saturation gives full
-faithfulness. Frobenius polynomials and point counts use the parent characteristic-polynomial
+yields the split-prime commutant calculation. Tate's theorem itself, at every prime, is
+ArithmeticStatisticsPartI's (Supporting constructions, Tate's theorem over a finite field); its
+route names the commutant dimension computed here and combines it with prime independence and
+saturation, and nothing of that combination is restated in this roadmap. Frobenius polynomials and point counts use the parent characteristic-polynomial
 interface and the Weil absolute-value theorem.
 
 ### F0.1 Compact preimages and exact lattice limits
@@ -2239,23 +2266,14 @@ limits; **AbelianSchemesAndArithmeticModuli**, A6.2 `homTateInjective`;
 **AbelianSchemesAndArithmeticModuli**, A6.8 `endQ_isSemisimple`;
 [F0](#layer-f0-finite-field-frobenius-and-tate), Tate’s isotropic image lemma.
 
-### F0.7 Tate full faithfulness over finite fields
-
-For A,B/F_q and ℓ≠p, Hom_Fq(A,B)⊗Z_ℓ→Hom_Gal(T_ℓA,T_ℓB) is an isomorphism; rationalizing gives
-the analogous Q_ℓ statement.
-
-([Tate][Tate], Main Theorem; Lemmas 1–3; conclusion of §2, printed pp.134–135,138–139
-(PDF pp.1–2,5–6)).
-
-*Needs:* [F0](#layer-f0-finite-field-frobenius-and-tate), Tate at a split Frobenius prime.
-
 ### F0.8 Construction requirements
 
 Construct the finite fixed-polarization moduli sets and the compatible compact preimages in
 Tate's argument without using F6. For decreasing images u_j(L), compactness proves that each
 element of the intersection has a preimage under the limit u; mere convergence of images is
 insufficient. Compute each split eigenspace and off-diagonal block and justify independence of
-the commutant dimension from ℓ. Combine rational surjectivity with integral saturation. Use
+the commutant dimension from ℓ; the combination of rational surjectivity with integral
+saturation into full faithfulness belongs to ArithmeticStatisticsPartI. Use
 DeligneWeightsAndPurity, DWP.1 target 1.4, for the abelian-variety Frobenius root bound. Its
 Rosati proof uses the parent polarization and characteristic-polynomial theory, without Tate
 full faithfulness. Use DWP.0 targets 0.1–0.3 for the embedding, conjugacy and power laws of pure
@@ -2346,10 +2364,12 @@ The prerequisite interfaces for each target are the *Needs* clauses above. This 
 
 ## Layer F1: Characteristic-prime realization
 
-The characteristic-prime comparison uses the actual contravariant Dieudonné functor from R07.2.
+The characteristic-prime realization uses the actual contravariant Dieudonné functor from R07.2.
 Prove the degree/length and characteristic-polynomial identities before the rational commutant
-calculation. Integral full faithfulness then follows from rational full faithfulness and a
-separately established saturated image.
+calculation. Tate's theorem at p, rational and integral, is ArithmeticStatisticsPartI's
+(Supporting constructions, Tate's theorem over a finite field); this layer owns the inputs its
+route names, the saturated injection and the semilinear commutant dimension through the cyclic
+block algebra, and the local invariant that Honda–Tate needs.
 
 ### F1.1 Degree from Dieudonné cokernel length
 
@@ -2459,43 +2479,6 @@ algebra; [RepresentationTheory/SemisimpleAlgebras, layer
 5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/SemisimpleAlgebras/README.md#layer-5-skolem-noether-and-the-centralizer-theorem);
 [F1](#layer-f1-characteristic-prime-realization), Frobenius adapter on the isocrystal.
 
-### F1.8 Rational and integral p-Tate comparison
-
-For A,B/F_q, Hom(A,B)⊗Q_p≃Hom_(F,V)(C(B)[1/p],C(A)[1/p]); the integral map is an isomorphism
-onto the F,V-compatible integral morphisms after its injectivity and p-saturation are proved.
-
-([WM][WM], PartI Theorems 5–6 and PartII Theorem 1 proof, printed pp.56–57,60–61 (PDF
-pp.4–5,8–9), scans).
-
-*Needs:* **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, R07.2.10 `dieudonnePDivisible`;
-[F1](#layer-f1-characteristic-prime-realization), Characteristic polynomial on the p-realization;
-[F0](#layer-f0-finite-field-frobenius-and-tate), Tate at a split Frobenius prime;
-**AbelianSchemesAndArithmeticModuli**, A6.8 `endQ_isSemisimple`;
-[F1](#layer-f1-characteristic-prime-realization), Saturated injection on integral p-realization Hom
-groups; [F1](#layer-f1-characteristic-prime-realization), Central simplicity of a Frobenius block
-algebra; [F1](#layer-f1-characteristic-prime-realization), Dimension of the semilinear Frobenius
-commutant; [F1](#layer-f1-characteristic-prime-realization), Frobenius adapter on the isocrystal.
-
-### F1.9 Integral Tate full faithfulness at the characteristic prime
-
-For abelian varieties A,B/F_q, let C(A),C(B) be the contravariant Dieudonné modules of their
-p-divisible groups over W(F_q), with their F,V actions. The natural map
-`Hom_Fq(A,B)⊗Z_p→Hom_{W(F_q),F,V}(C(B),C(A))` is an isomorphism.
-
-([WM][WM], PartI saturation and PartII Theorem 1, printed pp.56–57,60–61 (PDF
-pp.4–5,8–9), scans).
-
-*Needs:* [F1](#layer-f1-characteristic-prime-realization), Rational and integral p-Tate comparison.
-
-### F1.10 Rational p-Tate comparison
-
-For A,B/F_(p^a), Hom_k(A,B)⊗Q_p→Hom_(L,F)(C(B)[1/p],C(A)[1/p]) is an isomorphism of Q_p-vector
-spaces. For A=B it identifies End⁰_k(A)^op⊗Q_p with the equivariant endomorphism algebra.
-
-([WM][WM], PartII Theorem 1 proof, printed pp.60–61 (PDF pp.8–9), scans).
-
-*Needs:* [F1](#layer-f1-characteristic-prime-realization), Rational and integral p-Tate comparison.
-
 ### F1.11 Characteristic-prime invariant of a simple endomorphism algebra
 
 Let A/F_(p^a) be simple, with Frobenius π and center Q(π) of E=End⁰_k(A). For v|p put K=Q(π)_v,
@@ -2505,7 +2488,7 @@ inv_v(E)=f_v ord_v(π)/a=[K:Q_p]ord_v(π)/ord_v(p^a) in Q/Z.
 ([WM][WM], PartII Theorem 2 and proof, printed pp.60–61 (PDF pp.8–9), scans).
 
 *Needs:* [F1](#layer-f1-characteristic-prime-realization), Algebra acting on a Frobenius polynomial
-block; [F1](#layer-f1-characteristic-prime-realization), Rational and integral p-Tate comparison;
+block; ArithmeticStatisticsPartI, Supporting constructions (Tate's theorem over a finite field);
 [ClassFieldTheory, layer
 5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ClassFieldTheory/README.md#layer-5-local-coefficients-the-brauer-group-the-local-invariant-and-duality).
 
@@ -2518,7 +2501,8 @@ detect connected kernels. Use F2's nonzero-resultant recognition to identify cha
 polynomials for arbitrary endomorphisms. On each Frobenius block construct the cyclic algebra on
 the full étale tensor L ⊗ K, including every idempotent when it is a product. After a splitting
 extension identify it with M_a; apply centralizer dimensions blockwise to match the ℓ-adic
-dimension. Rational surjectivity and saturation then give integral p-Tate. For local invariants
+dimension. Rational surjectivity and saturation are the two inputs that ArithmeticStatisticsPartI's
+route combines into integral p-Tate; the combination is not restated here. For local invariants
 track the opposite endomorphism algebra and arithmetic Frobenius through the cyclic-algebra
 convention.
 
@@ -2528,7 +2512,7 @@ For [p] on a g-dimensional abelian variety, C([p])=p and its cokernel has Witt l
 
 ### Dependencies
 
-FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.2 supplies the contravariant realization and scalar descent; AbelianSchemesAndArithmeticModuli A6 supplies integral Hom and polynomial data; RepresentationTheory/SemisimpleAlgebras Layers 4–5 and ClassFieldTheory Layer 5 supply centralizers and Brauer invariants. F2 recognition precedes polynomial agreement; saturation and block dimensions precede the integral comparison.
+FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.2 supplies the contravariant realization and scalar descent; AbelianSchemesAndArithmeticModuli A6 supplies integral Hom and polynomial data; RepresentationTheory/SemisimpleAlgebras Layers 4–5 and ClassFieldTheory Layer 5 supply centralizers and Brauer invariants. F2 recognition precedes polynomial agreement; saturation and block dimensions are the inputs of the imported integral comparison.
 
 ## Layer F3: Honda–Tate and lattice classifications
 
@@ -2644,8 +2628,12 @@ TateHonda line 291).
 
 **Checks.**
 
-- With q=q₀=4, π=2 and π₀=−2, the slopes agree but ζ=−1. The choice t=2
-  gives π₀²=π²=4 over the cardinality-16 field; t=1 would retain the wrong sign.
+- With q=4, q₀=8, π=2 and a reduction Frobenius π₀=2√−2 in L=ℚ(√−2), one has
+  a=2 and b=3; at the prime over 2, where √−2 has valuation 1, the slopes are 2/4
+  and 3/6, both 1/2, but ζ=π₀²/π³=−8/8=−1 has order t=2. Then N=bt=6 and
+  π₀^4=16·4=64=π^6 over the field of cardinality 4^6=8^4; t=1 would compare
+  π³=8 with π₀²=−8, the wrong sign. With q=q₀=4, π=2 and π₀=−2 instead, a=b=2
+  gives ζ=(−2)²/2²=1 and t=1 already suffices: the sign is squared away.
 - With π=√2, q=2 and π₀=2, q₀=4, one has a=1, b=2 and ζ=1; N=2 and
   π₀=π²=2. Equal slopes do not require equal residue cardinalities.
 - For π=2+i, q=5, a local inverse would have slope −1 rather than 1 at the
@@ -2700,20 +2688,10 @@ local invariants prescribed by π.
 [TateHonda][TateHonda], §3 Lemmas 1–3 and §4 Lemmas 4–6, printed pp.100–105).
 
 *Needs:* F3.1a–F3.1d for existence; [F0](#layer-f0-finite-field-frobenius-and-tate), Weil q-numbers;
-[F1](#layer-f1-characteristic-prime-realization), Rational and integral p-Tate comparison;
+ArithmeticStatisticsPartI, Supporting constructions (Tate's theorem over a finite field);
 [F1](#layer-f1-characteristic-prime-realization), Characteristic-prime invariant of a simple
 endomorphism algebra; [ClassFieldTheory, layer
 10](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ClassFieldTheory/README.md#layer-10-global-carriers-the-brauer-sequence-and-the-sum-of-local-invariants).
-
-### F3.3 Frobenius polynomial determines the isogeny class
-
-Two abelian varieties over F_q are F_q-isogenous exactly when their Frobenius characteristic
-polynomials agree.
-
-([Tate][Tate], Theorem 1(c), printed p.139 (PDF p.6)).
-
-*Needs:* [F0](#layer-f0-finite-field-frobenius-and-tate), Frobenius polynomial and reciprocity;
-[F0](#layer-f0-finite-field-frobenius-and-tate), Tate at a split Frobenius prime.
 
 ### F3.4 Commutative endomorphisms in the nonreal prime-field case
 
@@ -2721,7 +2699,7 @@ If A/F_p is simple and Q(Frob) has no real embedding, End⁰_Fp(A)=Q(Frob) is a 
 
 ([Waterhouse][Waterhouse], Chapter 2, printed pp.527–528 (PDF pp.8–9)).
 
-*Needs:* [F1](#layer-f1-characteristic-prime-realization), Rational and integral p-Tate comparison;
+*Needs:* ArithmeticStatisticsPartI, Supporting constructions (Tate's theorem over a finite field);
 [F1](#layer-f1-characteristic-prime-realization), Characteristic-prime invariant of a simple
 endomorphism algebra; [ClassFieldTheory, layer
 10](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ClassFieldTheory/README.md#layer-10-global-carriers-the-brauer-sequence-and-the-sum-of-local-invariants).
@@ -2770,9 +2748,7 @@ specified in the prime-to-p and p lattice spaces above.
 *Needs:* [F3](#layer-f3-hondatate-and-lattice-classifications), Prime-to-p and p lattice spaces;
 **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, R07.1.2 `etaleGroupEquivContAction`;
 **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, R07.2.10 `dieudonnePDivisible`;
-**AbelianSchemesAndArithmeticModuli**, A3; [F0](#layer-f0-finite-field-frobenius-and-tate), Tate full
-faithfulness over finite fields; [F1](#layer-f1-characteristic-prime-realization), Integral Tate full
-faithfulness at the characteristic prime.
+**AbelianSchemesAndArithmeticModuli**, A3; ArithmeticStatisticsPartI, Supporting constructions (Tate's theorem over a finite field), at every prime.
 
 ### F3.7 Finite-support lattice tuples are realized over the prime field
 
@@ -2795,8 +2771,7 @@ f:B→A₀ with transported realization lattices f_ℓ(T_ℓB)=M_ℓ, including 
 **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, R07.1.2 `etaleGroupEquivContAction`;
 **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, R07.2.10 `dieudonnePDivisible`;
 [F3](#layer-f3-hondatate-and-lattice-classifications), Prime-field p-realization Frobenius polynomial;
-[F1](#layer-f1-characteristic-prime-realization), Integral Tate full faithfulness at the
-characteristic prime; **AbelianSchemesAndArithmeticModuli**, A3.
+ArithmeticStatisticsPartI, Supporting constructions (Tate's theorem over a finite field), at p; **AbelianSchemesAndArithmeticModuli**, A3.
 
 ### F3.8 Realization of nonreal prime-field orders
 
@@ -2826,7 +2801,8 @@ occurs as End_Fp(A′) for some A′ in that class.
 *Needs:* [F3](#layer-f3-hondatate-and-lattice-classifications), Commutative endomorphisms in the
 nonreal prime-field case; [F3](#layer-f3-hondatate-and-lattice-classifications), Finite-support
 lattice tuples are realized over the prime field; F3.5's prime-field
-linear realization; F0.7 and F1.9 for the integral Hom dictionary at all primes.
+linear realization; ArithmeticStatisticsPartI's Tate's theorem over a finite field for the
+integral Hom dictionary at all primes.
 
 ### F3.9 Isomorphism classes as rational orbits
 
@@ -2883,7 +2859,7 @@ The zero-dimensional variety gives one marked lattice tuple; the identity markin
 
 F3.1a–F3.1d construct Honda existence from GlobalNumberFields Layer 1, the parent
 A5.1–A5.3 and A6.32–A6.33, and ShimuraVarieties §§5.5–5.8, before classification.
-F0 and F1 supply full faithfulness at every prime; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1–R07.2 supplies torsion realization and Dieudonné lattices; AbelianSchemesAndArithmeticModuli A3 supplies finite-flat quotients. ClassFieldTheory Layer 10 supplies the invariant sum used in Honda–Tate. Marked realization precedes rational orbits and the prime-field order theorem.
+ArithmeticStatisticsPartI supplies Tate's theorem at every prime, and F0 and F1 the commutant dimensions and the characteristic-prime realization behind it; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1–R07.2 supplies torsion realization and Dieudonné lattices; AbelianSchemesAndArithmeticModuli A3 supplies finite-flat quotients. ClassFieldTheory Layer 10 supplies the invariant sum used in Honda–Tate. Marked realization precedes rational orbits and the prime-field order theorem.
 
 ## Layer F4: Adelic class sets and local bounds
 
@@ -2925,7 +2901,7 @@ lattices.
 
 ([LT][LT], Remark 3.2, v1 p.11).
 
-*Needs:* [F1](#layer-f1-characteristic-prime-realization), Rational and integral p-Tate comparison;
+*Needs:* ArithmeticStatisticsPartI, Supporting constructions (Tate's theorem over a finite field);
 [F1](#layer-f1-characteristic-prime-realization), Characteristic polynomial on the p-realization;
 [F3](#layer-f3-hondatate-and-lattice-classifications), Prime-field p-realization Frobenius polynomial.
 
@@ -2943,7 +2919,7 @@ discriminant may vanish.
 
 ### F4.4 Local semisimple stable-lattice bounds
 
-Prove the local semisimple stable-lattice bounds: for a semisimple operator γ on a finite-dimensional ℚ_ℓ-space with characteristic polynomial `∏f_i^{n_i}`, distinct monic irreducible f_i∈ℤ_ℓ[X], and `Δ_ℓ=Σn_i²v_ℓ(disc f_i)+2Σ_{i<j}n_in_jv_ℓRes(f_i,f_j)`: its linear centralizer has at most `ℓ^{2Δ_ℓ}` orbits of γ-stable full ℤ_ℓ-lattices and each stabilizer lies in a conjugate of a fixed maximal compact with index `≤ℓ^{Δ_ℓ}`; the proof must use successive projected lattices pr_i(M∩V_≤i), including repeated factors and ℓ=2 (LT §§3.1–3.2.1, pp.7–14, especially Lemma 3.1 and (15)–(20), as a strengthened local adaptation).
+Prove the local semisimple stable-lattice bounds: for a semisimple operator γ on a finite-dimensional ℚ_ℓ-space with characteristic polynomial `∏f_i^{n_i}`, distinct monic irreducible f_i∈ℤ_ℓ[X], `δ_i=v_ℓ(disc f_i)`, `ρ_{ij}=v_ℓRes(f_i,f_j)` and `Δ_ℓ=Σn_i²δ_i+2Σ_{i<j}n_in_jρ_{ij}`: its linear centralizer has at most `ℓ^{4Δ_ℓ}` orbits of γ-stable full ℤ_ℓ-lattices, and for every stable lattice M the stabilizer Stab(M) lies in the stabilizer K_M of the lattice M·O over the maximal order O of ℚ_ℓ[γ], a conjugate of the fixed maximal compact `∏GL_{n_i}(O_i)`, with `[K_M:Stab(M)]≤ℓ^{4Δ_ℓ}`. Both exponents are Lipnowski–Tsimerman's: on the isotypic block of f_i the orbit count is at most `ℓ^{4n_iδ_i}` (LT (13)) and the K_M-orbit of M, hence the index, has size at most `ℓ^{4δ_in_i²}` (LT (17)–(19)); gluing the blocks costs a factor `ℓ^{Σ_{k≠k'}n_kn_{k'}ρ_{kk'}}` in each count (LT §3.1.1 and (14)), and `n_i≤n_i²` gives the two totals. No sharper exponent is claimed. One route is through successive projected lattices pr_i(M∩V_≤i), including repeated factors and ℓ=2 (LT §§3.1–3.2.1, v1 pp.7–14, Lemma 3.1, (13)–(14) and (17)–(20)).
 
 Its API separates the orbit bound from the stabilizer bound and gives one orbit with
 maximal-compact stabilizer when Δ_ℓ=0. Use the primary decomposition and successive projected lattices with their invariant
@@ -2958,22 +2934,27 @@ factor profiles, and retain field-discriminant and cross-resultant contributions
 - The operator diag(0,ℓ) on ℚ_ℓ² has cross-resultant valuation one and Δ_ℓ=2;
   the lattice spanned by (1,ℓ⁻¹),(0,1) is stable but is not the sum of its intersections
   with the two eigenspaces. The projected-lattice construction retains this gluing at ℓ=2.
+  The centralizer, the diagonal torus, has exactly two orbits of stable lattices (a stable
+  lattice containing the sum of its eigenspace intersections with index ℓ^k forces k≤1),
+  within the bound `ℓ^{4Δ_ℓ}=ℓ^8`; a bound below 2 would be refuted.
 
 *Needs:* GeometryOfNumbersAndQuadraticArithmetic §2.5; rational primary decomposition;
 Mathlib and Tau Ceti discriminant and resultant identities.
 
 ### F4.5 Finite-support adelic stabilizers in a prime-field isogeny class
 
-For A₀/F_p and the prime-field lattice space X, use Tate full faithfulness at all primes to
-identify G(Q_ℓ), G the Q-algebraic unit group of End⁰_Fp(A₀), with the linear Frobenius
+For A₀/F_p and the prime-field lattice space X, use ArithmeticStatisticsPartI's Tate's theorem
+at all primes to identify G(Q_ℓ), G the Q-algebraic unit group of End⁰_Fp(A₀), with the linear Frobenius
 centralizer. If λ₁,…,λ_m are all Frobenius root occurrences, let `D_*=|∏_{i,j:λ_i≠λ_j}(λ_i−λ_j)|`,
 a positive integer; equal values are omitted and unequal values retain their occurrence
 multiplicities. There is a compact open K₀=∏H₀,ℓ of G(A_f) such that every M∈X has
 Stab(M)=∏S_M,ℓ contained in a conjugate K_M=a_M K₀a_M^(−1), with a_M∈G(A_f) supported at
-finitely many places, S_M,ℓ=H_M,ℓ almost everywhere, and [K_M:Stab(M)]≤D_*. Moreover
-#G(A_f)\X≤D_*².
+finitely many places, S_M,ℓ=H_M,ℓ almost everywhere, and [K_M:Stab(M)]≤D_*⁴. Moreover
+#G(A_f)\X≤D_*⁴. Both exponents are the products over ℓ of the local exponents 4Δ_ℓ=4v_ℓ(D_*)
+of the local semisimple stable-lattice bounds; at p the prime-field reduction makes the linear
+Frobenius centralizer act on F-stable lattices, with the same local bound.
 
-([LT][LT], §§3.1–3.2.1, v1 pp.7–14; local orbit/stabilizer adaptation).
+([LT][LT], §§3.1–3.2.1, (14), (15) and (20), v1 pp.7–14; local orbit/stabilizer adaptation).
 
 *Needs:* [F4](#layer-f4-adelic-class-sets-and-local-bounds), Adelic class set of the endomorphism
 group; [F3](#layer-f3-hondatate-and-lattice-classifications), Prime-to-p and p lattice spaces;
@@ -2983,7 +2964,7 @@ F4, Local semisimple stable-lattice bounds; [AdelicAlgebraicGroups,
 AA.1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AdelicAlgebraicGroups/README.md#layer-1-adelic-points-of-algebraic-groups);
 [AdelicAlgebraicGroups,
 AA.4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AdelicAlgebraicGroups/README.md#layer-4-approximation-neat-levels-and-hecke-maps);
-[F0](#layer-f0-finite-field-frobenius-and-tate), Tate full faithfulness over finite fields;
+ArithmeticStatisticsPartI, Supporting constructions (Tate's theorem over a finite field);
 [F3](#layer-f3-hondatate-and-lattice-classifications), Prime-field p-realization Frobenius polynomial.
 
 ### F4.6 Class-set comparison by reduced norms
@@ -3003,15 +2984,17 @@ AA.4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/
 
 ### F4.7 Conditional rational-orbit bound from local lattices
 
-Let a group G_f with subgroup Γ act on a lattice space X, with at most D_*² G_f-orbits. Suppose
+Let a group G_f with subgroup Γ act on a lattice space X, with at most D_*⁴ G_f-orbits. Suppose
 h=#(Γ\G_f/K₀)<∞ for a fixed compact level K₀. For every orbit representative M assume
 `Stab(M)=∏S_{M,ℓ}`, contained in `K_M=∏H_{M,ℓ}=a_M K₀ a_M⁻¹` with a_M∈G_f, equality `S_{M,ℓ}=H_{M,ℓ}`
-away from finitely many primes, and `∏[H_{M,ℓ}:S_{M,ℓ}]≤D_*`. Then Γ\X is finite and #Γ\X≤D_*³h.
+away from finitely many primes, and `∏[H_{M,ℓ}:S_{M,ℓ}]≤D_*⁴`. Then Γ\X is finite and #Γ\X≤D_*⁸h:
+the Γ-orbits inside the G_f-orbit of M are the double cosets Γ\G_f/Stab(M), of which there are at
+most [K_M:Stab(M)]·#(Γ\G_f/K_M), and conjugation by a_M identifies Γ\G_f/K_M with Γ\G_f/K₀.
 If the relevant Weil-lattice tuple satisfies these assumptions and `D_*≤(2√p)^{m(m−1)}`, the
-resulting conditional bound is `#Γ\X≤(2√p)^{3m(m−1)}h`.
+resulting conditional bound is `#Γ\X≤(2√p)^{8m(m−1)}h`.
 
 The abstract counting lemma needs only a group action, finitely many G_f-orbits and double
-cosets, and stabilizers contained with finite index at most D_* in conjugates of K₀. The local
+cosets, and stabilizers contained with finite index at most D_*⁴ in conjugates of K₀. The local
 product decomposition supplies that index hypothesis. State finiteness separately from the
 numerical index bound: Mathlib's subgroup index and `Nat.card` assign zero to infinite quotients.
 
@@ -3025,7 +3008,7 @@ AA.4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/
 
 For A₀/F_p of dimension g>0, put m=2g, take D_* and K₀ from the finite-support adelic stabilizer
 theorem above, and suppose h=#(G(Q)\G(A_f)/K₀) is finite. Then the number of F_p-isomorphism
-classes in the isogeny class of A₀ is at most `D_*³h≤(2√p)^{3m(m−1)}h`. Class-set finiteness is
+classes in the isogeny class of A₀ is at most `D_*⁸h≤(2√p)^{8m(m−1)}h`. Class-set finiteness is
 imported from AA.3 with its exact group hypotheses; no numerical bound on h is included.
 
 ([Lee][Lee], §3.1(5)–(10), PDF pp.4–5; coarse orbit-count adaptation).
@@ -3043,9 +3026,10 @@ The local contract F4’s local semisimple lattice theorem requires the successi
 induced quotient profiles, rather than the generally smaller intersections M ∩ V_i. Factor the
 local characteristic polynomial as ∏ f_i^n_i with distinct monic irreducibles, put δ_i = v_ℓ
 disc(f_i), ρ_ij = v_ℓ Res(f_i,f_j), and Δ_ℓ = ∑ n_i² δ_i + `2∑_{i<j}` n_i n_j ρ_ij. Bound local
-orbit counts by ℓ^(2Δ_ℓ) and stabilizer indices by ℓ^Δ_ℓ. AA.1 and AA.4 assemble only finitely
-many nontrivial local conjugators; obtain globally at most D_*² orbits and total stabilizer
-index at most D_*. At p use the prime-field linear-dual centralizer, while keeping F- and
+orbit counts by ℓ^(4Δ_ℓ) and stabilizer indices by ℓ^(4Δ_ℓ), the exponents of LT (13)–(14) and
+(17)–(20); a smaller exponent is not claimed. AA.1 and AA.4 assemble only finitely
+many nontrivial local conjugators; obtain globally at most D_*⁴ orbits and total stabilizer
+index at most D_*⁴. At p use the prime-field linear-dual centralizer, while keeping F- and
 V-stable integral lattices. Reduced norms give ordinary ideal classes in the CM matrix case and
 narrow classes for the real quaternion case in matrix degree at least two; dimension one and
 zero have their separate cases. AA.3 gives fixed-level class-set finiteness. A quantitative
@@ -3058,7 +3042,7 @@ For P=(X²+p)² the ordinary discriminant is zero but D_*=(4p)^4>0; unequal valu
 
 ### Dependencies
 
-F0–F3 supply Frobenius, integral full faithfulness and lattice classification. GeometryOfNumbersAndQuadraticArithmetic §2.5 supplies invariant factors; the semisimple bounds are proved in this layer. AdelicAlgebraicGroups AA.1,AA.3,AA.4 supplies restricted products, class-set finiteness and approximation. Discriminant, local stabilizer and fixed-level inputs precede rational-orbit counting.
+F0–F3 supply Frobenius, the prime-field realization and lattice classification, and ArithmeticStatisticsPartI supplies integral Tate at every prime. GeometryOfNumbersAndQuadraticArithmetic §2.5 supplies invariant factors; the semisimple bounds are proved in this layer. AdelicAlgebraicGroups AA.1,AA.3,AA.4 supplies restricted products, class-set finiteness and approximation. Discriminant, local stabilizer and fixed-level inputs precede rational-orbit counting.
 
 ## Layer F5: Polarizations and CM powers
 
@@ -3069,13 +3053,18 @@ masses distinct from unweighted isomorphism counts.
 
 ### F5.1 Lang surjectivity for an abelian variety
 
-For B/F_q, the morphism Frob_q−1 on B is an étale surjective isogeny, hence H¹(F_q,B)=0 for the
-actual Galois torsor cohomology.
+Lang's theorem for a smooth connected group over F_q, surjectivity of the Lang map and
+H¹(F_q,H)=1, is ReductiveGroupsPartII §RG2.3.7 and is not re-proved here. F5.1 owns only the
+abelian-variety adapter: for B/F_q the endomorphism Frob_q−1 of B is an isogeny (its kernel is
+the finite group B(F_q)), it is étale because its differential is −1, and the vanishing
+H¹(F_q,B)=0 of RG2.3.7(b), read for the actual Galois torsor cohomology of the smooth connected
+group B, is the form consumed by the line-bundle realization below.
 
 ([Conrad][Conrad], Theorem 2.6 proof, PDF p.8; explicit abelian specialization of
 Lang).
 
-*Needs:* **AbelianSchemesAndArithmeticModuli**, A3.
+*Needs:* ReductiveGroupsPartII §RG2.3.7 (Lang's theorem and H¹(F_q,H)=1 for smooth connected H);
+**AbelianSchemesAndArithmeticModuli**, A3.
 
 ### F5.2 Units that are norms modulo norms of units (Lemmermeyer)
 
@@ -3235,8 +3224,9 @@ F0–F4 supply Frobenius, endomorphism orders, local lattice bounds and discrimi
 
 ## Layer F6: Counting isogeny and isomorphism classes
 
-Count characteristic polynomials by their first g power sums and q-reciprocity, then use
-ordinary realizability for the matching isogeny-class lower bound. For isomorphism classes
+Import the power-sum count of Weil polynomials and the isogeny criterion from
+ArithmeticStatisticsPartI, then use ordinary realizability for the matching isogeny-class lower
+bound. For isomorphism classes
 assemble the local lattice and fixed-level arithmetic estimates uniformly. Polarization growth
 on CM elliptic powers then compares the squarefree nonreal locus with all principally polarized
 classes.
@@ -3283,7 +3273,9 @@ printed pp.522–524; Tate, Theorem 1(c), printed p.139).
 
 Define `AbelianIsomorphismClasses k g` as the native quotient by isomorphisms of
 abelian varieties over k, with no marking or polarization included (Lee, §1,
-PDF p.1; Lee line 20).
+PDF p.1; Lee line 20). This is the object of ArithmeticStatisticsPartI §0.16, the dimension-g
+subtype of the pinned abelian varieties modulo categorical isomorphism; its finiteness over a
+finite field is that roadmap's theorem and is consumed here, not re-proved.
 
 - The class map has source the dimension-g subtype and target this quotient.
 - Every class has a representative, and equality of classes means existence of a
@@ -3302,67 +3294,37 @@ PDF p.1; Lee line 20).
 AbelianSchemesAndArithmeticModuli A3 for symmetry of the isogeny relation;
 native quotients and subtype extensionality.
 
-### F6.1 Reconstruction from integer power sums
-
-For any integers q,g≥0 and a monic degree-2g integer polynomial satisfying the coefficient
-relations a_(2g−i)=q^(g−i)a_i for 0≤i≤g in descending convention, its first g power sums
-determine the entire polynomial. The q=0 case is a coefficient statement; finite-field
-applications require a prime power q≥2. Newton recurrence
-i·a_i=−∑_(j=1)^i a_(i−j)s_j determines a_i over Q, and reciprocity determines the remaining
-coefficients.
-
-([LT][LT], Lemma 2.1 proof, v1 p.5; coefficient adapter to Newton identities).
-
-*Needs:* `MvPolynomial.mul_esymm_eq_sum`.
-
-### F6.2 Counting Weil polynomials by power sums
-
-Prove `weilPolynomialCount` in the following generality.
-
-For q≥2 and g≥1, the number of monic q-reciprocal integer polynomials (q^gP(X)=X^(2g)P(q/X)) of
-degree 2g with constant q^g and all roots of absolute value √q is at most (4g+1)^g q^(g(g+1)/4).
-
-**Checks.**
-
-- For q=2 and g=1, the five polynomials X²−tX+2 with t∈{−2,−1,0,1,2}
-  satisfy the conditions; 5≤5√2. Requiring ordinary realizability would discard t=0,±2.
-- For q=3 and g=1 there are seven such polynomials, and 7≤5√3. A bound
-  omitting the count of integer endpoints need not cover all seven traces.
-- For q=2 and g=2, (X²+2)²=X⁴+4X²+4 is included despite its repeated roots;
-  a squarefree-only polynomial set would change the counting object.
-
-([LT][LT], Lemma 2.1 and proof, v1 p.5, power-sum counting adaptation).
-
-*Needs:* [F0](#layer-f0-finite-field-frobenius-and-tate), Frobenius polynomial and reciprocity;
-[F6](#layer-f6-counting-isogeny-and-isomorphism-classes), Reconstruction from integer power sums.
-
 ### F6.3 Asymptotic count of isogeny classes
 
 For fixed q, the number of dimension-g F_q-isogeny classes is at most exp((log q)g²/4+O_q(g log
-g)).
+g)). The imported isogeny criterion injects the isogeny classes into the Weil polynomials of
+degree 2g with constant term q^g, and the imported count bounds the logarithm of their number by
+g·log(4g+1)+(g(g+1)/4)·log q.
 
 ([LT][LT], Corollary 2.2, v1 p.5, using the power-sum count).
 
 *Needs:* [F0](#layer-f0-finite-field-frobenius-and-tate), Frobenius polynomial and reciprocity;
-[F6](#layer-f6-counting-isogeny-and-isomorphism-classes), Counting Weil polynomials by power sums;
-[F3](#layer-f3-hondatate-and-lattice-classifications), Frobenius polynomial determines the isogeny
-class.
+ArithmeticStatisticsPartI, Supporting constructions (finiteness of Weil polynomials with the bound
+(4g+1)^g q^(g(g+1)/4), and the isogeny criterion of Tate's theorem over a finite field).
 
 ### F6.4 Coarse isomorphism counts and conditional numerical assembly
 
 For a fixed prime p let B(p,g) be the number of F_p-isomorphism classes of g-dimensional abelian
-varieties. Prove `isomorphismClassCount`: these classes are finite for every g∈ℕ and
-log B(p,g) = O_p(g²) as g→∞. Also prove the following
+varieties. Prove `isomorphismClassCount`: these classes are finite for every g∈ℕ, which is
+ArithmeticStatisticsPartI's finiteness of unpolarized classes (§0.16 and its supporting
+constructions) and enters only as the conjunct that makes the count meaningful, and
+log B(p,g) = O_p(g²) as g→∞, which is new here. Also prove the following
 conditional numerical assembly: if the maximal size I_p(g) of a dimension-g isogeny class
 satisfies I_p(g) ≤ 2^(34g²) p^(17g²(1+ε_g)) for an error ε_g → 0 uniform across those classes,
-then B(p,g) ≤ 2^(34g²) p^((69/4)g²(1+o(1))). The first assertion uses coarse uniform lattice and
-class-number estimates; the second explicitly assumes the sharper uniform estimate.
+then B(p,g) ≤ 2^(34g²) p^((69/4)g²(1+o(1))). The growth assertion uses coarse uniform lattice and
+class-number estimates; the numerical assembly explicitly assumes the sharper uniform estimate.
 
 ([Lee][Lee], Theorem 1.1 and §3.1(5)–(10), contrasted with §3.2(11), PDF pp.1–9).
 
-*Needs:* F6.0, Geometric class carriers;
-[F6](#layer-f6-counting-isogeny-and-isomorphism-classes), Counting Weil polynomials by
-power sums; [F4](#layer-f4-adelic-class-sets-and-local-bounds), Coarse prime-field isomorphism count
+*Needs:* F6.0, Geometric class carriers; ArithmeticStatisticsPartI §0.16 and Supporting
+constructions (finiteness of unpolarized classes, finiteness of Weil polynomials);
+[F6](#layer-f6-counting-isogeny-and-isomorphism-classes), Asymptotic count of isogeny classes;
+[F4](#layer-f4-adelic-class-sets-and-local-bounds), Coarse prime-field isomorphism count
 at fixed adelic level; [F4](#layer-f4-adelic-class-sets-and-local-bounds), Class-set comparison by
 reduced norms; [F4](#layer-f4-adelic-class-sets-and-local-bounds), Discriminant and ordered-root
 bounds; [Completed/EffectiveBounds, layer
@@ -3374,14 +3336,16 @@ For n ≥ 1 and a prime power q, let O(q,n) be the set of ordinary n-dimensional
 classes. Put c₄ = e^(−3/2), c₅ = 2 + √2 and r(q) = φ(q)/q. Prove #O(q,n) > c₄(c₅n)^(−2 log 2/log
 q)(2^n/n!)(r(q)q^(n/2) − n)q^(n(n−1)/4). Combining this with the power-sum upper bound proves
 `isogenyClassAsymptotic`: for every fixed finite field k of cardinality q, all dimension-g
-isogeny-class sets are finite and log #Isog(k,g)/g² tends to (log q)/4 as g→∞.
+isogeny-class sets are finite (the imported Weil-polynomial finiteness with the imported isogeny
+criterion) and log #Isog(k,g)/g² tends to (log q)/4 as g→∞.
 The value at g=0 is 0 under native total real division, since there is one class and log 1=0;
 the limit concerns g→∞. This is equivalent to log #Isog(q,g) = (1/4)g² log q + o_q(g²).
 
 ([DPH][DPH], Theorem 1.3; Lemmas 2.1.1/2.1.3/2.5.1–3; Proposition 3.1.1; §3.2, PDF
 pp.2,4,13–18).
 
-*Needs:* F6.0, Geometric class carriers;
+*Needs:* F6.0, Geometric class carriers; ArithmeticStatisticsPartI, Supporting constructions
+(finiteness of Weil polynomials and the isogeny criterion of Tate's theorem over a finite field);
 [F3](#layer-f3-hondatate-and-lattice-classifications), Honda–Tate simple isogeny
 classification; [F6](#layer-f6-counting-isogeny-and-isomorphism-classes), Asymptotic count of isogeny
 classes.
@@ -3405,24 +3369,24 @@ numerical assembly.
 
 ### F6.7 Construction requirements
 
-Evaluate the existing Newton recurrence on root occurrences, convert its signs to descending
-coefficients and reconstruct the remaining coefficients by reciprocity. The DiPippo–Howe lower
+The Weil-polynomial count enters only through its imported bound; no coefficient reconstruction
+is restated here. The DiPippo–Howe lower
 bound needs the boundary control of the real-root region, weighted diamond lattice counts and
 the ordinary realizability criterion, including the continuation of its finite-n proof. Retain
 the possibly negative right side for small n; logarithms are taken only once it is positive. For
 the coarse isomorphism count combine the exact local lattice and class-number bounds from F4–F5.
 The numerical 69/4 specialization assumes a uniform per-isogeny-class bound with exponent 17,
 then adds the independently proved isogeny-class exponent 1/4. Class-set finiteness or the
-abstract D_*³h estimate alone does not imply that uniform numerical hypothesis. For the ppav
+abstract D_*⁸h estimate alone does not imply that uniform numerical hypothesis. For the ppav
 proportion retain both excluded factors: repeated F_p-simple factors and the real factor X² − p.
 
 ### Examples
 
-For g=1 the polynomial is X²−tX+q, reconstructed from s₁=t, with |t|≤2√q. The number of possible integer traces is at most 4√q+1≤5√q (LT Lemma 2.1).
+For g=1 the imported count allows at most 4√q+1≤5√q traces t of X²−tX+q, hence at most that many elliptic isogeny classes over F_q, and log(5√q) agrees with the exponent (log q)g²/4 of the isogeny-class bound at g=1 up to its O_q term (LT Lemma 2.1 and Corollary 2.2).
 
 ### Dependencies
 
-F0 supplies integer Frobenius polynomials; F3 supplies Honda–Tate and the isogeny criterion; F4–F5 supplies uniform lattice, class-number and polarization bounds. Mathlib’s Newton identity precedes coefficient reconstruction. The DiPippo–Howe realizability and region estimates precede the isogeny lower bound; the sharper numerical isomorphism assembly retains its uniform extra hypothesis.
+F0 supplies integer Frobenius polynomials; ArithmeticStatisticsPartI supplies the Weil-polynomial count, the isogeny criterion and class finiteness; F3 supplies Honda–Tate; F4–F5 supplies uniform lattice, class-number and polarization bounds. The DiPippo–Howe realizability and region estimates precede the isogeny lower bound; the sharper numerical isomorphism assembly retains its uniform extra hypothesis.
 
 ## Downstream consumers
 
@@ -3525,7 +3489,6 @@ Library declaration locations:
 - [`PadicInt.appr_spec`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/NumberTheory/Padics/RingHoms.lean).
 - [`TauCeti.symmetricTensors`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/LinearAlgebra/TensorProduct/Symmetric.lean).
 - [`PadicInt.valuation`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/NumberTheory/Padics/PadicIntegers.lean).
-- [`MvPolynomial.mul_esymm_eq_sum`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RingTheory/MvPolynomial/Symmetric/NewtonIdentities.lean).
 
 - [`TauCeti.TensorPower.oneEquiv`, `TensorPower.splitAt`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/LinearAlgebra/TensorPower/Basic.lean).
 - [`Polynomial.Monic.resultant_deriv`, `Algebra.discr_powerBasis_eq_minpoly_discr`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/RingTheory/Polynomial/Resultant/Discriminant.lean).
