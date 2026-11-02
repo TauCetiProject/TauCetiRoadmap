@@ -94,6 +94,8 @@ open ValuativeRel
 
 namespace TauCetiRoadmap.PadicLocalLanglandsForGL2Qp
 
+/-! ## Layer 0: Supporting analytic and arithmetic foundations -/
+
 /-- Section 0.5: lengths modulo powers of an ideal of definition on a finite module
 agree eventually with a unique rational polynomial. Its specialization at the maximal
 ideal supplies the same polynomial to the ambient multiplicity construction.
@@ -113,6 +115,8 @@ theorem exists_hilbertSamuel_polynomial
         ((Module.length A (M ⧸ (I ^ (n + 1) • (⊤ : Submodule A M)))).toNat : ℚ) =
           P.eval (n : ℚ) := by
   sorry
+
+/-! ## Layer 2: Torsion, compact and unitary representations -/
 
 namespace SmoothTorsion
 

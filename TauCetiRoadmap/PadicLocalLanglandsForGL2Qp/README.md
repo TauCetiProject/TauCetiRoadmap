@@ -363,9 +363,27 @@ Require the following operations and compatibility results.
 
 Integrality in `P⁺` means `‖g₀₀‖≤1` and `‖g₀₁‖≤1`; invertibility with bottom row `(0,1)` forces `g₀₀≠0`. The continuous characters of §1.2 use the existing continuous monoid-hom carrier over a commutative topological coefficient ring.
 
-**Checks.** An upper unipotent always has mirabolic bottom row; it belongs to `P⁺` exactly when its translation is integral. A diagonal `diag(a,1)` with `a≠0` is mirabolic, and is in `P⁺` exactly when `a` is integral. A scalar matrix has lower-right entry `a`, so it is mirabolic exactly for `a=1`. The Weyl element fails the zero lower-left-entry condition. Translations and diagonal scalings multiply according to `(1 b;0 1)(1 c;0 1)=(1 b+c;0 1)` and `diag(a,1)diag(b,1)=diag(ab,1)`. Nonintegral translations, including translation by `p⁻¹`, lie outside `P⁺`.
+**Checks.**
 
-**Checks.** The Borel contains the identity and every upper unipotent, rejects `w`, and is closed under multiplication. The mirabolic contains all translations and all `diag(a,1)`, but rejects a scalar matrix with `a≠1`. The positive mirabolic monoid contains `diag(p,1)` and integral translations, and rejects either a nonintegral scaling or a translation by `p⁻¹`. Translation by zero and scaling by one give the identity; the upper-right translation entry is `b`, and the upper-left scaling entry is `a`. A mirabolic diagonal matrix is scalar only for `a=1`. The scalar matrix with parameter 1 is the identity. Scalar matrices multiply by multiplying their parameters, and their intersection with `P` is the identity. Scaling by `p⁻¹` lies outside `P⁺`. The Weyl element exchanges the two coordinate vectors, has determinant `−1`, and squares to 1; the alternative signed Weyl matrix `(0 -1;1 0)` squares to `−1` at every prime and fails this convention. At `p=2` the field `ℚ₂` still has characteristic zero, so `−1≠1` even though their residue classes agree.
+- An upper unipotent always has mirabolic bottom row; it belongs to `P⁺` exactly when its translation is integral.
+- A diagonal `diag(a,1)` with `a≠0` is mirabolic, and is in `P⁺` exactly when `a` is integral.
+- A scalar matrix has lower-right entry `a`, so it is mirabolic exactly for `a=1`.
+- The Weyl element fails the zero lower-left-entry condition.
+- Translations and diagonal scalings multiply according to `(1 b;0 1)(1 c;0 1)=(1 b+c;0 1)` and `diag(a,1)diag(b,1)=diag(ab,1)`.
+- Nonintegral translations, including translation by `p⁻¹`, lie outside `P⁺`.
+
+**Checks.**
+
+- The Borel contains the identity and every upper unipotent, rejects `w`, and is closed under multiplication.
+- The mirabolic contains all translations and all `diag(a,1)`, but rejects a scalar matrix with `a≠1`.
+- The positive mirabolic monoid contains `diag(p,1)` and integral translations, and rejects either a nonintegral scaling or a translation by `p⁻¹`.
+- Translation by zero and scaling by one give the identity; the upper-right translation entry is `b`, and the upper-left scaling entry is `a`.
+- A mirabolic diagonal matrix is scalar only for `a=1`.
+- The scalar matrix with parameter 1 is the identity.
+- Scalar matrices multiply by multiplying their parameters, and their intersection with `P` is the identity.
+- Scaling by `p⁻¹` lies outside `P⁺`.
+- The Weyl element exchanges the two coordinate vectors, has determinant `−1`, and squares to 1; the alternative signed Weyl matrix `(0 -1;1 0)` squares to `−1` at every prime and fails this convention.
+- At `p=2` the field `ℚ₂` still has characteristic zero, so `−1≠1` even though their residue classes agree.
 
 Each subgroup is cut out of Mathlib's Matrix.GeneralLinearGroup `(Fin 2) ℚ_[p]` by conditions on the entries (zero lower-left entry for `B`, lower row `(0,1)` for `P`, entries in `ℤ_p` with unit determinant for `K`).
 
@@ -682,7 +700,14 @@ Combine finite-length admissibility from the mod-`p` classification with the fin
 
 The statement `SmoothTorsion.finiteLength_of_finitelyGenerated_admissible` in `Suggested.lean` uses `TopRep 𝒪[L] G` for any finite compatible extension `L/ℚ_p`, with `TauCeti.IsSmoothDiscrete`, `Module.IsTorsion` and finite generation over `𝒪[L][G]`; its conclusion is `IsFiniteLength` over that group algebra. The definition `SmoothTorsion.HasCentralCharacter ζ X` expresses `ρ(scalar(a))v=ζ(a)v` using Mathlib’s scalar-matrix homomorphism and continuous characters. For an irreducible element `ϖ` of `𝒪[L]`, hence a uniformiser, `SmoothTorsion.IsAdmissible ϖ X` requires the submodule killed by `ϖ^(n+1)` inside `(X.ρ.restrict H.subtype).invariants` to be finite over `𝒪[L]` for every compact open `H` and every `n≥0`. This is the full integral torsion condition `π^H[ϖⁿ]` finite at every positive level; it does not require `π^H` itself to have finite `O`-length.
 
-**Checks.** A scalar character with the stated `ζ` satisfies the central action equation, while a different scalar eigenvalue fails it. The zero representation is admissible for every `ζ`. Steinberg over `k` is admissible but infinite-dimensional; compact induction is smooth but fails admissibility. Thus the finite-generation hypothesis is representation-theoretic, not finite `k`-dimension.
+**Checks.**
+
+- For the trivial representation over `𝔽₅` and matching `ζ=1`, the central action equation on the vector 1 is `1=1`. With the unramified `ζ` satisfying `ζ(5)=2`, it becomes `1=2` at the central scalar 5 and fails.
+- The zero representation satisfies the central action equation `0=ζ(a)·0` for every `ζ`, and every compact-open torsion-invariant module is zero, hence finite.
+- Steinberg over `k` is admissible and has `k[G]`-length one, although its `k`-dimension is infinite; admissibility must not impose finite `k`-dimension.
+- The compact induction `c-Ind_{KZ}^G 1` over `k` is smooth but not admissible: the characteristic functions of the distinct double cosets `KZ diag(p^n,1) K`, for `n≥0`, are linearly independent `K`-fixed vectors. Its `K`-invariants are therefore infinite-dimensional.
+
+Thus the finite-generation hypothesis is representation-theoretic, not finite `k`-dimension.
 
 The source is [Vytautas Paškūnas, PASKUNAS13](#paskunas13), §2, pp.14–15, including the invocation of Emerton Theorem 2.3.8; [Shen-Ning Tung, TUNG21A](#tung21a), §1.1, p.4.
 
@@ -1061,7 +1086,7 @@ Twisting follows from the glued module and saturated submodule. The maximality s
 **Checks.**
 
 - If `det V = ε` then `Π(V)` has trivial central character.
-- For `D` of rank 1 the module `D^♮ ⊠ ℙ¹` is not `G`-stable in general, so `Π(D)` is not defined: the construction is special to rank 2.
+- For a rational rank-one étale `D`, the pair `(D,δ)` is compatible for every unitary `δ`, so `D^♮ ⊠_δ ℙ¹` is `G`-stable. For the trivial character module `D=E(1)` and `δ=ε⁻¹`, the general compatible-pair quotient of §3.11 is `Π_δ(D) ≅ (Ind_B^G(1 ⊗ ε⁻¹))^{cont}`, with unnormalised induction and central character `1·ε⁻¹=ε⁻¹` (CD14, published Proposition III.14, p.1469). At a unit `u`, the central scalar is `u⁻¹`; at `p` it is 1. The notation `Π(V)` and the reconstruction theorem of §3.7 here retain their rank-two hypotheses.
 - `V(Π(V)) ≅ V` for `V` absolutely irreducible of dimension 2 ([§3.7](#37-colmezs-theorem-πd-is-irreducible-and-dπd--ď)).
 - For a free integral rank-two `D₀`, a class killed by `ϖ` in the quotient by `N_sat` is zero; the raw quotient by `N_ns` need not pass this test.
 - For `D` of rank 2 with `det V(D) = χ, δ_D = 1` and `Π(D)` has trivial central character.
