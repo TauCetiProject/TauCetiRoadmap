@@ -665,7 +665,8 @@ specification of this roadmap.
 ## References
 
 - A. Grothendieck, *Pursuing Stacks (À la poursuite des champs)*, vol. I, ed. G. Maltsiniotis,
-  Documents Mathématiques 20, SMF, 2022. Zbl 1499.14001.
+  Documents Mathématiques 20, SMF, 2022. Zbl 1499.14001. The 1983 typescript is open access as
+  [arXiv:2111.01000](https://arxiv.org/abs/2111.01000).
 - G. Maltsiniotis, *La théorie de l'homotopie de Grothendieck*, Astérisque 301 (2005).
   Zbl 1104.18005. (Test categories; Cisinski 2006 cites its 1.3.7 and 1.5.4 in Remarques 4.1.9
   and 4.1.13.)
