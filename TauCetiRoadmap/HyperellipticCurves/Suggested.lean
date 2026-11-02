@@ -2,6 +2,8 @@ import Mathlib
 import TauCeti.FieldTheory.FunctionField.Hyperelliptic.Basic
 import TauCeti.FieldTheory.FunctionField.Hyperelliptic.Genus
 import TauCeti.AlgebraicGeometry.EllipticCurve.QuadraticTwist.Basic
+import TauCeti.RingTheory.Localization.AtPrime
+import TauCeti.RingTheory.DedekindDomain.LocalizationAtPrime
 
 /-!
 # Hyperelliptic curves: target signatures
@@ -21,7 +23,9 @@ degree bounds the README promises.
 The carrier is `Model R g`, a pair of polynomials `f, h` over a commutative ring `R` with
 `natDegree f ≤ 2g + 2` and `natDegree h ≤ g + 1`, the equation `y² + h(x) y = f(x)` of a curve of
 genus `g`; it is deliberately parallel to Mathlib's `WeierstrassCurve`, and `ofWeierstrass`
-exhibits genus 1 as a special case (`README.md`, conventions 1 and 5, Layer 0.5). A curve is a
+embeds Weierstrass curves as the genus-1 models with `f` monic cubic and `natDegree h ≤ 1`; a
+general genus-1 model, such as `y² = −(x⁴ + 1)` over `ℝ`, need not be one (`README.md`,
+conventions 1 and 5, Layer 0.5). A curve is a
 model with `IsSmooth`, i.e. `IsUnit Δ`; the `k`-isomorphism class of the curve is the orbit of
 the model under the changes of coordinates `CoordChange k g` of Layer 1 (convention 7).
 
@@ -33,7 +37,8 @@ Second, a change of coordinates is a triple `(M, e, t)` acting on the coordinate
 `x = (ax' + b)/(cx' + d)`, `y = (e y' + t(x'))/(cx' + d)^{g+1}`, and the discriminant transforms by
 `e^{-4(2g+1)} det(M)^{(2g+1)(2g+2)}` (convention 5; `Δ_smul`). Third, minimality over a discrete
 valuation ring is stated division-free, as the existence of `r ∈ R` with `Δ(C • W) = r · Δ(W)` for
-every integral `C • W` (convention 11).
+every integral `C • W`, and global minimality over a Dedekind domain is minimality at every
+height-one prime (convention 11).
 
 The function field of a model is `AdjoinRoot (X² + h X − f)` over `RatFunc k`, so that Tau Ceti's
 `IsHyperellipticFunctionField`, `genus` and the Layer-10/11 theorems of the algebraic curves
@@ -67,8 +72,9 @@ theorem formDiscr_eq_discr_of_natDegree_eq {n : ℕ} {G : R[X]} (hG : G.natDegre
     formDiscr n G = Polynomial.discr G := sorry
 
 /-- `README.md`, Layer 0, 0.1: one root at infinity contributes the square of the leading
-coefficient. -/
-theorem formDiscr_eq_of_natDegree_eq_pred {n : ℕ} (hn : 1 ≤ n) {G : R[X]}
+coefficient. The hypothesis `2 ≤ n` is needed: `formDiscr 1 G = 1` for every `G`, while the
+constant `G = 2` has `2² · discr 2 = 4`. -/
+theorem formDiscr_eq_of_natDegree_eq_pred {n : ℕ} (hn : 2 ≤ n) {G : R[X]}
     (hG : G.natDegree = n - 1) :
     formDiscr n G = G.leadingCoeff ^ 2 * Polynomial.discr G := sorry
 
@@ -207,10 +213,11 @@ of the Weierstrass form together with full degree `2g + 1` or `2g + 2` (a simple
 theorem isSmooth_iff_separable {k : Type*} [Field k] (h2 : (2 : k) ≠ 0) (W : Model k g) :
     W.IsSmooth ↔ W.weierstrassForm.Separable ∧ 2 * g + 1 ≤ W.weierstrassForm.natDegree := sorry
 
-/-! ### Layer 0.5: genus 1 is Mathlib's Weierstrass curve (bridge check) -/
+/-! ### Layer 0.5: Weierstrass curves as genus-1 models (bridge check) -/
 
-/-- A Weierstrass curve as a genus-1 model (`README.md`, Layer 0, 0.5). This is a real
-definition: the degree bounds are checked by the elaborator. -/
+/-- A Weierstrass curve as a genus-1 model, the sub-case `f` monic cubic, `natDegree h ≤ 1`
+(`README.md`, Layer 0, 0.5). This is a real definition: the degree bounds are checked by the
+elaborator. -/
 noncomputable def ofWeierstrass (E : WeierstrassCurve R) : Model R 1 where
   f := X ^ 3 + C E.a₂ * X ^ 2 + C E.a₄ * X + C E.a₆
   h := C E.a₁ * X + C E.a₃
@@ -465,20 +472,32 @@ end Local
 
 section Global
 
-/-- A model over `ℚ` is a **global minimal model** when it is integral over `ℤ` and `|Δ|` is
-minimal among integral models of its curve (`README.md`, convention 11, Layer 3, 3.4); over `ℤ`
-this is equivalent to minimality at every prime. -/
-def IsGlobalMinimal (W : Model ℚ g) : Prop :=
-  IsIntegral ℤ W ∧ ∀ C : CoordChange ℚ g, IsIntegral ℤ (C • W) → |W.Δ| ≤ |(C • W).Δ|
+open IsDedekindDomain
 
-/-- `README.md`, Layer 3, 3.4: global minimal models exist over `ℤ`. -/
-theorem exists_isGlobalMinimal (W : Model ℚ g) [W.IsSmooth] :
-    ∃ C : CoordChange ℚ g, IsGlobalMinimal (C • W) := sorry
+variable (O : Type*) [CommRing O] [IsDedekindDomain O] {K : Type*} [Field K] [Algebra O K]
+  [IsFractionRing O K]
 
-/-- `README.md`, Layer 3, 3.4: two global minimal models are related by `𝒢_g(ℤ)` and have the
-same discriminant, sign included (the units of `ℤ` enter through even powers). -/
+/-- A model over the fraction field `K` of a Dedekind domain `O` is **globally minimal** when it is
+minimal over the discrete valuation ring `Localization.AtPrime v.asIdeal` at every height-one
+prime `v` (`README.md`, convention 11, Layer 3, 3.4), the shape of Tau Ceti's
+`WeierstrassCurve.IsGlobalMinimal`; over `ℚ` this is minimality at every prime. -/
+def IsGlobalMinimal (W : Model K g) : Prop :=
+  ∀ v : HeightOneSpectrum O, IsMinimal (Localization.AtPrime v.asIdeal) W
+
+/-- `README.md`, Layer 3, 3.4: a globally minimal model is integral over `O`. -/
+theorem IsGlobalMinimal.isIntegral {W : Model K g} (hW : IsGlobalMinimal O W) :
+    IsIntegral O W := sorry
+
+/-- `README.md`, Layer 3, 3.4: **global minimal models exist over a principal ideal domain**. -/
+theorem exists_isGlobalMinimal [IsPrincipalIdealRing O] (W : Model K g) [W.IsSmooth] :
+    ∃ C : CoordChange K g, IsGlobalMinimal O (C • W) := sorry
+
+/-- `README.md`, Layer 3, 3.4: two global minimal models over `ℤ` of one curve have the same
+discriminant, sign included: the ratio is a `p`-adic unit at every prime, hence `±1`, and it is
+the positive rational `e^{−4(2g+1)} det(M)^{(2g+1)(2g+2)}`. In genus `≥ 2` the two models need not
+be related by an element of `𝒢_g(ℤ)`. -/
 theorem Δ_eq_of_isGlobalMinimal (W : Model ℚ g) [W.IsSmooth] (C : CoordChange ℚ g)
-    (hW : IsGlobalMinimal W) (hC : IsGlobalMinimal (C • W)) : (C • W).Δ = W.Δ := sorry
+    (hW : IsGlobalMinimal ℤ W) (hC : IsGlobalMinimal ℤ (C • W)) : (C • W).Δ = W.Δ := sorry
 
 open Classical in
 /-- The minimal discriminant of a curve over `ℚ`, with its sign: the discriminant of a chosen
@@ -487,11 +506,11 @@ global minimal model, an integer since that model is integral (`README.md`, Laye
 `Δ_eq_of_isGlobalMinimal`; the value `0` when no global minimal model exists is junk, excluded by
 `exists_isGlobalMinimal`. -/
 noncomputable def minimalDiscriminant (W : Model ℚ g) : ℤ :=
-  if h : ∃ C : CoordChange ℚ g, IsGlobalMinimal (C • W) then (h.choose • W).Δ.num else 0
+  if h : ∃ C : CoordChange ℚ g, IsGlobalMinimal ℤ (C • W) then (h.choose • W).Δ.num else 0
 
 /-- `README.md`, Layer 3, 3.4: the defining property of `minimalDiscriminant`. -/
 theorem minimalDiscriminant_spec (W : Model ℚ g) [W.IsSmooth] (C : CoordChange ℚ g)
-    (hC : IsGlobalMinimal (C • W)) : ((W.minimalDiscriminant : ℤ) : ℚ) = (C • W).Δ := sorry
+    (hC : IsGlobalMinimal ℤ (C • W)) : ((W.minimalDiscriminant : ℤ) : ℚ) = (C • W).Δ := sorry
 
 end Global
 
@@ -586,10 +605,13 @@ namespace Model
 
 variable {g : ℕ} {k : Type*} [Field k]
 
-/-- The two-torsion field of the Jacobian: the splitting field of the Weierstrass form
-(`README.md`, Layer 5, 5.1; the identification with `k(J[2])` needs characteristic `≠ 2`). -/
+/-- The splitting field of the Weierstrass form, the field of definition of the Weierstrass
+points (`README.md`, Layer 5, 5.1). For `g ≥ 2` and characteristic `≠ 2` it is the two-torsion
+field `k(J[2])` of the Jacobian; in genus 1 it can be larger (`y² = x⁴ + 1` over `ℚ` gives
+`ℚ(ζ₈)` while `ℚ(J[2]) = ℚ`), and in genus 0 the Jacobian is trivial. -/
 abbrev twoTorsionField (W : Model k g) : Type _ := W.weierstrassForm.SplittingField
 
 end Model
 
 end TauCetiRoadmap.HyperellipticCurves
+
