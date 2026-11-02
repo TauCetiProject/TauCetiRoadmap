@@ -299,7 +299,9 @@ over `R[s_1, …, s_r]` (the étale coordinates of SchemeAndStackFoundations §0
 (`TauCeti.kaehlerBasisOfFormallyEtale`); with `∂_i` the dual derivations, the projector
 `P = Σ_w Π_i (−s_i)^{w_i}/w_i! · Π_i (∇_{∂_i})^{w_i}`, `0 ≤ w_i ≤ p − 1`, maps `M` onto `M^∇` and
 `Σ_w Π s_i^{w_i}/w_i! · P ∘ Π (∇_{∂_i})^{w_i} = id` (Taylor's formula), from
-`ψ(∂_i) = (∇_{∂_i})^p = 0`.
+`ψ(∂_i) = (∇_{∂_i})^p = 0`. A conceptual proof, through the Azumaya property of the ring of
+crystalline differential operators over its centre and Morita theory, is Groechenig 2016,
+Theorem 3.11 (arXiv numbering); this roadmap follows Katz's elementary route.
 
 ### 2.2 Consequences
 
@@ -422,7 +424,12 @@ becomes trivial on a finite étale cover of the generic fibre (Katz 1972; Katz 1
 reformulates it through the Lie algebra of the differential Galois group). Known cases: Gauss–
 Manin connections (Katz 1972), rank one over curves (Chudnovsky 1985, Theorem 8.1, as cited by
 Bostan–Caruso–Roques 2024, §3.3.2), solvable differential Galois group (Bost 2001; André 2004);
-Chambert-Loir 2002 surveys these three methods.
+Chambert-Loir 2002 surveys these three methods. Global boundedness does not force finite local
+monodromy: the Apéry series for `ζ(3)` is a globally bounded solution of the Picard–Fuchs equation
+of a family of K3 surfaces whose local monodromy at `0` is unipotent of infinite order
+(Beukers–Peters 1984); Christol 1986–87 studies the globally bounded hypergeometric series. Bost's
+algebraicity criterion asks the leaves to satisfy a Liouville property, which fails for most
+leaves of a generic foliation of `ℙ²` (Brunella 1994).
 In rank one, Grothendieck's notes (folder 93, pp. 193–197) separate a torsion question for the
 class of `M` in the Picard group from the question whether a closed `1`-form whose reductions are
 logarithmic has an integral multiple that is logarithmic; Layer 4 answers the second over open
@@ -432,7 +439,8 @@ the Cartier transform and nonabelian Hodge theory in characteristic `p` (Ogus–
 listed by CrystallineCohomology (#857) as the subject of a later crystalline roadmap; the
 Frobenius-descent connection used by DerivedDeRhamCohomology (#868), §3.6.1; the restricted Lie
 algebra of an algebraic group used by ReductiveGroups Layer 9B; algorithms deciding algebraicity
-by `p`-curvatures (Bostan–Caruso–Roques 2024; Fürnsinn–Pannier).
+by `p`-curvatures (Bostan–Caruso–Roques 2024; Fürnsinn–Pannier); Frobenius descent for
+arithmetic `𝒟`-modules (Berthelot 2000).
 
 ## References
 
@@ -462,6 +470,16 @@ by `p`-curvatures (Bostan–Caruso–Roques 2024; Fürnsinn–Pannier).
 - A. Chambert-Loir, « Théorèmes d'algébricité en géométrie diophantienne (d'après J.-B. Bost,
   Y. André, D. & G. Chudnovsky) », Séminaire Bourbaki, exposé 886, *Astérisque* 282 (2002).
   (Numdam SB_2000-2001__43__175_0.)
+- F. Beukers, C. A. M. Peters, « A family of K3 surfaces and ζ(3) », *J. reine angew. Math.* 351
+  (1984), 42–54, doi:10.1515/crll.1984.351.42.
+- G. Christol, « Fonctions hypergéométriques bornées », *Groupe de travail d'analyse
+  ultramétrique* 14 (1986–1987), exposé 8, 1–16. (Numdam GAU_1986-1987__14__A4_0.)
+- M. Brunella, « Foliations on the complex projective plane with many parabolic leaves », *Ann.
+  Inst. Fourier* 44 (1994), no. 4, 1237–1242, doi:10.5802/aif.1432.
+- P. Berthelot, « 𝒟-modules arithmétiques II. Descente par Frobenius », *Mém. Soc. Math. France*
+  81 (2000).
+- M. Groechenig, « Moduli of flat connections in positive characteristic », *Math. Res. Lett.* 23
+  (2016), no. 4, 989–1047, doi:10.4310/MRL.2016.v23.n4.a3; arXiv:1201.0741, Theorem 3.11.
 - A. Ogus, V. Vologodsky, « Nonabelian Hodge theory in characteristic p », *Publ. Math. IHÉS*
   106 (2007), 1–138.
 - A. Bostan, X. Caruso, J. Roques, « Algebraic solutions of linear differential equations: an
