@@ -4,7 +4,7 @@
 
 ## Scope and ownership
 
-This roadmap owns the unbounded mixed DG enhancements of the supplied ordinary cyclic theory, actions of topological groups with their parametrized Tate constructions, the finite-group refinements of the supplied genuine theory and the Cartier descriptions of cyclotomic spectra, THH of E₁-rings and of stable categories with its Frobenius, TC and the trace comparison theorems. It also owns the Snaith comparison, coherent stable Adams lifts and relative Hochschild structures for the q-Hodge constructions, the spectral extension of the solid even filtration, continuous localizing motives and refined trace invariants. It owns the framed smooth comparison (§6.10): for every étale-framed smooth algebra over every base of §6.1 and in every relative dimension, the graded pieces of the even filtration on TC⁻ over ku form the coordinate q-Hodge filtration; it also owns the q-divided powers of the diagonal and the framed Čech resolution that prove this, the framed trace pair and its E∞-structure. The arithmetic layers add to the imported perfectoid, quasisyntomic and prismatic trace comparisons the descent, cotangent-filtration, décalage, Segal, convergence and Adams-operation statements, the characteristic-p and K-theoretic syntomic sheaves, and the Beilinson square for associative rings. The roadmap also owns the free E₁ form of Bökstedt periodicity (§2.6), representation-graded TR (§2.13) and the connective extension of the discrete Witt comparison (§3.4), connective and nonconnective K-theory of small stable infinity categories (§4.9), rigidity of the trace for henselian pairs with finite coefficients using the supplied Gabber rigidity (§4.17), and the K(1)-local sphere with its Adams fixed-point description (§6.8).
+This roadmap owns the unbounded mixed DG enhancements of the supplied ordinary cyclic theory, actions of topological groups with their parametrized Tate constructions, the finite-group refinements of the supplied genuine theory and the Cartier descriptions of cyclotomic spectra, THH of E₁-rings and of stable categories with its Frobenius, TC and the trace comparison theorems. It also owns the Snaith comparison, coherent stable Adams lifts and relative Hochschild structures for the q-Hodge constructions, the spectral extension of the solid even filtration, continuous localizing motives and refined trace invariants. It owns the framed smooth comparison (§6.10): for every étale-framed smooth algebra over every base of §6.1 and in every relative dimension, the graded pieces of the even filtration on TC⁻ over ku form the coordinate q-Hodge filtration; it also owns the q-divided powers of the diagonal and the framed Čech resolution that prove this, the framed trace pair and its E∞-structure. The arithmetic layers add to the imported perfectoid, quasisyntomic and prismatic trace comparisons the descent, cotangent-filtration, décalage, Segal, convergence and Adams-operation statements, the characteristic-p and K-theoretic syntomic sheaves, and the Beilinson square for associative rings. The roadmap also owns the free E₁ form of Bökstedt periodicity (§2.6), representation-graded TR (§2.13) and the connective extension of the discrete Witt comparison (§3.4), connective and nonconnective K-theory of small stable infinity categories (§4.9), rigidity of the trace for henselian pairs with finite coefficients using the supplied Gabber rigidity (§4.17), and the K(1)-local sphere with its Adams fixed-point description (§6.8). The associative spectral derivation adjunction and its square-zero extension functor are constructed in §4.14; the animated commutative cotangent theory of EnhancedDerivedSheaves E5:cotangent-export.1 uses a different algebra and module category. StableHomotopyKTheoryPartII §2.7 owns the sphere Segal equivalence; it is not an input here.
 
 [BordismFormalGroups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/BordismFormalGroups/README.md) §F6.5 owns the Borel model of spectra with an action of a finite group: homotopy orbits and fixed points, the norm and its Tate cofiber, the induced-object tensor ideal, the lax symmetric monoidal Tate functor with `can`, restriction, transfer and residual quotient actions. Its §F6.1 owns Bousfield localization at a spectrum. §2.1 here extends the Borel model to topological groups, and §6.8 applies Bousfield localization at KU/p. [AInfCohomology](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AInfCohomology/README.md) §AI.7.2 owns the circle Tate construction and its p-complete comparison with residual finite Tate constructions, the Tate orbit lemma, the spectral Tate diagonal, THH of connective E∞-rings with its cyclotomic Frobenius, TC⁻ and TP, the Bökstedt spectral sequence and Bökstedt periodicity for `𝔽_p` and perfectoid rings, the perfectoid and relative Breuil–Kisin trace coefficients over 𝕊[z], quasisyntomic unfolding with its Nygaard filtration, and the crystalline and AΩ trace comparisons. [PrismaticCohomologyPartIII](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/PrismaticCohomologyPartIII/README.md) §7.0 owns the absolute trace–prismatic comparison with `gr^nTC⁻`, `gr^nTP` and `gr^nTC≃ℤ_p(n)[2n]`, the p-completed linear cyclic theory with `gr^nHC⁻` and `gr^nHP`, the rational Beilinson square for commutative rings and the prismatic Beilinson square of AMMN Theorem 6.17 with its map `χ_n`; [CohomologyComparisons](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/CohomologyComparisons/README.md) §3.7 records that square. Those constructions are imported, not planned again here. KTheoryFiniteLocalFields §§4.0, 4.2 and 4.4 owns the ordinary cyclic bar and smooth HKR/characteristic-zero cyclic comparisons, the modern and genuine cyclotomic categories, TC as a mapping spectrum, the discrete Witt comparison and the bounded-below genuine/modern and arithmetic-completion comparisons. Its §2.1 supplies Gabber rigidity. The layers here extend these inputs to unbounded mixed DG objects, arbitrary finite groups, the residual-action tower, the connective Cartier heart and the general finite-coefficient trace theorem. KTheoryFiniteLocalFields §4.5 owns the Eilenberg–Mac Lane/Tate comparison for every finite group, its algebraic parity calculations and comparison models. Its §5.1 owns the cyclotomic shift construction, the identification of THH(𝔽_p) with the connective Tate model, and the unbounded characteristic-p E₂ trace fibre formula with a chosen nullhomotopy of p. AInfCohomology §AI.7.2 owns the circle fixed-point and Tate functors, hence TC⁻, TP and can; those definitions and their coefficient calculations are used without new construction targets. NoncommutativeGeometry N1 owns the ordinary cyclic/mixed chain structure over ℂ as well as its cochains, cyclic cohomology, continuous extensions and analytic pairings. KTheoryFiniteLocalFields §4.0 owns the arbitrary-base ordinary-algebra cyclic bar, Connes mixed complex and SBI theory consumed here. Layer 1 adds unbounded DG and coherent-circle enhancements and the comparison between that supplied ordinary theory at k=ℂ and NoncommutativeGeometry N1, preserving B, normalization and SBI, with the algebraic cochain-duality comparison in §1.2. No scalar generalization of NoncommutativeGeometry's analytic theory is required.
 
@@ -564,7 +564,11 @@ Throughout this statement, G finite; for (iii) X bounded below.
 
 One proof route is as follows. (i): NS18 Lemma I.2.6 — Postnikov towers converge and `−^{hG}`, `−_{hG}` commute with the relevant limits/colimits by connectivity of the homotopy-orbit spectral sequences. (ii): by (i) reduce to Eilenberg–Mac Lane spectra HM with p invertible on M; their Tate spectra have `π_*` = `Ĥ^{−*}(C_p`; M), which is killed by p and on which p is invertible, hence zero (NS18 Lemma I.2.8). (iii): reduce to Eilenberg–Mac Lane pieces using (i); each `(HM)^{tC_p}` is p-torsion by KTheoryFiniteLocalFields §4.5 (Tate cochains, products and the filtered Tate spectrum) (NS18 Lemma I.2.9); p-completion via StableHomotopyKTheory Layer 7.
 
-Also establish `(HQ)^{tC_p}` = 0 by (ii). `S^{tC_p}` ≃ `S^∧_p` (Segal conjecture for `C_p`; NS18 Example II.1.2(ii)), consistent with (iii).
+**Checks.**
+
+- For Hℚ with trivial C_p-action, the norm on degree-zero coefficients is multiplication by p, an isomorphism, and `(HQ)^{tC_p}=0`.
+- For Hℤ with trivial C_p-action, the complete cyclic resolution alternates 0 and p, so `π₀((HZ)^{tC_p})=Z/p` and `π₁((HZ)^{tC_p})=0`. At p=2 and p=3 these are respectively ℤ/2 and ℤ/3 in degree zero, not the completed coefficient rings.
+- For the trivial group the norm is the identity and the Tate spectrum is zero; for the zero spectrum every Postnikov comparison is the identity of zero.
 
 *Needs:* BordismFormalGroups §F6.5 (finite-group Borel norm and Tate cofiber); KTheoryFiniteLocalFields §4.5 (Tate cochains, products and the filtered Tate spectrum); GeneralizedCohomology G3.8; StableHomotopyKTheory §§7.14–7.18.
 
@@ -576,7 +580,7 @@ Throughout this statement, X bounded above.
 
 One proof route is as follows. Dual to AInfCohomology §AI.7.2 (`AInf.Trace.tateOrbit`): reduce by Postnikov convergence (colimit form) to Eilenberg–Mac Lane spectra and use the vanishing for the coconnective two-stage pieces `τ_{[−2i−1,−2i]}` (NS18 Lemmas I.2.2, I.2.4).
 
-For X = `HF_p` with trivial action: `((HF_p)^{hC_p})^{tC_p}` = 0. The hypothesis is needed: for S with trivial action `(S^{hC_p})^{t(C_{p²}/C_p)}` ≃ `S^∧_p` ≠ 0 (NS18 Example I.2.3(i)).
+For X = `HF_p` with trivial C_(p²)-action, `(X^{hC_p})^{t(C_{p²}/C_p)}=0`, with the residual quotient action retained. This applies at p=2 and p=3; replacing that residual action by an independently chosen trivial action is not this calculation.
 
 *Needs:* §2.3 (Tate constructions at `C_p:` convergence, vanishing and p-completeness); KTheoryFiniteLocalFields §4.5 (Tate cochains, products and the filtered Tate spectrum).
 
@@ -691,7 +695,7 @@ Provide the following operations and identities.
 - `π_0(φ_p)` for A = S is ℤ → `ℤ_p`, the p-completion.
 - `φ_p` is not an equivalence in general: for A = `HF_p` its target `THH(𝔽_p)^{tC_p}` has nonzero negative homotopy while `THH(𝔽_p)` is connective.
 
-For A = S, `φ_p` : S → `S^{tC_p}` is the canonical map (a p-completion by the Segal conjecture). For A = `HF_p`, `φ_p` identifies `THH(𝔽_p)` with `τ_{≥0}((HZ_p)^{tC_p})` as `E_∞-cyclotomic` spectra (NS18 Corollary IV.4.16), the cyclotomic form of §2.6 (Bökstedt periodicity).
+For A = S, `φ_p` : S → `S^{tC_p}` is the canonical map S → `S^{hC_p}` → `S^{tC_p}`. For A = `HF_p`, `φ_p` identifies `THH(𝔽_p)` with `τ_{≥0}((HZ_p)^{tC_p})` as `E_∞-cyclotomic` spectra (NS18 Corollary IV.4.16), the cyclotomic form of §2.6 (Bökstedt periodicity).
 
 *Needs:* §2.6 (Topological Hochschild homology of an `E_1-ring)`; AInfCohomology §AI.7.2 (Spectral Tate diagonal); §2.5 (Edgewise subdivision and Tate constructions of realisations); BordismFormalGroups §F6.5 and AInfCohomology §AI.7.2 (the lax symmetric monoidal Tate functor, with its residual `C_p` form).
 
@@ -880,7 +884,7 @@ Throughout this statement, Y a connected pointed space (Kan complex); X a bounde
 
 ([NS](#references), Chapter IV, §IV.3, Lemma IV.3.1 (Acta pp. 345-346), Proposition IV.3.2 (Acta p. 347), Corollary IV.3.3 (p. 351), Proposition IV.3.4 (Acta p. 352), Theorem IV.3.6 (Acta p. 354).)
 
-One proof route is as follows. Cyclic bar constructions of `E_1-groups` in spaces realise to free loop spaces (NS18 Lemma IV.3.1, Proposition IV.3.2). Frobenius from the unstable p-th power map and the Segal conjecture (NS18 Proposition IV.3.4). TC via the fibre sequence (§2.9 (The Nikolaus–Scholze formula for TC)) and the norm sequence for `Σ^∞_+LX` (NS18 Theorem IV.3.6).
+One proof route is as follows. Cyclic bar constructions of `E_1-groups` in spaces realise to free loop spaces (NS18 Lemma IV.3.1, Proposition IV.3.2). Construct the Frobenius lift from the unstable diagonal and the suspension-spectrum comparison with homotopy fixed points (NS18 Lemma IV.3.1 and Corollary IV.3.3). Apply Proposition IV.3.4 using that lift and the bounded-below p-complete hypotheses; its proof uses the residual Tate comparison and Lemma IV.3.5, not a sphere-value calculation. TC via the fibre sequence (§2.9 (The Nikolaus–Scholze formula for TC)) and the norm sequence for `Σ^∞_+LX` (NS18 Theorem IV.3.6).
 
 Also establish X = ∗: THH(S) = S. X = BG for a discrete group G: THH(S[G]) ≃ `Σ^∞_+` L BG = `⊕_{conj` classes [g]} `Σ^∞_+` `BC_G(g)`.
 
@@ -2017,7 +2021,7 @@ Throughout this statement, Tensor products are spectral/derived; the Perf endofu
 
 ([R](#references), §1.10–1.12, Examples 1.12.1–1.12.2, p. 4; §4.3, p. 20.)
 
-One proof route is as follows. Construct and realize the bimodule bar, keeping its two endpoint actions distinct. Identify the bar with the derived tensor over `A⊗A^op` using GeneralizedCohomology G2.8’s module tensor interface. Use §4.1 (Relative dualizable presentable stable categories) on Ind(Perf(A)). Its evaluation is the pairing of right and left A-modules by derived tensor, and its coevaluation is the diagonal bimodule A. Insert the bimodule endofunctor and evaluate; the result is `M⊗^L_(A⊗A^op)A`. This is Raskin §1.12, Examples 1.12.1–1.12.2, p. 4. If `−⊗_A` M preserves compacts, identify it with the Ind extension of its Perf restriction. Only for the regular bimodule does cyclic rotation supply the circle action.
+One proof route is as follows. Construct and realize the bimodule bar, keeping its two endpoint actions distinct. Identify the bar with the derived tensor over `A⊗A^op` using GeneralizedCohomology G2.4’s derived module tensor interface and StableHomotopyKTheory Layer 5’s operadic comparison. Use §4.1 (Relative dualizable presentable stable categories) on Ind(Perf(A)). Its evaluation is the pairing of right and left A-modules by derived tensor, and its coevaluation is the diagonal bimodule A. Insert the bimodule endofunctor and evaluate; the result is `M⊗^L_(A⊗A^op)A`. This is Raskin §1.12, Examples 1.12.1–1.12.2, p. 4. If `−⊗_A` M preserves compacts, identify it with the Ind extension of its Perf restriction. Only for the regular bimodule does cyclic rotation supply the circle action.
 
 Provide the following operations and identities.
 
@@ -2036,29 +2040,52 @@ Provide the following operations and identities.
 
 ### 4.14 Square-zero extensions and linearization
 
-**Connective bimodules and square-zero extensions.** For a connective E₁-ring A, connective A-bimodules are the connective objects of `Mod_{A⊗A^op}(Sp)`. The split square-zero algebra A⊕M has multiplication (a,m)(a′,m′)=(aa′,am′+ma′) and projection to A. More generally an extension datum is (A,I,δ), with I connective and δ:ker(A⊗A→A)→ΣI a bimodule map. Its algebra is the coherent pullback `A×_{A⊕ΣI}A` of the derivation map and zero section. Morphisms include the compatible bimodule/derivation square over a ring map. These form `AlgSqZero_conn`, the domain of infinitesimal sifted-colimit preservation.
+**Associative spectral derivations.** For every E₁-ring spectrum A and every A-bimodule N, construct the split E₁-algebra A⊕N over A, with unit (1,0), multiplication (a,n)(b,m)=(ab,am+nb) and zero product on N⊗N. Define its space of sections to be `Map_(Alg_E1(Sp)/A)(A,A⊕N)`, including the specified homotopy from the composite with the projection to id_A. Give A⊗A the outer A-bimodule action a·(x⊗y)·b=ax⊗yb, and define Ω_A as the fiber of multiplication A⊗A→A in A-bimodules. Construct a universal derivation d:A→Ω_A and prove the natural equivalence of mapping spaces
 
-Throughout this statement, A connective E₁, I connective bimodule; ker is the derived fiber of multiplication.
+    Map_(A-bimod)(Ω_A,N) ≃ Map_(Alg_E1(Sp)/A)(A,A⊕N).
 
-([R](#references), §5.3–5.4, pp. 31–32.)
+The right side consists of coherent algebra sections, not arbitrary maps of underlying spectra. Fix the sign by d(a)=a⊗1−1⊗a in the fiber model; on degree-zero elements d(ab)=a·d(b)+d(a)·b and d(1)=0. For a ring map f:A→B, construct Ω_A→f*Ω_B from f⊗f and f. For an A-bimodule map u:N→f*P, the induced map A⊕N→B⊕P is (f,u). Compatibility of sections means the square with f and (f,u) commutes up to a specified homotopy; under the equivalence it is exactly the homotopy between u∘δ_A and δ_B∘(Ω_A→f*Ω_B). Retain these homotopies and their composition coherences. No connectivity assumption is needed for this adjunction.
 
-One proof route is as follows. Import coherent E₁ module and derivation interfaces from GeneralizedCohomology G2.8. Construct the split algebra and its augmentation. Use the coherent pullback for arbitrary derivations; keep morphisms and their homotopies.
+([HA](#references), Theorem 7.3.4.13 and Remark 7.3.4.15, p. 1316; Theorem 7.3.5.1 and its associative specialization, pp. 1321–1322, ha line 50626; [R](#references), §5.3, pp. 31–32, r line 1417.)
+
+One proof route is as follows. Use GeneralizedCohomology G2.4's module models and StableHomotopyKTheory Layer 5's operadic comparison to work with coherent associative algebras and bimodules. Construct the split algebra by its ordered bimodule actions. For the free associative algebra T(V), identify Ω_A with A⊗V⊗A: differentiating a tensor word is the sum over its letters, with all preceding letters acting on the left and all following letters on the right. The free-algebra mapping property identifies both displayed mapping spaces with Map_Sp(V,N). Resolve an arbitrary algebra by the free associative simplicial bar resolution and pass to the limit of section spaces; the corresponding realized free bimodule resolution identifies the representing object with fib(A⊗A→A). Prove this identification and the naturality diagrams in this target, as the associative case of HA Theorem 7.3.5.1; neither a commutative cotangent complex nor an underived kernel supplies it.
 
 Provide the following operations and identities.
 
-- Connective A–A bimodules, with restriction/base change under ring maps.
-- Functor M↦A⊕M and its canonical projection to A.
-- Coherent category of (A,I,δ) with compatible squares.
-- Pullback extension algebra and functorial projection.
+- The split algebra, its augmentation and zero section, functorial in compatible algebra and bimodule maps, with identity and composition coherences.
+- The outer bimodule fiber Ω_A, its universal derivation, and the displayed mapping-space equivalence, natural in N and compatible with changing A as specified above.
+- Under this equivalence the zero bimodule map gives the zero section, and a map δ gives the section a↦(a,δ(d(a))) with its coherent multiplicative structure.
+- For every spectrum V and A=T(V), Ω_A≃A⊗V⊗A and evaluation on the free generators identifies the derivation space with Map_Sp(V,N).
 
 **Checks.**
 
-- A⊕0≃A with identity projection.
-- For A=Hk and M=Hk, π₀(A⊕M)=k[ε]/ε².
-- The ideal M has zero product: the degree-two ε term of a free polynomial algebra is absent.
-- The pullback attached to δ=0 recovers the split square-zero extension.
+- For A=𝕊, multiplication 𝕊⊗𝕊→𝕊 is the identity, Ω_A=0, and both mapping spaces are contractible for every N. For N=0 they are contractible for every A.
+- For A=T(𝕊), write x for its generator. Derivations into N form Ω∞N, with D determined by D(x)=n and D(x²)=xn+nx. With N=A and n=1, the values on 1,x,x² are 0,1,2x; the zero derivation has values 0,0,0. With N=ΣHℤ via x↦0, the derivation space has π₁=ℤ, so replacing it by a set loses information.
+- For A=T(𝕊⊕𝕊), with generators x,y and N=A, take D(x)=y and D(y)=0. Then D(xy)=y² and D(yx)=y², but D(x²)=xy+yx in the free noncommutative π₀-ring ℤ⟨x,y⟩, not 2xy. In the universal fiber, x·(y⊗1−1⊗y)+(x⊗1−1⊗x)·y=xy⊗1−1⊗xy; this pins both actions and the sign.
+- Under f:T(𝕊x)→T(𝕊y), x↦y², a derivation with D(y)=1 pulls back to D(x)=2y. Both the section square and the fiber map give 2y, whereas choosing the image 1 for D(x) does not give a compatible square.
 
-*Needs:* GeneralizedCohomology G2–G3 and StableHomotopyKTheory Layer 5; EnhancedDerivedSheaves E0.
+*Needs:* GeneralizedCohomology G2.4 (derived ring and module models); StableHomotopyKTheory Layer 5 (operadic comparison); EnhancedDerivedSheaves E0 (coherent limits, slices and adjunctions), E5:abstract.2 (algebras, bimodules and relative tensor) and E5:presentability (geometric realizations).
+
+**Connective bimodules and square-zero extensions.** For a connective E₁-ring A, connective A-bimodules are the connective objects of `Mod_(A⊗A^op)(Sp)`. An extension datum is (A,I,δ), with I connective and δ:Ω_A→ΣI a bimodule map, using the outer bimodule fiber and derivation adjunction just constructed. Let s_δ:A→A⊕ΣI be its corresponding algebra section. Define the extension algebra B as the coherent pullback `A×_(A⊕ΣI)A` of s_δ and the zero section, with projection B→A to the first factor. Its underlying fiber is I, so B is connective. A morphism (A,I,δ)→(A′,I′,δ′) is a ring map f:A→A′, a bimodule map I→f*I′ and the compatible homotopy of derivations described above. These data, with their higher coherences, form `AlgSqZero_conn` and give a functor to connective algebra arrows B→A, the domain used for infinitesimal sifted-colimit preservation.
+
+([R](#references), §5.3–5.4, pp. 31–32, r line 1413 and r line 1427.)
+
+One proof route is as follows. Apply the preceding adjunction to N=ΣI, then take the pullback in E₁-algebras. Limits are computed on underlying spectra; the fiber of the zero section A→A⊕ΣI is ΩΣI≃I, and its base change is the fiber of B→A. Compatibility of the derivation squares supplies the functor on extension data and all its homotopies. For δ=0, identify the pullback algebra with the split algebra A⊕I, preserving its augmentation.
+
+Provide the following operations and identities.
+
+- Connective A–A bimodules, with restriction and extension of scalars along connective ring maps.
+- The coherent category of extension data (A,I,δ), with the specified compatible squares and composition.
+- The pullback algebra B, its functorial projection B→A and its underlying fiber I.
+- A natural equivalence over A between the extension at δ=0 and A⊕I, preserving the given bimodule structure.
+
+**Checks.**
+
+- For I=0 the pullback is A×_A A≃A and the projection is the identity; its fiber is 0.
+- For A=Hk, I=Hk and δ=0, π₀B=k[ε]/ε² with (1+ε)²=1+2ε. The ε² coefficient is 0, unlike in k[ε] without the square-zero relation. At k=𝔽₂ this square is 1; at k=𝔽₃ it is 1−ε.
+- For A=𝕊, I=𝕊 and δ=0, the fiber of B→𝕊 is 𝕊 and π₀B=ℤ[ε]/ε². Using I instead of ΣI in the pullback would give fiber Ω𝕊 and π₋₁=ℤ, violating connectivity.
+
+*Needs:* §4.14 (Associative spectral derivations); GeneralizedCohomology G2.4 and StableHomotopyKTheory Layer 5 (module models and operadic comparison); EnhancedDerivedSheaves E0 (coherent pullbacks).
 
 **Goodwillie derivatives.** For a sifted-colimit-preserving functor ψ:C→D between cocomplete stable ∞-categories, its reduction `ψ_red=fib(ψ→ψ(0))` has derivative `∂ψ=colim_n` `Ω^n` `ψ_red` `Σ^n`, initial among continuous exact functors receiving a transformation from ψ (Raskin §2.3). For the connective half `C_{≥0}` of a t-structure compatible with filtered colimits use Variant 2.3.2 and the additional truncation colimit to extend to C. Without the sifted-colimit hypothesis, 1-excisiveness does not imply preservation of all colimits. Higher excisiveness and analyticity are Goodwillie notions; Raskin expressly avoids constructing the full Taylor tower (Remark 2.1.1).
 
@@ -2327,11 +2354,17 @@ For R=S, the first arrow of the p-completed cofiber sequence is the assembly map
 
 Throughout this statement, k commutative; 2 ∈ `k^×` for van der Kallen's description; ℚ ⊆ k for the comparison with `HC_1`. Classical `K_2` is `π_2` of connective K by KTheoryLowDegrees §§13.2–13.4.
 
-([LT](#references), §3, Example 3.8, p. 30.)
+(K2SymbolsBrauer §§13.7, 13.12–13.13, including its split relative comparison; [KB](#references), Exercise III.5.14(a)–(c), pp. 229–230, for the relative differential and van der Kallen isomorphism; kb line 13240 and kb line 13253.)
 
 One proof route is as follows. The section k → k[ε] splits every map `K_n(k[ε])` → `K_n(k)`, so the relative homotopy groups are the kernels and the connecting maps are zero. Compute relative `K_1` directly (units). For relative `K_2` use the supplied Dennis–Stein generation and van der Kallen's isomorphism through `K_2` = `π_2K`. Apply the Dennis trace formulas (§4.10 (The Dennis trace)) and §4.17 (Goodwillie's rational theorem) over ℚ.
 
-Also establish `K_1(ℚ[ε]`, (ε)) ≅ ℚ ≅ `HC_0(ℚ[ε]`, (ε)). For k = ℤ the hypothesis 2 ∈ `k^×` cannot be dropped: `K_2(ℤ[ε],(ε))` = ℤ/2 while `Ω¹_{ℤ/ℤ}` = 0 (K2SymbolsBrauer §13.13). The full calculation of `K_*(k[t]/t^n,(t))` is not a target here.
+**Checks.**
+
+- For k=ℚ, `K_1(ℚ[ε],(ε))≅Q≅HC_0(ℚ[ε],(ε))`, while relative K₂ and Ω¹ are both zero.
+- For k=ℚ[t], relative K₂ is ℚ[t]dt and D(ε,t) maps to dt≠0; D(2ε,t²) maps to 4t dt, fixing the sign and coefficient.
+- For k = ℤ the hypothesis 2 ∈ `k^×` cannot be dropped: `K_2(ℤ[ε],(ε))` = ℤ/2 while `Ω¹_{ℤ/ℤ}` = 0 (K2SymbolsBrauer §13.13).
+
+The full calculation of `K_*(k[t]/t^n,(t))` is not a target here.
 
 *Needs:* §4.10 (The Dennis trace); §4.17 (Goodwillie's rational theorem); K2SymbolsBrauer §13.1 — Dennis–Stein symbols; K2SymbolsBrauer §13.7 — relative Steinberg group and relative K₂; K2SymbolsBrauer §13.12 — square-zero generation; K2SymbolsBrauer §13.13 — dual numbers with two invertible; KTheoryLowDegrees §§13.2–13.4.
 
