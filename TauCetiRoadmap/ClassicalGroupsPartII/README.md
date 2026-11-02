@@ -51,13 +51,14 @@ comes from
 The GSp-specific comparison of the tensor-generated Cartan component with
 ReductiveGroups §10B uses its one-dimensional top line and semisimplicity.
 
-The finite-comodule compatibility in CG.1.1, finite-central-quotient
-representation descent in CG.0.6, and vector-generated subcomodule/base-change
-comparison in CG.1.7 are additional targets here. They use ReductiveGroups
-Layers 0, 1 and 3 and the native comodule constructions; they do not ask those
-supplier layers for extra theorems. The generic split highest-weight and
-torus-character statements remain with ReductiveGroups §10A–10B; CG.1.8
-and CG.2.1 only transport them to the explicit GSp objects and lattice.
+The finite-comodule category compatibility and vector-generated
+subcomodule/base-change theory belong to ReductiveGroups Layer 1; finite-central-quotient
+representation descent belongs to its Layer 3. The exact supplier contracts
+below specify the additional requirements consumed by CG.1.1, CG.1.7 and
+CG.0.6, respectively. These sections own their GSp specializations and
+comparison maps. The generic split highest-weight and torus-character
+statements remain with ReductiveGroups §10A–10B; CG.1.8 and CG.2.1 transport
+them to the explicit GSp objects and lattice.
 
 This roadmap owns the coordinate presentation of the symplectic-similitude
 subfunctor of Mathlib's `Matrix.GeneralLinearGroup` cut out by hJhᵀ=sJ.
@@ -76,8 +77,8 @@ quotient and representation descent statements.
 ## Conventions
 
 - **Rank and coefficients.** Every representation-theoretic statement assumes
-  g≥1 and a field K of characteristic zero. The generic compatibility
-  targets in CG.0.6, CG.1.1 and CG.1.7 state their own field hypotheses;
+  g≥1 and a field K of characteristic zero. The generic supplier
+  contracts consumed in CG.0.6, CG.1.1 and CG.1.7 state their own field hypotheses;
   they impose neither characteristic zero nor a GSp rank. A comparison K/F is a field
   extension, with both fields of characteristic zero. Q is the initial
   coefficient field. No embedding of an arbitrary K into C is part of the
@@ -199,6 +200,66 @@ finite torus-weight decompositions and formal characters, and §10B, “Inductio
 Weyl modules and simple heads”, for classification of split-group rational
 simples, absolute simplicity, End=K and arbitrary-field extension. Match the
 actual lattice and Borel conventions before transporting any such result.
+
+What ReductiveGroups must provide (gap:generated-vector-base-change):
+Layer 1's least vector-generated subcomodule and its field-extension comparison,
+consumed in CG.1.7.
+
+For a finite-dimensional right H-comodule M over any field F, where H
+is a commutative Hopf F-algebra, and v∈M, construct the least subcomodule
+containing v. Use the span of (id_M⊗φ)δ(v) for φ in the F-linear dual of H;
+coassociativity makes this span a subcomodule, the counit puts v in it, and
+any subcomodule containing v contains all these coefficients (Milne,
+Chapter 4 §c, Proposition 4.7 and its proof, p.86). For every field
+extension K/F prove that its scalar extension is the least subcomodule
+containing 1⊗v. The coefficients of δ(v) lie in a finite-dimensional
+coefficient subcoalgebra; dualizing that finite space commutes with field
+extension. Thus the coefficient span, its inclusion and its universal
+property base-change, without any classification or semisimplicity premise.
+The interface includes containment of v and the equivalence that this span
+is contained in a subcomodule U exactly when v∈U. For every comodule map
+f:M→N, prove that the image of the span of v is the span of f(v); give
+its natural inclusion in M and the equality after field extension above.
+
+What ReductiveGroups must provide (gap:central-quotient-representations):
+Layer 3's finite-central-quotient representation descent, consumed in CG.0.6.
+
+For a faithfully flat quotient q:G→Q of affine finite-type group schemes
+over a field F with finite central kernel N, construct the pullback
+equivalence between finite rational Q-representations and the full subcategory
+of finite rational G-representations whose restriction to N is trivial as a
+group-scheme action. This is a representation-descent theorem, beyond the
+represented quotient itself (Milne, Chapter 5 §b, Lemma 5.9 and Proposition 5.10, p.100,
+and §c, Proposition 5.21, p.104;
+Complement 22.12, p.466, for its highest-weight specialization).
+The map G→GL(M) of an N-trivial representation is constant on the fibres of
+q after every value-algebra extension. Factor it uniquely through Q using
+the fppf quotient universal property of ReductiveGroups Layers 0 and 3;
+faithfully flat descent gives regularity and the group law. Apply the same
+descent to intertwiners to prove full faithfulness. This construction uses
+all value algebras, including nonreduced ones.
+
+Its interface records the pullback functor, the N-triviality criterion for
+its essential image, the inverse descended action on the same vector space,
+and natural unit/counit isomorphisms preserving tensor products and dimension.
+
+What ReductiveGroups must provide (gap:finite-comodule-category):
+Layer 1's compatibility of the native finite-comodule category with linear and
+monoidal structures, consumed in CG.1.1.
+
+For every field F and commutative Hopf F-algebra H in the same universe,
+equip the native finite-comodule category with compatible essential
+smallness, monoidal preadditivity, F-linearity and finite-dimensional Hom
+spaces (Milne, Chapter 4 §a, coaction identities (24)–(25), p.84, and
+§i, Exercise 4-4(a,b), p.97, for the rational category and its morphisms). These are compatibility targets, using
+the existing tensor, braiding and preadditive structures. Identify each Hom
+with the linear subspace of Hom_F(M,N) satisfying the coaction equation;
+this gives finite dimension and linearity, with
+dim_F Hom_H(M,N)≤dim_F M · dim_F N. For essential smallness, transport
+every finite-dimensional object to F^n with its actual coaction: the coactions
+on these spaces form an F-universe set of representatives. Prove tensoring
+on either side preserves zero morphisms and sums by the native tensor-map
+formula, giving monoidal preadditivity. No new category carrier is introduced.
 
 ### From TauCetiRoadmap.ClassicalGroups
 
@@ -503,7 +564,7 @@ the intersection of the equalizers of these automorphisms with the identity.
 ### CG.0.6 The central cover and its parity constraint
 
 For the central isogeny constructed after the coordinate presentation, apply
-the finite-central-quotient representation descent constructed below.
+ReductiveGroups Layer 3’s central-quotient-representations contract.
 For an Sp highest weight u and scalar exponent d, the diagonal kernel μ₂
 acts by ε^(d+Σu_i). It is trivial exactly when d−Σu_i is even. Under the
 torus identification this gives (m,u) ↦ (u,2m+Σu_i), and the dominant
@@ -511,26 +572,10 @@ chamber is Dom_g. These are statements about algebraic representations;
 the cover need not be surjective on K-points (Milne, Chapter 22 §a,
 Complement 22.12, printed p.466; Yu, §7.1, Remark 7.1.1, p.64).
 
-For a faithfully flat quotient q:G→Q of affine finite-type group schemes
-over a field F with finite central kernel N, construct the pullback
-equivalence between finite rational Q-representations and the full subcategory
-of finite rational G-representations whose restriction to N is trivial as a
-group-scheme action. This is a representation-descent theorem, beyond the
-represented quotient itself (Milne, Chapter 5 §a, Lemma 5.9 and Proposition 5.10, p.100,
-and §c, Proposition 5.21, p.104;
-Complement 22.12, p.466, for its highest-weight specialization).
-The map G→GL(M) of an N-trivial representation is constant on the fibres of
-q after every value-algebra extension. Factor it uniquely through Q using
-the fppf quotient universal property of ReductiveGroups Layers 0 and 3;
-faithfully flat descent gives regularity and the group law. Apply the same
-descent to intertwiners to prove full faithfulness. This construction uses
-all value algebras, including nonreduced ones.
-
-Its interface records the pullback functor, the N-triviality criterion for
-its essential image, the inverse descended action on the same vector space,
-and natural unit/counit isomorphisms preserving tensor products and dimension.
-The GSp central cover is its specialization, with the lattice image and
-parity formula above.
+Use ReductiveGroups Layer 3's central-quotient-representations contract
+with G=Sp₂g×G_m, Q=GSp₂g and N=μ₂. Its pullback and descended action
+preserve the underlying vector space, tensor products and dimension; its
+essential-image criterion gives exactly the lattice image and parity above.
 
 **Checks.**
 
@@ -547,7 +592,8 @@ parity formula above.
 *Needs:* [Central isogeny and connected reductivity](#cg02-central-isogeny-and-connected-reductivity);
 [The diagonal GSp torus](#cg04-the-diagonal-gsp-torus);
 [The integral central-similitude weight lattice](#cg03-the-integral-central-similitude-weight-lattice);
-ReductiveGroups Layers 0 and 3 for faithfully flat descent and represented quotients.
+ReductiveGroups Layers 0 and 3 for faithfully flat descent, represented quotients
+and the central-quotient-representations contract.
 
 ### Examples
 
@@ -555,7 +601,7 @@ At g=1 the matrix diag(2,3) has t=6, while 2I has t=4. The central-cover lift of
 
 ### Dependencies
 
-Mathlib and Tau Ceti coordinate/group-algebra, characteristic-zero smoothness and faithful-comodule interfaces; ReductiveGroups Layers 0, 1, 3, 6 and 7; ClassicalGroups Layers 0 and 3; the finite-central-quotient descent of CG.0.6.
+Mathlib and Tau Ceti coordinate/group-algebra, characteristic-zero smoothness and faithful-comodule interfaces; ReductiveGroups Layers 0, 1, 3, 6 and 7; ClassicalGroups Layers 0 and 3; ReductiveGroups Layer 3’s central-quotient-representations contract specialized in CG.0.6.
 
 ## Layer CG.1: Rational algebraic representations and primitive powers
 
@@ -565,9 +611,9 @@ For the rational model, set a_k=u_k−u_(k+1), where u_(g+1)=0.
 The tensor of the explicit highest vectors e_1∧⋯∧e_k in P_k, repeated a_k
 times, lies over Q and has highest weight (0,u). The subcomodule generated
 by this vector is the rational Cartan component. It uses
-the native finite coefficient-subcoalgebra for the coefficient-extraction
-span; CG.1.7 constructs the least generated subcomodule and its
-field-extension comparison.
+ReductiveGroups Layer 1's generated-vector-base-change contract for the
+coefficient-extraction span and its field-extension comparison; CG.1.7
+identifies its specialization with the specified rational Cartan component.
 Compare that component with ReductiveGroups §10B's simple object after
 identifying its actual character lattice with X_g. Its unique tensor top line
 and complete reducibility identify the generated component with the supplied
@@ -582,7 +628,7 @@ K-linear categories: Hom(1,1) changes from Q to K.
 
 Set RatRep_g(K)=TauCeti.FGComoduleCat K O_g(K) and
 R_g(K)=TauCeti.SplitK0 RatRep_g(K). Use the existing biproduct,
-preadditive, tensor and braiding structures. Establish the finite-comodule compatibility below and specialize it to
+preadditive, tensor and braiding structures. Specialize ReductiveGroups Layer 1’s finite-comodule-category contract to
 O_g(K); essential smallness and tensor additivity make R_g(K) a commutative ring. By
 characteristic-zero semisimplicity, its split relations agree with the
 exact-sequence Grothendieck relations. Point evaluation gives a functor to
@@ -590,19 +636,10 @@ abstract FDRep and the corresponding homomorphism to Tau Ceti's abstract
 representation ring `TauCeti.repRing` for k=K and G=GSp₂g(K). Give the dimension homomorphism R_g(K)→Z, taking
 [M] to dim_K M. ([Yu](https://arxiv.org/pdf/1807.04659v5#page=64), §7.1, equation (7.1.1) and Remark 7.1.1, printed p.64; [Milne](https://www.jmilne.org/math/Books/iAG2022.pdf), Chapter 22 §a, Theorem 22.2 and complements 22.3–22.6, pp.464–466).
 
-For every field F and commutative Hopf F-algebra H in the same universe,
-equip the native finite-comodule category with compatible essential
-smallness, monoidal preadditivity, F-linearity and finite-dimensional Hom
-spaces (Milne, Chapter 4 §a, coaction identities (24)–(25), p.84, and
-§i, Exercise 4-4(a,b), p.97, for the rational category and its morphisms). These are compatibility targets, using
-the existing tensor, braiding and preadditive structures. Identify each Hom
-with the linear subspace of Hom_F(M,N) satisfying the coaction equation;
-this gives finite dimension and linearity, with
-dim_F Hom_H(M,N)≤dim_F M · dim_F N. For essential smallness, transport
-every finite-dimensional object to F^n with its actual coaction: the coactions
-on these spaces form an F-universe set of representatives. Prove tensoring
-on either side preserves zero morphisms and sums by the native tensor-map
-formula, giving monoidal preadditivity. No new category carrier is introduced.
+Use ReductiveGroups Layer 1's finite-comodule-category contract with
+F=K and H=O_g(K), preserving the native tensor, braiding and preadditive
+structures. In particular the morphisms are precisely coaction-intertwining
+linear maps, and dim_K Hom(M,N)≤dim_K M · dim_K N.
 
 **Checks.**
 
@@ -612,7 +649,7 @@ formula, giving monoidal preadditivity. No new category carrier is introduced.
 
 **Construction and proof.**
 
-1. Specialize the native finite-comodule category to O_g(K), with the essential-smallness, linearity and tensor-additivity comparisons above; reuse its native preadditive and tensor structures.
+1. Specialize the native finite-comodule category to O_g(K), with the supplied essential-smallness, linearity and tensor-additivity comparisons; reuse its native preadditive and tensor structures.
 2. Use the SplitK0 commutative-ring construction. Since GSp is connected reductive in characteristic zero, every short exact sequence splits by the semisimplicity result.
 3. Point evaluation is obtained from the imported comodule/rational-representation dictionary. Dimension is a biproduct-additive and tensor-multiplicative invariant, so the `SplitK0.liftRingHom` gives dimension R_g(K)→Z.
 
@@ -633,7 +670,7 @@ The required interface has the following properties.
 
 **Consequences to check.** Finite-dimensional comodule morphisms preserve the algebraic coaction for all K-algebras, not only abstract point actions. The class of the tensor unit is 1 and the class of the zero comodule is 0.
 
-*Needs:* [Algebraic presentation of the symplectic similitude group](#cg01-algebraic-presentation-of-the-symplectic-similitude-group); [The central cover and its parity constraint](#cg06-the-central-cover-and-its-parity-constraint); [`TauCeti.FGComoduleCat`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/Algebra/Coalgebra/Comodule/Finite/Basic.lean); [`TauCeti.FGComoduleCat.instMonoidalCategory`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/Algebra/Coalgebra/Comodule/Finite/Monoidal.lean); [`TauCeti.FGComoduleCat.instBraidedCategory`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/Algebra/Coalgebra/Comodule/Finite/Symmetric.lean); [`TauCeti.FGComoduleCat.hasBinaryBiproducts`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/Algebra/Coalgebra/Comodule/Finite/Product.lean); [`TauCeti.SplitK0`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/CategoryTheory/GrothendieckGroup/Split.lean); [`TauCeti.SplitK0.of`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/CategoryTheory/GrothendieckGroup/Split.lean); [`TauCeti.SplitK0.of_mul_of`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/CategoryTheory/GrothendieckGroup/Monoidal/Basic.lean); [ReductiveGroups Layer 1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ReductiveGroups/README.md#layer-1-representations--comodules); [ReductiveGroups Layer 6](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ReductiveGroups/README.md#layer-6-reductive-and-semisimple-groups); `TauCeti.repRing`.
+*Needs:* [Algebraic presentation of the symplectic similitude group](#cg01-algebraic-presentation-of-the-symplectic-similitude-group); [The central cover and its parity constraint](#cg06-the-central-cover-and-its-parity-constraint); [`TauCeti.FGComoduleCat`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/Algebra/Coalgebra/Comodule/Finite/Basic.lean); [`TauCeti.FGComoduleCat.instMonoidalCategory`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/Algebra/Coalgebra/Comodule/Finite/Monoidal.lean); [`TauCeti.FGComoduleCat.instBraidedCategory`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/Algebra/Coalgebra/Comodule/Finite/Symmetric.lean); [`TauCeti.FGComoduleCat.hasBinaryBiproducts`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/Algebra/Coalgebra/Comodule/Finite/Product.lean); [`TauCeti.SplitK0`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/CategoryTheory/GrothendieckGroup/Split.lean); [`TauCeti.SplitK0.of`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/CategoryTheory/GrothendieckGroup/Split.lean); [`TauCeti.SplitK0.of_mul_of`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/CategoryTheory/GrothendieckGroup/Monoidal/Basic.lean); [ReductiveGroups Layer 1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ReductiveGroups/README.md#layer-1-representations--comodules), finite-comodule-category contract; [ReductiveGroups Layer 6](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ReductiveGroups/README.md#layer-6-reductive-and-semisimple-groups); `TauCeti.repRing`.
 
 ### CG.1.2 The standard algebraic GSp representation
 
@@ -862,21 +899,11 @@ compatibility with field extension. This constructs the rational form
 inside a definite tensor product rather than choosing a form of a complex
 simple module. ([Milne](https://www.jmilne.org/math/Books/iAG2022.pdf), Chapter 22 §a, Theorem 22.2 and complements 22.3–22.6, pp.464–466; [Sternberg](https://people.math.harvard.edu/~shlomo/docs/lie_algebras.pdf#page=131), §7.9, pp.131–132; [Yu](https://arxiv.org/pdf/1807.04659v5#page=64), §7.1, equation (7.1.1) and Remark 7.1.1, printed p.64).
 
-For a finite-dimensional right H-comodule M over any field F, where H
-is a commutative Hopf F-algebra, and v∈M, construct the least subcomodule
-containing v. Use the span of (id_M⊗φ)δ(v) for φ in the F-linear dual of H;
-coassociativity makes this span a subcomodule, the counit puts v in it, and
-any subcomodule containing v contains all these coefficients (Milne,
-Chapter 4 §c, Proposition 4.7 and its proof, p.86). For every field
-extension K/F prove that its scalar extension is the least subcomodule
-containing 1⊗v. The coefficients of δ(v) lie in a finite-dimensional
-coefficient subcoalgebra; dualizing that finite space commutes with field
-extension. Thus the coefficient span, its inclusion and its universal
-property base-change, without any classification or semisimplicity premise.
-The interface includes containment of v and the equivalence that this span
-is contained in a subcomodule U exactly when v∈U. For every comodule map
-f:M→N, prove that the image of the span of v is the span of f(v); give
-its natural inclusion in M and the equality after field extension above.
+Use ReductiveGroups Layer 1's generated-vector-base-change contract for
+this highest tensor vector. Its coefficient-extraction span, inclusion and
+least-subcomodule property define the Cartan component inside the specified
+primitive tensor product. Its field-extension comparison identifies that
+component over Q with the component generated by the extended vector over K.
 
 **Checks.**
 
@@ -886,7 +913,7 @@ its natural inclusion in M and the equality after field extension above.
 
 **Construction and proof.**
 
-1. The explicit primitive highest vectors and the a_k give a rational highest tensor vector. Construct its least generated subcomodule by the coefficient-extraction span above. Its field-extension comparison identifies its extension with the generated component over every field K. Compare that specified component with the split simple of ReductiveGroups §10B.
+1. The explicit primitive highest vectors and the a_k give a rational highest tensor vector. Apply ReductiveGroups Layer 1’s generated-vector-base-change contract to form its least generated subcomodule by coefficient extraction. Its field-extension comparison identifies its extension with the generated component over every field K. Compare that specified component with the split simple of ReductiveGroups §10B.
 2. Identify ReductiveGroups §10B's split torus lattice with X_g, matching each simple root and coroot and the central degree. The tensor top line has weight (0,u), is one-dimensional, and all other weights are lower. Complete reducibility and the supplied highest-weight uniqueness identify its generated subcomodule with §10B's L(0,u).
 3. Transport §10B's absolute simplicity, scalar endomorphisms and arbitrary-field base change across this comparison. Twisting by ν^m gives its L(m,u). Only the comparison with this explicit primitive-tensor model is constructed here.
 
@@ -904,7 +931,7 @@ The required interface has the following properties.
 
 **Consequences to check.** The highest vector is constructed inside a tensor product; no assertion that an arbitrary complex module has a chosen rational form is substituted for the descent proof.
 
-*Needs:* ReductiveGroups §10A–10B; native finite coefficient-subcoalgebras and linear duals for the generated-vector construction; [The integral central-similitude weight lattice](#cg03-the-integral-central-similitude-weight-lattice); [The central cover and its parity constraint](#cg06-the-central-cover-and-its-parity-constraint); [Primitive exterior decomposition and fundamental highest weights](#cg15-primitive-exterior-decomposition-and-fundamental-highest-weights); [Hom spaces and torus weights commute with field extension](#cg16-hom-spaces-and-torus-weights-commute-with-field-extension); [`TauCeti.Comodule.matrixCoefficientSubcoalgebra`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/Algebra/Coalgebra/Comodule/MatrixCoefficient/Subcoalgebra.lean); [`TauCeti.Comodule.matrixCoefficientSubcoalgebra_finite`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/Algebra/Coalgebra/Comodule/MatrixCoefficient/Subcoalgebra.lean); [ClassicalGroups Layer 3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/ClassicalGroups/README.md#layer-3-maximal-torus-weights-and-the-highest-weight-classification); [LieHighestWeight Layer 4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/LieHighestWeight/README.md#layer-4-the-classification-of-finite-dimensional-irreducibles); [ReductiveGroups Layer 6](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ReductiveGroups/README.md#layer-6-reductive-and-semisimple-groups); [ClassicalGroups Layer 1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/ClassicalGroups/README.md#layer-1-functorial-constructions-and-tensor-powers); [ReductiveGroups Layer 1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ReductiveGroups/README.md#layer-1-representations--comodules).
+*Needs:* ReductiveGroups Layer 1’s generated-vector-base-change contract and §10A–10B; [The integral central-similitude weight lattice](#cg03-the-integral-central-similitude-weight-lattice); [The central cover and its parity constraint](#cg06-the-central-cover-and-its-parity-constraint); [Primitive exterior decomposition and fundamental highest weights](#cg15-primitive-exterior-decomposition-and-fundamental-highest-weights); [Hom spaces and torus weights commute with field extension](#cg16-hom-spaces-and-torus-weights-commute-with-field-extension); [`TauCeti.Comodule.matrixCoefficientSubcoalgebra`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/Algebra/Coalgebra/Comodule/MatrixCoefficient/Subcoalgebra.lean); [`TauCeti.Comodule.matrixCoefficientSubcoalgebra_finite`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/Algebra/Coalgebra/Comodule/MatrixCoefficient/Subcoalgebra.lean); [ClassicalGroups Layer 3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/ClassicalGroups/README.md#layer-3-maximal-torus-weights-and-the-highest-weight-classification); [LieHighestWeight Layer 4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/LieHighestWeight/README.md#layer-4-the-classification-of-finite-dimensional-irreducibles); [ReductiveGroups Layer 6](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ReductiveGroups/README.md#layer-6-reductive-and-semisimple-groups); [ClassicalGroups Layer 1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/ClassicalGroups/README.md#layer-1-functorial-constructions-and-tensor-powers); [ReductiveGroups Layer 1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ReductiveGroups/README.md#layer-1-representations--comodules).
 
 ### CG.1.8 Highest-weight classification over Q and its extensions
 
@@ -965,7 +992,7 @@ At g=2 the primitive second exterior module has dimension 6−1=5; at g=1 L(m,u)
 
 ### Dependencies
 
-Layer CG.0; native finite comodules, kernels and exterior powers; ReductiveGroups Layers 1, 6, 7 and §7C, §10A–10B; ClassicalGroups Layers 0–3 and 5; LieHighestWeight Layer 4; the finite-comodule compatibility of CG.1.1 and generated-vector comparison of CG.1.7.
+Layer CG.0; native finite comodules, kernels and exterior powers; ReductiveGroups Layers 1, 6, 7 and §7C, §10A–10B; ClassicalGroups Layers 0–3 and 5; LieHighestWeight Layer 4; ReductiveGroups Layer 1’s finite-comodule-category and generated-vector-base-change contracts specialized in CG.1.1 and CG.1.7.
 
 ## Layer CG.2: Integral torus characters and the full representation ring
 
