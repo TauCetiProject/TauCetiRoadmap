@@ -6,11 +6,11 @@
 
 This roadmap owns the degree-three comparisons, the Bloch presentations and their exact convention maps, the frame and projective-configuration calculations needed for the Suslin map, and the finite-witness interfaces built on them. It does not construct general algebraic K-theory or the analytic dilogarithm. Every occurrence of K₃ refers to Quillen K-theory supplied below, and every abstract isomorphism with a cyclic group is distinguished from a natural comparison map.
 
-The stable general linear and elementary groups GL(A)⊃E(A), with Whitehead's lemma, belong to AlgebraicKTheory A1 and are consumed through the aliases and transported theorem of GeneralAlgebraicKTheory §§3.3–3.4; StableHomotopyKTheory §4.14 gives BGL(A)⁺ its block-sum H-space. The stable Steinberg group St(A), its universal central extension onto E(A) and the identification of the central kernel with K₂(A) belong to AlgebraicKTheory A5, as refined in K2SymbolsBrauer Layers 2 and 4; superperfectness of the source of a universal central extension is StableHomotopyKTheory §3.29 (`uce.source_superperfect`). K2SymbolsBrauer owns Milnor K-theory and its symbol presentation (§§5.4, 5.6, 5.12–5.14), Matsumoto's theorem (§7.2), the graded Milnor-to-Quillen map (§§8.1–8.4), the Bass–Tate sequence of a rational function field (§10.5) and the Bass–Tate signature theorem for number fields (§10.32). The degree-three comparison, its ordered-symbol formula and functorial API are consumed from K2SymbolsBrauer §8.4; this roadmap constructs its cokernel and proves integral injectivity.
+The stable general linear and elementary groups GL(A)⊃E(A), with Whitehead's lemma, belong to AlgebraicKTheory A1 and are consumed through the aliases and transported theorem of GeneralAlgebraicKTheory §§3.3–3.4; StableHomotopyKTheory §4.14 gives BGL(A)⁺ its block-sum H-space. The stable Steinberg group St(A), its universal central extension onto E(A) and the identification of the central kernel with K₂(A) belong to AlgebraicKTheory A5, as refined in K2SymbolsBrauer Layers 2 and 4; superperfectness of the source of a universal central extension is StableHomotopyKTheory §3.29’s theorem that the source has H₁=H₂=0. K2SymbolsBrauer owns Milnor K-theory and its symbol presentation (§§5.4, 5.6, 5.12–5.14), Matsumoto's theorem (§7.2), the graded Milnor-to-Quillen map (§§8.1–8.4), the Bass–Tate sequence of a rational function field (§10.5) and the Bass–Tate signature theorem for number fields (§10.32). The degree-three comparison, its ordered-symbol formula and functorial API are consumed from K2SymbolsBrauer §8.4; this roadmap constructs its cokernel and proves integral injectivity.
 
 AlgebraicTopology, Stages 2–5 and 8, owns singular homology, CW pairs, relative homotopy, product homology with the coefficient-sensitive Künneth sequence, Hurewicz and Whitehead. StableHomotopyKTheory §1.17, `classifyingSpace_filteredColimit_homology`, supplies filtered-colimit homology for every unital coefficient ring, fixed left coefficient module and degree n≥0; §§1.30 and 1.32 compare classifying-space and group homology. The completed UniversalCovers roadmap, Stages 2–3, owns based lifts and the higher-homotopy comparison for actual coverings. StableHomotopyKTheory supplies classifying spaces, plus constructions, fibre comparisons and spectra. FourManifolds F2 owns the normalized finite-wedge π₃ decomposition and its inverse. Section 1.5 imports that decomposition and owns its compatibility under finite reindexing and subwedge inclusions, its extension to arbitrary index sets, the H-space Hopf–Hurewicz argument and the sphere-unit comparison.
 
-GeneralAlgebraicKTheory §§13.8a–c owns Quillen's finite-field computation (Brauer lifting, the Adams fixed fibre and its homotopy groups), and its §§3.2 and 3.12 identify πₙ(BGL(A)⁺) with Kₙ(A) for n≥1. KTheoryFiniteLocalFields §1.5 owns the restriction, transfer and Frobenius maps on the K-groups of finite fields. ArithmeticKTheory §§3.2–3.4, 4.1–4.4, 5.1, 5.3–5.4 and 8.10 supplies the number-field arithmetic; the Milnor-image and quotient consequences belong here.
+GeneralAlgebraicKTheory §§13.8a–c owns Quillen's finite-field computation (Brauer lifting, the Adams fixed fibre and its homotopy groups), and its §§3.2, 3.12 and 3.14 identify πₙ(BGL(A)⁺) with Kₙ(A) for n≥1. KTheoryFiniteLocalFields §1.5 owns the restriction, transfer and Frobenius maps on the K-groups of finite fields. ArithmeticKTheory §§3.2–3.4, 4.1–4.4, 5.1, 5.3–5.4 and 8.10 supplies the number-field arithmetic; the Milnor-image and quotient consequences belong here.
 
 Layer 3 owns the shared integral pre-Bloch group, antisymmetric tensor cokernel, boundary, Bloch kernel and their field maps. Sections 3.4–3.5 provide the symbol-preserving equivalence between reduced and unreduced presentations, its natural boundary square and the induced equivalence on Bloch kernels. PolylogarithmFunctions supplies analytic functions and cross-ratios, not these algebraic carriers.
 
@@ -66,7 +66,7 @@ For §3.12 use `TauCeti.AlgebraicGeometry.isRegularLocalRing_stalk_of_smooth` in
 
 ### From TauCetiRoadmap.GeneralAlgebraicKTheory
 
-Sections 3.3–3.4 expose AlgebraicKTheory A1's stable GL(A)⊃E(A), entrywise ring maps and finite-stage colimits through their finite-stage identity aliases, and transport A1's Whitehead theorem to them, for associative unital A. Sections 3.2 and 3.12 identify πₙ(BGL(A)⁺) with Kₙ(A) for n≥1. Sections 7.4 and 1.8 supply the external product K₂(A)×K₁(ℤ)→K₃(A⊗ℤ) and its right-unit comparison; commutativity of A is unnecessary. Sections 13.8a–c supply Brauer lifting, the Adams fixed-fibre model and Quillen's finite-field computation, including K₂(𝔽q)=0 and |K₃(𝔽q)|=q²−1, with continuity to algebraic closures of finite fields.
+Sections 3.3–3.4 expose AlgebraicKTheory A1's stable GL(A)⊃E(A), entrywise ring maps and finite-stage colimits through their finite-stage identity aliases, and transport A1's Whitehead theorem to them, for associative unital A. Sections 3.2, 3.12 and 3.14 identify πₙ(BGL(A)⁺) with Kₙ(A) for n≥1. Sections 7.4 and 1.8 supply the external product K₂(A)×K₁(ℤ)→K₃(A⊗ℤ) and its right-unit comparison; commutativity of A is unnecessary. Sections 13.8a–c supply Brauer lifting, the Adams fixed-fibre model and Quillen's finite-field computation, including K₂(𝔽q)=0 and |K₃(𝔽q)|=q²−1, with continuity to algebraic closures of finite fields.
 
 ### From TauCetiRoadmap.AlgebraicKTheory
 
@@ -80,7 +80,7 @@ Section 10.5 supplies the Bass–Tate sequence for F(t); Layer 9 supplies parame
 
 ### From TauCetiRoadmap.StableHomotopyKTheory
 
-Layers 1–3 supply classifying spaces, based plus constructions (§§3.26–3.28), their homology and naturality. Section 1.17, `classifyingSpace_filteredColimit_homology`, applies to every unital coefficient ring, a fixed left coefficient module and n≥0; §§1.30 and 1.32 compare classifying-space and group homology. Section 3.29 supplies `uce.source_superperfect` and `plusGroup_fibreUCE`; §3.32 gives BK₂(A)→BSt(A)⁺→BE(A)⁺, and §3.31 identifies BE(A)⁺ under BE(A) with the simply connected covering model of BGL(A)⁺, with its naturality squares. Section 4.14 supplies block-sum H-space structure.
+Layers 1–3 supply classifying spaces, based plus constructions (§§3.26–3.28), their homology and naturality. Section 1.17, `classifyingSpace_filteredColimit_homology`, applies to every unital coefficient ring, a fixed left coefficient module and n≥0; §§1.30 and 1.32 compare classifying-space and group homology. Section 3.29 supplies superperfectness of the source of a universal central extension of a perfect group, H₁=H₂=0; §3.33 gives BK₂(A)→BSt(A)⁺→BE(A)⁺, and §3.31 identifies BE(A)⁺ under BE(A) with the simply connected covering model of BGL(A)⁺, with its naturality squares. Section 4.14 supplies block-sum H-space structure.
 
 Section 5.19, `picard_self_braiding`, §6.3's Barratt–Priddy comparison and §7.1's stable η and η² are the inputs to the sphere-unit comparison of §1.5. Section 7.27 supplies the Atiyah–Hirzebruch spectral sequence for a spectrum smashed with a CW complex and its convergence. Section 4.16 here supplies its sphere-module structure, bottom-column unit splitting and the free-G-set Barratt–Priddy comparison. Group-module hyperhomology is constructed in §4.1, rather than inferred from a spectrum-only statement.
 
@@ -110,13 +110,13 @@ Sections 3.2–3.4 supply finite generation and rank r₂ for number fields; §�
 
 ### From TauCetiRoadmap.HomotopySpheres
 
-Stage 9, item 1 supplies π₃ˢ=ℤ/24 generated by the stabilized quaternionic Hopf class ν.
+Section 9.1 imports π₃ˢ=ℤ/24 with its normalized quaternionic Hopf generator ν from StringOrientation S2.3 and compares that generator with its EHP and framed-fibre models.
 
 ### From TauCetiRoadmap.FourManifolds
 
 Target F2 supplies the decomposition of π₃(∨ᵢS²) for finite I and its inverse, on the Hopf generators ιᵢη and one Whitehead generator [ιᵢ,ιⱼ] per unordered distinct pair. Its Hopf invariant is +1 and its pair generator is the attaching map of the product-oriented S²×S². Section 1.5 uses these same generators and proves their compatibility under reindexing and finite-subwedge inclusions before passing to arbitrary I.
 
-Target F7.0b supplies η³=12ν≠0. Identify its stable η with the stabilization of §1.5's Hopf-invariant +1 generator and StableHomotopyKTheory §7.1. Thus π₃ˢ/⟨η³⟩=ℤ/12; changing ν to −ν leaves 12ν unchanged.
+Section 7.1 supplies η³=12ν≠0. Identify its stable η with the stabilization of §1.5's Hopf-invariant +1 generator and StableHomotopyKTheory §7.1. Thus π₃ˢ/⟨η³⟩=ℤ/12; changing ν to −ν leaves 12ν unchanged.
 
 ### From TauCetiRoadmap.AlgebraicCurves
 
@@ -332,7 +332,7 @@ In the unnormalised bar complex, d₄[1|1|1|1]=[1|1|1]. This nonzero cycle has z
 
 ### Dependencies
 
-Use GeneralAlgebraicKTheory §§3.2–3.4, 3.12 and 7.4 (with §1.8), AlgebraicKTheory A5 with K2SymbolsBrauer Layers 2 and 4, StableHomotopyKTheory Layers 1–3 and §§4.14, 5.19, 6.3 and 7.1, FourManifolds F2, AlgebraicTopology Stage 8 with the Hopf targets of §1.5, and UniversalCovers Stages 2–3. The bar chains, cycles and maps are Mathlib’s. No field stability theorem enters this layer.
+Use GeneralAlgebraicKTheory §§3.2–3.4, 3.12, 3.14 and 7.4 (with §1.8), AlgebraicKTheory A5 with K2SymbolsBrauer Layers 2 and 4, StableHomotopyKTheory Layers 1–3 and §§4.14, 5.19, 6.3 and 7.1, FourManifolds F2, AlgebraicTopology Stage 8 with the Hopf targets of §1.5, and UniversalCovers Stages 2–3. The bar chains, cycles and maps are Mathlib’s. No field stability theorem enters this layer.
 
 ## Layer 2: Decomposable and indecomposable K₃
 
@@ -1571,7 +1571,7 @@ For a field F let M = F^× ≀ Σ_∞ be the monomial group and BM^+ its plus co
 
 For a field F there is a natural exact sequence 0 → μ_2(F) → π_3^ind(BM^+) −γ→ Tor_1^ℤ(μ(F), μ(F)) ⊕ ℤ/12 → 0, where the Tor term is H_3(F^×, ℤ)/∧³F^× (Ex. VI.5.9(a)). The K-book writes μ(F) for that term; the two are isomorphic, but not naturally in F (Ex. VI.5.9(b)).
 
-Identify the stable η in this calculation with §1.5’s Hopf-invariant +1 generator and StableHomotopyKTheory §7.1’s class. HomotopySpheres Stage 9, item 1 gives π₃ˢ=ℤ/24{ν}; FourManifolds F7.0b gives η³=12ν≠0. Therefore the quotient by its subgroup {0,12ν} is ℤ/12.
+Identify the stable η in this calculation with §1.5’s Hopf-invariant +1 generator and StableHomotopyKTheory §7.1’s class. HomotopySpheres §9.1 gives π₃ˢ=ℤ/24{ν}; FourManifolds §7.1 gives η³=12ν≠0. Therefore the quotient by its subgroup {0,12ν} is ℤ/12.
 
 The proof of the preceding sequence uses the Atiyah–Hirzebruch spectral sequence E²₍ₚ,q₎=H_p(F^×,π^s_q)⇒π₍ₚ₊q₎(ℤ×BM⁺) of StableHomotopyKTheory §7.27 for the sphere spectrum and X=BF^×, together with the Barratt–Priddy identification π^s_*(BG₊)≅π_*(ℤ×B(G≀Σ_∞)⁺)≅π_*K(G-Sets_fin) for free finite G-sets. That identification for an arbitrary group G is the target barrattPriddy_freeGSets here (Weibel IV, Example 4.10.1, PDF p.316); its case G=1 is StableHomotopyKTheory §6.3, and the general case follows the same group-completion argument with the monoid of finite free G-sets. Two properties of the spectral sequence are further targets here: ahss_sphereModule, that it is a spectral sequence of π^s_*-modules (every filtration stage is a spectrum, so the differentials are π^s_*-linear and the module structure on the abutment is the one induced by the ring π_*(ℤ×BM⁺)); and ahss_unitSplitting, that the column p=0, which is π^s_*, survives to E^∞ and is a direct summand of the abutment, split by X₊→S⁰ and the basepoint. With them, the E² page in total degree at most four, the injectivity of E²₍₁,₁₎=F^×/F⁽×²⁾→π₂, the vanishing of d²:E²₍₃,₀₎→E²₍₁,₁₎, and the position of d²:E²₍₄,₀₎→E²₍₂,₁₎ inside (Λ²F^×)/2 give the sequence (Weibel VI, proof of Proposition 5.17, chapter p.33; Suslin 1991, §5).
 
@@ -1588,7 +1588,7 @@ The source locators for these statements are Weibel, K-book, After Theorem VI.5.
 - For F=𝔽₄, the enhanced term is ℤ/3 and π₃^ind(BM⁺)≅ℤ/3⊕ℤ/12 has order 36 and exponent 12; replacing this direct sum by a cyclic group of order 36 fails.
 - For F = ℚ, π_3^ind(BM^+) ≅ ℤ/4 ⊕ ℤ/12.
 
-*Needs:* §1.5’s stable Hopf normalization; §2.1, §4.7, §4.15; HomotopySpheres Stage 9, item 1; FourManifolds F7.0b; StableHomotopyKTheory §§7.1 and 7.27; Layers 1–3; the group-homology, spectral-sequence and stable-homotopy contracts.
+*Needs:* §1.5’s stable Hopf normalization; §2.1, §4.7, §4.15; HomotopySpheres §9.1; FourManifolds §7.1; StableHomotopyKTheory §§7.1 and 7.27; Layers 1–3; the group-homology, spectral-sequence and stable-homotopy contracts.
 
 ### 4.17 Cyclic Chern classes, doubling and Bocksteins
 
@@ -1728,7 +1728,7 @@ The smallest frame algebra terms are S₀=ℤ, S₁=Fˣ and S₂=K₂ᴹ⊕ℤ; 
 
 ### Dependencies
 
-Use Layers 1–3; the group-homology and algebraically closed K-theory contracts; StableHomotopyKTheory §§6.3, 7.1 and 7.27 for Barratt–Priddy, the first two stable stems and the Atiyah–Hirzebruch spectral sequence, with HomotopySpheres Stage 9 and FourManifolds F7.0b for π₃ˢ and η³; and, for §4.21, SchemeKTheoryOperations §§3.6, 4.7 and 5.2 and K2SymbolsBrauer Layer 9 and §§10.5 and 11.3. The general group-module hyperhomology construction comes first in §4.1. Frame products, the Milnor retraction and the simultaneous stability induction precede the GL₂/GL₃ edge maps. The Chern normalization and closure detector precede the enhanced-Tor identification. The finite-set exactness in §4.0 precedes symmetric-group stability and its finite-field specialization in Layer 5.
+Use Layers 1–3; the group-homology and algebraically closed K-theory contracts; StableHomotopyKTheory §§6.3, 7.1 and 7.27 for Barratt–Priddy, the first two stable stems and the Atiyah–Hirzebruch spectral sequence, with HomotopySpheres §9.1 and FourManifolds §7.1 for π₃ˢ and η³; and, for §4.21, SchemeKTheoryOperations §§3.6, 4.7 and 5.2 and K2SymbolsBrauer Layer 9 and §§10.5 and 11.3. The general group-module hyperhomology construction comes first in §4.1. Frame products, the Milnor retraction and the simultaneous stability induction precede the GL₂/GL₃ edge maps. The Chern normalization and closure detector precede the enhanced-Tor identification. The finite-set exactness in §4.0 precedes symmetric-group stability and its finite-field specialization in Layer 5.
 
 ## Layer 5: Finite fields and arithmetic examples
 
