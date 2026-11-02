@@ -1277,12 +1277,17 @@ supplies actual continuous characters with their central and period restrictions
 ## References
 
 - A. W. Knapp, *Lie Groups Beyond an Introduction*, digital second edition (2021),
-  author-distributed version: Proposition 4.8 and Corollary 4.9 p.240,
-  Corollary 4.25 p.249, Theorem 4.29 pp.250–251,
-  Proposition 4.58 pp.264–265, Theorem 4.69 p.268, and Theorem 5.110 pp.335–336.
+  author-distributed version: Proposition 2.13 p.136;
+  Proposition 4.8 and Corollary 4.9 p.240;
+  Proposition 4.24 and Corollaries 4.25–4.26 p.249;
+  Theorem 4.29 pp.250–251; equations (4.31)–(4.32) pp.253–254;
+  Propositions 4.58–4.59 pp.264–265; Proposition 4.67 p.267;
+  Theorem 4.69 p.268; Theorem 5.107 p.334;
+  Theorem 5.110 and its proof pp.335–336.
   [Legal author edition](https://www.math.stonybrook.edu/~aknapp/download/Beyond2.pdf).
 - P. Etingof, *Lie Groups and Lie Algebras II*, MIT 18.755 (Spring 2024),
   Lecture 11, §37, pp.199–204. This source assumes a countable base.
   [Institutional notes](https://ocw.mit.edu/courses/18-755-lie-groups-and-lie-algebras-ii-spring-2024/mit18_755_s24_lec11.pdf).
 - J. B. Conway, *A Course in Functional Analysis*, second edition, Springer (1990),
   VII.9, Exercises 8–11, DOI 10.1007/978-1-4757-4383-8.
+  Locator-only citation (uncertified).
