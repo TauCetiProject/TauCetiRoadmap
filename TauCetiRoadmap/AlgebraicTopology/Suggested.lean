@@ -1,5 +1,6 @@
 import Mathlib
 import TauCeti.AlgebraicTopology.Cellular.Comparison
+import TauCeti.AlgebraicTopology.Cohomology.Cap.Basic
 import TauCeti.AlgebraicTopology.Cohomology.Cup
 import TauCeti.AlgebraicTopology.EilenbergMacLane.Basic
 import TauCeti.Topology.Homotopy.HomotopyGroup.Map
@@ -14,16 +15,24 @@ Poincaré–Lefschetz duality, Euler characteristic, Hurewicz and Whitehead, cou
 derived limits and Milnor sequences, ordinary representability and obstruction theory,
 Brouwer, proper deformation retraction, and the LS cup-length bound.
 
-The twisted and boundary duality headlines cannot yet be stated on their intended
-objects: the homological orientation local system, supported fundamental classes,
-direct local-system cochains and relative twisted cap operation are missing. Relative
-Hurewicz lacks relative homotopy-group carriers and their canonical Hurewicz map.
-The normalized representability and EM-loop headlines lack the supplier's functorial
-normalized EM family and its universal class. The obstruction extension criteria lack
-the cellular obstruction and difference constructions with their transport. The
-integer-graded Milnor comparison lacks the skeletal restriction/cohomology comparison
-and its derived-limit cone. Proper Whitehead lacks the supported cellular/singular
-comparison. These constructions remain README targets, not admitted data here.
+Of the duality headlines, the closed-manifold form with coefficients in a commutative
+ring in which `2 = 0` is stated below through the native cap product. The twisted,
+boundary and oriented-integral forms cannot yet be stated on their intended objects:
+the homological orientation local system, supported fundamental classes, direct
+local-system cochains and relative twisted cap operation are missing. Absolute
+Hurewicz lacks a Hurewicz map from the native cubical homotopy groups to singular
+homology (no Hurewicz module at the pins), and an abstract isomorphism would be a
+stand-in, so it is not stated. Relative Hurewicz lacks relative homotopy-group carriers
+and their canonical Hurewicz map. The algebraic Milnor sequence for a countable tower
+of chain complexes lacks a native limit complex and derived inverse limit of a tower
+of complexes; only its module-level kernel/cokernel description of `lim`/`lim¹` is
+stated (`towerDifference`). The normalized representability and EM-loop headlines lack
+the supplier's functorial normalized EM family and its universal class. The obstruction
+extension criteria lack the cellular obstruction and difference constructions with
+their transport. The integer-graded Milnor comparison lacks the skeletal
+restriction/cohomology comparison and its derived-limit cone. Proper Whitehead lacks
+the supported cellular/singular comparison. These constructions remain README
+targets, not admitted data here.
 
 The README also specifies the full naturality and filtration conclusions of Wang,
 Künneth, Cartan–Leray and Serre. Their canonical chain maps and abutment filtrations
@@ -162,6 +171,24 @@ theorem lsCupLength_add_one_le_categoryCount (X : TopCat.{u}) [Nonempty X]
     lsCupLength X R + 1 ≤ lsCategoryCount X Set.univ := by
   sorry
 
+/-- Poincaré duality for a compact connected Hausdorff topological `n`-manifold with
+coefficients in a commutative ring `R` in which `2 = 0`: every manifold is `R`-orientable
+for such `R` (Hatcher, p.235), so there is a fundamental class `μ` in `H_n(M;R)` such that
+capping with `μ` is bijective `H^p(M;R) → H_q(M;R)` whenever `p + q = n` (Hatcher,
+Theorem 3.30, p.241). The cap is the native `TopCat.singularCap` with the ring
+multiplication as pairing, the same data as `cupProduct`. -/
+theorem poincareDuality_twoTorsionCoefficients (n : ℕ) (M : Type u) [TopologicalSpace M]
+    [ChartedSpace (EuclideanSpace ℝ (Fin n)) M] [T2Space M] [CompactSpace M]
+    [ConnectedSpace M] (R : Type u) [CommRing R] (h2 : (2 : R) = 0) :
+    ∃ μ : ((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{u} R) n).obj
+        (ModuleCat.of R R)).obj (TopCat.of M),
+      ∀ (p q : ℕ) (h : p + q = n),
+        Function.Bijective
+          (fun a : singularCohomology R (TopCat.of M) p =>
+            ((TopCat.of M).singularCap R (MonoidalCategory.leftUnitor (ModuleCat.of R R)).inv
+              (MonoidalCategory.leftUnitor (ModuleCat.of R R)).hom p q n h a).hom μ) := by
+  sorry
+
 
 /-! ## Layer 7: Euler characteristic -/
 
@@ -261,7 +288,11 @@ theorem homologicalWhitehead_cwType {X Y : Type u}
   sorry
 
 /-- A compact Hausdorff source and a Hausdorff target of CW type have a mapping
-space of CW type (Milnor, Theorem 3, p.276); the topology is compact-open. -/
+space of CW type (Milnor, Theorem 3, p.276); the topology is compact-open. Milnor's
+statement carries no separation axiom on the compact source, but the function-space
+steps of its proof (continuity of evaluation, the exponential law for homotopies into
+the mapping space) are available for compact Hausdorff sources; the Hausdorff
+hypothesis on `X` is kept for that reason. -/
 theorem finiteSourceMappingCWType {X Y : Type u}
     [TopologicalSpace X] [TopologicalSpace Y] [CompactSpace X] [T2Space X] [T2Space Y]
     (modelY : CWTypeModel Y) : Nonempty (CWTypeModel C(X, Y)) := by
