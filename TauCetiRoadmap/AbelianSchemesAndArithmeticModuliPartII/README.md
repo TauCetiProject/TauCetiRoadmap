@@ -847,9 +847,42 @@ For an isogeny φ : 𝒜 → ℬ and a φ-torsion section x, φ_# induces `φ_{#
 e^*𝒫̂_ℬ ≅ `𝒪_{ℬ̂^∨}`; if φ^∨ is étale, `𝒫̂_𝒜|_{ker φ}` ≅ `π^*_{ker φ}𝒪_{ℬ̂^∨}` and there is a
 canonical ϱ_x : x^*𝒫̂_𝒜 ≅ `𝒪_{𝒜̂^∨}`; the same for 𝒫̂^♮ when φ^♮ is étale. Composing with the
 moment map gives _ϱmom_x : x^*𝒫̂_𝒜 → `TSym^̂(ω_{𝒜^∨})` and x^*𝒫̂^♮_𝒜 → TSym^̂(ℋ), with components
-_ϱmom^b_x.
+_ϱmom^b_x. Normalize the splitting by ϱ_x = (φ_#e)⁻¹ ∘ φ_#x, using the
+unit rigidifications to identify the intermediate coefficient modules. Thus its target is
+the completed coefficient algebra of 𝒜 itself, rather than that of ℬ.
 
-([KS][KS], Corollary 2.9 and Definition 2.10, PDF p.17).
+- The splitting is a filtered O_S-linear isomorphism, compatible with all finite
+  truncations and with the augmentation to O_S supplied by the dual-unit rigidification.
+  At x=e it is that rigidification.
+- Composing φ with an isogeny ψ whose dual is étale does not change the normalized
+  splitting of a section killed by φ: the maps at x and e both acquire ψ_#e,
+  which cancels in the normalized composite. The same law holds for the ♮-version
+  with the corresponding étaleness hypotheses.
+- The degree-b moment is the degree-b projection of mom_e ∘ ϱ_x and factors through
+  the b-th infinitesimal coefficient sheaf. Degree zero is the augmentation, and
+  projection to degrees at most n agrees with the finite-level moment map.
+
+**Checks.**
+
+- For φ=id and x=e, ϱ_e is the identity on the rigidified coefficient algebra;
+  its degree-zero and degree-one maps are both identity maps. In dimension zero,
+  only degree zero remains and its value at 1 is 1.
+- In characteristic zero at x=e, using [2] or [4] gives degree-one composites
+  (1/2)·2=1 and (1/4)·4=1. In degree two these are (1/4)·4=1 and
+  (1/16)·16=1. Omitting the inverse unit map instead gives degree-one factors
+  2 and 4, so the unnormalized maps cannot define the same splitting.
+- In positive relative dimension over characteristic p, take φ with dual equal
+  to relative Frobenius. Its map on cotangent spaces is 0, which has no inverse:
+  composing with any linear map gives 0 rather than the identity. Thus the
+  isogeny map alone does not give this splitting without the dual-étale hypothesis.
+- In a characteristic-zero additive formal coordinate t with cotangent basis h,
+  the normalized unit splitting sends t² to t²; its degree-two moment is
+  2h^[2], and its degree-zero and degree-one moments are 0. On 1 the moments
+  are 1 in degree zero and 0 in positive degrees. These values fix the moment
+  normalization separately from the splitting normalization.
+
+([KS][KS], Corollary 2.9, its proof and Definition 2.10, PDF p.17, KS line 731–749;
+moment normalization: §2.1, PDF p.14, KS line 606–632).
 
 *Needs:* [P2](#layer-p2-completed-poincaré-bundles), Isogeny functoriality of completed Poincaré
 sheaves; [P2](#layer-p2-completed-poincaré-bundles), Moments of a formal smooth group.
@@ -933,11 +966,39 @@ compatibly with the split unit. Taking M=H and id_H gives Log¹.
 
 ### P3.2 The smooth d+ν connection
 
-Over C, for the Hodge/CM component conventions of §3.1, ν is the identity tensor in H⊗(ω⊕conj
-ω). On `⊕_{k≤n}TSym^k(H)` the connection d+ν has the same rigidified first extension as P♮(1) and
-induces the higher symmetric constructions.
+Over ℂ, with the Hodge/CM component conventions of KS §3.1, ν is the identity
+tensor in H⊗(ω⊕conj ω), viewed as an H-valued invariant smooth one-form on A(ℂ).
+For n≥0 let V_n be the smooth bundle with fibre ⊕_(k=0)^n TSym^k(H). Define
+∇_n : V_n → V_n⊗E¹_A(ℂ) by ∇_n(s)=ds+ν·s, where ν acts by shuffle
+multiplication and terms of tensor degree greater than n are discarded. Its first
+extension has the same rigidified class as P♮(1), and it induces the higher
+symmetric constructions.
 
-([KS][KS], Definitions 3.2–3.3 and Theorem 3.5, PDF pp.30–32).
+- For a smooth scalar function f and section s, ∇_n(fs)=s⊗df+f∇_n(s).
+  The coefficient of ν is +1 with the specified identity tensor and unit splitting.
+- The connection is flat: dν=0 for invariant forms, and ν∧ν=0 because the
+  shuffle multiplication operators commute. Its induced connection on each
+  associated graded tensor degree is d.
+- The projections V_n→V_m for 0≤m≤n are horizontal, including the augmentation
+  V_n→V_0. The comparison with P♮(n) preserves the unit-fibre moment map,
+  so that the rigidified unit section maps to 1 in degree zero.
+
+**Checks.**
+
+- At n=0, multiplication by ν is discarded: ∇_0(f)=df and ∇_0(1)=0.
+  For dim A=0 the same holds at every n, since H=0.
+- At n=1, in a local invariant coordinate direction ∂_t with ν(∂_t)=h,
+  (∇_1 1)(∂_t)=h, with coefficient +1. Replacing d+ν by d−ν gives −h,
+  and the trivial connection gives 0; flatness alone would not distinguish them.
+- At n=2, for the constant section h in that direction,
+  (∇_2 h)(∂_t)=h·h=2h^[2]. Ordinary polynomial multiplication would give
+  coefficient 1. At n=1 this value truncates to 0, agreeing with ∇_1h=0.
+- For two constant directions with ν(∂_s)=h and ν(∂_t)=k, the curvature
+  coefficient is h·k−k·h=0. For h=k, both products are 2h^[2]; this
+  checks commutativity without losing the shuffle factor.
+
+([KS][KS], Definitions 3.2–3.3 and Theorem 3.5, PDF pp.30–32,
+KS line 1308–1329 and KS line 1360–1409).
 
 *Needs:* [P3](#layer-p3-logarithm-and-smooth-realizations), Square-zero deformation and the
 logarithm class; [P0](#layer-p0-symmetric-tensors-and-moment-coefficients), Shuffle multiplication and
