@@ -192,7 +192,8 @@ Prove `IsGrothendieckUniverse.isInaccessible_card`: a universe `U` with `ZFSet.o
 inaccessible cardinality, and `IsGrothendieckUniverse.eq_vonNeumann_card`: `U = V_ (card U).ord`
 (Williams 1969, Theorem 2, p. 3, with Theorem 1). Zermelo 1930 proves the second-order form: the
 models of his axioms (« Normalbereiche ») are the `V_κ` with `κ` a « Grenzzahl », and each is
-determined by `κ`. *Needs:* 1.1, 1.2.
+determined by `κ`; an English translation of Zermelo 1930 is in Ewald 1996, vol. II,
+pp. 1208–1233. *Needs:* 1.1, 1.2.
 
 **Checks.**
 
@@ -316,6 +317,10 @@ of the universe machinery the cohomological applications need.
   (by N. Bourbaki). doi:10.1007/BFb0081551; Zbl 0234.00007.
 - E. Zermelo, « Über Grenzzahlen und Mengenbereiche. Neue Untersuchungen über die Grundlagen der
   Mengenlehre », *Fund. Math.* 16 (1930), 29–47. doi:10.4064/fm-16-1-29-47.
+- W. B. Ewald (ed.), *From Kant to Hilbert: A Source Book in the Foundations of Mathematics*,
+  vol. II, Oxford University Press, 1996, chapter « Ernst Friedrich Ferdinand Zermelo
+  (1871–1953) », pp. 1208–1233 (« On boundary numbers and domains of sets »).
+  doi:10.1093/oso/9780198505365.003.0011.
 - N. Bourbaki, *Théorie des ensembles*, Hermann, 1970 (Bourbaki 1970), ch. II and III. Zbl
   0282.04001; ch. III, 2nd ed., 1963, Zbl 0125.00603. English: *Theory of Sets*, Hermann /
   Addison-Wesley, 1968; Springer, 2004. Zbl 0175.27001; Zbl 1061.03001.
