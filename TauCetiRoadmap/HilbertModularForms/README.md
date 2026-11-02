@@ -146,8 +146,8 @@ parallel-weight theory. Weight zero and negative weights are additional analytic
   groups `Γ₀(𝔫)_𝔟`; their identification with the polarization classes of H3 is cited, not rebuilt.
 - From [Quaternionic modular forms](../QuaternionicModularForms/README.md): the spaces of forms on
   a totally definite quaternion algebra (its §2.1), their Hecke action (§3.1), the class sets and
-  stabilizers (§0.3); and from the sibling `QuaternionArithmetic` roadmap the Brandt matrices of
-  an Eichler order. Layer 10 states the dictionary against these objects.
+  stabilizers (§0.3). Layer 10 uses the matrices of its Hecke action on the class-set basis,
+  formed with Mathlib `LinearMap.toMatrix`, and states the dictionary against these objects.
 - From [Adelic algebraic groups](../AdelicAlgebraicGroups/README.md): the `S`-arithmetic
   decomposition and the strong approximation theorem for the norm-one group `D¹` of a central
   simple algebra (its §4.2), applied to `D = M₂(F)`, where `D¹ = SL₂`. The finiteness of the
@@ -172,14 +172,14 @@ parallel-weight theory. Weight zero and negative weights are additional analytic
   sibling `HilbertModularSurfaces` roadmap; this roadmap proves finite dimensionality and no
   closed dimension formula.
 - **Quaternion algebras**, Eichler orders, class sets and Brandt matrices: Quaternionic modular
-  forms and the sibling `QuaternionArithmetic` roadmap.
+  forms §§0.1–0.3 and 3.1; the basis-matrix presentation in §10.3 uses that action.
 - **Modularity of elliptic curves** over totally real fields, and the conductor and local data
   of a curve over a number field: potential modularity over an extension is supplied by
   [PotentialModularityAndCompatibleSystems](../PotentialModularityAndCompatibleSystems/README.md) §5.1
   for given lifts satisfying its residual and local-type hypotheses.
   Base-field modularity and full local-factor comparison are separate explicit inputs to §11.3;
-  the curve-side invariants are the [Elliptic curves](../EllipticCurves/README.md) roadmap's and
-  the sibling `EllipticCurvePeriodsAndModularParametrizations`'. Layer 11 states the matching
+  the basic curve carrier is from [EllipticCurves](../EllipticCurves/README.md), and §11.3 states
+  the exact additional full-local-factor input needed by its comparison. Layer 11 states the matching
   predicate between a newform and a trace-of-Frobenius function.
 - **Bianchi modular forms** (imaginary quadratic base fields): the sibling `BianchiModularForms`
   roadmap.
@@ -401,14 +401,14 @@ with sign).
 
 ### 1.4 Cusps
 
-The boundary is `ℙ¹(F)`, acted on by `GL₂⁺(F)`. Define the cusp set Cusps Γ := Γ \ ℙ¹(F) for
+The boundary is `ℙ¹(F)`, acted on by `GL₂⁺(F)`. Define the cusp set C(Γ) := Γ \ ℙ¹(F) for
 `Γ = Γ₀(𝔫)_𝔟`. Prove: the map `(a : c) ↦ [a𝒪_F + c𝔟⁻¹] ∈ ClassGroup (𝓞 F)` is constant on
-`Γ_𝔟`-orbits and induces a bijection Cusps Γ_𝔟 ≃ ClassGroup (𝓞 F), so `Γ_𝔟` has `h_F` cusps;
-Cusps Γ₀(𝔫)_𝔟 is finite, of cardinality at most `h_F · [PΓ_𝔟 : PΓ₀(𝔫)_𝔟]`; the stabilizer
+`Γ_𝔟`-orbits and induces a bijection C(Γ_𝔟) ≃ ClassGroup (𝓞 F), so `Γ_𝔟` has `h_F` cusps;
+C(Γ₀(𝔫)_𝔟) is finite, of cardinality at most `h_F · [PΓ_𝔟 : PΓ₀(𝔫)_𝔟]`; the stabilizer
 `Γ_κ` of a cusp `κ` is conjugate in `GL₂⁺(F)` to a group of upper triangular matrices
 `(ε b; 0 ε')` whose translation part `Λ_κ := {b : (1 b; 0 1) ∈ γ⁻¹Γγ}` is a full lattice in `F` and
 whose unit part `U_κ := {ε/ε'}` is a finite-index subgroup of `𝒪_{F,+}^×`. Prove the squarefree
-count: for squarefree `𝔫`, #Cusps Γ₀(𝔫)_𝔟 = h_F · 2^{ω(𝔫)}, through the parametrization of
+count: for squarefree `𝔫`, `#C(Γ₀(𝔫)_𝔟) = h_F · 2^{ω(𝔫)}`, through the parametrization of
 cusps by pairs `(𝔞, [·])` with `𝔞 ∣ 𝔫` and a class. The analogous count with the unit quotient
 `(𝒪_F/(𝔞 + 𝔫𝔞⁻¹))^×/𝒪_{F,+}^×` for non-squarefree `𝔫` is a milestone of the same shape and is
 stated with that quotient explicit.
@@ -524,7 +524,7 @@ linearity in `f`. Define the constant terms `a_0(f_𝔟)`.
 For `f ∈ M_k(Γ)` and `γ ∈ GL₂⁺(F)`, prove that `f ∣_k γ ∈ M_k(γ⁻¹Γγ)` and that `γ⁻¹Γγ` again
 contains a full translation lattice and a finite-index unit group, so `f ∣_k γ` has an expansion
 and a constant term `a_0(f ∣_k γ)` (2.1–2.2). Prove that `a_0(f ∣_k γ)` depends only on the cusp
-γ • ∞ ∈ Cusps Γ up to a nonzero scalar (`a_0(f ∣_k γδ) = ∏_w σ_w(det δ)^{k_w+m_w-1} σ_w(d)^(−k_w) a_0(f ∣_k γ)`
+γ • ∞ ∈ C(Γ) up to a nonzero scalar (`a_0(f ∣_k γδ) = ∏_w σ_w(det δ)^{k_w+m_w-1} σ_w(d)^(−k_w) a_0(f ∣_k γ)`
 for an upper triangular δ=(a b;0 d) fixing ∞; both diagonal entries are nonzero), hence that the vanishing of `a_0(f ∣_k γ)` is a property of the
 cusp. Prove **cuspidality in non-parallel weight**: if `k` is not parallel, then every constant
 term vanishes (the unit law of 2.3 at `μ = 0` reads `a_0 = ∏_w ε_w^{-m_w} a_0` for `ε ∈ U_κ`, and
@@ -535,7 +535,7 @@ term vanishes (the unit law of 2.3 at `μ = 0` reads `a_0 = ∏_w ε_w^{-m_w} a_
 ### 2.6 Cusp forms
 
 Define `S_k(Γ) := {f ∈ M_k(Γ) : ∀ γ ∈ GL₂⁺(F), a_0(f ∣_k γ) = 0}` and prove it equals the
-kernel of the finite family of constant-term maps indexed by Cusps Γ (2.5). Prove that
+kernel of the finite family of constant-term maps indexed by C(Γ) (2.5). Prove that
 `S_k(Γ)` is stable under `f ↦ f ∣_k γ` for `γ ∈ GL₂⁺(F)` (as a map `S_k(Γ) → S_k(γ⁻¹Γγ)`), under
 the restriction maps, and that `M_k(Γ) · S_{k'}(Γ) ⊆ S_{k+k'}(Γ)`. Prove the **decay at cusps**:
 for `f ∈ S_k(Γ)` and every `γ`, `(f ∣_k γ)(z) → 0` as `min_w Im z_w → ∞`, uniformly in `Re z`,
@@ -592,7 +592,7 @@ parallelotope for `Λ_κ` and `𝒞_t ⊂ (ℝ_{>0})^Σ` is the set of `y` with 
 fixed closed fundamental cone for the action of `U_κ` by `y ↦ ε y` (Mathlib's
 `NumberField.mixedEmbedding.fundamentalCone` restricted to the positive orthant and to the
 finite-index subgroup `U_κ`). Prove the **reduction theorem**: there is `t > 0` such that
-ℍ^Σ = Γ · ⋃_{κ ∈ Cusps Γ} 𝔖_κ(C_κ, t) — every orbit meets one of finitely many Siegel sets
+`ℍ^Σ = Γ · ⋃_{κ ∈ C(Γ)} 𝔖_κ(C_κ, t)` — every orbit meets one of finitely many Siegel sets
 (Freitag, Ch. I §2; the classical proof through the minimum of `N(Im(γ•z))⁻¹ = N(|j(γ,z)|²)/N(Im z)`
 over `Γ`, whose existence is the finiteness of lattice points in a compact set). Prove the
 **Siegel-set finiteness**: the image of `{γ ∈ Γ : γ 𝔖_κ ∩ 𝔖_{κ'} ≠ ∅}` in the projective
@@ -675,8 +675,8 @@ is again in `S_k(Γ)` (0.2 and dominated convergence for the cusp decay of 2.6),
 ball is compact in the `L²` topology; a Hilbert space with compact unit ball is finite
 dimensional (Mathlib `FiniteDimensional.of_isCompact_closedBall₀`). Then prove
 `FiniteDimensional ℂ (M_k(Γ))` from the exact sequence
-0 → S_k(Γ) → M_k(Γ) → ℂ^{Cusps Γ} of constant-term maps (2.5), and the bound
-finrank M_k(Γ) ≤ finrank S_k(Γ) + #Cusps Γ. Deduce `FiniteDimensional ℂ (M_k(𝔫; R))`, and that for `k₀ ≤ 0` the only forms are the
+`0 → S_k(Γ) → M_k(Γ) → ℂ^{C(Γ)}` of constant-term maps (2.5), and the bound
+finrank M_k(Γ) ≤ finrank S_k(Γ) + #C(Γ). Deduce `FiniteDimensional ℂ (M_k(𝔫; R))`, and that for `k₀ ≤ 0` the only forms are the
 constants in weight `0` (maximum principle for `|f|` on the finite-volume quotient, using the
 boundedness of 2.2).
 
@@ -725,10 +725,10 @@ is `-3/(πy)`; its vanishing is what distinguishes the Hilbert case.) Prove `E_�
 
 ### 4.3 The decomposition `M_k = S_k ⊕ E_k`
 
-For even parallel `k ≥ 2` define E_k(Γ) := span {E_κ : κ ∈ Cusps Γ} and prove
-`M_k(Γ) = S_k(Γ) ⊕ E_k(Γ)` with finrank E_k(Γ) = #Cusps Γ (the constant-term matrix is the
+For even parallel `k ≥ 2` define E_k(Γ) := span {E_κ : κ ∈ C(Γ)} and prove
+`M_k(Γ) = S_k(Γ) ⊕ E_k(Γ)` with finrank E_k(Γ) = #C(Γ) (the constant-term matrix is the
 identity), that the sum is orthogonal for the Petersson product whenever it converges, and
-finrank M_k(Γ₀(𝔫)_𝔟) = finrank S_k(Γ₀(𝔫)_𝔟) + #Cusps Γ₀(𝔫)_𝔟. Deduce `|c(𝔪, f)| ≤ C_f N𝔪^{k-1}` for even parallel `k ≥ 4`, using
+finrank M_k(Γ₀(𝔫)_𝔟) = finrank S_k(Γ₀(𝔫)_𝔟) + #C(Γ₀(𝔫)_𝔟). Deduce `|c(𝔪, f)| ≤ C_f N𝔪^{k-1}` for even parallel `k ≥ 4`, using
 `σ_{k-1}(𝔪)/N𝔪^{k-1} ≤ ζ_F(k-1)`. At `k = 2` retain the divisor-sum bound
 `|c(𝔪, f)| ≤ C_f σ_1(𝔪)` and hence, for every real `ε > 0`,
 `|c(𝔪, f)| ≤ C_{f,ε} N𝔪^{1+ε}`. The cuspidal contribution satisfies §3.3. For
@@ -1482,7 +1482,8 @@ Poincaré-type series of weight `k` in each variable: for `k > 2` it converges a
 lattice-point counting of 4.1, and for `k = 2` it is defined by Hecke's trick with the limit
 analysis of 4.2 (the same `n = 2` cancellation). Record that
 `g ↦ f_g` intertwines `T_p` with each of `T_𝔭` and `T_{𝔭'}` separately at split `p`, that `f_g = f_{g^ρ}`, and that
-`f_g ≠ 0` (`c(𝒪_F, f_g) = 1`).
+`f_g ≠ 0` (`c(𝒪_F, f_g) = 1`) (Zagier, §5, equations (95a)–(95c), p. 32,
+Theorem 5, p. 33, and Appendix 1, p. 42).
 
 *Rests on:* 2.3, 4.1, 4.2, 5.4, 7.4, 8.1, 9.4; Modular Forms Layers 4 and 7 (the newform `g`,
 its nebentypus, its Euler factors and conjugate).
@@ -1541,8 +1542,8 @@ R17.3 milestones.
 ### 10.3 Brandt matrices and traces
 
 Define nothing new: for the Eichler order of 10.2, the Brandt matrices `B(𝔭)` are the matrices
-of the Hecke operators of Quaternionic modular forms §3.1 on the class-set basis, as the sibling
-`QuaternionArithmetic` roadmap defines them. Prove the **trace identity**
+of the Hecke operators of QuaternionicModularForms §3.1 on its §0.3 class-set basis,
+using Mathlib `LinearMap.toMatrix`. Prove the **trace identity**
 `Tr(T_𝔭 ∣ S_2(𝔫; R)^{𝔇-new}) = Tr(B(𝔭)) - Tr(T_𝔭 ∣ E_norm)`
 where `E_norm` is the norm-factoring subspace. Its trace is
 `(N𝔭 + 1) Σ_χ χ([𝔭])`, with multiplicities and the actual norm characters occurring
@@ -1869,7 +1870,9 @@ Automorphic bundles. Layers 8, 9, 10 are independent of one another after Layer 
   LMFDB's data documentation cites.
 - K. Doi and H. Naganuma, "On the functional equation of certain Dirichlet series", *Invent.
   Math.* 9 (1969), 1–14; D. Zagier, "Modular forms associated to real quadratic fields", *Invent.
-  Math.* 30 (1975), 1–46 — the Doi–Naganuma lift and its kernel function (9.6).
+  Math.* 30 (1975), 1–46, §5, equations (95a)–(95c), Theorem 5 and Appendix 1 —
+  the Doi–Naganuma lift and its kernel function (9.6);
+  [author copy](https://people.mpim-bonn.mpg.de/zagier/files/doi/10.1007/BF01389846/ModFormsRQF.pdf).
 - T. Miyake, *Modular Forms*, Springer, 1989, §§4.5–4.6: the `F = ℚ` newform theory whose shape
   Layer 7 follows, and the source of the Modular Forms roadmap's conventions.
 - F. Diamond and J. Shurman, *A First Course in Modular Forms*, GTM 228, Springer, 2005,
