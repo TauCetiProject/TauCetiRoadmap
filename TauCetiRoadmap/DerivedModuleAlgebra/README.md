@@ -1,4 +1,4 @@
-# Derived module algebra
+# Roadmap: derived module algebra
 
 **Summary.** Construct the module algebra underlying cotangent complexes, integral derived powers,
 unbounded derived tensor and Hom in `D(R)`, inverse limits and completion. Polynomial laws and divided-power
@@ -15,38 +15,22 @@ limits and completion, ordinary-module perfectness and finite models, perfect in
 effectivity, and the specified Matlis and spectral-sequence contracts. Objects and comparisons use
 Mathlib's carriers and the pinned Tau Ceti APIs.
 
-| Owner | Tower interfaces exported | Inputs consumed by this roadmap |
-| --- | --- | --- |
-| DerivedModuleAlgebra §§1.T.1/1.1 | Native towers `ℕᵒᵖ ⥤ ModuleCat R`, the product difference map, `lim` and `lim¹`, tower-map and product compatibility, the six-term sequence, Mittag–Leffler vanishing, integer-graded Milnor sequences, shifted-cone derived limits, cofinal comparisons and maps retaining specified square homotopies. The integral-module adapter preserves the projections, boundaries and Milnor maps. | Mathlib's module, functor-category, exact-product, Mittag–Leffler and complex APIs, together with the module replacements constructed here. |
-| [AlgebraicTopology, Stages 2–3 and Stage 6, item 1](../AlgebraicTopology/README.md#stage-6-cohomology-products-and-manifold-duality) | Singular chains and cochains, local coefficients, relative and excision comparisons. Adapters from topological filtrations and exhaustions to module towers belong with these topological constructions; their generic tower operations use §§1.T.1/1.1 here. | None: the module-tower foundation uses no topological results. |
+The generic module-tower theory belongs to
+[AlgebraicTopology, Stage 6, item 0](../AlgebraicTopology/README.md#stage-6-cohomology-products-and-manifold-duality):
+product difference maps, kernels and cokernels, the six-term sequence, Mittag–Leffler vanishing,
+integer-graded Milnor sequences, the shifted-cone model, cofinal comparisons and specified
+homotopy-square maps. This roadmap adds localization of that complex-level model on the derived
+category of strict diagrams and its exact-functor comparison (§1.1). Topological tower adapters
+remain with AlgebraicTopology Stages 2–3 and Stage 6.
 
-## Exact supplier contracts
-
-There are no roadmap dependencies. Every target uses Mathlib, implemented Tau Ceti APIs and earlier
-sections here. Missing constructions specified below are targets in Tau Ceti; adopt Mathlib's design
-and declarations as they become available. The README is definitive; `Suggested.lean` states only
-the headline theorems that are statable against the pinned libraries, with the few definitions they need.
-
-| Supplier | Exact input |
-| --- | --- |
-| Mathlib polynomial laws and divided powers | `PolynomialLaw`, its scalar-extension evaluation, identity and composition; `DividedPowerAlgebra`, generators, lift and map, the zero-ideal PD structure and kernel/span APIs. §§0.DP.1–0.DP.3 construct homogeneity, multiplicativity, homogeneous pieces, Roby representability and augmentation theory. |
-| Mathlib exterior powers and regular sequences | `ExteriorAlgebra.exteriorPower`, multilinear generators and maps, `RingTheory.Sequence.IsWeaklyRegular`; §0.K.1 constructs the linear-functional Koszul complex and its tensor, homotopy and resolution contracts. |
-| Mathlib homological and categorical algebra | Complexes, quasi-isomorphisms, K-injectivity, enough injectives in module categories, `DerivedCategory`, `DerivedCategory.Q`, single and homology functors, Dold–Kan, augmented simplicial objects, filtered colimits, tensor, Hom and `CategoryTheory.Tor`. §§0.I.1, 0.1–0.3 and 1.1.1 construct the unbounded module replacements and derived operations. |
-| Mathlib cotangent and flatness inputs | `Algebra.Extension`, `Algebra.H1Cotangent`, Kähler differentials, Jacobi–Zariski, `Derivation`, `derivationToSquareZeroEquivLift`, `Module.Flat.exists_factorization_of_finitePresentation`, finite free modules, localizations and smoothness. §§0.4–0.17 and 0.25 construct the full complex, powers and deformation theory. |
-| Mathlib towers, completion and spectral objects | Abelian groups, `CategoryTheory.Functor.IsMittagLeffler`, exact products, snake lemma, `AdicCompletion`, spectral objects and `HomologicalComplex₂.total`; §§1.T.1, 1.1–1.9, 1.E.0–1.E.1, 1.M.1–1.M.2 and S.1 construct the additional limits, completions, duality and abutment maps. |
-| Tau Ceti Artin–Rees | `TauCeti.ArtinRees.exists_controlled_lift` in `TauCeti.RingTheory.Ideal.ArtinRees`: controlled lifts in finite modules over Noetherian rings, used in §1.5 to make higher Koszul homology pro-zero. |
-| Tau Ceti injective envelopes | `TauCeti.IsInjectiveEnvelope`, `isEssential_range` and `exists_linearEquiv` in `TauCeti.Algebra.Module.Injective.Envelope.Basic`: essential injective embeddings and uniqueness; §1.M.2 constructs hull existence and the completion action. |
-
-## How to read the build
-
-The sections are in construction order. Sections 0.DP.1–0.DP.3 and 0.K.1 build the polynomial-law,
-divided-power and Koszul inputs; §§0.I.1–0.3 the unbounded module replacements, derived tensor and
-non-additive derived functors; §§0.4–0.25 the cotangent complex, its powers and deformation theory.
-Sections 1.T.1–1.9 build towers and derived limits, derived Hom, derived completeness and the
-completion reflector, simplicial-algebra completion and complete flatness; §§1.E.0–1.E.1 perfect
-complexes, finite models and effectivity; §§1.M.1–1.M.2 Matlis duality; §S.1 the spectral sequence
-of a first-quadrant double complex. Each target's *Needs* line names the earlier sections and library
-inputs that its statement and route use.
+The sheaf enhancement, point-site and affine comparisons belong to EnhancedDerivedSheaves
+§§0.1–0.3 and E1.F3.H1/E1.8.DMA.1. The DG/module realization, dualizable comparison and traces
+belong to EtaleCohomologyFoundations F.10.3: its realization is an equivalence onto the full
+subcategory of ordinary perfect module complexes, natural in maps and coefficients and compatible
+with shifts, scalar extension, tensor, duals and finite filtrations; on finite-projective
+representatives its trace is the alternating termwise trace. KhovanovHomology K5 owns its bounded
+projective resolution model over the dual numbers, with quantum gradings, dot actions and the
+connected-sum comparison; §0.2 here supplies the comparison with general module-derived tensor.
 
 ## Conventions
 
@@ -57,7 +41,39 @@ degree `−n`, and `[1]` shifts a discrete module to degree `−1`. Connective m
 Towers have transitions from `n+1` to `n`, and limits retain their module actions and all connecting maps.
 Every derived completion functor and unit carries a finite-generation witness for the ideal.
 
-The sections below are in construction order; §0.7 precedes §0.6 while retaining their labels.
+The section labels identify the mathematical contracts; §0.7 precedes §0.6 in construction order.
+
+
+## Exact supplier contracts
+
+The tower supplier is AlgebraicTopology Stage 6, item 0. Other targets use Mathlib,
+implemented Tau Ceti APIs and earlier sections here. Missing constructions specified below are targets in Tau Ceti; adopt Mathlib's design
+and declarations as they become available. The README is definitive; `Suggested.lean` states only
+the headline theorems that are statable against the pinned libraries, with the few definitions they need.
+
+| Supplier | Exact input |
+| --- | --- |
+| From TauCetiRoadmap.AlgebraicTopology, Stage 6, item 0 | For every unital ring, native module towers, the linear difference map δ(x)ₙ = xₙ − φₙ(xₙ₊₁), its kernel and cokernel, functoriality and products, six-term boundaries, Mittag–Leffler vanishing, integer-graded Milnor maps, the shifted cone, cofinal reindexing, specified square homotopies and the surjective-tower comparison. These are the inputs to §1.1, §1.1.1 and the completion and effectivity layers. |
+| From Mathlib polynomial laws and divided powers | `PolynomialLaw`, its scalar-extension evaluation, identity and composition; `DividedPowerAlgebra`, generators, lift and map, the zero-ideal PD structure and kernel/span APIs. §§0.DP.1–0.DP.3 construct homogeneity, multiplicativity, homogeneous pieces, Roby representability and augmentation theory. |
+| From Mathlib exterior powers and regular sequences | `ExteriorAlgebra.exteriorPower`, multilinear generators and maps, `RingTheory.Sequence.IsWeaklyRegular`; §0.K.1 constructs the linear-functional Koszul complex and its tensor, homotopy and resolution contracts. |
+| From Mathlib homological and categorical algebra | Complexes, quasi-isomorphisms, K-injectivity, enough injectives in module categories, `DerivedCategory`, `DerivedCategory.Q`, single and homology functors, Dold–Kan, augmented simplicial objects, filtered colimits, tensor, Hom and `CategoryTheory.Tor`. §§0.I.1, 0.1–0.3 and 1.1.1 construct the unbounded module replacements and derived operations. |
+| From Mathlib cotangent and flatness inputs | `Algebra.Extension`, `Algebra.H1Cotangent`, Kähler differentials, Jacobi–Zariski, `Derivation`, `derivationToSquareZeroEquivLift`, `Module.Flat.exists_factorization_of_finitePresentation`, finite free modules, localizations and smoothness. §§0.4–0.17 and 0.25 construct the full complex, powers and deformation theory. |
+| From Mathlib towers, completion and spectral objects | Abelian groups, `CategoryTheory.Functor.IsMittagLeffler`, exact products, snake lemma, `AdicCompletion`, spectral objects and `HomologicalComplex₂.total`; §§1.1–1.9, 1.E.0–1.E.1, 1.M.1–1.M.2 and S.1 construct the additional limits, completions, duality and abutment maps. |
+| From Tau Ceti Artin–Rees | `TauCeti.ArtinRees.exists_controlled_lift` in `TauCeti.RingTheory.Ideal.ArtinRees`: controlled lifts in finite modules over Noetherian rings, used in §1.5 to make higher Koszul homology pro-zero. |
+| From Tau Ceti injective envelopes | `TauCeti.IsInjectiveEnvelope`, `isEssential_range` and `exists_linearEquiv` in `TauCeti.Algebra.Module.Injective.Envelope.Basic`: essential injective embeddings and uniqueness; §1.M.2 constructs hull existence and the completion action. |
+
+## How to read the build
+
+Layers 0–6 follow construction order and retain the section locators used by consumers. Sections 0.DP.1–0.DP.3 and 0.K.1 build the polynomial-law,
+divided-power and Koszul inputs; §§0.I.1–0.3 the unbounded module replacements, derived tensor and
+non-additive derived functors; §§0.4–0.25 the cotangent complex, its powers and deformation theory.
+Sections 1.1–1.9 localize the supplied tower model and build derived Hom, derived completeness and the
+completion reflector, simplicial-algebra completion and complete flatness; §§1.E.0–1.E.1 perfect
+complexes, finite models and effectivity; §§1.M.1–1.M.2 Matlis duality; §S.1 the spectral sequence
+of a first-quadrant double complex. Each target's *Needs* line names the earlier sections and library
+inputs that its statement and route use.
+
+## Layer 0: polynomial laws, divided powers and Koszul complexes
 
 ### 0.DP.1 Homogeneous and multiplicative laws
 
@@ -66,13 +82,11 @@ The sections below are in construction order; §0.7 precedes §0.6 while retaini
 `A`-algebra `S`, Mathlib's `PolynomialLaw`; `S` ranges over commutative `A`-algebras in the universe
 of `A`, as in Mathlib's `PolynomialLaw`, whose extension to all universes is Mathlib's `toFun`. Such
 a law is homogeneous of degree `n` if `f_S(s·x) = s^n·f_S(x)` for every commutative `A`-algebra `S`,
-`s ∈ S` and `x ∈ S ⊗_A M`. Define the predicate `PolynomialLaw.IsHomogeneousOfDegree` and prove
+`s ∈ S` and `x ∈ S ⊗_A M`. Define this homogeneity predicate and prove
 that the zero law is homogeneous of every degree, that homogeneity of a fixed degree is closed under
 addition, that composition multiplies degrees, and that a law has degree one iff it is the base
 change of a linear map ([Chenevier](https://arxiv.org/pdf/0809.0415v2), §1.1, pp.6–7). *Needs:*
 Mathlib `PolynomialLaw`, `PolynomialLaw.comp`, `TensorProduct`.
-*Lean:* `PolynomialLaw.IsHomogeneousOfDegree`; the second Check below is stated in `Suggested.lean` as
-`PolynomialLaw.exists_homogeneous_ground_zero_ne_zero`.
 
 **Checks.**
 
@@ -88,12 +102,10 @@ Mathlib `PolynomialLaw`, `PolynomialLaw.comp`, `TensorProduct`.
 **Multiplicative polynomial laws.** For `A`-algebras `R` and `B`, associative and unital but not
 necessarily commutative, an `A`-polynomial law `f : R → B` is multiplicative if `f_S(1) = 1` and
 `f_S(xy) = f_S(x)f_S(y)` for every commutative `A`-algebra `S` and `x, y ∈ S ⊗_A R`, where the ring
-structure on `S ⊗_A R` is Mathlib's `Algebra.TensorProduct` ring structure. Define the predicate
-`PolynomialLaw.IsMultiplicative` and prove that the identity is multiplicative, that multiplicative
+structure on `S ⊗_A R` is Mathlib's `Algebra.TensorProduct` ring structure. Define this multiplicativity predicate and prove that the identity is multiplicative, that multiplicative
 laws compose, and that the multiplicative laws of degree one to `A` are the `A`-algebra maps
 ([Chenevier](https://arxiv.org/pdf/0809.0415v2), §1.1, p.8). *Needs:* Mathlib `PolynomialLaw`,
 `PolynomialLaw.id`, `PolynomialLaw.comp`, `Algebra.TensorProduct.instRing`.
-*Lean:* `PolynomialLaw.IsMultiplicative`.
 
 **Checks.**
 
@@ -259,14 +271,14 @@ characteristic, factorial invertibility or nilpotence hypothesis is imposed.
 
 The API:
 
-- `Crystalline.Augmentation.augmentation_eq_lift`: ε equals DividedPowerAlgebra.lift of
+- ε equals DividedPowerAlgebra.lift of
   dividedPowersBot R along the zero linear map M→R.
-- `Crystalline.Augmentation.augmentation_dp`: ε(dp(n,m)) is 1 when n=0 and 0 otherwise.
-- `Crystalline.Augmentation.augmentation_scalar`: ε(algebraMap(r))=r for all r∈R.
-- `Crystalline.Augmentation.augmentation_natural`: For every R-linear f:M→N, ε_N∘Γ(f)=ε_M.
-- `Crystalline.Augmentation.augmentation_unique`: An R-algebra homomorphism Γ_R(M)→R killing every
+- ε(dp(n,m)) is 1 when n=0 and 0 otherwise.
+- ε(algebraMap(r))=r for all r∈R.
+- For every R-linear f:M→N, ε_N∘Γ(f)=ε_M.
+- An R-algebra homomorphism Γ_R(M)→R killing every
   dp(n,m) with n>0 equals ε.
-- `Crystalline.Augmentation.augmentation_map`: For an R-algebra S, an S-module N whose R-module
+- For an R-algebra S, an S-module N whose R-module
   structure is the restriction of its S-module structure, and an R-linear map f:M→N:
   ε_S(DividedPowerAlgebra.map S f (z))=algebraMap R S (ε_R(z)) for all z∈Γ_R(M), where ε_R and ε_S
   are the augmentations of Γ_R(M) and Γ_S(N). For S=R this is augmentation_natural.
@@ -315,12 +327,12 @@ characteristic, factorial invertibility or nilpotence hypothesis is imposed.
 
 The API:
 
-- `Crystalline.Augmentation.augmentationIdeal_eq_ker`: Γ_R(M)_+=RingHom.ker(ε).
-- `Crystalline.Augmentation.mem_augmentationIdeal`: z∈Γ_R(M)_+ if and only if ε(z)=0.
-- `Crystalline.Augmentation.dp_mem_augmentationIdeal`: For n≠0, dp(n,m)∈Γ_R(M)_+.
-- `Crystalline.Augmentation.scalar_mem_augmentationIdeal`: algebraMap(r)∈Γ_R(M)_+ if and only if
+- Γ_R(M)_+=RingHom.ker(ε).
+- z∈Γ_R(M)_+ if and only if ε(z)=0.
+- For n≠0, dp(n,m)∈Γ_R(M)_+.
+- algebraMap(r)∈Γ_R(M)_+ if and only if
   r=0.
-- `Crystalline.Augmentation.map_mem_augmentationIdeal`: For an R-algebra S, an S-module N whose
+- For an R-algebra S, an S-module N whose
   R-module structure is the restriction of its S-module structure, and an R-linear map f:M→N:
   DividedPowerAlgebra.map S f carries Γ_R(M)₊ into Γ_S(N)₊. In particular Γ(f)(Γ_R(M)₊)⊂Γ_R(N)₊ for
   every R-linear f:M→N.
@@ -410,11 +422,11 @@ characteristic, factorial invertibility or nilpotence hypothesis is imposed.
 
 The API:
 
-- `Crystalline.Augmentation.augmentationSplitting_fst`: The first coordinate of the image of z is
+- The first coordinate of the image of z is
   ε(z).
-- `Crystalline.Augmentation.augmentationSplitting_snd`: The underlying algebra element of the second
+- The underlying algebra element of the second
   coordinate is z−algebraMap(ε(z)).
-- `Crystalline.Augmentation.augmentationSplitting_symm`: The inverse sends (r,u) to algebraMap(r)+u.
+- The inverse sends (r,u) to algebraMap(r)+u.
 
 *Proof sketch.* Augment the remainder: ε(z)−ε(algebraMap(ε(z)))=0; this gives the subtype membership
 proof. Both coordinate functions and the proposed inverse are R-linear by the algebra maps and
@@ -426,9 +438,9 @@ above prove the arbitrary-module splitting on Roby's algebra
 
 **Checks.**
 
-- `augmentationSplitting_test_scalar`: Every scalar r maps to (r,0).
-- `augmentationSplitting_test_ideal`: Every u∈Γ_R(M)_+ maps to (0,u).
-- `augmentationSplitting_test_addition`: For r∈R and u∈Γ_R(M)₊: algebraMap(r)+u maps to (r,u).
+- Every scalar r maps to (r,0).
+- Every u∈Γ_R(M)_+ maps to (0,u).
+- For r∈R and u∈Γ_R(M)₊: algebraMap(r)+u maps to (r,u).
 - A scalar r maps to (r,0), and an element u of Γ_R(M)₊ maps to (0,u).
 - 3+dp(2,m) maps to (3,dp(2,m)).
 
@@ -517,8 +529,6 @@ uses Roby's generator presentation
 **Degree one does not generate the augmentation ideal.** In Γ_F₂(F₂), dp(2,1) is not in the ordinary
 ideal generated by {embed(a) | a∈F₂}.
 
-`Suggested.lean` declares `PD.dp_two_not_mem_span_dp_one`.
-
 *Hypotheses.* The base ring and module are both F₂=ZMod 2.
 
 *Proof sketch.* Take the preceding ordinary algebra homomorphism to the square-zero extension. Every
@@ -585,6 +595,16 @@ finite-sequence complex of this section.
   acyclicity needs regularity: a definition asserting acyclicity without the weak-regularity
   hypothesis would be refuted by `ℤ/4`.
 
+### Examples
+
+For R = ℤ and M = ℤ, γ₁(1)² = 2γ₂(1); over 𝔽₂ the square is zero while γ₂(1) is nonzero. For a prime p, the Koszul complex of (p) is [ℤ →p ℤ], with H⁰ = ℤ/p and H⁻¹ = 0.
+
+### Dependencies
+
+Mathlib polynomial laws, divided powers, exterior powers and regular sequences.
+
+## Layer 1: replacements, tensor products and simplicial comparisons
+
 ### 0.I.1 K-injective and K-flat replacements — point-site K-injective clause
 
 **Module K-injective replacements.** For any ring `R`, construct
@@ -613,12 +633,11 @@ Grothendieck abelian APIs for modules.
 
 ### 0.1 Simplicial polynomial resolutions
 
-For a ring map `A → B`, a *polynomial resolution* `Algebra.CotangentComplex.PolynomialResolution A B`
+For a ring map `A → B`, a *polynomial resolution* of B over A
 is an augmented simplicial commutative `A`-algebra `ε : P• → B` with every `P_n` a polynomial
 `A`-algebra on a specified set of variables, such that `ε` is a trivial Kan fibration of simplicial
 sets; equivalently `ε` is a quasi-isomorphism on alternating face complexes, or a homotopy equivalence
-of simplicial sets ([StacksCt] Remark 5.5, Tag 08QI, p.9). The *standard resolution*
-`Algebra.CotangentComplex.standardResolution A B` is the comonad resolution of the free-polynomial /
+of simplicial sets ([StacksCt] Remark 5.5, Tag 08QI, p.9). The *standard resolution* is the comonad resolution of the free-polynomial /
 forgetful adjunction, `P_0 = A[B]`, `P_(n+1) = A[P_n]` ([StacksCt] Definition 3.1, Tag 08PM, p.2);
 it is a polynomial resolution, carries an extra degeneracy after forgetting to sets, and is functorial
 in commutative squares `(A → B) → (A′ → B′)`. For any functor `F` from polynomial `A`-algebras over
@@ -634,24 +653,24 @@ This comparison takes place in the derived category of the values of `F`.
 *Needs:* Mathlib `SimplicialObject.Augmented`, `SimplicialObject.Augmented.ExtraDegeneracy`,
 `AlgebraicTopology.alternatingFaceMapComplex`, `MvPolynomial`.
 
-Prove the following named laws.
+Prove the following laws.
 
-- `Algebra.CotangentComplex.standardResolution`: the comonad resolution is a polynomial resolution,
+- the comonad resolution is a polynomial resolution,
   functorial in commutative squares of ring maps, with identity and composition laws.
-- `Algebra.CotangentComplex.PolynomialResolution.comparison`: for any two polynomial resolutions of
+- for any two polynomial resolutions of
   `B` over `A` and each functor `F` above, the totalized complexes are canonically isomorphic in the
   derived category through their common identification with `Lπ_!F` (Tags 08PS–08PU, 08QI).
-- `Algebra.CotangentComplex.PolynomialResolution.toQuasiIso`: the augmentation `P• → B` is a
+- the augmentation `P• → B` is a
   quasi-isomorphism of alternating face complexes of `A`-modules.
 
 **Checks.**
 
-- `test_resolution_identity`: for `A → A`, the constant simplicial algebra `A` is a polynomial
+- for `A → A`, the constant simplicial algebra `A` is a polynomial
   resolution on the empty set of variables; its `F`-complex and that of the standard resolution
   have the canonical derived-category comparison through `Lπ_!F`.
-- `test_resolution_polynomial`: for `B = A[t]`, applying `F` to the constant resolution `A[t]` and
+- for `B = A[t]`, applying `F` to the constant resolution `A[t]` and
   to the standard resolution gives the same object `Lπ_!F` in the derived category.
-- `test_resolution_not_quasi_iso`: for a nonzero ring `A`, the constant simplicial algebra
+- for a nonzero ring `A`, the constant simplicial algebra
   `A[t]`, augmented to `B = A[t]/(t²)` by the quotient map, is degreewise polynomial and surjective onto `B`, but its
   alternating face complex is quasi-isomorphic to `A[t][0]`; the augmentation is not a
   quasi-isomorphism, so it is not a resolution.
@@ -663,23 +682,27 @@ modules is K-flat, and the termwise tensor product with a K-flat complex sends q
 quasi-isomorphisms ([StacksMA] Definition 15.60.1, Lemmas 15.60.7, 15.60.10, 15.60.12; Tags 06XZ, 064K,
 06Y4, 064L, pp.144–147). K-flat complexes are closed under shifts and cones and under filtered colimits
 ([StacksMA] Lemmas 15.60.5 and 15.60.8, Tags 06Y2, 06Y3). Define
-`DerivedDeRham.derivedTensor R : D(R) ⥤ D(R) ⥤ D(R)` as the derived tensor product of [StacksMA]
+`D(R) ⥤ D(R) ⥤ D(R)` as the derived tensor product of [StacksMA]
 Definition 15.60.13 (Tag 064M), computed by `Tot(K• ⊗_R L•)` with `K•` K-flat; and derived extension of
 scalars along `R → R′` as `− ⊗^L_R R′`.
 
 This construction covers arbitrary, possibly unbounded complexes over arbitrary commutative rings.
 
+`DerivedDeRham.IsKFlat` means that tensoring with every acyclic cochain complex is acyclic;
+it imposes no boundedness condition. `DerivedDeRham.moduleKFlatReplacement` states that every
+complex receives a quasi-isomorphism from a termwise flat K-flat complex. The bi-infinite ℤ/4 example below excludes termwise flatness as a substitute for this predicate.
+
 *Needs:* Mathlib `DerivedCategory`, `HomologicalComplex`, `ModuleCat`, tensor products, exact filtered colimits and localization of complexes.
 
-Prove the following named laws.
+Prove the following laws.
 
-- `derivedTensor_flatModel`: for a bounded-above complex `P•` of flat modules,
+- for a bounded-above complex `P•` of flat modules,
   `P• ⊗^L L ≅ Tot(P• ⊗ L•)` naturally.
-- `derivedTensor_triangulated`: the bifunctor is exact in each variable, symmetric
+- the bifunctor is exact in each variable, symmetric
   monoidal with unit `R[0]`.
-- `derivedTensor_kFlatColimit`: a filtered colimit of K-flat complexes is K-flat, and a shift or cone of
+- a filtered colimit of K-flat complexes is K-flat, and a shift or cone of
   K-flat complexes is K-flat.
-- `derivedTensor_kFlatRealization`: the direct-sum totalization of a bicomplex whose columns sit in
+- the direct-sum totalization of a bicomplex whose columns sit in
   nonpositive simplicial degrees and are K-flat is K-flat. It is the colimit of the totalizations of
   its first `n` columns, each an iterated cone of shifted columns.
 
@@ -689,21 +712,23 @@ restriction of `derivedTensor W`: bounded-above projective complexes are K-flat,
 comparison is characterized by the specified augmentation quasi-isomorphisms. Require naturality
 in both inputs and compatibility with changes of resolutions, units, associativity and symmetry.
 The bounded finite-free filtration, quantum grading, dot actions and connected-sum comparison
-belong to K5. This is the bounded-projective specialization of `derivedTensor_flatModel`
+belong to K5. This is the bounded-projective specialization of the flat-model comparison
 ([StacksMA], Tags 064K, 064L, 064M), with the same monoidal comparison maps.
 
 **Checks.**
 
-- `test_derived_tensor_unit`: `R[0] ⊗^L M ≅ M`.
+- The zero complex is K-flat: tensoring it with an acyclic complex gives zero.
+- The complex R[0] is K-flat: tensoring with it preserves the acyclic complex itself.
+- `R[0] ⊗^L M ≅ M`.
 - For `W = DualNumber R`, after forgetting quantum degrees, two crossing-free based unknots give
   `W[0] ⊗^L_W W[0] ≅ W[0]`. K5's augmentation comparison is multiplication `W ⊗_W W → W`.
   Restoring `C(unknot) = W⟨1⟩` gives `(W⟨1⟩ ⊗_W W⟨1⟩)⟨−1⟩ ≅ W⟨1⟩`, the connected-sum map.
   The zero bounded-free factor gives zero on both sides.
-- `test_derived_tensor_tor`: `F_p ⊗^L_ℤ F_p` has `H^0 = F_p` and `H^−1 = F_p`, computed from the flat
+- `F_p ⊗^L_ℤ F_p` has `H^0 = F_p` and `H^−1 = F_p`, computed from the flat
   model `[ℤ →p ℤ]`; the underived tensor product loses `H^−1`.
-- `test_derived_tensor_flat_discrete`: for a flat module `M` and any module `N`, `M ⊗^L N` is
+- for a flat module `M` and any module `N`, `M ⊗^L N` is
   concentrated in degree zero.
-- `test_derived_tensor_unbounded_flat`: over `ℤ/4` the acyclic complex `⋯ → ℤ/4 --2→ ℤ/4 --2→ ℤ/4 → ⋯`
+- over `ℤ/4` the acyclic complex `⋯ → ℤ/4 --2→ ℤ/4 --2→ ℤ/4 → ⋯`
   of free modules is not K-flat. Its termwise tensor with `F₂` has zero differentials and cohomology
   `F₂` in every degree, while its derived tensor with `F₂` is zero. Termwise flatness of an unbounded
   complex does not compute `⊗^L`.
@@ -726,12 +751,12 @@ the reductions to finite free modules in §§0.14–0.16 and the filtered-colimi
 
 **Checks.**
 
-- `test_flat_filtered_free_finite`: for `M = R^n`, the one-object diagram with identity cocone is
+- for `M = R^n`, the one-object diagram with identity cocone is
   a finite free presentation, including `n = 0`.
-- `test_flat_filtered_free_rational`: `ℚ` over `ℤ` is the filtered colimit of copies of `ℤ` indexed
+- `ℚ` over `ℤ` is the filtered colimit of copies of `ℤ` indexed
   by positive denominators ordered by divisibility; the map from denominator `d` to `e` is
   multiplication by `e/d`, and its cocone sends `a` to `a/d`.
-- `test_flat_filtered_free_nonflat`: `ℤ/2` is excluded: multiplication by `2` is injective on `ℤ`
+- `ℤ/2` is excluded: multiplication by `2` is injective on `ℤ`
   but becomes zero on the nonzero module `ℤ/2`. It cannot be a filtered colimit of finite free
   `ℤ`-modules, since tensor and filtered colimits preserve this injection.
 
@@ -760,8 +785,10 @@ change laws. ([Stacks](https://stacks.math.columbia.edu/tag/08QD), Remark 21.39.
 *Needs:* §0.2 (K-flat models and derived tensor); Mathlib's alternating-face and normalized Moore
 complexes, their homotopy equivalence, module tensor products and `HomologicalComplex.tensorObj`.
 
-*Lean:* `DerivedDeRham.simplicialTensorComparison`, `simplicialTensorComparison_natural`,
-`simplicialTensorDerived`; `simplicialCochains` denotes the reindexed alternating-face functor.
+`DerivedDeRham.simplicialTensorComparison` states existence of a single family of native
+`HomotopyEquiv` values on the alternating-face complexes, natural in both variables for the
+forward and inverse maps. Its degree-zero shuffle is the identity and its bidegree-(1,1)
+component is the signed two-shuffle formula below.
 
 **Checks.**
 
@@ -788,8 +815,6 @@ with the same filtration transported along this comparison.
 
 *Needs:* Mathlib `SimplicialObject`, alternating-face complexes and `HomologicalComplex₂.total`;
 §0.2.2 / Simplicial module tensor comparison for its tensor compatibility.
-
-*Lean:* `DerivedDeRham.bisimplicialDiagonal`, `bisimplicialTotal`, `bisimplicialDiagonalComparison`.
 
 **Checks.**
 
@@ -820,24 +845,24 @@ An arbitrary functor on all projective modules need not have this colimit proper
 *Needs:* §0.1 (Simplicial polynomial resolutions); §0.2.1 (Flat modules as filtered colimits of finite free modules) (for the finite-projective extension); Mathlib `AlgebraicTopology.DoldKan`,
 `AlgebraicTopology.alternatingFaceMapComplex`, `DerivedCategory`.
 
-Prove the following named laws.
+Prove the following laws.
 
-- `leftDerivedNonadditive`: the construction is functorial in `M` and in natural
+- the construction is functorial in `M` and in natural
   transformations of `F`, and independent of the resolution up to unique isomorphism in `D(R′)`.
-- `leftDerivedNonadditive_additive`: agreement with the classical derived functor for
+- agreement with the classical derived functor for
   additive `F`.
-- `leftDerivedNonadditive_projective`: for a projective module `M` in degree zero,
+- for a projective module `M` in degree zero,
   `LF(M) ≅ F(M)[0]`.
 
 **Checks.**
 
-- `test_nonadditive_identity`: for `F = id`, `LF(M) ≅ M`.
-- `test_nonadditive_square`: for `F(X) = X ⊗_R X` and `R = ℤ`, `M = ℤ/2`, `LF(M)` has nonzero
+- for `F = id`, `LF(M) ≅ M`.
+- for `F(X) = X ⊗_R X` and `R = ℤ`, `M = ℤ/2`, `LF(M)` has nonzero
   `H^−1`, so it is not the underived value `(ℤ/2) ⊗ (ℤ/2)` in degree zero.
-- `test_nonadditive_constant`: for the constant functor `F(X) = R′`, `LF(M) ≅ R′[0]` for every
+- for the constant functor `F(X) = R′`, `LF(M) ≅ R′[0]` for every
   connective `M`, including `M = 0`; a construction through chain complexes rather than simplicial
   modules would not apply to this non-additive functor.
-- `test_nonadditive_infinite_rank`: for `V = ⊕_(n∈ℕ) F₂` in degree zero, no finite projective
+- for `V = ⊕_(n∈ℕ) F₂` in degree zero, no finite projective
   `P₀` can surject onto `V`. Its constant simplicial resolution is projective of infinite rank;
   functors initially defined on finite projectives use their filtered-colimit extension on it.
   The algebraic double-dual functor `F(W) = W**` agrees naturally with the identity on finite free
@@ -845,138 +870,138 @@ Prove the following named laws.
   `F` differs from the filtered-colimit extension of its finite free values, whose derived functor
   is the identity.
 
+### Examples
+
+For a prime p, the free resolution [ℤ →p ℤ] gives ℤ/p ⊗^L ℤ/p with cohomology ℤ/p in degrees 0 and −1. The two degree-one shuffle generators have coefficients +1 and −1.
+
+### Dependencies
+
+Layer 0 and Mathlib complexes, K-injectivity, Dold–Kan, tensor products and filtered colimits.
+
+## Layer 2: cotangent calculus, integral powers and deformations
+
 ### 0.4 The full cotangent complex
 
-For a ring map `A → B`, define the connective `B`-module complex `L_(B/A) =
-Algebra.CotangentComplex A B ∈ D(B)` as the alternating face complex of `Ω¹_(P•/A) ⊗_(P•) B` for the
+For a ring map `A → B`, define the connective `B`-module complex `L_(B/A) ∈ D(B)` as the alternating face complex of `Ω¹_(P•/A) ⊗_(P•) B` for the
 standard resolution `P• → B`, with simplicial degree `n` placed in cohomological degree `−n`
 ([StacksCt] Definition 3.2, Tag 08PN, p.3). Any polynomial resolution computes it, naturally and
 coherently in comparison maps ([StacksCt] Lemmas 4.3–4.7 and Remark 5.5; Tags 08PU, 08QE–08QH, 08QI,
 pp.5–9). Commutative squares `(A → B) → (A′ → B′)` induce `L_(B/A) ⊗^L_B B′ → L_(B′/A′)`. The full
-object retains all negative cohomology. The intended Lean signature is
+object retains all negative cohomology. The intended signature is
 
 ```lean
 Algebra.CotangentComplex (A B : Type u) [CommRing A] [CommRing B] [Algebra A B] :
     DerivedCategory (ModuleCat.{u} B)
 ```
 
-with model-level data `Algebra.CotangentComplex.differentials` (the simplicial `B`-module
-`B ⊗_(P_n) Ω_(P_n/A)` with its identification `termIso` and face maps `face_tmul`),
-`Algebra.CotangentComplex.complex` (its alternating face complex) and
-`Algebra.CotangentComplex.model` (the complex placed in nonpositive degrees before `DerivedCategory.Q`).
+Construct the simplicial `B`-module with terms `B ⊗_(P_n) Ω_(P_n/A)` and its scalar-extension face maps,
+its alternating-face complex and its cochain model in nonpositive degrees before `DerivedCategory.Q`.
 ([BL22], Appendix B, Construction B.1 and Remark B.2, pp.225–226, treat the same object.)
 
 *Needs:* §0.1 (Simplicial polynomial resolutions); §0.2 (Derived tensor products on module derived categories); Mathlib `KaehlerDifferential.D`, `DerivedCategory`, `DerivedCategory.Q`,
 `DerivedCategory.singleFunctor`, `DerivedCategory.homologyFunctor`.
 
-Prove the following named laws.
+Prove the following laws.
 
-- `Algebra.CotangentComplex.map`: every commutative square `(A → B) → (A′ → B′)` gives
+- every commutative square `(A → B) → (A′ → B′)` gives
   `L_(B/A) ⊗^L_B B′ → L_(B′/A′)`, with identity and composition laws; on the model it sends
-  `t ⊗ dx` to `b(t) ⊗ d(a(x))`. Together these form `Algebra.CotangentComplex.arrowFunctor` on the
+  `t ⊗ dx` to `b(t) ⊗ d(a(x))`. Together these form a functor on the
   arrow category of commutative rings, retaining every cohomological degree.
-- `Algebra.CotangentComplex.resolutionIso`: every polynomial resolution gives the differential model,
+- every polynomial resolution gives the differential model,
   naturally and coherently in comparison maps.
-- `Algebra.CotangentComplex.homologyZeroIso`: `H⁰L_(B/A) ≃ KaehlerDifferential A B`, preserving the
+- `H⁰L_(B/A) ≃ KaehlerDifferential A B`, preserving the
   universal derivation ([StacksCt] Lemma 92.4.5, Tag 08QF).
 
 **Checks.**
 
-- `test_cotangent_identity`: `L_(A/A) = 0`.
-- `test_cotangent_polynomial`: `L_(A[t]/A) ≃ A[t]·dt` in degree 0.
-- `test_cotangent_dual_numbers`: for `k` a field of characteristic different from 2 and
+- `L_(A/A) = 0`.
+- `L_(A[t]/A) ≃ A[t]·dt` in degree 0.
+- for `k` a field of characteristic different from 2 and
   `B = k[ε]/ε²`, `L_(B/k)` is `[B → B·dε]` in degrees `−1, 0` with map multiplication by `2ε`;
   `H^−1` is nonzero.
-- `test_cotangent_dual_numbers_two`: in characteristic 2 the same regular presentation has zero
+- in characteristic 2 the same regular presentation has zero
   differential: both `H^−1` and `H⁰` are `B`. This pins the derivative `2ε` and prevents an
   invertibility-of-2 assumption from entering the integral construction.
-- `test_cotangent_shift`: homological degrees `0, 1, 2` of the simplicial model are placed in
+- homological degrees `0, 1, 2` of the simplicial model are placed in
   cohomological degrees `0, −1, −2`; for `ℤ → ℤ/2`, `H⁰ = 0` but `H^−1 ≅ ℤ/2`, which excludes a
   construction that keeps only Kähler differentials.
 
-The arrow-category model uses `Algebra.CotangentComplex.arrowResolution` for the standard
-resolution of a ring arrow, `resolutionRings` for its underlying simplicial rings, and
-`resolutionRingMap` for the functorial ring map of a commutative square. The latter respects
-augmentation and the map on base scalars. `arrowModel` is the same differential complex as
-`model`, and `arrowModelMap` is its semilinear chain map for a square with base map `a` and
-target map `b`. The law `Algebra.CotangentComplex.arrowModelMap_tmul` sends
-`t ⊗ dx` to `b(t) ⊗ d(a_P(x))`, where `a_P` is the induced map of resolution rings.
-These are names for the existing full model, with no truncation.
+For the arrow-category model, take the underlying simplicial rings of each standard
+resolution. A commutative square induces a map of these rings respecting augmentation and base
+scalars, hence a semilinear chain map between the differential models. For base map a and target
+map b, this map takes `t ⊗ dx` to `b(t) ⊗ d(a_P(x))`, where a_P is the induced map of resolution
+rings. These comparisons retain the full complex, with no truncation.
 
-[StacksCt], Lemma 3.4, Tag 08S9, p.4; Lemmas 92.4.5–92.4.7, Tags 08QF–08QH;
+[StacksCt], Lemma 3.4, Tag 08S9, p.3; Lemmas 92.4.5–92.4.7, Tags 08QF–08QH;
 The downstream consumer PerfectoidSpaces §P0.19 uses this precise model contract.
 
 **Checks.**
 
-- `resolutionRingMap_identity`, `resolutionRingMap_composition` and
-  `resolutionRingMap_zero_target` respectively give the identity map, the composite map,
-  and the augmentation to the zero ring.
-- For `arrowResolution`, `resolutionRings`, `arrowModel`, `arrowModelMap` and `arrowFunctor`,
-  the `_identity`, `_polynomial` and `_regular_quotient` Check aliases refer respectively
-  to `test_cotangent_identity`, `test_cotangent_polynomial` and `test_cotangent_shift`.
-  The last retains the nonzero `H^−1` for `ℤ → ℤ/2`.
-- `cotangent_model_test_two_faces`: the first alternating differential is `d₀ − d₁`,
+- Identity and composite squares induce the identity and composite resolution maps; the square
+  with zero target induces the augmentation to the zero ring.
+- The identity ring map has zero cotangent complex; a polynomial ring has its free module of
+  differentials in degree zero; ℤ → ℤ/2 has H⁻¹ = ℤ/2. All arrow-model comparisons retain these values.
+- the first alternating differential is `d₀ − d₁`,
   so on `x + y` it is `d₀x − d₁x + d₀y − d₁y`.
 
 ### 0.5 Square-zero extensions and their classes
 
-For `A → B` and a `B`-module `M`, define `Algebra.CotangentComplex.SquareZeroExtension A B M`: an
+For `A → B` and a `B`-module `M`, define a square-zero extension of B by M over A: an
 `A`-algebra surjection `B′ → B` with a specified injective additive identification of `M` with its
 kernel, whose products vanish and whose `B`-action on the kernel is the given one. The trivial
 extension `B ⊕ M` has multiplication `(b,m)(b′,m′) = (bb′, bm′ + b′m)` and is split. Define
-`extensionSetoid` (isomorphism of `A`-algebras compatible with the projection and the kernel
+the isomorphism relation (isomorphism of `A`-algebras compatible with the projection and the kernel
 identification) and `Exal_A(B, M)` as its quotient, an abelian group under Baer sum, with the class
-`extensionClass` of an extension. For an `A`-algebra map `f : T → B` and an extension of `B` by `M`,
-`morphismObstruction` is the class of the pullback extension of `T`. Derivations `A`-linear from `B`
+the extension class of an extension. For an `A`-algebra map `f : T → B` and an extension of `B` by `M`,
+the morphism obstruction is the class of the pullback extension of `T`. Derivations `A`-linear from `B`
 to `M` are the sections of the trivial extension, and `Der_A(B,M)` is the set of such sections
 ([StacksDefos] §2, Lemmas 2.1–2.3 and Remark 2.4, Tags 08S5, 08S7, 0GPT, 0GPU, pp.2–4; Mathlib
 `derivationToSquareZeroEquivLift`).
 
 *Needs:* Mathlib `Algebra.Extension`, `Derivation`, `derivationToSquareZeroEquivLift`.
 
-Prove the following named laws.
+Prove the following laws.
 
-- `Algebra.CotangentComplex.squareZero`: `B ⊕ M` has projection to `B` and zero section, with
+- `B ⊕ M` has projection to `B` and zero section, with
   square-zero augmentation ideal `M`.
-- `Algebra.CotangentComplex.derivationSection`: `A`-derivations `B → M` are in bijection with
-  `A`-algebra sections of `B ⊕ M → B` (`derivationDiscrete`), the zero derivation corresponding to the
-  zero section (`derivationZero`).
-- `Algebra.CotangentComplex.derivationPostcompose`: a `B`-linear map `M → N` induces
+- `A`-derivations `B → M` are in bijection with
+  `A`-algebra sections of `B ⊕ M → B`, the zero derivation corresponding to the
+  zero section.
+- a `B`-linear map `M → N` induces
   `Der_A(B, M) → Der_A(B, N)` and `Exal_A(B, M) → Exal_A(B, N)` (pushout of extensions), preserving the
   zero derivation and the split class.
-- `Algebra.CotangentComplex.extensionClass_mk`: the class of an extension is its
-  `morphismObstruction` for the identity map, normalized on a lift of the degree-zero polynomial
+- the class of an extension is its
+  the morphism obstruction for the identity map, normalized on a lift of the degree-zero polynomial
   resolution by subtracting the two lifted faces in the order `d₀ − d₁`
-  (`morphismObstruction_cocycle`).
+ .
 
 **Checks.**
 
-- `test_derivation_base`: `Der_A(A, M) = 0` and `Exal_A(A, M) = 0`.
-- `test_derivation_coordinate`: for `B = A[t]`, derivations are determined by `δ(t) ∈ M`, freely.
-- `test_derivation_product_rule`: for discrete `M`, a section sends `t²` to `(t², 2tδ(t))`;
+- `Der_A(A, M) = 0` and `Exal_A(A, M) = 0`.
+- for `B = A[t]`, derivations are determined by `δ(t) ∈ M`, freely.
+- for discrete `M`, a section sends `t²` to `(t², 2tδ(t))`;
   replacing the square-zero product by a product ring fails.
-- `test_extension_nonsplit`: `ℤ/4 → ℤ/2` with kernel `2ℤ/4 ≅ ℤ/2` has no ring section and a nonzero
+- `ℤ/4 → ℤ/2` with kernel `2ℤ/4 ≅ ℤ/2` has no ring section and a nonzero
   class, and so does `ℤ/9 → ℤ/3`; the rational dual numbers give the zero class.
 
-Give `SquareZeroExtension` its category `Algebra.CotangentComplex.extensionCategory`:
-morphisms are algebra maps over the base and quotient that preserve the identified kernel.
-Categorical isomorphisms give exactly `extensionSetoid`. For two representatives `E, F`,
-`Algebra.CotangentComplex.exal_add_representative` constructs their Baer sum from
+Give the square-zero extensions their category: morphisms are algebra maps over the base and quotient that preserve the identified kernel.
+Categorical isomorphisms give exactly the isomorphism relation. For two representatives `E, F`,
+construct their Baer sum from
 `E ×_B F` by quotienting the antidiagonal kernel `(i_E(m), −i_F(m))`. The image of
 `(i_E(m), i_F(n))` is the kernel element `m + n`. Units, inverses and associativity
 are induced by the split extension, kernel negation and the iterated fibre product.
 
-[GR], §§2.5.4–2.5.7, p.30, in the classical setup; [StacksDefos], Remark 2.4, Tag 08S3.
+[GR], §§2.5.4–2.5.7, p.30, in the classical setup; [StacksDefos], Remark 2.4, Tag 0GPU.
 
 **Checks.**
 
-- `extensionCategory_zero`: zero kernel forces an invertible projection and a unique arrow
+- zero kernel forces an invertible projection and a unique arrow
   between any two extensions.
-- `extensionCategory_classical`: extensions of `ℚ` over itself split, and an automorphism
+- extensions of `ℚ` over itself split, and an automorphism
   fixing quotient and kernel is the identity.
-- `extensionCategory_polynomial`: `ℚ[X] ⊕ εℚ[X]` has the nonidentity automorphism
+- `ℚ[X] ⊕ εℚ[X]` has the nonidentity automorphism
   `a + εb ↦ a + ε(b + a′)`, which fixes the quotient and kernel.
-- `exal_add_representative_nonsplit`: the sum of two copies of `ℤ/4 → F₂` has zero class,
+- the sum of two copies of `ℤ/4 → F₂` has zero class,
   although either summand has nonzero class; the antidiagonal quotient is essential.
 
 ### 0.7 Degree zero and the naive cotangent complex
@@ -988,14 +1013,11 @@ for an arbitrary quotient. `τ_(≥−2)L_(B/A)` is the Lichtenbaum–Schlessing
 `[Rel/TrivRel → F ⊗_P B → Ω_(P/A) ⊗_P B]` of a free presentation `F → J` with relation module `Rel`
 and Koszul relations `TrivRel` ([StacksCt] Lemma 13.3, Tag 09CG, p.26).
 
-[StacksCt], Lemma 92.4.5, Tag 08QF; Lemmas 11.2 and 11.3, Tags 08RA, 08RB, pp.21–22.
+[StacksCt], Lemma 92.4.5, Tag 08QF; Lemmas 11.2 and 11.3, Tags 08RA, 08RB, p.21.
 
 *Needs:* §0.4 (The full cotangent complex); Mathlib `Algebra.Extension.cotangentComplex`,
 `Algebra.Extension.toKaehler`, `Algebra.Extension.exact_cotangentComplex_toKaehler`,
 `Algebra.H1Cotangent`, `Algebra.Generators.equivH1Cotangent`.
-
-Lean: `Algebra.CotangentComplex.homologyOneIso` (`H^−1L ≅ Algebra.H1Cotangent A B`) and
-`Algebra.CotangentComplex.lichtenbaumSchlessinger`.
 
 **Checks.**
 
@@ -1006,12 +1028,12 @@ Lean: `Algebra.CotangentComplex.homologyOneIso` (`H^−1L ≅ Algebra.H1Cotangen
 ### 0.6 The cotangent universal property
 
 For `A → B` and a `B`-module `M`, there are natural bijections
-`Algebra.CotangentComplex.extZero : Hom_(D(B))(L_(B/A), M[0]) ≃ Der_A(B, M)` and
-`Algebra.CotangentComplex.extOne : Hom_(D(B))(L_(B/A), M[1]) ≃ Exal_A(B, M)`, the latter sending
+`Hom_(D(B))(L_(B/A), M[0]) ≃ Der_A(B, M)` and
+`Hom_(D(B))(L_(B/A), M[1]) ≃ Exal_A(B, M)`, the latter sending
 precisely the split extensions to zero, and `Hom_(D(B))(L_(B/A), M[−n]) = 0` for `n > 0`. They are
 natural in `M` and compatible with commutative squares. The first uses `H⁰L = Ω`; the second the
 identification of the naive cotangent complex with `τ_(≥−1)L` and `Exal = Ext¹(NL, M)`
-([StacksCt] Lemma 92.4.5, Tag 08QF, and Lemma 11.3, Tag 08RB, p.22;
+([StacksCt] Lemma 92.4.5, Tag 08QF, and Lemma 11.3, Tag 08RB, p.21;
 [StacksDefos] Lemma 2.3, Tag 0GPT, p.3;
 for the derivation-space form, [Bhatt12] Remark 6.6 and equivalence (6), p.25, with trivial
 monoids).
@@ -1022,16 +1044,15 @@ Mathlib `derivationToSquareZeroEquivLift`, `CategoryTheory.Abelian.Ext`.
 
 **Checks.**
 
-- `test_ext_identity`: for `A → A` all three groups vanish.
-- `test_ext_polynomial`: for `A[t]`, `Hom(L, M) ≅ M` and `Exal = 0`.
-- `test_ext_regular_quotient`: for `ℤ → ℤ/p` and `M = ℤ/p`, `Hom(L, M) = 0` and `Exal ≅ ℤ/p`,
+- for `A → A` all three groups vanish.
+- for `A[t]`, `Hom(L, M) ≅ M` and `Exal = 0`.
+- for `ℤ → ℤ/p` and `M = ℤ/p`, `Hom(L, M) = 0` and `Exal ≅ ℤ/p`,
   realized by `ℤ/p² → ℤ/p`.
 
-The classifier is additive: `Algebra.CotangentComplex.extensionClass_add` identifies
-Baer sum with addition of derived classes under `extOne`. For a surjection `R → T`
-with kernel `I`, construct `Algebra.CotangentComplex.conormalComparison`:
-`Ext¹_T(L_(T/R), M) ≃ Hom_T(I/I², M)`, using the naive truncation of 0.7. The law
-`Algebra.CotangentComplex.conormalComparison_extensionClass` sends the class of an
+The classifier is additive: it identifies
+Baer sum with addition of derived classes under the degree-one classifier. For a surjection `R → T`
+with kernel `I`, construct the conormal comparison
+`Ext¹_T(L_(T/R), M) ≃ Hom_T(I/I², M)`, using the naive truncation of 0.7. The conormal class formula sends the class of an
 extension `E` to the map taking `r mod I²` to the unique `m` whose kernel inclusion
 is the image of `r` under `R → E`. This pins the cocycle and kernel signs.
 
@@ -1040,20 +1061,20 @@ is the image of `r` under `R → E`. This pins the cocycle and kernel signs.
 
 **Checks.**
 
-- `conormalComparison_zero`: the zero class gives the zero kernel map.
-- `conormalComparison_identity`: the map for `R → R` has zero source and target.
-- `conormalComparison_zmodNine`: for `ℤ/9 → F₃` as an extension over `ℤ`, with kernel
+- the zero class gives the zero kernel map.
+- the map for `R → R` has zero source and target.
+- for `ℤ/9 → F₃` as an extension over `ℤ`, with kernel
   inclusion `1 ↦ 3`, the conormal class `3 mod 9` maps to `1 mod 3`; the negative
   extension class maps it to `2 mod 3`.
-- `extensionClass_add_zmodNine`: the class of `ℤ/9 → F₃` has order three; doubling it
+- the class of `ℤ/9 → F₃` has order three; doubling it
   is its negative and summing three representatives gives the split class.
 
 ### 0.8 The cotangent transitivity triangle
 
 For composable ring maps `A → B → C` there is a natural distinguished triangle
 `L_(B/A) ⊗^L_B C → L_(C/A) → L_(C/B) → (L_(B/A) ⊗^L_B C)[1]` in `D(C)`. Its first two arrows are
-images under `DerivedCategory.Q` of chain maps `Algebra.CotangentComplex.transitivityFirst` and
-`transitivitySecond` induced by the squares `(A → B) → (A → C)` and `(A → C) → (B → C)`; only the
+images under `DerivedCategory.Q` of chain maps the first transitivity map and
+the second transitivity map induced by the squares `(A → B) → (A → C)` and `(A → C) → (B → C)`; only the
 connecting arrow is chosen. On low-degree homology the middle maps are
 `Algebra.H1Cotangent.δ`, with exactness given by `Algebra.H1Cotangent.exact_map_δ` and
 `Algebra.H1Cotangent.exact_δ_mapBaseChange`. The left term remains
@@ -1065,29 +1086,25 @@ connecting arrow is chosen. On low-degree homology the middle maps are
 
 *Needs:* §0.4 (The full cotangent complex); §0.6 (The cotangent universal property); §0.2 (Derived tensor products on module derived categories).
 
-Lean: `Algebra.CotangentComplex.transitivityTriangle`.
-
 **Checks.**
 
-- `test_transitivity_identity_first`: if `A = B`, `transitivityFirst` is zero and the second arrow
+- if `A = B`, the first transitivity map is zero and the second arrow
   is an isomorphism.
-- `test_transitivity_identity_second`: if `B = C`, `transitivitySecond` is zero.
-- `test_transitivity_regular_quotient`: for `ℤ → ℤ → ℤ/3`, `transitivitySecond` is nonzero on
+- if `B = C`, the second transitivity map is zero.
+- for `ℤ → ℤ → ℤ/3`, the second transitivity map is nonzero on
   `H^−1 = ℤ/3`.
 
-The model laws `Algebra.CotangentComplex.transitivityFirst_tmul` and
-`Algebra.CotangentComplex.transitivitySecond_apply` specify the arrows before localization.
+Specify both transitivity arrows before localization.
 The first takes `c ⊗ x` to `c` times the image of `x` under the arrow-model map; the
 second is that functorial map for the square with target ring fixed.
 
 **Checks.**
 
-- `transitivityFirst_identity`: when `B → C` is the identity, the first arrow is invertible;
-  `transitivityFirst_zero_source` is `test_transitivity_identity_first`.
-- `transitivityFirst_polynomial`: for `ℚ → ℚ[X] → ℚ[X]`, the first arrow is nonzero
+- when `B → C` is the identity, the first arrow is invertible;
+  for `A = B` its source is zero.
+- for `ℚ → ℚ[X] → ℚ[X]`, the first arrow is nonzero
   on `dX`.
-- `transitivitySecond_identity`, `transitivitySecond_zero_target` and
-  `transitivitySecond_regular_quotient` are the identity for `A = B`, the zero map
+- The second arrow is the identity for `A = B`, the zero map
   for `B = C`, and the nonzero map on `H^−1` of `ℤ → ℤ → F₃`, respectively.
 
 ### 0.9 The cotangent complex of a map of simplicial rings and the diagonal comparison
@@ -1113,14 +1130,12 @@ module structure over a nondiscrete simplicial ring. Downstream consumers use se
 The spectral sequence first abuts to the direct-sum total complex; §0.2.2 identifies that
 complex with the diagonal model, after restricting to the constant coefficient ring as above.
 
-Lean: `Algebra.CotangentComplex.diagonalModel`, `Algebra.CotangentComplex.diagonalComparison`.
-
 **Checks.**
 
-- `test_diagonal_constant`: for constant simplicial rings the diagonal model is the cotangent complex
+- for constant simplicial rings the diagonal model is the cotangent complex
   of 0.4.
-- `test_diagonal_identity`: for `R• = S•`, `L^Δ = 0`.
-- `test_diagonal_regular_quotient`: for the constant map `ℤ → ℤ/2`, `H_1(L^Δ) ≅ ℤ/2`, so totalization
+- for `R• = S•`, `L^Δ = 0`.
+- for the constant map `ℤ → ℤ/2`, `H_1(L^Δ) ≅ ℤ/2`, so totalization
   is not replaced by taking only degreewise differentials.
 
 ### 0.10 Derived base change of the cotangent complex
@@ -1134,8 +1149,6 @@ satisfy it.
 Tor-independent range.
 
 *Needs:* §0.4 (The full cotangent complex); §0.2 (Derived tensor products on module derived categories).
-
-Lean: `Algebra.CotangentComplex.baseChange`.
 
 **Checks.**
 
@@ -1154,8 +1167,6 @@ models with both source and target varying.
 
 *Needs:* §0.4 (The full cotangent complex); §0.8 (The cotangent transitivity triangle); §0.10 (Derived base change of the cotangent complex).
 
-Lean: `Algebra.CotangentComplex.localization`, `Algebra.CotangentComplex.filteredColimit`.
-
 **Checks.**
 
 - Localizing at `1` gives the identity comparison and relative cotangent zero.
@@ -1172,8 +1183,6 @@ module in degree zero without a finiteness claim.
 
 *Needs:* §0.4 (The full cotangent complex); §0.10 (Derived base change of the cotangent complex);
 §0.11 (Localization and filtered colimits of cotangent complexes).
-
-Lean: `Algebra.CotangentComplex.smooth`.
 
 **Checks.**
 
@@ -1193,8 +1202,6 @@ Flatness of `B` over `A` is not needed for this computation.
 *Needs:* §0.4 (The full cotangent complex); §0.8 (The cotangent transitivity triangle); §0.12 (The smooth cotangent computation); §0.K.1 (Koszul resolution of a
 regular sequence).
 
-Lean: `Algebra.CotangentComplex.regularQuotient`.
-
 **Checks.**
 
 - For the empty regular sequence, the relative quotient complex is zero.
@@ -1203,8 +1210,7 @@ Lean: `Algebra.CotangentComplex.regularQuotient`.
 
 ### 0.14 Derived exterior powers
 
-For a ring `B` and a connective `M ∈ D^(≤0)(B)` define `L∧^n_B(M) = DerivedDeRham.derivedExteriorPower
-B n M`, `n ≥ 0`, as the derived functor (0.3) of the exterior power `∧^n_B` on projective modules. It
+For a ring `B` and a connective `M ∈ D^(≤0)(B)` define `L∧^n_B(M)`, `n ≥ 0`, as the derived functor (0.3) of the exterior power `∧^n_B` on projective modules. It
 is a connective `B`-module complex with base change and graded multiplication. For a flat discrete
 `M` it agrees with the ordinary exterior power (the tensor quotient by alternating relations,
 including tensors with two equal factors), and the exterior operation imposes `x ∧ x = 0` even at `2`. [SAG] Construction 25.2.2.2, p.1700, is the
@@ -1220,27 +1226,27 @@ are used with the alternating quotient: signed permutations alone do not kill re
 §0.2.2 / Simplicial module tensor comparison (graded multiplication and scalar change); Mathlib `ExteriorAlgebra.exteriorPower`,
 `exteriorPower.ιMulti`.
 
-Prove the following named laws.
+Prove the following laws.
 
-- `exteriorPowerZero`: `L∧⁰_B(M) ≃ B` naturally.
-- `exteriorPowerOne`: `L∧¹_B(M) ≃ M`.
-- `exteriorPowerBaseChange`: `L∧ⁿ_B(M) ⊗^L_B B′ ≃ L∧ⁿ_(B′)(M ⊗^L_B B′)` ([SAG] Proposition 25.2.3.1).
-- `exteriorPowerFlat`: for flat discrete `M`, `L∧ⁿ_B(M)` is the ordinary exterior power in degree
+- `L∧⁰_B(M) ≃ B` naturally.
+- `L∧¹_B(M) ≃ M`.
+- `L∧ⁿ_B(M) ⊗^L_B B′ ≃ L∧ⁿ_(B′)(M ⊗^L_B B′)` ([SAG] Proposition 25.2.3.1).
+- for flat discrete `M`, `L∧ⁿ_B(M)` is the ordinary exterior power in degree
   zero ([SAG] Corollary 25.2.3.3 and Proposition 25.2.3.4(2); Lazard's theorem [StacksAlg] Theorem
   10.81.4, Tag 058G, implemented as `flatModuleFilteredFree`, reduces to finite free modules).
 
 **Checks.**
 
-- `test_derived-exterior-powers_zero_weight`: `L∧⁰_B(0) = B` and `L∧ⁿ_B(0) = 0` for `n > 0`.
-- `test_derived-exterior-powers_rank_one`: for the flat rank-one `B`-module `Be`, `L∧²(Be) = 0`,
+- `L∧⁰_B(0) = B` and `L∧ⁿ_B(0) = 0` for `n > 0`.
+- for the flat rank-one `B`-module `Be`, `L∧²(Be) = 0`,
   including `B = F₂`. Signed coinvariants instead give `F₂` over `F₂` and `ℤ/2` over `ℤ`.
-- `test_derived-exterior-powers_integral_boundary`: for a nonzero ring `B`, flat `M = B` and `n ≥ 0`,
+- for a nonzero ring `B`, flat `M = B` and `n ≥ 0`,
   the Dold–Kan model of `M[1]` (the simplicial module with `B^k` in level `k`) gives
   `H^−n(L∧ⁿ(M[1])) ≅ Γⁿ(M)`, nonzero, so positive powers of a shifted line are nonzero.
 
 ### 0.15 Derived symmetric powers
 
-For a ring `B` and connective `M`, define `LSym^n_B(M) = DerivedDeRham.derivedSymmetricPower B n M`,
+For a ring `B` and connective `M`, define `LSym^n_B(M)`,
 `n ≥ 0`, as the derived functor (0.3) of the symmetric power on projective modules. It is a
 connective `B`-module complex with base change and graded multiplication; for a flat discrete `M` it
 is the ordinary symmetric power.
@@ -1251,25 +1257,25 @@ pp.1699–1704; [DoldPuppe] §4, Example 4.10, pp.229–230.
 *Needs:* §0.3 (Derived functors of non-additive functors); §0.2.1 (Flat modules as filtered colimits of finite free modules);
 §0.2.2 / Simplicial module tensor comparison (graded multiplication and scalar change).
 
-Prove the following named laws.
+Prove the following laws.
 
-- `symmetricPowerZero`: `LSym⁰_B(M) ≃ B` naturally.
-- `symmetricPowerOne`: `LSym¹_B(M) ≃ M`.
-- `symmetricPowerBaseChange`: `LSymⁿ_B(M) ⊗^L_B B′ ≃ LSymⁿ_(B′)(M ⊗^L_B B′)`.
-- `symmetricPowerFlat`: for flat discrete `M`, `LSymⁿ_B(M)` is the ordinary symmetric power in degree
+- `LSym⁰_B(M) ≃ B` naturally.
+- `LSym¹_B(M) ≃ M`.
+- `LSymⁿ_B(M) ⊗^L_B B′ ≃ LSymⁿ_(B′)(M ⊗^L_B B′)`.
+- for flat discrete `M`, `LSymⁿ_B(M)` is the ordinary symmetric power in degree
   zero, using `flatModuleFilteredFree` and filtered-colimit compatibility.
 
 **Checks.**
 
-- `test_derived-symmetric-powers_zero_weight`: `LSym⁰_B(0) = B` and `LSymⁿ_B(0) = 0` for `n > 0`.
-- `test_derived-symmetric-powers_rank_one`: for the flat rank-one `ℤ`-module `ℤe`, `LSym²` is free of
+- `LSym⁰_B(0) = B` and `LSymⁿ_B(0) = 0` for `n > 0`.
+- for the flat rank-one `ℤ`-module `ℤe`, `LSym²` is free of
   rank one on `e²`; its coefficient map is quadratic.
-- `test_derived-symmetric-powers_integral_boundary`: over `F₂`, `Sym²(F₂e)` is generated by `e²`,
+- over `F₂`, `Sym²(F₂e)` is generated by `e²`,
   whereas the square of `e` in the divided power algebra is zero.
 
 ### 0.16 Derived divided powers
 
-For a ring `B` and connective `M`, define `LΓ^n_B(M) = DerivedDeRham.derivedDividedPower B n M`,
+For a ring `B` and connective `M`, define `LΓ^n_B(M)`,
 `n ≥ 0`, as the derived functor (0.3) of the homogeneous divided-power piece `Γ^n_B` of
 §0.DP.2 on projective modules. It is a connective `B`-module complex
 with base change and graded multiplication. For a flat discrete `M` it is the module of
@@ -1282,20 +1288,20 @@ proofs, pp.1700–1704; [DoldPuppe] §4, Example 4.13 and (4.14), p.230.
 §0.DP.3; §0.2.2 / Simplicial module tensor comparison (graded multiplication and scalar change);
 Mathlib `DividedPowerAlgebra`.
 
-Prove the following named laws.
+Prove the following laws.
 
-- `dividedPowerZero`: `LΓ⁰_B(M) ≃ B` naturally.
-- `dividedPowerOne`: `LΓ¹_B(M) ≃ M`.
-- `dividedPowerBaseChange`: `LΓⁿ_B(M) ⊗^L_B B′ ≃ LΓⁿ_(B′)(M ⊗^L_B B′)`.
-- `dividedPowerFlat`: for flat discrete `M`, `LΓⁿ_B(M)` is the ordinary divided power in degree
+- `LΓ⁰_B(M) ≃ B` naturally.
+- `LΓ¹_B(M) ≃ M`.
+- `LΓⁿ_B(M) ⊗^L_B B′ ≃ LΓⁿ_(B′)(M ⊗^L_B B′)`.
+- for flat discrete `M`, `LΓⁿ_B(M)` is the ordinary divided power in degree
   zero, using `flatModuleFilteredFree` and filtered-colimit compatibility.
 
 **Checks.**
 
-- `test_derived-divided-powers_zero_weight`: `LΓ⁰_B(0) = B` and `LΓⁿ_B(0) = 0` for `n > 0`.
-- `test_derived-divided-powers_rank_one`: for the flat rank-one `ℤ`-module `ℤe`, `LΓ²` is free of rank
+- `LΓ⁰_B(0) = B` and `LΓⁿ_B(0) = 0` for `n > 0`.
+- for the flat rank-one `ℤ`-module `ℤe`, `LΓ²` is free of rank
   one on `γ₂(e)`, and `e·e = 2γ₂(e)`.
-- `test_derived-divided-powers_integral_boundary`: over `F_p`, `γ_p(e)` in `Γ(F_p e)` is nonzero
+- over `F_p`, `γ_p(e)` in `Γ(F_p e)` is nonzero
   although `e^p = p!γ_p(e) = 0`.
 
 ### 0.17 Exterior powers of a triangle and décalage
@@ -1322,15 +1328,13 @@ For simplicial projective representatives `X, Y` of `K, M`, the levelwise graded
 §0.2.2 identifies this complex with `L∧^j K ⊗^L_B L∧^(n−j) M`. Its natural and monoidal
 compatibilities identify the products on the filtration and on its graded pieces.
 
-Lean: `DerivedDeRham.powerTriangleFiltration`, `DerivedDeRham.decalage`.
-
 **Checks.**
 
-- `test_power_triangle_zero_end`: if `K = 0`, the filtration has the single piece `L∧ⁿM`; if `M = 0`,
+- if `K = 0`, the filtration has the single piece `L∧ⁿM`; if `M = 0`,
   the single piece `L∧ⁿK`.
-- `test_power_triangle_split`: for `L = K ⊕ M` with `K = Be`, `M = Bf` free of rank one and `n = 2`,
+- for `L = K ⊕ M` with `K = Be`, `M = Bf` free of rank one and `n = 2`,
   the graded pieces are `∧²K = 0`, `K ⊗ M ≅ B(e ∧ f)` and `∧²M = 0`, matching `∧²(B²) ≅ B`.
-- `test_decalage_line`: for `N = ℤ` and `n = 2`, `L∧²(ℤ[1]) ≃ Γ²(ℤ)[2] ≅ ℤ[2]` is nonzero, whereas the
+- for `N = ℤ` and `n = 2`, `L∧²(ℤ[1]) ≃ Γ²(ℤ)[2] ≅ ℤ[2]` is nonzero, whereas the
   ordinary exterior square of a rank-one module is zero; over `F₂` the same holds with `γ₂` surviving.
 
 ### 0.25 Cotangent obstruction theory for square-zero lifts
@@ -1346,7 +1350,7 @@ all of `N`, so `B′/JB′ = B` is flat over `A`. Moreover `J ⊗_(A′) B′ = 
 identity, so `Tor₁^(A′)(A, B′) = 0` and the nilpotent flatness criterion applies ([StacksAlg] Lemma
 10.99.8, Tag 051C, pp.233–234). The argument uses only that the map `J ⊗_A B → N` induced by `c` is an
 isomorphism; an abstract isomorphism of the kernel with `J ⊗_A B` does not give the Tor vanishing
-(`test_deformation_zero_map`). For a square-zero extension `T′ → T` of `A`-algebras with kernel `J` and
+(the zero-kernel-map Check below). For a square-zero extension `T′ → T` of `A`-algebras with kernel `J` and
 an `A`-map `f : B → T`, the obstruction to lifting `f` to `T′` lies in `Ext¹_B(L_(B/A), J)` and lifts
 form a torsor under `Ext⁰` ([StacksDefos] Lemma 2.1, Tag 08S5, p.2, with `H⁰L = Ω`). For smooth `B/A`,
 finite projectivity of `L` in degree zero makes square-zero algebra deformations exist in a single
@@ -1359,46 +1363,40 @@ pp.31–32, 37–38; [StacksAlg] Lemma 10.99.8 (Tag 051C).
 *Needs:* §0.6 (The cotangent universal property); §0.8 (The cotangent transitivity triangle);
 §0.12 (The smooth cotangent computation); Mathlib `Module.Flat`.
 
-Lean: `Algebra.CotangentComplex.extensionObstruction` (arbitrary `c`),
-`Algebra.CotangentComplex.flatDeformation` (flat `B`, `N = J ⊗_A B`, canonical `c`),
-`Algebra.CotangentComplex.liftMorphism`.
-
 **Checks.**
 
-- `test_deformation_identity`: in the flat specialization, the identity base extension has `J = 0`
+- in the flat specialization, the identity base extension has `J = 0`
   and `N = J ⊗_A B = 0`, so the obstruction vanishes and the lift is `B`. In the arbitrary-`c`
   problem with `A′ = A = B = ℤ`, `N = ℤ` and `c = 0`, a solution is `ℤ[ε]/ε²`, with nonzero kernel.
-- `test_deformation_smooth`: a polynomial algebra lifts uniquely up to isomorphism; its obstruction
+- a polynomial algebra lifts uniquely up to isomorphism; its obstruction
   group `Ext²(Ω[0], N)` vanishes.
 - For `A = T = k`, `B = k[x]` and `T′ = k[ε]/ε²`, the map `x ↦ 0` has distinct lifts
   `x ↦ 0` and `x ↦ ε`. Their difference is the derivation `x ↦ ε`; the automorphisms of `T′`
   fixing its identified kernel and quotient are `Der_k(k,k) = 0`.
-- `test_deformation_ideal`: the lift's kernel must be `J ⊗_A B`; for `A′ = ℤ/4 → A = ℤ/2` and
+- the lift's kernel must be `J ⊗_A B`; for `A′ = ℤ/4 → A = ℤ/2` and
   `B = F₂[t]`, the lift `ℤ/4[t]` has kernel `2ℤ/4[t] ≅ F₂[t]`, while the extension of `B` by the
   unrelated module `0` is not a lift.
-- `test_deformation_zero_map`: for `A′ = ℤ/4`, `A = B = F₂`, `J = N = F₂` and `c = 0`, the ring
+- for `A′ = ℤ/4`, `A = B = F₂`, `J = N = F₂` and `c = 0`, the ring
   `B′ = F₂[ε]/ε²`, a `ℤ/4`-algebra through `F₂`, solves the arbitrary-`c` problem: its kernel is `F₂ε ≅ N`
   and it induces `c = 0`. But `2B′ = 0`, so `JB′ = 0`, `B′/JB′ = B′ ≠ B` and `B′` is not flat over `ℤ/4`.
-  `flatDeformation` needs the canonical `c`.
+  the flat specialization needs the canonical `c`.
 
 For a square-zero extension `E : A′ → A` with kernel `J` and an `A`-algebra `B`, construct
-`Algebra.CotangentComplex.transitivityConnecting` for `A′ → A → B`. The law
-`Algebra.CotangentComplex.transitivityConnecting_triangle` fixes the first two arrows as
-`transitivityFirst`, `transitivitySecond`; the connecting map uses Mathlib’s cone triangle
+the transitivity connecting map for `A′ → A → B`. The triangle compatibility law fixes the first two arrows as
+the first and second transitivity maps; the connecting map uses Mathlib’s cone triangle
 with minus projection onto the shifted source. For the specified `c : J → N`,
-`Algebra.CotangentComplex.kernelExtensionClass` is the scalar-adjoint derived class of
+the kernel-extension class is the scalar-adjoint derived class of
 `E` pushed out along `c`; on the degree-one conormal it is `c`. In the flat case it sends
 `j` to `1 ⊗ j` in `B ⊗_A J`, with the given kernel inclusion retained.
-Define `Algebra.CotangentComplex.deformationObstruction` as the composite of
-`transitivityConnecting` with this class shifted by one and the canonical
-`N[1][1] ≃ N[2]`. It is the obstruction of `extensionObstruction`.
+Define the deformation obstruction as the composite of
+the transitivity connecting map with this class shifted by one and the canonical
+`N[1][1] ≃ N[2]`. This is the class governing the extension problem above.
 
-Construct `Algebra.CotangentComplex.derivationEvaluation` from a degree-zero derived
-cotangent morphism to its derivation on `H⁰L = Ω`. Its law
-`Algebra.CotangentComplex.derivationEvaluation_differential` evaluates on `dx` as `δ(x)`.
+Construct evaluation on differentials from a degree-zero derived
+cotangent morphism to its derivation on `H⁰L = Ω`. The evaluation formula evaluates on `dx` as `δ(x)`.
 The automorphism comparison for a flat lift uses
 `h − id = kernel inclusion ∘ δ ∘ reduction`; composition corresponds to addition and
-inversion to negation. `Algebra.CotangentComplex.polynomialLift_sign` computes it for
+inversion to negation. Compute the polynomial lift formula for
 `ℚ[ε]/ε²[X]`: translation `h_a(X) = X + aε` has derivation `δ(X) = a`,
 `δ(X²) = 2aX`, and for every polynomial `P`, the included value of `δ(P mod ε)`
 is `h_a(P) − P`.
@@ -1410,223 +1408,53 @@ The downstream consumer PerfectoidSpaces §P0.22 uses these normalized ordinary 
 
 **Checks.**
 
-- `transitivityConnecting_identity_source`, `transitivityConnecting_identity_target` and
-  `transitivityConnecting_polynomial_quotient`: an identity leg gives zero; for
+- an identity leg gives zero; for
   `k[x]/(x³) → k[x]/(x²) → k` over a field `k`, both maps are quotient maps and the first
   kernel `(x²)` is square-zero. The connecting map surjects from `H^−2 L_(k/(k[x]/(x²)))`
   onto `H^−1(L_((k[x]/(x²))/(k[x]/(x³))) ⊗^L k) ≅ k`: the next conormal map sends
   `x²` to zero in `(x)/(x²)`. Thus the connecting map is nonzero.
-- `transitivityTriangle_cone_sign`: the cone triangle of `0 : ℚ[0] → ℚ[0]` sends its
+- the cone triangle of `0 : ℚ[0] → ℚ[0]` sends its
   degree-`−1` generator to `−1` in the shifted source `ℚ[1]`.
-- `kernelExtensionClass_zero`, `kernelExtensionClass_nonzero` and
-  `kernelExtensionClass_faithfully_flat`: zero kernel gives zero, the extension with
+- zero kernel gives zero, the extension with
   `A = B` and nonzero identified kernel gives its identity conormal map, and faithfully
   flat scalar extension preserves that nonzero class.
-- `deformationObstruction_zero`, `deformationObstruction_split` and
-  `deformationObstruction_polynomial`: zero kernel, a split base extension and a smooth
+- zero kernel, a split base extension and a smooth
   polynomial algebra give zero obstruction, respectively. For a split base extension
   its kernel-extension class over the upper base can still be nonzero.
-- `derivationEvaluation_zero`, `derivationEvaluation_base` and
-  `derivationEvaluation_nonzero`: zero class evaluates to zero, every derivation vanishes
+- zero class evaluates to zero, every derivation vanishes
   on base scalars, and a nonzero degree-zero class gives a nonzero derivation.
-- `polynomialLift_positive`, `polynomialLift_inverse` and `polynomialLift_composition`:
-  `h_1(X) − X = ε`, the inverse has difference `−ε`, and `h_a ∘ h_b = h_(a+b)`.
+- `h_1(X) − X = ε`, the inverse has difference `−ε`, and `h_a ∘ h_b = h_(a+b)`.
   Over `ℚ` the positive and negative classes differ.
 
-### 1.T.1 Towers, `lim` and `lim¹`
+### Examples
 
-The shared generic interface is `ℕᵒᵖ ⥤ ModuleCat R` for an associative unital ring `R`,
-with natural transformations as morphisms. `ModuleTower.Product` is its product of terms.
-Define `ModuleTower.shift` as the `R`-linear map
-`δ(x)_n = x_n − φ_n(x_(n+1))`, `ModuleTower.lim` as its kernel and `ModuleTower.limOne`
-as its cokernel. `ModuleTower.productMap` acts levelwise on products; `ModuleTower.shift_natural`
-says it commutes with `δ`, inducing `ModuleTower.limMap` and `ModuleTower.limOneMap`.
-Their identity, composition and zero laws, six-term connecting map and Milnor injection are
-`R`-linear and natural. Require compatibility with products of towers. The formulas are
-`ModuleTower.shift_apply` and `ModuleTower.productMap_apply`. The abelian-group presentation `CompactCoefficients.Tower`
-below is the integral-module adapter: `Tower.toModuleFunctor`, `Tower.limComparison` and
-`Tower.limOneComparison` identify its constructions with this interface, naturally in tower
-maps and compatibly with the shift, six-term boundary and Milnor maps.
+For A → A[x], the cotangent complex is A[x] dx in degree zero. For a prime p and ℤ → ℤ/p, it is (ℤ/p)[1]. These put smooth differentials and the conormal class in different degrees.
 
-The generic foundation exported to [AlgebraicTopology, Stage 6, item 1](../AlgebraicTopology/README.md#stage-6-cohomology-products-and-manifold-duality)
-applies to its singular cochains and to the relative chains of Stages 2–3 after their
-topological tower adapters. The cofinal-shift and specified-homotopy-square comparisons are
-owned by §1.1 here. CharacteristicClasses C3, AffineMorseLefschetz A4, CStarClassification CL8
-and DGFloer's complete inverse cochain filtrations use these same maps, including the
-six-term boundary, both integer-graded Milnor maps and `lim¹` functoriality. Topological
-identifications of the towers and their limits belong to the applications.
+### Dependencies
 
-**lim and lim¹ of a tower.** Let `(A_n, φ_n : A_{n+1} → A_n)` be a tower of abelian groups indexed
-by `ℕ`, and let `δ : ∏ A_n → ∏ A_n` be the shift `(a_n) ↦ (a_n − φ_n(a_{n+1}))`. Define
-`lim A = ker δ` and `lim¹ A = coker δ`. Then `lim` and `lim¹` are `R⁰lim` and `R¹lim` on towers of
-abelian groups, and `Rᵖlim = 0` for `p > 1`. In `Suggested.lean` a tower is the structure
-`CompactCoefficients.Tower` (terms and transition homomorphisms), with the shift `Tower.shift`, its
-cokernel `Tower.limOne` and the underlying functor `Tower.toFunctor : ℕᵒᵖ ⥤ AddCommGrpCat`; the
-composite transitions `A_{n+k} → A_n` are the iterated transition maps. The vanishing in degrees
-`p > 1` is special to
-`ℕ`-indexed towers; for other index categories the higher derived limits need not vanish.
+Layers 0–1 and Mathlib differentials, algebra extensions and derived categories.
 
-The API:
-
-- `lim A = ker δ`: a family `a` lies in `lim A` exactly when `φ_n(a_{n+1}) = a_n` for all `n`.
-- `CompactCoefficients.Tower.limOne`: `lim¹ A = coker δ`.
-- Surjective transitions give `lim¹ A = 0`.
-
-*Proof sketch.* `lim` and `lim¹` are defined as kernel and cokernel of the shift; the
-identification with `Rlim` and the vanishing for `p > 1` are the Stacks Project lemma
-([Stacks Project](https://stacks.math.columbia.edu), More on Algebra, Lemma 15.88.1, tag 07KW).
-*Needs:* Mathlib `ModuleCat`, functor categories, module products, kernels and quotients;
-abelian groups for the integral-module adapter.
-
-**Checks.**
-
-- The tower `ℤ/p^{n+1} ↠ ℤ/p^n` with the reduction maps
-  has `lim = ℤ_p`, with the equivalence given by reduction modulo `pⁿ`, and `lim¹ = 0`.
-- For a prime `p`, the tower `ℤ ← ℤ ← ⋯` with every transition multiplication by
-  `p` has `lim = 0` and `lim¹ ≅ ℤ_p/ℤ ≠ 0`; the latter map sends a family
-  `(a_n)` to the class of the convergent sum `Σ_{n≥0} pⁿa_n`.
-- The constant tower with identity transitions has `lim` equal to the diagonal
-  copy of `A` and `lim¹ = 0`.
-
-**Mittag-Leffler towers.** A tower `(A_n)` is Mittag-Leffler if for every `n` the images of the
-composite transitions `A_{n+k} → A_n` stabilise as `k` grows. The condition is a condition on the
-underlying sets, as in the Stacks Project; for a tower of groups these images are subgroups.
-
-The API:
-
-- `CompactCoefficients.Tower.IsMittagLeffler`: the stabilisation condition.
-- Surjective transitions are Mittag-Leffler.
-- Towers of finite groups are Mittag-Leffler.
-- The predicate, which is Mathlib's `IsMittagLeffler` for the underlying functor `ℕᵒᵖ ⥤ Type`,
-  holds exactly when for every `n` the ranges of the composite transitions `A_{n+k} → A_n` are
-  eventually constant.
-
-*Proof sketch.* View the tower as a functor on `ℕᵒᵖ` with values in abelian groups and forget to
-types. Take Mathlib's `Functor.IsMittagLeffler` as the predicate and prove its eventual-range
-formulation for the composite transition maps. Surjective transitions have constant ranges; for
-finite terms the ranges form a descending chain of finite subgroups, which stabilises
-([Stacks Project](https://stacks.math.columbia.edu), Algebra, Definition 10.86.1, tag 0594).
-*Needs:* Mathlib `CategoryTheory.Functor.IsMittagLeffler`.
-
-**Checks.**
-
-- `ml_finite`: the constant `ZMod 2` tower with identity transitions has stable image `ZMod 2`.
-- `ml_surjective`: the `ZMod 2` tower with zero transitions has stable image zero from the
-  first transition onward; it is Mittag-Leffler despite nonsurjective transitions.
-- `ml_mul_p_fails`: `ℤ ← ℤ` with multiplication by `p` is not Mittag-Leffler: the images in
-  `A_n` are `p^kℤ`, which never stabilise.
-
-**Mittag-Leffler towers have vanishing lim¹.** If a tower `(A_n)` of abelian groups indexed by `ℕ`
-is Mittag-Leffler, then `lim¹ A = 0` (`Tower.limOne_subsingleton_of_isMittagLeffler`). The converse
-holds for towers of countable groups but fails in general; it is not needed here.
-
-*Proof sketch.* Replace `A_n` by its stable image; the stable images form a tower with surjective
-transitions and the same `lim¹`. For surjective transitions solve `a_n − φ_n(a_{n+1}) = b_n` by
-induction on `n` ([Stacks Project](https://stacks.math.columbia.edu), More on Algebra,
-Lemma 15.88.1, tag 07KW). *Needs:* §1.T.1 / *lim and lim¹ of a tower*; §1.T.1 / *Mittag-Leffler towers*.
-
-**Checks.**
-
-- The tower `A_n = ℤ/p` with zero transitions is Mittag-Leffler (all images in `A_n` from `k ≥ 1`
-  on are `0`) without surjective transitions; here `δ` is the identity, so `lim = lim¹ = 0`.
-- The hypothesis cannot be dropped: `ℤ ← ℤ` with multiplication by `p` has `lim¹ ≅ ℤ_p/ℤ ≠ 0`.
-- The converse fails for uncountable groups: the tower `pⁿℤ_p` with inclusions is not
-  Mittag-Leffler, yet `lim¹ = 0`, since `a_n = Σ_{k≥n} b_k` converges in `pⁿℤ_p` and solves
-  `a_n − a_{n+1} = b_n`.
-
-**The six-term sequence of lim and lim¹.** Let `0 → A → B → C → 0` be a sequence of towers of
-abelian groups, compatible with the transition maps and exact at every level `n`. Then there is an
-exact sequence
-
-```text
-0 → lim A → lim B → lim C → lim¹ A → lim¹ B → lim¹ C → 0.
-```
-
-In `Suggested.lean` a morphism of towers is `Tower.Hom`, with its map `Hom.onProduct` on products
-and the induced map `Hom.limOneMap`; the `lim¹` half of the sequence is `Tower.limOne_exact`.
-Construct the identity, composite (in the order `g ∘ f`) and zero morphisms of towers, and prove
-that their induced maps on products and on `lim¹` are the identity, composite and zero
-homomorphisms, respectively.
-
-*Proof sketch.* Apply the snake lemma to the shift maps on the short exact sequence
-`0 → ∏ A_n → ∏ B_n → ∏ C_n → 0` ([Stacks Project](https://stacks.math.columbia.edu), More on
-Algebra, Lemma 15.88.1, tag 07KW; [Stacks Project](https://stacks.math.columbia.edu), Algebra,
-Lemma 10.86.4, tag 0598). *Needs:* §1.T.1 / *lim and lim¹ of a tower*.
-
-**Checks.**
-
-- For `0 → p^nℤ → ℤ → ℤ/p^n → 0` with inclusion, identity and reduction transitions, the connecting map `ℤ_p → ℤ_p/ℤ` is the quotient and detects the failure of surjectivity of `lim ℤ → lim ℤ/p^n`.
-- For constant towers arising from a short exact sequence of groups, all three `lim¹` terms vanish and the six-term sequence reduces to that short exact sequence.
-
-**Checks.**
-
-- If `A` is Mittag-Leffler, `0 → lim A → lim B → lim C → 0` is exact (Stacks, Algebra,
-  Lemma 10.86.4).
-- The identity endomorphism of the multiplication-by-three tower on `ℤ` induces the identity on
-  its nonzero `lim¹ ≅ ℤ₃/ℤ`, and fixes every class under the convergent-sum identification above.
-- The zero endomorphism of that tower induces zero on the same nonzero `lim¹`.
-- The levelwise multiplication-by-two endomorphism of that tower induces multiplication by two
-  on `ℤ₃/ℤ`. It kills the nonzero class of `1/2 ∈ ℤ₃`, since its double is the integer `1`.
-
-**The Milnor sequence for towers of complexes.** Let `(K_n)` be a tower of cochain complexes of
-abelian groups whose transitions are surjective in every degree, and `K = lim K_n` (so that
-`lim K_n` computes `Rlim K_n`). Then for every `p` there is a short exact sequence
-
-```text
-0 → lim¹ H^{p−1}(K_n) → Hᵖ(K) → lim Hᵖ(K_n) → 0.
-```
-
-*Proof sketch.* The sequence `0 → K → ∏ K_n → ∏ K_n → 0`, with the shift as second map, is a short
-exact sequence of complexes: the shift is surjective in each degree because the transitions are.
-In its long exact cohomology sequence the maps `∏ Hᵖ(K_n) → ∏ Hᵖ(K_n)` are again shifts, whose
-kernels and cokernels are `lim` and `lim¹` of `H^•(K_n)` ([Stacks
-Project](https://stacks.math.columbia.edu), More on Algebra, Lemma 15.88.10, tag 07KY, with
-Lemma 15.88.9, tag 07KX). *Needs:* §1.T.1 / *lim and lim¹ of a tower*; §1.T.1 / *The six-term sequence of lim and lim¹*.
-
-The same shift calculation in `ModuleCat R` gives the native module Milnor sequence used in
-§1.1. The integral-module adapter transports it to abelian groups, including the injection and
-projection. All connecting maps are retained under this comparison.
-
-**Checks.**
-
-- The `lim¹` term is genuinely present: for `K_n = [ℤ → ℤ/pⁿ]` in degrees `0, 1` (reduction map,
-  transitions the identity on `ℤ` and reduction on `ℤ/pⁿ`), `K = [ℤ → ℤ_p]` has `H¹(K) = ℤ_p/ℤ`,
-  while `H¹(K_n) = 0` and `H⁰(K_n) = pⁿℤ` with inclusions, a non-Mittag-Leffler tower with
-  `lim¹ ≅ ℤ_p/ℤ`. It vanishes when `(H^{p−1}(K_n))` is Mittag-Leffler (*Mittag-Leffler towers have
-  vanishing lim¹*).
-- A constant tower with identity transitions has `K = K_0`; the map
-  `Hᵖ(K) → lim Hᵖ(K_n)` is the diagonal identification and its `lim¹` term vanishes.
-- For the complexes `K_n = ℤ/p^{n+1}[0]` with reduction transitions, `K = ℤ_p[0]` and the
-  sequence in degree zero is `0 → 0 → ℤ_p → ℤ_p → 0`; all other degrees vanish.
+## Layer 3: derived limits, Hom and completion
 
 ### 1.1 Derived limits of towers
 
-For an associative unital ring `A` and an `ℕ`-indexed strict tower `(K_n)` of complexes of
-left `A`-modules, construct the functor
-`DerivedDeRham.derivedLimit : DerivedCategory (ℕᵒᵖ ⥤ ModuleCat A) ⥤ D(A)`.
-It is represented by `Cone(δ)[−1]` on product complexes, or by termwise inverse limit after
-a levelwise quasi-isomorphic degreewise-surjective replacement. Prove localization invariance,
-functoriality, exactness and the natural comparison between these models, including projections
-and connecting maps. For chain maps of strict towers, construct the comparison between the
-product-cone model of `Rlim(Cone f)` and `Cone(Rlim f)`, compatible with cone inclusions,
-projections and shifts. Transport this comparison through localization to obtain exactness
-on the derived category of towers. This is the shared module-derived limit, independent of
-topological applications. A tower of objects in `D(A)` alone is not a strict derived diagram.
+For an associative unital ring `A`, descend the supplied shifted-cone model on strict towers
+of left-module complexes through quasi-isomorphisms to a functor
+`DerivedCategory (ℕᵒᵖ ⥤ ModuleCat A) ⥤ D(A)`. The additional result is the localization comparison:
+the quotient functor followed by this derived-limit functor is naturally isomorphic to the
+supplied product-cone construction followed by localization in `D(A)`. Prove that this functor
+commutes with integer shifts and preserves distinguished triangles, with the global connecting
+morphism transported by the shift comparison. For a chain map of strict towers, compare the
+localized product cone of its fibrewise mapping cone with the mapping cone of the induced map
+on derived limits, compatibly with inclusions and projections. This supplies the exact-functor
+structure. A sequence of triangles distinguished only at each level does not suffice.
 
-The shift kernels and cokernels are supplied by §1.T.1 / *lim and lim¹
-of a tower*, with their connecting maps supplied by §1.T.1 / *The six-term
-sequence of lim and lim¹*. The sequence
-`0 → lim¹ H^(j−1)K_n → H^j(Rlim K_n) → lim H^jK_n → 0` is the native module result supplied
-by §1.T.1 / *The Milnor sequence for towers of complexes*, applied to the
-degreewise-surjective replacement. Retain its left term unless the cohomology tower
-`(H^(j−1)K_n)` satisfies the criterion supplied by §1.T.1 /
-*Mittag-Leffler towers have vanishing lim¹*; degreewise surjectivity of the complex transitions alone
-does not impose that criterion on cohomology.
-
-Convention: transitions are `K_(n+1) → K_n` for `n : ℕ` (positive indices and filtration tails
-`i ≥ i₀` are reindexed by `n + 1` and `i₀ + n`), Mittag-Leffler means eventual stabilization of
-transition images. The integral-module/abelian-group adapter preserves the shift kernels,
-cokernels and Milnor maps, including their connecting morphisms.
+Require the localization comparison to intertwine the projections, six-term boundaries,
+integer-graded Milnor injection and projection, cofinal reindexing and specified homotopy-square
+maps of the supplier contract. A degreewise-surjective replacement gives the ordinary-limit
+model, with the same Milnor maps. Its left term remains lim¹ of the preceding cohomology tower
+unless that tower is Mittag–Leffler; surjectivity of the transitions of complexes does not imply
+this condition on cohomology. A tower of objects in `D(A)` alone is not a strict derived diagram.
 
 The Čech computation of derived limits is formalised in [AffineCrystalline] for module-valued
 diagrams on a category carrying Čech nerve data (`CechNerveData` in
@@ -1637,41 +1465,22 @@ diagrams on a category carrying Čech nerve data (`CechNerveData` in
 towers, Milnor sequences and Mittag-Leffler criteria of this section lie outside it.
 
 [StacksMA], §15.89, Lemmas 15.89.1, 15.89.3–15.89.4, Remark 15.89.10 and Lemmas 15.89.11–15.89.12;
-Tags 091D, 0CQD, 0CQE, 091J, 091K, 091L, pp.238–241.
+Tags 091D, 0CQD, 0CQE, 091J, 091K, 091L, pp.238–242.
 
-*Needs:* Mathlib `DerivedCategory`, `HomologicalComplex`, `CochainComplex`; §1.T.1 / *lim and lim¹ of a tower*, *Mittag-Leffler towers*, *Mittag-Leffler towers have vanishing
-lim¹*, *The six-term sequence of lim and lim¹*, *The Milnor sequence for towers of complexes*.
+*Needs:* AlgebraicTopology Stage 6, item 0 (the module-tower contract in Exact supplier contracts);
+Mathlib `DerivedCategory`, `HomologicalComplex`, `CochainComplex`, localization and mapping cones.
 
-Provide the following module adapters and functor laws.
+The API of the localized functor includes:
 
-- `derivedLimit_surjective`: for a degreewise-surjective system, `Rlim` is the termwise limit, as
-  supplied by §1.T.1 / *The Milnor sequence for towers of complexes*,
-  retaining the `A`-module structure.
-- `derivedLimit_milnor`: the natural `A`-linear sequence supplied by §1.T.1 / *The Milnor sequence for towers of complexes* on a degreewise-surjective replacement,
-  with `lim¹` vanishing under the cohomology Mittag-Leffler hypothesis stated above.
-- `derivedLimit_commShift`: equip `Rlim` with Mathlib's `Functor.CommShift ℤ`, using the
-  product-cone comparison to give coherent isomorphisms `Rlim(K[j]) ≅ (Rlim K)[j]`.
-- `derivedLimit_triangle`: for a triangle `T` in `DerivedCategory (ℕᵒᵖ ⥤ ModuleCat A)`
-  with `T ∈ distTriang _`, its image under `(derivedLimit A).mapTriangle` is distinguished
-  in `D(A)` ([StacksMA], Tag 091D). Retain the source triangle's global connecting morphism,
-  composed with the shift comparison. Short exact sequences of strict towers of complexes
-  use their canonical global connecting morphisms.
-- `derivedLimit_cofinal`: restriction along a monotone cofinal `c : ℕ → ℕ` gives a natural
-  isomorphism on derived limits, commuting with projections, the six-term boundaries and both
-  Milnor maps; this includes tails and finite shifts. Reindex homological degree `j` as
-  cohomological degree `−j` to obtain the integer-graded chain version with left term
-  `lim¹ H_(j+1)`, retaining possible homology in degree `−1`.
-- `derivedLimit_homotopySquare`: for product-complex maps `u, v` and a specified degree-`−1`
-  homotopy `h` with `δ′u − vδ = dh + hd`, construct the map of fibres. In the fibre convention
-  `Fib(δ)^j = P^j ⊕ P^(j−1)`, `d(x,y) = (dx, δx−dy)`, it is
-  `(x,y) ↦ (ux, vy+hx)`. Composite squares use `h₂u₁ + v₂h₁`. A specified second homotopy
-  between such square data induces a homotopy of fibre maps. No independence from arbitrary
-  choices of `h` is asserted. These are the usual cone identities with Mathlib's mapping-cone
-  signs transported through the fibre comparison ([StacksMA], Tags 07KX, 0CQD).
+- Its value on a degreewise-surjective tower is naturally the ordinary inverse-limit complex.
+- Its cohomology sequence is the supplier's integer-graded Milnor sequence, with both maps retained.
+- It has coherent integer-shift isomorphisms and preserves distinguished triangles in the derived
+  category of strict towers, including their global connecting morphisms.
+- The localization comparison intertwines the supplied cofinal and specified-homotopy-square maps.
 
 **Checks.**
 
-- `test_rlim_constant`: for a constant system `K`, `Rlim K_n ≅ K`.
+- for a constant system `K`, `Rlim K_n ≅ K`.
 - The mapping-cone triangle of the identity on any strict tower maps to the identity triangle
   of its derived limit, with zero third vertex; this tests the cone and shift comparisons.
 - Let `k` be a nonzero field, `V = ⊕_(m≥0) k`, `A_n = ⊕_(m≥n) k`, `B_n = V` and
@@ -1681,7 +1490,7 @@ Provide the following module adapters and functor laws.
   split distinguished triangle at every level. Its derived-limit image is not distinguished:
   its zero boundary would force the finite-support inclusion `⊕ k → ∏ k` to be surjective,
   whereas the all-ones sequence is outside its image. Levelwise distinguishedness does not
-  satisfy the hypothesis of `derivedLimit_triangle`.
+  satisfy the hypothesis of the exactness statement.
 - For the same towers, the canonical triangle of `0 → A → B → C → 0` is distinguished in
   the derived category of towers. Its global connecting morphism is nonzero although each
   evaluation vanishes. The derived-limit boundary is the quotient
@@ -1693,8 +1502,8 @@ Provide the following module adapters and functor laws.
   take zero product maps and `h(x)_n = x₀` for even `n`, zero for odd `n`. The differentials
   vanish, so this is a square homotopy. The induced fibre map on `H⁰` sends `1` to
   `[Σ 3^(2m)] = [−1/8] ≠ 0` in `ℤ₃/ℤ`. Dropping the specified homotopy loses this map.
-- `test_rlim_padic`: for a prime `p` and `K_n = ℤ/p^n` with the reductions, `Rlim = ℤ_p` in degree zero.
-- `test_rlim_lim_one`: for a prime `p` and `K_n = ℤ` with transition maps multiplication by `p`,
+- for a prime `p` and `K_n = ℤ/p^n` with the reductions, `Rlim = ℤ_p` in degree zero.
+- for a prime `p` and `K_n = ℤ` with transition maps multiplication by `p`,
   `lim = 0` and `lim¹ = ℤ_p/ℤ ≠ 0`, so `H¹(Rlim) ≠ 0`; the underived limit loses it.
 - For a prime `p` and `K_n = [ℤ → ℤ/p^(n+1)]` in degrees `0, 1`, the transitions are degreewise
   surjective but `H⁰(K_n) = p^(n+1)ℤ` with inclusions is not Mittag-Leffler; the supplied Milnor injection identifies
@@ -1703,7 +1512,7 @@ Provide the following module adapters and functor laws.
 ### 1.1.1 Unbounded module derived Hom
 
 **Unbounded module derived Hom.** For a commutative ring `A` and arbitrary `L, M ∈ D(A)`,
-construct `DerivedDeRham.moduleDerivedHom`, the `A`-linear object `RHom_A(L,M) ∈ D(A)`.
+construct the derived Hom functor, the `A`-linear object `RHom_A(L,M) ∈ D(A)`.
 Use the K-injective replacement of §0.I.1 to derive the module Hom complex, with its usual
 product totalization. Prove independence of choices and functoriality in both inputs.
 Construct the tensor–Hom adjunction, comparing its tensor with §0.2:
@@ -1720,10 +1529,10 @@ Tag 0A65; [StacksSites], §21.35, *Internal hom in the derived category*.
 
 **Checks.**
 
-- `test_module_rhom_unit`: `RHom_A(A[0],M) ≃ M`, with evaluation the identity under the tensor unit.
-- `test_module_rhom_ext`: for `L = ℤ/p`, `M = ℤ` and prime `p`, `H⁰ RHom_ℤ(L,M) = 0` and
+- `RHom_A(A[0],M) ≃ M`, with evaluation the identity under the tensor unit.
+- for `L = ℤ/p`, `M = ℤ` and prime `p`, `H⁰ RHom_ℤ(L,M) = 0` and
   `H¹ RHom_ℤ(L,M) = ℤ/p`; the shift formula detects the degree-one extension class.
-- `test_module_rhom_nonperfect`: for `L = ℤ[1/p]`, `M = ℤ` and prime `p`, the multiplication-by-p
+- for `L = ℤ[1/p]`, `M = ℤ` and prime `p`, the multiplication-by-p
   tower gives `H⁰ RHom_ℤ(L,M) = 0` and `H¹ RHom_ℤ(L,M) = ℤ_p/ℤ` by §1.1. This nonperfect first
   argument has a nonzero derived Hom although its ordinary Hom vanishes.
 
@@ -1739,7 +1548,7 @@ Let `I = (f₁, …, f_r) ⊂ A` be finitely generated. A complex `M ∈ D(A)` i
 
 *Needs:* Mathlib `DerivedCategory`, `Localization.Away`; §1.1.1 (Unbounded module derived Hom);
 §1.1 (Derived limits of towers);
-§1.T.1 / *The Milnor sequence for towers of complexes*.
+AlgebraicTopology Stage 6, item 0 (Milnor sequences).
 
 Lean: `DerivedDeRham.derivedCompleteness` (stated in `Suggested.lean` as vanishing of all morphisms
 from the shifted localizations).
@@ -1747,30 +1556,30 @@ For `A : Type u`, the prototypes use `ModuleCat.{u} A` and the local instance `m
 of `HasDerivedCategory.{u+1}`. The abbreviations `DerivedDeRham.D`, `DerivedDeRham.mod0` and
 `DerivedDeRham.H` denote the derived category, placement in degree zero and cohomology;
 `DerivedDeRham.isDerivedComplete_triangle` gives the shift and triangle part of
-`isDerivedCompleteLimits`. These and `DerivedDeRham.isCompletelyFlatModule_of_flat` in §1.7
+the closure laws below. These and `DerivedDeRham.isCompletelyFlatModule_of_flat` in §1.7
 carry the same arbitrary universe `u`.
 
-Prove the following named laws.
+Prove the following laws.
 
-- `isDerivedCompleteGenerators`: the condition is RHom-vanishing for any finite generating set of `I`.
-- `isDerivedCompleteRadical`: if `√I = √J`, `I`-complete and `J`-complete objects coincide;
+- `DerivedDeRham.isDerivedCompleteGenerators`: the condition is RHom-vanishing for any finite generating set of `I`.
+- `DerivedDeRham.isDerivedCompleteRadical`: if `√I = √J`, `I`-complete and `J`-complete objects coincide;
   neither this law nor the cohomology criterion needs finite generation of the ideal.
-- `isDerivedCompleteCohomology`: `M` is `I`-complete iff every `H^j(M)` is derived `I`-complete.
-- `isDerivedCompleteLimits`: derived `I`-complete objects are closed under derived limits (1.1),
+- `DerivedDeRham.isDerivedCompleteCohomology`: `M` is `I`-complete iff every `H^j(M)` is derived `I`-complete.
+- derived `I`-complete objects are closed under derived limits (1.1),
   products, shifts and cones in `D(A)`.
 
 **Checks.**
 
-- `test_complete_zero_ideal`: for `I = 0`, every complex is derived complete.
-- `test_complete_unit_ideal`: for `I = A`, only the zero object is complete.
-- `test_complete_zp`: for a prime `p`, over `A = ℤ` with `I = (p)`, `ℤ_p` is derived p-complete,
+- for `I = 0`, every complex is derived complete.
+- for `I = A`, only the zero object is complete.
+- for a prime `p`, over `A = ℤ` with `I = (p)`, `ℤ_p` is derived p-complete,
   while `ℚ_p` is not: the map `ℤ[1/p] → ℚ_p` sending `1` to `1` gives a nonzero degree-zero class
   in `RHom_ℤ(ℤ[1/p], ℚ_p)`.
 
 ### 1.3 The derived completion reflector
 
-For finitely generated `I ⊂ A` construct `Λ_I : D(A) → D(A)`, `DerivedDeRham.derivedCompletion`, with
-natural unit `η_M : M → Λ_I M`, `DerivedDeRham.completionUnit`, left adjoint to the inclusion of derived
+For finitely generated `I ⊂ A` construct `Λ_I : D(A) → D(A)`, the completion reflector, with
+natural unit `η_M : M → Λ_I M`, the completion unit, left adjoint to the inclusion of derived
 `I`-complete objects. For `I = (f_i)`, put `C_I = ⊗_i [A → A[1/f_i]]` in cochain degrees `0, 1` and
 `Λ_I M = RHom_A(C_I, M)`; equivalently the derived limit of Koszul quotients. It is exact,
 independent of generators and idempotent. As a functor into the complete category it preserves
@@ -1789,20 +1598,20 @@ pp.264, 267–268.
 
 *Needs:* §1.2 (Derived ideal completeness); §1.1.1 (Unbounded module derived Hom);
 §1.1 (Derived limits of towers);
-§1.T.1 / *The Milnor sequence for towers of complexes*;
+AlgebraicTopology Stage 6, item 0 (Milnor sequences);
 §0.K.1 (Koszul complexes); §0.2 (Derived tensor products on module derived categories); Mathlib `PadicInt`.
 
 Every completion functor, unit and law below carries the finite-generation witness `hI : I.FG`;
 changing that witness gives the same functor and unit.
 
-Prove the following named laws.
+Prove the following laws.
 
-- `completionUnit`: `η_M` is the universal map from `M` to an `I`-complete object.
-- `completionAdjunction`: `Hom(Λ_I M, N) ≃ Hom(M, N)`, naturally for complete `N`.
-- `completionIdempotent`: `Λ_IΛ_I M ≃ Λ_I M`, compatibly with both units.
-- `completeNakayama`: a complete `M` with `M ⊗^L_A A/I = 0` vanishes.
-- `completionComplete`: for a finitely generated ideal `I`, `Λ_I M` is derived `I`-complete.
-- `completedColimit`: for a small ordinary diagram
+- `η_M` is the universal map from `M` to an `I`-complete object.
+- `Hom(Λ_I M, N) ≃ Hom(M, N)`, naturally for complete `N`.
+- `Λ_IΛ_I M ≃ Λ_I M`, compatibly with both units.
+- a complete `M` with `M ⊗^L_A A/I = 0` vanishes.
+- for a finitely generated ideal `I`, `Λ_I M` is derived `I`-complete.
+- for a small ordinary diagram
   `F : J ⥤ ObjectProperty.FullSubcategory (derivedCompleteness A I)`, let `ι` be the
   full-subcategory inclusion `ObjectProperty.ι (derivedCompleteness A I)`.
   Require `HasColimit (F ⋙ ι)`. Then `F` has a colimit in the complete category, and its image
@@ -1813,9 +1622,9 @@ Prove the following named laws.
 
 **Checks.**
 
-- `test_completion_z`: `Λ_(p)ℤ ≃ ℤ_p` in degree 0.
-- `test_completion_inverted`: `Λ_(p)ℤ[1/p] = 0`, although `ℤ[1/p]` is nonzero.
-- `test_completion_torsion`: `Λ_(p)(ℤ/p^m) ≃ ℤ/p^m` for `m ≥ 1`.
+- `Λ_(p)ℤ ≃ ℤ_p` in degree 0.
+- `Λ_(p)ℤ[1/p] = 0`, although `ℤ[1/p]` is nonzero.
+- `Λ_(p)(ℤ/p^m) ≃ ℤ/p^m` for `m ≥ 1`.
 - For `I = 0` all objects are complete, but multiplication by two on `ℤ[0]` has no categorical
   cokernel in `D(ℤ)`. A cokernel would be an epimorphism, hence split in a triangulated category;
   its target would be a summand of `ℤ[0]`. Since `End(ℤ[0]) = ℤ`, its only summands are zero
@@ -1832,9 +1641,7 @@ derived Koszul quotients. Replacing them by ordinary `A/I^n` for an arbitrary ri
 
 *Needs:* §0.K.1 (Koszul complexes, cohomologically reindexed);
 §1.3 (The derived completion reflector); §1.1 (Derived limits of towers);
-§1.T.1 / *The Milnor sequence for towers of complexes*.
-
-Lean: `DerivedDeRham.koszulCompletionTower`.
+AlgebraicTopology Stage 6, item 0 (Milnor sequences).
 
 **Checks.**
 
@@ -1860,16 +1667,14 @@ Tags 091X, 0923, 09AT, 0G3F, 0921, 0922, 0EET, 0A06, pp.271–277; [Prisms], §1
 
 *Needs:* §1.4 (The derived Koszul completion tower); §0.K.1; Tau
 Ceti `TauCeti.ArtinRees.exists_controlled_lift`; §1.1 (Derived limits of towers);
-§1.T.1 / *The Milnor sequence for towers of complexes*.
-
-Lean: `DerivedDeRham.ordinaryQuotientCompletion`.
+AlgebraicTopology Stage 6, item 0 (Milnor sequences).
 
 **Checks.**
 
-- `test_ordinary_tower_regular`: for `(p) ⊂ ℤ` the ordinary quotient tower gives `ℤ_p`.
-- `test_ordinary_tower_noetherian`: for `A = k[x,y]/(xy)` and `I = (x, y)`, the ordinary tower computes
+- for `(p) ⊂ ℤ` the ordinary quotient tower gives `ℤ_p`.
+- for `A = k[x,y]/(xy)` and `I = (x, y)`, the ordinary tower computes
   `Λ_I A = k[[x,y]]/(xy)` in degree zero, although `(x, y)` is not generated by a regular sequence.
-- `test_ordinary_tower_unbounded_torsion`: for a prime `p`, put `R = ℤ_p`, `T = ℚ_p/R`,
+- for a prime `p`, put `R = ℤ_p`, `T = ℚ_p/R`,
   `A = R ⋉ T` with square-zero second summand, `I = (p)` and `C = Λ_I(A[0]) ∈ D(A)`.
   Give `R` the quotient `A`-action. Since `p^n T = T`, the ordinary quotient tower gives `R[0]`,
   whereas `H^−1(C) ≅ R`, `H⁰(C) ≅ R` as `A`-modules and all other cohomology vanishes.
@@ -1904,12 +1709,6 @@ Mathlib `CategoryTheory/Localization/Construction.lean` and `Algebra/Category/Co
 *Needs:* §0.1 (Simplicial polynomial resolutions); §0.2.2 (Simplicial module comparisons);
 §1.2 (Derived ideal completeness); Mathlib `CommAlgCat`, `MorphismProperty.Localization`.
 
-Lean names: `DerivedDeRham.SimplicialAlgebra`, `DerivedDeRham.simplicialAlgebraCochains`,
-`DerivedDeRham.simplicialAlgebraWeakEquivalences`, `DerivedDeRham.SimplicialAlgebraHomotopy`,
-`DerivedDeRham.simplicialAlgebraLocalization`, `DerivedDeRham.simplicialAlgebraUnderlying` and
-`DerivedDeRham.simplicialAlgebraUnderlyingComparison`, with the vanishing of the positive cohomology
-of the underlying derived module stated as a theorem.
-
 **Checks.**
 
 - A constant algebra `B` has `U(q B) ≅ B[0]`; positive cohomology vanishes.
@@ -1940,7 +1739,7 @@ with identity comparisons and composites. Thus the localized model and unit are 
 of the polynomial-resolution/tower choices by algebra comparisons.
 
 Construct the descended endofunctor `L_I : H_A → H_A`,
-`DerivedDeRham.simplicialRingCompletion`, and a natural isomorphism
+the algebra completion functor, and a natural isomorphism
 `q(L_model B•) ≅ L_I(q B•)` carrying the localized strict unit to its descended unit.
 Every functor and law carries `hI : I.FG`. Independence of the finite generating tuple is the
 unit-compatible algebra isomorphism characterized by the universal property below.
@@ -1949,12 +1748,7 @@ unit-compatible algebra isomorphism characterized by the universal property belo
 [StacksMA], Tag 0920 for the underlying module limit.
 *Needs:* the homotopical category above; §0.1; §§0.2–0.2.2; §1.1 (Derived limits of towers);
 §1.3 (The derived completion reflector); §1.4 (The derived Koszul completion tower);
-§1.T.1 / *The Milnor sequence for towers of complexes*.
-
-Lean names: `DerivedDeRham.simplicialRingCompletionModel`, `DerivedDeRham.ringCompletionModelUnit`,
-`DerivedDeRham.ringCompletionModelComparison`, `DerivedDeRham.simplicialRingCompletion` and
-`DerivedDeRham.ringCompletionDescent`, with the preservation of weak equivalences by the strict
-model and the unit compatibility of the descent comparison stated as theorems.
+AlgebraicTopology Stage 6, item 0 (Milnor sequences).
 
 **Checks.**
 
@@ -1974,18 +1768,18 @@ For every complete `C ∈ H_A`, prove that precomposition with `η_B` is a bijec
 `Hom_(H_A)(L_I B, C) ≃ Hom_(H_A)(B, C)`, naturally in `B` and in complete `C`.
 This is an adjunction for algebra maps in `H_A`.
 
-Prove the following named laws, with `hI : I.FG` throughout.
+Prove the following laws, with `hI : I.FG` throughout.
 
-- `ringCompletionUnit`: the descended natural unit, represented by the strict model unit through
-  `ringCompletionDescent_unit`.
-- `ringCompletionUnderlying`: the natural isomorphism `L_I ⋙ U ≅ U ⋙ Λ_I`, satisfying
-  `ringCompletionUnderlying_unit` as displayed above.
-- `ringCompletionMap`: for any `f : B → C` in `H_A`,
+- the descended natural unit, represented by the strict model unit through
+  the localization comparison for units.
+- the natural isomorphism `L_I ⋙ U ≅ U ⋙ Λ_I`, satisfying
+  the displayed underlying-unit equation as displayed above.
+- for any `f : B → C` in `H_A`,
   `f ≫ η_C = η_B ≫ L_I(f)`; the underlying completed map agrees with module completion via `α`.
-- `ringCompletionComplete`: `derivedCompleteness A I (U(L_I B))` for every `B`.
-- `ringCompletionAdjunction`: the algebra-map bijection, with
-  `ringCompletionAdjunction_apply` identifying it with `g ↦ η_B ≫ g`.
-- `ringCompletionIdempotent`: `η_C` is an isomorphism for complete `C`. In particular,
+- `derivedCompleteness A I (U(L_I B))` for every `B`.
+- the algebra-map bijection, with
+  precomposition with the unit identifying it with `g ↦ η_B ≫ g`.
+- `η_C` is an isomorphism for complete `C`. In particular,
   `L_I(η_B) = η_(L_I B)` and its inverse gives `L_I L_I B ≅ L_I B` naturally in `H_A`.
 
 [Prisms], §1.2 and Footnote 6, pp.10–11, for completion of simplicial algebras;
@@ -1994,11 +1788,11 @@ Prove the following named laws, with `hI : I.FG` throughout.
 
 **Checks.**
 
-- `test_ring_completion_z`: the p-completion of constant `ℤ` is isomorphic in `H_ℤ` to constant
+- the p-completion of constant `ℤ` is isomorphic in `H_ℤ` to constant
   `ℤ_p`, compatibly with the algebra unit and its underlying module unit.
-- `test_ring_completion_pd`: the `(p, d)`-completion of constant `ℤ[d]` is isomorphic in `H_(ℤ[d])`
+- the `(p, d)`-completion of constant `ℤ[d]` is isomorphic in `H_(ℤ[d])`
   to constant `ℤ_p[[d]]`, with both generators retained.
-- `test_ring_completion_unit`: at the unit ideal, `L_I B ≅ q(0)` in `H_A`. This is a localized
+- at the unit ideal, `L_I B ≅ q(0)` in `H_A`. This is a localized
   isomorphism, and does not assert a strict isomorphism of levelwise-limit models with zero.
 - For nonzero `A`, let `P• → 0` be its standard polynomial resolution of the zero `A`-algebra
   (Tags 08PM, 08QI). Its module complex is acyclic, so it is complete at `I = A`, but
@@ -2023,23 +1817,23 @@ reads `Tor_n^A(M, A/I) = 0` for `n > 0` and `M/IM` flat over `A/I`; this module 
 *Needs:* §0.2 (Derived tensor products on module derived categories); §1.2 (Derived ideal completeness); Mathlib `CategoryTheory.Tor`, `Module.Flat`.
 
 Lean: `DerivedDeRham.IsCompletelyFlatModule` and `DerivedDeRham.isCompletelyFlatModule_of_flat` are
-stated in `Suggested.lean`; the derived predicate `DerivedDeRham.completeFlatness` waits for `⊗^L`.
+stated in `Suggested.lean`; the general derived predicate uses the tensor product of §0.2.
 
-Prove the following named laws.
+Prove the following laws.
 
-- `completeFlatReduction`: complete flatness is equivalent to flat discrete derived reduction.
-- `completeFlatCompletion`: the derived `I`-completion of a flat `A`-module is `I`-completely flat.
-- `completeFlatBaseChange`: derived base change followed by completion preserves complete flatness
+- complete flatness is equivalent to flat discrete derived reduction.
+- the derived `I`-completion of a flat `A`-module is `I`-completely flat.
+- derived base change followed by completion preserves complete flatness
   and complete faithful flatness.
-- `completeTorAmplitude`: amplitude `[a, b]` means every derived tensor with a discrete `A/I`-module has
+- amplitude `[a, b]` means every derived tensor with a discrete `A/I`-module has
   cohomology in `[a, b]`.
 
 **Checks.**
 
-- `test_complete_flat_z`: for a prime `p`, `ℤ` as a `ℤ`-module is p-completely flat but is not derived
+- for a prime `p`, `ℤ` as a `ℤ`-module is p-completely flat but is not derived
   p-complete.
-- `test_complete_flat_zp`: `ℤ_p` is p-completely faithfully flat over `ℤ`.
-- `test_complete_flat_fp_boundary`: `F_p` is not p-completely flat over `ℤ`: `F_p ⊗^L_ℤ F_p` has a
+- `ℤ_p` is p-completely faithfully flat over `ℤ`.
+- `F_p` is not p-completely flat over `ℤ`: `F_p ⊗^L_ℤ F_p` has a
   nonzero degree `−1` term. The analogous `ℤ_p` calculation has the same obstruction.
 
 ### 1.8 Bounded torsion and complete Tor-amplitude
@@ -2055,8 +1849,6 @@ these flatness and torsion conditions is p-completely flat.
 [BMS19], Lemmas 4.6–4.7 and Corollary 4.8, pp.221–223.
 
 *Needs:* §1.3 (The derived completion reflector); §1.7 (Complete flatness and complete faithful flatness); §1.4 (The derived Koszul completion tower).
-
-Lean: `DerivedDeRham.boundedTorsionCriterion`.
 
 **Checks.**
 
@@ -2075,9 +1867,7 @@ change. These statements concern Čech descent; hyperdescent is not asserted.
 [BMS19], Remark 4.9 and the §3 flat-descent argument, pp.215–218, 223.
 
 *Needs:* §1.3 (The derived completion reflector); §1.7 (Complete flatness and complete faithful flatness); §1.8 (Bounded torsion and complete Tor-amplitude); §1.1 (Derived limits of towers);
-§1.T.1 / *The Milnor sequence for towers of complexes*.
-
-Lean: `DerivedDeRham.completeFlatDescent`.
+AlgebraicTopology Stage 6, item 0 (Milnor sequences).
 
 **Checks.**
 
@@ -2085,30 +1875,33 @@ Lean: `DerivedDeRham.completeFlatDescent`.
 - For `ℤ_p → ℤ_p × ℤ_p`, the Čech complex splits and recovers every derived p-complete `M`.
 - For `ℤ_p → F_p`, faithful ordinary reduction modulo p does not suffice: the nonzero `Tor₁^ℤ_p(F_p,F_p)` violates complete flatness.
 
+### Examples
+
+For a prime p, the multiplication-by-p tower has H⁰(Rlim) = 0 and H¹(Rlim) = ℤ_p/ℤ. For I = 0 every complex is complete; for I = (1) only the zero derived object is complete.
+
+### Dependencies
+
+Layer 1, the Koszul complex of Layer 0, AlgebraicTopology Stage 6 item 0, Mathlib localization, and Tau Ceti Artin–Rees for the Noetherian comparison.
+
+## Layer 4: perfect complexes, finite models and effectivity
+
 ### 1.E.0 Finite models and the effectivity interfaces
 
 **Perfect module complexes and finite models.** Define `DerivedDeRham.IsPerfect A K` by the
 existence of a bounded complex of finite projective left `A`-modules representing `K ∈ D(A)`,
-for every associative unital ring `A`. This is the single ordinary-module predicate;
-`PerfectComplex.IsPerfect` is an alias of `DerivedDeRham.IsPerfect`, including for commutative
-rings. The elementary finite-model and closure API belongs here. ALS.F.2 consumes it for
-opposite-ring duals, right-module Tor tests, restriction of scalars and arithmetic applications.
-For commutative `A`, EtaleCohomologyFoundations F.10.3 consumes this predicate for its DG/module
-equivalence, compact/dualizable comparison and traces. Its `PerfectComplexInput(A)` realization is an equivalence onto the full
-subcategory defined by this predicate, natural in morphisms and coefficient maps and compatible
-with shifts, scalar extension, tensor, duals and finite filtered graded-piece maps. Finite-projective
-representatives realize to their usual derived objects and traces to their alternating termwise
-traces. These comparisons and traces belong to EtaleCohomologyFoundations F.10.3, not this core.
+for every associative unital ring `A`. This is the single ordinary-module predicate.
+The elementary finite-model and closure API belongs here. Expose the same predicate under the
+perfect-complex namespace used by the trace consumer.
 
 For unital rings define `IsPseudoCoherent A K` by a bounded-above finite-free representative.
 The bounded-above finite-projective formulation is equivalent, by successively adjoining
-finite-projective complements. Define `HasTorAmplitude A a b K`, for commutative `A`, by vanishing of `H^i(K ⊗^L_A N[0])` for every `A`-module `N`
+finite-projective complements. Define Tor amplitude [a,b] for K over commutative A by vanishing of `H^i(K ⊗^L_A N[0])` for every `A`-module `N`
 and `i ∉ [a,b]`. Provide invariance under isomorphisms, closure of perfect complexes under shifts
 and the third vertex of distinguished triangles, and closure under retracts, for unital rings.
 For commutative rings provide arbitrary derived scalar change and a finite Tor interval for
 every perfect complex. A perfect complex is pseudo-coherent; it need not have
 a bounded finite-free representative. For bounded-above finite-free complexes, supply
-`finiteFreeBaseChangeModel`: ordinary termwise scalar extension represents derived base change,
+the finite-free base-change comparison: ordinary termwise scalar extension represents derived base change,
 naturally in complex maps and in compositions of ring maps.
 ([StacksMA], Definition 15.76.1, Tag 0657; Lemmas 15.76.2 and 15.76.4, Tags 0658 and 066R;
 Lemma 15.76.5, Tag 066S; Definition 15.66.1, Tag 064Q; §15.68, Tag 0651;
@@ -2117,14 +1910,11 @@ the general-ring closure laws follow from finite-projective representatives and 
 *Needs:* §0.2 (derived tensor and scalar extension); Mathlib `Module.Projective`, `Module.Free`,
 `Module.Finite`, complexes and `DerivedCategory.Q`.
 
-*Lean:* `Suggested.lean` declares `DerivedDeRham.IsPerfect`, its alias `PerfectComplex.IsPerfect`,
+*Lean:* `Suggested.lean` declares `DerivedDeRham.IsPerfect`,
 `IsPseudoCoherent`, `IsFiniteFreeModel A P b` (finite freeness in every degree and vanishing above
 `b`), `complexBaseChange` (Mathlib's termwise `ModuleCat.extendScalars` functor) and the closure
 theorems `isPerfect_retract`, `isPerfect_shift`, `isPerfect_triangle` and
-`isPerfect_isPseudoCoherent`. The Tor-amplitude predicate `HasTorAmplitude`, invariance of
-perfection under isomorphism, the scalar functors `derivedBaseChange` and `derivedRestriction` with
-`derivedBaseChangeAdjunction`, the base-change and finite-Tor-interval theorems for perfect
-complexes and `finiteFreeBaseChangeModel` wait for the derived tensor of §0.2.
+`isPerfect_isPseudoCoherent`.
 
 **Checks.**
 
@@ -2138,11 +1928,11 @@ complexes and `finiteFreeBaseChangeModel` wait for the derived tensor of §0.2.
   base change must retain the negative cohomology.
 
 **Compatible finite-free models.** Let `A_(n+1) → A_n` be surjective maps of commutative rings
-with locally nilpotent kernels. A `PerfectSystem` consists of perfect `M_n ∈ D(A_n)` and
+with locally nilpotent kernels. A compatible perfect system consists of perfect `M_n ∈ D(A_n)` and
 specified isomorphisms `M_(n+1) ⊗^L_(A_(n+1)) A_n ≅ M_n`; their adjoints
-`PerfectSystem.transition` are the given transition maps. For commutative rings the kernel
+are the given transition maps. For commutative rings the kernel
 condition is equivalently that each of its elements is nilpotent; each finitely generated
-subideal is then nilpotent. Construct `compatibleFiniteFreeModels`: bounded-above complexes `P_n` of
+subideal is then nilpotent. Construct compatible finite-free models: bounded-above complexes `P_n` of
 finite free `A_n`-modules, all zero above one bound, isomorphisms `P_n ≅ M_n` in `D(A_n)`,
 and isomorphisms of complexes `P_(n+1) ⊗_(A_(n+1)) A_n ≅ P_n` compatible with the specified
 derived reductions. Their adjoints are actual semilinear chain maps representing the original
@@ -2157,9 +1947,6 @@ proof, Tag 0CQF.)
 *Needs:* §1.E.0 / Perfect module complexes and finite models; Mathlib's finite free modules,
 Nakayama's lemma, module scalar extension and complexes.
 
-*Lean names:* `DerivedDeRham.PerfectSystem`, `FiniteFreeSystemModel`, `finiteFreeModelLift`,
-`compatibleFiniteFreeModels`; their statements mention derived scalar extension.
-
 **Checks.**
 
 - Constant rings and a constant bounded finite-free complex admit identical models and identity
@@ -2171,19 +1958,19 @@ Nakayama's lemma, module scalar extension and complexes.
   compatibility of differentials.
 
 **Strict towers and finite-model limits.** For a surjective ring tower with locally nilpotent
-transition kernels, `A = lim A_n` and a `FiniteFreeSystemModel`, restrict its semilinear chain maps along the compatible projections `π_n : A → A_n` to form a
-strict tower of `A`-complexes. Its image `finiteFreeSystemDiagram` belongs to
+transition kernels, `A = lim A_n` and a compatible finite-free model, restrict its semilinear chain maps along the compatible projections `π_n : A → A_n` to form a
+strict tower of `A`-complexes. Its image belongs to
 `DerivedCategory (ℕᵒᵖ ⥤ ModuleCat A)`. Evaluation gives the original restricted `M_n`, with
 commuting transition squares in `D(A)`. This is a chosen derived-diagram lift; a tower of objects
 in `D(A)` is not identified with the derived category of strict towers.
 
-Construct the termwise limit complex `finiteFreeSystemLimit`. Compatible bases identify each
+Construct the termwise limit complex. Compatible bases identify each
 term with a finite free `A`-module of the corresponding rank at stage zero. The complex is bounded
 above, and its ordinary reductions are isomorphic as complexes to `P_n`, compatibly with the
 projections and transition maps. Thus it is pseudo-coherent and computes its derived reductions.
-Prove `finiteFreeSystemLimit_comparison`: §1.1's derived limit of this strict tower is represented
+Prove the limit comparison: §1.1's derived limit of this strict tower is represented
 by the termwise limit, and its fibre triangle for `1−shift` identifies these projections.
-Prove `finiteFreeSystemLimit_reduction` and `finiteFreeSystemLimit_model` with these identifications.
+Prove the reduction comparison and the model identification with these identifications.
 
 Replacement comparisons and naturality are in the derived category of varying-ring diagrams
 `D(Mod(ℕ,(A_n)))`, followed by restriction to the derived category of strict `A`-towers.
@@ -2201,9 +1988,7 @@ Lemma 15.99.1 and its proof, Tag 0CQF.)
 Mathlib's module diagram categories, complexes, localization and ring inverse limits.
 
 *Lean:* `Suggested.lean` declares `DerivedDeRham.IsRingTowerLimit`, the universal property of the
-specified ring projections. The names `finiteFreeSystemDiagram`, `finiteFreeSystemLimit`,
-`finiteFreeSystemLimit_model`, `finiteFreeSystemLimit_comparison` and
-`finiteFreeSystemLimit_reduction` wait for the derived limit of §1.1.
+specified ring projections.
 
 **Checks.**
 
@@ -2242,7 +2027,7 @@ bounded-above finite-free model `P` of `K`, whose residue fibres are the termwis
 
 ### 1.E.1 Effectivity of compatible perfect systems
 
-Prove `perfectInverseSystemEffectivity`. Let `A = lim A_n` for an inverse sequence of rings with
+Prove effectivity of compatible perfect systems. Let `A = lim A_n` for an inverse sequence of rings with
 surjective transitions `A_(n+1) → A_n` whose kernels are locally nilpotent. Let `M_n` be perfect
 complexes in `D(A_n)`, with maps `M_(n+1) → M_n` in `D(A_(n+1))` inducing the specified
 isomorphisms `M_(n+1) ⊗^L_(A_(n+1)) A_n → M_n`. For any compatible finite-free lift from §1.E.0,
@@ -2267,21 +2052,26 @@ then gives a bounded finite-projective representative. The theorem holds for eve
 model; its comparisons are natural for morphisms in the derived-diagram category specified in
 §1.E.0. They retain the given transition maps.
 
-*Lean name:* `DerivedDeRham.perfectInverseSystemEffectivity`, whose statement mentions derived
-scalar extension and the derived limit. In the differential Check below, `[A --x→ A]` is the
-mapping cone of multiplication by `x` on `A[0]`, and the power-series quotients `k[[t]]/(t^n)`
-identify with the polynomial quotients `k[t]/(t^n)`.
-
 **Checks.**
 
-- `PerfectLimitChecks.constant`: a constant ring and perfect complex with identity transitions are recovered by their derived limit.
-- `PerfectLimitChecks.adic`: for A_n=k[t]/(t^n) and M_n=A_n in degree zero, the limit is k[[t]] in degree zero and its derived reductions recover M_n.
-- `PerfectLimitChecks.differential`: for a field `k`, `n ≥ 1`, `A_n = k[t]/(t^n)` and
+- a constant ring and perfect complex with identity transitions are recovered by their derived limit.
+- for A_n=k[t]/(t^n) and M_n=A_n in degree zero, the limit is k[[t]] in degree zero and its derived reductions recover M_n.
+- for a field `k`, `n ≥ 1`, `A_n = k[t]/(t^n)` and
   `M_n = [A_n --t→ A_n]` in `[−1,0]`, the limit is `[k[[t]] --t→ k[[t]]]` and its derived
   reductions are `M_n`. Here `H^−1(M_n) = (t^(n−1)) ≅ k`, with zero transition maps, whereas
   `H^−1(M) = 0`. In particular `H^−1(M) ⊗ A_n = 0` does not recover `H^−1(M_n)`;
   derived reduction of the whole complex does.
-- `PerfectLimitChecks.locallyNilpotent`: let B=k[x₁,x₂,…]/(x_i² : i≥1) and I=(x₁,x₂,…). I is locally nilpotent but I^r≠0 for every r. The tower A₁=B/I=k, A_n=B for n≥2, with M_n=A_n, satisfies the hypotheses and has limit B; globally nilpotent kernels would exclude it.
+- let B=k[x₁,x₂,…]/(x_i² : i≥1) and I=(x₁,x₂,…). I is locally nilpotent but I^r≠0 for every r. The tower A₁=B/I=k, A_n=B for n≥2, with M_n=A_n, satisfies the hypotheses and has limit B; globally nilpotent kernels would exclude it.
+
+### Examples
+
+For a prime p, the compatible rank-one models over ℤ/pⁿ give ℤ_p[0]. The resolution [ℤ →p ℤ] is perfect with residue Tor in degrees −1 and 0.
+
+### Dependencies
+
+Layers 1 and 3; Mathlib finite free and projective modules, Jacobson radicals and derived categories.
+
+## Layer 5: Matlis duality
 
 ### 1.M.1 Matlis duality for arithmetic coefficients
 
@@ -2364,6 +2154,16 @@ Tau Ceti `TauCeti.Algebra.Module.Injective.Envelope.Basic`; §1.M.1
 - For that DVR, `D(E) = R̂` and `Hom_{R̂}(R̂,E) = E`; algebraic `Hom_R(R̂,E)` is larger,
   so the adjunction uses completion-linear Hom.
 
+### Examples
+
+For a field k, the hull is k and finite-dimensional double duality is evaluation. For a nonfield complete DVR O with fraction field K, the hull is K/O and its dual is O.
+
+### Dependencies
+
+Mathlib module Hom, Noetherian and Artinian modules, adic completion; Tau Ceti essential injective envelopes.
+
+## Layer 6: double-complex spectral sequences
+
 ### S.1 The spectral sequence of a first-quadrant double complex
 
 **The spectral sequence of a first-quadrant double complex.** Let `A^{••}` be a first-quadrant
@@ -2393,20 +2193,20 @@ Mathlib's spectral sequence of a spectral object records only the pages.
 
 The API:
 
-- `DoubleComplex.spectralSequence`: the `E₂` spectral sequence of a first-quadrant double complex,
+- the `E₂` spectral sequence of a first-quadrant double complex,
   from Mathlib's spectral objects.
-- `DoubleComplex.e2Iso`: `E₂^{pq} ≅ H^p_I(H^q_{II}(A))`.
-- `DoubleComplex.abutmentFiltration`: the column filtration `FᵖHⁿ(Tot A)`.
-- `DoubleComplex.eInftyIsoGr`: `E_∞^{pq} ≅ FᵖH^{p+q}/F^{p+1}H^{p+q}`.
-- `DoubleComplex.page_eq_eInfty`: `E_r^{pq} = E_∞^{pq}` for `r > max(p, q + 1)`.
-- `DoubleComplex.edgeBottom`: `E₂^{n,0} → Hⁿ(Tot A)`.
-- `DoubleComplex.edgeLeft`: `Hⁿ(Tot A) → E₂^{0,n}`.
-- `DoubleComplex.fiveTerm_exact`: the five-term exact sequence (NSW (2.1.1)).
-- `DoubleComplex.exact_of_rows_vanish`: with the explicit hypothesis `1 ≤ n`, vanishing
+- `E₂^{pq} ≅ H^p_I(H^q_{II}(A))`.
+- the column filtration `FᵖHⁿ(Tot A)`.
+- `E_∞^{pq} ≅ FᵖH^{p+q}/F^{p+1}H^{p+q}`.
+- `E_r^{pq} = E_∞^{pq}` for `r > max(p, q + 1)`.
+- `E₂^{n,0} → Hⁿ(Tot A)`.
+- `Hⁿ(Tot A) → E₂^{0,n}`.
+- the five-term exact sequence (NSW (2.1.1)).
+- with the explicit hypothesis `1 ≤ n`, vanishing
   `E₂^{pq}` for all `p ≥ 0` and `0 < q < n` gives the extended sequence (NSW (2.1.2)).
-- `DoubleComplex.totalCohomology_of_exact_rows`: exact rows give
+- exact rows give
   `Hⁿ(Tot A) = Hⁿ(ker(A^{0•} → A^{1•}))` (NSW (2.2.4)).
-- `DoubleComplex.spectralSequence_map`: naturality in the double complex.
+- naturality in the double complex.
 
 *Proof sketch.* Mathlib builds a spectral object from any functor into cochain complexes by mapping
 cones (`HomotopyCategory.spectralObjectMappingCone`); apply it to the column-truncation filtration
@@ -2438,22 +2238,30 @@ complex is a quasi-isomorphism when the augmented columns, respectively rows, ar
 `RawBi.totMap_quasiIso` (`AffineCrystalline/Homology/TotQuasiIso.lean`: columnwise
 quasi-isomorphisms induce a quasi-isomorphism of total complexes), are proved for that
 development's own first-quadrant bicomplex structure `RawBi`, so they inform the proof of
-`DoubleComplex.totalCohomology_of_exact_rows` while the statements here stay on Mathlib's
+the exact-rows comparison while the statements here stay on Mathlib's
 `HomologicalComplex₂`.
 
 **Checks.**
 
-- `one_row`: if `A^{pq} = 0` for `q > 0`, then `E₂^{p0} = Hᵖ(A^{•0}) = Hᵖ(Tot A)` and all
+- if `A^{pq} = 0` for `q > 0`, then `E₂^{p0} = Hᵖ(A^{•0}) = Hᵖ(Tot A)` and all
   differentials vanish.
-- `one_column`: if `A^{pq} = 0` for `p > 0`, then `E₂^{0q} = H^q(A^{0•}) = H^q(Tot A)`.
-- `acyclic_square`: `A^{00} = A^{10} = ℤ` with `d′ = id` and all other terms `0`: `E₂ = 0` and
+- if `A^{pq} = 0` for `p > 0`, then `E₂^{0q} = H^q(A^{0•}) = H^q(Tot A)`.
+- `A^{00} = A^{10} = ℤ` with `d′ = id` and all other terms `0`: `E₂ = 0` and
   `H(Tot A) = 0`.
-- `low_degree`: `H⁰(Tot A) = E₂^{00}` for every first-quadrant double complex.
+- `H⁰(Tot A) = E₂^{00}` for every first-quadrant double complex.
 - The bound `n ≥ 1` is necessary: if only `A^{00} = ℤ` is nonzero, then at `n = 0` both
   edge maps `E₂^{00} → H⁰(Tot A) → E₂^{00}` are identities. Their composite is nonzero,
   so the extended sequence would fail exactness despite the empty row-vanishing condition.
 - The abutment filtration is pinned: for a single row (`q = 0`) it is `FⁿHⁿ = Hⁿ`,
   `F^{n+1}Hⁿ = 0`; for a single column (`p = 0`) it is `F⁰Hⁿ = Hⁿ`, `F¹Hⁿ = 0`.
+
+### Examples
+
+A single row has E₂ᵖ⁰ = Hᵖ(Tot); the square ℤ →id ℤ has both E₂ and total cohomology zero.
+
+### Dependencies
+
+Mathlib spectral objects, homology, mapping cones and double-complex totalization.
 
 ## Downstream consumers
 
@@ -2461,10 +2269,9 @@ The downstream consumers are EnhancedDerivedSheaves, EtaleCohomologyFoundations,
 DerivedDeRhamCohomology, CrystallineCohomology, PerfectoidSpaces, ArithmeticGaloisDuality,
 IntegralHeckeAndGaloisDeterminants, AlgebraicModuliForArithmeticGeometry,
 DeformationAndDerivedPatchingAlgebraPartII, ClassicalAdicEtaleCohomology,
-ArithmeticLocallySymmetricSpaces, AlgebraicTopology and KhovanovHomology. Sheaf enhancement,
-point-site identification and the affine/Spec comparison are owned by the consumer
-EnhancedDerivedSheaves. Arithmetic cochains, determinants, crystalline sites and period-ring
-specializations belong to their respective downstream consumers.
+ArithmeticLocallySymmetricSpaces and KhovanovHomology. Sheaf enhancement,
+point-site identification and the affine/Spec comparison use the scope contracts above. Arithmetic
+cochains, determinants, crystalline sites and period rings use these general module constructions.
 
 ## References
 
