@@ -83,6 +83,11 @@ irreducibility uses closed invariant subspaces and is a different condition.
   finite-dimensional Hausdorff domain are continuous.
 - `Representation.IsIrreducible` in `Mathlib/RepresentationTheory/Irreducible.lean`:
   `IsSimpleOrder` of the subrepresentation lattice, including nontriviality.
+- `Representation.IsIrreducible.finrank_eq_one_of_isMulCommutative` in
+  `Mathlib/RepresentationTheory/Irreducible.lean`: a finite-dimensional
+  irreducible representation of a commutative monoid over an algebraically
+  closed field has dimension 1. This algebraic input requires no topology,
+  compactness or continuity.
 - `HilbertBasis`, its coordinate isometry and Parseval in
   `Mathlib/Analysis/InnerProductSpace/l2Space.lean`; `ContinuousMap.toLp_denseRange`
   in `Mathlib/MeasureTheory/Function/ContinuousMapDense.lean`.
@@ -626,10 +631,10 @@ Mathlib PontryaginDual, the small-arc power lemma, direct sums and Tychonoff; Ta
 ### 5.1 compact abelian Fourier theory
 
 For every compact Hausdorff abelian group G, identify the native unitary dual
-`TauCeti.IrrepClass ℂ G` with `PontryaginDual G`. Prove that each complex
-irreducible has dimension 1: commutativity makes every action operator an
-intertwiner, so Schur's lemma makes it scalar; irreducibility then forces
-dimension 1. Its scalar action is a continuous circle-valued character,
+`TauCeti.IrrepClass ℂ G` with `PontryaginDual G`. Apply Mathlib's
+`Representation.IsIrreducible.finrank_eq_one_of_isMulCommutative` to the
+underlying finite-dimensional complex irreducible representation to obtain
+dimension 1. Its unitary scalar action is a continuous circle-valued character,
 independent of the unit vector used to read it. Conversely a continuous
 circle character acts on ℂ by scalar multiplication and is irreducible.
 Prove these constructions inverse on unitary-equivalence classes, with the
@@ -677,11 +682,16 @@ These are Conway VII.9, Exercises 8–10. The headline signatures are
 identifies each individual basis vector.
 
 
-*Needs:* Native Peter–Weyl and scalar Schur; Layers 3–4; Mathlib HilbertBasis and continuous character operations.
+*Needs:* Native Peter–Weyl; Layers 3–4;
+Mathlib `Representation.IsIrreducible.finrank_eq_one_of_isMulCommutative`,
+HilbertBasis and continuous character operations.
 
 **Checks.**
 
 - For the trivial group there is one character with value 1; its L² norm is 1 and it spans the one-dimensional space.
+- A C₃ character on ℂ has dimension 1. The zero representation has dimension
+  0 and is not irreducible; trivial ℂ² has dimension 2 and an invariant line,
+  so neither is an input to the dimension-one theorem.
 - At i on Circle, the scalar action χ has coefficient −i and Fourier vector i. Inverting the character in the coefficient index gives i.
 - On C₃, χ and χ² are distinct and have pairing (1+ω+ω²)/3=0; each diagonal pairing is 1.
 - For f=c_χ+2c_ψ with χ≠ψ, its two Fourier coordinates are 1 and 2 and both sides of Parseval are 5; zero has empty support and norm 0.
@@ -692,7 +702,9 @@ On any circle product the Fourier index is a finitely supported integer family. 
 
 ### Dependencies
 
-Native Peter–Weyl and scalar Schur; Layers 3–4; Mathlib HilbertBasis and continuous character operations.
+Native Peter–Weyl; Layers 3–4;
+Mathlib `Representation.IsIrreducible.finrank_eq_one_of_isMulCommutative`,
+HilbertBasis and continuous character operations.
 
 ## Layer 6: global forms and representation rings
 
@@ -986,9 +998,17 @@ the quotient/local-cover charts, not an unproved abstract representation of K.
 factorization and the top weight line. Prove irreducibility and uniqueness by
 the derivative/connected-group stable-subspace dictionary. Conversely pull
 back an irreducible K-module, use Schur for the central torus, and restrict to
-the semisimple derived factor; its Lie highest weight is the restriction of
-λ_χ to 𝔥 for exactly one dominant χ ∈ X by §6.5's dictionary, and the
-actual torus character recovers χ. State all differentiability,
+the semisimple derived factor. There is exactly one dominant χ ∈ X whose
+restriction to Z(K)^0 is the scalar central character of this representation
+and whose differential λ_χ restricted to 𝔥 is its derived highest weight.
+For existence, the derived top weight line is preserved by the covering torus:
+its character is the product of that scalar central character and the derived
+highest-weight character. It is trivial on F because the pulled-back action
+factors through K, so §6.5 descends it to a character of T. For uniqueness,
+the two conditions determine its pullback to the covering torus, and pullback
+along the surjection onto T is injective. This uses both summands of the
+highest weight (Knapp, proof of Theorem 5.110, p.336).
+State all differentiability,
 Lie-to-group invariant-subspace and intertwiner comparisons at this cut.
 A Lie-algebra central functional can be arbitrary; it integrates only when the
 actual periods and the finite kernel conditions hold.
@@ -1011,6 +1031,14 @@ differentiation and integration; native scalar Schur.
   descends through SU(2)→SO(3). Merely having an integral Lie weight is insufficient.
 - For a circle, every integer n gives z↦z^n; n=−1 gives −i at i,
   retaining inverse central characters even when the root system is empty.
+- On K=T=Circle the derived Cartan is 0. The dominant characters χ₀(z)=1
+  and χ₁(z)=z both restrict differentially to 0 there, but at i their values
+  are 1 and i. Fixing the central character to 1 selects χ₀; fixing it to z
+  selects χ₁, so the derived highest weight alone cannot specify a lift.
+- For U(2), highest weights (1,0) and (2,1) both have derived coordinate 1,
+  but their scalar central actions are z and z³. At z=i these are i and −i;
+  the central exponents 1 and 3 distinguish the standard module from its
+  determinant twist, and both satisfy the parity condition q−a=0 mod 2.
 - On the U(2) covering product the standard module (q,a)=(1,1) and its
   dual (−1,1) both have kernel scalar +1. Their tensor product has scalar
   1·1=1; the intertwiner 2I descends to 2I and pulls back to 2I.
