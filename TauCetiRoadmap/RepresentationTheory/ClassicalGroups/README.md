@@ -278,7 +278,9 @@ The inclusions `SL(n,ℂ) →* GL n ℂ`
 standard representation. The distinguishing structure each preserves: the volume form
 `⋀ⁿ V ≅ ℂ` (trivial for `SLₙ`), a nondegenerate symmetric form `V ≅ V*` (for `Oₙ`), a nondegenerate
 alternating form `V ≅ V*` (for `Spₙ`). State the invariance as an equivariance of the pairing; it is what
-collapses `V` and `V*` and shortens the tensor decompositions.
+collapses `V` and `V*` and shortens the tensor decompositions (Milne, §2.10,
+printed pp. 42–43, for the form-preserving groups; the volume statement follows
+by applying the top exterior power to the determinant-one condition).
 
 *Needs:* the native subgroup inclusions, volume and symmetric/alternating forms; Layer 1 for their exterior/tensor interpretations.
 
@@ -289,7 +291,10 @@ collapses `V` and `V*` and shortens the tensor decompositions.
 entries in one basis are rational/polynomial in `gᵢⱼ`, `det⁻¹` iff in any basis; equivalently `ρ` is a
 comodule over `ℂ[gᵢⱼ, det⁻¹]`), and expose the coordinate-entry form as a lemma. `TauCeti.stdRep`, `TauCeti.tensorPowerRep`,
 `TauCeti.symPowerRep`, `TauCeti.extPowerRep` are polynomial; `det` and its powers are the one-dimensional rational
-representations `det^m`.
+representations `det^m`. The coordinate/comodule dictionary uses Milne,
+§2.8, printed p. 41, and Remark 4.1 with Example 4.2, pp. 84–85; polynomiality
+of tensor, symmetric and exterior powers follows by applying their multilinear
+constructions to the polynomial entries of the standard action.
 
 *Needs:* `TauCeti.IsRationalRep`, `TauCeti.IsPolynomialRep`; ReductiveGroups Layer 1 for the coordinate/comodule comparison.
 
@@ -589,7 +594,21 @@ matrices, `≃* (Fin n → ℂˣ)`; for a rational representation `ρ` on `W`, t
 for `λ : Fin n → ℤ`, and the **weight-space decomposition** `W = ⊕_λ TauCeti.weightSpace ρ λ` (simultaneous
 diagonalization of the commuting torus, over `ℂ`). Identify these group characters with the abstract Lie weight lattice
 through this layer's torus/differentiation dictionary and LieHighestWeight;
-RootSystems supplies the root/Weyl geometry, not the weight lattice.
+RootSystems supplies the root/Weyl geometry, not the weight lattice. The
+group-level direct sum is the diagonalizable-group theorem (Milne,
+Theorem 12.12, printed pp. 234–235); the Lie comparison sends the character
+`diag(t) ↦ ∏ t_i^(λ_i)` to `diag(h) ↦ Σ λ_i h_i` by differentiation,
+retaining the central coordinate.
+
+**Checks.**
+
+- On the standard GL₂ module at diag(2,3), weights (1,0) and (0,1)
+  act by 2 and 3, so their weight-space traces sum to 5.
+- The determinant-inverse line has weight (−1,−1) and value 1/6 at
+  diag(2,3); nonnegative-only weights would omit this rational module.
+- Over the dual numbers with ε²=0, the weight (1,−1) on
+  diag(1+2ε,1+3ε) has value 1−ε. Its differential is 2−3=−1,
+  fixing the sign and direction of the character-to-Lie-weight comparison.
 
 *Needs:* native diagonal torus and `TauCeti.IsRationalRep.isInternal_weightSpace`; LieHighestWeight Layer 2 only for the abstract weight dictionary.
 
@@ -601,7 +620,11 @@ index type for `GLₙ`-irreducibles. In rank n+1 the polynomial subset is
 Equivalently require all coordinates nonnegative, which corresponds to
 Young diagrams of height at most the rank. Construct the dominance order using LieHighestWeight's
 weight lattice and the positive roots. The `GLₙ` Weyl group `Sₙ` and its action on
-coordinates specialize RootSystems' Weyl-group geometry.
+coordinates specialize RootSystems' Weyl-group geometry. The polynomial labels
+are the partitions of Macdonald, Appendix A(8.2), printed p. 162; the
+rational labels are obtained by the determinant transport in the conventions
+(Fulton–Harris, §15.5 and Proposition 15.47, printed pp. 231–232),
+so this assertion is not an application of polynomial classification alone.
 
 *Needs:* native `TauCeti.DominantWeight`; RootSystems Layers 1–4; LieHighestWeight Layer 2 for the lattice comparison.
 
@@ -625,9 +648,23 @@ LieHighestWeight Layer 9 after this group-level classification.
 
 ### 3.4 `SLₙ`
 
-The corresponding statement for `SLₙ` (dominant weights modulo `(1,…,1)`), the type `Aₙ₋₁`
-root/Weyl specialization from RootSystems and lattice specialization from
-LieHighestWeight, by restriction along `SLₙ ↪ GLₙ`.
+For n≥1, restriction along `SLₙ ↪ GLₙ` sends every rational irreducible
+GLₙ module to an irreducible SLₙ module, exhausts the rational irreducible
+SLₙ modules, and identifies exactly the dominant integer weights differing
+by an integer multiple of (1,…,1) (Fulton–Harris, §15.5 and Proposition
+15.47, printed pp. 231–232). The root/Weyl specialization is type Aₙ₋₁
+for n≥2, using RootSystems and LieHighestWeight for the lattice comparison.
+SL₁ and SL₀ are trivial, each with just the one-dimensional trivial simple module.
+
+**Checks.**
+
+- GL₂ weights (2,1) and (1,0) both have character 5/2 at diag(2,1/2),
+  while at diag(2,3) their characters are 30 and 5. The common shift is
+  identified only after restriction to determinant one.
+- GL₂ weights (1,0) and (0,0) restrict to modules of dimensions 2 and 1,
+  so restriction does not identify weights differing by (1,0).
+- Every GL₁ weight m restricts to the character 1 on SL₁; the empty
+  GL₀ weight also has the one-dimensional trivial restriction.
 
 *Needs:* Layer 3 GL classification; scalar generation of GL over ℂ and restriction along `Matrix.SpecialLinearGroup.toGL`.
 
@@ -1217,6 +1254,11 @@ multiplicity-free decomposition gives the count by induction on `n`, independent
 with `TauCeti.weylDimension λ` and, through the pattern ↔ tableau bijection, with the tableau sum `s_λ(1,…,1)`
 that specializes Layer 4's Schur polynomial at `x = (1,…,1)`. Do not use the Layer 5 equality to justify the
 basis construction itself; the three counts agree as a downstream corollary.
+The pattern count follows by iterating Molev v2, Theorem 2.1, printed p. 8,
+and agrees with the basis in Theorem 2.3 and the tableau dictionary in
+Remark 2.2, p. 9; the rational-group statement transports these through
+§3.3 and determinant shifts, rather than identifying arbitrary Lie weights
+with rational-group characters.
 
 *Needs:* representation-level branching above and native signed-pattern counting; comparison with §5.1 follows afterward.
 
@@ -1238,9 +1280,26 @@ diagonalization, commutation and separation of full patterns, including
 n=0/empty products. The strict order of shifted entries recovers each
 row from these symmetric coefficients, so separation is an actual
 injectivity theorem. The total number of generators is n(n+1)/2.
-The level is the actual matrix size k and the degree satisfies 1≤r≤k.
+The level is the actual matrix size k and the degree satisfies 1≤r≤k
+(Molev v2, (2.21)–(2.22), printed p. 16, for the ordered determinant,
+central coefficients and scalar action; block restriction and the GT basis
+of Theorem 2.3, p. 9, give its action at every row).
 
-*Needs:* the differentiated action on the rational Weyl module; block Lie/enveloping maps; Molev v2 (2.21).
+**Checks.**
+
+- At k=1 and weight −1, the eigenvalue polynomial is A₁(u)=u−1,
+  so generator (1,1) acts by −1; replacing rational weights by natural
+  numbers would lose this value.
+- At k=2 and weight (2,1), the shifted entries are (2,0), giving
+  A₂(u)=u(u+2)=u²+2u. Generators (2,1) and (2,2) act by 2 and 0;
+  the unshifted model (u+2)(u+1) instead gives 3 and 2.
+- A common determinant shift +1 sends (2,1) to (3,2) and gives
+  (u+3)(u+1)=u²+4u+3=A₂(u+1). A shift by −1 instead gives
+  (u+1)(u−1)=u²−1, pinning the direction of translation.
+- In rank zero there are 0(0+1)/2=0 generators. The empty determinant
+  is 1, with no coefficient indexed by 1≤r≤0; it introduces no generator.
+
+*Needs:* the differentiated action on the rational Weyl module; block Lie/enveloping maps; Molev v2 (2.21)–(2.22), printed p. 16.
 
 ### 6.7 `SOₙ ↓ SOₙ₋₁`, the symplectic series, and `Spin(n) ↓ Spin(n-1)`
 
@@ -2083,12 +2142,13 @@ count supplies the subgroup classification here.
 
 ## References
 
-- A. I. Molev, [*Gelfand–Tsetlin bases for classical Lie algebras*, arXiv:math/0211289v2](https://arxiv.org/abs/math/0211289v2), §§2.1–2.4, 3.1–3.4 and 4.1–4.3: Theorems2.3/2.7 and Proposition2.4, Capelli(2.21), type-C(3.10), Lemma3.4 and Theorem3.5. Consecutive orthogonal branching is (4.4)/(4.7), printed pp. 48/50, and its vectors are Theorems 4.1–4.4, pp. 49–52. The source signed-coordinate and type-C shifts are fixed explicitly in Layers6/6B.
+- A. I. Molev, [*Gelfand–Tsetlin bases for classical Lie algebras*, arXiv:math/0211289v2](https://arxiv.org/abs/math/0211289v2), §§2.1–2.4, 3.1–3.4 and 4.1–4.3: Theorems 2.3/2.7, printed pp. 9/11, Proposition 2.4, p. 10, Capelli (2.21)–(2.22), p. 16, type-C (3.10), p. 31, Lemma 3.4 and Theorem 3.5, pp. 34–35. Consecutive orthogonal branching is (4.4)/(4.7), printed pp. 48/50, and its vectors are Theorems 4.1–4.4, pp. 49–52. The source signed-coordinate and type-C shifts are fixed explicitly in Layers6/6B.
 
 - W. Fulton, J. Harris, *Representation Theory: A First Course*, Springer GTM 129 (1991) - the primary
-  reference: the Weyl construction via Young symmetrizers (Lecture 6, 15), Schur functors and the
-  decomposition of tensor powers, Schur polynomials as `GLₙ` characters (Lecture 6, Appendix A), the Weyl
-  character and dimension formulas (Lecture 24-25), and branching (Lecture 25, Appendix).
+  reference for tensor operations (§1.1, pp. 4–5), Young images and the
+  symmetric/exterior decomposition ((6.1)–(6.2) and Theorem 6.3, pp. 77–78),
+  and the GL/SL highest-weight and determinant-twist comparison (§15.5 and
+  Proposition 15.47, pp. 231–232).
 - R. Goodman, N. R. Wallach, *Symmetry, Representations, and Invariants*, Springer GTM 255 (2009) - the
   classical groups uniformly: the standard representation and its tensor powers, highest-weight theory for
   `GLₙ`, `Oₙ`, `Spₙ`, Schur-Weyl duality, and branching rules with the interlacing conditions.
@@ -2101,6 +2161,9 @@ count supplies the subgroup classification here.
   symmetric-function facts Layer 4 consumes and their representation comparisons: I(3.1), p. 40; I(3.4)–(3.5), p. 41; I§3 Examples 1/4, pp. 44–45; I(9.2), p. 143; Appendix A(8.2)/(8.4), pp. 162–163. A legal institutional copy is available from [Berkeley](https://math.berkeley.edu/~corteel/MATH249/macdonald.pdf).
 
 - J. S. Milne, [*Algebraic Groups*, 2022 edition](https://www.jmilne.org/math/Books/iAG2022.pdf),
+  §§2.8–2.10, printed pp. 41–43 (matrix groups and invariant forms);
+  Remark 4.1 and Example 4.2, pp. 84–85 (coefficient comodules);
+  Theorem 12.12, pp. 234–235 (torus weight decomposition);
   Proposition 10.31, printed p. 196 (Lie algebra of a subspace stabilizer), and
   Theorem 3.23, printed p. 71 (Cartier smoothness), and Theorem 22.42,
   pp. 478–479 (complete reducibility for connected reductive groups in characteristic zero); §3A.2 owns their connected

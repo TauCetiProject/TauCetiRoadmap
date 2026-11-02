@@ -33,7 +33,11 @@ targets; no unspecified representation, vector or endomorphism replaces them.
 The general LR multiplicity theorem lacks the finite skew LR-tableau carrier
 specified by the supplier gap in README.md. The all-linear-map Schur comparison
 lacks the functor on the specified Young images and its natural column embedding.
-Mixed-contraction, antidiagonal-coordinate, matrix-monoid and ordinary Kan-extension
+The native-coordinate/comodule comparison of Layer 0A cannot yet be stated:
+the pins lack the supplied polynomial End(V)-coaction together with its
+point-action comparison on the same carrier. An existence theorem for a native
+matrix-monoid action alone does not state that comparison.
+Mixed-contraction, antidiagonal-coordinate and ordinary Kan-extension
 programmes have separate companion signatures; this module does not import them.
 -/
 
