@@ -1,13 +1,38 @@
-# Banach algebras
+# Roadmap: banach algebras
 
-Build the spectral, module and cohomological theory of complex Banach algebras.
+**Summary.** Build the spectral, module and cohomological theory of complex Banach algebras.
 The depth milestones are holomorphic functional calculus, Cohen–Hewitt
 factorization, automatic continuity for semisimple algebras, the equivalent
 diagonal characterizations of amenability, and Johnson's theorem relating
 amenability of a locally compact group to amenability of its group algebra. The finite-jet and compact-operator chapters
 connect spectral calculus with Lomonosov's invariant-subspace theorem.
 
-## Scope, conventions and prerequisites
+## Scope and ownership
+
+This roadmap owns Banach-algebra holomorphic calculus, radicals, modules,
+bounded Hochschild cohomology and Johnson amenability. It does not own
+C*-representations, continuous functional calculus, C*-tensor norms, or
+nuclearity. A2 owns its finite-spectrum calculi, including their continuous and star
+criteria, and the isometric-calculus normality converse stated there; it consumes
+the native normal-operator calculus for the comparison, rather than
+constructing general Hilbert-space continuous calculus. Hilbert-space Borel spectral theory belongs to
+[OperatorTheory](../OperatorTheory/README.md), and general semigroup generators
+belong to [OneParameterSemigroups](../OneParameterSemigroups/README.md).
+Set-theoretic constructions of discontinuous homomorphisms and classification
+of radical valuation algebras are outside this scope.
+
+The unital radical quotient is supplied by Mathlib's
+`Ring.jacobson_quotient_jacobson`; Layer 1 adds its nonunital Banach comparison.
+The forward integrated operator, its norm estimate and nondegeneracy are supplied
+by Tau Ceti's continuous-representation API. Layer 7 adds the localized
+noncommutative multiplicativity bridge and the inverse representation correspondence.
+[VonNeumannAlgebras](../VonNeumannAlgebras/README.md) V8.RegularL2 owns the faithful
+regular L² representation; V11.UnitizationCharacters owns the C*-unitization
+character comparison; V11.FourierUniqueness owns positive-measure and L¹ uniqueness.
+Layer 3 extends character theory to Banach algebras without a C*-identity, and
+Layer 7 extends measure uniqueness to finite regular complex measures.
+
+## Conventions
 
 Algebras are associative over `ℂ`, with submultiplicative norm and complete
 underlying normed space. A unit is assumed only where stated. Use Mathlib's
@@ -41,18 +66,86 @@ continuity. For A in universe u define amenability using test bimodules
 in universe u, then prove through the diagonal characterizations that
 the same property tests bimodules in every larger universe.
 
-[Banach space theory](https://github.com/TauCetiProject/TauCetiRoadmap/blob/15588952fdc156cbddda2c00f896851c90d93670/TauCetiRoadmap/BanachSpaceTheory/README.md), B1–B2 and B4–B5, supplies
+## Exact supplier contracts
+
+### From Mathlib
+
+Use `Ring.jacobson_quotient_jacobson` from `Mathlib/RingTheory/Jacobson/Radical.lean`
+for every unital ring: its quotient by the Jacobson radical has zero radical.
+Use the native normed algebra, unitization, spectrum, continuous linear map,
+Haar measure and Bochner integral APIs with their declared hypotheses.
+
+Use the general `UnitizationL1` norm, weak-dual character
+space, the spectral-radius formula and upper hemicontinuity of spectrum.
+Reuse `WeakDual.CharacterSpace.norm_le_norm_one`, the compactness
+instance for unital character spaces, the commutative-Banach-algebra
+part of `GelfandDuality` (including `mem_spectrum_iff_exists` and
+`spectrum.gelfandTransform_eq`), `spectrum.map_polynomial_aeval`,
+`Subalgebra.frontier_spectrum` and
+`Subalgebra.spectrum_eq_of_isPreconnected_compl`. Their stated
+hypotheses remain in force; the nonunital and homological extensions
+specified above are additional targets.
+For quotient-dual specialization use `exists_extension_norm_eq` from
+`Mathlib/Analysis/Normed/Module/HahnBanach.lean`, which extends a continuous
+linear functional from a subspace without increasing its norm.
+
+### From Tau Ceti
+
+In `TauCeti/RepresentationTheory/Continuous/Integrated/Basic.lean`, consume
+`ContRepresentation.integratedOperatorL1`, `ContRepresentation.integratedOperatorL1_apply`,
+`ContRepresentation.norm_integratedOperatorL1_le`,
+`ContRepresentation.tendsto_integratedOperatorL1_apply` and
+`ContRepresentation.mem_closure_range_integratedOperatorL1_apply`.
+The input is a strongly continuous uniformly bounded representation on a complete
+normed space over an RCLike field, with the compatible real scalar action; the
+additive group carrier need not commute. Its Borel topology is R1 and the measure
+is inner regular on finite-measure sets. Nondegeneracy additionally uses positivity
+on nonempty open sets and local finiteness. Transport a multiplicative group
+through its additive wrapper. No global sigma-finiteness enters these results.
+The separate `ContRepresentation.integratedOperatorL1_convolution` assumes an
+abelian group, measurable addition and negation, an SFinite right-invariant measure,
+and `SecondCountableTopologyEither` for the group and representation space;
+it does not supply Layer 7's arbitrary-group localized multiplicativity.
+
+For Layer 8 use `IsCompactOperator.finiteDimensional_eigenspace` and
+`IsCompactOperator.finiteDimensional_genEigenspace_nat` from
+`TauCeti/Analysis/Normed/Operator/Compact/Eigenspace.lean`: the scalar is
+nonzero and the field is complete and nontrivially normed. Use
+`IsCompactOperator.isClosed_range_one_sub`,
+`IsCompactOperator.finiteDimensional_ker_one_sub` and
+`IsCompactOperator.finiteDimensional_quotient_range_one_sub` from
+`TauCeti/Analysis/Normed/Operator/Compact/RieszTheory.lean` for compact
+perturbations of the identity on a Banach space. Layer 8 asks additionally
+for simultaneous stabilization and the complementary decomposition.
+
+### From TauCetiRoadmap.BanachSpaceTheory
+
+[Banach space theory](../BanachSpaceTheory/README.md), B1–B2 and B4–B5, supplies
 dual quotients, weak compactness, completed projective tensors and scalar measure
-representation. The [completed contour integration roadmap](../../Completed/ContourIntegration/README.md)
-supplies scalar contour integration, winding numbers and homological Cauchy
+representation.
+
+### From Completed.ContourIntegration
+
+The [completed contour integration roadmap](../../Completed/ContourIntegration/README.md)
+Layers 0–3 supply scalar contour integration, winding numbers and homological Cauchy
 theory; A2 extends its homology Cauchy theorem to Banach-valued functions.
 Its cycle integral is already Banach-valued. Mathlib supplies Bochner integration,
 Haar measure, continuous linear maps, algebraic simple modules and Jacobson
-density. The [AmenableGroups roadmap, Layers 1 and 7](https://github.com/TauCetiProject/TauCetiRoadmap/blob/a4317b48d22a8317c89cf01e67b5c149055b08e1/TauCetiRoadmap/AmenableGroups/README.md)
+density.
+
+### From TauCetiRoadmap.AmenableGroups
+
+The [AmenableGroups roadmap, Layers 1 and 7](../AmenableGroups/README.md)
 supplies invariant means and the Haar-measure convolution foundations used in A7.
-[AlgebraicTopology Stage 2, item 7](https://github.com/TauCetiProject/TauCetiRoadmap/blob/50af6084a401dffe3db1e50dac46fe4bca36f4fd/TauCetiRoadmap/AlgebraicTopology/README.md#stage-2-relative-singular-chains-and-homology) supplies Brouwer on finite-dimensional
+### From TauCetiRoadmap.AlgebraicTopology
+
+[AlgebraicTopology Stage 2, item 7](../AlgebraicTopology/README.md) supplies Brouwer on finite-dimensional
 convex spans for A8. Mathlib supplies the compact-operator Fredholm
-alternative; [VonNeumannAlgebras V11](https://github.com/TauCetiProject/TauCetiRoadmap/blob/160687f3131efb1b7b37fb6008a842b98815069c/TauCetiRoadmap/VonNeumannAlgebras/README.md#v11-weights-connes-invariants-and-continuous-cores) supplies the LCA dual conventions.
+alternative.
+
+### From TauCetiRoadmap.VonNeumannAlgebras
+
+[VonNeumannAlgebras V8.RegularL2 and V11](../VonNeumannAlgebras/README.md) supply the regular representation, nonunital C*-character comparison, positive-measure/L¹ uniqueness and LCA dual conventions.
 These layers own the invariant-mean and scalar-convolution prerequisites;
 the complex group-algebra and cohomological constructions belong to A7.
 
@@ -60,19 +153,20 @@ A1–A3 and A8 consume no B4 approximation/tensor targets;
 their compact, function and invariant-subspace layers are independent
 suppliers for B4. Other layers use the explicit Banach-space dependencies.
 
-This roadmap owns Banach-algebra holomorphic calculus, radicals, modules,
-bounded Hochschild cohomology and Johnson amenability. It does not own
-C*-representations, continuous functional calculus, C*-tensor norms, or
-nuclearity. A2 owns its finite-spectrum calculi, including their continuous and star
-criteria, and the isometric-calculus normality converse stated there; it consumes
-the native normal-operator calculus for the comparison, rather than
-constructing general Hilbert-space continuous calculus. Hilbert-space Borel spectral theory belongs to
-[OperatorTheory](../OperatorTheory/README.md), and general semigroup generators
-belong to [OneParameterSemigroups](../OneParameterSemigroups/README.md).
-Set-theoretic constructions of discontinuous homomorphisms and classification
-of radical valuation algebras are outside this scope.
+## How to read the build
 
-## A1. Constructions, ideals and the radical
+Layers 1–3 build radical and spectral theory and its function-algebra examples;
+Layer 4 develops modules and tensors; Layers 5–6 establish automatic continuity
+and bounded cohomology. Layer 7 combines these with Haar convolution to reach
+Johnson's theorem. Layer 8 uses Layers 1–2 and finite-dimensional Brouwer to reach
+Lomonosov, independently of the tensor and approximation-property development.
+The symbols A1–A8 denote these same layers in supplier and consumer contracts.
+
+## Layer 1: Constructions, ideals and the radical
+
+### 1.1 Algebra constructions and radicals
+
+*Needs:* Mathlib unitization, closed submodule quotients and Jacobson radical; BanachSpaceTheory B1 quotient duality. Dales §§1.3–1.5, 2.1–2.3 and Theorem 2.6.26.
 
 Develop continuous algebra maps and equivalences, closed subalgebras, opposite
 algebras, finite products, completions, unitization, and quotients by closed
@@ -98,14 +192,16 @@ counterexamples for dim X≥2. Identify the sup-norm completion of
 polynomials on [0,1] with C[0,1], and construct a nonpolynomial limit.
 
 For a unital algebra use `Ring.jacobson A`. For a nonunital algebra define
-`rad A={a : A | inr a ∈ Ring.jacobson (Unitization ℂ A)}` and prove
+`nonUnitalRadical`, the set {a : A | inr a ∈ Ring.jacobson (Unitization ℂ A)},
+written rad A and prove
 it is a complex two-sided ideal. Compare the two definitions when A has
 a unit. Semisimplicity here means `rad A=⊥`; it is distinct from
 Mathlib's `IsSemisimpleRing`, the semisimple-module condition.
 Develop maximal modular left ideals, simple modules and primitive ideals
 (annihilators of simple nonzero modules on which the algebra acts nontrivially).
 Prove the radical is their intersection, is a closed two-sided ideal, and the
-quotient by it is semisimple. Here semisimple means zero Jacobson radical.
+nonunital quotient comparison reduces semisimplicity to the unitized radical
+quotient. Here semisimple means zero Jacobson radical.
 For a unital algebra prove `a ∈ rad A` iff `1-ba` is invertible for every `b`;
 give the nonunital formulation through unitization and the equivalent
 quasinilpotence of every `ba`. Do not identify all quasinilpotent elements with
@@ -125,6 +221,22 @@ isomorphisms. These are the algebraic and analytic inputs to A5, not assumptions
 that separating ideals vanish.
 For C*-algebras, CStarAlgebras C2 owns the comparison between these primitive
 ideals and kernels of irreducible *-representations, and uses this topology.
+
+The radical and quotient API must include:
+
+- Scalar and two-sided ideal closure, the primitive-annihilator intersection and functoriality under isomorphisms.
+- The quotient norm, its completeness for closed ideals, and the induced bounded quotient map.
+- The unitization comparison identifying the nonunital radical with the inverse image of the unital radical.
+
+**Checks.**
+
+- In ℂ[ε]/(ε²), rad A=ℂε and A/rad A=ℂ, whose radical is zero; quotient semisimplicity is not a claim that A itself is semisimple.
+- In M₂(ℂ), E₁₂²=0 but E₂₁E₁₂=E₂₂ has spectral radius 1, so E₁₂ is outside the radical.
+- For zero multiplication on ℂ, the nonunital radical is all ℂ; for A=0 it is {0}, and its external unitization is ℂ.
+
+### 1.2 Equivalent norms and nonunital examples
+
+*Needs:* Layer 1.1; Mathlib Hahn–Banach and finite-dimensional norms. The displayed finite-dimensional computations determine these examples.
 
 For a nonzero unital Banach algebra construct the equivalent norm
 `‖a‖_* = ‖leftMultiplication(a)‖`. Prove
@@ -181,11 +293,27 @@ comparison with the matrix operator norm on `EuclideanSpace ℂ (Fin 2)`, includ
 max(|λ|,|a|)≤‖λI+aE₁₂‖≤|λ|+|a|, and compute
 σ(E₁₂)={0}. It is an algebra example, not a star subalgebra.
 
+The norm and unitization comparison API must include:
+
+- Identity and inverse formulas for the bounded algebra comparisons, with both norm inequalities.
+- Uniqueness of the minimizing scalar on the stated ℂ³ example, without treating the resulting formula as a norm.
+- Compatibility of the unitization map with multiplication and its scalar and ideal summands.
+
+**Checks.**
+
+- For ℂ with norm 2|z|, the left-multiplication norm is |z|; at 1 the two norms are 2 and 1.
+- For the displayed a,b, the closest-scalar expression gives q(a+b)=3√2 and q(a)+q(b)=2+3√2/2; their difference is 3√2/2−2>0.
+- For c₀⊂ℓ∞ and (λ,b)=(1,−e₁), the inherited norm is 1 and the sum norm is 2, so the unitization comparison is not an isometry.
+
+### 1.3 Positive functionals and Banach-input GNS
+
+*Needs:* Layer 1.1 spectrum and completion; Mathlib binomial series and inner-product completions. Rieffel, physical pp.26–30.
+
 **A1.PositiveFunctionals.** Let A be a unital complex Banach *-algebra
 with isometric involution. A positive functional is an algebraic complex-linear
 φ:A→ℂ satisfying `φ(a*a)∈ℝ≥0` for every a; no continuity is assumed.
 Prove Hermitian symmetry, the Cauchy–Schwarz inequality and automatic
-continuity, with `|φ(a)|≤φ(1)‖a‖` and
+continuity (`positive_continuous`), with `|φ(a)|≤φ(1)‖a‖` and
 `φ(a*a)≤φ(1)‖a‖²`. For nonzero A retain
 `φ(1)/‖1‖≤‖φ‖≤φ(1)`; conclude `‖φ‖=φ(1)` when `‖1‖=1`.
 Construct the self-adjoint square root of `1−h` for self-adjoint
@@ -193,7 +321,8 @@ Construct the self-adjoint square root of `1−h` for self-adjoint
 larger than the norm and pass to the limit to obtain the closed-ball
 positivity bound.
 
-Construct the GNS space as the Hilbert completion of A modulo
+Prove `exists_gns`, the existence of the contractive cyclic representation
+with the prescribed vector functional. Construct the GNS space as the Hilbert completion of A modulo
 `N_φ={a:φ(a*a)=0}`, using native complex inner-product conventions
 `⟪[a],[b]⟫=φ(a*b)`. Prove N_φ is a left ideal and
 `φ(b*a*ab)≤‖a‖²φ(b*b)`, so left multiplication gives bounded
@@ -221,6 +350,22 @@ unbounded, as seen from
 Thus algebraic positivity on an arbitrary normed *-algebra does not give
 a representation by bounded operators. No C*-order structure on A is
 assumed in these Banach *-algebra statements.
+
+The positive-functional and cyclic representation API must include:
+
+- Hermitian symmetry, Cauchy–Schwarz and both norm bounds with the identity norm retained.
+- The null left ideal, the induced inner product and the dense cyclic map into the Hilbert completion.
+- Multiplication, star, unit and cyclic-vector compatibility of the representation, including the zero functional.
+
+**Checks.**
+
+- On ℂ with norm 2|z| and φ(z)=z, φ(1)=1 and ‖φ‖=1/2; norm-at-one equality needs a normalized identity.
+- For φ=0, the null ideal is A and the GNS space is zero; the cyclic vector and every represented operator are zero.
+- For the polynomial Gaussian functional, ‖X⁰‖²φ=√π and ‖X‖²φ=√π/2, while the successive ratios are n+1/2 and are unbounded; completeness cannot be omitted.
+
+### 1.4 Swapped involution
+
+*Needs:* Layer 1.3 Cauchy–Schwarz and GNS; native product rings and RingSeminorm. Rieffel, physical p.27.
 
 **A1.SwappedStarExample.** On a distinct type copy S of the coordinatewise
 algebra ℂ×ℂ put `star(z,w)=(conj(w),conj(z))` and
@@ -252,7 +397,33 @@ This gives an explicit zero C*-envelope of a nonzero complete Banach *-algebra.
 representation and seminorm targets on the native product algebra with the
 involution written explicitly, before transporting it to the type copy.
 
-## A2. Holomorphic functional calculus
+The type-copy example API must include:
+
+- Coordinate formulas for star, multiplication and the norm, preserving the native product-star instance on the original type.
+- Vanishing of every square-positive functional and of every C*-valued star homomorphism.
+- Vanishing of every C*-compatible ring seminorm, with the nonunital zero-envelope universal property.
+
+**Checks.**
+
+- For e₁, star(e₁)e₁=0 although ‖e₁‖²=1; the C*-identity fails.
+- For h=(1,−1), star(h)h=(−1,−1), so positivity forces −φ(1)≥0 as well as φ(1)≥0.
+- For the native coordinatewise involution instead, φ(z,w)=z is positive and φ(e₁)=1; swapping the involution is essential.
+
+### Examples
+
+The dual numbers, scaled scalar norm and swapped involution distinguish radicals, normalization and positivity.
+
+### Dependencies
+
+Mathlib normed algebras, unitization and radical; BanachSpaceTheory B1.
+
+## Layer 2: Holomorphic functional calculus
+
+### 2.1 Holomorphic germs and Riesz projections
+
+*Needs:* Layer 1 resolvents; Completed/ContourIntegration Layers 0–3 cycle
+integrals, winding and homological Cauchy; native Bochner integration and
+complex differentiation. Dales Theorem 2.4.4 and Corollaries 2.4.5–2.4.6.
 
 Reuse Tau Ceti's Banach-valued `Contour.Cycle.integral`, Mathlib's
 Banach-valued disc Cauchy formulas, analyticity and identity theorem.
@@ -402,17 +573,34 @@ not a construction of a continuous U calculus.
 
 For a bounded operator T on a complete complex Hilbert space, prove
 that a unital isometric complex algebra homomorphism C(σ(T))→B(H)
-sending the coordinate to T forces T to be normal. Images of unitary
+sending the coordinate to T forces T to be normal
+(`normal_of_isometric_calculus`). Images of unitary
 functions and their inverses are contractions, hence unitaries. Apply this
 to exp(it Re z) and exp(it Im z), differentiate at t=0 to prove the
 two images self-adjoint, and use commutativity and their sum T. Compare
 this converse with native normal-operator continuous functional calculus.
 
-### Finite spectra, jets and resolvent power bounds
+The germ, contour and projection API must include:
+
+- Independence from representatives, restriction and contour, with explicit source and target of each restriction homomorphism.
+- Norm estimates, polynomial and rational agreement, spectral mapping, composition and naturality.
+- Orthogonality, sum-one and corner-spectrum laws for the Riesz idempotents.
+
+**Checks.**
+
+- Around σ(2)={2}, the positively oriented circle integral of (z−2)⁻¹ is 2πi, giving the calculus value 1 after division by 2πi; reversing orientation gives −1 before correcting the winding.
+- For T=diag(0,i), the two spectral projections are diag(1,0) and diag(0,1), whose sum is I and whose product is 0.
+- For P=[[1,1],[0,0]], P²=P and ‖P‖=√2 although σ(P)={0,1}; no orthogonality is implicit.
+
+### 2.2 Finite spectra, jets and resolvent power bounds
+
+*Needs:* Layer 2.1; native generalized eigenspaces, minimal polynomials,
+polynomial Chinese remainders and Module.AEval'. Dales Theorem 2.4.4 and
+Corollaries 2.4.5–2.4.6; Schwenninger §1.1 for the Ritt/Kreiss distinction.
 
 For every finite-dimensional complex normed space E and bounded
 endomorphism T, put K=σ(T) with its finite subspace topology. Prove the
-following equivalent: T is diagonalizable; E has a basis of T-eigenvectors;
+following equivalent (`finite_spectrum_calculus_iff`): T is diagonalizable; E has a basis of T-eigenvectors;
 there is a unital complex-algebra homomorphism
 `Ψ:C(K,ℂ)→(E→L[ℂ]E)` sending the restricted coordinate to T; and
 `T=Σ_(λ∈K) λP_λ` for nonzero pairwise annihilating idempotents P_λ
@@ -504,7 +692,7 @@ obstruction: its image would be a square root of J₂(0), which no 2×2
 complex matrix has by Cayley–Hamilton. No continuity assumption is needed.
 
 For a complex Banach algebra element a, assume `z·1−a` is invertible for every
-|z|>1 and `‖(z·1−a)⁻¹‖≤C/|z−1|`, with C>0. Prove the Tadmor–Ritt power bound
+|z|>1 and `‖(z·1−a)⁻¹‖≤C/|z−1|`, with C>0. Prove `ritt_power_bound`, the Tadmor–Ritt power bound
 `∀ n, ‖a^n‖≤3C²`. First derive, for R>1, the integration-by-parts identity
 `a^n=(2πi(n+1))⁻¹∮_{|z|=R} z^(n+1)(z·1−a)⁻² dz` from A2's calculus and
 resolvent derivative. Compute
@@ -522,7 +710,32 @@ the same Ritt constant and power bound for the restriction. Distinguish the cond
 Kreiss condition with denominator |z|−1; do not use the former conclusion
 under the latter hypothesis on an arbitrary Banach space.
 
-## A3. Characters and examples
+The finite and jet calculus API must include:
+
+- Unique continuous finite-spectrum calculus exactly when eigenspaces span, with eigenbasis and idempotent reconstruction.
+- Hermite jets, their multiplication rule, and agreement with holomorphic calculus and real derivative tuples.
+- Similarity transport with its norm factors and the distinction between algebraic, bounded and star-preserving calculi.
+
+**Checks.**
+
+- For diag(0,i), evaluation gives diag(f(0),f(i)); both coordinate projections have norm 1 and the operator is normal.
+- For J₂(0), the coordinate function on {0} is zero, so any unital algebra map sends it to zero rather than J₂(0); the finite-spectrum calculus does not exist.
+- On the zero space, the spectrum and eigenbasis are empty and the unique calculus has norm 0; the normality converse also includes this case.
+- For a=1 in ℂ and C=1, the Ritt resolvent bound is equality and every power has norm 1≤3. For a=−1, |z−1|/|z+1| tends to infinity as z approaches −1 from outside the disk, excluding this input.
+
+### Examples
+
+The diagonal operator with eigenvalues 0 and i and the nilpotent Jordan block distinguish spectral and jet calculi.
+
+### Dependencies
+
+Layer 1; Completed/ContourIntegration Layers 0–3; native polynomial and eigenspace theory.
+
+## Layer 3: Characters and examples
+
+### 3.1 Characters and function algebras
+
+*Needs:* Layer 1 radicals and unitization; Layer 2 spectrum; native weak-dual characters and compact Gelfand theory. Dales §§2.2–2.3; Pedersen §4.2, Exercises 11–12 for pullback.
 
 For every nonempty compact K⊆ℂ choose a sequence dense in K and
 construct the bounded diagonal operator on ℓ² with those entries.
@@ -548,24 +761,12 @@ without that extra point in the unital case. Nonemptiness in the unital case
 requires a nonzero **commutative** algebra. Prove the unitization/character-space
 correspondence and vanishing at infinity of Gelfand transforms.
 
-For a commutative complex C*-algebra A, compare its nonzero continuous
-character space Ω with that of the native external `Unitization ℂ A`.
-The augmentation is the scalar projection `Unitization.fstHom` (underlying
-function `Unitization.fst`). Reuse `Unitization.lift` for the unique
-extension `χ⁺(c,a)=c+χ(a)`, with its star version when needed. Prove
-that restriction identifies every character other than augmentation with
-exactly one χ∈Ω, and prove the weak-star topology comparison by these
-evaluation formulas and the automatic character bounds. Thus Ω is the open
-complement of augmentation in the compact unitized character space. For A
-with no identity this is its one-point compactification; if A already has
-an identity, the external unitization still adds an isolated augmentation
-point. For A=0 the unitized space is just that point. In the latter unital
-case evaluation at the internal identity separates augmentation from Ω;
-conversely, prove that an isolated augmentation would give an identity of A
-by the commutative C*-Gelfand transform. Compare the product topology and
-equivalent Banach `UnitizationL1` and C*-unitization norms, not identical
-native norm instances. VonNeumannAlgebras V11 consumes this comparison
-before Fourier uniqueness or inversion.
+Compare the Banach character construction with VonNeumannAlgebras
+V11.UnitizationCharacters on a commutative C*-algebra: the identification must
+preserve evaluation and augmentation. Compare the equivalent ℓ¹ and native
+C*-unitization norms via the identity algebra map; do not equate their norm
+instances. The general Banach comparison above does not assert that an isolated
+augmentation forces an identity without the C*-hypothesis.
 
 For commutative unital algebras reuse the character description of the spectrum,
 invertibility iff the transform has no zeros, and the Šilov idempotent theorem:
@@ -717,8 +918,27 @@ Identify A3's C¹ pair carrier with A2's r=1 derivative-tuple carrier
 by a bounded algebra equivalence preserving evaluations, derivative
 and the common norm. Use the general tuple API for its basic calculus.
 
-### Absolutely continuous functions and their operator calculus
+The character and example-algebra API must include:
 
+- Evaluation, kernel, pullback and Gelfand naturality, with maximal modular ideals in nonunital scope.
+- The displayed norm, multiplication, completion and spectrum identifications for each example algebra.
+- Agreement of the Banach and C*-character constructions under the stated unitization comparisons.
+
+**Checks.**
+
+- On C₀(ℕ), evaluations give ℕ and the external unitization adds one nonisolated point; for A=ℂ it adds one isolated point.
+- On the disk algebra, the coordinate is invertible on the boundary but has value 0 at the disk center; the inclusion is not inverse closed.
+- The constant Volterra kernel has first two convolution powers 1 and x, with L¹ norms 1 and 1/2; it is radical but not nilpotent.
+- The quotient class of the constant sequence 1 in ℓ∞/c₀ has norm 1. The constructed rank-one operator gives T1=e₀ and Te_j=0, while a zero coordinate-series matrix gives T1=0.
+
+### 3.2 Absolutely continuous functions and their operator calculus
+
+*Needs:* Mathlib Lp, interval integration and AbsolutelyContinuousOnInterval;
+Layer 3.1 characters and Layer 2 spectral mapping; polynomial approximation
+of L¹ derivatives. The formulas below fix the operator and derivative order.
+
+Use `intervalLebesgue` for μ, `IntervalL1` for L¹(μ), and `ACData` for
+the sum-norm pair carrier; `acFunction` is its integral realization.
 Construct AC[0,1] on the carrier `(c,g)∈ℂ×Lp(ℂ,1,μ)` with
 `μ=volume.restrict(Icc 0 1)` and associated continuous function
 `f(x)=c+∫₀ˣg(t)dt`. Prove representative independence, uniqueness of
@@ -779,6 +999,10 @@ change of variable. Exhibit a continuous function of infinite total
 variation and use invariance of that variation under interval
 homeomorphisms.
 
+State `exists_ac_calculus`: simultaneous existence of the bounded continuous
+realization and the bounded operator calculus, with their evaluation and a.e.
+formulas, operator norm bound, injectivity, spectral mapping and failure of a
+bounded linear extension to all continuous functions.
 On `Lp ℂ 1 μ` construct V by indefinite integration and M_x by
 coordinate multiplication, and put T=M_x+V. Define the bounded unital
 algebra calculus by
@@ -823,14 +1047,44 @@ spectrum/inverse theorem on its Hilbert-product carrier.
 Strong convergence of finite sections does not imply spectral continuity;
 ToeplitzOperators T5 owns finite-section stability. It owns the Hardy/shift-algebra
 theorems, rather than this elementary Banach spectral comparison.
-On ℓ∞ consume [BanachSpaceTheory B1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/15588952fdc156cbddda2c00f896851c90d93670/TauCetiRoadmap/BanachSpaceTheory/README.md#b1-duality-and-weak-topologies)'s norm-one functional φ
-annihilating c₀ with φ(1)=1. The nonzero rank-one map x↦φ(x)e₀ has
+On ℓ∞ use [BanachSpaceTheory B1](../BanachSpaceTheory/README.md)'s
+quotient-dual/annihilator isometry. Construct here a norm-one functional φ
+annihilating c₀ with φ(1)=1: since every sequence in c₀ tends to zero,
+dist(1,c₀)=1; the functional sending the class of 1 to 1 on its
+one-dimensional span has norm one and extends by complex Hahn–Banach.
+Pull it back along ℓ∞→ℓ∞/c₀. The nonzero rank-one map x↦φ(x)e₀ has
 T e_j=0 for every standard unit vector, so its coordinate matrix is zero.
 Prove it cannot be represented by the corresponding coordinate-series
 matrix formula on all ℓ∞; finite basis-vector data do not determine an
 operator on this space.
 
-## A4. Modules, factorization and bidual products
+The AC pair and operator calculus API must include:
+
+- Representative independence, endpoint evaluation, the two directions of the fundamental theorem and the exact derivative.
+- Multiplication, inverse and affine-interval transport on the sum-norm pair carrier.
+- The operator formula, multiplicativity, polynomial agreement, injectivity and spectral mapping, without assuming a continuous extension.
+
+**Checks.**
+
+- The data (1,0) give F=1, ‖(1,0)‖=1 and Ψ=I; the zero bounded maps cannot satisfy the formulas.
+- The data (0,1) give F(x)=x and Ψ(0,1)(1)=2x. Their square has data (0,2x), and both calculus routes send 1 to 3x².
+- For (0,0), F=0 and Ψ=0, whose spectrum on the nonzero L¹ space is {0}; it is not empty.
+- For f_n(x)=exp(2πinx), ‖f_n‖∞=1 and ‖Ψ(f_n)1‖₁≥πn−1, excluding a bounded linear extension. At n=1 the lower bound is π−1>2.
+- Lebesgue measure of [0,1] is 1 and of either endpoint is 0; changing a derivative representative at an endpoint leaves every integral and L¹ class unchanged.
+
+### Examples
+
+The Volterra and AC examples distinguish radicality, nilpotence and continuous extension.
+
+### Dependencies
+
+Layers 1–2; VonNeumannAlgebras V11.UnitizationCharacters for the C*-comparison only; BanachSpaceTheory B1 for the quotient functional.
+
+## Layer 4: Modules, factorization and bidual products
+
+### 4.1 Actions and approximate identities
+
+*Needs:* Layer 1 unitization; BanachSpaceTheory B1 annihilators and quotient duality; Mathlib continuous bilinear maps and Filter.IsApproximateUnit. Dales §2.9.
 
 Develop bounded module maps, closed submodules, quotients, finite direct sums,
 and restriction/extension along bounded algebra maps. Give dual actions by
@@ -848,6 +1102,22 @@ equivalence with nets and approximation on finite sets, transport to quotients,
 and combination of left and right bounded approximate identities, with bound
 `C+D+CD`. Prove convergence of a bounded approximate identity on the appropriate
 essential module.
+
+The module and approximate-identity API must include:
+
+- Associativity and commuting actions, bounded module maps, dual action formulas and quotient compatibility.
+- Essentiality as the specified closed span and equivalence with approximate-identity convergence.
+- Proper-filter and net formulations, quotient transport and two-sided combination with bound C+D+CD.
+
+**Checks.**
+
+- On M₂(ℂ) with its regular bimodule, E₁₂·E₂₁=E₁₁ and E₂₁·E₁₂=E₂₂; exchanging the two actions changes the value.
+- On the zero module every action and essential span is zero, so essentiality holds; on ℂ with zero action the essential span is {0} rather than ℂ.
+- The constant net 1 on a unital algebra satisfies 1a=a1=a. The bottom filter would make the constant net 0 an approximate identity even on ℂ; the proper-filter hypothesis excludes it.
+
+### 4.2 Double centralizers and representation extensions
+
+*Needs:* Layer 4.1 essential actions and approximate identities; Mathlib DoubleCentralizer and the closed graph theorem. Rieffel, physical pp.49–50 and 109–111.
 
 **A4.DoubleCentralizers.** Consume native
 [`DoubleCentralizer`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/CStarAlgebra/Multiplier.html#DoubleCentralizer)
@@ -892,7 +1162,23 @@ prove that the extension preserves star; the preceding automatic
 contractivity and a contractive approximate identity give a contractive
 extension. Include the zero space and zero algebra conventions.
 
-Prove Cohen–Hewitt factorization: if `A` has a left approximate identity bounded
+The double-centralizer and extension API must include:
+
+- Equivalence of the algebraic three-law model and native bounded centralizers when both annihilators vanish.
+- The product (SS′,T′T), norm estimates and the canonical closed ideal embedding.
+- A unique unital extension of each bounded essential representation, preserving intertwiners and star in the stated star case.
+
+**Checks.**
+
+- On ℂ, multiplication by z gives the pair (L_z,R_z), with both norms |z| and product at z=2,w=i equal to multiplication by 2i.
+- With norm 2|z|, the algebra element 1 has norm 2 but its multiplier has norm 1; a bounded approximate identity alone does not give isometry.
+- For the zero-multiplication algebra ℂ, all three algebraic laws hold for every pair of linear maps, and the canonical multiplier of every a is zero; the zero-annihilator premise fails.
+
+### 4.3 Factorization and balanced tensors
+
+*Needs:* Layer 4.1; Layer 1 unitization; BanachSpaceTheory B4 completed projective tensors for the balanced quotient only. Dales Theorem 2.9.24; Runde Appendix B.
+
+Prove `cohen_hewitt`, Cohen–Hewitt factorization: if `A` has a left approximate identity bounded
 by `C>0`, `E` is a Banach left module, and `x∈closure(span(A·E))`, then for every
 `ε>0` there are `a∈A`, `y∈closure(A·x)` with `x=a·y`, `‖a‖≤C` and
 `‖y-x‖<ε`. Include right and bimodule versions; an essential bimodule over an
@@ -906,6 +1192,23 @@ projective tensor product modulo the closed linear span of
 bilinear maps, induced maps, associativity under the appropriate commuting
 actions, and the dual description by balanced bilinear forms. Extend products
 and outer module actions to completed projective algebra tensors.
+
+The factorization and balanced-tensor API must include:
+
+- Left, right and pseudo-unital factorizations with their stated approximation and norm bounds.
+- The closed balancing relation, bounded balanced universal property, induced maps and associativity.
+- The dual identification with bounded balanced forms and the outer-action comparison for algebra tensors.
+
+**Checks.**
+
+- For A=ℂ acting on E=ℂ, x=2 factors as 1·2 with ‖1‖=1 and ‖2−2‖=0<ε for every ε>0.
+- For zero A acting on a nonzero E, the essential span is {0}; only x=0 meets the factorization hypothesis, with a=y=0.
+- For E=F=A=ℂ, the balanced quotient sends x⊗y to xy, and (2x)⊗y−x⊗(2y) maps to 0; the tensor of 1 and 1 has norm 1.
+- If E=0, the completed balanced tensor is 0 and every balanced bilinear map from E×F is zero; no nonzero tensor unit is asserted.
+
+### 4.4 Arens products
+
+*Needs:* Layer 4.1; BanachSpaceTheory B1 Goldstine and B2 weak compactness; Mathlib bounded bilinear maps and adjoints. Dales §2.6, Theorem 2.6.17.
 
 Construct both Arens products on `A**` by successively taking adjoints of
 multiplication. Pin their order by
@@ -923,12 +1226,36 @@ quotients. Relate bidual identities to weak-star cluster points of bounded
 approximate identities, retaining which side and which product each identity
 uses.
 
-## A5. Automatic continuity
+The bidual-product API must include:
 
-For a linear map `T:E→F` between Banach spaces, construct its separating space
+- Associativity and the norm bound for each product, with the stated weak-star continuity in the correct variable.
+- Extension of multiplication, second-adjoint naturality and the topological-center characterization.
+- The weak-compactness and double-limit criteria, including inheritance by subalgebras and quotients.
+
+**Checks.**
+
+- For embedded matrix units, J(E₁₂)□J(E₂₁)=J(E₁₁)=J(E₁₂)◇J(E₂₁); reversing the order gives J(E₂₂).
+- For zero multiplication both extended products are zero on every pair; the multiplication norm bound is 0≤0.
+- In ℓ¹(ℤ), take a_m=δ_(2m), b_n=δ_(−2n−1) and f(k)=1 for k≤−1, 0 otherwise. Then f(a_m b_n)=1 exactly when m≤n; lim_m lim_n is 1 and lim_n lim_m is 0, so the two Arens products differ at weak-star cluster points.
+
+### Examples
+
+The matrix-unit and double-limit examples distinguish multiplication order and the two Arens products.
+
+### Dependencies
+
+Layer 1; BanachSpaceTheory B1–B2 and B4; native double centralizers.
+
+## Layer 5: Automatic continuity
+
+### 5.1 Separating spaces and stability
+
+*Needs:* Layer 1 primitive ideals and simple-module realization; Mathlib closed graph theorem and submodule topological closure. Dales Theorem 5.2.5 and §§5.2.22–5.2.28.
+
+For a linear map `T:E→F` between Banach spaces, construct `separatingSpace`, its separating space
 `S(T)={y : ∃ xₙ→0, Txₙ→y}` as a closed linear subspace. Identify it with the
 vertical fibre of the closure of the graph. Prove that `T` is continuous iff
-`S(T)=0`, that the induced map into `F/S(T)` is continuous, and the composition
+`S(T)=0` (`continuous_iff_separatingSpace_eq_bot`), that the induced map into `F/S(T)` is continuous, and the composition
 and continuous-perturbation formulas, with closures where images need them.
 
 Prove the stability lemma: for Banach spaces `E₀=E,E₁,…` and bounded maps
@@ -959,25 +1286,62 @@ derivation, use `D(pb_n)=pD(b_n)+D(p)b_n`, with `b_n→0` and
 to obtain the contradiction. These are the intermediate results used
 in the following automatic-continuity theorems.
 
+The separating-space API must include:
+
+- Equality of the sequence definition and graph-closure fiber, closed scalar-subspace structure and the zero-space continuity criterion.
+- Continuity of the induced quotient map and continuous-perturbation compatibility.
+- Stability and the separating-ideal statements with the explicit intertwining assumptions above.
+
+**Checks.**
+
+- For T(z)=2z, x_n→0 implies Tx_n→0, so S(T)={0} and T is continuous.
+- For T=0 on any Banach space, the graph is E×{0}; its fiber at 0 is {0}, not all of the codomain.
+- For a discontinuous linear functional on an infinite-dimensional Banach space, rescale vectors with |T x_n|>n‖x_n‖ to get T y_n=1 and ‖y_n‖<1/n; its separating space contains 1 and is all ℂ.
+
+### 5.2 Homomorphisms and derivations
+
+*Needs:* Layer 5.1 separating ideals; Layer 1 unitization and radical; Layer 2 holomorphic calculus for the derivative formula. Dales §2.7 and Theorem 5.2.28.
+
 Prove these automatic-continuity theorems for complex Banach algebras, including
 nonunital versions via unitization:
 
-* Every homomorphism into a commutative semisimple Banach algebra is continuous.
-* Every surjective homomorphism onto a semisimple Banach algebra is continuous.
+* Every homomorphism into a commutative semisimple Banach algebra is continuous:
+  `continuous_of_commutative_semisimple` and `nonunital_continuous_of_commutative_semisimple`.
+* Every surjective homomorphism onto a semisimple Banach algebra is continuous:
+  `continuous_of_surjective_of_semisimple` and `nonunital_continuous_of_surjective`.
   Surjectivity is required when the target is noncommutative.
-* Every algebraic derivation `A→A` on a semisimple Banach algebra is continuous.
+* Every algebraic derivation `A→A` on a semisimple Banach algebra is continuous:
+  `derivation_continuous` and `nonunital_derivation_continuous`.
 * Every algebra isomorphism from a complex Banach algebra to a semisimple
   complex Banach algebra is a homeomorphism. Derive uniqueness of the complete
   algebra norm up to equivalence by putting the second norm on a type synonym.
 
-Also prove the continuous Singer–Wermer theorem: a bounded derivation on a
+Also prove `singer_wermer`, the continuous Singer–Wermer theorem: a bounded derivation on a
 commutative Banach algebra has range in its radical. Develop the exponential
 of a bounded derivation, its automorphism identity, and the character/Liouville
 argument. For a bounded derivation into a unital symmetric Banach module over
 a commutative unital algebra prove `D(f(a))=f'(a)·Da`. No claim about arbitrary
 derivations preserving primitive ideals is part of these targets.
 
-## A6. Bounded Hochschild cohomology and amenability
+**Checks.**
+
+- On c₀, identity and zero homomorphisms have operator norms 1 and 0; the zero homomorphism is covered by the commutative theorem but is not surjective onto nonzero c₀.
+- On M₂(ℂ), D(a)=E₁₁a−aE₁₁ gives D(E₁₂)=E₁₂ and D(E₂₁)=−E₂₁; this is a bounded derivation on a semisimple algebra and fixes the Leibniz order.
+- On ℂ[ε]/(ε²), the bounded derivation D(ε)=ε has range ℂε=rad A; Singer–Wermer does not assert D=0 on a radical algebra.
+
+### Examples
+
+The identity on c₀ and the inner matrix derivation exercise nonunital and noncommutative inputs.
+
+### Dependencies
+
+Layers 1–2 and 4.1; BanachSpaceTheory B1 for quotient duality.
+
+## Layer 6: Bounded Hochschild cohomology and amenability
+
+### 6.1 Cohomology and square-zero extensions
+
+*Needs:* Layer 4.1 bimodules and dual actions; Layer 4.3 balanced tensors; BanachSpaceTheory B4 completed projective tensors. Runde §2.4 and Appendix B.
 
 Use `ContinuousMultilinearMap ℂ (fun _ : Fin n ↦ A) E` for `Cⁿ(A,E)`,
 and identify `C⁰(A,E)` with E by evaluation on the empty tuple.
@@ -1011,6 +1375,22 @@ is square-zero and its induced A-bimodule structure is the specified E.
 Prove that the induced actions are independent of the section.
 In particular, splitting as a
 continuous algebra map is equivalent to vanishing of the class.
+
+The cochain and extension API must include:
+
+- The degree-zero identification, bounded differential, square-zero identity and coefficient functoriality.
+- The algebraic quotient by coboundaries, without asserting that their range is closed.
+- Universal derivations and section-change comparison of square-zero extensions with the fixed ideal and quotient.
+
+**Checks.**
+
+- In degree zero, δx(a)=a·x−x·a. On the regular M₂ bimodule, x=E₁₂ and a=E₂₁ give δx(a)=E₂₂−E₁₁, fixing the sign.
+- For A=ℂ with its regular symmetric module and T(a)=a, δT(a,b)=ab; then δ²T(a,b,c)=abc−abc+abc−abc=0.
+- For E=A=ℂ and cocycle zero, (1,0)²=(0,0) and (0,1) is the unit; the extension is the dual numbers, not the direct-product algebra.
+
+### 6.2 Diagonals and permanence
+
+*Needs:* Layers 6.1 and 4.3; BanachSpaceTheory B1 Goldstine and dual exact sequences. Runde Theorems 2.2.4, 2.3.7, 2.3.9, 2.3.10 and 2.4.7.
 
 A Banach algebra is amenable when every bounded derivation `A→E*` is inner
 for every Banach bimodule `E`. Prove it has a bounded approximate identity,
@@ -1051,7 +1431,32 @@ index sets using finite-support diagonals with uniform projective-norm bounds.
 Use the nonzero point derivations of A3 to prove `C¹([0,1],ℂ)` is
 not amenable.
 
-## A7. Group algebras and Johnson's theorem
+The amenability and diagonal API must include:
+
+- Equivalence of the inner-derivation, approximate-diagonal, virtual-diagonal and positive-degree dual-cohomology criteria.
+- Invariance under bounded algebra isomorphisms, dense images, quotients, unitization and the stated tensor/product operations.
+- The bounded-approximate-identity and weak-complementation characterizations for closed ideals.
+
+**Checks.**
+
+- For ℂ, 1⊗1 has product 1 and commutes with every scalar; it is a diagonal of norm 1.
+- For M₂, m=(1/2)Σ e_ij⊗e_ji has Δm=I, since Σ e_ij e_ji=2I; omitting the factor 1/2 gives 2I.
+- For A=0, the zero diagonal has product 0 and all derivations have zero domain; amenability includes the zero algebra.
+- For the C¹ evaluation bimodule, D(f)=f′(t) sends the coordinate to 1 while every inner derivation is 0; hence this algebra is not amenable.
+
+### Examples
+
+The scalar and matrix diagonals test normalization; C¹ point derivations give a nonamenable example.
+
+### Dependencies
+
+Layer 4 and Layer 3 point derivations; BanachSpaceTheory B1 and B4.
+
+## Layer 7: Group algebras and Johnson's theorem
+
+### 7.1 Product spaces
+
+*Needs:* Mathlib compact products, finite locally compact products and cantorSetHomeomorphNatToBool. Conway VII.9, pp.223–224 for the examples; the compact-cylinder proof below supplies the general criterion.
 
 **A7.ProductDomains — product topology and the Haar domain.** Before group
 algebras, supply the following elementary product-space prerequisite. For an
@@ -1089,10 +1494,28 @@ to ternary Cantor digits0,2. Match this series with native base-3 `ofDigits`.
 Transport the coordinate addition through this homeomorphism
 and prove it is digitwise XOR, with zero the all-zero digit sequence and every
 element its own inverse. Prove continuity with the inherited Cantor-set topology;
-this transported law is distinct from ambient real addition. These are Conway,
-*A Course in Functional Analysis*, second edition, VII.9's opening product
-examples. [ProductDomainTargets.lean](ProductDomainTargets.lean) illustrates
+this transported law is distinct from ambient real addition. The real powers, circle products and binary Cantor examples are Conway,
+*A Course in Functional Analysis*, second edition, VII.9, pp.223–224.
+The arbitrary nonempty-factor criterion is the compact-cylinder argument
+given above, not a theorem asserted at that locator. [ProductDomainTargets.lean](ProductDomainTargets.lean) illustrates
 the general criterion, real-power case and exact binary-coordinate comparison.
+
+The product and Cantor-model API must include:
+
+- The local-compactness criterion at arbitrary cardinality and its reindexing/homeomorphism invariance.
+- The finite-real-factor and compact-circle-factor comparisons.
+- The binary-to-ternary digit homeomorphism with inverse formulas and transported XOR addition.
+
+**Checks.**
+
+- The empty product is a point and the set of noncompact factors is empty, hence finite.
+- For ℝ^ℕ the noncompact-factor set is all ℕ, so local compactness fails; for Circle^ℕ it is empty and the product is compact.
+- An empty factor makes the product empty even if the other factors are ℝ indexed by ℕ; this refutes the criterion without nonempty factors.
+- The binary sequence (1,0,0,…) corresponds to 2/3; its XOR square is 0, while its ambient real sum with itself is 4/3.
+
+### 7.2 Convolution and approximate identities
+
+*Needs:* AmenableGroups Layer 7, including modular continuity, Baire representatives and localized Fubini; Layer 3 scalar characters. Conway VII.9.3–9.5, pp.225–226 in abelian scope.
 
 Let `G` be locally compact Hausdorff and `μ` a nonzero regular left Haar measure.
 There is no standing second-countability or sigma-finiteness assumption. Use
@@ -1112,7 +1535,9 @@ AmenableGroups7.1–2's Haar/modular convention and its sigma-compact-support,
 Baire-representative and localized Fubini bridges; do not add global
 sigma-finiteness or second countability.
 
-**A7.ChosenApproximateIdentity.** Index by all identity neighbourhoods,
+**A7.ChosenApproximateIdentity.** (Conway, VII.9.3–9.5, pp.225–226,
+for the abelian case; AmenableGroups Layer 7 for the general convolution
+and localization inputs.) Index by all identity neighbourhoods,
 ordered by reverse inclusion. Choose nonnegative continuous compactly
 supported u_U with support in U and integral one, using relatively compact
 neighbourhoods and compact-continuous Urysohn functions, positivity of Haar
@@ -1132,44 +1557,65 @@ choose f with χ(f)≠0 and use χ(u_U*f)→χ(f), hence χ(u_U)→1,
 together with ‖u_U‖₁=1. This applies to the nonunital group algebra
 itself; it adds no augmentation character.
 
-**A7.IntegratedRepresentations.** Integrate uniformly bounded strongly
-continuous representations π of G on a Banach space to nondegenerate
-bounded representations `ρ(f)ξ=∫f(x)π(x)ξ dμ(x)` of L¹(G), and construct
-the inverse correspondence, including intertwining maps and explicit norm
-estimates (`‖ρ(f)‖≤sup_x‖π(x)‖·‖f‖₁`). Prove the needed Bochner
-measurability on supports: the essential sigma-compact localization and
-separable images of compact sets supply it without a separability
-assumption on the whole Banach space. Prove multiplicativity with the
-stated convolution, and nondegeneracy by ρ(u_U)ξ→ξ. In the reverse
+The complex convolution API must include:
+
+- Almost-everywhere independence, associativity, norm bounds and the isometric star with its reversed product.
+- Both translation-continuity statements and comparison of Haar normalizations.
+- Integral-one compactly supported approximate identities and both convolution limits as nets.
+
+**Checks.**
+
+- For the trivial group with Haar mass 2, convolution of values a,b is 2ab and the identity density is 1/2; its L¹ norm is 1.
+- On S₃ with counting measure, δ_(12)*δ_(23)=δ_(123) and reversing the factors gives δ_(132); convolution is not commutative.
+- On the affine group (a,b)(a′,b′)=(aa′,b+ab′), a>0, left Haar measure is da db/a². Right multiplication by (2,0) gives c(2,0)=2, while c(1/2,0)=1/2; the involution needs that factor.
+
+### 7.3 Integrated representations
+
+*Needs:* Layer 7.2; the exact Tau Ceti integrated-operator contract; VonNeumannAlgebras V8.RegularL2 for the regular representation comparison. Runde Appendix A.
+
+**A7.IntegratedRepresentations.** Use the supplied integrated operator for a
+uniformly bounded strongly continuous representation π on a Banach space.
+Prove its multiplicativity for the complex convolution here using the
+sigma-compact-support and Baire-representative bridges of AmenableGroups
+Layer 7. This comparison is for arbitrary locally compact Hausdorff groups;
+it is additional to the abelian SFinite convolution statement in the supplier.
+In the reverse
 direction define the group action first on the span of ρ(L¹)E by
 `π(x)ρ(f)ξ=ρ(L_x f)ξ`, `L_x f(y)=f(x⁻¹y)`; prove presentation
 independence, its uniformly bounded extension, strong continuity and
 recovery of ρ, using the bounded approximate identity. This construction
 precedes M(G), the regular representation and Fourier theory.
-[SmoothBanachRepresentations SB0–SB1](../RepresentationTheory/SmoothBanachRepresentations/README.md)
+[SmoothBanachRepresentations Layers 0–1](../RepresentationTheory/SmoothBanachRepresentations/README.md)
 owns compact-support integration for arbitrary strong Banach Lie-group actions
 using support-dependent local operator bounds, and compares its integral with
 this L¹ action when the present global uniform bound holds. Its Lie-smooth
 kernels and finite-sum factorization are not prerequisites of this L¹ correspondence.
 
-**A7.RegularL2.** On L²(G) construct `λ_xξ(y)=ξ(x⁻¹y)`, prove
-unitarity by left Haar invariance and strong continuity by C_c density,
-and apply A7.IntegratedRepresentations. Prove the integrated involution
-law `λ(f*)=λ(f)*` and `‖λ(f)‖≤‖f‖₁`. Own the common-representative
-comparison: for f∈L¹ and h∈L¹∩L², the convolution integral represents
-both the L¹ convolution and λ(f)h in L², with Young bounds
-`‖f*h‖₁≤‖f‖₁‖h‖₁` and `‖λ(f)h‖₂≤‖f‖₁‖h‖₂`.
-Prove the almost-everywhere representative compatibility using the same
-localized integration bridges, rather than identifying the two Lp quotient
-types. Prove λ(u_U)ξ→ξ, hence nondegeneracy, using the chosen kernels
-and C_c density. For every G prove faithfulness: λ(f)=0 makes all
-λ(f)u_U zero in L²; the common-representative comparison makes f*u_U
-zero in L¹; its L¹ limit is f. These results precede V11's reduced
-C*-algebra and use no character correspondence or Fourier uniqueness.
+For the representation and faithful L¹ action of VonNeumannAlgebras
+V8.RegularL2, identify the integrated operator used here with its operator
+by their common Bochner formula. Carry its L¹/L² representative comparison
+through the additive/multiplicative wrapper equivalence; equality is of
+almost-everywhere representatives, not of the two Lp quotient types.
 For abelian G prove unimodularity, inversion invariance of Haar measure
 and commutativity of L¹ convolution. Identify the discrete case with `ℓ¹(G)`. The algebra is
 unital iff `G` is discrete; account for the normalization of Haar measure in
 the function representing the identity.
+
+The representation-correspondence API must include:
+
+- Multiplicativity for the localized noncommutative convolution and agreement with the native integrated operator.
+- Well-definedness, uniform boundedness and strong continuity of the reverse action on the dense essential span.
+- Both inverse laws, intertwiner compatibility and the regular-representation comparison.
+
+**Checks.**
+
+- For the trivial group of Haar mass 2, ρ(f)=2f(e)I and the bound is 2|f(e)|; the identity density 1/2 acts as I.
+- For a discrete group, ρ(δ_g)ρ(δ_h)=π(g)π(h)=π(gh)=ρ(δ_gh), retaining order even on S₃.
+- On the zero representation space, every operator is zero, the integrated image has closure {0}=E and nondegeneracy still holds.
+
+### 7.4 Measures and multipliers
+
+*Needs:* Layer 7.2; Layer 4.2 double centralizers and Layer 4.3 factorization; BanachSpaceTheory B5 scalar measure representation. Rieffel, physical pp.126–128; Runde Appendix A.
 
 Construct `M(G)`, finite regular complex Borel measures with total-variation
 norm, and its convolution and involution. Extend the measure representation
@@ -1223,7 +1669,24 @@ approximation to construct finite atomic measures with simultaneous strict
 error bounds. Control their total variation uniformly and pass to the net
 over finite test sets and positive error tolerances.
 
-**A7.CharactersAndUniqueness.** For every locally compact Hausdorff
+The measure and multiplier API must include:
+
+- Regular finite products, convolution, involution, total variation and the L¹ closed-ideal embedding.
+- Essentiality and both one-sided Wendel correspondences, with inverse formulas and norm identities.
+- Strict convergence, extension of essential actions and dual derivations, and uniformly bounded atomic approximation.
+
+**Checks.**
+
+- For any g, δ_g*δ_(g⁻¹)=δ_e, and both point masses have variation 1; the multiplier inverse uses the group inverse.
+- On the trivial group with Haar mass 2, the density 1/2 represents δ_e and acts as the identity multiplier of norm 1.
+- On ℝ, δ_0 has variation 1 but is not an L¹ density, since Lebesgue measure of {0} is 0; M(G) is larger than L¹(G).
+
+### 7.5 Characters and Fourier comparisons
+
+*Needs:* Layers 3 and 7.2–7.4; VonNeumannAlgebras V11.DoubleDualEmbedding and V11.FourierUniqueness; the native Pontryagin-dual interfaces named below. Conway VII.9.6 and 9.10–9.17, pp.226–231.
+
+**A7.CharactersAndUniqueness.** (Conway, VII.9.6 and VII.9.10,
+pp.226–229, with inverse characters to convert his Fourier convention.) For every locally compact Hausdorff
 abelian G, identify all nonzero bounded characters of L¹(G) with continuous
 unitary group characters by `χ_γ(f)=∫f(x)γ(x)dμ(x)`, with no conjugation.
 Own the integrated character correspondence here. From a nonzero character
@@ -1239,37 +1702,20 @@ vanishing-at-infinity Gelfand transform to obtain Riemann–Lebesgue. This
 character correspondence and its topology proof do not use Fourier
 uniqueness, inversion or double-dual surjectivity.
 
-For uniqueness consume [V11](https://github.com/TauCetiProject/TauCetiRoadmap/blob/160687f3131efb1b7b37fb6008a842b98815069c/TauCetiRoadmap/VonNeumannAlgebras/README.md#v11-weights-connes-invariants-and-continuous-cores)'s inversion-free **closed topological
-embedding** of G into its double dual, with its compact-open topology and
-positive-character Fourier convention. Extend Tau Ceti's native
-`MeasureTheory.FiniteMeasure.ext_of_forall_pontryaginMeasureTransform_eq_of_innerRegular`
-from finite positive inner regular measures on a Pontryagin dual to finite
-signed/complex regular measures by Jordan decomposition of real and
-imaginary parts and the transform identities at γ and its conjugate.
-For `H=Additive (PontryaginDual G)`, explicitly transport V11's evaluation
-embedding to `G→PontryaginDual (Multiplicative H)` through the canonical
-topological group equivalence; do not identify the wrapper types by fiat.
-Push a finite complex regular measure ν forward along this embedding.
-Its native evaluation transform at h∈H is precisely `∫γ_h(x)dν(x)`.
-Supply finite total variation, inner regularity of the positive variations
-and pushforwards, and injectivity of pushforward: the image is closed,
-and its homeomorphism with G takes Borel sets to Borel sets of that closed
-image. Native positive-measure uniqueness, applied to each pair of Jordan
-parts, therefore gives ν=0 when all these integrals vanish. This proves
-the signed/complex comparison, not just the positive special case.
+Extend VonNeumannAlgebras V11.FourierUniqueness from positive measures to
+finite regular complex Borel measures. If every positive-character transform
+of ν vanishes, the transform of its conjugate vanishes as well, since
+it is the conjugate of the transform of ν at the conjugate character.
+The real and imaginary parts therefore have zero transform. Their positive
+and negative Jordan parts have equal transforms, so the supplied
+positive-measure uniqueness identifies each pair and gives ν=0.
+Prove finite total variation, regularity of these parts, and the transform
+identities. This is a complex-measure extension; the L¹ uniqueness theorem
+and Fourier inversion are supplied by V11 independently of it.
+Compare the source convention h_γ(x)=γ(x⁻¹) with the positive-character
+convention by inverse/conjugate characters.
 
-Apply this to the regular complex measure f·μ from the L¹→M(G)
-embedding and identify zero measure with f=0 almost everywhere. Prove its
-finite variation and regularity by essential sigma-compact localization
-and compact approximation; no globally sigma-finite Haar measure or global
-`L∞=(L¹)*` identification is assumed. This single A7 uniqueness theorem
-precedes V11's Fourier inversion, Fourier–Plancherel and double-dual
-surjectivity; only V11's earlier closed-embedding stage is consumed.
-Compare the source convention `h_γ(x)=γ(x⁻¹)` with the displayed convention
-by inverse/conjugate characters, including the corresponding transform
-identities.
-
-**A7.StandardDuals.** Construct the topological group isomorphism
+**A7.StandardDuals.** (Conway, VII.9.11, 9.13, 9.15–9.17, pp.229–231.) Construct the topological group isomorphism
 `Multiplicative ℝ ≃ₜ* PontryaginDual (Multiplicative ℝ)` sending y to
 `γ_y(x)=Circle.exp (x*y)`. For surjectivity, compose a circle-valued
 character with native `Circle.toUnits` and use Tau Ceti's
@@ -1318,6 +1764,23 @@ grow at least c log N for a fixed c>0. Build that elementary kernel estimate
 here, using sums of exponentials and the sine quotient. For the convolution
 unit, Dirac mass belongs to M(G), and belongs to L¹ only in the discrete case.
 
+The Fourier comparison API must include:
+
+- The character correspondence and compact-open/weak-star homeomorphism, with the positive-character sign.
+- Jordan-part and conjugation identities for finite complex measures and their uniqueness comparison.
+- The standard-dual normalization formulas and the unitized-circle spectrum model.
+
+**Checks.**
+
+- On C₂ with counting measure, (a,b) transforms to (a+b,a−b), whose inverse is ((u+v)/2,(u−v)/2); equality of both transforms recovers both entries.
+- On ℤ, δ_1 has positive-character transform z, whereas the inverse-character transform is z⁻¹; at z=i these are i and −i.
+- On Circle with normalized Haar, f(z)=z⁻¹ has positive coefficient 1 at n=1 and 0 at n=0; the total Haar mass is 1, not 2π.
+- On ℝ, at x=y=1 the positive character is exp(i), while the native Fourier frequency 1/(2π) gives exp(−i); changing y to −1 aligns them.
+
+### 7.6 Johnson amenability
+
+*Needs:* Layer 6.2 diagonals; Layer 7.4 strict extensions; AmenableGroups Layers 1 and 7 invariant means and convolution. Runde Theorems 2.1.8 and 2.3.9 and §1.3.
+
 Use the invariant mean of AmenableGroups Layer 1 as the definition of group
 amenability. Build the affine fixed-point comparison: a locally compact group is
 amenable iff every jointly continuous affine action on a nonempty compact
@@ -1358,7 +1821,31 @@ automorphisms. A nonzero invariant functional with value one on the constant
 one then yields the invariant mean `|m|/|m|(1)`. This supplies the step without
 using a C*-algebra representation theorem as an extra prerequisite.
 
-## A8. Compact operators, transitive algebras and invariant subspaces
+The Johnson comparison API must include:
+
+- The affine fixed-point/invariant-mean equivalence with jointly continuous actions and nonempty compact convex domains.
+- Both directions of group/Banach-algebra amenability and the augmentation right-approximate-identity criterion.
+- Modulus and positive normalization of an invariant functional, preserving its domain and translation action.
+
+**Checks.**
+
+- For the trivial group the mean sends a scalar to itself, the augmentation ideal is 0 and L¹ is ℂ after Haar rescaling.
+- For C₂ with counting measure, the diagonal is (δ_e⊗δ_e+δ_g⊗δ_g)/2, whose product is δ_e and whose commutator with δ_g is zero.
+- For an invariant real functional m with m(1)=1, |m|(1)≥1, so dividing by |m|(1) gives value 1 and never divides by zero.
+
+### Examples
+
+The Haar-mass-two trivial group, S₃ and the affine group exercise normalization, order and modular factors.
+
+### Dependencies
+
+Layers 1, 3, 4 and 6; AmenableGroups Layers 1 and 7; VonNeumannAlgebras V8.RegularL2 and V11; BanachSpaceTheory B5; the exact Tau Ceti integrated-representation contract.
+
+## Layer 8: Compact operators, transitive algebras and invariant subspaces
+
+### 8.1 Compact spectral decomposition
+
+*Needs:* Layer 2 Riesz projections; native compact-operator Fredholm alternative and the Tau Ceti compact-operator eigenspace/range/cokernel results. Conway VI.5, compact spectral theory.
 
 This layer uses A2’s contour calculus, native compact-operator APIs and
 AlgebraicTopology’s finite-span Brouwer theorem; it does not use
@@ -1372,8 +1859,8 @@ Consume Mathlib's compact
 operator ideal API, Tau Ceti's finite-dimensional eigenspace/range/cokernel
 theorems in `Analysis/Normed/Operator/Compact`, and Mathlib's
 `IsCompactOperator.hasEigenvalue_or_mem_resolventSet` and
-`IsCompactOperator.hasEigenvalue_iff_mem_spectrum`. Construct the Riesz
-decomposition for each nonzero spectral λ: for sufficiently large k, the
+`IsCompactOperator.hasEigenvalue_iff_mem_spectrum`. Prove `compact_riesz_decomposition`, the Riesz
+decomposition for each nonzero scalar λ: for sufficiently large k, the
 closed finite-dimensional kernel of `(T−λ)^k` and closed range of
 `(T−λ)^k` are complementary, with stable ascent/descent, bounded coordinate
 projections commuting with T, nilpotent restriction on the first summand
@@ -1390,7 +1877,24 @@ the native carriers. OperatorTheory/SelfAdjointSpectralTheory SA-C86 owns the Hi
 compact-normal orthogonal decomposition, consuming these Banach results
 and the native compact self-adjoint spectral theorem.
 
-Build Schauder's compact-map fixed-point theorem on a nonempty closed bounded
+The compact spectral API must include:
+
+- Stable generalized kernels and ranges, bounded complementary projections and contour agreement over ℂ.
+- Finite-dimensionality and the eigenvalue-threshold finiteness theorem over RCLike scalars.
+- The nonzero-spectrum comparison and compatibility with invariant subspaces.
+
+**Checks.**
+
+- For T=diag(2,0), λ=2 gives kernel span(e₁) and range span(e₂) for every positive power of T−2I.
+- For T=J₂(1), ker(T−I) is one-dimensional but ker((T−I)²) is all ℂ²; stabilization cannot be asserted at k=1.
+- On ℓ², T e_n=e_n/(n+1) has exactly two eigenvalues of modulus at least 1/2, and 0 is spectral without being an eigenvalue.
+- For T=0 on infinite-dimensional ℓ² and λ=0, every positive-power kernel is all ℓ² and is not finite-dimensional; the nonzero-shift hypothesis is essential.
+
+### 8.2 Schauder and Lomonosov
+
+*Needs:* Layer 8.1 compact eigenspaces; AlgebraicTopology Stage 2, item 7 finite-span Brouwer; Mathlib finite covers and partitions of unity. Lomonosov, Russian pp.55–56 (English pp.213–214).
+
+Prove `schauder_fixedPoint`, Schauder's compact-map fixed-point theorem on a nonempty closed bounded
 convex set C in a real Banach space: a continuous f:C→C with relatively compact
 range has a fixed point. Consume AlgebraicTopology Stage 2, item 7's
 `brouwerFixedPoint_compactConvex_finiteSpan`, restricting to each
@@ -1406,14 +1910,14 @@ nonlinear convex combinations.
 Over each RCLike field 𝕜, a unital operator algebra A⊆B_𝕜(E) is transitive if closure(Ax)=E for every nonzero x;
 prove equivalence with absence of nonzero proper closed A-invariant subspaces.
 For any transitive unital 𝕜-subalgebra and nonzero compact K, prove
-Lomonosov's lemma: there exist a∈A and x≠0 with aKx=x. Build the finite-cover
+`lomonosov_lemma`: there exist a∈A and x≠0 with aKx=x. Build the finite-cover
 construction on a closed ball disjoint from 0, choosing algebra elements whose
 images of Kx enter that ball, and combine them with continuous partitions of
 unity. Apply the compact-map fixed-point theorem; the algebra element at a
 fixed point is the finite scalar combination of those chosen elements.
 Treat kernel points by first choosing a ball on which Kx stays away from 0.
 
-Deduce that a nonscalar T commuting with a nonzero compact K has a nonzero
+Prove `lomonosov_hyperinvariant`: a nonscalar T commuting with a nonzero compact K has a nonzero
 proper closed hyperinvariant subspace (invariant under every bounded operator
 commuting with T). If its commutant were transitive, the lemma gives an AK
 with eigenvalue 1; T preserves the finite-dimensional nonzero eigenspace,
@@ -1446,15 +1950,44 @@ invariant, otherwise it is separable and has an ℓ² isometric model.
 Distinguish this question from Banach-space counterexamples and from the
 compact-commutation theorem just proved.
 
-## Sources and API alignment
+The fixed-point and invariant-subspace API must include:
+
+- Schauder for nonempty closed bounded convex sets and compact image closure, plus affine transport.
+- The transitive-algebra lemma over real and complex scalars with a nonzero compact operator.
+- Complex hyperinvariance and the infinite-dimensional real invariant-subspace theorem with their distinct hypotheses.
+
+**Checks.**
+
+- For C={0} and f=0, the fixed point is 0; for C=∅ the conclusion fails, so nonemptiness cannot be dropped.
+- On ℂ, A=ℂ and K=2I are transitive/compact and a=1/2 gives aK(1)=1; K=0 could not give a nonzero fixed vector.
+- For T=diag(0,1) and K=I on ℂ², span(e₁) is hyperinvariant; for T=I every operator commutes with T, and no nonzero proper subspace is invariant under all of them.
+- A real 90-degree rotation has no invariant real line in dimension 2; the real theorem's infinite-dimensional hypothesis is essential.
+
+### Examples
+
+The singleton fixed-point domain and diagonal matrix test nonemptiness and hyperinvariance.
+
+### Dependencies
+
+Layers 1–2; AlgebraicTopology Stage 2, item 7; native and Tau Ceti compact-operator APIs.
+
+## Downstream consumers
+
+CStarAlgebras C1, C2 and C6 use the Banach multiplier, primitive-ideal and
+amenability comparisons. OperatorTheory/ToeplitzOperators T3 and T5 use the
+finite direct-sum spectral interfaces; OperatorTheory/SelfAdjointSpectralTheory
+SA-C86 uses Layer 8 compact spectral decomposition. BanachSpaceTheory B4 uses
+the spectral and invariant-subspace layers independently of its tensor inputs.
+
+## References
 
 * Rieffel, *C*-algebras* course notes, physical pages
-  [26–30](../../sources/course-notes/transcripts/rieffel-main-luna-01a137d1/page-026.md)
+  26–30
   (positive functionals and Banach *-algebra GNS),
-  [49–50](../../sources/course-notes/transcripts/rieffel-main-luna-01a137d1/page-049.md)
-  and [109–111](../../sources/course-notes/transcripts/rieffel-main-luna-01a137d1/page-109.md)
+  49–50
+  and 109–111
   (Banach double centralizers and extensions), and
-  [126–128](../../sources/course-notes/transcripts/rieffel-main-luna-01a137d1/page-126.md)
+  126–128
   (measure convolution and essentiality).
 * Dales, *Banach Algebras and Automatic Continuity*: §§1.3–1.5 and 2.1–2.3
   (ideals, radicals, spectra and characters), §2.4 (holomorphic calculus,
@@ -1469,30 +2002,20 @@ compact-commutation theorem just proved.
   extensions Theorem 2.3.10, dual cohomology Theorem 2.4.7), §1.3
   (fixed points), and Appendices A–B (group algebras and projective tensors).
 
-Mathlib already provides the general `UnitizationL1` norm, weak-dual character
-space, the spectral-radius formula and upper hemicontinuity of spectrum.
-Reuse `WeakDual.CharacterSpace.norm_le_norm_one`, the compactness
-instance for unital character spaces, the commutative-Banach-algebra
-part of `GelfandDuality` (including `mem_spectrum_iff_exists` and
-`spectrum.gelfandTransform_eq`), `spectrum.map_polynomial_aeval`,
-`Subalgebra.frontier_spectrum` and
-`Subalgebra.spectrum_eq_of_isPreconnected_compl`. Their stated
-hypotheses remain in force; the nonunital and homological extensions
-specified above are additional targets.
 The [Zulip spectrum-continuity discussion](https://leanprover.zulipchat.com/#narrow/stream/287929-mathlib4/topic/upper%20hemicontinuity%20vs.%20upper%20semicontinuity)
-and [Mathlib PR #32521](https://github.com/leanprover-community/mathlib4/pull/32521)
+and [Spectrum upper hemicontinuity](https://github.com/leanprover-community/mathlib4/pull/32521)
 explain the latter API. For closed two-sided ideals follow
-[PR #42093](https://github.com/leanprover-community/mathlib4/pull/42093)'s
+[Closed two-sided ideals](https://github.com/leanprover-community/mathlib4/pull/42093)'s
 `TwoSidedIdeal.closure`, closure lemmas and proper-closure interface. The
 projective tensor dependency follows the Mathlib designs cited in
-BanachSpaceTheory B4. Mathlib's current `Derivation` is for commutative algebras
-and symmetric modules; general bimodule derivations must support distinct
+BanachSpaceTheory B4. Mathlib's `Derivation` uses a commutative scalar semiring, a commutative
+algebra semiring and a single module action for both Leibniz terms; general bimodule derivations must support distinct
 left and right actions, with comparison to `Derivation` in its existing scope.
 Implement missing required APIs in Tau Ceti in the established shape, and
 adopt Mathlib implementations when available.
 
-Supplementary spectral and invariant-subspace sources: Conway, *A Course in
-Functional Analysis*, second edition, VII (functional calculus and examples);
+Supplementary spectral and invariant-subspace sources: Conway, [*A Course in
+Functional Analysis*, second edition](https://uomustansiriyah.edu.iq/media/lectures/9/9_2017_09_30%2112_00_39_PM.pdf), 1990, VII (functional calculus and examples);
 [Schwenninger, *Functional calculus estimates for Tadmor–Ritt operators*](https://arxiv.org/abs/1507.00049), §1.1, for the resolvent distinction;
 [Lomonosov, *Invariant subspaces for the family of operators which commute with
 a completely continuous operator*](https://www.mathnet.ru/eng/faa2433),
