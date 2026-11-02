@@ -17,9 +17,15 @@ complex orientation, quotients, gluing and holomorphic bundle operations;
 ComplexTori Milestone 1 owns lattice quotients. DifferentialGeometry Layers 0–9
 own generic forms, real integration and absolute de Rham comparison. The complex
 scalar extension here uses those same forms. SmoothBundlesConnections B2–B4 own
-bundle operations, metrics and connections. GlobalHolomorphicFunctions GH0/GH2/GH5.1
-own the scalar Cauchy–Green, Runge, local Laurent and planar exactness inputs;
-Layer 2 adds simultaneous smooth and holomorphic parameters. VariationalMethods
+bundle operations, metrics and connections. Layer 2 owns the scalar compact-support
+Cauchy–Green transform, finite-rank Runge approximation and simultaneous smooth and
+holomorphic parameter solver; Layer 3 owns the finite-pole stalk comparison and
+Layer 5 its planar de Rham consequence. GlobalHolomorphicFunctions owns global
+prescribed singularities, divisors and factorization beyond these inputs. Layer 5
+owns finite-order bundle differential operators, jets, symbols and density transposes;
+PseudodifferentialOperators owns the subsequent pseudodifferential calculus and Peetre
+extension. Layer 8 owns the all-degree finite-dimensional Lie-algebra cochain complex;
+LieGroupoidsPoisson owns the manifold Lie-algebroid extension. VariationalMethods
 §§2–5 and UnboundedOperators UO-D06 own abstract form representation and compact
 spectral theory; Layer 5 identifies the geometric weak domains and regularity.
 
@@ -104,8 +110,9 @@ Use [DifferentialGeometry](../DifferentialGeometry/README.md)'s generic smooth f
 exterior derivative, pullback, wedge, integration, Stokes and de Rham comparison. Its chain integration and Stokes already allow complete vector-valued coefficients;
 its de Rham comparison is stated over ℝ. K5a owns the complex-linear manifold integration compatibility and complex-coefficient de Rham
 comparison on the same generic form carrier, viewed over ℝ; do not construct a second form carrier.
-For an open planar domain Ω⊂ℂ, consume [GlobalHolomorphicFunctions §7.2 (GH5.1)](../GlobalHolomorphicFunctions/README.md)'s proof that every smooth complex-valued 2-form is
-exact, and prove the adapter to this carrier's complex de Rham quotient and `H²_dR(Ω;ℂ)=0`.
+For any open Ω⊆ℂ, derive smooth complex two-form exactness from Layer 2's
+scalar solver on this same form carrier. If β=b dx∧dy and ∂̄u=b/(2i),
+then d(u dz)=2i∂̄u dx∧dy=β; pass to `H²_dR(Ω;ℂ)=0` in Layer 5.
 Consume [RealAlgebraicGeometry Layer 7](../../Completed/RealAlgebraicGeometry/README.md#layer-7-analytic-preparation-and-mccallum-projection)
 for analytic inversion and local real-germ complexification in model spaces;
 consume the native joint analytic implicit-function theorem as specified in K1,
@@ -114,14 +121,10 @@ which owns the complex-manifold, chart and local-uniqueness adapters.
 bundles with complex structure, tensor/dual/Hom/complexification, Hermitian metrics,
 connections, curvature and their principal-bundle comparison maps. [PDE](../PDE/README.md)
 supplies scalar real-domain Sobolev, embedding, Rellich and elliptic estimates, not system
-estimates. [PseudodifferentialOperators P1.0](../PseudodifferentialOperators/README.md)
-supplies differential-operator carriers, jets, symbols and formal density adjoints
-after K5a's initial density-line construction and before its analytic scale.
-K5 owns generic finite-rank real/complex bundle distributions,
-the all-real-order Hilbert scale, smooth Laplace-type regularity, pointwise real
-Hodge star and real/complex Hodge theory. The later pseudodifferential calculus
-and its Peetre theorem consume that analysis; K5a's analytic operator layer
-consumes only P1.0. The initial pointwise star and density layer consumes no PDO.
+estimates. Layer 5 constructs the differential-operator, jet, symbol and formal-density-adjoint
+core after its density line, and then develops distributions and the all-real-order
+Hilbert scale. It owns smooth Laplace-type regularity, pointwise real Hodge star
+and real/complex Hodge theory.
 [AlgebraicTopology](../AlgebraicTopology/README.md) owns singular cohomology
 and products. The linear Hodge-structure objects in `Completed/HodgeStructures` are a
 target for K6's comparison, not a proof of analytic Hodge theory.
@@ -275,12 +278,64 @@ K3.0; PDE's scalar Hölder/Schauder estimates for the stated Newlander–Nirenbe
 On an integrable complex manifold construct ∂ and ∂̄ on generic type forms and prove their
 bidegrees, squares zero, anticommutation, graded Leibniz, conjugation and holomorphic-pullback
 naturality. Prove the local Dolbeault–Grothendieck lemma for smooth `(p,q)` forms, q>0, on a
-polydisc. For the scalar Cauchy–Green step consume [GlobalHolomorphicFunctions §0.3's compact-support operator, identity and real-plane
-area normalization](../GlobalHolomorphicFunctions/README.md) under their support and smoothness hypotheses, and consume
-[GlobalHolomorphicFunctions §2.5's finite-rank Runge operator](../GlobalHolomorphicFunctions/README.md) with its
-operator bound `sup_K|f−A_jf|≤ε sup_L|f|` for holomorphic f on the stated neighborhood. The
-finite-rank operators have fixed spatial evaluation points and output functions, independent of
-external parameters.
+polydisc. First construct the following scalar inputs on arbitrary open plane domains.
+
+For compactly supported smooth φ:ℂ→ℂ, define Tφ by the Bochner area integral
+`Tφ(z)=(1/π)∫ φ(ζ)/(z−ζ) dA(ζ)`, with native Lebesgue area and positive basis (1,i).
+Prove local integrability of the kernel, smoothness of Tφ, ∂̄Tφ=φ and
+T(∂̄φ)=φ (Demailly I §3, Corollary 3.4, p. 21). Its weak normalization is
+`∫ (1/(πζ))∂̄φ(ζ) dA(ζ)=−φ(0)`. The kernel's assigned value at ζ=z
+has no effect on the integral because that singleton has area zero.
+
+- T is complex-linear on compactly supported smooth inputs, commutes with translations
+  and commutes with differentiation of fixed-support smooth families.
+- A cutoff equal to one near a compact K expresses a holomorphic function near K by
+  a kernel integral over the cutoff-derivative support, separated from K.
+
+**Checks.**
+
+- For a compactly supported smooth φ equal to 1 near 0, ∂̄Tφ(0)=1;
+  reversing the kernel to 1/(ζ−z) would give −1.
+- For φ=0, Tφ=0 and both ∂̄Tφ and T(∂̄φ) are 0.
+- For a radial test with φ(0)=1, polar integration gives
+  ∫(1/(πζ))∂̄φ dA=∫₀^∞φ′(r)dr=−1, fixing the sign and the factor π.
+
+For an open Ω⊆ℂ and compact K⊆Ω whose complement in Ω has no relatively compact
+connected component, prove uniform approximation of neighborhood-holomorphic functions
+by functions holomorphic on Ω. Establish the finite-rank strengthening: for every open
+U⊇K choose compact L⊆U∩Ω with K⊆int L; for each ε>0 there are finitely many
+ζ_j∈int L and g_j holomorphic on Ω, independent of f, such that
+`A_ε f=Σ_j f(ζ_j)g_j` obeys `sup_K|f−A_ε f|≤ε sup_L|f|` for every f holomorphic
+on U. For empty K take L=∅ and the zero operator, interpreting the suprema as zero.
+The scalar Runge input is Rainer, Theorems 11.1 and 11.7, pp. 25 and 29;
+the uniform operator estimate is a consequence to prove here: apply the cutoff formula,
+uniform finite-sum approximation of its separated kernel, Cauchy estimates on a smaller
+collar inside L, and approximation of the finitely many resulting kernel functions.
+Prove those uniform estimates, including the bound by sup_L|f|; pointwise choices of
+approximants depending on f do not imply the operator statement. Construct compact
+Runge exhaustions of every open Ω, with K_j⊆int K_(j+1) and union Ω, by filling
+relatively compact complementary components of native compact exhaustions.
+
+- The approximation maps are complex-linear with fixed evaluation points and output
+  functions, so preserve holomorphic parameters and commute with smooth parameter derivatives.
+- Cauchy estimates on nested collars upgrade uniform errors to any specified finite
+  collection of derivative errors on smaller compacta.
+- Restrictions to smaller compacta preserve the approximation bounds; empty and
+  disconnected domains use the same exhaustion and approximation statements.
+
+**Checks.**
+
+- For K=∅, N=0 and f=0, each displayed supremum and finite sum is 0.
+- For K={0}⊂Ω=ℂ, A f=f(0) has rank one and error 0, whereas A=0 has error 1
+  on f=1 and fails for ε<1.
+- For K={2≤|z|≤3}⊂{|z|<4}, the missing Runge hypothesis matters: the period of
+  1/z on |z|=5/2 is 2πi while every disk-holomorphic approximant has period 0.
+  On Ω={1<|z|<4}, that K has no relatively compact complementary component and
+  1/z itself is an admissible approximant with error 0.
+
+*Needs:* Native area integration and finite-dimensional complex calculus; compact
+exhaustions and smooth cutoffs; Cauchy coefficient estimates and the scalar Runge,
+separated-kernel and filled-complement arguments specified above.
 
 For whole-open-polydisc exactness and successive Dolbeault elimination, prove one joint
 parameter-dependent one-variable solver `mixed_parameter_solver`. Let P be a finite-dimensional
@@ -303,11 +358,11 @@ The parameter solver preserves the following structure:
 - With P and Q points and f=1, u=bar(z) gives ∂̄u=1 on every Ω; u=z gives 0 and is not a solution.
 - If Q or Ω is empty, the equation has no evaluation points and u=0 satisfies every on-set condition; for Ω=ℂ and f=0, u=0 also works.
 
-*Needs:* GlobalHolomorphicFunctions §§0.3 and 2.5 fixed-support Cauchy–Green and finite-rank Runge operators; real differentiation under a compactly supported integral; parameter-chart partitions of unity.
+*Needs:* This section’s fixed-support Cauchy–Green and finite-rank Runge targets; real differentiation under a compactly supported integral; parameter-chart partitions of unity.
 
 **Parameter Cauchy–Green.** Prove the following lemma for this solver. For a fixed
 `χ ∈ C_c^∞(Ω)` independent of all parameters and jointly smooth `f` on
-`P × Q × Ω`, extend `χ f(p,q,·)` by zero and apply GH0's fixed-normalization
+`P × Q × Ω`, extend `χ f(p,q,·)` by zero and apply this section's fixed-normalization
 Cauchy–Green operator `T` (Demailly I §3, Corollary 3.4, p. 21).
 The parameter differentiation assertions below are consequences of that fixed-support
 integral and differentiation under the integral, rather than part of the cited corollary. The map `(p,q,z) ↦ T(χ f(p,q,·))(z)` is jointly `C^∞`;
@@ -325,11 +380,11 @@ with each `K_j^+` also Runge. Use the open shell cover whose late members are
 `int K_{j+1}\setminus K_{j-1}^+` (with finitely many initial sets), and choose a locally finite
 smooth partition `χ_j` compactly supported in these members. Thus `supp χ_j` misses a
 neighborhood of `K_{j-1}^+` for all sufficiently large j. Write `f_j=χ_j f`. Let `T` be the fixed-cutoff Cauchy–Green operator. Then for such j,
-`T f_j` is holomorphic on a neighborhood of `K_{j-1}^+`. Apply the fixed GH0 finite-rank
+`T f_j` is holomorphic on a neighborhood of `K_{j-1}^+`. Apply the fixed finite-rank
 operator `A_j`, chosen for `K_{j-1}^+` and a compact collar `L_j` inside that holomorphy
 neighborhood, and set `u_j=T f_j−A_j(T f_j)`; for the finitely many initial indices use
 `u_j=T f_j`. Thus `∂̄_z u_j=f_j`, and on each fixed earlier compact the tail is bounded by the
-GH0 operator-norm error
+preceding operator-norm error
 `sup_{K_{j-1}^+}|h−A_jh|≤ε_j sup_{L_j}|h|`.
 
 For parameter dependence apply these same spatial operators to all parameter values:
@@ -408,7 +463,7 @@ The right-hand side pq on a punctured parameter plane has the solution pq bar(z)
 
 ### Dependencies
 
-Layer 1; GlobalHolomorphicFunctions GH0; Mathlib sheaf cohomology; Layer 4 for the bundle-valued comparison.
+Layer 1; §2.1 scalar analytic inputs; Mathlib sheaf cohomology; Layer 4 for the bundle-valued comparison.
 
 ## Layer 3: analytic germs and subvarieties
 
@@ -494,12 +549,8 @@ finite pole, every such punctured germ is a fraction, and all operations
 commute with these maps. For a specified local biholomorphism taking a to b,
 prove the pullback comparison with K_b and its local-inverse identities.
 
-Consume [GlobalHolomorphicFunctions §4.1's local Laurent construction](../GlobalHolomorphicFunctions/README.md), specifically its
-finite-pole local phase before global Runge patching. The generic local
-Laurent decomposition and coefficient extraction remain owned by
-GlobalHolomorphicFunctions; this target owns their comparison with the
-stalk/fraction field and regular evaluation. Make this pole-only comparison
-explicit using the native finite-power characterization of `MeromorphicAt`:
+Derive the finite principal-part and regular-germ comparison directly from the
+native finite-power characterization of `MeromorphicAt`:
 choose N≥0 and an analytic germ h with `f(z)=(z-a)^(-N)h(z)` on a
 punctured neighbourhood, split its convergent Taylor expansion as
 `h(z)=Σ_(j<N)c_j(z-a)^j+(z-a)^N q(z)`, and identify the resulting
@@ -511,7 +562,7 @@ Taylor coefficients below that power. Include N=0 and the zero germ.
 Identify the negative Laurent coefficient of order -k, k≥1, with
 `(2πi)^(-1) ∮_(|z-a|=ρ) f(z)(z-a)^(k-1) dz` for every
 sufficiently small positive ρ. Use native Cauchy coefficient formulas and
-annulus integral invariance to prove agreement with GH2's coefficients.
+annulus integral invariance to prove radius independence and agreement with the Taylor construction.
 Transport restriction, finite sums/products and differentiation to this
 field; in the product formula a fixed negative coefficient is a finite
 convolution because both input Laurent series are bounded below. Prove
@@ -520,7 +571,7 @@ field maps, rather than selecting a second generic Laurent construction.
 Identify the regular subring with O_a and its value-at-a ring homomorphism
 to ℂ; the arbitrary value assigned to a meromorphic representative at its
 centre is never used. K3.MeromorphicGermField consumes the stalk/identity
-foundation, native analytic/meromorphic APIs and this local GH2 phase, and
+foundation and native analytic/meromorphic APIs, and
 precedes applications needing scalar meromorphic coefficient germs. It
 has no QFT prerequisite. General isolated essential-singularity and global
 Mittag–Leffler constructions retain their GlobalHolomorphicFunctions owner.
@@ -536,7 +587,7 @@ The meromorphic germ field API includes:
 - At 0, exp(1/z) has infinitely many negative Laurent terms, so it is not a finite-pole meromorphic germ.
 - The zero germ has principal part 0 and regular value 0; the germ 1+z has no principal part and regular value 1.
 
-*Needs:* Holomorphic stalk domain and identity theorem; GlobalHolomorphicFunctions §4.1 local Laurent construction; native `MeromorphicAt` and `FractionRing`.
+*Needs:* Holomorphic stalk domain and identity theorem; native Taylor and Cauchy coefficient formulas; native `MeromorphicAt` and `FractionRing`.
 
 Prove the analytic local rings are Noetherian and factorial of dimension n, with regular
 parameters. The native stalk statements are `holomorphicStalk_noetherian` and
@@ -627,7 +678,7 @@ The coordinate germ z is a nonunit, 1+z is a unit and z⁻¹ lies in the fractio
 
 ### Dependencies
 
-Tau Ceti finite-dimensional complex analysis; native holomorphic stalks; GlobalHolomorphicFunctions GH2;
+Tau Ceti finite-dimensional complex analysis; native holomorphic stalks and Taylor/Cauchy coefficient formulas;
 ContourIntegration; Layer 1 for regular-locus manifolds; RealAnalyticGeometry R1 for component finiteness.
 
 ## Layer 4: holomorphic and Hermitian bundles
@@ -785,9 +836,9 @@ layer uses DifferentialGeometry, SmoothBundlesConnections B2–B4, PDE Lane A.3,
 [VariationalMethods §§2–5](../VariationalMethods/README.md),
 [UnboundedOperators UO-D06](../OperatorTheory/UnboundedOperators/README.md),
 AlgebraicTopology and Mathlib, and HopfRinow Layer 1's Levi-Civita connection
-through PDO P1.0. Its pointwise real star, orientation line and
-density bundle precede PDO P1.0. Its distributional operator action and
-Laplace analysis then consume P1.0's operator and symbol core. It precedes the complex-manifold
+directly. Construct its pointwise real star, orientation and density lines first,
+then its finite-order differential operators, symbols and transposes below.
+Distributional action and Laplace analysis use that core. It precedes the complex-manifold
 and holomorphic-bundle applications in K5b.
 
 Consume SmoothBundlesConnections B2's RCLike L² section construction. The
@@ -861,7 +912,7 @@ Consume Mathlib `TestFunction Ω F ⊤`, its LF topology and
 Build frame/chart/restriction/gluing comparisons with native real-test
 F-valued distributions. For 𝕜=ℂ, complex-linearly extend real tests; prove
 compatibility with `TemperedDistribution`'s complex-test convention.
-After PDO P1.0's differential-operator and density-transpose core, construct
+After the differential-operator and density-transpose construction below, construct
 the action of differential operators on distributions by the
 bilinear transpose on E*⊗density tests. Prove compactly supported
 Euclidean distributions extend uniquely to tempered distributions after
@@ -880,9 +931,80 @@ The star, density line, tests and distribution carriers have the following API:
 - A real coordinate change with derivative −2 multiplies density by 2 and orientation by −1; a signed determinant is not the density transition.
 - For the line bundle over one point, the test space and its continuous dual are ℂ with the usual topology; evaluation at 1 distinguishes this from an indiscrete test topology.
 - On an empty base the test and distribution spaces are zero; on a point, δ(1)=1, ruling out the zero pairing.
+- For the planar two-form dx∧dy, u=bar(z)/(2i) satisfies ∂̄u=1/(2i)
+  and d(u dz)=dx∧dy; using −1/(2i) would give −dx∧dy. The denominator 2i is nonzero.
 - For P=∂ₓ and density dx, ∫(∂ₓf)g dx=−∫f(∂ₓg)dx on compact supports, so Pᵗ=−∂ₓ; for P=x∂ₓ the transpose is −x∂ₓ−1.
 
-*Needs:* DifferentialGeometry §§0.1–0.4, 5.5; SmoothBundlesConnections B2–B4; native test functions and distributions; PseudodifferentialOperators P1.0 for operator transpose.
+*Needs:* DifferentialGeometry §§0.1–0.4, 5.5; SmoothBundlesConnections B2–B4; native test functions and distributions; the differential-operator construction below for operator transpose.
+
+#### Finite-order operators, jets and density transpose
+
+For finite-rank smooth real or complex bundles E,F over a boundaryless smooth real
+manifold M, construct the space of scalar-linear differential operators
+Γ∞(E)→Γ∞(F) of order at most m, m≥0, using smooth local coefficient expressions
+`P=Σ_(|α|≤m) a_α ∂^α`. Construct the linear jet bundle J^m E by equality of
+coordinate Taylor coefficients through order m and the chain-rule transition maps.
+Prove that such operators are exactly smooth bundle maps J^m E→F composed with
+j^m, equivalently the linear operators whose (m+1)-fold commutators with scalar
+multiplication vanish. Include restriction, smooth section-module structures and the
+local Hadamard argument needed by that equivalence; no locality-only hypothesis
+is substituted for bounded order. The finite jet and truncation construction follows
+Kolář–Michor–Slovák §§12.2–12.5, pp. 117–119 and §§12.16–12.17, pp. 124–125.
+
+- Jet truncation commutes with restriction and frame changes; the kernel of
+  J^m E→J^(m−1)E is Sym^m(T*M)⊗E for m≥1, while J^0 E=E.
+- Operators compose with addition of order bounds. Their top coefficient gives a
+  homogeneous bundle map Sym^m(T*M)⊗E→F; its polynomial symbol is invariant under
+  coordinates and frame changes and independent of the connections used for a
+  symmetrized covariant-derivative expansion.
+- In real geometric convention the top polynomial is Σ_(|α|=m)a_α ξ^α;
+  in Fourier convention it is Σ_(|α|=m)a_α(iξ)^α, complexifying real bundles.
+  With [P,f]=PM_f−M_fP, the repeated commutator with f, divided by m!, is the
+  geometric symbol at df; composition multiplies principal symbols in order.
+
+**Checks.**
+
+- For m=0, J^0 E=E and multiplication by 3 has symbol 3; its commutator with x is 0.
+- On ℝ, [[∂²,x],x]=2Id and the third commutator is 0; division by 2! gives 1.
+  At ξ=2 the geometric and Fourier symbols of ∂² are 4 and −4.
+- On a point, J^m E=E for every m and the positive-order symbol is 0;
+  for the zero bundle every jet fiber is 0.
+- On ℝ, j²₀(x²) has Taylor coefficients (0,0,1) and truncates to (0,0);
+  under x=2y its quadratic coefficient becomes 4, as does the tensor (dx)²=4(dy)².
+- The order-zero matrices e₁₂ and e₂₁ have commutator diag(1,−1), of order zero;
+  an order-drop law without commuting top symbols would fail.
+
+Construct the bilinear density transpose
+Pᵗ:Γ∞(F*⊗Dens)→Γ∞(E*⊗Dens) by
+`Pᵗψ=Σ_α(−1)^|α| ∂^α(a_α^t ψ)` in density coordinates, and prove that
+these formulas glue by compact-support integration by parts. For chosen smooth
+positive density and fiber metrics construct the formal metric adjoint
+P†:Γ∞(F)→Γ∞(E); it includes complex conjugation, unlike Pᵗ.
+Both are characterized by their integration identities for compactly supported
+sections. For a metric connection ∇ on E, prove that its negative metric trace
+of the second covariant derivative equals ∇†∇ and has Fourier symbol |ξ|²_g Id.
+Define Laplace type with scale c>0 by order at most two and symbol c|ξ|²_g Id,
+including c=1 and finite-rank real/complex bundles.
+
+- Transpose and formal adjoint reverse composition, are involutive under the
+  natural double-dual identifications and commute with restriction to open subsets.
+- The formal-adjoint Fourier symbol is the fiber adjoint of the Fourier symbol.
+  Distributional action is defined by ⟨Pu,ψ⟩=⟨u,Pᵗψ⟩, with these exact test bundles.
+- The connection Laplacian has energy ∫⟨u,∇†∇u⟩=∫|∇u|² on compact supports;
+  positive rescaling multiplies its symbol and energy by c.
+
+**Checks.**
+
+- With density dx, (∂ₓ)ᵗ=−∂ₓ and (x∂ₓ)ᵗ=−x∂ₓ−1;
+  omitting the derivative of the coefficient loses the term −1.
+- Multiplication by i has bilinear transpose i but Hermitian adjoint −i;
+  these agree on real multiplication by 2, where both are 2.
+- On the circle, ∇=d gives ∇†∇ exp(ikx)=k² exp(ikx), with eigenvalues
+  0,1,4 for k=0,1,2. For the zero fiber both the operator and its energy are 0.
+
+*Needs:* This section’s density line; native smooth sections; SmoothBundlesConnections
+B2–B4 bundle operations and induced connections; DifferentialGeometry §5.5 integration;
+HopfRinow Layer 1 Levi-Civita connection; local Taylor/chain rules and Hadamard factorization.
 
 ### 5.2 Distribution local structure (K5a.DistributionLocalStructure)
  Own the continuous-primitive and supported
@@ -1098,7 +1220,7 @@ and this Hilbert interpolation. This includes the bounded Jacobian factors
 in the global diffeomorphism theorem and precedes its negative-order proof.
 Pin the global and bounded-domain instances of these coordinate estimates.
 Before Laplace estimates, own the differential-operator mapping theorem:
-for every P1.0 bundle differential operator P of integer order at most m≥0,
+for every bundle differential operator P from §5.1 of integer order at most m≥0,
 prove P : H^(s+m)(M;E) →L[𝕜] H^s(M;F) for every real s
 on a compact base, with cutoff/local versions on arbitrary chart domains.
 On native Euclidean Bessel carriers prove the Fourier-multiplier bound for
@@ -1164,7 +1286,7 @@ transport to E is conjugate-linear and gives the second/first slot pairing
 Finite distribution order and these continuous embeddings then show every
 bundle distribution lies locally in H^(−N) for some finite N.
 The general pseudodifferential calculus consumes this shared scale; this
-Laplace-type layer consumes P1.0's differential operators, not the general
+Laplace-type layer uses §5.1's differential operators, not the general
 calculus or P1.1's Peetre theorem. Prove BundleSobolev E 0 and B2's
 geometric L² have the same distributional image and equivalent norms, using
 `TemperedDistribution.memSobolev_zero_iff`, the distribution map
@@ -1173,7 +1295,7 @@ and B2's chart isometries. This gives a continuous linear equivalence, not
 an isometry for the pinned atlas norm. Every formal adjoint, self-adjoint
 realization, harmonic projection and orthogonal Hodge splitting uses B2's
 inner product ∫⟨s,t⟩_h dμ; the atlas H^s inner products provide the Hilbert
-scale and compactness. Compare P1.0's formal density adjoints with that
+scale and compactness. Compare §5.1's formal density adjoints with that
 geometric L² pairing even on nonorientable real manifolds, and prove the
 real de Rham instantiation on this shared API.
 
@@ -1238,12 +1360,11 @@ form carrier with coefficients in `ℂ`. Compute `H⁰_dR(D;ℂ)≃ℂ` by a com
 and `H¹_dR(D;ℂ)=H²_dR(D;ℂ)=0`. For degrees one and two use DG5.4's `homotopyOperator` for
 the radial contraction `H(z,t)=tz` with complete complex coefficients; degree-two forms are
 closed by dimension. Pass from primitives to the K5a complex quotient. As a consistency check,
-compare the degree-two result with the specialization to `Ω=D` of the GH5.1 adapter already
-consumed above; this example adds no new dependency edge. Keep it on DG's existing form carrier.
+compare the degree-two result with the specialization to `Ω=D` of the planar exactness consequence of Layer 2; this example adds no new dependency edge. Keep it on DG's existing form carrier.
 
-Consume P1.0's differential-operator carrier and Laplace-type predicate:
+Use §5.1's differential-operator carrier and Laplace-type predicate:
 order at most 2 and Fourier principal symbol c|ξ|²_g Id for a fixed c>0.
-Consume P1.0's restriction-compatible symbol and formal-adjoint maps,
+Use §5.1's restriction-compatible symbol and formal-adjoint maps,
 bilinear density transpose and their local coordinate formulas.
 Own local elliptic estimates for these operators on finite-rank real Riemannian and
 complex Hermitian bundles over `[RCLike 𝕜]`, with smooth coefficients and
@@ -1300,7 +1421,7 @@ HamiltonianReduction R5 consumes this smooth-coefficient layer at smooth
 reference connections for the Laplace operator of `d_A⊕d_A*`. K5 computes
 the exterior-multiplication/contraction symbols to prove
 `σ_F((d_A⊕d_A*)*(d_A⊕d_A*))=|ξ|²_g Id` on each degree, for every smooth
-metric connection A, compatibly with P1.0's symbol and Dirac-type API. R5 owns its
+metric connection A, compatibly with §5.1's principal symbol and the Clifford relation. R5 owns its
 Sobolev-coefficient perturbation estimates, gauge-specific identifications and
 Coulomb slice.
 
@@ -1367,7 +1488,7 @@ The geometric Sobolev space and realization API includes:
 - For a(u,v)=2 conj(u)v with j=id on ℂ, the graph gives Au=2u and (A+1)⁻¹u=u/3; the dual-forcing map sends ℓ(v)=cv to conj(c)/3 after shift 1.
 - For D=2 id, the energy form is 4 conj(u)v and D₀†D₀=4 id; using D alone would give the wrong factor 2.
 
-*Needs:* §§5.1–5.3; PseudodifferentialOperators P1.0; PDE Lane A.3; SmoothBundlesConnections B2; VariationalMethods §§2.2–2.4, 3.1, 4.3, 5.1–5.3; UnboundedOperators UO-D06.
+*Needs:* §§5.1–5.3, including the differential-operator core; PDE Lane A.3; SmoothBundlesConnections B2; VariationalMethods §§2.2–2.4, 3.1, 4.3, 5.1–5.3; UnboundedOperators UO-D06.
 
 ### 5.5 Planar Hodge and Laplacian conventions
  On an arbitrary open subset
@@ -1619,7 +1740,7 @@ The C² function |x|³ tests the distinction between pointwise and smooth form c
 ### Dependencies
 
 DifferentialGeometry; SmoothBundlesConnections B2–B4; PDE Lane A.3;
-PseudodifferentialOperators P1.0; VariationalMethods §§2–5; UnboundedOperators UO-D06;
+§5.1 differential-operator core; VariationalMethods §§2–5; UnboundedOperators UO-D06;
 Layers 1, 2 and 4 for the complex applications.
 
 ## Layer 6: Kähler identities and Hodge decomposition
@@ -2028,12 +2149,58 @@ the nonzero first spectral differential and the failure of an additive Hodge dec
 on this compact complex manifold. Own the Heisenberg group and lattice, the
 freeness and proper discontinuity of its holomorphic lattice action, and
 cocompactness. Consume ComplexManifolds Milestone 4 for the quotient complex manifold and
-its projection/descent API; build the cohomology-comparison prerequisites here. Consume [LieGroupoidsPoisson G1.3](../LieGroupoidsPoisson/README.md)'s all-degree real
-Chevalley–Eilenberg differential and own its scalar-extension and complex-summand adapter:
+its projection/descent API. Build the cohomology-comparison prerequisites here, using
+the all-degree Lie-algebra cochain construction below and its scalar-extension and complex-summand adapter:
 on the underlying real algebra, identify the complexification with `𝔤⊕bar(𝔤)`, with zero
 mixed bracket, and construct the complex-linear CE complex of `bar(𝔤)` and the invariant
 Dolbeault bicomplex. Own Nomizu's real de Rham comparison for compact nilmanifolds and
 Sakane's Dolbeault comparison for compact complex parallelizable nilmanifolds.
+
+#### Lie-algebra cochains in every degree
+
+For a finite-dimensional real or complex Lie algebra L and a Lie module V over the
+same field 𝕜, define C^k(L,V) as native alternating 𝕜-multilinear maps L^k→V.
+Define d:C^k→C^(k+1) by the sum of the action terms
+Σ_i(−1)^i x_i·ω(x₀,…,x̂_i,…,x_k) and bracket terms
+Σ_(i<j)(−1)^(i+j)ω([x_i,x_j],x₀,…,x̂_i,…,x̂_j,…,x_k), with the remaining
+arguments in their original order. Chevalley–Eilenberg §23, equations (23.1)–(23.2),
+pp. 115–116, gives the coefficient construction with its opposite bracket convention
+and differential divided by k+1; after reversing that bracket, multiply its degree-k
+differential by k+1 to obtain this formula. Its finite-dimensional-coefficient proof
+extends to arbitrary V because its finite-sum module/Jacobi calculation uses no
+basis or dimension bound on V. Prove alternation and d²=0 using the module
+identity and Jacobi, and construct the cochain complex and its cohomology.
+Use native linear maps and alternating maps, not another Lie-algebra carrier.
+Compare degrees one and two with `LieModule.Cohomology.oneCochain`,
+`LieModule.Cohomology.twoCochain`, `LieModule.Cohomology.d₁₂` and
+`LieModule.Cohomology.d₂₃` in `Mathlib/Algebra/Lie/Cochain.lean`; the degree-three
+comparison forgets alternation into the trilinear codomain of the last map.
+
+- Pullback by a Lie-algebra homomorphism is a chain map when the coefficient
+  action on its source is restricted along that homomorphism; coefficient-module
+  maps induce covariant chain maps, and identity and composition are respected.
+- With trivial scalar coefficients, wedge makes the complex a differential graded
+  algebra. Extension from ℝ to ℂ commutes with cochains on finite-dimensional L
+  and with the differential.
+- For left-invariant forms on a Lie group the evaluation-at-identity map identifies
+  the exterior derivative with this differential; inversion to right-invariant
+  forms also transports the bracket sign. This supplies the invariant-form input
+  of Sakane §2, Theorem 1, pp. 188–189.
+
+**Checks.**
+
+- For L=0, C⁰=V, every positive-degree cochain space is 0 and d=0;
+  the trivial one-dimensional abelian algebra has H⁰=𝕜 and H¹=𝕜.
+- For [X,Y]=Z with trivial coefficients, dZ*(X,Y)=−1, while dX*=dY*=0;
+  hence d²Z*=0 and H¹ of the three-dimensional Heisenberg algebra has dimension 2.
+  In the source convention δZ*(X,Y)=−1/2; the degree-one factor 2 gives −1.
+- For the abelian algebra ℝ acting on ℝ by scalar multiplication, (dv)(1)=v;
+  v=1 gives 1, so omitting the action terms would incorrectly make every v closed.
+- The Iwasawa equation dφ₃=−φ₁∧φ₂ evaluates to −1 on (X₁,X₂), agreeing
+  with the real Heisenberg sign after complexification; d²φ₃=0.
+
+*Needs:* Native Lie algebras, Lie modules, alternating maps and cochain complexes;
+DifferentialGeometry §§0.1–1.4 for the invariant-to-manifold comparison only.
 
 ### 8.2 Central reduction (K8.NilpotentCentralReduction)
  Supply the existence and lattice theorem
@@ -2076,7 +2243,7 @@ smooth/holomorphic principal-torus comparison are K8's targets.
 Use real and complex tori, including dimension zero, as the abelian base
 cases, and the constructed A at each nonabelian step. Compare the chosen
 left/right lattice-quotient and invariant-form conventions by inversion,
-with the corresponding CE chain map, before applying [G1.3](../LieGroupoidsPoisson/README.md). This supplies the
+with the corresponding CE chain map from §8.1. This supplies the
 full Nomizu/Sakane induction, not just the Iwasawa example. The central
 reduction follows Sakane §2, Theorem 1 and its proof, p. 189, whose lattice
 step invokes Raghunathan, p. 31 Corollary 1 and p. 23 Theorem 1.13; K8 owns that needed theory here.
@@ -2107,7 +2274,7 @@ The central reduction and filtered-complex API includes:
 - For the real Heisenberg algebra [X,Y]=Z, its last nonzero lower-central ideal is ℝZ of dimension 1, and the quotient is ℝ²; the integer central lattice yields circle fiber ℝ/ℤ.
 - For the Iwasawa coframe, dφ₁=dφ₂=0 and dφ₃=−φ₁∧φ₂, so d₁[φ₃]=−[φ₁∧φ₂] is nonzero; h^(1,0)+h^(0,1)=3+2=5 differs from b₁=4.
 
-*Needs:* LieGroupoidsPoisson G1.3; ComplexManifolds Milestone 4; ComplexTori Milestone 1; Layers 2 and 5; DGFloer filtered-complex comparison; the central rationality/lattice target above.
+*Needs:* §8.1 Lie-algebra cochain complex; ComplexManifolds Milestone 4; ComplexTori Milestone 1; Layers 2 and 5; DGFloer filtered-complex comparison; the central rationality/lattice target above.
 
 ### Examples
 
@@ -2116,35 +2283,33 @@ separates invariant Dolbeault classes from de Rham classes.
 
 ### Dependencies
 
-Layers 2, 5, 6; LieGroupoidsPoisson G1.3; ComplexManifolds Milestone 4;
+Layers 2, 5, 6; §8.1 Lie-algebra cochain complex; ComplexManifolds Milestone 4;
 ComplexTori Milestone 1; DGFloer's filtered-complex spectral sequence.
 
 ## Downstream consumers
 
-GlobalHolomorphicFunctions GH2's local Laurent construction supplies the
-radius-independent coefficients, finite principal part and holomorphic remainder
-used by K3.MeromorphicGermField. That target owns the stalk/fraction-field
-comparison and regular evaluation; the Laurent construction stays with GH2.
-
-The global one-variable provider order is GH0 (compact-support formula, area normalization, finite-rank Runge operators and exhaustion) → GH5 (global scalar solver using GH0) → GH5.1 (complex 2-form exactness). K2 consumes [GH0](../GlobalHolomorphicFunctions/README.md)'s finite-rank operators and compact-support map to build its own smooth/holomorphic/mixed parameter solver; it does not assume a parameter export from the scalar GH5 theorem. K5a consumes [GH5.1](../GlobalHolomorphicFunctions/README.md) and owns the complex-coefficient carrier comparison. GlobalHolomorphicFunctions does not consume ComplexKahlerGeometry.
+GlobalHolomorphicFunctions uses Layer 2's compact-support transform and finite-rank
+approximation inputs for its scalar global applications. Its global Laurent and prescribed
+singularity theory extends Layer 3's finite-pole germ construction. PseudodifferentialOperators
+uses Layer 5's density, differential-operator and analytic core for its pseudodifferential
+calculus. LieGroupoidsPoisson extends Layer 8's Lie-algebra cochains to Lie algebroids.
 
 K3.0 several-variable calculus precedes K1. K1's scalar-restriction and
 orientation paragraph precedes K7.1 and SBC B1's acceptance examples;
 K1's eigenbundle calculus consumes SBC B2's complexification and precedes K2.
 K2's scalar calculus, whole-polydisc local lemma, parameter-dependent shell solver, and Ω^p sheaves
-consume GH0's fixed finite-rank operators and Cauchy–Green map under their stated interfaces and precede K4's holomorphic bundles and connections. K2's bundle-valued comparison follows
+use §2.1's fixed finite-rank operators and Cauchy–Green map under their stated interfaces and precede K4's holomorphic bundles and connections. K2's bundle-valued comparison follows
 K4's holomorphic-section sheaf and ∂̄_E. The rest of K3 uses that local analysis and feeds K4's
 analytic-sheaf examples. K5a's pointwise real
 star, orientation line and density bundle use DG and SBC B2 independently
-of PDO P1.0 and K1–K4. K5a's BundleTest, BundleDistribution and Fréchet
-section carriers follow its density line and use chart/frame analysis
-and SBC B3–B4's connection comparisons,
-independently of P1.0. PDO P1.0 consumes that density bundle; K5a's
-distributional operator action, Hilbert-scale, Laplace-type and de Rham Hodge
-developments then consume P1.0, SBC B2–B4, PDE Lane A.3 (componentwise
-on finite-dimensional fibers), [VariationalMethods §§2–5](../VariationalMethods/README.md),
-[UO-D06](../OperatorTheory/UnboundedOperators/README.md) and AT, with
-HopfRinow Layer 1's Levi-Civita connection through P1.0. UO-D06 supplies form representation to VariationalMethods §§2.3 and 5.1;
+of K1–K4. Its finite-order operator and jet construction uses that density line,
+HopfRinow Layer 1's Levi-Civita connection and SBC B3–B4's induced connections.
+Its bundle tests, distributions and Fréchet sections use chart/frame analysis;
+the Hilbert scale, Laplace regularity and de Rham Hodge theory then use these
+constructions, SBC B2–B4, PDE Lane A.3 componentwise on finite-dimensional fibers,
+[VariationalMethods §§2–5](../VariationalMethods/README.md),
+[UO-D06](../OperatorTheory/UnboundedOperators/README.md) and AT.
+UO-D06 supplies form representation to VariationalMethods §§2.3 and 5.1;
 §§3.1 and 4.3 supply compact pairs and their spectral expansion. Layer 5
 consumes the same represented operator and §5.3’s abstract differential-energy
 adapter, and proves the geometric H²-domain comparison here.
@@ -2172,7 +2337,7 @@ K5b's Serre duality and DG's Mayer–Vietoris theorem. The Iwasawa quotient
 consumes ComplexManifolds Milestone 4; the general invariant-cohomology comparisons
 first use K8.NilpotentCentralReduction's Γ-rational central subgroup,
 lattice, lower-dimensional quotient and smooth/holomorphic principal-torus
-bundle theorem, then [LieGroupoidsPoisson G1.3](../LieGroupoidsPoisson/README.md)'s CE adapter and the geometric
+bundle theorem, then §8.1's CE adapter and the geometric
 spectral-sequence page comparisons in K8. The generic filtered-complex
 machinery supplies convergence after those inputs.
 Every local definition and bundle construction has restriction, gluing, functoriality and transport
@@ -2196,6 +2361,14 @@ supplies the compatible triangulation in K6.
   Theorem 2.3.5, for distributions supported on a submanifold.
 - Raghunathan, *Discrete Subgroups of Lie Groups* (1972), p. 23 Theorem 1.13
   and p. 31 Corollary 1, for the lattice inputs used in Sakane’s central reduction.
+- Chevalley and Eilenberg, *Cohomology Theory of Lie Groups and Lie Algebras*
+  (1948), §23, equations (23.1)–(23.2), pp. 115–116; §8.1 states the bracket and
+  differential normalization comparison explicitly.
+- Rainer, *Advanced Complex Analysis*, Vienna 2016–2017 course notes,
+  Theorems 11.1 and 11.7, pp. 25 and 29, for scalar Runge; the finite-rank
+  uniform estimate in §2.1 is an additional consequence with its inputs specified there.
+- Kolář, Michor and Slovák, *Natural Operations in Differential Geometry* (1993),
+  §§12.2–12.5 and §§12.16–12.17, for finite jets and truncation.
 - Wells, *Differential Analysis on Complex Manifolds*, for Dolbeault, elliptic
   Hodge theory and duality.
 - [Angella, *The cohomologies of the Iwasawa manifold and of its small deformations*](https://arxiv.org/abs/1212.4351),
