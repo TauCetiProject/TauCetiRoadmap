@@ -8,7 +8,8 @@ theorems against the pinned Mathlib and Tau Ceti APIs, with simple definitions o
 
 The statable headlines are the global projective-dimension bound for regular rings, both
 implications of Kunz's theorem, radical/flat/idempotent Frobenius-root ideals, Tor independence
-and homological bounds for perfect algebras, finite freeness of bounded saturated valuation
+and homological bounds for perfect algebras (including the intrinsic Tor bound twice the
+Krull dimension), finite freeness of bounded saturated valuation
 lattices, cofinal invariance of pro-zero towers and composition of pro-isomorphisms, and the
 telescope, classical-completeness and weak-Serre comparisons for derived-complete modules.
 
@@ -17,8 +18,6 @@ The following headline families are not statable at the pins:
   lack the dg nerve, coherent mapping-space framework and enhanced ringed-site category D∞(O).
   Tensor–Hom, Koszul realization, perfect-scheme base change and algebraic-space perfect
   pushforward additionally need enhanced functors and quasicoherent/perfect subcategories.
-* Layer E1: the intrinsic perfect-ring Tor bound and its almost-etale proof need the supplied
-  almost-module and complete-local normalization interfaces.
 * Layer E3: relative Kan-extension lifting, representability, adjoints and accessible
   localization lack the supplied coherent functor categories and presentability carriers.
 * Layer E2:towers: multiplicative limit filtrations lack coherent stable towers and mapping
@@ -129,6 +128,21 @@ theorem perfect_projectiveDimension_le (P₀ R : Type u) [CommRing P₀] [CommRi
     [Algebra (PerfectClosure P₀ p) R]
     (hsurj : Function.Surjective (algebraMap (PerfectClosure P₀ p) R))
     (M : ModuleCat.{u} R) : HasProjectiveDimensionLE M (d + 1) := by
+  sorry
+
+/-- Every module over a perfect quotient of the perfection of a finite-dimensional regular
+ring has Tor dimension at most twice the quotient's Krull dimension
+(`perfect_torDimension_le_two_mul_dim`, README E1.6; BS17 Remark 11.33, p. 49).
+Here `d₀` bounds the dimension of the regular presentation, while `d` bounds that of `R`. -/
+theorem perfect_torDimension_le_two_mul_dim
+    (P₀ R : Type u) [CommRing P₀] [CommRing R]
+    (p : ℕ) [Fact p.Prime] [CharP P₀ p] [CharP R p]
+    [PerfectRing R p] [IsRegularRing P₀]
+    (d₀ d : ℕ) (hP : ringKrullDim P₀ ≤ d₀)
+    [Algebra (PerfectClosure P₀ p) R]
+    (hsurj : Function.Surjective (algebraMap (PerfectClosure P₀ p) R))
+    (hR : ringKrullDim R ≤ d) (M N : ModuleCat.{u} R) (i : ℕ) :
+    IsZero (((CategoryTheory.Tor (ModuleCat.{u} R) (2 * d + i + 1)).obj M).obj N) := by
   sorry
 
 end PerfectRings
