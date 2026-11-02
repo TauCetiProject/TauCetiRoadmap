@@ -52,8 +52,8 @@ Not statable at the pins, hence not stated, with the missing carrier named:
   state these endpoints. Layer 11A's generator and covering-permutation refinements
   additionally need the explicit half-twist paths and covering monodromy comparison;
   the existence theorem below uses the actual configuration quotient. The complex orbit
-  comparison of 3A.5 needs the complex-manifold charts on complex points supplied by
-  ComplexComparisonPartII C-1.1, which are not available as pinned declarations.
+  comparison of 3A.5 needs that section's classical complex-point topology and
+  complex-manifold chart construction, which are not pinned declarations.
 -/
 
 open CategoryTheory MonoidalCategory CartesianMonoidalCategory AlgebraicGeometry
