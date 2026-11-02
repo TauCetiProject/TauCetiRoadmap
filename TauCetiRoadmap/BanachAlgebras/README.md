@@ -26,11 +26,11 @@ The unital radical quotient is supplied by Mathlib's
 The forward integrated operator, its norm estimate and nondegeneracy are supplied
 by Tau Ceti's continuous-representation API. Layer 7 adds the localized
 noncommutative multiplicativity bridge and the inverse representation correspondence.
-[VonNeumannAlgebras](../VonNeumannAlgebras/README.md) V8.RegularL2 owns the faithful
-regular L² representation; V11.UnitizationCharacters owns the C*-unitization
-character comparison; V11.FourierUniqueness owns positive-measure and L¹ uniqueness.
-Layer 3 extends character theory to Banach algebras without a C*-identity, and
-Layer 7 extends measure uniqueness to finite regular complex measures.
+Layer 3 owns the Banach character/unitization comparison, including its
+commutative C*-specialization. Layer 7 owns the faithful regular L² action,
+L¹ semisimplicity for abelian groups, and Fourier uniqueness for L¹ functions
+and finite regular complex measures. General C*-representation theory and
+Fourier inversion are outside this scope.
 
 ## Conventions
 
@@ -89,6 +89,18 @@ For quotient-dual specialization use `exists_extension_norm_eq` from
 `Mathlib/Analysis/Normed/Module/HahnBanach.lean`, which extends a continuous
 linear functional from a subspace without increasing its norm.
 
+Use `MeasureTheory.Lp.compMeasurePreserving` from
+`Mathlib/MeasureTheory/Function/LpSpace/Basic.lean` and
+`MeasureTheory.Lp.instContinuousSMulDomMulAct` from
+`Mathlib/MeasureTheory/Function/LpSpace/DomAct/Continuous.lean` for the
+continuous translation action on L² with regular locally finite Haar measure.
+Use `IsStarNormal.spectralRadius_eq_nnnorm` from
+`Mathlib/Analysis/CStarAlgebra/Spectrum.lean` for bounded normal operators
+in §7.5; its ambient algebra is a complex C*-algebra. Use
+`AlgHom.spectrum_apply_subset` from `Mathlib/Algebra/Algebra/Spectrum/Basic.lean`
+for the unital extension of the regular action; no commutativity of its
+target algebra is required.
+
 ### From Tau Ceti
 
 In `TauCeti/RepresentationTheory/Continuous/Integrated/Basic.lean`, consume
@@ -142,12 +154,6 @@ supplies invariant means and the Haar-measure convolution foundations used in A7
 [AlgebraicTopology Stage 2, item 7](../AlgebraicTopology/README.md) supplies Brouwer on finite-dimensional
 convex spans for A8. Mathlib supplies the compact-operator Fredholm
 alternative.
-
-### From TauCetiRoadmap.VonNeumannAlgebras
-
-[VonNeumannAlgebras V8.RegularL2 and V11](../VonNeumannAlgebras/README.md) supply the regular representation, nonunital C*-character comparison, positive-measure/L¹ uniqueness and LCA dual conventions.
-These layers own the invariant-mean and scalar-convolution prerequisites;
-the complex group-algebra and cohomological constructions belong to A7.
 
 A1–A3 and A8 consume no B4 approximation/tensor targets;
 their compact, function and invariant-subspace layers are independent
@@ -335,9 +341,7 @@ extend it positively to the Banach completion and obtain the same
 construction and bound. Also prove that every algebraic *-homomorphism
 from a possibly nonunital Banach *-algebra with isometric star to a
 C*-algebra is contractive, using unitization and spectral-radius
-comparison. This is the Banach-input representation interface;
-VonNeumannAlgebras V0 owns the C*-algebra specialization and its general
-faithful-representation theory.
+comparison. This is the Banach-input representation interface.
 
 Completeness cannot be dropped from automatic positivity bounds. On
 `ℂ[X]` with coefficientwise conjugation and the supremum norm on
@@ -761,12 +765,23 @@ without that extra point in the unital case. Nonemptiness in the unital case
 requires a nonzero **commutative** algebra. Prove the unitization/character-space
 correspondence and vanishing at infinity of Gelfand transforms.
 
-Compare the Banach character construction with VonNeumannAlgebras
-V11.UnitizationCharacters on a commutative C*-algebra: the identification must
-preserve evaluation and augmentation. Compare the equivalent ℓ¹ and native
-C*-unitization norms via the identity algebra map; do not equate their norm
-instances. The general Banach comparison above does not assert that an isolated
-augmentation forces an identity without the C*-hypothesis.
+For a commutative complex C*-algebra A, compare its nonzero continuous
+character space Ω with that of the native external `Unitization ℂ A`.
+The augmentation is the scalar projection `Unitization.fstHom` (underlying
+function `Unitization.fst`). Reuse `Unitization.lift` for the unique
+extension `χ⁺(c,a)=c+χ(a)`, with its star version when needed. Prove
+that restriction identifies every character other than augmentation with
+exactly one χ∈Ω, and prove the weak-star topology comparison by these
+evaluation formulas and the automatic character bounds. Thus Ω is the open
+complement of augmentation in the compact unitized character space. For A
+with no identity this is its one-point compactification; if A already has
+an identity, the external unitization still adds an isolated augmentation
+point. For A=0 the unitized space is just that point. In the latter unital
+case evaluation at the internal identity separates augmentation from Ω;
+conversely, prove that an isolated augmentation would give an identity of A
+by the commutative C*-Gelfand transform. Compare the product topology and
+equivalent Banach `UnitizationL1` and C*-unitization norms, not identical
+native norm instances.
 
 For commutative unital algebras reuse the character description of the spectrum,
 invertibility iff the transform has no zeros, and the Šilov idempotent theorem:
@@ -926,7 +941,8 @@ The character and example-algebra API must include:
 
 **Checks.**
 
-- On C₀(ℕ), evaluations give ℕ and the external unitization adds one nonisolated point; for A=ℂ it adds one isolated point.
+- On C₀(ℕ), evaluations give ℕ and the external unitization adds one nonisolated point; for A=ℂ it adds one isolated point. For A=0 the character space is empty and the unitized character space is a singleton.
+- For A=ℂ, extension sends (c,a) to c+a and augmentation sends it to c; at (0,1) their values are 1 and 0. On the C*-unitization, (1,−1) has norm 1, while its ℓ¹-unitization norm is 2.
 - On the disk algebra, the coordinate is invertible on the boundary but has value 0 at the disk center; the inclusion is not inverse closed.
 - The constant Volterra kernel has first two convolution powers 1 and x, with L¹ norms 1 and 1/2; it is radical but not nilpotent.
 - The quotient class of the constant sequence 1 in ℓ∞/c₀ has norm 1. The constructed rank-one operator gives T1=e₀ and Te_j=0, while a zero coordinate-series matrix gives T1=0.
@@ -1078,7 +1094,7 @@ The Volterra and AC examples distinguish radicality, nilpotence and continuous e
 
 ### Dependencies
 
-Layers 1–2; VonNeumannAlgebras V11.UnitizationCharacters for the C*-comparison only; BanachSpaceTheory B1 for the quotient functional.
+Layers 1–2; Mathlib unitization and commutative C*-Gelfand theory; BanachSpaceTheory B1 for the quotient functional.
 
 ## Layer 4: Modules, factorization and bidual products
 
@@ -1571,7 +1587,7 @@ The complex convolution API must include:
 
 ### 7.3 Integrated representations
 
-*Needs:* Layer 7.2; the exact Tau Ceti integrated-operator contract; VonNeumannAlgebras V8.RegularL2 for the regular representation comparison. Runde Appendix A.
+*Needs:* Layer 7.2; the exact Tau Ceti integrated-operator contract; Mathlib L² translations and Hilbert-space adjoints. Runde Appendix A.
 
 **A7.IntegratedRepresentations.** Use the supplied integrated operator for a
 uniformly bounded strongly continuous representation π on a Banach space.
@@ -1591,11 +1607,20 @@ using support-dependent local operator bounds, and compares its integral with
 this L¹ action when the present global uniform bound holds. Its Lie-smooth
 kernels and finite-sum factorization are not prerequisites of this L¹ correspondence.
 
-For the representation and faithful L¹ action of VonNeumannAlgebras
-V8.RegularL2, identify the integrated operator used here with its operator
-by their common Bochner formula. Carry its L¹/L² representative comparison
-through the additive/multiplicative wrapper equivalence; equality is of
-almost-everywhere representatives, not of the two Lp quotient types.
+**A7.RegularL2.** On L²(G) use native measure-preserving translations
+`λ_xξ(y)=ξ(x⁻¹y)` and their strong continuity to assemble a unitary representation,
+and apply A7.IntegratedRepresentations, including its supplied bound
+`‖λ(f)‖≤‖f‖₁`. Prove the integrated involution law `λ(f*)=λ(f)*`. Own the common-representative
+comparison: for f∈L¹ and h∈L¹∩L², the convolution integral represents
+both the L¹ convolution and λ(f)h in L², with Young bounds
+`‖f*h‖₁≤‖f‖₁‖h‖₁` and `‖λ(f)h‖₂≤‖f‖₁‖h‖₂`.
+Prove the almost-everywhere representative compatibility using the same
+localized integration bridges, rather than identifying the two Lp quotient
+types. Prove λ(u_U)ξ→ξ, hence nondegeneracy, using the chosen kernels
+and C_c density. For every G prove faithfulness: λ(f)=0 makes all
+λ(f)u_U zero in L²; the common-representative comparison makes f*u_U
+zero in L¹; its L¹ limit is f. The adjoint identity uses the modular involution of §7.2.
+These results use no character correspondence or Fourier uniqueness.
 For abelian G prove unimodularity, inversion invariance of Haar measure
 and commutativity of L¹ convolution. Identify the discrete case with `ℓ¹(G)`. The algebra is
 unital iff `G` is discrete; account for the normalization of Haar measure in
@@ -1605,13 +1630,16 @@ The representation-correspondence API must include:
 
 - Multiplicativity for the localized noncommutative convolution and agreement with the native integrated operator.
 - Well-definedness, uniform boundedness and strong continuity of the reverse action on the dense essential span.
-- Both inverse laws, intertwiner compatibility and the regular-representation comparison.
+- Both inverse laws and intertwiner compatibility.
+- The faithful integrated regular action, its adjoint law and common L¹/L² convolution representatives.
 
 **Checks.**
 
 - For the trivial group of Haar mass 2, ρ(f)=2f(e)I and the bound is 2|f(e)|; the identity density 1/2 acts as I.
 - For a discrete group, ρ(δ_g)ρ(δ_h)=π(g)π(h)=π(gh)=ρ(δ_gh), retaining order even on S₃.
 - On the zero representation space, every operator is zero, the integrated image has closure {0}=E and nondegeneracy still holds.
+- On S₃ with counting measure, λ(δ_(12))λ(δ_(23))δ_e=δ_(123), whereas the reversed product gives δ_(132); λ(δ_(123))*δ_e=δ_(132). Testing λ(f) on δ_e recovers f, including f=0.
+- On C₂ with counting measure and f=(1,i), λ(f)=[[1,i],[i,1]] has adjoint product 2I, norm √2 and eigenvalues 1+i,1−i of modulus √2; the L¹ norm is 2. Faithfulness does not assert isometry.
 
 ### 7.4 Measures and multipliers
 
@@ -1683,7 +1711,7 @@ The measure and multiplier API must include:
 
 ### 7.5 Characters and Fourier comparisons
 
-*Needs:* Layers 3 and 7.2–7.4; VonNeumannAlgebras V11.DoubleDualEmbedding and V11.FourierUniqueness; the native Pontryagin-dual interfaces named below. Conway VII.9.6 and 9.10–9.17, pp.226–231.
+*Needs:* Layers 1 and 3 radical/character theory; §7.3 faithful regular action; §7.4 measure convolution and essentiality; Mathlib spectral mapping under algebra homomorphisms and the normal-operator spectral-radius formula; the native Pontryagin-dual interfaces named below. Conway VII.9.6 and 9.10–9.17, pp.226–231, for the character and standard-dual comparisons.
 
 **A7.CharactersAndUniqueness.** (Conway, VII.9.6 and VII.9.10,
 pp.226–229, with inverse characters to convert his Fourier convention.) For every locally compact Hausdorff
@@ -1702,16 +1730,29 @@ vanishing-at-infinity Gelfand transform to obtain Riemann–Lebesgue. This
 character correspondence and its topology proof do not use Fourier
 uniqueness, inversion or double-dual surjectivity.
 
-Extend VonNeumannAlgebras V11.FourierUniqueness from positive measures to
-finite regular complex Borel measures. If every positive-character transform
-of ν vanishes, the transform of its conjugate vanishes as well, since
-it is the conjugate of the transform of ν at the conjugate character.
-The real and imaginary parts therefore have zero transform. Their positive
-and negative Jordan parts have equal transforms, so the supplied
-positive-measure uniqueness identifies each pair and gives ν=0.
-Prove finite total variation, regularity of these parts, and the transform
-identities. This is a complex-measure extension; the L¹ uniqueness theorem
-and Fourier inversion are supplied by V11 independently of it.
+Prove that L¹(G) is semisimple for every locally compact Hausdorff abelian G,
+and hence that its positive-character transform is injective. One proof route uses §7.3's faithful regular action: for f in the
+radical, the image of f in the external unitization has spectrum {0} by Layer 1.
+Extend the regular action to a unital algebra homomorphism into the bounded
+operators on L². Spectrum inclusion gives spectral radius zero for λ(f).
+Commutativity and the adjoint law make λ(f) normal; its spectral radius equals
+its norm, so λ(f)=0 and faithfulness gives f=0. Layer 3's identification of the
+Gelfand kernel with the radical and the character correspondence above now give
+L¹ uniqueness. This route requires neither Fourier inversion nor a double-dual
+embedding.
+
+For finite regular complex Borel measures ν, prove
+`(ν*f)^(γ)=ν^(γ) f^(γ)` for every f∈L¹(G) and continuous unitary character γ,
+where `ν^(γ)=∫γ(x)dν(x)`. Use §7.4's finite-variation convolution and localized
+integration to justify the formula. If ν has zero transform, L¹ uniqueness
+makes ν*f=0 for every f; §7.4's essentiality then gives ν=0. Apply this to a
+difference to obtain equality of measures with equal transforms, including
+positive measures, and to the regular measure f·μ to recover equality almost
+everywhere. Prove also the conjugation formula
+`(conj ν)^(γ)=conj(ν^(conj γ))` and the real/imaginary Jordan-part identities;
+retain finite total variation and regularity throughout. These are consequences
+of the integral and convolution formulas, with no global sigma-finiteness
+hypothesis (Runde Appendix A).
 Compare the source convention h_γ(x)=γ(x⁻¹) with the positive-character
 convention by inverse/conjugate characters.
 
@@ -1767,12 +1808,15 @@ unit, Dirac mass belongs to M(G), and belongs to L¹ only in the discrete case.
 The Fourier comparison API must include:
 
 - The character correspondence and compact-open/weak-star homeomorphism, with the positive-character sign.
-- Jordan-part and conjugation identities for finite complex measures and their uniqueness comparison.
+- Semisimplicity and injectivity of the L¹ transform; the mixed measure/L¹ convolution formula and finite-complex-measure uniqueness.
+- Jordan-part and conjugation identities for finite complex measures.
 - The standard-dual normalization formulas and the unitized-circle spectrum model.
 
 **Checks.**
 
-- On C₂ with counting measure, (a,b) transforms to (a+b,a−b), whose inverse is ((u+v)/2,(u−v)/2); equality of both transforms recovers both entries.
+- On C₂ with counting measure, (a,b) transforms to (a+b,a−b), whose inverse is ((u+v)/2,(u−v)/2); equality of both transforms recovers both entries. For (1,i), the normal regular operator has spectral radius and norm √2, so this element is outside the radical; zero gives both values 0.
+- For the trivial group with Haar mass 2, ν=bδ_e and f(e)=a give ν*f=ba and transform 2ba=b(2a). Taking a=1/2 detects b; taking only f=0 would give 0 for every ν and would not prove uniqueness.
+- On C₂, ν=δ_e+iδ_g has transforms 1+i and 1−i; its conjugate has 1−i and 1+i. The real part is δ_e and the imaginary part is δ_g, each of variation 1, whereas ν has variation 2.
 - On ℤ, δ_1 has positive-character transform z, whereas the inverse-character transform is z⁻¹; at z=i these are i and −i.
 - On Circle with normalized Haar, f(z)=z⁻¹ has positive coefficient 1 at n=1 and 0 at n=0; the total Haar mass is 1, not 2π.
 - On ℝ, at x=y=1 the positive character is exp(i), while the native Fourier frequency 1/(2π) gives exp(−i); changing y to −1 aligns them.
@@ -1839,7 +1883,7 @@ The Haar-mass-two trivial group, S₃ and the affine group exercise normalizatio
 
 ### Dependencies
 
-Layers 1, 3, 4 and 6; AmenableGroups Layers 1 and 7; VonNeumannAlgebras V8.RegularL2 and V11; BanachSpaceTheory B5; the exact Tau Ceti integrated-representation contract.
+Layers 1, 3, 4 and 6; AmenableGroups Layers 1 and 7; BanachSpaceTheory B5; the exact Tau Ceti integrated-representation contract.
 
 ## Layer 8: Compact operators, transitive algebras and invariant subspaces
 
@@ -1972,6 +2016,11 @@ The singleton fixed-point domain and diagonal matrix test nonemptiness and hyper
 Layers 1–2; AlgebraicTopology Stage 2, item 7; native and Tau Ceti compact-operator APIs.
 
 ## Downstream consumers
+
+VonNeumannAlgebras V8.RegularL2 and V11.UnitizationCharacters/FourierUniqueness
+can consume §§7.3, 3.1 and 7.5 respectively. Their reduced C*-algebra,
+Fourier inversion and double-dual constructions add to these interfaces;
+none is a prerequisite here.
 
 CStarAlgebras C1, C2 and C6 use the Banach multiplier, primitive-ideal and
 amenability comparisons. OperatorTheory/ToeplitzOperators T3 and T5 use the

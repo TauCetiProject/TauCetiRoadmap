@@ -15,7 +15,7 @@ functionals (1); holomorphic, finite-spectrum and jet calculi, normality and the
 characters, Wiener inversion and the absolutely continuous calculus (3); multiplier extension,
 Cohen–Hewitt, balanced tensors and Arens regularity (4); automatic continuity and Singer–Wermer (5);
 extension classification and the diagonal/cohomology characterizations of amenability (6);
-representation correspondence, Wendel and Johnson (7); compact Riesz theory, Schauder and
+representation correspondence, faithful regular action, Fourier uniqueness, Wendel and Johnson (7); compact Riesz theory, Schauder and
 Lomonosov (8).
 
 Construction-dependent headlines not stated here are holomorphic germ calculus (the holomorphic
@@ -29,6 +29,9 @@ projective algebra tensor with its actions), and Johnson's theorem (Banach-algeb
 and the general locally compact group convolution algebra). These constructions are README
 targets, not admitted data or free predicates here. Representation correspondence and Wendel
 also require that convolution-algebra structure and the finite regular complex-measure algebra.
+The faithful integrated regular action and L¹ semisimplicity require the localized L¹/L²
+convolution comparison and the convolution Banach algebra; finite-complex-measure Fourier
+uniqueness additionally requires the regular complex-measure algebra and its L¹ action.
 -/
 
 noncomputable section
