@@ -55,7 +55,7 @@ Belyi-map identification of Layer 6 in `TauCeti/NumberTheory/ModularGroup/Belyi.
 - **Farey symbols**: the datum, its generators, Kulkarni's correspondence, and the invariant
   formulas, with the translation to and from the permutation triple (Layer 5).
 - The modular curve `X(Γ̄)` of an arbitrary finite-index `Γ̄` as a **Belyi cover** of
-  `X(1) ≅ ℙ¹`, with the theorem that its monodromy triple is the modular triple of `Γ̄`
+  `X(1) ≅ ℙ¹`, with the theorem that its positive-loop monodromy triple is the mirror of the modular triple of `Γ̄`
   (Layer 6).
 - **Modular forms on finite-index subgroups**: the cusp expansions in `q^{1/w_c}` at every cusp,
   the dimension formulas for `M_k(Γ)` and `S_k(Γ)` at every finite-index `Γ` (ModularForms
@@ -250,7 +250,11 @@ Belyi-map identification of Layer 6 in `TauCeti/NumberTheory/ModularGroup/Belyi.
 - **The Belyi map** of `Γ̄` is `J := j/1728 : X(Γ̄) → ℙ¹`, unramified outside `{0, 1, ∞}`, with
   `j` the normalized level-one invariant of ModularForms (`j(ρ) = 0`, `j(i) = 1728`), so that
   its monodromy triple in the Belyi maps roadmap's ordering `(σ0 over 0, σ1 over 1, σinf
-  over ∞)` is the modular triple: order-three monodromy over `J = 0`, order-two over `J = 1`.
+  over ∞)` is the mirror `(σ1 σ0⁻¹ σ1⁻¹, σ1, σinf⁻¹)` of the modular triple.
+  The fibre identification is `g Γ̄ ↦ Γ̄ g⁻¹τ₀`. A positive loop at infinity in the
+  coordinate `1/J = 1728q + O(q²)` lifts to `τ ↦ τ + 1`, so acts by `T̄⁻¹` on left
+  cosets. With the compatible basepoint paths of §6.2 the other components act by
+  R̄ and S̄, of orders three and two (BelyiMaps §5.8; §1.1's mirror formula).
 - **Permutations in prose** are written in cycle notation on `{1, …, n}`; the worked examples
   number the cosets so that the base coset is point `1` unless stated otherwise.
 
@@ -271,6 +275,7 @@ Belyi-map identification of Layer 6 in `TauCeti/NumberTheory/ModularGroup/Belyi.
 | cusps | `IsCusp`, `isCusp_SL2Z_iff`, `Subgroup.IsArithmetic.isCusp_iff_isCusp_SL2Z`, `CuspOrbits` with its `Finite` instance, `cosetToCuspOrbit`, `surjective_cosetToCuspOrbit`, `Subgroup.strictPeriods`, `periods`, `strictWidthInfty`, `widthInfty`, `IsRegularAtInfty`, `relIndex_strictPeriods`, `strictWidthInfty_SL2Z` |
 | arithmetic subgroups | `Subgroup.IsArithmetic`, the instance for `Γ : Subgroup SL(2, ℤ)` with `[Γ.FiniteIndex]`, `IsArithmetic.isFiniteRelIndexSL`, `Subgroup.IsArithmetic.discreteTopology`, `HasDetOne` for `Γ.map (mapGL ℝ)` |
 | forms | `ModularForm`, `CuspForm`, `ModularFormClass`, `SlashAction`, `ModularForm.qExpansion`, `qExpansion_coeff`, `qExpansion_injective`, `qExpansionRingHom`, `cuspFunction`, `IsBoundedAt`, `IsZeroAt`, `ModularForm.sturm_bound_levelOne`, the level-one graded ring and `Δ`, `j` inputs (`Mathlib.NumberTheory.ModularForms.LevelOne.*`, `Discriminant`) |
+| p-adic root lifting | `hensels_lemma` (`Mathlib/NumberTheory/Padics/Hensel.lean`), existence and uniqueness near an approximate root under the derivative-norm inequality |
 | arithmetic | `padicNorm`, `padicValNat`, `ZMod`, `ZMod.inv`, `Nat.Coprime`, `Multiset.lcm`, `Nat.primeFactors` |
 
 ### From Tau Ceti
@@ -841,8 +846,9 @@ If `lift Γ̄` is congruence of level `N`, then `Γ̄ ⊇ Γ̄(N)` and `Γ̄.ind
 IsCongruenceSubgroup (lift Γ̄) → Γ̄.index ∣ ((Gamma N).map toPSL).index ,
 ```
 
-with the right-hand side computed by 2.5. Contrapositive: whenever `n ∤ (N³/2) ∏ (1 − p⁻²)`,
-`Γ̄` is noncongruence, with no further computation. This settles every noncongruence class of
+Here `N := generalLevel Γ̄ e` is positive, and the right-hand side is `|Q_N|` by 2.5.
+Contrapositive: whenever `n ∤ |Q_N|`, `Γ̄` is noncongruence. Use `|Q_1| = 1`,
+`|Q_2| = 6`, and `|Q_N| = (N³/2) ∏_{p ∣ N} (1 − p⁻²)` only for `N ≥ 3`. This settles every noncongruence class of
 index `7`: their levels are `6, 6, 10, 12` and `7 ∤ 72, 360, 576`. It does **not** settle the
 index-`8`, level-`8` classes (`8 ∣ 192`); the two forms below, which read the monodromy group
 rather than the index, settle the noncongruence ones, and since no obstruction ever proves a
@@ -875,6 +881,14 @@ factor of a quotient of `PSL₂(ℤ/11)`).
 *Needs:* 3.3, 2.5, 1.1; Mathlib `Subgroup.IsSubnormal`, `IsSimpleGroup`,
 `Matrix.ProjectiveSpecialLinearGroup.rank_two_simple`, `alternatingGroup.isSimpleGroup`.
 
+**Checks.**
+
+- For the full group, N = 1 and n = 1 divide |Q₁| = 1; no obstruction occurs.
+- For Γ̄(2), N = 2 and n = 6 divide |Q₂| = 6. Using the product at N = 2
+  would give 3 and falsely reject this congruence subgroup.
+- At index 7 and levels 6, 10, 12, the quotient orders are 72, 360, 576;
+  their remainders modulo 7 are 2, 3, 2, so all three give obstructions.
+
 ### Examples
 
 The index-7 class with widths {4,3} has level 12 and 7 does not divide 576. The order obstruction therefore detects noncongruence.
@@ -905,8 +919,13 @@ hence to a finite relation criterion.
 ### 4.2 The presentations of `Q_N` and the test
 
 The milestone owns the three presentations (odd `N`, `N = 2^k`, mixed) in the generators
-`L, R_H`, with proofs that the displayed relations hold in `Q_N` (those of the two
-even cases already in `SL₂(ℤ/N)`) and generate all relations, and the resulting theorem `hsu : IsCongruenceSubgroup (lift Γ̄) ↔ hsuTest L R_H N`
+`L, R_H`, including `L^N = 1` and the ambient modular-group relations in addition
+to the test words below. In the projective presentation the ambient relations are
+`(L R_H⁻¹ L)² = (R_H⁻¹ L)³ = 1`; in the signed presentation they are
+`(L R_H⁻¹ L)² = (R_H⁻¹ L)³` and `(L R_H⁻¹ L)⁴ = 1`.
+Prove that this full list presents `Q_N` in the projective case and `SL₂(ℤ/N)`
+in the signed even cases. The level relation is automatic on the actions of §4.1,
+so the resulting theorem is `hsu : IsCongruenceSubgroup (lift Γ̄) ↔ hsuTest L R_H N`
 where `hsuTest` is the conjunction of the following equalities. Modular inverses
 are inverses in `ZMod`; the mixed exponents are CRT residues, not search procedures:
 
@@ -995,8 +1014,13 @@ not of `SL₂(ℤ/N)`, and on `SL(2, ℤ) ⧸ Γ` with `ρ(−1) ≠ 1` it fails
 of odd strict level (`Γ₁(5)`, strict level `5`); the relations of the two even cases evaluate
 to `1` in `SL₂(ℤ/N)`. The proof is 4.1 with `Gamma (2 N_s)` in place of `Gamma N`
 (`Gamma N_s ≤ Γ` by `wohlfahrt_strict`, hence `Gamma (2 N_s) ≤ Γ.normalCore`) and
-Hamilton–Loeffler's Proposition 3 that at an even modulus `M` the relations of 4.2 hold in
-`SL₂(ℤ/M)` and normally generate `Gamma M` in `SL(2, ℤ)`. Any even modulus `M` with
+the presentation underlying Hamilton–Loeffler's Proposition 3: at an even modulus `M`,
+`T^M` together with the test words of 4.2 normally generates `Gamma M` in `SL(2, ℤ)`.
+A free presentation also includes the ambient signed relations of 4.2. The action
+already kills `T^M`, since `orderOf (ρ T) = N_s` and `N_s ∣ M`; thus only the short
+list needs testing (Hsu, proof of Theorem 3.1, equations (3.31)–(3.33), pp.1356–1357;
+Hamilton–Loeffler, arXiv:1307.0625v1, Proposition 3 and subsequent list, p.2).
+Any even modulus `M` with
 `N_s ∣ M` therefore serves; Hamilton–Loeffler state the test at `M = 2 N(Γ̄)`, twice the
 signed level, which is such a modulus because `N_s ∣ 2 N(Γ̄)` (3.1), and `2 N_s ∈ {2N(Γ̄),
 4N(Γ̄)}` is another. This is the layer in which 3.3(iii)'s witness is verified: its
@@ -1006,6 +1030,16 @@ relations.
 *Needs:* 4.2, 3.3, 3.1. *Source:* Kiming–Schütt–Verrill 2011; Hamilton–Loeffler 2014.
 
 The signed criterion is `hsu_strict`.
+
+**Checks.**
+
+- At M = 2, the homomorphism SL₂(ℤ) → ℤ/4 with T ↦ 1 and R_H ↦ −1
+  sends all three short test relators to 0, but T² to 2. The full list kills T²
+  and excludes this quotient, which the short list alone would admit.
+- At M = 4 the level relator is T⁴, with image 0 in that quotient, rather than
+  T² with image 2; the full presentations at levels 2 and 4 are different.
+- For Γ₁(5), N_s = 5 and M = 10 give (ρT)¹⁰ = 1; the central −I acts
+  nontrivially, so the odd-modulus shortcut at 5 cannot replace the even test.
 
 ### Examples
 
@@ -1218,24 +1252,32 @@ Let `Γ_ℙ := Γ̄.map psl2zToPSL2R`, a discrete subgroup of `PSL(2, ℝ)` of f
 FuchsianOrbifolds Layer 2.1), and let `Y(Γ̄) := Γ_ℙ \ ℍ` and `X(Γ̄) := CompactifiedQuotient Γ_ℙ`.
 Removing the `PSL₂(ℤ)`-orbits of `i` and `ρ` from `ℍ` gives `ℍ°`, on which `PSL₂(ℤ)` acts
 freely; `ℍ° → Γ̄\ℍ° → PSL₂(ℤ)\ℍ°` are coverings (FuchsianOrbifolds Layer 0.5), the second
-finite of degree `n`, and its fibre over the base point is `PSL(2, ℤ) ⧸ Γ̄` with the
-monodromy action the left-multiplication action through the surjection
-`π₁(PSL₂(ℤ)\ℍ°) ↠ PSL₂(ℤ)` (the deck group of the regular cover `ℍ° → PSL₂(ℤ)\ℍ°`;
-Tau Ceti's `UniversalCover` classification, as consumed by the Belyi maps roadmap's 6.2).
+finite of degree `n`. Choose a lift τ₀ of the base point and identify the fibre with
+`PSL(2, ℤ) ⧸ Γ̄` by `g Γ̄ ↦ Γ̄ g⁻¹τ₀`. If a based loop lifts from τ₀ to hτ₀,
+its lift from g⁻¹τ₀ ends at g⁻¹hτ₀, hence sends gΓ̄ to h⁻¹gΓ̄.
+Thus the surjection from the fundamental group to PSL₂(ℤ) used for the left
+monodromy action sends the loop to h⁻¹. This agrees with the endpoint definition of
+Mathlib's `IsCoveringMap.monodromy` and the BelyiMaps §6.2 covering classification;
+it fixes the inverse needed in the peripheral comparison.
 
 *Needs:* Layer 0, 1.1; FuchsianOrbifolds Layers 0, 2, 4; UniversalCovers.
 
-### 6.2 `j/1728` is a Belyi map and its monodromy triple is the modular triple
+### 6.2 `j/1728` is a Belyi map with the mirror monodromy triple
 
 The normalized `j` of ModularForms (`JInputs`) descends to `X(1) ≃ ℙ¹` (FuchsianOrbifolds
 Layer 6) and `J := j/1728 ∘ (X(Γ̄) → X(1))` is a finite holomorphic map `X(Γ̄) → ℙ¹` of degree
 `n`, unramified outside `{0, 1, ∞}`, with ramification indices `3` or `1` over `0`, `2` or
 `1` over `1`, and the cusp widths over `∞`. Its restriction over `ℙ¹ ∖ {0, 1, ∞}` is the
 covering of 6.1 composed with the homeomorphism `PSL₂(ℤ)\ℍ° ≃ ℙ¹ ∖ {0, 1, ∞}`, and the
-peripheral loops of the Belyi maps roadmap's Layer 5 map to `Ū` (around `0`), `S̄` (around
-`1`) and `T̄` (around `∞`) up to conjugacy and the orientation convention fixed there. Hence
-`IsCoveringMap.monodromyTriple` of `J` is equivalent to `modularTriple Γ̄ e` — the central
-theorem of the layer — and `J` is the Belyi map of the dessin of `Γ̄`. Corollaries: the
+positive peripheral loops of BelyiMaps §§5.2, 5.8 act, after compatible basepoint
+transport, by R̄ (around `0`), S̄ (around `1`) and T̄⁻¹ (around `∞`). Their product in
+Tau Ceti's order is T̄⁻¹ S̄ R̄ = 1. Prove the simultaneous comparison, using the
+fibre numbering of §6.1, not just separate conjugacies of the three permutations.
+Thus `IsCoveringMap.monodromyTriple` of `J` is equivalent to the mirror
+`(σ1 σ0⁻¹ σ1⁻¹, σ1, σinf⁻¹)` of `modularTriple Γ̄ e` — the central theorem of the
+layer — and `J` is the Belyi map of that dessin. The mirror preserves cycle partitions
+and the generated permutation subgroup, so the passport and group invariants remain
+those of the modular triple. Corollaries: the
 `passport` of `Γ̄` is `passportOf (modularTriple Γ̄ e)` (reference subgroup the monodromy
 group, cycle partitions `(ε₃ ones and (n − ε₃)/3 threes; ε₂ ones and (n − ε₂)/2 twos;
 cuspWidths)`), its `monodromy_group` is the monodromy group of 1.1 as a permutation
@@ -1245,19 +1287,32 @@ target, Scope and ownership; the group is, and the worked examples identify it a
 abstract group: `AGL₁(𝔽₇)`, `S₇`, `PSL₂(𝔽₇)`, `PGL₂(𝔽₇)`, `GL₂(𝔽₃)`), and the genus of 2.3
 is the genus of the dessin (Belyi maps 2.5).
 
-*Needs:* 6.1; BelyiMaps Layers 5–6, 2.5; FuchsianOrbifolds Layer 6; ModularForms `JInputs`.
+*Needs:* 6.1; §1.1's mirror identity; BelyiMaps Layers 5–6, 2.5;
+FuchsianOrbifolds Layer 6; ModularForms `JInputs`.
+
+**Checks.**
+
+- A positive cusp loop has Δτ = 1 and sends gΓ̄ to T̄⁻¹gΓ̄. For
+  s = (2 3)(4 5)(6 7), t = (1 3 2 5 7 4), it sends 1 to 4;
+  the unmirrored t would send 1 to 3.
+- For that degree-7 pair there are 48 permutations commuting with s and none
+  conjugating t to t⁻¹. Its geometric triple is equivalent to the mirror row
+  with s = (2 3)(4 6)(5 7), t = (1 3 7 2 6 4) in the worked examples,
+  not to its original modular triple.
+- Mirroring twice returns (σ0, σ1, σinf), since σ1² = 1. In degree 1 all three
+  components are 1; for Γ₀(2) both triples have partitions ({3},{2,1},{2,1}).
 
 ### 6.3 Descent and passports
 
 The pair `(X(Γ̄), J)` is the analytic Belyi pair (BelyiMaps 8.4) that analytic Riemann
-existence (8.6) attaches to the isomorphism class of `modularTriple Γ̄ e`; its algebraization
+existence (8.6) attaches to the isomorphism class of the mirror triple of §6.2; its algebraization
 (9.5) is an algebraic Belyi pair over `ℂ`, which descends to a number field (10.7). Its field
 of moduli (11.3) is contained in every field of definition (11.5), and is one when the
 automorphism group `N(Γ̄)/Γ̄` of the triple is trivial (11.6); no milestone here assumes the
 two fields agree. The LMFDB's `K`, `belyi_map`, `passport_reps` and `passport_embeddings`
-columns are that roadmap's objects evaluated at `modularTriple Γ̄ e`, with `K` a stored field
+columns are that roadmap's objects evaluated at this mirror triple, with `K` a stored field
 of definition. This milestone states the specialization only: the noncongruence curve of
-`Γ̄` is the algebraic Belyi pair of the class of `modularTriple Γ̄ e`, up to isomorphism, with the
+`Γ̄` is the algebraic Belyi pair of the class of the mirror triple, up to isomorphism, with the
 theorem that its analytic realization is `X(Γ̄)` with `J`. Nothing about models is proved
 here.
 
@@ -1548,41 +1603,80 @@ The signatures on native forms are `unbounded_denominators` and `unbounded_denom
 (BelyiMaps 11.5) by a model in which the point of `X(Γ̄)` at `∞` is rational. A condition on
 the coefficients of one form does not replace it. Under it, a `ℚ`-rational local parameter
 `t` at `∞` has `q^{1/w} = κ t + O(t²)` for a constant `κ` with `κ^w ∈ ℚˣ` (`w` the width,
-since `j = q^{−1} + ⋯` lies in `ℚ(X(Γ̄))`), and the coefficients `a_m` below are those of
-the expansion in `κ⁻¹ q^{1/w}` (this rescaling is the reason for the LMFDB's `u^m b_m`
-presentation, 7.5).
+since `j = q^{−1} + ⋯` lies in `ℚ(X(Γ̄))`). In even weight use ±Γ, whose
+form space is the same as Γ's and whose strict width is this projective width w.
+Distinguish the original Fourier
+coefficients a_m in q^(1/w) from the coefficients b_m in z = κ⁻¹q^(1/w):
+`f = Σ a_m q^{m/w} = Σ b_m z^m`, so `b_m = κ^m a_m`.
+The coordinate z belongs to ℚ[[t]] and starts with t, but need not equal t.
+Thus a_m = u^m b_m with u = κ⁻¹ agrees with §7.5; the rational integral lattice
+below is defined by the b_m, while the constant-coefficient ASD formula uses the a_m
+(Scholl §5.2, Proposition 5.2, pp.69–70; §5.4, p.71).
 
 For odd k, require in addition a ℚ-model of the signed weight-(k−2) coefficient system and
 its cusp trivialization, obtained from a fine elliptic cover with descent data.
 At an irregular marked cusp use the degree-two formal cusp cover and its rational
 marked point; its parameter has the strict width. The coarse uniformizer has the
-signed width and cannot serve as a strict-width parameter. The coefficients in the
-odd-weight assertion are read in that signed datum's rational formal coordinate.
+signed width and cannot serve as a strict-width parameter. For the odd-weight
+assertion let h be the strict width of this signed datum, choose its algebraic
+scaling constant κ ≠ 0, and use the same convention: a_m are the coefficients
+in q^(1/h), and b_m = κ^m a_m are the coefficients in its rational formal
+coordinate z = κ⁻¹q^(1/h), with C = κ^h ∈ ℚˣ. The transported formula below
+uses this h and C also at an irregular cusp.
 The coarse Belyi pair alone does not specify that sign or its possible quadratic
 twist. Prove the even-weight descent from the pair, and the odd-weight comparison
 for this additional datum; do not discard the central action on odd symmetric powers
 (Li–Long–Yang, arXiv:math/0311287v3, §5, Proposition 5.1, pp.11–13).
 
 **Theorem (Scholl).** Let `k ≥ 2`, let `Γ` have finite index with Scholl's hypothesis, and
-`d := dim S_k(Γ)`. Then there is `M ≥ 1` such that `S_k(Γ)` has a basis with coefficients in
-`ℤ[1/M]`, and a finite set of primes `T ⊇ {p ∣ M}` such that for every prime `p ∉ T` there
+`d := dim S_k(Γ)`. Then there is `M ≥ 1` such that `S_k(Γ)` has a basis with
+rescaled coefficients b_m in ℤ[1/M]. Enlarge M to include the Fourier period h
+and make C = κ^h a unit in ℤ[1/M] (h = w in the even-weight assertion).
+There is a finite set of primes `T ⊇ {p ∣ M}`, depending only on the
+model, signed datum and weight, such that for every prime `p ∉ T` there
 are integers `A_1(p), …, A_{2d}(p)`, with `X^{2d} + A_1 X^{2d−1} + ⋯ + A_{2d}` having all
 complex roots of absolute value `p^{(k−1)/2}` (so `A_{2d}(p) = ±p^{d(k−1)}`), such that for
-every `f ∈ S_k(Γ)` with coefficients in `ℤ[1/M]` and every `m ≥ 1`
+every `f ∈ S_k(Γ)` with all b_m in ℤ[1/M] and every `m ≥ 1`
 
 ```text
-padicNorm p ( Σ_{i=0}^{2d} A_i(p) · a_{m p^{d−i}}(f) ) ≤ p^{−(k−1)(1 + padicValNat p m)} ,   A_0(p) = 1 ,
+|Σ_{i=0}^{2d} A_i(p) · a_{m p^{d−i}}(f)|_p ≤ p^{−(k−1)(1 + v_p(m))},   A_0(p) = 1.
 ```
 
-with `a_{m p^{d−i}} := 0` when the index is not an integer. For `d = 1` this is the
-three-term congruence: an integer `A_p` with `|A_p| ≤ 2 p^{(k−1)/2}` and a sign
+For algebraic κ the norm of this formal expression has Scholl's prescribed
+interpretation, rather than an arbitrary choice of a root of C in a p-adic field.
+For p outside T, let γ_p be the unique element of 1 + pℤ_p with
+`γ_p^h = C^(p−1)`. It exists because p does not divide h, C is a p-adic unit,
+and C^(p−1) belongs to 1 + pℤ_p: apply `hensels_lemma` to X^h − C^(p−1)
+at 1, where the derivative h has norm 1 and the polynomial value has norm less than 1.
+Put r_i = m p^(d−i), interpreted as a rational
+number. The precise assertion on the rational rescaled coefficients is
+
+```text
+|Σ_{0 ≤ i ≤ 2d, r_i ∈ ℕ} A_i(p) · γ_p^((m p^d − r_i)/(p−1)) · b_(r_i)(f)|_p
+  ≤ p^{−(k−1)(1 + v_p(m))},   r_i = m p^(d−i).
+```
+
+The norm is the usual one on ℚ_p, normalized by |p|_p = p⁻¹. Every exponent in
+this sum is a nonnegative integer: for integral r_i, m p^d = r_i p^i, so the
+numerator is r_i(p^i − 1). Nonintegral indices contribute zero, and no fractional
+power is evaluated. When κ is rational, γ_p = κ^(p−1), and the factor is exactly
+κ^(m p^d − r_i). In that case multiplying the original coefficient sum by
+κ^(m p^d), a p-adic unit, proves the equivalence directly. For general algebraic
+κ, the γ_p formula specifies the branch in the original formal-coefficient
+notation (Scholl §5.4, the interpretation following Theorem 5.4, p.71).
+
+For `d = 1` this is the three-term congruence: an integer `A_p` with `|A_p| ≤ 2 p^{(k−1)/2}` and a sign
 `ε_p ∈ {±1}` with
 
 ```text
-padicNorm p ( a_{mp} − A_p · a_m + ε_p · p^{k−1} · a_{m/p} ) ≤ p^{−(k−1)(1 + padicValNat p m)} ,
+|a_(mp) − A_p · a_m + ε_p · p^(k−1) · a_(m/p)|_p ≤ p^{−(k−1)(1 + v_p(m))}.
 ```
 
-where `a_{m/p} := 0` if `p ∤ m`. The sign is not pinned to `+1`: the source gives `A_{2d}(p)`
+where `a_{m/p} := 0` if `p ∤ m`, with the same formal interpretation. On the b_m
+this is `b_(mp) − A_p γ_p^m b_m + ε_p p^(k−1) γ_p^(m(p+1)/p) b_(m/p)`,
+with the last summand omitted entirely when p does not divide m. For rational κ
+its two factors become κ^(mp − m) and κ^(mp − m/p), respectively.
+The sign is not pinned to `+1`: the source gives `A_{2d}(p)`
 only through `|A_{2d}(p)| = p^{d(k−1)}`, the Atkin–Swinnerton-Dyer form carries a root of
 unity `μ_p` there, and for a congruence `Γ` with `d = 1` the recurrence has `ε_p = χ(p)` for
 the nebentypus `χ`. The integers `A_i(p)` are the coefficients of the characteristic
@@ -1590,8 +1684,9 @@ polynomial of geometric Frobenius on the cohomological realization constructed b
 in the coefficient theorem they are existentially quantified integers, and the statement is nonvacuous because the congruences must hold for
 **all** `m` and all `f` simultaneously with a single `A_i(p)`. The congruence is a statement
 about the coefficients `a_m` indexed by `m`; it is **not** the Hecke recurrence (7.4 shows
-`Tₚ` need not act), and for `d = 1` with `Γ` congruence it reduces to the Hecke recurrence
-with `A_p = a_p` when `a_1 = 1`. The coefficient theorem is an output of the following owned noncongruence comparison,
+`Tₚ` need not act). For d = 1 on the standard congruence model with its usual
+Fourier normalization, it reduces to the Hecke recurrence with A_p = a_p when a₁ = 1.
+The coefficient theorem is an output of the following owned noncongruence comparison,
 not a bibliographic input. Its arithmetic-model and parabolic-cohomology carriers are
 not present at the pins, as recorded in the acceptance-file docstring.
 
@@ -1614,8 +1709,9 @@ localization ℤ[1/M], retaining the denominator ideals of the descent projector
 of all cusp-coordinate maps before localization. Use CrystallineCohomology CR.2.3
 and CR.DDR.6.11–CR.DDR.6.14 for smooth and logarithmic crystalline–de Rham comparison;
 prove here that it identifies the actual parabolic images and their Frobenius actions,
-not just ambient rational cohomology. The bound p > k−2 enters the integral
-symmetric-power comparison; include those finitely many primes in T explicitly.
+not just ambient rational cohomology. In the integral comparison, include all
+primes p ≤ k−1 in T: Scholl's Theorem 5.4, p.71, uses p > k−1 in this roadmap's
+weight-k convention (the source writes the weight as k+2).
 
 **The common Frobenius polynomial.** Prove independence of ℓ and equality of the
 étale and crystalline characteristic polynomials for this descended realization,
@@ -1627,11 +1723,14 @@ input, giving absolute values p^((k−1)/2). None of these claims is an assumpti
 on freely chosen integers Aᵢ.
 
 **The Fourier comparison.** Prove that Cayley–Hamilton on the integral parabolic
-realization implies the displayed coefficient congruence, with the denominator
-bound (k−1)(1+v_p(m)). This is the noncongruence integral comparison of Scholl
+realization implies the displayed congruence, with the denominator bound
+(k−1)(1+v_p(m)), in Scholl's formal interpretation of a_m and the precise
+γ_p formula on b_m = κ^m a_m. This is the noncongruence integral comparison of Scholl
 §5, Theorem 5.4, with Li–Long §2, equation (2.4), p.5; it is a target here on
-the constructed lattice. The same polynomial acts on every integral form and all m.
-The exceptional set is determined by the models, descent and weight, not chosen
+the constructed lattice. The same Frobenius polynomial supplies the A_i for every
+form in the rescaled integral lattice and every m; changing the Fourier coordinate
+changes the displayed coordinate factors, not this polynomial. The exceptional set
+is determined by the models, descent and weight, not chosen
 separately for a form or a coefficient.
 
 **Checks.**
@@ -1641,6 +1740,23 @@ separately for a form or a coefficient.
 - At d = 1, H_p = X² − A_p X + ε_p p^(k−1) yields exactly
   a_(mp) − A_p a_m + ε_p p^(k−1)a_(m/p); at p ∤ m the last term is 0.
   At p = 2, k = 12 on Δ, A₂ = −24 and ε₂ = 1: −24 − (−24)·1 + 2048·0 = 0.
+- With t = 1/(2j), κ = 2 and f = Δ/2, the q/2 coefficients are b₁ = 1
+  and b₁₁ = 547442688, while A₁₁ = 534612. The untwisted difference is
+  546908076 = 11 · 49718916 with 11 not dividing 49718916, so its valuation is 1,
+  below the required 11. The transported difference is
+  547442688 − 2¹⁰ · 534612 · 1 = 0, whose valuation is infinite. At p = 13,
+  within Scholl's stated weight range, A₁₃ = −577738 and b₁₃ = −2366414848;
+  the untwisted difference −2365837110 has valuation 1, whereas
+  b₁₃ − 2¹²A₁₃b₁ = 0. Thus the discrepancy also occurs beyond the weight cutoff.
+- At p = 3, m = 1, d = 2, the integral indices are 9, 3, 1; the transported
+  sum is b₉ + A₁ γ₃³ b₃ + A₂ γ₃⁴ b₁. For rational κ these factors are
+  κ⁶ and κ⁸. The indices 1/3 and 1/9 contribute zero; for κ = 1 both factors are 1.
+- For h = 2, C = 2 and p = 3, the distinguished root is γ₃ = −2:
+  (−2)² = 4 = C^(p−1) and −2 ≡ 1 modulo 3. The other root 2 is not in
+  1 + 3ℤ₃. Thus replacing γ₃ by κ² = 2 for κ = √2 would choose the wrong branch.
+- At p = 2, h = 1, C = 3, γ₂ = 3 lies in 1 + 2ℤ₂ and solves γ₂ = C.
+  Dropping p ∤ h would admit h = 2, C = 3, where every odd square is 1 modulo 8
+  and cannot equal 3; inclusion of the width primes in M excludes this case.
 - Geometric Frobenius on ℚ_ℓ(−1) has eigenvalue p; on a pure weight-one
   rank-two H¹ its determinant is p, fixing the convention. Arithmetic inverse
   Frobenius would give p⁻¹ and would fail the k = 2 determinant check.
@@ -1648,7 +1764,8 @@ separately for a form or a coefficient.
   Taking invariants of the wrong full deck action can therefore turn a nonzero
   odd-weight realization into zero. The signed descent datum excludes that model.
 
-*Needs:* §§6.3, 7.2–7.3, 7.5; ModularCurvesPartII §§14.1–14.4;
+*Needs:* §§6.3, 7.2–7.3, 7.5; Mathlib `hensels_lemma`;
+ModularCurvesPartII §§14.1–14.4;
 CrystallineCohomology CR.2.3, CR.DDR.6.11–CR.DDR.6.14; DeligneWeightsAndPurity §6.4. *Source:* Atkin–Swinnerton-Dyer 1971 (the conjecture and the
 examples); Scholl 1985, §5 (the theorem); Li–Long, arXiv:1303.6228v3, §2, p.5 (the even-weight statement with its hypotheses,
 the root of unity `μ_p`, and `p > k − 2`, absorbed here into `T`); Li–Long–Yang 2005.
@@ -1690,7 +1807,9 @@ Each item names the LMFDB column it realizes and its mathematical definition.
 - **`noncong_modular_curve`.** `psl2z_index` — `Γ̄.index` (0.4, 1.1). `permS`, permR,
   `permT` — 1.1, read through the opposite convention (Conventions): a row satisfies
   permR = permT * permS in `Equiv.Perm` and gives the modular triple
-  `(permS * permT, permS, permT⁻¹)`. `genus` — 2.3. `n_c` — `cuspCount`
+  `(permS * permT, permS, permT⁻¹)`. Its geometric Belyi triple is the mirror
+  `(permS * permT⁻¹, permS, permT)` by §6.2, so the infinity permutation of
+  the geometric cover is the row's permT itself. `genus` — 2.3. `n_c` — `cuspCount`
   (2.1). `n_e2`, `n_e3` — 2.2. `cusp_widths` — `cuspWidths` (2.1). `is_congruence` —
   `IsCongruenceSubgroup (lift Γ̄)`, decided by 4.2 and certified by 3.5 or 4.3.
   `monodromy_group` — the monodromy group of 1.1 as a permutation group of degree `n` up
@@ -1838,9 +1957,12 @@ checked against an independent computation of the same group.
   witness `!![73, −32; 16, −7] ∈ Γ(8)` sends the base coset of the first noncongruence
   class to coset `6` (4.3); its congruence closure is all of `PSL₂(ℤ)` (3.4). For all four,
   `dim M_2 = 0`, `dim S_4 = 2`, `dim M_4 = 3`.
-- **Hsu's own examples.** The subgroup of index `10` with `permT` of cycle type `(5, 3, 2)`
-  and the subgroup of index `18` with cycle type `(8, 3, 3, 2, 2)` from Hsu's paper (Sage's
-  `HsuExample10`, `HsuExample18`) are noncongruence of levels `30` and `24`, both of genus `0`.
+- **Hsu's degree-10 example.** Hsu, Example 1.1, p.1352, specifies
+  E = (1 2)(3 4)(5 6)(7 8)(9 10), V = (1 3 5)(2 7 4)(6 8 9),
+  and L = (1 4)(2 5 9 10 8)(3 7 6). Its cusp widths are {2,5,3}, so its
+  level is 30; ε₂ = 0, ε₃ = 1 and c = 3 give 12g + 4 + 18 = 12 + 10,
+  hence g = 0. It is noncongruence: Hsu's Example 2.5, p.1353, shows that
+  L² and R_H¹⁵ do not commute; the mixed test of §4.2 also fails.
 - **Boundary checks.** (i) The pair (permS, permR) = ((1 2), (1 2 3)) on three points has
   `permS² = 1`, `permR³ = 1` and is transitive, so it **is** a class: index `3`,
   permT = permS · permR = (2 3), a relabeling of `Γ̄₀(2)`; whereas `((1 2), (1 2 3 4))` is

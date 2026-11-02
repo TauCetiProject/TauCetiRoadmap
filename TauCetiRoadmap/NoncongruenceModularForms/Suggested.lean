@@ -21,9 +21,11 @@ theorem, Hsu's criterion, Kulkarni's Farey correspondence, dimensions, algebraic
 denominator transport.
 Definitions have real bodies and the headline proofs are `sorry`.
 
-The geometric Belyi identification needs the analytic/algebraic Belyi-pair comparison
-carrier of BelyiMaps §§8–11. The Scholl headline needs the arithmetic model of that
-pair together with its parabolic symmetric-power cohomology and integral comparison;
+The geometric Belyi identification with the mirror of the modular triple needs the
+analytic/algebraic Belyi-pair comparison carrier of BelyiMaps §§8–11. The Scholl
+headline, with original Fourier coefficients and the prescribed p-adic coordinate
+factors in the rescaled formula, needs the arithmetic model of that pair together with its
+parabolic symmetric-power cohomology and integral comparison;
 none is a pinned carrier. The Farey polygon presentation needs the special-polygon
 carrier, but its generated group, finite index and realization are statable below.
 Berger's factorization below uses native Hecke double cosets and an explicit trace
