@@ -649,7 +649,7 @@ Use the following maps and laws:
 
 - For A=S=ℤ and P=ℤ[T]→ℤ, T↦0, the zeroth PD envelope is ℤ⟨T⟩ but its Čech–Alexander totalization is ℤ. Substituting the zeroth envelope for the totalization fails this calculation.
 - For S=A the lifted unit is A[[h]], and its product sends (1,1) to 1; the zero multiplication does not give this lift.
-- For S=ℤ[x], reduction by h has d(x)=dx and d(x²)=2x dx. After coefficient reduction to 𝔽₂ these values are dx and 0 respectively; replacing the differential by zero or retaining the characteristic-zero coefficient both fail.
+- For S=ℤ[x], reduction by h has d(x)=dx and d(x²)=2x dx. After coefficient reduction to 𝔽₂ these values are dx and 0 respectively, since 2x dx=0 there. The value d(x)=dx≠0 excludes the zero differential; d(x²)=0 records coefficient compatibility and does not distinguish zero from the expression 2x dx.
 
 ### 1.19 Étale descent for the global q-de Rham complex
 
@@ -701,7 +701,7 @@ Use the following maps and laws:
 
 Let C=S[[h]] for an étale-framed smooth A-algebra with coordinates x_i and complete operators σ_i,D_i. A flat framed q-connection on a finite projective C-module M consists of commuting A[[h]]-linear ∇_i with ∇_i(fm)=σ_i(f)∇_i(m)+D_i(f)m. Morphisms are C-linear intertwining maps. Projectivity is over C; the completed flat étale prefix supplies the division defining D_i. Over A=ℤ this recovers Scholze's definition. Its independence of framing is a conjecture.
 
-(See Sch Definition 7.3, §7, p.15; Remark 7.4, §7, p.15.)
+(See Sch Definition 7.3 and Remark 7.4, §7, p.15; Conjecture 7.5, §7, p.16.)
 
 This uses HQ.1, Mathlib Module.Projective.
 
@@ -1226,7 +1226,7 @@ Reduce the prismatic Nygaard filtration on p-completed qdR^(p^a) by `q^{p^a}−1
 
 Prove the unique natural filtered E∞-equivalence `(N^•(qΩ^(p^a))^∧_p)/(q^{p^a}−1)≃N^•(qW_{p^a}Ω)^∧_p`, recovering the deformation equivalence at degree zero; extend by animation. Hypotheses are perfectly covered A, smooth S in the underived version and a≥1. The filtered quotient uses the shifted source step, rather than degreewise reduction.
 
-(See QH Proposition 3.22, §3, p.32; Lemma 3.52, §3, p.50.)
+(See QH Proposition 3.22, §3, p.32; Lemma 3.52 and its proof, §3, pp.50–51.)
 
 *Needs:* §3.17, §3.20, §3.22 and §§3.25–3.27; PrismaticCohomologyPartII §§3.13–3.16 and PerfectoidSpaces §P4.15.2.
 
@@ -1252,7 +1252,7 @@ For animated R, p-invert and Φ_p-complete the prismatic Nygaard filtration on t
 
 Track multiplicative structures through the local pieces, lax monoidal décalage, completed Adams base change and enhanced gluing. The twisted smooth qΩ objects are E∞-algebras. The animated stupid filtration has a filtered derived commutative structure. The Nygaard comparisons and rational filtration comparisons have corresponding derived commutative refinements conditional on `gap:unbounded-derived-commutative` and `gap:filtered-graded-derived-commutative`; their enhanced proofs are targets here. Descent carries structures on pairs; it supplies no unconditional E∞-structure on every smooth scheme's Habiro cohomology.
 
-(See QH §3.8, p.50; Lemma 3.52, §3, p.50; Paragraph 1.17(c), §1, p.9.)
+(See QH §3.8, p.50; Lemma 3.52 and its proof, §3, pp.50–51; Paragraph 1.17(c), §1, p.9.)
 
 *Needs:* §§3.15–3.29, EnhancedDerivedSheaves E5 and the declared unbounded and filtered/graded derived-commutative gaps.
 
@@ -1662,7 +1662,7 @@ Use the following maps and laws:
 
 If the pair carries a compatible E_n-structure, 0≤n≤∞, transport it to H, its cyclotomic filtration and the graded identification. The compatibility includes the filtration comparisons and all higher data, not merely the underlying complex's multiplication. Conditional on `gap:filtered-graded-derived-commutative`, a filtered derived commutative lift similarly produces a derived commutative H and a derived differential graded structure on the associated graded. The source supplies the derived commutative upgrade as a sketch; its full enhanced construction is an implementation target.
 
-(See QH Paragraph 3.50, §3, p.50; Lemma 3.52, §3, p.50.)
+(See QH Paragraphs 3.50–3.51, §3, p.50; Lemma 3.52 and its proof, §3, pp.50–51; Paragraph 3.53, §3, p.51.)
 
 This uses HQ.3, HQ.4, HQ.1, EnhancedDerivedSheaves E5.
 
@@ -2263,7 +2263,9 @@ This uses HQ.1, HQ.3, HQ.4, Mathlib geom_sum_mul, Mathlib Polynomial.comp, Mathl
 
 - The framed q-Hodge differential sends each constant a to zero for every q over any commutative coefficient ring; exponent zero contributes no term.
 - At q=1 the framed q-Hodge differential is zero on every polynomial, while the Jackson operator is the ordinary derivative. For f=x this distinguishes zero from one.
-- At q=2 over ℤ, the framed q-Hodge differential sends x² to 3x, agreeing with (q²−1)x. At q=1 over 𝔽₂, the Jackson derivative of x² is zero; replacing characteristic-two differentiation by the characteristic-zero value 2x fails this test.
+- At q=2 over ℤ, the framed q-Hodge differential sends x² to 3x, agreeing with (q²−1)x; the ordinary derivative gives 2x, so these values differ.
+- At q=1 over 𝔽₂, the Jackson derivative of x² is zero, agreeing with the ordinary derivative 2x=0. This records characteristic-two specialization.
+- For the polynomial operator of §1.2 at q=0 over 𝔽₂, D_0(x²)=x, whereas the ordinary derivative is 2x=0; x≠0 distinguishes the operators. This evaluates the coefficientwise polynomial operator, not the h-completed framed complex.
 
 ### Examples
 
