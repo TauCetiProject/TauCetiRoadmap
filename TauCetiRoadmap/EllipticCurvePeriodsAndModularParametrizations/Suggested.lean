@@ -20,7 +20,12 @@ minimal curve, rank-zero period rationality, and the characterization of Falting
 The following headlines are not statable at the pins. The integral newform-period comparison,
 optimality, Manin constant and modular degree comparisons, the congruence theorem and the
 semistable Manin theorem lack the modular curve/Jacobian quotient and integral geometric
-homology carriers. The BSD quotient and analytic Sha order lack the arithmetic Tamagawa
+homology carriers. The CM Iwasawa comparison and elliptic-unit interpolation in §4.10
+lack the arithmetic norm-limit elliptic-unit modules and normalized CM measure; its
+almost-all-character theorem lacks the compatible CM period and Hecke-value carriers;
+its reduction theorem lacks the CM conductor-point and supersingular modular-curve carriers.
+The two Vatsal partial Stevens results also require the unavailable modular Jacobian quotients.
+The BSD quotient and analytic Sha order lack the arithmetic Tamagawa
 product on the Néron component groups. The comparisons called faltingsHeightLattice_eq and
 stableFaltingsHeightLattice_eq in README §5.2–§5.3, and the height interpretation of Stevens'
 curve and the Faltings ratio, lack the metrized Arakelov Hodge line and its relative and stable

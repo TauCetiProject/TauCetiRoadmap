@@ -72,7 +72,9 @@ equation are proved in §1.1 and §1.5 here.
   theorem** on the minimal curve and his conjecture, and Cremona's optimal-first convention as an
   interface; with them the two bridges these need and no supplier states, the comparison of the
   cuspidal integral symbols of `Γ₀(N)` with `H₁(X₀(N), ℤ)` and the lattice `S₂(Γ₀(N), ℤ)` of
-  integral cusp forms (Layer 4).
+  integral cusp forms (Layer 4). Section 4.10 also owns the one-prime CM
+  Iwasawa comparison, elliptic-unit interpolation, almost-all-character unit theorem
+  and CM reduction surjectivity used in the two partial Stevens results.
 - The **lattice formulas for the Faltings height** of an elliptic curve: `h = −½ log covol Λ_min`
   over `ℚ`, the general-`K` formula through the local covolumes and the minimal discriminant, the
   stable height through the denominator of `j`, the change along an isogeny, and the **Faltings
@@ -83,6 +85,10 @@ equation are proved in §1.1 and §1.5 here.
 - The curve and its arithmetic: models, local data, Tamagawa numbers, the conductor, torsion,
   rank, heights, regulator, Selmer groups, `Ш`, Cassels' isogeny invariance of the BSD quotient
   and the BSD statement over `ℚ` — [EllipticCurves](../EllipticCurves/README.md).
+- Rational cyclic-isogeny degree classifications — EllipticCurveModularityPartII
+  §§5.0a–5.0b. The one-prime CM Iwasawa statements of §4.10 allow ℓ = 3 and
+  nontrivial ℓ-class groups; they differ from the rational-CM-curve, two-variable
+  named hypotheses in NoncommutativeAndEquivariantIwasawa §4.3.
 - Modularity, the newform of `E`, the Hecke correspondences, `A_f`, the construction of `φ`, its
   degree as a morphism of curves, and the analytic continuation of `L(E, s)` over `ℚ` —
   [EllipticCurveModularity](../EllipticCurveModularity/README.md) and
@@ -277,6 +283,20 @@ number-field equation; finiteness and nonvanishing theorems require ellipticity.
   and its explicit residue-characteristic 2 and 3 bounds. From ModularCurvesPartII
   §§7.5–7.6 and §14.15: the first-coefficient Hecke pairing and the same integral Hecke
   action on Jacobians and homology. These supply the carriers for §4.8's comparison.
+- From EllipticCurveModularityPartII §§5.0a–5.0b: the prime and composite
+  rational cyclic-isogeny classifications, including arbitrary Galois characters
+  on the cyclic kernel and degree 25. Section 4.10 uses the full list
+  {1,…,19,21,25,27,37,43,67,163}, not a rational-torsion classification.
+- From PadicMeasuresIwasawaAlgebras §§1.7, 2.1, 4.1–4.6: the measure/completed
+  group-algebra comparison, power-series coordinate, finite character projectors,
+  pseudo-null modules and characteristic ideals over O⟦T⟧ for O the ring of
+  integers of a finite extension of ℚ_ℓ. Section 4.10 supplies the arithmetic
+  modules, elliptic units, interpolation and main-conjecture equality on these carriers.
+- From ImaginaryQuadraticClassNumber §H3.1: ring and ray class fields, proper
+  ideal classes of every imaginary quadratic order, CM ideal action and Artin
+  reciprocity. From GlobalNumberFields Layers 9–10: Hecke characters, conductor
+  and infinity type. These supply §4.10's class fields and characters, not its
+  elliptic-unit or almost-all-character nonvanishing theorems.
 - From NeronModelsAndSemistableAbelianVarieties R11.1: Néron models and functorial
   extension of isogenies. Section 4.10 proves its cyclic-isogeny factorization on those
   models; it does not assume finite flat kernels at bad primes.
@@ -322,7 +342,9 @@ number-field equation; finiteness and nonvanishing theorems require ellipticity.
   `AbelianVariety.faltingsHeight` (§3.1) and the stable height stableFaltingsHeight (§3.4).
   Layer 5 proves lattice formulas for these objects and defines neither.
 - From [ArithmeticDirichletSeries](../../Completed/ArithmeticDirichletSeries/README.md): the
-  norm-fibre coefficients `normCoeff`, the Euler-product package `EulerProductData` for regrouping and the Euler product in §3.2; elliptic summability comes from
+  norm-fibre coefficients `normCoeff`, the Euler-product package `EulerProductData` of §3.1,
+  finite-prime products of §3.2 and the infinite Euler product under absolute convergence
+  of §3.3; elliptic summability comes from
   EllipticCurveModularity R29.6.
 - From [GrossZagierAndArithmeticHeights](../GrossZagierAndArithmeticHeights/README.md) Layer 3:
   the Manin constant `c_φ ∈ ℚ^×` of a nonconstant `φ : X₀(N) → E`, `φ^*ω_E = c_φ · 2πi f dτ`,
@@ -921,10 +943,11 @@ Mathlib `NumberField.discr`.
 
 ### 3.7 The conjectures as statements
 
-- `WeakBSD W : Prop := ∀ U F (h : IsContinuation W U F), analyticRank W h = finrank ℤ
-  (PointModTorsion W)` (the knowl `ec.bsdconjecture`'s weak form; `finrank ℤ` of the free quotient
-  is the Mordell–Weil rank);
-- StrongBSD W : Prop := WeakBSD W ∧ Finite Ш(E/K) ∧ ∀ h, analyticShaOrder W h = #Ш(E/K), with
+- The weak BSD assertion for W says that, for every continuation on an open convex
+  domain containing 1 and the half-plane of absolute convergence, its analytic rank
+  equals the Mordell–Weil rank of W over K (the knowl `ec.bsdconjecture`, weak form).
+- The strong BSD assertion adds finiteness of Ш(E/K) and equality of its order
+  with the analytic order of Ш for every such continuation, with
   `Ш(E/K)` EllipticCurves Layer 7's group; no squareness of analyticShaOrder is asserted
   (Cassels' theorem that `#Ш` is a square when finite is stated in no roadmap named here);
 - strongBSD_iff_of_isogeny: for `E, E'` isogenous over `ℚ`, StrongBSD E ↔ StrongBSD E' is
@@ -1392,6 +1415,172 @@ each other; §1.1 and the reduced minimal model identify the curves. This proves
 the existence, uniqueness and isogeny-class invariance, without using Layer 5's
 height comparison (Stevens Theorem 2.3 proof, pp. 87–88).
 
+#### Arithmetic inputs for the subgroup comparison
+
+**Ring-class components and one-prime Iwasawa modules.** Let K be any imaginary
+quadratic field with units {±1}. Let ℓ and p be distinct odd primes, with ℓ split and p unramified in K, and assume
+ℓ∤p−1 if p splits and ℓ∤p+1 if p is inert. Put O_n = ℤ + pⁿO_K and
+G_n = Pic(O_n) = Gal(H_n/K). Its ℓ-Sylow subgroup Δ is independent of n;
+write G_n = Δ × g_n and F_n = H_n^Δ. For n≥1,
+|G_n| = h_K pⁿ⁻¹(p − (D_K/p)), whereas |G_0| = h_K. In particular
+|g_n| is prime to ℓ. Fix a character χ of g_n and a finite extension of ℚ_ℓ
+whose integer ring O contains its values. Use only the idempotent
+|g_n|⁻¹∑_g χ(g)g⁻¹ in O[g_n]; there is no division by |Δ|.
+Fix a prime 𝔩 above ℓ and the ℤ_ℓ-extension K_𝔩,∞/K unramified outside
+𝔩. Set F = F_n, F_𝔩,∞ = FK_𝔩,∞, Γ = Gal(F_𝔩,∞/F) and Λ = O⟦Γ⟧.
+Define X as the Galois group of the maximal abelian pro-ℓ extension of
+F_𝔩,∞ unramified outside 𝔩, tensored with O. Define U as the norm limit
+of principal local units at primes above 𝔩, and C̄ as the norm limit of the
+closures of elliptic units in those units, tensored with O. The elliptic units
+are generated by norms of the CM values of the classical elliptic modular
+units in ray class fields; construct their distribution and norm relations
+and their descent to the fields F (Vatsal §§3.1–3.4 and §3.7–Theorem 3.11,
+author pp. 20–27, with the elliptic-unit convention of de Shalit used there).
+Their API includes the following comparisons.
+
+- Extension from n to m≥n identifies the χ-parts of the ℓ-class groups and
+  the one-prime modules whenever χ factors through g_n (Vatsal Lemmas 3.2, 3.5).
+- The norm maps and the g_n action preserve the principal-unit and elliptic-unit
+  subgroups, so the quotient (U/C̄)^χ is a Λ-module (Vatsal §3.4, p. 24).
+- Norms from ray class fields give the same elliptic-unit subgroup after
+  descent, and enlarging O transports the χ-component (Vatsal Theorem 3.11
+  proof, p. 27; §3.1, p. 21).
+
+*Needs:* ImaginaryQuadraticClassNumber §H3.1; GlobalNumberFields Layers 9–10;
+PadicMeasuresIwasawaAlgebras §§1.7, 4.1–4.6.
+
+**Checks.**
+
+- For K = ℚ(√−23), the reduced forms (1,1,6), (2,1,3), (2,−1,3)
+  give h_K = 3. With ℓ = 3 and p = 7, D_K is 1 modulo 3 and 5 modulo 7,
+  so ℓ splits, p is inert and gcd(3,8) = 1. Then |G_1| = 24,
+  |Δ| = 3 and |g_1| = 8; 1/8 lies in ℤ₃, while 1/24 does not.
+- In this example |G_0| = 3 and |G_2| = 168; applying the n≥1 formula
+  at n=0 would give 24/7, not a class number.
+- For the trivial character of g_1, the augmentation of its idempotent is
+  8/8 = 1. The zero projector has augmentation 0 and cannot select that component.
+
+**CM Iwasawa comparison.** For these modules prove that X^χ and (U/C̄)^χ
+are finitely generated torsion Λ-modules and have equal characteristic ideals
+(Rubin's theorem in Vatsal Theorem 3.6, author p. 24). Prove also that X^χ
+has no nonzero finite Λ-submodule, the Greenberg input used in Vatsal
+Corollary 3.17, author p. 29. These are proved arithmetic targets, with no
+assumption of a rational CM elliptic curve, ℓ≥5 or ℓ∤h_K.
+*Needs:* the ring-class components and unit systems above;
+PadicMeasuresIwasawaAlgebras §§4.1–4.6.
+
+**Checks.**
+
+- For Λ = ℤ₃⟦T⟧, Λ/(3,T) has characteristic ideal (1) and cardinality 3,
+  whereas the zero module has characteristic ideal (1) and cardinality 1.
+  Thus the finite-submodule theorem is needed to deduce X^χ = 0.
+- Λ/(T) has characteristic ideal (T), and Λ/(3) has characteristic ideal (3);
+  neither can correspond to a unit characteristic series.
+- The class-number-3 example above retains Δ of order 3 throughout; the
+  main-conjecture equality is over O⟦Γ⟧ on g_n-components, not over O[Δ]
+  using nonexistent integral character projectors.
+
+**Elliptic-unit interpolation.** Fix compatible complex and ℓ-adic CM
+periods Ω_∞≠0 and Ω_ℓ∈O_Cℓˣ, a conductor-one ideal Hecke character λ
+with λ((a)) = a² and infinity type (2,0), and ξ = λ^((ℓ−1)/2).
+Construct the character and its avatar with arithmetic Frobenius at an
+unramified prime 𝔮 acting by λ(𝔮). The 𝔩-adic avatar ξ_𝔩 factors through
+Gal(K_𝔩,∞/K). For every χ of g_n, n≥1, construct the integral measure
+φ_χ on Γ and its series f_χ∈O⟦T⟧, after enlarging O for the CM data.
+If γ is a topological generator, u = ξ_𝔩(γ), m≥1 and k=(ℓ−1)m, prove
+
+    f_χ(u^m − 1) = (1 − χξ^m(𝔩)/ℓ) (k−1)! L_p(χ⁻¹ξ⁻ᵐ,0) Ω_ℓ^k / Ω_∞^k.
+
+Here L_p omits all Euler factors above the rational prime p; the algebraic
+normalized complex value is transported by the fixed ℓ-adic embedding.
+The Gauss factor is 1 because χξ^m has conductor prime to ℓ. If the conductor
+of χ is divisible by p, prove char_Λ((U/C̄)^χ) = (f_χ); for unramified χ
+keep the imprimitive Euler factors rather than claiming this equality.
+Prove independence of the chosen n and compatibility with coefficient
+extension and replacing γ by γ^a for a∈ℤ_ℓˣ (Vatsal §3.7, equations (3)–(4),
+Remarks 3.8–3.10 and Theorem 3.11, author pp. 24–27).
+*Needs:* the unit systems above; GlobalNumberFields Layers 9–10;
+PadicMeasuresIwasawaAlgebras §§1.7, 2.1, 4.5–4.6.
+
+**Checks.**
+
+- At ℓ=3, m=1, k=2 and (k−1)!=1; at m=2, k=4 and (k−1)!=6.
+  The latter factor is not a 3-adic unit and must not be discarded.
+- For u=1+3 as a coordinate test, the arguments at m=1,2 are 3 and 15.
+  Using u^m instead of u^m−1 gives 4 and 16, outside the maximal ideal.
+- For ℓ=3, the ideal character gives λ((2))=ξ((2))=4. Its arithmetic
+  Artin value is 4, whereas the inverse convention gives 1/4; modulo 9 these
+  are 4 and 7. Scaling both CM periods by the same unit a leaves
+  Ω_ℓ^k/Ω_∞^k unchanged; scaling only Ω_ℓ by 2 at k=2 multiplies it by 4.
+- A character of conductor 1 belongs to the excluded finite unramified set;
+  its omitted p-factor need not equal 1. For a p-ramified character that
+  local Euler polynomial is 1, so omission changes the value by a factor 1.
+
+**Almost-all-character unit theorem and descent.** For every conductor-one
+Hecke character η of positive infinity type (k,0), there is a finite set S_η
+of anticyclotomic characters of p-power conductor such that, for every χ
+outside S_η, the algebraic number (k−1)!L_p(χ⁻¹η⁻¹,0)/Ω_∞^k is an
+ℓ-adic unit (Hida's theorem as stated in Vatsal Theorem 3.13 and Remark
+3.14, author pp. 27–28). This target varies K, p, ℓ and η, not just one
+chosen special value. Apply it to η=ξ, k=ℓ−1. Enlarge S_ξ by the finite
+set of unramified characters. For χ outside this single finite set, prove
+f_χ is a unit and X^χ=0; the Euler factor is
+1 − χ(𝔩)ξ(𝔩̄)⁻¹ℓ^(ℓ−2), which is 1 modulo ℓ. Descend through the finite
+ℓ-group Δ without semisimple projectors to prove stabilization of the
+ℓ-class groups of the full H_n, then the finite-rank and bounded-exponent
+extension statements in the subgroup comparison below (Vatsal Theorem 3.16,
+Corollary 3.17, §3.18,
+Proposition 3.19 and Theorem 3.20, author pp. 28–31).
+*Needs:* CM Iwasawa comparison and elliptic-unit interpolation above;
+PadicMeasuresIwasawaAlgebras §§4.1–4.6; ImaginaryQuadraticClassNumber §H3.1.
+
+**Checks.**
+
+- At ℓ=3 the Euler factor is 1−3a for a unit a and reduces to 1;
+  at ℓ=5 it is 1−125a and also reduces to 1. At ℓ=2, 1−a can be zero,
+  so the odd-prime hypothesis cannot be dropped from this argument.
+- In ℤ₃⟦T⟧, 1+T evaluates at T=3 to 4, a unit; T evaluates to 3,
+  a nonunit. Evaluation in the maximal ideal detects the constant term's
+  invertibility, whereas evaluation of T at 1 would incorrectly suggest a unit.
+- For a cyclic Δ of order 3 acting trivially on ℤ/3, the coinvariant
+  quotient still has cardinality 3. Descent cannot replace Δ by the trivial
+  group or divide by 3; the nonzero quotient is retained in the class-group argument.
+
+**CM reduction.** For every N≥1 and imaginary quadratic K whose units are
+{±1} and in which every prime dividing N splits, fix an ideal 𝔫 with
+O_K/𝔫≅ℤ/N. Let p be an odd prime not dividing ND_K, and let q≠p be a
+prime inert in K with q∤N. The CM ideal action defines the set C_n of
+points on X₀(N) from elliptic curves with endomorphism ring ℤ+pⁿO_K
+and the cyclic subgroup selected by 𝔫. At a fixed prime above q construct
+red_q:C_n→S_q(N), where S_q(N) is the set of geometric supersingular
+points, all defined over 𝔽_q². Prove that for each q there is n₀ such that
+for every n≥n₀ this map is surjective (Vatsal §4.6, author pp. 34–35,
+reduction assertion preceding the choice of L_n). Its API consists of the
+following comparisons.
+
+- Each CM point is rational over H_n via the ring-class Artin action, and
+  reduction at the chosen prime lands in S_q(N).
+- Conjugating both a point and its reduction prime by a Galois automorphism
+  transports its reduction; no action of the whole class group on the
+  unoriented supersingular set is assumed.
+- Forgetting a divisor of the prime-to-q level commutes with reduction.
+  Surjectivity at level N concerns the cyclic subgroup as well as j.
+
+These are the CM and reduction comparisons in Vatsal §4.6, pp. 34–35.
+*Needs:* ImaginaryQuadraticClassNumber §H3.1;
+ModularCurvesPartII §§4.1–4.4, 11.1–11.2.
+
+**Checks.**
+
+- For K=ℚ(√−7), N=1, p=3 and q=5, q is inert and S_5(1) consists
+  of j=0; the eventual reduction image must therefore have cardinality 1.
+- For N=1 and q=11 the supersingular values are 0 and 1728≡1 modulo 11.
+  Surjectivity requires both values; a constant reduction map has image size 1,
+  not 2; K=ℚ(√−23), p=7 is an admissible instance since −23≡10 modulo 11
+  is a nonsquare.
+- A split reduction prime gives ordinary CM reduction, so its intersection
+  with S_q(N) is empty. The inertness condition excludes this wrong model.
+
 For the Vatsal partial results, the subgroup comparison has the following exact
 scope: a rational subgroup W⊆J₀(N) isomorphic as a Galois module to μ_n, with n
 odd and J₀(N) semistable at every prime dividing n, is contained in the Shimura
@@ -1406,35 +1595,45 @@ following intermediate targets of this subsection.
   abelian pro-ℓ extension of H_∞ unramified outside Σ has finite ℓ-rank.
   Consequently, for each r≥1 the composita L_n of its degree-dividing-ℓʳ
   extensions satisfy L_n=L_m H_n for all n≥m, for some m. The class group
-  argument combines elliptic-unit characteristic ideals and ℓ-adic unit
-  special values along the p-anticyclotomic tower; it must retain the possible
-  nontrivial ℓ-part of the class group of K (Vatsal §3.1, Theorems 3.11–3.16,
-  Proposition 3.19, Theorem 3.20 and Corollary 3.21, author pp. 20–31).
+  argument uses the CM Iwasawa comparison, interpolation and unit theorem
+  specified above, retaining the ℓ-part of the class group of K (Vatsal §3.1,
+  Theorems 3.6, 3.11–3.16, Proposition 3.19, Theorem 3.20 and Corollary 3.21,
+  author pp. 20–31).
+  *Needs:* the arithmetic targets above; ImaginaryQuadraticClassNumber §H3.1.
 - For q∤N and a smooth geometrically integral unramified cover Y→X₀(N) over
   𝔽_q, if each supersingular point splits into deg(Y/X₀(N)) distinct
   𝔽_q²-points, its pullback to X₁(N) is a trivial cover (Ihara's criterion as
   stated in Vatsal Theorem 4.4, author p. 33). Apply this to the cover dual to
   W: choose K splitting the primes dividing Nℓ, use stabilization above to
   choose q with Frobenius complex conjugation, and use surjectivity of
-  reduction of CM points of conductor pⁿ onto supersingular points for n
-  sufficiently large. The fibres are defined over L_n and hence split over
+  reduction of CM points of conductor pⁿ onto supersingular points from the
+  CM reduction target above. The fibres are defined over L_n and hence split over
   𝔽_q²; comparison of finite flat subgroups of the good-reduction Jacobian
-  lifts the containment to characteristic zero (Vatsal §§4.5–4.6, pp. 33–35).
+  lifts the containment to characteristic zero at q∤nN (Vatsal §§4.5–4.6,
+  pp. 33–35).
+  *Needs:* class-field stabilization above; CM reduction above;
+  ModularCurvesPartII §§4.1–4.4, 11.1–11.2, 16.2, 16.5;
+  NeronModelsAndSemistableAbelianVarieties R11.1.
 - For an optimal E₀/ℚ with reducible E₀[ℓ] and ordinary reduction at ℓ≥7,
   prove ℓ²∤N and construct an étale isogeny of degree ℓ out of E₀. The
   construction uses an Eisenstein series congruent to its newform at every
   positive coefficient, with constant term zero modulo ℓ at every cusp,
   followed by the cuspidal subgroup and multiplicity-one argument (Vatsal
-  Proposition 5.3, author pp. 36–42).
+  Proposition 5.3, author pp. 36–43).
+  *Needs:* §4.3; ModularForms Layers 4 and 8; ModularCurvesPartII §16.2;
+  NeronModelsAndSemistableAbelianVarieties R11.1.
 
 The passage from these comparisons to Theorems 1.10–1.11 must treat prime-power
 isogenies: an étale ℓʳ-isogeny need not have constant generic kernel for r>1.
-Use the cyclic-isogeny classification and the opposite étale quotient in
+Use EllipticCurveModularityPartII §§5.0a–5.0b, including degree 25,
+and the opposite étale quotient in
 Vatsal §5, rather than iterating the constant-kernel assertion. In particular,
 the étale degree-25 map out of X₁(11) is not evidence for a rational point of
 order 25 (Vatsal introduction, author pp. 14–15).
 
-*Needs:* 2.7, 4.3, 4.4; FaltingsFinitenessAndIsogenyTheorems R28.6.5;
+*Needs:* 2.7, 4.3, 4.4; the subgroup comparison and arithmetic inputs in §4.10;
+EllipticCurveModularityPartII §§5.0a–5.0b;
+FaltingsFinitenessAndIsogenyTheorems R28.6.5;
 NeronModelsAndSemistableAbelianVarieties R11.1; EllipticCurves Layer 2;
 ModularCurvesPartII §§4.1–4.4, 11.1–11.2, 16.2, 16.5.
 
@@ -1780,8 +1979,15 @@ square lattice of side `x√2 = 1.8540747` turned by `45°` (so `y = x` in the s
 `L(E,1) = 0.6555144`, `#tors = 4`, `c_2 = 4`, analyticShaOrder = 0.6555144 · 16/(2.6220576 · 4) = 1;
 optimal, modularDegree = 1. `64a1 = y² = x³ − 4x`, `Δ = +2¹²`: rectangular `Λ = ℤ x' ⊕ ℤ x'i`,
 `x' = 1.8540747`, `Ω = 3.7081494`, `covol = x'² = 3.4375929 = covol(32a1)`: the two curves are
-isomorphic over `ℚ(i)` and have the same `h = −0.6173857` and `h_st = h − log 2 = −1.3105329`
+isomorphic over ℚ(ζ₈), for ζ₈ a primitive eighth root of unity, and have the same
+`h = −0.6173857` and `h_st = h − log 2 = −1.3105329`
 (`denom(j) = 1`, `|Δ| = 2¹²`; 5.3), but different real periods. `64a1` has modularDegree = 2.
+The scale u = ζ₈ gives u⁴ = −1, so u⁻⁴·4 = −4 and |u|² = 1;
+§1.3 therefore preserves the covolume. As a negative control, no such scale lies
+in ℚ(i): its roots of unity are ±1, ±i, whose fourth powers are all 1.
+An isomorphism between these short equations must have r = s = t = 0 and
+u⁴ = −1 (Silverman III.1, change-of-variables formulas). Equal j = 1728
+alone does not give an isomorphism over the CM field.
 
 ### Base changes (ecnf)
 
@@ -1873,7 +2079,14 @@ isomorphic over `ℚ(i)` and have the same `h = −0.6173857` and `h_st = h − 
 - V. Vatsal, *Multiplicative subgroups of `J₀(N)` and applications to elliptic curves*,
   J. Inst. Math. Jussieu 4 (2005), 281–316: Theorem 1.3 (Stevens' theorem in three equivalent
   forms), Remarks 1.4 and 1.8, Conjecture 1.9, Theorems 1.10–1.11; the author
-  manuscript optimal6.pdf has independent pagination, used explicitly in §4.10.
+  [author manuscript optimal6.pdf](https://personal.math.ubc.ca/~vatsal/research/optimal6.pdf)
+  has independent pagination: §3.1 and Lemmas 3.2, 3.5, pp. 20–23;
+  Theorem 3.6, p. 24; equations (3)–(4), Remarks 3.8–3.10 and Theorem 3.11,
+  pp. 25–27; Theorem 3.13, pp. 27–28; Theorem 3.16 and Corollary 3.17,
+  pp. 28–29; §3.18 and Proposition 3.19, pp. 30–31; Theorem 3.20 and
+  Corollary 3.21, p. 31; Theorem 4.4 and §4.6, pp. 33–35; Proposition 5.3,
+  pp. 36–43; Lemma 5.4 and §§5.5–5.6, pp. 43–44. These are the manuscript
+  locators used in §4.10.
 - G. Faltings, *Endlichkeitssätze für abelsche Varietäten über Zahlkörpern*, Invent. Math. 73
   (1983), 349–366, §3 (the Faltings height), Lemma 5 (the isogeny formula).
 - P. Deligne, *Preuve des conjectures de Tate et de Shafarevitch (d'après G. Faltings)*,
