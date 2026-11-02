@@ -10,7 +10,7 @@ The arithmetic endpoints require the HabiroNumberFields finite-Chern/cyclic and 
 
 The following foundations have other owners. HabiroCyclotomicCompletions §1.1 supplies the finite and formal q-Pochhammer toolkit. GeometryOfNumbersAndQuadraticArithmetic §4.3 owns the analytic product, shift and zero divisor. QSeriesPartitionsAndMockModularForms §1.6 supplies finite-prefix limits and the finite/infinite identity, and §§2.4 and 3.3 supplies analytic evaluation and Rogers–Ramanujan identities, and §5.2 supplies the eta multiplier. PolylogarithmFunctions §§1.1–1.7 and 3.1–3.6 supplies analytic Li₂, §§5.1–5.8 supplies Bloch–Wigner values and relations, and §§6.1–6.5 supplies the interval Rogers function. K3BlochGroups §§3.1, 3.3–3.5 owns the shared integral pre-Bloch carrier, antisymmetric tensor cokernel and boundary; ColemanIntegration Layer L2 supplies their local polylogarithmic evaluation and §L2.Fb consumes those carriers; GeneralAlgebraicKTheory §§2.5–2.6 and 3.2 supplies the K-theory carriers and KTheoryFiniteLocalFields §§1.8 and 7.4 supplies finite-coefficient Chern and local reduction inputs. The integral Bloch comparisons, finite-Chern injectivity, number-field Habiro modules and local K₃ regulator lattice use the required arithmetic contracts below. HabiroCohomologyFoundations §4.21 supplies the étale Habiro–Hodge object; its q=1 completion is the q-Hodge complex. Polylogarithms §§2.1 and 2.3 owns algebraic embedding-regulator descent and its Borel normalization; HabiroRings §5.9 and §§6.1–6.6 owns the relative ring comparison, completed scalar extension and transported-line completion. K3BlochGroups §5.8 supplies the real Suslin Rogers detector. HabiroNumberFields §1.7 owns the integral cyclotomic eta class, its quotient image and boundary, torsion and root-change laws. This roadmap owns the complementary projective-convention adapter in §1.5, the Nahm trigonometric application in §2.7 and the assembly of the conditional exponent-two comparison using that application.
 
-Finite-index arithmetic subgroups, rational cusps and strict widths are already available in Mathlib and Tau Ceti. The `FuchsianOrbifolds` roadmap, Layers 3–5, owns cusp charts, meromorphic descent and extension across a cusp. The `ModularForms` roadmap owns general-level modular-form geometry. Layer 3 below consumes these constructions and proves only the scalar growth comparisons needed here. It does not construct another modular curve. Gaussian measures, densities and polynomial integrability are also existing objects; `StandardDistributions`, Layers 1 and 5, owns their moment and covariance interfaces. The additions here are the algebraic Wick functional and its comparison with those measures, together with the lattice estimates specific to Nahm sums. Poisson summation for a full-rank ℤ-lattice, with the Gaussian Fourier transform it is applied to, belongs to the `ThetaSeries` roadmap (Layer 1); §2.4 consumes it and proves only the polynomial-Gaussian lattice estimate. Gauss sums of finite quadratic modules belong to Tau Ceti; §7.5 consumes them. QuantumEnvelopingAlgebras §QEA6 owns the integer upper-index symmetric Gaussian polynomial; §7.1 uses its q=v² specialisation and owns only the Nahm product identity. The shifted finite Euler–Maclaurin theorem in §2.2 allows arbitrary C^J functions and real shifts, unlike ComputationalNumberTheory §4.19a’s Hurwitz-power remainder. The ring-map reduction condition in §6.1 retains its kernel and product-algebra hypotheses, unlike the additive-subgroup p-saturation criterion in ComputationalNumberTheory §3.22.
+Finite-index arithmetic subgroups, rational cusps and strict widths are already available in Mathlib and Tau Ceti. The `FuchsianOrbifolds` roadmap, Layers 3–5, owns cusp charts, meromorphic descent and extension across a cusp. The `ModularForms` roadmap owns general-level modular-form geometry. Layer 3 below consumes these constructions and proves only the scalar growth comparisons needed here. It does not construct another modular curve. Gaussian measures, densities and polynomial integrability are also existing objects; `StandardDistributions`, Layers 1 and 5, owns their moment and covariance interfaces. The additions here are the algebraic Wick functional and its comparison with those measures, together with the lattice estimates specific to Nahm sums. Poisson summation for a full-rank ℤ-lattice, with the Gaussian Fourier transform it is applied to, belongs to the `ThetaSeries` roadmap (Layer 1); §2.4 consumes it and proves only the polynomial-Gaussian lattice estimate. Gauss sums of finite quadratic modules belong to Tau Ceti; §7.5 consumes them. QuantumEnvelopingAlgebras §QEA6 owns the integer upper-index symmetric Gaussian polynomial; §7.1 uses its q=v² specialisation and owns only the Nahm product identity. The shifted finite Euler–Maclaurin theorem in §2.2 allows arbitrary C^J functions and real shifts, unlike ComputationalNumberTheory §4.19a’s Hurwitz-power remainder. The ring-map reduction condition in §6.1 retains its kernel and product-algebra hypotheses, unlike the additive-subgroup p-saturation criterion in ComputationalNumberTheory §3.23.
 
 The downstream ArithmeticQuantumTopology application owns the passage from a triangulation or knot to its topological and Chern–Simons invariants, including presentation independence. A matrix with a knot's name does not establish that passage. Neither quantum modularity nor a knot-invariant theorem is a prerequisite for the formal constructions here. The geometric Habiro cohomology application in §7.7 specifies gap:higher-habiro-comparison against the algebraic object of HabiroCohomologyFoundations §5.13; its §§6.1–6.3 delimit the analytic comparison problem and §§8.1–8.18 supply the named algebraic comparison squares; higher cohomology, analytic convergence and crystalline or prismatic comparisons remain separate interfaces.
 
@@ -46,6 +46,8 @@ The required arithmetic contracts specify the full interfaces consumed below. Th
 ### From Mathlib
 
 Use `Matrix.PosDef`, its Hermitian condition and `Matrix.PosDef.add_posSemidef`, positive definite diagonal matrices, and `Matrix.det`. In finite dimension `Matrix.posDef_iff_dotProduct_mulVec` identifies the matrix predicate with the strictly positive quadratic form. Use these actual carriers for analytic data and Hessians. The generated fields are `IntermediateField.adjoin`; `IntermediateField.fg_adjoin_of_finite` and `IntermediateField.essFiniteType_iff` give essential finite type for finitely generated coordinate fields. The differential argument consumes `KaehlerDifferential.D`, `KaehlerDifferential.span_range_derivation`, and `Algebra.FormallyUnramified.finite_of_free` under its essential-finite-type and formal-unramified hypotheses. Module finiteness over a field then gives algebraicity. A finite transcendence basis is not assumed to consist of the original coordinates.
+
+For §2.2 use `Polynomial.bernoulli`, `Polynomial.bernoulli_one`, `Polynomial.derivative_bernoulli`, `Polynomial.bernoulli_eval_zero`, `Polynomial.bernoulli_eval_one` and `Polynomial.bernoulli_comp_one_sub_X` in `Mathlib/NumberTheory/BernoulliPolynomials.lean`, with coefficient change from ℚ to ℝ. Piecewise integration by parts uses `intervalIntegral.integral_mul_deriv_eq_deriv_mul_of_hasDerivAt` in `Mathlib/MeasureTheory/Integral/IntervalIntegral/IntegrationByParts.lean`; its continuity, derivative and interval-integrability hypotheses hold on each closed polynomial piece for a C^J function.
 
 Use `MvPolynomial`, its partial derivatives and `MvPolynomial.aeval`; `MvPowerSeries`, its coefficient maps and `MvPowerSeries.rescale`; `PowerSeries`, Laurent series, `RatFunc`, Laurent polynomials, cyclotomic polynomials and Möbius inversion. The multivariate logarithm and plethystic transform needed below are new augmentation-complete operations, not already supplied merely by the existence of one-variable `PowerSeries.log`.
 
@@ -146,7 +148,7 @@ From ColemanIntegration Layer L2 consume Coleman Li₂, the Iwasawa logarithm wi
 
 ### From TauCetiRoadmap.PadicHodgeRegulators
 
-What PadicHodgeRegulators must provide (gap:local-k3-regulator): the integral local K₃ regulator lattice at unramified p>3, its comparison with that Bloch presentation and its root-of-unity generation (GSWZ Lemma 3.1 and Theorem 9, pp. 37–39). In particular the convention must give `Li₂(z)+Li₂(1−z)=−log z log(1−z)` and the sign in Layer 6. These are local regulator inputs. No global p-adic Hodge comparison or higher cohomology theorem is used to prove membership of a scalar Nahm collection.
+Consume PadicHodgeRegulators §4.7 for the normalized Suslin–de Jeu comparison and §§5.6–5.9 for completed root classes, the normalized regulator, its lattice isomorphism and root generation. For p>3 and a finite unramified étale ℚ_p-algebra L, these give D_L:K₃(L;ℤ_p)≃p²𝒪_L and finite ℤ_p-linear presentations by root classes whose components are all different from 1 and whose orders are prime to p; on such a root ζ, D_L([ζ])=Li₂(ζ). The comparison retains the supplier’s normalization constant and Chern sign, and is compatible with coefficient maps and finite products (GSWZ Lemma 3.1 and Theorem 9, pp. 37–39). ColemanIntegration §L2.18 supplies `Li₂(z)+Li₂(1−z)=−log z log(1−z)` for z≠0,1 on the Iwasawa branch, giving the sign in Layer 6. These are local regulator inputs. No global p-adic Hodge comparison or higher cohomology theorem is used to prove membership of a scalar Nahm collection.
 
 ### From TauCetiRoadmap.GeneralAlgebraicKTheory
 
@@ -526,7 +528,15 @@ Establish shiftedEulerMaclaurin_remainder: for J≥2, M≥0 an integer, a∈ℝ,
 |R_J|≤(sup_{v∈[0,1]}|B_J(v)|/J!)∫_a^(a+M)|f^(J)(s)|ds.
 ```
 
-The bound is uniform in θ; the endpoint value B₁(0)=−1/2 gives left-endpoint sampling, while B₁(1)=1/2 gives right-endpoint sampling. Scale the interval for a nonunit mesh before applying it to the logarithmic product. Apply it to logarithms only on a compact zero-free domain. An asymptotic formal substitution is not a replacement for this estimate (GZ §4.1, pp. 6–7; Vlasenko–Zwegers, Lemma 2.2 and (2.3)–(2.4), pp. 2–3).
+This finite-interval theorem is derived from the Bernoulli polynomial identities in the Mathlib supplier contract. Write {u}=u−⌊u⌋. The exact remainder is
+
+```text
+R_J = (−1)^(J+1)/J! ∫_a^(a+M) B_J({s−a−θ}) f^(J)(s) ds.
+```
+
+For 0<θ<1, split the interval at the sample points a+k+θ. The piecewise polynomial B₁({s−a−θ}) has derivative 1 and downward jump 1 at each sample point. Integration by parts gives the sum as the integral plus B₁(θ) times the endpoint difference plus the integral of this kernel times f′. Repeated integration by parts uses B_r′=rB_(r−1), B_r(1)=B_r(0) for r≥2, and B_r(1−θ)=(−1)^r B_r(θ); the boundary terms are exactly the displayed corrections. Apply the norm bound to the final integral. The endpoint cases θ=0,1 follow by one-sided limits, since the periodic B_J is continuous for J≥2; M=0 gives zero throughout. This also proves uniformity in θ. *Needs:* the pinned Bernoulli identities and piecewise integration by parts in the Mathlib supplier contract.
+
+The endpoint value B₁(0)=−1/2 gives left-endpoint sampling, while B₁(1)=1/2 gives right-endpoint sampling. Scale the interval for a nonunit mesh before applying it to the logarithmic product. Apply it to logarithms only on a compact zero-free domain. The Pochhammer application below uses GZ §4.1, pp. 6–7 and Vlasenko–Zwegers Lemma 2.2, (2.3)–(2.4), pp. 2–3; those locators concern the product expansion.
 
 For m≥1, ζ primitive of order m, |w|≤ρ<1 and real ν satisfying
 `|ν|ε/m≤−log(ρ)/2`, define the factor-log remainder pochhammerRadialPsi by
@@ -590,6 +600,8 @@ For the Dedekind phase, use the following API (CGZ (48)–(49), p. 38).
 
 **Checks.**
 
+- At a=0,M=1,J=2,θ=1/4 and f(s)=s³, the integral and boundary terms total −1/32 and the periodic-kernel remainder is 3/64, giving the sample value 1/64. Reversing the remainder sign gives −5/64.
+- At a=0,M=1,J=3,θ=1/4 and f(s)=s⁴, the boundary approximation is 1/5−1/4−1/24+3/32=1/480; the remainder is 7/3840, giving 1/256.
 - At a=0,M=1,f(s)=s gives θ exactly: the integral is 1/2 and the B₁ correction is θ−1/2. For a constant f all derivative corrections vanish; at M=0 every term is zero. The left/right endpoint tests θ=0,1 reject a wrong B₁ sign.
 - At w=0 is identically zero. At m=1 the cyclic product is the empty product one.
 - With positive w and ν sufficiently negative can force a factor to vanish. A bound such as `|ν|ε≤1` without a relation to w is insufficient.
@@ -649,7 +661,7 @@ For the saddle polynomials, use the following API (GZ Proposition 2.2, p. 4; VZ 
 ### 2.4 Gaussian brackets and the lattice covolume
 
 For an invertible symmetric matrix M over a characteristic-zero field define formalGaussian first on polynomials by Wick contraction, equivalently
-`[exp(½∑(M⁻¹)_ij∂_i∂_j)P]_{v=0}`. Extend it to series only with a complete filtration for which each coefficient has finitely many contractions. Specify that filtration as part of the input; an arbitrary infinite series in v is not automatically integrable. Supply linearity, value on one, odd-parity vanishing, Wick's pairing formula, direct sums, linear changes of coordinates and affine completion of the square. In the h-scaled convention replace the differential operator by h/2 times it (GZ (13)–(14), p. 4; GSWZ (110)–(111), p. 28; Garoufalidis–Storzer–Wheeler Lemmas 3.1–3.2, pp. 9–10). The h-scaled weighted completion in Layer 5 is a particular valid domain.
+`[exp(½∑(M⁻¹)_ij∂_i∂_j)P]_{v=0}`. Extend it to series only with a complete filtration for which each coefficient has finitely many contractions. Specify that filtration as part of the input; an arbitrary infinite series in v is not automatically integrable. Supply linearity, value on one, odd-parity vanishing, Wick's pairing formula, direct sums and linear changes of coordinates. Constant translations v↦v+g preserve polynomials. For completion of the square over the coefficient field K, introduce a formal parameter u: for a polynomial P and g∈K^N, prove polynomialGaussian_affineShift, `⟨exp(−u gᵀMv)P(v+ug)⟩_M = exp(u²gᵀMg/2)⟨P(v)⟩_M`, by coefficientwise contraction on K[v][[u]], with target K[[u]]. Each u-coefficient is a polynomial; no evaluation u=1 is asserted in this formal domain. In the h-scaled convention replace the differential operator by h/2 times it (GZ (13)–(14), p. 4; GSWZ (110)–(111), p. 28; Garoufalidis–Storzer–Wheeler Lemmas 3.1–3.2, pp. 9–10). The h-scaled weighted completion in Layer 5 is a particular valid domain, with the filtered affine shift stated in §5.6.
 
 Prove formalGaussian_eq_normalisedIntegral for complex polynomials and a real symmetric positive definite M, using the existing Gaussian measure of covariance M⁻¹ and its supplied moments. The integral denominator is positive. Its one-dimensional value on `v^(2r)` is `(2r−1)!! M^(−r)` and its value on odd powers is zero. In several variables the covariance entries, rather than just diagonal entries, determine contractions. This is a bridge to the Gaussian owner, not another construction of that owner's moments.
 
@@ -665,11 +677,12 @@ for every K, uniformly in b modulo hℤ^N. Truncating at `max|v_i|≤ε^(−1/12
 For the algebraic Gaussian functional, use the following API (GZ (13)–(14), p. 4; GSWZ (110), p. 28).
 
 - For invertible symmetric M, contraction is linear, takes 1 to 1 and kills odd monomials.
-- It obeys Wick pairing, direct sums, coordinate changes and affine completion of the square; filtered extension requires finitely many contractions in every coefficient.
+- It obeys Wick pairing, direct sums and coordinate changes. The polynomial affine identity above has source K[v][[u]] and target K[[u]]; every other filtered extension requires finitely many contractions in every coefficient.
 
 **Checks.**
 
 - M=1 gives moments of 1,v,v²,v⁴ equal to 1,0,1,3, respectively.
+- M=g=1 and P=1 give exp(u²/2)=1+u²/2+u⁴/8+… on both sides of polynomialGaussian_affineShift. For P=v the bracket of exp(−uv)(v+u) is 0, fixing the sign of the compensating exponential.
 - Covariance ((2,1),(1,2)) gives ⟨v₁v₂⟩=1 and ⟨v₁²v₂²⟩=2·2+2·1²=6; ignoring cross pairings gives 4.
 - M=0 is excluded since M⁻¹ does not exist; an infinite constant-weight sum of even powers would contribute 1+3+15+… to one coefficient and is excluded.
 
@@ -1376,7 +1389,17 @@ Extend §2.4's formalGaussian to the following h-scaled weighted domain, for an 
 ⟨P(w,h)⟩_Λ = [ exp((h/2)∑_{i,j}(Λ⁻¹)_ij ∂_{w_i}∂_{w_j})P ]_{w=0}.
 ```
 
-Its domain is the positive-weight completion generated by w_i, h and cubic monomials divided by h, with weight(w_i)=1/2 and weight(h)=1. At each resulting h-degree only finitely many contractions contribute. Supply linearity, Wick's pairing formula, tensor factorisation, change of basis, and the affine-shift identity with its exponential factor. For Λ=((A,B),(Bᵀ,C)), the iterated Fubini formula requires A and C−BᵀA⁻¹B invertible, equivalently A and Λ invertible; invertibility of Λ alone defines only the full integral. Analytic Gaussian moments, when Λ is positive real, agree with this functional by the supplier moments in StandardDistributions; algebraic continuation supplies the rational identities for arbitrary invertible Λ. Sources: GSWZ (110)–(111), p. 28; GSW Lemmas 3.1–3.2, (23)–(25), p. 10; Aarhus II, Proposition 2.13, pp. 8–9. *Needs:* the Gaussian supplier, formal weighted completion and finite polynomial differentiation.
+For a commutative ℚ-algebra R and N variables, its domain C is the completion by increasing weight of the subalgebra R[w,h,w^α/h : |α|=3] of R[w,h,h⁻¹], with weight(w_i)=1/2 and weight(h)=1. Elements have finite support below every weight bound. Every generator has positive weight, so each resulting h-degree has finitely many contractions; the bracket is a continuous R-linear map C→R[[h]]. Supply linearity, Wick's pairing formula, tensor factorisation and change of basis.
+
+Prove filteredGaussian_affineShift: for every F∈C, coefficient vector G∈R^N and symmetric invertible Λ∈M_N(R),
+
+```text
+⟨exp(−GᵀΛw) F(w+hG,h)⟩_Λ = exp(hGᵀΛG/2) ⟨F(w,h)⟩_Λ.
+```
+
+The substitution w↦w+hG is a continuous R-algebra automorphism of C, with inverse w↦w−hG. Indeed h is fixed, w_i+hG_i has weight at least 1/2, and expansion of (w+hG)^α/h for |α|=3 consists of the original cubic/h term and terms of the forms w_iw_jG_k, h w_iG_jG_k and h²G_iG_jG_k, all of positive weight. The series exp(−GᵀΛw) belongs to C because its exponent has positive weight; exp(hGᵀΛG/2) belongs to R[[h]]. Thus both sides are defined. Derive the identity first on monomials by Wick pairing and then by continuity; with w=√h·v it is GSW Lemma 3.1(b), (23), p. 10 (GSW line 459). An arbitrary constant translation on C is not defined: F=1+w+w²+⋯ belongs to C, but F(w+1) would have constant coefficient 1+1+⋯. The polynomial domain and auxiliary exponential parameter of §2.4 are separate from C. *Needs:* §2.4's polynomial Wick identities, the weighted completion just defined and its continuous contraction.
+
+For Λ=((A,B),(Bᵀ,C)), the iterated Fubini formula requires A and C−BᵀA⁻¹B invertible, equivalently A and Λ invertible; invertibility of Λ alone defines only the full integral. Analytic Gaussian moments, when Λ is positive real, agree with this functional by the supplier moments in StandardDistributions; algebraic continuation supplies the rational identities for arbitrary invertible Λ. Sources: GSWZ (110)–(111), p. 28; GSW Lemmas 3.1–3.2, (23)–(25), p. 10; Aarhus II, Proposition 2.13, pp. 8–9. *Needs:* the Gaussian supplier, formal weighted completion and finite polynomial differentiation.
 
 For q=ζ_m e^h, integer k and y_a=ζ_m^(k+a+1)u, s_a=(k+a+1)/m, Z=u^m, define the corrected local remainder by
 
@@ -1412,7 +1435,7 @@ Three precise comparisons must be proved:
 
 - Name gaussianGlobalNormalisation for the following target: derive every determinant, cyclic product, root and h/x prefactor from this integrand after the correction to ψ, including linear dependence on the determinant generator and sign change under its involution. Establish periodicity of the refined index, its root-action covariance and
   `I_ℓ(T)−I_ℓ(σ_jT)=(−1)^(A_jj)T_jq^(A_jj)I_{ℓ−e_j}(σ^(A_{*,j})T)`, where σ_j multiplies T_j by q. On the level variable t=T^m this sends t_j to q^m t_j, not q t_j.
-  The affine Gaussian shift contributes its scalar exponential; omitting it is not translation invariance. These identities imply §5.5's corrected order-m equation (GSWZ Lemma 2.15, (137)–(139), p. 32).
+  Apply filteredGaussian_affineShift to the centred shift w↦w+hG after identifying its coefficient vector G; the scalar factor is exp(hGᵀΛG/2). These identities imply §5.5's corrected order-m equation (GSWZ Lemma 2.15, (137)–(139), p. 32).
 - Name gaussianMixedRegularity for the following target: after the exact normalisation and evaluation on the constant-one determinant branch, each refined congruence expression Ω_(A,m,k)(T,x), with its specified residue-class sum and k-th summand removed, is supported on mℕ^N in T and has constant coefficient one, with coefficients in ℚ(ζ)((x)); restoring T^k gives support k+mℕ^N and initial coefficient one in the §5.5 normalisation. After T=t^(1/m), the normalised congruence series has ordinary nonnegative t-indices. Control negative powers of every T_j, including mixed poles. The identity
   `Λ_A⁻¹=−(I+DA)⁻¹D`, D=diag((1−z)/z), helps, but does not by itself prove cancellation in a normalised integral. Even a separate term `h Li₀(1−t)/12` has a t⁻¹ pole.
 - Once those two targets hold, §5.5's uniqueness over the Laurent field on that augmentation branch identifies Ω_(A,m,k)(T,x) with F_(A,m,k)(T,q), and in t with F_(A,m,k)(t^(1/m),q), at orders mm′ with gcd(m,m′)=1, and at m=1 identifies the augmentation-branch Gaussian collection with F_A; the full-algebra collection retains its determinant factor. It identifies V,δ,U and the regulator-exponential normalisation with §5.1's invariants. This identification precedes the level-cancellation target below and does not consume it. The uniqueness step is a proof, not an additional regularity assumption (GSWZ Theorem 8, (163)–(168), pp. 35–36).
@@ -1431,12 +1454,16 @@ This target combines the restricted residue comparison and pole cancellation, us
 For the weighted Gaussian completion, use the following API (GSWZ (110)–(111), p. 28; Aarhus II Proposition 2.13, pp. 8–9).
 
 - The positive-weight completion makes Wick contraction finite in each h-degree, with weight(w)=1/2 and weight(h)=1.
-- Affine shifts carry the completion-of-square scalar; iterated block contraction requires the first block and its Schur complement invertible.
+- For G∈R^N, the substitution w↦w+hG preserves C and the filtered affine identity has scalar exp(hGᵀΛG/2); arbitrary constant translations need not preserve C.
+- Iterated block contraction requires the first block and its Schur complement invertible.
 
 **Checks.**
 
 - In one coordinate with covariance C=1, ⟨w⁶⟩=15h³ and ⟨w³⟩=0.
 - The monomial w³/h has weight 1/2 and is admitted, while w²/h has weight 0 and is not a positive-weight generator.
+- In rank one, (w+hG)³/h=w³/h+3Gw²+3hG²w+h²G³, with weights 1/2,1,3/2,2. The inverse shift recovers w³/h.
+- For Λ=G=1 and F=1+w+w²+⋯, both sides of filteredGaussian_affineShift are 1+3h/2+29h²/8+O(h³). Replacing hG by 1 makes the substituted constant coefficient ∑1 undefined.
+- For Λ=G=1 and F=1 both sides are exp(h/2); F=w gives 0 and F=w² gives h exp(h/2). At G=0 the identity is ⟨F⟩=⟨F⟩, and at N=0 it is F(h)=F(h).
 - Λ=((0,1),(1,0)) has determinant −1 but first block 0, so full contraction exists and the first-variable iterated formula is excluded.
 
 For the formal local remainder and Gaussian collection, use the following API (GSWZ (112)–(118), pp. 28–30; (137)–(139), p. 32).
@@ -1459,7 +1486,7 @@ For the formal local remainder and Gaussian collection, use the following API (G
 - For Λ=((0,1),(1,0)), det Λ=−1 but A=(0) is singular. The full Wick functional exists and the proposed integration of the first variable does not.
 - With m=1,k=0, the corrected ψ has no residual w²/h or constant h⁰w⁰ term. The uncorrected expression has both.
 - With m=2 its linear subtraction is `Li₁(u²)w/(2h)`. A denominator 4 fails the stationary equation.
-- A constant integrand under affine shift acquires the scalar exponential. For `A=((2,1),(1,1))`, the shift moves both Gaussian coordinates.
+- For Λ=((2,1),(1,1)), G=(1,1) and F=1, the shift is (w₁+h,w₂+h), GᵀΛG=5 and both sides equal exp(5h/2).
 - For A=0 the final two-variable collection factors into reciprocal Pochhammer series. Its regularity must be coefficientwise in each variable, not merely in total degree.
 - At A=1,m=3 the refined recurrence's sign is negative. Inverting its recursion factor before taking x=0 is essential.
 
@@ -1606,8 +1633,8 @@ For the Gaussian first jet, use the following API (GSWZ (110), (114), (118), pp.
 
 ### 6.3 The modified potential and the local regulator
 
-Require through the PadicHodgeRegulators local-K₃ contract (gap:local-k3-regulator) the unramified p>3 isomorphism
-`D_p:K₃(K_p;ℤ_p)≃p²𝒪_{K_p}`, its compatibility with the Bloch presentation, and generation by root-of-unity classes; from ColemanIntegration Layer L2 consume the reflection identity and integral modified polylogarithms. This is the exact local input of GSWZ Lemma 3.1, Propositions 3.2–3.3 and Theorem 9, (174)–(183), pp. 37–39. The lattice and comparison are supplier targets, not established merely by having a function named Li₂.
+Consume PadicHodgeRegulators §4.7 and §§5.6–5.9: for p>3 and a finite unramified étale ℚ_p-algebra L (in particular L=K_p), the isomorphism
+`D_L:K₃(L;ℤ_p)≃p²𝒪_L`, its normalized comparison with the Bloch presentation, and generation by completed classes of prime-to-p roots whose every component is different from 1; from ColemanIntegration Layer L2 consume the reflection identity and integral modified polylogarithms. This is the exact local input of GSWZ Lemma 3.1, Propositions 3.2–3.3 and Theorem 9, (174)–(183), pp. 37–39. Retain the completed source and the supplier’s coefficient-map and product compatibility when applying this isomorphism.
 
 Write `φ_p(z_i)=z_i^p exp(pη_i)`, where η_i is defined by the convergent logarithm on 1+pŜ_p, and β_j=∑_iA_ijη_i. Put y_j=1−z_j. Define the algebraic p-adic expression
 
@@ -1651,6 +1678,8 @@ For the intrinsic modified potential, use the following API (GSWZ (130), (132)�
 
 - All η_i=0 give W_p=p∑ℓ₂(1−z_i), with every β term and quadratic η term equal to 0.
 - ξ=0 gives D_pξ=0 and regulator defect 0/p−p·0=0, excluding a complex π²/6 constant.
+- At L=ℚ₅, the admissible root ω(2) has D_L([ω(2)])≡25 modulo 125 and generates the image 25ℤ₅; reversing the regulator sign gives 100 modulo 125. For the zero étale algebra the map and target are both 0.
+- In L=ℚ₅×ℚ₅ the root (−1,1) is excluded because its second component is 1; (−1,−1) is admitted and has regulator (0,0).
 - For A=((2,1),(1,1)) and η=(a,b), the quadratic expression is 2a²+2ab+b²; omitting one off-diagonal occurrence changes its ab coefficient from 2 to 1.
 
 **Checks.**
@@ -1818,7 +1847,7 @@ The A=5,p=5 square-root calculation is a necessary counterexample in the transfe
 
 ### Dependencies
 
-Layer 5; QWittVectors §6.1; the HabiroNumberFields arithmetic contract, with the full finite étale extension and effective descent specified; ColemanIntegration Layer L2; the PadicHodgeRegulators local-K₃ contract. Membership and descendant membership retain all stated normalisation, mixed-regularity, level-cancellation, full-algebra transfer, Kummer-orientation, product-gluing and pullback obligations. Small-prime improvements and unrestricted torsion powers require their additional proofs.
+Layer 5; QWittVectors §6.1; the HabiroNumberFields arithmetic contract, with the full finite étale extension and effective descent specified; ColemanIntegration Layer L2; PadicHodgeRegulators §4.7 and §§5.6–5.9. Membership and descendant membership retain all stated normalisation, mixed-regularity, level-cancellation, full-algebra transfer, Kummer-orientation, product-gluing and pullback obligations. Small-prime improvements and unrestricted torsion powers require their additional proofs.
 
 ## Layer 7: explicit collections and exports
 
