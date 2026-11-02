@@ -1,3 +1,5 @@
+module
+
 import Mathlib
 import TauCeti.LinearAlgebra.Matrix.PosDef.Basic
 import TauCeti.LinearAlgebra.IntegralLattice.Gram
@@ -8,46 +10,31 @@ import TauCeti.LinearAlgebra.IntegralLattice.Isometry.Group
 import TauCeti.LinearAlgebra.IntegralLattice.PosDef.Minimum
 import TauCeti.LinearAlgebra.IntegralLattice.Discriminant.Bilinear
 import TauCeti.LinearAlgebra.IntegralLattice.Discriminant.Quadratic
-import TauCeti.LinearAlgebra.IntegralLattice.RankOne
-import TauCeti.LinearAlgebra.IntegralLattice.RootLattice.TypeA.Basic
-import TauCeti.LinearAlgebra.IntegralLattice.RootLattice.TypeE
 
 /-!
 # Lattice packings and perfect forms: target signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive specification is
-`README.md`. This file states only what can be stated over Mathlib and the pinned Tau Ceti: every
-definition below has its real body, and only theorem proofs are `sorry`. The other targets (among
-them the tensor product of lattices of 7.1 and everything stated about it in 7.1–7.3) are
-specified in `README.md` only, with their definitions in prose and their **Checks**. Discharging
-every declaration here would finish neither a layer nor the roadmap.
+The roadmap is README.md; this file is not the roadmap. It states the roadmap's headline
+results against the pinned Mathlib and Tau Ceti APIs, with simple definitions needed to state
+them and admitted theorem proofs.
 
-Two carriers, as in `README.md`, *Two carriers*. A **form** is `PosDefForm n`, the subtype of
-`Matrix (Fin n) (Fin n) ℝ` cut out by Mathlib's `Matrix.PosDef`, acting on `ℤⁿ` by `x ↦ xᵀAx`
-(`PosDefForm.eval`); `GL_n(ℤ)` acts by `A ↦ UᵀAU` (`actGL`) and similarity adds a positive scalar.
-A **lattice** is Tau Ceti's `TauCeti.IntegralLattice V` with `IsPosDef`, consumed from
-`TauCeti.LinearAlgebra.IntegralLattice.*`; its invariants are those of the Gram matrix of a basis
-(`gramForm`), and `TauCeti.IntegralLattice.minimum`/`kissingNumber` are **the** LMFDB `minimum`
-and `kissing` columns, identified with the form-side definitions by `minimum_eq_min` and never
-redefined. Metric statements live in `FormSpace A`, the type `Fin n → ℝ` with inner product
-`xᵀAy`, in which `stdLattice A` (the image of `ℤⁿ`) is an `IsZLattice`.
+Headlines: the sharp Hermite bounds and constants in ranks 2–8 and 24; attainment and
+Mordell's inequality; Voronoi fundamental domains and deep holes; Voronoi's extreme-form
+criterion, finiteness of perfect and eutactic classes, and neighbour-closure completeness;
+the moment criterion, strong perfection, harmonic theta modularity and Venkov's shell theorem;
+the 15 and 290 universality theorems; and the rank-one discriminant-image index formula.
 
-Conventions visible in the signatures (`README.md`, *Pinned conventions*): norms are never halved
-(`min A₂ = 2`); the kissing number counts `x` and `−x` separately; the packing radius is
-`√(min A)/2`, the center density `ρⁿ/√det`, the density `Vₙ · δ` with
-`Vₙ = √πⁿ/Γ(n/2+1)` as Mathlib's `InnerProductSpace.volume_ball` writes it; the Hermite invariant
-is `min/det^{1/n}` and `hermiteConstant n` is a supremum of *that*, not of its `n`-th power;
-eutaxy is `A⁻¹ = ∑ c_x x xᵀ` over a `Finset` equal to the minimal vectors (no `∑ᶠ` over a set
-whose finiteness is a theorem); designs are defined by the normalized `toSphere` measure and
-polynomials of bounded degree, with the moment criterion a theorem.
+The tensor minimum theorem of Kitaoka and the tensor-decomposition results are not statable
+at the pins without constructing the integral-lattice tensor product of README §7.1, which
+is itself library work. The explicit Leech covering-radius and deep-hole classification need
+the Leech lattice carrier from Rank24LatticeConstructions Layer 6. The finite perfect-form
+classifications in ranks 4–8 need their specified representative families; the sharp scalar
+Hermite conclusions are stated here. All other API, local checks and examples are in README.md.
 
-Every theorem proof below is `sorry` except the bridge checks `eval_pos`, `pairing_comm`,
-`stdLattice_eq_span`, `volume_ball_eq_unitBallVolume` and `smul_actGL_similar`, which apply
-Mathlib's `Matrix.posDef_iff_dotProduct_mulVec`, the symmetry of `Matrix.PosDef`,
-`Pi.basisFun_apply`, `EuclideanSpace.volume_ball` and the definition of similarity as the README
-promises. The proof obligations inside definitions (positivity of `UᵀAU`, `c • A` and Gram
-matrices, the inner-product axioms, the `ZSpan` instances, the subgroup and hom laws of 7.4) are
-discharged.
+The form carrier uses native Matrix.PosDef. Metric statements use FormSpace A, whose squared
+norm is xᵀAx. Harmonic polynomials evaluated in integral coordinates use the inverse-Gram
+Laplacian. Norms are squared lengths, not half-norms; universality and half-norm universality
+are separate predicates. Nondegeneracy is explicit on discriminant-index definitions.
 -/
 
 open Matrix Module MeasureTheory
@@ -74,12 +61,6 @@ def pairing (A : PosDefForm n) (x y : Fin n → ℝ) : ℝ := x ⬝ᵥ (A.1 *ᵥ
 /-- The integer vector `x : Fin n → ℤ` read in `ℝⁿ`. -/
 def intCast (x : Fin n → ℤ) : Fin n → ℝ := fun i => (x i : ℝ)
 
-/-- **0.1, bridge check.** Positivity of the form on nonzero vectors is Mathlib's
-`Matrix.posDef_iff_dotProduct_mulVec`; this is the one place `Matrix.PosDef` is unfolded. -/
-theorem eval_pos (A : PosDefForm n) {x : Fin n → ℝ} (hx : x ≠ 0) : 0 < A.eval x := by
-  have h := (Matrix.posDef_iff_dotProduct_mulVec.mp A.2).2 hx
-  simpa [eval] using h
-
 /-- **0.1.** The right action `A ↦ UᵀAU` of `GL_n(ℤ)` on forms. -/
 noncomputable def actGL (U : GL (Fin n) ℤ) (A : PosDefForm n) : PosDefForm n :=
   ⟨((U : Matrix (Fin n) (Fin n) ℤ).map (Int.cast : ℤ → ℝ))ᵀ * A.1 *
@@ -89,28 +70,12 @@ noncomputable def actGL (U : GL (Fin n) ℤ) (A : PosDefForm n) : PosDefForm n :
     simpa [conjTranspose_eq_transpose_of_trivial] using
       A.2.conjTranspose_mul_mul_same (mulVec_injective_iff_isUnit.mpr hU)⟩
 
-/-- **0.1.** `(U • A)[x] = A[Ux]`. -/
-theorem eval_actGL (U : GL (Fin n) ℤ) (A : PosDefForm n) (x : Fin n → ℝ) :
-    (actGL U A).eval x = A.eval (((U : Matrix (Fin n) (Fin n) ℤ).map (Int.cast : ℤ → ℝ)) *ᵥ x) :=
-  sorry
-
-/-- **0.1.** The determinant is `GL_n(ℤ)`-invariant, since `det U = ±1`. -/
-theorem det_actGL (U : GL (Fin n) ℤ) (A : PosDefForm n) : (actGL U A).1.det = A.1.det := sorry
-
 /-- **0.1.** The positive scaling `c • A` of a form, `c > 0`. -/
 def smulPos (c : ℝ) (hc : 0 < c) (A : PosDefForm n) : PosDefForm n := ⟨c • A.1, A.2.smul hc⟩
 
-/-- **0.1.** Similarity: `B = c · UᵀAU` for some `c > 0` and `U ∈ GL_n(ℤ)`. Every geometric
-invariant of this roadmap is a similarity invariant. -/
+/-- **0.1.** Similarity: `B = c · UᵀAU` for some `c > 0` and `U ∈ GL_n(ℤ)`. The Hermite invariant and densities are similarity invariant; minima and radii scale. -/
 def Similar (A B : PosDefForm n) : Prop :=
   ∃ (c : ℝ) (hc : 0 < c) (U : GL (Fin n) ℤ), B = smulPos c hc (actGL U A)
-
-/-- **0.1, bridge check.** A scaled `GL_n(ℤ)`-transform is similar to the original form. -/
-theorem smul_actGL_similar (A : PosDefForm n) (c : ℝ) (hc : 0 < c) (U : GL (Fin n) ℤ) :
-    Similar A (smulPos c hc (actGL U A)) :=
-  ⟨c, hc, U, rfl⟩
-
-theorem similar_equivalence : Equivalence (Similar (n := n)) := sorry
 
 /-- **0.1.** An integral form is a form with integer entries; `primitive` adds that the entries
 have no common factor. -/
@@ -125,24 +90,26 @@ def FormSpace (_A : PosDefForm n) : Type := Fin n → ℝ
 /-- The coordinates of a point of `FormSpace A`. -/
 def toCoords (A : PosDefForm n) (x : FormSpace A) : Fin n → ℝ := x
 
-instance (A : PosDefForm n) : AddCommGroup (FormSpace A) := inferInstanceAs (AddCommGroup (Fin n → ℝ))
+/-- **0.3.** The additive group of the coordinate space. -/
+instance formSpaceAddCommGroup (A : PosDefForm n) : AddCommGroup (FormSpace A) := inferInstanceAs (AddCommGroup (Fin n → ℝ))
 
-instance (A : PosDefForm n) : Module ℝ (FormSpace A) := inferInstanceAs (Module ℝ (Fin n → ℝ))
+/-- **0.3.** The real scalar action on the coordinate space. -/
+instance formSpaceModule (A : PosDefForm n) : Module ℝ (FormSpace A) := inferInstanceAs (Module ℝ (Fin n → ℝ))
 
-instance (A : PosDefForm n) : FiniteDimensional ℝ (FormSpace A) :=
+/-- **0.3.** The coordinate space has finite real dimension n. -/
+instance formSpaceFiniteDimensional (A : PosDefForm n) : FiniteDimensional ℝ (FormSpace A) :=
   inferInstanceAs (FiniteDimensional ℝ (Fin n → ℝ))
-
-/-- **0.1, bridge check.** The pairing is symmetric, because `Matrix.PosDef` includes symmetry. -/
-theorem pairing_comm (A : PosDefForm n) (x y : Fin n → ℝ) : A.pairing x y = A.pairing y x := by
-  have h : A.1ᵀ = A.1 := by simpa [conjTranspose_eq_transpose_of_trivial] using A.2.1.eq
-  rw [pairing, pairing, dotProduct_comm, dotProduct_mulVec, ← mulVec_transpose, h]
 
 /-- **0.3.** The inner-product core of `FormSpace A`: the inner product is `xᵀAy`, and the
 axioms are the symmetry and positivity of `A`. -/
 @[instance_reducible]
 noncomputable def formCore (A : PosDefForm n) : InnerProductSpace.Core ℝ (FormSpace A) where
   inner x y := A.pairing (toCoords A x) (toCoords A y)
-  conj_inner_symm x y := by simp [pairing_comm A (toCoords A x)]
+  conj_inner_symm x y := by
+    have h : A.1ᵀ = A.1 := by
+      simpa [conjTranspose_eq_transpose_of_trivial] using A.2.1.eq
+    simp only [conj_trivial, pairing]
+    rw [dotProduct_comm, dotProduct_mulVec, ← mulVec_transpose, h]
   re_inner_nonneg x := by
     simpa [pairing] using A.2.posSemidef.dotProduct_mulVec_nonneg (toCoords A x)
   add_left x y z := add_dotProduct (toCoords A x) (toCoords A y) _
@@ -154,21 +121,21 @@ noncomputable def formCore (A : PosDefForm n) : InnerProductSpace.Core ℝ (Form
     have := A.2.dotProduct_mulVec_pos (x := toCoords A x) h
     simp_all [pairing]
 
-noncomputable instance (A : PosDefForm n) : NormedAddCommGroup (FormSpace A) :=
+/-- **0.3.** The norm induced by the positive Gram form. -/
+noncomputable instance formSpaceNormedAddCommGroup (A : PosDefForm n) : NormedAddCommGroup (FormSpace A) :=
   letI : InnerProductSpace.Core ℝ (FormSpace A) := formCore A
   InnerProductSpace.Core.toNormedAddCommGroup (𝕜 := ℝ)
 
-noncomputable instance (A : PosDefForm n) : InnerProductSpace ℝ (FormSpace A) :=
+/-- **0.3.** The inner product induced by the Gram matrix. -/
+noncomputable instance formSpaceInnerProductSpace (A : PosDefForm n) : InnerProductSpace ℝ (FormSpace A) :=
   letI : InnerProductSpace.Core ℝ (FormSpace A) := formCore A
   InnerProductSpace.ofCore (inferInstance : PreInnerProductSpace.Core ℝ (FormSpace A))
 
-noncomputable instance (A : PosDefForm n) : MeasurableSpace (FormSpace A) := borel _
+/-- **0.3.** The Borel sigma algebra of the Gram metric. -/
+noncomputable instance formSpaceMeasurableSpace (A : PosDefForm n) : MeasurableSpace (FormSpace A) := borel _
 
-instance (A : PosDefForm n) : BorelSpace (FormSpace A) := ⟨rfl⟩
-
-/-- **0.3.** `‖x‖² = xᵀAx` in `FormSpace A`. -/
-theorem norm_sq_formSpace (A : PosDefForm n) (x : FormSpace A) : ‖x‖ ^ 2 = A.eval (toCoords A x) :=
-  sorry
+/-- **0.3.** The chosen measurable structure is the Borel structure. -/
+instance formSpaceBorelSpace (A : PosDefForm n) : BorelSpace (FormSpace A) := ⟨rfl⟩
 
 /-- **0.3.** The standard lattice `ℤⁿ` inside `FormSpace A`. -/
 def stdLattice (A : PosDefForm n) : Submodule ℤ (FormSpace A) :=
@@ -185,10 +152,12 @@ theorem stdLattice_eq_span (A : PosDefForm n) :
   refine congrArg _ (congrArg _ (funext fun i => ?_))
   exact (Pi.basisFun_apply ℝ (Fin n) i).symm
 
-instance (A : PosDefForm n) : DiscreteTopology (stdLattice A) := by
+/-- **0.3.** The integral coordinate lattice is discrete. -/
+instance stdLatticeDiscreteTopology (A : PosDefForm n) : DiscreteTopology (stdLattice A) := by
   rw [stdLattice_eq_span]; infer_instance
 
-instance (A : PosDefForm n) : IsZLattice ℝ (stdLattice A) :=
+/-- **0.3.** The integral coordinate lattice spans the real space. -/
+instance stdLatticeIsZLattice (A : PosDefForm n) : IsZLattice ℝ (stdLattice A) :=
   ⟨by rw [stdLattice_eq_span]; exact ZSpan.span_top (stdBasis A)⟩
 
 /-- **0.3.** `covolume (ℤⁿ ⊂ FormSpace A) = √(det A)`: the volume is that of the inner product
@@ -211,60 +180,11 @@ def minimalVectors (A : PosDefForm n) : Set (Fin n → ℤ) :=
 theorem finite_setOf_eval_le (A : PosDefForm n) (C : ℝ) :
     {x : Fin n → ℤ | A.eval (intCast x) ≤ C}.Finite := sorry
 
+/-- **1.1.** The shortest-vector shell of a positive definite form is finite. -/
 theorem finite_minimalVectors (A : PosDefForm n) : A.minimalVectors.Finite := sorry
-
-/-- **1.1.** In positive rank the minimum is positive and attained. -/
-theorem min_pos (A : PosDefForm n) (hn : 0 < n) : 0 < A.min := sorry
-
-theorem minimalVectors_nonempty (A : PosDefForm n) (hn : 0 < n) : A.minimalVectors.Nonempty :=
-  sorry
-
-theorem min_le_eval (A : PosDefForm n) {x : Fin n → ℤ} (hx : x ≠ 0) : A.min ≤ A.eval (intCast x) :=
-  sorry
-
-theorem neg_mem_minimalVectors (A : PosDefForm n) {x : Fin n → ℤ} (hx : x ∈ A.minimalVectors) :
-    -x ∈ A.minimalVectors := sorry
 
 /-- **1.1.** The kissing number `#S(A)`, counting `x` and `−x` separately. -/
 noncomputable def kissingNumber (A : PosDefForm n) : ℕ := A.minimalVectors.ncard
-
-theorem min_actGL (U : GL (Fin n) ℤ) (A : PosDefForm n) : (actGL U A).min = A.min := sorry
-
-theorem min_smulPos (c : ℝ) (hc : 0 < c) (A : PosDefForm n) : (smulPos c hc A).min = c * A.min :=
-  sorry
-
-theorem kissingNumber_of_similar {A B : PosDefForm n} (h : Similar A B) :
-    A.kissingNumber = B.kissingNumber := sorry
-
-/-- **1.1.** Well-rounded: the minimal vectors span `ℝⁿ`. -/
-def IsWellRounded (A : PosDefForm n) : Prop :=
-  Submodule.span ℝ (intCast '' A.minimalVectors) = ⊤
-
-/-- **1.1.** Generated by minimal vectors: `span_ℤ S(A) = ℤⁿ`. -/
-def IsGeneratedByMinimalVectors (A : PosDefForm n) : Prop :=
-  Submodule.span ℤ A.minimalVectors = ⊤
-
-/-- **1.1.** Strongly well-rounded: `S(A)` contains a `ℤ`-basis of `ℤⁿ`. -/
-def IsStronglyWellRounded (A : PosDefForm n) : Prop :=
-  ∃ b : Basis (Fin n) ℤ (Fin n → ℤ), ∀ i, b i ∈ A.minimalVectors
-
-theorem IsStronglyWellRounded.isGeneratedByMinimalVectors {A : PosDefForm n}
-    (h : A.IsStronglyWellRounded) : A.IsGeneratedByMinimalVectors := sorry
-
-theorem IsGeneratedByMinimalVectors.isWellRounded {A : PosDefForm n}
-    (h : A.IsGeneratedByMinimalVectors) : A.IsWellRounded := sorry
-
-/-- **1.3.** A normalized integer vector: its first nonzero coordinate is positive. -/
-def IsNormalized (x : Fin n → ℤ) : Prop :=
-  ∃ i, 0 < x i ∧ ∀ j < i, x j = 0
-
-/-- **1.3.** The normalized half `S⁺(A)` of the minimal vectors: the LMFDB `shortest` column for
-the stored Gram matrix. -/
-def normalizedMinimalVectors (A : PosDefForm n) : Set (Fin n → ℤ) :=
-  {x ∈ A.minimalVectors | IsNormalized x}
-
-theorem two_mul_ncard_normalizedMinimalVectors (A : PosDefForm n) :
-    2 * A.normalizedMinimalVectors.ncard = A.kissingNumber := sorry
 
 /-- **1.4.** The packing radius `√(min A)/2`. -/
 noncomputable def packingRadius (A : PosDefForm n) : ℝ := Real.sqrt A.min / 2
@@ -273,34 +193,17 @@ noncomputable def packingRadius (A : PosDefForm n) : ℝ := Real.sqrt A.min / 2
 Mathlib's `EuclideanSpace.volume_ball` produces. -/
 noncomputable def unitBallVolume (n : ℕ) : ℝ := Real.sqrt Real.pi ^ n / Real.Gamma (n / 2 + 1)
 
-/-- **1.4, bridge check.** `unitBallVolume` is Mathlib's volume of the unit ball of
-`EuclideanSpace ℝ (Fin n)` (`EuclideanSpace.volume_ball`, which needs `n ≠ 0`). -/
-theorem volume_ball_eq_unitBallVolume [Nonempty (Fin n)] :
-    volume (Metric.ball (0 : EuclideanSpace ℝ (Fin n)) 1) =
-      ENNReal.ofReal 1 ^ Fintype.card (Fin n) * ENNReal.ofReal (unitBallVolume (Fintype.card (Fin n))) :=
-  EuclideanSpace.volume_ball (Fin n) 0 1
-
 /-- **1.4.** The center density `δ(A) = ρⁿ / √(det A)`. -/
 noncomputable def centerDensity (A : PosDefForm n) : ℝ := A.packingRadius ^ n / Real.sqrt A.1.det
 
 /-- **1.4.** The density `Δ(A) = Vₙ δ(A)`: the LMFDB `density` column. -/
 noncomputable def density (A : PosDefForm n) : ℝ := unitBallVolume n * A.centerDensity
 
-theorem density_of_similar {A B : PosDefForm n} (h : Similar A B) : A.density = B.density := sorry
-
 /-- **1.4.** The packing balls are disjoint, so the density is at most one. -/
 theorem density_le_one (A : PosDefForm n) : A.density ≤ 1 := sorry
 
-theorem density_pos (A : PosDefForm n) (hn : 0 < n) : 0 < A.density := sorry
-
 /-- **1.5.** The Hermite invariant `γ(A) = min A / (det A)^{1/n}`: the LMFDB `hermite` column. -/
 noncomputable def hermite (A : PosDefForm n) : ℝ := A.min / A.1.det ^ ((1 : ℝ) / n)
-
-theorem hermite_of_similar {A B : PosDefForm n} (h : Similar A B) : A.hermite = B.hermite := sorry
-
-/-- **1.5.** `δ(A) = (γ(A)/4)^{n/2}`. -/
-theorem centerDensity_eq_hermite (A : PosDefForm n) :
-    A.centerDensity = (A.hermite / 4) ^ ((n : ℝ) / 2) := sorry
 
 /-- **1.7.** Minkowski's bound for real forms: `min A ≤ (4/π) Γ(n/2+1)^{2/n} (det A)^{1/n}`,
 from Mathlib's convex body theorem applied to the ball of radius `√(min A)` in `FormSpace A`. -/
@@ -317,13 +220,6 @@ theorem hermite_le_pow (A : PosDefForm n) (hn : 0 < n) :
 noncomputable def hermiteConstant (n : ℕ) : ℝ :=
   if n = 0 then 1 else sSup (Set.range (hermite : PosDefForm n → ℝ))
 
-theorem hermite_le_hermiteConstant (A : PosDefForm n) : A.hermite ≤ hermiteConstant n := sorry
-
-theorem one_le_hermiteConstant (n : ℕ) : 1 ≤ hermiteConstant n := sorry
-
-theorem hermiteConstant_le_pow (n : ℕ) (hn : 0 < n) :
-    hermiteConstant n ≤ (4 / 3 : ℝ) ^ (((n : ℝ) - 1) / 2) := sorry
-
 /-- **2.1.** Mordell's inequality `γₙ^{n−2} ≤ γ_{n−1}^{n−1}`. -/
 theorem hermiteConstant_pow_le (n : ℕ) (hn : 2 ≤ n) :
     hermiteConstant n ^ (n - 2) ≤ hermiteConstant (n - 1) ^ (n - 1) := sorry
@@ -331,9 +227,6 @@ theorem hermiteConstant_pow_le (n : ℕ) (hn : 2 ≤ n) :
 /-- **2.2.** The constant is attained: there is a critical form (Mahler compactness, GoN 4.5.2). -/
 theorem exists_hermite_eq_hermiteConstant (n : ℕ) (hn : 0 < n) :
     ∃ A : PosDefForm n, A.hermite = hermiteConstant n := sorry
-
-/-- **2.3.** `γ₁ = 1`. -/
-theorem hermiteConstant_one : hermiteConstant 1 = 1 := sorry
 
 /-- **2.3.** `γ₂² = 4/3`, attained by `A₂`. -/
 theorem hermiteConstant_two_sq : hermiteConstant 2 ^ 2 = 4 / 3 := sorry
@@ -345,6 +238,16 @@ theorem hermiteConstant_three_pow : hermiteConstant 3 ^ 3 = 2 := sorry
 certificates (Korkine–Zolotarev; Blichfeldt). -/
 theorem hermiteConstant_four_pow : hermiteConstant 4 ^ 4 = 4 := sorry
 
+/-- **4.10.** The sharp rank-five Hermite value, attained by D₅. -/
+theorem hermiteConstant_five_pow : hermiteConstant 5 ^ 5 = 8 := sorry
+
+/-- **4.10.** The sharp rank-six Hermite value, attained by E₆. -/
+theorem hermiteConstant_six_pow : hermiteConstant 6 ^ 6 = 64 / 3 := sorry
+
+/-- **4.10.** The sharp rank-seven Hermite value, attained by E₇. -/
+theorem hermiteConstant_seven_pow : hermiteConstant 7 ^ 7 = 64 := sorry
+
+/-- **4.10.** The sharp rank-eight Hermite value, attained by E₈. -/
 theorem hermiteConstant_eight_pow : hermiteConstant 8 ^ 8 = 256 := sorry
 
 /-- **4.11.** `γ₂₄ = 4`, attained by the Leech lattice (Cohn–Kumar 2009). -/
@@ -356,9 +259,8 @@ theorem hermiteConstant_twentyFour : hermiteConstant 24 = 4 := sorry
 def voronoiCell (A : PosDefForm n) : Set (FormSpace A) :=
   {x | ∀ v : Fin n → ℤ, A.eval (toCoords A x) ≤ A.eval (toCoords A x - intCast v)}
 
+/-- **3.1.** The closed Voronoi cell of a full lattice is compact. -/
 theorem isCompact_voronoiCell (A : PosDefForm n) : IsCompact A.voronoiCell := sorry
-
-theorem convex_voronoiCell (A : PosDefForm n) : Convex ℝ A.voronoiCell := sorry
 
 /-- **3.1.** The Voronoi cell is a fundamental domain for `ℤⁿ` in `FormSpace A`. -/
 theorem isAddFundamentalDomain_voronoiCell (A : PosDefForm n) :
@@ -373,6 +275,7 @@ noncomputable def coveringRadius (A : PosDefForm n) : ℝ :=
 def IsDeepHole (A : PosDefForm n) (x : FormSpace A) : Prop :=
   Metric.infDist x (stdLattice A) = A.coveringRadius
 
+/-- **3.2.** Distance to a full lattice attains its maximum. -/
 theorem exists_isDeepHole (A : PosDefForm n) : ∃ x, A.IsDeepHole x := sorry
 
 /-- **3.2.** A deep hole is, up to a lattice translation, a vertex (extreme point) of the Voronoi
@@ -380,13 +283,11 @@ cell; the covering radius is the largest `√(A[x])` over those vertices. -/
 theorem IsDeepHole.exists_sub_mem_extremePoints (A : PosDefForm n) {x : FormSpace A}
     (hx : A.IsDeepHole x) : ∃ v ∈ stdLattice A, x - v ∈ Set.extremePoints ℝ A.voronoiCell := sorry
 
-theorem packingRadius_le_coveringRadius (A : PosDefForm n) : A.packingRadius ≤ A.coveringRadius :=
-  sorry
-
 /-- **3.2.** The covering density `Θ(A) = Vₙ μ(A)ⁿ / √(det A) ≥ 1`. -/
 noncomputable def coveringDensity (A : PosDefForm n) : ℝ :=
   unitBallVolume n * A.coveringRadius ^ n / Real.sqrt A.1.det
 
+/-- **3.2.** Covering by the balls of covering radius forces covering density at least one. -/
 theorem one_le_coveringDensity (A : PosDefForm n) (hn : 0 < n) : 1 ≤ A.coveringDensity := sorry
 
 /-! ## Layer 4: perfect, eutactic and extreme forms -/
@@ -402,8 +303,6 @@ def IsPerfect (A : PosDefForm n) : Prop :=
 /-- **4.1.** A perfect form is determined by its minimal vectors. -/
 theorem IsPerfect.eq_of_minimalVectors_subset {A B : PosDefForm n} (hA : A.IsPerfect)
     (hmin : A.min = B.min) (hS : A.minimalVectors ⊆ B.minimalVectors) : A = B := sorry
-
-theorem IsPerfect.isWellRounded {A : PosDefForm n} (hA : A.IsPerfect) : A.IsWellRounded := sorry
 
 /-- **4.1.** Korkine–Zolotarev: a perfect form has at least `n(n+1)` minimal vectors. -/
 theorem IsPerfect.le_kissingNumber {A : PosDefForm n} (hA : A.IsPerfect) :
@@ -424,24 +323,9 @@ def IsStronglyEutactic (A : PosDefForm n) : Prop :=
   ∃ (s : Finset (Fin n → ℤ)) (c : ℝ), (s : Set (Fin n → ℤ)) = A.minimalVectors ∧ 0 < c ∧
     A.1⁻¹ = c • ∑ x ∈ s, rankOneMatrix x
 
-theorem IsStronglyEutactic.isEutactic {A : PosDefForm n} (h : A.IsStronglyEutactic) :
-    A.IsEutactic := sorry
-
-theorem IsEutactic.isWellRounded {A : PosDefForm n} (h : A.IsEutactic) : A.IsWellRounded := sorry
-
-/-- **4.2.** The trace identity: for strongly eutactic `A`, `c = n / (kiss A · min A)`. -/
-theorem IsStronglyEutactic.coeff_eq {A : PosDefForm n} (hn : 0 < n) (h : A.IsStronglyEutactic)
-    (s : Finset (Fin n → ℤ)) (c : ℝ) (hs : (s : Set (Fin n → ℤ)) = A.minimalVectors)
-    (hc : A.1⁻¹ = c • ∑ x ∈ s, rankOneMatrix x) :
-    c = n / (A.kissingNumber * A.min) := sorry
-
 /-- **4.3.** Extreme: a local maximum of the Hermite invariant in the subspace topology of
 `PosDefForm n ⊆ Matrix (Fin n) (Fin n) ℝ`. -/
 def IsExtreme (A : PosDefForm n) : Prop := IsLocalMax hermite A
-
-/-- **4.3.** A critical form is extreme. -/
-theorem isExtreme_of_hermite_eq {A : PosDefForm n} (h : A.hermite = hermiteConstant n) :
-    A.IsExtreme := sorry
 
 /-- **4.5. Voronoi's theorem**: extreme iff perfect and eutactic. -/
 theorem isExtreme_iff (A : PosDefForm n) : A.IsExtreme ↔ A.IsPerfect ∧ A.IsEutactic := sorry
@@ -475,36 +359,44 @@ noncomputable def voronoiNeighbour (P : PosDefForm n) (N : Matrix (Fin n) (Fin n
   let ρ : ℝ := sSup {t : ℝ | 0 ≤ t ∧ ∃ h : (P.1 + t • N).PosDef, min ⟨P.1 + t • N, h⟩ = P.min}
   if h : (P.1 + ρ • N).PosDef then ⟨P.1 + ρ • N, h⟩ else P
 
+/-- **4.9.** A Voronoi neighbour of a perfect form is perfect, including the isolated rank-one case. -/
 theorem isPerfect_voronoiNeighbour {P : PosDefForm n} (hP : P.IsPerfect)
     {N : Matrix (Fin n) (Fin n) ℝ} (hN : P.IsFacetNormal N) : (P.voronoiNeighbour N).IsPerfect :=
   sorry
 
+/-- **4.9.** Voronoi neighbours preserve the input minimum. -/
 theorem min_voronoiNeighbour {P : PosDefForm n} (hP : P.IsPerfect)
     {N : Matrix (Fin n) (Fin n) ℝ} (hN : P.IsFacetNormal N) : (P.voronoiNeighbour N).min = P.min :=
   sorry
 
-/-- **4.10.** A perfect-form certificate for rank `n`: pairwise non-equivalent perfect integral
-forms such that the neighbour (4.9) of a listed form across each of its facets is similar to a
-listed form. The data are finite: a listed form has finitely many facet normals up to scaling, and
-nothing is quantified over perfect forms outside the list. -/
-structure PerfectFormCertificate (n : ℕ) where
-  /-- The listed forms. -/
-  forms : Finset (PosDefForm n)
-  perfect : ∀ A ∈ forms, A.IsPerfect
-  integral : ∀ A ∈ forms, A.IsIntegralForm
-  pairwise : ∀ A ∈ forms, ∀ B ∈ forms, Similar A B → A = B
-  /-- The neighbour of a listed form across any of its facets is similar to a listed form. -/
-  neighbours_mem : ∀ A ∈ forms, ∀ N : Matrix (Fin n) (Fin n) ℝ, A.IsFacetNormal N →
-    ∃ C ∈ forms, Similar (A.voronoiNeighbour N) C
+/-- **4.10.** A nonempty finite family of perfect forms closed under neighbours up to
+similarity meets every perfect similarity class. Rank one has a single class. -/
+theorem perfectForms_complete (hn : 0 < n) (s : Finset (PosDefForm n))
+    (hne : s.Nonempty) (hperfect : ∀ P ∈ s, P.IsPerfect)
+    (hclosed : ∀ P ∈ s, ∀ N : Matrix (Fin n) (Fin n) ℝ, P.IsFacetNormal N →
+      ∃ Q ∈ s, Similar (P.voronoiNeighbour N) Q)
+    (A : PosDefForm n) (hA : A.IsPerfect) : ∃ Q ∈ s, Similar A Q := sorry
 
-/-- **4.10.** Completeness: a certificate's list meets every similarity class of perfect forms. -/
-theorem PerfectFormCertificate.complete {n : ℕ} (hn : 0 < n) (cert : PerfectFormCertificate n)
-    (A : PosDefForm n) (hA : A.IsPerfect) : ∃ C ∈ cert.forms, Similar A C := sorry
+/-- **4.11.** The lattice Cohn–Elkies bound for a real-valued Schwartz function with
+nonnegative real Fourier transform, positive Fourier value at zero and sign radius r. -/
+theorem centerDensity_le_cohnElkies (A : PosDefForm n) (hn : 0 < n)
+    (f : SchwartzMap (EuclideanSpace ℝ (Fin n)) ℂ) (r : ℝ) (hr : 0 < r)
+    (hf : ∀ x, (f x).im = 0)
+    (hfourier : ∀ x, (SchwartzMap.fourierTransformCLM ℂ f x).im = 0)
+    (hpos : 0 < (SchwartzMap.fourierTransformCLM ℂ f 0).re)
+    (hsign : ∀ x, r ≤ ‖x‖ → (f x).re ≤ 0)
+    (hdual : ∀ x, 0 ≤ (SchwartzMap.fourierTransformCLM ℂ f x).re) :
+    A.centerDensity ≤ (r / 2) ^ n * (f 0).re /
+      (SchwartzMap.fourierTransformCLM ℂ f 0).re := sorry
 
-/-- **4.10.** The Hermite constant is the maximum of `γ` over a certificate's list. -/
-theorem PerfectFormCertificate.hermiteConstant_eq {n : ℕ} (hn : 0 < n)
-    (cert : PerfectFormCertificate n) :
-    hermiteConstant n = sSup (hermite '' (cert.forms : Set (PosDefForm n))) := sorry
+/-- **4.11.** The dimension-24 auxiliary Schwartz function proving the sharp Leech bound. -/
+theorem exists_leech_auxiliary :
+    ∃ f : SchwartzMap (EuclideanSpace ℝ (Fin 24)) ℂ,
+      (∀ x, (f x).im = 0) ∧
+      (∀ x, (SchwartzMap.fourierTransformCLM ℂ f x).im = 0) ∧
+      f 0 = 1 ∧ SchwartzMap.fourierTransformCLM ℂ f 0 = 1 ∧
+      (∀ x, 2 ≤ ‖x‖ → (f x).re ≤ 0) ∧
+      (∀ x, 0 ≤ (SchwartzMap.fourierTransformCLM ℂ f x).re) := sorry
 
 end PosDefForm
 
@@ -525,7 +417,9 @@ noncomputable def gramForm {L : IntegralLattice V} (hL : L.IsPosDef) {n : ℕ}
     have hZ : (L.gramMatrix b).PosDef := by
       rw [gramMatrix_eq_toMatrix, ← LinearMap.BilinForm.posDef_toQuadraticMap_iff_matrix b _
         L.isSymm_integralForm]
-      exact hL.posDef_integralNorm
+      intro x hx
+      simpa only [LinearMap.BilinMap.toQuadraticMap_apply, ← L.integralNorm_apply] using
+        hL.posDef_integralNorm x hx
     have hQ := TauCeti.Matrix.posDef_map_intCast hZ
     -- Semidefinite over `ℝ` by density of `ℚⁿ`; definite because the determinant is nonzero.
     have hcast : ∀ q : Fin n → ℚ, (fun i => (q i : ℝ)) ⬝ᵥ
@@ -571,31 +465,6 @@ theorem minimum_eq_min {L : IntegralLattice V} (hL : L.IsPosDef) {n : ℕ}
 theorem kissingNumber_eq_kissingNumber {L : IntegralLattice V} (hL : L.IsPosDef) {n : ℕ}
     (b : Basis (Fin n) ℤ L) : L.kissingNumber = (gramForm hL b).kissingNumber := sorry
 
-/-- **1.5.** The lattice-side Hermite invariant `γ(L) = min L / (det L)^{1/n}`: the LMFDB `hermite`
-column, stated on Tau Ceti's `minimum` and `determinant`. -/
-noncomputable def latticeHermite (L : IntegralLattice V) : ℝ :=
-  (L.minimum : ℝ) / (L.determinant : ℝ) ^ ((1 : ℝ) / Module.finrank ℤ L)
-
-/-- **1.5.** `descend`: the lattice-side invariant is the form-side one of any Gram matrix. -/
-theorem latticeHermite_eq_gramForm {L : IntegralLattice V} (hL : L.IsPosDef) {n : ℕ}
-    (b : Basis (Fin n) ℤ L) : latticeHermite L = (gramForm hL b).hermite := sorry
-
-/-- **1.4.** The lattice-side density `Vₙ (√(min L)/2)ⁿ / √(det L)`: the LMFDB `density` column. -/
-noncomputable def latticeDensity (L : IntegralLattice V) : ℝ :=
-  PosDefForm.unitBallVolume (Module.finrank ℤ L) *
-    ((Real.sqrt L.minimum / 2) ^ Module.finrank ℤ L / Real.sqrt (L.determinant : ℝ))
-
-theorem latticeDensity_eq_gramForm {L : IntegralLattice V} (hL : L.IsPosDef) {n : ℕ}
-    (b : Basis (Fin n) ℤ L) : latticeDensity L = (gramForm hL b).density := sorry
-
-/-- **1.4.** `Δ(E₈) = π⁴/384`, from `det = 1`, `min = 2` and `V₈ = π⁴/24` (IL 6C). -/
-theorem latticeDensity_typeE₈RootLattice : latticeDensity typeE₈RootLattice = Real.pi ^ 4 / 384 :=
-  sorry
-
-/-- **1.8.** `γ(A₂) = 2/√3`, the equality case of Hermite's inequality (`det A₂ = 3`, `min = 2`). -/
-theorem latticeHermite_typeARootLattice_two :
-    latticeHermite (typeARootLattice 2) = 2 / Real.sqrt 3 := sorry
-
 /-! ## Layer 5: spherical designs and Venkov's theorem -/
 
 section Designs
@@ -618,9 +487,6 @@ def IsSphericalDesign (t : ℕ) (X : Finset E) (r : ℝ) : Prop :=
       (∑ x ∈ X, f x) / X.card =
         (∫ y, f (r • Subtype.val y) ∂((volume : Measure E).toSphere)) /
           ((volume : Measure E).toSphere).real Set.univ
-
-theorem IsSphericalDesign.mono {t s : ℕ} {X : Finset E} {r : ℝ} (hst : s ≤ t)
-    (h : IsSphericalDesign t X r) : IsSphericalDesign s X r := sorry
 
 /-- **5.2.** The moment criterion for antipodal sets: a `(2k+1)`-design iff the even moments
 `∑ ⟪a, x⟫^{2j}` equal `c_j #X r^{2j} ‖a‖^{2j}`, with
@@ -656,14 +522,31 @@ theorem isStronglyEutactic_iff_isDesignForm_two (A : PosDefForm n) (hn : 0 < n) 
 def IsStronglyPerfect (A : PosDefForm n) : Prop :=
   IsDesignForm 4 A
 
+/-- **5.3.** A lattice whose minimal shell is a spherical 4-design is perfect. -/
 theorem IsStronglyPerfect.isPerfect {A : PosDefForm n} (h : A.IsStronglyPerfect) : A.IsPerfect :=
   sorry
 
-/-- **5.4.** The Laplacian on polynomials and harmonic polynomials. -/
-noncomputable def laplacian (P : MvPolynomial (Fin n) ℝ) : MvPolynomial (Fin n) ℝ :=
-  ∑ i, MvPolynomial.pderiv i (MvPolynomial.pderiv i P)
+/-- **5.4.** The metric Laplacian Σᵢⱼ (A⁻¹)ᵢⱼ ∂ᵢ∂ⱼ, on Gram coordinates. -/
+noncomputable def gramLaplacian (A : PosDefForm n) (P : MvPolynomial (Fin n) ℝ) :
+    MvPolynomial (Fin n) ℝ :=
+  ∑ i, ∑ j, A.1⁻¹ i j • MvPolynomial.pderiv i (MvPolynomial.pderiv j P)
 
-def IsHarmonic (P : MvPolynomial (Fin n) ℝ) : Prop := laplacian P = 0
+/-- Harmonicity in the metric with Gram matrix A, in the given integral coordinates. -/
+def IsHarmonic (A : PosDefForm n) (P : MvPolynomial (Fin n) ℝ) : Prop :=
+  gramLaplacian A P = 0
+
+open scoped FourierTransform in
+/-- **5.5.** The harmonic-Gaussian Fourier identity in Gram metric, extended to a parameter
+in the upper half-plane, with the principal complex power and negative Fourier phase. -/
+theorem fourier_harmonic_gaussian_complex (A : PosDefForm n) (hn : 0 < n)
+    (P : MvPolynomial (Fin n) ℝ) (d : ℕ) (hP : IsHarmonic A P)
+    (hhom : P ∈ MvPolynomial.homogeneousSubmodule (Fin n) ℝ d)
+    (τ : UpperHalfPlane) (ξ : FormSpace A) :
+    (𝓕 (fun x : FormSpace A => (MvPolynomial.eval (toCoords A x) P : ℂ) *
+      Complex.exp (Real.pi * Complex.I * (τ : ℂ) * (A.eval (toCoords A x) : ℂ)))) ξ =
+      ((τ : ℂ) / Complex.I) ^ (-(n : ℂ) / 2) * (τ : ℂ) ^ (-(d : ℤ)) *
+        (MvPolynomial.eval (toCoords A ξ) P : ℂ) *
+        Complex.exp (-Real.pi * Complex.I * (A.eval (toCoords A ξ) : ℂ) / (τ : ℂ)) := sorry
 
 /-- **5.6.** The theta series with harmonic coefficient `P`:
 `Θ_{A,P}(τ) = ∑_{x ∈ ℤⁿ} P(x) e^{π i τ xᵀAx}`. -/
@@ -672,6 +555,7 @@ noncomputable def harmonicTheta (A : PosDefForm n) (P : MvPolynomial (Fin n) ℝ
   ∑' x : Fin n → ℤ, ((MvPolynomial.eval (intCast x) P : ℝ) : ℂ) *
     Complex.exp (Real.pi * Complex.I * (τ : ℂ) * (A.eval (intCast x) : ℝ))
 
+/-- **5.6.** Every polynomially weighted positive definite theta series converges absolutely on the upper half-plane. -/
 theorem summable_harmonicTheta (A : PosDefForm n) (P : MvPolynomial (Fin n) ℝ)
     (τ : UpperHalfPlane) :
     Summable fun x : Fin n → ℤ => ((MvPolynomial.eval (intCast x) P : ℝ) : ℂ) *
@@ -684,7 +568,7 @@ harmonic `P` of degree `d > 0`, `Θ_{L,P}` is a cusp form of weight `k + d` for 
 the existence of a Mathlib `CuspForm` with the same values. -/
 theorem exists_cuspForm_harmonicTheta {L : IntegralLattice V} (hL : L.IsPosDef) (he : L.IsEven)
     (hu : L.IsUnimodular) {n : ℕ} (b : Basis (Fin n) ℤ L) {k d : ℕ} (hn : n = 2 * k) (hd : 0 < d)
-    (P : MvPolynomial (Fin n) ℝ) (hP : PosDefForm.IsHarmonic P)
+    (P : MvPolynomial (Fin n) ℝ) (hP : PosDefForm.IsHarmonic (gramForm hL b) P)
     (hhom : P ∈ MvPolynomial.homogeneousSubmodule (Fin n) ℝ d) :
     ∃ f : CuspForm (CongruenceSubgroup.Gamma 1) ((k : ℤ) + d),
       ∀ τ, f τ = PosDefForm.harmonicTheta (gramForm hL b) P τ := sorry
@@ -718,9 +602,6 @@ def IsHalfUniversal (L : IntegralLattice V) : Prop := ∀ m : ℕ, 0 < m → Rep
 theorem not_isUniversal_of_finrank_le_three (L : IntegralLattice V) (hL : L.IsPosDef)
     (h : Module.finrank ℤ L ≤ 3) : ¬ IsUniversal L := sorry
 
-/-- **6.2.** The truant: the least positive integer not represented (`0` for universal `L`). -/
-noncomputable def truant (L : IntegralLattice V) : ℕ := sInf {m : ℕ | 0 < m ∧ ¬ Represents L m}
-
 /-- **6.3. The 15 theorem** (Conway–Schneeberger; Bhargava). -/
 theorem isUniversal_iff_fifteen (L : IntegralLattice V) (hL : L.IsPosDef) :
     IsUniversal L ↔ ∀ m ∈ ({1, 2, 3, 5, 6, 7, 10, 14, 15} : Finset ℕ), Represents L m := sorry
@@ -734,77 +615,93 @@ theorem isHalfUniversal_iff_twoNinety (L : IntegralLattice V) (hL : L.IsPosDef) 
 
 The tensor product of lattices (7.1–7.3) is specified in `README.md` only. -/
 
-/-- **7.4.** The isometries of the discriminant bilinear module `(A_L, b_L)`, as a subgroup of the
-automorphism group of `A_L`. For even `L` the quadratic refinement is a further condition
-(`README.md`, 7.4). -/
-def discriminantAutGroup (L : IntegralLattice V) :
-    Subgroup (L.DiscriminantGroup ≃ₗ[ℤ] L.DiscriminantGroup) where
-  carrier := {e | ∀ x y, L.discriminantPairing (e x) (e y) = L.discriminantPairing x y}
-  mul_mem' {a b} ha hb x y := by simp only [LinearEquiv.mul_apply, ha (b x), hb x y]
-  one_mem' x y := by simp
-  inv_mem' {a} ha x y := by
-    have := ha (a⁻¹ x) (a⁻¹ y)
-    simp only [← LinearEquiv.mul_apply, mul_inv_cancel] at this
-    simpa using this.symm
+/-- Composition gives the native finite bilinear self-isometries their group structure. -/
+instance bilinearIsometryGroup (D : TauCeti.FiniteBilinearModule) :
+    Group (TauCeti.FiniteBilinearModule.Isometry D D) where
+  mul f g := g.trans f
+  one := TauCeti.FiniteBilinearModule.Isometry.refl D
+  inv f := f.symm
+  mul_assoc f g h := by
+    apply DFunLike.ext; intro x
+    change (h.trans (g.trans f)) x = ((h.trans g).trans f) x
+    simp
+  one_mul f := by
+    apply DFunLike.ext; intro x
+    change (f.trans (TauCeti.FiniteBilinearModule.Isometry.refl D)) x = f x
+    simp
+  mul_one f := by
+    apply DFunLike.ext; intro x
+    change ((TauCeti.FiniteBilinearModule.Isometry.refl D).trans f) x = f x
+    simp
+  inv_mul_cancel f := by
+    apply DFunLike.ext; intro x
+    change (f.trans f.symm) x = (TauCeti.FiniteBilinearModule.Isometry.refl D) x
+    simp
 
-/-- **7.4.** The natural map `O(L) → Aut(A_L)` through `Isometry.discriminantGroupEquiv`. -/
-noncomputable def discriminantHom (L : IntegralLattice V) :
-    TauCeti.IntegralLattice.Isometry L L →* (L.DiscriminantGroup ≃ₗ[ℤ] L.DiscriminantGroup) where
-  toFun e := TauCeti.IntegralLattice.Isometry.discriminantGroupEquiv e
+/-- Composition gives the native finite quadratic self-isometries their group structure. -/
+instance quadraticIsometryGroup (D : TauCeti.FiniteQuadraticModule) :
+    Group (TauCeti.FiniteQuadraticModule.Isometry D D) where
+  mul f g := g.trans f
+  one := QuadraticMap.IsometryEquiv.refl D.quadratic
+  inv f := f.symm
+  mul_assoc f g h := by apply DFunLike.ext; intro x; rfl
+  one_mul f := by apply DFunLike.ext; intro x; rfl
+  mul_one f := by apply DFunLike.ext; intro x; rfl
+  inv_mul_cancel f := by apply DFunLike.ext; intro x; exact f.toLinearEquiv.symm_apply_apply x
+
+/-- **7.4.** The induced action on the native discriminant bilinear module. -/
+noncomputable def discriminantHom (L : IntegralLattice V) [L.IsNondegenerate] :
+    TauCeti.IntegralLattice.Isometry L L →*
+      TauCeti.FiniteBilinearModule.Isometry L.discriminantBilinearModule
+        L.discriminantBilinearModule where
+  toFun e := e.discriminantBilinearIsometry
   map_one' := by
-    ext x
+    apply DFunLike.ext; intro x
+    change (Isometry.discriminantBilinearIsometry (1 : Isometry L L)) x =
+      (TauCeti.FiniteBilinearModule.Isometry.refl _) x
     simp [Isometry.one_def]
   map_mul' f g := by
-    ext x
+    apply DFunLike.ext; intro x
+    change (Isometry.discriminantBilinearIsometry (f * g)) x =
+      (g.discriminantBilinearIsometry.trans f.discriminantBilinearIsometry) x
     simp [Isometry.mul_def]
 
-theorem discriminantHom_range_le (L : IntegralLattice V) :
-    (discriminantHom L).range ≤ discriminantAutGroup L := sorry
-
-/-- **7.4.** For an even lattice, `O(D_L)` is the subgroup preserving the discriminant quadratic
-map `q_L` (Tau Ceti's `discriminantQuadraticMap`, half-norm modulo `ℤ`); it can be strictly smaller
-than the bilinear group (`⟨8⟩`: `O(ℤ/8, b)` has order `4`, `O(ℤ/8, q) = {±1}`). -/
-def discriminantQuadAutGroup (L : IntegralLattice V) (he : L.IsEven) :
-    Subgroup (L.DiscriminantGroup ≃ₗ[ℤ] L.DiscriminantGroup) where
-  carrier := {e | ∀ x, L.discriminantQuadraticMap he (e x) = L.discriminantQuadraticMap he x}
-  mul_mem' {a b} ha hb x := by simp only [LinearEquiv.mul_apply, ha (b x), hb x]
-  one_mem' x := by simp
-  inv_mem' {a} ha x := by
-    have := ha (a⁻¹ x)
-    simp only [← LinearEquiv.mul_apply, mul_inv_cancel] at this
-    simpa using this.symm
-
-theorem discriminantQuadAutGroup_le (L : IntegralLattice V) (he : L.IsEven) :
-    discriminantQuadAutGroup L he ≤ discriminantAutGroup L := sorry
-
-theorem discriminantHom_range_le_quad (L : IntegralLattice V) (he : L.IsEven) :
-    (discriminantHom L).range ≤ discriminantQuadAutGroup L he := sorry
-
-/-- **7.5.** The index of `φ_L(O(L))` in the bilinear group `O(A_L, b_L)`: the Festi–Veniani index
-of an odd lattice, and an upper bound for that of an even one. -/
-noncomputable def fvIndexBilinear (L : IntegralLattice V) : ℕ :=
-  ((discriminantHom L).range.subgroupOf (discriminantAutGroup L)).index
+/-- **7.4.** The induced action on the native discriminant quadratic module of an even lattice. -/
+noncomputable def discriminantQuadraticHom (L : IntegralLattice V) [L.IsNondegenerate]
+    (he : L.IsEven) :
+    TauCeti.IntegralLattice.Isometry L L →*
+      TauCeti.FiniteQuadraticModule.Isometry (L.discriminantQuadraticModule he)
+        (L.discriminantQuadraticModule he) where
+  toFun e := e.discriminantQuadraticIsometry he
+  map_one' := by
+    apply DFunLike.ext; intro x
+    change (Isometry.discriminantQuadraticIsometry (1 : Isometry L L) he).toAddEquiv x = x
+    rw [Isometry.discriminantQuadraticIsometry_toAddEquiv]
+    simp [Isometry.one_def]
+    rfl
+  map_mul' f g := by
+    apply DFunLike.ext; intro x
+    change (Isometry.discriminantQuadraticIsometry (f * g) he).toAddEquiv x =
+      (f.discriminantQuadraticIsometry he).toAddEquiv ((g.discriminantQuadraticIsometry he).toAddEquiv x)
+    simp only [Isometry.discriminantQuadraticIsometry_toAddEquiv]
+    simp [Isometry.mul_def]
+    rfl
 
 open Classical in
-/-- **7.5.** The Festi–Veniani index `[O(D_L) : φ_L(O(L))]`, with `O(D_L)` the quadratic group
-when `L` is even and the bilinear group when `L` is odd (`README.md`, *Pinned conventions*). -/
-noncomputable def fvIndex (L : IntegralLattice V) : ℕ :=
-  if he : L.IsEven then
-    ((discriminantHom L).range.subgroupOf (discriminantQuadAutGroup L he)).index
-  else fvIndexBilinear L
+/-- **7.5.** The index of the lattice-isometry image in the quadratic discriminant group for
+an even lattice, and in the bilinear discriminant group for an odd lattice. -/
+noncomputable def fvIndex (L : IntegralLattice V) [L.IsNondegenerate] : ℕ :=
+  if he : L.IsEven then (discriminantQuadraticHom L he).range.index
+  else (discriminantHom L).range.index
 
-/-- **7.5.** The rank-one formula: `fvIndex ⟨m⟩` is half the number of `u ∈ (ℤ/m)^×` with `u² ≡ 1`
-modulo `m` (odd `m`) or modulo `2m` (even `m`), so `⟨15⟩` and `⟨12⟩` have index `2`. -/
-theorem fvIndex_rankOne (m : ℕ) (hm : 3 ≤ m) :
-    fvIndex (TauCeti.IntegralLattice.rankOne (m : ℤ)) =
+/-- **7.5.** For a singleton integral basis of norm m ≥ 3 the index counts the roots of unity
+modulo m, with the stronger modulus 2m for even m, divided by the image order two. -/
+theorem fvIndex_rankOne (L : IntegralLattice V) [L.IsNondegenerate]
+    (b : Basis (Fin 1) ℤ L) (m : ℕ) (hm : 3 ≤ m)
+    (hb : L.gramMatrix b = fun _ _ => (m : ℤ)) :
+    fvIndex L =
       ((Finset.range m).filter fun u : ℕ =>
         Nat.Coprime u m ∧ u ^ 2 % (if m % 2 = 0 then 2 * m else m) = 1).card / 2 := sorry
-
-theorem fvIndex_pos (L : IntegralLattice V) [L.IsNondegenerate] : 0 < fvIndex L := sorry
-
-/-- **7.5.** A unimodular lattice has trivial discriminant group and index `1`. -/
-theorem fvIndex_eq_one_of_isUnimodular (L : IntegralLattice V) (hu : L.IsUnimodular) :
-    fvIndex L = 1 := sorry
 
 end Lattice
 
