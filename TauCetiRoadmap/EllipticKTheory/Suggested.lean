@@ -12,19 +12,20 @@ import TauCeti.AlgebraicGeometry.EllipticCurve.Affine.FunctionField.PointPlace
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's headline theorems
 against the pinned Mathlib and Tau Ceti APIs, with only the definitions they need.
 
-The statable headlines are geometric integrality of the projective Weierstrass cubic, the order of
-the twisted Frobenius kernel, minimal regular-model existence, terminality and marked uniqueness
-over S-integers, Weil reciprocity at the last rational place, and Bloch's correction.
-The K₀ ring computation, localisation and coniveau sequences, general noetherian Adams operations,
-field motivic-model adapters, the tower and étale comparisons, Adams-weight comparison, Harder
-finiteness, positive K-theory descent and finite-field K-group classification, model-independent
+The statable headlines are the order of the twisted Frobenius kernel, minimal regular-model
+existence, terminality and marked uniqueness over S-integers, Weil reciprocity at the last rational
+place, and Bloch's correction. Layer 1 states no headline: geometric integrality of the projective
+Weierstrass cubic is ModularCurves Layer 2A and Tau Ceti's instance
+`WeierstrassCurve.geometricallyIntegral_projModelOver`.
+The K₀ ring computation, localisation and coniveau sequences, the integral motivic tower of a regular
+curve with its Adams-weight comparison, Harder finiteness, positive K-theory descent and finite-field K-group classification, model-independent
 integral part and quotient Bloch-class descent cannot be stated: the pins have no higher K-groups
 of schemes or fields, motivic K-theory tower or étale-cohomology carriers. The marked-model
 headlines use native schemes and the S-integer subalgebra; the wider excellent-Dedekind statements
 require an excellence predicate, absent at the pins. The native marked-model bundles are acceptance
 adapters for the proper/regular full subcategory of RelativeJacobiansAndIntegralCurveModels §0.1;
 README §6.1 specifies their equivalence, including markings, morphisms, localisation and minimality.
-That equivalence is not statable here: the supplier's DedekindModel carrier is absent at the pins.
+That equivalence is not statable here: the supplier's marked-model carrier is absent at the pins.
 General regular-model existence is transported from its §5.1 through that equivalence.
 The projective Weierstrass scheme itself is
 supplied by Tau Ceti. Boundary cases and API facts are in README.md.
@@ -33,15 +34,6 @@ supplied by Tau Ceti. Boundary cases and API facts are in README.md.
 namespace TauCetiRoadmap.EllipticKTheory
 
 open TauCeti
-
-/-! ## Layer 1: The Weierstrass curve as a scheme -/
-
-/-- Every projective Weierstrass cubic over a field is geometrically integral, including singular
-cubics; ellipticity is unnecessary (README §1.2; Stacks, Lemma 53.9.2). -/
-theorem EllipticScheme.geometricallyIntegral {F : Type*} [Field F]
-    (W : WeierstrassCurve F) :
-    AlgebraicGeometry.GeometricallyIntegral W.projModelOver := by
-  sorry
 
 /-! ## Layer 5: Functoriality, isogenies and curves over finite fields -/
 
@@ -95,7 +87,7 @@ universe u
 stalk, whose generic fibre is identified with the fixed `F`-scheme `C` by an isomorphism over `F`.
 The definition makes sense for any `O`-algebra field; arithmetic existence uses S-integers.
 Over a Dedekind domain with fraction field `F`, README's regularProperModelEquivalence identifies
-it with the proper/regular full subcategory of the supplier's DedekindModel. -/
+it with the proper/regular full subcategory of the supplier's marked Dedekind models. -/
 structure RegularProperModel (O F : Type u) [CommRing O] [Field F] [Algebra O F]
     (C : Scheme.{u}) (toField : C ⟶ Spec (CommRingCat.of F)) where
   /-- The total scheme. -/
@@ -212,15 +204,16 @@ theorem tame_last_point {k K : Type*} [Field k] [Field K] [Algebra k K]
     SymbolCandidate.tame P₀ α = 1 := by
   sorry
 
-/-- **Bloch's correction** (README §7.6; algebraic extension of Young, Lemma 3.1). Let `T` be a finite group of rational points of an elliptic curve killed by `C`, let
-`f, g` have zeros and poles only at points of `T`, let `f_P` have divisor `C(P) − C(O)` for each
-non-zero `P ∈ T`, and let `c_P ∈ F^×` be the tame value of `{f, g}` at `P`. Then
+/-- **Bloch's correction** (README §7.6; algebraic extension of Young, Lemma 3.1). Let `T` be a finite
+group of rational points of an elliptic curve and `C` a natural number, let `f, g` have zeros and
+poles only at points of `T`, let `f_P` have divisor `C(P) − C(O)` for each non-zero `P ∈ T` (which
+forces `C • P = 0`), and let `c_P ∈ F^×` be the tame value of `{f, g}` at `P`. Then
 `C{f, g} + Σ_{0 ≠ P ∈ T} {f_P, c_P}` has trivial tame value at every place. The finset `S` lists the
-non-zero points of `T`. -/
+non-zero points of `T`; for `C = 0` every `f_P` has neither zeros nor poles and the conclusion is immediate. -/
 theorem blochCorrection {F : Type*} [Field F] [DecidableEq F]
     (W : WeierstrassCurve.Affine F) [W.IsElliptic] (T : AddSubgroup W.Point)
     (S : Finset W.Point) (hS : ∀ P, P ∈ S ↔ P ∈ T ∧ P ≠ 0)
-    (C : ℕ) (hCpos : 0 < C) (hC : ∀ P ∈ T, C • P = 0) (f g : W.FunctionFieldˣ)
+    (C : ℕ) (f g : W.FunctionFieldˣ)
     (hsupp : ∀ Q : Place F W.FunctionField,
       (Q.ord (f : W.FunctionField) ≠ 0 ∨ Q.ord (g : W.FunctionField) ≠ 0) →
         ∃ P ∈ T, Q = (W.pointEquivDegreeOnePlace P : Place F W.FunctionField))
