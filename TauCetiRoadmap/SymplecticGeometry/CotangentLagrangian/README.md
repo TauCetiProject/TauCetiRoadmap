@@ -495,6 +495,38 @@ The cosphere acceptance test uses C2.2's two explicitly signed forms and
 [CG1](../ContactGeometry/README.md#cg1--contact-distributions-contact-line-and-cooriented-forms)'s
 single contact predicate; its metric-radial comparison belongs to C2.2.
 
+## Downstream consumers
+
+[HamiltonianReduction R1](../HamiltonianReduction/README.md#r1-smooth-actions-moment-maps-and-equivariance)
+consumes C1's cotangent form and lift for its cotangent momentum theorem. On a
+finite-dimensional smooth base, the form argument is an explicit
+`σ : TauCeti.SmoothTwoForm (cotangentModel I) (Cotangent I M)`, together with
+`σ.IsSymplectic` and the chart identity supplied by `canonicalForm_exists`:
+for every cotangent chart centre z₀, every w in that chart's target and every
+pair of model tangent vectors u,v, its coordinate value is
+`strongDualCotangentSymplecticForm u v`. The chart-target condition excludes
+the total chart inverse's values outside its domain. At each chart centre,
+`SmoothTwoForm.inChartAt_extChartAt_self` identifies this value with the
+intrinsic form, so these data determine σ uniquely.
+
+For a jointly smooth left action, R1 uses this σ to assert
+`ι_(ξ_(T*M))σ=dH_ξ`, where `H_ξ(q,p)=p(ξ_M(q))` and ξ_(T*M) is the
+fundamental field of the inverse-derivative cotangent lift (Cannas da Silva,
+§18.1, exercise on p. 106). This supplies the form to R1; the group-action
+momentum theorem remains R1's target.
+
+**Checks.**
+
+- For translation on T*ℝ, the lifted field is ∂q and H=p. Evaluation on
+  ∂p gives `σ(∂q,∂p)=1=dH(∂p)`; the opposite sign gives −1.
+- The symplectic form `2 dq∧dp` gives value 2 on the same pair, while
+  `dH(∂p)=1`. It fails the chart identity: symplecticity alone does not
+  characterize the form required by this consumer.
+- For the trivial action, both the fundamental field and H are zero, so
+  the Hamiltonian equation reads 0=0. On a zero-dimensional base the
+  cotangent model is zero and the uniquely prescribed form is zero, which
+  is nondegenerate on that zero space.
+
 ## References
 
 Cannas da Silva, [*Lectures on Symplectic Geometry*](https://people.math.ethz.ch/~acannas/Papers/lsg.pdf),
@@ -503,5 +535,6 @@ particular Prop. 5.1, Prop. 5.2 and §5.2 (generating functions of iterates, bil
 (recurrence), Prop. 6.8 (relative Poincaré lemma), Thm. 7.4 (relative Moser), Thms. 8.1, 8.4, 8.6
 and 9.3 (Darboux, Lagrangian and coisotropic neighborhoods). Page numbers are those of the
 author's 2006 version.
+The cotangent-lift Hamiltonian identity is the exercise in §18.1, p. 106.
 Weinstein, *Symplectic manifolds and their Lagrangian submanifolds*, Adv. Math. 6 (1971), 329–346
 (Lagrangian neighborhood theorem; cited by locator).
