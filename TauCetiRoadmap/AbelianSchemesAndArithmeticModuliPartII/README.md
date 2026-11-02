@@ -111,9 +111,14 @@ finite-field product corollaries rather than a second integrality theorem. The i
 consequence have one owner, B2's integer-character construction.
 
 The independent prerequisite extensions belong here: B2.3 owns uniform torsion closures
-and bounded-degree torsion, B2.4 polarized fixed parts, B2.6 semirational block counting
-and B2.15 the abelian Ax theorem; B3.1 owns the mixed Kuga inputs;
-B4 owns fine curve moduli; F4 owns semisimple lattice bounds; F5 owns CM unitary masses.
+and bounded-degree torsion under zero geometric trace, while the general trace and
+Lang–Néron theorem remain the inputs from HeightsRationalPointsAndObstructions §§1.9–1.10.
+B2.4 owns polarized fixed parts and the constant-part comparison, B2.6 semirational
+block counting, B2.15 the abelian Ax theorem and its real-period adapter, and B3.1
+the mixed Kuga uniformization and quotient inputs. B4.1 owns fine full-level curve
+moduli and its universal family. F4.4 owns the semisimple stable-lattice orbit and
+stabilizer-index bounds, both with exponent 4Δ_ℓ; F5.7 owns the CM unitary mass and
+unweighted class asymptotics, with leading term ½g²log g.
 **ArithmeticStatisticsPartI**, earlier in the build, states in its supporting constructions
 the four finite-field theorems its counting fibres need: the finiteness of Weil polynomials
 with the bound (4g+1)^g q^(g(g+1)/4), Tate's theorem over a finite field at every prime (on
@@ -122,10 +127,14 @@ by Frobenius polynomials, the characteristic-prime order and the finiteness of a
 and of unpolarized isomorphism classes (its §0.16). Its supporting construction
 “Finiteness of an isogeny class and of unpolarized classes” also owns the general
 finite-support all-prime lattice space, the marked quasi-isogeny correspondence
-and its rational-orbit quotient over every F_q. These are imported here:
-F0 and F1 own the inputs that its route names and uses nowhere else, the split-prime commutant
-dimension (F0.6), the saturated characteristic-prime injection (F1.2) and the cyclic block
-algebra with its commutant dimension and local invariant (F1.4–F1.7, F1.11); F3–F6 own
+and its rational-orbit quotient over every F_q. These are imported here.
+Its supporting constructions also own fixed-degree polarized finiteness, split-prime
+Tate surjectivity and the commutant dimensions at every prime. Integral Hom injectivity
+and saturation are consumed as consequences of its integral Tate isomorphisms.
+F0 retains the compact-lattice limit theorem and the isotropic-image lemma over arbitrary
+fields under Tate's finiteness hypothesis, beyond the finite-field theorem;
+F1 owns the characteristic-polynomial adapter, the explicit cyclic block algebra and
+its central simplicity (F1.4, F1.6), and the local invariant (F1.11). F3–F6 own
 Honda–Tate, the prime-field covariant linear-dual adapters (F3.5, F3.7 and F3.10),
 order realization (F3.8), adelic bounds and counting asymptotics. The adapters
 replace the contravariant p-lattice by its integral linear dual, retaining the
@@ -317,9 +326,40 @@ an F_q-isomorphism u:B→B′. This gives an equivariant bijection with X_p×X^p
 and forgetting the marking gives End⁰_Fq(A₀)^×∖(X_p×X^p).
 Here C is the supplier's contravariant D: C(uv)=C(v)C(u), so the left action
 at p is u↦C(u⁻¹); at ℓ≠p it is the covariant action u_ℓ. In dimension zero
-both tuple and class sets are singletons. F0 and F1 state the commutant dimensions its route uses;
-F3 and F4 consume the integral Hom dictionary at every prime; F6 consumes the count and the two
-finiteness statements as the finiteness conjuncts of its headlines.
+both tuple and class sets are singletons.
+
+Consume “Finiteness of polarized classes of fixed degree”: for g≥0 and d≥1,
+the F_q-isomorphism classes of g-dimensional pairs (A,λ) with deg λ=d² form a
+finite set. Consume the supporting proof of “Tate's theorem over a finite field”,
+including surjectivity at primes ℓ≠p splitting ℚ[π_A] and both commutant dimension
+calculations. If P_A=∏m_i^(e_i) over ℚ_ℓ, with distinct monic irreducibles m_i of
+degrees d_i, the ℚ_ℓ-linear Frobenius commutant for ℓ≠p has dimension Σ_i d_i e_i².
+At p this same formula is the ℚ_p-dimension of End_(L[F,F⁻¹])(C(A)[1/p]),
+where L=W(F_q)[1/p]; L-linearity is part of the condition. These dimensions are
+independent of the prime (Tate, (4)–(5), printed pp.138–139, Tate line 222;
+WM, Part II Theorem 1 proof, printed pp.60–61, WM line 311).
+For A,B/F_q, injectivity and p-saturation of
+Hom(A,B)⊗ℤ_p→Hom_(W,F,V)(C(B),C(A)) follow from the supplied integral
+isomorphism; its image is the whole target (WM, Part II Theorem 1, WM line 299).
+F1 uses its faithful rational action; F3 and F4 consume the integral Hom dictionary
+and commutant dimensions at every prime; F6 consumes class finiteness as the
+finiteness conjuncts of its headlines.
+
+**Checks.**
+
+- For E:y²=x³−x over 𝔽₅, P_E=X²+2X+5 has distinct roots 2 and 9 modulo 13,
+  with nonzero derivatives 6 and 7. The split commutant has dimension 1²+1²=2;
+  at 3 the irreducible quadratic gives dimension 2·1²=2.
+- For scalar Frobenius −3 over 𝔽₉, P_E=(X+3)² gives dimension 1·2²=4.
+  With L=ℚ₃(i), σ(i)=−i and F=[[0,−3],[1,0]]σ, the L-linear F-commutant
+  consists of [[a,−3σ(b)],[b,σ(a)]], a,b∈L, and has ℚ₃-dimension 4.
+  Dropping L-linearity gives dimension 8 and the wrong commutant.
+- In dimension zero both Hom modules are zero: the comparison has zero kernel
+  and cokernel, and the empty commutant dimension sum is 0.
+- For an elliptic curve with principal polarization λ, deg(nλ)=n² for n≥1.
+  The pairs (E,nλ) are pairwise non-isomorphic, so finiteness requires fixed d;
+  the imported comparison for E itself has image the whole realization Hom module,
+  hence zero saturation quotient.
 
 ### From TauCetiRoadmap.HeightsRationalPointsAndObstructions
 
@@ -2181,12 +2221,11 @@ SchemeAndStackFoundations §4.15 supplies curve moduli stacks; PELModuli M6 supp
 
 ## Layer F0: Finite-field Frobenius and Tate
 
-Start with polarized-moduli finiteness and compact lattice limits. Tate's isotropic-image lemma
-yields the split-prime commutant calculation. Tate's theorem itself, at every prime, is
-ArithmeticStatisticsPartI's (Supporting constructions, Tate's theorem over a finite field); its
-route names the commutant dimension computed here and combines it with prime independence and
-saturation, and nothing of that combination is restated in this roadmap. Frobenius polynomials and point counts use the parent characteristic-polynomial
-interface and the Weil absolute-value theorem.
+Develop compact lattice limits and the isotropic-image lemma under Tate's finiteness
+hypothesis over an arbitrary field. Over finite fields, use the fixed-degree polarized
+finiteness and Tate comparison from the supplier contract. Frobenius polynomials and
+point counts use the parent characteristic-polynomial interface and the Weil
+absolute-value theorem.
 
 ### F0.1 Compact preimages and exact lattice limits
 
@@ -2195,7 +2234,8 @@ Z_ℓ-lattice and u_j∈End_Zℓ(L) converge to u, with the compact images
 L_j=u_j(L) forming a decreasing sequence. Then u(L)=⋂_j L_j. In Tate Proposition 1, after
 passing to infinitely many isomorphic fixed-polarization models, L=X_n, L_j=X_j=(T∩W)+ℓ^jT along
 a cofinal subsequence, and u belongs to the closed finite-dimensional algebra E_ℓ. Finiteness of
-the models is a separate hypothesis, established over finite fields using polarized moduli.
+the models is a separate hypothesis, supplied over finite fields by
+ArithmeticStatisticsPartI, Supporting constructions, “Finiteness of polarized classes of fixed degree”.
 
 **Checks.**
 
@@ -2208,7 +2248,9 @@ Include the separatedness identity ⋂_nℓⁿL={0}; rank zero and constant maps
 
 ([Tate][Tate], Hyp(k,A,d,ℓ) and Proposition 1 proof, printed pp.136–137 (PDF pp.3–4)).
 
-*Needs:* **PELModuli**, M6.
+*Needs:* Mathlib `PadicInt.compactSpace` and finite-product compactness;
+ArithmeticStatisticsPartI, Supporting constructions, “Finiteness of polarized classes of fixed degree”
+for the finite-field application.
 
 ### F0.2 Frobenius polynomial and reciprocity
 
@@ -2287,31 +2329,14 @@ product action, respectively.
 *Needs:* DeligneWeightsAndPurity DWP.1 target 1.5;
 AbelianSchemesAndArithmeticModuli A3 and A4.1 (Tate isogeny and product maps).
 
-### F0.6 Tate at a split Frobenius prime
-
-For abelian varieties over a finite field k of characteristic p and a prime ℓ≠p splitting the
-étale algebra Q[π] generated by Frobenius, Tate Proposition 2 identifies End_k(A)⊗Q_ℓ with the
-Frobenius commutant. Its dimension is ∑_P m_P² deg P and is independent of ℓ. Off-diagonal
-blocks give Hom_k(A,B)⊗Q_ℓ; the integral inclusion has torsion-free cokernel. These are
-k-rational Hom spaces, not unrestricted geometric Hom.
-
-([Tate][Tate], Lemmas 1–4, Proposition 2 and equations(4)–(5), printed pp.135–139
-(PDF pp.2–6)).
-
-*Needs:* [F0](#layer-f0-finite-field-frobenius-and-tate), Compact preimages and exact lattice
-limits; **AbelianSchemesAndArithmeticModuli**, A6.2 `homTateInjective`;
-**AbelianSchemesAndArithmeticModuli**, A6.7 `homFreeFinite`;
-**AbelianSchemesAndArithmeticModuli**, A6.8 `endQ_isSemisimple`;
-[F0](#layer-f0-finite-field-frobenius-and-tate), Tate’s isotropic image lemma.
-
 ### F0.8 Construction requirements
 
-Construct the finite fixed-polarization moduli sets and the compatible compact preimages in
-Tate's argument without using F6. For decreasing images u_j(L), compactness proves that each
-element of the intersection has a preimage under the limit u; mere convergence of images is
-insufficient. Compute each split eigenspace and off-diagonal block and justify independence of
-the commutant dimension from ℓ; the combination of rational surjectivity with integral
-saturation into full faithfulness belongs to ArithmeticStatisticsPartI. Use
+Use the supplied fixed-degree polarized finiteness in the finite-field application
+of the isotropic-image lemma. Construct compatible compact preimages: for decreasing
+images u_j(L), compactness proves that each element of the intersection has a preimage
+under the limit u; mere convergence of images is insufficient. For Frobenius commutants
+and off-diagonal Hom blocks apply ArithmeticStatisticsPartI's integral Tate comparison
+and its supporting dimension calculations. Use
 DeligneWeightsAndPurity, DWP.1 target 1.4, for the abelian-variety Frobenius root bound. Its
 Rosati proof uses the parent polarization and characteristic-polynomial theory, without Tate
 full faithfulness. Use DWP.0 targets 0.1–0.3 for the embedding, conjugacy and power laws of pure
@@ -2324,7 +2349,11 @@ For two elliptic traces a,b, multiply (X²−aX+q)(X²−bX+q): the X coefficien
 
 ### Dependencies
 
-The prerequisite interfaces for each target are the *Needs* clauses above. External layers used here are AbelianSchemesAndArithmeticModuli, DeligneWeightsAndPurity, PELModuli, with the exact contracts specified above. The root bound uses the independent Rosati proof; polarized-moduli finiteness precedes the compact-image argument.
+The prerequisite interfaces for each target are the *Needs* clauses above. External layers
+used here are AbelianSchemesAndArithmeticModuli, DeligneWeightsAndPurity and
+ArithmeticStatisticsPartI, with the exact contracts specified above. The root bound uses
+the independent Rosati proof; the finite-field isotropic-image application consumes
+fixed-degree polarized finiteness.
 
 ## Layer F2: Resultant recognition
 
@@ -2403,11 +2432,11 @@ The prerequisite interfaces for each target are the *Needs* clauses above. This 
 ## Layer F1: Characteristic-prime realization
 
 The characteristic-prime realization uses the actual contravariant Dieudonné functor from R07.2.
-Prove the degree/length and characteristic-polynomial identities before the rational commutant
-calculation. Tate's theorem at p, rational and integral, is ArithmeticStatisticsPartI's
-(Supporting constructions, Tate's theorem over a finite field); this layer owns the inputs its
-route names, the saturated injection and the semilinear commutant dimension through the cyclic
-block algebra, and the local invariant that Honda–Tate needs.
+Prove the degree/length and characteristic-polynomial identities, using the supplied
+integral Tate comparison for the faithful rational action over finite fields.
+Construct the explicit cyclic block algebra and its central simplicity to determine
+the local invariant that Honda–Tate needs. The commutant dimension used with this
+invariant is the one in the supplier contract.
 
 ### F1.1 Degree from Dieudonné cokernel length
 
@@ -2418,18 +2447,6 @@ endomorphism its determinant valuation gives the same value.
 ([Milne][Milne], §1, printed pp.64–66 (PDF pp.2–4), scanned page images).
 
 *Needs:* **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, R07.2.10 `dieudonnePDivisible`.
-
-### F1.2 Saturated injection on integral p-realization Hom groups
-
-For A,B/F_(p^a), the natural map j:Hom_k(A,B)⊗Z_p→Hom_(W,F,V)(C(B),C(A)) is injective with
-p-saturated image. This statement does not assume rational p-Tate or equality of ranks.
-
-([WM][WM], PartI Theorems 3/5 and opening proof of Theorem 6, printed pp.55–57 (PDF
-pp.3–5), scans).
-
-*Needs:* **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, R07.2.10 `dieudonnePDivisible`;
-**AbelianSchemesAndArithmeticModuli**, A6.7 `homFreeFinite`;
-**AbelianSchemesAndArithmeticModuli**, A3.
 
 ### F1.3 Characteristic polynomial on the p-realization
 
@@ -2490,7 +2507,8 @@ semisimplicity for arbitrary endomorphisms.
 
 *Needs:* AbelianSchemesAndArithmeticModuli A6.21 `frobeniusSemisimple`;
 [F1](#layer-f1-characteristic-prime-realization), Characteristic polynomial on the
-p-realization; Saturated injection on integral p-realization Hom groups.
+p-realization; ArithmeticStatisticsPartI, Supporting constructions,
+“Tate's theorem over a finite field” (faithful rational contravariant action).
 
 ### F1.6 Central simplicity of a Frobenius block algebra
 
@@ -2503,19 +2521,6 @@ K is a product of fields.
 *Needs:* [F1](#layer-f1-characteristic-prime-realization), Algebra acting on a Frobenius polynomial
 block; [RepresentationTheory/SemisimpleAlgebras, layer
 4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/SemisimpleAlgebras/README.md#layer-4-central-simple-algebras-and-their-tensor-products).
-
-### F1.7 Dimension of the semilinear Frobenius commutant
-
-For A/F_(p^a), factor P_A=∏m_i^(e_i) over Q_p into distinct monic irreducibles of degrees d_i.
-For V=C(A)[1/p] and R=L[F,F^(-1)], dim_Qp End_R(V)=Σ_i d_i e_i².
-
-([WM][WM], PartII Theorem 1 proof, printed pp.60–61 (PDF pp.8–9), scans).
-
-*Needs:* [F1](#layer-f1-characteristic-prime-realization), Algebra acting on a Frobenius polynomial
-block; [F1](#layer-f1-characteristic-prime-realization), Central simplicity of a Frobenius block
-algebra; [RepresentationTheory/SemisimpleAlgebras, layer
-5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/SemisimpleAlgebras/README.md#layer-5-skolem-noether-and-the-centralizer-theorem);
-[F1](#layer-f1-characteristic-prime-realization), Frobenius adapter on the isocrystal.
 
 ### F1.11 Characteristic-prime invariant of a simple endomorphism algebra
 
@@ -2532,17 +2537,14 @@ block; ArithmeticStatisticsPartI, Supporting constructions (Tate's theorem over 
 
 ### F1.12 Construction requirements
 
-Construct the completed Hom map and prove injectivity from finite-rank Hom and finite flat
-torsion. To prove p-saturation, interpret divisibility of C(f) by p^n as annihilation of the
-finite flat subgroup A[p^n], then factor through [p^n]; geometric torsion points alone cannot
-detect connected kernels. Use F2's nonzero-resultant recognition to identify characteristic
-polynomials for arbitrary endomorphisms. On each Frobenius block construct the cyclic algebra on
-the full étale tensor L ⊗ K, including every idempotent when it is a product. After a splitting
-extension identify it with M_a; apply centralizer dimensions blockwise to match the ℓ-adic
-dimension. Rational surjectivity and saturation are the two inputs that ArithmeticStatisticsPartI's
-route combines into integral p-Tate; the combination is not restated here. For local invariants
-track the opposite endomorphism algebra and arithmetic Frobenius through the cyclic-algebra
-convention.
+Apply the imported integral Hom isomorphism over finite fields, retaining Witt scalars,
+F and V, and hence its injectivity and saturation. Use F2's nonzero-resultant recognition
+to identify characteristic polynomials for arbitrary endomorphisms. On each Frobenius
+block construct the cyclic algebra on the full étale tensor L ⊗ K, including every
+idempotent when it is a product. After a splitting extension identify it with M_a.
+Use the supplied commutant dimensions when passing to the endomorphism algebra;
+for its local invariant track the opposite algebra and arithmetic Frobenius through
+the cyclic-algebra convention.
 
 ### Examples
 
@@ -2550,7 +2552,12 @@ For [p] on a g-dimensional abelian variety, C([p])=p and its cokernel has Witt l
 
 ### Dependencies
 
-FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.2 supplies the contravariant realization and scalar descent; AbelianSchemesAndArithmeticModuli A6 supplies integral Hom and polynomial data; RepresentationTheory/SemisimpleAlgebras Layers 4–5 and ClassFieldTheory Layer 5 supply centralizers and Brauer invariants. F2 recognition precedes polynomial agreement; saturation and block dimensions are the inputs of the imported integral comparison.
+FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.2 supplies the contravariant realization and
+scalar descent; AbelianSchemesAndArithmeticModuli A6 supplies polynomial data;
+ArithmeticStatisticsPartI's supporting Tate construction supplies the integral comparison
+and commutant dimensions. RepresentationTheory/SemisimpleAlgebras Layers 4–5 and
+ClassFieldTheory Layer 5 supply centralizers and Brauer invariants. F2 recognition precedes
+polynomial agreement; the cyclic algebra precedes the local-invariant calculation.
 
 ## Layer F3: Honda–Tate and lattice classifications
 
@@ -2864,7 +2871,9 @@ The zero-dimensional variety gives one marked lattice tuple; the identity markin
 
 F3.1a–F3.1d construct Honda existence from GlobalNumberFields Layer 1, the parent
 A5.1–A5.3 and A6.32–A6.33, and ShimuraVarieties §§5.5–5.8, before classification.
-ArithmeticStatisticsPartI supplies Tate's theorem at every prime and the general marked and unmarked lattice classifications; F0 and F1 supply the commutant dimensions and the characteristic-prime realization behind it; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1–R07.2 supplies torsion realization and Dieudonné lattices; AbelianSchemesAndArithmeticModuli A3 supplies finite-flat quotients. ClassFieldTheory Layer 10 supplies the invariant sum used in Honda–Tate. The integral-dual comparison transports the supplied marked and unmarked classifications before the prime-field order theorem.
+ArithmeticStatisticsPartI supplies Tate's theorem and commutant dimensions at every prime
+and the general marked and unmarked lattice classifications; F0 and F1 supply the
+Frobenius polynomial adapters, cyclic block algebra and characteristic-prime local invariant; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1–R07.2 supplies torsion realization and Dieudonné lattices; AbelianSchemesAndArithmeticModuli A3 supplies finite-flat quotients. ClassFieldTheory Layer 10 supplies the invariant sum used in Honda–Tate. The integral-dual comparison transports the supplied marked and unmarked classifications before the prime-field order theorem.
 
 ## Layer F4: Adelic class sets and local bounds
 
