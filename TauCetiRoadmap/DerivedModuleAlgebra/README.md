@@ -64,13 +64,12 @@ the headline theorems that are statable against the pinned libraries, with the f
 
 ## How to read the build
 
-Layers 0–6 follow construction order and retain the section locators used by consumers. Sections 0.DP.1–0.DP.3 and 0.K.1 build the polynomial-law,
+Layers 0–5 follow construction order and retain the section locators used by consumers. Sections 0.DP.1–0.DP.3 and 0.K.1 build the polynomial-law,
 divided-power and Koszul inputs; §§0.I.1–0.3 the unbounded module replacements, derived tensor and
-non-additive derived functors; §§0.4–0.25 the cotangent complex, its powers and deformation theory.
+non-additive derived functors, with §S.1 supplying convergence before the diagonal comparison; §§0.4–0.25 the cotangent complex, its powers and deformation theory.
 Sections 1.1–1.9 localize the supplied tower model and build derived Hom, derived completeness and the
 completion reflector, simplicial-algebra completion and complete flatness; §§1.E.0–1.E.1 perfect
-complexes, finite models and effectivity; §§1.M.1–1.M.2 Matlis duality; §S.1 the spectral sequence
-of a first-quadrant double complex. Each target's *Needs* line names the earlier sections and library
+complexes, finite models and effectivity; §§1.M.1–1.M.2 Matlis duality. Each target's *Needs* line names the earlier sections and library
 inputs that its statement and route use.
 
 ## Layer 0: polynomial laws, divided powers and Koszul complexes
@@ -82,7 +81,7 @@ inputs that its statement and route use.
 `A`-algebra `S`, Mathlib's `PolynomialLaw`; `S` ranges over commutative `A`-algebras in the universe
 of `A`, as in Mathlib's `PolynomialLaw`, whose extension to all universes is Mathlib's `toFun`. Such
 a law is homogeneous of degree `n` if `f_S(s·x) = s^n·f_S(x)` for every commutative `A`-algebra `S`,
-`s ∈ S` and `x ∈ S ⊗_A M`. Define this homogeneity predicate and prove
+`s ∈ S` and `x ∈ S ⊗_A M`. Define this homogeneity predicate as `PD.IsHomogeneous` and prove
 that the zero law is homogeneous of every degree, that homogeneity of a fixed degree is closed under
 addition, that composition multiplies degrees, and that a law has degree one iff it is the base
 change of a linear map ([Chenevier](https://arxiv.org/pdf/0809.0415v2), §1.1, pp.6–7). *Needs:*
@@ -122,7 +121,7 @@ laws compose, and that the multiplicative laws of degree one to `A` are the `A`-
 **Homogeneous divided-power piece.** For an `A`-module `M` and `d ≥ 0`, define `Γ^d_A(M)` as the
 `A`-submodule of Mathlib's `DividedPowerAlgebra A M` spanned by the products `∏_j γ_(n_j)(m_j)` with
 `∑_j n_j = d`. It is a graded piece of the full commutative algebra, not an algebra under its
-degree-adding multiplication. Define the homogeneous submodule `Γ^d_A(M)`, prove that `γ_d(m)`
+degree-adding multiplication. Define the homogeneous submodule as `PD.homogeneousPiece`, prove that `γ_d(m)`
 belongs to `Γ^d_A(M)`, and define the map `Γ^d(f) : Γ^d_A(M) → Γ^d_A(N)` induced by an `A`-linear
 `f : M → N`, taking `γ_d(m)` to `γ_d(f(m))`
 ([Chenevier](https://arxiv.org/pdf/0809.0415v2), §1.1, p.8). *Needs:* Mathlib `DividedPowerAlgebra`,
@@ -173,7 +172,12 @@ ground evaluation of `γ^univ_d` at `m` is `γ_d(m)` and that the coefficient of
 - The coefficient of `UV` in `γ²(Ux + Vy)` is `γ₁(x)γ₁(y)`, with no factor `2` inserted: a
   construction modelled on `(Ux + Vy)²/2` would produce a spurious `2`, or fail over `𝔽_2`.
 
-**Roby representability.** For all `A`-modules `M, N` and `d ≥ 0`, prove that composition with
+**Roby representability.** The headline `PD.robyRepresentability` states the existence of the
+universal law with its ground value and full scalar-extension coefficient formula above, and
+unique linear factorization of every homogeneous law on every scalar extension. The coefficient
+ring, source, target and test algebras lie in one arbitrary universe, as for the native law carrier.
+Linearity of postcomposition makes this correspondence linear, and uniqueness makes it natural.
+For all `A`-modules `M, N` and `d ≥ 0`, prove that composition with
 `γ^univ_d` is a natural `A`-linear equivalence between `Hom_A(Γ^d_A(M), N)` and the homogeneous
 degree-`d` `A`-polynomial laws `M → N`; no flatness or projectivity of `M` is assumed
 ([Roby](https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf), Theorem IV.1 and proof, pp.266–267). *Needs:* §0.DP.2 / Universal homogeneous polynomial law.
@@ -183,6 +187,11 @@ degree-`d` `A`-polynomial laws `M → N`; no flatness or projectivity of `M` is 
 - In degree zero, constant laws correspond exactly to maps from `A`.
 - In degree one the equivalence is the usual linear-map correspondence.
 - For `M = ℤ/2`, degree two has representing module `ℤ/4`; restricting to free source modules would miss this torsion case.
+- For the zero module, the empty coefficient sum gives `1 ⊗ 1` in degree zero and `0` in
+  every positive degree. Over the zero ring these both equal zero, as do all representing modules.
+- Over `F₂`, the degree-three law `x²y − xy²` on `F₂²` has zero ground values but takes
+  `(T,1)` to `T² − T ≠ 0` over `F₂[T]`. Its factorizing linear map is therefore nonzero;
+  uniqueness tested only on ground values would incorrectly identify it with the zero map.
 
 **Arbitrary base change of divided powers.** For any commutative `A`-algebra `B` and `A`-module `M`,
 prove that the canonical map `B ⊗_A Γ^d_A(M) → Γ^d_B(B ⊗_A M)` is a `B`-linear equivalence for
@@ -760,6 +769,127 @@ the reductions to finite free modules in §§0.14–0.16 and the filtered-colimi
   but becomes zero on the nonzero module `ℤ/2`. It cannot be a filtered colimit of finite free
   `ℤ`-modules, since tensor and filtered colimits preserve this injection.
 
+### S.1 The spectral sequence of a first-quadrant double complex
+
+**The spectral sequence of a first-quadrant double complex.** Let `A^{••}` be a first-quadrant
+double complex of abelian groups (or of modules over a ring): `A^{pq} = 0` for `p < 0` or `q < 0`,
+with anticommuting differentials `d′` (in `p`) and `d″` (in `q`). The column filtration
+`FᵖTotⁿ = ⊕_{i≥p} A^{i,n−i}` of the total complex is biregular and gives a cohomological spectral
+sequence
+
+```text
+E₂^{pq} = H^p_I(H^q_{II}(A)) ⇒ Eⁿ = Hⁿ(Tot A).
+```
+
+It converges: `E_r^{pq} = E_∞^{pq}` for `r > max(p, q + 1)`, and
+`E_∞^{pq} ≅ FᵖE^{p+q}/F^{p+1}E^{p+q}`. It has edge morphisms `E₂^{n,0} → Eⁿ → E₂^{0,n}` and the
+five-term exact sequence
+
+```text
+0 → E₂^{1,0} → E¹ → E₂^{0,1} → E₂^{2,0} → E².
+```
+
+For an integer `n ≥ 1`, if `E₂^{pq} = 0` for every `p ≥ 0` and `0 < q < n`, then
+`E₂^{m,0} ≅ Eᵐ` for `m < n` and
+`0 → E₂^{n,0} → Eⁿ → E₂^{0,n} → E₂^{n+1,0} → E^{n+1}` is exact. If every row
+`A^{0q} → A^{1q} → ⋯` is exact in positive degrees, then
+`Eⁿ = Hⁿ(ker(A^{0•} → A^{1•}))`. The abutment and its filtration are part of the statement, since
+Mathlib's spectral sequence of a spectral object records only the pages.
+
+**Homological form.** For a first-quadrant chain double complex `C_(p,q)`, the same
+filtered-complex construction uses the increasing column filtration
+`F_p Tot_n = ⊕_(i≤p) C_(i,n−i)`. It gives `E¹_(p,q) = H_q(C_(p,•))`,
+`E²_(p,q) = H_p(H_q(C))` and `d_r : E^r_(p,q) → E^r_(p−r,q+r−1)`, abutting to
+`H_(p+q)(Tot C)` with `E^∞_(p,q) ≅ F_p H_(p+q) / F_(p−1) H_(p+q)` and stabilization
+for `r > max(p, q+1)`. Both filtrations are finite in each total degree. For commuting
+horizontal and vertical chain differentials, use total differential `d_h + (−1)^p d_v`;
+reindexing total degree `n` to cohomological degree `−n` retains this differential and the
+increasing filtration. This is the homological form used in §§0.2.2 and 0.9, rather than an
+identification of a first-quadrant chain complex with a first-quadrant cochain complex.
+
+The API:
+
+- the `E₂` spectral sequence of a first-quadrant double complex,
+  from Mathlib's spectral objects.
+- `E₂^{pq} ≅ H^p_I(H^q_{II}(A))`.
+- the column filtration `FᵖHⁿ(Tot A)`.
+- `E_∞^{pq} ≅ FᵖH^{p+q}/F^{p+1}H^{p+q}`.
+- `E_r^{pq} = E_∞^{pq}` for `r > max(p, q + 1)`.
+- `E₂^{n,0} → Hⁿ(Tot A)`.
+- `Hⁿ(Tot A) → E₂^{0,n}`.
+- the five-term exact sequence (NSW (2.1.1)).
+- with the explicit hypothesis `1 ≤ n`, vanishing
+  `E₂^{pq}` for all `p ≥ 0` and `0 < q < n` gives the extended sequence (NSW (2.1.2)).
+- exact rows give
+  `Hⁿ(Tot A) = Hⁿ(ker(A^{0•} → A^{1•}))` (NSW (2.2.4)).
+- naturality in the double complex, in both homological and cohomological indexing.
+
+*Proof sketch.* Mathlib builds a spectral object from any functor into cochain complexes by mapping
+cones (`HomotopyCategory.spectralObjectMappingCone`); apply it to the column-truncation filtration
+indexed by `EInt`, and pass to an abelian spectral object with the homology functor
+(`Triangulated.SpectralObject.mapHomologicalFunctor`). The first-quadrant condition
+(`Abelian.SpectralObject.IsFirstQuadrant`) holds because `A^{pq} = 0` outside the quadrant, and
+Mathlib's `spectralSequence` for `coreE₂CohomologicalNat` gives the `E₂` pages and differentials.
+For the homological form use `coreE₂HomologicalNat` after cochain reindexing, with the
+corresponding `Abelian.SpectralObject.IsThirdQuadrant` condition and the increasing column
+filtration above.
+Identify `E₂^{pq}` with `H^p_I(H^q_{II}(A))`: the `E₁` page is the vertical cohomology and `d₁` is
+induced by `d′` (NSW (2.2.1)). Convergence: the filtration is finite in each degree, so the pages
+stabilise for `r > max(p, q + 1)` and `E_∞` is the associated graded of `Hⁿ(Tot A)`. The edge
+morphisms and the five-term sequence come from the definition of the filtration (NSW (2.1.1),
+(2.1.2)); the exact-rows statement from the transposed double complex (NSW (2.2.4)). The source's
+anticommuting differentials become the commuting differentials of Mathlib's `HomologicalComplex₂`
+after a sign depending on the degree; its totalisation uses `ComplexShape.TensorSigns`, and the
+pages and edge maps are transported through the same convention ([Neukirch–Schmidt–Wingberg,
+*Cohomology of Number Fields*](https://www.mathi.uni-heidelberg.de/~schmidt/NSW2e/NSW2.3.pdf),
+Chapter II, §1, Proposition 2.1.1, printed p. 99 (PDF p. 116); [Neukirch–Schmidt–Wingberg,
+*Cohomology of Number Fields*](https://www.mathi.uni-heidelberg.de/~schmidt/NSW2e/NSW2.3.pdf),
+Chapter II, §2, Lemma 2.2.4, printed p. 105 (PDF p. 122)). *Needs:* Mathlib
+`HomotopyCategory.spectralObjectMappingCone`; Mathlib
+`CategoryTheory.Triangulated.SpectralObject.mapHomologicalFunctor`; Mathlib
+`CategoryTheory.Abelian.SpectralObject.IsFirstQuadrant`; Mathlib
+`CategoryTheory.Abelian.SpectralObject.coreE₂CohomologicalNat`; Mathlib
+`CategoryTheory.Abelian.SpectralObject.coreE₂HomologicalNat`; Mathlib
+`CategoryTheory.Abelian.SpectralObject.IsThirdQuadrant`; Mathlib
+`CategoryTheory.Abelian.SpectralObject.spectralSequence`; Mathlib `HomologicalComplex₂.total`.
+
+The acyclic-assembly lemmas of [AffineCrystalline], `RawBi.augRowι_quasiIso` and
+`RawBi.augColι_quasiIso` (`AffineCrystalline/Homology/TotM.lean`: an augmentation into the total
+complex is a quasi-isomorphism when the augmented columns, respectively rows, are exact) and
+`RawBi.totMap_quasiIso` (`AffineCrystalline/Homology/TotQuasiIso.lean`: columnwise
+quasi-isomorphisms induce a quasi-isomorphism of total complexes), are proved for that
+development's own first-quadrant bicomplex structure `RawBi`, so they inform the proof of
+the exact-rows comparison while the statements here stay on Mathlib's
+`HomologicalComplex₂`.
+
+**Checks.**
+
+- if `A^{pq} = 0` for `q > 0`, then `E₂^{p0} = Hᵖ(A^{•0}) = Hᵖ(Tot A)` and all
+  differentials vanish.
+- if `A^{pq} = 0` for `p > 0`, then `E₂^{0q} = H^q(A^{0•}) = H^q(Tot A)`.
+- `A^{00} = A^{10} = ℤ` with `d′ = id` and all other terms `0`: `E₂ = 0` and
+  `H(Tot A) = 0`.
+- `H⁰(Tot A) = E₂^{00}` for every first-quadrant double complex.
+- The bound `n ≥ 1` is necessary: if only `A^{00} = ℤ` is nonzero, then at `n = 0` both
+  edge maps `E₂^{00} → H⁰(Tot A) → E₂^{00}` are identities. Their composite is nonzero,
+  so the extended sequence would fail exactness despite the empty row-vanishing condition.
+- The abutment filtration is pinned: for a single row (`q = 0`) it is `FⁿHⁿ = Hⁿ`,
+  `F^{n+1}Hⁿ = 0`; for a single column (`p = 0`) it is `F⁰Hⁿ = Hⁿ`, `F¹Hⁿ = 0`.
+- For a commutative coefficient ring `R`, take generators `a, b, c, e` in bidegrees
+  `(0,1), (1,0), (1,1), (2,0)` with `d′a = c`, `d″b = c`, `d′b = e` and other maps zero.
+  The anticommuting cochain total differential from `(a,b)` to `(c,e)` is
+  `[[1,1],[0,1]]`, so total cohomology is zero. Vertical cohomology leaves `R` at `(0,1)`
+  and `(2,0)`; `d₂[a] = [−e]`, since `d(a−b) = −e`. Thus `E₃ = 0 = E_∞`, over both
+  `ℤ` and `F₂`, whereas the two nonzero `E₂` terms alone would give a false abutment.
+- Put the same four generators and anticommuting maps in homological bidegrees
+  `(2,0), (1,1), (1,0), (0,1)`, respectively. The same matrix has zero total homology,
+  and `d₂[a] = [−e]` goes from `(2,0)` to `(0,1)`. Thus the incoming differential at
+  `(0,1)` can still be nonzero on page two; the bound `r > max(p, q+1)` retains it.
+- In homological indexing a single row has `F_(n−1) H_n = 0`, `F_n H_n = H_n`, while
+  a single column has `F_−1 H_n = 0`, `F_0 H_n = H_n`; the successive quotients recover
+  the sole nonzero `E^∞` term. A chain map `R →id R` in degrees `1,0` has both
+  `E² = 0` and `H_*(Tot) = 0`, also after cochain reindexing to degrees `−1,0`.
+
 ### 0.2.2 Simplicial module tensor and diagonal comparisons
 
 **Simplicial module tensor comparison.** For simplicial modules `X, Y` over a commutative ring
@@ -814,7 +944,8 @@ with the same filtration transported along this comparison.
 ([DoldPuppe], §2, Theorems 2.9 and 2.15 and Remark 2.16, pp.213–218.)
 
 *Needs:* Mathlib `SimplicialObject`, alternating-face complexes and `HomologicalComplex₂.total`;
-§0.2.2 / Simplicial module tensor comparison for its tensor compatibility.
+§0.2.2 / Simplicial module tensor comparison for its tensor compatibility;
+§S.1 (homological spectral sequence, convergence and abutment filtration).
 
 **Checks.**
 
@@ -876,7 +1007,8 @@ For a prime p, the free resolution [ℤ →p ℤ] gives ℤ/p ⊗^L ℤ/p with c
 
 ### Dependencies
 
-Layer 0 and Mathlib complexes, K-injectivity, Dold–Kan, tensor products and filtered colimits.
+Layer 0 and Mathlib complexes, K-injectivity, Dold–Kan, tensor products, filtered colimits,
+spectral objects, homology, mapping cones and double-complex totalization.
 
 ## Layer 2: cotangent calculus, integral powers and deformations
 
@@ -1034,7 +1166,7 @@ precisely the split extensions to zero, and `Hom_(D(B))(L_(B/A), M[−n]) = 0` f
 natural in `M` and compatible with commutative squares. The first uses `H⁰L = Ω`; the second the
 identification of the naive cotangent complex with `τ_(≥−1)L` and `Exal = Ext¹(NL, M)`
 ([StacksCt] Lemma 92.4.5, Tag 08QF, and Lemma 11.3, Tag 08RB, p.21;
-[StacksDefos] Lemma 2.3, Tag 0GPT, p.3;
+[StacksDefos] Lemma 2.3, Tag 0GPT, p.4;
 for the derivation-space form, [Bhatt12] Remark 6.6 and equivalence (6), p.25, with trivial
 monoids).
 
@@ -1125,7 +1257,8 @@ module structure over a nondiscrete simplicial ring. Downstream consumers use se
 [GR] loc. cit.); [BMS19], §2, pp.212–216.
 
 *Needs:* §0.4 (The full cotangent complex); §0.1 (Simplicial polynomial resolutions);
-§0.2.2 / Bisimplicial module diagonal comparison; Mathlib `SimplicialObject`.
+§0.2.2 / Bisimplicial module diagonal comparison;
+§S.1 (homological spectral sequence, convergence and abutment filtration); Mathlib `SimplicialObject`.
 
 The spectral sequence first abuts to the direct-sum total complex; §0.2.2 identifies that
 complex with the diagonal model, after restricting to the constant coefficient ring as above.
@@ -1145,10 +1278,12 @@ For a commutative square with `B′ = B ⊗_A A′` and `Tor_i^A(B, A′) = 0` f
 derived pushout `P• ⊗_A A′` of a polynomial resolution, by 0.9; the degree-zero pushout need not
 satisfy it.
 
-[StacksCt], §6, Lemma 6.2; Tag 08QQ, p.12. Remark 6.3, pp.12–13, gives the comparison map outside the
-Tor-independent range.
+[StacksCt], §6, Tag 08QL, pp.11–12, constructs the functorial map for any commutative
+square; Lemma 6.2, Tag 08QQ, p.12, makes its derived scalar extension an isomorphism
+under Tor independence.
 
-*Needs:* §0.4 (The full cotangent complex); §0.2 (Derived tensor products on module derived categories).
+*Needs:* §0.4 (The full cotangent complex); §0.2 (Derived tensor products on module derived categories);
+§0.9 (simplicial cotangent complexes and the derived-pushout comparison).
 
 **Checks.**
 
@@ -1812,7 +1947,13 @@ using the derived reduction and all discrete `A/I`-modules. For a discrete modul
 reads `Tor_n^A(M, A/I) = 0` for `n > 0` and `M/IM` flat over `A/I`; this module form is stated in
 `Suggested.lean` with Mathlib's `CategoryTheory.Tor`.
 
-[Prisms], §1.2, p.11; [BMS19], Definition 4.1, Lemmas 4.3–4.8, pp.220–223.
+[Prisms], §1.2, p.11, treats finitely generated ideals. [BMS19], Definition 4.1, p.220,
+uses the p-complete framework; Lemmas 4.4–4.5 give completion and base change, while
+Lemmas 4.6–4.7 and Corollary 4.8, pp.221–223, give the bounded-p-torsion consequences
+used in §1.8. The discrete-module definition applies to any ideal `I`, without finite
+generation. For a flat `A`-module, positive `Tor` against `A/I` vanishes, and ordinary
+flat base change makes `(A/I) ⊗_A M` flat over `A/I`; this proves
+`DerivedDeRham.isCompletelyFlatModule_of_flat` for arbitrary `I`.
 
 *Needs:* §0.2 (Derived tensor products on module derived categories); §1.2 (Derived ideal completeness); Mathlib `CategoryTheory.Tor`, `Module.Flat`.
 
@@ -2161,107 +2302,6 @@ For a field k, the hull is k and finite-dimensional double duality is evaluation
 ### Dependencies
 
 Mathlib module Hom, Noetherian and Artinian modules, adic completion; Tau Ceti essential injective envelopes.
-
-## Layer 6: double-complex spectral sequences
-
-### S.1 The spectral sequence of a first-quadrant double complex
-
-**The spectral sequence of a first-quadrant double complex.** Let `A^{••}` be a first-quadrant
-double complex of abelian groups (or of modules over a ring): `A^{pq} = 0` for `p < 0` or `q < 0`,
-with anticommuting differentials `d′` (in `p`) and `d″` (in `q`). The column filtration
-`FᵖTotⁿ = ⊕_{i≥p} A^{i,n−i}` of the total complex is biregular and gives a cohomological spectral
-sequence
-
-```text
-E₂^{pq} = H^p_I(H^q_{II}(A)) ⇒ Eⁿ = Hⁿ(Tot A).
-```
-
-It converges: `E_r^{pq} = E_∞^{pq}` for `r > max(p, q + 1)`, and
-`E_∞^{pq} ≅ FᵖE^{p+q}/F^{p+1}E^{p+q}`. It has edge morphisms `E₂^{n,0} → Eⁿ → E₂^{0,n}` and the
-five-term exact sequence
-
-```text
-0 → E₂^{1,0} → E¹ → E₂^{0,1} → E₂^{2,0} → E².
-```
-
-For an integer `n ≥ 1`, if `E₂^{pq} = 0` for every `p ≥ 0` and `0 < q < n`, then
-`E₂^{m,0} ≅ Eᵐ` for `m < n` and
-`0 → E₂^{n,0} → Eⁿ → E₂^{0,n} → E₂^{n+1,0} → E^{n+1}` is exact. If every row
-`A^{0q} → A^{1q} → ⋯` is exact in positive degrees, then
-`Eⁿ = Hⁿ(ker(A^{0•} → A^{1•}))`. The abutment and its filtration are part of the statement, since
-Mathlib's spectral sequence of a spectral object records only the pages.
-
-The API:
-
-- the `E₂` spectral sequence of a first-quadrant double complex,
-  from Mathlib's spectral objects.
-- `E₂^{pq} ≅ H^p_I(H^q_{II}(A))`.
-- the column filtration `FᵖHⁿ(Tot A)`.
-- `E_∞^{pq} ≅ FᵖH^{p+q}/F^{p+1}H^{p+q}`.
-- `E_r^{pq} = E_∞^{pq}` for `r > max(p, q + 1)`.
-- `E₂^{n,0} → Hⁿ(Tot A)`.
-- `Hⁿ(Tot A) → E₂^{0,n}`.
-- the five-term exact sequence (NSW (2.1.1)).
-- with the explicit hypothesis `1 ≤ n`, vanishing
-  `E₂^{pq}` for all `p ≥ 0` and `0 < q < n` gives the extended sequence (NSW (2.1.2)).
-- exact rows give
-  `Hⁿ(Tot A) = Hⁿ(ker(A^{0•} → A^{1•}))` (NSW (2.2.4)).
-- naturality in the double complex.
-
-*Proof sketch.* Mathlib builds a spectral object from any functor into cochain complexes by mapping
-cones (`HomotopyCategory.spectralObjectMappingCone`); apply it to the column-truncation filtration
-indexed by `EInt`, and pass to an abelian spectral object with the homology functor
-(`Triangulated.SpectralObject.mapHomologicalFunctor`). The first-quadrant condition
-(`Abelian.SpectralObject.IsFirstQuadrant`) holds because `A^{pq} = 0` outside the quadrant, and
-Mathlib's `spectralSequence` for `coreE₂CohomologicalNat` gives the `E₂` pages and differentials.
-Identify `E₂^{pq}` with `H^p_I(H^q_{II}(A))`: the `E₁` page is the vertical cohomology and `d₁` is
-induced by `d′` (NSW (2.2.1)). Convergence: the filtration is finite in each degree, so the pages
-stabilise for `r > max(p, q + 1)` and `E_∞` is the associated graded of `Hⁿ(Tot A)`. The edge
-morphisms and the five-term sequence come from the definition of the filtration (NSW (2.1.1),
-(2.1.2)); the exact-rows statement from the transposed double complex (NSW (2.2.4)). The source's
-anticommuting differentials become the commuting differentials of Mathlib's `HomologicalComplex₂`
-after a sign depending on the degree; its totalisation uses `ComplexShape.TensorSigns`, and the
-pages and edge maps are transported through the same convention ([Neukirch–Schmidt–Wingberg,
-*Cohomology of Number Fields*](https://www.mathi.uni-heidelberg.de/~schmidt/NSW2e/NSW2.3.pdf),
-Chapter II, §1, Proposition 2.1.1, printed p. 99 (PDF p. 116); [Neukirch–Schmidt–Wingberg,
-*Cohomology of Number Fields*](https://www.mathi.uni-heidelberg.de/~schmidt/NSW2e/NSW2.3.pdf),
-Chapter II, §2, Lemma 2.2.4, printed p. 105 (PDF p. 122)). *Needs:* Mathlib
-`HomotopyCategory.spectralObjectMappingCone`; Mathlib
-`CategoryTheory.Triangulated.SpectralObject.mapHomologicalFunctor`; Mathlib
-`CategoryTheory.Abelian.SpectralObject.IsFirstQuadrant`; Mathlib
-`CategoryTheory.Abelian.SpectralObject.coreE₂CohomologicalNat`; Mathlib
-`CategoryTheory.Abelian.SpectralObject.spectralSequence`; Mathlib `HomologicalComplex₂.total`.
-
-The acyclic-assembly lemmas of [AffineCrystalline], `RawBi.augRowι_quasiIso` and
-`RawBi.augColι_quasiIso` (`AffineCrystalline/Homology/TotM.lean`: an augmentation into the total
-complex is a quasi-isomorphism when the augmented columns, respectively rows, are exact) and
-`RawBi.totMap_quasiIso` (`AffineCrystalline/Homology/TotQuasiIso.lean`: columnwise
-quasi-isomorphisms induce a quasi-isomorphism of total complexes), are proved for that
-development's own first-quadrant bicomplex structure `RawBi`, so they inform the proof of
-the exact-rows comparison while the statements here stay on Mathlib's
-`HomologicalComplex₂`.
-
-**Checks.**
-
-- if `A^{pq} = 0` for `q > 0`, then `E₂^{p0} = Hᵖ(A^{•0}) = Hᵖ(Tot A)` and all
-  differentials vanish.
-- if `A^{pq} = 0` for `p > 0`, then `E₂^{0q} = H^q(A^{0•}) = H^q(Tot A)`.
-- `A^{00} = A^{10} = ℤ` with `d′ = id` and all other terms `0`: `E₂ = 0` and
-  `H(Tot A) = 0`.
-- `H⁰(Tot A) = E₂^{00}` for every first-quadrant double complex.
-- The bound `n ≥ 1` is necessary: if only `A^{00} = ℤ` is nonzero, then at `n = 0` both
-  edge maps `E₂^{00} → H⁰(Tot A) → E₂^{00}` are identities. Their composite is nonzero,
-  so the extended sequence would fail exactness despite the empty row-vanishing condition.
-- The abutment filtration is pinned: for a single row (`q = 0`) it is `FⁿHⁿ = Hⁿ`,
-  `F^{n+1}Hⁿ = 0`; for a single column (`p = 0`) it is `F⁰Hⁿ = Hⁿ`, `F¹Hⁿ = 0`.
-
-### Examples
-
-A single row has E₂ᵖ⁰ = Hᵖ(Tot); the square ℤ →id ℤ has both E₂ and total cohomology zero.
-
-### Dependencies
-
-Mathlib spectral objects, homology, mapping cones and double-complex totalization.
 
 ## Downstream consumers
 

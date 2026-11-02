@@ -12,8 +12,6 @@ definitions those statements need. The README carries every target, API list and
 
 Headline theorems that are not statable at the pins, and the carrier each lacks:
 
-* homogeneous Roby representability (§0.DP.2): the homogeneous divided-power piece and its
-  universal polynomial law have no native carrier at the pin;
 * the unbounded module derived tensor `⊗^L` on `D(R)` (§0.2) and the
   derived scalar extension and restriction functors with their adjunction (§1.E.0): no derived
   tensor bifunctor or derived extension of scalars on `DerivedCategory (ModuleCat R)` exists at
@@ -45,7 +43,7 @@ namespace TauCetiRoadmap.DerivedModuleAlgebra
 
 open CategoryTheory CategoryTheory.Limits CategoryTheory.Pretriangulated
 open TensorProduct Polynomial
-open scoped TensorProduct
+open scoped TensorProduct BigOperators
 
 noncomputable section
 universe u uFlat v
@@ -53,6 +51,44 @@ universe u uFlat v
 /-! ## Layer 0: polynomial laws, divided powers and Koszul complexes -/
 
 namespace PD
+
+/-- The degree-`d` submodule of the divided-power algebra, spanned by products of generators
+whose degrees sum to `d` (README 0.DP.2; Roby, III §§1–2, pp. 248–250). -/
+def homogeneousPiece (A M : Type u) [CommRing A] [AddCommGroup M] [Module A M]
+    (d : ℕ) : Submodule A (DividedPowerAlgebra A M) :=
+  Submodule.span A {z | ∃ (r : ℕ) (n : Fin r → ℕ) (m : Fin r → M),
+    (∑ j, n j) = d ∧ z = ∏ j, DividedPowerAlgebra.dp A (n j) (m j)}
+
+/-- A polynomial law has degree `d` when it scales by the `d`th power on every scalar
+extension in the coefficient universe (README 0.DP.1). -/
+def IsHomogeneous (A M : Type u) [CommRing A] [AddCommGroup M] [Module A M]
+    {N : Type u} [AddCommMonoid N] [Module A N] (d : ℕ) (f : M →ₚₗ[A] N) : Prop :=
+  ∀ (S : Type u) [CommRing S] [Algebra A S] (s : S) (x : S ⊗[A] M),
+    f.toFun' S (s • x) = s ^ d • f.toFun' S x
+
+/-- Homogeneous polynomial laws on arbitrary modules are represented by the homogeneous
+piece of the divided-power algebra. The universal law has the divided-power coefficient
+formula after every scalar extension, and every homogeneous law factors uniquely through it
+there (README 0.DP.2; Roby, Proposition IV.1 and Theorem IV.1, pp. 265–267). -/
+theorem robyRepresentability (A M : Type u) [CommRing A] [AddCommGroup M] [Module A M]
+    (d : ℕ) :
+    ∃ γ : M →ₚₗ[A] homogeneousPiece A M d,
+      IsHomogeneous A M d γ ∧
+      (∀ m, (γ.ground m).val = DividedPowerAlgebra.dp A d m) ∧
+      (∀ (S : Type u) [CommRing S] [Algebra A S] (r : ℕ)
+          (s : Fin r → S) (m : Fin r → M),
+        TensorProduct.map (LinearMap.id : S →ₗ[A] S) (homogeneousPiece A M d).subtype
+          (γ.toFun' S (∑ j, s j ⊗ₜ[A] m j)) =
+        ∑ n ∈ Finset.piAntidiag (Finset.univ : Finset (Fin r)) d,
+          (∏ j, s j ^ n j) ⊗ₜ[A] (∏ j, DividedPowerAlgebra.dp A (n j) (m j))) ∧
+      ∀ (N : Type u) [AddCommGroup N] [Module A N] (f : M →ₚₗ[A] N),
+        IsHomogeneous A M d f →
+        ∃! l : homogeneousPiece A M d →ₗ[A] N,
+          ∀ (S : Type u) [CommRing S] [Algebra A S] (x : S ⊗[A] M),
+            TensorProduct.map (LinearMap.id : S →ₗ[A] S) l (γ.toFun' S x) =
+              f.toFun' S x := by
+  sorry
+
 section Augmentation
 
 variable (R M : Type*) [CommRing R] [AddCommGroup M] [Module R M]
@@ -213,14 +249,15 @@ theorem isDerivedComplete_triangle (A : Type u) [CommRing A] (I : Ideal A)
 /-- **Complete flatness of a module** (README 1.7). A module `M` is `I`-completely flat when its
 derived reduction `M ⊗^L_A A/I` is a flat `A/I`-module in degree zero: the higher `Tor_n^A(M, A/I)`
 vanish and `A/I ⊗_A M` is flat over `A/I`. The predicate does not require `M` to be complete
-([BMS19], Definition 4.1, p. 220). -/
+([BMS19], Definition 4.1, p. 220, for `I = (p)`; the same definition applies to any ideal). -/
 def IsCompletelyFlatModule (A : Type u) [CommRing A] (I : Ideal A) (M : ModuleCat.{u} A) : Prop :=
   (∀ n : ℕ, 0 < n →
       IsZero (((CategoryTheory.Tor (ModuleCat.{u} A) n).obj M).obj (ModuleCat.of A (A ⧸ I)))) ∧
     Module.Flat (A ⧸ I) ((A ⧸ I) ⊗[A] M)
 
-/-- **A flat module is `I`-completely flat** (README 1.7; [BMS19], Lemma 4.3, p. 221): its higher
-`Tor` against `A/I` vanishes and its reduction is flat over `A/I`. -/
+/-- **A flat module is `I`-completely flat** (README 1.7): higher `Tor` against `A/I`
+vanishes by flatness, and ordinary base change makes its reduction flat over `A/I`.
+This holds for every ideal; [BMS19], Definition 4.1, p. 220, uses the case `I = (p)`. -/
 theorem isCompletelyFlatModule_of_flat (A : Type u) [CommRing A] (I : Ideal A)
     (M : ModuleCat.{u} A) [Module.Flat A M] : IsCompletelyFlatModule A I M := by
   sorry
