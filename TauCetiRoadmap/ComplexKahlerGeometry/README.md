@@ -29,7 +29,8 @@ LieGroupoidsPoisson owns the manifold Lie-algebroid extension. VariationalMethod
 §§2–5 and UnboundedOperators UO-D06 own abstract form representation and compact
 spectral theory; Layer 5 identifies the geometric weak domains and regularity.
 
-The acceptance statements are `mixed_parameter_solver` in Layer 2 and
+The acceptance statements are `finite_rank_runge_approximation` and
+`mixed_parameter_solver` in Layer 2 and
 `realified_isManifold_analytic`, `holomorphicStalk_noetherian` and
 `holomorphicStalk_factorial` in Layer 3. The other headline theorems and their
 missing geometric carriers are listed in the module docstring of Suggested.lean.
@@ -302,11 +303,15 @@ has no effect on the integral because that singleton has area zero.
 
 For an open Ω⊆ℂ and compact K⊆Ω whose complement in Ω has no relatively compact
 connected component, prove uniform approximation of neighborhood-holomorphic functions
-by functions holomorphic on Ω. Establish the finite-rank strengthening: for every open
+by functions holomorphic on Ω. Establish `finite_rank_runge_approximation`: for every open
 U⊇K choose compact L⊆U∩Ω with K⊆int L; for each ε>0 there are finitely many
 ζ_j∈int L and g_j holomorphic on Ω, independent of f, such that
 `A_ε f=Σ_j f(ζ_j)g_j` obeys `sup_K|f−A_ε f|≤ε sup_L|f|` for every f holomorphic
 on U. For empty K take L=∅ and the zero operator, interpreting the suprema as zero.
+Equivalently, the acceptance signature requires the pointwise error bound εB for
+every B≥0 that bounds |f| on L; L is chosen before ε, and the evaluation points and
+output functions before f and B. The no-hole hypothesis means that for every
+z∈Ω∖K the ambient closure of its component in Ω∖K is not both compact and contained in Ω.
 The scalar Runge input is Rainer, Theorems 11.1 and 11.7, pp. 25 and 29;
 the uniform operator estimate is a consequence to prove here: apply the cutoff formula,
 uniform finite-sum approximation of its separated kernel, Cauchy estimates on a smaller

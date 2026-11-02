@@ -4,7 +4,8 @@ import Mathlib
 # Complex manifolds, Dolbeault theory, and Kähler geometry: target signatures
 
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's
-headline theorems against the pinned APIs. The mixed smooth/holomorphic parameter
+headline theorems against the pinned APIs. Finite-rank Runge approximation uses
+native compact sets and holomorphic functions. The mixed smooth/holomorphic parameter
 solver and real-analytic realification use native manifold and derivative carriers.
 Noetherianity and unique factorization use the native holomorphic stalk. Its
 small-manifold universe matches the native sheaf with scalar ring ℂ.
@@ -49,6 +50,26 @@ namespace TauCetiRoadmap.ComplexKahlerGeometry
 open scoped Manifold ContDiff
 
 /-! ## Layer 2: Dolbeault calculus and the local lemmas -/
+
+/-- On a Runge compact subset of an open plane domain, approximation can be chosen
+as a finite linear combination of fixed point evaluations with holomorphic output
+functions. A single compact collar controls the error uniformly over all input
+functions, and is chosen before the error tolerance. -/
+theorem finite_rank_runge_approximation
+    (Ω K U : Set ℂ) (hΩ : IsOpen Ω) (hK : IsCompact K) (hKΩ : K ⊆ Ω)
+    (hU : IsOpen U) (hKU : K ⊆ U)
+    (hRunge : ∀ z ∈ Ω \ K,
+      ¬ (IsCompact (closure (connectedComponentIn (Ω \ K) z)) ∧
+        closure (connectedComponentIn (Ω \ K) z) ⊆ Ω)) :
+    ∃ L : Set ℂ, IsCompact L ∧ K ⊆ interior L ∧ L ⊆ U ∩ Ω ∧
+      ∀ ε : ℝ, 0 < ε →
+        ∃ (N : ℕ) (ζ : Fin N → ℂ) (g : Fin N → ℂ → ℂ),
+          (∀ j, ζ j ∈ interior L) ∧
+          (∀ j, DifferentiableOn ℂ (g j) Ω) ∧
+          ∀ f : ℂ → ℂ, DifferentiableOn ℂ f U →
+            ∀ B : ℝ, 0 ≤ B → (∀ w ∈ L, ‖f w‖ ≤ B) →
+              ∀ z ∈ K, ‖f z - ∑ j, f (ζ j) * g j z‖ ≤ ε * B := by
+  sorry
 
 /-- On any open plane domain, a jointly smooth scalar right-hand side with smooth
 manifold parameters and holomorphic parameters in an arbitrary finite-dimensional
