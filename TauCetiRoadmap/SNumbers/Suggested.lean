@@ -3,17 +3,36 @@ Copyright (c) 2026 Mario Ullrich. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Mathlib
-import TauCetiRoadmap.OperatorTheory.OperatorIdeals.Suggested
 
 /-!
 **This file is not the roadmap and is not exhaustive.**
 These are suggested forms. The README is the definitive specification.
 `sorry` records target signatures in this human-owned roadmap library.
 
-The approximation numbers are `ContinuousLinearMap.approximationNumber`, an abbreviation of
-`ContinuousLinearMap.singularValue` from the `OperatorIdeals` roadmap: the same object, under
-the name it has on Banach spaces, so that the whole `OperatorIdeals` API applies to it. The
-other sequences are defined here in the same shape (zero-based, `ℝ≥0`-valued).
+All sequences are zero-based and `ℝ≥0`-valued. The approximation numbers
+`ContinuousLinearMap.approximationNumber` are owned by `OperatorIdeals` (`OI-A01`, implemented
+there as `singularValue`); the pinned Tau Ceti predates that implementation, so the formula
+is written out here. Every other sequence is owned by this roadmap.
+
+## Headlines stated below
+
+* the five sequences, the entropy numbers and the determinant quantities;
+* strictness of `a`, `c`, `d`, `b`, the s-number axioms for `h`, injectivity of `c`,
+  surjectivity of `d` (Part A);
+* `sₙ ≤ aₙ`, `hₙ ≤ sₙ`, uniqueness on Hilbert spaces, `sₙ = σₙ` in finite dimension, the
+  compactness criteria, `bₙ ≤ cₙ`, `b` the smallest injective strict sequence (Part B);
+* the projection bounds, the sharp and the exponential maximal difference theorem, any two
+  sequences within `e (n+1)`, duality, the index laws and the failure of both laws for `b`
+  (Part C);
+* the entropy calculus, `e₀ = ‖·‖`, `eₙ > 0`, compactness, and the comparisons with `c`, `d`,
+  `h` and all `s` (Part D);
+* the mixed-exponent diagonal formula, the inclusion `ℓ₁ → ℓ∞` (`hₙ = 1/(n+1)`,
+  `cₙ ≥ 1/2`, the order of the factor `n+1`), the identity of `ℓ₁ᵐ` (two-sided bound), and
+  the failure of strictness and multiplicativity for `h` (Part E).
+
+Pietsch's lifting and embedding identities (`SN-A14`, `SN-A15`) are stated in the README
+only: their carriers `ℓ₁(B_X)` and `ℓ∞(B_{Y*})` with the summation and evaluation maps are
+part of those targets.
 -/
 
 noncomputable section
@@ -33,13 +52,12 @@ variable {𝕜 : Type u} [NontriviallyNormedField 𝕜]
 variable {X Y : Type u} [NormedAddCommGroup X] [NormedSpace 𝕜 X]
   [NormedAddCommGroup Y] [NormedSpace 𝕜 Y]
 
-/-- The approximation numbers `aₙ(T) = inf {‖T - R‖ : rank R ≤ n}` on normed spaces. On
-Hilbert spaces they are the singular values; `OperatorIdeals` implements them under that
-name.
+/-- The approximation numbers `aₙ(T) = inf {‖T - R‖ : rank R ≤ n}`: the distance of `T` to the
+bounded maps of rank at most `n`. Owned by `OperatorIdeals` (`OI-A01`).
 
 Roadmap: conventions; `OI-A01`. -/
-abbrev approximationNumber (T : X →L[𝕜] Y) (n : ℕ) : ℝ≥0 :=
-  T.singularValue n
+def approximationNumber (T : X →L[𝕜] Y) (n : ℕ) : ℝ≥0 :=
+  ⨅ R : {R : X →L[𝕜] Y // R.rank ≤ (n : Cardinal)}, ‖T - R.1‖₊
 
 /-- The Gelfand numbers: the infimum of `‖T|_M‖` over the closed subspaces `M` of
 codimension at most `n`.
@@ -49,15 +67,16 @@ def gelfandNumber (T : X →L[𝕜] Y) (n : ℕ) : ℝ≥0 :=
   ⨅ M : {M : Submodule 𝕜 X // IsClosed (M : Set X) ∧ Module.rank 𝕜 (X ⧸ M) ≤ (n : Cardinal)},
     ‖T ∘L M.1.subtypeL‖₊
 
-/-- The Kolmogorov numbers: the infimum over subspaces `V` of dimension at most `n` of the
-deviation of `T(B_X)` from `V`.
+/-- The Kolmogorov numbers: the infimum, over subspaces `V` of dimension at most `n`, of the
+norm of `T` followed by the quotient map `Y → Y ⧸ V`. Over `ℝ` and `ℂ` this is the deviation
+of `T(B_X)` from the best `n`-dimensional subspace (`SN-A11`).
 
 Roadmap: `SN-A10`. -/
 def kolmogorovNumber (T : X →L[𝕜] Y) (n : ℕ) : ℝ≥0 :=
-  ⨅ V : {V : Submodule 𝕜 Y // Module.rank 𝕜 V ≤ (n : Cardinal)},
-    ⨆ x : Metric.closedBall (0 : X) 1, Metric.infNndist (T x) (V.1 : Set Y)
+  ⨅ V : {V : Submodule 𝕜 Y // Module.rank 𝕜 V ≤ (n : Cardinal)}, ‖V.1.mkQL ∘L T‖₊
 
-/-- The Bernstein numbers: the largest gain of `T` on an `(n+1)`-dimensional subspace.
+/-- The Bernstein numbers: the largest gain `inf_{x ≠ 0} ‖T x‖ / ‖x‖` of `T` on an
+`(n+1)`-dimensional subspace.
 
 Roadmap: `SN-A16`. -/
 def bernsteinNumber (T : X →L[𝕜] Y) (n : ℕ) : ℝ≥0 :=
@@ -93,7 +112,7 @@ def hilbertNumber (T : X →L[𝕜] Y) (n : ℕ) : ℝ≥0 :=
     (B.1 ∘L T ∘L A.1).approximationNumber n
 
 /-- The determinant quantities `Δₖ(T) = sup |det (B T A)|` over contractions
-`A : ℓ₂ᵏ → X` and `B : Y → ℓ₂ᵏ`.
+`A : ℓ₂ᵏ → X` and `B : Y → ℓ₂ᵏ`; `Δ₀(T) = 1`.
 
 Roadmap: `SN-C04`. -/
 def detNumber (T : X →L[𝕜] Y) (k : ℕ) : ℝ≥0 :=
@@ -102,13 +121,23 @@ def detNumber (T : X →L[𝕜] Y) (k : ℕ) : ℝ≥0 :=
       ‖LinearMap.det ((B.1 ∘L T ∘L A.1 : EuclideanSpace 𝕜 (Fin k) →L[𝕜] _) :
         EuclideanSpace 𝕜 (Fin k) →ₗ[𝕜] EuclideanSpace 𝕜 (Fin k))‖₊
 
+/-- The diagonal operator `D_σ : ℓ_qᵐ → ℓ_pᵐ`, `(D_σ x)_i = σ_i x_i`.
+
+Roadmap: `SN-E04`–`SN-E06`. -/
+def diagOp (p q : ℝ≥0∞) [Fact (1 ≤ p)] [Fact (1 ≤ q)] {m : ℕ} (σ : Fin m → 𝕜) :
+    PiLp q (fun _ : Fin m => 𝕜) →L[𝕜] PiLp p (fun _ : Fin m => 𝕜) :=
+  LinearMap.toContinuousLinearMap
+    ((WithLp.linearEquiv p 𝕜 (Fin m → 𝕜)).symm.toLinearMap ∘ₗ
+      (LinearMap.pi fun i => σ i • LinearMap.proj i) ∘ₗ
+      (WithLp.linearEquiv q 𝕜 (Fin m → 𝕜)).toLinearMap)
+
 end RCLike
 
 end ContinuousLinearMap
 
-/-! ## Part A: the axioms and the five sequences as families -/
-
 namespace TauCetiRoadmap.SNumbers
+
+/-! ## Part A: the axioms and the sequences as families -/
 
 /-- An s-number family: one `ℝ≥0`-valued sequence for every bounded operator between normed
 `𝕜`-spaces in one universe.
@@ -123,7 +152,9 @@ section General
 
 variable {𝕜 : Type u} [NontriviallyNormedField 𝕜]
 
-/-- Pietsch's axioms (S1)–(S5) of an s-number sequence.
+/-- Pietsch's axioms (S1)–(S5) of an s-number sequence: `s₀(T) = ‖T‖` and antitone (S1),
+`sₙ(S + T) ≤ sₙ(S) + ‖T‖` (S2), `sₙ(B T A) ≤ ‖B‖ sₙ(T) ‖A‖` (S3), `sₙ(T) = 0` for
+`rank T ≤ n` (S4), `sₙ(id_{ℓ₂ⁿ⁺¹}) = 1` (S5).
 
 Roadmap: `SN-A02`. -/
 structure IsSNumberSequence (s : SNumberFamily 𝕜) : Prop where
@@ -145,30 +176,14 @@ structure IsSNumberSequence (s : SNumberFamily 𝕜) : Prop where
   id_euclidean : ∀ n : ℕ,
       s (ContinuousLinearMap.id 𝕜 (EuclideanSpace 𝕜 (Fin (n + 1)))) n = 1
 
-/-- A strict s-number sequence: (S1)–(S4) and `s (id_X) n = 1` whenever `n < rank X`.
+/-- A strict s-number sequence: (S1)–(S4) and `s (id_X) n = 1` whenever `n < rank X`,
+including infinite-dimensional `X`.
 
 Roadmap: `SN-A03`. -/
 structure IsStrictSNumberSequence (s : SNumberFamily 𝕜) : Prop where
   toIsSNumberSequence : IsSNumberSequence s
   id_of_lt_rank : ∀ {X : Type u} [NormedAddCommGroup X] [NormedSpace 𝕜 X] (n : ℕ),
       (n : Cardinal) < Module.rank 𝕜 X → s (ContinuousLinearMap.id 𝕜 X) n = 1
-
-/-- An additive family: `s (S + T) (m + n) ≤ s S m + s T n`.
-
-Roadmap: `SN-C16`. -/
-def Additive (s : SNumberFamily 𝕜) : Prop :=
-  ∀ {X Y : Type u} [NormedAddCommGroup X] [NormedSpace 𝕜 X]
-      [NormedAddCommGroup Y] [NormedSpace 𝕜 Y] (S T : X →L[𝕜] Y) (m n : ℕ),
-    s (S + T) (m + n) ≤ s S m + s T n
-
-/-- A multiplicative family: `s (S ∘ T) (m + n) ≤ s S m * s T n`.
-
-Roadmap: `SN-C16`. -/
-def Multiplicative (s : SNumberFamily 𝕜) : Prop :=
-  ∀ {X Y Z : Type u} [NormedAddCommGroup X] [NormedSpace 𝕜 X]
-      [NormedAddCommGroup Y] [NormedSpace 𝕜 Y] [NormedAddCommGroup Z] [NormedSpace 𝕜 Z]
-      (S : Y →L[𝕜] Z) (T : X →L[𝕜] Y) (m n : ℕ),
-    s (S ∘L T) (m + n) ≤ s S m * s T n
 
 /-- An injective family is unchanged by post-composition with a metric injection.
 
@@ -187,6 +202,23 @@ def Surjective (s : SNumberFamily 𝕜) : Prop :=
       [NormedAddCommGroup X] [NormedSpace 𝕜 X] [NormedAddCommGroup Y] [NormedSpace 𝕜 Y]
       (T : X →L[𝕜] Y) (Q : W →L[𝕜] X), ‖Q‖ ≤ 1 →
       (∀ x ε, 0 < ε → ∃ w, Q w = x ∧ ‖w‖ < ‖x‖ + ε) → ∀ n, s (T ∘L Q) n = s T n
+
+/-- An additive family: `s (S + T) (m + n) ≤ s S m + s T n`.
+
+Roadmap: `SN-C16`. -/
+def Additive (s : SNumberFamily 𝕜) : Prop :=
+  ∀ {X Y : Type u} [NormedAddCommGroup X] [NormedSpace 𝕜 X]
+      [NormedAddCommGroup Y] [NormedSpace 𝕜 Y] (S T : X →L[𝕜] Y) (m n : ℕ),
+    s (S + T) (m + n) ≤ s S m + s T n
+
+/-- A multiplicative family: `s (S ∘ T) (m + n) ≤ s S m * s T n`.
+
+Roadmap: `SN-C16`. -/
+def Multiplicative (s : SNumberFamily 𝕜) : Prop :=
+  ∀ {X Y Z : Type u} [NormedAddCommGroup X] [NormedSpace 𝕜 X]
+      [NormedAddCommGroup Y] [NormedSpace 𝕜 Y] [NormedAddCommGroup Z] [NormedSpace 𝕜 Z]
+      (S : Y →L[𝕜] Z) (T : X →L[𝕜] Y) (m n : ℕ),
+    s (S ∘L T) (m + n) ≤ s S m * s T n
 
 /-- The approximation numbers as a family. -/
 def approximation : SNumberFamily 𝕜 := fun T => T.approximationNumber
@@ -232,19 +264,27 @@ theorem approximationNumber_id [CompleteSpace 𝕜] (n : ℕ)
     (hn : (n : Cardinal) < Module.rank 𝕜 X) :
     (ContinuousLinearMap.id 𝕜 X).approximationNumber n = 1 := sorry
 
-/-- Roadmap: `SN-A07`. -/
+/-- The approximation numbers form a strict s-number sequence.
+
+Roadmap: `SN-A07`. -/
 theorem isStrictSNumberSequence_approximation [CompleteSpace 𝕜] :
     IsStrictSNumberSequence (approximation (𝕜 := 𝕜)) := sorry
 
-/-- Roadmap: `SN-A09`. -/
+/-- The Gelfand numbers form a strict s-number sequence.
+
+Roadmap: `SN-A09`. -/
 theorem isStrictSNumberSequence_gelfand : IsStrictSNumberSequence (gelfand (𝕜 := 𝕜)) :=
   sorry
 
-/-- Roadmap: `SN-A12`, `SN-A13`. -/
+/-- The Kolmogorov numbers form a strict s-number sequence.
+
+Roadmap: `SN-A12`, `SN-A13`. -/
 theorem isStrictSNumberSequence_kolmogorov [CompleteSpace 𝕜] :
     IsStrictSNumberSequence (kolmogorov (𝕜 := 𝕜)) := sorry
 
-/-- Roadmap: `SN-A17`. -/
+/-- The Bernstein numbers form a strict s-number sequence.
+
+Roadmap: `SN-A17`. -/
 theorem isStrictSNumberSequence_bernstein : IsStrictSNumberSequence (bernstein (𝕜 := 𝕜)) :=
   sorry
 
@@ -267,12 +307,6 @@ Roadmap: `SN-B01`. -/
 theorem IsSNumberSequence.le_approximationNumber (hs : IsSNumberSequence s)
     (T : X →L[𝕜] Y) (n : ℕ) : s T n ≤ T.approximationNumber n := sorry
 
-/-- Compactness through the Kolmogorov numbers.
-
-Roadmap: `SN-B07`, `SN-B09`. -/
-theorem isCompactOperator_iff_tendsto_kolmogorovNumber [CompleteSpace Y] (T : X →L[𝕜] Y) :
-    IsCompactOperator T ↔ Tendsto T.kolmogorovNumber atTop (𝓝 0) := sorry
-
 /-- The Bernstein numbers are at most the Gelfand numbers.
 
 Roadmap: `SN-B11`. -/
@@ -287,42 +321,38 @@ theorem IsStrictSNumberSequence.bernsteinNumber_le (hs : IsStrictSNumberSequence
 
 /-! ## Part C: index laws -/
 
-/-- Roadmap: `SN-C17`. -/
+/-- The Gelfand numbers are additive.
+
+Roadmap: `SN-C17`. -/
 theorem additive_gelfand : Additive (gelfand (𝕜 := 𝕜)) := sorry
 
-/-- Roadmap: `SN-C17`. -/
+/-- The Gelfand numbers are multiplicative.
+
+Roadmap: `SN-C17`. -/
 theorem multiplicative_gelfand : Multiplicative (gelfand (𝕜 := 𝕜)) := sorry
 
-/-- Roadmap: `SN-C18`. -/
+/-- The Kolmogorov numbers are additive.
+
+Roadmap: `SN-C18`. -/
 theorem additive_kolmogorov : Additive (kolmogorov (𝕜 := 𝕜)) := sorry
 
-/-- Roadmap: `SN-C18`. -/
+/-- The Kolmogorov numbers are multiplicative.
+
+Roadmap: `SN-C18`. -/
 theorem multiplicative_kolmogorov : Multiplicative (kolmogorov (𝕜 := 𝕜)) := sorry
-
-/-- Roadmap: `SN-C19`. -/
-theorem additive_approximation : Additive (approximation (𝕜 := 𝕜)) := sorry
-
-/-- Roadmap: `SN-C19`. -/
-theorem multiplicative_approximation : Multiplicative (approximation (𝕜 := 𝕜)) := sorry
 
 /-! ## Part D: entropy numbers, the pseudo-s-numbers -/
 
-/-- Roadmap: `SN-D03`. -/
+/-- The entropy numbers are additive.
+
+Roadmap: `SN-D03`. -/
 theorem additive_entropy : Additive (entropy (𝕜 := 𝕜)) := sorry
 
-/-- Entropy numbers fail the rank axiom: they vanish only on the zero operator.
+/-- Entropy numbers and total boundedness, hence compactness for complete `Y`.
 
-Roadmap: `SN-D05`. -/
-theorem entropyNumber_pos {T : X →L[𝕜] Y} (hT : T ≠ 0) (n : ℕ) : 0 < T.entropyNumber n :=
-  sorry
-
-/-- Roadmap: `SN-D06`. -/
+Roadmap: `SN-D06`. -/
 theorem isCompactOperator_iff_tendsto_entropyNumber [CompleteSpace Y] (T : X →L[𝕜] Y) :
     IsCompactOperator T ↔ Tendsto T.entropyNumber atTop (𝓝 0) := sorry
-
-/-- Roadmap: `SN-D07`. -/
-theorem kolmogorovNumber_two_pow_le_entropyNumber (T : X →L[𝕜] Y) (n : ℕ) :
-    T.kolmogorovNumber (2 ^ n) ≤ T.entropyNumber n := sorry
 
 end General
 
@@ -330,7 +360,9 @@ section Densely
 
 variable {𝕜 : Type u} [DenselyNormedField 𝕜]
 
-/-- Roadmap: `SN-D04`. -/
+/-- The entropy numbers are multiplicative over a densely normed field.
+
+Roadmap: `SN-D04`. -/
 theorem multiplicative_entropy : Multiplicative (entropy (𝕜 := 𝕜)) := sorry
 
 end Densely
@@ -342,7 +374,9 @@ variable {𝕜 : Type u} [RCLike 𝕜]
 /-- The Hilbert numbers as a family. -/
 def hilbert : SNumberFamily 𝕜 := fun T => T.hilbertNumber
 
-/-- Roadmap: `SN-A20`. -/
+/-- The Hilbert numbers form an s-number sequence.
+
+Roadmap: `SN-A20`. -/
 theorem isSNumberSequence_hilbert : IsSNumberSequence (hilbert (𝕜 := 𝕜)) := sorry
 
 variable {s t : SNumberFamily 𝕜}
@@ -385,7 +419,13 @@ theorem IsSNumberSequence.eq_singularValues {H₁ H₂ : Type u}
     (hs : IsSNumberSequence s) (T : H₁ →L[𝕜] H₂) (n : ℕ) :
     (s T n : ℝ) = (T : H₁ →ₗ[𝕜] H₂).singularValues n := sorry
 
-/-- Compactness through the Gelfand numbers.
+/-- Compactness through the Kolmogorov numbers, over `ℝ` and `ℂ`.
+
+Roadmap: `SN-B07`, `SN-B09`. -/
+theorem isCompactOperator_iff_tendsto_kolmogorovNumber [CompleteSpace Y] (T : X →L[𝕜] Y) :
+    IsCompactOperator T ↔ Tendsto T.kolmogorovNumber atTop (𝓝 0) := sorry
+
+/-- Compactness through the Gelfand numbers, over `ℝ` and `ℂ`.
 
 Roadmap: `SN-B08`, `SN-B09`. -/
 theorem isCompactOperator_iff_tendsto_gelfandNumber [CompleteSpace Y] (T : X →L[𝕜] Y) :
@@ -405,18 +445,16 @@ theorem IsSNumberSequence.isCompactOperator_iff {H₁ H₂ : Type u}
 /-- `aₙ(T) ≤ (1 + √n) cₙ(T)`, through the Garling–Gordon projection theorem.
 
 Roadmap: `SN-C01`. -/
-theorem approximationNumber_le_sqrt_mul_gelfandNumber [CompleteSpace X] [CompleteSpace Y]
-    (T : X →L[𝕜] Y) (n : ℕ) :
+theorem approximationNumber_le_sqrt_mul_gelfandNumber (T : X →L[𝕜] Y) (n : ℕ) :
     (T.approximationNumber n : ℝ) ≤ (1 + Real.sqrt n) * T.gelfandNumber n := sorry
 
 /-- `aₙ(T) ≤ (1 + √n) dₙ(T)`, through the Kadec–Snobar projection theorem.
 
 Roadmap: `SN-C02`. -/
-theorem approximationNumber_le_sqrt_mul_kolmogorovNumber [CompleteSpace X] [CompleteSpace Y]
-    (T : X →L[𝕜] Y) (n : ℕ) :
+theorem approximationNumber_le_sqrt_mul_kolmogorovNumber (T : X →L[𝕜] Y) (n : ℕ) :
     (T.approximationNumber n : ℝ) ≤ (1 + Real.sqrt n) * T.kolmogorovNumber n := sorry
 
-/-- The lower recursion of the determinant quantities.
+/-- The lower recursion of the determinant quantities (with `0 ^ 0 = 1`).
 
 Roadmap: `SN-C07`. -/
 theorem pow_div_mul_approximationNumber_mul_detNumber_le (T : X →L[𝕜] Y) (k : ℕ) :
@@ -429,7 +467,15 @@ Roadmap: `SN-C08`. -/
 theorem detNumber_succ_le (T : X →L[𝕜] Y) (n : ℕ) :
     T.detNumber (n + 1) ≤ T.hilbertNumber n * T.detNumber n := sorry
 
-/-- The maximal difference theorem `aₙ(T) ≤ e (n + 1) hₙ(T)`.
+/-- **The maximal difference theorem, sharp form**: `aₙ(T) ≤ (n+1)^{n+1} / nⁿ · hₙ(T)`, with
+`0 ^ 0 = 1`.
+
+Roadmap: `SN-C09`. -/
+theorem approximationNumber_le_pow_div_pow_mul_hilbertNumber (T : X →L[𝕜] Y) (n : ℕ) :
+    (T.approximationNumber n : ℝ) ≤
+      ((n : ℝ) + 1) ^ (n + 1) / (n : ℝ) ^ n * T.hilbertNumber n := sorry
+
+/-- **The maximal difference theorem** `aₙ(T) ≤ e (n + 1) hₙ(T)`.
 
 Roadmap: `SN-C10`. -/
 theorem approximationNumber_le_exp_mul_hilbertNumber (T : X →L[𝕜] Y) (n : ℕ) :
@@ -450,20 +496,37 @@ theorem max_gelfandNumber_kolmogorovNumber_le (T : X →L[𝕜] Y) (n : ℕ) :
 
 /-- The Hilbert numbers are additive.
 
-Roadmap: `SN-C20`. -/
+Roadmap: `SN-C19`. -/
 theorem additive_hilbert : Additive (hilbert (𝕜 := 𝕜)) := sorry
 
 /-- The Bernstein numbers are not multiplicative.
 
-Roadmap: `SN-C22`. -/
+Roadmap: `SN-C21`. -/
 theorem not_multiplicative_bernstein : ¬ Multiplicative (bernstein (𝕜 := 𝕜)) := sorry
 
 /-- The Bernstein numbers are not additive.
 
-Roadmap: `SN-C23`. -/
+Roadmap: `SN-C22`. -/
 theorem not_additive_bernstein : ¬ Additive (bernstein (𝕜 := 𝕜)) := sorry
 
 /-! ### Part D -/
+
+/-- Over `ℝ` and `ℂ` one ball of radius `‖T‖` is optimal: `e₀(T) = ‖T‖`.
+
+Roadmap: `SN-D02`. -/
+theorem entropyNumber_zero (T : X →L[𝕜] Y) : T.entropyNumber 0 = ‖T‖₊ := sorry
+
+/-- Entropy numbers fail the rank axiom: they vanish only on the zero operator.
+
+Roadmap: `SN-D05`. -/
+theorem entropyNumber_pos {T : X →L[𝕜] Y} (hT : T ≠ 0) (n : ℕ) : 0 < T.entropyNumber n :=
+  sorry
+
+/-- The dyadic comparison of Kolmogorov and entropy numbers.
+
+Roadmap: `SN-D07`. -/
+theorem kolmogorovNumber_two_pow_le_entropyNumber (T : X →L[𝕜] Y) (n : ℕ) :
+    T.kolmogorovNumber (2 ^ n) ≤ T.entropyNumber n := sorry
 
 /-- Gelfand and Kolmogorov numbers against entropy numbers (Pietsch).
 
@@ -472,7 +535,9 @@ theorem max_gelfandNumber_kolmogorovNumber_le_entropyNumber (T : X →L[𝕜] Y)
     max (T.gelfandNumber n : ℝ) (T.kolmogorovNumber n) ≤ ((n : ℝ) + 1) * T.entropyNumber n :=
   sorry
 
-/-- Roadmap: `SN-D13`. -/
+/-- Hilbert numbers against entropy numbers.
+
+Roadmap: `SN-D13`. -/
 theorem hilbertNumber_le_two_mul_entropyNumber (T : X →L[𝕜] Y) (n : ℕ) :
     T.hilbertNumber n ≤ 2 * T.entropyNumber n := sorry
 
@@ -485,13 +550,40 @@ theorem IsSNumberSequence.le_two_exp_mul_entropyNumber (hs : IsSNumberSequence s
 
 /-! ### Part E -/
 
-/-- The Hilbert numbers of the inclusion `ℓ₁ → ℓ_∞` are `1 / (n + 1)`.
+/-- The approximation numbers of a diagonal operator `ℓ_qᵐ → ℓ_pᵐ` with `p < q < ∞` and
+nonincreasing `|σ|`: the `ℓ_r` norm of the tail, `1/r = 1/p - 1/q`.
+
+Roadmap: `SN-E05`. -/
+theorem approximationNumber_diagOp {p q : ℝ≥0∞} [Fact (1 ≤ p)] [Fact (1 ≤ q)]
+    (hpq : p < q) (hq : q ≠ ∞) {r : ℝ} (hr : 1 / r = 1 / p.toReal - 1 / q.toReal)
+    {m n : ℕ} (σ : Fin m → 𝕜) (hσ : Antitone fun i => ‖σ i‖) (hn : n < m) :
+    ((ContinuousLinearMap.diagOp p q σ).approximationNumber n : ℝ) =
+      (∑ k ∈ Finset.univ.filter (fun k : Fin m => n ≤ (k : ℕ)), ‖σ k‖ ^ r) ^ (1 / r) := sorry
+
+/-- The Gelfand numbers of the inclusion `ℓ₁ → ℓ∞` are at least `1/2`.
+
+Roadmap: `SN-E10`. -/
+theorem half_le_gelfandNumber_inclusion
+    (I : lp (fun _ : ℕ => 𝕜) 1 →L[𝕜] lp (fun _ : ℕ => 𝕜) ∞)
+    (hI : ∀ x, ((I x : lp (fun _ : ℕ => 𝕜) ∞) : ℕ → 𝕜) = x) (n : ℕ) :
+    (1 / 2 : ℝ) ≤ I.gelfandNumber n := sorry
+
+/-- The Hilbert numbers of the inclusion `ℓ₁ → ℓ∞` are `1 / (n + 1)`.
 
 Roadmap: `SN-E11`. -/
 theorem hilbertNumber_inclusion_l1_linfty
     (I : lp (fun _ : ℕ => 𝕜) 1 →L[𝕜] lp (fun _ : ℕ => 𝕜) ∞)
     (hI : ∀ x, ((I x : lp (fun _ : ℕ => 𝕜) ∞) : ℕ → 𝕜) = x) (n : ℕ) :
     (I.hilbertNumber n : ℝ) = 1 / ((n : ℝ) + 1) := sorry
+
+/-- The factor `n + 1` in the maximal difference theorem has the right order:
+`(n+1)/2 · hₙ(I) ≤ cₙ(I)` for the inclusion `ℓ₁ → ℓ∞`.
+
+Roadmap: `SN-E12`. -/
+theorem mul_hilbertNumber_le_gelfandNumber_inclusion
+    (I : lp (fun _ : ℕ => 𝕜) 1 →L[𝕜] lp (fun _ : ℕ => 𝕜) ∞)
+    (hI : ∀ x, ((I x : lp (fun _ : ℕ => 𝕜) ∞) : ℕ → 𝕜) = x) (n : ℕ) :
+    ((n : ℝ) + 1) / 2 * I.hilbertNumber n ≤ I.gelfandNumber n := sorry
 
 /-- The Hilbert numbers of the identity of `ℓ₁ᵐ` are at least `(n + 1)^{-1/2}` for `n < m`.
 
@@ -500,6 +592,26 @@ theorem le_hilbertNumber_id_piLp_one {m n : ℕ} (hnm : n < m) :
     ((n : ℝ) + 1)⁻¹ ^ ((1 : ℝ) / 2) ≤
       ((ContinuousLinearMap.id 𝕜 (PiLp 1 (fun _ : Fin m => 𝕜))).hilbertNumber n : ℝ) :=
   sorry
+
+/-- The Hilbert numbers of the identity of `ℓ₁ᵐ` are at most `κ (n + 1)^{-1/2}`, with one
+constant `κ` for all `m` and `n` (Grothendieck's theorem; `κ = 8` over `ℝ`, `16` over `ℂ`).
+
+Roadmap: `SN-E13`, upper bound. -/
+theorem exists_hilbertNumber_id_piLp_one_le :
+    ∃ κ : ℝ, ∀ m n : ℕ,
+      ((ContinuousLinearMap.id 𝕜 (PiLp 1 (fun _ : Fin m => 𝕜))).hilbertNumber n : ℝ) ≤
+        κ * ((n : ℝ) + 1)⁻¹ ^ ((1 : ℝ) / 2) := sorry
+
+/-- The Hilbert numbers are not strict.
+
+Roadmap: `SN-E13`. -/
+theorem not_isStrictSNumberSequence_hilbert : ¬ IsStrictSNumberSequence (hilbert (𝕜 := 𝕜)) :=
+  sorry
+
+/-- The Hilbert numbers are not multiplicative.
+
+Roadmap: `SN-E14`. -/
+theorem not_multiplicative_hilbert : ¬ Multiplicative (hilbert (𝕜 := 𝕜)) := sorry
 
 end RCLike
 
