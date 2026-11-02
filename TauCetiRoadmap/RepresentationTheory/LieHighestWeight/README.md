@@ -32,25 +32,21 @@ intertwiner comparisons belong here.
 owns compact infinitesimal invariance, geometric Cartan transport and real descent.
 [TangentialBordism, B3](../../TangentialBordism/README.md#b3-low-groups-and-specified-geometric-examples)
 owns the compact Albert idempotent geometry and automorphism transitivity.
-Layer 3 owns the positive smooth bracket on the dual of a finite-dimensional
-real Lie algebra and its polynomial/PBW comparison.
-[LieGroupoidsPoisson, G4.6A–G4.6B](../../LieGroupoidsPoisson/README.md)
-owns its packaging in Poisson geometry, the algebroid-dual comparison and
-coadjoint leaves, as downstream applications of this linear bracket.
-Layer 6.2 owns the lattice cone expansions, Fourier boundary maps and directional
-endpoint comparisons needed for the Weyl-character application, together with
-the smooth periodic Fourier-decay estimates used in their construction.
+[LieGroupoidsPoisson, G4.6A](../../LieGroupoidsPoisson/README.md) owns the
+positive smooth Lie–Poisson bracket on the dual of a finite-dimensional real
+Lie algebra. Layer 3 owns its comparison with the polynomial bracket of the
+PBW zero fibre. The coadjoint-leaf theorem belongs to G4.6B.
 [PseudodifferentialOperators, §3.1](../../PseudodifferentialOperators/README.md)
-uses these estimates in its local kernel comparisons.
+owns smooth periodic Fourier expansions and rapid decay in derivative seminorms.
 [TensorProductCombinatorics, §§1.5–1.6 and 2.6](../../TensorProductCombinatorics/README.md)
-owns cone valuations, chamber-counting and hive comparisons; its cone and
-Fourier applications use the constructions of Layer 6.2. No hive or geometric
-orbit theorem is an input to these constructions.
+owns lattice cone series, their Fourier boundary values, directional endpoint
+reconstruction and the type-A root-coordinate specialization. Layer 6.2 owns
+their application to the actual Weyl character and its weight multiplicities.
+The generic constructions have no character-theoretic premise.
 
 Four inputs of the compact and type-A applications in Layers 5, 9 and 10 are
-not supplied by the cited sections of the roadmaps on which they depend. They
-are registered as supplier gaps, with exact contracts, under Exact supplier
-contracts: `gap:unitary-regular-complexification` and
+not supplied by the cited sections of the roadmaps on which they depend. Their
+additional requirements are specified under Exact supplier contracts: `gap:unitary-regular-complexification` and
 `gap:torus-period-lattice` (LieGroups), `gap:compact-frobenius-schur`
 (CompactGroups) and `gap:skew-lr-tableaux` (SchurWeyl). The generic
 complexification, maximal-torus theory, compact character theory and tableau
@@ -354,9 +350,14 @@ for rational group representations, SchurWeyl Layer 7 for finite Schur polynomia
 CompactGroups Layers 0–6 for compact characters, and LieGroups Layers 2–4, 6–7
 for Lie integration, maximal tori, Haar Weyl integration and holomorphic
 complexification. The supplier gaps below are not part of these imports.
-ComplexKahlerGeometry K5a supplies the smooth test-density spaces and their
-continuous duals used for torus distributions in Layer 6.2. The needed Fourier
-decay estimates and lattice/cone comparisons are targets of that layer.
+LieGroupoidsPoisson G4.6A supplies the positive smooth Lie–Poisson bracket
+with {ℓ_x,ℓ_y}=ℓ_[x,y] on L*. TensorProductCombinatorics §1.6 supplies the
+common-height cone-series localization, polynomial-growth Fourier boundary
+map and directional reconstruction with every toric contribution for
+nonunimodular lists; §2.6 supplies the type-A interval-column dictionary.
+These use PseudodifferentialOperators §3.1's rapid Fourier decay and
+ComplexKahlerGeometry K5a's smooth test-density duals. The comparisons here
+retain those suppliers' lattice, Haar, Fourier-sign and directional conventions.
 ReductiveGroups Layers 2 and 5P supply the tangent and
 characteristic-zero closed-subgroup smoothness cut used by Layer 9.
 
@@ -429,9 +430,14 @@ headlines whose construction carriers are unavailable.
 
 ### 0.1 concrete polynomial tensor strings and their Hermitian orthogonality
 
-Every statement of this subsection is a derived finite computation with the
-inputs named here; no source theorem is claimed for it. Construct the concrete
-rank-one tensor comparison here, alongside Layer 0. It consumes
+The polynomial action and ladder are those of Etingof, *Lie Groups and Lie
+Algebras I & II*, §11.4, Theorem 11.16, pp. 65–67; the abstract tensor
+multiplicities are Theorem 11.18, p. 68. The normalized tensor dictionary,
+Hermitian form, orthogonality and factorial norms below are derived adapters:
+they use that explicit ladder and the native permutation-sum symmetrization,
+with the product Hermitian form on tensor powers. The averaging calculation
+in item 3 fixes its scale, and the adjoint recurrence in item 4 fixes every
+lowered norm. Construct the concrete rank-one tensor comparison here. It consumes
 native symmetric powers and their standard `GL₂(ℂ)`/`SU(2)` actions, the native
 single-module ladder, and finite-dimensional tensor linear algebra. It does not
 consume Layer 6's character formula, general compact Haar theory, either existence or
@@ -651,21 +657,19 @@ V(2) has weights 2,0,−2 and dimension 3; the d=2 monomial xy has norm squared 
   `B₁(p,q)-B₁(q,p)={p,q}`. The full first-order product coefficient
   is not asserted to be the Poisson bracket or to be alternating.
 
-  For a finite-dimensional real Lie algebra L, use the canonical bidual
-  identification to regard the derivative of a smooth function on L* at ξ as
-  an element Df(ξ) of L. Define the bilinear operation on C∞(L*,ℝ) by
-  `{f,g}(ξ)=ξ([Df(ξ),Dg(ξ)])`. Prove smoothness, alternation, Jacobi and
-  the Leibniz rule. The Jacobi proof uses symmetry of second derivatives
-  and Jacobi in L; it has no orbit or symplectic-leaf input. Define the
-  algebra map Sym_ℝ(L)→C∞(L*,ℝ) by x↦ℓ_x, where ℓ_x(ξ)=ξ(x), and prove
-  injectivity and preservation of the algebraic zero-fibre bracket
-  (Gutt, *Deformation Quantization and Symmetries*, Lecture 1, slide 14).
+  For a finite-dimensional real Lie algebra L, compare the algebraic zero-fibre
+  bracket with LieGroupoidsPoisson G4.6A's positive smooth Lie–Poisson bracket
+  `{f,g}(ξ)=ξ([Df(ξ),Dg(ξ)])`. Construct the algebra map
+  Sym_ℝ(L)→C∞(L*,ℝ) by x↦ℓ_x, where ℓ_x(ξ)=ξ(x), and prove injectivity
+  and bracket preservation (Gutt, *Deformation Quantization and Symmetries*,
+  Lecture 1, slide 14). Polynomial evaluation and the generator equation
+  determine this comparison; no orbit theorem enters its proof.
 
-  - The generator equation is {ℓ_x,ℓ_y}=ℓ_[x,y], and constants bracket to zero.
-  - For any real Lie homomorphism u:L→M, pullback along u*:M*→L* preserves
-    this bracket; identity and composition agree with function pullback.
-  - Among smooth bivectors linear in ξ, the generator equations determine
-    the bracket; the polynomial map preserves units, products and brackets.
+  - The map sends 1 to 1 and the algebraic bracket of x,y to ℓ_[x,y].
+  - For any real Lie homomorphism u:L→M, its symmetric-algebra map and
+    pullback along u*:M*→L* give a commuting square of these comparisons.
+  - Products and sums are preserved, and polynomial evaluation is injective
+    over ℝ; the constant-zero map fails the unit and generator equations.
 
   **Checks.**
 
@@ -676,8 +680,8 @@ V(2) has weights 2,0,−2 and dimension 3; the d=2 monomial xy has norm squared 
   - For sl₂, {h,e}=2e and {e,f}=h, so {e,h²+4ef}=−4eh+4eh=0.
     The polynomial e is not central since {h,e}=2e is nonzero.
 
-  *Needs:* the algebraic bracket above; Mathlib derivatives and finite-dimensional
-  biduality; symmetric-algebra evaluation and polynomial identity over ℝ.
+  *Needs:* the algebraic bracket above; LieGroupoidsPoisson G4.6A;
+  symmetric-algebra evaluation and polynomial identity over ℝ.
   The noncommutative Rees carrier is distinct from the commutative
   weight-Rees families of GroebnerGeometry G4.
 
@@ -769,7 +773,7 @@ For [x,y]=y, the ordered first-order coefficients are B(x,y)=y and B(y,x)=0; the
 
 ### Dependencies
 
-*Needs:* native ordered PBW, filtration, associated grading and Verma modules; Mathlib real differential calculus for the smooth bracket constructed in §3.1.
+*Needs:* native ordered PBW, filtration, associated grading and Verma modules; LieGroupoidsPoisson G4.6A for the smooth target of §3.1's polynomial comparison.
 
 ## Layer 5: opposition, invariant forms and compact characters
 
@@ -831,7 +835,13 @@ The Lie invariant-form headline is `invariantForm_isSymm_iff_tits_sign`: for a n
 invariant bilinear form on L(λ), symmetry is equivalent to
 (−1) raised to the sum of λ evaluated on the positive coroots being +1, and
 skew-symmetry to the same sign being −1. The sum uses the integral pairings.
-This is a derived statement with the following route and inputs: a nonzero
+This follows the principal-sl₂ proof of Etingof, *Lie Groups and Lie Algebras
+I & II*, Example 32.13 and Proposition 32.14, pp. 176–177. That source treats
+complex simple Lie algebras. For the stated algebraically closed
+characteristic-zero field and semisimple L, construct the principal triple
+componentwise using the same algebraic Chevalley-generator equations
+(Etingof, *Representations of Lie Groups*, §17.2, p. 81); the rank-one
+string argument uses no analytic property of ℂ. Its inputs are: a nonzero
 invariant form on the irreducible `L(λ)` is nondegenerate and unique up to
 scalar; the element `2ρ∨`, the sum of the positive coroots, is the semisimple
 element of a principal `sl₂`-triple; its eigenvalue `m = λ(2ρ∨)` on the
@@ -967,7 +977,14 @@ inverse, and N_λ/D has support ≤λ with coefficient 1 at λ. Pin the fact tha
 λ+ρ in dominance order. This supplies the leading coefficient and support
 without an analytic expansion at a wall or a character-formula assumption.
 
-**Haar norm and identification.** Expand P_λ using the preceding integral virtual
+**Haar norm and identification.** This is the integral norm-one argument of
+Woit, *The Weyl Character Formula* (2012), §3, Theorem 2 and its proof,
+p. 5, applied to the Laurent polynomial constructed above. Its independent
+Jacobian input is Woit §2, Theorem 1, pp. 2–4, rather than a derivation of
+integration from the character formula. The finite virtual-character expansion
+is an adapter from highest-weight triangularity and the finite dominance ideals
+proved above; the integral polynomial comes from SchurWeyl Layer 7's
+bialternant, not from an analytic quotient at its poles. Expand P_λ using the preceding integral virtual
 character isomorphism, `P_λ=Σ_ν a_ν χ_ν|_T`, with finitely many a_ν∈ℤ. The actual
 continuous central function `F_λ=Σ_ν a_ν χ_ν` on U(n) is constructed by this finite
 sum; its restriction is P_λ, and conjugacy into T determines it. This explicitly
@@ -1116,202 +1133,24 @@ downstream application actually invokes.
 
 Consume the native integral weight group algebra, denominator-cleared Weyl
 formula and Kostant coefficient theorem, and ClassicalGroups Layers 3–4's
-group-character comparison. First construct the following general lattice
-and Fourier interfaces, independently of representations. The character
-comparison then uses these interfaces; it supplies no premise for them.
+group-character comparison. Apply TensorProductCombinatorics §1.6's chosen
+cone expansion and Fourier boundary map with one common regular height for
+every denominator in a rational identity. Its directional reconstruction
+retains all toric points for nonunimodular spanning lists and uses an alcove
+inside the positive cone with 0 in its closure; rank-deficient lists use
+their saturated span, and the empty list gives the delta at 0. Its torus
+convention is z^b(θ)=exp(2πi⟨b,θ⟩), probability Haar measure, and
+Θ(c)(φ)=Σ_b c(b) φ̂(−b). These specify the inputs to the character comparison.
 
-For a finite-rank free lattice Λ with chosen basis, put V=Λ⊗ℝ and
-T=Hom(Λ,ℝ/ℤ), identified by that basis with the native unit additive torus.
-Use covolume-one measure on V and probability Haar measure on T. Define
-z^b(θ)=exp(2πi⟨b,θ⟩). For a finite list A=(a_j) of nonzero lattice vectors
-and a real linear functional h with h(a_j)≠0, let B index the negative
-pairings, a_j^h=sign(h(a_j))a_j, and s_h=−Σ_(j∈B)a_j. Define
+**Checks of the imported conventions.**
 
-`P_A^h(b)=(-1)^|B| * #{n in N^m : sum_j n_j a_j^h = b-s_h}`.
-
-This construction allows dependent, repeated and nonprimitive vectors.
-Prove fibre finiteness and polynomial growth by bounding each n_j by the
-positive height of b−s_h. Define the ring of coefficient functions supported
-in a translate of a finitely generated h-positive lattice cone, with finite
-coefficient convolutions. Map the localization of ℂ[Λ] at factors 1−z^a
-with h(a)≠0 into this ring by their geometric expansions. Every rational
-identity uses one h for all factors (De Concini–Procesi–Vergne,
-arXiv:1012.1049v3, §3.1, pp. 19–20).
-
-- The product of the inverse factors has coefficient function P_A^h;
-  a flipped factor is −Σ_(n≥1)z^(−na), so its endpoint is open.
-- Prove the unit, associativity and geometric inverse laws, compatibility
-  with list permutation, repeated columns, monomial shifts and lattice
-  isomorphisms, and invariance when h stays in its chamber.
-- Finite Laurent polynomials embed with their actual coefficients. Equality
-  in the localization implies equality of these chosen expansions.
-
-**Checks.**
-
-- The empty list has coefficient 1 at 0 and 0 elsewhere and product 1;
-  in rank zero this is the only allowed list.
-- For Λ=ℤ and A=(1), positive h gives [b≥0], negative h gives −[b<0];
-  the coefficients at b=0 are 1 and 0, excluding a closed negative ray.
-- A=(1,1) gives b+1 for b≥0, while A=(2) gives 1 exactly for even b≥0.
-  At b=2 these are 3 and 1; deleting repeated columns or saturating the
-  column lattice would change the object.
-
-*Needs:* native group algebras, localization, finite lattice bases and finite
-sums; the height bound and convolution construction in this paragraph.
-
-Construct the Fourier map from polynomial-growth functions c:Λ→ℂ to
-distributions on T, using the smooth test-density dual of
-ComplexKahlerGeometry K5a, by Θ(c)(φ)=Σ_b c(b) φ̂(−b). Prove rapid decay
-of smooth torus Fourier coefficients by repeated integration by parts,
-with the explicit bound
-`(1+4*pi^2*norm(b)^2)^N * abs(hat(phi)(b)) <= norm((1-Delta)^N phi, L1)`
-for every natural N, using Euclidean coordinates from the lattice basis.
-These bounds give absolute
-convergence and continuity of Θ and its uniqueness from Fourier coefficients.
-Construct also the tempered lattice distribution Σ_b c(b)δ_b on V;
-identify its inverse Fourier transform with the periodic lift of Θ(c),
-using periodization of Schwartz tests and the native negative-2π Fourier
-phase (De Concini–Procesi–Vergne, v3, §1, pp. 6–7).
-
-- Finite-support coefficients give the ordinary torus polynomial; its
-  b-th native `mFourierCoeff` is c(b). Prove compatibility with lattice
-  isomorphisms, monomial shifts, and multiplication by Laurent polynomials.
-- For c=P_A^h and ε>0, prove absolute convergence of the Abel series
-  Σ_b c(b)exp(−εh(b))z^b and identify it with the product of
-  (1−exp(−εh(a_j))z^(a_j))⁻¹. Each denominator is nonzero because h(a_j)≠0.
-  Prove convergence as ε decreases to zero in test duality, uniformly on
-  compact sets of smooth tests, retaining the different native topology
-  on tempered distributions.
-- Construct wall-crossing comparisons by differences of these coefficient
-  functions and their Fourier distributions. For one nonzero column a,
-  the two opposite expansions differ by Σ_(n∈ℤ)z^(na), the distribution
-  of probability Haar measure on the closed subgroup z^a=1. For several columns establish
-  support and properness before every convolution; define the comparison
-  as a difference of the separately constructed distributions even when
-  their products would be undefined.
-
-**Checks.**
-
-- c=δ_b gives Θ(c)=z^b, so testing against z^(−b) gives 1; on the circle
-  with b=1, testing against z instead gives 0, fixing the Fourier sign.
-- For A=(1), at z=1 and ε=log 2 the positive Abel sum is 2 and the negative
-  Abel sum (with h=−1) is −1. Their limits are distributions, not values
-  obtained by substituting ε=0 into either pole.
-- The difference [b≥0]−(−[b<0]) is 1 for every integer b. Its Fourier
-  distribution tests to φ(0); multiplying it by 1−z gives zero. Thus a
-  cleared denominator cannot determine a distribution uniquely.
-
-*Needs:* the lattice expansions above; Mathlib `SchwartzMap`,
-`TemperedDistribution`, `UnitAddTorus.mFourier`, `mFourierCoeff` and
-`UnitAddTorus.mFourierBasis`; ComplexKahlerGeometry K5a test densities;
-compact torus integration and integration by parts.
-
-For any finite nonzero list A define B_A by pushing Lebesgue measure on
-[0,1]^m forward under (t_j)↦Σ_j t_j a_j. When A admits a strictly positive
-height, define T_A by the same pushforward from ℝ_≥0^m. Prove compact support for B_A, local finiteness and
-tempered growth for T_A, and the measure identity
-`T_A = sum_b P_A(b) translate_b B_A` by the half-open cube decomposition.
-Construct their convolution, deletion/differentiation and lattice-difference
-laws and lattice-normalized piecewise polynomial densities on their actual
-span. For a regular h and an arbitrary nonzero list, prove
-`B_A *_d P_A^h = (-1)^|B| T_(A^h)`; the continuous cone has no discrete
-shift s_h (De Concini–Procesi–Vergne, v3, Propositions 3.2 and 3.4,
-pp. 19–20).
-
-- Scalar Fourier transforms use the negative-2π phase. The box factor is
-  (1−exp(−2πi⟨a,ξ⟩))/(2πi⟨a,ξ⟩), with value 1 at zero pairing.
-  The damped cone factor is (εh(a)+2πi⟨a,ξ⟩)⁻¹ for a positive list.
-- Rank-deficient lists are treated on their saturated span and pushed
-  forward; they are not assigned a density in the larger ambient space.
-- Prove the translation cancellation between B_A and P_A^h and agreement
-  with the coefficient and Abel constructions above.
-
-**Checks.**
-
-- A empty gives B_A=T_A=δ₀ and P_A=δ₀. A=(1) gives the unit interval
-  measure and the positive-ray measure; the box transform at ξ=0 is 1.
-- For A=(e₁,e₂,e₁+e₂), at (2,3) the partition count is 3 and the cone
-  density is 2; at (0,0) these are 1 and 0. Counts and volumes differ.
-- For A=(−1) and positive h on ℝ, P_A^h(b)=−[b>0] while T_A^h is minus
-  positive-ray measure. Translating the negative unit interval by positive
-  integers gives precisely that signed ray, with no continuous shift.
-
-*Needs:* the lattice constructions above; Mathlib measures, pushforwards,
-products, sums and Schwartz distributions; finite linear algebra.
-
-Build the affine arrangement of lattice translates of hyperplanes spanned
-by sublists of a spanning A, its alcoves and the polynomial pieces of these
-splines. For an alcove c whose closure contains 0, define the directional
-restriction at b∈Λ by evaluating the polynomial on b+c at b. Define
-Todd(A)=∏_a ∂_a/(1−exp(−∂_a)) on each polynomial piece by its finite jet.
-Prove translation and refinement compatibility, and distinguish piecewise
-from distributional differentiation. For unimodular spanning A and c
-contained in its zonotope, prove directional restriction of
-Todd(A)(B_A *_d K) equals K for every K:Λ→ℂ
-(De Concini–Procesi–Vergne, v3, Definitions 2.5–2.9, pp. 8–10,
-Theorem 2.15 and its proof, pp. 11–14).
-
-For that inversion construct the following solution spaces on a spanning
-list A. A cocircuit is a minimal sublist Y for which A\Y does not span V.
-Define D(A) as the complex polynomials killed by ∏_(a∈Y)∂_a for every
-cocircuit, and DM(A) as the complex lattice functions killed by
-∏_(a∈Y)(1−τ_a), where τ_a K(b)=K(b−a).
-
-- Prove finite dimension, stability of D(A) under differentiation and of
-  DM(A) under lattice translation, and the deletion maps when the remaining
-  list spans. Prove that polynomial restriction maps D(A) into DM(A),
-  and is an isomorphism when A is unimodular.
-- For ε in an alcove c, prove the finite set (ε−Z(A))∩Λ is independent
-  of ε and restriction to this set is an isomorphism from DM(A) to all
-  complex-valued functions on it. Construct its delta-interpolation basis.
-- For p∈D(A) prove B_A *_d (p restricted to Λ) is obtained by applying
-  ∏_a(1−exp(−∂_a))/∂_a to p, with constant term 1 and finite-jet
-  interpretation. The inverse is Todd(A) on D(A). These are inputs to
-  inversion, not consequences assumed from it (v3, Definition 2.19,
-  Lemma 2.22 and Theorems 2.23 and 2.25, pp. 12–13).
-
-**Checks.**
-
-- A=(1) gives constants in both spaces: ∂1=0 and (1−τ₁)1=0, but
-  ∂x=1 and (1−τ₁)(b↦b)=1 exclude the linear function.
-- A=(1,1) permits degree-one polynomials: ∂²x=0 and (1−τ₁)²b=0;
-  x² is excluded because both second operations give 2.
-- A=(2) gives constants in D(A) and two-periodic sequences in DM(A).
-  The sequence (−1)^b has difference 0 under τ₂ and values −1,1
-  on the interpolation window {−1,0} for ε=1/2; it is not a restricted
-  constant polynomial. This excludes a restriction isomorphism without
-  unimodularity.
-
-*Needs:* the spline measures and arrangement above; native complex polynomials,
-finite differences and finite lattice linear algebra.
-
-- For arbitrary spanning positive-height A, construct the finite set of
-  torus points g for which A^g={a:g^a=1} spans V. On polynomial pieces,
-  define the inverse of 1−g^(−a)exp(−∂_a) when g^a≠1 by its finite jet;
-  its constant term is nonzero. Prove the general reconstruction
-  `P_A(b)=sum_g g^b lim_c [Todd(A^g) prod_(a notin A^g) (1-g^(-a)exp(-d_a))^(-1) T_(A^g)](b)`
-  for c contained in Cone(A) with 0 in its closure (v3, Theorem 3.3,
-  p. 19, using Theorem 2.29, p. 15).
-- Prove compatibility with translation, lattice isomorphisms and restriction
-  to the saturated span; the empty-list statement is δ₀=δ₀.
-- Compare the reconstructed coefficients with the defining finite fibres,
-  including boundary lattice points. Unimodularity leaves only g=1;
-  nonunimodular lists retain every toric contribution.
-
-**Checks.**
-
-- For A=(1), c=(0,1) gives endpoint value 1 at 0, while c=(−1,0) gives
-  0 and is excluded by the zonotope condition.
-- For the unit-interval box, piecewise differentiation gives 0; the
-  distributional derivative evaluates a test as φ(0)−φ(1), which is −1
-  on a test equal to x near [0,1].
-- For A=(2), toric points are 1 and −1. At b≥0 their contributions are
-  1/2 and (−1)^b/2, giving 1 at b=0,2 and 0 at b=1; keeping only 1
-  gives the erroneous constant 1/2.
-
-*Needs:* the box/cone and coefficient constructions above; native polynomial,
-finite-dimensional differential and difference operators, and finite lattice
-linear algebra. No character formula is used in these constructions.
+- For A=(1), the positive expansion has coefficient 1 at b=0; the negative
+  expansion has coefficient 0 there and −1 at b=−1. Thus flipping a root
+  introduces an open negative ray, not a closed one.
+- For A=(2), the two toric contributions at b≥0 are 1/2 and (−1)^b/2;
+  their sums at b=0,1,2 are 1,0,1. The character application retains both.
+- For c=δ₁ on the circle, Θ(c)(z⁻¹)=1 and Θ(c)(z)=0. With the unshifted empty root
+  list the coefficient at 0 is 1 and the resulting torus character is 1.
 
 For each actual finite crystallographic root datum and group character
 lattice X, place all monomials in ℤ[X] before localization. Prove
@@ -1355,12 +1194,11 @@ norm. State that norm on the group, and consume
 normalized Weyl integration theorem if rewriting it as a weighted torus norm. These inputs
 are distinct from polynomiality or an unweighted torus norm.
 
-In type A identify the positive roots ε_i−ε_j (i<j) with interval columns
-in the simple-root basis: a coordinate vector (n_ij) of nonnegative integers
-maps to Σ_(i<j)n_ij(ε_i−ε_j). Prove that its fibre at β is the defining
-Kostant partition fibre, retaining the root lattice rather than a saturated
-ambient weight lattice. Compose this equality with the directional
-reconstruction above, including boundary weights and empty-root cases. Supply GL2's standard character
+In type A use TensorProductCombinatorics §2.6's identification of positive
+roots ε_i−ε_j (i<j) with interval columns in the simple-root basis. Compare
+its nonnegative solution fibre with the native Kostant partition fibre at β,
+retaining the root lattice. Compose that native-carrier comparison with the
+supplied directional reconstruction, including boundary weights and empty-root cases. Supply GL2's standard character
 `t1+t2`, SU2's weights n,n−2,…,−n, and a nontrivial A2 chamber/wall example.
 Compare the integer staircase, inversion-set polarization offsets and the
 direction chosen to restrict piecewise polynomials as distinct operations.
@@ -1373,7 +1211,7 @@ For sl₂, V(1)⊗V(1)=V(2)⊕V(0), with dimensions 4=3+1 and multiplicities one
 
 ### Dependencies
 
-*Needs:* native characters, Weyl and Kostant formulas; Layers 0–5; the lattice, cone, Fourier and endpoint constructions of §6.2; ComplexKahlerGeometry K5a.
+*Needs:* native characters, Weyl and Kostant formulas; Layers 0–5; TensorProductCombinatorics §§1.6 and 2.6; PseudodifferentialOperators §3.1; ComplexKahlerGeometry K5a.
 
 ## Layer 7: the center of `U(L)`, Harish-Chandra, Freudenthal, and Serre's relations
 
@@ -1425,6 +1263,25 @@ its root system.
   independently constructed action on the Verma top line. These equations fix the shift signs.
   All central characters in this layer retain the chosen base; changing to the opposite
   Borel changes the weight labeling and the raw polynomial.
+
+  The translation is an algebra automorphism S(H)→S(H), with the following API
+  (Etingof, *Representations of Lie Groups*, Theorem 14.1, pp. 70–71,
+  for its Harish-Chandra use; the translation laws follow on generators).
+
+  - On a generator h it sends h to h+μ(h)·1, and it fixes every scalar.
+  - Composition adds parameters; the inverse has parameter −μ.
+  - It preserves degree≤n in both directions; on positive homogeneous degree n
+    its difference from the identity has degree≤n−1, and on degree 0 it is zero.
+
+  **Checks for translation.** In A₁ write ρ(h)=1.
+
+  - τ_(−ρ)(1)=1, excluding the zero map.
+  - τ_(−ρ)(h)=h−1 and τ_ρ(h−1)=h, fixing both direction and inverse.
+  - τ_(−ρ)(h²+2h)=h²−1; τ_ρ instead gives h²+4h+3, so the raw Casimir
+    polynomial becomes ordinarily invariant only with the negative shift.
+
+  *Needs:* symmetric-algebra universal property and evaluation; the native Weyl
+  vector for the specialization μ=−ρ, and the raw projection for HC_lin.
 - **Lie-algebra Chevalley restriction and the filtered proof.** Construct
   `lieInvariantSymmetricAlgebra`, the subalgebra of Mathlib's `SymmetricAlgebra K L`
   killed by native `TauCeti.SymmetricAlgebra.adjointDerivation`. Consume the canonical
@@ -1457,6 +1314,35 @@ its root system.
   polynomial_evaluation_intLieAlgebra with transpose evaluation, joining the
   S(L) invariant and S(L*) density arguments. Construct
   its action on symmetric polynomials and prove infinitesimal invariants are fixed by it.
+
+  For Int(L), the Lie-equivalence adapter and the induced symmetric action, give:
+
+  - Inclusion of each exp(ad x), identity, products and inverses; the adapter to
+    Lie equivalences retains the same underlying linear map and its bracket law.
+  - The S(L) action sends a generator y to g(y), preserves degree and satisfies
+    the group action laws. On S(L*) the action sends φ to φ∘g⁻¹.
+  - Killing duality intertwines these two actions; evaluation of the latter
+    at y is evaluation of the original polynomial at g⁻¹y.
+
+  **Checks for Int(L) and its Lie adapter.** Use the standard sl₂ triple.
+
+  - exp(ad 0) sends (e,h,f) to (e,h,f); the subgroup contains the identity.
+  - exp(ad e) sends h to h−2e and f to f+h−e; the inverse sends h to h+2e.
+    The identity-only subgroup cannot contain this generator.
+  - [h−2e,f+h−e]=−2(f+h−e), so bracket preservation has the original sign;
+    exp(ad e) sends the bracket [h,f]=−2f to exactly this value.
+
+  **Checks for the polynomial action and Killing transport.**
+
+  - The action fixes 1 and sends the symmetric monomial h² to (h−2e)².
+  - For φ=κ(h,−) and g=exp(ad e), the transported functional has value
+    κ(h−2e,f)=−8 at f; κ(h,g⁻¹f)=κ(h,f−h−e)=−8 agrees.
+  - The inverse-transpose action on φ has value 8 at g(h)=h−2e,
+    agreeing with φ(h)=8; using φ∘g gives 8 at f instead of −8.
+
+  *Needs:* native expAd and its finite-sum formula; symmetric-algebra maps;
+  Killing-form invariance. These adapters use the Lie-algebraic action of
+  Etingof, *Representations of Lie Groups*, Theorem 10.1, pp. 51–52.
   Prove polynomial_eq_zero_of_intCartan directly by polynomial dominance. Export
   polynomialDifferential on coordinate tuples and
   polynomial_eq_zero_of_surjective_polynomialDifferential: over any characteristic-zero
@@ -1469,6 +1355,34 @@ its root system.
   Mathlib's `SymmetricAlgebra.equivMvPolynomial b.dualBasis` with evaluation at
   `b.equivFun x`; this is the coordinate adapter for the symmetric-algebra density
   statement. This uses no constructibility theorem.
+
+  The coordinate adapter is the algebra equivalence S(L*)→K[X₁,…,X_d]
+  attached to a basis, with generators sent to the corresponding coordinate
+  linear polynomials, inverse substitution, and preservation of evaluation
+  and degree. The polynomial differential is the matrix of formal partial
+  derivatives K^d→K^e at a specified point, with linearity in the tangent
+  vector and the chain rule (Etingof, *Representations of Lie Groups*,
+  Theorem 10.1, p. 51, for the density argument they express).
+
+  **Checks for the coordinate adapter.**
+
+  - The scalar 1 maps to 1 even for dimension 0; the zero map fails.
+  - In dimension 2 the first dual basis vector evaluates at (2,3) to 2,
+    and the second to 3; interchanging the coordinates fails these laws.
+  - Their symmetric product maps to X₁X₂ and evaluates to 6, with no
+    factorial factor; an averaged product with coefficient 1/2 gives 3.
+
+  **Checks for the polynomial differential.**
+
+  - The constant map 1 has differential 0 at every point, and the identity
+    has differential 1; a map value is not a differential.
+  - For t↦t² the differential at 2 applied to 3 is 2·2·3=12;
+    in characteristic 2 it is zero, explaining the characteristic-zero route.
+  - For the composite t↦(t²)² the differential at 1 is 4=2·2, whereas
+    the differential of t² at 0 is 0 and is not surjective.
+
+  *Needs:* symmetric-algebra coordinates, formal polynomial derivatives and
+  the characteristic-zero polynomial identity theorem; no Cartan conjugacy.
   Construct exists_rootExponentialPolynomialParametrization: choose one generator of
   each one-dimensional root space and a basis of H, and form
   φ(t,h)=∏_α exp(t_α ad e_α)(h). Native `expAd_apply_eq_sum` gives its polynomial
@@ -1476,6 +1390,21 @@ its root system.
   dφ has image H plus all root spaces, since its α-component is −α(h₀)t_αe_α.
   The root-space direct sum makes this differential surjective. Every image point lies
   in Int(L)·H, so the named vanishing lemma proves the needed density and injectivity.
+
+  For this root-exponential polynomial map, expose its source K^Φ×H, target L,
+  finite polynomial coordinate formulas, value φ(0,h)=h and differential
+  dφ_(0,h)(t,k)=k−Σ_α α(h)t_αe_α. It depends on the chosen root vectors and
+  their order; changing them changes the parametrization, not its dense image.
+
+  **Checks for the parametrization.** In sl₂ use the order e then f.
+
+  - φ(0,0,h)=h and φ(0,0,0)=0, excluding the zero map on all inputs.
+  - φ(t,0,h)=h−2t e; its t derivative is −2e, not +2e.
+  - At (0,0,h), the e, f and Cartan derivatives are −2e, 2f and h,
+    of rank 3; at (0,0,0) only the Cartan derivative remains, of rank 1.
+
+  *Needs:* native expAd's finite series, the root-space direct sum and
+  characteristic-zero differentiation; the preceding density adapter.
   For the separate Cartan-conjugacy theorem, export
   polynomialMap_image_contains_principalOpen_of_jacobian_surjective for square polynomial
   maps over algebraically closed K. Use the preceding injection of coordinate rings,
@@ -1500,6 +1429,40 @@ its root system.
   restrictions are the mth power sums of weights. Construct tracePowerPolynomial
   on S(L*) with trace-of-ρ(x)^m evaluation, its Killing-transported Lie invariance and
   tracePowerPolynomial_cartan coefficient-sum formula using actual `TauCeti.formalCharacter`.
+
+  For a finite-dimensional representation ρ on M and m∈ℕ, this is an element
+  of S(L*) with evaluation x↦tr(ρ(x)^m). Its API is:
+
+  - It is homogeneous of degree m, with m=0 equal to the constant dim M.
+  - Direct sums add trace-power polynomials; equivalent representations give
+    the same polynomial, and pullback of representations pulls back the polynomial.
+  - Restriction to H evaluates at h as Σ_μ (dim M_μ) μ(h)^m; the Killing
+    transport to S(H) uses the restriction square, including degree 0.
+
+  **Checks for trace powers.**
+
+  - For the standard sl₂ module at h=diag(1,−1), degrees 0,1,2,3 give
+    2,0,2,0. The zero module gives 0 even in degree 0, since its identity has trace 0.
+  - At e=E₀₁, the degree-two value is tr(e²)=0; at h it is 2, excluding
+    a constant or identically zero degree-two polynomial.
+  - Two standard summands give degree-two value 4 at h; an equivalent
+    representation has value 2, so multiplicity and change of basis differ.
+
+  **Checks for the Cartan restriction and Killing-transported restriction.**
+
+  - On the standard module at th the weight sum is t²+(−t)²=2t².
+    Since κ(h,h)=8, its element of S(H) is h²/32; at the Killing-dual
+    coordinate λ(h)=8t it evaluates to 64t²/32=2t².
+  - At degree 0 the weight sum is 1+1=2 and the transported polynomial is 2;
+    zero weights still contribute their multiplicities through μ(h)^0=1.
+  - For the adjoint sl₂ module, weights 2,0,−2 give 4t²+0+4t²=8t²,
+    hence the transported polynomial is h²/8; the standard-module value
+    h²/32 would miss the representation dependence.
+
+  *Needs:* native formal characters and Cartan eigenspaces, finite-dimensional
+  trace, Killing duality and the restriction square. The trace/power-sum inputs
+  are Etingof, *Representations of Lie Groups*, Theorem 10.1 and its proof,
+  pp. 51–52; the displayed normalization is the adapter to S(L).
   Transport it to S(L) by `killingSymmetricEquiv.symm`, using the restriction square.
   Character/orbit-sum unitriangularity,
   finite downward dominance recursion and polarization show these span every homogeneous
@@ -1900,7 +1863,7 @@ classification is used.
   form, and its native derivation Lie algebra with bracket and trace-zero
   representation. These generic algebra APIs precede classification. The
   complexification/type identification follows this algebraic sublane and
-  Layer7's split-F4 theorem. Construct the real tensor products
+  Layer 8's split-F₄ theorem. Construct the real tensor products
   `ℂ ⊗[ℝ] TauCeti.DivisionOctonionReal` and
   `ℂ ⊗[ℝ] compactAlbertAlgebra`. The complex-linear extension of positive real
   conjugation sends `z⊗x` to `z⊗Star.star x`, fixing the complex coefficient;
@@ -1929,7 +1892,7 @@ classification is used.
   finite-dimensional Leibniz-equation kernels and flat scalar extension,
   including bracket preservation. Consume native
   `TauCeti.derivationLieAlgebraCongr` on the preceding multiplicative
-  linear equivalence, then Layer7/8's split Albert identification, to
+  linear equivalence, then Layer 8's split Albert identification, to
   export `compactAlbertDerivation_complexification` with the split
   type-F4 complex Lie algebra. Derive
   `compactAlbertDerivation_finrank = 52` and zero real centre by faithful
@@ -1961,9 +1924,113 @@ classification is used.
   - Under the complex-linear extension of conjugation, `i⊗1` is fixed, whereas
     the tensor-product `Star.star` sends it to `−i⊗1`.
 
+  **Complexification APIs.** Write C_A=ℂ⊗[ℝ]A for each real algebra A above.
+  Keep the following maps separate; their formulas are derived scalar-extension
+  adapters to the Cayley–Dickson product and Albert cubic (Baez, §2.2,
+  pp. 8–10, and §3.4, p. 32, with the cyclic layout fixed above).
+
+  - Complex-linear octonion conjugation C_A→C_A sends z⊗a to z⊗ā;
+    it is involutive, reverses products, and fixes scalars.
+  - The extended norm C_A→ℂ and trace C_A→ℂ satisfy N(z⊗a)=z²N(a)
+    and T(z⊗a)=zT(a), with their polarized forms obtained by scalar extension.
+  - The complex Albert cubic C_J→ℂ is homogeneous of degree three, satisfies
+    det(z⊗A)=z³det(A), and agrees with the displayed trace-power expression.
+  - The octonion equivalence C_A→TauCeti.Octonion ℂ and the Albert equivalence
+    C_J→TauCeti.AlbertAlgebra ℂ preserve products and units and have complex-linear
+    inverses. The Albert map is the diagonal-identity and entrywise octonion map
+    in the cyclic layout, so it also preserves the specified frame, trace and cubic.
+
+  **Checks for complex-linear octonion conjugation.**
+
+  - It sends 1⊗1 to 1⊗1, and sends 1⊗u to −1⊗u for a quaternion unit u.
+  - For quaternion units u,v with uv=w, conjugation sends 1⊗(uv) to −1⊗w,
+    equal to (1⊗v̄)(1⊗ū), whereas the unreversed product is 1⊗w.
+  - It fixes i⊗1; coefficient conjugation would give −i⊗1.
+
+  **Checks for the extended norm.**
+
+  - N(1⊗1)=1, excluding the zero form.
+  - N(i⊗1)=−1; this is a complex quadratic form, not a positive Hermitian norm.
+  - For u²=−1 and T(u)=0, N(1⊗1+i⊗u)=1+i²=0 although the vector is nonzero;
+    positivity is a real-form assertion.
+
+  **Checks for the extended trace.**
+
+  - On octonions, T(1⊗1)=2 and T(i⊗1)=2i, excluding conjugate-linearity.
+  - T(1⊗u)=0 for a pure quaternion unit u, so trace is not norm (which is 1 there).
+  - On the Albert algebra, trace(i⊗diag(1,2,3))=6i and trace(1⊗E₀₀)=1;
+    the octonion factor 2 does not belong in Jordan trace.
+
+  **Checks for the complex cubic.**
+
+  - At diag(1,2,3), the trace powers are 6,14,36, and
+    (6³−3·6·14+2·36)/6=6.
+  - At i⊗diag(1,2,3), homogeneity gives −6i, not 6i or 6.
+  - At E₀₀ the trace powers are 1,1,1 and the cubic is (1−3+2)/6=0;
+    at the unit they are 3,3,3 and the cubic is (27−27+6)/6=1.
+
+  **Checks for the octonion complexification equivalence.** Let U,V,W be the
+  images of 1⊗u,1⊗v,1⊗w for quaternion units uv=w.
+
+  - The unit and i⊗1 map to 1 and i·1, respectively; a scalar conjugation fails.
+  - UV=W and VU=−W, so [U,V]=2W≠0; a commutative or opposite-product map fails.
+  - U²=−1 and the transported involution sends U to −U but fixes i·1;
+    the split real algebra cannot be substituted before extending scalars.
+
+  **Checks for the Albert complexification equivalence.** Put B=E₀₁+E₁₀
+  and C=E₁₂+E₂₁ in its real scalar-matrix Jordan subalgebra.
+
+  - The unit maps to the unit, with trace 3 and determinant 1; each Eᵢᵢ
+    maps to the same frame idempotent, excluding a permuted unmarked frame.
+  - B∘C=(E₀₂+E₂₀)/2 on both sides; ordinary matrix multiplication gives E₀₂
+    and fails the Jordan-product equation.
+  - i⊗B maps to i times the image of B, whose square is −(E₀₀+E₁₁);
+    its trace is −2, fixing complex bilinearity and the product normalization.
+
+  *Needs:* the real products, trace and cubic above; native nonassociative tensor
+  multiplication and quadratic base change; the complex octonion comparison
+  before the entrywise Albert comparison. The compact exceptional group plays no role.
+
+  **Derivation comparison API.** For either finite-dimensional real algebra A,
+  the base-change map ℂ⊗Der_ℝ(A)→Der_ℂ(C_A) sends z⊗D to the endomorphism
+  w⊗a↦zw⊗D(a). Prove its bijectivity by scalar extension of the Leibniz kernel,
+  its bracket equation and compatibility with composition of scalar extensions.
+  For the product-preserving equivalence e:C_A→A_split, use native
+  TauCeti.derivationLieAlgebraCongr, whose evaluation is D↦e∘D∘e⁻¹.
+  The final map to the split Serre algebra is the composite with Layer 8's
+  identification; its inverse and bracket law are the composite ones.
+
+  **Checks for derivation base change.** In the scalar-matrix Jordan subalgebra
+  put A=E₀₀, B=E₀₁+E₁₀, and D=[L_A,L_B].
+
+  - Every extended derivation kills 1; D(A)=−B/4≠0, so the zero map fails.
+  - The image of i⊗D sends 1⊗A to −i⊗B/4; conjugating the coefficient gives
+    the wrong sign +i⊗B/4.
+  - Put D₁₂=[L_(E₁₁),L_(E₁₂+E₂₁)]. Then [D,D₁₂](A)=−(E₀₂+E₂₀)/16;
+    after extension the commutator has exactly the same value, not its negative.
+
+  **Checks for derivation transport through e.**
+
+  - Transported D kills e(1)=1 and sends e(A) to −e(B)/4, preserving a nonzero action.
+  - Transported iD sends e(A) to −i e(B)/4, excluding a conjugate-linear map.
+  - The transported commutator sends e(A) to −e(E₀₂+E₂₀)/16; the inverse
+    transport recovers −(E₀₂+E₂₀)/16.
+
+  **Checks for the final type-F₄ comparison.** Denote its image of 1⊗D by d
+  and that of 1⊗D₁₂ by d₁₂; use the transported 27-dimensional representation.
+
+  - d acts on the image of A as −B/4, so d≠0 and the comparison is not the zero map.
+  - i d acts on that vector as −i B/4; its action on the unit vector is 0.
+  - [d,d₁₂] acts on that vector as −(E₀₂+E₂₀)/16, agreeing with both
+    preceding comparisons. The source and target have complex dimension 52.
+
+  *Needs:* finite-dimensional Leibniz kernels and flat scalar extension for base
+  change; the product-preserving equivalence for transport; Layer 8's split F₄
+  identification only for the final type comparison.
+
   *Needs:* the division octonions above; native `TauCeti.AlbertAlgebra` layout,
   `TauCeti.derivationLieAlgebra` and `TauCeti.derivationLieAlgebraCongr`;
-  Mathlib `Algebra.TensorProduct` and `QuadraticForm.baseChange`; Layer 7's
+  Mathlib `Algebra.TensorProduct` and `QuadraticForm.baseChange`; Layer 8's
   split F4 identification for `compactAlbertDerivation_complexification`.
 - **The `E`-series `E₆, E₇, E₈`, as explicit constructions.** Two different constructions produce these,
   and the roadmap keeps them apart rather than conflating them:
@@ -2297,7 +2364,11 @@ Set the open fundamental alcove to
 
 `A = {x ∈ V | αᵢ(x) > 0 for every αᵢ ∈ Δ, and θ(x) < 1}`.
 
-Its affine walls have functions `αᵢ` and `α₀ = 1 − θ`. Build the affine reflections and prove that
+Its affine walls have functions `αᵢ` and `α₀ = 1 − θ`. The affine reflection
+and alcove inputs are Garnier, *Fundamental domains for extended affine Weyl
+groups* (23 October 2020), Theorems 1.3.2 and 1.3.5, p. 5; the length-zero
+representatives are §2.2 and Proposition-Definition 2.2.1, pp. 7–8.
+Build the affine reflections and prove that
 the affine Weyl group `W_aff = Q∨ ⋊ W` acts simply transitively on alcoves. Build the extended
 affine Weyl group `W_ext = P∨ ⋊ W`, with its actual action on `V`, and define `Ω = Stab_{W_ext}(A)`.
 Prove the quotient map gives an isomorphism `Ω ≃ P∨/Q∨`, construct a representative in `Ω` for each
@@ -2320,12 +2391,17 @@ construct the closed alcove
 closure of A. Prove local finiteness of the affine root hyperplanes,
 covering by the translates of Abar, and the boundary-face comparison of
 adjacent alcoves. Use these actual wall reflections and finite galleries to
-prove that every W_aff-orbit of points meets Abar in exactly one point.
+prove that every W_aff-orbit of points meets Abar in exactly one point
+(Garnier, Theorem 1.3.5, p. 5).
 Simple transitivity on open alcoves alone does not give this boundary
 statement. For x∈Abar, prove its W_aff-stabilizer is exactly the finite
 subgroup generated by the affine simple-wall reflections whose walls
 contain x; construct its root/parabolic description and the conjugation
-comparison for points in other closed alcoves. Give face intersections and
+comparison for points in other closed alcoves. This stabilizer statement is
+an adapter to the affine reflection arrangement of Garnier §1.3, pp. 4–5:
+choose a small ball meeting only hyperplanes through x, join two local
+chambers by a gallery across those walls, and use simple transitivity on
+alcoves to identify the resulting product with the given stabilizer element. Give face intersections and
 stabilizers, including vertices and intersections of several walls. Prove
 properness of the lattice/finite-W action and Hausdorffness of its orbit
 quotient, and construct the homeomorphism `Abar≃V/W_aff` induced by the
@@ -2341,8 +2417,12 @@ W_Y-related exactly when they are Ω_Y-related, and construct the
 homeomorphism `Abar/Ω_Y≃V/W_Y`. At x∈Abar identify its full stabilizer
 with `Stab_(W_aff)(x)⋊Stab_(Ω_Y)(x)` under those same maps. Thus the
 closed alcove itself gives unique representatives for Q∨⋊W orbits;
-other lattices retain the displayed finite identifications. These are
-further theorems about this layer's affine engine, independent of compact
+other lattices retain the displayed finite identifications. The intermediate
+lattice decomposition is Garnier, Proposition 2.3.1, pp. 16–17. The quotient
+homeomorphisms are derived adapters: the affine action is proper because its
+translation lattice is discrete and its linear group finite; the resulting
+continuous bijections from compact Abar or Abar/Ω_Y to Hausdorff orbit spaces
+are homeomorphisms. These are further theorems about this layer's affine engine, independent of compact
 Lie groups and their period calculation.
 
 
@@ -2351,7 +2431,8 @@ lengths, and every oriented Cartan integer, without imposing a choice of isogeny
 element to the affine node by fixing `0`. Prove the conjugation action of `Γ_root` on `Ω`, and
 construct the concrete isomorphism
 
-`Ω ⋊ Γ_root ≃ Aut(affine Cartan matrix)`.
+`Ω ⋊ Γ_root ≃ Aut(affine Cartan matrix)`
+(Garnier, Corollary 2.2.7, p. 10, with the oriented Cartan data retained).
 
 Here an affine Cartan automorphism is a permutation of the finite simple nodes together with node
 `0` that preserves the full untwisted affine Cartan matrix, including multiple-edge orientation. A
@@ -2392,6 +2473,14 @@ quotient is equivariant under `Γ_Y`. Do not claim that an arbitrary isogeny lat
 every root-system diagram automorphism.
 
 ### 10.2 Compact-center application
+
+The compact center and isogeny classification are Etingof, *Lie Groups and Lie
+Algebras I & II*, Theorem 43.4 and Corollary 43.5, pp. 231–232. The period
+comparison below is a derived adapter to that lattice quotient, using the
+specified angular exponential and character differentials; it retains the
+2π normalization rather than replacing the actual exponential kernel by an
+abstract isomorphic lattice. For the reductive finite central covering use
+Corollary 43.6, p. 232.
 
 Let `G_sc` be a compact connected semisimple simply connected Lie group with maximal torus `T`
 (LieGroups Layer 6). Consume LieGroups gap:torus-period-lattice for the exponential kernel
@@ -2529,10 +2618,7 @@ For SU(2), Y=Q∨ gives affine stabilizer quotient 0 and center P∨/Q∨ of ord
 ## Downstream consumers
 
 AdoIwasawa consumes the arbitrary-field ordered PBW and central-monic finiteness
-interface in Layer 3. LieGroupoidsPoisson G4.6A packages §3.1's positive smooth
-bracket and G4.6B supplies its geometric orbit theory. TensorProductCombinatorics
-§§1.6 and 2.6 use §6.2's lattice expansions, Fourier boundary maps and endpoint
-reconstruction in their cone and type-A counting comparisons. CharacteristicClasses C5.1 consumes Layer 7's actual
+interface in Layer 3. CharacteristicClasses C5.1 consumes Layer 7's actual
 Lie–Chevalley restriction and its Killing-duality comparison. The split
 exceptional identifications in Layer 8 use the split Serre presentation in
 Layer 7; the compact Albert geometry in TangentialBordism B3 uses the separate
@@ -2544,6 +2630,20 @@ Layer9's reductive enveloping-product and center-factor constructions consume th
 Layer 10 consumes the native integral-weight predicates and constructs the lattice comparison, plus RootSystems Layers 1–6 finite root geometry, based classification, and actual Weyl group. It builds the affine action without a Lie-group or period input. Only §10.2's compact-center application uses Lie groups, through LieGroups Layers 4 and 6 and gap:torus-period-lattice; nothing in this roadmap is supplied back to RootSystems or LieGroups.
 
 ## References
+
+- P. Etingof, *Lie Groups and Lie Algebras I & II*, MIT 18.755 lecture notes
+  (Spring 2024), §11.4 and Theorems 11.16/11.18, pp. 65–68; Example 32.13
+  and Proposition 32.14, pp. 176–177; Theorem 43.4 and Corollaries 43.5–43.6,
+  pp. 231–232. These page numbers are the printed pages of the
+  [MIT course notes](https://ocw.mit.edu/courses/18-755-lie-groups-and-lie-algebras-ii-spring-2024/mit18_755_s24_lec_full.pdf).
+- P. Woit, *The Weyl Character Formula*, Math G4344 (Spring 2012),
+  §2, Theorem 1, pp. 2–4 and §3, Theorem 2 and proof, p. 5,
+  [author's notes](https://www.math.columbia.edu/~woit/LieGroups-2012/weylcharacter.pdf).
+- A. Garnier, *Fundamental domains for extended affine Weyl groups*
+  (23 October 2020), Theorems 1.3.2 and 1.3.5, p. 5;
+  Proposition-Definition 2.2.1, pp. 7–8; Corollary 2.2.7, p. 10;
+  Proposition 2.3.1, pp. 16–17,
+  [author's manuscript](https://www.lamfa.u-picardie.fr/agarnier/unpub/fund_dom_KP.pdf).
 
 - C. De Concini, C. Procesi, M. Vergne, *Box splines and the equivariant index
   theorem*, arXiv:1012.1049v3 (2012), §1, pp. 6–7; Definitions 2.5–2.9,

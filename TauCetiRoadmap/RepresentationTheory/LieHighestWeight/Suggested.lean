@@ -34,10 +34,10 @@ The closed-alcove headline lacks the constructed affine Weyl action, and the com
 headline lacks a compact Lie group's maximal torus and its period lattice. The LR
 application lacks the Littlewood-Richardson tableau carrier. The Rees special-fibre and
 first-order Poisson comparison lack the constructed filtered Rees algebra and its fibre
-maps. The cone Fourier-boundary and endpoint-reconstruction headlines lack the constructed
-common-chamber series ring, smooth torus test-density dual, and directional spline/Todd
-operators. The smooth linear Poisson bracket is specified in README.md by its derivative
-formula; its Poisson packaging is a downstream geometric construction. Category-O linkage lacks its category and integral
+maps. The Weyl-character Fourier-boundary application lacks the common-chamber series ring,
+smooth torus test-density dual and directional spline/Todd operators supplied by
+TensorProductCombinatorics §§1.6 and 2.6. The polynomial/PBW comparison with
+LieGroupoidsPoisson G4.6A lacks the supplied smooth Poisson carrier. Category-O linkage lacks its category and integral
 block carriers. None is replaced here by admitted data.
 
 The type-A identification of a rational irreducible GL_n-character with the
