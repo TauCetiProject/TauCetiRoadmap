@@ -65,8 +65,8 @@ targets. Counts concern actual extensions and representatives under algebra equi
   conditions, the finiteness of extensions of bounded discriminant and the consistency with Serre's
   Theorem 1 (Layer 5).
 - **Herbrand invariants, families, packets and masses**: the family `I/K` with fixed slopes, its
-  defining and auxiliary invariants, the Eisenstein diagram and the generic polynomial, Monge's
-  semicanonical polynomials, the family mass formula, the ambiguity, the comparison with Serre's
+  defining and auxiliary invariants, the Eisenstein diagram and the generic polynomial, its
+  full-residue specializations and Monge's reduced polynomials, the family mass formula, the ambiguity, the comparison with Serre's
   Theorem 2, Monge's count of isomorphism classes with given `(e, f)` over any finite `K/ℚ_p`, and the completeness of a list of totally ramified extensions whose masses sum
   to `1` (Layer 6).
 - The **Galois root discriminant** of a number field and its factorization into local Galois mean
@@ -270,8 +270,9 @@ The suppliers, with what is taken from each:
   orientation; this roadmap builds no polygon API of its own and does not use the parallel
   polynomial-only items 3.11/3.33/3.46/3.52/3.53 of
   [Classical arithmetic completion](../ClassicalArithmeticCompletion/README.md).
-- [Mass formula](../MassFormula/README.md), Layers 0, 3 and 4: `σ_K(n)`, the wild exponent `c`,
-  the Eisenstein region and its measure, the integral of the root count, Theorems 1 and 2 and the
+- [Mass formula](../MassFormula/README.md), Layers 0–4: `σ_K(n)`, the wild exponent `c`,
+  the Eisenstein region and its measure, Layer 1’s quantitative root lifting,
+  Layer 2’s coefficient-box measures, the integral of the root count, Theorems 1 and 2 and the
   orbit count. Layer 5 here is the discriminant-refined count that roadmap names as outside its
   scope, and Layer 6 compares family masses with its Theorem 2.
 - [Local Galois groups](../../Completed/LocalGaloisGroups/README.md): nothing is redefined; the Galois-group
@@ -280,9 +281,11 @@ The suppliers, with what is taken from each:
   completion at a prime, the decomposition group as the local Galois group (5.6), the
   discriminant tower law (§4.2), different-exponent and discriminant-valuation formulas (5.10, 6.3) and the permutation-action
   discriminant exponent formula (6.5), consumed by Layer 7.
-- [ClassFieldTheory](../ClassFieldTheory/README.md), Layers 6–7: local reciprocity,
-  the classification of cyclic extensions by norm subgroups, and the principal-unit filtration,
-  used in §6.7 exactly as in Monge’s proof.
+- [ClassFieldTheory](../ClassFieldTheory/README.md), Layers 6–7: local reciprocity and the
+  principal-unit filtration; Layer 8: local abelian existence, uniqueness, the local class-field
+  correspondence, its quotient isomorphism and the equality of extension degree with norm-subgroup
+  index. Section 6.7 uses these contracts for finite extensions of ℚ_p to count cyclic extensions
+  through open norm subgroups with cyclic quotient.
 - Mathlib: `Polynomial.IsEisensteinAt`, `IsKrasner` (`Mathlib/Analysis/Normed/Field/Krasner.lean`),
   `differentIdeal`, `NumberField.discr` and `NumberField.rootDiscr`, `normalClosure`,
   `Polynomial.Gal`, `Subgroup.index`, and the Haar-measure API that Mass formula already uses.
@@ -324,7 +327,7 @@ The local-field module prefix is `TauCeti/NumberTheory/LocalField/…`.
 | lower numbering, lower index | `LocalFieldsRamification.lowerRamificationGroup`, `lowerRamificationGroupReal`, `LowerJump`, `largestLowerJump`, `natCard_lowerRamificationGroup_zero`, `map_restrictScalarsHom_lowerRamificationGroup`, `IsLocalRing.lowerIndex`, `ramificationIndex_mul_lowerIndex_eq_sum` (`RamificationGroup.lean`, `LowerIndex.lean`, `RingTheory/LocalRing/RamificationGroup.lean`) |
 | Herbrand, upper numbering, breaks | `RamificationIndexDomain`, `herbrandOrderIso`, `herbrand`, `inverseHerbrand`, `psiNat`, `upperRamificationGroup`, `UpperJump`, `upperJump_herbrand_iff`, `lowerJump_inverseHerbrand_iff`, `herbrand_tower`, `inverseHerbrand_tower`, `map_restrictNormalHom_upperRamificationGroup`, `comap_restrictScalarsHom_upperRamificationGroup`, `upperJump_iff_upperJump_or_upperJump_inverseHerbrand`, `Subgroup.upperRamificationGroup_quotient` (`Herbrand/`) |
 | Hasse–Arf, prime degree | `UpperJump.exists_eq_intCast_of_finrank_prime`, `UpperJump.eq_of_finrank_prime` (`Herbrand/HasseArf.lean`; the abelian theorem is Local fields and ramification Layer 3 *Hasse–Arf*, specified there as the abelian theorem) |
-| tame structure | `natCard_lowerRamificationGroup_one`, `lowerRamificationGroup_one_eq_bot_iff_isTamelyRamified`, `IsTotallyRamified.exists_pow_eq_uniformizer_of_isTamelyRamified`, `finrank_fixedField_lowerRamificationGroup_one` (`TamelyRamified/`) |
+| tame structure | `natCard_lowerRamificationGroup_one`, `lowerRamificationGroup_one_eq_bot_iff_isTamelyRamified`, `IsTotallyRamified.exists_pow_eq_uniformizer_of_isTamelyRamified`, `finrank_fixedField_lowerRamificationGroup_one` (`TamelyRamified/Basic.lean`, `TamelyRamified/Subextension.lean`); `IsTotallyRamified.isGalois_iff_exists_isPrimitiveRoot` and `IsTotallyRamified.isGalois_iff_ramificationIndex_dvd_card_residueField_sub_one` (`TamelyRamified/Galois.lean`) |
 | absolute inertia, wild inertia | `inertiaSubgroup`, `wildInertiaSubgroup`, `maximalTameExtension`, `restrictNormal_mem_lowerRamificationGroup_zero`, `map_wildInertiaSubgroup_restrictNormalHom` (`Unramified/Inertia/Basic.lean`, `WildInertia.lean`) |
 | finite intermediate fields | `finiteIntermediateFieldValuativeRel`, `finiteIntermediateFieldTopology`, `finiteIntermediateField_isNonarchimedeanLocalField`, `IntermediateField.valuativeExtension_of_isNonarchimedeanLocalField` (`FiniteExtension/IntermediateField.lean`) |
 | roots of unity | `RootsOfUnity/Basic.lean`, `RootsOfUnity/Torsion.lean` |
@@ -427,12 +430,14 @@ non-square unit `u` (`u = 5` at `p = 2`). *Needs:* Mathlib `Algebra.discr`,
 ### 0.5 Automorphisms and subfields
 
 `Aut(L/K)` is Mathlib's `L ≃ₐ[K] L`; record `Nat.card (L ≃ₐ[K] L) ∣ n`, with equality exactly
-when `L/K` is Galois (`IsGalois.card_aut_eq_finrank` and its converse), and that `L/K` tamely
-ramified and totally ramified of degree `e` is Galois exactly when `μ_e ⊆ K`. Define the
+when `L/K` is Galois (`IsGalois.card_aut_eq_finrank` and its converse), and consume the tame Galois criterion from the supplier contract: for `L/K` totally and
+tamely ramified of degree `e`, this is equivalent to `μ_e ⊆ K`
+(`IsTotallyRamified.isGalois_iff_exists_isPrimitiveRoot`,
+`TauCeti/NumberTheory/LocalField/TamelyRamified/Galois.lean`, line 74). Define the
 **subfield multiset** of `L/K`: the multiset of `K`-isomorphism classes of the intermediate fields
 `K ⊊ E ⊊ L`, each class counted with the number of intermediate fields in it (this is the page's
 *Intermediate fields* with multiplicities). Prove it is empty exactly when `L/K` is without a proper intermediate field. *Needs:* Mathlib `IntermediateField`,
-`IsGalois`; Tau Ceti `TamelyRamified/Basic.lean`.
+`IsGalois`; Tau Ceti `IsTotallyRamified.isGalois_iff_exists_isPrimitiveRoot`.
 
 - Transport by K-algebra equivalence preserves the automorphism group and subfield multiset.
 - Each subfield class retains its number of embedded occurrences, not just its presence.
@@ -1401,9 +1406,12 @@ Layer 0; MassFormula Layers 0, 2–4, especially the root-count integral and orb
 
 ## Layer 6: Herbrand invariants, families, packets and masses
 
-Standing hypotheses: `K` as in Convention 1 with `FinitePadicExtension K p` where masses are
-absolute, `e_K := absoluteRamificationIndex K p`; `K_f` the unramified extension of `K` of degree
-`f` inside `SeparableClosure K`.
+Standing hypotheses: `K` as in Convention 1, in either characteristic; `K_f` is the unramified
+extension of `K` of positive degree `f` inside `SeparableClosure K`. Write
+`e_K := natValuation K p ∈ ℕ∞`, the valuation of the residue characteristic: in mixed
+characteristic this is the finite absolute ramification index; in equal characteristic it is ∞,
+as in §4.1 (Monge, arXiv:1109.4617v2, §1.2, p.2). Absolute masses are used only for finite
+extensions of ℚ_p. All the extensions counted here are separable.
 
 ### 6.1 Herbrand invariants
 
@@ -1427,15 +1435,26 @@ rams and means are those of Layers 1–2, and its `c := f(e − 1 + e m_w)` is `
 ### 6.2 Compatibility with the base field
 
 For `I = (ε, f, (s_k))` with distinct rams `b_1 < ⋯ < b_t` of multiplicities `d_1, …, d_t`, define
-IsCompatible K I: for each `i`, `(p^{d_i} − 1) b_i ∈ ℕ`, and either `p ∤ (p^{d_i} − 1) b_i` and
+IsCompatible K I as follows. When `e_K` is finite, for each `i` require
+`(p^{d_i} − 1) b_i ∈ ℕ`, and either `p ∤ (p^{d_i} − 1) b_i` and
 `b_i < p^{d_1+⋯+d_{i-1}+1} ε e_K/(p − 1)` (a **geometric ram**) or `d_i = 1` and
-`b_i = p^{d_1+⋯+d_{i-1}+1} ε e_K/(p−1)` (an **arithmetic ram**). Prove that
-IsCompatible K (herbrandInvariant K L) for every finite separable `L/K` (the bound is the wild
+`b_i = p^{d_1+⋯+d_{i-1}+1} ε e_K/(p−1)` (an **arithmetic ram**). When `e_K = ∞`,
+require only that each `(p^{d_i} − 1) b_i` is a positive integer prime to `p`; every band is
+geometric, there is no arithmetic band and no finite upper bound. For `w=0` these conditions
+are empty, so every positive tame index prime to `p` and positive residue degree is compatible. Prove that
+IsCompatible K (herbrandInvariant K L) for every finite separable `L/K`. In mixed characteristic
+the bound is the wild
 upper bound height ≤ v_L(e) read on each vertex field, the integrality is 2.6's denominator
 theorem, and the extremal arithmetic case is the equality case of the coefficient/different bound
-for the degree-p vertex step, Greve–Pauli author preprint Lemma 4.2, p.5), and that IsCompatible K I depends on `K`
-only through `e_K`. Prove that a band is arithmetic exactly when its small ram `r_k^* = e_K`. *Needs:* 6.1, 1.2,
-2.5, 2.6; Tau Ceti `Different/Wild.lean`.
+for the degree-p vertex step, proved from §1.1’s coefficient minima. The single-segment
+upper bound is Greve–Pauli author preprint Lemma 4.2, p.5. In equal characteristic,
+prove the prime-to-p numerator condition directly from §1.1’s coefficient minima and the
+vertex abscissae of §1.2: the pure leading-term contributions involving `p` vanish, and the
+nonzero vertex coefficient supplies the prime-to-p numerator. This argument uses separability
+to keep the leftmost height finite, rather than a finite different bound.
+Prove that compatibility depends on `K` only through `e_K`, with `p` fixed. A band is arithmetic
+exactly when its small ram `r_k^*` equals the finite value `e_K`; equality is impossible when
+`e_K=∞`. *Needs:* 6.1, 1.1–1.2, 2.5–2.6; Tau Ceti `Different/Wild.lean` for the mixed-characteristic bound.
 
 **Checks.**
 
@@ -1445,6 +1464,12 @@ only through `e_K`. Prove that a band is arithmetic exactly when its small ram `
   and empty ram list, not an arithmetic ram.
 - Swan `[1,2]` for `ℚ_2(ζ_8)` gives means `[1/2,5/4]`, rams `[1,3]`, height `5`,
   discriminant exponent `8`. Using `[2,3]` as Swan instead gives height `8` and exponent `11`.
+
+- Over `𝔽₂((t))`, `X²+t^m X+t` for `m=1,2,3` has nonzero derivative `t^m`,
+  height and ram `2m−1=1,3,5`. All three are compatible with `e_K=∞`; a finite
+  absolute-index cutoff would wrongly exclude sufficiently large `m`. The inseparable
+  polynomial `X²+t` has zero derivative and is excluded.
+- For `[]_3` over `ℚ₅` and `[]` over `K`, there are no bands to test; both are compatible.
 
 ### 6.3 Families
 
@@ -1458,9 +1483,11 @@ polygon (1.2) and the number of wild segments; and prove that the family of `L` 
 determines the rams, hence the slopes). The **field count** fieldCount K I is the number of
 isomorphism classes (finite by 5.3). The closure group, hidden slopes, inseparability indices, associated inertia and jump set
 are separate invariants; no constancy assertion about them is included in this definition. Define the **absolute family** (`K = ℚ_p`) and
-the **relative family** otherwise, and prove that every absolute family with `f > 1` is the
-disjoint union over the `Gal(K_f/ℚ_p)`-orbits of the relative families over `K_f` with `f = 1`
-and the same slopes. *Needs:* 6.1, 0.6, 1.2, 2.5, 5.3; Mass formula Layer 0.
+the **relative family** otherwise, and prove that the isomorphism classes in the absolute family with invariant
+`I=(ε,f,slopes)` are in bijection with the Frobenius orbit set of the individual
+`K_f`-isomorphism classes in the relative family with invariant `(ε,1,slopes)`.
+Transport by `Gal(K_f/ℚ_p)` preserves this invariant and acts within that relative family.
+The bijection is the restriction of §0.6’s class-orbit bijection; it also applies when `f=1`. *Needs:* 6.1, 0.6, 1.2, 2.5, 5.3; Mass formula Layer 0.
 
 **Checks.**
 
@@ -1470,6 +1497,11 @@ and the same slopes. *Needs:* 6.1, 0.6, 1.2, 2.5, 5.3; Mass formula Layer 0.
 - (membership) The family `[1, 5/2]` over `ℚ_2` (Artin `[2, 7/2]`, prefix `2.1.4.9`)
   contains `F_{x⁴+2x²+2}`, with closure `D_4` and hidden slope `[3]`.
 - (rejection) No family over `ℚ_2` has invariant `[3]` with `e = 2`: `[3]` is incompatible (6.2).
+
+- For `K=ℚ₂`, `f=2`, `e=2`, the two relative families over the unramified quadratic
+  base have `6` and `8` classes. Frobenius fixes each family setwise but fixes only `6`
+  classes in their union, exchanging the other `8` in `4` pairs: there are `10` absolute
+  classes, not `14`. For `f=1` each orbit is a singleton.
 
 ### 6.4 The Eisenstein diagram and the generic polynomial
 
@@ -1498,16 +1530,56 @@ with `d_0 = 1` when the D-point is not critical, `π` a uniformizer of `K`. Prov
 specialization with `a_σ ∈ 𝒪_{K_f}ˣ` lifting a nonzero residue, `b_σ, c_σ ∈ 𝒪_{K_f}` lifting
 residues, `d_0` lifting a nonzero residue, is Eisenstein over `𝒪_{K_f}` with Herbrand invariant
 `I` (the ramification polygon of `f_I` is read off the point types: the A-points are the vertices,
-by 1.1's valuation formula); and **Monge's theorem** that every member of `I/K` is generated over
-`K_f` by a root of such a specialization with the coefficients drawn from a fixed set of lifts `ℛ`
-of `𝓀[K_f]`, the **semicanonical polynomials** (Monge, arXiv:1109.4617v2, Theorem 1, p.11; Pauli–Sinclair, the enumeration theorem). Prove the count of the *rams* on the
+by 1.1's valuation formula); and the **coverage theorem** that every member of `I/K` is generated over
+`K_f` by a root of such a specialization with the coefficients drawn from a fixed residue section `ℛ`
+of `𝓀[K_f]`, taking `0` to `0` and `1` to `1`. Call this finite set the **full-residue
+specialization set**. Establish coverage by the uniformizer-change identity of Monge,
+arXiv:1109.4617v2, §2.1, Lemma 3, p.6, and its finite truncation: noncritical C coefficients
+can be made zero, while critical coefficients retain all residue values. This is a transfer
+to the displayed diagram, not a fibre count supplied by an enumeration theorem.
+For the polygon realization use Pauli–Sinclair, arXiv:1504.06671v1, Proposition 3.11, pp.9–10;
+its Theorem 6.3(a), p.21, supplies coverage for fixed residual data in the reduced template. Prove the count of the *rams* on the
 diagram: the number of drawn points in `B_k` of index `≤ k` is `⌈r_k⌉`, and the number of C-points
 on or below the top edge of `B_k` is `⌊r_k⌋` (knowl `lf.eisenstein_diagram`). *Needs:* 6.1,
-6.2, 1.1, 1.2; Mathlib `MvPolynomial`.
+6.2, 1.1–1.3; Mathlib `MvPolynomial`; MassFormula Layer 1 (quantitative root lifting).
 
-Prove the converse, **existence**: every compatible `I` is the Herbrand
-invariant of some `L/K`, by specializing the generic polynomial of 6.4 (Pauli–Sinclair, the
-characterization of the ramification polygons of Eisenstein polynomials; Monge, §3).
+Define separately the **reduced specialization set**, relative to fixed representatives of
+`𝓀[K_f]ˣ/(𝓀[K_f]ˣ)^e` for the constant coefficient (choose `1` when this quotient
+is trivial) and representatives of the additive
+quotients `𝓀[K_f]/η^j S_m(𝓀[K_f])` at integral lower breaks. Here
+`η=−f_0/π` in the residue field, and `S_m : 𝓀[K_f] → 𝓀[K_f]` is induced by the
+normalized residual additive polynomial of §1.3, with `j=⌊φ_{L/K_f}(m)+1⌋`.
+Use these representatives in the same uniformizer-change normalization, including its
+truncation beyond the largest break. This defines Monge's reduced polynomials
+(arXiv:1109.4617v2, §2.1, Definition 1, p.6, and Theorem 1, p.11).
+
+- Every reduced specialization is a full-residue specialization once the quotient
+  representatives are lifted through the fixed residue section.
+- Both sets cover every class in the family, and every member of either set has invariant `I`.
+- Reduction preserves the field and its residual-polynomial class; the reduced set can be
+  strictly smaller. Its choices are fixed quotient sections, not arbitrary units.
+
+For `w=0`, set `α=β=γ=0`, retain only the D-point and put `δ=1` exactly when
+`gcd(ε,q^f−1)>1`. The generic polynomial is `X^ε+d_0 π`, with `d_0=1` if `δ=0`, and
+with `d_0` ranging through nonzero residue lifts otherwise. The reduced set takes one lift
+of each multiplicative quotient class. Prove that these give all tame totally ramified
+extensions of `K_f`, with isomorphic fields exactly when their unit parameters have the
+same class in `𝓀[K_f]ˣ/(𝓀[K_f]ˣ)^ε` (Monge, §2.4, p.11; the tame radical-uniformizer
+contract and Hensel lifting of principal-unit ε-th roots). For `ε=1` this is `X+π`,
+generating `K_f`; all slope lists and all wild point sets are empty.
+
+Prove the converse, **existence**: every compatible `I` is the Herbrand invariant of some
+`L/K`, by specializing the generic polynomial. Prove that the coefficient inequalities and
+required vertex equalities of §1.1 hold for every allowed specialization; this identifies
+the polygon by §1.2 and the invariant by §2.5. In mixed characteristic these are the
+conditions of Pauli–Sinclair, arXiv:1504.06671v1, Proposition 3.10, pp.7–9, and Proposition 3.11, pp.9–10.
+For `e_K=∞`, establish the same inequalities directly with the vanishing integer
+coefficients omitted; every finite compatible list gives a finite diagram, all bands
+are geometric, and its nonzero A coefficients ensure a finite first vertex and separability.
+Coverage and reduction then use Monge's argument, whose scope includes equal characteristic
+(§1.2, p.2), with the quantitative root lifting of MassFormula Layer 1. For `w=0`, use the
+tame branch above. *Needs:* §§1.1–1.3, 2.0, 2.5, 6.2; MassFormula Layer 1; Tau Ceti
+`IsTotallyRamified.exists_pow_eq_uniformizer_of_isTamelyRamified`.
 
 **Checks.**
 
@@ -1517,6 +1589,18 @@ characterization of the ramification polygons of Eisenstein polynomials; Monge, 
 - (arithmetic ram) `[2]` over `ℚ_2` (`r_1 = 2`, `r_1^* = 1 = e_K`): `P_1` a Z-point, `P_3`
   (`h = 3/2`) the one B-point, `P_2` a C-point and `P_4` a critical C-point. So `α = 0`, `β = 1`.
 - (mass) These give `(q − 1)^α q^β = 1` and `2` with `q = 2`, `f = 1`: the masses of 6.5.
+- Over the unramified quadratic extension of `ℚ₂`, `[1]` has `α=γ=1`, `β=δ=0`:
+  the full set has `3·4=12` polynomials. The two polynomials `X²+2X+2` and `X²+2X+6`
+  generate the same field: their discriminants are `−4,−20`, whose ratio `5` is a square
+  in this base. For this residual data `S₁(z)=z²+z` on `𝔽₄` has image `{0,1}`;
+  the critical digits `0,1` become the same quotient class. A quotient section keeps
+  one of this pair, whereas the full set keeps both.
+- Over `𝔽₂((t))`, the invariants `[1]`, `[3]`, `[5]` have `α=γ=1`, `β=0,1,2`,
+  `δ=0`, so their full sets have `2,4,8` polynomials. The equations `X²+t^m X+t`
+  lie in them for `m=1,2,3`. No last arithmetic band is introduced.
+- For `[]_3` over `ℚ₅`, `gcd(3,4)=1`, so the only full specialization is `X³+5`.
+  For `[]_2` over `ℚ₅`, the full unit set has four elements and the reduced unit set
+  has two square classes. For `[]` over any base, `X+π` gives the identity extension.
 
 ### 6.5 Masses and the comparison with Serre
 
@@ -1532,13 +1616,30 @@ when `K = ℚ_p` (knowl `lf.family_mass`). Prove the **family mass formula**
 relMass K I = (q^f − 1)^{α(I)} q^{f β(I)}
 ```
 
-(Monge, loc. cit.; Pauli–Sinclair, loc. cit.: the number of semicanonical polynomials
-is `(q^f−1)^{δ+α} q^{f(β+γ)}` and each isomorphism class is represented
-`(q^f − 1)^{δ} q^{fγ}/#Aut(L/K_f)` times, by counting the Eisenstein polynomials of a fixed field
-with prescribed reduction, which is the fibre count of Mass formula Layer 3 made explicit on the
-semicanonical set). Define the **ambiguity** ambiguity K I as `f · gcd(ε, q^f − 1) · Π_j gcd(p^{ρ_j}, q^f)`
-over the distinct integral rams `r_{i_j}` of multiplicity `ρ_j`, and prove that the number of
-semicanonical polynomials representing a given `L` divides ambiguity/#Aut(L/K). Prove the
+by establishing the full-residue fibre theorem: the set of §6.4 has cardinality
+`(q^f−1)^{δ+α} q^{f(β+γ)}`, and each `K_f`-class `[L]` has exactly
+`(q^f−1)^δ q^{fγ}/#Aut(L/K_f)` representatives in it. Prove this by counting the
+uniformizer residue classes giving a fixed field, using the coefficient-change identity
+(Monge, arXiv:1109.4617v2, §2.1, Lemma 3, p.6), including the multiplicative change at
+level zero, and dividing by the free action of `Aut(L/K_f)` on generators. Each
+noncritical additive map is surjective; keeping all values at critical levels counts
+image choices as well as kernel choices. Establish this finite count using the root-count
+fibres of MassFormula Layer 3; it is a new comparison for the full-residue set.
+Division of the two counts gives the displayed mass formula in both characteristics.
+
+For the reduced set use Monge's different count: put
+`B(L/K_f)=gcd(ε,q^f−1)·Π_m #ker(S_m)`, over the distinct positive integral lower breaks.
+Then the number of reduced polynomials generating `L/K_f` is exactly
+`B(L/K_f)/#Aut(L/K_f)` (Monge, Theorem 1, p.11); in particular it is one for a Galois
+extension. Define the **ambiguity** ambiguity K I as
+`f · gcd(ε, q^f − 1) · Π_j gcd(p^{ρ_j}, q^f)`, over the distinct integral rams
+`r_{i_j}` of multiplicity `ρ_j`. Since each kernel is an `𝔽_p`-subspace of size at most
+`p^{ρ_j}`, its order divides `gcd(p^{ρ_j},q^f)`. Consequently the reduced count divides
+`(ambiguity/f)/#Aut(L/K_f)`. The reduced polynomials across the `K_f`-classes in one
+`K`-class number `f B(L/K_f)/#Aut(L/K)`, by §0.6 and Frobenius invariance of `B`,
+and this number divides `ambiguity/#Aut(L/K)`. These divisibility statements apply to
+the reduced set; the full-residue fibre count remains the preceding formula.
+Prove the
 **comparison with Serre's Theorem 2**: for `n = ε p^w`,
 
 ```text
@@ -1548,10 +1649,10 @@ semicanonical polynomials representing a given `L` divides ambiguity/#Aut(L/K). 
 where the exponent is the **wild exponent** `H(I) = n m_w(I) = c(I) − n + 1` of the family and
 not its discriminant exponent; this is Mass formula's Theorem 2 regrouped along the partition of
 `σ_K(n)`'s isomorphism classes into families (6.3), the sum being finite by 5.3 in mixed
-characteristic and by Convention 9's convergence in `ℝ≥0∞` otherwise; and the degree-`n` count
+characteristic and as the nonnegative sum in `ℝ≥0∞` of MassFormula Layer 4 otherwise; and the unweighted degree-`n` mass
 is the sum of the family masses, equal to `Σ_[L] 1/#Aut`, the mass of `σ_K(n)`. The columns `mass_stored`,
 `mass_found` are data. *Needs:* 6.3, 6.4, 0.6, 5.3; Mass formula Layer 4 (Theorem 2, orbit count),
-Layer 3 (fibre count).
+Layer 3 (fibre count); §§1.3, 2.0 and the tame branch of §6.4.
 
 **Checks.**
 
@@ -1560,6 +1661,15 @@ Layer 3 (fibre count).
 - (Serre comparison) The compatible invariants over `ℚ_2` with `f = 1`, `e = 2` are `[1]` and `[2]`,
   with wild exponents `H = 1, 2`: `1·2^{-1} + 2·2^{-2} = 1`.
 - (absolute mass) With `K = ℚ_p` and `f = 1`, relMass = absMass.
+- For `[1]` over the unramified quadratic base of `ℚ₂`, `q=4`: six quadratic classes
+  each have automorphism order `2`, full fibre size `4/2=2`, reduced fibre size `2/2=1`,
+  and relative mass `12/4=3`. Confusing the two sets would assert `2` divides `1`.
+- For `𝔽₂((t))`, rams `1,3,5` have masses `1,2,4` and heights `1,3,5`, contributing
+  `1/2,1/4,1/8`; through ram `2M−1` the sum is `1−2^(−M)`, increasing to `1`.
+- For `[]_3` over `ℚ₅`, the unique tame cubic has one automorphism and mass `1`.
+  For `[]_2` over `ℚ₅`, the two classes each have two automorphisms, again mass `1`.
+  For `e=1`, the relative mass is `1`; over `ℚ_p` with residue degree `f`, the
+  absolute mass is `1/f`, as the unramified field has `f` automorphisms.
 
 ### 6.6 Subfamilies and packets
 
@@ -1579,12 +1689,20 @@ the top slope are constant on packets. *Needs:* 1.4, 3.1–3.3, 6.3.
 
 **Checks.**
 
-- A field is in its own packet: all four comparisons are equalities, and its packet is nonempty.
 - For the two quadratic fields in the family `[1]` over `ℚ_2`, the wild residual polynomial
   is `z+1`, both groups are `C₂`, both closure pairs are `(e,f)=(2,1)` and both hidden
   lists are empty; they belong to the same packet, of size `2`.
-- The families `[1]` and `[2]` have means `1` and `3/2` for their Galois closures;
-  their members cannot share a packet because the packet relation is internal to one family.
+- Over `ℚ₂`, `X⁴−2` and `X⁴−4X²+2` both give rams `(2,4)`, Swan slopes `[2,3]`
+  and discriminant exponent `11`. The first has closure group `D₄` and hidden Artin
+  list `[2]` (hidden Swan `[1]`); the second generates the cyclic quartic subfield of
+  `ℚ₂(ζ₁₆)`, with group `C₄` and empty hidden list. Their packets differ inside the
+  same family; identifying every member of a family fails this test.
+- The polynomials `X⁴+2X³+2` and `X⁴+2X³+2X²+2` over `ℚ₂` both have the single
+  polygon face from `(1,3)` to `(4,0)`, hence invariant `[1,1]` and exponent `6`.
+  Their residual polynomials are respectively `z³+1` and `z³+z+1`, with associated
+  additive maps `z⁴+z` and `z⁴+z²+z`. Their kernels on `𝔽₂` have sizes `2` and `1`.
+  Since `𝔽₂ˣ={1}`, the residual classes differ, so they lie in different subfamilies
+  and packets. A relation omitting the residual comparison cannot certify this separation.
 
 ### 6.7 Monge's count over an arbitrary p-adic base
 
@@ -1632,10 +1750,16 @@ local-field structures on a finite subextension and asserts the actual values `(
   Selecting two distinct embedded conjugates of a non-Galois class fails uniqueness, even
   though those intermediate fields are different as subsets.
 
+Over `ℚ₃`, the three index-two open norm subgroups correspond to three quadratic
+extensions: one unramified and two ramified. The index-two subgroup containing all units
+gives the unramified extension; the other two do not contain all units. This checks both
+existence from a subgroup and the degree-index equality.
+
 The absolute specializations include `N_2(2,1) = 6`, `N_2(4,1) = 48`, `N_3(3,1) = 9`, `N_2(8,1) = 1544`, `N_5(5,1) = 25`,
 `N_2(2,2) = 10`, `N_3(9,1) = 753`, with the degree totals `Σ_{ef = n} N_p(e, f)` equal to
 `7, 59, 10, 1823, 26, 795` for `(p, n) = (2,2), (2,4), (3,3), (2,8), (5,5), (3,9)`.
-*Needs:* §0.6, §5.4; ClassFieldTheory Layer 7 (local reciprocity and principal units);
+*Needs:* §0.6, §5.4; ClassFieldTheory Layers 6–7 (local reciprocity and principal units),
+Layer 8 (existence, uniqueness, quotient isomorphism and degree-index correspondence);
 Mathlib `Nat.totient`, `Nat.divisors`, `Polynomial.SplittingField`, `AlgEquiv`;
 Tau Ceti finite-extension structure adapters.
 
@@ -1643,17 +1767,33 @@ Tau Ceti finite-extension structure adapters.
 
 Let `K` be any nonarchimedean local field, `q=Nat.card 𝓀[K]`, `n≥1`, and let `S`
 be a finite set of pairwise non-K-isomorphic separable totally ramified degree-n extensions.
-Prove that every separable totally ramified degree-n extension is K-isomorphic to a member of
-`S` if and only if `Σ_{L∈S} 1/(#Aut_K(L) q^{H(L)})=1`. Extend `S` to a representative set;
+Prove `mass_completeness`: every separable totally ramified degree-n extension is K-isomorphic
+to a member of `S` if and only if `Σ_{L∈S} 1/(#Aut_K(L) q^{H(L)})=1`. Extend `S` to a representative set;
 Serre's convergent mass formula and positivity show that the complementary sum is zero
 exactly when the complement is empty. This argument holds in both characteristics. A finite
 complete list exists exactly when `char K=0` or `p∤n`, by MassFormula Layer 4’s finiteness
 dichotomy and orbit count. In the wild equal-characteristic case both sides of the equivalence
 are false for every finite `S`.
-*Needs:* §0.3, §0.5; MassFormula Layer 4, *Theorem 2*, *finiteness dichotomy* and *orbit count*.
+For the acceptance statement, `totallyRamifiedHeight K E` is the simple wrapper
+`discriminantExponent K E + 1 − Module.finrank K E` with the canonical finite-intermediate-field
+structures installed, and value zero when `E/K` is infinite. On the valid members of `S`,
+`HasExtensionInvariants K E n 1 c` identifies this with §0.3's height, so the subtraction
+is faithful. It is an adapter for the MassFormula wild exponent, not a second invariant.
+
+- Membership asserts finiteness, ramification index `n` and inertia degree `1`; separability
+  is enforced by the carrier `IntermediateField K (SeparableClosure K)`.
+- The finite set must contain at most one member of every K-isomorphism class.
+- Every term is positive: the automorphism group is finite and nonempty and `q>1`.
+
+*Needs:* §0.3, §0.5, §5.1's `HasExtensionInvariants`; MassFormula Layer 4,
+*Theorem 2*, *finiteness dichotomy* and *orbit count*; pinned finite-intermediate-field adapters.
 
 **Checks.**
 
+- For `n=1`, the singleton base field has `c=0`, height `0+1−1=0`, one automorphism
+  and mass `1`; the empty set has mass `0` and is incomplete. The condition `n>0`
+  excludes degree zero. An infinite intermediate field gives the wrapper value `0`
+  but fails membership, and an unramified quadratic fails the required inertia degree `1`.
 - (quadratic over `ℚ_2`) The six fields `ℚ_2(√d)`, `d ∈ {−1, −5, ±2, ±10}`, of the families `[1]`
   and `[2]` (6.3) have `#Aut = 2` and `H = 1, 1, 2, 2, 2, 2`: mass `2·(1/4) + 4·(1/8) = 1`, so the
   list is complete. Omitting a member of `[1]` leaves `3/4`, omitting a member of `[2]` leaves
@@ -1680,7 +1820,7 @@ Their normalized mass is `1/2+2/4=1`; over the unramified quadratic base there a
 
 ### Dependencies
 
-Layers 0–3 and 5; MassFormula Layer 4; ClassFieldTheory Layer 7 for Monge’s count.
+Layers 0–3 and 5; MassFormula Layers 1, 3–4; ClassFieldTheory Layers 6–8 for Monge’s count.
 Compatibility necessity precedes the generic-polynomial existence theorem.
 
 ## Layer 7: the Galois root discriminant
@@ -1790,9 +1930,9 @@ Mathlib discriminants, normal closures and prime factorization.
   reciprocity, no class field theory, no `G_K(p)`.
 - No étale (Bhargava) mass formula; no counting of number fields by discriminant; no Serre–Odlyzko
   bound.
-- No algorithm: the generic polynomials and semicanonical sets of Layer 6 are specifications of
+- No algorithm: the generic polynomials and the full-residue and reduced sets of Layer 6 are specifications of
   sets, not enumeration procedures; Monge reduction is stated as the theorem that every class has
-  a semicanonical representative, not as a procedure.
+  a reduced representative, not as a procedure.
 - Equal characteristic is in scope for Layers 0–3, 5 and 6 with `Algebra.IsSeparable` imposed
   where stated; Layers 4 (jump sets), 3.5, 3.6 and 7 are `p`-adic by their hypotheses, and 6.8 is
   valid for separable extensions in either characteristic.
@@ -1889,8 +2029,9 @@ Checks keyed to milestones:
 - `x² + 4x + 2` over `ℚ_2` is Eisenstein; `x² + 2x + 4` is not (`4 ∈ 𝓂²`), and `x² + x + 2` is
   not (`1 ∉ 𝓂`): `Polynomial.IsEisensteinAt` rejects both, and no polygon is formed for them.
 - The ramification polygon of an unramified extension is the point `(1, 0)`; rams = [],
-  wildSegments = 0, height = 0, and the slope content of `ℚ_2(√5)/ℚ_2` is `[]^2`.
-- A tamely ramified `L/K` has visibleSwanSlopes = [], topSlope = 1, height = 0, and the
+  wildSegments = 0, height = 0, topSlope = 0, and the slope content of `ℚ_2(√5)/ℚ_2` is `[]^2`.
+  The identity extension also has top slope `0` and no segment; both are tame.
+- A tamely ramified `L/K` with `e>1` has visibleSwanSlopes = [], topSlope = 1, height = 0, and the
   residual polynomial of its single segment has degree `e − 1` over the residue field; the
   slope polygon of `ℚ_5(∛5)` is the segment `(1,0)–(3,2)` of slope `1`.
 - Krasner's formula at a non-admissible `j` is `0`, not a positive number: `ℚ_2`, `n = 4`,
@@ -1939,13 +2080,14 @@ otherwise independent of Layers 4–6.
   differs from *Ramification polygons, splitting fields, and Galois groups of Eisenstein
   polynomials*, Int. J. Number Theory 8 (2012), 1401–1424.
 - S. Pauli and B. Sinclair, *Enumerating extensions of (π)-adic fields with given invariants*,
-  Int. J. Number Theory 13 (2017), 2007–2038 (arXiv:1504.06671): the characterization of
-  ramification polygons and residual polynomials of Eisenstein polynomials, and the enumeration
-  by generic polynomials consumed in 6.2 and 6.4–6.5.
+  Int. J. Number Theory 13 (2017), 2007–2038; locators refer to arXiv:1504.06671v1:
+  Proposition 3.10, pp.7–9, and Proposition 3.11, pp.9–10 (polygon realization), Lemma 5.7, p.19
+  (coefficient changes), Theorem 6.3(a), p.21 (coverage for fixed residual data).
 - M. Monge, *A family of Eisenstein polynomials generating totally ramified extensions,
   identification of extensions and construction of class fields*, Int. J. Number Theory 10
-  (2014), 1699–1727 (arXiv:1109.4617): reduced Eisenstein polynomials and the identification of
-  extensions, the source of 6.4–6.5.
+  (2014), 1699–1727; locators refer to arXiv:1109.4617v2: §1.2, p.2 (both
+  characteristics), §2.1, Lemma 3 and Definition 1, p.6 (coefficient changes and reduced
+  polynomials), Theorem 1 and §2.4, p.11 (reduced representative count and the tame case).
 - M. Monge, *Determination of the number of isomorphism classes of extensions of a p-adic field*,
   arXiv:1011.0357v3, Theorem 1, p.4, equations (6)–(7), pp.3–4; published in
   J. Number Theory 131 (2011), 1429–1434. The count in §6.7 uses the preprint numbering.

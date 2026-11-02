@@ -15,7 +15,8 @@ The roadmap is README.md; this file is not the roadmap. It states the headline t
 against the pinned Mathlib and Tau Ceti APIs: invariance of root differences, additivity of
 wild residual polynomials, the discriminant integral, invariance of the indices of
 inseparability, Miki's ordered decomposition, Ore's realizability theorem, Krasner's refined
-count, Monge's class count, and the Galois root-discriminant product formula.
+count, Monge's class count, completeness of a finite totally ramified list by its mass,
+and the Galois root-discriminant product formula.
 
 The polygon-to-break and slope-polygon theorems cannot be stated at the pins: the native
 Newton polygon and its slope multiset are missing. The field-valued slope dictionary and
@@ -380,6 +381,35 @@ theorem monge_class_count (p : ℕ) [Fact p.Prime] [FinitePadicExtension K p]
     ∀ R : Set (IntermediateField K (SeparableClosure K)),
       IsInertiaRepresentativeSet K e f R →
         R.Finite ∧ (Nat.card R : ℚ) = mongeCount K p e f := by
+  sorry
+
+/-- The wild discriminant height of a finite intermediate field, using the canonical
+local-field structures, with value zero for an infinite extension. For a totally ramified
+extension this is `discriminantExponent K E + 1 - [E : K]`, the mass-formula weight. -/
+def totallyRamifiedHeight (E : IntermediateField K (SeparableClosure K)) : ℕ := by
+  classical
+  exact if h : Module.Finite K E then
+    letI := h
+    letI := finiteIntermediateFieldValuativeRel K (SeparableClosure K) E
+    letI := finiteIntermediateFieldTopology K (SeparableClosure K) E
+    letI := finiteIntermediateField_isNonarchimedeanLocalField K (SeparableClosure K) E
+    letI := finiteIntermediateField_valuativeExtension K (SeparableClosure K) E
+    discriminantExponent K E + 1 - Module.finrank K E
+  else 0
+
+/-- A finite set of pairwise nonisomorphic separable totally ramified extensions of positive
+ degree is complete if and only if its Serre mass is one. This holds for every nonarchimedean
+ local base field, including equal characteristic; README §6.8. -/
+theorem mass_completeness (n : ℕ) (hn : 0 < n)
+    (S : Finset (IntermediateField K (SeparableClosure K)))
+    (hmem : ∀ E ∈ S, ∃ c, HasExtensionInvariants K E n 1 c)
+    (hpair : ∀ E ∈ S, ∀ F ∈ S, Nonempty (E ≃ₐ[K] F) → E = F) :
+    (∀ E : IntermediateField K (SeparableClosure K),
+      (∃ c, HasExtensionInvariants K E n 1 c) →
+        ∃ F ∈ S, Nonempty (E ≃ₐ[K] F)) ↔
+      (∑ E ∈ S, (1 : ℚ) /
+        ((Nat.card (E ≃ₐ[K] E) : ℚ) *
+          (Nat.card 𝓀[K] : ℚ) ^ totallyRamifiedHeight K E)) = 1 := by
   sorry
 
 /-! ## Layer 7: the Galois root discriminant -/
