@@ -3,6 +3,7 @@ module
 public import Mathlib
 public import TauCeti.NumberTheory.NumberField.Index.Basic
 public import TauCeti.NumberTheory.EffectiveBounds.HermiteCount.Basic
+public import TauCeti.NumberTheory.NumberField.IntrinsicLabel
 
 /-!
 # Number fields of bounded discriminant: target signatures
@@ -10,7 +11,8 @@ public import TauCeti.NumberTheory.EffectiveBounds.HermiteCount.Basic
 The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
 theorems against the pinned Mathlib and Tau Ceti APIs: complex coefficient bounds and finite
 candidate sets, canonical defining polynomials and their classification property, absolute and
-relative Hunter bounds, relative completeness, and complete canonical lists in every degree.
+relative Hunter bounds, relative completeness, complete canonical lists in every degree, and
+their exact intrinsic-prefix characterization by real roots and field discriminant.
 All these headlines are statable at the pins. Relative polynomials use `(𝓞 F)[X]`; their images
 are described by integral generating roots in number fields, without a new tower carrier.
 
@@ -46,13 +48,6 @@ noncomputable def t2 (P : ℤ[X]) : ℝ :=
 
 /-- `README.md`, Layer 1, 1.1. Monic polynomials of degree `n` with bounded `T₂`. -/
 def candidates (n : ℕ) (B : ℝ) : Set ℤ[X] := {P | P.Monic ∧ P.natDegree = n ∧ t2 P ≤ B}
-
-/-- `README.md`, Layer 1, 1.1. The coefficient bound behind finiteness:
-`|a_k| ≤ C(n,k) (T₂/n)^{k/2}` for `P = Xⁿ + a₁ Xⁿ⁻¹ + … + aₙ`. -/
-theorem abs_coeff_le_of_t2 {P : ℤ[X]} (hP : P.Monic) {n : ℕ} (hn : P.natDegree = n)
-    (hpos : 0 < n) (k : ℕ) (hk : k ≤ n) :
-    (|P.coeff (n - k)| : ℝ) ≤ (n.choose k : ℝ) * (t2 P / n) ^ ((k : ℝ) / 2) := by
-  sorry
 
 /-- `README.md`, Layer 1, 1.1. The candidate set is finite. -/
 theorem candidates_finite (n : ℕ) (B : ℝ) : (candidates n B).Finite := by
@@ -303,6 +298,18 @@ theorem ncard_canonicalPolys_le (n D : ℕ) :
       (2 * NumberField.coeffBoundOfDiscrBdd D + 1) ^
           (NumberField.hermiteTheorem.rankOfDiscrBdd D + 1) *
         NumberField.hermiteTheorem.rankOfDiscrBdd D := by
+  sorry
+
+/-- The canonical polynomials of fields with intrinsic prefix `d.r.D` are exactly the
+degree-`d` canonical polynomials with `r` real roots and absolute field discriminant `D`.
+The discriminant is that of the quotient field, not of its defining polynomial. -/
+theorem prefix_characterization (d r D : ℕ) :
+    {Q : ℤ[X] | ∃ (K : Type) (_ : Field K) (_ : NumberField K),
+      TauCeti.NumberField.HasLMFDBIntrinsicLabel K d r D ∧ polredabs K = Q} =
+    {Q ∈ canonicalPolys d D | (Q.map (Int.castRingHom ℝ)).roots.card = r ∧
+      ∃ h : Irreducible (Q.map (Int.castRingHom ℚ)),
+        haveI : Fact (Irreducible (Q.map (Int.castRingHom ℚ))) := ⟨h⟩
+        (discr (AdjoinRoot (Q.map (Int.castRingHom ℚ)))).natAbs = D} := by
   sorry
 
 end TauCetiRoadmap.NumberFieldEnumeration
