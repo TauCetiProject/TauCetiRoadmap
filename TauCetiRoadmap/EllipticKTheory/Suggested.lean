@@ -14,9 +14,9 @@ against the pinned Mathlib and Tau Ceti APIs, with only the definitions they nee
 
 The statable headlines are the order of the twisted Frobenius kernel, minimal regular-model
 existence, terminality and marked uniqueness over S-integers, Weil reciprocity at the last rational
-place, and Bloch's correction. Layer 1 states no headline: geometric integrality of the projective
-Weierstrass cubic is ModularCurves Layer 2A and Tau Ceti's instance
-`WeierstrassCurve.geometricallyIntegral_projModelOver`.
+place, and Bloch's correction. Layer 1 states no headline: ModularCurves Layer 2A supplies
+geometric integrality of the smooth projective Weierstrass cubic; README §1.2 extends it to
+arbitrary Weierstrass cubics using base change and Tau Ceti's `WeierstrassCurve.isIntegral_projModel`.
 The K₀ ring computation, localisation and coniveau sequences, the integral motivic tower of a regular
 curve with its Adams-weight comparison, Harder finiteness, positive K-theory descent and finite-field K-group classification, model-independent
 integral part and quotient Bloch-class descent cannot be stated: the pins have no higher K-groups

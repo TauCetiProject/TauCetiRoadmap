@@ -21,7 +21,7 @@ split multiplicative fibre.
 
 This roadmap owns the K-theory of a regular curve over a field in low degrees and its elliptic
 specialisation. Concretely it owns: the comparison of the projective Weierstrass scheme with the
-existing function-field theory of elliptic curves (charts, function field, rational points, and compatibility diagrams for AlgebraicCurves’ isogeny scheme morphisms); the compatibility of the supplied elliptic `K_0` decomposition and its ring
+existing function-field theory of elliptic curves (charts, function field, rational points, and compatibility diagrams for AlgebraicCurves’ isogeny scheme morphisms); the extension of geometric integrality from smooth Weierstrass cubics to arbitrary Weierstrass cubics (§1.2); the compatibility of the supplied elliptic `K_0` decomposition and its ring
 structure with the concrete Weierstrass point/divisor equivalence; the localisation sequence of a regular curve over all closed points in degrees zero
 to three with its naturality and the identification of its boundaries; the curve invariant
 `SK_1`, the two-column coniveau description of `K_3` and the weight components of curve
@@ -68,7 +68,7 @@ The libraries and other roadmaps supply the following foundations.
   module sheaf (`Scheme.Modules.eulerCharBelow`) and local models over a DVR (`TauCeti.Model`).
   Tau Ceti also supplies the projective Weierstrass scheme
   (`WeierstrassCurve.projModel` with `projModelOver`, `projModelZero`, `isProper_projModelOver`,
-  `isIntegral_projModel`, `geometricallyIntegral_projModelOver`,
+  `isIntegral_projModel`,
   `smoothOfRelativeDimension_one_projModelOver`, the chart rings
   `Projective.ChartRing` with `awayEquivChartRing`, and `projModelVariableChangeIso`), the
   scheme Weil-class/Picard equivalence `SchemeWeilDivisor.classGroupAddEquivLineBundleClass`,
@@ -254,8 +254,7 @@ an order system with a point of weight one); `WeierstrassCurve.Affine.pointEquiv
 The same Tau Ceti contract includes `WeierstrassCurve.projModel W` for `W` over any commutative
 ring, as `Proj` of the homogeneous coordinate ring, with `projModelOver`, `projModelZero`
 (`projModelZero_projModelOver`), `isProper_projModelOver`, `isIntegral_projModel` over an integral
-domain and `geometricallyIntegral_projModelOver` over every commutative ring (neither needs
-ellipticity), `smoothOfRelativeDimension_one_projModelOver` for `W.IsElliptic`,
+domain (without ellipticity), `smoothOfRelativeDimension_one_projModelOver` for `W.IsElliptic`,
 `awayι_projModelOver`, the chart rings `Projective.ChartRing W i` with
 `Projective.awayEquivChartRing` and `chartRingBaseChangeEquiv`, and `projModelVariableChangeIso`;
 `SchemeWeilDivisor.equivFunctionFieldDivisor` with `degree_equivFunctionFieldDivisor`, `equivFunctionFieldDivisor_principalDivisor` and `linearlyEquivalent_equivFunctionFieldDivisor_iff` in TauCeti/AlgebraicGeometry/WeilDivisor/Scheme/FunctionField.lean;
@@ -480,7 +479,7 @@ number field, the arithmetic-integral symbol interface (§§6.8, 6.10, 7.3). No 
 finite generation of, or an explicit abstract-group classification of, any K-group of an elliptic
 curve over a number field; over a finite field the classification is complete (§5.11).
 
-The acceptance test in Suggested.lean states `card_twistedFrobeniusKernel`, `exists_minimalRegularProperModel`, `locallyMinimal_terminal`, `minimal_unique`, `tame_last_point` and `blochCorrection`. Its simple definitions are `twistedFrobeniusKernel`, `RegularProperModel`, `RegularProperModel.genericFibreInclusion`, `RegularProperModel.Hom`, `RegularProperModel.IsMinimal`, `tameValue`, `SymbolCandidate` and `SymbolCandidate.tame`. Scheme K-groups, the motivic tower and étale cohomology lack carriers for the other headlines. An excellence predicate is needed for the broader excellent-Dedekind model statements; the S-integer statements use the native `Set.integer` subalgebra and the projective Weierstrass scheme. Layer 1 states no headline: its geometric input is supplied by Tau Ceti and ModularCurves.
+The acceptance test in Suggested.lean states `card_twistedFrobeniusKernel`, `exists_minimalRegularProperModel`, `locallyMinimal_terminal`, `minimal_unique`, `tame_last_point` and `blochCorrection`. Its simple definitions are `twistedFrobeniusKernel`, `RegularProperModel`, `RegularProperModel.genericFibreInclusion`, `RegularProperModel.Hom`, `RegularProperModel.IsMinimal`, `tameValue`, `SymbolCandidate` and `SymbolCandidate.tame`. Scheme K-groups, the motivic tower and étale cohomology lack carriers for the other headlines. An excellence predicate is needed for the broader excellent-Dedekind model statements; the S-integer statements use the native `Set.integer` subalgebra and the projective Weierstrass scheme. Layer 1 states no headline: it combines the supplied geometric input with the elementary geometric-integrality extension of §1.2.
 
 ## Layer 1: The Weierstrass curve as a scheme
 
@@ -488,7 +487,7 @@ Every K-group in this roadmap is a K-group of the scheme `E_W`, while every expl
 (divisors, residues, isogeny degrees, torsion functions) is carried out with Tau Ceti's
 function-field theory of `W`. This layer fixes the dictionary between the two. It constructs
 nothing that ModularCurves constructs: the scheme, its structure morphism, zero section,
-properness and smoothness are ModularCurves Layer 1A, and geometric integrality is its Layer 2A.
+properness and smoothness are ModularCurves Layer 1A, and the smooth-case geometric integrality is its Layer 2A. Section 1.2 extends geometric integrality to singular Weierstrass cubics.
 
 ### 1.1 The Weierstrass scheme over a field and its charts
 
@@ -526,10 +525,18 @@ is the closed point in `D₊(Y) − D₊(Z)` with residue field `F`
 
 ### 1.2 Geometric integrality, dimension and cohomology
 
-`E_W` is geometrically integral over `F` for every Weierstrass curve `W`, ellipticity not needed:
-ModularCurves Layer 2A proves it for the smooth projective cubic, and Tau Ceti's instance
-`WeierstrassCurve.geometricallyIntegral_projModelOver` proves it for the structure morphism over
-every commutative ring. It is cited, never re-proved. Prove EllipticScheme.genusOne: `E_W` has
+Prove EllipticScheme.geometricIntegrality: for every commutative ring `R` and every
+`W : WeierstrassCurve R`, the structure morphism `projModelOver W` is geometrically integral,
+without an ellipticity hypothesis. This extends the smooth-case assertion to singular cubics.
+For every field `K` and ring map `R → K`, the base-change comparison identifies the fibre product
+with the projective model of the coefficientwise image of `W` over `K`; that scheme is integral
+by `WeierstrassCurve.isIntegral_projModel`. This is precisely Mathlib's
+`AlgebraicGeometry.GeometricallyIntegral` condition, and does not assert that the total space is
+integral over a nonreduced base. *Needs:* ModularCurves Layer 1A (base-change comparison);
+Tau Ceti `WeierstrassCurve.isIntegral_projModel`; Mathlib `AlgebraicGeometry.GeometricallyIntegral`.
+
+For every field `F` and every Weierstrass curve `W` over `F`, including singular ones, prove
+EllipticScheme.genusOne: the supplied projective model `E_W` has
 dimension one, `H⁰(E_W, O) = F` and `dim_F H¹(E_W, O) = 1`. The cubic `G` is irreducible over every
 extension field `K`: it is not divisible by `Z`, since `G(X, Y, 0) = −X³`, and its dehomogenisation is
 irreducible, since a factor of `y`-degree zero divides the leading coefficient `1`, and a factor of
@@ -538,16 +545,26 @@ degree is either `2 deg g ≥ 4` or at most two (Mathlib's `WeierstrassCurve.Aff
 A plane curve cut out by an irreducible form is a curve (Stacks, Lemma 53.9.2, tag 0BYC), and a plane
 curve of degree three has `H⁰ = F` and genus `(3 − 1)(3 − 2)/2 = 1` (Stacks, Lemma 53.9.3, tag 0BYD).
 Consequently `Scheme.functionField E_W` is a field (Mathlib's instance needs `IsIntegral`, which is
-Tau Ceti's `isIntegral_projModel`). *Needs:* §1.1; ModularCurves Layer 2A; Tau Ceti
-`geometricallyIntegral_projModelOver` and `isIntegral_projModel`; JacobianChallenge Layer B; Mathlib
-`Scheme.functionField`.
+Tau Ceti's `isIntegral_projModel`). *Needs:* §1.1; the geometric-integrality target above;
+Tau Ceti `isIntegral_projModel`; JacobianChallenge Layer B; Mathlib `Scheme.functionField`.
 
 **Checks.**
 
 - `χ(E_W, O) = 1 − 1 = 0`.
 - `Scheme.functionField E_W` is a field.
-- `y² = x³` is geometrically integral but not smooth, so integrality
-  does not imply smoothness; the cited instance needs no ellipticity.
+- for `y² = x³` over `𝔽₅`, and over every extension field, the affine coordinate ring is
+  `K[t², t³] ⊂ K[t]`, hence a domain, and the projective closure is integral; at `(0, 0)` the
+  partial derivatives `−3x²` and `2y` are both zero. Its arithmetic genus is one although its
+  normalization has genus zero, so neither smoothness nor geometric genus replaces the target.
+- the same cusp over `𝔽₂` and `𝔽₃` has coordinate ring `K[t², t³]` after every field extension;
+  its derivatives are respectively `(x², 0)` and `(0, −y)`, both zero at the origin. Geometric
+  integrality therefore imposes no exclusion of characteristics two or three.
+- over `R = 𝔽₅[ε]/(ε²)`, the constant cuspidal model has a nonzero nilpotent `ε` on its affine
+  chart, but every field-valued fibre kills `ε` and has ring `K[t², t³]`. Thus the structure
+  morphism is geometrically integral although the total scheme is not integral.
+- over the zero ring, the base and the projective model are empty and there are no maps to a
+  field; geometric integrality of the structure morphism is vacuous, while integrality of the
+  total scheme fails its nonemptiness requirement.
 
 ### 1.3 Regularity in the form the divisor API uses
 
