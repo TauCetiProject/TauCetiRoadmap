@@ -35,6 +35,13 @@ certificate checker belongs here. Noncongruence forms, half-integral weights, Ga
 representations of newforms, and general-level trace formulas belong to their separate
 roadmaps; none is a prerequisite for the classical targets below.
 
+The characteristic-zero arithmetic comparison in §8.0 and rational descent in §8.1
+belong to this roadmap's coefficient theory. ModularCurves Layers 1–5 and 9 supply the
+elliptic families, level moduli and descent formalism; §8.0 constructs the arithmetic
+modular-form laws, their all-cusp Laurent criterion and their analytic comparison.
+Integral geometric modular forms and characteristic-p operations belong to
+AlgebraicModularFormsAndSerreWeights Layers 1–3, which consume this rational theory.
+
 ## Conventions
 
 Levels N are positive, weights k are integers, and coefficients of analytic forms lie in ℂ.
@@ -202,6 +209,15 @@ The local multiplicity, degree and divisor constructions also have native module
 `TauCeti/Analysis/Complex/RiemannSurface/LocalMultiplicity.lean`, `Degree.lean` and
 `Divisor.lean`; the compactified modular quotient and genus comparison still require the
 stated geometric contracts.
+
+### From TauCetiRoadmap.ModularCurves
+
+Layers 1–2 supply elliptic curves over schemes, invariant differentials and isogenies;
+Layers 3–5 supply level structures, the Weierstrass presentation and rigidifying descent;
+§§9A–9B supply the quotient-level moduli and their actions. Over characteristic-zero
+fields, the μ_N-marked moduli used in §8.0 are obtained from these level problems by
+finite étale descent. The ordinary point marking and the μ_N marking are identified
+after choosing a primitive N-th root of unity, not over ℚ without that choice.
 
 ### From PolynomialGaloisGroups
 
@@ -563,16 +579,80 @@ requires cusp forms on both sides of the companion equation.
 
 ## Layer 8: weight-one arithmetic and Galois stability
 
+### 8.0 Characteristic-zero arithmetic forms and analytic comparison
+
+For N≥1, k≥1 and a characteristic-zero field K, define an arithmetic modular form
+on Γ₁(N) as a rule on elliptic families E over K-algebras with an embedding
+α:μ_N↪E[N], taking values in the k-th tensor power of the invariant-differential line
+ω_E=e*Ω¹_(E/A), compatible with isomorphisms and every base change of K-algebras.
+Impose holomorphy at every cusp; its arithmetic meaning is the absence of negative
+powers in every Tate expansion after adjoining the required roots of unity and cusp
+parameter. The cusp subspace additionally has constant term zero in every such
+expansion. Denote these spaces by M_k^arith(N,K) and S_k^arith(N,K)
+(Deligne–Serre §2.1, p.510, including its Laurent-expansion formulation).
+
+Construct the formal Tate evaluation for these rules: the Tate curve over K((q)),
+its canonical embedding μ_N↪Tate(q) and differential dt/t, and the expansions at
+all other cusps using the corresponding level structures after finite extension
+and a parameter q^(1/w). Prove independence from the finite splitting field and
+compatible changes of cusp parameter. The cusp subspace is the joint kernel of the
+constant-term maps on the holomorphic space, with one map at each geometric cusp.
+Retain the finite stabilizer action at small levels in these expansions
+(Deligne–Serre §§2.1(c), 2.5, pp.510–512).
+
+Prove the characteristic-zero comparison: over ℂ, evaluation on
+E_z=ℂ/(ℤ+zℤ), with α(exp(2πi/N))=1/N, and division by (2πi du)^k gives
+linear isomorphisms from M_k^arith(N,ℂ) and S_k^arith(N,ℂ) to the native analytic
+modular and cusp spaces on Γ₁(N). The Tate expansion agrees coefficient by coefficient
+with `UpperHalfPlane.qExpansion 1`; the maps commute with diamonds and good Hecke
+operators in the arithmetic normalization (Deligne–Serre §§2.2–2.5, pp.510–512,
+especially equations (2.4.1)–(2.4.2) and (2.5.1)).
+
+The arithmetic-form API includes:
+
+- Pullback along K-algebra maps, identity and composition, and descent through the
+  rigidifying level covers; no choice of trivialization of ω_E enters the value.
+- For a trivialized differential η and a unit u, the scalar coefficient changes by
+  u^(−k) when η is replaced by uη; this is the tensor-power convention above.
+- Injectivity of Tate expansion on each of these arithmetic spaces, and compatibility
+  with scalar extension and diamond action.
+- For every extension K′/K of characteristic-zero fields, the natural map
+  K′⊗_K S_k^arith(N,K) → S_k^arith(N,K′) is an isomorphism; these spaces are finite
+  dimensional. A form over K′ descends to K exactly when its canonical Tate
+  coefficients lie in K (Deligne–Serre §2.6, equation (2.6.1), p.512).
+
+**Checks.**
+- With t=exp(2πiu), dt/t=2πi du. On Δ, both normalizations therefore give
+  q−24q²; omitting 2πi multiplies both coefficients by (2πi)¹². E₄ has constant
+  term 1 and lies in M₄ but not S₄; testing no cusp would admit it to the wrong space.
+- At N=3, a primitive root satisfies X²+X+1=0 and is not rational, whereas the
+  canonical μ₃ embedding in Tate(q) is defined over ℚ((q)). Replacing it by an
+  unexplained rational point of order 3 would change the rational model.
+- With q=t², q−24q² becomes t²−24t⁴; t↦−t preserves these terms and the zero
+  constant. Cusp conditions concern the expansion, not a preferred root parameter.
+- Under ℚ→ℚ[ε]/(ε²), the arithmetic value Δ pulls back to Δ, whereas its multiple
+  (1+ε)Δ has coefficients 1+ε and −24−24ε. Reducing to the geometric fibre loses
+  these nonzero nilpotent terms, so naturality concerns whole families.
+- Replacing η by 2η changes the scalar of a weight-one value from 1 to 1/2,
+  and that of a weight-two value from 1 to 1/4; using u^k reverses the convention.
+- The element −1 at levels 1 and 2 acts by (−1)^k on the differential power:
+  odd-weight sections must be zero. The weight-one form η(z)η(23z) has a₁=1,
+  so the same vanishing assertion cannot be imposed at every level.
+- Over ℚ(√2), √2Δ has a₁=√2 and does not descend to ℚ; Δ/11 does descend,
+  with a₁=1/11. Rational descent is distinct from integral coefficients.
+
+*Needs:* ModularCurves Layers 1–5 and §§9A–9B for elliptic families, level moduli,
+isogenies and descent; Mathlib differential, tensor and power-series carriers;
+§0.1 for the analytic character action. The formal Tate evaluation, all-cusp Laurent
+criterion, analytic comparison and field-base-change theorem are targets of this subsection.
+
 ### 8.1 Rational descent and the weight-one lattice
 
-Use the characteristic-zero geometric comparison of AlgebraicModularFormsAndSerreWeights
-§1.5 to identify analytic S_k(Γ₁(N)) with sections of the cusp Hodge sheaf on the arithmetic
-modular stack. Descent and flat field extension give
-S_k(K)=K⊗_ℚ S_k(ℚ) for every characteristic-zero field K, with `rationalCuspFormSpan`
-stating the analytic complex-span consequence and coefficient-rationality
-characterizing descent. This applies at k=1 as well as k≥2 and includes the full level
-structure and its diamond action (Deligne–Serre §2.6, equation (2.6.1), p.512).
-This is an application of the supplied comparison, not a second construction of the stack.
+Apply §8.0 to identify the arithmetic cusp space over ℚ with the native analytic cusp
+forms having rational q-expansion. For every characteristic-zero field K the canonical
+map K⊗_ℚ S_k^arith(N,ℚ) → S_k^arith(N,K) is an isomorphism; its K=ℂ specialization
+is `rationalCuspFormSpan`. This includes k=1 and the diamond action, before any
+coefficient-field or Galois-conjugacy assertion (Deligne–Serre §2.6, equation (2.6.1), p.512).
 
 For weight one, form the actual subgroup L of rational cusp forms whose expansions at
 infinity after every diamond translate have integral coefficients. Prove that it is finite
@@ -611,8 +691,8 @@ has finite integral image; the native coefficient recurrences then prove
 - On an integral series q−q²−q³+…, U₂ has first coefficient −1; every coefficient
   remains an integer because it is an existing coefficient of the original series.
 
-*Needs:* AlgebraicModularFormsAndSerreWeights §§1.1–1.5 for geometric sections, cusp ideal,
-field extension and all-weight analytic comparison; the native weight-13 newform decomposition
+*Needs:* §8.0 for arithmetic cusp forms, rational descent and the all-weight analytic comparison;
+the native weight-13 newform decomposition
 and coefficient integrality; Mathlib Δ, its nonvanishing and integral inverse expansion;
 native Hecke action, diamond commutation and the bad-prime coefficient formula.
 
@@ -647,7 +727,8 @@ The fixed-character rational structure must be built before using the norm facto
   character orbit invariant but does not preserve that fixed character space.
 - A zero-dimensional newspace has characteristic polynomial 1, the empty orbit product.
 
-*Needs:* §8.1 and the supplied all-weight analytic comparison; native coefficient and character
+*Needs:* §§8.0–8.1 for the all-weight analytic comparison and rational descent;
+native coefficient and character
 fields, complex newform basis and Hecke character correspondence; §5.1 for uniqueness.
 
 ### Examples
@@ -1092,7 +1173,8 @@ or the Galois-group assertion (leanbridge lines 39–45 and 698–718).
   Inventiones Mathematicae 48 (1978), 221–243, §§1–4, especially Theorem 3.1.
 - P. Deligne and J.-P. Serre, [*Formes modulaires de poids 1*](https://www.numdam.org/item/ASENS_1974_4_7_4_507_0/),
   Annales scientifiques de l'École normale supérieure 7 (1974), 507–530:
-  §2.6, Proposition 2.7 and Remark 2.8, p.512 (deligne-serre lines 197–224).
+  §§2.1–2.6, pp.510–512, Proposition 2.7 and Remark 2.8, p.512
+  (deligne-serre lines 128–224).
 - O. Forster, *Lectures on Riemann Surfaces*, GTM 81, 1981, §§12–19.
 - A. Popa and D. Zagier, [*An elementary proof of the Eichler–Selberg trace formula*](https://arxiv.org/abs/1711.00327),
   arXiv:1711.00327v2, Theorem 1, §2 Corollary 1 and Proposition 2; §§3–4; published in J. Reine Angew. Math. 762 (2020), 105–122.

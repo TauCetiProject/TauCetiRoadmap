@@ -18,7 +18,10 @@ pins: the compactified modular quotient with its genus and elliptic/cusp counts,
 holomorphic line bundles and coherent cohomology are missing. The p-adic local comparison
 lacks the instantiated integral p-adic Hecke-pair carrier, including the finite double-coset
 conditions needed for its convolution ring. These are README targets, with no surrogate
-declarations here.
+declarations here. The characteristic-zero arithmetic/analytic comparison and field
+base-change theorem also lack their geometric carrier: arithmetic forms as natural rules
+on elliptic families with mu_N level and all-cusp Laurent conditions. Their analytic rational-span
+consequence is statable and is included below.
 -/
 
 namespace TauCetiRoadmap.ModularForms
