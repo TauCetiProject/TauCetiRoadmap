@@ -27,6 +27,9 @@ that classification and is independent only of the character formula, not of
 Lie highest-weight classification. [SchurWeyl, Layer 7](../SchurWeyl/README.md)
 owns Schur polynomials, Jacobi–Trudi and RSK. The Lie differentiation and
 intertwiner comparisons belong here.
+[ReflectionInvariantTheory, §2](../../ReflectionInvariantTheory/README.md#2-complex-branch-shephardtodd-in-both-directions)
+owns separation of distinct finite linear-group orbits by invariant polynomials.
+Layer 7 specializes this theorem to the Cartan dual and transports it to the dot action.
 
 [CharacteristicClasses, C5.1](../../CharacteristicClasses/README.md#c5-compact-lie-restriction-and-universal-rational-rings)
 owns compact infinitesimal invariance, geometric Cartan transport and real descent.
@@ -153,6 +156,13 @@ structure constant or full simply connected weight lattice stands in for a gap.
 ## Exact supplier contracts
 
 ### From Mathlib
+
+`MulAction.orbit`, `MulAction.mem_orbit_iff` and `MulAction.orbit_smul`
+in `Mathlib/GroupTheory/GroupAction/Defs.lean` supply the orbit as the range
+of the action, its membership equation and invariance under changing the
+representative. `MulAction.card_orbit_mul_card_stabilizer_eq_card_group`
+in `Mathlib/GroupTheory/GroupAction/Quotient.lean` supplies the finite
+orbit-stabilizer count. Layer 6 carries these laws to the finite-set realization.
 
 Use the following native carriers and their stated hypotheses. In particular,
 generalized weight spaces alone do not assert diagonalizability, and a
@@ -358,6 +368,16 @@ for Lie integration, maximal tori, Haar Weyl integration and holomorphic
 complexification. The supplier gaps below are not part of these imports.
 ReductiveGroups Layers 2 and 5P supply the tangent and
 characteristic-zero closed-subgroup smoothness cut used by Layer 9.
+
+### From ReflectionInvariantTheory
+
+Consume [ReflectionInvariantTheory §2](../../ReflectionInvariantTheory/README.md#2-complex-branch-shephardtodd-in-both-directions)
+for a finite faithful linear group acting on a finite-dimensional vector space V
+over an algebraically closed characteristic-zero field K: two points have equal
+evaluations on every invariant in Sym(V*) if and only if they lie in the same
+group orbit. Apply this to V=H* and the actual Weyl action; finite-dimensional
+double duality identifies Sym(V*) with Sym(H). Layer 7 owns this identification
+and the translation by ρ, not the interpolation-and-averaging construction.
 
 ### Supplier gaps
 
@@ -1079,18 +1099,82 @@ for the nonzero recursion denominator at actual weights μ≠λ; no claim is mad
 for arbitrary absent weights below λ. The orbit-sum, trace,
 graded-restriction and decomposition adapters below use these actual characters.
 
-Before Lie–Chevalley restriction, construct the finite set of **distinct** Weyl
-translates `weylWeightOrbit λ` with its membership equation, and its integral group-
-algebra orbit sum `weightOrbitSum λ` (each distinct weight occurs once). Define
-`dominantWeightBelow base λ μ` by dominant integrality of μ and λ−μ in the nonnegative
-integral span of the simple roots. Prove finite_dominantWeightBelow and
-formalCharacter_eq_orbitSum_add_lower: ch L(λ)=m_λ+Σ_(μ<λ)c_μ m_μ with finite support,
-c_μ∈ℕ and leading coefficient 1. This triangular expansion follows the highest-weight
-cone, one-dimensional top line and Weyl invariance, independently of HC. Prove
-polynomial_eq_zero_of_dominantIntegral on Mathlib's S(H): evaluation zero at every
-dominant integral weight forces zero, using the fundamental-weight coordinates and
-successive one-variable polynomial vanishing on ℕ in characteristic zero. These are
-the explicit orbit/density precursors used by Layer 7's trace/polarization argument.
+### 6.1 Orbit sums and the integral root order
+
+Fix the standing Cartan and base over an algebraically closed characteristic-zero
+field K. For an integral weight λ, use Mathlib's `MulAction.orbit` for the Weyl
+orbit in H*. Realize it as a finite set of distinct weights, using finiteness of
+the Weyl group; this finite-set realization introduces no new orbit relation.
+The orbit convention agrees with Etingof, §30.1, Corollary 30.5, p. 160.
+
+- Membership means that ν=wλ for some Weyl element w; the identity gives λ itself.
+- Translating λ by any Weyl element leaves this finite set unchanged.
+- Its cardinality counts distinct weights, equivalently the index of the stabilizer,
+  rather than the number of Weyl elements.
+
+**Checks.**
+
+- In A₁, write an integral weight as its value on the simple coroot. The orbit of
+  0 is {0}, of cardinality 1 although the Weyl group has order 2.
+- The orbit of 1 is {−1,1}, of cardinality 2, and does not contain 0.
+- The orbit of 2 is {−2,2}, not {−2,0,2}; the latter is the weight set of V(2).
+
+Define the orbit sum of λ in the integral group algebra of H* to be the sum of
+one basis monomial at each distinct weight in this finite orbit. For integral λ
+its support lies in the integral weight lattice. This extends the orbit-sum
+expression of Etingof, Corollary 30.5, p. 160, to every integral weight; no
+minuscule hypothesis is needed to define the sum.
+
+- The coefficient at ν is 1 if ν is in the orbit and 0 otherwise.
+- The sum is Weyl invariant and depends only on the orbit of λ.
+- Its augmentation is the orbit cardinality; it is the character of L(λ) when
+  λ is dominant and minuscule, by native weight multiplicities and the orbit condition.
+
+**Checks.**
+
+- In A₁ the orbit sum at 0 is 1; summing over Weyl elements instead gives 2.
+- At 1 it is z+z⁻¹, with augmentation 2 and coefficient 0 at weight 0.
+- At 2 it is z²+z⁻², with augmentation 2; ch V(2)=z²+1+z⁻² instead has
+  augmentation 3. An orbit sum is not generally an irreducible character.
+
+For a fixed dominant integral λ, define the predicate that μ is a dominant
+weight below λ to mean that μ is dominant integral and λ−μ is a nonnegative
+**integral** combination of the simple roots. This is the root order, including
+equality, used in Etingof, Proposition 30.4(3) and its proof, p. 159.
+
+- On dominant integral weights this relation is reflexive, antisymmetric and
+  transitive, using linear independence of the simple roots.
+- It requires λ and μ to belong to the same root-lattice coset; membership in
+  the real positive-root cone alone is insufficient.
+- The set of dominant weights below a fixed dominant integral λ is finite:
+  in the rational root space its coordinates lie in the bounded intersection
+  of the dominant chamber with λ minus the positive-root cone.
+
+**Checks.**
+
+- In A₁ the simple root has coroot coordinate 2. Below λ=2, μ=0 is allowed
+  since 2−0=1·2; μ=2 is allowed since 2−2=0·2.
+- Below λ=2, μ=1 is excluded: 2−1=1 is not a nonnegative integer multiple
+  of 2, although it belongs to the real cone.
+- Below λ=2, μ=4 is excluded: 2−4=−2 has coefficient −1, testing the
+  direction of the order. Thus the full set below 2 is {0,2}.
+- At rank zero the only weight is 0, its orbit and lower set are {0}, and
+  its orbit sum is 1; none is an empty set or empty sum.
+
+For dominant integral λ prove the triangular expansion
+ch L(λ)=m_λ+Σ_(μ<λ)c_μ m_μ, where m denotes the distinct orbit sum,
+the sum has finite support, c_μ∈ℕ and the leading coefficient is 1.
+Here μ<λ means the preceding predicate together with μ≠λ. This follows from
+the native highest-weight cone, one-dimensional top line and Weyl invariance,
+independently of HC. Prove polynomial_eq_zero_of_dominantIntegral on Mathlib's
+S(H): evaluation zero at every dominant integral weight forces zero, using
+fundamental-weight coordinates and successive one-variable polynomial vanishing
+on ℕ in characteristic zero. These are the orbit/density precursors used by
+Layer 7's trace/polarization argument.
+
+*Needs:* Mathlib `MulAction.orbit`; RootSystems Layers 1–6 for the finite Weyl
+action, rational root space and chamber geometry; native highest-weight cone,
+top-weight multiplicity and Weyl invariance from the supplier contracts.
 
 - **The representation ring and the character algebra.** `TauCeti.formalCharacter` is meant to be a ring
   homomorphism, which presupposes its domain and codomain. Consume Mathlib's
@@ -1136,6 +1220,20 @@ downstream application actually invokes.
   multiplicity one. The dominance of the target weight is essential (for `sl₂` with `λ = 0`, `μ = ω`,
   the weight `-ω` of `L(ω)` satisfies the weight condition while `L(0) ⊗ L(ω) = L(ω)`). For `gl_n`
   this specializes to the classical Pieri rules for the standard module and its dual (Layer 9).
+  The exact source is Etingof, §30.2, Corollary 30.7 and proof, p. 160, with
+  Proposition 30.4, p. 159, and Corollary 30.5, p. 160. Although §30 begins with
+  a simple complex Lie algebra, its character proof works over the standing
+  algebraically closed characteristic-zero K: use the native formal character
+  and Weyl formula in the integral weight group algebra. The minuscule orbit
+  condition and root sl₂ strings imply each coroot pairing of an occurring
+  weight is −1, 0 or 1. If λ+τ is not dominant, one simple-coroot pairing is
+  exactly −1, so λ+τ+ρ lies on that reflection wall and its alternant vanishes.
+  The remaining terms are precisely the dominant translates, with coefficient
+  one; native complete reducibility and character independence give the module
+  decomposition. The same argument applies componentwise to a semisimple root
+  system, including the zero weight, without an embedding of K into ℂ.
+  *Needs:* native minuscule orbit condition, root sl₂ strings, formal Weyl
+  character formula and complete reducibility; the character independence above.
   The type-A polynomial Littlewood–Richardson application requires the additional
   SchurWeyl gap:skew-lr-tableaux (Supplier gaps), beyond [SchurWeyl Layer 7](../SchurWeyl/README.md#layer-7-symmetric-functions-the-frobenius-characteristic-and-rsk); ClassicalGroups Layer 4 identifies polynomial character coefficients
   with group tensor multiplicities. Layer 9 below compares them with gl_n Lie modules.
@@ -1546,9 +1644,28 @@ its root system.
   principle** of category `O` (the precise statement about composition factors of `M(λ)`, the integral
   Weyl group, and the order constraints of the block decomposition) is strictly stronger and is a
   separate development, not identified with this orbit statement.
-First export linearInvariants_separate_orbits: finite distinct Weyl orbits are
-separated by invariant polynomials, by interpolation on their union followed by averaging
-over W. Translation gives dot-orbit separation. For dominant-integral uniqueness use the
+For the orbit-separation step, consume ReflectionInvariantTheory §2's finite-orbit
+separation theorem with V=H*. Identify its polynomial invariants with
+`linearInvariants` through finite-dimensional double duality and evaluation.
+For a linear-invariant polynomial p, the polynomial q(λ)=p(λ+ρ) is dot invariant,
+since w·λ+ρ=w(λ+ρ); this translation transports the supplied separation theorem
+in both directions. No new finite-group separation theorem is constructed here.
+
+**Checks.**
+
+- In A₁ the ordinary orbits {−1,1} and {−2,2} have h²-values 1 and 4.
+  The invariant (h²−1)/3 takes values 0 and 1, respectively; 3 is nonzero in K.
+- With ρ=1 the same polynomial evaluated at h+1 separates dot orbits {0,−2}
+  and {1,−3}, again by 0 and 1. Translation by −1 instead gives values 0 and
+  8/3 at 0 and −2, failing dot invariance.
+- Points 1 and −1 lie in the same ordinary orbit and cannot be separated by
+  an invariant polynomial. At rank zero there is a single point and a single
+  orbit, so equality of all invariant evaluations still agrees with orbit equality.
+
+*Needs:* ReflectionInvariantTheory §2; finite-dimensional double duality;
+the native dot action and ρ-translation in Layer 7.
+
+For dominant-integral uniqueness use the
 Mathlib `RootPairing.restrictScalarsRat` and the native ordered rational chamber theorem.
 Construct dominantIntegral_eq_of_dotAction_eq: the inverse rational Cartan matrix
 puts dominant-integral weights in the rational root span; transport the base, ρ and Weyl
@@ -1595,6 +1712,21 @@ no ordered-field structure on algebraically closed K is used.
   `L`, using root strings, Jacobi and characteristic-zero coefficients. Their independent
   images then prove injectivity. Combine it with the supplied surjection to construct
   the presentation equivalence from that same lift, with its H/E/F value equations.
+  The source is Etingof, §24.2, Theorem 24.2 and Lemma 24.3, pp. 130–132;
+  the root-support and one-dimensional-root-space steps occur in the proof of
+  parts (iii)–(iv), pp. 131–132. The source assumes algebraic closure in §24.1;
+  the split-field extension here uses its algebraic proof on the root-lattice
+  grading: mixed brackets reduce to the positive part, Cartan part or negative
+  part, and the Serre relations make every simple-root sl₂ action locally finite.
+  Rank-one strings preserve weight multiplicity under simple reflections;
+  height reduction leaves only roots and zero in the support and makes each
+  root space a line. All weights and Cartan eigenvalues lie in K by splitness;
+  the required nonzero integer coefficients are invertible by characteristic zero.
+  Positivity in the height argument is in the rational root space, not an order
+  on K. Thus this route needs neither algebraic closure nor an embedding into ℂ.
+  *Needs:* native normalized Serre lift and surjectivity; native characteristic-zero
+  root sl₂ strings; RootSystems Layers 1–6 for rational root geometry; the
+  root-graded spanning target in this paragraph. No HC input is used.
   The all-root normalization exists_chevalleySystem and serre_presentation_equiv
   are split-field contracts, independent of the HC isomorphism. Writing
   `A = base.cartanMatrix`, the native root convention is `A i j = αᵢ(hⱼ)`, whereas
@@ -1693,7 +1825,7 @@ For sl₂, the dot reflection sends t to −t−2; the raw Casimir polynomial h�
 
 ### Dependencies
 
-*Needs:* native root/weight theory and classification; Layer 6; native triangular PBW, symmetric grading, Killing duality and Serre lift.
+*Needs:* native root/weight theory and classification; Layer 6; native triangular PBW, symmetric grading, Killing duality and Serre lift; ReflectionInvariantTheory §2 for finite-orbit separation.
 
 ## Layer 8: the exceptional Lie algebras, explicitly
 
@@ -2651,7 +2783,9 @@ Layer 10 consumes the native integral-weight predicates and constructs the latti
 
 - P. Etingof, *Lie Groups and Lie Algebras I & II*, MIT 18.755 lecture notes
   (Spring 2024), §11.4 and Theorems 11.16/11.18, pp. 65–68;
-  Proposition 26.3 and Theorem 26.4, pp. 139–140; Example 32.13
+  §24.2, Theorem 24.2 and Lemma 24.3, pp. 130–132;
+  Proposition 26.3 and Theorem 26.4, pp. 139–140; §30.1, Proposition 30.4,
+  p. 159, and Corollary 30.5, p. 160; §30.2, Corollary 30.7 and proof, p. 160; Example 32.13
   and Proposition 32.14, pp. 176–177; Theorem 43.4 and Corollaries 43.5–43.6,
   pp. 231–232. These page numbers are the printed pages of the
   [MIT course notes](https://ocw.mit.edu/courses/18-755-lie-groups-and-lie-algebras-ii-spring-2024/mit18_755_s24_lec_full.pdf).
