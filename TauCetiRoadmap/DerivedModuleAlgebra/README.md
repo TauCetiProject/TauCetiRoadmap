@@ -15,15 +15,6 @@ limits and completion, ordinary-module perfectness and finite models, perfect in
 effectivity, and the specified Matlis and spectral-sequence contracts. Objects and comparisons use
 Mathlib's carriers and the pinned Tau Ceti APIs.
 
-The downstream consumers are EnhancedDerivedSheaves, EtaleCohomologyFoundations, PadicPeriodRings,
-DerivedDeRhamCohomology, CrystallineCohomology, PerfectoidSpaces, ArithmeticGaloisDuality,
-IntegralHeckeAndGaloisDeterminants, AlgebraicModuliForArithmeticGeometry,
-DeformationAndDerivedPatchingAlgebraPartII, ClassicalAdicEtaleCohomology,
-ArithmeticLocallySymmetricSpaces, AlgebraicTopology and KhovanovHomology. Sheaf enhancement,
-point-site identification and the affine/Spec comparison are owned by the consumer
-EnhancedDerivedSheaves. Arithmetic cochains, determinants, crystalline sites and period-ring
-specializations belong to their respective downstream consumers.
-
 | Owner | Tower interfaces exported | Inputs consumed by this roadmap |
 | --- | --- | --- |
 | DerivedModuleAlgebra §§1.T.1/1.1 | Native towers `ℕᵒᵖ ⥤ ModuleCat R`, the product difference map, `lim` and `lim¹`, tower-map and product compatibility, the six-term sequence, Mittag–Leffler vanishing, integer-graded Milnor sequences, shifted-cone derived limits, cofinal comparisons and maps retaining specified square homotopies. The integral-module adapter preserves the projections, boundaries and Milnor maps. | Mathlib's module, functor-category, exact-product, Mittag–Leffler and complex APIs, together with the module replacements constructed here. |
@@ -33,8 +24,8 @@ specializations belong to their respective downstream consumers.
 
 There are no roadmap dependencies. Every target uses Mathlib, implemented Tau Ceti APIs and earlier
 sections here. Missing constructions specified below are targets in Tau Ceti; adopt Mathlib's design
-and declarations as they become available. The README is definitive; `Suggested.lean` records only
-representative definitions and theorem signatures that can be stated against the pinned libraries.
+and declarations as they become available. The README is definitive; `Suggested.lean` states only
+the headline theorems that are statable against the pinned libraries, with the few definitions they need.
 
 | Supplier | Exact input |
 | --- | --- |
@@ -45,6 +36,17 @@ representative definitions and theorem signatures that can be stated against the
 | Mathlib towers, completion and spectral objects | Abelian groups, `CategoryTheory.Functor.IsMittagLeffler`, exact products, snake lemma, `AdicCompletion`, spectral objects and `HomologicalComplex₂.total`; §§1.T.1, 1.1–1.9, 1.E.0–1.E.1, 1.M.1–1.M.2 and S.1 construct the additional limits, completions, duality and abutment maps. |
 | Tau Ceti Artin–Rees | `TauCeti.ArtinRees.exists_controlled_lift` in `TauCeti.RingTheory.Ideal.ArtinRees`: controlled lifts in finite modules over Noetherian rings, used in §1.5 to make higher Koszul homology pro-zero. |
 | Tau Ceti injective envelopes | `TauCeti.IsInjectiveEnvelope`, `isEssential_range` and `exists_linearEquiv` in `TauCeti.Algebra.Module.Injective.Envelope.Basic`: essential injective embeddings and uniqueness; §1.M.2 constructs hull existence and the completion action. |
+
+## How to read the build
+
+The sections are in construction order. Sections 0.DP.1–0.DP.3 and 0.K.1 build the polynomial-law,
+divided-power and Koszul inputs; §§0.I.1–0.3 the unbounded module replacements, derived tensor and
+non-additive derived functors; §§0.4–0.25 the cotangent complex, its powers and deformation theory.
+Sections 1.T.1–1.9 build towers and derived limits, derived Hom, derived completeness and the
+completion reflector, simplicial-algebra completion and complete flatness; §§1.E.0–1.E.1 perfect
+complexes, finite models and effectivity; §§1.M.1–1.M.2 Matlis duality; §S.1 the spectral sequence
+of a first-quadrant double complex. Each target's *Needs* line names the earlier sections and library
+inputs that its statement and route use.
 
 ## Conventions
 
@@ -69,7 +71,8 @@ that the zero law is homogeneous of every degree, that homogeneity of a fixed de
 addition, that composition multiplies degrees, and that a law has degree one iff it is the base
 change of a linear map ([Chenevier](https://arxiv.org/pdf/0809.0415v2), §1.1, pp.6–7). *Needs:*
 Mathlib `PolynomialLaw`, `PolynomialLaw.comp`, `TensorProduct`.
-*Lean:* `PolynomialLaw.IsHomogeneousOfDegree`.
+*Lean:* `PolynomialLaw.IsHomogeneousOfDegree`; the second Check below is stated in `Suggested.lean` as
+`PolynomialLaw.exists_homogeneous_ground_zero_ne_zero`.
 
 **Checks.**
 
@@ -284,11 +287,11 @@ Mathlib `DividedPowers.dpow_eval_zero`; Mathlib `DividedPowerAlgebra.algHom_ext`
 
 **Checks.**
 
-- `augmentation_test_positive_with_scalar`: For every m, ε(3+dp(2,m))=3, including characteristic
+- For every m, ε(3+dp(2,m))=3, including characteristic
   two and torsion modules.
-- `augmentation_test_degree_one`: For every m∈M: ε(dp(1,m))=0; that is, ε∘embed=0, where
+- For every m∈M: ε(dp(1,m))=0; that is, ε∘embed=0, where
   embed:M→Γ_R(M) is m↦dp(1,m).
-- `augmentation_test_not_evaluation`: For R=M=ℚ: the R-algebra map DividedPowerAlgebra.lift of
+- For R=M=ℚ: the R-algebra map DividedPowerAlgebra.lift of
   DividedPowers.RatAlgebra.dividedPowers on the unit ideal of ℚ along the identity ℚ→ℚ sends dp(2,1)
   to 1/2, whereas ε(dp(2,1))=0; so ε is not this map.
 - ε(dp(0,m))=1 for every m, including m=0, and ε(dp(n,m))=0 for every n>0.
@@ -331,9 +334,9 @@ proves the arbitrary-module version from Roby's presentation
 
 **Checks.**
 
-- `augmentationIdeal_test_positive`: dp(2,m) belongs to Γ_R(M)_+ for every m.
-- `augmentationIdeal_test_unit`: 1 does not belong to Γ_Z(Z)_+.
-- `augmentationIdeal_test_degree_one_insufficient`: For R=M=F₂: dp(2,1) belongs to Γ_R(M)₊, and
+- dp(2,m) belongs to Γ_R(M)_+ for every m.
+- 1 does not belong to Γ_Z(Z)_+.
+- For R=M=F₂: dp(2,1) belongs to Γ_R(M)₊, and
   dp(2,1) does not belong to the ideal generated by the elements dp(1,m), m∈M.
 - For R=M=Z, neither 1 nor any dp(0,m) belongs. Every positive divided-power generator does belong.
 
@@ -370,6 +373,8 @@ proves it for arbitrary modules using Roby's generators and relations
 
 **Positive-degree generators of the augmentation ideal.** Γ_R(M)_+ is exactly the ideal generated by
 {dp(n,m) | n>0, m∈M}. The degree-zero generators are excluded.
+
+`Suggested.lean` declares `PD.augmentationIdeal_eq_span_dp`.
 
 With the two sides in the other order this is `FreeConstruction.positiveIdeal_eq_augmentation_ker`
 in [AffineCrystalline] (`AffineCrystalline/Envelope/FreeConstruction/DPAlgebraAugmentation.lean`),
@@ -456,6 +461,8 @@ arbitrary-module assertion on the general Roby algebra
 
 **Base ideal and augmentation intersection.** For every ideal I⊂R, IΓ∩Γ_R(M)_+=IΓ·Γ_R(M)_+. This is
 an equality of ideals in Γ_R(M), without a flatness or freeness assumption.
+
+`Suggested.lean` declares `PD.map_inf_augmentationIdeal`.
 
 *Hypotheses.* R is a commutative ring; M is an R-module. No freeness, finite generation,
 characteristic, factorial invertibility or nilpotence hypothesis is imposed.
@@ -549,19 +556,23 @@ resolution ([Stacks](https://stacks.math.columbia.edu), Definitions 15.29.1–15
 (tag 0624), Lemma 15.29.12 (tag 0664) and Lemma 15.31.2 (tag 062F)). *Needs:* Mathlib
 `ExteriorAlgebra`, `exteriorPower.map`, `RingTheory.Sequence.IsWeaklyRegular`.
 
-Use Mathlib's [linear-functional Koszul-complex interface](https://github.com/leanprover-community/mathlib4/pull/43708):
-`koszulComplex φ`, for a linear functional `φ : M →ₗ[A] A`, has exterior-power terms,
-alternating-deletion differential, and `koszulComplex.map` induced by `φ′ ∘ g = φ`.
-The finite-sequence notation here specializes this construction to
-`φ(v)=∑ x_i v_i`; its differential on wedges and its induced map in each degree are exactly those
-operations. Prove that the differential squares to zero. For every `m ∈ M`, exterior
-multiplication by `m` is a degree-raising homotopy between multiplication by `φ(m)` and zero:
-`d(m ∧ v) + m ∧ d(v) = φ(m)v`. Thus every sequence generator annihilates Koszul homology.
-The tensor identification uses the sign `d(v ⊗ w) = dv ⊗ w + (−1)^deg(v) v ⊗ dw`.
-The tensor and homotopy interfaces follow [Koszul tensor-product interface](https://github.com/leanprover-community/mathlib4/pull/43711)
-and [Koszul homotopy interface](https://github.com/leanprover-community/mathlib4/pull/43706).
-Build these contracts in Tau Ceti when absent from the pin and use Mathlib's declarations
-when supplied; the local finite-sequence notation adds no competing complex construction.
+**Koszul complex of a linear functional.** For an `A`-module `M` and an `A`-linear functional
+`φ : M → A`, define `K(φ)` as the exterior algebra `⋀(M)`, graded by `K(φ)_k = ⋀^k M`, with the
+unique degree `−1` derivation `d` extending `φ` on `⋀^1 M = M`: on wedges,
+`d(m₁ ∧ ⋯ ∧ m_k) = ∑_i (−1)^(i+1) φ(m_i) m₁ ∧ ⋯ ∧ m̂_i ∧ ⋯ ∧ m_k`. Prove that `d² = 0`; that an
+`A`-linear map `g : M → M′` with `φ′ ∘ g = φ` induces a map of differential graded algebras
+`K(φ) → K(φ′)`, functorially in `g`, acting in degree `k` as `⋀^k g`; that the finite-sequence
+complex `K(x)` above is `K(φ)` for `M = Aⁿ` and `φ(v) = ∑ x_i v_i`, so its differential on
+wedges and its induced maps are those of this construction; that for every `m ∈ M`, exterior
+multiplication by `m` is a degree-raising homotopy between multiplication by `φ(m)` and zero,
+`d(m ∧ v) + m ∧ d(v) = φ(m) v`, so every element of the image of `φ` annihilates the Koszul
+homology; and that for `φ′ = φ ⊕ (y·) : M ⊕ A → A` the complex `K(φ′)` is the mapping cone of
+multiplication by `y` on `K(φ)`, which with the tensor identification
+`K(x, y) ≅ K(x) ⊗_A K(y)` uses the sign `d(v ⊗ w) = dv ⊗ w + (−1)^deg(v) v ⊗ dw`
+([Stacks](https://stacks.math.columbia.edu), Definition 15.29.1 (tag 0622), Lemma 15.29.3
+(tag 0624), Lemma 15.29.5 (tag 0626), Lemma 15.29.7 (tag 0628) and Lemma 15.29.12 (tag 0664)).
+*Needs:* Mathlib `ExteriorAlgebra`, `ExteriorAlgebra.exteriorPower`, `exteriorPower.map`; the
+finite-sequence complex of this section.
 
 **Checks.**
 
@@ -608,7 +619,7 @@ is an augmented simplicial commutative `A`-algebra `ε : P• → B` with every 
 sets; equivalently `ε` is a quasi-isomorphism on alternating face complexes, or a homotopy equivalence
 of simplicial sets ([StacksCt] Remark 5.5, Tag 08QI, p.9). The *standard resolution*
 `Algebra.CotangentComplex.standardResolution A B` is the comonad resolution of the free-polynomial /
-forgetful adjunction, `P_0 = A[B]`, `P_(n+1) = A[P_n]` ([StacksCt] Definition 3.1, Tag 08PM, p.3);
+forgetful adjunction, `P_0 = A[B]`, `P_(n+1) = A[P_n]` ([StacksCt] Definition 3.1, Tag 08PM, p.2);
 it is a polynomial resolution, carries an extra degeneracy after forgetting to sets, and is functorial
 in commutative squares `(A → B) → (A′ → B′)`. For any functor `F` from polynomial `A`-algebras over
 `B` to complexes of abelian groups (or of `A`-modules), the complexes `F(P•)` and `F(Q•)` of two
@@ -1139,7 +1150,7 @@ Cotangent complexes commute with filtered colimits of ring maps: if `A_i → B_i
 with colimit `A → B`, `L_(B/A) ≃ colim_i (L_(B_i/A_i) ⊗^L_(B_i) B)`, through the canonical diagram of
 models with both source and target varying.
 
-[StacksCt], §3, Lemma 3.4 (Tag 08S9), and §8, Lemmas 8.1 and 8.6 (Tags 08QZ, 08SF), pp.4, 17–19.
+[StacksCt], §3, Lemma 3.4 (Tag 08S9), and §8, Lemmas 8.1 and 8.6 (Tags 08QZ, 08SF), pp.3, 17–19.
 
 *Needs:* §0.4 (The full cotangent complex); §0.8 (The cotangent transitivity triangle); §0.10 (Derived base change of the cotangent complex).
 
@@ -1449,18 +1460,17 @@ identifications of the towers and their limits belong to the applications.
 by `ℕ`, and let `δ : ∏ A_n → ∏ A_n` be the shift `(a_n) ↦ (a_n − φ_n(a_{n+1}))`. Define
 `lim A = ker δ` and `lim¹ A = coker δ`. Then `lim` and `lim¹` are `R⁰lim` and `R¹lim` on towers of
 abelian groups, and `Rᵖlim = 0` for `p > 1`. In `Suggested.lean` a tower is the structure
-`CompactCoefficients.Tower` (terms and transition homomorphisms), with the shift `Tower.shift`, the
-composite transitions `Tower.mapIter` and the underlying functor
-`Tower.toFunctor : ℕᵒᵖ ⥤ AddCommGrpCat`. The vanishing in degrees `p > 1` is special to
+`CompactCoefficients.Tower` (terms and transition homomorphisms), with the shift `Tower.shift`, its
+cokernel `Tower.limOne` and the underlying functor `Tower.toFunctor : ℕᵒᵖ ⥤ AddCommGrpCat`; the
+composite transitions `A_{n+k} → A_n` are the iterated transition maps. The vanishing in degrees
+`p > 1` is special to
 `ℕ`-indexed towers; for other index categories the higher derived limits need not vanish.
 
 The API:
 
-- `CompactCoefficients.Tower.lim`: `lim A = ker δ`.
+- `lim A = ker δ`: a family `a` lies in `lim A` exactly when `φ_n(a_{n+1}) = a_n` for all `n`.
 - `CompactCoefficients.Tower.limOne`: `lim¹ A = coker δ`.
-- `CompactCoefficients.Tower.mem_lim`: `a ∈ lim A ↔ φ_n(a_{n+1}) = a_n` for all `n`.
-- `CompactCoefficients.Tower.limOne_subsingleton_of_surjective`: surjective transitions give
-  `lim¹ A = 0`.
+- Surjective transitions give `lim¹ A = 0`.
 
 *Proof sketch.* `lim` and `lim¹` are defined as kernel and cokernel of the shift; the
 identification with `Rlim` and the vanishing for `p > 1` are the Stacks Project lemma
@@ -1470,13 +1480,13 @@ abelian groups for the integral-module adapter.
 
 **Checks.**
 
-- `limOne_surjective_tower`: the tower `ℤ/p^{n+1} ↠ ℤ/p^n` (`CompactCoefficients.reductionTower`)
+- The tower `ℤ/p^{n+1} ↠ ℤ/p^n` with the reduction maps
   has `lim = ℤ_p`, with the equivalence given by reduction modulo `pⁿ`, and `lim¹ = 0`.
-- `limOne_mul_p`: for a prime `p`, the tower `ℤ ← ℤ ← ⋯` with every transition multiplication by
-  `p` (`mulTower p`) has `lim = 0` and `lim¹ ≅ ℤ_p/ℤ ≠ 0`; the latter map sends a family
+- For a prime `p`, the tower `ℤ ← ℤ ← ⋯` with every transition multiplication by
+  `p` has `lim = 0` and `lim¹ ≅ ℤ_p/ℤ ≠ 0`; the latter map sends a family
   `(a_n)` to the class of the convergent sum `Σ_{n≥0} pⁿa_n`.
-- `lim_constant`: the constant tower with identity transitions has `lim` equal to the diagonal
-  copy of `A` and `lim¹ = 0` (`CompactCoefficients.constantTower`).
+- The constant tower with identity transitions has `lim` equal to the diagonal
+  copy of `A` and `lim¹ = 0`.
 
 **Mittag-Leffler towers.** A tower `(A_n)` is Mittag-Leffler if for every `n` the images of the
 composite transitions `A_{n+k} → A_n` stabilise as `k` grows. The condition is a condition on the
@@ -1485,13 +1495,11 @@ underlying sets, as in the Stacks Project; for a tower of groups these images ar
 The API:
 
 - `CompactCoefficients.Tower.IsMittagLeffler`: the stabilisation condition.
-- `CompactCoefficients.Tower.isMittagLeffler_of_surjective`: surjective transitions are
-  Mittag-Leffler.
-- `CompactCoefficients.Tower.isMittagLeffler_of_finite`: towers of finite groups are
-  Mittag-Leffler.
-- `CompactCoefficients.Tower.isMittagLeffler_iff_ranges`: the predicate, which is Mathlib's
-  `IsMittagLeffler` for the underlying functor `ℕᵒᵖ ⥤ Type`, holds exactly when for every `n` the
-  ranges of the composite transitions `A_{n+k} → A_n` are eventually constant.
+- Surjective transitions are Mittag-Leffler.
+- Towers of finite groups are Mittag-Leffler.
+- The predicate, which is Mathlib's `IsMittagLeffler` for the underlying functor `ℕᵒᵖ ⥤ Type`,
+  holds exactly when for every `n` the ranges of the composite transitions `A_{n+k} → A_n` are
+  eventually constant.
 
 *Proof sketch.* View the tower as a functor on `ℕᵒᵖ` with values in abelian groups and forget to
 types. Take Mathlib's `Functor.IsMittagLeffler` as the predicate and prove its eventual-range
@@ -1536,10 +1544,9 @@ exact sequence
 
 In `Suggested.lean` a morphism of towers is `Tower.Hom`, with its map `Hom.onProduct` on products
 and the induced map `Hom.limOneMap`; the `lim¹` half of the sequence is `Tower.limOne_exact`.
-Construct `Tower.Hom.id`, `Tower.Hom.comp` (in the order `g ∘ f`) and `Tower.Hom.zero`.
-The laws `Tower.Hom.onProduct_id`, `Tower.Hom.onProduct_comp`, `Tower.Hom.onProduct_zero`,
-`Tower.Hom.limOneMap_id`, `Tower.Hom.limOneMap_comp` and `Tower.Hom.limOneMap_zero` identify
-their induced maps with the identity, composite and zero homomorphisms, respectively.
+Construct the identity, composite (in the order `g ∘ f`) and zero morphisms of towers, and prove
+that their induced maps on products and on `lim¹` are the identity, composite and zero
+homomorphisms, respectively.
 
 *Proof sketch.* Apply the snake lemma to the shift maps on the short exact sequence
 `0 → ∏ A_n → ∏ B_n → ∏ C_n → 0` ([Stacks Project](https://stacks.math.columbia.edu), More on
@@ -1555,10 +1562,10 @@ Lemma 10.86.4, tag 0598). *Needs:* §1.T.1 / *lim and lim¹ of a tower*.
 
 - If `A` is Mittag-Leffler, `0 → lim A → lim B → lim C → 0` is exact (Stacks, Algebra,
   Lemma 10.86.4).
-- The identity endomorphism of `mulTower 3` induces the identity on its nonzero `lim¹ ≅ ℤ₃/ℤ`,
-  and fixes every class under the sum identification of `limOne_mul_p`.
-- The zero endomorphism of `mulTower 3` induces zero on that same nonzero `lim¹`.
-- The levelwise multiplication-by-two endomorphism of `mulTower 3` induces multiplication by two
+- The identity endomorphism of the multiplication-by-three tower on `ℤ` induces the identity on
+  its nonzero `lim¹ ≅ ℤ₃/ℤ`, and fixes every class under the convergent-sum identification above.
+- The zero endomorphism of that tower induces zero on the same nonzero `lim¹`.
+- The levelwise multiplication-by-two endomorphism of that tower induces multiplication by two
   on `ℤ₃/ℤ`. It kills the nonzero class of `1/2 ∈ ℤ₃`, since its double is the integer `1`.
 
 **The Milnor sequence for towers of complexes.** Let `(K_n)` be a tower of cochain complexes of
@@ -1746,8 +1753,8 @@ carry the same arbitrary universe `u`.
 Prove the following named laws.
 
 - `isDerivedCompleteGenerators`: the condition is RHom-vanishing for any finite generating set of `I`.
-- `isDerivedCompleteRadical`: if `√I = √J` for finitely generated ideals, `I`-complete and
-  `J`-complete objects coincide.
+- `isDerivedCompleteRadical`: if `√I = √J`, `I`-complete and `J`-complete objects coincide;
+  neither this law nor the cohomology criterion needs finite generation of the ideal.
 - `isDerivedCompleteCohomology`: `M` is `I`-complete iff every `H^j(M)` is derived `I`-complete.
 - `isDerivedCompleteLimits`: derived `I`-complete objects are closed under derived limits (1.1),
   products, shifts and cones in `D(A)`.
@@ -1897,10 +1904,11 @@ Mathlib `CategoryTheory/Localization/Construction.lean` and `Algebra/Category/Co
 *Needs:* §0.1 (Simplicial polynomial resolutions); §0.2.2 (Simplicial module comparisons);
 §1.2 (Derived ideal completeness); Mathlib `CommAlgCat`, `MorphismProperty.Localization`.
 
-Lean: `DerivedDeRham.SimplicialAlgebra`, `DerivedDeRham.simplicialAlgebraCochains`,
+Lean names: `DerivedDeRham.SimplicialAlgebra`, `DerivedDeRham.simplicialAlgebraCochains`,
 `DerivedDeRham.simplicialAlgebraWeakEquivalences`, `DerivedDeRham.SimplicialAlgebraHomotopy`,
-`DerivedDeRham.simplicialAlgebraLocalization`, `DerivedDeRham.simplicialAlgebraUnderlying`,
-`DerivedDeRham.simplicialAlgebraUnderlyingComparison`, `DerivedDeRham.simplicialAlgebra_connective`.
+`DerivedDeRham.simplicialAlgebraLocalization`, `DerivedDeRham.simplicialAlgebraUnderlying` and
+`DerivedDeRham.simplicialAlgebraUnderlyingComparison`, with the vanishing of the positive cohomology
+of the underlying derived module stated as a theorem.
 
 **Checks.**
 
@@ -1943,10 +1951,10 @@ unit-compatible algebra isomorphism characterized by the universal property belo
 §1.3 (The derived completion reflector); §1.4 (The derived Koszul completion tower);
 §1.T.1 / *The Milnor sequence for towers of complexes*.
 
-Lean: `DerivedDeRham.simplicialRingCompletionModel`, `DerivedDeRham.ringCompletionModelUnit`,
-`DerivedDeRham.ringCompletionModel_weakEquivalences`, `DerivedDeRham.ringCompletionModelComparison`,
-`DerivedDeRham.simplicialRingCompletion`, `DerivedDeRham.ringCompletionDescent`,
-`DerivedDeRham.ringCompletionDescent_unit`.
+Lean names: `DerivedDeRham.simplicialRingCompletionModel`, `DerivedDeRham.ringCompletionModelUnit`,
+`DerivedDeRham.ringCompletionModelComparison`, `DerivedDeRham.simplicialRingCompletion` and
+`DerivedDeRham.ringCompletionDescent`, with the preservation of weak equivalences by the strict
+model and the unit compatibility of the descent comparison stated as theorems.
 
 **Checks.**
 
@@ -2014,7 +2022,8 @@ reads `Tor_n^A(M, A/I) = 0` for `n > 0` and `M/IM` flat over `A/I`; this module 
 
 *Needs:* §0.2 (Derived tensor products on module derived categories); §1.2 (Derived ideal completeness); Mathlib `CategoryTheory.Tor`, `Module.Flat`.
 
-Lean: `DerivedDeRham.completeFlatness`, `DerivedDeRham.IsCompletelyFlatModule`.
+Lean: `DerivedDeRham.IsCompletelyFlatModule` and `DerivedDeRham.isCompletelyFlatModule_of_flat` are
+stated in `Suggested.lean`; the derived predicate `DerivedDeRham.completeFlatness` waits for `⊗^L`.
 
 Prove the following named laws.
 
@@ -2108,13 +2117,14 @@ the general-ring closure laws follow from finite-projective representatives and 
 *Needs:* §0.2 (derived tensor and scalar extension); Mathlib `Module.Projective`, `Module.Free`,
 `Module.Finite`, complexes and `DerivedCategory.Q`.
 
-*Lean:* `DerivedDeRham.IsPerfect`, its alias `PerfectComplex.IsPerfect`, `IsPseudoCoherent`,
-`HasTorAmplitude`, `isPerfect_iso`, `isPerfect_retract`, `isPerfect_shift`,
-`isPerfect_triangle`, `isPerfect_baseChange`, `isPerfect_finiteTorAmplitude`,
-`isPerfect_isPseudoCoherent`, `finiteFreeBaseChangeModel`. `IsFiniteFreeModel A P b` records
-finite freeness in every degree and vanishing above `b`. The scalar functors are
-`derivedBaseChange`, `derivedRestriction`, with `derivedBaseChangeAdjunction`; `complexBaseChange`
-is Mathlib's termwise `ModuleCat.extendScalars` functor.
+*Lean:* `Suggested.lean` declares `DerivedDeRham.IsPerfect`, its alias `PerfectComplex.IsPerfect`,
+`IsPseudoCoherent`, `IsFiniteFreeModel A P b` (finite freeness in every degree and vanishing above
+`b`), `complexBaseChange` (Mathlib's termwise `ModuleCat.extendScalars` functor) and the closure
+theorems `isPerfect_retract`, `isPerfect_shift`, `isPerfect_triangle` and
+`isPerfect_isPseudoCoherent`. The Tor-amplitude predicate `HasTorAmplitude`, invariance of
+perfection under isomorphism, the scalar functors `derivedBaseChange` and `derivedRestriction` with
+`derivedBaseChangeAdjunction`, the base-change and finite-Tor-interval theorems for perfect
+complexes and `finiteFreeBaseChangeModel` wait for the derived tensor of §0.2.
 
 **Checks.**
 
@@ -2147,8 +2157,8 @@ proof, Tag 0CQF.)
 *Needs:* §1.E.0 / Perfect module complexes and finite models; Mathlib's finite free modules,
 Nakayama's lemma, module scalar extension and complexes.
 
-*Lean:* `DerivedDeRham.PerfectSystem`, `FiniteFreeSystemModel`, `finiteFreeModelLift`,
-`compatibleFiniteFreeModels`.
+*Lean names:* `DerivedDeRham.PerfectSystem`, `FiniteFreeSystemModel`, `finiteFreeModelLift`,
+`compatibleFiniteFreeModels`; their statements mention derived scalar extension.
 
 **Checks.**
 
@@ -2190,9 +2200,10 @@ Lemma 15.99.1 and its proof, Tag 0CQF.)
 *Needs:* §1.E.0 / Compatible finite-free models; §1.1 (derived limits on strict towers);
 Mathlib's module diagram categories, complexes, localization and ring inverse limits.
 
-*Lean:* `DerivedDeRham.IsRingTowerLimit` expresses the universal property of the specified ring
-projections; `finiteFreeSystemDiagram`, `finiteFreeSystemLimit`, `finiteFreeSystemLimit_model`,
-`finiteFreeSystemLimit_comparison`, `finiteFreeSystemLimit_reduction`.
+*Lean:* `Suggested.lean` declares `DerivedDeRham.IsRingTowerLimit`, the universal property of the
+specified ring projections. The names `finiteFreeSystemDiagram`, `finiteFreeSystemLimit`,
+`finiteFreeSystemLimit_model`, `finiteFreeSystemLimit_comparison` and
+`finiteFreeSystemLimit_reduction` wait for the derived limit of §1.1.
 
 **Checks.**
 
@@ -2216,7 +2227,9 @@ a Tor interval for the perfect `M_0` give the required uniform interval for the 
 *Needs:* §1.E.0 / Perfect module complexes and finite models; §1.E.0 / Strict towers and finite-model
 limits; Mathlib's Jacobson radical, residue fields and nilpotent elements.
 
-*Lean:* `DerivedDeRham.pseudoCoherent_residueCriterion`, `ringTowerLimit_jacobson`.
+*Lean:* `Suggested.lean` declares `DerivedDeRham.pseudoCoherent_residueCriterion`, stated on a
+bounded-above finite-free model `P` of `K`, whose residue fibres are the termwise reductions
+`P ⊗_A κ(m)`, and `ringTowerLimit_jacobson`.
 
 **Checks.**
 
@@ -2254,9 +2267,10 @@ then gives a bounded finite-projective representative. The theorem holds for eve
 model; its comparisons are natural for morphisms in the derived-diagram category specified in
 §1.E.0. They retain the given transition maps.
 
-*Lean:* `DerivedDeRham.perfectInverseSystemEffectivity`; `multiplicationComplex A x` is the
-two-term complex `[A --x→ A]` used by `PerfectLimitChecks.differential`. Its power-series
-quotients `k[[t]]/(t^n)` identify with the polynomial quotients `k[t]/(t^n)` in the Check below.
+*Lean name:* `DerivedDeRham.perfectInverseSystemEffectivity`, whose statement mentions derived
+scalar extension and the derived limit. In the differential Check below, `[A --x→ A]` is the
+mapping cone of multiplication by `x` on `A[0]`, and the power-series quotients `k[[t]]/(t^n)`
+identify with the polynomial quotients `k[t]/(t^n)`.
 
 **Checks.**
 
@@ -2283,6 +2297,8 @@ with a continuous action of a group `G`, `D(M)` carries the contragredient actio
 are `G`-equivariant. Applied termwise, `D` gives Matlis duality on complexes, and the biduality map
 is a quasi-isomorphism for complexes whose cohomology is of finite type or of cofinite type.
 Outside these classes, evaluation biduality can fail, as in the infinite-dimensional field Check.
+The module biduality is stated in `Suggested.lean` in §1.M.2 for an arbitrary residue field; the
+finite-residue-field case here is its specialisation.
 Downstream consumers construct the comparison with normalized dualizing complexes and local cohomology.
 
 *Proof sketch.* Construct an essential injective hull of `k` inside an injective module
@@ -2329,7 +2345,12 @@ Tau Ceti's `IsInjectiveEnvelope` and its uniqueness API. Construct the completio
 `Hom_{R̂}(N̂,E) ≅ Hom_R(N,E)` for finite `N`, using
 `AdicCompletion.ofTensorProductEquivOfFiniteNoetherian` for `N̂ ≅ R̂ ⊗_R N`.
 §1.M.1 gives the complete finite-residue-field case; this target
-constructs the general residue-field and completion inputs. (Stacks, §47.7, tag 08Z1,
+constructs the general residue-field and completion inputs. `Suggested.lean` declares
+`Matlis.biduality_of_finite` and `Matlis.biduality_of_artinian`: for `R` Noetherian local and
+complete for its maximal ideal, an injective envelope `e : κ → E` in the sense of
+`TauCeti.IsInjectiveEnvelope`, and `M` finite, respectively Artinian, the dual `Hom_R(M, E)` is
+Artinian, respectively finite, and evaluation `M → Hom_R(Hom_R(M, E), E)` is bijective; no
+finiteness of the residue field is assumed (Stacks, Proposition 47.7.8, tag 08Z9; §47.7, tag 08Z1,
 especially Remark 47.7.9.) *Needs:* Mathlib enough injectives in `ModuleCat`, `AdicCompletion`;
 Tau Ceti `TauCeti.Algebra.Module.Injective.Envelope.Basic`; §1.M.1
 (*Matlis duality for arithmetic coefficients*, the complete finite-residue-field case).
@@ -2433,6 +2454,17 @@ development's own first-quadrant bicomplex structure `RawBi`, so they inform the
   so the extended sequence would fail exactness despite the empty row-vanishing condition.
 - The abutment filtration is pinned: for a single row (`q = 0`) it is `FⁿHⁿ = Hⁿ`,
   `F^{n+1}Hⁿ = 0`; for a single column (`p = 0`) it is `F⁰Hⁿ = Hⁿ`, `F¹Hⁿ = 0`.
+
+## Downstream consumers
+
+The downstream consumers are EnhancedDerivedSheaves, EtaleCohomologyFoundations, PadicPeriodRings,
+DerivedDeRhamCohomology, CrystallineCohomology, PerfectoidSpaces, ArithmeticGaloisDuality,
+IntegralHeckeAndGaloisDeterminants, AlgebraicModuliForArithmeticGeometry,
+DeformationAndDerivedPatchingAlgebraPartII, ClassicalAdicEtaleCohomology,
+ArithmeticLocallySymmetricSpaces, AlgebraicTopology and KhovanovHomology. Sheaf enhancement,
+point-site identification and the affine/Spec comparison are owned by the consumer
+EnhancedDerivedSheaves. Arithmetic cochains, determinants, crystalline sites and period-ring
+specializations belong to their respective downstream consumers.
 
 ## References
 
