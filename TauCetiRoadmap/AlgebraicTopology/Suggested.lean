@@ -11,8 +11,8 @@ import TauCeti.Topology.Homotopy.HomotopyGroup.Map
 The roadmap is README.md; this file is not the roadmap. It states headline theorems
 against the pinned Mathlib and Tau Ceti APIs. The headlines are cellular comparison,
 transfer, Wang and Künneth, Cartan–Leray and Serre convergence, local orientation and
-Poincaré–Lefschetz duality, Euler characteristic, Hurewicz and Whitehead, countable
-derived limits and Milnor sequences, ordinary representability and obstruction theory,
+Poincaré–Lefschetz duality, Euler characteristic, Hurewicz and Whitehead, topological
+restriction-tower and Milnor comparisons, ordinary representability and obstruction theory,
 Brouwer, proper deformation retraction, finite CW type of compact smooth manifolds and the
 homology-sphere recognition corollary, and the LS cup-length bound.
 
@@ -24,15 +24,13 @@ local-system cochains and relative twisted cap operation are missing. Absolute
 Hurewicz lacks a Hurewicz map from the native cubical homotopy groups to singular
 homology (no Hurewicz module at the pins), and an abstract isomorphism would be a
 stand-in, so it is not stated. Relative Hurewicz lacks relative homotopy-group carriers
-and their canonical Hurewicz map. The algebraic Milnor sequence for a countable tower
-of chain complexes lacks a native limit complex and derived inverse limit of a tower
-of complexes; only its module-level kernel/cokernel description of `lim`/`lim¹` is
-stated (`towerDifference`). The normalized representability and EM-loop headlines lack
+and their canonical Hurewicz map. The topological Milnor comparison lacks the
+skeletal restriction-tower adapter, its canonical limit/cohomology comparison and
+the supplier's derived-limit carrier; no generic module-tower theorem is stated in
+its place. The normalized representability and EM-loop headlines lack
 the supplier's functorial normalized EM family and its universal class. The obstruction
 extension criteria lack the cellular obstruction and difference constructions with
-their transport. The integer-graded Milnor comparison lacks the skeletal
-restriction/cohomology comparison and its derived-limit cone. Proper Whitehead lacks
-the supported cellular/singular comparison. Of the smooth-manifold CW-type headlines,
+their transport. Proper Whitehead lacks the supported cellular/singular comparison. Of the smooth-manifold CW-type headlines,
 the compact closed and compact-with-boundary finite-CW-type statements and the
 homology-sphere recognition corollary are stated below (`FiniteCWTypeModel`); the
 boundary-pair form and the marked-point form lack a native homotopy equivalence of
@@ -97,38 +95,7 @@ theorem finiteCoverTransfer_exists (R : Type u) [CommRing R] (M : ModuleCat.{u} 
             (TopCat.toSSet.obj E).ιChainComplex (R := M) τ.val := by
   sorry
 
-/-! ## Layer 6: countable towers and the LS bound -/
-
-/-- The canonical product difference; inverse limits are its kernel. -/
-def towerDifference {R : Type u} [CommRing R] (T : ℕᵒᵖ ⥤ ModuleCat.{u} R) :
-    ((n : ℕ) → T.obj (Opposite.op n)) →ₗ[R] ((n : ℕ) → T.obj (Opposite.op n)) where
-  toFun x n := x n -
-    (T.map (homOfLE (Nat.le_succ n)).op).hom (x (n + 1))
-  map_add' x y := by
-    ext n
-    simp only [Pi.add_apply, map_add]
-    abel
-  map_smul' r x := by
-    ext n
-    simp only [Pi.smul_apply, map_smul, smul_sub, RingHom.id_apply]
-
-/-- A countable tower with surjective bonding maps has vanishing first derived limit,
-expressed as surjectivity of its product difference map. -/
-theorem towerDifference_surjective {R : Type u} [CommRing R] (T : ℕᵒᵖ ⥤ ModuleCat.{u} R)
-    (hT : ∀ n : ℕ, Function.Surjective
-      (T.map (homOfLE (Nat.le_succ n)).op).hom) :
-    Function.Surjective (towerDifference T) := by
-  sorry
-
-/-- The Mittag–Leffler stabilization of images suffices for vanishing of the
-first derived inverse limit of a countable module tower. -/
-theorem towerDifference_surjective_of_mittagLeffler {R : Type u} [CommRing R]
-    (T : ℕᵒᵖ ⥤ ModuleCat.{u} R)
-    (hT : ∀ n : ℕ, ∃ m : ℕ, ∃ hnm : n ≤ m, ∀ k : ℕ, ∀ hmk : m ≤ k,
-      LinearMap.range (T.map (homOfLE (hnm.trans hmk)).op).hom =
-        LinearMap.range (T.map (homOfLE hnm).op).hom) :
-    Function.Surjective (towerDifference T) := by
-  sorry
+/-! ## Layer 6: the LS bound and manifold duality -/
 
 /-- Singular cohomology with coefficients in the ring itself. -/
 noncomputable abbrev singularCohomology (R : Type u) [CommRing R]

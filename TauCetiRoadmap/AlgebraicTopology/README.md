@@ -42,9 +42,9 @@ stated coefficient generality.
    Hurewicz under their connectivity hypotheses; Whitehead and homological Whitehead
    are proved for CW complexes and then for spaces of CW type.  The cubical and Kan-simplicial models of homotopy
    groups are naturally compared rather than allowed to form separate incompatible APIs.
-7. Countable towers have the generic lim/lim¹, exact-sequence, Mittag--Leffler
-   and integer-graded Milnor APIs, including cofinal-shift naturality, the
-   derived-limit cone and its maps for specified homotopy-commuting squares.
+7. Singular and cellular restriction towers are compared with cochains on the whole
+   CW pair, using the shared lim/lim¹ and integer-graded Milnor maps, with
+   cofinal-shift naturality and specified-homotopy-square comparisons.
 
 8. Ordinary cohomology is represented on arbitrary CW complexes and CW pairs by the shared
    Eilenberg–MacLane models; nonabelian classifying spaces, universal classes, loop comparisons,
@@ -116,15 +116,22 @@ groups.  Those theories consume this roadmap's chain, CW, duality, and homotopy 
   DGFloer's sequence targets through that same disc/cube characterization. DGFloer's CW
   approximation is used in 8.11b.
   The standing Moore-loop comparison and Layer 2 item 3 supply loop carriers.
-- Layer 4.0 owns the single compact-generation coreflection, convenient products,
-  exponentials and foundational pointed suspension–loop adjunction, before relative
-  homotopy. The compact-generation and adjunction constructions in
-  HomotopySpheres §§3A.1–3A.2 coincide with this foundation; their cofiber/Puppe
-  and stabilization applications lie outside this roadmap and supply none of
-  its inputs. The raw-quotient
-  comparisons and their interval-last normalization are also in Layer 4.
-  GeneralizedCohomology G2.1 supplies the simplicial-realization product comparison
-  from these foundations, without ordinary representability.
+- HomotopySpheres §3A.1 owns the compact-generation coreflection, convenient
+  products, exponentials and CW comparisons. Its §3A.2 foundation-only portion
+  owns pointed smash, suspension and loops and their adjunction on maps and
+  pointed homotopy classes, using §3A.1 alone. Layer 4 consumes these and owns
+  the additional raw-quotient comparisons and their interval-last normalization.
+  The cofiber/Puppe and stabilization applications of HomotopySpheres consume
+  this roadmap's cofibration and relative-homotopy results; they supply none of
+  the inputs of Layer 4. GeneralizedCohomology G2.1 supplies the
+  simplicial-realization product comparison from the same foundations,
+  without ordinary representability.
+- DerivedModuleAlgebra §§1.T.1 and 1.1 own the generic module difference map,
+  lim/lim¹, six-term sequence, Mittag–Leffler vanishing, integer-graded Milnor
+  sequences, derived-limit cone, cofinality and specified-homotopy-square maps.
+  Layer 6.0 owns only their singular/cellular tower adapters and topological
+  limit comparisons; Layer 6.1 extends these comparisons to direct local-system
+  cochains. The algebraic operations have no topological prerequisite.
 - TopologicalSheafCohomology §§1.1–1.2 owns raw Čech refinements, the comparison
   of ordered and tuple complexes, refinement homotopies and the cohomology colimit.
   CharacteristicClasses §C1.2b owns the constant-coefficient Čech/singular comparison;
@@ -333,6 +340,30 @@ coverings, agreement of the models, homotopy functoriality) and Stage 4 items 16
 (chain-level comparison, group homology, bar-resolution comparison), consumed only by
 8.8b's normalized model comparison.
 
+### From TauCetiRoadmap.HomotopySpheres
+
+§3A.1 supplies the right adjoint to the native compactly generated inclusion,
+its identity-on-points counit, convenient products and compact-open exponentials,
+pointed objects, and CW/locally compact Hausdorff comparisons. The early
+suspension–loop portion of §3A.2 supplies the adjunction on actual pointed maps
+and pointed homotopy classes, independently of its cofiber/Puppe, relative-homotopy
+and stable applications. Layer 4.0 transports this adjunction through Layer 4.4's
+raw-quotient comparisons. Layers 4.5, 8.10 and 8.11 use the same foundation,
+with the displayed compact-test universe and actual evaluation hypotheses.
+
+### From TauCetiRoadmap.DerivedModuleAlgebra
+
+§1.T.1 supplies the module-tower product difference δ(x)_n=x_n−f_n(x_(n+1)),
+its kernel and cokernel, natural six-term sequence, Mittag–Leffler vanishing
+and module Milnor sequence. §1.1 supplies the integer-graded product-cone
+model of the derived inverse limit, cofinal shifts, quasi-isomorphism comparison
+and maps induced by specified homotopy-commuting product squares. It retains
+second homotopies and does not identify maps from arbitrary square homotopies.
+These contracts hold for associative unital rings; Layer 6.0 applies them to
+singular and cellular complexes over the commutative coefficient rings of this
+roadmap, preserving the module structure and both Milnor maps. Homological
+reindexing retains lim¹ H_(j+1), including possible homology in degree −1.
+
 ### From TauCetiRoadmap.GeneralizedCohomology
 
 G2.1's realization product comparison identifying the realization of a product of
@@ -364,8 +395,8 @@ Each use below retains the supplier's hypotheses and names the needed portion.
 ## How to read the build
 
 Layers 1 and 2 establish groupoid and chain interfaces; Layer 3 supplies local-coefficient
-excision, Layer 4 CW comparison and convenient pointed topology, and Layer 5 product,
-cover and bundle tools. Layer 6 builds tower algebra, cohomology and duality; Layer 7
+excision, Layer 4 CW and raw-quotient comparisons in convenient pointed topology, and Layer 5 product,
+cover and bundle tools. Layer 6 builds topological tower comparisons, cohomology and duality; Layer 7
 transports Euler characteristic. Layer 8 reaches Hurewicz, Whitehead, representability
 and obstruction theory. Item-specific inputs separate the independent tower and
 product foundations from later applications.
@@ -744,43 +775,37 @@ For the two arcs of S¹, the intersection map sends (a,b) to (a+b,−a−b); its
 *Needs:* Layer 2 local systems and relative chains; native subdivision, excision and Mayer–Vietoris.
 ## Layer 4: CW pairs, cellular homology, and cofibrations
 
-### 4.0 Compact generation and the pointed adjunction
+### 4.0 Raw-quotient comparisons and the pointed adjunction
 
-Define the compact-generation functor k using native
-`TopologicalSpace.compactlyGenerated`, with the same universe of compact Hausdorff
-test spaces as `CompactlyGenerated`. Bundle it as the right adjoint to the native
-fully faithful inclusion into `TopCat`; the counit kX→X is the identity on points.
-Use pointed objects in this category, products k(X×Y), compact-open mapping spaces
-followed by k, and the smash quotient. Reduced suspension is X∧S¹ with the interval
-coordinate last; loops are based interval maps. Prove the suspension–loop adjunction
-on actual pointed maps and on pointed homotopy classes. Pin its map formula:
-the adjoint of f sends x to the based loop (t↦f([x,t])). The exponential-law route
-uses compact tests and the compact-open evaluation law (Hatcher, Appendix,
-pp.523–524 and Propositions A.14–A.16, pp.530–531).
+Use the compact-generation functor k, convenient products k(X×Y), pointed
+smash and compact-open exponentials of the HomotopySpheres supplier contract.
+Transport its suspension–loop adjunction through the raw-quotient comparisons
+of §4.4. Reduced suspension has interval coordinate last, and the transported
+adjoint of f sends x to the based loop (t↦f([x,t])). The comparisons use the
+compact-test exponential law (Hatcher, Appendix, pp.523–524 and
+Propositions A.14–A.16, pp.530–531).
 
-- Prove continuity into kX from every compact test object is equivalent to continuity
-  into X, and derive the natural adjunction and its triangle identities.
-- Prove the counit is a homeomorphism for Hausdorff CW complexes and locally compact
-  Hausdorff spaces; colimits are created by the inclusion and limits are kified.
-- Prove the pointed exponential law and relative homotopy compatibility. Own the three
-  comparisons of raw quotients with their convenient counterparts: the compact based smash
-  with the convenient smash, the compact reduced suspension with the convenient suspension,
-  and the reduced suspension of a pointed Hausdorff CW complex with the convenient
-  suspension, each through the Kelley coreflection of the raw quotient supplied by 4.4.
-  Transport the adjunction through those comparisons, preserving basepoints and interval
-  order.
+- For compact based Hausdorff spaces, compare the raw smash and raw reduced
+  suspension with the convenient smash and suspension through §4.4's Kelley
+  coreflections; both maps send each quotient class to the same class.
+- For a pointed Hausdorff CW complex, compare its raw reduced suspension with
+  the convenient suspension using §4.4's CW quotient and counit comparison.
+- Transport the adjunction on maps and pointed homotopy classes through these
+  comparisons, preserving basepoints, interval order, naturality and homotopies
+  relative to a specified based subspace.
 
 **Checks.**
 
-- For a point, k(*)=* and both triangle composites are id; an empty-space model gives ∅ instead.
-- For I=[0,1], the counit sends 0 to 0 and 1 to 1; reversing it exchanges the two endpoints.
-- For S⁰ pointed at one vertex, S⁰∧S¹≅S¹ and adjunction identifies degree +1
-  with the loop t↦exp(2πit), of winding +1; reflection gives winding −1.
+- For a point, k(*)=* and both transported triangle composites are id;
+  an empty-space model gives ∅ instead.
+- For I=[0,1], the counit sends 0 to 0 and 1 to 1; reversing it exchanges the endpoints.
+- For S⁰ pointed at one vertex, S⁰∧S¹≅S¹ and the transported adjunction identifies
+  degree +1 with t↦exp(2πit), of winding +1; reflection gives winding −1.
 
-*Needs:* Mathlib `CompactlyGenerated`, `compactlyGeneratedToTop`,
-`TopologicalSpace.compactlyGenerated`, compact-open topology, quotient topology,
-and native continuous maps and homotopies. CW comparison additionally uses the
-native weak topology of CW complexes; no Hurewicz, EM model or stabilization is an input.
+*Needs:* HomotopySpheres §3A.1 and only the foundation-only suspension–loop
+portion of §3A.2; §4.4's raw quotient comparisons. Those comparisons use §3A.1
+alone, so their construction does not use this transported adjunction or the
+supplier's cofiber/Puppe applications.
 
 
 This layer consumes Layers 2 and 3. Use the native cellular complex and its
@@ -845,7 +870,7 @@ Consume native `cellularSingularHomologyIso` for finite-dimensional relative
 
 ### 4.4 Pointed quotients and suspension
 
-*Needs:* §2.5 and native pointed quotients; §4.0 for the coreflection comparisons (only its native-input foundation).
+*Needs:* §2.5 and native pointed quotients; HomotopySpheres §3A.1 for the coreflection comparisons.
 
 Consume native finite-CW Euler--Poincare and finite-generation results;
    extend their coefficient hypotheses, naturality and local-coefficient consequences.
@@ -1112,7 +1137,7 @@ Consume existing `TauCeti.HasHomotopyExtensionProperty` and
    Prove its weak topology is the compactly generated
    product topology (Hatcher Appendix A.6), and its comparison with the
    ordinary product when either factor is locally compact. Consume the
-   single k coreflection/CW compact-generation API of Layer 4.0.
+   single k coreflection/CW compact-generation API of HomotopySpheres §3A.1.
    Construct the cellular approximation of the actual diagonal X→k(X×X)
    and its homotopy, using this product structure. DGFloer 1.2 consumes that
    diagonal in the multiplicative Serre construction; G2.1 retains ownership
@@ -1482,64 +1507,66 @@ The two-sheet point cover sends a generator to the two lifted generators; projec
 *Needs:* Layer 2 for product chain maps; Layers 3–4 for filtrations and cellular comparisons; Layer 5.0 for bundle lifting.
 ## Layer 6: cohomology, products, and manifold duality
 
-The tower, raw cochain, coefficient and cup constructions in 6.0–6.2 are foundational:
+The topological tower adapters, raw cochain, coefficient and cup constructions in 6.0–6.2 are foundational:
 construct them from Layers 2–4 and the independent product maps in 5.1 before
 using any Serre sequence, manifold duality or EM representability. DGFloer 1.2's
 multiplicative cohomological Serre sequence consumes only that portion,
-including 6.0's Milnor/lim¹ comparison for complete inverse cochain filtrations.
+including 6.0's topological adapters to the shared Milnor/lim¹ comparison for complete inverse cochain filtrations.
 
-### 6.0 Countable inverse-system algebra
+### 6.0 Singular and cellular restriction towers
 
-`towerDifference` is the product difference; `towerDifference_surjective` and
-`towerDifference_surjective_of_mittagLeffler` state its surjectivity, respectively
-for surjective bonding maps and for eventual stabilization of every bonding-image tower.
+*Needs:* Layers 2–3 relative singular chains and Layer 4 cellular complexes;
+DerivedModuleAlgebra §§1.T.1 and 1.1; native Hom complexes and integer-graded
+extension of complexes. The direct local-system version is constructed in §6.1
+from its raw cochains before its cohomology comparison.
 
+For a Hausdorff CW pair (X,A), a commutative ring R and an R-module M, form the
+restriction towers of ordinary singular and cellular cochains of
+(Xⁿ,A∩Xⁿ), using Hom of the corresponding R-chain complexes into M. The
+bond from n+1 to n is restriction along the skeletal inclusion. Identify the
+inverse limits with the respective cochain complexes of (X,A): singular
+simplices have compact image in finite subcomplexes, and cellular cochains
+are products indexed by cells (Hatcher, Proposition A.1, p.520, and the
+cellular cochain description in Theorem 3.5, p.203).
 
-*Needs:* Native module categories, products, kernels, cokernels, countable towers and integer-graded mapping cones; no topology or duality input.
+- Prove degreewise surjectivity of restriction by extending coefficients by
+  zero on simplices or cells outside the smaller skeleton. This extension is
+  a graded splitting, not in general a cochain map. Apply the supplied Milnor
+  sequence with its injection and projection, in every integer degree after
+  extension by zero; in degree k its left term is lim¹ H^(k−1).
+- Prove naturality for cellular maps of pairs and coefficient homomorphisms,
+  and compatibility with cofinal skeletal subsequences. Insert the chosen
+  cellular/singular comparison maps and their specified square homotopies
+  into the supplied derived-limit cone comparison. Preserve those homotopies
+  in compositions; compatible second homotopies give homotopic comparisons.
+- For a strict tower of topological pairs and pair maps, form the induced
+  relative singular chain tower. When its chain transitions are degreewise
+  surjective, transport the supplied integer-graded chain Milnor sequence,
+  with left term lim¹ H_(j+1). Levelwise excision quasi-isomorphisms of such
+  towers induce the supplied limit-homology comparison; no identification
+  with chains on an inverse-limit space is asserted. Retain the possible
+  degree −1 term for the derived limit when surjectivity is absent.
 
-**Countable inverse-system algebra.** Use functors `ℕᵒᵖ ⥤ ModuleCat R`,
-   including abelian groups through their canonical ℤ-module structure. Consume
-   Mathlib's `Functor.IsMittagLeffler` on the underlying type functor, with
-   `Functor.eventualRange`, `Functor.isMittagLeffler_iff_eventualRange` and
-   `Functor.surjective_toEventualRanges`.
-   Define δ on the product by
-   `δ(x)_n=x_n−f_n(x_(n+1))`; identify ker δ with the categorical inverse
-   limit and define lim¹ as coker δ. Own functoriality under tower maps,
-   shift/cofinal-subsequence comparison, product compatibility, the six-term
-   inverse-limit/lim¹ sequence and vanishing for surjective or Mittag–Leffler
-   countable towers. State the complex-level theory and its naturality for
-   towers in `CochainComplex (ModuleCat R) ℤ`. For degreewise surjective
-   countable towers prove the product-complex short exact sequence and Milnor
-   cochain sequence `0→lim¹ H^(k−1)(C_n)→H^k(lim C_n)→lim H^k(C_n)→0`
-   in every integer degree k. Extend ℕ-indexed chains/cochains by zero using
-   `HomologicalComplex.extend` with `ComplexShape.embeddingDownNat` or
-   `embeddingUpIntGE 0`, and prove their nonnegative homology/cohomology
-   comparison. Reindex homological degree j as cohomological degree−j to derive
-   the chain sequence
-   `0→lim¹ H_(j+1)(C_n)→H_j(lim C_n)→lim H_j(C_n)→0`.
-   Prove naturality in integer-graded chain maps and compatibility with
-   reindexing, chain isomorphisms and cofinal shifts/zigzags. Construct the derived inverse limit as the
-   shifted mapping cone of δ on the product complex, using native ℤ-indexed
-   `CochainComplex.mappingCone`. The derived inverse
-   limit's possible cohomological degree-1 group lim¹H₀ (homological degree−1)
-   is retained in this integer-graded carrier.
-   Homotopy-commuting product squares induce actual cone maps, retaining the
-   specified square homotopies in their composition laws. Compatible second
-   homotopies of the square data induce homotopies of cone maps; no independence
-   from arbitrary choices of square homotopy is asserted. For degreewise surjective towers compare this
-   cone with ker δ, hence with the ordinary limit complex. Prove levelwise
-   quasi-isomorphisms between these surjective towers induce
-   isomorphisms on the homology-group inverse limits and lim¹ terms and hence
-   on limit-complex homology. This is the shared generic tower API.
-   CharacteristicClasses C3 consumes the cochain Milnor sequence and
-   Mittag–Leffler vanishing; AffineMorseLefschetz A4 consumes the integer-graded
-   Milnor sequences, strict-map/cofinal-shift naturality and limit-homology
-   comparison for levelwise excision quasi-isomorphisms; CStarClassification
-   CL8 consumes lim¹ and its functoriality for KK telescopes. The derived-limit
-   cone and homotopy-square constructions supply the comparison theory for
-   homotopy-compatible towers as part of this layer's own scope.
-   Item 0 uses native module/category/complex algebra independently of the
-   manifold, product and orientation developments below.
+**Checks.**
+
+- On a point, the skeletal tower is constant: the limit map sends a cochain a
+  to (a,a,…) and gives H⁰=M, with lim¹=0. The product difference on the
+  constant ℤ coefficient tower sends (3,1,0,…) to (2,1,0,…), not its negative.
+- On the one-vertex one-edge circle, the cellular degree-one restriction
+  tower is 0←M←M←⋯, with identity bonds after the first. Its limit is M;
+  the degree-zero tower is constantly M and lim¹ H⁰=0, giving H¹(S¹;M)=M.
+- For I with its two vertices, the degree-zero cochain (0,1) on the 0-skeleton
+  has coboundary 0 there; after extension to I its value on the positive edge
+  under δ is 1−0=1. Extension by zero cannot be asserted to commute with δ.
+- For the countable wedge of circles, the cellular degree-one limit is ∏ℕ M,
+  not ⊕ℕ M: with M=ℤ, the all-ones cochain is present and has infinite support.
+- For the pair (X,X), every relative cochain term and its limit are 0. For
+  the auxiliary zero-bond ℤ tower the imported difference is id, so lim=lim¹=0
+  despite failure of surjectivity of the bonds.
+- The multiplication-by-2 ℤ tower cannot be treated as Mittag–Leffler:
+  its images are 2ᵏℤ. A preimage of (1,0,1,0,…) under δ would force
+  3x₀+1 divisible by every 4ᵏ and hence 3x₀=−1, impossible in ℤ.
+
 
 Items 1–4 consume Layers 2–3 and the product maps of Layer 5 item 1; the cellular
 comparisons and RP² checks also consume Layer 4; item 1 uses item 0 for its
@@ -1553,16 +1580,6 @@ Every manifold theorem in this layer uses a finite-dimensional Mathlib manifold 
 Hausdorffness, second countability or the resulting paracompactness, and the chosen boundary model
 stated explicitly.  A global fundamental class assumes compactness.  A conclusion identifying top
 homology with one copy of the coefficient ring also assumes connectedness.
-
-**Checks.**
-
-- For the constant ℤ tower with identity bonds, δ(3,1,0,…)=(2,1,0,…).
-  The opposite difference would give (−2,−1,0,…); ker δ consists of constant sequences.
-- For zero bonding maps on ℤ, δ=id, so ker δ=0 and coker δ=0. The images stabilize
-  at 0 after one step although no bonding map is surjective.
-- For multiplication-by-2 bonds on ℤ, the images 2ᵏℤ do not stabilize.
-  The alternating target (1,0,1,0,…) would force 3x₀+1 to be divisible by every
-  4ᵏ, hence 3x₀=−1, impossible in ℤ; surjectivity without Mittag–Leffler is false.
 
 
 ### 6.1 Direct local-system cochains
@@ -1592,7 +1609,7 @@ Define absolute and relative singular cochains by applying hom to singular chain
    identify direct singular cochains with the inverse limit of their
    restrictions to finite-dimensional skeleta: compact simplex images lie
    in finite subcomplexes, and degreewise restrictions are surjective by
-   extension by zero on the other simplices. Apply item 0's Milnor sequence;
+   extension by zero on the other simplices. Apply §6.0's restriction-tower adapter to the supplied Milnor sequence;
    for each n the tower H^(n−1)(X^k;L) is eventually constant by the cellular
    relative long exact sequence, so lim¹ vanishes and the degree-n comparison
    passes to X. The cellular derivation uses the skeletal exact sequence
@@ -1979,7 +1996,8 @@ On a boundaryless m-manifold U define the integral orientation local
    identifications `or_U|_V≃or_V` for opens
    V and `or_U|_K≃or_K` for codimension-0 compact submanifolds K with boundary.
    In RP² compare these local generators with Layer 4.6's sign system, using
-   DifferentialGeometry Layer 2.4's outward-first S² orientation. Transport Layer 6.1's independent sign-system
+   DifferentialGeometry §5.1's outward-first boundary orientation and the sphere
+   comparisons of §§2.5, 4.6 and 6.3. Transport Layer 6.1's independent sign-system
    cohomology calculation across this identification to obtain
    `H⁰(RP²;or)=0`, `H¹(RP²;or)=ℤ/2` and `H²(RP²;or)=ℤ`.
    For the following smooth-boundary classes take the standard half-space model
@@ -2294,7 +2312,7 @@ On a point the positive-degree cup groups vanish and cup-length is 0, while cate
 
 ### Dependencies
 
-*Needs:* Layers 2–3 and Layer 5.1 product maps; native module/category algebra for 6.0; Layer 4 for cellular comparisons; DifferentialGeometry Layers 2 and 5.1 for manifold orientations.
+*Needs:* Layers 2–3 and Layer 5.1 product maps; DerivedModuleAlgebra §§1.T.1 and 1.1 for 6.0; Layer 4 for cellular comparisons; DifferentialGeometry Layers 2 and 5.1 for manifold orientations.
 ## Layer 7: Euler characteristic and finite decompositions
 
 This layer consumes every one of Layers 2--6.  Layer 1 is not a prerequisite.
@@ -2330,9 +2348,32 @@ Consume the native alternating cell count and Euler--Poincare equality
 
 *Needs:* §7.1, §5.1 and §5.5 for bundles.
 
-Prove homotopy invariance, product multiplicativity, and multiplicativity for fibre bundles
-   with finite-CW base and fibre.  The bundle theorem must be derived from Layer 5's chain or
-   spectral-sequence machinery.
+Prove homotopy invariance for Hausdorff finite CW complexes and hence independence
+of the chosen finite CW model (Hatcher, Theorem 2.44, p.146), and product
+multiplicativity χ(X×Y)=χ(X)χ(Y) for such complexes (Hatcher, §2.2,
+Exercise 20, p.157). The product formula holds for any chosen finite CW structure
+on the product, by invariance.
+
+For a locally trivial bundle E→B with finite-CW-type base and fibre F, derive
+χ(E)=χ(B)χ(F) from §5.5's homological Serre sequence over ℚ. On a finite CW
+model of each base component, the cellular chain group with coefficients
+H_q(F;ℚ) has dimension c_p(B)·dim H_q(F;ℚ), regardless of monodromy.
+Its finite alternating sum gives χ(B)·dim H_q(F;ℚ); summing over q gives
+χ(B)χ(F). The bounded spectral sequence preserves this alternating sum to
+the abutment. If the total space is not equipped with a finite CW model,
+χ(E) here means its finite alternating rational Betti sum; for finite CW type
+it agrees with §7.1. Sum over base components; for a common fibre F this
+is the displayed product formula, without a trivial-monodromy hypothesis.
+
+**Checks.**
+
+- I and a point give 2−1=1 and 1, respectively; homotopy invariance identifies them.
+- S²×S² has cells in degrees 0,2,2,4, giving 1+2+1=4=2·2.
+- The circle bundle S³→S² has χ(S³)=1−1=0=2·0, even though its Serre
+  differential is nonzero; the argument preserves Euler sums, not product homology.
+- For the mapping torus of a reflection of S¹, monodromy acts by −1 on H₁,
+  but the total space is the Klein bottle with χ=1−2+1=0=0·0.
+
 ### 7.3 Cover multiplicativity
 
 *Needs:* §5.3 and §7.1.
@@ -2603,6 +2644,27 @@ Prove `ordinaryWhitehead` for the actual map between Hausdorff CW complexes: it 
    an ordinary CW-type homotopy equivalence alone is not an end comparison.
    This generic end API precedes FourManifolds' proper product theorem and constructs
    no surgery or smoothing data.
+   **Checks.**
+
+   - For ℝ, complements of [−r,r] have two contractible rays: the end set has
+     cardinality 2, connectedness at infinity is false, simple connectivity at
+     infinity is true, and the two stable end groups are (0,0). Every circle
+     stays in one ray and contracts there; requiring a single end would give
+     the wrong simple-connectivity predicate.
+   - For ℝ², complements of closed radius-r disks, r>0, retract radially to S¹:
+     there is one end, connectedness at infinity is true, the stable end group
+     is ℤ with identity bonding maps, and simple connectivity at infinity is
+     false. With K the closed unit disk, every larger compact L is contained
+     inside some circle of radius R>1; that circle lies outside L and has
+     winding 1 in ℝ²\K, so cannot bound a disk there. A contraction would
+     give winding 0, excluding the confusion between one end and trivial end group.
+   - For ℝ³, complements of closed balls retract radially to S²: there is one
+     end, connectedness at infinity and simple connectivity at infinity are
+     both true, and the stable end group is 0. Given compact K, take a ball
+     L containing K; every loop outside L contracts outside L since π₁(S²)=0,
+     hence also outside K. Thus the one-end values agree with ℝ² while the
+     simple-connectivity and group values differ.
+
    Also own the proper Whitehead theorem for finite-dimensional,
    locally finite CW complexes X,Y that are simply connected and simply
    connected at infinity: a proper continuous map f:X→Y has a proper inverse
@@ -2801,9 +2863,17 @@ realization is a K(G,1) for every discrete group G, without assuming commutativi
 
 ### 8.9 Relative obstruction theory
 
-*Needs:* §§4.4–4.5, 6.1 and 8.1; DGFloer Layer 1 item 2 for fibre transport.
+*Needs:* §§4.4–4.5, 5.0, 6.1 and 8.1; DGFloer Layer 1 item 2 for fibre transport.
 
 **Relative obstruction cochains.**
+    The untwisted bundle case follows Hatcher, *Vector Bundles and K-Theory*,
+    §3.3, pp.99–102: Lemma 3.18 (p.100) gives the cocycle and Proposition 3.19
+    (p.101) gives the difference-cochain and lower-skeleton extension criterion.
+    That source assumes simple fibres and trivial base action on their homotopy
+    groups. The n-simple, arbitrary-monodromy Serre-fibration version below is
+    the local-system extension constructed here from §5.0's relative lifting,
+    DGFloer's fibre transport and §6.1's cellular cochains; it is not asserted
+    by the untwisted reference.
     For each relative CW complex (X,B), n≥1 and path-connected target Y with
     π₁Y acting trivially on π_nY (so π₁Y is abelian when n=1), and a map on
     X^n∪B, construct its relative cellular (n+1)-cochain with coefficient π_nY
@@ -3082,7 +3152,8 @@ forms below retain the relative data.
     suspension preserves the ordinary cup ring.
     Prove σ sends the distinguished universal class to the class whose adjoint
     induces identity under the native last-coordinate shift. Consume
-    Layer 4.0's foundational suspension–loop adjunction
+    HomotopySpheres §3A.2's foundation-only suspension–loop adjunction
+    transported through Layer 4.0
     and G2.1's foundation-only realization-product comparison for addition.
     Only after 8.11a's independent CW-type proof, consume
     DGFloer 1.2's CW approximation and 8.5 to upgrade the EM loop weak
@@ -3134,8 +3205,8 @@ Hatcher Theorem 4.32 (§4.2, p.366) gives absolute Hurewicz, and Theorem 4.5 (§
 IV--VII, gives the relative and cellular forms.  May, *Simplicial Objects in Algebraic Topology*,
 Chapters 3 and 12, supplies the Kan-group construction and comparison route.
 Hatcher Section 4.3 supplies ordinary representability and obstruction theory;
-[*Vector Bundles and K-Theory*, Section 3.3](https://pi.math.cornell.edu/~hatcher/VBKT/VB.pdf)
-supplies the relative section obstruction and difference-cochain construction. The
+[*Vector Bundles and K-Theory*, §3.3, pp.99–102, Lemma 3.18 and Proposition 3.19](https://pi.math.cornell.edu/~hatcher/VBKT/VB.pdf)
+supplies the untwisted case of the relative section obstruction and difference-cochain construction. The
 local-coefficient extension retains the stated fibre transport rather than assuming
 trivial monodromy.
 
@@ -3187,11 +3258,11 @@ supplement or the categorical LS supplement unless named explicitly.
 | --- | --- | --- |
 | 1 van Kampen | Mathlib  | 2--8 |
 | 2 relative homology | Mathlib  | 1 |
-| 3 subdivision/excision | 2 | 1 and 6.0 tower algebra |
-| 4 CW/cellular and raw quotient comparisons | 2--3, native cochain algebra, Layer 4.0 for kified CW products and raw quotient/k-counit comparisons; 2.5 supplies sphere reference shuffles; general cohomological product/suspension compatibility belongs to 8.11b | 1 |
+| 3 subdivision/excision | 2 | 1 |
+| 4 CW/cellular and raw quotient comparisons | 2--3, native cochain algebra, HomotopySpheres §3A.1 for kified CW products; Layer 4.0 for normalized raw quotient comparisons; 2.5 supplies sphere reference shuffles; general cohomological product/suspension compatibility belongs to 8.11b | 1 |
 | 5 product maps (item 1) | 2 | 1, 3, 4 |
 | 5 bundles/covers/finite covers | 2--4; Layer 5.0 Serre carrier/bundle API; DGFloer 1.2 homotopy LES/homology SS from 1–4 and DGFloer Layer 1 item 3, cohomology SS additionally from independent 6.0–6.2 | 1 |
-| 6.0 tower algebra | native module/category/complex algebra | 1--8 |
+| 6.0 topological tower adapters | 2–4; DerivedModuleAlgebra §§1.T.1 and 1.1 | 5, 7–8 |
 | 6.1--6.4 cohomology/duality | 6.0 for 6.1 skeletal limits; 2--3, Layer 5 item 1 product maps, DifferentialGeometry Layer 2 tangent orientations, DifferentialGeometry Layer 5.1 outward-first boundary conventions and §2.5's local sphere comparison, native smooth local boundary charts plus the compact-domain Brown topological collar, and Layer 4.4's εₙ/radial native-sphere bridge used by 6.3; Layer 4 for cellular comparisons/RP² | 1 |
 | categorical-cover/cup-length supplement after 6.2 | native opens/homotopies/ENat; 2–3, 5.1 and ordinary 6.1–6.2, plus the direct point-chain contraction; no manifold duality or Morse input | 6.3–6.5 |
 | supported-cellular comparison after ordinary 6.2 | ordinary 4 cellular data, ordinary 6.1–6.2, CharacteristicClasses C1.2a S0–S4; proves countability and finite-support cellular/singular comparison. CharacteristicClasses S5 compatibility is a separate check | ordinary 6.3–6.5, Layer 7 and ordinary 8 proceed independently; proper 8.5 uses the needed support interfaces |
@@ -3201,9 +3272,9 @@ supplement or the categorical LS supplement unless named explicitly.
 | 8.8a raw bar/abelian input | 4, ordinary 6, native nerve/realization and universal-cover APIs | DGFloer Layer 1 item 4 abelian K(A,1) specialization |
 | 8.8b normalized model comparison | Layer 8.8a bar model; ClassifyingSpaces Stage 3 items 11–15 and Stage 4 items 16–18 | 8.9 |
 | 8.9 primary relative obstructions | 4, DGFloer 1.2 fibre transport, ordinary 6 cellular cochains, 8.1–8.7 | 8.8b |
-| 8.10 ordinary representability | 4, ordinary 6, 8.3/8.6, 8.9, DGFloer Layer 1 items 1 and 4, GeneralizedCohomology G2.1 foundational product comparison and Layer 4.0 kification and normalized comparisons | 7 |
-| 8.11a mapping-space and based-loop CW type | Earlier CW/pair foundations (4) and Layer 4.0 compact-generation/product API and normalized comparisons; no 8.10 or the EM loop comparison input | 7 |
-| 8.11b ordinary EM loops | 8.5, 8.10, 8.11a, DGFloer Layer 1 item 2 and standing/Layer 2 item 3 loop comparison, Layer 4.0 foundations and normalized comparisons, G2.1 foundation-only realization-product comparison | 7 |
+| 8.10 ordinary representability | 4, ordinary 6, 8.3/8.6, 8.9, DGFloer Layer 1 items 1 and 4, GeneralizedCohomology G2.1 foundational product comparison and HomotopySpheres §3A.1 kification and Layer 4.0 normalized comparisons | 7 |
+| 8.11a mapping-space and based-loop CW type | Earlier CW/pair foundations (4) and HomotopySpheres §3A.1 compact-generation/product API and Layer 4.0 normalized comparisons; no 8.10 or the EM loop comparison input | 7 |
+| 8.11b ordinary EM loops | 8.5, 8.10, 8.11a, DGFloer Layer 1 item 2 and standing/Layer 2 item 3 loop comparison, HomotopySpheres §3A.1 and the foundation-only adjunction of §3A.2, with Layer 4.0 normalized comparisons, G2.1 foundation-only realization-product comparison | 7 |
 | 8.12 classical EM comparisons | 8.8b, 8.10, TopologicalKTheory T1.6 carrier construction and DGFloer 1.2 Serre LES via CharacteristicClasses C1.1 bundle adapter/C1.5 finite comparisons and universal sphere-bundle portion | 7 |
 
 In particular, Layer 1 is independent; the chain `2 -> 3 -> 4` is strict; Layers 2--4 all feed
