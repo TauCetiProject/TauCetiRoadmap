@@ -5,13 +5,16 @@ Authors: Claude (Anthropic); Codex (OpenAI)
 -/
 import Mathlib
 import TauCeti.AlgebraicGeometry.EllipticCurve.TateCurve.Specialization
+import TauCeti.AlgebraicGeometry.EllipticCurve.TateModule.Galois
 
 /-!
 # ModularIwasawaMainConjectures: target signatures
 
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's headline
 theorems against the pinned Mathlib and Tau Ceti APIs: the integral unipotent quotient,
-Serre's rank-two lifting theorem, and the p-adic Mahler–Manin theorem on the native Tate curve.
+the elliptic image and coinvariant consequence of residual surjectivity, and the p-adic
+Mahler–Manin theorem on the native Tate curve. The SL₂ lifting theorem used by the elliptic
+deduction is supplied by AdelicImagesAndModularCurves §2.2.
 
 The ordinary and multiplicative main conjectures lack the cyclotomic Selmer and normalized
 modular p-adic L-function carriers. The period-defect dictionary between Kato's good pairs and
@@ -57,13 +60,25 @@ theorem hasRankOneCoinvariants_of_unipotent {O : Type*} [CommRing O] [IsDomain O
 
 /-! ## Layer 3: elliptic curves, heights and leading terms -/
 
-/-- For p ≥ 5, a closed subgroup of SL₂(ℤ_p) surjecting onto SL₂(𝔽_p) is the full group.
-This is Serre's rank-two lifting theorem (README §3.6; Serre IV.3.4, Lemma 3). -/
-theorem sl2Zp_closedSubgroup_eq_top (p : ℕ) [Fact p.Prime] (hp : 5 ≤ p)
-    (H : Subgroup (Matrix.SpecialLinearGroup (Fin 2) ℤ_[p]))
-    (hH : IsClosed (H : Set (Matrix.SpecialLinearGroup (Fin 2) ℤ_[p])))
-    (hsurj : H.map (Matrix.SpecialLinearGroup.map (PadicInt.toZMod (p := p))) = ⊤) :
-    H = ⊤ := by
+open scoped Classical WeierstrassCurve in
+/-- For an elliptic curve over ℚ and p ≥ 5, full residual image implies full integral
+Tate-module image and a cyclotomic-kernel element with free rank-one coinvariants
+(README §3.6; LSTX §1, p.1; the image condition in BCS Theorem 1.1.2(b)).
+The integral basis is the same on both sides. -/
+theorem ellipticImage_of_residual_surjective (p : ℕ) [Fact p.Prime] (hp : 5 ≤ p)
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (b : Module.Basis (Fin 2) ℤ_[p]
+      (TauCeti.TateModule p (E⁄(AlgebraicClosure ℚ)).toAffine.Point))
+    (hsurj : ∀ M : Matrix (Fin 2) (Fin 2) (ZMod p), IsUnit M.det →
+      ∃ σ : AlgebraicClosure ℚ ≃ₐ[ℚ] AlgebraicClosure ℚ,
+        (LinearMap.toMatrix b b (E.tateModuleGaloisRepresentation p σ)).map
+          (PadicInt.toZMod (p := p)) = M) :
+    (∀ M : Matrix (Fin 2) (Fin 2) ℤ_[p], IsUnit M.det →
+      ∃ σ : AlgebraicClosure ℚ ≃ₐ[ℚ] AlgebraicClosure ℚ,
+        LinearMap.toMatrix b b (E.tateModuleGaloisRepresentation p σ) = M) ∧
+    (∃ σ : AlgebraicClosure ℚ ≃ₐ[ℚ] AlgebraicClosure ℚ,
+      cyclotomicCharacter (AlgebraicClosure ℚ) p σ.toRingEquiv = 1 ∧
+      HasRankOneCoinvariants (E.tateModuleGaloisRepresentation p σ)) := by
   sorry
 
 /-- The p-adic Mahler–Manin theorem: a Tate parameter of norm below one with algebraic
