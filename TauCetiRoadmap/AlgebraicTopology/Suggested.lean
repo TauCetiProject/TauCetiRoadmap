@@ -373,7 +373,7 @@ def HasProperHomotopyInverse {X Y : Type*} [TopologicalSpace X] [TopologicalSpac
       IsProperMap H ∧ IsProperMap K
 
 /-- Proper extension retains a jointly proper map on the entire cylinder.
-Stage 8.5 proves this for strongly locally finite CW pairs and their product pairs. -/
+Layer 8.5 proves this for strongly locally finite CW pairs and their product pairs. -/
 def HasProperHomotopyExtensionProperty {X : Type u} [TopologicalSpace X]
     (A : Set X) : Prop :=
   ∀ (Y : Type u) [TopologicalSpace Y],

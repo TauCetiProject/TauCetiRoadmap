@@ -4,7 +4,7 @@
 covers, CW structures, fibrations, and manifold decompositions.  It starts at Mathlib's singular
 chains, fundamental groupoid, topological pairs, cubical homotopy groups, and classical CW
 complexes.  It ends with reusable van Kampen, relative homology, excision, cellular comparison,
-duality, Euler-characteristic, Hurewicz, Whitehead, ordinary Eilenberg–MacLane
+duality, Euler-characteristic, Hurewicz, Whitehead, ordinary Eilenberg–MacLane (EM)
 representability, and relative obstruction theorems.
 
 The point is a coherent library, not a collection of answers for particular spaces.  Every
@@ -38,8 +38,9 @@ stated coefficient generality.
 5. Singular cohomology, cup and cap products, twisted relative fundamental
    classes, both local-coefficient Poincare--Lefschetz forms and their oriented
    integral corollaries, and Euler characteristic are available with naturality.
-6. Relative homotopy groups, Hurewicz, Whitehead, and homological Whitehead are proved for CW
-   complexes and then for spaces of CW type.  The cubical and Kan-simplicial models of homotopy
+6. Relative homotopy is constructed for arbitrary based pairs, with absolute and relative
+   Hurewicz under their connectivity hypotheses; Whitehead and homological Whitehead
+   are proved for CW complexes and then for spaces of CW type.  The cubical and Kan-simplicial models of homotopy
    groups are naturally compared rather than allowed to form separate incompatible APIs.
 7. Countable towers have the generic lim/lim¹, exact-sequence, Mittag--Leffler
    and integer-graded Milnor APIs, including cofinal-shift naturality, the
@@ -108,18 +109,22 @@ groups.  Those theories consume this roadmap's chain, CW, duality, and homotopy 
   consumes that abelian family and DGFloer Layer 1 item 1's degree-one Hurewicz.
   DGFloer's constructor uses only Layers 8.1–8.7 and 8.8a, preceding representability and
   obstruction theory. Its Layer 1 item 2 owns the fibration homotopy long exact
-  sequence and the ordinary Serre spectral sequences, stated on the library's
-  Serre-fibration carrier. Layer 5.0 here provides the cube-lifting predicate on
-  `TopCat` morphisms, its pullback and locally-trivial-bundle theorems, and the
-  comparison identifying that predicate with the library carrier; 5.5 transports
-  DGFloer's sequences along that comparison to its bundles. DGFloer's CW
+  sequence (LES) and the ordinary Serre spectral sequences. The Serre-fibration
+  morphism property and its disc/cube characterization consumed there are absent
+  from the pinned libraries. Layer 5.0 constructs this interface on `TopCat`
+  morphisms, with pullback and locally-trivial-bundle theorems; 5.5 applies
+  DGFloer's sequence targets through that same disc/cube characterization. DGFloer's CW
   approximation is used in 8.11b.
   The standing Moore-loop comparison and Layer 2 item 3 supply loop carriers.
-- Layer 4.0 owns the compact-generation coreflection, CW comparison and pointed
-  suspension–loop adjunction needed here. HomotopySpheres consumes these foundations
-  for its Puppe sequences and stabilization; there is no reverse supplier edge.
-  GeneralizedCohomology G2.1 supplies the simplicial-realization product comparison;
-  it uses Layer 4.0 and the CW/realization foundations, without ordinary representability.
+- Layer 4.0 owns the single compact-generation coreflection, convenient products,
+  exponentials and foundational pointed suspension–loop adjunction, before relative
+  homotopy. The compact-generation and adjunction constructions in
+  HomotopySpheres §§3A.1–3A.2 coincide with this foundation; their cofiber/Puppe
+  and stabilization applications lie outside this roadmap and supply none of
+  its inputs. The raw-quotient
+  comparisons and their interval-last normalization are also in Layer 4.
+  GeneralizedCohomology G2.1 supplies the simplicial-realization product comparison
+  from these foundations, without ordinary representability.
 - TopologicalSheafCohomology §§1.1–1.2 owns raw Čech refinements, the comparison
   of ordered and tuple complexes, refinement homotopies and the cohomology colimit.
   CharacteristicClasses §C1.2b owns the constant-coefficient Čech/singular comparison;
@@ -158,7 +163,7 @@ These choices are part of the specification.
   chain map.  A result expressed only as unrelated equivalences in each degree is incomplete.
 - **Work at natural coefficient generality.**  Singular chains and relative homology take a
    coefficient object in the appropriate preadditive category.  Module-valued corollaries state
-   the ring and module hypotheses they use.  Field isomorphisms, PID or hereditary-ring short
+   the ring and module hypotheses they use.  Field isomorphisms, principal ideal domain (PID) or hereditary-ring short
    exact sequences, and general-ring spectral sequences are separate theorems.  Integral
    specialization occurs only where orientations, torsion, degree, or Euler characteristic
    require it.
@@ -205,6 +210,18 @@ The development starts from these pinned APIs.
   `singularHomologyFunctor`.
 - `TopPair`, `TopPair.ofSubset`, `TopPair.incl`, `TopPair.diag`, and the
   `TopPair.HomologyPretheory` classes already present at the dependency pin.
+- `TopPair.singularHomology`, `TopPair.singularHomologyMap`,
+  `TopPair.singularHomologyMap_id`, `TopPair.singularHomologyMap_comp` and
+  `TopPair.singularHomologyFunctor` in
+  `TauCeti/AlgebraicTopology/Singular/Relative.lean`, and
+  `TopPair.singularHomologyInclIso` with its quotient-induced component
+  `TopPair.singularHomologyInclIso_hom_app` in
+  `TauCeti/AlgebraicTopology/Singular/Empty.lean`. For spaces in universe w,
+  these use a preadditive category C with w-small coproducts and
+  `CategoryWithHomology C`, and a coefficient object R of C. The natural
+  isomorphism goes from absolute homology to relative homology of (X,∅);
+  its inverse gives the reverse comparison. No abelian-category hypothesis
+  is added to these declarations; short exact chain sequences use one separately.
 - `FundamentalGroupoid`, `FundamentalGroup`, induced maps, homotopy invariance, and Mathlib's
   covering and homotopy-lifting APIs.
 - Native `FundamentalGroup.cast_map_prod_mul` and `FundamentalGroup.instCommGroup` in
@@ -268,7 +285,7 @@ The development starts from these pinned APIs.
   `isClosedEmbedding_incl` and `homotopyEquiv`, and
   `TauCeti.MappingCylinder.hasHomotopyExtensionProperty_range_incl` in
   `Topology.Homotopy.MappingCylinder` / `Extension.MappingCylinder`.
-  Consume the HEP, relative-CW and strong-deformation-retraction APIs in
+  Consume the homotopy extension property (HEP), relative-CW and strong-deformation-retraction APIs in
   `Extension.Basic` / `CWComplex` / `DeformationRetract`.
 - `HomotopyGroup`, based cubes, `ContinuousMap.HomotopyEquiv`, mapping cones and pointed cones,
   category-theoretic colimits, chain homotopies, homology functors, and exact couples.
@@ -292,8 +309,9 @@ hypotheses of those items.
 ### From TauCetiRoadmap.DifferentialGeometry
 
 Layer 2 (tangent orientations, `orientationAt`, `Orientation.map`, Layer 2.2 pullback
-along local diffeomorphisms and Layer 2.4's outward-first sphere orientation) and Layer
-5.1 (the outward-normal-first boundary orientation), consumed by 6.3; Layer 10's smooth
+along local diffeomorphisms) and Layer 5.1 (the outward-normal-first boundary
+orientation), consumed by 6.3. The sphere comparison with the coordinate-local
+generator is constructed in §§2.5 and 6.3 here; Layer 10's smooth
 mapping degree, consumed only by 6.5's comparison, and 10.5, which consumes 2.7's Brouwer
 theorem. Layer 9.3 consumes 6.3's classes and is not a supplier of them.
 
@@ -301,8 +319,8 @@ theorem. Layer 9.3 consumes 6.3's classes and is not a supplier of them.
 
 Layer 1 item 1 (degree-one Hurewicz), consumed by 8.3 and 8.10; item 2 (CW approximation,
 the fibration homotopy long exact sequence and the homological and cohomological Serre
-spectral sequences on the library's Serre-fibration carrier), consumed by 5.5, 8.3, 8.9,
-8.11b and 8.12 through 5.0's comparison; item 3 (the spectral sequence of a filtered
+spectral sequences on the Serre-fibration morphism property), consumed by 5.5, 8.3,
+8.9, 8.11b and 8.12 using the disc/cube interface constructed in 5.0; item 3 (the spectral sequence of a filtered
 complex), consumed by 5.5; item 4 (the functorial abelian K(A,n) family with its
 normalized π_n identification), consumed by 8.10; Layer 2 item 3 (fixed-interval loop
 comparisons), consumed by 8.11b. Each is used with its path-connectedness and CW
@@ -449,14 +467,6 @@ Consume native relative singular chains on `TopPair`, obtained by applying the `
    construction to `TopCat.toSSet`. Consume its cokernel colimit and exhibit the relative complex both as the quotient
    `C_*(X) / C_*(A)` and in its natural short-exact-sequence form, and prove the two forms
    naturally isomorphic.
-### 2.2 Relative homology
-
-*Needs:* §2.1; native homology functors and coefficient functoriality.
-
-Define the relative homology functor for coefficient objects in the natural preadditive
-   category.  Prove functoriality, compatibility with composition, and the comparison
-   `H_*(X, empty) ~= H_*(X)` (Hatcher, Section 2.1, pp.115–117: relative chains, the long
-   exact sequence of a pair, Theorem 2.16, p.117, and the absolute case `A = ∅`).
 ### 2.3 Pair and triple sequences
 
 *Needs:* Native pair/triple short exact sequences and their connecting maps.
@@ -466,7 +476,7 @@ Consume the native short exact sequence of chain complexes for a pair and its na
    `B subset A subset X`.
 ### 2.4 Homology axioms
 
-*Needs:* Native singular homology pretheory; §2.2 reduced/relative comparison.
+*Needs:* Native singular homology pretheory and the absolute/empty-pair comparison in the supplier contracts.
 
 Consume native `singularHomologyPretheory` and its homotopy invariance, dimension and additivity,
    extending its interfaces and proving reduced/unreduced comparison for the homology-pretheory classes
@@ -518,6 +528,18 @@ Consume the native `(D^n,S^(n-1))`, point, discrete-space and disjoint-union cal
    product identifications, the signed triangulation chain equals the native
    iterated `TopCat.shuffle` of the n positive interval chains, factor order
    0,…,n−1. Prove the permutation/inversion sign equality, including n=0.
+   These are coordinate-normalized constructions from the native disk/sphere
+   calculation and shuffle maps: the boundary signs follow from the product
+   boundary formula (Hatcher, Proposition 3B.1, pp.269–270), and the generator
+   property by iterating the interval relative boundary isomorphism and
+   that shuffle boundary identity. The relative product formula is also
+   recorded after Theorem 3B.6, p.276; the early construction uses only
+   the native relative chains and shuffles named above. The radial formula has inverse y↦(‖y‖₂/‖y‖∞)y away from 0;
+   finite-dimensional norm bounds give continuity at 0, while both denominators
+   are positive off 0. The sphere class is obtained by excision and the
+   local-image characterization (Lemma 3.27, p.236). The normalization and
+   radial comparisons are the constructions here, not an additional claim
+   attributed to those source statements.
 
 **Checks.**
 
@@ -731,7 +753,8 @@ fully faithful inclusion into `TopCat`; the counit kX→X is the identity on poi
 Use pointed objects in this category, products k(X×Y), compact-open mapping spaces
 followed by k, and the smash quotient. Reduced suspension is X∧S¹ with the interval
 coordinate last; loops are based interval maps. Prove the suspension–loop adjunction
-on actual pointed maps and on pointed homotopy classes. The exponential-law route
+on actual pointed maps and on pointed homotopy classes. Pin its map formula:
+the adjoint of f sends x to the based loop (t↦f([x,t])). The exponential-law route
 uses compact tests and the compact-open evaluation law (Hatcher, Appendix,
 pp.523–524 and Propositions A.14–A.16, pp.530–531).
 
@@ -822,7 +845,7 @@ Consume native `cellularSingularHomologyIso` for finite-dimensional relative
 
 ### 4.4 Pointed quotients and suspension
 
-*Needs:* §2.5 and native pointed quotients; §4.0 for Kelley comparisons.
+*Needs:* §2.5 and native pointed quotients; §4.0 for the coreflection comparisons (only its native-input foundation).
 
 Consume native finite-CW Euler--Poincare and finite-generation results;
    extend their coefficient hypotheses, naturality and local-coefficient consequences.
@@ -912,6 +935,15 @@ Consume native finite-CW Euler--Poincare and finite-generation results;
    generator. HomotopySpheres §3A/§3B and RiemannianGeometry R3 consume these
    homeomorphisms and the explicit generator comparisons, without constructing
    a second sphere-suspension identification.
+   Derive these quotient-sign comparisons from §2.5's coordinate shuffle class,
+   the quotient/relative-homology comparison (Hatcher, Proposition 2.22,
+   p.124), the product boundary formula (Proposition 3B.1, pp.269–270), and
+   the ordered-product interchange sign (Theorem 3.11, p.215). For n≥1,
+   compute the local degree at an interior image different from the collapsed
+   pole, then use the sphere local-image comparison of §2.5 to identify
+   the absolute generator; the collapsed boundary fixes the based map. In degree 0
+   compute in the augmentation kernel directly, giving the displayed minus
+   sign instead of applying the connected-sphere argument.
    Own the relative CW structure of the native disk: the actual `TopCat.disk n`
    relative to its boundary subset has one n-cell and no other
    relative cells, using the fixed Layer 2.5 sup-ball/disk comparison and
@@ -941,6 +973,9 @@ Consume native finite-CW Euler--Poincare and finite-generation results;
 
 ### 4.5 Cofibrations and CW transport
 
+Here NDR means neighborhood deformation retract, specified by the usual function
+and deformation data for a pair.
+
 *Needs:* Native relative CW structures, mapping cylinders and HEP; §4.0 for kified products; closed cofibrations.
 
 Consume existing `TauCeti.HasHomotopyExtensionProperty` and
@@ -948,7 +983,8 @@ Consume existing `TauCeti.HasHomotopyExtensionProperty` and
    inclusions as closed cofibrations. Consume the existing mapping cylinder,
    projection equivalence and inclusion HEP; construct the relative and double
    mapping cylinders, cellular approximation, relative
-   cellular approximation rel subcomplex for relative CW pairs, and skeletal induction.
+   cellular approximation rel subcomplex for relative CW pairs, and skeletal induction
+   (Hatcher, Theorem 4.8, p.349).
    Consume existing
    `TauCeti.HasHomotopyExtensionProperty.exists_strong_deformation_retraction`
    when the inclusion is a homotopy equivalence.
@@ -1221,8 +1257,12 @@ The degree-m two-cell attachment has differential multiplication by m. At m=0 it
 
 Define a Serre fibration p:E→B to mean: for every n≥0, every continuous
 H:Iⁿ×I→B and g:Iⁿ→E with p∘g=H(−,0), there is a continuous lift
-Ĥ:Iⁿ×I→E with p∘Ĥ=H and Ĥ(−,0)=g. This is a predicate on actual
-`TopCat` morphisms, with no surjectivity built into the definition. Prove its
+Ĥ:Iⁿ×I→E with p∘Ĥ=H and Ĥ(−,0)=g. Package this predicate as a `CategoryTheory.MorphismProperty TopCat`, on
+actual maps with no surjectivity built in. Construct its equivalent disc
+form: for every n≥0, every H:Dⁿ×I→B and g:Dⁿ→E satisfying the same initial
+condition has a lift with those two equations. Transport both directions
+through §2.5's cube-to-disc homeomorphism crossed with the identity of I;
+the initial face is preserved, including D⁰=I⁰=*. Prove its
 relative CW-pair lifting form and that every locally trivial bundle projection
 has this property (Hatcher Proposition 4.48, pp.379–380).
 
@@ -1232,16 +1272,17 @@ has this property (Hatcher Proposition 4.48, pp.379–380).
   pullback is the pair of the prescribed base map and the original lift.
 - Local trivializations give cube lifts by finite subdivisions of the compact
   parameter cube; no paracompactness of the base or global trivialization is assumed.
-- Compare with the library's Serre-fibration carrier, the morphism property on `TopCat`
-  used by DGFloer Layer 1 item 2: a morphism satisfies this predicate exactly when it
-  belongs to that property, through its cube-lifting characterization; 5.5 transports
-  DGFloer's homotopy long exact sequence and Serre spectral sequences to the bundles of
-  this item along that comparison. Nothing here restates those sequences.
+- Supply the disc and cube membership characterizations of this same morphism
+  property, with the stated lift and initial-face equations. DGFloer Layer 1
+  item 2's sequence targets use precisely this interface: a cube-lifting witness
+  for a bundle supplies membership, and disc membership supplies each cell lift
+  in its CW-testing construction. Layer 5.5 applies those sequence targets to
+  bundles through this equivalence; no sequence is reconstructed here.
 
 **Checks.**
 
 - For point×point→point, every lift is the unique constant map, so both equations
-  read *=* in n=0 and n=1, and both the predicate and the library property hold.
+  read *=* in n=0 and n=1, and both disc and cube membership hold.
 - For B×F→B and g(z)=(H(z,0),a(z)), take Ĥ(z,t)=(H(z,t),a(z));
   projection is exactly H and evaluation at 0 is exactly g.
 - The inclusion {0}→I fails: the path H(t)=t starting at 0 would require
@@ -1250,7 +1291,8 @@ has this property (Hatcher Proposition 4.48, pp.379–380).
 
 *Needs:* Mathlib `TopCat`, `ContinuousMap`, `unitInterval`, products, pullbacks,
 `FiberBundle` and local trivializations; Layer 4 relative CW skeletal induction
-for the extension from cubes to CW pairs. The cube/bundle theorem is independent
+for the extension from cubes to CW pairs; §2.5 for the disc/cube homeomorphism.
+The cube/bundle theorem is independent
 of the spectral sequence which consumes it.
 
 
@@ -1409,9 +1451,24 @@ Use Layer 3's small-chain theorem to prove that the augmented total complex is n
    quasi-isomorphic to singular chains.  Construct its first-quadrant spectral sequence,
    bounded by the cover cardinality, with
    `E^1_(p,q) = directSum H_q(U_(i_0...i_p);R)` and prove natural convergence.
+   This is a construction from the small-chain equivalence (Hatcher,
+   Proposition 2.21, pp.119–120) and DGFloer Layer 1 item 3's filtered-complex
+   spectral sequence: for each small simplex, the cover indices containing
+   its image form a nonempty finite simplex, whose augmented chain complex
+   contracts by adjoining one such index. Thus the augmented horizontal rows
+   are exact. The other filtration has the displayed vertical homology page;
+   finite cover cardinality bounds its columns and makes convergence finite
+   in each total degree.
+
+**Checks.**
+
+- For the cover of a point by two copies of itself, the augmented horizontal
+  row is 0→R→R²→R→0 with maps c↦(−c,c) and (a,b)↦a+b.
+  Its cokernel before augmentation is R, and the augmented row is exact;
+  hence total H₀=R, not R². This holds also for the zero ring, where all terms are 0.
 
 Eilenberg--Zilber and Eilenberg--Mac Lane's acyclic-model proof, Hatcher Section 3.B (Theorem
-3B.5, p.274, and Theorem 3B.6, p.275), and McCleary, *A User's Guide to Spectral Sequences*, Chapters 1--2, form the source spine.  The
+3B.5, p.274, and Theorem 3B.6, p.275), form the product source spine; §§5.6–5.7 give the separate cover-descent derivation.  The
 mapping-torus calculation follows the mapping-cone derivation of the Wang sequence; transfer
 follows Hatcher Section 3.G, and the bundle filtration follows Serre's skeletal construction.
 
@@ -1516,6 +1573,14 @@ Define absolute and relative singular cochains by applying hom to singular chain
    the construction to Layer 2's local coefficient systems: a degree-k cochain
    assigns to σ a value in L(σ(e₀)); the zeroth face term is transported back
    along [e₁,e₀] and other terms retain e₀. Relative cochains vanish on A.
+   This is the first-vertex version of Hatcher §3.H's lift-valued cochains
+   (pp.333–334), using its local transport discussion (pp.330–331); the
+   module description on a universal cover is in pp.328–329. Derive the
+   coboundary by restricting a lift and transporting its value back to the
+   first vertex; inverse transport and the functor laws give δ²=0. This
+   construction on the native fundamental groupoid applies to arbitrary
+   spaces and does not assume that a universal cover or a locally trivial
+   bundle realizing the functor exists.
    Identify cochains with coefficients in the dual system L* with Hom of
    twisted chains with L into R; recovering L by double dual requires the
    displayed fibrewise reflexivity, for example finite projectivity.
@@ -1530,7 +1595,10 @@ Define absolute and relative singular cochains by applying hom to singular chain
    extension by zero on the other simplices. Apply item 0's Milnor sequence;
    for each n the tower H^(n−1)(X^k;L) is eventually constant by the cellular
    relative long exact sequence, so lim¹ vanishes and the degree-n comparison
-   passes to X. Prove the relative version over subcomplex pairs as well;
+   passes to X. The cellular derivation uses the skeletal exact sequence
+   (Hatcher, Theorem 3.5, p.203, and §3.H, p.334) with §6.0's inverse-limit
+   comparison; it does not infer the local-coefficient result by dualizing
+   constant-coefficient duality. Prove the relative version over subcomplex pairs as well;
  no freeness or reflexivity of
    arbitrary coefficient fibres is assumed. For finite free integral fibres
    prove that the Layer 4 chain-homotopy comparison dualizes, identifying
@@ -1639,7 +1707,7 @@ Use Alexander--Whitney to define cup products and Eilenberg--Zilber to compare t
    homotopies, and the empty-index case.
 
    Define `lsCategoryCount X A : ℕ∞` as the infimum of those finite cover
-   sizes, with infimum of the empty set equal to∞. Prove that a finite value n
+   sizes, with infimum of the empty set equal to ∞. Prove that a finite value n
    is attained by an n-element cover; prove monotonicity in A, finite-union
    subadditivity, and the ambient deformation inequality: if g:X→X is
    homotopic to the identity and g(A)⊆B, then
@@ -2167,25 +2235,50 @@ Prove both Poincare--Lefschetz isomorphisms by cap with that class for
 
 Derive the homological characterization and duality formulas for the shared manifold degree and
    the intersection pairing.  For a closed connected oriented `n`-manifold of finite CW type,
-   construct the nonsingular torsion linking pairing
+   for n≥1 and 0≤i<n construct the nonsingular torsion linking pairing
    `Tor H_i(M;Z) times Tor H_(n-i-1)(M;Z) -> AddCircle (1 : ℚ)`.  Prove finiteness of the torsion
    groups, naturality under orientation-preserving diffeomorphisms, and the symmetry law
    `lambda_i(x,y) = (-1)^((i+1)(n-i)) lambda_(n-i-1)(y,x)` with the pinned cap-product sign.
    Derive universal-coefficient consequences through the natural duality maps, and do not define a
    competing degree invariant.
+   Specify the pairing by the following Bockstein construction. Write
+   a=n−i and b=i+1, and let α∈Tor H^a(M;ℤ), β∈Tor H^b(M;ℤ) be the
+   inverse cap-duals of x,y. Choose u∈H^(a−1)(M;ℚ/ℤ) with δu=α for
+   0→ℤ→ℚ→ℚ/ℤ→0 and set λ_i(x,y)=⟨u∪β,[M]⟩. Prove independence
+   of u: the ambiguity lifts to rational cohomology and cups trivially
+   with torsion β. The coefficient sequence is §6.1's construction
+   (Hatcher, §3.E, p.303); cap duality is §6.4 (Theorem 3.30, p.241),
+   and nonsingularity follows from the universal coefficient sequence
+   (Theorem 3.2, p.195), divisibility of ℚ/ℤ, and finite generation.
+   Derive the sign using the mixed-coefficient Bockstein identity of Conway–Friedl–Herrmann,
+   *Linking forms revisited*, Lemma 2.6, pp.503–504, which holds on every
+   space, and the cup symmetry (their equation (2.2), p.499). For lifts
+   δu=α, δv=β of degrees a−1,b−1, these give
+   ⟨u∪β,[M]⟩=(−1)^a⟨α∪v,[M]⟩ and then the factor
+   (−1)^(a(b−1)); the product is (−1)^(ab)=(−1)^((n−i)(i+1)).
+   Their Lemma 2.5, p.502, gives the same construction and nonsingularity
+   on rational homology spheres. For general closed manifolds, the argument
+   above restricts to torsion and quotients the Bockstein lift ambiguity by
+   the image of rational cohomology; no rational-homology-sphere hypothesis
+   is imported into the general target.
 
 **Checks.**
 
 - On RP³ (n=3, i=1) the torsion subgroup of H₁ is ℤ/2 and the pairing sends the pair of
   generators to 1/2 in ℚ/ℤ; it is nonsingular, which a pairing with value 0 is not. The
   exponent (i+1)(n−i)=4 is even, so linking on a 3-manifold is symmetric.
-- L(5,1) and L(5,2) both have H₁=ℤ/5 and H₂=0, but the self-linking of a generator is ±1/5
-  for L(5,1) and ±2/5 for L(5,2); since 2 is not a square modulo 5, no change of generator
-  or of orientation identifies the two forms, so the linking form separates the two lens
-  spaces while homology does not; a model depending only on the torsion group would give
-  equal forms.
-- On S³, or on any integral homology sphere, the torsion subgroups vanish and the pairing is
-  empty. At (n,i)=(5,2) the exponent is 9, so λ₂ is skew and every self-linking is
+- Let L(5,q) be S³ modulo (z,w)↦(ζz,ζ^q w), ζ=exp(2πi/5),
+  with the quotient orientation from S³. In the generator supplied by
+  Conway–Friedl–Herrmann, Proposition 1.2, p.494, self-linking is −q/5:
+  −1/5 for L(5,1) and −2/5 for L(5,2). On their oppositely oriented
+  manifolds the same generators have +1/5 and +2/5. Thus the positive
+  value +1/5 is tied to a specified orientation, not an unmarked lens space.
+  Both have H₁=ℤ/5 and H₂=0; the nonzero squares modulo 5 are {1,4},
+  and their negatives are again {1,4}, so no change of generator or
+  orientation turns the first form into the second. Homology alone does
+  not distinguish them.
+- On S³, or on any integral homology sphere, the torsion subgroups are zero and the pairing is
+  the unique zero pairing on 0×0. At (n,i)=(5,2) the exponent is 9, so λ₂ is skew and every self-linking is
   2-torsion in ℚ/ℤ, as on the Wu manifold SU(3)/SO(3), whose Tor H₂=ℤ/2 has self-linking
   1/2 by nonsingularity; a model with exponent i(n−i−1) would make 3-manifold linking skew,
   which L(5,1)'s self-linking ±1/5 (with 2/5≠0) refutes.
@@ -2286,9 +2379,10 @@ items 1–7 are independent of those later constructions.
 Define based top pair from a `TopPair` and an actual point of its subspace, together with
    basepoint-preserving maps of pairs. Extend cubical `HomotopyGroup` with pointed maps,
    functoriality, basepoint change, relative homotopy groups `pi_n(X,A,a_0)`, and the boundary maps
-   and long exact sequence of that based pair. State relative groups for NDR pairs/cofibrations,
-   rather than attaching them to arbitrary inclusions without hypotheses. The empty-subspace pair
-   admits no such based carrier.
+   and long exact sequence of every based topological pair, with no closedness,
+   NDR, or cofibration requirement (Hatcher,
+   §4.1, pp.343–345, definition and exact sequence of relative homotopy groups).
+   The empty-subspace pair admits no such based carrier.
    Keep the low-degree algebra honest: use pointed-set and group carriers in the ranges where
    relative homotopy is not abelian, and expose a `ModuleCat Z` carrier only in degrees at least
    three.  In particular, `pi_2(X,A)` is group-valued in general; its abelianization, not the
@@ -2300,7 +2394,8 @@ Define based top pair from a `TopPair` and an actual point of its subspace, toge
    prove every point of X can be joined to A by a path. Prove the component
    map is bijective, inclusion induces π_q(A,a)≅π_q(X,a) for 1≤q≤λ−2,
    and is surjective for q=λ−1. Include the pointed-set relative degree 1;
-   the endpoint surjectivity also holds for λ=1 as a component statement.
+   the endpoint surjectivity also holds for λ=1 as a component statement
+   (Hatcher, Corollary 4.12, p.351, from Theorem 4.8, p.349).
    Prove naturality of the induced isomorphisms under based maps of pairs.
    Export its transport: let (X_c,A_c)
    be that native CW pair, and let g:X_c→Y, f:A_c→B commute with the two
@@ -2310,8 +2405,8 @@ Define based top pair from a `TopPair` and an actual point of its subspace, toge
    range holds on (Y,B). The actual commuting
    square transports the bijection/surjection; component bijectivity and
    basepoint change give the result at every b∈B as a corollary of the
-   pointwise prototype. If relative groups of the
-   target pair are used, take its cofibration/NDR data as a separate hypothesis.
+   pointwise prototype. The relative groups of the target pair require only its
+   chosen subspace basepoint; cofibration hypotheses belong to quotient comparisons.
    In particular, based homotopy equivalences of pairs supply these hypotheses.
    RiemannianGeometry R3 applies the transport theorem to
    CharacteristicClasses C2.0's bundle-cell relative CW models, compared with
@@ -2380,9 +2475,10 @@ Construct homotopy groups of Kan simplicial sets, prove
   N_n=0 for n≥1, π₀=G₀/d₀(N₁)=G₀ and π_n=0 for n≥1; for G₀=S₃ this π₀ is nonabelian, so a
   model that abelianized π₀ would be wrong.
 - For the nerve of S₃ the Kan π₁ at the vertex is S₃: the 2-simplex (g,h) has faces d₂=g,
-  d₀=h, d₁=gh, so the class of g followed by h is gh, and the comparison with the cubical
-  π₁ of the realization sends the 1-simplex g to the loop g. A model composing in the other
-  order sends (g,h) to hg; for g=(12), h=(23) these are the distinct 3-cycles (123) and (132).
+  d₀=h, d₁=hg, so the class of g followed by h is hg, and the comparison with the cubical
+  π₁ of the realization sends the 1-simplex g to the loop g. Native
+  `CategoryTheory.SingleObj.comp_as_mul` fixes this order. The reversed product gh
+  is rejected: for g=(12), h=(23), hg=(132) sends 1 to 3 whereas gh=(123) sends 1 to 2.
 - For the free simplicial abelian group on the simplicial circle Δ¹/∂Δ¹, the normalized
   Moore complex has N₀=ℤ, N₁=ℤ(e−s₀v) (the kernel of d₁ on ℤ{e,s₀v}) with d₀(e−s₀v)=0, and
   N₂=0, so π₀=π₁=ℤ and π_n=0 for n≥2, matching H_*(S¹;ℤ); the unnormalized complex has
@@ -2416,14 +2512,30 @@ Own the general absolute Hurewicz map for every n≥1. A native generalized
   −[S²]; a model normalized by the opposite generator sends the identity to −[S²].
 ### 8.4 Relative Hurewicz
 
-*Needs:* §8.1 relative homotopy and §2.3 relative homology; based NDR/cofibration data.
+*Needs:* §8.1 relative homotopy and §2.3 relative homology; §8.3's normalized Hurewicz map.
 
-Prove relative Hurewicz for a based cofibration/NDR pair.  If `A` and `X` are simply connected
-   and `pi_i(X,A)=0` for `i<n`, prove `H_i(X,A;Z)=0` below `n` and that relative Hurewicz is an
-   isomorphism in degree `n`.  Derive the exact isomorphism and surjectivity range for
-   `H_i(A)->H_i(X)` from the pair sequence.  In degree two, first derive commutativity of
-   `pi_2(X,A)` from these connectivity hypotheses, prove that the map to its abelianization is an
-   isomorphism, and only then identify it with relative homology.
+For n≥2 and any based pair (X,A,a₀), assume A is nonempty and simply connected
+and the pair is (n−1)-connected: every component of X meets A and
+π_i(X,A,a₀)=0 for 1≤i<n. Prove H_i(X,A;ℤ)=0 for 0≤i<n and that the
+relative Hurewicz map π_n(X,A,a₀)→H_n(X,A;ℤ) is an isomorphism (Hatcher,
+Theorem 4.32, p.366). No cofibration or closedness assumption is imposed.
+Deduce that H_i(A;ℤ)→H_i(X;ℤ) is an isomorphism for 0≤i<n−1 and is
+surjective for i=n−1. In degree two, the pair sequence and π₁(A)=0 make
+π₂(X)→π₂(X,A) surjective; thus π₂(X,A) is abelian, and its abelianization
+map is an isomorphism before identifying it with relative homology.
+
+**Checks.**
+
+- For (ℝ,(0,1),1/2), the inclusion induces isomorphisms on all homotopy and
+  homology groups: both spaces contract to 1/2. Every relative group is 0,
+  so Hurewicz is 0→0 for all n≥2 although (0,1) is not closed.
+- For (Dⁿ,Sⁿ⁻¹), n≥3, the first relative group and relative homology in
+  degree n are ℤ and the positive disk class maps to +1; below n both are 0.
+- For (S²,{p}), n=2, π₂=H₂=ℤ and Hurewicz sends 1 to 1. Without simple
+  connectivity of A the statement fails: (D²,S¹∨S¹), with the wedge embedded
+  as two tangent circles in the disk, has π₂ the nonabelian free group F₂
+  and H₂=ℤ²; the map is abelianization, not an isomorphism.
+
 ### 8.5 Whitehead and proper homotopy
 
 `HasProperHomotopyInverse` requires a proper inverse and jointly proper homotopies
@@ -2827,11 +2939,15 @@ forms below retain the relative data.
     K_w of a native abstract simplicial n-ad, with actual homotopy equivalences,
     using skeletal simplicial approximation and mapping cylinders. Construct
     the metric realization K_m on the same finite-support barycentric points
-    (the bounded ℓ¹ metric topology), and prove Dowker's K_w≃K_m comparison,
-    relative to the subcomplexes. Develop the metric ANR/ANE neighborhood-
-    retraction/extension API using actual closed embeddings and open
-    neighborhoods in arbitrary metric ambient spaces, without a separability
-    assumption. Own the Arens–Eells/Wojdysławski closed embedding of every
+    with distance d(a,b)=Σ_v |a_v−b_v|, bounded by 2, and prove Dowker's
+    K_w≃K_m comparison, relative to the subcomplexes (Milnor, proof of
+    Theorem 2, pp.274–276). A metric absolute neighborhood retract (ANR) Y
+    means that every closed embedding Y→Z into a metric space has an open
+    neighborhood N of its image and a retraction N→Y restricting to the
+    inverse embedding on that image. A metric absolute neighborhood extensor
+    (ANE) Y means that every continuous map A→Y from a closed subset A of a
+    metric space Z extends to some open neighborhood of A in Z. Develop
+    their APIs without a separability assumption. Own the Arens–Eells/Wojdysławski closed embedding of every
     metric space into a convex subset of a normed real vector space; keep the
     convex-hull carrier rather than imposing completeness or separability.
     Own Dugundji's extension theorem for continuous maps from closed subsets
@@ -2849,10 +2965,59 @@ forms below retain the relative data.
     neighborhood extensions; include finite-CW subcomplex constraints,
     prescribed values and the constant map. Construct domination of metric
     ANRs by native simplicial complexes using numerable open covers and nerves.
-    Finally prove the CW-domination criterion by an explicit homotopy-idempotent
-    mapping telescope, with dominating maps and homotopies fixed on the
-    relative n-ad. These inputs establish the function-space CW-type theorem
+    Domination of X by K consists of maps u:X→K and v:K→X with a
+    specified homotopy v∘u≃id_X, relative to the marked subspaces for n-ads;
+    no homotopy u∘v≃id_K is required. Prove invariance under homotopy
+    equivalences, composition of dominations, and restriction to the marked
+    subspaces. Finally prove that domination by a CW complex implies CW type
+    by the homotopy-idempotent mapping telescope (Hatcher, Proposition A.11,
+    p.528), retaining these maps and relative homotopies. These inputs establish the function-space CW-type theorem
     independently of any weak-equivalence upgrade.
+
+**Metric realization.**
+
+**Checks.**
+
+- Δ⁰ has one barycentric point, distance 0, and both realizations are a point;
+  adding an extra zero-weight point would give two points instead.
+- In Δ¹ the points (1−t,t) and (1−s,s) have distance 2|t−s|; in particular
+  the vertex distance is 2, and t=1/2 is distance 1 from either vertex.
+- In the countable wedge of intervals with vertices v₀,v₁,… and edges
+  [v₀,v_j], set x_j=(1−1/j)v₀+(1/j)v_j for j≥1. Then d(x_j,v₀)=2/j→0
+  in K_m. In K_w the neighborhood with t<1/(2j) on edge j contains v₀
+  and no x_j, so x_j does not converge there. A homeomorphism claimed to
+  be the identity between these topologies would fail this test.
+
+**ANR and ANE.**
+
+**Checks.**
+
+- The closed Euclidean line ℝ×{0}⊂ℝ² has the global retraction
+  (x,y)↦(x,0), restricting to (x,0)↦(x,0). For an extension witness,
+  {−1,1}→ℝ with values −1,1 extends by t↦t on ℝ. Convexity and the
+  stated extension theorem give the all-ambient ANE assertion for ℝ.
+- S¹⊂ℝ² retracts from 1/2<‖z‖<3/2 by z↦z/‖z‖: 1↦1 and i↦i.
+  For any map f:A→S¹ with A closed in a metric Z, extend into ℝ² and
+  restrict to the open set 1/2<‖F‖<3/2 before normalizing. This gives an
+  ANE witness; extending normalization to z=0 would require division by 0.
+- The Cantor set C⊂[0,1] is neither ANR nor ANE. Any neighborhood of 0
+  in ℝ contains [0,ε) and some c=2/3^k with 0<c<ε. A retraction to C
+  would send the connected interval [0,c] to a connected subset containing
+  both 0 and c, impossible since connected subsets of C are singletons.
+  An extension of id_C to a neighborhood would be that same retraction.
+
+**Domination.**
+
+**Checks.**
+
+- u=v=id_X has v∘u=id_X, with constant homotopy; this works for ∅ too,
+  using the empty maps, and imposes no nonemptiness.
+- The maps I→*→I with the second map selecting 0 have composite 0;
+  H(x,t)=tx gives H(x,0)=0 and H(x,1)=x, so they dominate I by a point.
+- The proposed constant composite S¹→*→S¹ induces 0 on H₁=ℤ, whereas
+  id induces 1; no required homotopy exists. Dropping the composite-homotopy
+  condition would incorrectly give every space CW type by domination by *.
+
     Apply it to (I,{0,1})→(X,{x₀}) with x₀ a 0-cell to obtain
     CW type of the based loop space; compare native fixed-interval loops with the Kelley
     mapping carrier. Own the interval-product comparison
@@ -2917,7 +3082,7 @@ forms below retain the relative data.
     suspension preserves the ordinary cup ring.
     Prove σ sends the distinguished universal class to the class whose adjoint
     induces identity under the native last-coordinate shift. Consume
-    Layer 4.0's pointed compactly generated suspension–loop adjunction
+    Layer 4.0's foundational suspension–loop adjunction
     and G2.1's foundation-only realization-product comparison for addition.
     Only after 8.11a's independent CW-type proof, consume
     DGFloer 1.2's CW approximation and 8.5 to upgrade the EM loop weak
@@ -2984,7 +3149,8 @@ Identity maps on ∅, a point, S¹ and S² induce identity maps on components an
 
 ## Downstream consumers
 
-HomotopySpheres consumes Layer 4.0 and Layer 8; CharacteristicClasses consumes
+HomotopySpheres uses Layer 4.0's normalized quotient comparisons and Layer 8
+only in its cofiber/stabilization applications; CharacteristicClasses consumes
 cohomology, compact supports and the tower comparison; DGFloer consumes the raw bar,
 CW and Serre-fibration foundations; DifferentialGeometry consumes singular integration
 inputs and the homological fundamental classes. Stable and geometric applications use
@@ -3026,7 +3192,7 @@ supplement or the categorical LS supplement unless named explicitly.
 | 5 product maps (item 1) | 2 | 1, 3, 4 |
 | 5 bundles/covers/finite covers | 2--4; Layer 5.0 Serre carrier/bundle API; DGFloer 1.2 homotopy LES/homology SS from 1–4 and DGFloer Layer 1 item 3, cohomology SS additionally from independent 6.0–6.2 | 1 |
 | 6.0 tower algebra | native module/category/complex algebra | 1--8 |
-| 6.1--6.4 cohomology/duality | 6.0 for 6.1 skeletal limits; 2--3, Layer 5 item 1 product maps, DifferentialGeometry Layer 2 tangent orientations, DifferentialGeometry Layer 2.4 sphere and DifferentialGeometry Layer 5.1 outward-first boundary conventions, native smooth local boundary charts plus the compact-domain Brown topological collar, and Layer 4.4's εₙ/radial native-sphere bridge used by 6.3; Layer 4 for cellular comparisons/RP² | 1 |
+| 6.1--6.4 cohomology/duality | 6.0 for 6.1 skeletal limits; 2--3, Layer 5 item 1 product maps, DifferentialGeometry Layer 2 tangent orientations, DifferentialGeometry Layer 5.1 outward-first boundary conventions and §2.5's local sphere comparison, native smooth local boundary charts plus the compact-domain Brown topological collar, and Layer 4.4's εₙ/radial native-sphere bridge used by 6.3; Layer 4 for cellular comparisons/RP² | 1 |
 | categorical-cover/cup-length supplement after 6.2 | native opens/homotopies/ENat; 2–3, 5.1 and ordinary 6.1–6.2, plus the direct point-chain contraction; no manifold duality or Morse input | 6.3–6.5 |
 | supported-cellular comparison after ordinary 6.2 | ordinary 4 cellular data, ordinary 6.1–6.2, CharacteristicClasses C1.2a S0–S4; proves countability and finite-support cellular/singular comparison. CharacteristicClasses S5 compatibility is a separate check | ordinary 6.3–6.5, Layer 7 and ordinary 8 proceed independently; proper 8.5 uses the needed support interfaces |
 | 6.5 linking/degree consequences | 2--4 and ordinary 6.1--6.4; DifferentialGeometry Layer 10's smooth mapping-degree comparison only after the independent Layer 6.3 classes | 1 |
@@ -3035,9 +3201,9 @@ supplement or the categorical LS supplement unless named explicitly.
 | 8.8a raw bar/abelian input | 4, ordinary 6, native nerve/realization and universal-cover APIs | DGFloer Layer 1 item 4 abelian K(A,1) specialization |
 | 8.8b normalized model comparison | Layer 8.8a bar model; ClassifyingSpaces Stage 3 items 11–15 and Stage 4 items 16–18 | 8.9 |
 | 8.9 primary relative obstructions | 4, DGFloer 1.2 fibre transport, ordinary 6 cellular cochains, 8.1–8.7 | 8.8b |
-| 8.10 ordinary representability | 4, ordinary 6, 8.3/8.6, 8.9, DGFloer Layer 1 items 1 and 4, GeneralizedCohomology G2.1 foundational product comparison and Layer 4.0 kification | 7 |
-| 8.11a mapping-space and based-loop CW type | Earlier CW/pair foundations (4) and Layer 4.0 compact-generation/product API only; no 8.10 or the EM loop comparison input | 7 |
-| 8.11b ordinary EM loops | 8.5, 8.10, 8.11a, DGFloer Layer 1 item 2 and standing/Layer 2 item 3 loop comparison, Layer 4.0 compact-generation/product API and its pointed adjunction, G2.1 foundation-only realization-product comparison | 7 |
+| 8.10 ordinary representability | 4, ordinary 6, 8.3/8.6, 8.9, DGFloer Layer 1 items 1 and 4, GeneralizedCohomology G2.1 foundational product comparison and Layer 4.0 kification and normalized comparisons | 7 |
+| 8.11a mapping-space and based-loop CW type | Earlier CW/pair foundations (4) and Layer 4.0 compact-generation/product API and normalized comparisons; no 8.10 or the EM loop comparison input | 7 |
+| 8.11b ordinary EM loops | 8.5, 8.10, 8.11a, DGFloer Layer 1 item 2 and standing/Layer 2 item 3 loop comparison, Layer 4.0 foundations and normalized comparisons, G2.1 foundation-only realization-product comparison | 7 |
 | 8.12 classical EM comparisons | 8.8b, 8.10, TopologicalKTheory T1.6 carrier construction and DGFloer 1.2 Serre LES via CharacteristicClasses C1.1 bundle adapter/C1.5 finite comparisons and universal sphere-bundle portion | 7 |
 
 In particular, Layer 1 is independent; the chain `2 -> 3 -> 4` is strict; Layers 2--4 all feed
@@ -3130,3 +3296,5 @@ downstream comparison theorem as input.
   Cartan--Leray spectral sequence and transfer comparison.
 
 - John Milnor, [On Spaces Having the Homotopy Type of a CW-Complex](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/milnorcw.pdf), Theorem 2, p.273, for the n-ad CW-type comparison, and Theorem 3 and Corollary 3, p.276, for function-space and based-loop CW type; its countable class W₀ is distinct from the general class W used here.
+
+- Anthony Conway, Stefan Friedl and Gerrit Herrmann, [*Linking forms revisited*](https://intlpress.com/site/pub/files/_fulltext/journals/pamq/2016/0012/0004/PAMQ-2016-0012-0004-a003.pdf), Pure and Applied Mathematics Quarterly 12 (2016), 493–515, Proposition 1.2, p.494, Lemma 2.5, p.502, and Lemma 2.6, pp.503–504.
