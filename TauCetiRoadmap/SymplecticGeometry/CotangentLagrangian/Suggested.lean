@@ -2,6 +2,7 @@ import Mathlib
 import TauCeti.Geometry.Symplectic.Manifold.TwoForm
 import TauCeti.Geometry.Symplectic.Lagrangian.Basic
 import TauCeti.Geometry.Symplectic.Cotangent.Liouville
+import TauCeti.Geometry.Symplectic.SymplecticTransport
 import TauCeti.Geometry.Manifold.SmoothEmbedding.NormalSpace
 
 /-!
@@ -12,9 +13,10 @@ theorems against the pinned Mathlib and Tau Ceti, each admitted with `sorry`, wi
 simple definitions those statements need. Stated: the canonical symplectic form of `T*M` as
 `canonicalForm_exists` (a symplectic `SmoothTwoForm` on `T*M` exists whose expression in every
 cotangent chart is `strongDualCotangentSymplecticForm`), the Liouville one-form identities
-`liouville_inChart` and `liouville_section`, the Lagrangian embedding predicate, and the C2.1
+`liouville_inChart` and `liouville_section`, the Lagrangian embedding predicate, the C2.1
 group theorems: `U(n)` is maximal compact in `GL(n, ℂ)`, the realified `U(n)` is maximal compact
-in `Sp(2n, ℝ)`, and both ambient groups are connected.
+in `Sp(2n, ℝ)`, and both ambient groups are connected; and the linear step of C4, the symplectic
+Witt-extension lemma `symplectic_subspace_extension` against the pinned `TauCeti.SymplecticForm`.
 
 Not statable at the pins, and therefore absent:
 
@@ -24,7 +26,7 @@ Not statable at the pins, and therefore absent:
   billiard map: there is no carrier for a symplectomorphism between open cotangent domains;
 * the C4 relative Moser and neighborhood-germ theorems: there is no carrier for a
   symplectomorphism germ along a submanifold or for a symplectic bundle isomorphism over an
-  embedding. The linear step is stated in `RelativeDarbouxTargets.lean`.
+  embedding. Only their linear step, `symplectic_subspace_extension`, is stated.
 -/
 noncomputable section
 open scoped Manifold ContDiff
@@ -146,6 +148,25 @@ symplectic matrix are symplectic, so the same two paths run inside `Sp(2n, ℝ)`
 theorem symplecticGroup_isConnected (n : ℕ) :
     IsConnected
       (Matrix.symplecticGroup (Fin n) ℝ : Set (Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) ℝ)) := by
+  sorry
+
+/-! ## C4: Relative symplectic germs, the linear step -/
+
+/-- Symplectic Witt extension for arbitrary subspaces, including degenerate ones (C4): a linear
+isomorphism `f` between subspaces `S ⊆ V` and `T ⊆ W` of symplectic vector spaces of equal finite
+dimension which carries the restriction of `ω₀` to `S` to the restriction of `ω₁` to `T` extends
+to a linear symplectomorphism `e : V ≃ W` agreeing with `f` on `S`. The restrictions of the forms
+to `S` and `T` may be degenerate; the equal-dimension hypothesis is needed (no linear equivalence
+exists otherwise) and the form hypothesis on `f` is needed (`f = 2·id` on a symplectic plane
+`S = V` has no symplectic extension). -/
+theorem symplectic_subspace_extension {V W : Type*} [AddCommGroup V] [Module ℝ V]
+    [AddCommGroup W] [Module ℝ W] [FiniteDimensional ℝ V] [FiniteDimensional ℝ W]
+    (ω₀ : TauCeti.SymplecticForm V) (ω₁ : TauCeti.SymplecticForm W)
+    (hdim : Module.finrank ℝ V = Module.finrank ℝ W)
+    (S : Submodule ℝ V) (T : Submodule ℝ W) (f : S ≃ₗ[ℝ] T)
+    (hf : ∀ u v : S, ω₁ (f u) (f v) = ω₀ u v) :
+    ∃ e : V ≃ₗ[ℝ] W, TauCeti.SymplecticForm.IsSymplectomorphism ω₀ ω₁ e ∧
+      ∀ u : S, e u = f u := by
   sorry
 
 end TauCetiRoadmap.SymplecticGeometry

@@ -405,9 +405,13 @@ dimension with equal pullbacks to Q have symplectomorphic germs at p by a map
 fixing Q as a germ (for Q a point this is Darboux, Cannas da Silva, Thm. 8.1, p. 46, proved
 from Thm. 7.4). The restricted two-form may have varying rank. First extend
 the identity of T_pQ to an ambient symplectic linear isomorphism. Own the
-finite-dimensional symplectic Witt-extension lemma used here: any linear isomorphism preserving the restricted forms
+finite-dimensional symplectic Witt-extension lemma used here (`symplectic_subspace_extension`,
+stated against Tau Ceti's `SymplecticForm`): any linear isomorphism preserving the restricted forms
 between arbitrary subspaces of equal-dimensional symplectic vector spaces,
-including degenerate subspaces, extends to a symplectic linear isomorphism.
+including degenerate subspaces, extends to a symplectic linear isomorphism; the case of two
+forms on one space, a subspace S and the identity of S is the extension of the identity of T_pQ
+used here. Both hypotheses are needed: without equal dimension no linear isomorphism exists, and
+the dilation by 2 of a symplectic plane preserves no symplectic form.
 Prove it as follows. For a subspace W, put R=rad(W) and choose a complement W₀ with
 W=R⊕W₀; the restricted form on W₀ is nondegenerate. In W₀^ω choose an isotropic dual R′
 paired nondegenerately with R, so R⊕R′ is symplectic. Then
@@ -422,9 +426,6 @@ vanishes on Q, and the stationary trajectory at p gives a full-parameter flow
 on a smaller neighborhood. This local theorem uses no global normal-bundle
 identification along all of Q. The compact-submanifold global germ theorems
 below retain their specified normal-bundle data.
-
-[RelativeDarbouxTargets.lean](RelativeDarbouxTargets.lean) gives suggested
-linear extension signatures using Tau Ceti's symplectic-form carrier.
 
 **Neighborhood germs with prescribed ambient derivative.** Let
 `i:Q→(M,ω_M)` and `j:Q′→(N,ω_N)` be smooth embeddings of compact
