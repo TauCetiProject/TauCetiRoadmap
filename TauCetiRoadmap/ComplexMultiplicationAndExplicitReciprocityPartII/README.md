@@ -8,7 +8,7 @@ ComplexMultiplicationAndExplicitReciprocity stops at reflex pairs and orders (§
 
 The native CM field and conjugation, class number, regulator ratio, Minkowski representatives and coarse ideal count are already in the library, as are complex abelian varieties, their endomorphism rings, isogenies and the rank of a finite flat morphism. Their exact declarations are in the supplier contracts. The field-order index-square discriminant identity and the squared-norm successive minima with simultaneous attainment are also in the library; GlobalNumberFields Layer 11 owns the finite étale order extension, and IntegralLattices milestone 2F owns the Minkowski product estimate. The class-group norm cokernel bound is stated by IntegralIwasawaTheory §3.4, in the case n=0. The varying-base quadratic Hecke estimates and near-linear ideal count are stated by AnalyticNumberTheoryPartI §§2.31f, 2.44–2.46 and 3.27. The general ramified component determinant comparison belongs to ArakelovGeometryAndAbelianHeights §4.7. These are consumed here; the CM decomposition, different-graph application and exponent argument are the kept specializations.
 
-ArakelovGeometryAndAbelianHeights §§1.11, 2.7, 3.4–3.5, 4.6–4.8 and 6.5 own weighted degrees, metric adapters, stable heights, component lines and the uniform lower bound. FaltingsFinitenessAndIsogenyTheoremsPartII QI.5 owns geometric isogeny estimates. AbelianSchemesAndArithmeticModuli owns abelian schemes, polarizations, Tate and de Rham realizations and the CM isotypic decomposition. ShimuraVarieties owns canonical CM stacks and reciprocity; HilbertModularVarietiesAndShimuraCurves owns quaternionic integral models and its saturated integral Kodaira–Spencer line. Only the comparison to the actual CM Hodge determinants is built here. Generic admissible intersections and analytic/arithmetic kernels belong to GrossZagierAndArithmeticHeights, quantitative hermitian/Siegel reduction to GeometryOfNumbersAndQuadraticArithmetic, successive minima and the basis from the minima to SuccessiveMinima Layer 1, IntegralLattices milestone 2F and HeightsAndUnits §2.1, and the absolute scalar height, minimal-polynomial comparison and bounded-degree Northcott theorem to DiophantineApproximationAndTranscendence §§0.2–0.3. IntegralLattices and OrthogonalSpinGroups own lattice duality and orthogonal group algebra. The orthogonal special-divisor intersection and support theorems in §§4.2–4.2c, 4.3 and 4.5 are included here: the underlying lattice and group theory are supplied by IntegralLattices and OrthogonalSpinGroups.
+ArakelovGeometryAndAbelianHeights §§1.11, 2.7, 3.4–3.5, 4.6–4.8 and 6.5 own weighted degrees, metric adapters, stable heights, component lines and the uniform lower bound. FaltingsFinitenessAndIsogenyTheoremsPartII §5.5 owns geometric isogeny estimates. AbelianSchemesAndArithmeticModuli owns abelian schemes, polarizations, Tate and de Rham realizations and the CM isotypic decomposition. ShimuraVarieties owns canonical CM stacks and reciprocity; HilbertModularVarietiesAndShimuraCurves owns quaternionic integral models and its saturated integral Kodaira–Spencer line. Only the comparison to the actual CM Hodge determinants is built here. Generic admissible intersections and analytic/arithmetic kernels belong to GrossZagierAndArithmeticHeights, quantitative hermitian/Siegel reduction to GeometryOfNumbersAndQuadraticArithmetic, successive minima and the basis from the minima to SuccessiveMinima Layer 1, IntegralLattices milestone 2F and HeightsAndUnits §2.1, and the absolute scalar height, minimal-polynomial comparison and bounded-degree Northcott theorem to DiophantineApproximationAndTranscendence §§0.2–0.3. IntegralLattices and OrthogonalSpinGroups own lattice duality and orthogonal group algebra. The orthogonal special-divisor intersection and support theorems in §§4.2–4.2c, 4.3 and 4.5 are included here: the underlying lattice and group theory are supplied by IntegralLattices and OrthogonalSpinGroups.
 
 The arithmetic adjunction identity i₀(P,P)/e=−h_L(P_U) is stated by GrossZagierAndArithmeticHeights §7.78. Its §0a.4 supplies the quaternionic CM point and its Artin action; §7.2 here defines only its normalized Hodge height. Its §§6.56, 7.15, 7.65–7.66 and 7.77 supply the analytic derivative, nonvanishing theta input, full height-series decomposition and local comparison with the noncuspidal terms retained. PELModuli §§M6.1, M6.8 and M6.10 supply bounded polarized descent with marked 3-torsion and finite level-forgetting; §11.1 applies that field to the chosen ideal quotient and its transported polarization. ShimuraVarieties §4.2 supplies the AGHMP quotient reflex norm; §1.1 develops its character lattice and scalar-kernel distinction.
 
@@ -84,9 +84,9 @@ Consume Layer AL.1, “CM quadratic completion and orbital comparisons”, for t
 
 ### From TauCetiRoadmap.AutomorphicBundles
 
-Consume §§B1.1–B1.3, Layer B2 and §B4.10 for defining tensors, absolute Hodge tensor realizations with their Betti–de Rham and Betti–étale comparisons and descent to the reflex field, associated filtered bundles and the classical Hodge weight. These sections make no crystalline or B_dR assertion (§B2.7 excludes them explicitly); the p-adic comparison of the tensors is the contract below. The integral CM torsor on the locus with reductive unramified torus model is §2.3 here. Rational tensor descent does not imply an integral torsor at an arbitrary ramified prime.
+Consume §§1.1–1.3 for defining tensors, absolute Hodge tensor realizations with their Betti–de Rham and Betti–étale comparisons and descent to the reflex field; §§3.1, 3.4–3.8 for associated bundles, Betti and étale coefficients, filtered de Rham coefficients and tensor/Hecke compatibility; and §11.10 only for the classical GL₂ Hodge-line specialization. These sections make no crystalline or B_dR assertion (§3.7 excludes them explicitly); the p-adic comparison of the tensors is the contract below. The integral CM torsor on the locus with reductive unramified torus model is §2.3 here. Rational tensor descent does not imply an integral torsor at an arbitrary ramified prime.
 
-What AutomorphicBundles must provide (gap:absolute-hodge-padic-comparison): For an abelian variety A over a number field K, every finite place v of K and every rational absolute Hodge tensor on A in a tensor construction of H¹, its dual and Tate twists whose de Rham and p-adic étale realizations are defined over K, prove that the B_dR comparison of A over K_v carries the étale realization to the algebraic de Rham realization, compatibly with tensor operations, Tate twists and finite base extension, and, where A has good reduction at v, with the B_cris comparison.
+What AutomorphicBundles must provide (gap:absolute-hodge-padic-comparison), extending §1.3: For an abelian variety A over a number field K, every finite place v of K and every rational absolute Hodge tensor on A in a tensor construction of H¹, its dual and Tate twists whose de Rham and p-adic étale realizations are defined over K, prove that the B_dR comparison of A over K_v carries the étale realization to the algebraic de Rham realization, compatibly with tensor operations, Tate twists and finite base extension, and, where A has good reduction at v, with the B_cris comparison.
 
 ### From TauCetiRoadmap.FiniteFlatGroupsAndIntegralPadicHodgeTheory
 
@@ -94,7 +94,13 @@ Consume §§R07.2.15–R07.2.16, R07.2.20 and Layer R07.4 for slope classificati
 
 ### From TauCetiRoadmap.LubinTateFormalModulesAndQuasiCanonicalLifts
 
-Consume LT.2, “Lubin–Tate character” and “Comparison with local reciprocity”, for the actual rank-one character χ_π(Art(π^r u))=u⁻¹ and its finite torsion restrictions. The ℚ₅ witness gives 3 on 5-torsion for u=2. No CM-field conjugation is identified with a nonexistent simultaneous local embedding permutation.
+What LubinTateFormalModulesAndQuasiCanonicalLifts must provide (gap:lubin-tate-character-realizations): For every prime p, finite extension K/ℚ_p and uniformizer π of O_K, construct the one-dimensional Lubin–Tate formal O_K-module G_π and its finite flat πⁿ-torsion groups, for n≥1. Its integral Tate module T_π=lim_n G_π[πⁿ](K̄), with transition maps [π], is free of rank one over O_K; the actual G_K-action defines a continuous character χ_π:G_K→O_K×. Identify T_π/πⁿT_π with G_π[πⁿ](K̄), equivariantly and compatibly with the transition maps. For arithmetic reciprocity rec_K:K×→G_Kᵃᵇ prove χ_π(rec_K(πʳu))=u⁻¹ for r∈ℤ and u∈O_K×, and identify each torsion action with reduction of this character. Prove crystallinity of T_π[1/p] and its compatibility with restriction to finite extensions and the geometric local bases used in §§2.1–2.2. Through FiniteFlatGroupsAndIntegralPadicHodgeTheory Layer R07.4 identify the integral Breuil–Kisin and Dieudonné realizations with those of G_π, including Frobenius, filtration, O_K-action and duality: the cohomological module is attached to Hom_ℤp(T_π,ℤ_p), and the covariant realization is its dual. Include p=2 without a ramification bound. The general formal-module construction and these comparisons belong to this supplier; the CM complementary-type multipliers and their comparison modulo the different remain §6.2 here. ([A], §2.2, pp. 401–405, Proposition 3.5.2 and its proof, pp. 422–423, and §3.6, pp. 428–429; A lines 429–450, 1310–1355 and 1569–1586.)
+
+**Checks.**
+
+- For K=ℚ₅, π=5 and n=1, arithmetic reciprocity sends u=2 to scalar 3 on G_π[5], sends u=1 to 1, and sends π to 1. The geometric convention gives 2 on u=2; the trivial character gives 1 there, so both fail.
+- For the same K and u=2, the scalar at n=2 is 13 modulo 25, reducing to 3 modulo 5, and 2·13≡1 modulo 25. Thus the finite actions come from one integral character, rather than unrelated level choices.
+- For K=ℚ₂ and π=2, G_π[2] has two geometric points and its unit action is trivial; G_π[4] has four and u=3 acts by 3 modulo 4. Triviality on the first torsion level must not imply triviality on the Tate module. For G_2≅Ĝ_m the cohomological dual has Frobenius multiplier 2 and Fil¹ of rank one, whereas the covariant rational module has multiplier 1/2 and its nonzero graded piece in degree −1.
 
 ### From TauCetiRoadmap.NeronModelsAndSemistableAbelianVarieties
 
@@ -116,7 +122,7 @@ Consume §§M2.1–M2.3, M3.9, M5, M6.1–M6.2 and M6.8–M6.10 for polarized ri
 
 ### From TauCetiRoadmap.FaltingsFinitenessAndIsogenyTheoremsPartII
 
-Consume QI.5, “Geometric isogeny estimate”: for geometrically isogenous dimension-g A,B over a common number field k, there is a geometric isogeny of degree at most C_g max(1,h_Fal(A),[k:ℚ])^κ_g with C_g,κ_g>0 depending only on g. A dimension-only height shift changes C_g and leaves κ_g available for §11.2. The map need not be k-defined or polarized.
+Consume §5.5, “Geometric isogeny estimate”: for geometrically isogenous dimension-g A,B over a common number field k, there is a geometric isogeny of degree at most C_g max(1,h_Fal(A),[k:ℚ])^κ_g with C_g,κ_g>0 depending only on g. A dimension-only height shift changes C_g and leaves κ_g available for §11.2. The map need not be k-defined or polarized.
 
 ### From TauCetiRoadmap.ClassFieldTheory
 
@@ -383,7 +389,7 @@ One proof route is as follows. Identify the inertia character with the unit char
 
 The representation is N_p,y[1/p]; the undefined symbol Λ in the printed proposition is not a new lattice.
 
-*Needs:* §1.3 finite étale cm models; LubinTateFormalModulesAndQuasiCanonicalLifts LT.2, “Comparison with local reciprocity”; FiniteFlatGroupsAndIntegralPadicHodgeTheory Layer R07.4.
+*Needs:* §1.3 finite étale cm models; LubinTateFormalModulesAndQuasiCanonicalLifts (gap:lubin-tate-character-realizations); FiniteFlatGroupsAndIntegralPadicHodgeTheory Layer R07.4.
 
 ### 2.2 CM Breuil–Kisin comparison
 
@@ -403,7 +409,7 @@ One proof route is as follows. At each geometric point y compare the Breuil–Ki
 
 For the tensor unit and the identity endomorphism the comparison is the identity; for the polarization the equality holds in the Tate line, so the frame group is the similitude torus T and not its norm-one part.
 
-*Needs:* §1.4 integral polarized cm families; §2.2 cm breuil–kisin comparison; AutomorphicBundles §§B1.1–B1.3; AutomorphicBundles §B1.3 (gap:absolute-hodge-padic-comparison); FiniteFlatGroupsAndIntegralPadicHodgeTheory Layer R07.4.
+*Needs:* §1.4 integral polarized cm families; §2.2 cm breuil–kisin comparison; AutomorphicBundles §§1.1–1.3; AutomorphicBundles §1.3 (gap:absolute-hodge-padic-comparison); FiniteFlatGroupsAndIntegralPadicHodgeTheory Layer R07.4.
 
 ### 2.4 CM bundles and crystals
 
@@ -413,7 +419,7 @@ One proof route is as follows. Construct away from bad primes by the tensor-pres
 
 The global F-crystal assertion is restricted to the étale locus; the filtered integral bundle is global.
 
-*Needs:* §2.2 cm breuil–kisin comparison; §1.4 integral polarized cm families; AutomorphicBundles §§B1.1–B1.3; AutomorphicBundles Layer B2; FiniteFlatGroupsAndIntegralPadicHodgeTheory Layer R07.4; §2.3 integral cm tensor torsor.
+*Needs:* §2.2 cm breuil–kisin comparison; §1.4 integral polarized cm families; AutomorphicBundles §§1.1–1.3; AutomorphicBundles §§3.1, 3.4–3.8; FiniteFlatGroupsAndIntegralPadicHodgeTheory Layer R07.4; §2.3 integral cm tensor torsor.
 
 ### 2.5 Integral Hecke and torus actions
 
@@ -423,7 +429,7 @@ One proof route is as follows. Descend the generic homomorphisms using the canon
 
 The faithful rational T-action is not promoted to an integral automorphism action for every rational point.
 
-*Needs:* §1.4 integral polarized cm families; §2.4 cm bundles and crystals; AbelianSchemesAndArithmeticModuli §§A6.22, A6.25, A6.37–A6.38; ShimuraVarieties §§8.1–8.6; AutomorphicBundles Layer B2.
+*Needs:* §1.4 integral polarized cm families; §2.4 cm bundles and crystals; AbelianSchemesAndArithmeticModuli §§A6.22, A6.25, A6.37–A6.38; ShimuraVarieties §§8.1–8.6; AutomorphicBundles §§3.1, 3.4–3.8.
 
 ### 2.6 The standard CM quadratic line
 
@@ -457,7 +463,7 @@ One proof route is as follows. Apply the local reciprocity character to the q-fa
 
 The local decomposition includes factors not above q, rather than treating the whole representation as one Lubin–Tate character.
 
-*Needs:* §2.1 local cm representations are crystalline; §2.2 cm breuil–kisin comparison; §2.4 cm bundles and crystals; §2.6 the standard cm quadratic line; LubinTateFormalModulesAndQuasiCanonicalLifts LT.2, “Comparison with local reciprocity”; FiniteFlatGroupsAndIntegralPadicHodgeTheory Layer R07.4.
+*Needs:* §2.1 local cm representations are crystalline; §2.2 cm breuil–kisin comparison; §2.4 cm bundles and crystals; §2.6 the standard cm quadratic line; LubinTateFormalModulesAndQuasiCanonicalLifts (gap:lubin-tate-character-realizations); FiniteFlatGroupsAndIntegralPadicHodgeTheory Layer R07.4.
 
 ### 2.8 Nonsplit CM crystals and supersingularity
 
@@ -477,7 +483,7 @@ For F=ℚ(√2) and E=ℚ(√2,i), the unit 3+2√2 has norm 9−8=1, so it lies
 
 ### Dependencies
 
-§1.3 finite étale cm models; LubinTateFormalModulesAndQuasiCanonicalLifts LT.2, “Comparison with local reciprocity”; FiniteFlatGroupsAndIntegralPadicHodgeTheory Layer R07.4; §1.4 integral polarized cm families; AutomorphicBundles §§B1.1–B1.3; AutomorphicBundles §B1.3 (gap:absolute-hodge-padic-comparison); AutomorphicBundles Layer B2; AbelianSchemesAndArithmeticModuli §§A6.22, A6.25, A6.37–A6.38; ShimuraVarieties §§8.1–8.6; ShimuraData Layer 1; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.2.15–R07.2.16, R07.2.20.
+§1.3 finite étale cm models; LubinTateFormalModulesAndQuasiCanonicalLifts (gap:lubin-tate-character-realizations); FiniteFlatGroupsAndIntegralPadicHodgeTheory Layer R07.4; §1.4 integral polarized cm families; AutomorphicBundles §§1.1–1.3; AutomorphicBundles §1.3 (gap:absolute-hodge-padic-comparison); AutomorphicBundles §§3.1, 3.4–3.8; AbelianSchemesAndArithmeticModuli §§A6.22, A6.25, A6.37–A6.38; ShimuraVarieties §§8.1–8.6; ShimuraData Layer 1; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.2.15–R07.2.16, R07.2.20.
 
 ## Layer 3: The total reflex determinant
 
@@ -582,7 +588,7 @@ One proof route is as follows. Compute the archimedean determinant norm using th
 
 A generator scaled by a unit of nonunit archimedean absolute value changes the individual period; the normalized arithmetic degree remains the stated positive multiple of log(2π).
 
-*Needs:* §3.1 total reflex determinant section; §2.6 the standard cm quadratic line; ArakelovGeometryAndAbelianHeights §§1.3, 1.11; ArakelovGeometryAndAbelianHeights §§2.1, 2.7, 2.10; AutomorphicBundles Layer B2.
+*Needs:* §3.1 total reflex determinant section; §2.6 the standard cm quadratic line; ArakelovGeometryAndAbelianHeights §§1.3, 1.11; ArakelovGeometryAndAbelianHeights §§2.1, 2.7, 2.10; AutomorphicBundles §§3.1, 3.4–3.8.
 
 ### 3.7 Local total reflex comparison
 
@@ -610,7 +616,7 @@ Take A=ℤ₃ and B=C=ℤ₃[π], π²=3. The singleton partition quotient is C/
 
 ### Dependencies
 
-§1.5 the total reflex cm pair; §2.6 the standard cm quadratic line; §2.4 cm bundles and crystals; ArakelovGeometryAndAbelianHeights §§1.3, 1.11; AutomorphicLFunctionsAndLocalFactors Layer AL.1, “CM quadratic completion and orbital comparisons”; ArakelovGeometryAndAbelianHeights §§2.1, 2.7, 2.10; AutomorphicBundles Layer B2; §0.3 average cm character; §1.6 total reflex characters and heights; ArakelovGeometryAndAbelianHeights §§3.4–3.5.
+§1.5 the total reflex cm pair; §2.6 the standard cm quadratic line; §2.4 cm bundles and crystals; ArakelovGeometryAndAbelianHeights §§1.3, 1.11; AutomorphicLFunctionsAndLocalFactors Layer AL.1, “CM quadratic completion and orbital comparisons”; ArakelovGeometryAndAbelianHeights §§2.1, 2.7, 2.10; AutomorphicBundles §§3.1, 3.4–3.8; §0.3 average cm character; §1.6 total reflex characters and heights; ArakelovGeometryAndAbelianHeights §§3.4–3.5.
 
 ## Layer 4: The orthogonal averaged-height route
 
@@ -723,7 +729,7 @@ One proof route is as follows. Compare rational CM quadratic representations and
 
 A global rescaling by an element of F need not solve all full-lattice norm equations; the required conclusion is the filtered-line degree identity.
 
-*Needs:* §4.1 auxiliary cm quadratic data; §4.2 gspin data and special divisors; §2.6 the standard cm quadratic line; §3.8 total reflex height and the standard line; AutomorphicBundles Layer B2.
+*Needs:* §4.1 auxiliary cm quadratic data; §4.2 gspin data and special divisors; §2.6 the standard cm quadratic line; §3.8 total reflex height and the standard line; AutomorphicBundles §§3.1, 3.4–3.8.
 
 ### 4.3 Average height error on the CM cycle
 
@@ -769,7 +775,7 @@ With F_v=ℚ_p, E_v/F_v unramified quadratic and ξ=−p², the quadratic lattic
 
 ### Dependencies
 
-§2.6 the standard cm quadratic line; §3.8 total reflex height and the standard line; AutomorphicBundles Layer B2; §0.3 average cm character; ArakelovGeometryAndAbelianHeights §§1.3, 1.11; ComplexMultiplicationAndExplicitReciprocity §§2.1–2.3; GeometryOfNumbersAndQuadraticArithmetic §§2.2, 2.7–2.9; ClassFieldTheory Layer 13 (gap:narrow-cm-norm-different); ShimuraVarieties §§6.1–6.2; AbelianSchemesAndArithmeticModuli §§A4.3, A6.38; MetaplecticAutomorphicForms Layers 4–7; §2.4 cm bundles and crystals; §1.2 the compact integral level; §1.3 finite étale cm models; ArakelovGeometryAndAbelianHeights §§3.4–3.5; ArakelovGeometryAndAbelianHeights §§2.1, 2.7, 2.10; §0.1 cm class functions and analytic heights; AnalyticNumberTheoryPartI §§2.31d–2.32, 2.44–2.46, 3.27.
+§2.6 the standard cm quadratic line; §3.8 total reflex height and the standard line; AutomorphicBundles §§3.1, 3.4–3.8; §0.3 average cm character; ArakelovGeometryAndAbelianHeights §§1.3, 1.11; ComplexMultiplicationAndExplicitReciprocity §§2.1–2.3; GeometryOfNumbersAndQuadraticArithmetic §§2.2, 2.7–2.9; ClassFieldTheory Layer 13 (gap:narrow-cm-norm-different); ShimuraVarieties §§6.1–6.2; AbelianSchemesAndArithmeticModuli §§A4.3, A6.38; MetaplecticAutomorphicForms Layers 4–7; §2.4 cm bundles and crystals; §1.2 the compact integral level; §1.3 finite étale cm models; ArakelovGeometryAndAbelianHeights §§3.4–3.5; ArakelovGeometryAndAbelianHeights §§2.1, 2.7, 2.10; §0.1 cm class functions and analytic heights; AnalyticNumberTheoryPartI §§2.31d–2.32, 2.44–2.46, 3.27.
 
 ## Layer 5: Component heights and nearby types
 
@@ -870,7 +876,7 @@ One proof route is as follows. Apply the CM Kisin description of Propositions 4 
 
 Existence of one integral isomorphism is insufficient: the specified generic graph requires the automorphism-extension assertion.
 
-*Needs:* §6.1 different-torsion graph datum; FiniteFlatGroupsAndIntegralPadicHodgeTheory Layer R07.4; LubinTateFormalModulesAndQuasiCanonicalLifts LT.2, “Comparison with local reciprocity”.
+*Needs:* §6.1 different-torsion graph datum; FiniteFlatGroupsAndIntegralPadicHodgeTheory Layer R07.4; LubinTateFormalModulesAndQuasiCanonicalLifts (gap:lubin-tate-character-realizations).
 
 ### 6.3 Integral graph kernel and self-duality
 
@@ -906,7 +912,7 @@ For F_v=ℚ_p(√p), p odd, the opposite-eigenvalue quotient of a rank-one latti
 
 ### Dependencies
 
-§5.3 nearby cm types and their height; ComplexMultiplicationAndExplicitReciprocity §§2.1–2.3; AbelianSchemesAndArithmeticModuli §§A6.22, A6.25, A6.37–A6.38; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.2.15–R07.2.16, R07.2.20; FiniteFlatGroupsAndIntegralPadicHodgeTheory Layer R07.4; LubinTateFormalModulesAndQuasiCanonicalLifts LT.2, “Comparison with local reciprocity”; ArakelovGeometryAndAbelianHeights §§3.4–3.5; ArakelovGeometryAndAbelianHeights §4.7 (gap:ramified-component-determinants); HilbertModularVarietiesAndShimuraCurves Layer R18.1 (gap:embedded-quaternion-orders); HilbertModularVarietiesAndShimuraCurves Layer R18.5.
+§5.3 nearby cm types and their height; ComplexMultiplicationAndExplicitReciprocity §§2.1–2.3; AbelianSchemesAndArithmeticModuli §§A6.22, A6.25, A6.37–A6.38; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.2.15–R07.2.16, R07.2.20; FiniteFlatGroupsAndIntegralPadicHodgeTheory Layer R07.4; LubinTateFormalModulesAndQuasiCanonicalLifts (gap:lubin-tate-character-realizations); ArakelovGeometryAndAbelianHeights §§3.4–3.5; ArakelovGeometryAndAbelianHeights §4.7 (gap:ramified-component-determinants); HilbertModularVarietiesAndShimuraCurves Layer R18.1 (gap:embedded-quaternion-orders); HilbertModularVarietiesAndShimuraCurves Layer R18.5.
 
 ## Layer 7: Quaternionic CM points and Hodge lines
 
@@ -946,7 +952,7 @@ The denominator is relative to F; absolute height conventions must be converted 
 - When [F:ℚ]>1, replacing the denominator by [F(P_U):ℚ] changes the value by 1/[F:ℚ] and is rejected.
 - For z=i and local section dz the norm is 2, not 1.
 
-*Needs:* §7.1 existence of the auxiliary quaternion datum; GrossZagierAndArithmeticHeights §0a.4; ShimuraVarieties §§4.1–4.6; HilbertModularVarietiesAndShimuraCurves §§R18.2.12–R18.2.18; ArakelovGeometryAndAbelianHeights §§1.3, 1.11; AutomorphicBundles §B4.10.
+*Needs:* §7.1 existence of the auxiliary quaternion datum; GrossZagierAndArithmeticHeights §0a.4; ShimuraVarieties §§4.1–4.6; HilbertModularVarietiesAndShimuraCurves §§R18.2.12–R18.2.18; ArakelovGeometryAndAbelianHeights §§1.3, 1.11.
 
 ### 7.3 CM and quaternionic Hodge lines
 
@@ -954,7 +960,7 @@ Prove the following. For the CM abelian variety A₀ over a good-reduction field
 
 One proof route is as follows. Use the PEL family and integral Kodaira–Spencer map. Identify determinants at unramified places and prove the ramified relative/image comparison at the remaining places. Compare the complex metric on dz and the determinant Hodge metric, tracking the finite discriminant twist.
 
-*Needs:* §7.2 quaternionic cm point and height; ArakelovGeometryAndAbelianHeights §4.7 (gap:ramified-component-determinants); ArakelovGeometryAndAbelianHeights §§4.6–4.8; HilbertModularVarietiesAndShimuraCurves §§R18.2.12–R18.2.18; HilbertModularVarietiesAndShimuraCurves §§R18.2.17–R18.2.18 (gap:ramified-quaternionic-bridge); HilbertModularVarietiesAndShimuraCurves Layer R18.5; AutomorphicBundles §B4.10; PELModuli §§M3.9, M5, M6.9.
+*Needs:* §7.2 quaternionic cm point and height; ArakelovGeometryAndAbelianHeights §4.7 (gap:ramified-component-determinants); ArakelovGeometryAndAbelianHeights §§4.6–4.8; HilbertModularVarietiesAndShimuraCurves §§R18.2.12–R18.2.18; HilbertModularVarietiesAndShimuraCurves §§R18.2.17–R18.2.18 (gap:ramified-quaternionic-bridge); HilbertModularVarietiesAndShimuraCurves Layer R18.5; PELModuli §§M3.9, M5, M6.9.
 
 ### 7.4 Average height from the quaternionic point
 
@@ -972,7 +978,7 @@ For z=i and z=1+i, the Petersson norm of dz is 2. An extension of a CM point fie
 
 ### Dependencies
 
-Chebotarev Layer 9; HilbertModularVarietiesAndShimuraCurves Layer R18.1 (gap:embedded-quaternion-orders); HilbertModularVarietiesAndShimuraCurves §§R18.2.12–R18.2.18; HilbertModularVarietiesAndShimuraCurves §§R18.2.17–R18.2.18 (gap:ramified-quaternionic-bridge); AnalyticNumberTheoryPartI §§2.31d–2.32, 2.44–2.46, 3.27; ShimuraVarieties §§4.1–4.6; GrossZagierAndArithmeticHeights §0a.4; ArakelovGeometryAndAbelianHeights §§1.3, 1.11; AutomorphicBundles §B4.10; ArakelovGeometryAndAbelianHeights §4.7 (gap:ramified-component-determinants); ArakelovGeometryAndAbelianHeights §§4.6–4.8; HilbertModularVarietiesAndShimuraCurves Layer R18.5; PELModuli §§M3.9, M5, M6.9; §5.4 average over nearby types; §6.5 the actual quaternionic graph kernel; §6.4 corrected nearby-height identity.
+Chebotarev Layer 9; HilbertModularVarietiesAndShimuraCurves Layer R18.1 (gap:embedded-quaternion-orders); HilbertModularVarietiesAndShimuraCurves §§R18.2.12–R18.2.18; HilbertModularVarietiesAndShimuraCurves §§R18.2.17–R18.2.18 (gap:ramified-quaternionic-bridge); AnalyticNumberTheoryPartI §§2.31d–2.32, 2.44–2.46, 3.27; ShimuraVarieties §§4.1–4.6; GrossZagierAndArithmeticHeights §0a.4; ArakelovGeometryAndAbelianHeights §§1.3, 1.11; ArakelovGeometryAndAbelianHeights §4.7 (gap:ramified-component-determinants); ArakelovGeometryAndAbelianHeights §§4.6–4.8; HilbertModularVarietiesAndShimuraCurves Layer R18.5; PELModuli §§M3.9, M5, M6.9; §5.4 average over nearby types; §6.5 the actual quaternionic graph kernel; §6.4 corrected nearby-height identity.
 
 ## Layer 8: Quaternionic self-intersection and adjunction
 
@@ -1084,7 +1090,7 @@ An unpolarized moduli field alone is not used as an unconditional fine moduli de
 - In E=ℚ(i,√2), the unit u=(1+√2)^8=577+408√2 satisfies u≡1 modulo 3 while u≠1 and uū=u²≠1. It gives an unpolarized automorphism invisible on 3-torsion, and fails the polarization-preservation equation.
 - For f=[2] on an elliptic curve, the factorization g₀f=[2] can use g₀=identity and leaves λ_A unchanged; an unrelated quotient polarization is extra data.
 
-*Needs:* ComplexMultiplicationAndExplicitReciprocity §§2.1–2.3; AbelianSchemesAndArithmeticModuli §§A6.22, A6.25, A6.37–A6.38; PELModuli §§M6.1, M6.8, M6.10; FaltingsFinitenessAndIsogenyTheoremsPartII QI.5, “Geometric isogeny estimate”.
+*Needs:* ComplexMultiplicationAndExplicitReciprocity §§2.1–2.3; AbelianSchemesAndArithmeticModuli §§A6.22, A6.25, A6.37–A6.38; PELModuli §§M6.1, M6.8, M6.10; FaltingsFinitenessAndIsogenyTheoremsPartII §5.5, “Geometric isogeny estimate”.
 
 ### 11.2 Primitive orbit exponent budget
 
@@ -1094,7 +1100,7 @@ One proof route is as follows. Choose a and ε in the stated order, allowing the
 
 The maximum contains 1; negative small Faltings heights cannot make it invalid.
 
-*Needs:* §10.2 distant cm ideal isogenies; §10.3 individual cm heights are subpolynomial; §11.1 a common polarized definition field; FaltingsFinitenessAndIsogenyTheoremsPartII QI.5, “Geometric isogeny estimate”.
+*Needs:* §10.2 distant cm ideal isogenies; §10.3 individual cm heights are subpolynomial; §11.1 a common polarized definition field; FaltingsFinitenessAndIsogenyTheoremsPartII §5.5, “Geometric isogeny estimate”.
 
 ### 11.3 Primitive maximal-CM orbit bound
 
@@ -1112,7 +1118,7 @@ For κ=2 and δ=1/16 choose a=3/16 and ε=1/32. Then δκ=1/8<a<1/4 and εκ=1/1
 
 ### Dependencies
 
-ComplexMultiplicationAndExplicitReciprocity §§2.1–2.3; AbelianSchemesAndArithmeticModuli §§A6.22, A6.25, A6.37–A6.38; PELModuli §§M6.1, M6.8, M6.10; FaltingsFinitenessAndIsogenyTheoremsPartII QI.5, “Geometric isogeny estimate”; §10.2 distant cm ideal isogenies; §10.3 individual cm heights are subpolynomial.
+ComplexMultiplicationAndExplicitReciprocity §§2.1–2.3; AbelianSchemesAndArithmeticModuli §§A6.22, A6.25, A6.37–A6.38; PELModuli §§M6.1, M6.8, M6.10; FaltingsFinitenessAndIsogenyTheoremsPartII §5.5, “Geometric isogeny estimate”; §10.2 distant cm ideal isogenies; §10.3 individual cm heights are subpolynomial.
 
 ## Layer 12: General CM orders and Galois orbits
 
