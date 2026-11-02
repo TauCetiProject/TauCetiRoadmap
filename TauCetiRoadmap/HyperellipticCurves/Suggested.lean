@@ -1,9 +1,11 @@
-import Mathlib
-import TauCeti.FieldTheory.FunctionField.Hyperelliptic.Basic
-import TauCeti.FieldTheory.FunctionField.Hyperelliptic.Genus
-import TauCeti.AlgebraicGeometry.EllipticCurve.QuadraticTwist.Basic
-import TauCeti.RingTheory.Localization.AtPrime
-import TauCeti.RingTheory.DedekindDomain.LocalizationAtPrime
+module
+
+public import Mathlib
+public import TauCeti.FieldTheory.FunctionField.Hyperelliptic.Basic
+public import TauCeti.FieldTheory.FunctionField.Hyperelliptic.Genus
+public import TauCeti.AlgebraicGeometry.EllipticCurve.QuadraticTwist.Basic
+public import TauCeti.RingTheory.Localization.AtPrime
+public import TauCeti.RingTheory.DedekindDomain.LocalizationAtPrime
 
 /-!
 # Hyperelliptic curves: target signatures
@@ -46,6 +48,8 @@ roadmap apply to it directly; `genus_functionField` is the contract (Layer 0.4).
 are an abstract combinatorial carrier `ClusterPicture X` (DDMM Definition 1.26); the picture of
 the roots of a polynomial is README 4.1's target.
 -/
+
+@[expose] public section
 
 namespace TauCetiRoadmap.HyperellipticCurves
 
@@ -615,3 +619,4 @@ end Model
 
 end TauCetiRoadmap.HyperellipticCurves
 
+end
