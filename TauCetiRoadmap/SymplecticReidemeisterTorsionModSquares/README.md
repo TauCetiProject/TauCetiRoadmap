@@ -8,7 +8,7 @@ This roadmap owns the signed Poincaré-complex and determinant-root adapters, ce
 
 The graded-line category, tensor signs, parity reduction and general perfect-complex determinant functor are stated by KTheoryLowDegrees §§14.1–14.4 and PadicMeasuresIwasawaAlgebras §5.1. Their coherent exact-triangle, acyclic, shift, cone and base-change maps are inputs. Only the reverse-wedge and right-evaluation normalization comparisons are developed here. The orthogonal group and spinor norm are already in the library: `TauCeti.QuadraticMap.orthogonalGroup`, `CliffordAlgebra.orthogonalSpinorNorm` and `CliffordAlgebra.spinorNorm`. The reflection value at the pins is [Q(v)]; no second norm or star-norm conversion is constructed.
 
-TangentialBordism B1–B2 owns labelled smooth bordism, its fundamental-class map and its skeletal filtration; B3.1 owns its low coefficient groups. This roadmap proves their degree-at-most-three orientation comparison as a consequence, rather than constructing another bordism theory. AlgebraicTopology Stages 2, 4, 5 and 6 owns local coefficients, cellular comparison, the constant-coefficient Wang sequence, finite-cover transfer and duality. GeometricTopology Layers 1 and 11 and its smoothing-and-triangulation comparison own the geometric cell changes.
+TangentialBordism B1–B2 owns labelled smooth bordism and its fundamental-class map; B5.7 owns its connective skeletal filtration and B3.1 its low coefficient groups. This roadmap proves their degree-at-most-three orientation comparison as a consequence, rather than constructing another bordism theory. AlgebraicTopology Stages 2, 4, 5 and 6 owns local coefficients, cellular comparison, the constant-coefficient Wang sequence, finite-cover transfer and duality. GeometricTopology Layers 1 and 11 and its smoothing-and-triangulation comparison own the geometric cell changes.
 
 KTheoryFiniteLocalFields §§1.5, 1.8–1.9 owns finite-field restriction/transfer, universal equivariant finite Chern classes and the finite-rank degree-three Chern isomorphism. K3BlochGroups §§2.4–2.5 and 6.7 owns indecomposable K₃ and its stable Hurewicz and coefficient comparisons. SchemeAndStackFoundations §2.11 owns Kummer torsors as line pairs; §§0.9 and 0.21 own approximation and finite normalization. Chebotarev Layers 7, 11 and 13 owns number-field weighted density; the arithmetic-scheme detection input is its explicit supplier extension below. RepresentationTheory/LieGroups Layer 5 owns universal covering groups, and MetaplecticAutomorphicForms §2.4b owns the metaplectic cover. This roadmap owns the application to real Chern components, without reconstructing either cover.
 
@@ -70,7 +70,7 @@ What GeometricTopology must provide (gap:marked-surface-twists): Provide, for ma
 
 ### From TauCetiRoadmap.TangentialBordism
 
-B1, B2.1–B2.5 and B3.1: labelled compact smooth cycles, the witness quotient, collars/gluing, pushforward, orientation reversal, fundamental classes, the relative skeletal filtration and the coefficients Ω₀^SO=ℤ, Ω₁^SO=Ω₂^SO=Ω₃^SO=0. A positive point maps to 1, a constant-labelled circle is zero, and the identity-labelled circle over Bℤ maps to 1 in H₁(Bℤ;ℤ). The last circle is not a nullbordism over its label.
+B1 and B2.1–B2.4 supply labelled compact smooth cycles, the witness quotient, collars/gluing, pushforward, orientation reversal and fundamental classes. B5.7 supplies the connective relative skeletal spectral sequence with E₂(p,q)=H_p(Y;Ω_q^SO), convergence and agreement with the geometric filtration; B3.1 supplies Ω₀^SO=ℤ and Ω₁^SO=Ω₂^SO=Ω₃^SO=0. A positive point maps to 1, a constant-labelled circle is zero, and the identity-labelled circle over Bℤ maps to 1 in H₁(Bℤ;ℤ). The last circle is not a nullbordism over its label.
 
 **Checks.**
 
@@ -611,7 +611,7 @@ Earlier local inputs: Layer 0, Layer 1. `SymplecticGroup.det_eq_one`; AlgebraicT
 
 For every CW space Y and 0≤d≤3, prove that the supplied fundamental-class map Ω_d^SO(Y)→H_d(Y;ℤ) is an isomorphism, natural in Y. Use the supplied relative skeletal filtration and Ω₀^SO(point)=ℤ, Ω₁^SO=Ω₂^SO=Ω₃^SO=0: only the coefficient-degree-zero row contributes in these total degrees. This identifies the actual orientation map, not an unspecified group isomorphism. (AV-v1, §2.3.4–§2.4, pp. 13–15, line 623; Thom, IV §8, Theorem IV.13, p. 81, line 2527).
 
-A proof route is as follows. Use TangentialBordism B2.4–B2.5 and B3.1: its connective skeletal filtration has no positive coefficient groups below degree four. Compare its degree-zero coefficient row with integral cellular chains and the actual fundamental-class map; filtered CW continuity handles infinitely many cells.
+A proof route is as follows. Use TangentialBordism B2.4 for the orientation map, B5.7 for the connective skeletal filtration and its convergence, and B3.1 for the coefficient groups. In total degrees at most three, no differential enters the coefficient-degree-zero row, since its source would have negative coefficient degree; every outgoing differential lands in a zero coefficient group or in negative skeletal degree. Compare its degree-zero coefficient row with integral cellular chains and the actual fundamental-class map; filtered CW continuity handles infinitely many cells.
 
 **Checks.**
 
@@ -619,7 +619,7 @@ A proof route is as follows. Use TangentialBordism B2.4–B2.5 and B3.1: its con
 - At Y=point in degrees 1,2,3, both source and target are zero; a constant-labelled circle bounds a disc.
 - At Y=Bℤ and d=1, the identity-labelled circle maps to 1 and cannot be zero; in degree four, Ω₄^SO(point)=ℤ but H₄(point)=0, so the degree bound is necessary.
 
-*Needs:* TangentialBordism B1–B3.1; AlgebraicTopology Stages 4 and 6; StableHomotopyKTheory §§1.30, 1.32.
+*Needs:* TangentialBordism B1, B2.1–B2.4, B3.1 and B5.7; AlgebraicTopology Stages 4 and 6; StableHomotopyKTheory §§1.30, 1.32.
 
 ### 3.2 Evenness in dimension three
 
@@ -744,7 +744,7 @@ The family over ℚ[s]_(s) distinguishes raw generic extension from normalized s
 
 ### Dependencies
 
-Earlier local inputs: Layer 0, Layer 1, Layer 2. AlgebraicTopology Stage 4; GeometricTopology Layer 11 and smoothing comparison; KTheoryFiniteLocalFields §§1.5, 1.8–1.9; SchemeAndStackFoundations §2.11; gap:normal-torsor-gluing; KTheoryFiniteLocalFields §1.8; StableHomotopyKTheory §§1.17, 1.30, 1.32; TangentialBordism B1–B3.1. The subsection Needs lines separate statement inputs from the indicated proof route.
+Earlier local inputs: Layer 0, Layer 1, Layer 2. AlgebraicTopology Stage 4; GeometricTopology Layer 11 and smoothing comparison; KTheoryFiniteLocalFields §§1.5, 1.8–1.9; SchemeAndStackFoundations §2.11; gap:normal-torsor-gluing; KTheoryFiniteLocalFields §1.8; StableHomotopyKTheory §§1.17, 1.30, 1.32; TangentialBordism B1, B2.1–B2.4, B3.1 and B5.7. The subsection Needs lines separate statement inputs from the indicated proof route.
 
 ## Layer 4: circle torsion and mapping tori
 
