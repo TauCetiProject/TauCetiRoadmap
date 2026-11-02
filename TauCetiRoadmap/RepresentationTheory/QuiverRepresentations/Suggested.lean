@@ -2,7 +2,7 @@ import Mathlib
 import TauCeti.RepresentationTheory.Quiver.AdmissibleIdeal.Basic
 import TauCeti.RepresentationTheory.Quiver.Representation.HomDifferential
 import TauCeti.RepresentationTheory.Quiver.Representation.VertexSimpleModule
-import TauCeti.RepresentationTheory.Quiver.Representation.FiniteDimensional
+import TauCeti.RepresentationTheory.Quiver.Representation.AsModule
 import TauCeti.RingTheory.Semisimple.BasicAlgebra
 import TauCeti.Algebra.Module.AuslanderReiten.Translate
 import TauCeti.CategoryTheory.AlmostSplit.Uniqueness
@@ -14,15 +14,19 @@ import TauCeti.CategoryTheory.Preadditive.Radical.Quotient
 # Quiver representations: target signatures
 
 The roadmap is README.md; this file is not the roadmap. It states the remaining headline
-theorems against the pinned APIs: injective envelopes, basic Morita reduction, admissible presentations with the
-Ext-quiver identification, heredity and the comparison with native Ext, the rational root-system
-bridge, stable translate equivalence, Auslander–Reiten duality, almost-split existence and identification of its left end,
-and the mesh multiplicity identity.
+theorems against the pinned APIs: basic Morita reduction, admissible presentations with the
+Ext-quiver identification, heredity of every finite path algebra and the comparison of the Hom
+differential with native Ext, the rational root-system bridge, stable translate equivalence,
+Auslander–Reiten duality, almost-split existence and identification of its left end, and the mesh
+multiplicity identity.
 
-Path algebras and their module equivalence, Krull–Schmidt, projective covers, BGP reflection
-and Coxeter survival, and the finite-dimensional Gabriel correspondence are supplied by Tau Ceti;
-the README specifies the exact declarations. Almost-split uniqueness extending a specified
-endpoint isomorphism is also supplied, by ShortComplex.IsAlmostSplit.exists_iso_τ₃_eq together
+Path algebras and their module equivalence, Krull–Schmidt, projective covers, injective envelopes
+and minimal injective copresentations, the Ext-Euler characteristic as the Euler form of dimension
+vectors with its inverse-Cartan form, BGP reflection and Coxeter survival, and the
+finite-dimensional Gabriel correspondence are supplied by Tau Ceti; the README specifies the
+exact declarations. The Euler–Hom–Ext identity is a corollary of the pinned Hom-minus-cokernel
+identity and the Ext comparison stated here, so it is not stated separately. Almost-split
+uniqueness extending a specified endpoint isomorphism is also supplied, by ShortComplex.IsAlmostSplit.exists_iso_τ₃_eq together
 with finite-length locality. None is restated as an admitted theorem.
 
 All remaining headlines are statable. The finite AR quiver is assembled in README Layer 6 from
@@ -49,14 +53,6 @@ theorem exists_basic_morita (k A : Type u) [Field k] [Ring A] [Algebra k A]
     ∃ (B : Type u) (_ : Ring B) (_ : Algebra k B) (_ : FiniteDimensional k B),
       TauCeti.IsBasic B ∧ Nonempty (MoritaEquivalence k A B) := sorry
 
-/-- Every finite-dimensional module over a finite-dimensional algebra has a finite-dimensional
-injective envelope: the embedding is essential, so every map out of the envelope whose restriction
-is monic is itself monic. -/
-theorem exists_injectiveEnvelope (k A : Type u) [Field k] [Ring A] [Algebra k A]
-    [FiniteDimensional k A] (M : ModuleCat.{u} A) [Module.Finite A M] :
-    ∃ (I : ModuleCat.{u} A) (i : M ⟶ I), Module.Finite A I ∧ Injective I ∧ Mono i ∧
-      ∀ (X : ModuleCat.{u} A) (f : I ⟶ X), Mono (i ≫ f) → Mono f := sorry
-
 /-- A basic finite-dimensional algebra over an algebraically closed field has a finite bound-quiver
 presentation. Its vertex simples exhaust the simple modules without repetition, their pullbacks
 are the native vertex simples, and arrow multiplicities equal the indicated Ext dimensions.
@@ -73,36 +69,26 @@ theorem exists_admissible_presentation (k A : Type u) [Field k] [IsAlgClosed k] 
         TauCeti.vertexSimpleModule k Q i)) ∧
       (∀ i j, Fintype.card (i ⟶ j) = Module.finrank k (Ext (S i) (S j) 1)) := sorry
 
-/-! ## Layer 4: heredity and the Euler–Ext comparison -/
+/-! ## Layer 4: heredity and the Ext comparison -/
 
-/-- A finite acyclic path algebra is hereditary: all module Ext groups in degrees at least two
-vanish, including for modules that are not finite-dimensional. -/
+/-- The path algebra of a finite quiver is hereditary: all module Ext groups in degrees at least
+two vanish, including for modules that are not finite-dimensional and for quivers with oriented
+cycles. -/
 theorem pathAlgebra_higher_ext_vanish (k Q : Type u) [Field k] [Quiver Q] [Fintype Q]
-    [∀ i j : Q, Fintype (i ⟶ j)] (hQ : TauCeti.Quiver.IsAcyclic Q)
+    [∀ i j : Q, Fintype (i ⟶ j)]
     (M N : ModuleCat.{u} (TauCeti.pathAlgebra k Q)) (n : ℕ) (hn : 2 ≤ n) :
     Subsingleton (Ext M N n) := sorry
 
-/-- The cokernel of the vertex-to-arrow Hom differential computes native module-category Ext¹.
-This is an equivalence of vector spaces, not just an equality of dimensions. -/
+/-- The cokernel of the vertex-to-arrow Hom differential computes native module-category Ext¹,
+for every finite quiver. This is an equivalence of vector spaces, not just an equality of
+dimensions. -/
 theorem homDifferential_coker_equiv_ext (k Q : Type u) [Field k] [Quiver Q] [Fintype Q]
-    [∀ i j : Q, Fintype (i ⟶ j)] (hQ : TauCeti.Quiver.IsAcyclic Q)
+    [∀ i j : Q, Fintype (i ⟶ j)]
     (M N : TauCeti.QuiverRep.{u, u, u, u} k Q) :
     Nonempty ((TauCeti.QuiverRep.HomArrow M N ⧸
       LinearMap.range (TauCeti.QuiverRep.homDifferential M N)) ≃ₗ[k]
       Ext ((TauCeti.quiverRepEquivalence k Q).functor.obj M)
         ((TauCeti.quiverRepEquivalence k Q).functor.obj N) 1) := sorry
-
-/-- For finite-dimensional representations of a finite acyclic quiver, the integral Euler form
-is dim Hom minus dim Ext¹. Both dimensions are cast before subtraction. -/
-theorem eulerForm_eq_hom_sub_ext (k Q : Type u) [Field k] [Quiver Q] [Fintype Q]
-    [∀ i j : Q, Fintype (i ⟶ j)] (hQ : TauCeti.Quiver.IsAcyclic Q)
-    (M N : TauCeti.QuiverRep.{u, u, u, u} k Q)
-    (hM : TauCeti.IsFinDim k Q M) (hN : TauCeti.IsFinDim k Q N) :
-    TauCeti.eulerForm Q (fun i => (TauCeti.dimVector M i : ℤ))
-      (fun i => (TauCeti.dimVector N i : ℤ)) =
-      (Module.finrank k (M ⟶ N) : ℤ) -
-        (Module.finrank k (Ext ((TauCeti.quiverRepEquivalence k Q).functor.obj M)
-          ((TauCeti.quiverRepEquivalence k Q).functor.obj N) 1) : ℤ) := sorry
 
 /-! ## Layer 5: the root-system bridge -/
 
