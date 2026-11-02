@@ -250,7 +250,7 @@ identification with `Fin r × Fin s` under which each element permutes rows.
 Projection gives a surjection to `Fin r` with fibres of cardinality `s`.
 Consequently `r ∣ n` and `1 < r < n`. The continuation requires precisely
 this quotient, not a new construction of the general wreath product.
-See [PolynomialGaloisGroups, Layer 1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/PolynomialGaloisGroups/README.md#layer-1-permutation-groups-blocks-and-wreath-products).
+See [PolynomialGaloisGroups, Layer 1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/PolynomialGaloisGroups/README.md#layer-1-permutation-groups-blocks-and-wreath-products).
 
 ### From ErdosProgressionPowers, §0.9
 
