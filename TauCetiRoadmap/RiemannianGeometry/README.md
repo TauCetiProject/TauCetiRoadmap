@@ -1,6 +1,6 @@
-# Curvature, Jacobi fields, submanifolds, and Bochner geometry
+# Roadmap: curvature, Jacobi fields, submanifolds, and Bochner geometry
 
-Develop the reusable graduate Riemannian geometry that connects curvature to
+**Summary.** Develop the reusable graduate Riemannian geometry that connects curvature to
 geodesic variation, the topology of complete manifolds, extrinsic geometry, and
 harmonic forms. The milestones include full curvature calculus, Jacobi and index
 theory, comparison and space forms, minimal submanifolds and spherical eigenmaps,
@@ -11,7 +11,27 @@ This README is the roadmap. `Suggested.lean` is its acceptance test: it states t
 headline theorems below against the pinned Mathlib and Tau Ceti, and its docstring names
 the headlines that are not yet statable there.
 
-## Conventions and suppliers
+## Scope and ownership
+
+This roadmap extends the curvature, Jacobi, comparison, immersion and Bochner
+programme on its existing carriers. HopfRinow Layers 0–4 own connections,
+geodesics, exponential maps and completeness. SmoothBundlesConnections B5.1
+owns reconstruction from smooth transport, including its inverse dictionary on
+differentiable germs. GeometricTopology Layer 1 and its smoothing-and-triangulation
+item 1 own normal bundles, tubular neighbourhoods and smooth triangulation;
+R5a owns the metric orthogonal-to-quotient comparison and R3.2 the finite marked-point
+refinement. ComplexKahlerGeometry K5a owns the bundle analytic and Hodge theory;
+R7 owns curvature identities and vanishing consequences. UnboundedOperators §4.7
+owns general closed-form representation, and VariationalMethods §§2.3, 5.1–5.2
+its energy-space and compact-pair specializations; R5b owns the normal-Jacobi
+geometric form and its boundary-domain identification.
+
+The constant-curvature Ricci and scalar contractions are already in Tau Ceti,
+and real Lipschitz extension is already in Mathlib; the exact declarations
+are in the supplier contracts. These are inputs to the curvature and smoothing
+applications, not additional construction targets.
+
+## Conventions
 
 Work with finite-dimensional real, Hausdorff, second-countable, boundaryless smooth
 manifolds and smooth positive-definite Riemannian metrics. Express these through
@@ -50,7 +70,39 @@ For an isometric immersion f, use
 position vector; this fixes all normal and variation signs. Zero-dimensional
 immersions use trace B=0 and are treated separately from the average formula.
 
-Consume these exact suppliers:
+## Exact supplier contracts
+
+### From Mathlib
+
+Use `LipschitzOnWith.extend_real` in `Mathlib/Topology/MetricSpace/Lipschitz.lean`
+for extension of a real K-Lipschitz function from any subset of a pseudometric
+space, with K a nonnegative real and no nonemptiness assumption on the subset.
+Use the native manifold, finite-dimensional inner-product, smooth bundle and
+covering carriers named below, with their stated hypotheses.
+
+### From Tau Ceti
+
+Use `CovariantDerivative.ricciTensor_eq_of_curvatureTensor_eq_smul_sub`
+in `TauCeti/Geometry/Manifold/VectorBundle/CovariantDerivative/Curvature/Ricci.lean`
+and `CovariantDerivative.scalarCurvature_eq_of_curvatureTensor_eq_smul_inner_sub`
+in `TauCeti/Geometry/Manifold/VectorBundle/CovariantDerivative/Curvature/Scalar.lean`:
+the tensor equation R(w,u)v=B(u,v)w−B(w,v)u gives Ric=(n−1)B,
+and its constant-curvature specialization gives Scal=n(n−1)κ.
+Use `TauCeti.SmoothEmbedding.NormalSpace` and
+`TauCeti.SmoothEmbedding.normalClassL` in
+`TauCeti/Geometry/Manifold/SmoothEmbedding/NormalSpace.lean` for the quotient
+normal fibres and their continuous quotient projection. These give the fibre
+quotient topology; R5a constructs its smooth metric comparison.
+Use `TauCeti.inducedRiemannianMetric` and `TauCeti.inducedRiemannianMetric_inner`
+in `TauCeti/Geometry/Manifold/Riemannian/Induced.lean` for a C^(n+1) map
+with injective differential into a real inner-product space. R5a.3 uses its
+pullback inner-product equation to identify the paraboloid metric, with n=∞.
+The pointwise hypotheses of the curvature contractions include the displayed tensor identity; no curvature
+value is inferred from an empty family of two-planes in dimensions zero or one.
+
+### From the named roadmaps
+
+The following contracts specify each supplier and section consumed.
 
 - [HopfRinow](../../Completed/HopfRinow/README.md), Layers 0–4: the reconciled distance and
   piecewise smooth length, Levi-Civita existence/uniqueness/regularity, intrinsic
@@ -67,20 +119,24 @@ Consume these exact suppliers:
 - [SmoothBundlesConnections](../SmoothBundlesConnections/README.md), B1.4–B1.5/B2–B5/B6.0:
   actual smooth pullback/tensor/dual/End bundles, metric connections and their
   induced derivatives, curvature, parallel transport/holonomy, and real/complex
-  bundle L². Transport reconstruction consumes B5's smooth path-family and
-  concatenation/reparametrization laws, not an unspecified compatibility axiom.
+  bundle L². B5.1 supplies the complete connection/transport inverse dictionary, including
+  smooth families with varying endpoints, thin invariance and concatenation.
+  Its uniqueness is on smooth local sections and differentiable germs; equality
+  on arbitrary raw sections requires a common extension convention.
+  B5.2 supplies countability of the fundamental group of a connected,
+  second-countable, locally path-connected, locally simply connected space.
   B6.0 supplies uniform normal and strong-convexity radii on compact sets.
 - [GeometricTopology](../GeometricTopology/README.md), Layer 1: the actual normal
   bundle and tubular neighbourhood theorem; Layer 7: the existing intrinsic
   curvature construction and `TauCeti.riemannianVolume`. This roadmap extends
   their geometric identities and comparison theory. General immersions use the
   corresponding orthogonal subbundle of f*TN; for embeddings it is canonically
-  the Layer 1 normal bundle, with the same induced topology. The canonical quotient comparison
-  is GT Layer 1's orthogonal-complement-to-quotient bundle equivalence; no additional quotient carrier is constructed.
+  the Layer 1 normal bundle, with the same induced topology. R5a constructs the smooth orthogonal-complement-to-quotient
+  comparison on this supplied normal bundle.
   Layer 8 owns the eight three-dimensional model geometries; R4.7 compares its
   constant-curvature models with their native `ModelGeometry.Space` instances.
-  Its smoothing-and-triangulation item 1 supplies the marked CW-pair and
-  finite-point refinements consumed by R3.
+  Its smoothing-and-triangulation item 1 supplies smooth triangulation.
+  R3.2 constructs the finite marked-point refinement and its marked-pair identification.
 - [ComplexKahlerGeometry](../ComplexKahlerGeometry/README.md), K5a: real/complex
   bundle Sobolev/Rellich, distributional regularity and global estimates for
   smooth Laplace-type systems, the formal-adjoint L² comparison, compact resolvent, Green operator,
@@ -100,9 +156,9 @@ Consume these exact suppliers:
   Consume UnboundedOperators §4.7 (UO-D06)
   for the single generic closed semibounded-form representation, with its
   native partial-operator domain, self-adjointness and real/complex comparison.
-  The abstract order is VariationalMethods §2.3 → UnboundedOperators §4.7 →
-  VariationalMethods §5.1–§5.2; R5b
-  supplies its geometric form and boundary-domain identification afterwards.
+  The abstract order is UnboundedOperators §4.7 → VariationalMethods §2.3
+  and §§5.1–5.2 → R5b. The energy-space specialization consumes the represented
+  operator; R5b supplies its geometric form and boundary-domain identification.
 - [GeneralizedCohomology G4.0b](../GeneralizedCohomology/README.md#g4-generalized-lerayhirsch-thom-and-euler-theory):
   smooth quaternionic projective and Stiefel carriers, the smooth Hopf
   quotient submersion and its classical homogeneous-space diffeomorphism.
@@ -178,9 +234,24 @@ owns the complex shape-operator and affine Lefschetz applications; it consumes
 R5a/R6's real immersion/focal APIs. R3 owns the Morse proof and normalized
 suspension-map comparison for sphere Freudenthal connectivity.
 
-## R1. Intrinsic curvature calculus and normal-coordinate jets
+## How to read the build
 
-1. Consume the existing pointwise curvature/sectional/Ricci/scalar carriers.
+The curvature and connection algebra in R1 supplies R2's Jacobi theory; R2 then
+supplies the normal-coordinate jets labelled R1.4. R3 builds the finite index
+and path-space theory, R4 the comparison and geodesic multiplicity results,
+R5 immersion geometry and volume variations, and R6 their focal consequences.
+R7 applies the supplied analytic theory to curvature identities and vanishing,
+and R8 identifies the spherical harmonic representations and minimal eigenmaps.
+The direct round model in R4.7 precedes the projective examples and does not
+use the comparison or path-space theorems.
+
+## Layer 1: curvature and connection algebra
+
+### R1. Intrinsic curvature calculus and normal-coordinate jets
+
+### 1.1 Curvature identities
+
+Consume the existing pointwise curvature/sectional/Ricci/scalar carriers.
    Supply every missing metric symmetry, pair interchange and both Bianchi
    identities, their coordinate and moving-frame formulas, and smoothness of
    their scalar and tensor components. Induced tensor connections define ∇R;
@@ -196,11 +267,12 @@ suspension-map comparison for sphere Freudenthal connectivity.
    connection with torsion.
 2. Prove sectional curvature determines an algebraic Riemannian curvature
    tensor by an explicit polarization identity. Identify constant sectional
-   curvature κ with `R(X,Y)Z=κ(⟨Z,Y⟩X−⟨Z,X⟩Y)` (`constant_sectional_tensor_iff`), hence
-   `Ric=(n−1)κg`, scalar curvature `n(n−1)κ`. Include the n<2 cases separately;
+   curvature κ with `R(X,Y)Z=κ(⟨Z,Y⟩X−⟨Z,X⟩Y)` (`constant_sectional_tensor_iff`). Include the n<2 cases separately;
    an empty collection of 2-planes must not characterize a nontrivial κ.
 3. Prove Schur's theorem (`schur`) on connected n≥3 manifolds and the contracted-Bianchi
-   Einstein statement `Ric=a(x)g ⇒ a constant`, also with n≥3. Define local symmetry by ∇R=0,
+   Einstein statement (`einstein_factor_constant`): for any real function a on a
+   connected n≥3 manifold, if Ric_x(u,v)=a(x)g_x(u,v) for every x,u,v, then
+   a(x)=a(y) for all x,y. Smoothness of a follows from a=Scal/n. Define local symmetry by ∇R=0,
    prove parallel transport preserves R exactly when this condition holds,
    and prove locally symmetric surfaces have locally constant K, globally constant on
    each connected surface. Constant sectional
@@ -208,32 +280,31 @@ suspension-map comparison for sphere Freudenthal connectivity.
    to a local Euclidean isometry around every point of that set. For the flat
    implication use B5's local parallel frames, torsion-free closed coframes and
    DG's local primitives, then the shared manifold inverse-function theorem.
-4. Build smooth orthonormal geodesic frames at a point, including their induced
-   tensor frames. Pin their radial-parallel construction. Choose a star-shaped
-   normal ball B about 0 in T_pM and an orthonormal basis (e_i) at p. For v∈B set
-   `E_i(exp_p v)=P_(s↦exp_p(sv),0→1)(e_i)`, with E_i(p)=e_i.
-   Consume SBC B5's smooth parameter-dependent parallel transport to prove
-   this frame smooth jointly in v, including v=0, and orthonormal throughout
-   exp_p(B). Prove it is parallel along every radial geodesic and deduce
-   `∇_w E_i(p)=0` for every w∈T_pM, with the corresponding induced tensor-frame
-   identities. The coordinate frame `d(exp_p)_v(e_i)` and this transported
-   frame have the same value at p; they are not identified away from p.
-   Derive the vanishing covariant derivatives from radial parallelism, rather
-   than assuming d exp is parallel transport. In a normal chart prove first
-   derivatives of g vanish and
-   characterize the quadratic/cubic jets by R and ∇R. With orthonormal vectors e_i at p,
-   v in its tangent normal ball, pin
-   `exp_p*g(e_i,e_j)=δ_ij−⅓⟨R(e_i,v)v,e_j⟩`
-   `−⅙⟨(∇_vR)(e_i,v)v,e_j⟩+O(|v|⁴)`.
-   State the remainder as an actual local norm bound uniform over unit e_i,e_j. Derive these expansions
-   from R2's Jacobi equation, not an assumed Taylor formula for exp. In
-   particular for unit T,Y with Y⊥T,
-   `|d exp_(tT)(tY)|²=t²−⅓K(T,Y)t⁴+O(t⁵)`.
-   *Needs:* HopfRinow (Completed) Layers 2–3 (normal balls, Gauss lemma),
-   SmoothBundlesConnections B5.0 (smooth parameter-dependent parallel transport),
-   R2 (Jacobi fields and `d exp`).
+### 1.2 Local symmetry and the Einstein factor
 
-The algebra/connection part precedes R2; the jet computations follow it.
+The local-symmetry predicate is ∇R=0. Its API consists of restriction to open
+submanifolds, invariance under local isometry, the parallel-transport
+characterization along every smooth path, and the locally constant Gaussian
+curvature characterization in dimension two (Lee, Chapter 7, curvature derivatives).
+
+**Checks.**
+
+- Euclidean space has R=0 and ∇R=0; the zero-dimensional case also satisfies
+  the predicate, without determining a sectional-curvature parameter.
+- The unit sphere has R=g∧g and ∇R=0 because ∇g=0. Scaling its metric by 4
+  gives K=1/4 and still ∇R=0; local symmetry does not mean K=0.
+- For g=dx²+e^(2x²)dy² on ℝ², K=−2−4x² and ∂_xK at x=1 is −8;
+  hence ∇R≠0 there, excluding all smooth metrics from the predicate.
+- For Einstein constancy the unit S³ has a=2 and the radius-two S³ has a=1/2.
+  Their disjoint union is Einstein pointwise with unequal factors, so
+  connectedness is essential. In dimension two the preceding variable-curvature
+  metric satisfies Ric=Kg with nonconstant K, so n≥3 is essential.
+
+*Needs:* R1 curvature symmetries and contracted Bianchi; SmoothBundlesConnections
+B3–B5 (induced tensor connections and parallel transport); HopfRinow Layer 0
+(Levi-Civita connection). The R1.4 jet calculation is in Layer 2.
+
+### 1.3 Metric changes, Lie groups and submersions
 Use Mathlib's tensor, Gram, continuous-linear-map and finite-dimensional spectral
 APIs. Consume SBC B2's exterior-square smooth bundle Λ²TM; supply its Gram inner
 product and pin its musical isometry with K5a’s
@@ -248,11 +319,6 @@ For g̃=e^(2u)g set A_XY=du(X)Y+du(Y)X−g(X,Y)grad u and prove
 In dimension n, with Δ⁺=−tr Hess, pin
 `Ric̃=Ric−(n−2)(Hess u−du⊗du)+(Δ⁺u−(n−2)|du|²)g` and
 `Scal̃=e^(−2u)(Scal+2(n−1)Δ⁺u−(n−1)(n−2)|du|²)`.
-Reconstruct
-a connection from smooth linear path transport by differentiating transported
-sections, prove locality/Leibniz/chart independence and uniqueness, and recover
-the transport. Use SBC B5’s family/concatenation theorems and compare to its actual
-connection rather than merely naming this exercise in a supplier paragraph.
 
 For a supplied positive Ad-invariant inner product on a finite-dimensional
 real Lie algebra, construct the corresponding bi-invariant metric on the
@@ -286,6 +352,25 @@ it normal without the Ad(G)-invariant full-group product.
 
 This generic connection/submersion lane precedes R2 and uses no projective
 carrier or normal-coordinate jet theorem.
+
+The curvature-operator API uses the Gram metric on Λ²TM, its self-adjointness,
+contraction formulas and isometry naturality; the O'Neill tensor API uses
+restriction, horizontal/vertical type, and the curvature comparisons above.
+
+**Checks.**
+
+- In flat space Rop=0 on every bivector; in dimension one Λ² is zero,
+  so this carries no information determining a curvature parameter.
+- On the unit sphere Rop(e₁∧e₂)=e₁∧e₂, with norm square 1; on curvature −1
+  space the same eigenvalue is −1. Reversing the last two curvature slots
+  would reverse both signs.
+- For a product submersion with product metric A=T=0, and horizontal
+  sectional curvature is the base curvature. For S³→CP¹, a horizontal
+  orthonormal pair spanning a complex line has |[X,Y]^v|²=4, giving
+  base curvature 1+3·4/4=4.
+
+*Needs:* R1 curvature algebra; SmoothBundlesConnections B1.5 and B2.1;
+ComplexKahlerGeometry K5a's degree-two Gram form metric.
 
 **Projective metric examples.** This block follows the generic submersion
 construction and the indicated smooth-carrier suppliers. Its curvature and
@@ -333,15 +418,50 @@ tangent space are one-dimensional, so they are proportional; a projective
 line carries the round metric of radius ½ with area π, where ω_FS has
 integral one, which fixes the constant.
 
-## R2. General Jacobi fields and exponential derivatives
+**Checks.**
+
+- For X=[[0,−1],[1,0]], −tr(X²)/2=1=|Xe₂|². For X=diag(0,i),
+  these quantities are 1/2 and 1; the norm comparison is horizontal for
+  the projective quotient, not the sphere orbit map on all Lie-algebra vectors.
+- A horizontal great circle returns to its projective line after π, when
+  its sphere representative is −z; the sphere representative first returns at 2π.
+- CP¹ has radius 1/2 and area π, so its metric Kähler form is π times
+  the integral-one form. CP⁰ is a point and has zero two-form, not area π.
+
+*Needs:* R1 submersion formulas; R4.7 direct round model;
+ComplexKahlerGeometry K7.1–K7.2; GeneralizedCohomology G4.0b;
+TopologicalKTheory T6.6.
+
+### Examples
+
+On unit S³, Ric=2g and Scal=6. On ℝ³ both vanish. For ∇=d+a dx,
+transport from x to y is exp(−a(y−x)); differentiating inverse transport
+recovers s′+as, fixing the supplier convention.
+
+### Dependencies
+
+R1 connection algebra uses HopfRinow Layer 0, SmoothBundlesConnections B2–B5
+and finite-dimensional tensor algebra. Its homogeneous metrics use LieGroups
+L0–L2 and SmoothBundlesConnections B1.4–B1.5. The projective examples additionally
+use ComplexKahlerGeometry K7.1–K7.2, GeneralizedCohomology G4.0b,
+TopologicalKTheory T6.6 and the direct round-model calculation in R4.7.
+
+## Layer 2: Jacobi fields and normal-coordinate jets
+
+### R2. General Jacobi fields and exponential derivatives
 
 First upgrade native C² `IsGeodesicCurveOn` solutions for a smooth metric to
 C^∞ on the interval interior by bootstrapping the coordinate geodesic ODE;
 give the endpoint version when the geodesic extends to an open interval.
-For a smooth geodesic γ on a nondegenerate interval, define a Jacobi field
+### 2.1 Jacobi fields and their initial data
+
+For a geodesic γ on a parameter set, define a Jacobi field
 (`IsJacobiFieldOn`) as a C² section X of γ*TM with `D_t²X+R(X,γ′)γ′=0`. Its C² lift to the tangent
 bundle and the parameter-set unique-derivative hypothesis are part of the
-definition. Extend the existing along-curve carrier: for C^(k+1) curves and
+definition. The predicate itself does not need a boundaryless model; the
+initial-data and geometric theorems use the standing boundaryless hypothesis.
+On a compact interval [a,b], require a<b for the initial-data theorems.
+Extend the existing along-curve carrier: for C^(k+1) curves and
 section lifts on a `UniqueDiffOn` parameter set, prove the lift of D_tX is C^k
 with its fixed-chart formula near every point. Consume native
 `CovariantDerivative.symmL_alongCurveInChartWithin` for chart independence under
@@ -382,7 +502,73 @@ restricts to a Jacobi field along every geodesic, with the complete local-flow
 isometry characterization and the identity
 `∇²_(Y,Z)X=R(Y,X)Z`, where ∇²_(Y,Z)X=∇_Y∇_ZX−∇_(∇_YZ)X.
 
-## R3. Second variation, index forms and conjugate points
+The Jacobi equation and initial-data identification are Milnor, §14, p. 77;
+the geodesic-variation realization is Lemma 14.4, pp. 80–81. Milnor uses the
+opposite curvature sign: his R(γ′,X)γ′ is our R(X,γ′)γ′.
+
+- The predicate is linear in X, restricts to nondegenerate subintervals and
+  is preserved by smooth isometries and affine changes of parameter.
+- Initial value and covariant derivative identify solutions on [a,b] with
+  two copies of the initial tangent space; values outside [a,b] are quotiented out.
+- Geodesic variations give exactly the Jacobi solutions, with the initial-data
+  and differential-of-exponential comparisons stated above.
+
+**Checks.**
+
+- On a flat unit-speed geodesic J(t)=u+tv has D²J=0 and curvature term 0;
+  its data at zero are (u,v), including u=v=0.
+- On a unit great circle with parallel unit normal E, J(t)=sin(t)E has
+  D²J=−sin(t)E and R(J,γ′)γ′=sin(t)E. Its endpoints at 0 and π vanish,
+  excluding a nonpositive-curvature conclusion on the sphere.
+- On a flat unit-speed geodesic J(t)=t²E has residual 2E≠0 and is not Jacobi;
+  vanishing at one point alone does not impose the differential equation.
+
+*Needs:* HopfRinow Layers 0–2 (along-curve derivative and smooth geodesic flow);
+SmoothBundlesConnections B5.0 (parallel trivialization); R1 connection and
+curvature algebra; linear ODE existence and uniqueness on a compact interval.
+
+### 2.2 Normal-coordinate jets (R1.4)
+
+Build smooth orthonormal geodesic frames at a point, including their induced
+tensor frames. Pin their radial-parallel construction. Choose a star-shaped
+normal ball B about 0 in T_pM and an orthonormal basis (e_i) at p. For v∈B set
+`E_i(exp_p v)=P_(s↦exp_p(sv),0→1)(e_i)`, with E_i(p)=e_i.
+Consume SBC B5's smooth parameter-dependent parallel transport to prove
+this frame smooth jointly in v, including v=0, and orthonormal throughout
+exp_p(B). Prove it is parallel along every radial geodesic and deduce
+`∇_w E_i(p)=0` for every w∈T_pM, with the corresponding induced tensor-frame
+identities. The coordinate frame `d(exp_p)_v(e_i)` and this transported
+frame have the same value at p; they are not identified away from p.
+Derive the vanishing covariant derivatives from radial parallelism, rather
+than assuming d exp is parallel transport. In a normal chart prove first
+derivatives of g vanish and
+characterize the quadratic/cubic jets by R and ∇R. With orthonormal vectors e_i at p,
+v in its tangent normal ball, pin
+`exp_p*g(e_i,e_j)=δ_ij−⅓⟨R(e_i,v)v,e_j⟩`
+`−⅙⟨(∇_vR)(e_i,v)v,e_j⟩+O(|v|⁴)`.
+State the remainder as an actual local norm bound uniform over unit e_i,e_j. Derive these expansions
+from R2's Jacobi equation, not an assumed Taylor formula for exp. In
+particular for unit T,Y with Y⊥T,
+`|d exp_(tT)(tY)|²=t²−⅓K(T,Y)t⁴+O(t⁵)`.
+*Needs:* HopfRinow (Completed) Layers 2–3 (normal balls, Gauss lemma),
+SmoothBundlesConnections B5.0 (smooth parameter-dependent parallel transport),
+R2 (Jacobi fields and `d exp`).
+
+### Examples
+
+For orthogonal unit T,Y on the unit sphere, |d exp_(tT)(tY)|²=sin²t
+=t²−t⁴/3+O(t⁶). In Euclidean space this is exactly t². Thus the jet
+coefficient agrees with the Jacobi residual checks.
+
+### Dependencies
+
+R2 uses R1 connection and curvature algebra, HopfRinow Layers 0–3 and
+SmoothBundlesConnections B5.0. The R1.4 jets use R2 initial-data and
+exponential-derivative comparisons; they are not inputs to those comparisons.
+
+## Layer 3: index forms and path topology
+
+### R3. Second variation, index forms and conjugate points
 
 Construct smooth and piecewise smooth variations and their endpoint constraints
 on the actual curve/section types. First construct the shared ambient real module
@@ -434,6 +620,31 @@ Global minimizing and absence of conjugacy remain distinct. R6 supplies the
 submanifold-endpoint and focal versions on its mixed-endpoint subspace of the
 same ambient interval-section module, with the bulk form restricted there.
 
+The index theorem uses Milnor, Theorem 15.1, p. 83; endpoint nullity uses
+Theorem 14.1, pp. 78–79. With energy ½∫|γ′|² the Hessian is half Milnor's energy
+Hessian, so its index and nullity are unchanged.
+
+- The index is unchanged by positive scaling of the form and by isomorphism
+  of its section space, and is monotone under inclusion of test spaces.
+- The finite broken-Jacobi reduction attains the index and identifies the kernel
+  with endpoint-zero Jacobi fields.
+- Endpoint focality contributes to nullity; only interior times contribute to index.
+
+**Checks.**
+
+- For a flat geodesic, I(X,X)=∫|X′|²≥0 and endpoint-zero fields have
+  zero index and nullity; for X(t)=sin(πt)E on [0,1], I=π²/2>0.
+- On a unit spherical geodesic in dimension n≥2 of length L, the normal test
+  X(t)=sin(πt/L)E has I=(π²/L−L)/2. At L=π this is zero and the
+  transverse nullity is n−1; the index is still zero.
+- At L=3π/2 the same I=−5π/12<0 and the index is n−1, accounting for
+  the first interior conjugate time π. Counting the final endpoint at L=π
+  as index would give the wrong value n−1.
+
+*Needs:* R2 Jacobi theory; HopfRinow Layer 3 (first variation);
+SmoothBundlesConnections B6.0 (strongly convex subdivisions); finite-dimensional
+bilinear-form inertia. R6's mixed-endpoint form is a later application.
+
 ### R3.1. H¹ paths and the speed topology
 
 Define the H¹ path carrier using continuous curves whose readings on a finite
@@ -465,6 +676,20 @@ metric induces that topology but need not be complete: on an interval,
 fixed-endpoint triangular waves of amplitude tending to zero and speed one
 almost everywhere form a d_s-Cauchy sequence with no d_s limit. Do not use
 completeness of this particular metric in constructing the Hilbert charts.
+
+**Checks.**
+
+- On [0,1] in ℝ, γ(t)=t has energy 1/2 and length 1, so the
+  Cauchy–Schwarz inequality is equality; its H¹ norm is √(4/3).
+- For γ(t)=t² the energy is 2/3 and length is 1, giving the strict
+  inequality 1<4/3; equality cannot be characterized by monotonicity alone.
+- Unit-speed triangular waves with n teeth and amplitude 1/(2n) have
+  speed norm 1 and uniform norm 1/(2n). Their mutual speed-metric
+  distances tend to zero, but their distances to the zero path tend to 1,
+  demonstrating the stated incompleteness.
+
+*Needs:* PDE Lane A (scalar weak derivatives and Sobolev calculus);
+R2 along-curve regularity; R3 first variation and compact-interval section spaces.
 
 ### R3.2. Finite broken geodesics and path CW models
 
@@ -550,9 +775,32 @@ R3 consumes neither the separate smash/suspension comparison targets
 nor its
 Freudenthal theorem. The smooth-triangulation item 1 in
 [GeometricTopology's smoothing-and-triangulation comparison](../GeometricTopology/README.md#the-smoothing-and-triangulation-comparison)
-supplies that pair with p as a 0-cell. R3 transports the supplied
-triangulation through MorseTheory M1's smooth model-change atlas
-equivalence. Use the endpoint-change equivalence
+supplies a smooth triangulation. Construct here its finite marked-point
+refinement: for every finite set F of distinct points of M, refine the locally
+finite triangulation so that each point of F is a vertex. In the simplex whose
+relative interior contains a chosen point, stellar subdivision at that point,
+extended over its star, preserves the underlying polyhedron and all existing
+vertices; finitely many such refinements suffice. Restricting each smooth simplex
+to the new affine simplices preserves smooth triangulation. The vertex-only
+subcomplex on F realizes exactly F, so the resulting homeomorphism identifies
+(|K|,|F|) with (M,F). Prove compatibility with inclusions of marked subsets and
+transport through MorseTheory M1's smooth model-change atlas equivalence.
+
+- The refinement retains local finiteness and gives the same topology on M.
+- The marked subcomplex has no positive-dimensional simplices and realizes exactly F.
+- The marked-pair homeomorphism agrees with the original triangulation off the subdivision maps.
+
+**Checks.**
+
+- An interior point of an edge in a triangulated circle becomes a vertex; the
+  containing edge splits into two and the underlying circle is unchanged.
+- For F empty the original triangulation and pair (M,∅) suffice.
+- Two distinct points inside one edge give three subedges and two distinct
+  marked vertices; identifying them would change the marked pair.
+
+*Needs:* GeometricTopology, smoothing-and-triangulation item 1; AlgebraicTopology
+Stage 4.1 (CW pairs); the finite stellar subdivision constructed here.
+ Use the endpoint-change equivalence
 below to obtain CW type for paths p→q, then AT's Whitehead comparison
 upgrades the weak equivalence to a homotopy equivalence. Own all parametric
 smoothing/finite-energy comparison maps used to enter this ordinary carrier.
@@ -560,6 +808,21 @@ For a chosen path η from p to q, construct the endpoint-change homotopy
 equivalence between loops at p and paths p→q by concatenation with η and
 its reversal, with explicit reparametrization/retracing homotopies and topology
 comparisons; the equivalence depends on η.
+
+**Checks.**
+
+- On a flat line with vertices 0,1/2,1 at times 0,1/2,1, the discrete
+  energy is 1/2, equal to the affine segment's energy; omitting the
+  time denominators would give 1/4.
+- With coincident vertices the discrete energy is zero and the interpolation
+  is constant. Strictly increasing times are still required to divide by their gaps.
+- On the unit circle, antipodal adjacent vertices have two minimizing arcs;
+  an admissible subdivision excludes that pair by its strict normal-radius
+  bound. Merely bounding the number of vertices would not ensure a smooth interpolation.
+
+*Needs:* R3.1 finite-energy paths; SmoothBundlesConnections B6.0;
+MorseTheory M1–M5; GeometricTopology smooth triangulation and the marked
+refinement above; AlgebraicTopology Stage 8.11a.
 
 ### R3.3. Nonconjugate round-sphere paths, in three independent branches
 
@@ -642,7 +905,22 @@ This supplies the Morse proof of the sphere Freudenthal range independently;
 stable homotopy calculations remain with
 HomotopySpheres.
 
-## R4. Comparison, complete manifolds and space forms
+### Examples
+
+On a flat interval of length L, the affine path from p to q has
+energy |q−p|²/(2L). On the unit circle, endpoint angles 0 and π/2 admit
+lengths |π/2+2πk|, k∈ℤ, separating the winding components.
+
+### Dependencies
+
+R3 uses R2 and HopfRinow first variation; its finite subdivision uses
+SmoothBundlesConnections B6.0. Its CW/path comparisons use MorseTheory M1–M5,
+GeometricTopology smooth triangulation, AlgebraicTopology Stages 4 and 8,
+CharacteristicClasses C2.0, HomotopySpheres §3A.1 and DGFloer Layer 1 item 2.
+
+## Layer 4: comparison and geodesic multiplicity
+
+### R4. Comparison, complete manifolds and space forms
 
 1. Prove the index comparison/minimizing lemma for Jacobi fields with fixed
    endpoint values. Define `s_κ(t)=sin(√κt)/√κ`, t, or
@@ -707,7 +985,9 @@ HomotopySpheres.
 
    For the based-path universal cover, consume the actual installed TauCeti UniversalCover carrier/projection, local path-connected and semilocally simply-connected covering theorem, simple connectivity and path connectivity. The native covering theorem permits empty fibres outside the based component; connected manifolds are path connected, giving surjectivity here. Small coordinate balls provide the local hypotheses. Construct its smooth atlas by the actual native chartedSpaceComap/IsLocalDiffeomorph result, never an alternative total-space topology.
 
-   The fibre over the basepoint is in bijection with endpoint-fixed based loop homotopy classes by the explicit UniversalCover endpoint/class structure; prove the maps and casts are inverse. Only a cardinal bijection is needed here; no convention-incorrect group isomorphism is asserted. The independently owned LieGroupoidsPoisson G0.0 countable-coordinate/overlap-components argument makes pi1 countable. Over a countable evenly covered basis, there are countably many sheets (each fibre is in bijection with the basepoint fibre by path lifting); their chart bases give second countability of the universal cover. Prove Hausdorffness using either distinct base neighborhoods or disjoint sheets over the same point. This establishes the actual standing manifold hypotheses before applying Riemannian results upstairs.
+   The fibre over the basepoint is in bijection with endpoint-fixed based loop homotopy classes by the explicit UniversalCover endpoint/class structure; prove the maps and casts are inverse. Only a cardinal bijection is needed here; no convention-incorrect group isomorphism is asserted. SmoothBundlesConnections B5.2 makes π₁ countable for connected,
+   second-countable, locally path-connected, locally simply connected spaces;
+   coordinate balls verify the last two hypotheses here. Over a countable evenly covered basis, there are countably many sheets (each fibre is in bijection with the basepoint fibre by path lifting); their chart bases give second countability of the universal cover. Prove Hausdorffness using either distinct base neighborhoods or disjoint sheets over the same point. This establishes the actual standing manifold hypotheses before applying Riemannian results upstairs.
 
    Export the conditional conclusion: IF the connected universal-cover manifold constructed above is compact, its fibre is closed by continuity and T1 of the base, and discrete by the covering theorem; compactness of that closed fibre then implies finiteness. The fibre/loop-class bijection proves pi1 finite. The Myers CALLER supplies the compactness hypothesis only AFTER applying its sine-index diameter bound upstairs. The cover producer neither invokes Myers to construct/complete the cover nor assumes finite pi1; this separates the early construction from the caller conclusion. This argument does not use cover classification, K(G,1), higher homotopy or a finite-pi1 hypothesis in constructing the cover. Pullback metrics along cover morphisms and base isometries have the expected functoriality.
 
@@ -754,6 +1034,22 @@ HomotopySpheres.
    index variation. Include the odd-dimensional orientability consequence and
    the real-projective counterexamples distinguishing the hypotheses.
    The even-dimensional conclusion is simple connectivity.
+   The injectivity-radius API includes isometry invariance, positive local
+   normal radius, the uniqueness statement below the radius, and the cut-time
+   characterization above (Lee, Chapter 10, cut loci and injectivity radius).
+
+   **Checks.**
+
+   - On ℝⁿ, exp_p(v)=p+v and every radius works, so inj(p)=∞.
+   - On the circle of circumference 2π, inj(p)=π: distances less than π have
+     one minimizing arc; the antipode at π has two. A non-strict inequality
+     would assert false uniqueness.
+   - On unit Sⁿ, n≥2, inj(p)=π and the antipode has transverse conjugate
+     multiplicity n−1; the metric scaled by 4 has inj(p)=2π.
+
+   *Needs:* HopfRinow Layers 2–4; R2 (differential of exp); R3 (index);
+   SmoothBundlesConnections B6.0; DifferentialGeometry Layer 10 (Sard).
+
 7. Consume the existing `TauCeti` round-sphere RiemannianBundle and
    `Riemannian/Hyperbolic.lean`, `Hyperbolic/UpperHalfSpace.lean` objects and
    GT Layer 7’s `HyperbolicMetric`; compare with GT Layer 8's native
@@ -812,9 +1108,12 @@ HomotopySpheres.
 
    Complete connected dimension 1 manifolds are a line or a circle with
    its circumference parameter; dimension 0 is a point, independently of κ.
-8. For every pair of distinct points on a connected closed positive-dimensional
-   Riemannian manifold, prove at least two geodesics with different unparametrized
-   images or traversals; affinely changing the parameter is not a new geodesic.
+8. For every pair p≠q on a connected compact boundaryless Riemannian manifold
+   of dimension at least one, prove `two_distinct_geodesics`: there are geodesics
+   γ,η on [0,1], both starting at p and ending at q, with γ(t)≠η(t) for some
+   t∈[0,1]. Their extensions outside [0,1] are irrelevant. An increasing affine
+   self-reparametrization fixing 0 and 1 is the identity, so this distinguishes
+   oriented geodesics rather than arbitrary extensions or affine rescalings.
    Specify the equivalence as oriented paths up to increasing affine
    reparametrization, allowing distinct traversals of the same closed curve.
    Build the finite-dimensional Lusternik–Schnirelmann/minimax critical-point
@@ -851,6 +1150,24 @@ Notation in this section is scoped. V is the curve-image/point space and A its p
 
 Let V consist of rectifiable Jordan curve images and point-curves A={p:p∈S²}. Use the generic GMT length and arclength carriers. For Jordan parametrizations define the unoriented Fréchet distance d_F by the infimum of sup_t d_g(γ(t),η(h(t))) over circle homeomorphisms of either orientation, and extend it to constants by the corresponding constant maps. Put d_V(C,D)=d_F(C,D)+|L_g(C)−L_g(D)|. Prove independence of parametrization, triangle inequality and definiteness, including comparisons with compact-image Hausdorff distance. Identify A as a closed copy of S², prove length continuous, and construct the quotient-valued continuous constant-speed arclength representative on each positive-length band, with local representatives taken modulo rotations and reversal. Prove this from Fréchet matching, subarc lower semicontinuity and convergence of total lengths; image Hausdorff convergence alone is insufficient. At constants prove uniform diameter collapse. Use this definite metric for all later families and deformations; no completeness, manifold or CW-type assumption on V is required. For any Fréchet match by a circle homeomorphism h, approximate h uniformly by piecewise-linear circle homeomorphisms h_n of the same orientation; if η is Lipschitz, then η∘h_n is Lipschitz and its image differs from η∘h by at most Lip(η)·||h_n−h||∞. Use this approximation whenever a winding or index supplier is stated only for absolutely continuous/Lipschitz reparametrizations, with the positive distance from the tested point to the image preserved by choosing n large. Also prove the Riemannian metric-derivative identity: for every Lipschitz γ:I→(S²,d_g), md(γ,t)=|γ′(t)|_g for almost every t. In a smooth normal chart, compare d_g on a sufficiently small neighborhood with the frozen norm g_(γ(t)); the distortion tends to1 as the neighborhood shrinks, and the metric derivative agrees with the norm of the chart derivative at Lebesgue points. Thus GMT’s metric variation equals ∫|γ′|_g for the Lipschitz parametrizations used below; the piecewise-smooth Hopf–Rinow length formula alone is not enough.
 
+- Reparametrization and reversal leave d_F, length and d_V unchanged.
+- The point locus inherits d_g and is closed; length is 1-Lipschitz for d_V.
+- On a positive-length band, Fréchet-plus-length convergence gives convergence
+  of constant-speed representatives modulo rotation and reversal.
+
+**Checks.**
+
+- Two point-curves p,q have d_V(p,q)=d_g(p,q); at p=q this is zero.
+- A round circle at colatitude r from the north pole has distance
+  r+2π sin r from that point-curve, tending to zero as r↓0.
+- A Jordan parametrization and its reversal have d_V=0, although their
+  same-parameter uniform distance may be positive. An oriented metric would
+  incorrectly distinguish those representatives.
+
+*Needs:* GeometricMeasureTheory G1/G6 (rectifiable curves and arclength);
+HopfRinow Layer 0 (intrinsic distance); R4.6 (normal charts). The length term
+is part of the definition, independent of later shortening or minimax.
+
 #### R4.9.1. The two-sheet component cover and point avoidance
 
 For a nonconstant C decorate it by either complementary component of S²\C. Over a point p retain two formal tags (p,empty) and (p,full), with the point remembered. Construct an actual two-sheeted cover E→V with locally constant sheet permutations and cocycle laws. Near a Jordan curve choose test points on its opposite sides, use a smooth stereographic chart from one of them and a compact chart neighborhood, and apply the supplied planar Jordan/index/proximity theorems to parametrized Fréchet matches. Prove that nearby curves still separate the test points and that overlap labels agree or exchange continuously.
@@ -858,6 +1175,20 @@ For a nonconstant C decorate it by either complementary component of S²\C. Over
 Near a constant use a small coordinate ball and a distant test point. Show that a sufficiently short curve in that ball has its small component in the coordinate convex hull; its other component contains the distant point. Extend these labels to the empty/full tags, with compatible transitions to nonconstant charts. Prove continuity of the empty section on A. Using trace area zero, winding stability of component indicators and dominated convergence, prove the component-area comparison and a uniform ε>0 for which each curve of length<ε has a unique component of area<Area_g(S²)/2. This gives a section of E over V^(<ε) extending the empty section on A, without requiring a contraction of the whole short-curve space.
 
 For each p set V_p={C:p∉image(C)}, including constants q≠p. Prove it open and construct a continuous section on V_p by choosing the component not containing p, and empty at constants. Prove this in the cover charts, including the actual locally constant agree/exchange transition to the short-curve section on overlaps.
+
+**Checks.**
+
+- The equator has two hemisphere decorations, each of area 2π in the
+  round metric; equal area does not identify the two sheets.
+- A point-curve retains two tags of areas 0 and 4π. Omitting the point
+  from a tag would collapse the whole point locus to two elements.
+- A sufficiently small round latitude has a cap of area
+  2π(1−cos r)<2π; a tested point in the opposite cap selects this small
+  component. Crossing the curve changes the selected side, so avoidance
+  of the tested point is necessary.
+
+*Needs:* R4.9.0; ConformalMapping L3/L5; DifferentialGeometry 5.6 and
+GeometricMeasureTheory G1/G6 (Jordan components, index and area-null trace).
 
 #### R4.9.2. Relative cover class and finite Thom detection
 
@@ -867,11 +1198,37 @@ Let Q_disk=D(γ¹) over RP² be the finite tautological disk bundle `(v,t)~(−v
 
 Use the ordinary finite RP²/cup/Thom theorem to prove image(τ)=π*w₁, τ²=π*w₁∪τ and τ³=π*w₁²∪τ, with the powers interpreted by the absolute-image cup action on the relative group. Prove ⟨π*w₁²∪τ,[Q_disk,∂Q_disk]⟩=1. Define z₃=q_*[Q_disk,∂Q_disk], z₂=a_cover∩z₃, z₁=a_cover²∩z₃ in H_i(V,A;F₂). Use the ABSOLUTE cup/relative cap module action and prove ⟨α,z₁⟩=1. Thus all three classes are nonzero and subordinate. The finite model supplies the calculation; no homotopy equivalence V≃RP³ or parametric Schoenflies theorem is a premise.
 
+**Checks.**
+
+- On one fibre interval of the tautological disk bundle, its two boundary
+  empty frames differ by sign; the relative class evaluates to 1 in 𝔽₂.
+- The empty frame trivializes the cover on the point locus, so the relative
+  cocycle is zero on simplices wholly in that locus.
+- With u the degree-one class of RP², ⟨u²,[RP²]⟩=1 and u³=0, while
+  the Thom pairing ⟨π*u²∪τ,[Q_disk,∂Q_disk]⟩=1. Replacing this relative
+  pairing by u³ on the base would give zero and lose the third class.
+
+*Needs:* R4.9.1; CharacteristicClasses C1.5/C2/C3; AlgebraicTopology Stage 6.
+
 #### R4.9.3. Positive widths and finite parameter carriers
 
 Define c_i as the infimum over finite relative singular-cycle representatives of z_i of the maximum length on their compact support. The explicit finite model gives c₃<∞. Construct support-preserving subdivision and cap representatives to prove c₁≤c₂≤c₃. The short-curve section trivializes α relatively to A on V^(<ε); its nonzero pairing with z₁ gives c₁≥ε>0.
 
 Construct a finite cycle-to-polyhedron-pair adapter for the chosen three minimax cycles, of dimension≤3: realize the finite singular-cycle face identifications as a finite polyhedral pair, triangulate it compatibly with the relative faces mapping into A, and construct its evaluation map to V. From this chosen carrier derive the matching singular-simplex maps, relative chain representatives and subdivision/chain homotopies on the existing AT singular carrier. Prove that these maps represent the original relative class and preserve the dimension bound; use this same finite polyhedral carrier for the parameter embedding and shortening. Only these finite parameter carriers need a polyhedral model; do not assume V has finite CW type or identify arbitrary singular cycles with an unspecified cube-family notation.
+
+**Checks.**
+
+- In the round metric the circle family has maximum length 2π, so it
+  gives c₃≤2π. All nonconstant simple round geodesics have length 2π,
+  and the realization theorem therefore gives c₁=c₂=c₃=2π.
+- Scaling g to 4g multiplies every representative's maximum length by 2;
+  hence all three widths double, to 4π in the round example.
+- A relative chain supported entirely on the point locus has maximum
+  length 0 and relative class 0, so it cannot represent any z_i.
+
+*Needs:* R4.9.2; AlgebraicTopology Stage 6 cap products, relative chains and
+subdivision. The round equality is an acceptance example using R4.9.7,
+not an input to positivity of widths.
 
 #### R4.9.4. Approximate geodesics with equality of limiting length
 
@@ -1081,15 +1438,57 @@ If adjacent widths agree, K_c meets every point p, since otherwise U=V_p and the
 The covering, model and comparison APIs serve geometric topology without changing
 its canonical volume or three-dimensional geometric-structure objects.
 
-## R5. Isometric immersions and minimal geometry
+### Examples
+
+The universal cover of a circle has fibre ℤ and countably many sheets;
+that of S² has one sheet. For the unit circle the paths with angles πt/2
+and −3πt/2 have the same endpoints on [0,1], but opposite points at t=1/2.
+The line has only one affine geodesic between two fixed endpoints, so
+compactness in the two-geodesic theorem cannot be dropped.
+
+### Dependencies
+
+The direct round-model part of R4.7 uses R1 and HopfRinow only. Comparison
+uses R2–R3; R4.3 uses SmoothBundlesConnections B5.2 before applying Myers.
+R4.6 supplies cut-locus integration to R4.1. R4.8 uses R3 and the topological
+contracts named there; R4.9 uses its separately stated planar, parabolic and
+finite-relative-homology inputs, never its own minimax conclusion.
+
+## Layer 5: immersions and volume variation
+
+### R5. Isometric immersions and minimal geometry
 
 ### R5a. Immersion geometry and first variation
 
 For a smooth isometric immersion f:M→N, construct the tangent/normal orthogonal
 splitting of f*TN and the pullback ambient connection. For embeddings compare the
-orthogonal-complement normal bundle, topology and smooth structure literally with
-GT Layer 1; for immersions use the pullback fibers, without identifying distinct
-points of M. Prove the induced tangential connection is Levi-Civita, define B,
+orthogonal-complement normal bundle with GT Layer 1's normal bundle.
+For every immersion construct the smooth bundle equivalence from
+ν_f={ (p,w) : w⊥range(df_p) } to f*TN/df(TM), over M, sending w to [w];
+its inverse sends [v] to the orthogonal projection of v onto ν_f,p. Smoothness
+follows in local frames from the inverse positive Gram matrix of df and the
+formula v↦v−df((df*df)⁻¹df*v). This is independent of the representative since
+adding df(u) leaves the projection unchanged. The quotient norm equals the
+normal norm. For embeddings use the native `TauCeti.SmoothEmbedding.NormalSpace`
+fibres and identify their smooth assembly with the supplied normal bundle; for immersions the fibre is indexed by p, even when two images coincide.
+
+- The two bundle maps are inverse, fibrewise linear and smooth over the identity of M.
+- The comparison respects the quotient projection and the induced metric and topology.
+- Restriction and isometries intertwining the immersions preserve the comparison.
+
+**Checks.**
+
+- For the line x↦(x,0), [(a,b)] maps to (0,b), with quotient norm |b|;
+  projecting to (a,0) would not be independent of the representative.
+- For the identity immersion the quotient and normal fibres are zero.
+- For a point immersed in ℝ² the tangent image is zero and the comparison is
+  the identity on ℝ², excluding a uniformly zero comparison.
+
+*Needs:* SmoothBundlesConnections B2.1 (smooth pullback and Hom bundles);
+GeometricTopology Layer 1 (embedding normal bundle); finite-dimensional
+orthogonal projection and smooth inversion of positive Gram matrices.
+
+Prove the induced tangential connection is Levi-Civita, define B,
 the normal connection and S, and prove tensoriality/symmetry/self-adjointness,
 frame/normal-change laws and smoothness. Include Gauss, Codazzi and Ricci
 equations with the pinned signs, their sectional contraction, and Theorema
@@ -1105,6 +1504,18 @@ For tangent X,Y,Z,W and normal η,ξ pin
 `(R^N(X,Y)Z)^⊥=(∇^⊥_X B)(Y,Z)−(∇^⊥_Y B)(X,Z)`, and
 `⟨R^⊥(X,Y)η,ξ⟩=⟨R^N(X,Y)η,ξ⟩+⟨[S_η,S_ξ]X,Y⟩`,
 with the normal covariant derivative of B also differentiating its tangent slots.
+
+**Checks.**
+
+- For an affine Euclidean plane, B=S=H=0 and the Gauss equation gives K=0.
+- For the outward unit sphere, B(X,Y)=−⟨X,Y⟩ν and S_ν=−Id;
+  orthonormal tangent X,Y give K=0+1−0=1 in the Gauss equation.
+- Reversing ν changes S_ν from −Id to Id, but leaves the vector B and
+  averaged vector H unchanged. A zero-dimensional immersion has tr B=0;
+  the averaged formula is used only in positive dimension.
+
+*Needs:* R1 curvature and tensor connections; R5a smooth normal comparison;
+SmoothBundlesConnections B2–B4.
 
 #### R5a.1. Orientation-free C² relative volume
 
@@ -1141,6 +1552,21 @@ This construction uses only native metric/volume calculus, DG12 and the
 earlier immersion carriers. R5a.2's first variation and R5b's Hessian use this
 same relative-volume functional. CalibratedGeometry C3 consumes its C²
 dependence and supplies the comparison with C2's oriented chain integration.
+
+**Checks.**
+
+- For the constant immersion family, J_t=1 and both variation derivatives
+  of the relative density vanish.
+- For a Euclidean homothety F_t=(1+t)f in dimension m, with |t|<1,
+  J_t=(1+t)^m, J′_0=m and J″_0=m(m−1); using the Gram determinant
+  without its square root would double the first derivative.
+- In dimension zero the empty Gram determinant is 1, so J_t=1 and
+  both derivatives are zero. Changing orientation in positive dimension
+  also leaves J_t positive; a signed determinant is the wrong density.
+
+*Needs:* R5a induced metric; DifferentialGeometry Layer 12 densities;
+compact-parameter differentiation under the integral. The fixed compact
+support condition handles noncompact sources.
 
 #### R5a.2. First variation and immersion examples
 
@@ -1244,18 +1670,37 @@ despite `K=4/(1+4r²)²>0`.
   point although K>0; on the round sphere of curvature 4 the same initial
   data vanish again at ℓ=π/2.
 
-The companion file `ParaboloidTargets.lean` states three coordinate theorems
-that these Checks test: `integral_estimates` (integrability of `timeIntegrand`
-and `angleIntegrand` on [a,R] and the two lower bounds for `timeIntegral` and
-`angleIntegral`), `integral_monotonicity_and_limits` (continuity, strict
-increase and divergence of both integrals on [a,∞)) and `geodesic_crossings`
-(for C² functions r,θ satisfying the momentum, unit-speed and radial
-equations, a turning time and an increasing unbounded sequence of transverse
-crossing times with equal values of `point`). They are statements about the
-polar geodesic system in coordinates, not about geodesics of the induced
-metric; the geometric theorem of this section is the target above, whose
-comparison with the coordinate system consumes R5a's induced metric and R2's
-Jacobi API.
+Define `paraboloidGraph` on the global smooth coordinate manifold ℝ² by
+(x,y)↦(x,y,x²+y²). Equip that manifold with any smooth Riemannian bundle whose
+inner product is ⟨dF_x u,dF_x v⟩ for this fixed graph F. This determines the
+metric exactly; the order-one regularity used by the native geodesic predicate
+is a consequence of smooth regularity for the same bundle.
+
+- Projection onto the first two coordinates is the inverse on the graph.
+- The differential is (u,v)↦(u,v,2xu+2yv), hence is injective everywhere.
+- The induced metric is u·v+4(x·u)(x·v), and in polar coordinates is
+  (1+4r²)dr²+r²dθ² for r>0; Cartesian coordinates include the vertex.
+
+**Checks.**
+
+- F(0,0)=(0,0,0), and the metric at the vertex is the Euclidean inner product.
+- F(1,0)=(1,0,1); the radial unit coordinate vector has metric square 5
+  and the angular unit coordinate vector has metric square 1.
+- F(−1,0)=(−1,0,1)≠F(1,0); replacing the graph by its height alone would
+  identify these two points and would not be an immersion at the vertex.
+
+The headline `paraboloid_geodesic_crossings` applies to any native geodesic γ
+on all ℝ with unit speed in this metric and nonzero angular momentum at zero.
+It produces a time t₀ and positive strictly increasing τ_n→∞ with
+γ(t₀+τ_n)=γ(t₀−τ_n), strictly increasing unbounded Euclidean radial coordinates,
+and nonzero determinant of the two chart velocities at each crossing.
+The headline `paraboloid_vertex_pole` identifies exp_0 on the entire tangent
+plane with a smooth diffeomorphism onto this graph-coordinate manifold.
+These are the geometric headlines of this section.
+Their statements use the graph immersion with its induced smooth metric and
+the native geodesic and exponential carriers. The integral estimates above
+are part of their proof and Checks; the induced-metric comparison is part of
+R5a's immersion construction.
 
 *Needs:* HopfRinow (Completed) Layers 2–4 (geodesic ODE, exponential map,
 completeness), R2 (Jacobi fields and `d exp`), R3 (conjugate points), R5a.2
@@ -1337,7 +1782,25 @@ second-fundamental-form signs; the compactly supported interior formula
 does not silently include them. CalibratedGeometry C6 retains its special
 Lagrangian/Hodge Hessian identity on its existing carrier.
 
-## R6. Focal geometry and squared-distance Morse functions
+### Examples
+
+For the outward unit sphere S_ν=−Id and H=−ν, so increasing its radius
+has first area derivative m times its area. For the paraboloid, the
+putative circle r=1, θ=t satisfies speed and momentum but has radial
+geodesic residual −1; the actual turning geodesic has r″=1/5.
+
+### Dependencies
+
+R5a uses R1, SmoothBundlesConnections B2–B4 and GeometricTopology Layer 1.
+R5a.1 uses DifferentialGeometry Layer 12 densities; R5a.2 and R5b use R5a.1.
+R5a.3 additionally uses R2 and HopfRinow. R5b consumes UnboundedOperators
+§4.7 before VariationalMethods §2.3 and §§5.1–5.2, and PDE boundary estimates.
+For a(u,v)=2uv the represented operator is 2 Id and its forcing solution h/2;
+constructing its energy norm √2|u| does not precede that representation.
+
+## Layer 6: focal points and squared distance
+
+### R6. Focal geometry and squared-distance Morse functions
 
 Define the normal exponential on its open natural domain
 `{(p,v)∈νM | v∈expDomain(f(p))}` as the ambient exponential restricted to the
@@ -1380,6 +1843,21 @@ p=(1,0), γ(t)=(1−t,0) and X(t)=(1−t/b)(0,1), prove
 `I_M(X,X)=1/b−1`: it is negative for b>1 and X is a nonzero kernel
 field at b=1. R3's endpoint-zero Euclidean form has neither conclusion.
 
+**Checks.**
+
+- For a Euclidean plane, the normal exponential is (p,v)↦p+v;
+  its derivative is the identity after tangent/normal splitting and
+  focal multiplicity is zero.
+- For the inward normal to the unit circle, the tangent derivative of
+  the normal exponential is 1−t; at t=1 its kernel has dimension one.
+- For the identity immersion, the normal bundle has zero fibre and its
+  exponential is the identity of M. For a point in Euclidean space,
+  it is translation from the whole ambient tangent space; neither has
+  focal points. A zero map would falsely make every vector focal.
+
+*Needs:* R5a normal bundle and shape operator; HopfRinow exponential map;
+R2 Jacobi variation and R3 mixed-endpoint section comparisons.
+
 In Euclidean ambient space compute the normal-exponential derivative block and
 `det(I−tS_v)`. Focal times along a unit normal are 1/κ_i for nonzero principal
 curvatures, with multiplicity; retain both signs of t and use t>0 for the
@@ -1387,8 +1865,13 @@ chosen forward normal ray. For `h_q(p)=|f(p)−q|²`, criticality is normality
 and Hessian is `2(g−⟨B, q−f(p)⟩)`; at q=f(p)+tv this is 2(I−tS_v).
 Identify degeneracy/focality and count negative Hessian directions by the
 segment f(p)+sv, 0<s<1 when q=f(p)+v: the index of h_q at p is the sum
-of those focal multiplicities (Milnor, *Morse Theory*, §6, Lemma 6.5), with
-endpoint focality counted as nullity instead of index. Compare with actual
+of those interior focal multiplicities (Milnor, *Morse Theory*, §6,
+Lemma 6.9, pp. 37–38, for a nondegenerate endpoint). Degeneracy and focal nullity
+use Lemma 6.5, p. 36. Extend the index count to a degenerate endpoint
+by the displayed Hessian eigenvalues 2(1−tκ_i): negative eigenvalues count
+focal times strictly before t, while zero eigenvalues count endpoint nullity.
+This extension is a direct consequence of that calculation, not an additional
+claim of Lemma 6.9. Compare with actual
 `TauCeti.manifoldMorseIndex` in `Morse/Index.lean`.
 
 Own the squared-distance exhaustion and genericity theorems here; no supplier
@@ -1433,7 +1916,22 @@ Tau Ceti `TauCeti.exists_isTubularNeighborhood_normalBundle` and
 domain), R2 (Jacobi fields), R3 (index form), R5a (B, S, normal connection),
 R4.2 (moving-endpoint first variation).
 
-## R7. Rough Laplacians, Weitzenböck and curvature vanishing
+### Examples
+
+For the inward unit normal to the unit circle, Hess h=2(1−t). At
+t=1/2,1,2 the Hessian values are 1,0,−2 and the index/nullity pairs are
+(0,0),(0,1),(1,0). The endpoint-degenerate case contributes nullity only.
+
+### Dependencies
+
+The Euclidean focal calculation uses R5a and the normal-bundle comparison;
+its genericity uses DifferentialGeometry Layer 10 and equal-dimension Sard.
+General focal/index theory also uses R2–R3 and R4.2 moving-endpoint variation.
+No finite fundamental group or global space-form theorem enters the Euclidean proof.
+
+## Layer 7: Bochner identities and curvature vanishing
+
+### R7. Rough Laplacians, Weitzenböck and curvature vanishing
 
 ### R7.0. Scalar Bochner identity and the first positive eigenvalue
 
@@ -1520,14 +2018,18 @@ The local identity includes dimensions0 and1. The positive first-eigenvalue and 
    Own the quantitative
    local mollification/partition-of-unity estimates and derivative-bound
    gluing; a qualitative smooth approximation is insufficient. Prove
-   the proof inputs: near-isometric exponential charts, McShane extension
-   and bounded truncation, Euclidean convolution preserving the Lipschitz
-   bound, and countable locally finite smooth partitions with approximation
+   the proof inputs: near-isometric exponential charts and bounded truncation, Euclidean
+   convolution preserving the Lipschitz
+   bound after the supplied real Lipschitz extension, and countable locally
+   finite smooth partitions with approximation
    errors summable against their derivative bounds. Differentiate the glued
    error using Σdψ_i=0 to control the partition term.
    Prove (`riemannianDist_eq_sSup_smooth`)
    `dist(p,q)=sup{|f(p)−f(q)| : f smooth bounded real, sup|df|≤1}`
-   for the intrinsic distance, with no completeness assumption. For the
+   for the intrinsic distance, with no completeness assumption (Azagra–Ferrera–
+   López-Mesas–Rangel, arXiv:math/0602051v1, Theorem 1, p. 2, for smoothing;
+   the distance formula follows by applying it to bounded truncated distance
+   and rescaling the derivative bound). For the
    de Rham Clifford action supplied by SpinGeometry G3.4, prove on compactly
    supported smooth sections `[d+d*,M_f]=df∧−ι_(grad f)`. More generally,
    for every nonzero-fibre Hermitian Clifford module with compatible
@@ -1544,7 +2046,23 @@ The local identity includes dimensions0 and1. The positive first-eigenvalue and 
    [NoncommutativeGeometry](../NoncommutativeGeometry/README.md)'s carriers;
    this item specifies the classical manifold commutator-distance theorem.
 
-## R8. Spherical harmonics and minimal eigenmaps
+### Examples
+
+For f(x)=x² on the Euclidean line, Δ⁺f=−2. On the unit circle,
+Δ⁺sin x=sin x. For the bounded 1-Lipschitz function f=0, smoothing
+may choose g=0 and both the approximation error and derivative bound are zero.
+
+### Dependencies
+
+R7 uses R1 tensor curvature, DifferentialGeometry exterior calculus and
+integration, SmoothBundlesConnections B2–B4, PseudodifferentialOperators P1
+and ComplexKahlerGeometry K5a. The scalar local identity precedes the global
+analytic realization. R7.8 uses Mathlib real Lipschitz extension and owns
+the quantitative smooth gluing and Clifford-module norm comparison.
+
+## Layer 8: spherical harmonics and minimal eigenmaps
+
+### R8. Spherical harmonics and minimal eigenmaps
 
 ### R8.1. Finite harmonic-polynomial construction
 
@@ -1559,6 +2077,28 @@ For k>=1 this coefficient is strictly positive because n>=2. Induct on d, starti
 The native monomial basis gives dim P_d=binomial(n+d-1,d). Thus dim H_d=binomial(m+d,d)-binomial(m+d-2,d-2), with the second term zero for d<2. This proves the dimension of the constructed harmonic-polynomial subspace and its injective spherical restriction. It does not identify every smooth/L2 eigenfunction, construct the global spectral Hilbert basis or prove highest-weight irreducibility. Those remain the separate full R8/CK spectrum/representation phases, with their actual mandatory suppliers.
 
 The proof programme must transport the Euclidean derivative identities to the actual round native metric/volume and use the stated m,d/degree and coefficient conventions, including d=0,1 and m=1.
+
+The finite polynomial assertions use the harmonic-polynomial setup of
+Toth–Ziller, Introduction, pp. 84–85; the displayed Euclidean product identity
+supplies the algebraic decomposition independently of spectral completeness.
+
+- Restriction is injective on harmonic homogeneous polynomials and intertwines O(m+1).
+- The Fischer splitting is a direct sum and gives the stated degree-by-degree dimension.
+- The restricted harmonic polynomials solve the scalar eigen-equation with λ=d(d+m−1).
+
+**Checks.**
+
+- For d=0 the constant polynomial 1 has Δ1=0, eigenspace dimension 1
+  and eigenvalue 0; the subtracted dimension term is zero by convention.
+- For d=1 the coordinate functions have Δx_i=0; on S² their eigenvalue
+  is 2 and the constructed space has dimension 3.
+- On ℝ³, Δ|x|²=6, whereas Δ(x₁²−x₂²)=0. Thus degree two has a
+  one-dimensional radial summand and a five-dimensional harmonic summand;
+  including |x|² as harmonic would give the wrong dimension 6.
+
+*Needs:* R4.7 round metric and polar-coordinate divergence; native homogeneous
+polynomials and finite-dimensional linear algebra. R8.2 spectral completeness
+is not an input to this finite construction.
 
 ### R8.2. Spectral completeness and eigenspace identification
 
@@ -1606,7 +2146,26 @@ embedding of RP², with induced metric and O(3)-equivariance. These identities,
 the stereographic outputs and the catenoid/helicoid/paraboloid computations
 are required acceptance cases of the generic APIs.
 
-## Dependency order and validation
+### Examples
+
+On S² the degree-zero, degree-one and degree-two dimensions are 1,3,5
+and eigenvalues 0,2,6. The five-coordinate degree-two unit-target map has
+metric 3g; division by √3 gives target radius 1/√3 and metric g.
+
+### Dependencies
+
+R8.1 uses the direct R4.7 model and polynomial calculus. R8.2 additionally
+uses ComplexKahlerGeometry K5a; R8.3 uses ClassicalGroups Layers 3/5.
+R8.4–R8.5 use R5a, the scalar Laplacian of R7 and those eigenspace comparisons.
+
+## Downstream consumers
+
+DGFloer consumes R2–R3's fixed-interval Jacobi and path geometry for its free-loop
+applications. CalibratedGeometry C3 consumes R5a.1's relative volume, and
+AffineMorseLefschetz uses R5a/R6's real focal geometry. OptimalTransport Layer 7
+uses R4.6's cut-locus objects; SpectralManifolds uses R7.8's commutator-distance
+theorem. The following internal order separates the direct model and algebra
+constructions from their comparison and analytic applications.
 
 R1's generic connection/tensor/submersion algebra precedes R2; R1's normal
 jets follow R2. R4.7's direct model geometry uses R1's connection formulas
@@ -1626,21 +2185,18 @@ and genericity theorems, consuming GT Layer 1 only for the normal bundle and
 tubular neighbourhood theorem. General
 R6 focal/Jacobi/index theory then uses R2–R3/R5a and R4.2’s moving-endpoint comparison. R7 uses R1, DG/SBC, PDO P1 and K5a;
 R8 uses R5a/R7, R4.7’s RP² quotient, and K5a/classical groups.
-TopK T6.6 precedes R1's projective comparison; CC C2.0, GT's marked
-triangulation and AT's early §3A.1 mapping-CW targets precede R3. Spin
+TopK T6.6 precedes R1's projective comparison; CC C2.0, GT's smooth triangulation and AT's early §3A.1 mapping-CW targets
+precede R3's finite marked-point refinement and path-space comparison. Spin
 G1.2/G2.2/G3.4 precede R7's Clifford/de Rham calculations, while the later
 Spin Dirac/index consumers follow R7.8.
 The speed metric in R3.1 gives the H1 topology but is not assumed complete; H1 charts are constructed independently. R3.3a's n>=3 lacunary proof and R3.3b's n=1 lifting proof precede R3.3c's Hopf homology calculation. Only their conjunction supplies the all-dimensional path result. R4.3 constructs the smooth universal-cover manifold, its second countability and complete pullback metric before R4.5 applies the sine-test bound upstairs; finite pi1 is a conclusion after compactness, not a hypothesis of that construction. R4.1's Ricci-volume comparison uses R4.6's cut-truncated polar/nullity interface, and its global equality conclusion has its own complete-cover/no-identification argument. R7.0's local scalar Bochner identity precedes Hodge/Spin/cohomology; its integrated Lichnerowicz/equality consequence requires n>=2. R8.1's finite harmonic-polynomial restriction, Fischer decomposition and dimension require no K5a spectral completeness or highest-weight classification; R8.2–R8.4 retain all those later actual suppliers. The round RP example in R4.7 consumes the actual antipodal quotient/projectivization atlas and native pi1 branches without a global space-form classification premise.
 
-Give every object identity/linearity/regularity/naturality and local-to-global
-  comparison lemmas before its headline theorem. Compile prototypes against the
-real Tau Ceti imports; remove supplier mirrors when the actual API is available.
 
 The smooth normal-variation order is immersion geometry → R5a.1 density calculus
 → R5a.2/R5b. CalibratedGeometry C3 consumes R5a.1; neither its calibrated
 minimization nor GeometricCurrents regularity enters R5b.
 
-## References and source provenance
+## References
 
 - J. M. Lee, *Introduction to Riemannian Manifolds*, second edition: Chapters 7–8
   for curvature/submanifolds, Chapter 10 for Jacobi/variation and focal
@@ -1649,7 +2205,7 @@ minimization nor GeometricCurrents regularity enters R5b.
   This is the principal convention reference. Lee does not prove
   the full Morse index or Hodge theorem; those use their separate suppliers.
 - J. Milnor, [*Morse Theory*, Annals of Mathematics Studies 51](https://www.jstor.org/stable/j.ctv3f8rb6), Princeton University Press,
-  §6 (Lemma 6.5, Theorem 6.6) for the Euclidean focal-point/squared-distance
+  §6 (Lemma 6.5, p. 36; Lemma 6.9, pp. 37–38; Theorem 6.6) for the Euclidean focal-point/squared-distance
   theory and §§13–18 for the finite Jacobi/index and broken-path proof
   architecture.
 - B. O'Neill, [The fundamental equations of a submersion](https://doi.org/10.1307/mmj/1028999604),
