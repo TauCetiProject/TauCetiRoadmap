@@ -1,40 +1,46 @@
-import Mathlib
+module
+
+public import Mathlib
 
 /-!
 # Character sums over finite fields: target signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive specification is
-`README.md`. The declarations below suggest Lean forms for the load-bearing milestones, so that
-contributors and reviewers converge on the carrier, the pinned conventions and the shape of the
-main theorems. Discharging every declaration here would finish neither a layer nor the roadmap.
-`sorry` is permitted in theorem proofs in this human-owned repository: these are targets, not
-implementations. Every definition has its real body.
-
-The file states only what can be stated over Mathlib and the pinned Tau Ceti (it needs Mathlib
-alone). Every other target, among them the Teichmüller character `teichmuller 𝔓` (6.1) and every
-statement about it (6.2, the Jacobi digit-sum formula 6.3, the Gross–Koblitz formula 6.5), is
-specified, with its definition and Checks, in `README.md` only.
+The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
+theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, together with the few
+definitions those statements need (the canonical additive character, the lifts of characters
+through norm and trace, the multiple Jacobi and Jacobsthal sums, the `L`-series of a monic
+multiplicative function, the Kloosterman sum, the Chinese-remainder factors of a Dirichlet
+character). Every definition has a real body on Mathlib's carriers; nothing in the README's API
+lists or Checks is restated here.
 
 The carrier is a finite field `F` (`[Field F] [Fintype F]`) with Mathlib's multiplicative
 characters `MulChar F ℂ` and additive characters `AddChar F ℂ`; the Gauss and Jacobi sums are
 Mathlib's `gaussSum` and `jacobiSum`, never redefined. Four conventions are visible in the
-signatures. First, the canonical additive character is `stdAddChar F`, `x ↦ e(Tr_{F/𝔽_p}(x)/p)`,
-and `gauss χ` abbreviates `gaussSum χ (stdAddChar F)`; every other additive character is a
-`mulShift` of it (`exists_unique_mulShift_eq`). Second, `χ 0 = 0` for every character including
-`χ = 1`, so `gauss 1 = -1` and `jacobiSum 1 1 = q - 2`; this is Mathlib's convention and the
-LMFDB's. Third, the Kloosterman sum `kloostermanSum χ ψ a b` is a sum over the **units** of an
-arbitrary finite commutative ring, so that the finite-field sums of Layer 5 and the integer-modulus
-sums `S_χ(m, n; c)` of Layer 7 are one definition, the latter read on `ZMod c` with
-`ZMod.stdAddChar` and `DirichletCharacter.changeLevel`. Fourth, the Hasse–Davenport relation and
-the root-power identity carry their minus signs: `-g' = (-g)^n` and `S_n = -∑ ω_i^n`.
+signatures. The canonical additive character is `stdAddChar F`, `x ↦ e(Tr_{F/𝔽_p}(x)/p)`, and
+`gauss χ` abbreviates `gaussSum χ (stdAddChar F)`; every additive character is a `mulShift` of it
+(`exists_unique_mulShift_eq`). `χ 0 = 0` for every character including `χ = 1`, so `gauss 1 = -1`
+and `jacobiSum 1 1 = q - 2` (Mathlib's convention and the LMFDB's). The Kloosterman sum
+`kloostermanSum χ ψ a b` is a sum over the **units** of an arbitrary finite commutative ring, so
+the finite-field sums of Layer 5 and the integer-modulus sums `S_χ(m, n; c)` of Layer 7 are one
+definition, the latter read on `ZMod c` with `ZMod.stdAddChar` and
+`DirichletCharacter.changeLevel`. The Hasse–Davenport relation and the root-power identity carry
+their minus signs: `-g' = (-g)^n` and `S_n = -∑ ω_i^n`.
 
-The exceptions to "every proof is `sorry`" are the bridge checks `gauss_quadChar_sq`,
-`gauss_mulShift` and `gauss_one`, which apply Mathlib's `gaussSum_sq`, `gaussSum_mulShift` and
-`gaussSum_one_left` with the instances and hypotheses the README promises, so that the elaborator
-checks that list.
+Not statable at the pins, and therefore stated in `README.md` only: the Teichmüller character
+`ω_𝔓` of 6.1 (its carrier is a multiplicative character of the residue field of a prime of
+`ℚ(ζ_{q−1})` with values in the ring of integers, whose construction is itself the bijection
+between roots of unity and the residue field that 6.1 proves), and with it the Stickelberger
+corollaries 6.2, the Jacobi digit-sum formula 6.3 and the Gross–Koblitz evaluation 6.4–6.5 (whose
+Gamma function and formula are `DirichletPadicLFunctions`' carriers, not at the pins); the sign of
+the quadratic Gauss sum over the prime field (1.4), which is `AnalyticNumberTheoryPartI` §2.30's
+theorem; the identification of `kloostermanSum 1 ψ a b` with the rank-two hyper-Kloosterman sum
+of `CongruenceSpectralGap` §4.2a and of `S(m, n; c)` with `AutomorphicSpectralTheory` §1.16's sum
+(7.3), neither of whose carriers is at the pins; and 7.7, which only names characters.
 -/
 
 namespace TauCetiRoadmap.CharacterSumsOverFiniteFields
+
+@[expose] public section
 
 open Complex Finset Polynomial
 
@@ -60,49 +66,13 @@ def stdAddChar : AddChar F ℂ :=
   (ZMod.stdAddChar : AddChar (ZMod (ringChar F)) ℂ).compAddMonoidHom
     (Algebra.trace (ZMod (ringChar F)) F).toAddMonoidHom
 
-/-- **0.1.** The value formula, with the trace read in `{0, …, p − 1}`. -/
-theorem stdAddChar_apply (x : F) :
-    letI : Algebra (ZMod (ringChar F)) F := ZMod.algebra F (ringChar F)
-    stdAddChar F x =
-      Complex.exp (2 * Real.pi * Complex.I *
-        ((Algebra.trace (ZMod (ringChar F)) F x).val : ℂ) / (ringChar F : ℂ)) := sorry
-
 /-- **0.1.** The canonical character is primitive (`AddChar.IsPrimitive.of_ne_one` and the
 nondegeneracy of the trace). -/
 theorem isPrimitive_stdAddChar : (stdAddChar F).IsPrimitive := sorry
 
-/-- **0.1.** On the prime field the canonical character is Mathlib's standard one. -/
-theorem stdAddChar_zmod (p : ℕ) [Fact p.Prime] :
-    stdAddChar (ZMod p) = ZMod.stdAddChar := sorry
-
 /-- **0.2.** Every additive character of `F` is a unique multiplicative shift of `ψ_F`. -/
 theorem exists_unique_mulShift_eq (ψ : AddChar F ℂ) :
     ∃! a : F, (stdAddChar F).mulShift a = ψ := sorry
-
-/-- **0.2.** Mathlib's abstractly chosen primitive character is a shift of `ψ_F` by a unit. -/
-theorem primitiveChar_to_Complex_eq_mulShift :
-    ∃ u : Fˣ, AddChar.FiniteField.primitiveChar_to_Complex F = (stdAddChar F).mulShift u := sorry
-
-/-- **0.3.** The character group is cyclic of order `q − 1`
-(`MulChar.equiv_rootsOfUnity` transported). -/
-theorem card_mulChar : Nat.card (MulChar F ℂ) = Fintype.card F - 1 := sorry
-
-/-- **0.3.** Dual orthogonality on `F`: `∑_χ χ(x) = (q − 1)[x = 1]`. -/
-theorem sum_mulChar_apply [DecidableEq F] (x : F) :
-    ∑ χ : MulChar F ℂ, χ x = if x = 1 then (Fintype.card F - 1 : ℂ) else 0 := sorry
-
-/-- **0.3.** The Fourier expansion of a function on `F^×`. -/
-theorem fourier_expansion_units (φ : F → ℂ) {x : F} (hx : x ≠ 0) :
-    φ x = (Fintype.card F - 1 : ℂ)⁻¹ *
-      ∑ χ : MulChar F ℂ, χ x * ∑ y : F, φ y * χ⁻¹ y := sorry
-
-/-- **0.3.** A character of exact order `q − 1` exists; any such character is a *generator* of
-the character group, the parameter `ω` of the finite hypergeometric sums. -/
-theorem exists_generator : ∃ ω : MulChar F ℂ, orderOf ω = Fintype.card F - 1 := sorry
-
-/-- **0.3.** Every character is a power of a generator, uniquely modulo `q − 1`. -/
-theorem exists_unique_pow_eq {ω : MulChar F ℂ} (hω : orderOf ω = Fintype.card F - 1)
-    (χ : MulChar F ℂ) : ∃! m : ℕ, m < Fintype.card F - 1 ∧ ω ^ m = χ := sorry
 
 variable {F}
 
@@ -110,17 +80,8 @@ variable {F}
 abbrev quadChar [DecidableEq F] : MulChar F ℂ :=
   (quadraticChar F).ringHomComp (Int.castRingHom ℂ)
 
-/-- **0.4.** For odd `q` the quadratic character is the unique character of order two. -/
-theorem orderOf_quadChar [DecidableEq F] (hF : ringChar F ≠ 2) : orderOf (quadChar (F := F)) = 2 :=
-  sorry
-
-/-- **0.4.** `χ(−1) = (−1)^{(q−1)/orderOf χ}` for a character of even order. -/
-theorem apply_neg_one_of_even_orderOf (χ : MulChar F ℂ) (h : Even (orderOf χ)) :
-    χ (-1) = (-1 : ℂ) ^ ((Fintype.card F - 1) / orderOf χ) := sorry
-
-/-- **0.5.** The Galois action on values: a ring endomorphism of `ℂ` raising the primitive
-`m`-th roots of unity to the power `t` carries `χ` to `χ ^ t` (Tau Ceti's Galois-orbit API, with
-the exponent made explicit). -/
+/-- **0.5.** The Galois action on values: a ring endomorphism of `ℂ` raising a primitive
+`m`-th root of unity, `m = orderOf χ`, to the power `t` carries `χ` to `χ ^ t`. -/
 theorem ringHomComp_eq_pow (χ : MulChar F ℂ) (σ : ℂ →+* ℂ) {ζ : ℂ}
     (hζ : IsPrimitiveRoot ζ (orderOf χ)) {t : ℕ} (hσ : σ ζ = ζ ^ t) :
     χ.ringHomComp σ = χ ^ t := sorry
@@ -135,16 +96,8 @@ def _root_.MulChar.liftNorm (χ : MulChar F ℂ) : MulChar E ℂ :=
 def _root_.AddChar.liftTrace (ψ : AddChar F ℂ) : AddChar E ℂ :=
   ψ.compAddMonoidHom (Algebra.trace F E).toAddMonoidHom
 
-theorem liftNorm_apply (χ : MulChar F ℂ) (x : E) : χ.liftNorm x = χ (Algebra.norm F x) := sorry
-
-theorem liftTrace_apply (ψ : AddChar F ℂ) (x : E) : ψ.liftTrace x = ψ (Algebra.trace F E x) :=
-  sorry
-
-/-- **0.6.** Lifting preserves the order (the norm is onto). -/
+/-- **0.6.** Lifting preserves the order (the norm `E → F` is onto). -/
 theorem orderOf_liftNorm (χ : MulChar F ℂ) : orderOf (χ.liftNorm (E := E)) = orderOf χ := sorry
-
-/-- **0.6.** The canonical characters are compatible with lifting (transitivity of the trace). -/
-theorem stdAddChar_liftTrace : (stdAddChar F).liftTrace = stdAddChar E := sorry
 
 /-- **0.6.** The characters of `E^×` of order dividing `d ∣ q − 1` are exactly the lifts. -/
 theorem exists_liftNorm_eq_of_orderOf_dvd {d : ℕ} (hd : d ∣ Fintype.card F - 1)
@@ -162,61 +115,14 @@ variable {F : Type u} [Field F] [Fintype F]
 canonical additive character; nothing is redefined. -/
 abbrev gauss (χ : MulChar F ℂ) : ℂ := gaussSum χ (stdAddChar F)
 
-/-- **1.1.** `g(1) = −1`: a bridge check, Mathlib's `gaussSum_one_left` with the nontriviality
-of `ψ_F` from its primitivity. -/
-theorem gauss_one : gauss (1 : MulChar F ℂ) = -1 :=
-  gaussSum_one_left (ψ := stdAddChar F) (fun h => by
-    have := isPrimitive_stdAddChar F
-    simp only [AddChar.IsPrimitive] at this
-    exact this one_ne_zero (by rw [h, AddChar.mulShift_one]))
-
-/-- **1.1.** The shifted sum `g_a(χ) = χ(a)⁻¹ g(χ)`: a bridge check, Mathlib's
-`gaussSum_mulShift`. -/
-theorem gauss_mulShift (χ : MulChar F ℂ) (a : Fˣ) :
-    gaussSum χ ((stdAddChar F).mulShift a) = χ⁻¹ a * gauss χ :=
-  gaussSum_mulShift_eq χ (stdAddChar F) a
-
 /-- **1.2.** `|g(χ)| = √q` for `χ ≠ 1`. -/
 theorem norm_gauss {χ : MulChar F ℂ} (hχ : χ ≠ 1) :
     ‖gauss χ‖ = Real.sqrt (Fintype.card F) := sorry
 
-/-- **1.2.** Conjugation: `conj g(χ) = χ(−1) g(χ⁻¹)`. -/
-theorem conj_gauss (χ : MulChar F ℂ) : (starRingEnd ℂ) (gauss χ) = χ (-1) * gauss χ⁻¹ := sorry
-
-/-- **1.2.** `g(χ) g(χ⁻¹) = χ(−1) q` for `χ ≠ 1`. -/
-theorem gauss_mul_gauss_inv {χ : MulChar F ℂ} (hχ : χ ≠ 1) :
-    gauss χ * gauss χ⁻¹ = χ (-1) * Fintype.card F := sorry
-
-/-- **1.3.** `g(χ)^m` lies in `ℤ[ζ_m]`, `m = orderOf χ`, for any primitive `m`-th root `ζ`. -/
+/-- **1.3.** `g(χ)^m` lies in `ℤ[ζ_m]`, `m = orderOf χ`, for any primitive `m`-th root `ζ`: the
+Gauss sum is fixed up to the root of unity `χ(c)⁻¹` by every automorphism `ζ_p ↦ ζ_p^c`. -/
 theorem gauss_pow_orderOf_mem (χ : MulChar F ℂ) {ζ : ℂ} (hζ : IsPrimitiveRoot ζ (orderOf χ)) :
     gauss χ ^ orderOf χ ∈ Algebra.adjoin ℤ {ζ} := sorry
-
-/-- **1.3.** The Galois action on the `ζ_p`-side: for `c ∈ 𝔽_p^×`, the automorphism
-`ζ_p ↦ ζ_p^c` sends `g(χ)` to `χ(c)⁻¹ g(χ)`. Stated as the identity of sums it amounts to. -/
-theorem gauss_frobenius_shift (χ : MulChar F ℂ) (c : (ZMod (ringChar F))ˣ) :
-    ∑ x : F, χ x * stdAddChar F x ^ (c : ZMod (ringChar F)).val =
-      χ ((c : ZMod (ringChar F)).val : F)⁻¹ * gauss χ := sorry
-
-/-- **1.3.** Frobenius invariance `g(χ^p) = g(χ)`. -/
-theorem gauss_pow_ringChar (χ : MulChar F ℂ) : gauss (χ ^ ringChar F) = gauss χ := sorry
-
-/-- **1.4.** `g(η)² = η(−1) q` for odd `q`: a bridge check, Mathlib's `gaussSum_sq` with the
-instances the README promises (`quadraticChar_isQuadratic`, the nontriviality of `η`, and the
-primitivity of `ψ_F`). -/
-theorem gauss_quadChar_sq [DecidableEq F] (hF : ringChar F ≠ 2) :
-    gauss (quadChar (F := F)) ^ 2 = quadChar (F := F) (-1) * Fintype.card F :=
-  gaussSum_sq
-    (by
-      intro h
-      exact quadraticChar_ne_one hF
-        ((MulChar.ringHomComp_eq_one_iff (Int.castRingHom ℂ).injective_int).mp h))
-    ((quadraticChar_isQuadratic F).comp _) (isPrimitive_stdAddChar F)
-
-/-- **1.4.** The sign of the quadratic Gauss sum over the prime field: `g(η_p) = ε_p √p`
-(the classical arithmetic roadmap's 4.19 with Tau Ceti's Gauss evaluation). -/
-theorem gauss_quadChar_zmod (p : ℕ) [Fact p.Prime] (hp : p ≠ 2) :
-    gauss (quadChar (F := ZMod p)) =
-      (if p % 4 = 1 then (1 : ℂ) else Complex.I) * Real.sqrt p := sorry
 
 end Layer1
 
@@ -234,20 +140,11 @@ theorem norm_jacobiSum {χ ψ : MulChar F ℂ} (hχ : χ ≠ 1) (hψ : ψ ≠ 1)
 def multiJacobiSum [DecidableEq F] {r : ℕ} (χ : Fin r → MulChar F ℂ) : ℂ :=
   ∑ x ∈ (univ : Finset (Fin r → F)).filter (fun x : Fin r → F => ∑ i, x i = 1), ∏ i, χ i (x i)
 
-/-- **2.4.** The `r`-fold sum with `∑ x_i = 0`. -/
-def multiJacobiSum₀ [DecidableEq F] {r : ℕ} (χ : Fin r → MulChar F ℂ) : ℂ :=
-  ∑ x ∈ (univ : Finset (Fin r → F)).filter (fun x : Fin r → F => ∑ i, x i = 0), ∏ i, χ i (x i)
-
-theorem multiJacobiSum_two [DecidableEq F] (χ ψ : MulChar F ℂ) : multiJacobiSum ![χ, ψ] = jacobiSum χ ψ := sorry
-
-/-- **2.4.** The Gauss-sum formula for a multiple Jacobi sum. -/
+/-- **2.4.** The Gauss-sum formula for a multiple Jacobi sum, for nontrivial `χ_i` with
+nontrivial product. -/
 theorem multiJacobiSum_eq_prod_gauss_div [DecidableEq F] {r : ℕ} (χ : Fin r → MulChar F ℂ)
     (h : ∀ i, χ i ≠ 1) (hprod : ∏ i, χ i ≠ 1) :
     multiJacobiSum χ = (∏ i, gauss (χ i)) / gauss (∏ i, χ i) := sorry
-
-/-- **2.4.** `J₀` vanishes unless the product character is trivial. -/
-theorem multiJacobiSum₀_eq_zero [DecidableEq F] {r : ℕ} (χ : Fin r → MulChar F ℂ) (hprod : ∏ i, χ i ≠ 1) :
-    multiJacobiSum₀ χ = 0 := sorry
 
 /-- **2.4.** The number of solutions of a diagonal equation `∑ aᵢ xᵢ^{dᵢ} = b`, `b ≠ 0`, deviates
 from `q^{r−1}` by at most `∏ (dᵢ − 1) · q^{(r−1)/2}`. -/
@@ -264,10 +161,6 @@ def jacobsthalPhi [DecidableEq F] (n : ℕ) (a : F) : ℂ :=
 /-- **2.5.** The Jacobsthal sum `ψ_n(a) = ∑_x η(x^n + a)`. -/
 def jacobsthalPsi [DecidableEq F] (n : ℕ) (a : F) : ℂ :=
   ∑ x : F, quadChar (F := F) (x ^ n + a)
-
-/-- **2.5.** `ψ_2(a) = −1` for `a ≠ 0` and odd `q`. -/
-theorem jacobsthalPsi_two [DecidableEq F] (hF : ringChar F ≠ 2) {a : F} (ha : a ≠ 0) :
-    jacobsthalPsi 2 a = -1 := sorry
 
 /-- **2.5.** The Jacobi-sum expansion of `ψ_n(a)`, over the nontrivial characters of order
 dividing `n`. -/
@@ -312,10 +205,10 @@ def lSeries (lam : F[X] → ℂ) : PowerSeries ℂ :=
   PowerSeries.mk fun d => ∑ c : Fin d → F, lam (monicOfCoeffs c)
 
 /-- **3.1.** The polynomial criterion: vanishing coefficient sums from degree `d₀` on make the
-`L`-series a polynomial of degree `< d₀`. -/
+`L`-series a polynomial of degree `< d₀` (the zero polynomial, of degree `⊥`, when `d₀ = 0`). -/
 theorem lSeries_eq_polynomial {lam : F[X] → ℂ} {d₀ : ℕ}
     (h : ∀ d, d₀ ≤ d → ∑ c : Fin d → F, lam (monicOfCoeffs c) = 0) :
-    ∃ P : ℂ[X], P.natDegree < d₀ ∧ lSeries lam = P.toPowerSeries := sorry
+    ∃ P : ℂ[X], P.degree < d₀ ∧ lSeries lam = P.toPowerSeries := sorry
 
 variable (E : Type u) [Field E] [Fintype E] [Algebra F E]
 
@@ -337,7 +230,8 @@ theorem hasseDavenport_lift (χ : MulChar F ℂ) (ψ : AddChar F ℂ) (h : χ �
       (-gaussSum χ ψ) ^ Module.finrank F E := sorry
 
 /-- **3.3.** The sign of the quadratic Gauss sum over `𝔽_q`, `q = p^f`:
-`g(η) = (−1)^{f−1} (ε_p √p)^f`. -/
+`g(η) = (−1)^{f−1} (ε_p √p)^f`, from the prime-field sign (`AnalyticNumberTheoryPartI` §2.30,
+consumed in 1.4) and the lifting relation. -/
 theorem gauss_quadChar_eq [DecidableEq F] (hF : ringChar F ≠ 2) {p f : ℕ} [Fact p.Prime]
     (hq : Fintype.card F = p ^ f) :
     gauss (quadChar (F := F)) =
@@ -411,12 +305,6 @@ resultant `∏_{g(α)=0} f(α)` for monic `g`. -/
 def mulCharResultant (χ : MulChar F ℂ) (f : F[X]) (g : F[X]) : ℂ :=
   χ (Algebra.norm F (AdjoinRoot.mk g f))
 
-theorem mulCharResultant_X_sub_C (χ : MulChar F ℂ) (f : F[X]) (c : F) :
-    mulCharResultant χ f (X - C c) = χ (f.eval c) := sorry
-
-theorem isMonicMultiplicative_mulCharResultant (χ : MulChar F ℂ) (f : F[X]) :
-    IsMonicMultiplicative (mulCharResultant χ f) := sorry
-
 /-- **4.5.** The `L`-polynomial of a multiplicative character sum has degree at most `m − 1`,
 `m` the number of distinct roots of `f`, when `f` is not a constant times a `d`-th power. -/
 theorem lSeries_mulCharResultant {χ : MulChar F ℂ} (hχ : χ ≠ 1) (f : F[X]) (hf0 : f ≠ 0)
@@ -469,26 +357,10 @@ variable {R : Type*} [CommRing R] [Fintype R]
 /-- **5.1.** The Kloosterman sum `K(χ, ψ; a, b) = ∑_{x ∈ Rˣ} χ(x) ψ(a x + b x⁻¹)` on a finite
 commutative ring. On `ZMod c` with `ZMod.stdAddChar` it is `S_χ(a, b; c)`; on a finite field with
 `stdAddChar F` it is the Kloosterman sum of Layer 5. On a field with `χ = 1` and `a, b` units it is
-the congruence spectral gap roadmap's `hyperKloosterman F 2 ψ (a b)` (§4.2a), an unmerged roadmap
-target, so the identification is stated in `README.md` 5.1 only. -/
+the rank-two hyper-Kloosterman sum of `CongruenceSpectralGap` §4.2a; that identification is a
+README target (5.1), since the hyper-Kloosterman carrier is not at the pins. -/
 def kloostermanSum (χ : MulChar R ℂ) (ψ : AddChar R ℂ) (a b : R) : ℂ :=
   ∑ x : Rˣ, χ x * ψ (a * x + b * ((x⁻¹ : Rˣ) : R))
-
-/-- **5.1.** `K(χ; a, 0)` is the shifted Gauss sum `g_a(χ)`. -/
-theorem kloostermanSum_zero_right (χ : MulChar R ℂ) (ψ : AddChar R ℂ) (a : R) :
-    kloostermanSum χ ψ a 0 = gaussSum χ (ψ.mulShift a) := sorry
-
-/-- **5.1.** Symmetry under `x ↦ x⁻¹`. -/
-theorem kloostermanSum_comm (χ : MulChar R ℂ) (ψ : AddChar R ℂ) (a b : R) :
-    kloostermanSum χ ψ a b = kloostermanSum χ⁻¹ ψ b a := sorry
-
-/-- **5.1.** Scaling by a unit. -/
-theorem kloostermanSum_mul_unit (χ : MulChar R ℂ) (ψ : AddChar R ℂ) (a b : R) (u : Rˣ) :
-    kloostermanSum χ ψ (u * a) (((u⁻¹ : Rˣ) : R) * b) = (χ u)⁻¹ * kloostermanSum χ ψ a b := sorry
-
-/-- **5.1.** Conjugation: `conj K(χ, ψ; a, b) = K(χ⁻¹, ψ; −a, −b)`; so `K(1, ψ; a, b)` is real. -/
-theorem conj_kloostermanSum (χ : MulChar R ℂ) (ψ : AddChar R ℂ) (a b : R) :
-    (starRingEnd ℂ) (kloostermanSum χ ψ a b) = kloostermanSum χ⁻¹ ψ (-a) (-b) := sorry
 
 variable {F : Type u} [Field F] [Fintype F]
 
@@ -516,72 +388,12 @@ theorem kloostermanSum_lift (χ : MulChar F ℂ) (a b : Fˣ) :
             (algebraMap F E a) (algebraMap F E b) =
           -(ω₁ ^ Module.finrank F E + ω₂ ^ Module.finrank F E) := sorry
 
-/-- **5.5.** Weil's bound `|K(χ; a, b)| ≤ 2√q` for `a b ≠ 0`. At `χ = 1` it is the congruence
-spectral gap roadmap's `hyperKloosterman_bound` at rank `2` (`README.md` 5.5). -/
+/-- **5.5.** Weil's bound `|K(χ; a, b)| ≤ 2√q` for `a b ≠ 0` and every `χ`. At `χ = 1` it is the
+congruence spectral gap roadmap's `hyperKloosterman_bound` at rank `2` (`README.md` 5.5). -/
 theorem norm_kloostermanSum_le (χ : MulChar F ℂ) (a b : Fˣ) :
     ‖kloostermanSum χ (stdAddChar F) a b‖ ≤ 2 * Real.sqrt (Fintype.card F) := sorry
 
-/-- **5.5.** The Kloosterman angle `θ_F(a, b) ∈ [0, π]`, defined by
-`K(1; a, b) = −2√q cos θ`. -/
-def kloostermanAngle (a b : Fˣ) : ℝ :=
-  Real.arccos (-(kloostermanSum (1 : MulChar F ℂ) (stdAddChar F) a b).re /
-    (2 * Real.sqrt (Fintype.card F)))
-
-theorem kloostermanSum_eq_cos_kloostermanAngle (a b : Fˣ) :
-    kloostermanSum (1 : MulChar F ℂ) (stdAddChar F) a b =
-      -2 * Real.sqrt (Fintype.card F) * Real.cos (kloostermanAngle a b) := sorry
-
-/-- **5.6.** The degenerate parameter `a = 0 ≠ b`: `K(χ; 0, b) = χ(b) g(χ⁻¹)` (at `b = 0` the sum
-is `(q − 1)[χ = 1]`). -/
-theorem kloostermanSum_zero_left (χ : MulChar F ℂ) (b : Fˣ) :
-    kloostermanSum χ (stdAddChar F) 0 b = χ b * gauss χ⁻¹ := sorry
-
 end Layer5
-
-/-! ## Layer 6: Morita's `p`-adic Gamma function
-
-The Teichmüller character 6.1, the Stickelberger corollaries 6.2–6.3 and the Gross–Koblitz
-formula 6.5 are specified in `README.md` only. -/
-
-section Layer6Padic
-
-open scoped Classical
-
-variable (p : ℕ) [Fact p.Prime]
-
-/-- **6.4.** Morita's `p`-adic Gamma function: `Γ_p(x)` is the limit of
-`Γ_p(n) = (−1)^n ∏_{0 < j < n, p ∤ j} j` as the natural number `n` tends to `x` `p`-adically. The
-limit exists because of the congruence `Γ_p(n + p^k) ≡ Γ_p(n) (mod p^k)`, so this is the unique
-continuous extension of the values on `ℕ` (`padicGamma_natCast`, `continuous_padicGamma`). -/
-def padicGamma (x : ℤ_[p]) : ℤ_[p] :=
-  Filter.limUnder (Filter.comap ((↑) : ℕ → ℤ_[p]) (nhds x)) fun n =>
-    (-1) ^ n * ∏ j ∈ (Finset.range n).filter (fun j => 0 < j ∧ ¬ p ∣ j), (j : ℤ_[p])
-
-/-- **6.4.** The values on `ℕ`; `Γ_p(0) = 1`, `Γ_p(1) = −1`, `Γ_p(2) = 1`. -/
-theorem padicGamma_natCast (n : ℕ) :
-    padicGamma p n =
-      (-1) ^ n * ∏ j ∈ (Finset.range n).filter (fun j => 0 < j ∧ ¬ p ∣ j), (j : ℤ_[p]) := sorry
-
-/-- **6.4.** Continuity (the Lipschitz bound `‖Γ_p x − Γ_p y‖ ≤ ‖x − y‖` for odd `p`). -/
-theorem continuous_padicGamma : Continuous (padicGamma p) := sorry
-
-theorem norm_padicGamma_sub_le (hp : p ≠ 2) (x y : ℤ_[p]) :
-    ‖padicGamma p x - padicGamma p y‖ ≤ ‖x - y‖ := sorry
-
-/-- **6.4.** `Γ_p` takes unit values. -/
-theorem isUnit_padicGamma (x : ℤ_[p]) : IsUnit (padicGamma p x) := sorry
-
-/-- **6.4.** The functional equation: `Γ_p(x + 1) = −x Γ_p(x)` for a unit `x`, `−Γ_p(x)` otherwise. -/
-theorem padicGamma_add_one (x : ℤ_[p]) :
-    padicGamma p (x + 1) = (if IsUnit x then -x else -1) * padicGamma p x := sorry
-
-/-- **6.4.** The reflection formula for odd `p`: `Γ_p(x) Γ_p(1 − x) = (−1)^{x₀}`, `x₀ ∈ {1, …, p}`
-the residue of `x` modulo `p`. -/
-theorem padicGamma_mul_padicGamma_one_sub (hp : p ≠ 2) (x : ℤ_[p]) :
-    padicGamma p x * padicGamma p (1 - x) =
-      (-1) ^ (if (PadicInt.toZMod x).val = 0 then p else (PadicInt.toZMod x).val) := sorry
-
-end Layer6Padic
 
 /-! ## Layer 7: sums modulo an integer -/
 
@@ -606,11 +418,6 @@ def crtFactorLeft (χ : DirichletCharacter ℂ (c₁ * c₂)) : DirichletCharact
 def crtFactorRight (χ : DirichletCharacter ℂ (c₁ * c₂)) : DirichletCharacter ℂ c₂ :=
   MulChar.ofUnitHom (χ.toUnitHom.comp (Units.map
     ((ZMod.chineseRemainder h).symm.toRingHom.toMonoidHom.comp (MonoidHom.inr _ _))))
-
-/-- **0.7.** `χ(x) = χ₁(x₁) χ₂(x₂)` across the Chinese remainder isomorphism. -/
-theorem crtFactor_mul (χ : DirichletCharacter ℂ (c₁ * c₂)) (x : ZMod (c₁ * c₂)) :
-    χ x = crtFactorLeft h χ (ZMod.chineseRemainder h x).1 *
-      crtFactorRight h χ (ZMod.chineseRemainder h x).2 := sorry
 
 /-- **7.1.** The Chinese-remainder formula `τ(χ) = χ₁(c₂) χ₂(c₁) τ(χ₁) τ(χ₂)`. -/
 theorem gaussSum_mul_of_coprime (χ : DirichletCharacter ℂ (c₁ * c₂)) :
@@ -682,6 +489,8 @@ theorem norm_kloostermanSum_zmod_le_of_cubefree {c : ℕ} [NeZero c]
   sorry
 
 end Layer7
+
+end
 
 end
 
