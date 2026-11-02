@@ -42,8 +42,11 @@ GeometryOfNumbersAndQuadraticArithmetic §§6.1a, 6.8a and 6.9 supplies the
 hermitian carriers, coherent duality action, GW–L fibre sequence and localization.
 HermitianKTheoryOfPoincareCategories supplies their comparison theorems.
 GeometryOfNumbersAndQuadraticArithmetic §6.10a supplies the integral ℤ L-groups; §3.5 owns the Dedekind
-Witt injection and symmetric/quadratic L-tables. The number-ring signature theorem and connective homotopy-orbit
-spectral sequence are targets of §3.5 on those supplied carriers.
+Witt injection and symmetric/quadratic L-tables. The number-ring signature theorem
+belongs to GeometryOfNumbersAndQuadraticArithmetic §6.11 through the exact
+contract below; the connective homotopy-orbit spectral sequence for finite
+groups belongs to StableHomotopyKTheory Layer 7 through its exact contract.
+Section 3.5 consumes both for arithmetic finite generation.
 CyclotomicClassGroupsAndStickelberger owns the cyclotomic class action,
 projectors, Kummer congruences, reflection, finite criterion and regular-prime
 tower theorem. Its §§0.2–0.4, 2.1, 3.1–3.2 and 5.1 use AINTLIB's
@@ -153,6 +156,10 @@ At the pinned APIs, `Set.integer` gives the S-integer subalgebra and `Set.unit`
 its units. `Set.unitEquivUnitsInteger` identifies the unit carriers. Use
 `IsDedekindDomain.HeightOneSpectrum`, `IsFractionRing`, `IsLocalization`,
 valuation support and the existing finite-extension/integral-closure API.
+For localization in stages, use `IsLocalization.isLocalization_of_submonoid_le`
+in `Mathlib/RingTheory/Localization/LocalizationLocalization.lean`: if M≤N,
+B is the localization of R at M and C that at N, and R→B→C is a scalar tower,
+then C is the localization of B at the image of N.
 `ClassGroup`, `ClassGroup.equivPic`, `ClassGroup.extendedHom`,
 `NumberField.classNumber` and the finite class group of a number ring supply
 the arithmetic class data.
@@ -244,8 +251,18 @@ coefficient triangles, transition maps, Bocksteins, colimits and Milnor sequence
 §§7.21–7.28 supply filtered spectral sequences, their convergence and safe-modulus
 products. Section 2.1 applies these to the supplied localization triangle.
 
-Section 3.5 applies §§7.21–7.24 to the skeletal filtration of the supplied
-homotopy-orbit construction and establishes its connective spectral sequence.
+What StableHomotopyKTheory must provide (gap:connective-c2-homotopy-orbit-spectral-sequence):
+for every connective spectrum E with a coherent C₂-action, the natural strongly
+convergent spectral sequence H_p(C₂;π_q E) ⇒ π_(p+q)(E_hC₂), with its skeletal
+filtration. This Layer 7 contract includes the same construction for every
+finite group G, with p,q≥0, using the actual induced G-module π_q E.
+The required API consists of naturality in equivariant spectrum maps, the
+finite filtration in each total degree, the degree-zero coinvariant
+isomorphism π₀(E)_G→π₀(E_hG), and compatibility with subgroup induction
+and finite-cover transfer. Section 3.5 consumes this contract and proves its
+arithmetic finite-generation consequences. (Calmès et al., proof of
+Corollary 2.3.18, p. 48, for the C₂ application; the finite-group version uses
+the same skeletal bar filtration and §§7.21–7.24.)
 
 ### From TauCetiRoadmap.GeneralAlgebraicKTheory
 
@@ -372,8 +389,14 @@ injection and L-tables on the supplier's Poincaré carriers.
 
 Section 6.4.2 supplies the metabolic-quotient symmetric Witt carrier
 `ExactW0`; §6.10a supplies its integral signature normalization.
-Section 3.5 constructs the number-ring real-signature map on that carrier
-and proves its finite-kernel and full-rank-image theorem.
+What GeometryOfNumbersAndQuadraticArithmetic must provide (gap:number-ring-witt-signature):
+for every number field F and finite S of finite primes, the symmetric Witt
+real-signature map W^s(O_(F,S)) → ℤ^r₁ has finite kernel and image of rank r₁.
+This §6.11 contract uses the specified carrier and the map obtained by extension
+to F, then to each real embedding, followed by real signature. It is additive,
+kills metabolic forms, commutes with S-enlargement and field transport, and
+sends a positive real line to 1. Section 3.5 deduces finite generation from
+this contract. (Calmès et al., Corollary 2.3.16 and proof, pp. 47–48.)
 
 ### From TauCetiRoadmap.HermitianKTheoryOfPoincareCategories
 
@@ -538,10 +561,15 @@ For any Dedekind domain R with torsion class group, fraction field K and
 arbitrary S⊆S′, prove that the inclusion S.integer K→S′.integer K agrees
 with the inclusion inside K and with the map of denominator presentations.
 It is itself a localization, at the images of the candidate denominators
-for S′. Specialize this to O_(F,S)→O_(F,S′). These maps are
-identity at equal sets and compose in a tower. The inclusion has the expected
-effect on units and on height-one primes: exactly the newly inverted primes
-disappear. (K-book, V.6.1, p. 406; VI.9.4, p. 519.)
+for S′. Indeed, §1.1 identifies these rings with M⁻¹R and M′⁻¹R for
+M=`sUnitSubmonoid S K` and M′=`sUnitSubmonoid S′ K`, with M⊆M′. The localization universal
+property identifies the localization of M⁻¹R at the image of M′ with M′⁻¹R;
+apply `IsLocalization.isLocalization_of_submonoid_le` to the inclusions in K.
+Specialize this to O_(F,S)→O_(F,S′). These maps are identity at equal sets
+and compose in a tower. The inclusion has the expected effect on units and
+on height-one primes: exactly the newly inverted primes disappear.
+This is a deduction from §1.1 and localization in stages; K-book V.6.1,
+p. 406 supplies the K-theoretic localization application in §2.1.
 
 For a finite extension E/F and T the full inverse image of S, prove that
 O_(E,T) is the integral closure of O_(F,S) and is finite projective of rank
@@ -552,6 +580,12 @@ Do not allow additional upper primes in the finite-projective statement.
 
 **Checks.**
 
+- For R=ℤ and ∅⊆{(2)}, the map is ℤ→ℤ[1/2]: 2 becomes a unit,
+  while 3 does not. Reversing the prime-set inclusion would reject this map.
+- For S=S′={(2)}, the map fixes 1/2 and every other element; localizing
+  again at denominators that are already units gives the identity.
+- The tower ∅⊆{(2)}⊆{(2),(3)} gives ℤ→ℤ[1/2]→ℤ[1/6];
+  the composite agrees with the direct inclusion, and (1/2)(1/3)=1/6.
 - For ℚ⊂ℚ(i) and S={(2)}, the upper ring is ℤ[i,1/2], with basis 1,i over
   ℤ[1/2].
 - At S=∅ the extension is ℤ⊂ℤ[i].
@@ -1251,62 +1285,33 @@ Corollary 2.3.2, Remark 2.3.3, Propositions 2.3.6–2.3.9 and Corollary
 
 *Needs:* HermitianKTheoryOfPoincareCategories §§4.4, 7.1–7.5 and 8.1–8.2,
 the strict-Lagrangian and integral localization–completion arguments just specified.
-The number-ring finite-generation consequence below also uses its signature
-theorem and finite localized Picard group.
+The number-ring finite-generation consequence below also uses the number-ring
+signature contract and finite localized Picard group.
 
-For every number field F and finite S, construct the homomorphism
-W^s(O_(F,S)) → ℤ^(real places) by extension to F, extension along each
-real embedding, and the signature of the resulting real symmetric form.
-Prove that its kernel is finite and its image has rank r₁. The map is
-additive under orthogonal sum, kills metabolic forms, commutes with
-S-enlargement, and is unchanged by transporting the number field and its
-places. Its normalization sends a positive real line to 1. These facts,
-together with finite generation of a subgroup of ℤ^r₁, imply finite
-generation of W^s(O_(F,S)). Use the number-ring Witt argument in
-Calmès et al., Corollary 2.3.16 and proof, pp. 47–48; its characteristic-zero
-hypothesis is retained.
+For every number field F and finite S, use the number-ring signature contract
+of GeometryOfNumbersAndQuadraticArithmetic §6.11 to prove that
+W^s(O_(F,S)) is finitely generated: its kernel is finite and its image is a
+subgroup of ℤ^r₁, hence finitely generated. Its rank is r₁ by the supplied
+image-rank theorem. (Calmès et al., Corollary 2.3.16 and proof, pp. 47–48.)
 
-The signature map has the following basic laws:
+Use StableHomotopyKTheory Layer 7's connective homotopy-orbit contract to
+prove that, for a finite group G and a connective spectrum E with coherent
+G-action and every π_q E finitely generated, every π_n(E_hG) is finitely
+generated. In the supplied spectral sequence H_p(G;π_q E) ⇒ π_(p+q)(E_hG),
+the finite-group bar resolution has finitely generated chains in each degree,
+so each E² term is finitely generated. Connectivity restricts each total
+degree n≥0 to 0≤p≤n; the resulting finite filtration gives the claim,
+while negative abutment groups vanish. Apply this to the coherent duality
+C₂-action on K(O). (Calmès et al., proof of Corollary 2.3.18, p. 48.)
 
-- Extension of scalars and real signatures define an additive map that kills metabolic forms.
-- Field transport and S-enlargement commute with the specified map on Witt classes.
-- Its kernel is finite and its image has rank r₁; hence the Witt group is finitely generated.
-
-**Checks.**
-
-- Over ℤ, the lines ⟨1⟩ and ⟨−1⟩ have values 1 and −1, while their sum has value 0.
-- In the golden ring, the lines ⟨1⟩ and ⟨ε⟩ have values (1,1) and (1,−1); the determinant is −2, so the image has rank two without being asserted all of ℤ².
-- Over the Gaussian ring the signature target is ℤ⁰=0 and the whole symmetric Witt group is finite; over a real number ring the class ⟨1⟩ has infinite order, so a finite target would be wrong.
-
-For every finite group G and connective spectrum E with a coherent G-action,
-construct the spectral sequence of the skeletal bar filtration
-H_p(G;π_q E) ⇒ π_(p+q)(E_hG), p,q≥0, and prove strong convergence.
-Its API consists of naturality in equivariant spectrum maps, the filtration
-and its edge from coinvariants, and the induced maps under subgroup
-restriction and induction. Each filtration quotient is the corresponding
-bar-chain suspension of E; connectivity gives a finite filtration in each
-fixed total degree. If every π_q E is finitely generated, finite G and its
-bar resolution make every E² term finitely generated, hence every abutment
-group is finitely generated. This includes the coherent duality C₂-action
-on connective K(O). (Calmès et al., proof of Corollary 2.3.18, p. 48.)
-*Needs:* StableHomotopyKTheory §§7.21–7.24, the homotopy-orbit and coherent
-action carriers of GeometryOfNumbersAndQuadraticArithmetic §§6.1a/6.8a,
-and its §6.4.2 symmetric Witt carrier `ExactW0` with integral signature
-normalization in §6.10a. The general number-ring signature theorem is the
-target above in this subsection; KTheoryFiniteLocalFields §0.5 supplies
-the finite-cover transfer maps.
-
-The orbit sequence has the following basic laws:
-
-- Equivariant spectrum maps induce maps of the bar filtration and all spectral-sequence pages.
-- The degree-zero edge is π₀(E)_G→π₀(E_hG), an isomorphism for connective E.
-- Subgroup induction and the finite-cover transfer give the corresponding maps on the filtrations and on group homology.
-
-**Checks.**
-
-- For trivial G the sole bar column is p=0 and the sequence gives π_q(E)=π_q(E).
-- For E=Hℤ with trivial C₂-action, the first three groups are ℤ,ℤ/2,0; with sign action they are ℤ/2,0,ℤ/2, from alternating differentials 0,2 and 2,0 respectively.
-- For E=ΣHℤ with trivial C₂-action the groups in degrees 0,1,2 are 0,ℤ,ℤ/2. For E=0 all entries are zero; neither case permits negative-q contributions.
+*Needs:* GeometryOfNumbersAndQuadraticArithmetic §6.11's
+number-ring-witt-signature contract, its §6.4.2 symmetric Witt carrier
+`ExactW0` and §6.10a's integral signature normalization;
+StableHomotopyKTheory Layer 7's connective-c2-homotopy-orbit-spectral-sequence
+contract, including its finite-group form; the coherent action and orbit
+carriers of GeometryOfNumbersAndQuadraticArithmetic §§6.1a/6.8a; §3.3's
+finite generation of K_n(O). These contracts are specified under Exact
+supplier contracts.
 
 For a number ring O=O_(F,S) with finite S and ε=±1, prove finite generation
 of the periodic symmetric and quadratic L-groups L^s_n(O;ε), L^q_n(O;ε) in
@@ -1326,7 +1331,8 @@ integers. The fibre sequence
 K(O;ε)_(hC₂) → GW(O;Q_ε^(≥m)) → L(O;Q_ε^(≥m))
 ```
 
-and the connective homotopy-orbit spectral sequence of this subsection supply GW finiteness.
+and the supplied connective homotopy-orbit spectral sequence give GW finiteness
+by the finite-generation deduction above.
 Here finiteness on each spectral-sequence diagonal is justified by
 connectivity, not by convergence alone. Finally prove finite generation of
 the **classical** ε-symmetric and ε-quadratic GW groups for all n≥0 using
@@ -1342,11 +1348,21 @@ and 30; Corollaries 2.3.18–2.3.19, p. 48; Corollary 8, p. 5.)
   It is not the integral hyperbolic plane: its vector (1,0) has
   self-pairing 1, whereas every hyperbolic self-pairing 2ab is even.
   Over ℤ[(1+√5)/2], the unit ε has signs (+,−); ⟨1⟩ and ⟨ε⟩ give
-  vectors (1,1) and (1,−1) of determinant −2, detecting rank two.
+  vectors (1,1) and (1,−1) of determinant −2, detecting rank two
+  without asserting surjectivity onto ℤ².
+- For the Gaussian ring, r₁=0 and the signature target is ℤ⁰=0, so
+  its finite kernel is the whole Witt group. For a real number ring,
+  the multiples of ⟨1⟩ have signatures n(1,…,1), so that class has
+  infinite order; the finite-kernel statement does not make the group finite.
 - For E=Hℤ with trivial C₂-action, the orbit sequence gives π₀=ℤ,
   π₁=ℤ/2 and π₂=0. With sign action the values are ℤ/2,0,ℤ/2:
   the differentials 1−σ and 1+σ exchange roles. Constant-coefficient
   homology would give the wrong result for the second action.
+- For the trivial group and E=Hℤ, the normalized bar complex has only its
+  degree-zero term, so the orbit groups in degrees 0,1,2 are ℤ,0,0.
+  For G=S₃ with trivial action on Hℤ, the degree-zero and degree-one
+  groups are ℤ and S₃ᵃᵇ=ℤ/2; replacing the acting group by an abelian group
+  is not a hypothesis of the finite-generation deduction.
 - The zero connective C₂-spectrum has zero homology and zero abutment.
   For E=ΣHℤ with trivial action, the same sequence begins π₀=0,
   π₁=ℤ and π₂=ℤ/2; no negative q-row is inserted.
