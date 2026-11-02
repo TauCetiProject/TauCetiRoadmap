@@ -1,28 +1,50 @@
 import Mathlib
 import TauCeti.Algebra.AlgebraicGroup.SpecialLinear.Basic
+import TauCeti.Algebra.AlgebraicGroup.Borel.Basic
+import TauCeti.Algebra.AlgebraicGroup.HopfIdeal.Conjugation
+import TauCeti.Algebra.AlgebraicGroup.Reductive.Basic
+import TauCeti.Algebra.AlgebraicGroup.LinearlyReductive
 
 /-!
 # Reductive algebraic groups: target signatures
 
-The roadmap is README.md; this file is not the roadmap. It states headline
-theorems against the pinned Mathlib and Tau Ceti APIs.
+The roadmap is README.md; this file is not the roadmap. It states the roadmap's headline
+theorems against the pinned Mathlib and Tau Ceti APIs, each admitted with `sorry`.
 
-Layer 3A's locally closed reduced orbits, strict boundary dimension and closed-orbit
-existence, and the SL coordinate presentation in the worked examples are statable.
-The remaining endpoints require carriers whose construction is part of the roadmap:
-* Layers 0–1: the category of rational algebraic group representations and its
-  comparison functors (the native Hopf and comodule reconstruction is already supplied).
-* Layers 2–8: represented homogeneous quotients,
-  unipotent radicals, extracted root data and rational parabolic/Levi functors.
-* Layer 9: a pinned reductive group with its extracted datum; the full-root-datum Chevalley realization and its ordered PBW family
-  (the native Kostant subring alone does not specify these); signed ADE cover Lie algebras and
-  their folded fixed algebras. These heavy constructions are not encoded here.
-* Layer 10: rational highest-weight modules, Weyl and induced modules, and their
-  distribution actions on the constructed group.
-* Layer 11: the regular-semisimple Lie locus, its Weyl quotient and the comparison
-  with based spectral monodromy. Bare scalar or abstract-cover surrogates do not
-  state this endpoint. The complex orbit comparison also needs the supplier's
-  scheme analytification functor, not a second point topology.
+Stated here, because every carrier exists at the pins: Layer 3A's locally closed reduced
+orbits, strict boundary dimension and closed-orbit existence; Layer 6's characteristic-zero
+implication from reductivity to linear reductivity (the pin proves the converse,
+`TauCeti.reductiveCommHopfAlgProperty.of_smooth_of_geometricallyConnected_of_baseChange_linearlyReductive`);
+Layer 7's conjugacy of Borel subgroups over an algebraically closed field; and the SL
+coordinate presentation of the worked examples.
+
+Not statable at the pins, hence not stated, with the missing carrier named:
+* Layers 0–1: the category of rational algebraic group representations and its comparison
+  functors with comodules. The native Hopf/points dictionary, the embedding theorem
+  (`TauCeti.AffineGroupSchemeCat.exists_isClosedImmersion_generalLinear`) and the Tannakian
+  reconstruction of the points functor are supplied, so Layer 1 states no theorem here.
+* Layers 3 and 6B: representability of homogeneous quotients. The fppf homogeneous quotient
+  sheaf of an affine group by any closed subgroup
+  (`CommHopfAlgCat.fppfHomogeneousQuotient`), its torsor structure and the coinvariant
+  subalgebra (`TauCeti.HopfIdeal.coinvariants`) exist at the pin. Layer 6B's Matsushima theorem,
+  that for reductive `G ⊃ H` over `ℂ` this sheaf is `Spec` of the coinvariants, is not stated:
+  the fppf sheaf of points of an affine scheme on the site `CommAlgCat.fppfTopology`, and the
+  comparison map from the quotient sheaf to it, are Layer 0 and Layer 3 constructions, not
+  pinned carriers.
+* Layers 4–5 and 7–8: diagonalizable groups and tori as objects, unipotent radicals, parabolic
+  and Levi subgroup functors, and the root datum extracted from a group: no carrier.
+* Layer 9: a pinned reductive group with its extracted root datum; the full-root-datum
+  Chevalley realization and its ordered PBW family (the native Kostant subring alone does not
+  specify these); signed ADE cover Lie algebras and their folded fixed algebras.
+* Layer 10: rational highest-weight modules, Weyl and induced modules, and their distribution
+  actions on the constructed group.
+* Layer 11: the regular-semisimple Lie locus, its Weyl quotient and the comparison with based
+  spectral monodromy; and 11B's finite Weyl-arrangement theorem `π₁(V_reg/W) ≃ ArtinGroup`.
+  For 11B the group side exists (`TauCeti.ArtinGroup`, `coxeterMatrixOfBase`,
+  `rootPairingBaseChange`); the missing carrier is the `W`-action on the complexified
+  root-hyperplane complement and its quotient. Bare scalar or abstract-cover surrogates do not
+  state these endpoints. The complex orbit comparison of 3A.5 needs the complex-manifold
+  charts on complex points that 3A.5 constructs, not a second point topology.
 -/
 
 open CategoryTheory MonoidalCategory CartesianMonoidalCategory AlgebraicGeometry
@@ -114,6 +136,38 @@ theorem exists_closed_orbit
     ∃ y : Points X, IsClosed (geometricOrbit G X y) := by sorry
 
 end OrbitAcceptance
+
+/-! ## Layer 6: reductive and semisimple groups -/
+
+namespace StructureAcceptance
+
+universe v
+
+/-- In characteristic zero a reductive group is linearly reductive: every finite-dimensional
+comodule over the coordinate Hopf algebra of a smooth, geometrically connected, finite-type
+affine group with trivial geometric unipotent radical is completely reducible (Milne,
+Algebraic Groups, Theorem 22.42). The converse implication is proved at the pin by
+`TauCeti.reductiveCommHopfAlgProperty.of_smooth_of_geometricallyConnected_of_baseChange_linearlyReductive`. -/
+theorem linearlyReductive_of_reductive {k : Type v} [Field k] [CharZero k]
+    (H : TauCeti.FiniteTypeCommHopfAlgCat.{v, v} k)
+    (h : TauCeti.reductiveCommHopfAlgProperty k H) :
+    TauCeti.linearlyReductiveCommHopfAlgProperty k H.obj := by
+  sorry
+
+/-! ## Layer 7: structure theory -/
+
+/-- Over an algebraically closed field (a conjunct of the Borel predicate), any two Borel
+subgroups of a finite-type affine group are conjugate by a rational point: the Hopf ideal
+of one is the conjugate of the Hopf ideal of the other (Milne, Algebraic Groups,
+Theorem 17.10). -/
+theorem exists_conjugate_eq_of_isBorelOverAlgClosed {k : Type v} [Field k]
+    (H : TauCeti.FiniteTypeCommHopfAlgCat.{v, v} k) (I J : TauCeti.HopfIdeal k H)
+    (hI : TauCeti.HopfIdeal.IsBorelOverAlgClosed k H I)
+    (hJ : TauCeti.HopfIdeal.IsBorelOverAlgClosed k H J) :
+    ∃ g : WithConv (H →ₐ[k] k), J = I.conjugate g := by
+  sorry
+
+end StructureAcceptance
 
 /-! ## Layer 9: the special linear coordinate presentation -/
 

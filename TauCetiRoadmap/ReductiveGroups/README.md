@@ -12,6 +12,19 @@ This roadmap owns the algebraic-group dictionaries, general orbit geometry, the
 structure and classification targets, and the integral, representation-theoretic
 and spectral constructions in Layers 0–11. The SL polynomial presentation concerns
 the existing determinant-kernel coordinate algebra; it introduces no second SL group.
+Layer 7a owns Lang's theorem for the `q`-Frobenius of a smooth geometrically connected
+group over a finite field and the abstract fixed-coset lifting lemma; Layer 7g owns their
+Steinberg-endomorphism extension. Layer 1 owns rational cohomology and cotensor induction
+of comodules over a flat commutative Hopf algebra. Layer 3A.5 owns the classical topology
+and complex-manifold structure on the complex points of smooth quasi-projective `ℂ`-schemes,
+by affine and projective charts and the Jacobian criterion, and the complex Lie-group
+structure on `G(ℂ)` that results; Layer 11 consumes them. ComplexComparisonPartII's
+analytification functor is compared with these charts in that roadmap and is not an input
+here. Layer 11A owns the based comparison between the fundamental
+group of the plane configuration space and the native braid group. Layer 9B owns the
+special isogenies in characteristics two and three and the three explicit toral-closure
+carriers it specifies. ReductiveGroupsPartII extends this roadmap and consumes it;
+nothing here is imported from it.
 
 Generic fpqc descent of quasi-coherent modules and sheaves belongs to
 SchemeAndStackFoundations §1.1; its §§1.5, 1.13–1.15 supply quotient sheaves,
@@ -23,8 +36,14 @@ Layer 9A specializes it to the ADE lattice and constructs the new lift action.
 The generic finite-index induction dimension formula is `TauCeti.finrank_indFDRep`;
 Layer 7c uses its complex specialization.
 
-Suggested.lean is the acceptance module. Companion target sketches are not inputs
-to it. The native affine Hopf dictionary, point functors and comodule reconstruction
+The embedding theorem and the matrix-coefficient criterion for faithfulness of a
+finite-dimensional comodule, the fppf homogeneous quotient sheaf of an affine group by a
+closed subgroup, and the implication from linear reductivity of the geometric fibre to
+reductivity are proved in the pinned Tau Ceti; they are consumed in the supplier contracts
+below and are not targets.
+
+Suggested.lean is the acceptance module: it states the headline theorems that are statable
+at the pins. The native affine Hopf dictionary, point functors and comodule reconstruction
 are supplied interfaces, as specified below.
 
 The marker `⚠` identifies a common mathematical trap, followed immediately by its correction.
@@ -108,14 +127,51 @@ prove them equivalent** rather than committing.
   `exists_finiteDimensional_subcoalgebra_mem` proves elementwise finite-subcoalgebra
   containment, and `exists_finite_subcomodule_matrixCoefficientSubalgebra_eq_top` gives a
   finite subcomodule whose coefficients generate a finite-type algebra-coalgebra over a
-  field. The remaining targets are the algebraic-group representation dictionary, the
-  group-scheme representation map and closed immersion with their full hypotheses.
+  field. The remaining Layer 1 targets are the rational-representation/comodule dictionary
+  and the Tannakian transport.
+- **Embedding theorem and faithfulness.**
+  `TauCeti/Algebra/AlgebraicGroup/Representation/Embedding.lean` proves
+  `TauCeti.Comodule.exists_coordinateBialgHom_surjective`: for a field `k` and a commutative
+  Hopf `k`-algebra `H` of finite type, in independent universes, the regular comodule has a
+  finite-dimensional subcomodule with a basis whose coordinate bialgebra map `O(GLₙ) → H` is
+  surjective; `TauCeti.Comodule.exists_isClosedImmersion_coordinateGroupSchemeHom` restates
+  this, with `k` and `H` in one universe, as a closed immersion of the represented group
+  scheme into `GLₙ`; and `TauCeti.AffineGroupSchemeCat.exists_isClosedImmersion_generalLinear`
+  gives, for an affine group scheme over `Spec k` with locally finite type structure
+  morphism, a closed immersion into `GeneralLinear.groupScheme k n` for some `n`.
+  `Representation/Faithful/Basic.lean` defines `TauCeti.Comodule.IsFaithful` (some finite
+  basis makes the coordinate group-scheme morphism a closed immersion; `k`, `H` and the
+  comodule in one universe) and proves
+  `coordinateBialgHom_surjective_iff_matrixCoefficientSubalgebra_sup_antipode_eq_top`
+  (over any commutative ring, `O(GLₙ) → H` is surjective exactly when the matrix coefficients
+  together with their antipode images generate `H`),
+  `isClosedImmersion_coordinateGroupSchemeHom_iff_of_bases` (independence of the basis) and
+  `isFaithful_iff_matrixCoefficientSubalgebra_prod_dual_eq_top` (faithfulness exactly when
+  the coefficients of `V ⊕ Vˇ` generate `H`). These are consumed; Layer 1 restates none of
+  them.
   [`TauCeti.Tannaka.pointsFunctorIsoTensorAutFunctor`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/Algebra/AlgebraicGroup/Representation/Tannaka/GroupFunctor.lean) already reconstructs the points
   functor of a commutative Hopf algebra over a field from tensor automorphisms, with
   its explicit universe lift. Layer1 transports this natural isomorphism through the
   representation/comodule and scheme/group-functor dictionaries.
 - Tau Ceti `Borel.Basic` and `Reductive.Basic` provide predicates on finite-type
-  commutative Hopf algebras. The dynamic modules provide cocharacter-defined parabolic,
+  commutative Hopf algebras. `TauCeti.reductiveCommHopfAlgProperty k H`, for
+  `H : FiniteTypeCommHopfAlgCat.{u, u} k`, means: `H` is smooth and geometrically connected,
+  and every normal Hopf ideal of the base change to an algebraic closure whose quotient is
+  geometrically connected, smooth and unipotent is the augmentation ideal.
+  `TauCeti.HopfIdeal.IsBorelOverAlgClosed k H I` means that `k` is algebraically closed and
+  `I` is minimal, in the contravariant Hopf-ideal order, among Hopf ideals whose quotient is
+  smooth, geometrically connected and geometrically solvable; `TauCeti.HopfIdeal.conjugate I g`
+  (`HopfIdeal/Conjugation.lean`) is the Hopf ideal of the conjugate `gKg⁻¹` of the subgroup
+  `K` cut out by `I` by the rational point `g : WithConv (H →ₐ[k] k)`. `Borel/Conjugation.lean`
+  proves conjugacy of Borel subgroups only under the hypothesis that every Borel subgroup
+  conjugates into a given candidate (`exists_conjugate_eq_of_isBorelOverAlgClosed`); the
+  unconditional theorem is Layer 7's target. `Reductive/LinearlyReductive.lean` proves
+  `TauCeti.reductiveCommHopfAlgProperty.of_smooth_of_geometricallyConnected_of_baseChange_linearlyReductive`:
+  a smooth, geometrically connected finite-type Hopf algebra whose base change to an algebraic
+  closure is linearly reductive (`TauCeti.linearlyReductiveCommHopfAlgProperty`, every
+  finite-dimensional comodule with carrier in the base universe is completely reducible) is
+  reductive; the characteristic-zero converse is Layer 6's target. The dynamic modules
+  provide cocharacter-defined parabolic,
   Levi, unipotent point subgroups and a pointwise Levi decomposition. Their documentation
   does not establish representability of arbitrary dynamic subfunctors or the algebraic
   intersection/transporter results below. `Frobenius.Points` and `Frobenius.FixedPoints`
@@ -155,14 +211,19 @@ assert representability of every algebraic-group quotient.
 Sections 0E–0F supply affine descent and affine Weil restriction for a finite
 locally free base morphism and an affine finitely presented source, including
 arbitrary base change. Layer 8 transports the represented unit functor through
-the affine/Hopf dictionary; it needs no Weil-restriction construction from Part II.
+the affine/Hopf dictionary; it needs no second Weil-restriction construction.
 
 ### Native quotient and isometry interfaces
 
 Use `TauCeti.CommHopfAlgCat.fppfQuotientSheaf` from
 `TauCeti/Algebra/AlgebraicGroup/Fppf/Quotient/Basic.lean` for a commutative Hopf
-algebra and a normal Hopf ideal. Its underlying sheaf is the sheafification of
-the pointwise coset presheaf; it makes no representability assertion. Use
+algebra and a normal Hopf ideal, and `CommHopfAlgCat.fppfHomogeneousQuotient` from
+`Fppf/Quotient/Homogeneous/Basic.lean` for an arbitrary closed subgroup, with its
+projection, its universal property for right-invariant maps and the torsor square of
+`Homogeneous/Torsor.lean`. Each underlying sheaf is the sheafification of
+the pointwise coset presheaf; neither makes a representability assertion.
+`TauCeti.HopfIdeal.coinvariants` (`HopfIdeal/Coinvariants/Basic.lean`) is the subalgebra of
+functions invariant under right translation by the subgroup. Use
 `TauCeti.BilinForm.isometryGroup` and `TauCeti.BilinForm.mem_isometryGroup_iff`
 from `TauCeti/LinearAlgebra/BilinearForm/Isometry.lean` for the subgroup of linear
 automorphisms preserving a bilinear form. No definiteness or ADE hypothesis is
@@ -197,7 +258,9 @@ with the hypotheses stated at each group-specific application.
   the named interfaces need them; do not introduce a parallel `AlgPoints` structure. The convolution is
   `(f * g)(a) = ∑ f(a₁) g(a₂)`, with counit identity and antipode inverse, not composition.
   `GroupLike k A` is not the points functor: group-like elements form a commutative group,
-  whereas `GLₙ(R)` can be noncommutative.
+  whereas `GLₙ(R)` can be noncommutative (Milne, Algebraic Groups (2017), §1.a and
+  Proposition 1.21, pp. 11–12). *Needs:* Tau Ceti's `WithConv` points and points functors;
+  Mathlib's convolution product.
 - **The three model interfaces.** For affine group schemes over `Spec R`, package Mathlib's
   `hopfSpec.fullyFaithful` and `essImage_hopfSpec` as the anti-equivalence between
   commutative Hopf `R`-algebras and affine group objects over `Spec R`. Keep finite-type and
@@ -218,7 +281,31 @@ with the hypotheses stated at each group-specific application.
   functors, including compatibility of points under base change. Keep geometric notions
   after extension to `k̄`. Consume SchemeAndStackFoundations §1.1 and §§1.13–1.15, ModularCurves §0E,
   and the native fppf quotient sheaf. Construct the Hopf/points descent adapters
-  and prove the group-specific representability theorems of Layer 3.
+  and prove the group-specific representability theorems of Layer 3. *Needs:* Tau Ceti's
+  base-change functors and `CommHopfAlgCat.baseChangePointsMulEquiv`; SchemeAndStackFoundations
+  §1.1, §§1.13–1.15; ModularCurves §0E; the native fppf quotient sheaves.
+
+### Examples
+
+**Checks.**
+- For `𝔾_a = Spec k[t]` with `Δ(t) = t⊗1 + 1⊗t`, two points `f, g : k[t] → R` with
+  `f(t) = a`, `g(t) = b` have convolution `(f * g)(t) = a + b`. A pointwise product of
+  algebra maps would give `ab` and is not a group law on points.
+- For `𝔾_m = Spec k[t, t⁻¹]`, `Δ(t) = t⊗t` gives `(f * g)(t) = ab`, the counit `ε(t) = 1`
+  is the identity point and the antipode `S(t) = t⁻¹` gives the inverse `a⁻¹`.
+- In `GL₂(ℤ)` the points with matrices `[[1,1],[0,1]]` and `[[1,0],[1,1]]` have products
+  `[[2,1],[1,1]]` and `[[1,1],[1,2]]` in the two orders, so the points group is not
+  commutative, whereas the group-like elements of `O(GL₂)` are the powers of `det` and
+  commute: `GroupLike` is not the points functor.
+- Under `essImage_hopfSpec`, an elliptic curve over `k` is a group object over `Spec k`
+  that is not affine, so it is not in the essential image of `hopfSpec`; `Spec k[t]`
+  with the additive Hopf structure is, and `Γ` recovers `k[t]` with `Δ(t) = t⊗1 + 1⊗t`.
+
+### Dependencies
+
+Mathlib's affine group/Hopf dictionary and Yoneda; Tau Ceti's points functors and base
+change; SchemeAndStackFoundations §1.1, §§1.13–1.15 and ModularCurves §0E for the descent
+adapters.
 
 ## Layer 1: representations = comodules
 
@@ -234,27 +321,35 @@ with the hypotheses stated at each group-specific application.
   Use the elementwise and directed-union declarations at their exact field/module hypotheses;
   over a field the required module freeness is automatic. Reuse the finite
   coefficient-subcoalgebra API. Any stronger coefficient-ring or category-level versions
-  remain explicit new targets.
+  remain explicit new targets (Milne, Proposition 4.7 and Theorem 4.9, pp. 86–87). *Needs:*
+  Tau Ceti's finite-subcoalgebra and finite-subcomodule theorems.
 - **The dictionary and faithful representations.** Relate rational representations to
-  comodules and matrix coefficients. For an affine group scheme `G` of finite type over a
-  field `k` and a finite-dimensional representation `ρ : G → GL(V)`, faithfulness means
-  that `ρ` is a closed immersion. Prove that this is equivalent to surjectivity of
-  `ρ* : k[GL(V)] → k[G]`, hence to generation of `k[G]` by the matrix coefficients of `V`
-  together with `det(V)⁻¹`; equivalently, the coefficients of `V ⊕ Vˇ` generate `k[G]`.
-  State the exact base-ring, finite-type, and representation hypotheses for this coordinate
-  criterion. The matrix coefficients of `V` alone need not generate the coordinate algebra:
-  the standard character `𝔾_m → GL₁` is a closed immersion but its coefficient `t`
-  generates `k[t]`, not `k[t,t⁻¹]`. Equivalently, the Hopf subalgebra generated by the
-  coefficients of `V ⊕ Vˇ` is all of `k[G]`. Faithfulness is not injectivity only on
-  field-valued points. Tau Ceti proves the finite-type
-  algebra-coalgebra step producing a finite subcomodule whose coefficients generate the
-  algebra, but the group-scheme representation map and closed-immersion theorem require
-  their own statements and proofs at full hypotheses.
-- **Embedding theorem.** Prove that every affine group scheme of finite
-  type has a faithful finite-dimensional representation / closed immersion into `GLₙ`.
-  Use the finite-subcoalgebra and coefficient-generation results above as inputs, and prove
-  the remaining Hopf/group-scheme and basis-change steps; bare Noetherianity is not a
-  substitute.
+  comodules and matrix coefficients: for an affine group scheme `G` of finite type over a
+  field `k`, a finite-dimensional rational representation `ρ : G → GL(V)` is the same as a
+  finite-dimensional right `k[G]`-comodule, and `ρ` is a closed immersion exactly when
+  `ρ* : k[GL(V)] → k[G]` is surjective. Consume the supplied criterion
+  (`TauCeti.Comodule.IsFaithful` and its three characterizations in the supplier contract):
+  faithfulness is generation of `k[G]` by the matrix coefficients of `V` together with their
+  antipode images, equivalently by the coefficients of `V ⊕ Vˇ`; and consume the supplied
+  embedding theorem (`TauCeti.AffineGroupSchemeCat.exists_isClosedImmersion_generalLinear`,
+  `TauCeti.Comodule.exists_coordinateBialgHom_surjective`): every affine group scheme of
+  finite type over `k` is a closed subgroup of some `GLₙ` (Milne, Theorem 4.9 and
+  Corollary 4.10, p. 87). The only target here is the transport of these statements along the
+  rational-representation/comodule dictionary and Layer 0's scheme/Hopf equivalence, with the
+  one-universe hypothesis of the group-scheme forms made explicit. Faithfulness is not
+  injectivity on field-valued points. *Needs:* the supplied declarations above; Layer 0's
+  dictionary.
+
+  **Checks.**
+  - For the standard character of `𝔾_m`, the coefficient `t` generates `k[t]`, not
+    `k[t, t⁻¹]`; adjoining its antipode image `t⁻¹` generates `k[t, t⁻¹]`. The criterion with
+    the antipode term accepts the character as faithful; without that term it would reject it.
+  - For `μ_p` in characteristic `p`, the standard character has coefficient `t` with
+    `t⁻¹ = t^(p−1)`, so the criterion holds and `μ_p → GL₁` is a closed immersion, although
+    `μ_p(k̄) = {1}`: injectivity on geometric points is the wrong notion.
+  - For the trivial group `H = k` and the zero comodule, the empty basis gives the
+    coordinate morphism `Spec k → GL₀ = Spec k`, an isomorphism, so the zero comodule is
+    faithful; a criterion demanding a nonzero module would exclude the trivial group.
 - **Tannakian reconstruction dictionaries.** Consume native
   `TauCeti.Tannaka.pointsFunctorIsoTensorAutFunctor k H` for `[Field k]`,
   `[CommRing H]`, `[HopfAlgebra k H]` in the common universe. Preserve the actual
@@ -263,11 +358,67 @@ with the hypotheses stated at each group-specific application.
   rational-representation/comodule equivalence and Layer0's scheme/group-functor
   equivalences; construct those remaining adapters and their compatibility with the
   faithful-representation/closed-immersion maps. No second native reconstruction
-  theorem or unlifted equality of these functors is intended.
+  theorem or unlifted equality of these functors is intended (Milne, Theorem 4.14, p. 88,
+  for the generation of all representations from a faithful one). *Needs:* the native
+  reconstruction isomorphism; Layer 0's three equivalences; the comodule dictionary above.
 
-The generic cofree-resolution/rational-cohomology and cotensor-induction constructions
-are supplied by IntegralHeckeAndGaloisDeterminants0.7 on these native early comodule
-foundations. Layers6A/10B consume the exact field specialization and convention maps.
+### Examples
+
+**Checks.**
+- The regular comodule of `𝔾_a` on `k[t]` has the finite subcomodule `k + kt`, whose
+  coordinate map `O(GL₂) → k[t]` is onto: it realizes `𝔾_a` as the matrices
+  `[[1, t], [0, 1]]`. The embedding theorem's subcomodule can be taken two-dimensional.
+- For the constant group `S₃` over `k`, the two-dimensional irreducible representation is
+  faithful: its four matrix coefficients generate the six-dimensional algebra `k[S₃]`,
+  because their pairwise products are the coefficients of `V ⊗ V = 1 ⊕ sign ⊕ V`. The sign
+  character is not faithful: its coefficient algebra is the span of `1` and `sign`, of
+  dimension two, and its kernel is `A₃`.
+- Tannakian reconstruction for `𝔾_m`: the tensor automorphisms of the fibre functor on
+  graded vector spaces are the scalars `t ∈ Rˣ` acting by `t^n` in degree `n`, recovering
+  `𝔾_m(R) = Rˣ`; without the tensor compatibility one obtains an independent scalar in each
+  degree, which overshoots.
+
+### Dependencies
+
+Layer 0; Tau Ceti's comodule categories, finite-subcoalgebra theorems, embedding and
+faithfulness theorems, and Tannakian reconstruction.
+
+- **Rational cohomology and algebraic induction.** Let `R` be a commutative ring and `H` a
+  commutative Hopf `R`-algebra, flat over `R`. In the native abelian category
+  `TauCeti.ComoduleCat` of right `H`-comodules prove that there are enough injectives: embed
+  the underlying module of `M` in an injective `R`-module `I`; the composite `M → M ⊗ H → I ⊗ H`
+  of the coaction with the induced map is an injective comodule map, by flatness of `H`, into
+  the cofree comodule `I ⊗ H` (`Comodule.cofree`), which is injective by the cofree adjunction
+  `Comodule.Hom.cofreeEquiv`. Define the rational cohomology `Hⁿ(H, M)` as the `n`-th right
+  derived functor of the invariants `M ↦ M^H = {m | ρ(m) = m ⊗ 1}`, computed by the augmented
+  cofree resolution, and identify it with the cohomology of the Hochschild complex
+  `Cⁿ(H, M) = M ⊗ H^(⊗n)`, whose coface maps are the coaction of `M`, the coproduct in each
+  `H`-factor and the unit of `H` in the last position; prove `H⁰ = M^H`, the long exact
+  sequences, functoriality in `M` and in Hopf maps, and vanishing of `Hⁿ`, `n > 0`, on cofree
+  comodules. For a Hopf quotient `π : H → H'` (a closed subgroup `K ⊂ G`) define the cotensor
+  induction `Ind_K^G N` of a right `H'`-comodule `N` as the equalizer of the two maps
+  `N ⊗ H → N ⊗ H' ⊗ H` given by the coaction of `N` and by the coproduct of `H` followed by `π`
+  on the middle factor, with the `H`-comodule structure on the right factor; prove Frobenius
+  reciprocity `Hom_G(M, Ind_K^G N) ≃ Hom_K(M|_K, N)`, that `Ind_K^G` is right adjoint to
+  restriction and preserves injectives, and `Ind_1^G N = N ⊗ H`. Over a field `k` identify
+  `Ind_K^G N` with the regular maps `f : G → N` with `f(gk) = k⁻¹·f(g)`, acted on by left
+  translation `(a·f)(g) = f(a⁻¹g)`; this is the convention of Layer 10B. (Jantzen,
+  Representations of Algebraic Groups, 2nd ed., I.3.3–I.3.4, I.3.9 and I.4.2, I.4.14–I.4.16.)
+  Layers 6A and 10B consume these at their field specializations. *Needs:* the native
+  abelian comodule category, cofree comodules and the cofree adjunction; Layer 0's Hopf maps.
+
+  **Checks.**
+  - For the trivial group `H = R`, every comodule is trivial, `Ind` is the identity, `H⁰ = M`
+    and `Hⁿ = 0` for `n > 0`.
+  - For `𝔾_a` over a field with the trivial module `k`, a Hochschild 1-cocycle is an additive
+    polynomial `c(t + s) = c(t) + c(s)`, and there are no nonzero coboundaries, so
+    `H¹(𝔾_a, k)` is `k·t` in characteristic zero and infinite-dimensional in characteristic
+    `p`, spanned by the `t^(pⁱ)`. For `𝔾_m` all comodules are sums of characters and
+    `Hⁿ(𝔾_m, M) = 0` for `n > 0`.
+  - `Ind_B^(SL₂) k = k`: the functions on `SL₂` constant on right `B`-cosets are the regular
+    functions on `ℙ¹`, which are constant; this is `∇(0)` of Layer 10B. A definition with the
+    coaction on the wrong factor would return `k[SL₂]^B` with the left action, which is the
+    same algebra `k` here but differs on nontrivial `N`.
 
 ## Layer 2: Lie algebra and the adjoint representation
 
@@ -303,24 +454,67 @@ and tangent dimensions, not for constructing the tangent Lie algebra.
 
 ## Layer 3: subgroups, quotients, components
 - **Hopf ideals ↔ closed subgroup schemes:** an ideal `I` with `Δ(I) ⊆ I⊗A + A⊗I`,
-  `ε(I)=0`, `S(I) ⊆ I`; the quotient Hopf algebra `A/I`; the anti-equivalence; kernels.
+  `ε(I)=0`, `S(I) ⊆ I`; the quotient Hopf algebra `A/I`; the anti-equivalence between
+  closed subgroup schemes of `Spec A` and Hopf ideals of `A`, with the kernel of a Hopf
+  homomorphism a Hopf ideal (Milne, Definition 3.10, Propositions 3.11 and 3.15,
+  pp. 67–68); kernels of group homomorphisms as fibres over the identity. Prove that a
+  homomorphism of affine group schemes of finite type over a field is a monomorphism exactly
+  when it is a closed immersion (Milne, Theorem 5.34, p. 107).
   Identify the Lie algebra of the scheme-theoretic kernel of a group homomorphism
   with the kernel of its differential, without assuming smoothness of the kernel
-  (Milne, 10.14, p. 190). *Needs:* Layer 2's tangent comparison; the quotient Hopf
-  algebra and scheme-kernel construction in this section. For Frobenius on 𝔾_a
-  in characteristic p the kernel α_p has tangent space k, matching the kernel
+  (Milne, 10.14, p. 190). *Needs:* Layer 0's dictionary; Layer 2's tangent comparison; the
+  quotient Hopf algebra and scheme-kernel construction in this section. For Frobenius on
+  𝔾_a in characteristic p the kernel α_p has tangent space k, matching the kernel
   of the zero differential, while its geometric dimension is 0.
 - **Normality and quotients:** normal = Hopf ideal stable under the adjoint coaction
   (needs the conjugation/adjoint morphism at Hopf level). The quotient `G/H` is first the
-  **fppf sheaf quotient**; whether it is represented by a scheme (and when by an *affine*
-  one, e.g. `H` reductive, by Matsushima) is a **theorem with hypotheses**, not automatic.
-  Then short exact sequences.
-- **Identity component `G°` and component group `π₀(G)`:** geometric connectedness
-  (`A ⊗ k̄` has no nontrivial idempotents, *stronger* than over `k`). Under smoothness
-  (and over a perfect field, or suitable hypotheses) `π₀(G)` is finite étale.
+  native **fppf sheaf quotient** (`CommHopfAlgCat.fppfHomogeneousQuotient` for any closed
+  `H`, `TauCeti.CommHopfAlgCat.fppfQuotientSheaf` for normal `H`); whether it is represented
+  by a scheme (and when by an *affine* one, e.g. `H` reductive, by Matsushima in Layer 6B)
+  is a **theorem with hypotheses**, not automatic. Prove that every normal closed subgroup
+  of an affine group scheme of finite type over a field is the kernel of a quotient map to
+  an affine group scheme, that the quotient sheaf is then represented by it, and the short
+  exact sequences and isomorphism theorems this gives (Milne, Theorem 5.14 and
+  Proposition 5.18, pp. 102–103). *Needs:* the native fppf quotient sheaves; Layer 1's
+  faithful representations (the quotient is constructed inside a representation);
+  SchemeAndStackFoundations §§1.13–1.15 for torsors.
+- **Identity component `G°` and component group `π₀(G)`:** `G°` is the connected
+  component of the identity; it is a closed normal subgroup scheme, its formation commutes
+  with extension of the base field, and it is geometrically connected (Milne,
+  Proposition 1.34, p. 16). For a group scheme over a field, connected and geometrically
+  connected therefore agree, because of the rational point `e`; the distinction between
+  `k` and `k̄` survives in `π₀(G) = G/G°`, whose `k`-points need not exhaust its geometric
+  points. `π₀(G)` is a finite étale group scheme and `G°` is the unique connected normal
+  subgroup with étale quotient (Milne, Proposition 5.58, p. 114); no smoothness or
+  perfectness hypothesis is needed for this. *Needs:* Layer 0's dictionary; the quotient
+  construction above; Mathlib's connected components and idempotents.
   ⚠ Reserve the term **connected–étale sequence** for *finite* group schemes; here use
   "identity component and component group", and "connected" always means the geometric
   notion.
+
+### Examples
+
+**Checks.**
+- In `k[t, t⁻¹]` the ideal `(tⁿ − 1)` is a Hopf ideal: `Δ(tⁿ − 1) = (tⁿ − 1)⊗tⁿ +
+  1⊗(tⁿ − 1)`, `ε(tⁿ − 1) = 0` and `S(tⁿ − 1) = −t⁻ⁿ(tⁿ − 1)`; it cuts out `μ_n`. Over `ℚ`
+  the ideal `(t − 2)` has `ε(t − 2) = −1 ≠ 0` and is not a Hopf ideal: the point `2` is not
+  a subgroup.
+- In `GL₂` the Hopf ideal of the upper-triangular Borel is not stable under the adjoint
+  coaction: conjugation by `[[0,1],[1,0]]` carries it to the lower-triangular Borel. The
+  ideal `(det − 1)` of `SL₂` is stable, since `det` is a conjugation invariant.
+- `𝔾_m → 𝔾_m`, `t ↦ t²`, has kernel `μ₂` and the represented quotient `𝔾_m/μ₂ ≅ 𝔾_m`;
+  the point `2 ∈ ℚˣ` of the quotient lifts over `ℚ(√2)` but not over `ℚ`, so the quotient
+  sheaf is not the pointwise quotient of points.
+- `μ₃` over `ℚ` has two connected components over `ℚ` (`t = 1` and `t² + t + 1 = 0`) but
+  three geometric points; `μ₃° = Spec ℚ` and `π₀(μ₃)` is the étale group `μ₃` itself, with
+  one `ℚ`-point and three `ℚ̄`-points. Over `ℝ`, `SO₂` (the circle `x² + y² = 1`) is
+  connected and geometrically connected (it becomes `𝔾_m` over `ℂ`), while
+  `Spec ℝ[x]/(x² + 1)` is connected but not geometrically connected and has no `ℝ`-point,
+  so it is not a group scheme over `ℝ`.
+
+### Dependencies
+
+Layers 0–2; the native fppf quotient sheaves; SchemeAndStackFoundations §§1.13–1.15.
 
 ## Layer 3A: algebraic actions, orbit boundaries and projective closed orbits
 
@@ -445,24 +639,39 @@ the projective-morphism properness theorem to projective X. Consume native
 `IsProper (Proj.toSpecZero 𝒜)` at its `Algebra.FiniteType (𝒜 0) A`
 hypothesis and transport through the actual projective-space/closed-immersion
 maps. Over ℂ,
-consume ComplexComparisonPartII C−1.1's actual `.complexPoints`,
-`.closedSubspace`, `.proper`, `.separatedHausdorff` and `.smooth`
-interfaces, not a proper-GAGA theorem or an invented analytification
-functor. Prove the point-map, subspace-topology and properness comparison
-at these finite-type hypotheses. A proper scheme over ℂ has compact
-Hausdorff complex points; the closed orbit therefore has compact complex
-points. To obtain its complex manifold, prove that the reduced orbit
+construct the classical topology and the complex-manifold structure on the
+complex points of the smooth quasi-projective ℂ-schemes used in this roadmap,
+without a general analytification functor: for a closed subscheme of 𝔸ⁿ_ℂ give
+X(ℂ) ⊂ ℂⁿ the subspace topology; for a closed subscheme of ℙⁿ_ℂ glue the
+affine charts; prove the topology independent of the embedding, Hausdorff,
+compact for closed subschemes of ℙⁿ, and functorial, every scheme morphism
+being continuous and polynomial in charts. At a point of a smooth closed
+subscheme the Jacobian of local generators has full rank, so the holomorphic
+implicit function theorem (Mathlib's `ContDiffAt.to_localInverse` at order `ω`,
+or Tau Ceti's `AnalyticAt.exists_openPartialHomeomorph`) gives complex-manifold
+charts in which morphisms between smooth schemes are holomorphic. A projective
+scheme over ℂ has compact Hausdorff complex points; the closed orbit in a
+projective X therefore has compact complex points. ComplexComparisonPartII's
+analytification functor restricts to these charts on quasi-projective schemes;
+that comparison is its, and no proper-GAGA theorem is used here. To obtain the
+orbit's complex manifold, prove that the reduced orbit
 model is smooth: over the perfect field ℂ its nonempty smooth locus
 meets each component, and translations spread it to the whole orbit.
 Consume native `Scheme.Hom.dense_smoothLocus_of_perfectField` and its
 open smooth locus, restricting to the reduced component loci as needed.
-Construct the corresponding charts and compare with the existing
-finite-dimensional LieGroups closed-stabilizer/local-constant-rank
-quotient construction. Pin H=Stab_G(x), the actual map G(ℂ)→O_x(ℂ)
-and its fibres. Consume SmoothBundlesConnections B1.1/1.4 and its
-independent LieGroupoidsPoisson G0.1 regular-fibre-product prerequisite,
-as specified by LieGroups Layer6's early homogeneous-space floor; no
-torus, conjugacy or Weyl theorem is needed. Prove the complex orbit map
+Construct the corresponding charts. Apply the same construction to
+`G` itself, a smooth closed subscheme of some `GLₙ` by Layer 1: `G(ℂ)` is a
+complex manifold, and multiplication, unit and inverse are holomorphic because
+they are polynomial, so `G(ℂ)` is a complex Lie group whose Lie algebra is
+identified with Layer 2's tangent Lie algebra by the chart at the identity. This
+complex Lie-group dictionary is owned here and consumed by Layer 11. Compare it
+with LieGroups Layer 2's closed-subgroup theorem for the stabilizer `H(ℂ)`,
+which is closed in `G(ℂ)`. Pin H=Stab_G(x), the actual map G(ℂ)→O_x(ℂ) and its
+fibres. Consume SmoothBundlesConnections B1.0 for regular fibres and fibre
+products of submersions and Mathlib's submersion normal form, and
+SmoothBundlesConnections B1.1/B1.4 for the principal-bundle and
+homogeneous-space quotient; no constant-rank theorem beyond the submersion case,
+and no torus, conjugacy or Weyl theorem, is needed. Prove the complex orbit map
 is a holomorphic submersion using characteristic-zero separability:
 prove the generic maximal-rank statement from the actual function-field
 extension and Jacobian criterion, then spread the smooth/rank locus by
@@ -526,61 +735,218 @@ without the actual stabilizer/separability hypotheses.
 
 The generic algebraic construction belongs here. SchemeAndStackFoundations
 retains generic constructibility/dimension/projective/coherent geometry,
-ComplexComparisonPartII retains generic analytification and properness,
-and LieGroups retains finite-dimensional analytic quotient/manifold theory.
+ComplexComparisonPartII owns the general analytification functor with its
+ringed structure, of which the quasi-projective charts above are a comparison
+case, and LieGroups retains finite-dimensional analytic quotient/manifold theory.
 NilpotentOrbits' adjoint orbit and SchubertGeometry's highest-line/flag
 comparison consume or compare with this earlier phase without becoming
-its prerequisites. Nonexhaustive native target forms are in
-`OrbitGeometryTargets.lean`, which imports `Suggested.lean`; no reverse
-import is needed.
+its prerequisites.
+
+### Examples
+
+**Checks.**
+- `𝔾_m` acting on `𝔸¹` by scaling has the orbits `{0}` (closed, dimension 0) and
+  `𝔸¹ ∖ {0}` (dimension 1, boundary `{0}` of dimension 0 < 1); the closed orbit here is
+  the unique orbit of minimal dimension.
+- `𝔾_a` acting on `𝔸²` by `(x, y) ↦ (x + ay, y)` has the orbits `{y = c}` for `c ≠ 0`
+  (closed, dimension 1) and the points `(x, 0)` (closed, dimension 0). Every orbit is
+  closed, with empty boundary of dimension `−∞`, and closed orbits of two different
+  dimensions coexist: a closed orbit need not have the globally smallest dimension.
+- `GL₂` acting on `𝔸²` has the orbits `{0}` and `𝔸² ∖ {0}`, whose boundary `{0}` has
+  dimension 0 < 2; the induced action on `P(V*) = ℙ¹` is transitive, so its unique orbit is
+  closed, and the restriction `r : V → H⁰(ℙ¹, O(1))` is the identification of the
+  two-dimensional `V` with the sections of `O(1)`, so `r ≠ 0` with zero kernel.
+
+### Dependencies
+
+Layers 0–1 and Layer 3's group-object vocabulary; SchemeAndStackFoundations §§0.3, 0.7,
+2.6 and AlgebraicVectorBundles; SmoothBundlesConnections B1.0, B1.1, B1.4; LieGroups
+Layer 2; Mathlib's Chevalley constructibility, Jacobson and residue-field theorems,
+`topologicalKrullDim`, submersion normal form and analytic inverse function theorem.
 
 
 ## Layer 4: Jordan decomposition, diagonalizable groups, tori
-- **Jordan decomposition** of elements into semisimple and unipotent parts (geometric,
-  over `k̄`), functorial under representations.
-- **Diagonalizable groups and groups of multiplicative type:** the anti-equivalence
-  `M ↦ D(M) = Spec k[M]` between finitely generated abelian groups and diagonalizable
-  groups; `μ_n = D(ℤ/n)`, `𝔾_m = D(ℤ)`; the non-smooth example `μ_p` in characteristic `p`.
-  (*Cartier duality* proper is the duality of **finite locally free** commutative group
-  schemes, a related but distinct statement to develop separately.)
+- **Jordan decomposition.** For a locally finite automorphism `α` of a vector space over
+  a perfect field, construct the unique commuting factorization `α = α_s α_u` with `α_s`
+  semisimple and `α_u` locally unipotent (Milne, Theorem 9.17, p. 170). For an affine
+  group scheme `G` of finite type over a perfect field `k` and `g ∈ G(k)`, construct the
+  unique `g_s, g_u ∈ G(k)` with `g = g_s g_u = g_u g_s` such that `ρ(g_s) = ρ(g)_s` and
+  `ρ(g_u) = ρ(g)_u` for every finite-dimensional representation `ρ` (Milne, Theorem 9.18,
+  p. 170); prove functoriality under homomorphisms. Over an imperfect field state only the
+  geometric decomposition over `k̄`. *Needs:* Layer 1's comodule dictionary and the regular
+  representation; Mathlib's Jordan–Chevalley decomposition of a single endomorphism.
+- **Diagonalizable groups and groups of multiplicative type:** the contravariant
+  equivalence `M ↦ D(M) = Spec k[M]` between finitely generated abelian groups and
+  diagonalizable groups, with quasi-inverse the character group `X*`, exactness in both
+  directions and stability of diagonalizability under subgroups and quotients (Milne,
+  Theorems 12.8–12.9, p. 233); the equivalent conditions of Milne, Theorem 12.12, p. 234
+  (every representation is a sum of characters, equivalently `k[G]` is spanned by group-like
+  elements); `μ_n = D(ℤ/n)`, `𝔾_m = D(ℤ)`; the non-smooth example `μ_p` in characteristic `p`.
+  Groups of multiplicative type are those that become diagonalizable over `k̄`, classified
+  by finitely generated abelian groups with a continuous Galois action (Milne,
+  Theorem 12.23, p. 240). (*Cartier duality* proper is the duality of **finite locally free**
+  commutative group schemes, a related but distinct statement to develop separately.)
+  *Needs:* Layer 0's dictionary; Layer 1's comodules; Mathlib's group algebras and
+  `GroupLike`.
 - **Tori:** split and non-split; the **character lattice** `X*(T)` and **cocharacter
-  lattice** `X_*(T)` with their perfect pairing: the input to root data.
+  lattice** `X_*(T)` with their perfect pairing `⟨χ, λ⟩`, defined by `χ ∘ λ : 𝔾_m → 𝔾_m`,
+  `t ↦ t^⟨χ,λ⟩`: the input to root data. Prove that a torus is split exactly when its
+  Galois action on `X*` is trivial, and that `X*` and `X_*` are free of the same rank with
+  the pairing perfect. *Needs:* the diagonalizable-group dictionary above; Mathlib's
+  `RootPairing` vocabulary for the pairing.
+
+### Examples
+
+**Checks.**
+- In `GL₂(k)`, `k` perfect, `g = [[2,1],[0,2]]` has `g_s = 2·I` and `g_u = [[1,1/2],[0,1]]`;
+  the standard representation sees these as its own Jordan parts. Over the imperfect field
+  `k = 𝔽₂(a)`, `g = [[0,1],[a,0]]` has characteristic polynomial `x² − a = (x − √a)²`, so
+  `g_s = √a·I` exists only over `k(√a)`: the perfectness hypothesis cannot be dropped.
+- `D(ℤ) = 𝔾_m`, `D(ℤ/n) = μ_n`, and the exact sequence `0 → ℤ → ℤ → ℤ/n → 0`
+  (multiplication by `n`) corresponds to `1 → μ_n → 𝔾_m → 𝔾_m → 1` with `t ↦ tⁿ`;
+  `X*(μ_n) = ℤ/n` (the characters `tⁱ`, `i mod n`). In characteristic `p`,
+  `D(ℤ/p) = Spec k[t]/((t − 1)^p)` is nonreduced with one point; a dictionary built on
+  reduced groups would send `ℤ/p` to the trivial group and lose `X* = ℤ/p`.
+- For `𝔾_m` the pairing of the character `t ↦ tᵃ` with the cocharacter `t ↦ tᵇ` is `ab`.
+  The norm-one torus `T = {x² + y² = 1}` over `ℝ` has `T_ℂ ≅ 𝔾_m` via `x + iy`, and complex
+  conjugation acts on `X*(T) = ℤ` by `−1`, so `T` is not split; `𝔾_m` over `ℝ` has the same
+  rank with trivial Galois action.
+
+### Dependencies
+
+Layers 0–1; Mathlib's Jordan–Chevalley decomposition, group algebras and group-like
+elements; RootSystems for the pairing vocabulary.
 
 ## Layer 5: solvable and unipotent groups; the unipotent radical
-- **Unipotent groups** (correct, geometric definition): `g ∈ G(k̄)` is unipotent iff
-  `ρ_g − id` is nilpotent for **every** f.d. representation; a smooth connected group is
-  unipotent iff it embeds in the upper-triangular unipotent `Uₙ`.
+- **Unipotent groups** (correct, comodule definition): `G` is unipotent iff every nonzero
+  representation has a nonzero fixed vector, equivalently every finite-dimensional
+  representation is unipotent (Milne, 6.45, p. 135, and Proposition 14.3, p. 280). Prove the
+  equivalent conditions: `G` embeds as a closed subgroup of the upper-triangular unipotent
+  `Uₙ` for some `n`; `k[G]` is coconnected (Milne, Theorem 14.5, p. 281); and that a
+  unipotent group has a central normal series with quotients subgroups of `𝔾_a`, hence is
+  nilpotent (Milne, Proposition 14.21, p. 284). Prove stability under subgroups, quotients
+  and extensions. *Needs:* Layer 1's comodules and the embedding theorem; Layer 3's quotients.
   - ⚠ "No nontrivial characters" is **not** equivalent to unipotent (e.g. `SLₙ` has no
     nontrivial characters but is semisimple). The implication is one-way: a *connected
     unipotent* group has no nontrivial characters; the converse needs solvability.
-  - ⚠ A naïve `IsUnipotent` that tests nilpotence in the reduced ring `A` is *vacuous*
-    (only `g = 1` qualifies): the correct definition needs comodule theory (Layer 1).
-- **Lie–Kolchin**; solvable groups.
-- **The unipotent radical `R_u(G)`** (the hard core, SGA3/Borel level): the maximal
-  connected normal unipotent closed subgroup. ⚠ Over **imperfect** fields the geometric
-  unipotent radical `R_u(G_{k̄})` need *not* descend to `k`; this is exactly where
-  pseudo-reductive groups appear. **Assume `k` perfect first** (so descent is fine), or
+  - ⚠ A naïve `IsUnipotent` that tests nilpotence of `ρ(g) − id` only on geometric points
+    is wrong for nonsmooth groups: `μ_p(k̄) = {1}`, so every such test passes for `μ_p`,
+    which is not unipotent. The correct definition uses comodules (Layer 1).
+- **Lie–Kolchin and solvable groups.** A smooth connected solvable group over an
+  algebraically closed field is trigonalizable: it stabilizes a line in every nonzero
+  representation and embeds in the upper-triangular `Bₙ` (Milne, Theorem 16.30, p. 334).
+  For a smooth connected solvable `G` over a perfect field construct the largest normal
+  unipotent subgroup `G_u`, smooth and connected with `G/G_u` a torus, and over `k̄` the
+  decomposition `G = G_u ⋊ T` for a maximal torus `T` (Milne, Theorem 16.33, p. 335).
+  *Needs:* the unipotent theory above; Layer 4's tori; Layer 3's quotients.
+- **The unipotent radical `R_u(G)`** (the hard core, SGA3/Borel level): for a smooth
+  connected `G` over an algebraically closed field, the largest connected normal unipotent
+  smooth subgroup; it exists because extensions and quotients of unipotent groups are
+  unipotent (Milne, Proposition 6.42 and 6.46, pp. 134–135). ⚠ Over **imperfect** fields
+  the geometric unipotent radical `R_u(G_{k̄})` need *not* descend to `k`; this is exactly
+  where pseudo-reductive groups appear. **Assume `k` perfect first** (so descent is fine), or
   define reductivity by the geometric condition without constructing a descended subgroup;
-  distinguish the `k`-unipotent radical from the geometric one in general.
+  distinguish the `k`-unipotent radical `R_(u,k)(G)` of Layer 8 from the geometric one in
+  general. *Needs:* the unipotent theory above; Layer 3's normal subgroups and quotients;
+  Layer 0's base change.
+
+### Examples
+
+**Checks.**
+- `𝔾_a` is unipotent: in the standard representation `a ↦ [[1,a],[0,1]]`, `ρ(a) − id` is
+  nilpotent, and the coaction of `k[t]` on `k + kt` fixes `1`. `α_p = ker(Frob : 𝔾_a → 𝔾_a)`
+  in characteristic `p` is unipotent and nonsmooth. `μ_p` is not unipotent: its character
+  `t` is a group-like element different from `1`, so the one-dimensional comodule `k_t` has
+  no nonzero fixed vector, although `μ_p(k̄) = {1}`.
+- `SL₂` has no nontrivial character (its coordinate ring has no group-like elements other
+  than `1`) but `diag(2, 1/2) − id` is invertible in the standard representation over `ℚ`,
+  so `SL₂` is not unipotent: the character test is one-way.
+- Lie–Kolchin needs both hypotheses: the constant group `S₃` over `ℂ` is solvable with an
+  irreducible two-dimensional representation (not connected); `SO₂` over `ℝ` is connected
+  and commutative but rotation by `90°` has no real eigenvector (not algebraically closed).
+- Unipotent radicals: `R_u(𝔾_a ⋊ 𝔾_m) = 𝔾_a`; `R_u(SL₂) = 1`; `R_u(GLₙ) = 1` while the
+  radical `R(GLₙ) = 𝔾_m` is the centre, so the two radicals differ. For `K/k` purely
+  inseparable of degree `p`, `Res_(K/k) 𝔾_m` has geometric unipotent radical of dimension
+  `p − 1` with no `k`-form (Layer 8).
+
+### Dependencies
+
+Layers 1, 3 and 4; Milne Chapters 6, 14 and 16 as cited.
 
 ## Layer 5P: the shared polynomial-unipotent exponential and logarithm
 
 Construct this characteristic-zero helper here, from Layers2–5, before the Levi-complement machinery of6A or the ordered-root/Bruhat construction of7C. It is the single polynomial exponential/logarithm package:6A.1 consumes its commutative-unipotent/vector-layer restriction, while7C consumes its full unipotent variety and subgroup comparison. Neither application is a premise, and there is no separate duplicate exponential engine. Keep all of Layer5's arbitrary-field unipotent scope; the finite-factorial argument of this subsection is specifically characteristic zero.
 
 In characteristic zero construct the finite polynomial exp/log maps on a faithful upper-unitriangular realization of each smooth finite-type affine group with geometrically unipotent points used here, before presuming connectedness. Consume the actual faithful-comodule/upper-unitriangular embedding of Layer5 under its reducedness and algebraic-closure hypotheses, and prove the smooth/reduced and field-descent adapters rather than dropping them. For the finite-type closed subgroup schemes needed here, consume `TauCeti.smoothCommHopfAlgProperty_of_charZero` and transport its smoothness statement through the Layer 0 dictionary; transport it to the reducedness hypothesis of the faithful embedding. Do not assert that arbitrary closed subgroups of smooth groups in characteristic p are smooth. For d-by-d strict upper-triangular X and unipotent1+Z use exp(X)=sum_(0≤j<d)X^j/j! and log(1+Z)=sum_(1≤j<d)(−1)^(j+1)Z^j/j. Native [`IsNilpotent.exp`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RingTheory/Nilpotent/Exp.lean#L50) supplies the finite exponential and its functoriality; construct the finite logarithm and inverse identities, not an unrelated analytic local logarithm. Prove restriction to the actual subgroup and its Lie algebra using its defining Hopf ideal: the invariant derivation attached to a tangent vector preserves that ideal and its finite Taylor exponential preserves the subgroup; conversely log(g) is tangent to the polynomial one-parameter subgroup g^t, whose integer values are powers of g and whose equations vanish identically in characteristic zero. Prove naturality for subgroup maps, independence of the faithful realization, compatibility with algebraic field extensions, and equivariance under every automorphism, in particular conjugation by T. This identifies U+ with its actual nilpotent Lie algebra as affine varieties, not as additive groups. Apply the Hopf-ideal argument also to a smooth closed subgroup with geometrically unipotent points before its connectedness is known: the faithful upper-unitriangular native theorem requires reducedness and finite type, not an extra connectedness assumption. Thus its exp/log restrictions identify it with its actual Lie subspace without presupposing component triviality. Over C compare these polynomials with the Lie exponential and prove their analytic maps inverse; hence U+(C) is contractible and simply connected. This uses no Bruhat, Iwasawa or highest-weight classification theorem. Do not use this characteristic-zero argument for arbitrary unipotent groups in characteristic p.
+*Needs:* Layers 2–5; `TauCeti.smoothCommHopfAlgProperty_of_charZero`; Mathlib `IsNilpotent.exp`.
+
+### Examples
+
+**Checks.**
+- For `N = [[0,a],[0,0]]`, `N² = 0`, so `exp(N) = I + N` and `log(I + N) = N`; the
+  one-parameter subgroup of `u = I + E₁₂` is `u^t = I + tE₁₂`, with `log u = E₁₂`.
+- For `X = E₁₂ + E₂₃` in `3×3` matrices, `X² = E₁₃` and `exp(X) = I + X + E₁₃/2`: the
+  divided power `1/2` is needed, so the construction is characteristic zero and fails over
+  `𝔽₂`.
+- For `d = 1` the strictly upper-triangular algebra is zero and `exp(0) = 1`: the empty
+  product case of the unipotent variety is the trivial group.
+
+### Dependencies
+
+Layers 2–5; the supplied characteristic-zero smoothness theorem; Mathlib's finite
+exponential of a nilpotent element.
 
 ## Layer 6: reductive and semisimple groups
-- **Reductive:** smooth, connected, with `R_u(G_{k̄})` trivial. **Semisimple:** radical
-  `R(G)` (maximal connected normal solvable, geometric) trivial. Develop the radical,
-  the centre `Z(G)`, the derived group `G_der`, **central isogenies**, and the simply
-  connected and adjoint forms: these are not optional for the classification.
+- **Reductive:** smooth, connected, with `R_u(G_{k̄})` trivial; the native predicate is
+  `TauCeti.reductiveCommHopfAlgProperty`. **Semisimple:** radical `R(G)` (maximal connected
+  normal solvable smooth, geometric) trivial (Milne, 6.44 and 6.46, p. 135). Develop the
+  radical, the centre `Z(G)`, the derived group `G_der`, **central isogenies**, and the
+  simply connected and adjoint forms: these are not optional for the classification. Prove
+  that for reductive `G` the radical is the identity component of the centre and a torus,
+  that `G_der` is semisimple with `G = R(G)·G_der`, and that `Z(G)` is of multiplicative
+  type (Conrad, Reductive Group Schemes, Theorem 3.3.4, p. 98, over a field). *Needs:*
+  Layer 5's radicals; Layer 4's tori and multiplicative type; Layer 3's quotients.
 - **Alternative characterization, linearly reductive:** every f.d. representation is completely
-  reducible. ⚠ Reductive groups are **not** linearly reductive in characteristic `p`
-  (rational representations are generally not semisimple). State the equivalence precisely:
-  for smooth connected affine groups in **characteristic 0**, reductive ⇔ linearly
-  reductive (Maschke-flavoured; mine `Semisimple`/`Maschke`); over an algebraically closed
-  field of characteristic `p`, a **smooth connected affine** group is linearly reductive iff it is a torus.
+  reducible; the native predicates are `TauCeti.Coalgebra.IsLinearlyReductive` and
+  `TauCeti.linearlyReductiveCommHopfAlgProperty` (Milne, Definition 12.52, p. 248).
+  ⚠ Reductive groups are **not** linearly reductive in characteristic `p`
+  (rational representations are generally not semisimple). The implication from linear
+  reductivity of the geometric fibre to reductivity, for smooth geometrically connected
+  groups, is supplied by
+  `TauCeti.reductiveCommHopfAlgProperty.of_smooth_of_geometricallyConnected_of_baseChange_linearlyReductive`
+  and is not restated. The target is the converse in **characteristic 0**: a reductive
+  group is linearly reductive, so that reductive ⇔ linearly reductive for smooth connected
+  affine groups there (Milne, Theorem 22.42, p. 477; the headline signature is
+  `StructureAcceptance.linearlyReductive_of_reductive`), and its corollary that an arbitrary
+  affine group of finite type in characteristic 0 is linearly reductive iff `G°` is
+  reductive (Milne, Corollary 22.43, p. 478). Over an algebraically closed field of
+  characteristic `p`, prove that a **smooth connected affine** group is linearly reductive
+  iff it is a torus (Nagata; Milne, Proposition 12.54 and Remark 12.56, pp. 248–249).
   Provide both definitions and the char-0 equivalence so downstream work can pick either.
+  *Needs:* Layer 1's comodules; Layer 5's unipotent groups; the supplied implication; the
+  Reynolds-operator or Casimir argument for complete reducibility of semisimple Lie algebra
+  representations in characteristic zero (LieHighestWeight) for the proof route.
+
+### Examples
+
+**Checks.**
+- `GLₙ` is reductive but not semisimple: `R(GLₙ) = 𝔾_m` (the scalars) and `R_u(GLₙ) = 1`;
+  `G_der = SLₙ`, `Z(SLₙ) = μ_n`, and `SLₙ → PGLₙ` is a central isogeny with kernel `μ_n`:
+  `SLₙ` is the simply connected and `PGLₙ` the adjoint form.
+- In characteristic `p`, `SL₂` is reductive but not linearly reductive: the degree-`p`
+  binary forms `R_p` have the proper submodule spanned by `x^p` and `y^p` with no
+  complement (Layer 10C). In characteristic 0, `R_n` is simple for every `n`.
+- `𝔾_a` is neither reductive (`R_u = 𝔾_a`) nor linearly reductive (the standard
+  representation `[[1,a],[0,1]]` is indecomposable and not simple). A torus is linearly
+  reductive in every characteristic; the constant group `ℤ/p` in characteristic `p` is
+  not linearly reductive (its regular representation `k[x]/(x^p − 1) = k[u]/(u^p)` is
+  indecomposable), although its identity component is the trivial torus: the criterion
+  "`G°` a torus" is for connected groups, or needs `p ∤ |π₀(G)|`.
+
+### Dependencies
+
+Layers 1, 3, 4, 5; the supplied linear-reductivity implication; LieHighestWeight for the
+characteristic-zero complete reducibility input.
 
 ## Layer 6A: characteristic-zero Levi complements for general affine groups
 
@@ -624,14 +990,13 @@ arbitrary Lie subalgebra.
    quotients used here. Prove in particular U(k)→(U/U₁)(k) surjective.
    A regular section of varieties is not asserted a group homomorphism.
 2. **Rational algebraic cohomology and averaging.** For an affine k-group H
-   and rational H-module V consume [IntegralHeckeAndGaloisDeterminants0.7](../IntegralHeckeAndGaloisDeterminants/README.md#07-connected-reductive-invariant-evaluations)'s
-   generic rational-cohomology construction for a flat commutative coordinate Hopf
-   algebra and an arbitrary right comodule, specialized to the field k. The canonical
-   generic cofree-resolution, enough-injectives and derived-invariants API is owned
-   by that early supplier, consuming the native comodule/cofree foundations used in
-   Layer1; no later relative, spectral or arithmetic layer is an input. Preserve its
-   arbitrary-module generality. Transport its coefficient-first complex by the supplied
-   tensor permutation to `Cⁿ_alg(H,V)=k[H]^(⊗n)⊗V`, with C⁰=V and tensor unit in degree0.
+   and rational H-module V consume Layer 1's rational cohomology construction for a flat
+   commutative coordinate Hopf algebra and an arbitrary right comodule, specialized to the
+   field k; its cofree-resolution, enough-injectives and derived-invariants API consumes the
+   native comodule/cofree foundations of Layer 1, and no later relative, spectral or
+   arithmetic layer is an input. Preserve its arbitrary-module generality. Transport its
+   complex `V ⊗ k[H]^(⊗n)` by the tensor permutation to
+   `Cⁿ_alg(H,V)=k[H]^(⊗n)⊗V`, with C⁰=V and tensor unit in degree0.
    Here V^H is defined by `coact(v)=v⊗1`, not only by invariance under H(k). For
    finite-dimensional V construct the identification with regular maps Hⁿ→V; no
    complex of arbitrary functions on H(k) is substituted. With the left point action
@@ -639,12 +1004,12 @@ arbitrary Lie subalgebra.
    `dc(g₁,…,g_(n+1))=g₁·c(g₂,…,g_(n+1))`
    `+Σ_(j=1)^n(−1)^j c(g₁,…,g_j g_(j+1),…,g_(n+1))`
    `+(−1)^(n+1)c(g₁,…,g_n)`.
-   Transport the supplier's d²=0, H⁰=V^H, coefficient functoriality, connecting maps
+   Transport Layer 1's d²=0, H⁰=V^H, coefficient functoriality, connecting maps
    and derived-invariants comparisons through these exact coface/convention maps.
    Construct the normalized-subcomplex comparison and extension-of-field compatibility
    needed here. Consume the native abelian `TauCeti.ComoduleCat` for flat coordinate
    coalgebras and `Comodule.cofree`, `Comodule.Hom.cofreeUnit`,
-   `Comodule.Hom.cofreeEquiv` and `ComoduleCat.cofree`; the shared supplier constructs
+   `Comodule.Hom.cofreeEquiv` and `ComoduleCat.cofree`; Layer 1 constructs
    their categorical injectivity/cofree-resolution comparisons without requiring V
    flat, finite-dimensional or injective. This layer constructs the regular-function,
    normalization and field transports and the reductive averaging application below. For reductive Q in characteristic zero, transport Layer6's
@@ -715,6 +1080,24 @@ positive characteristic; Layer7's separate all-field parabolic theorem
 retains its hypotheses and is not replaced by this characteristic-zero lane.
 The regular extension/cohomology route is discussed in
 [McNinch §§2.2–2.3,3.1,4.1,4.3–4.5,5.1–5.2](https://arxiv.org/html/1007.2777v1).
+*Needs:* Layers 0–1 (including Layer 1's rational cohomology), 3, 5, 5P and 6; the native
+fixed-map lemmas named above.
+
+### Examples
+
+**Checks.**
+- For `𝔾_m` acting on `V = 𝔾_a` by weight one, a regular 1-cocycle `a(ts) = a(t) + t·a(s)`
+  satisfies `a(1) = 0` and `a(t) = c(t − 1)` for `c = a(t)`'s linear coefficient, which is the
+  coboundary of `v = c`: `H¹_alg(𝔾_m, V) = 0`, and the two Levi complements `T` and `uTu⁻¹`
+  of the Borel of `GL₂` are conjugate by exactly one `u ∈ U(k)`, since `C_U(T) = 1`.
+- For `G = L × 𝔾_a`, every `u ∈ U(k) = k` centralizes `L`, so all conjugators coincide on
+  the single complement and `U(k)/C_U(L)(k)` has one element: conjugators are not unique.
+- For `U = 1` the theorem returns `L = G = Q` with the trivial extension; for `Q = 1`,
+  `G = U` is unipotent and `L = 1`.
+
+### Dependencies
+
+Layers 0–1, 3, 5, 5P, 6; the native cofree and fixed-point comodule interfaces.
 
 ## Layer 6B: complex reductive coset affineness
 
@@ -728,32 +1111,109 @@ The regular extension/cohomology route is discussed in
   for every faithful closed reductive G→GL_n. This is the Matsushima construction
   owned here; FormalConnectionsOpers F6 consumes it and owns its loop-Grassmannian
   reduction-locus/ind-stage application. Keep the general quotient discussion and
-  its hypotheses, without asserting arbitrary closed-subgroup quotients affine.
+  its hypotheses, without asserting arbitrary closed-subgroup quotients affine. The quotient
+  sheaf is the native `CommHopfAlgCat.fppfHomogeneousQuotient` and the invariant algebra is
+  `TauCeti.HopfIdeal.coinvariants`; the theorem is that the former is represented by `Spec`
+  of the latter. *Needs:* Layer 6's characteristic-zero complete reducibility; Layer 3's
+  quotient sheaves and torsors; Layer 3A's closed orbits; Layer 1's faithful representations.
+
+### Examples
+
+**Checks.**
+- `GL₁/O₁ = 𝔾_m/μ₂ ≅ 𝔾_m` via `t ↦ t²`, and `ℂ[t, t⁻¹]^(±1) = ℂ[t², t⁻²]`: the quotient is
+  `Spec` of the invariants.
+- `GLₙ/Oₙ` is `Spec` of the invariants of `g ↦ gᵗg`, the affine space of nondegenerate
+  symmetric matrices; for `n = 1` this is the previous check.
+- `SL₂/N⁺` for the unipotent `N⁺` has invariant algebra `k[a, c]` but is the punctured
+  plane `𝔸² ∖ {0}`, not `Spec k[a, c] = 𝔸²` (Layer 10D): the reductivity hypothesis on the
+  subgroup cannot be dropped.
+
+### Dependencies
+
+Layers 1, 3, 3A, 6; the native homogeneous quotient sheaf and coinvariants.
 
 ## Layer 7: structure theory
-- **Borel subgroups and maximal tori**, their conjugacy, and the existence of a common
-  maximal torus in any pair of Borel subgroups in a connected reductive group. Prove the
-  Bruhat decomposition and the double-coset identification `B\G/B ≃ W` here. These
-  algebraic prerequisites are consumed by Layer 7b.
+- **Borel subgroups and maximal tori.** Over an algebraically closed field a Borel
+  subgroup is a maximal smooth connected solvable closed subgroup (Milne, Definition 17.6,
+  p. 353; natively `TauCeti.HopfIdeal.IsBorelOverAlgClosed`). Prove that any two Borel
+  subgroups are conjugate by a rational point and that `G/B` is complete (Milne,
+  Theorem 17.9, p. 354). The headline signature is
+  `StructureAcceptance.exists_conjugate_eq_of_isBorelOverAlgClosed`, stated for every
+  finite-type affine group: its Borel subgroups are those of the smooth identity component
+  of its reduction, to which the smooth connected case is applied. Prove that any two
+  maximal tori are conjugate (Milne, Theorem 17.10, p. 354) and that any two Borel
+  subgroups of a connected reductive group contain a common maximal torus. Prove the Bruhat
+  decomposition `G(k) = ⨆_{w∈W} B(k) w B(k)` and the double-coset identification `B\G/B ≃ W`
+  here (Milne, §21.h, p. 446; Theorem 21.45, p. 438, for Tits systems). These algebraic
+  prerequisites are consumed by Layer 7b. The route to conjugacy is the Borel fixed-point
+  theorem for the action of one Borel on the complete variety `G/B'` of another, built on
+  Layer 3A's closed orbits and Layer 5's Lie–Kolchin theorem. *Needs:* Layer 5's Lie–Kolchin
+  and solvable groups; Layer 3A's orbit theorems; Layer 3's quotients; Layer 4's tori; the
+  native Borel predicate and conjugation of Hopf ideals.
 - **Parabolic subgroup schemes and Levi decompositions.** For a connected smooth
   affine reductive group of finite type over a field `k`, define its parabolic
-  `k`-subgroups `P` and their Levi complements. Prove that the geometric unipotent
+  `k`-subgroups `P` as the smooth closed subgroups with `G/P` complete, and prove over `k̄`
+  that these are exactly the subgroups containing a Borel (Milne, Definition 17.15 and
+  Theorem 17.16, p. 356); define their Levi complements (Conrad–Feng, Definition H.1.1,
+  p. 238). Prove that the geometric unipotent
   radical of `P` descends to a smooth connected `k`-split normal subgroup `U`,
   and that a reductive `k`-subgroup `L` exists with `P=L⋉U`. Prove that conjugation
-  by `U(k)` acts simply transitively on the Levi `k`-subgroups of this fixed `P`.
+  by `U(k)` acts simply transitively on the Levi `k`-subgroups of this fixed `P`, and that
+  every maximal `k`-torus of `P` lies in exactly one of them (Conrad–Feng,
+  Proposition 12.3.1, p. 127).
   These targets hold over every field; they include the algebraically closed case.
   Build the cocharacter description `P=P_G(λ)`, `U=U_G(λ)`, `L=Z_G(λ)` and its
-  scheme-level comparison with the pointwise dynamic APIs. See Conrad–Feng,
-  [*Reductive Groups over Fields*, §6.3, Proposition 12.3.1 and Appendix H.1](https://math.stanford.edu/~conrad/249BW16Page/handouts/AMSalggroups2.pdf).
+  scheme-level comparison with the pointwise dynamic APIs (Conrad, Reductive Group
+  Schemes, Theorem 4.1.7, p. 112, for the representability, smoothness and multiplication
+  isomorphism of the dynamic subgroups; Conrad–Feng,
+  [*Reductive Groups over Fields*](https://math.stanford.edu/~conrad/249BW16Page/handouts/AMSalggroups2.pdf),
+  Proposition 12.3.1 and Appendix H).
   Layer 7b owns the additional finite-field intersection, transporter, and rational-point
   comparisons; its common-Levi statements take the specified `F`-stable complement as input.
+  *Needs:* the Borel theory above; Layer 5's unipotent radicals; Layer 4's cocharacters and
+  tori; Tau Ceti's dynamic point subgroups.
 - **Root datum** `(X*(T), Φ, X_*(T), Φ^∨)` of `(G, T)` with its **Weyl group**: do the
   **split** case first (split maximal torus, or work over `k̄`), consuming
-  `LinearAlgebra/RootSystem/*` and `GroupTheory/Coxeter/*`; then add the **absolute root
+  `LinearAlgebra/RootSystem/*` and `GroupTheory/Coxeter/*`; construct the roots as the
+  nonzero weights of `T` on `Lie(G)`, the rank-one subgroups `G_α` with their coroots
+  (Milne, Theorem 21.11, p. 428), and prove that `N_G(T)/T` is generated by the reflections
+  `s_α` and acts on `X*(T)` as the Weyl group of the root datum (Milne, Theorem 21.37,
+  p. 435); then add the **absolute root
   datum with Galois action** and the **relative root system** for non-split groups.
-- **Bruhat decomposition** and **BN-pairs / Tits systems**. Keep the **dynamic** approach
+  *Needs:* Layer 2's adjoint representation and Layer 4's torus weights; RootSystems
+  Layers 1–4; Mathlib's `RootPairing`.
+- **Bruhat decomposition** and **BN-pairs / Tits systems** (Milne, Theorem 21.45,
+  p. 438). Keep the **dynamic** approach
   to parabolics/Levi/unipotent radical as a route that avoids full root data,
-  useful for consumers that require only a BN-pair.
+  useful for consumers that require only a BN-pair. *Needs:* the Borel and root-datum
+  targets above; Layer 7C's ordered root coordinates for the cells.
+
+### Examples
+
+**Checks.**
+- In `SL₂` over `k̄` the Borel subgroups are the stabilizers of lines in `k̄²`. The
+  upper- and lower-triangular Borels are conjugate by `w = [[0,1],[−1,0]]`:
+  `w [[a,b],[0,d]] w⁻¹ = [[d,0],[−b,a]]`. The quotient `G/B⁺ = ℙ¹` is complete.
+- Over `ℝ`, the diagonal torus and `SO₂` are maximal tori of `SL₂` that are not conjugate
+  by any element of `SL₂(ℝ)` (one has unbounded, the other compact real points), although
+  they become conjugate over `ℂ`: conjugacy of maximal tori needs the algebraically closed
+  field.
+- `SL₂` has the two Bruhat cells `B` and `BwB = {c ≠ 0}`, matching `|W| = 2`; `GL₃` has
+  six cells and exactly four parabolic subgroups containing `B⁺` (`B⁺`, the two
+  block-triangular groups and `GL₃`), one for each subset of the two simple roots.
+- In the Borel `B = T ⋉ U` of `GL₂` the Levi complements are the conjugates `uTu⁻¹`,
+  `u ∈ U(k)`, and `uTu⁻¹ = T` only for `u = 1`: the action of `U(k)` is simply transitive,
+  and `T` is the unique Levi complement containing `T`.
+- For `(SL₂, T)` with `T = {diag(t, t⁻¹)}`, `X* = ℤe` with `e(diag(t,t⁻¹)) = t`, the root is
+  `α = 2e`, the coroot is the identity cocharacter and `⟨α, α∨⟩ = 2`; for `PGL₂` the root
+  `α` generates `X*` and `α∨` is twice a generator of `X_*`. The two root data have the
+  same Dynkin diagram `A₁` and are not isomorphic.
+
+### Dependencies
+
+Layers 2–5 and 3A; Layer 7C for the ordered coordinates of the cells; RootSystems
+Layers 1–4; Tau Ceti's Borel, reductive and dynamic interfaces; Mathlib's root pairings
+and Coxeter groups.
 
 ## Layer 7C: ordered unipotent factors and the contraction proof of Bruhat coordinates
 
@@ -781,7 +1241,7 @@ Consume Layer3A's actual orbit local-closedness and finite-dimension comparisons
 
 **7C.4 Components, the actual covering, and polynomial inverses.** H_w and J_w are closed finite-type algebraic subgroups stable under T. Their finite sets of connected components are fixed by the connected complex algebraic torus: construct the action on components, prove it continuous/algebraic into the finite discrete component set, and prove the orbit of each component is constant. Each component is closed in U+, so the contraction lemma forces it to contain1. Distinct components are disjoint, hence both subgroups are connected. The same proof applies to any closed T-stable subgroup of U+ at these hypotheses; it is not a claim about arbitrary closed subgroups of a connected Lie group.
 
-Before this topological step, provide the actual analytic connected/path-connected and locally path-connected adapters for H_w and J_w: apply Layer5P to these smooth closed subgroups and their root Lie subspaces to obtain inverse polynomial maps and their continuous analytic maps. This supplies the relevant Euclidean-space topology directly; no unproved general algebraic-to-analytic connected-component comparison is assumed. The preceding torus/component argument remains a separate proof of the source's algebraic connectedness claim. Construct the analytic homogeneous quotient of H_w×J_w by the actual closed discrete stabilizer Γ of1. Use the preceding surjective local-diffeomorphism orbit map, prove its fibres are stabilizer cosets and construct the quotient identification with U+(C). Give evenly covered neighborhoods using an identity neighborhood V with V^−1V∩Γ={1}. The connected total space is therefore a connected covering of the simply connected U+(C), so Γ is trivial. Apply native [`IsCoveringMap.existsUnique_continuousMap_lifts`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Topology/Homotopy/Lifting.lean#L477) to the identity of the base with its chosen identity lift; use [`IsCoveringMap.eq_of_comp_eq`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Topology/Covering/Basic.lean#L367) on the preconnected total space for the other inverse. The accompanying native `coveringHomeomorph` constructs precisely this comparison from the actual covering map, basepoint and stated topological hypotheses. It is not necessary to assume the total space simply connected. Inverting the J coordinate gives the multiplication isomorphism H_w×J_w→U+ as a complex manifold; interchanging H and J gives J_w×H_w as well. The independent exp/log restrictions also show the factors contractible; this is not inferred from simple connectedness of the base. Retain the algebraic alternative check: a zero-dimensional smooth unipotent subgroup is finite étale, and in characteristic zero a finite unipotent subgroup is trivial.
+Before this topological step, provide the actual analytic connected/path-connected and locally path-connected adapters for H_w and J_w: apply Layer5P to these smooth closed subgroups and their root Lie subspaces to obtain inverse polynomial maps and their continuous analytic maps. This supplies the relevant Euclidean-space topology directly; no unproved general algebraic-to-analytic connected-component comparison is assumed. The preceding torus/component argument remains a separate proof of the source's algebraic connectedness claim. Construct the analytic homogeneous quotient of H_w×J_w by the actual closed discrete stabilizer Γ of1. Use the preceding surjective local-diffeomorphism orbit map, prove its fibres are stabilizer cosets and construct the quotient identification with U+(C). Give evenly covered neighborhoods using an identity neighborhood V with V^−1V∩Γ={1}. The connected total space is therefore a connected covering of the simply connected U+(C), so Γ is trivial. Apply native [`IsCoveringMap.existsUnique_continuousMap_lifts`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Topology/Homotopy/Lifting.lean#L477) to the identity of the base with its chosen identity lift; use [`IsCoveringMap.eq_of_comp_eq`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Topology/Covering/Basic.lean#L367) on the preconnected total space for the other inverse. Construct the homeomorphism from this data as a 7C.4 target: for a covering map `p : E → X` whose base `X` is simply connected and locally path-connected, whose total space `E` is preconnected, and with a chosen lift `e₀` of a basepoint `x₀`, the unique lift of the identity through `p` sending `x₀` to `e₀` is a two-sided inverse of `p`, by the two cited Mathlib lemmas; conclude that `p` is a homeomorphism. It is not necessary to assume the total space simply connected. Inverting the J coordinate gives the multiplication isomorphism H_w×J_w→U+ as a complex manifold; interchanging H and J gives J_w×H_w as well. The independent exp/log restrictions also show the factors contractible; this is not inferred from simple connectedness of the base. Retain the algebraic alternative check: a zero-dimensional smooth unipotent subgroup is finite étale, and in characteristic zero a finite unipotent subgroup is trivial.
 
 Export regular polynomial inverses, not only analytic bijections. In characteristic zero use the positive-root-height filtration of the nilpotent Lie algebra and its finite BCH polynomial. To invert exp(X)exp(Y), at height1 split log(u) using the A_w/I_w projections; at height r subtract the BCH terms already determined at smaller heights and split the remaining height-r coefficient. Brackets strictly raise height, so the unknown height-r terms enter only as X_r+Y_r. This finite recursion gives polynomial maps with two-sided inverse and T-equivariance equations; repeat in the other order. It uses no presumed product decomposition. Over arbitrary split fields construct the corresponding ordered root-subgroup collection/inverse maps by the root-height filtration and rank-two commutator laws, with additive root-coordinate quotients and explicit parameter recovery; do not divide by factorials there. Prove the root/intersection equality, smoothness and connectedness by those actual maps at that generality. All-field group-form/base-change comparisons remain part of Layer7, not inferred from the C-covering proof.
 
@@ -791,15 +1251,36 @@ The Borel's torus quotient and unipotence eliminate its torus part; prove that c
 
 Derive existence from the early rank-one group maps and generation by B+ and the negative simple-root subgroups. The UNION of the candidate B+ n_w B+ double cosets is stable: prove the rank-one multiplication inclusion into the two neighboring indices w,s_i w, then its minimal-parabolic two-cell equality. Individual cells need not be stable under a negative simple subgroup, and s_i w=w never holds for left multiplication in W. The union contains1 and is stable under the generating subgroups, so covers G. This is a proof of the covering, not an invocation of the final Bruhat theorem. For disjointness, the coordinate orbit above has exactly one T-fixed point: conjugation on J_w and the positive cocharacter force j=1. Distinct normalizer classes have distinct points n_w B+, using N_G(T)∩B+=T. Thus the candidate orbits have unique Weyl labels. Fix one lift n_w per label; arbitrary lifts are not intrinsically unique. The unique expression g=j n_w b now follows with j∈J_w, b∈B+. Construct right/left quotient and Borel-opposition transport before applying this convention to SchubertGeometry's negative-Borel cells.
 
-Export the parabolic projection to G/P+ with its actual minimal W/W_P representatives, stabilizer/root subsets, affine coordinates and fibre maps; compare P/Q orbits with W_P\W/W_Q without treating different coset conventions as equal labels. In typeA give the actual upper-unipotent/upper-triangular reduction, block-parabolic flag and Grassmannian maps with their universal subspaces. The GL2 big-cell map is a↦u(a)n_0B+, or equivalently u(a)B−; u(a)B+ is constant. On P1 with the line model B+ stabilizing[e1], the former chart is a↦[a:1], with inverse x/y on y≠0. Keep this explicit rank-one chart and the A2 factor-order/non-normal-stabilizer regressions in the accompanying [BruhatCoordinateTargets.lean](BruhatCoordinateTargets.lean) examples. The generic flag CW/cohomology and coherent-line comparisons stay at their existing LieGroups/Schubert owners.
+Export the parabolic projection to G/P+ with its actual minimal W/W_P representatives, stabilizer/root subsets, affine coordinates and fibre maps; compare P/Q orbits with W_P\W/W_Q without treating different coset conventions as equal labels. In typeA give the actual upper-unipotent/upper-triangular reduction, block-parabolic flag and Grassmannian maps with their universal subspaces. The GL2 big-cell map is a↦u(a)n_0B+, or equivalently u(a)B−; u(a)B+ is constant. On P1 with the line model B+ stabilizing[e1], the former chart is a↦[a:1], with inverse x/y on y≠0. Keep this explicit rank-one chart and the A2 factor-order and non-normal-stabilizer regressions as Checks below. The generic flag CW/cohomology and coherent-line comparisons stay at their existing LieGroups/Schubert owners.
+*Needs:* Layers 2–5 and 5P; Layer 3A's orbit theorems; Layer 7's root subgroups and
+Borel theory; RootSystems Layers 1–4; Mathlib's covering-map lifting lemmas.
+
+### Examples
+
+**Checks.**
+- In type `A₁`, `W = {e, s}`: `H_e = U⁺`, `J_e = 1`, `H_s = 1`, `J_s = U⁺ = U_α`; the big
+  cell chart is `a ↦ u(a) n₀ B⁺`, with `u(a) B⁺` constant.
+- In type `A₂` with `w = s₁`, `H_w` has the roots `α₂` and `α₁ + α₂` and `J_w = U_(α₁)`,
+  so `|I_w| = ℓ(w) = 1`; the subgroup `H_(w₀ w)` has the root `α₂` and overlaps `H_w`,
+  so it is not the complement.
+- The rank-one identity at `a = b = 1`: `x_α(1) x_(−α)(1) = [[2,1],[1,1]]`, and
+  `x_(−α)(1/2) α∨(2) x_α(1/2) = [[1,0],[1/2,1]] · [[2,1],[0,1/2]] = [[2,1],[1,1]]`.
+- For `w = s₁s₂` in `A₂`, `A_w = {α₂}` and `H_w = U_(α₂)` is not normal in `U⁺`:
+  `x_(α₁)(1) x_(α₂)(1) x_(α₁)(−1) = x_(α₂)(1) x_(α₁+α₂)(±1) ∉ U_(α₂)`. So `U⁺/H_w` is a
+  homogeneous space and not a quotient group, and `J_w × H_w → U⁺` is a bijection of
+  varieties, not a semidirect product with `H_w` normal. For `w = s₁`, by contrast,
+  `H_(s₁) = U_(α₂)U_(α₁+α₂)` is normal with quotient `U_(α₁)`.
+
+### Dependencies
+
+Layers 2–5, 5P, 3A and 7; RootSystems Layers 1–4; Mathlib's covering-map lifting and
+uniqueness lemmas.
 
 ## Layer 7a: finite fields, Frobenius and rational points
 
-**Supplier:** ReductiveGroupsPartII RG2.3.7 owns ordinary q-Frobenius Lang surjectivity,
-its quotient/H¹ consequences, and generic fixed-coset lifting. This layer consumes
-*lang-theorem* and *fixed-coset-lifting* under their stated smoothness and geometric
-connectedness hypotheses; the finite-field fixed-group and subgroup application adapters
-below remain targets here.
+This layer owns Lang's theorem for the `q`-Frobenius, its quotient and `H¹` consequences,
+and the abstract fixed-coset lifting lemma; Layer 7g owns their extension to Steinberg
+endomorphisms. Nothing in this layer is imported from a roadmap that consumes this one.
 
 Let `q=p^f`, `k=F̄_q`, and let `G₀` be a connected reductive group scheme of finite type over
 `F_q`, with base change `G=G₀×_{F_q}k`. Define the geometric Frobenius `F` on `G` from the
@@ -818,17 +1299,37 @@ the corresponding pointwise comparison. Extend the point-functor comparison to a
 `F_q`-forms, including nonsplit forms, at the hypotheses above.
 
 Prove finiteness of `G^F` and of the rational points of named `F`-stable closed subgroup
-schemes, and functoriality on these finite groups. The ordinary q-Frobenius Lang theorem is
-owned by ReductiveGroupsPartII, RG2.3.7 *lang-theorem*: for a smooth geometrically connected
-group of finite type over `F_q` and its q-Frobenius, the map `x ↦ x⁻¹F(x)` is surjective on
-geometric points. Consume that theorem and its stated quotient, nonabelian `H¹`, and exact-sequence
-point-surjectivity consequences; do not duplicate the generic Lang proof here. For every
+schemes, and functoriality on these finite groups.
+
+**Lang's theorem.** For a smooth geometrically connected affine group scheme `G₀` of finite
+type over `F_q`, with `q`-Frobenius `F` on `G = G₀ ×_{F_q} k`, the Lang map `G(k) → G(k)`,
+`x ↦ x⁻¹F(x)`, is surjective; so is `x ↦ xF(x)⁻¹`, by composing with inversion. Route: let
+`G` act on itself by `(x, g) ↦ g⁻¹xF(g)`; an orbit of minimal dimension is closed (3A.4),
+the differential of its orbit map at the identity is `X ↦ −X` because the differential of
+`F` is zero, so the orbit has dimension `dim G` and, `G` being irreducible, is all of `G`
+(Milne, Theorem 17.96, p. 383, whose Steinberg endomorphisms include the `q`-Frobenius by
+Definition 17.95, p. 382). Derive the consequences: `H¹(F_q, G₀) = 1` for Galois cohomology
+with coefficients in `G₀(k)`; every `F`-stable `G(k)`-torsor has a fixed point; and for an
+exact sequence `1 → G' → G → G'' → 1` of smooth groups over `F_q` with `G'` geometrically
+connected, `G(F_q) → G''(F_q)` is surjective. *Needs:* 3A.4's closed orbits and 3A.5's
+orbit-map differential; Layer 2's differential; Layer 0's points comparison.
+
+**Fixed-coset lifting.** Let `H` be a group, `σ` an automorphism of `H` and `J ≤ H` a
+`σ`-stable subgroup, not necessarily normal, on which `x ↦ x⁻¹σ(x)` is surjective. Prove
+that every `σ`-stable left coset `hJ` (one with `σ(h) ∈ hJ`) contains a `σ`-fixed element,
+and that `H^σ/J^σ → (H/J)^σ` is a bijection: if `σ(h) = hj`, choose `x ∈ J` with
+`j = xσ(x)⁻¹`, so that `σ(hx) = hx`; and if `h, h' ∈ H^σ` with `h' = hj` then `σ(j) = j`.
+Apply this with `H = G(k)`, `σ = F` and `J = P(k)` for every `F`-stable closed subgroup
+`P` to which Lang's theorem applies. For every
 F-stable closed subgroup used by this layer, prove the application adapter: finite type,
 smoothness, geometric connectedness, and compatibility of its restricted Frobenius with the
-q-Frobenius structure required by RG2.3.7. Establish these hypotheses separately for each
+q-Frobenius structure. Establish these hypotheses separately for each
 parabolic, unipotent radical, or connected centralizer to which the theorem is applied. Smoothness
-is retained as an explicit supplier hypothesis and a convenient adapter condition; this makes no
-claim that point-level Lang fails for nonsmooth connected groups. Consume
+is retained as an explicit hypothesis and a convenient adapter condition; this makes no
+claim that point-level Lang fails for nonsmooth connected groups. *Needs:* Lang's theorem
+above; Layer 3's closed subgroups; Layer 7's parabolics and Levis for the applications.
+
+Consume
 `FiniteTypeCommHopfAlgCat.baseChangePointsMulEquiv` for the comparison
 `G₀×_{F_q}k`-points `≃ Hom_{F_q}(O(G₀),k)` when `k/F_q` is a field extension.
 Identify `G₀(F_q)` with `Hom_{F_q}(O(G₀),F_q)` by the points functor. The `q`-power
@@ -843,11 +1344,19 @@ point map with this construction.
 - For the disconnected constant C₂, Frobenius is the identity and every
   Lang value is 1; the other element is missed.
 - The trivial group has one Lang value, 1, and its unique coset has a fixed lift.
+- Fixed-coset lifting needs its hypothesis: in `H = F̄_qˣ` with `σ` the `q`-power map,
+  `q` odd, and `J = {±1}`, the Lang map of `J` is `x ↦ x^(q−1) = 1` and misses `−1`; the
+  coset `{a, −a}` with `a^(q−1) = −1` (so `a ∈ F_(q²) ∖ F_q`) is `σ`-stable, since
+  `σ(a) = −a`, and contains no `σ`-fixed element. With `J = H` the hypothesis holds by
+  Lang's theorem for `𝔾_m` and the unique coset is `H`.
+- For `G = SL₂` over `F_q`, `|G^F| = q(q² − 1)`, finite; the Borel `B⁺` is `F`-stable with
+  `B⁺(F_q)` of order `q(q − 1)`, and `(G/B⁺)^F = ℙ¹(F_q)` has `q + 1` points, equal to
+  `|G^F|/|B⁺(F_q)|`, as fixed-coset lifting predicts.
 
 ### Dependencies
 
-The ordinary Lang and fixed-coset contract above; Layers 0 and 3 for the
-point comparison and subgroup hypotheses; Layer 7 for the reductive examples.
+Layers 0 and 3 for the point comparison and subgroup hypotheses; Layer 2 and Layer 3A for
+the proof of Lang's theorem; Layer 7 for the reductive examples.
 
 ## Layer 7b: algebraic parabolics and Levi intersections
 
@@ -895,7 +1404,29 @@ interfaces. State the exact map and its inverse on representatives.
 For an `F`-stable Levi decomposition `P=L⋉U`, prove the scheme-to-point comparison and
 Frobenius compatibility give `P^F=L^F⋉U^F`, with unique coordinates and projection
 `P^F →* L^F`. This uses Layer 7a's rational-point groups and the algebraic decomposition
-and compatibility proved in this layer.
+and compatibility proved in this layer. (Dudas–Michel, Propositions 8.7 and 8.9, pp. 31–32.)
+*Needs:* Layer 7's parabolics, Levis and Bruhat decomposition; Layer 7a's rational points;
+Tau Ceti's dynamic point subgroups.
+
+### Examples
+
+**Checks.**
+- In `GL₃` let `P` stabilize `⟨e₁⟩` and `Q` stabilize `⟨e₂, e₃⟩`, with common Levi
+  `L = M = diag(GL₁, GL₂)` containing the diagonal torus. Then `P ∩ Q = L`, the three
+  unipotent factors `L∩V`, `M∩U`, `U∩V` are trivial, and `(P∩Q)·U = P` is parabolic with
+  Levi `L`.
+- For `P = Q = B`, the formula gives `P ∩ Q = T ⋉ U` with `L∩M = T` and `U∩V = U`; for
+  opposite Borels `P = B⁺`, `Q = B⁻` sharing `T`, `P ∩ Q = T` and all unipotent factors are
+  trivial.
+- In `GL₂`, `P = B⁺` with Levi `L = T` and `Q = uB⁻u⁻¹` with Levi `M = uTu⁻¹`, for
+  `u = [[1,1],[0,1]]`: `L ∩ M` is the centre, which contains no maximal torus, so the
+  common-torus hypothesis fails; and indeed `P ∩ Q` is the stabilizer of the lines `⟨e₁⟩`
+  and `u⟨e₂⟩ = ⟨e₁ + e₂⟩`, the two-dimensional torus `M` itself, whereas the right side of
+  the factorization, `(L∩M) ⋉ 1`, is one-dimensional: the hypothesis cannot be dropped.
+
+### Dependencies
+
+Layers 7 and 7a; Dudas–Michel §8.
 
 ## Layer 7c: Harish–Chandra functors and biadjunctions
 
@@ -944,6 +1475,24 @@ formula is subgroup index times the dimension of M, by
 `TauCeti.finrank_indFDRep`. For S₃ and its order-two subgroup with the trivial
 one-dimensional module, the dimensions are 3=3·1. For nontrivial `M`, a coset-function presentation of induction must use the section
 cocycle; the coset permutation action itself carries only the trivial module.
+(Dudas–Michel, Propositions 7.5 and 7.7, p. 25.) *Needs:* Layers 7a–7b; Mathlib's
+`Rep.ind` adjunctions; Tau Ceti's `indFDRep` and `finrank_indFDRep`.
+
+### Examples
+
+**Checks.**
+- For `GL₂(F_q)` with `P = B`, `L = T`, Harish–Chandra induction of the trivial `T^F`-module
+  is the permutation module on `G^F/B^F`, of dimension `q + 1`; Harish–Chandra restriction of
+  the trivial `G^F`-module is the trivial one-dimensional `T^F`-module.
+- `|U^F| = q` for the Borel of `GL₂`, so `Λ = ℤ[1/p]` carries the idempotent
+  `e_U = q⁻¹ Σ_u u`; over `Λ = F_p` it does not exist, and the invariants/coinvariants
+  comparison fails: `p ∈ Λˣ` cannot be dropped.
+- For `L = G`, `U = 1`, both functors are the identity and the biadjunction is trivial.
+
+### Dependencies
+
+Layers 7a–7b; Mathlib's induction and coinduction adjunctions; Tau Ceti's finite-dimensional
+induction.
 
 ## Layer 7d: rational transport and the specialized Mackey theorem
 
@@ -957,12 +1506,12 @@ bijection
 
     L^F\S(L,M)^F/M^F ≃ P^F\G^F/Q^F.
 
-The rational proof consumes ReductiveGroupsPartII RG2.3.7 *lang-theorem* and
-*fixed-coset-lifting*, after Layer 7a/7b establish their exact finite-type, smooth,
+The rational proof consumes Layer 7a's Lang theorem and fixed-coset lifting, after Layers
+7a/7b establish their exact finite-type, smooth,
 geometrically-connected, F-stable subgroup and restricted-Frobenius hypotheses. It also uses
 the fixed-point/orbit and component-group lemmas of this layer, and connectedness of the actual
 stabilizers `P∩xQx⁻¹` and `L∩xMx⁻¹`. Prove both smoothness and geometric connectedness of
-each stabilizer, as required by the supplier Lang adapter; do not infer either property from
+each stabilizer, as required by Layer 7a's Lang adapter; do not infer either property from
 equality of point groups. Consume Layer 7b's intersection and restricted-Frobenius facts.
 
 Use the source permutation-bimodule route for the parabolic Mackey theorem. Reuse Layer 7c's
@@ -999,6 +1548,23 @@ isomorphism
 where `[x]` ranges over `L^F\S(L,M)^F/M^F`. The intermediate functors use the finite-point
 parabolic, Levi, and unipotent-radical intersections from Layer 7b. Prove naturality and
 compatibility with the pinned conjugation convention. This supplies parabolic Mackey from explicit bisets.
+(Dudas–Michel, Theorem 9.6, p. 37, and Lemmas 9.9–9.11, pp. 38–39.) *Needs:* Layers 7a–7c.
+
+### Examples
+
+**Checks.**
+- In `GL₂` with `L = M = T` and `P = Q = B`, `S(T, T) = N_G(T)`, so `L\S(L,M)/M = W`
+  has two elements, as does `B\G/B`; the rational version matches `B^F\G^F/B^F`, which has
+  the two orbits `{B^F}` and its complement in the `q + 1` points of `G^F/B^F`.
+- For `u = [[1,1],[0,1]]`, `T ∩ uTu⁻¹` is the centre of `GL₂`, which contains no maximal
+  torus, so `u ∉ S(T, T)` and contributes no Mackey term.
+- Mackey for `L = M = T` in `GL₂` gives `*R ∘ R(θ) ≅ θ ⊕ θ^w`, of dimension two: the
+  `U^F`-invariants of the `(q + 1)`-dimensional principal series are two-dimensional,
+  one for each Bruhat cell.
+
+### Dependencies
+
+Layers 7a–7c; Dudas–Michel §9.
 
 ## Layer 7e: common-Levi independence
 
@@ -1058,6 +1624,24 @@ For an `L`-module `V`, define `ad_g(V)` as the `M`-module with action
 `*R^G_{L⊂P} ≅ ad_g⁻¹ ∘ *R^G_{M⊂gPg⁻¹}` before applying common-Levi independence. Geometric conjugacy alone or conjugacy of the finite Levi point subgroups does
 not supply this rational witness. Keep the `G`-split hypothesis explicit: an `F`-stable
 Levi need not be a Levi complement of an `F`-stable parabolic.
+(Dudas–Michel, Theorem 10.1, p. 41; Howlett–Lehrer; Dipper–Du.) *Needs:* Layers 7a–7d.
+
+### Examples
+
+**Checks.**
+- For `L = G` both functors are the identity and the isomorphisms are identities.
+- In `GL₃` with `P`, `Q` the stabilizers of a line and of a plane and common Levi
+  `diag(GL₁, GL₂)`, the two permutation modules have the same dimension `q² + q + 1`
+  (points and lines of `ℙ²(F_q)`), consistent with the theorem; `P^F` and `Q^F` are not
+  conjugate in `G^F` (the worked example below), so the isomorphism is not induced by a
+  conjugation.
+- In `GL₂`, the two Borels `B⁺`, `B⁻` containing `T` are conjugate by the Weyl element
+  `w ∈ G^F`, so there the common-Levi isomorphism is the conjugation isomorphism; a proof
+  that only used conjugacy of `P` and `Q` would stop at `GL₂` and fail for `GL₃`.
+
+### Dependencies
+
+Layers 7a–7d.
 
 ## Layer 7f: trivial-module specialization and Gassmann interface
 
@@ -1085,6 +1669,23 @@ For finite `G`, subgroup `H≤G`, and `g∈G`, use `Nat.card` for natural cardin
           * Nat.card {x : G // x ∈ (ConjClasses.mk g).carrier ∧ x ∈ H}.
 
 It counts representatives of fixed cosets mapping to each element of the class intersection.
+*Needs:* Layers 7c and 7e; Tau Ceti's `indTrivialEquiv` and `indTrivialIso`;
+InductionRestriction Layer 2.1.
+
+### Examples
+
+**Checks.**
+- For `S₃`, `H = ⟨(12)⟩` and `g = (12)`: `g` fixes exactly one of the three cosets of `H`
+  (it swaps `(13)H` and `(23)H`), so the left side is `1 · 2 = 2`; the right side is
+  `|C_G(g)| · |g^G ∩ H| = 2 · 1 = 2`.
+- For `g = 1` the identity reads `|G/H| · |H| = |G| · 1`.
+- `GL₃(F_2)`, of order `168`, has the two index-seven subgroups `P^F` and `Q^F` of the
+  worked example, of order `24` each; they are not conjugate but have the same permutation
+  character, the classical smallest instance of nonconjugate almost-conjugate subgroups.
+
+### Dependencies
+
+Layers 7c and 7e; InductionRestriction Layer 2.1.
 
 ## Layer 7g: Steinberg endomorphisms and extension of Layers 7a–7f
 
@@ -1095,10 +1696,10 @@ characteristic, finite-type, smoothness, and connectedness assumptions; include 
 automorphism twists and special isogenies only when this power condition is proved. Prove point
 and algebraic compatibility needed to construct the finite group `G^σ`. For each stable closed
 subgroup `H`, specify the restricted endomorphism `σ|_H` and verify that its positive power is
-the restricted geometric Frobenius from the induced `F_{q′}`-structure. The ordinary q-Frobenius
-Lang statement in ReductiveGroupsPartII RG2.3.7 is a supplier only for its stated
-standard-Frobenius case; the Steinberg Lang–Steinberg theorem and its restricted-subgroup
-applications are new targets here.
+the restricted geometric Frobenius from the induced `F_{q′}`-structure. Layer 7a's Lang theorem
+covers only the `q`-Frobenius; the Lang–Steinberg theorem for every Steinberg endomorphism
+(Milne, Definition 17.95 and Theorem 17.96, pp. 382–383) and its restricted-subgroup
+applications are targets here.
 
 Extend each finite-field interface from Layers 7a–7f to this exact regime: finiteness and
 functoriality of `G^σ` and `H^σ`; Lang–Steinberg surjectivity for every connected smooth affine
@@ -1112,7 +1713,23 @@ power-Frobenius hypothesis visible. No 7a–7f output is treated as a split-only
 Steinberg extension is needed.
 
 Layer 9's pinned Chevalley–Demazure groups supply explicit inputs, but do not by themselves
-discharge the Steinberg fixed-point and representation-theory targets.
+discharge the Steinberg fixed-point and representation-theory targets. *Needs:* Layers 7a–7f;
+Layer 9's pinned groups and special isogenies.
+
+### Examples
+
+**Checks.**
+- For `Sp₄` in characteristic two with `τ² = Frob₂`, the endomorphism `σ = τ^(2m+1)`
+  satisfies `σ² = Frob_(2^(2m+1))`, so it is a Steinberg endomorphism and `G^σ` is finite.
+- For `SL₃` the composite of the graph automorphism with `Frob_q` squares to `Frob_(q²)`
+  and has fixed group `SU₃(q)`.
+- The identity endomorphism is not a Steinberg endomorphism: no power of it is a Frobenius,
+  and its fixed group `G(F̄_p)` is infinite; conjugation by a rational point has finite
+  order and fails for the same reason.
+
+### Dependencies
+
+Layers 7a–7f and 9.
 
 #### Worked example: GL3 over every finite field
 
@@ -1142,10 +1759,15 @@ replace it.
   “Bemerkungen zur vorstehenden Arbeit von Hurwitz,” *Math. Z.* 25 (1926), 665–675.
 
 ## Layer 8: classification and existence
-- The **isomorphism** and **existence theorems**: split reductive groups ↔ root data;
+- The **isomorphism** and **existence theorems**: split reductive groups ↔ root data
+  (Conrad, Reductive Group Schemes, Theorems 6.1.16–6.1.17, pp. 196–197, over any
+  non-empty base; Milne, Theorem 23.25, p. 492, for the isogeny theorem over a field);
   classification of split semisimple groups up to central isogeny by Dynkin diagrams,
-  and of split simply connected or adjoint semisimple groups up to isomorphism;
-  central isogenies and the isogeny theorem; Chevalley existence.
+  and of split simply connected or adjoint semisimple groups up to isomorphism (Milne,
+  Theorem 23.58, p. 501); central isogenies and the isogeny theorem; Chevalley existence,
+  realized by Layer 9's construction over `ℤ` (Milne, Theorem 23.74, p. 511). *Needs:*
+  Layer 7's root data and pinnings; Layer 4's diagonalizable groups for the central
+  kernels; Layer 9's split models; RootSystems Layers 5–6 for the Dynkin classification.
 - **Relative reductive groups over an affine Noetherian base.** For `S=Spec R`, `R`
   any commutative Noetherian ring, a reductive S-group means a smooth affine group scheme
   of finite presentation with connected reductive geometric fibers; semisimple means all
@@ -1182,6 +1804,12 @@ replace it.
   compatibility with the specified group automorphism and Isom sheaves here. This classifies forms with that specified split type; it asserts
   no chosen global splitting or Borel on every base. Include a nonsplit real torus and
   SL₂ versus PGL₂ as tests of the Galois/root-datum and global-form distinctions.
+  (Conrad, Reductive Group Schemes, Definition 3.1.1, p. 81, for the fibrewise definition;
+  Theorem 3.3.4, p. 98, for the centre of multiplicative type and the reductive quotient;
+  Theorems 6.1.16–6.1.17, pp. 196–197, for the relative isogeny and isomorphism theorems.)
+  *Needs:* Layer 0's dictionaries and base change; Layers 3–4 for the field-level
+  comparisons; Layer 9's split integral models; SchemeAndStackFoundations §1.1,
+  §§1.13–1.15 and ModularCurves §0E.
 
 - **Pseudo-reductive basic theory over arbitrary fields.** For any field k, start with
   smooth connected affine finite-type k-groups. Construct the maximal smooth connected
@@ -1210,6 +1838,35 @@ replace it.
   hypotheses proved here; no general closure under inseparable base change is implicit.
   These are active basic-theory and example targets. They neither assume nor substitute
   for a full classification of pseudo-reductive groups over all imperfect fields.
+  (Conrad–Feng, *Reductive Groups over Fields*, Appendix F: the definition of
+  pseudo-reductivity and Proposition F.5.10, p. 218; Theorem F.3.7, p. 208, for the
+  compatibility of the `k`-split unipotent radical with separable extensions; Conrad–Gabber–Prasad,
+  *Pseudo-reductive Groups*, 2nd ed., Definition 1.1.1 and Proposition 1.1.9, for the
+  separable-extension compatibility of `R_(u,k)`.) *Needs:* Layer 3's quotients; Layer 5's
+  unipotent groups; Layer 0's Hopf dictionary; ModularCurves §0F for Weil restriction.
+
+### Examples
+
+**Checks.**
+- `SL₂` and `PGL₂` over `ℤ` realize the simply connected and adjoint root data of type `A₁`;
+  the isomorphism theorem distinguishes them although their Dynkin diagrams agree, by the
+  index-two lattice inclusion of 9B.2–9B.3.
+- Over `ℝ` the split torus `𝔾_m` and the norm-one torus `x² + y² = 1` have the same
+  geometric root datum (rank one, no roots) and are classified as forms of `𝔾_m` by
+  `H¹(Gal(ℂ/ℝ), Aut(𝔾_m)) = H¹(ℤ/2, ℤ/2) = ℤ/2`: exactly two forms, the split and the
+  anisotropic one.
+- For `K = k(a^(1/p))`, `Res_(K/k) 𝔾_m` has dimension `p`, `k`-points `Kˣ`, and after base
+  change to `k̄` becomes `(k̄[t]/(t^p))ˣ = 𝔾_m × (1 + nilradical)`, with unipotent kernel of
+  dimension `p − 1`; the `k`-unipotent radical is trivial, so the group is pseudo-reductive
+  and not reductive. For `K = k` it is `𝔾_m`, reductive.
+- The centre of `SL_p` in characteristic `p` is `μ_p`, nonsmooth, while the centre of
+  `GL_p` is the smooth torus `𝔾_m`: the relative centre is of multiplicative type but not
+  always smooth.
+
+### Dependencies
+
+Layers 0, 3, 4, 5, 7 and 9; RootSystems Layers 5–6; SchemeAndStackFoundations §1.1 and
+§§1.13–1.15; ModularCurves §§0E–0F.
 
 ## Layer 9: pinned Chevalley–Demazure group schemes over `ℤ`
 
@@ -1219,14 +1876,13 @@ theory of Layer 8 because it constructs the split case over `ℤ`. This construc
 specific prerequisite rather than generalizing the relative theory, and it must not wait
 behind pseudo-reductive groups.
 
-The [CFSG statement roadmap](../CFSGStatement/README.md) defines finite groups of Lie type
-as fixed points of a Steinberg endomorphism on the `𝔽̄_p`-points of a pinned simply connected
-group, or on an explicit carrier identified with those points. Its milestone L5 depends on
-explicit carriers; Chevalley existence alone does not specify one.
+Finite groups of Lie type are the fixed points of a Steinberg endomorphism on the
+`𝔽̄_p`-points of a pinned simply connected group, or on an explicit carrier identified with
+those points; Chevalley existence alone specifies no carrier, so this layer constructs the
+pinned group schemes and, in 9B, the explicit carriers and special isogenies.
 The root data start from `DynkinType.simplyConnectedRootDatum` in [the root-systems
 roadmap](../RepresentationTheory/RootSystems/README.md). Layer 7g supplies the Steinberg
-fixed-point and representation-theory interfaces; Layer 9 supplies the pinned group schemes
-and explicit carriers they consume.
+fixed-point and representation-theory interfaces that consume them.
 
 #### 9A. The full reductive integral enveloping form
 
@@ -1391,8 +2047,7 @@ algebra by its Killing-semisimple part.
    characters, so faithfulness is not asserted after every base change.
    State composition through native Lie-equivalence composition or actual
    action equations, without assuming an undeclared `Group` instance on
-   endomorphism `LieEquiv`s. The companion `CoverLiftTargets.lean` consumes
-   `SignedADETargets.lean`; it does not import back into that lower carrier.
+   endomorphism `LieEquiv`s.
 
    After9A.1b, compare its pinned **based** diagram lift with this full lift group
    and its simple-generator equations. For an unbased root automorphism use
@@ -1419,9 +2074,8 @@ algebra by its Killing-semisimple part.
    empty diagrams and a compatible action on the full reductive datum. Keep the
    integral fixed lattice, its scalar extension, and a normalized folded
    Chevalley lattice distinct. This construction is algebraic and precedes9B's
-   group comparison. The accompanying `FoldingADETargets.lean` gives native
-   target forms; the definitions, maps, inverses and basic laws below are part of
-   the definitive specification.
+   group comparison. The definitions, maps, inverses and basic laws below are the
+   specification.
 
    **Pinned action and actual fixed carrier.** For the ordered diagram `(Q,B,o)`
    of9A.1a let γ permute the simple vertices and preserve B. Put
@@ -1875,31 +2529,80 @@ comparison; §9B.2's full lattices.
 - **Diagram automorphisms.** Apply §9B.3 to a based diagram automorphism;
   its unique pinned group automorphism has the specified action on simple root
   parameters. No additional isomorphism theorem is needed.
-- **Special isogenies in characteristics two and three.** For `B₂`/`C₂` and `F₄` in
-  characteristic two and `G₂` in characteristic three, the exceptional isogeny `τ` with
-  `τ² = Frob_p`, together with its action on the long and short root subgroups. This is a
-  statement about group schemes and belongs here rather than in any consumer. On the explicit
-  carriers the CFSG roadmap's carrier plan designates, the three targets are: `τ` on the
-  rank-two symplectic carrier (`TauCeti.SpStd.specialIsogeny`, done); `τ` on the short-root
-  `G₂` carrier over `𝔽₃`, the closed subgroup scheme of `GL₇` generated over `𝔽₃` by the reduced
-  root subgroups and torus of the toral closure of the seven-dimensional module, in characteristic
-  three; and `τ` on the short-root `F₄` carrier over `𝔽₂`, generated the same way inside `GL₂₆`
-  from the toral closure of the twenty-six-dimensional module, in characteristic two. The prime
-  field is the base because the isogeny exists only there and the restriction argument needs the
-  generated subgroup scheme's defining ideal to be maximal over that base; the CFSG roadmap's
-  carrier plan records the reason. The `G₂` and `F₄` maps are explicit polynomial maps on matrices realizing
-  the carrier's action on the quotient of its represented Chevalley Lie algebra by the short-root
-  ideal, read back in the module through a fixed identification; the `Sp₄` map is the analogous
-  action on the subquotient `ker φ ⧸ ⟨ω⟩` of the exterior square. Each comes with the pinning
-  equations on the simple root subgroups and the square relation, proved by computation or
-  structurally; the CFSG roadmap's carrier plan records the construction in detail.
-- **Explicit carriers with numbered symmetries.** The toral-closure carriers the CFSG roadmap
-  designates that do not yet exist: the short-root `G₂` and `F₄` carriers above, and the tripled
+- **Special isogenies in characteristics two and three.** For `B₂ = C₂` and `F₄` in
+  characteristic two and `G₂` in characteristic three, construct the exceptional isogeny `τ`
+  of the pinned group scheme over the prime field `𝔽_p`, with `τ² = Frob_p`, exchanging the
+  long and short root subgroups. Write `γ ↦ γ'` for the length-swapping bijection of the
+  roots induced by the diagram symmetry of the Dynkin diagram with the arrow reversed. The
+  pinning equations are `τ(x_β(t)) = x_(β')(t)` for a long root `β` (so `β'` is short) and
+  `τ(x_α(t)) = x_(α')(t^p)` for a short root `α` (so `α'` is long); on characters `τ*` sends
+  a short root to the corresponding long root and a long root to `p` times the corresponding
+  short root, and `τ` restricted to the torus is the map dual to this lattice endomorphism.
+  Prove multiplicativity, the equations on all root subgroups and the square relation
+  `τ² = Frob_p`, and that the kernel of `τ` is the infinitesimal subgroup scheme whose Lie
+  algebra is the short-root ideal below. This is a statement about group schemes and belongs
+  here rather than in any consumer. The three carriers on which it is constructed are:
+  1. the rank-two symplectic carrier, where `τ` is the native
+     `TauCeti.SpStd.specialIsogeny`, with `SpStd.specialIsogeny_specialIsogeny` the square
+     relation and `SpStd.specialIsogeny_rootSubgroupPoints_inl_zero`,
+     `specialIsogeny_rootSubgroupPoints_inl_last`, `specialIsogeny_rootSubgroupPoints_inr_zero`
+     and `specialIsogeny_rootSubgroupPoints_inr_last` the pinning equations on the four
+     numbered simple root subgroups, in exactly the exponent convention above; it acts on
+     the four-dimensional subquotient `ker φ ⧸ ⟨ω⟩` of the exterior square of the standard
+     module by `2×2` minors;
+  2. the short-root `G₂` carrier over `𝔽₃`: the closed subgroup scheme of `GL₇` over `𝔽₃`
+     generated by the reductions modulo three of the root subgroups and torus of the Kostant
+     toral closure of the seven-dimensional module `V(ϖ₁)` (the admissible lattice generated
+     from a highest weight vector by the divided-power lowering operators of 9A);
+  3. the short-root `F₄` carrier over `𝔽₂`: the closed subgroup scheme of `GL₂₆` over `𝔽₂`
+     generated the same way from the toral closure of the twenty-six-dimensional module
+     `V(ϖ₄)`, whose integral form has a rank-two zero-weight summand; an ordered integral
+     weight basis, including a basis of that summand, is part of the data.
+  For the `G₂` and `F₄` carriers construct `τ` as follows. Let `V` be the module, `𝔤 ⊂ End V`
+  the represented Chevalley Lie algebra (the span of the Chevalley basis matrices) and
+  `I ⊂ 𝔤` the short-root ideal, spanned by the short root vectors and the short coroots; `I`
+  is an ideal exactly in characteristic `p`, where the short coroots span a line for `G₂`
+  and a plane for `F₄`. Prove that `I` is stable under the carrier, that `𝔤 ⧸ I` has the long
+  roots as weights with the zero weight of the same multiplicity as in `V`, and fix a linear
+  identification `C : 𝔤 ⧸ I ≃ V` relabelling weights along `τ*`, with each basis vector
+  normalized against the numbered pinning. Then `τ(g)` is the matrix of `g` acting on
+  `𝔤 ⧸ I`, read back in `V` through `C`; since `det g = 1`, `g⁻¹` is the adjugate and every
+  entry of `τ(g)` is a polynomial in the entries of `g`. Prove that `τ` preserves the
+  carrier's points, is multiplicative, satisfies the pinning equations on the numbered simple
+  root subgroups and squares to Frobenius, by computation or structurally. The prime field is
+  the base because the isogeny exists only in characteristic `p` and because the closed
+  subgroup scheme generated over `𝔽_p` by the reduced root subgroups and torus is only known
+  to be contained in the base change of the integral toral closure, non-flat base change
+  possibly adding equations. *Needs:* 9A's Chevalley lattice, divided powers and admissible
+  lattices; 9B's pinned root subgroups and torus; Layer 3's closed subgroup schemes and
+  kernels; Layer 2's Lie algebra; the native rank-two symplectic carrier.
+- **Explicit carriers with numbered symmetries.** Construct the toral-closure carriers
+  that have no native counterpart: the short-root `G₂` and `F₄` carriers above, and the tripled
   `D₄` carrier, the toral closure of `8ᵥ ⊕ 8ₛ ⊕ 8꜀` inside `GL₂₄`, carrying triality as a
-  numbered symmetry the way the doubled `E₆` carrier carries its graph automorphism. Each comes
-  with its numbered simple root subgroups, weight torus, pinning equations against
-  `DynkinType.simplyConnectedRootDatum`, Frobenius, and the span statement that its weights
-  generate the full character lattice.
+  numbered symmetry, a signed permutation of the weight basis permuting the three summands,
+  the way the doubled `E₆` carrier `V(ϖ₁) ⊕ V(ϖ₆)` inside `GL₅₄` carries its graph
+  automorphism. The spin module alone cannot carry triality linearly, because triality
+  permutes the three eight-dimensional representations and fixes none of them, nor their
+  sum `8ₛ ⊕ 8꜀`. Each carrier comes with its numbered simple root subgroups, weight torus,
+  pinning equations against `DynkinType.simplyConnectedRootDatum`, Frobenius, and the span
+  statement that its weights generate the full character lattice (for the short-root
+  modules because the short roots of `G₂` and `F₄` generate the root lattice, which is the
+  weight lattice there). *Needs:* 9A's admissible lattices and 9B's pinned construction;
+  Layer 7g's Steinberg endomorphisms for the fixed-point consumers.
+
+  **Checks.**
+  - On characters of `B₂` with short simple root `α` and long simple root `β`,
+    `τ*(α) = β` and `τ*(β) = 2α`, so `(τ*)²` is multiplication by `2` on both, the action of
+    `Frob₂`; on root subgroups, `x_β(t) ↦ x_(β')(t) ↦ x_β(t²)` and
+    `x_α(t) ↦ x_(α')(t²) ↦ x_α(t²)`, again `Frob₂`.
+  - In `G₂`, two short roots at angle `60°` have a long sum and Chevalley constant `±3`
+    (the `a`-string through `b` is `b − 2a, b − a, b, b + a`), so the span of the short root
+    vectors and short coroots is a Lie ideal exactly in characteristic three; in `F₄` the
+    corresponding constant is `±2` (the string is `b − a, b, b + a`), giving characteristic two.
+  - The tripled `D₄` carrier has dimension `24 = 8 + 8 + 8`, and none of the three
+    eight-dimensional summands has a zero weight; triality permutes the summands
+    cyclically, so each of its weight orbits has size three, whereas a diagram symmetry
+    preserving the vector summand `8ᵥ` is the fork exchange, of order at most two.
 
 #### 9C. Algebraic distributions and Frobenius
 
@@ -1972,6 +2675,24 @@ for T=𝔾_m, weights1 and p−1 can both contract to zero while their tensor
 contracts nontrivially. Retain the positive/negative maps separately. The geometric
 Frobenius splitting of flags, its trace normalization and Schubert compatibility
 are applications owned by SchubertGeometry; none is a proof premise of9A–9C.
+*Needs:* 9A's integral form and basis; 9B's big cell; Layer 0's Hopf maps; Layer 10A's
+rational torus modules for the contraction functor.
+
+### Examples
+
+**Checks.**
+- For `G = 𝔾_m` with cocharacter generator `y`, `Dist_ℤ(G)` is the binomial algebra on `H_y`
+  and `binom(H_y, 2)` acts on the weight `3` by `binom(3, 2) = 3`; the answer is not `ℤ`.
+- In the Kostant form of `SL₂`, `E^(1)E^(1) = 2E^(2)` and the opposite-root rule at
+  `a = b = 1` reads `EF = FE + H`, the relation `[E, F] = H`.
+- In characteristic `p`, the Frobenius map on `Dist(SL₂)` sends `E^(p)` to `E^(1)` and
+  `E^(1)` to `0`; the first Frobenius kernel has distribution algebra of dimension `p³`,
+  spanned by `F^(a) binom(H, b) E^(c)` with `a, b, c < p`.
+
+### Dependencies
+
+Layers 0, 2, 3, 4, 7 and 8; RootSystems Layers 5–6; LieHighestWeight Layers 3–4 and 7;
+IntegralLattices; Tau Ceti's Kostant form, Serre presentation and Geck constructions.
 
 ## Layer 10: rational representations, highest weights and regular functions
 
@@ -2004,14 +2725,12 @@ and T-compatibility are part of the integration interface.
 #### 10B. Induction, Weyl modules and simple heads
 
 For a split connected reductive G over a field fix B⁺ and its opposite B⁻,
-with positive roots from B⁺. Consume [IntegralHeckeAndGaloisDeterminants0.7](../IntegralHeckeAndGaloisDeterminants/README.md#07-connected-reductive-invariant-evaluations)'s
-canonical arbitrary-base algebraic induction: the actual cotensor equalizer for the
-coordinate bialgebra map, its native comodule coaction and natural reciprocity maps.
-Specialize to k and transport by its antipode/inversion comparison from
-`F(hg)=hF(g)` with right translation to `f(gh)=h⁻¹f(g)` with left translation.
+with positive roots from B⁺. Consume Layer 1's cotensor induction: the equalizer for the
+coordinate bialgebra map, its native comodule coaction and natural reciprocity maps,
+specialized to k, in the convention `f(gh)=h⁻¹f(g)` with left translation.
 Construct the field regular-function and group-scheme dictionaries and identify counit
-evaluation in Frobenius reciprocity. The generic induction engine remains with that
-supplier; the induced/Weyl/highest-weight and integral applications remain here. Put `∇(λ)=Ind_(B⁻)^G k_λ`: its functions satisfy
+evaluation in Frobenius reciprocity. The induced/Weyl/highest-weight and integral
+applications are this layer's. Put `∇(λ)=Ind_(B⁻)^G k_λ`: its functions satisfy
 `f(gb)=λ(b)^(−1)f(g)` and G acts by `a·f(g)=f(a^(−1)g)`. For λ∈X⁺ prove
 finite dimensionality, highest weight λ and its one-dimensional B⁺-highest
 line, and simple socle L(λ). For λ∉X⁺ prove the corresponding induced module
@@ -2196,6 +2915,23 @@ comparisons. With its opposite-Borel convention the geometric
 −λ instead has H⁰=∇(−w₀λ)=Δ(λ)*. Geometric very ampleness, Schubert bases,
 coherent vanishing and compatible Frobenius splitting are owned by that
 application, not used as unnamed assumptions to establish this generic algebra.
+*Needs:* Layer 1's comodules and cotensor induction; 9A–9C's integral form and
+distributions; 10A–10C; GroebnerGeometry G5 for the flag-minor comparison.
+
+### Examples
+
+**Checks.**
+- For `SL₂` in characteristic `p`, `dim L(p) = 2` (digits `n₀ = 0`, `n₁ = 1`, so
+  `(0 + 1)(1 + 1) = 2`) while `dim ∇(p) = p + 1`: `∇(p)` is not simple.
+- `∇(0) = Δ(0) = k`; for `n < 0`, `∇(n) = 0`, as `H⁰(ℙ¹, O(n)) = 0` for the corresponding
+  line bundle.
+- The Steinberg module of `SL₂` is `L(p − 1) = ∇(p − 1) = Δ(p − 1)` of dimension `p`, which
+  is `p^|Φ⁺|` with `|Φ⁺| = 1` and also the digit formula `(p − 1) + 1`.
+
+### Dependencies
+
+Layers 1, 4, 7 and 9; LieHighestWeight Layers 3–4; GroebnerGeometry G5; SchubertGeometry
+only as a consumer.
 
 ---
 
@@ -2204,44 +2940,53 @@ application, not used as unnamed assumptions to establish this generic algebra.
 This lane constructs the Lie-algebra spectral quotient and its based topology for every
 connected reductive algebraic group over `ℂ`, with a specified maximal algebraic torus.
 Construct it after Layers8–9 have supplied the group/root-datum and pinned root maps.
-The lower smooth/holomorphic dictionary of [FormalConnectionsOpers F4.3](../FormalConnectionsOpers/README.md)
-uses those outputs and is a prerequisite for the analytic charts here. The algebraic
-classification, integral construction and that lower dictionary have no dependency on this lane.
-The finite-arrangement construction in 11B is independent of the group application and runs
-once RootSystems' finite Coxeter presentation is available. `SpectralWeylTargets.lean`
-prototypes selected maps; all of 11A–11G below is normative.
+The classical topology and complex-manifold charts on complex points, the complex Lie-group
+structure on `G(ℂ)`, its holomorphic action maps and the orbit charts are Layer 3A.5's; the
+analytic inverse function theorem used below is Mathlib's `ContDiffAt.to_localInverse` at
+order `ω` on finite-dimensional complex charts. The algebraic classification and integral
+construction have no dependency on this lane, and no roadmap that consumes Layers 0–9 is a
+supplier of it. The finite-arrangement construction in 11B is independent of the group
+application and runs once RootSystems' finite Coxeter presentation is available. All of
+11A–11G below is normative.
 
-**11A. Plane configurations, geometric braids and their basepoints.** Consume the early
-configuration contract [InverseGaloisAndArithmeticFundamentalGroups IG.5.1](../InverseGaloisAndArithmeticFundamentalGroups/README.md),
-including its actual injective-tuple carrier, permutation quotient, disc configuration
-comparison, finite covering and native braid/permutation maps. This is a specialization of
-that generic configuration theory; its later arithmetic and Hurwitz-moduli layers are not
-inputs. Use subtype topology on `PConf_n(ℂ)={z:Fin n→ℂ | Function.Injective z}` and quotient
-topology on `Conf_n(ℂ)=PConf_n(ℂ)/S_n`. Transport that quotient topology when comparing to
-IG's finite-subset carrier; no discrete topology on `Finset ℂ` is intended. Permutations act
-on tuples by `(σ·z)_i=z_(σ⁻¹ i)`.
+**11A. Plane configurations, geometric braids and their basepoints.** This roadmap owns the
+based comparison between the plane configuration spaces and the native braid group. Use
+subtype topology on `PConf_n(ℂ)={z:Fin n→ℂ | Function.Injective z}` and quotient
+topology on `Conf_n(ℂ)=PConf_n(ℂ)/S_n`; no discrete topology on `Finset ℂ` is intended.
+Permutations act on tuples by `(σ·z)_i=z_(σ⁻¹ i)`. Give evenly covered neighborhoods using
+pairwise disjoint coordinate discs and the free finite `S_n` action, so that
+`PConf_n(ℂ)→Conf_n(ℂ)` is a finite covering map.
 
 Choose an actual ordered base configuration, for example `z_i=i`, and its unordered image.
-The homeomorphism `z↦z/sqrt(1+|z|²)` to the open unit disc, with inverse
-`w↦w/sqrt(1−|w|²)`, induces equivariant ordered/unordered homeomorphisms. Prove their inverse,
-continuity, noncollision and cover equations. Transport basepoints to IG's chosen disc
-configuration by the resulting actual image or a specified path. Construct the based
-comparison with native `TauCeti.BraidGroup n`, and restrict to native
-`BraidGroup.pureSubgroup n` for ordered configurations. Prove that the induced map of the
-ordered cover is the subgroup inclusion and the covering permutation is native `permHom`.
+Prove the generator-characterized based isomorphism `π₁(Conf_n(ℂ),[b]) ≃ TauCeti.BraidGroup n`:
+the standard generator `σ_i` is the class of the loop exchanging `z_i` and `z_(i+1)` by a
+counterclockwise half-turn about their midpoint while fixing the other points; its image
+under the native `BraidGroup.permHom n` is the adjacent transposition, and its square is the
+class of the loop in which `z_(i+1)` encircles `z_i` once counterclockwise. Prove that the
+induced map on the ordered cover identifies `π₁(PConf_n(ℂ),b)` with the native
+`BraidGroup.pureSubgroup n` and the covering permutation with `permHom`. Route: the
+forget-last-point map `PConf_n(ℂ)→PConf_(n−1)(ℂ)` is a locally trivial fibration with fibre
+the plane minus `n−1` points, which deforms onto a wedge of circles; induct to prove the
+ordered spaces aspherical with the pure braid presentation, pass to the `S_n`-cover and
+compare the adjacent exchanges with the Artin relations, both generation and completeness
+of the relations being targets (Birman–Brendle, arXiv math/0409205v2, §1.1 (1) and §1.2 (2),
+pp. 4–5, for the definitions and the covering sequence, and p. 69 for the Fox–Neuwirth
+presentation theorem; Fox–Neuwirth, *The braid groups*, Math. Scand. 10 (1962), 119–126,
+and Fadell–Neuwirth, *Configuration spaces*, Math. Scand. 10 (1962), 111–118, cited by
+title). *Needs:* Mathlib's fundamental group, covering maps and `IsQuotientCoveringMap`;
+Tau Ceti's braid group, `permHom` and `pureSubgroup`; AlgebraicTopology's based van Kampen
+theorem.
 
 For a lifted loop, its coordinate graphs in `ℂ×[0,1]` are collision-free strands; evaluation
 of such strands gives the inverse loop. Prove both constructions respect endpoint
 permutations and relative homotopies. Pin multiplication: Mathlib's fundamental-group
 product is `p*q=q.trans p`. Choose strand stacking to match that product and check an
 explicit product of two elementary half-twists; if another stacking convention is used,
-construct the time-reversal/opposite-group comparison. Check the precise positive
-half-twist against IG.3.2's Hurwitz convention `(a,b)↦(aba⁻¹,a)`, including inversion if
-required, and prove the permutation square after the convention transport. Closure and
-Markov equivalence are not substitutes for this based loop/strand theorem.
+construct the time-reversal/opposite-group comparison. The positive half-twist is the
+counterclockwise exchange above; prove the permutation square after this convention is
+fixed. Closure and Markov equivalence are not substitutes for this based loop/strand theorem.
 
-Give evenly covered neighborhoods using pairwise disjoint coordinate discs and the free
-finite `S_n` action, with actual covering maps. Prove the exact sequence
+Prove the exact sequence
 `1→P_n→B_n→S_n→1`. It is nonsplit for `n≥2`: the sign of native `permHom` is the parity of
 native `ArtinGroup.exponentSum`. A homomorphic section would lift a transposition to an
 order-two element, whose integer exponent sum is zero, contradicting odd parity. Prove
@@ -2322,8 +3067,8 @@ No canonical choice of polynomial invariant generators is asserted.
 
 The base is the image of `𝔱_reg` in `𝔱/W`, the **discriminant complement**. It is not the
 smooth locus of the full invariant quotient, which is already an affine space in this
-setting. Construct all scheme morphisms before comparing their complex points via FCO's
-lower analytification dictionary. Prove the coarse orbit-space homeomorphism
+setting. Construct all scheme morphisms before comparing their complex points via
+Layer 3A.5's charts and point-map comparison. Prove the coarse orbit-space homeomorphism
 `𝔤_rs/G ≃ₜ 𝔱_reg/W`. This is a coarse quotient; the stack `[𝔤_rs/G]` retains torus inertia.
 
 **11D. Cameral product, local trivializations and homogeneous fiber.** Construct the
@@ -2339,8 +3084,9 @@ Prove `𝔤_rs ≃ ((G/T)×𝔱_reg)/W` through `[g,t]↦Ad_g(t)`, with the alge
 complex quotient topologies explicitly compared. A local section of the finite W-cover
 trivializes `χ_rs:𝔤_rs→𝔱_reg/W` with fiber `G/T`. Supply actual inverse maps and transition
 functions, continuity, and holomorphicity. The root-coordinate differential is
-`(X mod 𝔱,Y)↦[X,t]+Y`; prove it is an isomorphism and apply FCO's lower analytic inverse
-function dictionary. A set-theoretic orbit bijection alone does not prove these statements.
+`(X mod 𝔱,Y)↦[X,t]+Y`; prove it is an isomorphism and apply Mathlib's analytic inverse
+function theorem (`ContDiffAt.to_localInverse` at order `ω`) in the 3A.5 charts. A
+set-theoretic orbit bijection alone does not prove these statements.
 
 Construct `G/T→G/B` as a locally trivial bundle with contractible fiber `B/T≃U`, using
 Layer7's ordered root coordinates. Consume the actual flag CW structure with only even
@@ -2395,9 +3141,10 @@ flags and essential arrangement through actual differential/quotient maps but ne
 identify full character/cocharacter lattices. Central torus **Lie** summands are complex
 vector spaces, and contribute no extra π₁.
 
-**11G. Prerequisite and scope comparisons.** The order is IG's early configuration/native
-braid contract and RootSystems' Coxeter/chamber theory → finite arrangement topology;
-independent RG8/9 → FCO's lower dictionary → 11C invariant/spectral maps; RG7+LG8 flag cells →
+**11G. Prerequisite and scope comparisons.** The order is 11A's configuration/native
+braid comparison and RootSystems' Coxeter/chamber theory → finite arrangement topology;
+independent RG8/9 and the 3A.5 complex Lie-group dictionary → 11C invariant/spectral
+maps; RG7+LG8 flag cells →
 homogeneous-fiber connectedness and simple connectedness; the based DGF LES → the
 `χ_rs`-induced π₁ isomorphism; finite cover → actual root-datum monodromy. LHW Lie invariants
 and RIT finite invariants enter 11C with the explicit comparisons stated there. No edge
@@ -2409,9 +3156,31 @@ carriers and hypotheses are different. In particular a list of all braid lengths
 not the full B3 presentation, whose short/long pair has length4.
 
 References for these constructions include Brieskorn's finite-reflection-complement
-presentation, Salvetti's face/chamber model, and the based covering and van Kampen
+presentation, Salvetti's face/chamber model, Birman–Brendle's survey for the configuration
+space definition of the braid groups, and the based covering and van Kampen
 contracts cited above. The arrangement presentation and all comparison maps remain
 construction targets until proved; references are not replacements for those proofs.
+
+### Examples
+
+**Checks.**
+- For `𝔰𝔩₂`, `𝔱_reg = {diag(t, −t) : t ≠ 0} ≅ ℂ*`, `W = ℤ/2` acts by `t ↦ −t`, the
+  quotient `B_W ≅ ℂ*` via `t ↦ t²`, and `π₁(B_W) = ℤ` is the Artin group of `A₁`, free on one
+  generator; the characteristic polynomial `X² − t²` has discriminant `4t²`, so the base is
+  exactly `{t² ≠ 0}`.
+- For `𝔤𝔩₂`, `𝔱_reg = {z₁ ≠ z₂}` and `B_W = Conf₂(ℂ) ≅ ℂ × ℂ*` by the centroid and
+  `(z₁ − z₂)²`, so `π₁ = ℤ = B₂`, and the pure subgroup is generated by the square of the
+  half-twist, matching the `n = 2` case of 11E.
+- The regular nilpotent `[[0,1],[0,0]]` in `𝔤𝔩₂` has centralizer `{aI + bN} ≅ ℂ* × ℂ`, not a
+  torus, so it is regular but not regular semisimple; the scalar matrix `I` is semisimple with
+  centralizer `GL₂`, so it is not regular. Only `𝔤_rs` has torus centralizers.
+
+### Dependencies
+
+Layers 2, 3A, 7, 8 and 9; RootSystems Layer 2; LieHighestWeight Layer 7;
+ReflectionInvariantTheory; AlgebraicTopology; DGFloer Layer 1.2; LieGroups Layer 8;
+SmoothBundlesConnections B1.4; Mathlib's covering-map, fundamental-group and
+inverse-function theorems; Tau Ceti's braid and Artin groups.
 
 ## Worked examples
 
@@ -2484,12 +3253,31 @@ are useful interfaces for p-adic consumers before the full root-data classificat
 
 The finite groups of Lie type consume Layer 9 through fixed points of Steinberg endomorphisms
 on the points of pinned Chevalley–Demazure groups, or on explicit carriers identified with
-those points. Their CFSG milestone L5 needs constructions rather than existence theorems.
+those points: [CFSGStatement](../CFSGStatement/README.md) consumes Layer 9's pinned groups,
+the special isogenies and the three explicit carriers of 9B, which its carrier plan
+designates; its milestone L5 needs constructions rather than existence theorems.
+ReductiveGroupsPartII extends this roadmap and consumes Layers 0–9, in particular Layer 7a's
+Lang theorem and fixed-coset lifting. FormalConnectionsOpers consumes Layers 0–9 and 6B's
+coset affineness; InverseGaloisAndArithmeticFundamentalGroups consumes Layers 0, 3 and 6;
+NilpotentOrbits and SchubertGeometry consume Layer 3A's orbit theorems and Layer 7's
+structure theory.
 
 ## References
 
 - J. S. Milne, [*Algebraic Groups* (2017)](https://www.jmilne.org/math/Books/iAG2017.pdf),
-  Propositions 1.65–1.66, pp. 26–28, and §10.b–§10.e, pp. 188–196.
+  Propositions 1.65–1.66, pp. 26–27; §3 (Hopf ideals), §4 (the embedding theorem), §5
+  (quotients), §6 (radicals), §9 (Jordan decomposition), §10.b–§10.e, pp. 188–196, §12
+  (diagonalizable and linearly reductive groups), §14 (unipotent groups), §16 (Lie–Kolchin),
+  §17 (Borel subgroups, Lang's theorem), §21 (root data and Bruhat), §22 (Theorem 22.42) and
+  §23 (isogeny, isomorphism and existence theorems), at the theorem numbers and pages cited in
+  the layers.
+- B. Conrad and T. Feng, [*Reductive Groups over Fields*](https://math.stanford.edu/~conrad/249BW16Page/handouts/AMSalggroups2.pdf),
+  Proposition 12.3.1, p. 127; Appendix F (pseudo-reductive groups), pp. 208–218; Appendix H
+  (Levi subgroups), p. 238.
+- J. S. Birman and T. E. Brendle, [*Braids: a survey*](https://arxiv.org/abs/math/0409205),
+  arXiv math/0409205v2, §§1.1–1.2, pp. 4–5, and p. 69.
+- R. H. Fox and L. Neuwirth, *The braid groups*, Math. Scand. 10 (1962), 119–126; E. Fadell
+  and L. Neuwirth, *Configuration spaces*, Math. Scand. 10 (1962), 111–118 (cited by title).
 - W. C. Waterhouse, *Introduction to Affine Group Schemes*: Hopf algebras, comodules,
   closed subgroups, the unipotent radical.
 - A. Borel, *Linear Algebraic Groups*; T. A. Springer, *Linear Algebraic Groups*.
@@ -2497,7 +3285,8 @@ those points. Their CFSG milestone L5 needs constructions rather than existence 
 - B. Conrad, [*Reductive Group Schemes*](https://math.stanford.edu/~conrad/papers/luminysga3.pdf),
   Theorems 5.1.13 and 6.1.16–6.1.17, pp. 143–145 and 196–197;
   **SGA3**, Exposé XIX.
-- B. Conrad, O. Gabber, G. Prasad, *Pseudo-reductive Groups* (relative theory).
+- B. Conrad, O. Gabber, G. Prasad, *Pseudo-reductive Groups*, 2nd ed., Definition 1.1.1 and
+  Proposition 1.1.9 (the `k`-unipotent radical and separable extensions).
 
 
 ## Design references
