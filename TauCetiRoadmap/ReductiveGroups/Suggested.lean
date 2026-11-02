@@ -1,159 +1,141 @@
-import TauCeti.RepresentationTheory.Induction.FiniteDimensional.Basic
 import Mathlib
-import Mathlib.GroupTheory.GroupExtension.Basic
+import TauCeti.Algebra.AlgebraicGroup.SpecialLinear.Basic
 
 /-!
 # Reductive algebraic groups: target signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. The statements here suggest Lean forms for particular milestones, so that
-contributors and reviewers converge on names and signatures; discharging all of them
-finishes neither a layer nor the roadmap.
+The roadmap is README.md; this file is not the roadmap. It states headline
+theorems against the pinned Mathlib and Tau Ceti APIs.
 
-The three synchronized models, prerequisite order, examples, and references
-are in `README.md`.
-
-The declarations below are two native signature examples only: the global-sections Hopf
-instance and the group object on `Spec`. They do not prototype the anti-equivalence,
-the `Γ(Spec A) ≃ A` and `Spec Γ(G) ≃ G` identifications, or the third model. Those complete
-Layer 0 targets, including the Yoneda component convention, are specified in `README.md`.
-Mathlib's `hopfSpec.fullyFaithful` and `essImage_hopfSpec` and Tau Ceti's point functors are
-the interfaces to consume. The finite-dimensional induction example remains a specialization,
-not the general coefficient-ring adapter.
+Layer 3A's locally closed reduced orbits, strict boundary dimension and closed-orbit
+existence, and the SL coordinate presentation in the worked examples are statable.
+The remaining endpoints require carriers whose construction is part of the roadmap:
+* Layers 0–1: the category of rational algebraic group representations and its
+  comparison functors (the native Hopf and comodule reconstruction is already supplied).
+* Layers 2–8: represented homogeneous quotients,
+  unipotent radicals, extracted root data and rational parabolic/Levi functors.
+* Layer 9: a pinned reductive group with its extracted datum; the full-root-datum Chevalley realization and its ordered PBW family
+  (the native Kostant subring alone does not specify these); signed ADE cover Lie algebras and
+  their folded fixed algebras. These heavy constructions are not encoded here.
+* Layer 10: rational highest-weight modules, Weyl and induced modules, and their
+  distribution actions on the constructed group.
+* Layer 11: the regular-semisimple Lie locus, its Weyl quotient and the comparison
+  with based spectral monodromy. Bare scalar or abstract-cover surrogates do not
+  state this endpoint. The complex orbit comparison also needs the supplier's
+  scheme analytification functor, not a second point topology.
 -/
 
-open CategoryTheory AlgebraicGeometry CommRingCat Scheme Opposite Spec
+open CategoryTheory MonoidalCategory CartesianMonoidalCategory AlgebraicGeometry
+open scoped CategoryTheory.MonObj
+open Topology
+
+attribute [local instance] CategoryTheory.Over.cartesianMonoidalCategory
 
 namespace TauCetiRoadmap.ReductiveGroups
 
+/-! ## Layer 3A: algebraic orbit geometry -/
+
+namespace OrbitAcceptance
+
 universe u
 
-variable (R : Type u) [CommRing R]
+/-- Rational points as morphisms from the terminal scheme over the base field. -/
+abbrev Points {k : Type u} [Field k] (X : Over (Spec (CommRingCat.of k))) :=
+  (𝟙_ (Over (Spec (CommRingCat.of k))) ⟶ X)
 
-/-- Native global-section Hopf structure of an affine group scheme over Spec R. -/
-noncomputable abbrev globalSectionsHopfAlgebra (G : Scheme.{u})
-    [G.Over (Spec (CommRingCat.of R))]
-    [GrpObj (G.asOver (Spec (CommRingCat.of R)))] [IsAffine G] :
-    HopfAlgebra R Γ(G, ⊤) :=
-  AlgebraicGeometry.instHopfAlgebraCarrierObjOppositeOpensCarrierCarrierCommRingCatPresheafOpOpensTopOfGrpObjOverSchemeSpecAsOverOfIsAffine
-    (R := CommRingCat.of R)
+variable {k : Type u} [Field k]
+variable (G X : Over (Spec (CommRingCat.of k))) [GrpObj G] [ModObj G X]
 
-/-- Native group object on Spec of a commutative Hopf algebra. -/
-noncomputable abbrev specGroupObject (A : Type u) [CommRing A] [HopfAlgebra R A] :
-    GrpObj ((Spec (CommRingCat.of A)).asOver (Spec (CommRingCat.of R))) := inferInstance
+/-- The orbit map sends g to g acting on the specified rational point x. -/
+noncomputable def orbitMorphism (x : Points X) : G ⟶ X :=
+  lift (𝟙 G) (toUnit G ≫ x) ≫ γ[G, X]
 
+/-- The geometric orbit is the image on all scheme points of the orbit morphism. -/
+def geometricOrbit (x : Points X) : Set X.left :=
+  Set.range fun z : G.left => (orbitMorphism G X x).left z
+
+/-- The closure is taken in the Zariski space of X. -/
+def orbitClosure (x : Points X) : Set X.left := closure (geometricOrbit G X x)
+
+/-- The boundary removes the entire geometric orbit from its closure. -/
+def orbitBoundary (x : Points X) : Set X.left :=
+  orbitClosure G X x \ geometricOrbit G X x
+
+/-- Orbit dimension uses native topological Krull dimension, with empty dimension bottom. -/
+noncomputable def orbitDimension (x : Points X) : WithBot ℕ∞ :=
+  topologicalKrullDim (geometricOrbit G X x)
+
+/-- Every orbit of a smooth affine algebraic group on a separated finite-type scheme is locally closed. -/
+theorem orbit_locallyClosed
+    [hAlgClosed : IsAlgClosed k]
+    [hAffine : IsAffine G.left] [hSmooth : Smooth G.hom]
+    [hGroupQC : QuasiCompact G.hom]
+    [hXFiniteType : LocallyOfFiniteType X.hom]
+    [hXQC : QuasiCompact X.hom] [hSeparated : IsSeparated X.hom] (x : Points X) :
+    IsLocallyClosed (geometricOrbit G X x) := by sorry
+
+/-- Each geometric orbit has a reduced locally closed scheme model over the base field. -/
+theorem exists_reduced_orbit_model
+    [hAlgClosed : IsAlgClosed k]
+    [hAffine : IsAffine G.left] [hSmooth : Smooth G.hom]
+    [hGroupQC : QuasiCompact G.hom]
+    [hXFiniteType : LocallyOfFiniteType X.hom]
+    [hXQC : QuasiCompact X.hom] [hSeparated : IsSeparated X.hom] (x : Points X) :
+    ∃ (O : Over (Spec (CommRingCat.of k))) (i : O ⟶ X),
+      AlgebraicGeometry.IsReduced O.left ∧ IsImmersion i.left ∧
+      Set.range i.left = geometricOrbit G X x := by sorry
+
+/-- The boundary has strictly smaller Krull dimension, including disconnected acting groups. -/
+theorem boundary_dimension_lt
+    [hAlgClosed : IsAlgClosed k]
+    [hAffine : IsAffine G.left] [hSmooth : Smooth G.hom]
+    [hGroupQC : QuasiCompact G.hom]
+    [hXFiniteType : LocallyOfFiniteType X.hom]
+    [hXQC : QuasiCompact X.hom] [hSeparated : IsSeparated X.hom] (x : Points X) :
+    topologicalKrullDim (orbitBoundary G X x) < orbitDimension G X x := by sorry
+
+/-- Every orbit closure contains a closed orbit over an algebraically closed field. -/
+theorem exists_closed_orbit_in_closure
+    [hAlgClosed : IsAlgClosed k]
+    [hAffine : IsAffine G.left] [hSmooth : Smooth G.hom]
+    [hGroupQC : QuasiCompact G.hom]
+    [hXFiniteType : LocallyOfFiniteType X.hom]
+    [hXQC : QuasiCompact X.hom] [hSeparated : IsSeparated X.hom] (x : Points X) :
+    ∃ y : Points X, IsClosed (geometricOrbit G X y) ∧
+      geometricOrbit G X y ⊆ orbitClosure G X x := by sorry
+
+/-- A nonempty rational-point space has a closed orbit; the empty space is excluded. -/
+theorem exists_closed_orbit
+    [hAlgClosed : IsAlgClosed k]
+    [hAffine : IsAffine G.left] [hSmooth : Smooth G.hom]
+    [hGroupQC : QuasiCompact G.hom]
+    [hXFiniteType : LocallyOfFiniteType X.hom]
+    [hXQC : QuasiCompact X.hom] [hSeparated : IsSeparated X.hom] (hx : Nonempty (Points X)) :
+    ∃ y : Points X, IsClosed (geometricOrbit G X y) := by sorry
+
+end OrbitAcceptance
+
+/-! ## Layer 9: the special linear coordinate presentation -/
+
+namespace SpecialLinearAcceptance
+
+/-- The integral generic determinant minus one, including the empty determinant at rank zero. -/
+noncomputable def determinantRelation (n : ℕ) : MvPolynomial (Fin n × Fin n) ℤ :=
+  Matrix.det (fun i j => MvPolynomial.X (i, j)) - 1
+
+/-- The native determinant-kernel Hopf algebra has the polynomial presentation of SL,
+with its matrix coordinates identified in both directions. -/
+theorem exists_coordinatePresentation (n : ℕ) :
+    ∃ e : TauCeti.SpecialLinear.coordinateHopfAlgebra ℤ n ≃ₐ[ℤ]
+      (MvPolynomial (Fin n × Fin n) ℤ) ⧸ Ideal.span {determinantRelation n},
+      (∀ i j, e ((TauCeti.SpecialLinear.coordinateMap ℤ n).hom
+          (TauCeti.GeneralLinear.genericMatrix ℤ n i j)) =
+        Ideal.Quotient.mk (Ideal.span {determinantRelation n}) (MvPolynomial.X (i, j))) ∧
+      (∀ i j, e.symm
+          (Ideal.Quotient.mk (Ideal.span {determinantRelation n}) (MvPolynomial.X (i, j))) =
+        (TauCeti.SpecialLinear.coordinateMap ℤ n).hom
+          (TauCeti.GeneralLinear.genericMatrix ℤ n i j)) := by
+  sorry
+
+end SpecialLinearAcceptance
 end TauCetiRoadmap.ReductiveGroups
-
-universe u₁ v₁ w₁
-
-namespace TauCetiRoadmap.ReductiveGroups.FiniteHC
-
-variable {k : Type u₁} {G : Type v₁} {L : Type w₁}
-variable [Field k] [Group G] [Group L]
-
-/-- Finite-group induction of the inflated L-module along P ≤ G. -/
-noncomputable def indFromProjectedLevi (P : Subgroup G) [P.FiniteIndex]
-    (π : P →* L) (M : FDRep k L) : FDRep k G :=
-  TauCeti.indFDRep (FDRep.of (M.ρ.comp π))
-
-/-- Its dimension is the subgroup index times the dimension of the Levi module. -/
-theorem finrank_indFromProjectedLevi (P : Subgroup G) [P.FiniteIndex]
-    (π : P →* L) (M : FDRep k L) :
-    Module.finrank k (indFromProjectedLevi P π M) = P.index * Module.finrank k M := by
-  change Module.finrank k (TauCeti.indFDRep (FDRep.of (M.ρ.comp π))) = _
-  exact TauCeti.finrank_indFDRep (A := FDRep.of (M.ρ.comp π))
-
-end TauCetiRoadmap.ReductiveGroups.FiniteHC
-/- Further nonexhaustive integral PBW and rational-distribution target forms are in
-IntegralRationalTargets.lean, which imports this file and the native supplier modules. -/
-
-/- Signed ADE root-cover, integral bracket and full-Cartan comparison target forms
-are in SignedADETargets.lean, which imports IntegralRationalTargets.lean. -/
-
-/- Fixed-Lie, signed-orbit, folded Serre and full-Y kernel target forms are in
-FoldingADETargets.lean, which imports SignedADETargets.lean. This pointer adds no import. -/
-
-/- Lie-algebra spectral quotients, finite Weyl arrangements and based monodromy
-are prototyped in SpectralWeylTargets.lean. That companion imports this file;
-this comment adds no reverse import or dependency on Layer11. -/
-
-/-! ## Kernel-fixing lifts of an actual central extension
-
-These generic definitions use native GroupExtension. The ADE existence/Lie action
-is in CoverLiftTargets, importing the actual lower signed carrier without a cycle. -/
-namespace TauCetiRoadmap.ReductiveGroups.CoverLifts
-
-universe uC vC wC
-variable {E : Type uC} {Q : Type vC} {A : Type wC} [Group E] [Group Q] [Group A]
-
-def liftSubgroup (S : GroupExtension ℤˣ E Q) (ρ : A →* MulAut Q) :
-    Subgroup (MulAut E × A) where
-  carrier := {p | (∀ s, p.1 (S.inl s) = S.inl s) ∧
-    ∀ e, S.rightHom (p.1 e) = ρ p.2 (S.rightHom e)}
-  one_mem' := by sorry
-  mul_mem' := by sorry
-  inv_mem' := by sorry
-
-abbrev LiftGroup (S : GroupExtension ℤˣ E Q) (ρ : A →* MulAut Q) := liftSubgroup S ρ
-
-def projection (S : GroupExtension ℤˣ E Q) (ρ : A →* MulAut Q) :
-    LiftGroup S ρ →* A where
-  toFun l := l.val.2
-  map_one' := rfl
-  map_mul' _ _ := rfl
-
-def coverAutomorphism (S : GroupExtension ℤˣ E Q) (ρ : A →* MulAut Q) :
-    LiftGroup S ρ →* MulAut E where
-  toFun l := l.val.1
-  map_one' := rfl
-  map_mul' _ _ := rfl
-
-def coverAction (S : GroupExtension ℤˣ E Q) (ρ : A →* MulAut Q)
-    (l : LiftGroup S ρ) (e : E) : E := coverAutomorphism S ρ l e
-
-theorem coverAction_projection (S : GroupExtension ℤˣ E Q) (ρ : A →* MulAut Q)
-    (l : LiftGroup S ρ) (e : E) :
-    S.rightHom (coverAction S ρ l e) = ρ (projection S ρ l) (S.rightHom e) := l.property.2 e
-
-/-- Actual character twist; only the group laws use centrality. -/
-def characterTwist (S : GroupExtension ℤˣ E Q)
-    (hc : ∀ s e, S.inl s * e = e * S.inl s) (χ : Q →* ℤˣ) : MulAut E where
-  toFun e := S.inl (χ (S.rightHom e)) * e
-  invFun e := S.inl (χ (S.rightHom e))⁻¹ * e
-  left_inv := by sorry
-  right_inv := by sorry
-  map_mul' := by sorry
-
-def characterInclusion (S : GroupExtension ℤˣ E Q) (ρ : A →* MulAut Q)
-    (hc : ∀ s e, S.inl s * e = e * S.inl s) : (Q →* ℤˣ) →* LiftGroup S ρ where
-  toFun χ := ⟨(characterTwist S hc χ, 1), by sorry⟩
-  map_one' := by sorry
-  map_mul' := by sorry
-
-/-- Honest whole family: neither extension, action nor centrality inputs are erased. -/
-noncomputable def characterKernelEquiv : (S : GroupExtension ℤˣ E Q) →
-    (ρ : A →* MulAut Q) → (hc : ∀ s e, S.inl s * e = e * S.inl s) →
-    (Q →* ℤˣ) ≃* (projection S ρ).ker := by sorry
-
-theorem characterKernelEquiv_value (S : GroupExtension ℤˣ E Q) (ρ : A →* MulAut Q)
-    (hc : ∀ s e, S.inl s * e = e * S.inl s) (χ : Q →* ℤˣ) (e : E) :
-    coverAction S ρ (characterKernelEquiv S ρ hc χ).val e =
-      S.inl (χ (S.rightHom e)) * e := by sorry
-
-def liftableExtension (S : GroupExtension ℤˣ E Q) (ρ : A →* MulAut Q)
-    (hc : ∀ s e, S.inl s * e = e * S.inl s) :
-    GroupExtension (Q →* ℤˣ) (LiftGroup S ρ) (projection S ρ).range where
-  inl := characterInclusion S ρ hc
-  rightHom := (projection S ρ).rangeRestrict
-  inl_injective := by sorry
-  range_inl_eq_ker_rightHom := by sorry
-  rightHom_surjective := by sorry
-
-end TauCetiRoadmap.ReductiveGroups.CoverLifts
-
-/- The actual signed ADE instantiation, root-line and native Lie action are in
-CoverLiftTargets.lean. This file stays below IntegralRational/SignedADETargets. -/
-
-/- Generic algebraic actions, orbit boundaries, closed projective orbits and
-complex-point comparisons are prototyped in OrbitGeometryTargets.lean.
-That companion imports this file; no reverse import is introduced. -/
