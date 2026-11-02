@@ -4,6 +4,7 @@ import TauCeti.Algebra.AlgebraicGroup.Borel.Basic
 import TauCeti.Algebra.AlgebraicGroup.HopfIdeal.Conjugation
 import TauCeti.Algebra.AlgebraicGroup.Reductive.Basic
 import TauCeti.Algebra.AlgebraicGroup.LinearlyReductive
+import TauCeti.GroupTheory.SpecificGroups.Braid.Basic
 
 /-!
 # Reductive algebraic groups: target signatures
@@ -16,7 +17,8 @@ orbits, strict boundary dimension and closed-orbit existence; Layer 6's characte
 implication from reductivity to linear reductivity (the pin proves the converse,
 `TauCeti.reductiveCommHopfAlgProperty.of_smooth_of_geometricallyConnected_of_baseChange_linearlyReductive`);
 Layer 7's conjugacy of Borel subgroups over an algebraically closed field; and the SL
-coordinate presentation of the worked examples.
+coordinate presentation of the worked examples; Layer 11A's plane-configuration
+fundamental-group/braid-group equivalence and permutation-map nonsplitting.
 
 Not statable at the pins, hence not stated, with the missing carrier named:
 * Layers 0–1: the category of rational algebraic group representations and its comparison
@@ -31,8 +33,12 @@ Not statable at the pins, hence not stated, with the missing carrier named:
   the fppf sheaf of points of an affine scheme on the site `CommAlgCat.fppfTopology`, and the
   comparison map from the quotient sheaf to it, are Layer 0 and Layer 3 constructions, not
   pinned carriers.
-* Layers 4–5 and 7–8: diagonalizable groups and tori as objects, unipotent radicals, parabolic
-  and Levi subgroup functors, and the root datum extracted from a group: no carrier.
+* Layers 4–5, 7 and 9D: the nonsplit torus/Galois-lattice comparison, unipotent radicals,
+  parabolic and Levi subgroup functors, and the root datum extracted from a group lack
+  the required comparison carriers. Diagonalizable group schemes and their equivalence
+  with finitely generated commutative groups exist in
+  `TauCeti.DiagonalizableGroup.DiagonalizableGroupSchemeCat` and
+  `TauCeti.DiagonalizableGroup.schemeEquivalence`; they are supplied, not targets here.
 * Layer 9: a pinned reductive group with its extracted root datum; the full-root-datum
   Chevalley realization and its ordered PBW family (the native Kostant subring alone does not
   specify these); signed ADE cover Lie algebras and their folded fixed algebras.
@@ -43,8 +49,11 @@ Not statable at the pins, hence not stated, with the missing carrier named:
   For 11B the group side exists (`TauCeti.ArtinGroup`, `coxeterMatrixOfBase`,
   `rootPairingBaseChange`); the missing carrier is the `W`-action on the complexified
   root-hyperplane complement and its quotient. Bare scalar or abstract-cover surrogates do not
-  state these endpoints. The complex orbit comparison of 3A.5 needs the complex-manifold
-  charts on complex points that 3A.5 constructs, not a second point topology.
+  state these endpoints. Layer 11A's generator and covering-permutation refinements
+  additionally need the explicit half-twist paths and covering monodromy comparison;
+  the existence theorem below uses the actual configuration quotient. The complex orbit
+  comparison of 3A.5 needs the complex-manifold charts on complex points supplied by
+  ComplexComparisonPartII C-1.1, which are not available as pinned declarations.
 -/
 
 open CategoryTheory MonoidalCategory CartesianMonoidalCategory AlgebraicGeometry
@@ -159,7 +168,7 @@ theorem linearlyReductive_of_reductive {k : Type v} [Field k] [CharZero k]
 /-- Over an algebraically closed field (a conjunct of the Borel predicate), any two Borel
 subgroups of a finite-type affine group are conjugate by a rational point: the Hopf ideal
 of one is the conjugate of the Hopf ideal of the other (Milne, Algebraic Groups,
-Theorem 17.10). -/
+Theorem 17.9(b), p. 354). -/
 theorem exists_conjugate_eq_of_isBorelOverAlgClosed {k : Type v} [Field k]
     (H : TauCeti.FiniteTypeCommHopfAlgCat.{v, v} k) (I J : TauCeti.HopfIdeal k H)
     (hI : TauCeti.HopfIdeal.IsBorelOverAlgClosed k H I)
@@ -192,4 +201,52 @@ theorem exists_coordinatePresentation (n : ℕ) :
   sorry
 
 end SpecialLinearAcceptance
+
+/-! ## Layer 11: plane configurations and braid groups -/
+
+namespace PlaneBraidAcceptance
+
+/-- Ordered configurations of distinct complex points, with the subtype topology. -/
+abbrev OrderedPlane (n : ℕ) := {z : Fin n → ℂ // Function.Injective z}
+
+/-- A permutation acts by its inverse on coordinate indices. -/
+def permute {n : ℕ} (σ : Equiv.Perm (Fin n)) (z : OrderedPlane n) : OrderedPlane n :=
+  ⟨fun i => z.1 (σ⁻¹ i), z.property.comp σ.symm.injective⟩
+
+/-- The left permutation action on ordered plane configurations. -/
+instance planePermutationAction (n : ℕ) : MulAction (Equiv.Perm (Fin n)) (OrderedPlane n) where
+  smul := permute
+  one_smul z := Subtype.ext (by funext i; rfl)
+  mul_smul σ τ z := Subtype.ext (by funext i; rfl)
+
+/-- Unordered configurations carry the orbit quotient topology. -/
+abbrev UnorderedPlane (n : ℕ) :=
+  Quotient (MulAction.orbitRel (Equiv.Perm (Fin n)) (OrderedPlane n))
+
+/-- The standard ordered basepoint has coordinates 0, 1, ..., n−1. -/
+def planeBase (n : ℕ) : OrderedPlane n :=
+  ⟨fun i => (i.val : ℂ), by
+    intro i j h
+    apply Fin.ext
+    change (i.val : ℂ) = (j.val : ℂ) at h
+    exact_mod_cast h⟩
+
+/-- The unordered basepoint is the orbit of the standard ordered basepoint. -/
+def unorderedBase (n : ℕ) : UnorderedPlane n := Quotient.mk _ (planeBase n)
+
+/-- The fundamental group of the actual unordered plane configuration space is the
+native Artin braid group (Fox–Neuwirth, §7, pp. 123–126). -/
+theorem plane_braid (n : ℕ) :
+    Nonempty (FundamentalGroup (UnorderedPlane n) (unorderedBase n) ≃* TauCeti.BraidGroup n) := by
+  sorry
+
+/-- For at least two strands, the braid permutation map has no homomorphic section:
+a lifted transposition would have exponent sum both zero and odd. -/
+theorem permutation_nonsplit (n : ℕ) (hn : 2 ≤ n) :
+    ¬ ∃ s : Equiv.Perm (Fin n) →* TauCeti.BraidGroup n,
+      (TauCeti.BraidGroup.permHom n).comp s = MonoidHom.id _ := by
+  sorry
+
+end PlaneBraidAcceptance
+
 end TauCetiRoadmap.ReductiveGroups
