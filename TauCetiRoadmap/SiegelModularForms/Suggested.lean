@@ -15,8 +15,8 @@ theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, together wi
 definitions those statements need (the Siegel upper half-space and its action, holomorphic weights
 and slash operators, the bundled forms, half-integral matrices and Fourier coefficients, the
 `Φ`-operator and cusp forms, the Siegel Eisenstein series, theta series and theta constants,
-Igusa's generators, the Hecke operators and eigenforms, the Euler factors, the Maass lift and the
-Maass space, the paramodular group and its Fricke element). Every definition has a real body; a
+Igusa's generators and the Satoh bracket, the Hecke operators and eigenforms, the Euler factors,
+the Maass lift and the Maass space, the paramodular group and its Fricke element). Every definition has a real body; a
 proof obligation inside a bundled definition (that a function lands in `ℍ_g`, that a sum of
 slashes is again a modular form) is a named theorem proved by `sorry`.
 
@@ -31,16 +31,17 @@ Headline theorems not statable at the pins, and what each lacks:
   pullback to the upper-left block;
 * the theta transformation law for lattices of odd rank (5.2): the holomorphic square root of
   `det(τ/i)` on `ℍ_g`, which for `g ≥ 3` is not the principal branch;
-* Satoh's theorem, Tsushima's formula, Igusa's `Γ₂(2)` ring and the `Γ₀(2)`, `Γ₀(3)`, `Γ₀(4)`
-  rings, and the degree-three and degree-four classifications (6.4–6.9): forms with a character
-  and the structure of modules over a polynomial ring in theta constants;
+* Tsushima's dimension formula (6.4): the quasi-polynomial in `(k, j)` is cited from Tsushima
+  1983 and not transcribed; Igusa's `Γ₂(2)` ring, the `Γ₀(2)`, `Γ₀(3)`, `Γ₀(4)` rings and the
+  degree-three and degree-four classifications (6.5–6.9): the principal congruence subgroup
+  `Γ₂(2)`, the characters `ψ₃`, `ψ₄` and the theta constants as generators are not in this file;
 * the Satake isomorphism and the Satake parameters (7.4): the Hecke algebra as a ring with its
   characters;
 * the spinor and standard `L`-functions as Euler products, their functional equations and the
   data-model export (8.2–8.5): the Satake parameters;
 * the Fourier–Jacobi expansion and the Jacobi-side statements of 9.1–9.2, 9.5–9.6: the Jacobi
   carrier of `MetaplecticAutomorphicForms` 6.18 and the sibling `HalfIntegralWeightModularForms`
-  6.1–6.4, which are pull requests;
+  6.1–6.4, which this file cannot import (no roadmap module is importable here);
 * the Ikeda and Miyawaki lifts (9.7–9.8): the standard `L`-function;
 * the paramodular Hecke operators, oldforms, newforms, the local newform theory and the
   paramodular conjecture (7.3, 10.2–10.6, including `IsParamodularPartner`): the Satake
@@ -872,14 +873,6 @@ def SiegelModularForm.ofInvariant (hg : 2 ≤ g) {Γ : Subgroup (Sp g ℝ)} (hΓ
     (hinv : ∀ γ ∈ Γ, slash ρ (Sp.toGSpPos γ) f = f) : SiegelModularForm Γ ρ :=
   ⟨f, hf, hinv, bounded_of_invariant hg hΓ ρ f hf hinv⟩
 
-/-- `M_0(Γ) = ℂ` for `g ≥ 2` and arithmetic `Γ` (2.4). -/
-theorem exists_eq_const (hg : 2 ≤ g) {Γ : Subgroup (Sp g ℝ)} (hΓ : IsArithmetic Γ)
-    (f : SiegelModularForm Γ (detWeight g 0)) : ∃ c : ℂ, ⇑f = fun _ => c := sorry
-
-/-- `M_k(Γ_g) = 0` for `k < 0`, `g ≥ 2` (2.4). -/
-theorem eq_zero_of_neg (hg : 2 ≤ g) (k : ℤ) (hk : k < 0)
-    (f : SiegelModularForm (Gamma g) (detWeight g k)) : f = 0 := sorry
-
 /-- Hecke's bound `a(T) = O(det T ^ k)` on positive definite `T` (2.5). -/
 theorem fourierCoeff_isBigO {Γ : Subgroup (Sp g ℝ)} (hΓ : IsArithmetic Γ) (k : ℤ)
     (f : SiegelModularForm Γ (detWeight g k)) : ∃ C : ℝ, ∀ T : HalfIntegral g, T.IsPosDef →
@@ -1008,11 +1001,6 @@ lattice in the real model of the theta-series roadmap (5.1); at `g = 1` it is th
 `thetaSeries L`. -/
 def siegelTheta (L : Submodule ℤ E) (g : ℕ) (τ : ℍ[g]) : ℂ :=
   ∑' v : Fin g → L, cexp (π * I * (gram (fun i => (v i : E)) * τ.toMatrix).trace)
-
-/-- Summability of the theta series (5.1), which makes the `tsum` the series. -/
-theorem summable_siegelTheta (L : Submodule ℤ E) [DiscreteTopology L] [IsZLattice ℝ L] (τ : ℍ[g]) :
-    Summable fun v : Fin g → L => cexp (π * I * (gram (fun i => (v i : E)) * τ.toMatrix).trace) :=
-  sorry
 
 /-- The representation numbers `r_L(T) = #{v ∈ L^g : Gram(v) = 2T}` are the coefficients of the
 theta series of an even lattice (5.1). -/
@@ -1160,6 +1148,72 @@ def igusaDim (k : ℕ) : ℕ :=
 theorem finrank_eq_igusaDim (k : ℕ) :
     Module.finrank ℂ (SiegelModularForm (Gamma 2) (detWeight 2 k)) = igusaDim k := sorry
 
+/-- The **Satoh bracket** `[f, g] = (1/k) g ∇f − (1/l) f ∇g` of scalar forms of weights `k`, `l`
+on `Γ₂`, as a `ρ_{k+l,2}`-valued function (6.4): `∇f` is the symmetric-matrix derivative
+`[[∂₁₁f, ½∂₁₂f], [½∂₁₂f, ∂₂₂f]]` in the normalized partials of 6.2, and the quadratic form
+`X ↦ Xᵀ (∇f) X` has coefficient vector `(∂₁₁f, ∂₁₂f, ∂₂₂f)` in the basis `X₀², X₀X₁, X₁²`. -/
+def satohBracket {k l : ℤ} (f : SiegelModularForm (Gamma 2) (detWeight 2 k))
+    (g : SiegelModularForm (Gamma 2) (detWeight 2 l)) (τ : ℍ[2]) : Fin 3 → ℂ :=
+  ![(k : ℂ)⁻¹ * g τ * normDeriv f 0 0 τ - (l : ℂ)⁻¹ * f τ * normDeriv g 0 0 τ,
+    (k : ℂ)⁻¹ * g τ * normDeriv f 0 1 τ - (l : ℂ)⁻¹ * f τ * normDeriv g 0 1 τ,
+    (k : ℂ)⁻¹ * g τ * normDeriv f 1 1 τ - (l : ℂ)⁻¹ * f τ * normDeriv g 1 1 τ]
+
+/-- `[f, g] ∈ M_{k+l,2}(Γ₂)` for `k, l ≥ 1` (6.4): the derivative of `det(Cτ + D)^k` supplies the
+`Sym²`-twist, and the terms in `f g` cancel. For `k = 0` the bracket `−(1/l) ∇g` is not modular. -/
+theorem satohBracket_mem {k l : ℤ} (hk : 0 < k) (hl : 0 < l)
+    (f : SiegelModularForm (Gamma 2) (detWeight 2 k))
+    (g : SiegelModularForm (Gamma 2) (detWeight 2 l)) :
+    satohBracket f g ∈ siegelSubmodule (Gamma 2) (rho (k + l) 2) := sorry
+
+/-- The generators `(ψ₆, χ₁₀, χ₁₂)` of the subring `ℂ[ψ₆, χ₁₀, χ₁₂]` whose weight-`k` part is
+`V_k` (6.4). -/
+def satohGenerators : Fin 3 → (ℍ[2] → ℂ) := ![⇑(psi 6 (by norm_num) (by decide)), ⇑chi10, ⇑chi12]
+
+/-- The weights `(6, 10, 12)` of `(ψ₆, χ₁₀, χ₁₂)` (6.4). -/
+def satohWeights : Fin 3 → ℕ := ![6, 10, 12]
+
+/-- **Satoh's theorem** (6.4; Satoh 1986): for even `k`,
+`M_{k,2}(Γ₂) = M_{k−10}[ψ₄,ψ₆] ⊕ M_{k−14}[ψ₄,χ₁₀] ⊕ M_{k−16}[ψ₄,χ₁₂] ⊕ V_{k−16}[ψ₆,χ₁₀] ⊕
+V_{k−18}[ψ₆,χ₁₂] ⊕ V_{k−22}[χ₁₀,χ₁₂]`: every form of weight `(k, 2)` is uniquely a sum of the six
+brackets times isobaric polynomials, in `ψ₄, ψ₆, χ₁₀, χ₁₂` of weights `k − 10, k − 14, k − 16` and
+in `ψ₆, χ₁₀, χ₁₂` of weights `k − 16, k − 18, k − 22`. The weights are integers, so a negative
+weight admits only the zero polynomial and the statement at `k < 10` says `M_{k,2}(Γ₂) = 0`. -/
+theorem satoh (k : ℕ) (hk : Even k) (F : SiegelModularForm (Gamma 2) (rho k 2)) :
+    ∃! x : (MvPolynomial (Fin 4) ℂ × MvPolynomial (Fin 4) ℂ × MvPolynomial (Fin 4) ℂ) ×
+        (MvPolynomial (Fin 3) ℂ × MvPolynomial (Fin 3) ℂ × MvPolynomial (Fin 3) ℂ),
+      x.1.1.IsWeightedHomogeneous (fun i => (igusaWeights i : ℤ)) ((k : ℤ) - 10) ∧
+      x.1.2.1.IsWeightedHomogeneous (fun i => (igusaWeights i : ℤ)) ((k : ℤ) - 14) ∧
+      x.1.2.2.IsWeightedHomogeneous (fun i => (igusaWeights i : ℤ)) ((k : ℤ) - 16) ∧
+      x.2.1.IsWeightedHomogeneous (fun i => (satohWeights i : ℤ)) ((k : ℤ) - 16) ∧
+      x.2.2.1.IsWeightedHomogeneous (fun i => (satohWeights i : ℤ)) ((k : ℤ) - 18) ∧
+      x.2.2.2.IsWeightedHomogeneous (fun i => (satohWeights i : ℤ)) ((k : ℤ) - 22) ∧
+      ⇑F = fun τ =>
+        MvPolynomial.aeval igusaGenerators x.1.1 τ •
+            satohBracket (psi 4 (by norm_num) (by decide)) (psi 6 (by norm_num) (by decide)) τ +
+          MvPolynomial.aeval igusaGenerators x.1.2.1 τ •
+            satohBracket (psi 4 (by norm_num) (by decide)) chi10 τ +
+          MvPolynomial.aeval igusaGenerators x.1.2.2 τ •
+            satohBracket (psi 4 (by norm_num) (by decide)) chi12 τ +
+          MvPolynomial.aeval satohGenerators x.2.1 τ •
+            satohBracket (psi 6 (by norm_num) (by decide)) chi10 τ +
+          MvPolynomial.aeval satohGenerators x.2.2.1 τ •
+            satohBracket (psi 6 (by norm_num) (by decide)) chi12 τ +
+          MvPolynomial.aeval satohGenerators x.2.2.2 τ • satohBracket chi10 chi12 τ := sorry
+
+/-- The coefficient of `t^k` in Satoh's Hilbert series
+`(t¹⁰ + t¹⁴ + t¹⁶)/((1 − t⁴)(1 − t⁶)(1 − t¹⁰)(1 − t¹²)) + (t¹⁶ + t¹⁸ + t²²)/((1 − t⁶)(1 − t¹⁰)(1 − t¹²))`
+(6.4): the monomial count of the three `M`-summands plus that of the three `V`-summands. -/
+def satohDim (k : ℕ) : ℕ :=
+  Set.ncard {x : ℕ × ℕ × ℕ × ℕ × Fin 3 |
+      4 * x.1 + 6 * x.2.1 + 10 * x.2.2.1 + 12 * x.2.2.2.1 + ![10, 14, 16] x.2.2.2.2 = k} +
+    Set.ncard {x : ℕ × ℕ × ℕ × Fin 3 |
+      6 * x.1 + 10 * x.2.1 + 12 * x.2.2.1 + ![16, 18, 22] x.2.2.2 = k}
+
+/-- `dim M_{k,2}(Γ₂)` for even `k` is the coefficient of `t^k` in Satoh's Hilbert series (6.4):
+`1, 0, 2, 3, 3, 4, 7` at `k = 10, 12, …, 22`. -/
+theorem finrank_rho_two (k : ℕ) (hk : Even k) :
+    Module.finrank ℂ (SiegelModularForm (Gamma 2) (rho k 2)) = satohDim k := sorry
+
 /-! ## Layer 7: Hecke operators and eigenforms -/
 
 /-- The semigroup `O_g(m)` of integral similitudes of multiplier `m` (0.2, 7.1). -/
@@ -1189,12 +1243,6 @@ open scoped Classical in
 /-- A set of representatives of `Γ_g \ O_g(m)`, one per right coset (7.1). -/
 def cosetReps (g m : ℕ) : Finset (GSpPos g ℚ) :=
   (finite_rightCosetsOf_integralSimilitudes g m).toFinset.image Quotient.out
-
-/-- `cosetReps g m` is a complete set of right-coset representatives (7.1). -/
-theorem cosetReps_spec (g m : ℕ) :
-    (∀ γ ∈ cosetReps g m, γ ∈ integralSimilitudes g m) ∧
-    ∀ M ∈ integralSimilitudes g m, ∃! γ ∈ cosetReps g m,
-      ∃ δ : Sp g ℤ, M = Sp.toGSpPos (Sp.intToRat δ) * γ := sorry
 
 /-- The diagonal matrix `diag(1_{g−i}, p 1_i, p² 1_{g−i}, p 1_i)` of `T_i(p²)` (7.1). -/
 def heckeDiag (g p i : ℕ) : Matrix (Fin g ⊕ Fin g) (Fin g ⊕ Fin g) ℚ :=

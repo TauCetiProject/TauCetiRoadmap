@@ -651,7 +651,9 @@ and for irreducible `ρ` (where `ρ(−1)` is the scalar `(−1)^{∑λ_i}`) `M_
 `ψ(−1) ρ(−1) = 1`; hence `M_k(Γ_g) = 0` for `kg` odd (van der Geer, Corollary 4.2) and
 `M_{k,j}(Γ₂) = 0` for `j` odd (the LMFDB's dimension tables show zeros at odd `j` for this
 reason). For reducible `ρ` the conclusion `ρ(−1) = 1` fails: `ρ = det⁰ ⊕ det¹` on `ℂ²` has
-`ρ(−1) = diag(1, −1) ≠ 1`, and the constant `(1, 0)` is a nonzero element of `M_ρ(Γ_g)`; and the `g = 1` comparison `SiegelModularForm Γ (det^k) ≃ ModularForm Γ' k` for the
+`ρ(−1) = diag(1, −1) ≠ 1`, and the constant `(1, 0)` is a nonzero element of `M_ρ(Γ_g)`
+(`Suggested.lean` states the lemma as `eq_zero_of_neg_one_mem`, with the fixed-vector hypothesis);
+and the `g = 1` comparison `SiegelModularForm Γ (det^k) ≃ ModularForm Γ' k` for the
 image `Γ'` of `Γ` in `GL (Fin 2) ℝ`, through 0.1, 0.3 and 1.2.
 
 *Needs:* 0.6, 1.1, 1.2; Mathlib `ModularForm`, `MDifferentiable`.
@@ -667,14 +669,16 @@ The `g = 1` comparison isomorphism is specified in this README only.
 - Negative control for the parity lemma: `ρ = det⁰ ⊕ det¹` on `ℂ²`, `Γ = Γ₂ ∋ −1`,
   `f ≡ (1, 0)`: `(f ∣_ρ γ)(τ) = diag(1, det j(γ,τ)⁻¹)(1, 0) = (1, 0)`, so `f` is a nonzero
   form although `ρ(−1) = diag(1, −1) ≠ 1`; a statement of the lemma with `ρ(−1) ≠ 1` in place of
-  "`ρ(−1)` fixes no nonzero vector" is false, and the Lean hypothesis is the latter.
+  "`ρ(−1)` fixes no nonzero vector" is false.
 - The boundedness field of `SiegelModularForm` at `g = 1` corresponds to Mathlib's boundedness at
   the cusps; dropping it admits `j(τ)`, which is holomorphic and `SL₂(ℤ)`-invariant (2.4).
 
 ### Examples
 
 - `ρ_{k,j}` has dimension `j + 1`, highest weight `(k + j, k)`, `e(ρ_{k,j}) = 2k + j − 3` and
-  `ρ_{k,j}(−1) = (−1)^j`, so `M_{k,j}(Γ₂) = 0` for odd `j` and `M_k(Γ₂) = 0` for odd `k < 35`.
+  `ρ_{k,j}(−1) = (−1)^j`, so `M_{k,j}(Γ₂) = 0` for odd `j` (1.3); `M_k(Γ₂) = 0` for odd `k < 35`
+  by 6.3 (`det^k(−1₂) = 1`, so the parity lemma says nothing about odd scalar weight in degree
+  two).
 - For `g = 1`, `f ∣_{k,k−1} γ = f ∣[k] γ`, and `M_k(Γ₁) ≃ ModularForm 𝒮ℒ k`.
 
 ### Dependencies
@@ -1147,17 +1151,31 @@ the same statement with the odd weight `m/2` and the same character. The knowl
 
 ### 5.3 Theta series with pluriharmonic coefficients
 
-Define, for `P ∈ ℂ[X]` a polynomial in the `m × g` matrix variable `X`, **pluriharmonic**
-(`∑_t ∂²P/∂X_{it}∂X_{jt} = 0` for all `i, j`; the knowl's definition) and **homogeneous of weight
-`ρ`** (`P(XA) = ρ(A) P(X)` for `A ∈ GL_g(ℂ)`, with `P` valued in `V`; scalar case
-`P(XA) = det(A)^ν P(X)`), the series `θ_{L,P}^{(g)}(τ) := ∑_{v ∈ L^g} P(B v) exp(π i tr(Gram(v) τ))`
+Define, for `P ∈ ℂ[X]` a polynomial in the `m × g` matrix variable `X` (rows indexed by the `m`
+coordinates of the quadratic space, columns by the `g` vectors), **pluriharmonic**
+(`∑_{t=1}^{m} ∂²P/∂X_{ti}∂X_{tj} = 0` for all `1 ≤ i, j ≤ g`: the Laplacian and the mixed
+Laplacians of the `m`-dimensional quadratic space, one for each pair of columns; Freitag 1983,
+Chapter I; the knowl `mf.siegel.theta_series` sums over the columns instead, which is a misprint,
+see the Checks) and **homogeneous of weight `ρ`** (`P(XA) = ρ(Aᵀ) P(X)` for `A ∈ GL_g(ℂ)`, with
+`P` valued in `V` and `ρ` the representation of 1.1 on `V`; the transpose is forced by the right
+action `X ↦ XA`, since `P(XAB) = ρ(BᵀAᵀ) P(X)` must equal `ρ((AB)ᵀ) P(X)`, and it is what
+makes `θ_{L,P}` invariant under `m(U) = diag(U, U⁻ᵀ)`; scalar case `P(XA) = det(A)^ν P(X)`),
+the series `θ_{L,P}^{(g)}(τ) := ∑_{v ∈ L^g} P(B v) exp(π i tr(Gram(v) τ))`
 where `B` is a Gram square root (`BᵀB = Gram`, so `P(Bv)` is `P` evaluated at the coordinates of
 `v` in an orthonormal basis). Prove convergence and holomorphy, that pluriharmonicity makes
 `P(X) exp(−π tr(XᵀX Y))` an eigenfunction of the Fourier transform, hence the same
-transformation law as 5.2 with weight `det^{m/2} ⊗ ρ`, and that for `ρ` nontrivial the result is
-a **cusp form**: `θ_{L,P}^{(g)} ∈ S_{det^{m/2} ⊗ ρ}(Γ₀^{(g)}(ℓ), χ_L)` (Freitag 1983, Chapter I,
-the theta series with harmonic coefficients; the knowl `mf.siegel.theta_series`, "theta series
-with pluriharmonics"). At `g = 1`, `L` even unimodular and `P` harmonic of degree `d`,
+transformation law as 5.2 with weight `det^{m/2} ⊗ ρ`, and that the result is a **cusp form**
+when the highest weight `(λ₁ ≥ … ≥ λ_g)` of `ρ` has `λ_g ≥ 1` (scalar case `det^ν`: `ν ≥ 1`),
+equivalently when `P` vanishes on every matrix with a zero column (the value
+`P(X diag(1, …, 1, t)) = ρ(diag(1, …, 1, t)) P(X)` tends to `0` with `t` exactly when `λ_g ≥ 1`):
+`θ_{L,P}^{(g)} ∈ S_{det^{m/2} ⊗ ρ}(Γ₀^{(g)}(ℓ), χ_L)` (Freitag 1983, Chapter I, the theta series
+with harmonic coefficients; the knowl `mf.siegel.theta_series`, "theta series with
+pluriharmonics", states the scalar case). The reason is the formula
+`Φ θ_{L,P}^{(g)} = θ_{L, P(·, 0)}^{(g−1)}`, the degree-`(g − 1)` series of `P` with its last column
+set to `0` (the terms with `v_g ≠ 0` decay as `exp(−π t ⟪v_g, v_g⟫)`), applied after every slash by
+`Sp_{2g}(ℚ)`, which carries `θ_{L,P}` to a combination of theta series of cosets of lattices
+commensurable with `L` with the same `P` (5.2). For `λ_g = 0` the series need not be cuspidal,
+see the Checks. At `g = 1`, `L` even unimodular and `P` harmonic of degree `d`,
 `θ_{L,P}^{(1)}`
 is the sibling `LatticePackingsAndPerfectForms`' `Θ_{L,P}` (its 5.6, a cusp form of weight
 `m/2 + d` for `SL₂(ℤ)`), consumed by comparison exactly as 5.1 consumes the scalar degree-one theta
@@ -1165,9 +1183,12 @@ series, not reproved. Acceptance:
 Ibukiyama's form `F ∈ S_{8,6}(Γ₂)` (weight `(k, j) = (8, 6)`) from the rank-16 lattice
 `Γ = {x ∈ ℚ¹⁶ : 2x_i ∈ ℤ, x_i − x_j ∈ ℤ, ∑ x_i ∈ 2ℤ}` (the `D₁₆⁺` lattice of `IntegralLattices` 6D, one of
 the two even unimodular lattices of rank 16) with `P_ν(x, y) = (x, a)^{6−ν} (y, a)^{ν}`, `a = (2, i, i, i, i, 0, …, 0)`, is
-nonzero (van der Geer §25), and `S_{8,6}(Γ₂)` is one-dimensional (6.4). The `γ₄ ∈ S_4(Γ₀(3))`
-of 6.6 is `θ_{S,P}` for the rank-4 lattice `S` and quadratic `P` of the knowl
-`mf.siegel.family.gamma0_3`.
+nonzero (van der Geer §25), and `S_{8,6}(Γ₂)` is one-dimensional (6.4); its polynomial weight is
+`ρ = Sym⁶` with `λ₂ = 0`, so its cuspidality is not the general statement: `Φ F` is the degree-one
+theta series of `D₁₆⁺` with the harmonic coefficient `(x, a)⁶`, a cusp form of weight `8 + 6 = 14`
+on `SL₂(ℤ)`, and `S_{14}(SL₂(ℤ)) = 0`. The `γ₄ ∈ S_4(Γ₀(3))` of 6.6 is `θ_{S,P}` for the rank-4
+lattice `S` and the quartic `P` of the knowl `mf.siegel.family.gamma0_3`, a quadratic form in the
+`2 × 2` minors of `X`, so `P(XA) = det(A)² P(X)` and `ν = 2 ≥ 1`.
 
 *Needs:* 1.1, 3.2, 5.2.
 
@@ -1175,8 +1196,24 @@ of 6.6 is `θ_{S,P}` for the rank-4 lattice `S` and quadratic `P` of the knowl
 
 - `P = 1` recovers 5.2; a linear harmonic `P(x) = x₁` (`g = 1`) gives `θ_{L,P} = 0` by the symmetry
   `v ↦ −v`, a cusp form of odd weight `m/2 + 1` that vanishes.
+- The index of the pluriharmonic sum: for Ibukiyama's `P₀ = (x, a)⁶` (`g = 2`, columns
+  `x, y ∈ ℂ¹⁶`, `a = (2, i, i, i, i, 0, …, 0)`, `(a, a) = 4 − 4 = 0`) the sum over the `16` rows at
+  the column pair `(1, 1)` is `∑_t ∂²P₀/∂x_t² = 30 (a, a)(x, a)⁴ = 0` and the pairs `(1, 2)`,
+  `(2, 2)` give `0` since `P₀` is free of `y`, so `P₀` is pluriharmonic; the sum over the two
+  columns at the row pair `(1, 1)`, `∂²P₀/∂x₁² + ∂²P₀/∂y₁² = 30 a₁² (x, a)⁴ = 120 (x, a)⁴`, is not
+  `0`, so the transposed condition excludes the polynomial of the one-dimensional `S_{8,6}(Γ₂)`.
+- The homogeneity law: `P(X) = (x, a) X₀ + (y, a) X₁` (weight `Sym¹`, the linear form `ξ Xᵀ a` in
+  `ξ = (X₀, X₁)`) has `P(XA) = ξ Aᵀ Xᵀ a = (ρ(Aᵀ)P)(X)` under the substitution `X_i ↦ ∑_l A_{li} X_l`
+  of 1.1; for `A = [[1, 1], [0, 1]]`, `P(XA) = (X₀ + X₁)(x, a) + X₁ (y, a)` while
+  `ρ(A) P(X) = X₀ (x, a) + (X₀ + X₁)(y, a)`, so the law `P(XA) = ρ(A) P(X)` fails.
 - Ibukiyama's `F ∈ S_{8,6}(Γ₂)` from `D₁₆⁺` is nonzero and spans the one-dimensional space;
-  `γ₄ ∈ S_4(Γ₀(3))` is cuspidal while `θ_S ∈ M_2(Γ₀(3))` with `P = 1` is not.
+  `γ₄ ∈ S_4(Γ₀(3))` (`ν = 2`) is cuspidal while `θ_S ∈ M_2(Γ₀(3))` with `P = 1` is not.
+- Negative control for cuspidality: `L = E₈`, `P(X) = ((x, a) X₀ + (y, a) X₁)⁸` with `a ∈ ℂ⁸`
+  isotropic, pluriharmonic (every second derivative carries `(a, a) = 0`) of weight `ρ = Sym⁸`,
+  `λ₂ = 0`: `Φ θ_{E₈,P} = θ^{(1)}_{E₈,(x,a)⁸} X₀⁸`, a cusp form of weight `12` times `X₀⁸`, equal to
+  `c Δ X₀⁸` with `c = ∑_{r root} (r, a)⁸`, which is nonzero for a suitable isotropic `a` because
+  the `240` roots form a spherical `7`-design and not an `8`-design (a tight `7`-design,
+  `240 = 2 · C(10, 3)`); so `θ_{E₈,P} ∈ M_{4,8}(Γ₂)` is not a cusp form although `ρ` is nontrivial.
 - At `g = 1` the series is `LatticePackingsAndPerfectForms` 5.6's `Θ_{L,P}`, a cusp form of weight
   `m/2 + d`.
 
@@ -1328,12 +1365,20 @@ those of the monomials, hence rational if it is a rational combination of monomi
 
 ### 6.4 Vector-valued forms of degree two: Satoh's brackets and Tsushima's formula
 
-Define the **Satoh bracket** `[f, g] := (1/(2πi)) ((1/k) g ∇f − (1/l) f ∇g) ∈ M_{k+l, 2}(Γ₂)`
-for `f ∈ M_k(Γ₂)`, `g ∈ M_l(Γ₂)`, with `∇f` the symmetric matrix of partial derivatives
-`(∂f/∂τ_{ij})` realized in `ρ_{k+l, 2}` as the quadratic form `X ↦ Xᵀ (∇f) X` on
-`homogeneousSubmodule (Fin 2) ℂ 2` (the knowl `mf.siegel.family.sp4z_2`; van der Geer §25), and
-prove it is a form of weight `(k + l, 2)` (the derivative of the automorphy factor is the
-`Sym²`-twist). Prove **Satoh's theorem** (Satoh 1986): for even `k`,
+Define the **Satoh bracket** `[f, g] := (1/k) g ∇f − (1/l) f ∇g` for `f ∈ M_k(Γ₂)`,
+`g ∈ M_l(Γ₂)`, `k, l ≥ 1`, with `∇f := [[∂₁₁f, ½ ∂₁₂f], [½ ∂₁₂f, ∂₂₂f]]` the symmetric-matrix
+derivative built from the normalized partials `∂_{ab}` of 6.2 (so `∇ e(tr(Tτ)) = T e(tr(Tτ))`
+for half-integral `T`; it is `(2πi)⁻¹` times van der Geer's `∇` without his non-holomorphic
+term `k(2iY)⁻¹ f`, which the bracket cancels), realized in `ρ_{k+l, 2}` as the quadratic form
+`X ↦ Xᵀ (∇f) X` on `homogeneousSubmodule (Fin 2) ℂ 2`, whose coefficient vector in the basis
+`X₀², X₀X₁, X₁²` is `(∂₁₁f, ∂₁₂f, ∂₂₂f)` (the knowl `mf.siegel.family.sp4z_2`; van der Geer §25,
+whose sign is the opposite), and prove `[f, g] ∈ M_{k+l, 2}(Γ₂)` (`∇f(γ • τ)` is
+`det j(γ, τ)^k` times `j(γ, τ) (∇f)(τ) j(γ, τ)ᵀ` plus a multiple of `f(τ)` that the bracket
+cancels, and `S ↦ j S jᵀ` is `ρ_{0,2}(j)` on the quadratic form); for a constant `f = 1` of
+weight `0` the bracket `−(1/l) ∇g` is not modular, which is why `k, l ≥ 1`. `Suggested.lean`
+states the bracket as `satohBracket` (with `satohBracket_mem` for `k, l ≥ 1`), the theorem
+below as `satoh`, and its dimension consequence as `finrank_rho_two` with the Hilbert-series
+coefficient `satohDim`. Prove **Satoh's theorem** (Satoh 1986): for even `k`,
 `M_{k,2}(Γ₂) = M_{k−10}[ψ₄,ψ₆] ⊕ M_{k−14}[ψ₄,χ₁₀] ⊕ M_{k−16}[ψ₄,χ₁₂] ⊕ V_{k−16}[ψ₆,χ₁₀] ⊕ V_{k−18}[ψ₆,χ₁₂] ⊕ V_{k−22}[χ₁₀,χ₁₂]` with `V_k := M_k(Γ₂) ∩ ℂ[ψ₆, χ₁₀, χ₁₂]`, and its
 consequences
 `∑_{k even} dim M_{k,2}(Γ₂) t^k = (t¹⁰ + t¹⁴ + t¹⁶)/((1−t⁴)(1−t⁶)(1−t¹⁰)(1−t¹²)) + (t¹⁶ + t¹⁸ + t²²)/((1−t⁶)(1−t¹⁰)(1−t¹²))`, `dim S_{k,2}(Γ₂) = dim M_{k,2}(Γ₂) − dim S_{k+2}(SL₂(ℤ))`
@@ -1349,15 +1394,19 @@ odd `j` (1.3). State Ibukiyama's generators of the modules `⨁_k M_{k,4}(Γ₂)
 `⨁_k M_{k,6}(Γ₂)` over `ℂ[ψ₄, ψ₆, χ₁₀, χ₁₂]` (Ibukiyama 2012, "Vector valued Siegel modular
 forms of symmetric tensor weight of small degrees", Theorems for `j = 4, 6`), by citation.
 
-*Needs:* 1.1, 1.3, 3.5, 4.3, 6.3.
+*Needs:* 1.1, 1.3, 3.5, 4.3, 6.2, 6.3.
 
 **Checks.**
 
+- `Φ[ψ₄, ψ₆] = 144 Δ X₀²`: the `X₀²`-coefficient of `[ψ₄, ψ₆]` at `(1, 0, 0)` is
+  `240/4 + 504/6 = 144` and at `(2, 0, 0)` it is `(4320 − 120960)/4 − (−33264 − 120960)/6`,
+  that is `−3456 = 144 τ(2)`; with `1/k` and `1/l` interchanged the `X₀²`-coefficients are `166`
+  and `19116`, and `19116 ≠ 166 τ(2)`, so that combination is not modular.
 - `[ψ₄, ψ₆]` spans `M_{10,2}(Γ₂)` (dimension `1`, the `t¹⁰` term from `M_0[ψ₄, ψ₆]`) and
   `M_{12,2}(Γ₂) = 0` (no summand reaches weight `12`); `dim M_{k,2}` for `k = 14, …, 22` is
   `2, 3, 3, 4, 7` and `dim S_{k,2}` is `1, 2, 2, 3, 5`.
-- Tsushima: `dim S_{k,j}(Γ₂) = 1, 1, 1, 2, 3, 2, 1` at `(k, j) = (8, 6), (10, 4), (14, 2), (16, 2),
-  (20, 2), (12, 6), (6, 12)`.
+- Tsushima: `dim S_{k,j}(Γ₂) = 1, 1, 1, 2, 3, 2, 1` at
+  `(k, j) = (8, 6), (10, 4), (14, 2), (16, 2), (20, 2), (12, 6), (6, 12)`.
 - `S_{k,j}(Γ₂) = 0` for odd `j` (1.3), so the formula is stated for even `j` only.
 
 
@@ -1374,11 +1423,31 @@ Prove, as stated in the knowl `mf.siegel.family.gamma_2` (Igusa 1964): the ten f
 `M_{k,j}(Γ₁(2))` those of `(ℤ/2)³`; the isotypic multiplicities `m_λ(k, j)`, `l_λ(k, j)`
 (for `M` and `S`) indexed by the eleven partitions `λ ⊢ 6` are the invariants the LMFDB's
 "Gamma_2", "Gamma1_2", "Gamma0_2" dimension tables display, with the branching
-`S₆ ↓ S₃` of the knowl (`m_{[6]} + m_{[4,2]} + m_{[2³]}` for `Γ₀(2)`). State the generating
-functions `∑_k m_λ(k, j) t^k` for `j ∈ {0, 2, 4, 6, 8, 10, 12, 14, 16}` as rational functions
-(Cléry–van der Geer–Grushevsky 2015; Bergström–Faber–van der Geer 2008) — the stored rational
-functions of the LMFDB's `smf_dims` table are the certificate against which the statements are
-checked, so each `(λ, j)` is a theorem whose proof is the comparison of two rational functions.
+`S₆ ↓ S₃` of the knowl (`m_{[6]} + m_{[4,2]} + m_{[2³]}` for `Γ₀(2)`). Prove the dimension
+formulas of Cléry–van der Geer–Grushevsky 2015 for the totals:
+`dim M_k(Γ₂(2)) = (k + 1)(k² + 2k + 12)/12` for even `k ≥ 0` and
+`dim M_{k+5}(Γ₂(2)) = dim M_k(Γ₂(2))` (their Theorem 12.1); `M_{k,j}(Γ₂(2)) = 0` for odd `j` (the parity lemma, `−1 ∈ Γ₂(2)`) and
+`M_{k,j}(Γ₂(2)) = S_{k,j}(Γ₂(2))` for odd `k`; and, for even `j ≥ 2`, their cubic polynomial
+formulas for `dim M_{k,j}(Γ₂(2))` (one for `k ≥ 4` even, one for `k ≥ 3` odd), equivalently
+the generating function `∑_{k ≥ 3} dim M_{k,j}(Γ₂(2)) t^k = (∑_{i=3}^{12} a_i(j) t^i)/(1 − t²)⁵`
+with their explicit cubic numerator coefficients `a_i(j)` (Theorem 12.3; Riemann–Roch on the
+toroidal compactification or the Selberg trace formula, Wakatsuki's trace-formula proof for
+`S_{k,j}`, `k ≥ 5`). State, by citation, their Theorem 14.1: for even `j ≥ 2` the generating
+functions of `dim S_{k,j}(Γ₁(2))` over odd `k` and of `dim M_{k,j}(Γ₁(2))` over even `k` are
+rational functions with denominator `(1 − t²)(1 − t⁴)⁴(1 − t⁶)` and the cubic numerator
+coefficients they list by `j mod 4`, proved by the holomorphic Lefschetz formula and not
+conditional on any conjecture. The finer `S₆`-isotypic multiplicities `m_λ(k, j)`, `l_λ(k, j)`
+are a named hypothesis `IsotypicDecomposition`: the conjectures of Bergström–Faber–van der Geer
+2008 on the endoscopic and lift contributions to the cohomology of the local systems on `A₂(2)`
+(their Conjectures 6.2, 7.1, 7.4 and 7.6), under which Cléry–van der Geer–Grushevsky (§13)
+compute the `S₆`-action on `S_{k,j}(Γ₂(2))` for `j + k ≥ 5`; they are theorems only where the
+totals above, the Eisenstein subspaces (their §13) and the module theorems determine them
+(their Theorems 20.2, 21.1, 22.1, 22.4 and 23.1: generators, with the `S₆`- or `S₃`-types of
+each generator, of the modules of `S_{k,2}` over odd `k`, of `M_{k,2}` and of `M_{k,4}` on
+`Γ₂(2)` and `Γ₁(2)` over the even rings). The isotypic columns `[m, n, l]` of the LMFDB's
+"Gamma_2", "Gamma1_2", "Gamma0_2" tables are conditional on `IsotypicDecomposition`; their
+totals are the theorems above, and the stored rational functions of the LMFDB's `smf_dims` table
+are compared with the stated ones as Checks, never used as proofs.
 
 *Needs:* 0.6, 1.3, 3.5, 5.4, 6.1; Mathlib `Equiv.Perm`, `Representation`.
 
@@ -1390,6 +1459,13 @@ checked, so each `(λ, j)` is a theorem whose proof is the comparison of two rat
   `M_4(Γ₂) = ℂψ₄` is the invariant line.
 - `χ₅² = 2¹² χ₁₀` with `a((1, 1, 1)) = 4096` (5.4), and `χ₅ ∉ M_5(Γ₂)` (its character is the sign of
   `S₆`).
+- `dim M_k(Γ₂(2)) = (k + 1)(k² + 2k + 12)/12` gives `1, 5, 15, 35` at `k = 0, 2, 4, 6` (the
+  `15` is the count of quadrics in five variables), and the shift `dim M_{k+5} = dim M_k` gives
+  `dim M_5(Γ₂(2)) = 1` (the line `ℂχ₅`) and `dim M_7(Γ₂(2)) = 5` (`χ₅ · M_2`); a formula without the
+  `+ 12` would give `0` at `k = 0`.
+- The isotypic refinement is conditional: a table of `S₆`-multiplicities is accepted only with the
+  hypothesis `IsotypicDecomposition` named, except where its total is one of the theorems above
+  and the module theorems fix the types, as for `S_{k,2}(Γ₂(2))` with `k` odd (Theorem 20.2).
 
 
 ### 6.6 Ibukiyama's rings for `Γ₀(3)` and the character `ψ₃`
@@ -2035,7 +2111,9 @@ index-one Hecke operator `T_p` on `φ`), and that `ψ_k, χ₁₀, χ₁₂ ∈ 
 Hecke-stable decomposition `M_k(Γ₂) = ℂψ_k ⊕ E_{2,1,k}(S_k(Γ₁)) ⊕ S_k^*(Γ₂) ⊕ (S_k^*)^⊥` for even
 `k ≥ 6`, with dimensions `1`, `dim S_k(Γ₁)`, `dim S_{2k−2}(Γ₁)`, and the remainder: for
 `k = 20`, `5 = 1 + 1 + 2 + 1` (the first non-lift cusp form `Υ₂₀`), for `k = 24`,
-`8 = 1 + 2 + 3 + 2`, for `k = 10, 12, 14, 16, 18` the remainder is `0`.
+`8 = 1 + 2 + 3 + 2`, for `k = 10, 12, 14, 16, 18` the remainder is `0`. `Suggested.lean` states
+the Maass space as the submodule `maassSubmodule k` of `M_k(Γ₂)` and the two dimension
+equalities as `finrank_maassSubmodule` and `finrank_maassSubmodule_inf_cusp`, for even `k ≥ 4`.
 
 *Needs:* 3.4, 4.3, 6.3, 7.2, 9.3.
 
@@ -2045,8 +2123,9 @@ Hecke-stable decomposition `M_k(Γ₂) = ℂψ_k ⊕ E_{2,1,k}(S_k(Γ₁)) ⊕ S
   `dim S_{20}^*(Γ₂) = 2`.
 - `k = 20`: `5 = 1 + 1 + 2 + 1`, and the non-lift `Υ₂₀` violates the Maass relation; `k = 24`:
   `8 = 1 + 2 + 3 + 2`.
-- `Suggested.lean` states the Maass space as the submodule `maassSubmodule k` of
-  `M_k(Γ₂)` and the two dimension equalities, for even `k ≥ 4`.
+- At content `1` the relation says `a` depends only on the discriminant: for `χ₁₀`,
+  `a((1, 2, 4)) = a((1, 0, 3)) = −272` (both of discriminant `12`); a relation with `d^k` in place
+  of `d^{k−1}` would give `a((2, 2, 2)) = −272 + 2¹⁰ ≠ 240`.
 
 
 ### 9.5 The Saito–Kurokawa theorem
@@ -2069,7 +2148,8 @@ equivariance (9.4) and the Satake computation. Acceptance: `χ₁₀ = SK(f₁�
 `λ(2) = −288 + 2048 + 1024 = 2784`; Saito–Kurokawa lifts violate Ramanujan–Petersson
 (`|α₀| = p^{k−2} ≠ p^{(2k−3)/2}`), which is why 8.2 states that bound only off the Maass space.
 The knowl `mf.siegel.lift.saito_kurokawa`'s "`f ∈ S_{2k}` with `k` odd lifts to weight `k + 1`"
-is this theorem with `k + 1` in place of `k`.
+is this theorem with `k + 1` in place of `k`. The eigenvalue form
+`λ_F(T(p)) = a_p(f) + p^{k−1} + p^{k−2}` is the statement `saito_kurokawa` of `Suggested.lean`.
 
 *Needs:* 7.4, 8.1, 8.2, 9.3, 9.4; the sibling `HalfIntegralWeightModularForms`
 (Kohnen's isomorphism and the theta decomposition as a Hecke-module isomorphism).
@@ -2080,9 +2160,8 @@ is this theorem with `k + 1` in place of `k`.
   `χ₁₂ = SK(f₂₂)`: `λ(2) = −288 + 2048 + 1024 = 2784`.
 - `α₀²α₁α₂ = p^{2k−3}` for `(p^{k−2}, βp^{2−k}, β̄p^{2−k})`; Saito–Kurokawa lifts violate
   Ramanujan–Petersson, `|α₀| = p^{k−2} ≠ p^{(2k−3)/2}`.
-- The eigenvalue form `λ_F(T(p)) = a_p(f) + p^{k−1} + p^{k−2}` is the statement
-  `saito_kurokawa` of `Suggested.lean`; a lift with `λ = a_p(f) + p^{k−1} + p^{k−3}` would give
-  `λ_{χ₁₀}(2) = 112 ≠ 240`.
+- A lift with `λ = a_p(f) + p^{k−1} + p^{k−3}` in place of the eigenvalue form would give
+  `λ_{χ₁₀}(2) = −528 + 512 + 128 = 112 ≠ 240`.
 
 
 ### 9.6 The Gritsenko lift, stated
@@ -2124,10 +2203,12 @@ there is a Hecke eigenform `I(f) ∈ S_{k+n}(Γ_{2n})`, nonzero, with standard `
 `L(s, I(f), st) = ζ(s) ∏_{i=1}^{2n} L(s + k + n − i, f)` and Satake parameters
 `β₀ = p^{nk − n(n+1)/2}`, `β_i = α p^{i−1/2}`, `β_{n+i} = α⁻¹ p^{i−1/2}` (`1 ≤ i ≤ n`;
 van der Geer §21), whose Fourier coefficients are given by Kohnen's formula
-`a(T) = ∑_{a ∣ f_T} a^{k+n−1} φ(a, T) c(|D_T|/a²)` in terms of the half-integral-weight form
-`∑ c(N) q^N ∈ S⁺_{k+1/2}` corresponding to `f` (consumed from the sibling; Kohnen 2002; here
-`D_T = (−1)^n det(2T) = D_{T,0} f_T²` with `D_{T,0}` fundamental, and `φ(a, T)` is Kohnen's
-integer-valued function, whose values are not restated here). For `n = 1` this is 9.5
+`a(T) = ∑_{a ∣ f_T} a^{k−1} φ(a, T) c(|D_T|/a²)` in terms of the half-integral-weight form
+`∑ c(N) q^N ∈ S⁺_{k+1/2}` corresponding to `f` (consumed from the sibling; Kohnen 2002, quoted
+with this exponent in van der Geer §21; here `D_T = (−1)^n det(2T) = D_{T,0} f_T²` with
+`D_{T,0}` fundamental, and `φ(a, T)` is Kohnen's integer-valued function, whose values are not
+restated here; at `n = 1` the formula is the Maass relation of 9.3 in weight `k + 1`, whose
+`d^{(k+1)−1} = d^k` shows that `φ(a, T)` there carries the factor `a`). For `n = 1` this is 9.5
 (`I(f) = SK(f)` with `k + 1` for `k` odd), the degree-two acceptance. Define `IsIkedaLift` on
 `S_{k+n}(Γ_{2n})`. Acceptance: `I(Δ) ∈ S_8(Γ₄)` spans `S_8(Γ₄)` (6.9) and is the Schottky form;
 the LMFDB's "Sp8Z" table counts `1, 1, 1, 2, 2` Ikeda lifts in weights `8, 10, 12, 14, 16`
