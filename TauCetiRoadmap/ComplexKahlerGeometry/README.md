@@ -17,12 +17,11 @@ complex orientation, quotients, gluing and holomorphic bundle operations;
 ComplexTori Milestone 1 owns lattice quotients. DifferentialGeometry Layers 0–9
 own generic forms, real integration and absolute de Rham comparison. The complex
 scalar extension here uses those same forms. SmoothBundlesConnections B2–B4 own
-bundle operations, metrics and connections. GlobalHolomorphicFunctions §0.3 owns the scalar compact-support
-Cauchy–Green transform, §2.5 the finite-rank Runge operator and Runge exhaustions,
-and §7.2 planar two-form exactness. Layer 2 owns the simultaneous smooth and
-holomorphic parameter solver using those scalar inputs; Layer 3 owns the finite-pole
-stalk comparison and Layer 5 the complex-coefficient de Rham comparison.
-GlobalHolomorphicFunctions also owns global prescribed singularities, divisors and factorization. Layer 5
+bundle operations, metrics and connections. Layer 2 owns the scalar compact-support
+Cauchy–Green transform, finite-rank Runge approximation and simultaneous smooth and
+holomorphic parameter solver; Layer 3 owns the finite-pole stalk comparison and
+Layer 5 its planar de Rham consequence. GlobalHolomorphicFunctions owns global
+prescribed singularities, divisors and factorization beyond these inputs. Layer 5
 owns finite-order bundle differential operators, jets, symbols and density transposes;
 PseudodifferentialOperators owns the subsequent pseudodifferential calculus and Peetre
 extension. Layer 8 owns the all-degree finite-dimensional Lie-algebra cochain complex;
@@ -30,7 +29,8 @@ LieGroupoidsPoisson owns the manifold Lie-algebroid extension. VariationalMethod
 §§2–5 and UnboundedOperators UO-D06 own abstract form representation and compact
 spectral theory; Layer 5 identifies the geometric weak domains and regularity.
 
-The acceptance statements are `mixed_parameter_solver` in Layer 2 and
+The acceptance statements are `finite_rank_runge_approximation` and
+`mixed_parameter_solver` in Layer 2 and
 `realified_isManifold_analytic`, `holomorphicStalk_noetherian` and
 `holomorphicStalk_factorial` in Layer 3. The other headline theorems and their
 missing geometric carriers are listed in the module docstring of Suggested.lean.
@@ -111,9 +111,9 @@ Use [DifferentialGeometry](../DifferentialGeometry/README.md)'s generic smooth f
 exterior derivative, pullback, wedge, integration, Stokes and de Rham comparison. Its chain integration and Stokes already allow complete vector-valued coefficients;
 its de Rham comparison is stated over ℝ. K5a owns the complex-linear manifold integration compatibility and complex-coefficient de Rham
 comparison on the same generic form carrier, viewed over ℝ; do not construct a second form carrier.
-For any open Ω⊆ℂ, consume GlobalHolomorphicFunctions §7.2's complex two-form
-exactness on the generic form carrier; Layer 5 passes to `H²_dR(Ω;ℂ)=0` through
-its complex-coefficient quotient comparison.
+For any open Ω⊆ℂ, derive smooth complex two-form exactness from Layer 2's
+scalar solver on this same form carrier, with the coordinate primitive and
+complex quotient comparison specified in §5.4.
 Consume [RealAlgebraicGeometry Layer 7](../../Completed/RealAlgebraicGeometry/README.md#layer-7-analytic-preparation-and-mccallum-projection)
 for analytic inversion and local real-germ complexification in model spaces;
 consume the native joint analytic implicit-function theorem as specified in K1,
@@ -140,18 +140,6 @@ Use `exteriorPower.hodgeStar` and
 module, a bilinear form inducing a bijection to its dual, a top exterior-power
 volume equivalence and k+l=dimension. Layer 5 supplies these from the real cotangent
 metric and orientation, and proves the additional identities and smooth transport.
-
-**From GlobalHolomorphicFunctions.** Section 0.3 supplies `cauchyGreen`,
-`cauchyGreen_barDerivative` and `cauchyGreen_barDerivative_reconstruct` on smooth
-compactly supported scalar inputs, with `Tφ(z)=(1/π)∫φ(ζ)/(z−ζ) dA(ζ)` and
-`∫(1/(πζ))∂̄φ dA=−φ(0)`. Section 2.5 supplies
-`exists_finite_rank_runge_operator`: for compact Runge K⊆Ω and open U⊇K, a compact
-collar L⊆U∩Ω is chosen before ε>0, and evaluation points, weights and holomorphic
-outputs are chosen before the input f. Absorb the weights into the output functions
-when using `A f=Σ_j f(ζ_j)g_j`; the bound remains `sup_K|f−A f|≤ε sup_L|f|`.
-Use its Runge compact exhaustions for arbitrary open Ω, including empty Ω.
-Section 7.2 supplies real and complex planar two-form exactness and its coordinate
-comparison; the complex de Rham quotient comparison remains in Layer 5.
 
 **From Tau Ceti.** The finite-dimensional Cauchy and parametric contour declarations
 in `TauCeti.Analysis.Complex.CauchyIntegralPolydisc` supply Layer 3's analytic
@@ -297,9 +285,86 @@ K3.0; PDE's scalar Hölder/Schauder estimates for the stated Newlander–Nirenbe
 On an integrable complex manifold construct ∂ and ∂̄ on generic type forms and prove their
 bidegrees, squares zero, anticommutation, graded Leibniz, conjugation and holomorphic-pullback
 naturality. Prove the local Dolbeault–Grothendieck lemma for smooth `(p,q)` forms, q>0, on a
-polydisc. Use GlobalHolomorphicFunctions §0.3's compact-support Cauchy–Green
-operator and §2.5's finite-rank Runge operator and compact Runge exhaustions,
-with the normalization and quantifier order specified in the supplier contracts.
+polydisc. First construct the following scalar inputs on arbitrary open plane domains.
+
+For compactly supported smooth φ:ℂ→ℂ, define Tφ by the Bochner area integral
+`Tφ(z)=(1/π)∫ φ(ζ)/(z−ζ) dA(ζ)`, with native Lebesgue area and positive basis (1,i).
+Prove local integrability of the kernel, smoothness of Tφ, ∂̄Tφ=φ and
+T(∂̄φ)=φ (Demailly I §3, Corollary 3.4, p. 21). Its weak normalization is
+`∫ (1/(πζ))∂̄φ(ζ) dA(ζ)=−φ(0)`. The kernel's assigned value at ζ=z
+has no effect on the integral because that singleton has area zero.
+
+- T is complex-linear on compactly supported smooth inputs, commutes with translations
+  and commutes with differentiation of fixed-support smooth families.
+- A cutoff equal to one near a compact K expresses a holomorphic function near K by
+  a kernel integral over the cutoff-derivative support, separated from K.
+
+**Checks.**
+
+- For a compactly supported smooth φ equal to 1 near 0, ∂̄Tφ(0)=1;
+  reversing the kernel to 1/(ζ−z) would give −1.
+- For φ=0, Tφ=0 and both ∂̄Tφ and T(∂̄φ) are 0.
+- For a radial test with φ(0)=1, polar integration gives
+  ∫(1/(πζ))∂̄φ dA=∫₀^∞φ′(r)dr=−1, fixing the sign and the factor π.
+
+*Needs:* Native Bochner integration on ℂ, polar integration, smooth compact-support
+cutoffs, convolution differentiation and integration by parts.
+
+For an open Ω⊆ℂ and compact K⊆Ω whose complement in Ω has no relatively compact
+connected component, prove uniform approximation of neighborhood-holomorphic functions
+by functions holomorphic on Ω. Establish `finite_rank_runge_approximation`: for every open
+U⊇K choose compact L⊆U∩Ω with K⊆int L; for each ε>0 there are finitely many
+ζ_j∈int L and g_j holomorphic on Ω, independent of f, such that
+`A_ε f=Σ_j f(ζ_j)g_j` obeys `sup_K|f−A_ε f|≤ε sup_L|f|` for every f holomorphic
+on U. Weights in a presentation Σ_j w_j f(ζ_j)g_j can be absorbed into g_j without
+changing the operator or bound. For empty K take L=∅ and the zero operator,
+interpreting the suprema as zero.
+Equivalently, the acceptance signature requires the pointwise error bound εB for
+every B≥0 that bounds |f| on L; L is chosen before ε, and the evaluation points and
+output functions before f and B. The no-hole hypothesis means that for every
+z∈Ω∖K the ambient closure of its component in Ω∖K is not both compact and contained in Ω.
+The scalar Runge input is Rainer, Theorems 11.1 and 11.7, pp. 25 and 29;
+the connected-domain scalar theorem extends to arbitrary open Ω by treating the
+finitely many components meeting K separately and setting the outputs to zero on
+the other components. The uniform operator estimate is a consequence to prove here: apply the cutoff formula,
+uniform finite-sum approximation of its separated kernel, Cauchy estimates on a smaller
+collar inside L, and approximation of the finitely many resulting kernel functions.
+Prove those uniform estimates, including the bound by sup_L|f|; pointwise choices of
+approximants depending on f do not imply the operator statement. Construct compact
+Runge exhaustions of every open Ω, with K_j⊆int K_(j+1) and union Ω, by filling
+relatively compact complementary components of native compact exhaustions
+(Rainer, Lemma 11.3(3)–(4), pp. 27–28, gives the filled hull and its compactness;
+construct the nested exhaustion using this hull).
+
+- The approximation maps are complex-linear with fixed evaluation points and output
+  functions, so preserve holomorphic parameters and commute with smooth parameter derivatives.
+- Cauchy estimates on nested collars upgrade uniform errors to any specified finite
+  collection of derivative errors on smaller compacta.
+- Restrictions to smaller compacta preserve the approximation bounds; empty and
+  disconnected domains use the same exhaustion and approximation statements.
+
+**Checks.**
+
+- For K=∅, N=0 and f=0, each displayed supremum and finite sum is 0.
+- For K={0}⊂Ω=ℂ, A f=f(0) has rank one and error 0, whereas A=0 has error 1
+  on f=1 and fails for ε<1.
+- For K={2≤|z|≤3}⊂{|z|<4}, the missing Runge hypothesis matters: the period of
+  1/z on |z|=5/2 is 2πi while every disk-holomorphic approximant has period 0.
+  On Ω={1<|z|<4}, that K has no relatively compact complementary component and
+  1/z itself is an admissible approximant with error 0.
+- For two disjoint disks centered at 0 and 3 and K={0,3}, take the two component
+  indicator functions as outputs and evaluate at 0 and 3. Then A f=(f(0),f(3)) on K,
+  with error 0, including for the function with values 1 and −1 on the components.
+- For Ω=ℂ and j≥0, K_j={abs(z)≤j+1} has only an unbounded complementary component;
+  filling changes nothing. For Ω=ℂ∖{0}, K_j={1/(j+2)≤abs(z)≤j+2} also remains
+  unchanged, since the inner complementary closure contains 0∉Ω.
+- For Ω=∅ the exhaustion K_j=∅ has union ∅. Filling the hole in
+  {1≤abs(z)≤2} inside Ω=ℂ instead produces {abs(z)≤2}, adding 0;
+  a construction that never fills bounded holes fails the Runge condition.
+
+*Needs:* Native area integration and finite-dimensional complex calculus; compact
+exhaustions and smooth cutoffs; Cauchy coefficient estimates and the scalar Runge,
+separated-kernel and filled-complement arguments specified above.
 
 For whole-open-polydisc exactness and successive Dolbeault elimination, prove one joint
 parameter-dependent one-variable solver `mixed_parameter_solver`. Let P be a finite-dimensional
@@ -322,11 +387,11 @@ The parameter solver preserves the following structure:
 - With P and Q points and f=1, u=bar(z) gives ∂̄u=1 on every Ω; u=z gives 0 and is not a solution.
 - If Q or Ω is empty, the equation has no evaluation points and u=0 satisfies every on-set condition; for Ω=ℂ and f=0, u=0 also works.
 
-*Needs:* GlobalHolomorphicFunctions §§0.3 and 2.5; real differentiation under a compactly supported integral; parameter-chart partitions of unity.
+*Needs:* This section’s fixed-support Cauchy–Green and finite-rank Runge targets; real differentiation under a compactly supported integral; parameter-chart partitions of unity.
 
 **Parameter Cauchy–Green.** Prove the following lemma for this solver. For a fixed
 `χ ∈ C_c^∞(Ω)` independent of all parameters and jointly smooth `f` on
-`P × Q × Ω`, extend `χ f(p,q,·)` by zero and apply GlobalHolomorphicFunctions §0.3's fixed-normalization
+`P × Q × Ω`, extend `χ f(p,q,·)` by zero and apply this section’s fixed-normalization
 Cauchy–Green operator `T` (Demailly I §3, Corollary 3.4, p. 21).
 The parameter differentiation assertions below are consequences of that fixed-support
 integral and differentiation under the integral, rather than part of the cited corollary. The map `(p,q,z) ↦ T(χ f(p,q,·))(z)` is jointly `C^∞`;
@@ -427,7 +492,7 @@ The right-hand side pq on a punctured parameter plane has the solution pq bar(z)
 
 ### Dependencies
 
-Layer 1; GlobalHolomorphicFunctions §§0.3 and 2.5; Mathlib sheaf cohomology; Layer 4 for the bundle-valued comparison.
+Layer 1; this layer’s scalar Cauchy–Green and Runge targets; Mathlib sheaf cohomology; Layer 4 for the bundle-valued comparison.
 
 ## Layer 3: analytic germs and subvarieties
 
@@ -1334,12 +1399,35 @@ Relate the real slit
 primitive to `Re(Log_-)+Im(Log_-)=log r+θ` on `V_-`. Use the complex form carrier and
 cohomology quotient above throughout this computation.
 
+For every open Ω⊆ℂ, prove that each smooth complex two-form β on its
+open-subtype manifold is exact. In the coordinate coframe write β=b dx∧dy,
+with b smooth; apply K2's scalar specialization to obtain ∂̄u=b/(2i). Then
+α=u dz is a smooth complex one-form and
+`dα=du∧dz=2i∂̄u dx∧dy=β`. The denominator 2i is nonzero in ℂ.
+Thus `H²_dR(Ω;ℂ)=0` under the complex quotient comparison above; no compactness,
+connectedness or simply connectedness is assumed. This is a consequence of K2
+and the coordinate wedge/exterior-derivative identities, with no additional
+scalar solvability theorem.
+
+**Checks.**
+
+- For β=dx∧dy, u=bar(z)/(2i) has ∂̄u=1/(2i) and d(u dz)=dx∧dy;
+  using −u would give −dx∧dy.
+- On Ω=ℂ∖{0} the same primitive proves [dx∧dy]=0 in degree two, although
+  the degree-one period of dz/z is 2πi and [dz/z] is nonzero.
+- On Ω=∅ the form space and degree-two quotient are zero; for β=0 on any Ω,
+  u=0 gives d(0 dz)=0.
+
+*Needs:* K2's mixed-parameter solver with both parameter spaces points; DG0.1–0.4
+coordinate forms and DG1's exterior derivative and Leibniz rule; this section's
+complex-linear quotient comparison.
+
 As a disk regression, let `D={z:|z|<1}` with its open-subtype smooth structure and DG's existing
 form carrier with coefficients in `ℂ`. Compute `H⁰_dR(D;ℂ)≃ℂ` by a complex-linear equivalence,
 and `H¹_dR(D;ℂ)=H²_dR(D;ℂ)=0`. For degrees one and two use DG5.4's `homotopyOperator` for
 the radial contraction `H(z,t)=tz` with complete complex coefficients; degree-two forms are
 closed by dimension. Pass from primitives to the K5a complex quotient. As a consistency check,
-compare the degree-two result with the specialization to `Ω=D` of GlobalHolomorphicFunctions §7.2’s planar exactness theorem; this example adds no new dependency edge. Keep it on DG's existing form carrier.
+compare the degree-two result with the specialization to `Ω=D` of this layer’s planar exactness consequence of K2’s scalar solver. Keep it on DG's existing form carrier.
 
 Use §5.1's differential-operator carrier and Laplace-type predicate:
 order at most 2 and Fourier principal symbol c|ξ|²_g Id for a fixed c>0.
@@ -2449,9 +2537,9 @@ ComplexTori Milestone 1; DGFloer's filtered-complex spectral sequence.
 
 ## Downstream consumers
 
-GlobalHolomorphicFunctions supplies Layer 2's scalar transform and finite-rank
-approximation inputs and Layer 5's planar exactness input. Layer 2 adds the mixed-parameter
-solver, and Layer 3 the manifold finite-pole stalk comparison. PseudodifferentialOperators
+Layer 2 supplies the scalar Cauchy–Green transform, finite-rank Runge approximation
+and mixed-parameter solver; Layer 5 supplies planar exactness on the generic form
+carrier. Layer 3 supplies the manifold finite-pole stalk comparison. PseudodifferentialOperators
 uses Layer 5's density, differential-operator and analytic core for its pseudodifferential
 calculus. LieGroupoidsPoisson extends Layer 8's Lie-algebra cochains to Lie algebroids.
 
@@ -2459,7 +2547,7 @@ K3.0 several-variable calculus precedes K1. K1's scalar-restriction and
 orientation paragraph precedes K7.1 and SBC B1's acceptance examples;
 K1's eigenbundle calculus consumes SBC B2's complexification and precedes K2.
 K2's scalar calculus, whole-polydisc local lemma, parameter-dependent shell solver, and Ω^p sheaves
-use GlobalHolomorphicFunctions §§0.3 and 2.5's fixed finite-rank operators and Cauchy–Green map under their stated interfaces and precede K4's holomorphic bundles and connections. K2's bundle-valued comparison follows
+use §2.1's fixed finite-rank operators and Cauchy–Green map under their stated interfaces and precede K4's holomorphic bundles and connections. K2's bundle-valued comparison follows
 K4's holomorphic-section sheaf and ∂̄_E. The rest of K3 uses that local analysis and feeds K4's
 analytic-sheaf examples. K5a's pointwise real
 star, orientation line and density bundle use DG and SBC B2 independently
@@ -2527,7 +2615,7 @@ supplies the compatible triangulation in K6.
   (1948), §23, equations (23.1)–(23.2), pp. 115–116; §8.1 states the bracket and
   differential normalization comparison explicitly.
 - Rainer, *Advanced Complex Analysis*, Vienna 2016–2017 course notes,
-  Theorems 11.1 and 11.7, pp. 25 and 29, for the scalar Runge input to GlobalHolomorphicFunctions §2.5's supplied finite-rank estimate.
+  Theorems 11.1 and 11.7, pp. 25 and 29, for the scalar Runge input to §2.1’s finite-rank estimate.
 - Kolář, Michor and Slovák, *Natural Operations in Differential Geometry* (1993),
   §§12.2–12.5 and §§12.16–12.17, for finite jets and truncation.
 - Wells, *Differential Analysis on Complex Manifolds*, third edition (2008),
