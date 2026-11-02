@@ -107,16 +107,16 @@ extensions; §2.0 supplies its non-Galois extension needed by the polygon dictio
   `lowerRamificationGroup_one_eq_bot_iff_isTamelyRamified` (`TamelyRamified/`); inertia and wild
   inertia of `G_K`, `inertiaSubgroup`, `wildInertiaSubgroup`, `maximalTameExtension`
   (`Unramified/Inertia/`, `WildInertia.lean`); and `RootsOfUnity/` for the order of `μ(K)`.
-- From NewtonPolygons Layers 0–3 and MassFormula Layers 0, 3–4 (roadmap contracts):
-  `TauCeti/NumberTheory/NewtonPolygon/{Basic,Slopes,Mul}.lean` (`Polynomial.newtonPolygon`,
-  `Polynomial.newtonSlopes`, `newtonSlopes_mul`, `newtonSlopes_X_sub_C`) and
-  `TauCeti/Analysis/Convex/Sequence/` (`lowerConvexEnvelope`, `FiniteSlopeData`,
-  `slopeMultiset`), realizing Newton polygons Layers 0–3;
-  `TauCeti/NumberTheory/LocalField/MassFormula/{Basic,Eisenstein/Basic,Eisenstein/Region,Finite,Orbit,Representative,Countable}.lean`
-  (`totallyRamifiedOfDegree`, `TauCetiRoadmap.MassFormula.wildExponent`, `eisensteinSet`,
-  `measure_eisensteinSet`, `IsRepresentativeSet`, `ncard_isomorphic_mul_natCard_algEquiv`),
-  realizing Mass formula Layers 0, 3 and 4; `TauCeti/NumberTheory/LocalField/RootCount.lean`;
-  `TauCeti/NumberTheory/LocalField/Tame/Quotient.lean` and `FiniteGalois.lean`.
+- From NewtonPolygons Layers 0–3 and 6 and MassFormula Layers 0, 3–4 (roadmap contracts):
+  Newton polygons' `lowerConvexEnvelope` (§0.1), `ConvexPolygon.FiniteSlopeData` (§0.6) and
+  `Polynomial.newtonPolygon` (§2.1), together with the finite slope multiset of a polynomial and
+  its product law (§3.2), the identification of the slopes with the negatives of the nonzero
+  root valuations (§3.3), the denominator theorem (§6.1) and the divisibility of slope
+  denominators by the ramification index (§6.2), all cited by section; Mass formula's
+  `totallyRamifiedOfDegree`, `TauCetiRoadmap.MassFormula.wildExponent`, `eisensteinSet`,
+  `measure_eisensteinSet`, `IsRepresentativeSet`, `ncard_isomorphic_mul_natCard_algEquiv` and
+  `TauCetiRoadmap.MassFormula.card_aroots_eq` (its `Suggested.lean`), realizing Mass formula
+  Layers 0, 3 and 4.
 - From [Mass formula](../MassFormula/README.md) as a roadmap: Layer 3's *integral of the root
   count* `∫_{E_n} rootCount L = q^{-(d(L)+1)}(1 − q^{-1})` and Layer 4's *Theorem 1*, *Theorem 2*
   and *orbit count*, cited by those names.
@@ -257,16 +257,18 @@ declarations present at the library pins.
 The suppliers, with what is taken from each:
 
 - [Local fields and ramification](../../Completed/LocalFieldsRamification/README.md), Layer 0 (`e`, `f`, the
-  normalized valuation, the finite-intermediate-field adapters), Layer 2 (the maximal unramified
+  normalized valuation, the finite-intermediate-field adapters), Layer 1 (the principal-unit
+  filtration `unitFiltration` and its graded pieces), Layer 2 (the maximal unramified
   subextension, Frobenius), Layer 3 (Eisenstein generators, the lower filtration, the quotient
   embeddings, Herbrand functions and upper numbering, Hasse–Arf, the different and the
   discriminant) and Layer 4 (inertia, wild inertia, the tame quotient of `G_K`), consumed at the pin where the exact contracts below name declarations. The non-Galois
   Herbrand construction is §2.0 here.
 - [Newton polygons](../NewtonPolygons/README.md), Layers 0–3 and 6: the lower convex envelope
-  `TauCeti.lowerConvexEnvelope`, the Newton polygon `Polynomial.newtonPolygon f v` and its finite
-  slope multiset `Polynomial.newtonSlopes f v`, the product formula `Polynomial.newtonSlopes_mul`,
-  the identification of slopes with root valuations, and §6.2 (slope denominators divide the
-  ramification index). The ramification polygon is an instance of that polygon, in that roadmap's
+  `lowerConvexEnvelope` (§0.1), the slope presentation `ConvexPolygon.FiniteSlopeData` (§0.6),
+  the Newton polygon `Polynomial.newtonPolygon` of a polynomial and its finite slope multiset
+  (§2.1), the product formula for polygons and slope multisets (§3.2), the identification of the
+  slopes with the negatives of the nonzero root valuations (§3.3), the denominator theorem
+  (§6.1) and §6.2 (slope denominators divide the ramification index). The ramification polygon is an instance of that polygon, in that roadmap's
   orientation; this roadmap builds no polygon API of its own and does not use the parallel
   polynomial-only items 3.11/3.33/3.46/3.52/3.53 of
   [Classical arithmetic completion](../ClassicalArithmeticCompletion/README.md).
@@ -281,8 +283,9 @@ The suppliers, with what is taken from each:
   completion at a prime, the decomposition group as the local Galois group (5.6), the
   discriminant tower law (§4.2), different-exponent and discriminant-valuation formulas (5.10, 6.3) and the permutation-action
   discriminant exponent formula (6.5), consumed by Layer 7.
-- [ClassFieldTheory](../ClassFieldTheory/README.md), Layers 6–7: local reciprocity and the
-  principal-unit filtration; Layer 8: local abelian existence, uniqueness, the local class-field
+- [ClassFieldTheory](../ClassFieldTheory/README.md), Layers 6–7: finite local reciprocity and
+  the absolute local Artin map (the principal-unit filtration it acts on is Local fields and
+  ramification Layer 1, above); Layer 8: local abelian existence, uniqueness, the local class-field
   correspondence, its quotient isomorphism and the equality of extension degree with norm-subgroup
   index. Section 6.7 uses these contracts for finite extensions of ℚ_p to count cyclic extensions
   through open norm subgroups with cyclic quotient.
@@ -331,8 +334,8 @@ The local-field module prefix is `TauCeti/NumberTheory/LocalField/…`.
 | absolute inertia, wild inertia | `inertiaSubgroup`, `wildInertiaSubgroup`, `maximalTameExtension`, `restrictNormal_mem_lowerRamificationGroup_zero`, `map_wildInertiaSubgroup_restrictNormalHom` (`Unramified/Inertia/Basic.lean`, `WildInertia.lean`) |
 | finite intermediate fields | `finiteIntermediateFieldValuativeRel`, `finiteIntermediateFieldTopology`, `finiteIntermediateField_isNonarchimedeanLocalField`, `IntermediateField.valuativeExtension_of_isNonarchimedeanLocalField` (`FiniteExtension/IntermediateField.lean`) |
 | roots of unity | `RootsOfUnity/Basic.lean`, `RootsOfUnity/Torsion.lean` |
-| Newton polygons (roadmap contract) | `Polynomial.newtonPolygon`, `Polynomial.newtonSlopes`, `newtonSlopes_mul`, `newtonSlopes_X_sub_C`, `card_newtonSlopes`, `sum_newtonSlopes` (`TauCeti/NumberTheory/NewtonPolygon/`), `lowerConvexEnvelope`, `FiniteSlopeData`, `slopeMultiset` (`TauCeti/Analysis/Convex/Sequence/`) |
-| mass formula (roadmap contract) | `totallyRamifiedOfDegree`, `TauCetiRoadmap.MassFormula.wildExponent`, `intermediateFieldDiscriminantExponent_eq_of_algEquiv`, `eisensteinSet`, `measure_eisensteinSet`, `mem_eisensteinSet_iff`, `IsRepresentativeSet`, `ncard_isomorphic_mul_natCard_algEquiv`, `TauCetiRoadmap.MassFormula.card_aroots_eq` (`MassFormula/`, `RootCount.lean`) |
+| Newton polygons (roadmap contract) | `lowerConvexEnvelope` (§0.1), `ConvexPolygon.FiniteSlopeData` (§0.6), `Polynomial.newtonPolygon` (§2.1); the finite slope multiset and its product law (§3.2), the root-valuation identification (§3.3) and the denominator theorems (§§6.1–6.2) are cited by section |
+| mass formula (roadmap contract) | `totallyRamifiedOfDegree`, `TauCetiRoadmap.MassFormula.wildExponent`, `intermediateFieldDiscriminantExponent_eq_of_algEquiv`, `eisensteinSet`, `measure_eisensteinSet`, `mem_eisensteinSet_iff`, `IsRepresentativeSet`, `ncard_isomorphic_mul_natCard_algEquiv`, `TauCetiRoadmap.MassFormula.card_aroots_eq` (its `Suggested.lean`) |
 
 ## How to read the build
 
@@ -475,8 +478,8 @@ orbit of `[L]` has `f / #Stab([L])` elements, and
 ```
 
 in `ℝ≥0∞`. Every degree-`n` class of `K` arises for exactly one `f ∣ n`. This classification includes inseparable finite extensions; the separable classes in `𝒯(K_f, n/f)` are the classes of Mass
-formula's `σ_{K_f}(n/f)`. 6.3, 6.5 and 6.7 apply this to families and to Monge's count. *Rests
-on:* the canonical tower contract, 0.5; Local fields and ramification Layer 2 (unramified extensions, Frobenius); Tau Ceti
+formula's `σ_{K_f}(n/f)`. 6.3, 6.5 and 6.7 apply this to families and to Monge's count. *Needs:*
+the canonical tower contract, 0.5; Local fields and ramification Layer 2 (unramified extensions, Frobenius); Tau Ceti
 `Unramified/Factorization.lean` (`eq_unramifiedExtension_inertiaDegree_iff`,
 `isTotallyRamified_unramifiedExtension_inertiaDegree`).
 
@@ -549,9 +552,10 @@ conjugates `α'` of `α`, each simple. *Needs:* Tau Ceti `addVal_sum_eisenstein_
 The polynomial used by Greve–Pauli divides our `ρ` by `X`. Its polygon is therefore
 translated one unit to the left; its nonzero roots and slopes are unchanged.
 
-Define ramificationPolygon φ α := Polynomial.newtonPolygon ρ v_L (Newton polygons Layer 2, in
+Define ramificationPolygon φ α := Polynomial.newtonPolygon ρ v_L (Newton polygons §2.1, in
 Convention 4's orientation), its height function `N : ℕ → WithTop ℝ`, and its finite slope
-multiset `Polynomial.newtonSlopes ρ v_L` of cardinality `n − 1`. Prove:
+multiset (Newton polygons §2.1), of cardinality `n − 1` because `ρ` has degree `n` and order `1`.
+Prove:
 
 - **Independence.** Two uniformizers `α, α'` of `L` (equivalently two Eisenstein polynomials of
   `L/K`) give the same polygon: `α' = α u` with `u ∈ 𝒪[L]ˣ`, the roots `(σα' − α')/α'` and
@@ -578,8 +582,9 @@ multiset `Polynomial.newtonSlopes ρ v_L` of cardinality `n − 1`. Prove:
 - **Wild segments.** wildSegments φ α := (rams φ α).dedup.length, the number of segments of
   positive slope; it is `≤ w`.
 
-*Needs:* 1.1; Newton polygons 0.6, 2.1, 3.3, 6.1 (`Polynomial.newtonPolygon`,
-`Polynomial.newtonSlopes`, `newtonSlopes_X_sub_C`, `newtonSlopes_mul`, `card_newtonSlopes`).
+*Needs:* 1.1; Newton polygons 0.6, 2.1, 3.2, 3.3, 6.1 (`Polynomial.newtonPolygon`, the finite
+slope multiset and its cardinality, the product law, slopes as negatives of root valuations, the
+denominator theorem).
 
 **Checks.**
 
@@ -859,7 +864,7 @@ fixing subgroup H used in `embeddingOrbitCount`.
 
 ### 2.4 The slope polygon theorem
 
-Define slopePolygon K L as the lower convex envelope (`TauCeti.lowerConvexEnvelope`, Newton
+Define slopePolygon K L as the lower convex envelope (`lowerConvexEnvelope`, Newton
 polygons 0.1, indexed by the degree `n_E ∈ ℕ`) of the finite point set
 `{(n_E, c(E/K)) : K ⊆ E ⊆ L}`. Prove:
 
@@ -1320,8 +1325,8 @@ vector in the box has every root generating a member of `σ_K(n)` with `c = j`, 
 μ(eisensteinBox K n j) = q^{-1}(1 − q^{-1}) · (q^{-(a+1−v_K(b))}(1 − q^{-1}))^{[b>0]} · Π_{h ≠ 0, b} q^{-ν_h}
 ```
 
-for admissible `j` and the Haar measure normalized on the integer box (Mass formula Layer 2's box volumes). *Rests
-on:* 5.1; Mass formula Layers 2–3 (`eisensteinSet`, `measure_eisensteinSet`, box volumes).
+for admissible `j` and the Haar measure normalized on the integer box (Mass formula Layer 2's box volumes). *Needs:*
+5.1; Mass formula Layers 2–3 (`eisensteinSet`, `measure_eisensteinSet`, box volumes).
 
 - The empty inadmissible box has measure zero and contributes no field.
 - On an admissible box the derivative minimum is exactly `j`; the equality at `b>0`
@@ -1539,9 +1544,14 @@ can be made zero, while critical coefficients retain all residue values. This is
 to the displayed diagram, not a fibre count supplied by an enumeration theorem.
 For the polygon realization use Pauli–Sinclair, arXiv:1504.06671v1, Proposition 3.11, pp.9–10;
 its Theorem 6.3(a), p.21, supplies coverage for fixed residual data in the reduced template. Prove the count of the *rams* on the
-diagram: the number of drawn points in `B_k` of index `≤ k` is `⌈r_k⌉`, and the number of C-points
-on or below the top edge of `B_k` is `⌊r_k⌋` (knowl `lf.eisenstein_diagram`). *Needs:* 6.1,
-6.2, 1.1–1.3; Mathlib `MvPolynomial`; MassFormula Layer 1 (quantitative root lifting).
+diagram: the drawn points in `B_k` of index `≤ k` are the `σ` divisible by `p^{w−k}` with
+`ε p^k m_k ≤ σ/p^{w−k} < ε p^k s_k`, so their number is the number of integers in the interval
+`[ε p^k m_k, ε p^k s_k)`, of length `r_k` by 2.6, namely `⌈ε p^k s_k⌉ − ⌈ε p^k m_k⌉`; when `k`
+is final in its run (`k = w` or `s_k < s_{k+1}`) the left end `ε p^k m_k = H(V_k/L^{ur})` is an
+integer (2.6) and this number is `⌈r_k⌉`, whereas inside a run of equal rams it can be smaller.
+Prove also that the number of C-points on or below the top edge of `B_k` is `⌊r_k⌋` (knowl
+`lf.eisenstein_diagram`). *Needs:* 6.1,
+6.2, 1.1–1.3, 2.6; Mathlib `MvPolynomial`; MassFormula Layer 1 (quantitative root lifting).
 
 Define separately the **reduced specialization set**, relative to fixed representatives of
 `𝓀[K_f]ˣ/(𝓀[K_f]ˣ)^e` for the constant coefficient (choose `1` when this quotient
@@ -1589,6 +1599,14 @@ tame branch above. *Needs:* §§1.1–1.3, 2.0, 2.5, 6.2; MassFormula Layer 1; T
 - (arithmetic ram) `[2]` over `ℚ_2` (`r_1 = 2`, `r_1^* = 1 = e_K`): `P_1` a Z-point, `P_3`
   (`h = 3/2`) the one B-point, `P_2` a C-point and `P_4` a critical C-point. So `α = 0`, `β = 1`.
 - (mass) These give `(q − 1)^α q^β = 1` and `2` with `q = 2`, `f = 1`: the masses of 6.5.
+- (ram count) `[1]` and `[2]` over `ℚ_2` count the integers of `[1, 2)` and `[2, 4)`: one point
+  (`P_1`) and two points (`P_2`, `P_3`), equal to `⌈r_1⌉`. `[2, 3]` over `ℚ_2` (`ℚ_2(∜2)`,
+  means `⟨1, 2⟩`): `k = 1` counts `[2, 4)`, the two points `P_4`, `P_6`; `k = 2` counts
+  `[8, 12)`, four points. Inside a run the count drops: `[1/3, 1/3]` over `ℚ_2`
+  (`F_{x⁴+2x+2}`, means `⟨1/6, 1/4⟩`, `e = 4`) has `B_1 = {1/6 ≤ h < 1/3}` containing only
+  `P_1`, of index `2`, so `0` points of index `≤ 1` (the interval `[1/3, 2/3)` has no integer)
+  although `⌈r_1⌉ = 1`; at `k = 2` the interval `[1, 4/3)` gives the one point `P_1`, equal to
+  `⌈r_2⌉ = 1`. A count that reads `⌈r_k⌉` at every `k` is wrong at `k = 1` of this run.
 - Over the unramified quadratic extension of `ℚ₂`, `[1]` has `α=γ=1`, `β=δ=0`:
   the full set has `3·4=12` polynomials. The two polynomials `X²+2X+2` and `X²+2X+6`
   generate the same field: their discriminants are `−4,−20`, whose ratio `5` is a square
@@ -1758,8 +1776,8 @@ existence from a subgroup and the degree-index equality.
 The absolute specializations include `N_2(2,1) = 6`, `N_2(4,1) = 48`, `N_3(3,1) = 9`, `N_2(8,1) = 1544`, `N_5(5,1) = 25`,
 `N_2(2,2) = 10`, `N_3(9,1) = 753`, with the degree totals `Σ_{ef = n} N_p(e, f)` equal to
 `7, 59, 10, 1823, 26, 795` for `(p, n) = (2,2), (2,4), (3,3), (2,8), (5,5), (3,9)`.
-*Needs:* §0.6, §5.4; ClassFieldTheory Layers 6–7 (local reciprocity and principal units),
-Layer 8 (existence, uniqueness, quotient isomorphism and degree-index correspondence);
+*Needs:* §0.6, §5.4; LocalFieldsRamification Layer 1 (the principal-unit filtration);
+ClassFieldTheory Layers 6–7 (local reciprocity), Layer 8 (existence, uniqueness, quotient isomorphism and degree-index correspondence);
 Mathlib `Nat.totient`, `Nat.divisors`, `Polynomial.SplittingField`, `AlgEquiv`;
 Tau Ceti finite-extension structure adapters.
 
