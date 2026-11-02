@@ -1,6 +1,6 @@
-# Roadmap: Hilbert modular forms
+# Roadmap: hilbert modular forms
 
-Let `F` be a totally real number field of degree `n ≥ 2`. A Hilbert modular form is a holomorphic
+**Summary.** Let `F` be a totally real number field of degree `n ≥ 2`. A Hilbert modular form is a holomorphic
 function on the product `ℍ^Σ` of one upper half-plane per real place of `F`, transforming under a
 congruence subgroup of `GL₂⁺(F)` by a weight vector `k ∈ ℤ^Σ`. The LMFDB's section
 `ModularForm/GL2/TotallyReal` (`hmf`) holds Hilbert newforms of parallel weight `2` over totally
@@ -9,8 +9,8 @@ eigenvalues at the prime ideals, its Atkin–Lehner eigenvalues, the degree of i
 two flags (complex multiplication, base change). The elliptic-curve section `ecnf` links a curve
 over a totally real field to the Hilbert newform with the same `L`-function.
 
-This roadmap builds the **classical analytic theory** that gives every one of those objects a
-definition: the groups `Γ₀(𝔫)_𝔟` on each narrow-class component, the slash action, Fourier
+This roadmap extends the supplied parallel-weight analytic theory to nonparallel weights
+and builds its further analytic and newform dictionaries: the groups `Γ₀(𝔫)_𝔟` on each narrow-class component, the slash action, Fourier
 expansions over the totally positive elements of a fractional ideal, Koecher's principle, cusp
 forms, reduction theory and finite dimensionality, Eisenstein series, Hecke operators on Fourier
 coefficients, old and new subspaces, newforms with their coefficient fields and Atkin–Lehner
@@ -30,16 +30,17 @@ class and Hecke characters — is consumed from Mathlib and Tau Ceti and never r
 Suggested home: `TauCeti/NumberTheory/HilbertModularForms/`, with files `Domain`, `Group`,
 `Fourier`, `Koecher`, `Reduction`, `Eisenstein`, `Hecke`, `Newforms`, `Dictionary`, `LFunction`,
 `Twist`, `BaseChange`, `JacquetLanglands`, `LMFDB`. Public declarations live in the namespace
-`HilbertModularForm`. [`Suggested.lean`](Suggested.lean) states only what can be stated over
-Mathlib and the pinned Tau Ceti: the domain, the group and the slash of Layer 0, the lattices,
-the groups `Γ₀(𝔫)_𝔟` and the systems of representatives of Layer 1, the spaces `M_k(Γ)`,
-`S_k(Γ)` and `M_k(𝔫; R)` with Fourier, constant-term and normalized ideal coefficients of
-Layer 2, the finite-dimensionality theorems of Layer 3, the `L`-series of a tuple (8.1) and the
-two local-factor polynomials of 9.4. Every other target — the Petersson product, the component
-transport, the Hecke, central and Atkin–Lehner operators, old and new subspaces, newforms and
-their invariants, completed `L`-functions, twists, CM, base change, the Doi–Naganuma lift and the
-LMFDB interface — is specified, with its definition and Checks, in this README only. This
-document is definitive.
+`HilbertModularForm`. [`Suggested.lean`](Suggested.lean) states the headline Fourier expansion (`hasSum_fourier`),
+Koecher principle (`koecher`), nonparallel cuspidality
+(`constantTerm_slash_eq_zero_of_not_isParallel`), full expansion injectivity
+(`fullExpansion_injective`) and its cusp specialization (`cusp_coeff_injective`),
+Hecke bound (`exists_norm_coeff_le`), and finite dimensionality
+(`finiteDimensional_cuspForms`, `finiteDimensional_modularForms`,
+`finiteDimensional_hilbertModularForms`). It also states negative-weight vanishing
+(`modularForms_eq_bot_of_top_neg`) with nonzero level and absolute cusp L-series
+convergence (`LSeriesSummable_of_isCuspForm`) for Re(s)>k₀/2+1. Each theorem uses
+the analytic carriers defined there with real bodies. The module docstring identifies
+the missing carriers for the other headlines, which remain targets in this README.
 
 ## Prerequisites
 
@@ -55,6 +56,14 @@ ownership*.
 ## Scope and ownership
 
 ### Owned here
+
+This is the nonparallel-weight and analytic/dictionary extension of the classical parallel-weight
+construction in NoncommutativeAndEquivariantIwasawa §F.5. On the common domain k≥2, its form
+and cusp carriers, slash, expansions with constants, normalized ideal coefficients, character
+spaces and Hecke operators are used. The extensions below are compared with those objects,
+including all representative and differential factors; they do not construct another
+parallel-weight theory. Weight zero and negative weights are additional analytic cases.
+
 
 - the domain `ℍ^Σ`, the group `GL₂⁺(F)` of totally positive determinant, its action, the
   weight-`k` slash action in the arithmetic normalization, and holomorphy on `ℍ^Σ` (Layer 0);
@@ -86,6 +95,14 @@ ownership*.
 
 ### Consumed, not redefined
 
+- From [NoncommutativeAndEquivariantIwasawa](../NoncommutativeAndEquivariantIwasawa/README.md)
+  §F.5: hilbertForms, hilbertCuspForms and hilbertQExpansion, their parallel-weight k≥2
+  slash and character laws, every component and cusp, the all-cusp and standard-component
+  integral lattices, normalized ideal coefficients with constants and representative
+  factors, and all good and level-dividing Hecke operators. The comparison targets here
+  identify the parallel specialization of the nonparallel formulas with these supplied
+  objects, not merely with abstract isomorphic spaces. The two integral lattices remain distinct.
+
 - From Mathlib and Tau Ceti: everything in *Prerequisites*. In particular the narrow class group
   is `NumberField.NarrowClassGroup F` (Tau Ceti), identified with
   `RayClassGroup (narrowModulus F)` by Tau Ceti's `narrowEquivNarrowClassGroup`; a finite-order
@@ -109,17 +126,19 @@ ownership*.
 - From [GL₂ automorphic representations and transfer](../GL2AutomorphicRepresentationsAndTransfer/README.md):
   the adelic carriers of R16.1 (finite-level automorphic functions, the compact subgroups
   `K₀(𝔫)`), the eigensystem interface and strong multiplicity one of R16.4.4, multiplicity one
-  R16.4.3, the local newvector theory R16.2 and R16.6.2, global Jacquet–Langlands R17.3.1 with
+  R16.4.3, the local newvector theory R16.2 and R16.3, global Jacquet–Langlands R17.3.1 with
   R17.3.3, R17.3.5, R17.3.9, base change R17.4 (R17.4.1, R17.4.3–R17.4.5, R17.4.8), and
-  automorphic induction R17.5.1. All enter through the dictionary of Layer 6.
+  automorphic induction R17.4.16. All enter through the dictionary of Layer 6. General local newvectors are supplied by
+  AutomorphicLFunctionsAndLocalFactors AL.2.2, and local factors by GL2AutomorphicRepresentationsAndTransfer
+  R16.3. The Hilbert comparison with these is owned here; the classical R16.6.2 has base field ℚ.
 - From [Automorphic Galois representations](../AutomorphicGaloisRepresentations/README.md): the
   Galois representation of a Hilbert newform (its Layer 3, §3.10) and the characterization of CM
   by virtual reducibility (§§3.15–3.16). Layer 9 here defines CM by self-twist, as the LMFDB does,
   and cites that roadmap for the equivalence with the induced-representation description.
 - From [Automorphic bundles](../AutomorphicBundles/README.md): the geometric Hilbert modular forms
-  (B4.9 "geometric and analytic classical forms", B4.4 the `SlashAction` adapter), their rational
-  structures and base change (B4.18), the Hilbert `q`-expansions (B5.16), the `q`-expansion
-  principle (B5.17) and the cusp criterion (B5.18). Layer 7 here consumes them for the
+  (§11.9, geometric and analytic classical forms), their rational
+  structures over the defining field and field base change (§11.18), the Hilbert expansions
+  (§12.17), expansion principle (§12.18) and cusp criterion (§12.19). Layer 7 here consumes them for the
   rationality of Fourier coefficients and the Galois action on newforms.
 - From [Hilbert modular varieties and Shimura curves](../HilbertModularVarietiesAndShimuraCurves/README.md):
   the moduli-theoretic components and Hecke isogenies of its H3 (H3.6, H3.8), the component
@@ -155,8 +174,10 @@ ownership*.
 - **Quaternion algebras**, Eichler orders, class sets and Brandt matrices: Quaternionic modular
   forms and the sibling `QuaternionArithmetic` roadmap.
 - **Modularity of elliptic curves** over totally real fields, and the conductor and local data
-  of a curve over a number field: the modularity theorems are
-  [Potential modularity and compatible systems](../PotentialModularityAndCompatibleSystems/README.md)';
+  of a curve over a number field: potential modularity over an extension is supplied by
+  [PotentialModularityAndCompatibleSystems](../PotentialModularityAndCompatibleSystems/README.md) §5.1
+  for given lifts satisfying its residual and local-type hypotheses.
+  Base-field modularity and full local-factor comparison are separate explicit inputs to §11.3;
   the curve-side invariants are the [Elliptic curves](../EllipticCurves/README.md) roadmap's and
   the sibling `EllipticCurvePeriodsAndModularParametrizations`'. Layer 11 states the matching
   predicate between a newform and a trace-of-Frobenius function.
@@ -178,7 +199,7 @@ ownership*.
 - **`p`-adic and overconvergent** Hilbert modular forms, ordinary projectors, Hida families:
   Quaternionic modular forms Layers 4–5, Ordinary automorphic forms and modularity lifting.
 
-## Standing hypotheses
+## Conventions
 
 The base field is `[Field F] [NumberField F] [NumberField.IsTotallyReal F]` with
 `1 < Module.finrank ℚ F`, taken as an explicit hypothesis by every theorem that uses it (the
@@ -191,7 +212,7 @@ are nonzero integral ideals; `𝔟` ranges over invertible fractional ideals
 [Modular Forms](../ModularForms/README.md) roadmap, and the definitions here (no cusp condition,
 by Koecher) would be wrong for it.
 
-## Pinned conventions
+### Normalizations
 
 | Subject | Convention |
 | --- | --- |
@@ -201,7 +222,7 @@ by Koecher) would be wrong for it.
 | Slash, arithmetic normalization | `(f ∣_k γ)(z) = ∏_w σ_w(det γ)^{k_w + m_w - 1} · j(σ_w γ, z_w)^{-k_w} · f(γ • z)`, with `j(g, τ) = UpperHalfPlane.denom g τ`. In parallel weight this is the product over `w` of the factors `|det|^{k-1} denom^{-k}` of Mathlib's `f ∣[k] g`, and for `F = ℚ` it is the arithmetic normalization of the Modular Forms roadmap. A scalar `a ∈ F^×` acts by `N(a)^{k₀ - 2}` (signed norm; `det(a·1) = a²` is totally positive for every `a`). |
 | Unitary normalization | The LMFDB knowl `mf.hilbert` writes the transformation law with the factor `∏_w j(σ_w γ, z_w)^{k_w} σ_w(det γ)^{-k_w/2}`. The two slashes differ by `N(det γ)^{(k₀-2)/2}` (Layer 0.4), which is `1` whenever `det γ` is a totally positive **unit**; so on every group `Γ₀(𝔫)_𝔟` the two laws agree, and the difference is visible only in Hecke operators, where the arithmetic one is used. |
 | Holomorphy | `IsHolomorphic f := DifferentiableOn ℂ (f ∘ (ofComplex ∘ ·)) {z : Σ → ℂ ∣ ∀ w, 0 < (z w).im}`, with Mathlib's `UpperHalfPlane.ofComplex` applied coordinatewise. Equality with the manifold notion on the product charted space is a theorem (0.2), not the definition. |
-| Lattice of a component | `L_𝔟 := 𝒪_F ⊕ 𝔟 ⊂ F²` (column vectors). `Γ_𝔟 := Stab_{GL₂⁺(F)}(L_𝔟) = {(a b; c d) : a, d ∈ 𝒪_F, b ∈ 𝔟⁻¹, c ∈ 𝔟, det ∈ 𝒪_{F,+}^×}`, and `Γ₀(𝔫)_𝔟 := {γ ∈ Γ_𝔟 : c ∈ 𝔫𝔟}`. This is the knowl's `Γ₀(𝔑)_𝔟` verbatim (with `a, d ∈ 𝒪_F` made explicit). `𝒪_{F,+}^×` is Tau Ceti's `totallyPositiveIntegerUnits`. |
+| Lattice of a component | `L_𝔟 := 𝒪_F ⊕ 𝔟 ⊂ F²` (column vectors). `Γ_𝔟 := Stab_{GL₂⁺(F)}(L_𝔟) = {(a b; c d) : a, d ∈ 𝒪_F, b ∈ 𝔟⁻¹, c ∈ 𝔟, det ∈ 𝒪_{F,+}^×}`, and `Γ₀(𝔫)_𝔟 := {γ ∈ Γ_𝔟 : c ∈ 𝔫𝔟}`. This is the group convention of the knowl (with `a, d ∈ 𝒪_F` made explicit). `𝒪_{F,+}^×` is Tau Ceti's `totallyPositiveIntegerUnits`. |
 | Components | Forms of level `𝔫` are tuples indexed by the narrow class group: a *system of representatives* `R` is a function `rep : NarrowClassGroup F → (FractionalIdeal (𝓞 F)⁰ F)ˣ` with `NarrowClassGroup.mk (rep c) = c`, and `M_k(𝔫; R) := ∏_c M_k(Γ₀(𝔫)_{rep c})`. Two systems give canonically isomorphic spaces (1.5); every invariant below is proved independent of `R`. The component of class `c` is written `f_c`, or `f_𝔟` for `𝔟 = rep c`. |
 | Translation lattice and exponents | `Γ₀(𝔫)_𝔟` contains the translations by `𝔟⁻¹`, so `f_𝔟` expands over the trace dual `(𝔟⁻¹)^∨ = 𝔟𝔡⁻¹`: `f_𝔟(z) = Σ_{μ ∈ (𝔟𝔡⁻¹)_+ ∪ {0}} a_𝔟(μ) e(Tr(μz))`, `e(x) = exp(2πix)`, `Tr(μz) = Σ_w σ_w(μ) z_w`. The trace dual is Mathlib's `FractionalIdeal.dual ℤ ℚ`. |
 | Ideal coefficients | For a nonzero integral ideal `𝔪` let `c` be the narrow class with `[𝔪] = [rep(c)⁻¹ 𝔡]` in `NarrowClassGroup F`, and let `μ ≫ 0` generate `𝔪 · rep(c) · 𝔡⁻¹`. The **normalized coefficient** is `c(𝔪, f) := a_{rep c}(μ) · ∏_w σ_w(μ)^{m_w}`. It does not depend on `μ` (2.4). In parallel weight it is the knowl's `a_𝔪`. `c(𝔪, f)` is an `IdealArithmeticFunction F` (`zeroExtend`ed by `0` at `⊥`). |
@@ -213,12 +234,23 @@ by Koecher) would be wrong for it.
 | Atkin–Lehner | For `𝔮 = 𝔭^{v_𝔭(𝔫)}` exactly dividing `𝔫` and `ψ = 1`, `W_𝔮` is the normalized involution of 5.6 and `ε_𝔮(f) ∈ {±1}` its eigenvalue on a newform (7.7). For `𝔭 ‖ 𝔫`, `c(𝔭, f) = -ε_𝔭(f) N𝔭^{k₀/2 - 1}`; in parallel weight `2`, `c(𝔭, f) = -ε_𝔭(f)`. The LMFDB's `AL_eigenvalues` are the `ε_𝔮(f)`. |
 | Coefficient field | `CoefficientField f := ℚ({c(𝔪, f)}) ⊆ ℂ`, an `IntermediateField ℚ ℂ`, as in the Modular Forms roadmap; the LMFDB's `dimension` is `finrank ℚ (CoefficientField f)`. |
 | `L`-function | `L(f, s) = Σ_𝔪 c(𝔪, f) N𝔪^{-s}`, regrouped by norm into Mathlib's `LSeries` through `normCoeff`. Arithmetic normalization, centre `k₀/2`, motivic weight `k₀ - 1`; the card's analytic gamma shifts are `(k_w - 1)/2` at each `w` (all complex), the conductor is `N(𝔫) · |d_F|²`, the degree `2n`. |
-| Twist | `(f ⊗ χ)` for a finite-order Hecke character `χ` whose square is unramified at every finite place is the form with `c(𝔪, f ⊗ χ) = χ(𝔪) c(𝔪, f)` for `𝔪` prime to the conductor of `χ` (9.1), `χ(𝔪)` being `HeckeCharacter.idealCharacter`. For `χ²` ramified at a finite place the twist has no central character in the sense of 5.2 and is not a form of any level `𝔫'` here. |
+| Twist | `(f ⊗ χ)` for any finite-order Hecke character `χ` is the form with `c(𝔪, f ⊗ χ) = χ(𝔪) c(𝔪, f)` for `𝔪` prime to the conductor of `χ` (9.1), `χ(𝔪)` being `HeckeCharacter.idealCharacter`. The twist lies in the nebentypus ψχ² space of §2.7; if χ² is ramified, this is not the unramified specialization of §5.2. |
 | CM | `f` has CM when `f` and `f ⊗ χ` have the same good coefficients for some nontrivial finite-order `χ` — the knowl `mf.cm`. Such `χ` is quadratic and cuts out a totally imaginary quadratic extension (9.4). |
 | Base change | `g` over `K` is a base change of `f` over `F ⊆ K` when `L_𝔮(g, T) = L_𝔭^{(r)}(f, T)` for all but finitely many primes `𝔮 ∣ 𝔭` of `K`, `r` the residue degree — the knowl `mf.base_change`. `f` *is a base change* when it is a base change of a newform over a proper subfield `F₀ ⊊ F`, the case `F₀ = ℚ` using the Modular Forms roadmap's `Newform`. |
-| Sign of the functional equation | `Λ(f, s) = ε(f) Λ(f^ρ, k₀ - s)`, `f^ρ` the form with conjugate coefficients; for `ψ = 1`, `f^ρ = f`, and `ε(f) = (-1)^{n k₀/2} ∏_{𝔮 ‖ 𝔫} ε_𝔮(f)` with the sign `(-1)^{nk₀/2}` read as `i^{nk₀}`; in parallel weight `2`, `ε(f) = (-1)^n ∏ ε_𝔮(f)`. |
+| Sign of the functional equation | `Λ(f, s) = ε(f) Λ(f^ρ, k₀ - s)`, `f^ρ` the form with conjugate coefficients; for `ψ = 1`, `f^ρ = f`, and `ε(f) = i^{Σ_w k_w} ∏_{𝔮 ‖ 𝔫} ε_𝔮(f)` with the sign `i^{Σ_w k_w}` read as `i^{Σ_w k_w}`; in parallel weight `2`, `ε(f) = (-1)^n ∏ ε_𝔮(f)`. |
 
-## What Mathlib supplies
+The analytic signatures use UpperHalfSpace, realEmbedding, toGLReal, GL2Pos, det₀,
+entry, Weight (with IsParallel, top and m), slash and IsHolomorphic. The component data
+are Gamma0 and NarrowRepresentatives. The Fourier definitions are tracePairing, expTrace,
+basePoint, box, boxMean, fourierCoeff, constantTerm and dualLattice; modularForms,
+cuspForms, HilbertModularForms, IsCuspForm and cuspSubmodule supply the spaces. The
+coefficient and Dirichlet-series definitions are coeff and LFunction. The proved
+actions upperHalfSpaceSMul and upperHalfSpaceMulAction and support identities smul_apply, slash_add, slash_smul, slash_zero, entry_mul, det₀_mul,
+det₀_inv and entry_inv are used only to construct their actions and submodules.
+
+## Exact supplier contracts
+
+### From Mathlib
 
 - `ℍ` with the `GL (Fin 2) ℝ`-action, `denom`, the cocycle `denom_cocycle`, `im_smul_eq_div_normSq`,
   and the weight-`k` slash `f ∣[k] g` with its `SlashAction` laws (`ModularForm.slash_def`, `SlashActions.lean`,
@@ -232,7 +264,7 @@ by Koecher) would be wrong for it.
   and `WeakFEPair` (consumed through the L-functions roadmap's level transport).
 - `Matrix.GeneralLinearGroup.map`, `Matrix.GeneralLinearGroup.det`, `Matrix.SpecialLinearGroup`.
 
-## What Tau Ceti supplies
+### From Tau Ceti
 
 - `NumberField.IsTotallyPositive` with its multiplicative API, `totallyPositiveUnits`,
   `totallyPositiveIntegerUnits`, `finiteIndex_totallyPositiveUnits`,
@@ -252,21 +284,13 @@ by Koecher) would be wrong for it.
   `Newform.satakeParameters`, and the classical Hecke-ring realization of
   `TauCeti.NumberTheory.HeckeRing.*`, whose double-coset formalism Layer 5 reuses.
 
-## What is missing
-
-Nothing about Hilbert modular forms exists in Mathlib or Tau Ceti: no product of upper
-half-planes with a `GL₂⁺(F)`-action, no `Γ₀(𝔫)_𝔟`, no Fourier expansion over a fractional
-ideal, no Koecher principle, no reduction theory for `GL₂` over a totally real field, no Hecke
-operators between components, no Hilbert newforms, no Hilbert `L`-function, no twist, no CM or
-base-change predicate, no Doi–Naganuma lift. The adelic, Galois-theoretic and geometric roadmaps
-named above leave the classical function spaces, the Fourier-coefficient calculus and the
-comparison between the two undefined; those are built here.
-
-## The build, in layers
+## How to read the build
 
 Each milestone states what is proved, under which hypotheses, and what it rests on. "Rests on"
-names Mathlib, Tau Ceti at the pin, earlier milestones of this roadmap, or a cited milestone of
-another roadmap; nothing rests on a milestone that follows it.
+names Mathlib, Tau Ceti at the pin, preceding targets or exact supplier sections. Layers 0–2
+set the nonparallel analytic conventions; Layers 3–5 give estimates and operators; Layer 6
+compares adelic forms; Layers 7–11 construct newforms and their arithmetic dictionaries.
+The general-form estimate in §3.3 is a consequence of §4.3 and is not an input to it.
 
 ## Layer 0: the domain, the group, the slash action, holomorphy
 
@@ -316,12 +340,20 @@ subgroup. The unitary slash is used in no other milestone.
 
 *Rests on:* 0.3; `NumberField.norm_pos_of_isTotallyPositive` (Tau Ceti) for the real power.
 
+### Examples
+
+The discriminating examples are the Checks in §§0.1–0.4: identity, translation and scalar actions.
+
+### Dependencies
+
+Mathlib product complex analysis and real matrix action; the parallel-weight supplier in Scope and ownership.
+
 ## Layer 1: lattices, the groups `Γ₀(𝔫)_𝔟`, and cusps
 
 ### 1.1 The lattices `L_𝔟` and their stabilizers
 
 Define `L_𝔟 := {(x, y) ∈ F² : x ∈ 𝒪_F, y ∈ 𝔟}` as an `𝒪_F`-submodule of `Fin 2 → F`, prove it is
-a full lattice (free of rank `2` over `ℤ`, spanning `F²` over `ℚ`), define
+a full lattice (free of rank `2[F:ℚ]` over `ℤ`, spanning `F²` over `ℚ`; projective of rank `2` over `𝒪_F`, without asserting freeness when `𝔟` is nonprincipal), define
 `Γ_𝔟 := {γ ∈ GL₂⁺(F) : γ L_𝔟 = L_𝔟}`, and prove the matrix description of the pinned
 conventions: `γ ∈ Γ_𝔟 ↔ a, d ∈ 𝒪_F ∧ b ∈ 𝔟⁻¹ ∧ c ∈ 𝔟 ∧ det γ ∈ 𝒪_{F,+}^×`. Prove
 `Γ_{𝒪_F} = GL₂⁺(𝒪_F)`, and that `Γ_𝔟 ∩ SL₂(F)` is Mathlib's `SL₂(𝒪_F)` conjugated when `𝔟` is
@@ -330,6 +362,12 @@ ideal (the product of the elementary-divisor ideals), prove `[L_𝔟 : γ L_𝔠
 `[L_𝔟 : L_𝔠] = 𝔠𝔟⁻¹` when `𝔠 ⊆ 𝔟`.
 
 *Rests on:* Mathlib `FractionalIdeal`, `Module.Free`; Tau Ceti `totallyPositiveIntegerUnits`.
+
+**Checks.**
+
+- Over ℚ(√5), with w=(1+√5)/2, (1,0),(w,0),(0,1),(0,w) give ℤ-rank 4=2·2.
+- Over ℚ, the same rank formula gives 2=2·1.
+- For nonprincipal 𝔟, the determinant module is 𝔟; a free 𝒪_F-basis would incorrectly make it principal.
 
 ### 1.2 The congruence subgroups
 
@@ -363,14 +401,14 @@ with sign).
 
 ### 1.4 Cusps
 
-The boundary is `ℙ¹(F)`, acted on by `GL₂⁺(F)`. Define the cusp set `Cusps Γ := Γ \ ℙ¹(F)` for
+The boundary is `ℙ¹(F)`, acted on by `GL₂⁺(F)`. Define the cusp set Cusps Γ := Γ \ ℙ¹(F) for
 `Γ = Γ₀(𝔫)_𝔟`. Prove: the map `(a : c) ↦ [a𝒪_F + c𝔟⁻¹] ∈ ClassGroup (𝓞 F)` is constant on
-`Γ_𝔟`-orbits and induces a bijection `Cusps Γ_𝔟 ≃ ClassGroup (𝓞 F)`, so `Γ_𝔟` has `h_F` cusps;
-`Cusps Γ₀(𝔫)_𝔟` is finite, of cardinality at most `h_F · [PΓ_𝔟 : PΓ₀(𝔫)_𝔟]`; the stabilizer
+`Γ_𝔟`-orbits and induces a bijection Cusps Γ_𝔟 ≃ ClassGroup (𝓞 F), so `Γ_𝔟` has `h_F` cusps;
+Cusps Γ₀(𝔫)_𝔟 is finite, of cardinality at most `h_F · [PΓ_𝔟 : PΓ₀(𝔫)_𝔟]`; the stabilizer
 `Γ_κ` of a cusp `κ` is conjugate in `GL₂⁺(F)` to a group of upper triangular matrices
 `(ε b; 0 ε')` whose translation part `Λ_κ := {b : (1 b; 0 1) ∈ γ⁻¹Γγ}` is a full lattice in `F` and
 whose unit part `U_κ := {ε/ε'}` is a finite-index subgroup of `𝒪_{F,+}^×`. Prove the squarefree
-count: for squarefree `𝔫`, `#Cusps Γ₀(𝔫)_𝔟 = h_F · 2^{ω(𝔫)}`, through the parametrization of
+count: for squarefree `𝔫`, #Cusps Γ₀(𝔫)_𝔟 = h_F · 2^{ω(𝔫)}, through the parametrization of
 cusps by pairs `(𝔞, [·])` with `𝔞 ∣ 𝔫` and a class. The analogous count with the unit quotient
 `(𝒪_F/(𝔞 + 𝔫𝔞⁻¹))^×/𝒪_{F,+}^×` for non-squarefree `𝔫` is a milestone of the same shape and is
 stated with that quotient explicit.
@@ -387,6 +425,14 @@ The LMFDB's choice of the ideal `𝔟` for each component is a choice of `R` and
 mathematics; the induced isomorphism of the spaces of forms is 2.3.
 
 *Rests on:* 1.3; Tau Ceti `NarrowClassGroup.mk_surjective`, `mk0_eq_mk0_iff`.
+
+### Examples
+
+The discriminating examples are the Checks in §§1.1–1.5: the quadratic lattice basis and component classes.
+
+### Dependencies
+
+Layer 0; fractional ideals and narrow classes from the exact supplier contracts.
 
 ## Layer 2: Fourier expansions, Koecher's principle, the spaces
 
@@ -426,14 +472,15 @@ uniformly in `Re z`.
 
 ### 2.3 The spaces `M_k(Γ)` and `M_k(𝔫; R)`
 
-For a subgroup `Γ ≤ GL₂⁺(F)` commensurable with some `Γ_𝔟`, define `M_k(Γ)` as the
+For nonparallel k, and for the parallel weights below two, extend the supplied form spaces as follows.
+For `Γ ≤ GL₂⁺(F)` commensurable with some `Γ_𝔟`, define `M_k(Γ)` as the
 `Submodule ℂ (ℍ^Σ → ℂ)` of holomorphic `f : ℍ^Σ → ℂ` with `f ∣_k γ = f` for all `γ ∈ Γ` — **no
 cusp condition** — with multiplication `M_k(Γ) × M_{k'}(Γ) → M_{k + k'}(Γ)` for weights of
 compatible parity, and the restriction maps `M_k(Γ) → M_k(Γ')` for `Γ' ≤ Γ`. Prove the **parity lemma**: if `k₀` is odd and `𝒪_F` has a
 unit of norm `-1`, then `M_k(Γ₀(𝔫)_𝔟) = 0` (slash by `(u 0; 0 u)`, which acts by `N(u)^{k₀-2}`);
 more generally `M_k(Γ) = 0` whenever `Γ` contains a scalar `u·1` with `N(u)^{k₀} = -1`.
 Define `M_k(𝔫; R) := ∏_{c} M_k(Γ₀(𝔫)_{rep c})`. Prove the **component transport**: for two
-systems `R, R'` with the `α_c` of 1.5, `f ↦ (f_c ∣_k diag(1, α_c)⁻¹)_c` is a linear isomorphism
+systems `R, R'` with the `α_c` of 1.5, `f ↦ (N(α_c)⁻¹ (f_c ∣_k diag(1, α_c)⁻¹))_c` is a linear isomorphism
 `M_k(𝔫; R) ≃ M_k(𝔫; R')` (1.3 gives the invariance), independent of the choice of the `α_c`
 because `diag(1, ε)` with `ε ∈ 𝒪_{F,+}^×` lies in `Γ₀(𝔫)_𝔟` and acts trivially. Every invariant
 of `f` below is proved invariant under this transport. Prove that the translations `(1 b; 0 1)` and diagonals `(ε 0; 0 1)` of 1.2 give each component
@@ -455,23 +502,30 @@ with the unit law `a_𝔟(εμ) = ∏_w ε_w^{k_w + m_w - 1} a_𝔟(μ)` for `ε
 
 ### 2.4 Normalized coefficients
 
-Define `c(𝔪, f)` by the pinned convention and prove it independent of the generator `μ`: for
+Extend the supplied parallel coefficient map to nonparallel weights by the pinned convention and prove it independent of the generator `μ`: for
 `μ' = εμ`, `a(εμ) ∏ (εμ)_w^{m_w} = ∏ ε_w^{k_w + 2m_w - 1} a(μ) ∏ μ_w^{m_w} = N(ε)^{k₀ - 1} a(μ) ∏ μ_w^{m_w}`
-and `N(ε) = 1`. Prove that `c(·, f)` determines `f` (injectivity of `f ↦ c(·, f)` on `M_k(𝔫; R)`,
-from the uniqueness in 2.1 and the fact that every `μ ∈ (𝔟𝔡⁻¹)_+` generates an integral ideal in
-the class of `𝔟⁻¹𝔡`), that it is invariant under the transport of 2.3, and that in parallel
+and `N(ε) = 1`. Prove that the full expansion map `f ↦ ((a_0(f_c))_c, c(·, f))` is injective on `M_k(𝔫; R)`
+for nonzero level and degree at least two, by uniqueness in 2.1 and Koecher. Prove separately
+that positive ideal coefficients determine a cusp form, since its constant terms are zero.
+Prove that the positive coefficient map is invariant under the transport of 2.3, and that in parallel
 weight `c(𝔪, f) = a_𝔟(μ)`. Package `c(·, f)` as `TauCeti.IdealArithmeticFunction F` and prove
 linearity in `f`. Define the constant terms `a_0(f_𝔟)`.
 
 *Rests on:* 2.3; Tau Ceti `IdealArithmeticFunction`, `zeroExtend`.
+
+**Checks.**
+
+- In weight zero, 1 and 0 have positive coefficients all zero, but standard constants 1 and 0.
+- On cusp forms the missing constant coordinate is zero; zero coefficients give the zero form.
+- Over a quadratic field, 𝔟′=2𝔟 gives c′=4c under raw slash and c′=(4/4)c=c under §2.3; a positive unit has norm 1.
 
 ### 2.5 Constant terms at every cusp
 
 For `f ∈ M_k(Γ)` and `γ ∈ GL₂⁺(F)`, prove that `f ∣_k γ ∈ M_k(γ⁻¹Γγ)` and that `γ⁻¹Γγ` again
 contains a full translation lattice and a finite-index unit group, so `f ∣_k γ` has an expansion
 and a constant term `a_0(f ∣_k γ)` (2.1–2.2). Prove that `a_0(f ∣_k γ)` depends only on the cusp
-`γ • ∞ ∈ Cusps Γ` up to a nonzero scalar (`a_0(f ∣_k γδ) = ∏ σ_w(det δ)^{k_w + m_w - 1} a_0(f ∣_k γ)`
-for `δ` in the cusp stabilizer), hence that the vanishing of `a_0(f ∣_k γ)` is a property of the
+γ • ∞ ∈ Cusps Γ up to a nonzero scalar (`a_0(f ∣_k γδ) = ∏_w σ_w(det δ)^{k_w+m_w-1} σ_w(d)^(−k_w) a_0(f ∣_k γ)`
+for an upper triangular δ=(a b;0 d) fixing ∞; both diagonal entries are nonzero), hence that the vanishing of `a_0(f ∣_k γ)` is a property of the
 cusp. Prove **cuspidality in non-parallel weight**: if `k` is not parallel, then every constant
 term vanishes (the unit law of 2.3 at `μ = 0` reads `a_0 = ∏_w ε_w^{-m_w} a_0` for `ε ∈ U_κ`, and
 `∏_w ε_w^{m_w} ≠ 1` for some `ε` when the `m_w` are not all equal, by Dirichlet's unit theorem).
@@ -481,7 +535,7 @@ term vanishes (the unit law of 2.3 at `μ = 0` reads `a_0 = ∏_w ε_w^{-m_w} a_
 ### 2.6 Cusp forms
 
 Define `S_k(Γ) := {f ∈ M_k(Γ) : ∀ γ ∈ GL₂⁺(F), a_0(f ∣_k γ) = 0}` and prove it equals the
-kernel of the finite family of constant-term maps indexed by `Cusps Γ` (2.5). Prove that
+kernel of the finite family of constant-term maps indexed by Cusps Γ (2.5). Prove that
 `S_k(Γ)` is stable under `f ↦ f ∣_k γ` for `γ ∈ GL₂⁺(F)` (as a map `S_k(Γ) → S_k(γ⁻¹Γγ)`), under
 the restriction maps, and that `M_k(Γ) · S_{k'}(Γ) ⊆ S_{k+k'}(Γ)`. Prove the **decay at cusps**:
 for `f ∈ S_k(Γ)` and every `γ`, `(f ∣_k γ)(z) → 0` as `min_w Im z_w → ∞`, uniformly in `Re z`,
@@ -490,6 +544,43 @@ written as convergence to `0` of the box means of 2.1 together with integrabilit
 every box, which every holomorphic `f` satisfies; this keeps `S_k(Γ)` visibly a submodule.
 
 *Rests on:* 2.2, 2.5.
+
+### 2.7 Finite nebentypus and the nonparallel extension
+
+For a finite-order Hecke character η with archimedean signs compatible with k, and
+cond(η)_finite dividing 𝔫, use the Γ₁ level space and its η diamond eigenspace. Equivalently,
+on the adelic side require right K₀(𝔫) equivariance by the inverse of `∏_{v|cond(η)_finite} η_v(d_v)`,
+where d_v is a unit at these places, in the convention of GL2AutomorphicRepresentationsAndTransfer R16.1,
+finite-level comparison. Transport this condition componentwise by §6.1; for
+γ∈Γ₀(𝔫)_𝔟 the classical law is `f_𝔟∣γ=(∏_{v|cond(η)_finite} η_v(d)) f_𝔟`. The scalar-unit compatibility
+is part of the character hypothesis. Write M_k(𝔫,η;R) and S_k(𝔫,η;R) for these spaces.
+They specialize to §5.2 when η is unramified at finite places. Parallel k≥2 uses the
+supplied character space; the extension here permits nonparallel k and compares the two
+on their common domain, preserving constants and normalized ideal coefficients.
+
+The API consists of linearity, cusp subspaces, restriction to higher levels divisible by
+the character conductor, representative transport, and the classical–adelic comparison
+with this precise character action. Extend the Hecke and newform dictionary to these
+spaces, using η(𝔭) at good primes and the full local parameter at bad primes. The
+unramified-central-character conclusions of §§7.6–7.7 keep that explicit hypothesis.
+
+**Checks.**
+
+- For η=1 the transformation multiplier is 1 and gives the original space.
+- If χ has order three and ζ=χ(u) is primitive, twisting a trivial-character form
+  gives multiplier χ(u)²=ζ²≠1 on the scalar unit u, and lands in the χ² space.
+- For quadratic χ, χ(u)²=1 and the twisted central character is unchanged.
+
+*Needs:* the parallel-weight supplier in Scope and ownership; §§1.2, 2.3–2.6; GL2AutomorphicRepresentationsAndTransfer R16.1,
+finite-level comparison. The adelic identification is proved in Layer 6 after the Γ₁ construction.
+
+### Examples
+
+The discriminating examples are the Checks in §§2.3–2.7: constant forms, representative changes and character spaces.
+
+### Dependencies
+
+Layers 0–1; Fourier analysis and the parallel-weight expansion and character contracts.
 
 ## Layer 3: reduction theory and finite dimensionality
 
@@ -501,15 +592,22 @@ parallelotope for `Λ_κ` and `𝒞_t ⊂ (ℝ_{>0})^Σ` is the set of `y` with 
 fixed closed fundamental cone for the action of `U_κ` by `y ↦ ε y` (Mathlib's
 `NumberField.mixedEmbedding.fundamentalCone` restricted to the positive orthant and to the
 finite-index subgroup `U_κ`). Prove the **reduction theorem**: there is `t > 0` such that
-`ℍ^Σ = Γ · ⋃_{κ ∈ Cusps Γ} 𝔖_κ(C_κ, t)` — every orbit meets one of finitely many Siegel sets
+ℍ^Σ = Γ · ⋃_{κ ∈ Cusps Γ} 𝔖_κ(C_κ, t) — every orbit meets one of finitely many Siegel sets
 (Freitag, Ch. I §2; the classical proof through the minimum of `N(Im(γ•z))⁻¹ = N(|j(γ,z)|²)/N(Im z)`
 over `Γ`, whose existence is the finiteness of lattice points in a compact set). Prove the
-**Siegel-set finiteness**: `{γ ∈ Γ : γ 𝔖_κ ∩ 𝔖_{κ'} ≠ ∅}` is finite, and the **height
-bound**: on `𝔖_κ(C, t)` every `z` has `min_w Im z_w ≥ c(t) > 0`.
+**Siegel-set finiteness**: the image of `{γ ∈ Γ : γ 𝔖_κ ∩ 𝔖_{κ'} ≠ ∅}` in the projective
+group is finite, quotienting by the ineffective scalar units. The **height bound** is in
+cusp coordinates: on `γ_κ⁻¹ 𝔖_κ(C, t)`, `min_w Im z_w ≥ c(t) > 0`.
 
 *Rests on:* 1.4; Mathlib `NumberField.mixedEmbedding.fundamentalCone`, `NumberField.Units`;
 the Minkowski lattice-point finiteness of
 [Global Number Fields](../GlobalNumberFields/README.md) Layer 3A for the counting input.
+
+**Checks.**
+
+- For ε=(3+√5)/2, every εʲI fixes ℍ²; all these elements have one projective image.
+- Under inversion, it maps to i/t: its ordinary height is 1/t, while its cusp-coordinate height is t.
+- At the identity cusp with y=(t,t), min y=t and N(y)=t²; the lower bound is in these coordinates.
 
 ### 3.2 The invariant measure and finite covolume
 
@@ -531,10 +629,15 @@ for units `ε` in non-parallel weight), tends to `0` at every cusp (2.6), and is
 `ℍ^Σ` with a maximum attained in `⋃_κ 𝔖_κ ∩ {φ_f ≥ sup/2}`, a compact set that varies with `f`.
 Deduce the **Hecke bound** `|c(𝔪, f)| ≤ C_f · N𝔪^{k₀/2}` for cusp forms (2.1's coefficient
 integral at `y_w = 1/σ_w(μ)` gives `|a(μ)| ≤ C ∏_w σ_w(μ)^{k_w/2}`, and the factor `∏_w σ_w(μ)^{m_w}`
-of the normalized coefficient turns this into `C N(μ)^{k₀/2}`), and for all `f ∈ M_k(Γ)` in
-parallel weight `k` (non-parallel weights are cuspidal by 2.5) the bound `|c(𝔪, f)| ≤ C_f · N𝔪^{k}`
-from the boundedness of `|f| N(y)^{k}` on Siegel sets (2.2). For `F = ℚ` the first is
-Mathlib's `O(n^{k/2})`.
+of the normalized coefficient turns this into `C N(μ)^{k₀/2}`), For a general form of parallel weight k≥0, first prove
+`|f(x+iy)| ≤ C_f (1+N(y)^(−k))` by reduction to finitely many cusp sectors, where the
+slashed forms are bounded. For each nonzero lower-left entry c of a reducing matrix,
+`N(|cz+d|) ≥ |N(c)|N(y)` and the nonzero c belong to fixed fractional lattices, so
+`|N(c)|` has a positive lower bound; upper triangular matrices give the constant term
+in the estimate. The coefficient integral at y_w=1/μ_w then gives
+`|c(𝔪,f)| ≤ C_f N𝔪^k`. Negative parallel weights vanish by §3.5, and nonparallel
+forms use the cuspidal bound. Section 4.3 supplies the sharper estimates in even weights.
+No boundedness of `|f|N(y)^k` is asserted on an unbounded Siegel set.
 
 *Rests on:* 2.6, 3.1, 0.4.
 
@@ -561,6 +664,10 @@ restriction of the `L²` inner product of `L²(𝔉_Γ, ∏ y_w^{k_w} dμ)` and 
 
 ### 3.5 Finite dimensionality
 
+Every assertion here has nonzero level. At level zero over ℚ(√5), the constant 1
+is invariant in parallel weight −2, since upper triangular unit diagonals give
+N(det)^(−3)N(d)²=1; this is excluded by the nonzero-level hypothesis.
+
 Prove `FiniteDimensional ℂ (S_k(Γ))`: point evaluations `f ↦ f(z)` are bounded on the unit ball
 of `(S_k(Γ), ⟨·,·⟩)` (mean-value inequality on a polydisc around `z`, 0.2), so the unit ball is a
 normal family, every sequence in it has a locally uniformly convergent subsequence whose limit
@@ -568,13 +675,21 @@ is again in `S_k(Γ)` (0.2 and dominated convergence for the cusp decay of 2.6),
 ball is compact in the `L²` topology; a Hilbert space with compact unit ball is finite
 dimensional (Mathlib `FiniteDimensional.of_isCompact_closedBall₀`). Then prove
 `FiniteDimensional ℂ (M_k(Γ))` from the exact sequence
-`0 → S_k(Γ) → M_k(Γ) → ℂ^{Cusps Γ}` of constant-term maps (2.5), and the bound
-`finrank M_k(Γ) ≤ finrank S_k(Γ) + #Cusps Γ`. Deduce `FiniteDimensional ℂ (M_k(𝔫; R))`, and that for `k₀ ≤ 0` the only forms are the
+0 → S_k(Γ) → M_k(Γ) → ℂ^{Cusps Γ} of constant-term maps (2.5), and the bound
+finrank M_k(Γ) ≤ finrank S_k(Γ) + #Cusps Γ. Deduce `FiniteDimensional ℂ (M_k(𝔫; R))`, and that for `k₀ ≤ 0` the only forms are the
 constants in weight `0` (maximum principle for `|f|` on the finite-volume quotient, using the
 boundedness of 2.2).
 
 *Rests on:* 0.2, 2.5, 3.4; Mathlib `FiniteDimensional.of_isCompact_closedBall₀`, Montel-type
 compactness (`TendstoLocallyUniformly` on open sets of `ℂ^Σ`).
+
+### Examples
+
+The discriminating examples are the Checks in §§3.1–3.5: projective units, cusp height and finite dimensionality.
+
+### Dependencies
+
+Layers 0–2; unit lattices, Haar measure and finite-dimensional normed-space theory.
 
 ## Layer 4: Eisenstein series
 
@@ -610,12 +725,13 @@ is `-3/(πy)`; its vanishing is what distinguishes the Hilbert case.) Prove `E_�
 
 ### 4.3 The decomposition `M_k = S_k ⊕ E_k`
 
-For even parallel `k ≥ 2` define `E_k(Γ) := span {E_κ : κ ∈ Cusps Γ}` and prove
-`M_k(Γ) = S_k(Γ) ⊕ E_k(Γ)` with `finrank E_k(Γ) = #Cusps Γ` (the constant-term matrix is the
+For even parallel `k ≥ 2` define E_k(Γ) := span {E_κ : κ ∈ Cusps Γ} and prove
+`M_k(Γ) = S_k(Γ) ⊕ E_k(Γ)` with finrank E_k(Γ) = #Cusps Γ (the constant-term matrix is the
 identity), that the sum is orthogonal for the Petersson product whenever it converges, and
-`finrank M_k(Γ₀(𝔫)_𝔟) = finrank S_k(Γ₀(𝔫)_𝔟) + #Cusps Γ₀(𝔫)_𝔟`. Deduce the sharper bound
-`|c(𝔪, f)| ≤ C_f · N𝔪^{k - 1}` for every `f ∈ M_k(Γ)` from 3.3 on the cuspidal part and the
-divisor-sum coefficients of the Eisenstein part (for `F = ℚ`, Mathlib's `O(n^k)`). For
+finrank M_k(Γ₀(𝔫)_𝔟) = finrank S_k(Γ₀(𝔫)_𝔟) + #Cusps Γ₀(𝔫)_𝔟. Deduce `|c(𝔪, f)| ≤ C_f N𝔪^{k-1}` for even parallel `k ≥ 4`, using
+`σ_{k-1}(𝔪)/N𝔪^{k-1} ≤ ζ_F(k-1)`. At `k = 2` retain the divisor-sum bound
+`|c(𝔪, f)| ≤ C_f σ_1(𝔪)` and hence, for every real `ε > 0`,
+`|c(𝔪, f)| ≤ C_{f,ε} N𝔪^{1+ε}`. The cuspidal contribution satisfies §3.3. For
 `h_F = 1` and `Γ = Γ_{𝒪_F}` (one cusp) prove **Siegel's formula** for the Fourier expansion of
 `E_∞`: `E_∞(z) = 1 + C_k · Σ_{μ ∈ (𝔡⁻¹)_+} σ_{k-1}(μ𝔡) e(Tr(μz))` with
 `σ_{k-1}(𝔞) := Σ_{𝔠 ∣ 𝔞} N𝔠^{k-1}` over the integral ideal divisors, where the Poisson summation
@@ -630,21 +746,41 @@ coefficients of an individual `E_κ` are class-restricted divisor sums and are n
 *Rests on:* 4.1, 4.2, 3.4; [L-functions](../LFunctions/README.md) Layer 3 (Dedekind zeta
 functional equation) for the constant `C_k`.
 
+**Checks.**
+
+- For E₂ over ℚ(√5), c(𝔪)=120σ₁(𝔪); at squarefree prime norms 4,5,9 the ratio c(𝔪)/N𝔪 is 120·(5/4)(6/5)(10/9)=200.
+- E₂(it,it) tends to 1, while N(t,t)²=t⁴ tends to infinity, excluding the former boundedness route.
+- At k=4, σ₃(𝔪)/N𝔪³≤ζ_F(3), a finite bound; ζ_F(1) cannot supply the analogous k=2 constant.
+
+### Examples
+
+The discriminating examples are the Checks in §4.3: Eisenstein divisor sums in weights two and four.
+
+### Dependencies
+
+Layers 2–3; the Dedekind zeta functional equation from LFunctions Layer 3.
+
 ## Layer 5: Hecke operators
+
+Extend the supplied parallel-weight operators to nonparallel weights by the formulas below.
+On parallel weights k≥2 these formulas are comparison theorems with the supplier’s operators;
+they prescribe no second construction. All local factors, including level primes, are retained.
 
 ### 5.1 Double-coset operators between components
 
 For fractional ideals `𝔟, 𝔠`, a nonzero integral ideal `𝔪`, and the level `𝔫`, define
-`Δ_𝔫(𝔠 ← 𝔟; 𝔪) := {α ∈ GL₂⁺(F) : α L_𝔟 ⊆ L_𝔠, [L_𝔠 : α L_𝔟] = 𝔪, α_{21} ∈ 𝔫𝔠}` — the matrices
-`(a b; c d)` with `a ∈ 𝒪_F`, `b ∈ 𝔟⁻¹`, `c ∈ 𝔫𝔠`, `d ∈ 𝔠𝔟⁻¹`, `(det α) 𝔟 𝔠⁻¹ = 𝔪` (1.1). Prove:
+`Δ_𝔫(𝔠 ← 𝔟; 𝔪) := {α ∈ GL₂⁺(F) : α L_𝔟 ⊆ L_𝔠, [L_𝔠 : α L_𝔟] = 𝔪, α_{21} ∈ 𝔫𝔠, (α_{11}) + 𝔫 = 𝒪_F}` — the matrices
+`(a b; c d)` with `a ∈ 𝒪_F`, `b ∈ 𝔟⁻¹`, `c ∈ 𝔫𝔠`, `d ∈ 𝔠𝔟⁻¹`,
+`(det α) 𝔟 𝔠⁻¹ = 𝔪`, and `a` a unit at every prime dividing `𝔫` (1.1). Prove:
 it is nonempty iff `[𝔟] = [𝔪𝔠]` in `NarrowClassGroup F`; it is stable under `Γ₀(𝔫)_𝔠` on the
 left and `Γ₀(𝔫)_𝔟` on the right; the left quotient `Γ₀(𝔫)_𝔠 \ Δ_𝔫(𝔠 ← 𝔟; 𝔪)` is finite, of
 cardinality `Σ_{𝔞 ∣ 𝔪} N𝔞` for `𝔪` prime to `𝔫` and `N𝔪` for `𝔪` supported on `𝔫`
-(the count of sublattices `L' ⊆ L_𝔠` with `L_𝔠/L' ≅ 𝒪_F/𝔪`-cyclic-type of the right class,
-respecting the Borel condition); and explicit representatives for `𝔪 = 𝔭` prime:
+(the count of index-`𝔪` sublattices of the right class respecting the Borel and unit conditions;
+the quotient need not be cyclic at good prime powers); and explicit representatives for `𝔪 = 𝔭` prime:
 `N𝔭 + 1` of them when `𝔭 ∤ 𝔫`, `N𝔭` when `𝔭 ∣ 𝔫`, of the shape `(π_𝔭 a; 0 1)`-like matrices
 once a totally positive generator of the principal ideal `𝔭 𝔠 𝔟⁻¹` is fixed. For
-`f ∈ M_k(Γ₀(𝔫)_𝔠)` define `f ∣ [Δ] := Σ_{α ∈ Γ₀(𝔫)_𝔠 \ Δ} f ∣_k α` and prove it lies in
+`f ∈ M_k(Γ₀(𝔫)_𝔠)` define
+`f ∣ [Δ] := (N𝔠/N𝔟) Σ_{α ∈ Γ₀(𝔫)_𝔠 \ Δ} f ∣_k α` and prove it lies in
 `M_k(Γ₀(𝔫)_𝔟)`, is independent of the representatives, preserves cusp forms (2.6), and is
 compatible with the transport of 2.3. This is the `GL₂(F)` instance of the double-coset
 formalism of the [Modular Forms](../ModularForms/README.md) roadmap's Layer 2(a); the abstract
@@ -657,7 +793,9 @@ when `𝔟 = 𝔠`, and the general `(𝔠, 𝔟)` operators are the bimodule ve
 
 On `M_k(𝔫; R)` define `(T_𝔪 f)_c := f_{c[𝔪]⁻¹} ∣ [Δ_𝔫(rep(c[𝔪]⁻¹) ← rep(c); 𝔪)]`, and
 `(S_𝔪 f)_c := f_{c[𝔪]⁻²} ∣ [Δ'_𝔫(rep(c[𝔪]⁻²) ← rep(c); 𝔪)]` with
-`Δ' := {α ∈ Δ_𝔫(· ← ·; 𝔪²) : α L_𝔟 = 𝔪 L_𝔠}` (a single left coset). Prove: `T_𝔪` and `S_𝔪` are
+`Δ' := {α ∈ GL₂⁺(F) : α L_𝔟 = 𝔪 L_𝔠, α_{21} ∈ 𝔫𝔪𝔠}` (a single left coset).
+The central correspondence uses the same factor N𝔠/N𝔟 as §5.1, is separate from Δ,
+and has no upper-left unit condition at level primes. Prove: `T_𝔪` and `S_𝔪` are
 `ℂ`-linear endomorphisms of `M_k(𝔫; R)` preserving `S_k(𝔫; R)`; they commute with the transport
 of 2.3; `S_𝔪 = N𝔪^{k₀ - 2} · id` when `𝔪 = (m)` with `m ≫ 0` (0.3); `S_𝔪 S_𝔪' = S_{𝔪𝔪'}`;
 and `⟨[𝔪]⟩ := N𝔪^{-(k₀ - 2)} S_𝔪` depends only on the narrow class of `𝔪` and defines an action of
@@ -712,10 +850,19 @@ Modular Forms roadmap's Layer 2 formulas.
 
 *Rests on:* 2.4, 5.1–5.3.
 
+**Checks.**
+
+- At level (2) over ℚ(√5), the upper-left unit condition excludes diag(2,1); four cosets remain, not five.
+- At the square (2)², the bad operator has 4²=16 cosets and U_(2)² shifts c(𝔪) to c(4𝔪), without a central correction.
+- At a good norm-4 prime the five cosets give c(𝔪𝔭)+4^(k₀−1)ψ(𝔭)c(𝔪/𝔭).
+
 ### 5.5 Petersson adjoints and simultaneous diagonalization
 
-Equip `S_k(𝔫; R)` with `⟨f, g⟩ := Σ_c ⟨f_c, g_c⟩_{Γ₀(𝔫)_{rep c}}`, the sum over the components of
-the products of 3.4. Prove that for `𝔪` prime to `𝔫` the Petersson adjoint of `T_𝔪` is
+Equip `S_k(𝔫; R)` with
+`⟨f, g⟩ := Σ_c N(rep c)^{k₀} ⟨f_c, g_c⟩_{Γ₀(𝔫)_{rep c}}`.
+These weights make the product invariant under §2.3: replacing a representative by α times
+it multiplies its unweighted pairing by N(α)^(−k₀) and its weight by N(α)^k₀.
+The componentwise adjoint formula below uses these weighted component products. Prove that for `𝔪` prime to `𝔫` the Petersson adjoint of `T_𝔪` is
 `⟨[𝔪]⟩⁻¹ T_𝔪` (the involution `α ↦ (det α) α⁻¹` carries `Δ_𝔫(rep(c[𝔪]⁻¹) ← rep(c); 𝔪)` onto
 `Δ_𝔫(rep(c) ← rep(c[𝔪]⁻¹); 𝔪)` up to the central shift), in the componentwise form
 `⟨(T_𝔪 f)_c, g_c⟩_{rep c} = ⟨f_{c[𝔪]⁻¹}, (⟨[𝔪]⟩⁻¹ T_𝔪 g)_{c[𝔪]⁻¹}⟩_{rep(c[𝔪]⁻¹)}`: `T_𝔪` carries
@@ -733,16 +880,33 @@ that `|λ_𝔪| ≤ C N𝔪^{k₀/2}` for an eigenvector normalized by `c(𝒪_F
 
 ### 5.6 The Fricke and Atkin–Lehner matrices
 
-For `𝔮 ‖ 𝔫` (`𝔮 = 𝔭^{v_𝔭(𝔫)}`, exact divisor, `𝔮 + 𝔫𝔮⁻¹ = 𝒪_F`) define the Atkin–Lehner
-operator `W_𝔮 : M_k(𝔫; R) → M_k(𝔫; R)` by the double coset of matrices
-`α = (a b; c d) ∈ GL₂⁺(F)` with `a, d ∈ 𝔮`, `b ∈ 𝔟⁻¹`-type, `c ∈ 𝔫𝔟`-type conditions and
-`(det α) = 𝔮 · (class shift)` — the matrices normalizing `Γ₀(𝔫)` that are "`𝔮`-primitive" —
-mapping the component `c` to `c[𝔮]⁻¹`, normalized by `N𝔮^{-(k₀ - 2)/2}` so that `W_𝔮² = ⟨[𝔮]⟩`
-and `W_𝔮` is an involution on `M_k(𝔫, 1; R)`. Prove: `W_𝔮` is well defined up to the central
+This subsection concerns the unramified finite central characters of §5.2.
+For ramified nebentypus use the local newvector operator and its character-changing
+target from the general dictionary; it is not asserted to preserve the character.
+
+For an exact divisor 𝔮 of the nonzero level 𝔫, and an output component represented by
+𝔟, let 𝔠 represent [𝔟][𝔮]⁻¹. Choose α in GL₂⁺(F) with entries
+
+    α₁₁ ∈ 𝔮,  α₁₂ ∈ 𝔟⁻¹,  α₂₁ ∈ 𝔫𝔠,  α₂₂ ∈ 𝔮𝔠𝔟⁻¹,
+    (det α) = 𝔮𝔠𝔟⁻¹.
+
+In local generators of 𝔟 and 𝔠, at 𝔭^r exactly dividing 𝔮 the upper-right entry
+and the lower-left entry divided by a generator of 𝔫 are units; the determinant condition
+forces this primitivity. At places outside 𝔮 the matrix is an isomorphism of the local
+level lattices. Prove existence and uniqueness of the resulting left Γ₀(𝔫)_𝔠 coset.
+Define the component map from M_k(Γ₀(𝔫)_𝔠) to M_k(Γ₀(𝔫)_𝔟) by
+
+    (W_𝔮 f)_𝔟 = N𝔮^(-(k₀-2)/2) (N𝔠/N𝔟) (f_𝔠 ∣_k α).
+
+Under 𝔟′=β𝔟 and 𝔠′=γ𝔠, use α′=diag(1,γ) α diag(1,β)⁻¹;
+the norm ratio changes by Nγ/Nβ and intertwines the normalized transport of §2.3.
+For 𝔟=𝔠=𝒪_F and 𝔮=𝔫=(π), π totally positive, take α=(0 −1; π 0).
+Prove W_𝔮²=⟨[𝔮]⟩, so its restriction to central character 1 is an involution.
+Prove: `W_𝔮` is well defined up to the central
 action, commutes with the central action (the double coset of a scalar matrix commutes with every
 double coset) and so **preserves** each `M_k(𝔫, ψ; R)`, preserves cusp forms, commutes exactly with
-`T_𝔪` for `𝔪 + 𝔮 = 𝒪_F` (including `U_𝔭` for `𝔭 ∣ 𝔫𝔮⁻¹`), satisfies `W_𝔮 U_𝔭 W_𝔮⁻¹ = S_𝔭 U_𝔭^{*}`
-(`U_𝔭^{*}` the Petersson adjoint, 5.5; on `M_k(𝔫, ψ; R)` the factor is `ψ([𝔭]) N𝔭^{k₀ - 2}`) for
+`T_𝔪` for `𝔪 + 𝔮 = 𝒪_F` (including `U_𝔭` for `𝔭 ∣ 𝔫𝔮⁻¹`), satisfies on the cusp space `W_𝔮 U_𝔭 W_𝔮⁻¹ = ⟨[𝔭]⟩ U_𝔭^{*}`
+(`U_𝔭^{*}` the Petersson adjoint; on `S_k(𝔫, ψ; R)` the factor is `ψ([𝔭])`) for
 `𝔭 ∣ 𝔮`, and `W_𝔮 W_𝔮' = W_{𝔮𝔮'}` up to the central action for coprime exact divisors; `W_𝔫` is the
 **Fricke operator**. There is no nebentypus here, so `W_𝔮` does not invert `ψ`: the classical
 `S_k(N, χ) → S_k(N, χ̄)` has no analogue.
@@ -757,6 +921,17 @@ double coset) and so **preserves** each `M_k(𝔫, ψ; R)`, preserves cusp forms
 - `W_𝔮` preserves `M_k(𝔫, ψ; R)`: an operator modelled on the classical
   `S_k(N, χ) → S_k(N, χ̄)`, which inverts `ψ`, is the wrong definition.
 - Level `𝒪_F` has no exact prime-power divisor, so `2.2.24.1-1.1-a` has `AL_eigenvalues = []`.
+- For k₀=4, q=4 and ψ=1, a Steinberg new line has a=±4; the adjoint identity gives ±4=±4, not ±64.
+- For 𝔮=1 choose α=I, giving W₁=1. For principal level (π), α=(0 −1;π 0) gives the displayed Fricke map.
+- For F=ℚ(√10), the nonprincipal 𝔮=(2,√10), level 𝔮, output 𝔟=𝒪_F and input 𝔠=𝔮⁻¹ admit α=(0 −1;1 0): det α=1 and 𝔫𝔠=𝒪_F. In weight two its factor is 1/2. In the reverse component choose α=(2 √10;√10 6), of determinant 2, with factor 2. Their factors multiply to 1; no generator of 𝔮 was assumed.
+
+### Examples
+
+The discriminating examples are the Checks in §§5.2–5.6: good and bad primes, central characters and Fricke matrices.
+
+### Dependencies
+
+Layers 0–3; the supplied parallel Hecke operators and abstract double-coset formalism.
 
 ## Layer 6: the classical–adelic dictionary
 
@@ -819,20 +994,35 @@ character attached to `ψ`, Hecke-equivariantly.
 ### 6.4 What the dictionary transports
 
 State and prove, as corollaries of 6.2–6.3 and the cited adelic theorems, the classical
-statements used below: **multiplicity one** — for a system `λ = (λ_𝔭)_{𝔭 ∤ 𝔫}` of eigenvalues,
+statements used below: **multiplicity one** — for a system `λ = (λ_𝔭)_{𝔭 ∤ 𝔫}` occurring in a nonzero cusp form,
 the simultaneous `λ`-eigenspace of the good `T_𝔭` in `S_k(𝔫, ψ; R)` is the space of weight-`k`
 vectors fixed by `K₀(𝔫)` in a single cuspidal automorphic representation `π_λ`, of dimension the
-number of ideal divisors of `𝔫 𝔠(π_λ)⁻¹`, `𝔠(π_λ)` the conductor of R16.6.2 (R16.2, R16.4.3,
+number of ideal divisors of `𝔫 𝔠(π_λ)⁻¹`; first prove `𝔠(π_λ) ∣ 𝔫`, so this quotient is integral
+(R16.2, R16.4.3,
 R16.4.4); in particular it is a line when `𝔠(π_λ) = 𝔫`; **strong multiplicity one** — two
 systems of good eigenvalues at levels `𝔫, 𝔫'` and equal weight that agree for all but finitely
 many `𝔭 ∤ 𝔫𝔫'` agree at every `𝔭 ∤ 𝔫𝔫'` and have the same `π`, hence the same conductor and the
-same `ψ` (R16.4.4); the **bad-prime local structure** of R16.6.2, as a statement about the
+same `ψ` (R16.4.4); the **bad-prime local structure** of R16.3, as a statement about the
 `U_𝔭`-eigenvalue of a `K₀(𝔫)`-fixed vector in `π` of conductor exactly `𝔫`, which Layer 7 reads
 on the coefficients; and the hypotheses under which Jacquet–Langlands (R17.3.1), base change
-(R17.4) and automorphic induction (R17.5.1) produce a classical form (Layers 9–10). Each is a
+(R17.4) and automorphic induction (R17.4.16) produce a classical form (Layers 9–10). Each is a
 theorem about the classical objects with the adelic statement as a cited input.
 
 *Rests on:* 6.1–6.3; the cited supplier milestones.
+
+**Checks.**
+
+- Over ℚ(√5), S₂ at unit level is zero (Dembélé–Voight, Example 6.3, p.28); no eigensystem occurs there.
+- An occurring new eigensystem has conductor equal to level, quotient ideal 1, and one divisor, hence a one-dimensional new line.
+- For old level 𝔠(π)𝔭, the quotient 𝔭 has two divisors and the unramified-central-character old space has dimension two.
+
+### Examples
+
+The discriminating examples are the Checks in §6.4: the zero cusp space and conductor quotient.
+
+### Dependencies
+
+Layers 1–3 and 5; the exact adelic, local-factor and multiplicity-one suppliers.
 
 ## Layer 7: old and new, newforms, and their invariants
 
@@ -921,24 +1111,28 @@ multiplicativity and these recurrences (Diamond–Shurman Prop. 5.8.5 over `F`).
 ### 7.5 Hecke orbits, the coefficient field, Galois conjugates
 
 Define `CoefficientField f := IntermediateField.adjoin ℚ (range (c(·, f))) ⊆ ℂ`. Prove that it
-is a **number field**: the span of `{T_𝔪 f}` is finite dimensional, the operators `T_𝔪` have
-integral characteristic polynomials on a `ℤ`-structure of `S_k(𝔫; R)` — the rational structure
-is **consumed** from [Automorphic bundles](../AutomorphicBundles/README.md) B4.18 (rational
-forms and field base change) through the geometric–analytic comparison B4.9 and the
-`q`-expansion comparison B5.13/B5.16, which identify `S_k(𝔫; R)` with the base change to `ℂ` of a
-`ℚ`-space on which the Hecke operators act and whose `q`-expansion coefficients at the cusps
-are the `c(𝔪, f)` — so every `c(𝔪, f)` is an algebraic integer and `ℚ({c(𝔪, f)})` is finite
-over `ℚ`. Prove that for `ψ = 1` the field is **totally real** (5.5: real eigenvalues of
+is a **number field**. Use AutomorphicBundles §11.9 for analytic comparison, §11.18 for
+base change over a defining number field L for the labeled weight and character, and
+§§12.17–12.19 for the Hilbert expansions and cusp criterion. Field base change alone supplies
+no integral Hecke lattice. The additional integral contract needed here is a finite full
+𝒪_L-lattice in the rational cusp space, stable under every arithmetic T_𝔪, with the
+normalized coefficient maps taking values in 𝒪_L. Its construction for nonparallel weights
+is a target of this section: construct the all-cusp integral expansion lattice, prove finite
+generation and fullness (not just injectivity of expansion), and prove Hecke stability by the
+coefficient formulas at every cusp (Shimura 1978, §2, pp. 637–651). Parallel-weight
+expansion lattices use the supplier in Scope and ownership. Integral eigenvalues and finite
+dimensionality over L then give algebraic integrality and finiteness over ℚ. Prove that for `ψ = 1` the field is **totally real** (5.5: real eigenvalues of
 self-adjoint operators, and the conjugates below are again eigenvalues). Define the Galois
 conjugate `f^σ` for `σ : CoefficientField f →+* ℂ` as the unique newform with
-`c(𝔪, f^σ) = σ(c(𝔪, f))` (existence from the `ℚ`-structure, as a form; newform-ness and
+`c(𝔪, f^σ) = σ(c(𝔪, f))` (existence by extending σ to an automorphism of ℂ and transporting the defining field, labeled weight and character; newform-ness and
 uniqueness from 7.2–7.3), and the **Hecke orbit** `{f^σ}` of cardinality
 `finrank ℚ (CoefficientField f)` — the LMFDB's `dimension`. Prove that the orbit, the level, the
-weight and the conductor of `ψ` are constant on an orbit,
+multiset of weights and the conductor of `ψ` are constant on an orbit; the labeled weight
+is transported by the embedding, rather than assumed fixed,
 and that `c(𝔭, f^σ) = σ(c(𝔭, f))` makes the LMFDB's `hecke_eigenvalues` of the orbit the
 coordinates of one element of `CoefficientField f` per prime.
 
-*Rests on:* 5.5, 7.2–7.4; Automorphic bundles B4.9, B4.18, B5.13, B5.16.
+*Rests on:* 5.5, 7.2–7.4; AutomorphicBundles §§11.9, 11.18, 12.17–12.19; the integral lattice target of this section.
 
 **Checks.**
 
@@ -949,6 +1143,12 @@ coordinates of one element of `CoefficientField f` per prime.
 - `2.2.40.1-1.1-a` has a real quadratic coefficient field (totally real, as `ψ = 1`) and a Hecke
   orbit of two newforms.
 
+**Checks on rational structures.**
+
+- Swapping the embeddings of a quadratic F sends weight (2,4) to (4,2); it does not fix that labeled space.
+- Parallel (2,2) is fixed by this permutation.
+- A defining field L remains L under L⊗_L L=L; this gives no descent of its space to ℚ.
+
 ### 7.6 Coefficients at the bad primes
 
 For a newform `f` of level `𝔫`, central character `ψ`, and `𝔭 ∣ 𝔫`, prove: `c(𝔭, f) ≠ 0` iff
@@ -957,13 +1157,13 @@ factors through the narrow class group it is unramified at every finite place, s
 component of `π_f` at `𝔭` has unramified central character: at `v_𝔭(𝔫) = 1` it is an unramified
 twist of the Steinberg representation (whose `U_𝔭`-eigenvalue is `μ(ϖ) N𝔭^{k₀/2 - 1}` with
 `μ² = ψ_𝔭`), and at `v_𝔭(𝔫) ≥ 2` it has no unramified character in its inducing data, so the
-newvector's `U_𝔭`-eigenvalue is `0`. These are the supplier's R16.6.2 local cases, transported by
+newvector's `U_𝔭`-eigenvalue is `0`. These are the supplier's R16.3 local-parameter cases, transported by
 6.4 (the ramified-principal-series case with a nonzero eigenvalue needs a ramified central
 character and does not occur here); for `ψ = 1` and `𝔭² ∣ 𝔫` the conclusion `c(𝔭, f) = 0` and for
 `𝔭 ‖ 𝔫` the conclusion `c(𝔭, f) = ±N𝔭^{k₀/2 - 1}` are the statements that the Atkin–Lehner signs
 refine.
 
-*Rests on:* 6.4, 7.4; GL₂ automorphic representations and transfer R16.6.2.
+*Rests on:* 6.4, 7.4; GL₂ automorphic representations and transfer R16.3.
 
 ### 7.7 Atkin–Lehner signs
 
@@ -975,8 +1175,8 @@ which has central character `ψ⁻¹` and good eigenvalues `ψ([𝔪])⁻¹ c(�
 `f ∣ W_N = λ f^ρ` reflects the inversion of the nebentypus, which is absent here.) For `ψ = 1`
 write `ε_𝔮(f) := λ_𝔮(f) ∈ {±1}`, that the signs
 multiply (`ε_{𝔮𝔮'} = ε_𝔮 ε_𝔮'`), that for `𝔭 ‖ 𝔫`, `c(𝔭, f) = -ε_𝔭(f) N𝔭^{k₀/2 - 1}`, and that
-for `𝔭² ∣ 𝔫` the sign `ε_{𝔭^{v}}(f)` is not determined by the coefficients (a genuine extra
-invariant). Prove `ε_𝔮(f^σ) = ε_𝔮(f)` for Galois conjugates. For general `ψ` the
+for `𝔭² ∣ 𝔫` the sign `ε_{𝔭^{v}}(f)` is not determined by the single local coefficient `c(𝔭, f) = 0`; the full
+normalized newform, and hence its full good coefficient system, determines the sign. Prove `ε_𝔮(f^σ) = ε_𝔮(f)` for Galois conjugates. For general `ψ` the
 **pseudo-eigenvalue** `λ_𝔮(f)` above has `|λ_𝔮(f)| = 1` and is a square root of `ψ([𝔮])`; no `±1`
 sign is claimed. These are the Hilbert instances of the Modular
 Forms roadmap's Layer 6 theorems and are proved by the same route: the coefficient formulas 5.4
@@ -988,9 +1188,17 @@ and 7.6 and strong multiplicity one 6.4.
 
 - `2.2.5.1-31.1-a`: `c((5w - 2), f) = -1`, so `ε_(5w - 2)(f) = -c((5w - 2), f) = +1`.
 - `2.2.5.1-81.1-a` at level `(3)²`: `c((3), f) = 0` by 7.6, and `ε_(9)(f)` is not determined by
-  the coefficients.
+  this zero local coefficient alone.
 - Level `𝒪_F` has no Atkin–Lehner signs: `2.2.24.1-1.1-a`, `2.2.29.1-1.1-a` have
   `AL_eigenvalues = []`.
+
+### Examples
+
+The discriminating examples are the Checks in §§7.5–7.7: labeled weights, coefficient fields and local signs.
+
+### Dependencies
+
+Layers 5–6; AutomorphicBundles §§11.9, 11.18, 12.17–12.19 and the integral contract in §7.5.
 
 ## Layer 8: `L`-functions
 
@@ -998,8 +1206,7 @@ and 7.6 and strong multiplicity one 6.4.
 
 For `f ∈ M_k(𝔫; R)` define `L(f, s) := LSeries (normCoeff (c(·, f))) s`, the ideal Dirichlet
 series `Σ_𝔪 c(𝔪, f) N𝔪^{-s}` regrouped by norm. Prove absolute convergence for
-`Re s > k₀/2 + 1` when `f` is a cusp form and for `Re s > k₀ + 1` in general (3.3 and the
-norm-fibre finiteness behind Tau Ceti's `normCoeff`). For a newform of central character `ψ` prove the **Euler product**
+`Re s > k₀/2 + 1` when `f` is a cusp form and for `Re s > k₀ + 1` in general (§3.3 and the ideal-counting bounds of ArithmeticDirichletSeries Layer 5; finite norm fibres alone do not give convergence). For a newform of central character `ψ` prove the **Euler product**
 on `Re s > k₀/2 + 1`:
 `L(f, s) = ∏_{𝔭 ∤ 𝔫} (1 - c(𝔭, f) N𝔭^{-s} + ψ([𝔭]) N𝔭^{k₀ - 1 - 2s})⁻¹ · ∏_{𝔭 ∣ 𝔫} (1 - c(𝔭, f) N𝔭^{-s})⁻¹`,
 packaged as an `EulerProductData F` whose local factors are these polynomials in `N𝔭^{-s}`, from
@@ -1022,14 +1229,26 @@ of degree `2` (`𝔭 ∤ 𝔫`) or `≤ 1` (`𝔭 ∣ 𝔫`), the object the bas
 
 For a newform `f` of level `𝔫` define
 `Λ(f, s) := (N(𝔫) |d_F|²)^{s/2} ∏_w (2π)^{-(s - m_w)} Γ(s - m_w) · L(f, s)`. Prove, by the
-Hecke–Shimura method: `Λ(f, s)` is the Mellin transform
-`∫_{F_{ℝ,+}^×/𝒪_{F,+}^×} Σ_c (f_c ∣ W_𝔫)(iy)-weighted integrand` of the components along the
-imaginary axes (the unit group acts on `y`; the fundamental domain is that of 3.1), hence has an
-**entire** continuation, is bounded in vertical strips, and satisfies
-`Λ(f, s) = ε(f) Λ(f^ρ, k₀ - s)` with `ε(f) = i^{nk₀} · λ_𝔫(f)`, `λ_𝔫(f)` the `W_𝔫`-eigenvalue of 7.7
-(the Mellin transform is taken over the whole idele class group of `F`, which is where `f^ρ`
-enters for `ψ ≠ 1`);
-for `ψ = 1`, `f^ρ = f` and `ε(f) = (-1)^{nk₀/2} ∏_{𝔮 ‖ 𝔫} ε_𝔮(f)`. For parallel weight `2`,
+Hecke–Shimura method. With d×y=∏_w dy_w/y_w and a fundamental domain D for
+`𝒪_{F,+}^×` acting on `(ℝ_{>0})^Σ`, put
+
+    I_𝔟(f,s) = ∫_D f_𝔟(iy) ∏_w y_w^(s-m_w) d×y,
+    Λ(f,s) = Q^(s/2) Σ_𝔟 (N𝔟/|d_F|)^s I_𝔟(f,s),  Q=N𝔫 |d_F|².
+
+The norm of a nonzero fractional ideal is positive, so all powers use its real logarithm.
+The unit law gives exponent k_w+2m_w−1=k₀−1, making the integrand invariant.
+Unfold positive Fourier exponents modulo positive units to the whole positive orthant:
+`∫₀^∞ exp(−2πμ_w y) y^(s-m_w) dy/y = (2πμ_w)^(-(s-m_w)) Γ(s-m_w)`.
+Since Nμ=N𝔪 N𝔟/|d_F|, this proves the displayed equality in the convergence half-plane.
+Replacing 𝔟 by α𝔟 changes I_𝔟 by Nα^(−s) and its prefactor by Nα^s.
+Split the integral at the inversion supplied by W_𝔫 and use cusp decay to obtain an
+**entire** continuation; prove it is bounded in vertical strips and satisfies
+`Λ(f, s) = ε(f) Λ(f^ρ, k₀ - s)`. In general character,
+`ε(f) = i^{Σ_w k_w} ∏_{v finite} ε(1/2,π_f,v,ψ_v)`, using the unitary local
+representation and the standard trace additive character with self-dual measures,
+as in AutomorphicLFunctionsAndLocalFactors AL.2 (standard local functional equation).
+The local factors are the supplied epsilon factors, not an unspecified choice of a square root;
+for `ψ = 1`, `f^ρ = f` and `ε(f) = i^{Σ_w k_w} ∏_{𝔮 ‖ 𝔫} ε_𝔮(f)`. For parallel weight `2`,
 `ε(f) = (-1)^n ∏ ε_𝔮(f)`. For `F = ℚ` this is the Modular Forms roadmap's Layer 7 equation with
 `i^k`. Prove `|ε(f)| = 1`, and `ε(f) ∈ {±1}` when `ψ = 1`.
 
@@ -1044,13 +1263,21 @@ for `ψ = 1`, `f^ρ = f` and `ε(f) = (-1)^{nk₀/2} ∏_{𝔮 ‖ 𝔫} ε_𝔮
   `N(𝔫) d_F² = 31 · 25 = 775`.
 - For `ψ = 1`, `f^ρ = f`.
 
+**Checks on normalization.**
+
+- For weights (2,4), m=(1,0), inversion contributes i²i⁴=−1, whereas i⁸=1 is incorrect.
+- For parallel weight two it contributes (i²)^n=(−1)^n.
+- With 𝔟′=2𝔟 in degree two, the Mellin integral changes by 4^(−s) and its prefactor by 4^s, giving product 1.
+
 ### 8.3 The `L`-function card and the analytic invariants
 
 Construct the [L-functions](../LFunctions/README.md) roadmap's `ArithmeticLFunctionData` of a
 newform: coefficients `normCoeff (c(·, f))` with `coeff 0 = 0`, arithmetic weight `k₀ - 1`,
 conductor `N(𝔫) · |d_F|²`, gamma shifts `gammaC = {(k_w - 1)/2 : w ∈ Σ}` after the
 `NormalizationTranslation` to the analytic normalization (so the degree is `2n` and the analytic
-centre is `1/2`), root number `ε(f)`, completed function `Λ(f, ·)` recentred, empty polar
+centre is `1/2`), root number `ε(f)`, arithmetic completion `2^n Λ(f, s)` with Deligne complex gamma factors
+`Γℂ(s-m_w) = 2(2π)^(-(s-m_w)) Γ(s-m_w)`, and analytic completion
+`2^n Q^(-(k₀-1)/4) Λ(f, s+(k₀-1)/2)`, where `Q = N(𝔫)|d_F|²`, empty polar
 divisor. Prove its `HasDirichletAgreement`, `HasMeromorphicContinuation`,
 `HasFunctionalEquation` (against the card of `f^ρ`, which is the card's dual) and
 `HasAverageCoefficientBound` from 8.1–8.2 and 3.3. Define the **analytic rank** as the order of
@@ -1071,25 +1298,31 @@ with the curve's.
   its half-plane of convergence and takes the junk value there, so a definition through the raw
   series is wrong.
 
+**Check on card completion.** For n=2, k₀=2 and Q=775 the analytic completion
+is 4·775^(−1/4) times the recentered Λ; degree 4, conductor 775 and centre 1/2 are unchanged.
+
+### Examples
+
+The discriminating examples are the Checks in §§8.1–8.3: local polynomials and completion constants.
+
+### Dependencies
+
+Layers 3–7; ArithmeticDirichletSeries Layers 0–5 and LFunctions Layer 0.
+
 ## Layer 9: twists, complex multiplication, base change
 
 ### 9.1 Twists by finite-order Hecke characters
 
-For a finite-order Hecke character `χ` of `F` with conductor `𝔣` (a `Modulus` with finite part
-`𝔣₀`) **whose square is unramified at every finite place** — `χ²` factors through
-`NarrowClassGroup F`, equivalently `χ²` is trivial on the totally positive principal ideals prime
-to `𝔣₀` — and a newform `f` of level `𝔫`, define the function `f ⊗ χ` on each component by the
-coefficients `c(𝔪, f ⊗ χ) := χ(𝔪) c(𝔪, f)` (`idealCharacter` for `𝔪 + 𝔣₀ = 𝒪_F`, `0` otherwise)
-and prove it is a cusp form of level dividing `lcm(𝔫, 𝔣₀²)` with central character `ψχ²` — the
-classical proof writes `χ(μ)` on a residue class as a Gauss sum and recognizes a finite linear
-combination of translates `f ∣_k (1 a/π; 0 1)`; the real-place signs of `χ` are absorbed by the
-central character `ψχ²` (whose infinity type is unchanged), so `f ⊗ χ ≠ 0` for every such `χ`.
-The hypothesis on `χ²` is forced by the carrier: `M_k(𝔫'; R)` has only central characters of
-`NarrowClassGroup F`, and for `χ²` ramified at `𝔭` the twisted representation `π_f ⊗ χ` has a
-central character ramified at `𝔭`, hence no vector fixed by the scalars `𝒪_𝔭^× ⊆ K₀(𝔫')` (6.3),
-so it lies in no `M_k(𝔫'; R)`; twists by such `χ` are not defined here. The level `lcm(𝔫, 𝔣₀²)`
-is Atkin–Li's `lcm(N, q², q · cond(εχ))` with `ε = ψ` unramified at the finite places, so that
-`𝔣₀ · cond(ψχ) ∣ 𝔣₀²`. Define the **primitive associate** `(f ⊗ χ)^{new}` (7.3) and prove
+For any finite-order Hecke character χ of F with finite conductor 𝔣₀, and a newform f
+of level 𝔫 and character η in §2.7, construct the coefficient twist with
+c(𝔪,f⊗χ)=χ(𝔪)c(𝔪,f) for ideals prime to 𝔣₀ and zero otherwise.
+Prove it is a cusp form with character ηχ² at level dividing
+lcm(𝔫,𝔣₀²,𝔣₀ cond(ηχ)_finite). The route uses finite Gauss sums and translations
+on the Γ₁ character space, retaining every local conductor. When η is unramified
+at finite places this bound reduces to lcm(𝔫,𝔣₀²); χ² need not be unramified.
+(Atkin–Li, twists and pseudo-eigenvalues, twist-level theorem; the Hilbert adapter uses
+GL2AutomorphicRepresentationsAndTransfer R16.3 at every finite place.)
+Define the **primitive associate** `(f ⊗ χ)^{new}` (7.3) and prove
 `c(𝔭, (f ⊗ χ)^{new}) = χ(𝔭) c(𝔭, f)` for `𝔭 ∤ 𝔫𝔣₀`, the twist of the `L`-function
 `L((f ⊗ χ)^{new}, s)` agreeing with `Σ χ(𝔪) c(𝔪, f) N𝔪^{-s}` up to finitely many Euler factors,
 and functoriality `(f ⊗ χ) ⊗ χ' = f ⊗ χχ'` on good coefficients.
@@ -1103,22 +1336,27 @@ Fields Layer 9.
   quadratic character `χ` of `F(√(w(w + 4)))/F`, with `c((2), g) = -2 = -c((2), f)`,
   `c((w + 2), g) = -3 = c((w + 2), f)`, `c((3), g) = -1 = -c((3), f)`.
 - The twist by the trivial character is `f`.
-- A `χ` with `χ²` ramified at a finite place is rejected: `f ⊗ χ` lies in no `M_k(𝔫'; R)`.
+- A character χ of order three is admitted in the character space: its twist has central
+  character ηχ²; it is excluded only from the unramified specialization when χ² is ramified.
 
 ### 9.2 Inner twists and the CM predicate
 
 Define an **inner twist** of a newform `f` as a pair `(σ, χ)` with `σ` an embedding of
 `CoefficientField f` and `χ` a finite-order Hecke character such that
 `c(𝔭, f^σ) = χ(𝔭) c(𝔭, f)` for all `𝔭 ∤ 𝔫𝔣₀`; prove the group law and that `χ` is then
-determined by `σ`. Define `HasCM f` as the existence of a **nontrivial** `χ` with
+determined by `σ` only modulo the self-twist group. Use automorphisms of a common normal
+coefficient field to form the group of pairs, with product
+`(σ,χ)(τ,η) = (στ, χ · σ(η))`, projection to σ, and kernel the self-twists.
+For embeddings of the coefficient field, each nonempty fibre is a torsor under this kernel.
+In the absence of nontrivial self-twists the character is unique. Define HasCM f as the existence of a **nontrivial** `χ` with
 `(id, χ)` an inner twist — the knowl `mf.cm`: `f` equals its twist by `χ` on good coefficients.
 Prove: such `χ` is quadratic (`χ² = 1`: by the cited characterization of 9.3, `π_f ≅ π_f ⊗ χ`
 forces `π_f` to be induced from the kernel of `χ`, which has index `2`); `χ` is odd at every
 real place, so it defines a totally imaginary quadratic extension `K/F` (a real place where `χ`
 is even would make the induced representation non-holomorphic there), that is, `K` is a CM field with maximal
 totally real subfield `F` (Mathlib `NumberField.IsCMField`); and `c(𝔭, f) = 0` for every `𝔭 ∤ 𝔫`
-inert in `K/F`. Prove that `HasCM` is constant on Hecke orbits and invariant under twisting by
-any `χ'` admissible in 9.1. The LMFDB's `is_CM` is `HasCM f`.
+inert in `K/F`. Prove that HasCM is constant on Hecke orbits and invariant under twisting by
+any `χ'` admissible in 9.1. The LMFDB's `is_CM` is HasCM f.
 
 *Rests on:* 7.5, 9.1; Mathlib `IsCMField`; Class Field Theory for the dictionary between
 quadratic Hecke characters and quadratic extensions ([Class Field Theory](../ClassFieldTheory/README.md)
@@ -1133,6 +1371,9 @@ Layer 12, the global correspondence).
 - Dembélé–Voight's newform at `(w + 3)²` is rejected: `(w - 4)` is inert in `F(√-1)` and `(3)` in
   `F(√(-(w + 3)))`, while `c((w - 4), f) = -2t` and `c((3), f) = -1` are nonzero.
 
+**Check on the self-twist fibre.** For a CM form, (id,1) and (id,χ_CM) both occur:
+at inert primes 0=(−1)·0, and at split primes c=1·c. Thus the identity fibre has at least two elements.
+
 ### 9.3 CM forms from Hecke characters of CM extensions
 
 Let `K/F` be a CM extension and `ξ` an algebraic Hecke character of `K` (`HeckeCharacter K`
@@ -1142,23 +1383,30 @@ with `IsAlgebraic`) whose algebraic infinity type has exponents `(n_τ, n_{τ̄}
 `c(𝔪) := Σ_{𝔄 ⊆ 𝒪_K, N_{K/F}(𝔄) = 𝔪} ξ(𝔄)` (sum over integral ideals of `K` of relative norm `𝔪`,
 `ξ(𝔄)` the ideal character, `0` at ideals meeting the conductor). Prove that they are the
 coefficients of a newform `θ_ξ` of weight `k`, level `𝔡_{K/F} N_{K/F}(𝔣_ξ)`, and central
-character `ξ|_F · χ_{K/F}`, and that `HasCM θ_ξ` with inner twist `χ_{K/F}`. Existence is
+character given by the finite-order part of `ξ|_F · χ_{K/F}` after removing the
+weight norm character, in the space of §2.7, and that HasCM θ_ξ with inner twist `χ_{K/F}`. Existence is
 **consumed**: automorphic induction from `GL₁(𝔸_K)` to `GL₂(𝔸_F)`
 ([GL₂ automorphic representations and transfer](../GL2AutomorphicRepresentationsAndTransfer/README.md)
-R17.5.1, the dihedral case), transported by 6.4; the coefficient identity is the split/inert
+R17.4.16, with `ξ ≠ ξᶜ` for cuspidality and the displayed infinity type and central character), transported by 6.4; the coefficient identity is the split/inert
 trace formula of that construction, and the level is its conductor. Prove the converse by
 citation: a CM newform in the sense of 9.2 is `θ_ξ` for some `(K, ξ)`
 ([Automorphic Galois representations](../AutomorphicGaloisRepresentations/README.md) §§3.15–3.16).
 Record the coefficient-field consequence: `CoefficientField θ_ξ` is the field generated by the
-values of `ξ`, and `c(𝔭, θ_ξ) = ξ(𝔓) + ξ(𝔓̄)` at split `𝔭 = 𝔓𝔓̄`.
+norm-fibre sums `Σ_{N(𝔄)=𝔪} ξ(𝔄)`, and is contained in the field generated by the individual
+values of `ξ`; equality is not asserted. At split `𝔭 = 𝔓𝔓̄`,
+`c(𝔭, θ_ξ) = ξ(𝔓) + ξ(𝔓̄)` (AutomorphicGaloisRepresentations §3.15).
 
 *Rests on:* 7.2, 7.5, 9.2; Tau Ceti `HeckeCharacter.IsAlgebraic`, `AlgebraicInfinityType`;
 the cited supplier milestones.
 
+**Check on coefficient fields.** For the base change of y²=x³−x to ℚ(√5),
+the split norm-5 inducing values −1+2i and −1−2i sum to −2. The form has rational
+coefficients, whereas the individual values generate ℚ(i).
+
 ### 9.4 The base-change relation
 
 For number fields `F ⊆ K`, a newform `f` over `F` with local factors `L_𝔭(f, T)` (8.1) and a
-newform `g` over `K`, define `IsBaseChangeOf g f` by the pinned convention:
+newform `g` over `K`, define IsBaseChangeOf g f by the pinned convention:
 `L_𝔮(g, T) = L_𝔭^{(r)}(f, T)` for all but finitely many primes `𝔮` of `K`, where `𝔮 ∣ 𝔭`,
 `r = f(𝔮/𝔭)`, and `h^{(r)}` is the polynomial whose roots are the `r`-th powers of the roots of
 `h` (Mathlib: `Polynomial` with `Multiset.map (· ^ r)` on roots, over `ℂ`). Prove the Satake
@@ -1179,7 +1427,7 @@ R17.4.1 (the Satake rule, for the shape of `p_r`).
 
 **Checks.**
 
-- For `h = 1 - sT + eT²`, `h^{(2)} = 1 - (s² - 2e)T + e²T²`; Suggested.lean's `powRoots h 2`
+- For `h = 1 - sT + eT²`, `h^{(2)} = 1 - (s² - 2e)T + e²T²`; Suggested.lean's powRoots h 2
   computes this polynomial.
 - `2.2.29.1-1.1-a` is a base change of `g ∈ S_2(Γ₀(29), χ_29)`: at the inert prime `(2)`,
   `L_2(g, T) = 1 - b(2)T + χ_29(2)·2T²` with `χ_29(2) = -1`, and the `r = 2` relation gives
@@ -1193,7 +1441,7 @@ R17.4.1 (the Satake rule, for the shape of `p_r`).
 Prove, by citation through 6.4: for `K/F` cyclic of prime degree and a newform `f` over `F` of
 any weight `k` (the base-changed weight `k'_{w'} := k_{w'|_F}` has all entries of one parity
 because `k` does, so it is a `Weight K`), there is a newform `g` over `K` of weight `k'` with
-`IsBaseChangeOf g f`, of level the conductor of the base-changed representation
+IsBaseChangeOf g f, of level the conductor of the base-changed representation
 ([GL₂ automorphic representations and transfer](../GL2AutomorphicRepresentationsAndTransfer/README.md)
 R17.4.3, R17.4.5 for cuspidality — `g` exists as a cusp form unless `f` is a CM form by a
 character of `K`, in which case the base change is Eisenstein); and for `K/F` solvable
@@ -1220,7 +1468,7 @@ prime values `c(𝔭, f_g) = c(𝔭', f_g) = b(p)` at a split `p = 𝔭𝔭'`,
 the coefficients of the Dirichlet series `L(g, s) L(g^ρ, s)` regrouped by ideals of `F`, `g^ρ`
 the newform with conjugate coefficients (`g^ρ = g ⊗ χ_D` on good coefficients). Prove the
 **Doi–Naganuma theorem**: there is a newform `f_g ∈ S_k(Γ_{𝒪_F})` of parallel weight `k`, level
-`𝒪_F` and trivial central character with these coefficients, `IsBaseChangeOf f_g g`, and
+`𝒪_F` and trivial central character with these coefficients, IsBaseChangeOf f_g g, and
 `L(f_g, s) = L(g, s) · L(g^ρ, s)`. Prove the Fourier-coefficient formula away from the different:
 for `ν ∈ (𝔡⁻¹)_+` with `(ν√D)` prime to `(√D)`, `a(ν) = Σ_{d ∈ ℕ, d ∣ ν√D} d^{k-1} b(D N(ν)/d²)`
 (here `ν√D ∈ 𝒪_F`, `d ∣ ν√D` means `ν√D/d ∈ 𝒪_F`, and `D N(ν) = |N(ν√D)| ∈ ℕ`). The formula is
@@ -1233,7 +1481,7 @@ with `g` is `f_g`; holomorphy and modularity of `f_g` follow from those of `Ω`.
 Poincaré-type series of weight `k` in each variable: for `k > 2` it converges absolutely by the
 lattice-point counting of 4.1, and for `k = 2` it is defined by Hecke's trick with the limit
 analysis of 4.2 (the same `n = 2` cancellation). Record that
-`g ↦ f_g` is Hecke-equivariant (`T_p ↦ T_𝔭 + T_{𝔭'}` at split `p`), that `f_g = f_{g^ρ}`, and that
+`g ↦ f_g` intertwines `T_p` with each of `T_𝔭` and `T_{𝔭'}` separately at split `p`, that `f_g = f_{g^ρ}`, and that
 `f_g ≠ 0` (`c(𝒪_F, f_g) = 1`).
 
 *Rests on:* 2.3, 4.1, 4.2, 5.4, 7.4, 8.1, 9.4; Modular Forms Layers 4 and 7 (the newform `g`,
@@ -1246,6 +1494,17 @@ its nebentypus, its Euler factors and conjugate).
 - At the ramified prime, `c((√29)) = b(29) + b̄(29) = -6`, not `b(29) = -3 + 2t`; the
   Fourier-coefficient formula at `ν = 1` would give the non-real `b(29)`.
 - `c(𝒪_F, f_g) = 1`, so `f_g ≠ 0`, and `f_g = f_{g^ρ}`.
+
+**Check on split Hecke operators.** In the D=29, p=5 example, each of T_𝔭 and T_𝔭′
+has eigenvalue −3, matching b(5); their sum has eigenvalue −6 and is not the transported T₅.
+
+### Examples
+
+The discriminating examples are the Checks in §§9.1–9.6: twists, CM traces and split Hecke actions.
+
+### Dependencies
+
+Layers 2 and 4–8; the precise transfer and character contracts cited in each subsection.
 
 ## Layer 10: the Jacquet–Langlands dictionary
 
@@ -1284,7 +1543,9 @@ R17.3 milestones.
 Define nothing new: for the Eichler order of 10.2, the Brandt matrices `B(𝔭)` are the matrices
 of the Hecke operators of Quaternionic modular forms §3.1 on the class-set basis, as the sibling
 `QuaternionArithmetic` roadmap defines them. Prove the **trace identity**
-`Tr(T_𝔭 ∣ S_2(𝔫; R)^{𝔇-new}) = Tr(B(𝔭)) - (number of norm-factoring forms) · (N𝔭 + 1)`
+`Tr(T_𝔭 ∣ S_2(𝔫; R)^{𝔇-new}) = Tr(B(𝔭)) - Tr(T_𝔭 ∣ E_norm)`
+where `E_norm` is the norm-factoring subspace. Its trace is
+`(N𝔭 + 1) Σ_χ χ([𝔭])`, with multiplicities and the actual norm characters occurring
 in parallel weight `2` for `𝔭 ∤ 𝔫`, and the characteristic-polynomial identity
 `charpoly(T_𝔭 ∣ S_k(𝔫; R)^{𝔇-new}) = charpoly(B_k(𝔭))` on the cuspidal part in general, as
 corollaries of 10.2. This is the statement that certifies the LMFDB's tables: the Hecke
@@ -1292,6 +1553,20 @@ eigenvalues it stores are the eigenvalues of Brandt matrices, and the identity i
 certificate for a stored `hecke_eigenvalues` list checks against.
 
 *Rests on:* 10.2.
+
+**Checks on the trace subtraction.**
+
+- In Dembélé–Voight, Example 8.1, p.44, at norm 4 the norm characters give 5 and −5; 0−(5−5)=0 is the cusp trace.
+- At the principal norm-13 prime the Brandt trace is 36; 36−(14+14)=8=4+4.
+- With only the trivial norm character, the formula specializes to Tr(B)−(q+1).
+
+### Examples
+
+The discriminating examples are the Checks in §10.3: norm-character trace subtraction.
+
+### Dependencies
+
+Layers 5–7; QuaternionicModularForms and the general Jacquet–Langlands contracts.
 
 ## Layer 11: the LMFDB invariants and the elliptic-curve interface
 
@@ -1313,8 +1588,8 @@ constant on the Hecke orbit where the LMFDB displays it per orbit:
 | `hecke_polynomial` | a defining polynomial of `CoefficientField f` — the field up to isomorphism is intrinsic; the chosen polynomial is not a target | 7.5 |
 | `dimension` | `finrank ℚ (CoefficientField f)` = size of the Hecke orbit | 7.5 |
 | `AL_eigenvalues` | `𝔮 ↦ ε_𝔮(f)` for `𝔮 ‖ 𝔫`, `ψ = 1` | 7.7 |
-| `is_CM` | `HasCM f` | 9.2 |
-| `is_base_change` | `IsBaseChange f` | 9.4 |
+| `is_CM` | HasCM f | 9.2 |
+| `is_base_change` | IsBaseChange f | 9.4 |
 | newspace dimension | `finrank S_k(𝔫; R)^{new}` | 7.3 |
 | central character | `ψ`, trivial when `h⁺_F = 1` | 5.2 |
 | `L`-function | the card of 8.3 | 8.3 |
@@ -1333,7 +1608,7 @@ in parallel weight `2` (7.7); `dimension = 1` iff all `c(𝔭, f) ∈ ℚ` iff a
 
 ### 11.2 The intrinsic label prefix
 
-Define `HasLMFDBIntrinsicPrefix f (d r D N : ℕ) := HasLMFDBIntrinsicLabel F d r D ∧ Ideal.absNorm 𝔫 = N`,
+Define HasLMFDBIntrinsicPrefix f (d r D N : ℕ) := HasLMFDBIntrinsicLabel F d r D ∧ Ideal.absNorm 𝔫 = N,
 the invariants a label `d.r.D.i-N.j-x` is built from, and prove it is constant on Hecke orbits
 and on Galois-conjugate levels (`σ𝔫` for `σ ∈ Aut(F)`, which the LMFDB stores as separate
 forms with the same prefix). The indices `i`, `j`, the letter `x`, and the completeness of a
@@ -1351,19 +1626,24 @@ table are not defined here.
 ### 11.3 The elliptic-curve interface
 
 For a function `a : HeightOneSpectrum (𝓞 F) → ℤ` and a newform `f` of level `𝔫`, define
-`IsAttachedTo f a`: `f` has parallel weight `2`, trivial central character,
+IsAttachedTo f a: `f` has parallel weight `2`, trivial central character,
 `CoefficientField f = ℚ`, and `c(𝔭, f) = a 𝔭` for all `𝔭 ∤ 𝔫`. Prove uniqueness of `f`
-given `(a, 𝔫)` (strong multiplicity one, 6.4), that `IsAttachedTo` is invariant under the
+given `(a, 𝔫)` (strong multiplicity one, 6.4), that IsAttachedTo is invariant under the
 transport of 2.3, and that it implies `L(f, s) = Σ a-generated Euler product` on good primes.
-The curve side — the conductor ideal of an elliptic curve `E/F` and its traces of Frobenius
-`a_𝔭(E) = N𝔭 + 1 - #Ẽ(𝔽_𝔭)` — is the [Elliptic curves](../EllipticCurves/README.md) roadmap's and
-the sibling `EllipticCurvePeriodsAndModularParametrizations`'; **modularity** — that for every
-`E/F` of conductor `𝔫_E` some `f` of level `𝔫_E` satisfies `IsAttachedTo f (a_·(E))`, known for real quadratic `F` and for
-many other totally real fields — is the theorem of
-[Potential modularity and compatible systems](../PotentialModularityAndCompatibleSystems/README.md)
-and is consumed as a statement there; this roadmap supplies the predicate and proves that the
-LMFDB's displayed link `ecnf ↔ hmf` is `IsAttachedTo`, with the `L`-function card of 8.3 equal
-(`EqOffZero`) to the curve's.
+For an elliptic curve E/F, apply this comparison only with a modularity witness over F
+identifying its rank-two representation with that of f and its exact conductor with 𝔫.
+A potential-modularity witness over F′ instead yields attachment over F′; no descent to F
+is inferred. For equality of the full cards require equality of every local reciprocal
+polynomial, including multiplicative and additive primes, together with conductor and
+archimedean factors. Then coefficient equality and analytic continuation give EqOffZero.
+The precise curve-side contract is the completed H¹ L-function with good factor
+1 − a_𝔭(E)T + N𝔭 T², multiplicative factor 1 − a_𝔭(E)T with a_𝔭(E)=±1, and
+additive factor 1, and comparison with the local representation at every finite prime.
+This contract and base-field modularity are inputs to the comparison, not consequences
+of good-prime trace matching alone. The real-quadratic existence input is precisely:
+for every real quadratic F and elliptic curve E/F, there exists a parallel-weight-two
+newform of exact level 𝔫_E with matching rank-two compatible system. Potential modularity
+alone does not supply this input (Freitas–Le Hung–Siksek, Theorem 1).
 
 *Rests on:* 6.4, 7.4, 7.5, 8.3.
 
@@ -1377,6 +1657,14 @@ LMFDB's displayed link `ecnf ↔ hmf` is `IsAttachedTo`, with the `L`-function c
   eigenvalues are permuted along `w ↦ 1 - w`, and `a_(3w - 2)(E) = 4` while the conjugate form has
   `-4` there.
 - `2.2.40.1-1.1-a` is attached to no `a`: its coefficient field is quadratic, not `ℚ`.
+
+### Examples
+
+The discriminating examples are the Checks in §§11.1–11.3: label prefixes and elliptic attachment.
+
+### Dependencies
+
+Layers 6–9; the full curve-side contracts stated in §11.3.
 
 ## Explicit scope exclusions
 
@@ -1438,7 +1726,7 @@ LMFDB's `AL_eigenvalues = [[(5w - 2), 1]]`; the sign of the functional equation 
 `ε(f) = (-1)^2 · ε_𝔭(f) = +1`, consistent with the rank `0` of the attached curve. The attached
 curve (11.3) is `2.2.5.1-31.1-a1`, `y² + xy + wy = x³ + (1 + w)x² + wx`, of conductor `(5w - 2)`,
 with nonsplit multiplicative reduction at `𝔭` (`a_𝔭(E) = -1 = c(𝔭, f)`), and `a_𝔭(E) = c(𝔭, f)`
-at every listed good prime: this is the acceptance test for `IsAttachedTo`. Its Galois conjugate
+at every listed good prime: this is the acceptance test for IsAttachedTo. Its Galois conjugate
 level `(5w - 3) = (5 + 2w)` carries the conjugate form `2.2.5.1-31.2-a` with the same prefix
 (11.2) and the eigenvalues permuted along `w ↦ 1 - w`; the curve
 `A : y² + xy + wy = x³ - (1 + w)x²` of Dembélé–Voight Example 6.3, of conductor `(5 + 2w)`, is
@@ -1452,11 +1740,11 @@ there is a nontrivial quadratic Hecke character `χ` of `ℚ(√5)` with `c(𝔭
 inert in the corresponding CM extension `K/F`; by 9.5 the form is Galois-invariant,
 `c(σ𝔭, f) = c(𝔭, f)` for the two primes above every split rational prime. The level `(3)²` is
 squarefull, so 7.6 with `ψ = 1` gives `c((3), f) = 0`, and the Atkin–Lehner sign `ε_{(9)}(f)` is
-an invariant not determined by the coefficients (7.7). The rejection test: a CM field for a
+not recoverable from the single local coefficient `c((3), f) = 0`; the full normalized coefficient system determines it (7.7). The rejection test: a CM field for a
 newform of level `𝔫` is a totally imaginary quadratic extension unramified at the finite primes
 outside `𝔫` (9.3). For `2.2.5.1-31.1-a` the totally negative classes in `F^×/F^{×2}` supported on
 `𝔫` are `-1` and `-(3w + 5) = -w(5w - 2)`, and both `F(√-1)` and `F(√(-(3w + 5)))` have relative
-discriminant divisible by `(2)²` (`(2) ∤ 𝔫`), so no CM field exists and `HasCM` is rejected on the
+discriminant divisible by `(2)²` (`(2) ∤ 𝔫`), so no CM field exists and HasCM is rejected on the
 ramification condition alone. The coefficient test rejects it as well: `(3w - 2)` is inert in
 `F(√-1)` (`N𝔭 = 11 ≡ 3 (mod 4)`) and `(4w - 1)` in `F(√(-(3w + 5)))`, while `c((3w - 2), f) = 4`
 and `c((4w - 1), f) = 4` are nonzero.
@@ -1471,7 +1759,7 @@ and `c((4w - 1), f) = 4` are nonzero.
 `ψ = sgn` space that survives). The knowl
 `mf.hilbert.2.2.24.1-1.1-a.top` records that `2.2.24.1-1.1-a` is the first newform of level norm
 `1` among real quadratic fields ordered by discriminant and corresponds to an isogeny class of
-elliptic curves over `ℚ(√6)` with everywhere good reduction: `IsAttachedTo f (a_·(E))` with
+elliptic curves over `ℚ(√6)` with everywhere good reduction: IsAttachedTo f (a_·(E)) with
 `level_norm = 1`, `is_CM = yes`, `is_base_change = yes`, `dimension = 1`, `AL_eigenvalues = []` (no exact prime-power divisor of `𝒪_F`), `ε(f) = (-1)^2 = 1`
 by 8.2. `F = ℚ(√10)`, `2.2.40.1`: `h_F = h⁺_F = 2` (`3 + √10` has norm `-1`), two components and
 two cusps per component (1.4), and `2.2.40.1-1.1-a` is the first level-one newform of
@@ -1501,13 +1789,13 @@ At `𝔫 = (w + 3)²`, norm `121`, Dembélé–Voight Example 6.6 gives a newfor
 `c((3), f) = -1`, `c((w+3), f) = 0`, `c((w-4), f) = -2t`, `c((w-5), f) = 4t`, `c((w+4), f) = -2`,
 `t² = 3`. It exercises 7.5 (the orbit `{f, f^σ}`, `σ(t) = -t`), 7.6 (`c((w+3), f) = 0` at the
 squarefull level with `ψ = 1`), 9.5 (`is_base_change = no`: `c((w-5), f) = 4t ≠ -2 = c((w+4), f)`
-for conjugate primes) and 9.2 (`HasCM` is rejected: a CM field would be `F(√-1)` or `F(√(-(w + 3)))`, both of relative
+for conjugate primes) and 9.2 (HasCM is rejected: a CM field would be `F(√-1)` or `F(√(-(w + 3)))`, both of relative
 discriminant divisible by `(2)² ∤ (w + 3)²`; and `(w - 4)` is inert in the first and `(3)` in the
 second, while `c((w - 4), f) = -2t` and `c((3), f) = -1` are nonzero). At `𝔫 = (w + 4)²`, norm
 `361`, Example 6.7 gives rational
 newforms `f, g` with `c((2), f) = 2 = -c((2), g)`, `c((w+2), f) = -3 = c((w+2), g)`,
 `c((3), f) = 1 = -c((3), g)`: `g = (f ⊗ χ)^{new}` for the quadratic character of
-`F(√(w(w+4)))/F` (9.1); both are rejected by `IsBaseChange` (`c((w+5), f) = 3 ≠ -6 = c((w-6), f)`).
+`F(√(w(w+4)))/F` (9.1); both are rejected by IsBaseChange (`c((w+5), f) = 3 ≠ -6 = c((w-6), f)`).
 
 ### Rejection tests
 
@@ -1523,9 +1811,14 @@ newforms `f, g` with `c((2), f) = 2 = -c((2), g)`, `c((w+2), f) = -3 = c((w+2), 
   `g + c · V_𝔭 g` is not a newform and not a `U_𝔭`-eigenvector in general (7.3's uniqueness is of
   the pair `(𝔪, g)`, not of `f`).
 - The LMFDB's `is_base_change = yes` is a heuristic determination (its reliability knowl says
-  so); `IsBaseChange` is the predicate, and a form with `c(σ𝔭, f) = c(𝔭, f)` for all tested `𝔭`
+  so); IsBaseChange is the predicate, and a form with `c(σ𝔭, f) = c(𝔭, f)` for all tested `𝔭`
   is not thereby proved to satisfy it (9.5 gives the implication in the other direction, and the
   descent theorem only for cyclic `F/ℚ` with the equality at **all** primes).
+
+## Downstream consumers
+
+HilbertModularSurfaces uses the analytic forms and congruence groups; the elliptic-curve
+comparison uses the full newform and L-function dictionary of Layers 7–11.
 
 ## Ordering
 
@@ -1547,6 +1840,8 @@ Automorphic bundles. Layers 8, 9, 10 are independent of one another after Layer 
 8.1; 10.2 uses 7.7). Layer 11 collects Layers 7–9.
 
 ## References
+
+- N. Freitas, B. V. Le Hung and S. Siksek, *Elliptic curves over real quadratic fields are modular*, arXiv:1310.7088v4, Theorem 1, p.2.
 
 - E. Freitag, *Hilbert Modular Forms*, Springer, 1990. Chapter I: the Hilbert modular group,
   Siegel sets and reduction theory, Fourier expansions and Koecher's principle, Eisenstein

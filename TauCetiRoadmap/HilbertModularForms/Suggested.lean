@@ -1,7 +1,8 @@
+module
+
 import Mathlib
 import TauCeti.NumberTheory.ArithmeticDirichletSeries.Basic
 import TauCeti.NumberTheory.ArithmeticDirichletSeries.NormCoeff
-import TauCeti.NumberTheory.ModularForms.Newforms.Newform
 import TauCeti.NumberTheory.NumberField.NarrowClassGroup.Basic
 import TauCeti.NumberTheory.NumberField.NarrowClassGroup.Finite
 import TauCeti.NumberTheory.NumberField.TotallyPositive
@@ -9,51 +10,24 @@ import TauCeti.NumberTheory.NumberField.TotallyPositive
 /-!
 # Hilbert modular forms: target signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive specification is
-`README.md`. This file states only what can be stated over Mathlib and the pinned Tau Ceti: the
-domain, the group and the slash action (Layer 0), the lattices, the groups `Γ₀(𝔫)_𝔟` and the
-systems of representatives (Layer 1), the spaces of modular and cusp forms, Fourier coefficients
-and normalized ideal coefficients (Layer 2), the finite-dimensionality theorems (Layer 3), and
-the `L`-series of a tuple. The other targets — the Petersson product, the component transport,
-the Hecke, central and Atkin–Lehner operators, old and new subspaces, newforms and their
-invariants, completed `L`-functions, twists, CM, base change, the Doi–Naganuma lift and the
-LMFDB interface — need constructions that are themselves milestones of this roadmap; they are
-specified, with their definitions and Checks, in `README.md` only. `sorry` is permitted in the
-proofs of this human-owned repository: these are targets, not implementations.
+The roadmap is README.md; this file is not the roadmap. It states the roadmap's headline
+Fourier expansion, Koecher, nonparallel cuspidality, finite dimensionality, coefficient bound
+and absolute L-series convergence theorems against the pinned Mathlib and Tau Ceti APIs.
+The real definitions below describe the analytic function carriers required by those statements;
+their parallel specialization is compared with the supplier in README.md, Scope and ownership.
 
-The carrier is a function `UpperHalfSpace F → ℂ`, where `UpperHalfSpace F := InfinitePlace F → ℍ`
-is one copy of Mathlib's upper half-plane per infinite place of the totally real field `F`
-(`NumberField.IsTotallyReal F`), acted on componentwise by `GL2Pos F`, the subgroup of
-`GL (Fin 2) F` of totally positive determinant, through the real embeddings and Mathlib's
-`UpperHalfPlane.glAction`. No ordering of the places is chosen: `Fin n` indexes nothing.
+The other headlines are not statable at these pins: the cusp–Eisenstein decomposition lacks
+constructed Hilbert Eisenstein series; the classical–adelic dictionary lacks the adelic Hilbert
+form carrier and comparison; newform decomposition and coefficient-field rationality lack the
+Hilbert Hecke operators and newform carrier; the functional equation and card comparison lack
+the completed Hilbert L-function and card; twisting, CM induction, base change, Doi–Naganuma
+and Jacquet–Langlands lack these Hilbert newforms and their transfer maps. They are specified
+in README.md without substitute signatures here. Finite nebentypus comparison also requires
+its character carrier and is not asserted by the unramified signatures below.
 
-Conventions visible in the signatures (`README.md`, *Pinned conventions*). A weight is a function
-`k : InfinitePlace F → ℤ` with all differences even (`Weight`); `k.top` is `k₀ = max k_w` and
-`k.m w = (k₀ - k_w)/2`. The slash `slash k γ f` is the **arithmetic** normalization
-`∏_w σ_w(det γ)^(k_w + m_w - 1) · denom(σ_w γ, z_w)^(-k_w) · f(γ • z)`; the unitary one is
-`slashUnitary` and is used in no other declaration. A form of level `𝔫` is a tuple
-`HilbertModularForms F 𝔫 k R`, indexed by the narrow class group through a system of
-representatives `R : NarrowRepresentatives F`; the component of class `c` lives on
-`Gamma0 F 𝔫 (R.rep c)`, the group `Γ₀(𝔫)_𝔟` of the LMFDB knowl. The spaces carry **no cusp
-condition**: Koecher's principle (`koecher`) is a theorem. The Fourier coefficient `fourierCoeff`
-is the mean of `f(x + i) e(-Tr(μ(x + i)))` over the boxes `[-T, T]^Σ` as `T → ∞`, which for a
-holomorphic function periodic under a full lattice is the README's mean over a fundamental
-parallelotope. The normalized coefficient `coeff f` is a Tau Ceti `IdealArithmeticFunction F`,
-indexed by nonzero integral ideals and extended by zero to all ideals as `coeffIdeal`. The
-`L`-series is Mathlib's `LSeries` of Tau Ceti's `normCoeff` of the coefficient function, in the
-arithmetic normalization with centre `k₀/2`.
-
-The degree hypothesis `1 < Module.finrank ℚ F` is an explicit argument of the theorems that use
-it (Koecher's principle, finite dimensionality); the definitions are stated without it.
-
-Every proof below is `sorry` except the closure proofs of the subgroups and submodules, the
-linearity of the slash, and the bridge checks, which are real terms so that the elaborator
-checks the instance lists the README promises: the closure of `GL2Pos` under products and
-inverses from Tau Ceti's `IsTotallyPositive.mul`/`.inv`, the `MulAction` of `GL2Pos F` on
-`UpperHalfSpace F` from `UpperHalfPlane.glAction`, the construction `NarrowRepresentatives.choice`
-from `NarrowClassGroup.mk_surjective`, the inclusion `cuspForms_le`, the identification of the
-exponent lattice `dualLattice_eq` from `FractionalIdeal.dual_inv` and `coeIdeal_differentIdeal`,
-and `finiteDimensional_of_isCompact_closedBall`, the Riesz input of 3.5.
+The arithmetic slash and normalized ideal coefficients use README.md's conventions. Full
+expansion injectivity retains the standard constant on every component; positive coefficients
+alone detect cusp forms. Degree at least two and nonzero level are explicit wherever needed.
 -/
 
 noncomputable section
@@ -61,11 +35,11 @@ noncomputable section
 open NumberField UpperHalfPlane IsDedekindDomain TauCeti
 open scoped UpperHalfPlane nonZeroDivisors
 
-namespace TauCetiRoadmap.HilbertModularForm
+namespace TauCetiRoadmap.HilbertModularForms
 
 variable (F : Type*) [Field F] [NumberField F] [IsTotallyReal F]
 
-/-! ### Layer 0: the domain, the group, the slash action, holomorphy -/
+/-! ## Layer 0: the domain, the group, the slash action, holomorphy -/
 
 /-- `ℍ^Σ`, one upper half-plane per infinite place of `F` (`README.md`, Layer 0, 0.1). -/
 abbrev UpperHalfSpace := InfinitePlace F → ℍ
@@ -97,35 +71,21 @@ def det₀ (γ : GL2Pos F) : F := ((Matrix.GeneralLinearGroup.det (γ : GL (Fin 
 /-- The `(i, j)` entry of `γ ∈ GL₂⁺(F)`. -/
 def entry (γ : GL2Pos F) (i j : Fin 2) : F := ((γ : GL (Fin 2) F) : Matrix (Fin 2) (Fin 2) F) i j
 
-omit [NumberField F] [IsTotallyReal F] in
-theorem isTotallyPositive_det₀ (γ : GL2Pos F) : IsTotallyPositive (det₀ F γ) := γ.2
-
 /-- The componentwise action `(γ • z) w = σ_w(γ) • z w` (`README.md`, Layer 0, 0.1). -/
-instance : SMul (GL2Pos F) (UpperHalfSpace F) :=
+instance upperHalfSpaceSMul : SMul (GL2Pos F) (UpperHalfSpace F) :=
   ⟨fun γ z w => toGLReal F w (γ : GL (Fin 2) F) • z w⟩
 
 omit [NumberField F] in
+/-- The component action is the real Möbius action at each place. -/
 theorem smul_apply (γ : GL2Pos F) (z : UpperHalfSpace F) (w : InfinitePlace F) :
     (γ • z) w = toGLReal F w (γ : GL (Fin 2) F) • z w := rfl
 
 /-- `GL₂⁺(F)` acts on `ℍ^Σ` (`README.md`, Layer 0, 0.1); a bridge check of Mathlib's
 `UpperHalfPlane.glAction` through `Matrix.GeneralLinearGroup.map`. -/
-instance : MulAction (GL2Pos F) (UpperHalfSpace F) where
+instance upperHalfSpaceMulAction : MulAction (GL2Pos F) (UpperHalfSpace F) where
   one_smul z := funext fun w => by rw [smul_apply, OneMemClass.coe_one, map_one, one_smul]
   mul_smul γ δ z := funext fun w => by
     rw [smul_apply, smul_apply, smul_apply, Subgroup.coe_mul, map_mul, mul_smul]
-
-/-- `σ_w(det γ) > 0`, so Mathlib's conjugation `σ` in `glAction` never fires on `GL₂⁺(F)`
-(`README.md`, Layer 0, 0.1). -/
-theorem det_toGLReal_pos (γ : GL2Pos F) (w : InfinitePlace F) :
-    0 < (toGLReal F w (γ : GL (Fin 2) F)).det.val := sorry
-
-/-- The action is the Möbius action at every place: a bridge check of
-`UpperHalfPlane.coe_smul_of_det_pos` (`README.md`, Layer 0, 0.1). -/
-theorem coe_smul_apply (γ : GL2Pos F) (z : UpperHalfSpace F) (w : InfinitePlace F) :
-    ((γ • z) w : ℂ) = num (toGLReal F w (γ : GL (Fin 2) F)) (z w) /
-      denom (toGLReal F w (γ : GL (Fin 2) F)) (z w) :=
-  coe_smul_of_det_pos (det_toGLReal_pos F γ w) (z w)
 
 /-- A weight `k ∈ ℤ^Σ` with all `k_w` of one parity (`README.md`, Layer 0, 0.3). -/
 structure Weight where
@@ -138,9 +98,6 @@ namespace Weight
 
 variable {F}
 
-/-- Parallel weight `a` (`README.md`, Layer 0, 0.3): the non-vacuity constructor of `Weight`. -/
-def parallel (a : ℤ) : Weight F := ⟨fun _ => a, fun _ _ => by simp⟩
-
 /-- `k` is parallel (`README.md`, Layer 0, 0.3). -/
 def IsParallel (k : Weight F) : Prop := ∃ a, ∀ w, k.k w = a
 
@@ -149,11 +106,6 @@ def top (k : Weight F) : ℤ := Finset.univ.sup' Finset.univ_nonempty k.k
 
 /-- `m_w := (k₀ - k_w)/2` (`README.md`, Layer 0, 0.3). -/
 def m (k : Weight F) (w : InfinitePlace F) : ℤ := (k.top - k.k w) / 2
-
-theorem top_parallel (a : ℤ) : (parallel (F := F) a).top = a := sorry
-
-theorem m_eq_zero_of_isParallel {k : Weight F} (h : k.IsParallel) (w : InfinitePlace F) :
-    k.m w = 0 := sorry
 
 end Weight
 
@@ -165,50 +117,23 @@ def slash (k : Weight F) (γ : GL2Pos F) (f : UpperHalfSpace F → ℂ) : UpperH
 
 variable {F}
 
-theorem slash_one (k : Weight F) (f : UpperHalfSpace F → ℂ) : slash F k 1 f = f := sorry
-
-/-- `(f ∣_k γ) ∣_k δ = f ∣_k (γδ)` (`README.md`, Layer 0, 0.3). -/
-theorem slash_mul (k : Weight F) (γ δ : GL2Pos F) (f : UpperHalfSpace F → ℂ) :
-    slash F k δ (slash F k γ f) = slash F k (γ * δ) f := sorry
-
+/-- The arithmetic slash preserves addition. -/
 theorem slash_add (k : Weight F) (γ : GL2Pos F) (f g : UpperHalfSpace F → ℂ) :
     slash F k γ (f + g) = slash F k γ f + slash F k γ g := by
   funext z
   simp only [slash, Pi.add_apply, mul_add]
 
+/-- The arithmetic slash preserves complex scalar multiplication. -/
 theorem slash_smul (k : Weight F) (γ : GL2Pos F) (a : ℂ) (f : UpperHalfSpace F → ℂ) :
     slash F k γ (a • f) = a • slash F k γ f := by
   funext z
   simp only [slash, Pi.smul_apply, smul_eq_mul]
   ring
 
+/-- The arithmetic slash preserves zero. -/
 theorem slash_zero (k : Weight F) (γ : GL2Pos F) : slash F k γ 0 = 0 := by
   funext z
   simp only [slash, Pi.zero_apply, mul_zero]
-
-/-- A scalar `a ∈ F^×` acts by the signed norm `N(a)^{k₀ - 2}` (`README.md`, Layer 0, 0.3); no
-positivity is needed since `det (a·1) = a²`. -/
-theorem slash_scalar (k : Weight F) (γ : GL2Pos F) (a : F)
-    (hγ : ((γ : GL (Fin 2) F) : Matrix (Fin 2) (Fin 2) F) = Matrix.scalar (Fin 2) a)
-    (f : UpperHalfSpace F → ℂ) :
-    slash F k γ f = ((Algebra.norm ℚ a : ℂ) ^ (k.top - 2)) • f := sorry
-
-variable (F)
-
-/-- The unitary slash of the LMFDB knowl, with `σ_w(det γ)^{k_w/2}` as a real power
-(`README.md`, Layer 0, 0.4). -/
-def slashUnitary (k : Weight F) (γ : GL2Pos F) (f : UpperHalfSpace F → ℂ) :
-    UpperHalfSpace F → ℂ :=
-  fun z => (∏ w, (((realEmbedding F w (det₀ F γ)) ^ ((k.k w : ℝ) / 2) : ℝ) : ℂ) *
-    (denom (toGLReal F w (γ : GL (Fin 2) F)) (z w)) ^ (-(k.k w))) * f (γ • z)
-
-variable {F}
-
-/-- `f ∣_k γ = N(det γ)^{(k₀ - 2)/2} · (f ∣_k^u γ)` (`README.md`, Layer 0, 0.4). -/
-theorem slash_eq_slashUnitary (k : Weight F) (γ : GL2Pos F) (f : UpperHalfSpace F → ℂ) :
-    slash F k γ f =
-      ((((Algebra.norm ℚ (det₀ F γ) : ℝ) ^ (((k.top : ℝ) - 2) / 2) : ℝ) : ℂ)) •
-        slashUnitary F k γ f := sorry
 
 variable (F)
 
@@ -218,13 +143,6 @@ def IsHolomorphic (f : UpperHalfSpace F → ℂ) : Prop :=
   DifferentiableOn ℂ (fun z : InfinitePlace F → ℂ => f fun w => ofComplex (z w))
     {z | ∀ w, 0 < (z w).im}
 
-variable {F}
-
-theorem IsHolomorphic.slash {f : UpperHalfSpace F → ℂ} (hf : IsHolomorphic F f) (k : Weight F)
-    (γ : GL2Pos F) : IsHolomorphic F (slash F k γ f) := sorry
-
-variable (F)
-
 /-- `Tr(μz) = Σ_w σ_w(μ) z_w` (`README.md`, Layer 2, 2.1). -/
 def tracePairing (μ : F) (z : UpperHalfSpace F) : ℂ :=
   ∑ w, ((realEmbedding F w μ : ℝ) : ℂ) * (z w : ℂ)
@@ -233,35 +151,26 @@ def tracePairing (μ : F) (z : UpperHalfSpace F) : ℂ :=
 def expTrace (μ : F) (z : UpperHalfSpace F) : ℂ :=
   Complex.exp (2 * Real.pi * Complex.I * tracePairing F μ z)
 
-theorem isHolomorphic_expTrace (μ : F) : IsHolomorphic F (expTrace F μ) := sorry
-
-/-! ### Layer 1: lattices, the groups `Γ₀(𝔫)_𝔟`, systems of representatives -/
-
-/-- The lattice `L_𝔟 = 𝒪_F ⊕ 𝔟 ⊂ F²` (`README.md`, Layer 1, 1.1). -/
-def lattice (𝔟 : (FractionalIdeal (𝓞 F)⁰ F)ˣ) : Submodule (𝓞 F) (Fin 2 → F) where
-  carrier := {v | v 0 ∈ (1 : FractionalIdeal (𝓞 F)⁰ F) ∧ v 1 ∈ (𝔟 : FractionalIdeal (𝓞 F)⁰ F)}
-  add_mem' ha hb :=
-    ⟨Submodule.add_mem ((1 : FractionalIdeal (𝓞 F)⁰ F) : Submodule (𝓞 F) F) ha.1 hb.1,
-      Submodule.add_mem ((𝔟 : FractionalIdeal (𝓞 F)⁰ F) : Submodule (𝓞 F) F) ha.2 hb.2⟩
-  zero_mem' := ⟨Submodule.zero_mem ((1 : FractionalIdeal (𝓞 F)⁰ F) : Submodule (𝓞 F) F),
-    Submodule.zero_mem ((𝔟 : FractionalIdeal (𝓞 F)⁰ F) : Submodule (𝓞 F) F)⟩
-  smul_mem' c _ hv := ⟨Submodule.smul_mem ((1 : FractionalIdeal (𝓞 F)⁰ F) : Submodule (𝓞 F) F)
-    c hv.1, Submodule.smul_mem ((𝔟 : FractionalIdeal (𝓞 F)⁰ F) : Submodule (𝓞 F) F) c hv.2⟩
+/-! ## Layer 1: lattices, the groups `Γ₀(𝔫)_𝔟`, systems of representatives -/
 
 omit [NumberField F] [IsTotallyReal F] in
+/-- Matrix multiplication on two-dimensional entries. -/
 theorem entry_mul (γ δ : GL2Pos F) (i j : Fin 2) :
     entry F (γ * δ) i j = entry F γ i 0 * entry F δ 0 j + entry F γ i 1 * entry F δ 1 j := by
   simp [entry, Matrix.mul_apply, Fin.sum_univ_two]
 
 omit [NumberField F] [IsTotallyReal F] in
+/-- The field-valued determinant preserves products. -/
 theorem det₀_mul (γ δ : GL2Pos F) : det₀ F (γ * δ) = det₀ F γ * det₀ F δ := by
   simp [det₀]
 
 omit [NumberField F] [IsTotallyReal F] in
+/-- The determinant of an inverse is the inverse determinant. -/
 theorem det₀_inv (γ : GL2Pos F) : det₀ F γ⁻¹ = (det₀ F γ)⁻¹ := by
   simp [det₀]
 
 omit [NumberField F] [IsTotallyReal F] in
+/-- The inverse matrix has the two-dimensional adjugate formula. -/
 theorem entry_inv (γ : GL2Pos F) :
     entry F γ⁻¹ 0 0 = (det₀ F γ)⁻¹ * entry F γ 1 1 ∧
     entry F γ⁻¹ 0 1 = (det₀ F γ)⁻¹ * -entry F γ 0 1 ∧
@@ -336,37 +245,6 @@ def Gamma0 (𝔫 : Ideal (𝓞 F)) (𝔟 : (FractionalIdeal (𝓞 F)⁰ F)ˣ) : 
     · rw [e₁₀]; exact hl (neg_mem c)
     · rw [det₀_inv, ← hdu]; simp
 
-variable {F}
-
-/-- `Γ₀(𝔫)_𝔟 ≤ Γ₀(𝔪)_𝔟` for `𝔪 ∣ 𝔫` (`README.md`, Layer 1, 1.2). -/
-theorem Gamma0_le_of_dvd {𝔪 𝔫 : Ideal (𝓞 F)} (h : 𝔪 ∣ 𝔫) (𝔟 : (FractionalIdeal (𝓞 F)⁰ F)ˣ) :
-    Gamma0 F 𝔫 𝔟 ≤ Gamma0 F 𝔪 𝔟 := sorry
-
-
-/-- `Γ₀(𝔫)_𝔟` is the stabilizer of `L_𝔟` intersected with the Borel condition at `𝔫`; for `𝔫 = ⊤`
-it is the full stabilizer (`README.md`, Layer 1, 1.1). -/
-theorem mem_Gamma0_top_iff (𝔟 : (FractionalIdeal (𝓞 F)⁰ F)ˣ) (γ : GL2Pos F) :
-    γ ∈ Gamma0 F ⊤ 𝔟 ↔
-      (lattice F 𝔟).map (Matrix.toLin' ((γ : GL (Fin 2) F) : Matrix (Fin 2) (Fin 2) F)
-        |>.restrictScalars (𝓞 F)) = lattice F 𝔟 := sorry
-
-/-- Commensurability of two level groups on one component (`README.md`, Layer 1, 1.3). -/
-theorem commensurable_Gamma0 (𝔫 𝔫' : Ideal (𝓞 F)) (h𝔫 : 𝔫 ≠ ⊥) (h𝔫' : 𝔫' ≠ ⊥)
-    (𝔟 : (FractionalIdeal (𝓞 F)⁰ F)ˣ) :
-    (Gamma0 F 𝔫 𝔟).Commensurable (Gamma0 F 𝔫' 𝔟) := sorry
-
-/-- Component transport: `diag(1, α)` conjugates `Γ₀(𝔫)_𝔟` onto `Γ₀(𝔫)_{α𝔟}` for `α ≫ 0`
-(`README.md`, Layer 1, 1.3). -/
-theorem exists_conj_Gamma0 (𝔫 : Ideal (𝓞 F)) (𝔟 : (FractionalIdeal (𝓞 F)⁰ F)ˣ) (α : F)
-    (hα : IsTotallyPositive α) :
-    ∃ (δ : GL2Pos F) (𝔟' : (FractionalIdeal (𝓞 F)⁰ F)ˣ),
-      ((δ : GL (Fin 2) F) : Matrix (Fin 2) (Fin 2) F) = !![1, 0; 0, α] ∧
-      (𝔟' : FractionalIdeal (𝓞 F)⁰ F) =
-        FractionalIdeal.spanSingleton (𝓞 F)⁰ α * (𝔟 : FractionalIdeal (𝓞 F)⁰ F) ∧
-      (Gamma0 F 𝔫 𝔟).map (MulAut.conj δ).toMonoidHom = Gamma0 F 𝔫 𝔟' := sorry
-
-variable (F)
-
 /-- A system of representatives of the narrow class group by invertible fractional ideals
 (`README.md`, Layer 1, 1.5; *Pinned conventions*, Components). -/
 structure NarrowRepresentatives where
@@ -375,20 +253,7 @@ structure NarrowRepresentatives where
   /-- It represents its class. -/
   mk_rep : ∀ c, NarrowClassGroup.mk (rep c) = c
 
-/-- A system of representatives exists (`README.md`, Layer 1, 1.5): the non-vacuity constructor
-of `NarrowRepresentatives`, a bridge check of Tau Ceti's `NarrowClassGroup.mk_surjective`. -/
-def NarrowRepresentatives.choice : NarrowRepresentatives F :=
-  ⟨fun c => (NarrowClassGroup.mk_surjective c).choose,
-    fun c => (NarrowClassGroup.mk_surjective c).choose_spec⟩
-
-/-- Two systems differ by totally positive scalars (`README.md`, Layer 1, 1.5). -/
-theorem NarrowRepresentatives.exists_scalar (R R' : NarrowRepresentatives F)
-    (c : NarrowClassGroup F) :
-    ∃ α : F, IsTotallyPositive α ∧
-      (R'.rep c : FractionalIdeal (𝓞 F)⁰ F) =
-        FractionalIdeal.spanSingleton (𝓞 F)⁰ α * (R.rep c : FractionalIdeal (𝓞 F)⁰ F) := sorry
-
-/-! ### Layer 2: Fourier expansions, Koecher's principle, the spaces -/
+/-! ## Layer 2: Fourier expansions, Koecher's principle, the spaces -/
 
 /-- `M_k(Γ)`: holomorphic functions with `f ∣_k γ = f` for all `γ ∈ Γ`, **no cusp condition**
 (`README.md`, Layer 2, 2.3). -/
@@ -429,21 +294,11 @@ def constantTerm (f : UpperHalfSpace F → ℂ) : ℂ := fourierCoeff F f 0
 def dualLattice (𝔟 : (FractionalIdeal (𝓞 F)⁰ F)ˣ) : FractionalIdeal (𝓞 F)⁰ F :=
   FractionalIdeal.dual ℤ ℚ ((𝔟⁻¹ : (FractionalIdeal (𝓞 F)⁰ F)ˣ) : FractionalIdeal (𝓞 F)⁰ F)
 
-omit [IsTotallyReal F] in
-/-- `(𝔟⁻¹)^∨ = 𝔟 𝔡⁻¹` (`README.md`, Layer 2, 2.1): a bridge check of Mathlib's
-`FractionalIdeal.dual_inv` and `coeIdeal_differentIdeal`. -/
-theorem dualLattice_eq (𝔟 : (FractionalIdeal (𝓞 F)⁰ F)ˣ) :
-    dualLattice F 𝔟 =
-      (𝔟 : FractionalIdeal (𝓞 F)⁰ F) * ((differentIdeal ℤ (𝓞 F) : Ideal (𝓞 F)) :
-        FractionalIdeal (𝓞 F)⁰ F)⁻¹ := by
-  rw [dualLattice, Units.val_inv_eq_inv_val, FractionalIdeal.dual_inv,
-    coeIdeal_differentIdeal (A := ℤ) (K := ℚ) (L := F) (B := 𝓞 F), inv_inv, mul_comm]
-
 variable {F}
 
 /-- The Fourier expansion of a component (`README.md`, Layer 2, 2.1, 2.3): absolutely convergent
 over the exponent lattice, with the coefficients of `fourierCoeff`. -/
-theorem hasSum_fourier {𝔫 : Ideal (𝓞 F)} {𝔟 : (FractionalIdeal (𝓞 F)⁰ F)ˣ} {k : Weight F}
+theorem hasSum_fourier {𝔫 : Ideal (𝓞 F)} (h𝔫 : 𝔫 ≠ ⊥) {𝔟 : (FractionalIdeal (𝓞 F)⁰ F)ˣ} {k : Weight F}
     {f : UpperHalfSpace F → ℂ} (hf : f ∈ modularForms F (Gamma0 F 𝔫 𝔟) k)
     (z : UpperHalfSpace F) :
     HasSum (fun μ : {μ : F // μ ∈ dualLattice F 𝔟} => fourierCoeff F f μ * expTrace F μ z)
@@ -451,30 +306,15 @@ theorem hasSum_fourier {𝔫 : Ideal (𝓞 F)} {𝔟 : (FractionalIdeal (𝓞 F)
 
 /-- **Koecher's principle** (`README.md`, Layer 2, 2.2): for `n ≥ 2` the coefficients of a form
 vanish off `{0} ∪ {μ ≫ 0}`. -/
-theorem koecher (hn : 1 < Module.finrank ℚ F) {𝔫 : Ideal (𝓞 F)}
+theorem koecher (hn : 1 < Module.finrank ℚ F) {𝔫 : Ideal (𝓞 F)} (h𝔫 : 𝔫 ≠ ⊥)
     {𝔟 : (FractionalIdeal (𝓞 F)⁰ F)ˣ} {k : Weight F} {f : UpperHalfSpace F → ℂ}
     (hf : f ∈ modularForms F (Gamma0 F 𝔫 𝔟) k) {μ : F} (hμ : μ ≠ 0)
     (hpos : ¬ IsTotallyPositive μ) : fourierCoeff F f μ = 0 := sorry
 
-/-- The unit law `a(εμ) = ∏_w ε_w^{k_w + m_w - 1} a(μ)` for `ε ∈ 𝒪_{F,+}^×` (`README.md`,
-Layer 2, 2.3). -/
-theorem fourierCoeff_unit_mul {𝔫 : Ideal (𝓞 F)} {𝔟 : (FractionalIdeal (𝓞 F)⁰ F)ˣ}
-    {k : Weight F} {f : UpperHalfSpace F → ℂ} (hf : f ∈ modularForms F (Gamma0 F 𝔫 𝔟) k)
-    (ε : (𝓞 F)ˣ) (hε : ε ∈ totallyPositiveIntegerUnits (K := F)) (μ : F) :
-    fourierCoeff F f (algebraMap (𝓞 F) F (ε : 𝓞 F) * μ) =
-      (∏ w, (((realEmbedding F w (algebraMap (𝓞 F) F (ε : 𝓞 F)) : ℝ) : ℂ) ^
-        (k.k w + k.m w - 1))) * fourierCoeff F f μ := sorry
-
-/-- **The parity lemma** (`README.md`, Layer 2, 2.3): odd `k₀` and a unit of norm `-1` force
-`M_k(Γ₀(𝔫)_𝔟) = 0`. -/
-theorem modularForms_eq_bot_of_odd {𝔫 : Ideal (𝓞 F)} {𝔟 : (FractionalIdeal (𝓞 F)⁰ F)ˣ}
-    {k : Weight F} (hodd : Odd k.top) (u : (𝓞 F)ˣ) (hu : Algebra.norm ℤ (u : 𝓞 F) = -1) :
-    modularForms F (Gamma0 F 𝔫 𝔟) k = ⊥ := sorry
-
 /-- **Cuspidality in non-parallel weight** (`README.md`, Layer 2, 2.5): every constant term of a
 form of non-parallel weight vanishes. -/
 theorem constantTerm_slash_eq_zero_of_not_isParallel (hn : 1 < Module.finrank ℚ F)
-    {𝔫 : Ideal (𝓞 F)} {𝔟 : (FractionalIdeal (𝓞 F)⁰ F)ˣ} {k : Weight F} (hk : ¬ k.IsParallel)
+    {𝔫 : Ideal (𝓞 F)} (h𝔫 : 𝔫 ≠ ⊥) {𝔟 : (FractionalIdeal (𝓞 F)⁰ F)ˣ} {k : Weight F} (hk : ¬ k.IsParallel)
     {f : UpperHalfSpace F → ℂ} (hf : f ∈ modularForms F (Gamma0 F 𝔫 𝔟) k) (γ : GL2Pos F) :
     constantTerm F (slash F k γ f) = 0 := sorry
 
@@ -513,10 +353,6 @@ def cuspForms (Γ : Subgroup (GL2Pos F)) (k : Weight F) : Submodule ℂ (UpperHa
         exact MeasureTheory.average_const_mul _ a _
       rw [h, ← mul_zero a]
       exact (hf.2 γ).2.const_mul a⟩
-
-/-- Cusp forms are modular forms (`README.md`, Layer 2, 2.6); a bridge check. -/
-theorem cuspForms_le (Γ : Subgroup (GL2Pos F)) (k : Weight F) :
-    cuspForms F Γ k ≤ modularForms F Γ k := fun _ hf => hf.1
 
 /-- `M_k(𝔫; R) = ∏_c M_k(Γ₀(𝔫)_{rep c})`, the tuple space of forms of level `𝔫` (`README.md`,
 Layer 2, 2.3; *Pinned conventions*, Components). -/
@@ -557,38 +393,23 @@ def coeff {𝔫 : Ideal (𝓞 F)} {k : Weight F} {R : NarrowRepresentatives F}
   else 0
 
 
-/-- `c(𝔪, f)` extended by `0` to every ideal, through Tau Ceti's `zeroExtend` (`README.md`,
-Layer 2, 2.4). -/
-def coeffIdeal {𝔫 : Ideal (𝓞 F)} {k : Weight F} {R : NarrowRepresentatives F}
-    (f : HilbertModularForms F 𝔫 k R) (𝔪 : Ideal (𝓞 F)) : ℂ :=
-  IdealArithmeticFunction.zeroExtend (coeff F f) 𝔪
-
 variable {F}
 
-/-- In parallel weight, `c(𝔪, f)` is the Fourier coefficient of the component of the class of
-`𝔪⁻¹𝔡` at a totally positive generator `μ` of `𝔪 · rep(c) · 𝔡⁻¹` (`README.md`, Layer 2, 2.4). -/
-theorem coeff_eq_fourierCoeff {𝔫 : Ideal (𝓞 F)} {k : Weight F} (hk : k.IsParallel)
-    {R : NarrowRepresentatives F} (f : HilbertModularForms F 𝔫 k R) (𝔪 : (Ideal (𝓞 F))⁰)
-    (c : NarrowClassGroup F) (μ : F) (hμ : IsTotallyPositive μ)
-    (hgen : FractionalIdeal.spanSingleton (𝓞 F)⁰ μ =
-      ((𝔪 : Ideal (𝓞 F)) : FractionalIdeal (𝓞 F)⁰ F) * (R.rep c : FractionalIdeal (𝓞 F)⁰ F) *
-        ((differentIdeal ℤ (𝓞 F) : Ideal (𝓞 F)) : FractionalIdeal (𝓞 F)⁰ F)⁻¹) :
-    coeff F f 𝔪 = fourierCoeff F (f c) μ := sorry
+/-- The full standard expansions, including constants, determine a tuple of Hilbert forms. -/
+theorem fullExpansion_injective (hn : 1 < Module.finrank ℚ F)
+    (𝔫 : Ideal (𝓞 F)) (h𝔫 : 𝔫 ≠ ⊥) (k : Weight F) (R : NarrowRepresentatives F) :
+    Function.Injective (fun f : HilbertModularForms F 𝔫 k R =>
+      ((fun c => constantTerm F (f c)), coeff F f)) := sorry
 
-/-- `f ↦ c(·, f)` is linear (`README.md`, Layer 2, 2.4). -/
-theorem coeff_add {𝔫 : Ideal (𝓞 F)} {k : Weight F} {R : NarrowRepresentatives F}
-    (f g : HilbertModularForms F 𝔫 k R) : coeff F (f + g) = coeff F f + coeff F g := sorry
+/-- Positive ideal coefficients determine a Hilbert cusp form, whose cusp constants vanish. -/
+theorem cusp_coeff_injective (hn : 1 < Module.finrank ℚ F)
+    (𝔫 : Ideal (𝓞 F)) (h𝔫 : 𝔫 ≠ ⊥) (k : Weight F) (R : NarrowRepresentatives F) :
+    Function.Injective (fun f : cuspSubmodule F 𝔫 k R => coeff F f.val) := sorry
 
-/-- `f ↦ c(·, f)` is injective (`README.md`, Layer 2, 2.4). -/
-theorem coeff_injective (𝔫 : Ideal (𝓞 F)) (k : Weight F) (R : NarrowRepresentatives F) :
-    Function.Injective (coeff F : HilbertModularForms F 𝔫 k R → IdealArithmeticFunction F) :=
-  sorry
-
-
-/-! ### Layer 3: reduction theory and finite dimensionality -/
+/-! ## Layer 3: reduction theory and finite dimensionality -/
 
 /-- The Hecke bound `|c(𝔪, f)| ≤ C_f N𝔪^{k₀/2}` for cusp forms (`README.md`, Layer 3, 3.3). -/
-theorem exists_norm_coeff_le (hn : 1 < Module.finrank ℚ F) {𝔫 : Ideal (𝓞 F)} {k : Weight F}
+theorem exists_norm_coeff_le (hn : 1 < Module.finrank ℚ F) {𝔫 : Ideal (𝓞 F)} (h𝔫 : 𝔫 ≠ ⊥) {k : Weight F}
     {R : NarrowRepresentatives F} {f : HilbertModularForms F 𝔫 k R} (hf : IsCuspForm f) :
     ∃ C : ℝ, ∀ 𝔪 : (Ideal (𝓞 F))⁰,
       ‖coeff F f 𝔪‖ ≤ C * (Ideal.absNorm (𝔪 : Ideal (𝓞 F)) : ℝ) ^ ((k.top : ℝ) / 2) := sorry
@@ -608,28 +429,13 @@ theorem finiteDimensional_hilbertModularForms (hn : 1 < Module.finrank ℚ F) (�
     (h𝔫 : 𝔫 ≠ ⊥) (k : Weight F) (R : NarrowRepresentatives F) :
     FiniteDimensional ℂ (HilbertModularForms F 𝔫 k R) := sorry
 
-/-- The Riesz input of 3.5: a normed space whose closed unit ball is compact is finite
-dimensional (`README.md`, Layer 3, 3.5). A bridge check of Mathlib's
-`FiniteDimensional.of_isCompact_closedBall₀`, with the instances the README promises. -/
-theorem finiteDimensional_of_isCompact_closedBall {V : Type*} [NormedAddCommGroup V]
-    [InnerProductSpace ℂ V] (h : IsCompact (Metric.closedBall (0 : V) 1)) :
-    FiniteDimensional ℂ V :=
-  FiniteDimensional.of_isCompact_closedBall₀ ℂ one_pos h
-
 /-- For `k₀ ≤ 0` the only forms are the constants in weight `0` (`README.md`, Layer 3, 3.5). -/
-theorem modularForms_eq_bot_of_top_neg (hn : 1 < Module.finrank ℚ F) {𝔫 : Ideal (𝓞 F)}
+theorem modularForms_eq_bot_of_top_neg (hn : 1 < Module.finrank ℚ F) {𝔫 : Ideal (𝓞 F)} (h𝔫 : 𝔫 ≠ ⊥)
     {𝔟 : (FractionalIdeal (𝓞 F)⁰ F)ˣ} {k : Weight F} (hk : k.top < 0) :
     modularForms F (Gamma0 F 𝔫 𝔟) k = ⊥ := sorry
 
 
-/-! ### Layer 5: the narrow class of a prime -/
-
-/-- The narrow class `[𝔭]` of a prime ideal, at which central characters are evaluated
-(`README.md`, Layer 5, 5.2). -/
-def narrowClass (𝔭 : HeightOneSpectrum (𝓞 F)) : NarrowClassGroup F :=
-  NarrowClassGroup.mk0 ⟨𝔭.asIdeal, mem_nonZeroDivisors_of_ne_zero 𝔭.ne_bot⟩
-
-/-! ### Layer 8: `L`-series -/
+/-! ## Layer 8: `L`-series -/
 
 variable (F) in
 /-- `L(f, s) = Σ_𝔪 c(𝔪, f) N𝔪^(-s)`, Mathlib's `LSeries` of Tau Ceti's `normCoeff` of the
@@ -638,21 +444,12 @@ def LFunction {𝔫 : Ideal (𝓞 F)} {k : Weight F} {R : NarrowRepresentatives 
     (f : HilbertModularForms F 𝔫 k R) (s : ℂ) : ℂ :=
   LSeries (normCoeff F (coeff F f)) s
 
-/-! ### Layer 9: the polynomials of the base-change relation -/
+/-- The ideal L-series of a Hilbert cusp form converges absolutely to the right of
+k₀/2 + 1, using the Hecke bound and ideal counting. -/
+theorem LSeriesSummable_of_isCuspForm (hn : 1 < Module.finrank ℚ F)
+    {𝔫 : Ideal (𝓞 F)} (h𝔫 : 𝔫 ≠ ⊥) {k : Weight F} {R : NarrowRepresentatives F}
+    {f : HilbertModularForms F 𝔫 k R} (hf : IsCuspForm f) {s : ℂ}
+    (hs : (k.top : ℝ) / 2 + 1 < s.re) :
+    LSeriesSummable (normCoeff F (coeff F f)) s := sorry
 
-/-- `h^{(r)}`: for a polynomial `h` with `h(0) = 1`, written `∏ (1 - ρ⁻¹ T)` over its roots, the
-polynomial `∏ (1 - ρ^(-r) T)` whose inverse roots are the `r`-th powers (`README.md`, Layer 9,
-9.4; the knowl `mf.base_change`). -/
-def powRoots (h : Polynomial ℂ) (r : ℕ) : Polynomial ℂ :=
-  (h.roots.map fun ρ => 1 - Polynomial.C (ρ⁻¹ ^ r) * Polynomial.X).prod
-
-/-- The local factor of a classical newform, `1 - a_p T + χ(p) p^(κ - 1) T²`, from Tau Ceti's
-`HeckeRing.GL2.Newform` and its `dirichletLift` (`README.md`, Layer 9, 9.4; the Modular Forms
-roadmap's Layer 7). -/
-def classicalLocalFactor {N : ℕ} [NeZero N] {κ : ℤ} (f : HeckeRing.GL2.Newform N κ) (p : ℕ) :
-    Polynomial ℂ :=
-  open Polynomial in
-  1 - C ((qExpansion 1 (f.toCuspForm : ℍ → ℂ)).coeff p) * X +
-    C (f.dirichletLift p * (p : ℂ) ^ (κ - 1)) * X ^ 2
-
-end TauCetiRoadmap.HilbertModularForm
+end TauCetiRoadmap.HilbertModularForms
