@@ -20,9 +20,10 @@ Lomonosov (8).
 
 Construction-dependent headlines not stated here are holomorphic germ calculus (the holomorphic
 subalgebra of germs with its compatible neighborhood topologies), jet calculus (the complete
-C^r derivative-tuple algebra), nonunital Gelfand and Wiener comparisons (the
-nonunital character-space and convolution-algebra structures), multiplier extension (the bounded
-Banach-module action interface), balanced tensors (the completed balanced quotient), Arens
+C^r derivative-tuple algebra), the nonunital Gelfand comparison (the nonunital character-space
+structure), the Wiener convolution and transform comparisons (the ℓ¹(ℤ) convolution algebra and
+its Gelfand transform; the inversion theorem itself is stated below on absolutely summable
+coefficient sequences), balanced tensors (the completed balanced quotient), Arens
 characterizations (the two extended multiplication maps), extension classification (the bounded
 Hochschild complex and extension equivalences), diagonal characterizations (the completed
 projective algebra tensor with its actions), and Johnson's theorem (Banach-algebra amenability
@@ -102,6 +103,14 @@ end Ritt
 
 /-! ## Layer 3: Characters and examples -/
 
+/-- Wiener's inversion theorem on the Wiener algebra `ℓ¹(ℤ)`: an absolutely convergent Fourier
+series vanishing nowhere on the unit circle has an absolutely convergent reciprocal. -/
+theorem wiener_inversion (f : lp (fun _ : ℤ ↦ ℂ) 1)
+    (h : ∀ z : Circle, (∑' n : ℤ, f n * (z : ℂ) ^ n) ≠ 0) :
+    ∃ g : lp (fun _ : ℤ ↦ ℂ) 1,
+      ∀ z : Circle, (∑' n : ℤ, f n * (z : ℂ) ^ n) * (∑' n : ℤ, g n * (z : ℂ) ^ n) = 1 := by
+  sorry
+
 section AbsolutelyContinuous
 open MeasureTheory
 open scoped Interval
@@ -144,6 +153,22 @@ section Factorization
 variable {A E : Type*} [NonUnitalNormedRing A] [NormedSpace ℂ A]
   [IsScalarTower ℂ A A] [SMulCommClass ℂ A A] [CompleteSpace A]
   [NormedAddCommGroup E] [NormedSpace ℂ E] [CompleteSpace E]
+
+/-- A bounded essential representation of a Banach algebra with a two-sided approximate identity
+bounded by `C` extends uniquely to a unital bounded representation of its double centralizer
+algebra `𝓜(ℂ, A)`, through the left component `S_m = m.fst`, with norm bound `C‖π‖‖m‖`. -/
+theorem multiplier_extension (π : A →L[ℂ] E →L[ℂ] E)
+    (hπ : ∀ a b x, π (a * b) x = π a (π b x))
+    (hess : (Submodule.span ℂ {y : E | ∃ a z, y = π a z}).topologicalClosure = ⊤)
+    (l : Filter A) [l.NeBot]
+    (hl : ∀ a : A, Tendsto (fun e ↦ e * a) l (𝓝 a))
+    (hr : ∀ a : A, Tendsto (fun e ↦ a * e) l (𝓝 a))
+    (C : ℝ) (hC : 0 < C) (hbound : ∀ᶠ e in l, ‖e‖ ≤ C) :
+    ∃! Φ : DoubleCentralizer ℂ A →L[ℂ] (E →L[ℂ] E),
+      (∀ m n, Φ (m * n) = Φ m * Φ n) ∧ Φ 1 = 1 ∧
+      (∀ m a x, Φ m (π a x) = π (m.toProd.1 a) x) ∧
+      ∀ m, ‖Φ m‖ ≤ C * ‖π‖ * ‖m‖ := by
+  sorry
 
 /-- A bounded associative left action, without a unit or a contractivity assumption. -/
 theorem cohen_hewitt (L : A →L[ℂ] E →L[ℂ] E)

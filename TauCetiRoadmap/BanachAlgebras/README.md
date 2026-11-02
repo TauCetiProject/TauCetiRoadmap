@@ -17,7 +17,7 @@ criteria, and the isometric-calculus normality converse stated there; it consume
 the native normal-operator calculus for the comparison, rather than
 constructing general Hilbert-space continuous calculus. Hilbert-space Borel spectral theory belongs to
 [OperatorTheory](../OperatorTheory/README.md), and general semigroup generators
-belong to [OneParameterSemigroups](../OneParameterSemigroups/README.md).
+belong to [OneParameterSemigroups](../../Completed/OneParameterSemigroups/README.md).
 Set-theoretic constructions of discontinuous homomorphisms and classification
 of radical valuation algebras are outside this scope.
 
@@ -248,7 +248,10 @@ For a nonzero unital Banach algebra construct the equivalent norm
 `‖a‖_* = ‖leftMultiplication(a)‖`. Prove
 `‖a‖/‖1‖≤‖a‖_*≤‖a‖`, submultiplicativity, completeness and
 `‖1‖_*=1`, and the bounded algebra equivalence with the original norm.
-Test the closest-scalar prescription separately. On B=ℂ³ with pointwise
+Test separately the closest-scalar prescription: the proposal to renorm a
+unital Banach algebra whose unit has norm other than one by measuring each
+element by its distance to the nearest scalar multiple of the unit plus the
+modulus of that scalar. On B=ℂ³ with pointwise
 multiplication and the Banach-algebra norm `N(z)=2‖z‖∞`, the identity
 `e=(1,1,1)` has N(e)=2. For every z prove the unique existence of a scalar
 λ_z minimizing `N(z−λe)`: use coercivity in λ and properness of ℂ for
@@ -263,8 +266,9 @@ not define a norm. With `a=(−1,1,i)` and `b=(1,1,i)`, prove
 Each minimizing center is certified by half the distance of a pair of
 coordinates and attainment of that bound; the third coordinate lies in the
 same closed disk. Prove the scaled supremum norm is complete and
-submultiplicative, so the counterexample has exactly the unnormalized-unit
-setting of Short Assignment4, question2. Uniqueness makes the failure
+submultiplicative, so the counterexample lives in a Banach algebra whose
+unit has norm 2, exactly the unnormalized-unit setting in which the
+prescription is proposed. Uniqueness makes the failure
 independent of any choice of minimizers. This closest-scalar formula and
 the bounded linear projection sum norm below are distinct constructions;
 the preceding left-multiplication norm supplies the algebra renorming.
@@ -313,7 +317,7 @@ The norm and unitization comparison API must include:
 
 ### 1.3 Positive functionals and Banach-input GNS
 
-*Needs:* Layer 1.1 spectrum and completion; Mathlib binomial series and inner-product completions. Rieffel, physical pp.26–30.
+*Needs:* Layer 1.1 spectrum and completion; Mathlib binomial series and inner-product completions. Rieffel, pp.10–14.
 
 **A1.PositiveFunctionals.** Let A be a unital complex Banach *-algebra
 with isometric involution. A positive functional is an algebraic complex-linear
@@ -369,7 +373,7 @@ The positive-functional and cyclic representation API must include:
 
 ### 1.4 Swapped involution
 
-*Needs:* Layer 1.3 Cauchy–Schwarz and GNS; native product rings and RingSeminorm. Rieffel, physical p.27.
+*Needs:* Layer 1.3 Cauchy–Schwarz and GNS; native product rings and RingSeminorm. Rieffel, p.10.
 
 **A1.SwappedStarExample.** On a distinct type copy S of the coordinatewise
 algebra ℂ×ℂ put `star(z,w)=(conj(w),conj(z))` and
@@ -377,9 +381,9 @@ algebra ℂ×ℂ put `star(z,w)=(conj(w),conj(z))` and
 and Banach-space structures to this copy, then install the displayed
 isometric involution. Prove the star laws, completeness and submultiplicative
 norm. The default coordinatewise star on ℂ×ℂ is a different structure;
-the example must not replace that native instance. This is Rieffel's
-C*-algebra notes p27 example of a *-algebra with no nonzero positive functionals
-or *-representations.
+the example must not replace that native instance. This is the example of
+a *-algebra with no nonzero positive functionals or *-representations in
+Rieffel, p.10.
 
 For `e₁=(1,0)`, `e₂=(0,1)` prove `star(e₁)=e₂`, `star(e₂)=e₁`,
 `e₁e₂=e₂e₁=0` and `e₁+e₂=1`. Every algebraic complex-linear functional
@@ -861,7 +865,12 @@ on the closed disk whose extensions are holomorphic on the open disk.
   associativity, point-mass unit and the point-mass multiplication law.
   For G=ℤ this is the Wiener algebra: identify its Gelfand transform
   with the absolutely convergent Fourier series on the circle. Prove Wiener's
-  inversion theorem, including the convolution and transform comparisons.
+  inversion theorem (`wiener_inversion`): if `f∈ℓ¹(ℤ)` has
+  `∑ f(n)zⁿ≠0` at every point z of the unit circle, then some `g∈ℓ¹(ℤ)`
+  has `(∑ f(n)zⁿ)(∑ g(n)zⁿ)=1` at every such z. Include the convolution
+  and transform comparisons, so that g is the inverse of f in the Wiener
+  algebra and the transform of f is invertible in C(circle) exactly when f
+  is invertible in ℓ¹(ℤ).
 * `C¹([0,1],ℂ)` with norm `‖f‖∞+‖f'‖∞`: evaluations and nonzero bounded point
   derivations `f ↦ f'(t)` into the scalar evaluation bimodule. Derivatives at
   endpoints are the continuous extensions of the interior derivative.
@@ -945,6 +954,7 @@ The character and example-algebra API must include:
 - For A=ℂ, extension sends (c,a) to c+a and augmentation sends it to c; at (0,1) their values are 1 and 0. On the C*-unitization, (1,−1) has norm 1, while its ℓ¹-unitization norm is 2.
 - On the disk algebra, the coordinate is invertible on the boundary but has value 0 at the disk center; the inclusion is not inverse closed.
 - The constant Volterra kernel has first two convolution powers 1 and x, with L¹ norms 1 and 1/2; it is radical but not nilpotent.
+- In ℓ¹(ℤ), f=δ₀−δ₁/2 has series 1−z/2, nonvanishing on the circle, and g(n)=2⁻ⁿ for n≥0, g(n)=0 for n<0, has ℓ¹ norm 2 and series 1/(1−z/2), so f*g=δ₀. For f=δ₀−δ₁ the series 1−z vanishes at z=1 and no ℓ¹ reciprocal exists; the nonvanishing hypothesis cannot be dropped.
 - The quotient class of the constant sequence 1 in ℓ∞/c₀ has norm 1. The constructed rank-one operator gives T1=e₀ and Te_j=0, while a zero coordinate-series matrix gives T1=0.
 
 ### 3.2 Absolutely continuous functions and their operator calculus
@@ -1133,7 +1143,7 @@ The module and approximate-identity API must include:
 
 ### 4.2 Double centralizers and representation extensions
 
-*Needs:* Layer 4.1 essential actions and approximate identities; Mathlib DoubleCentralizer and the closed graph theorem. Rieffel, physical pp.49–50 and 109–111.
+*Needs:* Layer 4.1 essential actions and approximate identities; Mathlib DoubleCentralizer and the closed graph theorem. Rieffel, p.38.
 
 **A4.DoubleCentralizers.** Consume native
 [`DoubleCentralizer`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/CStarAlgebra/Multiplier.html#DoubleCentralizer)
@@ -1169,7 +1179,7 @@ For a Banach space E and a bounded algebra representation
 `π:A→B(E)` with `closure(span π(A)E)=E`, assume A has a two-sided
 approximate identity bounded by `C>0`. Construct the unique unital bounded
 representation `π̃:𝓜(ℂ,A)→B(E)` such that
-`π̃(m)π(a)x=π(S_m(a))x`. Prove the finite-sum formula is well-defined,
+`π̃(m)π(a)x=π(S_m(a))x` (`multiplier_extension`). Prove the finite-sum formula is well-defined,
 extends by continuity, and satisfies
 `‖π̃(m)‖≤C‖π‖‖m‖`; prove intertwiner compatibility and uniqueness
 from the dense span. This applies to arbitrary bounded actions on E.
@@ -1188,6 +1198,7 @@ The double-centralizer and extension API must include:
 
 - On ℂ, multiplication by z gives the pair (L_z,R_z), with both norms |z| and product at z=2,w=i equal to multiplication by 2i.
 - With norm 2|z|, the algebra element 1 has norm 2 but its multiplier has norm 1; a bounded approximate identity alone does not give isometry.
+- For A=E=ℂ with π multiplication, the constant net 1 and C=1, the unique extension sends (L_z,R_z) to multiplication by z, of norm |z|=C‖π‖‖(L_z,R_z)‖; the zero map violates the module identity at m=(L_1,R_1), a=1, x=1 and is excluded.
 - For the zero-multiplication algebra ℂ, all three algebraic laws hold for every pair of linear maps, and the canonical multiplier of every a is zero; the zero-annihilator premise fails.
 
 ### 4.3 Factorization and balanced tensors
@@ -1643,7 +1654,7 @@ The representation-correspondence API must include:
 
 ### 7.4 Measures and multipliers
 
-*Needs:* Layer 7.2; Layer 4.2 double centralizers and Layer 4.3 factorization; BanachSpaceTheory B5 scalar measure representation. Rieffel, physical pp.126–128; Runde Appendix A.
+*Needs:* Layer 7.2; Layer 4.2 double centralizers and Layer 4.3 factorization; BanachSpaceTheory B5 scalar measure representation. Rieffel, pp.38 and 42; Runde Appendix A.
 
 Construct `M(G)`, finite regular complex Borel measures with total-variation
 norm, and its convolution and involution. Extend the measure representation
@@ -2030,14 +2041,15 @@ the spectral and invariant-subspace layers independently of its tensor inputs.
 
 ## References
 
-* Rieffel, *C*-algebras* course notes, physical pages
-  26–30
-  (positive functionals and Banach *-algebra GNS),
-  49–50
-  and 109–111
-  (Banach double centralizers and extensions), and
-  126–128
-  (measure convolution and essentiality).
+* Rieffel, [*C*-algebras*, Math 208 lectures, UC Berkeley, Spring 2008, notes by
+  Theo Johnson-Freyd](https://categorified.net/CstarAlgebras.pdf): p.10 (the
+  swapped involution on ℂ² and the Gaussian polynomial functional), pp.11–14
+  (positive functionals on unital *-normed algebras, automatic continuity under
+  completeness, the GNS representation and its vector state), pp.16–18 (the
+  approximate-identity and unitization variants), p.38 (double centralizers,
+  the multiplier Banach algebra of an algebra with an approximate identity of
+  norm one, extension of nondegenerate representations, and `M(L¹(G))=M(G)`),
+  and p.42 (the norm-one approximate identity of `L¹(G)`).
 * Dales, *Banach Algebras and Automatic Continuity*: §§1.3–1.5 and 2.1–2.3
   (ideals, radicals, spectra and characters), §2.4 (holomorphic calculus,
   Theorem 2.4.4 and Corollaries 2.4.5–2.4.6), §2.6 (Arens products,
@@ -2063,8 +2075,9 @@ left and right actions, with comparison to `Derivation` in its existing scope.
 Implement missing required APIs in Tau Ceti in the established shape, and
 adopt Mathlib implementations when available.
 
-Supplementary spectral and invariant-subspace sources: Conway, [*A Course in
-Functional Analysis*, second edition](https://uomustansiriyah.edu.iq/media/lectures/9/9_2017_09_30%2112_00_39_PM.pdf), 1990, VII (functional calculus and examples);
+Supplementary spectral and invariant-subspace sources: Conway, *A Course in
+Functional Analysis*, second edition, Graduate Texts in Mathematics 96,
+Springer, 1990, DOI 10.1007/978-1-4757-4383-8, VII (functional calculus and examples);
 [Schwenninger, *Functional calculus estimates for Tadmor–Ritt operators*](https://arxiv.org/abs/1507.00049), §1.1, for the resolvent distinction;
 [Lomonosov, *Invariant subspaces for the family of operators which commute with
 a completely continuous operator*](https://www.mathnet.ru/eng/faa2433),
