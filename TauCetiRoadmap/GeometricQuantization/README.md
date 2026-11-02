@@ -1737,8 +1737,8 @@ Mathlib's character restriction and quotient maps.
 ### 6.11 Projective exponent counts
 
 Apply the results to the CP² actions with coordinate weights `a=(0,1,2)`
-and `a=(0,1,−2)` (Knutson, *Lie Groups notes, Semester 2*, physical pp. 106
-and 119 of 131). Compute their exponent counts directly and distinguish
+and `a=(0,1,−2)`. Compute their exponent counts directly from the degree-n
+monomial basis of `H⁰(CP²,O(n))` (ComplexKahlerGeometry K7.2) and distinguish
 exponent pairing from the actual section convention. Let
 `C_n(j)` count degree-n monomials whose exponent pairing with `a` is j.
 With the natural O(1) lift, the specified section action
@@ -1746,22 +1746,22 @@ With the natural O(1) lift, the specified section action
 pairing. Twisting the linearization by `χ_κ` adds `nκ`; hence in these
 one-dimensional examples the actual section multiplicity is
 `m_n(λ)=C_n(nκ−λ)`, and for the natural lift (`κ=0`) it is `C_n(−λ)`.
-The source exponent-count density `f_C` therefore becomes the actual section
+The exponent-count density `f_C` therefore becomes the actual section
 weight density `f_C(−x)` for the natural lift; a character twist translates
-it by `κ`. Do not identify positive source exponent weights with positive
+it by `κ`. Do not identify positive exponent weights with positive
 `H⁰` weights under this section-action convention.
 
 For the first action, `C_n(j)` is the number of integers c with
-`max(0,j−n)≤c≤floor(j/2)`. Its source exponent-count density is
+`max(0,j−n)≤c≤floor(j/2)`. Its exponent-count density is
 `min(x,2−x)/2` on `[0,2]`, with total mass `1/2`; the natural-lift section
 density is `min(−x,2+x)/2` on `[−2,0]`. For the second, `C_n(j)` is the
-number of integers c with `max(0,ceil(−j/2))≤c≤floor((n−j)/3)`. Its source
+number of integers c with `max(0,ceil(−j/2))≤c≤floor((n−j)/3)`. Its exponent-count
 density is `(x+2)/6` on `[−2,0]` and `(1−x)/3` on `[0,1]`, again with total
 mass `1/2`; its natural-lift section density is `(1+x)/3` on `[−1,0]` and
 `(2−x)/6` on `[0,2]`. Insert the actual `c₁/ω/(2π)` factor when comparing
-these distributions to raw Liouville volume. At degree 2 the six source
+these distributions to raw Liouville volume. At degree 2 the six
 exponent pairings for the second action are `0,1,−2,2,−1,−4`, all distinct;
-the natural-lift section weights are their negatives. At degree 3 source
+the natural-lift section weights are their negatives. At degree 3
 exponent weight 0 occurs twice and the other weights
 `−6,−4,−3,−2,−1,1,2,3` occur once; the actual section weights are again
 their negatives. For each action compare rescaled counts and its own
@@ -1868,5 +1868,3 @@ groupoids have no target here. Analytic Floer theory remains HeegaardFloer’s s
   Theorem 2.8, p. 22, Proposition 2.11, pp. 24–25 and Theorem 2.15, pp. 27–28, for semistability, the regular
   quotient, local line descent and the distinct global bounded-extension step.
   Translate its Chern/moment normalization to the angular ℏ=1 convention above.
-- Allen Knutson, *Lie Groups notes, Semester 2*,
-  April23 entries, physical pages106 and119 of131, for the two CP² actions.
