@@ -613,11 +613,15 @@ strict composition with weak units suffices (§7, Conjecture 1, for his `n`-snug
 proves a regular form of this conjecture for ∞-groupoids: for a good class `C` of polygraphs
 stable under the Gray tensor product, such as the regular polygraphs, the `C`-categories carry a
 weak model structure, the groupoidal analogue of the folk model structure (Henry 2018, §6.1 and
-Theorem 6.1.7), Quillen equivalent to `C`-polygraphs (Theorem 6.2.5), and regular polygraphs are
+Theorem 6.1.7; the folk model structure on strict ω-categories is Lafont–Métayer–Worytkiewicz
+2010, Theorem 3, whose cofibrant objects are the free ones on polygraphs, Theorem 4), Quillen
+equivalent to `C`-polygraphs (Theorem 6.2.5), and regular polygraphs are
 Quillen equivalent to semi-simplicial sets (Theorem 6.3.8). The general form, with every composition
 strict, is open (Conjecture 6.4.1). The combinatorial input is that non-unital (positive)
 polygraphs form a presheaf category (Henry 2019, Corollary 2.4.9). These models are not
-Grothendieck ∞-groupoids and are outside the scope of this roadmap.
+Grothendieck ∞-groupoids and are outside the scope of this roadmap. Neither are the weakly
+globular models of Blanc–Paoli 2014, whose pseudo `n`-fold groupoids have a homotopy category
+equivalent to that of `n`-types (Theorem B, proved as Theorem 6.28).
 
 **The OpenAI preprint** « The Grothendieck homotopy hypothesis via elementary expansions »
 (24 September 2026, not peer-reviewed), with its formalization scope note `lean/docs/312.md`, the
@@ -683,6 +687,10 @@ specification of this roadmap.
 - S. Henry, « Algebraic models of homotopy types and the homotopy hypothesis », arXiv:1609.04622
   (2016), preprint. Cited: Theorems 5.1.2 and 5.2.10, Definition 5.3.2, Conjecture 5.3.3,
   Lemma 5.3.4, Theorem 5.3.5, Corollary 5.3.13.
+- Y. Lafont, F. Métayer, K. Worytkiewicz, « A folk model structure on omega-cat », *Adv. Math.*
+  224 (2010), no. 3, 1183–1231. doi:10.1016/j.aim.2010.01.007; arXiv:0712.0617.
+- D. Blanc, S. Paoli, « Segal-type algebraic models of n-types », *Algebr. Geom. Topol.* 14
+  (2014), no. 6, 3419–3491. doi:10.2140/agt.2014.14.3419; arXiv:1204.5101.
 - S. Henry, « Non-unital polygraphs form a presheaf category », *High. Struct.* 3 (2019), no. 1,
   248–291. Zbl 1427.18014; arXiv:1711.00744. Cited: Corollary 2.4.9.
 - S. Henry, « Regular polygraphs and the Simpson conjecture », arXiv:1807.02627 (2018), preprint.
