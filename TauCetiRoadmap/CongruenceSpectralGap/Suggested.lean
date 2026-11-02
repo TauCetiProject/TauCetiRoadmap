@@ -20,16 +20,16 @@ The following headlines are not statable at the pins:
   archimedean zero, and exact two-kernel functional equation with uniform estimates
   lack those representations and their canonical Rankin–Selberg functions and
   gamma-parameter families. Arbitrary functions do not stand for these objects.
-  The local self-pair positivity and epsilon-transport results likewise lack
-  the native local representation and canonical analytic-factor carriers.
+  Their supplied local self-pair positivity and epsilon-transport inputs likewise
+  lack the native local representation and canonical analytic-factor carriers.
 
 The Kloosterman sheaf realization and its purity, the rational-adic curve
 Euler–Poincaré formula and the Swan-constancy criterion for families are also
 not statable: the native rational-adic direct-image, lisse-sheaf and local
 conductor carriers are absent.
 The principal-level measure/Casimir comparison and cusp compactness lack the
-adelic quotient and quotient-energy carriers; the additive-character sheaf lacks
-the native rational-adic local-system carrier.
+adelic quotient and quotient-energy carriers; the supplied additive-character
+sheaf lacks the native rational-adic local-system carrier.
 The general numerical Deligne bound and Gauss-power average bound are statable on the native finite-character carriers.
 -/
 
