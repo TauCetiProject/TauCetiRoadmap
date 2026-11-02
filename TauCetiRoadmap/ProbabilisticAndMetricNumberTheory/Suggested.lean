@@ -157,15 +157,6 @@ theorem hardy_ramanujan (ε : ℝ) (hε : 0 < ε) :
         ε * Real.log (Real.log N) < |(ArithmeticFunction.cardFactors n : ℝ) - Real.log (Real.log N)|)).card / (N : ℝ))
       atTop (𝓝 0) := by sorry
 
-/-- The Gaussian specialization of moment convergence follows from characteristic-function
-Taylor remainders, without a uniform tail hypothesis. -/
-theorem gaussian_weak_convergence_of_moments (μ : ℕ → ProbabilityMeasure ℝ)
-    (hfinite : ∀ n k : ℕ, Integrable (fun x : ℝ => |x|^k) (μ n : Measure ℝ))
-    (hmom : ∀ k : ℕ, Tendsto (fun n => ∫ x : ℝ, x^k ∂(μ n : Measure ℝ))
-      atTop (𝓝 (∫ x : ℝ, x^k ∂ProbabilityTheory.gaussianReal 0 1))) :
-    Tendsto μ atTop (𝓝 (⟨ProbabilityTheory.gaussianReal 0 1, inferInstance⟩ :
-      ProbabilityMeasure ℝ)) := by sorry
-
 /-- The conditional second moment in the specified thin squarefree family has the half-log-log center. -/
 theorem restricted_squarefree_second_moment : ∃ C : ℝ, 0 < C ∧ ∃ N₀ : ℕ, ∀ N ≥ N₀,
     ∀ (D : Finset ℕ)

@@ -6,13 +6,13 @@
 
 This roadmap owns additive arithmetic predicates and their prime-power representations, arithmetic specializations of empirical laws, growing-prime probabilistic comparisons, asymptotic equidistribution and its Fourier criteria, reduced-rational approximation and the GCD-graph method, mass transference, pointwise ergodic convergence, the Gauss system, and the specified multiplicative statistics. It also owns the concrete number-theoretic applications of modular homogeneous dynamics described in Layer 4.
 
-Mathlib supplies `ArithmeticFunction`, `cardDistinctFactors` (ω), `cardFactors` (Ω), native continued fractions and positional digits, Haar measure on circles and tori, Gaussian measures and weak convergence. Tau Ceti supplies `Probability.empiricalMeasure`, Gaussian centered moments, conditional-expectation and martingale tools, and mean ergodic convergence. These are prerequisites. The pointwise theorem in §4.1 applies to every integrable observable; the existing L2 mean theorem and its L1 consequence under an L2 hypothesis supply a different statement. The Gaussian moment-to-weak specialization in §1.5 uses characteristic-function Taylor remainders. General moment convergence to a determinate law, with reusable tightness and uniform-integrability machinery, belongs to RandomMatrices Milestone 3 (the shared-foundations contract of FreeProbability).
+Mathlib supplies `ArithmeticFunction`, `cardDistinctFactors` (ω), `cardFactors` (Ω), native continued fractions and positional digits, Haar measure on circles and tori, Gaussian measures and weak convergence. Tau Ceti supplies `Probability.empiricalMeasure`, Gaussian centered moments, conditional-expectation and martingale tools, and mean ergodic convergence. These are prerequisites. The pointwise theorem in §4.1 applies to every integrable observable; the existing L2 mean theorem and its L1 consequence under an L2 hypothesis supply a different statement. Moment convergence to a determinate law, including the Gaussian specialization used in §1.5, belongs to RandomMatrices §3.2, with its reusable tightness and uniform-integrability machinery (the shared-foundations contract of FreeProbability).
 
 Generic arithmetic functions, summation and Dirichlet series remain with Mathlib, Tau Ceti and [ArithmeticDirichletSeries](../../Completed/ArithmeticDirichletSeries/README.md) (Export contract). AnalyticNumberTheoryPartI §§0.19, 0.21 owns reciprocal-prime estimates, §1.5 Dirichlet-polynomial mean squares, and §§3.18, 3.33 pretentious distance and Halász estimates; §§3.12a, 3.32, 3.41 supply analytic counts for the restricted squarefree family. The stronger analytic inputs are mathematical targets in §§0.13, 3.7, 5.1 and 5.2. The finite van der Corput estimate and the entropy-decrement argument belong here. DiophantineApproximationAndTranscendence §0.6 owns BadlyApproximable; this roadmap owns its characterization by bounded native partial denominators. AdelicAlgebraicGroups AA.2–AA.3 owns homogeneous quotients and finite invariant volume; GeometryOfNumbersAndQuadraticArithmetic §§4.2, 4.5 owns Howe–Moore, Moore ergodicity and Mahler compactness. IntegralLattices concerns integral quadratic and bilinear lattices. Möbius orthogonality to nilsequences is outside this roadmap. General Chowla and Sarnak are conjectures, not conclusions of Layer 5.
 
 The finite weighted sums and exact remainder formulas specialize native counting, CRT and empirical-measure declarations; their generic counting and probability theorems are consumed under the pinned names below. The stronger summed rough-number, restricted Dirichlet, long-mean, high-twist Liouville, modulated short-sum, prime fourth-moment and divisor-bounded-mean statements are owned in §§0.13, 3.7, 5.1–5.2. These strengthen the generic mean-square and Halász inputs rather than treating those inputs as the desired conclusions. The sieve targets concern the full smooth/rough decomposition and arbitrary bounded prime phases; no smaller prime family is selected.
 
-The arithmetic Lévy criterion is a specialization of Mathlib’s `MeasureTheory.tendstoInDistribution_iff_tendsto_charFun`; its finite empirical formula is recorded as a comparison, with no additional theorem required. Pointwise Birkhoff and finite Shannon entropy are owned here (§§4.1–4.3, 5.2). The finite Shannon API is independent of entropy decrement and the multiplicative correlation theorems. ArithmeticDynamics §§2.6–2.7 owns finite measurable partitions, their joins, dynamical entropy, Shannon–McMillan–Breiman and ergodic decomposition; the foundational interface offered to that development is specified under Downstream consumers.
+The arithmetic Lévy criterion is a specialization of Mathlib’s `MeasureTheory.tendstoInDistribution_iff_tendsto_charFun`; its finite empirical formula is recorded as a comparison, with no additional theorem required. Pointwise Birkhoff is owned here (§§4.1–4.3). GeometryOfNumbersAndQuadraticArithmetic §4.2, “Entropy and Haar measure on leaves”, owns finite-label Shannon entropy, conditional entropy, the chain rule and the alphabet bound. Section 5.2 here defines mutual information through that API and proves its comparisons and entropy-decrement application. ArithmeticDynamics §§2.6–2.7 develops finite measurable partitions and their joins, dynamical entropy, Shannon–McMillan–Breiman and ergodic decomposition using the shared entropy API; the pointwise interface offered to that development is specified under Downstream consumers.
 
 The constant-tail conditional-expectation and reverse-L¹ statements are supplied by the two Tau Ceti declarations below rather than separate targets. The explicit constant-four cylinder bound in §4.6 supplies the Rényi comparison used here. The summability and Gauss logarithmic-integral statements each have one owning target in §4.7; their uses in integrability and growth consume those targets.
 
@@ -42,7 +42,7 @@ The finite-law boundary consists of `ArithmeticFunction` and its zero/extensiona
 
 The exact finite carriers are in `Mathlib/NumberTheory/ArithmeticFunction/Defs.lean` and `Misc.lean`, `Mathlib/Data/Nat/Factorization/Basic.lean` and `Mathlib/Data/ZMod/QuotientRing.lean`. `ZMod.prodEquivPi` requires pairwise coprime natural moduli; finite probability applications here additionally require every modulus nonzero. `ArithmeticFunction` is a zero-preserving function; it does not assert additivity or multiplicativity. Native `Measure.mkMetric`, in `Mathlib/MeasureTheory/Measure/Hausdorff.lean`, accepts a diameter gauge; continuity, positivity and ratio monotonicity are additional hypotheses of this roadmap’s theorems. In that file, `MeasureTheory.Measure.le_mkMetric` (lines 490–493) turns a measure bound on every sufficiently small set into domination by the metric measure for an arbitrary extended gauge. `MeasureTheory.Measure.le_hausdorffMeasure` (lines 541–543) is its power-gauge specialization, with a real exponent.
 
-For distribution limits consume `ProbabilityMeasure.tendsto_iff_forall_integral_tendsto`, its bounded-continuous test-function formulation, the native CDF and characteristic function, the Lévy convergence theorem and the existing Gaussian law. The exact finite multinomial expansion is `Finset.sum_pow_eq_sum_piAntidiag`; multiplicity coefficients use `Nat.multinomial_spec`. Tau Ceti's `Probability.Distributions.Gaussian.Moments` supplies even and odd centered Gaussian moments. Moment convergence, arithmetic normalization and cutoff removal remain distinct mathematical targets below.
+For distribution limits consume `ProbabilityMeasure.tendsto_iff_forall_integral_tendsto`, its bounded-continuous test-function formulation, the native CDF and characteristic function, the Lévy convergence theorem and the existing Gaussian law. The exact finite multinomial expansion is `Finset.sum_pow_eq_sum_piAntidiag`; multiplicity coefficients use `Nat.multinomial_spec`. Tau Ceti's `Probability.Distributions.Gaussian.Moments` supplies even and odd centered Gaussian moments. Arithmetic moment convergence, normalization and cutoff removal are the local inputs to the supplied moment-to-weak theorem.
 
 For §5.2 consume `DirichletCharacter.LSeries_eulerProduct_exp_log` in `Mathlib/NumberTheory/EulerProduct/DirichletLSeries.lean`, and `DirichletCharacter.LFunction_eq_LSeries`, `DirichletCharacter.LFunctionTrivChar_eq_mul_riemannZeta` and `DirichletCharacter.differentiableAt_LFunction` in `Mathlib/NumberTheory/LSeries/DirichletContinuation.lean`. The Euler product and series comparison require Re s>1; the principal-character formula is used off s=1. `DirichletCharacter.LFunction_ne_zero_of_one_le_re` in `Mathlib/NumberTheory/LSeries/Nonvanishing.lean` requires Re s≥1 and either a nonprincipal character or s≠1. Compact-height bounds extend the reciprocal through the principal pole by zero. These inputs supply no quantitative estimate over a growing height interval.
 
@@ -68,6 +68,10 @@ Consume §0.19's explicit reciprocal-prime estimate for x≥286 and §0.21's Mer
 
 Consume §1.5, `dirichlet_polynomial_mean_square`, for arbitrary finite complex coefficients and its stated integration range; §§3.18 and 3.33, `pretentiousDist` and `halasz_mean`, for unit-disc multiplicative functions with the infimum over the full compact twist interval. Consume §§3.12a, 3.32 and 3.41 for the compact-parameter Selberg–Delange expansion, `restricted_squarefree_landau_count` and the fixed-A restricted squarefree Sathe–Selberg bounds. The local conditional moment estimate in §1.6 differentiates that supplied analytic expansion; it does not reprove it.
 
+### From TauCetiRoadmap.RandomMatrices §3.2
+
+Consume moment-to-weak convergence for Borel probability measures on ℝ: if every absolute integer moment of each μₙ is finite and every moment converges to that of a determinate probability law ν, then μₙ converges weakly to ν. The exponential-moment determinacy criterion applies to ν=gaussianReal 0 1. Mathlib `ProbabilityTheory.integrable_exp_mul_gaussianReal` and `ProbabilityTheory.mgf_id_gaussianReal`, in `Mathlib/Probability/Distributions/Gaussian/Real.lean` (lines 512 and 503), give integrability and integrals exp(1/2) at t=±1; exp(|x|)≤exp(x)+exp(−x) gives the required absolute exponential moment. There is no uniform exponential-moment hypothesis on the approximating μₙ.
+
 ### From TauCetiRoadmap.DiophantineApproximationAndTranscendence §§0.5–0.6
 
 Consume the §0.5 native convergent-error inequalities and §0.6 BadlyApproximable, defined by irrationality and a positive lower bound for q·dist(qx,ℤ) for every integer q≥1, and its quadratic-irrational examples. The bounded-native-partial-denominator characterization is the target bounded_partial_denominators_iff_badlyApproximable in §4.10 here.
@@ -75,6 +79,8 @@ Consume the §0.5 native convergent-error inequalities and §0.6 BadlyApproximab
 ### From TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic §§4.2, 4.5 and TauCetiRoadmap.AdelicAlgebraicGroups AA.2–AA.3
 
 Consume GeometryOfNumbersAndQuadraticArithmetic §4.2.1 howe_moore on the mean-zero quotient L² representation and §4.2.2 moore_ergodicity for a closed noncompact subgroup, applied to the subgroup generated by a₁. Howe–Moore along a₁ⁿ gives strong mixing of the time-one map. Consume §4.5 Mahler compactness in the max norm. Consume AdelicAlgebraicGroups AA.2 quotient-Haar integration and AA.3 Reduction.arithmetic_finite_volume_iff for SL₂(ℤ), the quotient topology and Borel structure, the normalized invariant probability and the continuous left action. Transpose Γ\G→G/Γ is the local comparison in §4.10, not an additional supplier theorem.
+
+Consume GeometryOfNumbersAndQuadraticArithmetic §4.2, “Entropy and Haar measure on leaves”, `finitePartitionEntropy` and the finite-label restriction of `conditionalPartitionEntropy`. For measurable labels X and Y into finite nonempty alphabets with discrete σ-algebras on a probability space, use natural logarithms, zero contribution from zero-mass atoms, the joint-label chain rule, addition for independent labels and 0≤H(X)≤log(card alphabet). These contracts require no standard-Borel assumption on the underlying probability space. Section 5.2 uses these entropies to compare mutual information with the entropy lost on conditioning.
 
 ## How to read the build
 
@@ -2120,28 +2126,22 @@ O(1) mean of Omega−omega and a linear Markov estimate.
 *Needs:* §1.5 (quadratic mean, normal order and the gaussian law); §0.9 (repeated prime factors and finite
 distribution sandwiches); AnalyticNumberTheoryPartI §§0.19, 0.21.
 
-Prove `gaussian_weak_convergence_of_moments`. Let μₙ be Borel probability measures on ℝ with ∫|x|^k dμₙ finite for every n,k. If ∫x^k dμₙ tends to ∫x^k d(gaussianReal 0 1) for every k, then μₙ converges weakly to that Gaussian. No uniform subgaussian bound on μₙ is assumed. (TAO-CLT-2010, §3, Theorem 25 proof, Taylor-remainder argument; the asymptotic-even-moment version follows by the argument below.)
-
-One specialized route fixes t∈ℝ and Taylor order 2k−1, for k≥1. The integrated remainder is at most |t|^(2k)∫x^(2k)dμₙ/(2k)!. Moment convergence passes the finite Taylor polynomial and the limiting even moment; comparing with the Gaussian remainder gives `limsup_n |φ_μₙ(t)−φ_G(t)|≤2|t|^(2k)/(2^k k!)`. Let k tend to infinity and apply native Lévy convergence. This proves the Gaussian specialization directly, without constructing a general moment-determinacy or compactness API.
-
-**Checks.**
-
-- Order zero is mass one, order one tends to zero, and order two tends to one; δ₀ fails the second moment.
-- The constant standard Gaussian sequence satisfies all hypotheses and the conclusion.
-- Matching only mean and variance does not suffice: the fixed fair law on {−1,1} has fourth moment 1, whereas the standard Gaussian has fourth moment 3.
-
-*Needs:* native characteristic functions and Lévy convergence; Taylor’s integral remainder for the complex exponential on a real segment; the Gaussian moments supplied above.
-
 Prove `erdos_kac`. For every real x, the fractions of positive n≤N with (ω(n)−log log N)/sqrt(log log N)≤x
 tend to cdf(gaussianReal(0,1),x); the same statement holds for Ω. The scale is sqrt(log log N), and Gaussian
 variance is 1. ([GS-SIEVING](#references) Author copy physical pp.2–4: (5), Theorem 1 and its deduction.)
 
 Choose a moment-order-dependent prime cutoff, normalize the pairing and collision bounds and show their errors
-tend to zero for each fixed order. Use reciprocal-prime asymptotics and gaussian_weak_convergence_of_moments. Apply the continuity-point CDF bridge (the Gaussian CDF is continuous) and the
+tend to zero for each fixed order. Use reciprocal-prime asymptotics and RandomMatrices §3.2 with the standard Gaussian as determinate limiting law, as specified in the supplier contract. Apply the continuity-point CDF bridge (the Gaussian CDF is continuous) and the
 omega/Omega transfer.
 
-*Needs:* gaussian_weak_convergence_of_moments; §1.3 (comparison with gaussian moments); §1.4 (removing a prime cutoff); §0.10 (arithmetic laws and
+*Needs:* RandomMatrices §3.2; §1.3 (comparison with gaussian moments); §1.4 (removing a prime cutoff); §0.10 (arithmetic laws and
 convergence in distribution); AnalyticNumberTheoryPartI §§0.19, 0.21.
+
+**Checks.**
+
+- The standard Gaussian moments of orders 0 through 4 are 1,0,1,0,3. The constant Gaussian sequence satisfies the supplied moment-to-weak theorem.
+- The constant law δ₀ has second moment 0 rather than 1, so it fails the Gaussian moment premise.
+- The constant fair law on {−1,1} has mean 0 and variance 1 but fourth moment 1 rather than 3; matching only mean and variance does not justify the Gaussian limit.
 
 ### 1.6 A restricted squarefree family
 
@@ -2195,7 +2195,7 @@ is relative to this set's cardinality, not to N.
 
 Layer 0 supplies all finite model comparisons and the transfer from ω to Ω. Native finite
 multinomial expansion and Tau Ceti Gaussian moments supply the exact coefficients. AnalyticNumberTheoryPartI §§0.19, 0.21
-supplies Mertens estimates and prime-power remainders. The restricted-family theorem needs
+supplies Mertens estimates and prime-power remainders. RandomMatrices §3.2 supplies moment-to-weak convergence, with Gaussian determinacy verified in the supplier contract. The restricted-family theorem needs
 its conditional quantitative concentration input; it is not derived from an unconditional
 normal-order estimate.
 
@@ -6222,7 +6222,7 @@ absolute value at least δ. Use exp t=2q/δ and rearrange.
 Prove `homogeneous_birkhoff`. Let G=SL(2, real), Γ=SL(2, integer) embedded entrywise, X=G/Γ with its quotient
 Borel structure (the native aliases `homogeneousGroupTopology` and `homogeneousQuotientMeasurableSpace`), μ the normalized G-invariant Haar probability, a_t=diag(exp t, exp(-t)), and S(gΓ)=a_1 gΓ.
 For every μ-integrable real f, native Birkhoff averages of S converge μ-almost everywhere to ∫f dμ.
-([Gorodnik2010](#references) Lecture 1, physical pp.3–8, bounded geodesics and lattices.)
+([Sarig2023](#references) Theorem 2.2, printed p.37, physical p.45; §4.1 here and GeometryOfNumbersAndQuadraticArithmetic §4.2.1 give the pointwise and time-one ergodicity inputs.)
 
 Consume AdelicAlgebraicGroups AA.2–AA.3 for the quotient, lattice, normalized measure and left action. The
 subgroup {a_t:t∈real} is closed and noncompact; to conclude time-one ergodicity use the stronger GeometryOfNumbersAndQuadraticArithmetic §4.2.1
@@ -6239,9 +6239,8 @@ Apply the pointwise ergodic theorem to S and f.
 
 - This is Haar-almost-everywhere on X. It makes no assertion about every point u_xΓ or Lebesgue-almost-everywhere on a single horocycle.
 
-*Needs:* AdelicAlgebraicGroups AA.2–AA.3; GeometryOfNumbersAndQuadraticArithmetic §§4.2, 4.5; GeometryOfNumbersAndQuadraticArithmetic /
-§4.2.2 moore_ergodicity; §4.1 (pointwise averages, truncated limsups and first hits);
-GeometryOfNumbersAndQuadraticArithmetic / §4.2.1 howe_moore; Mathlib `Matrix.SpecialLinearGroup`; Mathlib
+*Needs:* AdelicAlgebraicGroups AA.2–AA.3; §4.1 (pointwise averages, truncated limsups and first hits);
+GeometryOfNumbersAndQuadraticArithmetic §4.2.1 howe_moore along a₁ⁿ; Mathlib `Matrix.SpecialLinearGroup`; Mathlib
 `Matrix.SpecialLinearGroup.map`; Mathlib `QuotientGroup.mk`; Mathlib `QuotientGroup.instTopologicalSpace`;
 Mathlib `borel`.
 
@@ -6266,7 +6265,7 @@ Mathlib `Matrix.SpecialLinearGroup.map`; Mathlib `QuotientGroup.mk`; Mathlib
 Prove `typical_unbounded_semiorbit`. For restricted Lebesgue-almost every x∈(0,1), the positive diagonal
 semiorbit a_t u_x Γ is not relatively compact. More precisely, on one conull irrational set, every a≥1 occurs
 with its positive Gauss frequency, so the digit sequence is unbounded and the bounded-digits criterion
-applies. ([Gorodnik2010](#references) Lecture 1, physical pp.3–8, bounded geodesics and lattices.)
+applies. (Consequence of §4.7, `gauss_digit_frequency`, and §4.10, `bounded_digits_compact_orbit`; the latter uses [Gorodnik2010](#references), Lecture 1, physical pp.3–8, for the bounded-orbit comparison.)
 
 Intersect the countably many conull digit-frequency sets and the irrational set. If digits were bounded by B,
 the positive-frequency digit B+1 could not occur. Apply the compact-orbit comparison and equivalence of Gauss
@@ -6577,25 +6576,26 @@ After the affine-invariance transport this gives sup_α `E|Σ_{j=1}^H` f(an+j)e(
 
 *Needs:* AnalyticNumberTheoryPartI §1.5 mean squares and §3.33 Halász; the finite character/height hypothesis and scale hierarchy in this section.
 
-Define finiteEntropy of a finite-valued random variable as −Σ_v P(X=v)log P(X=v), with 0log0=0, and finiteMutualInformation(X,Y)=finiteEntropy(X)+finiteEntropy(Y)−finiteEntropy(X,Y). Prove the finite chain rule, nonnegativity of mutual information and entropy at most log of the alphabet size. This finite probability API depends only on finite sums, native probability and real logarithms; it is an independent prerequisite of entropy decrement. The measurable-partition and dynamical-entropy constructions use it through the interface under Downstream consumers. ([TaoLogChowla](#references), §3, (3.1)–(3.8), pp.19–20.)
+For a probability space (Ω,μ) and measurable labels X:Ω→A and Y:Ω→B into finite nonempty alphabets with discrete σ-algebras, write H(X)=`finitePartitionEntropy` μ X, and H(X|Y) for the finite value of `conditionalPartitionEntropy` μ X Y from GeometryOfNumbersAndQuadraticArithmetic §4.2. Define finiteMutualInformation μ X Y as H(X)+H(Y)−H((X,Y)), a real number. This construction uses the same label maps and joint-label entropy as the supplier. ([TaoLogChowla](#references), §3, (3.1)–(3.5) and Remark 3.1, p.19.)
 
-Its basic API has the following statements.
+Its basic API has the following statements for those probability and measurability hypotheses.
 
-- For a finite nonempty alphabet with atom probabilities pᵢ, entropy is −Σpᵢlog pᵢ, with zero-mass terms equal to 0.
-- The finite chain rule expresses joint entropy as marginal entropy plus the probability-weighted conditional entropies, omitting zero-mass conditioning atoms.
-- Mutual information is nonnegative and entropy is at most the natural logarithm of the alphabet cardinality.
+- Mutual information is symmetric and equals H(X)−H(X|Y), by the supplied joint-label chain rule.
+- Mutual information is nonnegative: applying `Real.concaveOn_negMulLog` to the mixture of conditional laws gives H(X|Y)≤H(X).
+- Independent labels have mutual information zero; a label paired with itself has mutual information H(X).
 
 **Checks.**
 
-- A constant variable has entropy zero
+- If X is constant and Y is a fair bit, H(X)=0, H(Y)=H((X,Y))=log 2, and I(X,Y)=0.
+- Two independent fair bits have H((X,Y))=2 log 2 and H(X|Y)=log 2, so I(X,Y)=0 in both formulas.
+- A fair bit paired with itself has H((X,X))=log 2 and H(X|X)=0, so I(X,X)=log 2; replacing mutual information by joint entropy would fail the independent-bit check.
+- Adding an unused third label contributes 0 log 0=0 and keeps H(X)=log 2. Natural logarithms give log 2, not the base-two value 1.
 
-- A fair two-atom law has entropy log 2
-
-- Two independent fair bits have mutual information zero, whereas a fair bit paired with itself has mutual information log 2.
+*Needs:* GeometryOfNumbersAndQuadraticArithmetic §4.2, “Entropy and Haar measure on leaves”, finite and conditional label entropies; native finite sums and Mathlib `Real.concaveOn_negMulLog` in `Mathlib/Analysis/SpecialFunctions/Log/NegMulLog.lean`, line 227.
 
 Prove entropy_decrement_scale. Let f,g be the unit-circle completely multiplicative functions in the reduction. For p in P_H={p prime:ε²H/2≤p≤ε²H}, put `M_H=∏_{p∈P_H}p`. Let Y_H=n mod M_H and X_H be the pair of length-H blocks (f(an+j),g(an+j)), quantized on the ε² square mesh by fixed nearest-point choices. Then some integer H∈[H₋,H₊] divisible by a satisfies
 `I(X_H,Y_H) ≤ H/(log H·log log log H)`.
-All logarithms in this denominator are positive by choosing H₋>exp(exp(exp 1)). Use the finite chain rule, alphabet-size bound O_ε(H), and approximate affine invariance to prove entropy-rate subadditivity with the mutual-information decrement; iterate that inequality over the finite scale interval. (TaoLogChowla, Lemma 3.2, (3.12), pp.21–22.)
+All logarithms in this denominator are positive by choosing H₋>exp(exp(exp 1)). Use GeometryOfNumbersAndQuadraticArithmetic §4.2’s finite chain rule and alphabet bound, giving H(X_H)=O_ε(H), and approximate affine invariance to prove entropy-rate subadditivity with the mutual-information decrement; iterate that inequality over the finite scale interval. (TaoLogChowla, Lemma 3.2, (3.12), pp.21–22.)
 
 Prove entropy_decoupling. Define F_H(X,y) as `Σ_{p∈P_H}c_p` `Σ_{1≤j,j+ph≤H}1_{ay+j≡pb (ap)}X_(1,j)X_(2,j+ph)`, where c_p=conj(f(p)g(p)); thus c_p f(pn)g(p(n+h))=f(n)g(n+h) for positive n,n+h. At the selected scale,
 `|E F_H(X_H,Y_H)−E_X [M_H⁻¹Σ_{y mod M_H}F_H(X,y)]| ≤ C_(a,h) ε²H/log H`.
@@ -6622,7 +6622,7 @@ The nonzero initial correlation gives the all-scale lower bound of Proposition 2
 
 - Independent blocks would give I=0 but are not assumed to model the actual arithmetic blocks.
 
-*Needs:* native finite probability, CRT and Fourier inversion; AnalyticNumberTheoryPartI §§0.19, 0.21, 1.5, 3.18, 3.33; modulated multiplicative short sums; prime fourier fourth moment; the named finite probability and entropy targets above.
+*Needs:* native finite probability, CRT and Fourier inversion; AnalyticNumberTheoryPartI §§0.19, 0.21, 1.5, 3.18, 3.33; modulated multiplicative short sums; prime fourier fourth moment; GeometryOfNumbersAndQuadraticArithmetic §4.2 finite entropy chain rule and alphabet bound; the mutual-information comparisons above.
 
 Prove `logarithmic_elliott` (corrected logarithmic Elliott). For native complex multiplicative f,g bounded by 1, fixed positive
 slopes and distinct nonproportional linear forms, assume: for every fixed Dirichlet character χ and A≥1,
@@ -6797,11 +6797,11 @@ random-model identities and assert no deterministic Möbius or Liouville cancell
 
 AnalyticNumberTheoryPartI §§0.19, 0.21 supplies prime-block counts and products, §1.5 the unrestricted Dirichlet-polynomial mean square, and §§3.18, 3.33 pretentious distance and Halász estimates. The restricted-prime mean values, long-mean stability, uniform Liouville twists, modulated short sums and prime restriction fourth moment are the local targets of §§5.1–5.2; the growing-valuation comparison and divisor-bounded mean are §§0.13 and 3.7. The random-model
 construction uses native product probabilities and finite prime-factorization, with Layer 0
-as the finite-law interface. No general Chowla or Sarnak conjecture is assumed as a theorem.
+as the finite-law interface. GeometryOfNumbersAndQuadraticArithmetic §4.2 supplies the finite entropy chain rule and alphabet bound for §5.2. No general Chowla or Sarnak conjecture is assumed as a theorem.
 
 ## Downstream consumers
 
-The foundational interface for ArithmeticDynamics §§2.6–2.7 consists of `birkhoff_pointwise` from §4.1, with its invariant conditional-expectation limit, `birkhoff_pointwise_ergodic` from §4.1, and the independent finite Shannon API of §5.2. For a finite measurable partition (Pᵢ) of a probability space, the label variable X(x)=i for x∈Pᵢ has masses μ(Pᵢ); hence its Shannon entropy is `−Σ_i μ(Pᵢ)log μ(Pᵢ)`, and the pair of label variables represents the join. This supplies finite partition entropy and its chain rule without a dependence on entropy decrement, logarithmic Chowla or the other number-theoretic applications.
+The foundational interface for ArithmeticDynamics §§2.6–2.7 consists of `birkhoff_pointwise` from §4.1, with its invariant conditional-expectation limit, and `birkhoff_pointwise_ergodic` from §4.1. The mutual-information comparisons in §5.2 apply to its finite partition labels through the shared entropy API. These comparisons depend only on finite probability and the entropy supplier, independently of entropy decrement and logarithmic Chowla.
 
 Arithmetic applications may consume Hardy–Ramanujan and Erdős–Kac as probability-law statements, with the exact normalization and the ω/Ω transfer. Koymans–Pagano's restricted squarefree family consumes the separate conditional window estimate. Equidistribution applications use the native torus, character and subtorus interfaces; normal digits consume the pointwise theorem through the expanding-circle bridge. Metric approximation applications consume both the unrestricted and reduced limsup conventions and the precise power or general-gauge Hausdorff conclusion. Continued-fraction applications use the native denominators, the single digit indexing convention, the logarithmic constants and the explicit Gauss–Kuzmin rate. GeometryOfNumbersAndQuadraticArithmetic §§4.2, 4.5 and AdelicAlgebraicGroups AA.2–AA.3 supplies the generic homogeneous structures, and the local bounded_partial_denominators_iff_badlyApproximable supplies the bounded-digits characterization using the predicate from DiophantineApproximationAndTranscendence §0.6; the number-theoretic consumers remain in Layer 4. Multiplicative applications may use the proved short-interval and logarithmic estimates. Nilsequence orthogonality is outside this roadmap; neither ordinary Chowla cancellation nor general Sarnak orthogonality follows from the random-model identities.
 
