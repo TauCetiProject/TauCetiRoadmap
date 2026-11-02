@@ -1,23 +1,23 @@
 import Mathlib
 import TauCeti.Geometry.Manifold.Morse.Basic
 import TauCeti.Geometry.Manifold.Morse.Index
+import TauCeti.Geometry.Manifold.VectorBundle.Riemannian.Riesz
 
 /-!
 # Morse theory: target signatures
 
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's
 headline theorems against the pinned APIs: normalized Morse charts, regular
-levels, compact-band deformation, Morse exhaustion existence, strong Morse
+levels, compact-band deformation, the Morse CW model, Morse exhaustion existence, strong Morse
 inequalities, the two-critical-point sphere theorem, and the categorical-cover
-form of the arbitrary-function Lusternik–Schnirelmann bound.
+form of the arbitrary-function Lusternik–Schnirelmann bound, together with
+compact-trapped gradient convergence and intrinsic exponential decay.
 
 The full relative handle/CW comparison with coherent parameter families lacks
 its constructed handle attachment and comparison carriers. Strong smooth Morse
 approximation lacks the specified strong smooth topology on smooth maps.
 Morse–Bott attachment and its spectral sequence lack the critical-normal-bundle
-splitting and filtered attachment complex. The intrinsic variable-metric gradient
-convergence statement lacks the smooth manifold gradient/flow interface supplied
-by DifferentialGeometry. These headlines remain targets in README.md; no substitute
+splitting and filtered attachment complex. These headlines remain targets in README.md; no substitute
 carrier is introduced here. The LS numerical invariant belongs to AlgebraicTopology;
 the finite categorical-cover output below states the same finite-critical-set bound
 using native open sets and nullhomotopies.
@@ -28,7 +28,7 @@ universe u
 noncomputable section
 
 namespace TauCetiRoadmap.MorseTheory
-open scoped Manifold ContDiff
+open scoped Manifold ContDiff Bundle
 open Set
 
 variable {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
@@ -101,6 +101,21 @@ theorem exists_sublevelDeformation
       Nonempty (ContinuousMap.HomotopyRel
         ((sublevelInclusion f a b hab.le).comp r) (ContinuousMap.id _)
         {x : {x : M | f x ≤ b} | f x ≤ a}) := by
+  sorry
+
+/-- A proper bounded-below Morse function has a Hausdorff CW model with one cell for each
+critical point, in its Morse-index dimension (Milnor, Theorem 3.5). -/
+theorem exists_morseCWModel (f : M → ℝ) (hf : TauCeti.IsMorse I f)
+    (hp : IsProperMap f) (hb : BddBelow (Set.range f)) :
+    ∃ (X : Type _) (t : TopologicalSpace X),
+      letI := t
+      ∃ (_ : T2Space X) (cw : Topology.CWComplex (Set.univ : Set X)),
+        letI := cw
+        Nonempty (ContinuousMap.HomotopyEquiv M X) ∧
+        ∀ j : ℕ, Nonempty
+          (Topology.RelCWComplex.cell (Set.univ : Set X) j ≃
+            {x : M // x ∈ criticalPoints (I := I) f ∧
+              TauCeti.manifoldMorseIndex I f x = j}) := by
   sorry
 
 /-! ## Layer 3: approximation and proper Morse exhaustions -/
@@ -176,6 +191,24 @@ theorem exists_criticalCategoricalCover [CompactSpace M]
       (∀ i, (⟨Subtype.val, continuous_subtype_val⟩ :
         C({x : M // x ∈ U i}, M)).Nullhomotopic) ∧
       (∀ x : M, ∃ i, x ∈ U i) := by
+  sorry
+
+/-! ## Layer 6: gradient convergence and exponential decay -/
+
+/-- A forward negative-gradient curve for a smooth metric, trapped in a compact set,
+converges to a critical point of a Morse function with exponential Riemannian-distance decay. -/
+theorem exists_compactTrapped_gradient_limit
+    [Bundle.RiemannianBundle (fun x : M ↦ TangentSpace I x)]
+    [IsContMDiffRiemannianBundle I ∞ E (fun x : M ↦ TangentSpace I x)]
+    (f : M → ℝ) (hf : TauCeti.IsMorse I f) (γ : ℝ → M)
+    (hγ : IsMIntegralCurveOn γ
+      (fun x ↦ -Riemannian.Tensor.rieszDual (I := I) x (mfderiv I 𝓘(ℝ) f x))
+      (Set.Ici 0))
+    (K : Set M) (hK : IsCompact K) (htrap : Set.MapsTo γ (Set.Ici 0) K) :
+    ∃ p ∈ K, mvfderiv I f p = 0 ∧ Filter.Tendsto γ Filter.atTop (nhds p) ∧
+      ∃ C c T : ℝ, 0 < C ∧ 0 < c ∧ 0 ≤ T ∧
+        ∀ t : ℝ, T ≤ t →
+          Manifold.riemannianEDist I (γ t) p ≤ ENNReal.ofReal (C * Real.exp (-c * t)) := by
   sorry
 
 end TauCetiRoadmap.MorseTheory
