@@ -1652,7 +1652,7 @@ Define a Levi complement as a closed k-subgroup L for which L→P/U is an
 isomorphism, and prove such L exists.
 Equivalently, multiplication U⋊L→P is a group-scheme isomorphism with
 conjugation action (Conrad–Feng, *Reductive Groups over Fields*, version of
-December 5, 2020, §6.3 and Proposition 12.3.1, pp. 127–128).
+December 5, 2020, §6.3, p. 53, and Proposition 12.3.1, p. 127).
 
 - Compare P with P_G(λ), U with U_G(λ), and L with Z_G(λ) for a suitable
   k-cocharacter λ, using the scheme-level extension of the dynamic point APIs.
@@ -1878,6 +1878,31 @@ For an `F`-stable Levi decomposition `P=L⋉U`, prove the scheme-to-point compar
 Frobenius compatibility give `P^F=L^F⋉U^F`, with unique coordinates and projection
 `P^F →* L^F`. This uses Layer 7a's rational-point groups and the algebraic decomposition
 and compatibility proved in this layer.
+
+**Checks.**
+
+- For `P=Q`, `L=M` and `U=V`, the decomposition reads `P∩Q=L⋉U`: the factors `L∩V`
+  and `M∩U` are trivial and `U∩V=U`. A formula omitting the `U∩V` factor returns `L`,
+  of dimension 2 instead of 3 for the Borel of `GL₂`.
+- For opposite Borels `P=B⁺`, `Q=B⁻` of `GL₂` with `L=M=T`: `P∩Q=T` and all three
+  unipotent factors are trivial; `W_L=W_M=1`, so `P\G/Q≃W` has two elements, matching
+  the two `B⁺`-orbits on `G/B⁻=ℙ¹`.
+- The common-torus hypothesis is not decorative. For `x=u=[[1,1],[0,1]]` in `GL₂`, the
+  transported Levi `uTu⁻¹` meets `T` in the scalar group, which contains no maximal
+  torus, so `u∉S(T,T)`. Here `B⁺∩uB⁻u⁻¹=uTu⁻¹` has dimension 2, while the formula's
+  factors `T∩uTu⁻¹`, `T∩uU⁻u⁻¹`, `uTu⁻¹∩U⁺` and `U⁺∩uU⁻u⁻¹` have dimensions 1, 0, 0
+  and 0: the matrices `[[1+s,−s],[s,1−s]]` of `uU⁻u⁻¹` are diagonal or unipotent only
+  for `s=0`.
+- For `GL₃`, let `P` stabilize the line `⟨e₁⟩` and `Q` the plane `⟨e₁,e₂⟩`, with Levis
+  `L=GL₁×GL₂` and `M=GL₂×GL₁` containing the diagonal torus. Then `L∩M=T`, `P∩Q` is
+  the upper Borel `B`, and the factors `L∩V`, `M∩U`, `U∩V` are the root groups at
+  positions (2,3), (1,2), (1,3), of total dimension `3=dim R_u(B)`; dropping `L∩V`
+  leaves dimension 5, not 6. The double cosets `W_L\S₃/W_M` with `W_L=⟨(23)⟩`,
+  `W_M=⟨(12)⟩` have sizes 4 and 2, so `P\G/Q` has two elements: a line lies in a
+  plane or not.
+- For `GL₂(𝔽_q)`, `|B^F|=(q−1)²q=|T^F|·|U^F|`, and the projection `B^F→T^F` has kernel
+  `U^F` of order `q`; a decomposition forgetting the `F`-compatibility would not give
+  the point count.
 
 ### Examples
 
@@ -2157,6 +2182,30 @@ For an `L`-module `V`, define `ad_g(V)` as the `M`-module with action
 not supply this rational witness. Keep the `G`-split hypothesis explicit: an `F`-stable
 Levi need not be a Levi complement of an `F`-stable parabolic.
 
+**Checks.**
+
+- For `P=Q`, `e_U=e_V`, so `t=z_U=s=e_U` and the bimodule isomorphism is the identity
+  of `Λ[G^F]e_U`.
+- For `GL₂(𝔽₂)≅S₃` with `U=U⁺=⟨(12)⟩`, `V=U⁻=⟨(13)⟩` and `L=T=1` over `ℤ[1/2]`: the
+  corner `e_U·ℚ[S₃]·e_U` has dimension 2, the number of double cosets `U\S₃/U` (of
+  sizes 2 and 4). On the trivial summand `z_U=1`; on the two-dimensional irreducible,
+  where `e_U` and `e_V` are the projections onto the fixed lines of two reflections at
+  angle `π/3`, `z_U=e_Ue_Ve_U` acts on the image of `e_U` by `cos²(π/3)=1/4`. So `z_U`
+  is a unit with inverse `(1,4)` on the two summands, the only denominator being `2²`,
+  and `s=e_Ve_Uz_U⁻¹` satisfies `ts=e_U` and `st=e_V`. Over `ℤ` the idempotent `e_U`
+  does not exist.
+- The betweenness identity needs its hypothesis. With unit vectors `u,v,w` spanning the
+  fixed lines of the three reflections of `S₃` (pairwise inner products `−1/2`),
+  `e_Ue_V` is `−1/2` times the rank-one map `|u⟩⟨v|` on the two-dimensional
+  irreducible, while for `W=⟨(23)⟩`, where `W∩U=W∩V=1`, `e_Ue_We_V` is `1/4` times
+  that map: the identity fails because `W≠(W∩U)(W∩V)`. For `W=U` it holds trivially.
+- Every proper Levi has smaller semisimple rank: in `GL₃` the Levi `GL₁×GL₂` has
+  semisimple rank 1 and the torus 0, against 2 for `GL₃`; `L=G` is the excluded case
+  handled directly.
+- The rational witness is needed: the nonsplit torus `𝔽_(q²)^×⊂GL₂(𝔽_q)` is
+  geometrically conjugate to `T` but is the Levi of no `F`-stable parabolic, and its
+  order `q²−1` differs from `|T^F|=(q−1)²`, so no `g∈G^F` conjugates one to the other.
+
 ### Examples
 
 When the two parabolics are equal, common-Levi independence gives the identity comparison; for opposite Borels in GL₂ it compares the same torus Levi.
@@ -2192,6 +2241,22 @@ For finite `G`, subgroup `H≤G`, and `g∈G`, use `Nat.card` for natural cardin
 
 It counts representatives of fixed cosets mapping to each element of the class intersection.
 
+**Checks.**
+
+- The trivial-module adapter identifies `Λ[G^F/U^F]⊗_(ΛL^F)Λ` with `Λ[G^F/P^F]`: for
+  `GL₂(𝔽₂)` and its upper Borel this has rank 3, agreeing with the Layer 7c induction
+  Check; for `P=G` it has rank 1.
+- The counting identity on `S₃/C₂`, `C₂=⟨(12)⟩`: for `g=1` both sides are `3·2=6·1`;
+  for `g=(12)` they are `1·2=2·1`; for a 3-cycle `0·2=3·0`. Replacing `|C_G(g)|` by
+  the class size `|g^G|` gives `3·1=3≠2` at a transposition.
+- Almost conjugacy is weaker than conjugacy: in `GL₃(𝔽₂)` the line stabilizer and the
+  plane stabilizer both have index 7 and, by Layer 7e, equal permutation characters,
+  so they are almost conjugate; they are not conjugate, since every conjugate of the
+  line stabilizer fixes a line while the plane stabilizer fixes none.
+- For `H=G`, `G/G` is a point, both permutation representations are the trivial line,
+  and the conversion between the `Rep`-isomorphism and the `Representation.Equiv` is
+  the identity of a one-dimensional space.
+
 ### Examples
 
 On S₃/C₂ the permutation character has values 3,1,0 on the identity, a transposition and a 3-cycle.
@@ -2223,6 +2288,22 @@ permutation-bimodule Mackey decomposition; common-Levi independence for commutat
 `p∈Λˣ`; and the trivial-module Gassmann target. Reprove or transport each interface with the
 power-Frobenius hypothesis visible. No 7a–7f output is treated as a split-only result when its
 Steinberg extension is needed.
+
+**Checks.**
+
+- The standard `q`-Frobenius is Steinberg with `m=1` and `G^σ=G(𝔽_q)`; `GL₁^σ` has
+  `q−1` elements.
+- The unitary twist `σ(g)=(F(g)ᵀ)⁻¹` on `GL_n` has `σ²=F_(q²)`, so `m=2`. Its fixed
+  points on `GL₁` are the solutions of `a^(q+1)=1`, `q+1` of them, while `GL₁^(σ²)` has
+  `q²−1`: `G^σ` is not `G^(σ^m)`. On the diagonal torus of `GL₂` the restriction
+  `σ|_T(diag(a,b))=diag(a^(−q),b^(−q))` squares to `F_(q²)|_T`, and `T^σ` has `(q+1)²`
+  elements.
+- Neither the identity of `𝔾_m` nor the inversion `g↦g⁻¹` is Steinberg: the
+  inversion has the finite fixed-point set `μ₂` but its square is the identity, whose
+  fixed points `𝔾_m(𝔽̄_q)` are infinite, whereas every Frobenius power has finitely
+  many fixed points. For the identity the Lang map `g↦g⁻¹σ(g)` is constant, not
+  surjective. For `𝔾_a` with `σ=F` the Lang map `x↦x^q−x` is surjective with kernel
+  `𝔽_q` of order `q`.
 
 Layer 9's pinned Chevalley–Demazure groups supply explicit inputs, but do not by themselves
 discharge the Steinberg fixed-point and representation-theory targets.
@@ -2272,7 +2353,7 @@ cocharacter lattices. Every such datum occurs, including the root-free and
 rank-zero cases. For split groups with specified maximal tori, an isomorphism
 of root data lifts to a group isomorphism uniquely up to conjugation by
 (T/Z(G))(k); a compatible pinning makes the lift unique (Milne 2017,
-Theorem 23.25 and Remark 23.26, p. 493, Theorem 23.55, p. 501;
+Theorem 23.25 and Remark 23.26, pp. 492–493, Theorem 23.55, p. 501;
 Conrad, Theorem 6.1.17, p. 197).
 
 - Compare extraction and realization in both directions on the full datum,
@@ -3201,6 +3282,13 @@ this specified construction, not a conclusion of flatness or of the abstract exi
   identity root maps and a torus of dimension 1. The full normalized frame and
   root-datum comparison exclude this input; torus conjugation alone does not.
 
+Every interface record that feeds the pinned model therefore carries, beyond the
+eigenvalue and weight-generation equations, the identification of its root operators
+with the §9A.1c normalized frame: the opposite-root brackets `[E_α,E_(−α)]=H_α` for
+every root and the root-string equations. In simply connected A₁ the matrix units give
+`[E₁₂,E₂₁]=diag(1,−1)`, which zero operators cannot produce, while eigenvalue data
+alone is satisfied by both choices.
+
 *Needs:* §9A.1c normalized full frame; §9A.5 faithful integral realization;
 §9B.1 chart comparisons for the specified coordinate algebra.
 
@@ -3443,6 +3531,30 @@ contracts nontrivially. Retain the positive/negative maps separately. The geomet
 Frobenius splitting of flags, its trace normalization and Schubert compatibility
 are applications owned by SchubertGeometry; none is a proof premise of9A–9C.
 
+**Checks.**
+
+- `𝔾_m` over `ℤ`: `O=ℤ[t,t⁻¹]`, `I=(t−1)`, and the order-`n` jet is free of rank `n+1`
+  on `(t−1)^k`, `k≤n`; its dual basis is the binomial distributions `binom(H,k)` with
+  `binom(H,k)(t^m)=binom(m,k)`. Convolution gives `H·H=H+2·binom(H,2)` (values
+  `m²=m+2·binom(m,2)`), so `binom(H,2)=(H²−H)/2` lies in `Dist_ℤ(𝔾_m)` but not in the
+  polynomial ring `ℤ[H]`: identifying `Dist_ℤ(G)` with `U_ℤ(Lie G)` fails already in
+  rank one.
+- `𝔾_a` over `ℤ`: `O=ℤ[x]`, `I=(x)`, and the dual basis of `x^k` is the divided powers
+  `γ_k` with `γ_j·γ_k=binom(j+k,j)γ_(j+k)`, so `γ₁²=2γ₂` and `γ₂` is not a quotient
+  by `2` inside `ℤ[γ₁]`. Over `𝔽_p` the relative Frobenius `x↦x^p` sends `γ_k` to
+  `γ_(k/p)` when `p∣k` and to `0` otherwise (`γ_p↦γ₁`, `γ₁↦0`); its kernel is the
+  distribution algebra of `α_p`, of dimension `p=p^(1·1)`.
+- The central isogeny `SL₂→PGL₂` restricts on tori to `t↦s=t²`, so `H↦2H′` and
+  `binom(H,2)↦4·binom(H′,2)+H′`. Over `𝔽₂` the first image is `0` and the second is
+  `H′`: the distribution map is surjective but not injective, as the kernel order `2`
+  is not invertible.
+- Toral idempotent: for `T=𝔾_m` and `p=2`, `μ₀=binom(H−1,1)=H−1` acts on weight `λ` by
+  `λ−1`, that is by `0,1,0` on `λ=1,2,3` modulo `2`, projecting onto even weights. For
+  general `p`, `binom(λ−1,p−1)≡1` when `p∣λ` and `≡0` otherwise, by Lucas.
+- Contraction is not monoidal: for `p=3` the weights `1` and `2` give `binom(0,2)=0`
+  and `binom(1,2)=0`, so both lines contract to zero, while their tensor product has
+  weight `3` and `binom(2,2)=1`.
+
 ### Examples
 
 The root-free rank-one model is Gₘ; simply connected A₁ is SL₂ with two nonconstant root maps. The zero-root-operator input gives dimension 1 instead of 3.
@@ -3478,6 +3590,24 @@ finite-dimensional compatible submodules. Do not identify all abstract finite
 Dist(G)-modules with rational G-modules: already Dist(𝔾_m) permits p-adic
 binomial characters without an integer rational character. Full X-integrality
 and T-compatibility are part of the integration interface.
+
+**Checks.**
+
+- For `𝔾_m`, the comodule `k` with coaction `v↦v⊗t^λ` has weight `λ`, and
+  `binom(H,n)` acts by `binom(λ,n)`: `λ=3`, `n=2` gives `3`. The standard module of
+  `SL₂` has formal character `t+t⁻¹`, its dual the negated weights (the same
+  character), and its tensor square `t²+2+t⁻²` by convolution.
+- Over `k=𝔽_q` the characters `t↦t` and `t↦t^q` of `𝔾_m` agree on `𝔾_m(𝔽_q)` but
+  are distinct rational characters, `1≠q` in `X=ℤ`, with distinct formal characters:
+  an action on `G(k)` alone is not the rational representation.
+- Weights `λ` and `λ+p` give the same eigenvalue of `H` in characteristic `p`, while
+  `binom(H,p)` separates them: for `p=2`, `binom(0,2)=0` and `binom(2,2)=1`.
+- A `Dist(𝔾_m)`-module without rational character: over a field of characteristic 2
+  let `α=−1/3=1+4+16+…∈ℤ₂` and let `binom(H,n)` act by `binom(α,n)` modulo 2. By
+  Lucas, `binom(α,2^r)` is the `r`-th binary digit of `α`, alternating `1,0,1,0,…`,
+  whereas for an integer `λ` the sequence `binom(λ,2^r)` modulo 2 is eventually `0`
+  (`λ≥0`) or eventually `1` (`λ<0`). No `λ∈X` matches, so this module is not the
+  differential of a rational character.
 
 #### 10B. Induction, Weyl modules and simple heads
 
@@ -3642,6 +3772,22 @@ of p and treat the zero-degree exception separately. Root and torus action
 formulas, dual-basis signs and all source exercises are applications of the same
 rational category.
 
+**Checks.**
+
+- In characteristic `0`, or for `p>n`, `R_n` is simple of dimension `n+1`; `n=0` is
+  the trivial module in every characteristic, with `Π_j(n_j+1)=1`.
+- `p=3`, `n=4=1+1·3`: `dim L(4)=2·2=4`, with weights `±1±3`, so the socle of `R₄` is
+  spanned by `x⁴,x³y,xy³,y⁴` and misses the weight-zero vector `x²y²`; `R₄` has
+  dimension 5 and is not simple, and `4=(a+1)3^m−1` has no solution with `0≤a<3`.
+- `p=2`, `n=2`: `g·y²=c²u²+a²v²` has no `uv` term, so `y²` generates `span(x²,y²)`,
+  while `g·(xy)=−cd·u²+(ad+bc)·uv−ab·v²` at `g=1`, `[[1,1],[0,1]]` and
+  `[[1,0],[1,1]]` gives three independent vectors, so `xy` generates all of `R₂`:
+  cyclicity and highest-line generation differ.
+- `n=p=2` on `R₂*`: the `uv`-coefficient of `g⁻¹·x²=(au+bv)²` is `2ab=0`, so the
+  functional `δ_(xy)` spans a second `B⁺`-stable line, of weight 0; in characteristic
+  `≠2` that coefficient is nonzero for `b≠0` and the highest line `kδ_(x²)` is the
+  only `B⁺`-stable line.
+
 #### 10D. Algebraic Peter–Weyl and polynomial monoid actions
 
 For linearly reductive affine groups over a field construct the cosemisimple
@@ -3721,6 +3867,29 @@ columns use G5's increasing row subsets and the right matrix action, while the l
 action on polynomial coordinates is contragredient. Construct the row/column
 and dual-action comparison explicitly. Do not assert the original flag
 algebra is its toric initial algebra.
+
+**Checks.**
+
+- For `𝔾_m` the simples are the characters `t^λ`, each coefficient coalgebra is `k·t^λ`
+  with `Δ(t^λ)=t^λ⊗t^λ`, and their sum over `λ∈ℤ` is all of `O(𝔾_m)`. The two-sided
+  action is `(a,b)·t^λ=a^(−λ)b^λ`, so the first factor acts through the dual
+  character; the convention `f(agb⁻¹)` would put the dual on the second factor, and
+  the two differ already at `λ=1`.
+- For `SL₂` and `V=k²` the four coefficients `c_(e_i*,e_j)` are the matrix entries
+  `a,b,c,d`, and `Δa=a⊗a+b⊗c` is the displayed sum with the left factor first. Over
+  `𝔽₂` the module `R₂` of 10C has simple socle of dimension 2 and is not semisimple, so
+  its coefficient coalgebra is not contained in the sum of the simple coefficient
+  coalgebras, which therefore do not exhaust `O(SL₂)`.
+- On the `SL₂/N⁺` overlap, `s_a·n(t)=[[a,at],[c,ct+a⁻¹]]`, and `t=−1/(ac)` gives
+  `[[a,−c⁻¹],[c,0]]=s_c`; for `g=[[a,b],[c,d]]`, `u_c−u_a=d/c−b/a=(ad−bc)/(ac)=1/(ac)`.
+- `1/a∈k[a,c]_a` is not in `k[a,c]_c`, and the intersection inside `k(a,c)` is
+  `k[a,c]`; the origin of `Spec k[a,c]=𝔸²` is the image of no point of `SL₂`, whose
+  first columns are nonzero, so the quotient is quasi-affine and not `𝔸²`. The torus
+  `diag(t,t⁻¹)` sends `(a,c)` to `(ta,tc)` and acts on `a^ic^(n−i)` by `t^n`.
+- Polynomiality: `det` has weight `(1,…,1)∈ℕⁿ` and is polynomial, `det⁻¹` has weight
+  `(−1,…,−1)` and is rational but not polynomial; for `n=1` the character `t^λ` of
+  `GL₁` is polynomial exactly when `λ≥0`; for `n=0`, `k[End(0)]=k=k[GL₀]` and every
+  rational module is polynomial.
 
 For the complex rank-one torsor and its cocycle, compare
 [Hedén §§1,3](https://arxiv.org/html/1407.7638v2).
@@ -3841,10 +4010,25 @@ of such strands gives the inverse loop. Prove both constructions respect endpoin
 permutations and relative homotopies. Pin multiplication: Mathlib's fundamental-group
 product is `p*q=q.trans p`. Choose strand stacking to match that product and check an
 explicit product of two elementary half-twists; if another stacking convention is used,
-construct the time-reversal/opposite-group comparison. Check the precise positive
-half-twist against IG.3.2's Hurwitz convention `(a,b)↦(aba⁻¹,a)`, including inversion if
-required, and prove the permutation square after the convention transport. Closure and
-Markov equivalence are not substitutes for this based loop/strand theorem.
+construct the time-reversal/opposite-group comparison. This roadmap pins the positive
+half-twist by its own Hurwitz convention: on an ordered pair of free generators of the
+punctured-disc fundamental group, the elementary half-twist acts by `(a,b)↦(aba⁻¹,a)`.
+Prove that the strand model's elementary generator acts this way, inverting it first if
+the chosen stacking produces the mirror rule, and prove the permutation square after that
+transport. Closure and Markov equivalence are not substitutes for this based
+loop/strand theorem.
+
+**Checks for the half-twist convention.**
+
+- The product of the generators is preserved: `aba⁻¹·a=ab`. The swap `(a,b)↦(b,a)`
+  also preserves the product but is an involution, whereas the square of the half-twist
+  is conjugation by `ab`, `(a,b)↦((ab)a(ab)⁻¹,(ab)b(ab)⁻¹)`, which moves `a` in the
+  free group on `a,b`; so the swap is not the half-twist.
+- The mirror rule `(a,b)↦(b,b⁻¹ab)` is the inverse: applied to `(aba⁻¹,a)` it returns
+  `(a,b)`. The two rules differ on `a` (`aba⁻¹` against `b`), so a strand model that
+  produces the mirror is detected on one generator and corrected by inversion.
+- For `n=1` there is one generator and no half-twist; for `n=0` the fundamental group
+  is trivial. Neither case admits a nontrivial convention choice.
 
 Give evenly covered neighborhoods using pairwise disjoint coordinate discs and the free
 finite `S_n` action, with actual covering maps. Prove the exact sequence
@@ -3986,6 +4170,19 @@ smooth locus of the full invariant quotient, which is already an affine space in
 setting. Construct all scheme morphisms before comparing their complex points via §§3A.5 and 11.0. Prove the coarse orbit-space homeomorphism
 `𝔤_rs/G ≃ₜ 𝔱_reg/W`. This is a coarse quotient; the stack `[𝔤_rs/G]` retains torus inertia.
 
+**Checks for 11C.**
+
+- For `𝔤𝔩₂`, `ℂ[𝔤]^G=ℂ[tr,det]` restricts to `ℂ[t₁+t₂,t₁t₂]=ℂ[𝔱]^(S₂)`; the splitting is
+  `𝔤𝔩₂=ℂ·I⊕𝔰𝔩₂` with `tr` the degree-one central coordinate, and the discriminant is
+  `tr²−4det=(t₁−t₂)²`.
+- The regular nilpotent `[[0,1],[0,0]]` has `χ=(0,0)`, the value at `0`, lies over the
+  discriminant locus and is not in `𝔤_rs`; its centralizer `{[[x,y],[0,x]]}` is
+  `ℂ*×ℂ`. The element `diag(1,2)` has `χ=(3,2)`, discriminant `1≠0`, and centralizer
+  `T`.
+- `𝔱/W` for `𝔤𝔩₂` is `𝔸²`, smooth everywhere, and the base is the proper open subset
+  `tr²−4det≠0`; for a torus `G=T`, `W=1`, `𝔤_rs=𝔤`, `χ` is the identity and the base
+  is all of `𝔱`.
+
 **11D. Cameral product, local trivializations and homogeneous fiber.** Construct the
 pullback `E={(x,t)∈𝔤_rs×𝔱_reg | χ(x)=[t]}` and the map
 `(G/T)×𝔱_reg→E`, `([g],t)↦(Ad_g(t),t)`. Prove that it is an algebraic isomorphism and a
@@ -4020,6 +4217,21 @@ by `χ_rs` is an isomorphism because the fiber is connected and simply connected
 vanishing of `π₂(B_W)` is needed. The generic bundle/LES supplier must construct the connecting maps and prove exactness;
 a Serre-fibration lifting predicate alone does not supply those theorems.
 
+**Checks for 11D.**
+
+- In `SL₂` with `t=H=diag(1,−1)` and `n_w=[[0,1],[−1,0]]`: the points `([1],H)` and
+  `([n_w],−H)=([1],H)·w` have the same image `H` in `𝔤_rs` and the distinct images
+  `(H,H)` and `(H,−H)` in `E`, as the fiber of `E→𝔤_rs` over `H` is the `W`-orbit
+  `{H,−H}`. Since `n_w²=−1∈T`, `([g],t)·w·w=([g],t)` in `(G/T)×𝔱_reg` although the
+  lift has order 4.
+- The action uses `w⁻¹t`, not `wt`: invariance of `[g,t]↦Ad_g(t)` needs
+  `Ad_(gn_w)(w⁻¹t)=Ad_g(t)`. With `wt` instead one gets `Ad_g(w²t)`, which for `A₂`,
+  `w=s₁s₂` of order 3 and generic `t` differs from `Ad_g(t)`; the error is invisible in
+  `A₁`, where `w=w⁻¹`.
+- For `SL₂`, `G/B=ℙ¹` and `π₁(G/T)=0`; `B_W=ℂ*` has `π₁=ℤ`, so `π₁(𝔤_rs)≅ℤ`, matching
+  the two-strand braid group of 11E. For `PGL₂` the variety `G/T` is the same and is
+  simply connected although `π₁(PGL₂(ℂ))=ℤ/2`: the statement concerns `G/T`, not `G`.
+
 **11E. Matrices, trace-zero centering and boundary cases.** Use native `Matrix.charpoly`,
 its diagonal and conjugation equations and the actual trace-zero special-linear Lie
 subalgebra. The maps are `A↦charpoly A`, `z↦∏_i(X−z_i)` and `z↦diagonal z`; prove the
@@ -4040,6 +4252,20 @@ centered configurations and `𝔰𝔩₁` are points, while the uncentered space
 with `z↦z²`, and match native `B₂≃ℤ`, its sign quotient and the square-generated pure subgroup.
 
 
+**Checks for 11E.**
+
+- For `A=diag(1,2)`, `charpoly A=(X−1)(X−2)`, `P₁=(A−2I)/(1−2)=diag(1,0)` and
+  `P₂=diag(0,1)`: idempotent, orthogonal, of rank 1, summing to `I`. For `A=diag(1,1)`
+  the denominator `λ₁−λ₂` vanishes, so the simple-spectrum hypothesis is used.
+- Centering at `n=2`: `(1,3)↦(2,(−1,1))`, with inverse by addition; centered ordered
+  configurations are the pairs `(z,−z)`, `z∈ℂ*`, the unordered projection is `z↦z²`,
+  and on `π₁` it is `ℤ→ℤ`, `1↦2`: the pure subgroup of `B₂≅ℤ` is `2ℤ`, of index 2,
+  with `permHom` the sign. For `n=0` there is one configuration and no `ℂ` factor;
+  for `n=1`, `PConf₁(ℂ)=ℂ`, the centered space is a point and `𝔰𝔩₁=0`.
+- Determinant normalization: `g=diag(2,1)` centralizes `A=diag(1,2)` and has
+  determinant 2; multiplying by the centralizing element `diag(1/2,1)` gives a
+  conjugator of determinant 1 without extracting a root.
+
 **11F. Root-system and root-datum local systems.** Construct the associated locally
 constant family `(𝔱_reg×Φ)/W` with its discrete root fiber, actual roots/coroots, pairing,
 reflection and root-addition data. Also associate the full `X,Y` lattices and their perfect
@@ -4057,12 +4283,29 @@ flags and essential arrangement through actual differential/quotient maps but ne
 identify full character/cocharacter lattices. Central torus **Lie** summands are complex
 vector spaces, and contribute no extra π₁.
 
-**11G. Prerequisite and scope comparisons.** The order is IG's early configuration/native
+**Checks for 11F.**
+
+- In `A₁`, the loop `u(θ)=e^(iθ)` in `𝔱_reg/W` (coordinate `u=z²`) lifts from `H` to
+  `−H`; the left deck monodromy lands in `W.op`, the ordinary `W`-valued monodromy is
+  `w⁻¹=w`, the nontrivial element, and the transport is `α↦−α`, `α∨↦−α∨`, with the
+  pairing `⟨−α,−α∨⟩=2` preserved. A trivial local system is excluded because the
+  cover `z↦z²` is connected.
+- In `A₂`, transporting roots by `w=s₁` but coroots by the identity breaks the
+  pairing: `⟨s₁α₂,α₂∨⟩=⟨α₁+α₂,α₂∨⟩=−1+2=1≠2`, whereas transporting both by the same
+  `w` gives `2`.
+- The central isogeny `SL₂→PGL₂` identifies the Lie algebras, `𝔱_reg` and the
+  arrangement, while the character lattices `ℤϖ⊋ℤα` differ. For `𝔤𝔩₂=ℂ·I⊕𝔰𝔩₂` the
+  regular-semisimple locus is `ℂ×(𝔰𝔩₂)_rs`, so the central summand contributes no
+  `π₁`, and `π₁((𝔤𝔩₂)_rs)≅ℤ` agrees with the two-strand configuration space of 11E.
+
+**11G. Prerequisite and scope comparisons.** The order is §11A's configuration/native
 braid contract and RootSystems' Coxeter/chamber theory → finite arrangement topology;
-independent RG8/9 and §§3A.5/11.0 → 11C invariant/spectral maps; RG7+LG8 flag cells →
-homogeneous-fiber connectedness and simple connectedness; the based DGF LES → the
-`χ_rs`-induced π₁ isomorphism; finite cover → actual root-datum monodromy. LHW Lie invariants
-and RIT finite invariants enter 11C with the explicit comparisons stated there. No edge
+independent Layers 8–9 and §§3A.5/11.0 → 11C invariant/spectral maps; Layer 7 and
+LieGroups Layer 8 flag cells → homogeneous-fiber connectedness and simple connectedness;
+the based DGFloer Layer 1.2 fiber sequence → the `χ_rs`-induced π₁ isomorphism; finite
+cover → actual root-datum monodromy. LieHighestWeight Layer 7 Lie invariants and
+ReflectionInvariantTheory finite invariants enter 11C with the explicit comparisons
+stated there. No edge
 returns to those lower targets. This constructs Lie-algebra regular-semisimple topology
 over `ℂ`; it does not assert the corresponding statements for group-element toric
 arrangements, disconnected groups, bad characteristic, compact-normalizer splittings,
@@ -4153,6 +4396,11 @@ those points. Their CFSG milestone L5 needs constructions rather than existence 
   revised M.S. thesis, arXiv:0905.4434v1 (2009), Definition 5.1,
   pp. 27–28, Theorem 5.11, pp. 32–35, Theorem 6.1, p. 41, and
   Theorem 6.10, p. 46: the Salvetti and finite reflection-quotient comparisons.
+- E. Brieskorn, *Die Fundamentalgruppe des Raumes der regulären Orbits einer
+  endlichen komplexen Spiegelungsgruppe*, Invent. Math. 12 (1971), 57–61: the
+  finite-reflection-complement presentation that Ernst's Theorem 6.10 states
+  without proof (Ernst cites Brieskorn's survey *Sur les groupes de tresses*,
+  Séminaire Bourbaki 1971/72, exposé 401, LNM 317 (1973)).
 
 - A. Grothendieck et al., *Revêtements étales et groupe fondamental* (SGA 1),
   retyped edition, arXiv:math/0206203v2, Exposé XII by M. Raynaud, §§1–3,
