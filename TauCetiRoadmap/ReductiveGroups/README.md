@@ -237,13 +237,18 @@ Sections 1.1 and 1.14–1.18 supply fpqc quasi-coherent descent, sheaf descent,
 group actions, torsors and quotient-stack interfaces. They do not turn every group
 quotient sheaf into a scheme. Section 0.7 supplies scheme dimension theory;
 §4.12 supplies Chow's lemma for the properness comparison in §3A.5.
+Section 0.9 supplies finite-presentation descent of schemes and morphisms along
+limits of quasi-compact quasi-separated schemes with affine transition maps,
+including eventual descent of smoothness and isomorphisms. Section 8.2 uses
+this affine-locally to descend finite group-law diagrams; it owns the comparison
+of the resulting relative group constructions, not another limit theory.
 
 ### From TauCetiRoadmap.ModularCurves
 
 Sections 0E–0F supply effective faithfully flat descent of affine schemes and
 of their group structures, and affine finitely presented Weil restriction along a
-finite locally free morphism, with arbitrary base change. These apply to the
-finite-type group schemes over fields used in Layer 8.
+finite locally free morphism, with arbitrary base change. These apply affine-locally over arbitrary schemes in §8.2 and to the
+finite-type group schemes over fields in §8.3.
 
 ### From Tau Ceti: fppf quotients
 
@@ -349,7 +354,7 @@ Layer 4, *Chambers, the fundamental domain, and the longest element*, supplies
 simple transitivity of the Weyl action on open chambers for finite reduced
 crystallographic real root pairings with a base.
 
-**Required supplier extension — gap:root-automorphism-based-factorization.**
+**What RootSystems must provide (gap:root-automorphism-based-factorization).**
 For a finite reduced crystallographic spanning real root pairing P and base b,
 RootSystems must supply the actual subgroup D of automorphisms preserving b's
 simple support, normality of W in Aut(P), W∩D={1}, and unique factorization
@@ -1357,7 +1362,9 @@ uses those constructions and is not a prerequisite for them.
 On Layer 1's rational representation category, compare complete reducibility
 of every finite-dimensional module with the native linear reductivity
 predicate. Prove that for smooth connected affine G in characteristic zero
-it is equivalent to reductivity as defined in §6.1 (Milne 2017, Definition 12.52,
+it is equivalent to reductivity as defined in §6.1, as stated by
+`reductive_iff_linearlyReductive` on `TauCeti.FiniteTypeCommHopfAlgCat` with explicit
+`CharZero`, smoothness and geometric connectedness hypotheses (Milne 2017, Definition 12.52,
 p. 248, and Theorem 22.42, pp. 477–478). For smooth connected affine G over
 an algebraically closed field of characteristic p>0, prove linear reductivity
 is equivalent to being a torus (Milne, Remark 12.56, p. 249).
@@ -1534,17 +1541,53 @@ The regular extension/cohomology route is discussed in
 
 ### 6B: complex reductive coset affineness
 
-- **Complex reductive coset affineness.** For a smooth connected affine reductive
-  complex algebraic group A and a closed connected reductive subgroup H, construct
-  the fpqc quotient A/H and prove it is the affine scheme Spec(O(A)^H).
-  Build the Reynolds map using Layer6's characteristic-zero complete reducibility,
-  finite generation of the invariant algebra, and the closed-orbit quotient and
-  torsor identification; expose the quotient map, universal property and base
-  changes at the exact stated hypotheses. In particular apply this to GL_n/G
-  for every faithful closed reductive G→GL_n. This is the Matsushima construction
-  owned here; FormalConnectionsOpers F6 consumes it and owns its loop-Grassmannian
-  reduction-locus/ind-stage application. Keep the general quotient discussion and
-  its hypotheses, without asserting arbitrary closed-subgroup quotients affine.
+For a smooth connected affine reductive complex algebraic group A and a closed
+connected reductive subgroup H, construct the fpqc quotient A/H and identify it
+with Spec(O(A)^H), where H acts on O(A) by right translations. The quotient is
+therefore affine (Arzhantsev, *Invariant Ideals and Matsushima’s Criterion*,
+arXiv:math/0506430v1, Proposition 2.2, p. 2). Construct its quotient map and
+H-torsor comparison A×H→A×_(A/H)A, (a,h)↦(a,ah).
+
+Build the Reynolds projection O(A)→O(A)^H from §6.2, prove finite generation
+of the invariant algebra and separation of closed H-orbits, and identify the
+resulting affine quotient with the homogeneous quotient of Layer 3. These are
+construction targets, including the invariant-theory steps used in Arzhantsev's
+proof of Proposition 2.2, not consequences of an arbitrary orbit-set bijection.
+
+- The quotient map q:A→A/H is faithfully flat and its pullback identifies
+  O(A/H) with O(A)^H. For every complex scheme Y, composition with q identifies
+  morphisms A/H→Y with H-invariant morphisms A→Y, by fpqc descent.
+- For every complex scheme S, identify (A/H)×S with the quotient A_S/H_S;
+  the torsor comparison and the invariant-algebra comparison commute with
+  this pullback. Over affine S=Spec R the coordinate equation is
+  O(A)^H⊗ℂ R ≃ (O(A)⊗ℂ R)^(H_R).
+- The Reynolds projection fixes each invariant and is O(A)^H-linear;
+  it need not preserve products of arbitrary functions. The inclusion of
+  invariants, rather than this projection, is the coordinate algebra map.
+
+**Checks.**
+
+- For H=1 the invariant algebra is O(A), q is the identity, and
+  A×1→A×_A A is the diagonal isomorphism; the quotient has dimension dim A.
+- For H=A, invariants are ℂ and the quotient is Spec ℂ, of dimension 0;
+  (a,h)↦(a,ah) has inverse (a,b)↦(a,a⁻¹b).
+- For A=SL₂ and H=T diagonal, write its coordinates as a,b,c,d with ad−bc=1.
+  The right-T invariants x=ab, y=cd and z=ad satisfy xy=z(z−1), giving
+  the affine surface Spec ℂ[x,y,z]/(xy−z(z−1)), of dimension 2.
+- For the upper Borel B⊂SL₂, the quotient is ℙ¹ and has only constant
+  regular functions. Its dimension is 1 whereas Spec O(ℙ¹) has dimension 0;
+  B is not reductive, so the asserted affine identification does not apply.
+- On O(Gₘ), the projection for translation sends t and t⁻¹ to 0 but
+  sends tt⁻¹=1 to 1; the two products are 0 and 1 respectively.
+
+Apply this construction to GLₙ/G for every faithful closed connected reductive
+G→GLₙ. FormalConnectionsOpers §3A.5 consumes it for its loop-Grassmannian
+reduction-locus application.
+
+*Needs:* Layer 1 rational comodules; §6.2 complete reducibility and invariant
+projection; Layer 3 homogeneous quotients; §3A closed orbits; §0.3 fpqc descent.
+The finite generation and closed-orbit separation for this quotient are targets
+of this subsection, preceding its torsor identification.
 
 ### Examples
 
@@ -2154,12 +2197,11 @@ in Layer 9B. The relative and pseudo-reductive targets follow below.
 
 ### 8.2 Relative reductive groups
 
-For `S=Spec R`, `R`
-any commutative Noetherian ring, a reductive S-group means a smooth affine group scheme
+For an arbitrary scheme S, a reductive S-group means a smooth affine group scheme
 of finite presentation with connected reductive geometric fibers; semisimple means all
-those fibers are semisimple. Define these fiberwise predicates on the existing scheme
-group objects and their Hopf presentations. Prove invariance under isomorphism, arbitrary
-base change within the category, products and fpqc descent, with the actual base-change
+those fibers are semisimple. Define these fiberwise predicates on scheme
+group objects, using Hopf presentations over each affine open of S. Prove invariance under isomorphism, arbitrary
+base change along every scheme morphism S′→S, products and fpqc descent, with the actual base-change
 and descent comparison maps. Construct the relative center and derived subgroup, prove
 the derived subgroup semisimple and the center of multiplicative type, and state
 smoothness only where it holds; for example the center of SL_p need not be smooth in
@@ -2173,13 +2215,36 @@ cover, and descend the character/cocharacter perfect pairing and root datum as �
 locally constant sheaves. Prove the split root datum is locally constant in the étale
 topology and that the group is étale-locally a split group from Layer9. The identification
 retains the full root datum, not merely its Dynkin diagram. Prove the based-root-datum
-classification of split pinned models over nonempty connected bases and the isomorphism, base
-change and pinning-change equations. Extend the field-level subgroup/quotient and multiplicative-type comparisons of
+classification of split pinned models over every nonempty scheme S, with a
+specified constant character lattice and a fixed based root datum on all components,
+and the isomorphism, base-change and pinning-change equations. Here an isomorphism
+respects that splitting datum; locally varying datum automorphisms are not silently
+identified with a single automorphism of the fixed datum. Extend the field-level subgroup/quotient and multiplicative-type comparisons of
 Layers3–4 to these bases in this lane: use the supplied fppf sheaf coequalizers and effective affine descent;
 prove representability of the particular center, derived group, maximal-torus and
 Borel functors specified here, with their base-change maps. Field-only quotient results do not imply these relative
 theorems. Use Layer0's actual affine/Hopf dictionaries and the independent Layer9 split
 integral models. This relative extension is not a prerequisite of Layer9.
+
+Prove the affine-local gluing comparison: for an open cover of S, the relative
+center, derived subgroup, maximal-torus scheme and Borel scheme constructed on its
+members restrict to the corresponding constructions on overlaps, satisfy the
+cocycle equation, and glue to their represented functors over S. The gluing is
+independent of the cover and compatible with every pullback S′→S. Consume the
+scheme/sheaf descent of SchemeAndStackFoundations §§1.1, 1.14–1.18 and the effective
+affine descent of ModularCurves §0E; the Borel scheme is glued as a scheme, not as
+an affine scheme.
+
+Prove the finite-presentation comparison for relative groups: if R is a filtered
+colimit of rings Rᵢ, a reductive group over Spec R and any finite diagram of its
+finitely presented group schemes and maps descend to a sufficiently large stage,
+with the specified equations, after enlarging the stage when necessary. Apply
+SchemeAndStackFoundations §0.9 to the multiplication, inverse and unit diagrams;
+use openness of the reductive-fiber locus to retain reductivity at a stage
+(Conrad, Proposition 3.1.9 and Corollary 3.1.11, pp. 85–88). Identify the pullbacks
+of the center, derived group, maximal-torus scheme and Borel scheme at that stage
+with those over R by their functorial base-change isomorphisms; two such choices
+agree after passage to a common stage. No Noetherian hypothesis is imposed on R.
 
 For each fixed split reductive model G₀ over S, construct its automorphism sheaf and its
 inner/outer and pinned-automorphism interfaces, and the actual `Isom(G₀,G)` torsor.
@@ -2216,12 +2281,24 @@ pp. 94–95 and 157–158; pinned classification is Theorem 6.1.17, p. 197.
 - Over Spec 0 all geometric-fiber conditions are vacuous and the unique
   group scheme is empty. Root data of ranks 0 and 1 then have the same
   realization, explaining the nonempty-base hypothesis in classification.
+- For R=k[x₁,x₂,…], GL₂,R has center Gₘ,R, derived group SL₂,R and
+  Borel scheme ℙ¹_R. These pull back from k; their relative dimensions are
+  respectively 1, 3 and 1. Truncating to k[x₁,…,xₙ] and then extending to R
+  gives exactly the same three schemes.
+- For S=Spec k ⊔ Spec k, the fixed pinned GL₂ datum realizes GL₂ on both
+  components: the center has ranks (1,1), the derived dimensions are (3,3),
+  and the Borel fibers are (ℙ¹,ℙ¹). Replacing one component by SL₂ would
+  give character ranks (2,1) and cannot realize that fixed split datum.
+- On the two standard charts of ℙ¹_k, the center of GL₂ is the scalar matrices
+  aI. On their overlap the change t↦t⁻¹ leaves aI unchanged; the glued
+  center is Gₘ,ℙ¹ and the Borel scheme is ℙ¹_ℙ¹, of relative dimension 1.
 - The real norm-one torus has geometric character lattice ℤ with conjugation
   −1; Gₘ has conjugation +1. Their dimensions agree at 1 but their forms differ.
 
 *Needs:* Layers 0, 3–5 and 7; §6.1's geometric predicate; Layer 9's independent
 split model; SchemeAndStackFoundations §§1.14–1.18 and ModularCurves §0E
-for effective affine descent. None of these constructions assumes §6.2.
+for effective affine descent; SchemeAndStackFoundations §0.9 for finite-presentation
+limits and §§1.1, 1.14–1.18 for gluing. None of these constructions assumes §6.2.
 
 ### 8.3 Pseudo-reductive basic theory
 
@@ -3305,14 +3382,16 @@ coordinate bialgebra map, its native comodule coaction and natural reciprocity m
 Specialize to k and transport by its antipode/inversion comparison from
 `F(hg)=hF(g)` with right translation to `f(gh)=h⁻¹f(g)` with left translation.
 Construct the field regular-function and group-scheme dictionaries and identify counit
-evaluation in Frobenius reciprocity. The generic induction engine is §1.1; the induced/Weyl/highest-weight and integral applications remain here. Put `∇(λ)=Ind_(B⁻)^G k_λ`: its functions satisfy
+evaluation in Frobenius reciprocity (Milne 2017, §22.29, pp. 470–471). The generic induction engine is §1.1; the induced/Weyl/highest-weight and integral applications remain here. Put `∇(λ)=Ind_(B⁻)^G k_λ`: its functions satisfy
 `f(gb)=λ(b)^(−1)f(g)` and G acts by `a·f(g)=f(a^(−1)g)`. For λ∈X⁺ prove
 finite dimensionality, highest weight λ and its one-dimensional B⁺-highest
 line, and simple socle L(λ). For λ∉X⁺ prove the corresponding induced module
-zero. Construct `Δ(λ)=∇(−w₀λ)*`, its distinguished generating highest line,
+zero (Milne, Definition 22.21 and Proposition 22.27, pp. 468–470,
+transported from B⁺ to B⁻). Construct `Δ(λ)=∇(−w₀λ)*`, its distinguished generating highest line,
 unique simple head L(λ), and the normalized nonzero map Δ(λ)→∇(λ) with image
 L(λ). Prove the classification of finite-dimensional rational simples by X⁺,
-absolute simplicity and End_G(L(λ))=k for split G. Give arbitrary-field base
+absolute simplicity and End_G(L(λ))=k for split G (Milne, Theorem 22.2
+and §§22.3–22.5, pp. 463–464). Give arbitrary-field base
 change/descent proofs for these split objects; do not extend this last scalar
 endomorphism assertion to arbitrary nonsplit groups. State induced/Weyl base
 change and integral Weyl lattices with their actual freeness and action equations,
@@ -3333,7 +3412,12 @@ ordinary dual with action twisted by this automorphism. Export the exact
 highest/lowest line, torus-weight and extremal-vector equations under ordinary
 duality, τ and opposition. In particular the ordinary dual remains
 `Δ(λ)*≃∇(−w₀λ)`; a same-label identification requires the displayed twist,
-not an implicit self-duality assertion.
+not an implicit self-duality assertion. The ordinary-dual convention is Milne,
+§22a, “The highest weight of the contragredient representation”, p. 471;
+the integral Weyl lattice and top-normalized contravariant form are
+Fang–Lim–Tan, arXiv:1904.13040v2, §2.1, pp. 2–3. This reference treats
+split connected reductive integral models and retains the torus action in
+its distribution description.
 
 Prove root-subgroup generation, highest-weight order and Weyl-orbit convex-hull
 bounds in `(X⊗ℝ)`, retaining central coordinates. A unique highest line does not
@@ -3358,6 +3442,72 @@ assume `(p−1)ρ∈X(G)` or that the same module descends. SchubertGeometry own
 central-isogeny flag transport, anticanonical trace and the geometric splitting.
 The Steinberg proof uses9A/9C and10A/10B algebra, not that later splitting,
 vanishing or standard-monomial theorem.
+
+The induced, Weyl and dual constructions have the following APIs.
+
+- Induced modules have their actual evaluation/cotensor reciprocity maps,
+  commute with field extension, and have a unique simple socle at a dominant
+  weight. The Weyl module is generated by its chosen top line and has that
+  same simple as its unique head; the normalized map from Weyl to induced
+  module sends the chosen top vector to the chosen top vector.
+- The pinned anti-involution fixes T, exchanges x_α(a) and x_−α(a) for
+  simple roots, reverses multiplication and squares to the identity. Its
+  distribution map reverses products and respects the divided powers.
+- Contravariant duality preserves each torus weight, reverses arrows and
+  short exact sequences, and has the evaluation biduality isomorphism;
+  ordinary duality negates weights. These maps commute with field extension.
+- The integral contravariant form has value 1 on the chosen highest vector
+  paired with itself, satisfies (uv,w)=(v,τ(u)w), and induces the normalized
+  map to the contravariant dual. The evaluation pairing with the full dual
+  is perfect even when this form becomes degenerate after specialization.
+
+**Checks for induced modules.**
+
+- For G=T=Gₘ and λ=3, f(t)=t⁻³ satisfies f(tb)=b⁻³f(t), while
+  (a·f)(t)=f(a⁻¹t)=a³f(t). The induced module is one-dimensional of
+  weight +3, not −3.
+- For SL₂ and λ=1, ∇(1) has weights 1,−1, each of multiplicity 1;
+  its highest line and simple socle give the two-dimensional standard module.
+- For SL₂ and λ=−1, ∇(−1)=0; at λ=0 it is k, of dimension 1.
+  A definition that attaches a nonzero highest module to every integer fails.
+
+**Checks for Weyl modules and their simple heads.**
+
+- For Gₘ and λ=3, w₀=1, so ∇(−3)* has weight +3 and dimension 1;
+  using ∇(3)* would give weight −3.
+- For SL₂ in characteristic zero, Δ(2) has weights 2,0,−2 and
+  dimension 3; its head and the image in ∇(2) also have dimension 3.
+- For SL₂ in characteristic 2, Δ(2) has dimension 3 but its simple
+  head L(2) has weights 2,−2 and dimension 2. The normalized map to
+  ∇(2) has one-dimensional kernel, excluding universal simplicity.
+
+**Checks for the anti-involution and contravariant duality.**
+
+- In SL₂ take τ(g)=gᵗ: τ(I+aE₁₂)=I+aE₂₁ and τ(diag(t,t⁻¹))
+  =diag(t,t⁻¹). With u=I+E₁₂ and v=I+E₂₁, τ(uv)=[[2,1],[1,1]]
+  =τ(v)τ(u), whereas τ(u)τ(v)=[[1,1],[1,2]].
+- For the Gₘ character t³, τ fixes t, so D_τ has weight +3;
+  the ordinary dual has weight −3. At t=2 over ℚ these scalars are
+  8 and 1/8, and σ sends 2 to 1/2.
+- For the standard GL₃ module, D_τ has highest weight (1,0,0),
+  while the ordinary dual has highest weight (0,0,−1). Biduality
+  sends each basis vector eᵢ to evaluation at eᵢ, so its matrix is I₃.
+
+**Checks for the contravariant form.**
+
+- For the rank-zero group and λ=0, the Weyl lattice is ℤ and the
+  normalized form is (a,b)↦ab, with Gram matrix [1].
+- For SL₂ and λ=1, the basis v,Fv gives Gram matrix diag(1,1);
+  reduction modulo 2 remains nondegenerate of rank 2.
+- For SL₂ and λ=2, the divided-power basis v,Fv,F⁽²⁾v gives
+  diag(1,2,1). Its rank is 3 over ℚ and 2 over 𝔽₂, with radical
+  𝔽₂Fv; the evaluation pairing with the integral dual still has matrix I₃.
+
+*Needs:* §1.1 algebraic induction and reciprocity; §6.2 for the characteristic-zero
+comparison; Layer 7 Borels and root generation; §§9A–9C integral PBW, pinned
+models and their distributions; §10A rational weight/distribution compatibility.
+The duality comparisons use the constructed pinning and the integral Weyl
+lattice, not an assumed self-duality of every rational representation.
 
 #### 10C. Binary forms and the source's characteristic-p exercises
 
@@ -3838,6 +3988,12 @@ on the points of pinned Chevalley–Demazure groups, or on explicit carriers ide
 those points. Their CFSG milestone L5 needs constructions rather than existence theorems.
 
 ## References
+
+- I. V. Arzhantsev, *Invariant Ideals and Matsushima’s Criterion*,
+  arXiv:math/0506430v1 (2005), Proposition 2.2, p. 2: reductive coset affineness.
+- M. Fang, K. J. Lim, K. M. Tan, *Jantzen filtration of Weyl modules, product
+  of Young symmetrizers and denominator of Young’s seminormal basis*,
+  arXiv:1904.13040v2 (2020), §2.1, pp. 2–3: integral Weyl lattices and forms.
 
 - A. Grothendieck et al., *Revêtements étales et groupe fondamental* (SGA 1),
   retyped edition, arXiv:math/0206203v2, Exposé XII by M. Raynaud, §§1–3,

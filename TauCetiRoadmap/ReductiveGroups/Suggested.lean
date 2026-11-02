@@ -1,4 +1,6 @@
 import Mathlib
+import TauCeti.Algebra.AlgebraicGroup.LinearlyReductive
+import TauCeti.Algebra.AlgebraicGroup.Reductive.Basic
 import TauCeti.Algebra.Lie.UniversalEnveloping.Kostant.Form
 import TauCeti.GroupTheory.SpecificGroups.Braid.Basic
 
@@ -9,7 +11,8 @@ The roadmap is README.md; this file is not the roadmap. It states headline theor
 against the pinned APIs: local closedness of algebraic orbits, strict dimension drop
 at the boundary, closed orbits in orbit closures, the character kernel of central-cover lifts, and integral PBW for the full
 reductive Chevalley frame (including its central torus), compactness of proper complex
-scheme points, and nonsplitting of the braid permutation extension for at least two strands.
+scheme points, characteristic-zero equivalence of reductivity and complete reducibility,
+and nonsplitting of the braid permutation extension for at least two strands.
 
 The signed ADE integral Lie construction and its full-lattice comparison lack the
 constructed signed root-space Lie algebra and its Chevalley-frame identification.
@@ -17,7 +20,10 @@ The pinned fixed-Lie folding classification lacks that Lie algebra with its pinn
 diagram action, integral fixed lattice and normalized folded root datum. Native
 fixed-subalgebra and Serre-presentation carriers alone do not identify these objects.
 The general pinned integral model and its change-of-choice theorem lack the bundled
-relative split reductive group with prescribed full root datum and pinning. The
+relative split reductive group with prescribed full root datum and pinning.
+Relative structure and base-change comparisons lack the constructed relative center,
+derived subgroup, maximal-torus and Borel schemes. Complex reductive coset affineness
+lacks the constructed homogeneous quotient and its invariant-coordinate comparison. The
 highest-weight classification lacks the rational highest-weight modules and their
 identification with the prescribed integral model. The spectral monodromy theorem
 lacks the constructed regular-semisimple quotient and its analytic comparison on
@@ -137,6 +143,19 @@ theorem compact_complexPoints (X : Over (Spec (CommRingCat.of ℂ)))
   sorry
 
 end ClassicalPoints
+
+/-! ## Layer 6: characteristic-zero complete reducibility -/
+
+/-- A smooth geometrically connected affine group of finite type over a characteristic-zero
+field is reductive if and only if every finite-dimensional rational representation is
+completely reducible (Milne 2017, Theorem 22.42, pp. 477–478). -/
+theorem reductive_iff_linearlyReductive (k : Type u) [Field k] [CharZero k]
+    (H : TauCeti.FiniteTypeCommHopfAlgCat.{u, u} k)
+    (hsmooth : Algebra.Smooth k H)
+    (hconnected : TauCeti.geometricallyConnectedCommHopfAlgProperty k H.obj) :
+    TauCeti.reductiveCommHopfAlgProperty k H ↔
+      TauCeti.linearlyReductiveCommHopfAlgProperty k H.obj := by
+  sorry
 
 /-! ## Layer 9A: the full reductive integral enveloping form -/
 
