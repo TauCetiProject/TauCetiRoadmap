@@ -57,9 +57,9 @@ InverseGaloisAndArithmeticFundamentalGroups §IG.1.2 (tangential base points) an
 `GRT(k)` and the Lie algebra `𝔤𝔯𝔱` are not in this roadmap (Bar-Natan 1998 defines `GT₁(k)`, for
 a commutative `ℚ`-algebra `k`, as the group of automorphisms of the unipotent completion of the
 category of parenthesised braids that preserve its skeleton, the strand operations and the
-coproduct and fix the basic crossing, Definition 2.4; it is the subgroup of exponent one, so
-`(−1, 1)` is not in it, and its defining relations are a pentagon and hexagons in the unipotent
-completions of `P₄` and `B₃`, Proposition 5.3). Neither is their motivic counterpart
+coproduct and fix the basic crossing, Definition 2.4; it is the subgroup of exponent one, so over
+`ℚ` the element `(−1, 1)` is not in it, and its defining relations are a pentagon and hexagons in
+the unipotent completions of `P₄` and `B₃`, Proposition 5.3). Neither is their motivic counterpart
 (mixed Tate motives over `ℤ`, their Galois group and the motivic path torsor are stated in
 PeriodsAndSpecialValues §§PS.9.8–9.10, and Brown's basis theorem in §PS.9.22):
 Brown 2012 proves that the motivic Galois group of the mixed Tate motives over `ℤ` acts faithfully
