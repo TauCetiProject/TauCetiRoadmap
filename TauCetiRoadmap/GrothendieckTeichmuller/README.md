@@ -54,10 +54,12 @@ configuration space of `n` points on `ℙ¹ ∖ {0, 1, ∞}` over `ℚ̄`) are l
 [BelyiMaps](../BelyiMaps/README.md) Layer 12 (`BelyiArithmeticActions`) and to
 InverseGaloisAndArithmeticFundamentalGroups §IG.1.2 (tangential base points) and §IG.5.1
 (configuration spaces). The pro-unipotent and graded groups `GT(k)`,
-`GRT(k)` and the Lie algebra `𝔤𝔯𝔱` are not in this roadmap; Bar-Natan 1998 obtains `GT(k)` as the
-automorphism group of the unipotent completion of the category of parenthesised braids
-(Definition 2.4), with defining relations a pentagon and hexagons in the unipotent completions
-of `P₄` and `B₃` (Proposition 5.3). Neither is their motivic counterpart
+`GRT(k)` and the Lie algebra `𝔤𝔯𝔱` are not in this roadmap (Bar-Natan 1998 defines `GT₁(k)`, for
+a commutative `ℚ`-algebra `k`, as the group of automorphisms of the unipotent completion of the
+category of parenthesised braids that preserve its skeleton, the strand operations and the
+coproduct and fix the basic crossing, Definition 2.4; it is the subgroup of exponent one, so
+`(−1, 1)` is not in it, and its defining relations are a pentagon and hexagons in the unipotent
+completions of `P₄` and `B₃`, Proposition 5.3). Neither is their motivic counterpart
 (mixed Tate motives over `ℤ`, their Galois group and the motivic path torsor are stated in
 PeriodsAndSpecialValues §§PS.9.8–9.10, and Brown's basis theorem in §PS.9.22):
 Brown 2012 proves that the motivic Galois group of the mixed Tate motives over `ℤ` acts faithfully
@@ -665,10 +667,12 @@ configuration spaces of InverseGaloisAndArithmeticFundamentalGroups §IG.5.1.
 
 ## Research context
 
-Whether every `(λ, f) ∈ ẑˣ × F̂₂'`, or every one satisfying (I), (II) and (III), gives a bijective
-`β_{λ,f}` is open (Lochak–Schneps 2006, §1, Question 1.1), which is why 3.2 asks for bijectivity
-and 3.3 takes `GT̂` to be the group of units of `GT̂^{mon}`; so is the question of which
-non-abelian finite groups are quotients of `GT̂` (ibid., Questions 1.6 and 1.7).
+A unit exponent `λ` and `f ∈ F̂₂'` do not make `β_{λ,f}` bijective: the check of 3.2 gives
+`(1, [y, x])`, whose image in `𝔖₃` has two elements. Whether `β_{λ,f}` is bijective for every
+`(λ, f)` satisfying (I), (II) and (III) is open (Lochak–Schneps 2006, §1, Question 1.1, second
+part), which is why 3.2 asks for bijectivity and 3.3 takes `GT̂` to be the group of units of
+`GT̂^{mon}`; so is the question of which non-abelian finite groups are quotients of `GT̂` (ibid.,
+Questions 1.6 and 1.7).
 
 ## References
 
