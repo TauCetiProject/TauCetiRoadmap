@@ -4,45 +4,54 @@ import Mathlib
 # Zeros of L-functions: target signatures
 
 The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
-theorems against the pinned Mathlib, each with `sorry`, together with the two definitions they
-need: the zero count `zeroCount` (the natural-number count of Layer 4) and the entire
-completion `zetaEntireCompletion` of the Riemann zeta function (the `ζ` instance of the entire
-completion of Layer 0).
+theorems against the pinned Mathlib, each with `sorry`, together with the three
+definitions they need: the order predicate `OrderLE` of Layer 0, the zero count `zeroCount` of
+Layer 4, and the entire completion `zetaEntireCompletion` of the Riemann zeta function (the `ζ`
+instance of the entire completion of Layer 0).
 
-Stated here, for the instances whose carriers exist at the pins (the Riemann zeta function and
-Dirichlet L-functions, which are the finite-order Hecke L-functions over `ℚ`):
+Stated here:
 
-* Layer 3, the convexity bound on the critical line, uniform in the conductor;
-* Layer 5, Hadamard's factorization of `zetaEntireCompletion`;
+* Layer 3, the convexity bound on the critical line, uniform over primitive Dirichlet characters;
+* Layer 5, Hadamard's factorization of an entire function of order at most one, and its instance
+  `zetaEntireCompletion`;
 * Layer 6, the de la Vallée Poussin region for `ζ`, and the uniform region for Dirichlet
   L-functions with its exceptional-zero clause and the normalization `c ≤ log 3 / 2`;
 * Layer 7, the Riemann–von Mangoldt formula for `ζ`, and its conductor-uniform form for
   primitive Dirichlet characters;
-* Layer 8, the truncated explicit formula for `Chebyshev.psi`, the effective prime number
-  theorem in arithmetic progressions (the `K = ℚ` case of the ray-class count of 8.7), and the
-  effective prime ideal theorem over an arbitrary number field (8.5).
+* Layer 8, the truncated explicit formula for `Chebyshev.psi`, the Weil explicit formula for `ζ`
+  over smooth compactly supported test functions, the effective prime ideal theorem over an
+  arbitrary number field (8.5), and the effective prime number theorem in arithmetic
+  progressions (the `K = ℚ` case of the ray-class count of 8.7).
 
 Not statable at the pins:
 
 * every zero statement about the Dedekind zeta function of a number field `K ≠ ℚ` or about a
-  Hecke L-function over such a `K` (Layers 6.2–6.4, 7.6 in the Dedekind and Hecke cases, the
-  Weil explicit formula 8.4 and 8.6, and the prime sums 8.6): Mathlib's
-  `NumberField.dedekindZeta` is the Dirichlet series itself, a junk value off `Re s > 1`, and
-  neither library has its meromorphic continuation, its completion, or a Hecke L-function;
+  Hecke L-function over such a `K` (Layers 6.2–6.4 and 7.6 in those cases, 8.3–8.4 for `ζ_K`,
+  and the character sums 8.6): Mathlib's `NumberField.dedekindZeta` is the Dirichlet series
+  itself, a junk value off `Re s > 1`; Tau Ceti continues it only to a neighbourhood of
+  `Re s ≥ 1`; and neither library has its continuation to `ℂ`, its completion, or the
+  L-function of a Hecke character. The exceptional-zero terms of 8.5–8.8 are defined from those
+  completions and are absent for the same reason; for a fixed field and modulus the stated
+  estimates hold with or without them;
 * the general ray-class count of 8.7 and its abelian Chebotarev transport 8.8: Mathlib has no
-  ray class group, no Artin map and no Frobenius-class prime count, and the Tau Ceti this file
-  is built against supplies none of them.
+  ray class group, no Artin symbol and no Frobenius-class prime count, and the Tau Ceti revision
+  this file is built against supplies none of them.
 
-The general growth, counting, rectangle-contour and certificate layers (0, 1, 2, 4, 7.1–7.3,
-9) are README targets: their statements are about arbitrary meromorphic functions or about the
-L-functions roadmap's analytic data, so they are not headline theorems about this roadmap's
-objects.
+The growth, gamma-factor, conductor, counting, rectangle-contour and certificate statements of
+Layers 0–2, 4, 7.1–7.3 and 9 are README targets: they are about the L-functions roadmap's
+analytic records, which are not at the pins, or are lemmas on the way to the headlines.
 -/
 
 namespace TauCetiRoadmap.ZerosOfLFunctions
 
 open Complex Filter Asymptotics Set
-open scoped Real
+open scoped Real ContDiff
+
+/-- **Layer 0.1, the order predicate.** `f` has order at most `A`: for every `A' > A`,
+`f(s) = O(exp ‖s‖^{A'})` as `‖s‖ → ∞`. Entirety is a hypothesis of the theorems that use the
+predicate, not part of it. -/
+def OrderLE (f : ℂ → ℂ) (A : ℝ) : Prop :=
+  ∀ A' > A, f =O[Bornology.cobounded ℂ] fun s ↦ Real.exp (‖s‖ ^ A')
 
 /-- **Layer 4.1, the zero count.** The number of zeros of `f` in `R`, with multiplicity: the
 finite sum over `R` of the positive part of the divisor of `f` on `U`. Poles contribute `0`,
@@ -73,12 +82,25 @@ theorem dirichletLFunction_convexity (ε : ℝ) (hε : 0 < ε) :
 
 /-! ## Layer 5: Hadamard factorization -/
 
-/-- **Layer 5.6 at the `ζ` instance, Hadamard's factorization.** There are constants `A, B`
-with `zetaEntireCompletion s = exp (A + B s) ∏_ρ ((1 − s/ρ) e^{s/ρ})^{m_ρ}` for every `s`, the
-product over the zeros `ρ` of `zetaEntireCompletion` with their multiplicities `m_ρ`, and the
-product is unconditionally convergent (Davenport, *Multiplicative Number Theory*, §12). The
-index is all of `ℂ`, the exponent being `0` off the zeros; `zetaEntireCompletion 0 = 1`, so
-`ρ = 0` contributes `1`. -/
+/-- **Layer 5.6, Hadamard's factorization at order at most one.** An entire `f` of order at most
+`1` with `f 0 ≠ 0` is `exp (a + b s) ∏_ρ ((1 − s/ρ) e^{s/ρ})^{m_ρ}`, the product over its zeros
+`ρ` with their multiplicities `m_ρ`, unconditionally convergent for every `s` (Davenport,
+*Multiplicative Number Theory*, §11). The index is all of `ℂ`, the exponent being `0` off the
+zeros; `f 0 ≠ 0` makes the factor at `ρ = 0` equal to `1`. -/
+theorem hadamard_of_orderLE_one (f : ℂ → ℂ) (hf : Differentiable ℂ f) (h0 : f 0 ≠ 0)
+    (hord : OrderLE f 1) :
+    ∃ a b : ℂ, ∀ s : ℂ,
+      Multipliable (fun ρ : ℂ ↦ ((1 - s / ρ) * cexp (s / ρ)) ^
+        (MeromorphicOn.divisor f univ ρ).toNat) ∧
+      f s = cexp (a + b * s) * ∏' ρ : ℂ, ((1 - s / ρ) * cexp (s / ρ)) ^
+        (MeromorphicOn.divisor f univ ρ).toNat :=
+  sorry
+
+/-- **Layer 5.6 at the `ζ` instance.** There are constants `A, B` with
+`zetaEntireCompletion s = exp (A + B s) ∏_ρ ((1 − s/ρ) e^{s/ρ})^{m_ρ}` for every `s`, the
+product over the zeros of `zetaEntireCompletion` with their multiplicities and unconditionally
+convergent (Davenport §12). Its content beyond `hadamard_of_orderLE_one` is that
+`zetaEntireCompletion` has order at most `1` (Layer 3.4). -/
 theorem zetaEntireCompletion_hadamard :
     ∃ A B : ℂ, ∀ s : ℂ,
       Multipliable (fun ρ : ℂ ↦ ((1 - s / ρ) * cexp (s / ρ)) ^
@@ -127,9 +149,9 @@ theorem riemannVonMangoldt :
 /-- **Layer 7.6 at `K = ℚ`, the conductor-uniform count.** One constant `C` serves every
 primitive Dirichlet character `χ` modulo `q`: the number `N±(T, χ)` of zeros of the completed
 L-function in `0 ≤ Re s ≤ 1`, `|Im s| ≤ T` satisfies
-`|N±(T, χ) − (T/π) log (qT/2πe)| ≤ C log (qT)` for `T ≥ 2` (Trudgian, Theorem 1, and Davenport
-§16). The conductor enters as `q`, not `q^{1/2}`; at `q = 1` this is twice the count of
-`riemannVonMangoldt`. -/
+`|N±(T, χ) − (T/π) log (qT/2πe)| ≤ C log (qT)` for `T ≥ 2` (Trudgian, Theorem 1, for the
+nonprincipal characters, and Davenport §16). The conductor enters as `q`, not `q^{1/2}`; at
+`q = 1` this is twice the count of `riemannVonMangoldt`. -/
 theorem riemannVonMangoldt_dirichlet :
     ∃ C : ℝ, ∀ (q : ℕ) [NeZero q] (χ : DirichletCharacter ℂ q), χ.IsPrimitive →
       ∀ T : ℝ, 2 ≤ T →
@@ -153,21 +175,29 @@ theorem chebyshevPsi_explicitFormula :
             ((Real.log (2 * π) : ℝ) : ℂ) - ((Real.log (1 - x ^ (-2 : ℤ)) / 2 : ℝ) : ℂ))‖ ≤
         C * x * Real.log x ^ 2 / T := sorry
 
-/-- **Layer 8.7 at `K = ℚ`, the effective prime number theorem in arithmetic progressions.**
-There is an absolute `c > 0` such that for every modulus `q ≥ 1` and residue `a` prime to `q`,
-`π(x; q, a) = Li(x)/φ(q) + O(x exp(−c √log x))`, the implied constant depending on `q`
-(Davenport §20; for fixed `q` the possible exceptional term `Li(x^β)/φ(q)` is absorbed). The
-main term is the offset logarithmic integral `∫₂ˣ dt / log t`, not `x / log x`. At `q = 1` this
-is de la Vallée Poussin's `π(x) = Li(x) + O(x exp(−c √log x))`. -/
-theorem primeCounting_progression_effective :
-    ∃ c : ℝ, 0 < c ∧ ∀ q a : ℕ, 0 < q → Nat.Coprime a q →
-      (fun x : ℝ ↦ ((((Nat.primesBelow (⌊x⌋₊ + 1)).filter (· ≡ a [MOD q])).card : ℕ) : ℝ) -
-          (∫ t in (2 : ℝ)..x, (Real.log t)⁻¹) / q.totient)
-        =O[atTop] fun x ↦ x * Real.exp (-c * Real.sqrt (Real.log x)) := sorry
+/-- **Layer 8.4 at `K = ℚ`, the Weil explicit formula.** For `φ` smooth with compact support in
+`(0, ∞)` and Mellin transform `φ̃`, the family `ρ ↦ m_ρ φ̃(ρ)` over the zeros of the completed
+zeta function is summable, and
+`∑_ρ m_ρ φ̃(ρ) = φ̃(0) + φ̃(1) + A(φ) − ∑_n Λ(n) (φ(n) + φ(1/n)/n)`, where
+`A(φ) = (2π)⁻¹ ∫ (Γℝ'/Γℝ)(2 + it) (φ̃(2 + it) + φ̃(−1 − it)) dt` is the archimedean term and the
+poles of `Λ` at `0` and `1` give `φ̃(0) + φ̃(1)` (Lang, *Algebraic Number Theory*, XVII §3,
+Theorem 3.1, for this test class). The zero side is a `tsum` over the positive part of the
+divisor, never a finsum. -/
+theorem riemannZeta_weilExplicitFormula (φ : ℝ → ℂ) (hφ : ContDiff ℝ ∞ φ)
+    (hsupp : HasCompactSupport φ) (hpos : tsupport φ ⊆ Ioi 0) :
+    Summable (fun ρ : ℂ ↦
+        ((MeromorphicOn.divisor completedRiemannZeta univ ρ).toNat : ℂ) * mellin φ ρ) ∧
+      ∑' ρ : ℂ, ((MeromorphicOn.divisor completedRiemannZeta univ ρ).toNat : ℂ) * mellin φ ρ =
+        mellin φ 0 + mellin φ 1 +
+          (2 * π : ℂ)⁻¹ * (∫ t : ℝ, logDeriv Gammaℝ (2 + t * I) *
+            (mellin φ (2 + t * I) + mellin φ (1 - (2 + t * I)))) -
+          ∑' n : ℕ, (ArithmeticFunction.vonMangoldt n : ℂ) * (φ n + φ (n : ℝ)⁻¹ / n) :=
+  sorry
 
 /-- **Layer 8.5, the effective prime ideal theorem.** For a number field `K` there is `c > 0`
 such that the number of nonzero prime ideals of `𝓞 K` of norm at most `x` is
-`Li(x) + O(x exp(−c √log x))`, the constants depending on `K`. For fixed `K` a possible
+`Li(x) + O(x exp(−c √log x))`, with `Li x = ∫₂ˣ dt / log t` (the body of Tau Ceti's
+`TauCeti.Real.logIntegral`) and the constants depending on `K`. For fixed `K` a possible
 exceptional zero `β` of `ζ_K` contributes `Li(x^β)`, which the error absorbs. -/
 theorem primeIdealCount_effective (K : Type*) [Field K] [NumberField K] :
     ∃ c : ℝ, 0 < c ∧
@@ -175,6 +205,18 @@ theorem primeIdealCount_effective (K : Type*) [Field K] [NumberField K] :
             {P : IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers K) |
               (Ideal.absNorm P.asIdeal : ℝ) ≤ x} : ℝ) -
           ∫ t in (2 : ℝ)..x, (Real.log t)⁻¹)
+        =O[atTop] fun x ↦ x * Real.exp (-c * Real.sqrt (Real.log x)) := sorry
+
+/-- **Layer 8.7 at `K = ℚ`, the effective prime number theorem in arithmetic progressions.**
+There is an absolute `c > 0` such that for every modulus `q ≥ 1` and residue `a` prime to `q`,
+`π(x; q, a) = Li(x)/φ(q) + O(x exp(−c √log x))`, the implied constant depending on `q`
+(Davenport §20; for fixed `q` a possible exceptional term `Li(x^β)/φ(q)` is absorbed). The
+main term is the offset logarithmic integral `∫₂ˣ dt / log t`, not `x / log x`. At `q = 1`
+this is de la Vallée Poussin's `π(x) = Li(x) + O(x exp(−c √log x))`. -/
+theorem primeCounting_progression_effective :
+    ∃ c : ℝ, 0 < c ∧ ∀ q a : ℕ, 0 < q → Nat.Coprime a q →
+      (fun x : ℝ ↦ ((((Nat.primesBelow (⌊x⌋₊ + 1)).filter (· ≡ a [MOD q])).card : ℕ) : ℝ) -
+          (∫ t in (2 : ℝ)..x, (Real.log t)⁻¹) / q.totient)
         =O[atTop] fun x ↦ x * Real.exp (-c * Real.sqrt (Real.log x)) := sorry
 
 end TauCetiRoadmap.ZerosOfLFunctions
