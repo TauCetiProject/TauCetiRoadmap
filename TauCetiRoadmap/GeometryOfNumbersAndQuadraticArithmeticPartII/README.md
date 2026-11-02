@@ -34,7 +34,7 @@ In characteristic two the Arf coordinate over a finite field is the absolute tra
 
 ### From Mathlib
 
-Use `QuadraticMap`, `QuadraticMap.polarBilin`, `QuadraticMap.proj`, `QuadraticMap.weightedSumSquares`, `QuadraticMap.Anisotropic` and `QuadraticMap.Equivalent` from `Mathlib/LinearAlgebra/QuadraticForm/Basic.lean` and `IsometryEquiv.lean`. A quadratic map supplies homogeneity and a bilinear companion; it supplies neither finite projectivity nor a perfect polar map. In characteristic two the polar API is used directly. The general `QuadraticForm.baseChange` in `TensorProduct.lean` requires two invertible, so it is not an integral dyadic scalar-extension construction. For §0.4 use `QuadraticMap.prod` in `Mathlib/LinearAlgebra/QuadraticForm/Prod.lean` for orthogonal sums and `Algebra.trace` in `Mathlib/RingTheory/Trace/Defs.lean` for absolute trace; `Module.Basis`, `Submodule` and `Module.finrank` express the bases and half dimension.
+Use `QuadraticMap`, `QuadraticMap.polarBilin`, `QuadraticMap.proj`, `QuadraticMap.weightedSumSquares`, `QuadraticMap.Anisotropic` and `QuadraticMap.Equivalent` from `Mathlib/LinearAlgebra/QuadraticForm/Basic.lean` and `IsometryEquiv.lean`. A quadratic map supplies homogeneity and a bilinear companion; it supplies neither finite projectivity nor a perfect polar map. In characteristic two the polar API is used directly. The general `QuadraticForm.baseChange` in `TensorProduct.lean` requires two invertible, so it is not an integral dyadic scalar-extension construction. For §0.4 use `QuadraticMap.prod` in `Mathlib/LinearAlgebra/QuadraticForm/Prod.lean` for orthogonal sums and `Algebra.trace` in `Mathlib/RingTheory/Trace/Defs.lean` for absolute trace; `Module.Basis`, `Submodule` and `Module.finrank` express the bases and half dimension. The scalar-extension headline uses native `TensorProduct` and `QuadraticForm` carriers, with uniqueness supplied by `baseChange_ext` in `Mathlib/LinearAlgebra/QuadraticForm/TensorProduct.lean:158`, which does not require two invertible. Use `Module.Basis.baseChange` and `Module.Basis.baseChange_apply` in `Mathlib/LinearAlgebra/TensorProduct/Basis.lean:63,73` for the extended basis, and `Algebra.trace_algebraMap` and `Algebra.trace_trace` in `Mathlib/RingTheory/Trace/Defs.lean:110,137` for its trace law.
 
 Use `AdicCompletion` and `AdicCompletion.of` in `Mathlib/RingTheory/AdicCompletion/Basic.lean`, and its ring/algebra structure in `Algebra.lean`. Its definition is a compatible inverse-limit subtype; completeness needs the finitely generated ideal hypothesis. Here ideals are finitely generated. Use `Ideal.quotientMulEquivQuotientProd` in `Mathlib/RingTheory/Ideal/Quotient/Operations.lean` for coprime ideals, including their powers. Use `IsDedekindDomain.HeightOneSpectrum` for prime indices and `Padic` for ℚ₂. Use `AddMonoidHom.range`, `QuotientAddGroup.mk'` and the quotient by an `AddSubgroup` for the obstruction's algebraic quotient. These imports supply no arithmetic identification of that quotient. For the characteristic-two divisor argument use ideal factorization and `ClassGroup.mk0_surjective`, `ClassGroup.mk_eq_one_iff` in `Mathlib/RingTheory/ClassGroup/Basic.lean`, with `ClassGroup.equivPic` in `Mathlib/RingTheory/PicardGroup.lean`: invertible fractional ideals modulo principal ideals give the divisor-class quotient in every Dedekind characteristic.
 
@@ -161,9 +161,11 @@ For k=𝔽_(2^r), r≥1, and a finite-dimensional quadratic map q with perfect f
 
 The completeness theorem `arf_trace_classifies` states that for any finite field k of characteristic two with its 𝔽₂-algebra structure, finite-dimensional k-spaces V and W, and forms q and q′ with symplectic bases of n and m pairs respectively, their absolute-trace sums are equal if and only if q⊥q′ vanishes on a subspace L with 2 dim L=dim(V×W). The basis hypotheses require all e–e and f–f polar pairings to be zero and b(eᵢ,fⱼ)=δᵢⱼ for each form; these imply perfect polars. The dimensions n and m may differ or be zero. Such an L is a quadratic Lagrangian, since the sum has perfect polar. Taking q′=q with two choices of basis and the diagonal L proves basis independence.
 
+The scalar-extension theorem `arf_scalar_extension` states that for finite characteristic-two fields k and l, an extension l/k with compatible 𝔽₂-algebra structures, and a finite-dimensional k-space V with q and a symplectic basis of n pairs as above, there exists a quadratic form Q on l⊗ₖV satisfying Q(1⊗v)=ι(q(v)) for every v∈V, where ι:k→l is the algebra map. Its absolute-trace sum in the extended basis equals [l:k] times that of q in 𝔽₂. Agreement for every v determines Q uniquely, and polarizing it shows that the extended basis is symplectic; thus Q has perfect polar. This includes n=0 and every extension degree.
+
 (CDHHLMNNS-III-v4, Corollary 2.3.10, p. 45; Examples 2.3.13–14, pp. 46–47; CDHHLMNNS-III-v4 line 2095.)
 
-A symplectic basis splits q into planes ax²+xy+by². Such a plane is metabolic exactly when the Artin–Schreier equation has a solution, equivalently Tr(ab)=0. Symplectic changes alter the raw sum by an element z²+z, killed by trace. The orthogonal sum of two trace-one planes is metabolic. Trace transitivity gives Tr_(k′/𝔽₂)(a)=m Tr_(k/𝔽₂)(a) for a∈k, fixing the extension map itself.
+A symplectic basis splits q into planes ax²+xy+by². Such a plane is metabolic exactly when the Artin–Schreier equation has a solution, equivalently Tr(ab)=0. Symplectic changes alter the raw sum by an element z²+z, killed by trace. The orthogonal sum of two trace-one planes is metabolic. In the extended basis, define Q by the polynomial Σᵢ (ι(q(eᵢ))xᵢ²+xᵢyᵢ+ι(q(fᵢ))yᵢ²). Its restriction to 1⊗V is q followed by ι, and its polar has the same symplectic matrix. Trace transitivity and the trace of a base-field scalar give Tr_(k′/𝔽₂)(ι(a))=m Tr_(k/𝔽₂)(a) for a∈k, fixing the extension map itself.
 
 The defining map has the following API.
 
@@ -173,7 +175,7 @@ The defining map has the following API.
 - Every hyperbolic plane over k has coordinate zero.
 - A nonsingular finite-field form has invariant zero exactly when metabolic.
 - The descended map is an additive isomorphism Wq(k)≃ℤ/2.
-- For degree m, the base-change map is multiplication by m on ℤ/2.
+- For degree m, `arf_scalar_extension` realizes scalar extension on the native tensor product and makes the base-change map multiplication by m on ℤ/2.
 - Regularity is perfectness of Mathlib `QuadraticMap.polarBilin`, rather than `QuadraticMap.associated` in characteristic two.
 
 **Checks.**
@@ -185,8 +187,10 @@ The defining map has the following API.
 - The zero-dimensional nonsingular form has invariant 0. Against xy it has equal trace 0 and a one-dimensional vanishing subspace in dimension two; against the 𝔽₂ Arf-one plane it has unequal traces and no such subspace. This tests both directions with unequal dimensions.
 - Over 𝔽₄ with ζ²+ζ+1=0, the plane x²+xy+ζy² has trace invariant ζ+ζ²=1, whereas the plane with last coefficient one has trace 1+1=0.
 - For q=xy over 𝔽₄, the standard symplectic basis has raw Arf sum zero. The basis ((1,1),(ζ,ζ²)) has polar pairing ζ+ζ²=1 and raw sum 1·1=1, but both absolute traces are zero. Raw basis independence would be false.
+- For x²+xy+y² over 𝔽₂, extension to 𝔽₂, 𝔽₄ and 𝔽₈ gives traces of one equal to 1, 0 and 1, respectively, matching 1·1, 2·1 and 3·1 in 𝔽₂. The even-degree case rules out an invariant-preserving extension map.
+- For n=0 the tensor product is zero and both trace sums are 0 for every extension. For xy on a plane, Q(1⊗(1,1))=1, whereas the zero form gives 0; agreement only on the individual basis vectors, whose values are both zero, would fail to determine scalar extension.
 
-*Needs:* §0.1; Mathlib quadratic maps and full polar; finite-field trace and Artin–Schreier theory; HermitianKTheoryOfPoincareCategories §§3.4 and 7.9.
+*Needs:* §0.1; Mathlib quadratic maps and full polar, tensor-product bases, trace transitivity and the trace of base-field scalars; finite-field Artin–Schreier theory; HermitianKTheoryOfPoincareCategories §§3.4 and 7.9.
 
 ### Examples
 
