@@ -1,6 +1,6 @@
 import Mathlib
 import TauCetiRoadmap.ProfiniteCohomology.Suggested
-import TauCetiRoadmap.LocalFieldsRamification.Suggested
+import Completed.LocalFieldsRamification.Suggested
 import TauCetiRoadmap.ClassFieldTheory.Suggested
 import TauCeti.Algebra.Quaternion.BrauerClass
 import TauCeti.LinearAlgebra.QuadraticForm.RegularFormClass.Hasse
@@ -875,7 +875,7 @@ theorem cliffordHomI2Bar_mk [Invertible (2 : K)] (x : ↥(fundamentalIdeal K ^ 2
 /-! ## Layer 6A: consuming the Local Fields Ramification substrate
 
 The general arithmetic of a nonarchimedean local field belongs to the
-[Local Fields Ramification roadmap](../LocalFieldsRamification/README.md), and this sublayer consumes it rather than
+[Local Fields Ramification roadmap](../../Completed/LocalFieldsRamification/README.md), and this sublayer consumes it rather than
 building a second copy. The normalized valuation is
 `TauCetiRoadmap.LocalFieldsRamification.normalizedValuation`, the unit filtration is
 `TauCetiRoadmap.LocalFieldsRamification.unitFiltration`, the absolute ramification index
