@@ -115,11 +115,12 @@ theorem rational_classification {ι V U : Type*}
     ∃! t : TauCeti.DynkinType,
       ∃ ht : t.Valid, Nonempty (P.Equiv (t.rationalRootSystem ht)) := sorry
 
-/-- The Weyl group of type A of rank n is the symmetric group on n+1 letters. -/
+/-- A finite reduced crystallographic root pairing of type A and rank n has Weyl
+group the symmetric group on n+1 letters, without a spanning hypothesis. -/
 theorem weylGroup_equiv_perm_of_typeA {ι R V U : Type*}
     [CommRing R] [CharZero R] [IsDomain R]
     [AddCommGroup V] [Module R V] [AddCommGroup U] [Module R U]
-    (P : RootPairing ι R V U) [Finite ι] [P.IsRootSystem]
+    (P : RootPairing ι R V U) [Finite ι]
     [P.IsCrystallographic] [P.IsReduced] (b : P.Base) {n : ℕ} (hn : 1 ≤ n)
     (h : TauCeti.HasCartanType P b (.A n)) :
     Nonempty (P.weylGroup ≃* Equiv.Perm (Fin (n + 1))) := sorry

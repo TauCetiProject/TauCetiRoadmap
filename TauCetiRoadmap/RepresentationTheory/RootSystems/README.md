@@ -99,13 +99,19 @@ entry, ρ(sᵢsⱼ)αᵢ=3αᵢ+2αⱼ. These values fix the action and word con
   also uses spanning. `RootPairing.Base.equivOfCartanMatrixEq` gives
   the isomorphism for a specified simultaneous Cartan relabelling of finite
   reduced crystallographic root systems over the same characteristic-zero domain.
+  `RootPairing.Base.map_equiv_cartanMatrix` in the same file identifies the Cartan
+  matrix of `RootPairing.Base.map` with simultaneous reindexing by
+  `RootPairing.Base.supportMapEquiv`; it needs crystallographic pairings over a
+  characteristic-zero commutative ring, but neither finite root indices nor a domain.
 - `RootPairing.RootPositiveForm.posForm` and
   `RootPairing.RootPositiveForm.rootLength` in
   `Mathlib/LinearAlgebra/RootSystem/RootPositive.lean` are the positive-form and
   squared-length operations. The canonical positive form on the finite root span
-  comes from `RootPairing.posRootForm` and
+  comes from `RootPairing.posRootForm` in
+  `Mathlib/LinearAlgebra/RootSystem/Finite/CanonicalBilinear.lean`;
   `RootPairing.posRootForm_rootFormIn_posDef` in
-  `Mathlib/LinearAlgebra/RootSystem/Finite/Nondegenerate.lean`.
+  `Mathlib/LinearAlgebra/RootSystem/Finite/Nondegenerate.lean` supplies positive
+  definiteness on the root span.
 - `RootPairing.weylGroup`, `RootPairing.weylGroup.ofIdx`, and
   `RootPairing.weylGroupToPerm` in
   `Mathlib/LinearAlgebra/RootSystem/WeylGroup.lean` supply the actual subgroup of
@@ -117,6 +123,11 @@ entry, ρ(sᵢsⱼ)αᵢ=3αᵢ+2αⱼ. These values fix the action and word con
   `CoxeterSystem.length_mul_simple`, and `CoxeterSystem.wordProd_braidWord_eq`
   in `Mathlib/GroupTheory/Coxeter/Basic.lean` and `Length.lean` give the abstract
   presentation and length/descent vocabulary, with no finite-index assumption.
+  `CoxeterMatrix.reindexGroupEquiv` in `Mathlib/GroupTheory/Coxeter/Basic.lean`
+  maps the group of the reindexed matrix to the original group. Its generator
+  equations are `CoxeterMatrix.reindexGroupEquiv_apply_simple` and
+  `CoxeterMatrix.reindexGroupEquiv_symm_apply_simple`; the inverse sends the
+  generator at i to the generator at e(i).
   `Finsupp.lmapDomain` and `Finsupp.linearEquivFunOnFinite` in
   `Mathlib/LinearAlgebra/Finsupp/Defs.lean` give coordinate transport.
 
@@ -329,8 +340,10 @@ identity (Humphreys, §5.4, Corollary, p.113; arbitrary-index extension as in §
 
 For a bijection e:I≃J preserving entries of matrices M and M′, use the real linear
 coordinate equivalence T:(I →₀ ℝ)≃ₗ[ℝ](J →₀ ℝ) determined by Tαᵢ=α′ₑ₍ᵢ₎.
-Prove B′(Tx,Ty)=B(x,y) and T(σᵢx)=σ′ₑ₍ᵢ₎(Tx). The generator map extends to a
-multiplicative equivalence f:M.Group≃*M′.Group with Tρ(w)=ρ′(f(w))T.
+Identify M′ with `M.reindex e` and take f:M.Group≃*M′.Group to be
+`(M.reindexGroupEquiv e).symm`, whose generator equation is
+`CoxeterMatrix.reindexGroupEquiv_symm_apply_simple`. Prove B′(Tx,Ty)=B(x,y),
+T(σᵢx)=σ′ₑ₍ᵢ₎(Tx), and Tρ(w)=ρ′(f(w))T for this specified f.
 For J⊆I, let Mⱼ be the restricted Coxeter matrix. The extension-by-zero map
 E:(J →₀ ℝ)→ₗ[ℝ](I →₀ ℝ), given by `Finsupp.lmapDomain ℝ ℝ Subtype.val`, satisfies
 B(Eu,Ev)=Bⱼ(u,v) and Eσⱼ(u)=σᵢ(Eu) for i the ambient value of j. Lift the
@@ -352,12 +365,19 @@ Tρ(w)T⁻¹, with the same simple-generator formula.
 - With infinite dihedral Gram [[1,−1],[−1,1]], determinant is 0 but
   ρ((sᵢsⱼ)ⁿ)αᵢ=(2n+1,2n), giving (1,0),(3,2),(5,4) for n=0,1,2.
 - Reindexing the A₂ simple basis by its transposition sends αᵢ to αⱼ and
-  sends σᵢ to σⱼ, not to σᵢ; generator equations must include e.
+  sends σᵢ to σⱼ, not to σᵢ; f sends generator 0 to generator 1.
+  For w=sᵢsⱼ, both Tρ(w)αᵢ and ρ′(f(w))Tαᵢ equal α′ᵢ.
+  The inverse reindexing followed by this reindexing fixes both generators.
+- For three orthogonal nodes and e=(0 1 2), f sends generator 0 to generator 1;
+  the native forward equivalence instead sends reindexed generator 0 to original
+  generator 2. This distinguishes the two directions even when a transposition cannot.
 - For the parabolic J={i} in A₂, Eσᵢ(1)=−αᵢ=σᵢE(1).
   For J empty E is the unique map from zero; for J=I it is the identity.
 
-*Needs:* §1.2 for faithfulness; native Coxeter lifting and finite-support linear
-maps for transports; faithfulness of both systems for parabolic injectivity.
+*Needs:* §1.2 for faithfulness; `CoxeterMatrix.reindexGroupEquiv` and
+`CoxeterMatrix.reindexGroupEquiv_symm_apply_simple` for the abstract reindexing;
+native Coxeter lifting and finite-support linear maps for the geometric
+comparisons; faithfulness of both systems for parabolic injectivity.
 
 ### 1.4 Integral comparison
 
@@ -420,7 +440,7 @@ group. Combine it with surjectivity to obtain a multiplicative equivalence
 whose generator i maps to the reflection in the actual root bᵢ. Transport the
 native presented Coxeter system across this equivalence. Its simple-generator
 equation is mandatory; an unspecified Coxeter structure is insufficient
-(Bourbaki, Ch. VI §1; Humphreys, §1.9).
+(Bourbaki, Ch. VI §1; Humphreys, §1.9, Theorem, pp.16–18).
 
 One root-level route proves the braid property for shortest words in the actual
 simple reflections, using the native root exchange condition and rank-two
@@ -434,7 +454,8 @@ group, not merely find a shorter word with equal Weyl image.
 Prove `presentation_length_eq_inversions`: the length of any element of the
 presented group is the cardinality of the native inversion set of its image.
 The marked equivalence identifies shortest words on both sides, so the native
-least-length characterization applies (Humphreys, §1.6 and §1.9).
+least-length characterization applies (Humphreys, §1.7, Corollary, p.14;
+§1.9, Theorem, pp.16–18).
 
 The API of the resulting equivalence includes its inverse on actual simple
 reflections, equality on word products, the length formula, and preservation
@@ -488,8 +509,8 @@ Prove `classification_independent_base`: for every nonempty irreducible finite
 reduced crystallographic root system over a characteristic-zero domain, given one base b₀, exactly
 one valid Dynkin type is the type of every base. Prove transitivity on bases as
 the intermediate target: for any two bases b,b′, some Weyl element transports
-b to b′. Transporting a base along a root-pairing equivalence preserves its
-Cartan entries under the induced support bijection. Thus an unbased equivalence
+b to b′. Apply `RootPairing.Base.map_equiv_cartanMatrix` to transport Cartan
+entries under the induced support bijection. Thus an unbased equivalence
 preserves the unique valid type (Bourbaki, Ch. VI §1 and §4; Humphreys,
 *Introduction to Lie Algebras and Representation Theory*, §§10–11).
 
@@ -517,8 +538,10 @@ isomorphisms; the native rational realization and rigidity supply existence
   so its off-diagonal Cartan entry is −1.
 - The empty matrix is of finite type, but there is no valid rank-zero Dynkin
   type. Nonempty ι in both classification headlines excludes this case.
-- B₂ and C₂ have matrices related by swapping the two indices. Only B 2 is
-  valid. In rank 3 the oriented B₃ and C₃ matrices cannot be simultaneously
+- Swapping the B₂ indices changes [[2,−2],[−1,2]] to [[2,−1],[−2,2]]:
+  Cartan transport is simultaneous reindexing, not literal equality of entries.
+  These B₂ and C₂ matrices represent the same valid type B 2. In rank 3 the
+  oriented B₃ and C₃ matrices cannot be simultaneously
   relabelled into one another; forgetting edge orientation would conflate them.
 - The finite-type condition accepts [2] and the empty matrix. It rejects
   [[2,−2],[−2,2]], since the quadratic form has value 0 at (1,1) for every
@@ -528,11 +551,12 @@ isomorphisms; the native rational realization and rigidity supply existence
 the rational statement; positive roots and lowering; base transitivity
 above; `TauCeti.existsUnique_dynkinType`,
 `TauCeti.nonempty_equiv_of_hasCartanType`, native rational models and their
-Cartan matrices; transport of bases by `RootPairing.Base.map`.
+Cartan matrices; transport of bases by `RootPairing.Base.map` and its Cartan
+identity `RootPairing.Base.map_equiv_cartanMatrix`.
 
 ### 3.2 Type A as a permutation group
 
-For a finite reduced crystallographic root system P over a characteristic-zero
+For a finite reduced crystallographic root pairing P over a characteristic-zero
 domain, a base of Cartan type A n and n≥1, prove
 `weylGroup_equiv_perm_of_typeA`: the Weyl group is multiplicatively equivalent to
 `Equiv.Perm (Fin (n + 1))`. Refine the existence statement by a marked equivalence
@@ -551,6 +575,9 @@ compared with the native type A model using the specified Cartan relabelling.
 
 - A₁ gives S₂ of order 2 and one positive root; A₂ gives S₃ of order 6 and
   three positive roots. The two A₂ simple permutations do not commute.
+- In ℚ² with dot pairing, roots ±(1,0) and coroots ±(2,0) give type A₁
+  with reflection diag(−1,1). The Weyl group has order 2 although the root span
+  is only the first axis; the group comparison requires no spanning hypothesis.
 - A₃ gives S₄ of order 24, twelve roots and six positive roots. Using the rank
   as the number of permuted letters would instead give order 6.
 - Reversing the A₂ node labelling interchanges (0 1) and (1 2); the marked
@@ -590,8 +617,10 @@ congruence statements supply nothing in the reverse direction.
 
 ## References
 
-- J. E. Humphreys, *Reflection Groups and Coxeter Groups*, Cambridge (1990),
-  §§1.6, 1.9; §5.1 p.106; §5.3 pp.109–110; §5.4 Theorem pp.111–113 and
+- J. E. Humphreys, *Reflection Groups and Coxeter Groups*, Cambridge, first
+  published 1990; corrected paperback edition 1992, reprinted 1994.
+  §1.7 Corollary p.14; §1.9 Theorem pp.16–18; §5.1 p.106; §5.3 pp.109–110;
+  §5.4 Theorem pp.111–113 and
   Corollary p.113; §5.5. The institutional course copy has the printed numbering:
   [University of Washington](https://sites.math.washington.edu/~billey/classes/reflection.groups/references/Humphreys.ReflectionGroupsAndCoxeterGroups.pdf).
 - N. Bourbaki, *Lie Groups and Lie Algebras, Chapters 4–6*, Springer (2002),
