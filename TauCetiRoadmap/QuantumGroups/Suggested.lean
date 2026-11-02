@@ -10,12 +10,17 @@ import TauCeti.Algebra.Coalgebra.Subcomodule.Basic
 # Quantum groups: target signatures
 
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's
-headline theorems against the pinned APIs: weighted Schur orthogonality, the
+headline theorems against the pinned APIs: the von Neumann bicommutant theorem,
+weighted Schur orthogonality, the
 algebraic compact-type characterization, rank-one PBW and domain, the polynomial
 center, signed finite-simple classification, finite complete reducibility and
 local finiteness versus integrability.
 
 The following headlines are not statable at the pins without heavy constructions:
+* Layer 0: the analytic foundation comparisons need the adjointable-operator,
+  interior tensor, C*-category, positive diagram completion and full left
+  Hilbert-algebra constructions. Native GNS and module carriers are used directly;
+  the modular comparison still needs the full Hilbert-algebra and weight carriers.
 * Layer 1: classical multiplier/tensor comparison and compact Haar existence and
   uniqueness need the completed minimal C*-tensor functor and the analytic
   compact-quantum-group carrier.
@@ -41,6 +46,18 @@ open Module
 namespace TauCetiRoadmap.QuantumGroups
 
 universe u v w
+
+/-! ## Layer 0: Operator closures -/
+
+/-- The weak operator closure of a unital star subalgebra is its double commutant,
+without a separability hypothesis on the Hilbert space (Hiai, Section 1.2). -/
+theorem weakClosure_eq_bicommutant (H : Type u) [NormedAddCommGroup H]
+    [InnerProductSpace ℂ H] [CompleteSpace H]
+    (B : StarSubalgebra ℂ (H →L[ℂ] H)) :
+    closure (ContinuousLinearMapWOT.ofCLM '' (B : Set (H →L[ℂ] H))) =
+      ContinuousLinearMapWOT.ofCLM ''
+        Set.centralizer (Set.centralizer (B : Set (H →L[ℂ] H))) := by
+  sorry
 
 /-! ## Layer 3: The Hopf star core and weighted orthogonality -/
 
