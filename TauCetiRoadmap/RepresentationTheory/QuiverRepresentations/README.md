@@ -1,503 +1,740 @@
 # Roadmap: quiver representations, path algebras, and Gabriel's theorem
 
-Mathlib has the combinatorial substrate of quiver theory and nothing built on it. It defines a
-**quiver** as a `class Quiver (V : Type u)` carrying `Hom : V → V → Type v`
-(`Combinatorics/Quiver/Basic.lean`), the inductive type of **paths** `Quiver.Path a b` with
-concatenation `Quiver.Path.comp` and `Quiver.Path.length` (`Combinatorics/Quiver/Path.lean`), and
-**prefunctors** `V ⥤q W` between quivers (`Combinatorics/Quiver/Prefunctor.lean`). It has the **free
-category on a quiver**, `CategoryTheory.Paths V`, whose morphisms are the paths and whose composition
-is concatenation (`CategoryTheory/PathCategory/Basic.lean`, with `Paths.of : V ⥤q Paths V`). Every
-`CategoryStruct` extends `Quiver`, so `ModuleCat k` is itself a quiver and prefunctors into it are
-available for free. On the module side it has everything a representation theory rests on:
-`ModuleCat k`, `MonoidAlgebra`, `FreeAlgebra` (`Algebra/FreeAlgebra.lean`), the semisimple structure
-theory consumed by [semisimple algebras](../SemisimpleAlgebras/README.md), the Jacobson radical
-`Ring.jacobson` (`RingTheory/Jacobson/Radical.lean`), finite-length modules `IsFiniteLength` and the
-Jordan-Hölder theorem `CompositionSeries.jordan_holder` (`RingTheory/FiniteLength.lean`,
-`Order/JordanHolder.lean`), `CategoryTheory.Simple` and `CategoryTheory.Indecomposable`, and the
-abstract root-system and Dynkin machinery consumed by [root systems](../RootSystems/README.md).
+**Summary.** This roadmap develops representations of finite quivers as left modules over
+path algebras, their finite-dimensional algebra structure, and their homological and root-theoretic
+invariants. Its end theorems are Gabriel's admissible presentation and ADE correspondence,
+the Euler–Hom–Ext identity, and Auslander–Reiten duality and almost-split sequences, assembled
+into the Auslander–Reiten quiver. It builds on the path, representation, decomposition and
+reflection theory in Tau Ceti, with semisimple algebra and root-system inputs specified below.
 
-What Mathlib does **not** have is the subject itself. There is **no path algebra**: nothing turns
-`Quiver.Path` into a `k`-algebra `kQ`. There is **no theory of quiver representations** as modules over
-`kQ`, no vertex simples/projectives/injectives, no dimension vectors. There is **no Krull-Schmidt
-theorem**: `CategoryTheory.KrullSchmidt` does not exist, the string "Krull-Schmidt" appears once, in a
-docstring warning in `CategoryTheory/Preadditive/Mat.lean`, and the unique decomposition of a
-finite-dimensional module into indecomposables is unbuilt. There is **no Euler/Tits form**, **no
-reflection functors**, **no Gabriel's theorem** in either form (finite representation type ⇔ ADE, and
-every finite-dimensional algebra as `kQ/I`), and **no Auslander-Reiten theory** whatsoever, no
-almost-split sequences, no AR translate `τ`, no AR quiver.
+## Scope and ownership
 
-This roadmap builds that theory, from the path algebra to the two summits: **Gabriel's theorem**, that
-a connected quiver has finite representation type iff its underlying graph is a simply-laced (ADE)
-Dynkin diagram, with the indecomposable representations then in bijection with the positive roots of
-the associated root system (dimension vector = positive root); and the **Auslander-Reiten theory** that
-organizes the indecomposables and their maps into the AR quiver. The ADE half connects directly to
-[root systems](../RootSystems/README.md), whose positive-root and Dynkin-classification API it
-consumes; the general finite-dimensional-algebra frame (radical, projective covers, injective
-envelopes, the Cartan matrix of an algebra, basic algebras, and Gabriel's presentation `kQ/I`) rests on
-[semisimple algebras](../SemisimpleAlgebras/README.md). Suggested home:
-`TauCeti/RepresentationTheory/Quiver/` (path algebra, representations, Gabriel, AR theory) and
-`TauCeti/RingTheory/KrullSchmidt/` (the Krull-Schmidt theorem, which is a statement about
-finite-length modules and mentions no quivers).
+This is the base quiver-representation roadmap. It owns the finite-dimensional-algebra frame,
+the quiver-specific homological comparisons, the bridge from dimension vectors to root systems,
+and Auslander–Reiten theory for finite-dimensional algebras. Its layers retain their roles:
+0 path algebras, 1 representations, 2 decomposition, 3 finite-dimensional algebras, 4 homological
+forms and reflections, 5 Gabriel, and 6 Auslander–Reiten theory.
 
-## Standing conventions
+The following mathematics is already in the pinned libraries and is consumed, not replanned:
 
-- **The base field.** `k` is a field throughout (`[Field k]`). The general structure theory (path
-  algebra, representations, Krull-Schmidt), the Euler and Tits forms, the dimension vector, and the BGP
-  reflection and Coxeter functors all live over an arbitrary field and carry no closedness hypothesis.
-  **Algebraic closedness (`[IsAlgClosed k]`) enters only where it is genuinely needed**: the `kQ/I`
-  presentation (Layer 3) and the non-simply-laced species theory, where division-algebra endomorphism
-  rings appear over a non-closed field. The simply-laced (ADE) Gabriel statements themselves —
-  finite type ⇔ positive-definite Tits form, the indecomposable ↔ positive-root bijection — are
-  **field-independent** (the BGP reflection-functor proof works over any field, and every ADE
-  indecomposable is a brick with `End = k`), so those targets carry no closedness hypothesis. Spell
-  `[IsAlgClosed k]` in each result that needs it rather than bundling it into the ambient context.
-- **Quivers are finite.** `Q` is a finite quiver: `[Quiver Q]` with `[Finite Q]` on the vertices and
-  `[∀ a b, Finite (a ⟶ b)]` (finitely many arrows). Reuse Mathlib's `Quiver` class, `Quiver.Path`,
-  `Quiver.Path.comp`, `Quiver.Path.length`, and `Prefunctor`; never a private quiver datum. "Connected"
-  means connected as an underlying graph (`Quiver.Symmetrify` is Mathlib's symmetrization).
-  **Acyclicity** is the conceptual predicate `IsAcyclic Q`, "every closed path is trivial"
-  (`∀ a, ∀ p : Quiver.Path a a, p = Quiver.Path.nil`), independent of any finiteness; the reflection
-  functors and the homological identities are stated against it. Separately, `Finite (Σ a b : Q,
-  Quiver.Path a b)` (finitely many paths) is the extensional condition making `kQ` finite-dimensional,
-  and for a finite quiver the two coincide (`finite_paths_of_isAcyclic`). Use whichever is the direct
-  input: `IsAcyclic` for the structural theorems, `Finite (paths)` only where finite dimensionality of
-  `kQ` is what is consumed.
-- **The path algebra is `kQ`, built once, over a finite vertex set.** `pathAlgebra k Q` is the free
-  `k`-module on the set of paths `Σ a b : Q, Quiver.Path a b`, with product the concatenation of
-  composable paths in the **"later factor first"** order, `p * q := Quiver.Path.comp q p` when
-  `target q = source p` and `0` otherwise. It is a `Ring` and a `k`-`Algebra`; the unit `1 = ∑ᵥ eᵥ` is
-  the finite sum of the trivial paths (`Quiver.Path.nil`), so **unitality requires `[Finite Q]`** on the
-  vertices (an infinite vertex set yields only a ring with local units, not a unital algebra) - carry
-  `[Finite Q]` on the ring and algebra instances, not merely on later lemmas. Pin the paths as an
-  explicit `Basis`. Reuse `Finsupp` (`→₀`) as the underlying module; only the multiplication is built.
-  The chosen product order makes an arrow `a : i ⟶ j` act, by left multiplication, as a map from `eᵢ`'s
-  component to `eⱼ`'s, so that **representations are left `kQ`-modules** (below).
-- **Representations are functors out of the path category, and left modules over `kQ`.** A representation
-  is a functor `Paths Q ⥤ ModuleCat k`: a `k`-module at each vertex and a `k`-linear map along each
-  arrow, functorial in path concatenation. This is Mathlib-native (it is `Paths Q ⥤ ModuleCat k` with no
-  new category), and `QuiverRep k Q` abbreviates it. For a finite vertex set the load-bearing theorem
-  `quiverRepEquivalence : (Paths Q ⥤ ModuleCat k) ≌ ModuleCat (pathAlgebra k Q)` identifies
-  representations with **left** `kQ`-modules: it sends a module `M` to the representation
-  `v ↦ eᵥ M` (an arrow acting by left multiplication) and inverts through the idempotent decomposition
-  `M = ⨁ᵥ eᵥ M` guaranteed by `∑ᵥ eᵥ = 1`. Every module-theoretic notion (sub, quotient, direct sum via
-  biproducts, simple, indecomposable) is then Mathlib's, transported along it, never redefined. All
-  orientation-sensitive downstream objects (`Pᵢ`, `Iᵢ`, Cartan entries, the Ext-quiver arrows) follow
-  this one convention.
-- **Finite-dimensional means `FiniteDimensional k` on each vertex space.** `IsFiniteDimensional` for a
-  representation is `∀ v, FiniteDimensional k (M.obj v)`; over a finite quiver this is the same as
-  `FiniteDimensional (pathAlgebra k Q)`-finiteness of the corresponding module. Krull-Schmidt, the
-  dimension vector, and everything downstream live on finite-dimensional representations. Use
-  `FiniteDimensional` / `Module.Finite` and `IsFiniteLength`, never a private finiteness predicate.
-- **Dimension vectors are `Q → ℕ`; the Euler form is `ℤ`-bilinear on `Q → ℤ`.** The dimension vector
-  `dimVector M v = Module.finrank k (M.obj v)` lands in `Q → ℕ`; the Euler (Ringel) form `eulerForm`
-  and the Tits form `titsForm` are defined on `Q → ℤ` and restricted along `Nat.cast`. Roots and the
-  Weyl-group action are imported from [root systems](../RootSystems/README.md): the reflection at a
-  vertex `i` is the simple reflection `sᵢ`, and the Coxeter functor realizes the Coxeter element. Use
-  `RootPairing`, `RootPairing.Base`, and `Base.cartanMatrix` from Mathlib; do not privately re-encode a
-  root system.
-- **`τ` is the Auslander-Reiten translate, `D Tr`.** The AR translate `arTranslate` is the composite of
-  the transpose (`Tr`, from a minimal projective presentation) and the `k`-duality `D = Hom_k(-, k)`.
-  Almost-split sequences are `CategoryTheory.ShortComplex`s that are `ShortComplex.ShortExact`; the AR
-  quiver is a genuine `Quiver` on isomorphism classes of indecomposables, arrows the irreducible
-  morphisms. Reuse `ShortComplex`, `ShortExact`, and `Quiver`.
+- Mathlib supplies quivers, paths, module categories, finite length, Jordan–Hölder, Ext, Morita
+  equivalence, and rational root pairings.
+- Tau Ceti supplies the path algebra and its basis and generators, representation/module
+  equivalence, vertex simples and projectives, coinduced injectives, finite-dimensionality
+  adapters, and finite-length Krull–Schmidt theory (Layers 0–2).
+- Tau Ceti supplies primitive orthogonal decompositions, semiperfectness, projective covers,
+  basicness and admissible ideals, and the generic composition-multiplicity Cartan matrix.
+- Tau Ceti supplies dimension vectors, Euler/Tits forms, Hom differentials, kernel/cokernel
+  reflections, admissible composites and their survival theorem, and finite-dimensional
+  Gabriel classification over arbitrary fields. The remaining Layer 5 bridge marks a rational
+  root pairing by the actual vertex vectors; it does not reprove that classification.
+- Tau Ceti supplies minimal projective presentations, presentation-level transpose and dual
+  transpose, categorical radicals and irreducible spaces, almost-split predicates, and uniqueness
+  extending any specified isomorphism of the right endpoints under local-endomorphism hypotheses.
 
-## What Mathlib already has (consume)
+[SemisimpleAlgebras](../SemisimpleAlgebras/README.md), Layers 1.5–2, owns the simple-module
+indexing and Wedderburn structure of the semisimple quotient.
+[RootSystems](../RootSystems/README.md), Layers 1, 2 and 5, owns positive roots, Weyl actions
+and finite-type root-system realization. Neither supplies a sink-restricted height-decrease
+argument. [QuiverRepresentationsPartII](../../QuiverRepresentationsPartII/README.md), §§1.1–1.6
+and Layers 2–4, extends the type-A theory to graded operators and multisegment duality; those
+extensions are outside this base roadmap. Generic exact-category and Grothendieck-group
+constructions belong to [GrothendieckEulerForms](../../GrothendieckEulerForms/README.md),
+Layers 1–5; its Cartan comparison consumes this roadmap, so it is not a supplier here.
 
-- **Quivers, paths, prefunctors:** `Combinatorics/Quiver/Basic.lean` - `Quiver` (with `Hom`, `⟶`),
-  `Quiver.IsThin`, `Quiver.Symmetrify` (`.../Symmetric.lean`); `Combinatorics/Quiver/Path.lean` -
-  `Quiver.Path`, `Quiver.Path.nil`, `Quiver.Path.cons`, `Quiver.Path.comp`, `Quiver.Path.length`,
-  `Quiver.Path.toPath`; `Combinatorics/Quiver/Prefunctor.lean` - `Prefunctor` (`⥤q`), `Prefunctor.comp`
-  (`⋙q`), `Prefunctor.id`; `Combinatorics/Quiver/ConnectedComponent.lean`,
-  `Combinatorics/Quiver/Subquiver.lean`.
-- **The free category on a quiver:** `CategoryTheory/PathCategory/Basic.lean` - `CategoryTheory.Paths`,
-  its `Category` instance (`categoryPaths`, morphisms are paths, composition is concatenation),
-  `Paths.of : V ⥤q Paths V`, `Paths.lift`, and the induction principles `induction_fixed_source`,
-  `induction_fixed_target`. Every `CategoryStruct` extends `Quiver` (`CategoryTheory/Category/Basic.lean`),
-  so `ModuleCat k` is a `Quiver`.
-- **Modules and module categories:** `Algebra/Category/ModuleCat/Basic.lean` (`ModuleCat`), its abelian
-  and finite-biproduct structure; `Algebra/FreeAlgebra.lean` (`FreeAlgebra`), `Algebra/MonoidAlgebra/*`,
-  `Data/Finsupp/*` (`Finsupp`, `→₀`), `LinearAlgebra/Basis/Defs.lean` (`Basis`),
-  `LinearAlgebra/Dimension/*` (`Module.finrank`, `FiniteDimensional`, `Module.Finite`).
-- **Simple, indecomposable, biproducts:** `CategoryTheory/Simple.lean` (`CategoryTheory.Simple`),
-  `CategoryTheory/Limits/Shapes/BinaryBiproducts.lean` (`CategoryTheory.Indecomposable`, `biprod`,
-  `HasBinaryBiproducts`), and the Schur division-ring instance `Module.End.instDivisionRing`
-  (`RingTheory/SimpleModule/Basic.lean`).
-- **Finite length and Jordan-Hölder:** `RingTheory/FiniteLength.lean` (`IsFiniteLength`,
-  `isFiniteLength_iff_isNoetherian_isArtinian`, `isFiniteLength_iff_exists_compositionSeries`),
-  `Order/JordanHolder.lean` (`CompositionSeries`, `CompositionSeries.jordan_holder`, `JordanHolderLattice`),
-  `RingTheory/Length.lean`. These are the raw material for the endomorphism-ring-is-local (Fitting)
-  argument behind Krull-Schmidt.
-- **Local rings:** `RingTheory/LocalRing/Defs.lean` (`IsLocalRing`), the target for the endomorphism ring
-  of an indecomposable.
-- **The Jacobson radical and semisimplicity:** `RingTheory/Jacobson/Radical.lean` (`Ring.jacobson`,
-  `Module.jacobson`), `RingTheory/Artinian/Ring.lean` (`IsArtinianRing.isNilpotent_jacobson_bot`),
-  `RingTheory/Artinian/Module.lean` (`IsArtinianRing.isSemisimpleRing_iff_jacobson`), and the whole
-  Wedderburn development consumed via [semisimple algebras](../SemisimpleAlgebras/README.md).
-- **Projectives and injectives, categorically:** `CategoryTheory/Preadditive/Projective/Basic.lean`
-  (`CategoryTheory.Projective`, `EnoughProjectives`), `CategoryTheory/Preadditive/Injective/Basic.lean`
-  (`CategoryTheory.Injective`), `Algebra/Category/ModuleCat/Projective.lean`. Note: Mathlib has
-  projective/injective **objects** but **no projective covers or injective envelopes**; those are built
-  here.
-- **Short complexes and exactness:** `Algebra/Homology/ShortComplex/Basic.lean`
-  (`CategoryTheory.ShortComplex`), `Algebra/Homology/ShortComplex/ShortExact.lean`
-  (`ShortComplex.ShortExact`, `ShortExact.fIsKernel`, `ShortExact.gIsCokernel`) - the vehicle for
-  almost-split sequences.
-- **Morita equivalence:** `RingTheory/Morita/Basic.lean` (`MoritaEquivalence R A B`, `refl`, `symm`,
-  `trans`), `RingTheory/Morita/Matrix.lean` - the statement type of Gabriel's `kQ/I` theorem.
-- **Root systems and Dynkin diagrams (via the sibling roadmap):** `LinearAlgebra/RootSystem/Defs.lean`
-  (`RootPairing`, `RootPairing.reflection`), `.../Base.lean` (`RootPairing.Base`, `Base.height`,
-  `Base.IsPos`), `.../CartanMatrix.lean` (`Base.cartanMatrix`, `equivOfCartanMatrixEq`,
-  `induction_on_cartanMatrix`), `.../IsValuedIn.lean` (`IsCrystallographic`), `.../Reduced.lean`
-  (`IsReduced`), `.../Irreducible.lean` (`IsIrreducible`), and the simply-laced Coxeter matrices
-  `CoxeterMatrix.A`, `.D`, `.E₆`, `.E₇`, `.E₈` (`GroupTheory/Coxeter/Matrix.lean`). The **positive
-  roots as a set**, the **Weyl-group action on dimension vectors**, and the **ADE Dynkin enumeration**
-  are consumed from [root systems](../RootSystems/README.md), where they are the named targets
-  `posRoots`, `DynkinType`, and `classification`.
+## Conventions
 
-## What is missing (build here)
+The coefficient k is a field. Quivers have finite vertex and arrow sets, but may be empty,
+disconnected, have multiple arrows or loops. Acyclicity means every closed path is trivial;
+it is imposed wherever used. The module and representation constructions themselves retain
+arbitrary vertex spaces. All dimension-vector classification, decomposition and reflection
+formulas below use pointwise finite-dimensional representations. Over a finite vertex set
+this is equivalent to finiteness over k of the total module after restricting scalars along
+k → kQ. It is not finiteness over kQ: the one-loop regular module is cyclic over k[X] but
+infinite-dimensional over k. When kQ is finite-dimensional, finite generation over kQ and
+finite-dimensionality over k agree.
 
-The **path algebra** `kQ`: its ring and `k`-algebra structure, the path `Basis`, the unit as a sum of
-vertex idempotents `eᵥ`, and finite-dimensionality for finite acyclic `Q`. The **category of
-representations** `Paths Q ⥤ ModuleCat k`, the equivalence with `kQ`-modules, the **vertex simples**
-`Sᵢ`, **indecomposable projectives** `Pᵢ = kQ·eᵢ` and **injectives** `Iᵢ`, and sub/quotient/direct-sum
-via the transported abelian structure. The **Krull-Schmidt theorem**: the endomorphism ring of a
-finite-dimensional indecomposable is local (Fitting's lemma from `IsFiniteLength`), every
-finite-dimensional module is a finite biproduct of indecomposables, and the decomposition is **unique**
-up to a permutation matching isomorphism types. The **finite-dimensional-algebra infrastructure** that
-Mathlib does not package: **primitive idempotents** and the decomposition of `1`, **semiperfectness** of
-a finite-dimensional algebra, the correspondence between primitive idempotents and simples, the
-**radical powers** `rad^n` and the convenience API for `Ring.jacobson A` (nilpotent, semisimple
-quotient), **admissible ideals**, and the quotient path-algebra `kQ/I`. On top of it: **projective
-covers** and **injective envelopes** (which Mathlib lacks), the **Cartan matrix of an algebra** defined
-by the Jordan-Hölder multiplicities `Cᵢⱼ = [Pᵢ : Sⱼ]` (with the `Hom`-dimension and path-count
-identities as separate results, the latter under the pinned convention), **basic algebras**, and
-**Gabriel's presentation theorem**: over `[IsAlgClosed k]` every finite-dimensional algebra is
-Morita-equivalent to `kQ/I` for its **Ext-quiver** `Q` - vertices the simples `Sᵢ`, and the number of
-arrows `i → j` the dimension of `eⱼ (rad A / rad² A) eᵢ ≅ Ext¹(Sᵢ, Sⱼ)` (block idempotents and
-orientation as fixed by the left-module convention) - and an admissible ideal `I`. The **Euler/Ringel
-form** `⟨d, e⟩ = ∑ᵥ dᵥeᵥ − ∑_{a : i→j} d_i e_j`, the **Tits form** `q(d) = ⟨d, d⟩`, the **dimension
-vector**, an explicit **`Ext¹` of representations** (built from the hereditary length-one projective
-resolution, since Mathlib's derived-functor `Ext` is not assumed to cover this), and the homological
-identity `⟨dim M, dim N⟩ = dim Hom(M, N) − dim Ext¹(M, N)` over an acyclic quiver. The **reflection
-functors** (Bernstein-Gelfand-Ponomarev) at a sink or source, their effect `dim ↦ sᵢ · dim` (simple
-reflection), and the **Coxeter functor** `C⁺` with its Coxeter-element action. **Gabriel's theorem**:
-finite representation type ⇔ underlying graph is ADE, and, over `[IsAlgClosed k]`, the **bijection
-between isomorphism classes of indecomposables and positive roots**, `M ↦ dim M`. And **Auslander-Reiten
-theory**: the AR translate `τ = D Tr`, **almost-split (AR) sequences** and their existence,
-**irreducible morphisms**, and the **AR quiver** as a `Quiver` on indecomposables. None of this is
-upstream.
+Multiplication is later-factor-first: p·q traverses q and then p, and is zero if they are
+not composable. Thus eⱼa = a = aeᵢ for a : i → j. Representations are left modules and
+Pᵢ = kQeᵢ has paths starting at i. For 1 → 2, the matrix model preserving vertex labels is
+lower triangular, with e₁ = E₁₁, e₂ = E₂₂ and a = E₂₁. Swapping vertex labels gives an
+upper-triangular model. The coinduced Iᵢ has at j the full k-linear dual of the path space
+from j to i. A dual path basis is asserted only when that path set is finite.
 
-`Suggested.lean` pins the load-bearing objects (`pathAlgebra`, `pathAlgebraBasis`, `QuiverRep`,
-`quiverRepEquivalence`, `simpleRep`, `indecProjRep`, `KrullSchmidt`-style decomposition, `cartanMatrix`,
-`IsBasic`, `eulerForm`, `titsForm`, `dimVector`, `reflectionFunctor`, `coxeterFunctor`, `IsFiniteRepType`,
-`gabriel_finiteRepType_iff`, `gabriel_indecomposable_equiv_posRoot`, `arTranslate`, `IsAlmostSplit`,
-`arQuiver`) and the milestones below as `sorry`-targets, so each is claimable and the summit statements
-are machine-checked to be expressible against the pinned Mathlib.
+Write d(M)ᵢ = dimₖ Mᵢ. The Euler form is E(d,e) = ∑ᵢ dᵢeᵢ − ∑ₐ:ᵢ→ⱼ dᵢeⱼ, q(d) = E(d,d),
+and B(d,e) = E(d,e) + E(e,d). Arithmetic involving reflections and Euler differences is in ℤ,
+not truncated natural subtraction. At a loopless vertex i, sᵢ(d) = d − B(eᵢ,d)eᵢ; its fixed
+hyperplane is B(eᵢ,d) = 0. The algebra Cartan matrix has rows indexed by projectives:
+Cᵢⱼ = [Pᵢ:Sⱼ]. It differs from the symmetric root Cartan matrix B.
 
----
+For a sink ordering i₁,…,iₙ, the first applied reflection is i₁ and the composite acts by
+sᵢₙ⋯sᵢ₁ when every intermediate input has no summand isomorphic to the simple at that sink.
+An indecomposable either survives with this dimension formula or is killed at a simple.
+The locus q = 0 is the isotropic locus. It is not the imaginary-root set: for three parallel
+arrows q(1,1) = −1, and the zero vector, although isotropic, is never a root.
 
-## The build, in layers
+Gabriel's ADE statements and the general module-theoretic AR duality and existence statements
+are over arbitrary fields. Algebraic closedness is required for the ordinary bound-quiver
+presentation of every basic algebra, and for the unvalued AR mesh multiplicity statement.
+For general fields the residue division rings must be retained in the valued mesh.
+All module universes can be chosen together with k and A; the acceptance signatures use
+one universe u, and the rational root bridge uses small finite vertex and root types.
 
-The ordering below is the dependency order. Layers 0-2 are the general theory over any field; Layer 3 is
-the finite-dimensional-algebra frame (its presentation theorem over an algebraically closed field);
-Layer 4 adds the Euler form and reflection functors, still over an arbitrary field; Layers 5-6, Gabriel's
-theorem and Auslander-Reiten theory, are stated over an algebraically closed field.
+## Exact supplier contracts
 
-### Layer 0: quivers and the path algebra
+### From Mathlib
 
-- **The path algebra.** `pathAlgebra k Q`, the free `k`-module `(Σ a b : Q, Quiver.Path a b) →₀ k` with
-  product concatenating composable paths in the "later factor first" order,
-  `p * q := Quiver.Path.comp q p` when `target q = source p` and `0` otherwise; a `Ring` and a
-  `k`-`Algebra`. Build its unit `1 = ∑ᵥ eᵥ` as the **finite** sum of trivial paths
-  (`Quiver.Path.nil`) - requiring `[Finite Q]` on the vertices, carried on the instances - the
-  **vertex idempotents** `eᵥ` (orthogonal, `eᵥ eᵥ' = 0` for `v ≠ v'`, `∑ᵥ eᵥ = 1`), and associativity
-  from `Quiver.Path.comp_assoc`. The product order is fixed so that representations become left
-  `kQ`-modules (Layer 1).
-- **Acyclicity, as a predicate.** `IsAcyclic Q` says every closed path is trivial; it is the conceptual
-  "no oriented cycle" condition, stated with no finiteness attached. For a finite quiver it is equivalent
-  to `Finite (Σ a b : Q, Quiver.Path a b)` (`finite_paths_of_isAcyclic`), the extensional condition
-  consumed by finite dimensionality of `kQ`.
-- **The path basis.** `pathAlgebraBasis : Module.Basis (Σ a b : Q, Quiver.Path a b) k (pathAlgebra k Q)`,
-  so arrows generate `kQ` as an algebra and paths are a `k`-basis. The subalgebra generated by the arrows
-  is all of `kQ`.
-- **Finite dimension.** For a finite quiver with finitely many paths
-  (`Finite (Σ a b : Q, Quiver.Path a b)`), `FiniteDimensional k (pathAlgebra k Q)`, with
-  `Module.finrank k (pathAlgebra k Q)` the number of paths. The **loop quiver** (one vertex, one arrow)
-  has `kQ ≅ k[X]` (`MonoidAlgebra k ℕ`), infinite-dimensional; record this as the boundary case where
-  acyclicity fails.
+- `Quiver`, `Quiver.Path`, `Quiver.Path.comp` and `CategoryTheory.Paths`, in
+  `Mathlib/Combinatorics/Quiver/Basic.lean`, `Path.lean`, and
+  `Mathlib/CategoryTheory/PathCategory/Basic.lean`, supply arbitrary arrow types and the free
+  category. They impose no finiteness, nonemptiness or acyclicity.
+- `Module.equiv_directSum_of_isTorsion`, in `Mathlib/Algebra/Module/PID.lean`, supplies
+  primary cyclic decomposition of finitely generated torsion modules over a PID. Applied to
+  k[X], it gives the arbitrary-field loop classification. Zero cyclic factors are discarded.
+- `ModuleCat`, `FGModuleCat`, `Module.Finite`, `Module.finrank`, `IsFiniteLength` and
+  `CompositionSeries.jordan_holder` supply modules, scalar finiteness and composition factors.
+  `Module.finrank_of_not_finite`, in `Mathlib/LinearAlgebra/Dimension/Free.lean`, makes
+  infinite-dimensional vector spaces have finrank zero. `FGModuleCat A` is the finite-dimensional
+  module category when A is finite-dimensional over k. Its finite coproducts and
+  `CategoryTheory.Limits.HasBinaryBiproducts.of_hasBinaryCoproducts` give its biproducts.
+- `CategoryTheory.Abelian.Ext` and its k-linear structure come from
+  `Mathlib/Algebra/Homology/DerivedCategory/Ext/Basic.lean` and `Linear.lean`;
+  `Mathlib/Algebra/Category/ModuleCat/Ext/HasExt.lean` provides module-category Ext.
+  `CategoryTheory.ShortComplex` and `CategoryTheory.ShortComplex.ShortExact` retain both maps
+  and their exactness. `ModuleCat.restrictScalars` fixes all changes of coefficient ring.
+- `Ring.jacobson`, `IsArtinianRing.isNilpotent_jacobson_bot` and
+  `IsArtinianRing.isSemisimpleRing_iff_jacobson` supply the Artinian radical results;
+  `MoritaEquivalence` is a k-linear equivalence of module categories.
+- `RootPairing`, `RootPairing.Base`, `RootPairing.reflection` and
+  `RootPairing.Base.cartanMatrix` supply the root-system carrier and marked base.
 
-### Layer 1: representations of a quiver as `kQ`-modules
+### From Tau Ceti
 
-- **The category of representations.** `QuiverRep k Q := Paths Q ⥤ ModuleCat k` (a `k`-module at each
-  vertex, a linear map along each arrow), abelian with the pointwise structure; sub, quotient, and
-  finite direct sums (biproducts) are the functor-category constructions.
-- **Representations are modules.** For a finite vertex set,
-  `quiverRepEquivalence : (Paths Q ⥤ ModuleCat k) ≌ ModuleCat (pathAlgebra k Q)`, the `k`-linear
-  equivalence identifying a representation with a **left** `kQ`-module. It sends a module `M` to
-  `v ↦ eᵥ M`, with an arrow acting by left multiplication, and inverts through the idempotent
-  decomposition `M = ⨁ᵥ eᵥ M` (available because `∑ᵥ eᵥ = 1`, hence the finiteness of the vertex set is
-  load-bearing here). It transports simple, indecomposable, projective, injective, finite length, and
-  dimension between the two sides. Every downstream statement about representations is a statement about
-  `kQ`-modules read through this equivalence.
-- **Vertex simples, projectives, injectives.** `simpleRep i : QuiverRep k Q`, the representation `k` at
-  `i` and `0` elsewhere, is **simple**; over an acyclic quiver these are all the simples. In the pinned
-  left-module convention the **indecomposable projective** `indecProjRep i` is `Pᵢ = kQ · eᵢ` (the left
-  ideal, with basis the paths **starting** at `i`, so `(Pᵢ)_j` is spanned by the paths `i → j`) and the
-  **indecomposable injective** `indecInjRep i` is dual, with basis the paths **ending** at `i`;
-  `Pᵢ ↠ Sᵢ` and `Sᵢ ↪ Iᵢ`. These index the columns and rows of the Cartan matrix (Layer 3).
+Paths below are relative to `TauCeti/`.
 
-### Layer 2: the Krull-Schmidt theorem
+- `TauCeti.pathAlgebra`, `TauCeti.pathAlgebraBasis` and
+  `TauCeti.PathAlgebra.adjoin_vertexIdempotents_union_arrows` in
+  `RepresentationTheory/Quiver/PathAlgebra/Basic.lean` fix multiplication, the path basis and
+  generation by vertices **and** arrows. `TauCeti.Quiver.IsAcyclic` and
+  `TauCeti.finite_paths_of_isAcyclic`, in `Quiver/Acyclic/Basic.lean` and `FinitePaths.lean`
+  under `RepresentationTheory/`, give finite paths for finite acyclic quivers.
+- `TauCeti.QuiverRep`, `TauCeti.quiverRepEquivalence`, `TauCeti.quiverRepFunctor`,
+  `TauCeti.IsFinDim`, and `TauCeti.dimVector` come from
+  `RepresentationTheory/Quiver/Representation/{Basic,AsModule,FiniteDimensional,DimensionVector}.lean`.
+  The equivalence is representation-to-module; its inverse is the module-to-representation functor.
+  `TauCeti.module_finite_quiverRepEquivalenceFunctorObj_of_isFinDim` and
+  `TauCeti.isFinDim_quiverRepFunctor_obj` compare finiteness over **k** in both directions.
+- `TauCeti.simpleRep`, `TauCeti.vertexSimpleModule`, `TauCeti.indecProjRep` and
+  `TauCeti.indecInjRep` come from `RepresentationTheory/Quiver/Representation/`:
+  `Simple.lean`, `VertexSimpleModule.lean`, `Projective/Basic.lean` and `Injective/Basic.lean`.
+  `TauCeti.isEssentialEpi_indecProjRepToSimpleRep` in `Projective/Cover.lean` applies when
+  all closed paths at the chosen vertex are trivial. It gives the cover in the finite acyclic case.
+- `TauCeti.isLocalRing_end_of_isIndecomposable`,
+  `TauCeti.exists_indecomposable_decomposition`, and
+  `TauCeti.exists_equiv_linearEquiv_of_finset`, in
+  `RingTheory/KrullSchmidt/{Indecomposable,Existence,Uniqueness}.lean`, apply to finite-length
+  modules. Quiver biproduct forms are in `RepresentationTheory/Quiver/Representation/KrullSchmidt.lean`.
+- `TauCeti.exists_completeOrthogonalIdempotents_isPrimitiveIdempotent` in
+  `RingTheory/Idempotents/Primitive/Decomposition.lean` and `TauCeti.IsSemiperfectRing` in
+  `RingTheory/Jacobson/Semiperfect.lean` provide the Artinian idempotent frame.
+  `TauCeti.exists_projectiveCover` in `Algebra/Module/ProjectiveCover/ModuleCat.lean`
+  supplies covers; `TauCeti.IsBasic` and `TauCeti.isBasic_iff_isReduced` in
+  `RingTheory/Semisimple/BasicAlgebra.lean` supply basicness. For a finite-dimensional algebra
+  basicness is reducedness of its semisimple radical quotient.
+- `TauCeti.cartanMatrix` and `TauCeti.cartanMatrix_apply`, in
+  `RepresentationTheory/GrothendieckGroup/CartanMatrix.lean`, give the composition-multiplicity
+  matrix with columns indexed by projectives; the row convention is its transpose.
+- `TauCeti.IsAdmissibleIdeal` in `RepresentationTheory/Quiver/AdmissibleIdeal/Basic.lean`
+  is a predicate on an `Ideal` with `Ideal.IsTwoSided`, requiring Jᴺ ⊆ I ⊆ J² for the arrow
+  ideal J. Its unrestricted exponent can be replaced by max(N,2). Kernels of algebra maps
+  carry the required two-sidedness.
+- `TauCeti.eulerForm`, `TauCeti.titsForm` and `TauCeti.titsPolarForm` are in
+  `RepresentationTheory/Quiver/EulerForm.lean`. `TauCeti.QuiverRep.homDifferential`, its kernel
+  comparison with Hom, and its Hom-minus-cokernel dimension identity are in
+  `RepresentationTheory/Quiver/Representation/HomDifferential.lean`. The latter is an input to,
+  not a replacement for, the comparison with native Ext.
+- `TauCeti.vertexPreReflection` and its loopless automorphism `TauCeti.vertexReflection`
+  are in `RepresentationTheory/Quiver/Reflection/DimensionVector.lean`.
+  `TauCeti.reflectionFunctor` and `TauCeti.dimVector_reflectRep`, in `Reflection/Representation.lean`,
+  use the kernel of the incoming sum; the dimension theorem requires finite-dimensional
+  incoming spaces and surjectivity. `TauCeti.dimVector_reflectRep_of_indecomposable` in
+  `Reflection/Indecomposable.lean` supplies this for finite-dimensional indecomposables other
+  than the sink simple. `TauCeti.reflectionFunctorList`, `TauCeti.coxeterFunctor` and
+  `TauCeti.indecomposable_and_dimVector_coxeterFunctor_or_isZero` in `Reflection/Composite.lean`
+  retain the killed alternative and the ordering.
+- `TauCeti.Quiver.IsAcyclic.exists_isSinkAdmissible`, in
+  `RepresentationTheory/Quiver/Reflection/Admissible.lean`, gives a repetition-free complete sink
+  ordering. `TauCeti.Quiver.reflectList_eq_self`, in `Reflection/Iterate.lean`, restores the quiver
+  after one complete pass, so that ordering can be repeated.
+- `TauCeti.exists_vertexPreReflectionList_take_apply_eq_single_and_nonneg`, in
+  `RepresentationTheory/Quiver/Reflection/PositiveRoot.lean`, reaches a simple root through
+  nonnegative prefixes of repetitions of a complete vertex ordering for positive-definite q. Admissibility is a separate input from the preceding contract.
+  `TauCeti.isFiniteRepType_iff_titsForm_posDef` and
+  `TauCeti.gabrielIndecomposableEquivPositiveRoot`, in
+  `RepresentationTheory/Quiver/FiniteRepType/{Gabriel,Correspondence}.lean`, give the
+  arbitrary-field finite-dimensional classification. `TauCeti.IsFiniteRepType` includes
+  pointwise finite-dimensionality in its indecomposable skeleton.
+- `TauCeti.IsMinimalProjectivePresentation`, its existence and finite-generation results,
+  `TauCeti.AuslanderReitenTranspose`, `TauCeti.AuslanderReitenTranslate`, and
+  `TauCeti.IsMinimalProjectivePresentation.nonempty_linearEquiv_auslanderReitenTranslate`
+  come from `Algebra/Module/MinimalProjectivePresentation/` and `Algebra/Module/AuslanderReiten/`.
+  The translate is attached to a presenting map; its identification with τM uses the
+  minimal-presentation hypothesis. `TauCeti.AuslanderReitenTranspose.stableMap`, in
+  `Algebra/Module/AuslanderReiten/StableMorphism.lean`, supplies transposition on stable maps.
+- `TauCeti.irreducibleMorphismSpace` in `CategoryTheory/Preadditive/Radical/Quotient.lean`
+  is the k-vector space rad/rad². `CategoryTheory.ObjectProperty.factorIdeal` and
+  `TauCeti.MorphismIdeal.Quotient` provide quotient categories by factoring ideals.
+  `CategoryTheory.ShortComplex.IsAlmostSplit`, in `CategoryTheory/AlmostSplit/Sequence.lean`,
+  combines short exactness with left and right almost-split conditions in the chosen category.
+  `CategoryTheory.ShortComplex.IsAlmostSplit.exists_iso_τ₃_eq`, in `Uniqueness.lean`, extends
+  a specified endpoint isomorphism to an isomorphism of complexes when both left-end
+  endomorphism rings are local. Finite-length locality discharges that condition here.
 
-Mathlib has neither `KrullSchmidt` nor the local-endomorphism-ring lemma; both are built here, over a
-finite-dimensional algebra `A`, and neither mentions quivers.
+### From TauCetiRoadmap.SemisimpleAlgebras
 
-- **Fitting's lemma.** For a module of finite length (`IsFiniteLength`), an endomorphism splits the
-  module as `im fⁿ ⊕ ker fⁿ` for large `n`; hence the module is **indecomposable iff its endomorphism
-  ring is local** (`IsLocalRing (Module.End A M)`), every endomorphism being nilpotent or invertible.
-  Consume `IsFiniteLength`, `isFiniteLength_iff_isNoetherian_isArtinian`, and `Module.End`.
-- **Existence of a decomposition.** A finite-length (hence any finite-dimensional) module is a **finite
-  direct sum of indecomposables**, by induction on length.
-- **Uniqueness (Krull-Schmidt).** Two decompositions of a finite-dimensional module into
-  indecomposables have the same number of summands and a **bijection matching the summands up to
-  isomorphism**, proved by the exchange argument on local endomorphism rings. The Lean packaging is
-  concrete: existence as an internal direct sum over a `Finset` of indecomposable submodules
-  (`DirectSum.IsInternal`), uniqueness as an equivalence `s ≃ t` of the two index sets under which
-  corresponding summands are linearly isomorphic. Prove it at the module level with submodules and linear
-  equivalences, then transport to `QuiverRep k Q` and to categorical biproducts. This is the theorem that
-  makes "the multiset of indecomposable summands" and "the indecomposable representations" well-defined
-  objects, used by every later layer.
+Consume Layers 1.5–2: simple modules as minimal left ideals, the Wedderburn presentation of the
+semisimple quotient, and the canonical division-ring and multiplicity invariants. Over a splitting
+algebraically closed field the division factors are k. No minimal faithful projective criterion
+for basicness is assumed.
 
-### Layer 3: the structure of a finite-dimensional algebra
+### From TauCetiRoadmap.RootSystems
 
-The frame in which quiver representations sit. Stated for a finite-dimensional `k`-algebra `A`,
-specializing to `A = pathAlgebra k Q` and `A = kQ/I`. Over `[IsAlgClosed k]` for the presentation
-theorem. This is a large layer; it begins with the finite-dimensional-algebra infrastructure that
-Mathlib does not package.
+Consume Layer 1's positive roots and root-coordinate signs, Layer 2's Weyl action, and Layer 5's
+finite-type classification and realization. These are used in the rational marked-root bridge.
+Admissible reflection termination comes instead from the quiver reflection contract above.
 
-- **Finite-dimensional-algebra infrastructure (Layer 3A).** Before covers and the Cartan matrix: a
-  decomposition of `1` into **primitive orthogonal idempotents**, the correspondence between primitive
-  idempotents and simple modules, **semiperfectness** of a finite-dimensional algebra, the radical powers
-  `rad^n`, and the notion of an **admissible ideal** (`rad^N ⊆ I ⊆ rad²`) with the quotient
-  path-algebra `kQ/I` API. Mathlib supplies the radical and the Wedderburn theory but not this
-  connective tissue; it is built here and feeds everything below.
-- **The radical, packaged.** For finite-dimensional `A`, `Ring.jacobson A` is a **nilpotent** two-sided
-  ideal (`IsArtinianRing.isNilpotent_jacobson_bot`), `A ⧸ Ring.jacobson A` is **semisimple**
-  (`IsArtinianRing.isSemisimpleRing_iff_jacobson`), and its Wedderburn decomposition indexes the simple
-  modules; over `[IsAlgClosed k]` the blocks are matrix algebras over `k`. Consume
-  [semisimple algebras](../SemisimpleAlgebras/README.md) for the Wedderburn side.
-- **Projective covers and injective envelopes.** Build `projectiveCover M`: a projective `P` with an
-  essential epimorphism `P ↠ M` (superfluous kernel), **unique up to isomorphism**, existing because
-  `A` is semiperfect (finite-dimensional); dually `injectiveEnvelope M`. These are absent from Mathlib.
-  The indecomposable projectives are exactly `{Pᵢ}` (Layer 1), `Pᵢ = ` projective cover of `Sᵢ`.
-- **The Cartan matrix of an algebra.** `cartanMatrix A : Matrix (Simples A) (Simples A) ℕ`, defined
-  primarily by the **Jordan-Hölder multiplicities** `Cᵢⱼ = [Pᵢ : Sⱼ]` of `Sⱼ` in the projective cover
-  `Pᵢ`, well-defined by Jordan-Hölder (`CompositionSeries.jordan_holder`). Its identification with a
-  `Hom`-dimension is a **separate theorem** under `[IsAlgClosed k]` and a basic hypothesis, where
-  `Cᵢⱼ = dim_k Hom(Pⱼ, Pᵢ)` (over a general field the division-ring dimensions intervene and the two are
-  not interchangeable). For a path algebra `Cᵢⱼ` equals the count of paths `i → j` modulo the relations,
-  proved once the pinned left-module convention is in place.
-- **Basic algebras and Morita reduction.** `IsBasic A`: `A ⧸ Ring.jacobson A` is a product of division
-  rings (no repeated matrix blocks), equivalently `A ≅ End of a minimal faithful projective`. Every
-  finite-dimensional `A` is **Morita-equivalent to a basic algebra** `A^b` (the endomorphism algebra of
-  `⊕ Pᵢ`, one per simple), via `MoritaEquivalence`.
-- **Gabriel's presentation theorem.** Over `[IsAlgClosed k]`, a basic finite-dimensional algebra `A` is
-  `kQ_A / I` for its **Ext-quiver** `Q_A` and an **admissible ideal** `I` (`rad^N ⊆ I ⊆ rad²`); hence
-  **every** finite-dimensional algebra is Morita-equivalent to some `kQ/I`. The Ext-quiver has the simples
-  as vertices, and the number of arrows `i → j` is the dimension of the `i,j` radical-layer block
-  `eⱼ (rad A / rad² A) eᵢ ≅ Ext¹(Sᵢ, Sⱼ)`, with the primitive idempotents `eᵢ` and the orientation fixed
-  by the left-module convention (the transpose choice reverses the arrows). State as
-  `exists_quiver_admissibleIdeal_morita`.
+## How to read the build
 
-### Layer 4: the Euler form, dimension vectors, and reflection functors
+Layers 0–2 fix the reusable algebra, representation and decomposition interfaces and their
+examples. Layer 3 supplies the finite-dimensional algebra frame and presentations; Layer 4
+compares homological invariants with the combinatorial forms. Layer 5 connects the dimension-root
+classification with marked rational root systems. Layer 6 uses Layer 3 and finite-length
+locality to prove AR duality and existence, then reads the arrows and translation from almost-split
+sequences. It does not require ADE: the dual numbers are an essential bound-quiver example.
 
-Over an **arbitrary field** `k` (no closedness hypothesis), `Q` a finite quiver, `Q` **acyclic** where
-the homological identity needs it. Nothing in this layer uses `[IsAlgClosed k]`; the dimension vector,
-the Euler and Tits forms, the `Ext¹` construction, and the reflection and Coxeter functors are all
-field-agnostic. Algebraic closedness is deferred to the Layer 5 classification.
+## Layer 0: quivers and path algebras
 
-- **Dimension vectors.** `dimVector M v = Module.finrank k (M.obj v) : Q → ℕ`, additive on direct sums
-  and short exact sequences. On the `kQ`-module side it records the `k`-dimension of `eᵥ · M`.
-- **The Euler and Tits forms.** `eulerForm d e = ∑ᵥ dᵥ eᵥ − ∑_{a : i → j} d_i e_j` on `Q → ℤ` (a
-  bilinear form, the arrows summed over `Σ i j, (i ⟶ j)`), and the **Tits form**
-  `titsForm d = eulerForm d d`, a quadratic form. Its symmetrization is the form whose Gram matrix is
-  `2·I − (adjacency + adjacencyᵀ)`, i.e. the Cartan matrix of the underlying graph; this is the exact
-  link to [root systems](../RootSystems/README.md).
-- **`Ext¹` of representations.** Over an **acyclic** `Q` the path algebra is hereditary (global dimension
-  `≤ 1`), so every representation has a length-one projective resolution `0 → P₁ → P₀ → M → 0`. Define
-  `Ext¹(M, N)` as the cokernel of `Hom(P₀, N) → Hom(P₁, N)` from this resolution, independently of any
-  general derived-functor `Ext` machinery. Higher `Ext` vanish.
-- **The homological interpretation.** For finite-dimensional representations `M, N` over an **acyclic**
-  `Q`, `eulerForm (dimVector M) (dimVector N) = dim_k Hom(M, N) − dim_k Ext¹(M, N)`; in particular
-  `titsForm (dim M) = dim End(M) − dim Ext¹(M, M)`. Read carefully: for an indecomposable `M` over
-  `[IsAlgClosed k]` this gives `dim End(M) ≥ 1`, and `titsForm (dim M) = 1` forces
-  `dim Ext¹(M, M) = dim End(M) − 1`, which is `0` **iff** `dim End(M) = 1`, i.e. iff `M` is a **brick**.
-  Indecomposability alone does **not** give a brick. The correct implication is the converse: if `M` is a
-  brick with `titsForm (dim M) = 1`, then `Ext¹(M, M) = 0` (`M` is rigid/exceptional). That every
-  indecomposable over an ADE quiver is a brick is proved separately in Layer 5, via the reflection
-  functors, and only then does `titsForm (dim M) = 1` read off rigidity.
-- **Reflection functors (BGP).** For a vertex `i` that is a **sink** (all arrows into `i`), the
-  reflection functor `reflectionFunctor⁺ i : QuiverRep k Q ⥤ QuiverRep k (Q.reflect i)` to the quiver
-  with all arrows at `i` reversed; dually `reflectionFunctor⁻` at a **source**. On dimension vectors it
-  acts by the **simple reflection** `sᵢ` of the Tits form: `dim (C⁺ᵢ M) = sᵢ · dim M` whenever `M` has
-  no `Sᵢ` summand. Consume `RootPairing.reflection` for `sᵢ`.
-- **The Coxeter functor.** `coxeterFunctor = ` the composite of the `reflectionFunctor⁺` over a sink-
-  admissible ordering of the vertices; `dim (coxeterFunctor M) = c · dim M` for the **Coxeter element**
-  `c = s₁ ⋯ sₙ` of the Weyl group. This is the engine that generates all positive roots from the
-  simple ones and drives the Layer 5 bijection.
+### 0.1 Multiplication and generators
 
-### Layer 5: Gabriel's theorem (the ADE classification)
+Use the later-factor-first convention and the native path basis. The generating family consists
+of all vertex idempotents together with all arrows (ASS II.1.2–1.4, pp.44–46; II.1.8, p.48).
+Finite vertices give the unit ∑ᵢ eᵢ; finitely many paths give finite-dimensionality. Finite vertices
+and arrows plus acyclicity give the latter condition.
 
-The first summit. `Q` connected, `[IsAlgClosed k]`.
+**Checks.**
 
-- **Finite representation type.** `IsFiniteRepType k Q`: only **finitely many** isomorphism classes of
-  finite-dimensional indecomposable representations. Well-posed by Krull-Schmidt (Layer 2).
-- **Gabriel's dichotomy.** `gabriel_finiteRepType_iff`: a connected quiver `Q` has finite
-  representation type **iff** its underlying graph is a simply-laced (ADE) Dynkin diagram - equivalently
-  its **Tits form is positive definite** (`titsForm` is `RootPairing`-realizable of type
-  `A/D/E`). State the graph condition through the Cartan matrix and
-  [root systems](../RootSystems/README.md)' Dynkin data (`CoxeterMatrix.A/D/E₆/E₇/E₈`), the
-  positive-definite condition through `titsForm`. The `A₂` quiver `• → •` is finite type; the
-  **Kronecker quiver** `• ⇉ •` (type `Ã₁`, Tits form positive *semi*definite) is the boundary and has
-  infinite (tame) type.
-- **The reflection induction (the combinatorial core).** The bijection rests on a chain of milestones
-  that the Weyl-orbit slogan hides; state each:
-  1. **Admissible orderings.** Every orientation of an ADE graph admits a sequence of vertices that is
-     sink-admissible (each vertex a sink after reflecting its predecessors), so the `reflectionFunctor⁺`
-     can be composed into the Coxeter functor.
-  2. **Reflection preserves indecomposability.** For an indecomposable `M ≇ Sᵢ`, the functor
-     `reflectionFunctor⁺ i` sends `M` to an indecomposable of the reflected quiver, killing exactly the
-     summand `Sᵢ`; on dimension vectors it realizes `sᵢ` (Layer 4).
-  3. **Descent by height.** Every positive root reduces to a simple root under an admissible sequence of
-     simple reflections, decreasing `Base.height`; correspondingly every indecomposable is carried to
-     some `Sⱼ` by reflection functors, and `Sⱼ ↦ αⱼ`.
-  4. **Uniqueness.** The reflection induction transports the dimension vector faithfully, so
-     `dimVector` is injective on indecomposables (each is a **brick**).
-- **Indecomposables are positive roots.** For `Q` of ADE type,
-  `gabriel_indecomposable_equiv_posRoot`: `M ↦ dimVector M` is a **bijection** from isomorphism classes
-  of finite-dimensional indecomposable representations to the **positive roots** of the associated root
-  system, so each indecomposable is a **brick** (`End = k`, `Ext¹ = 0`) and is determined up to
-  isomorphism by its dimension vector. Consume `posRoots` from
-  [root systems](../RootSystems/README.md). The construction is the height-descending reflection
-  induction above, starting from `Sᵢ ↦ αᵢ`.
-- **The count.** `Nat.card (indecomposables) = (posRoots).ncard`; for `Aₙ` this is `n(n+1)/2`, for
-  `D₄` it is `12`.
+- Two isolated vertices have path algebra k×k. The arrows generate only the diagonal scalar
+  algebra; adjoining (1,0) and (0,1) gives dimension 2.
+- For 1 → 2, e₂a = a = ae₁, whereas e₁a = ae₂ = a² = 0. Pointwise multiplication on the
+  path coefficients would give e₂a = 0 and is excluded.
+- The empty, A₁ and A₂ quivers have respectively 0, 1 and 3 paths; their algebra dimensions
+  are 0, 1 and 3. The empty algebra has 1 = 0. A loop has paths of every length.
 
-### Layer 6: Auslander-Reiten theory
+*Needs:* Mathlib paths and the Tau Ceti path-algebra and acyclicity contracts.
 
-The organizing theory of the indecomposables and their maps. `A = kQ/I` finite-dimensional,
-`[IsAlgClosed k]`. This is by far the largest layer - a formalization project in its own right, not a
-short capstone - and it splits into sublayers, each a target on its own: (6A) the radical of the module
-category and irreducible morphisms; (6B) minimal projective/injective presentations; (6C) the transpose
-`Tr` and stable equivalence; (6D) the AR translate `τ = D Tr` and AR duality; (6E) existence and
-uniqueness of almost-split sequences; (6F) the AR quiver. The `τ = D Tr` composite is **not** a bare
-definition: it is well-defined only up to projectives, through minimal presentations and duality on
-finite-dimensional modules, so 6B-6D are prerequisites. The single acceptance target of this roadmap is
-the **AR quiver of a representation-finite algebra** (finite, computable); the general almost-split
-existence theorem is stated but flagged as the deep sublayer.
+### Examples
 
-- **Irreducible morphisms.** `IsIrreducibleMorphism f`: `f` is neither a split mono nor a split epi, and
-  in every factorization `f = h ∘ g` either `g` is a split mono or `h` is a split epi. The **radical**
-  of the module category (maps that are non-isomorphisms between indecomposables) and its square; the
-  irreducible maps are `rad / rad²`.
-- **The AR translate.** `arTranslate M = D (Tr M)`, the composite of the **transpose** `Tr` (cokernel of
-  `Hom(-, A)` applied to a minimal projective presentation `P₁ → P₀ → M → 0`) and the `k`-**duality**
-  `D = Hom_k(−, k)`. It is a bijection from non-projective indecomposables to non-injective
-  indecomposables, with inverse `Tr D`.
-- **Almost-split sequences.** `IsAlmostSplit S` for a `ShortComplex S`, `0 → τM → E → M → 0`, that is
-  `ShortComplex.ShortExact`, non-split, with `M` indecomposable non-projective and every non-split-epi
-  `X → M` factoring through `E → M` (right almost split), dually on the left at `τM`. **Existence and
-  uniqueness** (`exists_almostSplitSequence`): for each indecomposable non-projective `M` there is a
-  unique almost-split sequence ending at `M`, the Auslander-Reiten theorem.
-- **The AR quiver.** `arQuiver k A`: a `Quiver` whose vertices are isomorphism classes of
-  finite-dimensional indecomposables and whose arrows `[M] → [N]` are a basis of the irreducible
-  morphisms `rad(M, N) / rad²(M, N)`, together with the translate `τ` as a partial map on vertices
-  (the AR translate makes it a **stable translation quiver** away from projectives/injectives). For a
-  representation-finite algebra it is a **finite** quiver and displays all indecomposables and the maps
-  among them; for `Aₙ` it is the well-known triangular mesh.
+For a chain 1 → 2 → 3 → 4, (cb)a = c(ba) is the same length-three path. Scalar λ multiplies
+both expressions by λ, and incompatible endpoints give zero on either side.
 
----
+### Dependencies
 
-## Worked examples (acceptance criteria)
+Mathlib quivers and paths; Tau Ceti path-algebra, basis, generators and finite-path results.
 
-- **The `A₂` quiver `• → •`.** `pathAlgebra k A₂` is the `3`-dimensional algebra of upper-triangular
-  `2×2` matrices (paths: `e₁`, `e₂`, the single arrow). It has exactly **three** indecomposable
-  representations, `S₁ = (k → 0)`, `S₂ = (0 → k)`, and `P₁ = (k →^{id} k)`, with dimension vectors
-  `(1,0)`, `(0,1)`, `(1,1)` - the **three positive roots of `A₂`**, `α₁`, `α₂`, `α₁+α₂`. Acceptance:
-  `gabriel_indecomposable_equiv_posRoot` restricts to this bijection; the reflection functor at the sink
-  `2` is a functor from representations of `1 → 2` to representations of the **reflected quiver** `1 ← 2`,
-  killing the sink simple `S₂` and, under the vertex-identification of the two quivers, carrying
-  `S₁ = (k → 0)` to `(k ←^{id} k)` and `P₁ = (k →^{id} k)` to the simple `(k ← 0)` - realizing `s₂`, the
-  simple reflection at the sink (`dimVector_reflectionFunctor`), through the dimension-vector map:
-  `(1,0) ↦ (1,1)` and `(1,1) ↦ (1,0)`, while `s₂ (0,1) = (0,-1)` is not a positive root, matching the
-  killed `S₂`. The AR quiver is the three-vertex mesh `S₂ → P₁ → S₁` with `τ S₁ = S₂`.
-- **The Kronecker quiver `• ⇉ •` (type `Ã₁`).** Two vertices, two parallel arrows;
-  `pathAlgebra k` is `4`-dimensional. This is the **boundary of Gabriel**: connected, not Dynkin, Tits
-  form `titsForm (a,b) = a² + b² − 2ab = (a−b)²` positive **semi**definite (radical `(1,1)`), and
-  **infinite (tame) representation type** - a `ℙ¹`-family of indecomposables of dimension vector
-  `(1,1)` plus the preprojective/preinjective `(n, n+1)`, `(n+1, n)`. Acceptance: `¬ IsFiniteRepType`,
-  and `gabriel_finiteRepType_iff` correctly excludes it; the `(n,n+1)` and `(n+1,n)` dimension vectors
-  are the real Schur roots of `Ã₁`, the `(n,n)` the imaginary roots.
-- **The loop quiver `•↺` (one vertex, one loop).** `pathAlgebra k ≅ k[X]` (`MonoidAlgebra k ℕ`),
-  infinite-dimensional; representations are pairs `(V, φ : V → V)`, and the finite-dimensional
-  indecomposables are the **Jordan blocks** `k[X]/(X − λ)ⁿ`, a genuinely infinite family. Acceptance:
-  `pathAlgebra k (loop) ≃ₐ[k] MonoidAlgebra k ℕ`, the failure of finite-dimensionality of `kQ`, and
-  `¬ IsFiniteRepType` - the smallest non-acyclic example, delimiting where the theory needs acyclicity.
-- **The `D₄` quiver (three arrows into a central sink).** Central vertex `0`, three outer vertices
-  `1,2,3`, arrows `i → 0`. Acceptance: it is ADE (type `D₄`), so finite type, and
-  `gabriel_indecomposable_equiv_posRoot` gives exactly **12 indecomposables**, matching the **12
-  positive roots of `D₄`**: the four simple roots (dimension vector a single `1`), and the further roots
-  supported on the centre - those with a `1` at the centre and at some subset of the outer vertices, and
-  the highest root `(1,1,1;2)` with coefficient `2` at the centre. This is the standard test that the
-  positive-root count and the Coxeter-functor orbit are correct beyond type `A`.
-- **The general Cartan-matrix check.** For each ADE quiver the algebra's `cartanMatrix` and the Tits
-  form's Gram matrix `2I − (adjacency + adjacencyᵀ)` reproduce the ADE Cartan matrix of
-  [root systems](../RootSystems/README.md); this is the running check that the `titsForm`-to-root-system
-  translation is faithful.
+## Layer 1: representations and the module equivalence
 
-## Ordering
+### 1.1 Vertex spaces and elementary representations
 
-Layer 0 (the path algebra) is the foundation and comes first. Layer 1 (representations as `kQ`-modules)
-needs Layer 0's algebra and basis. Layer 2 (Krull-Schmidt) needs only finite-length modules and is a
-parallel, quiver-free lane once `IsFiniteLength` is in hand; Layers 3-6 all consume its uniqueness.
-Layer 3 (the finite-dimensional-algebra frame) needs Layer 2 for Jordan-Hölder-well-defined
-multiplicities and consumes [semisimple algebras](../SemisimpleAlgebras/README.md) for Wedderburn; its
-projective covers and Cartan matrix feed Layers 5-6. Layer 4 (Euler form, reflection functors) needs
-Layer 1's dimension vectors and Layer 2's Krull-Schmidt, imports the Weyl-group data from
-[root systems](../RootSystems/README.md), and lives over an arbitrary field. Layer 5 (Gabriel's theorem)
-adds `[IsAlgClosed k]` and needs Layer 4's reflection/Coxeter functors and Tits form and the positive-root
-API of [root systems](../RootSystems/README.md). Layer 6 (Auslander-Reiten theory) needs Layer 3's
-projective covers and duality and Layer 2's Krull-Schmidt; it is independent of Layer 5 except that
-representation-finiteness makes the AR quiver finite, so the two summits can be pursued in parallel once
-Layers 0-4 are in place. The worked examples are built alongside the layer that first makes them
-expressible: `A₂` and the loop after Layer 1, the Kronecker boundary after Layer 4, `D₄` after Layer 5.
+Use the native equivalence with left modules. The total space is the finite direct sum of
+vertex spaces; the inverse takes the idempotent components eᵢM. Kernels, cokernels and biproducts
+are vertexwise. The vertex simple has k at i, zero elsewhere, and all arrows zero. The vertex
+projective has at j the free path space from i to j; the coinduced injective has the full dual
+of the path space from j to i (ASS III.1.6, pp.74–75; III.2.4 and III.2.6, pp.80–82).
+For finite acyclic Q, the simple is the top of its vertex projective and the projective is its cover. Coinduced injectives have a finite dual path basis in that same case.
 
-Layers 5 and 6 are each a substantial formalization project, and Layer 6 several. The **near-term
-deliverables** - the stable foundation everything else stands on - are Layers 0-4 together with the `A₂`,
-Kronecker, and loop examples: the path algebra and its finite-dimensional acyclic case, the representation
-category and the module equivalence, vertex simples and projectives, Krull-Schmidt, the Cartan matrix,
-and the Euler/Tits form and reflection functors. Gabriel's ADE bijection and the Auslander-Reiten theory
-are the summits, pursued once those conventions are settled.
+**Checks.**
+
+- For A₂, P₁ has vector (1,1), P₂ has (0,1), and the regular module has (1,2), of total
+  k-dimension 3. Both sides of the equivalence give that total.
+- For A₁, P₁ → S₁ is k → k by the identity, a projective cover. For the one-loop quiver,
+  evaluation k[X] → k at zero is not a cover: (X−1) is proper and still maps onto k.
+- Over 𝔽₂ the dual of the one-loop path space has cardinality 2^ℵ₀, whereas its finite-support
+  path span is countable. Replacing the full dual by another path span loses the coinduced object.
+- The loop regular module is generated by 1 over k[X] but fails both pointwise k-finiteness
+  and total k-finiteness. The zero representation satisfies both, with dimension vector zero.
+
+*Needs:* Layer 0; the native representation, finiteness, vertex-simple and projective/injective contracts.
+
+### Examples
+
+For A₂ the identity-arrow representation has kernel zero and cokernel zero on that arrow.
+The zero-arrow representation of vector (1,1) is S₁⊕S₂, not that indecomposable. A loop may act
+by either 0 or 1 on k; these are nonisomorphic simples, so vertex simples do not exhaust simples
+for arbitrary cyclic quivers.
+
+### Dependencies
+
+Layer 0 and the representation/module equivalence; Mathlib abelian module categories.
+
+## Layer 2: finite-length decomposition
+
+### 2.1 Decomposition interface
+
+Use finite-length Fitting and Krull–Schmidt: an indecomposable finite-length module has local
+endomorphism ring, a finite-length module decomposes into finitely many indecomposable summands,
+and two such decompositions match under a permutation and summand isomorphisms
+(ASS I.4.8 and I.4.10, pp.23–24). The uniqueness is of the multiset of isomorphism classes,
+not of embedded submodules.
+
+**Checks.**
+
+- Over a field, 0, k and k² have respectively 0, 1 and 2 indecomposable summands, counted
+  with multiplicity; the zero object is not indecomposable.
+- Two different bases of k² give different embedded lines but the same multiset {k,k}.
+- For k[ε]/(ε²) the regular module is indecomposable and its endomorphism ring has the
+  nonzero nilpotent ε. Locality does not mean every nonzero endomorphism is invertible.
+
+*Needs:* Mathlib finite length and Jordan–Hölder; Tau Ceti Krull–Schmidt and its quiver transport.
+
+### Examples
+
+For A₂ the three indecomposables are S₁, S₂ and P₁; the regular module is P₁⊕S₂.
+
+### Dependencies
+
+Finite-length module theory; Layer 1 only for representation applications.
+
+## Layer 3: the finite-dimensional algebra frame
+
+### 3.1 Covers, envelopes and basic Morita reduction
+
+For a finite-dimensional k-algebra A, use primitive orthogonal idempotents, its nilpotent
+Jacobson radical, the semisimple quotient and projective covers. Construct the injective envelope
+of every finite-dimensional left A-module M: an essential monomorphism M → I into a
+finite-dimensional injective module, unique over M. The target `exists_injectiveEnvelope`
+states essentiality by testing maps I → X whose restriction to M is monic. Duality over k
+transports projective covers of right modules to these envelopes (ASS I.5.12–5.14, p.31).
+
+API for injective envelopes:
+
+- The map is monic, its target is injective, and every nonzero submodule of I meets M nontrivially.
+- Any two envelopes of M admit an isomorphism commuting with the inclusions.
+- Finite sums of envelopes are envelopes of finite sums; duality exchanges envelopes and covers.
+
+**Checks.**
+
+- For A=k, k → k by identity is its envelope; k → k² as a summand is not essential.
+- For A=k[ε]/(ε²), the simple embeds by 1 ↦ ε in A; its image meets every nonzero ideal.
+- The envelope of zero is zero; the map 0 → k fails essentiality because its intersection with k is zero.
+
+Define a minimal injective presentation as an exact sequence 0→M→I⁰→I¹ whose
+maps M→I⁰ and coker(M→I⁰)→I¹ are injective envelopes. Construct it by successive
+envelopes; equivalently dualize a finite minimal projective presentation of the right module
+D M (ASS I.5.15–5.16, pp.31–32).
+
+API for minimal injective presentations:
+
+- Both injectives are finite-dimensional and the induced cokernel embedding is essential.
+- Duality exchanges these presentations with minimal projective presentations.
+- Presentations are isomorphic over M, with commuting squares, by envelope uniqueness.
+
+**Checks.**
+
+- For A=k the presentation is 0→k→k→0, with identity embedding and zero cokernel.
+- For the dual-number simple it is 0→k→A→A, with maps 1↦ε and multiplication by ε;
+  image and kernel are kε and the induced cokernel embedding has image kε.
+- For M=0 both injectives are zero. Adding an extra injective summand to I¹ destroys
+  essentiality: that summand has zero intersection with the cokernel image.
+
+Prove `exists_basic_morita`: every finite-dimensional k-algebra is k-linearly Morita equivalent
+to a finite-dimensional basic algebra. Choose one projective cover per simple class, let P be
+their direct sum, and use Endₐ(P)ᵐᵒᵖ. P is a progenerator; faithful projectivity alone is
+insufficient (ASS I.6.3 and Corollary I.6.10, pp.35–38). For the right-module source, pass to
+opposites to obtain this left-module formula.
+
+**Checks.**
+
+- For A₂, P₁ alone is faithful and minimal faithful projective, but dim End(P₁)=1 while dim A=3.
+  The progenerator P₁⊕P₂=A instead gives Endₐ(A)ᵐᵒᵖ ≅ A.
+- M₂(k) reduces to k; its semisimple quotient is not reduced, since E₁₂²=0 with E₁₂≠0.
+- k×k is basic with two simple classes, and the zero algebra has the empty projective family.
+
+*Needs:* SemisimpleAlgebras Layers 1.5–2; native idempotent decomposition, covers, basicness,
+finite-length decomposition, minimal projective presentations, k-duality and Mathlib Morita equivalence.
+
+### 3.2 Admissible presentation and the Ext-quiver
+
+Prove `exists_admissible_presentation`. For an algebraically closed field k and basic
+finite-dimensional A, there are finite vertex and arrow sets Q and a surjection kQ → A
+whose two-sided kernel I satisfies Jᴺ ⊆ I ⊆ J², with J the arrow ideal. The vertex simples
+exhaust the simple A-modules without repetition, restrict along the surjection to the native
+vertex simple modules, and the number of arrows i → j is dimₖ Ext¹ₐ(Sᵢ,Sⱼ). For a general
+finite-dimensional A, combine this with §3.1 to obtain a Morita-equivalent bound-quiver algebra
+(ASS II.2.1, p.53; II.3.7, pp.64–65; III.2.12, p.85).
+
+The source's connected theorem is assembled over the finite central connected factors; the zero
+algebra uses the empty quiver. Arrow lifts belong to eⱼ(rad A)eᵢ under our left convention.
+The radical block eⱼ(rad A/rad² A)eᵢ and Ext¹ₐ(Sᵢ,Sⱼ) have the same dimension; comparison
+maps depend on the chosen primitive idempotents and simple identifications. Neither J nor its
+powers are replaced by Jac(kQ).
+
+**Checks.**
+
+- The dual numbers have one vertex, one loop, J=(X), I=(X²), N=2. Both inclusions are equalities,
+  but Jac(k[X])=0. The loop count and dim Ext¹(k,k) are both 1.
+- For A₂, I=0 and J²=0. There is one arrow 1 → 2 and dim Ext¹(S₁,S₂)=1, while Ext¹(S₂,S₁)=0.
+- k×k uses two isolated vertices, J=I=0 and two simple classes. Requiring connected Q here
+  would lose this algebra; for the zero algebra both simple and vertex sets are empty.
+
+*Needs:* §3.1; native path algebra, arrow ideal and admissibility; primitive idempotent lifts;
+Mathlib native Ext; the radical-layer/simple-extension comparison proved in this subsection.
+
+### 3.3 Cartan and Euler matrices
+
+Index projective covers by simple classes. The row matrix Cᵢⱼ=[Pᵢ:Sⱼ] is the transpose of
+the column convention for the generic composition-multiplicity Cartan matrix. For a split basic
+algebra, Cᵢⱼ=dimₖ Hom(Pⱼ,Pᵢ); over a general field divide that dimension by dimₖ End(Sⱼ).
+For an unbound finite acyclic path algebra Cᵢⱼ counts paths i → j. With relations the corresponding
+space is the quotient path space, whose dimension is not a count of equivalence classes of paths.
+For the unbound finite acyclic path algebra, prove E=C⁻¹ and that B=E+Eᵀ is the symmetric Tits Gram matrix
+(ASS III.3.7–3.13, pp.90–94, adapted to rows indexed by projectives).
+
+**Checks.**
+
+- A₁ has C=[1], E=[1], B=[2]; the algebra and root matrices already differ here.
+- A₂ has C=[[1,1],[0,1]], E=[[1,−1],[0,1]], CE=EC=I and B=[[2,−1],[−1,2]].
+- For k×k, C=E=I₂ and B=2I₂. For the dual numbers, C=[2]; E=C⁻¹ is not asserted because
+  the algebra is not an unbound acyclic path algebra.
+
+*Needs:* §3.1's projective covers, composition multiplicities and Layer 4's Euler–Ext comparison.
+The matrix identity is a consequence of that comparison, not an input to its proof.
+
+### Examples
+
+A₂ fixes every left/right and row/column convention. The dual numbers fix the distinction between
+an admissible arrow-ideal relation and a relation in the radical of the unquotiented path algebra.
+
+### Dependencies
+
+Layer 2; SemisimpleAlgebras Layers 1.5–2; native covers, primitive idempotents and admissibility.
+Only the Euler identification in §3.3 uses Layer 4; Layer 4 does not use it.
+
+## Layer 4: Euler forms, Ext and reflections
+
+### 4.1 Projective resolutions and native Ext
+
+For finite acyclic Q over any field, construct the natural two-term projective resolution of
+an arbitrary representation M, with degree-zero term ⊕ᵢ Pᵢ⊗ₖMᵢ and degree-one term
+⊕ₐ:ᵢ→ⱼ Pⱼ⊗ₖMᵢ. Its differential on the arrow summand is the difference between path
+concatenation and the action of the arrow on M. Prove exactness, projectivity and naturality;
+`pathAlgebra_higher_ext_vanish` states Extⁿ(M,N)=0 for n≥2 on the native module category
+(ASS VII.1.4 and VII.1.7(a), pp.245–249; the path-space resolution works over every field).
+
+Applying Hom gives the vertex-to-arrow differential with component N(a)fᵢ−fⱼM(a).
+Prove `homDifferential_coker_equiv_ext`, identifying its cokernel k-linearly with native Ext¹,
+and compatibility with the class of a short exact extension. The target permits arbitrary
+vertex spaces; finite-dimensionality is needed for the numerical identity, not this comparison.
+Prove `eulerForm_eq_hom_sub_ext` for pointwise finite-dimensional M,N, with both finranks
+cast to ℤ before subtraction (ASS III.3.13, pp.93–94; the two-term resolution gives the
+arbitrary-field specialization directly).
+
+API for the resolution and comparison:
+
+- Augmentation evaluates paths on M; the two consecutive maps compose to zero.
+- The resolution is exact at every vertex and natural in maps of representations.
+- Cokernel classes classify extensions with fixed endpoints, and addition agrees with Baer sum.
+- The comparison is natural contravariantly in M and covariantly in N; all higher Ext vanish.
+
+**Checks.**
+
+- For A₂, M=S₁,N=S₂ gives Hom dimension 0, Ext¹ dimension 1, and Euler value −1=0−1;
+  reversing M,N gives 0=0−0. Natural subtraction would give the wrong first value.
+- For M=N=P₁, Hom has dimension 1, Ext¹ is zero, and q(1,1)=1. For M=0 both sides are zero.
+- At A₁ the arrow term is zero and Hom dimension is mn for dimensions m,n, so Ext¹=0 and E=mn.
+  For the dual-number simple, Ext²(k,k) has dimension 1: relations cannot be ignored in heredity.
+- The A₂ nonsplit extension has middle arrow 1 and class 1 in a one-dimensional cokernel;
+  the split extension has middle arrow 0 and class 0. A zero comparison map would identify them.
+
+*Needs:* Layer 1, native vertex projectives and Hom differential, Mathlib projective resolutions,
+native Ext and short exact sequences. Exactness and comparison, not the Euler matrix inverse,
+are the proof inputs.
+
+### 4.2 Reflection and Coxeter interfaces
+
+Use the kernel reflection at a sink and the cokernel reflection at a source. The kernel-to-incoming
+sum inclusion determines each reversed arrow. For finite-dimensional M with no sink-simple
+summand, the incoming sum is surjective and d(F⁺ᵢM)=sᵢd(M). For indecomposable M the alternatives
+are M≅Sᵢ and F⁺ᵢM=0, or indecomposable survival with the dimension formula and inverse source
+reflection (BGP Theorem 1.1, pp.21–22; Etingof v5 Definitions 5.26–5.27, pp.90–91).
+Compose along a sink-admissible ordering in the order fixed in Conventions. For a general
+finite-dimensional M require the no-simple-summand condition at **each** step for the Coxeter
+dimension formula; for indecomposables use the surviving/killed dichotomy.
+
+**Checks.**
+
+- At the sink 2 of A₂, S₁ maps to the identity-arrow representation of 1 ← 2, P₁ maps to
+  (k ← 0), and S₂ maps to zero. The surviving vectors are (1,0)↦(1,1) and (1,1)↦(1,0).
+- The projection k²→k gives reflected vector (2,1)=(2,2−1). The surjective shift on the
+  countable direct sum of k has one-dimensional kernel: input finranks (0,0), reflected
+  finranks (0,1). It has no sink-simple summand but is outside the finite-dimensional formula.
+- s₂ fixes (2,1) since 2·1−2=0; it sends (1,0) to (1,1), so the coordinate hyperplane is not
+  fixed. It sends (0,1) to (0,−1).
+- A₁'s simple is killed, while its Coxeter reflection sends 1 to −1. On A₂, sink order [2,1]
+  gives C⁺S₁=S₂ and s₁s₂(1,0)=(0,1).
+- Two-arrow and three-arrow Kronecker vectors (1,1) have q=0 and q=−1 respectively; the
+  three-arrow representation (1,0,0) has endomorphism ring k and is indecomposable. The zero
+  vector has q=0 but is not a root.
+
+*Needs:* Layer 1; native reflection dimension, inverse-reflection and admissible-composite results.
+
+### Examples
+
+For a brick M, q(dM)=1 implies Ext¹(M,M)=0. Indecomposability alone gives only
+q(dM)=dim End(M)−dim Ext¹(M,M); it does not justify replacing dim End(M) by 1.
+
+### Dependencies
+
+Layer 1 and native reflection theory. Finite-length decomposition identifies sink-simple summands.
+RootSystems supplies the interpretation of the simple reflections, not their kernel construction.
+
+## Layer 5: Gabriel and the marked rational root system
+
+### 5.1 Dimension-root correspondence
+
+For nonempty connected finite Q, finite representation type is equivalent to positive definiteness of q,
+hence to an ADE underlying graph. Over any field, the finite-dimensional indecomposable
+isomorphism classes then correspond bijectively to nonnegative integral vectors of q-value 1;
+their endomorphism rings are k and their self-Ext¹ vanishes (BGP Theorem 3.1 and Note 1,
+pp.28–30; Etingof v5 Theorem 5.23, p.89). On an equioriented Aₙ these are exactly the interval
+representations with identity maps within the interval.
+
+Choose a complete sink-admissible ordering and repeat it, using restoration of the quiver
+after each full pass. The admissible-reflection route uses termination: for a complete vertex ordering and a
+positive-definite q, some Coxeter iterate of any nonzero vector leaves the nonnegative cone
+(BGP Lemma 2.3, p.28). For a positive root, the first failed prefix is a simple root reflected
+to its negative. Transport indecomposables through the preceding surviving prefixes. This
+allows intermediate height increases and supplies existence, uniqueness and the brick property.
+
+**Checks.**
+
+- A₂ has vectors (1,0),(0,1),(1,1), each of q-value 1; there are three indecomposable classes.
+- For D₄ oriented toward the centre, (1;1,1,1) reflects to (2;1,1,1). Height rises 4→5,
+  while q remains 4−3=7−6=1; strict decrease at every sink would be false.
+- Aₙ has n(n+1)/2 intervals, including 0 for n=0 and 1 for n=1. D₄ has 12 positive roots:
+  three leaf simples, eight vectors with centre 1 and any subset of leaves 1, and (2;1,1,1).
+
+*Needs:* Native finite-dimensional Gabriel correspondence and admissible termination; Layer 4
+for the self-Ext interpretation. RootSystems Layer 1 supplies positive-root language.
+
+### 5.2 The marked root-pairing bridge
+
+Prove `exists_rootPairing_titsForm`: for nonempty connected Q with positive-definite q there
+is a reduced crystallographic irreducible rational root system on the vertex space, a base
+and a vertex-to-base bijection sending i to the actual standard vector eᵢ. Its base Cartan
+matrix is 2I−(adjacency+adjacencyᵀ), and its roots are exactly the nonzero integral vectors
+of q-value 1 (BGP §2, pp.26–28; Etingof v5 Definition 5.20 and Remark 5.21, p.89).
+Combine this marked bridge with §5.1 to interpret the dimension vectors as positive roots
+of that base, not merely of an unmarked isomorphic root system.
+
+**Checks.**
+
+- A₁ has roots ±1 and base vector 1, with Cartan entry 2 and q(1)=1.
+- A₂ has six roots, positive half (1,0),(0,1),(1,1); q(1,−1)=3 excludes the wrong sign.
+- The two-arrow Kronecker vector (1,1) is nonzero with q=0, so positive definiteness fails.
+  The empty quiver is excluded from the irreducible root-system bridge, although its
+  representation category has zero indecomposable classes.
+
+*Needs:* Native Tits form; RootSystems Layers 1, 2 and 5, with the vertex marking and q-value
+identification proved here. Unrestricted root lowering is not used as sink-admissible lowering.
+
+### Examples
+
+The loop quiver is the category of vector spaces with an endomorphism. Over any field its
+finite-dimensional indecomposables are k[X]/(fⁿ), for monic irreducible f and n≥1, by the
+primary cyclic decomposition over the PID k[X] (`Module.equiv_directSum_of_isTorsion`). Over an algebraically closed field this becomes
+k[X]/((X−λ)ⁿ) (Etingof v5 Example 1.19(2), p.9, for the split case).
+Over ℝ, f=X²+1 gives a two-dimensional simple; over ℂ the factors are linear. For n=0 the
+quotient is zero and is not indecomposable. The modules k[X]/(Xⁿ), n≥1, already give infinitely
+many distinct dimensions over every field. Two-arrow Kronecker also has infinitely many
+indecomposables: dimensions (n,n+1) and (n+1,n) have q=1, for unbounded n; its (1,1) family
+has |ℙ¹(𝔽₂)|=3 over 𝔽₂, so that finite family alone does not establish infinite type there.
+
+### Dependencies
+
+Layer 4 and native Gabriel; RootSystems Layers 1, 2 and 5 for the marked bridge.
+
+## Layer 6: Auslander–Reiten theory
+
+### 6.1 Stable morphisms and the translate
+
+Work in finite-dimensional left A-modules for a finite-dimensional algebra A over k.
+The category is `FGModuleCat A`; its factoring quantifiers range over finite-dimensional
+objects. Let the projective and injective factoring ideals be `projectiveFactorIdeal` and
+`injectiveFactorIdeal`, using the native categorical ideal generated by such factorizations.
+Their quotient categories are the projective stable and injective stable categories.
+For module Hom spaces, `injectiveFactorSubmodule` is the k-span of maps factoring through
+injective modules. With finite-dimensional endpoints, an injective envelope of the source
+shows that allowing arbitrary injective modules yields the same subspace as allowing finite ones
+(ASS IV.2, construction preceding Proposition 2.2, pp.109–110).
+
+API for these factoring ideals and quotients:
+
+- Membership is a single factorization through a projective or injective, respectively;
+  finite direct sums absorb sums of factorizations, and scalar multiplication stays inside.
+- Composition on either side preserves membership; quotient maps are additive and k-linear.
+- An object becomes zero in the projective quotient exactly when it is projective, and
+  in the injective quotient exactly when it is injective.
+- The k-vector-space quotient by the injective factoring submodule agrees with costable Hom.
+
+**Checks for the projective ideal.**
+
+- For A=k all morphisms factor through projectives, so stable Hom is zero.
+- For the dual numbers, the simple is not projective and its identity survives; maps k→A→k
+  compose to zero because the first image is kε and the second kills ε.
+- For A₂, id(P₁) becomes zero but id(S₁) survives. Killing all nonzero objects would fail this test.
+
+**Checks for the injective ideal and submodule.**
+
+- For A=k both the factoring subspace and Hom(k,k) have dimension 1; the quotient has dimension 0.
+- For the dual-number simple the factoring subspace has dimension 0, Hom has dimension 1,
+  and its identity survives in the one-dimensional quotient.
+- For A₂, S₁ is injective and its identity dies, while S₂ is not injective and its identity survives.
+  Using the projective ideal instead reverses these two tests.
+
+For a finite minimal projective presentation P₁→P₀→M, take the native transpose and its
+k-dual D Tr M. Prove `exists_stable_translate_equivalence`: these objects, together with
+transposed lifts, give an equivalence from the projective stable category to the injective
+stable category. Its object comparison is to the dual transpose of **each** finite minimal
+presentation of M; its inverse is Tr D (ASS IV.2.10–2.11, pp.115–116).
+
+API for the translate:
+
+- Maps are independent of the lift after taking the relevant quotient; identities and
+  compositions are preserved by D Tr.
+- Projectives map to zero; the inverse kills injectives.
+- It bijects nonprojective indecomposable classes with noninjective indecomposable classes,
+  with inverse Tr D, and respects finite sums.
+
+**Checks.**
+
+- For A₂, τS₁=S₂, while τP₁=τS₂=0. Source and target stable categories each have one
+  nonzero indecomposable class, represented by S₁ and S₂ respectively.
+- For the dual numbers, the presentation A→A→k uses multiplication by ε, and its transpose
+  cokernel and dual both have dimension 1: τk≅k.
+- For A=k every module is projective and injective, so both stable categories are zero;
+  the presentation 0→M→M gives transpose zero and dual transpose zero.
+
+*Needs:* Layer 2; §3.1's envelopes; native minimal presentations, transpose, dual transpose,
+stable transpose on maps, categorical factoring ideals and quotient categories. No acyclicity
+or algebraic closedness is used.
+
+### 6.2 AR duality
+
+Prove `auslanderReiten_duality`: for finite-dimensional M,N and a finite minimal projective
+presentation of M, D Ext¹ₐ(M,N) is k-linearly isomorphic to Homₐ(N,D Tr M) modulo maps through
+injectives. Construct the isomorphisms naturally in both variables on the appropriate stable
+categories, with compatibility under isomorphisms of presentations. Dualizing gives the
+companion formula using projective-stable Hom and Tr D (ASS Theorem IV.2.13, pp.117–119).
+The elementary Hom–tensor adjunction, duality and presentation argument use no algebraic
+closedness; that hypothesis is needed only for the division-ring-free mesh in §6.4.
+
+**Checks.**
+
+- For A₂, M=S₁,N=S₂ gives Ext¹ dimension 1 and costable Hom(S₂,τS₁) dimension 1.
+- For the same M and N=S₁, Ext¹ is zero and Hom(S₁,S₂) is zero. For projective M both sides vanish.
+- For dual numbers with M=N=k, both sides have dimension 1; no map k→A→k represents the
+  surviving identity, since each such composite is zero. The zero module gives dimension 0 on both sides.
+
+*Needs:* §6.1; native module Ext and its k-linear structure; finite projective presentations and
+finite-dimensional k-duality. These are independent of almost-split existence.
+
+### 6.3 Almost-split existence and endpoint uniqueness
+
+Prove `exists_almostSplitSequence`: every nonprojective indecomposable in `FGModuleCat A`
+ends a native almost-split short complex. Prove `almostSplit_left_iso_translate`: its left
+endpoint is isomorphic as an A-module to D Tr of any finite minimal projective presentation
+of the right endpoint. Dually every noninjective indecomposable begins an almost-split sequence
+(ASS Theorem IV.3.1, pp.120–121).
+
+Use short exactness plus left and right factorization properties. A split sequence is excluded;
+no separate empty predicate specifies non-splitting. Given almost-split S,T and any endpoint
+isomorphism e:S.X₃≅T.X₃, uniqueness produces an isomorphism F:S≅T with F.hom.τ₃=e.hom.
+It asserts existence of such a comparison, not uniqueness of F. The commuting squares are part
+of the statement (ASS IV.1.11–1.13, pp.104–106, and native endpoint uniqueness).
+
+**Checks.**
+
+- A₂ has 0→S₂→P₁→S₁→0, with τS₁=S₂; projective S₂ is excluded from the existence theorem.
+- The dual numbers have 0→k→A→k→0 with first map 1↦ε and second map reduction modulo ε.
+  The maps compose to zero, their image/kernel is kε, and the dimensions are 1,2,1.
+- Rescale an inclusion f by a≠0. The comparison to the rescaled sequence with components
+  (a⁻¹,1,1) fixes the right endpoint and satisfies (af)a⁻¹=f and g·1=1·g.
+- The split sequence with the same end dimensions fails the almost-split condition: the
+  projection is a split epimorphism. The zero module is not an indecomposable endpoint.
+
+*Needs:* §6.2; finite-length locality and native almost-split uniqueness. The route takes a
+nonzero socle functional on the stable endomorphism ring to an extension class via AR duality;
+it does not assume the existence theorem to construct that duality.
+
+### 6.4 Irreducible arrows and the AR quiver
+
+Form the AR quiver on isomorphism classes of finite-dimensional indecomposables. Choose a
+representative of each class and a basis of the native k-space Irr(M,N)=rad(M,N)/rad²(M,N);
+that basis indexes arrows M→N. Different choices give isomorphic quivers, and the invariant
+arrow multiplicity is dimₖ Irr(M,N). The partial translation is τ on nonprojective vertices,
+with inverse Tr D on noninjectives (ASS IV.4.1–4.4, pp.125–128).
+
+API for this quiver:
+
+- Changing representatives transports irreducible spaces by conjugation; changing their bases
+  preserves arrow counts and gives a quiver isomorphism.
+- For algebraically closed k, an almost-split sequence with middle term ⊕Xᵢⁿⁱ identifies its
+  component maps with bases of Irr(Xᵢ,M) and Irr(τM,Xᵢ); both dimensions are nᵢ.
+  The headline `almostSplit_mesh_multiplicity` tests this mesh identity for every indecomposable X.
+- For a representation-finite algebra the vertex set and every arrow set are finite, hence
+  the total arrow set is finite. This uses finite-dimensional Hom spaces, not just finite vertices.
+- For arbitrary fields retain the endomorphism residue division rings and the two valuations;
+  no equality of unvalued multiplicities is claimed without the splitting hypothesis.
+
+**Checks.**
+
+- A₁ has one vertex and no arrows: its endomorphism radical is zero.
+- A₂ has exactly S₂→P₁→S₁, τS₁=S₂. The two mesh arrow spaces have dimension 1, whereas
+  Irr(S₂,S₁)=0. An empty-arrow quiver cannot meet the specification.
+- The dual numbers have vertices k,A and arrows k→A→k. Multiplication by ε on A factors
+  through k and is in rad², so it does not create an extra irreducible loop at A.
+
+*Needs:* §6.3, Layer 2, native radical-square quotient and finite-dimensional Hom spaces;
+finite representation type only for the finiteness conclusion.
+
+### Examples
+
+The A₂ and dual-number meshes distinguish an unbound hereditary algebra from a bound
+nonhereditary one. Both belong to the same finite-dimensional-algebra AR theorem.
+
+### Dependencies
+
+Layer 3 and finite-length decomposition; §6.1 precedes duality, which precedes existence.
+Layer 5 is needed only when ADE classification is used to enumerate a particular AR quiver.
+
+## Downstream consumers
+
+QuiverRepresentationsPartII §§1.1–1.6 uses Layers 1, 2 and 5 for the finite-window type-A
+adapter and interval classification. GrothendieckEulerForms, Conventions and Layers 3–5,
+uses the projective/simple and Euler comparisons: its columns index projectives, so its
+Cartan matrix is Cᵀ in our notation, and its corresponding Euler matrix is the inverse transpose.
+This is a consumer comparison, not a dependency in the reverse direction. McKaySkewGroup,
+“Exact supplier contracts”, uses primitive idempotents and Morita equivalence from Layer 3.
 
 ## References
 
-- P. Etingof, O. Golberg, S. Hensel, T. Liu, A. Schwendner, D. Vaintrob, E. Yudovina,
-  *Introduction to Representation Theory*, AMS Student Math. Library 59 (2011), Ch. 2 (quivers and path
-  algebras, representations, the reflection functors) and Ch. 6 (Gabriel's theorem and the ADE
-  classification) - the cleanest route to the two summits.
-- I. Assem, D. Simson, A. Skowroński, *Elements of the Representation Theory of Associative Algebras,
-  Vol. 1: Techniques of Representation Theory*, LMS Student Texts 65, CUP (2006) - the definitive
-  source: path algebras and `kQ/I` (Ch. II-III), projective covers and the Cartan matrix, Gabriel's
-  presentation theorem, the Auslander-Reiten theory, the AR translate and AR quiver (Ch. IV-V).
-- M. Auslander, I. Reiten, S. Smalø, *Representation Theory of Artin Algebras*, CUP (1995) - almost-split
-  sequences, the AR translate `D Tr`, irreducible morphisms, and the AR quiver in full generality.
-- H. Derksen, J. Weyman, *An Introduction to Quiver Representations*, AMS GSM 184 (2017) - the Euler and
-  Tits forms, reflection functors, Gabriel's theorem via the Weyl group, and the connection to root
-  systems.
-- P. Gabriel, *Unzerlegbare Darstellungen I*, Manuscripta Math. 6 (1972) 71-103 - the original: finite
-  representation type is exactly the ADE quivers, and the indecomposables correspond to the positive
-  roots.
-- I. N. Bernstein, I. M. Gelfand, V. A. Ponomarev, *Coxeter functors and Gabriel's theorem*, Uspekhi
-  Mat. Nauk 28 (1973) - the reflection-functor proof of Gabriel's theorem via the Coxeter element.
-- R. Schiffler, *Quiver Representations*, CMS Books in Mathematics, Springer (2014) - a modern
-  self-contained treatment of Layers 0-6, with the worked ADE examples and the AR-quiver computations.
-</content>
+- **ASS:** I. Assem, D. Simson, A. Skowroński, *Elements of the Representation Theory of
+  Associative Algebras, Volume 1*, Cambridge, 2006. Exact locators are attached to each target;
+  right-module formulas are adapted explicitly to left modules.
+  [Institutional teaching copy](https://homepage.mi-ras.ru/~avfonarev/2023/fda/Assem%2C%20Simson%2C%20Skowronski%20-%20Elements%20of%20the%20representation%20theory%20of%20associative%20algebras.pdf).
+- **BGP:** I. N. Bernstein, I. M. Gelfand, V. A. Ponomarev, *Coxeter functors and Gabriel's
+  theorem*, Russian Mathematical Surveys 28:2 (1973), 17–32. Theorem 1.1, Lemma 2.3 and
+  Theorem 3.1. [Author-hosted English translation](https://www.math.tau.ac.il/~bernstei/Publication_list/publication_texts/BGG-CoxeterF-Usp.pdf).
+- **Etingof v5:** P. Etingof et al., *Introduction to Representation Theory*,
+  [arXiv:0901.0827v5](https://arxiv.org/abs/0901.0827v5), 2011, Example 1.19 and §§5.4–5.6.
+  Numbers refer to this preprint version, not to a different published edition.
