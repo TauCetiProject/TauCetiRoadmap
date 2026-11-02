@@ -597,7 +597,8 @@ spaces are nuclear; `E ⊗̂π F` is nuclear for nuclear `E`, `F`; and a Fréche
 nuclear iff its strong dual is (Grothendieck 1952, Ch. II, Théorème 3, p. 102). Not a target:
 nuclearity is a three-space property, an extension of nuclear spaces being nuclear (Dierolf–Roelcke
 1981, Proposition 3.8); the splitting theory of Fréchet spaces behind such extensions is
-Wengenroth 2003. *Needs:* 5.2, Layer 4.
+Wengenroth 2003. A monograph treatment of 5.2–5.4 is Pietsch 1972, Chapters 5 (nuclear locally
+convex spaces) and 6 (permanence properties of nuclearity). *Needs:* 5.2, Layer 4.
 
 **Checks.**
 
@@ -684,6 +685,8 @@ spaces, where bornologification replaces the topology, is Frölicher–Kriegl 19
   Math.* 32 (1981), 13–35. Zbl 0489.46002.
 - J. Wengenroth, *Derived Functors in Functional Analysis*, Lecture Notes in Math. 1810, Springer,
   2003. doi:10.1007/b80165.
+- A. Pietsch, *Nuclear Locally Convex Spaces*, Ergebnisse der Math. 66, Springer, 1972,
+  chapters 5–6. doi:10.1007/978-3-642-87665-3; Zbl 0236.46001.
 - R. Meise, D. Vogt, *Introduction to Functional Analysis*, Oxford Graduate Texts in Math. 2,
   Clarendon Press, 1997. Zbl 0924.46002.
 - I. M. Gel'fand, N. Ya. Vilenkin, *Generalized Functions*, vol. 4, Academic Press, 1964; AMS
