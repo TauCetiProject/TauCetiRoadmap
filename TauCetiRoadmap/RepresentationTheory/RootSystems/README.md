@@ -511,8 +511,10 @@ one valid Dynkin type is the type of every base. Prove transitivity on bases as
 the intermediate target: for any two bases b,b′, some Weyl element transports
 b to b′. Apply `RootPairing.Base.map_equiv_cartanMatrix` to transport Cartan
 entries under the induced support bijection. Thus an unbased equivalence
-preserves the unique valid type (Bourbaki, Ch. VI §1 and §4; Humphreys,
-*Introduction to Lie Algebras and Representation Theory*, §§10–11).
+preserves the unique valid type. The real base-transitivity theorem and its
+positive-system induction are in Humphreys, *Reflection Groups and Coxeter
+Groups*, §1.4, Theorem and proof, p.10; the domain-valued extension uses the
+algebraic route below and the native Cartan transport identity.
 
 One route compares the positive systems by successive simple reflections,
 decreasing the number of positive roots with disagreeing signs. Native positivity,
@@ -526,8 +528,11 @@ crystallographic root system over ℚ is isomorphic to the native rational model
 of exactly one valid type. The existential validity proof selects a genuine
 native model; its root-index set has the number of roots, and both coordinate
 spaces have the rank. Base independence supplies uniqueness for unbased
-isomorphisms; the native rational realization and rigidity supply existence
-(Bourbaki, Ch. VI §4).
+isomorphisms; the native rational realization and rigidity supply existence.
+The classical real classification is summarized in Humphreys, *Reflection
+Groups and Coxeter Groups*, §2.9, p.39; the rational conclusion here uses
+`TauCeti.existsUnique_dynkinType` and `TauCeti.nonempty_equiv_of_hasCartanType`
+with the rational models over ℚ.
 
 **Checks.**
 
@@ -563,7 +568,11 @@ domain, a base of Cartan type A n and n≥1, prove
 for any specified Cartan relabelling, sending the simple reflections to the
 adjacent transpositions in that order. The API includes the action on the roots
 eᵢ−eⱼ, the order (n+1)!, positive-root count n(n+1)/2, and agreement of length
-with permutation inversions (Bourbaki, Ch. VI §4, type A).
+with permutation inversions (Humphreys, *Reflection Groups and Coxeter
+Groups*, §2.10, type A, p.41, for the coordinate roots, simple roots and
+permutation action; §1.7, Corollary, p.14, for length). The coordinate action
+and adjacent-transposition presentation identify the abstract type A group;
+Layer 2 transports that identification to P over the stated domain.
 
 One route uses the marked presentation from Layer 2 and the usual adjacent-
 transposition presentation. Its completeness is a target of this comparison,
@@ -619,7 +628,8 @@ congruence statements supply nothing in the reverse direction.
 
 - J. E. Humphreys, *Reflection Groups and Coxeter Groups*, Cambridge, first
   published 1990; corrected paperback edition 1992, reprinted 1994.
-  §1.7 Corollary p.14; §1.9 Theorem pp.16–18; §5.1 p.106; §5.3 pp.109–110;
+  §1.4 Theorem and proof p.10; §1.7 Corollary p.14; §1.9 Theorem pp.16–18;
+  §2.9 p.39; §2.10, type A, p.41; §5.1 p.106; §5.3 pp.109–110;
   §5.4 Theorem pp.111–113 and
   Corollary p.113; §5.5. The institutional course copy has the printed numbering:
   [University of Washington](https://sites.math.washington.edu/~billey/classes/reflection.groups/references/Humphreys.ReflectionGroupsAndCoxeterGroups.pdf).
