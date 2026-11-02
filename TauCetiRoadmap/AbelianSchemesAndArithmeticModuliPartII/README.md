@@ -111,15 +111,36 @@ integer characteristic polynomials, degree and prime independence; F0 adds recip
 finite-field product corollaries rather than a second integrality theorem. The integer-character theorem and its finite-equation
 consequence have one owner, B2's integer-character construction.
 
-The independent prerequisite extensions belong here: B2.3 owns bounded-degree torsion
-under zero geometric trace. General trace and Lang–Néron come from
-HeightsRationalPointsAndObstructions §§1.9–1.10, and uniform torsion closures from its §5.8.
-B2.4 owns polarized fixed parts and the constant-part comparison, B2.6 semirational
-block counting, B2.15 the abelian Ax theorem and its real-period adapter, and B3.1
-the mixed Kuga uniformization and quotient inputs. B4.1 owns fine full-level curve
-moduli and its universal family. F4.4 owns the semisimple stable-lattice orbit and
-stabilizer-index bounds, both with exponent 4Δ_ℓ; F5.7 owns the CM unitary mass and
-unweighted class asymptotics, with leading term ½g²log g.
+The prerequisite extensions have the following ownership boundaries.
+
+- B2.4 owns polarized fixed parts, rational monodromy semisimplicity and the
+  abelian constant-part comparison. ShimuraVarieties §3.5b.1 supplies the
+  variation carrier and §5.2 the algebraic Hodge–Hom correspondence.
+- B2.6 owns parameter-uniform semirational block counting; B3.1 owns connected
+  Kuga data, their definable uniformization and normal-quotient dictionary.
+  These extend the pure data and definable foundations of ShimuraVarieties
+  P.1 and §§3.5a–3.5d.
+- B4.1 owns fine full-level curve moduli, its universal curve and quasi-finite
+  Torelli map. PELModuli M6 supplies abelian level and coarse-moduli interfaces;
+  JacobianChallengePartII §7.2 supplies differences for a given curve family.
+- F4.4 owns semisimple stable-lattice orbit and stabilizer-index bounds, both
+  with exponent 4Δ_ℓ. GeometryOfNumbersAndQuadraticArithmetic §2.5 supplies
+  DVR invariant factors, not these centralizer-orbit estimates.
+- F5.7 owns CM unitary mass and unweighted class asymptotics, with leading
+  term ½g²log g. GeometryOfNumbersAndQuadraticArithmetic §§2.7,3.3 supply
+  Hermitian carriers and weighted genus sums; its orthogonal mass formula
+  does not supply this unitary asymptotic.
+- B2.15 owns abelian Ax–Lindemann and its real-period adapter, independently
+  of B3's mixed Ax–Schanuel theorem, using ShimuraVarieties §3.5a's definable
+  foundations and the parent's A5.1–A5.3 complex uniformization.
+- HeightsRationalPointsAndObstructions §§5.6,5.8–5.8a own uniform torsion
+  closures in characteristic-zero families; B2.21 consumes that theorem.
+- HeightsRationalPointsAndObstructions §§1.9–1.10 own general trace and
+  Lang–Néron modulo trace. B2.3 owns the bounded-degree torsion consequence
+  for geometrically trace-free abelian varieties over characteristic-zero
+  curve fields, using InverseGaloisAndArithmeticFundamentalGroups IG.3's
+  finiteness of covers of bounded degree.
+
 **ArithmeticStatisticsPartI**, earlier in the build, states in its supporting constructions
 the four finite-field theorems its counting fibres need: the finiteness of Weil polynomials
 with the bound (4g+1)^g q^(g(g+1)/4), Tate's theorem over a finite field at every prime (on
@@ -3019,7 +3040,10 @@ factor profiles, and retain field-discriminant and cross-resultant contributions
   with the two eigenspaces. The projected-lattice construction retains this gluing at ℓ=2.
   The centralizer, the diagonal torus, has exactly two orbits of stable lattices (a stable
   lattice containing the sum of its eigenspace intersections with index ℓ^k forces k≤1),
-  within the bound `ℓ^{4Δ_ℓ}=ℓ^8`; a bound below 2 would be refuted.
+  within the bound `ℓ^{4Δ_ℓ}=ℓ^8`; at ℓ=2 both numerical upper bounds are
+  256, while the orbit count is 2. The stabilizer index is ℓ−1: a diagonal
+  unit pair preserves this lattice exactly when its two entries agree modulo ℓ,
+  so at ℓ=2 the index is 1. A bound below 2 for the orbit count would be refuted.
 
 *Needs:* GeometryOfNumbersAndQuadraticArithmetic §2.5; rational primary decomposition;
 Mathlib and Tau Ceti discriminant and resultant identities.
