@@ -42,8 +42,10 @@ and local inertia interfaces. The quantitative elliptic isogeny-degree theorem i
 not statable because the stable Faltings-height carrier is missing. The weight-two
 cup/Chern sign and Tate-module duality comparisons lack the normalized modular-unit
 symbols, their étale classes and the attached filtered de Rham eigenform line at
-the pins. README.md imports these constructions and their reciprocity from
-PadicFamilies §§4.0.1–4.0.3; no roadmap module is imported here.
+the pins. README.md consumes PadicFamilies §§4.0.1–4.0.3 for the raw classes,
+raw reciprocity and CM comparison, and specifies the additional supplier contracts
+kato-labelled-pushforward and kato-labelled-reciprocity for labelled final levels;
+no roadmap module is imported here.
 -/
 
 noncomputable section
