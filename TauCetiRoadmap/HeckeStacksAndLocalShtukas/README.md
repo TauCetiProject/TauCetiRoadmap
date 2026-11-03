@@ -1,11 +1,11 @@
-# Roadmap: hecke stacks and local shtuka cohomology
+# Roadmap: Hecke stacks and local shtuka cohomology
 
 **Summary.** This roadmap extends the global Hecke stacks, the lisse Hecke functor and the
 minuscule local Shimura towers of AutomorphicGaloisRepresentationsPartII AG2.6 to solid
 coefficients, arbitrary legs and bounds, and every nonarchimedean local field, and identifies
 the restrictions of the solid action with cohomology of general local shtuka towers. Its
-reusable objects are the inversion, bounded strata and chains on the imported Hecke stack
-the global Hecke stack, twisted period spaces, general level towers, global solid Satake kernels, and compact-support
+reusable objects are the inversion, bounded strata and chains on the imported global Hecke
+stack, twisted period spaces, general level towers, global solid Satake kernels, and compact-support
 complexes with commuting group and Weil actions. The final layer states the coherent
 operations and comparison diagrams of the action; the geometric spectral action, excursion
 operators and spectral centre built from the same Hecke functor are AG2.6's.
@@ -38,7 +38,7 @@ relative integral representation-complex interface of
 
 The relative curve, its divisor spaces and meromorphic torsor gluing come from
 `RelativeFarguesFontaine`, Layers 0–7; isocrystals and vector bundles from
-`VectorBundlesAndIsocrystals`, VB−1–VB4; the stack of bundles, Newton strata, full automorphism v-groups and filtered
+`VectorBundlesAndIsocrystals`, Layers 0–6; the stack of bundles, Newton strata, full automorphism v-groups and filtered
 charts from **VStackSheavesAndLisseCategories**, §VS4.0, with arithmetic
 classification and refinements from **BunGAndNewtonStrata**, Layers 0–4. Local loop geometry, Schubert
 varieties, convolution, fusion and the integral Satake equivalence come from
@@ -263,7 +263,7 @@ realization”, which form a prefix of that roadmap using no automorphic, Galois
 target of it. They are stated over `Perf_{𝔽_q}` for the local field `K=E` and pull back
 along `Spd k→Spd 𝔽_q`; their bundle stack is VStackSheavesAndLisseCategories VS4.0's,
 which is also BunGAndNewtonStrata's `Bun_G`, and their curve and divisors are
-VectorBundlesAndIsocrystals VB−1's marked untilt Cartier divisors, on which RelativeFarguesFontaine builds. The consumed
+VectorBundlesAndIsocrystals Layer 0's marked untilt Cartier divisors (“Marked untilt Cartier divisors and Cartier descent”), on which RelativeFarguesFontaine builds. The consumed
 carriers are exactly the following.
 
 - `HeckeModification`: the finite-leg global Hecke stacks `Hck^I_G` over
@@ -320,7 +320,7 @@ AG2.6's `HeckeModification` over `Perf_{𝔽_q}`, pulled back to `Perf_k` along
 `Spd k→Spd 𝔽_q`: objects are legs `(D_i)`, bundles `𝓔_1,𝓔_2` and an isomorphism `α` off
 their union, meromorphic along `ΣD_i`. Its bundle stack is VStackSheavesAndLisseCategories
 VS4.0's, which BunGAndNewtonStrata's `Bun_G` extends on the same carrier, and its leg base is
-VectorBundlesAndIsocrystals VB−1's `Div¹_E` (marked untilt Cartier divisors), the one RelativeFarguesFontaine's divisors are
+VectorBundlesAndIsocrystals Layer 0's `Div¹_E` (“Marked untilt Cartier divisors and Cartier descent”), the one RelativeFarguesFontaine's divisors are
 built on, so there is one bundle stack and one divisor base. The source, target-with-legs,
 unit, leg-repetition and completion maps and the identification `Hck^∅_G≃Bun_G` are the
 supplier's. The targets here are the inversion `sw`, the description of morphisms and
@@ -421,7 +421,7 @@ cell of type `μ`, the fibres are cohomologically smooth of dimension
 nonempty legs and nontrivial `G`, the unbounded Grassmannian fibre is
 not quasicompact.
 
-*Needs:* §HS0.1, §HS0.2; **RelativeFarguesFontaine**, §§7.0–7.7; **DiamondsAndVStacks**, D5; **GeometricSatakeAndFusion**, GS0, “Loop quotients and ordered divisors” and “Generic bounds and integral affine flags”; **BunGAndNewtonStrata**, §§2.8, 2.11–2.23; **GeometricSatakeAndFusion**, GS0, “Open cells, action truncation and minuscule flags”; **VectorBundlesAndIsocrystals**, VB3, “Positive presentations and general two-term geometry”; **RelativeFarguesFontaine**, §§4.6–4.13; **DiamondsAndVStacks**, D3; **DiamondSixOperations**, S4.
+*Needs:* §HS0.1, §HS0.2; **RelativeFarguesFontaine**, §§7.0–7.7; **DiamondsAndVStacks**, D5; **GeometricSatakeAndFusion**, GS0, “Loop quotients and ordered divisors” and “Generic bounds and integral affine flags”; **BunGAndNewtonStrata**, §§2.8, 2.11–2.23; **GeometricSatakeAndFusion**, GS0, “Open cells, action truncation and minuscule flags”; **VectorBundlesAndIsocrystals**, Layer 5, “Positive presentations and general two-term geometry”; **RelativeFarguesFontaine**, §§4.6–4.13; **DiamondsAndVStacks**, D3; **DiamondSixOperations**, S4.
 
 (Sources: [FS], VI.1, proof of Proposition VI.1.7, p. 193; III.3, pp. 97–98; VI.2, Proposition VI.2.7, p. 201; VI.8, Remark VI.8.4, p. 226; II.1, Proposition II.1.21, p. 56; I.2, p. 16; VI.2, Proposition VI.2.4, p. 198; [SW], Appendix to Lecture 19, Proposition 19.5.3, p. 180.)
 
@@ -538,7 +538,7 @@ and chain composition. For nonbasic `b`, `G_b`
 is a form of a proper Levi and this equivalence is not asserted. Use the
 supplier's Beauville–Laszlo sign and inversion dictionary specified above.
 
-*Needs:* §HS0.1, §HS0.2, §HS0.4; **RelativeFarguesFontaine**, §§7.0–7.7; **BunGAndNewtonStrata**, §§0.7 and 1.19; **BunGAndNewtonStrata**, §§2.8, 2.11–2.23; **VectorBundlesAndIsocrystals**, VB3, “Basic section sheaves, Lubin–Tate geometry and projectivization”.
+*Needs:* §HS0.1, §HS0.2, §HS0.4; **RelativeFarguesFontaine**, §§7.0–7.7; **BunGAndNewtonStrata**, §§0.7 and 1.19; **BunGAndNewtonStrata**, §§2.8, 2.11–2.23; **VectorBundlesAndIsocrystals**, Layer 5, “Basic section sheaves, Lubin–Tate geometry and projectivization”.
 
 (Sources: [FS], III.4, Corollary III.4.3, p. 101; III.4, Proposition III.4.2, p. 101; III.4, Proposition III.4.1(ii), p. 100; IX.6.4, p. 333; IX.6, proof of Theorem IX.6.1, p. 331; III.3, Proposition III.3.6(ii), p. 100; III.2.2, p. 91; II.2, proof of Proposition II.2.3, p. 61; IX.7, p. 337; [SW], Lecture 23, proof of Corollary 23.3.2, p. 219; Lecture 24, Definition 24.1.1 and Proposition 24.1.2, p. 225.)
 
@@ -560,7 +560,7 @@ For `G=G_m` and two coincident legs of types `a,c`, the composed modification ch
 
 ### Dependencies
 
-*Needs:* **AutomorphicGaloisRepresentationsPartII**, AG2.6, “Relative Fargues–Fontaine curves and degree-one divisors” and “Bundle strata, lisse categories and the geometric Hecke action”; **RelativeFarguesFontaine**, Layers 0–4 and 6–7; **BunGAndNewtonStrata**, Layers 0–4; **GeometricSatakeAndFusion**, GS0–GS3; **DiamondsAndVStacks**, D3–D5; **VectorBundlesAndIsocrystals**, VB3; **DiamondSixOperations**, S4.
+*Needs:* **AutomorphicGaloisRepresentationsPartII**, AG2.6, “Relative Fargues–Fontaine curves and degree-one divisors” and “Bundle strata, lisse categories and the geometric Hecke action”; **RelativeFarguesFontaine**, Layers 0–4 and 6–7; **BunGAndNewtonStrata**, Layers 0–4; **GeometricSatakeAndFusion**, GS0–GS3; **DiamondsAndVStacks**, D3–D5; **VectorBundlesAndIsocrystals**, Layer 5; **DiamondSixOperations**, S4.
 
 ## Layer HS1: The solid and lisse Hecke action
 
@@ -992,6 +992,15 @@ AG2.6's `HeckeFunctor`, through the identification of HS1.2. The targets here ar
 continuity for the relatively discrete condensed structure of HS1.8 and the descent API
 with its restricted essential image.
 
+The action is transported covariantly. Let `γ=(γ_i)∈W_E^I` act on `(Spd C)^I` over
+`(Div¹)^I` by `g_γ`, the automorphism `τ_i∘Frob^(−deg_ar(τ_i))` in the `i`-th leg, and let
+`ψ_γ: g_γ^*T_V(A)≅T_V(A)` be the descent datum of the pullback of `T_V(A)` to
+`Bun_G×(Spd C)^I`, with the cocycle `ψ_(γγ′)=ψ_(γ′)∘g_(γ′)^*ψ_γ`. Then `γ` acts on the
+underlying object by `ψ_γ⁻¹`, the only choice that is a homomorphism `W_E^I→Aut`; on a
+section `s` of a leg structure (a section of `O(1)` with divisor the leg) this is the
+pushforward `γ(s)=(g_γ)_*s`, the action HS2.18 uses to define `rec_HS`, and the torus
+witness of HS4.2 is computed in this direction.
+
 *Needs:* **AutomorphicGaloisRepresentationsPartII**, AG2.6, “Bundle strata, lisse categories and the geometric Hecke action”; §HS1.0, §HS1.8, §HS1.4, §HS1.5, §HS1.3; **ClassFieldTheory**, §4 Layer 9; **ReductiveGroups**, Layer 9; **GeometricSatakeAndFusion**, GS4, “Integral identification, normalization and functoriality”; **VStackSheavesAndLisseCategories**, VS1; **VStackSheavesAndLisseCategories**, VS2; **VStackSheavesAndLisseCategories**, VS4.
 
 (Sources: [FS], Corollary IX.2.3, p. 323; Corollary IX.2.3, proof, p. 323; Corollary VII.2.8, p. 256; Proposition IX.1.1, p. 320; Proposition IV.7.3, p. 165.)
@@ -1156,7 +1165,7 @@ global section. For `GL_n`, this is the usual functor of
 system, and the zero Newton polygon suffices. For general `G`,
 zero Newton point alone does not characterize the admissible locus.
 
-*Needs:* **BunGAndNewtonStrata**, Layer 1; **DiamondsAndVStacks**, D3; **VectorBundlesAndIsocrystals**, VB4; **BunGAndNewtonStrata**, §§2.8, 2.11–2.23; **BunGAndNewtonStrata**, Layer 0.
+*Needs:* **BunGAndNewtonStrata**, Layer 1; **DiamondsAndVStacks**, D3; **VectorBundlesAndIsocrystals**, Layer 6, “The integral boundary and group torsors”; **BunGAndNewtonStrata**, §§2.8, 2.11–2.23; **BunGAndNewtonStrata**, Layer 0.
 
 (Sources: [SW], Theorem 22.6.2, p. 214; Proposition 22.6.1, p. 213; §22.6, p. 213; Corollary 22.3.3, p. 209; Theorem 22.5.2, p. 212; proof of Theorem 22.6.2, p. 214.)
 
@@ -1353,7 +1362,7 @@ inversion of `μ` or of `α` is applied. The targets here are arbitrary legs, no
 bounds, local fields of either characteristic, and the integral-model level, as
 extensions on that carrier.
 
-*Needs:* §HS2.7, §HS2.6, §HS0.5, §HS2.3; **AutomorphicGaloisRepresentationsPartII**, AG2.6, “Minuscule local Shimura spaces and their Hecke realization”; **RelativeFarguesFontaine**, §§7.0–7.7; **RelativeFarguesFontaine**, Layers 0–1; **RelativeFarguesFontaine**, §§0.18–0.20; **RelativeFarguesFontaine**, §§1.1–1.3; **RelativeFarguesFontaine**, §§4.6–4.13; **GeometricSatakeAndFusion**, GS0, “Loop quotients and ordered divisors” and “Generic bounds and integral affine flags”; **BunGAndNewtonStrata**, §§2.8, 2.11–2.23; **DiamondsAndVStacks**, D5; **VectorBundlesAndIsocrystals**, VB3, “Basic section sheaves, Lubin–Tate geometry and projectivization”.
+*Needs:* §HS2.7, §HS2.6, §HS0.5, §HS2.3; **AutomorphicGaloisRepresentationsPartII**, AG2.6, “Minuscule local Shimura spaces and their Hecke realization”; **RelativeFarguesFontaine**, §§7.0–7.7; **RelativeFarguesFontaine**, Layers 0–1; **RelativeFarguesFontaine**, §§0.18–0.20; **RelativeFarguesFontaine**, §§1.1–1.3; **RelativeFarguesFontaine**, §§4.6–4.13; **GeometricSatakeAndFusion**, GS0, “Loop quotients and ordered divisors” and “Generic bounds and integral affine flags”; **BunGAndNewtonStrata**, §§2.8, 2.11–2.23; **DiamondsAndVStacks**, D5; **VectorBundlesAndIsocrystals**, Layer 5, “Basic section sheaves, Lubin–Tate geometry and projectivization”.
 
 (Sources: [FS], IX.3, after the proof of Theorem IX.3.1, pp. 325–326; IX.3, proof of Proposition IX.3.2, p. 326; [SW], Definition 23.5.1, p. 223; Corollary 23.5.3 and the paragraph after it, p. 224; Definition 11.1.2, pp. 90–91.)
 
@@ -1699,7 +1708,7 @@ spatial representability, compactifiability and locally finite
 for source levels. These two-bundle and dimension assertions are
 consequences of the imported geometry to prove here.
 
-*Needs:* §HS2.7, §HS2.6, §HS0.5, §HS0.3, §HS2.9, §HS2.2; **DiamondSixOperations**, S0; **DiamondsAndVStacks**, D3; **DiamondsAndVStacks**, D5; **VStackSheavesAndLisseCategories**, §VS4.0; **BunGAndNewtonStrata**, §§2.8, 2.11–2.23; **VectorBundlesAndIsocrystals**, VB1.
+*Needs:* §HS2.7, §HS2.6, §HS0.5, §HS0.3, §HS2.9, §HS2.2; **DiamondSixOperations**, S0; **DiamondsAndVStacks**, D3; **DiamondsAndVStacks**, D5; **VStackSheavesAndLisseCategories**, §VS4.0; **BunGAndNewtonStrata**, §§2.8, 2.11–2.23.
 
 (Sources: [SW], Corollary 23.5.3, p. 224; Proposition 23.5.2, p. 223; [FS], VII.5, p. 264; IX.3, p. 326.)
 
@@ -1732,7 +1741,7 @@ with the ordinary modification quotient holds off the nontrivial
 Frobenius diagonals only, and does not give descent of the entire
 shtuka space along the product of divisor quotients.
 
-*Needs:* §HS2.9, §HS2.2, §HS2.6, §HS2.10; **ClassFieldTheory**, §4 Layer 9; **RelativeFarguesFontaine**, §§4.6–4.13; **VectorBundlesAndIsocrystals**, VB3, “Basic section sheaves, Lubin–Tate geometry and projectivization”; **VStackSheavesAndLisseCategories**, VS1.
+*Needs:* §HS2.9, §HS2.2, §HS2.6, §HS2.10; **ClassFieldTheory**, §4 Layer 9; **RelativeFarguesFontaine**, §§4.6–4.13; **VectorBundlesAndIsocrystals**, Layer 5, “Basic section sheaves, Lubin–Tate geometry and projectivization”; **VStackSheavesAndLisseCategories**, VS1.
 
 (Sources: [FS], IX.3, before Theorem IX.3.1, p. 324; IX.3, proof of Proposition IX.3.2, pp. 326–327; IV.7, before Proposition IV.7.1, p. 164; Corollary II.2.4, p. 61; [SW], Proposition 23.3.1 and its proof, p. 218.)
 
@@ -1780,7 +1789,7 @@ For `G_m`, bound `1` and `b=π⁻¹`, infinite level is `Z×Spd Ĕ_∞`; replac
 
 ### Dependencies
 
-*Needs:* HS0–HS1; **AutomorphicGaloisRepresentationsPartII**, AG2.6, “Minuscule local Shimura spaces and their Hecke realization”; **RelativeFarguesFontaine**, Layers 0–4 and 6–7; **BunGAndNewtonStrata**, Layers 0–4; **VectorBundlesAndIsocrystals**, VB1, VB3–VB4; **GeometricSatakeAndFusion**, GS0; **DiamondsAndVStacks**, D3–D6; **AdicEtaleGeometry**, A2; **AdicSpacesPartII**, R0; **ReductiveGroupsPartII**, RG2.0; **PadicHodgeTheory**, §§0.1 and 3.2–3.5; **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, R07.4.13; **DiamondSixOperations**, S0; **ClassFieldTheory**, §4 Layer 9.
+*Needs:* HS0–HS1; **AutomorphicGaloisRepresentationsPartII**, AG2.6, “Minuscule local Shimura spaces and their Hecke realization”; **RelativeFarguesFontaine**, Layers 0–4 and 6–7; **BunGAndNewtonStrata**, Layers 0–4; **VectorBundlesAndIsocrystals**, Layers 0, 5 and 6; **GeometricSatakeAndFusion**, GS0; **DiamondsAndVStacks**, D3–D6; **AdicEtaleGeometry**, A2; **AdicSpacesPartII**, R0; **ReductiveGroupsPartII**, RG2.0; **PadicHodgeTheory**, §§0.1 and 3.2–3.5; **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, R07.4.13; **DiamondSixOperations**, S0; **ClassFieldTheory**, §4 Layer 9.
 
 ## Layer HS3: Cohomology and smooth representations
 
@@ -2338,7 +2347,7 @@ constructed here.
 
 *Needs:* §HS4.1, §HS1.2, §HS1.10, §HS2.18; **GeometricSatakeAndFusion**, GS3; `CategoryTheory.ExactPairing`; `CategoryTheory.Functor.Monoidal`.
 
-(Sources: [FS], Theorem IX.2.2, proof, p. 323; Definition VIII.4.2 and the construction after it, p. 291; Definition VIII.4.2, p. 291; Proposition IX.6.5 and its proof, p. 333; paragraph after Theorem IX.0.1, p. 318.)
+(Sources: [FS], Theorem IX.2.2, proof, p. 323; Definition VIII.4.2 and the construction after it, p. 291; Definition VIII.4.2, p. 291; Proposition IX.6.5 and its proof, p. 333; Theorem IX.7.2, proof, p. 336; Corollary II.2.4 and the following discussion, p. 61; paragraph after Theorem IX.0.1, p. 318.)
 
 Provide the following API.
 
@@ -2363,8 +2372,9 @@ Provide the following API.
 - For `G = GL_n`, `Q = 1` and `V` the standard representation of `Ĝ = GL_n` over `Λ: annihilate′_V∘create_V` is multiplication by `n` on the identity functor of `D_lis(Bun_{GL_n},Λ)^ω`. For `n = 2` it is `2`.
 - For `G = G_m` and `V = χ_1` the standard character of `Ĝ = G_m`, so `V∨ = χ_{−1}: create` and `annihilate` are isomorphisms `id ≅ T_{χ_1}∘T_{χ_{−1}}` and `T_{χ_{−1}}∘T_{χ_1} ≅ id`, and the composite `T_{χ_1} → T_{χ_1}∘T_{χ_{−1}}∘T_{χ_1} → T_{χ_1}` is the identity.
 - For `V ∈ Rep_Λ(Ĝ⋊Q)` and `γ`, `γ_1`, `γ_2 ∈ W_E: (γ,γ)∘create_V = create_V` as maps `id → T_{V⊠V∨}` of underlying endofunctors, and `annihilate′_V∘(γ_1,γ_2)∘create_V = annihilate′_V∘(γ_1γ_2^{-1},1)∘create_V`.
-- For `G = G_m`, `V = χ_1`, `γ_1`, `γ_2 ∈ W_E` and a smooth character `χ: E^× → Λ^×`, regarded as an object of `D(E^×,Λ) ≅ D_lis(Bun^b_{G_m},Λ)` for any `b ∈ B(G_m)` (the natural transformations extend from the compact objects to `D_lis(Bun_{G_m},Λ)`, their Ind-completion, because the functors `T_V` commute with colimits; a character need not be a compact object): `annihilate′_V∘(γ_1,γ_2)∘create_V` acts on `χ` by the scalar `χ(rec_HS(γ_1γ_2^{-1}))`, where `rec_HS` is the right-frame geometric reciprocity map of HS2.18, including its fixed inversion relative to arithmetic `localWeilArtinEquiv`.
+- For `G = G_m`, `V = χ_1`, `γ_1`, `γ_2 ∈ W_E` and a smooth character `χ: E^× → Λ^×`, regarded as an object of `D(E^×,Λ) ≅ D_lis(Bun^b_{G_m},Λ)` for any `b ∈ B(G_m)` (the natural transformations extend from the compact objects to `D_lis(Bun_{G_m},Λ)`, their Ind-completion, because the functors `T_V` commute with colimits; a character need not be a compact object): `annihilate′_V∘(γ_1,γ_2)∘create_V` acts on `χ` by the scalar `χ(rec_HS(γ_1γ_2^{-1}))`, where `rec_HS` is the right-frame geometric reciprocity map of HS2.18, including its fixed inversion relative to arithmetic `localWeilArtinEquiv`. The value is computed with the covariant transport of HS1.9: on the stratum of `L`, the leg of weight `1` identifies `L(−D)` with `L(−1)` by division by a section `s` of `O(1)` with divisor `D`; the transported section is `γ_1(s)=s·rec_HS(γ_1)`, and the automorphism `ψ_γ⁻¹` of `L(−1)` is multiplication by `rec_HS(γ_1)`, which acts on `χ` by `χ(rec_HS(γ_1))`; the leg of weight `−1` identifies `L(D)` with `L(1)` by multiplication by `s` and contributes `χ(rec_HS(γ_2))⁻¹`. Taking the pullback `g_γ^*s=s·rec_HS(γ)⁻¹` for the transported section inverts both factors and is excluded by the homomorphism requirement of HS1.9.
 - For `G = G_m`, `V = χ_1` and a smooth character `χ` of `E^×` with `χ(rec_HS(γ_0)) ≠ 1` for some `γ_0 ∈ W_E`: on the object `χ`, `(γ_0,1)∘create_V = χ(rec_HS(γ_0))·create_V ≠ create_V`. So `create_V` is not invariant under `W_E²`, only under its diagonal.
+- The instance of AutomorphicGaloisRepresentationsPartII AG2.6, “The parameter stack and geometric spectral action”: `E = ℚ_11`, `ℓ = 5`, `Λ = 𝔽̄_5`, `V = χ_1`, `χ` the unramified character with `χ(11) = 2`, and `γ ∈ W_E` a geometric Frobenius, so that `v_11(rec_HS(γ)) = 1` and `χ(rec_HS(γ)) = χ(11) = 2`: the composite `annihilate′_V∘(γ,1)∘create_V` acts on `χ` by `2`, and `(1,γ)` gives `2⁻¹ = 3`. AG2.6's Check on this instance assigns `2` to its normalized `geometricSpectralAction` and `3` to the raw composite of `V ↦ T_V`, on the reading that Fargues–Scholze's `T_{V_μ}` is its `T_{θ*V_μ}`. The functors agree, not their labels: Fargues–Scholze's `T_{V_μ}` and `HeckeFunctor` both carry the degree-`d` stratum of `Bun_{G_m}` to degree `d+1` (the proof of FS Theorem IX.7.2, p. 336, computes `T_V` on `Bun_{G_m}` through the standard modification `O → O(1)`), so the raw composite here is Fargues–Scholze's own, and its value on this instance is `2`, the number AG2.6's Check attaches to the normalized action.
 - For `V = 1: create_1` and `annihilate_1` are the unit constraints, and `annihilate′_1∘(γ_1,γ_2)∘create_1` is the identity for all `γ_1`, `γ_2 ∈ W_E`.
 
 ### HS4.3 — Adjoint-group morphisms and global Hecke diagrams
