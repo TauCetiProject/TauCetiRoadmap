@@ -31,6 +31,10 @@ The following headline theorems are not statable at the pins:
   completed/punctured etale derived-sections functors on it.
 * Integral perfectoid, tilt and A_inf hyperdescent lacks the integral perfectoid
   category with complete-arc hypercovers and its coherent derived section maps.
+* The proper comparison over a strongly noetherian completed Tate generic fibre lacks
+  adic analytification over Spa(A[1/t],A), its etale site and the morphism of etale topoi.
+* Excision for models bounded by a total integral closure lacks the small-limit-valued
+  arc-sheaf carrier, as unrestricted Milnor excision does.
 
 The torsion/constructible arc-descent and perfectoid-basis/structure-sheaf results
 of PrismaticCohomology section 2.0 are supplier inputs, not additional targets here.
