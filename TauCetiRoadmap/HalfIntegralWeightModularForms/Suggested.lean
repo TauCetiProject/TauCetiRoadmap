@@ -8,15 +8,15 @@ import Mathlib
 The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
 theorems against the pinned Mathlib and Tau Ceti APIs, using simple definitions on native
 carriers. The headlines stated here are finite-dimensionality, Cohen's level-four dimension
-formulas, the Shimura–Niwa–Cipra theorem for trivial character, Dedekind reciprocity and the
+formulas, the Shimura–Niwa–Cipra theorem with nebentypus, Dedekind reciprocity and the
 eta transformation formulas, the theta eta quotient, even and odd unary-theta modularity, both
 Serre–Stark basis theorems, the two unary eta identities, Kohnen's lift `Sh_D⁺` for every
 fundamental discriminant, and the dimension consequence of Kohnen's correspondence.
 
-The following headlines are not statable with these definitions at the pins. The
-character-twisted Shimura–Niwa–Cipra theorem, Shimura's Euler product, the Hecke equivariance
-of the lift and the Shimura decomposition lack the nebentypus eigenspaces of 0.4, whose
-diamond operators are a Layer 0 target, and the half-integral Hecke action. Odd-rank lattice
+The following headlines are not statable with these definitions at the pins. Shimura's
+Euler product, the Hecke equivariance of the lift and the Shimura decomposition lack the
+half-integral Hecke action and its eigenspaces. The existence of the lift with nebentypus
+is stated directly using the character transformation laws. Odd-rank lattice
 modularity lacks ThetaSeries' real-lattice theta-form bridge. Kohnen's Hecke correspondence,
 the Hecke equivariance of `Sh_D⁺` and the higher-level newform theorem lack the plus-space
 Hecke and newspace carriers. Kohnen–Zagier, Waldspurger and the normalized Shintani adjunction
@@ -254,19 +254,27 @@ end HalfIntegralForm
 
 namespace HalfIntegralForm
 
-/-- **1.3, the Shimura–Niwa–Cipra theorem** with trivial character: for `k ≥ 1`, a cusp form
-`f = ∑ a(n) qⁿ` of weight `k + 1/2` on `Γ₀(N)`, `4 ∣ N`, and squarefree `t`, the divisor sums
-`A_t(n) = ∑_{d ∣ n, (d, N) = 1} ((−1)^k t / d) d^{k−1} a(t n²/d²)` are the positive-index
-coefficients of a modular form of weight `2k` on `Γ₀(N/2)` (Niwa, theorem, p.148, for `k ≥ 3`;
-Cipra, Theorems 2.16–2.17, pp.88–91, for `k = 1, 2`). Here `(d, N) = 1` forces `d` odd, where
-the Kronecker symbol is Mathlib's `jacobiSym`; the constant term is determined by modularity
-and is not part of the statement. -/
+/-- **1.3, the Shimura–Niwa–Cipra theorem**: for `k ≥ 1`, a cusp form
+`f = ∑ a(n) qⁿ` of weight `k + 1/2` on `Γ₁(N)`, `4 ∣ N`, satisfying the nebentypus law for
+`χ` on `Γ₀(N)`, and squarefree `t`, the divisor sums
+`A_t(n) = ∑_{d ∣ n} χ(d) ((−1)^k t / d) d^{k−1} a(t n²/d²)` are the positive-index coefficients
+of a modular form of weight `2k` on `Γ₁(N/2)` with nebentypus `χ²` on `Γ₀(N/2)`
+(Niwa, theorem, pp.148–149, for `k ≥ 3`; Cipra, Theorems 2.16–2.17, pp.88–91, for `k = 1, 2`).
+The square of `χ` descends to modulus `N/2`. Even divisors have `χ(d) = 0`; at odd divisors
+the Kronecker symbol is Mathlib's `jacobiSym`. The constant term is determined by modularity
+and is not part of the coefficient prescription. -/
 theorem shimuraNiwaCipra {N : ℕ} [NeZero N] (hN : 4 ∣ N) {k : ℕ} (hk : 1 ≤ k)
-    (f : cuspSpace k (Gamma0 N)) (t : ℕ) (ht : Squarefree t) :
-    ∃ F : ModularForm ((Gamma0 (N / 2)).map (Matrix.SpecialLinearGroup.mapGL ℝ)) (2 * k : ℤ),
-      ∀ n : ℕ, 0 < n → (UpperHalfPlane.qExpansion 1 F).coeff n =
-        ∑ d ∈ n.divisors, (if Nat.Coprime d N then (jacobiSym ((-1) ^ k * t) d : ℂ) else 0) *
-          (d : ℂ) ^ (k - 1) * coeff (f : HalfIntegralForm k (Gamma0 N)) (t * n ^ 2 / d ^ 2) :=
+    (χ : DirichletCharacter ℂ N) (f : cuspSpace k (Gamma1 N))
+    (hχ : ∀ γ ∈ Gamma0 N, ∀ z : ℍ,
+      (f : HalfIntegralForm k (Gamma1 N)) (γ • z) * theta z ^ (2 * k + 1) =
+        χ (γ 1 1) * theta (γ • z) ^ (2 * k + 1) * (f : HalfIntegralForm k (Gamma1 N)) z)
+    (t : ℕ) (ht : Squarefree t) :
+    ∃ F : ModularForm ((Gamma1 (N / 2)).map (Matrix.SpecialLinearGroup.mapGL ℝ)) (2 * k : ℤ),
+      (∀ n : ℕ, 0 < n → (UpperHalfPlane.qExpansion 1 F).coeff n =
+        ∑ d ∈ n.divisors, χ d * (jacobiSym ((-1) ^ k * t) d : ℂ) *
+          (d : ℂ) ^ (k - 1) * coeff (f : HalfIntegralForm k (Gamma1 N)) (t * n ^ 2 / d ^ 2)) ∧
+      (∀ γ ∈ Gamma0 (N / 2), ∀ z : ℍ,
+        F (γ • z) = χ (γ 1 1) ^ 2 * denomZ γ z ^ (2 * k) * F z) :=
   sorry
 
 end HalfIntegralForm

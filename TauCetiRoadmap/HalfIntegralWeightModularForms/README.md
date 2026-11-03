@@ -121,7 +121,10 @@ those proofs are targets of the sections that use them, except for the named sup
   `halfIntegralCoefficientBound`, and the analytic product specialization
   `jacobi_product_specialization` for the eta comparison in §3.4. 0.1 records the three facts about `θ` as consumed statements;
   0.5 identifies `S_{k+1/2}(Γ₀(N), 1)` with `HalfIntegralCuspForm k N` as subspaces of functions on
-  `ℍ`. Nothing here redefines `j`, reproves `θ ≠ 0`, or states a coefficient bound.
+  `ℍ`. Section 0.5 owns the elementary Hecke bound at every positive Fourier index and
+  every weight `k + 1/2`, `k ≥ 0`; the supplied Iwaniec–Duke estimate applies to positive
+  squarefree indices in weight at least `5/2`. The multiplier and its nonvanishing remain
+  supplier inputs.
 - From the [metaplectic groups, Weil representations and automorphic theta kernels roadmap](../MetaplecticAutomorphicForms/README.md):
   *Layer 2* (the metaplectic double cover) by citation only, as the object this roadmap avoids;
   *6.17–6.18* (the Jacobi group and `jacobiSpace`, whose holomorphic classical specialization at the
@@ -558,9 +561,11 @@ The definition has the following API.
 - The Petersson product is positive on `δ ∈ S⁺_{13/2}(4)`; for `χ = 1` it is §4.3's product; the
   Kohnen–Zagier `⟨g, g⟩` of 5.5 is this product divided by `6`.
 - The decay needs cuspidality: for `θ` (weight `1/2`, not a cusp form) `|θ(iy)| y^{1/4} → ∞` as
-  `y → ∞`, since `θ(iy) → 1`. The exponent is sharp for weight `3/2`: `h_{χ₋₄,1} = 2η(8z)³`
-  of 4.1 is a cusp form whose coefficient at `n = m²` is `±2m = 2 n^{1/2}`, against the bound
-  `O(n^{3/4})`.
+  `y → ∞`, since `θ(iy) → 1`. For the weight-`3/2` cusp form
+  `h_{χ₋₄,1} = 2η(8z)³` of 4.1, the coefficient at `n = m²`, `m > 0`, is
+  `2mχ₋₄(m)`: zero for even `m`, of absolute value `2m` for odd `m`. At `m=1,2,3,5`
+  the coefficients are `2,0,−6,10`, compatible with `O(n^{3/4})`; for odd `m` the ratio
+  to `n^{3/4}` is `2/√m → 0`, so this example does not establish sharpness.
 - The bound is not inherited from `fθ`: `θ^{−1} = 1 − 2q + 4q² − 8q³ + 14q⁴ − ⋯` has
   coefficient `2062` at `q¹⁶`, growing faster than any power of `n` because `θ` vanishes at the
   cusp `1/2` (0.6), so dividing the integral-weight bound for `fθ` by `θ` gives no termwise
@@ -717,16 +722,25 @@ The definition has the following API.
   It equals `Δ(z) − 32Δ(2z)` at level `2`; §5.3's primitive plus lift equals `Δ`.
 - At `n=3`, the ordinary lift gives `a(9)+3⁵a(1)=9+243=252`; replacing
   `((−1)^k/3)` by `(−1/3)` gives `9−243=−234`, detecting the sign error independently of the prime `2`.
+- For `k=1,N=192,t=3`, the unary form `h_{χ₋₄,3}` of §4.1 has character
+  `χ=(12/·)` inflated to level `192`. Its lifted coefficients at `n=1,2,3,4,5` are
+  `2,0,−6,0,12`; omitting `χ` gives `8` at `n=5`. The matrix `[[77,2],[192,5]]`
+  has determinant `385−384=1` and `χ(5)=−1`, excluding the trivial-character law.
+- The descent of `χ²` is necessary: at level `16`, the character with `χ(−1)=1`,
+  `χ(3)=i` has `χ(9)=−1`, although `9≡1 (mod 8)`; its square has value `1` there.
 - Reject `k = 0`: for squarefree `t`, on `θ_{ψ,t}` the formula gives
   `A_t(n) = 2ψ(n) ∑_{d∣n, (d,4r²t)=1} d^{−1}`, not a constant
   (`A_t(1) = 2`), so no modular form of weight `0` arises (4.4).
 
-The acceptance statement is `HalfIntegralForm.shimuraNiwaCipra`, the Shimura–Niwa–Cipra theorem
-for trivial character: for `k ≥ 1`, `f` in the cusp subspace of `HalfIntegralForm k (Γ₀(N))`
-and squarefree `t`, the divisor sums with `χ_t(d) = ((−1)^k t / d)` for `(d, N) = 1` and `0`
-otherwise are the positive-index coefficients of a form in `M_{2k}(Γ₀(N/2))`. The
-character-twisted statement is the same theorem on the eigenspaces of 0.4, and the constant
-term, the Hecke equivariance and the Euler product remain targets of this layer.
+The acceptance statement `HalfIntegralForm.shimuraNiwaCipra` uses `χ : DirichletCharacter ℂ N`,
+`N > 0`, `4 ∣ N`, `k ≥ 1`, a cusp form `f` on `Γ₁(N)` satisfying
+`f(γz) θ(z)^{2k+1} = χ(d) θ(γz)^{2k+1} f(z)` on `Γ₀(N)`, and squarefree `t`.
+It asserts the existence of `F ∈ M_{2k}(Γ₁(N/2))` with the displayed positive-index
+coefficients and `F(γz) = χ(d)² (cz+d)^{2k} F(z)` on `Γ₀(N/2)`. The square `χ²`
+descends to modulus `N/2`: the kernel of reduction on units has exponent at most two.
+For even divisors `χ(d)=0`, so the coefficient formula uses `jacobiSym` at odd divisors.
+The trivial character recovers the formula restricted to `(d,N)=1`. The constant term,
+Hecke equivariance and Euler product are targets of this layer.
 
 ### Examples
 
@@ -1675,7 +1689,7 @@ For `m ≥ 1` and `k ≥ 1`, put `w=2k−2`. For positive `l,d`, define the line
 `ld²∣m`, of the images under `B_{l,d}` of the new subspace of level `m/(ld²)` with
 root number `−1`. Prove directness and identify it with the subspace characterized by
 positive local functional-equation signs in the old Euler factors (Skoruppa–Zagier,
-§3, equations (1)–(2), pp.136–138). This characterizes the smaller oldspace as well
+§3, equation (1), p.136, and equation (2), p.138). This characterizes the smaller oldspace as well
 as the newspace; the full span of all degeneracy images is larger.
 Construct the Jacobi Hecke operators at every index, the index maps
 `U_d:J_{k,m'}→J_{k,m'd²}` and `V_l:J_{k,m'}→J_{k,m'l}`, and the Jacobi Atkin–Lehner
@@ -1683,8 +1697,8 @@ involutions. Prove their Fourier laws, composition laws and compatibility with t
 old/new decomposition (Eichler–Zagier, 1983 preprint, §4; Skoruppa–Zagier, §0, pp.118–120,
 and §3, pp.137–138). Prove the Hecke-equivariant isomorphism
 `J^{cusp}_{k,m} ≅ S^−_{2k−2}(m)`, intertwining `T_l` for `(l,m)=1` and the
-Atkin–Lehner involutions at exact divisors of `m` (Skoruppa–Zagier, §3, Theorem 3,
-pp.137–138). The proof targets are the Jacobi trace formula, its comparison with the
+Atkin–Lehner involutions at exact divisors of `m` (Skoruppa–Zagier, §3, Theorem 5,
+p.137). The proof targets are the Jacobi trace formula, its comparison with the
 integral-weight trace formula, and the direct old/new decomposition of §3, equations
 (2)–(5), pp.138–139. Consistency: at `m = 1` and even `k`, every
 level-one newform of weight `2k − 2 ≡ 2 (mod 4)` has `ε = (−1)^{k−1} = −1`, recovering 6.3 on cusp
@@ -1915,7 +1929,8 @@ objects.
   development), Theorem 5.1 (theta decomposition), Theorem 5.4 (`J_{k,1} ≅ M⁺_{k−1/2}`), §4 (`T_l`),
   Theorem 9.2 and its corollary, pp.101–102 (weak forms and dimension bound).
 - Skoruppa, N.-P., Zagier, D. *Jacobi forms and a certain space of modular forms*, Invent. Math.
-  94 (1988), 113–146: the correspondence `J^{cusp}_{k,m} ≅ S^−_{2k−2}(m)` (6.4).
+  94 (1988), 113–146: §3, Theorem 5, p.137, the correspondence
+  `J^{cusp}_{k,m} ≅ S^−_{2k−2}(m)`; equation (2), p.138, the oldform decomposition (6.4).
 - Koblitz, N. *Introduction to Elliptic Curves and Modular Forms*, 2nd ed., GTM 97, Springer 1993:
   Chapter IV (half-integral weight: the multiplier, `M_{k/2}(Γ₀(4))` with Cohen's basis
   `θ^{k−4j}F^j`, Hecke operators, the Kohnen–Zagier example `δ`). Used for 0.6 and the examples.
