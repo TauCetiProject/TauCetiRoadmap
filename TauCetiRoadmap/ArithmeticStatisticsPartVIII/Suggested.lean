@@ -23,8 +23,10 @@ compactly supported étale cohomology and its Frobenius action. Hyperelliptic mo
 §5.17, including genus-one 3-adic monodromy and its Legendre inertia input, needs the
 relative Jacobian, its torsion local systems and monodromy representations.
 The rational-component and Cohen–Lenstra theorems of §§5.18–5.19 also need these Hurwitz
-carriers and their rational étale cohomology. Wood's moments, bad-type
-bounds and whole-component profiles in §§5.20–5.21 need marked Hurwitz schemes, reduced
+carriers and their rational étale cohomology, and the homological stability theorem and uniform
+Betti bounds of §5.16 need the Hurwitz braid action on tuples, the topological Hurwitz spaces and
+their homology, of which the pins have only the braid group `TauCeti.BraidGroup`. Wood's moments,
+bad-type bounds and whole-component profiles in §§5.20–5.21 need marked Hurwitz schemes, reduced
 Schur multipliers and the arithmetic extension counts. The Liu–Wood–Zureick-Brown and
 Cohen–Lenstra–Martinet moments of §5.22 need the radical-discriminant extension families
 and the maximal unramified extensions with their specified infinity conditions and group
