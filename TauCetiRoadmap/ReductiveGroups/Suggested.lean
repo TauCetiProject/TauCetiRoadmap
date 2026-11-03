@@ -4,6 +4,7 @@ import TauCeti.Algebra.AlgebraicGroup.Borel.Basic
 import TauCeti.Algebra.AlgebraicGroup.HopfIdeal.Conjugation
 import TauCeti.Algebra.AlgebraicGroup.Reductive.Basic
 import TauCeti.Algebra.AlgebraicGroup.LinearlyReductive
+import TauCeti.Algebra.AlgebraicGroup.FunctorOfPoints
 import TauCeti.GroupTheory.SpecificGroups.Braid.Basic
 
 /-!
@@ -16,7 +17,8 @@ Stated here, because every carrier exists at the pins: Layer 3A's locally closed
 orbits, strict boundary dimension and closed-orbit existence; Layer 6's characteristic-zero
 implication from reductivity to linear reductivity (the pin proves the converse,
 `TauCeti.reductiveCommHopfAlgProperty.of_smooth_of_geometricallyConnected_of_baseChange_linearlyReductive`);
-Layer 7's conjugacy of Borel subgroups over an algebraically closed field; and the SL
+Layer 7's conjugacy of Borel subgroups over an algebraically closed field; Layer 7a's
+Lang surjectivity for smooth geometrically connected groups over finite fields; and the SL
 coordinate presentation of the worked examples; Layer 11A's plane-configuration
 fundamental-group/braid-group equivalence and permutation-map nonsplitting.
 
@@ -33,12 +35,15 @@ Not statable at the pins, hence not stated, with the missing carrier named:
   the fppf sheaf of points of an affine scheme on the site `CommAlgCat.fppfTopology`, and the
   comparison map from the quotient sheaf to it, are Layer 0 and Layer 3 constructions, not
   pinned carriers.
-* Layers 4–5, 7 and 9D: the nonsplit torus/Galois-lattice comparison, unipotent radicals,
-  parabolic and Levi subgroup functors, and the root datum extracted from a group lack
-  the required comparison carriers. Diagonalizable group schemes and their equivalence
+* Layers 4–5, 7 and 9D: the nonsplit torus/Galois-lattice comparison, represented
+  quotients by unipotent radicals, parabolic and Levi subgroup functors, and the root
+  datum extracted from a group lack the required comparison carriers. Diagonalizable group schemes and their equivalence
   with finitely generated commutative groups exist in
   `TauCeti.DiagonalizableGroup.DiagonalizableGroupSchemeCat` and
   `TauCeti.DiagonalizableGroup.schemeEquivalence`; they are supplied, not targets here.
+  The native k-unipotent radical and its scheme inclusion also exist in
+  `TauCeti.FiniteTypeCommHopfAlgCat.unipotentRadical` and `unipotentRadicalSpecι`;
+  the missing carrier here is the represented quotient and its comparison with the fppf quotient.
 * Layer 9: a pinned reductive group with its extracted root datum; the full-root-datum
   Chevalley realization and its ordered PBW family (the native Kostant subring alone does not
   specify these); signed ADE cover Lie algebras and their folded fixed algebras.
@@ -52,8 +57,8 @@ Not statable at the pins, hence not stated, with the missing carrier named:
   state these endpoints. Layer 11A's generator and covering-permutation refinements
   additionally need the explicit half-twist paths and covering monodromy comparison;
   the existence theorem below uses the actual configuration quotient. The complex orbit
-  comparison of 3A.5 needs its classical complex-point topology, smooth charts
-  and orbit/Lie comparisons;
+  comparison of 3A.5 needs the classical complex-point topology and smooth charts
+  supplied by ComplexComparisonPartII C-1.1, and its own orbit/Lie comparisons;
   these are not pinned declarations.
 -/
 
@@ -175,6 +180,22 @@ theorem exists_conjugate_eq_of_isBorelOverAlgClosed {k : Type v} [Field k]
     (hI : TauCeti.HopfIdeal.IsBorelOverAlgClosed k H I)
     (hJ : TauCeti.HopfIdeal.IsBorelOverAlgClosed k H J) :
     ∃ g : WithConv (H →ₐ[k] k), J = I.conjugate g := by
+  sorry
+
+/-! ## Layer 7a: finite-field Lang surjectivity -/
+
+/-- For a smooth geometrically connected finite-type affine group over a finite field,
+the Lang map for q-power Frobenius is surjective on points over every algebraically closed
+extension (Milne, Algebraic Groups, Corollary 17.97, p. 383). The value equation specifies
+Frobenius on the coefficient field; no reductivity or split-form hypothesis is imposed. -/
+theorem lang_surjective {k : Type v} [Field k] [Finite k]
+    (H : TauCeti.FiniteTypeCommHopfAlgCat.{v, v} k)
+    (hsm : Algebra.Smooth k H)
+    (hconn : TauCeti.geometricallyConnectedCommHopfAlgProperty k H.obj)
+    {K : Type v} [Field K] [Algebra k K] [IsAlgClosed K]
+    (F : K →ₐ[k] K) (hF : ∀ a : K, F a = a ^ Nat.card k) :
+    Function.Surjective (fun g : WithConv (H →ₐ[k] K) =>
+      g⁻¹ * TauCeti.AlgHom.mapValue (H := H) F g) := by
   sorry
 
 end StructureAcceptance
