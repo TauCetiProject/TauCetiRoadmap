@@ -1,5 +1,7 @@
-import Mathlib
-import TauCeti.RepresentationTheory.CharacterTable.Table
+module
+
+public import Mathlib
+public import TauCeti.RepresentationTheory.CharacterTable.Table
 
 /-!
 # Glauberman's Z* theorem: target signatures
@@ -19,6 +21,8 @@ The conclusion of the three group-theoretic headlines is the self-contained exis
 LocalFiniteGroupTheory; stating it this way keeps the file independent of that roadmap's
 declarations.
 -/
+
+@[expose] public section
 
 namespace TauCetiRoadmap.GlaubermanZStar
 
