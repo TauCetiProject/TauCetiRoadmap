@@ -1,37 +1,47 @@
-import Mathlib
-import TauCeti.FieldTheory.FunctionField.RiemannRoch.ClassNumber
+module
+
+public import Mathlib
+public import TauCeti.FieldTheory.FunctionField.RiemannRoch.ClassNumber
+public import TauCeti.FieldTheory.FunctionField.Elliptic.WeierstrassEquation
+public import TauCeti.AlgebraicGeometry.EllipticCurve.PointCount
+public import TauCeti.AlgebraicGeometry.EllipticCurve.Supersingular
 
 /-!
 # Curves over finite fields: target signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive specification is
-`README.md`. The declarations below suggest Lean forms for the load-bearing milestones — the
-Weil-polynomial vocabulary that the sibling `AbelianVarietiesOverFiniteFields` consumes, and the
-corollaries of the Riemann hypothesis that need no consumed object — so that contributors and
-reviewers converge on the carrier and the conventions. Discharging every declaration here would
-finish neither a layer nor the roadmap. `sorry` is permitted in this human-owned repository: these
-are targets, not implementations.
+The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
+theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, together with the few
+definitions those statements need (the Weil-polynomial vocabulary of Layer 4: `README.md`,
+*Pinned conventions* 7–12).
 
 The carrier of the function-field layers is Tau Ceti's function-field library: `k` and `F` with
 `[Finite k]`, `hF : TauCeti.IsFunctionField k F` and `hex : IsIntegrallyClosedIn k F` passed
-explicitly, `TauCeti.genus k F` and the class number `TauCeti.Divisor.classNumber hF` — nothing of
-that theory is restated here. The point counts `N_r`, the zeta function and the `L`-polynomial `L_F`
-are FunctionFieldArithmetic's (`README.md`, *Consumed, not redefined*) and are not restated here
-either, so every milestone whose statement names one of them is specified in `README.md` alone. The
-carrier of the Weil-polynomial layer is `ℤ[X]` with a natural number `q`.
+explicitly, `TauCeti.genus k F`, the class number `TauCeti.Divisor.classNumber hF`, and the
+number of degree-one places `Nat.card {P : Place k F // P.degree = 1}`, which is
+FunctionFieldArithmetic §5.1's `N_1(F)` (`placeCount 1`). The carrier of the Weil-polynomial layer
+is `ℤ[X]` with a natural number `q`.
 
-Conventions visible in the signatures (`README.md`, *Pinned conventions*): `q := Nat.card k`;
-`IsWeilPolynomial q P` is the LMFDB's `nf.weil_polynomial` and `IsWeilSymmetric q g P` the
-functional-equation shape `q^j a_j = q^g a_{2g−j}` (conventions 6–7); the real Weil polynomial is
-built from Mathlib's Dickson polynomials with parameter `q` (convention 8); the `p`-rank and the
-Newton strata have elementary coefficient definitions (convention 9); Frobenius angles lie in
-`[0, 1]` and the angle rank is an exact `ℚ`-dimension (convention 10); Weil powers and power sums
-are characteristic polynomials and traces on `AdjoinRoot P` (convention 11).
+Headline theorems not statable at the pins, and what each lacks:
 
-The exceptions to "every proof is `sorry`" are the bridge checks: the finiteness of Weil
-`q`-polynomials of a given degree (from Mathlib's Mahler-measure Northcott theorem, `README.md` 4.3),
-the root count of a Weil polynomial, and the small non-vacuity examples.
+* 3.1, the link theorem `IsWeilPolynomial q (weilPolynomial k F)`, 3.4 (the relations among the
+  `N_r` for `r ≥ 2`) and 3.5 (maximal and minimal curves), and all of Layer 2: they name the
+  `L`-polynomial `L_F` or the counts `N_r` for `r ≥ 2`, which are FunctionFieldArithmetic's
+  (`zeta_rationality`, `pointCount`) and not at the pin.
+* 4.6's slope statements (slopes in `[0, 1]`, symmetry `s ↦ 1 − s`, the slope–root dictionary,
+  the elevation): they need the slope multiset of a Newton polygon, NewtonPolygons §§2.1, 3.3,
+  not at the pin; the elementary predicates `pRank`, `IsOrdinary`, `IsSupersingular` and the
+  ordinariness test are stated.
+* 5.2, the comparison of the zeta function of an elliptic curve: it names
+  `WeierstrassCurve.zetaFunction`, not at the pin.
+* 5.3, the equivalence of the two Weil-number predicates: it names `IsWeilNumber` of
+  DeligneWeightsAndPurity, a roadmap target.
+
+Stated here: Layer 4's headline theorems on `ℤ[X]`; 3.1's class-number bounds and
+class-number-one corollary; 3.2 (Serre) and 3.3 (Ihara); and 5.1's identification of `N_1(F)`
+with `WeierstrassCurve.pointCount` and its supersingularity comparison over `𝔽_p` and `𝔽_{p²}`.
 -/
+
+public section
 
 namespace TauCetiRoadmap.CurvesOverFiniteFields
 
@@ -58,58 +68,6 @@ def IsWeilPolynomial (q : ℕ) (P : ℤ[X]) : Prop :=
 def IsWeilSymmetric (q g : ℕ) (P : ℤ[X]) : Prop :=
   P.natDegree = 2 * g ∧ ∀ j ≤ 2 * g, (q : ℤ) ^ j * P.coeff j = (q : ℤ) ^ g * P.coeff (2 * g - j)
 
-/-- Non-vacuity: the unit polynomial is a Weil `q`-polynomial of degree `0` for every `q`. -/
-example (q : ℕ) : IsWeilPolynomial q 1 := ⟨monic_one, by simp⟩
-
-/-- **4.1.** A Weil polynomial is nonzero and splits over `ℂ` with exactly `natDegree P` roots. -/
-theorem IsWeilPolynomial.card_aroots {q : ℕ} {P : ℤ[X]} (h : IsWeilPolynomial q P) :
-    Multiset.card (P.aroots ℂ) = P.natDegree := by
-  simpa [aroots_def] using
-    IsAlgClosed.card_roots_map_eq_natDegree_of_isUnit_leadingCoeff (algebraMap ℤ ℂ)
-      (p := P) (by rw [h.1.leadingCoeff]; exact isUnit_one)
-
-/-- **4.1.** Every root of a Weil polynomial is an algebraic integer. -/
-theorem IsWeilPolynomial.isIntegral {q : ℕ} {P : ℤ[X]} (h : IsWeilPolynomial q P) {z : ℂ}
-    (hz : z ∈ P.aroots ℂ) : IsIntegral ℤ z := sorry
-
-/-- **4.1.** The modulus is determined by a Weil polynomial of positive degree. -/
-theorem IsWeilPolynomial.coeff_zero_sq {q : ℕ} {P : ℤ[X]} (h : IsWeilPolynomial q P) :
-    (P.coeff 0) ^ 2 = (q : ℤ) ^ P.natDegree := sorry
-
-/-- **4.2.** Products of Weil `q`-polynomials are Weil `q`-polynomials. -/
-theorem IsWeilPolynomial.mul {q : ℕ} {P Q : ℤ[X]} (hP : IsWeilPolynomial q P)
-    (hQ : IsWeilPolynomial q Q) : IsWeilPolynomial q (P * Q) := sorry
-
-/-- **4.2.** A monic factor in `ℤ[X]` of a Weil `q`-polynomial is a Weil `q`-polynomial. -/
-theorem IsWeilPolynomial.of_dvd {q : ℕ} {P Q : ℤ[X]} (hP : IsWeilPolynomial q P) (hQ : Q.Monic)
-    (hdvd : Q ∣ P) : IsWeilPolynomial q Q := sorry
-
-/-- **4.3, bridge check.** Weil `q`-polynomials of a fixed degree are finite in number: the
-Mahler measure of such a polynomial is `max 1 √q ^ n`, and Mathlib's Northcott theorem
-`Polynomial.finite_mahlerMeasure_le` does the rest. The same statement is R28.5.1
-`finite_weilPolynomials` of `FaltingsFinitenessAndIsogenyTheorems` with modulus `√q`. -/
-theorem finite_setOf_isWeilPolynomial (q n : ℕ) :
-    {P : ℤ[X] | IsWeilPolynomial q P ∧ P.natDegree = n}.Finite := by
-  refine (Polynomial.finite_mahlerMeasure_le n ⟨max 1 (Real.sqrt q) ^ n, by positivity⟩).subset ?_
-  rintro P ⟨⟨hmonic, hroots⟩, hdeg⟩
-  refine ⟨hdeg.le, ?_⟩
-  show (P.map (Int.castRingHom ℂ)).mahlerMeasure ≤ max 1 (Real.sqrt q) ^ n
-  rw [mahlerMeasure_eq_leadingCoeff_mul_prod_roots, (hmonic.map (Int.castRingHom ℂ)).leadingCoeff,
-    norm_one, one_mul]
-  have hcard : (P.map (Int.castRingHom ℂ)).roots.card = n := by
-    rw [IsAlgClosed.card_roots_map_eq_natDegree_of_isUnit_leadingCoeff _
-      (by rw [hmonic.leadingCoeff]; exact isUnit_one), hdeg]
-  have hmap : ∀ a ∈ (P.map (Int.castRingHom ℂ)).roots, max 1 ‖a‖ = max 1 (Real.sqrt q) := by
-    intro a ha
-    rw [hroots a (by simpa [aroots_def] using ha)]
-  rw [Multiset.map_congr rfl hmap, Multiset.map_const', Multiset.prod_replicate, hcard]
-
-/-- **4.4, the Dickson identity with parameter `a`.** Mathlib has the case `a = 1`
-(`Polynomial.dickson_one_one_eval_add_inv`); the general case follows from the same recursion
-`D_{n+2} = X · D_{n+1} − a · D_n`. -/
-theorem dickson_one_eval_add {R : Type*} [CommRing R] (a x y : R) (h : x * y = a) (n : ℕ) :
-    (dickson 1 a n).eval (x + y) = x ^ n + y ^ n := sorry
-
 /-- **4.4.** The real Weil polynomial `h_P` of a symmetric `P` of degree `2g`
 (`README.md`, convention 8): `P(T) = T^g · h_P(T + q/T)`. -/
 def realWeilPolynomial (q g : ℕ) (P : ℤ[X]) : ℤ[X] :=
@@ -121,11 +79,6 @@ theorem realWeilPolynomial_spec {q g : ℕ} {P : ℤ[X]} (hq : 0 < q) (hP : IsWe
     P = ∑ i ∈ Finset.range (g + 1),
       C ((realWeilPolynomial q g P).coeff i) * (X ^ 2 + C (q : ℤ)) ^ i * X ^ (g - i) := sorry
 
-/-- **4.4.** `h_P` is monic of degree `g`. -/
-theorem realWeilPolynomial_monic {q g : ℕ} {P : ℤ[X]} (hP : IsWeilSymmetric q g P)
-    (hm : P.Monic) : (realWeilPolynomial q g P).Monic ∧ (realWeilPolynomial q g P).natDegree = g :=
-  sorry
-
 /-- **4.4.** A symmetric `P` is Weil iff `h_P` has all its roots real in `[−2√q, 2√q]` (for
 `1 ≤ q`; `T⁴ + T` at `q = 0` has `h_P = X²` and is not Weil). -/
 theorem isWeilPolynomial_iff_realWeilPolynomial {q g : ℕ} {P : ℤ[X]} (hq : 0 < q)
@@ -133,9 +86,10 @@ theorem isWeilPolynomial_iff_realWeilPolynomial {q g : ℕ} {P : ℤ[X]} (hq : 0
     IsWeilPolynomial q P ↔
       ∀ z ∈ (realWeilPolynomial q g P).aroots ℂ, z.im = 0 ∧ |z.re| ≤ 2 * Real.sqrt q := sorry
 
-/-- **4.4.** The root multiset of a symmetric Weil polynomial is stable under `α ↦ q/α`. -/
+/-- **4.4.** The root multiset of a symmetric polynomial is stable under `α ↦ q/α` (for `1 ≤ q`;
+no Weil hypothesis: `T^{2g} P(q/T) = q^g P(T)` and `P(0) = q^g · leadingCoeff P ≠ 0`). -/
 theorem IsWeilSymmetric.aroots_map_div {q g : ℕ} {P : ℤ[X]} (hP : IsWeilSymmetric q g P)
-    (hW : IsWeilPolynomial q P) (hq : 0 < q) :
+    (hq : 0 < q) :
     (P.aroots ℂ).map (fun z => (q : ℂ) / z) = P.aroots ℂ := sorry
 
 /-- **4.5.** The only monic irreducible Weil `q`-polynomials with a real root are `T² − q` when
@@ -152,11 +106,12 @@ polygon. -/
 def pRank (p : ℕ) (P : ℤ[X]) : ℕ :=
   P.natDegree - sInf {j : ℕ | ¬ (p : ℤ) ∣ P.coeff j}
 
-/-- **4.6.** Ordinary: `p`-rank `g`. -/
-def IsOrdinary (p g : ℕ) (P : ℤ[X]) : Prop := pRank p P = g
+/-- **4.6.** Ordinary over `𝔽_q`: `p`-rank `g` at `p := q.minFac` (the three Newton-stratum
+predicates all take `q`, as `IsSupersingular` must). -/
+def IsOrdinary (q g : ℕ) (P : ℤ[X]) : Prop := pRank q.minFac P = g
 
-/-- **4.6.** Almost ordinary: `p`-rank `g − 1` (Newton elevation `1`). -/
-def IsAlmostOrdinary (p g : ℕ) (P : ℤ[X]) : Prop := pRank p P + 1 = g
+/-- **4.6.** Almost ordinary over `𝔽_q`: `p`-rank `g − 1` (Newton elevation `1`). -/
+def IsAlmostOrdinary (q g : ℕ) (P : ℤ[X]) : Prop := pRank q.minFac P + 1 = g
 
 /-- **4.6.** Supersingular, by the coefficient criterion of convention 9: with `q = p^r`, every
 nonzero coefficient `a_j` has `2 v_p(a_j) ≥ r (natDegree P − j)`, i.e. every point of the Newton
@@ -170,15 +125,7 @@ def IsSupersingular (q : ℕ) (P : ℤ[X]) : Prop :=
 middle coefficient is prime to `p`. -/
 theorem isOrdinary_iff_not_dvd_coeff {q g : ℕ} {P : ℤ[X]} (hq : IsPrimePow q)
     (hP : IsWeilSymmetric q g P) (hm : P.Monic) :
-    IsOrdinary q.minFac g P ↔ ¬ (q.minFac : ℤ) ∣ P.coeff g := sorry
-
-/-- **4.6.** `p`-ranks add in products. -/
-theorem pRank_mul (p : ℕ) [Fact p.Prime] {P Q : ℤ[X]} (hP : P.Monic) (hQ : Q.Monic) :
-    pRank p (P * Q) = pRank p P + pRank p Q := sorry
-
-/-- **4.6.** Worked example `2.2.ab_a`: `T⁴ − T³ − 2T + 4` over `𝔽₂` has `p`-rank `1`, so it is
-almost ordinary of genus `2`. -/
-theorem pRank_example : pRank 2 (X ^ 4 - X ^ 3 - 2 * X + 4 : ℤ[X]) = 1 := sorry
+    IsOrdinary q g P ↔ ¬ (q.minFac : ℤ) ∣ P.coeff g := sorry
 
 /-- **4.7.** The Frobenius angles `θ ∈ [0, 1]`: `arg z / π` over the roots with `0 ≤ im z`, one
 per pair of non-real conjugate roots and one per real root, with multiplicity — the LMFDB's
@@ -196,10 +143,6 @@ theorem card_frobeniusAngles {q g : ℕ} {P : ℤ[X]} (hW : IsWeilPolynomial q P
     (hP : IsWeilSymmetric q g P) :
     2 * Multiset.card (frobeniusAngles P) =
       2 * g + Multiset.card ((P.aroots ℂ).filter fun z => z.im = 0) := sorry
-
-/-- **4.7.** `0 ≤ δ ≤ g`. -/
-theorem angleRank_le {q g : ℕ} {P : ℤ[X]} (hW : IsWeilPolynomial q P)
-    (hP : IsWeilSymmetric q g P) : angleRank P ≤ g := sorry
 
 /-- **4.7.** Angle rank zero is supersingularity (Kronecker's theorem,
 `NumberField.Embeddings.pow_eq_one_of_norm_eq_one`, applied to `α²/q`). -/
@@ -219,10 +162,6 @@ theorem isCMField_weilNumberField {q g : ℕ} {P : ℤ[X]}
     [Fact (Irreducible (P.map (Int.castRingHom ℚ)))] (hW : IsWeilPolynomial q P)
     (hP : IsWeilSymmetric q g P) (hreal : ∀ z ∈ P.aroots ℂ, z.im ≠ 0) :
     NumberField.IsCMField (weilNumberField P) := sorry
-
-/-- **4.8.** The degree of `ℚ(π)` is the degree of `P`. -/
-theorem finrank_weilNumberField {P : ℤ[X]} [Fact (Irreducible (P.map (Int.castRingHom ℚ)))] :
-    Module.finrank ℚ (weilNumberField P) = P.natDegree := sorry
 
 /-- **4.9.** Isotypic: a power of an irreducible polynomial over `ℚ` (the polynomial-level
 reading of the LMFDB's `is_simple`). -/
@@ -248,9 +187,6 @@ theorem aroots_weilPower {P : ℤ[X]} (hP : P.Monic) (r : ℕ) :
 /-- **4.10.** The power sum is the sum of the `r`-th powers of the roots. -/
 theorem weilPowerSum_eq {P : ℤ[X]} (hP : P.Monic) (r : ℕ) :
     (weilPowerSum hP r : ℂ) = ((P.aroots ℂ).map (· ^ r)).sum := sorry
-
-/-- **4.10.** `P^{(1)} = P`. -/
-theorem weilPower_one {P : ℤ[X]} (hP : P.Monic) : weilPower hP 1 = P := sorry
 
 /-- **4.10.** A Weil `q`-polynomial's `r`-th power is a Weil `q^r`-polynomial, and conversely. -/
 theorem isWeilPolynomial_weilPower_iff {q : ℕ} {P : ℤ[X]} (hP : P.Monic) {r : ℕ} (hr : 0 < r) :
@@ -316,20 +252,76 @@ theorem virtualCurveCount_sub_sq_le {q g : ℕ} {P : ℤ[X]} (hm : P.Monic)
 
 end WeilPolynomial
 
-/-! ## Layer 3: a corollary of the Riemann hypothesis that needs no consumed object -/
+/-! ## Layer 3: the corollaries of the Riemann hypothesis on the function-field carrier
+
+`N_1(F)`, the number of places of degree one, is `Nat.card {P : Place k F // P.degree = 1}`
+(FunctionFieldArithmetic §5.1, `placeCount 1`); `q = Nat.card k`, `g = genus k F`. -/
 
 section FunctionField
 
 variable {k : Type u} {F : Type v} [Field k] [Field F] [Algebra k F]
 
-/-- **3.6.** `(√q − 1)^{2g} ≤ h_F ≤ (√q + 1)^{2g}`, from `h_F = L_F(1) = ∏ (1 − α_i)` and the
+/-- **3.1.** `(√q − 1)^{2g} ≤ h_F ≤ (√q + 1)^{2g}`, from `h_F = L_F(1) = ∏ (1 − α_i)` and the
 Riemann hypothesis `|α_i| = √q` (FunctionFieldArithmetic §§5.3–5.4). -/
 theorem classNumber_bounds (hF : IsFunctionField k F) [Finite k]
     (hex : IsIntegrallyClosedIn k F) :
     (Real.sqrt (Nat.card k) - 1) ^ (2 * genus k F) ≤ Divisor.classNumber hF ∧
       (Divisor.classNumber hF : ℝ) ≤ (Real.sqrt (Nat.card k) + 1) ^ (2 * genus k F) := sorry
 
+/-- **3.1.** A function field of positive genus and class number one has `q ≤ 4`
+(`(√q − 1)^{2g} ≤ 1`; the rational function field has `h = 1` over every `𝔽_q`, so `1 ≤ g` is
+needed). -/
+theorem card_le_four_of_classNumber_eq_one (hF : IsFunctionField k F) [Finite k]
+    (hex : IsIntegrallyClosedIn k F) (hg : 1 ≤ genus k F) (h : Divisor.classNumber hF = 1) :
+    Nat.card k ≤ 4 := sorry
+
+/-- **3.2, Serre's bound.** `|N_1(F) − (q + 1)| ≤ g · ⌊2√q⌋`, with `⌊2√q⌋ = Nat.sqrt (4q)`
+(Stichtenoth, Theorem 5.3.1). -/
+theorem serre_bound (hF : IsFunctionField k F) [Finite k] (hex : IsIntegrallyClosedIn k F) :
+    |(Nat.card {P : Place k F // P.degree = 1} : ℤ) - ((Nat.card k : ℤ) + 1)| ≤
+      (genus k F : ℤ) * (Nat.sqrt (4 * Nat.card k) : ℤ) := sorry
+
+/-- **3.3, Ihara's bound.** `N_1(F) ≤ q + 1 + (√((8q + 1) g² + 4 (q² − q) g) − g) / 2`, from
+`N_2 ≥ N_1` and Cauchy–Schwarz on the roots of the real Weil polynomial (Ihara 1981). -/
+theorem ihara_bound (hF : IsFunctionField k F) [Finite k] (hex : IsIntegrallyClosedIn k F) :
+    (Nat.card {P : Place k F // P.degree = 1} : ℝ) ≤
+      Nat.card k + 1 +
+        (Real.sqrt ((8 * Nat.card k + 1) * (genus k F : ℝ) ^ 2 +
+            4 * ((Nat.card k : ℝ) ^ 2 - Nat.card k) * genus k F) - genus k F) / 2 := sorry
+
 end FunctionField
+
+/-! ## Layer 5: comparison with Tau Ceti's elliptic curves -/
+
+section Elliptic
+
+variable {k : Type u} {F : Type v} [Field k] [Field F] [Algebra k F]
+
+/-- **5.1.** For a genus-one function field with Weierstrass coordinates `(x, y)` for `W` at a
+place `P` (Tau Ceti `Place.IsWeierstrassCoordinates`; they exist at every degree-one place by
+`exists_isWeierstrassCoordinates_of_genus_eq_one`), the number of degree-one places is
+`WeierstrassCurve.pointCount W`: the places other than `P` are the affine `k`-points of `W`
+and `P` is the point at infinity. Genus one is needed: the cuspidal `y² = x³` with `x = t²`,
+`y = t³` has Weierstrass coordinates at the infinite place of `k(t)` for a singular `W`. -/
+theorem card_degreeOne_eq_pointCount [Finite k] (hF : IsFunctionField k F)
+    (hex : IsIntegrallyClosedIn k F) (hg : genus k F = 1) {P : Place k F}
+    {W : WeierstrassCurve k} {x y : F} (hW : P.IsWeierstrassCoordinates W x y) :
+    Nat.card {Q : Place k F // Q.degree = 1} = W.pointCount := sorry
+
+/-- **5.1.** Over `𝔽_p` and `𝔽_{p²}` the geometric supersingularity of an elliptic curve (Tau
+Ceti `WeierstrassCurve.IsSupersingular`, no nonzero `p`-torsion over the algebraic closure) is
+the coefficient criterion `IsSupersingular q (T² − aT + q)` of 4.6 on its Weil polynomial,
+`a = frobeniusTrace`: both say `p ∣ a` (EllipticCurves Layer 3's criterion, and `2 v_p(a) ≥ r`
+for `r ≤ 2`). For `r ≥ 3` the two still agree on every elliptic curve, but that is a statement
+about curves (no supersingular curve over `𝔽_{p^r}` has `0 < v_p(a) < r/2`) and is not a
+milestone of this roadmap. -/
+theorem isSupersingular_iff_isSupersingular_weilPolynomial [Finite k] (W : WeierstrassCurve k)
+    [W.IsElliptic] (hq : Nat.card k = ringChar k ∨ Nat.card k = ringChar k ^ 2) :
+    W.IsSupersingular (ringChar k) ↔
+      IsSupersingular (Nat.card k) (X ^ 2 - C W.frobeniusTrace * X + C (Nat.card k : ℤ)) :=
+  sorry
+
+end Elliptic
 
 end
 
