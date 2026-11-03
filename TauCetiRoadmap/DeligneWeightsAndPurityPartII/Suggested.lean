@@ -32,17 +32,21 @@ The following headlines are not statable at the pins:
   support cohomology, sliced nearby cycles over general bases, uniform annular direct
   images and their descent comparisons. The adapted-open plurinodal refinement,
   compact-support nearby-cycle stalk comparison and smooth nonproper annular
-  duality of §3.4 lack those same carriers and normalized trace maps.
+  duality consumed from ClassicalAdicEtaleCohomology in §3.4 lack those same
+  carriers and normalized trace maps.
   Cup compatibility (§3.5) uses native Ext functoriality, but its geometric
   application lacks those sites and the module-sheaf cohomology comparison.
 * The tilted approximation (§4.1) lacks the toric models, open projection and tube
   interfaces. The multiplicative equivariant comparison (§4.2), its top-degree
   isomorphism (§4.3) and the geometric stable summand (§4.5) lack that actual
   comparison map and the normalized algebraic–adic cohomology comparisons,
-  including their continuous-field-automorphism naturality.
+  including the continuous-field-automorphism naturality supplied by
+  ClassicalAdicEtaleCohomology.
 * Scholze's Theorem 9.6 and the projective-space/product complete-intersection
   corollaries (§§4.6–4.7) lack the fan-based toric scheme and embedding, set-theoretic
-  complete-intersection and geometric weight–monodromy interfaces.
+  complete-intersection and geometric weight–monodromy interfaces, including
+  the arbitrary-field projective-space fan realization supplied by
+  AnalyticToricGeometryPartII.
 
 Mathlib's scheme cohomology and absolute Galois group alone do not provide these
 constructions or predicates. No abstract proposition is used in their place.
