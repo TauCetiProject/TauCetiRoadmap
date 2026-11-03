@@ -1,10 +1,10 @@
 # Roadmap: rank-zero and rank-one Birch–Swinnerton-Dyer theory, part II — Eisenstein converses and twist proportions
 
-**Summary.** Build the rank-zero and rank-one converse at every good odd Eisenstein prime for a rational elliptic curve with a fixed cyclic isogeny and the two local character exclusions. The route combines complementary quadratic twists, ordinary anticyclotomic control at augmentation, the Heegner index-square equality and the complex Gross–Zagier formula. It gives equality of analytic and Mordell–Weil ranks and finiteness of the whole Tate–Shafarevich group. Its finite-Selmer form converts restricted three-Selmer statistics into positive analytic-rank proportions in quadratic twist families with a good-at-three twist (CGLS Theorem 5.2.1 and Corollaries 5.2.2–5.2.3, pp. 574–575; CGLS line 2027).
+**Summary.** Build the rank-zero and rank-one converse at every good odd Eisenstein prime for a rational elliptic curve with a fixed cyclic isogeny and the two local character exclusions. The route combines complementary quadratic twists, ordinary anticyclotomic control at augmentation, the Heegner index-square equality and the complex Gross–Zagier formula. It gives equality of analytic and Mordell–Weil ranks and finiteness of the whole Tate–Shafarevich group. Its finite-Selmer form converts restricted three-Selmer statistics into positive analytic-rank proportions in quadratic twist families with a good-at-three twist (CGLS Theorem 5.2.1 and Corollaries 5.2.2–5.2.3, pp. 574–575; CGLS lines 2145, 2191 and 2198).
 
 ## Scope and ownership
 
-The forward direction from which this roadmap starts is supplied by named owners: ArithmeticStatisticsPartVI's supporting targets “Heegner logarithm and low rank” and “Elliptic p-parity” give the forward low-analytic-rank theorem and the elliptic root-number parity, and HeegnerPointEulerSystems §§8b.2 and 8b.10 give the anticyclotomic Iwasawa equalities at Eisenstein primes. The new implication here starts from Selmer corank. Ownership of the imported inputs is specified by the supplier sections below. The CM newform and elliptic converses belong to CMRankZeroConverse §§C.0–C.6, and the irreducible-residual localization criteria belong to RankOneConverse §§PC.0–PC.6. Their hypotheses are not imposed on this branch.
+The forward direction from which this roadmap starts is supplied by named owners: ArithmeticStatisticsPartVI's supporting targets “Heegner logarithm and low rank” and “Elliptic p-parity” give the forward low-analytic-rank theorem and the elliptic root-number parity, and HeegnerPointEulerSystems §§8b.2 and 8b.10 give the anticyclotomic Iwasawa equalities at Eisenstein primes. The new implication here starts from Selmer corank. Ownership of the imported inputs is specified by the supplier sections below. The CM newform and elliptic converses belong to CMRankZeroConverse Layers 0–6, and the irreducible-residual localization criteria belong to RankOneConverse §§PC.0–PC.6. Their hypotheses are not imposed on this branch.
 
 The fixed-isogeny hypothesis predicate, complementary-field assembly, combination of discrete augmentation control with compact specialization, traced Heegner comparison, two converses and admissible statistical conversion are owned here. EulerSystemsAndKolyvaginSystems §8.31 owns discrete augmentation control and its corank-one consequence; compact specialization uses the additional SelmerIwasawaCohomology contract below. The Howard unit-line and level-zero normalization comparison is imported from HeegnerPointEulerSystems §8.13. The traced comparison here differs from its §8.32: it is an exact identity at the trivial character after the full Hilbert-class-field trace, rather than a finite-coefficient congruence for near-trivial characters.
 
@@ -12,7 +12,7 @@ The generic isogeny, degree, Tate module, Weil pairing, quadratic twist, minimal
 
 HeegnerPointEulerSystems §§8.6–8.6a, 8.24, 8.31, 8.34, 8b.2 and 8b.10 own the arithmetic tower, source class, rank-one paired-torsion theorem and Eisenstein main-conjecture equality. GrossZagierAndArithmeticHeights §§0.1, 8.14, 8.18 and 8.19 own the height normalization, the general explicit formula, the non-torsion criterion for the trace point and the elliptic X₀(N) specialization; its squarefree-level §8.17 is not used. ModularIwasawaMainConjectures §6.1 owns the comparison formulation, not a second proof of the Eisenstein equality.
 
-ArithmeticStatisticsPartI owns relative density (§0.1), families defined by local conditions (§0.2), squareclasses, their height and the twist family (§0.5), squarefree residue counts (§0.6) and the positive squareclass denominator (§0.15). ArithmeticStatisticsPartVII §5.10 owns the Selmer ratio, the local Tamagawa formula, stratum density and restricted three-Selmer bounds, and its §5.32 owns the attainable local three-isogeny ratios; Part III owns the orbit-counting input. ArithmeticStatisticsPartVI's supporting “Heegner logarithm and low rank” and “Elliptic p-parity” own the forward theorem and elliptic corank parity. Family parity between two arithmetic points in SelmerIwasawaCohomology §4.28 is not substituted for this root-number parity theorem. EllipticCurveModularity Layers R29.3–R29.6 and ModularForms Layer 7 own the actual newform and continued elliptic L-functions. These generic statements are imports, not targets here.
+ArithmeticStatisticsPartI owns relative density (§0.1), families defined by local conditions (§0.2), squareclasses, their height and the twist family (§0.5), squarefree residue counts (§0.6) and the positive squareclass denominator (§0.15). ArithmeticStatisticsPartVII §5.10 owns the Selmer ratio, the local Tamagawa formula, stratum density and restricted three-Selmer bounds, and its §5.32 owns the attainable local three-isogeny ratios; Part III owns the orbit-counting input and, in its “Windowed cubic counting contract”, the seven-part counting condition C(F,φ,Σ) itself. ArithmeticStatisticsPartVI's supporting “Heegner logarithm and low rank” and “Elliptic p-parity” own the forward theorem and elliptic corank parity. Family parity between two arithmetic points in SelmerIwasawaCohomology §4.28 is not substituted for this root-number parity theorem. EllipticCurveModularity Layers R29.3–R29.6 and ModularForms Layer 7 own the actual newform and continued elliptic L-functions. These generic statements are imports, not targets here.
 
 GlobalNumberFields Layer 1 owns mixed-place weak approximation; its endpoint is consumed through the pinned Tau Ceti declaration below.
 
@@ -20,15 +20,15 @@ The concrete nineteen-a3 equation is a worked specialization of native coefficie
 
 ## Conventions
 
-E/ℚ is a `WeierstrassCurve` with `WeierstrassCurve.IsElliptic`; N is its positive conductor. Fix the actual rational cyclic isogeny ι:E→E′ of prime degree p, its kernel character φ:G_ℚ→𝔽_pˣ and quotient character ψ=ωφ⁻¹. Here ω is the mod-p cyclotomic character; φψ=ω is the Weil-pairing determinant convention. The converse condition is p>2, p∤N and φ restricted to G_ℚp unequal to both 1 and ω. Splitting of the residual extension and a parity at infinity are not assumptions. The target is uniform in N and p subject to precisely these hypotheses (CGLS pp. 518–521, line 73 and Theorem 5.2.1, line 2027).
+E/ℚ is a `WeierstrassCurve` with `WeierstrassCurve.IsElliptic`; N is its positive conductor. Fix the actual rational cyclic isogeny ι:E→E′ of prime degree p, its kernel character φ:G_ℚ→𝔽_pˣ and quotient character ψ=ωφ⁻¹. Here ω is the mod-p cyclotomic character; φψ=ω is the Weil-pairing determinant convention. The converse condition is p>2, p∤N and φ restricted to G_ℚp unequal to both 1 and ω. Splitting of the residual extension and a parity at infinity are not assumptions. The target is uniform in N and p subject to precisely these hypotheses (CGLS pp. 518–521, lines 79–95, 133 and 171–182, and Theorem 5.2.1, line 2145).
 
 Use classical Kummer conditions on E[pⁿ] and E[p∞]. Corank is the ℤ_p-rank of the Pontryagin dual, equivalently its dimension after tensoring with ℚ_p; tensoring the discrete torsion group itself with ℚ_p gives zero. The rational finite Selmer space comes from the rational Tate-module limit. Finite bad-prime Kummer conditions retain component-group terms even when the rational condition is zero (SelmerIwasawaCohomology §§2.6, 2.11–2.12, 4.26).
 
-For the anticyclotomic route, K has odd fundamental discriminant D<−4, every prime of N splits, and p=v v̄ splits. There is no p∤h_K condition. Put Γ=Gal(K∞/K)≅ℤ_p, Λ=ℤ_p⟦Γ⟧ and P₀=(γ−1) for a topological generator γ. Use inverse tautological action, with the contragredient action on Pontryagin duals. The ordinary self-dual discrete dual X has Λ-rank one; the relaxed-at-v, strict-at-v̄ Greenberg dual X_E is a different torsion module. Characteristic identities are considered in Λ[1/p], where γ−1 remains a nonunit (CGLS pp. 519–520, line 81; §3.4, line 1745; Corollary 4.2.3, line 1891).
+For the anticyclotomic route, K has odd fundamental discriminant D<−4, every prime of N splits, and p=v v̄ splits. There is no p∤h_K condition. Put Γ=Gal(K∞/K)≅ℤ_p, Λ=ℤ_p⟦Γ⟧ and P₀=(γ−1) for a topological generator γ. Use inverse tautological action, with the contragredient action on Pontryagin duals. The ordinary self-dual discrete dual X has Λ-rank one; the relaxed-at-v, strict-at-v̄ Greenberg dual X_E is a different torsion module. Characteristic identities are considered in Λ[1/p], where γ−1 remains a nonunit (CGLS pp. 519–521, lines 89–95, 133 and 179; §3.4, line 1767; Corollary 4.2.3, line 2001).
 
 Analytic rank is the finite central order of the continued actual arithmetic L-function, at s=1. The traced Heegner point uses a fixed modular parametrization π:X₀(N)→E with π(∞)=O; the same π and trace occur in the Kummer and complex-height comparisons. Write α for the unit root of X²−a_pX+p and β=p/α. The height h_x is Tau Ceti's canonical x-height, equal to twice the (O)-height; its half polar form B_x has B_x(P,P)=h_x(P). This is the convention of GrossZagierAndArithmeticHeights §0.1, not a new height.
 
-Count each squareclass in ℚˣ/ℚˣ² by its unique nonzero signed squarefree integer d with height |d|. Use the cutoff |d|≤X throughout. A finite local prescription has its additive-Haar-induced squarefree mass, not a uniform distribution on local squareclasses. Set T_m={d:c(ιᵈ)=3^m} for signed m∈ℤ; BKLOS §2 instead writes its T_m for the absolute exponent, so its T₁ is our T₁∪T₋₁ (BKLOS p. 4, line 149; §9.1 p. 14, line 612). Analytic-rank proportions are lower limits as X→∞; their limiting density need not exist.
+Count each squareclass in ℚˣ/ℚˣ² by its unique nonzero signed squarefree integer d with height |d|. Use the cutoff |d|≤X throughout. A finite local prescription has its additive-Haar-induced squarefree mass, not a uniform distribution on local squareclasses. Set T_m={d:c(ιᵈ)=3^m} for signed m∈ℤ; BKLOS §2 instead writes its T_m for the absolute exponent, so its T₁ is our T₁∪T₋₁ (BKLOS p. 4, lines 157–158; §9.1 p. 14, lines 643–644). Analytic-rank proportions are lower limits as X→∞; their limiting density need not exist.
 
 **Checks.**
 
@@ -104,19 +104,17 @@ Use §0.1 “Relative density” for the cutoff ratios r_X(S | T), their bounds 
 
 The supporting “Heegner logarithm and low rank” supplies, for every E/ℚ with the modular comparison data, analytic rank zero or one ⇒ that Mordell–Weil rank and finite whole Sha. The supporting “Elliptic p-parity” supplies (−1)^corank=w(E) on that realization. These are used first on the known auxiliary twist and only after the converse on E itself. The root-number theorem is required even when the residual representation is reducible and at p=3.
 
-What ArithmeticStatisticsPartVI must provide (gap:complementary-heegner-twists): For every rational elliptic curve and finite set of rational primes, prove both complementary imaginary-quadratic twist nonvanishing branches with those primes split, infinitely many odd fundamental discriminants below −4, and twist analytic order zero when the original root number is −1 and one when it is +1.
+What ArithmeticStatisticsPartVI must provide (gap:complementary-heegner-twists): For every rational elliptic curve and finite set of rational primes, prove both complementary imaginary-quadratic twist nonvanishing branches with those primes split, infinitely many odd fundamental discriminants below −4, and twist analytic order zero when the original root number is −1 and one when it is +1. The value branch, a twist with nonzero central value and prescribed splitting at finitely many primes, extends the auxiliary-twist existence that “Heegner logarithm and low rank” already proves inside its rank-one deduction; what this gap adds is the derivative branch, with the twist of analytic order one when w(E)=+1, and, in both branches, infinitely many odd fundamental discriminants below −4.
 
 ### From TauCetiRoadmap.ArithmeticStatisticsPartVII and TauCetiRoadmap.ArithmeticStatisticsPartIII
 
-Part VII §5.10 supplies “Selmer ratio of an isogeny”, “Local Selmer ratio via Tamagawa numbers”, “Selmer ratio classes are locally defined”, the three-isogeny parity theorem and both restricted zero/one three-Selmer bounds. Their corrected rank is dim Sel₃−dim E(ℚ)[3]. On the admissible family the torsion term is exactly zero. By the Tamagawa formula of §5.10, at 3 the good ordinary ratio is |φ′(0)|₃⁻¹, equal to 1 or 3 according to the étale/connected kernel, and the two real signs give 1 and 1/3. Part VII §5.32 “Attainable local three-isogeny ratios” supplies the Kodaira/twist and differential tables and the existence, at every finite prime ℓ≠3 including ℓ=2, of a local quadratic twist with ratio 1 (BKLOS Propositions 10.1, 10.7 and Theorem 10.5, pp. 14–17; BKLOS line 644, line 681 and line 728). Section 5.10 supplies the ratio definition, the Tamagawa formula, the strata and the statistical bounds.
+Part VII §5.10 supplies “Selmer ratio of an isogeny”, “Local Selmer ratio via Tamagawa numbers”, “Selmer ratio classes are locally defined”, the three-isogeny parity theorem and both restricted zero/one three-Selmer bounds. Their corrected rank is dim Sel₃−dim E(ℚ)[3]. On the admissible family the torsion term is exactly zero. By the Tamagawa formula of §5.10, at 3 the good ordinary ratio is |φ′(0)|₃⁻¹, equal to 1 or 3 according to the étale/connected kernel, and the two real signs give 1 and 1/3. Part VII §5.32 “Attainable local three-isogeny ratios” supplies the Kodaira/twist and differential tables and the existence, at every finite prime ℓ≠3 including ℓ=2, of a local quadratic twist with ratio 1 (BKLOS Propositions 10.1, 10.7 and Theorem 10.5, pp. 14–17; BKLOS lines 674, 764 and 713). Section 5.10 supplies the ratio definition, the Tamagawa formula, the strata and the statistical bounds.
 
-The Part VII means and low-Selmer proportions retain the seven-part counting condition C(F,ι,Σ) of Part III's “Windowed cubic counting contract”. The following rational instance supplies it for the unconditional endpoints here; a numerical average with C assumed does not discharge this contract.
-
-What ArithmeticStatisticsPartIII must provide (gap:rational-three-isogeny-count): Prove the seven conditions C(ℚ,ι,Σ) for every rational three-isogeny and every nonempty finite-local-squareclass family and ratio stratum, for the isogeny and its dual, with the unweighted signed-squarefree height and the matched local mass normalizations.
+The Part VII means and low-Selmer proportions retain the seven-part counting condition C(F,ι,Σ) of Part III's “Windowed cubic counting contract”. Part III's “Supporting uniform estimates”, “Windowed cubic counting contract”, items 1–7, state C(F,φ,Σ) as its own targets for every number field F, every degree-three isogeny φ of abelian varieties and every nonempty family Σ defined by finitely many local conditions, in the unweighted squareclass height H(s)=∏_(v(s) odd) Nv with the additive-Haar local mass normalization. That contract is applied here with F=ℚ, where H(d)=|d| on signed squarefree d, to ι and its dual and to the strata Σ∩T_m; a numerical average with C assumed does not discharge it.
 
 ### From TauCetiRoadmap.CMRankZeroConverse
 
-Section C.0 “Rank-r p-converse” supplies the shared proposition: corank Sel_(p∞)(E/ℚ)=r implies analyticRank(E)=r. Use it with r=0,1; its shared name adds no hypothesis and is not defined a second time here.
+Section 0.1 “The rank-r p-converse proposition” supplies the shared proposition: corank Sel_(p∞)(E/ℚ)=r implies analyticRank(E)=r. Use it with r=0,1; its shared name adds no hypothesis and is not defined a second time here.
 
 ## How to read the build
 
@@ -150,7 +148,7 @@ A proof route is to bundle the existing predicates and kernel-character equality
 - A nonsplit residual extension with the permitted actual kernel is admitted; splitting E[p] as a Galois module is not required.
 - Good ordinarity and E(ℚ_p)[p]=0 are consequences supplied by the local dictionary; no irreducibility or parity condition on φ at infinity is added.
 
-(CGLS Introduction, standing hypotheses, pp. 518–521, and Theorem E, p. 522; Theorem 5.2.1, p. 574; CGLS line 73, line 205 and line 2027.)
+(CGLS Introduction, standing hypotheses, pp. 518–521, and Theorem E, p. 522; Theorem 5.2.1, p. 574; CGLS lines 79–95, 219 and 2145.)
 
 *Needs:* EllipticCurves Layers 1–2, 4–5 and gap:eisenstein-local-dictionary.
 
@@ -167,7 +165,7 @@ A proof route is to use the coefficient sequence E[p]→E[p∞] and rational p-t
 - A finite cyclic group of order p² has square order but cannot have a perfect alternating pairing; square order alone is not the needed argument.
 - For a divisible line plus a paired finite part with dim M[p]=1, dim Sel_p=3 and corank=1; equality of dimension and corank is not asserted in higher dimension.
 
-(CGLS Corollary 5.2.2 and preceding paragraph, p. 575; PS §1, p. 2 and Theorem 5, Corollaries 6–7, pp. 10–11, PS line 59 and line 403; CGLS line 2068.)
+(CGLS Corollary 5.2.2 and preceding paragraph, p. 575; PS §1, p. 2 and Theorem 5, Corollaries 6–7, pp. 10–11, PS lines 59, 425, 456 and 461; CGLS lines 2188–2191.)
 
 *Needs:* §0.1; SelmerIwasawaCohomology §§2.11–2.12a, 4.29; EllipticCurves Layer 7.
 
@@ -194,7 +192,7 @@ A proof route uses the local dictionary for ordinarity and the elliptic p-parity
 - The r=0 branch uses a simple-zero twist and the r=1 branch a nonzero-value twist.
 - Every level prime is split. Skinner’s residual nonsplit-prime auxiliary field is a different input and cannot be substituted here.
 
-(CGLS Proof of Theorem 5.2.1, pp. 574–575, conditions (a)–(d) and (d′); CGLS line 2033.)
+(CGLS Proof of Theorem 5.2.1, pp. 574–575, conditions (a)–(d) and (d′); CGLS lines 2151–2161 and 2173–2182.)
 
 *Needs:* §0.1; ArithmeticStatisticsPartVI “Elliptic p-parity” and gap:complementary-heegner-twists; EllipticCurveModularity R29.3–R29.6 and gap:quadratic-analytic-factorization.
 
@@ -210,7 +208,7 @@ A proof route is to apply the forward rank-at-most-one theorem only to E^K, whos
 
 - Full Sha finiteness for E is not an input. The forward theorem is used on the twist at this point.
 
-(CGLS Theorem 5.2.1 proof, pp. 574–575; CGLS line 2046.)
+(CGLS Theorem 5.2.1 proof, pp. 574–575; CGLS lines 2162–2165 and 2181–2185.)
 
 *Needs:* §1.1; ArithmeticStatisticsPartVI “Heegner logarithm and low rank”; SelmerIwasawaCohomology §§2.11–2.12a, 4.26, 4.28; §0.1.
 
@@ -239,7 +237,7 @@ A proof route imports EulerSystemsAndKolyvaginSystems §8.31’s discrete augmen
 - Neither γ−1 nor P₀ is inverted. Finite p-power errors disappear after inverting p, which leaves P₀ available.
 - For R=Λ_P₀ and k=R/P₀R, Tor₁^R(k,k)=k has dimension 1. An injective compact specialization therefore does not justify discarding the derived cokernel terms.
 
-(CGLS §3.4, Corollary 3.4.2 and proof, p. 566; Theorem 5.2.1 proof, p. 574; CGLS line 1745.)
+(CGLS §3.4, Corollary 3.4.2 and proof, p. 566; Theorem 5.2.1 proof, p. 574; CGLS lines 1767 and 1847.)
 
 *Needs:* §1.2 for the selected-field application; EulerSystemsAndKolyvaginSystems §8.31 augmentation control and its corank-one consequence; SelmerIwasawaCohomology §§3.9–3.11 and gap:cgls-ordinary-control; HeegnerPointEulerSystems §§8.31, 8.34; PadicMeasuresIwasawaAlgebras Layer 4.
 
@@ -257,7 +255,7 @@ A proof route is to import the actual norm-compatible Heegner family and its Kum
 - The normalization uses (1−α⁻¹)² after the full trace; it is not the finite group-ring initial factor before trace.
 - Translating π by a point Q changes the trace by h_KQ: for h_K=2 it adds 2Q. The requirement π(∞)=O excludes this change and fixes the point used by both comparisons.
 
-(CGLS Remark 4.1.3, equations (4.4)–(4.5), pp. 568–569; CGLS line 1828.)
+(CGLS Remark 4.1.3, equations (4.4)–(4.5), pp. 568–569; CGLS lines 1934–1958.)
 
 *Needs:* §0.1; HeegnerPointEulerSystems §§8.5–8.6a, 8.13, 8.24; EllipticCurves Layers 1, 7.
 
@@ -275,7 +273,7 @@ A proof route is to apply the supplied CGLS prototype equality, including its ex
 - Do not use the rank-one BSD control formula whose hypotheses already include Mordell–Weil rank one and finite Sha.
 - At N=20 and D=−71, 2 and 5 split since D≡1 modulo 8 and D≡4 modulo 5; 3 also splits since D≡1 modulo 3. Here (N,D)=1, c=1 and u_K=1, so §8.19’s factor 2^(−μ(N,D)) is 1 and its coefficient is ‖ω_E‖²/(C²√71), the same as EffectiveClassNumbers §2.8. The squarefree-level hypothesis of §8.17 fails.
 
-(CGLS Corollary 4.2.3, p. 570; Theorem 5.2.1 proof, p. 574; CGLS line 1891.)
+(CGLS Corollary 4.2.3, p. 570; Theorem 5.2.1 proof, p. 574; CGLS line 2001.)
 
 *Needs:* §§2.1–2.2; HeegnerPointEulerSystems §§8b.2, 8b.10; PadicMeasuresIwasawaAlgebras Layer 4; GrossZagierAndArithmeticHeights §§0.1, 8.14, 8.18, 8.19; native Northcott and canonical-height theorems; gap:quadratic-analytic-factorization.
 
@@ -291,7 +289,7 @@ Layers 0–1; EulerSystemsAndKolyvaginSystems §8.31 augmentation control; Selme
 
 ### 3.1 The Eisenstein-prime p-converse
 
-Under the Eisenstein converse condition, for each r∈{0,1}, corank_ℤp Sel_(p∞)(E/ℚ)=r implies analyticRank(E)=r. Equivalently the shared CMRankZeroConverse §C.0 “Rank-r p-converse” holds for r=0 and r=1 under these hypotheses. The analytic rank is the order of the actual arithmetic L-function at 1.
+Under the Eisenstein converse condition, for each r∈{0,1}, corank_ℤp Sel_(p∞)(E/ℚ)=r implies analyticRank(E)=r. Equivalently the shared CMRankZeroConverse §0.1 “The rank-r p-converse proposition” holds for r=0 and r=1 under these hypotheses. The analytic rank is the order of the actual arithmetic L-function at 1.
 
 E/ℚ is a Weierstrass curve with IsElliptic, conductor N; p is prime, p>2 and p∤N; ι:E→E′ is a rational cyclic isogeny of degree p. Its actual kernel character φ:G_ℚ→𝔽_pˣ satisfies φ|G_p∉{1,ω}, with ω the mod-p cyclotomic character. The residual quotient character is ψ=ωφ⁻¹. r is a natural number equal to 0 or 1.
 
@@ -302,9 +300,9 @@ A proof route is to choose K by §1.1 and establish its Selmer corank one by §1
 - For r=0 the conclusion is L(E,1)≠0; for r=1 it is a simple zero.
 - There is no squarefree-conductor, residual irreducibility, large-p or extra global parity assumption on the kernel character.
 
-(CGLS Theorem 5.2.1, pp. 574–575; CGLS line 2027.)
+(CGLS Theorem 5.2.1, pp. 574–575; CGLS line 2145.)
 
-*Needs:* §§1.1–1.2, 2.3; gap:quadratic-analytic-factorization; CMRankZeroConverse §C.0 “Rank-r p-converse”.
+*Needs:* §§1.1–1.2, 2.3; gap:quadratic-analytic-factorization; CMRankZeroConverse §0.1 “The rank-r p-converse proposition”.
 
 ### 3.2 Arithmetic rank equality and finite Sha
 
@@ -318,7 +316,7 @@ A proof route is to first apply the p-converse to establish analytic rank r. App
 
 - Sha finiteness is an output reached after the analytic converse. It is never an assumption on E.
 
-(CGLS Theorem 5.2.1, p. 574, final conclusions; CGLS line 2030.)
+(CGLS Theorem 5.2.1, p. 574, final conclusions; CGLS lines 2145–2148.)
 
 *Needs:* §3.1; ArithmeticStatisticsPartVI “Heegner logarithm and low rank”.
 
@@ -335,7 +333,7 @@ A proof route is to use §0.2, including the Cassels–Tate modulo-divisible pai
 - A one-dimensional Sel_p does not give corank one by the coefficient identification alone; the paired finite-part argument is essential.
 - The theorem includes p=3. It does not import Skinner’s p≥5, irreducible residual localization criterion.
 
-(CGLS Corollary 5.2.2, p. 575; CGLS line 2071.)
+(CGLS Corollary 5.2.2, p. 575; CGLS lines 2188–2191.)
 
 *Needs:* §0.2; §§3.1–3.2; SelmerIwasawaCohomology §4.29.
 
@@ -345,7 +343,7 @@ Subtract complementary orders only for r=0 or 1: 1−1=0 and 1−0=1. The torsio
 
 ### Dependencies
 
-Layers 0–2; CMRankZeroConverse §C.0; EllipticCurveModularity R29.6 quadratic analytic factorization contract; ArithmeticStatisticsPartVI forward theorem.
+Layers 0–2; CMRankZeroConverse §0.1; EllipticCurveModularity R29.6 quadratic analytic factorization contract; ArithmeticStatisticsPartVI forward theorem.
 
 ## Layer 4: Admissible quadratic twists and positive proportions
 
@@ -374,7 +372,7 @@ A proof route is to pull back the good-reduction and local-character conditions 
 - If E is good ordinary and φ|G₃ is nontrivial unramified, the identity squareclass is admissible and the unramified nonsquare twist becomes excluded. The rule d≡2 mod 3 is not universal.
 - The family includes good reduction as well as the character exclusion. A rational 3-isogeny alone does not imply it is nonempty.
 
-(CGLS Corollary 5.2.3 and proof, p. 575; BKLOS §2, family and height conventions, pp. 2–3; BKLOS line 90.)
+(CGLS Corollary 5.2.3 and proof, p. 575; BKLOS §2, family and height conventions, pp. 2–3; BKLOS lines 78–84.)
 
 *Needs:* §0.1; EllipticCurves Layers 2, 4–5 and gap:eisenstein-local-dictionary; ArithmeticStatisticsPartI §0.2 family defined by local conditions and §0.5 quadratic twist squareclass family.
 
@@ -392,7 +390,7 @@ A proof route first fixes at 3 a local squareclass d₀u for which the twist is 
 - If the finite-place ratio is 1, the odd stratum obtained is T₋₁; if it is 3, it is T₁. Both are covered by the absolute-ratio-one bound.
 - For nineteen-a3, prescribe class 2 at 3, the trivial class at 2 and 19, and negative real sign. The signed squarefree d=−31 realizes all four: d≡2 modulo 3, d≡1 modulo 8 and d≡7≡8² modulo 19. For the positive sign, d=137 has residues 2 modulo 3, 1 modulo 8 and 4≡2² modulo 19. These test simultaneous finite-place and real approximation.
 
-(BKLOS Proposition 10.1, p. 14; Theorem 10.5, pp. 15–16; Proposition 10.7, p. 17; §11 proof of Theorem 2.6, p. 18; CGLS Corollary 5.2.3 proof, p. 575; BKLOS line 762.)
+(BKLOS Proposition 10.1, p. 14; Theorem 10.5, pp. 15–16; Proposition 10.7, p. 17; §11 proof of Theorem 2.6, p. 18; CGLS Corollary 5.2.3 proof, p. 575; BKLOS lines 674, 713, 764 and 798–811.)
 
 *Needs:* §4.1; GlobalNumberFields Layer 1 via Tau Ceti `TauCeti.GlobalNumberFields.weakApproximation_denseRange`; ArithmeticStatisticsPartVII §5.10 local Selmer ratios and stratum density and §5.32 “Attainable local three-isogeny ratios”; ArithmeticStatisticsPartI §0.2 family defined by local conditions and §0.15 positive squareclass denominator; gap:eisenstein-local-dictionary.
 
@@ -410,9 +408,9 @@ A proof route is to import ArithmeticStatisticsPartVII §5.10’s restricted-fam
 - These are lower proportions, not exact Goldfeld densities or percentages for the original unrestricted ratio strata.
 - If r_X(B₀ | Σ₀) alternates between 1/2 and 1 along successive cutoff blocks and μ(Σ₀)=1/8, B₀ has no relative density in Σ₀, so a tower theorem requiring two limits does not apply; the lower-limit product still gives absolute lower proportion at least (1/2)(1/8)=1/16, and on the odd stratum with μ(Σ₁)=1/4 it gives (5/6)(1/4)=5/24.
 
-(BKLOS Theorem 2.5, p. 4; §9.1–§9.2, p. 14; CGLS Corollaries 5.2.2–5.2.3, p. 575; BKLOS line 624.)
+(BKLOS Theorem 2.5, p. 4; §9.1–§9.2, p. 14; CGLS Corollaries 5.2.2–5.2.3, p. 575; BKLOS lines 159 and 642–657.)
 
-*Needs:* §4.1; §3.3; ArithmeticStatisticsPartVII §5.10 restricted zero/one three-Selmer bounds and locally defined ratio classes; ArithmeticStatisticsPartI §0.1 relative density; Mathlib `le_liminf_mul`; ArithmeticStatisticsPartIII gap:rational-three-isogeny-count.
+*Needs:* §4.1; §3.3; ArithmeticStatisticsPartVII §5.10 restricted zero/one three-Selmer bounds and locally defined ratio classes; ArithmeticStatisticsPartI §0.1 relative density; Mathlib `le_liminf_mul`; ArithmeticStatisticsPartIII “Supporting uniform estimates”, “Windowed cubic counting contract”, items 1–7, for ι and its dual on each stratum.
 
 ### 4.4 Positive proportions of rank-zero and rank-one twists
 
@@ -426,7 +424,7 @@ A proof route is to use §4.2 to find positive-density finite-local-condition fa
 
 - No analytic-rank conclusion is claimed for the complement of A₃ by this argument. No result about density one-half for either rank is asserted.
 
-(CGLS Corollary 5.2.3, p. 575, with the good-at-3 scope made explicit; BKLOS Theorems 2.5–2.6, pp. 4–5; §11, p. 18; CGLS line 2078.)
+(CGLS Corollary 5.2.3, p. 575, with the good-at-3 scope made explicit; BKLOS Theorems 2.5–2.6, pp. 4–5; §11, p. 18; CGLS line 2198; BKLOS lines 159, 166 and 798.)
 
 *Needs:* §§4.2–4.3; ArithmeticStatisticsPartI §0.5 quadratic twist squareclass family.
 
@@ -436,7 +434,7 @@ With the fixed admissible local class at 3, finite-place ratio 1 gives global ra
 
 ### Dependencies
 
-Layers 0, 3; GlobalNumberFields Layer 1 via Tau Ceti `TauCeti.GlobalNumberFields.weakApproximation_denseRange`; EllipticCurves Layers 2, 4–5; ArithmeticStatisticsPartI §§0.1, 0.2, 0.5, 0.15; ArithmeticStatisticsPartVII §§5.10, 5.32; Mathlib `le_liminf_mul`; ArithmeticStatisticsPartIII rational counting contract.
+Layers 0, 3; GlobalNumberFields Layer 1 via Tau Ceti `TauCeti.GlobalNumberFields.weakApproximation_denseRange`; EllipticCurves Layers 2, 4–5; ArithmeticStatisticsPartI §§0.1, 0.2, 0.5, 0.15; ArithmeticStatisticsPartVII §§5.10, 5.32; Mathlib `le_liminf_mul`; ArithmeticStatisticsPartIII “Supporting uniform estimates”, “Windowed cubic counting contract”, items 1–7.
 
 ## Layer 5: Concrete models and scope diagnostics
 
@@ -464,7 +462,7 @@ A proof route is to fill the five existing coefficient fields and compute with t
 - At the point (0,0) the tangent is y=x, and substitution gives x³=0. The point is a nonidentity rational point of order 3.
 - The coefficient a₂ is 1 and a₃ is 1. Replacing this by a short Weierstrass equation changes both the model and the tests.
 
-(CGLS Remark 5.2.4, p. 575; CGLS line 2092.)
+(CGLS Remark 5.2.4, p. 575; CGLS line 2206.)
 
 *Needs:* Mathlib Weierstrass invariants and coefficientwise map; Tau Ceti quadraticTwistOf and its discriminant formula; EllipticCurves Layer 1 for the flex/order-three interpretation.
 
@@ -482,31 +480,23 @@ A proof route is to compute Δ=−19, hence good reduction at 3. Count six point
 - P=(0,0) is a point distinct from the group identity at infinity.
 - The diagnostic rejects the proposed argument for the published percentages; it does not disprove those percentages for the full twist family.
 
-(CGLS Remark 5.2.4, p. 575; BKLOS §2, pp. 2–5; §9.2, p. 14; CGLS line 2086.)
+(CGLS Remark 5.2.4, p. 575; BKLOS §2, pp. 2–5; §9.2, p. 14; CGLS line 2206; BKLOS lines 180–185 and 654.)
 
 *Needs:* §5.1; §§4.1, 4.3; EllipticCurves Layers 1–2, 4–5 and gap:eisenstein-local-dictionary; ArithmeticStatisticsPartI §0.6 squarefree residue counts and §0.1 relative density.
 
 ### 5.3 A three-isogeny does not guarantee a good-at-three twist
 
-The rational Weierstrass curve W:y²+xy+3y=x³ has a rational cyclic 3-isogeny, but no quadratic twist has good reduction at 3. Indeed (0,0) has order 3, Δ(W)=−2160, c₄(W)=−71, and j(W)=357911/2160 has 3-adic valuation −3. Every quadratic twist has the same j; good reduction would make j integral. Thus A₃(W,ι)=∅.
+Define the obstruction model W on the native rational Weierstrass carrier `WeierstrassCurve` ℚ by the five coefficient fields (1,0,3,0,0), so its equation is y²+xy+3y=x³. It is a diagnostic model, not a headline object.
 
-W has coefficients (1,0,3,0,0) over ℚ and ι is the isogeny with kernel generated by (0,0).
+The model is over ℚ. Its nonzero discriminant is a theorem, not a data placeholder.
 
-A proof route is to observe that the tangent at (0,0) is y=0; its intersection with the cubic has multiplicity 3, proving the nonidentity point has order 3. Use upstream quotient-by-stable-kernel to obtain the actual isogeny. Compute the invariant formulas and v₃(j)=−3. Use existing twist invariance of j and the local integral-j consequence of good reduction to exclude every twist. Apply the definition of A₃. This is a counterexample to the claim that the converse method’s good-reduction hypotheses can always be reached by quadratic twisting, not to the full printed analytic density conclusion by other methods.
-
-**Checks.**
-
-- Twisting can change the residual kernel character, but it cannot change j or make a negative valuation integral.
-
-(CGLS Corollary 5.2.3 proof, p. 575; standing good-reduction hypothesis, p. 518; CGLS line 73 and line 2078.)
-
-*Needs:* §4.1 for the empty-admissible-set interpretation; native Weierstrass invariants, quadraticTwistOf, minimal and HasGoodReduction; EllipticCurves Layers 1, 4–5 for the quotient isogeny and integral-j consequence.
-
-Define the obstruction model W on the native rational Weierstrass carrier `WeierstrassCurve` ℚ by the five coefficient fields (1,0,3,0,0). It is a diagnostic model, not a headline object. Its required API is:
+Its required API is:
 
 - Its five coefficient projections have those values, and Δ=−2160 proves ellipticity over ℚ.
 - Its c₄ and c₆ values are −71 and −1837; the native j equals 357911/2160.
 - Coefficientwise base change to ℚ₃ gives the same integral tuple; a nonzero raw twist has the same j after minimalization.
+
+A proof route is to fill the five existing coefficient fields and compute with the existing invariant formulas.
 
 **Checks.**
 
@@ -514,7 +504,36 @@ Define the obstruction model W on the native rational Weierstrass carrier `Weier
 - The denominator 2160=2⁴·3³·5 is nonzero in ℚ and ℚ₃. Its 3-valuation is 3, while 71³=357911 has valuation 0, giving −3 rather than +3.
 - d=0 gives discriminant parameter 0 and a singular raw equation, so it is excluded from quadratic twisting. For d=1 and d=3 the raw discriminant valuations are respectively 3 and 9; j has valuation −3 in both cases.
 
-Prove the obstruction in its local form for every d∈ℚ₃ with d≠0: the minimal model over ℤ₃ (`WeierstrassCurve.minimal`) of the trace-zero, norm-−d native twist of W base-changed to ℚ₃ fails `WeierstrassCurve.HasGoodReduction`. This scope diagnostic is a negative control for the good-at-three-twist hypothesis of §§4.2–4.4, not a headline theorem. It includes every rational quadratic twist, and tests the curve after minimalization rather than inferring curve reduction from a raw discriminant (CGLS Corollary 5.2.3 proof, p. 575, CGLS line 2078; the displayed invariant and valuation computation).
+*Needs:* Mathlib Weierstrass invariants and coefficientwise map; Tau Ceti `WeierstrassCurve.quadraticTwistOf`, `WeierstrassCurve.Δ_quadraticTwistOf` and `WeierstrassCurve.j_quadraticTwistOf`; EllipticCurves Layer 1 for the flex/order-three interpretation.
+
+Prove the global obstruction: the obstruction model W has a rational cyclic 3-isogeny, but no quadratic twist of W has good reduction at 3. Indeed (0,0) has order 3, Δ(W)=−2160, c₄(W)=−71, and j(W)=357911/2160 has 3-adic valuation −3. Every quadratic twist has the same j; good reduction would make j integral. Thus A₃(W,ι)=∅.
+
+ι is the isogeny with kernel generated by (0,0), obtained from the quotient of W by that stable cyclic subgroup.
+
+A proof route is to observe that the tangent at (0,0) is y=0; its intersection with the cubic has multiplicity 3, proving the nonidentity point has order 3. Use upstream quotient-by-stable-kernel to obtain the actual isogeny. Compute the invariant formulas and v₃(j)=−3. Use existing twist invariance of j and the local integral-j consequence of good reduction to exclude every twist. Apply the definition of A₃. This is a counterexample to the claim that the converse method’s good-reduction hypotheses can always be reached by quadratic twisting, not to the full printed analytic density conclusion by other methods.
+
+**Checks.**
+
+- Twisting can change the residual kernel character, but it cannot change j or make a negative valuation integral.
+
+(CGLS Corollary 5.2.3 proof, p. 575; standing good-reduction hypothesis, p. 518; CGLS lines 80–89 and 2198–2205.)
+
+*Needs:* the obstruction model above; §4.1 for the empty-admissible-set interpretation; native Weierstrass invariants and `WeierstrassCurve.j_quadraticTwistOf`; EllipticCurves Layers 1, 4–5 for the quotient isogeny and the integral-j consequence of good reduction.
+
+Prove the obstruction in its local form: for every d∈ℚ₃ with d≠0, the minimal model over ℤ₃ (`WeierstrassCurve.minimal`) of the trace-zero, norm-−d native twist (`WeierstrassCurve.quadraticTwistOf`) of W base-changed to ℚ₃ fails `WeierstrassCurve.HasGoodReduction`.
+
+d is any nonzero element of ℚ₃, so every rational d≠0 is included through ℚ→ℚ₃; the twist is formed on the base-changed curve, is elliptic because its discriminant parameter 4d is nonzero, and is minimalized before the good-reduction class is tested, rather than inferring curve reduction from a raw discriminant. This scope diagnostic is a negative control for the good-at-three-twist hypothesis of §§4.2–4.4, not a headline theorem.
+
+A proof route is to note that j is unchanged by the twist and by the variable change producing the minimal model, so the minimal model has j of 3-adic valuation −3; the good-reduction class makes the minimal model's discriminant a unit of ℤ₃ with integral c₄, hence j=c₄³/Δ integral, a contradiction. Equivalently, every integral model of the twist has v₃(Δ)=3v₃(c₄)−v₃(j)≥3, so no integral model has unit discriminant.
+
+**Checks.**
+
+- For d=1 the raw twist is integral with v₃(Δ)=3 and v₃(c₄)=0, attaining the lower bound 3; for d=3 it has v₃(Δ)=9 and v₃(c₄)=2, and 9=3·2+3. Neither has unit discriminant, and no variable change lowers v₃(Δ) below 3 while c₄ stays integral.
+- For a nonsquare unit u of ℤ₃, the twist by u has v₃(Δ)=3 and the same j; the obstruction does not depend on the local squareclass of d, unlike the kernel-character condition of §4.1.
+
+(CGLS Corollary 5.2.3 proof, p. 575, lines 2198–2205; the displayed invariant and valuation computation.)
+
+*Needs:* the obstruction model above; Mathlib `WeierstrassCurve.minimal` and `WeierstrassCurve.HasGoodReduction`; Tau Ceti `WeierstrassCurve.quadraticTwistOf`, `WeierstrassCurve.isElliptic_quadraticTwistOf_iff` and `WeierstrassCurve.j_quadraticTwistOf`; Mathlib `WeierstrassCurve.variableChange_j` for the invariance of j under the minimalizing variable change; EllipticCurves Layers 4–5 for the integral-j consequence of good reduction.
 
 ### Examples
 
@@ -530,14 +549,14 @@ The finite-Selmer converse supplies analytic rank, arithmetic rank and finite Sh
 
 ## Worked examples
 
-The nineteen-a3 family has admissible signed squarefree parameters exactly d≡2 mod 3 and mass 3/8. The analytic lower bounds supplied by this roadmap are (1/2)μ(A₃∩T₀) and (5/6)μ(A₃∩(T₁∪T₋₁)), or the corresponding bounds on specified finite local subfamilies. Their numerical values are not obtained by replacing these intersections with unrestricted Selmer-ratio strata. The 41.6% and 25% analytic conversions in CGLS Remark 5.2.4, p. 575 (CGLS line 2086), require this compatibility; the first percentage exceeds the 37.5% ceiling on the admissible conversion set itself. This observation concerns the stated conversion, not an upper bound on the full analytic rank-one set.
+The nineteen-a3 family has admissible signed squarefree parameters exactly d≡2 mod 3 and mass 3/8. The analytic lower bounds supplied by this roadmap are (1/2)μ(A₃∩T₀) and (5/6)μ(A₃∩(T₁∪T₋₁)), or the corresponding bounds on specified finite local subfamilies. Their numerical values are not obtained by replacing these intersections with unrestricted Selmer-ratio strata. The 41.6% and 25% analytic conversions in CGLS Remark 5.2.4, p. 575 (CGLS line 2206), require this compatibility; the first percentage exceeds the 37.5% ceiling on the admissible conversion set itself. This observation concerns the stated conversion, not an upper bound on the full analytic rank-one set.
 
-The curve y²+xy+3y=x³ has a rational cyclic three-isogeny and no quadratic twist good at 3, by §5.3. Thus the positive-proportion theorem here retains the good-at-three-twist hypothesis. The unrestricted analytic density assertion of CGLS Corollary 5.2.3 is not an endpoint proved by this method for that curve (CGLS p. 575, line 2078). The distinction keeps good reduction throughout the use of the converse and does not impose a good-prime restriction on the generic local or Selmer theories supplied to it.
+The curve y²+xy+3y=x³ has a rational cyclic three-isogeny and no quadratic twist good at 3, by §5.3. Thus the positive-proportion theorem here retains the good-at-three-twist hypothesis. The unrestricted analytic density assertion of CGLS Corollary 5.2.3 is not an endpoint proved by this method for that curve (CGLS p. 575, lines 2198–2205). The distinction keeps good reduction throughout the use of the converse and does not impose a good-prime restriction on the generic local or Selmer theories supplied to it.
 
 ## References
 
-All locators refer to the linked legal author copies. Line locators count newline-separated lines in the `pdftotext -layout` extraction of each linked PDF; theorem numbers and printed pages identify the same passages independently. Statements and diagnostic calculations above are written in this roadmap's own words.
+All locators refer to the linked legal author copies. Line locators count the lines of the text extraction of each linked PDF recorded in the roadmap's sources manifest, which carries one marker line per PDF page; theorem numbers and printed pages identify the same passages independently. Statements and diagnostic calculations above are written in this roadmap's own words.
 
-- **CGLS.** Francesc Castella, Giada Grossi, Jaehoon Lee and Christopher Skinner, [On the anticyclotomic Iwasawa theory of rational elliptic curves at Eisenstein primes](https://web.math.ucsb.edu/~castella/Eisenstein-print.pdf), Inventiones Mathematicae 227 (2022), 517–580, DOI 10.1007/s00222-021-01072-y. Published pagination: standing hypotheses pp. 518–521; §3.4 pp. 564–566; §4.1 pp. 566–569; §4.2 pp. 569–570; §5.2 pp. 573–575. CGLS line 73, line 1745, line 1828, line 1891 and line 2027.
-- **BKLOS.** Manjul Bhargava, Zev Klagsbrun, Robert J. Lemke Oliver and Ari Shnidman, [Three-isogeny Selmer groups and ranks of abelian varieties in quadratic twist families over a number field](https://lemkeoliver.github.io/papers/19-3IsogenySelmer.pdf), Duke Mathematical Journal 168 (2019), 2951–2989. Locators use the 25-page author version: §2 pp. 2–5, §9 pp. 13–14, §10 pp. 14–17, §11 p. 18. BKLOS line 149, line 612, line 624, line 681 and line 762.
-- **PS.** Bjorn Poonen and Michael Stoll, [The Cassels–Tate pairing on polarized abelian varieties](https://math.mit.edu/~poonen/papers/sha.pdf), Annals of Mathematics 150 (1999), 1109–1149. Locators use the 32-page author version with its 2014 correction: §1 p. 2, §2 pp. 3–4, Theorem 5 and Corollaries 6–7 pp. 10–11, Theorem 8 and Corollary 9 pp. 11–12. PS line 59, line 118 and line 403. Corollary 9's finite-group hypothesis is not an assumption of the converse; the supplier applies the pairing after quotienting divisible subgroups.
+- **CGLS.** Francesc Castella, Giada Grossi, Jaehoon Lee and Christopher Skinner, [On the anticyclotomic Iwasawa theory of rational elliptic curves at Eisenstein primes](https://web.math.ucsb.edu/~castella/Eisenstein-print.pdf), Inventiones Mathematicae 227 (2022), 517–580, DOI 10.1007/s00222-021-01072-y. Published pagination: standing hypotheses pp. 518–521; §3.4 pp. 564–566; §4.1 pp. 566–569; §4.2 pp. 569–570; §5.2 pp. 573–575. Line locators: standing hypotheses lines 79–95, 133 and 171–182; Theorem E line 219; §3.4 line 1767; Corollary 3.4.2 line 1847; Remark 4.1.3 with (4.4)–(4.5) lines 1934–1958; Corollary 4.2.3 line 2001; Theorem 5.2.1 and its proof lines 2145–2187; Corollary 5.2.2 line 2191; Corollary 5.2.3 line 2198; Remark 5.2.4 line 2206.
+- **BKLOS.** Manjul Bhargava, Zev Klagsbrun, Robert J. Lemke Oliver and Ari Shnidman, [Three-isogeny Selmer groups and ranks of abelian varieties in quadratic twist families over a number field](https://lemkeoliver.github.io/papers/19-3IsogenySelmer.pdf), Duke Mathematical Journal 168 (2019), 2951–2989. Locators use the 25-page author version: §2 pp. 2–5, §9 pp. 13–14, §10 pp. 14–17, §11 p. 18. Line locators: §2 family and height lines 78–84; absolute T_m and Theorem 2.5 lines 157–159; Theorem 2.6 line 166; nineteen-a3 remark lines 180–185; signed T_m lines 643–644; §9.2 line 654; Proposition 10.1 line 674; Theorem 10.5 line 713; Proposition 10.7 line 764; §11 line 798.
+- **PS.** Bjorn Poonen and Michael Stoll, [The Cassels–Tate pairing on polarized abelian varieties](https://math.mit.edu/~poonen/papers/sha.pdf), Annals of Mathematics 150 (1999), 1109–1149. Locators use the 32-page author version with its 2014 correction: §1 p. 2, §2 pp. 3–4, Theorem 5 and Corollaries 6–7 pp. 10–11, Theorem 8 and Corollary 9 pp. 11–12. Line locators: §1 line 59; §2 line 126; Theorem 5 line 425; Corollaries 6–7 lines 456 and 461; Theorem 8 line 474; Corollary 9 line 510. Corollary 9's finite-group hypothesis is not an assumption of the converse; the supplier applies the pairing after quotienting divisible subgroups.
