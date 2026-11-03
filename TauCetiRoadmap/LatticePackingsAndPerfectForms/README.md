@@ -273,6 +273,13 @@ this roadmap, or on a cited milestone of one of the following roadmaps.
 - [Modular forms](../ModularForms/README.md): the level-one graded ring and the dimensions of
   `M_k(SL₂(ℤ))` and `S_k(SL₂(ℤ))`, consumed in Layer 5 through Tau Ceti's
   `TauCeti.ModularForm.mvPolynomialEquivModularForms` and Mathlib's level-one dimension formula.
+  Layer 0 (forms with character), Layer 1 (the valence formula), Layer 2 (Hecke recurrences) and
+  Layers 4–5 (eigenforms, newforms and the Eisenstein decomposition) are consumed in 4.11 and 6.4.
+- [Global quadratic forms](../GlobalQuadraticForms/README.md) (GQF): 4.4 Hilbert reciprocity and
+  6.1 scalar representation of a rational quadratic form, the local representation conditions used
+  in 6.1, 6.3 and 6.4.
+- [Weights in étale cohomology](../WeightsInEtaleCohomology/README.md): 6.1 the good-prime
+  Ramanujan bound for Hecke eigenforms, consumed in 6.4 for the cusp-coefficient estimate.
 
 ### From Mathlib
 
@@ -321,7 +328,7 @@ dimension formula gives `S_k(SL₂(ℤ)) = 0` for `k < 12` and `dim S₁₂ = 1`
 Milestones are numbered `N.M` and may rest only on Mathlib, Tau Ceti at the pin, a cited supplier
 milestone, or an earlier milestone of this roadmap. Each layer ends with its dependency table,
 where **M** is Mathlib, **T** Tau Ceti at the pin, **T⁺** IntegralLattices §§2E–2G,
-**IL**, **TS**, **SM**, **GoN**, **OT**, **R24** the roadmaps of *Exact supplier contracts*, and **L** this
+**IL**, **TS**, **SM**, **GoN**, **OT**, **R24**, **GQF** the roadmaps of *Exact supplier contracts*, and **L** this
 roadmap.
 
 `Suggested.lean` states the definitions and headline theorems that can be written over Mathlib and
@@ -472,7 +479,8 @@ Scaling: `(c • A)[x] = c · A[x]`, `det (c • A) = cⁿ det A`. Orthogonal su
 block and `U'` on the second. Dual form `A⁻¹`:
 `A⁻¹ ∈ PosDefForm n`, `det A⁻¹ = (det A)⁻¹`, `(Uᵀ A U)⁻¹ = U⁻¹ A⁻¹ U⁻ᵀ`, equivalently `(U • A)⁻¹ = U⁻ᵀ • A⁻¹`.
 The map x ↦ Ax is an isometry from the dual lattice in FormSpace A onto stdLattice A⁻¹;
-its inverse is y ↦ A⁻¹y (TS 2A).
+its inverse is y ↦ A⁻¹y (TS Layer 1 `dual`, the dual lattice as Mathlib's `dualSubmodule` of the inner
+product, and 2A for `L^∨` being a full lattice with `(L^∨)^∨ = L`).
 
 API:
 
@@ -487,7 +495,7 @@ API:
 - I₂ is self-dual and has determinant 1; diag(1,4) has dual diag(1,1/4),
   determinant 1/4 and double dual diag(1,4). The empty block sum with [3] is [3].
 
-*Needs:* M `Matrix.PosDef.inv`; TS 2A; L 0.1, 0.3.
+*Needs:* M `Matrix.PosDef.inv`; TS Layer 1 `dual`, 2A; L 0.1, 0.3.
 
 ### Examples
 
@@ -501,7 +509,7 @@ The local Checks above and the worked examples below fix the normalizations used
 | 0.2 | T `gramMatrix`, `ofGramMatrix`, `Isometry.ofGramMatrixEq`, `IsPosDef`; L 0.1 |
 | 0.3 | M `InnerProductSpace.ofCore`, `ZSpan.instIsZLatticeRealSpan`, `ZLattice.covolume_eq_det`; T `covolume_range_sq_eq_determinant`; L 0.1 |
 | 0.4 | TS 2D, 2G; T `vectorsOfNorm`; L 0.2, 0.3 |
-| 0.5 | M `Matrix.PosDef.inv`; TS 2A; L 0.1, 0.3 |
+| 0.5 | M `Matrix.PosDef.inv`; TS Layer 1 `dual`, 2A; L 0.1, 0.3 |
 
 ## Layer 1: minimum, minimal vectors, kissing number, and density
 
@@ -689,7 +697,7 @@ API and acceptance statements:
 - For A₂, γ = 2/√3 equals (4/3)^(1/2).
 - For I₂, γ = 1 < 2/√3, so equality does not hold for every form.
 
-*Needs:* M `Int.exists_two_mul_abs_sub_mul_le`, Schur complements `Matrix.det_fromBlocks₁₁`; L 0.1, 1.1, 1.5.
+*Needs:* M `abs_sub_round`, Schur complements `Matrix.det_fromBlocks₁₁`; L 0.1, 1.1, 1.5.
 
 ### 1.9 Minkowski reduction for real forms
 
@@ -734,7 +742,7 @@ The local Checks above and the worked examples below fix the normalizations used
 | 1.5 | M `Real.rpow`; L 0.2, 1.4 |
 | 1.6 | T⁺ `PosDef.Hermite`, `PosDef.Minkowski`, `PosDef.SuccessiveMinima`; L 1.2 |
 | 1.7 | M `exists_ne_zero_mem_lattice_of_measure_mul_two_pow_lt_measure`, `InnerProductSpace.volume_ball`; L 0.3, 1.1, 1.4, 1.5 |
-| 1.8 | M `Int.exists_two_mul_abs_sub_mul_le`, Schur complements `Matrix.det_fromBlocks₁₁`; L 0.1, 1.1, 1.5 |
+| 1.8 | M `abs_sub_round`, Schur complements `Matrix.det_fromBlocks₁₁`; L 0.1, 1.1, 1.5 |
 | 1.9 | SM 1.1; GoN 1.3; T⁺ `PosDef.Reduction`, `PosDef.ReducedGram` (as the integral case, prose); L 0.1, 1.1 |
 
 ## Layer 2: the Hermite constant
@@ -871,7 +879,18 @@ supremum is attained on `voronoiCell A`, at a vertex of the cell, so
 `coveringRadius A = max_{x ∈ vertices} √(A[x])`, and that it is positive in rank `≥ 1`. Define
 `IsDeepHole A x :↔ Metric.infDist x (stdLattice A) = coveringRadius A`, prove deep holes exist
 and are vertices of Voronoi cells, and that `packingRadius A ≤ coveringRadius A`, with equality exactly in
-rank `1` when n > 0 (in rank `≥ 2` the packing balls have density `< 1` by 1.4 and 1.7, so they do not cover). Prove `coveringRadius (c • A) = √c · coveringRadius A` and `GL_n(ℤ)`-invariance. Define
+rank `1` when n > 0. Write `ρ = packingRadius A` and `μ = coveringRadius A`. The inequality: the open ball
+of radius `ρ` about `0` lies in `voronoiCell A`, since a point at distance `< ρ` from `0` is at distance
+`> ρ` from every nonzero lattice vector (those have length `≥ 2ρ`), and a point `x` of the cell is at
+distance `√(A[x])` from the lattice, so `μ ≥ ρ`. The strictness in rank `≥ 2` is a statement about the
+shape of the cell, not about density: if `μ = ρ` then every point of the cell is within `ρ` of `0`, so
+the closed cell is the closed ball of radius `ρ`, whose extreme points form the whole sphere, an
+infinite set in rank `≥ 2`; but the cell is a bounded intersection of finitely many closed half-spaces
+(3.1) and so has finitely many extreme points. In rank `1` the closed ball is the interval `[−ρ, ρ]`,
+itself such an intersection, and `ρ = μ`. Consequently `density A < 1` in rank `≥ 2`: a deep hole lies
+at distance `μ > ρ` from the lattice, so a neighbourhood of it of positive measure is missed by the
+packing balls. This strict inequality is not available from 1.4 (which gives `density A ≤ 1`) or from
+Minkowski's bound 1.7 (which is equivalent to `density A ≤ 1`). Prove `coveringRadius (c • A) = √c · coveringRadius A` and `GL_n(ℤ)`-invariance. Define
 `coveringDensity A := Vₙ coveringRadius Aⁿ / √(det A)` and prove `coveringDensity A ≥ 1` (the
 closed balls of radius `μ` cover a fundamental domain).
 
@@ -889,7 +908,10 @@ API:
 **Checks.**
 
 - For [4], covering and packing radii are both 1; deep holes have coordinates 1/2 modulo ℤ.
-- For I₂, covering radius = √2/2 > 1/2 and covering density = π/2.
+- For I₂, covering radius = √2/2 > 1/2 and covering density = π/2. The cell is the square
+  [−1/2,1/2]², with four extreme points, while the closed disc of radius 1/2 has a circle of them,
+  so the shape of the cell detects ρ < μ; the packing density π/4 < 1 is a consequence, not the reason.
+  For [4] the cell is the interval of metric radius 1, which is the closed ball of radius ρ = 1, and ρ = μ = 1.
 - In rank zero both radii are 0; this is excluded from the equality-if-and-only-if-rank-one assertion.
 
 *Needs:* M `Metric.infDist`, `IsCompact.exists_isMaxOn`, `InnerProductSpace.volume_ball`; L 1.4, 3.1.
@@ -960,9 +982,11 @@ symmetric matrices (the submodule `{M | Mᵀ = M}` of `Matrix (Fin n) (Fin n) �
 form is **determined by its minimal vectors**: if `IsPerfect A`, `min A = min B` and `S(A) ⊆ S(B)`
 then `A = B` (the linear system `B[x] = min` for `x ∈ S(A)` has the unique solution `A`); the
 Korkine–Zolotarev bound `kiss A ≥ n(n+1)` for perfect `A` (at least `n(n+1)/2` pairs); and
-**rationality**: a perfect form with `min A = 1` has rational entries (the unique solution of a
-linear system with integer coefficients), so every positive-rank perfect form is similar to a primitive
-integral form (0.1; Dutour Sikirić–Schürmann–Vallentin, arXiv:math/0609388v3, §1, p.2). For n > 0, prove `ℤⁿ` is perfect iff `n = 1` and that `A₂`, `A₃`, `D₄`, `E₈` are
+**rationality**: a perfect form with `min A = 1` has rational entries, because by the unique-solution
+definition of perfection (Dutour Sikirić–Schürmann–Vallentin, arXiv:math/0609388v3, §1, p.2) `A` is the
+only symmetric real solution `B` of the linear system `B[x] = 1`, `x ∈ S(A)`, whose coefficients `xᵢxⱼ`
+and right-hand sides are integers, and a linear system over `ℚ` with a unique real solution has that
+solution in `ℚ`; so every positive-rank perfect form is similar to a primitive integral form (0.1). For n > 0, prove `ℤⁿ` is perfect iff `n = 1` and that `A₂`, `A₃`, `D₄`, `E₈` are
 perfect by exhibiting `n(n+1)/2` independent `x xᵀ`.
 
 API and acceptance statements:
@@ -1225,7 +1249,7 @@ API and acceptance statements:
 - D₅, E₆ and E₇ have minimum 2 and determinants 4, 3 and 2, so γⁿ is respectively
   32/4 = 8, 64/3 and 128/2 = 64.
 
-*Needs:* Layers 2.2, 4.5, 4.6 and 4.9; Completed/IntegralLattices Layer 5 for the root lattices, with the pinned ADE modules in the supplier contract.
+*Needs:* Layers 0.2, 2.1, 2.2, 4.1, 4.5, 4.6 and 4.9; Completed/IntegralLattices Layer 5 for the root lattices, with the pinned ADE modules in the supplier contract.
 
 ### 4.11 The Leech upper bound and γ₂₄ = 4
 
@@ -1287,8 +1311,8 @@ The local Checks above and the worked examples below fix the normalizations used
 | 4.6 | L 0.1, 4.1, 1.9 |
 | 4.7 | GoN 4.5.8; M `IsCompact`, `fderiv`; L 4.2, 4.5, 1.9 |
 | 4.9 | M `Convex`, `ConvexCone`, `IsClosed`; L 1.1, 4.1, 4.6 |
-| 4.10 | T `IsPosDef.finite_isometry`; L 0.2, 2.1, 2.2, 4.1, 4.3, 4.5, 4.9 |
-| 4.11 | TS Layer 1; ModularForms Layer 1; M Schwartz and Fourier APIs; R24 Layer 6; L 1.4, 1.5, 2.1 |
+| 4.10 | Completed IntegralLattices Layer 5 (root lattices, pinned ADE modules); L 0.2, 2.1, 2.2, 4.1, 4.5, 4.6, 4.9 |
+| 4.11 | TS Layer 1; M Schwartz and Fourier APIs, level-one Eisenstein series; ModularForms Layer 1 (valence formula); R24 Layer 6; L 1.4, 1.5, 2.1 |
 
 ## Layer 5: spherical designs and Venkov's theorem
 
@@ -1408,7 +1432,7 @@ API:
   Thus X₀² − X₇² has Gram Laplacian 4 and root-shell sum 120, whereas
   X₀² − 2X₇² has Gram Laplacian 0 and shell sum 240 − 240 = 0.
 
-*Needs:* GeometryOfNumbersAndQuadraticArithmetic §4.3; Layer 0.3; Layers 5.1–5.2.
+*Needs:* GeometryOfNumbersAndQuadraticArithmetic §4.3; M `MvPolynomial.pderiv`, `MvPolynomial.homogeneousSubmodule`; L 0.3, 5.1, 5.2.
 
 ### 5.5 The Fourier transform of a harmonic Gaussian
 
@@ -1508,7 +1532,7 @@ The local Checks above and the worked examples below fix the normalizations used
 | 5.1 | M `Measure.toSphere`, `LinearIsometryEquiv.measurePreserving`, `MvPolynomial.restrictTotalDegree`, `OrthonormalBasis`; L none |
 | 5.2 | M `Real.Gamma`, `integral` over `toSphere`; L 5.1 |
 | 5.3 | L 1.1, 4.1, 4.2, 4.4, 4.5, 5.2; examples via 5.7 and 9 |
-| 5.4 | M `MvPolynomial.pderiv`, `MvPolynomial.homogeneousSubmodule`; L 5.1 |
+| 5.4 | GoN §4.3; M `MvPolynomial.pderiv`, `MvPolynomial.homogeneousSubmodule`; L 0.3, 5.1, 5.2 |
 | 5.5 | GoN §4.3 `fourier_harmonic_gaussian`; M `SchwartzMap.fourierTransformCLM`; TS Layer 1 `gaussian`, `fourier_gaussian`; L 5.4 |
 | 5.6 | TS Layer 1 `poissonSummation`, Layer 5; M `CuspForm`; IL 6C (`E₈` even unimodular); L 0.3, 5.4, 5.5 |
 | 5.7 | M `CuspForm.rank_eq_zero_of_weight_lt_twelve`, `discriminantEquiv`; T `mvPolynomialEquivModularForms`; TS 8B, 8D; R24 Layer 6; IL 6C, 6D; L 5.3, 5.4, 5.6 |
@@ -1624,7 +1648,7 @@ not by discarding those integers. Prove representation of the remaining integers
 terminal escalation. These representation theorems and local reductions are mathematical
 targets of this subsection, not a certificate format or an executable procedure.
 
-*Needs:* Layers 6.1–6.2; ThetaSeries §5 (theta modularity); ModularForms Layers 0 and 4–5
+*Needs:* T `IsEven`; Layers 6.1–6.2; ThetaSeries §5 (theta modularity); ModularForms Layers 0 and 4–5
 (Eisenstein decomposition and newforms); WeightsInEtaleCohomology §6.1
 (good-prime Ramanujan bound), with ModularForms Layer 4
 (bad-prime eigenvalues) and Layer 2 (Hecke recurrences); IntegralLattices §4A and
@@ -1650,8 +1674,8 @@ The local Checks above and the worked examples below fix the normalizations used
 | --- | --- |
 | 6.1 | T `representationNumber`, `IsPosDef.finite_vectorsOfNorm`; M `Nat.sum_four_squares`; IL 0F; GQF 6.1; L 1.1, 1.2 |
 | 6.2 | T `ofGramMatrix`, `IsPosDef`; L 1.1, 6.1 |
-| 6.3 | IL 4A, 9B; GQF 6.1; L 6.1, 6.2 |
-| 6.4 | T `IsEven`; L 6.1, 6.2, 6.3 |
+| 6.3 | IL 4A; GQF 6.1; L 6.1, 6.2 |
+| 6.4 | T `IsEven`; TS Layer 5; ModularForms Layers 0, 2, 4, 5; WeightsInEtaleCohomology §6.1; IL 4A; GQF 6.1; L 6.1, 6.2 |
 
 ## Layer 7: tensor products and the Festi–Veniani index
 
@@ -1779,7 +1803,7 @@ API:
   composition order. Identity fixes all eight classes and f² fixes each class.
   The quadratic value of each eᵢ/2 is 1/4, with polar self-pairing 1/2 modulo ℤ.
 
-*Needs:* Tau Ceti Discriminant/Bilinear and Discriminant/Quadratic; IntegralLattices §§1C–1D, 1G.
+*Needs:* T `DiscriminantGroup`, `discriminantPairing`, `discriminantQuadraticMap`, `Isometry.discriminantGroupEquiv`, `FiniteBilinearModule.Isometry` (Discriminant/Bilinear and Discriminant/Quadratic); IntegralLattices §§1C–1D, 1G.
 
 ### 7.5 The Festi–Veniani index
 
