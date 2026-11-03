@@ -96,7 +96,7 @@ Layer D (the relative Picard functor and the Jacobian) and Layer F (the Abel–J
 
 ### From TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison
 
-§3.1 (`CurveBundles`, the stack of torsors under a quasi-split reductive group scheme over X, with descent, universal torsor and algebraicity) and §3.2 (`LocalLoopGrassmannian`, the fpqc quotient LG/L⁺G over any base field).
+§3.1, *Bundles on the fixed global curve* (torsors under a quasi-split reductive group scheme over X, with descent, universal torsor and algebraicity), and §3.2, *The equal-characteristic local loop quotient* (the fpqc quotient LG/L⁺G for a reductive group over k[[t]] split over an unramified extension, on k-algebras with fpqc descent).
 
 ### From TauCetiRoadmap.EtaleDualityAndPerverseSheaves
 
@@ -104,7 +104,7 @@ Layer D (the relative Picard functor and the Jacobian) and Layer F (the Abel–J
 
 ### From TauCetiRoadmap.ClassicalAdicEtaleCohomology
 
-§5.4, OrientedEtaleProduct with its projections, specialization, base change, enough points, shreds and stalk comparison; OrientedNearbyCycles.modificationBaseChange for a coherent irreducible base, finitely presented map and bounded constructible invertible-torsion coefficients. Stack descent uses §1.4.
+§5.4, the oriented étale product with its projections, specialization, base change, enough points, shreds and stalk comparison, and the modification/base-change theorem: for S qcqs irreducible, f:X→S finitely presented, n>0 invertible on S and F∈Dᵇ_c(X,Z/n), there is a modification S′→S, allowed to depend on F, after which RΨF commutes with every base change T→S′. Stack descent uses this roadmap’s §1.4.
 
 ### From TauCetiRoadmap.DeligneWeightsAndPurity
 
@@ -176,7 +176,7 @@ Define BunG. For X/F_q smooth projective geometrically connected and a smooth af
 
 *Remark.* GL_n-torsors recover the rank-n vector bundles of AlgebraicVectorBundles.
 
-*Remark.* For a quasi-split model that is reductive over all of X this is the fixed-curve stack `CurveBundles` of EndoscopicTransferAndUnitaryTraceComparison §3.1. This target adds smooth affine models with connected fibres that are reductive only over U, with no parahoric condition at the remaining points, the affine diagonal and the stabilizer statements, and restricts to §3.1 on reductive models.
+*Remark.* For a quasi-split model that is reductive over all of X this is the fixed-curve bundle stack of EndoscopicTransferAndUnitaryTraceComparison §3.1, *Bundles on the fixed global curve*. This target adds smooth affine models with connected fibres that are reductive only over U, with no parahoric condition at the remaining points, the affine diagonal and the stabilizer statements, and restricts to §3.1 on reductive models.
 
 The API:
 
@@ -194,7 +194,7 @@ The API:
 
 Source: [Hein](#references), Proposition 1 and its proof, p. 4 (smooth affine models and their deformation theory); [AH19](#references), Theorem 2.5, p. 8 (flat affine models of finite type); [Var](#references), §2, Notation 2.1(a), p. 4; [VL](#references), §12.1, p. 148.
 
-*Needs:* Mathlib `AlgebraicGeometry.Scheme`; Mathlib `CategoryTheory.Pseudofunctor.IsStack`; SchemeAndStackFoundations Layer 1 (§§1.1, 1.15–1.16 descent, torsors and contracted products; §§1.18–1.21 algebraic and Deligne–Mumford stacks, inertia and quotient stacks); ReductiveGroups Layers 0, 1 and 7 (functor of points, representations as comodules, structure theory); EndoscopicTransferAndUnitaryTraceComparison §3.1 (`CurveBundles`); AlgebraicVectorBundles Layers L0A–L2B; SchemeAndStackFoundations §4.14 (Hilbert and Quot schemes).
+*Needs:* Mathlib `AlgebraicGeometry.Scheme`; Mathlib `CategoryTheory.Pseudofunctor.IsStack`; SchemeAndStackFoundations Layer 1 (§§1.1, 1.15–1.16 descent, torsors and contracted products; §§1.18–1.21 algebraic and Deligne–Mumford stacks, inertia and quotient stacks); ReductiveGroups Layers 0, 1 and 7 (functor of points, representations as comodules, structure theory); EndoscopicTransferAndUnitaryTraceComparison §3.1, *Bundles on the fixed global curve*; AlgebraicVectorBundles Layers L0A–L2B; SchemeAndStackFoundations §4.14 (Hilbert and Quot schemes).
 
 ### 0.2 Deformations of bundles
 
@@ -548,7 +548,7 @@ Beauville–Laszlo gluing for G-torsors along the graphs of the legs, deduced fr
 
 *Construction.* Construct the modification functor and finite-dimensional lattice bounds using a faithful representation. Glue formal torsors with the trivial torsor off the graphs; verify independence from a formal coordinate. Use disjoint formal neighbourhoods for factorization and gluing of trivializations.
 
-*Remark.* Its fibre over a closed point v is the local loop quotient LG/L⁺G of EndoscopicTransferAndUnitaryTraceComparison §3.2 (`LocalLoopGrassmannian`). This target adds the multi-leg geometry over X^I and its factorization.
+*Remark.* Its fibre over a closed point v∈U is the unramified reductive local loop quotient LG/L⁺G of EndoscopicTransferAndUnitaryTraceComparison §3.2, *The equal-characteristic local loop quotient*. This target adds the multi-leg geometry over X^I and its factorization.
 
 The API:
 
@@ -565,7 +565,7 @@ The API:
 
 Source: [VL](#references), §1, Definition 1.6, Notation 1.7, Construction 1.8 and Remark 1.9, pp. 43–44.
 
-*Needs:* [§0.1 *Bundles on the global curve*](#01-bundles-on-the-global-curve); SchemeAndStackFoundations Layer 1 (§§1.1, 1.15–1.16 descent, torsors and contracted products; §§1.18–1.21 algebraic and Deligne–Mumford stacks, inertia and quotient stacks); ReductiveGroups Layers 0, 1 and 7 (functor of points, representations as comodules, structure theory); RelativeFarguesFontaine §6.5 (the Beauville–Laszlo theorem for modules); EndoscopicTransferAndUnitaryTraceComparison §3.2 (`LocalLoopGrassmannian`); AlgebraicModuliForArithmeticGeometry §1.3 (coherent Grassmannians and partial flags).
+*Needs:* [§0.1 *Bundles on the global curve*](#01-bundles-on-the-global-curve); SchemeAndStackFoundations Layer 1 (§§1.1, 1.15–1.16 descent, torsors and contracted products; §§1.18–1.21 algebraic and Deligne–Mumford stacks, inertia and quotient stacks); ReductiveGroups Layers 0, 1 and 7 (functor of points, representations as comodules, structure theory); RelativeFarguesFontaine §6.5 (the Beauville–Laszlo theorem for modules); EndoscopicTransferAndUnitaryTraceComparison §3.2, *The equal-characteristic local loop quotient* (unramified reductive group over k[[t]]); AlgebraicModuliForArithmeticGeometry §1.3 (coherent Grassmannians and partial flags).
 
 ### 1.2 Schubert bounds
 
@@ -1365,7 +1365,28 @@ Source: [VL](#references), §8, Proposition 8.23 and Lemmas 8.24–8.25 with pro
 
 ### 3.9 PGL₂ boundary constant terms
 
-On a cofinal set of truncations containing the low-instability core, the perverse transitions are injective in degree 0, surjective in degree 1 and isomorphisms otherwise; nonzero perverse degrees eventually stabilize. There is an mc-isomorphism γ:pH⁰K→⊕κ∈K♯r Pκ. It intertwines the Hecke action with the Satake–Picard action modulo constructible errors. Restricting translations to high indices gives an mc-action, not an honest group action on that restricted direct sum.
+For G=PGL₂ and the finite set Σ of Iwahori places, define H_G^Σ as the restricted tensor product over Q of the spherical convolution algebras H_v=C_c(G(O_v)\G(F_v)/G(O_v),Q), for v∉Σ, with unit factors at all but finitely many places and vol(G(O_v))=1. Each H_v=Q[h_v], where h_v is the characteristic function of the double coset of diag(ϖ_v,1). Use the rational Satake transform H_v→Q[t_v,t_v⁻¹] sending h_v to t_v+q_v t_v⁻¹; t_v denotes the torus coset ϖ_v⁻¹O_v× and maps to the positive divisor v, hence to [O_X(v)] in the Picard group algebra (YZ-I §4.1.1–§4.1.2, p. 22).
+
+Define a_Eis^Σ:H_G^Σ→Q[Pic_X(F_q)] as this tensor-product Satake transform followed by the group-algebra map D↦[O_X(D)], and define I_Eis^Σ=ker(a_Eis^Σ). Define the Q-algebra involution ι_Pic on Q[Pic_X(F_q)] by ι_Pic([L])=`q^(deg L)`[L⁻¹]; its square is the identity because deg(L⁻¹)=−deg L. Here q is nonzero, so negative-degree powers are defined. This involution is distinct from the coefficient isomorphism ι of Conventions. The image of a_Eis^Σ is exactly the ι_Pic-invariant subalgebra, even after removing any finite Σ (YZ §2.2, Lemma 2.1, p. 8; YZ-I Definition 4.1 and Lemma 4.2, pp. 22–23). Extend these maps and the kernel to Q_ℓ by scalar extension. To compare with §1.12, set t_v=√q_v·u_v after adjoining the chosen square root: h_v maps to √q_v(u_v+u_v⁻¹), ι_Pic corresponds locally to u_v↦u_v⁻¹, and q_v⁻¹ᐟ²h_v has normalized Satake transform u_v+u_v⁻¹.
+
+The API:
+
+- The restricted tensor product has unital embeddings of each local H_v and commuting images at distinct places; convolution uses the integral-volume-one measure.
+- The Satake–Picard map is a unital algebra homomorphism, with a_Eis^Σ(h_v)=[O_X(v)]+q_v[O_X(−v)], and is compatible with restriction when Σ grows.
+- The degree-twisted inversion is multiplicative and involutive; it fixes every image of a_Eis^Σ. The induced map H_G^Σ/I_Eis^Σ→Q[Pic_X(F_q)]^ι_Pic is an isomorphism.
+- Extension Q→Q_ℓ preserves the kernel and the invariant subalgebra. The Satake–Picard action on the boundary is through a_Eis^Σ, so I_Eis^Σ acts by zero modulo constructible errors.
+
+**Checks.**
+
+- The tensor with every factor the unit is 1 and maps to [O_X]=1; at one place the subalgebra is Q[h_v], with h_v² distinct from h_v. Two different local generators commute, and a product uses two nonunit factors, not infinitely many; thus the construction is an algebraic restricted tensor product, not a completed one.
+- On P¹/F₃, put z=[O(1)] and choose distinct degree-one v,w outside Σ. Then a_Eis^Σ(h_v)=a_Eis^Σ(h_w)=z+3z⁻¹, while a_Eis^Σ(h_vh_w)=z²+6+9z⁻². The constant term 6 excludes a map that fails to preserve products.
+- In that example h_v−h_w lies in I_Eis^Σ, whereas 1 and h_v do not: their images are 1 and z+3z⁻¹, both nonzero. The zero element maps to zero, and h_v(h_v−h_w) also maps to zero, testing the kernel and its ideal property.
+- Still at q=3, ι_Pic(z)=3z⁻¹ and ι_Pic²(z)=3·(z/3)=z. For degree −1, ι_Pic(z⁻¹)=z/3, and ι_Pic(zz⁻¹)=1=(3z⁻¹)(z/3). Omitting the factor `q^(deg L)` gives the wrong image of z.
+- The element z+3z⁻¹ is fixed by ι_Pic and evaluates to 7/2 at both z=2 and z=3/2; ordinary inversion gives z⁻¹+3z, whose value at z=2 is 13/2. In the normalized variable z=√3·u the same element is √3(u+u⁻¹), fixed by u↦u⁻¹.
+- For a degree-two place on P¹/F₃ the image is z²+9z⁻², equal to (z+3z⁻¹)²−6, and the local square root is 3. Using q instead of q_v would give z²+3z⁻². At q=2 the degree-one formula is z+2z⁻¹ and twisted inversion squares to z, so no odd-characteristic restriction is imposed.
+- With Σ empty the map is the full spherical map; enlarging Σ removes local generators and restricts that same map. For P¹/F₃ the invariant ring is Q[x], with x=z+3z⁻¹. If Σ consists of all degree-one places, choose places of degrees 2, 3 and 5: their images are a₂=x²−6, a₃=x³−9x and a₅=x⁵−15x³+45x, and (a₂a₃−a₅)/9=x. No degree-one place is assumed in the surjectivity assertion.
+
+On a cofinal set of truncations containing the low-instability core, the perverse transitions are injective in degree 0, surjective in degree 1 and isomorphisms otherwise; nonzero perverse degrees eventually stabilize. There is an mc-isomorphism γ:pH⁰K→⊕κ∈K♯r Pκ. It intertwines the Hecke action with the Picard translation action through a_Eis^Σ modulo constructible errors. Restricting translations to high indices gives an mc-action, not an honest group action on that restricted direct sum.
 
 *Proof.* Use the localization triangles only after all added horocycles satisfy the high-instability hypothesis of YZ Lemma 3.28. Compare the finite-type core and its complement; the core contributes constructible kernel and cokernel. Split the high boundary according to distinct support classes X(κ), identify the top-dimensional generic fibres, and compare Hecke adjacency with Picard translation.
 
@@ -1375,7 +1396,7 @@ On a cofinal set of truncations containing the low-instability core, the pervers
 
 Source: [YZ](#references), §3.5.1–§3.5.4, Lemmas 3.33, 3.34 and 3.36, (3.32) and Remark 3.35, pp. 36–38 (arXiv v2).
 
-*Needs:* [§1.12 *Normalized spherical Satake*](#112-normalized-spherical-satake); [§3.3 *Horocycle compact direct images*](#33-horocycle-compact-direct-images); [§3.4 *PGL₂ ind-perverse cohomology*](#34-pgl-ind-perverse-cohomology); EtaleDualityAndPerverseSheaves Layer 2 (§2.4 the perverse t-structure, §2.10 intersection complexes, §2.12 small and semismall maps).
+*Needs:* SmoothRepresentationsOfLocalGroups §SR.4.1 (rational Satake transform); FunctionFieldArithmetic §0.3 (divisor classes and Picard points); [§1.12 *Normalized spherical Satake*](#112-normalized-spherical-satake); [§3.3 *Horocycle compact direct images*](#33-horocycle-compact-direct-images); [§3.4 *PGL₂ ind-perverse cohomology*](#34-pgl-ind-perverse-cohomology); EtaleDualityAndPerverseSheaves Layer 2 (§2.4 the perverse t-structure, §2.10 intersection complexes, §2.12 small and semismall maps).
 
 ### 3.10 Integral cusp finiteness
 
@@ -1395,7 +1416,7 @@ Source: [Xue-I](#references), Theorem 3.2.1 and Propositions 3.2.2 and 3.2.7, pp
 
 ### 3.11 The PGL₂ Eisenstein spectral decomposition
 
-Let H̄ be the image of H_G^Σ⊗Q_ℓ in End(V)×Q_ℓ[Pic_X(F_q)]^ι. For f in the Eisenstein ideal, fV is finite-dimensional. For every spherical place y, V is finite over H_y⊗Q_ℓ; H̄ is a finite-type algebra of Krull dimension one and V is finite over it. Its reduced spectrum is the disjoint union of the Eisenstein curve Spec Q_ℓ[Pic_X(F_q)]^ι and finitely many isolated points; V=V_Eis⊕V₀ canonically, with V₀ finite-dimensional. The ramified base-changed stack has the analogous decomposition and equivariant pairing.
+Let V be the middle compactly supported cohomology of the PGL₂ shtuka stack of §3.4, with its stated shifts and twists. Let H̄ be the image of f↦(T(f),a_Eis^Σ(f)) from H_G^Σ⊗Q_ℓ to End(V)×Q_ℓ[Pic_X(F_q)]^ι_Pic, using the scalar extension of §3.9. For f∈I_Eis^Σ⊗Q_ℓ, fV is finite-dimensional. For every spherical place y, V is finite over H_y⊗Q_ℓ; H̄ is a finite-type algebra of Krull dimension one and V is finite over it. Its reduced spectrum is the disjoint union of the Eisenstein curve Spec Q_ℓ[Pic_X(F_q)]^ι_Pic and finitely many isolated points; V=V_Eis⊕V₀ canonically, with V₀ finite-dimensional. The ramified base-changed stack has the analogous decomposition and equivariant pairing.
 
 *Proof.* Compare middle compact cohomology with global sections of pH⁰K; stabilized nonzero perverse degrees give finite-dimensional errors. The mc-zero action of the Eisenstein ideal then has finite rank. Filter by growing instability in steps deg y. The associated graded spherical action is the Picard translation isomorphism in high degree. Use purity of boundary pieces and the stabilized weight≤0 part of H¹ to show a finite initial segment generates V over H_y. Noetherianity makes the Eisenstein ideal finitely generated, so its action has finite-dimensional support. Separate that support from the Eisenstein curve to obtain the canonical splitting.
 
@@ -1444,7 +1465,7 @@ Source: [YZ](#references), §3.4.7, Lemma 3.30 and Corollary 3.31, p. 35 (arXiv 
 
 ### Dependencies
 
-Layers 0–2; Mathlib `Submodule.FG`, `ExteriorAlgebra`, `LinearMap.charpoly`, `CategoryTheory.Ind` and Serre classes; EtaleCohomologyFoundations §§F.0–F.2; EtaleDualityAndPerverseSheaves Layers 0, 1, 2 and 6; DeligneWeightsAndPurity DWP.7.
+Layers 0–2; SmoothRepresentationsOfLocalGroups §SR.4.1; FunctionFieldArithmetic §0.3; Mathlib `Submodule.FG`, `ExteriorAlgebra`, `LinearMap.charpoly`, `CategoryTheory.Ind` and Serre classes; EtaleCohomologyFoundations §§F.0–F.2; EtaleDualityAndPerverseSheaves Layers 0, 1, 2 and 6; DeligneWeightsAndPurity DWP.7.
 
 ## Layer 4: Drinfeld descent and product actions
 
@@ -2231,6 +2252,7 @@ The following points in the sources need care. Each is described in our own word
 - **[Del73]** Pierre Deligne, *Les constantes des équations fonctionnelles des fonctions L*, in *Modular Functions of One Variable II*, Lecture Notes in Mathematics 349 (1973), 501–597. Locators refer to the [author's IAS copy](https://publications.ias.edu/sites/default/files/Number20.pdf).
 - **[MV]** Ivan Mirković and Kari Vilonen, *Geometric Langlands duality and representations of algebraic groups over commutative rings*, Ann. of Math. 166 (2007). Locators refer to [arXiv:math/0401222v5](https://arxiv.org/pdf/math/0401222v5).
 - **[Ric]** Timo Richarz, *A new approach to the geometric Satake equivalence*, Doc. Math. 19 (2014). Locators refer to [arXiv:1207.5314v2](https://arxiv.org/pdf/1207.5314v2) (24 September 2012).
+- **[YZ-I]** Zhiwei Yun and Wei Zhang, *Shtukas and the Taylor expansion of L-functions*, Ann. of Math. 186 (2017), 767–911. Locators refer to [arXiv:1512.02683v3](https://arxiv.org/pdf/1512.02683v3) (11 April 2017), §4.1.1–§4.1.2, Definition 4.1 and Lemma 4.2, pp. 22–23.
 - **[YZ]** Zhiwei Yun and Wei Zhang, *Shtukas and the Taylor expansion of L-functions (II)*, Ann. of Math. 189 (2019). Locators refer to [arXiv:1712.08026v2](https://arxiv.org/pdf/1712.08026v2) (13 June 2020); v1 numbers the results of §3.4 one higher.
 - **[Yu]** Hongjie Yu, *Comptage des systèmes locaux ℓ-adiques sur une courbe*, [arXiv:1807.04659v5](https://arxiv.org/pdf/1807.04659v5) (18 July 2022).
 - **[Xue-I]** Cong Xue, *Cohomology with integral coefficients of stacks of shtukas*, [arXiv:2001.05805v2](https://arxiv.org/pdf/2001.05805v2) (30 August 2023).
