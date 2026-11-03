@@ -13,7 +13,8 @@ theorems against the pinned APIs, using only definitions needed to state them.
 
 The headline inventory is: all-cusp Fourier–Whittaker expansion (including exceptional
 parameters); finite multiplicity and discreteness; Hecke newform theory and cross-level strong
-multiplicity one; Selberg's bound, the level-one bound and even-character Weyl asymptotics;
+multiplicity one and the character-conductor bad-prime trichotomy; Selberg's bound, the
+level-one bound and even-character Weyl asymptotics;
 absolute convergence, Euler product, entire completion and the character-dual functional
 equation; and localization of a cuspidal eigenvalue from a nonzero residual vector.
 
@@ -414,16 +415,31 @@ theorem IsNewform.eq_of_eventually_eq {N M : ℕ} [NeZero N] [NeZero M]
       ∀ a : ℤ, χ (a : ZMod N) = ψ (a : ZMod M) := by
   sorry
 
-/-- `README.md`, Layer 4, 4.6 (iv). Bad primes, trivial character: `p ‖ N` gives
-`a(p)² = 1/p`, and `p² ∣ N` gives `a(p) = 0`. -/
-theorem IsNewform.fourierCoefficient_sq_of_dvd {N : ℕ} [NeZero N] {lam : ℝ} {f : ℍ → ℂ}
-    (hf : IsNewform N 1 lam f) {p : ℕ} (hp : p.Prime) (hpN : p ∣ N) (hp2 : ¬ p ^ 2 ∣ N) :
-    fourierCoefficient f p ^ 2 = (p : ℂ)⁻¹ := by
+/-- At a prime dividing the newform level, equality of the level and character conductor
+exponents gives a coefficient of modulus one, including ramified nebentypus. -/
+theorem IsNewform.norm_fourierCoefficient_of_conductor {N : ℕ} [NeZero N]
+    {χ : DirichletCharacter ℂ N} {lam : ℝ} {f : ℍ → ℂ} (hf : IsNewform N χ lam f)
+    {p : ℕ} (hp : p.Prime) (hpN : p ∣ N)
+    (hc : χ.conductor.factorization p = N.factorization p) :
+    ‖fourierCoefficient f p‖ = 1 := by
   sorry
 
-/-- `README.md`, Layer 4, 4.6 (iv). Bad primes, trivial character: `p² ∣ N` gives `a(p) = 0`. -/
-theorem IsNewform.fourierCoefficient_eq_zero_of_sq_dvd {N : ℕ} [NeZero N] {lam : ℝ} {f : ℍ → ℂ}
-    (hf : IsNewform N 1 lam f) {p : ℕ} (hp : p.Prime) (hp2 : p ^ 2 ∣ N) :
+/-- At a prime exactly dividing the level and not the character conductor, the square
+of the coefficient is the prime-to-p character value divided by p. The primitive character
+has modulus prime to p here, so its value at p equals that of the prime-to-p component. -/
+theorem IsNewform.fourierCoefficient_sq_of_unramified {N : ℕ} [NeZero N]
+    {χ : DirichletCharacter ℂ N} {lam : ℝ} {f : ℍ → ℂ} (hf : IsNewform N χ lam f)
+    {p : ℕ} (hp : p.Prime) (hpN : p ∣ N) (hp2 : ¬ p ^ 2 ∣ N)
+    (hc : ¬ p ∣ χ.conductor) :
+    fourierCoefficient f p ^ 2 = χ.primitiveCharacter (p : ZMod χ.conductor) / (p : ℂ) := by
+  sorry
+
+/-- At a prime whose level exponent is at least two and exceeds the character conductor
+exponent, the normalized newform coefficient vanishes. -/
+theorem IsNewform.fourierCoefficient_eq_zero_of_conductor_lt {N : ℕ} [NeZero N]
+    {χ : DirichletCharacter ℂ N} {lam : ℝ} {f : ℍ → ℂ} (hf : IsNewform N χ lam f)
+    {p : ℕ} (hp : p.Prime) (hp2 : p ^ 2 ∣ N)
+    (hc : χ.conductor.factorization p < N.factorization p) :
     fourierCoefficient f p = 0 := by
   sorry
 
@@ -507,15 +523,6 @@ def completedLFunction (N : ℕ) (lam : ℝ) (f : ℍ → ℂ) : ℂ → ℂ :=
   by classical exact
     if h : ∃ Λ : ℂ → ℂ, Differentiable ℂ Λ ∧ ∀ s : ℂ, 1 < s.re → Λ s = Λ₀ s then h.choose
     else Λ₀
-
-/-- `README.md`, Layer 6, 6.2. `Λ(s, f) = N^{s/2} Γ_ℝ(s + δ + ir) Γ_ℝ(s + δ - ir) L(s, f)` for
-`Re s > 1`, with `r` the spectral parameter. -/
-theorem completedLFunction_eq {N : ℕ} [NeZero N] {χ : DirichletCharacter ℂ N} {lam : ℝ}
-    {f : ℍ → ℂ} (hf : IsNewform N χ lam f) {s : ℂ} (hs : 1 < s.re) :
-    completedLFunction N lam f s =
-      (N : ℂ) ^ (s / 2) * Gammaℝ (s + parity f + besselOrder lam) *
-        Gammaℝ (s + parity f - besselOrder lam) * lfunction f s := by
-  sorry
 
 /-- `README.md`, Layer 6, 6.2. `Λ(·, f)` is entire. -/
 theorem differentiable_completedLFunction {N : ℕ} [NeZero N] {χ : DirichletCharacter ℂ N}

@@ -371,6 +371,9 @@ classical normalized coefficients with the GL₂ Whittaker coefficients at every
 transports these results; it does not build a second Rankin–Selberg theory.
 AL.2.6.1–AL.2.6.4 give the level-one completion and normalization comparisons, which remain
 level-one statements. The character and exceptional-parameter comparisons are made here.
+For §4.6 consume AL.2.1.4’s standard local factors, AL.2.2.4–AL.2.2.5’s normalized
+newvector and AL.3.7.1’s strong multiplicity one; identify the classical p-th coefficient
+with the local newvector parameter before forming the L-series in Layer 6.
 
 ### From the other named suppliers
 
@@ -412,6 +415,9 @@ Define `IsSmoothOnUpperHalfPlane f` by real smoothness of f composed with `ofCom
 - At s = 0 and s = 2 the power values are 0 and −2y², respectively.
 - At k = 0 the comparison scalar is 0; at k = 1 it is −1/4.
 - At k = 1/2 the same algebraic comparison gives −3/16; no half-integral slash carrier is asserted.
+- The constant 1 is smooth on im > 0, with every positive-order derivative 0.
+- The function |Re z| fails smoothness along Re z=0: its left and right x-derivatives are −1 and 1.
+- The function 1/im z is smooth on im > 0, with kth y-derivative (−1)^k k! y^(−k−1), although it has no continuous extension to y=0; requiring smoothness of the junk extension on all of ℂ would reject it.
 
 *Needs:* Mathlib `InnerProductSpace.laplacian`, `laplacian_eq_iteratedFDeriv_complexPlane`;
 AutomorphicSpectralTheory §1.16.
@@ -423,11 +429,20 @@ identify the energy of compactly supported C² functions with
 `∫ (Δf) ḡ dμ = ∫ (∂ₓf ∂ₓḡ + ∂ᵧf ∂ᵧḡ) dx dy`.
 The imported Möbius invariance includes positive dilations. The energy comparison transports
 the Friedrichs form of CongruenceSpectralGap §0.2 to these coordinates.
+These are coordinate consequences: the two x-derivatives cancel the reflection's minus sign;
+in the energy identity the density y⁻² cancels the factor y² and integration by parts
+in x and y gives the displayed right side, with zero boundary terms because the supports
+are compact in ℍ. The precise inputs are Mathlib's
+`laplacian_eq_iteratedFDeriv_complexPlane` and
+`MeasureTheory.integral_mul_deriv_eq_deriv_mul_of_integrable`
+(`Mathlib/Analysis/InnerProductSpace/Laplacian.lean`, line 231, and
+`Mathlib/MeasureTheory/Integral/IntegralEqImproper.lean`, line 1372).
 
 **Checks.**
 - Reflection fixes y², so both compositions give −2y².
 - Reflection negates x and preserves x²; second derivatives have positive sign in both cases.
 - Dilation by 2 sends Δy² to −8y² on either side of the covariance identity.
+- For the C² compactly supported function f(x+iy)=(1−x²)³(1−(y−2)²)³ on |x|≤1, 1≤y≤3, extended by zero, both the Laplacian pairing and the Euclidean gradient energy are 4194304/1156155. Reversing the Laplacian sign negates only the first value.
 
 *Needs:* §0.1; CongruenceSpectralGap §0.2; Mathlib’s chain rule and integration by parts.
 
@@ -460,6 +475,10 @@ The native character space and membership.
 
 ### 0.4 Cusps of `(Γ₀(N), χ)`, the constant term, and the cuspidality predicate
 
+Use `pt x y := UpperHalfPlane.ofComplex (x + y * I)` for cusp coordinates: for y>0
+its real and imaginary parts are x and y. Coordinate identities below require y>0;
+the native default at nonpositive height is not a boundary point of ℍ.
+
 For `σ ∈ SL(2, ℤ)` define the **width** `w_σ := N / gcd(c², N)` of the cusp `σ∞ = a/c`
 (`σ = [a, b; c, d']`), prove `w_σ ∣ N`, prove that `σ T^{w_σ} σ⁻¹ ∈ Γ₀(N)` generates the
 stabilizer of `σ∞` in `Γ₀(N)/{±I}`, and identify `w_σ` with the `width` of the Tau Ceti
@@ -486,6 +505,7 @@ Widths, multipliers, regularity, cusp integrals and constant terms.
 - The width is positive and divides N; the generator fixes the stated cusp.
 - The multiplier determines quasi-periodicity; regularity is equality with 1.
 - The full-period integral is linear, equals N times the regular constant term and vanishes on irregular modes.
+- The coordinate map has the stated real and imaginary parts at positive height and intertwines real translation with addition to x.
 
 **Checks.**
 
@@ -494,6 +514,12 @@ Widths, multipliers, regularity, cusp integrals and constant terms.
 - At N = 9, cusp 1/3 has width 1 and multiplier χ(4) = e(1/3). For g(x+iy) = e(x/3), the integral over nine units is 0; the integral over one unit is not a scalar zero mode. Thus irregularity means no constant channel, not vanishing of every one-width integral.
 - For N > 0, the function 1 has cusp integral N and fails cuspidality; the zero function has every cusp integral 0.
 - At the regular cusp ∞, the modes e(x) and e(2x) have both constant term and full-period integral 0; 1+e(x) has constant term 1 and integral N.
+- The points at (x,y)=(0,1) and (2,3) are i and 2+3i, respectively; interchanging the coordinates fails these values.
+- At (x,y)=(2,0) and (0,−1), the native map has the same chosen value in ℍ, whose imaginary part is positive; it is neither the boundary point 2 nor −i. Dropping y>0 would falsely assert imaginary part 0 or −1.
+- At N=4, cusp 1/2 has width 4/gcd(4,4)=1, whereas cusp 0 has width 4; replacing c² by c would give width 2 at 1/2.
+- At N=9, choose the cubic character with χ(4)=e(1/3). Its conjugate has multiplier e(2/3) at 1/3; both are irregular, while at ∞ both multipliers are 1. Inverting the generator exchanges these two nonreal values.
+- At a regular cusp of width 4, g(x)=1+2e(x/4) has constant term 1 and full-period integral 4; omitting the width denominator gives 4 as the constant term.
+- For an automorphic cusp form f, every cusp integral of 2f is 2·0=0; adding the constant 1 at trivial character changes each integral from 0 to N and fails cuspidality.
 
 ### 0.5 Square-integrability, the Petersson inner product and `L²(N, χ)`
 
@@ -543,6 +569,7 @@ The effective group, square-integrability, Petersson product and character Hilbe
 - In the first-slot-linear convention, ⟨i,1⟩ = i vol and ⟨1,i⟩ = −i vol. These distinguish conjugation and a covolume-normalized product.
 - The trivial-character projector fixes 1; a nontrivial character projector sends 1 to 0. At N = 3 the odd-character projector is zero because the effective diamond action of −1 is the identity.
 - At N = 5 the effective covering degree is 2: pulling back a function doubles its squared quotient norm, while rescaling by 1/√2 restores the norm.
+- In the effective group at N=1, the images of I and −I agree and fix i, while the image of T sends i to 1+i. Quotienting by all of SL₂(ℤ), or retaining its central kernel, fails one of these two tests.
 
 
 
@@ -613,6 +640,7 @@ Real and complementary parameters and the order `besselOrder`.
 - At λ = 1/4, r = 0, t = 0 and the order is 0; both formulas give 1/4.
 - At λ = 1/5 the complementary order is √(1/20), and 1/4−1/20 = 1/5; the real square root of λ−1/4 is 0 and cannot encode this eigenvalue.
 - At λ = 0, t = 1/2 and s = 1, giving s(1−s) = 0. At λ = 5/4, r = 1 and the order is i, with square −1.
+- The exceptional predicate is true at 0 and 1/5 and false at 1/4 and 5/4; the complementary parameter at 5/4 is the junk real-square-root value 0, not an order satisfying t²=−1.
 
 
 ### Examples
@@ -674,12 +702,15 @@ The cusp modes `fourierModeAt` and their frequency lattice.
 - For g(x) = e(x), width 1 and κ = 0, the n = 1 mode is 1 and the n = 2 mode is 0.
 - For g(x) = e(x/3), width 1 and κ = 1/3, the n = 0 shifted mode is 1; a periodic integer-frequency expansion has the wrong translation multiplier.
 - For the zero mode y^s, the ODE gives −y²g″ = s(1−s)y^s; at s = 1/2 it gives (1/4)√y, and √y log y is the independent repeated-root solution.
+- At ∞, the function 1+2e(x) has modes 1,2,0 at n=0,1,−1; the opposite exponential sign would put 2 at −1 instead.
+- At width 4 and κ=0, g(x)=e(x/4) has mode 1 at frequency 1 and mode 0 at frequency 0; without division by the width the former value would be 4.
+- At width 1 and κ=1/3, g(x)=e(4x/3) has shifted modes 0 and 1 at n=0 and n=1. Thus the shift is κ+n, not n alone.
 
 
 - `pt` is x+iy for y>0; `fourierMode` specializes the integral to width one at ∞.
 - `cuspWidth`, `cuspMultiplier` and `cuspIntegral` specify the width, shifted-frequency multiplier and full-period integral used by the general modes.
 
-(The order and factor-two normalization specialize Duke–İmamoğlu–Tóth (2016), §5.2, (5.6)–(5.7), p.962. The all-cusp character statement is the adaptation obtained from §0.4 and the displayed ODE, not a claim that their level-one formula covers all levels.)
+(The order and factor-two normalization specialize Duke–İmamoğlu–Tóth (2016), §5, unnumbered “Spectral expansion” subsection, (5.6)–(5.7), p.962. The all-cusp character statement is the adaptation obtained from §0.4 and the displayed ODE, not a claim that their level-one formula covers all levels.)
 
 ### 2.3 The Fourier–Whittaker expansion and the coefficients
 
@@ -709,9 +740,10 @@ Coefficients `fourierCoefficient` and `fourierCoefficientAt`.
 - A mode α√y K_b(2πy) with α = 1 has the limit coefficient 1/2 and reconstructs as 2·(1/2)√y K_b(2πy).
 - For a(1)=1, raw dilation d = 1, 2, 4 gives coefficients at n=d equal to 1, √2, 2; at n=1 they are 1, 0, 0.
 - At width w = 4 and frequency 1, the large-height mode is a√4 e^(−πy/2); multiplying by √(1/4)e^(πy/2) recovers a. At κ = 1/3, w = 1 the recovering multiplier is √(1/3)e^(2πy/3).
+- For the zero function, both coefficient limits are 0 at every frequency. At width 4 and frequency −1, a mode 2√y K_b(πy/2)e(−x/4) has coefficient 1, just as at frequency +1; using the signed frequency instead of its absolute value fails this test.
 
 
-(Duke–İmamoğlu–Tóth (2016), §5.2, (5.7), p.962 fixes the factor two at level one; substituting dz in that convention gives the stated √d factor at general level.)
+(Duke–İmamoğlu–Tóth (2016), §5, unnumbered “Spectral expansion” subsection, (5.7), p.962 fixes the factor two at level one; substituting dz in that convention gives the stated √d factor at general level.)
 
 ### 2.4 Growth, decay and the trivial bound
 
@@ -742,7 +774,7 @@ Decay and integrable constant terms.
 - `fourierCoefficient_le` gives the √|n| bound, `fourierCoefficient_injective` gives uniqueness, and `decay_atImInfty` fixes the width-one decay at ∞.
 
 
-### 2.5 The eigenvalue is real and nonnegative; cusp forms have `λ > 0`
+### 2.5 Nonzero forms have real nonnegative eigenvalue; nonzero cusp forms have `λ > 0`
 
 Prove that a nonzero Maass form has `λ ∈ ℝ` and `λ ≥ 0`: by Green's formula on a fundamental
 domain with the cusps truncated at height `Y`, `λ ‖f‖² = ∫_F |∇f|² dx dy + (boundary terms)`, and the
@@ -802,6 +834,13 @@ that it is self-adjoint, hence closed (`IsSelfAdjoint.isClosed`) and densely def
 and that at trivial `χ` the pullback of 0.5 carries §0.2's `Δ_{Γ₀(N)}` onto `Δ_{N,1}`, both having
 the maximal domain, so that `Δ_{N,1}` is AutomorphicSpectralTheory §1.16a's
 `modular_laplacian_realization` by §0.2's agreement and nothing proved there is reproved here.
+This is a reducing-subspace adaptation of CongruenceSpectralGap §0.2, “Positive orbifold
+Laplacian”, with the finite character projector of §3.1: it preserves the maximal domain
+and commutes with Δ, hence with (Δ±i)⁻¹. Restricting those inverses to its closed range
+gives both resolvent inverses there and therefore self-adjointness; positivity and the
+kernel are restrictions of the supplied energy and constant kernel. Closedness and density
+then use `IsSelfAdjoint.isClosed` and `IsSelfAdjoint.dense_domain`
+(`Mathlib/Analysis/InnerProductSpace/LinearPMap.lean`, lines 340 and 241).
 *Needs:* 3.1, 0.5; CongruenceSpectralGap §0.2; Mathlib's `LinearPMap`.
 
 
@@ -812,6 +851,7 @@ The restricted operator.
 - For χ = 1, Δ1 = 0 and the kernel contains the constants.
 - For χ ≠ 1 choose d with χ(d) ≠ 1; a constant c must satisfy (1−χ(d))c = 0, hence c = 0.
 - For odd χ the Hilbert space is zero; no positive first eigenvalue is asserted on it.
+- In the finite-dimensional model Δ=diag(0,2), P=diag(1,0), the restricted operator is 0 and its (Δ+i)⁻¹ is −i, the restriction of diag(−i,(2−i)/5); the complementary restriction is 2. This tests reduction of the domain and resolvent as well as the kernel.
 
 
 - The restriction is closed, nonnegative and self-adjoint on its maximal domain.
@@ -954,6 +994,15 @@ basis of forms which are eigenvectors of every good `Tₙ` (**good Hecke eigenfo
 modular-forms roadmap's `IsEigenformAwayFromLevel`), and that for such an `f` with `a_f(1) ≠ 0`,
 `Tₙ f = λ_f(n) f` with `λ_f(n) = a_f(n)/a_f(1)` for `(n, N) = 1`, and `conj λ_f(n) = χ̄(n) λ_f(n)`
 (the eigenvalue of the adjoint).
+The character-general adjoint comparison follows by changing variables in each double-coset
+integral of §4.1 and using the adjugate coset: its diamond factor acts as χ̄(n), since
+χ(n)χ̄(n)=1 for (n,N)=1. The representative algebra is the same as in
+`HeckeRing.GL2.trace_translate_adjugateGL_natDiagGL_eq_diamondOp_heckeTNat`
+(`TauCeti/NumberTheory/ModularForms/HeckeSlash/Diamond.lean`, line 217);
+that holomorphic theorem supplies the algebraic template, while the L² change of variables
+is proved here without holomorphicity. The finite-dimensional diagonalization input is
+`LinearMap.IsSymmetric.iSup_iInf_eq_top_of_commute`
+(`Mathlib/Analysis/InnerProductSpace/JointEigenspace.lean`, line 121).
 *Needs:* 4.1, 3.4, 0.5; Mathlib's joint eigenspaces.
 
 
@@ -962,7 +1011,7 @@ Adjoints.
 **Checks.**
 
 - For trivial χ, conjugating an eigenvalue leaves it fixed.
-- If χ(n) = i and the eigenvalue is e(iπ/4), its conjugate is −i times that value, matching the adjoint factor.
+- If χ(n) = i and the eigenvalue is exp(iπ/4) = e(1/8), its conjugate and −i times that value are both (1−i)/√2, matching the adjoint factor.
 - The same scalar is normal but not real; requiring all good operators to be self-adjoint would exclude it.
 
 
@@ -990,6 +1039,7 @@ Reflection and parity.
 - Reflection sends e(x) to e(−x), so the coefficients at 1 and −1 are exchanged.
 - The sum e(x)+e(−x) has parity 0 and takes value 2 at x=0; their difference has parity 1 and takes value 0.
 - The zero function is both even and odd, so the chosen parity is 0; newform normalization a(1)=1 excludes this ambiguity.
+- The constant 1 is even and not odd, since 1≠−1; the function Re z is odd and not even, since its values at 1+i and −1+i are 1 and −1. Their sum is neither, and the total parity definition returns 1 without asserting oddness.
 
 
 - `reflection` is an involution commuting with Δ and the Hecke operators.
@@ -1010,6 +1060,14 @@ prove `W_N : A(N, χ) → A(N, χ̄)` with `W_N² = 1` (the matrix `W_N² = -N·
 and `χ(a) = χ(n) χ̄(d)` since `ad ≡ n (mod N)`), and that `W_Q` sends `A(N, χ_Q χ')` to
 `A(N, χ̄_Q χ')` (the `Q`-part conjugated), matching the modular-forms roadmap's Layer 6. Prove the
 special case `(W_N f)(iy) = f(i/(Ny))` that Layer 6 uses.
+The matrix identities are the inputs to this weight-zero adaptation of ModularForms
+Layer 6: `TauCeti.coe_frickeGL_sq`
+(`TauCeti/NumberTheory/ModularForms/Fricke/Matrix.lean`, line 110) and
+`TauCeti.adjugateGL_eq_frickeGL_conj_bar`
+(`TauCeti/NumberTheory/ModularForms/Fricke/AtkinLehnerBar.lean`, line 60).
+Apply their fractional-linear actions, where scalar matrices act trivially, and use
+§§0.2–0.5 for the differential and L² comparisons. This does not apply a holomorphic
+slash normalization to weight-zero functions.
 *Needs:* 0.3, 4.1, 4.3; Tau Ceti's Fricke matrix and `AtkinLehnerBar`.
 
 
@@ -1020,6 +1078,7 @@ Atkin–Lehner and Fricke maps.
 - Applying z ↦ −1/(Nz) twice gives z for N > 0; at z = i/√N one application fixes z.
 - At N = 6, W₂W₃ = W₆ and W₂² = W₁ on the trivial-character space.
 - For χ of order 3 modulo 9, W₉ changes χ to χ̄; treating W₉ as an endomorphism of the original character space is wrong.
+- At N=2 the Fricke matrix squares to −2I, whose fractional-linear action is the identity; conjugating diag(1,3) by this matrix gives diag(3,1), its adjugate. Thus the scalar matrix square and the operator square have different literal values.
 
 
 - `frickeOperator` carries χ to χ̄ and squares to the identity for N>0.
@@ -1054,6 +1113,9 @@ Raw dilation, oldspace, newspace and `IsNewform`.
 - At N = 1 there are no proper positive divisor levels: `oldSpace` is zero and `newSpace` is the full cusp eigenspace.
 - For a normalized level-one f, `levelRaising` at d = 4 gives a(4)=2 and a(1)=0. Its squared norm at level 4 is 6 times its level-one squared norm.
 - At N = 0 the divisors M=d=1 would occur and 1 divides 0; the oldspace inclusion and `newSpace` require positive level. A first coefficient 0 cannot satisfy `IsNewform`.
+- Raw dilation at d=1 is the identity and at d=2 sends a normalized level-one form to one with a(2)=√2 and a(1)=0; its linear-map version sends 0 to 0 and 2f to twice the same dilate.
+- At level 2, a nonzero level-one cusp form f and f(2z) belong to the oldspace; neither belongs to its orthogonal complement, since its pairing with itself is positive. The zero vector belongs to both oldspace and newspace.
+- A normalized level-one good eigenform is new, whereas 0 and 2f are not normalized: their first coefficients are 0 and 2 rather than 1. Thus membership in the newspace alone does not define a newform.
 
 
 - `petersson_add_left` supplies additive closure of the Petersson orthogonal complement.
@@ -1078,7 +1140,8 @@ weight-`0` transcription of the holomorphic argument (the Main Lemma: a form who
 `q`-expansion played by 2.4's injectivity of `f ↦ (a_f(n))`. Prove **(iv) the bad-prime values**
 for trivial `χ`: for `p ‖ N`, `λ_f(p) = -η_p(f) p^{-1/2}` with `η_p(f) ∈ {±1}` the
 `W_{p}`-eigenvalue, so `λ_f(p)² = 1/p` and `λ_f(p^k) = λ_f(p)^k`; for `p² ∣ N`, `λ_f(p) = 0`; and
-for general `χ` the trichotomy: with `N = p^α N'`, `χ = χ_p χ'`, if `χ_p` is primitive modulo
+for general `χ` the trichotomy: for p prime dividing N, write `N = p^α N'`, p∤N′,
+α=v_p(N)≥1 and `χ = χ_p χ'`. Put c=v_p(cond χ). If `χ_p` is primitive modulo
 `p^α` then `|λ_f(p)| = 1`; if `α = 1` and `χ_p` is trivial then `λ_f(p)² = χ'(p)/p`; if `α ≥ 2` and
 `χ_p` is imprimitive then `λ_f(p) = 0`. Prove **(v) the Fricke sign**: for trivial `χ` a newform
 satisfies `W_N f = ε_N(f) f` with `ε_N(f) = frickeSign N f = ∏_{p ∣ N} η_p(f) ∈ {±1}`, where `W_{p^{v_p(N)}} f = η_p(f) f`;
@@ -1086,7 +1149,7 @@ for general `χ`, `W_N f = c · f̄_ρ` with `f̄_ρ` the newform of `(N, χ̄, 
 and `|c| = 1` (the pseudo-eigenvalue). Record the dictionary with the LMFDB: for a squarefree level
 with trivial character every `λ_f(n)` is real, `f` is real-valued up to a scalar, and the stored
 `a_p = ±p^{-1/2}` for `p ∣ N` has sign `-η_p(f)`.
-*Needs:* 4.1–4.5, 2.4; Atkin–Lehner 1970 and Atkin–Li 1978 for the shape of the argument.
+*Needs:* 4.1–4.5, 2.4; AutomorphicLFunctionsAndLocalFactors AL.2.1.4, AL.2.2.4–AL.2.2.5 and AL.3.7.1; Atkin–Lehner 1970 and Atkin–Li 1978 for the shape of the argument.
 
 
 Newform normalization and Fricke sign.
@@ -1096,15 +1159,31 @@ Newform normalization and Fricke sign.
 - At a good prime with χ(p)=1 and a(p)=0, the second coefficient is a(p²)=−1.
 - At prime level p=2 and Fricke sign −1, a(2)=1/√2 and a(4)=1/2; sign +1 instead gives a(2)=−1/√2.
 - If p² divides N with trivial character, a(p)=0; at p exactly dividing N, a(p)²=1/p is nonzero.
+- At N=5 the even primitive quadratic character has v₅(cond χ)=v₅(N)=1, giving |a(5)|=1; the trivial character has conductor exponent 0, giving |a(5)|=1/√5.
+- At N=25 a primitive character has exponents (2,2), giving |a(5)|=1; a character induced from modulus 5 has exponents (2,1), giving a(5)=0.
+- At N=10 with χ induced from the quadratic character modulo 5, p=2 has exponents (1,0) and χ′(2)=−1, so a(2)²=−1/2; replacing the character factor by 1 would give the wrong phase.
+- For a nonzero trivial-character Fricke eigenform, eigenvalues +1 and −1 give signs +1 and −1 respectively; both signs square to 1. The zero function has chosen sign +1 but fails a(1)=1, so no newform is manufactured by this total definition.
 
 
 - `IsNewform.heckeOperator_eq` identifies every positive-index eigenvalue with its coefficient.
 - `IsNewform.fourierCoefficient_mul` gives the Hecke divisor sum.
-- `IsNewform.fourierCoefficient_sq_of_dvd` and `IsNewform.fourierCoefficient_eq_zero_of_sq_dvd` separate p exactly dividing N from p² dividing N for trivial character.
+- `IsNewform.norm_fourierCoefficient_of_conductor` gives modulus 1 when v_p(cond χ)=v_p(N)>0.
+- `IsNewform.fourierCoefficient_sq_of_unramified` gives a(p)²=χ₀(p)/p when p exactly divides N and p does not divide cond χ, where χ₀ is `DirichletCharacter.primitiveCharacter` of χ; here χ₀(p)=χ′(p).
+- `IsNewform.fourierCoefficient_eq_zero_of_conductor_lt` gives a(p)=0 when 2≤v_p(N) and v_p(cond χ)<v_p(N). The two trivial-character formulas are special cases.
 - `frickeOperator_eq_frickeSign_smul` fixes `frickeSign` on newforms.
 - `IsNewform.isEven_or_isOdd` gives parity from the one-dimensional good eigenspace.
 
 (Booker–Lee–Strömbergsson, arXiv:1803.06016v2, §1.1, p.4, records the normalized newform basis and conductor uniqueness; the all-place comparison uses the newvector and strong-multiplicity-one results of AutomorphicLFunctionsAndLocalFactors AL.2.2.4 and AL.3.7.1.)
+
+For (iv), the local conductor classification in Booker–Lee–Strömbergsson, Lemma 1.4
+and its proof, pp.4–5, combines with the standard local factors of
+AutomorphicLFunctionsAndLocalFactors AL.2.1.4 and its newvector comparison AL.2.2.4–AL.2.2.5.
+If c=α, one inducing character is unramified and the other has conductor exponent α;
+unitarity forces the unramified parameter to have modulus 1. If α=1,c=0, the local
+representation is an unramified twist of Steinberg, giving a(p)²=χ′(p)/p. If α≥2,c<α,
+both inducing characters are ramified, or the representation is ramified special or
+supercuspidal, and the local standard factor is 1, so a(p)=0. The conductor satisfies
+c≤α; thus these three cases exhaust bad primes, including p=2.
 
 ### 4.7 Self-duality and the conjugate form
 
@@ -1122,6 +1201,8 @@ Conjugate reflection `conjugateReflection`.
 - Pointwise conjugation sends coefficient a(1) to conjugate a(−1); for an odd normalized form this is −1.
 - Conjugate reflection instead sends a(1)=1 to 1 for either parity.
 - For a cubic character χ, its dual is χ̄=χ² rather than χ; for trivial χ the dual coefficients equal the original real coefficients.
+- On the test function e(x)+i e(2x), pointwise conjugation has coefficients 1,−i at −1,−2, while conjugate reflection has them at 1,2; applying either operation twice recovers coefficients 1,i.
+- A real coefficient sequence satisfies the self-duality predicate; a sequence with a(1)=1 and a(2)=i fails it because Im a(2)=1. Conjugate reflection changes that value to −1.
 
 
 
@@ -1207,9 +1288,7 @@ Define the scattering matrix Φ from these coefficients. Irregular cusps have sh
 Fourier modes and contribute no scalar channel. For odd χ the automorphic space is zero
 and neither this construction nor a positive Weyl asymptotic is asserted.
 Prove the explicit
-formulaProve the explicit
-formula for trivial `χ` and squarefree `N` (Huxley 1984; Iwaniec, *Spectral Methods*, the chapter on
-Eisenstein series for `Γ₀(N)`): each entry is a finite Dirichlet-series factor in `N` times
+formula for trivial `χ` and squarefree `N`: each entry is a finite Dirichlet-series factor in `N` times
 `√π Γ(s - 1/2) ζ(2s - 1) / (Γ(s) ζ(2s))`, and for general `N` and `χ` a finite combination of ratios
 `L(2s - 1, ψ)/L(2s, ψ)` of Dirichlet `L`-functions; prove `det Φ(s; χ)` is meromorphic with
 `|det Φ(1/2 + it)| = 1` and the integrated bound for φ = det Φ stated below, using the explicit Dirichlet
@@ -1225,8 +1304,15 @@ consumed from AutomorphicSpectralTheory Layer 6; the geometric side's hyperbolic
 are `O(T)`, the parabolic terms are `O(T log T)`), with the continuous-spectrum term the integral
 of the logarithmic derivative of `det Φ`. Record the constants: `vol = π/3, π, 2π, 4π, 14π` for
 `N = 1, 2, 4, 6, 26`.
+For the character-general formulas use Booker–Lee–Strömbergsson,
+arXiv:1803.06016v2, §2.7, (2.74)–(2.75), pp.30–31, Lemma 2.19, p.32, and §2.8,
+Remark 2.27, (2.104), pp.38–39. Their conjugate congruence group and cusp scalings
+must be transported to Γ₀(N) and the width-one coordinates above; their ordinary
+scattering determinant in (2.104), rather than the reflection-parity determinant
+in (2.103), supplies the full cusp space. The Weyl estimate is the adaptation of the
+supplied trace formula with this determinant and its finite Dirichlet-factor expression.
 *Needs:* 3.4; AutomorphicSpectralTheory §§1.23, 4.8, Layer 6; Mathlib's Dirichlet `L`-functions;
-Huxley 1984.
+the character-general scattering factorization just cited.
 
 
 Character scattering and Weyl asymptotics.
@@ -1278,6 +1364,7 @@ The series and the coefficient comparison.
 - At s = 5/4 choose ε = 1/4: Cauchy–Schwarz uses the two convergent weighted series Σ|a(n)|²n^(−5/4) and Σn^(−5/4).
 - At a bad prime with a(p)=0 the Euler factor is 1; at p exactly dividing N and sign −1 it is (1−p^(−s−1/2))⁻¹.
 - The n=0 term contributes 0 under `LSeries`; a(1)=1 contributes 1.
+- The zero coefficient sequence has series 0; a sequence supported at 1 has series a(1). With coefficients 1 and 2 at indices 1 and 2 and zero elsewhere, the series at s=2 is 1+2/4=3/2, distinguishing the index from its square.
 
 
 - `lfunction_summable` gives unconditional absolute convergence on Re s>1.
@@ -1310,7 +1397,7 @@ functional equation every zero of `Λ(·, f)` lies in `0 ≤ Re s ≤ 1`.
 
 Completion and functional equation.
 
-- `completedLFunction_eq` gives agreement with the gamma product on Re s > 1 for both spectral branches.
+- The completed function agrees with the gamma product on Re s > 1 for both spectral branches.
 - `differentiable_completedLFunction` states entirety.
 - `completedLFunction_functional_equation` includes the unit-modulus Fricke scalar and the conjugate-reflection form.
 
@@ -1319,9 +1406,10 @@ Completion and functional equation.
 - For even parity the Mellin constants are 4·2^(s−2)·(2π)^(−s) = π^(−s).
 - For odd parity the restriction to the imaginary axis is 0 and its transverse derivative supplies the shifted gamma factors; at trivial character the root number is −ε_N.
 - At λ = 1/5 the gamma shifts are δ±√(1/20); at the threshold they coincide at δ. For cubic χ the equation pairs χ with χ̄.
+- The zero function has L-series 0 and completed function 0: the zero entire extension exists and is unique. On Re s>1 either branch in the total definition agrees with the same gamma product, without requiring a newform.
 
 
-(Duke–İmamoğlu–Tóth (2016), §5.2, (5.8)–(5.9), pp.962–963, is the level-one comparison. The level/character extension uses the Fricke relation and the all-cusp decay proved here.)
+(Duke–İmamoğlu–Tóth (2016), §5, unnumbered “Spectral expansion” subsection, (5.8)–(5.9), pp.962–963, is the level-one comparison. The level/character extension uses the Fricke relation and the all-cusp decay proved here.)
 
 ### 6.3 Named hypotheses: Ramanujan–Petersson and the convexity bound
 
@@ -1333,7 +1421,7 @@ parameters `α_p, β_p` (the roots of `X² - λ_f(p) X + χ(p)`) having modulus 
 The pointwise bound used here is 2.4's `|λ_f(p)| ≤ C_f p^{1/2}`, with a constant depending on
 `f`; no bound with an absolute constant is a target (that is the Kim–Sarnak theorem, not owned
 here). Define the **analytic conductor** `𝔮(f, s) := N · (|s + δ + ir| + 3)(|s + δ - ir| + 3)` and
-`𝔮(f) := 𝔮(f, 1/2)`, the Iwaniec–Kowalski (5.7) normalization that the modular-forms roadmap's
+`𝔮(f) := 𝔮(f, 1/2)`, the Iwaniec–Kowalski §5.1, (5.7), p.95 normalization that the modular-forms roadmap's
 Layer 7 also pins.
 *Needs:* 6.1, 6.2, 4.6.
 
@@ -1345,6 +1433,9 @@ Ramanujan and the analytic conductor.
 - At χ(p)=1 and a(p)=2, the roots are 1,1 and the recurrence gives a(p^k)=k+1.
 - At χ(p)=−1 and a(p)=2, the roots 1±√2 are not unitary; this fails the adjoint phase law and is not a counterexample to the stated equivalence.
 - At N=1, δ=r=0 and s=1/2 the analytic conductor is (7/2)²=49/4.
+- At N=4, δ=r=0 and s=1/2 the conductor is 4·49/4=49; omitting the level loses this factor.
+- At N=1, δ=1, r=0 and s=1/2 it is (9/2)²=81/4; omitting parity gives 49/4.
+- At N=1, δ=0, s=1/2 and r=±1 both values are (3+√5/2)²=41/4+3√5; changing r to −r exchanges the two factors.
 
 
 - The Ramanujan predicate concerns good primes; the bad-prime values are those of §4.6.
@@ -1400,6 +1491,15 @@ sign check `Δ₃ y^s = s(2 - s) y^s`, invariance under the `PSL(2, ℂ)` action
 roadmap's Layer 0: translations, dilations and the inversion generate), symmetry on compactly
 supported functions with respect to `volume` (density `y⁻³`), and the Dirichlet-integral formula
 `∫ (Δ₃ f) ḡ dvol = ∫ y⁻¹ ⟨∇f, ∇ḡ⟩_{ℝ³} dx₁ dx₂ dy` for compactly supported `f, g`.
+This coordinate adaptation uses the height and volume density y⁻³ from
+KleinianGroups Layer 0. For the conformal coefficient matrix y²Id the divergence expression is
+−y³ Σ_j ∂_j(y⁻¹∂_j f). Expanding the derivative gives the displayed operator,
+and coordinate integration by parts gives the energy identity, using
+`MeasureTheory.integral_mul_deriv_eq_deriv_mul_of_integrable`
+(`Mathlib/MeasureTheory/Integral/IntegralEqImproper.lean`, line 1372).
+Invariance is the chain-rule calculation for the translations, positive dilations and
+inversion in that supplier's coordinate action; it does not require constructing a new
+Riemannian-volume comparison.
 *Needs:* KleinianGroups Layer 0; Mathlib's Laplacian.
 
 
@@ -1425,7 +1525,7 @@ domain, `Δ₃ f = λ f`) and IsMaassCuspFormH3 λ f (additionally `∫_{ℂ/ℤ
 `y > 0` at the single cusp `∞`), and the submodules `M₃(λ)`, `S₃(λ)`. Prove the group has exactly one
 cusp orbit (the class number of `ℤ[i]` is one: every element of `P¹(ℚ(i))` is `γ∞`), that the
 stabilizer of `∞` in `Γ` is generated by the translations `x ↦ x + 1`, `x ↦ x + i` and the rotation
-`x ↦ -x` (`diag(i, -i)`), that `λ ∈ ℝ`, `λ ≥ 0`, and `λ > 0` for cusp forms (the argument of 2.5 on
+`x ↦ -x` (`diag(i, -i)`). For a nonzero Maass form prove `λ ∈ ℝ` and `λ ≥ 0`, and for a nonzero cusp form prove `λ > 0` (the argument of 2.5 on
 `H³`), and that λ = 1 + r² for λ ≥ 1, with r = √(λ−1). For 0 ≤ λ < 1 use
 t = √(1−λ), so λ = 1−t² and the Bessel order is t, including t = 1 for constants (knowl
 `mf.maass.picard.eigenvalue`). Define the self-adjoint realization of `Δ₃` on `L²(Γ\H³)` and prove
@@ -1446,6 +1546,8 @@ The Picard carrier and both parameter branches.
 - The constant 1 has λ=0, t=1 and 1−t²=0; the real-square-root formula would give 1+0=1.
 - At λ=1 the order is 0; at λ=2, r=1 and 1+r²=2.
 - The cusp integral of 1 on the unit torus is 1, so 1 lies in M₃(0) but fails S₃(0); the zero function lies in both.
+- At λ=−1, Δ₃0=(−1)0=0, its norm squared and every torus integral are 0: zero lies in both M₃(−1) and S₃(−1), so positivity must require nonzeroness.
+- If f is a nonzero Picard cusp eigenfunction at λ, then 2f has zero torus integral and the same eigenvalue; at μ≠λ the difference between the two eigen-equations is (λ−μ)f≠0. The cusp submodule includes 0 but cannot include f at μ.
 
 
 - The Maass predicate bundles smoothness, invariance, L² integrability and the eigen-equation.
@@ -1474,6 +1576,7 @@ The Gaussian Fourier coefficients.
 - The pairing Re(n x) sends n=i to −x₂; replacing it by Re(conj(n)x) reverses this frequency.
 - The translation x↦x+1 gives multiplier e(Re n)=1, and x↦x+i gives e(−Im n)=1 for Gaussian n.
 - Rotation x↦−x forces a(−n)=a(n). At λ=1 the nonzero mode is yK₀; at λ=0 it is yK₁.
+- On the unit torus, the mode of 1 at n=0 is 1 and at n=1 or i is 0. The mode of e(x₁) at n=1 is 1 and at n=i is 0; e(−x₂) instead has mode 1 at n=i. Omitting conjugation conventions in the pairing exchanges the latter frequency with −i.
 
 
 - The coefficients use the Re(n x) pairing and the kernel yK_b.
@@ -1513,6 +1616,7 @@ Gaussian symmetries and Hecke operators.
 - At n=1, T₁=Id and T_i=R: on the R-even and R-odd spaces these have eigenvalues +1 and −1, respectively.
 - R² sends x to −x, an element of the Picard action; hence R²=Id on invariant functions.
 - Changing a divisor a by i changes νn/a² by a sign, which leaves the coefficient unchanged. Ideal indexing of T_n itself requires R=+1.
+- On local test functions invariant under x↦−x, x₁²+x₂² has (R,J) signs (+1,+1), x₁²−x₂² has (−1,+1), and x₁x₂ has (−1,−1). The polynomial x₁x₂(x₁²−x₂²) has (+1,−1); thus neither involution can be replaced by the other or by the identity. These are coordinate tests, not claims of Picard automorphy.
 
 
 - R and J are commuting isometric involutions preserving the cusp eigenspace.
@@ -1636,19 +1740,12 @@ Intrinsic prefix and spectral simplicity.
 
 (Humphries, arXiv:1502.06885v3, §1.1, Theorem 1.1, pp.1–2, treats spectral multiplicity at odd nonsquarefree level with principal character; it does not assert failure of strong multiplicity one.)
 
-### 8.3 Certificate semantics for rigorous Maass forms
+### 8.3 Spectral estimates for rigorous Maass data
 
-Define what a rigorous data point proves. A **Maass certificate** for `(N, χ)` consists of an
-interval `[R₀ - ε, R₀ + ε]`, a parity `δ`, a finite list of coefficient intervals
-`[c_n - e_n, c_n + e_n]`, `1 ≤ n ≤ M`, and a Fricke sign (Certificate); the proposition
-CertifiesNewform N cert : Prop, for trivial character, is: there exists exactly one newform `f`
-of `(N, 1, λ)` with
-`λ = 1/4 + r²`, `r ∈ [R₀ - ε, R₀ + ε]`, and it has parity `δ`, Fricke sign as stated, and
-`|λ_f(n) - c_n| ≤ e_n` for `n ≤ M`. A **completeness certificate** for a range `[0, R]` is the
-proposition CertifiesCount N χ R k := cuspCount N χ (1/4 + R²) = k: the number of cuspidal
-eigenvalues `λ ≤ 1/4 + R²` of `(N, χ)` counted with multiplicity is `k`. (For a nontrivial
-character the certificate carries no Fricke sign and the proposition drops that clause.) Prove the two
-**a-posteriori lemmas** that make such certificates checkable: (i) `exists_eigenvalue_near`: if `g`
+The rigorous database records spectral intervals, symmetry, coefficient error bounds and,
+for trivial character, Fricke signs; it also records ranges with asserted spectral counts.
+Their mathematical background is the following two spectral estimates.
+Prove (i) `exists_eigenvalue_near`: if `g`
 is nonzero, smooth, cuspidal and automorphic at N > 0, belongs to the operator domain
 (g and Δg are square-integrable), and η ≥ 0 with `‖(Δ - λ₀) g‖ ≤ η ‖g‖` in the
 Petersson norm, then some cuspidal eigenvalue lies in `[λ₀ - η, λ₀ + η]` (the resolvent bound `‖(Δ - λ₀)⁻¹‖ ≤ dist(λ₀, spec)⁻¹` of SelfAdjointSpectralTheory
@@ -1668,12 +1765,11 @@ The error for g concerns these bounded mode measurements, not the infinite-heigh
 coefficient of an arbitrary noneigenfunction. Isolation and the nonzero pairing must be
 proved to apply the estimate. This is a spectral-projection estimate with a stated
 normalization denominator (compare Seymour-Howell, arXiv:2201.08760v2, §2.3, pp.3–4, (3)–(4)).
-The
-LMFDBThe
-LMFDB's `maass_rigor` table asserts CertifiesNewform for each row and the completeness
-certificate for each listed range (knowl `rcs.rigor.maass_rigor`); this roadmap states those
-propositions and the lemmas a verification uses, and no particular decimal is asserted to be a
-spectral parameter by any milestone.
+The LMFDB's rigorous table reports existence and isolation of normalized forms with
+specified error bounds, and counts with multiplicity for its completeness ranges
+(knowl `rcs.rigor.maass_rigor`). These are interpretations of the stored data;
+the construction targets here are the two spectral estimates, and no particular decimal
+is asserted to be a spectral parameter.
 *Needs:* 3.4, 4.6; SelfAdjointSpectralTheory Part D.
 
 
@@ -1749,15 +1845,19 @@ quantity is named, and a wrong value fails the roadmap.
   against `≈ 10⁻⁸` for `2.1` and `26.1` and `≈ 10⁻⁶⁸` for the level-one forms; a certificate in the
   sense of 8.3 carries those intervals.
 - **Rejection checks.** The constant function `1 ∈ M(N, 1, 0)` is not cuspidal (its cusp integral
-  is `N`), and `λ = 0` is excluded for cusp forms (2.5). The Eisenstein series `E(z, s)` is
-  `Γ`-invariant, smooth and an eigenfunction with `λ = s(1-s)`, but not square-integrable
-  (constant term `y^s + φ(s) y^{1-s}`), so it is not a Maass form in the sense of 1.1. For an odd
+  is `N`), and `λ = 0` is excluded for nonzero cusp forms (2.5). At level one and Re s > 1,
+  the Eisenstein series E(z,s) is smooth and invariant, with ΔE = s(1−s)E, but its
+  constant term y^s + φ(s)y^(1−s) is not square-integrable. At s=2 the leading term
+  alone has squared cusp integral ∫₁^Y y² dy = (Y³−1)/3, tending to infinity.
+  In contrast, continuation gives E(z,0)=1, with Δ1=0 and quotient norm squared π/3;
+  its cusp norm squared is ∫₁^∞ y⁻² dy=1. It belongs to M(1,1,0) and is not cuspidal
+  (Duke–İmamoğlu–Tóth, §5, (5.3)–(5.5), p.962). For an odd
   character `χ` modulo `N`, `S(N, χ, λ) = 0` for every `λ` (0.3). For `N = 9` and an even character
   of order `3`, the cusp `1/3` is irregular (0.4), and the cusp condition there is vacuous. A level-`1`
   form `f` and `f(2z) ∈ S(2, 1, λ)` is old, not new (4.5), and `λ(2)` of `f(2z)` is not defined by
-  `a(2)/a(1)` since `a_{f(2·)}(1) = 0`. A holomorphic cusp form `F ∈ S_k(Γ₀(N))` gives
+  `a(2)/a(1)` since `a_{f(2·)}(1) = 0`. A nonzero holomorphic cusp form `F ∈ S_k(Γ₀(N))`, with k > 0, gives
   `y^{k/2} F ∈ A(N, 1)` only for the weight-`k` law, not for weight `0`; it is not in any
-  `M(N, 1, λ)`. The search `level = 4` returns no form: the rigorous table holds squarefree levels only
+  `M(N, 1, λ)`. For F=0 the lift is zero and belongs to every Maass submodule. The search `level = 4` returns no form: the rigorous table holds squarefree levels only
   (the completeness of a stored list is not a target), not a theorem that `S(4, 1, λ) = 0`.
 - **Constants** (0.5, 5.3, 5.4, 5.5): `[SL₂(ℤ) : Γ₀(N)] = 1, 3, 4, 6, 6, 12, 12, 12, 20, 24, 42, 102, 192`
   for `N = 1, 2, 3, 4, 5, 6, 9, 11, 19, 23, 26, 101, 105`; cusp counts `1, 2, 2, 3, 2, 4, 4, 2, 2, 2, 4, 2, 8`;
@@ -1805,7 +1905,7 @@ waits only for 4.6. Nothing waits on Mathlib.
   1997, §1.9 (Maass forms: the Fourier expansion, Hecke operators, the `L`-function and its
   functional equation at level one), §2.1 (Maass forms and the spectral problem).
 - W. Duke, Ö. Imamoğlu and Á. Tóth, *Geometric invariants for real quadratic fields*, Ann. of Math.
-  184 (2016), 949–990, §5.2, (5.7)–(5.9), pp.962–963: the factor-two normalization, through AutomorphicFormsOnReductiveGroups §4.5.
+  184 (2016), 949–990, §5, unnumbered “Spectral expansion” subsection, (5.7)–(5.9), pp.962–963: the factor-two normalization, through AutomorphicFormsOnReductiveGroups §4.5.
 - J. Elstrodt, F. Grunewald and J. Mennicke, *Groups Acting on Hyperbolic Space*, Springer
   Monographs in Mathematics, 1998: Chapters 1–3 (the half-space, the Laplacian, Fourier expansions
   with `y K_{ir}`), Chapter 6 (spectral theory), Chapter 7 (Bianchi groups) and Chapter 8
@@ -1825,7 +1925,7 @@ waits only for 4.6. Nothing waits on Mathlib.
 - H. Iwaniec, *Topics in Classical Automorphic Forms*, Graduate Studies in Mathematics 17, AMS,
   1997, Chapter 2 (regular and irregular cusps, multiplier systems).
 - H. Iwaniec and E. Kowalski, *Analytic Number Theory*, AMS Colloquium Publications 53, 2004:
-  §5.1 (the analytic conductor, (5.7)), Chapter 15 (Maass forms and their `L`-functions).
+  §5.1 (the analytic conductor, (5.7), p.95), Chapter 15 (Maass forms and their `L`-functions).
 - H. Maass, *Über eine neue Art von nichtanalytischen automorphen Funktionen*, Math. Ann. 121
   (1949), 141–183: the original definition and the Hecke theory.
 - NIST *Digital Library of Mathematical Functions*, <https://dlmf.nist.gov>: §10.25 (modified
