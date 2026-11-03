@@ -43,12 +43,19 @@ It leaves to named owners:
   library as `TauCeti.ConvolutionDual.instHopfAlgebra`; Layer 3 consumes it.
 - Graded modules over a `ℤ`-graded algebra, with abelian structure and grading shift, are already
   in the library as `TauCeti.GradedModuleCat`; Layers 7 and 8 use it for graded `H`-modules.
-- Ordinary DG algebras, chain homotopy, derived categories of DG modules, Verdier quotients and
-  the right-exact `K₀` sequence of a raw Verdier quotient are stated by DGAInfinity, Layers 0, 1,
-  5 and 7.
-- Exact and triangulated Grothendieck groups and Laurent-graded `K₀` are stated by
-  GrothendieckEulerForms, Layers 0, 2 and 6; that roadmap excludes Verdier quotients and supplies
-  no localization sequence.
+- Ordinary DG algebras, chain homotopy, derived categories of DG modules, DG quotients and their
+  comparison with Verdier quotients are stated by DGAInfinity, Layers 0, 1, 5 and 7. Its `K₀`
+  sequence is stated for the DG quotient of a DG category by a full DG subcategory; the purely
+  triangulated form used here, for a thick subcategory of a triangulated category, is proved in
+  §6.1 and not imported.
+- Exact structures, exact and triangulated Grothendieck groups, the `ℤ`-action of a grading
+  shift on them, the `ℤ[q,q⁻¹]`-module structure on graded exact `K₀` and the ring structure on
+  exact `K₀` of a biexact tensor product are already in the library (Tau Ceti
+  `TauCeti.ExactStructure`, `TauCeti.ExactK0`, `TauCeti.TriangulatedK0`, `TauCeti.LaurentK0`, see
+  the supplier contracts). GrothendieckEulerForms, Layer 6, is consumed only for graded dimensions
+  and the `q`-graded conventions; that roadmap excludes Verdier quotients and supplies no
+  localization sequence. The library has no `K₀` of a Verdier quotient and no ring structure on
+  triangulated `K₀`; both are targets of §6.1.
 
 The constructions here select no Hopf algebra for an ADE or E8 problem, quotient no affine null
 root, and construct or categorify no lattice. Roots of unity and the Jones–Wenzl projector appear
@@ -61,6 +68,12 @@ only as published examples of the general theory.
   `HopfAlgebra.antipode`. Its bijectivity is a theorem for finite-dimensional `H` (Layer 1); a
   statement beyond finite dimension carries `Function.Bijective (HopfAlgebra.antipode k)` as a
   hypothesis.
+- Universes: `k : Type u` and `H : Type v`. `H-Mod` is `ModuleCat.{u} H`, the left `H`-modules
+  in the universe of `k`. This is the carrier on which QuantumGroups Q8 item 5 builds
+  `FiniteHopfModuleCat k H`, so the unit `k` is an object of `H-Mod` and the inclusion of §2.1 is
+  a functor between categories on one carrier. For finite-dimensional `H` nothing is lost: `H` is
+  isomorphic to a `k`-algebra in `Type u`, whose module category in universe `u` is equivalent to
+  `ModuleCat.{u} H`.
 - Unqualified modules are **left** modules. Sweedler notation `Δh = Σ h₁ ⊗ h₂` in prose denotes a
   finite representation of Mathlib's `Coalgebra.comul`; Lean statements use `Coalgebra.Repr` and
   never a chosen basis.
@@ -130,6 +143,24 @@ prime); `IsPrimitiveRoot`. Each is used as it stands at the pin.
   (`TauCeti.Algebra.Category.GradedModuleCat.Basic`, abelian structure in `.Abelian`): genuine
   internal `ℤ`-gradings, graded modules over `𝒜 : ℤ → Submodule k A` with degree-zero morphisms,
   and the shift `(M{n})_p = M_{p-n}`. It carries no tensor product through a coproduct.
+- `TauCeti.ExactStructure` and `TauCeti.ExactStructure.IsConflationExact`
+  (`TauCeti.CategoryTheory.Exact.ExactStructure`, `TauCeti.CategoryTheory.Exact.Functor`): exact
+  structures and conflation-exact functors. `TauCeti.ExactK0`
+  (`TauCeti.CategoryTheory.GrothendieckGroup.Exact`) and `TauCeti.TriangulatedK0` with
+  `TauCeti.TriangulatedK0.of_distTriang`, `TauCeti.TriangulatedK0.of_shift` (`[X⟦n⟧] = (−1)ⁿ[X]`)
+  and `TauCeti.TriangulatedK0.liftEquiv` (`TauCeti.CategoryTheory.GrothendieckGroup.Triangulated`):
+  the exact and triangulated Grothendieck groups of an essentially small category, with their
+  universal properties and functoriality. `TauCeti.TriangulatedK0.shiftZPow`
+  (`TauCeti.CategoryTheory.GrothendieckGroup.Graded`): the `ℤ`-action `[M] ↦ [M{n}]` of a
+  triangulated autoequivalence commuting with the suspension; read over the group ring, it is the
+  `ℤ[q,q⁻¹]`-module structure on graded triangulated `K₀` used in Layers 7 and 8.
+  `TauCeti.LaurentK0` with `TauCeti.LaurentK0.T_smul`
+  (`TauCeti.CategoryTheory.GrothendieckGroup.Laurent.Basic`): graded exact `K₀` as a
+  `ℤ[q,q⁻¹]`-module with `[M{n}] = qⁿ[M]`. `TauCeti.ExactK0.instRing`
+  (`TauCeti.CategoryTheory.GrothendieckGroup.Monoidal.Exact`): the ring `[X]·[Y] = [X ⊗ Y]` on
+  exact `K₀` for a biexact tensor product (`TauCeti.ExactStructure.IsMonoidal`), the model for the
+  ring structure on stable `K₀` built in §6.1. None of these treats a Verdier quotient, and the
+  library has no ring structure on triangulated `K₀`.
 
 **From TauCetiRoadmap.QuantumGroups.** Q8 item 5: `FiniteHopfModuleCat k H`, its monoidal
 structure and its rigid structure (right duals through `S`, left duals through `S⁻¹` given
@@ -141,15 +172,19 @@ functors between Frobenius categories descend to triangle functors; triangulated
 extension-closed Frobenius subcategories.
 
 **From TauCetiRoadmap.DGAInfinity.** Layers 0 and 1: graded modules with Koszul signs, DG algebras
-and DG modules, chain homotopy. Layer 7: Verdier quotients and the comparison with DG quotients,
-and the right-exact sequence `K₀(S) → K₀(T) → K₀(T/S) → 0` for the raw Verdier quotient `T/S`
-(no idempotent completion) by a triangulated subcategory `S`, its first image the subgroup
-generated by the classes of `S`.
+and DG modules, chain homotopy. Layer 5: derived categories of DG modules and their perfect
+objects, for the comparisons of Layer 5 here. Layer 7: DG quotients and Drinfeld's comparison, with
+`H⁰` of a DG quotient identified with the Verdier quotient, for the comparison of `D(A,H)` with a
+derived category in §5.1. Its `K₀` sequence is stated for the DG quotient of a DG category by a
+full DG subcategory and is not consumed: `H_n-gmod` is presented here as the stable category of a
+Frobenius category, not as `H⁰` of a DG category, and the triangulated statement §8.2 needs is
+proved in §6.1.
 
-**From TauCetiRoadmap.GrothendieckEulerForms.** Layer 0: exact structures and conflation-exact
-functors. Layer 2: the exact and triangulated Grothendieck groups, with the triangle relations and
-`[X[1]] = −[X]`; it supplies no localization sequence. Layer 6: Laurent coefficients and graded
-`K₀` over `ℤ[q,q⁻¹]`.
+**From TauCetiRoadmap.GrothendieckEulerForms.** Layer 6: the graded dimension of a graded vector
+space with finite-dimensional pieces and finite support, as a Laurent polynomial in `q`, and the
+`q`-graded conventions `[M{1}] = q[M]`. Its exact, triangulated and Laurent-graded Grothendieck
+groups are in the library and are consumed from Tau Ceti; it excludes Verdier quotients and
+supplies no localization sequence.
 
 ## How to read the build
 
@@ -205,9 +240,11 @@ by `φ(t·) = ε` (Fischman–Montgomery–Schneider, Lemma 1.5, pp. 4861–4862
 `antipode_bijective` (Larson–Sweedler). Consume Tau Ceti's
 `LinearMap.IsFrobeniusFunctional.moduleInjective_self` for self-injectivity, and prove
 `hMod_abelian_isFrobenius`: for all left `H`-modules, not only finite-dimensional ones, projective
-and injective objects coincide, so `ExactStructure.abelian (ModuleCat H)` is Frobenius (Khovanov,
-Proposition 1). *Needs:* §1.1; Tau Ceti `LinearMap.IsFrobeniusFunctional`,
-`TauCeti.ExactStructure.abelian`, `TauCeti.ExactStructure.IsFrobenius`; for all modules, the
+and injective objects coincide, so `ExactStructure.abelian (ModuleCat.{u} H)`, the abelian exact
+structure on `H-Mod` of the Conventions, is Frobenius (Khovanov, Proposition 1); the library's
+`FGModuleCat.abelian_isFrobenius` is the finitely generated case, given self-injectivity. *Needs:*
+§1.1; Tau Ceti `LinearMap.IsFrobeniusFunctional`, `TauCeti.ExactStructure.abelian`,
+`TauCeti.ExactStructure.IsFrobenius`, `FGModuleCat.abelian_isFrobenius`; for all modules, the
 standard fact that over a Frobenius algebra arbitrary projective and injective modules coincide.
 
 **Checks.**
@@ -279,14 +316,16 @@ exact structures; StablePeriodicCurved, Layer 0 for the stable-category interfac
 
 ### 2.1 The monoidal category of all `H`-modules
 
-Extend QuantumGroups Q8 item 5 from finite-dimensional modules to all left `H`-modules: the
-diagonal action on `M ⊗ N`, independent of the chosen coproduct representation, the unit `k`
-with action through `ε`, associator and unitors, all of which need only a bialgebra. Prove the
-inclusion of `FiniteHopfModuleCat k H` is a fully faithful monoidal functor. Prove that `M ⊗ P`,
-`P ⊗ M`, `Hom_k(M, P)` and `Hom_k(P, M)` are projective when `P` is projective (Khovanov,
-Proposition 2, for the tensor products; Qi, Lemma 2.3, for all four), so the maps factoring through
-projectives form a two-sided tensor ideal. The internal Hom action is Qi's
-`(h·f)(m) = Σ h₂ f(S⁻¹(h₁)m)` (Qi, Lemma 2.3), the same formula as §4.1 with `A = k`; it is the
+Extend QuantumGroups Q8 item 5 from finite-dimensional modules to all left `H`-modules, the
+objects of `H-Mod = ModuleCat.{u} H` (Conventions): the diagonal action on `M ⊗ N`, independent of
+the chosen coproduct representation, the unit `k` with action through `ε`, associator and
+unitors, all of which need only a bialgebra. Prove the inclusion of `FiniteHopfModuleCat k H`,
+built by Q8 item 5 on the same carrier `ModuleCat.{u} H`, into `H-Mod` is a fully faithful
+monoidal functor. Prove that `M ⊗ P`, `P ⊗ M`, `Hom_k(M, P)` and `Hom_k(P, M)` are projective when
+`P` is projective (Khovanov, Proposition 2, for `P ⊗ M`; Qi, Lemma 2.3, for `M ⊗ P` and the two
+Hom spaces), so the maps factoring through projectives form a two-sided tensor ideal. The internal
+Hom action is Qi's `(h·f)(m) = Σ h₂ f(S⁻¹(h₁)m)` (Qi, Lemma 2.3), the same formula as §4.1 with
+`A = k`; it is the
 action of `*M ⊗ N` for the left dual `*M` through `S⁻¹`, its invariants are the `H`-linear maps,
 and the formula `Σ h₁ f(S(h₂)m)`, the action of `N ⊗ M*` through the right dual, is a different
 module structure on the same space and is not used. *Needs:* QuantumGroups Q8 item 5; Layer 1
@@ -308,9 +347,10 @@ for the finite-dimensional ideal statements and for `S⁻¹`.
 
 ### 2.2 The stable category `H-StMod`
 
-Form `H-StMod` as Tau Ceti's stable category of `ExactStructure.abelian (ModuleCat H)`, triangulated
-by `TauCeti.ExactStructure.IsFrobenius.stableIsTriangulated` through `hMod_abelian_isFrobenius`, and
-define `H-stmod` as its full subcategory on finite-dimensional modules. After choosing `Λ`, model
+Form `H-StMod` as Tau Ceti's stable category of `ExactStructure.abelian (ModuleCat.{u} H)`,
+triangulated by `TauCeti.ExactStructure.IsFrobenius.stableIsTriangulated` through
+`hMod_abelian_isFrobenius`, and define `H-stmod` as its full subcategory on finite-dimensional
+modules. After choosing `Λ`, model
 the suspension by `T(M) = M ⊗ (H/kΛ)` and its inverse by `M ⊗ ker ε`, independent of `Λ` up to
 natural isomorphism (Khovanov, §1, p. 3). Prove that the tensor product descends, that tensoring on
 either side is a triangle functor, that `H-StMod` has arbitrary coproducts, and that `H-stmod` is
@@ -448,7 +488,7 @@ Frobenius, with projective-injectives the retracts of the modules `X ⊗ H`, and
 its stable category; it is triangulated with `T(M) = M ⊗ (H/kΛ)` (Qi, Definition 3.1, Theorem 3.5)
 and is a right module category over `H-StMod` (Qi, Proposition 2.7). Compare with the ordinary
 stable category of `B`: every `B`-projective is relatively projective, and equality is not
-asserted. *Needs:* §4.1; GrothendieckEulerForms, Layer 0; StablePeriodicCurved, Layers 0 and 1;
+asserted. *Needs:* §4.1; Tau Ceti `TauCeti.ExactStructure`; StablePeriodicCurved, Layers 0 and 1;
 Tau Ceti `TauCeti.ExactStructure.IsFrobenius.stableIsTriangulated`.
 
 **Checks.**
@@ -563,20 +603,49 @@ Layer 4; DGAInfinity, Layers 5 and 7; Mathlib triangulated envelopes and `trW`.
 
 ### 6.1 Stable and compact-derived `K₀`
 
-Using GrothendieckEulerForms, Layer 2, form `K₀(H-stmod)`; the tensor product makes it a ring
+First the localization sequence. Let `T` be an essentially small triangulated category and `S` a
+thick subcategory: a triangulated object property (`CategoryTheory.ObjectProperty.IsTriangulated`)
+closed under direct summands, equivalently `S.triangEnvelope = S`. Let `T/S` be the Verdier
+quotient, the localization of `T` at `CategoryTheory.ObjectProperty.trW S`, with no idempotent
+completion. Prove that `K₀(S) → K₀(T) → K₀(T/S) → 0` is exact for `TauCeti.TriangulatedK0`
+(Chebolu, sequence (3), p. 10, with Grothendieck, SGA 5, p. 355, Proposition 3.1, cited there).
+Route: every object of `T/S` is the image of an object of `T` and every distinguished triangle of
+`T/S` is isomorphic to the image of one of `T`, so `K₀(T) → K₀(T/S)` is surjective and the
+classes of `S` lie in its kernel; conversely `X ↦ [X]` modulo the subgroup generated by the
+classes of `S` is a triangle-additive invariant of `T/S`, because a morphism of `T` becomes
+invertible exactly when its cone lies in the kernel of the quotient functor, and that kernel is
+the closure of `S` under direct summands (the Stacks project, Tag 05RK), which is `S` itself. The
+first map need not be injective. *Needs:* Mathlib `CategoryTheory.ObjectProperty.trW`,
+`CategoryTheory.ObjectProperty.triangEnvelope`; Tau Ceti `TauCeti.TriangulatedK0`,
+`TauCeti.TriangulatedK0.liftEquiv`.
+
+Form `K₀(H-stmod)` as `TauCeti.TriangulatedK0` of the triangulated category `H-stmod`; the tensor
+product, a triangle functor in each variable, makes it a ring with `[M]·[N] = [M ⊗ N]`
 (commutative when `H` is cocommutative), the quotient of the representation ring by the classes of
-projectives. Define `K₀(A,H) = K₀(Dᶜ(A,H))`, a right `K₀(H-stmod)`-module through the tensor action
+projectives, on the model of `TauCeti.ExactK0.instRing`. Define `K₀(A,H) = K₀(Dᶜ(A,H))`, a right `K₀(H-stmod)`-module through the tensor action
 (Qi, §9; Khovanov, Corollary 1, states the left-module form for left comodule algebras). Define `G₀(A,H)` from `Dᵇ(A,H)` and `G₀ᶠ(A,H)` from `Dᶠ(A,H)` for
 Noetherian `A`. State Qi's pairing as `Dᶜ(A,H) × Dᶠ(A,H) → H-StMod`, or into `Dᶠ(k,H)` when the
 finite-length modules in play are finite-dimensional over `k`. When `A` is commutative and `H`
 cocommutative, construct the internal tensor product and the ring `K₀(A,H)`. For `A` Artinian,
 smooth and basic with trivial action, as in §5.3, prove `K₀(A,H) ≅ K₀(A) ⊗_ℤ K₀(H-stmod)` (Qi,
 Proposition 9.10, through Lemma 9.6), and for `A` graded finite-dimensional, smooth and basic its
-graded form over `ℤ[q,q⁻¹]`. *Needs:* Layers 2 and 5; §5.3; GrothendieckEulerForms, Layers 2
-and 6.
+graded form over `ℤ[q,q⁻¹]`. *Needs:* Layers 2 and 5; §5.3; Tau Ceti `TauCeti.TriangulatedK0`,
+`TauCeti.TriangulatedK0.shiftZPow`, `TauCeti.ExactK0.instRing`; GrothendieckEulerForms, Layer 6.
 
 **Checks.**
 
+- Localization, `S = T`: `T/S = 0` and `K₀(T)/⟨[T]⟩ = 0`. `S` the zero objects: `T/S ≃ T`,
+  `K₀(S) = 0`, and `K₀(T) ≅ K₀(T/S)`.
+- Localization without thickness: `T = Dᵇ(k-mod)`, `K₀(T) ≅ ℤ` by the Euler characteristic, `S`
+  the objects of even Euler characteristic. `S` contains `0` and is closed under shifts and cones
+  (`χ` is additive on triangles and changes sign under shift), but `k ⊕ k ∈ S` and `k ∉ S`. Every
+  object `X` is a direct summand of `X ⊕ X ∈ S`, so `T/S = 0` and `K₀(T/S) = 0`, while
+  `K₀(T)/⟨[S]⟩ = ℤ/2ℤ`: the sequence fails at `K₀(T)`, which is why `S` is required thick.
+- Localization, non-injective first map: `T = Dᵇ` of finitely generated abelian groups and `S`
+  the complexes with finite homology, which is thick. `K₀(T) ≅ ℤ` by rank, `K₀(S)` is free on the
+  classes of the simple groups `ℤ/p`, and `K₀(S) → K₀(T)` is zero; `T/S ≃ Dᵇ` of finite-dimensional
+  `ℚ`-vector spaces, with `K₀ = ℤ`, so the sequence is exact at `K₀(T)` and `K₀(T/S)` while the
+  nonzero class `[ℤ/p]` maps to `0`.
 - The finite-target pairing fails without finite dimension: `k = 𝔽₂`, `H = k[d]/(d²)`, `A = k(t)`
   with trivial action, `P = M = A`; the derived Hom is `A` with `d = 0`, and its stable invariants are
   `A`, infinite-dimensional over `k`, so it does not lie in `Dᶠ(k,H)`.
@@ -596,7 +665,8 @@ For `H = k[d]/(d^p)` graded with `deg d = 1` and `A = k`, `K₀ = ℤ[q,q⁻¹]/
 
 ### Dependencies
 
-Layers 2 and 5; GrothendieckEulerForms, Layers 0, 2 and 6.
+Layers 2 and 5; Tau Ceti `TauCeti.TriangulatedK0`, `TauCeti.ExactK0.instRing`; Mathlib
+`CategoryTheory.ObjectProperty.trW`; GrothendieckEulerForms, Layer 6.
 
 ## Layer 7: differential, super, Nichols, Sweedler and Taft examples
 
@@ -640,7 +710,8 @@ projective iff all its slash homology groups vanish (Khovanov–Qi, §2, p. 14, 
 of a module as slash homology plus a maximal projective summand). Prove
 `K₀(H_p-stmod) ≅ ℤ[q,q⁻¹]/(1 + q + ⋯ + q^(p−1))` for `deg d = 1`, which equals
 `ℤ[q,q⁻¹]/(Φ_p(q))` by `Polynomial.cyclotomic_prime` (Khovanov, Proposition 5). *Needs:* §7.1;
-Layer 2; GrothendieckEulerForms, Layer 6; Mathlib `Polynomial.cyclotomic_prime`.
+Layer 2; §6.1; Tau Ceti `TauCeti.TriangulatedK0.shiftZPow`; GrothendieckEulerForms, Layer 6;
+Mathlib `Polynomial.cyclotomic_prime`.
 
 **Checks.**
 
@@ -669,7 +740,8 @@ Its bosonization is the Taft algebra `K^N = 1`, `d^N = 0`, `Kd = qdK`, `ΔK = K 
 `Δd = d ⊗ 1 + K ⊗ d`, `SK = K⁻¹`, `Sd = −K⁻¹d`, of dimension `N²`, whose module algebras satisfy
 `d(ab) = d(a)b + (K·a)d(b)`. Prove Khovanov's `K₀ ≅ ℤ[q,q⁻¹]/(1 + q + ⋯ + q^(N−1))` for the graded
 Taft stable category (Khovanov, Proposition 7; Qi, §4.3, p. 19). *Needs:* §§7.1–7.2; Mathlib
-`CategoryTheory.HopfObj`; Tau Ceti `TauCeti.GradedModuleCat`; GrothendieckEulerForms, Layer 6.
+`CategoryTheory.HopfObj`; Tau Ceti `TauCeti.GradedModuleCat`, `TauCeti.TriangulatedK0.shiftZPow`;
+GrothendieckEulerForms, Layer 6.
 
 **Checks.**
 
@@ -685,8 +757,8 @@ Taft stable category (Khovanov, Proposition 7; Qi, §4.3, p. 19). *Needs:* §§7
 
 ### Dependencies
 
-Layers 2, 3 and 6; Tau Ceti `TauCeti.Bialgebra.comul_pow_of_primitive`, `TauCeti.GradedModuleCat`;
-DGAInfinity, Layers 0–1; GrothendieckEulerForms, Layer 6.
+Layers 2, 3 and 6; Tau Ceti `TauCeti.Bialgebra.comul_pow_of_primitive`, `TauCeti.GradedModuleCat`,
+`TauCeti.TriangulatedK0`; DGAInfinity, Layers 0–1; GrothendieckEulerForms, Layer 6.
 
 ## Layer 8: the Laugwitz–Qi cyclotomic construction
 
@@ -733,10 +805,10 @@ with `[k{1}] ↦ ν`:
 - for `t ≥ 2`, `K₀(O_n) ≅ ℤ[ν,ν⁻¹]/(w₁, …, w_t)`;
 - for `t ≤ 2`, `K₀(O_n) ≅ ℤ[ν,ν⁻¹]/(Φ_n(ν))`.
 
-Route: `K₀` of the raw Verdier quotient (no idempotent completion, the form Laugwitz–Qi use, proof
-of Theorem 5.15, p. 27) is `K₀(H_n-gmod)` modulo the subgroup generated by the classes of `I`
-(DGAInfinity, Layer 7, applied to the triangulated `K₀` of GrothendieckEulerForms, Layer 2);
-objects of `I_k` are graded free over the subalgebra
+Route: `I` is thick (Laugwitz–Qi, Theorem 5.5), so the localization sequence of §6.1, applied to
+`TauCeti.TriangulatedK0` of `H_n-gmod` and the raw Verdier quotient (no idempotent completion, the
+form Laugwitz–Qi use, proof of Theorem 5.15, p. 27), gives `K₀(O_n)` as `K₀(H_n-gmod)` modulo the
+subgroup generated by the classes of `I`; objects of `I_k` are graded free over the subalgebra
 generated by the `d_l`, `l ≠ k`, so their classes are multiples of `w_k`, and `[W_k{r}] = ν^r w_k`.
 For `t = 2`, `n = p^a q^b`, `v₁ = Φ_n x`, `v₂ = Φ_n y` with `(x, y)` the unit ideal of `ℤ[ν]`, since
 a maximal ideal containing `Φ_d` and `Φ_e` forces `d/e` to be a power of the residue
@@ -744,8 +816,9 @@ characteristic. For `t ≥ 3` the cyclotomic identification fails, although Laug
 (arXiv v4, pp. 27–28) asserts it for every `n`: each `w_k` is divisible by `Φ_n^(t−1)`, so reduction
 modulo `Φ_n²` is a surjective ring map `K₀(O_n) → ℤ[ν,ν⁻¹]/(Φ_n²)` with `Φ_n([k{1}]) ↦ Φ_n(ν) ≠ 0`;
 the gap is the gcd step in the final paragraph of that proof. *Needs:* §8.1; Layers 2 and 6;
-GrothendieckEulerForms, Layers 2 and 6; DGAInfinity, Layer 7; Mathlib
-`CategoryTheory.ObjectProperty.trW`, `Polynomial.cyclotomic`.
+§6.1; Tau Ceti `TauCeti.TriangulatedK0`, `TauCeti.TriangulatedK0.shiftZPow`;
+GrothendieckEulerForms, Layer 6; Mathlib `CategoryTheory.ObjectProperty.trW`,
+`Polynomial.cyclotomic`.
 
 **Checks.**
 
@@ -766,8 +839,9 @@ polynomial Hopf algebra.
 
 ### Dependencies
 
-Layers 2, 6 and 7; Tau Ceti `TauCeti.GradedModuleCat`; GrothendieckEulerForms, Layers 2 and 6;
-DGAInfinity, Layer 7; Mathlib `CategoryTheory.ObjectProperty.trW`, `Polynomial.cyclotomic`.
+Layers 2, 6 and 7; Tau Ceti `TauCeti.GradedModuleCat`, `TauCeti.TriangulatedK0`;
+GrothendieckEulerForms, Layer 6; Mathlib `CategoryTheory.ObjectProperty.trW`,
+`Polynomial.cyclotomic`.
 
 ## Downstream consumers
 
@@ -802,3 +876,9 @@ builds no Jones invariant and no lattice categorification.
 - D. E. Radford, *The structure of Hopf algebras with a projection*, J. Algebra 92 (1985), 322–347;
   S. Majid, [*Comments on bosonisation and biproducts*](https://arxiv.org/abs/q-alg/9512028), 1995.
 - M. Kapranov, [*On the q-analog of homological algebra*](https://arxiv.org/abs/q-alg/9611005), 1996.
+- S. K. Chebolu, [*Refining thick subcategory theorems*](https://arxiv.org/abs/math/0508101),
+  Fund. Math. 189 (2006), 61–97. Pages of arXiv v2; its sequence (3) cites A. Grothendieck,
+  *Cohomologie ℓ-adique et fonctions L* (SGA 5), Lecture Notes in Math. 589, Springer, 1977,
+  p. 355, Proposition 3.1.
+- The Stacks project, [Tag 05RK](https://stacks.math.columbia.edu/tag/05RK): the kernel of a
+  Verdier quotient functor is the closure of the subcategory under direct summands.

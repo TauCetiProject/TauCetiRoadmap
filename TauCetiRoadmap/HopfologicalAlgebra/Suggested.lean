@@ -18,7 +18,8 @@ The following headline theorems are not statable at the pins, and nothing is sta
   `K₀(H-stmod)` (Layer 2 and Layer 6). The pins have no monoidal structure on the category of all
   modules over a Hopf algebra through its coproduct (Mathlib's `ModuleCat.monoidalCategory` needs a
   commutative ring and tensors over it), and no monoidal structure on Tau Ceti's stable category
-  of a Frobenius exact structure.
+  of a Frobenius exact structure; the triangulated `K₀` itself exists as `TauCeti.TriangulatedK0`,
+  and what is missing is the tensor product that makes it a ring.
 * The relative hopfological categories `C(A,H)` and `D(A,H)` (Layers 4 and 5): the integral
   characterization of the relative null ideal, the relative Frobenius exact structure of `A`-split
   sequences of `A # H`-modules, the derived localization and its Verdier comparison, cofibrant and
@@ -26,11 +27,14 @@ The following headline theorems are not statable at the pins, and nothing is sta
   `K₀(Dᶜ(A,H))`. Each needs the diagonal `A # H`-module `M ⊗ H`, a construction the pins lack, and
   the relative exact structure built on it.
 * Khovanov's and Laugwitz–Qi's Grothendieck-ring computations (Layers 7 and 8), including
-  `K₀(O_n)`. Graded modules over the graded algebra `H_n` exist at the pins as
-  `TauCeti.GradedModuleCat`, with its abelian structure and grading shift; what is missing is the
-  monoidal structure on graded `H_n`-modules defined through the braided coproduct of `H_n` in
-  `q`-graded vector spaces, its descent to the stable category, the Verdier quotient `O_n` as a
-  monoidal triangulated category, and a triangulated `K₀` carrying the induced ring structure.
+  `K₀(O_n)`. Graded modules over the graded algebras `H_p` and `H_n` exist at the pins as
+  `TauCeti.GradedModuleCat`, with its abelian structure and grading shift, and the triangulated,
+  Laurent-graded and exact-monoidal Grothendieck groups exist as `TauCeti.TriangulatedK0`,
+  `TauCeti.LaurentK0` and `TauCeti.ExactK0.instRing`. What is missing is a Frobenius exact
+  structure on graded `H_p`- and `H_n`-modules (the library's `FGModuleCat.abelian_isFrobenius` is
+  ungraded), hence the graded stable categories `H_p-gmod` and `H_n-gmod` themselves, their
+  monoidal structure through the (braided) coproduct, the Verdier quotient `O_n` as a monoidal
+  triangulated category, and the ring structure on their triangulated `K₀`.
 * The equivalence between bicharacter-braided Hopf algebras and Hopf monoid objects (`HopfObj`)
   in the braided category of `G`-graded vector spaces, and the Radford–Majid bosonization (Layer
   7). Mathlib's braiding on graded objects is the symmetric one inherited from the coefficients,
@@ -82,11 +86,12 @@ theorem finrank_leftIntegral [FiniteDimensional k H] :
   sorry
 
 /-- Projective and injective left `H`-modules coincide, for all modules and not only the
-finite-dimensional ones, so the abelian exact structure on `H-Mod` is Frobenius in Tau Ceti's
-sense (Khovanov, arXiv:math/0509083, Proposition 1). With Tau Ceti's Happel triangulation this
-makes `H-StMod` triangulated. -/
+finite-dimensional ones, so the abelian exact structure on `H-Mod = ModuleCat.{u} H`, the
+`H`-modules in the universe of `k` on which QuantumGroups builds `FiniteHopfModuleCat k H`, is
+Frobenius in Tau Ceti's sense (Khovanov, arXiv:math/0509083, Proposition 1). With Tau Ceti's
+Happel triangulation this makes `H-StMod` triangulated. -/
 theorem hMod_abelian_isFrobenius [FiniteDimensional k H] :
-    (ExactStructure.abelian (ModuleCat.{v} H)).IsFrobenius := by
+    (ExactStructure.abelian (ModuleCat.{u} H)).IsFrobenius := by
   sorry
 
 /-- A right cointegral: a functional `φ` on `H` with `Σ φ(h₁) h₂ = φ(h) 1` for every `h`,
