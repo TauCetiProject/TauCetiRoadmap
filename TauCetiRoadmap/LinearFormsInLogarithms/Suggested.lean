@@ -405,7 +405,7 @@ theorem transcendental_exp_mul {x b : ℂ} (hx : x ≠ 0) (h : IsAlgebraic ℚ (
   sorry
 
 /-- **Layer 6.4, Gelfond–Schneider**, in Mathlib's principal branch, with the name and statement
-of M. Karatarakis's Mathlib formalisation. -/
+of the Mathlib formalisation of Gelfond–Schneider. -/
 theorem GelfondSchneider.transcendental_cpow_of_isAlgebraic_of_irrational (α β : ℂ)
     (hα : IsAlgebraic ℚ α) (hβ : IsAlgebraic ℚ β) (htriv : α ≠ 0 ∧ α ≠ 1)
     (hirr : ∀ i j : ℤ, β ≠ i / j) : Transcendental ℚ (α ^ β) :=

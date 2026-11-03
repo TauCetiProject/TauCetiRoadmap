@@ -96,13 +96,13 @@ Not in this roadmap, and not owned by any other roadmap unless stated:
 Mathlib has Liouville numbers, the house of an algebraic number, Siegel's lemma over number fields,
 and the analytic half of Hermite's method for Lindemann–Weierstrass. It does not prove that `e` or
 `π` is transcendental, and it has no Gelfond–Schneider theorem. Two Mathlib formalisations cover
-part of this: Yuyang Zhao's proves Lindemann–Weierstrass, and `e` and `π` with it, and
-M. Karatarakis's proves Gelfond–Schneider by the one-variable method. This subsection says how the
-roadmap treats them. The roadmap depends on no other roadmap; it consumes Mathlib and the Tau Ceti
+part of this: Yuyang Zhao's proves Lindemann–Weierstrass, and `e` and `π` with it, and another
+proves Gelfond–Schneider by the one-variable method. This subsection says how the roadmap treats
+them. The roadmap depends on no other roadmap; it consumes Mathlib and the Tau Ceti
 declarations of *Exact supplier contracts*. Other roadmaps consume it by name; see *Downstream
 consumers*.
 
-M. Karatarakis's Mathlib formalisation of Gelfond–Schneider proves it directly, by Gelfond's
+The Mathlib formalisation of Gelfond–Schneider proves it directly, by Gelfond's
 one-variable method (Hua, *Introduction to Number Theory*, §17.9), as
 `GelfondSchneider.transcendental_cpow_of_isAlgebraic_of_irrational`. Target 6.4 takes that name and
 statement; when Mathlib has this theorem under this name, the Tau Ceti theorem is deleted in favour
@@ -955,13 +955,13 @@ Zhao's Mathlib formalisation, over `ℤ`: `exp a` is transcendental for algebrai
 
 ### 6.4 Gelfond–Schneider
 
-*Source:* derived here from 6.1; the principal-branch form is that of M. Karatarakis's Mathlib
-formalisation. *Lean:* `transcendental_exp_mul`.
+*Source:* derived here from 6.1; the principal-branch form is that of the Mathlib formalisation of
+Gelfond–Schneider. *Lean:* `transcendental_exp_mul`.
 
 If `x ≠ 0` and `exp x` is algebraic, and `b` is algebraic and not rational, then `exp (b x)` is
-transcendental. With Mathlib's principal branch, in the name and form of M. Karatarakis's Mathlib
-formalisation (`GelfondSchneider.transcendental_cpow_of_isAlgebraic_of_irrational`): `a ^ b` is
-transcendental for algebraic `a, b` with `a ≠ 0 ∧ a ≠ 1` and `∀ i j : ℤ, b ≠ i / j`. Hence a
+transcendental. With Mathlib's principal branch, in the name and form of the Mathlib formalisation
+of Gelfond–Schneider (`GelfondSchneider.transcendental_cpow_of_isAlgebraic_of_irrational`): `a ^ b`
+is transcendental for algebraic `a, b` with `a ≠ 0 ∧ a ≠ 1` and `∀ i j : ℤ, b ≠ i / j`. Hence a
 quotient `y / x` of logarithms of algebraic numbers, `x ≠ 0`, is rational or transcendental
 (`exists_rat_eq_div_or_transcendental`); in particular so is `Complex.log a / Complex.log b` for
 algebraic `a, b` with `Complex.log b ≠ 0`. ⚠ The exponent must be irrational: `4 ^ (1 / 2) = 2`; and
@@ -1140,10 +1140,18 @@ sums to `Q (x) exp (ψ x)` when `‖ψ x‖ < ρ` (`PowerSeries.hasSum_coeff_coe
 *Source:* Baker, Chapter 2, Lemma 7. *Lean:*
 `Polynomial.exists_iterate_derivative_eval_eq_ite_of_isUltrametricDist`.
 
-For points `σ i` of norm at most `1` with `‖σ i - σ j‖ ≥ ϱ` for `i ≠ j`, `0 < ϱ ≤ 1`, and `s < S`,
-there is a polynomial `W` whose derivatives of order `< S` at the points vanish except the `s`-th at
-`σ r`, which is `1`, with every coefficient at most `‖1 / s!‖ ϱ ^ (-(card ι · S))`. ⚠
-`‖1 / s!‖ = p ^ (v_p (s!))` is at least `1`, unlike at an archimedean place. *Needs:* Mathlib only.
+Over an ultrametric normed field `K` of characteristic zero, for points `σ i` of norm at most `1`
+with `‖σ i - σ j‖ ≥ ϱ` for `i ≠ j`, `0 < ϱ ≤ 1`, and `s < S`, there is a polynomial `W` whose
+derivatives of order `< S` at the points vanish except the `s`-th at `σ r`, which is `1`, with every
+coefficient at most `‖1 / s!‖ ϱ ^ (-(card ι · S))`. ⚠ `‖1 / s!‖ = p ^ (v_p (s!))` is at least `1`,
+unlike at an archimedean place. *Needs:* Mathlib only.
+
+**Checks**, with one point `0`, `ϱ = 1`, `S = 3` and `s = 2`.
+- Over `ℚ_[3]`, `W = X ^ 2 / 2`: its derivatives at `0` of orders `0, 1, 2` are `0, 0, 1`, and its
+  largest coefficient norm is `‖1 / 2‖ = 1`, which is the bound. Over `ℚ_[2]` both are `2`.
+- ⚠ Characteristic zero is needed: over `𝔽₂((t))`, the second derivative of `X ^ n` is
+  `n (n - 1) X ^ (n - 2)`, and `n (n - 1)` is even, so `W″ = 0` for every polynomial `W` and none
+  has `W″ (0) = 1`; and `(2!)⁻¹ = 0` there would make the bound `0`.
 
 ### 8.6 Baker's auxiliary function on the diagonal
 
@@ -1384,7 +1392,7 @@ other works are cited without an open copy of the text.
 - [Brumer67] A. Brumer, *On the units of algebraic number fields*, Mathematika 14 (1967), 121–124
   (Baker's method over `ℂ_p`, for the `p`-adic rank of units; Layer 8).
 - [Hua82] L. K. Hua, *Introduction to Number Theory*, Springer, 1982, §17.9 (Gelfond's one-variable
-  proof of Gelfond–Schneider, used by M. Karatarakis's Mathlib formalisation).
+  proof of Gelfond–Schneider, used by its Mathlib formalisation).
 - [Lang66] S. Lang, *Introduction to Transcendental Numbers*, Addison-Wesley, 1966 (background for
   the criterion; no target uses a result of it).
 - [BG06] E. Bombieri and W. Gubler, *Heights in Diophantine Geometry*, Cambridge University Press,
@@ -1397,8 +1405,8 @@ and `Quot.sound`, on the `baker` branch of
 [mkaratarakis/mathlib4](https://github.com/mkaratarakis/mathlib4) at commit
 [`1d51891b5b`](https://github.com/mkaratarakis/mathlib4/tree/1d51891b5be7ceeca95b4583cad39e0681c5e453/Mathlib/NumberTheory/Transcendental/Baker),
 under `Mathlib/NumberTheory/Transcendental/Baker/`. It is released under the Apache 2.0 licence,
-like Mathlib, and its author, M. Karatarakis, is the author of this roadmap, so porting it needs no
-further agreement; credit that source in each ported file. It is a cited source, not the
+like Mathlib, and its author is the author of this roadmap, so porting it needs no further
+agreement; credit that source in each ported file. It is a cited source, not the
 specification: the targets above state the mathematics, and these are not in it: 0.4 over an
 arbitrary nontrivially normed field (the source states it over `RCLike` fields); in 0.4 the
 coefficient of order `0`, constant multiples and constant functions, translation, the comparison
