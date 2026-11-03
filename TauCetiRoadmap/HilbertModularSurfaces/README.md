@@ -1014,7 +1014,7 @@ The CM dictionary includes:
 **Checks.**
 
 - For R = ℤ[√2] and A = (0,−1;1,√2) in M₂(R), A² = √2 A−I and A⁴ = −I.
-  The optimal order R[A] ≅ ℤ[ζ₈] contains R[A²] ≅ R[i] with index |N_{F/ℚ}(√2)| = |−2| = 2.
+  The optimal order R[A] ≅ ℤ[ζ₈] contains R[A²] ≅ R[i] with index `|N_{F/ℚ}(√2)| = |−2| = 2`.
   Both fix ((−√2+i√2)/2,(√2+i√2)/2), but the latter embedding is nonoptimal:
   its field intersection with M₂(R) is R[A]. Thus this is one order-four point, not also
   an order-two point. Optimal embeddings of R[i] elsewhere still contribute when their
