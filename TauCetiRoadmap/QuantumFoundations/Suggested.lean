@@ -20,7 +20,10 @@ Headline theorems not statable at the pins, and what each lacks:
   representation (§9.5): unbounded self-adjoint operators with their spectral measures are
   SelfAdjointSpectralTheory and UnboundedOperators targets;
 * Naimark dilation on a general measurable outcome space (§2.2): the PVM carrier is a
-  SelfAdjointSpectralTheory target; the finite-outcome form is stated below.
+  SelfAdjointSpectralTheory target; the finite-outcome form is stated below;
+* the repeatability characterization of sharp instruments (§2.3, Ozawa): normal instruments
+  on the trace class `S₁(H)`, with their normal duals, are OperatorIdeals Part B and
+  VonNeumannAlgebras V4 targets.
 
 Gleason's theorem and the Stone–von Neumann theorem are owned by VonNeumannAlgebras 12.J and
 MetaplecticAutomorphicForms §1.2 and are not restated here.
@@ -129,24 +132,14 @@ theorem uhlhorn {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℂ H] [Co
 
 /-! ## Layer 9: Kummer functions -/
 
-/-- Kummer's `M(a,b,z)`, the Gamma normalization of the native regularized hypergeometric
-function; it vanishes identically when `b` is a nonpositive integer (README §9.4). -/
-noncomputable def kummerM (a b z : ℂ) : ℂ :=
-  Complex.Gamma b * Complex.regularizedHGFun {a} {b} z
-
-/-- Kummer's differential equation for the regularized function, for all parameters
+/-- Kummer's differential equation for the regularized function `ℳ(a,b,z)`, for all parameters
 (README §9.4; DLMF 13.2.1): the coefficient recurrence `regularizedHGFunCoeff_add_one` is
-exactly the equation, and the series is entire. -/
+exactly the equation, and the series is entire. Kummer's `M(a,b,z) = Γ(b)·ℳ(a,b,z)` satisfies
+the same equation by scaling. -/
 theorem regularizedHGFun_kummer_equation (a b z : ℂ) :
     z * deriv (deriv (fun w => Complex.regularizedHGFun {a} {b} w)) z +
       (b - z) * deriv (fun w => Complex.regularizedHGFun {a} {b} w) z -
         a * Complex.regularizedHGFun {a} {b} z = 0 := by
-  sorry
-
-/-- Kummer's differential equation for `kummerM`, for all `a`, `b`, `z` (README §9.4). -/
-theorem kummerM_differential_equation (a b z : ℂ) :
-    z * deriv (deriv (kummerM a b)) z + (b - z) * deriv (kummerM a b) z -
-      a * kummerM a b z = 0 := by
   sorry
 
 end TauCetiRoadmap.QuantumFoundations
