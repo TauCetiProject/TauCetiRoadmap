@@ -1,3 +1,5 @@
+module
+
 import Mathlib
 import TauCeti.Geometry.Symplectic.Manifold.TwoForm
 import TauCeti.Geometry.Symplectic.StandardCompatible
