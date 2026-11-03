@@ -14,6 +14,7 @@ The general constructions have the following owners, and are consumed by the exa
 - AInfCohomology §AI.7.2 owns the spectral Tate diagonal and the Tate orbit lemma. RefinedTraceMethods §§2.3–2.4 supplies the boundedness and parametrized extensions; its §2.3 owns the Tate fixpoint lemma and the p-completion invariance of Tate for bounded-below inputs. The sphere counterexample (S^(hC_p))^(t(C_(p²)/C_p))≃S_p^∧≠0 to the fixpoint lemma is a consequence of the C_p Segal theorem §2.7 here and is derived in the Layer 7 Examples, beside the KU orbit and tensor-diagonal counterexamples. RefinedTraceMethods §§2.6, 2.8 and 2.10–2.16 own the THH, E∞ Frobenius and genuine cyclotomic interfaces; its §2.10 supplies the loop-space model; the Segal equivalence of that model is proved in Layer 8 here.
 - GeneralizedCohomology G4.2 and G5.3 owns ordinary Thom spaces and compatible Thom-spectrum diagrams; RefinedTraceMethods §2.13 owns genuine representation spheres. Layer 5 here adds tensor-inverse virtual twists over arbitrary spaces and their power-operation comparison. EnhancedDerivedSheaves E3 and E5 supplies the coherent Kan-extension and monoidal formalism.
 - GeneralizedCohomology G5.4 owns ku and KU. TopologicalKTheory T1–T5 owns bundle K-theory, Bott periodicity, splitting and degree-zero Adams operations. RefinedTraceMethods §5.1 owns Snaith's comparison and stable Adams operations after inverting their index. Layer 7 adds Atiyah-power compatibility, cyclic Tate coefficient fields and their Frobenius comparison.
+- PadicHodgeRegulators, “Supplier: Finite unramified étale Q_p-algebras”, owns the ordinary Witt/unramified identification and rank. RefinedTraceMethods §6.1 supplies spectral étale lifting, with the integral finite-étale and reduction-endomorphism comparison specified below; §4.8 here owns the spherical finite-field lift and its Frobenius comparison.
 - Mathlib already has ordinary and Witt Frobenius and the finite inverse-system tools listed below. The finite-tower theorem here assembles the nonsurjective and empty-limit cases into a pro-isomorphism; it does not redefine compatible sections or eventual ranges.
 
 ## Conventions
@@ -107,13 +108,23 @@ Consume §§2.1 and 2.3–2.4 for orbit/fixed-point adjunctions, Postnikov/Tate 
 
 Consume §2.10's cyclic-bar equivalence THH(S[ΩY])=Σ∞_+LY and its cyclotomic model, §§2.11–2.13's genuine and representation-sphere models, and §2.16's restriction pullback for genuine fixed points. Consume §5.1 for coherent stable ψ^k on KU[1/k] and §6.1 for the equivalence between étale algebras over a connective E∞-ring and étale algebras over its π₀. The marked lift over S_p^∧ and its maps are the ones used here.
 
-The additional RefinedTraceMethods §6.1 contract is the finite-field Witt étale/Frobenius theorem: For every prime p and finite field k of degree d≥1 over 𝔽_p, W(k) is finite étale and free of rank d over ℤ_p, identified with W(𝔽_p) by the pinned `WittVector.equiv`, and reduction identifies its ℤ_p-algebra endomorphisms with the 𝔽_p-endomorphisms of k, carrying Witt Frobenius to a↦a^p.
+The additional RefinedTraceMethods §6.1 contract is the integral finite-étale and reduction-endomorphism comparison (gap:finite-field-witt-etale-frobenius): For every prime p and finite field k of degree d≥1 over 𝔽_p, the ℤ_p-algebra W(k) is finite étale, and reduction gives a bijection End_(ℤ_p-alg)(W(k))→End_(𝔽_p-alg)(k), carrying Witt Frobenius to a↦a^p. Use the ordinary Witt/unramified identification and rank from PadicHodgeRegulators, “Supplier: Finite unramified étale Q_p-algebras”, and identify the base W(𝔽_p) with ℤ_p by the pinned `WittVector.equiv`.
 
 **Checks.**
 
-- For k=𝔽_p, the rank is 1 and Witt Frobenius is the identity; for k=𝔽₄ with a²+a+1=0, Frobenius sends a to a²=a+1 and its square fixes a.
+- For k=𝔽₄ with a²+a+1=0, reduction matches the two integral endomorphisms, identity and Witt Frobenius, with a↦a and a↦a+1. The second iterate sends a to (a+1)²=a, distinguishing a bijection on endomorphisms from a claim that every endomorphism is the identity.
 - At p=2, stable ψ² sends β to 2β and β⁻¹ to β⁻¹/2; the localized codomain is required.
 - At Y=* the cyclic-bar/free-loop equivalence gives S. The cyclotomic map is the sphere's constant-to-Tate map, not an arbitrary endomorphism with the same source and target.
+
+### From TauCetiRoadmap.PadicHodgeRegulators
+
+Consume “Supplier: Finite unramified étale Q_p-algebras” for every prime p and finite field k/𝔽_p of degree d≥1: L=W(k)[1/p] is the unramified extension of ℚ_p of degree d, its ring of integers is W(k), free of rank d over ℤ_p, and its rational Frobenius is Witt Frobenius after inverting p. The integral finite-étale and reduction-endomorphism comparison used in §4.8 is the additional RefinedTraceMethods §6.1 contract above.
+
+**Checks.**
+
+- For k=𝔽₂ and k=𝔽₃, respectively, the integers are ℤ₂ and ℤ₃, the rank is 1 and rational Frobenius is the identity; there is no restriction to primes greater than 3.
+- For k=𝔽₄=𝔽₂[a]/(a²+a+1), W(k) has ℤ₂-rank 2 and L has ℚ₂-degree 2. Rational Frobenius sends [a] to [a²]=[a+1], not [a], and its square fixes [a].
+- The ramified field ℚ₃(ζ₃) has degree 2 and residue field 𝔽₃ of degree 1; it cannot be W(𝔽₃)[1/3]=ℚ₃. Finite étaleness over ℚ₃ alone does not imply this unramified rank comparison.
 
 ### From TauCetiRoadmap.EnhancedDerivedSheaves and TauCetiRoadmap.AlgebraicTopology
 
@@ -604,7 +615,7 @@ Let k=𝔽_(p^d), d≥1. Define SW(k) to be the p-complete connective E∞-algeb
 
 Only finite fields are asserted here; no compactness claim for SW(k) for arbitrary perfect k is made.
 
-One proof route is as follows. Apply the finite-field Witt contract and the spectral étale equivalence of RefinedTraceMethods §6.1, keeping the chosen identification of π₀ with W(k). Spectral flatness gives π_iSW(k)=π_iS_p^∧⊗_(ℤ_p)W(k), so a ℤ_p-basis lifts to a finite-free module equivalence and places the underlying spectrum in the finite-cell S_p^∧-module class. Compare φ with the zeroth Postnikov section and ordinary Frobenius. The finite étale Witt input says reduction determines the ℤ_p-algebra endomorphism; the spectral étale equivalence then gives uniqueness on the spectrum. (ns18, §IV.1, Example IV.1.2(ii), p.325; ns18 line 4858)
+One proof route is as follows. Import the identification of W(k) with the integers of the unramified degree-d extension of ℚ_p, and its ℤ_p-rank d, from PadicHodgeRegulators, “Supplier: Finite unramified étale Q_p-algebras”. Apply the integral finite-étale and reduction-endomorphism contract and the spectral étale equivalence of RefinedTraceMethods §6.1, keeping the chosen identification of π₀ with W(k). Spectral flatness gives π_iSW(k)=π_iS_p^∧⊗_(ℤ_p)W(k), so a ℤ_p-basis lifts to a finite-free module equivalence and places the underlying spectrum in the finite-cell S_p^∧-module class. Compare φ with the zeroth Postnikov section and ordinary Frobenius. The finite étale Witt input says reduction determines the ℤ_p-algebra endomorphism; the spectral étale equivalence then gives uniqueness on the spectrum. (ns18, §IV.1, Example IV.1.2(ii), p.325; ns18 line 4858)
 
 The construction has the following API.
 
@@ -615,11 +626,11 @@ The construction has the following API.
 
 **Checks.**
 
-- For d=1, SW(𝔽_p)≃S_p^∧ and its Frobenius is the identity.
+- For d=1, SW(𝔽_p)≃S_p^∧ and its Frobenius is the identity; at p=2 and p=3 the imported module rank is 1 in both cases.
 - For a∈k and its Teichmüller class [a]∈W(k), π₀φ sends [a] to [a^p].
-- The dth iterate of the Frobenius on SW(F_(p^d)) is the identity; for d>1 a class outside the prime field detects nonidentity of the first iterate.
+- The dth iterate of the Frobenius on SW(F_(p^d)) is the identity; for d>1 a class outside the prime field detects nonidentity of the first iterate. For 𝔽₄=𝔽₂[a]/(a²+a+1), the spherical module rank is 2, [a] maps to [a+1]≠[a], and the second iterate fixes [a]; the identity map fails the first-iterate test.
 
-*Needs:* §4.7; RefinedTraceMethods §6.1 and its finite-field Witt étale/Frobenius contract; `WittVector.equiv`; `WittVector.frobenius`; `WittVector.coeff_frobenius_charP`; `WittVector.frobenius_zmodp`.
+*Needs:* §4.7; PadicHodgeRegulators, “Supplier: Finite unramified étale Q_p-algebras” (ordinary Witt identification and rank); RefinedTraceMethods §6.1 and its integral finite-étale and reduction-endomorphism contract; `WittVector.equiv`; `WittVector.frobenius`; `WittVector.coeff_frobenius_charP`; `WittVector.frobenius_zmodp`.
 
 
 ### Examples
@@ -629,7 +640,7 @@ At (Hℤ,*,p=5), the Young-subgroup indices are 5,10,10,5 and generate (5). The 
 
 ### Dependencies
 
-AInfCohomology §AI.7.2 (Spectral Tate diagonal); BordismFormalGroups §F6.5 (finite-action norm, Tate and transfers); RefinedTraceMethods §2.3 and KTheoryFiniteLocalFields §4.4 (boundedness and residual Tate comparison); EnhancedDerivedSheaves E5:abstract (monoidal and operadic structures); RefinedTraceMethods §2.8 (E∞ Tate-valued Frobenius); GeneralizedCohomology G2.8 and BordismFormalGroups §F6.5; StableHomotopyKTheory Layer 5 (smash, suspension, Eilenberg–MacLane and connectivity); GeneralizedCohomology G3.9 (derived completion and its function-spectrum model); `frobenius`; RefinedTraceMethods §6.1 and its finite-field Witt étale/Frobenius contract; `WittVector.equiv`; `WittVector.frobenius`; `WittVector.coeff_frobenius_charP`; `WittVector.frobenius_zmodp`. The individual Needs lines specify the earlier local targets and distinguish the general statement from its application.
+AInfCohomology §AI.7.2 (Spectral Tate diagonal); BordismFormalGroups §F6.5 (finite-action norm, Tate and transfers); RefinedTraceMethods §2.3 and KTheoryFiniteLocalFields §4.4 (boundedness and residual Tate comparison); EnhancedDerivedSheaves E5:abstract (monoidal and operadic structures); RefinedTraceMethods §2.8 (E∞ Tate-valued Frobenius); GeneralizedCohomology G2.8 and BordismFormalGroups §F6.5; StableHomotopyKTheory Layer 5 (smash, suspension, Eilenberg–MacLane and connectivity); GeneralizedCohomology G3.9 (derived completion and its function-spectrum model); `frobenius`; PadicHodgeRegulators, “Supplier: Finite unramified étale Q_p-algebras” (ordinary Witt identification and rank); RefinedTraceMethods §6.1 and its integral finite-étale and reduction-endomorphism contract; `WittVector.equiv`; `WittVector.frobenius`; `WittVector.coeff_frobenius_charP`; `WittVector.frobenius_zmodp`. The individual Needs lines specify the earlier local targets and distinguish the general statement from its application.
 
 ## Layer 5: Representation twists and powers in all degrees
 
