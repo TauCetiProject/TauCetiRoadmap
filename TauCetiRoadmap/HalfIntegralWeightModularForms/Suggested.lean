@@ -8,14 +8,17 @@ import Mathlib
 The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
 theorems against the pinned Mathlib and Tau Ceti APIs, using simple definitions on native
 carriers. The headlines stated here are finite-dimensionality, Cohen's level-four dimension
-formulas, Dedekind reciprocity and the eta transformation formulas, the theta eta quotient,
-even and odd unary-theta modularity, both Serre–Stark basis theorems, the two unary eta
-identities, and the dimension consequence of Kohnen's correspondence.
+formulas, the Shimura–Niwa–Cipra theorem for trivial character, Dedekind reciprocity and the
+eta transformation formulas, the theta eta quotient, even and odd unary-theta modularity, both
+Serre–Stark basis theorems, the two unary eta identities, Kohnen's lift `Sh_D⁺` for every
+fundamental discriminant, and the dimension consequence of Kohnen's correspondence.
 
-The following headlines are not statable with these definitions at the pins. The Shimura
-lift, its Euler product and its decomposition lack the half-integral Hecke action and the
-constructed lift. Odd-rank lattice modularity lacks ThetaSeries' real-lattice theta-form
-bridge. Kohnen's Hecke correspondence and higher-level newform theorem lack the plus-space
+The following headlines are not statable with these definitions at the pins. The
+character-twisted Shimura–Niwa–Cipra theorem, Shimura's Euler product, the Hecke equivariance
+of the lift and the Shimura decomposition lack the nebentypus eigenspaces of 0.4, whose
+diamond operators are a Layer 0 target, and the half-integral Hecke action. Odd-rank lattice
+modularity lacks ThetaSeries' real-lattice theta-form bridge. Kohnen's Hecke correspondence,
+the Hecke equivariance of `Sh_D⁺` and the higher-level newform theorem lack the plus-space
 Hecke and newspace carriers. Kohnen–Zagier, Waldspurger and the normalized Shintani adjunction
 lack the half-integral Petersson space, the Shimura maps and the cycle-integral construction.
 The Jacobi theta-component comparison, dimension theorem and Skoruppa–Zagier correspondence
@@ -247,6 +250,27 @@ theorem finrank_cuspSpace_four (k : ℕ) (hk : 2 ≤ k) :
 
 end HalfIntegralForm
 
+/-! ## Layer 1: the Shimura lift -/
+
+namespace HalfIntegralForm
+
+/-- **1.3, the Shimura–Niwa–Cipra theorem** with trivial character: for `k ≥ 1`, a cusp form
+`f = ∑ a(n) qⁿ` of weight `k + 1/2` on `Γ₀(N)`, `4 ∣ N`, and squarefree `t`, the divisor sums
+`A_t(n) = ∑_{d ∣ n, (d, N) = 1} ((−1)^k t / d) d^{k−1} a(t n²/d²)` are the positive-index
+coefficients of a modular form of weight `2k` on `Γ₀(N/2)` (Niwa, theorem, p.148, for `k ≥ 3`;
+Cipra, Theorems 2.16–2.17, pp.88–91, for `k = 1, 2`). Here `(d, N) = 1` forces `d` odd, where
+the Kronecker symbol is Mathlib's `jacobiSym`; the constant term is determined by modularity
+and is not part of the statement. -/
+theorem shimuraNiwaCipra {N : ℕ} [NeZero N] (hN : 4 ∣ N) {k : ℕ} (hk : 1 ≤ k)
+    (f : cuspSpace k (Gamma0 N)) (t : ℕ) (ht : Squarefree t) :
+    ∃ F : ModularForm ((Gamma0 (N / 2)).map (Matrix.SpecialLinearGroup.mapGL ℝ)) (2 * k : ℤ),
+      ∀ n : ℕ, 0 < n → (UpperHalfPlane.qExpansion 1 F).coeff n =
+        ∑ d ∈ n.divisors, (if Nat.Coprime d N then (jacobiSym ((-1) ^ k * t) d : ℂ) else 0) *
+          (d : ℂ) ^ (k - 1) * coeff (f : HalfIntegralForm k (Gamma0 N)) (t * n ^ 2 / d ^ 2) :=
+  sorry
+
+end HalfIntegralForm
+
 /-! ## Layer 3: the `η` multiplier system -/
 
 section Eta
@@ -395,6 +419,25 @@ theorem finrank_plusSpace (hk : 1 ≤ k) :
     Module.finrank ℂ (plusSpace k) = Module.finrank ℂ
       (ModularForm ((CongruenceSubgroup.Gamma 1).map (Matrix.SpecialLinearGroup.mapGL ℝ))
         (2 * k : ℤ)) := sorry
+
+/-- **5.3**, the Kronecker symbol `(D/d)` for `d ≥ 1`: `(D/2)^{v₂(d)} (D/d')` with `d'` the odd
+part of `d`, where `(D/2) = χ₈(D)` is `1, −1, 0` for `D ≡ ±1, ±3 (mod 8)` and `D` even, and
+`(D/d')` is Mathlib's `jacobiSym`. Only the values at `d ≥ 1` are used. -/
+def kroneckerSymNat (D : ℤ) (d : ℕ) : ℤ :=
+  ZMod.χ₈ (D : ZMod 8) ^ padicValNat 2 d * jacobiSym D (d / 2 ^ padicValNat 2 d)
+
+/-- **5.3, Kohnen's lift** `Sh_D⁺` (Kohnen–Zagier, equation (4), p.182): for `k ≥ 1`, a
+fundamental discriminant `D` with `(−1)^k D > 0` and `g = ∑ c(n) qⁿ ∈ S⁺_{k+1/2}(Γ₀(4))`, the
+divisor sums `A_D⁺(n) = ∑_{d ∣ n} (D/d) d^{k−1} c(|D| n²/d²)` are the coefficients of a cusp
+form of weight `2k` on `SL₂(ℤ)`. -/
+theorem kohnenLift (hk : 1 ≤ k) {D : ℤ} (hD : D.IsFundamentalDiscr)
+    (hsign : 0 < (-1) ^ k * D) (g : HalfIntegralForm k (Gamma0 4))
+    (hg : g ∈ plusSpace k ⊓ cuspSpace k (Gamma0 4)) :
+    ∃ F : CuspForm ((CongruenceSubgroup.Gamma 1).map (Matrix.SpecialLinearGroup.mapGL ℝ))
+        (2 * k : ℤ),
+      ∀ n : ℕ, 0 < n → (UpperHalfPlane.qExpansion 1 F).coeff n =
+        ∑ d ∈ n.divisors, (kroneckerSymNat D d : ℂ) * (d : ℂ) ^ (k - 1) *
+          coeff g (D.natAbs * n ^ 2 / d ^ 2) := sorry
 
 end HalfIntegralForm
 

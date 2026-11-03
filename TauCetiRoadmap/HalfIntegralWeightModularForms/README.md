@@ -321,7 +321,9 @@ some of them differently from the sources.
   its nonvanishing and its logarithmic derivative, no eta transformation law and no Dedekind sums.
 - `DirichletCharacter ℂ N`, `changeLevel`, `conductor`, `primitiveCharacter`,
   `MulChar.equivToUnitHom`, `DirichletCharacter.Even`/`Odd`; `jacobiSym` with quadratic reciprocity,
-  `ZMod.χ₄`, `ZMod.χ₈`; `LSeries`, `ArithmeticFunction` (1.2); `Complex.cpow`, `Real.rpow`.
+  `ZMod.χ₄`, `ZMod.χ₈`; `Int.IsFundamentalDiscr` (`FundamentalDiscriminant.lean`, with
+  `isFundamentalDiscr_iff_squarefree`) and `padicValNat` (5.3); `LSeries`, `ArithmeticFunction`
+  (1.2); `Complex.cpow`, `Real.rpow`.
 
 ### From Tau Ceti
 
@@ -523,10 +525,15 @@ are stable under `⟨d⟩`, under multiplication by integral-weight forms, and `
 cusp form. **Identification:** for `χ = 1`, `S_{k+1/2}(N, 1)` equals, as a set of functions on `ℍ`,
 GeometryOfNumbersAndQuadraticArithmetic §4.3's `HalfIntegralCuspForm (k + 1/2) N` (its law
 `f(γτ) = j(γ, τ)^{2k+1} f(τ)` is the `j`-form of 0.2, and its vanishing at every cusp "after the
-metaplectic lift" is the `IsZeroAtImInfty` condition by 0.3's equivalence). Define the Petersson
+metaplectic lift" is the `IsZeroAtImInfty` condition by 0.3's equivalence). Prove the **decay
+of cusp forms** (Hecke's argument): for `Γ` of finite index and `f ∈ S_{k+1/2}(Γ)`, the function
+`|f(z)| Im(z)^{(2k+1)/4}` is bounded on `ℍ`, since it is `Γ`-invariant by `|j(γ, z)|² = |cz + d|`
+and tends to `0` at every cusp; hence, when `T ∈ Γ`, the **trivial bound**
+`a(n) = O(n^{(2k+1)/4}) = O(n^{k/2+1/4})`, by integrating over the horizontal line at height
+`1/n`. Define the Petersson
 product on `S_{k+1/2}(N, χ)` by `⟨f, g⟩ = ∫_{Γ₀(N)\ℍ} f ḡ y^{k+1/2} dμ`, `dμ = dx dy/y²`: the
 integrand is `Γ₀(N)`-invariant because `|j(γ, z)| = |cz + d|^{1/2}` and `|χ(d)| = 1`, and it
-converges because cusp forms decay; prove it is a positive definite Hermitian form, and that on
+converges by the decay just proved; prove it is a positive definite Hermitian form, and that on
 `S_{k+1/2}(N, 1)` it is §4.3's product. Define the Eisenstein complement
 `E_{k+1/2}(N, χ) := S_{k+1/2}(N, χ)^⊥` in `M_{k+1/2}(N, χ)` with respect to the product extended
 to pairs with one cuspidal factor, and prove `M = S ⊕ E` with `dim E ≤ #cusps of Γ₀(N)`.
@@ -537,6 +544,7 @@ to pairs with one cuspidal factor, and prove `M = S ⊕ E` with `dim E ≤ #cusp
 The definition has the following API.
 
 - Cusp vanishing is linear and is equivalent to the phase-sensitive Fourier criterion at every cusp.
+- A cusp form on a finite-index group has `|f(z)| Im(z)^{(2k+1)/4}` bounded on `ℍ`, and its period-one coefficients are `O(n^{k/2+1/4})`.
 - The Petersson pairing converges on cusp forms and is positive definite; against one cusp form it also pairs with every modular form.
 - The Eisenstein complement gives the displayed direct sum and agrees with the supplier pairing for trivial character.
 
@@ -549,6 +557,14 @@ The definition has the following API.
   one of `S_{1/2}(1728, 1)`.
 - The Petersson product is positive on `δ ∈ S⁺_{13/2}(4)`; for `χ = 1` it is §4.3's product; the
   Kohnen–Zagier `⟨g, g⟩` of 5.5 is this product divided by `6`.
+- The decay needs cuspidality: for `θ` (weight `1/2`, not a cusp form) `|θ(iy)| y^{1/4} → ∞` as
+  `y → ∞`, since `θ(iy) → 1`. The exponent is sharp for weight `3/2`: `h_{χ₋₄,1} = 2η(8z)³`
+  of 4.1 is a cusp form whose coefficient at `n = m²` is `±2m = 2 n^{1/2}`, against the bound
+  `O(n^{3/4})`.
+- The bound is not inherited from `fθ`: `θ^{−1} = 1 − 2q + 4q² − 8q³ + 14q⁴ − ⋯` has
+  coefficient `2062` at `q¹⁶`, growing faster than any power of `n` because `θ` vanishes at the
+  cusp `1/2` (0.6), so dividing the integral-weight bound for `fθ` by `θ` gives no termwise
+  bound for `a(n)`.
 
 The vanishing predicate on functions is `ZeroAtCusps`; on a form it is
 `HalfIntegralForm.IsCuspForm`, whose submodule is `HalfIntegralForm.cuspSpace`.
@@ -656,8 +672,8 @@ Note the consequence that `a(t) = 0` for a squarefree `t` forces `a(tn²) = 0` f
 
 Define `Sh t : S_{k+1/2}(N, χ) →ₗ[ℂ] M_{2k}(Γ₁(N/2))` for `k ≥ 1` and squarefree `t` by
 the positive `q`-coefficients `A_t(n) = ∑_{d ∣ n} χ_t(d) d^{k−1} a(tn²/d²)` (so
-`∑ A_t(n) n^{−s} = L(s − k + 1, χ_t) ∑ a(tn²) n^{−s}`), convergent on `ℍ` by the trivial bound `a(n) = O(n^{k/2+1/4})`
-from `m_θ` and the integral-weight Hecke bound; that the series is a modular form is Niwa's
+`∑ A_t(n) n^{−s} = L(s − k + 1, χ_t) ∑ a(tn²) n^{−s}`), convergent on `ℍ` by 0.5's trivial bound
+`a(n) = O(n^{k/2+1/4})`, which gives `|A_t(n)| ≤ C t^{k/2+1/4} τ(n) n^{k+1/2}`; that the series is a modular form is Niwa's
 theorem below. Include the constant term determined by modularity, which can be
 nonzero in weight `2` (Cipra, equation (2.60), p.90); it is zero when the image is cuspidal.
 The hypothesis `k ≥ 1` is not removable (4.4). Prove:
@@ -704,6 +720,13 @@ The definition has the following API.
 - Reject `k = 0`: for squarefree `t`, on `θ_{ψ,t}` the formula gives
   `A_t(n) = 2ψ(n) ∑_{d∣n, (d,4r²t)=1} d^{−1}`, not a constant
   (`A_t(1) = 2`), so no modular form of weight `0` arises (4.4).
+
+The acceptance statement is `HalfIntegralForm.shimuraNiwaCipra`, the Shimura–Niwa–Cipra theorem
+for trivial character: for `k ≥ 1`, `f` in the cusp subspace of `HalfIntegralForm k (Γ₀(N))`
+and squarefree `t`, the divisor sums with `χ_t(d) = ((−1)^k t / d)` for `(d, N) = 1` and `0`
+otherwise are the positive-index coefficients of a form in `M_{2k}(Γ₀(N/2))`. The
+character-twisted statement is the same theorem on the eigenspaces of 0.4, and the constant
+term, the Hecke equivariance and the Euler product remain targets of this layer.
 
 ### Examples
 
@@ -964,7 +987,7 @@ holomorphic and nonvanishing on `ℍ`, that its multiplier on `Γ₀(N)` is `∏
 `s := ∏_m m^{r_m} ∈ ℚ_{>0}` and `(2s/d)` is the Kronecker symbol of the squarefree-free part
 (write `2s = u v²` with `u` a squarefree-with-sign integer times a power of `2`, and read
 `(2s/d) := (u/d)`; `d` is odd and coprime to `N`), together with the **order at the cusps**
-(Ligozat): at the cusp `a/c` of `Γ₀(N)`, `c ∣ N`, the order in the local parameter is
+(Ligozat, Proposition 3.2.8): at the cusp `a/c` of `Γ₀(N)`, `c ∣ N`, the order in the local parameter is
 `(N/24) ∑_m gcd(c, m)² r_m / (gcd(c, N/c) · c · m)`, so the quotient lies in `M_{k+1/2}(N, (2s/·))`
 when every order is `≥ 0` and in `S_{k+1/2}(N, (2s/·))` when every order is `> 0`. ⚠ The
 character `(2s/·)` is the half-integral-weight counterpart of the Gordon–Hughes–Newman character
@@ -1363,9 +1386,25 @@ The definition has the following API.
   `τ(5) = 4830`, and `T⁺(4)δ = −24δ` matches `τ(2) = −24`.
 - `dim M⁺_{k+1/2}(4) = dim M_{2k}(SL₂(ℤ)) = 0, 1, 1, 1, 1, 2, 1, 2, 2, 2` for `k = 1, …, 10`;
   `M⁺_{5/2}(4) = ℂ(θ⁵ − 20θF)` goes to `ℂE₄`.
+- Kronecker values: `(5/2) = −1`, `(−7/2) = 1`, `(−3/2) = −1`, `(−4/2) = (8/2) = 0`, `(5/3) = −1`,
+  `(1/d) = 1` for every `d ≥ 1`; reading `(D/2)` as the Legendre symbol at the prime `2` (the
+  parity of `D`) would give `(5/2) = 1`.
+- `Sh_5⁺(δ)` (`D = 5`, `k = 6`): `A(1) = c(5) = 120`, `A(2) = c(20) + (5/2) 2⁵ c(5) = 960 − 3840 =
+  −2880 = 120 τ(2)`, `A(3) = c(45) + (5/3) 3⁵ c(5) = 59400 − 29160 = 30240 = 120 τ(3)`, so
+  `Sh_5⁺(δ) = c(5) Δ` at these indices (Kohnen–Zagier's table, p.178).
 
 The dimension headline `HalfIntegralForm.finrank_plusSpace` assumes `1≤k`, matching this
 layer's standing hypotheses; the coefficient-support submodule is `HalfIntegralForm.plusSpace`.
+The lift headline is `HalfIntegralForm.kohnenLift`: for `k ≥ 1`, a fundamental discriminant `D`
+(Mathlib's `Int.IsFundamentalDiscr`) with `(−1)^k D > 0` and `g ∈ S⁺_{k+1/2}(4)`, the series
+`∑_{n ≥ 1} A_D⁺(n) qⁿ` is the expansion of a cusp form of weight `2k` on `SL₂(ℤ)`; its Hecke
+equivariance and the eigenform identity `Sh_D⁺(g) = c(|D|) f` remain targets. Its Kronecker
+symbol `(D/d)` for `d ≥ 1` is `HalfIntegralForm.kroneckerSymNat`: `(D/2)^{v₂(d)} (D/d')` with `d'`
+the odd part of `d`, `(D/2) = χ₈(D)` (`1` for `D ≡ ±1`, `−1` for `D ≡ ±3 (mod 8)`, `0` for
+even `D`) and `(D/d')` the Jacobi symbol. It is the theta-series roadmap's `kroneckerSym` at a
+positive second argument, written with this closed formula only so that the headline elaborates
+at the pins; prove that the two agree for `d ≥ 1`, so that the lift is stated through the
+consumed symbol.
 
 ### 5.4 Kohnen's plus space at level `4N`
 
@@ -1592,10 +1631,13 @@ restricting to `J^{cusp}_{k,1} ≃ S⁺_{k−1/2}(4)`, and compatible with Hecke
 5.3 gives the **Hecke-equivariant isomorphism `J_{k,1} ≅ M_{2k−2}(SL₂(ℤ))`**,
 `J^{cusp}_{k,1} ≅ S_{2k−2}(SL₂(ℤ))` (Eichler–Zagier, Theorem 5.4 with Kohnen's isomorphism), under
 which `E_{k,1} ↦ E_{2k−2}` up to a scalar and a Jacobi eigenform corresponds to an eigenform with
-the same `T_p`-eigenvalues. Prove the **dimension bound**, for even `k ≥ 2` and `m ≥ 1`,
-`dim J_{k,m} ≥ ∑_{j=0}^{m} (dim M_{k+2j}(SL₂(ℤ)) − ⌈j²/(4m)⌉)`,
+the same `T_p`-eigenvalues. Prove the **dimension bound**, for `m ≥ 1`: for even `k ≥ 2`,
+`dim J_{k,m} ≥ ∑_{j=0}^{m} (dim M_{k+2j}(SL₂(ℤ)) − ⌈j²/(4m)⌉)`, and for odd `k ≥ 1`,
+`dim J_{k,m} ≥ ∑_{j=1}^{m−1} (dim M_{k+2j−1}(SL₂(ℤ)) − ⌈j²/(4m)⌉)`, in both parities
 with equality for `k > m` (Eichler–Zagier, 1983 preprint, corollary to Theorem 9.2,
-pp.101–102). For the remaining weights, construct the map from weak Jacobi forms to their
+pp.101–102: the sums are the dimensions of the weak spaces of §9's free-module theorem, less
+the number of polar coefficients `c(n, r)` with `0 ≤ r ≤ m` and `1 ≤ r ≤ m − 1` in the two
+parities, since `c(n, 0) = c(n, m) = 0` for odd `k`). For the remaining weights, construct the map from weak Jacobi forms to their
 negative-discriminant coefficients; prove that its kernel is `J_{k,m}` and use its rank
 to give the exact dimension, with no assertion that these conditions are independent.
 Here weak means the same transformation laws with only `n ≥ 0` required of the Fourier
@@ -1619,6 +1661,10 @@ The definition has the following API.
 
 - At `(k,m)=(2,6)`, the modular dimensions are `0,1,1,1,1,2,1` and the ceilings are `0,1,1,1,1,2,2`; the lower bound is `−1`, not an asserted dimension.
 - At `(k,m)=(4,1)`, the sum is `1+1−1=1`, and `k>m` makes it an equality.
+- At `(k,m)=(11,2)`, the odd bound is `dim M_{12} − ⌈1/8⌉ = 2 − 1 = 1`, an equality since
+  `k > m`; `Δ(τ) φ_{−1,2}(τ, z)` is a nonzero element of `J_{11,2}` (its coefficients sit at
+  `8n − r² ≥ 4`), so odd weight is not empty for `m > 1`, while at `m = 1` the odd sum is empty
+  and `J_{k,1} = 0` as in 6.1.
 - For `E_{4,1}`, theta recombination gives `1+56q³+126q⁴+…`, supported on `0,3 mod 4`, as required for weight `7/2`.
 
 ### 6.4 The Skoruppa–Zagier correspondence
@@ -1878,8 +1924,8 @@ objects.
   Dedekind sums) (3.3).
 - Knopp, M. *Modular Functions in Analytic Number Theory*, Markham 1970: Chapter 4 (the
   Rademacher closed form of `ν_η`) (3.3).
-- Ligozat, G. *Courbes modulaires de genre 1*, Bull. Soc. Math. France Mém. 43 (1975): the order of
-  an eta quotient at the cusps of `Γ₀(N)` (3.4).
+- Ligozat, G. *Courbes modulaires de genre 1*, Bull. Soc. Math. France Mém. 43 (1975): Proposition
+  3.2.8, the order of an eta quotient at the cusps of `Γ₀(N)` (3.4).
 - Cohen, H. *Sums involving the values at negative integers of L-functions of quadratic characters*,
   Math. Ann. 217 (1975), 271–285: `H(k, N)` and `H_{k+1/2}` (5.1).
 - Gross, B., Kohnen, W., Zagier, D. *Heegner points and derivatives of L-series II*, Math. Ann. 278
