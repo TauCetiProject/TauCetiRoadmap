@@ -164,7 +164,7 @@ Layers 2, 4, 6 and 7: torsion/Tate modules, local reduction and Tate uniformizat
 
 ### From TauCetiRoadmap.SelmerIwasawaCohomology
 
-§§0.6, 0.8 limit Kummer; §2.12a abelian Kummer/Selmer/Sha and `abelianSelmerGroup_finite`; §§2.3, 2.5–2.8, 2.13–2.22 Selmer propagation, saturation, ordinary conditions, duality and mapping fibres; §§3.1–3.3, 3.5–3.6, 3.9–3.11 Iwasawa–Shapiro, universal norms, semilocal and derived control; §§4.9, 4.12 finite/ordinary local comparison with errors.
+§§0.6, 0.8 limit Kummer; §2.12a abelian Kummer/Selmer/Sha and the finiteness of `Sel_φ(A/K)` for every isogeny; §§2.3, 2.5–2.8, 2.13–2.22 Selmer propagation, saturation, ordinary conditions, duality and mapping fibres; §§3.1–3.3, 3.5–3.6, 3.9–3.11 Iwasawa–Shapiro, universal norms, semilocal and derived control; §§4.9, 4.12 finite/ordinary local comparison with errors.
 
 What SelmerIwasawaCohomology must provide (gap:surjective-three-integral-comparison): For p=3, E/ℚ good ordinary with surjective residual G_ℚ image and K satisfying (disc),(Heeg),(spl), use the actual Heegner family and integral family logarithm to prove equivalence of both integral Heegner-index and (0,∅)-Greenberg/BDP divisibilities of §8b.2, retaining height-one (3) lengths, coefficient extension, periods, involution and every finite local cokernel, without inverting 3 or assuming either divisibility.
 
@@ -1266,7 +1266,7 @@ In the integral RM context above, for each 𝔭 the finite-level Selmer quotient
 
 ([nekovar](#references), §3.5 p.19; §7.1.2 p.43; Theorem7.3 and proof pp.45–47; locators use the 53-page author preprint, not published pagination.)
 
-*Needs:* [Dyadic integral conjugation descent](#76-dyadic-integral-conjugation-descent); EulerSystemsAndKolyvaginSystems §§4.13, 4.18–4.19 All-prime descent and uniform errors; SelmerIwasawaCohomology §2.12a, `abelianSelmerGroup_finite` and abelian descent; ArithmeticGaloisDuality R02.2.
+*Needs:* [Dyadic integral conjugation descent](#76-dyadic-integral-conjugation-descent); EulerSystemsAndKolyvaginSystems §§4.13, 4.18–4.19 All-prime descent and uniform errors; SelmerIwasawaCohomology §2.12a, finiteness of `Sel_φ(A/K)` for every isogeny and abelian descent; ArithmeticGaloisDuality R02.2.
 
 ### 7.8 CM and Heegner fields
 
@@ -1306,7 +1306,7 @@ In the integral RM context above, A(K)/O_Ly is finite, rank_Z A(K)=[L:Q]=dim A, 
 
 ([nekovar](#references), §§3.1–3.2 pp.18–19; §7.1 pp.43–44; §§7.3–7.5 pp.45–47; locators use the 53-page author preprint, not published pagination.)
 
-*Needs:* HeightsRationalPointsAndObstructions §1.7 “Mordell–Weil”; [Integral Tate image errors](#73-integral-tate-image-errors); [Arithmetic derivative denominators at exceptional primes](#75-arithmetic-derivative-denominators-at-exceptional-primes); [Exceptional primary Sha exponent bound](#77-exceptional-primary-sha-exponent-bound); [Almost-all primary Sha vanishing](#710-almost-all-primary-sha-vanishing); EulerSystemsAndKolyvaginSystems §§4.13, 4.18–4.19 All-prime descent and uniform errors; HilbertModularVarietiesAndShimuraCurves R18.1; HilbertModularVarietiesAndShimuraCurves R18.4; GrossZagierAndArithmeticHeights §8.11 The Yuan–Zhang–Zhang Gross–Zagier formula; SelmerIwasawaCohomology §2.12a, abelian Kummer/Selmer/Sha and `abelianSelmerGroup_finite`.
+*Needs:* HeightsRationalPointsAndObstructions §1.7 “Mordell–Weil”; [Integral Tate image errors](#73-integral-tate-image-errors); [Arithmetic derivative denominators at exceptional primes](#75-arithmetic-derivative-denominators-at-exceptional-primes); [Exceptional primary Sha exponent bound](#77-exceptional-primary-sha-exponent-bound); [Almost-all primary Sha vanishing](#710-almost-all-primary-sha-vanishing); EulerSystemsAndKolyvaginSystems §§4.13, 4.18–4.19 All-prime descent and uniform errors; HilbertModularVarietiesAndShimuraCurves R18.1; HilbertModularVarietiesAndShimuraCurves R18.4; GrossZagierAndArithmeticHeights §8.11 The Yuan–Zhang–Zhang Gross–Zagier formula; SelmerIwasawaCohomology §2.12a, abelian Kummer/Selmer/Sha and finiteness of `Sel_φ(A/K)` for every isogeny.
 
 ### 7.13 Classical square-index bound
 
