@@ -26,13 +26,14 @@ KMS states and the analytic KMS identity (D7).
 Not statable at the pins, with the carrier each lacks:
 - the universal property of `A ⋊_α G`, the full and reduced comparison, the ideal exact sequence,
   Takai duality and the twisted products `A ⋊_(α,ω) G`: no crossed-product C*-algebra;
-- Green and symmetric imprimitivity (D3): no Hilbert C*-module or Morita equivalence;
+- Green and symmetric imprimitivity (D3): no crossed-product C*-algebra to serve as the
+  coefficient algebras of the imprimitivity bimodule (`CStarModule` is the module carrier, but
+  `A ⋊_α G` and `D ⋊_β H` are not available);
 - the LCA Weyl classification (D3.LCAWeyl): no Hilbert-space tensor product or multiplicity
   amplification;
 - disintegration, Renault equivalence and the universal identification of `O_n` (D5–D6): no
   groupoid C*-algebra and no universal Cuntz algebra;
-- the modular characterization of KMS states and the Choquet simplex of KMS states (D7): no
-  von Neumann algebra, modular operator or Choquet simplex;
+- the Choquet simplex of KMS states (D7): no Choquet simplex carrier;
 - the quasi-free KMS states (D8) and the high-temperature uniqueness theorem (D9): no CAR algebra,
   Weyl algebra or quasi-local algebra.
 -/
