@@ -6,7 +6,7 @@ import Mathlib
 # Hypergeometric motives over `ℚ`: target signatures
 
 The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
-theorems against the pinned Mathlib, each with `sorry`, together with the few definitions with
+theorems against the pinned Mathlib and Tau Ceti APIs, each with `sorry`, together with the few definitions with
 real bodies that make them statable: the two carriers `HypergeometricParameters` (disjoint
 multisets `α, β` in `ℚ/ℤ` of equal cardinality) and `CyclotomicData` (the LMFDB's `(A, B)`), the
 zigzag invariants, the Levelt matrices, the Bézout matrix, the finite sums of Katz, Greene and
@@ -21,13 +21,17 @@ are headlines (`frobeniusSum_primitiveData` reads the first, `hypergeometricSumR
 Headline theorems that are not statable at the pins, and what each lacks:
 
 * Katz's identification of `q^δ H_q` with the Frobenius trace of the hypergeometric ℓ-adic sheaf
-  and of the motive `H(A, B, t)` (6.4): neither the sheaf nor a category of motives with
-  realizations exists in Mathlib.
-* Fedorov's theorem that the zigzag numbers are the Hodge numbers of the family (2.2, 6.4): no
-  variation of Hodge structure attached to the hypergeometric equation exists in Mathlib.
+  and of the motive `H(A, B, t)` (5.0, 6.4): the hypergeometric sheaf, geometric
+  compact-support motive and its realization comparisons are absent at the pins.
+* Fedorov's theorem that the zigzag numbers are the Hodge numbers of the family (2.2, 5.0): no
+  filtered geometric realization attached to the hypergeometric equation exists at the pins,
+  although Tau Ceti supplies abstract Hodge structures.
 * The sign `ε_p = (-1)^d χ_Disc(p)` of the local functional equation (5.8): it reads the
   determinant of Frobenius on the realization, and `kroneckerChar` is a roadmap target.
-* The L-function card of 5.13: `ArithmeticLFunctionData` is a roadmap target.
+* The all-prime local-invariant comparison, signed real signature and special-fibre theorem
+  of 5.0 and 5.9–5.10 lack the constructed geometric realization.
+* The L-function card of 5.13 lacks that realization and `ArithmeticLFunctionData`; its
+  all-prime rational compatibility and analytic hypotheses remain explicit in the README.
 * Beukers–Cohen–Mellit Theorem 1.5 (the point count of the smooth completion, 6.3): the smooth
   completion is not constructed.
 -/
@@ -44,7 +48,8 @@ noncomputable section
 /-- The rational circle `ℚ/ℤ`, Mathlib's `AddCircle (1 : ℚ)`. -/
 abbrev QmodZ := AddCircle (1 : ℚ)
 
-instance : Fact ((0 : ℚ) < 1) := ⟨one_pos⟩
+/-- Positivity of the rational circle period. -/
+instance instPositivePeriod : Fact ((0 : ℚ) < 1) := ⟨one_pos⟩
 
 /-- **1.1**, the representative in `(0, 1]` of a class in `ℚ/ℤ`, through `AddCircle.equivIoc`.
 The class of `0` is represented by `1`, as the LMFDB displays `β = (1, …, 1)`. -/
@@ -133,24 +138,6 @@ def PhiA : ℤ[X] := (D.A.map fun a => cyclotomic a ℤ).prod
 /-- **1.2**, `Φ_B = ∏_{b ∈ B} Φ_b` over `ℤ`. -/
 def PhiB : ℤ[X] := (D.B.map fun b => cyclotomic b ℤ).prod
 
-/-- **1.2**, bridge check: `Φ_A` is monic, by Mathlib's `monic_multiset_prod_of_monic`. -/
-theorem monic_PhiA : D.PhiA.Monic :=
-  monic_multiset_prod_of_monic _ _ fun a _ => cyclotomic.monic a ℤ
-
-theorem monic_PhiB : D.PhiB.Monic :=
-  monic_multiset_prod_of_monic _ _ fun b _ => cyclotomic.monic b ℤ
-
-/-- **1.2**, bridge check: `natDegree Φ_A = d`, by Mathlib's `natDegree_multiset_prod_of_monic`
-and `natDegree_cyclotomic`. -/
-theorem natDegree_PhiA : D.PhiA.natDegree = D.degree := by
-  unfold PhiA degree
-  rw [natDegree_multiset_prod_of_monic _ fun f hf => by
-    obtain ⟨a, -, rfl⟩ := Multiset.mem_map.1 hf
-    exact cyclotomic.monic a ℤ]
-  simp [Multiset.map_map, natDegree_cyclotomic]
-
-theorem natDegree_PhiB : D.PhiB.natDegree = D.degree := sorry
-
 /-- **1.2**, the multiplicity `m_A` of `1` in `A`. -/
 def multOne_A : ℕ := D.A.count 1
 
@@ -164,37 +151,30 @@ def primitiveClasses (A : Multiset ℕ) : Multiset QmodZ :=
     ((Finset.Icc 1 a).filter fun k => Nat.Coprime k a).val.map fun k : ℕ =>
       (((k : ℚ) / a : ℚ) : QmodZ)
 
-/-- **1.3**, the count of `k ∈ [1, a]` coprime to `a` is `φ(a)`, by Mathlib's
-`Nat.filter_coprime_Ico_eq_totient`. -/
-theorem card_primitiveClasses (A : Multiset ℕ) :
-    Multiset.card (primitiveClasses A) = (A.map Nat.totient).sum := by
-  rw [primitiveClasses, Multiset.card_bind]
-  congr 1
-  refine Multiset.map_congr rfl fun a _ => ?_
-  have h : Finset.Icc 1 a = Finset.Ico 1 (1 + a) := by
-    ext k; simp only [Finset.mem_Icc, Finset.mem_Ico]; omega
-  rw [Function.comp_apply, Multiset.card_map, Finset.card_val, h,
-    ← Nat.filter_coprime_Ico_eq_totient a 1]
-  simp only [Nat.coprime_comm]
-
-/-- **1.3**, a class `k/a` in lowest terms has additive order `a`
-(Mathlib's `AddCircle.addOrderOf_div_of_gcd_eq_one`), so it determines `a`. -/
-theorem addOrderOf_mem_of_mem_primitiveClasses {A : Multiset ℕ} {x : QmodZ}
-    (hx : x ∈ primitiveClasses A) : addOrderOf x ∈ A := by
-  obtain ⟨a, ha, hx⟩ := Multiset.mem_bind.1 hx
-  obtain ⟨k, hk, rfl⟩ := Multiset.mem_map.1 hx
-  rw [Finset.mem_val, Finset.mem_filter, Finset.mem_Icc] at hk
-  have h := AddCircle.addOrderOf_div_of_gcd_eq_one (p := (1 : ℚ)) (m := k) (n := a)
-    (by omega) hk.2
-  rw [mul_one] at h
-  rwa [h]
-
 /-- **1.3**, the dictionary: `α` from `A` and `β` from `B`, the LMFDB's reading. -/
-def toParameters : HypergeometricParameters :=
-  ⟨primitiveClasses D.A, primitiveClasses D.B,
-    by rw [card_primitiveClasses, card_primitiveClasses, D.degree_eq],
-    fun _ hA hB => D.disjoint _ (addOrderOf_mem_of_mem_primitiveClasses hA)
-      (addOrderOf_mem_of_mem_primitiveClasses hB)⟩
+def toParameters : HypergeometricParameters := by
+  have card_classes (A : Multiset ℕ) :
+      Multiset.card (primitiveClasses A) = (A.map Nat.totient).sum := by
+    rw [primitiveClasses, Multiset.card_bind]
+    congr 1
+    refine Multiset.map_congr rfl fun a _ => ?_
+    have h : Finset.Icc 1 a = Finset.Ico 1 (1 + a) := by
+      ext k; simp only [Finset.mem_Icc, Finset.mem_Ico]; omega
+    rw [Function.comp_apply, Multiset.card_map, Finset.card_val, h,
+      ← Nat.filter_coprime_Ico_eq_totient a 1]
+    simp only [Nat.coprime_comm]
+  have order_mem {A : Multiset ℕ} {x : QmodZ}
+      (hx : x ∈ primitiveClasses A) : addOrderOf x ∈ A := by
+    obtain ⟨a, ha, hx⟩ := Multiset.mem_bind.1 hx
+    obtain ⟨k, hk, rfl⟩ := Multiset.mem_map.1 hx
+    rw [Finset.mem_val, Finset.mem_filter, Finset.mem_Icc] at hk
+    have h := AddCircle.addOrderOf_div_of_gcd_eq_one (p := (1 : ℚ)) (m := k) (n := a)
+      (by omega) hk.2
+    rw [mul_one] at h
+    rwa [h]
+  exact ⟨primitiveClasses D.A, primitiveClasses D.B,
+    by rw [card_classes, card_classes, D.degree_eq],
+    fun _ hA hB => D.disjoint _ (order_mem hA) (order_mem hB)⟩
 
 /-- **1.3**, every Galois-stable pair comes from a unique cyclotomic datum (and `toParameters D`
 is Galois stable). -/
@@ -295,7 +275,8 @@ def IsTame (t : ℚ) (p : ℕ) : Prop := p.Prime ∧ ¬D.IsWild p ∧ (cuspAt t 
 /-- **1.11**, `p` is good for `(D, t)`: neither wild nor tame. -/
 def IsGood (t : ℚ) (p : ℕ) : Prop := p.Prime ∧ ¬D.IsWild p ∧ ¬D.IsTame t p
 
-instance : Nonempty CyclotomicData := ⟨⟨0, 0, by simp, by simp, rfl⟩⟩
+/-- The empty pair is a cyclotomic datum. -/
+instance instNonemptyCyclotomicData : Nonempty CyclotomicData := ⟨⟨0, 0, by simp, by simp, rfl⟩⟩
 
 /-- **1.9**, the primitive datum: the cyclotomic datum with gamma function `n ↦ γ(ρ n)`, `ρ` the
 rotation number. A datum is determined by its gamma vector (1.4, `gamma_unique`), and the README
@@ -428,7 +409,8 @@ variable {K : Type*} [Field K] {d : ℕ} {p q : K[X]} (hp : p.Monic) (hq : q.Mon
 /-- **3.4 (i)**, Levelt's theorem over any field `K`, rigidity: if `p, q` are monic of degree `d`
 with no common root in `K̄` (`IsCoprime p q`), a triple `g_∞ g_1 g_0 = 1` in `GL_d(K)` with
 `charpoly g_∞ = p`, `charpoly g_0⁻¹ = q` and `g_1` a pseudo-reflection is simultaneously conjugate
-to `(C(p), C(p)⁻¹ C(q), C(q)⁻¹)` (Beukers–Heckman Theorem 3.5; Qian Lemma 3.4). -/
+to `(C(p), C(p)⁻¹ C(q), C(q)⁻¹)` (the field generalization of Beukers–Heckman Theorem 3.5; Qian Lemma 3.4 supplies the
+companion convention in a cyclotomic setting). -/
 theorem levelt_rigidity_field (hcop : IsCoprime p q) (gInf gOne gZero : Matrix (Fin d) (Fin d) K)
     (hrel : gInf * gOne * gZero = 1) (hInf : gInf.charpoly = p) (hZero : gZero⁻¹.charpoly = q)
     (hunit : IsUnit gZero) (hOne : (gOne - 1).rank ≤ 1) :
@@ -459,22 +441,19 @@ def qInf : ℂ[X] := (P.α.map fun a => X - C (e a)).prod
 /-- **3.2**, `q_0 = ∏_{b ∈ β} (X - e(b))`. -/
 def qZero : ℂ[X] := (P.β.map fun b => X - C (e b)).prod
 
-theorem monic_qInf : P.qInf.Monic :=
-  monic_multiset_prod_of_monic _ _ fun _ _ => monic_X_sub_C _
-
-theorem monic_qZero : P.qZero.Monic :=
-  monic_multiset_prod_of_monic _ _ fun _ _ => monic_X_sub_C _
-
-theorem natDegree_qInf : P.qInf.natDegree = P.degree := sorry
-
-theorem natDegree_qZero : P.qZero.natDegree = P.degree := sorry
-
 /-- **3.2**, `h_∞ = C(q_∞)`. -/
-def hInf : Matrix (Fin P.degree) (Fin P.degree) ℂ := companionMatrix P.monic_qInf P.natDegree_qInf
+def hInf : Matrix (Fin P.degree) (Fin P.degree) ℂ :=
+  companionMatrix (f := P.qInf)
+    (monic_multiset_prod_of_monic _ _ fun _ _ => monic_X_sub_C _)
+    (by simpa [qInf, degree, Multiset.map_map] using
+      natDegree_multiset_prod_X_sub_C_eq_card (P.α.map e))
 
 /-- **3.2**, `h_0 = C(q_0)⁻¹`. -/
 def hZero : Matrix (Fin P.degree) (Fin P.degree) ℂ :=
-  (companionMatrix P.monic_qZero P.natDegree_qZero)⁻¹
+  (companionMatrix (f := P.qZero)
+    (monic_multiset_prod_of_monic _ _ fun _ _ => monic_X_sub_C _)
+    (by simpa [qZero, degree, Multiset.map_map, P.card_eq] using
+      natDegree_multiset_prod_X_sub_C_eq_card (P.β.map e)))⁻¹
 
 /-- **3.2**, the hypergeometric group `Γ(α, β) = ⟨h_∞, h_0⟩ ≤ GL_d(ℂ)`. -/
 def hypergeometricGroup : Subgroup (GL (Fin P.degree) ℂ) :=
@@ -497,8 +476,7 @@ the representatives of `α` in `[0, 1)`, listed with repetition, and `m_j = #{k 
 index `j` is the position in the sorted list, so equal `α`'s get consecutive indices: for
 `α = (1/2, 1/2, 1/2, 1/2)`, `β = (0, 0, 0, 0)` the sum is `0` (signature `(2, 2)`), where counting
 `#{α' < α_j}` instead would give `4` and a definite form. ⚠ This is the unsigned invariant of the
-monodromy-invariant form; it is not the LMFDB's signed `sig`, which is not owned here
-(`README.md`, *Not owned here*). -/
+monodromy-invariant form; it is distinct from the signed real signature constructed in 5.0. -/
 def bhSignatureDefect : ℕ :=
   (((P.α.map rep0).sort).mapIdx fun j a =>
     (-1 : ℤ) ^ (j + 1 + (P.β.filter fun b => rep0 b < a).card)).sum.natAbs
@@ -541,12 +519,37 @@ namespace CyclotomicData
 variable (D : CyclotomicData)
 
 /-- **3.2**, the integral Levelt matrix `h_∞ = C(Φ_A) ∈ GL_d(ℤ)`. -/
-def hInfInt : Matrix (Fin D.degree) (Fin D.degree) ℤ := companionMatrix D.monic_PhiA D.natDegree_PhiA
+def hInfInt : Matrix (Fin D.degree) (Fin D.degree) ℤ := companionMatrix (f := D.PhiA)
+    (monic_multiset_prod_of_monic _ _ fun a _ => cyclotomic.monic a ℤ)
+    (by
+      unfold PhiA degree
+      rw [natDegree_multiset_prod_of_monic _ fun f hf => by
+        obtain ⟨a, -, rfl⟩ := Multiset.mem_map.1 hf
+        exact cyclotomic.monic a ℤ]
+      simp [Multiset.map_map, natDegree_cyclotomic])
 
 /-- **3.2**, the integral Levelt matrix `h_0 = C(Φ_B)⁻¹ ∈ GL_d(ℤ)`; `Φ_B(0) = ±1` makes the
 inverse integral. -/
 def hZeroInt : Matrix (Fin D.degree) (Fin D.degree) ℤ :=
-  (companionMatrix D.monic_PhiB D.natDegree_PhiB)⁻¹
+  (companionMatrix (f := D.PhiB)
+    (monic_multiset_prod_of_monic _ _ fun b _ => cyclotomic.monic b ℤ)
+    (by
+      unfold PhiB degree
+      rw [natDegree_multiset_prod_of_monic _ fun f hf => by
+        obtain ⟨b, -, rfl⟩ := Multiset.mem_map.1 hf
+        exact cyclotomic.monic b ℤ]
+      simpa [Multiset.map_map, natDegree_cyclotomic] using D.degree_eq.symm))⁻¹
+
+/-- **3.5**, the rational invariant bilinear form for cyclotomic data: nondegenerate,
+symmetric in even weight and alternating in odd weight. Multiplication by `i` in the latter
+case gives the complex invariant Hermitian form (Beukers–Heckman, Theorem 4.3 and §6). -/
+theorem exists_invariantBilinearForm :
+    ∃ B : Matrix (Fin D.degree) (Fin D.degree) ℚ, B.det ≠ 0 ∧
+      B.transpose = (if Even D.weight then B else -B) ∧
+      (D.hInfInt.map (Int.castRingHom ℚ)).transpose * B *
+        D.hInfInt.map (Int.castRingHom ℚ) = B ∧
+      (D.hZeroInt.map (Int.castRingHom ℚ)).transpose * B *
+        D.hZeroInt.map (Int.castRingHom ℚ) = B := sorry
 
 /-- **3.7** with **2.8**: the monodromy of a cyclotomic datum is finite iff its weight is `0`. -/
 theorem finite_hypergeometricGroup_iff_weight_eq_zero (hd : 0 < D.degree) :
@@ -587,7 +590,8 @@ def bezoutDeterminant : ℤ := D.bezoutMatrix.det
 /-- **3.8**, the Bézout module `ℤ^d / B ℤ^d` (LMFDB knowl `hgm.bezout_module`). -/
 def BezoutModule : Type := (Fin D.degree → ℤ) ⧸ LinearMap.range (Matrix.toLin' D.bezoutMatrix)
 
-instance : AddCommGroup D.BezoutModule :=
+/-- The additive group on the integral Bézout cokernel. -/
+instance instBezoutModuleAddCommGroup : AddCommGroup D.BezoutModule :=
   inferInstanceAs
     (AddCommGroup ((Fin D.degree → ℤ) ⧸ LinearMap.range (Matrix.toLin' D.bezoutMatrix)))
 
@@ -647,7 +651,7 @@ def katzExpSum (ω : MulChar F ℂ) (ψ : AddChar F ℂ) (a b : List ℤ) (t : F
     else 0
 
 /-- **4.3**, Beukers–Cohen–Mellit Proposition 3.1: `Hyp_q = ω(-1)^{∑ b} S_q(a, b | t)`. -/
-theorem katzExpSum_eq (ω : MulChar F ℂ) (ψ : AddChar F ℂ) (hψ : ψ.IsPrimitive) (a b : List ℤ)
+theorem katzExpSum_eq (ω : MulChar F ℂ) (hω : orderOf ω = qm F) (ψ : AddChar F ℂ) (hψ : ψ.IsPrimitive) (a b : List ℤ)
     (hab : a.length = b.length) (t : F) (ht : t ≠ 0) :
     katzExpSum ω ψ a b t = ω (-1) ^ b.sum * katzSum ω ψ (↑a) (↑b) t := sorry
 
@@ -832,7 +836,7 @@ def frobeniusPolynomial (t : ℚ) (p : ℕ) [Fact p.Prime] : ℚ[X] :=
 
 /-- **5.5**, the purity hypothesis: the traces at all powers of `p` are the power sums of `d`
 complex numbers of absolute value `p^{w/2}` (Weil `p`-numbers of weight `w`). Katz's theorem
-supplies it for the realization; nothing here asserts it. -/
+supplies it for the realization in README 5.0; that geometric carrier is absent at the pins. -/
 def IsPure (t : ℚ) (p : ℕ) [Fact p.Prime] : Prop :=
   ∃ Λ : Multiset ℂ, Multiset.card Λ = D.degree ∧
     (∀ z ∈ Λ, ‖z‖ = (p : ℝ) ^ ((D.weight : ℝ) / 2)) ∧
@@ -878,7 +882,7 @@ theorem local_functional_equation (t : ℚ) (p : ℕ) [Fact p.Prime] (hsd : D.Is
 
 /-- **5.5**, the sign `ε_p = (-1)^d ∏λ / p^{wd/2}` is `+1` in the symplectic case when no `λ`
 squares to `p^w`; the unconditional `ε_p = 1` for the realization is Poincaré duality with an
-alternating pairing, cited. -/
+alternating pairing, a target of README 5.0. -/
 theorem local_sign_eq_one_of_odd_weight (t : ℚ) (p : ℕ) [Fact p.Prime] (hw : Odd D.weight)
     (Λ : Multiset ℂ) (hcard : Multiset.card Λ = D.degree)
     (hΛ : ∀ z ∈ Λ, ‖z‖ = (p : ℝ) ^ ((D.weight : ℝ) / 2))
@@ -890,9 +894,9 @@ theorem local_sign_eq_one_of_odd_weight (t : ℚ) (p : ℕ) [Fact p.Prime] (hw :
 /-- **5.9**, the tame conductor exponent at a tame prime (Roberts–Rodriguez-Villegas (13.1)):
 `rank (h_0^{v_p(t)} - 1)` at the cusp `zero` (`v_p(t) > 0`), `rank (h_∞^{-v_p(t)} - 1)` at the cusp
 `inf` (`v_p(t) < 0`), and at the cusp `one` the value `1`, or `0` when the type is orthogonal and
-`v_p(t - 1)` is even. -/
+`v_p(t - 1)` is even. The zero datum has exponent zero at every cusp. -/
 def tameConductorExponent (t : ℚ) (p : ℕ) : ℕ :=
-  match cuspAt t p with
+  if D.degree = 0 then 0 else match cuspAt t p with
   | some .zero => (D.hZeroInt ^ (padicValRat p t).toNat - 1).rank
   | some .inf => (D.hInfInt ^ (-padicValRat p t).toNat - 1).rank
   | some .one => if D.type = .orthogonal ∧ Even (padicValRat p (t - 1)) then 0 else 1
@@ -952,14 +956,40 @@ theorem cubic_point_count (h6 : Nat.Coprime (Fintype.card F) 6) (lam : F) (h0 : 
     (Nat.card (cubicFamily lam).toAffine.Point : ℚ) =
       Fintype.card F + 1 - cubicDatum.frobeniusSum F (27 * lam) := sorry
 
-/-- **4.3**, the degree-one datum `A = [1]`, `B = [2]`:
-`H_q(0; 1/2 | t) = φ(t(t - 1))`, the quadratic character of `t(t - 1)`, which is `0` at `t = 1`;
-so the motive `H([1], [2], t)` (`hodgeTwist = 0`) has trace `φ(t(t - 1))`, the determinant
-character of 5.8 for `d = 1`, `1 ∈ A`. -/
-theorem hypergeometricSum_degree_one (hq : Odd (Fintype.card F)) (ω : MulChar F ℂ)
-    (hω : orderOf ω = qm F) (ψ : AddChar F ℂ) (hψ : ψ.IsPrimitive) (t : F) (ht : t ≠ 0) :
-    hypergeometricSum ω ψ {0} {((qm F / 2 : ℕ) : ℤ)} t = (quadraticChar F (t * (t - 1)) : ℂ) :=
-  sorry
+/-- **6.2**, the cubic root-count datum `([3], [1,2])`, distinct from the elliptic datum. -/
+def cubicRootDatum : CyclotomicData := ⟨{3}, {1, 2}, by decide, by decide, by decide⟩
+
+/-- **6.2**, Beukers–Cohen–Mellit Corollary 1.6: the zeros of `x³ + 3x² - 4t` over
+any finite field of cardinality coprime to six are counted by `1 + H_q(1/3,2/3;1,1/2 | t)`. -/
+theorem cubic_root_count (h6 : Nat.Coprime (Fintype.card F) 6) (t : F)
+    (h0 : t ≠ 0) (h1 : t ≠ 1) :
+    (Nat.card {x : F // x ^ 3 + 3 * x ^ 2 - 4 * t = 0} : ℚ) =
+      1 + cubicRootDatum.frobeniusSum F t := sorry
+
+/-- **6.3**, the projective torus in the chart `y₀ = 1`: every coordinate is a unit,
+`∑ xᵢ = ∑ yⱼ` and `t ∏ xᵢ^{pᵢ} = ∏ yⱼ^{qⱼ}`. Balanced exponents make these equations
+homogeneous; every projective orbit has exactly one representative in this chart. -/
+def weightedTorusPoints {r s : ℕ} (p : Fin (r + 1) → ℕ) (q : Fin (s + 1) → ℕ)
+    (t : F) :=
+  {xy : (Fin (r + 1) → Fˣ) × (Fin (s + 1) → Fˣ) //
+    xy.2 0 = 1 ∧ (∑ i, (xy.1 i : F)) = ∑ j, (xy.2 j : F) ∧
+    t * ∏ i, (xy.1 i : F) ^ p i = ∏ j, (xy.2 j : F) ^ q j}
+
+/-- **6.3**, Beukers–Cohen–Mellit Proposition 4.3, pp. 13–14: the weighted projective
+open-torus count, including singular parameters, with primitive balanced positive exponents. -/
+theorem weighted_torus_point_count {r s : ℕ} (p : Fin (r + 1) → ℕ)
+    (q : Fin (s + 1) → ℕ) (hp : ∀ i, 0 < p i) (hq : ∀ j, 0 < q j)
+    (hbal : ∑ i, p i = ∑ j, q j)
+    (hprim : Nat.gcd (Finset.univ.gcd p) (Finset.univ.gcd q) = 1)
+    (ω : MulChar F ℂ) (hω : orderOf ω = qm F) (ψ : AddChar F ℂ)
+    (hψ : ψ.IsPrimitive) (t : F) (ht : t ≠ 0) :
+    (Nat.card (weightedTorusPoints p q t) : ℂ) =
+      (qm F : ℂ) ^ (r + s) / Fintype.card F +
+        (1 / ((Fintype.card F : ℂ) * qm F)) *
+          ∑ m ∈ Finset.range (qm F),
+            (∏ i, gaussSumPow ω ψ ((p i : ℤ) * m)) *
+            (∏ j, gaussSumPow ω ψ (-((q j : ℤ) * m))) *
+            ω ((-1) ^ (∑ j, q j) * t) ^ m := sorry
 
 end PointCounts
 
