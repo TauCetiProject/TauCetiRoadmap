@@ -14,12 +14,12 @@ and spectral constructions in Layers 0–11. The SL polynomial presentation conc
 the existing determinant-kernel coordinate algebra; it introduces no second SL group.
 Layer 7a owns Lang's theorem for the `q`-Frobenius of a smooth geometrically connected
 group over a finite field and the abstract fixed-coset lifting lemma; Layer 9E owns their
-Steinberg-endomorphism extension. IntegralHeckeAndGaloisDeterminants §0.7 owns
-rational cohomology and cotensor induction over flat commutative Hopf algebras;
-Layer 1.1 owns their rational group-scheme adapters. ComplexComparisonPartII
-C-1.1 supplies the classical complex-point topology, smooth charts and
-separated/proper comparisons. Layer 3A.5 owns the group/tangent dictionary,
-algebraic orbit smoothness, and the holomorphic orbit-map and stabilizer comparisons. Layer 11 consumes these comparisons. Layer 11A owns the based comparison between the fundamental
+Steinberg-endomorphism extension. Layer 1.1 owns rational cohomology and cotensor
+induction over flat commutative Hopf algebras, together with their rational
+group-scheme adapters. Layer 3A.5 owns the classical complex-point topology,
+smooth charts and separated/proper comparisons, the group/tangent dictionary,
+algebraic orbit smoothness, and the holomorphic orbit-map and stabilizer
+comparisons. Layer 11 consumes these comparisons. Layer 11A owns the based comparison between the fundamental
 group of the plane configuration space and the native braid group. Layer 9B owns the
 special isogenies in characteristics two and three and the three explicit toral-closure
 carriers it specifies. ReductiveGroupsPartII extends this roadmap and consumes it;
@@ -214,40 +214,13 @@ prove them equivalent** rather than committing.
   `TauCeti.Comodule.Hom.cofreeEquiv` and `TauCeti.ComoduleCat.cofree` over a
   commutative ring. `Comodule/Abelian.lean` supplies the abelian category and exact
   forgetful functor when the coalgebra is flat; `Comodule/Corestrict.lean` supplies
-  corestriction along a coalgebra map. Layer 1.1 transports the cohomology and
-  induction of IntegralHeckeAndGaloisDeterminants §0.7 through the rational
-  group-scheme dictionary.
+  corestriction along a coalgebra map. Layer 1.1 constructs derived invariants
+  and cotensor induction on these carriers and their rational group-scheme adapters.
 - **Analytic local inversion.** `TauCeti/Analysis/Analytic/Inverse.lean` supplies
   `AnalyticAt.exists_openPartialHomeomorph` for an analytic map between Banach
   spaces over a complete nontrivially normed field whose strict derivative at the
   specified point is a continuous linear equivalence. Layer 3A.5 uses it over ℂ
-  for local sections of the orbit map in the supplied smooth charts.
-
-### From TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants
-
-Section 0.7, “Rational cohomology of a flat affine group scheme” and “Algebraic
-induction”, supplies enough injectives, derived invariants and the cofree
-Hochschild complex for a flat commutative Hopf R-algebra and every right comodule
-M over any commutative ring R. Its degree-n term is M ⊗ H^⊗n; cofaces are the
-coaction, the successive coproducts, and the unit, in that order. Consume its
-coefficient and connecting maps, cofree acyclicity, and coefficient-last chain
-isomorphism with no reversal of Hopf factors or signs. For flat H and K and any
-Hopf map H → K, consume the cotensor induction equalizer, right adjunction to
-corestriction, and antipode comparison of the two function conventions. No
-flatness or finiteness assumption on M and no surjectivity of the Hopf map is
-part of this contract. Layer 1.1 supplies the rational group-scheme transports.
-
-### From TauCetiRoadmap.ComplexComparisonPartII
-
-Section C-1.1 supplies the underlying classical topology of analytification
-for every locally finite-type complex scheme, including arbitrary affine gluing,
-nonreduced and nonseparated schemes. Consume its natural identification with
-X(ℂ), open/closed embeddings, fibre products, reduction homeomorphism,
-separated/Hausdorff and proper/compact comparisons, and smooth charts and étale
-local inverses. Properness is tested over Hausdorff open charts of the target;
-a fixed-dimensional manifold uses a constant-dimensional smooth locus. Layer
-3A.5 uses this same topological carrier for its group, tangent and orbit maps.
-These inputs are the underlying-space and smooth-chart comparisons of C-1.1.
+  for local sections of the orbit map in Layer 3A.5's smooth charts.
 
 ### Native unipotent radical
 
@@ -483,51 +456,88 @@ finiteness assumption on M is imposed (Jantzen, Part I, 1985 preprint,
 - For the trivial group, the coaction on ℤ/2 is m↦m⊗1 and every point acts
   by the identity. The zero module has the unique coaction and action.
 
-Transport IntegralHeckeAndGaloisDeterminants §0.7's rational cohomology and
-cotensor induction through the action/comodule equivalence above. The rational
-cohomology comparison identifies derived invariants of rational G-actions with
-those of right O(G)-comodules; for a morphism of flat affine group schemes
-J → G it identifies rational induction with the supplied cotensor equalizer
-for O(G) → O(J). No closed-immersion hypothesis is imposed on J → G.
-The category equivalence preserves injectives and the invariant functor, so
-these are natural derived-functor and adjunction comparisons, not new
-resolutions (Jantzen, Part I, 1985 preprint, §§3.3–3.9 and 4.2–4.16,
-pp. 53–60 and 69–79a).
-*Needs:* IntegralHeckeAndGaloisDeterminants §0.7; Layer 0's group-scheme/points
-and subgroup dictionaries; the arbitrary-module equivalence above.
+For a commutative ring R and a flat commutative Hopf R-algebra H, prove that the
+native category of all right H-comodules has enough injectives. Given a comodule M,
+embed its underlying module into an injective module I and compose its coaction
+M → M ⊗ H with M ⊗ H → I ⊗ H. The counit splits the first map as a module map,
+flatness makes the second injective, and the exact forgetful functor with its cofree
+right adjoint makes I ⊗ H injective. No finiteness or flatness condition is placed
+on M (Jantzen, Part I, 1985 preprint, §3.9, p. 60).
 
-The comparison API includes:
-- The invariant-module comparison induces natural cohomology isomorphisms in
-  every degree and intertwines coefficient maps and the long exact sequences.
-  Its degree-zero map is the identity on the submodule of invariant vectors.
-- The coefficient-first and coefficient-last complexes give the same rational
-  cohomology comparison via the supplied tensor permutation; it introduces no
-  sign and preserves the order of the Hopf factors.
-- The induction comparison intertwines restriction and the right-adjunction
-  bijections, with the counit given by evaluation at the group identity.
-  Under evaluation on S-points, for every R-algebra S, the supplied antipode
-  map sends F to f(g)=F(g⁻¹): F(hg)=hF(g) and (a·F)(g)=F(ga) become
-  f(gh)=h⁻¹f(g) and (a·f)(g)=f(a⁻¹g). These equalities concern the
-  rational-function functor, not arbitrary functions on R-points.
+Define rational cohomology as the right derived functors of the invariant submodule
+Mᴴ = ker(ρ_M − (m ↦ m ⊗ 1)). Construct the augmented cofree resolution and prove
+that its invariant complex computes these functors. In degree n this complex is
+Cⁿ(H,M)=M ⊗ H^⊗n: cofaces apply ρ_M at the beginning, Δ in each Hopf position,
+and append 1 at the end; the differential is the alternating sum in that order.
+Prove the cosimplicial identities and d²=0. The resolution is split exact on
+underlying modules by the counit, and its terms are acyclic for invariants;
+cofree does not mean injective for arbitrary coefficient modules
+(Jantzen, Part I, 1985 preprint, §§4.2, 4.7(a), 4.14–4.16, pp. 69–70, 72–73, 77–79a).
+*Needs:* native abelian/comodule/cofree interfaces in the supplier contract;
+Mathlib's module injectives, right derived functors and cochain-complex homology.
+
+The cohomology and cofree-resolution API includes:
+- H⁰(H,M)=Mᴴ, naturally in M; for every R-module N, the cofree comodule N ⊗ H
+  has H⁰=N and Hⁿ=0 for n>0, with degree-zero identification given by the counit.
+- A coefficient morphism acts on the first tensor factor; identities and composition
+  are preserved. Every short exact coefficient sequence gives the long exact
+  cohomology sequence with its connecting maps.
+- The tensor permutation M ⊗ H^⊗n → H^⊗n ⊗ M is a chain isomorphism when the
+  target cofaces are transported by that permutation. Hopf factors and coface
+  numbers keep their order, so there is no sign change; coefficient and connecting
+  maps commute with this comparison (the same §§4.14–4.16).
 
 **Checks.**
-- For the weight-one line of 𝔾_m over ℤ, d⁰(1)=1⊗(t−1) and the
-  coefficient-last image is (t−1)⊗1. In either convention the next differential
-  is t⊗(t−1)−(t⊗t−1⊗1)+(t−1)⊗1=0.
-- For the trivial group and M=ℤ/2 the differentials in degrees 0,1,2 are
-  0,id,0, giving H⁰=ℤ/2 and Hⁿ=0 for n>0 on both sides. M=0 gives zero
-  in every degree. These comparisons do not require coefficient flatness.
-- For C₂⊂S₃ and trivial integral coefficients, induction has rank three.
-  Inversion sends the indicator of C₂(123) to that of (132)C₂; right
-  translation by a three-cycle cycles the three basis functions. This detects
-  a comparison that changes the covariance equation without changing the action.
-- For J=G=C₂ and its integral sign representation, identity-map induction
-  gives rank one with action −1 and counit evaluation 1↦1. For G→1
-  with G=𝔾_m, the nonsurjective coordinate map ℤ→ℤ[t,t⁻¹] gives invariants:
-  the weight-one line induces to 0, the trivial line to ℤ.
-- Over a field, induction from B to SL₂ sends k to k through the homogeneous-space identification
-  with regular functions on ℙ¹; the rational-action and comodule descriptions
-  each give the one-dimensional trivial representation.
+- For H=ℤ[t,t⁻¹] and the weight-one line, d⁰(1)=1⊗(t−1); moving the coefficient
+  last gives (t−1)⊗1. The next differential sends t−1 to
+  t⊗(t−1)−(t⊗t−1⊗1)+(t−1)⊗1=0.
+- For the trivial group over ℤ the differentials in degrees 0,1,2 are 0,id,0.
+  With M=ℤ/2, H⁰=ℤ/2 and all positive cohomology vanishes: nonflat coefficients
+  are allowed. The cofree module ℤ is acyclic but not injective, since the map
+  2ℤ → ℤ taking 2 to 1 cannot extend to ℤ.
+- For M=0 every term and cohomology group is zero; for the regular comodule H,
+  H⁰=R and H¹=0. For the trivial group the coefficient map ℤ → ℤ/2 sends 3 to 1
+  in H⁰ and commutes with the differential id in degree one.
+
+For flat commutative Hopf R-algebras H,K, a Hopf map q:H → K and a right
+K-comodule M, define induction as the equalizer in M ⊗ H of ρ_M ⊗ id and
+id ⊗ ((q ⊗ id)Δ_H), with common codomain M ⊗ K ⊗ H and associators understood.
+Flatness of H makes id ⊗ Δ_H restrict to a right H-coaction on this equalizer.
+Prove reciprocity
+Hom_H(N,Ind_q M) ≃ Hom_K(Corestrict_q N,M): the forward map composes with
+id ⊗ ε_H, and its inverse takes u to (u ⊗ id)ρ_N. This applies to arbitrary
+Hopf maps; the closed-subgroup case is the surjective coordinate-map specialization.
+The equalizer proof uses only the Hopf-map identities, so needs no surjectivity
+(Jantzen, Part I, 1985 preprint, §§3.3–3.7, pp. 53–57, for the subgroup formulation).
+*Needs:* native corestriction and cofree comodules; tensor equalizers and flatness;
+Layer 0's Hopf/points dictionary for the function interpretation.
+
+The induction API includes:
+- Reciprocity is natural in N and M, with the two displayed maps inverse; induction
+  is right adjoint to corestriction and is left exact. Identity and composite Hopf
+  maps give identity and transitivity isomorphisms compatible with counit evaluation.
+- On points of every R-algebra, the equalizer describes functions F with
+  F(hg)=hF(g), acted on by (a·F)(g)=F(ga). The antipode sends F to
+  f(g)=F(g⁻¹), with f(gh)=h⁻¹f(g) and (a·f)(g)=f(a⁻¹g). Prove that this
+  involution intertwines actions and reciprocity, including evaluation at 1.
+- Over a field, transport cohomology and induction through Layer 1's rational
+  representation dictionary and Layer 0's subgroup dictionary, preserving coefficient
+  maps, connecting maps and adjunction maps for Layers 6A and 10B.
+
+**Checks.**
+- For `Ind₁^{C₂}ℤ` both function conventions give rank two; the nonidentity swaps
+  the delta basis, and the constant function 1 evaluates to 1 under reciprocity.
+- For C₂⊂S₃ and trivial coefficients, the equalizer has rank three. Inversion sends
+  the indicator of C₂(123) to that of (132)C₂; right translation by a three-cycle
+  cycles the three basis functions. This detects reversing neither cosets nor action.
+- For q=id and the integral sign comodule of C₂, induction is the sign module:
+  evaluation gives rank one and the nonidentity acts by −1. For q=id on the trivial
+  group it is the identity on every R-module, including ℤ/2 and 0.
+- For the nonsurjective unit map ℤ → ℤ[t,t⁻¹], induction is the invariant
+  submodule: the weight-one line gives 0 and the trivial line gives ℤ. Surjectivity
+  of q is not a prerequisite for the equalizer or reciprocity.
+- Over a field, `Ind_B^{SL₂} k=k`, the regular functions on ℙ¹; this specialization
+  uses the homogeneous-space identification, not a restriction on the generic definition.
 
 ### Examples
 
@@ -551,7 +561,7 @@ The comparison API includes:
 
 Layer 0; Tau Ceti's comodule categories, finite-subcoalgebra theorems, embedding and
 faithfulness theorems, Tannakian reconstruction and cofree/corestriction interfaces;
-IntegralHeckeAndGaloisDeterminants §0.7 for cohomology and induction.
+Mathlib's module injectives, right derived functors and cochain-complex homology.
 
 ## Layer 2: Lie algebra and the adjoint representation
 
@@ -777,14 +787,40 @@ the projective-morphism properness theorem to projective X. Consume native
 hypothesis and transport through the actual projective-space/closed-immersion
 maps.
 
-Use the underlying complex-point space and smooth charts of
-ComplexComparisonPartII C-1.1 for every locally finite-type ℂ-scheme X.
-All group and orbit maps below act on that same X(ℂ), by composition of scheme
-points, and all products use its specified projection comparisons. Apply the
-proper comparison to the closed orbit in a projective X, and apply the smooth
-charts only after proving the reduced orbit model smooth.
-*Needs:* ComplexComparisonPartII C-1.1's underlying topology, proper comparison
-and smooth charts; the projective closed-orbit construction above.
+**Classical complex points.** For every locally finite-type ℂ-scheme X, construct
+the classical topology on X(ℂ), the set of ℂ-morphisms Spec ℂ → X. On an affine
+presentation it is the zero-locus subspace topology in ℂⁿ. Prove independence of
+the presentation using polynomial coordinate maps, compatibility with principal
+opens, and gluing along any affine open cover, including infinite covers. Scheme
+morphisms act by composition on points and give a functor to topological spaces
+(SGA 1, Exposé XII, §§1.1–1.2, revised edition, pp. 239–241, on underlying spaces).
+The construction admits singular, nonreduced and nonseparated schemes; it does not
+assign a manifold structure to all of them.
+
+Its API includes:
+- Open and closed immersions induce the corresponding topological embeddings,
+  and the point functor preserves fibre products, via the actual projection maps.
+  Reduction induces a homeomorphism on complex points (SGA 1, XII.1.1–1.2 and
+  Proposition 2.1, pp. 239–242).
+- Separated schemes have Hausdorff complex points. A proper morphism gives a
+  relatively separated topological map whose restriction over every Hausdorff
+  open subset of the target has compact inverse images of compact subsets;
+  in particular a proper ℂ-scheme has compact complex points
+  (SGA 1, XII, Propositions 3.1(viii) and 3.2(v), pp. 244–247).
+- For a smooth ℂ-scheme, construct complex charts locally in its dimension,
+  using étale coordinates and the analytic inverse theorem. Transition functions
+  and scheme maps between smooth schemes are holomorphic; étale maps become local
+  biholomorphisms and smooth maps between smooth schemes become holomorphic
+  submersions. A fixed-dimensional manifold carrier requires constant dimension;
+  otherwise use the open-and-closed loci of each dimension
+  (SGA 1, XII, Proposition 3.1(iii)–(iv), pp. 244–245).
+
+*Needs:* Mathlib's affine scheme charts, complex polynomial continuity, topological
+gluing and manifold charts; SchemeAndStackFoundations §0.8's étale coordinates;
+the native analytic inverse theorem in the supplier contract. A route for the
+proper comparison uses Chow's lemma and projective-space compactness; its algebraic
+inputs are SchemeAndStackFoundations §4.12's Chow lemma, applied over affine
+finite-type complex opens of the base, and §0.3's projective geometry.
 
 **Checks.**
 - 𝔸¹(ℂ)=ℂ and D(t)(ℂ)=ℂ∖{0}; t↦t² takes 2 to 4 and has derivative 2 at 1,
@@ -912,7 +948,7 @@ its prerequisites.
 ### Dependencies
 
 Layers 0–1 and Layer 3's group-object vocabulary; SchemeAndStackFoundations §§0.3, 0.7,
-0.8, 2.6, 4.12 and AlgebraicVectorBundles; ComplexComparisonPartII C-1.1; SmoothBundlesConnections B1.0, B1.1, B1.4; LieGroups
+0.8, 2.6, 4.12 and AlgebraicVectorBundles; SmoothBundlesConnections B1.0, B1.1, B1.4; LieGroups
 Layer 2; Mathlib's Chevalley constructibility, Jacobson and residue-field theorems,
 `topologicalKrullDim`, submersion normal form and analytic inverse function theorem.
 
@@ -1156,9 +1192,11 @@ arbitrary Lie subalgebra.
    quotients used here. Prove in particular U(k)→(U/U₁)(k) surjective.
    A regular section of varieties is not asserted a group homomorphism.
 2. **Rational algebraic cohomology and averaging.** For an affine k-group H
-   and rational H-module V consume IntegralHeckeAndGaloisDeterminants §0.7's
-   rational cohomology for a flat commutative coordinate Hopf algebra and an arbitrary
-   right comodule, through Layer 1.1's rational-action comparison over k. Preserve its arbitrary-module generality. Transport its
+   and rational H-module V consume Layer 1's rational cohomology construction for a flat
+   commutative coordinate Hopf algebra and an arbitrary right comodule, specialized to the
+   field k; its cofree-resolution, enough-injectives and derived-invariants API consumes the
+   native comodule/cofree foundations of Layer 1, and no later relative, spectral or
+   arithmetic layer is an input. Preserve its arbitrary-module generality. Transport its
    complex `V ⊗ k[H]^(⊗n)` by the tensor permutation to
    `Cⁿ_alg(H,V)=k[H]^(⊗n)⊗V`, with C⁰=V and tensor unit in degree0.
    Here V^H is defined by `coact(v)=v⊗1`, not only by invariance under H(k). For
@@ -1173,9 +1211,9 @@ arbitrary Lie subalgebra.
    Construct the normalized-subcomplex comparison and extension-of-field compatibility
    needed here. Consume the native abelian `TauCeti.ComoduleCat` for flat coordinate
    coalgebras and `Comodule.cofree`, `Comodule.Hom.cofreeUnit`,
-   `Comodule.Hom.cofreeEquiv` and `ComoduleCat.cofree`; the supplied
-   injectivity and cofree-resolution comparisons require no flatness,
-   finite-dimensionality or injectivity of V. This layer constructs the regular-function,
+   `Comodule.Hom.cofreeEquiv` and `ComoduleCat.cofree`; Layer 1 constructs
+   their categorical injectivity/cofree-resolution comparisons without requiring V
+   flat, finite-dimensional or injective. This layer constructs the regular-function,
    normalization and field transports and the reductive averaging application below. For reductive Q in characteristic zero, transport Layer6's
    finite-dimensional complete reducibility to the native
    `Coalgebra.IsLinearlyReductive` hypothesis and consume
@@ -3258,8 +3296,8 @@ only as a consumer.
 This lane constructs the Lie-algebra spectral quotient and its based topology for every
 connected reductive algebraic group over `ℂ`, with a specified maximal algebraic torus.
 Construct it after Layers 9 and 9D have supplied the group/root-datum and pinned root maps.
-ComplexComparisonPartII C-1.1 supplies the classical topology and smooth
-complex charts; Layer 3A.5 supplies the complex Lie-group structure on G(ℂ),
+Layer 3A.5 supplies the classical topology, complex-manifold charts and
+complex Lie-group structure on G(ℂ),
 holomorphic action maps and orbit comparisons on that carrier; the
 analytic inverse function theorem used below is Mathlib's `ContDiffAt.to_localInverse` at
 order `ω` on finite-dimensional complex charts. The algebraic classification and integral
@@ -3612,6 +3650,15 @@ Lang theorem and fixed-coset lifting. FormalConnectionsOpers consumes Layers 0�
 coset affineness; InverseGaloisAndArithmeticFundamentalGroups consumes Layers 0, 3 and 6;
 NilpotentOrbits and SchubertGeometry consume Layer 3A's orbit theorems and Layer 7's
 structure theory.
+
+
+The rational-cohomology and cotensor-induction interfaces of Layer 1.1 are outputs
+for IntegralHeckeAndGaloisDeterminants §0.7. The classical complex-point topology,
+smooth charts and separated/proper comparisons of Layer 3A.5 are outputs for
+ComplexComparisonPartII C-1.1. The latter's analytic ring sheaf and coherent
+comparisons extend this topological interface, retaining nilpotents; the carrier
+identification is the identity on X(ℂ), compatible with maps, restrictions and
+fibre products.
 
 
 ## References

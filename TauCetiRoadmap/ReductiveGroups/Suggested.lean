@@ -58,7 +58,7 @@ Not statable at the pins, hence not stated, with the missing carrier named:
   additionally need the explicit half-twist paths and covering monodromy comparison;
   the existence theorem below uses the actual configuration quotient. The complex orbit
   comparison of 3A.5 needs the classical complex-point topology and smooth charts
-  supplied by ComplexComparisonPartII C-1.1, and its own orbit/Lie comparisons;
+  constructed in Layer 3A.5, and its orbit/Lie comparisons;
   these are not pinned declarations.
 -/
 
