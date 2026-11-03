@@ -59,10 +59,24 @@ instance monomialRootAlgebraCharP (p n : ℕ) : CharP (monomialRootAlgebra p n) 
 noncomputable def monomialClass (p n : ℕ) (e : Fin (n + 1) → ℕ) : monomialRootAlgebra p n :=
   ∏ i, (Ideal.Quotient.mk _ (MvPolynomial.X i)) ^ e i
 
-/-- The root-stage module: restrict the hypersurface ring along the m-fold Frobenius. -/
-noncomputable def monomialRootModule (p n m : ℕ) [Fact p.Prime] : ModuleCat (monomialRootAlgebra p n) :=
-  (ModuleCat.restrictScalars (iterateFrobenius (monomialRootAlgebra p n) p m)).obj
-    (ModuleCat.of (monomialRootAlgebra p n) (monomialRootAlgebra p n))
+/-- The root stage of the hypersurface ring: a synonym of the ring whose index m records the
+Frobenius power through which scalars act. -/
+def monomialRootModule (p n : ℕ) : ℕ → Type := fun _ => monomialRootAlgebra p n
+
+/-- The root stage has the additive group of the hypersurface ring. -/
+noncomputable instance monomialRootModuleAddCommGroup (p n m : ℕ) :
+    AddCommGroup (monomialRootModule p n m) :=
+  inferInstanceAs (AddCommGroup (monomialRootAlgebra p n))
+
+/-- The scalar a acts on the root stage as multiplication by a^(p^m): the ring restricted
+along the m-fold Frobenius. -/
+noncomputable instance monomialRootModuleModule (p n m : ℕ) [Fact p.Prime] :
+    Module (monomialRootAlgebra p n) (monomialRootModule p n m) :=
+  Module.compHom (monomialRootAlgebra p n) (iterateFrobenius (monomialRootAlgebra p n) p m)
+
+/-- The identification of the root stage with the hypersurface ring, as additive groups. -/
+def monomialRootModule.of (p n m : ℕ) : monomialRootAlgebra p n ≃ monomialRootModule p n m :=
+  Equiv.refl _
 
 /-- The monomial projection gives derived duality for every Frobenius root stage:
 its multiplication adjoint is bijective and all positive Ext groups vanish
@@ -70,14 +84,16 @@ its multiplication adjoint is bijective and all positive Ext groups vanish
 theorem monomial_root_duality (p n m : ℕ) [Fact p.Prime] :
     ∃ τ : monomialRootModule p n m →ₗ[monomialRootAlgebra p n] monomialRootAlgebra p n,
       (∀ e : Fin (n + 1) → ℕ,
-        τ (monomialClass p n e) =
+        τ (monomialRootModule.of p n m (monomialClass p n e)) =
           if ∀ i, p ^ m ∣ e i then monomialClass p n (fun i => e i / p ^ m) else 0) ∧
       (∃ adj : monomialRootModule p n m →ₗ[monomialRootAlgebra p n]
           (monomialRootModule p n m →ₗ[monomialRootAlgebra p n] monomialRootAlgebra p n),
-        (∀ x y, adj x y = τ (Mul.mul (α := monomialRootAlgebra p n) x y)) ∧
+        (∀ x y, adj x y = τ (monomialRootModule.of p n m
+          ((monomialRootModule.of p n m).symm x * (monomialRootModule.of p n m).symm y))) ∧
           Function.Bijective adj) ∧
       (∀ k : ℕ, 0 < k → Subsingleton
-        (CategoryTheory.Abelian.Ext (monomialRootModule p n m)
+        (CategoryTheory.Abelian.Ext
+          (ModuleCat.of (monomialRootAlgebra p n) (monomialRootModule p n m))
           (ModuleCat.of (monomialRootAlgebra p n) (monomialRootAlgebra p n)) k)) := by
   sorry
 
