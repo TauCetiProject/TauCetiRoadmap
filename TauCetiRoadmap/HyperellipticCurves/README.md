@@ -327,8 +327,10 @@ of whether their implementations are available at the pins.
     even, odd, übereven, principal, `𝔰^*`, `𝔰 ∧ 𝔰'`, and, for `𝔰` even or a cotwin, the sign
     `ε_𝔰(σ) ≡ σ(θ_{𝔰^*})/θ_{(σ𝔰)^*} mod 𝔪 ∈ {±1}` for `θ_𝔰 = √(c_f ∏_{r ∉ 𝔰}(z_𝔰 − r))`, which
     restricts to a character of the stabiliser `G_𝔰`; for every other cluster `ε_𝔰 = 0` (the
-    zero representation), so for odd `|ℛ|` the term `⊖ ε_ℛ` of 4.7 removes nothing (a good
-    quintic has `H¹_t = 0 ⊖ 0 = 0`, not of dimension `−1`). The sign of `θ_𝔰` is a choice; the invariants
+    zero representation). The term `⊖ ε_ℛ` of 4.7 is present only when `ℛ` is übereven: a
+    cotwin `ℛ` has `ε_ℛ = ε_{ℛ^*} ≠ 0` (its `ℛ^*` is the child of size `2g`, which is
+    `G_K`-stable and has `(ℛ^*)^* = ℛ^*`) but nothing is subtracted for it, and a good quintic
+    has `H¹_t = 0` (not of dimension `−1`). The sign of `θ_𝔰` is a choice; the invariants
     read off the picture are independent of it (DDMM Remark 1.13, Example 18.6).
 13. **Local invariants of the Jacobian** are the Néron models roadmap's: the Tamagawa number is
     `c_p = #Φ_J(k)`, the order of the rational component group; the conductor exponent `n` is the
@@ -499,6 +501,7 @@ At the pin (`.lake/packages/TauCeti`):
 - From the [heights, rational points and obstructions roadmap](../HeightsRationalPointsAndObstructions/README.md):
   the Kummer maps, Selmer structures and `Ш` (§1.1–1.5), Mordell–Weil and regulators (§1.7–1.8),
   torsion specialization (§1.18), two-coverings and `W[2]` (§1.12), two-Selmer sets (§1.14),
+  the local doubling indices `#(A(F)/2A(F))` at finite, real and complex places (§1.17),
   adelic points (§2.1–2.5) and the local-solubility predicate `IsLocallySoluble` (§6.1), Selmer sets
   of torsors (§3.3), the Cassels–Tate pairing (§3.17a) and the Poonen–Stoll parity of `#Ш`
   (§3.18c). The LMFDB's `two_selmer_rank` is `dim_{𝔽₂} Sel₂(J/ℚ)` for that roadmap's `Sel₂`
@@ -1098,8 +1101,13 @@ coordinate-change equations of 1.2. In characteristic two write the function fie
 `Y²+Y=F(x)`, with `F=f/h²` (smoothness ensures `h ≠ 0`). A base transformation
 `A ∈ PGL₂(k)` lifts precisely when there is `B ∈ k(x)` with
 `B²+B=F∘A−F`; its two lifts send `(x,Y)` to `(A(x),Y+B(x))` and
-`(A(x),Y+B(x)+1)`. This is the direct substitution criterion for a separable
-Artin–Schreier extension (Liu 1993, §4.1.1, pp. 211–212).
+`(A(x),Y+B(x)+1)`. Prove this as the roadmap's own lemma: a lift sends `Y` to `u + vY` with
+`u, v ∈ k(x)`, and `(u + vY)² + (u + vY) = F∘A` reads `(u² + u + v²F) + (v² + v)·Y = F∘A` in the
+basis `1, Y` of `k(x)(Y)` over `k(x)`, so `v² + v = 0`; `v = 0` would put the image of `Y` into
+`k(x)`, hence `v = 1` and `B = u` satisfies `B² + B = F∘A − F`; two solutions `B, B'` over the
+same `A` have `(B − B')² + (B − B') = 0`, so `B' ∈ {B, B + 1}` and the two lifts differ by the
+hyperelliptic involution `Y ↦ Y + 1`. Liu 1993 §4.1 (pp. 211–212) treats only `char k ≠ 2` and
+supplies the `J`-conditions of `C₀`, `C₁` quoted above.
 
 **Checks.**
 
@@ -1759,14 +1767,48 @@ LocalFieldsRamification Layers 0 and 3 for valuation conversion and descent.
 ### 4.7 The Galois representation
 
 For arbitrary C/K in Layer 4, use §4.6's components over a finite Galois semistable
-extension, equipped with their G_K descent action. Prove DDMM Theorem 1.19 (= Theorem 10.1): `H¹_{ét}(C) = H¹_{ab} ⊕ H¹_t ⊗ Sp₂` with
-`H¹_t = ⊕_𝔰 Ind_{G_𝔰}^{G_K} ε_𝔰 ⊖ ε_ℛ` over orbit representatives of even non-übereven
-clusters and `H¹_{ab} = ⊕_𝔰 Ind_{G_𝔰}^{G_K} H¹(Γ̃_𝔰)` over principal non-übereven clusters, with
+extension, equipped with their G_K descent action. Prove DDMM Theorem 1.19 (= Theorem 10.1) in
+the form `H¹_{ét}(C) = H¹_{ab} ⊕ H¹_t ⊗ Sp₂` with
+`H¹_t = ⊕_{𝔰 ∈ A/G_K} Ind_{G_𝔰}^{G_K} ε_𝔰 ⊖ [ℛ übereven] · ε_ℛ`, the sum over orbit
+representatives of the set `A` of even non-übereven clusters other than `ℛ` (the set of 4.5,
+4.6, 4.9 and 5.4) and the term `ε_ℛ` subtracted only when `ℛ` is übereven, and
+`H¹_{ab} = ⊕_𝔰 Ind_{G_𝔰}^{G_K} H¹(Γ̃_𝔰)` over principal non-übereven clusters, with
 the `I_𝔰`-module structure `H¹(Γ̃_𝔰) ≅ γ̃_𝔰 ⊗ (ℚ_ℓ[𝔰̃] ⊖ 1) ⊖ ε_𝔰`. The toric–abelian decomposition
 is the Néron models roadmap's toric–finite filtration of the Tate module (§3.5) with the Raynaud
 extension (§3.13); the étale cohomology of the components is Tau Ceti's and the
-`EtaleCohomologyFoundations` roadmap's.
+`EtaleCohomologyFoundations` roadmap's. The toric formula is the one the proof of DDMM
+Corollary 9.6(2) (p. 54) obtains from the lattice of 4.6: `H¹_t = H₁(Υ_C, ℤ) ⊗ ℚ_ℓ` (DDMM (2.18),
+p. 19), and the relation `Σ_{𝔰 ∈ B} a_𝔰 = 0` removes one copy of `ε_ℛ` exactly when `B ≠ ∅`,
+that is, when `ℛ` is übereven. The statements of DDMM Theorem 10.1 and Corollary 9.6(2) print
+`⊖ ε_ℛ` unconditionally after a sum over all even non-übereven clusters; for an even
+non-übereven `ℛ` the two forms agree (the sum then contains `ε_ℛ` once), but for a cotwin `ℛ`
+the unconditional term subtracts the nonzero `ε_ℛ = ε_{ℛ^*}` of convention 12 and gives the
+wrong dimension, so the formula here follows the proof. In every case `dim H¹_t` is the
+potential toric rank of 4.5(7).
 *Needs:* 4.6; Néron models §3.5, §3.13.
+
+**Checks.**
+
+- Over `ℚ_p` with `p ≥ 5`, `y² = (x − 1)(x − p)(x − 2p)(x − 3p)(x − 4p)` has the clusters `ℛ`
+  (depth 0, odd, not übereven, a cotwin with `ℛ^* = 𝔰₀`) and `𝔰₀ = {p, 2p, 3p, 4p}` (depth 1,
+  `ν_{𝔰₀} = 4`, principal), so `C` is semistable with `A = {𝔰₀}`, `B = ∅`, potential toric
+  rank 1 (4.5(7)), `n_C = 1` (4.9(iii)) and special fibre `Γ_{𝔰₀}` of genus 1 (normalisation
+  `y² = −(x + 1)(x + 2)(x + 3)(x + 4)`) carrying one loop of `2δ_{𝔰₀} = 2` edges (the cotwin
+  row of 4.6, two components in all). Here `θ_{𝔰₀} = √(−1)`, so `ε_ℛ = ε_{𝔰₀}` is the unramified
+  character with `ε_{𝔰₀}(Frob) = (−1/p)`, `H¹_t = ε_{𝔰₀}` has dimension 1 and the toric factor of
+  5.4 is `1 − (−1/p)·T`. Subtracting `ε_ℛ` unconditionally would give `ε_{𝔰₀} ⊖ ε_{𝔰₀} = 0`, of
+  dimension 0, against 4.5(7), 4.9(iii) and the loop of 4.6.
+- A good quintic has `A = ∅` and odd `ℛ`, so `H¹_t = 0`. Three `G_K`-stable depth-one twins
+  under a depth-zero root (`ℛ` übereven) give `ε_{𝔱₁} ⊕ ε_{𝔱₂} ⊕ ε_{𝔱₃} ⊖ ε_ℛ`, of dimension
+  `3 − 1 = 2`. A sextic whose root has the children `𝔰₀` of size 4 and two singletons (`ℛ` even,
+  a cotwin, not übereven) gives `ε_{𝔰₀}`, of dimension 1, which is also what DDMM's sum over all
+  even non-übereven clusters including `ℛ` followed by `⊖ ε_ℛ` gives; a formula subtracting
+  `ε_ℛ` for every even `ℛ` would give 0 there.
+- (`g = 1`, outside Layer 4's standing hypothesis) `y² = x(x − 1)(x − p)` has the single even
+  cluster `{0, p}` under an odd cotwin root; `θ_{{0,p}} = √(−1)`, so the formula gives
+  `H¹_t = ε_{{0,p}}` of dimension 1, split iff `p ≡ 1 mod 4`, which is the multiplicative
+  reduction `y² = x²(x − 1)` of the elliptic curve, with tangent slopes `±√(−1)` at the node;
+  the unconditional subtraction would give 0.
 
 ### 4.8 Tamagawa numbers
 
@@ -2015,11 +2057,13 @@ nonintegral, places where a is not a unit, and places where disc(f) is not a uni
 For an integral monic equation this reduces to the places over `2∞ disc f`.
 Indeed outside S the normalized monic model has unit discriminant and J has good
 reduction; apply unramifiedness of the Kummer map and its descent comparison
-(Poonen–Schaefer, author version, Proposition 12.4 and following remark, p. 26), (c) at a finite completion `K_v/ℚ_p` the image has order
+(Poonen–Schaefer, author version, Proposition 12.4 and following remark, p. 25), (c) at a finite completion `K_v/ℚ_p` the image has order
 `#J(K_v)[2]` for p odd and `2^{g[K_v:ℚ₂]} #J(K_v)[2]` for p=2;
-over ℝ it has order `#J(ℝ)[2]/2^g`, and over ℂ it has order 1,
-by the multiplication-by-two index on the local analytic group
-(Poonen–Schaefer, author version, Lemma 12.10, p. 29), (d) the resulting
+over ℝ it has order `#J(ℝ)[2]/2^g`, and over ℂ it has order 1: the local descent map
+has kernel `2J(K_v)`, so the image has order `#(J(K_v)/2J(K_v))`, which is the heights
+roadmap's local doubling index (§1.17: `#(A(F)/2A(F)) = |2|_F^{−g}·#A(F)[2]` for `F/ℚ_p`
+finite, `#A(ℝ)[2]/2^g` over `ℝ`, `1` over `ℂ`) applied to `A = J`
+(Poonen–Schaefer, author version, Lemma 12.10, p. 29, as the source), (d) the resulting
 bound `rank J(K) ≤ dim_{𝔽₂} Sel^{(x−T)} − dim_{𝔽₂} J(K)[2]`, with the comparison
 `Sel^{(x−T)}(J/K) ≅ Sel₂(J/K)` when `f` has odd degree (Poonen–Schaefer 1997 for the general
 cyclic-cover statement). Use the two-Selmer rank `dim_{𝔽₂} Sel₂(J/ℚ)`
@@ -2027,7 +2071,7 @@ as the heights roadmap's object (its §1.3) and prove `rank J(ℚ) ≤ twoSelmer
 knowl `g2c.two_selmer_rank`. The `M = Aˣ/Aˣ²` and `normM` carriers of Tau Ceti's elliptic
 `XSubT.lean` are the `g = 1` instance and the shape to follow.
 *Needs:* 5.1; effective Diophantine methods §3.23; heights roadmap §1.3–1.5,
-§1.12–1.14; Tau Ceti `MordellWeil/XSubT.lean` (shape).
+§1.12–1.14, §1.17; Tau Ceti `MordellWeil/XSubT.lean` (shape).
 
 
 **Checks.**
@@ -2398,7 +2442,10 @@ and not a gap in the parity theorem. Conductor `2⁴·3·7` (stored; the odd par
   local fields*, arXiv:1808.02936v2 (2018); all DDMM numbering and pages here refer to this version. Definitions 1.1–1.7, 1.9,
   1.11, 1.12, 1.21, 1.26; Theorems 1.8, 1.10, 1.14, 1.15, 1.19, 1.20, 1.23, 1.25, 1.27, 1.28, 1.29;
   Lemma 2.22; Theorem 13.3; Lemma 15.1; Definition 18.1, Lemma 18.2, Theorems 18.4, 18.7, 18.8
-  with Tables 7–8; Theorem 19.1.
+  with Tables 7–8; Theorem 19.1. The toric part of Theorem 1.19 (= Theorem 10.1) and of
+  Corollary 9.6(2) is printed with the term `⊖ ε_ℛ` unconditionally; the proof of Corollary
+  9.6(2) (p. 54) subtracts it only for übereven `ℛ`, and 4.7 states that form, since a cotwin
+  `ℛ` has `ε_ℛ = ε_{ℛ^*} ≠ 0` (Definitions 1.11–1.12).
 - P. Lockhart, *On the discriminant of a hyperelliptic curve*, Trans. Amer. Math. Soc. 342
   (1994), 729–752. The discriminant `2^{4g} disc(f + h²/4)`, its transformation law, and global
   minimal models.
