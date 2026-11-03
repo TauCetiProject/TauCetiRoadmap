@@ -1,3 +1,5 @@
+module
+
 import Mathlib
 import TauCeti.FieldTheory.FunctionField.Basic
 import TauCeti.FieldTheory.FunctionField.ConstantField
@@ -14,48 +16,34 @@ import TauCeti.FieldTheory.Galois.FixedField
 /-!
 # Canonical models, plane models and gonality: target signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive specification is
-`README.md`. The file states only what can be stated over Mathlib and the pinned Tau Ceti: the
-load-bearing milestones of Layers 1–7, so that contributors and reviewers converge on the carrier,
-the conventions and the shape of the main theorems. The other targets, with their definitions and
-Checks, are specified in `README.md` only. Every definition here has its real body; theorem proofs
-are `sorry` (these are targets, not implementations), and discharging every declaration here would
-finish neither a layer nor the roadmap.
+The roadmap is README.md; this file is not the roadmap. It states the roadmap's headline
+theorems against the pinned Mathlib and Tau Ceti APIs, with their supporting simple definitions.
+The headlines are gonality and its extension laws; Hilbert polynomials and arithmetic genus;
+canonical embedding, Max Noether and Petri (including the cubic exceptions); plane genus;
+Clifford equality, Brill–Noether existence and the gonality bound; quotient and bielliptic
+criteria; and Frey's criterion.
 
-The carrier is Tau Ceti's algebraic function field of one variable: fields `k`, `F` with
-`[Algebra k F]`, the explicit proposition `TauCeti.IsFunctionField k F`, and exactness of the
-constant field `IsIntegrallyClosedIn k F` as an explicit hypothesis wherever a divisor appears.
-Places, divisors, `L(D)`, `ℓ(D) = Divisor.dim D`, the genus, the canonical class, the different
-and the constant-field-extension setup (`constantCompositum F k' F' = ⊤`) are consumed from
-`TauCeti.FieldTheory.FunctionField.*` and never restated. "The curve" is the regular projective
-model of `F`; it appears only in the README's Layer 9, which has no declaration here.
+The following headlines cannot yet be stated on the intended carriers at these pins:
+* The hyperelliptic canonical-ring presentation (§3.7) lacks the canonical section ring and
+  its comparison with the weighted cover ring; local delta and ordinary-singularity formulas
+  (§§4.4–4.6) lack the image-curve local normalization and conductor comparison.
+* Thom–Porteous and its Jacobian Chern calculation (§§5.3–5.4) lack the degeneracy-locus
+  and Chow/numerical-cycle interfaces on Picard varieties.
+* Finiteness of isolated points and the AV-isolation criteria (§§7.3–7.6) lack the symmetric
+  powers, degree-d Picard scheme and Abel-image subscheme with their function-field comparison.
+* Analytic/function-field gonality comparison, Li–Yau, finite-area Li–Yau and Abramovich
+  (§§8.2–8.7) lack the compactified quotient Riemann surface, meromorphic function field,
+  holomorphic-map degree and variational Laplacian interfaces with their comparisons.
+* The closed-immersion criterion and scheme Noether theorem (§9.1), smooth-image comparison
+  (§9.2), and good-reduction specialization (§9.3) lack the regular-projective-model functor
+  and its coordinate-model morphism, divisor and genus comparisons.
+No abstract predicate or weakened scalar statement replaces these headlines.
 
-Four conventions are visible in the signatures. First, **gonality is an infimum of field
-degrees**, `sInf {[F : k(x)] ∣ x transcendental}`, never a minimum over morphisms to `ℙ¹`, and
-geometric notions are stated over an algebraically closed constant field `k'` carried by Tau
-Ceti's compositum setup, or with `[IsAlgClosed k]` directly. Second, **a projective model is a
-tuple of coordinates in `F`** generating `F` by their ratios; its divisor, degree, homogeneous
-ideal and Hilbert function are defined from that tuple, and `arithmeticGenus` is the constant
-term the Hilbert polynomial is proved to have. Third, **very ampleness quantifies over effective
-divisors of degree at most two on every finite constant extension**, because quantifying over
-`k`-divisors alone is false (a double cover of a conic without rational points). Fourth, the
-LMFDB's booleans are **predicates on finite subgroups of `k`-automorphisms**: bielliptic means a
-subgroup `H ≤ F ≃ₐ[k] F` of order two (the group of an involution defined over `k`) with a
-genus-one quotient, cyclic trigonal a subgroup of order three with a rational quotient, and the
-quotient is `IntermediateField.fixedField H` with `[Finite H]`, as Tau Ceti's automorphism
-modules carry it. A divisor of a place is `WeilDivisor.ofPoint P` (`Divisor k F` is
-`WeilDivisor (Place k F)`).
-
-The exceptions to "every proof is `sorry`" are the proof fields of `canonicalModel` (its
-generation law is the named theorem `adjoin_basis_div_eq_top`) and the bridge checks: `gonality_le_finrank` and
-`exists_finrank_eq_gonality` (the infimum is attained), `finrank_regularDifferentials`
-(Tau Ceti's `Ω(0)` has dimension `g`), `isFunctionField_fixedField` and
-`isIntegrallyClosedIn_fixedField` (the quotient curve is a curve with exact constants), and
-`hurwitz_fixedField`, which applies Tau Ceti's Hurwitz genus formula to `F / F^H` with the
-instance list the README's 6.2 promises (`IntermediateField.finiteDimensional_fixedField`,
-`isGalois_fixedField` and Artin's `finrank_fixedField_eq_natCard` from
-`TauCeti.FieldTheory.Galois.FixedField`), so that the elaborator checks it.
+The carrier is `TauCeti.IsFunctionField k F`, with exact constants stated explicitly where
+needed. Geometric extension statements use native field towers and `constantCompositum`.
+A `Model` is birational by its generation law. Arithmetic genus and delta are integers.
 -/
+
 
 open TauCeti AlgebraicGeometry
 open scoped IntermediateField
@@ -69,26 +57,10 @@ variable {k : Type u} {F : Type v} [Field k] [Field F] [Algebra k F]
 /-! ## Layer 1: gonality -/
 
 /-- `README.md`, Layer 1, 1.1. The **gonality** of `F / k`: the least degree `[F : k(x)]` of `F`
-over a rational subfield. The junk value `0` occurs only when no element is transcendental, that
-is, when `F / k` is not a function field. -/
+over a rational subfield. It is positive for a one-variable function field. Outside that hypothesis,
+it can be zero for algebraic extensions or for extensions of transcendence degree two. -/
 noncomputable def gonality (k F : Type*) [Field k] [Field F] [Algebra k F] : ℕ :=
   sInf {n : ℕ | ∃ x : F, Transcendental k x ∧ Module.finrank k⟮x⟯ F = n}
-
-/-- `README.md`, Layer 1, 1.1 (bridge check): the gonality is bounded by every field degree. -/
-theorem gonality_le_finrank {x : F} (hx : Transcendental k x) :
-    gonality k F ≤ Module.finrank k⟮x⟯ F :=
-  Nat.sInf_le ⟨x, hx, rfl⟩
-
-/-- `README.md`, Layer 1, 1.1 (bridge check): for a function field the infimum is attained. -/
-theorem exists_finrank_eq_gonality (hF : IsFunctionField k F) :
-    ∃ x : F, Transcendental k x ∧ Module.finrank k⟮x⟯ F = gonality k F := by
-  obtain ⟨x, hx⟩ := hF.exists_transcendental
-  exact Nat.sInf_mem (s := {n : ℕ | ∃ x : F, Transcendental k x ∧ Module.finrank k⟮x⟯ F = n})
-    ⟨_, x, hx, rfl⟩
-
-/-- `README.md`, Layer 1, 1.1: a function field has gonality at least one. -/
-theorem one_le_gonality (hF : IsFunctionField k F) : 1 ≤ gonality k F := by
-  sorry
 
 /-- `README.md`, Layer 1, 1.2: **the pencil description**. The gonality is the least degree of a
 divisor whose Riemann–Roch space has dimension at least two. -/
@@ -124,11 +96,6 @@ map on divisors (`sInf` of the positive degrees). -/
 noncomputable def index (k F : Type*) [Field k] [Field F] [Algebra k F] : ℕ :=
   sInf {n : ℕ | 0 < n ∧ ∃ D : Divisor k F, Divisor.degree D = n}
 
-/-- `README.md`, Layer 1, 1.4: the index divides every degree. -/
-theorem index_dvd_degree (hF : IsFunctionField k F) (D : Divisor k F) :
-    (index k F : ℤ) ∣ Divisor.degree D := by
-  sorry
-
 /-- `README.md`, Layer 1, 1.4(a): in genus zero the gonality is one when the index is one and two
 otherwise (the index of a genus-zero field divides two). -/
 theorem gonality_of_genus_eq_zero (hF : IsFunctionField k F) (hex : IsIntegrallyClosedIn k F)
@@ -158,22 +125,6 @@ section FiniteMaps
 
 variable {F' : Type*} [Field F'] [Algebra k F'] [Algebra F F'] [IsScalarTower k F F']
   [FiniteDimensional F F']
-
-/-- `README.md`, Layer 1, 1.6. The **norm (pushforward) of divisors** along a finite extension
-`F' / F` of function fields over the same constant field: `P' ↦ f(P'∣P) · P`, extended
-additively; it preserves degrees. The base field `F` is explicit, as the top field is in Tau
-Ceti's `Divisor.conorm k' F'`, because nothing else determines it. -/
-noncomputable def Divisor.norm (F : Type v) [Field F] [Algebra k F] [Algebra F F']
-    [IsScalarTower k F F'] [FiniteDimensional F F'] : Divisor k F' →+ Divisor k F :=
-  Finsupp.liftAddHom fun P' : Place k F' =>
-    zmultiplesHom (Divisor k F)
-      (Place.relativeDegree k F P' • WeilDivisor.ofPoint (P'.restrict k F))
-
-/-- `README.md`, Layer 1, 1.6: the norm of divisors preserves the degree, by Tau Ceti's
-`degree_eq_degree_restrict_mul_relativeDegree` on each place. -/
-theorem Divisor.degree_norm (hF' : IsFunctionField k F') (D' : Divisor k F') :
-    Divisor.degree (Divisor.norm F D') = Divisor.degree D' := by
-  sorry
 
 /-- `README.md`, Layer 1, 1.6: gonality is monotone along finite maps (Poonen, Prop. A.1(vii)),
 proved with the norm of divisors and the symmetric functions of the fibre. -/
@@ -208,13 +159,32 @@ theorem gonality_le_gonality_of_constantCompositum_eq_top (hF : IsFunctionField 
     gonality k' F' ≤ gonality k F := by
   sorry
 
+/-- Gonality is invariant under extension between algebraically closed constant fields,
+including transcendental extensions, on the native compositum carrier (README §1.7;
+Poonen, Proposition A.1(ii)). -/
+theorem gonality_eq_of_isAlgClosed [IsAlgClosed k] [IsAlgClosed k']
+    (hF : IsFunctionField k F) (hF' : IsFunctionField k' F')
+    (hex : IsIntegrallyClosedIn k F) (hex' : IsIntegrallyClosedIn k' F')
+    (h : constantCompositum F k' F' = ⊤) : gonality k' F' = gonality k F := by
+  sorry
+
+/-- The number of rational places over a finite field is bounded by geometric gonality
+ times one plus the field cardinality (README §1.8); the algebraic closure is supplied as
+an algebraic, algebraically closed constant extension. -/
+theorem card_degree_eq_one_le_geometric_gonality [Finite k] [IsAlgClosed k']
+    [Algebra.IsAlgebraic k k'] (hF : IsFunctionField k F)
+    (hF' : IsFunctionField k' F') (hex : IsIntegrallyClosedIn k F)
+    (hex' : IsIntegrallyClosedIn k' F') (h : constantCompositum F k' F' = ⊤) :
+    Nat.card {P : Place k F // P.degree = 1} ≤ gonality k' F' * (Nat.card k + 1) := by
+  sorry
+
 end ConstantExtension
 
 /-! ## Layer 2: linear systems and projective models -/
 
 /-- `README.md`, Layer 2, 2.1. A **projective model** of `F` in `ℙⁿ`: coordinates in `F`, not all
-zero, whose ratios generate `F` over `k` (the model is birational). Scaling by `Fˣ` and linear
-changes of coordinates in `GL_{n+1}(k)` give the same model. -/
+zero, whose ratios generate `F` over `k` (the model is birational). Scaling by `Fˣ` gives the same projective
+coordinates; changes in `GL_{n+1}(k)` give projectively equivalent image curves. -/
 structure Model (k F : Type*) [Field k] [Field F] [Algebra k F] (n : ℕ) where
   /-- The homogeneous coordinates, as elements of the function field. -/
   coords : Fin (n + 1) → F
@@ -253,14 +223,8 @@ noncomputable def divisor (hF : IsFunctionField k F) (x : Model k F n) : Divisor
       exact ⟨i, Finset.mem_filter.mpr ⟨Finset.mem_univ i, hi⟩⟩)
     fun i => if h : x.coords i = 0 then 0 else -Divisor.principal hF (Units.mk0 _ h)
 
-/-- `README.md`, Layer 2, 2.1: the coordinates lie in the Riemann–Roch space of the model
-divisor. -/
-theorem coords_mem_riemannRochSpace (hF : IsFunctionField k F) (x : Model k F n)
-    (i : Fin (n + 1)) : x.coords i ∈ riemannRochSpace (x.divisor hF) := by
-  sorry
-
 /-- `README.md`, Layer 2, 2.1. The **degree** of a model: the degree of its divisor, which is
-the degree of the image curve (Layer 9, 9.2). -/
+the degree of the image curve (README §2.7). -/
 noncomputable def degree (hF : IsFunctionField k F) (x : Model k F n) : ℤ :=
   Divisor.degree (x.divisor hF)
 
@@ -268,10 +232,6 @@ noncomputable def degree (hF : IsFunctionField k F) (x : Model k F n) : ℤ :=
 polynomials vanishing at the coordinates. -/
 noncomputable def homogeneousIdeal (x : Model k F n) : Ideal (MvPolynomial (Fin (n + 1)) k) :=
   Ideal.span {G | (∃ d, G.IsHomogeneous d) ∧ MvPolynomial.aeval x.coords G = 0}
-
-/-- `README.md`, Layer 2, 2.2: the homogeneous ideal of a model is prime. -/
-theorem homogeneousIdeal_isPrime (x : Model k F n) : x.homogeneousIdeal.IsPrime := by
-  sorry
 
 /-- `README.md`, Layer 2, 2.2. The **Hilbert function**: the dimension of the space `S_m` of
 values at the coordinates of the homogeneous polynomials of degree `m`, a subspace of `L(m·D)`. -/
@@ -321,12 +281,6 @@ def IsVeryAmple (D : Divisor k F) : Prop :=
       ∀ E : Divisor k' F', 0 ≤ E → Divisor.degree E ≤ 2 →
         (Divisor.dim (Divisor.conorm k' F' D - E) : ℤ) + Divisor.degree E = Divisor.dim D
 
-/-- `README.md`, Layer 2, 2.4: very ample implies base-point-free. -/
-theorem IsBasePointFree.of_isVeryAmple (hF : IsFunctionField k F)
-    (hex : IsIntegrallyClosedIn k F) {D : Divisor k F} (hD : IsVeryAmple D) :
-    IsBasePointFree D := by
-  sorry
-
 /-- `README.md`, Layer 2, 2.5: degree at least `2g` is base-point-free. -/
 theorem isBasePointFree_of_two_mul_genus_le (hF : IsFunctionField k F)
     (hex : IsIntegrallyClosedIn k F) {D : Divisor k F}
@@ -340,18 +294,6 @@ theorem isVeryAmple_of_two_mul_genus_add_one_le [PerfectField k] (hF : IsFunctio
   sorry
 
 /-! ## Layer 3: the canonical map and canonical models -/
-
-/-- `README.md`, Layer 3, 3.1. The **regular differentials**: Tau Ceti's Weil differentials
-bounded by the zero divisor. -/
-noncomputable abbrev regularDifferentials (k F : Type*) [Field k] [Field F] [Algebra k F] :=
-  weilDifferentialFiltration (k := k) (F := F) 0
-
-/-- `README.md`, Layer 3, 3.1 (bridge check): the space of regular differentials has
-dimension `g`. -/
-theorem finrank_regularDifferentials (hF : IsFunctionField k F)
-    (hex : IsIntegrallyClosedIn k F) :
-    Module.finrank k (regularDifferentials k F) = genus k F :=
-  finrank_weilDifferentialFiltration_zero hF hex
 
 /-- `README.md`, Layer 3, 3.1: in genus at least one there is an effective canonical divisor. -/
 theorem exists_isRiemannRochDivisor_nonneg (hF : IsFunctionField k F)
@@ -374,13 +316,6 @@ noncomputable def canonicalField (hF : IsFunctionField k F) (hex : IsIntegrallyC
     ∃ a ∈ riemannRochSpace (exists_isRiemannRochDivisor hF hex).choose,
       ∃ b ∈ riemannRochSpace (exists_isRiemannRochDivisor hF hex).choose, b ≠ 0 ∧ y = a / b}
 
-/-- `README.md`, Layer 3, 3.3: the canonical field does not depend on the canonical divisor. -/
-theorem canonicalField_eq_adjoin (hF : IsFunctionField k F) (hex : IsIntegrallyClosedIn k F)
-    {W : Divisor k F} (hW : W.IsRiemannRochDivisor (genus k F)) :
-    canonicalField hF hex = IntermediateField.adjoin k {y : F |
-      ∃ a ∈ riemannRochSpace W, ∃ b ∈ riemannRochSpace W, b ≠ 0 ∧ y = a / b} := by
-  sorry
-
 /-- `README.md`, Layer 3, 3.4: **Noether's theorem**, over an algebraically closed field (the
 geometric statement; the general form is the README's). For `g ≥ 2` the canonical divisor is
 very ample iff `F` is not hyperelliptic iff the gonality is at least three iff the canonical
@@ -390,6 +325,15 @@ theorem noether [IsAlgClosed k] (hF : IsFunctionField k F) (hex : IsIntegrallyCl
     (IsVeryAmple W ↔ ¬ IsHyperellipticFunctionField k F) ∧
       (¬ IsHyperellipticFunctionField k F ↔ 3 ≤ gonality k F) ∧
       (3 ≤ gonality k F ↔ canonicalField hF hex = ⊤) := by
+  sorry
+
+/-- Over a perfect constant field, the canonical system is very ample exactly when its
+ratio field is the whole function field; these conditions are equivalent to geometric
+nonhyperellipticity (README §3.4). -/
+theorem noether_iff_canonicalField [PerfectField k] (hF : IsFunctionField k F)
+    (hex : IsIntegrallyClosedIn k F) (hg : 2 ≤ genus k F) {W : Divisor k F}
+    (hW : W.IsRiemannRochDivisor (genus k F)) :
+    IsVeryAmple W ↔ canonicalField hF hex = ⊤ := by
   sorry
 
 /-- `README.md`, Layer 3, 3.5: for a hyperelliptic function field the canonical field is the
@@ -406,11 +350,11 @@ theorem isHyperellipticFunctionField_of_even_genus [PerfectField k] (hF : IsFunc
     (hK : Module.finrank (canonicalField hF hex) F = 2) : IsHyperellipticFunctionField k F := by
   sorry
 
-/-- `README.md`, Layer 3, 3.7: **Max Noether's theorem**. For a non-hyperelliptic field of genus
-at least three, `L(m·W)` is spanned by `m`-fold products of elements of `L(W)`. -/
-theorem noether_projectiveNormality [IsAlgClosed k] (hF : IsFunctionField k F)
+/-- `README.md`, Layer 3, 3.7: **Max Noether's theorem**. Over a perfect field, when the canonical field is the whole field
+(equivalently the curve is not geometrically hyperelliptic), for genus at least three, `L(m·W)` is spanned by `m`-fold products of elements of `L(W)`. -/
+theorem noether_projectiveNormality [PerfectField k] (hF : IsFunctionField k F)
     (hex : IsIntegrallyClosedIn k F) (hg : 3 ≤ genus k F)
-    (hnh : ¬ IsHyperellipticFunctionField k F) {W : Divisor k F}
+    (htop : canonicalField hF hex = ⊤) {W : Divisor k F}
     (hW : W.IsRiemannRochDivisor (genus k F)) (m : ℕ) (hm : 1 ≤ m) :
     Submodule.span k {y : F | ∃ f : Fin m → riemannRochSpace W, y = ∏ i, (f i : F)} =
       riemannRochSpace (m • W) := by
@@ -455,6 +399,20 @@ theorem petri [IsAlgClosed k] (hF : IsFunctionField k F) (hex : IsIntegrallyClos
     (hquintic : ¬ (genus k F = 6 ∧ ∃ x : Model k F 2, x.degree hF = 5 ∧ x.delta hF hex = 0)) :
     (canonicalModel hF hex hn hW b htop).homogeneousIdeal =
       Ideal.span {G | G.IsHomogeneous 2 ∧ G ∈ (canonicalModel hF hex hn hW b htop).homogeneousIdeal} := by
+  sorry
+
+/-- Petri's degree bound including trigonal curves and plane quintics: in genus at least
+four the canonical ideal is generated by quadrics and cubics (README §3.8;
+Saint-Donat, unnumbered theorem p.157 and §§4.11–4.13, pp.174–175). -/
+theorem petri_quadrics_and_cubics [IsAlgClosed k] (hF : IsFunctionField k F)
+    (hex : IsIntegrallyClosedIn k F) {n : ℕ} (hn : n + 1 = genus k F)
+    (hg : 4 ≤ genus k F) {W : Divisor k F}
+    (hW : W.IsRiemannRochDivisor (genus k F))
+    (b : Module.Basis (Fin (n + 1)) k (riemannRochSpace W))
+    (htop : canonicalField hF hex = ⊤) :
+    (canonicalModel hF hex hn hW b htop).homogeneousIdeal =
+      Ideal.span {G | (G.IsHomogeneous 2 ∨ G.IsHomogeneous 3) ∧
+        G ∈ (canonicalModel hF hex hn hW b htop).homogeneousIdeal} := by
   sorry
 
 /-! ## Layer 4: plane models -/
@@ -517,32 +475,6 @@ section Quotient
 
 variable (H : Subgroup (F ≃ₐ[k] F)) [Finite H]
 
-/-- `README.md`, Layer 6, 6.1 (bridge check): the quotient `F ⧸ H = F^H` is a function field. -/
-theorem isFunctionField_fixedField (hF : IsFunctionField k F) :
-    IsFunctionField k (IntermediateField.fixedField H) :=
-  hF.fixedField H
-
-omit [Finite H] in
-/-- `README.md`, Layer 6, 6.1 (bridge check): the quotient has exact constants. -/
-theorem isIntegrallyClosedIn_fixedField (hex : IsIntegrallyClosedIn k F) :
-    IsIntegrallyClosedIn k (IntermediateField.fixedField H) :=
-  isIntegrallyClosedIn_intermediateField hex _
-
-/-- `README.md`, Layer 6, 6.2 (bridge check): **Riemann–Hurwitz for the quotient**,
-`2g − 2 = |H| (2 g_H − 2) + deg Diff(F / F^H)`, is Tau Ceti's Hurwitz genus formula applied to
-the Galois extension `F / F^H` with Tau Ceti's instances `IntermediateField.isGalois_fixedField`
-and `finiteDimensional_fixedField`; the degree `[F : F^H] = |H|` is Artin's theorem
-`IntermediateField.finrank_fixedField_eq_natCard`, which needs no hypothesis on `F / k`. -/
-theorem hurwitz_fixedField (hF : IsFunctionField k F) (hex : IsIntegrallyClosedIn k F) :
-    (2 * (genus k F : ℤ) - 2) =
-      Nat.card H * (2 * (genus k (IntermediateField.fixedField H) : ℤ) - 2) +
-        Divisor.degree (Divisor.different k F (hF.fixedField H)) := by
-  have h := hurwitz_genus_formula (k := k) (k' := k) (F := IntermediateField.fixedField H)
-    (F' := F) (hF.fixedField H) hF (isIntegrallyClosedIn_intermediateField hex _) hex
-  rw [Module.finrank_self, IntermediateField.finrank_fixedField_eq_natCard H, Nat.cast_one,
-    one_mul, one_mul] at h
-  exact h
-
 /-- `README.md`, Layer 6, 6.2: in characteristic zero the different is the tame different
 `∑ (e_P − 1) · P`, giving the orbit form of the quotient genus formula. -/
 theorem hurwitz_fixedField_tame [CharZero k] (hF : IsFunctionField k F)
@@ -585,7 +517,7 @@ theorem isBielliptic_iff_exists_degree_tameDifferent (h2 : (2 : k) ≠ 0) (hF : 
   sorry
 
 /-- `README.md`, Layer 5, 5.2(c): hyperelliptic and bielliptic together force `g ≤ 3`
-(Castelnuovo–Severi, consumed from Tau Ceti main's `Consequences/Castelnuovo.lean`). -/
+(Castelnuovo–Severi, consumed from AlgebraicCurves Layer 8). -/
 theorem genus_le_three_of_isHyperelliptic_of_isBielliptic [PerfectField k] (h2 : (2 : k) ≠ 0)
     (hF : IsFunctionField k F) (hex : IsIntegrallyClosedIn k F)
     (hhyp : IsHyperellipticFunctionField k F) (hbi : IsBielliptic k F) : genus k F ≤ 3 := by
