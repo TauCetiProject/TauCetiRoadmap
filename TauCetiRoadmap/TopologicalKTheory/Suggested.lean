@@ -1,26 +1,28 @@
-import TauCeti.RingTheory.PowerSeries.Log
-import Mathlib.RingTheory.PowerSeries.Derivative
-import Mathlib.Topology.VectorBundle.Basic
-import Mathlib.Topology.VectorBundle.Constructions
-import Mathlib.Topology.VectorBundle.Hom
-import Mathlib.Topology.PartitionOfUnity
-import Mathlib.LinearAlgebra.Matrix.GeneralLinearGroup.Defs
-import Mathlib.RingTheory.Grassmannian
-import Mathlib.Analysis.Matrix.Normed
-import Mathlib.Analysis.InnerProductSpace.Orthonormal
-import Mathlib.Analysis.InnerProductSpace.PiL2
-import Mathlib.Topology.ContinuousMap.Algebra
-import Mathlib.Topology.LocallyConstant.Basic
-import Mathlib.Analysis.Complex.Polynomial.Basic
-import TauCeti.CategoryTheory.GrothendieckGroup.Monoidal.Basic
+module
+
+public import Mathlib
+public import TauCeti.CategoryTheory.GrothendieckGroup.Monoidal.Basic
 
 /-!
-**This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. These forms check actual bundle maps, compact embedding, finite matrix
-spectral splitting and the monoid exercise. `sorry` denotes a mathematical target.
-The topological bundle category, K-groups and Thom maps are specified in the README;
-they are not simulated by empty proposition fields or opaque replacement carriers.
+# Topological K-theory of vector bundles: target signatures
+
+The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
+theorems that are statable against the pinned Mathlib and Tau Ceti, each with `sorry`, with the
+few definitions they need: the finite Grassmannian carrier and its frame-span topology (T1.5),
+the finite-subset gap weights of a partition of unity (T1.6a), the small finite-rank atlas and
+the split K-group carrier (T1, T2.0), and the relative-symbol record (T3.1).
+
+Not statable at the pins, and therefore not stated here:
+complex Bott periodicity `K(X)⊕K(X)≃K(X×S²)` (T4) and the Thom isomorphism `K_c(X)≃K_c(E)`
+(T5.3), which need the K-group of the finite-rank bundle category over a base, the carrier
+T1–T2 construct; representation Bott `R(G)≃K_(G,c)(V)` (T6.7), which needs the equivariant
+bundle category and its K-group; real periodicity with the coefficient ring
+`ℤ[η,a,b,b⁻¹]/(2η,η³,ηa,a²−4b)` (T7.1), which needs the KO carrier and its graded theory; and
+numerable `BU(n)`/`BO(n)` classification (T1.6a), which needs the stable Grassmannian colimit
+carriers `Gr_k∞(𝕜)`, `BO` and `BU`.
 -/
+
+@[expose] public section
 
 noncomputable section
 open Topology
@@ -113,55 +115,6 @@ theorem countablePartitionColouring (P : PartitionOfUnity ι X Set.univ) :
   sorry
 end NumerableClassifierColours
 
-/-- The monoid exercise used to turn a stabilized sequence monoid into a group. -/
-theorem bijective_of_surjective_trivial_identity_fiber
-    {S G : Type*} [Monoid S] [Group G] (f : S →* G)
-    (hsurj : Function.Surjective f) (hone : ∀ s, f s = 1 → s = 1) :
-    Function.Bijective f := by
-  sorry
-
-/-- Integral logarithmic-derivative coefficient of a unit λ-series.
-Index n gives ψ^(n+1); no rational logarithm or division is involved. -/
-def adamsValueOfLambdaSeries {R : Type*} [CommRing R]
-    (lambdaSeries : (PowerSeries R)ˣ) (n : ℕ) : R :=
-  (-1 : R) ^ n * PowerSeries.coeff n
-    (PowerSeries.derivative (lambdaSeries : PowerSeries R) *
-      (↑(lambdaSeries⁻¹) : PowerSeries R))
-
-/-- The signed derivative coefficient is additive on multiplication of unit series.
-T2.5 compares it with the integral Newton definition after the exterior-sum identity. -/
-theorem adamsValueOfLambdaSeries_mul {R : Type*} [CommRing R]
-    (a b : (PowerSeries R)ˣ) (n : ℕ) :
-    adamsValueOfLambdaSeries (a * b) n =
-      adamsValueOfLambdaSeries a n + adamsValueOfLambdaSeries b n := by
-  have hd : PowerSeries.derivative ((a : PowerSeries R) * (b : PowerSeries R)) *
-      (((↑(b⁻¹) : PowerSeries R) : PowerSeries R) * (↑(a⁻¹) : PowerSeries R)) =
-      PowerSeries.derivative (a : PowerSeries R) * (↑(a⁻¹) : PowerSeries R) +
-        PowerSeries.derivative (b : PowerSeries R) * (↑(b⁻¹) : PowerSeries R) := by
-    simp only [Derivation.leibniz, smul_eq_mul]
-    calc
-      _ = (PowerSeries.derivative (a : PowerSeries R) * (↑(a⁻¹) : PowerSeries R)) *
-          ((b : PowerSeries R) * (↑(b⁻¹) : PowerSeries R)) +
-        (PowerSeries.derivative (b : PowerSeries R) * (↑(b⁻¹) : PowerSeries R)) *
-          ((a : PowerSeries R) * (↑(a⁻¹) : PowerSeries R)) := by ring
-      _ = _ := by simp
-  unfold adamsValueOfLambdaSeries
-  simp only [mul_inv_rev, Units.val_mul]
-  rw [hd, map_add, mul_add]
-
-/-- The integral unit expression agrees with the existing rational logarithm API. -/
-theorem adamsValueOfLambdaSeries_eq_coeff_logDeriv
-    {A : Type*} [CommRing A] [Algebra ℚ A]
-    (a : (PowerSeries A)ˣ) (ha : PowerSeries.constantCoeff (a : PowerSeries A) = 1)
-    (n : ℕ) :
-    adamsValueOfLambdaSeries a n =
-      (-1 : A) ^ n * PowerSeries.coeff n (PowerSeries.logDeriv (a : PowerSeries A)) := by
-  unfold adamsValueOfLambdaSeries
-  have hd := PowerSeries.logDeriv_mul (a : PowerSeries A) ha
-  have h := congrArg (fun f : PowerSeries A => f * ↑(a⁻¹)) hd
-  simpa [mul_assoc] using congrArg
-    (fun f : PowerSeries A => (-1 : A) ^ n * PowerSeries.coeff n f) h.symm
-
 section Bundles
 variable {X : Type u} [TopologicalSpace X]
   {F₁ F₂ : Type v} [NormedAddCommGroup F₁] [NormedSpace ℂ F₁]
@@ -237,7 +190,7 @@ abbrev finiteFullRankFrame (𝕜 : Type*) [RCLike 𝕜] (r N : ℕ) :=
 /-- Span of the actual coordinate columns, with its dimension proved from independence. -/
 def finiteGrassmannianFrameSpan (𝕜 : Type*) [RCLike 𝕜] (r N : ℕ)
     (f : finiteFullRankFrame 𝕜 r N) : finiteGrassmannian 𝕜 r N :=
-  ⟨Submodule.span 𝕜 (Set.range f.1), by sorry⟩
+  ⟨Submodule.span 𝕜 (Set.range f.1), by rw [finrank_span_eq_card f.2]; simp⟩
 
 instance finiteGrassmannianTopology (𝕜 : Type*) [RCLike 𝕜] (r N : ℕ) :
     TopologicalSpace (finiteGrassmannian 𝕜 r N) :=
@@ -247,17 +200,19 @@ theorem finiteGrassmannianFrameSpan_surjective (𝕜 : Type*) [RCLike 𝕜] (r N
     Function.Surjective (finiteGrassmannianFrameSpan 𝕜 r N) := by
   sorry
 
-theorem finiteGrassmannianFrameSpan_isQuotientMap (𝕜 : Type*) [RCLike 𝕜] (r N : ℕ) :
-    Topology.IsQuotientMap (finiteGrassmannianFrameSpan 𝕜 r N) := by
-  sorry
-
 /-- Orthonormality uses the native Euclidean coordinate inner product, not the sup norm. -/
 abbrev finiteOrthonormalFrame (𝕜 : Type*) [RCLike 𝕜] (r N : ℕ) :=
   {f : Fin r → (Fin N → 𝕜) // Orthonormal 𝕜 (fun j => WithLp.toLp 2 (f j))}
 
+/-- Span of an orthonormal frame; its dimension comes from the independence of the
+orthonormal family, transported along the coordinate identification `WithLp.linearEquiv`. -/
 def finiteGrassmannianOrthonormalSpan (𝕜 : Type*) [RCLike 𝕜] (r N : ℕ)
     (f : finiteOrthonormalFrame 𝕜 r N) : finiteGrassmannian 𝕜 r N :=
-  ⟨Submodule.span 𝕜 (Set.range f.1), by sorry⟩
+  ⟨Submodule.span 𝕜 (Set.range f.1), by
+    have h : LinearIndependent 𝕜 f.1 :=
+      LinearIndependent.of_comp (WithLp.linearEquiv 2 𝕜 (Fin N → 𝕜)).symm.toLinearMap
+        f.2.linearIndependent
+    rw [finrank_span_eq_card h]; simp⟩
 
 /-- Gram–Schmidt compares this quotient with the same full-rank-frame span topology. -/
 theorem finiteGrassmannianOrthonormalSpan_isQuotientMap
@@ -265,20 +220,28 @@ theorem finiteGrassmannianOrthonormalSpan_isQuotientMap
     Topology.IsQuotientMap (finiteGrassmannianOrthonormalSpan 𝕜 r N) := by
   sorry
 
-theorem finiteGrassmannian_isEmpty_of_rank_gt
-    (𝕜 : Type*) [RCLike 𝕜] (r N : ℕ) (h : N < r) :
-    IsEmpty (finiteGrassmannian 𝕜 r N) := by
-  sorry
-
-/-- Field subspaces recover Mathlib's quotient-rank convention, on the same submodule. -/
+/-- Field subspaces recover Mathlib's quotient-rank convention on the same submodule: a
+subspace of dimension `r` of `𝕜^N` has quotient of dimension `N − r`, which is free, hence
+finite and projective with constant rank at every prime of the field. -/
 def finiteGrassmannianQuotientConventionEquiv (𝕜 : Type*) [RCLike 𝕜]
     (r N : ℕ) (hr : r ≤ N) :
-    finiteGrassmannian 𝕜 r N ≃ Module.Grassmannian 𝕜 (Fin N → 𝕜) (N - r) := by
-  sorry
-
-theorem finiteGrassmannianQuotientConventionEquiv_submodule (𝕜 : Type*) [RCLike 𝕜]
-    (r N : ℕ) (hr : r ≤ N) (V : finiteGrassmannian 𝕜 r N) :
-    (finiteGrassmannianQuotientConventionEquiv 𝕜 r N hr V).toSubmodule = V.1 := by
-  sorry
+    finiteGrassmannian 𝕜 r N ≃ Module.Grassmannian 𝕜 (Fin N → 𝕜) (N - r) where
+  toFun V :=
+    { toSubmodule := V.1
+      finite_quotient := inferInstance
+      projective_quotient := inferInstance
+      rankAtStalk_eq := fun p => by
+        have h := Submodule.finrank_quotient_add_finrank V.1
+        rw [V.2, Module.finrank_fin_fun] at h
+        simp only [Module.rankAtStalk_eq_finrank_of_free, Pi.natCast_apply, Nat.cast_id]
+        omega }
+  invFun W := ⟨W.toSubmodule, by
+    have h := Submodule.finrank_quotient_add_finrank W.toSubmodule
+    have h2 := W.rankAtStalk_eq (Classical.arbitrary (PrimeSpectrum 𝕜))
+    simp only [Module.rankAtStalk_eq_finrank_of_free, Pi.natCast_apply, Nat.cast_id] at h2
+    rw [Module.finrank_fin_fun] at h
+    omega⟩
+  left_inv V := Subtype.ext rfl
+  right_inv W := Module.Grassmannian.ext rfl
 
 end TauCetiRoadmap.TopologicalKTheory
