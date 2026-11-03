@@ -20,7 +20,8 @@ irreducibility and absolute irreducibility with rational two-torsion; the prime,
 non-CM prime and composite rational cyclic-isogeny degree classifications; finite-prime
 coefficient rationality; integral ideal-congruence Sturm; Cartan integrality,
 the proper-image classification and Lemos's rational-isogeny surjectivity theorem;
-unconditional modular abelian rank zero and weight-two modular class reciprocity;
+unconditional modular abelian rank zero and the weight-two modular class
+cup/Chern sign and Tate-module duality comparisons;
 the quantitative elliptic isogeny-degree bound.
 
 The removed-prime bound and Kraus realization are not statable at the pins: the elliptic arithmetic conductor,
@@ -38,10 +39,11 @@ exceptional projective-image bound lack the local reduction/weight and projectiv
 image interfaces. Full Néron torsion specialization lacks the Néron reduction map.
 The finite-j exceptional-prime divisibility theorem lacks the good-reduction trace
 and local inertia interfaces. The quantitative elliptic isogeny-degree theorem is
-not statable because the stable Faltings-height carrier is missing. Weight-two
-modular class reciprocity lacks the normalized modular-unit symbols, their
-cup-normalized étale classes and the attached filtered de Rham eigenform line.
-These are README targets, not assumed suppliers.
+not statable because the stable Faltings-height carrier is missing. The weight-two
+cup/Chern sign and Tate-module duality comparisons lack the normalized modular-unit
+symbols, their étale classes and the attached filtered de Rham eigenform line at
+the pins. README.md imports these constructions and their reciprocity from
+PadicFamilies §§4.0.1–4.0.3; no roadmap module is imported here.
 -/
 
 noncomputable section
