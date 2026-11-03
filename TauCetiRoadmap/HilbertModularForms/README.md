@@ -95,6 +95,11 @@ parallel-weight theory. Weight zero and negative weights are additional analytic
 
 ### Consumed, not redefined
 
+- From AutomorphicSpectralTheory §§1.5, 1.15a–1.15b: the Eisenstein constant-term
+  formula, meromorphic continuation and functional equation, and the factorization
+  of the raw GL₂ intertwiner into a Hecke L-ratio and local integrals. Section 4.2
+  owns the cusp-indexed, parallel-weight-two specialization and its holomorphic limit.
+
 - From KTheoryLowDegrees §5.4: the index ideal of a map of determinant lines,
   its local scalar description and invariance under line isomorphisms. Section 1.1
   uses this for inclusions of full lattices and extends to fractional indices by
@@ -247,7 +252,7 @@ by Koecher) would be wrong for it.
 | Twist | `(f ⊗ χ)` for any finite-order Hecke character `χ` is the form with `c(𝔪, f ⊗ χ) = χ(𝔪) c(𝔪, f)` for `𝔪` prime to the conductor of `χ` (9.1), `χ(𝔪)` being `HeckeCharacter.idealCharacter`. The twist lies in the nebentypus ψχ² space of §2.7; if χ² is ramified, this is not the unramified specialization of §5.2. |
 | CM | `f` has CM when `f` and `f ⊗ χ` have the same good coefficients for some nontrivial finite-order `χ` — the knowl `mf.cm`. Such `χ` is quadratic and cuts out a totally imaginary quadratic extension (9.4). |
 | Base change | `g` over `K` is a base change of `f` over `F ⊆ K` when `L_𝔮(g, T) = L_𝔭^{(r)}(f, T)` for all but finitely many primes `𝔮 ∣ 𝔭` of `K`, `r` the residue degree — the knowl `mf.base_change`. `f` *is a base change* when it is a base change of a newform over a proper subfield `F₀ ⊊ F`, the case `F₀ = ℚ` using the Modular Forms roadmap's `Newform`. |
-| Sign of the functional equation | `Λ(f, s) = ε(f) Λ(f^ρ, k₀ - s)`, `f^ρ` the form with conjugate coefficients; for `ψ = 1`, `f^ρ = f`, and `ε(f) = i^{Σ_w k_w} ∏_{𝔮 ‖ 𝔫} ε_𝔮(f)` with the sign `i^{Σ_w k_w}` read as `i^{Σ_w k_w}`; in parallel weight `2`, `ε(f) = (-1)^n ∏ ε_𝔮(f)`. |
+| Sign of the functional equation | `Λ(f, s) = ε(f) Λ(f^ρ, k₀ - s)`, `f^ρ` the form with conjugate coefficients; for `ψ = 1`, `f^ρ = f`, and `ε(f) = i^{Σ_w k_w} ∏_{𝔭 ∣ 𝔫} ε_{𝔭^{v_𝔭(𝔫)}}(f)` where the product runs over prime ideals dividing the level, each contributing its full prime-power Atkin–Lehner sign; in parallel weight `2`, `ε(f) = (-1)^n ∏_{𝔭 ∣ 𝔫} ε_{𝔭^{v_𝔭(𝔫)}}(f)`. |
 
 The analytic signatures use UpperHalfSpace, realEmbedding, toGLReal, GL2Pos, det₀,
 entry, Weight (with IsParallel, top and m), slash and IsHolomorphic. The component data
@@ -318,6 +323,16 @@ det₀_inv and entry_inv are used only to construct their actions and submodules
 - §5.4, index ideal of a map of lines: for the inclusion det(rL′)→det(L),
   its local determinant scalar generates the index ideal, with invariance under
   line isomorphisms. Section 1.1 clears r to obtain a fractional ideal.
+
+### From TauCetiRoadmap.AutomorphicSpectralTheory
+
+- §1.5 (cuspidal constant term), §1.15a (meromorphic Eisenstein series and
+  intertwining identities), and §1.15b (rank-one scattering coefficient): take
+  GL₂ over F, upper Borel induction, fixed finite level, weight two at every real
+  place, and self-dual trace-character measures. With induction difference
+  t=1+2s, the spherical finite factor is L^S(t,χ)/L^S(t+1,χ); retain the raw
+  local operators at every exceptional finite place. No spherical assumption
+  is made at level primes. Section 4.2 compares these families with its cusp sums.
 
 ## How to read the build
 
@@ -1127,22 +1142,68 @@ The Eisenstein-series API uses the fixed scaling at each cusp.
 
 ### 4.2 Weight `2` by Hecke's trick
 
-For `k = 2` define `E_κ(z, s) := Σ_δ (1 ∣_2 γ_κ⁻¹δ)(z) · N(Im(γ_κ⁻¹δ • z))^{s}` for `Re s > 0`,
-prove convergence, the functional equation in `s` of its constant term, and the limit
-`E_κ(z) := lim_{s → 0⁺} E_κ(z, s)`. Prove that the limit is **holomorphic** because `n ≥ 2`: the
-non-holomorphic part of the constant term is a product of `n` factors each carrying `1/Γ(s)`,
-against a single simple pole of `ζ_F(1 + 2s)`, so it is `O(s^{n-1}) → 0`. (For `F = ℚ` this term
-is `-3/(πy)`; its vanishing is what distinguishes the Hilbert case.) Prove `E_κ ∈ M_2(Γ)` with
-`a_0(E_κ ∣_2 γ_{κ'}) = δ_{κκ'}`.
+For `k = 2` define `E_κ(z, s) := Σ_δ (1 ∣_2 γ_κ⁻¹δ)(z) · N(Im(γ_κ⁻¹δ • z))^{s}`
+for `Re s > 0`, with the cusp scalings and cosets of §4.1. Prove normal convergence
+there and compare this family with the weight-two sections of upper-Borel induction
+with parameter t=1+2s. Transport the meromorphic continuation and intertwining
+functional equation of AutomorphicSpectralTheory §§1.5, 1.15a–1.15b through this
+comparison; this comparison of Eisenstein sums uses Iwasawa coordinates and the
+cusp scalings, independently of the cuspidal dictionary in Layer 6.
 
-*Needs:* §4.1; Mathlib `dedekindZeta`, `Complex.Gamma` and the positive real
-constant `NumberField.dedekindZeta_residue`
-(`NumberField.dedekindZeta_residue_pos`); Tau Ceti
+At a cusp κ′ and positive height vector y put Y=N(y). For Re(s)>0 define
+Φ(κ,κ′;s) as Y^(1+s) times the difference between the translation-torus
+mean of `(E_κ ∣₂ γ_{κ′})(x+iy,s)`, with probability Haar measure, and
+δ(κ,κ′)Y^s. Prove independence of y, so that the constant term is
+`δ_{κκ′} Y^s + Φ_{κκ′}(s) Y^(-1-s)`.
+The coefficient is the matrix entry of the supplied raw intertwiner between the
+sections normalized at κ and κ′, after the specified cusp scalings; this fixes its
+normalization, rather than just its order of vanishing.
+
+Prove the following adapter for every nonzero level and every component. Decompose
+its finite-level inducing sections into finite-order ray-class characters, retaining
+all ramified local matrix entries. Write χ for the ratio of the two inducing
+characters and let S contain the infinite places and every ramified or
+nonspherical finite place, including those from the trace-character measures.
+Here L^S is the finite Euler product outside S. Each scattering entry is a finite sum of products
+of a holomorphic finite-place factor, a ratio
+`L^S(1+2s,χ)/L^S(2+2s,χ)`, and n real-place integrals, evaluated for Re(s)>0 and continued near zero
+using the reciprocal gamma function:
+`I(s) = ∫_ℝ (x+i)^(-2) |x+i|^(-2s) dx = -√π Γ(s+1/2)/((s+1)Γ(s))`.
+The finite factors include the cusp widths and changes of scaling and are
+holomorphic near zero, by convergence of the raw finite local integrals at t=1.
+The denominator is nonzero there by its absolutely convergent Euler product;
+the numerator has at most a simple pole, only for the trivial character. Since
+I(s)=−πs+O(s²), every Φ(κ,κ′;s) is O(sⁿ⁻¹). Continue the nonconstant Fourier
+coefficients as well and prove that their limits converge normally on compact
+subsets and are holomorphic in z. Thus for n≥2 the limit
+`E_κ(z) := lim_{s → 0⁺} E_κ(z,s)` is in M₂(Γ) and has constants δ(κ,κ′).
+
+The character-series source for arbitrary totally real degree and level is
+Dasgupta–Kakde, arXiv:2010.00650v1, §4, equations (27)–(28), p. 15, and
+Theorem 4.5 with its proof, equations (34)–(39), pp. 18–20: the latter writes
+Hecke's trick as congruence-restricted lattice sums at an arbitrary cusp and
+continues them before specializing s=0. Project its character and level-raising
+sections to the Γ₀ invariants and
+restrict to the chosen component. Compare the resulting finite sections with
+the cusp sections for every s in the convergence half-plane, retaining the
+determinant and height factors of the fixed scalings. At s=0 this comparison
+is the change of basis given by the constant-term isomorphism (28); an
+isomorphism only at s=0 would not determine the scattering family. Bruinier,
+Remark 1.35, p. 18, is only the real-quadratic, full-level
+prototype, not the source for this general adapter. The scalar zeta remainder
+alone does not establish the scattering calculation or the nonconstant expansion.
+
+*Needs:* §§1.4, 2.1, 4.1 (cusp scalings, Fourier expansion and the convergent
+sums); AutomorphicSpectralTheory §§1.5, 1.15a–1.15b (constant terms,
+continuation, intertwining and local factors); LFunctions Layers 3 and 5
+(Dedekind and finite-order Hecke continuation and poles); Mathlib
+`Complex.Gamma`, `dedekindZeta`, `NumberField.dedekindZeta_residue` and
+`NumberField.dedekindZeta_residue_pos`; Tau Ceti
 `TauCeti.exists_differentiableOn_eq_dedekindZeta_sub`
-(`TauCeti/NumberTheory/NumberField/DedekindZeta.lean`), for a number field F: there
-is a holomorphic G on Re(s)>1−1/n with G(s)=ζ_F(s)−ρ/(s−1) for Re(s)>1,
-where ρ=dedekindZeta_residue F>0. Use G(s)+ρ/(s−1) for continuation across 1.
-Further continuation and the functional equation use LFunctions Layer 3.
+(`TauCeti/NumberTheory/NumberField/DedekindZeta.lean`): on Re(s)>1−1/n,
+the holomorphic remainder G agrees with ζ_F(s)−ρ/(s−1) on Re(s)>1,
+where ρ=dedekindZeta_residue F>0. Its substitution at 1+2s isolates the
+simple pole in the trivial-character term.
 
 **Checks.**
 
@@ -1152,6 +1213,15 @@ Further continuation and the functional equation use LFunctions Layer 3.
   the product has leading term ρs/2 and tends to 0.
 - At n=1 the same product has limit ρ/2 rather than 0; this excludes the classical
   nonholomorphic weight-two term from the n≥2 cancellation argument.
+- With the actual real integral, I(1)=−π/4 and I(s)/s→−π. For F=ℚ at
+  full level the scattering coefficient is I(s)ζ(1+2s)/ζ(2+2s), whose limit
+  is −π/(2ζ(2))=−3/π, giving the constant 1−3/(πy). In degree two a
+  term H(s)I(s)²ζ_F(1+2s)/ζ_F(2+2s), with H holomorphic, instead has
+  leading coefficient H(0)π²ρ/(2ζ_F(2)) times s and tends to 0.
+- For two inequivalent cusps in degree n≥2, the constant matrix at s=0 is
+  ((1,0),(0,1)); at s≠0 the off-diagonal scattering entries need not vanish.
+  A replacement of the whole scattering matrix by a scalar zeta ratio would
+  lose these entries and the finite-place level factors.
 
 
 The regularized-series API keeps the parameter before taking the limit.
@@ -1200,7 +1270,7 @@ The discriminating examples are the Checks in §4.3: Eisenstein divisor sums in 
 
 ### Dependencies
 
-Layers 2–3; the Dedekind zeta functional equation from LFunctions Layer 3.
+Layers 2–3; LFunctions Layers 3 and 5; AutomorphicSpectralTheory §§1.5, 1.15a–1.15b.
 
 ## Layer 5: Hecke operators
 
@@ -1215,10 +1285,12 @@ For fractional ideals `𝔟, 𝔠`, a nonzero integral ideal `𝔪`, and the lev
 `(a b; c d)` with `a ∈ 𝒪_F`, `b ∈ 𝔟⁻¹`, `c ∈ 𝔫𝔠`, `d ∈ 𝔠𝔟⁻¹`,
 `(det α) 𝔟 𝔠⁻¹ = 𝔪`, and `a` a unit at every prime dividing `𝔫` (1.1). Prove:
 it is nonempty iff `[𝔟] = [𝔪𝔠]` in `NarrowClassGroup F`; it is stable under `Γ₀(𝔫)_𝔠` on the
-left and `Γ₀(𝔫)_𝔟` on the right; the left quotient `Γ₀(𝔫)_𝔠 \ Δ_𝔫(𝔠 ← 𝔟; 𝔪)` is finite, of
-cardinality `Σ_{𝔞 ∣ 𝔪} N𝔞` for `𝔪` prime to `𝔫` and `N𝔪` for `𝔪` supported on `𝔫`
+left and `Γ₀(𝔫)_𝔟` on the right; the left quotient `Γ₀(𝔫)_𝔠 \ Δ_𝔫(𝔠 ← 𝔟; 𝔪)` is finite.
+Its cardinality is zero when `[𝔟] ≠ [𝔪𝔠]`. Under `[𝔟] = [𝔪𝔠]`, its cardinality is
+`Σ_{𝔞 ∣ 𝔪} N𝔞` for `𝔪` prime to `𝔫` and `N𝔪` for `𝔪` supported on `𝔫`
 (the count of index-`𝔪` sublattices of the right class respecting the Borel and unit conditions;
-the quotient need not be cyclic at good prime powers); and explicit representatives for `𝔪 = 𝔭` prime:
+the quotient need not be cyclic at good prime powers). Under the same class equality,
+construct explicit representatives for `𝔪 = 𝔭` prime:
 `N𝔭 + 1` of them when `𝔭 ∤ 𝔫`, `N𝔭` when `𝔭 ∣ 𝔫`, of the shape `(π_𝔭 a; 0 1)`-like matrices
 once a totally positive generator of the principal ideal `𝔭 𝔠 𝔟⁻¹` is fixed. For
 `f ∈ M_k(Γ₀(𝔫)_𝔠)` define
@@ -1240,7 +1312,12 @@ The correspondence API is between the specified component spaces.
 **Checks.**
 
 - At unit ideal and equal components the sole coset is the identity; N𝔠/N𝔟=1 and the operator is identity.
-- At a good norm-4 prime there are 4+1=5 cosets; at a level-dividing norm-4 prime there are 4.
+- Over ℚ(√6), take 𝔫=𝔪=𝔠=𝒪_F and 𝔟=(√6). The equation
+  x²−6y²=−1 is impossible modulo 3, so no unit has norm −1. A generator
+  of 𝔟⁻¹ therefore has norm −1/6 and cannot be totally positive:
+  the components are incompatible, Δ is empty, and its quotient has 0 cosets, not 1.
+- For compatible components at a good norm-4 prime there are 4+1=5 cosets;
+  at a level-dividing norm-4 prime there are 4.
 - For component norms 1 and 1/2 the multiplier is 1/2; reversing the components gives 2, not 1/2.
 
 ### 5.2 `T_𝔪`, `S_𝔪`, and the central action
@@ -1840,8 +1917,10 @@ Split the integral at the inversion supplied by W_𝔫 and use cusp decay to obt
 representation and the standard trace additive character with self-dual measures,
 as in AutomorphicLFunctionsAndLocalFactors AL.2 (standard local functional equation).
 The local factors are the supplied epsilon factors, not an unspecified choice of a square root;
-for `ψ = 1`, `f^ρ = f` and `ε(f) = i^{Σ_w k_w} ∏_{𝔮 ‖ 𝔫} ε_𝔮(f)`. For parallel weight `2`,
-`ε(f) = (-1)^n ∏ ε_𝔮(f)`. For `F = ℚ` this is the Modular Forms roadmap's Layer 7 equation with
+for `ψ = 1`, `f^ρ = f` and `ε(f) = i^{Σ_w k_w} ∏_{𝔭 ∣ 𝔫} ε_{𝔭^{v_𝔭(𝔫)}}(f)`. For parallel weight `2`,
+`ε(f) = (-1)^n ∏_{𝔭 ∣ 𝔫} ε_{𝔭^{v_𝔭(𝔫)}}(f)`. Each product uses the full prime powers of the
+level. The operators for arbitrary exact divisors are those of §§5.6 and 7.7.
+For `F = ℚ` this is the Modular Forms roadmap's Layer 7 equation with
 `i^k`. Prove `|ε(f)| = 1`, and `ε(f) ∈ {±1}` when `ψ = 1`.
 
 *Rests on:* 2.6, 3.1, 5.6, 6.3, 7.7, 8.1;
@@ -1851,7 +1930,13 @@ representation-theoretic route; Mathlib `mellin`, `Complex.Gamma` for the Mellin
 **Checks.**
 
 - `2.2.5.1-31.1-a`: `ε(f) = (-1)^2 · ε_(5w - 2)(f) = +1`.
-- At level one, `ε(f) = (-1)^2 = 1` for `2.2.24.1-1.1-a` and `2.2.29.1-1.1-a`.
+- Over ℚ(√13), let f correspond to y²+xy+y=x³+x²−10x−10
+  (Freitas–Le Hung–Siksek, Theorem 1, p. 2). Here c₄=481 and Δ=3⁴5⁴;
+  the singular reductions have 5 projective points at both 3 and 5, so a₃=−1
+  and a₅=1. The prime 3 splits and 5 is inert, giving prime-power signs
+  (+1,+1,−1); the formula gives (−1)²(+1)(+1)(−1)=−1. Multiplying over
+  all eight exact divisors would instead give (+1)⁴(+1)⁴(−1)⁴=+1.
+- At level one the prime product is empty and equals 1, so `ε(f) = (-1)^2 = 1` for `2.2.24.1-1.1-a` and `2.2.29.1-1.1-a`.
 - In parallel weight `2` over a real quadratic field every `m_w = 0`, so
   `Λ(f, s) = (N(𝔫) d_F²)^(s/2) ((2π)^(-s) Γ(s))² L(f, s)`; for `2.2.5.1-31.1-a`,
   `N(𝔫) d_F² = 31 · 25 = 775`.
@@ -2271,7 +2356,7 @@ constant on the Hecke orbit where the LMFDB displays it per orbit:
 | `hecke_eigenvalues` | `𝔭 ↦ c(𝔭, f) ∈ CoefficientField f` on `HeightOneSpectrum (𝓞 F)` | 7.4, 7.5 |
 | `hecke_polynomial` | a defining polynomial of `CoefficientField f` — the field up to isomorphism is intrinsic; the chosen polynomial is not a target | 7.5 |
 | `dimension` | `finrank ℚ (CoefficientField f)` = size of the Hecke orbit | 7.5 |
-| `AL_eigenvalues` | `𝔮 ↦ ε_𝔮(f)` for `𝔮 ‖ 𝔫`, `ψ = 1` | 7.7 |
+| `AL_eigenvalues` | `𝔭 ↦ ε_{𝔭^{v_𝔭(𝔫)}}(f)` for prime ideals `𝔭 ∣ 𝔫`, `ψ = 1` | 7.7 |
 | `is_CM` | HasCM f | 9.2 |
 | `is_base_change` | IsBaseChange f | 9.4 |
 | newspace dimension | `finrank S_k(𝔫; R)^{new}` | 7.3 |
@@ -2536,6 +2621,12 @@ Automorphic bundles. Layers 8, 9, 10 are independent of one another after Layer 
 8.1; 10.2 uses 7.7). Layer 11 collects Layers 7–9.
 
 ## References
+
+- S. Dasgupta and M. Kakde, *On Constant terms of Eisenstein Series*,
+  arXiv:2010.00650v1, §4, equations (27)–(28), p. 15; Theorem 4.5 and its
+  proof, equations (34)–(39), pp. 18–20. These are the character-indexed
+  arbitrary-degree and arbitrary-level formulas used in the cusp-basis adapter
+  of §4.2. [Open preprint](https://arxiv.org/abs/2010.00650v1).
 
 - J. Voight, *Quaternion algebras*, author edition dated August 5, 2026,
   Definition 9.6.1, Lemmas 9.6.3–9.6.4, 9.6.7 and 9.6.9, pp. 143–144:
