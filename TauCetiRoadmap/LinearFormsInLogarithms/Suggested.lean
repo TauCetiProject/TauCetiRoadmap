@@ -35,6 +35,7 @@ open scoped NNReal
 #check @Complex.cpow
 #check @PadicComplex.isAlgClosed
 #check @IsUltrametricDist.of_normedAlgebra
+#check @IsUltrametricDist.norm_natCast_le_one
 #check @FormalMultilinearSeries.ofScalars_sum_eq
 #check @HasFPowerSeriesAt.apply_eq_zero
 #check @HasFPowerSeriesOnBall.compContinuousLinearMap

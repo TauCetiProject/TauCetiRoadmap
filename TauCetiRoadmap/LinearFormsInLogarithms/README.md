@@ -1143,8 +1143,9 @@ sums to `Q (x) exp (ψ x)` when `‖ψ x‖ < ρ` (`PowerSeries.hasSum_coeff_coe
 Over an ultrametric normed field `K` of characteristic zero, for points `σ i` of norm at most `1`
 with `‖σ i - σ j‖ ≥ ϱ` for `i ≠ j`, `0 < ϱ ≤ 1`, and `s < S`, there is a polynomial `W` whose
 derivatives of order `< S` at the points vanish except the `s`-th at `σ r`, which is `1`, with every
-coefficient at most `‖1 / s!‖ ϱ ^ (-(card ι · S))`. ⚠ `‖1 / s!‖ = p ^ (v_p (s!))` is at least `1`,
-unlike at an archimedean place. *Needs:* Mathlib only.
+coefficient at most `‖1 / s!‖ ϱ ^ (-(card ι · S))`. ⚠ `‖1 / s!‖ ≥ 1`, since `‖s!‖ ≤ 1` in every
+ultrametric normed field (`IsUltrametricDist.norm_natCast_le_one`); for `K` a normed
+`ℚ_[p]`-algebra it equals `p ^ (v_p (s!))`; unlike at an archimedean place. *Needs:* Mathlib only.
 
 **Checks**, with one point `0`, `ϱ = 1`, `S = 3` and `s = 2`.
 - Over `ℚ_[3]`, `W = X ^ 2 / 2`: its derivatives at `0` of orders `0, 1, 2` are `0, 0, 1`, and its
