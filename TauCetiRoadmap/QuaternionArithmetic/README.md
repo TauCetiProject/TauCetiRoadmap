@@ -68,7 +68,7 @@ Suggested home: `TauCeti/NumberTheory/Quaternion/`, with subdirectories `Ramific
   `Aut_μ(O)` and `Aut_{±μ}(O)`, the enhanced group `Aut_{±μ}(O) ⋉ (O/NO)^×`, the curve `X_H`
   of a subgroup `H`, and every group-theoretic invariant the LMFDB computes from `H` (level,
   index, Fuchsian index, gerbiness, coarseness, elliptic points of orders `2, 3, 4, 6`, genus,
-  torsion invariants, Atkin–Lehner content, the named families `X(D;N)`, `X^*(D;N)`, `X(D,M;1)`).
+  torsion invariants, their comparison for marked QM surfaces (§§9.7–9.8), Atkin–Lehner content, the named families `X(D;N)`, `X^*(D;N)`, `X(D,M;1)`).
 - **The LMFDB dictionary** (Layer 10): the intrinsic label prefix `D.d.δ.N.i.g` and the coverage
   table of the Shimura-curve page.
 
@@ -83,9 +83,11 @@ Suggested home: `TauCeti/NumberTheory/Quaternion/`, with subdirectories `Ramific
   an arithmetic order and **the reduced-norm images of maximal orders** are classical arithmetic
   completion 7.78 and 7.60; the general arithmetic Fuchsian lattice theorem is TeichmullerGeometry §9.1. The local
   order-to-tree adapter and rational exact covolume belong to §§1.12 and 8.2 here.
+  The lattice tree, adjacency, tree theorem and group action belong to ReductiveGroupsPartII
+  RG2.2.2, “sl2-tree”; §1.12 adds only their comparison with quaternion orders.
 - **Quaternionic modular forms** in weight, Hecke operators on coefficient modules, slopes,
   families: quaternionic modular forms Layers 1–5. **Jacquet–Langlands**: GL₂ transfer R17.1–R17.3.
-- **Canonical models, integral models, moduli of QM abelian surfaces, Čerednik–Drinfeld**: Hilbert
+- **Canonical models, integral models, the auxiliary PEL bridge, Čerednik–Drinfeld**: Hilbert
   modular varieties and Shimura curves R18.1, R18.2, R18.5. **Models, gonality and rational points**
   of Shimura curves: the sibling `CanonicalModelsAndGonality` roadmap; the Jacobian decomposition,
   conductor and analytic rank of `X_H` are the modular-forms data reached through R17.3 and are not
@@ -112,7 +114,7 @@ Suggested home: `TauCeti/NumberTheory/Quaternion/`, with subdirectories `Ramific
 
 ## Conventions
 
-Integer levels and congruence moduli are positive, and ideal norms in the counting formulas are nonzero. The exponent e in a local level pᵉ may be zero.
+Integer levels and congruence moduli are positive, and ideal norms in the counting formulas are nonzero. Numerical local unit counts and λ factors require a finite residue field k, with q = #k ≥ 2; the residue-algebra definitions do not require finiteness. The exponent e in a local level pᵉ may be zero.
 
 | Object | Convention |
 | --- | --- |
@@ -130,7 +132,7 @@ Integer levels and congruence moduli are positive, and ideal norms in the counti
 | Right class set | `Cls O` is the set of classes of **proper invertible** right fractional `O`-ideals (right multiplier order exactly O) under `I ∼ J ⟺ ∃ α ∈ B^×, αI = J` (`[V, 17.3.4]`); left classes are reached through `I ↦ star I`. The **class number** is `# Cls O`. Over a Dedekind domain invertible means locally principal (3.1). |
 | Type set, genus | Orders of the same type are `B^×`-conjugate, equivalently `R`-algebra isomorphic (`[V, 17.4.2]`); the genus of `O` is the set of orders locally isomorphic to `O`, and `Typ O` its set of types (`[V, 17.4.8]`). |
 | Mass | For a totally definite `B`, `mass(Cls O) = ∑_{[J] ∈ Cls O} [O_L(J)^× : R^×]^{-1}` (`[V, 26.1.4]`); over `ℚ` the weight is `w_J = #O_L(J)^× / 2 = #(O_L(J)^×/{±1})`. |
-| Eichler symbol | `(O | 𝔭) ∈ {1, 0, -1, ∗}` according as `O_𝔭/rad O_𝔭` is `k × k`, `k`, a quadratic field extension of `k`, or a quaternion algebra over `k` (`[V, 24.3.2, 24.3.13]`); `λ(O,𝔭) = 1 + 1/q, 1 − 1/q², 1 − 1/q` in the first three cases, `q = N𝔭`. |
+| Eichler symbol | `(O | 𝔭) ∈ {1, 0, -1, ∗}` according as `O_𝔭/rad O_𝔭` is `k × k`, `k`, a quadratic field extension of `k`, or a quaternion algebra over `k` (`[V, 24.3.2, 24.3.13]`); `λ(O,𝔭) = 1 + 1/q, 1 − 1/q², 1 − 1/q` in the first three cases, `q = #k` with k finite. |
 | Optimal embedding | For a quadratic `R`-order `S` in a quadratic field `K ⊇ F`, an `F`-algebra map `φ : K → B` is **optimal for `S`** when `φ(K) ∩ O = φ(S)` (`[V, 30.3.2]`). `Emb(S,O;Γ)` is its set of `Γ`-conjugacy classes for `O¹ ≤ Γ ≤ N_{B^×}(O)`, acting on the right by `φ ↦ γ^{-1}φγ`, and `m(S,O;Γ) = # Emb(S,O;Γ)` (`[V, 30.3.11–12]`). For `F = ℚ` the quadratic order is Tau Ceti's `NumberFieldOrder K`. |
 | Brandt matrix | With representatives `I_1,…,I_h` of `Cls O`, `T(𝔫)_{ij} = #{J ⊆ I_j : nrd J = 𝔫·nrd I_j, [J] = [I_i]}` (`[V, 41.2.3]`); on the free module of classes this is T(𝔫); on functions M₂(O) = Map(Cls O, ℤ), the pullback operator A(𝔫) has `(A(𝔫)f)([I]) = ∑_{J ⊆ I, nrd J = 𝔫 nrd I} f([J])` and matrix T(𝔫)ᵗ (`[V, 41.2.6]`). Columns index the source class. |
 | Real splitting | For `B` indefinite over `ℚ`, `ι_∞ : B → M₂(ℝ)` is a fixed `ℚ`-algebra embedding; `det ∘ ι_∞ = nrd`. Changing `ι_∞` conjugates every group below inside `PGL₂(ℝ)`; every invariant stated is conjugation invariant. |
@@ -168,8 +170,6 @@ The roadmaps consumed are: [quadratic form invariants](../QuadraticFormInvariant
 (R18.1, R18.3.1, R18.5.17a). Each consumed object is listed with its milestone under *Scope and
 ownership*.
 
-
-
 - **From Mathlib:** `QuaternionAlgebra` and its star, `QuaternionAlgebra.Basis` and `liftHom`,
   `swapEquiv`; `Submodule.IsLattice`; `Subalgebra`; `IsDedekindDomain`, `HeightOneSpectrum`,
   `adicCompletion`; `NumberField.InfinitePlace` with `IsReal` and `IsTotallyReal`; `ClassGroup`;
@@ -177,13 +177,14 @@ ownership*.
   `SL(2,ℝ)` action and `volume`; `MulAction.orbitRel.Quotient`, `MulAction.stabilizer`;
   `Nat.totient`, `legendreSym`, `jacobiSym`; `SemidirectProduct`; `MeasureTheory.covolume`.
 - **From Tau Ceti at the pin** (module paths under `TauCeti/`): the norm form
-  `QuaternionAlgebra.normForm`, `pureNormForm`, `normForm_mul`, `isUnit_iff_normForm_isUnit`,
+  `QuaternionAlgebra.normForm`, `pureNormForm`, `normForm_apply`, `normForm_mul`, `isUnit_iff_normForm_isUnit`,
   `anisotropic_normForm_iff` (`Algebra/Quaternion/NormForm.lean`); the four-fold splitting criterion
   `TauCeti.QuaternionAlgebra.nonempty_algEquiv_matrix_tfae` and its named faces
   (`Algebra/Quaternion/SplittingCriterion.lean`); the equivalences `oneEquivMatrix`,
   `aNegAEquivMatrix`, `rescaleJEquiv`, `normMulEquiv`, `steinbergEquivMatrix`
   (`Algebra/Quaternion/{Split,SymbolEquiv,Steinberg}.lean`); naturality of star, reduced trace and
-  norm under algebra equivalences (`Algebra/Quaternion/AlgEquiv.lean`); base change
+  norm under algebra equivalences: `map_star_of_algEquiv`, `reducedTrace_eq_of_algEquiv` and
+  `normForm_eq_of_algEquiv`, with 2 regular (`Algebra/Quaternion/AlgEquiv.lean`, lines 104, 93, 114); base change
   `baseChangeTwoParams` (`Algebra/Quaternion/BaseChange.lean`); centrality and simplicity
   (`Algebra/Quaternion/CentralSimple.lean`); the Brauer class `quaternionClass` with its relations
   (`Algebra/Quaternion/BrauerClass.lean`); the norm-equation Hilbert symbol `TauCeti.hilbertSymbol`
@@ -236,9 +237,15 @@ ownership*.
   `Sh_U(G_B, X_B)` over `ℚ` and its complex uniformization), which is the algebraic curve whose
   complex points Layer 8 and Layer 9 describe as `Γ \ ℍ`; R18.3.1 (`DefiniteClassSet`, the central
   quotient of the class set); R18.5.17a (`DefiniteClassSetGraph` and its integral Brandt matrices).
-  The moduli interpretation of `X_0(D;N)` by abelian surfaces with quaternionic multiplication is
-  that roadmap's and is not constructed here.
-- **From adelic algebraic groups:** AA.3.4 `class-number-finite` (`Reduction.finite_classes`),
+  R18.1.3 supplies uniformization, and R18.1.7–8 supplies an auxiliary PEL bridge. Neither
+  supplies the enhanced integral Galois representation. Sections 9.7–9.8 own its comparisons
+  for a polarized QM surface with the specified integral module marking.
+- **From AbelianSchemesAndArithmeticModuli §§A0.1, A3.2, A3.9:** abelian schemes, finite étale
+  N-torsion in characteristic zero, and the Rosati involution. Sections 9.7–9.8 use these
+  with a number field, its algebraic closure and the natural Galois actions; they construct
+  no moduli space and make no assertion that an arbitrary complex curve point descends.
+- **From adelic algebraic groups:** §4.4 “Nested-level map on double cosets” and
+  “Finite-index bound for level changes” for §3.9; AA.3.4 `class-number-finite` (`Reduction.finite_classes`),
   AA.4.2 `quaternion-norm-one-strong-approximation` (`D¹(𝔸_{F,f}) = D¹(F)·D¹(F_v)·U^{v,1}` for a
   split finite place `v`), AA.4.6 `quaternion-norm-images` (`Nrd(D^×) = F^×_{>Ω 0}`), AA.5.3 the
   volume identity under level change for a definite algebra over ℚ and the Hurwitz
@@ -246,6 +253,10 @@ ownership*.
   and proves maximality; these numerical facts are consumed.
 - **From Fuchsian orbifolds:** Layers 0–5 supply the effective action, coarse quotient,
   compactification, genus, Riemann–Hurwitz, and covolume scaling for finite-index subgroups.
+- **From ReductiveGroupsPartII RG2.2.4, “sl2-tree”:** the homothety-class lattice graph,
+  its adjacency, `BTTree.isTree`, its q+1 neighbors at each vertex and the GL₂(F) action
+  through PGL₂(F), for a nonarchimedean local field F. Section 1.12 compares vertices,
+  stabilizers and distances with maximal and Eichler orders.
 - **From TeichmullerGeometry §9.1:** the norm-one order group over a totally real field split
   at exactly one real place is a discrete finite-covolume subgroup of PSL₂(ℝ), cocompact
   exactly when the quaternion algebra is division. Section 8.1 takes its rational instance.
@@ -273,7 +284,6 @@ ownership*.
   quadratic field, `legendreSym` dictionary) and Layer 5 (completions as local fields).
 - **From global number fields:** Layer 1 (weak approximation), Layer 6 (ideles and the idele class
   group), Layer 11 (`NumberFieldOrder`, `Pic`, the conductor).
-
 
 The native bundle instances `instSetLikeQuatOrder`, `instPartialOrderQuatOrder` and
 `instIsLatticeRightIdeal` expose order membership, inclusion and ideal fullness;
@@ -309,11 +319,11 @@ The arithmetic constructions below use these native algebra, module and group ca
 
 Listed under *Consumed, not redefined* with module paths. Three points deserve emphasis.
 First, the whole field-theoretic layer (norm form, splitting criterion, symbol relations,
-naturality under equivalences, base change) is landed, so Layer 0 is a specialization and never
-reproves a splitting statement. Second, the Hilbert symbol is landed with its localizations at the
+naturality under equivalences, base change) is supplied by the pinned modules, so Layer 0 is a specialization and never
+reproves a splitting statement. Second, the Hilbert symbol has its localizations at the
 finite and real places of a number field and with the finiteness of its support, so the finite
-ramification set of 0.3 is a finite set by a landed theorem, not by a target. Third, the Fuchsian
-quotient `Γ \ ℍ` and its compactification are landed Riemann surfaces, with cyclic stabilizers and
+ramification set of 0.3 is a finite set by the finite-support theorem, not by a target. Third, the Fuchsian
+quotient `Γ \ ℍ` and its compactification are Riemann surfaces in the pinned modules, with cyclic stabilizers and
 elliptic ramification indices; what Layers 8–9 add is arithmetic: which `Γ` and which numbers.
 
 ## How to read the build
@@ -342,14 +352,25 @@ Throughout, `F` is a number field unless the item says otherwise, and `B = ℍ[F
 
 The signatures use `trd` for this trace and `nrd` for the native norm form.
 
-Define `trd x = 2·re x` and prove `x + star x = trd x` (`QuaternionAlgebra.self_add_star` with
-`c₂ = 0`), `nrd x = (x * star x).re` (Tau Ceti `normForm_apply`), `x² − trd(x)x + nrd(x) = 0`,
-`trd(xy) = trd(yx)`, `nrd(xy) = nrd(x)nrd(y)` (`normForm_mul`), `x` is a unit iff `nrd x ≠ 0`
-(`isUnit_iff_normForm_isUnit`), and the trace pairing `(x,y) ↦ trd(xy)` is a nondegenerate
-symmetric bilinear form with Gram determinant `−16a²b²` on `1,i,j,k`. Prove that an `F`-algebra
-equivalence `ℍ[F,a,b] ≃ₐ[F] ℍ[F,c,d]` preserves `trd` and `nrd` (`reducedTrace_eq_of_algEquiv`,
-`normForm_eq_of_algEquiv`). *Needs:* Mathlib `QuaternionAlgebra`; Tau Ceti `NormForm`,
-`AlgEquiv`.
+Define `trd x = 2·re x` and specialize the native norm form as `nrd`. The additional
+arithmetic input is the trace pairing on the symbol basis: for a characteristic-zero field
+and nonzero a,b, prove its Gram matrix is diag(2,2a,2b,−2ab), with determinant −16a²b²,
+hence it is nondegenerate ([V, 15.2.10], p. 235).
+
+Its API:
+
+- Identify the trace pairing with this Gram matrix and its induced dual-lattice pairing.
+- Transport this pairing along an algebra equivalence using the trace-naturality contract.
+
+**Checks.**
+
+- At (a,b) = (3,−1), the Gram diagonal is (2,6,−2,6), determinant −144.
+- At (−1,−1), it is (2,−2,−2,−2), determinant −16.
+- At (1,1), it is (2,2,2,−2), determinant −16, although the algebra is split.
+- At (3,−1), nrd(i)nrd(j) = (−3)·1 = −3 = nrd(ij), pinning the native norm convention.
+
+*Needs:* Mathlib `QuaternionAlgebra`; the native trace, norm, unit and equivalence identities
+in the supplier contracts.
 
 ### 0.2 Local ramification predicates
 
@@ -374,6 +395,17 @@ and IsRamifiedAtReal B w :⟺ (a_w, b_w)_ℝ = -1. Prove:
 *Needs:* 0.1; Tau Ceti `HilbertSymbol/{Basic,Archimedean}`, `QuadraticForm/Global/Localization`,
 `SplittingCriterion`, `BaseChange`; GL₂ transfer R17.1.5 for the comparison clause.
 
+Its API:
+
+- The finite and real predicates agree with nonsplitting and are invariant under changes of symbol presentation.
+- For an abstract quaternion algebra, a presentation transports these predicates to the supplier’s exact ramification predicate.
+
+**Checks.**
+
+- For Hamilton symbols over ℚ, the symbols at 2 and ∞ are −1 and at 3 are +1: precisely the first two predicates hold.
+- For (1,7), every finite symbol and the real symbol is +1; the ramification predicates all fail.
+- Replacing (3,−1) by (12,−1) leaves the symbols at 2,3,∞ equal to −1,−1,+1.
+
 ### 0.3 The ramification set is finite of even cardinality
 
 Define `Ram_f B = {v | IsRamifiedAt B v}` and `Ram_∞ B = {w real | IsRamifiedAtReal B w}`. Prove
@@ -389,6 +421,17 @@ Tau Ceti's `quaternionClass a b` under the comparison `brauerGroupEquivBr`; Tau 
 `NumberTheory/LocalField/Quaternion/Invariant.lean` supplies the nonarchimedean identification at the pin. *Needs:* 0.2; Tau Ceti
 `QuadraticForm/Global/HilbertSymbol`; global quadratic forms 4.4; class field theory Layers 10, 14.
 
+Its API:
+
+- The finite ramification set has finite support and excludes places where 2,a,b are units.
+- The union with the real ramification set has even cardinality, and membership agrees with invariant 1/2.
+
+**Checks.**
+
+- Hamilton has one finite and one real ramified place: 1+1 = 2 is even.
+- For (3,−1), the finite set is {2,3} and the real set is empty: 2+0 = 2.
+- For (1,7), both sets are empty: 0+0 = 0; the support bound may include unramified primes.
+
 ### 0.4 The discriminant of `B`
 
 For the rational acceptance statements, `ramificationBound` is the nonzero integer bound above and `discNat` is the finite product defining D.
@@ -398,6 +441,17 @@ product, never `∏ᶠ`), and prove: `disc B` is squarefree; `disc B = 1 ↔ Ram
 invariant under `AlgEquiv`. Over `ℚ` define `D = ∏_{p ∈ Ram_f B} p ∈ ℕ`, prove it squarefree,
 prove `p ∣ D ↔ (a,b)_{ℚ_p} = -1`, and prove `p ∣ D → p ∣ 2·num(a)·den(a)·num(b)·den(b)`, so that
 `D` is a `Finset` product over the divisors of that integer. *Needs:* 0.3.
+
+Its API:
+
+- The discriminant is squarefree and equals the unit ideal exactly when the finite ramification set is empty.
+- Over ℚ, its prime divisors are precisely the ramified primes and lie among the prime divisors of the nonzero ramification bound.
+
+**Checks.**
+
+- Hamilton gives D = 2; its ramification bound is 2.
+- For (3,−1), D = 6 and the bound is 6; both primes 2 and 3 occur once.
+- For (1,7), the bound is 14 but D = 1, excluding the mistaken definition as the radical of the bound.
 
 ### 0.5 Definite and indefinite
 
@@ -409,6 +463,17 @@ then `D` has an odd number of prime factors; indefinite iff `D` has an even numb
 factors; if `F` has a complex place then every `B` is indefinite; `B` totally definite implies
 `nrd` is positive definite at every real embedding and `B` is a division algebra. *Needs:*
 0.2, 0.3; Mathlib `IsTotallyReal`.
+
+Its API:
+
+- Over ℚ, the real signs and the parity of the finite ramification set distinguish the two predicates.
+- Total definiteness implies division and positive-definite real norm forms; a complex place excludes total definiteness.
+
+**Checks.**
+
+- Hamilton is definite with D = 2 and one finite ramified prime.
+- For (3,−1), B is indefinite with D = 6 and two finite ramified primes.
+- For the split algebra, D = 1 has zero prime factors and the norm represents −1; indefinite does not mean division.
 
 ### 0.6 Quadratic subfields
 
@@ -449,6 +514,11 @@ that `R⟨i,j⟩ = R ⊕ Ri ⊕ Rj ⊕ Rk` is an order when `a, b ∈ R` (`[V, 1
 have `trd, nrd ∈ R` is an order (`[V, 10.3.7]`). Orders are stable under `star`
 (`star α = trd α − α`). *Needs:* 0.1; Mathlib `Submodule.IsLattice`; CAC 7.4, 7.20.
 
+Its API:
+
+- The order bundle exposes membership, inclusion and its full lattice; its elements have integral trace and norm.
+- Conjugation exchanges left and right multiplier orders, and multiplication by an invertible element transports them.
+
 **Checks.**
 
 - (boundary) For an order `O`, `O_L(O) = O_R(O) = O`: `α ∈ O_L(O)` gives `α = α·1 ∈ O`, and
@@ -467,6 +537,17 @@ Define `O^× ` (the units of the subalgebra) and `O¹ = {γ ∈ O^× : nrd γ = 
 `O¹ ⊴ O^×` with `O^×/O¹ ↪ R^×`, and that for `R = ℤ`, `O^×/O¹` has order `1` or `2` according
 as `O` has no unit of norm `−1` or has one. *Needs:* 1.1.
 
+Its API:
+
+- Reduced norm maps Oˣ to Rˣ, with kernel O¹ and an injective induced map Oˣ/O¹ → Rˣ.
+- Over ℤ the quotient has order two exactly when a unit of norm −1 exists; otherwise it is trivial.
+
+**Checks.**
+
+- For the Hurwitz order, all 24 units have norm 1, so Oˣ/O¹ has size 1.
+- In O₆ the element 1+i+j has norm −1, with inverse −1+i+j; Oˣ/O¹ has size 2.
+- The scalar 2 has norm 4 and inverse 1/2 in B, but 1/2 is not in an integral order: neither unit subgroup contains 2.
+
 ### 1.3 Discriminants
 
 Define the trace discriminant, determinant reduced discriminant and cubic ideal as in Conventions and prove: all three are fractional ideals (finitely
@@ -474,6 +555,17 @@ generated, nonzero, `[V, 15.2.14]`); `disc I = [J : I]_R² disc J` for lattices 
 `[J : I]_R` is the module index, so `I ⊆ J` with `disc I = disc J` forces `I = J`
 (`[V, 15.2.15]`); `disc` is invariant under `AlgEquiv` (`[V, 15.2.9]`); `disc R⟨i,j⟩ = (4ab)²·R`
 and `discrd R⟨i,j⟩ = 4ab·R` (`[V, 15.2.10]`); `disc M₂(R) = R`. *Needs:* 1.1.
+
+Its API:
+
+- The trace discriminant, determinant reduced discriminant and cubic ideal are nonzero fractional ideals.
+- The trace discriminant transforms by the square of the lattice index and is invariant under algebra isomorphism.
+
+**Checks.**
+
+- The Lipschitz trace Gram determinant is −16, giving trace ideal (16), reduced ideal (4), cubic ideal (4).
+- For 2L these three ideals are (4096), (64), (32), so the cubic ideal cannot replace the reduced ideal for arbitrary lattices.
+- M₂(ℤ) has trace determinant −1 and all three ideals equal (1); the unit ideal is a valid discriminant.
 
 ### 1.4 Trace dual and codifferent
 
@@ -484,6 +576,18 @@ Define `I^♯ = {α : trd(αI) ⊆ R}` and prove it is a lattice with `(I^♯)^�
 `codiff O = O^♯`, prove `O ⊆ codiff O`, `O_L(codiff O) = O_R(codiff O) = O`, and
 `disc O = [codiff O : O]_R` (`[V, 15.6.16–15.6.17]`). Over `ℤ`: `disc O = #(O^♯/O)`.
 *Needs:* 1.1, 1.3.
+
+Its API:
+
+- Trace duality is an involution on full lattices and identifies the dual with Hom_R(I,R).
+- For β ∈ Bˣ it sends βI to I♯β⁻¹ and exchanges the two multiplier orders.
+- The codifferent contains O, has both multiplier orders O, and its index over O equals the trace discriminant.
+
+**Checks.**
+
+- For Lipschitz L, the trace Gram matrix diag(2,−2,−2,−2) gives L♯ = (1/2)L and codiff(L) = (1/2)L; the quotient has 16 elements.
+- For M₂(ℤ), E₁₂ and E₂₁ are trace-dual to each other, so its trace dual and codifferent both equal M₂(ℤ); the quotient has 1 element.
+- For 2L, the trace dual is (1/4)L, and dualizing again gives 2L; scaling the dual in the same direction would incorrectly give L.
 
 ### 1.5 Reduced discriminant
 
@@ -500,6 +604,12 @@ These statements use the determinant transformation law and the alternating form
 ([V, 15.2.6, 15.2.15, 15.4.2–15.4.7], pp. 234–239); the cubic formula alone does not give
 index multiplicativity for arbitrary lattices. Over ℤ take the positive generator.
 *Needs:* 1.3, 1.4; exterior powers of finite projective modules.
+
+Its API:
+
+- The determinant ideal transforms by the lattice index; the scalar ideal corrects the cubic ideal for arbitrary lattices.
+- For orders, the scalar ideal is R and the reduced discriminant squares to the trace discriminant.
+- Over ℤ the positive generator is invariant under algebra isomorphism and obeys the same index law.
 
 **Checks.**
 
@@ -560,6 +670,18 @@ generated by `[[0,1],[ϖ^e,0]]` (`[V, 23.4.14]`). Every superorder of an Eichler
 (`[V, 23.4.10]`); hereditary orders are Eichler; an order is hereditary iff `discrd O` is squarefree
 (`[V, 23.3.18]`). *Needs:* 1.7, 1.8.
 
+Its API:
+
+- Eichler membership is local and is preserved on passing to a superorder.
+- At a split DVR, the level exponent classifies conjugacy classes; positive exponent gives the displayed normalizer generator.
+- The hereditary criterion is squarefreeness of the reduced discriminant in the number-field setting.
+
+**Checks.**
+
+- M₂(ℤ₂) is the intersection with itself: exponent 0, reduced discriminant (1), trivial local normalizer quotient.
+- O₀(2) is the intersection at distance 1: exponent 1, reduced discriminant (2), normalizer quotient of order 2.
+- O₀(4) has exponent 2 and reduced discriminant (4); it is Eichler but not hereditary, distinguishing squarefree discriminant from arbitrary level.
+
 ### 1.10 Level, and the genus of an Eichler order
 
 The signature definition `level` is discrdNat(O)/D; D is positive and divides discrdNat(O) for Eichler orders. The arithmetic function `psi` is used only at positive levels.
@@ -575,6 +697,11 @@ and the same for the norm-one groups. Prove that every Eichler order is locally 
 classical arithmetic completion 7.60, consumed, and what is proved here is the case `𝔭 | 𝔐`,
 `O_𝔭 ≅ O_0(𝔭^e)` with `e ≥ 1`. *Needs:* 1.7–1.9; CAC 7.60.
 
+Its API:
+
+- The level is coprime to the algebra discriminant and determines the genus of an Eichler order.
+- The local unit and norm-one indices are ψ of the local level, and every Eichler order is locally norm-maximal.
+
 **Checks.**
 
 - For a maximal order the level is 1 and ψ(1) = 1.
@@ -583,26 +710,44 @@ classical arithmetic completion 7.60, consumed, and what is proved here is the c
 
 ### 1.11 Orders over `ℤ`: bases and the index
 
-For `R = ℤ`: an order has a `ℤ`-basis `1 = x_1, x_2, x_3, x_4` (Mathlib `Module.Free` of a finite
-torsion-free `ℤ`-module); `disc O = |det(trd(x_i x_j))|`; for `O' ⊆ O`, `discrd O' = [O : O']·discrd O`;
-`ℤ + fO` has `discrd = f³ discrd O`. Prove the LMFDB's `discO` of an order presented by a stored
-basis is `discrd O` computed from that basis. *Needs:* 1.3–1.5.
-
-### 1.12 Eichler orders of level `𝔭^e` and vertices at distance `e`
-
-For R a complete DVR with finite residue field, construct the order-to-tree comparison: on
-the graph 𝒯 of homothety classes of rank-two R-lattices in F², with edges given by inclusions
-ϖL ⊊ L′ ⊊ L, prove it is a tree. Prove
-(`[V, 23.5.5, 23.5.8]`), `[L] ↦ End_R(L)` is a bijection from vertices to maximal orders of
-`M₂(F)`, adjacent vertices meet in Eichler orders of level `𝔭`, conjugation of orders is the
-building action, and order units and normalizers are the corresponding stabilizers. Prove further: the maximal orders at two vertices at distance `e`
-intersect in an Eichler order of level `𝔭^e`, and every Eichler order of level `𝔭^e` is such an
-intersection (`[V, 23.5.15]`), so that 1.10's local level `e` is a distance on `𝒯`.
-*Needs:* 1.7, 1.9, 1.10; elementary divisors for lattices over a DVR.
+For R = ℤ, prove that an order has a ℤ-basis beginning with 1. Indeed O ∩ ℚ = ℤ by
+integrality and integral closedness; if nx ∈ ℤ for n ≠ 0 and x ∈ O, then x ∈ ℚ ∩ O = ℤ.
+Thus O/ℤ is torsion-free of rank three and free, and a basis lifts to a basis of O with first
+vector 1 ([V, 10.3.2–3], p. 154, and the finite torsion-free module theorem over ℤ).
+Then `disc O = |det(trd(x_i x_j))|`; for `O' ⊆ O`, `discrd O' = [O : O']·discrd O`;
+for f ≥ 1, `ℤ + fO` has `discrd = f³ discrd O` ([V, 15.2.2, 15.2.15, 15.4.7],
+pp. 234, 237, 239). The mathematical order-discriminant datum is the positive square root
+of the absolute trace determinant; its database correspondence is the `discO` row of §10.2.
+*Needs:* 1.3–1.5.
 
 **Checks.**
 
-- The vertex R² gives End_R(R²) = M₂(R).
+- For O₆ the basis in §1.8 has trace determinant −36 and reduced discriminant 6.
+- The basis 1,2i,2j,1+i+j+k of ℤ+2O₆ has index 8 in O₆, trace determinant −2304,
+  and reduced discriminant 48 = 8·6.
+- At f = 1 the index is 1 and the reduced discriminant stays 6; f = 0 gives the rank-one
+  module ℤ, not an order, so the positive-index formula does not apply.
+
+### 1.12 Eichler orders of level `𝔭^e` and vertices at distance `e`
+
+For R a complete DVR with finite residue field and F its fraction field, use the lattice
+tree and GL₂(F) action of ReductiveGroupsPartII RG2.2.4, “sl2-tree”. Prove that
+[L] ↦ End_R(L) is a bijection from its vertices to maximal orders in M₂(F), equivariant
+for the lattice action and conjugation of orders ([V, 23.5.2, 23.5.5], pp. 376–377).
+
+Its API:
+
+- The stabilizer of L in GL₂(F) is End_R(L)ˣ; the stabilizer of [L] is FˣEnd_R(L)ˣ,
+  the normalizer of End_R(L). Homothety and lattice stabilizers are distinguished.
+- Vertices at distance e have intersection an Eichler order of level 𝔭ᵉ; every such order
+  arises this way ([V, 23.5.15], p. 379).
+- Distance zero gives a maximal order, and distance one gives local level 𝔭.
+
+*Needs:* 1.7, 1.9, 1.10; ReductiveGroupsPartII RG2.2.4, “sl2-tree”.
+
+**Checks.**
+
+- The vertex R² gives End_R(R²) = M₂(R); over ℤ₂ it has three neighbors, as the supplied tree predicts.
 - The vertices of R² and R⊕ϖR have distance one and intersect in O₀(𝔭).
 - Distance e = 0 gives a maximal order and level 1; distance e = 2 gives O₀(𝔭²) and reduced discriminant 𝔭², distinguishing distance from the number of endpoint vertices.
 
@@ -621,13 +766,25 @@ Right fractional O-ideals are lattices I with IO ⊆ I; proper means O_R(I) = O.
 In the class, type, norm-index and Brandt constructions, “invertible right O-ideal” means
 a proper invertible lattice, equivalently locally free of rank one over O; integral means I ⊆ O. *Needs:* 1.1, 1.4.
 
+Its API:
+
+- Products of full lattices are full lattices; their left and right orders contain the outer multiplier orders.
+- A principal lattice has the stated two-sided inverse; invertibility is preserved by conjugation and algebra isomorphism.
+- Compatibility requires equality of the middle multiplier orders, and the norm module is generated by the norms of lattice elements.
+
+**Checks.**
+
+- For I = 2O, the inverse is (1/2)O and both inverse products are O; nrd(I) = (4).
+- For I = 2O and J = 3O, compatibility holds, IJ = 6O and nrd(IJ) = (36) = (4)(9).
+- The zero submodule has product zero with every module and norm module zero; it is not a full or invertible lattice.
+
 ### Examples
 
 Lipschitz and Hurwitz have reduced discriminants 4 and 2; O₆ has 6. Distance-two lattice vertices yield level 𝔭².
 
 ### Dependencies
 
-Layer 0; the generic orders of ClassicalArithmeticCompletion §§7.4, 7.20, 7.21, 7.56; elementary divisors over a DVR.
+Layer 0; the generic orders of ClassicalArithmeticCompletion §§7.4, 7.20, 7.21, 7.56; ReductiveGroupsPartII RG2.2.4, “sl2-tree”; elementary divisors over a DVR.
 
 ## Layer 2: Gorenstein and Bass orders, the ternary form, the Eichler symbol
 
@@ -649,6 +806,11 @@ Clifford form `2·nrd^♯` on `(O^♯)⁰` is `(x·x)/2` on the `A₃` lattice, 
 `Cl Q ↔ Typ O` (`[V, 22.5.12]`). *Needs:* 1.3–1.5;
 quadratic form invariants Layer 2 for the trace-zero form; Mathlib `CliffordAlgebra`, `evenOdd`.
 
+Its API:
+
+- The even Clifford construction and the codifferent construction are inverse on the stated isomorphism classes.
+- Twisted similarity preserves the order discriminant and transports genera; the Eichler trace-zero norm has discriminant equal to its square.
+
 **Checks.**
 
 - For the Hurwitz order, the trace-zero form is x²+y²+z² with ternary discriminant 4, while its Clifford form has discriminant 2.
@@ -665,13 +827,30 @@ equivalent to: every sated (`O_L(I) = O`) left or right fractional `O`-ideal is 
 of 2.1 is primitive (`[V, 24.2.10]`). Maximal and Eichler orders are Gorenstein. *Needs:*
 1.4, 1.13, 2.1.
 
+Its API:
+
+- The Gorenstein condition is local and equivalent to the invertibility, norm and primitivity criteria above.
+- Maximal and Eichler orders satisfy it, while a nonprimitive corresponding ternary form excludes it.
+
+**Checks.**
+
+- For M₂(ℤ), the codifferent is O and its norm ideal is (1), so the Gorenstein norm product is (1).
+- For Lipschitz L, codiff(L) = (1/2)L has norm ideal (1/4); multiplying by discrd(L) = (4) gives (1).
+- For ℤ+2O₆ the conductor product is (2), not (1); it is not Gorenstein.
+
 ### 2.3 Gorenstein saturation and conductor
 
-There is a unique ideal `𝔣(O) ⊆ R` and Gorenstein order `Gor(O)` with `O = R + 𝔣(O)·Gor(O)`, and
+The acceptance theorem is `existsUnique_gorenstein_saturation`, over every characteristic-zero
+Dedekind fraction field. There is a unique nonzero ideal `𝔣(O) ⊆ R` and Gorenstein order `Gor(O)` with `O = R + 𝔣(O)·Gor(O)`, and
 `𝔣(O) = discrd(O)·nrd(O^♯)` (`[V, 24.2.15]`); `O ≅ O'` iff `Gor O ≅ Gor O'` and `𝔣(O) = 𝔣(O')`
-(`[V, 24.2.22]`). Over `ℤ` write `O = ℤ + f(O)Gor(O)` with `f(O) ∈ ℕ` (`[V, 24.1.4]`). Example:
+(`[V, 24.2.22]`). Over `ℤ` write `O = ℤ + f(O)Gor(O)` with `f(O) ∈ ℕ`, f(O) > 0 (`[V, 24.1.4]`). Example:
 `ℤ + 2O_6` for the maximal order `O_6` of discriminant `6` has `f = 2`, `discrd = 48`, and is not
 Gorenstein. *Needs:* 2.2.
+
+Its API:
+
+- The conductor is nonzero and the conductor-saturation pair is unique.
+- Isomorphisms preserve the conductor and transport the saturation; together they determine the isomorphism class.
 
 **Checks.**
 
@@ -683,11 +862,29 @@ Gorenstein. *Needs:* 2.2.
 
 ### 2.4 The Eichler symbol and local unit counts
 
-Define `(O | 𝔭)` as pinned, prove `O_𝔭` is Eichler iff maximal or residually split (`[V, 24.3.6]`),
-and prove `[O_𝔭^× : 1 + 𝔭O_𝔭]` equals `q(q−1)²(q+1)`, `q²(q−1)²`, `q²(q²−1)`, `q³(q−1)` according
-as `(O | 𝔭) = ∗, 1, −1, 0` (`[V, 24.3.12]`), where `q = N𝔭`: the index is `#(O_𝔭/𝔭O_𝔭)^×`, the
-preimage of `(O_𝔭/rad O_𝔭)^×` under a surjection with kernel of order `q^{4 − dim_k(O_𝔭/rad O_𝔭)}`.
-Define `λ(O,𝔭)` as pinned.
+For a complete DVR R, define the Eichler symbol from O/rad(O) as in Conventions
+([V, 24.3.1–2], pp. 388–389), and define its global version by completion at a nonzero prime
+([V, 24.3.13], p. 391). For the numerical formulas assume k = R/𝔭 is finite and put q = #k.
+Define λ(O,𝔭) by the three rational expressions in Conventions in the non-∗ cases.
+
+Its API:
+
+- The symbol is invariant under order isomorphism; O is Eichler iff it is maximal or
+  residually split ([V, 24.3.6], p. 389).
+- Reduction identifies Oˣ/(1+𝔭O) with (O/𝔭O)ˣ. If k is finite, its cardinality in the
+  ∗, 1, −1, 0 cases is respectively q(q−1)²(q+1), q²(q−1)², q²(q²−1), q³(q−1).
+- The map (O/𝔭O)ˣ → (O/rad O)ˣ is onto, with kernel of cardinality
+  q^(4−dim_k(O/rad O)) when k is finite ([V, 24.3.12], pp. 390–391).
+- For finite k, λ is invariant under isomorphism and positive: q ≥ 2 excludes every
+  zero denominator ([V, 25.3.19], p. 411).
+
+**Checks.**
+
+- For q = 2 the four unit counts are 6, 4, 12, 8; λ in the 1, −1, 0 cases is 3/2, 3/4, 1/2.
+- For q = 3 the counts are 48, 36, 72, 54; the corresponding λ values are 4/3, 8/9, 2/3.
+- M₂(ℝ[[t]]) has symbol ∗, but reduction gives GL₂(ℝ), an infinite group: it has no
+  numerical q or λ factor. Its residue-algebra and order theory remain in scope.
+
 *Needs:* 1.7, 1.9, 2.2.
 
 ### 2.5 Bass orders
@@ -700,6 +897,18 @@ are Bass; over a complete DVR, Bass iff every `O`-ideal is generated by two elem
 (`[V, 24.5.4]`); the radical idealizer `O^♮ = O_L(rad O) ∩ O_R(rad O)` of a non-maximal residually
 inert order is its unique minimal superorder, with `[O^♮ : O]_R = 𝔭²` (`[V, 24.4.7]`).
 *Needs:* 2.2–2.4.
+
+Its API:
+
+- The Bass condition is local and quantifies over all superorders.
+- Over a complete DVR it is equivalent to the two-generator condition and the decomposition of lattices into ideals.
+- For a nonmaximal residually inert order, the radical idealizer is the unique minimal superorder and has index 𝔭².
+
+**Checks.**
+
+- Lipschitz L has reduced discriminant 4 and is Bass but not hereditary; its only strict superorder is Hurwitz, of discriminant 2.
+- O₀(4) is Eichler, hence Bass, with reduced discriminant 4; the two-generator criterion does not require squarefree level.
+- ℤ+2O₆ is its own superorder and has conductor 2 rather than 1, so the universal Gorenstein condition fails.
 
 ### 2.6 Classification of local orders by their symbol
 
@@ -745,6 +954,17 @@ involution); a lattice whose left or right order is maximal is locally principal
 (`[V, 17.2.3]`); `nrd(IJ) = nrd(I)nrd(J)` for compatible invertible `I, J` and
 `I^{-1} = star I / nrd I` for invertible `I`. *Needs:* 1.1, 1.4, 1.13.
 
+Its API:
+
+- Properness identifies the full right multiplier order; invertibility is equivalent to local principality.
+- Compatible invertible products multiply norm ideals; conjugation divided by the norm gives the inverse.
+
+**Checks.**
+
+- For 2O₀(2), the right order is O₀(2), the norm ideal is (4), and the index is 16 = 4².
+- The right-stable lattice M₂(ℤ) over O₀(2) has multiplier order M₂(ℤ), so it is not a proper ideal of O₀(2).
+- For 2O and 3O, norms multiply as 4·9 = 36 and the inverse norm of 2O is 1/4.
+
 ### 3.2 The right class set
 
 The signatures call the equivalence relation `ClassRel`, its quotient `ClassSet`, and its cardinality `classNumber`.
@@ -754,6 +974,11 @@ multiplication by `Bˣ`, and prove `I ∼ J` iff `I ≅ J` as right `O`-modules 
 the left class set and `star : Cls_L O ≃ Cls_R O`. Prove that `[I] ↦ [O_L(I)]` is a well-defined
 surjection `Cls O → Typ O` (`[V, 17.4.13]`) and that a connecting ideal `J` induces a bijection
 `Cls O ≃ Cls O'` by `[I] ↦ [IJ]` (`[V, 17.4.11]`). *Needs:* 3.1.
+
+Its API:
+
+- The relation is equivalence by right-module isomorphism; conjugation identifies left and right class sets.
+- The left-order map surjects onto types and connecting ideals induce class-set bijections.
 
 **Checks.**
 
@@ -772,6 +997,17 @@ The corresponding acceptance definitions are `TypeRel`, `TypeSet` and `typeNumbe
 Define same type, connected, locally of the same type, `Gen O`, `Typ O` as pinned; prove
 connected iff locally isomorphic (`[V, 17.4.6]`), that `OO'` is a connecting ideal for maximal
 `O, O'` (`[V, 17.4.7]`), and that `# Cls` is constant on a genus. *Needs:* 3.1, 3.2.
+
+Its API:
+
+- Connectedness agrees with local isomorphism, and a product of maximal orders gives a connecting ideal.
+- The class number is constant on a genus and the type number counts conjugacy classes of orders in that genus.
+
+**Checks.**
+
+- Hurwitz has one genus class and one type; its product with itself is its identity connecting ideal.
+- At D = 11, the two class representatives have unit orders 4 and 6, hence their left orders are not isomorphic and give two types.
+- At D = 37, three classes map to two types: local isomorphism does not imply a unique global type.
 
 ### 3.4 The idelic dictionary
 
@@ -811,6 +1047,11 @@ Define `Idl(O)` (invertible two-sided `O`-ideals), `PIdl(O)` (those `OαO` with 
 primitive two-sided ideal of norm 𝔭 at a division prime, and of norm 𝔭ᵉ at a level prime
 𝔭ᵉ ∥ 𝔐, represented locally by J = O₀(𝔭ᵉ)[[0,1],[ϖᵉ,0]], with J² = 𝔭ᵉO₀(𝔭ᵉ). *Needs:* 3.1, 3.4; 1.7, 1.9.
 
+Its API:
+
+- Central principal ideals form the quotient defining Pic_R(O); the central ideal classes inject with the stated quotient.
+- Principal two-sided ideals recover the normalizer quotient; the Eichler local generators square to central ideals.
+
 **Checks.**
 
 - For R = ℤ[√−5] and O = M₂(R), Pic_R(O) = Cl R has order two, whereas Idl(O)/Idl(R) is trivial.
@@ -819,11 +1060,26 @@ primitive two-sided ideal of norm 𝔭 at a division prime, and of norm 𝔭ᵉ 
 
 ### 3.7 The Atkin–Lehner group
 
-Define `AL(O) = {J ∈ Idl(O) : [nrd J] ∈ (Cl_{G(O)} R)²}/Idl(R)` (`[V, 28.9.8]`) and prove: it is
-an elementary abelian `2`-group; for `O` Eichler it is `∏_{𝔭|𝔑} ℤ/2` whenever `# Cl_{G(O)} R` is
+Define `AL(O) = {J ∈ Idl(O) : [nrd J] ∈ (Cl_{G(O)} R)²}/Idl(R)` (`[V, 28.9.8]`) and prove: for O Eichler it is
+an elementary abelian `2`-group; in that case it is `∏_{𝔭|𝔑} ℤ/2` whenever `# Cl_{G(O)} R` is
 odd (`[V, 28.9.10]`). Over `ℚ` with `O` Eichler of level `N`: `Cl_{G(O)} ℤ = 1` (1.10 and
 `Cl ℤ = 1`), so `AL(O) ≅ (ℤ/2)^{ω(DN)}`, and its elements are the classes `w_m` of the two-sided
 ideals of reduced norm `m` for the Hall divisors `m ∥ DN`. *Needs:* 3.6.
+
+Its API:
+
+- For Eichler O, the Atkin–Lehner group is an elementary abelian 2-group.
+- When the indicated ray class group has odd order, every local two-sided generator contributes a factor; over ℚ these are indexed by Hall divisors.
+
+**Checks.**
+
+- For the split maximal order over ℚ, DN = 1 gives a trivial Atkin–Lehner group.
+- For O₆, the Hall divisors 1,2,3,6 give four elements, with w₂w₃ = w₆ and w₂² = 1.
+- For the split order O₀(4), the Hall divisors are 1,4, so there are two elements; 2 is not a Hall divisor.
+
+- For the non-Eichler Lipschitz order L, h = (1+i+j+k)/2 normalizes L and h³ = −1.
+  The two-sided ideal Lh has order three modulo central ideals since h ∉ ℚˣLˣ;
+  thus the elementary-abelian assertion requires the Eichler hypothesis.
 
 ### 3.8 Hurwitz and the class number one examples
 
@@ -840,9 +1096,25 @@ groups of orders `4` and `6`, `# Cls = 3` for `37` with all unit groups `{±1}`,
 
 ### 3.9 Transport of class sets under isomorphism and under change of level
 
-Prove `Cls O ≃ Cls O'` for `O ≅ O'`, and for `O' ⊆ O` the surjection `Cls O' → Cls O`,
-`[I] ↦ [IO]`, with fibres of size controlled by `[O^× : O'^×]`-type indices; this is the ideal-side
-face of adelic algebraic groups AA.5.3. *Needs:* 3.2, 3.4.
+For orders over the ring of integers of a number field, prove that an algebra isomorphism
+O ≅ O′ induces Cls O ≃ Cls O′. For O′ ⊆ O, extension [I] ↦ [IO] gives a surjection
+Cls O′ → Cls O by AdelicAlgebraicGroups §4.4, “Nested-level map on double cosets”. Put U = Ôˣ, U′ = Ô′ˣ. For g ∈ B̂ˣ representing a target class,
+its fibre is Γ_g\U/U′, with Γ_g = (g⁻¹Bˣg) ∩ U acting by left multiplication on U/U′.
+This follows by restricting the double-coset bijection of §3.4 to gU
+([V, 27.6.8–9], p. 457); it is an orbit-set theorem, with bound
+1 ≤ #fibre ≤ [U:U′], agreeing with AdelicAlgebraicGroups §4.4, “Finite-index bound for level changes”. The local compact-open index is finite.
+If g′ = bgu₀ with b ∈ Bˣ and u₀ ∈ U, then Γ_g′ = u₀⁻¹Γ_g u₀ and
+uU′ ↦ u₀⁻¹uU′ gives the representative-independence comparison on orbit sets.
+
+**Checks.**
+
+- O′ = O gives U/U′ a single element and every fibre cardinality 1.
+- For the Hurwitz order and a level-7 Eichler suborder, [U:U′] = 8; the Hurwitz units
+  have two orbits of four elements, hence the only fibre has size 2, not the global unit index 4.
+- For indefinite rational Eichler orders at levels 1 and 2 in the split algebra, both
+  class sets have size 1, although the local coset set has size ψ(2) = 3: the single orbit has size 3.
+
+*Needs:* 3.2, 3.4; AdelicAlgebraicGroups §4.4, the two named level-change targets; 1.10 for Eichler local index examples.
 
 ### 3.10 Ideals of a given norm
 
@@ -850,6 +1122,21 @@ For `O` Eichler and an integral ideal `𝔫`, prove that the number `a_𝔫(O)` 
 right `O`-ideals of reduced norm `𝔫` is constant on the genus, multiplicative in coprime `𝔫`, and
 equal to `∑_{𝔡 | 𝔫} N𝔡` for `𝔫` coprime to `discrd O`; at `𝔭 | disc B`, `a_{𝔭^e} = 1`
 (`[V, 26.3.4, 26.3.9, 26.4.1]`). *Needs:* 3.1, 3.6.
+
+Its API:
+
+- The count is invariant on a genus and multiplicative for coprime nonzero norm ideals.
+- Away from the reduced discriminant it is the ideal-divisor norm sum; at division primes
+  there is one ideal of each prime-power norm.
+
+**Checks.**
+
+- The unit norm ideal gives the identity ideal O and count 1, equal to the divisor sum 1.
+- For Hurwitz, norms 3 and 5 give 4 and 6 ideals, norm 15 gives 24 = 4·6, and norm 9
+  gives 13 = 1+3+9 rather than 4².
+- At the division prime 2 of Hurwitz, norms 2 and 4 each have count 1, rather than
+  the unramified divisor sums 3 and 7.
+
 
 ### Examples
 
@@ -919,9 +1206,22 @@ with a representative `w_m ∈ N_{B^×}(O)` of reduced norm `m` for every `m ∥
 
 ### 4.6 Positive-norm normalizer over `ℚ`
 
-Define `N^+_{B^×}(O) = {γ ∈ N_{B^×}(O) : nrd γ > 0}` and prove `N^+/(ℚ^×_{>0}O¹) ≅ AL(O)`, every
+For O Eichler in an indefinite rational algebra, define `N^+_{B^×}(O) = {γ ∈ N_{B^×}(O) : nrd γ > 0}` and prove `N^+/(ℚ^×_{>0}O¹) ≅ AL(O)`, every
 class `w_m` having a representative of positive norm `m` (the representatives of 4.5 have norm
-`m > 0`), and `N_{B^×}(O) = N^+ ⊔ N^+·u` for a unit `u` of norm `−1` (4.4). *Needs:* 4.4, 4.5.
+`m > 0`), and `N_{B^×}(O) = N^+ ⊔ N^+·u` for a unit `u` of norm `−1` (4.4).
+This is a corollary of the norm-image and normalizer exact sequences
+([V, 28.6.10, 28.9.17], pp. 477, 486). *Needs:* 4.4, 4.5.
+
+Its API:
+
+- The positive-norm subgroup has index two, detected by a unit of norm −1.
+- Its quotient by positive rational scalars and O¹ is the Atkin–Lehner group, with a positive representative for each Hall divisor.
+
+**Checks.**
+
+- For O₆ the positive normalizer quotient has size 4 = 2^ω(6).
+- For M₂(ℤ) the quotient has size 1; diag(−1,1) has norm −1 and lies in the other coset.
+- The scalar −1 has norm 1 and lies in O¹, so restricting the scalar denominator to positive rationals does not introduce an extra factor of two.
 
 ### 4.7 Jacobinski cancellation
 
@@ -952,6 +1252,11 @@ class (conjugate left orders have isomorphic unit groups, so `w_J` is a function
 prove it is constant on
 the genus and that `mass(Cls O) ≤ # Cls O` with equality iff every `O_L(J)^× = R^×`.
 *Needs:* 3.2, 3.5.
+
+Its API:
+
+- The weight is independent of the ideal representative, so the finite weighted sum is well defined.
+- Mass is genus-invariant and at most the class number, with equality exactly when all left-order units are central.
 
 **Checks.**
 
@@ -1046,6 +1351,17 @@ modulo `Γ₀(N)` of the
 `oneEquivMatrix`), `O = R₀(N)`, `S = O_c`, `Γ = O¹ = Γ₀(N)` of the oriented refinement of Emb(S,O;Γ): retain the selected complex CM type and gcd(c,N) = 1 for the comparison of the full orders at both endpoints. Forgetting the CM type is not this comparison. *Needs:* 1.1,
 1.2; GNF Layer 11.
 
+Its API:
+
+- Optimality is local, and the transporter quotient parametrizes embeddings and their conjugacy classes.
+- Changing from Oˣ to an intermediate group uses the norm-index formula; over ℚ the O¹ count doubles for imaginary quadratic orders.
+
+**Checks.**
+
+- For D = 6 and S = ℤ[i], the Oˣ count is 2 and the O¹ count is 4.
+- The embeddings i ↦ j and i ↦ −j have the same image order but opposite orientations; an unmarked image alone cannot distinguish them.
+- ℤ[2i] in ℚ(i) has conductor 2 and no optimal embedding in O₆, although ℤ[i] has two Oˣ classes.
+
 ### 6.2 Finiteness and the local embedding numbers of maximal orders
 
 Prove `m(S,O;Γ) < ∞` (`[V, 30.5.5]`). For R a complete DVR, m(S, M₂(R); GL₂(R)) = 1 for quadratic R-orders S. For the following division embedding counts assume in addition that the residue field is finite; for B
@@ -1055,7 +1371,7 @@ division with valuation ring `O` and `S` integrally closed, `m(S,O;N_{B^×}(O)) 
 
 ### 6.3 Local embedding numbers of Eichler orders
 
-For `O = O_0(𝔭^e)`, `e ≥ 1`, with `S = R[γ]`, `f_γ(x) = x² − t_γ x + n_γ`, `d_γ = t_γ² − 4n_γ`:
+For a complete DVR with finite residue field k of cardinality q, and `O = O_0(𝔭^e)`, `e ≥ 1`, with `S = R[γ]`, `f_γ(x) = x² − t_γ x + n_γ`, `d_γ = t_γ² − 4n_γ`:
 every optimal embedding is `O^×`-conjugate to a normalized one or its `ϖ`-conjugate
 (`[V, 30.6.3, 30.6.8–30.6.9]`), and with `M(s) = {x ∈ R/𝔭^s : f_γ(x) ≡ 0}`,
 `m(S,O;O^×) = #M(e)` if `d_γ ∈ R^×` and `#M(e) + #img(M(e+1) → R/𝔭^e)` otherwise
@@ -1064,6 +1380,21 @@ every optimal embedding is `O^×`-conjugate to a normalized one or its `ϖ`-conj
 according to the parity of `e` when `e < f` (`[V, 30.6.17]`); over `ℤ_2`,
 `m(ℤ_2[i], O_0(2^e); O^×) = 1` for `e ≤ 1` and `0` for `e ≥ 2` (`[V, 30.6.14]`). *Needs:*
 6.1, 1.9.
+
+Its API:
+
+- The root sets and their reduction images determine the two cases of the local embedding formula.
+- The unramified-discriminant case uses roots at exponent e alone; the other case also
+  uses the image from exponent e+1, including at residue characteristic two.
+
+**Checks.**
+
+- At p = 3, x²+1 has no roots modulo 3 and discriminant −4 is a unit, so at level 3 the count is 0.
+- At p = 3, x²−1 has two roots modulo 3 and unit discriminant 4, giving count 2 for
+  the split quadratic order at level 3.
+- For ℤ₂[i], x²+1 has one root modulo 2 and none modulo 4 or 8; the counts at levels
+  2 and 4 are respectively 1+0 = 1 and 0+0 = 0.
+
 
 ### 6.4 The trace formula
 
@@ -1091,6 +1422,17 @@ according as `d` is even, `d ≡ ±1`, `d ≡ ±3 (mod 8)`, so `(−4|2) = 0`, `
 `kroneckerSym` in `Suggested.lean` is). When `B` is indefinite the sum has one term
 (4.3) and these are `m(ℤ[i],O;O^×)` and `m(ℤ[ω],O;O^×)` (`[V, 39.4.20]`). *Needs:* 6.4,
 4.3; completed NFA Layer 1 for the splitting dictionary of `ℚ(i)` and `ℚ(√−3)`.
+
+Its API:
+
+- The Kronecker symbol uses the explicit dyadic rule and the odd-prime quadratic character.
+- The product vanishes at the indicated conductor-square level and gives the sum of optimal-embedding counts.
+
+**Checks.**
+
+- At p = 2, the symbols for d = −4 and −3 are 0 and −1; the latter differs from the characteristic-two quadratic character.
+- At D = 6, M = 1 the Gaussian and Eisenstein products are both 2.
+- At D = 15, M = 4 the Gaussian product is 0 because 4 divides the level; the empty prime-factor convention at level 0 is not used.
 
 ### 6.6 The Eichler class number formula
 
@@ -1122,6 +1464,17 @@ prime discriminant `p` and `O` maximal, `t = 1` for `p ∈ {2,3}` and
 `p ≡ 3 (mod 4)` and `0` otherwise (`[V, 30.9.2]`). Checks: `p = 11`: `1 + 1/4 + 3/4 = 2`;
 `p = 37`: `3/2 + 0 + 1/2 = 2`. *Needs:* 3.3, 3.6, 6.6.
 
+Its API:
+
+- The type set is the orbit set of the two-sided-ideal action on ideal classes.
+- For prime rational discriminant, the displayed quadratic-order class numbers give its cardinality.
+
+**Checks.**
+
+- For p = 5, h = 1 and h(−20) = 2, so t = 1/2+2/4 = 1.
+- For p = 11, h = 2, h(−11) = 1 and h(−44) = 3, so t = 1+1/4+3/4 = 2.
+- For p = 37, h = 3 and h(−148) = 2, so t = 3/2+2/4 = 2, strictly smaller than h.
+
 ### Examples
 
 For D = 11 the class number is 5/6+2/4+2/3 = 2 and the type number is 1+1/4+3/4 = 2.
@@ -1143,6 +1496,11 @@ representatives (`[V, 41.2.5]`). Prove the element count
 `T(𝔫)_{ij} = #{α ∈ I_jI_i^{-1} : nrd(α)R = 𝔫_{ij}}/O_i^×` with `𝔫_{ij} = 𝔫·nrd(I_j)/nrd(I_i)`, equal to
 `(1/w_i)#{α : nrd(α)R = 𝔫_{ij}}/R^×` (`[V, 41.2.7]`). Define the `𝔫`-Brandt graph and prove
 `T(𝔫)` is its adjacency matrix (`[V, 41.2.12]`). *Needs:* 3.2, 3.5, 3.10.
+
+Its API:
+
+- Changing ideal representatives preserves the Brandt correspondence and its counts.
+- The graph adjacency matrix acts on divisors; its transpose acts on class functions, with the stated element count.
 
 **Checks.**
 
@@ -1175,6 +1533,11 @@ On functions use ⟨f,g⟩ = ∑ᵢ f(Iᵢ)g(Iᵢ)/wᵢ and the transpose identi
 so `T(𝔫)` is normal and self-adjoint for `𝔫` narrowly principal, and `𝕋(O) ⊗ ℚ` is semisimple with
 a common eigenbasis and real eigenvalues for narrowly principal `𝔫` (`[V, 41.4.3, 41.4.10]`).
 *Needs:* 7.2.
+
+Its API:
+
+- The prime-to-discriminant operators generate a commutative algebra.
+- The divisor and function pairings have reciprocal weights; the corresponding adjoint identities give normality and rational semisimplicity.
 
 **Checks.**
 
@@ -1259,6 +1622,22 @@ for `n ≥ 1` and constant term `1/(2w_i)`; by theta series Layer 7 (`Θ_L ∈ M
 modular form of weight `2` on `Γ₀(DM)` with trivial character. *Needs:* 7.1, 3.1; theta
 series Layer 7.
 
+Its API:
+
+- The norm scaling makes the ideal lattice integral with the stated determinant and level.
+- The weighted theta coefficients at positive indices recover the Brandt entries by the
+  element count of §7.1 ([V, 41.2.7], p. 752); its constant term is the reciprocal unit count.
+- The theta-series supplier gives weight two and the trivial character for this lattice.
+
+**Checks.**
+
+- For Hurwitz, w = 12 and the norm-one elements are its 24 units: the coefficient is
+  24/(2·12) = 1, agreeing with T(1).
+- Its norm-three count is 96, giving 96/24 = 4 = T(3); its constant term is 1/24.
+- At D = 11 the two diagonal theta series have constant terms 1/4 and 1/6, while their
+  coefficients at 1 both equal 1; using reciprocal weights 1/w would double all three values.
+
+
 ### Examples
 
 For D = 11, T(2) = [[1,3],[2,0]] on divisors and its transpose acts on functions.
@@ -1280,6 +1659,11 @@ Prove a real splitting exists (`B ⊗ ℝ ≃ M₂(ℝ)`, from IsRamifiedAtReal 
 TeichmullerGeometry §9.1 with k = ℚ and B division; this milestone instantiates them
 and proves the `ℚ`-specific facts: `Γ¹(O) ≅ O¹/{±1}`, and `Γ¹(O')` has finite index in `Γ¹(O)` for
 `O' ⊆ O`. *Needs:* 0.5, 1.2; TeichmullerGeometry §9.1; Tau Ceti `Fuchsian/Covolume`.
+
+Its API:
+
+- The real embedding identifies O¹/{±1} with the effective Fuchsian group.
+- Order inclusion gives finite-index subgroup inclusion; the division hypothesis makes the quotient compact.
 
 **Checks.**
 
@@ -1351,9 +1735,14 @@ FO Layers 1, 4, 5.
 ### 8.5 Atkin–Lehner involutions
 
 For `m ∥ DN` let `w_m ∈ N^+_{B^×}(O)` have norm `m` (4.6). Prove `w_m` normalizes `Γ¹(O)`, acts on
-`X_0(D;N)` as an involution, that `m ↦ w_m` is an isomorphism `(ℤ/2)^{ω(DN)} → N^+/(ℚ^×O¹) =: W`,
+`X_0(D;N)` with square the identity (and has order two when m > 1), that `m ↦ w_m` is an isomorphism `(ℤ/2)^{ω(DN)} → N^+/(ℚ^×O¹) =: W`,
 and define `Γ⁺(O) = ι_∞(N^+)ℝ^×/ℝ^×`, so `Γ⁺(O)/Γ¹(O) ≅ W` and `X^*(D;N) = Γ⁺(O)\ℍ = X_0(D;N)/W`.
 For a subgroup `W' ≤ W`, define `Γ_{W'}` and `X_0(D;N)/W'`. *Needs:* 4.5, 4.6, 8.1.
+
+Its API:
+
+- Hall-divisor multiplication gives the normalizer quotient W, and m = 1 is its identity.
+- Intermediate subgroups give intermediate curve quotients, including the full normalizer quotient.
 
 **Checks.**
 
@@ -1364,7 +1753,7 @@ For a subgroup `W' ≤ W`, define `Γ_{W'}` and `X_0(D;N)/W'`. *Needs:* 4.5, 4.6
 
 ### 8.6 Fixed points of Atkin–Lehner involutions
 
-Prove that the fixed points of `w_m` on `X_0(D;N)` are the images of the fixed points in `ℍ` of
+Assume m ∥ DN and m > 1 throughout this subsection. Prove that the fixed points of `w_m` on `X_0(D;N)` are the images of the fixed points in `ℍ` of
 the elliptic elements `γ ∈ ℚ^× w_m O¹` (those with `ℚ(γ)` imaginary quadratic). Scale such a `γ`
 into `O` with `nrd γ = m`, `trd γ = t`, `t² < 4m`; at a division prime dividing m its trace is divisible by p, and at a level prime pᵉ ∥ m the local coset representative [[0,1],[pᵉ,0]] times a unit of O₀(pᵉ) has trace divisible by pᵉ, so `m | t`,
 so `t = 0` (`γ² = −m`), or `m = 2`, `t = ±2` (`γ = 1 ± i'`, `i'² = −1`), or `m = 3`, `t = ±3`
@@ -1388,6 +1777,13 @@ subset. By Riemann–Hurwitz (FO Layer 5.3)
 not maximal at `2 | D`, contributes `0`; `# Fix(w_6) = h(−24) = 2`; so each quotient
 `X_0(6;1)/⟨w_m⟩` has genus `(1/2)(0 + 1 − 1) = 0`, and `−2 = 4(2g^* − 2) + 6` gives
 `g(X^*(6;1)) = 0`. *Needs:* 8.3–8.5, 6.1–6.4.
+
+**Checks.**
+
+- At D = 6, N = 1, m = 1, w₁ is the identity: its fixed locus is the entire curve,
+  the quotient map has degree 1 and the genus remains 0. The embedding sum 2 is not its fixed count.
+- At m = 1 the traces ±1 satisfy t² < 4m, so the trace enumeration above also requires m > 1.
+- At m = 2, 3, 6 the fixed counts are 2, 2, 2 and the degree-two quotient genera are all 0.
 
 ### 8.7 Elliptic points of `Γ⁺` and of intermediate groups
 
@@ -1419,6 +1815,11 @@ the full local conditions of 6.3 must hold (6.4's existence
 corollary with `# Cls O = 1`). The elliptic points of 8.3 and 8.7 are the CM points of
 discriminants `−4`, `−3`, `−4m`, `−m`. *Needs:* 6.1–6.4, 8.1, 8.5, 8.7.
 
+Its API:
+
+- An optimal embedding and its complex conjugate determine the same CM point.
+- Positive-determinant conjugation keeps their two orientations distinct; the point count is half the oriented embedding count.
+
 **Checks.**
 
 - At D = 6, M = 1 and S = ℤ[i], m(S,O;Oˣ) = 2 and m(S,O;O¹) = 4; there are 4/2 = 2 geometric CM points.
@@ -1443,8 +1844,8 @@ Layers 4 and 6; TeichmullerGeometry §9.1; EndoscopicTransferAndUnitaryTraceComp
 Define `IsPolarization O μ` and `deg μ` as pinned. Prove: `deg μ` is well defined
 (`nrd(μ)/discrd(O) ∈ ℚ_{>0}`); `deg(cμ) = deg μ` for `c ∈ ℚ^×` whenever cμ is also a polarization; `deg μ = 1` iff
 `μ² ∈ −discrd(O)·(ℚ^×)²`; a polarization of degree `δ` exists iff `ℚ(√−δ·DM)` embeds in `B`, iff
-no prime `p | D` splits in `ℚ(√−δDM)` (0.6, 6.1); in particular every maximal order has a
-principal polarization μ ∈ O with μ² = −D (`[V, 43.6.6]`); for such a principal polarization, `μ ∈ D·O^♯` (`[V, 43.6.7]`). Prove that
+no prime `p | D` splits in `ℚ(√−δDM)` (0.6, 6.1); in particular `exists_principal_polarization` states that every maximal order in an
+indefinite rational algebra (including the split algebra) has a principal polarization μ ∈ O with μ² = −D (`[V, 43.6.6]`); for such a principal polarization, `μ ∈ D·O^♯` (`[V, 43.6.7]`). Prove that
 for `δ | DM` squarefree, whenever a degree-`δ` polarization exists, it can be chosen in `O` with `μ² = −δ·DM` (the
 LMFDB's stored `mu`, whose coordinates are in the stored basis of `O`; its stored `nrdmu` is the
 reduced norm of the primitive element of `ℚ^×μ ∩ O`, so `6.2` has `mu² = −12` and `nrdmu = 3`).
@@ -1452,16 +1853,31 @@ Isomorphism of polarized orders is conjugation by `N_{B^×}(O)` carrying `μ ↦
 Prove that, with `μ` normalized by `μ² = −δ·DM`, the isomorphism classes of polarized orders
 `(O, μ)` of degree `δ` with `O` fixed are the orbits of `N_{B^×}(O)/ℚ^×O^×` (4.5) on
 `⊔_S Emb(S, O; O^×)`, `S` ranging over the orders of `ℚ(√−δDM)` containing `ℤ[√−δDM]`, the
-stabilizer of a class being the image of `Aut_μ(O)` (9.2), so that their number is
-`∑_S m(S,O;O^×)·#Aut_μ(O)/2^{ω(DM)}` when the class of `μ` is `Aut_μ(O)`'s only nontrivial
-element, and `μ ↦ −μ` identifies two classes exactly in the twisted case (9.2); in the untwisted case the two sign classes remain distinct. The classes of
+stabilizer of an embedding class e being the image Wₑ of Autμₑ(O) in
+W = N(O)/(ℚˣOˣ), where μₑ is the image of √−δDM under a representative of e, so that their number is
+`(1/2^{ω(DM)}) ∑_S ∑_{e ∈ Emb(S,O;O^×)} #Wₑ`.
+A constant factor can be taken outside the sum only if these image cardinalities are constant;
+#Wₑ equals #Autμₑ(O) only if its intersection with the image of Oˣ in N(O)/ℚˣ is trivial.
+This is the orbit–stabilizer formula for the conjugation action ([V, 43.6.5], p. 802),
+and `μ ↦ −μ` identifies two classes exactly in the twisted case (9.2); in the untwisted case the two sign classes remain distinct. The classes of
 `(O, ±μ)` are the LMFDB's objects. *Needs:* 1.4, 1.11, 6.1, 6.4, 4.5; 0.6.
+
+Its API:
+
+- Scaling by a nonzero rational number preserves degree whenever the scaled element is a polarization.
+- Degree is the positive squarefree representative of the norm/discriminant square class; principal integral polarizations exist for maximal indefinite rational orders.
+- Normalizer conjugacy classifies normalized polarizations through the stabilizer-image orbit formula.
 
 **Checks.**
 
 - `μ = i + 3j ∈ ℍ[ℚ,3,-1]` has `μ² = −6`, and `trd(μx)` is `0, 6, −6, 0` on the basis
   `1, i, j, (1+i+j+k)/2` of `O_6`, so `μ` is a polarization of `O_6` with `nrd μ = 6 = discrd O_6`
-  and degree `1` (checked in Sage).
+  and degree `1`.
+- At D = 21, δ = 21, μ = 21i′ with optimal ℤ[i′] ⊆ O, Autμ has order 2 but i′ is
+  an integral unit, so #Wₑ = 1. The four Gaussian embedding classes give 4·1/4 = 1 orbit;
+  using the full stabilizer order would give 2. Orders of conductor 3, 7 or 21 have zero
+  local embedding count at a division prime.
+- At D = 6, δ = 1, the two embedding classes have #Wₑ = 2, giving 2·2/4 = 1 orbit.
 - `D = 6`: degree `2` has `nrd μ = 3`, degree `6` has `nrd μ = 1`.
 - (reject) The degree is the squarefree representative of the square class, not the quotient: for
   degree `2`, `nrd μ / discrd O = 1/2`.
@@ -1488,6 +1904,11 @@ Hall divisor `m ∥ DM`, `m > 1`, by an element of `N_{B^×}(O)`; a primitive no
 `nrd χ = −m` for such an `m` (its right ideal is two-sided), `m = 1` is impossible (`χ² = 1` is a
 zero divisor), and for `O` maximal every `χ ∈ O` with `nrd χ = −m`, `m ∥ D`, normalizes `O` (8.6).
 *Needs:* 9.1, 4.5, 1.2.
+
+Its API:
+
+- The centralizing group is cyclic with the stated possible orders; a normalizing μ contributes an element of order two.
+- A sign-reversing normalizer gives the index-two extension and acts by inversion; the binary norm criterion detects its existence.
 
 **Checks.**
 
@@ -1533,6 +1954,12 @@ isomorphism onto the group of pairs `(w, x)` with the product
 Γ_G := π(G(O,μ)⁺) is the positive part of image(Oˣ)·Aut±μ(O) and contains Γ¹(O) with
 index `[Aut_{±μ}(O) : image of K]`. *Needs:* 9.2, 4.4, 4.6; Mathlib `SemidirectProduct`.
 
+Its API:
+
+- The conjugation action defines both semidirect products and reduction is a homomorphism.
+- Multiplication into the scalar normalizer quotient has the displayed finite cyclic kernel; changing pair order gives the explicit isomorphism.
+- The positive subgroup has index two and its effective quotient is Γ_G.
+
 **Checks.**
 
 - `D = 6`, `O_6`, degree `1`: `K = {(±1, 1)}`, of order `2`.
@@ -1566,6 +1993,12 @@ quotient by the image of `Aut_{±μ}(O)` in `W`, which is all of W exactly when 
 (as for D = 6, degree one); its cardinality is #Aut±μ(O)/a(K), and it can be proper (for `D = 14`, `deg μ = 1`, it is
 the quotient by one involution); it coincides with the classical `X^*(D;N)` of 8.5 only in the
 first case. *Needs:* 9.4, 8.1, 8.5, 8.9.
+
+Its API:
+
+- Conjugacy of H and passage to a higher ambient modulus preserve its curve.
+- Adjoining the scalar kernel preserves the curve; coarseness tests containment of that kernel image.
+- The Fuchsian index is the effective subgroup index, with the three extreme subgroups as stated.
 
 **Checks.**
 
@@ -1604,25 +2037,67 @@ y·(x,w) = w⁻¹(yx)w in Mathlib order ( the `GL₄(ℤ/N)` embedding of the co
 abelian group invariants of `(O/NO)^H`. Prove the action is faithful on `(O/NO)^×` and that for
 H containing the residue units the fixed module is the H-fixed part of
 {y : y(u−1) = 0 for every residue unit u}. Prove vanishing whenever the right ideal generated
-by the u−1 is the whole ring; in particular this holds for M₂(ℤ/Nℤ). Record the meaning, consumed from R18.1: for an abelian
-surface with QM by `(O,μ)` whose enhanced mod-`N` image is `H`, `(O/NO)^H` is the rational
-`N`-torsion. *Needs:* 9.4, 9.5.
+by the u−1 is the whole ring; in particular this holds for M₂(ℤ/Nℤ).
+
+**Integral torsion comparison.** Let k be a number field, k̄ an algebraic closure,
+(A,λ)/k a polarized abelian surface, and ι : O ≃ End(A_k̄) an identification of its full
+geometric endomorphism order. Assume the induced Rosati involution on B is
+b ↦ μ⁻¹ star(b) μ. Let N ≥ 1 and choose a left O/NO-module isomorphism
+α : O/NO → A[N](k̄). Integral freeness and this marking are hypotheses, including at primes
+of DM. Construct the enhanced representation ρ : Gal(k̄/k) → G(O,μ,N): its automorphism
+component w_σ induces σ's conjugation action on O, and the unit component is determined
+by the image of α(1) under σ⁻¹. Prove that w_σ lies in Aut±μ(O), using Rosati compatibility,
+Skolem–Noether and preservation of μ²; in Mathlib pair order the convention is
+`α(y · ρ(σ)) = σ⁻¹(α(y))`, with `y · (x,w) = w⁻¹(yx)w`.
+Prove ρ is a homomorphism and, for H = image(ρ), α restricts to an isomorphism
+(O/NO)^H ≃ A[N](k). Changing α conjugates ρ by a residue unit and transports this
+isomorphism. This is a consequence of semilinearity and Galois descent for points,
+using the QM/Rosati description [V, 43.6.2–10], pp. 801–802, rather than a claim about
+all points of a coarse curve.
+
+*Needs:* 9.2, 9.4, 9.5; AbelianSchemesAndArithmeticModuli §§A0.1, A3.2, A3.9;
+Skolem–Noether on B and the natural Galois action on geometric morphisms.
+
+Its API:
+
+- The right action restricts to a faithful action of the residue units.
+- When H contains those units, its fixed module is the further H-fixed part of their common right annihilator.
 
 **Checks.**
 
-- In O₀(2)/2O₀(2), in coordinates E₁₁,E₁₂,2E₂₁,E₂₂, the four units are 1+bE₁₂+c(2E₂₁). Their fixed module is the span of E₁₂ and 2E₂₁, of order four, so for D = 15, M = N = 2 the unit subgroup has invariants (ℤ/2)².
+- In O₀(2)/2O₀(2), in coordinates E₁₁,E₁₂,2E₂₁,E₂₂, the four units are 1+bE₁₂+c(2E₂₁). Their fixed module is the span of E₁₂ and 2E₂₁, of order four, so for D = 15, M = N = 2 the unit subgroup has invariants (ℤ/2)². Under the integral torsion comparison hypotheses with this image H, A(k)[2] has exactly four elements.
 - In M₂(𝔽₂), the units 1+E₁₂ and 1+E₂₁ impose yE₁₂ = yE₂₁ = 0, hence y = 0. The same computation works modulo every positive N.
 - At N = 1 the quotient ring and fixed module each have one element, the zero module; faithfulness of the trivial unit group is consistent.
 
 ### 9.8 Atkin–Lehner content and the automorphism image
 
 Define the image `H̄ ≤ Aut_{±μ}(O)` of `H` and the **Atkin–Lehner content** of `H`: the multiset of
-squarefree parts of `nrd(w)` over one representative of each coset of `H ∩ (O/NO)^×` in `H`.
-Prove both are invariants of the `G`-conjugacy class of `H`, and that `H̄` is the group through
-which the Galois group of the endomorphism field of a generic member of the family acts
-(consumed from R18.1's moduli interpretation; here it is a definition and a conjugacy invariant).
+signed squarefree integers representing the rational square classes of `nrd(w)` over one representative of each coset of `H ∩ (O/NO)^×` in `H`.
+Prove both are invariants of the `G`-conjugacy class of `H`.
+
+**Endomorphism-field comparison.** For the surface, full geometric endomorphism order,
+marking and enhanced representation of §9.7, let θ : Gal(k̄/k) → Aut_ring(O) be the
+conjugation action transported through ι, and let k_end be the fixed field of ker θ.
+Prove that θ has finite image, that k_end is the smallest extension over which every
+geometric endomorphism is defined, and that conjugation identifies H̄ with image θ,
+hence with Gal(k_end/k). The action of N(O)/ℚˣ on O is faithful since O spans B and
+B has centre ℚ; thus the projection has exactly this kernel, not merely the kernel of
+its action on O/NO. This comparison uses the same semilinear construction as §9.7 and
+faithful descent of morphisms; it does not assign an endomorphism field to an abstract H.
 Define `IsSplit H` to hold when some conjugate of `H` is the internal semidirect product of its
-intersections with `(O/NO)^×` and with `Aut_{±μ}(O)`. *Needs:* 9.4, 9.5.
+intersections with `(O/NO)^×` and with `Aut_{±μ}(O)`. *Needs:* 9.4, 9.5, 9.7; AbelianSchemesAndArithmeticModuli §A0.1.
+
+Its API:
+
+- Projection and norm square classes are invariant under enhanced-group conjugation.
+- Splitting means conjugacy to the specified internal semidirect product, retaining both intersections.
+
+**Checks.**
+
+- Under the comparison hypotheses, H̄ = 1 gives [k_end:k] = 1, including N = 1; reduction of torsion alone cannot detect θ.
+- For H = 1, the automorphism image has size 1 and its norm-content multiset is {1}; the splitting condition holds.
+- For the full residue-unit subgroup, the automorphism image is again trivial and the content is {1}, regardless of its unit-group cardinality.
+- For D = 6 and a principal polarization, the full enhanced group has four automorphism cosets with norm square classes 1,6,−3,−2; each is counted once, and the group is split by construction.
 
 ### 9.9 Worked curves
 
@@ -1661,7 +2136,7 @@ The degree-one polarization at D = 6 is twisted; the full residue-unit subgroup 
 
 ### Dependencies
 
-Layers 4, 6 and 8; native semidirect products; the QM moduli interpretation of HilbertModularVarietiesAndShimuraCurves R18.1.
+Layers 4, 6 and 8; native semidirect products; AbelianSchemesAndArithmeticModuli §§A0.1, A3.2, A3.9 for the arithmetic comparisons.
 
 ## Layer 10: the LMFDB dictionary
 
@@ -1674,6 +2149,11 @@ The order label `D.d` (`D` alone when `O` is maximal) is the same data; the pola
 `D.d.δ` records `deg μ`, and when 9.1's count of isomorphism classes of degree `δ` exceeds one the
 choice among them is a database convention, not a target. *Needs:* 0.4, 1.5, 9.1, 9.5, 9.6.
 
+Its API:
+
+- Every coordinate of the intrinsic prefix is invariant under isomorphism.
+- For an Eichler order the stored order discriminant is the product of algebra discriminant and level.
+
 **Checks.**
 
 - `X(6;1)`: `(D, d, δ, N, i, g) = (6, 6, 1, 1, 4, 0)`, printed `6.1.1.4.0` since `O_6` is maximal
@@ -1683,6 +2163,16 @@ choice among them is a database convention, not a target. *Needs:* 0.4, 1.5, 9.1
 - (invariance) Conjugating `H` inside `G(O,μ,N)` changes none of the six coordinates.
 
 ### 10.2 The page coverage map
+
+The mathematical dictionary uses the LMFDB knowls
+[polarized orders](https://www.lmfdb.org/knowledge/show/shimcurve.polarized_order),
+[enhanced groups](https://www.lmfdb.org/knowledge/show/shimcurve.enhanced_group),
+[order discriminant](https://www.lmfdb.org/knowledge/show/shimcurve.disco),
+[level](https://www.lmfdb.org/knowledge/show/shimcurve.level),
+[index](https://www.lmfdb.org/knowledge/show/shimcurve.index), and
+[labels](https://www.lmfdb.org/knowledge/show/shimcurve.label), by those exact identifiers.
+The table specifies mathematical meanings; it does not certify a version of the database
+schema or the contents of a stored record.
 
 | Page datum (column) | Source | Certification |
 | --- | --- | --- |
@@ -1695,8 +2185,8 @@ choice among them is a database convention, not a target. *Needs:* 0.4, 1.5, 9.1
 | `level`, `index`, `fuchsian_index`, `gerbiness`, `aut_gerbiness`, `is_coarse` | 9.5 | general |
 | `generators` of `H` | 9.5 | carrier: `H` is a subgroup; the chosen generators are labels' |
 | `nu2`, `nu3`, `nu4`, `nu6`, `genus` | 9.6, 8.3, 8.4 | general |
-| `torsion` | 9.7 | general |
-| `autmuO_norms`, `is_split`, `galEnd` (as the group `H̄`) | 9.8 | general; the group *label* is not |
+| `torsion` | 9.7 | fixed-module invariant; rational torsion under the integral QM comparison hypotheses |
+| `autmuO_norms`, `is_split`, `galEnd` (as the group `H̄`) | 9.8 | group invariants; endomorphism-field interpretation under the comparison hypotheses; no group label |
 | `cm_discriminants` | 8.9, 9.5 | general |
 | `name` (`X(D;N)`, `X^*(D;N)`, `X(D,M;1)`) | 9.5 | general |
 | `coarse_label`, `psl2label`, `scalar_label`, `Glabel`, `c.n` | — | none: labels and ordering |

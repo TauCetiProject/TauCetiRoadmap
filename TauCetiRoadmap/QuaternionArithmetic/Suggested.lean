@@ -11,9 +11,9 @@ import TauCeti.NumberTheory.NumberField.Global.Orders.Discriminant
 
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's headline
 arithmetic theorems against the pinned Mathlib and Tau Ceti APIs: the maximality criterion,
-the Bass property of Eichler orders, finiteness of ideal classes, Eichler's indefinite
+unique Gorenstein saturation, the Bass property of Eichler orders, finiteness of ideal classes, Eichler's indefinite
 class-number and conjugacy theorems, the normalizer index, the rational mass and class-number
-formulas, Deuring's type formula, and the polarized-automorphism classification.
+formulas, Deuring's type formula, principal-polarization existence, and the polarized-automorphism classification.
 Only native bundles and definitions needed by those statements are included.
 
 The Clifford correspondence cannot be stated here without the ideal-valued ternary quadratic
@@ -24,7 +24,10 @@ trace and theta comparison require the norm-indexed ideal correspondence of §7.
 Brandt module. The Shimura genus and CM-point theorems require the arithmetic subgroup
 attached to an order and real splitting (§8.1); the enhanced-curve genus and torsion theorems
 require its conjugation action and reduction maps (§9.4). These constructions are README
-targets, not arbitrary predicates standing in for them here.
+targets, not arbitrary predicates standing in for them here. The integral torsion and
+endomorphism-field comparisons of §§9.7–9.8 additionally require a polarized QM abelian
+surface, its geometric endomorphism order and a marked rank-one integral torsion module;
+these arithmetic carriers and their compatibility are not supplied by the imported APIs.
 
 The symbol carrier is ℍ[F,a,b], with nonzero parameters. RightIdeal O requires that the
 right multiplier order is exactly O. Reduced discriminants here take orders, not arbitrary
@@ -262,12 +265,20 @@ end IntegralOrders
 
 section Layer2
 
-variable {F : Type*} [Field F] [CharZero F] {a b : Fˣ}
+variable {F : Type*} [Field F] [charZeroF : CharZero F] {a b : Fˣ}
 variable {R : Type*} [CommRing R] [IsDedekindDomain R] [Algebra R F] [IsFractionRing R F]
 
 /-- **2.2** `O` is Gorenstein when its codifferent is invertible (`README.md`, Layer 2, 2.2;
 `[V, 24.2.1]`). -/
 def IsGorenstein (O : QuatOrder a b R) : Prop := IsInvertible (codiff O)
+
+include charZeroF in
+/-- **2.3** Every quaternion order over a characteristic-zero Dedekind fraction field has
+unique nonzero conductor and Gorenstein saturation, with `O = R + f G` (Voight 24.2.15). -/
+theorem existsUnique_gorenstein_saturation (O : QuatOrder a b R) :
+    ∃! P : Ideal R × QuatOrder a b R, P.1 ≠ ⊥ ∧ IsGorenstein P.2 ∧
+      O.toSubmodule = Submodule.span R ({1} : Set ℍ[F,(a : F),(b : F)]) ⊔
+        P.1 • P.2.toSubmodule := sorry
 
 /-- **2.5** `O` is Bass when every superorder is Gorenstein (`README.md`, Layer 2, 2.5;
 `[V, 24.5.1]`). -/
@@ -503,6 +514,13 @@ Layer 9, 9.1; Conventions, Polarization). -/
 def IsPolarization (O : QuatOrder a b ℤ) (μ : ℍ[ℚ,(a : ℚ),(b : ℚ)]) : Prop :=
   (∃ n : ℤ, n < 0 ∧ μ * μ = (n : ℍ[ℚ,(a : ℚ),(b : ℚ)])) ∧
     ∀ x ∈ O, ∃ t : ℤ, trd a b (μ * x) = t
+
+/-- **9.1** Every maximal order in an indefinite rational quaternion algebra admits an
+integral principal polarization with square `-D` (Voight 43.6.6–7). -/
+theorem exists_principal_polarization (O : QuatOrder a b ℤ) (hind : ¬ IsDefinite a b)
+    (hmax : IsMax O) :
+    ∃ μ : ℍ[ℚ,(a : ℚ),(b : ℚ)], μ ∈ O ∧ IsPolarization O μ ∧
+      μ * μ = algebraMap ℚ ℍ[ℚ,(a : ℚ),(b : ℚ)] (-(discNat a b : ℚ)) := sorry
 
 /-- **9.2** `Aut_{±μ}(O) = {γ ∈ N_{Bˣ}(O)/ℚˣ : γ⁻¹μγ = ±μ}` (`README.md`, Layer 9, 9.2; *Pinned
 conventions*, `Aut_{±μ}(O)`). The quotient by `ℚˣ` is the quotient by the (normal) image of the
