@@ -78,11 +78,11 @@ variable {G : Type*} [Group G]
 
 open scoped IsMulCommutative in
 /-- **Complements are kernels of normalized crossed maps.** For an abelian normal subgroup `N`
-of a finite group `G`, `N` has a complement in `G` if and only if there is a crossed
-homomorphism `c : G → N` for the conjugation action (`c (g * h) = g • c h * c g`) with
+of a group `G` (no finiteness is needed), `N` has a complement in `G` if and only if there is a
+crossed homomorphism `c : G → N` for the conjugation action (`c (g * h) = g • c h * c g`) with
 `c n = n` for every `n ∈ N`; the complement is `ker c` and `c` is the projection `g = n * d ↦ n`
 along the complement. -/
-theorem exists_complement_iff_crossedProjection [Finite G] (N : Subgroup G) [N.Normal]
+theorem exists_complement_iff_crossedProjection (N : Subgroup G) [N.Normal]
     [IsMulCommutative N] :
     letI := conjugationAction N
     (∃ D : Subgroup G, N.IsComplement' D) ↔
@@ -113,11 +113,11 @@ section Cohomological
 variable {G : Type} [Group G]
 
 open scoped IsMulCommutative in
-/-- **The cohomological comparison.** For an abelian normal subgroup `N` of a finite group `G`
-and any normalized section `σ` of the quotient extension `N → G → G ⧸ N`, `N` has a complement
-in `G` if and only if the class in `H²(G ⧸ N, N)` of the factor set of `σ` vanishes. Stated for
-`G : Type` because the pinned `TauCeti.FactorSet.cohomologyClass` is. -/
-theorem exists_complement_iff_cohomologyClass_eq_zero [Finite G] (N : Subgroup G) [N.Normal]
+/-- **The cohomological comparison.** For an abelian normal subgroup `N` of a group `G` (no
+finiteness is needed) and any normalized section `σ` of the quotient extension `N → G → G ⧸ N`,
+`N` has a complement in `G` if and only if the class in `H²(G ⧸ N, N)` of the factor set of `σ`
+vanishes. Stated for `G : Type` because the pinned `TauCeti.FactorSet.cohomologyClass` is. -/
+theorem exists_complement_iff_cohomologyClass_eq_zero (N : Subgroup G) [N.Normal]
     [IsMulCommutative N] (σ : (quotientExtension N).Section) (hσ : σ 1 = 1) :
     letI := quotientConjugationAction N
     (∃ D : Subgroup G, N.IsComplement' D) ↔

@@ -1,11 +1,11 @@
 # Roadmap: Gaschütz splitting and complements to abelian normal subgroups
 
-**Summary.** This roadmap develops the splitting theory of a finite group `G` over an abelian
-normal subgroup `N`: the dictionary between complements of `N`, splittings of the quotient
-extension `N → G → G ⧸ N` and normalized crossed homomorphisms `G → N`; the crossed transfer of
-such a homomorphism from a subgroup `H ≥ N` to `G`, built from Tau Ceti's degree-one cochain
-corestriction; and the comparison with the class of the extension in `H²(G ⧸ N, N)`. The end
-theorems are **Gaschütz's splitting theorem** (`exists_isComplement'_of_coprime_index`): if `N`
+**Summary.** This roadmap develops the splitting theory of a group `G` over an abelian normal
+subgroup `N`: the dictionary between complements of `N`, splittings of the quotient extension
+`N → G → G ⧸ N` and normalized crossed homomorphisms `G → N`; the crossed transfer of such a
+homomorphism from a subgroup `H ≥ N` of finite index to `G`, built from Tau Ceti's degree-one
+cochain corestriction; and the comparison with the class of the extension in `H²(G ⧸ N, N)`. The
+end theorems, for `G` finite, are **Gaschütz's splitting theorem** (`exists_isComplement'_of_coprime_index`): if `N`
 has a complement in a subgroup `H` whose index is coprime to `|N|`, then `N` has a complement in
 `G`; its **Sylow form** (`exists_isComplement'_iff_sylow`): an abelian normal `p`-subgroup has a
 complement in `G` if and only if it has one in a Sylow `p`-subgroup; and the **invariant-complement
@@ -48,10 +48,15 @@ vanishing of an obstruction alone; the cohomological comparison
 
 ## Conventions
 
-- `G` is a finite group, written `[Finite G]`; `N` is a subgroup with `N.Normal` and
-  `IsMulCommutative N`. Orders are `Nat.card`, indices are `Subgroup.index`. Every statement is
+- `G` is a group and `N` is a subgroup with `N.Normal` and `IsMulCommutative N`. Finiteness of
+  `G`, written `[Finite G]`, is assumed in §§2.1–2.4, §2.7 and Layer 3, where a transversal of
+  `H` or a Sylow subgroup is used; the dictionaries of Layers 0–1 and the comparison of §2.6 hold
+  for every group `G`. Orders are `Nat.card`, indices are `Subgroup.index`. Every statement is
   universe-polymorphic except the cohomological comparison of §2.6, stated for `G : Type` because
   the pinned `TauCeti.FactorSet.cohomologyClass` is.
+- Permutations multiply as Mathlib's `Equiv.Perm`: `(f * g) x = f (g x)`, the right factor acting
+  first, so `(1 2 3) * (1 2) = (1 3)` and `(1 2) * (1 2 3) = (2 3)`; conjugation `g * σ * g⁻¹`
+  relabels the entries of `σ` by `g`.
 - A **local complement** of `N` in a subgroup `H` is a subgroup `K` with `N ⊓ K = ⊥` and
   `N ⊔ K = H`; this forces `N ≤ H` and `K ≤ H`. A **global complement** is a subgroup `D` with
   `N.IsComplement' D`. For `H = ⊤` the two notions agree (§0.1).
@@ -77,7 +82,9 @@ vanishing of an obstruction alone; the cohomological comparison
 `Mathlib/GroupTheory/Sylow.lean`, `Mathlib/GroupTheory/Index.lean`,
 `Mathlib/GroupTheory/SchurZassenhaus.lean`,
 `Mathlib/RepresentationTheory/Homological/GroupCohomology/LowDegree.lean`,
-`Mathlib/RepresentationTheory/Rep/Basic.lean`, `Mathlib/GroupTheory/GroupAction/ConjAct.lean`).
+`Mathlib/RepresentationTheory/Rep/Basic.lean`, `Mathlib/GroupTheory/GroupAction/ConjAct.lean`,
+`Mathlib/Algebra/Group/Subgroup/Actions.lean`, `Mathlib/Algebra/Group/Submonoid/DistribMulAction.lean`,
+`Mathlib/GroupTheory/PGroup.lean`).
 
 - `Subgroup.IsComplement'`, `Subgroup.isComplement'_of_disjoint_and_mul_eq_univ`,
   `Subgroup.IsComplement'.sup_eq_top`, `Subgroup.IsComplement'.disjoint`,
@@ -91,13 +98,17 @@ vanishing of an obstruction alone; the cohomological comparison
   `conjAct e` is conjugation by `e` read on the kernel.
 - `SemidirectProduct.mulEquivSubgroup`: for `N.IsComplement' D` with `N` normal, `N ⋊ D ≃* G`.
 - `IsPGroup.le_sylow_of_normal`, `Sylow.not_dvd_index`, `Sylow.card_eq_multiplicity`,
-  `IsPGroup.exists_le_sylow`, `MulAction.exists_smul_eq` for `Sylow p G`: a normal `p`-subgroup
-  lies in every Sylow `p`-subgroup, `p` does not divide `[G : P]`, every `p`-subgroup lies in a
-  Sylow `p`-subgroup, Sylow `p`-subgroups are conjugate.
+  `IsPGroup.exists_le_sylow`, `MulAction.exists_smul_eq` for `Sylow p G`,
+  `IsPGroup.exists_card_eq`: a normal `p`-subgroup lies in every Sylow `p`-subgroup, `p` does
+  not divide `[G : P]`, every `p`-subgroup lies in a Sylow `p`-subgroup, Sylow `p`-subgroups are
+  conjugate, a finite `p`-group has order `p ^ j` for some `j`.
 - `Subgroup.index_map_eq`, `Subgroup.card_mul_index`, `Subgroup.finiteIndex_of_finite`,
-  `SemidirectProduct.card`: `[f(H) : 1] = [G : H]` for `f` surjective with `ker f ≤ H`;
-  `|H| * [G : H] = |G|`; every subgroup of a finite group has finite index;
+  `SemidirectProduct.card`: `[G' : f(H)] = [G : H]` for `f : G →* G'` surjective with
+  `ker f ≤ H`; `|H| * [G : H] = |G|`; every subgroup of a finite group has finite index;
   `|W ⋊ A| = |W| * |A|`.
+- The restriction of a `MulDistribMulAction G M` to a subgroup `H`: the instance
+  `MulDistribMulAction ↥H M` of `Mathlib/Algebra/Group/Subgroup/Actions.lean` (the copy for
+  subgroups of `Submonoid.mulDistribMulAction`), with `Subgroup.smul_def`: `h • m = (h : G) • m`.
 - `Subgroup.exists_right_complement'_of_coprime`: Schur–Zassenhaus, a normal subgroup of order
   coprime to its index has a complement.
 - `groupCohomology.IsMulCocycle₁ f`, which is `∀ g h, f (g * h) = g • f h * f g`, and
@@ -191,7 +202,8 @@ and prove `|H| = |N| * |K|`. Prove that for `H = ⊤` the local notion agrees wi
 **Checks.**
 
 - In `S₃` with `N = A₃`, `H = ⊤`, `K = ⟨(1 2)⟩`: `N ⊓ K = ⊥`, `N ⊔ K = S₃`, the decomposition of
-  `(1 3)` is `(1 3 2) * (1 2)`; the global form is `TauCeti.isComplement'_alternatingGroup_stabilizer_perm_fin_three`.
+  `(1 3)` is `(1 2 3) * (1 2)` (the product `(1 3 2) * (1 2)` is `(2 3)`); the global form is
+  `TauCeti.isComplement'_alternatingGroup_stabilizer_perm_fin_three`.
   A definition that forgot `N ⊓ K = ⊥` would accept `K = S₃`.
 - In `C₄` with `N = C₂`: no local complement in `H = C₄` (the subgroups are `⊥, C₂, C₄`), while
   `K = ⊥` is a local complement in `H = C₂`. A definition with `N ⊔ K = ⊤` in place of `H` would
@@ -227,8 +239,12 @@ the equivalence `SemidirectProduct.mulEquivSubgroup` is the inverse of the decom
 **Checks.**
 
 - `C₄` over `C₂`: `TauCeti.isEmpty_splitting_zmodFourExtension` says the pinned extension
-  `ZMod 2 → ZMod 4 → ZMod 2` has no splitting; the quotient extension of `C₄` by its `C₂` is
-  equivalent to it, so `C₂` has no complement in `C₄`, as §0.1 found directly.
+  `ZMod 2 → ZMod 4 → ZMod 2` (written multiplicatively) has no splitting; the quotient extension
+  of `C₄` by its `C₂` is isomorphic to it after identifying `N`, `C₄` and `C₄ ⧸ N` with
+  `Multiplicative (ZMod 2)`, `Multiplicative (ZMod 4)` and `Multiplicative (ZMod 2)` (this is not
+  a `GroupExtension.Equiv`, which keeps the kernel and the quotient fixed), and splittings
+  transport along such an isomorphism as along an `Equiv`; so `C₂` has no complement in `C₄`, as
+  §0.1 found directly.
 - `S₃` over `A₃`: the splitting `x ↦ (1 2)^x` has range `⟨(1 2)⟩`; the other splittings have
   ranges `⟨(1 3)⟩`, `⟨(2 3)⟩`, three complements for three splittings.
 - `N = ⊤`: `G ⧸ N` is trivial, the unique splitting has range `⊥`, the unique complement.
@@ -257,12 +273,17 @@ pulled back along `MulAut.conjNormal` by `MulDistribMulAction.compHom`, so that
 agrees with `(Rep.ofMulDistribMulAction G N).ρ`: `ρ g a = g • a` for every `a : Additive N`.
 The pinned Mathlib has `Additive.vadd` and `Additive.addAction` (the acting side made additive)
 but no `DistribMulAction G (Additive M)` from a `MulDistribMulAction G M`, so this instance is a
-definition of this roadmap. Prove that restricting the action to `H ≥ N` along `H.subtype` gives
-`MulDistribMulAction H N` with the same formula. *Needs:* Mathlib `MulAut.conjNormal`,
-`MulDistribMulAction.compHom`, `Rep.ofMulDistribMulAction`.
+definition of this roadmap. The restriction of the action to a subgroup `H` is not defined here:
+it is the pinned instance `MulDistribMulAction ↥H N` of `Mathlib/Algebra/Group/Subgroup/Actions.lean`
+(the subgroup copy of `Submonoid.mulDistribMulAction`), whose value is `Subgroup.smul_def`.
+*Needs:* Mathlib `MulAut.conjNormal`, `MulDistribMulAction.compHom`, `Rep.ofMulDistribMulAction`,
+`Subgroup.smul_def`.
 
 - `(g • n : G) = g * n * g⁻¹` holds by definition; `n • m = n * m * n⁻¹ = m` for `n, m ∈ N` since
   `N` is abelian.
+- For `h ∈ H`, the restricted action is `h • n = (h : G) • n` (`Subgroup.smul_def`, a `rfl`
+  lemma), so `(h • n : G) = h * n * h⁻¹`; the crossed maps of Layer 1 on `H` are taken for this
+  instance.
 - The additive module and `Rep.ofMulDistribMulAction G N` have the same underlying action, so
   §2.1 may apply `cochainsCor1` to `Additive N` and read the result multiplicatively.
 
@@ -282,9 +303,10 @@ definition of this roadmap. Prove that restricting the action to `H ≥ N` along
 For a local complement `K` of `N` in `H`, define the crossed projection `c_K : H → N` as the
 `N`-component `h = n * k ↦ n` of §0.1. Prove that `c_K` is a crossed map for the action of `H` on
 `N` (`h = n₁ * k₁`, `h' = n₂ * k₂` give `h * h' = n₁ * (k₁ * n₂ * k₁⁻¹) * (k₁ * k₂)`, so
-`c_K (h * h') = n₁ * (k₁ • n₂) = c_K h * (h • c_K h')`, using `h • n₂ = k₁ • n₂` since `N` is
-abelian), that it is normalized (`c_K n = n`), that `c_K k = 1` for `k ∈ K`, and that its kernel
-is `K`. *Needs:* §0.1, §1.1.
+`c_K (h * h') = n₁ * (k₁ • n₂) = (h • c_K h') * c_K h`, because
+`h • n₂ = n₁ * (k₁ • n₂) * n₁⁻¹`; this computation commutes no two elements of `N`, and for
+abelian `N` the two factors may be written in either order), that it is normalized (`c_K n = n`),
+that `c_K k = 1` for `k ∈ K`, and that its kernel is `K`. *Needs:* §0.1, §1.1.
 
 - `c_K` is not a homomorphism unless the action of `K` on `N` is trivial: `c_K (k * n) = k • n`
   while `c_K k * c_K n = n`.
@@ -293,7 +315,7 @@ is `K`. *Needs:* §0.1, §1.1.
 
 **Checks.**
 
-- `S₃`, `N = A₃`, `K = ⟨(1 2)⟩`: `c_K ((1 3)) = (1 3 2)`, `c_K ((1 2)) = 1`,
+- `S₃`, `N = A₃`, `K = ⟨(1 2)⟩`: `c_K ((1 3)) = (1 2 3)` (from `(1 3) = (1 2 3) * (1 2)`), `c_K ((1 2)) = 1`,
   `c_K ((1 2) * (1 2 3)) = (1 2) • (1 2 3) = (1 3 2) ≠ c_K ((1 2)) * c_K ((1 2 3)) = (1 2 3)`: a
   definition that made `c_K` a homomorphism is wrong.
 - `A₄`, `N = V₄`, `K = ⟨(1 2 3)⟩`: `c_K ((1 2 3) * (1 2)(3 4)) = (1 4)(2 3)`, the witness of the
@@ -308,10 +330,11 @@ For a normalized crossed map `c : H → N`, prove that `ker c = {h ∈ H | c h =
 `N ⊔ ker c = H`: for `h ∈ H` put `n = c h`; then `c (n⁻¹ * h) = (n⁻¹ • c h) * c n⁻¹ = n * n⁻¹ = 1`
 because `N` is abelian, so `h = n * (n⁻¹ * h)` with `n⁻¹ * h ∈ ker c`. Prove the two inverse
 lemmas, `c_{ker c} = c` and `ker c_K = K`, so that local complements of `N` in `H` and normalized
-crossed maps `H → N` are in bijection. Export the headline
-`exists_complement_iff_crossedProjection`: for `H = ⊤`, `N` has a global complement iff there is
-`c : G → N` with `groupCohomology.IsMulCocycle₁ c` for `conjugationAction N` and `c n = n` for
-all `n ∈ N`. *Needs:* §1.2, §0.1, Mathlib `groupCohomology.IsMulCocycle₁`.
+crossed maps `H → N` are in bijection. Nothing here uses finiteness of `G`. Export the headline
+`exists_complement_iff_crossedProjection`: for `H = ⊤` and any group `G`, `N` has a global
+complement iff there is `c : G → N` with `groupCohomology.IsMulCocycle₁ c` for
+`conjugationAction N` and `c n = n` for all `n ∈ N`. *Needs:* §1.2, §0.1, Mathlib
+`groupCohomology.IsMulCocycle₁`.
 
 **Checks.**
 
@@ -321,8 +344,15 @@ all `n ∈ N`. *Needs:* §1.2, §0.1, Mathlib `groupCohomology.IsMulCocycle₁`.
   for the generator `x`, contradicting `c (x²) = x² ≠ 1`; so there is none, consistent with §0.1.
 - Dropping normalization: the constant map `1` is crossed with kernel `H`, which is not a
   complement unless `N = ⊥`.
-- Dropping `IsMulCommutative`: in `S₃ ≤ S₄` with `N = S₃`, `H = S₄`, the computation
-  `c (n⁻¹ * h) = 1` uses `n⁻¹ • c h = c h`, which fails for `N` non-abelian.
+- Dropping `IsMulCommutative`: the dictionary does not use it. In `S₄` with the normal
+  non-abelian `N = A₄`, `H = S₄` and `K = ⟨(1 2)⟩`, the projection `c_K` satisfies
+  `c_K (g * h) = (g • c_K h) * c_K g` for all `g, h` by the computation of §1.2, and
+  `ker c_K = K`; the step `c (n⁻¹ * h) = (n⁻¹ • c h) * c n⁻¹ = n * n⁻¹ = 1` with `n = c h` uses
+  only `n⁻¹ • n = n⁻¹ * n * n = n`. The hypothesis is carried because the pinned
+  `groupCohomology.IsMulCocycle₁` is defined for a commutative coefficient group (`[CommGroup M]`),
+  and because the reversed order `c g * (g • c h)` agrees with it only for abelian `N`: with
+  `g = (1 2 3)`, `h = (1 2 4)` in `A₄`, `(g • c_K h) * c_K g = g * h = (1 3)(2 4)` but
+  `c_K g * (g • c_K h) = g * g * h * g⁻¹ ≠ g * h` because `g * h ≠ h * g`.
 
 ### 1.4 Equivariance and restriction
 
@@ -381,8 +411,11 @@ applied to `c` read in the additive module of §1.1, written back multiplicative
 
 Prove from `cochainsCor1_isCocycle₁` that `T_t c` is a crossed map for `conjugationAction N`,
 and from `cochainsCor1_changeTransversal` that for a second transversal `t'`,
-`T_{t'} c = T_t c * δ_a` with `a = ∏ v, t v • c (transversalDiff H t t' v)`, so by §1.5 the
-kernels of `T_t c` and `T_{t'} c` are conjugate by an element of `N`. Prove that when the action
+`T_{t'} c = T_t c * δ_a` with `a = ∏ v, t v • c (transversalDiff H t t' v)`, where
+`transversalDiff H t t' v = (t v)⁻¹ * t' v`. The kernels of `T_t c` and `T_{t'} c` are not in
+general conjugate by `a`: §1.5 is a statement about normalized crossed maps, and `T_t c` takes
+the value `n ^ [G : H]` on `n ∈ N` (§2.2); the conjugacy of the complements obtained from `t`
+and `t'` is proved after normalization, in §2.3. Prove that when the action
 of `G` on `N` is trivial and `c` is a homomorphism, `T_t c` is Mathlib's `MonoidHom.transfer c`
 (`TauCeti.transfer_eq_prod_lWord`). *Needs:* §1.1, §1.5, Tau Ceti `cochainsCor1`,
 `cochainsCor1_apply`, `cochainsCor1_isCocycle₁`, `cochainsCor1_changeTransversal`,
@@ -400,8 +433,16 @@ of `G` on `N` is trivial and `c` is a homomorphism, `T_t c` is Mathlib's `Monoid
   are `s * t (s⁻¹ • 1) = s * s = 1` and `s⁻¹ * s * t 1 = 1`, so `T_t c s = 1`; the words for `n`
   are `n` and `s⁻¹ * n * s = (1 3 2)`, whose translates `1 • n` and `s • (1 3 2)` are both `n`, so
   `T_t c n = n² = (1 3 2)`, as §2.2 predicts. Then `T_t c (s * n) = (s • n²) * 1 = n`, and
-  `ker (T_t c) = ⟨s⟩`, a complement. A definition without the factor `t u •` would give
-  `T_t c n = n * (1 3 2) = 1` and the kernel `A₃ ∪ ⟨s⟩`, not a subgroup.
+  `ker (T_t c) = ⟨s⟩`, a complement. A definition without the factor `t u •` would send every
+  element of `S₃` to `1` (for `n` the untwisted product is `n * (s⁻¹ * n * s) = n * n² = 1`, for
+  `s * n` it is `n² * n = 1`, for `s` it is `1 * 1`), so its kernel `S₃` is not a complement.
+- Change of transversal, same `G`, `H`, `c`, `t`, and `t'` with `t' (s̄) = s * n = (2 3)`: the
+  words for `s` are `s * t' (s̄) = n` and `(s * n)⁻¹ * s = n²`, with translates `n` and
+  `(s * n) • n² = n`, so `T_{t'} c s = n² ≠ 1`, while `T_{t'} c (s * n) = 1`:
+  `ker (T_{t'} c) = ⟨(2 3)⟩`. The change-of-transversal element is
+  `a = t (s̄) • c (s⁻¹ * (s * n)) = s • n = n² = (1 3 2)`, and `a ⟨(1 2)⟩ a⁻¹ = ⟨(1 3)⟩`, which
+  is not `ker (T_{t'} c)`: §1.5 does not apply to the unnormalized transfers. The normalized
+  statement of §2.3 holds with `e = 2`: `a ^ 2 = n` and `n ⟨(1 2)⟩ n⁻¹ = ⟨(2 3)⟩`.
 - `N` trivial action, `c` a homomorphism `H → N`: `T_t c` is the transfer, independent of `t`
   (`cochainsCor1_changeTransversal` with `δ_a = 1`).
 
@@ -426,12 +467,22 @@ Prove that pointwise powers of crossed maps are crossed (`(c ^ e) (g * h) = ((g 
 = (g • (c h) ^ e) * (c g) ^ e`, using that `N` is abelian), and that when
 `Nat.Coprime [G : H] |N|` there is `e : ℕ` with `e * [G : H] ≡ 1 (mod |N|)` (`ZMod.unitOfCoprime`
 or Bézout), so that `(T_t c) ^ e` is a normalized crossed map `G → N`: its value on `n ∈ N` is
-`n ^ (e * [G : H]) = n` by `pow_card_eq_one'`. *Needs:* §2.1, §2.2, Mathlib `ZMod.unitOfCoprime`,
-`pow_card_eq_one'`.
+`n ^ (e * [G : H]) = n` by `pow_card_eq_one'`. Prove that for two transversals `t`, `t'` and `a`
+the element of §2.1, `(T_{t'} c) ^ e = (T_t c) ^ e * δ_{a ^ e}` (pointwise powers of `δ_a` are
+`δ_{a ^ e}` because `N` is abelian), so that §1.5, now applied to normalized maps, gives
+`ker ((T_{t'} c) ^ e) = a ^ e (ker ((T_t c) ^ e)) a ^ (−e)`: the complements that §2.4 produces
+from two transversals are conjugate under `N`. Since `e` is prime to `|N|`, `x ^ e = 1` iff
+`x = 1` for `x ∈ N`, so `ker ((T_t c) ^ e) = ker (T_t c)` and the kernels of the transfers
+themselves are conjugate by `a ^ e`, although not by `a` in general (§2.1, change-of-transversal
+Check). *Needs:* §1.5, §2.1, §2.2, Mathlib `ZMod.unitOfCoprime`, `pow_card_eq_one'`.
 
 **Checks.**
 
 - `[G : H] = 1`: `e = 1`.
+- `S₃`, `H = A₃`, `c = id`, `e = 2`: the transfers for `t` and `t'` of §2.1 have kernels
+  `⟨(1 2)⟩` and `⟨(2 3)⟩`, and `a ^ 2 = (1 2 3)` conjugates the first to the second; `a` itself
+  conjugates it to `⟨(1 3)⟩`, so an argument that skipped the normalization would assert a false
+  conjugacy.
 - `C₄ ≤ C₄ × C₃`, `N = C₂`, `H = C₄`, `[G : H] = 3`, `|N| = 2`: `e = 1` works since `3 ≡ 1 (mod 2)`;
   §2.4 does not apply because `N` has no local complement in `H`.
 - `[G : H] = 2`, `|N| = 3`: `e = 2`; `|N| = 2`: no `e`, and §2.4 fails (`C₄` over `C₂` with
@@ -493,9 +544,10 @@ extension. This is the one place where `G : Type` is required. *Needs:* §1.1, �
 
 ### 2.6 The cohomological comparison
 
-Export `exists_complement_iff_cohomologyClass_eq_zero`: for `G : Type` finite, `N` abelian
+Export `exists_complement_iff_cohomologyClass_eq_zero`: for any group `G : Type`, `N` abelian
 normal and `σ` a normalized section of `quotientExtension N`, `N` has a global complement iff
-the class of `factorSet σ hσ (quotientExtension_inducesAction N)` is zero. Route: by §0.2 a
+the class of `factorSet σ hσ (quotientExtension_inducesAction N)` is zero; no finiteness of `G`
+is assumed, none of the inputs below has one. Route: by §0.2 a
 complement is a splitting of `quotientExtension N`; by `factorSetToGroupExtensionEquiv` that
 extension is equivalent to `α.groupExtension` for `α = factorSet σ …`, and splittings transport
 along `GroupExtension.Equiv` (§0.2); by `nonempty_splitting_iff_cohomologyClass_eq_zero`,
@@ -509,10 +561,14 @@ along `GroupExtension.Equiv` (§0.2); by `nonempty_splitting_iff_cohomologyClass
   `1 ↦ 1, (1 2) A₃ ↦ (1 2)` is itself a splitting, with factor set `1`.
 - `C₄` over `C₂`: the class is non-zero (§2.5) and no complement exists.
 - `N = ⊥`: the class lives in `H²(G, 1) = 0` and `D = ⊤`.
-- Both directions: `A₄` over `V₄` has class zero and four complements, the Sylow
-  `3`-subgroups; `C₄` over `C₂` has non-zero class and no complement; a comparison that forgot
-  the quotient action (trivial action on `V₄`) would compute in `H²(C₃, V₄) = 0` for a different
-  extension and could not distinguish the two.
+- Both directions with the same action: `D₈` over its cyclic `C₄` splits (a reflection generates
+  a complement) and `Q₈` over its `C₄` does not (`−1` is the only involution of `Q₈` and lies in
+  `C₄`); in both, `G ⧸ N = C₂` acts on `C₄` by inversion, and the two classes are the two elements
+  of `H²(C₂, C₄) ≅ ℤ/2` for that action (`C₄^{C₂}/(1 + τ)C₄ = {0, 2}/0`), zero for `D₈` and
+  non-zero for `Q₈`. Here `|N| = 4` and `[G : N] = 2` are not coprime, so the separation is not
+  forced by order considerations. `A₄` over `V₄` does not test the action: `gcd(3, 4) = 1` gives
+  `H²(C₃, V₄) = 0` for every action, so a comparison that used the trivial action would still
+  report class zero, which happens to be correct.
 
 ### 2.7 The restriction formula and the cohomological proof
 
@@ -570,7 +626,7 @@ sambale2023, Section 1, the Sylow consequence of Theorem 1). Forward: `N ≤ P` 
 `P` (§0.1). Backward: `[G : P]` is prime to `p` (`Sylow.not_dvd_index`), hence to `|N| = p ^ j`,
 and §2.4 applies with `H = P`. State also the form inside `↥P`: a global complement of
 `N.subgroupOf P` in `↥P` (§0.1 transport). *Needs:* §0.1, §2.4, Mathlib
-`IsPGroup.le_sylow_of_normal`, `Sylow.not_dvd_index`, `IsPGroup.card_eq_or_dvd`.
+`IsPGroup.le_sylow_of_normal`, `Sylow.not_dvd_index`, `IsPGroup.exists_card_eq`.
 
 **Checks.**
 
@@ -615,9 +671,12 @@ viewed in `W`: `N ⊓ D = ⊥` from `inl N ⊓ D₁ = ⊥`; `N ⊔ D = W` becaus
 - `W = A₄`, `N = V₄`, `p = 2`, `A = C₃` acting by conjugation by `(1 2 3)`; `P = V₄`, `K = ⊥`; the
   `A`-stable complement is `⟨(1 2 3)⟩` itself, and the other three Sylow `3`-subgroups are not
   `A`-stable.
-- Dropping `A`-stability of `N`: with `W = V₄ × C₃`, `N = ⟨x⟩ × 1` and `A = C₃` acting on `V₄`
-  by the order-`3` automorphism, `N` is not `A`-stable and the conclusion is not even meaningful
-  as stated (the hypothesis is needed for `inl N` to be normal in `W ⋊ A`).
+- Dropping `A`-stability of `N`: with `W = V₄ × C₃`, `N = ⟨x⟩ × 1`, `p = 2`, `q = 3` and
+  `A = C₃` acting on `V₄` by the order-`3` automorphism `x ↦ y ↦ x * y ↦ x` and trivially on
+  `C₃`, every other hypothesis holds (`P = V₄ × 1`, `K = ⟨y⟩ × 1`) but the conclusion is false:
+  the complements of `N` are `⟨y⟩ × C₃` and `⟨x * y⟩ × C₃`, and `A` moves `⟨y⟩` to `⟨x * y⟩`
+  and `⟨x * y⟩` to `⟨x⟩`, so neither is `A`-stable. The hypothesis is what makes `inl N` normal
+  in `W ⋊ A`.
 
 ### 3.3 Invariant complements, internal form
 
