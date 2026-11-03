@@ -43,6 +43,7 @@ noncomputable section
 #check HomotopyGroup.prodEquiv
 #check HomotopyGroup.prodMulEquiv
 #check TauCeti.map_fundamentalGroup_smul
+#check isQuotientCoveringMap_iff_isCoveringMap_and
 #check TauCeti.HasHomotopyExtensionProperty.exists_strong_deformation_retraction
 #check TauCeti.MappingCylinder.homotopyEquiv
 #check TauCeti.MappingCylinder.hasHomotopyExtensionProperty_range_incl
@@ -475,31 +476,31 @@ noncomputable def carrierHomeomorphInterior : C ≃ₜ I.interior M where
   continuous_invFun := continuous_induced_rng.mpr continuous_id
 
 instance carrierT2Space [T2Space M] : T2Space C := by
-  letI : T2Space (I.interior M) := inferInstance
+  let : T2Space (I.interior M) := inferInstance
   exact (carrierHomeomorphInterior I m e).symm.t2Space
 
 instance carrierSecondCountable [SecondCountableTopology M] : SecondCountableTopology C := by
-  letI : SecondCountableTopology (I.interior M) := inferInstance
+  let : SecondCountableTopology (I.interior M) := inferInstance
   exact (carrierHomeomorphInterior I m e).secondCountableTopology
 
 /-- Preferred charts on the fresh carrier. The exact coordinate formula is recorded in
 `chartAt_apply`; the geometric construction is the restriction of the original extended chart to
 the open interior, followed by the linear homeomorphism `e`. -/
-noncomputable def chartAt [IsManifold I ∞ M] :
+noncomputable def chartAt :
     (x : C) → OpenPartialHomeomorph C (EuclideanSpace ℝ (Fin m)) := by
   sorry
 
-theorem chartAt_mem_source [IsManifold I ∞ M] (x : C) :
+theorem chartAt_mem_source (x : C) :
     x ∈ (chartAt I m e x).source := by
   sorry
 
 /-- Exact arbitrary-point chart formula, including the chosen reparameterization `e`. -/
-theorem chartAt_apply [IsManifold I ∞ M] (x y : C)
+theorem chartAt_apply (x y : C)
     (hy : y ∈ (chartAt I m e x).source) :
     chartAt I m e x y = e (I ((_root_.chartAt H (x.point : M)) (y.point : M))) := by
   sorry
 
-noncomputable def chartedSpace :
+@[instance_reducible] noncomputable def chartedSpace :
     ChartedSpace (EuclideanSpace ℝ (Fin m)) C where
   atlas := Set.range (chartAt I m e)
   chartAt := chartAt I m e
@@ -559,14 +560,14 @@ theorem carrierHomeomorphOriginal_apply [BoundarylessManifold I M] (x : C) :
   sorry
 
 noncomputable instance carrierSigmaCompact [SigmaCompactSpace M] : SigmaCompactSpace C := by
-  haveI : SecondCountableTopology H := I.secondCountableTopology
-  haveI : SecondCountableTopology M := ChartedSpace.secondCountable_of_sigmaCompact H M
-  haveI : LocallyCompactSpace E := inferInstance
-  haveI : LocallyCompactSpace H := I.locallyCompactSpace
-  haveI : LocallyCompactSpace M := ChartedSpace.locallyCompactSpace H M
-  haveI : LocallyCompactSpace (I.interior M) :=
+  have : SecondCountableTopology H := I.secondCountableTopology
+  have : SecondCountableTopology M := ChartedSpace.secondCountable_of_sigmaCompact H M
+  have : LocallyCompactSpace E := inferInstance
+  have : LocallyCompactSpace H := I.locallyCompactSpace
+  have : LocallyCompactSpace M := ChartedSpace.locallyCompactSpace H M
+  have : LocallyCompactSpace (I.interior M) :=
     (I.isOpen_interior (M := M) (n := ∞) (by simp)).locallyCompactSpace
-  haveI : LocallyCompactSpace C :=
+  have : LocallyCompactSpace C :=
     (carrierHomeomorphInterior I m e).locallyCompactSpace_iff.mpr inferInstance
   infer_instance
 
@@ -643,7 +644,7 @@ structure LocallyRepresentedTopSection (R : Type u) [CommRing R]
     (X : TopCat.{u}) (L : LocalCoefficientSystem R X) (n : ℕ) (V : Set X) where
   localValue : ∀ x : X, x ∈ V →
     twistedRelativeHomology R (puncturedPair X x) L n
-  locally_represented : ∀ x : X, ∀ hx : x ∈ V,
+  locally_represented : ∀ x : X, ∀ _hx : x ∈ V,
     ∃ B : Set X, ∃ hBV : B ⊆ V, IsOpen B ∧ x ∈ B ∧
       ∃ c : twistedRelativeHomology R (TopPair.ofSubset Bᶜ) L n,
         ∀ y : X, ∀ hy : y ∈ B,
@@ -737,7 +738,7 @@ noncomputable def localCoefficientExtensionClass (R : Type) [CommRing R] (m : �
 noncomputable def embeddingLocalPairMap {U M : TopCat} (f : U ⟶ M)
     (hf : Function.Injective f) (x : U) : puncturedPair U x ⟶ puncturedPair M (f x) :=
   TopPair.ofSubsetMap (B := ({x}ᶜ : Set U)) (B' := ({f x}ᶜ : Set M)) f
-    (fun y hy h => hy (hf h))
+    (fun _ hy h => hy (hf h))
 
 /-- Integral local excision map for an open embedding, with the native constant pullback. -/
 noncomputable def embeddingIntegralLocalMap {U M : TopCat} (f : U ⟶ M)
@@ -908,7 +909,6 @@ theorem localTopOrientationTensorIso_coefficientExtension (m : ℕ) (M : Type)
         ((orientationLocalSystemFiberIso m M x).hom o) ℓ) = ℓ ⊗ₜ[ℤ] o := by
   sorry
 
-set_option maxHeartbeats 800000 in
 /-- The compact-support existence and uniqueness theorem consumes the actual local section. -/
 theorem compactSupportTopClass_existsUnique (R : Type) [CommRing R] (m : ℕ) (M : Type)
     [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
@@ -1756,7 +1756,7 @@ def ordinaryPairQuotientPoint (X : Type u) [TopologicalSpace X] (B : Set X) :
 def ordinaryPairQuotientMap (X : Type u) [TopologicalSpace X] (B : Set X) :
     TopCat.of X ⟶ ordinaryPairQuotient X B :=
   TopCat.ofHom ⟨fun x => Quotient.mk (ordinaryCofiberSetoid B) (Sum.inl x), by
-    letI : Setoid (X ⊕ PUnit) := ordinaryCofiberSetoid B
+    let : Setoid (X ⊕ PUnit.{u + 1}) := ordinaryCofiberSetoid B
     exact continuous_quotient_mk'.comp continuous_inl⟩
 
 /-- The reduced pair uses the same collapse and its added point. -/
@@ -2734,6 +2734,69 @@ theorem properStrongDeformationRetract_of_inverse
       ∃ H : (ContinuousMap.id X).HomotopyRel
         ((⟨Subtype.val, continuous_subtype_val⟩ : C(A, X)).comp r) A,
         IsProperMap H := by
+  sorry
+
+/-! ## Stage 6.5: product-ball intersection -/
+
+/-- **Product-ball intersection** (Stage 6.5). Continuous fillings `f : D_p → D_p × D_q` and
+`g : D_q → D_p × D_q` of the two coordinate factors, with `f x = (x, 0)` on the unit sphere of
+`D_p` and `g y = (0, y)` on the unit sphere of `D_q`, have a common image point. The balls are the
+native closed unit balls of `EuclideanSpace ℝ (Fin p)` and `EuclideanSpace ℝ (Fin q)`; for `p = 0`
+or `q = 0` the ball is a point with empty sphere, and these cases are included. No smoothness,
+injectivity or transversality is assumed: the proof is the relative-homology coefficient
+`(−1)^q · d_f · d_g` of the README, here with `d_f = d_g = 1`. -/
+theorem productBallImages_intersect {p q : ℕ}
+    (f : C(Metric.closedBall (0 : EuclideanSpace ℝ (Fin p)) 1,
+      Metric.closedBall (0 : EuclideanSpace ℝ (Fin p)) 1 ×
+        Metric.closedBall (0 : EuclideanSpace ℝ (Fin q)) 1))
+    (g : C(Metric.closedBall (0 : EuclideanSpace ℝ (Fin q)) 1,
+      Metric.closedBall (0 : EuclideanSpace ℝ (Fin p)) 1 ×
+        Metric.closedBall (0 : EuclideanSpace ℝ (Fin q)) 1))
+    (hf : ∀ x : Metric.closedBall (0 : EuclideanSpace ℝ (Fin p)) 1,
+      ‖(x : EuclideanSpace ℝ (Fin p))‖ = 1 → f x = (x, ⟨0, by simp⟩))
+    (hg : ∀ y : Metric.closedBall (0 : EuclideanSpace ℝ (Fin q)) 1,
+      ‖(y : EuclideanSpace ℝ (Fin q))‖ = 1 → g y = (⟨0, by simp⟩, y)) :
+    ∃ (x : Metric.closedBall (0 : EuclideanSpace ℝ (Fin p)) 1)
+      (y : Metric.closedBall (0 : EuclideanSpace ℝ (Fin q)) 1), f x = g y := by
+  sorry
+
+/-! ## Stage 8.13: a transverse integral codimension-one classifying map -/
+
+/-- **Transverse circle classifying map** (Stage 8.13). On a compact boundaryless smooth
+manifold `M` (Hausdorff, second countable, any finite-dimensional real model `I`), every
+integral degree-one class `a` is the pullback of a generator of `H¹(Circle; ℤ)` along a smooth
+map `f : M → Circle` whose derivative is surjective at every point of `f⁻¹(1)`: `1` is a regular
+value and `f⁻¹(1)` is the embedded codimension-one representative of the Poincaré dual of `a`.
+The generator is quantified; the README fixes the one given by the positive loop
+`t ↦ exp(2πit)`, and either generator is carried to the other by complex conjugation. -/
+theorem exists_transverse_circle_classifying_map
+    {E H M : Type} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
+    [TopologicalSpace H] [TopologicalSpace M] (I : ModelWithCorners ℝ E H) [ChartedSpace H M]
+    [IsManifold I ∞ M] [I.Boundaryless] [T2Space M] [SecondCountableTopology M]
+    [CompactSpace M]
+    (b : Module.Basis (Fin 1) ℤ (singularCohomology ℤ (TopCat.of Circle) 1))
+    (a : singularCohomology ℤ (TopCat.of M) 1) :
+    ∃ f : C^∞⟮I, M; 𝓡 1, Circle⟯,
+      (TopCat.singularCohomologyMap (R := ModuleCat.of ℤ ℤ) (k := ℤ) (M := ModuleCat.of ℤ ℤ)
+        (TopCat.ofHom ⟨f, f.contMDiff.continuous⟩) 1) (b 0) = a ∧
+      ∀ x : M, f x = 1 → Function.Surjective (mfderiv I (𝓡 1) f x) := by
+  sorry
+
+/-! ## Stage 8.15: no free action of `C_p × C_p` on a sphere -/
+
+/-- **Smith-type non-freeness** (Stage 8.15; Hatcher, Section 4.2, Exercise 28, p. 391). For
+every prime `p` and every `n ≥ 0`, no continuous action of `C_p × C_p`, the multiplicative
+wrapper of `ZMod p × ZMod p`, on the unit sphere of `EuclideanSpace ℝ (Fin (n + 1))` is free:
+some nonidentity element fixes a point. For a finite group, continuity of each translation is
+continuity of the action for the discrete topology. No linearity, smoothness or cellularity of
+the action is assumed, and `S⁰` is included. -/
+theorem elementaryAbelianPair_sphere_action_has_stabilizer (p n : ℕ) (hp : p.Prime)
+    [MulAction (Multiplicative (ZMod p × ZMod p))
+      ↥(Metric.sphere (0 : EuclideanSpace ℝ (Fin (n + 1))) 1)]
+    (hcont : ∀ g : Multiplicative (ZMod p × ZMod p),
+      Continuous fun x : ↥(Metric.sphere (0 : EuclideanSpace ℝ (Fin (n + 1))) 1) => g • x) :
+    ∃ g : Multiplicative (ZMod p × ZMod p), g ≠ 1 ∧
+      ∃ x : ↥(Metric.sphere (0 : EuclideanSpace ℝ (Fin (n + 1))) 1), g • x = x := by
   sorry
 
 end TauCetiRoadmap.AlgebraicTopology
