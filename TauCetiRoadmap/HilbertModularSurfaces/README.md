@@ -45,7 +45,8 @@ under `TauCeti/NumberTheory/HilbertModularSurface/`.
   all-level affine stabilizer with its translation class (Layers 0–1); the canonical two-form
   of a weight-`(2, 2)` form on HilbertModularForms' spaces (0.5, 4.8).
 - The surface-theoretic reading of a cusp of `Ȳ(Γ)`: its type `G(M, V)` (Layer 1), the
-  Hirzebruch–Jung continued fraction of an oriented lattice and its period (Layer 2), and the
+  extension of the supplied maximal-order minus periods to oriented full lattices with arbitrary
+  multiplier order, their compatibility with that construction (Layer 2), and the
   theorem that the exceptional locus of `X(Γ) → Ȳ(Γ)` over a cusp of type `G(M, V)` is a cycle of
   `dk` smooth rational curves with the self-intersection numbers `−b_i` (Layer 2).
 - Elliptic points of `Γ₀(𝔑)_𝔟` and `Γ₀¹(𝔑)_𝔟`: the dictionary with CM orders, the complete list
@@ -91,6 +92,8 @@ under `TauCeti/NumberTheory/HilbertModularSurface/`.
 | Toric fans, regular cones, the fan scheme and subdivisions | Tau Ceti `TauCeti/Geometry/Toric/Algebraic` and [AnalyticToricGeometry](../AnalyticToricGeometry/README.md) Layers 0, 2, 3 |
 | Plumbing graphs and their intersection matrices | Tau Ceti `TauCeti.PlumbingGraph` |
 | Total positivity and the unit-square index | Tau Ceti `NumberField.IsTotallyPositive`, `NumberField.units_sq_index_eq` in `TauCeti/NumberTheory/NumberField/Units/ElementaryTwoQuotient.lean` |
+| Reduced irrationals and periodic minus cycles of narrow ideal classes of a real quadratic maximal order, with transport under change of representative | AutomorphicSpectralTheory §4.17a |
+| Geometric Kodaira fibre types, including normalization genera, primitive multiplicities and incidence schemes | NeronModelsAndSemistableAbelianVarietiesPartII §§2.3, 2.5; §5.3 here applies these configurations to divisors without assuming a fibration |
 | Rationality iff q = P₂ = 0 for smooth projective surfaces over an algebraically closed field | NeronModelsAndSemistableAbelianVarietiesPartII §6.1 |
 
 ### Not owned here
@@ -138,11 +141,13 @@ under `TauCeti/NumberTheory/HilbertModularSurface/`.
 2. **The groups.** `GL₂⁺(F) = {γ ∈ GL₂(F) : det γ ≫ 0}`;
    `Γ₀(𝔑)_𝔟 = {(a b; c d) ∈ GL₂⁺(F) : a, d ∈ R, b ∈ 𝔟⁻¹, c ∈ 𝔑𝔟, ad − bc ∈ R^×_{>0}}`,
    `Γ₁(𝔑)_𝔟` additionally `d ≡ 1 mod 𝔑` (§0.3), `Γ(𝔑)_𝔟` additionally
-   `a ≡ d ≡ 1 mod 𝔑`, `b ∈ 𝔑𝔟⁻¹`. Assaf et al. and Dasgupta–Kakde write `Γ₁` with `a ≡ 1`
+   `a ≡ d ≡ 1 mod 𝔑`, `b ∈ 𝔑𝔟⁻¹`. Assaf et al. write `Γ₁` with `a ≡ 1`
    instead; for `ν ≫ 0` in `F`, conjugation by `W_ν = (0 −1; ν 0)` maps their group at `𝔟` onto
    the pinned `Γ₁(𝔑)_{ν(𝔑𝔟)⁻¹}` (it swaps `a` and `d`), and every statement about `Γ₁` quoted from
-   them is read through this isomorphism (`W_ν = diag(1, ν) J` is HilbertModularForms §1.2's
+   Assaf et al. is read through this isomorphism (`W_ν = diag(1, ν) J` is HilbertModularForms §1.2's
    `J`-conjugation followed by its §1.3 transport; 1.3, 1.5);
+   Dasgupta–Kakde use the pinned `d ≡ 1` convention already, with `𝔟 = 𝔱_λ𝔡`
+   (arXiv:2010.00650v1, §2, p. 5).
    `Γ_i¹(𝔑)_𝔟 = Γ_i(𝔑)_𝔟 ∩ SL₂(F)`. `Γ₀(1)_𝔟 = GL⁺(R ⊕ 𝔟)`. The LMFDB's `ambient type` `gl`
    is `Γ_i(𝔑)_𝔟`, `sl` is `Γ_i¹(𝔑)_𝔟`; `gamma type` `0`, `1`, `f` is `i = 0`, `i = 1`, full level.
    `PΓ` is the image of `Γ` in `PGL₂⁺(F)`; it acts faithfully on `ℍ²`, and every stabilizer,
@@ -233,7 +238,12 @@ under `TauCeti/NumberTheory/HilbertModularSurface/`.
 ### From Mathlib
 
 - `UpperHalfPlane` with the `GL(2, ℝ)⁺` Möbius action
-  (`Mathlib/Analysis/Complex/UpperHalfPlane/MoebiusAction`), its manifold structure and its proper action; `Subgroup.IsArithmetic`,
+  (`Mathlib/Analysis/Complex/UpperHalfPlane/MoebiusAction`) and its manifold structure.
+  Properness is `UpperHalfPlane.instProperSMul : ProperSMul SL(2, ℝ) ℍ`, and the discrete-subgroup
+  consequence is `UpperHalfPlane.instProperlyDiscontinuousSL2RSubgroup`
+  (`Mathlib/Analysis/Complex/UpperHalfPlane/ProperAction.lean`, lines 122–128).
+  The `GL₂⁺` action has a scalar kernel; the effective Hilbert arithmetic action uses
+  ShimuraVarieties §§0.4, 1.2 below. `Subgroup.IsArithmetic`,
   `IsCusp`, `CuspOrbits` and `strictWidthInfty` for subgroups of `GL(2, ℝ)` in one variable
   (`Mathlib/NumberTheory/ModularForms/Cusps`), the degree-one model of Layer 1.
 - `NumberField.InfinitePlace`, `IsReal`, `embedding_of_isReal`, `IsTotallyReal`, `discr`,
@@ -287,6 +297,14 @@ under `TauCeti/NumberTheory/HilbertModularSurface/`.
   specialises to them when `F = ℚ` is admitted as a test.
 
 ### From roadmaps
+
+Consume AutomorphicSpectralTheory §4.17a for the reduced representative and cyclic minus period
+of each narrow ideal class of a real quadratic maximal order, including representative transport
+and its primitive norm-one multiplier. Layer 2 extends this to arbitrary multiplier orders and
+identifies its maximal-order specialization with the supplied cycle. Consume
+NeronModelsAndSemistableAbelianVarietiesPartII §§2.3, 2.5 for the geometric Kodaira-type
+conditions, including genera, primitive multiplicities and local incidence; §5.3 uses those
+conditions on a divisor of a surface without assuming that the divisor is already a fibre.
 
 Consume ShimuraVarieties §§0.1, 0.4, 1.2 and P.6 for arithmetic component groups, proper
 discontinuity, neat covers and finite analytic quotients, and §§2.5, 2.7–2.8 for the analytic
@@ -454,6 +472,9 @@ one, the quotient map from ℍ², and descent of invariant holomorphic maps
 **Checks.**
 
 - A scalar aI fixes z since az/a = z; in Γ₀¹ the scalars are 1 and −1.
+- For t > 0, tI fixes i and has determinant t²: the GL₂⁺ stabilizer contains
+  the unbounded sequence nI, while positive scalar matrices in SL₂ have t = 1.
+  The SL₂ stabilizer of i consists of (a,b;−b,a) with a²+b² = 1, a compact circle.
 - The upper translation matrix (1,1;0,1) sends (i,i) to (1+i,1+i), so the action is not trivial.
 - Over ℚ(√3), quotienting Γ₀ by {±1} alone leaves the scalar 2+√3 acting trivially;
   quotienting by the full scalar subgroup removes that kernel.
@@ -480,14 +501,18 @@ Geer, Chapter I, §4 and Chapter IV, §6; Assaf et al., §6.3, equation (6.3.1))
 
 The two-form API includes:
 
-- Pullback along `γ ∈ GL₂⁺(F)` multiplies `f dz₁ ∧ dz₂` by the ratio of `f ∣_{(2,2)} γ` to `f`;
-  invariance under `Γ` is exactly the weight-`(2, 2)` slash law.
+- For every holomorphic f and `γ ∈ GL₂⁺(F)`, pullback satisfies
+  `γ*(f dz₁ ∧ dz₂) = (f ∣_(2,2) γ) dz₁ ∧ dz₂`, with the unitary slash normalization.
+  Invariance under `Γ` is exactly the weight-`(2, 2)` slash law, including at zeros of f.
 - Pullback to a finite-index subgroup and descent along it preserve the two-form; in a cusp
   chart the constant term contributes `a₀ dz₁ ∧ dz₂`, which has a pole along the boundary
   divisor of the resolution unless `a₀ = 0`.
 
 **Checks.**
 
+- For f(z₁,z₂) = z₁−i and γ = (1,1;0,1), at z = (i,i) the values are f(z) = 0
+  and (f ∣γ)(z) = 1; the pullback coefficient is 1, so division by f would be undefined.
+  The identity acting on f = 1 gives coefficient 1 on both sides.
 - For `diag(u, 1)` with a totally positive unit `u`, the Jacobian of `z ↦ (u₁z₁, u₂z₂)` is
   `u₁u₂ = N(u) = 1` and `f(uz) = (u₁u₂)^{−1} f(z)` at weight `(2, 2)`, so the two-form is
   invariant; at weight `(0, 0)` the constant `1` gives `dz₁ ∧ dz₂`, which the inversion
@@ -559,25 +584,46 @@ The cusp-ideal API includes:
 
 ### 1.3 Classification of cusps
 
-For `Γ₁(𝔑)_𝔟` and `Γ₀(𝔑)_𝔟`, the bijections
-`Γ_i(𝔑)_𝔟\(F² ∖ 0) → 𝒫_i(𝔑)_𝔟`, `(a, c) ↦ (𝔰, 𝔐, (ā, c̄))`, of Assaf et al., Lemma 3.1.8, with
-`𝒫₁` the set of triples with `(ā, c̄) ∈ (𝔰/𝔰𝔐)^×/R^×_{>0} × (𝔰𝔟𝔐/𝔰𝔟𝔑)^×/R^×_{>0}` and `𝒫₀` its
-quotient by `(R/𝔑)^×` acting by `x·(a, c) = (xa, x⁻¹c)`; the `SL` versions with `R^{×2}` in place
-of `R^×_{>0}`. The `Γ₁` case is Dasgupta–Kakde, Lemma 3.6, for their group with `a ≡ 1`; the
-pinned `Γ₁(𝔑)_{ν(𝔑𝔟)⁻¹}` receives it through `W_ν` (convention 2), which sends the cusp
-`(a : c)` to `(−c : νa)` and exchanges the invariants `𝔐` and `𝔑/𝔐`. *Needs:* 1.2, 0.3.
+For each nonzero fractional ideal 𝔰 and divisor 𝔐 of 𝔑, let A = (𝔰/𝔰𝔐)^× and
+C = (𝔰𝔟𝔐/𝔰𝔟𝔑)^×, where the superscript means generators of the respective cyclic
+quotient modules. Define the raw Γ₁ parameter set as the disjoint union, over (𝔰,𝔐), of
+`(A/R^×_{>0}) × C`; define the raw Γ₁¹ parameter set using A × C. Prove that
+(a,c) ↦ (𝔰,𝔐,ā,c̄) gives bijections from the respective orbits in F² ∖ {0} onto these sets.
+For the pinned d ≡ 1 group, c̄ is retained as an element of C. The determinant unit acts only
+on A; for determinant one neither factor is divided by a unit group.
+Derive the raw Γ₀ and Γ₀¹ parameter sets by the action of (R/𝔑)^× on the respective Γ₁
+sets, x·(ā,c̄) = (xā,x⁻¹c̄), using lifts in Γ₀¹. These are the raw-vector refinements of
+Assaf et al., Lemma 3.1.8, pp. 5–7, and Dasgupta–Kakde, arXiv:2010.00650v1,
+Lemma 3.6, pp. 9–10: the independent unit quotient on C in those displayed raw-vector
+statements is not part of this target. Dasgupta–Kakde's group already has d ≡ 1;
+Assaf's a ≡ 1 convention is transported by W_ν (convention 2), sending
+(a:c) to (−c:νa), with target component ν(𝔑𝔟)⁻¹ and invariant 𝔑/𝔐.
+*Needs:* 1.2, 0.3; fractional-ideal Chinese remainders and the determinant-one completion
+of a generating pair in R ⊕ 𝔟.
 
-The parametrization API includes inverse reconstruction of orbit representatives,
-compatibility with projective scaling, and the Γ₁-to-Γ₀ quotient. To obtain cusps from the
-nonzero-vector orbit bijection, also quotient by scalar Fˣ: the raw vector orbit set alone
-is not ℙ¹(F) (Assaf et al., Lemma 3.1.8 and Corollary 3.1.18).
+The parametrization API includes:
+
+- Inverse reconstruction gives a generating pair and recovers its orbit, including the raw
+  second residue; the two composites are identities on orbit and parameter sets.
+- The Γ₁-to-Γ₀ map is the displayed residue-unit orbit quotient, with inverse diagonal action
+  also in determinant one; replacing it by independent square-unit quotients is not permitted.
+- Scalar x ∈ Fˣ sends (𝔰,𝔐,ā,c̄) to (x𝔰,𝔐,xā,xc̄). Taking this quotient gives precisely
+  the projective cusp set. The ideal itself remains a parameter until this step; the
+  resulting projective formulas agree with §1.4.
 
 **Checks.**
 
-- At level one the residue-unit factors are trivial, leaving the ordinary ideal-class parameter.
+- At level one both residue factors have one generator (also for the zero quotient module).
+  Raw orbits retain 𝔰; only after Fˣ scaling does this become its ordinary ideal class.
+- For R = ℤ[φ], φ² = φ+1, 𝔑 = (3), 𝔟 = R and u = φ², the vectors (0,1) and (0,u)
+  have 𝔰 = 𝔐 = R but second residues 1 and u. Their difference u−1 = φ is a unit,
+  so they are distinct modulo 3 and cannot be Γ₁-equivalent (a carrying matrix needs d = u).
+  This also tests Γ₁¹, since u is a positive unit square. After scalar quotient both give [0:1].
+- In the same example diag(u⁻¹,u) ∈ Γ₀¹ carries (0,1) to (0,u); the residue action
+  with x = u⁻¹ identifies their raw Γ₀¹ parameters, as required.
 - For level a prime, the two divisors R and 𝔭 give the zero and infinity cusp rows.
-- W₁ sends (1:0) to (0:1), exchanging 𝔐 = 𝔑 and R; a parametrization that leaves
-  𝔐 fixed under this convention change has the Γ₁ orientation reversed.
+- W₁ sends (1:0) to (0:1), exchanging 𝔐 = 𝔑 and R; leaving 𝔐 fixed reverses the
+  Γ₁ convention change.
 
 ### 1.4 The number of cusps
 
@@ -722,6 +768,11 @@ to n/r, invariance under common scaling, and reversal for the inverse residue cl
 
 ### 2.2 The minus continued fraction of a quadratic irrational
 
+Extend AutomorphicSpectralTheory §4.17a’s maximal-order narrow-ideal-class cycle to full
+ℤ-lattices in F with arbitrary multiplier order, retaining the surface cusp interpretation.
+For a lattice that is a fractional R-ideal, identify the resulting cyclic period with that
+supplier’s period under its oriented ideal-class correspondence.
+
 `hjStream v₁ (w : F) : ℕ → F` for `w ∉ ℚ` in the real quadratic field `F`, with digits
 `hjDigit v₁ w j = ⌈v₁(w_j)⌉`. A quadratic irrational `w` is **reduced** (`IsReduced v₁ v₂ w`) when
 `v₁(w) > 1` and `0 < v₂(w) < 1`; the period of a purely periodic stream is `hjPeriod v₁ w`. Theorems: the stream of any `w` is eventually reduced; the expansion of a reduced
@@ -731,7 +782,8 @@ to n/r, invariance under common scaling, and reversal for the inverse residue cl
 Equivalently: for an oriented basis `(x, y)` of `M`, `w = x/y`, for a reduced quotient the period is the sequence of digits for which the consecutive vertices `A_j` of the convex hull of `M ∩ (ℝ_{>0})²` satisfy
 `A_{j−1} + A_{j+1} = b_j A_j` (van der Geer, Chapter II, §2). Among oriented bases whose quotient is reduced, the period is independent up to cyclic rotation; and replacing `M` by `αM` with `α ≫ 0` leaves it unchanged, while `α` of mixed
 sign reverses the orientation and gives the period of the **dual** lattice (2.7). *Needs:*
-2.1; Mathlib `Pell` and 0.1 for the unit; Tau Ceti `IsTotallyPositive`. (`hjPeriod_ne_nil_of_isReduced`.)
+2.1; Mathlib `Pell` and 0.1 for the unit; Tau Ceti `IsTotallyPositive`;
+AutomorphicSpectralTheory §4.17a for the maximal-order construction and comparison. (`hjPeriod_ne_nil_of_isReduced`.)
 
 The simple definitions `hjStream`, `hjDigit`, `IsReduced` and `hjPeriod` use only a field
 and the displayed real embeddings; the period theorems explicitly assume a degree-two number
@@ -746,6 +798,11 @@ field, distinct embeddings and irrational w. The group `multiplierUnits` is defi
 
 **Checks.**
 
+- For D = 28 the maximal-order principal class gives the supplied cycle (3,6):
+  w = (3+√7)/2 has successor 3+√7 and next successor w, so the length is 2,
+  the digit-minus-three sum is 3 and the product is (3+√7)²/2 = 8+3√7, of norm 1.
+  For the nonmaximal order ℤ[√5], w = 3+√5 gives cycle (6,2,2,2), length 4 and
+  multiplier 9+4√5; using the maximal-order unit (3+√5)/2 would not preserve this lattice.
 - w = 2+√3 has digit 4 and successor 1/(2−√3) = 2+√3. Its conjugate is 2−√3 ∈ (0,1),
   its period is [4], and its product is the fundamental multiplier 2+√3.
 - The positive multiplier 7+4√3 is ε², but its powers omit ε; positivity and lattice
@@ -900,7 +957,8 @@ The period [4] gives a nodal curve; its square repetition gives a double edge. I
 
 ### Dependencies
 
-§§2.1–2.3 use lattice arithmetic and the unit theorem. The geometric comparison uses Layer 1, ShimuraCompactifications §0.13 and §§2.1–2.8, and ShimuraVarieties §§2.5, 2.7.
+§§2.1–2.3 use lattice arithmetic, the unit theorem and AutomorphicSpectralTheory §4.17a
+for the maximal-order period and its comparison. The geometric comparison uses Layer 1, ShimuraCompactifications §0.13 and §§2.1–2.8, and ShimuraVarieties §§2.5, 2.7.
 
 ## Layer 3: elliptic points
 
@@ -930,22 +988,37 @@ and invariance of projective order under conjugation (Assaf et al., §4.1).
 
 For an elliptic point `z` with stabilizer generated by `γ̄`, lifted to `γ ∈ Γ` with
 `det γ ∈ R^×_{>0}` (normalised in a fixed set of representatives of `R^×_{>0}/R^{×2}` containing
-`1`): `K = F(γ)` is a CM quadratic extension of `F`, `S = R[γ]` an `R`-order in `K`, and the
-assignment `z ↦ (K, S, φ : S ↪ 𝒪)` is a bijection from the elliptic points of `Γ` (mod `Γ`) to
-the `Γ`-conjugacy classes of pairs `{φ, φ̄}` of embeddings of CM orders `S` with `S^× ⊋ R^×`
-into the `R`-order `𝒪 = 𝒪₀(𝔑)_𝔟 = (R 𝔟⁻¹; 𝔑𝔟 R)` generated by `Γ`, where `φ̄` is `φ` precomposed
-with the nontrivial automorphism of `K/F`; `𝒪¹ = Γ₀¹(𝔑)_𝔟` and `𝒪^×_{>0} = Γ₀(𝔑)_𝔟`
-(Assaf et al., §4.1). The stabilizer of `z` in `PΓ` is `S′^×/R^×` (for `Γ₀`) or
-`μ(S′)/{±1}` (for `Γ₀¹`), where `S′ = φ⁻¹(φ(K) ∩ 𝒪)` is the order optimally embedded by `φ`.
+`1`): `K = F(γ)` is a CM quadratic extension of `F`, `R[γ]` is a starting suborder. Set `𝒪 = 𝒪₀(𝔑)_𝔟 = (R 𝔟⁻¹; 𝔑𝔟 R)` and take
+the full order S = K ∩ 𝒪 in this matrix embedding. For Γ = Γ₀ or Γ₀¹, prove that elliptic
+points modulo Γ correspond bijectively to Γ-conjugacy classes of pairs {φ,φ̄} of **optimal**
+embeddings φ : S ↪ 𝒪 of CM R-orders, modulo R-algebra isomorphism of the source order.
+Optimal means φ(S) = φ(K) ∩ 𝒪, and φ̄ is precomposition with the nontrivial K/F involution.
+Require the actual projective stabilizer Sˣ/Rˣ for Γ₀, or μ(S)/{±1} for Γ₀¹, to be nontrivial;
+the order-q dictionary requires that group to have order q. Here `𝒪¹ = Γ₀¹(𝔑)_𝔟` and
+`𝒪^×_{>0} = Γ₀(𝔑)_𝔟`; every CM unit has totally positive relative norm.
+Any embedding of a starting suborder R[γ] extends to its unique optimal overorder
+φ⁻¹(φ(K) ∩ 𝒪), and only this full order labels the point (Assaf et al., §4.1,
+equations (4.1.2)–(4.1.3), p. 13).
 Lemma 4.1.1: if `det γ = 1`, `R[γ] ≅ R[ζ]` with `ζ` a primitive root of unity of order `2q` and
 `ζ + ζ⁻¹ ∈ F`; if `det γ = u ∉ R^{×2}`, then `2 ∣ q` and `γ² = uζ` with `ζ` of order `q`,
 `ζ + ζ⁻¹ ∈ F`. *Needs:* 3.1; GlobalNumberFields Layer 11 (`NumberFieldOrder`).
 
-The CM dictionary includes independence of scalar normalization, complex conjugation of
-an embedding, and passage to the optimal overorder; relative norm agrees with determinant.
+The CM dictionary includes:
+
+- Scalar normalization and changing the stabilizer generator leave K ∩ 𝒪 unchanged.
+- Conjugating the embedding by Γ transports the unique upper-half-plane fixed point;
+  precomposing by the CM involution gives the same point.
+- Passing from a starting suborder to its optimal overorder preserves that point and recovers
+  its full stabilizer; relative norm agrees with determinant.
 
 **Checks.**
 
+- For R = ℤ[√2] and A = (0,−1;1,√2) in M₂(R), A² = √2 A−I and A⁴ = −I.
+  The optimal order R[A] ≅ ℤ[ζ₈] contains R[A²] ≅ R[i] with index |N_{F/ℚ}(√2)| = |−2| = 2.
+  Both fix ((−√2+i√2)/2,(√2+i√2)/2), but the latter embedding is nonoptimal:
+  its field intersection with M₂(R) is R[A]. Thus this is one order-four point, not also
+  an order-two point. Optimal embeddings of R[i] elsewhere still contribute when their
+  full projective stabilizer has order two.
 - For u = 2+√3 and γ = (0,−u;1,0), det γ = u and γ² = −uI. With ζ = −1,
   the corrected equality reads −u = −u, and both relative norms are u² = 7+4√3.
 - The inverse-unit expression would have norm u⁻² = 7−4√3, a different number.
@@ -990,8 +1063,8 @@ m_q¹ = (2/h) Σ_{S ⊇ R[ζ_{2q}], #μ(S) = 2q} h(S)/Q(S) · m(Ŝ, 𝒪̂; 𝒪
 m_q⁺ = (2/h⁺) Σ_{S : S^×/R^× cyclic of order q} h(S) · m(Ŝ, 𝒪̂; 𝒪̂^×),
 ```
 
-where `S` runs over the orders of 3.2 in all CM extensions `K/F` (only `F(i)`, `F(√−3)`,
-`F(ζ_5)` for `D = 5`, and `F(√−ε⁺)` for `N(ε) = 1` carry such orders), and the local embedding
+where `S` runs once over the isomorphism classes of full orders in the optimal dictionary of 3.2 in all CM extensions `K/F` (only `F(i)`, `F(√−3)`,
+`F(ζ_5)` for `D = 5`, and `F(√−ε⁺)` for `N(ε) = 1` carry such orders), and the local **optimal** embedding
 number `m(Ŝ, 𝒪̂; 𝒪̂^×) = ∏_{𝔭 ∣ 𝔑} m_𝔭(S, 𝒪; 𝒪^×)` is `1` at level one. The counts are the same
 on every component `𝔟`. For `h = 1` and level one the formula reads
 `m_q⁺ = ½ Σ_S h(S) [R^× : R^×_{>0} N_{K/F}(S^×)]` and
@@ -1002,7 +1075,8 @@ Lemma 30.3.14, Proposition 39.4.12.
 
 The order-count API includes invariance under R-algebra isomorphism, factorization of the
 local embedding product, and compatibility of conductor enlargement with the unit index.
-For every order S retain its optimal overorder and the stabilizer-order condition in the sum
+Index by the optimally embedded order S itself and its actual stabilizer-order condition;
+a proper starting suborder does not contribute a second copy of the same point
 (Assaf et al., equations (4.1.5), (4.2.2), Proposition 4.2.3; Voight, Proposition 39.4.12).
 
 **Checks.**
@@ -1485,18 +1559,69 @@ row as a surface (Assaf et al., Table 1).
 
 ### 5.3 Van der Geer's criteria
 
-(i) If a smooth projective surface `X` with `q = 0` contains two distinct smooth rational curves `C₁, C₂` with
-`C₁² = C₂² = −1` and `C₁·C₂ > 0`, or a curve `C` with `C² ≥ 0` and `K·C < 0`, then `X` is rational
-(van der Geer, Proposition VII.2.2; Assaf et al., Proposition 6.4.1). (ii) If a simply connected
-non-rational `X` contains an **elliptic configuration** (van der Geer, Definition VII.2.8: a
-connected configuration of curves whose intersection matrix is that of a singular fibre of an
-elliptic fibration in Kodaira's list), then `X` is a blown-up K3 surface or a blown-up honestly
-elliptic surface; if moreover `X` contains a `(−2)`-curve `D` not in the configuration with
-`𝒞 ∪ {D}` connected, `X` is a blown-up K3 surface (van der Geer, Proposition VII.2.9; Assaf et
-al., Proposition 6.4.2). *Needs:* 5.1, 5.2.
+On a smooth projective complex surface X, an **elliptic configuration** is a nonzero
+connected effective divisor E = ΣmᵢCᵢ with primitive positive multiplicities, satisfying the
+geometric conditions below. The Kodaira-type geometry is that of
+NeronModelsAndSemistableAbelianVarietiesPartII §§2.3, 2.5, applied to a divisor without an
+assumed fibration. The criterion applies to these divisors on X itself.
+In every reducible row all components are smooth rational curves of square −2. All intersections
+are exactly those specified, with no extra intersection points or singularities.
+
+| Type | Component geometry and primitive multiplicities |
+| --- | --- |
+| I₀ | One smooth genus-one curve of square 0, multiplicity 1. |
+| I₁ | One irreducible rational curve of square 0 with exactly one ordinary node, multiplicity 1. |
+| II | One irreducible rational curve of square 0 with exactly one ordinary cusp, multiplicity 1. |
+| I₂ | Two components meeting transversely at two distinct points; both multiplicities 1. |
+| Iₙ, n ≥ 3 | A cycle of n components; adjacent components meet transversely once at distinct points, no triple points; all multiplicities 1. |
+| III | Two components tangent at one point with intersection length 2; both multiplicities 1. |
+| IV | Three components through one point with pairwise distinct tangent directions; all multiplicities 1. |
+| I₀* | One central component of multiplicity 2 meets four disjoint multiplicity-1 components transversely at four distinct points. |
+| Iₙ*, n ≥ 1 | A chain of n+1 multiplicity-2 components, with two multiplicity-1 leaves at each end; every edge is one transverse intersection, at distinct points. |
+| IV* | Three arms of length 2 from a central component of multiplicity 3; along each arm the multiplicities are 2,1. |
+| III* | Three arms of lengths 1,3,3 from a central component of multiplicity 4; their multiplicities from the centre are (2), (3,2,1), (3,2,1). |
+| II* | Three arms of lengths 1,2,5 from a central component of multiplicity 6; their multiplicities from the centre are (3), (4,2), (5,4,3,2,1). |
+
+In the last three rows each edge is a transverse intersection at a distinct point. Arms have
+no other intersections. A positive multiple of E has the same primitive configuration, but E
+is not replaced by its reduction in the starred rows. This spells out the geometric
+configuration used in van der Geer, Definition VII.2.8, including the irreducible genus-one
+cases; the criterion is Proposition VII.2.9 (also Assaf et al., Proposition 6.4.2, p. 22).
+
+The configuration API includes:
+
+- Primitive multiplicities are the unique positive kernel vector of the intersection matrix
+  with gcd 1; for each component E·Cᵢ = 0, and E² = K_X·E = 0 and p_a(E) = 1 by adjunction.
+- Isomorphisms of surfaces transport the entire divisor, component genera and local incidence
+  schemes; a numerical graph alone does not determine the configuration.
+- The I₂/III and I₃/IV incidence distinctions persist under this transport; for a divisor
+  that is a primitive fibre, the predicate agrees with the supplied geometric Kodaira type.
+
+Prove (i): if X has q = 0 and contains two distinct smooth rational curves C₁,C₂ with
+C₁² = C₂² = −1 and C₁·C₂ > 0, or a curve C with C² ≥ 0 and K_X·C < 0, then X is rational
+(van der Geer, Proposition VII.2.2; Assaf et al., Proposition 6.4.1).
+Prove (ii): if X is simply connected and non-rational and contains an elliptic configuration E,
+then X is a blow-up of a K3 surface or of a surface of Kodaira dimension one with an elliptic
+fibration. If it also contains a smooth rational curve D of square −2 outside the support of E
+with D·E > 0, then X is a blown-up K3 surface (van der Geer, Proposition VII.2.9;
+Assaf et al., Proposition 6.4.2). *Needs:* 5.1, 5.2; the supplied geometric Kodaira conditions;
+SchemeAndStackFoundations §§5.9–5.10 for divisor intersections and adjunction.
 
 **Checks.**
 
+- On a smooth quintic, two general hyperplane sections have genus 6, squares 5 and
+  intersection 5. Blow up three common points and four further points on each: the strict
+  transforms have squares 5−3−4 = −2 and intersection 5−3 = 2, but arithmetic genus
+  6+6+2−1 = 13. Their matrix matches I₂ while their genera exclude the configuration;
+  the surface remains simply connected of Kodaira dimension 2.
+- A genuine I₂ has two rational components and arithmetic genus 0+0+2−1 = 1;
+  its primitive divisor has square −2−2+2·2 = 0. Type III has the same matrix and genus
+  but one tangency of length 2, rather than two nodes. Likewise I₃ has three nodes and
+  IV one triple point, though both have three pairwise intersection numbers equal to 1.
+- For I₀*, at the centre E·C = 2(−2)+4 = 0, and at a leaf it is −2+2 = 0;
+  the reduced divisor instead intersects the centre in −2+4 = 2. A nodal or cuspidal
+  irreducible rational curve has p_a = 0+1 = 1, whereas a smooth rational square-zero
+  curve has p_a = 0 and is excluded.
 - Two transverse genus-two members of a degree-two polarization on a K3 have squares 2
   and intersection 2. Blowing up three separate points on each gives squares −1,−1,
   intersection 2 and genus 2,2; q = 0 and κ = 0 persist. The rational-curve hypothesis excludes this.
@@ -1511,7 +1636,7 @@ A blow-up of ℙ² has (K²,e,χ) = (8,4,1). The blown-up genus-two K3 curves of
 
 ### Dependencies
 
-SchemeAndStackFoundations §§5.9–5.10; NeronModelsAndSemistableAbelianVarietiesPartII §6.1 for rationality; no Hilbert surface is an input to these criteria.
+SchemeAndStackFoundations §§5.9–5.10; NeronModelsAndSemistableAbelianVarietiesPartII §§2.3, 2.5 for geometric Kodaira types and §6.1 for rationality; no Hilbert surface is an input to these criteria.
 
 ## Layer 6: Kodaira dimension of the level-one surfaces
 
@@ -1903,8 +2028,8 @@ HilbertModularForms and the arithmetic and compactification contracts to the sur
 
 - **Layer 0** first; it is short and every later layer uses it.
 - **Layers 1 and 3** are independent of each other given Layer 0 (cusps versus elliptic points).
-- **Layer 2** needs Layer 1 for 2.3–2.6 and 1.5; its continued-fraction core 2.1–2.2 needs only
-  Mathlib and can be done first of all. 3.9 needs 2.1 only.
+- **Layer 2** needs Layer 1 for 2.3–2.6 and 1.5; its continued-fraction core 2.1–2.2 also uses §0.1 for units
+  and AutomorphicSpectralTheory §4.17a for the maximal-order comparison. 3.9 needs 2.1 only.
 - **Layer 4** needs Layers 1–3 for 4.4; 4.2 (Siegel's formula) is independent of everything but
   Mathlib and ImaginaryQuadraticClassNumber H2.2 and can proceed in parallel with Layers 1–3.
 - **Layer 5** is independent of Layers 0–4 (general surface theory) and can proceed in parallel
@@ -1914,7 +2039,7 @@ HilbertModularForms and the arithmetic and compactification contracts to the sur
   4.9 alone, and the Kodaira fields rest on Layer 6.
 
 Dependency graph: `0 → {1, 3}`, `1 → 2`, `{2, 3} → 4`, `5 ∥ {0,…,4}`, `{4, 5} → 6 → 7`, with
-`2.1–2.2`, `4.2` and `5` as the three starting points that need no other layer.
+`2.1`, `4.2` and `5` as starting points that need no other layer of this roadmap.
 
 ## References
 
@@ -1939,7 +2064,8 @@ Dependency graph: `0 → {1, 3}`, `1 → 2`, `{2, 3} → 4`, `5 ∥ {0,…,4}`, 
 - A. Prestel, *Die elliptischen Fixpunkte der Hilbertschen Modulgruppen*, Math. Ann. 177
   (1968), 181–209.
 - S. Dasgupta, M. Kakde, *On constant terms of Eisenstein series*, Acta Arith. 200 (2021),
-  119–147: Lemma 3.6 and Corollary 3.12 (cusps of `Γ₁(𝔑)_𝔟`).
+  119–147; locators here refer to arXiv:2010.00650v1, §2, p. 5, Lemma 3.6, pp. 9–10,
+  and Corollary 3.12 (cusps of `Γ₁(𝔑)_𝔟`).
 - Y. Hamahata, *Hilbert modular surfaces with `p_g ≤ 1`*, Math. Nachr. 173 (1995), 193–236:
   Theorems 3.5, 4.6, 5.15, 6.13.
 - J. Voight, *Quaternion Algebras*, GTM 288, Springer, 2021, author version 1.0.7u: Lemma 30.3.14, §§30.6–30.7,
