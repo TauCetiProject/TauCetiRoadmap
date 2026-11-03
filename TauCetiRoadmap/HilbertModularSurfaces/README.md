@@ -81,7 +81,6 @@ under `TauCeti/NumberTheory/HilbertModularSurface/`.
 | Proper discontinuity and neat subgroups of the component groups, the normal complex analytic structure of `Γ\X⁺`, finite analytic quotients | [ShimuraVarieties](../ShimuraVarieties/README.md) 0.4, 1.2, P.6 (HilbertModularForms supplies the groups and the action, not the quotient space) |
 | The normal analytic Baily–Borel quotient `Γ\(ℍ²)*`, its algebraization as a normal projective surface, the Koecher principle and boundary codimension | [ShimuraVarieties](../ShimuraVarieties/README.md) 2.5, 2.7, 2.8 |
 | Arithmetic cone systems and characteristic-zero toroidal charts at arbitrary compact open level; the Hilbert moduli specialization only under its tame hypotheses | ShimuraCompactifications §0.13, §§2.1–2.8; §§8.14–8.15, 8.23–8.25, 8.32–8.38, 8.56 |
-| Cusps and stabilizers of the ramified splitting model at prime-to-`p` level | [AutomorphicBundles](../AutomorphicBundles/README.md) B3.Hilbert.0a |
 | The narrow class group `Cl⁺(R)`, its finiteness, the surjection `Cl⁺ → Cl` and its kernel (the image of the principal ideals, `1 → {±1}²/sgn(R^×) → Cl⁺ → Cl → 1`) | Tau Ceti `NumberField.NarrowClassGroup`, `toClassGroup_surjective`, `toClassGroup_ker`, `instFinite`, `card_eq_card_classGroup_mul_card_ker`; its identification with [GlobalNumberFields](../GlobalNumberFields/README.md) Layer 2's `RayClassGroup (narrowModulus F)` is Tau Ceti's `narrowEquivNarrowClassGroup` |
 | Narrow ray class groups `Cl⁺(𝔪)`; orders `NumberFieldOrder`, `Pic O`, conductors | [GlobalNumberFields](../GlobalNumberFields/README.md) Layer 2, Layer 11 |
 | Class numbers of imaginary quadratic orders `h(𝒪_f) = h(K) f/[𝒪_K^×:𝒪_f^×] ∏_{p∣f}(1 − χ_D(p)/p)` (the case `F = ℚ` of 3.4); `ζ_K(s) = ζ(s)L(s, χ_D)` for quadratic `K` on `Re s > 1` | [ImaginaryQuadraticClassNumber](../ImaginaryQuadraticClassNumber/README.md) H1.3, H1.4, H2.2 |
@@ -264,9 +263,10 @@ under `TauCeti/NumberTheory/HilbertModularSurface/`.
 
 - `NumberField.IsTotallyPositive`, `isTotallyPositive_iff`, `IsTotallyPositive.mul`, `.inv`,
   `isTotallyPositive_sq`, `totallyPositiveUnits`
-  (`TauCeti/NumberTheory/NumberField/TotallyPositive.lean`, lines 71–78, 130, 168): total
+  (`TauCeti/NumberTheory/NumberField/TotallyPositive.lean`, lines 71–78, 96–107, 130): total
   positivity means positivity at every real place; it is vacuous for a totally complex field.
-  Use `totallyPositiveIntegerUnits` for Rˣ, and the range of squaring for the squares in Rˣ.
+  Use `totallyPositiveIntegerUnits` (line 168 of the same file) for Rˣ, and the range of
+  squaring for the squares in Rˣ.
 - `NumberField.NarrowClassGroup`, `NarrowClassGroup.mk`, `toClassGroup`, `toClassGroup_ker`,
   `instFinite`, `card_eq_card_classGroup_mul_card_ker`
   (`TauCeti/NumberTheory/NumberField/NarrowClassGroup`), and `narrowEquivNarrowClassGroup`
@@ -674,13 +674,21 @@ Every cusp of `Γ₀(𝔑)_𝔟`, `Γ₀¹(𝔑)_𝔟`, `Γ₁¹(𝔑)_𝔟`, an
 | `Γ₁¹(𝔑)_𝔟` | `𝔰⁻²𝔟⁻¹(𝔑/𝔐)` | `{v² : v ∈ R^×, v ≡ 1 mod 𝔑𝔐(𝔑 + 𝔐²)⁻¹}` |
 | `Γ₁(𝔑)_𝔟`, `𝔑` squarefree | `𝔰⁻²𝔟⁻¹(𝔑/𝔐)` | `{v ∈ R^×_{>0} : v ≡ ε mod 𝔑/𝔐, some ε ∈ U}` |
 
-with `U = {u ∈ R^× : u ≡ 1 mod 𝔐}`. The last row is for the pinned `Γ₁` (`d ≡ 1`): in the
-stabilizer element `γ⁻¹(v m; 0 1)γ` of Assaf et al. (3.3.10) the lower-right entry is
-`≡ 1 mod 𝔭` at `𝔭 ∣ 𝔐` and `≡ v mod 𝔭` at `𝔭 ∣ 𝔑/𝔐`, so the roles of `𝔐` and `𝔑/𝔐` in `V` are
-those of Assaf et al., Proposition 3.3.8(d), exchanged (their group has `a ≡ 1`); `M` is
-unchanged. For `Γ₁¹` the two forms of `Γ₁` agree, since `ad ≡ 1 mod 𝔑` there. The conjugating matrix is
+with `U = {u ∈ R^× : u ≡ 1 mod 𝔐}`. The conjugating matrix is
 `γ = (λ μ; −c a) ∈ GL₂⁺(F)` with `λ ∈ 𝔰⁻¹`, `μ ∈ 𝔰⁻¹𝔟⁻¹`, `λa + μc = 1`, `det γ = 1`
-(Lemma 3.3.5; van der Geer, Proposition I.1.1). At level one on component `𝔟` the cusp `(1 : 0)`
+(Lemma 3.3.5; van der Geer, Proposition I.1.1), for a representative `(a : c)` with `𝔰`
+coprime to `𝔑` (1.2). The last row is for the pinned `Γ₁` (`d ≡ 1`): the lower-right entry of
+the stabilizer element `γ⁻¹(v m; 0 1)γ` of Assaf et al. (3.3.10) is `1 + μc(v − 1) + acm`.
+At `𝔭 ∣ 𝔐` it is `≡ 1 mod 𝔭` for every choice of `(λ, μ)`, because `c ∈ 𝔭𝔟𝔰` makes `μc` and
+`cm` lie in `𝔭`. At `𝔭 ∣ 𝔑/𝔐` the ideal `c𝔟⁻¹` is a unit, so the pair `(λ, μ)` is first
+normalised by Assaf et al.'s affine change of variables (3.3.11), `(λ, μ) ↦ (λ − xc, μ + xa)`,
+to have `λ ∈ 𝔭𝔰⁻¹`; then `μc = 1 − λa ≡ 1 mod 𝔭`, the lower-left condition `λ(v − 1) − cm ≡ 0`
+becomes `m ∈ 𝔭𝔰⁻²𝔟⁻¹` locally, and the entry is `≡ v mod 𝔭`. (Without the normalisation the
+entry is `1 + μc(v − 1) + acm` with `μc ≡ 1 − λa` depending on `(λ, μ)` when `a` is a unit at
+`𝔭`; the set `V` does not depend on the choice, the sketch does.) So the roles of `𝔐` and
+`𝔑/𝔐` in `V` are those of Assaf et al., Proposition 3.3.8(d), exchanged (their group has
+`a ≡ 1`); `M` is unchanged. For `Γ₁¹` the two forms of `Γ₁` agree, since `ad ≡ 1 mod 𝔑`
+there. At level one on component `𝔟` the cusp `(1 : 0)`
 has `M = 𝔟⁻¹`, `V = R^×_{>0}` (`Γ₀`) or `V = R^{×2}` (`Γ₀¹`). The multiplier ring of `M` is `R`
 in every row, so `U_M^+ = R^×_{>0}`. *Needs:* 1.2, 1.3; §0.3, HilbertModularForms §1.4 (the translation lattice and unit group of a `Γ₀` cusp stabilizer) and the all-level affine construction below (compare ShimuraCompactifications §8.56 in its tame range).
 
@@ -1029,13 +1037,19 @@ The CM dictionary includes:
 
 For `Γ₀¹(𝔑)_𝔟` (and every subgroup of `SL₂(F)` commensurable with it) the order of an elliptic
 point lies in `{2, 3, 4, 5, 6}`: `ℚ(ζ_{2q} + ζ_{2q}⁻¹) ⊆ F` forces `2q ∈ {4, 6, 8, 10, 12}`, with
-`q = 4` only for `D = 8`, `q = 5` only for `D = 5`, `q = 6` only for `D = 12`. For `Γ₀(𝔑)_𝔟` the
-orders lie in `{2, 3, 4, 5, 6, 12}`: the second case of Lemma 4.1.1 adds `q ∈ {2, 4, 6, 12}`
-with `ζ ∈ {−1, ±i, ζ_6^{±1}, ζ_{12}^{±1}, ζ_{12}^{±5}}` and a non-square totally positive unit
-`u`, which exists only when `N(ε) = 1`; `q = 8, 10` cannot occur because `ℚ(√2)` and `ℚ(√5)`
-have `N(ε) = −1`; `q = 12` occurs, for `F = ℚ(√3)` only, through the unit
-`γ = ζ_{12}(1 + i)/(1 + √3) ∈ ℤ[ζ_{12}]^×` of relative norm `ε⁻¹ = 2 − √3`, whose class generates
-`ℤ[ζ_{12}]^×/R^× ≅ ℤ/12`. Hence the LMFDB's per-order counts `nb_ell2, …, nb_ell6` exhaust the
+`q = 4` only for `D = 8`, `q = 5` only for `D = 5`, `q = 6` only for `D = 12` (Assaf et al.,
+Lemma 4.1.1(a), preprint p. 13; van der Geer, Chapter I, §5; Prestel, §8). For `Γ₀(𝔑)_𝔟` the
+orders lie in `{2, 3, 4, 5, 6, 12}`: the second case, Lemma 4.1.1(b) (a generator of
+determinant `u ∉ R^{×2}_{>0}` has `2 ∣ q` and `γ² = uζ` with `ζ + ζ⁻¹ ∈ F`, as in 3.2; the
+lemma's display writes `u⁻¹ζ`, which the Check `γ = (0, −u; 1, 0)`, `γ² = −uI` of 3.2 excludes), adds
+`q ∈ {2, 4, 6, 12}` with `ζ ∈ {−1, ±i, ζ_6^{±1}, ζ_{12}^{±1}, ζ_{12}^{±5}}` and a non-square
+totally positive unit `u`, which exists only when `N(ε) = 1`; `q = 8, 10` cannot occur because
+`ℚ(√2)` and `ℚ(√5)` have `N(ε) = −1`. The order `q = 12` is proved here, not in the sources:
+Lemma 4.1.1(b) bounds `q ≤ 6` in this case too, but for `F = ℚ(√3)` the unit
+`γ = ζ_{12}(1 + i)/(1 + √3) ∈ ℤ[ζ_{12}]^×`, with `γ² = ζ_{12}^5 ε⁻¹` and relative norm
+`ε⁻¹ = 2 − √3`, has projective order `12` and its class generates `ℤ[ζ_{12}]^×/R^× ≅ ℤ/12`, so
+multiplication by `γ` on the `R`-lattice `ℤ[ζ_{12}] ≅ R²` is an elliptic element of
+`Γ₀(1)_R` of order `12`. Hence the LMFDB's per-order counts `nb_ell2, …, nb_ell6` exhaust the
 `sl` surfaces and all `gl` surfaces except those over `ℚ(√3)`, for which the order `12` is also
 recorded here. *Needs:* 3.2; Mathlib cyclotomic fields, 0.1.
 
@@ -2047,7 +2061,9 @@ Dependency graph: `0 → {1, 3}`, `1 → 2`, `{2, 3} → 4`, `5 ∥ {0,…,4}`, 
   G. Molnar, S. Schiavone, J. Voight, *A database of basic numerical invariants of Hilbert
   modular surfaces*, Contemp. Math. 796 (2024), 285–312; arXiv:2301.10302v2, with the author errata to the published article. Cited by section and
   numbered statement: (2.1.4)–(2.1.8), §2.2, Lemma 3.1.2, Lemma 3.1.8, Corollary 3.1.18,
-  Corollary 3.1.23, §3.3 ((3.3.1)–(3.3.4)), Lemma 3.3.5, Proposition 3.3.8, §4.1 and Lemma 4.1.1,
+  Corollary 3.1.23, §3.3 ((3.3.1)–(3.3.4), (3.3.10)–(3.3.11)), Lemma 3.3.5, Proposition 3.3.8,
+  §4.1 and Lemma 4.1.1 (whose part (b) writes `γ² = u⁻¹ζ` for `γ² = uζ` and bounds `q ≤ 6`,
+  omitting the order `12` over `ℚ(√3)`; 3.2–3.3),
   (4.1.4)–(4.1.6), §4.2 ((4.2.2), Proposition 4.2.3), §4.3 ((4.3.1)–(4.3.3), Theorem 4.3.11,
   Corollary 4.3.13, Lemma 4.3.14, Corollary 4.3.15), §4.4 ((4.4.1)), §6 (Theorem 6.2.3, (6.3.1),
   Table 1, Propositions 6.4.1–6.4.2, Theorem 6.5.1, Examples 7.3.1–7.3.4, §7.4).
