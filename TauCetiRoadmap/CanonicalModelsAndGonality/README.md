@@ -131,6 +131,10 @@ Suggested home: `TauCeti/FieldTheory/FunctionField/Gonality/`, `.../LinearSystem
   eigenvalues of `Δ_Γ` in `(0, 1/4)`, so `λ′₁(Γ) ≤ 1/4`; §5.3 the congruence spectral gap
   `λ′₁(Γ) ≥ 21/100` (Luo–Rudnick–Sarnak). 8.3 compares them with this roadmap's `λ₁`; none is
   restated.
+- From [GroebnerGeometry](../GroebnerGeometry/README.md) G4: eventual Hilbert polynomials
+  of finite graded modules over standard polynomial rings, graded sheafification and its
+  large-degree global-section comparison. SchemeAndStackFoundations §2.6 supplies Serre
+  vanishing and §3.3 supplies singular-curve Riemann–Roch.
 - From Mathlib: everything in *What Mathlib supplies*.
 
 ### Not owned here
@@ -339,8 +343,15 @@ For perfect exact constants it is smooth and geometrically integral.
 - AlgebraicTopology Stage 2, item 7 supplies `noRetraction_diskBoundary` for §8.4.
 - MotivesAndAlgebraicCycles §§0.4–0.5 supplies algebraic and numerical equivalence,
   the quotient of rational Chow groups, products and degree for §5.4.
-- SchemeAndStackFoundations §0.20 supplies finite normalization over a field;
-  §§2.6 and 3.3 supply the Hilbert/Euler-characteristic comparison used in §2.7.
+- GroebnerGeometry G4 supplies eventual Hilbert polynomials for finitely generated graded
+  modules over a standard polynomial ring over a field, exact graded sheafification, and
+  agreement of graded pieces with global sections in sufficiently large degree. These
+  contracts apply to the coordinate ring and its finite graded normalization quotient in
+  §§2.3 and 2.7.
+- SchemeAndStackFoundations §0.20 supplies finite normalization over a field; §2.6 supplies
+  Serre vanishing and §3.3 supplies singular-curve Riemann–Roch. Together with
+  GroebnerGeometry G4 these identify the Hilbert polynomial with the Euler characteristic
+  in §2.7.
 
 ## How to read the build
 
@@ -406,7 +417,7 @@ genus-two field is not rational). (e) `gonality k F ≤ 2 · gonality k F₀` fo
 with `[F : F₀] = 2` — a special case of 1.6.
 
 The statements are `gonality_eq_one_iff`, `gonality_le_genus_add_one`,
-`gonality_le_two_mul_genus_sub_two` and `gonality_eq_two_of_genus_eq_two`.
+and `gonality_le_two_mul_genus_sub_two`.
 
 *Needs:* §1.2; Tau Ceti Riemann inequality, canonical degree and rational-field genus.
 
@@ -610,7 +621,7 @@ Pinned function-field and divisor theory; AlgebraicCurves Layers 8, 10 and 12; J
 
 ## Layer 2: linear systems and projective models
 
-Hartshorne II.7, IV.3; Fulton Ch. 8 §8.6 (linear series).
+Hartshorne II.7, IV.3; Fulton Exercise 8.33, p.110 (linear series).
 
 ### 2.1 Model data, their divisors and degrees
 
@@ -643,6 +654,7 @@ The API includes:
 - For `(t³,t,1)` the divisor is `3∞`, degree three, span dimension three, while the complete space has dimension four; completeness fails.
 - For `(t,1,0)` the degree remains one and span dimension is two, so nondegeneracy in `ℙ²` fails.
 - A basis of `L(2∞)` gives the conic model and divisor `2∞`; a basis of `L(∞)` gives the line model and divisor `∞`.
+- On a smooth plane quartic over ℂ, an effective canonical divisor `K` and a point `P` give `L(K+P)=L(K)` of dimension three. The basis model has divisor `K`, since the fixed divisor of `|K+P|` is `P`, although its map is the canonical embedding.
 - For a genus-two canonical divisor, a basis has two elements and index-two ratio field; the generation hypothesis forbids treating it as a birational model.
 
 *Needs:* Tau Ceti divisors and Riemann–Roch spaces; Mathlib `Finsupp`, `Submodule.span`, `Module.Basis`.
@@ -681,7 +693,9 @@ ring `⊕_m L(mD)` are targets here. Prove that `R̃_m = L(mD)` and that the coh
 on `Proj R` is supported at finitely many points. Its Hilbert polynomial is a nonnegative
 constant, which can be positive: its graded pieces need not eventually vanish. Hilbert-polynomial
 existence for finite graded modules and the equality with the Euler characteristic of the
-associated sheaf are the projective cohomology inputs of SchemeAndStackFoundations §2.6.
+associated sheaf use GroebnerGeometry G4's eventual polynomial and graded
+sheafification/global-section comparison, together with SchemeAndStackFoundations §2.6's
+Serre vanishing.
 Combine these with `ℓ(mD) = m·deg D + 1 − g` for large `m`
 (`dim_eq_degree_add_one_sub_genus_of_two_mul_genus_sub_one_le_degree`).
 The image and cohomological comparison are constructed in §2.7 before local delta theory. Birationality of the
@@ -703,7 +717,7 @@ The API includes:
 - For a smooth plane cubic, `3m=m·3+1−1` and geometric genus one, so arithmetic genus one and delta zero.
 - For the cuspidal cubic `k[s³,s²t,t³]`, degree-`m` dimensions are `3m` and `3m+1` in the ring and its normalization; `p_a=1`, `g=0`, and integer delta is one. The conductor cannot kill this persistent difference.
 
-*Needs:* §§2.1–2.2; SchemeAndStackFoundations §0.20, finite normalization, and §2.6, projective Hilbert polynomials; Tau Ceti high-degree Riemann–Roch.
+*Needs:* §§2.1–2.2; GroebnerGeometry G4, eventual Hilbert polynomials and graded sheafification/global-section comparison; SchemeAndStackFoundations §0.20, finite normalization, and §2.6, Serre vanishing; Tau Ceti high-degree Riemann–Roch.
 
 ### 2.4 Base points and very ampleness
 
@@ -725,6 +739,7 @@ The API includes:
 - On `ℙ¹`, `L(∞)` has dimension two and removal of each rational point leaves dimension one: the divisor is base-point-free and very ample.
 - On an elliptic curve, `2O` is base-point-free with two sections but not very ample: a fibre of its degree-two map imposes only one condition.
 - On an elliptic curve, `3O` has three sections and every length-two effective divisor leaves one; it is very ample.
+- On a smooth plane quartic over ℂ, `D=K+P` has `ℓ(D)=ℓ(D−P)=3`; it fails base-point-freeness and very ampleness, even though removing its fixed point gives the canonical embedding.
 - On a genus-two curve, the canonical divisor is base-point-free with two sections but not very ample; a hyperelliptic fibre leaves dimension one instead of zero.
 - The zero divisor on a positive-genus curve is base-point-free (dimensions one and zero) but not very ample; negative-degree divisors have no sections and fail both conditions.
 - A double cover of a pointless conic is tested after finite constant extension: a conjugate hyperelliptic pair violates the two-condition law, even without a rational degree-two pencil over the ground field.
@@ -794,7 +809,8 @@ with `k(C') ≅ F`; `φ_x : X_F → C'` is the normalization (finite, birational
 each place some coordinate attains the defining minimum. Thus every model datum gives this map.
 
 For this image, prove `arithmeticGenus x = h¹(C′,𝒪_C′)`. Its Hilbert polynomial is
-`χ(𝒪_C′(m))` for large `m` by Serre vanishing (SchemeAndStackFoundations §2.6),
+`χ(𝒪_C′(m))` for large `m` by the graded sheafification/global-section comparison
+(GroebnerGeometry G4) and Serre vanishing (SchemeAndStackFoundations §2.6),
 and Riemann–Roch on the integral projective curve gives
 `χ(𝒪_C′(m)) = m·deg C′ + χ(𝒪_C′)` (§3.3).
 Exact constants give `H⁰(C′,𝒪_C′)=k`, so `χ(𝒪_C′)=1−h¹(C′,𝒪_C′)`.
@@ -813,7 +829,7 @@ The API includes:
 - For a smooth cubic, the normalization is an isomorphism and both genera are one.
 - For the cuspidal cubic, the image has `h¹=1` while its normalization has `h¹=0`; the comparison gives arithmetic genus one without assuming smoothness.
 
-*Needs:* §§2.1–2.3; AlgebraicCurves Layer 12, regular model and line-bundle dictionary; SchemeAndStackFoundations §§0.3, 0.20, 2.6, 3.3, Proj, finite normalization, Serre vanishing and singular Riemann–Roch.
+*Needs:* §§2.1–2.3; AlgebraicCurves Layer 12, regular model and line-bundle dictionary; GroebnerGeometry G4, eventual Hilbert polynomials and graded sheafification/global-section comparison; SchemeAndStackFoundations §§0.3, 0.20, 2.6, 3.3, Proj, finite normalization, Serre vanishing and singular Riemann–Roch.
 
 ### Examples
 
@@ -821,7 +837,7 @@ The line, conic and cusp in §§2.1–2.7 distinguish a coordinate map, a birati
 
 ### Dependencies
 
-Pinned homogeneous polynomial and divisor theory; SchemeAndStackFoundations §§0.3, 0.20, 2.6, 3.3; AlgebraicCurves Layer 12. No input from Layers 4 or 9.
+Pinned homogeneous polynomial and divisor theory; GroebnerGeometry G4; SchemeAndStackFoundations §§0.3, 0.20, 2.6, 3.3; AlgebraicCurves Layer 12. No input from Layers 4 or 9.
 
 ## Layer 3: the canonical map, Noether's theorem, canonical models
 
@@ -1840,9 +1856,14 @@ SchemeAndStackFoundations §0.3, §0.11, §2.6, §3.2–3.3; StableReduction Lay
 
 ### 9.1 Closed immersions
 
-For `[PerfectField k]`: `IsVeryAmple D ↔` the morphism `φ` of the complete model of `|D|` is a
-closed immersion (Hartshorne IV.3.1 over `k̄`, the equivalence of injectivity on points and
-tangent vectors with the two-point conditions; descend closed immersions along `k̄ / k`,
+For `hF`, `hex`, `[PerfectField k]` and `IsBasePointFree D`, choose a basis of `L(D)`
+and construct its complete-linear-system morphism `φ_D : X_F → ℙ^{ℓ(D)−1}_k`, with
+`φ_D^* 𝒪(1) ≅ 𝒪(D)`, by the local section evaluation construction of §2.7
+(Fulton, Exercise 8.33(b)–(c), p.110). This construction does not assume that the section
+ratios generate `F`; degree-two pencils are included.
+Prove `IsVeryAmple D ↔ φ_D is a closed immersion` (Hartshorne IV.3.1 over `k̄`,
+separation of points and tangent vectors by the two-point
+conditions; descend closed immersions along `k̄ / k`,
 SchemeAndStackFoundations §0.11). Hence **Noether's theorem in scheme form**: for `g ≥ 3`, the
 canonical morphism `X_F → ℙ^{g−1}_k` is a closed immersion iff `F` is not geometrically
 hyperelliptic, and its image is then the canonical model of 3.3, projectively normal by 3.7; and
@@ -1856,6 +1877,8 @@ models (type `8`) are closed immersions of this kind, by a complete linear syste
 - For `ℙ¹`, `O(1)` gives the identity closed immersion and separates length-two subschemes.
 - For an elliptic curve, `2O` gives a degree-two map and is not a closed immersion; `3O` embeds as a cubic.
 - A genus-two canonical map has degree two, whereas a smooth genus-three plane quartic is its own canonical embedding.
+- On a smooth plane quartic over ℂ, `D=K+P` has degree five and `ℓ(D)=ℓ(D−P)=3`. Its coordinate map after removing the fixed point is the canonical closed immersion, but `D` is not very ample; the base-point-free hypothesis excludes it.
+- For `D=0` on `ℙ¹`, the complete system is base-point-free with one section and gives the constant map to `ℙ⁰`; neither very ampleness nor closed immersion holds.
 
 *Needs:* §§2.4–2.7, 3.4, 3.7; SchemeAndStackFoundations §§0.11, 3.2, descent and line-bundle degree bounds.
 
@@ -2026,7 +2049,8 @@ The examples below distinguish the invariants and name the milestones that repro
 
 - W. Fulton, *Algebraic Curves: An Introduction to Algebraic Geometry*, 2008 ed. — Ch. 7 §7.4
   Theorem 2 (ordinary singularities by quadratic transformations), Ch. 8 §8.3 Proposition 5 and
-  Corollary 1 (the genus of a plane curve with ordinary multiple points), §8.6 (linear series).
+  Corollary 1 (the genus of a plane curve with ordinary multiple points), Exercise 8.33, p.110
+  (linear series).
 
 - R. Hartshorne, *Algebraic Geometry*, GTM 52 — IV.3.1 (very ampleness by two-point conditions),
   IV.5.2 (the canonical embedding of a non-hyperelliptic curve), IV.5.4 (Clifford with equality),

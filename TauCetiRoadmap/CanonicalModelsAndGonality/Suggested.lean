@@ -87,12 +87,6 @@ theorem gonality_le_two_mul_genus_sub_two (hF : IsFunctionField k F)
     gonality k F ≤ 2 * genus k F - 2 := by
   sorry
 
-/-- `README.md`, Layer 1, 1.3(d): every function field of genus two has gonality two, over
-every exact constant field. -/
-theorem gonality_eq_two_of_genus_eq_two (hF : IsFunctionField k F)
-    (hex : IsIntegrallyClosedIn k F) (hg : genus k F = 2) : gonality k F = 2 := by
-  sorry
-
 /-- `README.md`, Layer 1, 1.4. The **index**: the positive generator of the image of the degree
 map on divisors (`sInf` of the positive degrees). -/
 noncomputable def index (k F : Type*) [Field k] [Field F] [Algebra k F] : ℕ :=
