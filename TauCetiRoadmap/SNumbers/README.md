@@ -58,9 +58,9 @@ numbers and their gauges.
   injectivity results are over a `NontriviallyNormedField 𝕜`. Statements that read a norm off
   the closed unit ball (the unit-ball form of `dₙ`, `e₀(T) = ‖T‖`) need dense norm values and
   are stated over `ℝ` and `ℂ`. The strict normalization of `aₙ` and of `dₙ` needs
-  `CompleteSpace 𝕜` (Riesz's lemma on a closed finite-dimensional subspace). Pietsch's
-  lifting identity and the multiplicativity of entropy numbers need a `DenselyNormedField 𝕜`
-  (a rescaling `|c| ↘ ‖A‖`). The Hilbert numbers, everything on Hilbert spaces, the
+  `CompleteSpace 𝕜` (Riesz's lemma on a closed finite-dimensional subspace). The
+  multiplicativity of entropy numbers needs a `DenselyNormedField 𝕜` (a rescaling
+  `|c| ↘ ‖A‖`); Pietsch's lifting identity needs a complete `DenselyNormedField 𝕜`. The Hilbert numbers, everything on Hilbert spaces, the
   projection theorems, the maximal difference theorem, the duality and the examples are over
   `RCLike 𝕜`. Each item below names the field it needs.
 - **One universe.** An s-number family is defined on all pairs of normed spaces in one
@@ -179,7 +179,7 @@ approximation numbers (consumed), and the Gelfand, Kolmogorov, Bernstein and Hil
 - **SN-A09 — Gelfand numbers are strict.** Over any nontrivially normed `𝕜`. (S3) by
   `M' := A⁻¹(M)`, closed, of codimension at most that of `M` by the first isomorphism theorem
   for `π_M ∘ A`; (S4) by `M := ker T`; (S5′) because the inclusion of `M` is an isometry and
-  `codim M ≤ n < rank X` forces `M ≠ 0`. (Pietsch 1974, §2.)
+  `codim M ≤ n < rank X` forces `M ≠ 0`. (Pietsch 1974, §4.)
 - **SN-A10 — Kolmogorov number.** `dₙ(T) := ⨅ {‖V.mkQL ∘L T‖₊ : V ≤ Y, rank V ≤ n}`, the
   infimum over subspaces `V` of dimension at most `n` of the norm of `T` followed by the
   quotient map `π_V : Y → Y ⧸ V`, with the quotient seminorm.
@@ -195,11 +195,14 @@ approximation numbers (consumed), and the Gelfand, Kolmogorov, Bernstein and Hil
 - **SN-A13 — Kolmogorov numbers are strict.** Over a complete `𝕜`: for `rank V ≤ n < rank X`
   the closure of `V` is proper, and Riesz's lemma gives, for every `r < 1`, a vector `x ≠ 0`
   with `dist (x, V) ≥ r ‖x‖`, so `‖π_V‖ = 1` and `dₙ(id_X) = 1`.
-- **SN-A14 — Pietsch's lifting identity.** For complete `X` and every `T : X →L[𝕜] Y`,
+- **SN-A14 — Pietsch's lifting identity.** Over a complete `DenselyNormedField 𝕜`, for
+  complete `X` and every `T : X →L[𝕜] Y`,
   `dₙ(T) = aₙ(T ∘L Q_X)`, where `Q_X : ℓ₁(B_X) → X`, `Q_X α = ∑_{x ∈ B_X} α x • x`, is the
   summation surjection from `lp (fun _ : closedBall (0 : X) 1 => 𝕜) 1`. The inequality
   `dₙ(T) ≤ aₙ(T ∘ Q_X)` takes `V := range L` for a rank-`≤ n` approximant `L`; the reverse
-  lifts near-best points `w_x ∈ V` to `L α := ∑ α x • w_x`.
+  lifts near-best points `w_x ∈ V` to `L α := ∑ α x • w_x`, which converges in the complete
+  space `V`. Check: over `ℚ`, with `X = Y = ℝ` and `T = id`, `d₁(T) = 0` because `ℚ` is dense
+  in `ℝ`, while `a₁(Q_X) = 1`; the completeness of `𝕜` excludes this.
 - **SN-A15 — Pietsch's embedding identity.** Over `RCLike 𝕜`: `cₙ(T) = aₙ(J_Y ∘L T)`, where
   `J_Y : Y → ℓ_∞(B_{Y*})`, `(J_Y y) φ = φ y`, is the canonical metric injection into
   `lp (fun _ : closedBall (0 : StrongDual 𝕜 Y) 1 => 𝕜) ∞`. The inequality `aₙ(J_Y T) ≤ cₙ(T)`:
@@ -388,8 +391,8 @@ this part is over `RCLike 𝕜`.
 - **SN-C18 — Kolmogorov numbers are additive and multiplicative.** Additivity: use `V + W`.
   Multiplicativity: for `V ≤ Y` admissible for `T` and `W ≤ Z` admissible for `S`, use
   `W + S(V)`, of dimension `≤ m + n`: `T x = v + r` with `v ∈ V`, so `S T x = S v + S r`, and
-  `S r` is within `d_m(S) ‖r‖` of `W`. (Pietsch 1974, Theorem 9.5, for `SN-C17` and
-  `SN-C18`.)
+  `S r` is within `d_m(S) ‖r‖` of `W`. (Additivity in `SN-C17` and `SN-C18`: Pietsch 1974,
+  Theorem 9.5; multiplicativity: Lean-SNumbers blueprint, Theorems 3.6 and 3.8.)
 - **SN-C19 — Hilbert numbers are additive.** `h_{m+n}(S + T) ≤ h_m(S) + h_n(T)`, from
   `OI-A17` under the supremum. They are not multiplicative (`SN-E14`).
 - **SN-C20 — Bernstein numbers of the identities between `ℓ₂^N` and `ℓ_∞^N`.** For `n < N`:

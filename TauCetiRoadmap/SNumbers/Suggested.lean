@@ -2,6 +2,8 @@
 Copyright (c) 2026 Mario Ullrich. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
+module
+
 import Mathlib
 
 /-!
@@ -18,21 +20,20 @@ is written out here. Every other sequence is owned by this roadmap.
 
 * the five sequences, the entropy numbers and the determinant quantities;
 * strictness of `a`, `c`, `d`, `b`, the s-number axioms for `h`, injectivity of `c`,
-  surjectivity of `d` (Part A);
+  surjectivity of `d`, Pietsch's lifting and embedding identities (Part A);
 * `sₙ ≤ aₙ`, `hₙ ≤ sₙ`, uniqueness on Hilbert spaces, `sₙ = σₙ` in finite dimension, the
   compactness criteria, `bₙ ≤ cₙ`, `b` the smallest injective strict sequence (Part B);
 * the projection bounds, the sharp and the exponential maximal difference theorem, any two
   sequences within `e (n+1)`, duality, the index laws and the failure of both laws for `b`
   (Part C);
-* the entropy calculus, `e₀ = ‖·‖`, `eₙ > 0`, compactness, and the comparisons with `c`, `d`,
+* the entropy calculus, `eₙ > 0`, compactness, and the comparisons with `c`, `d`,
   `h` and all `s` (Part D);
-* the mixed-exponent diagonal formula, the inclusion `ℓ₁ → ℓ∞` (`hₙ = 1/(n+1)`,
+* the diagonal formulas for equal and for mixed exponents, the inclusion `ℓ₁ → ℓ∞` (`hₙ = 1/(n+1)`,
   `cₙ ≥ 1/2`, the order of the factor `n+1`), the identity of `ℓ₁ᵐ` (two-sided bound), and
   the failure of strictness and multiplicativity for `h` (Part E).
 
-Pietsch's lifting and embedding identities (`SN-A14`, `SN-A15`) are stated in the README
-only: their carriers `ℓ₁(B_X)` and `ℓ∞(B_{Y*})` with the summation and evaluation maps are
-part of those targets.
+The unit-ball form of `dₙ` (`SN-A11`) uses the Mathlib theorem
+`ContinuousLinearMap.sSup_unitClosedBall_eq_nnnorm`.
 -/
 
 noncomputable section
@@ -41,6 +42,8 @@ open scoped NNReal ENNReal
 open Filter Topology
 
 universe u
+
+#check @ContinuousLinearMap.sSup_unitClosedBall_eq_nnnorm
 
 /-! ## The sequences -/
 
@@ -239,12 +242,6 @@ variable {s : SNumberFamily 𝕜}
 variable {X Y : Type u} [NormedAddCommGroup X] [NormedSpace 𝕜 X]
   [NormedAddCommGroup Y] [NormedSpace 𝕜 Y]
 
-/-- Every s-number sequence is bounded by the operator norm.
-
-Roadmap: `SN-A04`. -/
-theorem IsSNumberSequence.le_nnnorm (hs : IsSNumberSequence s) (T : X →L[𝕜] Y) (n : ℕ) :
-    s T n ≤ ‖T‖₊ := sorry
-
 /-- Every s-number sequence is `1`-Lipschitz in the operator at a fixed index.
 
 Roadmap: `SN-A04`. -/
@@ -365,6 +362,18 @@ variable {𝕜 : Type u} [DenselyNormedField 𝕜]
 Roadmap: `SN-D04`. -/
 theorem multiplicative_entropy : Multiplicative (entropy (𝕜 := 𝕜)) := sorry
 
+/-- **Pietsch's lifting identity**: `dₙ(T) = aₙ(T ∘ Q_X)`, where `Q_X : ℓ₁(B_X) → X` is the
+summation map `α ↦ ∑ α x • x` on the closed unit ball `B_X`. It needs a complete scalar field
+and a complete `X`.
+
+Roadmap: `SN-A14`. -/
+theorem kolmogorovNumber_eq_approximationNumber_comp_summation [CompleteSpace 𝕜]
+    {X Y : Type u} [NormedAddCommGroup X] [NormedSpace 𝕜 X] [CompleteSpace X]
+    [NormedAddCommGroup Y] [NormedSpace 𝕜 Y]
+    (Q : lp (fun _ : Metric.closedBall (0 : X) 1 => 𝕜) 1 →L[𝕜] X)
+    (hQ : ∀ α, Q α = ∑' x, α x • (x : X)) (T : X →L[𝕜] Y) (n : ℕ) :
+    T.kolmogorovNumber n = (T ∘L Q).approximationNumber n := sorry
+
 end Densely
 
 section RCLike
@@ -418,6 +427,15 @@ theorem IsSNumberSequence.eq_singularValues {H₁ H₂ : Type u}
     [NormedAddCommGroup H₂] [InnerProductSpace 𝕜 H₂] [FiniteDimensional 𝕜 H₂]
     (hs : IsSNumberSequence s) (T : H₁ →L[𝕜] H₂) (n : ℕ) :
     (s T n : ℝ) = (T : H₁ →ₗ[𝕜] H₂).singularValues n := sorry
+
+/-- **Pietsch's embedding identity**: `cₙ(T) = aₙ(J_Y ∘ T)`, where `J_Y : Y → ℓ∞(B_{Y*})` is
+the evaluation map `y ↦ (φ ↦ φ y)` on the closed unit ball of the dual.
+
+Roadmap: `SN-A15`. -/
+theorem gelfandNumber_eq_approximationNumber_embedding_comp
+    (J : Y →L[𝕜] lp (fun _ : Metric.closedBall (0 : StrongDual 𝕜 Y) 1 => 𝕜) ∞)
+    (hJ : ∀ y φ, J y φ = (φ : StrongDual 𝕜 Y) y) (T : X →L[𝕜] Y) (n : ℕ) :
+    T.gelfandNumber n = (J ∘L T).approximationNumber n := sorry
 
 /-- Compactness through the Kolmogorov numbers, over `ℝ` and `ℂ`.
 
@@ -511,11 +529,6 @@ theorem not_additive_bernstein : ¬ Additive (bernstein (𝕜 := 𝕜)) := sorry
 
 /-! ### Part D -/
 
-/-- Over `ℝ` and `ℂ` one ball of radius `‖T‖` is optimal: `e₀(T) = ‖T‖`.
-
-Roadmap: `SN-D02`. -/
-theorem entropyNumber_zero (T : X →L[𝕜] Y) : T.entropyNumber 0 = ‖T‖₊ := sorry
-
 /-- Entropy numbers fail the rank axiom: they vanish only on the zero operator.
 
 Roadmap: `SN-D05`. -/
@@ -549,6 +562,15 @@ theorem IsSNumberSequence.le_two_exp_mul_entropyNumber (hs : IsSNumberSequence s
     (s T n : ℝ) ≤ 2 * Real.exp 1 * ((n : ℝ) + 1) * T.entropyNumber n := sorry
 
 /-! ### Part E -/
+
+/-- Every strict s-number sequence of a diagonal operator `ℓ_pᵐ → ℓ_pᵐ` with nonincreasing
+`|σ|` is `|σₙ|`.
+
+Roadmap: `SN-E04`. -/
+theorem IsStrictSNumberSequence.apply_diagOp {p : ℝ≥0∞} [Fact (1 ≤ p)]
+    (hs : IsStrictSNumberSequence s) {m n : ℕ} (σ : Fin m → 𝕜)
+    (hσ : Antitone fun i => ‖σ i‖) (hn : n < m) :
+    (s (ContinuousLinearMap.diagOp p p σ) n : ℝ) = ‖σ ⟨n, hn⟩‖ := sorry
 
 /-- The approximation numbers of a diagonal operator `ℓ_qᵐ → ℓ_pᵐ` with `p < q < ∞` and
 nonincreasing `|σ|`: the `ℓ_r` norm of the tail, `1/r = 1/p - 1/q`.
