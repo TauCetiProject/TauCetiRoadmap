@@ -44,9 +44,10 @@ The following headlines are not statable at the pins:
   ClassicalAdicEtaleCohomology.
 * Scholze's Theorem 9.6 and the projective-space/product complete-intersection
   corollaries (§§4.6–4.7) lack the fan-based toric scheme and embedding, set-theoretic
-  complete-intersection and geometric weight–monodromy interfaces, including
-  the arbitrary-field projective-space fan realization supplied by
-  AnalyticToricGeometryPartII.
+  complete-intersection and geometric weight–monodromy interfaces. The
+  projective-space realization of the standard fan schemes (§4.7) lacks the fan
+  scheme over a field, which ShimuraCompactifications supplies; Mathlib's `Proj`
+  alone does not carry it.
 
 Mathlib's scheme cohomology and absolute Galois group alone do not provide these
 constructions or predicates. No abstract proposition is used in their place.
