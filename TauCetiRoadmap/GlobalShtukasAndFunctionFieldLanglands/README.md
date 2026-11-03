@@ -512,14 +512,14 @@ For G = G_m, identify `Bun_{G_m}` with the Picard stack supplied by SchemeAndSta
 **Checks.**
 
 - On P¹/F₃ a line bundle has scalar automorphisms F₃× of order 2, so its stack mass is 1/2; replacing the gerbe by its Picard scheme gives mass 1.
-- The Jacobian of P¹ is trivial; its Lang kernel has order 1. The full Picard group has one class in every integer degree, so its Lang kernel has infinitely many components.
+- The Jacobian of P¹ is trivial; its Lang kernel has order 1. The full Picard group has one class in every integer degree, so its Lang kernel has infinitely many components. Quotienting by a central lattice of degrees dZ, with d≥1, leaves d components: for d=1 there is one, and for d=2 there are two; without the quotient the whole Picard Lang map is not finite.
 - For an elliptic curve, Lang on Pic⁰ has kernel Pic⁰(F_q) and is finite étale; tensoring by a degree-one line bundle changes components and cannot belong to its fixed-degree kernel.
 
 *Remark.* A product decomposition Pic × B G_m needs a chosen trivialization of the gerbe; no canonical product is asserted.
 
 *Remark.* The infinite kernel of the Lang map on the whole Picard scheme must be visible: a statement that is only true on Pic⁰ fails this check.
 
-Source: [LL](#references), Chapter VI §1d, remark after Theorem VI.9, p. 158; §1e, proof of Proposition VI.11, p. 159.
+Source: [LL](#references), Chapter VI, remark after Proposition VI.15(iii), p. 168, for the two-leg rank-one shtuka cover after the central quotient as a pullback of the Picard Lang isogeny; §1d, remark after Theorem VI.9, p. 158, and §1e, proof of Proposition VI.11, p. 159, for rank-one reciprocity. The stack description with arbitrary finite leg data uses the supplied Picard stack and connected Lang theorem below; the two-leg cover alone does not supply that extension.
 
 *Needs:* [§0.1 *Bundles on the global curve*](#01-bundles-on-the-global-curve); [§0.10 *Central lattices and finite quotients*](#010-central-lattices-and-finite-quotients); FunctionFieldArithmetic §0.3 (divisor classes and Picard points over a finite field); AutomorphicLFunctionsAndLocalFactors §AL.3, *Rank-one unramified reciprocity* and *Ramified rank-one curve reciprocity*; JacobianChallenge Layers D and F (the Picard functor, the Jacobian and the Abel–Jacobi map); SchemeAndStackFoundations §3.7 (Picard stacks, gerbes, tensor product and base change); ReductiveGroupsPartII §RG2.3.7, *lang-theorem*, applied to the smooth geometrically connected finite-type group Pic⁰.
 
