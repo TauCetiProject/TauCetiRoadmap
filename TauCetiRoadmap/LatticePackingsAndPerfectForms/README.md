@@ -89,7 +89,7 @@ LMFDB columns (Layers 0, 1, 7, 8), `TauCeti/Analysis/SphericalDesign/` and
   `IsPosDef.minimum_le_rpow_mul_determinant_rpow`
   (`TauCeti/LinearAlgebra/IntegralLattice/PosDef/Hermite.lean`). The remaining integral
   Minkowski, reduction and class-finiteness inputs are consumed from IntegralLattices
-  §§2E–2G, and the E₈ root count from its §6C; they are not new targets here.
+  §§2E–2G, and the E₈ root count from its §6G; they are not new targets here.
 - **From GeometryOfNumbersAndQuadraticArithmetic §4.3**: `polynomialLaplacian`,
   `polynomial_fischer_decomposition`, `polynomial_sphere_harmonic_span`, and
   `fourier_harmonic_gaussian`. Layer 5 adds the Gram-coordinate adapter, the design
@@ -174,9 +174,8 @@ number is `0`, matching Tau Ceti.
 `InnerProductSpace.volume_ball` at radius `1`. For `A` of rank `n ≥ 1` with packing radius
 `ρ(A) = √(min A)/2`: the *center density* is `δ(A) = ρ(A)ⁿ / √(det A)` and the *density* is
 `Δ(A) = Vₙ · δ(A)`. The LMFDB `density` column is `Δ`: `E₈` has `π⁴/384 ≈ 0.25367`, `A₂` has
-`π/√12 ≈ 0.90690`, the Leech lattice has `V₂₄ = π¹²/12! ≈ 0.0019296`. ⚠ The LMFDB knowl
-`lattice.density` writes "minimum `2ρ`"; read literally, with the minimum a norm, that gives
-`π⁴/24 > 1` for `E₈`. The stored values use `ρ = √(min)/2`, and so does this roadmap.
+`π/√12 ≈ 0.90690`, the Leech lattice has `V₂₄ = π¹²/12! ≈ 0.0019296`. For E₈, radius √2/2 gives
+π⁴/384, whereas radius 1 would give π⁴/24 > 1; the square root in ρ = √(min)/2 is essential.
 
 **Hermite invariant and constant.** `γ(A) = min A / (det A)^{1/n}` for `n ≥ 1`; it is invariant
 under similarity, and `δ(A) = (γ(A)/4)^{n/2}`. The LMFDB `hermite` column is `γ`. The Hermite
@@ -205,8 +204,8 @@ when `span_ℤ S(A) = ℤⁿ`; *strongly well-rounded* when `S(A)` contains a `�
 **Spherical designs.** In a real inner product space `E` of dimension `n ≥ 1`, the polynomial
 functions of degree `≤ t` are `Pol_t(E) = span_ℝ {x ↦ ⟪a, x⟫^k | a ∈ E, k ≤ t}`; for `E = ℝⁿ` this is
 the space of polynomials in the coordinates of total degree `≤ t`. The normalized surface measure
-on the sphere `S(r) = sphere 0 r` is `σ_r = (toSphere volume).map (· * r)` divided by its total
-mass, where `toSphere` is Mathlib's `MeasureTheory.Measure.toSphere`. A finite nonempty
+on the sphere `S(r) = sphere 0 r`, for r ≥ 0, is `σ_r = (toSphere volume).map (· * r)` divided by its total
+mass, where `toSphere` is Mathlib's `MeasureTheory.Measure.toSphere`; σ₀ is the point mass at zero. A finite nonempty
 `X ⊆ S(r)` is a *spherical `t`-design* when `(1/#X) ∑_{x ∈ X} f x = ∫ f dσ_r` for every
 `f ∈ Pol_t(E)`. A form `A` is a *`t`-design form* when `S(A) ⊂ FormSpace A` is a `t`-design on
 `S(√(min A))`; it is *strongly perfect* when it is a `4`-design form.
@@ -254,7 +253,7 @@ this roadmap, or on a cited milestone of one of the following roadmaps.
   stored-column certificates.
 - [Completed integral lattices](../../Completed/IntegralLattices/README.md): the carrier
   `TauCeti.IntegralLattice`, isometries, orthogonal sums, scaling, duals, discriminant forms, the
-  rank-one and ADE lattices.
+  rank-one and ADE lattices (Layer 5).
 - [Theta series](../ThetaSeries/README.md): Layer 1 Poisson summation for a full lattice in a real
   inner product space, 2D the real model `realModel` of a positive definite rational lattice and the
   bridge, 2G shells and representation numbers of the real model, 8B `r_{E₈}(2) = 240` and 8D
@@ -313,9 +312,9 @@ dimension formula gives `S_k(SL₂(ℤ)) = 0` for `k < 12` and `dim S₁₂ = 1`
 | realizations: `gram_comp_eq_map_gramMatrix`, `discreteTopology_range`, `covolume_range_sq_eq_determinant` | `…/PosDef/Covolume.lean` | 0.3, 1.5 |
 | `dualCarrier`, `DiscriminantGroup`, `discriminantPairing`, `discriminantQuadraticMap` | `…/Dual/Basic.lean`, `…/Discriminant/{Group,Bilinear,Quadratic}.lean` | 7.5 |
 | `FiniteBilinearModule.Isometry` and the finite quadratic modules of Completed IL Layer 3 | `TauCeti/LinearAlgebra/FiniteBilinearModule/` | 7.5 |
-| `rankOne`, `typeARootLattice`, `checkerboardLattice`, `typeE₈RootLattice`, `d8PlusLattice` | `…/RankOne.lean`, `…/RootLattice/` | 9 (examples) |
+| `rankOne`, `typeARootLattice`, `checkerboardLattice`, `typeE₆RootLattice`, `typeE₇RootLattice`, `typeE₈RootLattice`, `d8PlusLattice` | `…/RankOne.lean`, `…/RootLattice/TypeA/Basic.lean`, `…/RootLattice/TypeD/Basic.lean`, `…/RootLattice/TypeE.lean`, `…/RootLattice/D8Plus/Basic.lean` | 4.10, worked examples |
 | `TauCeti.ModularForm.mvPolynomialEquivModularForms`, the level-one graded ring | `TauCeti/NumberTheory/ModularForms/LevelOne/GradedRing.lean` | 5.6 |
-| `TauCeti.IntegralLattice.successiveMinimum`, Minkowski's theorems, Hermite's inequality, Minkowski reduction, reduced-Gram bounds, class finiteness, `TauCeti.IntegralLattice.kissingNumber_typeE₈RootLattice` | IntegralLattices §§2E–2G and §6C, with intended homes under `TauCeti/LinearAlgebra/IntegralLattice/PosDef/{SuccessiveMinima,Minkowski,Hermite,Reduction,ReducedGram,Classes}.lean` and `…/RootLattice/TypeE/Roots.lean`; cited in prose only | 1.6, 2.3, 1.9, 4.9, 9 |
+| `TauCeti.IntegralLattice.successiveMinimum`, Minkowski's theorems, Hermite's inequality, Minkowski reduction, reduced-Gram bounds, class finiteness, `TauCeti.IntegralLattice.kissingNumber_typeE₈RootLattice` | IntegralLattices §§2E–2G and §6G, with intended homes under `TauCeti/LinearAlgebra/IntegralLattice/PosDef/{SuccessiveMinima,Minkowski,Hermite,Reduction,ReducedGram,Classes}.lean` and `…/RootLattice/TypeE/Roots.lean`; cited in prose only | 1.6, 2.3, 1.9, 4.9, 9 |
 
 ## How to read the build
 
@@ -327,9 +326,9 @@ roadmap.
 
 `Suggested.lean` states the definitions and headline theorems that can be written over Mathlib and
 the pinned Tau Ceti, each docstring naming its milestone. A milestone with no declaration there is
-specified in this README only. In particular the tensor product of lattices (7.1) has no Lean
-declaration, and neither has anything stated about it in 7.1–7.3; those three milestones give the
-definition in prose and end with **Checks**, the tests a formalisation must pass.
+specified in this README only. The bundled tensor product of lattices (7.1) is specified
+in prose; its form-side minimum theorem (7.2) is stated using the reindexed Kronecker
+Gram matrix. The perfect-class counts (4.10) are stated on the similarity quotient.
 
 ## Layer 0: forms, lattices, and the dictionary
 
@@ -365,6 +364,12 @@ API:
 - For A = I₂, the identity fixes A; the shear U = [[1,1],[0,1]] gives [[1,1],[1,2]], determinant 1.
 - For U = [[1,1],[0,1]] and V = Uᵀ, applying U then V gives [[5,3],[3,2]] = (UV)ᵀ(UV), whereas the reverse order gives [[2,3],[3,5]].
 - In rank zero the gcd of the empty entries is 0, so primitive normalization is excluded; [4] normalizes to [1] in rank one.
+- For A = [[2,1],[1,2]], A[e₁,e₂] = 1 and A[e₁+e₂] = 6 = 2+2+2·1;
+  replacing the pairing by the diagonal part would give 0 and break polarization.
+- The form [√2] is positive definite but not integral; [2] is integral but not primitive,
+  and [1] is both. Scaling [2] by 3 gives [6], while scaling by 0 leaves the positive cone.
+- Similarity identifies [2] and [6], whereas congruence in GL₁(ℤ) fixes [2];
+  in rank two I₂ and A₂ are not similar because their kissing numbers are 4 and 6.
 
 *Needs:* M `Matrix.PosDef`, `Matrix.GeneralLinearGroup`, `Matrix.det_mul`, `Int.isUnit_iff`.
 
@@ -479,6 +484,8 @@ API:
 - For A = I₂ and U = [[1,1],[0,1]], both sides of the inverse formula are [[2,−1],[−1,1]]; using U⁻¹ as the right-action matrix gives [[1,−1],[−1,2]].
 - For A = [4], the dual generator 1/4 maps under A to 1 in FormSpace [1/4]; both have squared norm 1/4.
 - The orthogonal sum [2] ⊕ [3] has determinant 6 and evaluates (1,1) to 5; scaling [2] by 3 gives determinant 6.
+- I₂ is self-dual and has determinant 1; diag(1,4) has dual diag(1,1/4),
+  determinant 1/4 and double dual diag(1,4). The empty block sum with [3] is [3].
 
 *Needs:* M `Matrix.PosDef.inv`; TS 2A; L 0.1, 0.3.
 
@@ -626,6 +633,8 @@ API:
 - For diag(1,4), γ = 1/2, δ = 1/8 and Δ = π/8; (γ/4)¹ = 1/8.
 - For [4], γ = 1 and δ = 1/2; (1/4)^(1/2) = 1/2.
 - For I₂ both γ and its dual value are 1, so the Bergé–Martinet invariant is 1; scaling by 4 preserves all three.
+- For diag(1,1,4), γ = 4^(−1/3) and γ of the dual is 4^(−2/3); γ′ = 1/2, excluding a constant-one invariant.
+- A₂ and its dual have γ = 2/√3, so γ′ = 2/√3 > 1.
 
 *Needs:* M `Real.rpow`; L 0.2, 1.4.
 
@@ -753,6 +762,8 @@ API:
 - For I₂, γ = 1 belongs to the range, whereas diag(1,4) gives 1/2; the lower bound 1 is on the supremum.
 - For diag(1,t²), t ≥ 1, γ = 1/t tends to 0; the range has no positive lower bound in rank two.
 - At n = 2 Mordell gives γ₂⁰ = 1 = γ₁¹; at n = 3 it gives γ₃ = 2^(1/3) ≤ γ₂² = 4/3.
+- The critical-form predicate accepts A₂ since γ(A₂) = γ₂ = 2/√3 and every [a], a > 0,
+  since γ([a]) = γ₁ = 1. It rejects I₂ since 1 < 2/√3.
 
 *Needs:* M `sSup`, `Real.rpow`; L 0.5, 1.5, 1.7, 1.8.
 
@@ -769,7 +780,7 @@ form is extreme in the sense of 4.3 (a global maximum is a local one).
 
 API and acceptance statements:
 
-- `exists_hermite_eq_hermiteConstant`: The constant is attained: there is a critical form (Mahler compactness, GoN 4.5.2).
+- `exists_hermite_eq_hermiteConstant`: The constant is attained: there is a critical form (Mahler compactness, GoN 4.5.8).
 
 **Checks.**
 
@@ -845,6 +856,11 @@ API:
 - For [4], the Voronoi interval in coordinates is [−1/2,1/2] and has metric volume 2.
 - For I₂ the cell is the square [−1/2,1/2]² of volume 1.
 - The cell is closed, so the boundary point 1/2 in rank one belongs to two translated cells; these overlaps have measure zero.
+- In ℤ², e₁ is relevant: ±e₁ are the only minimum-norm vectors of its parity coset,
+  and its bisector cuts out the edge x₁ = 1/2. The vector (1,1) is not relevant:
+  its parity coset has four shortest vectors (±1,±1), and its bisector meets the square only at one vertex.
+- For A₂, e₁−e₂ is relevant: its parity coset has exactly ±(e₁−e₂) of norm 2,
+  while ±(e₁+e₂) have norm 6. This distinguishes the relevant set from the coordinate vectors alone.
 
 *Needs:* M `Convex`, `IsCompact`, `IsAddFundamentalDomain`, `ZLattice.covolume`; L 0.3, 1.1.
 
@@ -915,6 +931,9 @@ scope exclusions*).
 - For I₃ the radius is √3/2 and covering density π√3/2.
 - For A₂ the squared covering radius is 2/3 and covering density 2π/√27.
 - For the Leech lattice squared covering radius is 2 and determinant 1, giving covering density 2¹²π¹²/12!.
+- The covering-density range in rank one is {1}, so its infimum is 1; in rank zero
+  the total convention also gives the range {1}. In rank two A₂ contributes
+  2π/√27, so 1 ≤ Θ₂ ≤ 2π/√27; no equality with the value of I₂, π/2, follows.
 
 *Needs:* L 1.4, 3.2; R24 Layer 6 for `Λ₂₄`.
 
@@ -943,7 +962,7 @@ then `A = B` (the linear system `B[x] = min` for `x ∈ S(A)` has the unique sol
 Korkine–Zolotarev bound `kiss A ≥ n(n+1)` for perfect `A` (at least `n(n+1)/2` pairs); and
 **rationality**: a perfect form with `min A = 1` has rational entries (the unique solution of a
 linear system with integer coefficients), so every positive-rank perfect form is similar to a primitive
-integral form (0.1). For n > 0, prove `ℤⁿ` is perfect iff `n = 1` and that `A₂`, `A₃`, `D₄`, `E₈` are
+integral form (0.1; Dutour Sikirić–Schürmann–Vallentin, arXiv:math/0609388v3, §1, p.2). For n > 0, prove `ℤⁿ` is perfect iff `n = 1` and that `A₂`, `A₃`, `D₄`, `E₈` are
 perfect by exhibiting `n(n+1)/2` independent `x xᵀ`.
 
 API and acceptance statements:
@@ -988,6 +1007,9 @@ API:
 - For I₂ the shell outer-product sum is 2I, so the eutaxy coefficient is 1/2 = 2/(4·1).
 - For A₂, Q = [[4,−2],[−2,4]] = 6A⁻¹; coefficient 1/6 equals 2/(6·2).
 - For rank zero every positive coefficient satisfies the empty matrix equation; n/(kiss·min) is 0/0 = 0 and cannot be the asserted positive coefficient.
+- For [[2,1],[1,3]], every shell outer product has second diagonal 0, whereas A⁻¹ has
+  second diagonal 2/5; even nonnegative coefficients cannot give semi-eutaxy.
+  The positive coefficients 1/2 for I₂ and 1/6 for A₂ give semi-eutaxy as well as eutaxy.
 
 *Needs:* M `Matrix.trace`, `Matrix.PosDef.inv`; L 0.5, 1.1.
 
@@ -995,7 +1017,9 @@ API:
 
 Define `IsExtreme A :↔ IsLocalMax hermite A` in `PosDefForm n`. Prove it is a similarity
 invariant and that it is equivalent to `IsLocalMax centerDensity A` and to a local maximum of
-`min` on the hypersurface `det = det A` (1.5). Prove that a critical form (2.1) is extreme.
+`min` on the hypersurface `det = det A` (1.5). Prove that a critical form (2.1) is extreme
+(Dutour Sikirić–Schürmann–Vallentin, arXiv:math/0609388v3, §1, p.2;
+the equivalences follow from the strictly increasing relation `Δ = Vₙ(γ/4)^{n/2}` in positive rank).
 
 API:
 
@@ -1012,14 +1036,15 @@ API:
 
 ### 4.4 Automorphisms and eutaxy
 
-Define Aut A := {U ∈ GL_n(ℤ) | Uᵀ A U = A}, a finite group (it permutes the finite set `S(A)`
-and `S(A)` spans when `A` is well-rounded; for a general `A` use Tau Ceti's
-`IsPosDef.finite_isometry` through 0.2 when `A` is integral and the same finiteness argument on a
-spanning finite shell otherwise). Prove Aut (gramForm hL b) ≅ Isometry L L (IL 2C) for integral
-forms. For n > 0, prove: if Aut A acts irreducibly on `ℝⁿ` then `A` is strongly eutactic.
+Define Aut A := {U ∈ GL_n(ℤ) | Uᵀ A U = A}. Prove it finite: choose C ≥ 0 with
+C ≥ A[eᵢ] for every standard basis vector. The finite sublevel {x ∈ ℤⁿ | A[x] ≤ C}
+contains that basis, and Aut A acts faithfully by permutations on it (1.1).
+This also covers rank zero, when Aut A is the trivial group. Prove Aut (gramForm hL b) ≅ Isometry L L (IL 2C) for integral
+forms. For n > 0, prove: if Aut A acts irreducibly on `ℝⁿ` then `A` is strongly eutactic
+(Venkov, §6, discussion after Definition 6.1, pp.20–21).
 Writing Q = ∑ x xᵀ, invariance gives UQUᵀ = Q and UᵀAU = A. Thus QA, not Q,
 commutes with U. The A-self-adjoint endomorphism QA has invariant eigenspaces, so real
-irreducibility makes QA a scalar identity and Q a multiple of A⁻¹. Prove and
+irreducibility makes QA a scalar identity and Q a multiple of A⁻¹. Prove
 `∑_{x ∈ S(A)} ⟪v, x⟫_A² = (kiss A · min A / n) ⟪v, v⟫_A` for all `v`.
 
 API:
@@ -1032,12 +1057,18 @@ API:
 - For A₂, Q = [[4,−2],[−2,4]] and A = [[2,1],[1,2]] give QA = 6I.
 - With U = [[−1,−1],[0,1]], UQ = [[−2,−2],[−2,4]] and QU = [[−4,−6],[2,6]]; these differ while UQA = QAU.
 - For I₂, Q = 2I and the moment sum at v = e₁ is 2 = (4·1/2)·1.
+- For A = [[1,√2/10],[√2/10,√3]], det A = √3 − 1/50 > 0.
+  Independence of 1, √2, √3 over ℚ makes each nonzero norm shell a pair {±x},
+  of span dimension 1. The sublevel A[x] ≤ √3 is {0,±e₁,±e₂}, of span dimension 2;
+  it gives a faithful permutation action even though no shell spans.
+- For [a], a > 0, Aut A = {±1} has order 2; in rank zero its order is 1.
 
 *Needs:* T `IsPosDef.finite_isometry`; IL 2C; L 0.2, 1.1, 4.2.
 
 ### 4.5 Voronoi's theorem
 
-Prove **extreme ⇔ perfect ∧ eutactic** (Voronoi 1908; Martinet, Ch. 3, §3.4; Schürmann, Ch. 3):
+Prove **extreme ⇔ perfect ∧ eutactic** (Ash, §4, Corollary, p.1052;
+Dutour Sikirić–Schürmann–Vallentin, arXiv:math/0609388v3, §1, p.2):
 - *perfect ∧ eutactic ⇒ extreme.* For a symmetric `H` small, `min (A + H) ≤ min A + min_{x ∈ S(A)} H[x]`
   by minimality of a near-minimal vector, while `det (A + H) = det A (1 + tr(A⁻¹H) + O(‖H‖²))`;
   eutaxy writes `tr(A⁻¹H) = ∑ c_x H[x]`, a positive combination of the `H[x]` whose weights
@@ -1092,8 +1123,7 @@ API and acceptance statements:
 
 ### 4.7 Finiteness of eutactic forms up to similarity
 
-Prove that the eutactic forms of rank `n` fall into finitely many similarity classes (Ash 1977;
-Bergé–Martinet; Martinet, Ch. 9). Prerequisites made explicit: eutaxy is the condition that `A⁻¹`
+Prove that the eutactic forms of rank `n` fall into finitely many similarity classes (Ash, §4, Theorem 3, p.1052). Prerequisites made explicit: eutaxy is the condition that `A⁻¹`
 lies in the cone of the `x xᵀ`, the first-order (Karush–Kuhn–Tucker) condition for `A` to be a
 critical point of `hermite` on `det = 1` (4.5's analysis); well-rounded forms with `det = 1` are
 compact modulo `GL_n(ℤ)` (GoN 4.5.8, as in 2.2); and on each stratum `{A | S(A) = S}` the critical
@@ -1145,6 +1175,17 @@ API:
 - For P = [1], N = [1], the zero span has dimension 0 = dim Sym₁ − 1; the admissible step set is {0}, so ρ = 0.
 - For P = [2], N = [1], the preserved level is 2 and the step is again 0; a minimum-one formula has an empty admissible set.
 - At rank zero the Ryshkov set is the singleton empty matrix, whose minimum is 0; the minimum-one vertex characterization excludes this case.
+- For P = A₂ = [[2,1],[1,2]] and N = [[0,−1],[−1,0]], the zero shell vectors
+  ±e₁, ±e₂ have outer-product span dimension 2 = dim Sym₂ − 1.
+  The admissible interval is [0,2], so ρ = 2 and the neighbour is [[2,−1],[−1,2]],
+  of determinant 3 and minimum 2, with new minimal vectors ±(1,1).
+  Returning P would miss these vectors; N replaced by 2N has step 1 and the same endpoint.
+- For that P, N = I₂ is not a facet normal: its zero shell is empty and has span dimension 0, not 2.
+- In rank two, I₂ is in the Ryshkov set but is not a vertex (active span dimension 2 < 3);
+  A₂/2 is a vertex (dimension 3), whereas I₂/2 is outside since its minimum is 1/2.
+- The Voronoi domain of A₂ is generated by e₁e₁ᵀ, e₂e₂ᵀ and (e₁−e₂)(e₁−e₂)ᵀ.
+  It contains I₂ on its boundary and A₂⁻¹ in its interior with all three coefficients 1/3;
+  A₂ itself is outside, since the generators have nonpositive off-diagonal entries.
 
 *Needs:* M `Convex`, `ConvexCone`, `IsClosed`; L 1.1, 4.1, 4.6.
 
@@ -1161,12 +1202,17 @@ Prove the finite classifications in ranks 4–8 up to similarity, with respectiv
 γ₄⁴ = 4, γ₅⁵ = 8, γ₆⁶ = 64/3, γ₇⁷ = 64 and γ₈⁸ = 256.
 The critical forms are uniquely D₄, D₅, E₆, E₇ and E₈ up to similarity; rank-three uniqueness
 is A₃. These are mathematical classification and extremal-value targets, not enumeration
-procedures or executable certificates (Dutour Sikirić–Schürmann–Vallentin, §1, Table 1;
-Martinet, Chapters 2–3).
+procedures (Dutour Sikirić–Schürmann–Vallentin, arXiv:math/0609388v3,
+§1, Table 1 and Theorem 1.1, p.3).
 
 API and acceptance statements:
 
-- `hermiteConstant_four_pow`: `γ₄⁴ = 4`, `γ₅⁵ = 8`, `γ₆⁶ = 64/3`, `γ₇⁷ = 64`, `γ₈⁸ = 256`, by the perfect-form certificates (Korkine–Zolotarev; Blichfeldt).
+- `hermiteConstant_four_pow`: `γ₄⁴ = 4`, `γ₅⁵ = 8`, `γ₆⁶ = 64/3`, `γ₇⁷ = 64`, `γ₈⁸ = 256`, by the perfect-form classification (Korkine–Zolotarev; Blichfeldt).
+- `card_perfect_quotient_four`: There are 2 perfect similarity classes in rank 4.
+- `card_perfect_quotient_five`: There are 3 perfect similarity classes in rank 5.
+- `card_perfect_quotient_six`: There are 7 perfect similarity classes in rank 6.
+- `card_perfect_quotient_seven`: There are 33 perfect similarity classes in rank 7.
+- `card_perfect_quotient_eight`: There are 10916 perfect similarity classes in rank 8.
 - `hermiteConstant_five_pow`: The sharp rank-five Hermite value, attained by D₅.
 - `hermiteConstant_six_pow`: The sharp rank-six Hermite value, attained by E₆.
 - `hermiteConstant_seven_pow`: The sharp rank-seven Hermite value, attained by E₇.
@@ -1179,7 +1225,7 @@ API and acceptance statements:
 - D₅, E₆ and E₇ have minimum 2 and determinants 4, 3 and 2, so γⁿ is respectively
   32/4 = 8, 64/3 and 128/2 = 64.
 
-*Needs:* Layers 2.2, 4.5, 4.6 and 4.9; IntegralLattices §§6A–6C for the root lattices.
+*Needs:* Layers 2.2, 4.5, 4.6 and 4.9; Completed/IntegralLattices Layer 5 for the root lattices, with the pinned ADE modules in the supplier contract.
 
 ### 4.11 The Leech upper bound and γ₂₄ = 4
 
@@ -1196,7 +1242,8 @@ radial Fourier eigenfunctions of signs +1 and −1 defined by the modular contou
 their Schwartz estimates and removable singularities, and the sign inequalities for their
 specified linear combination. These are analytic identities and inequalities, including
 the bounds on their Fourier expansions used to prove the signs, not numerical verification
-procedures (Cohn–Kumar–Miller–Radchenko–Viazovska, §§2–4, pp.1020–1031).
+procedures (Cohn–Kumar–Miller–Radchenko–Viazovska, arXiv:1603.06518v4,
+§§2–4 and Appendix A, pp.1020–1032).
 This gives center density ≤ 1, hence γ₂₄ ≤ 4. The Leech lattice of
 Rank24LatticeConstructions Layer 6 has minimum 4 and determinant 1, so it attains equality.
 Prove `hermiteConstant_twentyFour`. The external sphere-packing formalization is provenance,
@@ -1250,9 +1297,9 @@ The local Checks above and the worked examples below fix the normalizations used
 In a real inner product space `E` with `finrank ℝ E = n ≥ 1`: define `Pol_t E` as in the
 conventions, prove it is finite-dimensional and, under an orthonormal basis, is the image of
 `MvPolynomial.restrictTotalDegree ℝ t` under evaluation, so that `Pol_t E` is `O(E)`-invariant and
-`Pol_s E ≤ Pol_t E` for `s ≤ t`. Define the normalized sphere measure `σ_r` on `sphere 0 r` and prove
+`Pol_s E ≤ Pol_t E` for `s ≤ t`. For r ≥ 0 define the normalized sphere measure `σ_r` on `sphere 0 r`, with σ₀ the point mass at zero, and prove
 it is a probability measure, invariant under every linear isometry of `E`
-(`LinearIsometryEquiv.measurePreserving` and the definition of `toSphere`), Define `IsSphericalDesign t X r` for a finite nonempty `X ⊆ sphere 0 r`, prove
+(`LinearIsometryEquiv.measurePreserving` and the definition of `toSphere`). Define `IsSphericalDesign t X r` for a finite nonempty `X ⊆ sphere 0 r`, prove
 it is invariant under isometries, under `X ↦ −X`, and that a `t`-design is an `s`-design for
 `s ≤ t`; prove the antipodal case `X = −X` is automatically an odd-degree design in one more degree
 (`2k`-design and antipodal ⇒ `(2k+1)`-design: odd polynomials have zero average on both sides).
@@ -1271,13 +1318,19 @@ API:
 - On the rank-one sphere {−1,1}, the uniform average of x is 0 and of x² is 1, equal to the sphere averages.
 - The singleton {1} has average x = 1, not 0, so fails degree one.
 - The empty set is rejected even though many empty sums are 0; nonemptiness is part of the definition.
+- In E = ℝ, σ₁ assigns mass 1/2 to each of −1 and 1, with total sphere mass 1;
+  σ₀ assigns mass 1 to {0}. At r = −1 the sphere is empty and has mass 0
+  under the scaled unit-sphere probability, so the support assertion excludes negative r.
+- On ℝ, Pol₀ consists of constants, Pol₁ has basis 1,x, and Pol₂ has basis 1,x,x²;
+  their dimensions are 1,2,3. Values of x at 0,1 differ, excluding x from Pol₀;
+  x² has second difference 2 at 0,1,2, excluding it from Pol₁.
 
 *Needs:* M `Measure.toSphere`, `LinearIsometryEquiv.measurePreserving`, `MvPolynomial.restrictTotalDegree`, `OrthonormalBasis`; L none.
 
 ### 5.2 The moment criterion
 
 Prove (Venkov, *Réseaux et designs sphériques*, §3; Goethals–Seidel): a finite nonempty antipodal
-`X ⊆ sphere 0 r` is a `(2k+1)`-design iff for every `j ≤ k` and every `a ∈ E`,
+`X ⊆ sphere 0 r`, with r > 0, is a `(2k+1)`-design iff for every `j ≤ k` and every `a ∈ E`,
 `∑_{x ∈ X} ⟪a, x⟫^{2j} = c_j · #X · r^{2j} · ‖a‖^{2j}` with
 `c_j = (1·3·⋯·(2j−1)) / (n(n+2)⋯(n+2j−2))`. The constants are the sphere moments
 `∫ ⟪a, x⟫^{2j} dσ_r`, computed from `toSphere` and the Gamma function (`Real.Gamma`), and the
@@ -1376,7 +1429,8 @@ At τ = i the phase is (−i)^d, giving −i for d = 1 and −1 for d = 2.
 - At τ = i and d = 2, it is −1; the opposite Fourier phase would give the wrong odd-degree sign.
 - For real s = 4, n = 2 and d = 0, the prefactor is s⁻¹ = 1/4; a complex substitution in a real integral is not used.
 
-*Needs:* M `SchwartzMap.fourierTransformCLM`; TS `gaussian`, `fourier_gaussian`; L 5.4.
+*Needs:* GeometryOfNumbersAndQuadraticArithmetic §4.3 `fourier_harmonic_gaussian`;
+M `SchwartzMap.fourierTransformCLM`; TS Layer 1 `gaussian`, `fourier_gaussian`; L 5.4.
 
 ### 5.6 Theta series with harmonic coefficients
 
@@ -1387,8 +1441,9 @@ summability with a polynomial weight), holomorphy, the `q`-expansion
 `Θ_{L,P} = ∑_m (∑_{x : A[x] = 2m} P(x)) q^m`, and **Hecke's theorem**: for `d > 0`, `Θ_{L,P}` is a
 cusp form of weight `k + d` for `SL₂(ℤ)` (Venkov, Theorem 16.1, p.59; Poisson summation, TS Layer 1, with 5.5; the constant
 term vanishes because `P(0) = 0`; the `T`-law is immediate from evenness). Construct it as a Mathlib
-`CuspForm 𝒮ℒ (k + d)`. For `d = 0` this is Theta Series' `Θ_L ∈ M_k(SL₂(ℤ))` (its Layer 5), which
-is cited and not reproved.
+`CuspForm 𝒮ℒ (k + d)`. For d = 0 the polynomial is constant, say P = c, and
+`Θ_{L,c} = c · Θ_L` by linearity. In particular P = 1 recovers Theta Series'
+Θ_L ∈ M_k(SL₂(ℤ)) (its Layer 5).
 
 API and acceptance statements:
 
@@ -1405,6 +1460,8 @@ API:
 
 - For odd-degree P, x and −x cancel, giving theta coefficient 0 on every shell.
 - For constant P = 1 the zero vector contributes 1, so the theta series is not cuspidal; d > 0 excludes it.
+- For P = 2 on E₈, the constant coefficient is 2 = 2·1 and the norm-two coefficient
+  is 480 = 2·240; for P = 0 both are 0. Degree zero alone does not normalize P to 1.
 - For E₈, P = X₀² − 2X₇² is Gram harmonic, its first shell sum is 0, and the weight-six cusp space has dimension 0.
 
 *Needs:* TS Layer 1 `poissonSummation`, Layer 5; M `CuspForm`; IL 6C (`E₈` even unimodular); L 0.3, 5.4, 5.5.
@@ -1418,7 +1475,7 @@ odd homogeneous degrees cancel under x ↦ −x. For even d with 0 < d ≤ t, th
 `q`-expansion starting at `q^{m+1}`; the space `S_{k+d}(SL₂(ℤ))` has dimension `⌊(k+d)/12⌋ − 1`
 or `⌊(k+d)/12⌋` and every nonzero cusp form in it has order of vanishing at most that dimension at
 `∞` (`Δ^{dim} · M_{k+d−12 dim}` structure from Mathlib's `discriminantEquiv` and the graded ring),
-which is `< m + 1` exactly in the stated range of `d`; so `Θ_{L,P} = 0` and every shell sum of `P`
+which is `< m + 1` throughout the stated range of `d`; so `Θ_{L,P} = 0` and every shell sum of `P`
 vanishes, which is 5.4's criterion. Corollaries: the `240` roots of `E₈` are a `7`-design, the
 `196560` minimal vectors of `Λ₂₄` an `11`-design, and every extremal even unimodular lattice of
 rank `24m + 8r` is strongly perfect when `t ≥ 4` (so for `r ∈ {0, 1}`), hence extreme (5.3, 4.5).
@@ -1433,6 +1490,10 @@ API and acceptance statements:
 - For E₈, n = 8 means m = 0, r = 1 and t = 7.
 - For E₈ ⊕ E₈, n = 16 gives m = 0, r = 2 and t = 3; it does not assert a 4-design.
 - For the Leech lattice, n = 24 gives m = 1, r = 0, min = 4 and t = 11.
+- At n = 24 the even degrees d = 2,4,6,8,10 give cusp dimensions 0,1,1,1,1,
+  all less than m+1 = 2. Degree 14 also gives dim S₂₆ = dim M₁₄ = 1 < 2,
+  while degree 12 gives dim S₂₄ = 2; the extra isolated vanishing does not give a 14-design
+  (Venkov, Remark 16.5, p.61).
 
 *Needs:* M `CuspForm.rank_eq_zero_of_weight_lt_twelve`, `discriminantEquiv`; T `mvPolynomialEquivModularForms`; TS 8B, 8D; R24 Layer 6; IL 6C, 6D; L 5.3, 5.4, 5.6.
 
@@ -1448,7 +1509,7 @@ The local Checks above and the worked examples below fix the normalizations used
 | 5.2 | M `Real.Gamma`, `integral` over `toSphere`; L 5.1 |
 | 5.3 | L 1.1, 4.1, 4.2, 4.4, 4.5, 5.2; examples via 5.7 and 9 |
 | 5.4 | M `MvPolynomial.pderiv`, `MvPolynomial.homogeneousSubmodule`; L 5.1 |
-| 5.5 | M `SchwartzMap.fourierTransformCLM`; TS `gaussian`, `fourier_gaussian`; L 5.4 |
+| 5.5 | GoN §4.3 `fourier_harmonic_gaussian`; M `SchwartzMap.fourierTransformCLM`; TS Layer 1 `gaussian`, `fourier_gaussian`; L 5.4 |
 | 5.6 | TS Layer 1 `poissonSummation`, Layer 5; M `CuspForm`; IL 6C (`E₈` even unimodular); L 0.3, 5.4, 5.5 |
 | 5.7 | M `CuspForm.rank_eq_zero_of_weight_lt_twelve`, `discriminantEquiv`; T `mvPolynomialEquivModularForms`; TS 8B, 8D; R24 Layer 6; IL 6C, 6D; L 5.3, 5.4, 5.6 |
 
@@ -1458,8 +1519,9 @@ The local Checks above and the worked examples below fix the normalizations used
 
 For `hL : L.IsPosDef`, define `Represents L m :↔ L.representationNumber m ≠ 0` for `m : ℕ` and
 `IsUniversal L :↔ ∀ m ≥ 1, Represents L m`; for even `L` define `RepresentsHalf L m :↔
-L.representationNumber (2m) ≠ 0` and `IsHalfUniversal L`. Prove `Represents` is decidable in
-principle (`vectorsOfNorm` finite, 1.1's box bound), monotone under sublattices
+L.representationNumber (2m) ≠ 0` and `IsHalfUniversal L`. Prove representation is equivalent
+to the existence of a vector of the specified norm, using finiteness of vectors of that norm;
+it is monotone under sublattices
 (`L ≤ L'` of the same form ⇒ `Represents L m → Represents L' m`) and orthogonal sums
 (`Represents L a → Represents M b → Represents (L ⊕ M) (a + b)`), and that a universal lattice has
 `min L = 1`, hence a vector of norm `1`, hence `L ≅ ⟨1⟩ ⊕ L'` (IL 0F's splitting of a unimodular
@@ -1484,6 +1546,8 @@ API:
 - The residues of three squares modulo 8 exclude 7, so ℤ³ is not universal.
 - ℤ⁴ represents 7 as 4 + 1 + 1 + 1 and is universal by the four-square theorem.
 - For A₂, norm 2 is represented and norm 1 is not; half-norm 1 is represented but half-norm 2 is not.
+- Gram 2I₄ is half-norm universal and has minimum 2, so it is not norm universal;
+  Gram [2] represents half-norm 1 but not 2 and is not half-norm universal.
 
 *Needs:* T `representationNumber`, `IsPosDef.finite_vectorsOfNorm`; M `Nat.sum_four_squares`; IL 0F; GQF 6.1; L 1.1, 1.2.
 
@@ -1511,20 +1575,24 @@ API:
 - For L = 2ℤ⁴ in ℤ⁴, min = 4 and truant = 1; adjoining e₁ preserves rank 4 and gives index 2 over L.
 - For Gram [1], truant = 2, and adjoining an orthogonal vector of norm 2 gives rank two with Gram diag(1,2).
 - The zero lattice has truant 1; its escalation has Gram [1], showing the initial step from rank zero.
+- Esc₀ has the single class [1]. Esc₁ has the two classes I₂ and diag(1,2), from pairings
+  1 and 0 with an adjoined norm-two vector; their determinants 1 and 2 distinguish them.
+  Esc₂ has nine ternary classes (Bhargava, §3, p.28); adjoining a norm-four vector
+  to [1] is not escalation by its truant 2.
 
 *Needs:* T `ofGramMatrix`, `IsPosDef`; L 1.1, 6.1.
 
 ### 6.3 The 15 theorem
 
 State `isUniversal_iff_fifteen`: a positive definite integral lattice is universal iff
-it represents 1, 2, 3, 5, 6, 7, 10, 14, 15 (Bhargava, Theorem 1, p.27).
+it represents 1, 2, 3, 5, 6, 7, 10, 14, 15 (Bhargava, §6(ii), p.31).
 A route is the classification of the escalations of §6.2, allowing same-rank extensions,
 and universality of the resulting terminal lattices. Develop the representation argument
 using ternary sublattices T and orthogonal lines: identify which integers are represented
 by T through its genus and local conditions, and prove that subtracting an appropriate
-line norm puts each integer into that represented set (Bhargava, §§3–5, pp.28–36).
+line norm puts each integer into that represented set (Bhargava, §§3–5, pp.28–31).
 The nine test integers are minimal: for each omitted integer c construct a lattice
-representing the other eight but not c (Bhargava, §5, p.36).
+representing the other eight but not c (Bhargava, §6(iii), p.31).
 
 *Needs:* Layers 6.1–6.2; IntegralLattices §4A (genera); GlobalQuadraticForms §6.1.
 
@@ -1597,7 +1665,10 @@ product `G₁ ⊗ₖ G₂`, hence `det (L₁ ⊗ L₂) = (det L₁)^{rank L₂} 
 (`Matrix.det_kronecker`); positive definite if both factors are; even if one factor is even;
 `⟨1⟩ ⊗ L ≅ L`; commutativity and associativity up to isometry; functoriality in isometries; and
 `(L₁ ⊗ L₂)^∨ = L₁^∨ ⊗ L₂^∨` with `A_{L₁ ⊗ L₂}` of order `det`. Define the form-side Kronecker
-product `A ⊗ₖ B ∈ PosDefForm (n₁ n₂)` and prove it is `gramForm` of the tensor product.
+product `A ⊗ₖ B ∈ PosDefForm (n₁ n₂)` and prove it is `gramForm` of the tensor product
+(Coulangeon–Nebe, arXiv:1201.1832v1, §2, p.2, for the Euclidean tensor pairing;
+rank, Gram, determinant and dual laws follow on product bases from
+`Basis.tensorProduct`, `LinearMap.BilinForm.tensorDistrib_tmul` and `Matrix.det_kronecker`).
 
 API:
 
@@ -1624,11 +1695,16 @@ Prove `min (L₁ ⊗ L₂) ≤ min L₁ · min L₂` (a pure tensor of minimal v
 nonzero `w ∈ L₂` the sublattice `L₁ ⊗ ℤw` is isometric to `L₁` scaled by `B₂(w, w) > 0` (both factors positive definite), and that for pairwise
 orthogonal nonzero `w₁, …, wₖ ∈ L₂` these sublattices are mutually orthogonal (so `L₁ ⊗ L₂ ⊇ ⊕ᵢ L₁^{(B₂(wᵢ,wᵢ))}`;
 for a non-orthogonal basis they are not). State **Kitaoka's
-theorem** (Kitaoka, *Arithmetic of Quadratic Forms*, Ch. 7): if `rank L₁ ≤ 43` then
+theorem**: if `rank L₁ ≤ 43` then
 `min (L₁ ⊗ L₂) = min L₁ · min L₂`, with the rank-`1` and rank-`2` cases proved here (rank `1` is
 0.5's scaling; rank `2` by Minkowski reduction of `L₁` and a direct estimate), and the general
-statement a milestone whose proof follows Kitaoka. Record that the equality fails in general
-(Steinberg's example; Coulangeon), so the inequality is the only unconditional statement.
+statement a milestone whose proof follows Kitaoka. The same equality holds for positive definite
+real forms: `min_tensor_kitaoka` states C.min = A.min · B.min for A of rank n ≤ 43,
+B of arbitrary rank m, and C whose Gram matrix is A ⊗ₖ B reindexed by
+`finProdFinEquiv`. Integrality is unnecessary (Coulangeon–Nebe, arXiv:1201.1832v1,
+§2, proof of Corollary 2.3, p.3, citing Kitaoka, Theorem 7.1.1: minimal vectors are pure tensors).
+The zero-rank case follows from min = 0. Equality fails without a rank restriction
+(Coulangeon–Nebe, Remark 2.4(1), p.3), so the inequality is the only unconditional statement.
 
 API:
 
@@ -1641,6 +1717,9 @@ API:
   pure tensors `x ⊗ y`, `x, y ∈ S(A₂)`, counted once each since `x ⊗ y = (−x) ⊗ (−y)` (`36/2`).
 - For w = 0 the tensor sublattice has rank zero, while scaling a rank-one carrier by zero leaves rank one; this vector is excluded. For w = 2 in Gram [1], the tensor sublattice and scaled lattice both have Gram [4].
 - (rank one) — `⟨m⟩ ⊗ L` is `L` scaled by `m` (0.5), so `min (⟨2⟩ ⊗ A₂) = 4`.
+- For real forms [√2] and [3], the product has minimum 3√2 = √2·3;
+  integrality is not needed. An empty factor gives minimum 0 = 0·min B.
+- Taking A = B = [2] but C = [1] gives 1 ≠ 4; the Kronecker Gram equality excludes this unrelated C.
 - (no unconditional equality) — the inequality `min (L₁ ⊗ L₂) ≤ min L₁ · min L₂` carries no rank
   hypothesis; equality is stated only under `rank L₁ ≤ 43`.
 
@@ -1695,6 +1774,10 @@ API:
 - For Gram [8], the bilinear isometry group has four elements, but the quadratic group has two.
 - For Gram [12], the quadratic group has four elements and the lattice image has two.
 - A unimodular lattice has a one-element discriminant module and trivial action; its index is 1.
+- On the discriminant of 2I₃, let f and g permute coordinates by (12) and (23).
+  Then (f·g)(e₁/2) = e₂/2, but (g·f)(e₁/2) = e₃/2; both induced maps use this
+  composition order. Identity fixes all eight classes and f² fixes each class.
+  The quadratic value of each eᵢ/2 is 1/4, with polar self-pairing 1/2 modulo ℤ.
 
 *Needs:* Tau Ceti Discriminant/Bilinear and Discriminant/Quadratic; IntegralLattices §§1C–1D, 1G.
 
@@ -1705,7 +1788,7 @@ invariant, `1` when `A_L` is trivial (unimodular `L`), and `1` whenever `O(D_L) 
 `−1 ∈ O(L)` maps to `−1`), which covers `A₂` (`O(ℤ/3, q) = {±1}`). Prove the rank-one formula: for a lattice with a singleton integral basis of Gram entry
 m ≥ 3, `O(⟨m⟩) = {±1}` maps onto `{±1} ⊂ (ℤ/m)^×`, and `O(D_⟨m⟩)` is `{u ∈ (ℤ/m)^× | u² ≡ 1 (mod m)}`
 when `m` is odd (the lattice is odd; `b_L(x,y) = xy/m`) and `{u | u² ≡ 1 (mod 2m)}` when `m` is even
-(the lattice is even; `q_L(x) = x²/m mod 2`), so `fvIndex ⟨m⟩` is half the number of those `u`:
+(the lattice is even; `q_L(x) = x²/(2m) mod ℤ`), so `fvIndex ⟨m⟩` is half the number of those `u`:
 The Lean theorem `fvIndex_rankOne` uses that singleton basis and its Gram entry;
 Tau Ceti's `rankOne m` instead has Gram entry 2m. In Gram-entry notation, `fvIndex ⟨5⟩ = fvIndex ⟨8⟩ = 1`, `fvIndex ⟨12⟩ = fvIndex ⟨15⟩ = 2`. Record that the bilinear and
 quadratic groups differ: for `⟨8⟩` the group `O(ℤ/8, b)` has order `4` while `O(ℤ/8, q) = {±1}`, so
@@ -1720,7 +1803,9 @@ API:
 
 **Checks.**
 
-- For Gram [8], u² = 1 modulo 16 leaves residues 1,7, so the index is 2/2 = 1.
+- For Gram [8], the generator e/8 has norm 1/8 and quadratic value 1/16 modulo ℤ.
+  The condition u² = 1 modulo 16 leaves residues 1,7, so the index is 2/2 = 1;
+  u = 3 has q(3e/8) = 9/16 ≠ 1/16 despite preserving the bilinear form.
 - For Gram [12], the four residues 1,5,7,11 square to 1 modulo 24, so the index is 4/2 = 2.
 - For Gram [15], residues 1,4,11,14 give index 2; native rankOne 15 instead has Gram [30] and is not the same input.
 
@@ -1773,7 +1858,7 @@ design strength of `S(L)`.
 | `A₂` (`2.3.3.1.1`) | `2, 3, 2, 6, 12` | `1/(2√3) ≈ 0.28868`, `π/√12 ≈ 0.90690`, `2/√3 ≈ 1.15470` | `√(2/3) ≈ 0.81650`, `2π/√27 ≈ 1.2092` | yes / strongly / `5` | 1.8, 2.3 (critical, `γ₂`), 3.2, 4.1, 4.2, 4.5, 5.3 |
 | `ℤ³` (`3.1.2.1.1`) | `3, 1, 1, 6, 48` | `1/8`, `π/6 ≈ 0.52360`, `1` | `√3/2`, `π√3/2 ≈ 2.7207` | no / strongly / `3` | 1.4, 3.2, 4.2 |
 | `A₃ = D₃` (`3.1.9.1.2`) | `3, 4, 2, 12, 48` | `1/(4√2) ≈ 0.17678`, `π/√18 ≈ 0.74048`, `2^{1/3} ≈ 1.25992` | `1`, `2π/3 ≈ 2.0944` | yes / strongly / `3` (not `4`) | 2.3 (critical, `γ₃`), 3.2, 4.1, 4.5, 5.3 |
-| `A₃*` (bcc; `3.128.8.1.1`, Gram `[[6,−2,−2],[−2,6,−2],[−2,−2,6]]`, twice the dual of `A₃`) | `3, 128, 6, 8, 48` | `3√3/32 ≈ 0.16238`, `π√3/8 ≈ 0.68017`, `6/128^{1/3} ≈ 1.19055` | `√10/2 ≈ 1.5811`, `5√5π/24 ≈ 1.4635` | **no** / strongly / `3` | 3.2, 4.1, 4.2 (eutactic, not perfect) |
+| `A₃*` (bcc; `3.128.8.1.1`, Gram `[[6,−2,−2],[−2,6,−2],[−2,−2,6]]`, the dual of `A₃` with its bilinear form multiplied by 8 (lengths multiplied by √8)) | `3, 128, 6, 8, 48` | `3√3/32 ≈ 0.16238`, `π√3/8 ≈ 0.68017`, `6/128^{1/3} ≈ 1.19055` | `√10/2 ≈ 1.5811`, `5√5π/24 ≈ 1.4635` | **no** / strongly / `3` | 3.2, 4.1, 4.2 (eutactic, not perfect) |
 | `⟨15⟩` (Gram `[[15]]`) and `⟨12⟩` | `1, 15, 15, 2, 2` and `1, 12, 12, 2, 2` | `1/2`, `1`, `1` | `√15/2`, `1` | yes / strongly / all `t` | 7.5 (`fvIndex = 2`: `O(ℤ/15, b) = {1,4,11,14}`, `O(ℤ/12, q) = {1,5,7,11}`, image `{±1}`) |
 | `⟨5⟩` and `⟨8⟩` | `1, 5, 5, 2, 2` and `1, 8, 8, 2, 2` | `1/2`, `1`, `1` | — | yes / strongly / all `t` | 7.5 (`fvIndex = 1`; for `⟨8⟩` the bilinear group `O(ℤ/8, b)` has order `4` but `O(ℤ/8, q) = {±1}`) |
 | `D₄` (`4.4.2.1.1`) | `4, 4, 2, 24, 1152` | `1/8`, `π²/16 ≈ 0.61685`, `√2 ≈ 1.41421` | `1`, `π²/4` | yes / strongly / `5` | 4.1, 4.5, 4.10 (critical, `γ₄`), 5.3 (strongly perfect) |
@@ -1782,6 +1867,11 @@ design strength of `S(L)`.
 | `Λ₂₄` (`24.1.1.24.1`) | `24, 1, 4, 196560, 8315553613086720000` | `1`, `π¹²/12! ≈ 0.0019296`, `4` | `√2`, `2¹² π¹²/12! ≈ 7.9035` | yes / strongly / `11` | 3.4, 4.11 (critical, `γ₂₄`), 5.7, 7.5 |
 | `[[2,1],[1,3]]` | `2, 5, 2, 2, 4` | `1/(2√5)`, `π/(2√5) ≈ 0.70248`, `2/√5` | — | **no** / **not eutactic**, not well-rounded / — | 1.1 (`S = {±e₁}` does not span), 4.2 |
 | `A₂ ⊗ A₂` | `4, 81, 4, 18, 144` | — | — | — | 7.1 (Kronecker Gram, `det = 3⁴`), 7.2 (`min = 2·2`; the `18` minimal vectors are the pure tensors `x ⊗ y`, `x, y ∈ S(A₂)`, with `x ⊗ y = (−x) ⊗ (−y)`), 7.3 (decomposable) |
+
+For the bcc normalization, let A₃ = [[2,1,0],[1,2,1],[0,1,2]] and
+U = [[−1,0,0],[−1,0,1],[0,−1,1]]. Then det U = −1 and Uᵀ(8A₃⁻¹)U
+is the displayed bcc Gram matrix: determinant 8³/4 = 128 and minimum 8·(3/4) = 6.
+Scaling the dual Gram by 2 would instead give determinant 2 and minimum 3/2.
 
 Universality (Layer 6): `ℤ⁴` is universal (`Nat.sum_four_squares`); `ℤ³` has truant `7` and misses
 `7, 15, 23, 28, 31, 39, 47, 55, 60, …`; `⟨1,1,2⟩` has truant `14`; `⟨1,2,5,5⟩` represents
@@ -1845,10 +1935,13 @@ Layer 1 for 5.5–5.6. The downstream applications consume these results.
   sphere packing problem in dimension 24*, Ann. of Math. 185 (2017), 1017–1033.
   `math-inc/Sphere-Packing-Lean` (Lean formalization of both).
 - M. Dutour Sikirić, A. Schürmann, F. Vallentin, *Classification of eight-dimensional perfect
-  forms*, Electron. Res. Announc. AMS 13 (2007), 21–32.
+  forms*, arXiv:math/0609388v3, §1, pp.2–3, Table 1 and Theorem 1.1
+  (version used here; the journal version is Electron. Res. Announc. AMS 13 (2007), 21–32).
 - M. Bhargava, *On the Conway–Schneeberger fifteen theorem*, in *Quadratic Forms and Their
   Applications*, Contemp. Math. 272 (2000), 27–37. M. Bhargava, J. Hanke, *Universal quadratic
   forms and the 290-theorem*, institutional preprint, §§2–6 (the version used here).
+- R. Coulangeon, G. Nebe, *The unreasonable effectiveness of the tensor product*,
+  arXiv:1201.1832v1 (2012), §2, pp.2–3, especially the proof of Corollary 2.3 and Remark 2.4(1).
 - Y. Kitaoka, *Arithmetic of Quadratic Forms*, Cambridge Tracts 106, 1993, Ch. 7 (tensor
   products of positive lattices).
 - D. Festi, D. C. Veniani, *Counting elliptic fibrations on K3 surfaces*, J. Math. Soc. Japan

@@ -20,16 +20,17 @@ them and admitted theorem proofs.
 
 Headlines: the sharp Hermite bounds and constants in ranks 2–8 and 24; attainment and
 Mordell's inequality; Voronoi fundamental domains and deep holes; Voronoi's extreme-form
-criterion, finiteness of perfect and eutactic classes, and neighbour-closure completeness;
+criterion, finiteness of perfect and eutactic classes, neighbour-closure completeness and
+the perfect-class counts in ranks 4–8; Kitaoka's tensor-minimum equality;
 the moment criterion, strong perfection, harmonic theta modularity and Venkov's shell theorem;
 the 15 and 290 universality theorems; and the rank-one discriminant-image index formula.
 
-The tensor minimum theorem of Kitaoka and the tensor-decomposition results are not statable
-at the pins without constructing the integral-lattice tensor product of README §7.1, which
-is itself library work. The explicit Leech covering-radius and deep-hole classification need
-the Leech lattice carrier from Rank24LatticeConstructions Layer 6. The finite perfect-form
-classifications in ranks 4–8 need their specified representative families; the sharp scalar
-Hermite conclusions are stated here. All other API, local checks and examples are in README.md.
+The integral-lattice tensor construction and its decomposition API in README §§7.1–7.3
+require a bundled integral-lattice tensor product absent at the pins; Kitaoka's minimum
+headline is stated on the form-side Kronecker Gram matrix. The perfect-class counts use
+the existing similarity quotient and need no chosen representative families. The explicit
+Leech covering-radius and deep-hole classification need the Leech lattice carrier from
+Rank24LatticeConstructions Layer 6. All other API, local checks and examples are in README.md.
 
 The form carrier uses native Matrix.PosDef. Metric statements use FormSpace A, whose squared
 norm is xᵀAx. Harmonic polynomials evaluated in integral coordinates use the inverse-Gram
@@ -224,7 +225,7 @@ noncomputable def hermiteConstant (n : ℕ) : ℝ :=
 theorem hermiteConstant_pow_le (n : ℕ) (hn : 2 ≤ n) :
     hermiteConstant n ^ (n - 2) ≤ hermiteConstant (n - 1) ^ (n - 1) := sorry
 
-/-- **2.2.** The constant is attained: there is a critical form (Mahler compactness, GoN 4.5.2). -/
+/-- **2.2.** The constant is attained: there is a critical form (Mahler compactness, GoN 4.5.8). -/
 theorem exists_hermite_eq_hermiteConstant (n : ℕ) (hn : 0 < n) :
     ∃ A : PosDefForm n, A.hermite = hermiteConstant n := sorry
 
@@ -235,7 +236,7 @@ theorem hermiteConstant_two_sq : hermiteConstant 2 ^ 2 = 4 / 3 := sorry
 theorem hermiteConstant_three_pow : hermiteConstant 3 ^ 3 = 2 := sorry
 
 /-- **4.10.** `γ₄⁴ = 4`, `γ₅⁵ = 8`, `γ₆⁶ = 64/3`, `γ₇⁷ = 64`, `γ₈⁸ = 256`, by the perfect-form
-certificates (Korkine–Zolotarev; Blichfeldt). -/
+classification (Korkine–Zolotarev; Blichfeldt). -/
 theorem hermiteConstant_four_pow : hermiteConstant 4 ^ 4 = 4 := sorry
 
 /-- **4.10.** The sharp rank-five Hermite value, attained by D₅. -/
@@ -376,6 +377,36 @@ theorem perfectForms_complete (hn : 0 < n) (s : Finset (PosDefForm n))
     (hclosed : ∀ P ∈ s, ∀ N : Matrix (Fin n) (Fin n) ℝ, P.IsFacetNormal N →
       ∃ Q ∈ s, Similar (P.voronoiNeighbour N) Q)
     (A : PosDefForm n) (hA : A.IsPerfect) : ∃ Q ∈ s, Similar A Q := sorry
+
+/-- **4.10.** There are 2 perfect similarity classes in rank 4
+(Dutour Sikirić–Schürmann–Vallentin, arXiv:math/0609388v3, Table 1, p.3). -/
+theorem card_perfect_quotient_four :
+    Nat.card (Set.range fun A : {A : PosDefForm 4 // A.IsPerfect} =>
+      Quot.mk (Similar (n := 4)) A.1) = 2 := sorry
+
+/-- **4.10.** There are 3 perfect similarity classes in rank 5
+(Dutour Sikirić–Schürmann–Vallentin, arXiv:math/0609388v3, Table 1, p.3). -/
+theorem card_perfect_quotient_five :
+    Nat.card (Set.range fun A : {A : PosDefForm 5 // A.IsPerfect} =>
+      Quot.mk (Similar (n := 5)) A.1) = 3 := sorry
+
+/-- **4.10.** There are 7 perfect similarity classes in rank 6
+(Dutour Sikirić–Schürmann–Vallentin, arXiv:math/0609388v3, Table 1, p.3). -/
+theorem card_perfect_quotient_six :
+    Nat.card (Set.range fun A : {A : PosDefForm 6 // A.IsPerfect} =>
+      Quot.mk (Similar (n := 6)) A.1) = 7 := sorry
+
+/-- **4.10.** There are 33 perfect similarity classes in rank 7
+(Dutour Sikirić–Schürmann–Vallentin, arXiv:math/0609388v3, Table 1, p.3). -/
+theorem card_perfect_quotient_seven :
+    Nat.card (Set.range fun A : {A : PosDefForm 7 // A.IsPerfect} =>
+      Quot.mk (Similar (n := 7)) A.1) = 33 := sorry
+
+/-- **4.10.** There are 10916 perfect similarity classes in rank 8
+(Dutour Sikirić–Schürmann–Vallentin, arXiv:math/0609388v3, Table 1, p.3). -/
+theorem card_perfect_quotient_eight :
+    Nat.card (Set.range fun A : {A : PosDefForm 8 // A.IsPerfect} =>
+      Quot.mk (Similar (n := 8)) A.1) = 10916 := sorry
 
 /-- **4.11.** The lattice Cohn–Elkies bound for a real-valued Schwartz function with
 nonnegative real Fourier transform, positive Fourier value at zero and sign radius r. -/
@@ -611,9 +642,16 @@ theorem isHalfUniversal_iff_twoNinety (L : IntegralLattice V) (hL : L.IsPosDef) 
     IsHalfUniversal L ↔ ∀ m ∈ ({1, 2, 3, 5, 6, 7, 10, 13, 14, 15, 17, 19, 21, 22, 23, 26, 29, 30,
       31, 34, 35, 37, 42, 58, 93, 110, 145, 203, 290} : Finset ℕ), Represents L (2 * m) := sorry
 
-/-! ## Layer 7: the Festi–Veniani index
+/-! ## Layer 7: tensor products and the Festi–Veniani index -/
 
-The tensor product of lattices (7.1–7.3) is specified in `README.md` only. -/
+/-- **7.2.** Kitaoka's theorem: a tensor product of positive definite real forms has
+minimum equal to the product of the minima when the first rank is at most 43.
+The product Gram matrix uses the product basis, reindexed by `finProdFinEquiv`
+(Coulangeon–Nebe, arXiv:1201.1832v1, proof of Corollary 2.3, p.3). -/
+theorem PosDefForm.min_tensor_kitaoka {n m : ℕ} (A : PosDefForm n) (B : PosDefForm m)
+    (C : PosDefForm (n * m))
+    (hC : C.1 = Matrix.reindex finProdFinEquiv finProdFinEquiv (Matrix.kronecker A.1 B.1))
+    (hn : n ≤ 43) : C.min = A.min * B.min := sorry
 
 /-- Composition gives the native finite bilinear self-isometries their group structure. -/
 instance bilinearIsometryGroup (D : TauCeti.FiniteBilinearModule) :
