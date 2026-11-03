@@ -109,6 +109,13 @@ addition:
 
 - `extDeriv`, `extDerivWithin`, `curveIntegral`, `SimplyConnectedSpace` and
   `SimplyConnectedSpace.paths_homotopic`, `Path`, `ContinuousMap.HomotopyRel`.
+- `Complex.IsExactOn` (a complex primitive on a set), `Complex.IsConservativeOn` (vanishing
+  rectangle integrals), Morera's theorem `Complex.IsConservativeOn.isExactOn_ball` and
+  `DifferentiableOn.isExactOn_ball` (`Analysis/Complex/HasPrimitives.lean`): a continuous
+  conservative, in particular a holomorphic, function on a disc with values in a complete complex
+  normed space has a primitive there; and `Complex.IsExactOn.differentiableOn`, by which a function
+  with a primitive on an open set is holomorphic. Mathlib states these on discs and on `ℂ`; the
+  holomorphic case on a simply connected domain is the `ℂ`-linear instance of §1.3.
 - `CochainComplex.mappingCone`, `CochainComplex.mappingCocone` (the cone shifted by `−1`, with its
   signed projections and inclusions), `HomologicalComplex.extend`, `ComplexShape.embeddingUpNat`,
   `HomologicalComplex.homology`, `CategoryTheory.ShortComplex.ShortExact` and its long exact
@@ -251,6 +258,16 @@ connected component; the empty domain takes the zero potential. *Needs:* §§1.1
 - On `ℂ ∖ {0}`, which is not simply connected, the conclusion fails for the angular form; the
   hypothesis is necessary.
 - On `Ω = ℂ`, `φ = dx` gives `g = Re + c` and no other potential.
+- The holomorphic case: for `f` holomorphic on a simply connected open `Ω` with values in a
+  complete complex normed space `F`, the covector field `φ(z) = (v ↦ v·f(z))` has local potentials
+  by `DifferentiableOn.isExactOn_ball` on each disc in `Ω` (a primitive `g` with `g' = f` is `C¹`
+  there, with real derivative `v ↦ v·f(w)` at `w`), so the theorem gives `Complex.IsExactOn f Ω`,
+  Mathlib's disc statement extended to simply connected domains; on the slit plane with
+  `f(z) = 1/z` the potential is the principal `log`, and on `ℂ ∖ {0}` there is none, since the loop
+  integral of `dz/z` around `0` is `2πi`. A covector field of this `ℂ`-linear form with `f`
+  continuous has local potentials only when `f` is holomorphic (`Complex.IsExactOn.differentiableOn`
+  on each disc), while `φ = dx` is not of this form (`Re` is `ℝ`-linear, not `ℂ`-linear), so
+  Layer 1 is strictly wider than the holomorphic theory and does not restate it.
 
 ### Examples
 
@@ -660,9 +677,6 @@ parabola family `x² + p` has the single bad parameter `0`.
   DifferentialGeometry 8.3, 8.4 and 9.3 plan the absolute theory only, and these targets are
   §§2.4, 3.1–3.2 and 4.1 here. Its K5a owns the complex-coefficient de Rham comparison and the
   punctured-plane computation `H¹_dR(ℂ ∖ {0}; ℂ) ≅ ℂ` for smooth forms.
-- Roadmaps on singular-image avoidance by paths and discs in Lie groups and on arrangement jet
-  families consume Layer 5 and supply their own compactness, codimension and jet-surjectivity
-  inputs.
 
 ## Prior work
 
