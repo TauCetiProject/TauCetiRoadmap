@@ -1,7 +1,6 @@
 module
 
 public import Mathlib
-public import TauCeti.CategoryTheory.GrothendieckGroup.Monoidal.Basic
 
 /-!
 # Topological K-theory of vector bundles: target signatures
@@ -9,8 +8,9 @@ public import TauCeti.CategoryTheory.GrothendieckGroup.Monoidal.Basic
 The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
 theorems that are statable against the pinned Mathlib and Tau Ceti, each with `sorry`, with the
 few definitions they need: the finite Grassmannian carrier and its frame-span topology (T1.5),
-the finite-subset gap weights of a partition of unity (T1.6a), the small finite-rank atlas and
-the split K-group carrier (T1, T2.0), and the relative-symbol record (T3.1).
+the finite-subset gap weights of a partition of unity (T1.6a), and the relative-symbol record
+(T3.1). The finite-rank atlas (T1.1) and the split K-group carrier (T2.0) are README targets:
+no headline stated here mentions them.
 
 Not statable at the pins, and therefore not stated here:
 complex Bott periodicity `K(X)⊕K(X)≃K(X×S²)` (T4) and the Thom isomorphism `K_c(X)≃K_c(E)`
@@ -30,30 +30,6 @@ open scoped Matrix.Norms.Operator
 namespace TauCetiRoadmap.TopologicalKTheory
 
 universe u v
-
-/-- A small variable-rank atlas using the existing cocycle construction.
-T1 proves comparison with arbitrary topological-module fibre universes. -/
-structure FiniteRankAtlas (X : Type u) [TopologicalSpace X] where
-  rank : LocallyConstant X ℕ
-  charts : ∀ n : ℕ, VectorBundleCore ℂ {x : X // rank x = n} (Fin n → ℂ)
-    {x : X // rank x = n}
-
-section Presentation
-open CategoryTheory CategoryTheory.Limits
-
-/-- T1 supplies the genuine bundle category, Whitney biproducts and smallness.
-The K-group carrier then uses the existing split presentation, with no arbitrary
-sum operation or new relation engine. -/
-abbrev BundleCategoryK0 (C : Type*) [Category C] [HasZeroMorphisms C]
-    [HasBinaryBiproducts C] [EssentiallySmall.{u} C] : Type u :=
-  TauCeti.SplitK0.{u} C
-
-/-- The actual monoidal/braided category hypotheses give its K-ring. -/
-example {C : Type*} [Category C] [Preadditive C] [HasZeroObject C]
-    [HasBinaryBiproducts C] [EssentiallySmall.{u} C] [MonoidalCategory C]
-    [MonoidalPreadditive C] [BraidedCategory C] : CommRing (BundleCategoryK0 C) :=
-  inferInstance
-end Presentation
 
 section NumerableClassifierColours
 variable {X : Type u} [TopologicalSpace X] {ι : Type v}
