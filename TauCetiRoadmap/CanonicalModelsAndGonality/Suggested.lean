@@ -20,8 +20,10 @@ The roadmap is README.md; this file is not the roadmap. It states the roadmap's 
 theorems against the pinned Mathlib and Tau Ceti APIs, with their supporting simple definitions.
 The headlines are gonality and its extension laws; Hilbert polynomials and arithmetic genus;
 canonical embedding, Max Noether and Petri (including the cubic exceptions); plane genus;
-Clifford equality, Brill–Noether existence and the gonality bound; quotient and bielliptic
-criteria; and Frey's criterion.
+Clifford equality, Brill–Noether existence and the gonality bound; the Castelnuovo–Severi
+corollaries (uniqueness of the bielliptic involution and of the trigonal pencil, gonality four
+for a double cover of a pointless conic); quotient and bielliptic criteria with the descent of
+the hyperelliptic and bielliptic involutions along an algebraic closure; and Frey's criterion.
 
 The following headlines cannot yet be stated on the intended carriers at these pins:
 * The hyperelliptic canonical-ring presentation (§3.7) lacks the canonical section ring and
@@ -246,21 +248,25 @@ theorem exists_arithmeticGenus (hF : IsFunctionField k F) (hex : IsIntegrallyClo
     ∃ p : ℤ, ∃ N : ℕ, ∀ m, N ≤ m → (x.hilbertFunction m : ℤ) = m * x.degree hF + 1 - p := by
   sorry
 
-/-- `README.md`, Layer 2, 2.3. The **arithmetic genus** `p_a` of a model, the constant term of
-its Hilbert polynomial. -/
-noncomputable def arithmeticGenus (hF : IsFunctionField k F) (hex : IsIntegrallyClosedIn k F)
-    (x : Model k F n) : ℤ :=
-  (exists_arithmeticGenus hF hex x).choose
+open Classical in
+/-- `README.md`, Layer 2, 2.3. The **arithmetic genus** `p_a` of a model: the integer `p` with
+`hilbertFunction x m = m · deg x + 1 − p` for all large `m` when such an integer exists (it is
+then unique, since two candidates agree at every large `m`), and `0` otherwise. For a function
+field with exact constants it always exists (`exists_arithmeticGenus`), so the junk value is
+never taken there. -/
+noncomputable def arithmeticGenus (hF : IsFunctionField k F) (x : Model k F n) : ℤ :=
+  if h : ∃ p : ℤ, ∃ N : ℕ, ∀ m, N ≤ m → (x.hilbertFunction m : ℤ) = m * x.degree hF + 1 - p then
+    h.choose
+  else 0
 
 /-- `README.md`, Layer 2, 2.3: the genus is at most the arithmetic genus of every model. -/
 theorem genus_le_arithmeticGenus (hF : IsFunctionField k F) (hex : IsIntegrallyClosedIn k F)
-    (x : Model k F n) : (genus k F : ℤ) ≤ x.arithmeticGenus hF hex := by
+    (x : Model k F n) : (genus k F : ℤ) ≤ x.arithmeticGenus hF := by
   sorry
 
 /-- `README.md`, Layer 2, 2.3. The **deficiency** `δ = p_a − g` of a model. -/
-noncomputable def delta (hF : IsFunctionField k F) (hex : IsIntegrallyClosedIn k F)
-    (x : Model k F n) : ℤ :=
-  x.arithmeticGenus hF hex - genus k F
+noncomputable def delta (hF : IsFunctionField k F) (x : Model k F n) : ℤ :=
+  x.arithmeticGenus hF - genus k F
 
 end Model
 
@@ -396,7 +402,7 @@ theorem petri [IsAlgClosed k] (hF : IsFunctionField k F) (hex : IsIntegrallyClos
     (hW : W.IsRiemannRochDivisor (genus k F))
     (b : Module.Basis (Fin (n + 1)) k (riemannRochSpace W))
     (htop : canonicalField hF hex = ⊤) (htrig : gonality k F ≠ 3)
-    (hquintic : ¬ (genus k F = 6 ∧ ∃ x : Model k F 2, x.degree hF = 5 ∧ x.delta hF hex = 0)) :
+    (hquintic : ¬ (genus k F = 6 ∧ ∃ x : Model k F 2, x.degree hF = 5 ∧ x.delta hF = 0)) :
     (canonicalModel hF hex hn hW b htop).homogeneousIdeal =
       Ideal.span {G | G.IsHomogeneous 2 ∧ G ∈ (canonicalModel hF hex hn hW b htop).homogeneousIdeal} := by
   sorry
@@ -435,14 +441,14 @@ theorem Model.exists_generator (hF : IsFunctionField k F) (x : Model k F 2) :
 `2g = (d − 1)(d − 2) − 2δ` for a plane model of degree `d`. -/
 theorem Model.two_mul_genus_eq (hF : IsFunctionField k F) (hex : IsIntegrallyClosedIn k F)
     (x : Model k F 2) :
-    2 * (genus k F : ℤ) = (x.degree hF - 1) * (x.degree hF - 2) - 2 * x.delta hF hex := by
+    2 * (genus k F : ℤ) = (x.degree hF - 1) * (x.degree hF - 2) - 2 * x.delta hF := by
   sorry
 
 /-- `README.md`, Layer 4, 4.3: a smooth plane model has `δ = 0`, so `2g = (d − 1)(d − 2)`. -/
 theorem Model.delta_eq_zero_of_isSmoothPlaneEquation (hF : IsFunctionField k F)
     (hex : IsIntegrallyClosedIn k F) (x : Model k F 2) {G : MvPolynomial (Fin 3) k}
     (hG : x.homogeneousIdeal = Ideal.span {G}) (hs : IsSmoothPlaneEquation G) :
-    x.delta hF hex = 0 := by
+    x.delta hF = 0 := by
   sorry
 
 /-! ## Layer 5: Clifford's equality case and Brill–Noether -/
@@ -469,22 +475,26 @@ theorem gonality_le_genus_add_three_div_two [IsAlgClosed k] (hF : IsFunctionFiel
     (hex : IsIntegrallyClosedIn k F) : gonality k F ≤ (genus k F + 3) / 2 := by
   sorry
 
-/-! ## Layer 6: quotient curves, bielliptic and cyclic trigonal curves -/
-
-section Quotient
-
-variable (H : Subgroup (F ≃ₐ[k] F)) [Finite H]
-
-/-- `README.md`, Layer 6, 6.2: in characteristic zero the different is the tame different
-`∑ (e_P − 1) · P`, giving the orbit form of the quotient genus formula. -/
-theorem hurwitz_fixedField_tame [CharZero k] (hF : IsFunctionField k F)
-    (hex : IsIntegrallyClosedIn k F) :
-    (2 * (genus k F : ℤ) - 2) =
-      Nat.card H * (2 * (genus k (IntermediateField.fixedField H) : ℤ) - 2) +
-        Divisor.degree (Divisor.tameDifferent k F (hF.fixedField H)) := by
+/-- `README.md`, Layer 5, 5.2(b): over a perfect field, a geometrically hyperelliptic function
+field of genus at least three (its canonical field has index two) whose canonical conic has no
+rational point (index two) has gonality four over `k`: the conic's pencil composes to degree
+four, and a pencil of degree three would give `g ≤ 2` by Castelnuovo–Severi (the LMFDB's model
+type `7`). -/
+theorem gonality_eq_four_of_index_canonicalField_eq_two [PerfectField k]
+    (hF : IsFunctionField k F) (hex : IsIntegrallyClosedIn k F) (hg : 3 ≤ genus k F)
+    (hK : Module.finrank (canonicalField hF hex) F = 2)
+    (hi : index k (canonicalField hF hex) = 2) : gonality k F = 4 := by
   sorry
 
-end Quotient
+/-- `README.md`, Layer 5, 5.2(f): over a perfect field, a function field of genus at least five
+has at most one rational subfield of index three (the trigonal pencil is unique): two of them
+would be linearly disjoint of prime degree and Castelnuovo–Severi would give `g ≤ 4`. -/
+theorem adjoin_eq_adjoin_of_finrank_adjoin_eq_three [PerfectField k] (hF : IsFunctionField k F)
+    (hex : IsIntegrallyClosedIn k F) (hg : 5 ≤ genus k F) {x z : F}
+    (hx : Module.finrank k⟮x⟯ F = 3) (hz : Module.finrank k⟮z⟯ F = 3) : k⟮z⟯ = k⟮x⟯ := by
+  sorry
+
+/-! ## Layer 6: quotient curves, bielliptic and cyclic trigonal curves -/
 
 /-- `README.md`, Layer 6, 6.4. **Bielliptic over `k`**: a subgroup of order two of the
 `k`-automorphisms (the group `⟨σ⟩` of an involution defined over `k`) whose quotient has genus
@@ -517,15 +527,17 @@ theorem isBielliptic_iff_exists_degree_tameDifferent (h2 : (2 : k) ≠ 0) (hF : 
   sorry
 
 /-- `README.md`, Layer 5, 5.2(c): hyperelliptic and bielliptic together force `g ≤ 3`
-(Castelnuovo–Severi, consumed from AlgebraicCurves Layer 8). -/
-theorem genus_le_three_of_isHyperelliptic_of_isBielliptic [PerfectField k] (h2 : (2 : k) ≠ 0)
+(Castelnuovo–Severi, consumed from AlgebraicCurves Layer 8; the separable extension it needs is
+`F / k(x)`, separable by the hyperelliptic predicate, so there is no characteristic clause). -/
+theorem genus_le_three_of_isHyperelliptic_of_isBielliptic [PerfectField k]
     (hF : IsFunctionField k F) (hex : IsIntegrallyClosedIn k F)
     (hhyp : IsHyperellipticFunctionField k F) (hbi : IsBielliptic k F) : genus k F ≤ 3 := by
   sorry
 
 /-- `README.md`, Layer 5, 5.2(d): for `g ≥ 6` the bielliptic involution is unique: two subgroups
-of order two with genus-one quotients coincide. -/
-theorem eq_of_isBielliptic_of_six_le_genus [PerfectField k] (h2 : (2 : k) ≠ 0)
+of order two with genus-one quotients coincide (`F / F^{H₁}` is Galois, hence separable, in every
+characteristic). -/
+theorem eq_of_isBielliptic_of_six_le_genus [PerfectField k]
     (hF : IsFunctionField k F) (hex : IsIntegrallyClosedIn k F) (hg : 6 ≤ genus k F)
     {H₁ H₂ : Subgroup (F ≃ₐ[k] F)} (h₁ : Nat.card H₁ = 2) (h₂ : Nat.card H₂ = 2)
     (hg₁ : genus k (IntermediateField.fixedField H₁) = 1)
@@ -533,8 +545,8 @@ theorem eq_of_isBielliptic_of_six_le_genus [PerfectField k] (h2 : (2 : k) ≠ 0)
   sorry
 
 /-- `README.md`, Layer 5, 5.2(e): a bielliptic field of genus at least five has gonality four
-over an algebraically closed field. -/
-theorem gonality_eq_four_of_isBielliptic [IsAlgClosed k] (h2 : (2 : k) ≠ 0)
+over an algebraically closed field, in every characteristic. -/
+theorem gonality_eq_four_of_isBielliptic [IsAlgClosed k]
     (hF : IsFunctionField k F) (hex : IsIntegrallyClosedIn k F) (hg : 5 ≤ genus k F)
     (hbi : IsBielliptic k F) : gonality k F = 4 := by
   sorry
@@ -543,6 +555,39 @@ theorem gonality_eq_four_of_isBielliptic [IsAlgClosed k] (h2 : (2 : k) ≠ 0)
 theorem gonality_le_three_of_isCyclicTrigonal (hF : IsFunctionField k F)
     (hct : IsCyclicTrigonal k F) : gonality k F ≤ 3 := by
   sorry
+
+section Descent
+
+variable {k' : Type*} {F' : Type*} [Field k'] [Field F'] [Algebra k k'] [Algebra k F']
+  [Algebra k' F'] [Algebra F F'] [IsScalarTower k k' F'] [IsScalarTower k F F']
+
+/-- `README.md`, Layer 6, 6.5: **descent of the bielliptic involution**. Over a perfect field, for
+genus at least six, `F` is bielliptic over `k` exactly when it is bielliptic over an algebraic
+closure (`k'` algebraically closed and algebraic over `k`, `F'` the compositum): the geometric
+bielliptic involution is unique (5.2(d)), hence stable under the semilinear Galois action, hence
+defined over `k`. -/
+theorem isBielliptic_iff_of_six_le_genus [PerfectField k] [IsAlgClosed k']
+    [Algebra.IsAlgebraic k k'] (hF : IsFunctionField k F) (hF' : IsFunctionField k' F')
+    (hex : IsIntegrallyClosedIn k F) (hex' : IsIntegrallyClosedIn k' F')
+    (h : constantCompositum F k' F' = ⊤) (hg : 6 ≤ genus k F) :
+    IsBielliptic k' F' ↔ IsBielliptic k F := by
+  sorry
+
+/-- `README.md`, Layer 6, 6.5: **descent of the hyperelliptic involution**. Over a perfect field,
+for genus at least two, `F` is hyperelliptic over an algebraic closure exactly when some subgroup
+of order two of the `k`-automorphisms has a quotient of genus zero (the hyperelliptic involution
+is defined over `k`; its quotient is the canonical conic of 3.5, rational or not). -/
+theorem isHyperellipticFunctionField_iff_exists_genus_fixedField_eq_zero [PerfectField k]
+    [IsAlgClosed k'] [Algebra.IsAlgebraic k k'] (hF : IsFunctionField k F)
+    (hF' : IsFunctionField k' F') (hex : IsIntegrallyClosedIn k F)
+    (hex' : IsIntegrallyClosedIn k' F') (h : constantCompositum F k' F' = ⊤)
+    (hg : 2 ≤ genus k F) :
+    IsHyperellipticFunctionField k' F' ↔
+      ∃ H : Subgroup (F ≃ₐ[k] F), Nat.card H = 2 ∧
+        genus k (IntermediateField.fixedField H) = 0 := by
+  sorry
+
+end Descent
 
 /-! ## Layer 7: points of low degree -/
 
