@@ -14,9 +14,8 @@ The roadmap is `README.md`; this file is not the roadmap. It states the roadmap'
 theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, together with the few
 definitions those statements need (the Siegel upper half-space and its action, holomorphic weights
 and slash operators, the bundled forms, half-integral matrices and Fourier coefficients, the
-`Φ`-operator and cusp forms, the Siegel Eisenstein series, theta series and theta constants,
-Igusa's generators and the Satoh bracket, the Hecke operators and eigenforms, the Euler factors,
-the Maass lift and the Maass space, the paramodular group and its Fricke element). Every definition has a real body; a
+`Φ`-operator and cusp forms, the Siegel Eisenstein series, theta series,
+Igusa's generators and the Satoh bracket, the Hecke operators and eigenforms, the Maass space and the paramodular group). Every definition has a real body; a
 proof obligation inside a bundled definition (that a function lands in `ℍ_g`, that a sum of
 slashes is again a modular form) is a named theorem proved by `sorry`.
 
@@ -54,23 +53,13 @@ indexed by `Fin g ⊕ Fin g`, so that the symplectic group is Tau Ceti's `GLSymp
 (a subgroup of `GL (Fin g ⊕ Fin g) R` whose matrices lie in Mathlib's `Matrix.symplecticGroup`,
 `M J Mᵀ = J` for Mathlib's `J`), and the blocks are `toBlocks₁₁ … toBlocks₂₂`.
 
-Conventions visible in the signatures (`README.md`, *Conventions*): the positive similitude group
-`GSpPos` is cut out by `M J Mᵀ = μ • J` with `0 < μ`; the similitude group and its multiplier `ν`
-are `ClassicalGroupsPartII` CG.0.1's, which this file cannot import, so no multiplier is declared
-here and `slashE` reads the scalar `μ(γ) = ν(γ)` off the membership witness; the action is
-`τ ↦ (Aτ + B)(Cτ + D)⁻¹`; a weight is a holomorphic representation of `GL (Fin g) ℂ` on a
-finite-dimensional normed space, `detWeight g k` is `det ^ k`, and `rho k j` is `Sym^j ⊗ det^k` on
-coefficient vectors `Fin (j + 1) → ℂ` (highest weight `(k + j, k)`; `(k, j)` is the LMFDB weight);
-the slash operator is `ρ(Cτ + D)⁻¹ f(γ • τ)` with the extra factor `μ(γ) ^ e` on similitudes, and
-the Hecke operators take the exponent `e` explicitly (`scalarExponent g k = g k − g(g+1)/2`,
-`vectorExponent k j = 2k + j − 3`); a modular form is a structure with a boundedness field that
-Koecher's principle discharges for `g ≥ 2` (`SiegelModularForm.ofInvariant`); Fourier coefficients
-are indexed by `HalfIntegral g`, with the degree-two coordinates `ofTriple n r m` for
-`[[n, r/2], [r/2, m]]`; `chi10` and `chi12` are normalized by `a((1,1,1)) = 1` (Igusa's are `−¼`
-and `1/12` of these) and `chi35` by `a((2,1,3)) = 1`; a tuple `(α₀, …, α_g)` of Satake parameters
-in the arithmetic normalization has `spinorEulerFactor = ∏_{I ⊆ {1..g}} (1 − α₀ α_I X)`; the
-paramodular group `paramodular N` is the stabilizer of `ℤ ⊕ ℤ ⊕ ℤ ⊕ Nℤ` and `fricke N` is
-`diag(A_N, A_Nᵀ)` with `A_N = [[0, √N], [1/√N, 0]]`.
+The scalar and vector-valued forms, Fourier coefficients, Igusa and Satoh decompositions,
+Maass-space dimensions, Saito–Kurokawa eigenvalue identity and coefficient-field finiteness
+are stated on the actual analytic carriers defined below. The general lattice theta inversion
+is stated in even rank. The separate unimodular modularity theorem is supplied by
+`LevelOneAutomorphicFormsForClassicalGroups` LO.6/higher-genus-theta and is not restated.
+The README specifies the normalizations, all auxiliary APIs and the Checks.
+
 -/
 
 @[expose] public section
@@ -97,6 +86,7 @@ def Sp.mat {g : ℕ} {R : Type*} [CommRing R] (γ : Sp g R) :
     Matrix (Fin g ⊕ Fin g) (Fin g ⊕ Fin g) R :=
   ((γ : GL (Fin g ⊕ Fin g) R) : Matrix (Fin g ⊕ Fin g) (Fin g ⊕ Fin g) R)
 
+
 /-- The inverse of a symplectic matrix is `−J Mᵀ J` (0.1); used by the membership proofs of the
 Siegel parabolic below. -/
 theorem Sp.mat_inv {K : Type*} [CommRing K] {g : ℕ} (γ : Sp g K) :
@@ -104,6 +94,7 @@ theorem Sp.mat_inv {K : Type*} [CommRing K] {g : ℕ} (γ : Sp g K) :
   rw [← SymplecticGroup.inv_eq_symplectic_inv (Sp.mat γ)
     (TauCeti.GLSymplectic.mem_iff_mem_symplecticGroup.mp γ.2)]
   exact Matrix.coe_units_inv _
+
 
 /-- The transpose of an invertible matrix, as a unit; `Aᵀ` has inverse `(A⁻¹)ᵀ`. -/
 def transposeGL {n : Type*} [Fintype n] [DecidableEq n] {K : Type*} [CommRing K] (A : GL n K) :
@@ -237,22 +228,6 @@ theorem isOpenEmbedding_coe :
 instance : @ChartedSpace (Sym g) UniformSpace.toTopologicalSpace ℍ[g] _ :=
   isOpenEmbedding_coe.singletonChartedSpace
 
-/-- The `g = 1` comparison (0.3) as a bijection: `ℍ_1 ≃ ℍ`, `τ ↦ τ 0 0`. -/
-def equivUpperHalfPlane : ℍ[1] ≃ UpperHalfPlane where
-  toFun τ := UpperHalfPlane.mk (τ.toMatrix 0 0) (by
-    have h := τ.2.diag_pos (i := 0)
-    simp only [Matrix.map_apply] at h
-    exact h)
-  invFun z := ⟨⟨Matrix.of fun _ _ => (z : ℂ), Matrix.IsSymm.ext fun _ _ => rfl⟩, by
-    have : (Matrix.of fun _ _ => (z : ℂ) : Matrix (Fin 1) (Fin 1) ℂ).map Complex.im =
-        Matrix.diagonal fun _ => z.im := by
-      ext i j
-      simp [Subsingleton.elim i j]
-    rw [this]
-    exact Matrix.posDef_diagonal_iff.mpr fun _ => z.im_pos⟩
-  left_inv τ := Subtype.ext <| Subtype.ext <| Matrix.ext fun i j => by
-    simp [SiegelHalfSpace.toMatrix, Subsingleton.elim i 0, Subsingleton.elim j 0]
-  right_inv z := rfl
 
 /-- The block-diagonal matrix `diag(τ, τ')`, indexed through `finSumFinEquiv` (0.3). -/
 def diagMatrix (τ : ℍ[g]) {g' : ℕ} (τ' : ℍ[g']) : Matrix (Fin (g + g')) (Fin (g + g')) ℂ :=
@@ -401,10 +376,6 @@ def Gamma0 (g N : ℕ) : Subgroup (Sp g ℝ) := (Gamma0Z g N).map Sp.intToReal
 analogue of Mathlib's degree-one `IsArithmetic`. -/
 def IsArithmetic (Γ : Subgroup (Sp g ℝ)) : Prop := Subgroup.Commensurable Γ (Gamma g)
 
-/-- `[Γ_g : Γ₀^{(g)}(p)] = ∏_{i=1}^{g} (1 + p^i)`, the number of Lagrangian subspaces of
-`𝔽_p^{2g}` (0.6). -/
-theorem relindex_gamma0_prime (p : ℕ) (hp : p.Prime) :
-    (Gamma0 g p).relIndex (Gamma g) = ∏ i ∈ Finset.range g, (1 + p ^ (i + 1)) := sorry
 
 /-- The lattice `ℤ ⊕ ℤ ⊕ ℤ ⊕ Nℤ` of column vectors (0.7). -/
 def paramodularLattice (N : ℕ) : Set (Fin 2 ⊕ Fin 2 → ℚ) :=
@@ -431,33 +402,9 @@ def paramodular (N : ℕ) : Subgroup (Sp 2 ℚ) where
 /-- `K(N)` as a subgroup of `Sp₄(ℝ)` (0.7). -/
 def paramodularR (N : ℕ) : Subgroup (Sp 2 ℝ) := (paramodular N).map Sp.ratToReal
 
-/-- The entrywise description of `K(N)` (0.7): the `(1,2)`, `(3,2)`, `(4,1)`, `(4,2)`, `(4,3)`
-entries lie in `Nℤ`, the `(2,4)` entry in `N⁻¹ℤ`, and the others in `ℤ`. -/
-theorem mem_paramodular_iff (N : ℕ) (hN : 0 < N) (γ : Sp 2 ℚ) :
-    γ ∈ paramodular N ↔ ∀ i j, ∃ n : ℤ, Sp.mat γ i j = n *
-        (if (i, j) ∈ ({(Sum.inl 0, Sum.inl 1), (Sum.inr 0, Sum.inl 1), (Sum.inr 1, Sum.inl 0),
-            (Sum.inr 1, Sum.inl 1), (Sum.inr 1, Sum.inr 0)} : Set _) then (N : ℚ)
-          else if (i, j) = (Sum.inl 1, Sum.inr 1) then (N : ℚ)⁻¹ else 1) := sorry
 
-/-- `[Γ₂ : K(p) ∩ Γ₂] = p³ + p² + p + 1`, the number of hyperplanes of `𝔽_p⁴` (0.7). -/
-theorem relindex_paramodular_inf_gamma (p : ℕ) (hp : p.Prime) :
-    (paramodularR p ⊓ Gamma 2).relIndex (Gamma 2) = p ^ 3 + p ^ 2 + p + 1 := sorry
 
-/-- The matrix `A_N = [[0, √N], [1/√N, 0]]` of the paramodular Fricke involution (0.7). -/
-def frickeMatrix (N : ℕ) : Matrix (Fin 2) (Fin 2) ℝ := !![0, Real.sqrt N; 1 / Real.sqrt N, 0]
 
-theorem det_frickeMatrix (N : ℕ) (hN : 0 < N) : (frickeMatrix N).det = -1 := by
-  have h : (0 : ℝ) < Real.sqrt N := Real.sqrt_pos.mpr (by exact_mod_cast hN)
-  rw [frickeMatrix, Matrix.det_fin_two_of]
-  field_simp
-  norm_num
-
-/-- The **Fricke element** `μ_N = diag(A_N, A_Nᵀ) ∈ Sp₄(ℝ)` (0.7), through Tau Ceti's Levi
-embedding. -/
-def fricke (N : ℕ) (hN : 0 < N) : Sp 2 ℝ :=
-  TauCeti.GLSymplectic.leviHom (l := Fin 2) (R := ℝ)
-    (Matrix.GeneralLinearGroup.mkOfDetNeZero (frickeMatrix N)
-      (by rw [det_frickeMatrix N hN]; norm_num))
 
 /-! ## Layer 1: weights, slash operators, and the bundled forms -/
 
@@ -774,9 +721,8 @@ def conj (U : Matrix (Fin g) (Fin g) ℤ) (T : HalfIntegral g) : HalfIntegral g 
   diag_int := conj_diag_int U T
   two_int := conj_two_int U T
 
-/-- **Reduced** binary forms `(n, r, m)`: `|r| ≤ n ≤ m`, and `r ≥ 0` when `|r| = n` or `n = m`
-(2.1); the LMFDB's row labels. -/
-def IsReduced (n r m : ℤ) : Prop := |r| ≤ n ∧ n ≤ m ∧ ((|r| = n ∨ n = m) → 0 ≤ r)
+/-- The unoriented reduced binary forms `(n, r, m)`: `0 ≤ r ≤ n ≤ m` (2.1). -/
+def IsReduced (n r m : ℤ) : Prop := 0 ≤ r ∧ r ≤ n ∧ n ≤ m
 
 /-- Every positive definite `(n, r, m)` is `GL₂(ℤ)`-equivalent to exactly one reduced form (2.1). -/
 theorem exists_unique_reduced (n r m : ℤ) (h : (ofTriple n r m).IsPosDef) :
@@ -842,12 +788,15 @@ theorem fourierCoeff_eq_zero_of_hasSum (N : ℕ) (hN : 0 < N) (a : HalfIntegral 
 /-- The equivariance `a(UᵀTU) = ρ(Uᵀ) a(T)` for `U ∈ GL_g(ℤ)` with `m(U) = diag(U, U⁻ᵀ) ∈ Γ`
 (2.2); in scalar weight `k` this is `a(UᵀTU) = det(U)^k a(T)`. -/
 theorem fourierCoeff_conj {Γ : Subgroup (Sp g ℝ)} {ρ : Weight g V} (f : SiegelModularForm Γ ρ)
+    (N : ℕ) (hN : 0 < N)
+    (hlat : ∀ (S : Matrix (Fin g) (Fin g) ℤ) (hS : S.IsSymm),
+      translationInt ((N : ℤ) • S) (hS.smul _) ∈ Γ)
     (U : GL (Fin g) ℤ)
     (hU : TauCeti.GLSymplectic.leviHom (l := Fin g) (R := ℝ)
       (Matrix.GeneralLinearGroup.map (Int.castRingHom ℝ) U) ∈ Γ) (T : HalfIntegral g) :
-    fourierCoeff 1 f (conj (U : Matrix (Fin g) (Fin g) ℤ) T) =
+    fourierCoeff N f (conj (U : Matrix (Fin g) (Fin g) ℤ) T) =
       ρ.rep (transposeGL (Matrix.GeneralLinearGroup.map (Int.castRingHom ℂ) U))
-        (fourierCoeff 1 f T) := sorry
+        (fourierCoeff N f T) := sorry
 
 /-- **Koecher's principle** (2.4): for `g ≥ 2`, a holomorphic `Γ`-invariant function on `ℍ_g`
 has Fourier coefficients supported on the positive semidefinite cone. -/
@@ -875,8 +824,10 @@ def SiegelModularForm.ofInvariant (hg : 2 ≤ g) {Γ : Subgroup (Sp g ℝ)} (hΓ
 
 /-- Hecke's bound `a(T) = O(det T ^ k)` on positive definite `T` (2.5). -/
 theorem fourierCoeff_isBigO {Γ : Subgroup (Sp g ℝ)} (hΓ : IsArithmetic Γ) (k : ℤ)
-    (f : SiegelModularForm Γ (detWeight g k)) : ∃ C : ℝ, ∀ T : HalfIntegral g, T.IsPosDef →
-      ‖fourierCoeff 1 f T‖ ≤ C * (T.mat.det : ℝ) ^ k := sorry
+    (f : SiegelModularForm Γ (detWeight g k)) (N : ℕ) (hN : 0 < N)
+    (hlat : ∀ (S : Matrix (Fin g) (Fin g) ℤ) (hS : S.IsSymm),
+      translationInt ((N : ℤ) • S) (hS.smul _) ∈ Γ) : ∃ C : ℝ, ∀ T : HalfIntegral g, T.IsPosDef →
+      ‖fourierCoeff N f T‖ ≤ C * (T.mat.det : ℝ) ^ k := sorry
 
 /-! ## Layer 3: the Φ-operator, cusp forms, finite dimensionality -/
 
@@ -897,20 +848,8 @@ def SiegelHalfSpace.appendImag (τ' : ℍ[g]) (t : ℝ) (ht : 0 < t) : ℍ[g + 1
 def phi (f : ℍ[g + 1] → V) : ℍ[g] → V :=
   fun τ' => limUnder atTop fun t : {t : ℝ // 0 < t} => f (τ'.appendImag t.1 t.2)
 
-/-- `Φ` of a form of degree `g + 1` and weight `det^k` is a form of degree `g` and weight `det^k`
-(3.1). -/
-theorem phi_mem (k : ℤ) (f : SiegelModularForm (Gamma (g + 1)) (detWeight (g + 1) k)) :
-    ∃ F : SiegelModularForm (Gamma g) (detWeight g k), ⇑F = phi f := sorry
 
-/-- The Fourier description `(Φ f)(τ') = ∑_{T' ≥ 0} a(diag(T', 0)) e(tr(T' τ'))` (3.1). -/
-theorem fourierCoeff_phi (k : ℤ) (f : SiegelModularForm (Gamma (g + 1)) (detWeight (g + 1) k))
-    (F : SiegelModularForm (Gamma g) (detWeight g k)) (hF : ⇑F = phi f) (T' : HalfIntegral g) :
-    fourierCoeff 1 F T' = fourierCoeff 1 f T'.appendZero := sorry
 
-/-- `Φ : M_{k,j}(Γ₂) → M_{k+j}(SL₂(ℤ))` in the vector-valued case, through the `X₀^j`-coordinate
-(3.1). -/
-theorem phi_rho (k : ℤ) (j : ℕ) (f : SiegelModularForm (Gamma 2) (rho k j)) :
-    ∃ F : SiegelModularForm (Gamma 1) (detWeight 1 (k + j)), ⇑F = fun τ => phi (⇑f) τ 0 := sorry
 
 /-- **Cusp forms** (3.2): `Φ(f ∣_ρ γ) = 0` for every `γ ∈ Sp_{2g}(ℚ)`. -/
 def IsCuspForm {Γ : Subgroup (Sp (g + 1) ℝ)} {ρ : Weight (g + 1) V} (f : SiegelModularForm Γ ρ) :
@@ -945,9 +884,11 @@ def cuspSubmodule (Γ : Subgroup (Sp (g + 1) ℝ)) (ρ : Weight (g + 1) V) :
 
 /-- The cusp-form bound `|a(T)| ≤ C det(T)^{k/2}` (2.5, 3.2). -/
 theorem fourierCoeff_cusp_isBigO {Γ : Subgroup (Sp (g + 1) ℝ)} (hΓ : IsArithmetic Γ) (k : ℤ)
-    (f : SiegelModularForm Γ (detWeight (g + 1) k)) (hf : IsCuspForm f) :
+    (f : SiegelModularForm Γ (detWeight (g + 1) k)) (hf : IsCuspForm f) (N : ℕ) (hN : 0 < N)
+    (hlat : ∀ (S : Matrix (Fin (g + 1)) (Fin (g + 1)) ℤ) (hS : S.IsSymm),
+      translationInt ((N : ℤ) • S) (hS.smul _) ∈ Γ) :
     ∃ C : ℝ, ∀ T : HalfIntegral (g + 1), T.IsPosDef →
-      ‖fourierCoeff 1 f T‖ ≤ C * (T.mat.det : ℝ) ^ ((k : ℝ) / 2) := sorry
+      ‖fourierCoeff N f T‖ ≤ C * (T.mat.det : ℝ) ^ ((k : ℝ) / 2) := sorry
 
 /-- **Finite dimensionality** (3.5): `M_ρ(Γ)` is finite-dimensional for every arithmetic `Γ`. -/
 theorem finiteDimensional {Γ : Subgroup (Sp g ℝ)} (hΓ : IsArithmetic Γ) (ρ : Weight g V) :
@@ -978,14 +919,7 @@ def siegelEisenstein (g k : ℕ) (hk : g + 1 < k) (hk2 : Even k) :
     SiegelModularForm (Gamma g) (detWeight g k) :=
   SiegelModularForm.equivSubmodule.symm ⟨siegelEisensteinFun g k, siegelEisensteinFun_mem g k hk hk2⟩
 
-/-- The constant term of `E_k^{(g)}` is `1` (4.1). -/
-theorem fourierCoeff_siegelEisenstein_zero (g k : ℕ) (hk : g + 1 < k) (hk2 : Even k) :
-    fourierCoeff 1 (siegelEisenstein g k hk hk2) (HalfIntegral.zero g) = 1 := sorry
 
-/-- `Φ E_k^{(g+1)} = E_k^{(g)}` (4.1). -/
-theorem phi_siegelEisenstein (g k : ℕ) (hk : g + 2 < k) (hk2 : Even k) :
-    phi (siegelEisenstein (g + 1) k hk hk2) =
-      siegelEisenstein g k (by omega) hk2 := sorry
 
 /-! ## Layer 5: Siegel theta series -/
 
@@ -1010,43 +944,23 @@ theorem fourierCoeff_siegelTheta (L : Submodule ℤ E) [DiscreteTopology L] [IsZ
       Set.ncard {v : Fin g → L | gram (fun i => (v i : E)) = (2 : ℂ) • T.mat.map (algebraMap ℚ ℂ)} :=
   sorry
 
-/-- **Modularity for even unimodular lattices** (5.2): rank `2k` gives `θ_L^{(g)} ∈ M_k(Γ_g)`. -/
-theorem siegelTheta_mem (L : Submodule ℤ E) [DiscreteTopology L] [IsZLattice ℝ L] (k : ℕ)
-    (hrank : Module.finrank ℝ E = 2 * k) (heven : ∀ x ∈ L, ∃ m : ℤ, ⟪x, x⟫ = 2 * m)
-    (hunimod : LinearMap.BilinForm.dualSubmodule (innerₗ E) L = L) (g : ℕ) :
-    ∃ F : SiegelModularForm (Gamma g) (detWeight g k), ⇑F = siegelTheta L g := sorry
 
 /-- The transformation under `J` (5.2) for a lattice of even rank `2k`:
-`θ_L(−τ⁻¹) = det(τ/i)^k covol(L)⁻¹ θ_{L^∨}(τ)`. For odd rank the README's `det(τ/i)^{m/2}` is the
+`θ_L(−τ⁻¹) = det(τ/i)^k covol(L)^(−g) θ_{L^∨}(τ)`. For odd rank the README's `det(τ/i)^{m/2}` is the
 holomorphic square root positive at `τ = iY`, which for `g ≥ 3` is not the principal branch of
 `cpow`, so that case is stated in the README only. -/
 theorem siegelTheta_symJ_smul [MeasurableSpace E] [BorelSpace E] (L : Submodule ℤ E)
     [DiscreteTopology L] [IsZLattice ℝ L] (k : ℕ) (hrank : Module.finrank ℝ E = 2 * k) (τ : ℍ[g]) :
     siegelTheta L g (Sp.toGSpPos (TauCeti.GLSymplectic.symJ (Fin g) ℝ) • τ) =
       (τ.toMatrix.map fun z => z / I).det ^ k *
-        (ZLattice.covolume L MeasureTheory.volume : ℂ)⁻¹ *
+        ((ZLattice.covolume L MeasureTheory.volume : ℂ) ^ g)⁻¹ *
         siegelTheta (LinearMap.BilinForm.dualSubmodule (innerₗ E) L) g τ := sorry
 
 end Theta
 
-/-- A **theta constant with characteristic** `ε = (ε', ε'')`,
-`θ_ε(τ) = ∑_{n ∈ ℤ^g} exp(π i [(n + ε'/2) τ (n + ε'/2)ᵀ + (n + ε'/2)·ε''])` (5.4). -/
-def thetaConstant (ε' ε'' : Fin g → Fin 2) (τ : ℍ[g]) : ℂ :=
-  ∑' n : Fin g → ℤ, cexp (π * I *
-    ((∑ i, ∑ j, ((n i : ℂ) + (ε' i : ℂ) / 2) * τ.toMatrix i j * ((n j : ℂ) + (ε' j : ℂ) / 2)) +
-      ∑ i, ((n i : ℂ) + (ε' i : ℂ) / 2) * (ε'' i : ℂ)))
 
-/-- A characteristic is **even** when `ε' · ε'' ≡ 0 mod 2` (5.4). -/
-def IsEvenChar (ε' ε'' : Fin g → Fin 2) : Prop := Even (∑ i, (ε' i : ℕ) * (ε'' i : ℕ))
 
-/-- `θ_ε = 0` iff `ε` is odd (5.4). -/
-theorem thetaConstant_eq_zero_iff (ε' ε'' : Fin g → Fin 2) :
-    thetaConstant ε' ε'' = 0 ↔ ¬ IsEvenChar ε' ε'' := sorry
 
-/-- There are `2^{g−1}(2^g + 1)` even characteristics (5.4). -/
-theorem card_evenChar (hg : 0 < g) :
-    Nat.card {ε : (Fin g → Fin 2) × (Fin g → Fin 2) // IsEvenChar ε.1 ε.2} =
-      2 ^ (g - 1) * (2 ^ g + 1) := sorry
 
 /-! ## Layer 6: the degree-two rings -/
 
@@ -1174,19 +1088,19 @@ def satohWeights : Fin 3 → ℕ := ![6, 10, 12]
 
 /-- **Satoh's theorem** (6.4; Satoh 1986): for even `k`,
 `M_{k,2}(Γ₂) = M_{k−10}[ψ₄,ψ₆] ⊕ M_{k−14}[ψ₄,χ₁₀] ⊕ M_{k−16}[ψ₄,χ₁₂] ⊕ V_{k−16}[ψ₆,χ₁₀] ⊕
-V_{k−18}[ψ₆,χ₁₂] ⊕ V_{k−22}[χ₁₀,χ₁₂]`: every form of weight `(k, 2)` is uniquely a sum of the six
+V_{k−18}[ψ₆,χ₁₂] ⊕ W_{k−22}[χ₁₀,χ₁₂]`: every form of weight `(k, 2)` is uniquely a sum of the six
 brackets times isobaric polynomials, in `ψ₄, ψ₆, χ₁₀, χ₁₂` of weights `k − 10, k − 14, k − 16` and
-in `ψ₆, χ₁₀, χ₁₂` of weights `k − 16, k − 18, k − 22`. The weights are integers, so a negative
+in `ψ₆, χ₁₀, χ₁₂` of weights `k − 16, k − 18`, and in `χ₁₀, χ₁₂` of weight `k − 22`. The weights are integers, so a negative
 weight admits only the zero polynomial and the statement at `k < 10` says `M_{k,2}(Γ₂) = 0`. -/
 theorem satoh (k : ℕ) (hk : Even k) (F : SiegelModularForm (Gamma 2) (rho k 2)) :
     ∃! x : (MvPolynomial (Fin 4) ℂ × MvPolynomial (Fin 4) ℂ × MvPolynomial (Fin 4) ℂ) ×
-        (MvPolynomial (Fin 3) ℂ × MvPolynomial (Fin 3) ℂ × MvPolynomial (Fin 3) ℂ),
+        (MvPolynomial (Fin 3) ℂ × MvPolynomial (Fin 3) ℂ × MvPolynomial (Fin 2) ℂ),
       x.1.1.IsWeightedHomogeneous (fun i => (igusaWeights i : ℤ)) ((k : ℤ) - 10) ∧
       x.1.2.1.IsWeightedHomogeneous (fun i => (igusaWeights i : ℤ)) ((k : ℤ) - 14) ∧
       x.1.2.2.IsWeightedHomogeneous (fun i => (igusaWeights i : ℤ)) ((k : ℤ) - 16) ∧
       x.2.1.IsWeightedHomogeneous (fun i => (satohWeights i : ℤ)) ((k : ℤ) - 16) ∧
       x.2.2.1.IsWeightedHomogeneous (fun i => (satohWeights i : ℤ)) ((k : ℤ) - 18) ∧
-      x.2.2.2.IsWeightedHomogeneous (fun i => (satohWeights i : ℤ)) ((k : ℤ) - 22) ∧
+      x.2.2.2.IsWeightedHomogeneous (![10, 12] : Fin 2 → ℤ) ((k : ℤ) - 22) ∧
       ⇑F = fun τ =>
         MvPolynomial.aeval igusaGenerators x.1.1 τ •
             satohBracket (psi 4 (by norm_num) (by decide)) (psi 6 (by norm_num) (by decide)) τ +
@@ -1198,16 +1112,17 @@ theorem satoh (k : ℕ) (hk : Even k) (F : SiegelModularForm (Gamma 2) (rho k 2)
             satohBracket (psi 6 (by norm_num) (by decide)) chi10 τ +
           MvPolynomial.aeval satohGenerators x.2.2.1 τ •
             satohBracket (psi 6 (by norm_num) (by decide)) chi12 τ +
-          MvPolynomial.aeval satohGenerators x.2.2.2 τ • satohBracket chi10 chi12 τ := sorry
+          MvPolynomial.aeval (![⇑chi10, ⇑chi12] : Fin 2 → (ℍ[2] → ℂ)) x.2.2.2 τ • satohBracket chi10 chi12 τ := sorry
 
 /-- The coefficient of `t^k` in Satoh's Hilbert series
-`(t¹⁰ + t¹⁴ + t¹⁶)/((1 − t⁴)(1 − t⁶)(1 − t¹⁰)(1 − t¹²)) + (t¹⁶ + t¹⁸ + t²²)/((1 − t⁶)(1 − t¹⁰)(1 − t¹²))`
-(6.4): the monomial count of the three `M`-summands plus that of the three `V`-summands. -/
+`(t¹⁰ + t¹⁴ + t¹⁶)/((1 − t⁴)(1 − t⁶)(1 − t¹⁰)(1 − t¹²)) + (t¹⁶ + t¹⁸)/((1 − t⁶)(1 − t¹⁰)(1 − t¹²)) + t²²/((1 − t¹⁰)(1 − t¹²))`
+(6.4): the monomial count of three `M`-summands, two `V`-summands and one `W`-summand. -/
 def satohDim (k : ℕ) : ℕ :=
   Set.ncard {x : ℕ × ℕ × ℕ × ℕ × Fin 3 |
       4 * x.1 + 6 * x.2.1 + 10 * x.2.2.1 + 12 * x.2.2.2.1 + ![10, 14, 16] x.2.2.2.2 = k} +
-    Set.ncard {x : ℕ × ℕ × ℕ × Fin 3 |
-      6 * x.1 + 10 * x.2.1 + 12 * x.2.2.1 + ![16, 18, 22] x.2.2.2 = k}
+    Set.ncard {x : ℕ × ℕ × ℕ × Fin 2 |
+      6 * x.1 + 10 * x.2.1 + 12 * x.2.2.1 + ![16, 18] x.2.2.2 = k} +
+    Set.ncard {x : ℕ × ℕ | 10 * x.1 + 12 * x.2 + 22 = k}
 
 /-- `dim M_{k,2}(Γ₂)` for even `k` is the coefficient of `t^k` in Satoh's Hilbert series (6.4):
 `1, 0, 2, 3, 3, 4, 7` at `k = 10, 12, …, 22`. -/
@@ -1221,12 +1136,6 @@ def integralSimilitudes (g m : ℕ) : Set (GSpPos g ℚ) :=
   {M | (∀ i j, ∃ n : ℤ, GSpPos.mat M i j = n) ∧
     GSpPos.mat M * Matrix.J (Fin g) ℚ * (GSpPos.mat M)ᵀ = (m : ℚ) • Matrix.J (Fin g) ℚ}
 
-/-- `Γ_g` as a subgroup of `GL (Fin g ⊕ Fin g) ℚ`, for Mathlib's Hecke-triple predicate (7.1). -/
-def GammaQ (g : ℕ) : Subgroup (GL (Fin g ⊕ Fin g) ℚ) :=
-  ((TauCeti.GLSymplectic.map (Fin g) (Int.castRingHom ℚ)).range).map (Sp g ℚ).subtype
-
-/-- `(Γ_g, GSp⁺_{2g}(ℚ))` is a Hecke pair in Mathlib's sense (7.1). -/
-theorem isHeckeTriple_gamma : IsHeckeTriple (GSpPos g ℚ).toSubmonoid (GammaQ g) (GammaQ g) := sorry
 
 /-- `Γ_g` inside `GSp⁺_{2g}(ℚ)`, whose right cosets index the Hecke sums (7.1). -/
 def gammaGSp (g : ℕ) : Subgroup (GSpPos g ℚ) := (Sp.toGSpPos.comp Sp.intToRat).range
@@ -1263,12 +1172,6 @@ open scoped Classical in
 def cosetRepsTi (g p i : ℕ) : Finset (GSpPos g ℚ) :=
   (finite_rightCosetsOf_heckeDoubleCoset g p i).toFinset.image Quotient.out
 
-/-- Degree-two coset counts (7.1): `(p+1)(p²+1)`, `p³(p+1)(p²+1)`, `p(p+1)(p²+1)`, `1`. -/
-theorem card_cosetReps_two (p : ℕ) (hp : p.Prime) :
-    (cosetReps 2 p).card = (p + 1) * (p ^ 2 + 1) ∧
-    (cosetRepsTi 2 p 0).card = p ^ 3 * (p + 1) * (p ^ 2 + 1) ∧
-    (cosetRepsTi 2 p 1).card = p * (p + 1) * (p ^ 2 + 1) ∧
-    (cosetRepsTi 2 p 2).card = 1 := sorry
 
 /-- `T(m) f = ∑_{γ ∈ Γ_g \ O_g(m)} f ∣_{ρ,e} γ` on functions (7.2). -/
 def heckeTFun (ρ : Weight g V) (e : ℤ) (m : ℕ) (f : ℍ[g] → V) : ℍ[g] → V :=
@@ -1298,29 +1201,10 @@ def heckeTi (ρ : Weight g V) (e : ℤ) (p i : ℕ) (f : SiegelModularForm (Gamm
     SiegelModularForm (Gamma g) ρ :=
   SiegelModularForm.equivSubmodule.symm ⟨heckeTiFun ρ e p i f, heckeTiFun_mem ρ e p i f⟩
 
-/-- `T(p²) = ∑_{i=0}^{g} T_i(p²)` (7.1). -/
-theorem heckeT_sq (ρ : Weight g V) (e : ℤ) (p : ℕ) (hp : p.Prime) (f : SiegelModularForm (Gamma g) ρ) :
-    heckeT ρ e (p ^ 2) f = ∑ i ∈ Finset.range (g + 1), heckeTi ρ e p i f := sorry
 
-/-- The Hecke operators commute (7.1, 7.2): the Hecke ring is commutative. -/
-theorem heckeT_comm (ρ : Weight g V) (e : ℤ) (m n : ℕ) (f : SiegelModularForm (Gamma g) ρ) :
-    heckeT ρ e m (heckeT ρ e n f) = heckeT ρ e n (heckeT ρ e m f) := sorry
 
-/-- Multiplicativity `T(mn) = T(m) T(n)` for coprime `m, n` (7.5). -/
-theorem heckeT_mul_of_coprime (ρ : Weight g V) (e : ℤ) (m n : ℕ) (h : Nat.Coprime m n)
-    (f : SiegelModularForm (Gamma g) ρ) : heckeT ρ e (m * n) f = heckeT ρ e m (heckeT ρ e n f) := sorry
 
-/-- Hecke operators preserve cusp forms (7.2): `Φ` of each slash is a slash of `Φ f`. -/
-theorem isCuspForm_heckeT {ρ : Weight (g + 1) V} (e : ℤ) (m : ℕ)
-    (f : SiegelModularForm (Gamma (g + 1)) ρ) (hf : IsCuspForm f) : IsCuspForm (heckeT ρ e m f) := sorry
 
-/-- The `g = 1` bridge (7.2): for `ρ = det^k`, `e = k − 1`, `T(p)` is Tau Ceti's `Tₙ` at `n = p`
-under the comparison of 1.3; stated as agreement of the eigenvalue on a normalized level-one
-newform read through `equivUpperHalfPlane`, `λ(p) = a_p`. -/
-theorem heckeT_one_eq (k : ℤ) (p : ℕ) (hp : p.Prime) (f : HeckeRing.GL2.Newform 1 k)
-    (F : SiegelModularForm (Gamma 1) (detWeight 1 k))
-    (hF : ⇑F = fun τ => f.toCuspForm (SiegelHalfSpace.equivUpperHalfPlane τ)) :
-    heckeT _ (scalarExponent 1 k) p F = ((qExpansion 1 f.toCuspForm).coeff p) • F := sorry
 
 /-- **Hecke eigenforms** (7.2): nonzero simultaneous eigenvectors of all `T(m)` and `T_i(p²)`. -/
 def IsHeckeEigenform (ρ : Weight g V) (e : ℤ) (f : SiegelModularForm (Gamma g) ρ) : Prop :=
@@ -1339,11 +1223,6 @@ theorem exists_eigenform_basis (k : ℤ) :
       LinearIndependent ℂ (fun f : s => (f : SiegelModularForm (Gamma (g + 1)) (detWeight (g + 1) k))) ∧
       Submodule.span ℂ (s : Set _) = cuspSubmodule (Gamma (g + 1)) (detWeight (g + 1) k) := sorry
 
-/-- The `T(p)`-eigenvalue of `E_k^{(g)}`, `λ(T(p)) = ∏_{i=1}^{g} (1 + p^{k−i})`, from its Satake
-parameters `α₀ = 1`, `α_i = p^{k−i}` (7.4). -/
-theorem eigenvalue_siegelEisenstein (g k : ℕ) (hk : g + 1 < k) (hk2 : Even k) (p : ℕ) (hp : p.Prime) :
-    ∃ hf : IsHeckeEigenform _ (scalarExponent g k) (siegelEisenstein g k hk hk2),
-      eigenvalue hf p = ∏ i ∈ Finset.range g, (1 + (p : ℂ) ^ (k - (i + 1) : ℤ)) := sorry
 
 /-- The coefficient of a scalar form of degree two at `(n, r, m)`, zero unless half-integral. -/
 def coeffTriple {k : ℤ} (f : SiegelModularForm (Gamma 2) (detWeight 2 k)) (n r m : ℤ) : ℂ :=
@@ -1363,39 +1242,17 @@ theorem coeffTriple_heckeT (k : ℤ) (p : ℕ) (hp : p.Prime)
       (p : ℂ) ^ (2 * k - 3) * (if (p : ℤ) ∣ n ∧ (p : ℤ) ∣ r ∧ (p : ℤ) ∣ m then
         coeffTriple f (n / p) (r / p) (m / p) else 0) := sorry
 
-/-! ## Layer 8: spinor and standard L-functions -/
 
-/-- The **spinor Euler factor** `Q_p(X) = ∏_{I ⊆ {1..g}} (1 − α₀ α_I X)`, of degree `2^g` (8.1). -/
-def spinorEulerFactor (α : Fin (g + 1) → ℂ) : Polynomial ℂ :=
-  ∏ I : Finset (Fin g), (1 - C (α 0 * ∏ i ∈ I, α i.succ) * X)
 
-/-- The **standard Euler factor** `D_p(X) = (1 − X) ∏_{i=1}^{g} (1 − α_i X)(1 − α_i⁻¹ X)`, of
-degree `2g + 1` (8.1). -/
-def standardEulerFactor (α : Fin (g + 1) → ℂ) : Polynomial ℂ :=
-  (1 - X) * ∏ i : Fin g, (1 - C (α i.succ) * X) * (1 - C (α i.succ)⁻¹ * X)
 
 /-! ## Layer 9: the Maass lift, the Maass space and the Saito–Kurokawa theorem -/
 
-/-- The Fourier coefficient of the Maass lift at `(n, r, m) ≠ 0` of the Jacobi form with
-discriminant coefficients `c`: `∑_{d ∣ (n, r, m)} d^{k−1} c((4nm − r²)/d²)` (9.3). No Jacobi
-carrier is declared here (9.2): an index-one Jacobi form `φ ∈ J_{k,1}` enters through its
-discriminant-indexed coefficients `c(N)`, `N = 4n − r²`, with `c N = 0` for `N < 0`. -/
-def maassCoeff (k : ℕ) (c : ℤ → ℂ) (n r m : ℤ) : ℂ :=
-  ∑ d ∈ (Int.gcd (Int.gcd n r) m).divisors, (d : ℂ) ^ (k - 1) * c ((4 * n * m - r ^ 2) / d ^ 2)
 
-/-- The **Maass lift** `V(φ)(τ) = ∑_{n, m ≥ 0, r} a(n,r,m) e(nτ' + rz + mτ'')` of the Jacobi form
-with discriminant coefficients `c`, with the constant term `c(0) · (−B_k/(2k))` (9.3). The index
-set is `ℕ × ℤ × ℕ`: the terms with `n < 0` or `m < 0` are absent (Koecher, 2.4), and the terms
-with `4nm − r² < 0` vanish because `c` vanishes on negative arguments. -/
-def maassLift (k : ℕ) (c : ℤ → ℂ) (τ : ℍ[2]) : ℂ :=
-  ∑' T : ℕ × ℤ × ℕ,
-    (if T = 0 then c 0 * (-(bernoulli k : ℂ) / (2 * k)) else maassCoeff k c T.1 T.2.1 T.2.2) *
-      cexp (2 * π * I * (T.1 * τ.toMatrix 0 0 + T.2.1 * τ.toMatrix 0 1 + T.2.2 * τ.toMatrix 1 1))
 
 /-- The **Maass relation** defining the Maass space `M_k^*(Γ₂)` (9.4):
-`a(n, r, m) = ∑_{d ∣ (n, r, m)} d^{k−1} a(1, r/d, mn/d²)` for `(n, r, m) ≠ 0`. -/
+`a(n, r, m) = ∑_{d ∣ (n, r, m)} d^{k−1} a(1, r/d, mn/d²)` for positive semidefinite `(n, r, m) ≠ 0`. -/
 def IsMaassForm {k : ℤ} (f : SiegelModularForm (Gamma 2) (detWeight 2 k)) : Prop :=
-  ∀ n r m : ℤ, (n, r, m) ≠ 0 →
+  ∀ n r m : ℤ, (ofTriple n r m).IsPosSemidef → (n, r, m) ≠ 0 →
     coeffTriple f n r m = ∑ d ∈ (Int.gcd (Int.gcd n r) m).divisors,
       (d : ℂ) ^ (k - 1) * coeffTriple f 1 (r / d) (m * n / d ^ 2)
 
@@ -1451,9 +1308,10 @@ theorem finrank_cusp_277 :
 
 /-! ## Layer 11: the LMFDB invariants -/
 
-/-- The eigenvalues of a level-one eigenform are algebraic integers (11.2): the Hecke operators
+/-- The eigenvalues of `T(m)` on a scalar level-one eigenform of weight `k ≥ 2`
+are algebraic integers (11.2): the Hecke operators
 preserve the lattice of forms with integral coefficients. -/
-theorem eigenvalue_isIntegral (k : ℤ) {f : SiegelModularForm (Gamma 2) (detWeight 2 k)}
+theorem eigenvalue_isIntegral (k : ℤ) (hk : 2 ≤ k) {f : SiegelModularForm (Gamma 2) (detWeight 2 k)}
     (hf : IsHeckeEigenform _ (scalarExponent 2 k) f) (m : ℕ) : _root_.IsIntegral ℤ (eigenvalue hf m) :=
   sorry
 

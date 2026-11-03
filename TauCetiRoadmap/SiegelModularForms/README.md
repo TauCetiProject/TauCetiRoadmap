@@ -12,7 +12,7 @@ operators, Fourier expansions over half-integral matrices and Koecher's principl
 Siegel theta series of lattices, Igusa's structure theorem for degree two and the `Γ₀(2)`,
 `Γ₀(3)`, `Γ₀(4)` ring theorems the LMFDB records, Hecke operators with their Satake
 parameters, the spinor and standard `L`-functions, the Maass (Saito–Kurokawa) lift proved and
-the Gritsenko, Ikeda and Miyawaki lifts stated, paramodular newforms, and the paramodular
+the Gritsenko, Ikeda and Miyawaki lift theorems, paramodular newforms, and the paramodular
 conjecture stated. Degree two is done in full; general degree is kept wherever it costs nothing,
 which is everything up to and including the Hecke algebra and the `L`-functions.
 
@@ -57,17 +57,24 @@ rings, Hecke operators, `L`-functions, lifts, paramodular forms, and the LMFDB i
 - The Hecke algebra of `(Γ_g, GSp⁺_{2g}(ℚ))`, its action on `M_ρ(Γ)`, eigenforms and Satake
   parameters, and the degree-two coefficient formula for `T(p)` (Layer 7).
 - The spinor and standard `L`-functions with their Euler factors, the degree-two quartic Euler
-  factor, Andrianov's identity, the analytic continuation and functional equations stated, and
+  factor, Andrianov's identity, the analytic continuation and functional equations proved, and
   the export to the completed `L`-function data model (Layer 8).
-- The Fourier–Jacobi expansion, the Jacobi Eisenstein series `E_{k,1}` and the operators `V_l` on
-  the consumed index-one Jacobi forms, the Maass lift and the Saito–Kurokawa theorem, and the
+- The Fourier–Jacobi expansion, the Jacobi Eisenstein series `E_{k,1}`, comparison with the supplied index-raising
+  operators `V_l` on Jacobi forms, the Maass lift and the Saito–Kurokawa theorem, and the
   Gritsenko, Ikeda and Miyawaki lifts stated (Layer 9).
 - Paramodular forms, level-raising operators, newforms, the Roberts–Schmidt local newform
-  theory stated, Poor–Yuen's weight-two results stated, and the paramodular conjecture stated
+  comparison and Poor–Yuen's weight-two theorems, and the paramodular conjecture stated
   (Layer 10).
 - The LMFDB invariant layer: the families, the intrinsic label prefix, integrality of Fourier
   coefficients, coefficient fields, Galois orbits of eigenforms and the page coverage map
   (Layer 11).
+
+Every nonconjectural theorem specified below includes its proof as a target. In particular,
+Layers 6, 8, 9 and 10 own the classical dimension and classification theorems, the spinor
+functional equation and classical standard comparison, the non-Maass Ramanujan bound,
+the holomorphic Ikeda and nonzero Miyawaki lift theorems, and the paramodular newform
+consequences. A source locator specifies a theorem to prove; it is not a library assumption.
+The paramodular conjecture and explicitly identified nonvanishing conjectures remain conditional.
 
 ### Not owned here
 
@@ -82,7 +89,8 @@ rings, Hecke operators, `L`-functions, lifts, paramodular forms, and the LMFDB i
   `m ≥ 1` as spaces: the carrier and the theta decomposition are `MetaplecticAutomorphicForms`'
   (6.18, 6.20), their classical form, half-integral components and dimension formula are
   `HalfIntegralWeightModularForms`' (6.1–6.3). This roadmap states on that carrier only the
-  Jacobi Eisenstein series, the operators `V_l` and the Maass lift.
+  Jacobi Eisenstein series and the Maass lift; `V_l` and its Fourier/composition laws
+  come from `HalfIntegralWeightModularForms` §6.4.
 - The metaplectic cover, the Weil representation, theta kernels and theta lifts, the
   Siegel–Weil formula, Jacobi Eisenstein series of Bump–Friedberg–Hoffstein and genuine
   Eisenstein series: `MetaplecticAutomorphicForms`.
@@ -93,10 +101,10 @@ rings, Hecke operators, `L`-functions, lifts, paramodular forms, and the LMFDB i
   `AutomorphicBundles`. Everything here is a holomorphic function on `ℍ_g`; the
   identification of `Γ_g \ ℍ_g` with `A_g(ℂ)` is theirs.
 - The adelic theory: automorphic representations of `GSp₄`, Arthur's classification and the
-  automorphic type letters (F, P, Q, B, Y, G) of the LMFDB, local newform theory as a theorem
-  about representations of `GSp₄(ℚ_p)`, and the local factors at primes dividing the level.
-  10.4 states the Roberts–Schmidt theorem as the classical consequence this roadmap consumes,
-  by citation.
+  automorphic type letters (F, P, Q, B, Y, G) of the LMFDB, the general representation-theoretic theory beyond the paramodular comparison of 10.4.
+  Section 10.4 builds the local paramodular fixed-vector theory and its classical
+  comparison needed here; generic smooth representation carriers are supplied by
+  `SmoothRepresentationsOfLocalGroups` SR.0.1, SR.0.3–SR.0.4 and SR.1.1–SR.1.3.
 - Abelian surfaces, their conductors and `L`-functions, genus-two curves and their Jacobians:
   the sibling `HyperellipticCurves` (Layers 4–5: conductors and Euler factors of genus-two
   Jacobians, for the `g2c` section), `AbelianVarietiesOverFiniteFields` (1.3: the `L`-polynomial)
@@ -106,6 +114,9 @@ rings, Hecke operators, `L`-functions, lifts, paramodular forms, and the LMFDB i
   side supplies the Euler factors.
 - The classification of abelian surfaces by endomorphism algebra and the Sato–Tate groups:
   `SatoTateGroups`.
+- The all-genus unweighted theta map for even unimodular lattices:
+  `LevelOneAutomorphicFormsForClassicalGroups` LO.6/higher-genus-theta. Layer 5
+  extends it to non-unimodular lattices and proves the exact comparison.
 - Degree-one theta series with harmonic coefficients, spherical designs and Venkov's theorem: the
   sibling `LatticePackingsAndPerfectForms` (its Layer 5); 5.3 specializes to its 5.6 at `g = 1`.
 - Label components beyond the intrinsic prefix, orderings fixed by convention, stored lists, and
@@ -116,12 +127,9 @@ rings, Hecke operators, `L`-functions, lifts, paramodular forms, and the LMFDB i
   (Tsuyumine's degree-three ring, Poor–Yuen's degree-four weights `k ≤ 16`), vector-valued forms
   of degree `g ≥ 3`, anything about `Sp_{2g}` for `g ≥ 5`, Harder's conjecture, and the geometry
   of `A_2` (the Igusa quartic, cohomology of local systems, the Faber–van der Geer point counts).
-- Proofs of the Ramanujan–Petersson bound (Weissauer), of the functional equations of 8.3, of
-  Ikeda's and Miyawaki's lifts, of Tsushima's and Ibukiyama's dimension formulas, of Tsuyumine's
-  and Poor–Yuen's classifications, and of Roberts–Schmidt's theorems: these are stated targets,
-  with precise statements, whose proofs are not targets here; their degree-two instances that the
-  LMFDB tables need are proved where a proof is listed. Strong multiplicity one for `GSp₄` is
-  consumed as a named hypothesis in 10.6.
+- The general automorphic doubling construction and its functional equation:
+  `AutomorphicLFunctionsAndLocalFactorsPartII` §§9.1–9.3. The classical standard-factor
+  comparison, gamma normalization and pole criterion are proved in 8.3 here.
 - Borcherds products, Gritsenko–Nikulin reflective forms, Hermitian and quaternionic modular
   forms, Hilbert–Siegel forms, Siegel modular forms over totally real fields, `p`-adic and
   mod-`p` Siegel modular forms, Galois representations attached to Siegel modular forms, Yoshida
@@ -275,6 +283,18 @@ operator on Siegel modular forms, and no paramodular group.
 - `TauCeti.AlgebraicGeometry.AbelianVariety.Basic`: the abelian-variety carrier that the
   prose statement of the paramodular conjecture (10.6) refers to.
 
+- `TauCeti/NumberTheory/ModularForms/SturmBound.lean`: `ModularForm.sturm_bound_finiteIndex`
+  and `ModularForm.sturm_bound_finiteIndex_SL2Z`, with discrete strict periods and the
+  finite-index factor in the bound, supply the degree-one case of 3.5.
+- `TauCeti/NumberTheory/ModularForms/CharacterDecomp.lean`: `isInternal_modFormCharSpace`
+  and `isInternal_cuspFormCharSpace` decompose the Γ₁(N) spaces into character spaces for
+  Γ₀(N), for positive N; these are the degree-one comparisons in 1.3.
+- `TauCeti/NumberTheory/ModularForms/Petersson/Normal.lean`:
+  `HeckeRing.GL2.isAdjointPair_heckeRingHomCuspCharSpace_heckeTGeneratorGamma0`
+  and `HeckeRing.GL2.commute_peterssonAdjoint_heckeRingHomCuspCharSpace_heckeTGeneratorGamma0`
+  supply the degree-one good-prime adjoint and normality in 7.3, for positive N and
+  primes p coprime to N, on the character space with character χ.
+
 ### From TauCetiRoadmap.ModularForms
 
 - its *Layer 2* Hecke operators
@@ -292,11 +312,37 @@ with `gaussian` and
   modularity theorems (*Layers 5 and 7*). The degree-`g` theta series of Layer 5 below is the
   `g`-variable generalization of that object and specializes to it at `g = 1`.
 
+### From TauCetiRoadmap.LevelOneAutomorphicFormsForClassicalGroups
+
+- LO.6/higher-genus-theta: the unweighted genus-`g` theta map on even unimodular
+  lattices, with constant coefficient `1`, its Φ compatibility and modularity.
+  Section 5.1 identifies its lattice-basis value with the general lattice sum here;
+  5.2 owns the extension to arbitrary positive definite lattices and their duals.
+
 ### From TauCetiRoadmap.IntegralLattices
 
 - its
   *Layer 2* Minkowski reduction of positive definite forms, the input to Siegel's fundamental
   domain (3.3).
+
+### From TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactorsPartII
+
+- Sections 9.1–9.3: the global doubling integral, completed product and functional equation
+  for cuspidal unitary representations, with norm twists and fixed local measures. Section 8.3
+  proves the classical standard-factor comparison and does not use this as a spinor theorem.
+
+### From TauCetiRoadmap.AdelicAlgebraicGroups
+
+- Sections 2.2–2.3: quotient measures used in the classical adelization of 8.3.
+
+### From TauCetiRoadmap.AutomorphicFormsOnReductiveGroups
+
+- §§3.1–3.2: smooth automorphic forms, `classicalEquiv`, and their global representation spaces; 8.3 specializes this comparison to holomorphic Siegel vectors and identifies the local factors.
+
+### From TauCetiRoadmap.SmoothRepresentationsOfLocalGroups
+
+- SR.0.1, SR.0.3–SR.0.4 and SR.1.1–SR.1.3: smoothness, compact-open invariants, admissibility, convolution, double cosets and Hecke modules, on which
+  10.4 builds the paramodular local theory.
 
 ### From TauCetiRoadmap.LFunctions
 
@@ -347,12 +393,13 @@ with `gaussian` and
   Eichler–Zagier's theta decomposition and Kohnen's isomorphism), consumed by 9.2 for the
   dimension count and by 9.5 as the identification of the Jacobi eigenvalue system of
   `φ ∈ J_{k,1}` with that of a degree-one eigenform `f ∈ M_{2k−2}(SL₂(ℤ))`; and the
-  Skoruppa–Zagier correspondence for `J^{cusp}_{k,N}`, `N > 1` (6.4), consumed by the statement
+  index-raising maps `V_l : J_{k,m} → J_{k,ml}` with Fourier and composition laws
+  (6.4, for positive `l,m`), and the Skoruppa–Zagier correspondence for `J^{cusp}_{k,N}`, `N > 1` (6.4), consumed by the statement
   of the Gritsenko lift (9.6). No Jacobi carrier is declared here, in prose or in `Suggested.lean`.
 
 ### From TauCetiRoadmap.LatticePackingsAndPerfectForms
 
-- Its 5.6: the degree-one theta series `Θ_{L,P}` of an even unimodular lattice with a harmonic polynomial `P` of degree `d`, a cusp form of weight `m/2 + d` on `SL₂(ℤ)`; 5.3 below specializes to it at `g = 1` by comparison and does not reprove it.
+- Its 5.6: the degree-one theta series `Θ_{L,P}` of an even unimodular lattice with a harmonic polynomial `P` of degree `d > 0`, a cusp form of weight `m/2 + d` on `SL₂(ℤ)`; 5.3 below specializes to it at `g = 1` by comparison and does not reprove it.
 
 ### From TauCetiRoadmap.HyperellipticCurves and TauCetiRoadmap.AbelianVarietiesOverFiniteFields
 
@@ -360,7 +407,7 @@ with `gaussian` and
 
 ## How to read the build
 
-The layers are in build order. Layer 0 (groups, half-space, action, automorphy factor, arithmetic and paramodular groups) rests on Mathlib, Tau Ceti's `GLSymplectic` and `SymplecticMultiplier` and `ClassicalGroupsPartII` CG.0.1 only; Layer 1 (weights, slash operators, bundled forms) needs Layer 0; Layer 2 (half-integral matrices, Fourier expansion, Koecher, bounds, singular forms) needs Layers 0–1 and `IntegralLattices` *Layer 2* for 2.1, and 2.1 itself is independent of Layers 0–1; Layer 3 (`Φ`, cusp forms, fundamental domain, Petersson, finite dimensionality) needs Layers 1–2; Layer 4 (Eisenstein series) needs Layers 2–3, and 4.2's proof route goes through 9.2–9.3 while its statement anchors Layer 6; Layer 5 (theta series, theta constants) needs Layers 1–3 and the theta-series roadmap, and is independent of Layer 4; Layer 6 (degree-two rings) needs Layers 4–5; Layer 7 (Hecke operators, Satake parameters) needs Layers 1–3 and Mathlib's `HeckeRing`, with 7.6 needing Layers 4 and 6; Layer 8 (`L`-functions) needs Layer 7 and `LFunctions` *Layer 0*; Layer 9 (Fourier–Jacobi, Maass lift, Saito–Kurokawa, lifts) needs Layers 4 and 6–8 and the Jacobi suppliers; Layer 10 (paramodular) needs Layers 7–9; Layer 11 (LMFDB invariants) needs everything above. After Layer 3 the tracks {4, 6}, {5} and {7, 8} are independent; Layer 9 joins them and Layers 10–11 close. What each layer delivers: The positive similitude group and the Siegel upper half-space with its action; holomorphic weights and slash operators; Siegel modular forms of degree `g ≥ 2` with and without character; Fourier expansions over half-integral matrices, Koecher's principle, the coefficient bounds and singular forms; the `Φ`-operator, cusp forms, the Petersson product, Siegel's fundamental domain and finite dimensionality; Siegel and Klingen Eisenstein series and the degree-two Maass–Cohen coefficient formula; degree-`g` theta series of lattices, pluriharmonic theta series and theta constants; `ψ₄, ψ₆, χ₁₀, χ₁₂, χ₃₅` and Igusa's theorem; Satoh's module, Tsushima's formula and the `Γ(2)`, `Γ₀(2)`, `Γ₀(3)`, `Γ₀(4)` rings; the Hecke algebra of `(Γ_g, GSp⁺_{2g}(ℚ))`, its action, eigenforms, Satake parameters and the degree-two coefficient formula; spinor and standard `L`-functions; the Fourier–Jacobi expansion, the Jacobi Eisenstein series and `V_l`, the Maass lift and the Saito–Kurokawa theorem, and the statements of the Gritsenko, Ikeda and Miyawaki lifts; paramodular groups, forms, level raising, newforms, the Roberts–Schmidt and Poor–Yuen statements and the paramodular conjecture; the LMFDB invariants.
+The layers are in build order. Layer 0 (groups, half-space, action, automorphy factor, arithmetic and paramodular groups) rests on Mathlib, Tau Ceti's `GLSymplectic` and `SymplecticMultiplier` and `ClassicalGroupsPartII` CG.0.1 only; Layer 1 (weights, slash operators, bundled forms) needs Layer 0; Layer 2 (half-integral matrices, Fourier expansion, Koecher, bounds, singular forms) needs Layers 0–1 and `IntegralLattices` *Layer 2* for 2.1, and 2.1 itself is independent of Layers 0–1; Layer 3 (`Φ`, cusp forms, fundamental domain, Petersson, finite dimensionality) needs Layers 1–2; Layer 4 (Eisenstein series) needs Layers 2–3 and the Jacobi suppliers; 4.2 first constructs the Jacobi Eisenstein series and general Maass lift and then derives the Siegel coefficient formula, which anchors Layer 6; Layer 5 (theta series, theta constants) needs Layers 1–3 and the theta-series roadmap, and is independent of Layer 4; Layer 6 (degree-two rings) needs Layers 4–5; Layer 7 (Hecke operators, Satake parameters) needs Layers 1–3 and Mathlib's `HeckeRing`, with 7.6 needing Layers 4 and 6; Layer 8 (`L`-functions) needs Layer 7 and `LFunctions` *Layer 0*; Layer 9 (Fourier–Jacobi, Maass lift, Saito–Kurokawa, lifts) needs Layers 4 and 6–8 and the Jacobi suppliers; Layer 10 (paramodular) needs Layers 7–9; Layer 11 (LMFDB invariants) needs everything above. After Layer 3 the tracks {4, 6}, {5} and {7, 8} are independent; Layer 9 joins them and Layers 10–11 close. What each layer delivers: The positive similitude group and the Siegel upper half-space with its action; holomorphic weights and slash operators; Siegel modular forms of degree `g ≥ 2` with and without character; Fourier expansions over half-integral matrices, Koecher's principle, the coefficient bounds and singular forms; the `Φ`-operator, cusp forms, the Petersson product, Siegel's fundamental domain and finite dimensionality; Siegel and Klingen Eisenstein series and the degree-two Maass–Cohen coefficient formula; degree-`g` theta series of lattices, pluriharmonic theta series and theta constants; `ψ₄, ψ₆, χ₁₀, χ₁₂, χ₃₅` and Igusa's theorem; Satoh's module, Tsushima's formula and the `Γ(2)`, `Γ₀(2)`, `Γ₀(3)`, `Γ₀(4)` rings; the Hecke algebra of `(Γ_g, GSp⁺_{2g}(ℚ))`, its action, eigenforms, Satake parameters and the degree-two coefficient formula; spinor and standard `L`-functions; the Fourier–Jacobi expansion, the Jacobi Eisenstein series and `V_l`, the Maass lift and the Saito–Kurokawa theorem, and the statements of the Gritsenko, Ikeda and Miyawaki lifts; paramodular groups, forms, level raising, newforms, the Roberts–Schmidt and Poor–Yuen statements and the paramodular conjecture; the LMFDB invariants.
 
 ---
 
@@ -652,7 +699,7 @@ and for irreducible `ρ` (where `ρ(−1)` is the scalar `(−1)^{∑λ_i}`) `M_
 `M_{k,j}(Γ₂) = 0` for `j` odd (the LMFDB's dimension tables show zeros at odd `j` for this
 reason). For reducible `ρ` the conclusion `ρ(−1) = 1` fails: `ρ = det⁰ ⊕ det¹` on `ℂ²` has
 `ρ(−1) = diag(1, −1) ≠ 1`, and the constant `(1, 0)` is a nonzero element of `M_ρ(Γ_g)`
-(`Suggested.lean` states the lemma as `eq_zero_of_neg_one_mem`, with the fixed-vector hypothesis);
+(The acceptance signature is `eq_zero_of_neg_one_mem`, with the fixed-vector hypothesis);
 and the `g = 1` comparison `SiegelModularForm Γ (det^k) ≃ ModularForm Γ' k` for the
 image `Γ'` of `Γ` in `GL (Fin 2) ℝ`, through 0.1, 0.3 and 1.2.
 
@@ -700,8 +747,10 @@ matrix), the pairing `tr(Tτ)` with `tr(T S) ∈ ℤ` for integral symmetric `S`
 discriminant `4nm − r²`. Prove Minkowski's finiteness: for each `C` the set of positive
 semidefinite half-integral `T` with `tr T ≤ C` is finite; and that each `GL₂(ℤ)`-class of a
 positive definite `(n, r, m)` contains exactly one **reduced** representative, where reduced
-means `|r| ≤ n ≤ m`, and `r ≥ 0` if `|r| = n` or `n = m` (so `(1, −1, 1)` is not reduced and
-`(1, 1, 1)` is). The reduced forms are the LMFDB's row labels `F` in its coefficient tables,
+means `0 ≤ r ≤ n ≤ m` (so `(1, −1, 1)` is not reduced and `(1, 1, 1)` is).
+The oriented reduction condition `|r| ≤ n ≤ m`, with `r ≥ 0` on the boundary
+`|r| = n` or `n = m`, instead selects representatives for `SL₂(ℤ)`-equivalence.
+Transport of Fourier coefficients along determinant `−1` matrices still carries `det(U)^k` (2.2). The reduced forms are the LMFDB's row labels `F` in its coefficient tables,
 listed by `det(F) = 4nm − r²`. For `g = 1`, `HalfIntegral 1 = ℤ` and the discriminant is the
 index.
 
@@ -716,6 +765,8 @@ index.
   (`det(2T) = 7`) by `U = [[0, 1], [1, 0]]`.
 - `[[1/2, 0], [0, 1]]` is rejected (non-integral diagonal, although `2T` is integral) and
   `[[1, 1/4], [1/4, 1]]` is rejected (`2T` not integral).
+- `(2,1,3)` and `(2,−1,3)` have determinant `23/4` and are exchanged by
+  `diag(1,−1)`; only the first is GL₂-reduced, while both are oriented reduced.
 - `(2, 2, 2)` has content `2`; the gcd of the entries of `T = [[2, 1], [1, 2]]` itself is `1`, so a
   definition through the entries of `T` rather than of `2T` is wrong.
 - `tr(T S) ∈ ℤ` for integral symmetric `S`: `T = (1, 1, 1)`, `S = [[0, 1], [1, 0]]` gives `1`; for
@@ -737,7 +788,8 @@ expansion is written in the coordinates `(n, r, Nm)`, "`a(n, r, Nm)`", which is 
 lifts are written (9.6). Prove the equivariance `a(UᵀTU) = ρ(Uᵀ) a(T)` for
 `U ∈ GL_g(ℤ)` with `m(U) ∈ Γ` (van der Geer (4)), which in scalar weight reads
 `a(UᵀTU) = det(U)^k a(T)`, so coefficients are determined on reduced forms up to sign. For
-`g = 1` this is Mathlib's `qExpansion` coefficient.
+`g = 1` this is Mathlib's `qExpansion` coefficient, with the same positive period `N`.
+Both equivariance and coefficient injectivity use this specified period and its translation containment.
 
 *Needs:* 1.3, 2.1; Mathlib `MeasureTheory.integral`, `HasSum`, `qExpansion`.
 
@@ -751,6 +803,11 @@ lifts are written (9.6). Prove the equivariance `a(UᵀTU) = ρ(Uᵀ) a(T)` for
   it iff `na + rb + m'c/N ∈ ℤ` for all `a, b, c`, iff `N ∣ m'`: the coefficients are indexed by
   `(n, r, Nm)`.
 - For `g = 1` the coefficient is Mathlib's `qExpansion` coefficient: `240` at `n = 1` for `E₄`.
+- On `Γ(2)`, `E₄(τ/2)` has period `2`, with coefficients `1, 240, 2160` at
+  `n = 0,1,2`. Its endpoint jump at `i` for period `1` is approximately `−21.83644`,
+  so unit-period integrals are not its Fourier coefficients.
+- For `Δ(τ/2)` on `Γ(2)`, the period-two coefficients at `n = 1,2` are `1,−24`;
+  the same positive-period hypothesis is needed for the cusp bound.
 
 
 ### 2.3 Boundedness on Siegel domains
@@ -790,6 +847,8 @@ and `a(0) ∈ V^{GL_g(ℤ)}`.
 
 ### 2.5 Coefficient bounds
 
+Fix `N > 0` with every translation by `N S`, `S ∈ Sym_g(ℤ)`, in `Γ`, and write
+`a(T) = fourierCoeff N f T`; the implied constants may depend on `f`, `Γ` and `N`.
 Prove Hecke's bounds: for `f ∈ M_k(Γ)` scalar-valued, `a(T) = O(det(T)^k)` on positive
 definite `T` (Fourier integral over `Y = T⁻¹`); for a cusp form, `|a(T)| ≤ C det(T)^{k/2}`,
 from the boundedness of `det(Im τ)^{k/2} |f(τ)|` on `ℍ[g]` (3.2 supplies cuspidality, so state
@@ -807,8 +866,8 @@ nonzero `f ∈ M_ρ(Γ_g)` with irreducible `ρ` of highest weight `(λ₁, …,
 `2λ_g < g` (van der Geer, Theorem 6.2); in scalar weight, `f ∈ M_k(Γ_g)` nonzero is singular
 iff `2k < g`, so `S_k(Γ_g) = 0` for `2k < g`, and every nonzero form of weight `k < g/2` has
 rank `≤ 2k`. State also Freitag's `M_ρ(Γ_g) ≠ 0 ⟹ λ_g ≥ 1` for nontrivial irreducible `ρ`
-(Proposition 4.6; its proof passes through Hilbert modular forms and is not reproduced). Both
-are stated milestones whose proofs are long; the degree-two instances needed by the LMFDB
+(Proposition 4.6; prove the Hilbert modular restriction and positivity argument as
+part of this target). Both are proof targets; the degree-two instances needed by the LMFDB
 tables (`S_k(Γ₂) = 0` for `k < 1`, i.e. nothing beyond 2.4) do not depend on them.
 
 *Needs:* 2.2, 2.4.
@@ -871,8 +930,9 @@ Define `IsCuspForm f := ∀ γ ∈ Sp_{2g}(ℚ), Φ(f ∣_ρ γ) = 0` (the knowl
 Klingen parabolics have representatives in `Γ_g`); for a congruence subgroup there are finitely
 many conditions, indexed by the double cosets `Γ \ Sp_{2g}(ℚ) / P_{g−1}` (the one-dimensional
 cusps); `S_ρ(Γ)` is stable under slashing by the normalizer of `Γ` in `GSp⁺_{2g}(ℚ)`; the
-product of a form and a cusp form is a cusp form; the cusp-form coefficient bound
-`a(T) = O(det(T)^{k/2})` (2.5); and `S_k(Γ_g)` is the kernel of `Φ` on `M_k(Γ_g)`. For `g = 1`
+product of a form and a cusp form is a cusp form; for every `N > 0` with
+`N·Sym_g(ℤ) ≤ L_Γ`, the cusp-form coefficient bound
+`fourierCoeff N f T = O(det(T)^{k/2})` (2.5, with constant depending on `f, Γ, N`); and `S_k(Γ_g)` is the kernel of `Φ` on `M_k(Γ_g)`. For `g = 1`
 this is Mathlib's `CuspForm` under 1.3.
 
 *Needs:* 2.5, 3.1; Mathlib `CuspForm`.
@@ -911,9 +971,10 @@ The constant `c_g` is Siegel's and its existence, not its value, is the target.
 
 ### 3.4 The Petersson inner product
 
-Define, for `f₁, f₂ ∈ M_ρ(Γ)` with at least one cuspidal and a `ρ`-admissible Hermitian form
-`( , )` on `V` (`(ρ(A)v, w) = (v, ρ(Aᵀ)w)`, which exists and is unique up to scalar for
-irreducible `ρ`, van der Geer §3),
+Define, for `f₁, f₂ ∈ M_ρ(Γ)` with at least one cuspidal and a positive definite `ρ`-admissible Hermitian form
+`( , )` on `V`, linear in its first argument, with
+`(ρ(A)v, w) = (v, ρ(A*)w)` for `A* = conjTranspose A`; it exists and is unique up to a positive real scalar for
+irreducible `ρ` (van der Geer §3, p. 8). Define
 `⟨f₁, f₂⟩ := ∫_{Γ \ ℍ_g} (ρ(Im τ) f₁(τ), f₂(τ)) det(Y)^{−(g+1)} dX dY`, prove convergence
 (cuspidality gives exponential decay on Siegel domains), independence of the fundamental
 domain, positive definiteness on `S_ρ(Γ)`, invariance under `f ↦ f ∣_ρ δ` for `δ` normalizing
@@ -929,6 +990,8 @@ is specified in this README only.
 
 **Checks.**
 
+- For the standard representation in dimension one, `A = i`, `v = w = 1`,
+  the adjoint identity gives `i = conjugate(−i) = i`; transpose alone gives `i ≠ −i`.
 - `⟨χ₁₀, χ₁₀⟩` is real and positive (6.1: `χ₁₀` is a nonzero cusp form).
 - `⟨χ₁₀, ψ₁₀⟩ = 0`: Siegel Eisenstein series are orthogonal to cusp forms (unfolding against
   `Φ χ₁₀ = 0`).
@@ -940,19 +1003,30 @@ is specified in this README only.
 ### 3.5 Finite dimensionality
 
 Prove `FiniteDimensional ℂ (M_ρ(Γ))` for every arithmetic `Γ` and holomorphic `ρ`, by the
-classical route: a form all of whose Fourier coefficients `a(T)` with `tr T ≤ C(g, ρ)` vanish is
+classical route: fix `N > 0` with `N·Sym_g(ℤ) ≤ L_Γ`; a form all of whose
+coefficients `fourierCoeff N f T` with `tr T ≤ C(Γ, ρ, N)` vanish is
 zero (the maximum of `det(Y)^{λ_g/2}‖f‖` on the fundamental domain, compared with the Fourier
 bound on the Siegel domain containing it), so `f ↦ (a(T))_{tr T ≤ C}` is injective into a
-finite-dimensional space (2.1). State the bound `C(g, k) = k·c_g'` explicitly for scalar weight
-as the Siegel–Eichler analogue of the Sturm bound, with its `g = 1` value Mathlib's
-`sturm_bound_levelOne`. Corollaries: `dim M_ρ(Γ) ≤ dim M_ρ(Γ')` for `Γ' ≤ Γ` with equality iff
-the restriction is onto; `M_ρ(Γ) = ⨁` over the characters of `Γ/Γ'` when `Γ' ⊴ Γ` of finite
-abelian quotient (the nebentypus decomposition, which is how `M_k(Γ₀(3)) ⊕ M_k(Γ₀(3), ψ₃)`
+finite-dimensional space (2.1). For `Γ = Γ_g`, `N = 1` and scalar `k ≥ 0`, prove a bound
+`C(g, k) = k·c_g'` with `c_g' > 0` depending only on `g`; this does not give a bound
+uniform over arithmetic subgroups. In degree one use `ModularForm.sturm_bound_finiteIndex`
+and its level-one specialization `sturm_bound_levelOne`, retaining the index factor. Corollaries: `dim M_ρ(Γ) ≤ dim M_ρ(Γ')` for `Γ' ≤ Γ` with equality iff
+the restriction is onto; `M_ρ(Γ') = ⨁_ψ M_ρ(Γ,ψ)` over all complex characters of
+`Γ/Γ'` when `Γ' ⊴ Γ` has finite abelian quotient, with convention `f|γ = ψ(γ)f`
+and `M_ρ(Γ)` its trivial-character summand (the nebentypus decomposition, which is how `M_k(Γ₀(3)) ⊕ M_k(Γ₀(3), ψ₃)`
 of 6.6 sits inside `M_k(Γ₀(3) ∩ ker ψ₃)`). Finite dimensionality for `g = 1` is Tau Ceti's
 `TauCeti.NumberTheory.ModularForms.FiniteDimensional`, consumed, not reproved.
 
 *Needs:* 2.1, 2.5, 3.3; Tau Ceti `ModularForms.FiniteDimensional`.
 
+
+**Checks.**
+
+- `Δ(Nτ)` on `Γ₀(N)` has `a(n) = 0` for `0 ≤ n < N` and `a(N) = 1`,
+  requiring `C(Γ₀(N),12,1) ≥ N`.
+- At level one and weight `12`, the elliptic Sturm value is `1`; `Δ` has `a(1) = 1`.
+- For `Γ = Γ₀(3)`, `Γ' = ker χ₋₃`, weight `1`, the trivial summand is `0` by `−I`,
+  while `θ_A₂` lies in the nontrivial summand with constant coefficient `1`.
 
 ### Examples
 
@@ -998,23 +1072,55 @@ of 6.1. `k` even is part of the hypothesis: for odd `k` the sum is `0` since `(C
 
 ### 4.2 The Fourier coefficients in degree two (the Maass–Cohen formula)
 
-Define Cohen's function `H(r, N)` for `r ≥ 2` and `N ≥ 0` with `N ≡ 0, 3 mod 4`:
-`H(r, 0) = ζ(1 − 2r)`, and for `N = |D| f²` with `D` a negative fundamental discriminant,
+Define Cohen's function `H(r, N)` for `r ≥ 2` and `N ≥ 0` with `(-1)^r N ≡ 0, 1 mod 4`:
+`H(r, 0) = ζ(1 − 2r)`, and for `(-1)^r N = D f²` with `D` a fundamental discriminant,
 `H(r, N) = L(1 − r, χ_D) ∑_{d ∣ f} μ(d) χ_D(d) d^{r−1} σ_{2r−1}(f/d)` (Cohen 1975; Eichler–Zagier
 §2, where `L(1 − r, χ_D) = −B_{r, χ_D}/r` is Mathlib's `DirichletCharacter.LFunction` at a
-negative integer, the generalized Bernoulli number). Prove the **Maass–Cohen formula**: for even
+negative integer, the generalized Bernoulli number).
+
+Build the Jacobi and Maass inputs before using any degree-two Eisenstein coefficient.
+The Jacobi carrier and its transformation laws are supplied by
+`MetaplecticAutomorphicForms` §§6.18, 6.20 and `HalfIntegralWeightModularForms` §§6.1–6.4.
+On the supplied Jacobi carrier construct the **Jacobi Eisenstein series** `E_{k,1} ∈ J_{k,1}` (even
+`k ≥ 4`) with `c(N) = H(k−1, N)/ζ(3 − 2k)` for `N > 0` (Theorem 2.1, in Cohen's `H`) and `c(0) = 1`
+(Eichler–Zagier, 1983 preprint, §2, Theorem 2.1). Identify the supplied index-raising map `V_l` with the
+following slash sum on functions,
+`(φ|V_l)(τ, z) := l^{k−1} ∑_{Γ₁\O(l)} (cτ+d)^{−k} e(−lcz²/(cτ+d)) φ((aτ+b)/(cτ+d), lz/(cτ+d))`, with
+`V_l(J_{k,1}) ⊆ J_{k,l}` and the coefficient
+formula `c(φ|V_l; n, r) = ∑_{a ∣ (n, r, l)} a^{k−1} c(nl/a², r/a)` (Eichler–Zagier §4, Theorem 4.2),
+consumed from `HalfIntegralWeightModularForms` §6.4 and specialized to `J_{k,1}`.
+The displayed slash-sum formula is a comparison to that operator, not a second construction.
+
+For even `k ≥ 4`, define `V : J_{k,1} → (ℍ[2] → ℂ)`, `V(φ)(τ) := ∑_{m ≥ 0} (φ|V_m)(τ', z) e(mτ'')` with
+`φ|V_0 := c(0) · (−B_k/(2k)) · E_k(τ')` (Eichler–Zagier §6: the `m = 0` term is
+`c(0)(−B_k/(2k) + ∑_{n ≥ 1} σ_{k−1}(n) q^n)`, so that `a(V(φ); (n, 0, 0)) = c(0) σ_{k−1}(n)` fits
+the coefficient formula below), and prove Maass's theorem
+(Eichler–Zagier, 1983 preprint, §6, Theorem 6.2, pp. 71–74; van der Geer §21): `V(φ) ∈ M_k(Γ₂)` with
+`a(V(φ); (n, r, m)) = ∑_{d ∣ (n, r, m)} d^{k−1} c((4nm − r²)/d²)` for positive semidefinite `(n, r, m) ≠ 0`, `V` is
+injective, `V(J^{cusp}_{k,1}) ⊆ S_k(Γ₂)`, and the first Fourier–Jacobi coefficient of `V(φ)` is
+`φ`.
+The construction's proof uses the Jacobi transformation laws, the symmetry in `n,m`
+of the divisor formula, and the generators of `Γ₂` from 0.1; prove normal convergence
+from the Jacobi coefficient bounds before invoking those transformation laws.
+Identify `−(2k/B_k)V(E_{k,1})` with `E_k^{(2)}` by the Eisenstein double-coset expansion
+of 4.1 (Maass, *Die Fourierkoeffizienten der Eisensteinreihen zweiten Grades*,
+1964, pp. 1–25, with the correction in *Über die Fourierkoeffizienten der Eisensteinreihen
+zweiten Grades*, 1972, pp. 1–13). Eichler–Zagier, 1983 preprint, §6, Corollary 2
+after Theorem 6.3 states the same comparison via a Hecke argument. This comparison is an independent target here; it may use the defining
+Eisenstein sums and the Jacobi coefficient theorem, but not the coefficient formula
+it is about to imply, nor the generators of Layer 6.
+
+Prove the **Maass–Cohen formula**: for even
 `k ≥ 4` and `T = (n, r, m)` half-integral positive semidefinite with content `c` and
 `N = 4nm − r² > 0`,
 `a(E_k^{(2)}; T) = ∑_{d ∣ c} d^{k−1} · 2 H(k − 1, N/d²) / (ζ(1 − k) ζ(3 − 2k))`,
-and for `N = 0`, `T ≠ 0`, `a(T) = −(2k/B_k) σ_{k−1}(c)` (the degree-one coefficient). The
-route is 9.3's: `E_k^{(2)}` is `−(2k/B_k)` times the Maass lift of the Jacobi Eisenstein series
-`E_{k,1}`, whose coefficients are Cohen's (Eichler–Zagier Theorem 2.1 and §6); state the formula
-here as a
-theorem of this layer with that proof route, so that the normalizations of Layer 6 rest on it.
+and for `N = 0`, `T ≠ 0`, `a(T) = −(2k/B_k) σ_{k−1}(c)` (the degree-one coefficient). The preceding Eisenstein comparison and the divisor formula give this identity.
 Acceptance values: `a(ψ₄; (1,0,0)) = 240`, `a(ψ₄; (1,1,1)) = 13440`, `a(ψ₄; (1,0,1)) = 30240`,
 `a(ψ₆; (1,1,1)) = 44352`, `a(ψ₆; (1,0,1)) = 166320`, `a(ψ₆; (1,2,1)) = −504`.
 
-*Needs:* 2.1, 4.1; Mathlib `DirichletCharacter.LFunction`, `bernoulli`,
+*Needs:* 0.1, 1.3, 2.1–2.4, 3.1–3.2, 4.1;
+`MetaplecticAutomorphicForms` §§6.18, 6.20; `HalfIntegralWeightModularForms` §§6.1–6.4;
+Mathlib `DirichletCharacter.LFunction`, `bernoulli`,
 `ArithmeticFunction.sigma`, `ArithmeticFunction.moebius`.
 
 Cohen's function is specified in this README only.
@@ -1022,11 +1128,12 @@ Cohen's function is specified in this README only.
 **Checks.**
 
 - `H(3, 0) = ζ(−5) = −1/252`.
-- `H(3, 3) = L(−2, χ₋₃) = −2/9` and `H(3, 4) = L(−2, χ₋₄) = −1/2` (PARI `lfun`); with 9.2 these give
+- `H(3, 3) = L(−2, χ₋₃) = −2/9` and `H(3, 4) = L(−2, χ₋₄) = −1/2` (generalized Bernoulli values); these give
   the Jacobi coefficients `c(3) = 56`, `c(4) = 126` of `E_{4,1}` and so
   `a(ψ₄; (1,1,1)) = 240 · 56 = 13440`, `a(ψ₄; (1,0,1)) = 240 · 126 = 30240`.
-- `N ≡ 1, 2 mod 4` is outside the definition (`N = 1, 2` are discriminants of no binary form); a
-  formalisation must not assign these a nonzero value.
+- For odd `r` (here `r = k−1`), `N ≡ 1, 2 mod 4` is outside the discriminant support;
+  the extension by zero gives `H(3,1) = H(3,2) = 0`. For even `r`, positive
+  fundamental discriminants occur instead: `H(2,1) = ζ(−1) = −1/12`.
 - The formula specializes to Mathlib's `DirichletCharacter.LFunction` at a negative integer for
   `f = 1`, with no second `L`-value introduced.
 
@@ -1044,12 +1151,15 @@ are mutually orthogonal for the Petersson product (3.4) wherever it is defined. 
 this is `M_k(Γ₂) = ℂ ψ_k ⊕ E_{2,1,k}(S_k(SL₂(ℤ))) ⊕ S_k(Γ₂)` for even `k ≥ 6`, and
 `M_4(Γ₂) = ℂ ψ₄`; the three summands are the LMFDB's **Eisenstein**, **Klingen** and cusp
 columns, with `dim E_{2,1,k}(S_k(Γ₁)) = dim S_k(SL₂(ℤ))`. For vector-valued weight state
-Arakawa's theorem (Arakawa 1983): for `j > 0` and `k > 4`, `Φ : M_{k,j}(Γ₂) → S_{k+j}(SL₂(ℤ))`
+Arakawa's theorem (Arakawa 1983, Propositions 1.2–1.3, pp. 162–163):
+for even `j > 0` and even `k > 4`, `Φ : M_{k,j}(Γ₂) → S_{k+j}(SL₂(ℤ))`
 is surjective with a Hecke-equivariant Klingen section `E_{k,j}`, so
 `M_{k,j}(Γ₂) = E_{k,j}(S_{k+j}(SL₂(ℤ))) ⊕ S_{k,j}(Γ₂)` and there is no Siegel Eisenstein series
 for `j > 0` (the knowl `mf.siegel.subspace.degree.two`). The Klingen construction needs `k`
 beyond the convergence bound; `M_{k,j}(Γ₂)` for `k ≤ 4`, `j > 0` is handled by 6.4's dimension
-formula and not by this decomposition.
+formula and not by this decomposition. For odd `j`, the source is zero by 1.3;
+for even `j` and odd `k`, the elliptic target has odd weight and is zero, so every form
+is cuspidal. These parity cases assert no nonzero Klingen section.
 
 *Needs:* 3.1, 3.2, 3.4, 4.1.
 
@@ -1058,6 +1168,8 @@ formula and not by this decomposition.
 - `r = 0` is 4.1; `Φ E_{2,1,12}(Δ) = Δ`, and `E_{2,1,12}(Δ) ∉ S_{12}(Γ₂)`.
 - `M_4(Γ₂) = ℂ ψ₄`: `S_4(SL₂(ℤ)) = 0` and `S_4(Γ₂) = 0`, so there is no Klingen summand;
   `dim M_{12}(Γ₂) = 3 = 1 + 1 + 1` (`ψ₁₂`, the Klingen lift of `Δ`, `χ₁₂`).
+- At `(k,j) = (5,7)`, the source is `0` and `S₁₂(SL₂(ℤ)) = ℂΔ`, so the image is
+  `0` and surjectivity fails. At `(10,2)` both parity conditions hold.
 - For `j > 0` there is no Siegel summand: `M_{10,2}(Γ₂)` is one-dimensional, spanned by the Klingen
   section of `Δ ∈ S_{12}(SL₂(ℤ))`, with `S_{10,2}(Γ₂) = 0` (6.4).
 
@@ -1072,8 +1184,9 @@ formula and not by this decomposition.
 ### Dependencies
 
 Layers 2–3; Mathlib's `EisensteinSeries.E`, `DirichletCharacter.LFunction`, `bernoulli`,
-`ArithmeticFunction.sigma` and `moebius`. The proof route of 4.2 goes through 9.2–9.3, which
-consume this layer's statement only.
+`ArithmeticFunction.sigma` and `moebius`; the Jacobi suppliers named in 4.2.
+The independent Jacobi coefficient theorem and Maass construction precede the Eisenstein
+coefficient formula within 4.2. Layer 9 consumes them for normalized identifications and Hecke theory.
 
 ## Layer 5: Siegel theta series
 
@@ -1087,16 +1200,23 @@ dimension `m`) define `θ_L^{(g)}(τ) := ∑_{v ∈ L^g} exp(π i tr(Gram(v) τ)
 bound `|exp(π i tr(Gram(v) τ))| = exp(−π tr(Gram(v) Y)) ≤ exp(−π c ∑ ‖v_i‖²)` on `Y ≥ c·1`),
 holomorphy, the Fourier expansion `θ_L^{(g)} = ∑_T r_L(T) e(tr(Tτ))` over half-integral
 `T ≥ 0` with `r_L(T) := #{v ∈ L^g : Gram(v) = 2T}` for even `L` (finite by 2.1), the
-specializations `θ_L^{(1)} = thetaSeries L` (that roadmap's *Layer 3*) and
+comparison with `LevelOneAutomorphicFormsForClassicalGroups` LO.6/higher-genus-theta
+on even unimodular lattices (the same unweighted sum, via the rational-to-real lattice bridge),
+and the specializations `θ_L^{(1)} = thetaSeries L` (that roadmap's *Layer 3*) and
 `Φ θ_L^{(g+1)} = θ_L^{(g)}`, and the restriction to the diagonal
 `θ_L^{(g₁+g₂)}(diag(τ₁, τ₂)) = θ_L^{(g₁)}(τ₁) θ_L^{(g₂)}(τ₂)`. For `g = 2` and `L = √(2a) ℤ` this is
 the `W = 0`, `ν = 0`
 specialization of `MetaplecticAutomorphicForms` 8.18, stated as a comparison.
 
-*Needs:* 0.3, 2.1, 2.2, 3.1; the theta-series roadmap *Layers 2–3*; Mathlib `IsZLattice`.
+*Needs:* 0.3, 2.1, 2.2, 3.1; the theta-series roadmap *Layers 2–3*;
+`LevelOneAutomorphicFormsForClassicalGroups` LO.6/higher-genus-theta for the
+even-unimodular comparison; Mathlib `IsZLattice`.
 
 **Checks.**
 
+- On every even unimodular lattice the two theta definitions give constant term `1`;
+  on `E₈` their genus-one coefficient is `240`. Weighting by `1/|Aut L|` would
+  change the constant term and does not satisfy this comparison.
 - `r_L(0) = 1`; `θ_{E₈}^{(2)}` has `r((1, 1, 1)) = 13440` and `r((1, 0, 1)) = 30240`, the
   coefficients of `ψ₄` (5.2); at `g = 1`, `r_{E₈}(1) = 240`.
 - The diagonal restriction `θ^{(2)}(diag(τ₁, τ₂)) = θ^{(1)}(τ₁) θ^{(1)}(τ₂)` at `q₁ q₂`:
@@ -1111,7 +1231,7 @@ specialization of `MetaplecticAutomorphicForms` 8.18, stated as a comparison.
 Prove, by the degree-`g` Poisson summation of the Gaussian `v ↦ exp(π i tr(Gram(v) τ))` on
 `E^g` (Mathlib's `SchwartzMap` Poisson summation in the form of the theta-series roadmap's
 *Layer 1*, applied to `E^g` with the lattice `L^g` and dual `(L^∨)^g`), the transformation
-`θ_L^{(g)}(−τ⁻¹) = (det(τ/i))^{m/2} covol(L)^{−1} θ_{L^∨}^{(g)}(τ)`, where for odd `m` the
+`θ_L^{(g)}(−τ⁻¹) = (det(τ/i))^{m/2} covol(L)^{−g} θ_{L^∨}^{(g)}(τ)`, where for odd `m` the
 power `det(τ/i)^{1/2}` is the holomorphic square root on the simply connected `ℍ_g` that is
 positive at `τ = iY` (for `g ≥ 3` this is not the principal branch: at `τ = (2 + i)·1₃`,
 `τ/i = (1 − 2i)·1₃`, `det(τ/i) = (1 − 2i)³ = −11 + 2i`, the continued root has argument
@@ -1143,6 +1263,10 @@ the same statement with the odd weight `m/2` and the same character. The knowl
   (`M_4(Γ₂)` is one-dimensional and both have `a(0) = 1`).
 - `A₂` (rank 2, level 3, `m ≡ 2 mod 4`) gives weight `1` with the character `ψ₃ = (−3/·)`;
   `D₈` (rank 8, determinant 4, level 2) gives weight `4` on `Γ₀^{(g)}(2)` with trivial character.
+- For `L = 2ℤ²`, `g = 2`, `τ = iI₂`, the covolume is `4` and the dual is `(½ℤ)²`.
+  The two theta values are approximately `1.00002789903` and `16.00044638449`;
+  multiplication by `4⁻² = 1/16` gives equality, whereas `4⁻¹` gives `4.00011159612`.
+  At `g = 0` both empty-tuple sums and the covolume factor are `1`.
 - The square root: at `τ = (2 + i)·1₃` the continued and principal roots of `det(τ/i) = −11 + 2i`
   differ by the sign (arguments `−1.661` and `1.481`); at `τ = (1 + 2i)·1₃` they agree.
 - At `g = 1` both transformation laws are the theta-series roadmap's *Layers 5 and 7* on
@@ -1175,11 +1299,13 @@ pluriharmonics", states the scalar case). The reason is the formula
 set to `0` (the terms with `v_g ≠ 0` decay as `exp(−π t ⟪v_g, v_g⟫)`), applied after every slash by
 `Sp_{2g}(ℚ)`, which carries `θ_{L,P}` to a combination of theta series of cosets of lattices
 commensurable with `L` with the same `P` (5.2). For `λ_g = 0` the series need not be cuspidal,
-see the Checks. At `g = 1`, `L` even unimodular and `P` harmonic of degree `d`,
+see the Checks. At `g = 1`, `L` even unimodular and `P` harmonic of degree `d > 0`,
 `θ_{L,P}^{(1)}`
 is the sibling `LatticePackingsAndPerfectForms`' `Θ_{L,P}` (its 5.6, a cusp form of weight
 `m/2 + d` for `SL₂(ℤ)`), consumed by comparison exactly as 5.1 consumes the scalar degree-one theta
-series, not reproved. Acceptance:
+series, not reproved. For arbitrary genus, the even-unimodular scalar-weight case
+is compared with `LevelOneAutomorphicFormsForClassicalGroups` LO.6/harmonic-theta;
+this section extends it to general lattices and polynomial representations. Acceptance:
 Ibukiyama's form `F ∈ S_{8,6}(Γ₂)` (weight `(k, j) = (8, 6)`) from the rank-16 lattice
 `Γ = {x ∈ ℚ¹⁶ : 2x_i ∈ ℤ, x_i − x_j ∈ ℤ, ∑ x_i ∈ 2ℤ}` (the `D₁₆⁺` lattice of `IntegralLattices` 6D, one of
 the two even unimodular lattices of rank 16) with `P_ν(x, y) = (x, a)^{6−ν} (y, a)^{ν}`, `a = (2, i, i, i, i, 0, …, 0)`, is
@@ -1187,7 +1313,7 @@ nonzero (van der Geer §25), and `S_{8,6}(Γ₂)` is one-dimensional (6.4); its 
 `ρ = Sym⁶` with `λ₂ = 0`, so its cuspidality is not the general statement: `Φ F` is the degree-one
 theta series of `D₁₆⁺` with the harmonic coefficient `(x, a)⁶`, a cusp form of weight `8 + 6 = 14`
 on `SL₂(ℤ)`, and `S_{14}(SL₂(ℤ)) = 0`. The `γ₄ ∈ S_4(Γ₀(3))` of 6.6 is `θ_{S,P}` for the rank-4
-lattice `S` and the quartic `P` of the knowl `mf.siegel.family.gamma0_3`, a quadratic form in the
+lattice `S` and the explicitly specified quartic `P` of 6.6, a quadratic form in the
 `2 × 2` minors of `X`, so `P(XA) = det(A)² P(X)` and `ν = 2 ≥ 1`.
 
 *Needs:* 1.1, 3.2, 5.2.
@@ -1214,8 +1340,9 @@ lattice `S` and the quartic `P` of the knowl `mf.siegel.family.gamma0_3`, a quad
   `c Δ X₀⁸` with `c = ∑_{r root} (r, a)⁸`, which is nonzero for a suitable isotropic `a` because
   the `240` roots form a spherical `7`-design and not an `8`-design (a tight `7`-design,
   `240 = 2 · C(10, 3)`); so `θ_{E₈,P} ∈ M_{4,8}(Γ₂)` is not a cusp form although `ρ` is nontrivial.
-- At `g = 1` the series is `LatticePackingsAndPerfectForms` 5.6's `Θ_{L,P}`, a cusp form of weight
-  `m/2 + d`.
+- At `g = 1` the series is `LatticePackingsAndPerfectForms` 5.6's `Θ_{L,P}` for `d > 0`, a cusp form of weight
+  `m/2 + d`; at `d = 0`, use ThetaSeries Layers 3 and 5 instead: `P = 1`,
+  `L = E₈` gives `E₄` with constant coefficient `1`, so it is not cuspidal.
 
 
 ### 5.4 Theta constants with characteristics
@@ -1226,8 +1353,9 @@ For `g ≥ 1` and a characteristic `ε = (ε', ε'') ∈ {0,1}^g × {0,1}^g` def
 `mf.siegel.family.gamma_2`), prove convergence and holomorphy, that `θ_ε = 0` iff `ε` is **odd**
 (`ε' · ε'' ≡ 1 mod 2`), that there are `2^{g−1}(2^g + 1)` even characteristics (`3`, `10`, `36`
 for `g = 1, 2, 3`), the transformation of the *set* `{θ_ε²}` under `J` and `n(S)` (each generator
-permutes the even characteristics up to eighth roots of unity and the common automorphy factor
-`det(Cτ + D)^{1/2}`, stated for the squares so that no half-integral weight is named), and the
+permutes the even characteristics with squared phases, hence fourth roots of unity,
+and the common automorphy factor `det(Cτ + D)`; the square of the half-weight multiplier
+is part of this integral-weight law, Igusa 1964, theta transformation formula), and the
 `g = 1` comparison with Mathlib's `jacobiTheta₂` at `z ∈ {0, 1/2, τ/2, (1+τ)/2}`. Define
 `θ_{ε₁} ⋯ θ_{ε_{2n}}` products with an even number of factors and prove: a product of all
 `2^{g−1}(2^g + 1)` even theta constants, raised to a power making the total weight integral, is a
@@ -1242,6 +1370,10 @@ product of the 36 even theta constants is a cusp form of weight 18 on `Γ₃`. T
 *Needs:* 0.1, 0.6, 1.3, 3.2; Mathlib `jacobiTheta₂`.
 
 **Checks.**
+
+- At `g = 1`, `ε = (0,0)`, `τ = 2i`, the squared S-law has ratio
+  `θ₀₀(i/2)²/θ₀₀(2i)² = 2`; a half-weight factor would have magnitude `√2`.
+  At `τ = i` the ratio is `1`.
 
 - The counts of even characteristics are `3, 10, 36` for `g = 1, 2, 3`; at `g = 1` the odd
   characteristic `(1, 1)` gives `0` since the terms at `n` and `−n − 1` cancel.
@@ -1348,8 +1480,8 @@ Fourier–Jacobi coefficient argument for odd weight). Corollaries: the Hilbert 
 `k < 35`, `M_{35} = ℂχ₃₅`, `M_{37} = 0`, `M_{39} = ℂψ₄χ₃₅`;
 `dim S_k(Γ₂) = dim M_k(Γ₂) − 1 − dim S_k(SL₂(ℤ))` for even `k ≥ 4` (4.3); `S_{10}(Γ₂) = ℂχ₁₀`,
 `S_{12}(Γ₂) = ℂχ₁₂`, and
-`dim S_{20}(Γ₂) = 3`. Every form in `M_k(Γ₂)` has Fourier coefficients in the `ℚ`-span of
-those of the monomials, hence rational if it is a rational combination of monomials (11.2).
+`dim S_{20}(Γ₂) = 3`. Every form in `M_k(Γ₂)` is in the `ℂ`-span of the normalized weight-`k` monomials.
+Their `ℚ`-span is the rational Fourier subspace; its complexification is all of `M_k(Γ₂)` (11.2).
 
 *Needs:* 3.5, 4.3, 6.1, 6.2; Tau Ceti `mvPolynomialEquivModularForms`.
 
@@ -1359,6 +1491,8 @@ those of the monomials, hence rational if it is a rational combination of monomi
   `M_{10} = ⟨ψ₄ψ₆, χ₁₀⟩`, `M_{12} = ⟨ψ₄³, ψ₆², χ₁₂⟩`.
 - `M_k(Γ₂) = 0` for odd `k < 35`, `M_{35} = ℂχ₃₅`, `M_{37} = 0`, `M_{39} = ℂψ₄χ₃₅`;
   `dim S_{20}(Γ₂) = 3`.
+- `iψ₄` has constant coefficient `i`, outside the rational subspace; `ψ₄` has
+  constant coefficient `1` and belongs to it. Both lie in its complexification.
 - A relation among `ψ₄, ψ₆, χ₁₀, χ₁₂` would lower some `dim M_k` below the Hilbert-series
   coefficient; `dim M_{12} = 3` shows `ψ₄³`, `ψ₆²`, `χ₁₂` independent.
 
@@ -1379,9 +1513,10 @@ weight `0` the bracket `−(1/l) ∇g` is not modular, which is why `k, l ≥ 1`
 states the bracket as `satohBracket` (with `satohBracket_mem` for `k, l ≥ 1`), the theorem
 below as `satoh`, and its dimension consequence as `finrank_rho_two` with the Hilbert-series
 coefficient `satohDim`. Prove **Satoh's theorem** (Satoh 1986): for even `k`,
-`M_{k,2}(Γ₂) = M_{k−10}[ψ₄,ψ₆] ⊕ M_{k−14}[ψ₄,χ₁₀] ⊕ M_{k−16}[ψ₄,χ₁₂] ⊕ V_{k−16}[ψ₆,χ₁₀] ⊕ V_{k−18}[ψ₆,χ₁₂] ⊕ V_{k−22}[χ₁₀,χ₁₂]` with `V_k := M_k(Γ₂) ∩ ℂ[ψ₆, χ₁₀, χ₁₂]`, and its
+`M_{k,2}(Γ₂) = M_{k−10}[ψ₄,ψ₆] ⊕ M_{k−14}[ψ₄,χ₁₀] ⊕ M_{k−16}[ψ₄,χ₁₂] ⊕ V_{k−16}[ψ₆,χ₁₀] ⊕ V_{k−18}[ψ₆,χ₁₂] ⊕ W_{k−22}[χ₁₀,χ₁₂]` with `V_k := M_k(Γ₂) ∩ ℂ[ψ₆, χ₁₀, χ₁₂]`
+and `W_k := M_k(Γ₂) ∩ ℂ[χ₁₀, χ₁₂]` (Satoh 1986, Theorem 2.2, p. 340), and its
 consequences
-`∑_{k even} dim M_{k,2}(Γ₂) t^k = (t¹⁰ + t¹⁴ + t¹⁶)/((1−t⁴)(1−t⁶)(1−t¹⁰)(1−t¹²)) + (t¹⁶ + t¹⁸ + t²²)/((1−t⁶)(1−t¹⁰)(1−t¹²))`, `dim S_{k,2}(Γ₂) = dim M_{k,2}(Γ₂) − dim S_{k+2}(SL₂(ℤ))`
+`∑_{k even} dim M_{k,2}(Γ₂) t^k = (t¹⁰ + t¹⁴ + t¹⁶)/((1−t⁴)(1−t⁶)(1−t¹⁰)(1−t¹²)) + (t¹⁶ + t¹⁸)/((1−t⁶)(1−t¹⁰)(1−t¹²)) + t²²/((1−t¹⁰)(1−t¹²))`, `dim S_{k,2}(Γ₂) = dim M_{k,2}(Γ₂) − dim S_{k+2}(SL₂(ℤ))`
 for `k > 4` (4.3), with `dim M_{k,2}` for `k = 10, 12, 14, 16, 18, 20, 22` equal to
 `1, 0, 2, 3, 3, 4, 7` and `dim S_{k,2}` equal to `0, 0, 1, 2, 2, 3, 5`; `M_{k,2}(Γ₂) = 0` for
 `k < 10` even. State **Tsushima's dimension formula** for `dim S_{k,j}(Γ₂)` (Tsushima 1983,
@@ -1405,6 +1540,9 @@ forms of symmetric tensor weight of small degrees", Theorems for `j = 4, 6`), by
 - `[ψ₄, ψ₆]` spans `M_{10,2}(Γ₂)` (dimension `1`, the `t¹⁰` term from `M_0[ψ₄, ψ₆]`) and
   `M_{12,2}(Γ₂) = 0` (no summand reaches weight `12`); `dim M_{k,2}` for `k = 14, …, 22` is
   `2, 3, 3, 4, 7` and `dim S_{k,2}` is `1, 2, 2, 3, 5`.
+- At weight `28`, the Hilbert coefficient is `12`, not `13`: the identity
+  `χ₁₂[ψ₆,χ₁₀] − χ₁₀[ψ₆,χ₁₂] + ψ₆[χ₁₀,χ₁₂] = 0` would destroy uniqueness
+  if the last coefficient could contain `ψ₆`; `W₆ = 0` excludes that tuple.
 - Tsushima: `dim S_{k,j}(Γ₂) = 1, 1, 1, 2, 3, 2, 1` at
   `(k, j) = (8, 6), (10, 4), (14, 2), (16, 2), (20, 2), (12, 6), (6, 12)`.
 - `S_{k,j}(Γ₂) = 0` for odd `j` (1.3), so the formula is stated for even `j` only.
@@ -1482,7 +1620,18 @@ neither cuspidal: with `θ_{E₆}^{(1)} = 1 + 72q + 270q² + 720q³ + …`,
 three degree-one theta series is `θ_{E₆} − 4θ_{A₂}³ + 3θ_{E₆^*} = 0`, so `dim S_3(Γ₀(3), ψ₃) ≤ 1`,
 and the ring statement below uses only that `α₁³, β₃, δ₃` is a basis of `M_3(Γ₀(3), ψ₃)`, which
 holds for any two combinations of `θ_{E₆}, θ_{A₂}³, θ_{E₆^*}` independent modulo `ℂα₁³`;
-`γ₄ := θ_{S,P} ∈ S_4(Γ₀(3))` (5.3, with the knowl's `S` and pluriharmonic `P`), and
+`γ₄ := θ_{S,P} ∈ S_4(Γ₀(3))` (5.3). Here specify the coordinates explicitly:
+`S = [[1,0,3/2,0],[0,1,0,3/2],[3/2,0,3,0],[0,3/2,0,3]]`, the even lattice
+has Gram matrix `2S`, and `θ_{S,P}(τ) = ∑_{X ∈ ℤ^{4×2}} P(X) e(tr(XᵀSX τ))`.
+For columns `x,y`, put `w_ab = x_a y_b − x_b y_a` and
+`P(x,y) = w_13² + w_24² − (w_14 + w_32 + w_12)²`.
+The Gram-coordinate pluriharmonic operators are
+`∑_{a,b}(S⁻¹)_{ab} ∂²/(∂X_ai ∂X_bj)` for `i,j ∈ {1,2}`;
+using `(2S)⁻¹` gives half these operators and the same zero condition.
+Prove all three operators annihilate `P`, and `P(XA) = det(A)²P(X)`;
+under `BᵀB = 2S`, use `P(B⁻¹·)` in the orthonormal convention of 5.3.
+The polynomial is the corrected homogeneous expression at the generator definition in
+LMFDB `mf.siegel.family.gamma0_3`; its first wedge is squared. Define also
 `χ₁₄ := 2^{−9} 3^{−10} (2πi)^{−3} det [[α₁, 3β₃, 4γ₄, 3δ₃], [∂_τ α₁, …], [∂_z …], [∂_ω …]] ∈ S_{14}(Γ₀(3), ψ₃)`
 (the weight-scaled Wronskian construction of 6.2, first row `k_i f_i` for the weights
 `1, 3, 4, 3`, which is the row that makes the determinant modular; the knowl prints the first
@@ -1504,6 +1653,15 @@ families "Gamma0_3" and "Gamma0_3_psi_3".
 *Needs:* 1.3, 3.5, 5.2, 5.3, 6.2.
 
 **Checks.**
+
+- `P(e₁,e₃) = 1` and `P(2e₁,e₃) = 4`; the unsquared first wedge gives `2`
+  in the second test and fails determinant-square covariance. Swapping the two columns
+  changes every wedge by `−1` and leaves `P` unchanged.
+- The `S⁻¹`-Laplacian in `x` at `y = e₃` is `8−8 = 0`; the unsquared first
+  wedge gives `−8`. The full `xx`, `xy`, and `yy` contractions vanish as polynomials.
+- `P(x,0) = 0`, while the unweighted theta series has constant term `1`; the
+  positive determinant degree `2` supplies the cusp condition.
+
 
 - `Φβ₃ = −108q − 324q² − 972q³ − …` and `Φδ₃ = −8 + 72q − 216q² + …` from
   `θ_{E₆}^{(1)} = 1 + 72q + 270q² + …`, `θ_{A₂}^{(1)3} = 1 + 18q + 108q² + …`,
@@ -1553,8 +1711,8 @@ discriminant `−4`, the discriminant character of the lattice `√2 ℤ²`, 5.2
 `mf.siegel.family.gamma0_4` and `mf.siegel.family.gamma0_4_psi_4`: `X`, `X(2Ω)`, `f₂(2Ω)` with `f₂ := θ₀₀₀₀⁴`,
 `K(2Ω)`, `Y(2Ω)`, `f₁₁(2Ω)` with `f₁₁ := f₆ χ₅`,
 `f₆ := (θ₀₀₀₁⁴ − θ₀₀₁₀⁴)(θ₀₀₀₁⁴ − θ₀₀₁₁⁴)(θ₀₀₁₀⁴ − θ₀₀₁₁⁴)`, `f₁ := θ₀₀₀₀²`,
-`f₃ := (θ₀₀₀₀θ₀₀₀₁θ₀₀₁₁)²`. State the theorems of **Aoki–Ibukiyama** (2005) and
-**Hayashida–Ibukiyama** (2005): with `B := ℂ[X, X(2Ω), f₂(2Ω), K(2Ω)]` (algebraically
+`f₃ := (θ₀₀₀₁θ₀₀₁₀θ₀₀₁₁)²`. State the theorems of **Aoki–Ibukiyama** (2005) and
+**Hayashida–Ibukiyama** (2005, p. 492, generator definitions): with `B := ℂ[X, X(2Ω), f₂(2Ω), K(2Ω)]` (algebraically
 independent, weights `2, 2, 2, 6`: `f₂ = θ₀₀₀₀⁴` has weight `2`, each theta constant having
 weight `1/2`, and the knowl's "weight 4" for `f₂(2Ω)` is a misprint that the LMFDB's dimension
 code does not share), `M_*(Γ₀(4)) = B ⊕ Y(2Ω) B ⊕ f₁₁(2Ω) (B ⊕ Y(2Ω) B)` and
@@ -1575,6 +1733,11 @@ half-integral weight object that no roadmap owns (*Scope and ownership*).
 
 **Checks.**
 
+- Swapping the coordinates of `diag(2i,4i)` leaves `f₃` equal to approximately
+  `0.99250264302`; replacing `θ₀₀₁₀` by `θ₀₀₀₀` gives `1.00744155969` and
+  `0.99253033298`. The Levi swap has `det(D)³ψ₄(det D) = (−1)³(−1) = 1`.
+  For `f₃(2Ω)` the same test uses `diag(i,2i)`.
+
 - `dim M_k(Γ₀(4))` for `k = 0, 2, 4, 6, 8` is `1, 3, 7, 14, 24`: the `t⁴` coefficient of
   `(1 + t⁴)(1 + t¹¹)/((1 − t²)³(1 − t⁶))` is `6 + 1`, the `t⁶` one is `10 + 1 + 3`.
 - `dim M_{2k}(Γ₀(4), ψ₄)` is `0, 1, 4` for `2k = 10, 12, 14`: the coefficients of
@@ -1583,7 +1746,7 @@ half-integral weight object that no roadmap owns (*Scope and ownership*).
   `ψ₄`-module is rejected; `f₂ = θ₀₀₀₀⁴` has weight `2`, not the knowl's `4`.
 
 
-### 6.9 Degrees three and four, stated
+### 6.9 Degrees three and four
 
 State **Tsuyumine's theorem** (Tsuyumine 1986): `M_*(Γ₃)` is generated by 34 explicit forms
 (theta constants and theta series with pluriharmonic coefficients), with the Hilbert series
@@ -1598,7 +1761,7 @@ eigenform), `dim S_{16}(Γ₃) = 3`, `dim S_{18}(Γ₃) = 4`, `dim S_{20}(Γ₃)
 theorem** (Poor–Yuen 2007): `dim S_k(Γ₄)` for
 `k = 8, 10, 12, 14, 16` is `1, 1, 2, 3, 7`, zero for the other `k ≤ 16`, with the Schottky form
 `J = θ_{E₈⊕E₈}^{(4)} − θ_{D₁₆⁺}^{(4)}` spanning `S_8(Γ₄)` (the Ikeda lift of `Δ`, 9.7) and
-vanishing exactly on the Jacobian locus. Both are classifications stated by citation; the
+vanishing exactly on the Jacobian locus. Both classifications, including their general proofs, are targets; the
 degree-two instances `dim S_8(Γ₂) = 0` and `θ_{E₈⊕E₈}^{(2)} = θ_{D₁₆⁺}^{(2)} = ψ₄²`
 (`dim M_8(Γ₂) = 1`)
 are proved from 6.3 and 5.2.
@@ -1699,8 +1862,14 @@ For `Γ ∈ {Γ₀^{(g)}(N), Γ₁^{(g)}(N), Γ_g(N), K(N)}` and a prime `p ∤ 
 `T_i(p²)` on `M_ρ(Γ)` and `M_ρ(Γ, ψ)` by the double cosets `Γ diag(1_g, p1_g) Γ`,
 `Γ diag(1_{g−i}, p1_i, p²1_{g−i}, p1_i) Γ` (the knowl's `T_{(1,1,p,p)}` and `T_{(1,p,p,p²)}` for
 `g = 2`), prove they are finite unions of right cosets with the same representatives as 7.1
-reduced modulo `Γ`, that they commute with each other for all `p ∤ N`, preserve cusp forms, are
-self-adjoint for the Petersson product on `S_ρ(Γ)`, and commute with the Fricke involution
+reduced modulo `Γ`, that they commute with each other for all `p ∤ N`, preserve cusp forms, and prove the Petersson adjoint law by reversing each double-coset
+correspondence with its character factor conjugated. At unramified places these operators
+and their adjoints commute, so they are normal and have a simultaneous orthogonal eigenbasis.
+For the scalar degree-one action on `Γ₁(N)`, this law is `T_p* = ⟨p⟩⁻¹T_p`;
+on the `χ`-summand it is `T_p* = χ(p)⁻¹T_p`. In higher genus retain the central
+level action in the reversed correspondence rather than suppressing it. Self-adjointness
+is asserted only when this adjoint equals the operator, as at full level with the real
+normalization of 7.2. Prove also that the good operators commute with the Fricke involution
 `μ_N` on `M_ρ(K(N))` (0.7). For `K(N)` and `p ∣ N` define the two paramodular operators at `p`
 of Roberts–Schmidt (the double cosets `K(N) diag(1, 1, p, p) K(N)` and
 `K(N) diag(1, p, p², p) K(N)`,
@@ -1716,6 +1885,12 @@ roadmap](../ModularForms/README.md)
 The operators of this milestone are specified in this README only.
 
 **Checks.**
+
+- In degree one, let `χ` be the even cubic character modulo `7`, with `χ(3) = ω`,
+  `ω²+ω+1 = 0`. Then `χ(2) = ω²` and `T₂* = ωT₂`. The form
+  `ΔE_{4,1,χ}` has `a(2) = (−377+264ω)/7 ≠ 0`, so `T₂ ≠ 0` and it is not
+  self-adjoint. For trivial `χ` the same adjoint factor is `1`.
+
 
 - For `N = 1`, `K(1) = Γ₂` and `T(p)` is the operator of 7.2, with `(p + 1)(p² + 1)` right cosets
   (`15` at `p = 2`); for `p ∤ N` the coset count on `K(N)` is the same.
@@ -1740,7 +1915,12 @@ and its normalized Satake transform is `p^{−g(g+1)/2} α₀² α₁ ⋯ α_g`;
 the `g(g+1)/2` of the normalization, so in degree two `λ(T₂(p²)) = p^{2k−6}` on `M_k(Γ₂)` while
 `α₀² α₁ α₂ = p^{2k−3}`).
 Prove for `g = 2` the relations `T(p)² = T₀(p²) + (p+1) T₁(p²) + (p³+p²+p+1) T₂(p²)` and that
-`H_p` is generated by `T(p)` and `T(p²)` (equivalently `T(p)` and `T₁(p²)`), and for `g = 1`
+`H_p⁰` is generated by `T(p), T₁(p²), T₂(p²)`, while
+`H_p = H_p⁰[T₂(p²)⁻¹]` (van der Geer §16, Theorem 16.3).
+After fixing the central action on weight `(k,j)`, `T₂(p²) = p^{2k+j−6}`, the image
+over `ℚ` is generated by `T(p)` and `T(p²)` (equivalently `T(p)` and `T₁(p²)`):
+subtracting `T(p²)` from the displayed relation leaves `p T₁(p²)` plus the known central term.
+For `g = 1` prove
 the comparison with Tau Ceti's `satakeParameters`: `(α₀, α₁) = (β, β̄/β)` where
 `1 − a_p X + p^{k−1}X² = (1 − βX)(1 − β̄X)`. Prove the Eisenstein values: for
 `F = E_k^{(g)}`, `α₀ = 1`, `α_i = p^{k−i}`, hence `λ(T(p)) = ∏_{i=1}^{g} (1 + p^{k−i})`
@@ -1752,6 +1932,9 @@ The Satake parameters are specified in this README only.
 
 **Checks.**
 
+- Before central specialization the Satake algebra has transcendence degree `3`;
+  the fixed-central-character quotient has at most `2`. For `ψ₄` at `p = 2`,
+  `T₂(4)` acts by `2^{8−6} = 4`, not by a free third parameter.
 - `ψ₄` at `p = 2`: `(α₀, α₁, α₂) = (1, 2³, 2²)`, `λ(T(2)) = (1 + 8)(1 + 4) = 45`, and
   `α₀² α₁ α₂ = 2⁵ = 2^{2k−3}` at `k = 4`.
 - `χ₁₀` at `p = 2`: `(α₀, α₁, α₂) = (2⁸, β 2⁻⁸, β̄ 2⁻⁸)` with `β + β̄ = −528`, `ββ̄ = 2¹⁷`
@@ -1854,12 +2037,32 @@ and `D_p(E_k^{(g)}, X) = (1 − X)∏_{i=1}^{g}(1 − p^{k−i}X)(1 − p^{i−k
 
 Define `L(s, F, spin) := ∏_p Q_p(F, p^{−s})⁻¹` and `L(s, F, st) := ∏_p D_p(F, p^{−s})⁻¹` as
 Euler products (Mathlib's `EulerProduct` API) with their Dirichlet-series coefficients
-`b_F(n)`, and prove absolute convergence of both for `Re s > k + j/2 + 1` in degree two, from
-the eigenvalue bound `|λ_F(p)| ≤ C p^{k + j/2}` and `|λ_F(p²)| ≤ C p^{2k + j}` that the cusp-form
-coefficient bound of 3.2 gives through 7.5 (so every `|α₀ α_I| ≤ C' p^{k + j/2}`). The
-**Ramanujan–Petersson bound** `|α₀ α_I| = p^{(2k+j−3)/2}` for every `I` (Weissauer 2009, for
-`F ∈ S_{k,j}(Γ₂)` not in the Maass space) is stated, not proved; under it the half-plane is
-`Re s > k + j/2 − 1/2`, and every use of it below is an implication. Prove in degree two the
+`b_spin,F(n)` and `b_st,F(n)`. In degree two distinguish the following bounds; none
+asserts uniformity across the three summands of 4.3 (van der Geer §§19–20; Arakawa 1983,
+§1.3 for the weighted cusp coefficient estimate).
+
+- For a cuspidal eigenform of weight `(k,j)`, put `a = k+j/2`, `w = 2k+j−3`.
+  Prove the weighted estimate `‖ρ(T⁻¹/²)a_F(T)‖ ≤ C_F` on positive definite `T`,
+  and use 7.5 and its prime-power recurrences to bound each spin root by `C p^a`.
+  This gives absolute convergence of the spin product for `Re s > a+1`.
+  For the standard product, pair spin roots by `β ↔ p^w/β`; their ratios give
+  `|α_i|, |α_i⁻¹| ≤ C² p^{2a−w} = C²p³`, hence convergence for `Re s > 4`.
+- For the Klingen section of a normalized elliptic cusp eigenform of weight `k+j`,
+  with even `k > 4` and even `j ≥ 0`, prove the local spin roots are
+  `β, β̄, p^{k−2}β, p^{k−2}β̄`, where `|β| = |β̄| = p^{(k+j−1)/2}`.
+  Thus the spin product converges absolutely for `Re s > (3k+j−3)/2`;
+  the standard roots are `1, β̄/β, β/β̄, p^{k−2}, p^{2−k}`, giving `Re s > k−1`.
+- For the scalar Siegel Eisenstein series of even weight `k ≥ 4`, the spin roots are
+  `1,p^{k−1},p^{k−2},p^{2k−3}` and the standard roots are
+  `1,p^{±(k−1)},p^{±(k−2)}`. Their half-planes are respectively `Re s > 2k−2`
+  and `Re s > k`. In arbitrary genus and even `k > g+1`, the corresponding
+  bounds are `Re s > gk−g(g+1)/2+1` and `Re s > k`.
+
+The **Ramanujan–Petersson theorem** for a non-Maass cuspidal degree-two eigenform gives
+`|α₀α_I| = p^{w/2}` (Weissauer 2009). Its proof is a target of 8.3; it sharpens the
+spin bound to `Re s > k+j/2−1/2` and the standard bound to `Re s > 1`.
+The Maass case remains included through its factorization, without imposing this bound.
+Prove in degree two the
 identity of Dirichlet series
 `L(s, F, spin) = ζ(2s − 2k − j + 4) ∑_{m ≥ 1} λ_F(m) m^{−s}` (van der Geer §20, from 8.1's
 generating identity and the multiplicativity of 7.5) — the shape in which Andrianov's theorem is
@@ -1867,12 +2070,22 @@ stated — and for `g = 1` the comparison `L(s, f, spin) = L(s, f)` of the modul
 The **Saito–Kurokawa factorization** `L(s, χ₁₀, spin) = ζ(s − 9) ζ(s − 8) L(s, f₁₈)` is the
 acceptance value of 9.5; its `p = 2` factor is `(1 − 2⁸X)(1 − 2⁹X)(1 + 528X + 2¹⁷X²)`.
 
-*Needs:* 2.5, 3.2, 7.5, 8.1; Mathlib `LSeries`, `EulerProduct`.
+*Needs:* 2.5, 3.2, 4.3, 7.5, 7.6, 8.1; the modular-forms roadmap Layer 7
+for the elliptic Ramanujan bound; Mathlib `LSeries`, `EulerProduct`. The sharper
+non-Maass estimate alone uses 8.3; no convergence input to 8.3 uses that refinement.
 
 The two `L`-functions are specified in this README only, since they are built from the Satake
 parameters of 7.4.
 
 **Checks.**
+
+- For `ψ₆`, the spin root `p⁹` makes the local term at `s = 8` equal to
+  `1−p`; the absolute-convergence half-plane is `Re s > 10`. Its standard bound is `Re s > 6`.
+- For `E_{2,1,12}(Δ)`, the largest spin-root modulus is `p^{31/2}`, so
+  `Re s > 33/2`; the largest standard-root modulus is `p¹⁰`, so `Re s > 11`.
+- For `χ₁₀`, the spin exponents are `8,9,17/2,17/2`, giving `Re s > 10`,
+  and the standard exponents are `0,1/2,1/2,−1/2,−1/2`, giving `Re s > 3/2`.
+
 
 - `χ₁₀` at `p = 2`: `Q₂ = (1 − 2⁸X)(1 − 2⁹X)(1 + 528X + 2¹⁷X²)`, and
   `L(s, χ₁₀, spin) = ζ(s − 9) ζ(s − 8) L(s, f₁₈)`.
@@ -1882,9 +2095,9 @@ parameters of 7.4.
 - The `X`-coefficient of `Q₂(χ₁₀, X)` is `−2⁸ − 2⁹ + 528 = −240 = −λ(2)`, as 8.1's degree-two
   identity requires.
 
-### 8.3 Analytic continuation and functional equations, stated
+### 8.3 Analytic continuation, functional equations and the non-Maass bound
 
-State **Andrianov's theorem** (Andrianov 1974, Theorem 3.1.1; Arakawa 1983 for `j > 0`): for a
+Prove **Andrianov's theorem** (Andrianov 1974, Theorem 3.1.1; Arakawa 1983 for `j > 0`): for a
 Hecke eigenform `F ∈ S_{k,j}(Γ₂)`, `Λ(s, F, spin) := Γ_ℂ(s) Γ_ℂ(s − k + 2) · L(s, F, spin)` with
 `Γ_ℂ(s) = 2(2π)^{−s}Γ(s)` — the shift `k − 2` does not move with `j`: the
 Hodge types of weight `(k, j)` are `(0, w), (k − 2, k + j − 1), (k + j − 1, k − 2), (w, 0)` with
@@ -1903,7 +2116,7 @@ product of `L(s, f)`: Deligne's bound `|a_p(f)| ≤ 2p^{k−3/2}` (Deligne 1974)
 `Re s > k − 1/5`; Hecke's `a_n = O(n^{k−1})` alone puts `s = k` only on the boundary line and does
 not suffice; the
 completed `Λ(s, F, spin)` then has poles at `s = k` and at its mirror `s = k − 2` (there the
-factor `Γ_ℂ(s − k + 2)` has its pole). State **Böcherer's and Andrianov–Kalinin's theorem**
+factor `Γ_ℂ(s − k + 2)` has its pole). Prove **Böcherer's and Andrianov–Kalinin's theorem**
 (Böcherer 1985;
 Andrianov–Kalinin 1978; Piatetski-Shapiro–Rallis 1987) for the standard `L`-function of a
 scalar eigenform `F ∈ M_k(Γ_g)`:
@@ -1918,10 +2131,29 @@ theta series. The rank is `2k`, the rank of a lattice whose theta series has wei
 rank-`16 = 2k` theta series, and its standard `L`-function `ζ(s) ∏_{i=1}^{4} L(s + 8 − i, Δ)` has
 the pole at `s = 1`, while rank-`8 = 2g` theta series have weight `4 ≠ 8`. For
 `g = 1` the spinor statement is the modular-forms roadmap's *Layer 7* functional equation,
-consumed as the bridge check; nothing of degree `≥ 2` is proved here, and every use below of a
-value of `L(s, F, spin)` outside the half-plane of 8.2 is an implication from this milestone.
+consumed as the bridge check. The degree-two spinor continuation and its functional
+equation are proof targets here. Build the Mellin integral of the Fourier–Jacobi expansion,
+its unfolded Euler identity, the archimedean integral giving the two gamma factors, and
+the boundary residues; prove convergence before interchanging sums and integrals.
+For the standard function, consume the doubling continuation and functional equation
+of `AutomorphicLFunctionsAndLocalFactorsPartII` §§9.1–9.3 and prove the classical-to-adelic
+comparison: the unramified factor is 8.1's `D_p`, the real integral is the displayed gamma
+factor, and the residue is the projection onto the rank-`2k` theta span. Specialize the supplied classical adelization equivalence to these holomorphic vectors;
+use the quotient measures and automorphic carriers of `AdelicAlgebraicGroups` §§2.2–2.3
+and `AutomorphicFormsOnReductiveGroups` §§3.1–3.2.
 
-*Needs:* 3.4, 8.2.
+Prove the non-Maass Ramanujan–Petersson theorem of 8.2 (Weissauer 2009): for every
+prime `p` the arithmetic spin roots of a cuspidal full-level eigenform orthogonal to
+Saito–Kurokawa have modulus `p^{(2k+j−3)/2}`. The proof target includes the comparison
+between its Hecke eigensystem and the pure cohomological realization, and the separation
+of the Saito–Kurokawa contribution; a purity theorem alone does not identify these roots.
+For the Maass forms, the factorization and pole computation use 9.5 instead. Thus the
+basic continuation input of 9.5 does not depend on the Maass application of this section.
+
+*Needs:* 3.4, 8.1–8.2; `AutomorphicLFunctionsAndLocalFactorsPartII` §§9.1–9.3;
+`AdelicAlgebraicGroups` §§2.2–2.3; `AutomorphicFormsOnReductiveGroups` §§3.1–3.2.
+The Maass pole computation additionally needs 9.5 and the elliptic functional equation
+and nonvanishing in the modular-forms roadmap Layer 7.
 
 **Checks.**
 
@@ -1961,11 +2193,12 @@ Prove the consistency check `w + 1 − s` symmetric about `k + j/2 − 1` and th
 ### 8.5 Export to the completed `L`-function data model
 
 Fill `LFunctions`' *Layer 0* record `ArithmeticLFunctionData` for `L(s, F, spin)` and
-`L(s, F, st)` of a level-one eigenform: coefficients `b_F(n)` (8.2, with `b_F(0) = 0`),
+`L(s, F, st)` of a level-one eigenform: separate coefficients `b_spin,F(n)` and `b_st,F(n)` (8.2, each zero at `n = 0`),
 conductor `1`, the gamma shifts and root number of 8.4, the completed function of 8.3, and the
 polar divisor; prove the Dirichlet-agreement predicate on the half-plane of 8.2 unconditionally,
-and the continuation and functional-equation predicates as implications from 8.3. Build the
-`NormalizationTranslation` to the analytic card with weight `w` (center `1/2`), so that the
+and derive the continuation and functional-equation predicates from the theorems of 8.3. Build the
+`NormalizationTranslation` with weight `w` for the spin card and weight `0` for the
+standard card (center `1/2` in each analytic coordinate), so that the
 analytic Satake parameters `α_I p^{−w/2}` have absolute value `1` exactly when
 Ramanujan–Petersson holds. No second `L`-function card is introduced: the LMFDB's `lfunction`
 pages for Siegel forms read these two records. Paramodular newforms are exported in 10.5.
@@ -1974,7 +2207,10 @@ pages for Siegel forms read these two records. Paramodular newforms are exported
 
 **Checks.**
 
-- `b_F(1) = 1` and `b_F(p) = λ_F(p)` for `p` prime; `b_F(0) = 0`.
+- Both sequences have `b(0) = 0`, `b(1) = 1`. For primes,
+  `b_spin,F(p) = λ_F(p)` but `b_st,F(p) = 1 + ∑_{i=1}^g (α_i + α_i⁻¹)`.
+- For `χ₁₀` at `p = 2`, `α₁+α₂ = −33/16`, `α₁α₂ = 2`; hence
+  `b_st,F(2) = 1 − 33/16 − 33/32 = −67/32`, whereas `b_spin,F(2) = 240`.
 - The analytic Satake parameters `α_I p^{−w/2}` have absolute value `1` for `Υ₂₀` under
   Ramanujan–Petersson, and `|α₀| p^{−w/2} = p^{−1/2} ≠ 1` for `χ₁₀` (`|α₀| = 2⁸`, `w = 17`).
 - The record has conductor `1` and degree `4`; the standard card has degree `5` and weight `0`.
@@ -2042,21 +2278,16 @@ Theorem 5.1); and from the sibling's 6.3 the dimension count
 `dim J_{k,1} = dim M_{2k−2}(SL₂(ℤ))` for even `k ≥ 4`, with the first values
 `dim J_{4,1} = dim J_{6,1} = dim J_{8,1} = 1`,
 `dim J_{10,1} = dim J_{12,1} = 2`, which the Maass lift needs. Nothing of this is redefined or
-reproved here, and `Suggested.lean` declares no Jacobi carrier: its Maass-lift declarations take
+reproved here, and `Suggested.lean` declares no Jacobi carrier: its Maass-space declarations use
 the discriminant-indexed coefficient function `c : ℤ → ℂ` of a Jacobi form as input.
 
-Owned here, stated on that carrier: the **Jacobi Eisenstein series** `E_{k,1} ∈ J_{k,1}` (even
-`k ≥ 4`) with `c(N) = H(k−1, N)/ζ(3 − 2k)` for `N > 0` (Theorem 2.1, in Cohen's `H`) and `c(0) = 1`
-(its coefficient function `c` is specified here, with Checks, and not declared in `Suggested.lean`,
-since Cohen's `H` is not), and the Hecke-type
-operators `V_l` on functions,
-`(φ|V_l)(τ, z) := l^{k−1} ∑_{Γ₁\O(l)} (cτ+d)^{−k} e(−lcz²/(cτ+d)) φ((aτ+b)/(cτ+d), lz/(cτ+d))`, with
-`V_l(J_{k,1}) ⊆ J_{k,l}` and the coefficient
-formula `c(φ|V_l; n, r) = ∑_{a ∣ (n, r, l)} a^{k−1} c(nl/a², r/a)` (Eichler–Zagier §4, Theorem 4.2),
-proved on `J_{k,1}`.
+The Jacobi Eisenstein series and the Maass construction are those of 4.2.
+Compare the Fourier–Jacobi coefficients of 9.1 with the supplied `V_l` operators:
+the coefficient at index `m` of the Maass lift is `V_mφ`, with its zero-index
+coefficient as in 4.2. No Siegel Eisenstein coefficient is used to construct these inputs.
 
 *Needs:* 1.3, 4.2, 9.1; `MetaplecticAutomorphicForms` 6.18, 6.20;
-`QSeriesPartitionsAndMockModularForms` §9.1; the sibling `HalfIntegralWeightModularForms` 6.1–6.3;
+`QSeriesPartitionsAndMockModularForms` §9.1; the sibling `HalfIntegralWeightModularForms` 6.1–6.4;
 Mathlib `jacobiTheta₂`; Tau Ceti `mvPolynomialEquivModularForms` (for the dimension count).
 
 **Checks.**
@@ -2064,27 +2295,20 @@ Mathlib `jacobiTheta₂`; Tau Ceti `mvPolynomialEquivModularForms` (for the dime
 - `E_{4,1}`: `c(0) = 1`, `c(3) = 56`, `c(4) = 126`, that is `c(N) = H(3, N)/ζ(−5)` with the values
   of 4.2's Checks.
 - `c(N) = 0` for `N < 0` and for `N ≡ 1, 2 mod 4`.
+- At `l = 1` the divisor sum has only `a = 1`, giving `V₁φ = φ` coefficient by coefficient.
 - Through 9.3, `240 · c(3) = 13440 = a(ψ₄; (1,1,1))` and `240 · c(4) = 30240 = a(ψ₄; (1,0,1))`.
 
 ### 9.3 The Maass lift
 
-Define `V : J_{k,1} → (ℍ[2] → ℂ)`, `V(φ)(τ) := ∑_{m ≥ 0} (φ|V_m)(τ', z) e(mτ'')` with
-`φ|V_0 := c(0) · (−B_k/(2k)) · E_k(τ')` (Eichler–Zagier §6: the `m = 0` term is
-`c(0)(−B_k/(2k) + ∑_{n ≥ 1} σ_{k−1}(n) q^n)`, so that `a(V(φ); (n, 0, 0)) = c(0) σ_{k−1}(n)` fits
-the coefficient formula below), and prove Maass's theorem
-(Eichler–Zagier, Theorem 6.2; van der Geer §21): `V(φ) ∈ M_k(Γ₂)` with
-`a(V(φ); (n, r, m)) = ∑_{d ∣ (n, r, m)} d^{k−1} c((4nm − r²)/d²)` for `(n, r, m) ≠ 0`, `V` is
-injective, `V(J^{cusp}_{k,1}) ⊆ S_k(Γ₂)`, and the first Fourier–Jacobi coefficient of `V(φ)` is
-`φ`. Prove `E_k^{(2)} = −(2k/B_k) · V(E_{k,1})` for even `k ≥ 4` (the constant terms are `1` and
-`c(0) · (−B_k/(2k))`; at `k = 4` the factor is `240` and
-`a(ψ₄; (1,1,1)) = 240 · c(3) = 240 · 56 = 13440`) — this is the Maass–Cohen formula 4.2, now
-derived, its `2/ζ(1 − k)` being `−2k/B_k` —
-and that `χ₁₀ = V(φ₁₀)`, `χ₁₂ = V(φ₁₂)` for the unique (up to scalar) cusp forms
+Using the Maass construction of 4.2, prove the normalized identifications
+`χ₁₀ = V(φ₁₀)`, `χ₁₂ = V(φ₁₂)` for the unique (up to scalar) cusp forms
 `φ₁₀ ∈ J^{cusp}_{10,1}`, `φ₁₂ ∈ J^{cusp}_{12,1}` normalized by `c(3) = 1`, with the Maass relation
 check `a(χ₁₀; (2,2,2)) = c(12) + 2⁹ c(3) = −272 + 512 = 240` and
 `a(χ₁₂; (2,2,2)) = 736 + 2¹¹ = 2784`.
 
-*Needs:* 2.2, 4.1, 4.2, 6.1, 9.1, 9.2.
+*Needs:* 4.2 for the general Maass construction and its injectivity; 6.1 for the
+normalized generators; 6.3 and the supplied Jacobi dimensions for uniqueness;
+9.1–9.2 for the Fourier–Jacobi comparison.
 
 **Checks.**
 
@@ -2099,7 +2323,7 @@ check `a(χ₁₀; (2,2,2)) = c(12) + 2⁹ c(3) = −272 + 512 = 240` and
 ### 9.4 The Maass space
 
 Define the **Maass space** `M_k^*(Γ₂) ⊆ M_k(Γ₂)` by the **Maass relation**
-`a((n, r, m)) = ∑_{d ∣ (n, r, m)} d^{k−1} a((1, r/d, mn/d²))` for all `(n, r, m) ≠ 0` (the
+`a((n, r, m)) = ∑_{d ∣ (n, r, m)} d^{k−1} a((1, r/d, mn/d²))` for all positive semidefinite `(n, r, m) ≠ 0` (the
 knowl's "`a(N)` depends only on the discriminant and the content", van der Geer §21), and
 `S_k^*(Γ₂) := M_k^* ∩ S_k`. Prove `M_k^*(Γ₂) = V(J_{k,1})` (9.3; the relation is exactly the
 image description), `dim M_k^*(Γ₂) = dim M_{2k−2}(SL₂(ℤ))` and
@@ -2119,6 +2343,9 @@ equalities as `finrank_maassSubmodule` and `finrank_maassSubmodule_inf_cusp`, fo
 
 **Checks.**
 
+- At `(−1,1,−1)`, Koecher gives `a = 0`, whereas the unrestricted divisor expression is
+  `a(1,1,1) = 1` for `χ₁₀`; this negative definite index is outside the Maass relation.
+  At `(1,1,1)` the relation is `1 = 1`. Negative-index vanishing remains 2.4.
 - `ψ_k, χ₁₀, χ₁₂ ∈ M_k^*(Γ₂)`; `dim M_{20}^*(Γ₂) = dim M_{38}(SL₂(ℤ)) = 3` and
   `dim S_{20}^*(Γ₂) = 2`.
 - `k = 20`: `5 = 1 + 1 + 2 + 1`, and the non-lift `Υ₂₀` violates the Maass relation; `k = 24`:
@@ -2194,9 +2421,9 @@ sibling `HalfIntegralWeightModularForms` 6.1, 6.4.
   `2` has `λ(p) = a_p(f) + p + 1`, never the `λ(2) = −2` of `f₂₇₇`.
 
 
-### 9.7 The Ikeda lift, stated
+### 9.7 The Ikeda lift
 
-State **Ikeda's theorem** (Ikeda 2001): for `n ≥ 1`, `k` with `k ≡ n mod 2`, and a normalized
+Prove **Ikeda's theorem** (Ikeda 2001): for `n ≥ 1`, `k` with `k ≡ n mod 2`, and a normalized
 eigenform `f ∈ S_{2k}(SL₂(ℤ))` with
 `1 − a_p(f)X + p^{2k−1}X² = (1 − α p^{k−1/2}X)(1 − α⁻¹ p^{k−1/2}X)`,
 there is a Hecke eigenform `I(f) ∈ S_{k+n}(Γ_{2n})`, nonzero, with standard `L`-function
@@ -2226,9 +2453,9 @@ the LMFDB's "Sp8Z" table counts `1, 1, 1, 2, 2` Ikeda lifts in weights `8, 10, 1
   `2k = 12, 16, 20, 24, 28`.
 
 
-### 9.8 The Miyawaki lifts, stated
+### 9.8 The Miyawaki lifts
 
-State **Ikeda's theorem on the Miyawaki lift of type I** (Ikeda 2006; the knowl
+Prove **Ikeda's theorem on the Miyawaki lift of type I** (Ikeda 2006; the knowl
 `mf.siegel.lift.miyawaki1`): for even `k`, normalized eigenforms `f ∈ S_{2k−4}(SL₂(ℤ))` and
 `g ∈ S_k(SL₂(ℤ))`, there is `F = M_I(f, g) ∈ S_k(Γ₃)`, a Hecke eigenform **if nonzero**, with
 `L(s, F, st) = L(s + k − 2, f) L(s + k − 3, f) L(s, g, st)` and
@@ -2354,10 +2581,16 @@ level-raising operators `θ_p, θ'_p : S_k(K(M)) → S_k(K(Mp))` and `η_p : S_k
 (explicit finite sums of slashes, the knowl's `V^±_p`, `U_p`), for `Mp ∣ N` and `Mp² ∣ N`. Define
 the
 LMFDB's **nonlift newforms** `S^{new, nl}` as the newforms that are not Gritsenko lifts (9.6; the
-knowl `mf.siegel.newform.paramodular`), define the **newform subspace** of a newform `F` as the
-`ℂ`-span of its images under the Hecke algebra at `p ∤ N` (equivalently, by 11.2, of its Galois
-conjugates), and its **dimension** as the dimension of that subspace (the knowl
-`mf.siegel.newform_subspace`, `mf.siegel.dimension`).
+knowl `mf.siegel.newform.paramodular`), distinguish the complex eigenline `ℂF` from its rational Hecke constituent.
+On the rational structure of 11.2 let `H_ℚ` be the algebra generated by the good Hecke
+operators and let `m_F = ker(λ_F|H_ℚ)`. Define the simple rational constituent
+`C_F = H_ℚ/m_F` with its regular Hecke action; its dimension is
+`[ℚ(λ_F):ℚ]`, and `C_F ⊗_ℚ ℂ` is the direct sum of one eigenline for each embedding
+of that number field. The **orbit dimension** is this dimension (the knowls
+`mf.siegel.newform_subspace`, `mf.siegel.dimension`). An embedded copy in the newspace
+requires choosing a copy of the constituent; it is unique when its multiplicity is one.
+The rational isotypic subspace annihilated by `m_F` includes all copies and has dimension
+`multiplicity · [ℚ(λ_F):ℚ]`. In contrast, `ℂ[H]F = ℂF` always has dimension one.
 
 *Needs:* 3.4, 3.5, 7.3, 9.6, 10.1, 10.2.
 
@@ -2366,6 +2599,15 @@ Petersson complement (3.4).
 
 **Checks.**
 
+- On `S₃₈(SL₂(ℤ))`, `T₂` has polynomial `X²+194400X−137403408384`,
+  discriminant `587404993536 = 96²·63737521`. The two roots are
+  `−97200 ± 48√63737521`; their lifts in `S₂₀(Γ₂)` give a rational constituent
+  of dimension `2`, whose two complex eigenlines each have dimension `1`.
+- For a rational eigensystem, `C_F = ℚ` and its complexification is one eigenline.
+- Two copies of a rational eigensystem have isotypic dimension `2` but simple-constituent
+  dimension `1`; a multiplicity assertion cannot be inferred from the coefficient field.
+
+
 - `S^{new}_{k,j}(K(1)) = S_{k,j}(Γ₂)`: `χ₁₀` is a newform of level `1`.
 - `S_2(K(1)) = 0` (`dim M_2(Γ₂) = 0`), so `S^{old}_2(K(277)) = 0` and all of `S_2(K(277))`,
   of dimension `11`, is new; of it, the Gritsenko lifts span `10` dimensions and `f₂₇₇` spans
@@ -2373,10 +2615,18 @@ Petersson complement (3.4).
 - A Gritsenko lift is never in `S^{new, nl}` (rejection), and `S_2(K(p)) = 0` for
   `p = 2, 3, 5, 7, 11, 13`, so those levels have no newforms of weight two.
 
-### 10.4 The Roberts–Schmidt local newform theorem, as consumed
+### 10.4 Local paramodular newforms and the classical comparison
 
-State, by citation and as the interface this roadmap consumes (Roberts–Schmidt 2007, Theorems
-7.5.1–7.5.9 and Table A.12; the adelic statement is not owned here): for a newform
+Build the paramodular fixed-vector theory for irreducible admissible representations of
+`GSp₄(F)` over nonarchimedean characteristic-zero local fields with trivial central character,
+including residue characteristics `2` and `3`. Determine the least paramodular exponent
+when fixed vectors exist, their dimensions, the two Hecke actions and the local epsilon
+factor; prove the generic newvector uniqueness theorem and the nongeneric cases with their
+separate hypotheses (Roberts–Schmidt 2007, Theorems 7.5.1–7.5.9 and Table A.12).
+These local calculations and their comparison with classical slashes are targets, not
+an unnamed external assumption. On the supplied smooth representation carriers, construct
+the local fixed-vector spaces, the raising maps and the zeta integrals needed to prove
+these formulas. Prove the resulting classical theorem: for a newform
 `F ∈ S^{new}_{k,j}(K(N))` and `p ∣ N` there is a polynomial `L_p(F, X) ∈ ℂ[X]` of degree
 `≤ 4`, determined by the eigenvalues of the two paramodular operators at `p` of 7.3 and by
 `ε_p(F) ∈ {±1}`, such that the **completed spinor `L`-function**
@@ -2388,7 +2638,9 @@ local factors). Record `deg L_p(F, X)` as the LMFDB's local-degree data and `N` 
 of `F`. The predicate `IsParamodularPartner` of 10.6 is stated against the good factors only, so
 nothing in 10.6 depends on the shape of `L_p`.
 
-*Needs:* 7.3, 8.3, 10.2, 10.3.
+*Needs:* 7.3, 8.3, 10.2–10.3; `SmoothRepresentationsOfLocalGroups` SR.0.1, SR.0.3–SR.0.4 and SR.1.1–SR.1.3
+for smooth representations and fixed vectors; the local fixed-vector and zeta-integral
+targets of this section for the paramodular comparison.
 
 **Checks.**
 
@@ -2539,13 +2791,23 @@ state integrality of `ψ₄, ψ₆` and of the normalized `χ`'s as targets), he
 through Satoh's brackets (6.4) and for the rings of 6.5–6.8 through their theta generators
 (5.4: theta constants have integral coefficients in `e(τ/8)`-expansions, and the named
 generators' normalizing constants make the result integral). Prove that the Hecke operators of
-7.2–7.3 preserve the `ℚ`-structure (7.5: the coefficient formula has integer coefficients), so
-the eigenvalues of a Hecke eigenform are **algebraic integers** (characteristic polynomial of an
-integral matrix), the **coefficient field** `ℚ(F) := ℚ(λ_F(T(p)), λ_F(T₁(p²)) : p)` is a number
-field (the knowl `mf.siegel.coefficient_field`), equal to the field generated by the Fourier
-coefficients of the normalization with `a(T₀) = 1` at the first reduced `T₀` with `a(T₀) ≠ 0`,
-and that the `Gal(ℚ̄/ℚ)`-conjugates of an eigenform are eigenforms (the **Galois orbit**, the
-knowl `mf.siegel.galois_orbit`) whose number is `[ℚ(F) : ℚ]` (the LMFDB's `fdeg`, with
+7.2–7.3 preserve the corresponding rational structures. In scalar degree two at full level,
+prove that the operators `T(m)` preserve the integral Fourier lattice for `k ≥ 2`: the
+coefficient powers `p^{k−2}` and `p^{2k−3}` in 7.5 are integral, and the prime-power
+coefficient laws give the assertion for all `m ≥ 1`. Thus their eigenvalues are
+**algebraic integers** (characteristic polynomials on the finite integral lattice).
+This assertion concerns `T(m)`, not every rationally normalized double coset:
+`T₂(p²)` acts by `p^{2k−6}` and needs `k ≥ 3` for this scalar to be integral.
+At weight zero the constant form instead has `λ(T(p)) = (p+1)(p²+1)/p³`;
+weight one is a zero space by 6.3. At every weight the rational Hecke action implies that the **coefficient field** `ℚ(F) := ℚ(λ_F(T(p)), λ_F(T₁(p²)) : p)` is a number
+field (the knowl `mf.siegel.coefficient_field`). If its simultaneous eigenspace in the
+chosen rational Hecke module is one-dimensional, prove it is defined over this field:
+normalizing `a(T₀) = 1` at a nonzero coefficient gives all Fourier coefficients in `ℚ(F)`,
+and conversely the eigenvalue equations recover the eigenvalues from those coefficients.
+Its normalized Galois conjugates are then distinct eigenforms indexed by the embeddings
+of `ℚ(F)` (the **Galois orbit**, the knowl `mf.siegel.galois_orbit`), of size `[ℚ(F) : ℚ]`.
+Without multiplicity one, use the simple rational constituent and the full isotypic space
+of 10.3 separately (the LMFDB's `fdeg`, with
 `field_poly` a defining polynomial, `mf.siegel.defining_polynomial`). Define the predicate
 **integral** on `F` (all `a(T)` integral in the normalization above; the LMFDB's `is_integral`
 column, the knowl `mf.siegel.integral_fc`) and the
@@ -2554,7 +2816,7 @@ have `ℚ(F) = ℚ`, `fdeg = 1` and are integral; `S_{20}(Γ₂)` has the three 
 `SK(f₃₈^{(1)}), SK(f₃₈^{(2)})` with coefficient field `ℚ(√63737521)` (that of
 `S_{38}(SL₂(ℤ))`, where `T₂` has characteristic polynomial `x² + 194400x − 137403408384` of
 discriminant `194400² + 4 · 137403408384 = 587404993536 = 2¹⁰ · 3² · 63737521`, roots
-`−97200 ± 96√63737521`; consumed from the modular-forms roadmap) and the rational
+`−97200 ± 48√63737521`; consumed from the modular-forms roadmap) and the rational
 non-lift `Υ₂₀`.
 
 *Needs:* 2.2, 3.2, 4.2, 5.4, 6.3, 6.4, 6.5–6.8, 7.5, 7.6.
@@ -2564,6 +2826,8 @@ non-lift `Υ₂₀`.
 - `ψ₄, ψ₆, χ₁₀, χ₁₂, χ₃₅` have `ℚ(F) = ℚ`, `fdeg = 1`, and integral coefficients.
 - `S_{20}(Γ₂)`: the two Saito–Kurokawa lifts have coefficient field `ℚ(√63737521)`, with `T₂` on
   `S_{38}(SL₂(ℤ))` of discriminant `2¹⁰ · 3² · 63737521`; `Υ₂₀` is rational.
+- At weight zero, `λ(T(2)) = 15/8` and `λ(T(3)) = 40/27` are rational but not
+  algebraic integers; the coefficient field is still `ℚ`, of degree `1`.
 - The eigenvalues of `χ₁₀` are integers (`240, 21960, 1317900`), as algebraic integers in `ℚ`
   must be.
 
@@ -2634,7 +2898,7 @@ Everything above; nothing outside this roadmap beyond the suppliers already name
 
 ## Downstream consumers
 
-- The sibling `HalfIntegralWeightModularForms` names this roadmap for the Siegel side of the Jacobi theory: the Fourier–Jacobi expansion (9.1), the Jacobi Eisenstein series and `V_l` (9.2), the Maass lift and the Saito–Kurokawa theorem (9.3–9.5) and the Gritsenko lift (9.6), and reads the dimension values `dim J_{10,1} = dim J_{12,1} = 2` of 9.2.
+- The sibling `HalfIntegralWeightModularForms` names this roadmap for the Siegel side of the Jacobi theory: the Fourier–Jacobi expansion (9.1), the Jacobi Eisenstein series (4.2 and 9.2), the Maass lift and the Saito–Kurokawa theorem (9.3–9.5) and the Gritsenko lift (9.6), and reads the dimension values `dim J_{10,1} = dim J_{12,1} = 2` of 9.2.
 - The sibling `LatticePackingsAndPerfectForms` defers degree-`g` theta series with and without pluriharmonic coefficients to Layer 5.
 - The siblings `HilbertModularForms` and `HilbertModularSurfaces` name this roadmap for the Siegel side of the Hilbert–Siegel comparison and for the Humbert surfaces in the Siegel threefold; nothing of theirs is consumed here.
 - The LMFDB `smf` pages and the `g2c.paramodular_conjecture` knowl are specified by Layer 11 and 10.6.
@@ -2747,7 +3011,13 @@ read from the cited theorem.
   Theorem 2.1 (Jacobi Eisenstein coefficients, Cohen's `H`), Theorem 2.2 (`c(n, r)` depends on
   `4n − r²` in index 1), Theorem 4.2 (`V_l` on coefficients), Theorem 5.1 (theta decomposition),
   Theorem 5.4 (`J_{k,1} ≅ M⁺_{k−1/2}`), Theorems 6.2–6.3 (the Maass lift and its Hecke
-  compatibility).
+  compatibility). The §4.2 locators use their 1983 preprint, *On the theory of Jacobi forms I*,
+  MPIM preprint 83-8, §2 Theorem 2.1 and §6 Theorems 6.2–6.3 and Corollary 2
+  ([institutional text](https://archive.mpim-bonn.mpg.de/id/eprint/1437/1/preprint_1983_8.pdf)).
+- H. Maass, *Die Fourierkoeffizienten der Eisensteinreihen zweiten Grades*, Mat. Fys. Medd.
+  Dan. Vid. Selsk. 34 (1964), 1–25, corrected in *Über die Fourierkoeffizienten der
+  Eisensteinreihen zweiten Grades*, ibid. 38 (1972), 1–13: the direct coefficient calculation
+  in 4.2, identified by Eichler–Zagier §6, Corollary 2 and references [18]–[19].
 - H. Maass, *Über eine Spezialschar von Modulformen zweiten Grades I–III*, Invent. Math. 52
   (1979), 95–104; 53 (1979), 249–253, 255–265: the Maass space and lift (9.3–9.4).
 - H. Cohen, *Sums involving the values at negative integers of L-functions of quadratic
