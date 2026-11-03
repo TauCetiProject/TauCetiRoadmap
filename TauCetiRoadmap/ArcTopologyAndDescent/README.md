@@ -22,7 +22,8 @@ The following objects retain one owner; their mathematical tests also appear amo
 | AdicSpaces Layers 0–1 and §2.1; AdicSpacesPartII §§R0.3, R0.9, R1.3 and R1.9; RigidAnalyticGeometry §§1.1–1.3 | Huber rings and adic spectra, completed tensors, analytification, the affinoid carrier, Noether normalization and dimension. Strict topological finite type is the pinned Tau Ceti predicate listed below. |
 | PerfectoidSpaces §§P1.15, P1.24, P1.27, P2.2 and P3.20; PerfectoidQuotients §§0.4–0.6; PrismaticCohomology perfect-prism contracts | Integral perfectoid algebra, tilting and its valuation and étale comparisons, bounded p-torsion, products and the distinguished regular Fontaine ideal. Layer 12 here owns complete-arc hyperdescent rather than another construction of those carriers. |
 | GeneralAlgebraicKTheory §§8.5–8.6, 10.9 and 10.12; SchemeKTheoryOperations §3.4 | Milnor Mayer–Vietoris through degree 1; relative excision isomorphisms in degrees ≤ 0 and surjectivity in degree 1; supported K-theory under noetherian completion. The elementary Milnor datum used here is defined in Conventions. |
-| Mathlib `IsAlmostIntegral` and `completeIntegralClosure` | Ordinary almost integrality and complete integral closure. Section 9.7 keeps the distinct uniform power-of-t denominator condition inside A[1/t], over arbitrary rings with t a nonzerodivisor; it does not rebuild ordinary complete integral closure. |
+| Mathlib `IsAlmostIntegral` and `completeIntegralClosure` | Ordinary almost integrality and complete integral closure, using an arbitrary nonzerodivisor multiplier. |
+| PerfectoidSpacesPartII §RA.2, target p-root-closure | Localized complete integral closure in A[1/t], its subalgebra laws, uniform power-of-t membership criterion and integral-closure inclusion. Section 9.7 adds the noetherian comparison and arc_t-equivalence; §9.10 adds excision for models bounded by this closure. |
 
 ## Conventions
 
@@ -56,11 +57,15 @@ Use the Mathlib revision `f6090c7095e1e56b3464c1daba5f24631f1290d2` fixed by `la
 - `CategoryTheory.Sheaf.H`, in `Mathlib/CategoryTheory/Sites/SheafCohomology/Basic.lean`, is the Ext-defined ordinary sheaf-cohomology group. `CategoryTheory.IsGrothendieckAbelian.hasExt`, in `Mathlib/CategoryTheory/Abelian/GrothendieckCategory/HasExt.lean`, supplies the needed Ext structure. `DerivedCategory`, in `Mathlib/Algebra/Homology/DerivedCategory/Basic.lean`, is an ordinary derived category; the coherent enhancements used in the descent criteria come from the named supplier below.
 - `IsAdicComplete` and `AdicCompletion`, in `Mathlib/RingTheory/AdicCompletion/Basic.lean`, are explicit in the ideal and module. `IsAdicComplete` combines Hausdorffness and precompleteness; completion is the inverse-limit module of quotients. Claims that this limit is itself complete, or computes derived completion, use the finite-ideal or bounded-torsion theorem appropriate to the claim.
 - `MvPowerSeries.IsRestricted` and `MvPowerSeries.IsRestricted.subring`, in `Mathlib/RingTheory/MvPowerSeries/Restricted.lean`, give restricted series and their subring over an ultrametric coefficient ring. Radius one in each of finitely many variables gives the restricted-series description of a Tate algebra.
-- `IsAlmostIntegral`, `completeIntegralClosure` and `IsAlmostIntegral.isIntegral_of_nonZeroDivisors_le_comap`, in `Mathlib/RingTheory/IntegralClosure/IsIntegral/AlmostIntegral.lean`, use an arbitrary nonzerodivisor denominator; the last theorem has a noetherian source and requires preservation of nonzerodivisors. Section 9.7 specifies powers of a fixed regular t and needs its own comparison with integral closure in that localization.
+- `IsAlmostIntegral`, `completeIntegralClosure` and `IsAlmostIntegral.isIntegral_of_nonZeroDivisors_le_comap`, in `Mathlib/RingTheory/IntegralClosure/IsIntegral/AlmostIntegral.lean`, use an arbitrary nonzerodivisor denominator; the last theorem has a noetherian source and requires preservation of nonzerodivisors. The fixed-parameter specialization in §9.7 uses this noetherian theorem for its comparison with integral closure.
 
 ### From Tau Ceti
 
 Use revision `358314d4ab97483df4fc4cb8adcc02e74a8d9f5a` fixed by `lake-manifest.json`. In `TauCeti/RingTheory/Huber/TopologicallyFiniteType.lean`, `TauCeti.Huber.IsStrictlyTopologicallyFiniteType` (line 133) requires a continuous open surjection from a completed finite-variable unit-polyradius restricted-series algebra, compatible with the structure map. It requires a nonarchimedean topological base and a topological target; completeness and separation of the target are not part of the general predicate. Use `TauCeti.Huber.isStrictlyTopologicallyFiniteType_id` (line 273), `TauCeti.Huber.IsStrictlyTopologicallyFiniteType.quotientMk` (line 207) and `TauCeti.Huber.isStrictlyTopologicallyFiniteType_algebraMap` (line 150) for the analytic Checks. The acceptance file imports this individual module. The analytic carrier comparisons are supplied by AdicSpaces and RigidAnalyticGeometry.
+
+### From TauCetiRoadmap.PerfectoidSpacesPartII
+
+Section RA.2, target p-root-closure, supplies `completeIntegralClosureAway` and `integralClosure_le_completeIntegralClosureAway`. For a commutative ring A and a nonzerodivisor t, use its subalgebra of A[1/t], denoted A^tic: membership of x means that one c≥0 satisfies t^c·x^n∈A for all n≥0. The supplied subalgebra laws give closure under sums and products; the supplied inclusion sends every element integral over A into A^tic. This localized construction requires neither a prime parameter nor a perfectoid or noetherian ring. Its uniform denominator condition is the one in BM21 Example 6.20(4), p. 53 (BM21 lines 2213–2215).
 
 ### From TauCetiRoadmap.PrismaticCohomology
 
@@ -1237,14 +1242,12 @@ Choose a proper A-model of X using scheme approximation and Nagata compactificat
 
 ### 9.7 Total integral closure in a principal localization
 
-For t a nonzerodivisor of A, let A^tic be the subring of A[1/t] consisting of x for which there exists c≥0 with t^c x^n∈A for every n≥0. This contains the integral closure of A; it equals it when A is noetherian. The map A→A^tic is an arc_t-equivalence.
+For t a nonzerodivisor of A, use the localized complete integral closure A^tic from PerfectoidSpacesPartII §RA.2, target p-root-closure, with the uniform denominator convention in the supplier contract. Prove that A^tic equals the integral closure of A in A[1/t] when A is noetherian, and that A→A^tic is an arc_t-equivalence for arbitrary A.
 
-Check closure under sum and product using the uniform denominator bound and binomial expansions. In the noetherian case use finite generation of the module generated by all powers of x. A rank-one valuation with nonzero t admits no negative-valuation element whose powers have a uniform t-denominator bound.
+For the noetherian comparison, apply Mathlib’s `IsAlmostIntegral.isIntegral_of_nonZeroDivisors_le_comap` with multiplier t^c and the regular localization A→A[1/t]; combine it with the integral-closure inclusion. For the arc_t-equivalence, a rank-one valuation with nonzero t admits no negative-valuation element whose powers have a uniform t-denominator bound.
 
 Two models A→B with B⊆A^tic, in particular two models with the same total integral closure, satisfy the excision comparison of §9.10 (BM21 Theorem 6.25).
 
-- Membership is exactly the single uniform denominator condition.
-- An integral element has bounded denominators in all powers.
 - For noetherian A, total integral closure agrees with ordinary integral closure in A[1/t].
 - Restriction on complete aic rank-one t-tests is bijective.
 
@@ -1258,7 +1261,7 @@ Two models A→B with B⊆A^tic, in particular two models with the same total in
 
 The bound c is uniform in n; allowing c to depend on n would give the entire localization.
 
-(BM21, Example 6.20(4), p. 53.) Text locators: BM21 line 2207. *Needs:* §9.3; SchemeAndStackFoundations §§0.9, 0.11–0.14, 0.24 and 4.7–4.8.
+(BM21, Example 6.20(4), p. 53.) Text locators: BM21 line 2213. *Needs:* §9.3; PerfectoidSpacesPartII §RA.2 (target p-root-closure); Mathlib `IsAlmostIntegral.isIntegral_of_nonZeroDivisors_le_comap`; SchemeAndStackFoundations §§0.9, 0.11–0.14, 0.24 and 4.7–4.8.
 
 ### 9.8 Invariance under arc_t-equivalences
 
@@ -1288,7 +1291,7 @@ Factor through A′=B×_(B/t) A/t; the map (A′,tB)→(B,tB) is a Milnor square
 
 Only elementwise nilpotence of the special-fibre kernel is needed; do not assert a uniform nilpotence exponent in arbitrary nonnoetherian rings.
 
-(BM21, Theorem 6.25, pp. 54–55.) Text locators: BM21 line 2283. *Needs:* §9.7; §5.5; §9.9; SchemeAndStackFoundations §§0.9, 0.11–0.14, 0.24 and 4.7–4.8.
+(BM21, Theorem 6.25, pp. 54–55.) Text locators: BM21 line 2283. *Needs:* §9.7; PerfectoidSpacesPartII §RA.2 (target p-root-closure); §5.5; §9.9; SchemeAndStackFoundations §§0.9, 0.11–0.14, 0.24 and 4.7–4.8.
 
 ### Examples
 
@@ -1296,7 +1299,7 @@ For a complete aic rank-one V with t a pseudouniformizer, E_t(V,Λ)=Λ in degree
 
 ### Dependencies
 
-ClassicalAdicEtaleCohomology §§2.5–2.6 and 6.3, AdicSpacesPartII §§R0.3, R0.9 and R0.19, PrismaticCohomology §2.0, Layer 0, Layer 1, Layer 2, Layer 3, Layer 5, Layer 6, Layer 8, EnhancedDerivedSheaves §§0.1–0.4, E1.3–E1.6, EnhancedDerivedSheaves §§E2.6–E2.8, SchemeAndStackFoundations §§0.9, 0.11–0.14, 0.24 and 4.7–4.8, SchemeAndStackFoundations §§2.1–2.3, 2.7, 2.14–2.15; EtaleCohomologyFoundations §§0.5–0.7, F.2.1–F.2.6 and F.3, §0.5, AdicSpaces Layers 0–1 and §2.1.
+PerfectoidSpacesPartII §RA.2 (target p-root-closure), ClassicalAdicEtaleCohomology §§2.5–2.6 and 6.3, AdicSpacesPartII §§R0.3, R0.9 and R0.19, PrismaticCohomology §2.0, Layer 0, Layer 1, Layer 2, Layer 3, Layer 5, Layer 6, Layer 8, EnhancedDerivedSheaves §§0.1–0.4, E1.3–E1.6, EnhancedDerivedSheaves §§E2.6–E2.8, SchemeAndStackFoundations §§0.9, 0.11–0.14, 0.24 and 4.7–4.8, SchemeAndStackFoundations §§2.1–2.3, 2.7, 2.14–2.15; EtaleCohomologyFoundations §§0.5–0.7, F.2.1–F.2.6 and F.3, §0.5, AdicSpaces Layers 0–1 and §2.1.
 
 ## Layer 10: Künneth and affinoid vanishing
 
