@@ -62,11 +62,11 @@ noncomputable def hjPeriod (v₁ : F →+* ℝ) (w : F) : List ℤ :=
     (List.range (Nat.find h)).map (hjDigit v₁ w) else []
 
 /-- A basis `(x, y)` of a lattice is **oriented** when `v₁(x)v₂(y) − v₂(x)v₁(y) > 0`
-(`README.md`, *Pinned conventions*, 5). -/
+(`README.md`, *Conventions*, 5). -/
 def IsOriented (v₁ v₂ : F →+* ℝ) (x y : F) : Prop := 0 < v₁ x * v₂ y - v₂ x * v₁ y
 
 /-- The totally positive units of the multiplier ring of a `ℤ`-submodule `M ⊆ F`: the totally
-positive `u ∈ Fˣ` with `uM = M` (`README.md`, *Pinned conventions*, 5 and 7, the group `U_M^+`). -/
+positive `u ∈ Fˣ` with `uM = M` (`README.md`, *Conventions*, 5 and 7, the group `U_M^+`). -/
 def multiplierUnits (M : Submodule ℤ F) : Subgroup Fˣ where
   carrier := {u | IsTotallyPositive (u : F) ∧ ∀ m : F, m ∈ M ↔ (u : F) * m ∈ M}
   one_mem' := ⟨isTotallyPositive_one, fun m => by simp⟩
@@ -114,7 +114,7 @@ namespace CuspDatum
 
 variable (D : CuspDatum F)
 
-/-- `k = [U_M^+ : V]`, the LMFDB's `repetition` (`README.md`, *Pinned conventions*, 7). -/
+/-- `k = [U_M^+ : V]`, the LMFDB's `repetition` (`README.md`, *Conventions*, 7). -/
 noncomputable def repetition : ℕ := D.V.relIndex (multiplierUnits D.M)
 
 open Classical in
@@ -128,7 +128,7 @@ noncomputable def period (v₁ v₂ : F →+* ℝ) (D : CuspDatum F) : List ℤ 
   then hjPeriod v₁ (h.choose / h.choose_spec.choose) else []
 
 /-- The resolution cycle of convention 7: `(−b₁, …, −b_d)` repeated `k` times
-(`README.md`, *Pinned conventions*, 7; Layer 2, 2.3). -/
+(`README.md`, *Conventions*, 7; Layer 2, 2.3). -/
 noncomputable def resolutionCycle (v₁ v₂ : F →+* ℝ) : List ℤ :=
   (List.replicate D.repetition ((D.period v₁ v₂).map fun b => -b)).flatten
 
@@ -147,12 +147,12 @@ theorem cycleIntersectionMatrix_negDef (v₁ v₂ : F →+* ℝ) (hv : v₁ ≠ 
     (-(cycleIntersectionMatrix (D.resolutionCycle v₁ v₂))).PosDef := sorry
 
 /-- Multiplication of a cusp lattice by an element of negative norm gives the dual period;
-the sums of the digits minus three have opposite signs. The multiplier subgroup is transported
-unchanged by scalar multiplication (README §2.7). -/
+the sums of the digits minus three have opposite signs. The period depends on the lattice
+alone, so no condition relates the multiplier groups of the two data (README §2.7). -/
 theorem period_dual (v₁ v₂ : F →+* ℝ) (hv : v₁ ≠ v₂)
     (hF : Module.finrank ℚ F = 2) (E : CuspDatum F) (β : F)
     (hβ : v₁ β * v₂ β < 0)
-    (hM : (E.M : Set F) = (fun x => β * x) '' (D.M : Set F)) (hV : E.V = D.V) :
+    (hM : (E.M : Set F) = (fun x => β * x) '' (D.M : Set F)) :
     ((D.period v₁ v₂).map fun b => b - 3).sum =
       -((E.period v₁ v₂).map fun b => b - 3).sum := sorry
 
@@ -162,7 +162,7 @@ end CuspDatum
 
 open ArithmeticFunction in
 /-- `(1/60) Σ_{b ∈ ℤ, b² < D, b ≡ D mod 2} σ₁((D − b²)/4)`, Siegel's closed form for `ζ_F(−1)`
-(`README.md`, *Pinned conventions*, 12; Layer 4, 4.2). -/
+(`README.md`, *Conventions*, 12; Layer 4, 4.2). -/
 def siegelZetaMinusOne (D : ℕ) : ℚ :=
   (1 / 60 : ℚ) * ∑ b ∈ (Finset.Icc (-(D : ℤ)) D).filter (fun b => b ^ 2 < (D : ℤ) ∧ b % 2 = D % 2),
     (sigma 1 (((D : ℤ) - b ^ 2) / 4).toNat : ℚ)

@@ -24,7 +24,9 @@ that classical surface theory attaches to them and that the LMFDB displays and s
 The carrier is arithmetic: a Hilbert modular surface is determined by `(F, 𝔑, [𝔟], type)`, where
 `[𝔟]` is a narrow ideal class and the type is one of `Γ₀`, `Γ₀¹` (the LMFDB's `gl-0`, `sl-0`).
 Every invariant above is a function of this datum, and every milestone that computes one is a
-theorem equating a geometric invariant of `X(Γ)` with an arithmetic expression. The arithmetic group and cusp interfaces needed in degree two are built in Layers 0–1.
+theorem equating a geometric invariant of `X(Γ)` with an arithmetic expression. The groups, their
+action, their cusps and the spaces of holomorphic forms are HilbertModularForms'; Layers 0–1 read
+them in degree two and add only what the surface needs beyond them.
 The surface geometry and its numerical invariants are the end theorems of Layers 2–6.
 
 Suggested home: `TauCeti/Geometry/Shimura/Hilbert/Surface/` (the cusp lattice API of the
@@ -36,8 +38,12 @@ under `TauCeti/NumberTheory/HilbertModularSurface/`.
 
 ### Owned here
 
-- The degree-two congruence groups, their determinant and index interfaces, component
-  transport, cusp orbits and the Hilbert holomorphic-form comparison (Layers 0–1).
+- The degree-two reading of HilbertModularForms' groups and cusps: the identification of its
+  `ℍ^Σ` with the ordered `ℍ²`, the projective groups `PΓ` and the quotients `PΓᵢ/PΓᵢ¹`, the
+  analytic quotient `Y(Γ)` as a ShimuraVarieties component, the cusp invariants `𝔰` and `𝔐`,
+  the `Γ₀`/`Γ₁` cusp parametrisation, the `sl` cusp count, the cusp types `G(M, V)` and the
+  all-level affine stabilizer with its translation class (Layers 0–1); the canonical two-form
+  of a weight-`(2, 2)` form on HilbertModularForms' spaces (0.5, 4.8).
 - The surface-theoretic reading of a cusp of `Ȳ(Γ)`: its type `G(M, V)` (Layer 1), the
   Hirzebruch–Jung continued fraction of an oriented lattice and its period (Layer 2), and the
   theorem that the exceptional locus of `X(Γ) → Ȳ(Γ)` over a cusp of type `G(M, V)` is a cycle of
@@ -67,7 +73,11 @@ under `TauCeti/NumberTheory/HilbertModularSurface/`.
 | Object | Supplier |
 | --- | --- |
 | The polarization lattice `L_c = R ⊕ c⁻¹𝔡⁻¹`, ordered polarization modules, the complex moduli comparison, the Baily–Borel compactification of the canonical model at tame level and its cusp schemes | [HilbertModularVarietiesAndShimuraCurves](../HilbertModularVarietiesAndShimuraCurves/README.md) H0.3, H1.1, H1.10, H5.2 |
-| Proper discontinuity and neat subgroups of the component groups, the normal complex analytic structure of `Γ\X⁺`, finite analytic quotients | [ShimuraVarieties](../ShimuraVarieties/README.md) 0.4, 1.2, P.6 (the Hilbert modular forms roadmap builds the groups and the action, and no quotient space) |
+| The domain `ℍ^Σ`, the group `GL₂⁺(F)` and its action with kernel the scalars, the weight-`k` slash in its arithmetic and unitary normalisations | [HilbertModularForms](../HilbertModularForms/README.md) §§0.1, 0.3–0.4 |
+| The lattices `L_𝔟 = R ⊕ 𝔟`, the groups `Γ₀(𝔑)_𝔟`, `Γ₁(𝔑)_𝔟`, `Γ(𝔑)_𝔟` and `Γ_i¹(𝔑)_𝔟`, their determinant images and sections `ε ↦ diag(ε, 1)`, the level index `N(𝔑)∏_{𝔭∣𝔑}(1 + N𝔭⁻¹)`, the `J`-conjugation to the `a ≡ 1` convention, commensurability and the component transport `diag(1, α)` | [HilbertModularForms](../HilbertModularForms/README.md) §§1.1–1.3 |
+| Cusps of `Γ₀(𝔑)_𝔟` as orbits in `ℙ¹(F)`, their finiteness, the level-one bijection with `Cl(R)`, the translation lattice and unit group of a cusp stabilizer, the count `h Σ_{𝔞∣𝔑} #((R/(𝔞 + 𝔑𝔞⁻¹))^×/U_𝔞)` per component and its fibres over the divisors `𝔞` and the ordinary classes | [HilbertModularForms](../HilbertModularForms/README.md) §1.4 |
+| Holomorphic forms `M_k(Γ)` for `Γ` commensurable with `Γ_𝔟`, Koecher's principle, the constant terms at every cusp and their vanishing in nonparallel weight, the cusp forms `S_k(Γ)`, the component tuples `M_k(𝔑; R)`, the invariant measure and finite covolume, finite dimensionality at nonzero level | [HilbertModularForms](../HilbertModularForms/README.md) §§2.2–2.3, 2.5–2.6, 3.2, 3.5 |
+| Proper discontinuity and neat subgroups of the component groups, the normal complex analytic structure of `Γ\X⁺`, finite analytic quotients | [ShimuraVarieties](../ShimuraVarieties/README.md) 0.4, 1.2, P.6 (HilbertModularForms supplies the groups and the action, not the quotient space) |
 | The normal analytic Baily–Borel quotient `Γ\(ℍ²)*`, its algebraization as a normal projective surface, the Koecher principle and boundary codimension | [ShimuraVarieties](../ShimuraVarieties/README.md) 2.5, 2.7, 2.8 |
 | Arithmetic cone systems and characteristic-zero toroidal charts at arbitrary compact open level; the Hilbert moduli specialization only under its tame hypotheses | ShimuraCompactifications §0.13, §§2.1–2.8; §§8.14–8.15, 8.23–8.25, 8.32–8.38, 8.56 |
 | Cusps and stabilizers of the ramified splitting model at prime-to-`p` level | [AutomorphicBundles](../AutomorphicBundles/README.md) B3.Hilbert.0a |
@@ -92,8 +102,10 @@ under `TauCeti/NumberTheory/HilbertModularSurface/`.
   and the normalisation of cusp coordinates `(a : c)` are not targets. This roadmap states the
   intrinsic label prefix `(D, 𝔑, [𝔟] ∈ Cl⁺(R), type)` and every invariant as a function of it;
   it never fixes an index.
-- **Hecke operators, newforms and L-functions.** These belong to the Hilbert modular forms
-  development. Here the holomorphic form spaces are used only for the geometric comparison of §4.8.
+- **Hilbert modular forms as such.** The groups, their cusps, the form spaces, Koecher's
+  principle, finite dimensionality, Hecke operators, newforms and `L`-functions are
+  HilbertModularForms'. Here the spaces `M_k(Γ)` and `S_k(Γ)` are read from it, for the
+  irregularity (4.6) and the geometric comparison of §4.8 only.
 - **The moduli interpretation** (`X₀(𝔑)_𝔟` as a moduli space of abelian surfaces with real
   multiplication, polarization modules, the knowl's "polarization module isomorphic to
   `(𝔡_F 𝔟)⁻¹`"): HilbertModularVarietiesAndShimuraCurves H1; here `𝔟` is only the second
@@ -129,13 +141,15 @@ under `TauCeti/NumberTheory/HilbertModularSurface/`.
    `a ≡ d ≡ 1 mod 𝔑`, `b ∈ 𝔑𝔟⁻¹`. Assaf et al. and Dasgupta–Kakde write `Γ₁` with `a ≡ 1`
    instead; for `ν ≫ 0` in `F`, conjugation by `W_ν = (0 −1; ν 0)` maps their group at `𝔟` onto
    the pinned `Γ₁(𝔑)_{ν(𝔑𝔟)⁻¹}` (it swaps `a` and `d`), and every statement about `Γ₁` quoted from
-   them is read through this isomorphism (1.3, 1.5);
+   them is read through this isomorphism (`W_ν = diag(1, ν) J` is HilbertModularForms §1.2's
+   `J`-conjugation followed by its §1.3 transport; 1.3, 1.5);
    `Γ_i¹(𝔑)_𝔟 = Γ_i(𝔑)_𝔟 ∩ SL₂(F)`. `Γ₀(1)_𝔟 = GL⁺(R ⊕ 𝔟)`. The LMFDB's `ambient type` `gl`
    is `Γ_i(𝔑)_𝔟`, `sl` is `Γ_i¹(𝔑)_𝔟`; `gamma type` `0`, `1`, `f` is `i = 0`, `i = 1`, full level.
    `PΓ` is the image of `Γ` in `PGL₂⁺(F)`; it acts faithfully on `ℍ²`, and every stabilizer,
    order and index below is taken in `PΓ`.
 3. **Components.** For `α ∈ F^×_{>0}`, `γ ↦ diag(1, α) γ diag(1, α)⁻¹` maps `Γ_i(𝔑)_𝔟` onto
-   `Γ_i(𝔑)_{α𝔟}` (§0.3; `(a b; c d) ↦ (a, α⁻¹b; αc, d)`); the surface depends
+   `Γ_i(𝔑)_{α𝔟}` (HilbertModularForms §1.3 for `Γ₀`, §0.3 for the others;
+   `(a b; c d) ↦ (a, α⁻¹b; αc, d)`); the surface depends
    on `𝔟` only through its narrow class `[𝔟] ∈ Cl⁺(R)`. For
    `𝔟 = β𝔟′` with `β` of mixed sign the two surfaces are isomorphic as real-analytic spaces by a
    map holomorphic in `z₁` and antiholomorphic in `z₂`; they are not identified as complex
@@ -189,8 +203,11 @@ under `TauCeti/NumberTheory/HilbertModularSurface/`.
     the page's "known to be" is the singleton case. κ belongs to the minimal-table set evaluated at K²_min and the lower-bound set evaluated at K²(X).
 12. **Volume and `ζ_F(−1)`.** `vol(Γ\ℍ²) := 2[Γ¹(1) : Γ] ζ_F(−1)`, where `Γ¹(1) = PSL₂(R)` and
     `[Γ¹(1) : Γ] = [Γ¹(1) : Γ¹(1) ∩ Γ]/[Γ : Γ¹(1) ∩ Γ] ∈ ℚ` is the generalised index for `Γ`
-    commensurable with `Γ¹(1)` in `PGL₂⁺(ℝ)²`. Thus `vol(PΓ₀¹(1)_𝔟\ℍ²) = 2ζ_F(−1)` for every
-    `𝔟` (Siegel's theorem for `SL(R ⊕ 𝔟)`), `vol(PΓ₀(1)_𝔟\ℍ²) = 2ζ_F(−1)/[R^×_{>0} : R^{×2}]`,
+    commensurable with `Γ¹(1)` in `PGL₂⁺(ℝ)²`; every `PΓ_i(𝔑)_𝔟` and `PΓ_i¹(𝔑)_𝔟` is, for every
+    `𝔟` (4.3). The generalised index `[Γ¹(1) : PΓ₀¹(1)_𝔟]` is `1` for every `𝔟`: this is
+    Siegel's theorem that `SL(R ⊕ 𝔟)` and `SL₂(R)` have the same covolume `2ζ_F(−1)` in the
+    Gauss–Bonnet measure of 4.3. Thus `vol(PΓ₀¹(1)_𝔟\ℍ²) = 2ζ_F(−1)` for every
+    `𝔟`, `vol(PΓ₀(1)_𝔟\ℍ²) = 2ζ_F(−1)/[R^×_{>0} : R^{×2}]`,
     and `vol` is multiplied by the index of 0.3 at level `𝔑` (`vol(PΓ₀(𝔭₂)\ℍ²) = 5 · 1/15 = 1/3`
     for `ℚ(√5)`). The normalisation is the one under
     which the two formulas of 4.4 give integers: with the index taken relative to `PGL₂⁺(R)`
@@ -294,10 +311,21 @@ HilbertModularVarietiesAndShimuraCurves §§H0.3, H1.1, H1.10 and H5.2 for polar
 complex moduli and the tame-level comparison. Generic toric charts come from
 AnalyticToricGeometry Layers 0, 2–3. These inputs retain their own hypotheses.
 
+Consume HilbertModularForms §§0.1 and 0.3–0.4 for the domain `ℍ^Σ`, the group `GL₂⁺(F)`, its
+action and the slash in both normalisations; §§1.1–1.3 for the lattices `L_𝔟`, the groups of
+convention 2 with their determinant images, sections, level index, `J`-conjugation,
+commensurability and component transport; §1.4 for the cusps of `Γ₀(𝔑)_𝔟`, their finiteness,
+the translation lattices and unit groups of their stabilizers and their count; §§2.2–2.3,
+2.5–2.6, 3.2 and 3.5 for Koecher's principle, the spaces `M_k(Γ)` and `S_k(Γ)` with their
+constant terms, the component tuples, the invariant measure and finite dimensionality. Its
+statements are for every totally real `F` with the places unordered; §0.4 below reads them in
+degree two through the ordered pair `(v₁, v₂)`, and nothing of them is proved again here.
+
 ## How to read the build
 
-Layer 0 fixes arithmetic groups and the holomorphic-form comparison; Layer 1 constructs cusp
-orbits and affine stabilizers. Layer 2 resolves cusps, while Layer 3 counts and resolves elliptic
+Layer 0 reads HilbertModularForms' groups and forms in degree two and fixes the projective
+groups, the analytic quotient and the canonical two-form; Layer 1 reads its cusps and adds the
+cusp invariants, the parametrisation, the `sl` count and the affine stabilizers. Layer 2 resolves cusps, while Layer 3 counts and resolves elliptic
 points. Layer 4 combines these into Chern and Hodge invariants. Layer 5 supplies the additional
 surface classification criteria; Layer 6 proves the classification, and Layer 7 packages its
 invariants. The continued fractions and Siegel identity can be developed independently of the
@@ -306,8 +334,9 @@ support; its docstring identifies each geometric headline that requires a constr
 
 ## Layer 0: the arithmetic frame
 
-This layer fixes the degree-two arithmetic groups and their analytic action on native number-field
-and matrix carriers. Its interfaces feed the cusp and surface constructions.
+This layer reads HilbertModularForms' groups, their action and their form spaces in degree two
+and fixes what the surface needs beyond them: the ordered coordinates, the projective groups,
+the analytic quotient and the canonical two-form.
 
 ### 0.1 Real quadratic data
 
@@ -357,40 +386,53 @@ comparison of HilbertModularVarietiesAndShimuraCurves H1.1; Assaf et al., §2.2)
 - Multiplying 𝔡⁻¹ by 2 preserves the predicate, whereas multiplying it by √3 in the
   second field changes its narrow class to 1 and fails it.
 
-### 0.3 The groups and the index formula
+### 0.3 The groups, the projective quotients and the index formula
 
-Define the groups by the matrix conditions of convention 2 for every nonzero level and
-fractional ideal 𝔟. Their determinant-one subgroups are the kernels of determinant. For Γ₀ and
-Γ₁ the image Dᵢ is all positive units; for full level it is the positive units congruent to 1
-modulo 𝔑. In each case the section is u ↦ diag(u,1). Let Aᵢ be the scalar units actually in the
-group: A₀ = Rˣ, while A₁ = A_full = {a ∈ Rˣ : a ≡ 1 mod 𝔑}. Prove
-`PΓᵢ/PΓᵢ¹ ≃ Dᵢ/{a² : a ∈ Aᵢ}`. Only for Γ₀ does this reduce to
-`[R^×_{>0} : R^{×2}]`, giving equality of the gl and sl surfaces when h⁺ = h.
-Prove the component transport and the W_ν conjugation of conventions 2–3, and the level index
-`[PΓ₀(1)_𝔟 : PΓ₀(𝔑)_𝔟] = N(𝔑) ∏_{𝔭 ∣ 𝔑} (1 + N(𝔭)⁻¹)`, with the same index for Γ₀¹.
-The route is reduction on R ⊕ 𝔟 and the transitive action on ℙ¹(R/𝔑), including prime powers
-(Assaf et al., §2.1, equations (2.1.4)–(2.1.8)). *Needs:* §0.1; Mathlib fractional ideals,
-finite ideal quotients and special linear groups.
+The groups of convention 2 are HilbertModularForms' `Γ₀(𝔑)_𝔟`, `Γ₁(𝔑)_𝔟`, `Γ(𝔑)_𝔟` and
+`Γ_i¹(𝔑)_𝔟` (its §1.2, on the lattice `L_𝔟 = R ⊕ 𝔟` of its §1.1), with its determinant images
+`Dᵢ` (all positive units for `Γ₀` and `Γ₁`, the positive units congruent to `1` modulo `𝔑` for
+full level, each with the section `u ↦ diag(u, 1)` and kernel `Γ_i¹`), its level index
+`[Γ₀(1)_𝔟 : Γ₀(𝔑)_𝔟] = N(𝔑) ∏_{𝔭 ∣ 𝔑} (1 + N(𝔭)⁻¹)`, proved there by reduction on `L_𝔟` and
+the transitive action on `ℙ¹(R/𝔑)` including prime powers, its `J`-conjugation to the `a ≡ 1`
+convention, and its component transport `diag(1, α)` for `Γ₀` (§1.3). Owned here, beyond these:
+the transport for `Γ₁` and `Γ(𝔑)` (the conditions on `a` and `d` are untouched and
+`b ∈ 𝔑𝔟⁻¹ ↦ α⁻¹b ∈ 𝔑(α𝔟)⁻¹`), the conjugation by `W_ν = diag(1, ν) J` of convention 2 as the
+composite, and the passage to the projective groups. Let `Aᵢ` be the scalar units actually in
+the group: `A₀ = R^×`, while `A₁ = A_full = {a ∈ R^× : a ≡ 1 mod 𝔑}`. Prove
+`PΓᵢ/PΓᵢ¹ ≃ Dᵢ/{a² : a ∈ Aᵢ}`. Only for `Γ₀` does this reduce to
+`[R^×_{>0} : R^{×2}]`, giving equality of the `gl` and `sl` surfaces when `h⁺ = h`. Prove that
+the level index is the same for `PΓ₀`, for `Γ₀¹` and for `PΓ₀¹`: the coset representatives can
+be taken in `SL(L_𝔟)`, since every element of `Γ₀(1)_𝔟` is `diag(ε, 1)` times one of `SL(L_𝔟)`
+and `diag(ε, 1) ∈ Γ₀(𝔑)_𝔟`, and the scalars `R^×`, respectively `{±1}`, lie in every level
+(Assaf et al., §2.1, equations (2.1.4)–(2.1.8)). *Needs:* §0.1; HilbertModularForms §§1.1–1.3;
+Mathlib fractional ideals and finite ideal quotients.
 
-The group API includes:
+The projective-group API includes:
 
-- Reduction kernels and inclusions when the level is divisible, with determinant and scalar maps.
-- Multiplication and inverse preserving the displayed matrix conditions.
-- Conjugation transports both the lattice and the level condition; its inverse uses α⁻¹.
+- Determinant and scalar maps descend to `PΓᵢ`, and the isomorphism
+  `PΓᵢ/PΓᵢ¹ ≃ Dᵢ/{a² : a ∈ Aᵢ}` is induced by the determinant.
+- The transport by `diag(1, α)` and the conjugation by `W_ν` carry the lattice, the level
+  condition and the projective quotient together; the inverse transport uses `α⁻¹`.
 
 **Checks.**
 
-- At unit level all three groups agree, and the Γ₀ level index is 1.
+- At unit level all three groups agree (HilbertModularForms §1.2), and
+  `PΓ₀(1)_𝔟/PΓ₀¹(1)_𝔟` has order `[R^×_{>0} : R^{×2}]`.
 - For F = ℚ(√5), ε = (1+√5)/2 and 𝔑 = (3), ε² = ε+1 is not 1 modulo 3;
   it is not a full-level determinant. In Γ₁, diag(ε²,1) has determinant-one scalar
   normalizations with d = ±ε⁻¹ = ±(ε−1), neither 1 modulo 3. Thus its projective class
   lies outside PΓ₁¹ although h⁺ = h = 1.
-- A prime of norm Q has Γ₀ index Q+1; the prime (2) of ℚ(√5) gives 5.
+- For `𝔑 = (2)` over `ℚ(√5)` the index `5 = 4(1 + 1/4)` of HilbertModularForms §1.2 is also
+  `[PΓ₀¹(1) : PΓ₀¹(𝔭₂)]`: the only scalar `−1` lies in both groups and the representatives of
+  the five cosets lie in `SL₂(R)`.
 
 ### 0.4 The action, the effective group and the quotient
 
-The homomorphism `GL₂⁺(F) → GL(2, ℝ)⁺ × GL(2, ℝ)⁺`, `γ ↦ (v₁(γ), v₂(γ))`, its action on `ℍ²`,
-the kernel `Γ ∩ F^×` of the action and `PΓ = Γ/(Γ ∩ F^×)`; `PΓ` acts faithfully. The scalar
+HilbertModularForms §0.1 gives the action of `GL₂⁺(F)` on `ℍ^Σ = InfinitePlace F → ℍ` through
+`UpperHalfPlane.glAction` at each place, with kernel the scalar matrices. Read it in degree two:
+the ordered pair `(v₁, v₂)` of convention 1 identifies `ℍ^Σ` with `ℍ² = ℍ × ℍ` and the action
+with the homomorphism `GL₂⁺(F) → GL(2, ℝ)⁺ × GL(2, ℝ)⁺`, `γ ↦ (v₁(γ), v₂(γ))`; the kernel of
+the action of `Γ` is `Γ ∩ F^×`, and `PΓ = Γ/(Γ ∩ F^×)` acts faithfully. The scalar
 subgroup of `Γ₀(𝔑)_𝔟` is `R^×` and that of `Γ₀¹(𝔑)_𝔟` is `{±1}`. Prove the component comparison:
 `Γ₀(𝔑)_𝔟 = GL₂(F) ∩ g K₀(𝔑) GL₂(F_∞)⁺ g⁻¹` for `g = diag(1, t)`, `t` a finite idele of ideal `𝔟`:
 it is the component group `Γ_g` of ShimuraVarieties 0.1 for the Hilbert modular datum
@@ -401,10 +443,11 @@ quotient: `PΓ` acts properly discontinuously (ShimuraVarieties 0.4); for a neat
 `Γ′\ℍ²` is a complex manifold (ComplexManifolds Milestone 4), and
 `Y(Γ) = (Γ/Γ′)\(Γ′\ℍ²)` is its finite analytic quotient (ShimuraVarieties P.6), a normal complex
 analytic surface independent of `Γ′` (ShimuraVarieties 1.2). It is smooth off the images of the
-points with nontrivial stabilizer in `PΓ`. *Needs:* §0.3;
+points with nontrivial stabilizer in `PΓ`. *Needs:* §0.3; HilbertModularForms §0.1;
 ShimuraVarieties 0.1, 0.4, 1.2, P.6; ComplexManifolds Milestone 4.
 
-The quotient API includes invariance under replacing a neat normal cover by a smaller
+The quotient API includes the equivariant holomorphic identification of `ℍ^Σ` with the ordered
+`ℍ²`, invariance under replacing a neat normal cover by a smaller
 one, the quotient map from ℍ², and descent of invariant holomorphic maps
 (ShimuraVarieties §§0.4, 1.2 and P.6).
 
@@ -415,34 +458,46 @@ one, the quotient map from ℍ², and descent of invariant holomorphic maps
 - Over ℚ(√3), quotienting Γ₀ by {±1} alone leaves the scalar 2+√3 acting trivially;
   quotienting by the full scalar subgroup removes that kernel.
 
-### 0.5 Holomorphic forms and their geometric comparison
+### 0.5 Holomorphic forms and the canonical two-form
 
-For an arithmetic Γ as in §0.3 and an integral weight (k₁,k₂), define the holomorphic form
-space by holomorphy on ℍ², the weight slash invariance, and holomorphy at each cusp. Use the
-factor ∏ᵢ det(γᵢ)^(kᵢ/2)(cᵢzᵢ+dᵢ)^(−kᵢ), with positive real determinant powers. A cusp form
-has zero constant coefficient at every cusp. Prove Koecher support: Fourier indices are zero
-or totally positive in the trace-dual translation lattice; nonparallel weights have zero
-constant term. The weight (2,2) comparison and finite dimensionality are the targets of §4.8. This is the holomorphic surface comparison,
-with extension across the cusp and quotient resolutions supplied by §§2.4 and 3.10
-(van der Geer, Chapter I, §4 and Chapter IV, §6; Assaf et al., §6.3, equation (6.3.1)).
-*Needs:* §0.4 for the open space; ShimuraCompactifications §§8.5–8.12 for the tame Fourier
-comparison, extended at all levels by the analytic cusp comparison in §2.4; §§2.4, 3.10 and 4.1
-only for the canonical-form identification.
+The spaces of holomorphic Hilbert modular forms are HilbertModularForms': `M_k(Γ)` for `Γ`
+commensurable with `Γ_𝔟` and a weight `k` of one parity (its §2.3, with no cusp condition, by
+Koecher's principle, its §2.2), the constant terms at every cusp and their vanishing in
+nonparallel weight (§2.5), the cusp forms `S_k(Γ)` (§2.6), the component tuples `M_k(𝔑; R)`
+and `S_k(𝔑; R)` over the narrow class group (§2.3), and `FiniteDimensional ℂ (S_k(Γ))`,
+`FiniteDimensional ℂ (M_k(Γ))` at nonzero level (§3.5). Its slash is the arithmetic
+normalisation; on the groups of convention 2, whose determinants are positive units, it agrees
+with the unitary factor `∏ᵢ det(γᵢ)^{kᵢ/2}(cᵢzᵢ + dᵢ)^{−kᵢ}` (its §0.4), and a weight `(k₁, k₂)`
+here is its `k : Σ → ℤ` read through `(v₁, v₂)`. Owned here is the canonical two-form: for a
+holomorphic `f : ℍ² → ℂ`, the form `f dz₁ ∧ dz₂` is `Γ`-invariant iff `f ∈ M_{(2,2)}(Γ)`, because
+`d(γz)₁ ∧ d(γz)₂ = ∏ᵢ det(γᵢ)(cᵢzᵢ + dᵢ)^{−2} dz₁ ∧ dz₂`; for `f ∈ S_{(2,2)}(Γ)` the two-form
+descends to the smooth locus of `Y(Γ)` and extends holomorphically across the resolutions of
+§§2.4 and 3.10, and conversely every holomorphic two-form on `X(Γ)` restricts to the two-form
+of a cusp form: this is the identification `H⁰(X(Γ), K_X) = S_{(2,2)}(Γ)` used in 4.8 (van der
+Geer, Chapter I, §4 and Chapter IV, §6; Assaf et al., §6.3, equation (6.3.1)).
+*Needs:* §0.4 for the open space; HilbertModularForms §§2.2–2.3, 2.5–2.6, 3.5; §§2.4, 3.10 and
+4.1 for the extension across the resolutions.
 
-The form-space API includes:
+The two-form API includes:
 
-- Addition and complex scalar multiplication preserve the weight and cusp condition.
-- Pullback to a finite-index subgroup preserves holomorphy and cusp forms; invariant descent
-  recovers the original space.
-- The two-form f dz₁ ∧ dz₂ is invariant precisely under the weight (2,2) slash law and extends
-  to the resolution precisely for a cusp form.
+- Pullback along `γ ∈ GL₂⁺(F)` multiplies `f dz₁ ∧ dz₂` by the ratio of `f ∣_{(2,2)} γ` to `f`;
+  invariance under `Γ` is exactly the weight-`(2, 2)` slash law.
+- Pullback to a finite-index subgroup and descent along it preserve the two-form; in a cusp
+  chart the constant term contributes `a₀ dz₁ ∧ dz₂`, which has a pole along the boundary
+  divisor of the resolution unless `a₀ = 0`.
 
 **Checks.**
 
-- At weight (0,0), the constant 1 has constant coefficient 1 and is not cuspidal.
-- For diag(u,1), f(uz) = (u₁u₂)^(−1) f(z) at weight (2,2), so the Jacobian u₁u₂ cancels.
-- A form with constant coefficient 1 fails the cusp condition, even if all its other
-  coefficients are supported in the positive cone.
+- For `diag(u, 1)` with a totally positive unit `u`, the Jacobian of `z ↦ (u₁z₁, u₂z₂)` is
+  `u₁u₂ = N(u) = 1` and `f(uz) = (u₁u₂)^{−1} f(z)` at weight `(2, 2)`, so the two-form is
+  invariant; at weight `(0, 0)` the constant `1` gives `dz₁ ∧ dz₂`, which the inversion
+  `(0 −1; 1 0) ∈ Γ₀¹(1)_R` sends to `z₁^{−2}z₂^{−2} dz₁ ∧ dz₂`, so `1 ∈ M_{(0,0)}` gives no
+  invariant two-form.
+- For `D = 5` at level one, `p_g = 0` (4.7, worked example) while `M_{(2,2)}(Γ₀(1))` contains
+  the nonzero weight-two Eisenstein series of HilbertModularForms §4.2 (constant term `1` at
+  its cusp): identifying `H⁰(K_X)` with all of `M_{(2,2)}` would give `p_g ≥ 1`.
+- A form with constant coefficient `1` is not a cusp form even if all its other coefficients
+  are supported in the positive cone, and its two-form has a pole along the cusp cycle.
 
 ### Examples
 
@@ -450,20 +505,29 @@ The norm-minus-one field ℚ(√5) and the norm-plus-one field ℚ(√3) disting
 
 ### Dependencies
 
-Mathlib number fields, ideals and upper half-plane actions; Tau Ceti positivity and narrow classes; ShimuraVarieties §§0.1, 0.4, 1.2, P.6.
+Mathlib number fields, ideals and upper half-plane actions; Tau Ceti positivity and narrow classes; HilbertModularForms §§0.1, 0.3–0.4, 1.1–1.3, 2.2–2.3, 2.5–2.6, 3.5; ShimuraVarieties §§0.1, 0.4, 1.2, P.6.
 
 ## Layer 1: cusps
 
 ### 1.1 Cusps as orbits
 
-`ℙ¹(F)` with the `GL₂(F)` action; the extension of the `Γ` action to `ℍ² ∪ ℙ¹(F)`; a cusp is a
-`PΓ`-orbit in `ℙ¹(F)` (knowl `hmsurface.cusps`); the orbit space is finite. The stabilizer of
-a cusp is infinite and contains a translation lattice of rank two; a cusp is never an elliptic
-point. For `F = ℚ` the definition reduces to Mathlib's `CuspOrbits` of the image of `Γ` in
-`GL(2, ℝ)`. *Needs:* 0.3, 0.4; Mathlib `Cusps` for the comparison.
+A cusp of `Γ` is a `PΓ`-orbit in `ℙ¹(F)`, which is the same as a `Γ`-orbit (knowl
+`hmsurface.cusps`). For `Γ = Γ₀(𝔑)_𝔟` this is HilbertModularForms §1.4's cusp set `C(Γ)`, with
+its finiteness, its level-one bijection `C(Γ₀(1)_𝔟) ≃ Cl(R)` through `(a : c) ↦ [aR + c𝔟⁻¹]`,
+and the structure of a cusp stabilizer: conjugate in `GL₂⁺(F)` to upper triangular matrices
+whose translation part is a full lattice in `F` and whose unit part has finite index in
+`R^×_{>0}`. Owned here: the same definition for `Γ₁(𝔑)_𝔟`, `Γ(𝔑)_𝔟` and the `sl` groups, which
+have finitely many cusps because their images in `PΓ₀(𝔑)_𝔟` have finite index (`Γ(𝔑)_𝔟` is
+the kernel of reduction modulo `𝔑`, HilbertModularForms §1.2; `PΓ₀¹(𝔑)_𝔟` by §0.3, although
+`Γ₀¹(𝔑)_𝔟` itself has infinite index in `Γ₀(𝔑)_𝔟`); the extension of
+the `Γ` action to `ℍ² ∪ ℙ¹(F)`; that a cusp is never an elliptic point, its stabilizer
+containing a translation lattice of rank two and so being infinite; and the comparison for
+`F = ℚ`, admitted as a test, with Mathlib's `CuspOrbits` of the image of `Γ` in `GL(2, ℝ)`.
+*Needs:* 0.3, 0.4; HilbertModularForms §§1.2, 1.4; Mathlib `Cusps` for the comparison.
 
 The cusp API includes representative independence, the stabilizer action and finiteness
-at finite-index level; at level one the ideal-class map is a bijection
+at finite-index level, read from HilbertModularForms §1.4 for `Γ₀` and transported along the
+inclusions for the other groups; at level one the ideal-class map is a bijection
 (Assaf et al., §3.1, Corollary 3.1.23; Hirzebruch 1973, §3.7).
 
 **Checks.**
@@ -528,13 +592,18 @@ h⁺ h · Σ_{𝔐 ∣ 𝔑} φ_{>0}(𝔐 + 𝔑/𝔐),      φ_{>0}(𝔞) = #((
 ```
 
 and that of `X₀¹(𝔑)` is the same sum with `φ¹(𝔞) = #((R/𝔞)^×/R^{×2})` (Corollary 3.1.23). The
-number of cusps of a single component `X₀(𝔑)_𝔟` is `h · Σ_{𝔐∣𝔑} φ_{>0}(𝔐 + 𝔑/𝔐)`, independent of
-`𝔟`; at level one each component has exactly `h` cusps, in bijection with `Cl(R)` through `𝔰`.
+count for a single component `X₀(𝔑)_𝔟`, `h · Σ_{𝔐∣𝔑} φ_{>0}(𝔐 + 𝔑/𝔐)`, its fibre
+`h · φ_{>0}(𝔐 + 𝔑/𝔐)` over each divisor `𝔐` (a torsor under `(R/(𝔐 + 𝔑/𝔐))^×/R^×_{>0}` for
+each ordinary class of `𝔰`), its independence of `𝔟`, and the level-one bijection of each
+component's `h` cusps with `Cl(R)` through `𝔰` are HilbertModularForms §1.4 (its divisor `𝔞`
+and modulus `𝔤_𝔞 = 𝔞 + 𝔑𝔞⁻¹` are `𝔐` and `𝔐 + 𝔑/𝔐`); the sum over the `h⁺` components gives
+the total. Owned here: the identification of its divisor with the invariant `𝔐` of 1.2, the
+`sl` count with `φ¹`, and the description of the fibres by `Q₀(𝔐, 𝔑)` and its `Γ₁` analogue.
 The target cuspCount v₁ v₂ P of a prefix `P` (7.1) is the number of `PΓ`-orbits in `ℙ¹(F)`
 (1.1) for the group `Γ` of `P`, the LMFDB's `nb_cusps`; it is the cardinality of the multiset
 cuspData of 1.5. It is specified in this README only: the orbits need the groups of
-§0.3, and no Lean declaration here states it.
-*Needs:* 1.3; GlobalNumberFields Layer 2.
+HilbertModularForms §1.2, and no Lean declaration here states it.
+*Needs:* 1.3; HilbertModularForms §1.4; GlobalNumberFields Layer 2.
 
 **Checks.**
 
@@ -567,7 +636,7 @@ unchanged. For `Γ₁¹` the two forms of `Γ₁` agree, since `ad ≡ 1 mod �
 `γ = (λ μ; −c a) ∈ GL₂⁺(F)` with `λ ∈ 𝔰⁻¹`, `μ ∈ 𝔰⁻¹𝔟⁻¹`, `λa + μc = 1`, `det γ = 1`
 (Lemma 3.3.5; van der Geer, Proposition I.1.1). At level one on component `𝔟` the cusp `(1 : 0)`
 has `M = 𝔟⁻¹`, `V = R^×_{>0}` (`Γ₀`) or `V = R^{×2}` (`Γ₀¹`). The multiplier ring of `M` is `R`
-in every row, so `U_M^+ = R^×_{>0}`. *Needs:* 1.2, 1.3; §0.3 and the all-level affine construction below (compare ShimuraCompactifications §8.56 in its tame range).
+in every row, so `U_M^+ = R^×_{>0}`. *Needs:* 1.2, 1.3; §0.3, HilbertModularForms §1.4 (the translation lattice and unit group of a `Γ₀` cusp stabilizer) and the all-level affine construction below (compare ShimuraCompactifications §8.56 in its tame range).
 
 The target cuspData v₁ v₂ P of a prefix `P` is the multiset, over the cusps of the surface of
 `P` (one entry per `PΓ`-orbit in `ℙ¹(F)`), of their full affine stabilizers. For the groups of the table the split forms yield
@@ -590,8 +659,11 @@ this README only, because the analytic cusp quotient is a construction of the li
 For every i ∈ {0,1,full}, both ambient types, and every nonzero 𝔑, choose g ∈ GL₂⁺(F)
 sending a cusp to infinity. Define H as the image of gΓg⁻¹ ∩ B in the affine group
 F ⋊ Fˣ, sending (a b;0 d) to (b/d,a/d). Define M = {t : (t,1) ∈ H} and V as the image
-of its slope map. Prove M is a full rank-two lattice and V is a finite-index subgroup of its
-positive multiplier units. The exact sequence 0 → M → H → V → 1 retains the translation
+of its slope map. For `Γ₀(𝔑)_𝔟`, `M` is the translation lattice and `V` the unit group of the
+cusp stabilizer in HilbertModularForms §1.4, a full lattice and a subgroup of finite index in
+`R^×_{>0}`; for the other groups of convention 2, whose images in `PΓ₀(𝔑)_𝔟` have finite
+index (1.1), prove that `M` has finite index in that lattice and `V` in that unit group, so that M is a full rank-two
+lattice and V is a finite-index subgroup of its positive multiplier units. The exact sequence 0 → M → H → V → 1 retains the translation
 class τ(v) ∈ F/M, with τ(vw) = τ(v)+vτ(w). This datum, including τ, is the general cusp
 record; it is not defined by the four split formulas alone (Assaf et al., §3.3,
 (3.3.1)–(3.3.4); ShimuraCompactifications §8.56 for the tame comparison).
@@ -621,7 +693,7 @@ The two Γ₀(2) cusps over ℚ(√5) have M = R and 2R. At level (4), Γ₁ and
 
 ### Dependencies
 
-Layer 0; GlobalNumberFields Layers 2 and 11; ShimuraCompactifications §8.56 only for the tame comparison.
+Layer 0; HilbertModularForms §§1.2, 1.4; GlobalNumberFields Layers 2 and 11; ShimuraCompactifications §8.56 only for the tame comparison.
 
 ## Layer 2: Hirzebruch–Jung continued fractions and the cusp resolution
 
@@ -801,10 +873,14 @@ only, since cuspData is (1.5). *Needs:* 1.4, 1.5, 2.3.
 
 Interchanging v₁ and v₂ reverses the cyclic order of a positive-cone resolution, so its
 sum of digits minus three is unchanged. Define instead the dual cusp datum by M′ = βM with
-v₁(β)v₂(β) < 0 and V′ = V; multiplication by β identifies the multiplier groups. Its periods
+v₁(β)v₂(β) < 0 and V′ = V (multiplication by β identifies the multiplier rings, so
+`U_{βM}^+ = U_M^+` and `V` is again admissible). Its periods
 are dual in Hirzebruch's sense: a cyclic block (b,2,…,2), with b ≥ 3 and m following twos,
 contributes a run of b−3 twos followed by m+3 to the dual cycle. Prove
-`CuspDatum.period_dual`: the sums of digits minus three are opposite. This is a statement
+`CuspDatum.period_dual`: for every datum `E` whose lattice is `βM`, the sums of digits minus
+three of the periods of the two data are opposite; the period depends on the lattice alone, so
+the theorem carries no hypothesis on the multiplier group of `E`, and the dual datum is the
+instance `V′ = V`. This is a statement
 about the opposite-sign quadrant, separate from Galois transport of (𝔑,𝔟)
 (van der Geer, Chapter II, §2, continued-fraction duality; Hirzebruch 1973, §2.5 for the
 positive-cone cycle and reversal under conjugation). *Needs:* §§2.2–2.3.
@@ -1088,7 +1164,8 @@ Here ellipticTypes v₁ v₂ P is the set of normalised types `(q; 1, r)` (conve
 tangent coordinates in the order `(v₁, v₂)`) of the elliptic points of `PΓ` (3.1), and
 ellipticCount v₁ v₂ P t is the number of `PΓ`-orbits of elliptic points of type `t`, zero for
 `t` outside ellipticTypes. These targets are specified in this README only: elliptic points
-need the groups of §0.3, and no Lean declaration here states them; a type is the rotation datum of §3.9, and `ℓ(q; 1, r)` is RotationType.resolutionLength.
+need the groups of HilbertModularForms §1.2 and the projective groups of §0.3, and no Lean
+declaration here states them; a type is the rotation datum of §3.9, and `ℓ(q; 1, r)` is RotationType.resolutionLength.
 *Needs:* 3.4–3.9.
 
 **Checks.**
@@ -1174,20 +1251,32 @@ form is the functional equation `ζ_F(−1) = D^{3/2} ζ_F(2)/(4π⁴)` and is a
 definition; at `D = 5`, `ζ_F(2) = ζ(2)L(2, χ_5) = 2π⁴/(75√5)` gives `1/15 = 2ζ_F(−1)`. Assaf et
 al. (6.2.2) print `−[Γ(1) : Γ] d_F^{3/2} ζ_F(2)/π^{2n}`, which is right for `n = 1` and off by
 the factor `−1/2` for `n = 2`), with
-`[Γ¹(1) : PΓ₀(𝔑)_𝔟] = N(𝔑)∏_{𝔭∣𝔑}(1 + N(𝔭)⁻¹)/[R^×_{>0} : R^{×2}]` and
-`[Γ¹(1) : PΓ₀¹(𝔑)_𝔟] = N(𝔑)∏_{𝔭∣𝔑}(1 + N(𝔭)⁻¹)` by 0.3 (the two index factors are the ideal index and positive-unit-square index; the target
+`[Γ¹(1) : PΓ₀¹(𝔑)_𝔟] = [Γ¹(1) : PΓ₀¹(1)_𝔟] · [PΓ₀¹(1)_𝔟 : PΓ₀¹(𝔑)_𝔟] = 1 · N(𝔑)∏_{𝔭∣𝔑}(1 + N(𝔭)⁻¹)`
+and `[Γ¹(1) : PΓ₀(𝔑)_𝔟] = N(𝔑)∏_{𝔭∣𝔑}(1 + N(𝔭)⁻¹)/[R^×_{>0} : R^{×2}]`. The generalised index
+is defined for every `𝔟`, principal or not: `SL(R ⊕ 𝔟)` and `SL₂(R)` are commensurable, since
+for an integer `m ≥ 1` with `mR ⊆ 𝔟 ⊆ m⁻¹R` the principal congruence subgroup of level `m²`
+of either lies in both (`(γ − 1)(R ⊕ 𝔟) ⊆ (γ − 1)m⁻¹R² ⊆ mR² ⊆ R ⊕ 𝔟`, so `γ` maps the lattice
+`R ⊕ 𝔟` into itself and, having determinant `1`, onto itself; and symmetrically).
+Its first factor is `1` by Siegel's theorem (convention 12), and its second factor is the level
+index of 0.3 (the two index factors are the ideal index and positive-unit-square index; the target
 volume v₁ v₂ P and the theorem volume_gamma0 computing it for gamma type `zero` are specified
-in this README only, since `[Γ¹(1) : Γ]` needs the groups of §0.3);
+in this README only, since `[Γ¹(1) : Γ]` needs the groups of HilbertModularForms §1.2);
 the Gauss–Bonnet reading: `vol(Γ\ℍ²)` is the orbifold Euler characteristic of `PΓ\ℍ²` for the
 measure `(dx₁dy₁/y₁²)(dx₂dy₂/y₂²)` normalised by `1/(4π²)` (van der Geer, Chapter IV, Theorem
 2.1 and §1; Siegel's computation of `vol(SL₂(R)\ℍ²) = 2ζ_F(−1)` in these units, which is the
 `sl` normalisation of convention 12 and is uniform in `N(ε)`). *Needs:*
-4.2, 0.3; §4.3 (the invariant measure and finite covolume).
+4.2, 0.3; HilbertModularForms §3.2 (the invariant measure and finite covolume).
 
 **Checks.**
 
 - (computation) — `2.2.5.1-1.1-1.1-gl-0`: `vol = 2ζ_F(−1) = 1/15`; over `ℚ(√5)`, `Γ₀(𝔭₂)`:
   levelIndex 𝔭₂ = 5 and `vol = 1/3`.
+- (commensurability) — over `ℚ(√10)` with the nonprincipal `𝔟 = (2, √10) = {m + n√10 : m even}`,
+  `𝔟⁻¹ = 𝔟/2 = {k + n√10/2}` and `𝔟⁻¹ ∩ R = R`, so `SL(R ⊕ 𝔟) ∩ SL₂(R) = {(a b; c d) ∈ SL₂(R) :
+  c ∈ 𝔟}` has index `N(𝔟) + 1 = 3` in `SL₂(R)` and index `3` in `SL(R ⊕ 𝔟)` (it is the
+  stabilizer of the line `R²/(R ⊕ 𝔟)` in `𝔟⁻¹(R ⊕ 𝔟)/(R ⊕ 𝔟) ≅ 𝔽₂²`); the generalised index
+  `[Γ¹(1) : PΓ₀¹(1)_𝔟] = 3/3 = 1`, as Siegel's equal covolumes require, and `m = 2` works in
+  the congruence argument since `2R ⊆ 𝔟 ⊆ R`.
 - (ambient type) — over `ℚ(√3)` at level one, unitIndex = 2, `vol = 1/3` for `sl` and `1/6`
   for `gl`; for `D = 21, 24, 28, 33`, `vol = 2/3, 1, 4/3, 2` for `sl` and half that for `gl`.
 - (comparison) — `vol(PΓ₀¹(1)_𝔟\ℍ²) = 2ζ_F(−1) = 2 · siegelZetaMinusOne D` for every `𝔟`, with
@@ -1248,7 +1337,7 @@ Integrality is necessary, not sufficient: §§3.7–3.8 must determine the types
 `X(Γ)` restricts to a `Γ`-invariant holomorphic `1`-form `f₁ dz₁ + f₂ dz₂` on `ℍ²` with `f₁`,
 `f₂` Hilbert modular forms of weights `(2, 0)` and `(0, 2)`, and the following additional vanishing theorem supplies the conclusion.
 For nonnegative integral (k₁,k₂) ≠ (0,0) with a zero entry, every holomorphic Hilbert modular
-form is zero. The nonparallel constant terms vanish, so f is cuspidal and has finite Petersson norm.
+form is zero. The nonparallel constant terms vanish (HilbertModularForms §2.5), so f is cuspidal and has finite Petersson norm (its §3.4).
 Prove, by integration by parts with cuspidal decay, that the norm of the derivative in a
 zero-weight variable is zero, hence that derivative vanishes. The dense projection of the
 irreducible Hilbert group to the other real factor then forces full constancy, and the nonzero weight forces the constant to vanish. Koecher support
@@ -1257,8 +1346,9 @@ Chapter I, §4 and Chapter IV, §6). At (0,0), the form 1 remains nonzero; at (2
 constancy and the slash transformation force the value 0;
 Hodge symmetry gives `h^{0,1} = h^{1,0}` and `b₁ = 2h^{1,0}`, `X(Γ)` being Kähler as a complex
 submanifold of projective space (4.1). (Van der Geer, Chapter IV, §6; Assaf et al., §6.3.)
-*Needs:* 4.1; §0.5; ComplexKahlerGeometry K6.1, with K7.2 and K6.0
-for the Kähler metric.
+*Needs:* 4.1; §0.5 and HilbertModularForms §§2.3, 2.5, 3.4 (the spaces `M_{(2,0)}`,
+`M_{(0,2)}`, the vanishing of their constant terms and the Petersson norm); ComplexKahlerGeometry
+K6.1, with K7.2 and K6.0 for the Kähler metric.
 
 ### 4.7 Noether's formula and the Hodge diamond
 
@@ -1285,9 +1375,11 @@ this README only, since K2 and eulerNumber are (4.9).
 
 ### 4.8 The cusp-form comparison
 
-`Σ_{[𝔟] ∈ Cl⁺(R)} χ(X₀(𝔑)_𝔟) = dim S₂(Γ₀(𝔑)) + h⁺` (Assaf et al., (6.3.1)): `H⁰(X, K_X)` is the
-space of cusp forms of parallel weight `2` on `Γ` (Freitag's identification of `p_g` with
-`dim S_{(2,2)}(Γ)`, through 4.6 and the vanishing of a holomorphic `2`-form's form at the
+`Σ_{[𝔟] ∈ Cl⁺(R)} χ(X₀(𝔑)_𝔟) = dim S₂(Γ₀(𝔑)) + h⁺` (Assaf et al., (6.3.1)), where `S₂(Γ₀(𝔑))`
+is HilbertModularForms §2.3's component tuple `S_k(𝔑; R)` in parallel weight `2`, whose
+dimension is independent of the system `R`: `H⁰(X, K_X)` is the
+space of cusp forms of parallel weight `2` on `Γ` (the identification of 0.5,
+`p_g = dim S_{(2,2)}(Γ)`, through 4.6 and the vanishing of a holomorphic `2`-form's form at the
 cusps), summed over components, and `Σ_𝔟 1 = h⁺`. The same holds with `S₂(Γ₀¹(𝔑))` and the `sl`
 surfaces. This is the second acceptance test of a computed record. For `𝔑 = R` the sum is `h⁺`
 (so `S₂(Γ₀(1)) = 0`) for `D ∈ {5, 8, 12, 13, 17, 21}`, and the `sl` sum is `h⁺` for
@@ -1295,7 +1387,8 @@ surfaces. This is the second acceptance test of a computed record. For `𝔑 = R
 components: for `D = 24, 28, 33` the component `[𝔡⁻¹]` has `χ = 2` for both ambient types, so
 `dim S₂(Γ₀(1)) = dim S₂(Γ₀¹(1)) = 1`; for `D = 21` the `sl` sum is `h⁺ + 1`; for `D = 60`
 (`h⁺ = 4`) the sums are `8` (`gl`) and `12` (`sl`) (worked examples).
-*Needs:* 4.7; §0.5 (`S_k(Γ)` and its finite dimension).
+*Needs:* 4.7; §0.5; HilbertModularForms §§2.3, 2.6 and 3.5 (`S_k(Γ)`, the component tuple and
+its finite dimension).
 
 ### 4.9 The two Chern numbers as invariants of the record
 
@@ -1306,7 +1399,7 @@ volume (4.3) and the formulas of 4.4–4.7, which are the *definitions* of K2 an
 eulerNumber: K2 = 2 volume + cuspSum + Σ_t ellipticCount t · c(t) and
 eulerNumber = volume + lenCuspRes + Σ_t ellipticCount t · (ℓ(t) + (q − 1)/q), the sums over
 ellipticTypes, with c and ℓ the local invariants of §3.9. They are specified in this README only, since their inputs
-need the congruence subgroups and the quotient `Γ\ℍ²` of the sibling roadmaps (0.3–0.4). The
+need the congruence subgroups of HilbertModularForms §1.2 and the quotient `Γ\ℍ²` of §0.4. The
 theorem that they are the geometric invariants of `X(Γ)` is 4.4 together with 4.7.
 *Needs:* 4.4–4.8.
 
@@ -1571,7 +1664,7 @@ invariants specified here (Assaf et al., §§3.3, 4.4 and 6.2–6.4).
 | --- | --- |
 | `field_discr`, `narrow_class_nb`, `nf.narrow_class_number` | 0.1, 0.2 |
 | `component_label` (as a narrow class), `is_pp`, `hmsurface.component_ideal` | 0.2, 7.1 |
-| `group_type`, `gamma_type`, `hmsurface.congruence_subgroup`, `hmsurface.standard_hmsurfaces`, `hmsurface.x0`, `hmsurface.x01` | 0.3 (groups consumed from §0.3) |
+| `group_type`, `gamma_type`, `hmsurface.congruence_subgroup`, `hmsurface.standard_hmsurfaces`, `hmsurface.x0`, `hmsurface.x01` | HilbertModularForms §1.2; 0.3 |
 | `level_label` (as an ideal), `level_norm`, `hmsurface.level`, `hmsurface.levelnorm` | 0.3 |
 | `nb_cusps`, `hmsurface.cusps`, cusp table (`M_label` as `𝔐`, coordinates, `self_intersections_minimal`, repetition), `hmsurface.cusp_resolution`, `len_cusp_res` | 1.2, 1.4, 1.5, 2.3, 2.6 |
 | `nb_ell`, `nb_ell2`–`nb_ell6`, `hmsurface.elliptic_point`, `rotation_type`, `len_ell_res`, `hmsurface.elliptic_point_resolution` | 3.3, 3.4–3.8, 3.9, 3.11 |
@@ -1598,8 +1691,8 @@ Layers 0–6, with the gamma-zero numerical branch using §§3.11 and 4.9 and ev
 - Modularity of the generating series of Hirzebruch–Zagier divisors; their curve and intersection theory belongs to §6.2.
 - Humbert surfaces and the map to the Siegel threefold (the sibling `SiegelModularForms` and the
   toroidal roadmap's Siegel layers).
-- Hilbert modular forms as functions, their rings, dimension formulas beyond the single use of
-  `dim S₂(Γ₀(𝔑))` in 4.8, and the Hilbert series of Assaf et al., §5.1.
+- Hilbert modular forms as functions (HilbertModularForms), their rings, dimension formulas
+  beyond the single use of `dim S₂(Γ₀(𝔑))` in 4.8, and the Hilbert series of Assaf et al., §5.1.
 - Canonical models, fields of definition of the components, integral models, bad reduction.
 - The quotients of `X(Γ)` by Atkin–Lehner involutions and by the Galois involution, the symmetric
   Hilbert modular surfaces: the groups are extensions of `Γ` by finite groups; they are not in
@@ -1800,10 +1893,11 @@ exceptional curves are those Assaf et al. exhibit and are not recomputed here.
 
 ## Downstream consumers
 
-HilbertModularForms consumes the degree-two group, index and cusp interfaces of §§0.3 and 1.1–1.5
-and the geometric form comparison of §§0.5 and 4.8. The LMFDB record is assembled in Layer 7.
-The supply direction is from the arithmetic and compactification contracts to the surface
-geometry and then to those consumers.
+No roadmap consumes a target of this roadmap by section. HilbertModularForms is a supplier of
+Layers 0–1 and of §§0.5, 4.6 and 4.8, and it defers to this roadmap the surfaces `Γ\ℍ²` for real
+quadratic `F`, their cusp resolutions, elliptic points, Euler numbers and closed dimension
+formulas. The LMFDB record is assembled in Layer 7. The supply direction is from
+HilbertModularForms and the arithmetic and compactification contracts to the surface geometry.
 
 ### Internal ordering
 
