@@ -31,20 +31,23 @@ products (4.3) and the `USp(4)` moment formulas (4.5); the classification in deg
 (5.2–5.3); the fifty-seven groups of degree `4` as explicit closed subgroups, the identity-component
 theorem, the classification theorem and distinctness (6.3–6.4, 6.6–6.8); the finiteness theorem
 (7.2) and the connected groups of degree `6` (7.3); the real geometric endomorphism algebras of
-abelian surfaces (8.4); the Weyl criterion for the semicircle law (10.1), Serre's L-function
-criterion (10.2), Hecke equidistribution with the no-norm-power hypothesis (10.4), and the Sato–Tate theorem for CM elliptic curves over every number field, in the
-form of the equidistribution of the normalized Frobenius traces for the trace law of `U(1)`
-resp. `N(U(1))` (10.5–10.6).
+abelian surfaces (8.4); the Weyl criterion for the semicircle law (10.1), Hecke
+equidistribution with the no-norm-power hypothesis (10.4), and the Sato–Tate theorem for CM
+elliptic curves over every number field, in the form of the equidistribution of the normalized
+Frobenius traces for the trace law of `U(1)` resp. `N(U(1))` (10.5–10.6). Serre's L-function
+criterion is ModularityAndLanglandsExtensions §4.25 and is not restated; 10.2 is its
+specialisation to closed subgroups of `U(d)`.
 
 **Not statable at the pins.** The Galois action on `End(A_k̄)`, the endomorphism field and the
 Galois endomorphism type of an abelian variety (8.1–8.2, 8.7) need the transport of an
 endomorphism of `A_k̄` along the base change of `A_k̄` by `σ ∈ Gal(k̄/k)`, which Tau Ceti's
 `AbelianVariety.baseChange` does not provide. The Sato–Tate group `ST(A)` of an abelian variety and
-everything built on it (9.3–9.8, 9.11–9.12), the Sato–Tate conjecture (10.3) and the product cases
-(10.8) need the Zariski closure of the `ℓ`-adic image as an algebraic group over `ℚ_ℓ` and a
-maximal compact subgroup of its complex points (ReductiveGroups Layer 3, ArithmeticLocallySymmetricSpaces ALS.F.1),
-neither at the pin; `ST(f)` for a newform (9.9) needs the Galois representation of a newform
-(ModularForms). The real dimension (1.3) rests on the closed-subgroup theorem (LieGroups
+everything built on it (9.3–9.8, 9.11–9.12), the elliptic-curve trichotomy `U(1)`, `N(U(1))`,
+`SU(2)` of 9.9, the Banaszak–Kedlaya theorem for `g ≤ 3` (9.10), the Sato–Tate conjecture (10.3)
+and the product cases (10.8) need the Zariski closure of the `ℓ`-adic image as an algebraic group
+over `ℚ_ℓ`, its similitude kernel and a maximal compact subgroup of its complex points
+(ReductiveGroups Layer 3, ArithmeticLocallySymmetricSpaces ALS.F.1), none at the pin; `ST(f)` for
+a newform (9.9) needs the Galois representation of a newform (ModularForms). The real dimension (1.3) rests on the closed-subgroup theorem (LieGroups
 Layer 2) and is a README target. The degree-six completeness and arithmetic realization
 headlines (7.4, 9.8) require the concrete normalizer-subgroup families and their arithmetic
 realization data, not present at the pins and not expressible by a few simple definitions;
@@ -753,10 +756,11 @@ def degree6Connected : Fin 16 → Subgroup (U 6) :=
     (((unitaryDiagHom 2).range).prod (u1Diag 1)).map (blockProd 2 1),
     (((unitaryDiagHom 2).range).prod (USp 2)).map (blockProd 2 1)]
 
-/-- The identity component of a Lefschetz Sato–Tate group of degree `6` is one of the sixteen
+/-- The identity component of a closed subgroup of `USp(6)` satisfying the weight-one Hodge
+condition and the Lefschetz condition is one of the sixteen; rationality is not assumed
 (`README.md`, Layer 7, 7.3). -/
-theorem degree6_identityComponent (G : ClosedSubgroup (U 6))
-    (hG : IsSatoTateGroup (HodgeNumbers.weightOne 3) G) (hL : IsLefschetz G) :
+theorem degree6_identityComponent (G : ClosedSubgroup (U 6)) (hS : IsSelfDual 1 G)
+    (hH : HodgeCondition (HodgeNumbers.weightOne 3) G.toSubgroup) (hL : IsLefschetz G) :
     ∃ i : Fin 16, IsConjIn (USp 6) ((identityComponent G.toSubgroup).map G.toSubgroup.subtype)
       (degree6Connected i) := sorry
 
@@ -832,29 +836,6 @@ open IsDedekindDomain NumberField
 
 variable {k : Type*} [Field k] [NumberField k]
 
-/-- **Serre's L-function criterion** (Serre, *Abelian ℓ-adic representations*, I.A.2, Theorem 2
-and its corollary; Sutherland, Theorem 2.12): for a closed `G ≤ U(d)`, a sequence of elements
-`x_𝔭 ∈ G` indexed by the primes of a number field `k` outside a finite set `S` and enumerated with
-nondecreasing norm, if for every nontrivial continuous irreducible representation `ρ` of `G` the
-Euler product `L(ρ, s) = ∏_𝔭 det(1 − ρ(x_𝔭) N𝔭^{−s})⁻¹` on `Re s > 1` agrees there with a function
-holomorphic on an open neighbourhood of `Re s ≥ 1` and nonvanishing on `Re s ≥ 1`, then the
-conjugacy classes `[x_𝔭]` are equidistributed in `Conj(G)` for `conjLaw G` (`README.md`, Layer 10,
-10.2). -/
-theorem serre_equidistribution_criterion (G : ClosedSubgroup (U d))
-    (S : Finset (HeightOneSpectrum (𝓞 k)))
-    (e : ℕ ≃ {𝔭 : HeightOneSpectrum (𝓞 k) // 𝔭 ∉ S})
-    (he : Monotone fun n => Ideal.absNorm (e n).1.asIdeal)
-    (x : {𝔭 : HeightOneSpectrum (𝓞 k) // 𝔭 ∉ S} → G.toSubgroup)
-    (hL : ∀ (V : Type) [NormedAddCommGroup V] [NormedSpace ℂ V] [FiniteDimensional ℂ V]
-        (ρ : Representation ℂ G.toSubgroup V), (∀ v, Continuous fun g => ρ g v) →
-        ρ.IsIrreducible → (∃ g v, ρ g v ≠ v) →
-        ∃ F : ℂ → ℂ, (∃ Ω : Set ℂ, IsOpen Ω ∧ {s | 1 ≤ s.re} ⊆ Ω ∧ DifferentiableOn ℂ F Ω) ∧
-          (∀ s : ℂ, 1 ≤ s.re → F s ≠ 0) ∧
-          ∀ s : ℂ, 1 < s.re → F s = ∏' 𝔭 : {𝔭 : HeightOneSpectrum (𝓞 k) // 𝔭 ∉ S},
-            (LinearMap.det (1 - ((Ideal.absNorm 𝔭.1.asIdeal : ℂ) ^ (-s)) • ρ (x 𝔭)))⁻¹) :
-    Tendsto (TauCeti.Probability.empiricalMeasure fun n => ConjClasses.mk (x (e n))) atTop
-      (𝓝 (conjLaw G)) := sorry
-
 /-- **Hecke equidistribution**: the ideal values of a unitary Hecke character whose
 nonzero powers are never pure imaginary norm characters are Haar-equidistributed on the
 circle, after any finite set containing the conductor primes is deleted (README 10.4).
@@ -890,15 +871,19 @@ def normalizedTrace (W : WeierstrassCurve k) (𝔭 : HeightOneSpectrum (𝓞 k))
   -((((W.baseChange (𝔭.adicCompletion k)).localPolynomial (𝔭.adicCompletionIntegers k)).coeff 1 :
     ℤ) : ℝ) / Real.sqrt (Nat.card (IsLocalRing.ResidueField (𝔭.adicCompletionIntegers k)))
 
-/-- The arcsine law `dz / (π √(4 − z²))` on `[−2, 2]`, the trace law of `U(1)` (`README.md`,
-Layer 4, 4.4). -/
+/-- The arcsine law on `[−2, 2]`, the trace law of `U(1)`: the image of Mathlib's
+`betaMeasure (1/2) (1/2)` (StandardDistributions §10.20's arcsine law on `[0, 1]`) under
+`y ↦ 4y − 2`; its density is `dz / (π √(4 − z²))` (`README.md`, Layer 4, 4.4). -/
 def arcsineLaw : Measure ℝ :=
-  (volume.restrict (Set.Ioo (-2 : ℝ) 2)).withDensity fun z =>
-    ENNReal.ofReal (1 / (Real.pi * Real.sqrt (4 - z ^ 2)))
+  (ProbabilityTheory.betaMeasure (1 / 2) (1 / 2)).map fun y => 4 * y - 2
 
-/-- The arcsine law has total mass one, the `n = 0` case of `E[t^{2n}] = C(2n, n)` (`README.md`,
-Layer 4, 4.4). -/
-theorem isProbabilityMeasure_arcsineLaw : IsProbabilityMeasure arcsineLaw := sorry
+/-- The arcsine law is a probability measure: the image of a probability measure
+(`README.md`, Layer 4, 4.4). -/
+instance isProbabilityMeasure_arcsineLaw : IsProbabilityMeasure arcsineLaw := by
+  have := ProbabilityTheory.isProbabilityMeasureBeta (α := (1 / 2 : ℝ)) (β := (1 / 2 : ℝ))
+    (by norm_num) (by norm_num)
+  unfold arcsineLaw
+  infer_instance
 
 /-- The trace law `½ δ_0 + ½ arcsine` of `N(U(1))` (`README.md`, Layer 5, 5.4). -/
 def nu1TraceLaw : ProbabilityMeasure ℝ :=

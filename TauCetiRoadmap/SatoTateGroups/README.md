@@ -29,8 +29,9 @@ simple, geometrically simple, squarefree and primitive, the Galois endomorphism 
 constructs `ST(A)` from the `ℓ`-adic image, with the dictionary between Galois endomorphism types
 and the fifty-two groups in dimension `2` and the trichotomy `SU(2)`, `N(U(1))`, `U(1)` for
 elliptic curves. The **equidistribution part** (Layer 10) states the Sato–Tate conjecture in
-general, proves Serre's L-function criterion, and proves equidistribution for elliptic curves with
-complex multiplication from the nonvanishing of Hecke L-functions.
+general, specializes Serre's L-function criterion (ModularityAndLanglandsExtensions §4.25) to
+closed subgroups of `U(d)`, and proves equidistribution for elliptic curves with complex
+multiplication from the nonvanishing of Hecke L-functions.
 
 **Carrier.** The primary object is a **closed subgroup of `U(d) = Matrix.unitaryGroup (Fin d) ℂ`**,
 Mathlib's `ClosedSubgroup (Matrix.unitaryGroup (Fin d) ℂ)`, carrying the Borel σ-algebra and Tau
@@ -94,16 +95,19 @@ applies throughout: a predicate invariant under conjugacy (for groups) or isomor
   over `ℚ`, **`ST(f)`** for a newform in terms of its CM status and the order of its character,
   and the **minimal splitting fields** and **rational and real endomorphism lattices** of a surface (Layer 9).
 - **Equidistribution**: the pushforward and dense-subspace lemmas for the consumed predicate,
-  the Weyl criterion on `Conj(G)`, **Serre's L-function criterion**, the Sato–Tate conjecture as
+  the Weyl criterion on `Conj(G)`, the specialization of Serre's L-function criterion to closed
+  subgroups of `U(d)` with its converse and its finite case, the Sato–Tate conjecture as
   a statement, Hecke's equidistribution of unitarized Grossencharacter values, and the
   **theorem for CM elliptic curves** over every number field (Layer 10).
 
 Generic Mumford–Tate groups belong to ShimuraData §1.2; here they are specialized to
 abelian varieties and compared with Galois monodromy. Maximal-compact existence and
 conjugacy belong to ArithmeticLocallySymmetricSpaces ALS.F.1; here they are applied to
-complex monodromy groups. Bogomolov Hodge–Tate openness is the input of
-PotentialModularityAndCompatibleSystems §1.20; the monodromy kernel comparison is 9.2.
-Absolute Hodge tensor realizations belong to AutomorphicBundles §§1.2–1.3; 9.10 owns
+complex monodromy groups. Bogomolov's openness theorem — the image of a rational weakly
+compatible system is open in the `ℚ_ℓ`-points of its algebraic monodromy group — is a target of
+PotentialModularityAndCompatibleSystems §1.20; 9.2 applies it to the Tate-module system of an
+abelian variety and owns the similitude kernel, the homothety cocharacter and the
+component-group comparison. Absolute Hodge tensor realizations belong to AutomorphicBundles §§1.2–1.3; 9.10 owns
 the connected Galois-monodromy inclusion. Section 8.4 owns the low-dimensional geometric
 endomorphism restrictions, beyond the algebraic classification of positive involutions.
 
@@ -121,6 +125,19 @@ endomorphism restrictions, beyond the algebraic classification of positive invol
   *Modularity and Langlands extensions* §§4.28, 4.34, 4.39, 4.42 and its suppliers.
 - **The analytic theory of Hecke L-functions** (continuation, functional equation, nonvanishing):
   *L-functions — completions and functional equations*. This roadmap consumes its boundary data.
+- **Serre's equidistribution criterion through L-functions**, for a compact group and conjugacy
+  classes indexed by the primes of a number field: *Modularity and Langlands extensions* §4.25;
+  10.2 specializes it to closed subgroups of `U(d)` and adds the converse and the finite case.
+- **Algebraic monodromy groups**: the Zariski closure of a Galois image, its identity component
+  and component field, and reductivity of the closure of a semisimple representation in
+  characteristic zero: ArithmeticGaloisRepresentations §7.6. **The compatible system and the
+  `p`-adic comparison of the Tate module** of an abelian variety (de Rham at every prime,
+  crystalline at good primes): *Néron models and semistable abelian varieties* §6.10 and its
+  `p`-adic comparison target.
+- **The arcsine and semicircle laws as measures**: StandardDistributions §10.20 (the arcsine law
+  `betaMeasure (1/2) (1/2)` on `[0, 1]` and the unit semicircle) and RandomMatrices §3.3
+  (`semicircleReal a v`); this roadmap keeps only their transports to the trace interval
+  `[−2, 2]` and to the eigenangle (4.4).
 - **Foundations of abelian varieties** — duals, polarizations, Poincaré reducibility, the Rosati
   involution, the Tate module of an abelian variety, the Néron–Ogg–Shafarevich criterion: *Abelian
   schemes and arithmetic moduli* and *Néron models and semistable abelian varieties*.
@@ -237,9 +254,11 @@ endomorphism restrictions, beyond the algebraic classification of positive invol
   which has commutative `End⁰` of `ℚ`-dimension equal to its dimension. Ribet's definition (a
   number field of degree `dim A` inside `End⁰ A`) differs on `E × E`; the knowl's is the one the
   column means.
-- **The Sato–Tate group of `A`** (FKRS Definition 2.6): for a prime `ℓ` and a field embedding
-  `ι : ℚ_ℓ ↪ ℂ`, `ST(A)` is a maximal compact subgroup of `G_ℓ^{1,Zar}(ℂ)`, the complex points of
-  the Zariski closure of `ρ_{A,ℓ}(G_k^1)`, chosen inside `USp(2g)` for a symplectic basis of
+- **The Sato–Tate group of `A`** (Serre, *Lectures on N_X(p)*, §8.3.3; FKRS Definition 2.6 with
+  the similitude kernel of 9.2 in place of the closure of `ρ(G_k^1)`): for a prime `ℓ` and a field
+  embedding `ι : ℚ_ℓ ↪ ℂ`, `ST(A)` is a maximal compact subgroup of `G_ℓ^1(ℂ)`, the complex points
+  of the similitude kernel `G_ℓ^1 = ker(G_ℓ^{Zar} → 𝔾_m)` of the Zariski closure of
+  `ρ_{A,ℓ}(G_k)`, chosen inside `USp(2g)` for a symplectic basis of
   `V_ℓ(A)` adapted to a polarization. It is a closed subgroup of `U(2g)` determined up to
   conjugacy in `USp(2g)` by `(ℓ, ι)`; independence of `(ℓ, ι)` is the algebraic Sato–Tate
   conjecture, a named hypothesis. The **normalized Frobenius class** at a good prime `𝔭` of norm
@@ -252,6 +271,12 @@ endomorphism restrictions, beyond the algebraic classification of positive invol
   `f : X → ℝ`, by that roadmap's bounded-continuous criterion. Primes are ordered by norm, ties
   broken arbitrarily (the statement is insensitive to ties), and only the primes of good
   reduction are indexed.
+- **The arcsine and semicircle laws.** `arcsineLaw` is the image of Mathlib's
+  `betaMeasure (1/2) (1/2)` — StandardDistributions §10.20's arcsine law on `[0, 1]` — under
+  `y ↦ 4y − 2`; its density is `dz/(π √(4 − z²))` on `[−2, 2]`. The trace law of `SU(2)` is
+  RandomMatrices §3.3's `semicircleReal 0 1`, of density `√(4 − z²) dz/(2π)` on `[−2, 2]`;
+  `semicircleAngle`, `(2/π) sin²θ dθ` on `[0, π]`, is its eigenangle form, and `semicircleReal 0 1`
+  is the image of `semicircleAngle` under `θ ↦ 2 cos θ` (4.4).
 - **Newforms.** The Sato–Tate group of a newform of weight `k ≥ 2` and nebentypus `χ` of order
   `n` has weight `w = k − 1` and degree `2`; it is `SU(2)[C_n] = {g ∈ U(2) | det(g)^n = 1}` when
   the form has no CM and a closed subgroup of `U(1)[D_n] = ⟨U(1), J, diag(1, ζ_n)⟩` containing
@@ -276,9 +301,18 @@ scalars from ℂ to ℝ in 9.3.
 
 ### From PotentialModularityAndCompatibleSystems
 
-Section 1.20 supplies its Bogomolov Hodge–Tate openness input independently of the
-density-one maximality statement: the arithmetic Hodge–Tate image is open in the
-rational points of its algebraic monodromy group. Section 9.2 applies this at every ℓ.
+Section 1.20 states, among its targets, Bogomolov's openness theorem in the form in which the
+proof of Barnet-Lamb–Gee–Geraghty–Taylor's Proposition 5.2.2 uses it: for a rational weakly
+compatible system `(r_ℓ)` of a number field (its §1.18), the image `Γ_ℓ = r_ℓ(G_k)` is open in the
+`ℚ_ℓ`-points of its algebraic monodromy group `G_ℓ`, the Zariski closure of the image. What is
+assumed of it here is exactly this statement, at every prime `ℓ`, for the system of §1.18; the
+density-one integral-monodromy package of the same section (unramified integral models,
+hyperspecial maximality, the central index bound, invariant lattices) is not consumed. Section
+9.2 applies it to the Tate-module system of an abelian variety, which is such a system by the
+compatible-system export of *Néron models and semistable abelian varieties* §6.10 together with
+its `p`-adic comparison target (the Tate module is de Rham at every prime, so Hodge–Tate with
+weights `0` and `1`; this is the hypothesis Serre records for Bogomolov's theorem, *Lectures on
+N_X(p)*, §8.3.2, footnote 60).
 
 ### From AutomorphicBundles
 
@@ -338,8 +372,12 @@ connected Galois monodromy using Deligne's finite-action theorem.
   (§4.39, the Sato–Tate group of a non-CM `GL₂` representation whose central character has
   finite order `a`), the Sato–Tate theorem for non-CM elliptic curves over `ℚ`
   `satoTate_elliptic` (§4.34), the conditional theorem over arbitrary number fields (§4.28) and
-  the parallel-weight theorem over imaginary CM fields (§4.42). This roadmap **states** no non-CM
-  equidistribution theorem of its own; 9.9 and 10.7 cite those.
+  the parallel-weight theorem over imaginary CM fields (§4.42), and Serre's equidistribution
+  criterion through L-functions of representations of a compact group (§4.25: for every
+  nontrivial irreducible representation, meromorphic continuation to `ℂ`, holomorphic and
+  nonvanishing on `Re s = 1`, gives Haar equidistribution of the classes ordered by norm), which
+  10.2 specializes and 10.4–10.6 apply. This roadmap **states** no non-CM equidistribution
+  theorem of its own and no second form of the criterion; 9.9 and 10.7 cite those.
 - From *L-functions — completions and functional equations*: `Grossencharacter K 𝔪`, its
   `unitaryWeight` and `infinityType` (Layer 6), and the nonvanishing of `L(χ, s)` on `Re s = 1`
   for every Grossencharacter outside the pure-norm-twist exception, with the continuous
@@ -354,8 +392,20 @@ connected Galois monodromy using Deligne's finite-action theorem.
   Frobenius in a quadratic extension (Layer 14) and the Tauberian theorem `wienerIkehara` it
   consumes from Arithmetic Dirichlet Series (Layer 12).
 - From *Deligne weights, purity and the Weil bounds*: Zariski density of open subgroups of
-  `Sp(V)(ℚ_ℓ)` (§2.2) and the semisimplicity criterion through the Zariski closure (§8.14), used
-  in 9.2; and the finite-field equidistribution of §10.5, which is not reproved here.
+  `Sp(V)(ℚ_ℓ)` (§2.2) and the Weil bound for the Frobenius eigenvalues of an abelian variety over
+  a finite field (absolute value `q^{1/2}`), used in 9.2 and 9.6; and the finite-field
+  equidistribution of §10.5, which is not reproved here.
+- From ArithmeticGaloisRepresentations §7.6: the algebraic monodromy group of a continuous
+  representation over a Hausdorff topological field (the Zariski closure of its image, a closed
+  subgroup scheme), its identity component and component field, the closure of a finite-index
+  subgroup, commutation of closures with field extension, and the theorem that in characteristic
+  zero a semisimple representation has reductive identity component of its monodromy group; used
+  in 9.2.
+- From *Néron models and semistable abelian varieties*: the compatible system of an abelian
+  variety (§6.10: the strictly compatible system over `ℚ` formed by the `H^i_ét(A_k̄, ℚ_ℓ)`, with
+  `H¹` the dual of the Tate module) and its `p`-adic comparison target (the Tate module is de
+  Rham at every prime and crystalline at the primes of good reduction above it), the inputs of
+  the openness statement of 9.2; and the Néron–Ogg–Shafarevich criterion (Layer 5, 8.2).
 - From [ReductiveGroups](../ReductiveGroups/README.md) Layer 3: identity components and component
   groups of affine algebraic groups, and the Zariski closure of a subgroup of the rational points
   as a closed subgroup scheme.
@@ -389,9 +439,10 @@ connected Galois monodromy using Deligne's finite-action theorem.
   `Matrix.unitaryGroup.toGL`.
 - **Characteristic polynomials.** `Matrix.charpoly`, `Matrix.charpolyRev` with
   `reverse_charpoly`, `coeff_charpolyRev_eq_neg_trace`, `charpoly_coeff_eq_prod_coeff_of_le`,
-  `charpoly_coeff_eq_sum_minors` (`LinearAlgebra/Matrix/Charpoly/Coeff.lean`); eigenvalues of
-  normal and Hermitian matrices and the spectral theorem
-  `Matrix.exists_mem_unitaryGroup_star_mul_mul_eq_diagonal` (`Analysis/Matrix/Spectrum.lean`).
+  `charpoly_coeff_eq_sum_minors` (`LinearAlgebra/Matrix/Charpoly/Coeff.lean`); the eigenvalues
+  of a Hermitian matrix and its spectral theorem `Matrix.IsHermitian.spectral_theorem`
+  (`Analysis/Matrix/Spectrum.lean`, Hermitian matrices only; the unitary diagonalization of a
+  normal or unitary matrix is Tau Ceti's, below).
 - **Symmetric polynomials.** `MvPolynomial.esymm`, `psum`, `IsSymmetric`, the
   `symmetricSubalgebra`, Newton's identities (`RingTheory/MvPolynomial/Symmetric/NewtonIdentities.lean`)
   and the fundamental theorem `MvPolynomial.esymmAlgHom` is bijective
@@ -444,7 +495,10 @@ connected Galois monodromy using Deligne's finite-action theorem.
   `CompactSpace (unitaryGroup n 𝕜)`, `isClosed_specialUnitaryGroup`, `CompactSpace
   (specialUnitaryGroup n 𝕜)`; `Matrix.diagonal_mem_unitaryGroup_iff`,
   `Matrix.exists_circle_smul_mem_specialUnitaryGroup`; `unitaryTorusHom`, `unitaryTorus`,
-  `exists_conj_mem_unitaryTorus`, `exists_isConj_unitaryTorusHom`;
+  `exists_conj_mem_unitaryTorus`, `exists_isConj_unitaryTorusHom`; the spectral theorem for
+  normal matrices `Matrix.exists_mem_unitaryGroup_star_mul_mul_eq_diagonal`
+  (`Analysis/Matrix/Normal.lean`, for `A : Matrix n n ℂ` with `[IsStarNormal A]`), through
+  which `exists_conj_mem_unitaryTorus` is proved;
   `TauCeti.Topology.Algebra.OrthogonalGroup`: `isClosed_orthogonalGroup`,
   `isClosed_specialOrthogonalGroup`.
 - **Classical groups** (`TauCeti.RepresentationTheory.ClassicalGroups.*`): `stdRep`,
@@ -486,7 +540,7 @@ for `USp(2g)` with the product law and the `USp(4)` moments (4.2–4.5), the cla
 degree `2` (5.2–5.3), the fifty-seven groups of degree `4` as explicit closed subgroups with the
 identity-component, classification and distinctness theorems (6.3–6.4, 6.6–6.8), finiteness and
 the connected groups of degree `6` (7.2–7.3), the real geometric endomorphism algebras of
-surfaces (8.4), the Weyl criterion (10.1), Serre's criterion (10.2), Hecke equidistribution (10.4) and the CM elliptic-curve
+surfaces (8.4), the Weyl criterion (10.1), Hecke equidistribution (10.4) and the CM elliptic-curve
 theorems in the form of the equidistribution of the normalized Frobenius traces (10.5–10.6).
 Every API lemma, every Check, every computed invariant and the irrational families `μ(n)`,
 `SU(2)[C_n]`, `U(1)[D_n]` stay in this README. The Galois action on `End(A_k̄)`, the endomorphism
@@ -575,7 +629,9 @@ Closedness is `isClosed_Od`.
 
 `coeff g i := ((g : Matrix) .charpolyRev).coeff i` for `g ∈ U(d)`, written `a_i(g)`, and
 `trace g := Matrix.trace g`. Prove: `a_0 = 1`, `a_1 = −trace` (`coeff_charpolyRev_eq_neg_trace`),
-`a_i = (−1)^i e_i(λ_1, …, λ_d)` for the eigenvalue multiset (spectral theorem), `a_i = 0` for
+`a_i = (−1)^i e_i(λ_1, …, λ_d)` for the eigenvalue multiset (`g` is conjugate in `U(d)` to
+`diag(λ)` by Tau Ceti's `exists_conj_mem_unitaryTorus`, `charpolyRev` is a conjugation invariant,
+and `det(1 − T·diag(λ)) = ∏ (1 − λ_i T)`), `a_i = 0` for
 `i > d`, `a_d = (−1)^d det g`; each `a_i` is a polynomial in the entries, hence **continuous** and
 a class function `a_i(h g h⁻¹) = a_i(g)`; on `USp d` the coefficients are real and palindromic
 `a_{d−i} = a_i` for `i ≤ d`; on `Od d` they are real and
@@ -1125,9 +1181,16 @@ The block construction uses `blockDiagHom`, `finTwoMulEquiv` and `interlaceEquiv
 ### 4.4 The genus-one engine: `U(1)` and `SU(2)`
 
 For `U(1) = {diag(u, ū)} ≤ USp(2)`: traceLaw is the **arcsine law** `dz / (π √(4 − z²))` on
-`[−2, 2]` (`arcsineLaw`, of total mass one), `E[t^{2n}] = C(2n, n)` (`Nat.centralBinom n`), odd moments `0`, `Pr[t = 0] = 0`. For
-`SU(2) = USp(2)`: traceLaw is the **semicircle law** `√(4 − z²) dz / (2π)`,
-`E[t^{2n}] = catalan n`, odd moments `0`, `Pr[t = 0] = 0`; proved through 4.2 for `g = 1` and the integrals
+`[−2, 2]`, which is `arcsineLaw`, the image of Mathlib's `betaMeasure (1/2) (1/2)` —
+StandardDistributions §10.20's arcsine law on `[0, 1]` — under `y ↦ 4y − 2` (for Haar `φ` on the
+circle, `y = cos²(φ/2)` is arcsine-distributed on `[0, 1]` and the trace `2 cos φ` is `4y − 2`);
+`E[t^{2n}] = C(2n, n)` (`Nat.centralBinom n`), odd moments `0`, `Pr[t = 0] = 0`. For
+`SU(2) = USp(2)`: traceLaw is the **semicircle law** `√(4 − z²) dz / (2π)`, which is
+RandomMatrices §3.3's `semicircleReal 0 1` (the image of StandardDistributions §10.20's unit
+semicircle under `y ↦ 2y`), `E[t^{2n}] = catalan n`, odd moments `0`, `Pr[t = 0] = 0`; its
+eigenangle form `semicircleAngle = (2/π) sin²θ dθ` on `[0, π]` is this roadmap's own, with
+`semicircleReal 0 1` the image of `semicircleAngle` under `θ ↦ 2 cos θ`; proved through 4.2 for
+`g = 1` and the integrals
 `(2/π)∫_0^π (2cos θ)^{2n} sin²θ dθ = catalan n` (`integral_cos_pow`); equivalently through the
 Chebyshev characters `U_n(t/2)` of Tau Ceti and their orthonormality
 `integral_character_symPower_mul_conj`, expressing `t^{2n}` in the `U_m` basis. The first
@@ -1140,14 +1203,22 @@ with `E[a_{1,U(1)}^n] = bSeq n`, `E[a_{1,SU(2)}^n] = cSeq n`. *Needs:* 0.2, 4.2,
 
 The required API includes:
 
-- Arcsine and semicircle are normalized probability laws.
+- Arcsine and semicircle are normalized probability laws, the transports of the pinned
+  `betaMeasure (1/2) (1/2)` and of `semicircleReal 0 1`.
 - Their even moments are central binomial and Catalan numbers respectively; odd moments vanish.
 - Coefficient-extraction formulas express all four auxiliary sequences without finite truncation.
 
-The arcsine measure is `arcsineLaw`; its normalization is `isProbabilityMeasure_arcsineLaw`.
+The arcsine measure is `arcsineLaw`; its normalization `isProbabilityMeasure_arcsineLaw` is
+inherited from `betaMeasure`.
 
 **Checks.**
 
+- The image of `betaMeasure (1/2) (1/2)` under `y ↦ 4y − 2` has density
+  `(1/4) · 1/(π √(y(1 − y)))` at `y = (z + 2)/4`, i.e. `1/(π √(4 − z²))`; the unit-interval
+  normalization `y ↦ 2y − 1` would give support `[−1, 1]` and second moment `1/2`, not `2`.
+- The image of `semicircleAngle` under `θ ↦ 2 cos θ` has density `(2/π) sin²θ / |dz/dθ|` with
+  `|dz/dθ| = 2 sin θ`, i.e. `sin θ / π = √(4 − z²)/(2π)`, the density of `semicircleReal 0 1`; the
+  transport by `θ ↦ cos θ` would have support `[−1, 1]` and variance `1/4`, not `1`.
 - For n=0,1,2,3 the arcsine even moments are 1,2,6,20 and semicircle even moments 1,1,2,5.
 - For bSeq at n=0,1,2,4 the values are 1,0,2,6; cSeq gives 1,0,1,2, with denominators 1,1,2,3.
 - Both densities are symmetric with first moment 0; the endpoints ±2 have probability 0, despite the arcsine density being unbounded there.
@@ -1241,7 +1312,8 @@ Independent SU(2) factors give fourth trace moment 10; the double diagonal copy 
 
 ### Dependencies
 
-Layers 0–3; LieGroups Layer 6 Weyl integration; Tau Ceti SU(2) characters and integrals.
+Layers 0–3; LieGroups Layer 6 Weyl integration; Tau Ceti SU(2) characters and integrals;
+StandardDistributions §10.20; RandomMatrices §3.3.
 
 ## Layer 5: degree `2`
 
@@ -1342,8 +1414,9 @@ the Hodge circle `u ↦ diag(u^w, u^{−w})`, real dimension `3`, `IsSelfDual w`
 **abelian** — `J` and `diag(1, ζ_n)` commute modulo `U(1)`, since `J diag(1, ζ_n) J⁻¹ = diag(ζ_n, 1)
 = diag(1, ζ_n) · diag(ζ_n, ζ̄_n)` — so `G/G⁰ ≅ C_n × C_2`: cyclic of order `2n` for odd `n`,
 `C_2 × C_2` for `n = 2`, `C_2` for `n = 1` (`nu1Mu 1 = nu1`); it is never dihedral for `n ≥ 3`,
-although the LMFDB's name `U(1)[D_n]` and its stored `component_group` (`D_n`, in the LMFDB's
-generator for this family) say so: the stored `gens` `J, diag(1, ζ_n)` generate exactly the group defined here, and
+although the LMFDB's name `U(1)[D_n]` and its stored `component_group` (the dihedral group
+`D_n` for `n ≠ 2` and `C_2 × C_2` for `n = 2`, in the LMFDB's generator for this family) say so
+for `n ≥ 3`: the stored `gens` `J, diag(1, ζ_n)` generate exactly the group defined here, and
 `J·diag(1, ζ_n)` has order `2n` (`n` odd) or `n` (`n` even) modulo `U(1)`, not `2`. Real dimension
 `1`, Hodge circle `u ↦ diag(u^w, u^{−w})`, rational iff `n ≤ 2`, self-dual iff `w` is odd and
 `n = 1`. The group `nu1Mu 1` is the subgroup Pin(2) of `SU(2)`; it is not conjugate
@@ -1461,7 +1534,7 @@ Every finite subgroup of `SO(3)` is conjugate to a cyclic group `C_n`, a dihedra
 
 **Checks.**
 
-- The binary lift of the four-element rotation group is Q₈ of order 8, not an eight-element abelian group.
+- The binary lift of the Klein four-group of rotations (the dihedral group `D_2`) is `Q₈`, not an eight-element abelian group; the lift of the cyclic rotation group `C_4` is cyclic of order 8.
 - The binary tetrahedral and octahedral groups have orders 24 and 48; their central quotients have orders 12 and 24.
 - An odd-order finite subgroup of SU(2) is cyclic and does not contain −I; for order 3 the center quotient is still of order 3.
 
@@ -1601,7 +1674,8 @@ and the Haar invariance of 1.4). For the split `G⁰`, with `a, a'` independent 
 `(b + b', bb' + 2)`; `JG_{3,3}`: `(0, b)`. FKRS Table 6 prints `a_{1,U(1)}` for `a_1` on
 `aG_{1,3}` and lists `(ac)²G_{1,1}` with `(a_{1,U(1)}, 2)`; both rows are corrected here —
 `(ac)² = −ab`, so `(ac)²G_{1,1} = abG_{1,1}` — as FKRS's own Table 9 formulas
-`½(c_n b_{n+2}/2 + c_n)` for `N(G_{1,3})` and `¼(b_{2n} + 3·0^n)` for `F_{ac}` confirm
+`½(c_n b_{n+2}/2 + c_n)` for `N(G_{1,3})` and `¼(b_n² + 3·0^n)` for `F_{ac}` (Table 9 prints
+`b2n` for `b_n²`, as its `F` row `4, 36, 400 = b_2², b_4², b_6²` shows) confirm
 (`E[a_1²] = 2` and `z_1 = 3`). **The axioms.** `IsSatoTateGroup (weightOne 2) (degree4Group i)`
 for every `i` (`isSatoTateGroup_degree4Group`): the
 Hodge condition from 4.6 and `G⁰ ≤ G`, self-duality from 6.3, rationality by the engine — every
@@ -1789,7 +1863,7 @@ For I–M prove the cyclic, dihedral and polyhedral cases using the orthogonal
 multiplicity spaces and the rationality bounds. For N prove the finite projective
 unitary three-dimensional classification, separating reducible, imprimitive and
 primitive representations and their scalar extensions, and impose integral character
-averages on each coset (FKS §§4–5, pp.17–51). These are mathematical classification
+averages on each coset (FKS §§4–5, pp. 15–43). These are mathematical classification
 and exclusion targets, including their finite-group proofs; a list of generators or
 equality of statistical records is not a completeness argument.
 
@@ -2084,7 +2158,7 @@ label `w.d.A.c.n s` is built: weight, degree, the conjugacy class of the identit
 number of components, the isomorphism class of the component group. Prove it is a conjugacy
 invariant and that in degree `2` it is injective on the three groups; in degree `4` it is **not**
 injective (the suffix letter `s` separates groups with the same prefix, e.g. `1.4.F.2.1a, b, c`
-for `J(C_1)`, `C_2`, `C_{2,1}`), and the assignment of the letters `A` and `s is not a target.
+for `J(C_1)`, `C_2`, `C_{2,1}`), and the assignment of the letters `A` and `s` is not a target.
 *Needs:* 1.1–1.3.
 
 The required API includes:
@@ -2109,7 +2183,7 @@ AbelianSchemesAndArithmeticModuli A4–A6; PELModuli M0.1–M0.2; EllipticCurves
 
 ## Layer 9: the Sato–Tate group of an abelian variety and of a newform
 
-Here k` is a number field, `ℓ` a prime, `ι : ℚ_ℓ ↪ ℂ` a field embedding.
+Here `k` is a number field, `ℓ` a prime, `ι : ℚ_ℓ ↪ ℂ` a field embedding.
 
 ### 9.1 The `ℓ`-adic representation and its image
 
@@ -2130,31 +2204,77 @@ FaltingsFinitenessAndIsogenyTheorems R28.4.5–R28.4.6.
 - After scaling by 5^(−1/2), the determinant is 1; the cyclotomic kernel has multiplier 1.
 - For a non-CM elliptic curve the rational endomorphism algebra has dimension 1; for a CM curve over its CM field it has dimension 2, matching the respective Tate commutants.
 
-### 9.2 Zariski closures and the complex points
+### 9.2 Zariski closures, the similitude kernel and the complex points
 
 `G_ℓ^{Zar}`, the Zariski closure of `ρ(Gal(k̄/k))` in `GL(V_ℓ)` as an algebraic group over `ℚ_ℓ`
-(ReductiveGroups Layer 3), and `G_ℓ^{1,Zar}`, the closure of `ρ(G_k^1)`; prove
-`G_ℓ^{1,Zar} = ker(G_ℓ^{Zar} → 𝔾_m)` (FKRS Definition 2.4, p.8).
-Apply the Bogomolov Hodge–Tate openness input of PotentialModularityAndCompatibleSystems
-§1.20 to the Tate representation of an abelian variety over a number field, at every
-prime ℓ: its image is open in the ℚ_ℓ-points of its Zariski closure. The Hodge–Tate
-comparison and polarization are essential arithmetic inputs; this is not an assertion
-about arbitrary continuous representations. Prove the kernel equality using this
-openness and the scalar homotheties in the image. DeligneWeightsAndPurity §2.2 is used
-only for open subgroups already known to lie in the full symplectic group. Prove also that `G_ℓ^{1,Zar}` is reductive
-(semisimplicity of `V_ℓ`, Faltings, and *Deligne weights* §8.14), and that its component group
-is finite and canonically isomorphic to that of `G_ℓ^{Zar}` (FKRS Lemma 2.8). Base change:
-`G_ℓ^{1,Zar}(A_{k'}) ≤ G_ℓ^{1,Zar}(A)` with the same identity component, open of finite index.
-Via `ι`, `G¹ := G_ℓ^{1,Zar} ×_{ι} ℂ` is a complex reductive group whose complex points form a
-closed subgroup of `Sp_{2g}(ℂ)`. *Needs:* 9.1, ReductiveGroups Layer 3, DeligneWeightsAndPurity
-§§2.2, 8.14; PotentialModularityAndCompatibleSystems §1.20;
-PadicHodgeTheory Hodge–Tate comparison; FaltingsFinitenessAndIsogenyTheorems R28.4.5.
+(the algebraic monodromy group of ArithmeticGaloisRepresentations §7.6; ReductiveGroups Layer 3),
+lies in `GSp(V_ℓ, ψ)`; write `N : G_ℓ^{Zar} → 𝔾_m` for the similitude character, so that
+`N ∘ ρ = χ_ℓ`. Define `G_ℓ^1 := ker N`, the **similitude kernel**, an algebraic subgroup over `ℚ_ℓ`
+(Serre, *Lectures on N_X(p)*, §8.3.2, p. 114, where it is written `G_ℓ^{1,zar}`). Prove:
+
+- **Homotheties** (Serre §8.3.2, pp. 114–115, Deligne's argument): the cocharacter
+  `w : 𝔾_m → GL(V_ℓ)`, `w(x) = x·id`, lands in `G_ℓ^{Zar}`, its image is central, and `N ∘ w = 2`.
+  Route: for one prime `𝔭` of good reduction, the smallest algebraic subgroup containing
+  `ρ(Frob_𝔭)` is diagonalizable with character group `ℤ^{2g}/R`, where `R` is the lattice of
+  multiplicative relations among the eigenvalues; every relation has coefficient sum `0` because
+  the eigenvalues have absolute value `q^{1/2}` (the Weil bound, *Deligne weights*), and that is
+  exactly the condition for `w` to factor through this subgroup. Hence `w(𝔾_m) ≤ (G_ℓ^{Zar})⁰`
+  and `G_ℓ^{Zar} = G_ℓ^1 · w(𝔾_m)`.
+- **Openness** (Bogomolov): `ρ(G_k)` is open in `G_ℓ^{Zar}(ℚ_ℓ)`, consumed from
+  PotentialModularityAndCompatibleSystems §1.20 for the Tate-module system of `A` (*Exact
+  supplier contracts*; the Hodge–Tate property of `V_ℓ(A)` at the primes above `ℓ` is that
+  supplier's hypothesis, Serre §8.3.2, footnote 60, and nothing is asserted about arbitrary
+  continuous representations). Consequences: `ρ(G_k^1)` is open in `G_ℓ^1(ℚ_ℓ)`, so the Zariski
+  closure of `ρ(G_k^1)` (FKRS Definition 2.4, p. 9) is a closed subgroup of `G_ℓ^1` with the same
+  identity component; and `ρ(G_k) ∩ ℚ_ℓ^×·id` is open in `ℚ_ℓ^×·id`. The inclusion can be proper
+  (third Check), which is why `ST(A)` is built on `G_ℓ^1` and not on that closure; FKRS
+  Definition 2.4 asserts their equality.
+- **Reductivity**: `G_ℓ^{Zar}` and `G_ℓ^1` are reductive, since `V_ℓ` is semisimple (Faltings,
+  R28.4.5) and in characteristic zero a semisimple representation has reductive identity
+  component of its monodromy group (ArithmeticGaloisRepresentations §7.6); `G_ℓ^1` contains the
+  derived group of `G_ℓ^{Zar}`.
+- **Component groups** (FKRS Lemma 2.8; Serre §8.3.3, the exact sequence
+  `1 → G^1 → G → ℂ^× → 1` with `N ∘ w = 2`): `π₀(G_ℓ^1) → π₀(G_ℓ^{Zar})` is an isomorphism of
+  finite groups. Surjectivity: `G_ℓ^{Zar} = G_ℓ^1 · w(𝔾_m)` with `w(𝔾_m)` connected. Injectivity:
+  `K := G_ℓ^1 ∩ (G_ℓ^{Zar})⁰ = ker(N|_{(G_ℓ^{Zar})⁰})` is connected — otherwise `K = K⁰ ⊔ w(−1)K⁰`,
+  `w` induces `𝔾_m ≅ (G_ℓ^{Zar})⁰/K⁰`, and `N` is the square of the character
+  `ν : (G_ℓ^{Zar})⁰ → 𝔾_m` so obtained; then `ν ∘ ρ` on the connectedness field `L` of 9.5 is a
+  continuous character with `(ν ∘ ρ)² = χ_ℓ`, Hodge–Tate at the primes above `ℓ` as a subquotient
+  of a tensor construction on `V_ℓ(A)` (PadicHodgeTheory §3.3), hence of the form
+  `χ_ℓ^i · (finite on inertia)` with `2i = 1`, which is impossible.
+- **Base change**: for `k'/k` finite, `G_ℓ^{Zar}(A_{k'})`, the closure of the finite-index subgroup
+  `ρ(G_{k'})`, is a closed subgroup of finite index of `G_ℓ^{Zar}(A)` with the same identity
+  component (ArithmeticGaloisRepresentations §7.6), and `G_ℓ^1(A_{k'}) = G_ℓ^1(A) ∩ G_ℓ^{Zar}(A_{k'})`
+  likewise.
+- Via `ι`, `G¹ := G_ℓ^1 ×_ι ℂ` is a complex reductive group whose complex points form a closed
+  subgroup of `Sp_{2g}(ℂ)`. DeligneWeightsAndPurity §2.2 is used only for open subgroups already
+  known to lie in the full symplectic group.
+
+*Needs:* 9.1; ArithmeticGaloisRepresentations §7.6; ReductiveGroups Layer 3;
+DeligneWeightsAndPurity §2.2 and its Weil bound; PotentialModularityAndCompatibleSystems §1.20;
+NeronModelsAndSemistableAbelianVarieties §6.10 and its `p`-adic comparison; PadicHodgeTheory
+§3.3; FaltingsFinitenessAndIsogenyTheorems R28.4.5.
 
 **Checks.**
 
-- The CM elliptic image over its CM field has torus closure and one component.
-- Over a field not defining CM, the closure is a torus normalizer with two components; the similitude kernel retains both components.
-- An open proper congruence subgroup of Sp₂(ℚ_ℓ) has the same Zariski closure Sp₂, showing that openness implies density, not equality of point sets.
+- The CM elliptic image over its CM field has torus closure and one component; the similitude
+  kernel is the norm-one torus, connected.
+- Over a field not defining CM, the closure is a torus normalizer with two components; the
+  similitude kernel retains both: its second component is `c·{t : N(t) = −1}` for the
+  complex-conjugation element `c`, of similitude `−1`.
+- For `E/ℚ` with CM by `ℚ(√−3)` and `ℓ = 3`: `ℚ(√−3) ⊆ ℚ(μ_{3^∞})`, so `G_ℚ^1 ≤ G_{ℚ(√−3)}` and
+  `ρ(G_ℚ^1)` lies in the norm-one torus of `ℚ_3(√−3)^×`, whose Zariski closure is connected;
+  but `G_3^1` has two components, the second of which has no `ℚ_3`-points because `−1` is not a
+  norm from `ℚ_3(√−3)` (an element of norm `−1` would be a unit, and norms of units of this
+  ramified extension are `≡ 1 (mod 3)`). The closure of `ρ(G_k^1)` is
+  a proper subgroup of the similitude kernel, and the component group `C_2` of
+  `ST(E) = N(U(1))` is read off `G_3^1`, not off that closure.
+- For an elliptic curve at a good prime with Frobenius eigenvalues `α, q/α`, a relation
+  `α^{r₁}(q/α)^{r₂} = 1` forces `q^{(r₁+r₂)/2} = 1`, so `r₁ + r₂ = 0` and the scalar cocharacter
+  factors through the closure of `⟨ρ(Frob_𝔭)⟩`; for supersingular reduction with `α = √q·i`
+  the relation `α²(q/α)^{−2} = 1` has `r₁ = 2 ≠ 0`, so the cocharacter `x ↦ diag(x, 1)` does not.
+- An open proper congruence subgroup of `Sp₂(ℚ_ℓ)` has the same Zariski closure `Sp₂`, showing
+  that openness implies density, not equality of point sets.
 
 ### 9.3 The Sato–Tate group
 
@@ -2195,7 +2315,7 @@ The required API includes:
 Mumford–Tate group of the rational Hodge structure `H_1(A(ℂ), ℚ)`, supplied by
 ShimuraData §1.2 and specialized here using the complex uniformization of A5 and the
 comparison `V_ℓ ≅ H_1 ⊗ ℚ_ℓ` of A4–A5. `AlgebraicSatoTate A`:
-there is a `ℚ`-algebraic subgroup `AST(A) ≤ Sp_{2g}` with `G_ℓ^{1,Zar} = AST(A) ⊗ ℚ_ℓ` for
+there is a `ℚ`-algebraic subgroup `AST(A) ≤ Sp_{2g}` with `G_ℓ^1 = AST(A) ⊗ ℚ_ℓ` for
 every `ℓ`. The **Lefschetz groups** are `L(A)`, the identity component of the centralizer of
 `End⁰(A_k̄)` in `Sp_{2g}`, and `TL(A) := ⋃_τ {γ ∈ Sp_{2g} | γ⁻¹ α γ = τ(α) ∀ α}` (FKRS
 2.14–2.15). Theorems, each an
@@ -2234,7 +2354,9 @@ with base change: `ST(A_{k'})` is the inverse image of `Gal(Kk'/k')`; and the fi
 `ST` becomes connected exists unconditionally — there is a unique finite Galois `L/k` with
 `ST(A_L)` connected and `Gal(L/k) ≅ ST(A)/ST(A)⁰`, unramified outside the bad primes (Sutherland
 Theorem 3.12: the component group of `G_ℓ^{Zar}` is `ℓ`-independent by Serre), and `L ⊇ K`
-always (Bogomolov and Faltings) — while `L = K` holds when `AST(A) = TL(A)`, so for `g ≤ 3`
+always (Faltings: for every finite `k' ⊇ L` the Zariski closure of `ρ(G_{k'})` is `(G_ℓ^{Zar})⁰`
+by the base-change clause of 9.2, so `End(A_{k'}) ⊗ ℚ_ℓ = End_{(G_ℓ^{Zar})⁰}(V_ℓ)` is constant
+in `k'` and `End(A_L) = End(A_k̄)`) — while `L = K` holds when `AST(A) = TL(A)`, so for `g ≤ 3`
 (Sutherland Remark 4.13). `ST(A)` is connected iff `End(A) = End(A_k̄)`
 when `AST = TL`. The LMFDB's `g2c` columns `st_label`, `st_group` and `real_geom_end_alg` are
 `ST(A)` and `ST(A)⁰` through 9.7. *Needs:* 2.2–2.5, 8.2, 9.3–9.4.
@@ -2322,7 +2444,7 @@ fifty-two (the fifteen groups of 6.10 less `F_c`; FKRS §4.7), and FKRS Proposit
 (`End(A_ℝ)_ℝ` would be `ℍ` or too small), leaving thirty-five; over `ℚ`, `F_{ab}` is also
 excluded (it needs two distinct imaginary quadratic fields with `kM_1 = kM_2`), leaving
 thirty-four. In degree `6`, the 23 groups among the 433 cases with arithmetic identity components which are not realized are excluded
-by the arguments of FKS §7, stated here as the theorem that `ST(A)` for a threefold lies in the
+by the CM-type refinement of FKS §§4–5 (the reflex-field analysis around Definition 4.3, pp. 15–43), stated here as the theorem that `ST(A)` for a threefold lies in the
 `410` of 7.4 (its proof is the cited analysis of Galois types of threefolds together with the normalizer-subgroup classification). *Needs:* 6.10, 7.4, 9.5, 9.7.
 
 **Checks.**
@@ -2344,9 +2466,9 @@ in the CM-not-over-`k` case the image lies in the normalizer of a Cartan with in
 the quotient (the action on `End(E_k̄)` factors through `Gal(kF/k) = C_2`), giving `nu1`; in the
 non-CM case Faltings (9.1, applied over every finite extension `L/k`) gives
 `End_{G_L}(V_ℓ) = End(E_L) ⊗ ℚ_ℓ = ℚ_ℓ`, so `V_ℓ` is absolutely irreducible on every open
-subgroup of `G_k`, hence on `(G_ℓ^{1,Zar})⁰`: a connected reductive subgroup of `SL_2` acting
+subgroup of `G_k`, hence on `(G_ℓ^1)⁰`: a connected reductive subgroup of `SL_2` acting
 irreducibly on `ℚ̄_ℓ²` is `SL_2` itself (the trivial group and the tori act reducibly), so
-`G_ℓ^{1,Zar} = SL_2` and
+`G_ℓ^1 = SL_2` and
 `ST = su2` — no open image theorem is used. Consequences: the `ec`/`ecnf` Sato–Tate column is a function of the CM
 data `(cm, cm_type)`, `ST(E)` is an isogeny invariant, and `ST(E) = N(U(1))` exactly for the CM
 curves over `ℚ`.
@@ -2368,13 +2490,14 @@ dense in each of these cosets. This group is `nu1Mu n` itself when `χ_F ∉ ⟨
 the index-two subgroup `⟨U(1), diag(1, ζ_n²), J·diag(1, ζ_n)⟩` with `n` components, whose trace
 moments are the LMFDB's row for `w.2.1.dn` (5.5). In both cases the component group is abelian,
 the image of `σ ↦ (χ(σ), χ_F(σ))` in `μ_n × {±1}`: `C_n × C_2` when `χ_F ∉ ⟨χ⟩` and cyclic `C_n`
-when `χ_F ∈ ⟨χ⟩` (5.5); the LMFDB's stored `component_group` `D_n` for `w.2.1.dn` describes
-neither. The `cmf` column `sato_tate_group` is the label
+when `χ_F ∈ ⟨χ⟩` (5.5); the LMFDB's stored `component_group` for `w.2.1.dn` (`D_n` for
+`n ≠ 2`, `C_2 × C_2` for `n = 2`) describes neither when `n ≥ 3`, and for `n = 2` describes
+`nu1Mu 2` rather than its index-two subgroup. The `cmf` column `sato_tate_group` is the label
 `(k−1).2.3.c n` or `(k−1).2.1.d n` of 5.5 with `n` the order of `χ` (`1.2.A.1.1a` and
-`1.2.B.2.1a` for `k = 2`, `n = 1`), so in the case `χ_F ∈ ⟨χ⟩ the labelled record has twice as
-many components as ST(f)`; for weight `1` the group is finite and is `ArtinRepresentations`'.
+`1.2.B.2.1a` for `k = 2`, `n = 1`), so in the case `χ_F ∈ ⟨χ⟩` the labelled record has twice as
+many components as `ST(f)`; for weight `1` the group is finite and is `ArtinRepresentations`'.
 ℚ-curves (`IsGeometricQCurve`, *GL₂-type* §5.1) are elliptic curves, so the ℚ-curve column of
-`ecnf is Sato–Tate-neutral. *Needs:* 5.1, 5.5, 9.1, 9.3,
+`ecnf` is Sato–Tate-neutral. *Needs:* 5.1, 5.5, 9.1, 9.3,
 ComplexMultiplicationAndExplicitReciprocity 4.1, ModularityAndLanglandsExtensions §4.39,
 ModularForms.
 
@@ -2478,7 +2601,7 @@ The D₄ twist has two minimal quadratic splitting fields; a CM elliptic curve a
 
 ### Dependencies
 
-Layers 5–8; ReductiveGroups Layer 3; ArithmeticLocallySymmetricSpaces ALS.F.1; PotentialModularityAndCompatibleSystems §1.20; ShimuraData §1.2; AutomorphicBundles §§1.2–1.3; the arithmetic suppliers named in each subsection.
+Layers 5–8; ReductiveGroups Layer 3; ArithmeticGaloisRepresentations §7.6; ArithmeticLocallySymmetricSpaces ALS.F.1; PotentialModularityAndCompatibleSystems §1.20; NeronModelsAndSemistableAbelianVarieties §6.10; DeligneWeightsAndPurity §2.2; PadicHodgeTheory §3.3; ShimuraData §1.2; AutomorphicBundles §§1.2–1.3; the arithmetic suppliers named in each subsection.
 
 ## Layer 10: equidistribution
 
@@ -2510,29 +2633,27 @@ The angle measure is `semicircleAngle`, normalized by `isProbabilityMeasure_semi
 - For constant eigenangle 0, U₁(cos 0)=2, whereas its semicircle integral is 0, so the Weyl criterion rejects it.
 - The constant character has Haar integral 1 and is excluded from the zero-average tests; nontrivial circle characters have integral 0.
 
-### 10.2 Serre's L-function criterion
+### 10.2 Serre's L-function criterion, specialized
 
-Let `G` be a compact group, `P` the primes of `k` outside a finite set ordered by norm, `x :
-P → Conj(G)`, and for each irreducible representation `ρ` of `G` the Euler product
-`L(ρ, s) := ∏_𝔭 det(1 − ρ(x_𝔭) N𝔭^{−s})⁻¹`, absolutely convergent on `Re s > 1`. **Theorem**
-(`serre_equidistribution_criterion`, for `G` a closed subgroup of `U(d)`, the sequence
-enumerated with nondecreasing norm): if for every nontrivial irreducible `ρ`, `L(ρ, s)` agrees on
-`Re s > 1` with a function holomorphic on an open neighbourhood of `Re s ≥ 1` and nonvanishing on
-`Re s ≥ 1`, then `(x_𝔭)` is equidistributed in `Conj(G)` for the pushforward of Haar (Serre,
-*Abelian ℓ-adic representations*, I.A.2, Theorem 2 and its corollary; Sutherland Theorem 2.12).
-Proof: by 10.1 it suffices that `∑_{N𝔭 ≤ x} χ_ρ(x_𝔭) = o(π_k(x))`; the logarithmic derivative
-`−L'/L(ρ, s) = ∑ χ_ρ(x_𝔭) log N𝔭 · N𝔭^{−s} + (holomorphic on Re s > 1/2)` has a continuous
-extension to `Re s ≥ 1` with no pole, so the Tauberian theorem `wienerIkehara` (Arithmetic
-Dirichlet Series, consumed as in Chebotarev Layer 12, in the form with a continuous boundary
-function and a nonnegative comparison series) gives `∑_{N𝔭 ≤ x} χ_ρ(x_𝔭) log N𝔭 = o(x)`, and
-partial summation together with the prime ideal theorem (Arithmetic Dirichlet Series) removes
-the logarithm. The converse — equidistribution implies that every `L(ρ, s)`, `ρ ≠ 1`, is
-holomorphic and nonvanishing on `Re s ≥ 1` — is stated under Sutherland's standing hypothesis
-that each `L(ρ, s)` is meromorphic on `Re s ≥ 1` with no zeros or poles except possibly at
-`s = 1` (Theorem 2.12); without it the converse has no content. Specialized
-to a finite `G = Gal(L/k)` and Artin L-functions this is Chebotarev's theorem in natural-density
-form (Chebotarev Layer 14), which is the acceptance check. *Needs:* 10.1, Chebotarev Layer
-12, ArithmeticDirichletSeries.
+Serre's criterion is ModularityAndLanglandsExtensions §4.25: for a compact group `ST`, a number
+field `k`, a finite set `S` of primes and conjugacy classes `([x_𝔭])_{𝔭 ∉ S}` ordered by
+nondecreasing norm, if for every nontrivial irreducible representation `ρ` of `ST` the Euler
+product `L(ρ, s) := ∏_𝔭 det(1 − ρ(x_𝔭) N𝔭^{−s})⁻¹`, absolutely convergent on `Re s > 1`, continues
+meromorphically to `ℂ` and is holomorphic and nonvanishing on `Re s = 1`, then the `[x_𝔭]` are
+equidistributed for the Haar probability measure (Serre, *Abelian ℓ-adic representations*,
+I.A.2, Theorem 2 and its corollary; proof route there: Wiener–Ikehara and character density). It
+is not restated here. This subsection proves three things about it. (i) The specialization to a
+closed subgroup `G ≤ U(d)`: with `ST = G`, `Conj(G)` the quotient of 10.1 and the limit
+`conjLaw G`, the conclusion is `AsympEquidistributed` of the class sequence, and the hypothesis
+is the one the Hecke L-functions of 10.4–10.6 supply (meromorphic continuation to `ℂ`,
+holomorphy and nonvanishing on `Re s ≥ 1`; LFunctions Layer 7). (ii) The converse —
+equidistribution implies that every `L(ρ, s)`, `ρ ≠ 1`, is holomorphic and nonvanishing on
+`Re s ≥ 1` — under Sutherland's standing hypothesis that each `L(ρ, s)` is meromorphic on
+`Re s ≥ 1` with no zeros or poles except possibly at `s = 1` (Sutherland Theorem 2.12); without
+it the converse has no content. (iii) The finite case: for `G = Gal(L/k)` and the Artin
+L-functions the criterion is Chebotarev's theorem in natural-density form (Chebotarev Layer 14),
+which is the acceptance check. *Needs:* 10.1, ModularityAndLanglandsExtensions §4.25,
+Chebotarev Layer 14, LFunctions Layer 7.
 
 **Checks.**
 
@@ -2551,9 +2672,9 @@ component-group refinement), and that it implies the **moment convergence**
 `N⁻¹ ∑_{n<N} a_i(𝔭_n)^m → aMoment (ST(A)) i m` and the **density** statements
 `#{n < N | a_i(𝔭_n) = x}/N → coeffProb (ST(A)) i x` (3.5 and the frequency law of
 ProbabilisticAndMetricNumberTheory §2.1: `{a_i = x}` is a continuity set because its boundary
-has measure zero by 3.5); in particular the density of primes with `a_𝔭 = 0 is the trace zero
+has measure zero by 3.5); in particular the density of primes with `a_𝔭 = 0` is the trace zero
 density. The same statement for a newform
-(frobeniusClass f p ∈ Conj(ST(f))`, the class of the normalized Satake parameters,
+(`frobeniusClass f p ∈ Conj(ST(f))`, the class of the normalized Satake parameters,
 `satakeParameters` of Tau Ceti's `HeckeRing.GL2.Newform.Satake` with the normalization `p^{−(k−1)/2}`).
 *Needs:* 3.1–3.5, 9.6, 9.9, 10.1.
 
@@ -2583,8 +2704,9 @@ ordered by norm, are equidistributed for Haar measure on the circle
 primes. For a general Grossencharacter ψ, apply this theorem to its unitary part ψ_u,
 provided the same no-norm-power condition holds. This is the character argument of
 Sutherland §2.4, Lemma 2.15, p.18, with the norm exception required by LFunctions Layer 7.
-For every a≠0 the corresponding Hecke L-function is holomorphic and nonvanishing on
-Re s≥1; Serre's criterion gives the result. Pushforward by `z ↦ z+z̄` gives the arcsine law.
+For every a≠0 the corresponding Hecke L-function continues meromorphically to ℂ (LFunctions
+Layer 7) and is holomorphic and nonvanishing on Re s≥1; Serre's criterion
+(ModularityAndLanglandsExtensions §4.25, through 10.2) gives the result. Pushforward by `z ↦ z+z̄` gives the arcsine law.
 
 - A finite-image character is equidistributed in its finite image, with uniform mass,
   by class field theory and Chebotarev; it is excluded from circle equidistribution.
@@ -2704,7 +2826,7 @@ The norm character with parameter 0 has constant prime value 1; a CM angular cha
 
 ### Dependencies
 
-Layers 1,3–5,9; ProbabilisticAndMetricNumberTheory §2.1; LFunctions Layers 6–7; ComplexMultiplicationAndExplicitReciprocity §4.1; Chebotarev Layers 12,14 and ArithmeticDirichletSeries.
+Layers 1,3–5,9; ProbabilisticAndMetricNumberTheory §2.1; ModularityAndLanglandsExtensions §4.25; LFunctions Layers 6–7; ComplexMultiplicationAndExplicitReciprocity §4.1; Chebotarev Layer 14.
 
 ## Downstream consumers
 
@@ -2803,9 +2925,9 @@ for `p = 3, 5, 13, 17, 19` inert in `ℚ(√−7)`; here `χ = χ_F`, so `χ_F �
 ⟨U(1), J·diag(1, −1)⟩`, the index-two subgroup of `nu1Mu 2 = U(1)[D_2]` (9.9), weight `2`, two
 components (`det = ±1`), component group `C_2`, `Pr[t = 0] = 1/2`, trace moments
 `1, 0, 1, 0, 3, 0, 10, …` (those of `N(U(1))`, the reflection coset having `t ≡ 0`), rational,
-and self-dual for weight `2` (conjugate in `U(2)` to `Od 2`); the LMFDB labels it `2.2.1.d2,
-the record of nu1Mu 2` (four components, Haar trace moments `1, 0, 0, 0, 3, 0, 0, 0, 35`),
-whose stored moment row `1, 0, 1, 0, 3, 0, 10, …` is that of `ST(f) (5.5). A non-CM newform of weight 2` with a character of order
+and self-dual for weight `2` (conjugate in `U(2)` to `Od 2`); the LMFDB labels it `2.2.1.d2`,
+the record of `nu1Mu 2` (four components, Haar trace moments `1, 0, 0, 0, 3, 0, 0, 0, 35`),
+whose stored moment row `1, 0, 1, 0, 3, 0, 10, …` is that of `ST(f)` (5.5). A non-CM newform of weight `2` with a character of order
 `3` has `ST(f) = SU(2)[C_3]`, label `1.2.3.c3`, **not** rational (`E[det] = ζ_3` on a component),
 three components, trace moments `1, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 132` (Catalan numbers on
 the multiples of `6 = 2·3`).
@@ -2859,21 +2981,24 @@ with maximal component orders `192`, `432`, `336`.
 - F. Fité, K. S. Kedlaya, V. Rotger, A. V. Sutherland, *Sato–Tate distributions and Galois
   endomorphism modules in genus 2*, Compositio Math. 148 (2012), 1390–1442; arXiv:1110.6638
   (version 2, whose printed page numbers are used here).
-  Definitions 1.3, 2.4, 2.6, 2.9, 2.11, 2.14–2.15, 3.1; Lemma 2.8, 3.7; Propositions 2.17,
+  Definitions 1.3, 2.4 (whose identification of the closure of `ρ(G_k^1)` with the similitude
+  kernel fails for CM by `ℚ(√−3)` at `ℓ = 3`, 9.2), 2.6, 2.9, 2.11, 2.14–2.15, 3.1; Lemma 2.8, 3.7; Propositions 2.17,
   2.19, 3.2, 4.1, 4.5, 4.11; Theorems 1.2, 1.4–1.6, 2.16, 3.4, 4.3; Remarks 3.3, 3.5, 3.6;
   §§3.4–3.6 (presentations), §4.1 (types A–F), §§4.2–4.8, §5.1 (component engine, (5.1));
   Tables 1, 5, 6, 8, 9, 10, 11.
 - F. Fité, K. S. Kedlaya, A. V. Sutherland, *Sato–Tate groups of abelian threefolds*, Mem. Amer.
   Math. Soc. (2023); arXiv:2106.13759 (version 5, whose printed page numbers are used here). Theorem 1.1; Definitions 3.1–3.2, 3.4, 3.6, 3.12, 6.2;
-  Propositions 3.3, 3.5, 3.13; Lemma 3.7; §3.5 (types A–N), §3.6; §§4–5 (upper bound), §7
-  (exclusions), §8 (realizations); Tables 9, 10, 12.
+  Propositions 3.3, 3.5, 3.13; Lemma 3.7; §3.5 (types A–N), §3.6; §§4–5 (upper bound, pp. 15–43,
+  with the CM-type exclusions around Definition 4.3), §7 (methods for explicit realizations), §8
+  (the lower bound by realizations); Tables 9, 10, 12.
 - A. V. Sutherland, *Sato–Tate distributions*, in *Analytic methods in arithmetic geometry*,
   Contemp. Math. 740 (2019), 197–248; arXiv:1604.01256 (version 6, whose printed page numbers are used here). Definitions 2.1, 2.3, 2.14, 3.8, 4.1, 4.10; Propositions 2.9,
   2.11, 2.16, 4.4, 4.9; Corollary 2.10, 2.13, 4.5; Lemma 2.15; Theorems 1.9, 2.12, 3.2, 3.9,
   3.12, 4.3, 4.6, 4.8, 4.12; Conjectures 3.6, 3.10, 3.11; Remarks 4.2, 4.7, 4.13; §§2.4–2.5,
   §4.3; Tables 1–2.
 - J.-P. Serre, *Lectures on N_X(p)*, Research Notes in Mathematics 11, CRC Press (2012). §8.2
-  (the axioms), §8.2.3.4, §8.3.3–8.3.4 (component groups, the real-place condition),
+  (the axioms), §8.2.3.4, §8.3.2 (the similitude kernel, the homothety cocharacter `w` and
+  Bogomolov's openness, pp. 114–115), §8.3.3–8.3.4 (component groups, the real-place condition),
   §8.4 (event probabilities).
 - J.-P. Serre, *Abelian ℓ-adic representations and elliptic curves*, Benjamin (1968); Appendix
   to Chapter I, §A.2, Theorem 2 and its corollary (the L-function criterion).
