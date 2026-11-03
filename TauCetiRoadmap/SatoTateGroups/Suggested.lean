@@ -3,15 +3,12 @@ module
 import Mathlib
 import TauCeti.RepresentationTheory.Compact.Haar
 import TauCeti.Topology.Algebra.UnitaryGroup
-import TauCeti.Topology.Algebra.OrthogonalGroup
-import TauCeti.Topology.Algebra.Group.Connected
 import TauCeti.Analysis.Matrix.UnitaryGroup.Torus
-import TauCeti.RepresentationTheory.SU2.Weyl.Basic
-import TauCeti.RepresentationTheory.SU2.Weyl.Integration
-import TauCeti.RepresentationTheory.SU2.TorusConjugacy
+import TauCeti.RepresentationTheory.SU2.Borel
 import TauCeti.AlgebraicGeometry.AbelianVariety.End.BaseChange
 import TauCeti.Probability.Process.EmpiricalMeasure
 import TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny.Hom.Ring
+import TauCeti.NumberTheory.NumberField.Global.HeckeCharacter.Ideal
 
 /-!
 # Sato–Tate groups: target signatures
@@ -31,11 +28,11 @@ connected groups, failure of the Hodge condition for finite groups (2.2, 2.5); t
 as `a_1` moments and the vanishing of odd moments (3.2–3.3); Serre's component-counting theorem
 (3.5); the Weyl integration formula for `USp(2g)` (4.2), the binomial-convolution law of block
 products (4.3) and the `USp(4)` moment formulas (4.5); the classification in degree `2`
-(5.2–5.3); the fifty-five groups of degree `4` as explicit closed subgroups, the identity-component
+(5.2–5.3); the fifty-seven groups of degree `4` as explicit closed subgroups, the identity-component
 theorem, the classification theorem and distinctness (6.3–6.4, 6.6–6.8); the finiteness theorem
 (7.2) and the connected groups of degree `6` (7.3); the real geometric endomorphism algebras of
 abelian surfaces (8.4); the Weyl criterion for the semicircle law (10.1), Serre's L-function
-criterion (10.2) and the Sato–Tate theorem for CM elliptic curves over every number field, in the
+criterion (10.2), Hecke equidistribution with the no-norm-power hypothesis (10.4), and the Sato–Tate theorem for CM elliptic curves over every number field, in the
 form of the equidistribution of the normalized Frobenius traces for the trace law of `U(1)`
 resp. `N(U(1))` (10.5–10.6).
 
@@ -45,13 +42,14 @@ endomorphism of `A_k̄` along the base change of `A_k̄` by `σ ∈ Gal(k̄/k)`,
 `AbelianVariety.baseChange` does not provide. The Sato–Tate group `ST(A)` of an abelian variety and
 everything built on it (9.3–9.8, 9.11–9.12), the Sato–Tate conjecture (10.3) and the product cases
 (10.8) need the Zariski closure of the `ℓ`-adic image as an algebraic group over `ℚ_ℓ` and a
-maximal compact subgroup of its complex points (ReductiveGroups Layer 3, LieGroups Layer 9),
+maximal compact subgroup of its complex points (ReductiveGroups Layer 3, ArithmeticLocallySymmetricSpaces ALS.F.1),
 neither at the pin; `ST(f)` for a newform (9.9) needs the Galois representation of a newform
 (ModularForms). The real dimension (1.3) rests on the closed-subgroup theorem (LieGroups
-Layer 2) and is a README target; the certificate of 6.7, the lattice 6.9, the real-place condition
-6.10 and the degree-`6` list 7.4 are checked data on README records, not headline theorems; Hecke
-equidistribution (10.4) is an input to 10.5 stated in the README on Tau Ceti's
-`HeckeCharacter.idealCharacter`; 10.7 cites theorems of other roadmaps.
+Layer 2) and is a README target. The degree-six completeness and arithmetic realization
+headlines (7.4, 9.8) require the concrete normalizer-subgroup families and their arithmetic
+realization data, not present at the pins and not expressible by a few simple definitions;
+no bounded surrogate is stated. The rational and real endomorphism lattices and the
+minimal splitting fields require the Galois action above. Section 10.7 cites supplier results.
 
 The carrier is a **closed subgroup of `U(d) = Matrix.unitaryGroup (Fin d) ℂ`**, Mathlib's
 `ClosedSubgroup (U d)`, with the Borel σ-algebra declared once for every subgroup of `U d` and
@@ -60,7 +58,7 @@ Sato–Tate group is the predicate `IsSatoTateGroup H G`, the conjunction of the
 `IsSelfDual`, `HodgeCondition` and `IsRational`; every statistic is defined for every closed
 subgroup.
 
-Conventions visible in the signatures (`README.md`, *Pinned conventions*): the symplectic form
+Conventions visible in the signatures (`README.md`, *Conventions*): the symplectic form
 is `Ω d = [[0, I], [−I, 0]]` and `USp d = {g | gᵀ Ω g = Ω}`; `coeff g i` is the coefficient of
 `T^i` in `Matrix.charpolyRev g = det (1 − T g)`, so `coeff g 1 = −trace g` by Mathlib's
 `Matrix.coeff_charpolyRev_eq_neg_trace`; moments are Bochner integrals against `haar G`, event
@@ -76,22 +74,13 @@ equidistribution of `x : ℕ → X` for `μ : ProbabilityMeasure X` is
 declared here, and `conjLaw G` is a `ProbabilityMeasure` for that reason. Jordan's theorem (7.1)
 is `FiniteGroupInvariants` 10.5 and is not restated.
 
-Every proof below is `sorry` except the bridge checks, which are real proof terms so that the
-elaborator verifies the instance lists the README promises: the compactness of a closed subgroup
-of `U d` and the probability-measure and invariance instances of its Haar measure (0.1); torus
-conjugacy in `U d` from `TauCeti.exists_conj_mem_unitaryTorus` (0.5); an open subgroup contains
-the identity component, from `Subgroup.connectedComponentOfOne_le_of_isOpen` (1.2); the
-normalizer of the torus of `SU(2)`, torus conjugacy in `SU(2)` and the Weyl integration formula
-for `SU(2)`, from `TauCeti.SU2` (4.4, 5.1, 5.3). The subgroup laws of `USp d` and `Od d`,
-`USp 2 = SU(2)` and the identification `uSpTwoEquivSU2`, the torus homomorphism `uSpTorusHom`, the
-embeddings `blockProd`, `su2DiagHom` and `unitaryDiagHom`, the quarter turn `J`, the unit
-quaternion `quatOmega` and the Hodge-number constructor `weightOne` are proved outright. The
-remaining proof obligations inside definitions are named theorems: closedness of `u1`, `nu1` and
-block products, and the total mass of the arcsine and `N(U(1))` trace laws.
+Definitions below have real bodies. Their subgroup and embedding laws are proved;
+closedness and normalization statements used in the headline carriers are stated explicitly.
+The normalizer trace law is bundled as a probability measure using its elementary mass sum.
 -/
 
 open Matrix MeasureTheory Polynomial Topology Filter
-open scoped ENNReal TensorProduct Kronecker
+open scoped ENNReal TensorProduct Kronecker nonZeroDivisors
 
 universe u
 
@@ -109,6 +98,7 @@ variable {d : ℕ}
 /-- Every subgroup of `U(d)` carries the Borel σ-algebra (`README.md`, Layer 0, 0.1). -/
 instance instMeasurableSpaceSubgroup (G : Subgroup (U d)) : MeasurableSpace G := borel G
 
+/-- The subgroup measurable space is its Borel space (README 0.1). -/
 instance instBorelSpaceSubgroup (G : Subgroup (U d)) : BorelSpace G := ⟨rfl⟩
 
 /-- A closed subgroup of the compact group `U(d)` is compact (`README.md`, Layer 0, 0.1);
@@ -120,13 +110,6 @@ instance instCompactSpaceClosedSubgroup (G : ClosedSubgroup (U d)) : CompactSpac
 (`README.md`, Layer 0, 0.1). -/
 abbrev haar (G : ClosedSubgroup (U d)) : Measure G.toSubgroup := TauCeti.haarProb G.toSubgroup
 
-/-- Bridge check (0.1): the Haar measure is a probability measure, by Tau Ceti's instance. -/
-example (G : ClosedSubgroup (U d)) : IsProbabilityMeasure (haar G) := inferInstance
-
-/-- Bridge check (0.1): `haar G` is left-invariant, right-invariant and inversion-invariant. -/
-example (G : ClosedSubgroup (U d)) :
-    (haar G).IsMulLeftInvariant ∧ (haar G).IsMulRightInvariant ∧ (haar G).IsInvInvariant :=
-  ⟨inferInstance, inferInstance, inferInstance⟩
 
 /-- The pinned symplectic form `Ω_d = [[0, I], [−I, 0]]` (`README.md`, Layer 0, 0.2). -/
 def Ω (d : ℕ) : Matrix (Fin d) (Fin d) ℂ :=
@@ -250,9 +233,6 @@ def uSpTorusHom (g : ℕ) : (Fin g → Circle) →* U (2 * g) where
 /-- The torus `uSpTorus g ≤ USp(2g)` (`README.md`, Layer 0, 0.5). -/
 def uSpTorus (g : ℕ) : Subgroup (U (2 * g)) := (uSpTorusHom g).range
 
-/-- Bridge check (0.5): unitary diagonalization, Tau Ceti's `exists_conj_mem_unitaryTorus`. -/
-example (x : U d) : ∃ u : U d, u * x * u⁻¹ ∈ TauCeti.unitaryTorus (Fin d) :=
-  TauCeti.exists_conj_mem_unitaryTorus x
 
 /-- Every element of `USp(2g)` is conjugate **in `USp(2g)`** into the torus
 (`README.md`, Layer 0, 0.5). -/
@@ -288,11 +268,6 @@ theorem isOpen_identityComponent (G : ClosedSubgroup (U d)) :
 theorem finite_componentGroup (G : ClosedSubgroup (U d)) : Finite (componentGroup G.toSubgroup) :=
   sorry
 
-/-- Bridge check (1.2): an open subgroup contains the identity component, Tau Ceti's
-`Subgroup.connectedComponentOfOne_le_of_isOpen`. -/
-example (G : Subgroup (U d)) (H : Subgroup G) (hH : IsOpen (H : Set G)) :
-    identityComponent G ≤ H :=
-  Subgroup.connectedComponentOfOne_le_of_isOpen hH
 
 /-- The coset of `G` indexed by a component (`README.md`, Layer 1, 1.4). -/
 def componentCoset (G : Subgroup (U d)) (H : componentGroup G) : Set G :=
@@ -453,13 +428,6 @@ theorem weyl_integration_USp (g : ℕ) (f : U (2 * g) → ℂ) (hf : Continuous 
             ((∏ j, ∏ k ∈ Finset.univ.filter (fun k => j < k),
               (Real.cos (θ j) - Real.cos (θ k)) ^ 2 : ℝ) : ℂ) := sorry
 
-/-- Bridge check (4.4): the `g = 1` case is Tau Ceti's `SU2.weyl_integration_formula`, with the
-same constant `(2π)⁻¹ · 4 sin²θ`. -/
-example (f : TauCeti.SU2 → ℂ) (hf : Continuous f)
-    (hconj : ∀ u g : TauCeti.SU2, f (u * g * u⁻¹) = f g) :
-    ∫ g, f g ∂TauCeti.haarProb TauCeti.SU2 = (1 / (2 * Real.pi) : ℂ) *
-      ∫ θ in (0 : ℝ)..Real.pi, f (TauCeti.SU2.torusExp θ) * ((4 * Real.sin θ ^ 2 : ℝ) : ℂ) :=
-  TauCeti.SU2.weyl_integration_formula hf hconj
 
 /-- The block-diagonal map `(A, B) ↦ diag(A, B)` on unitary groups, reindexed along `e`
 (`README.md`, Layer 4, 4.3). -/
@@ -480,19 +448,19 @@ def blockDiagHom {m n p : Type*} [Fintype m] [Fintype n] [Fintype p] [DecidableE
     simp [submatrix_mul_equiv, fromBlocks_multiply]
 
 /-- The splitting `Fin (2g) ≃ Fin g ⊕ Fin g` into the coordinates `x_1…x_g` and `y_1…y_g` of the
-pinned form `Ω` (`README.md`, Pinned conventions). -/
+pinned form `Ω` (`README.md`, Conventions). -/
 def finTwoMulEquiv (g : ℕ) : Fin (2 * g) ≃ Fin g ⊕ Fin g :=
   (finCongr (two_mul g)).trans finSumFinEquiv.symm
 
 /-- The interlacing `(x, y) ⊕ (x', y') ↦ (x, x', y, y')` of the pinned block embedding
-(`README.md`, Pinned conventions). -/
+(`README.md`, Conventions). -/
 def interlaceEquiv (g₁ g₂ : ℕ) : Fin (2 * g₁) ⊕ Fin (2 * g₂) ≃ Fin (2 * (g₁ + g₂)) :=
   ((Equiv.sumCongr (finTwoMulEquiv g₁) (finTwoMulEquiv g₂)).trans
     ((Equiv.sumSumSumComm _ _ _ _).trans
       (Equiv.sumCongr finSumFinEquiv finSumFinEquiv))).trans (finTwoMulEquiv (g₁ + g₂)).symm
 
 /-- The pinned block embedding `USp(2g₁) × USp(2g₂) → USp(2(g₁+g₂))` by interlacing coordinates
-(`README.md`, Layer 4, 4.3; Pinned conventions). -/
+(`README.md`, Layer 4, 4.3; Conventions). -/
 def blockProd (g₁ g₂ : ℕ) : U (2 * g₁) × U (2 * g₂) →* U (2 * (g₁ + g₂)) :=
   blockDiagHom (interlaceEquiv g₁ g₂)
 
@@ -610,16 +578,6 @@ def nu1 : ClosedSubgroup (U 2) where
 /-- `SU(2) = USp(2)` (`README.md`, Layer 5, 5.1). -/
 abbrev su2 : ClosedSubgroup (U 2) := uSpClosed 2
 
-/-- Bridge check (5.1): the normalizer of the torus of `SU(2)` is generated by the torus and the
-quarter turn, Tau Ceti's `SU2.normalizer_torus`. -/
-example : Subgroup.normalizer (TauCeti.SU2.torus : Set TauCeti.SU2) =
-    TauCeti.SU2.torus ⊔ Subgroup.zpowers TauCeti.SU2.weylElement :=
-  TauCeti.SU2.normalizer_torus
-
-/-- Bridge check (5.3): every element of `SU(2)` is conjugate into the torus, Tau Ceti's
-`SU2.exists_conj_mem_torus`. -/
-example (g : TauCeti.SU2) : ∃ u : TauCeti.SU2, u * g * u⁻¹ ∈ TauCeti.SU2.torus :=
-  TauCeti.SU2.exists_conj_mem_torus g
 
 /-- The three groups are Sato–Tate groups for `weightOne 1` (`README.md`, Layer 5, 5.2). -/
 theorem isSatoTateGroup_degree2 :
@@ -627,7 +585,7 @@ theorem isSatoTateGroup_degree2 :
       IsSatoTateGroup (HodgeNumbers.weightOne 1) su2 := sorry
 
 /-- Conjugacy of subgroups of `U(d)` by an element of a given subgroup `S`
-(`README.md`, Pinned conventions). -/
+(`README.md`, Conventions). -/
 def IsConjIn (S : Subgroup (U d)) (G₁ G₂ : Subgroup (U d)) : Prop :=
   ∃ s ∈ S, G₁.map (MulAut.conj s).toMonoidHom = G₂
 
@@ -644,18 +602,19 @@ def diagU (a b : Circle) : U 2 := TauCeti.unitaryTorusHom (Fin 2) ![a, b]
 
 /-! ## Layer 6: degree `4` -/
 
-/-- The six connected groups of degree `4` in the pinned coordinates: `U(1)_2`, `SU(2)_2`,
-`U(1)×U(1)`, `U(1)×SU(2)`, `SU(2)×SU(2)`, `USp(4)` (`README.md`, Layer 4, 4.6). -/
-def degree4Connected : Fin 6 → Subgroup (U 4) :=
+/-- The seven connected groups of degree `4` in the pinned coordinates: `U(1)_2`, `SU(2)_2`,
+`U(1)×U(1)`, `U(1)×SU(2)`, `SU(2)×SU(2)`, `USp(4)`, and `diag(U(2), conjugate U(2))`
+(`README.md`, Layer 4, 4.6). -/
+def degree4Connected : Fin 7 → Subgroup (U 4) :=
   ![u1Diag 2, su2Diag 2, ((u1Diag 1).prod (u1Diag 1)).map (blockProd 1 1),
     ((u1Diag 1).prod (USp 2)).map (blockProd 1 1), ((USp 2).prod (USp 2)).map (blockProd 1 1),
-    USp 4]
+    USp 4, (unitaryDiagHom 2).range]
 
 /-- The identity component of a self-dual group with the Hodge condition in degree `4` is
-conjugate to one of the six (`README.md`, Layer 6, 6.4). -/
+conjugate to one of the seven (`README.md`, Layer 6, 6.4). -/
 theorem degree4_identityComponent (G : ClosedSubgroup (U 4))
     (hG : HodgeCondition (HodgeNumbers.weightOne 2) G.toSubgroup) (hS : IsSelfDual 1 G) :
-    ∃ i : Fin 6, IsConjIn (USp 4) ((identityComponent G.toSubgroup).map G.toSubgroup.subtype)
+    ∃ i : Fin 7, IsConjIn (USp 4) ((identityComponent G.toSubgroup).map G.toSubgroup.subtype)
       (degree4Connected i) := sorry
 
 /-- FKRS's embedding `Z : U(2) → USp(4)`, `A ↦ diag(A, Ā)` in the pinned coordinates, whose image is
@@ -697,16 +656,16 @@ def generatedClosed (G₀ : Subgroup (U d)) (S : List (U d)) : ClosedSubgroup (U
   toSubgroup := (G₀ ⊔ Subgroup.closure {g | g ∈ S}).topologicalClosure
   isClosed' := Subgroup.isClosed_topologicalClosure _
 
-/-- The fifty-five groups of degree `4` by identity component and generators, in the order of FKRS
+/-- The fifty-seven groups of degree `4` by identity component and generators, the first fifty-five in the order of FKRS
 Table 8 (`README.md`, Layer 6, 6.3): `C_1, …, C_6, D_2, …, D_6, T, O`, their `J(·)`, then
 `C_{2,1}, C_{4,1}, C_{6,1}, D_{2,1}, D_{4,1}, D_{6,1}, D_{3,2}, D_{4,2}, D_{6,2}, O_1` (indices
 `0`–`31`, `G⁰ = U(1)_2`); `E_1, …, E_6, J(E_1), …, J(E_6)` (`32`–`41`, `G⁰ = SU(2)_2`);
 `F, F_a, F_c, F_{ab}, F_{ac}, F_{a,b}, F_{ab,c}, F_{a,b,c}` (`42`–`49`, `G⁰ = U(1) × U(1)`);
-`G_{1,3}, N(G_{1,3})` (`50`–`51`); `G_{3,3}, N(G_{3,3})` (`52`–`53`); `USp(4)` (`54`). The
+`G_{1,3}, N(G_{1,3})` (`50`–`51`); `G_{3,3}, N(G_{3,3})` (`52`–`53`); `USp(4)` (`54`), followed by `Z(U(2))` and its normalizer (`55`, `56`). The
 generators are the quaternions `ζ_n = quatZeta n`, `j = J`, `ω` of `2T` and `ζ_4 = (1 + i)/√2`
 of `2O ∖ 2T` through `zEmbed`, the scalars `e^{πi/n}`, `J`, and `a = blockProd 1 1 (J, 1)`,
 `b = blockProd 1 1 (1, J)`, `c = zEmbed J` (FKRS §§3.4–3.6 in the pinned coordinates). -/
-def degree4Gens : Fin 55 → Subgroup (U 4) × List (U 4) :=
+def degree4Gens : Fin 57 → Subgroup (U 4) × List (U 4) :=
   let ζ : ℕ → U 4 := fun n => zEmbed (quatZeta n)
   let j : U 4 := zEmbed J
   let ω : U 4 := zEmbed quatOmega
@@ -736,30 +695,30 @@ def degree4Gens : Fin 55 → Subgroup (U 4) × List (U 4) :=
     (F, [a, b, c]),
     (G13, []), (G13, [a]),
     (G33, []), (G33, [Jfour]),
-    (USp 4, [])]
+    (USp 4, []), ((unitaryDiagHom 2).range, []), ((unitaryDiagHom 2).range, [Jfour])]
 
-/-- **The fifty-five groups** `degree4Group i = ⟨G⁰, S⟩` of FKRS Theorem 3.4, in the order of
-FKRS Table 8 (`README.md`, Layer 6, 6.3). -/
-def degree4Group (i : Fin 55) : ClosedSubgroup (U 4) :=
+/-- **The fifty-seven groups** `degree4Group i = ⟨G⁰, S⟩` extending the list of FKRS Table 8
+by `Z(U(2))` and its normalizer (`README.md`, Layer 6, 6.3). -/
+def degree4Group (i : Fin 57) : ClosedSubgroup (U 4) :=
   generatedClosed (degree4Gens i).1 (degree4Gens i).2
 
-/-- Each of the fifty-five satisfies the axioms for `weightOne 2`: self-dual by construction,
+/-- Each of the fifty-seven satisfies the axioms for `weightOne 2`: self-dual by construction,
 the Hodge condition through `G⁰`, rationality by the component engine (`README.md`, Layer 6,
 6.7). -/
-theorem isSatoTateGroup_degree4Group (i : Fin 55) :
+theorem isSatoTateGroup_degree4Group (i : Fin 57) :
     IsSatoTateGroup (HodgeNumbers.weightOne 2) (degree4Group i) := sorry
 
-/-- **The classification in degree `4`** (FKRS Theorem 3.4): a closed subgroup of `U(4)` satisfying
-the Sato–Tate axioms for `weightOne 2` is conjugate in `USp(4)` to one of the fifty-five
+/-- **The classification in degree `4`** for the all-circles Hodge predicate: a closed subgroup of `U(4)` satisfying
+the Sato–Tate axioms for `weightOne 2` is conjugate in `USp(4)` to one of the fifty-seven
 (`README.md`, Layer 6, 6.6). -/
 theorem degree4_classification (G : ClosedSubgroup (U 4))
     (hG : IsSatoTateGroup (HodgeNumbers.weightOne 2) G) :
-    ∃ i : Fin 55, IsConjIn (USp 4) G.toSubgroup (degree4Group i).toSubgroup := sorry
+    ∃ i : Fin 57, IsConjIn (USp 4) G.toSubgroup (degree4Group i).toSubgroup := sorry
 
-/-- **Distinctness**: no two of the fifty-five are conjugate in `U(4)`, the tuple of real
+/-- **Distinctness**: no two of the fifty-seven are conjugate in `U(4)`, the tuple of real
 dimension, number of components, `z`-counts and `E[a_2]` separating them (`README.md`, Layer 6,
 6.8). -/
-theorem degree4_pairwise_not_conj (i j : Fin 55) (hij : i ≠ j) :
+theorem degree4_pairwise_not_conj (i j : Fin 57) (hij : i ≠ j) :
     ¬ IsConjIn ⊤ (degree4Group i).toSubgroup (degree4Group j).toSubgroup := sorry
 
 /-! ## Layer 7: finiteness and the connected groups of degree `6`
@@ -772,11 +731,12 @@ theorem finite_satoTateGroups {w : ℕ} (H : HodgeNumbers w d) :
     ∃ L : Finset (ClosedSubgroup (U d)), ∀ G : ClosedSubgroup (U d), IsSatoTateGroup H G →
       ∃ G' ∈ L, IsConjIn ⊤ G.toSubgroup G'.toSubgroup := sorry
 
-/-- The fourteen connected groups of degree `6` of FKS Table 9, in the pinned coordinates and the
+/-- The sixteen connected groups of degree `6` extending FKS Table 9, in the pinned coordinates and the
 order of `README.md`, Layer 4, 4.7: `U(1)_3`, `SU(2)_3`, `U(1) × U(1)_2`, `SU(2) × U(1)_2`,
 `U(1) × SU(2)_2`, `SU(2) × SU(2)_2`, `U(1)³`, `U(1)² × SU(2)`, `U(1) × SU(2)²`, `SU(2)³`,
-`U(1) × USp(4)`, `SU(2) × USp(4)`, `U(3)`, `USp(6)`. -/
-def degree6Connected : Fin 14 → Subgroup (U 6) :=
+`U(1) × USp(4)`, `SU(2) × USp(4)`, `U(3)`, `USp(6)`, and the two block products
+`U(2) × U(1)`, `U(2) × SU(2)`. The last two are required by the all-circles predicate.  -/
+def degree6Connected : Fin 16 → Subgroup (U 6) :=
   ![u1Diag 3, su2Diag 3,
     ((u1Diag 1).prod (u1Diag 2)).map (blockProd 1 2),
     ((USp 2).prod (u1Diag 2)).map (blockProd 1 2),
@@ -789,13 +749,15 @@ def degree6Connected : Fin 14 → Subgroup (U 6) :=
     ((u1Diag 1).prod (USp 4)).map (blockProd 1 2),
     ((USp 2).prod (USp 4)).map (blockProd 1 2),
     (unitaryDiagHom 3).range,
-    USp 6]
+    USp 6,
+    (((unitaryDiagHom 2).range).prod (u1Diag 1)).map (blockProd 2 1),
+    (((unitaryDiagHom 2).range).prod (USp 2)).map (blockProd 2 1)]
 
-/-- The identity component of a Lefschetz Sato–Tate group of degree `6` is one of the fourteen
+/-- The identity component of a Lefschetz Sato–Tate group of degree `6` is one of the sixteen
 (`README.md`, Layer 7, 7.3). -/
 theorem degree6_identityComponent (G : ClosedSubgroup (U 6))
     (hG : IsSatoTateGroup (HodgeNumbers.weightOne 3) G) (hL : IsLefschetz G) :
-    ∃ i : Fin 14, IsConjIn (USp 6) ((identityComponent G.toSubgroup).map G.toSubgroup.subtype)
+    ∃ i : Fin 16, IsConjIn (USp 6) ((identityComponent G.toSubgroup).map G.toSubgroup.subtype)
       (degree6Connected i) := sorry
 
 /-! ## Layer 8: endomorphism algebras and Galois endomorphism types -/
@@ -807,12 +769,12 @@ open TauCeti.AlgebraicGeometry
 variable {k : Type u} [Field k] [CharZero k]
 
 /-- The geometric endomorphism ring `End(A_k̄)` (`README.md`, Layer 8, 8.1). -/
-abbrev geomEnd (A : AbelianVariety k) : Type u :=
+abbrev geomEnd {k : Type u} [Field k] [CharZero k] (A : AbelianVariety k) : Type u :=
   AbelianVariety.End (A.baseChange (AlgebraicClosure k))
 
 /-- The real geometric endomorphism algebra `End(A_k̄) ⊗ ℝ`, the LMFDB's `real_geom_end_alg`
 (`README.md`, Layer 8, 8.1). -/
-abbrev realGeomEnd (A : AbelianVariety k) := ℝ ⊗[ℤ] geomEnd A
+abbrev realGeomEnd {k : Type u} [Field k] [CharZero k] (A : AbelianVariety k) := ℝ ⊗[ℤ] geomEnd A
 
 /-- An abelian surface has one of the six real types, and `ℍ` does not occur
 (`README.md`, Layer 8, 8.4). -/
@@ -851,9 +813,11 @@ instance instTopologicalSpaceConjClasses (G : Type*) [Group G] [TopologicalSpace
     TopologicalSpace (ConjClasses G) :=
   inferInstanceAs (TopologicalSpace (Quotient _))
 
+/-- Conjugacy classes carry the Borel sigma-algebra of the quotient topology (README 1.5). -/
 instance instMeasurableSpaceConjClasses (G : Type*) [Group G] [TopologicalSpace G] :
     MeasurableSpace (ConjClasses G) := borel _
 
+/-- The conjugacy-class measurable space is Borel (README 1.5). -/
 instance instBorelSpaceConjClasses (G : Type*) [Group G] [TopologicalSpace G] :
     BorelSpace (ConjClasses G) := ⟨rfl⟩
 
@@ -891,6 +855,27 @@ theorem serre_equidistribution_criterion (G : ClosedSubgroup (U d))
     Tendsto (TauCeti.Probability.empiricalMeasure fun n => ConjClasses.mk (x (e n))) atTop
       (𝓝 (conjLaw G)) := sorry
 
+/-- **Hecke equidistribution**: the ideal values of a unitary Hecke character whose
+nonzero powers are never pure imaginary norm characters are Haar-equidistributed on the
+circle, after any finite set containing the conductor primes is deleted (README 10.4).
+The ideal representatives are required to have precisely the indicated underlying prime. -/
+theorem hecke_equidistribution (χ : TauCeti.GlobalNumberFields.HeckeCharacter k)
+    (hunit : ∀ c, ‖(χ c : ℂ)‖ = 1)
+    (hpower : ∀ a : ℤ, a ≠ 0 → ∀ t : ℝ,
+      χ ^ a ≠ TauCeti.GlobalNumberFields.HeckeCharacter.normCharacter k t)
+    (S : Finset (HeightOneSpectrum (𝓞 k)))
+    (hS : ∀ 𝔭 : HeightOneSpectrum (𝓞 k), χ.finiteConductor ≤ 𝔭.asIdeal → 𝔭 ∈ S)
+    (I : {𝔭 : HeightOneSpectrum (𝓞 k) // 𝔭 ∉ S} →
+      TauCeti.GlobalNumberFields.idealsPrimeTo
+        ⟨χ.finiteConductor, χ.finiteConductor_ne_bot, ∅⟩)
+    (hI : ∀ 𝔭, (((I 𝔭 : (FractionalIdeal (𝓞 k)⁰ k)ˣ) :
+      FractionalIdeal (𝓞 k)⁰ k)) = 𝔭.1.asIdeal)
+    (e : ℕ ≃ {𝔭 : HeightOneSpectrum (𝓞 k) // 𝔭 ∉ S})
+    (he : Monotone fun n => Ideal.absNorm (e n).1.asIdeal) :
+    Tendsto (TauCeti.Probability.empiricalMeasure fun n => (χ.idealCharacter (I (e n)) : ℂ))
+      atTop (𝓝 (ProbabilityMeasure.map ⟨TauCeti.haarProb Circle, inferInstance⟩
+        fun z : Circle => (z : ℂ))) := sorry
+
 /-- `𝔭` is a prime of good reduction of the Weierstrass curve `W` over `k`: the minimal model of
 `W` over the completion `k_𝔭` has good reduction, Mathlib's `WeierstrassCurve.HasGoodReduction`
 (`README.md`, Layer 9, 9.6). -/
@@ -916,10 +901,10 @@ Layer 4, 4.4). -/
 theorem isProbabilityMeasure_arcsineLaw : IsProbabilityMeasure arcsineLaw := sorry
 
 /-- The trace law `½ δ_0 + ½ arcsine` of `N(U(1))` (`README.md`, Layer 5, 5.4). -/
-def nu1TraceLaw : Measure ℝ := (2⁻¹ : ℝ≥0∞) • Measure.dirac 0 + (2⁻¹ : ℝ≥0∞) • arcsineLaw
-
-/-- `nu1TraceLaw` has total mass one (`README.md`, Layer 5, 5.4). -/
-theorem isProbabilityMeasure_nu1TraceLaw : IsProbabilityMeasure nu1TraceLaw := sorry
+def nu1TraceLaw : ProbabilityMeasure ℝ :=
+  ⟨(2⁻¹ : ℝ≥0∞) • Measure.dirac 0 + (2⁻¹ : ℝ≥0∞) • arcsineLaw, by
+    simp [isProbabilityMeasure_iff, isProbabilityMeasure_arcsineLaw.measure_univ,
+      ENNReal.inv_two_add_inv_two]⟩
 
 /-- **Sato–Tate for CM elliptic curves over a field containing the CM field** (`README.md`, Layer
 10, 10.5): if the endomorphism ring of the elliptic curve `W` over the number field `k` itself is
@@ -947,7 +932,7 @@ theorem satoTate_cm_of_endomorphisms_not_over_base [DecidableEq k]
     (e : ℕ ≃ {𝔭 : HeightOneSpectrum (𝓞 k) // HasGoodReductionAt W 𝔭})
     (he : Monotone fun n => Ideal.absNorm (e n).1.asIdeal) :
     Tendsto (TauCeti.Probability.empiricalMeasure fun n => normalizedTrace W (e n).1) atTop
-      (𝓝 ⟨nu1TraceLaw, isProbabilityMeasure_nu1TraceLaw⟩) := sorry
+      (𝓝 nu1TraceLaw) := sorry
 
 end Equidistribution
 

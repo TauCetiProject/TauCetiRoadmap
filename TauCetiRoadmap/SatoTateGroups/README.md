@@ -1,18 +1,18 @@
-# Roadmap: Sato–Tate groups
+# Roadmap: sato–tate groups
 
-A Sato–Tate group is the compact Lie group that is conjectured to govern the distribution of the
+**Summary.** A Sato–Tate group is the compact Lie group that is conjectured to govern the distribution of the
 normalized Euler factors of an arithmetic L-function: a closed subgroup `G` of the unitary group
 `U(d)` together with the pushforward of its Haar probability measure to the space of characteristic
 polynomials. For an abelian variety `A` of dimension `g` over a number field `k` it is a closed
 subgroup `ST(A)` of the unitary symplectic group `USp(2g)`, obtained from the `ℓ`-adic Galois
 representation on the Tate module, and the Sato–Tate conjecture says that the normalized
 characteristic polynomials of Frobenius at the primes of good reduction, ordered by norm, are
-equidistributed for that pushforward. Fité, Kedlaya, Rotger and Sutherland isolated three axioms
-that such a group satisfies — it is closed in `USp(d)` or `O(d)` according to the parity of the
-weight, it contains a Hodge circle whose conjugates generate a dense subgroup of the identity
-component, and every component has integral moments — and classified the groups satisfying them in
-degree `4`: fifty-five, of which fifty-two are Sato–Tate groups of abelian surfaces and
-thirty-four occur over `ℚ`. The LMFDB's `st_group` section stores these groups, their identity
+equidistributed for that pushforward. Fité, Kedlaya, Rotger and Sutherland introduced group-theoretic conditions and listed
+fifty-five groups in degree four. This roadmap uses ambient self-duality, generation of
+the identity component by the union of all prescribed Hodge circles, and integral mixed
+moments on every component. For this all-circles predicate the abstract degree-four list
+also contains embedded U(2) and its normalizer, giving fifty-seven. Of these, fifty-two
+are Sato–Tate groups of abelian surfaces and thirty-four occur over ℚ. The LMFDB's `st_group` section stores these groups, their identity
 components and component groups, their moment statistics and event probabilities, their generators
 and their inclusion lattice, and the `ec`, `ecnf`, `g2c` and `cmf` sections each carry a Sato–Tate
 column pointing into it.
@@ -20,9 +20,9 @@ column pointing into it.
 This roadmap builds that theory in three parts. The **group-theoretic part** (Layers 0–7) defines
 the ambient groups, the coefficient statistics of a closed subgroup of `U(d)`, the Fité–Kedlaya–
 Rotger–Sutherland axioms, and the Weyl-integration engine that computes moments; it proves the
-classification in degree `2`, proves the classification of the fifty-five groups in degree `4`
-together with every stored invariant, and states the degree-`6` classification as a theorem whose
-proof is a checked certificate against the stored list of `410` groups. The **arithmetic part**
+classification in degree `2`, proves the classification of the fifty-seven groups in degree `4`
+together with their invariants, and develops the degree-`6` normalizer-subgroup classification
+and the arithmetic classification of `410` realizable groups. The **arithmetic part**
 (Layers 8–9) supplies the vocabulary the `g2c` endomorphism columns use — endomorphisms over `k`
 and over `k̄`, the endomorphism field, the real geometric endomorphism algebra, the predicates
 simple, geometrically simple, squarefree and primitive, the Galois endomorphism type — and
@@ -50,54 +50,6 @@ degree-`6` classifications, and — under `TauCeti/NumberTheory/SatoTate/Arithme
 endomorphism vocabulary, the Sato–Tate group of an abelian variety and of a newform, and
 equidistribution.
 
-## Prerequisites
-
-- **Compact groups** (Tau Ceti, built to [the compact-groups roadmap](../RepresentationTheory/CompactGroups/README.md)):
-  the Haar probability measure `TauCeti.haarProb` with its bi-invariance and uniqueness, Haar
-  averaging, matrix coefficients, characters and their orthogonality, the Peter–Weyl theorem and
-  the character basis of the class functions, and the `SU(2)` engine: `TauCeti.SU2`, its torus
-  `TauCeti.SU2.torusHom`/`torusExp`, torus conjugacy, the symmetric powers and their characters,
-  and the Weyl integration formula `TauCeti.SU2.weyl_integration_formula`.
-- **Lie groups** ([the Lie-groups roadmap](../RepresentationTheory/LieGroups/README.md)): the
-  exponential map and its chart (Layer 0), the closed-subgroup theorem (Layer 2), maximal tori,
-  the Weyl group and the general Weyl integration formula (Layer 6), maximal compact subgroups
-  (Layer 9).
-- **Classical groups** ([the classical-groups roadmap](../RepresentationTheory/ClassicalGroups/README.md)):
-  the irreducible representations of `GL_d`, `Sp_{2g}` and `O_d` by highest weight and their
-  characters as Schur and symplectic Schur polynomials (Layers 3–4), for the character form of the
-  rationality axiom and for the moment matrix.
-- **Root systems and Lie algebras** ([the root-systems roadmap](../RepresentationTheory/RootSystems/README.md)):
-  the classification of compact Lie algebras of rank at most `3`, used to enumerate the identity
-  components in degrees `4` and `6`.
-- **Abelian varieties**: Tau Ceti's `TauCeti.AlgebraicGeometry.AbelianVariety K`, its
-  endomorphism ring `AbelianVariety.End A`, base change `AbelianVariety.baseChange` and
-  `AbelianVariety.End.baseChange`, isogenies `AbelianVariety.IsIsogeny`, built to
-  [the Jacobian challenge](../JacobianChallenge/README.md) Layer E; and the arithmetic of `Hom`
-  of the abelian-schemes roadmap *Abelian schemes and arithmetic moduli* (Layer A6: simple
-  varieties, Poincaré reducibility, finite generation of `Hom`, semisimplicity of `End⁰`, the
-  Rosati involution and its positivity, the real Rosati normal form), consumed as described
-  below.
-- **Elliptic curves** ([the elliptic-curves roadmap](../EllipticCurves/README.md)): Tau Ceti's
-  Tate module and its continuous Galois representation
-  `WeierstrassCurve.tateModuleGaloisRepresentation`, the Frobenius trace `frobeniusTrace` and the
-  Hasse bound `hasse_bound`, and the CM vocabulary of its Layer 1 (`EndOver`, `GeometricEnd`,
-  `HasGeometricCM`, `CMAction`).
-- **Number fields and primes** ([the completed number-field roadmap](../../Completed/NumberFieldArithmetic/README.md),
-  [Chebotarev](../Chebotarev/README.md)): Frobenius elements, Dirichlet and natural density, the
-  Tauberian package `wienerIkehara` of Layer 12 and the natural-density Chebotarev theorem of
-  Layer 14.
-- **L-functions** (*L-functions — completions and functional equations*, Layers 6–7): Hecke
-  L-functions of Grossencharacters and their nonvanishing on `Re s = 1`.
-- **Complex multiplication** (*Complex multiplication and explicit reciprocity*, Layer 4): the
-  Hecke character of a CM abelian variety and the decomposition of its Tate module into
-  one-dimensional characters (Deuring's theorem).
-- **Equidistribution** ([ProbabilisticAndMetricNumberTheory](../ProbabilisticAndMetricNumberTheory/README.md)
-  §2.1): the predicate `AsympEquidistributed` on Tau Ceti's empirical measures, with its
-  bounded-continuous criteria, uniqueness and frequency law.
-- **Finite linear groups** (the sibling `FiniteGroupInvariants`, 10.5): Jordan's theorem, for the
-  finiteness theorem 7.2.
-- **Mathlib**: everything under *What Mathlib supplies*.
-
 ## Scope and ownership
 
 Eight roadmaps border this one; the boundary with each is drawn below. The LMFDB boundary rule
@@ -124,11 +76,11 @@ applies throughout: a predicate invariant under conjugacy (for groups) or isomor
   connected groups of degrees `4` and `6` with their dimensions, Hodge circles and moments
   (Layer 4).
 - The **classifications**: degree `2` proved (`U(1)`, `N(U(1))`, `SU(2)`), the non-self-dual
-  degree-`2` families and `μ(n)`; the **fifty-five groups of degree `4`** with explicit
+  degree-`2` families and `μ(n)`; the **fifty-seven groups of degree `4`** with explicit
   generators, the proof that they exhaust the groups satisfying the axioms, every stored
   invariant of each, their distinctness and their inclusion lattice (Layers 5–6); the
-  finiteness theorem for the axioms, the fourteen connected groups of degree `6`, and the
-  degree-`6` classification as checked data (Layer 7).
+  finiteness theorem for the axioms, the sixteen connected Lefschetz groups of degree `6`,
+  and their normalizer-subgroup classification (Layer 7).
 - The **arithmetic vocabulary**: endomorphisms over `k` and over `k̄`, the Galois action on
   `End(A_k̄)`, the **endomorphism field**, the **real geometric endomorphism algebra** and its
   finite lists of types in dimensions `≤ 3`, the predicates **geometrically simple**,
@@ -140,105 +92,20 @@ applies throughout: a predicate invariant under conjugacy (for groups) or isomor
   for `ST(A)`, the component group as `Gal(K/k)`, the elliptic-curve trichotomy, the dimension-`2`
   dictionary between Galois endomorphism types and the fifty-two groups, the thirty-four groups
   over `ℚ`, **`ST(f)`** for a newform in terms of its CM status and the order of its character,
-  and the **splitting field** and **endomorphism lattice** of a surface (Layer 9).
+  and the **minimal splitting fields** and **rational and real endomorphism lattices** of a surface (Layer 9).
 - **Equidistribution**: the pushforward and dense-subspace lemmas for the consumed predicate,
   the Weyl criterion on `Conj(G)`, **Serre's L-function criterion**, the Sato–Tate conjecture as
   a statement, Hecke's equidistribution of unitarized Grossencharacter values, and the
   **theorem for CM elliptic curves** over every number field (Layer 10).
 
-### Consumed, not redefined
-
-- From Tau Ceti's compact-group library (built to [CompactGroups](../RepresentationTheory/CompactGroups/README.md)):
-  `TauCeti.haarProb` and `isProbabilityMeasure_haarProb`, `isMulLeftInvariant_haarProb`,
-  `isMulRightInvariant_haarProb`, `isInvInvariant_haarProb`,
-  `eq_haarProb_of_isHaarMeasure_of_isProbabilityMeasure` (Layer 0 of that roadmap); the
-  character integral `TauCeti.integral_character_eq_finrank_invariants` (its Layer 6), the class
-  functions `classFunctionLp` and the character basis `characterBasis` (Peter–Weyl, Layers 5–6);
-  the engine `TauCeti.SU2` with `torusHom`, `torusExp`, `torus`, `exists_conj_mem_torus`,
-  `isConj_iff_trace_eq`, `symPower`, `character_symPower_eq_chebyshevU_eval`,
-  `weyl_integration_formula`, `weyl_integration_formula_normalized` and
-  `integral_character_symPower_mul_conj` (its engine case). The compactness of `U(d)` and
-  `SU(d)` is Tau Ceti's `TauCeti.Topology.Algebra.UnitaryGroup`, and torus conjugacy in `U(d)` is
-  `TauCeti.exists_conj_mem_unitaryTorus`. None of these is restated; `USp(2)` is identified with
-  `TauCeti.SU2` (0.2) and every degree-`2` statement is made on that identification.
-- From [LieGroups](../RepresentationTheory/LieGroups/README.md): the exponential chart (Layer 0),
-  the closed-subgroup theorem (Layer 2: a closed subgroup of a Lie group is an embedded Lie
-  subgroup, with Lie algebra `{X | ∀ t, exp(tX) ∈ G}`), maximal tori, the Weyl group and the
-  general Weyl integration formula `∫_G f = |W|⁻¹ ∫_T f |Δ|²` (Layer 6), and the existence and
-  conjugacy of maximal compact subgroups of a complex reductive group (Layer 9). This roadmap
-  specializes, never reproves.
-- From [ClassicalGroups](../RepresentationTheory/ClassicalGroups/README.md): the dominant-weight
-  parametrization of the irreducibles of `GL_d`, `Sp_{2g}` and `O_d` and their characters as
-  (symplectic) Schur polynomials (Layers 3–4), for 2.3 and 3.3.
-- From [RootSystems](../RepresentationTheory/RootSystems/README.md) and
-  [LieHighestWeight](../RepresentationTheory/LieHighestWeight/README.md): the list of compact
-  Lie algebras of rank `≤ 3` and the dimensions of their irreducible representations, for 6.6
-  and 7.3.
-- From Tau Ceti's abelian varieties (built to [JacobianChallenge](../JacobianChallenge/README.md)
-  Layer E): `AbelianVariety K`, `AbelianVariety.dim`, `AbelianVariety.End A` with its ring
-  structure and `mulBy`, `AbelianVariety.baseChange`, `AbelianVariety.End.baseChange`,
-  `AbelianVariety.End.congr`, `AbelianVariety.IsIsogeny`, `AbelianVariety.prod`.
-- From *Abelian schemes and arithmetic moduli*, Layer A6, cited by milestone number: `IsSimple`
-  with `simpleEndDivision` (A6.4), Poincaré complete reducibility (A6.5), `homFreeFinite`
-  (A6.7), `endQ_isSemisimple` (A6.8), `charpolyTate` (A6.11), `rosatiPositivity` (A6.14),
-  `rosatiRegularRepresentation`, `realCentralDivisionAlgebra` and `realRosatiDecomposition`
-  (A6.15), `reducedTraceComparison` (A6.17), the integral Tate module `T_ℓ(A)` with its Galois
-  action (A4.1) and the complex uniformization of `A(ℂ)` (A5). Layer 8 below adds no second
-  definition of simplicity, of `End⁰`, or of the Rosati involution.
-- From *Siegel and PEL moduli problems*: `PositiveInvolution` and `PositiveInvolution.center_classification`
-  (M0.1) and the Albert types `albertTypes` (M0.2), the inputs to the finite lists of real and
-  rational endomorphism algebras (8.4–8.5).
-- From *Abelian varieties of GL₂-type and modularity of ℚ-curves*: `End0 A = ℚ ⊗[ℤ] End A` as
-  the rational endomorphism algebra and `IsSimpleOverQ`, the primitive/power dichotomy (§1.2,
-  GT.1/primitive), the endomorphism field of a `ℚ`-simple `GL₂`-type variety (§1.4) with the
-  alternative `totallyRealOrCm` (§1.5), and ℚ-curves as `IsGeometricQCurve` (§5.1). This
-  roadmap's `endField` (8.2) is the general endomorphism field of any abelian variety over any
-  field of characteristic zero; its restriction to a `ℚ`-simple `GL₂`-type variety is that
-  roadmap's field of §1.4, and the agreement is a stated milestone, not an assumption.
-- From *Modularity and Langlands extensions*: the determinant kernel `{g ∈ U(2) : det(g)^a = 1}`
-  on `Matrix.unitaryGroup (Fin 2) ℂ`, with its compactness and its conjugacy classes `[π_v]`
-  (§4.39, the Sato–Tate group of a non-CM `GL₂` representation whose central character has
-  finite order `a`), the Sato–Tate theorem for non-CM elliptic curves over `ℚ`
-  `satoTate_elliptic` (§4.34), the conditional theorem over arbitrary number fields (§4.28) and
-  the parallel-weight theorem over imaginary CM fields (§4.42). This roadmap **states** no non-CM
-  equidistribution theorem of its own; 9.9 and 10.7 cite those.
-- From *L-functions — completions and functional equations*: `Grossencharacter K 𝔪`, its
-  `unitaryWeight` and `infinityType` (Layer 6), and the nonvanishing of `L(χ, s)` on `Re s = 1`
-  for every Grossencharacter outside the pure-norm-twist exception, with the continuous
-  extension of the logarithmic derivative to `Re s ≥ 1` (Layer 7). Tau Ceti's
-  `TauCeti.GlobalNumberFields.HeckeCharacter` is the underlying object.
-- From *Complex multiplication and explicit reciprocity*, Layer 4, the three targets of 4.1 —
-  the algebraic Hecke character of a CM abelian variety, the one-dimensional CM components of the
-  Tate module, and the Frobenius and infinity-type identities: for a CM elliptic curve over a
-  field containing the CM field, `V_ℓ(E) ⊗ ℚ̄_ℓ = ψ ⊕ ψ̄` and `a_𝔭 = ψ(𝔭) + ψ̄(𝔭)` with
-  `|ψ(𝔭)| = N𝔭^{1/2}` (Deuring).
-- From [Chebotarev](../Chebotarev/README.md): natural density of the primes with prescribed
-  Frobenius in a quadratic extension (Layer 14) and the Tauberian theorem `wienerIkehara` it
-  consumes from Arithmetic Dirichlet Series (Layer 12).
-- From *Deligne weights, purity and the Weil bounds*: Zariski density of open subgroups of
-  `Sp(V)(ℚ_ℓ)` (§2.2) and the semisimplicity criterion through the Zariski closure (§8.14), used
-  in 9.2; and the finite-field equidistribution of §10.5, which is not reproved here.
-- From [ReductiveGroups](../ReductiveGroups/README.md) Layer 3: identity components and component
-  groups of affine algebraic groups, and the Zariski closure of a subgroup of the rational points
-  as a closed subgroup scheme.
-- From [ProbabilisticAndMetricNumberTheory](../ProbabilisticAndMetricNumberTheory/README.md)
-  §2.1: the predicate `AsympEquidistributed x μ := Tendsto (TauCeti.Probability.empiricalMeasure x)
-  atTop (𝓝 μ)` for a sequence `x : ℕ → X` in a topological space with measurable open sets and
-  `μ : ProbabilityMeasure X`, with its bounded-continuous criteria
-  `asympEquidistributed_iff_integral_tendsto` and `asympEquidistributed_iff_integral_tendsto_complex`,
-  the index-shift law `asympEquidistributed_comp_add_iff`, the uniqueness of the limit measure
-  and the frequency law (Portmanteau applied to the empirical measures: `#{n < N | x n ∈ E}/N → μ(E)`
-  whenever `μ(∂E) = 0`), all of its §2.1. Every
-  equidistribution statement of Layer 10 is this predicate on `Conj(G)` (compact metrizable) or on
-  `ℝ` (for eigenangle sequences in `[0, π]`), so the `HasOuterApproxClosed` and `BorelSpace`
-  hypotheses of that API hold. `Suggested.lean` writes the predicate's defining `Tendsto` on Tau
-  Ceti's `empiricalMeasure` and introduces no second notion of equidistribution.
-- From the sibling draft `FiniteGroupInvariants`: Jordan's theorem over any field of
-  characteristic zero, the bound `jordanBound` and the theorem
-  `jordan_exists_abelian_normal_index_le` (10.5, consumed in 7.1), and the isomorphism invariants
-  of component groups (their small-group identifiers are not targets). No other sibling draft
-  supplies this roadmap: `AdelicImagesAndModularCurves`, `ArtinRepresentations` and
-  `HyperellipticCurves` consume it (*Downstream consumers*).
+Generic Mumford–Tate groups belong to ShimuraData §1.2; here they are specialized to
+abelian varieties and compared with Galois monodromy. Maximal-compact existence and
+conjugacy belong to ArithmeticLocallySymmetricSpaces ALS.F.1; here they are applied to
+complex monodromy groups. Bogomolov Hodge–Tate openness is the input of
+PotentialModularityAndCompatibleSystems §1.20; the monodromy kernel comparison is 9.2.
+Absolute Hodge tensor realizations belong to AutomorphicBundles §§1.2–1.3; 9.10 owns
+the connected Galois-monodromy inclusion. Section 8.4 owns the low-dimensional geometric
+endomorphism restrictions, beyond the algebraic classification of positive involutions.
 
 ### Not owned here
 
@@ -275,11 +142,18 @@ applies throughout: a predicate invariant under conjugacy (for groups) or isomor
   siblings `AbelianVarietiesOverFiniteFields` and `CurvesOverFiniteFields`; the Weil bounds
   themselves are *Deligne weights, purity and the Weil bounds*.
 - **General Lie theory**: the closed-subgroup theorem, maximal tori, the general Weyl integration
-  formula, maximal compact subgroups: [LieGroups](../RepresentationTheory/LieGroups/README.md).
+  formula and Cartan decomposition: [LieGroups](../RepresentationTheory/LieGroups/README.md).
+  Maximal-compact existence and conjugacy are ArithmeticLocallySymmetricSpaces ALS.F.1.
 - **Peter–Weyl and compact-group character theory**: Tau Ceti, built to
   [CompactGroups](../RepresentationTheory/CompactGroups/README.md).
 
-## Pinned conventions
+- Genus-two models, Igusa–Clebsch invariants, automorphisms and 2-Selmer data belong to
+  HyperellipticCurves; this roadmap supplies its endomorphism and Sato–Tate invariants.
+- Sato–Tate groups in dimension at least four are included in the definitions of Layer 9;
+  their classification is outside this roadmap. Half-integral weight, Siegel, Hilbert and
+  Bianchi forms retain their own roadmap ownership.
+
+## Conventions
 
 - **The ambient unitary group.** `U(d) := Matrix.unitaryGroup (Fin d) ℂ`, with the subspace
   topology of `Matrix (Fin d) (Fin d) ℂ`; it is a compact Hausdorff topological group (Mathlib's
@@ -304,7 +178,9 @@ applies throughout: a predicate invariant under conjugacy (for groups) or isomor
   `a_0 = 1`, `a_1 = −tr g` (`Matrix.coeff_charpolyRev_eq_neg_trace`), `a_i = (−1)^i e_i(λ)`, and
   `a_d = (−1)^d det g`. This is the LMFDB's normalized L-polynomial `L̄(T) = 1 + a_1 T + a_2 T² + ⋯`
   and FKRS's `T⁴ + a_1 T³ + a_2 T² + a_1 T + 1` read from the top. On `USp(d)` the sequence is
-  palindromic, `a_{d−i} = a_i`, and real; on `O(d)` it is real and `a_{d−i} = (−1)^d det(g) a_i`.
+  palindromic, `a_{d−i} = a_i` for `i ≤ d`, and real; on `O(d)` it is real and
+  `a_{d−i} = (−1)^d det(g) a_i` for `i ≤ d`. Coefficients are indexed by natural numbers
+  and vanish beyond the degree, including `a_1 = 0` when `d = 0`.
 - **Trace and the first moment row.** The trace random variable is `t = tr g = −a_1`. In odd
   weight `−1 ∈ G⁰` (2.5), so `t` and `a_1` have the same law and the stored first `moments` row
   (labelled `a_1`, equivalently `s_1`) is the trace moment sequence; in even weight the stored row
@@ -384,7 +260,125 @@ applies throughout: a predicate invariant under conjugacy (for groups) or isomor
   `ζ_n = e^{2πi/n}` and `U(1)` is the diagonal `diag(u, ū)`. The LMFDB's `cmf` column is the
   label of `SU(2)[C_n]` resp. `U(1)[D_n]` in both cases.
 
-## What Mathlib supplies
+## Exact supplier contracts
+
+### From ShimuraData
+
+Section 1.2 supplies the minimal rational algebraic subgroup attached to a rational
+Hodge structure, its Hopf-ideal construction and basis independence. Apply it to H₁(A).
+
+### From ArithmeticLocallySymmetricSpaces
+
+ALS.F.1 supplies maximal-compact existence, containment and conjugacy for real linear
+algebraic groups with reductive identity component, without assuming connectedness,
+and the polar decomposition in a transpose-stable embedding. Apply restriction of
+scalars from ℂ to ℝ in 9.3.
+
+### From PotentialModularityAndCompatibleSystems
+
+Section 1.20 supplies its Bogomolov Hodge–Tate openness input independently of the
+density-one maximality statement: the arithmetic Hodge–Tate image is open in the
+rational points of its algebraic monodromy group. Section 9.2 applies this at every ℓ.
+
+### From AutomorphicBundles
+
+Sections 1.2–1.3 supply absolute Hodge tensors and their compatible Betti, de Rham and
+étale realizations. Section 9.10 proves the finite-extension invariance argument for
+connected Galois monodromy using Deligne's finite-action theorem.
+
+### From named roadmaps
+
+- From Tau Ceti's compact-group library (built to [CompactGroups](../RepresentationTheory/CompactGroups/README.md)):
+  `TauCeti.haarProb` and `isProbabilityMeasure_haarProb`, `isMulLeftInvariant_haarProb`,
+  `isMulRightInvariant_haarProb`, `isInvInvariant_haarProb`,
+  `eq_haarProb_of_isHaarMeasure_of_isProbabilityMeasure` (Layer 0 of that roadmap); the
+  character integral `ContRepresentation.integral_character_eq_finrank_invariants` (its Layer 6), the class
+  functions `classFunctionLp` and the character basis `characterBasis` (Peter–Weyl, Layers 5–6);
+  the engine `TauCeti.SU2` with `torusHom`, `torusExp`, `torus`, `exists_conj_mem_torus`,
+  `isConj_iff_trace_eq`, `symPower`, `character_symPower_eq_chebyshevU_eval`,
+  `weyl_integration_formula`, `weyl_integration_formula_normalized` and
+  `integral_character_symPower_mul_conj` (its engine case). The compactness of `U(d)` and
+  `SU(d)` is Tau Ceti's `TauCeti.Topology.Algebra.UnitaryGroup`, and torus conjugacy in `U(d)` is
+  `TauCeti.exists_conj_mem_unitaryTorus`. None of these is restated; `USp(2)` is identified with
+  `TauCeti.SU2` (0.2) and every degree-`2` statement is made on that identification.
+- From [LieGroups](../RepresentationTheory/LieGroups/README.md): the exponential chart (Layer 0),
+  the closed-subgroup theorem (Layer 2: a closed subgroup of a Lie group is an embedded Lie
+  subgroup, with Lie algebra `{X | ∀ t, exp(tX) ∈ G}`), maximal tori, the Weyl group and the
+  general Weyl integration formula `∫_G f = |W|⁻¹ ∫_T f |Δ|²` (Layer 6), and Cartan decomposition for a given maximal compact subgroup (Layer 9).
+- From [ClassicalGroups](../RepresentationTheory/ClassicalGroups/README.md): the dominant-weight
+  parametrization of the irreducibles of `GL_d`, `Sp_{2g}` and `O_d` and their characters as
+  (symplectic) Schur polynomials (Layers 3–4), for 2.3 and 3.3.
+- From [RootSystems](../RepresentationTheory/RootSystems/README.md) and
+  [LieHighestWeight](../RepresentationTheory/LieHighestWeight/README.md): the list of compact
+  Lie algebras of rank `≤ 3` and the dimensions of their irreducible representations, for 6.6
+  and 7.3.
+- From Tau Ceti's abelian varieties (built to [JacobianChallenge](../JacobianChallenge/README.md)
+  Layer E): `AbelianVariety K`, `AbelianVariety.dim`, `AbelianVariety.End A` with its ring
+  structure and `mulBy`, `AbelianVariety.baseChange`, `AbelianVariety.End.baseChange`,
+  `AbelianVariety.End.congr`, `AbelianVariety.IsIsogeny`, `AbelianVariety.prod`.
+- From *Abelian schemes and arithmetic moduli*, Layer A6, cited by milestone number: `IsSimple`
+  with `simpleEndDivision` (A6.4), Poincaré complete reducibility (A6.5), `homFreeFinite`
+  (A6.7), `endQ_isSemisimple` (A6.8), `charpolyTate` (A6.11), `rosatiPositivity` (A6.14),
+  `rosatiRegularRepresentation`, `realCentralDivisionAlgebra` and `realRosatiDecomposition`
+  (A6.15), `reducedTraceComparison` (A6.17), the integral Tate module `T_ℓ(A)` with its Galois
+  action (A4.1) and the complex uniformization of `A(ℂ)` (A5). Layer 8 below adds no second
+  definition of simplicity, of `End⁰`, or of the Rosati involution.
+- From *Siegel and PEL moduli problems*: `PositiveInvolution` and `PositiveInvolution.center_classification`
+  (M0.1) and the Albert types `albertTypes` (M0.2), the inputs to the finite lists of real and
+  rational endomorphism algebras (8.4–8.5).
+- From *Abelian varieties of GL₂-type and modularity of ℚ-curves*: `End0 A = ℚ ⊗[ℤ] End A` as
+  the rational endomorphism algebra and `IsSimpleOverQ`, the primitive/power dichotomy (§1.2,
+  GT.1/primitive), the endomorphism field of a `ℚ`-simple `GL₂`-type variety (§1.4) with the
+  alternative `totallyRealOrCm` (§1.5), and ℚ-curves as `IsGeometricQCurve` (§5.1). This
+  roadmap's endField (8.2) is the general endomorphism field of any abelian variety over any
+  field of characteristic zero; its restriction to a `ℚ`-simple `GL₂`-type variety is that
+  roadmap's field of §1.4, and the agreement is a stated milestone, not an assumption.
+- From *Modularity and Langlands extensions*: the determinant kernel `{g ∈ U(2) : det(g)^a = 1}`
+  on `Matrix.unitaryGroup (Fin 2) ℂ`, with its compactness and its conjugacy classes `[π_v]`
+  (§4.39, the Sato–Tate group of a non-CM `GL₂` representation whose central character has
+  finite order `a`), the Sato–Tate theorem for non-CM elliptic curves over `ℚ`
+  `satoTate_elliptic` (§4.34), the conditional theorem over arbitrary number fields (§4.28) and
+  the parallel-weight theorem over imaginary CM fields (§4.42). This roadmap **states** no non-CM
+  equidistribution theorem of its own; 9.9 and 10.7 cite those.
+- From *L-functions — completions and functional equations*: `Grossencharacter K 𝔪`, its
+  `unitaryWeight` and `infinityType` (Layer 6), and the nonvanishing of `L(χ, s)` on `Re s = 1`
+  for every Grossencharacter outside the pure-norm-twist exception, with the continuous
+  extension of the logarithmic derivative to `Re s ≥ 1` (Layer 7). Tau Ceti's
+  `TauCeti.GlobalNumberFields.HeckeCharacter` is the underlying object.
+- From *Complex multiplication and explicit reciprocity*, Layer 4, the three targets of 4.1 —
+  the algebraic Hecke character of a CM abelian variety, the one-dimensional CM components of the
+  Tate module, and the Frobenius and infinity-type identities: for a CM elliptic curve over a
+  field containing the CM field, `V_ℓ(E) ⊗ ℚ̄_ℓ = ψ ⊕ ψ̄` and `a_𝔭 = ψ(𝔭) + ψ̄(𝔭)` with
+  `|ψ(𝔭)| = N𝔭^{1/2}` (Deuring).
+- From [Chebotarev](../Chebotarev/README.md): natural density of the primes with prescribed
+  Frobenius in a quadratic extension (Layer 14) and the Tauberian theorem `wienerIkehara` it
+  consumes from Arithmetic Dirichlet Series (Layer 12).
+- From *Deligne weights, purity and the Weil bounds*: Zariski density of open subgroups of
+  `Sp(V)(ℚ_ℓ)` (§2.2) and the semisimplicity criterion through the Zariski closure (§8.14), used
+  in 9.2; and the finite-field equidistribution of §10.5, which is not reproved here.
+- From [ReductiveGroups](../ReductiveGroups/README.md) Layer 3: identity components and component
+  groups of affine algebraic groups, and the Zariski closure of a subgroup of the rational points
+  as a closed subgroup scheme.
+- From [ProbabilisticAndMetricNumberTheory](../ProbabilisticAndMetricNumberTheory/README.md)
+  §2.1: the predicate `AsympEquidistributed x μ := Tendsto (TauCeti.Probability.empiricalMeasure x)
+  atTop (𝓝 μ)` for a sequence `x : ℕ → X` in a topological space with measurable open sets and
+  `μ : ProbabilityMeasure X`, with its bounded-continuous criteria
+  `asympEquidistributed_iff_integral_tendsto` and `asympEquidistributed_iff_integral_tendsto_complex`,
+  the index-shift law `asympEquidistributed_comp_add_iff`, the uniqueness of the limit measure
+  and the frequency law (Portmanteau applied to the empirical measures: `#{n < N | x n ∈ E}/N → μ(E)`
+  whenever `μ(∂E) = 0`), all of its §2.1. Every
+  equidistribution statement of Layer 10 is this predicate on `Conj(G)` (compact metrizable) or on
+  `ℝ` (for eigenangle sequences in `[0, π]`), so the `HasOuterApproxClosed` and `BorelSpace`
+  hypotheses of that API hold. `Suggested.lean` writes the predicate's defining `Tendsto` on Tau
+  Ceti's `empiricalMeasure` and introduces no second notion of equidistribution.
+- From the roadmap `FiniteGroupInvariants`: Jordan's theorem over any field of
+  characteristic zero, the bound `jordanBound` and the theorem
+  `jordan_exists_abelian_normal_index_le` (10.5, consumed in 7.1), and the isomorphism invariants
+  of component groups (their small-group identifiers are not targets). No other roadmap
+  supplies this roadmap: `AdelicImagesAndModularCurves`, `ArtinRepresentations` and
+  `HyperellipticCurves` consume it (*Downstream consumers*).
+
+### From Mathlib
 
 - **Matrix groups.** `Matrix.unitaryGroup n α` (`= unitary (Matrix n n α)`),
   `Matrix.specialUnitaryGroup`, `Matrix.orthogonalGroup n R` (`= unitaryGroup n R` for a trivial
@@ -399,7 +393,7 @@ applies throughout: a predicate invariant under conjugacy (for groups) or isomor
   normal and Hermitian matrices and the spectral theorem
   `Matrix.exists_mem_unitaryGroup_star_mul_mul_eq_diagonal` (`Analysis/Matrix/Spectrum.lean`).
 - **Symmetric polynomials.** `MvPolynomial.esymm`, `psum`, `IsSymmetric`, the
-  `symmetricSubalgebra`, Newton's identities (`RingTheory/MvPolynomial/NewtonIdentities.lean`)
+  `symmetricSubalgebra`, Newton's identities (`RingTheory/MvPolynomial/Symmetric/NewtonIdentities.lean`)
   and the fundamental theorem `MvPolynomial.esymmAlgHom` is bijective
   (`RingTheory/MvPolynomial/Symmetric/FundamentalTheorem.lean`).
 - **Topological groups.** `Subgroup.connectedComponentOfOne`, `mul_mem_connectedComponent_one`,
@@ -420,17 +414,17 @@ applies throughout: a predicate invariant under conjugacy (for groups) or isomor
   `Representation.IsIrreducible`, `SymmetricPower`, `exteriorPower`.
 - **Number fields and Galois theory.** `NumberField`, `NumberField.IsCMField` with
   `IsCMField.complexConj`, `NumberField.IsTotallyReal`, `AlgebraicClosure`,
-  `Field.absoluteGaloisGroup` (`AlgebraicClosure K ≃ₐ[K] K`), `IntermediateField.fixedField`,
+  `Field.absoluteGaloisGroup` (`AlgebraicClosure K ≃ₐ[K] AlgebraicClosure K`), `IntermediateField.fixedField`,
   `IsGalois`, `IsDedekindDomain.HeightOneSpectrum`, `Ideal.absNorm`; `Padic`/`ℚ_[ℓ]`;
   `WeierstrassCurve` with `IsElliptic`, `baseChange`, `Affine.Point`.
 - **Combinatorics.** `Nat.centralBinom`, `catalan`, `Nat.Partition`, `YoungDiagram`.
 
-## What Tau Ceti supplies
+### From Tau Ceti
 
 - **Compact groups** (`TauCeti.RepresentationTheory.Compact.*`): `haarProb` and its invariance
   and uniqueness lemmas (`Haar.lean`), `haarAverage` (`Averaging.lean`), `matrixCoeff`,
   `characterLp`, `character_orthonormal_self`/`_distinct` (`Character/Basic.lean`),
-  `integral_character_eq_finrank_invariants` (`Invariants.lean`), `classFunctionLp` and
+  `ContRepresentation.integral_character_eq_finrank_invariants` (`Invariants.lean`), for continuous representations on finite-dimensional complex spaces, `classFunctionLp` and
   `characterBasis`/`stdCharacterBasis` (`ClassFunctionLp.lean`, `Character/Basis.lean`),
   `peterWeylBasis`, `IrrepModel`, `IsIrrepSkeleton` (`PeterWeyl.lean`), the finite-group and
   circle specializations (`Finite.lean`, `Circle.lean`).
@@ -478,26 +472,7 @@ applies throughout: a predicate invariant under conjugacy (for groups) or isomor
   terms of a sequence, with `integral_empiricalMeasure` and `empiricalMeasure_apply_toReal`
   (`Probability/Process/EmpiricalMeasure.lean`).
 
-## What is missing
-
-Nothing between Haar measure and the Sato–Tate groups exists: there is no `USp(d)` or `O(d)` as a
-closed subgroup of `U(d)`, no coefficient map or coefficient law, no identity component of a
-closed subgroup of `U(d)` with its finiteness, real dimension or component measures, no Hodge
-circle, no Sato–Tate axiom, no moment or event probability of a compact matrix group, no Weyl
-integration formula beyond `SU(2)`, no classification of closed subgroups of `SU(2)` or `USp(4)`,
-no finite-subgroup classification of `SO(3)`, no degree-`6` list, no Galois action on geometric
-endomorphisms, no endomorphism field, no real geometric endomorphism algebra, no Galois
-endomorphism type, no Sato–Tate group of an abelian variety or newform, no normalized Frobenius
-class, no Weyl criterion on conjugacy classes, no Serre criterion, and no equidistribution
-theorem for CM elliptic curves. Every one of these is a milestone below. Jordan's theorem is
-`FiniteGroupInvariants` 10.5's and the equidistribution predicate is
-ProbabilisticAndMetricNumberTheory §2.1's; neither is restated. The suppliers listed above are
-consumed where named; where a supplier is a roadmap rather than library code, the README cites
-the supplier's milestone, and a statement that needs the supplier's objects is a theorem with a
-`sorry` proof in `Suggested.lean` when it can be stated over Mathlib and Tau Ceti, and is
-specified in this README only otherwise.
-
-## The build, in layers
+## How to read the build
 
 Layers 0–4 are the group-theoretic foundation, Layers 5–7 the classifications, Layers 8–9 the
 arithmetic, Layer 10 equidistribution. Milestones are numbered `N.M`; each rests only on Mathlib,
@@ -508,18 +483,19 @@ the pinned Tau Ceti, with the few definitions they need — torus conjugacy (0.5
 the finiteness of the component group (1.2), the first consequences of the axioms (2.2, 2.5), the
 trace-moment and vanishing laws (3.2–3.3), the component-counting theorem (3.5), Weyl integration
 for `USp(2g)` with the product law and the `USp(4)` moments (4.2–4.5), the classification in
-degree `2` (5.2–5.3), the fifty-five groups of degree `4` as explicit closed subgroups with the
+degree `2` (5.2–5.3), the fifty-seven groups of degree `4` as explicit closed subgroups with the
 identity-component, classification and distinctness theorems (6.3–6.4, 6.6–6.8), finiteness and
 the connected groups of degree `6` (7.2–7.3), the real geometric endomorphism algebras of
-surfaces (8.4), the Weyl criterion (10.1), Serre's criterion (10.2) and the CM elliptic-curve
+surfaces (8.4), the Weyl criterion (10.1), Serre's criterion (10.2), Hecke equidistribution (10.4) and the CM elliptic-curve
 theorems in the form of the equidistribution of the normalized Frobenius traces (10.5–10.6).
 Every API lemma, every Check, every computed invariant and the irrational families `μ(n)`,
 `SU(2)[C_n]`, `U(1)[D_n]` stay in this README. The Galois action on `End(A_k̄)`, the endomorphism
 field and the Galois endomorphism type (8.1–8.2, 8.7) need the transport of endomorphisms along
 Galois base change, which Tau Ceti's `AbelianVariety.baseChange` lacks; `ST(A)` and everything
 built on it (9.3–9.12, 10.3, 10.8) needs the Zariski closure of the `ℓ`-adic image and a maximal
-compact subgroup of its complex points, which neither Mathlib nor Tau Ceti has; the records,
-certificates and lattices (3.6, 6.7, 6.9, 7.4) are checked data. These are specified in this
+compact subgroup of its complex points, which neither Mathlib nor Tau Ceti has; the degree-six completeness headline (7.4) needs its concrete finite-subgroup families,
+which cannot be supplied by a few simple definitions at the pins. The statistical records
+and inclusion lattices (3.6, 6.7, 6.9) are mathematical targets. These are specified in this
 README only, each definition with a **Checks** list of tests a formalisation must pass.
 
 ## Layer 0: ambient groups and the coefficient map
@@ -536,6 +512,20 @@ Lemmas: continuous functions on `G` are integrable; the integral of a function o
 of `g`; for a closed subgroup `G' ≤ G` of finite index the restriction of `haar G` to `G'` is
 `[G : G']⁻¹ • haar G'` (uniqueness). *Needs:* Mathlib, Tau Ceti `Compact/Haar.lean`.
 
+The required API includes:
+
+- Use the Borel measurable structures and the compactness instance on every closed subgroup.
+- Haar has total mass one and is invariant under left translation, right translation and inversion.
+- On a finite-index closed subgroup, transported restricted Haar is its normalized Haar divided by the index.
+
+The Borel and compact instances are `instMeasurableSpaceSubgroup`, `instBorelSpaceSubgroup` and `instCompactSpaceClosedSubgroup`.
+
+**Checks.**
+
+- U(0) is a singleton and its Haar mass is 1; the empty matrix does not give a zero measure.
+- For {±I₂}, each singleton has mass 1/2 and inversion preserves both atoms.
+- The union of all finite root groups in U(1) is dense and not closed; its closure is U(1), so it is not a closed-subgroup carrier.
+
 ### 0.2 The unitary symplectic group
 
 Define `Ω d : Matrix (Fin d) (Fin d) ℂ` by `Ω i j = 1` if `j = i + d/2`, `−1` if `i = j + d/2`,
@@ -548,12 +538,38 @@ membership test); `det g = 1` on `USp d`; `USp d` is closed under `g ↦ gᵀ` a
 transported along it. Real dimension `g(2g+1)` is 1.3. *Needs:* Mathlib `SymplecticGroup`,
 Tau Ceti `isClosed_specialUnitaryGroup`.
 
+The required API includes:
+
+- `isClosed_USp` bundles the group as `uSpClosed`; even-degree members have determinant one.
+- `mem_USp_two_iff` characterizes the two-dimensional subgroup by determinant one.
+- `uSpTwoEquivSU2` is a continuous multiplicative equivalence, and `map_haar_uSpTwoEquivSU2` transports Haar measure.
+
+**Checks.**
+
+- At d=0, the form is empty, the determinant is 1 and USp(0) is trivial.
+- For d=2, Ω²=−I and diag(i,−i)ᵀΩdiag(i,−i)=Ω, fixing the sign and transpose convention.
+- For diag(1,i), the transformed form is iΩ≠Ω and the determinant is i≠1; unitarity alone is insufficient.
+
 ### 0.3 The orthogonal group and the ambient of a weight
 
 `Od d : Subgroup (U(d)) := {g | ∀ i j, (g i j).im = 0}`; it is closed, equal to the image of
 `Matrix.orthogonalGroup (Fin d) ℝ` under `Matrix.map Complex.ofReal`, with `det g ∈ {1, −1}`, and
 `Od 1 = {1, −1}`. `ambient w d := if Odd w then USp d else Od d`. *Needs:* Mathlib, Tau Ceti
 `isClosed_orthogonalGroup`.
+
+The required API includes:
+
+- The real-entry condition defines a closed subgroup with determinant in {±1}.
+- Entrywise scalar extension identifies this subgroup with the real orthogonal group.
+- The ambient switches between the symplectic and orthogonal groups with the parity of the weight.
+
+Closedness is `isClosed_Od`.
+
+**Checks.**
+
+- O(1) consists of 1 and −1, while i is excluded by its imaginary part 1.
+- diag(1,−1) lies in O(2) and has determinant −1; O(2) is not SO(2).
+- For d=0 both ambient groups are trivial; for d=2 the odd ambient contains diag(i,−i) while the even ambient does not.
 
 ### 0.4 The coefficient map
 
@@ -562,12 +578,27 @@ Tau Ceti `isClosed_specialUnitaryGroup`.
 `a_i = (−1)^i e_i(λ_1, …, λ_d)` for the eigenvalue multiset (spectral theorem), `a_i = 0` for
 `i > d`, `a_d = (−1)^d det g`; each `a_i` is a polynomial in the entries, hence **continuous** and
 a class function `a_i(h g h⁻¹) = a_i(g)`; on `USp d` the coefficients are real and palindromic
-`a_{d−i} = a_i`; on `Od d` they are real and `a_{d−i} = (−1)^d det(g) a_i`, i.e.
+`a_{d−i} = a_i` for `i ≤ d`; on `Od d` they are real and
+`a_{d−i} = (−1)^d det(g) a_i` for `i ≤ d`, i.e.
 `(charpolyRev g).reverse = (−1)^d det(g) • charpolyRev g` (the eigenvalue multiset is closed
 under inversion). The **Newton
-identities**: the power sums `s_k(g) = trace (g^k)` are integer polynomials in `a_1, …, a_k` and
-conversely (Mathlib `MvPolynomial` Newton identities). Define `coeffVec g : Fin (d+1) → ℂ`.
+identities**: for `k ≥ 1`, the power sums `s_k(g) = trace (g^k)` are integer polynomials
+in `a_1, …, a_k`. The integral recurrence is `k a_k = −∑_{j=1}^k a_{k−j} s_j`;
+conversely the `a_k` are rational polynomials in the power sums, with the nonzero integer
+`k` invertible over `ℚ` (Mathlib `MvPolynomial.mul_esymm_eq_sum`). Define coeffVec g : Fin (d+1) → ℂ.
 *Needs:* Mathlib.
+
+The required API includes:
+
+- The coefficients are continuous class functions and vanish beyond degree d.
+- The natural-number coefficient at 1 is the negative trace, including d=0.
+- For i≤d the reciprocal identities hold; the Newton recurrence retains the factor k.
+
+**Checks.**
+
+- I₂ has coefficients (1,−2,1) and trace 2; the empty matrix has polynomial 1 and trace 0.
+- diag(1,−1) and diag(i,−i) have (s₁,s₂)=(0,2),(0,−2) and a₂=−1,1: both sides of 2a₂=s₁²−s₂ are −2,2. Integer-polynomial differences at these inputs are divisible by 4, excluding an integral inverse formula.
+- For I₂, a₃=0 but a_(2−3)=a₀=1 under natural subtraction; reciprocal identities therefore require i≤d.
 
 ### 0.5 Torus conjugacy and conjugacy classes
 
@@ -577,10 +608,33 @@ The diagonal torus `uSpTorus g ≤ USp(2g)` is the image of `(Fin g → Circle) 
 unitary conjugator; the symplectic refinement pairs the eigenvalues `λ, λ̄` by the form and
 produces a symplectic unitary conjugator); two elements of `USp(2g)` are conjugate in `USp(2g)` iff
 they have the same characteristic polynomial; hence a class function on `USp(2g)` factors through
-`coeffVec`. The same for `Od d` with the torus `SO(2)^{⌊d/2⌋} × {±1}^{d mod 2}`, where conjugacy
-classes are determined by the characteristic polynomial together with the `±1` eigenspace
-dimensions. For `g = 1` the statement is `TauCeti.SU2.exists_conj_mem_torus` and
+coeffVec. For `Od d`, prove instead the orthogonal normal form: rotation blocks of angles in
+`(0, π)` together with `I_p` and `−I_q`, with `2r+p+q=d`. The characteristic polynomial
+determines conjugacy in `O(d)`: `p,q` are its multiplicities at `1,−1`, and the other
+roots determine the unordered rotation angles (Katz–Sarnak §5.0.7). For `g = 1` the statement is `TauCeti.SU2.exists_conj_mem_torus` and
 `isConj_iff_trace_eq`. *Needs:* 0.2, 0.4, Tau Ceti `UnitaryGroup/Torus.lean`.
+
+The required API includes:
+
+- The homomorphism `uSpTorusHom` defines the diagonal symplectic torus.
+- `exists_conj_mem_uSpTorus` gives a symplectic unitary conjugator.
+- `isConj_USp_iff_charpolyRev_eq` characterizes symplectic conjugacy by the characteristic polynomial.
+
+The diagonal entries of this homomorphism are `uSpTorusFun`.
+
+**Checks.**
+
+- diag(i,−i) and diag(−i,i) have polynomial 1+T² and are conjugate by J in USp(2).
+- The O(2) reflection diag(1,−1) has r=0,p=q=1 and polynomial 1−T², while rotations have determinant 1.
+- For d=0 the normal form has r=p=q=0 and polynomial 1; for d=1 the two polynomials 1−T and 1+T distinguish the two classes.
+
+### Examples
+
+At rank zero Haar has mass 1 and trace 0; at rank one the symplectic torus has reversed polynomial 1−(u+ū)T+T².
+
+### Dependencies
+
+Mathlib matrix groups, characteristic polynomials and spectral theorem; Tau Ceti unitary compactness, torus conjugacy and Haar measure.
 
 ## Layer 1: identity component, component group, real dimension, Haar on components
 
@@ -591,6 +645,18 @@ written `G⁰`; prove it is closed in `G`, normal, characteristic, and connected
 G := G ⧸ G⁰`; `G` is connected iff `componentGroup G` is trivial. The coset `h G⁰` is the
 connected component of `h`. *Needs:* Mathlib.
 
+The required API includes:
+
+- The identity component is closed, normal and characteristic.
+- Its cosets are exactly the connected components.
+- The quotient is trivial precisely when the group is connected.
+
+**Checks.**
+
+- U(1) has one component and trivial component group.
+- mu(3) has three singleton components, identity component {1} and component group C₃.
+- The signed permutation realization of S₃ is finite with identity component {1}; its component group is the nonabelian S₃, not its abelianization C₂.
+
 ### 1.2 Finiteness of the component group
 
 `G⁰` is **open** in `G`, hence `Finite (G ⧸ G⁰)` by compactness. Proof route: by the closed-
@@ -600,18 +666,42 @@ is a ball), so the connected component of `1` is open. Define `numComponents G :
 (componentGroup G)`, written `c`. Consequence: `G⁰` has finite index and
 `haar G⁰ = c • (haar G)|_{G⁰}` (0.1). *Needs:* 1.1, LieGroups Layer 2.
 
+The required API includes:
+
+- `isOpen_identityComponent` supplies openness for closed unitary subgroups.
+- `finite_componentGroup` gives finiteness of the quotient.
+- The component count is positive and is the index of the identity component.
+
+**Checks.**
+
+- N(U(1)) has two open components of Haar mass 1/2.
+- The trivial group has one component; its index is 1, never 0.
+- U(1) has an open identity component equal to the whole circle, although singleton {1} is not open.
+
 ### 1.3 The Lie algebra and the real dimension
 
-For `G : ClosedSubgroup (U(d))`, `lieAlgebra G : Submodule ℝ (Matrix (Fin d) (Fin d) ℂ)` with
+For `G : ClosedSubgroup (U(d))`, lieAlgebra G : Submodule ℝ (Matrix (Fin d) (Fin d) ℂ) with
 carrier `{X | ∀ t : ℝ, exp (t • X) ∈ G}` (Mathlib `NormedSpace.exp`); closure under addition is
 the Lie–Trotter formula, the content of the closed-subgroup theorem (LieGroups Layer 2, which
 states it for an arbitrary subgroup of a Lie group and is consumed from there, not restated);
 closure
-under scalars and `0 ∈` are direct. Prove `lieAlgebra G ≤ lieAlgebra (U(d)) = {X | Xᴴ = −X}`,
-`lieAlgebra G = lieAlgebra G⁰`, closure under the commutator, and `realDimension G :=
-Module.finrank ℝ (lieAlgebra G)`. Values: `U(d)`: `d²`; `USp(2g)`: `g(2g+1)`; `Od d`:
-`d(d−1)/2`; `uSpTorus g`: `g`; `USp 2 = SU(2)`: `3`. `realDimension G = 0` iff `G` is finite.
+under scalars and `0 ∈` are direct. Prove lieAlgebra G ≤ lieAlgebra (U(d)) = {X | Xᴴ = −X},
+lieAlgebra G = lieAlgebra G⁰, closure under the commutator, and realDimension G :=
+Module.finrank ℝ (lieAlgebra G). Values: `U(d)`: `d²`; `USp(2g)`: `g(2g+1)`; `Od d`:
+`d(d−1)/2`; `uSpTorus g`: `g`; `USp 2 = SU(2)`: `3`. realDimension G = 0 iff `G` is finite.
 *Needs:* 1.1, LieGroups Layer 2.
+
+The required API includes:
+
+- The exponential membership condition is closed under real linear combinations and commutators.
+- The Lie algebra and its real dimension agree with those of the identity component.
+- Dimension zero is equivalent to finiteness of the closed subgroup.
+
+**Checks.**
+
+- The circle has Lie algebra iℝ and dimension 1; exp(ti) stays on the circle.
+- For mu(3) the Lie algebra is {0} and dimension 0, despite three components.
+- USp(4) has dimension 2(2·2+1)=10; O(0), O(1), O(2) have dimensions 0,0,1.
 
 ### 1.4 Haar measure on components
 
@@ -621,17 +711,50 @@ finite partition into cosets), left translation by `h` carries `μ_{G⁰}` to `�
 is the Haar probability measure of the closed subgroup `G⁰` (0.1) and is invariant under
 conjugation by every element of `G` (uniqueness of Haar on `G⁰`). *Needs:* 0.1, 1.2.
 
+The required API includes:
+
+- `componentCoset` is independent of the quotient representative.
+- The normalized restriction has total mass one on its coset.
+- Averaging the normalized component measures recovers Haar.
+
+**Checks.**
+
+- On N(U(1)), each restricted mass is 1/2 and multiplication by c=2 gives component mass 1.
+- For a connected group c=1 and the component measure equals Haar.
+- For finite S₃ each normalized component is a Dirac mass, and averaging six masses with factor 1/6 recovers Haar.
+
 ### 1.5 The coefficient and trace laws and the measure on conjugacy classes
 
-`coeffLaw G := (haar G).map coeffVec : Measure (Fin (d+1) → ℂ)` and `traceLaw G := (haar G).map trace`,
+coeffLaw G := (haar G).map coeffVec : Measure (Fin (d+1) → ℂ) and traceLaw G := (haar G).map trace,
 both probability measures because the maps are continuous (0.4); `conjLaw G : ProbabilityMeasure
 (ConjClasses G)`, the pushforward along the quotient map for the quotient topology and its Borel
 σ-algebra, a `ProbabilityMeasure` because Layer 10 states equidistribution in
 `ProbabilityMeasure (ConjClasses G)`. Prove: for a continuous class function `f : G → ℂ`, `∫ f dμ_G = ∫ f̄ d(conjLaw G)`; for `G ≤ USp(2g)` the map `ConjClasses G →
-ConjClasses (USp(2g)) → (Fin (2g+1) → ℂ)` is injective on the second step (0.5), so `coeffLaw G`
-determines `conjLaw (USp(2g))`-side statistics; `traceLaw G` is the image of `coeffLaw G` under
-`a ↦ −a_1`. These are the measures the LMFDB's "pushforward of Haar measure to characteristic
+ConjClasses (USp(2g)) → (Fin (2g+1) → ℂ)` is injective on the second step (0.5), so coeffLaw G
+determines `conjLaw (USp(2g))`-side statistics; traceLaw G is the image of coeffLaw G under
+the negative of the natural-number coefficient at `1`, extending the finite vector by
+zero. Thus the image is `δ_0` at `d = 0`, and agrees with `a ↦ −a_1` for `d > 0`. These are the measures the LMFDB's "pushforward of Haar measure to characteristic
 polynomials" means. *Needs:* 0.4, 0.5, 1.4.
+
+The required API includes:
+
+- The coefficient, trace and conjugacy-class pushforwards have total mass one.
+- Integrating a continuous class function before or after passing to conjugacy classes agrees.
+- Zero-extending the coefficient vector before taking its negative coefficient at 1 recovers the trace law in every degree.
+
+**Checks.**
+
+- For {I₂}, the coefficient law is δ_(1,−2,1) and its negative-first-coefficient image is δ₂.
+- At d=0 the sole vector entry is a₀=1, but the zero-extended coefficient a₁=0 gives trace law δ₀, not δ_−1.
+- The conjugacy-class law of S₃ assigns masses 1/6,1/2,1/3 to identity, transpositions and 3-cycles, rather than equal mass to the three classes.
+
+### Examples
+
+N(U(1)) has two components of mass 1/2; the quotient of S₃ by its identity component remains S₃.
+
+### Dependencies
+
+Layer 0; LieGroups Layer 2 for embedded closed Lie subgroups and their local charts.
 
 ## Layer 2: the Sato–Tate axioms
 
@@ -639,9 +762,21 @@ polynomials" means. *Needs:* 0.4, 0.5, 1.4.
 
 `structure HodgeNumbers (w d : ℕ)` with `h : Fin (w+1) → ℕ`, `sum_eq : ∑ p, h p = d`, and
 `symm : Odd w → ∀ p, h p = h (Fin.rev p)`. Constructors `weightOne g : HodgeNumbers 1 (2g)`
-(`h = ![g, g]`), `newform k : HodgeNumbers (k−1) 2` for `k ≥ 2` (`h^{k−1,0} = h^{0,k−1} = 1`,
-`0` between), `artin d : HodgeNumbers 0 d` (`h^{0,0} = d`). Lemma: `Odd w → Even d`. *Needs:*
+(`h = ![g, g]`), newform k : HodgeNumbers (k−1) 2 for `k ≥ 2` (`h^{k−1,0} = h^{0,k−1} = 1`,
+`0` between), artin d : HodgeNumbers 0 d (`h^{0,0} = d`). Lemma: `Odd w → Even d`. *Needs:*
 Mathlib.
+
+The required API includes:
+
+- `HodgeNumbers.weightOne` has total degree 2g and symmetric multiplicities.
+- Off-middle odd-weight contributions occur in pairs, so their total degree is even.
+- The newform and Artin constructors retain their specified weights and degrees.
+
+**Checks.**
+
+- Weight-one g=0,1,2 gives h=(0,0),(1,1),(2,2) and total degrees 0,2,4.
+- Newform k=3 gives h=(1,0,1) of weight 2; the middle multiplicity is 0.
+- Artin degree 1 gives h=(1), weight 0 and circle eigenvalue u⁰=1; requiring odd-weight symmetry here would add no restriction.
 
 ### 2.2 Hodge circles and the Hodge condition
 
@@ -653,8 +788,20 @@ normal in `G`; the condition is invariant under conjugation of `G` in `U(d)`; a 
 `weightOne g` is `u ↦ diag(u I_g, ū I_g)` up to conjugacy and lies in `USp(2g)` after conjugation;
 a finite `G` fails the Hodge condition whenever some `p` with `h p ≠ 0` has `2p ≠ w` (`θ(u)` would
 have the eigenvalue `u^{2p−w}` of infinite order for generic `u`), so in every odd weight with
-`d ≥ 1` and for `weightOne g`; when every nonzero `h p` sits at `p = w/2` the trivial homomorphism
+`d ≥ 1` and for `weightOne g` when `g > 0`; when every nonzero `h p` sits at `p = w/2` the trivial homomorphism
 is a Hodge circle and finite groups pass (5.6). Under the former hypothesis `G⁰` is nontrivial. *Needs:* 1.1, Mathlib `Circle`.
+
+The required API includes:
+
+- Conjugation preserves the characteristic-polynomial condition and the dense-generation condition.
+- `not_hodgeCondition_of_finite` excludes a finite group when a nonzero multiplicity occurs off the middle weight.
+- The middle-weight trivial circle is allowed, including the empty representation.
+
+**Checks.**
+
+- For the SU(2) torus, u=i gives eigenvalues i,−i and u=−1 gives −I₂; integer exponents distinguish u from u⁻¹.
+- Finite mu(3) passes the weight-zero condition, finite {±I₂} fails weight one, and the trivial group in degree zero passes.
+- In Z(U(2)), scalar and SU(2) circles each have polynomial (X−u)²(X−ū)², and together generate a four-dimensional group.
 
 ### 2.3 The rationality condition, in moment and character form
 
@@ -670,6 +817,18 @@ consequence. On `USp(d)` and `Od d` every rational character of `GL_d` restricts
 polynomial one (`det = ±1`), so the character form with all rational irreducibles is
 equivalent. *Needs:* 0.4, 1.4, ClassicalGroups Layers 2–4.
 
+The required API includes:
+
+- Component moment integrality is equivalent to the polynomial-character formulation.
+- The exterior-power moment formulation follows by taking coefficient characters.
+- The full-group integral is integral even when individual components fail rationality.
+
+**Checks.**
+
+- On the mu(3) component {ζ₃}, the a₁ average is −ζ₃, which is not an integer; the whole-group a₁ average is 0.
+- Connected U(1) has a₁ moments 1,0,2,0,6; its symmetric-polynomial averages are integers.
+- On J·U(1), a₁=0 and a₂=1, so a mixed moment is 0 if the a₁ exponent is positive and 1 otherwise.
+
 ### 2.4 Self-duality, the Sato–Tate predicate, the Lefschetz condition
 
 `IsSelfDual w G := G.toSubgroup ≤ ambient w d`; `IsSatoTateGroup H G := IsSelfDual w G ∧
@@ -678,6 +837,18 @@ G` (for `G ≤ USp(d)`): the subgroup `{g ∈ USp(d) | ∀ X ∈ Matrix.centrali
 equals `G⁰`, where `Matrix.centralizer G⁰ = End(ℂ^d)^{G⁰}` is the commutant. Prove all four
 predicates are invariant under conjugation by `ambient w d`, and that `IsSatoTateGroup` is
 invariant under conjugation by `U(d)` only when the conjugate still lies in the ambient. *Needs:* 2.2, 2.3.
+
+The required API includes:
+
+- Each predicate is preserved by conjugation in the ambient group.
+- Conjugation in U(d) preserves ST1 only if the conjugated group remains in the chosen ambient.
+- The Lefschetz condition compares the full centralizer of the commutant with the identity component.
+
+**Checks.**
+
+- mu(2) is contained in O(1), but mu(3) is not since ζ₃ is not real.
+- Z(U(2)) has commutant ℂ⊕ℂ and its centralizer inside USp(4) is Z(U(2)); ST4 does not exclude this group.
+- The trivial subgroup of USp(2) fails ST2, despite being self-dual and rational; the conjunction is not just ST1 and ST3.
 
 ### 2.5 First consequences
 
@@ -693,6 +864,22 @@ closed subgroup `G' ≤ G` of finite index containing `G⁰`, with the same iden
 (rationality restricts to the components of `G'`). *Needs:* 2.2–2.4, Tau Ceti
 `Compact/Invariants.lean`.
 
+The headline consequences are `neg_one_mem_identityComponent`, `exists_int_integral_prod_coeff` and `isRational_of_connectedSpace`, with the hypotheses stated above.
+
+**Checks.**
+
+- At u=−1 the weight exponents give −I in odd weight and I in even weight.
+- For the standard S₃ representation, character values 2,0,−1 on classes of sizes 1,3,2 give average 0 and square average (4+2)/6=1.
+- U(1) has index 2 in its normalizer; its one component and both normalizer components have integral moments, while the identity component remains U(1).
+
+### Examples
+
+The scalar and SU(2) circles generate Z(U(2)); a finite positive-degree symplectic group has no weight-one Hodge circle.
+
+### Dependencies
+
+Layers 0–1; ClassicalGroups Layers 2–4; Tau Ceti continuous character integrals.
+
 ## Layer 3: moments, event probabilities, and the stored statistics
 
 ### 3.1 Moments
@@ -703,7 +890,19 @@ moment sequence of `a_i`, `m ↦ E[a_i^m]`, starting with `E[a_i^0] = 1`; it equ
 `coeffMoment G (Pi.single i m)` for `i ≤ d`, and for `i > d` it is `1, 0, 0, …` since `a_i = 0`
 beyond the degree), `traceMoment G m := ∫ (trace g)^m`.
 Prove: every `coeffMoment` is an integer (2.5(d)), hence real; `aMoment G 0 m = 1`; moments are
-conjugation-invariant and depend only on `coeffLaw G`. *Needs:* 1.5, 2.5.
+conjugation-invariant and depend only on coeffLaw G. *Needs:* 1.5, 2.5.
+
+The required API includes:
+
+- The zeroth moment is 1 for every coefficient, including coefficients identically zero.
+- Moments are invariant under conjugation and determined by the coefficient law.
+- For i>d the moment sequence is 1,0,0,…; for i=0 it is constantly 1.
+
+**Checks.**
+
+- For d=0, all a₀ moments are 1; a₁ moments are 1,0,0,…, because the zeroth power is 1.
+- For mu(3), the first four trace moments are 1,0,0,1; component averages need not be integral.
+- For {I₂}, the first a₁ moment is −2 and the second is 4; moments are uncentered.
 
 ### 3.2 Trace moments equal `a_1` moments in odd weight
 
@@ -713,14 +912,23 @@ for odd `m` (2.5(a): `g ↦ −g` preserves Haar and negates `a_1`). In even wei
 `fourth_trace_moment` are `traceMoment G 2`, `traceMoment G 4`; `first_a2_moment` is
 `aMoment G 2 1`. *Needs:* 2.5, 3.1.
 
+The odd-weight trace identity is `traceMoment_eq_aMoment_one`.
+
+**Checks.**
+
+- For mu(1), trace moments are all 1 whereas a₁ moments are (−1)^m.
+- For the weight-one torus, odd moments vanish and second trace and a₁ moments both equal 2.
+- At degree zero the first trace and a₁ moments are both 0, including the odd-weight empty Hodge structure.
+
 ### 3.3 The moment simplex, the moment matrix and the character diagonal
 
-For `G ≤ USp(2g)` the mixed moments with `∑ i·n_i` even are the **moment simplex**; prove the
+For closed `G ≤ USp(2g)` containing `−I` (in particular, satisfying the weight-one Hodge
+condition), the mixed moments with `∑ i·n_i` even are the **moment simplex**; prove the
 vanishing `coeffMoment G n = 0` when `∑ i·n_i` is odd (from `−1 ∈ G⁰`, 2.5(a), since
 `∏ a_i^{n_i}(−g) = (−1)^{∑ i n_i} ∏ a_i^{n_i}(g)`), so the simplex loses nothing. The row and entry
 **ordering** of the stored `simplex` is a database convention, not a target. `momentMatrix G` : for an
 enumeration `χ : ι → (irreducible characters of the ambient group)` (ClassicalGroups Layer 4,
-indexed by dominant weights), the matrix `E[χ_i χ_j]`; `characterDiagonal G i := E[χ_i²]`. Prove
+indexed by dominant weights), the matrix `E[χ_i χ_j]`; characterDiagonal G i := E[χ_i²]. Prove
 the entries are integers (2.5(d)), that `E[χ_i χ_j] = dim Hom_G(V_i, V_j)` when the `V_i` are
 self-dual (the ambient's irreducibles are), that `E[χ_i²] = 1` iff the restriction of `V_i` to
 `G` is irreducible, and that the restrictions of `V_i` and `V_j` (`i ≠ j`) are inequivalent iff
@@ -732,12 +940,38 @@ combination of entries of the moment simplex (the characters are integer polynom
 `a_i`; ClassicalGroups Layer 4). *Needs:* 2.5, 3.1, ClassicalGroups Layer 4, Tau Ceti
 `Character/Basic.lean`.
 
+The required API includes:
+
+- With −I in the group, odd weighted-degree mixed moments vanish.
+- For self-dual representations the character matrix entries are dimensions of intertwiner spaces.
+- The diagonal detects irreducibility, and the cross inner product detects equivalence of irreducible restrictions.
+
+The odd-weight Hodge specialization is `coeffMoment_eq_zero_of_odd`.
+
+**Checks.**
+
+- For {I₂}, E[a₁]=−2, so symplectic containment alone cannot justify discarding odd entries.
+- For {±I₂}, E[a₁]=(−2+2)/2=0 and E[a₁²]=4; the −I hypothesis gives exactly the parity symmetry.
+- Restrict std and std⊗det from O(3) to SO(3): both diagonal character norms and their cross inner product are 1. Distinct ambient labels do not imply orthogonal restrictions.
+
 ### 3.4 Event probabilities and the trace zero density
 
-`coeffProb G i (x : ℂ) : ℝ := (haar G).real {g | a_i g = x}`, `traceZeroDensity G :=
-(haar G).real {g | trace g = 0}` (`= coeffProb G 1 0`), and `componentProb G H i x :=
+`coeffProb G i (x : ℂ) : ℝ := (haar G).real {g | a_i g = x}`, traceZeroDensity G :=
+(haar G).real {g | trace g = 0} (`= coeffProb G 1 0`), and `componentProb G H i x :=
 μ_H.real {g | a_i g = x}`. Prove `coeffProb G i x = c⁻¹ ∑_H componentProb G H i x` (the finite
 partition into cosets, 1.4). *Needs:* 1.4.
+
+The required API includes:
+
+- Event probabilities are the averages of their component probabilities.
+- The trace-zero event is the coefficient-at-1 zero event in every degree.
+- Every event probability lies between 0 and 1.
+
+**Checks.**
+
+- On U(1), trace zero occurs at u=±i but its Haar probability is 0.
+- On N(U(1)), one of two components has trace identically zero, giving probability 1/2.
+- For mu(3), a₁=−ζ₃ has probability 1/3 while trace zero has probability 0.
 
 ### 3.5 The component-counting theorem (Serre)
 
@@ -746,9 +980,9 @@ On a component `C_H` of a closed subgroup `G ≤ U(d)`, each `a_i` is either **c
 Hence, with `zCount G i x := #{H | a_i ≡ x on C_H}`, `coeffProb G i x = zCount G i x / c`, a
 rational number with denominator dividing `c`, nonzero only for the finitely many `x` that are
 the constant value of `a_i` on some component; the `counts` record of a group is the finite list
-of pairs `(x, zCount G i x)` with `zCount ≠ 0`, and `zVector G` is `(z_1; z_{2,−2}, …, z_{2,2})`
+of pairs `(x, zCount G i x)` with `zCount ≠ 0`, and zVector G is `(z_1; z_{2,−2}, …, z_{2,2})`
 with `z_1 = zCount G 1 0`, `z_{2,n} = zCount G 2 n`.
-Proof route, in three pieces. (a) `null_zeroSet_of_analytic`: the zero set of a nonzero
+Proof route, in three pieces. (a) null_zeroSet_of_analytic: the zero set of a nonzero
 real-analytic function on a connected open subset of `ℝ^n` is Lebesgue-null (induction on `n`
 with Fubini; in one variable the zeros are isolated by the identity theorem
 `AnalyticOnNhd.eqOn_zero_of_preconnected_of_eventuallyEq_zero`). (b) The chart comparison: in
@@ -761,33 +995,62 @@ and (b). (Serre, *Lectures on N_X(p)*, §8.4, which draws this consequence for `
 LMFDB knowl `st_group.trace_zero_density` states it.) *Needs:* 1.2, 1.4, LieGroups
 Layer 0.
 
-### 3.6 The record of a group
+The required API includes:
 
-`structure STRecord` with fields `weight`, `degree`, `realDimension`, `components`,
-`rational : Bool`, `traceZeroDensity : ℚ`, `traceMoments : List ℤ` (the `a_1`/trace row through
-`m = 12`), `a2Moments : List ℤ`, `a3Moments : List ℤ`, `counts : List (ℕ × List (ℤ × ℚ))` (per
-`i`, the pairs `(x, z/c)`), `zVector : List ℕ`, `characterDiagonal : List ℤ`; and
-`record (H) (G) : STRecord` computed from the
-definitions above: weight `w`, degree `d`, `realDimension G`, `numComponents G`, `IsRational G`
-(decided classically), the rational number equal to `traceZeroDensity G` (it is `z_1/c` by 3.5),
-the integers `traceMoment G m` for `m = 0, …, 12` and `aMoment G 2 m` for `m = 0, …, 6` (integral
-by 3.1), the `a_3` moment sequence in degree `6` and the empty list below degree `6`, the
-`counts` and `zVector` of 3.5, and the character diagonal of 3.3 (the isomorphism type of the component group is recorded by its
-`FiniteGroupInvariants` invariants, not here). This is the LMFDB row minus the
-label, name, generators, lattice and histogram; the certificates of 6.7 and 7.4 are equalities of
-`record`s. *Needs:* 1.3, 3.1–3.5.
+- `componentProb_eq_zero_or_one` gives the constant-or-null alternative on each component.
+- `coeffProb_eq_zCount_div` identifies event probability with the count of constant components divided by the component count.
+- The set of coefficient values with positive mass is finite, with denominators dividing the component count.
+
+The constant-component characterization is `componentProb_eq_one_iff`.
 
 **Checks.**
 
-- (computation) `record (weightOne 1) su2`: weight `1`, degree `2`, real dimension `3`, one
+- For N(U(1)), the component probabilities at a₁=0 are 0 and 1; z/c=1/2.
+- For a₂=1 in the same group, both components are constant and z/c=2/2=1.
+- On a zero-dimensional component every function is constant: a nonzero constant has empty zero set of mass 0, while the zero function has zero set of mass 1.
+
+### 3.6 The record of a group
+
+structure STRecord with fields `weight`, `degree`, realDimension, `components`,
+`rational : Bool`, traceZeroDensity : ℚ, `traceMoments : List ℤ` (the `a_1`/trace row through
+`m = 12`), `a2Moments : List ℤ`, `a3Moments : List ℤ`, `counts : List (ℕ × List (ℂ × ℚ))` (per
+`i`, the pairs `(x, z/c)`), zVector : List ℕ, characterDiagonal : List ℤ; and
+record (H) (G) : STRecord computed from the
+definitions above: weight `w`, degree `d`, realDimension G, `numComponents G`, `IsRational G`
+(decided classically), the rational number equal to traceZeroDensity G (it is `z_1/c` by 3.5),
+the integers `traceMoment G m` for `m = 0, …, 12` and `aMoment G 2 m` for `m = 0, …, 6` (integral
+by 3.1), the `a_3` moment sequence in degree `6` and the empty list below degree `6`, the
+the complete complex-valued event probabilities from 3.5 and the integer-event projection
+zVector, and the character diagonal of 3.3 (the isomorphism type of the component group is recorded by its
+`FiniteGroupInvariants` invariants, not here). This is the LMFDB row minus the
+label, name, generators, lattice and histogram; the moment and inclusion theorems of
+6.7 and 7.4 determine these invariants. *Needs:* 1.3, 3.1–3.5.
+
+The required API includes:
+
+- The record is invariant under conjugation of the group.
+- The full event field uses complex values; its integer projection may have total mass less than one.
+- Raw component counts and probabilities are related by the positive component count, not identified.
+
+**Checks.**
+
+- (computation) record (weightOne 1) su2: weight `1`, degree `2`, real dimension `3`, one
   component, rational, trace zero density `0`, trace moments
   `1, 0, 1, 0, 2, 0, 5, 0, 14, 0, 42, 0, 132`, every `a_2` moment `1`, no `a_3` moments (5.4).
-- (computation) `record (weightOne 1) nu1`: two components, real dimension `1`, trace zero
-  density `1/2`, trace moments `1, 0, 1, 0, 3, 0, 10, 0, 35, 0, 126, 0, 462`, `zVector = [1]`.
-- (non-example) `record (artin 1) (mu 3)`: the `rational` field is `false` (`E[a_1] = −ζ_3` on a
+- (computation) record (weightOne 1) nu1: two components, real dimension `1`, trace zero
+  density `1/2`, trace moments `1, 0, 1, 0, 3, 0, 10, 0, 35, 0, 126, 0, 462`, zVector = [1].
+- (non-example) record (artin 1) (mu 3): the `rational` field is `false` (`E[a_1] = −ζ_3` on a
   component), three components, real dimension `0`, trace zero density `0` (5.6).
-- (convention) `record (artin 1) (mu 1)` has trace moments `1, 1, 1, …`: the row is the trace row,
+- (convention) record (artin 1) (mu 1) has trace moments `1, 1, 1, …`: the row is the trace row,
   while the `a_1` moments alternate in sign.
+
+### Examples
+
+The mu(3) coefficient law has three atoms of mass 1/3, and N(U(1)) has a trace-zero atom of mass 1/2.
+
+### Dependencies
+
+Layers 1–2; LieGroups Layer 0 charts; ClassicalGroups Layer 4; the analytic null-set and Haar-density targets of 3.5.
 
 ## Layer 4: Weyl integration for the connected groups
 
@@ -798,6 +1061,12 @@ hyperoctahedral group of signed permutations, of order `2^g g!`, acting on `(Fin
 permuting coordinates and inverting them. For `g = 1` this is Tau Ceti's `SU2.weylGroup` of
 order `2`. *Needs:* 0.5, LieGroups Layer 6 (the general normalizer statement), Tau Ceti
 `SU2/Weyl/Basic.lean`.
+
+**Checks.**
+
+- At g=0, the Weyl group has order 2⁰·0!=1.
+- At g=1, inversion has order 2 and the Weyl group has two elements.
+- At g=2, four independent sign choices and two permutations give order 8, not 4.
 
 ### 4.2 The Weyl integration formula for `USp(2g)`
 
@@ -816,6 +1085,14 @@ lemma; for `g = 1` the density is `(2/π) sin²θ` and the formula is Tau Ceti's
 density is `(8/π²)(cos θ_1 − cos θ_2)² sin²θ_1 sin²θ_2` (Katz–Sarnak 5.0.4). *Needs:* 0.5,
 4.1, LieGroups Layer 6.
 
+The displayed integration identity is `weyl_integration_USp`.
+
+**Checks.**
+
+- At g=0 both empty products and the integral are 1.
+- At g=1 the mass is (2/π)(π/2)=1.
+- At g=2 the angular integral of (cos θ₁−cos θ₂)²sin²θ₁sin²θ₂ is π²/8; multiplication by 8/π² gives 1.
+
 ### 4.3 Products, diagonal copies and independence
 
 `blockProd g₁ g₂ : U(2g₁) × U(2g₂) →* U(2(g₁+g₂))` is the pinned interlacing embedding, carrying
@@ -831,11 +1108,25 @@ copies `u1Diag g = U(1)_g` and `su2Diag g = SU(2)_g` (through `su2DiagHom g : SU
 probability measure, equal to Mathlib's `AddCircle.haarAddCircle` under `Circle.exp` (Tau Ceti
 `Compact/Circle.lean`). *Needs:* 0.4, 1.5.
 
+The required API includes:
+
+- `isClosed_map_blockProd` bundles the block image as `prodClosed`.
+- `aMoment_one_prodClosed` is the binomial convolution formula.
+- The maps `su2DiagHom` and `unitaryDiagHom` define the repeated SU(2) representation and the standard-plus-dual unitary representation.
+
+The block construction uses `blockDiagHom`, `finTwoMulEquiv` and `interlaceEquiv`; the standard-plus-dual construction uses entrywise conjugation `conjHom`.
+
+**Checks.**
+
+- Two identity blocks give polynomial (1−2T+T²)², with a₁=−4,a₂=6; interlacing preserves Ω₄.
+- For independent SU(2) factors, E[a₁²]=1+1=2 and E[a₁⁴]=2+6+2=10; for the diagonal double copy they are 4 and 32.
+- An empty block has polynomial 1 and trace 0, so convolution leaves every moment of the other block unchanged.
+
 ### 4.4 The genus-one engine: `U(1)` and `SU(2)`
 
-For `U(1) = {diag(u, ū)} ≤ USp(2)`: `traceLaw` is the **arcsine law** `dz / (π √(4 − z²))` on
+For `U(1) = {diag(u, ū)} ≤ USp(2)`: traceLaw is the **arcsine law** `dz / (π √(4 − z²))` on
 `[−2, 2]` (`arcsineLaw`, of total mass one), `E[t^{2n}] = C(2n, n)` (`Nat.centralBinom n`), odd moments `0`, `Pr[t = 0] = 0`. For
-`SU(2) = USp(2)`: `traceLaw` is the **semicircle law** `√(4 − z²) dz / (2π)`,
+`SU(2) = USp(2)`: traceLaw is the **semicircle law** `√(4 − z²) dz / (2π)`,
 `E[t^{2n}] = catalan n`, odd moments `0`, `Pr[t = 0] = 0`; proved through 4.2 for `g = 1` and the integrals
 `(2/π)∫_0^π (2cos θ)^{2n} sin²θ dθ = catalan n` (`integral_cos_pow`); equivalently through the
 Chebyshev characters `U_n(t/2)` of Tau Ceti and their orthonormality
@@ -847,11 +1138,26 @@ generalizations `b_{i,n} := [X^n](X² + iX + 1)^n`, `d_{i,n} := b_{i,n} − [X^{
 with `E[a_{1,U(1)}^n] = bSeq n`, `E[a_{1,SU(2)}^n] = cSeq n`. *Needs:* 0.2, 4.2, 4.3, Tau Ceti
 `SU2/Weyl/*`, `SU2/Completeness.lean`.
 
+The required API includes:
+
+- Arcsine and semicircle are normalized probability laws.
+- Their even moments are central binomial and Catalan numbers respectively; odd moments vanish.
+- Coefficient-extraction formulas express all four auxiliary sequences without finite truncation.
+
+The arcsine measure is `arcsineLaw`; its normalization is `isProbabilityMeasure_arcsineLaw`.
+
+**Checks.**
+
+- For n=0,1,2,3 the arcsine even moments are 1,2,6,20 and semicircle even moments 1,1,2,5.
+- For bSeq at n=0,1,2,4 the values are 1,0,2,6; cSeq gives 1,0,1,2, with denominators 1,1,2,3.
+- Both densities are symmetric with first moment 0; the endpoints ±2 have probability 0, despite the arcsine density being unbounded there.
+
 ### 4.5 `USp(4)`: the joint density and the moment formulas
 
 The joint law of `(a_1, a_2)` on `USp(4)` has density `(4π²)⁻¹ √max{ρ(a_1, a_2), 0}` with
 `ρ = (a_1² − 4a_2 + 8)(a_2 − 2a_1 + 2)(a_2 + 2a_1 + 2)`, supported on
-`S = {a_2 ≥ 2a_1 − 2, a_2 ≥ −2a_1 − 2, a_2 ≤ a_1²/4 + 2}` (FKRS (5.1), the change of variables
+`S = {−4 ≤ a_1 ≤ 4, a_2 ≥ 2a_1 − 2, a_2 ≥ −2a_1 − 2, a_2 ≤ a_1²/4 + 2}`;
+the density is zero outside this compact set (FKRS (5.1), the change of variables
 `a_1 = −2(cos θ_1 + cos θ_2)`, `a_2 = 2 + 4 cos θ_1 cos θ_2` in 4.2: in the angles
 `ρ = 64 (cos θ_1 − cos θ_2)² sin²θ_1 sin²θ_2`, the Jacobian of `(θ_1, θ_2) ↦ (a_1, a_2)` is
 `8 |cos θ_1 − cos θ_2| sin θ_1 sin θ_2`, and the two orderings of the angles give the same point,
@@ -863,32 +1169,79 @@ sin θ_1 sin θ_2 = (4π²)⁻¹ √ρ`). Moments:
 is `u ↦ diag(u, u, ū, ū)`. The analogous joint densities for `U(1) × U(1)`, `U(1) × SU(2)`,
 `SU(2) × SU(2)` are FKRS Table 5 and follow from 4.3–4.4. *Needs:* 4.2–4.4.
 
+The two all-degree moment identities are `aMoment_one_uSp4` and `aMoment_two_uSp4`.
+
+**Checks.**
+
+- At (a₁,a₂)=(10,25), ρ=2632>0 but |a₁|>4, so the density is 0.
+- At (0,0), ρ=32 and the point is interior; at (0,−2), ρ=0 and the density is 0.
+- At n=0 both moment formulas give 1; at n=1,2 the a₂ moments are 1,2 and the a₁ even moments are 1,3.
+
 ### 4.6 The connected groups of degree `4`
 
-Define the six closed subgroups of `USp(4)` in the pinned coordinates, `degree4Connected : Fin 6 →
-Subgroup (U 4)` — `U(1)_2`, `SU(2)_2`, `U(1) × U(1)`, `U(1) × SU(2)`, `SU(2) × SU(2)`, `USp(4)`
+Define the seven closed subgroups of `USp(4)` in the pinned coordinates, `degree4Connected : Fin 7 →
+Subgroup (U 4)` — `U(1)_2`, `SU(2)_2`, `U(1) × U(1)`, `U(1) × SU(2)`, `SU(2) × SU(2)`, `USp(4)`,
+and `Z(U(2))={diag(A,Ā)}`
 (the diagonal copies of 4.3 and block products through `blockProd 1 1`) — prove each is connected, compute its
-real dimension (`1, 3, 2, 4, 6, 10`), exhibit a Hodge circle in each, prove the Hodge condition
-(the Hodge circles of a connected compact group generate a dense subgroup when the group is
-generated by its conjugates of a torus containing a Hodge circle), and compute the `a_1` and
+real dimension (`1, 3, 2, 4, 6, 10, 4`), exhibit a Hodge circle in each, prove the Hodge condition
+(for each torus factor, use all sign choices of its weights; for each semisimple factor,
+use the conjugates of its torus circles), and compute the `a_1` and
 `a_2` moment sequences: `E[a_1^{2n}]`: `U(1)_2`: `8, 96, 1280`; `SU(2)_2`: `4, 32, 320`;
 `U(1)×U(1)`: `4, 36, 400`; `U(1)×SU(2)`: `3, 20, 175`; `SU(2)×SU(2)`: `2, 10, 70`; `USp(4)`:
 `1, 3, 14`; `E[a_2^n]`, `n = 1,2,3`: `4, 18, 88`; `3, 10, 37`; `2, 8, 32`; `2, 6, 20`; `2, 5, 14`;
 `1, 2, 4` (FKRS Table 8; each is a Weyl-integration computation through 4.3–4.5). *Needs:*
 2.2, 4.3–4.5.
 
+For Z(U(2)), the scalar circle and the circle `diag(u,ū)` inside U(2) both give
+weights (1,1,−1,−1) after applying Z. They generate the center and SU(2), hence U(2).
+The commutant on ℂ⁴ is ℂ⊕ℂ, of dimension 2; for U(1)×SU(2) it is ℂ³.
+Haar invariants give E[a₁²]=2 and E[a₂]=1 for Z(U(2)), versus 3 and 2 for U(1)×SU(2).
+These distinguish the two dimension-four groups.
+
+The required API includes:
+
+- The seven subgroups are connected, symplectic and generated by weight-one circles.
+- Their real dimensions and moment sequences are invariant under symplectic conjugacy.
+- The standard-plus-dual U(2) case is distinguished from the product U(1)×SU(2) by its commutant and coefficient moments.
+
+**Checks.**
+
+- The diagonal and product U(1) groups have second trace moments 8 and 4, distinguishing repetition from independence.
+- Z(U(2)) and U(1)×SU(2) both have dimension 4, but E[a₂]=1 and 2 respectively.
+- All seven groups have coefficient a₄=1 and a₀=1; their scalar −I₄ gives a₁=4.
+
 ### 4.7 The connected groups of degree `6`
 
-Define the fourteen connected subgroups of `USp(6)` of FKS Table 9 in the pinned coordinates,
-`degree6Connected : Fin 14 → Subgroup (U 6)`: `U(1)_3`, `SU(2)_3`, `U(1) × U(1)_2`, `SU(2) × U(1)_2`, `U(1) × SU(2)_2`, `SU(2) × SU(2)_2`,
+Define the sixteen connected subgroups of `USp(6)`: the fourteen of FKS Table 9 in the pinned coordinates,
+`degree6Connected : Fin 16 → Subgroup (U 6)`: `U(1)_3`, `SU(2)_3`, `U(1) × U(1)_2`, `SU(2) × U(1)_2`, `U(1) × SU(2)_2`, `SU(2) × SU(2)_2`,
 `U(1)³`, `U(1)² × SU(2)`, `U(1) × SU(2)²`, `SU(2)³`, `U(1) × USp(4)`, `SU(2) × USp(4)`, `U(3)`
-(embedded `A ↦ diag(A, Ā)`), `USp(6)`; prove connectedness, the Hodge condition for `weightOne 3`,
-compute real dimensions (`1, 3, 2, 4, 4, 6, 3, 5, 7, 9, 11, 13, 9, 21`) and the moment formulas
+(embedded `A ↦ diag(A, Ā)`), `USp(6)`, followed by `Z(U(2))×U(1)` and `Z(U(2))×SU(2)` through `blockProd 2 1`; prove connectedness, the Hodge condition for `weightOne 3`,
+compute real dimensions (`1, 3, 2, 4, 4, 6, 3, 5, 7, 9, 11, 13, 9, 21, 5, 7`) and the moment formulas
 for `a_1, a_2, a_3` by 4.2–4.4 (the `U(3)` case by the Weyl formula for `U(3)` with torus
 `U(1)³`, consumed from LieGroups Layer 6). Record that `SU(2) × U(1)_2` and `U(1) × SU(2)_2` are
 isomorphic (both to `U(1) × SU(2)`) but not conjugate in `USp(6)` (different coefficient laws;
 FKS §3.6). *Needs:* 2.2, 4.2–4.4,
 LieGroups Layer 6.
+
+The required API includes:
+
+- Each of the sixteen groups is connected and satisfies the weight-one Hodge condition.
+- Their commutants recover them by the symplectic double-centralizer operation.
+- Weyl integration and product laws determine all coefficient moments, not just a stored row.
+
+**Checks.**
+
+- SU(2)×U(1)₂ and U(1)×SU(2)₂ both have dimension 4 but second trace moments 9 and 6.
+- Z(U(2))×U(1) and Z(U(2))×SU(2) have dimensions 5 and 7 and second trace moments 4 and 3.
+- U(3) has dimension 9 while USp(6) has dimension 21; both have a₆=1, so the determinant alone does not distinguish them.
+
+### Examples
+
+Independent SU(2) factors give fourth trace moment 10; the double diagonal copy gives 32.
+
+### Dependencies
+
+Layers 0–3; LieGroups Layer 6 Weyl integration; Tau Ceti SU(2) characters and integrals.
 
 ## Layer 5: degree `2`
 
@@ -904,6 +1257,20 @@ determinant `−1`: it lies outside `SU(2)`, and with `U(1)` it generates a grou
 `O(2)` on whose second component `a_2 ≡ −1`; the generator of `N(U(1))` inside `SU(2)` is `J`.
 *Needs:* 0.2, 1.1–1.3, Tau Ceti `SU2/Basic.lean`, `SU2/Weyl/Basic.lean`.
 
+The required API includes:
+
+- The groups `u1`, `nu1` and `su2` are closed.
+- Their identity components and component quotients have the stated orders.
+- The matrix `J` normalizes the torus by inversion and squares to −I.
+
+Closedness is expressed by `isClosed_u1Diag` and `isClosed_nu1`.
+
+**Checks.**
+
+- J²=−I and det J=1; J normalizes the torus by inversion.
+- The swap matrix has square I and determinant −1, and therefore is not the chosen normalizer generator.
+- The dimensions of u1,nu1,su2 are 1,1,3 and their component counts 1,2,1.
+
 ### 5.2 They are Sato–Tate groups for `weightOne 1`
 
 `IsSatoTateGroup (weightOne 1) G` for `G ∈ {u1, nu1, su2}`: self-duality is 0.2; the Hodge
@@ -912,6 +1279,14 @@ the conjugates of the torus cover `SU(2)` (`exists_conj_mem_torus`), so they gen
 rationality: `u1`, `su2` by 2.5(c); for `nu1` the non-identity component `J·U(1)` has `a_1 ≡ 0`
 and `a_2 ≡ 1` (every element of it has characteristic polynomial `T² + 1`), so all its mixed
 moments are `0` or `1`. *Needs:* 2.2–2.5, 5.1.
+
+The axiom verification is `isSatoTateGroup_degree2`.
+
+**Checks.**
+
+- The scalar −I₂ lies in each of the three groups, as the Hodge circle requires.
+- The nonidentity component of nu1 has polynomial 1+T², giving a₁=0,a₂=1.
+- The finite subgroup {±I₂} has rational component moments but fails ST2, so it is not a fourth degree-two case.
 
 ### 5.3 The classification in degree `2`
 
@@ -925,14 +1300,27 @@ subalgebra; if `G⁰ = SU(2)` then `G = SU(2)`; if `G⁰ = u1` then `G ≤ N(u1)
 or `G = nu1`. Rationality plays no role (Sutherland, Proposition 4.4). *Needs:* 1.3, 2.2,
 5.1, LieGroups Layer 2.
 
+The exhaustion theorem is `degree2_classification`, using the ambient-conjugacy predicate `IsConjIn`.
+
+**Checks.**
+
+- A one-dimensional connected case is the torus, with normalizer quotient C₂ and exactly two extensions.
+- The connected full SU(2) case has dimension 3 and normalizer quotient 1.
+- In su₂, two independent imaginary quaternion directions i,j have bracket 2k outside their plane, excluding a two-dimensional subalgebra.
+
 ### 5.4 The invariants of the three groups
 
 Trace moments through `m = 12`: `su2`: `1,0,1,0,2,0,5,0,14,0,42,0,132`; `u1`:
 `1,0,2,0,6,0,20,0,70,0,252,0,924`; `nu1`: `1,0,1,0,3,0,10,0,35,0,126,0,462` (half the `u1`
 moments for `m ≥ 1`, since the second component contributes `0`). `a_2 ≡ 1` on all three, so
-`E[a_2^n] = 1`. Trace zero densities `0, 0, 1/2`; `zVector`: `z_1 = 0, 0, 1`. The trace laws:
-semicircle, arcsine, `½ δ_0 + ½ arcsine` (`nu1TraceLaw`). These three records are the degree-`2` certificate
-(3.6). *Needs:* 3.1–3.5, 4.4, 5.1–5.2.
+`E[a_2^n] = 1`. Trace zero densities `0, 0, 1/2`; zVector: `z_1 = 0, 0, 1`. The trace laws:
+semicircle, arcsine, `½ δ_0 + ½ arcsine` (`nu1TraceLaw`, bundled as a probability measure). These three laws determine the degree-`2` records (3.6). *Needs:* 3.1–3.5, 4.4, 5.1–5.2.
+
+**Checks.**
+
+- The zeroth moment of nu1 is 1, while its second and fourth moments are 1 and 3.
+- The second moments of u1,nu1,su2 are 2,1,1; the fourth moments 6,3,2 distinguish the latter two.
+- Their trace-zero probabilities are 0,1/2,0, despite all three containing elements of trace zero.
 
 ### 5.5 The non-self-dual degree-`2` families
 
@@ -958,9 +1346,12 @@ although the LMFDB's name `U(1)[D_n]` and its stored `component_group` (`D_n`, i
 generator for this family) say so: the stored `gens` `J, diag(1, ζ_n)` generate exactly the group defined here, and
 `J·diag(1, ζ_n)` has order `2n` (`n` odd) or `n` (`n` even) modulo `U(1)`, not `2`. Real dimension
 `1`, Hodge circle `u ↦ diag(u^w, u^{−w})`, rational iff `n ≤ 2`, self-dual iff `w` is odd and
-`n = 1` (for even `w`, `nu1Mu 1` is `U(2)`-conjugate to `Od 2` but does not lie in it), trace
-moments `E[t^m] = ½ C(m, m/2)` if `2n ∣ m`, `0` otherwise (the component `diag(1, ζ^j) U(1)` has `t = ζ^{j/2}·2cos`),
-`Pr[t = 0] = 1/2` (the `n` components `diag(1,ζ^j) J U(1)` have `t ≡ 0`), `counts = [(0, n)]`,
+`n = 1`. The group `nu1Mu 1` is the subgroup Pin(2) of `SU(2)`; it is not conjugate
+to `Od 2`, since its determinant image is `{1}`. The even-weight orthogonal copy is
+`⟨U(1), J·diag(1,−1)⟩`, conjugate to `O(2)`: the second generator squares to `I`,
+whereas `J²=−I`. Its determinant image is `{±1}`. For `nu1Mu n`, trace moments are
+`E[t^0]=1`; for `m>0`, `E[t^m] = ½ C(m, m/2)` if `2n ∣ m`, `0` otherwise (the component `diag(1, ζ^j) U(1)` has `t = ζ^{j/2}·2cos`),
+`Pr[t = 0] = 1/2` (the `n` components `diag(1,ζ^j) J U(1)` have `t ≡ 0`), the raw trace-zero component count is `n` (probability `1/2`),
 `zVector = [n]`. These are the LMFDB's `w.2.3.cn` and `w.2.1.dn` (generated by the
 `SU(2)[C_n]` and `U(1)[D_n]` families of `sato_tate_groups/main.py`), whose generated moment rows use the condition `n ∣ m` in place of
 `2n ∣ m`: the two agree exactly when `n` is odd; for even `n` the LMFDB row of `w.2.1.dn` is the
@@ -971,19 +1362,55 @@ moment sequence of the index-two subgroup `⟨U(1), diag(1, ζ_n²), J·diag(1, 
 LMFDB row of `w.2.3.cn` (`E[t²] = 1` for `n = 2`) is not a Haar moment sequence of `SU(2)[C_n]`.
 *Needs:* 2.1–2.5, 3.1–3.5, 4.4, 5.1.
 
+The required API includes:
+
+- For n≥1 the identity components and component quotients have the stated orders.
+- The component character averages characterize rationality by n≤2.
+- Positive moments obey the divisibility law, while the zeroth moment is always one.
+
+**Checks.**
+
+- At n=1,m=0 the normalizer moment is 1; at m=2,4 it is 1,3.
+- At n=2 the determinant-kernel group has second trace moment 0 and fourth moment 2; the normalizer family has 0 and 3.
+- For n=1,2,3 the normalizer component groups have orders 2,4,6 and types C₂,C₂²,C₆; J·diag(1,−1) squares to I and generates the orthogonal variant when n=2.
+
 ### 5.6 Weight `0`, degree `1`
 
-`mu n : ClosedSubgroup (U 1)`, the `n`-th roots of unity: finite, so `G⁰ = 1` and the Hodge
+For `n ≥ 1`, define the closed subgroup mu(n) of `U(1)` by `z^n=1`: it is finite, so `G⁰ = 1` and the Hodge
 condition for `artin 1` holds with the trivial circle (`h^{0,0} = 1`, eigenvalue `u^0 = 1`, and
 the trivial subgroup is dense in `G⁰ = 1`); `IsSelfDual 0` iff `n ≤ 2` (`O(1) = {±1}`);
 `IsRational` iff `n ≤ 2` (the component `{ζ}` has `E[a_1] = −ζ`); component group `C_n`; trace
-moments `E[t^m] = [n ∣ m]`; `counts = [(1, 1), (−1, 1)]` for even `n` and `[(−1, 1)]` for odd
-`n` — the pairs `(x, zCount G 1 x)` of the pinned convention, with `a_1 = −t`: the identity
+moments `E[t^m] = [n ∣ m]`; the complete raw event list is `[(−ζ,1) | ζ^n=1]`, and the complete
+probability list is `[(−ζ,1/n) | ζ^n=1]`. Its integer-event projection consists of
+`(1,1),(−1,1)` for even `n`, and `(−1,1)` for odd `n`, in raw counts. With `a_1=−t`, the identity
 component `{1}` has `a_1 ≡ −1`, and for even `n` the component `{−1}` has `a_1 ≡ 1` (one
 component each, so `Pr[a_1 = ∓1] = 1/n`); real dimension `0`; `Pr[t = 0] = 0`. The identification of `mu n` with the Sato–Tate group
-of a degree-one Artin representation of order `n` is the sibling `ArtinRepresentations`'. *Needs:* 2.1–2.5, 3.1–3.5.
+of a degree-one Artin representation of order `n` is the sibling `ArtinRepresentations`'.
+For the total definition at `n=0, mu(0) is the entire circle: it is infinite, has one
+component, and fails the weight-zero Hodge condition because its identity component is
+nontrivial. *Needs:* 2.1–2.5, 3.1–3.5.
 
-## Layer 6: degree `4` — the fifty-five groups and the fifty-two
+The required API includes:
+
+- For n≥1 the roots form a group of order n and give the divisibility formula for trace moments.
+- Self-duality and component rationality both hold exactly for n=1 or n=2.
+- At n=0 the total root equation defines the full circle, independently of the finite-family theorem.
+
+**Checks.**
+
+- For n=0 the equation z⁰=1 holds on the full circle, which is infinite and fails the weight-zero Hodge condition.
+- For n=1,2 the trace moments are respectively all 1 and 1,0,1,0,…; the groups are self-dual and rational.
+- For n=3 the complete a₁ record has −1,−ζ₃,−ζ₃², each of probability 1/3; the integer projection retains only −1 and has total probability 1/3.
+
+### Examples
+
+Pin(2) has determinant image {1}; the orthogonal variant has determinant image {±1}.
+
+### Dependencies
+
+Layers 0–4; LieGroups Layer 2; ModularityAndLanglandsExtensions §4.39 for the determinant-kernel carrier.
+
+## Layer 6: degree 4 — abstract classification and the arithmetic sublist
 
 ### 6.1 Coordinates, `Z`, `N` and `J`
 
@@ -1009,6 +1436,18 @@ of basis vectors fixes the matrix `[[0, J_2], [−J_2, 0]]`, so FKRS's §3.6 `J`
 `J = c · ab`. The unit quaternions `a + bi + cj + dk ↦ [[a+bi, c+di], [−c+di, a−bi]]` identify
 `SU(2)` with `Sp(1)` and embed into `Z` by (3.1). *Needs:* 0.2, 0.5, 4.6.
 
+The required API includes:
+
+- Centralizer and normalizer formulas determine the two quotient actions.
+- The quaternion embedding respects multiplication and carries the named unit quaternions to the given matrices.
+- The interlaced block embeddings preserve the fixed symplectic form.
+
+**Checks.**
+
+- Jfour²=I₄ while zEmbed(J)²=−I₄; confusing them changes the component action.
+- The scalar e^(πi) maps to −I₄, already in the embedded SU(2).
+- The quaternion ω=(1+i+j+k)/2 has ω³=−1 and ωiω⁻¹=j; the quaternion-to-matrix map fixes the order of its off-diagonal entries.
+
 ### 6.2 Finite subgroups of `SO(3)` and of `SU(2)`
 
 Every finite subgroup of `SO(3)` is conjugate to a cyclic group `C_n`, a dihedral group `D_n`
@@ -1020,7 +1459,13 @@ Every finite subgroup of `SO(3)` is conjugate to a cyclic group `C_n`, a dihedra
 : x ≠ y ∈ {1,i,j,k}}` in the quaternion model. *Needs:* Mathlib (finite group theory,
 `Matrix.specialUnitaryGroup`).
 
-### 6.3 The fifty-five groups, with generators
+**Checks.**
+
+- The binary lift of the four-element rotation group is Q₈ of order 8, not an eight-element abelian group.
+- The binary tetrahedral and octahedral groups have orders 24 and 48; their central quotients have orders 12 and 24.
+- An odd-order finite subgroup of SU(2) is cyclic and does not contain −I; for order 3 the center quotient is still of order 3.
+
+### 6.3 The fifty-seven groups, with generators
 
 Define, as closed subgroups of `U 4` contained in `USp 4`, with `G⁰` as named and the listed
 generators `S` (so `G = ⟨G⁰, S⟩`; FKRS §§3.4–3.6, with `ζ_m = e^{πi/m} = cos(π/m) + sin(π/m) i`
@@ -1042,11 +1487,14 @@ and the quaternion embedding of 6.1):
   (FKRS's `diag(J_2, I_2)`). Two groups.
 - `G⁰ = SU(2) × SU(2)`: `G_{3,3} := G⁰` and `N(G_{3,3}) := ⟨G⁰, J⟩`. Two groups.
 - `USp(4)`. One group.
+- `Z(U(2))` and `N(Z(U(2)))=⟨Z(U(2)),J⟩`. Two groups, with one and two components.
+  Their normalizer quotient is C₂, by the action on the center U(1)₂ in 6.1.
 
 Prove for each: it is closed (a finite union of cosets of a closed subgroup), it lies in
 `USp(4)`, its identity component is the named `G⁰`, and its component group is the group of the
-`[G/G⁰]` column of FKRS Table 8. The index set is `Fin 55` with the order of FKRS Table 8:
-`degree4Gens : Fin 55 → Subgroup (U 4) × List (U 4)` is the table above, the identity component
+`[G/G⁰]` column of FKRS Table 8. The index set is `Fin 57`: the first fifty-five entries have the order of FKRS Table 8,
+followed by Z(U(2)) and its normalizer:
+`degree4Gens : Fin 57 → Subgroup (U 4) × List (U 4)` is the table above, the identity component
 (`u1Diag 2`, FKRS's copy `fkrsSU2 = zEmbed(SU(2))`, or a block product) with its generator list
 written through `zEmbed : U 2 →* U 4`, `A ↦ diag(A, Ā)`, the quaternions `quatZeta n = ζ_n`,
 `J = j` and `quatOmega = ω`, the scalars `scalarZ n = e^{πi/n}`, `Jfour = J = c · ab` and
@@ -1054,10 +1502,16 @@ written through `zEmbed : U 2 →* U 4`, `A ↦ diag(A, Ā)`, the quaternions `q
 topological closure of `⟨G⁰, S⟩`, which equals it. That each satisfies the axioms is 6.7
 (`isSatoTateGroup_degree4Group`). *Needs:* 1.1–1.2, 4.6, 6.1, 6.2.
 
+The required API includes:
+
+- The generated closures equal the specified finite unions of cosets.
+- Their identity components and component groups agree with the case descriptions.
+- The ordering fixes the first fifty-five FKRS entries and places Z(U(2)) and its normalizer last.
+
 **Checks.**
 
 - (count) thirty-two groups with `G⁰ = U(1)_2`, ten with `SU(2)_2`, eight with `U(1) × U(1)`,
-  two each with `U(1) × SU(2)` and `SU(2) × SU(2)`, and `USp(4)`: fifty-five in all.
+  two each with `U(1) × SU(2)` and `SU(2) × SU(2)`, and `USp(4)`, then two with identity component Z(U(2)): fifty-seven in all.
 - (computation) `J(O)` has `48` components and component group `S_4 × C_2`; `F_{a,b}` has `4`
   components and component group `C_2²`; `N(G_{1,3})` has identity component `U(1) × SU(2)` and
   two components (FKRS Table 11).
@@ -1065,22 +1519,31 @@ topological closure of `⟨G⁰, S⟩`, which equals it. That each satisfies the
   is FKRS Table 8's, so `F_c, F_{ab,c}, F_{a,b,c}` are the indices `44, 48, 49`.
 - (non-example) `C_5 := ⟨U(1)_2, diag(A, Ā)⟩` with `A = diag(e^{πi/5}, e^{−πi/5})` is closed, lies
   in `USp(4)` and satisfies the Hodge condition, but `E[a_1²] = 3 + √5` on a component, so it is
-  not rational and is not one of the fifty-five (6.5).
+  not rational and is not one of the fifty-seven (6.5).
 
-### 6.4 The identity component is one of six
+### 6.4 The identity component is one of seven
 
-If `G ≤ USp(4)` is closed and satisfies `HodgeCondition (weightOne 2)`, then `G⁰` is conjugate
-in `USp(4)` to one of the six groups of 4.6 (FKRS Lemma 3.7). Proof: `lieAlgebra G⁰` is a
-compact Lie algebra of rank `≤ 2` with a faithful four-dimensional symplectic self-dual
-representation containing a Hodge circle; by the rank-`≤ 2` classification (RootSystems; the
-list `t_1, su_2, t_2, t_1 × su_2, su_2 × su_2, su_3, sp_4, g_2`) and the dimension bounds on
-their irreducibles (LieHighestWeight), `su_3` and `g_2` are excluded (no four-dimensional
-self-dual faithful representation; `su_3` fails already because its representations of dimension
-`≤ 4` are not self-dual), `u(2)` is excluded by the Hodge condition (the Hodge circle `u ↦ diag(u,
-u, ū, ū)` is not conjugate into any `U(2) ≤ USp(4)` with eigenvalues of multiplicity two —
-FKS18, Remark 2.3), and the remaining algebras integrate to the six groups, each conjugate into
-the pinned form by 0.5. *Needs:* 1.3, 2.2, 4.6, RootSystems, LieHighestWeight, LieGroups
-Layers 2–3.
+For closed `G ≤ USp(4)` with `HodgeCondition (weightOne 2)`, prove that G⁰ is conjugate
+to exactly one of the seven groups of 4.6 (`degree4_identityComponent`). Classify the
+faithful symplectic four-dimensional representations of compact Lie algebras of rank at
+most two. The semisimple possibilities are su₂, su₂⊕su₂ and sp₄; su₃ and g₂ have no
+such faithful representation. In the su₂ case, Sym³ has weights 3,1,−1,−3 and fails
+ST2; two standard summands give SU(2)₂. An extra central circle permits both the
+block group U(1)×SU(2) and Z(U(2)). For a torus the weight-one cocharacters span its
+Lie algebra, giving U(1)₂ or U(1)×U(1). This is the representation-theoretic analysis
+of FKRS Lemma 3.7, p.16, with the additional Z(U(2)) representation retained.
+
+**Checks.**
+
+- Z(uI₂) has polynomial `(X−u)²(X−ū)²`; Z(diag(u,ū)) has the same polynomial.
+  Their images supply the central and semisimple directions of U(2), dimension 4.
+- Z(U(2)) has complex commutant dimension 2, whereas U(1)×SU(2) has dimension 3;
+  equal real dimension 4 does not make these representations conjugate.
+- On Sym³ of SU(2), u=i gives eigenvalues −i,i,−i,i, but generic u gives exponents
+  3,1,−1,−3, so agreement at one point does not establish a Hodge circle.
+
+*Needs:* 1.3, 2.2, 4.6; RootSystems classification; LieHighestWeight representation
+ dimensions; LieGroups Layers 2–3.
 
 ### 6.5 Rationality bounds the component group
 
@@ -1093,19 +1556,34 @@ hence the image of `G/G⁰` in `SO(3)` is a finite subgroup with element orders 
 i.e. by 6.2 one of `C_n, D_n (n ∈ {1,2,3,4,6}), A_4, S_4`, and `A_5` is excluded. For `G⁰ =
 SU(2)_2`: `G/G⁰` is a finite subgroup of `O(2) = N/G⁰`, cyclic or dihedral, and rationality
 forces the cyclic part to have order in `{1,2,3,4,6}` (FKRS §3.5). For the split `G⁰`: `G/G⁰`
-is a subgroup of the finite quotients `D_4`, `C_2`, `C_2` of 6.1. *Needs:* 2.3, 3.1, 6.1, 6.2.
+is a subgroup of the finite quotients `D_4`, `C_2`, `C_2` of 6.1.
+For G⁰=Z(U(2)), its normalizer quotient is C₂, so the only extensions are the
+connected group and its normalizer. For the latter, J²=I and every component character
+integral is the trace of an involution on G⁰-invariants, hence an integer. *Needs:* 2.3, 3.1, 6.1, 6.2.
+
+**Checks.**
+
+- For n=3,4,6 the component second moments are 2,4,6.
+- For n=5 the component second moment is 3+√5, excluding rationality.
+- For Z(U(2)), the normalizer quotient has order 2; its subgroups have orders 1 and 2, with no third extension.
 
 ### 6.6 The classification theorem in degree `4`
 
 If `G : ClosedSubgroup (U 4)` satisfies `IsSatoTateGroup (weightOne 2) G`, then `G` is conjugate
-in `USp(4)` to `degree4Group i` for some `i : Fin 55` (`degree4_classification`; FKRS Theorem
-3.4); that `i` is unique is 6.8.
+in `USp(4)` to `degree4Group i` for some `i : Fin 57` (`degree4_classification`; FKRS §§3.4–3.6, pp.16–20, for the first six
+identity components, and the C₂ quotient for Z(U(2))); that `i` is unique is 6.8.
 Proof: 6.4 fixes `G⁰` up to conjugacy; 6.5 bounds `G/G⁰` inside `N/G⁰`; the enumeration of
 subgroups of `N/G⁰` with the given image (two-to-one or graph of a homomorphism to `C_2`, FKRS
 §3.4; finite subgroups of `O(2)`, §3.5; subgroups of `⟨a, b, c⟩`, §3.6) lists exactly the groups
 of 6.3 up to conjugacy in `N`. *Needs:* 6.3–6.5.
 
-### 6.7 The invariants of the fifty-five groups: the component engine and the certificate
+**Checks.**
+
+- The seven component-case counts are 32,10,8,2,2,1,2, summing to 57.
+- Z(U(2)) satisfies ST1–ST3 with dimension 4 and commutant dimension 2; it cannot match the old dimension-four case with commutant dimension 3.
+- The C₅ extension has a nonintegral component moment 3+√5 and is excluded although ST1–ST2 hold.
+
+### 6.7 Component laws and invariants
 
 **The component engine.** For `G⁰ ∈ {U(1)_2, SU(2)_2}` and a component `h G⁰`, let
 `s(h) = ±1` according to whether `h ∈ Z`, and `r(h) = 2cos(π/k) = ζ_k + ζ_k^{−1} ∈ {−2, 0, 1, √2, √3}`
@@ -1128,12 +1606,13 @@ and the Haar invariance of 1.4). For the split `G⁰`, with `a, a'` independent 
 for every `i` (`isSatoTateGroup_degree4Group`): the
 Hodge condition from 4.6 and `G⁰ ≤ G`, self-duality from 6.3, rationality by the engine — every
 component law above has integral moments exactly because `r² = (2 cos(π/k))² ∈ ℤ` for
-`k ∈ {1,2,3,4,6}` (FKRS §3.4). **The certificate.** Define `degree4Record : Fin 55 → STRecord` as stored data
-(FKRS Table 8: `d`, `c`, `z_1`, `z_2`, `E[a_1²], E[a_1⁴], E[a_1⁶]`, `E[a_2], E[a_2²], E[a_2³]`,
-extended by Tables 9–10 to the twelfth trace moment and sixth `a_2` moment, the isomorphism type
-of `G/G⁰`, and the character diagonal) and prove `record (weightOne 2) (degree4Group i) =
-degree4Record i` for every `i`, each row by the engine and 3.1–3.5; the proof is a finite
-computation per row, and the statement is the theorem. Sample rows: `J(O)`: `d = 1`, `c = 48`,
+`k ∈ {1,2,3,4,6}` (FKRS §3.4). For every group, prove the component distributions, then obtain all coefficient moments
+by integrating those laws and averaging over the finite component group. The formulas of
+FKRS Tables 8–10 describe the first fifty-five cases. For Z(U(2)) use the U(2) Weyl
+formula on the standard representation plus its dual; for its normalizer use the second
+coset JZ and the same Haar parameter. On JZ the odd coefficients vanish. This gives
+all moments, all constant-coefficient events and the character inner products, without
+truncating the theorem to a stored moment row. Sample rows: `J(O)`: `d = 1`, `c = 48`,
 `G/G⁰ ≅ S_4 × C_2`, `z_1 = 33`, `z_2 = (1, 0, 6, 8, 9)`, `E[a_1^{2n}] = 1, 6, 50, 525, 6426`,
 `E[a_2^n] = 1, 3, 7, 26, 96`; `N(G_{1,3})`: `d = 4`, `c = 2`, `z_1 = 0`, `z_2 = (0,0,0,0,1)`,
 `E[a_1^{2n}] = 2, 11, 90`, `E[a_2^n] = 2, 5, 14`; `F_{a,b}`: `d = 2`, `c = 4`, `z_1 = 1`,
@@ -1153,36 +1632,54 @@ computation per row, and the statement is the theorem. Sample rows: `J(O)`: `d =
 
 ### 6.8 Distinctness
 
-No two of the fifty-five groups are conjugate in `U(4)` (`degree4_pairwise_not_conj`): the tuple
+No two of the fifty-seven groups are conjugate in `U(4)` (`degree4_pairwise_not_conj`): the tuple
 `(d, c, z_1, z_2, E[a_2])` of
-`degree4Record` separates them (a check on FKRS Table 8: the only pairs with equal
+the component statistics separates the first fifty-five (a check on FKRS Table 8: the only pairs with equal
 `(d, c, z_1, z_2)` are `E_2` and `J(E_1)`, with `E[a_2] = 1` and `2`), and each entry is a
 conjugacy invariant (1.3, 3.5, 3.1). Neither the first three `a_1` moments nor the first three
-`a_2` moments separate on their own (`C_4`, `C_6` share `4, 36, 400` and `2, 8, 32` with `F`;
-`D_4`, `D_6`, `J(C_4)`, `J(C_6)`, `D_{4,2}`, `D_{6,2}` share `2, 18, 200`). *Needs:* 6.7.
-
-### 6.9 The inclusion lattice
-
-For `i, j : Fin 55`, `degree4Le i j` means some `USp(4)`-conjugate of `degree4Group i` is a
-finite-index subgroup of `degree4Group j`; `degree4Realized : Finset (Fin 55)` is the index set
-with `F_c, F_{ab,c}, F_{a,b,c}` (indices `44, 48, 49`) removed, of cardinality `52`. Prove the
-stored relation (maximal subgroups with multiplicities, minimal supergroups) is exactly
-`degree4Le` on `degree4Realized`, and that `maximal` holds exactly for the groups with no proper
-finite-index supergroup among the fifty-two. A containment `H ≤ G` forces
-`H⁰ = G⁰`; the lattice therefore splits by identity component, and within `G⁰ = U(1)_2` it is
-the lattice of the finite groups of 6.3 inside `N/G⁰`. The verification is a finite computation
-on generators (membership of each generator of `H` in `G` after a conjugation listed in the
-certificate). *Needs:* 6.3, 6.7.
+`a_2` moments separate the first fifty-five on their own (`C_4`, `C_6` share `4, 36, 400` and `2, 8, 32` with `F`;
+`D_4`, `D_6`, `J(C_4)`, `J(C_6)`, `D_{4,2}`, `D_{6,2}` share `2, 18, 200`). The new two groups have dimension 4,
+component counts 1 and 2, and E[a₂]=1, whereas the previous dimension-four groups
+have E[a₂]=2. *Needs:* 6.7.
 
 **Checks.**
 
-- (count) `degree4Realized` has `52` elements and omits exactly `F_c`, `F_{ab,c}`, `F_{a,b,c}`.
-- (computation) `degree4Le` holds from `J(C_1)` and from `C_2` to `J(C_2)`, each of index `2`: the
+- The diagonal SU(2) double copy and U(1)² have second trace moment 4 but fourth moments 32 and 36.
+- E₂ and J(E₁) have equal component counts and z-data, but E[a₂]=1 and 2.
+- Z(U(2)) and its normalizer have component counts 1 and 2; both have E[a₂]=1, distinguishing them from the old dimension-four cases.
+
+### 6.9 The inclusion lattice
+
+For indices i,j of the fifty-seven groups, `degree4Le i j` means some `USp(4)`-conjugate of `degree4Group i` is a
+finite-index subgroup of `degree4Group j`; the arithmetic index subset is the index set
+obtained by excluding `F_c, F_{ab,c}, F_{a,b,c}`, Z(U(2)) and its normalizer
+(indices 44,48,49,55,56), of cardinality 52. Prove the finite-index inclusion relation, with its maximal inclusions and their
+multiplicities, and that `maximal` holds exactly for the groups with no proper
+finite-index supergroup among the fifty-two arithmetic groups. A finite-index containment `H ≤ G` forces
+`H⁰ = G⁰`; the lattice therefore splits by identity component, and within `G⁰ = U(1)_2` it is
+the lattice of the finite groups of 6.3 inside `N/G⁰`. For each connected group H, prove the bijection between closed finite-index extensions
+and finite subgroups of N(H)/H, compatible with normalizer conjugacy, index and inclusion.
+For U(1)₂ use cyclic, dihedral, tetrahedral and octahedral quotient subgroups and their
+homomorphisms to C₂; for SU(2)₂ use cyclic and dihedral subgroups of O(2); for the
+remaining cases use the subgroups of D₄,C₂,C₂,1,C₂ respectively. Prove maximality by
+exclusion of intermediate quotient subgroups and multiplicity by the corresponding
+normalizer action on embeddings. *Needs:* 6.3, 6.7.
+
+The required API includes:
+
+- Finite-index inclusions preserve the identity component.
+- Indices equal indices of the corresponding quotient subgroups.
+- Conjugation acts on quotient embeddings and determines inclusion multiplicities.
+
+**Checks.**
+
+- (count) degree4Realized has `52` elements and omits exactly `F_c, F_{ab,c}, F_{a,b,c}`, Z(U(2)) and its normalizer.
+- (computation) degree4Le holds from `J(C_1)` and from `C_2` to `J(C_2)`, each of index `2`: the
   Jacobian of `y² = x⁵ − x` has `ST = J(C_2)` over `ℚ`, `J(C_1)` over `ℚ(i)` and `C_2` over
   `ℚ(√−2)`, and base change gives finite-index subgroups (9.5).
 - (characterisation) `G_{1,3} ≤ N(G_{1,3})` with index `2`; every containment preserves the
   identity component.
-- (non-example) `C_1 = U(1)_2` lies in `USp(4)` but not with finite index, so `degree4Le` does not
+- (non-example) `C_1 = U(1)_2` lies in `USp(4)` but not with finite index, so degree4Le does not
   relate them.
 
 ### 6.10 The real-place condition
@@ -1192,7 +1689,27 @@ certificate). *Needs:* 6.3, 6.7.
 of the fifty-five fail it: `C_n` (five), `D_n` (four), `T`, `O`, `F`, `F_a`, `F_c`, `U(1) × SU(2)`.
 Its arithmetic meaning (a real place of `k` forces it) is 9.8. *Needs:* 6.3.
 
-## Layer 7: finiteness, Jordan's theorem, and degree `6` as checked data
+The required API includes:
+
+- The condition is invariant under symplectic conjugation.
+- A real place supplies an element squaring to −I and inverting a Hodge circle.
+- The exclusion list is applied to the arithmetic sublist when the base field has a real place.
+
+**Checks.**
+
+- An abelian Hodge circle alone cannot invert itself by conjugation; u=i would have to equal −i.
+- The two new degree-four groups contain Z(J), whose square is −I₄ and trace is 0, and which inverts Z(diag(u,ū)); both satisfy the real-place condition.
+- On the normalizer of the degree-two circle, J²=−I₂, trace J=0, and Jdiag(i,−i)J⁻¹=diag(−i,i).
+
+### Examples
+
+The quotient inclusion J(C₁)≤J(C₂) has index 2; the inclusion U(1)₂≤USp(4) has infinite index.
+
+### Dependencies
+
+Layers 0–4; RootSystems and LieHighestWeight representation classification; the finite rotation-group target 6.2.
+
+## Layer 7: finiteness and the degree-six normalizer classification
 
 ### 7.1 Jordan's theorem, consumed
 
@@ -1204,65 +1721,110 @@ scalars. Nothing is restated here: 7.2 applies the theorem with `F = ℂ` to the
 a representation of `N` on which `G⁰` acts trivially and `N/G⁰` faithfully. *Needs:*
 `FiniteGroupInvariants` 10.5.
 
+**Checks.**
+
+- Q₈ has a normal cyclic subgroup of order 4 and index 2.
+- A finite cyclic linear group has an abelian normal subgroup of index 1, itself.
+- The trivial representation space in dimension 0 has only the trivial linear group of order 1.
+
 ### 7.2 Finiteness of the groups satisfying the axioms
 
 For fixed `H : HodgeNumbers w d`, the set of `U(d)`-conjugacy classes of `G` with
 `IsSatoTateGroup H G` is finite (FKRS Remark 3.3; Sutherland Theorem 4.3). Proof: ST1–ST2 bound
 `G⁰` to finitely many conjugacy classes (a compact connected subgroup is determined up to
 conjugacy by its Lie algebra and its representation, and only finitely many `(𝔤, ρ)` of
-dimension `≤ d²` admit a Hodge circle — RootSystems, LieHighestWeight); fix `G⁰` and its
+dimension `≤ d²` are generated by the specified Hodge circles — RootSystems, LieHighestWeight); fix `G⁰` and its
 normalizer `N`; the character form 2.3 applied to a representation of `N` on which `G⁰` acts
 trivially and `N/G⁰` faithfully bounds the exponent of `G/G⁰` (a sum of `k` roots of unity that
 is an integer for all powers forces bounded order), Jordan's theorem 7.1 bounds `|G/G⁰|`, and a
 compact Lie group contains finitely many conjugacy classes of finite subgroups of bounded order.
 *Needs:* 2.3, 6.4 (its method), 7.1, LieGroups Layer 6.
 
-### 7.3 The connected groups of degree `6`
-
-If `G ≤ USp(6)` is closed and satisfies `HodgeCondition (weightOne 3)` and `IsLefschetz G`, then
-`G⁰` is conjugate to one of the fourteen groups of 4.7 (FKS §3.6); `SO(3)` (via `Sym²`) and
-`SU(3)` (via `U(3)`) satisfy ST1–ST3 but fail ST4, and `U(2)` fails ST2. Proof as in 6.4 with the
-rank-`≤ 3` list (FKS §3.6 table) and the six-dimensional symplectic representation. The
-dictionary `G⁰ ↔ End(A_K)_ℝ` of FKS Table 9 (types A–N) is 8.4. *Needs:* 2.2, 2.4, 4.7,
-RootSystems, LieHighestWeight.
-
-### 7.4 The degree-`6` classification as checked data
-
-`degree6Record : Fin 410 → STRecord` and `degree6Gens : Fin 410 → (Fin 14 × List (Matrix (Fin 6)
-(Fin 6) ℂ))` (the index of the identity component in 4.7 and the generators) are stored data
-(FKS §§8–9 and the LMFDB's `gps_st` rows of weight `1` and degree `6`), and `degree6Group :
-Fin 410 → ClosedSubgroup (U 6)` is the closure of the subgroup generated by the stored identity
-component and generators. The **checker theorem** `degree6_checked i` asserts: `degree6Group i`
-satisfies `IsSatoTateGroup (weightOne 3)` and `IsLefschetz`, and `record (weightOne 3)
-(degree6Group i) = degree6Record i` (so in particular the generators lie in `USp(6)`, normalize
-the identity component, and give the stored number of components); it is proved by the component
-engine (the analogue of 6.7 for the four `G⁰` of positive dimension at most `3` and the Weyl
-formulas of 4.7) and finite computation. **Distinctness** `degree6_pairwise_nonConj` by the
-`3`-diagonal and record tuple (FKS §6, Definition 6.2). **Completeness** `degree6_classification`:
-every closed `G ≤ USp(6)` with `IsSatoTateGroup (weightOne 3) ∧ IsLefschetz` is conjugate to one
-of the `433` groups `degree6Candidate : Fin 433 → ClosedSubgroup (U 6)`, of which the `410` are
-those realized by abelian threefolds (FKS Theorem 1.1); the proof of the upper bound is FKS §§4–5
-(enumeration of finite subgroups of the normalizers `N/G⁰` with the rationality constraint, a
-Magma computation in the source) and is stated here as a theorem whose proof is a checked
-certificate of that enumeration: the stored list of the `433` candidate presentations and a
-verification that every subgroup of `N/G⁰` meeting the rationality bound of 7.2 is conjugate to
-one of them. The exclusion of the `23` non-realized groups is arithmetic (FKS §7) and is 9.8.
-Maximal groups: `33` (FKS Table 12); the component orders maximal for divisibility are `192`,
-`432`, `336`. Where a stored LMFDB value disagrees with Layer 4 the certificate carries the
-computed value: the `real_dimension` of every row with identity component `U(1) × U(1)_2` (the
-LMFDB's `1.6.L.*`) is `2` (4.7), while the stored rows say `6`. *Needs:* 2.3–2.4, 3.6, 4.7,
-7.2, 7.3.
+The finiteness headline is `finite_satoTateGroups`.
 
 **Checks.**
 
-- (count) `410` rows, `33` of them maximal, with maximal component orders `192`, `432`, `336`;
-  `433` candidates, `23` of them not realized.
-- (computation) `USp(6)`: real dimension `21`, `E[a_1^{2n}] = 1, 3, 15, 104, 909`,
-  `E[a_2^n] = 1, 2, 5, 16, 62`, `E[a_3²] = 2`, `E[a_3⁴] = 23`.
-- (computation) `U(3)` has real dimension `9`; `N(U(3))` has two components and
-  `Pr[a_1 = 0] = Pr[a_3 = 0] = 1/2`.
-- (convention) every row with identity component `U(1) × U(1)_2` has real dimension `2` in
-  `degree6Record`, where the LMFDB's stored `1.6.L.*` rows say `6`.
+- At degree 0 there is one closed subgroup.
+- In weight 0 and degree 1, self-duality and rationality permit mu(1) and mu(2), giving two cases.
+- The unrestricted C_n family in degree 4 is infinite, but its n=5 member has second component moment 3+√5; dropping rationality invalidates finiteness.
+
+### 7.3 The connected groups of degree six
+
+For a closed subgroup G of USp(6) satisfying the weight-one Hodge condition and the
+Lefschetz condition, prove that G⁰ is conjugate to one of the sixteen groups of 4.7
+(`degree6_identityComponent`). Classify its symplectic representation by its isotypic
+summands and their real, complex or quaternionic commutants. The double-centralizer
+condition determines each factor; the weight-one circles must generate every factor.
+This gives the fourteen representations in FKS §3.6, pp.14–16, together with
+Z(U(2))×U(1) and Z(U(2))×SU(2). The arithmetic fourteen-row dictionary is a further
+consequence of the endomorphism restrictions in Layers 8–9, not of ST4 alone.
+
+**Checks.**
+
+- Z(U(2))×U(1) has dimension 5 and commutant dimension 4, whereas the listed
+  U(1)²×SU(2) has dimension 5 and commutant dimension 5. Both satisfy ST2 and ST4.
+- Z(U(2))×SU(2) has dimension 7 and commutant dimension 3; U(1)×SU(2)² has
+  dimension 7 and commutant dimension 4. The full centralizers recover the respective groups.
+- In diag(A,Ā), both SO(3) and SU(3) lack −I₆: it would require A=−I₃, of
+  determinant −1. They fail ST2, while connectedness gives ST3; neither is an ST4-only control.
+
+*Needs:* 2.2, 2.4, 4.7; RootSystems classification; LieHighestWeight representation dimensions.
+
+### 7.4 Normalizer-subgroup completeness in degree six
+
+For each of the sixteen connected groups H of 4.7, classify the finite subgroups Q of
+N_USp(6)(H)/H whose inverse image has integral component character averages. Prove that
+inverse image gives a bijection, modulo normalizer conjugacy, with all closed Lefschetz
+Sato–Tate groups having identity component H. Every such G lies in N(H), and G/H is
+finite; conversely a finite inverse image is closed, has identity component H, and
+inherits the Hodge condition. Integrality is tested on the full character ring, not a
+bounded list of moments. Prove distinctness, inclusion and maximality from this bijection.
+
+For the fourteen arithmetic identity components the case counts, in the order A–N
+of FKS Table 9, p.83, are `1,2,1,2,4,5,8,33,10,31,32,122,11,171` (sum 433).
+The mathematical cases are: the trivial quotient (A,C); C₂ (B,D); permutations of
+identical SU(2) factors (E); products of inversions and factor permutations (F–H);
+finite subgroups of the normalizers of repeated SU(2) and U(1) summands (I–N).
+For I–M prove the cyclic, dihedral and polyhedral cases using the orthogonal
+multiplicity spaces and the rationality bounds. For N prove the finite projective
+unitary three-dimensional classification, separating reducible, imprimitive and
+primitive representations and their scalar extensions, and impose integral character
+averages on each coset (FKS §§4–5, pp.17–51). These are mathematical classification
+and exclusion targets, including their finite-group proofs; a list of generators or
+equality of statistical records is not a completeness argument.
+
+For H=Z(U(2))×U(1), the quotient is C₂×C₂ and all five subgroups occur; for
+H=Z(U(2))×SU(2), it is C₂ and both subgroups occur. The block dimensions prevent
+factor exchanges. Representatives of the two quotient generators commute and have
+squares in H, so their actions on H-invariants are commuting involutions; their
+traces are integers. Thus these add seven cases to the 433, for 440 abstract cases.
+The 410 arithmetic cases are the realizable sublist of the first 433, with exclusions
+and realizations proved in 9.8 using actual abelian threefolds (FKS Theorem 1.1,
+pp.2–3, §7 and §8). The full concrete list and its completeness theorem are headline
+targets; their finite-subgroup families are not native carriers at the pins.
+
+**Checks.**
+
+- The subgroups of C₂² are 1, its three order-two lines, and the whole group: their
+  inverse images have 1,2,2,2,4 components. No quotient automorphism induced by N(H)
+  exchanges the lines, since this quotient is abelian.
+- The two subgroups of C₂ give component counts 1,2. The abstract total is
+  433+5+2=440, while arithmetic realizability gives 433−23=410.
+- USp(6) has dimension 21 and trace moments 1,3,15,104,909 in degrees 2,4,6,8,10;
+  U(3) has dimension 9, and its normalizer has two components with trace-zero probability 1/2.
+- U(1)×U(1)₂ has dimension 1+1=2; repeated eigenvalue multiplicity does not multiply
+  the dimension of a torus factor.
+
+*Needs:* 2.3–2.4, 3.1–3.5, 4.7, 6.2, 7.2–7.3; ClassicalGroups character rings;
+LieGroups normalizers; the finite projective unitary classification just specified.
+
+### Examples
+
+The two additional normalizer quotients C₂² and C₂ contribute five and two abstract extensions.
+
+### Dependencies
+
+Layers 2–4; 6.2; FiniteGroupInvariants §10.5; the finite projective unitary classification target 7.4.
 
 ## Layer 8: endomorphism algebras, the endomorphism field, Galois endomorphism types
 
@@ -1285,6 +1847,12 @@ quotient), it fixes the image of `End A`, and **Galois descent**: for an interme
 (a `Gal(k̄/L)`-invariant morphism `A_k̄ → A_k̄` descends to `A_L`; Milne, *Abelian Varieties*,
 §I.1 and the descent of morphisms along `k̄/L`, proved here for the finitely many coefficients of
 the graph). *Needs:* Tau Ceti `AbelianVariety.*`, A6.2, A6.7.
+
+The required API includes:
+
+- Base change embeds the rational endomorphism algebra.
+- The Galois action fixes exactly the endomorphisms descending to the relevant intermediate field.
+- Realification commutes with the finite Galois fixed algebra.
 
 **Checks.**
 
@@ -1315,6 +1883,12 @@ models and semistable abelian varieties* Layer 5. For a `ℚ`-simple `GL₂`-typ
 the endomorphism field of *Abelian varieties of GL₂-type* §1.4; prove the two agree. *Needs:* 8.1, A6.7,
 A3.2 (torsion), NeronModelsAndSemistableAbelianVarieties Layer 5.
 
+The required API includes:
+
+- The field is finite Galois and minimal for definition of all geometric endomorphisms.
+- It is unchanged by isogeny and obeys the stated compositum law under base extension.
+- For products the off-diagonal Hom spaces enter the kernel of the Galois action.
+
 **Checks.**
 
 - (computation) `endField A` is `ℚ` for `11.a` and for the Jacobian of `y² = x⁵ − x + 1`,
@@ -1344,6 +1918,18 @@ to isogeny and order; `End⁰ A ≅ ∏ M_{n_i}(End⁰ B_i)`; `IsGeomSimple → 
 columns `is_simple_base = IsSimple`, `is_simple_geom = IsGeomSimple`; geometric simplicity is
 decided over `K`: `IsGeomSimple A ↔ IsSimple (A.baseChange K)`. *Needs:* A6.4, A6.5, 8.2.
 
+The required API includes:
+
+- The simple isogeny factors and their multiplicities are unique up to order.
+- The rational endomorphism algebra is the product of the corresponding matrix algebras.
+- Geometric simplicity is equivalent to simplicity after extension to the endomorphism field.
+
+**Checks.**
+
+- A non-CM elliptic curve has rational endomorphism algebra ℚ, a division algebra, and is simple and squarefree.
+- Its square has algebra M₂(ℚ), is isotypic but neither simple nor squarefree; the factor multiplicity is 2.
+- A product of two nonisogenous non-CM curves has algebra ℚ×ℚ, is squarefree but not isotypic.
+
 ### 8.4 The real geometric endomorphism algebra and its finite lists
 
 `realGeomEnd A` is a finite-dimensional semisimple `ℝ`-algebra with the positive involution
@@ -1354,9 +1940,9 @@ for `g = 2`, exactly one of `ℝ, ℝ×ℝ, ℂ×ℝ, ℂ×ℂ, M_2(ℝ), M_2(�
 Albert types M0.2 for the simple factors and the product decomposition 8.3; `ℍ` cannot occur
 because a definite quaternion algebra is not the endomorphism algebra of an abelian surface in
 characteristic zero — type III with `g = 2` is excluded by the Albert–Shimura restrictions
-consumed from M0.2 and A6.17); for `g = 3` exactly one of the fourteen algebras of FKS Table 9
+proved by the geometric restriction target in this subsection); for `g = 3` exactly one of the fourteen algebras of FKS Table 9
 (`ℝ, ℂ, ℝ², ℂ×ℝ, ℝ³, ℂ×ℝ², ℂ²×ℝ, ℂ³, ℝ×M_2(ℝ), ℂ×M_2(ℝ), ℝ×M_2(ℂ), ℂ×M_2(ℂ), M_3(ℝ), M_3(ℂ)`).
-Define the enumerations `RealEndTypeSurface` (six constructors named `M2C, M2R, CxC, CxR, RxR,
+Define the enumerations RealEndTypeSurface (six constructors named `M2C, M2R, CxC, CxR, RxR,
 R`, the LMFDB's `real_geom_end_alg` strings) and `RealEndTypeThreefold` (fourteen), with
 `realEndTypeSurface A : RealEndTypeSurface` for `g = 2` the unique `t` with
 `Nonempty (realGeomEnd A ≃ₐ[ℝ] model t)`, where the models of `M2C, M2R, CxC, CxR, RxR, R` are
@@ -1365,6 +1951,31 @@ above), and the geometric description of each case (square of a CM curve; square
 curve or QM surface; product of non-isogenous CM curves or simple quartic CM; CM times non-CM;
 product of non-isogenous non-CM curves or RM; generic). *Needs:* 8.3, A6.14–A6.15, A6.17,
 M0.1–M0.2.
+
+**Geometric restriction target.** For a geometrically simple abelian variety of dimension
+at most three over a characteristic-zero field, prove the Hodge-theoretic restrictions on
+its full geometric rational endomorphism algebra. In dimension two the possibilities are
+ℚ, a real quadratic field, an indefinite quaternion division algebra, or a quartic CM
+field containing no imaginary quadratic subfield; in particular a definite quaternion division algebra and an imaginary quadratic
+field alone cannot be the full algebra (Moonen–Zarhin, arXiv:math/9901113v2, §2,
+especially (2.2), pp.8–9). In dimension one the full algebra is ℚ or an imaginary
+quadratic field; in dimension three it is ℚ, a totally real cubic field, an imaginary
+quadratic field, or a sextic CM field (ibid., (2.1), (2.3), pp.8–9). Reduce by finite-type descent to an embedding in ℂ, retaining
+all geometric endomorphisms, and use the polarized rational Hodge structure on H₁.
+The Hodge-endomorphism equivalence of AbelianSchemesAndArithmeticModuli A5 identifies
+its commutant with End⁰; classify the permitted weight-one actions and impose the
+polarization. A quaternion algebra with a positive involution alone does not supply this
+geometric restriction. Combine it with Poincaré reducibility for nonsimple surfaces.
+*Needs:* AbelianSchemesAndArithmeticModuli A5, A6.4–A6.5, A6.14–A6.17;
+PELModuli M0.1–M0.2; ShimuraData §1.2.
+
+The required API includes:
+
+- Real geometric endomorphism type is invariant under isogeny and extension beyond the endomorphism field.
+- The geometric Hodge restrictions and reducibility give the six surface types and fourteen threefold types.
+- The six surface models are pairwise nonisomorphic as real algebras.
+
+The real surface-algebra classification is `realGeomEnd_surface`.
 
 **Checks.**
 
@@ -1379,17 +1990,17 @@ M0.1–M0.2.
 ### 8.5 The rational types: `geom_end_alg` and `end_alg`
 
 For `g = 2`: `geomEnd⁰ A` is isomorphic to exactly one of the nine `ℚ`-algebras of the knowl
-`g2c.geom_end_alg` — `ℚ`; a real quadratic field (`RM`); a quartic CM field (`CM`); a
+`g2c.geom_end_alg` — `ℚ`; a real quadratic field (`RM`); a quartic CM field with no imaginary quadratic subfield (`CM`); a
 non-split indefinite quaternion algebra over `ℚ` (`QM`); `ℚ × ℚ`; `F × ℚ` with `F` imaginary
 quadratic (`CM × ℚ`); `F_1 × F_2` with `F_1 ≠ F_2` imaginary quadratic (`CM × CM`); `M_2(ℚ)`;
-`M_2(F)` with `F` imaginary quadratic (`M_2(CM)`) — with `GeomEndAlgSurface` the nine-constructor
+`M_2(F)` with `F` imaginary quadratic (`M_2(CM)`) — with GeomEndAlgSurface the nine-constructor
 enumeration and `geomEndAlgSurface A` characterized up to `ℚ`-algebra isomorphism; the proof is
-Albert's list for simple surfaces (`ℚ`, real quadratic, indefinite quaternion, quartic CM; M0.2
-and Shimura's exclusion of the definite and the type-III cases) together with 8.3 for the split
+the geometric restriction of 8.4 for simple surfaces (ℚ, real quadratic, indefinite
+quaternion, quartic CM with no imaginary quadratic subfield) together with 8.3 for the split
 cases and the elliptic-curve endomorphism algebras (`ℚ` or imaginary quadratic; EllipticCurves
 Layer 1). For `k = ℚ`: `End⁰ A` is one of the five algebras of the knowl `g2c.end_alg` — `ℚ`,
 real quadratic (`RM`), imaginary quadratic (`CM`), `ℚ × ℚ`, `M_2(ℚ)` — the enumeration
-`EndAlgSurfaceQ` with `endAlgSurfaceQ A`; the exclusions are: an elliptic curve over `ℚ` has `End = ℤ`, so split cases give `ℚ × ℚ` or
+EndAlgSurfaceQ with `endAlgSurfaceQ A`; the exclusions are: an elliptic curve over `ℚ` has `End = ℤ`, so split cases give `ℚ × ℚ` or
 `M_2(ℚ)`; a `ℚ`-simple surface with `End⁰ A` a quaternion division algebra `B` does not exist over
 a field `k` with a real place: if `B` is definite then `End(A)_ℝ ≅ ℍ`, which by FKRS Table 8
 happens only for `J(C_1)`, excluded by FKRS Proposition 4.11; if `B` is indefinite then `A_ℝ`
@@ -1401,6 +2012,12 @@ between `M_2(ℚ)` and `B`; and a
 field, because the CM type is not defined over `ℚ` (FKRS §4.3 case D). *Needs:* 8.3–8.4,
 M0.2, A6.17, EllipticCurves Layer 1.
 
+The required API includes:
+
+- The geometric type is an isogeny invariant determined by the rational algebra up to isomorphism.
+- The ℚ-base-field list uses the real-place restrictions as well as the geometric list.
+- Scalar extension of the rational algebra gives its real type but need not preserve the division property.
+
 **Checks.**
 
 - (computation) the Jacobian of `y² = x⁵ − x + 1` has `end_alg = Q` and `geom_end_alg = Q`; that
@@ -1408,7 +2025,7 @@ M0.2, A6.17, EllipticCurves Layer 1.
 - (computation) `11.a × 37.a` has `end_alg = QxQ`, `11.a × 11.a` has `end_alg = M2Q`, and
   `27.a × 32.a` has `end_alg = QxQ` and `geom_end_alg = CMxCM`.
 - (non-example) a quartic CM field is never `End⁰ A` of a surface over `ℚ`, which is why
-  `EndAlgSurfaceQ` has five constructors where `GeomEndAlgSurface` has nine.
+  EndAlgSurfaceQ has five constructors where GeomEndAlgSurface has nine.
 
 ### 8.6 The LMFDB `GL₂`-type predicate for surfaces, and ℚ-curves
 
@@ -1421,10 +2038,22 @@ on varieties isogenous to `E^2` with `End⁰(E) = ℚ`, which are Ribet-`GL₂`-
 LMFDB-`GL₂`-type. `ℚ`-curves are `IsGeometricQCurve` (*GL₂-type* §5.1), consumed and not
 redefined. *Needs:* 8.3, 8.5, GT.1, GT.5 (§5.1).
 
+The required API includes:
+
+- The predicate is invariant under isogeny over the base field.
+- The factorwise endomorphism-degree condition excludes CM elliptic factors defined over the base.
+- The comparison with Ribet’s predicate retains the exception of non-CM squares.
+
+**Checks.**
+
+- E² for non-CM E has M₂(ℚ) containing ℚ(√2), so it is Ribet-GL₂-type but not LMFDB-GL₂-type.
+- A product of distinct non-CM curves has algebra ℚ×ℚ and passes the LMFDB predicate, with degree 1 for each dimension-one factor.
+- A CM elliptic factor over its CM field has endomorphism degree 2 rather than dimension 1, and fails that factor clause.
+
 ### 8.7 The Galois endomorphism type
 
 `structure GaloisEndType` : a finite group `Γ`, a finite-dimensional `ℝ`-algebra `E`, and an
-action `Γ →* (E ≃ₐ[ℝ] E)`; isomorphism of two such pairs (`GaloisEndType.IsIsomorphic`) is an
+action `Γ →* (E ≃ₐ[ℝ] E)`; isomorphism of two such pairs (GaloisEndType.IsIsomorphic) is an
 isomorphism of groups with an equivariant algebra isomorphism; `galoisEndType A := [Gal(K/k),
 End(A_K)_ℝ]`, with `K = endField A`, `Γ = Gal(K/k)`, `E = ℝ ⊗[ℤ] End (A.baseChange K)`, and `σ`
 acting through any lift to `Gal(k̄/k)` by the action of 8.1 (well defined because the kernel of
@@ -1432,6 +2061,12 @@ that action fixes `K`) (FKRS Definition 1.3, Sutherland Definition 4.10). Prove 
 is an isogeny invariant, that the real algebra is `realGeomEnd A`, that the action is faithful,
 and the three elliptic cases `[C_1, ℝ]`, `[C_1, ℂ]`, `[C_2, ℂ]` (complex conjugation) according
 to no CM, CM over `k`, CM not over `k`. *Needs:* 8.1–8.4.
+
+The required API includes:
+
+- The finite action is faithful after passage to the endomorphism field.
+- Isomorphism requires an equivariant real-algebra isomorphism as well as a group isomorphism.
+- Base extension restricts the action to the corresponding subgroup.
 
 **Checks.**
 
@@ -1449,12 +2084,32 @@ label `w.d.A.c.n s` is built: weight, degree, the conjugacy class of the identit
 number of components, the isomorphism class of the component group. Prove it is a conjugacy
 invariant and that in degree `2` it is injective on the three groups; in degree `4` it is **not**
 injective (the suffix letter `s` separates groups with the same prefix, e.g. `1.4.F.2.1a, b, c`
-for `J(C_1)`, `C_2`, `C_{2,1}`), and the assignment of the letters `A` and `s` is not a target.
+for `J(C_1)`, `C_2`, `C_{2,1}`), and the assignment of the letters `A` and `s is not a target.
 *Needs:* 1.1–1.3.
+
+The required API includes:
+
+- The prefix is invariant under conjugation.
+- It distinguishes the three degree-two arithmetic groups.
+- It need not distinguish degree-four groups with the same identity component and component quotient.
+
+**Checks.**
+
+- The degree-two prefixes distinguish dimensions and component counts (1,1),(1,2),(3,1).
+- J(C₁), C₂ and C_(2,1) share identity component U(1)₂ and component group C₂, so the prefix is not injective in degree 4.
+- For the degree-zero trivial group the degree is 0 and component count 1; an empty matrix does not give zero components.
+
+### Examples
+
+A non-CM square and a simple indefinite-QM surface both have real algebra M₂(ℝ), but only the latter has a division rational algebra.
+
+### Dependencies
+
+AbelianSchemesAndArithmeticModuli A4–A6; PELModuli M0.1–M0.2; EllipticCurves Layer 1; NeronModelsAndSemistableAbelianVarieties Layer 5; ShimuraData §1.2.
 
 ## Layer 9: the Sato–Tate group of an abelian variety and of a newform
 
-Here `k` is a number field, `ℓ` a prime, `ι : ℚ_ℓ ↪ ℂ` a field embedding.
+Here k` is a number field, `ℓ` a prime, `ι : ℚ_ℓ ↪ ℂ` a field embedding.
 
 ### 9.1 The `ℓ`-adic representation and its image
 
@@ -1469,39 +2124,67 @@ extension of it, is consumed from *Faltings finiteness and isogeny theorems* R28
 its `Hom` form R28.4.6. *Needs:* A4.1, A3.5–A3.7, Tau Ceti `TateModule/*`,
 FaltingsFinitenessAndIsogenyTheorems R28.4.5–R28.4.6.
 
+**Checks.**
+
+- At an elliptic good prime q=5 with trace 0 the polynomial is X²+5 and determinant 5.
+- After scaling by 5^(−1/2), the determinant is 1; the cyclotomic kernel has multiplier 1.
+- For a non-CM elliptic curve the rational endomorphism algebra has dimension 1; for a CM curve over its CM field it has dimension 2, matching the respective Tate commutants.
+
 ### 9.2 Zariski closures and the complex points
 
 `G_ℓ^{Zar}`, the Zariski closure of `ρ(Gal(k̄/k))` in `GL(V_ℓ)` as an algebraic group over `ℚ_ℓ`
 (ReductiveGroups Layer 3), and `G_ℓ^{1,Zar}`, the closure of `ρ(G_k^1)`; prove
-`G_ℓ^{1,Zar} = ker(G_ℓ^{Zar} → 𝔾_m)` (Bogomolov's theorem: `ρ(Gal)` is open in `G_ℓ^{Zar}(ℚ_ℓ)`;
-FKRS Definition 2.4, consumed as the openness statement of *Deligne weights* §2.2 in the
-symplectic case and stated here as a milestone in general), that `G_ℓ^{1,Zar}` is reductive
+`G_ℓ^{1,Zar} = ker(G_ℓ^{Zar} → 𝔾_m)` (FKRS Definition 2.4, p.8).
+Apply the Bogomolov Hodge–Tate openness input of PotentialModularityAndCompatibleSystems
+§1.20 to the Tate representation of an abelian variety over a number field, at every
+prime ℓ: its image is open in the ℚ_ℓ-points of its Zariski closure. The Hodge–Tate
+comparison and polarization are essential arithmetic inputs; this is not an assertion
+about arbitrary continuous representations. Prove the kernel equality using this
+openness and the scalar homotheties in the image. DeligneWeightsAndPurity §2.2 is used
+only for open subgroups already known to lie in the full symplectic group. Prove also that `G_ℓ^{1,Zar}` is reductive
 (semisimplicity of `V_ℓ`, Faltings, and *Deligne weights* §8.14), and that its component group
 is finite and canonically isomorphic to that of `G_ℓ^{Zar}` (FKRS Lemma 2.8). Base change:
 `G_ℓ^{1,Zar}(A_{k'}) ≤ G_ℓ^{1,Zar}(A)` with the same identity component, open of finite index.
 Via `ι`, `G¹ := G_ℓ^{1,Zar} ×_{ι} ℂ` is a complex reductive group whose complex points form a
 closed subgroup of `Sp_{2g}(ℂ)`. *Needs:* 9.1, ReductiveGroups Layer 3, DeligneWeightsAndPurity
-§§2.2, 8.14, FaltingsFinitenessAndIsogenyTheorems R28.4.5.
+§§2.2, 8.14; PotentialModularityAndCompatibleSystems §1.20;
+PadicHodgeTheory Hodge–Tate comparison; FaltingsFinitenessAndIsogenyTheorems R28.4.5.
+
+**Checks.**
+
+- The CM elliptic image over its CM field has torus closure and one component.
+- Over a field not defining CM, the closure is a torus normalizer with two components; the similitude kernel retains both components.
+- An open proper congruence subgroup of Sp₂(ℚ_ℓ) has the same Zariski closure Sp₂, showing that openness implies density, not equality of point sets.
 
 ### 9.3 The Sato–Tate group
 
 `satoTateGroup A g hg ℓ ι : ClosedSubgroup (U (2g))`: a maximal compact subgroup of `G¹(ℂ)`
-contained in `USp(2g)` (LieGroups Layer 9: maximal compact subgroups of a complex reductive
-group exist, are conjugate, and one is `G¹(ℂ) ∩ U(2g)` for a basis in which `G¹` is
-self-adjoint; `USp(2g)` is a maximal compact subgroup of `Sp_{2g}(ℂ)`). Prove: `ST(A) ≤ USp(2g)`;
+contained in `USp(2g)`. Consume ArithmeticLocallySymmetricSpaces ALS.F.1 for the
+real restriction of scalars of the complex reductive group G¹, including its possibly
+disconnected case: maximal compact subgroups exist, every compact subgroup lies in one,
+and any two are conjugate. Applying it also to Sp₂g and using the symplectic polar
+decomposition places the chosen compact subgroup inside USp(2g); its faithful unitary
+representation fixes the basis. In a self-adjoint embedding the maximal compact is
+`G¹(ℂ) ∩ U(2g)`; LieGroups Layer 9 supplies the decomposition after this choice. Prove: `ST(A) ≤ USp(2g)`;
 its conjugacy class in `USp(2g)` does not depend on the choices (basis, maximal compact); its
 component group is canonically the component group of `G_ℓ^{Zar}` (FKRS Lemma 2.8, Cartan's
 theorem that a maximal compact subgroup of a connected complex Lie group is connected); it is
 an isogeny invariant and `ST(A_{k'})` is the inverse image of `π_0(G^{Zar}(A_{k'}))` under
 `ST(A) → π_0`. For `g = 1` and `W : WeierstrassCurve k` elliptic, `ellipticSatoTate W ℓ ι` is
-the same construction on Tau Ceti's representation. *Needs:* 9.2, LieGroups Layer 9.
+the same construction on Tau Ceti's representation. *Needs:* 9.2; ArithmeticLocallySymmetricSpaces ALS.F.1; LieGroups Layer 9.
+
+The required API includes:
+
+- The group is well defined up to symplectic unitary conjugacy for fixed ℓ and embedding.
+- Its component group agrees with the algebraic monodromy component group.
+- Isogenies preserve it; finite base extensions give finite-index subgroups with the same identity component.
 
 **Checks.**
 
-- (computation) `ellipticSatoTate` is conjugate in `SU(2)` to `su2` for `11.a`, to `nu1` for
+- (computation) ellipticSatoTate is conjugate in `SU(2)` to `su2` for `11.a`, to `nu1` for
   `27.a` and `32.a` over `ℚ`, and to `u1` for `27.a` over `ℚ(√−3)` (labels `1.2.A.1.1a`,
   `1.2.B.2.1a`, `1.2.B.1.1a`; 9.9).
-- (computation) `satoTateGroup` is conjugate to `USp(4)` for the Jacobian of `y² = x⁵ − x + 1`, to
+- (computation) satoTateGroup is conjugate to `USp(4)` for the Jacobian of `y² = x⁵ − x + 1`, to
   `C_{2,1}` for that of `y² = x⁶ + 1` over `ℚ`, and to `C_1 = U(1)_2` for the latter over `ℚ(√−3)`.
 - (compatibility) `ST(A) ≤ USp(2g)`, and for an elliptic curve the two constructions agree.
 - (independence) for `g ≤ 3` the `USp(2g)`-conjugacy class does not depend on `ℓ` or `ι` (9.10).
@@ -1509,19 +2192,34 @@ the same construction on Tau Ceti's representation. *Needs:* 9.2, LieGroups Laye
 ### 9.4 The named hypotheses: Mumford–Tate and algebraic Sato–Tate
 
 `MumfordTate A`: for every `ℓ`, the identity component of `G_ℓ^{Zar}` equals `MT(A) ⊗ ℚ_ℓ`, the
-Mumford–Tate group of the rational Hodge structure `H_1(A(ℂ), ℚ)` (defined here as the smallest
-`ℚ`-algebraic subgroup of `GL(H_1(A(ℂ),ℚ))` whose real points contain `h(ℂ^×)`, with the
-complex uniformization of A5 and the comparison `V_ℓ ≅ H_1 ⊗ ℚ_ℓ` of A4–A5). `AlgebraicSatoTate A`:
+Mumford–Tate group of the rational Hodge structure `H_1(A(ℂ), ℚ)`, supplied by
+ShimuraData §1.2 and specialized here using the complex uniformization of A5 and the
+comparison `V_ℓ ≅ H_1 ⊗ ℚ_ℓ` of A4–A5. `AlgebraicSatoTate A`:
 there is a `ℚ`-algebraic subgroup `AST(A) ≤ Sp_{2g}` with `G_ℓ^{1,Zar} = AST(A) ⊗ ℚ_ℓ` for
 every `ℓ`. The **Lefschetz groups** are `L(A)`, the identity component of the centralizer of
 `End⁰(A_k̄)` in `Sp_{2g}`, and `TL(A) := ⋃_τ {γ ∈ Sp_{2g} | γ⁻¹ α γ = τ(α) ∀ α}` (FKRS
 2.14–2.15). Theorems, each an
 implication from the named hypotheses: under `AlgebraicSatoTate A`, the conjugacy class of
-`ST(A)` is independent of `ℓ` and `ι`; under `MumfordTate A` and `Hg(A) = L(A)`, `AlgebraicSatoTate
-A` holds with `AST(A) = TL(A)` (Banaszak–Kedlaya, Theorem 6.1; FKRS Theorem 2.16(a)). The
+`ST(A)` is independent of `ℓ` and `ι`; under `MumfordTate A`, `Hg(A) = L(A)` and connectedness of the full centralizer
+`C_Sp(End⁰(A_k̄))`, `AlgebraicSatoTate A` holds with `AST(A) = TL(A)`
+(Banaszak–Kedlaya, arXiv:1109.4449v2, Theorem 6.1, p.11). The full centralizer is
+the decomposable Lefschetz group over the endomorphism field; its identity component
+is L(A). Connectedness is an additional hypothesis, not a definitional identification. The
 theorem that these hypotheses hold for `g ≤ 3` (FKRS 2.16(b), Banaszak–Kedlaya Theorem 6.10,
 resting on Deligne's `G_ℓ^{Zar,0} ⊆ MT(A) ⊗ ℚ_ℓ`, on the Mumford–Tate conjecture for `g ≤ 3`
 and on Faltings) is 9.10. *Needs:* 9.2–9.3, A4–A5.
+
+The required API includes:
+
+- Algebraic Sato–Tate implies independence of ℓ and the embedding.
+- Mumford–Tate, equality of Hodge and Lefschetz groups, and connectedness of the full centralizer together imply AST=TL.
+- The full centralizer is distinguished from its identity component throughout.
+
+**Checks.**
+
+- For CM by ℚ(i), MT is Res_(ℚ(i)/ℚ) G_m of dimension 2 and Hg is its norm-one torus of dimension 1.
+- The full centralizer O₂ is disconnected with two components although O₂⁰=SO₂; equality of identity components does not discharge connectedness.
+- For a non-CM elliptic curve the full symplectic centralizer of its scalar endomorphisms is SL₂, connected of dimension 3.
 
 ### 9.5 The axioms for `ST(A)` and the component group
 
@@ -1529,7 +2227,7 @@ Under `MumfordTate A ∧ AlgebraicSatoTate A`: `IsSatoTateGroup (weightOne g) (S
 Proposition 3.2: ST1 by construction, ST2 from the Hodge circle `h|_{U(1)}` of the Mumford–Tate
 group through the comparison, ST3 by the argument through `AST(A)`: on each component the
 expectation of a character is a sum of roots of unity lying in `ℚ_ℓ` for every `ℓ`, hence in
-`ℤ` by Minkowski); `IsLefschetz (ST(A))` when `Hg(A) = L(A)`. The **component group**: there is
+`ℤ` by Minkowski); `IsLefschetz (ST(A))` when `Hg(A) = L(A)` and the full endomorphism centralizer is connected. The **component group**: there is
 a canonical surjection `ST(A)/ST(A)⁰ → Gal(K/k)` onto the Galois group of the endomorphism field
 (8.2), an isomorphism when `AST(A) = TL(A)` (FKRS Proposition 2.17; FKS Lemma 3.7), compatible
 with base change: `ST(A_{k'})` is the inverse image of `Gal(Kk'/k')`; and the field over which
@@ -1540,6 +2238,12 @@ always (Bogomolov and Faltings) — while `L = K` holds when `AST(A) = TL(A)`, s
 (Sutherland Remark 4.13). `ST(A)` is connected iff `End(A) = End(A_k̄)`
 when `AST = TL`. The LMFDB's `g2c` columns `st_label`, `st_group` and `real_geom_end_alg` are
 `ST(A)` and `ST(A)⁰` through 9.7. *Needs:* 2.2–2.5, 8.2, 9.3–9.4.
+
+**Checks.**
+
+- CM over the base gives a circle with one component and trivial endomorphism Galois group.
+- CM not defined over the base gives the normalizer with two components and endomorphism Galois group C₂.
+- Base change to the CM field changes both component groups from order 2 to order 1, retaining the one-dimensional identity component.
 
 ### 9.6 The normalized Frobenius classes
 
@@ -1561,6 +2265,12 @@ the degree-one coefficient `−a_𝔭` of Mathlib's `WeierstrassCurve.localPolyn
 `g_𝔭` is expected to be semisimple.) *Needs:* 9.3, A6.11, DeligneWeightsAndPurity, Tau Ceti
 `HasseBound.lean`.
 
+The required API includes:
+
+- The normalized characteristic polynomial agrees with the local Euler polynomial after scaling by q^(−1/2).
+- The semisimple conjugacy class does not depend on the representative of Frobenius.
+- The trace coordinate `normalizedTrace` agrees with the natural-number coefficient of the local polynomial at good primes.
+
 **Checks.**
 
 - (computation) for `11.a` at `p = 2`, `a_2 = −2`: the class has characteristic polynomial
@@ -1573,7 +2283,8 @@ the degree-one coefficient `−a_𝔭` of Mathlib's `WeierstrassCurve.localPolyn
 ### 9.7 The dictionary in dimension `2`
 
 For `A` of dimension `2` (under the hypotheses of 9.5: `MumfordTate A`, `AlgebraicSatoTate A` and `AST(A) = TL(A)`):
-`ST(A)` is conjugate to one of the fifty-two groups of 6.3 other than `F_c, F_{ab,c}, F_{a,b,c}`,
+`ST(A)` is conjugate to one of the fifty-two arithmetic groups of 6.9, obtained from
+the fifty-seven in 6.3 by excluding `F_c, F_{ab,c}, F_{a,b,c}`, Z(U(2)) and its normalizer,
 and the conjugacy class of `ST(A)` determines and is determined by the Galois endomorphism type
 `galoisEndType A`, under the explicit correspondence of FKRS Theorem 4.3 (`A[C_1] ↔ USp(4)`,
 `B[C_1], B[C_2] ↔ G_{3,3}, N(G_{3,3})`, `C[C_1], C[C_2] ↔ G_{1,3}, N(G_{1,3})`,
@@ -1584,11 +2295,19 @@ function `H ↦ End(A_K)_ℝ^H` on its subgroup lattice (Theorem 4.3(c)). Proof:
 action of `ST(A)/ST(A)⁰ = Gal(K/k)` on it is conjugation, and the fifty-five fixed-algebra
 computations of FKRS §§4.2–4.5 (recorded as the column `End(A)_ℝ` of Table 8 and its subgroup
 refinements) are pairwise distinct except that `F_c, F_{ab,c}, F_{a,b,c}` yield pairs not
-realizable (their fixed algebras would require `kM_1 = kM_2` for distinct imaginary quadratic
-`M_1 ≠ M_2` contained in `k`, impossible; §4.4). The identity-component dictionary
+realizable: their actions occur neither among the primitive quartic-CM cases nor among
+the four cases for products with distinct CM fields (FKRS §§4.3–4.4, pp.23–26).
+In the product case, both CM fields may be absent from k while their composita with k
+agree; that gives the permissible fixed algebra ℚ×ℚ, not an exclusion. The identity-component dictionary
 `ST(A)⁰ ↔ End(A_k̄)_ℝ` is the six-row table of 8.4 (`U(1)_2 ↔ M_2(ℂ)`, `SU(2)_2 ↔ M_2(ℝ)`,
 `U(1)×U(1) ↔ ℂ×ℂ`, `U(1)×SU(2) ↔ ℂ×ℝ`, `SU(2)×SU(2) ↔ ℝ×ℝ`, `USp(4) ↔ ℝ`), and for `g = 3`
 the fourteen-row table of FKS Table 9 (9.10). *Needs:* 6.3, 6.7–6.8, 8.4, 8.7, 9.5.
+
+**Checks.**
+
+- A non-CM square has diagonal SU(2) with real commutant M₂(ℝ), whereas a product of nonisogenous non-CM curves has SU(2)² with ℝ².
+- A CM square has real algebra M₂(ℂ) and identity component U(1)₂, of dimension 1.
+- The abstract group Z(U(2)) would give real geometric algebra ℂ in dimension 2; this is excluded by the geometric restriction of 8.4.
 
 ### 9.8 Realizability: over number fields, over fields with a real place, over `ℚ`
 
@@ -1602,10 +2321,15 @@ product and square constructions (`E_1 × E_2`, `E × E^d`, `E_{CM} × E'`) from
 fifty-two (the fifteen groups of 6.10 less `F_c`; FKRS §4.7), and FKRS Proposition 4.11 excludes `J(C_1), C_{4,1}, J(C_3)` over such fields
 (`End(A_ℝ)_ℝ` would be `ℍ` or too small), leaving thirty-five; over `ℚ`, `F_{ab}` is also
 excluded (it needs two distinct imaginary quadratic fields with `kM_1 = kM_2`), leaving
-thirty-four. In degree `6`, the `23` groups satisfying the axioms but not realized are excluded
+thirty-four. In degree `6`, the 23 groups among the 433 cases with arithmetic identity components which are not realized are excluded
 by the arguments of FKS §7, stated here as the theorem that `ST(A)` for a threefold lies in the
-`410` of 7.4 (its proof is the cited analysis of Galois types of threefolds together with the
-certificate). *Needs:* 6.10, 7.4, 9.5, 9.7.
+`410` of 7.4 (its proof is the cited analysis of Galois types of threefolds together with the normalizer-subgroup classification). *Needs:* 6.10, 7.4, 9.5, 9.7.
+
+**Checks.**
+
+- The abstract degree-four count is 57; removing the two U(2) cases and the three nonrealized old cases gives 52.
+- The arithmetic real-place exclusions give 52−14−3=35, then the additional ℚ exclusion gives 34.
+- In degree 6, the seven extra cases have a dimension-four U(2) block incompatible with the surface endomorphism restrictions; 440−7−23=410.
 
 ### 9.9 Elliptic curves and newforms
 
@@ -1626,7 +2350,7 @@ irreducibly on `ℚ̄_ℓ²` is `SL_2` itself (the trivial group and the tori ac
 `ST = su2` — no open image theorem is used. Consequences: the `ec`/`ecnf` Sato–Tate column is a function of the CM
 data `(cm, cm_type)`, `ST(E)` is an isogeny invariant, and `ST(E) = N(U(1))` exactly for the CM
 curves over `ℚ`.
-**Newforms** (`f` a newform of weight `k ≥ 2`, level `N`, nebentypus `χ` of order `n`;
+**Newforms** (`f a newform of weight k ≥ 2`, level `N`, nebentypus `χ` of order `n`;
 ModularForms roadmap objects): `ST(f)`, the Sato–Tate group of the compatible system `ρ_{f,λ}`
 normalized by `q^{−(k−1)/2}`, is `SU(2)[C_n]`, the determinant kernel of *Modularity and
 Langlands extensions* §4.39 (5.5), when `f` has no CM (§4.39, whose definition this is, together with
@@ -1637,8 +2361,8 @@ Hecke character `ψ` of `F` of infinity type `(k−1, 0)`, ModularForms CM forms
 subgroup of `nu1Mu n` generated by `U(1)`, the elements `diag(1, χ(σ))` for `σ ∈ Gal(ℚ̄/F)` and
 the elements `J·diag(1, χ(σ))` for `σ ∉ Gal(ℚ̄/F)`: the normalized Frobenius at a prime `p`
 split in `F` is `diag(α, χ(p) ᾱ) ∈ diag(1, χ(p))·U(1)` with `α = ψ(𝔭)/p^{(k−1)/2}`, at an inert
-`p` it has trace `0` and determinant `χ(p)`, so lies in `J·diag(1, χ(p))·U(1)`, and the infinite
-order of `ψ_u` on the split primes together with Chebotarev for the values of `χ` makes the image
+`p` it has trace `0` and determinant `χ(p)`, so lies in `J·diag(1, χ(p))·U(1)`, and the no-norm-power property of `ψ_u`, preserved under finite-order twists,
+together with Hecke equidistribution on the finite-character classes makes the image
 dense in each of these cosets. This group is `nu1Mu n` itself when `χ_F ∉ ⟨χ⟩` (then
 `χ(Gal(ℚ̄/F)) = μ_n`), and when `χ_F ∈ ⟨χ⟩` (so `n` is even and `χ(Gal(ℚ̄/F)) = μ_{n/2}`) it is
 the index-two subgroup `⟨U(1), diag(1, ζ_n²), J·diag(1, ζ_n)⟩` with `n` components, whose trace
@@ -1647,21 +2371,34 @@ the image of `σ ↦ (χ(σ), χ_F(σ))` in `μ_n × {±1}`: `C_n × C_2` when `
 when `χ_F ∈ ⟨χ⟩` (5.5); the LMFDB's stored `component_group` `D_n` for `w.2.1.dn` describes
 neither. The `cmf` column `sato_tate_group` is the label
 `(k−1).2.3.c n` or `(k−1).2.1.d n` of 5.5 with `n` the order of `χ` (`1.2.A.1.1a` and
-`1.2.B.2.1a` for `k = 2`, `n = 1`), so in the case `χ_F ∈ ⟨χ⟩` the labelled record has twice as
-many components as `ST(f)`; for weight `1` the group is finite and is `ArtinRepresentations`'.
+`1.2.B.2.1a` for `k = 2`, `n = 1`), so in the case `χ_F ∈ ⟨χ⟩ the labelled record has twice as
+many components as ST(f)`; for weight `1` the group is finite and is `ArtinRepresentations`'.
 ℚ-curves (`IsGeometricQCurve`, *GL₂-type* §5.1) are elliptic curves, so the ℚ-curve column of
-`ecnf` is Sato–Tate-neutral. *Needs:* 5.1, 5.5, 9.1, 9.3,
+`ecnf is Sato–Tate-neutral. *Needs:* 5.1, 5.5, 9.1, 9.3,
 ComplexMultiplicationAndExplicitReciprocity 4.1, ModularityAndLanglandsExtensions §4.39,
 ModularForms.
 
-### 9.10 The Banaszak–Kedlaya theorem for `g ≤ 3`
+**Checks.**
 
-For `dim A ≤ 3`: `MumfordTate A`, `Hg(A) = L(A)` and `AlgebraicSatoTate A` with `AST(A) = TL(A)`
+- The elliptic non-CM, CM-over-base and CM-not-over-base cases give SU(2), U(1), N(U(1)), with component counts 1,1,2.
+- For n=2 and χ=χ_F, the CM newform group has two components and contains a reflection of square I, while nu1Mu(2) has four components.
+- For a non-CM newform with character order 3, trace moments in degrees 2,4,6 are 0,0,5; requiring only 3 to divide the degree would give a wrong third moment.
+
+### 9.10 The Banaszak–Kedlaya theorem for g ≤ 3
+
+For `dim A ≤ 3`: `MumfordTate A`, `Hg(A) = L(A)`, connectedness of the full
+centralizer of the geometric endomorphism algebra in the symplectic group, and `AlgebraicSatoTate A` with `AST(A) = TL(A)`
 hold (FKRS Theorem 2.16(b); Banaszak–Kedlaya Theorem 6.10; FKS Propositions 3.3, 3.5).
-Inputs, each a named milestone: Deligne's inclusion `G_ℓ^{Zar,0} ⊆ MT(A) ⊗ ℚ_ℓ` (Deligne–Milne,
-*Hodge cycles*, I.6.2, through the comparison isomorphism of A4–A5 and absolute Hodge cycles —
-consumed from *Motives and algebraic cycles* where it states it, and otherwise a milestone here
-with that reference); the equality `Hg(A) = L(A)` for `g ≤ 3` (a Hodge-theoretic computation
+Inputs, each a target: prove here Deligne's inclusion
+`G_ℓ^{Zar,0} ⊆ MT(A) ⊗ ℚ_ℓ` for every abelian variety A over a number field and every
+prime ℓ. Use the absolute-Hodge-cycle theorem for all powers of A and the finite Galois
+action on each space of absolute Hodge cycles (Deligne, *Hodge cycles on abelian
+varieties*, author version of 2018, Theorem 2.11 and Proposition 2.9(b), pp.18–19).
+After a finite extension a finite tensor family defining MT is fixed; finite base
+extension does not change the connected monodromy group, giving the inclusion.
+The absolute Hodge tensor realizations and Betti–étale comparison are
+AutomorphicBundles §§1.2–1.3; the inclusion and this finite-extension argument are
+owned here. Further inputs are the equality `Hg(A) = L(A)` for `g ≤ 3` (a Hodge-theoretic computation
 from the classification of the Hodge group of a simple abelian variety of dimension `≤ 3`:
 Moonen–Zarhin 1999, Theorem 0.1 and §§2–4, which is all that source supplies); the Mumford–Tate
 conjecture for `g ≤ 3` (Banaszak–Kedlaya, proof of Theorem 6.10: Serre's open image theorem for
@@ -1669,29 +2406,79 @@ non-CM elliptic curves, Chi's concluding remark for simple varieties of prime di
 products of elliptic curves, and its Lemma 6.9 for `E × B`, with Faltings for the semisimplicity
 and the commutant); and the twisted-Lefschetz construction. Consequences for `g ≤ 3`: every theorem of 9.5–9.8 stated under
 the hypotheses holds unconditionally, `ST(A)/ST(A)⁰ ≅ Gal(K/k)`, and `ST(A)⁰` is determined by
-`End(A_k̄)_ℝ` through 8.4. *Needs:* 9.4, A4–A5, FaltingsFinitenessAndIsogenyTheorems R28.4.5, MotivesAndAlgebraicCycles.
+`End(A_k̄)_ℝ` through 8.4. *Needs:* 9.4, A4–A5, FaltingsFinitenessAndIsogenyTheorems R28.4.5; AutomorphicBundles §§1.2–1.3;
+ShimuraData §1.2; 8.4.
 
-### 9.11 The splitting field and the geometric factors
+**Checks.**
 
-For `g = 2` and `¬ IsGeomSimple A`: `splittingField A : IntermediateField k k̄`, the minimal
-`L ⊆ K` such that `A_L` is `L`-isogenous to a product of two elliptic curves. Prove existence
-and uniqueness of the minimum: the fields `L ⊆ K` over which `A_L` splits are the fixed fields
-of the subgroups `H ≤ Gal(K/k)` for which `End⁰(A_K)^H` is not a division algebra; by the
-dictionary 9.7 this is a condition on the subgroup lattice of the component group of `ST(A)`,
-and for each of the fifty-two Galois types the set of such `H` has a unique maximal element
-(FKRS Theorem 4.3(c) and Table 8, a check over the certificate of 6.7). The **factors** `spl_facs`
-are elliptic curves `E_1, E_2` over `splittingField A` with `A_L ∼ E_1 × E_2`, unique up to
-`L`-isogeny and order; the labels `spl_facs_labels` are not targets, and `condnorms` are the
-elliptic-curve roadmaps'. *Needs:* 8.2–8.3, 9.7.
+- For non-CM E, Hg=SL₂ and the full Lefschetz group has one component.
+- For CM E, Hg is a one-dimensional torus and MT has dimension 2; the connectedness hypothesis still holds.
+- For E² with non-CM E the Hodge group is diagonal SL₂ of dimension 3, not Sp₄ of dimension 10; its commutant is M₂(ℚ).
 
-### 9.12 The endomorphism lattice
+### 9.11 Minimal splitting fields and geometric factors
 
-`endLattice A : IntermediateField k K → (GeomEndAlgSurface × RealEndTypeSurface × …)`: for each intermediate
-field `F` of `K/k`, the isomorphism types of `End⁰(A_F)` and `End(A_F)_ℝ`, whether `A_F` is
-simple, whether it is of `GL₂`-type (8.6), and (9.5) the Sato–Tate group of `A_F`. Prove it is
-the function on the subgroup lattice of `Gal(K/k)` sending `H` to the fixed algebra of `H` on
-`End(A_K)_ℝ` (FKRS Theorem 4.3(c)), that it is determined by the Galois endomorphism type, and
-that for `g ≤ 2` it determines `ST(A)` (9.7). This is the `g2c` `end_lattice` record. *Needs:* 8.1–8.7, 9.5, 9.7.
+For an abelian surface A over a characteristic-zero field k which is not geometrically
+simple, define its minimal splitting fields to be the inclusion-minimal intermediate
+fields L of the finite endomorphism extension K/k for which A_L is L-isogenous to a
+product of elliptic curves. This is a nonempty finite set: K splits A, the intermediate
+field lattice is finite, and splitting is equivalent to the existence of a nontrivial
+idempotent in the rational fixed algebra `End⁰(A_K)^Gal(K/L)` (8.1–8.3, Poincaré
+reducibility). A least member need not exist. For each specified splitting field L,
+the two elliptic factors are unique up to L-isogeny and permutation. The real fixed
+algebra alone cannot test splitting (FKRS §4.1, pp.21–22; Theorem 4.3(c), p.22).
+
+- Splitting persists under extension inside K; minimal fields form an antichain.
+- Splitting is invariant under k-isogeny; the factor multiset is invariant under L-isogeny.
+- The rational fixed algebra is a division algebra exactly when A_L is simple.
+
+**Checks.**
+
+- If A=E₁×E₂ over k, the minimal set is `{k}`, including E₁=E₂.
+- Twist a non-CM E²/ℚ by the signed-permutation action of
+  `Gal(ℚ(⁴√2,i)/ℚ)=D₄`, with `r=[[0,−1],[1,0]]`, `s=diag(1,−1)`.
+  The conjugation kernel is `{1,r²}` and K=ℚ(√2,i). Fixed algebras for the images
+  of `s,rs,r` are respectively ℚ×ℚ, ℚ×ℚ, ℚ(i); the full fixed algebra is ℚ.
+  Thus the minimal fields are ℚ(√2) and ℚ(√−2), whereas their intersection ℚ does not split A.
+- Over K the same example has rational algebra M₂(ℚ) and two isogenous factors;
+  over ℚ(i) it is simple, excluding a test using only the real algebra ℂ.
+
+*Needs:* 8.1–8.3; AbelianSchemesAndArithmeticModuli A6.4–A6.5.
+
+### 9.12 Rational and real endomorphism lattices
+
+Define the real fixed-algebra lattice of a Galois endomorphism type `[Γ,E]` as the
+function `H ↦ E^H` on all subgroups of Γ, together with the inclusions for reversed
+subgroup containment. For a surface A this determines the real algebras End(A_F)⊗ℝ
+and the Sato–Tate conjugacy classes over F through 9.7 (FKRS Theorem 4.3(c), p.22).
+Separately, define the rational fixed-algebra lattice from the rational algebra
+`D=End⁰(A_K)` and its Γ-action: `H ↦ D^H`, with its algebra inclusions. Its values
+are finite-dimensional semisimple ℚ-algebras up to isomorphism, not the nine
+geometric surface shapes of 8.5. The rational action is additional input.
+
+- Galois descent identifies D^H with End⁰(A_F), F=K^H, and scalar extension
+  identifies `(D^H)⊗ℝ` with `(D⊗ℝ)^H`.
+- The division-algebra test determines simplicity, and the decomposition into
+  simple factors determines the GL₂-type predicate of 8.6.
+- The rational lattice determines its real lattice; the reverse reconstruction is false.
+
+**Checks.**
+
+- With Γ=1, E² for non-CM E has D=M₂(ℚ), real algebra M₂(ℝ), and is not simple.
+- A geometrically simple indefinite-QM surface with all endomorphisms defined has
+  division quaternion D, the same real algebra M₂(ℝ), and is simple. Its real type
+  `[1,M₂(ℝ)]` cannot distinguish it from the preceding example.
+- The D₄ twist of 9.11 has the base-change entry ℚ(i) at F=ℚ(i), so the rational
+  codomain must include an imaginary quadratic algebra even in dimension two.
+
+*Needs:* 8.1–8.7, 9.5, 9.7; AbelianSchemesAndArithmeticModuli A6.4–A6.5.
+
+### Examples
+
+The D₄ twist has two minimal quadratic splitting fields; a CM elliptic curve acquires connected Sato–Tate group over its CM field.
+
+### Dependencies
+
+Layers 5–8; ReductiveGroups Layer 3; ArithmeticLocallySymmetricSpaces ALS.F.1; PotentialModularityAndCompatibleSystems §1.20; ShimuraData §1.2; AutomorphicBundles §§1.2–1.3; the arithmetic suppliers named in each subsection.
 
 ## Layer 10: equidistribution
 
@@ -1714,6 +2501,14 @@ of eigenangles in `[0, π]` of `SU(2)`, equidistribution for `(2/π) sin²θ dθ
 `m ≥ 1`, `N⁻¹ ∑ U_m(cos θ_n) → 0` (Tau Ceti's Chebyshev characters). *Needs:* 1.5,
 ProbabilisticAndMetricNumberTheory §2.1, Tau Ceti `Compact/Character/Basis.lean`,
 `SU2/Completeness.lean`.
+
+The angle measure is `semicircleAngle`, normalized by `isProbabilityMeasure_semicircleAngle`; its character criterion is `tendsto_empiricalMeasure_semicircleAngle_iff`. The quotient topology and Borel structures used by `conjLaw` are `instTopologicalSpaceConjClasses`, `instMeasurableSpaceConjClasses` and `instBorelSpaceConjClasses`.
+
+**Checks.**
+
+- A uniform C₄ sequence pushed to C₂ has two fibers of size 2 and limit masses 1/2.
+- For constant eigenangle 0, U₁(cos 0)=2, whereas its semicircle integral is 0, so the Weyl criterion rejects it.
+- The constant character has Haar integral 1 and is excluded from the zero-average tests; nontrivial circle characters have integral 0.
 
 ### 10.2 Serre's L-function criterion
 
@@ -1739,6 +2534,12 @@ to a finite `G = Gal(L/k)` and Artin L-functions this is Chebotarev's theorem in
 form (Chebotarev Layer 14), which is the acceptance check. *Needs:* 10.1, Chebotarev Layer
 12, ArithmeticDirichletSeries.
 
+**Checks.**
+
+- For the trivial group the tests are empty and the empirical measure is exactly δ₁.
+- For constant identity classes in C₂, the sign-character Euler product is ζ_k(s) with a pole at 1, so the analytic hypothesis fails.
+- For uniformly distributed finite-group Frobenius classes the trivial representation is omitted from the tests, since its Euler product has a pole at 1.
+
 ### 10.3 The Sato–Tate conjecture, as a statement
 
 `SatoTateConjecture A ℓ ι : Prop`: the sequence `frobeniusClass A 𝔭_n`, where `n ↦ 𝔭_n` is a
@@ -1750,11 +2551,17 @@ component-group refinement), and that it implies the **moment convergence**
 `N⁻¹ ∑_{n<N} a_i(𝔭_n)^m → aMoment (ST(A)) i m` and the **density** statements
 `#{n < N | a_i(𝔭_n) = x}/N → coeffProb (ST(A)) i x` (3.5 and the frequency law of
 ProbabilisticAndMetricNumberTheory §2.1: `{a_i = x}` is a continuity set because its boundary
-has measure zero by 3.5); in particular the density of primes with `a_𝔭 = 0` is the trace zero
+has measure zero by 3.5); in particular the density of primes with `a_𝔭 = 0 is the trace zero
 density. The same statement for a newform
-(`frobeniusClass f p ∈ Conj(ST(f))`, the class of the normalized Satake parameters,
+(frobeniusClass f p ∈ Conj(ST(f))`, the class of the normalized Satake parameters,
 `satakeParameters` of Tau Ceti's `HeckeRing.GL2.Newform.Satake` with the normalization `p^{−(k−1)/2}`).
 *Needs:* 3.1–3.5, 9.6, 9.9, 10.1.
+
+The required API includes:
+
+- Isogenies preserve the conjecture and its coefficient-moment consequences.
+- Ordering primes differently within a norm tie leaves the limiting measure unchanged.
+- Constant-component coefficient events have the probabilities given by the component-counting theorem.
 
 **Checks.**
 
@@ -1768,14 +2575,34 @@ density. The same statement for a newform
 
 ### 10.4 Hecke equidistribution
 
-For a Grossencharacter `ψ` of `k` of infinite order with unitary part `ψ_u` and ideal values
-`ψ_u(𝔭) ∈ U(1)` at the primes `𝔭 ∤ 𝔪` (*L-functions* Layer 6 `unitaryWeight`), the sequence
-`(ψ_u(𝔭))` ordered by norm is equidistributed in `U(1)` for Haar measure (Sutherland Lemma 2.15;
-Hecke). Proof: the irreducible characters of `U(1)` are `z ↦ z^a`, `L(z^a ∘ ψ_u, s) = L(ψ_u^a, s)`,
-and for `a ≠ 0` the character `ψ_u^a` is a unitary Grossencharacter which is not a norm twist
-(infinite order), so *L-functions* Layer 7 gives holomorphy and nonvanishing on `Re s ≥ 1`;
-apply 10.2 with `G = U(1)`. Corollary: `(ψ_u(𝔭) + ψ̄_u(𝔭))` is equidistributed on `[−2, 2]` for
-the arcsine law (4.4). *Needs:* 4.4, 10.2, LFunctions Layers 6–7.
+For a unitary Hecke character χ of a number field k, assume that for every nonzero
+integer a and every real t, `χ^a ≠ normCharacter k t`. Here the native norm character
+is the idele norm to the power it. Then its ideal values at primes outside the conductor,
+ordered by norm, are equidistributed for Haar measure on the circle
+(`hecke_equidistribution`). The statement allows deletion of any further finite set of
+primes. For a general Grossencharacter ψ, apply this theorem to its unitary part ψ_u,
+provided the same no-norm-power condition holds. This is the character argument of
+Sutherland §2.4, Lemma 2.15, p.18, with the norm exception required by LFunctions Layer 7.
+For every a≠0 the corresponding Hecke L-function is holomorphic and nonvanishing on
+Re s≥1; Serre's criterion gives the result. Pushforward by `z ↦ z+z̄` gives the arcsine law.
+
+- A finite-image character is equidistributed in its finite image, with uniform mass,
+  by class field theory and Chebotarev; it is excluded from circle equidistribution.
+- A pure norm character has prime values `(N𝔭)^(−it)` in the native idele convention.
+  At t=0 the limit is δ₁; at t≠0 the first averages have the oscillating main term
+  `x^(−it)/(1−it)` and do not tend to zero (partial summation of the prime ideal theorem).
+- CM infinity type excludes every norm power: at a complex place the nonzero angular
+  frequency of χ^a is a times that of χ, whereas a norm character has frequency zero.
+
+**Checks.**
+
+- ψ=N has unitary part 1: the character average is 1, while the circle Haar integral is 0.
+- χ=normCharacter(k,1) has infinite order but fails the hypothesis at a=1,t=1.
+- For a CM elliptic character of infinity type (1,0), the unitary part has angular
+  frequency 1; its a-th power has frequency a≠0, so every forbidden equality fails.
+
+*Needs:* 4.4, 10.2, LFunctions Layers 6–7; Chebotarev Layer 14;
+ComplexMultiplicationAndExplicitReciprocity §4.1; Tau Ceti HeckeCharacter ideal and infinity-type APIs.
 
 ### 10.5 CM elliptic curves over a field containing the CM field
 
@@ -1789,9 +2616,16 @@ enumerated with nondecreasing norm, are equidistributed for `arcsineLaw` (9.6): 
 Deuring) there is a Grossencharacter `ψ_E` of `k` of infinity type `(1, 0)` at the embedding
 corresponding to the CM type with `a_𝔭 = ψ_E(𝔭) + ψ̄_E(𝔭)` and `|ψ_E(𝔭)| = N𝔭^{1/2}` at every
 good `𝔭`, so the normalized Frobenius class in `u1 = U(1)` is `diag(ψ_u(𝔭), ψ̄_u(𝔭))` with
-`ψ_u = ψ_E / |ψ_E|` of infinite order, and 10.4 applies (Sutherland Proposition 2.16). The trace
+`ψ_u = ψ_E / |ψ_E|`; its nonzero CM angular frequency shows that no nonzero power
+is a pure norm character, so 10.4 applies (Sutherland Proposition 2.16). The trace
 law is the arcsine law; `a_𝔭/N𝔭^{1/2}` has moments `C(2n, n)`. *Needs:* 5.1, 9.9, 10.4,
 ComplexMultiplicationAndExplicitReciprocity 4.1.
+
+**Checks.**
+
+- The CM angular frequency 1 becomes a under a-th power; a≠0 cannot be the zero angular frequency of any norm character.
+- The first four even trace moments are 1,2,6,20, matching arcsine rather than semicircle.
+- For a CM inert prime before base change the trace is 0; such degree-two primes after base change have density 0 among primes of the CM field, so they do not create an atom there.
 
 ### 10.6 CM elliptic curves over a field not containing the CM field
 
@@ -1800,7 +2634,7 @@ Let `E/k` have CM by `F ⊄ k`, so `ST(E) = nu1` and `K = kF` is quadratic over 
 for a Weierstrass curve `W` over `k` with endomorphism ring `ℤ` over `k` and larger than `ℤ` over
 `k̄`, the normalized traces at the primes of good reduction, enumerated with nondecreasing norm,
 are equidistributed for `nu1TraceLaw = ½ δ_0 + ½ arcsineLaw` (5.4): the primes `𝔭` of `k` split in `kF/k` have natural density `1/2`
-(Chebotarev Layer 14), and along them `frobeniusClass` lies in the identity component with the
+(Chebotarev Layer 14), and along them frobeniusClass lies in the identity component with the
 law of 10.5 for `E_{kF}` (the classes of a split `𝔭` and of a prime above it coincide, and
 10.5 applied to `E_{kF}` restricted to the degree-one primes — the subsequence of primes of `kF`
 of degree one over `k` has density one among the primes of `kF`, so equidistribution passes to
@@ -1813,6 +2647,12 @@ equidistribution for `conjLaw nu1 = ½ (pushforward of Haar on u1) + ½ δ_{[J]}
 `a_𝔭/N𝔭^{1/2}` has moments `1, 0, 1, 0, 3, 0, 10, …` (Sutherland §2.4). For `k = ℚ` this is
 the classical statement: `a_p = 0` for every good `p` inert in `F`. *Needs:* 5.1, 5.4, 9.9,
 10.5, Chebotarev Layer 14.
+
+**Checks.**
+
+- The inert half contributes 0 to every positive trace moment and contributes 1/2 to the zeroth moment.
+- The split half contributes half the arcsine moments, giving total moments 1,0,1,0,3.
+- The trace-zero probability is 1/2, while after base change to the CM field it is 0; equidistribution cannot be transferred by ignoring the changed components.
 
 ### 10.7 The non-CM theorems, cited
 
@@ -1828,6 +2668,12 @@ at inert `p` lie in the trace-zero coset). This roadmap proves nothing in this m
 records the exact statements its consumers (the `ec`, `ecnf`, `cmf` pages' "known" annotations)
 rely on. *Needs:* 9.9, 10.3, ModularityAndLanglandsExtensions §§4.28, 4.34, 4.42.
 
+**Checks.**
+
+- For a non-CM elliptic curve over ℚ the second and fourth predicted trace moments are 1,2.
+- For a CM elliptic curve over ℚ they are 1,3, so the non-CM theorem does not apply.
+- For a degree-two determinant-kernel group with character order 2 the second trace moment is 0, distinguishing it from SU(2).
+
 ### 10.8 Products and the degree-`4` CM cases
 
 For `A = E_1 × E_2` over `k` with both curves CM (defined over `k` or not), or one CM and one
@@ -1835,7 +2681,7 @@ non-CM with the Sato–Tate conjecture known for the non-CM factor, `SatoTateCon
 with `ST(A)` the product or normalizer group of 9.7: the Frobenius class of the product is the
 pair of classes, independence of the two coordinate laws under equidistribution of the joint
 sequence follows from the joint Hecke equidistribution of `(ψ_1, ψ_2)` in `U(1)²` (10.4 for the
-characters `ψ_1^a ψ_2^b`, `(a,b) ≠ 0`, which are of infinite order exactly when the CM fields
+characters `ψ_1^a ψ_2^b`, `(a,b) ≠ 0`, whose nonzero angular infinity types exclude every pure norm character when the CM fields
 `M_1 ≠ M_2` differ — the infinity types of `ψ_1, ψ_2` are then independent; when `M_1 = M_2` the
 curves are geometrically isogenous, `ψ_2 ∈ {ψ_1 ε, ψ̄_1 ε}` for a finite-order `ε`, `ST(A)` lies
 in the `U(1)_2` family of 9.7, and equidistribution is 10.4 for `ψ_1` together with Chebotarev
@@ -1845,6 +2691,20 @@ automorphy of `ψ^a ⊗ Sym^m`). The complete list of nongeneric abelian surface
 known Sato–Tate (Fité–Sutherland 2014, Johansson 2017, Taylor 2020) is recorded as cited
 theorems, with the generic case `USp(4)` stated as an open conjecture in 10.3. *Needs:* 9.7,
 10.4–10.7.
+
+**Checks.**
+
+- For the square of one CM curve, the second trace moment is 4·2=8.
+- For independent CM factors with different CM fields, the second trace moment is 2+2=4.
+- For a CM and an independent non-CM factor the second moment is 2+1=3; mere separate equidistribution is insufficient without the joint character argument.
+
+### Examples
+
+The norm character with parameter 0 has constant prime value 1; a CM angular character has nonzero power frequencies and the arcsine trace law.
+
+### Dependencies
+
+Layers 1,3–5,9; ProbabilisticAndMetricNumberTheory §2.1; LFunctions Layers 6–7; ComplexMultiplicationAndExplicitReciprocity §4.1; Chebotarev Layers 12,14 and ArithmeticDirichletSeries.
 
 ## Downstream consumers
 
@@ -1856,44 +2716,6 @@ theorems, with the generic case `USp(4)` stated as an open conjecture in 10.3. *
   weight-`0` degree-`1` groups `μ(n)` (5.6), for the Sato–Tate group of an Artin representation.
 - The LMFDB's `ec`, `ecnf`, `g2c` and `cmf` pages, through the sibling roadmaps that own those
   objects.
-
-## Explicit scope exclusions
-
-- Label components beyond the intrinsic prefix, orderings and normal forms fixed by convention,
-  stored lists, and the completeness of database tables are not targets: the letters, suffixes,
-  names, `old_label`s, stored orderings of the moment simplex and of the character matrix, and GAP
-  identifiers of component groups (the isomorphism invariants behind an identifier are
-  `FiniteGroupInvariants`'). The stored trace-histogram images: nobody's.
-- Proofs of equidistribution for non-CM elliptic curves, Hilbert and Bianchi forms, symmetric
-  powers, potential automorphy: *Modularity and Langlands extensions* and its suppliers (10.7
-  only cites).
-- The analytic continuation, functional equation and nonvanishing of Hecke L-functions:
-  *L-functions — completions and functional equations*.
-- Deuring's theorem and the Hecke character of a CM abelian variety: *Complex multiplication and
-  explicit reciprocity* Layer 4.
-- Foundations of abelian varieties, the Tate module of an abelian variety, polarizations, the
-  Rosati involution, Poincaré reducibility, Néron–Ogg–Shafarevich: *Abelian schemes and
-  arithmetic moduli*, *Néron models and semistable abelian varieties*; Faltings' isogeny theorem:
-  *Faltings finiteness and isogeny theorems*.
-- Albert's classification and positive involutions: *Siegel and PEL moduli problems* M0.1–M0.2.
-- `GL₂`-type varieties in Ribet's sense, ℚ-curves, modularity: *Abelian varieties of GL₂-type and
-  modularity of ℚ-curves*. CM newforms, inner twists, Satake parameters: ModularForms.
-- Galois images (open image theorem, adelic index, `GSp₄` images, `nonmax_primes`), isogeny
-  classes and graphs: `AdelicImagesAndModularCurves`.
-- Sato–Tate groups of Artin representations of degree `> 1`: `ArtinRepresentations`.
-- Sato–Tate groups of even weight and degree `> 1` (hypergeometric motives, K3 surfaces): no LMFDB
-  page displays one and no roadmap here owns them. No even-weight classification beyond `O(1)`.
-- Models, Igusa–Clebsch invariants, automorphism groups and `2`-Selmer data of genus-`2` curves:
-  `HyperellipticCurves`; the `g2c` endomorphism **columns** are owned here, the **curves** there.
-- Abelian varieties over finite fields: `AbelianVarietiesOverFiniteFields`; the Weil bounds:
-  *Deligne weights, purity and the Weil bounds*; Deligne's finite-field equidistribution (§10.5
-  there) is not reproved.
-- The general Lie theory (closed-subgroup theorem, Weyl integration in general, maximal compact
-  subgroups): LieGroups; Peter–Weyl and compact characters: Tau Ceti via CompactGroups.
-- Sato–Tate groups of abelian varieties of dimension `≥ 4` beyond the definitions of Layer 9
-  (Mumford's examples, the motivic Sato–Tate group): named in 9.4 as the reason the hypotheses
-  are hypotheses, not developed.
-- Half-integral weight, Siegel, Hilbert and Bianchi forms' own Sato–Tate groups: their roadmaps.
 
 ## Worked examples (acceptance criteria)
 
@@ -1941,7 +2763,7 @@ and `[C_1, ℂ]`.
 | `x⁵ − x` | `J(C_2)` | `1.4.F.4.2b` | 4 | `C_2²` | 1 | 3/4 | `2, 24, 320` | `1, 7, 22` | `ℂ` |
 | `x⁶ − 5x⁴ + 10x³ − 5x² + 2x − 1` | `J(O)` | `1.4.F.48.48a` | 48 | `S_4×C_2` | 1 | 11/16 | `1, 6, 50` | `1, 3, 7` | `ℝ` |
 
-`J(O)` has the largest component group in degree `4`; its `zVector` is `(33; 1, 0, 6, 8, 9)`,
+`J(O)` has the largest component group in degree `4`; its zVector is `(33; 1, 0, 6, 8, 9)`,
 so `Pr[a_2 = −2] = 1/48`, `Pr[a_2 = 0] = 1/8`, `Pr[a_2 = 1] = 1/6`, `Pr[a_2 = 2] = 3/16` (3.5).
 Base change moves along the lattice (9.5): `y² = x⁵ − x` has `ST = J(C_1)` (`1.4.F.2.1a`,
 `End(J)_ℝ = ℍ`) over `ℚ(i)` and `C_2` (`1.4.F.2.1b`, `ℂ×ℂ`) over `ℚ(√−2)`; `y² = x⁶ + 1` has
@@ -1981,9 +2803,9 @@ for `p = 3, 5, 13, 17, 19` inert in `ℚ(√−7)`; here `χ = χ_F`, so `χ_F �
 ⟨U(1), J·diag(1, −1)⟩`, the index-two subgroup of `nu1Mu 2 = U(1)[D_2]` (9.9), weight `2`, two
 components (`det = ±1`), component group `C_2`, `Pr[t = 0] = 1/2`, trace moments
 `1, 0, 1, 0, 3, 0, 10, …` (those of `N(U(1))`, the reflection coset having `t ≡ 0`), rational,
-and self-dual for weight `2` (conjugate in `U(2)` to `Od 2`); the LMFDB labels it `2.2.1.d2`,
-the record of `nu1Mu 2` (four components, Haar trace moments `1, 0, 0, 0, 3, 0, 0, 0, 35`),
-whose stored moment row `1, 0, 1, 0, 3, 0, 10, …` is that of `ST(f)` (5.5). A non-CM newform of weight `2` with a character of order
+and self-dual for weight `2` (conjugate in `U(2)` to `Od 2`); the LMFDB labels it `2.2.1.d2,
+the record of nu1Mu 2` (four components, Haar trace moments `1, 0, 0, 0, 3, 0, 0, 0, 35`),
+whose stored moment row `1, 0, 1, 0, 3, 0, 10, …` is that of `ST(f) (5.5). A non-CM newform of weight 2` with a character of order
 `3` has `ST(f) = SU(2)[C_3]`, label `1.2.3.c3`, **not** rational (`E[det] = ζ_3` on a component),
 three components, trace moments `1, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 132` (Catalan numbers on
 the multiples of `6 = 2·3`).
@@ -1995,8 +2817,8 @@ the multiples of `6 = 2·3`).
 beyond it, Sutherland §4.3: `7!! = 105 > 104`), `E[a_2^n] = 1, 2, 5, 16, 62`, `E[a_3²] = 2`,
 `E[a_3⁴] = 23`, odd moments `0`, `Pr[a_i = n] = 0`, all by the Weyl formula 4.2 for `g = 3`. `U(3)` (`1.6.B.1.1a`): real dimension `9`,
 `End(A_K)_ℝ = ℂ`; `N(U(3))` (`1.6.B.2.1a`) has two components and `Pr[a_1 = 0] = Pr[a_3 = 0] = 1/2`.
-The fourteen identity components have real dimensions `1, 3, 2, 4, 4, 6, 3, 5, 7, 9, 11, 13, 9,
-21` in the order of 4.7; the LMFDB's `1.6.L.*` rows (identity component `U(1) × U(1)_2`) store
+The first fourteen identity components in 4.7 have real dimensions `1, 3, 2, 4, 4, 6, 3, 5, 7, 9, 11, 13, 9,
+21`; the two additional abstract components have dimensions 5 and 7. In the arithmetic list, the LMFDB's `1.6.L.*` rows (identity component `U(1) × U(1)_2`) store
 `real_dimension = 6`, and 7.4 records `2`. The stored list has `410` rows, `33` of them maximal,
 with maximal component orders `192`, `432`, `336`.
 
@@ -2011,18 +2833,17 @@ with maximal component orders `192`, `432`, `336`.
   `diag(A, Ā)` the trace is `2cos(π/5)(u + ū)`, so `E[a_1²] = 2(2cos(π/5))² = 3 + √5 ∉ ℤ` and
   `E[a_2] = (2cos(π/5))² = (3 + √5)/2 ∉ ℤ`; `IsRational` fails. This is why 6.5 has only
   `n ∈ {1,2,3,4,6}`, and why ST1–ST2 alone admit infinitely many groups (one for each `n`).
-- `U(2) ≤ USp(4)` (embedded `A ↦ diag(A, Ā)`): connected, self-dual, rational (2.5(c)), but fails
-  the Hodge condition for `weightOne 2` (no element has eigenvalues `u, u, ū, ū` for all `u` with
-  the circle inside `U(2)` acting with the same multiplicities, FKS18 Remark 2.3); it does satisfy
-  the Hodge condition for weight `3` with `h = (1,1,1,1)`.
-- A finite subgroup of `USp(2g)` fails the Hodge condition in every odd weight (2.2); in weight
-  `2` with Hodge numbers `(0, 2g, 0)` the trivial homomorphism is a Hodge circle and `{1}`
-  satisfies it, which is why 2.2 asks for some `h p ≠ 0` with `2p ≠ w`.
-- `F_c`, `F_{ab,c}`, `F_{a,b,c}` satisfy `IsSatoTateGroup (weightOne 2)` (6.3) and are not
-  `ST(A)` for any abelian surface over any number field (9.7–9.8): the predicate and the
-  realization are different theorems.
-- `SO(3) ≤ USp(6)` (via `Sym²` of `SU(2)`, suitably embedded): satisfies ST1–ST3 for `weightOne 3`
-  and fails `IsLefschetz` (7.3); it is not an identity component of any degree-`6` Sato–Tate group.
+- Z(U(2)) and its normalizer satisfy the all-circles axioms. The scalar and SU(2)
+  circles each have weights (1,1,−1,−1), and their union generates U(2); the complex
+  commutant is ℂ². They are excluded from the arithmetic surface list by 8.4 and 9.10.
+- A finite subgroup of USp(2g) with g>0 fails the odd-weight Hodge condition. At g=0
+  the trivial group satisfies it: the empty polynomial is 1 and the trivial circle
+  generates the identity component. In weight 2 with Hodge numbers (0,2g,0), finite
+  groups pass the Hodge condition as well.
+- `F_c, F_{ab,c}, F_{a,b,c}` satisfy the abstract axioms but are not realized by surfaces
+  (9.7–9.8). Arithmetic realizability is stronger than the three group predicates.
+- SO(3) and SU(3) in diag(A,Ā) fail ST2: −I₃ has determinant −1, so −I₆ is absent.
+  Connectedness still gives ST3, in agreement with the odd-weight consequence 2.5.
 - `Pr[a_1 = 0] = 0` for `U(1)` although `a_1 = 0` at `u = ±i`: the level set is nonempty and
   null (3.5); for `N(U(1))` the same set has measure `1/2` because it contains a component.
 - Over `ℚ`, `F_{ab}` (`1.4.D.2.1a`) is not realized (9.8) although it is realized over `ℚ(√2)`
@@ -2033,51 +2854,21 @@ with maximal component orders `192`, `432`, `336`.
 - The normalization `a_1 = −t`: for `μ(1) = {1}`, `E[t] = 1` and `E[a_1] = −1`; the stored
   trace-moment row `1, 1, 1, …` of `0.1.1` is the trace row, not the `a_1` row (3.2).
 
-## Ordering
-
-```text
-Layer 0 (ambient groups, coefficients, torus conjugacy)
-  └─ Layer 1 (identity component, components, Haar on components, coefficient laws)
-        ├─ Layer 2 (Hodge numbers, Hodge circles, the axioms, first consequences)
-        │     ├─ Layer 3 (moments, event probabilities, component counting, records)
-        │     │     ├─ Layer 4 (Weyl integration: USp(2g), products, genus one, USp(4), degree-6 connected)
-        │     │     │     ├─ Layer 5 (degree 2: the three groups, the non-self-dual families, μ(n))
-        │     │     │     ├─ Layer 6 (degree 4: the fifty-five, classification, certificate, lattice)
-        │     │     │     └─ Layer 7 (finiteness, degree-6 connected classification, degree-6 data)
-        │     │     └─ Layer 10.1–10.2 (equidistribution, Weyl criterion, Serre's criterion)
-        └─ Layer 8 (endomorphisms, endomorphism field, types, Galois endomorphism type)   [independent of 2–7]
-              └─ Layer 9 (ST(A), hypotheses, Frobenius classes, dictionary ← Layers 5–6, ST(f), splitting field, lattice)
-                    └─ Layer 10.3–10.8 (the conjecture, Hecke, CM curves, citations, products)
-```
-
-Layers 0–1 come first. Layers 2 and 3 are sequential; Layer 4 needs Layer 3 only for the names
-of the statistics it computes. Layers 5, 6 and 7 are independent of one another given Layer 4
-(Layer 7's finiteness 7.2 reuses the method, not the result, of 6.4, and applies
-`FiniteGroupInvariants` 10.5 through 7.1). Layer 8 depends only on
-Tau Ceti's abelian varieties and the cited suppliers and can be built in parallel with Layers
-2–7. Layer 9 needs Layers 5–6 for the dictionary 9.7 and the trichotomy 9.9 and Layer 8
-throughout. Layer 10.1–10.2 needs only Layer 1, the compact-group library and
-ProbabilisticAndMetricNumberTheory §2.1; 10.3–10.8 need Layer 9. A first deliverable is Layers
-0–5 with 10.1–10.2 (the whole degree-`2` theory with Serre's criterion); a second is Layer 6; a
-third is Layers 8–9 with 10.3–10.6.
-
 ## References
 
 - F. Fité, K. S. Kedlaya, V. Rotger, A. V. Sutherland, *Sato–Tate distributions and Galois
   endomorphism modules in genus 2*, Compositio Math. 148 (2012), 1390–1442; arXiv:1110.6638
-  (on disk: `references/Fite-Kedlaya-Rotger-Sutherland -- Sato-Tate distributions in genus 2.pdf`).
+  (version 2, whose printed page numbers are used here).
   Definitions 1.3, 2.4, 2.6, 2.9, 2.11, 2.14–2.15, 3.1; Lemma 2.8, 3.7; Propositions 2.17,
   2.19, 3.2, 4.1, 4.5, 4.11; Theorems 1.2, 1.4–1.6, 2.16, 3.4, 4.3; Remarks 3.3, 3.5, 3.6;
   §§3.4–3.6 (presentations), §4.1 (types A–F), §§4.2–4.8, §5.1 (component engine, (5.1));
   Tables 1, 5, 6, 8, 9, 10, 11.
 - F. Fité, K. S. Kedlaya, A. V. Sutherland, *Sato–Tate groups of abelian threefolds*, Mem. Amer.
-  Math. Soc. (2023); arXiv:2106.13759 (on disk: `references/Fite-Kedlaya-Sutherland -- Sato-Tate
-  groups of abelian threefolds.pdf`). Theorem 1.1; Definitions 3.1–3.2, 3.4, 3.6, 3.12, 6.2;
+  Math. Soc. (2023); arXiv:2106.13759 (version 5, whose printed page numbers are used here). Theorem 1.1; Definitions 3.1–3.2, 3.4, 3.6, 3.12, 6.2;
   Propositions 3.3, 3.5, 3.13; Lemma 3.7; §3.5 (types A–N), §3.6; §§4–5 (upper bound), §7
   (exclusions), §8 (realizations); Tables 9, 10, 12.
 - A. V. Sutherland, *Sato–Tate distributions*, in *Analytic methods in arithmetic geometry*,
-  Contemp. Math. 740 (2019), 197–248; arXiv:1604.01256 (on disk: `references/Sutherland --
-  Sato-Tate distributions.pdf`). Definitions 2.1, 2.3, 2.14, 3.8, 4.1, 4.10; Propositions 2.9,
+  Contemp. Math. 740 (2019), 197–248; arXiv:1604.01256 (version 6, whose printed page numbers are used here). Definitions 2.1, 2.3, 2.14, 3.8, 4.1, 4.10; Propositions 2.9,
   2.11, 2.16, 4.4, 4.9; Corollary 2.10, 2.13, 4.5; Lemma 2.15; Theorems 1.9, 2.12, 3.2, 3.9,
   3.12, 4.3, 4.6, 4.8, 4.12; Conjectures 3.6, 3.10, 3.11; Remarks 4.2, 4.7, 4.13; §§2.4–2.5,
   §4.3; Tables 1–2.
@@ -2099,10 +2890,12 @@ third is Layers 8–9 with 10.3–10.6.
   `≤ 3`; the Mumford–Tate conjecture is not in this source, see Banaszak–Kedlaya Theorem 6.10).
 - F. Fité, K. S. Kedlaya, A. V. Sutherland, *Sato–Tate groups of some weight 3 motives*, in
   *Frobenius distributions: Lang–Trotter and Sato–Tate conjectures*, Contemp. Math. 663, Amer.
-  Math. Soc. (2016), 57–101 (`FKS18` in the threefolds memoir). Remark 2.3 (exclusion of `U(2)`
-  as an identity component, cited in 6.4 and the boundary checks).
+  Math. Soc. (2016), 57–101 (`FKS18` in the threefolds memoir). Remark 2.3, pp.6–7 (individual Hodge-circle conjugacy classes; collective generation
+  in 2.2 also permits U(2)).
 - P. Deligne, J. S. Milne, *Tannakian categories* and *Hodge cycles on abelian varieties*, in
-  LNM 900 (1982); I, Proposition 6.2 (`G_ℓ^{Zar,0} ⊆ MT(A) ⊗ ℚ_ℓ`).
+  LNM 900 (1982); Deligne, *Hodge cycles on abelian varieties*, author version
+  revised 2018, Proposition 2.9(b) and Theorem 2.11, pp.18–19 (finite Galois action
+  and absolute Hodge cycles, used for the inclusion of 9.10).
 - J. S. Milne, *Abelian varieties* (course notes, v2.0, 2008), §§1, 10, 20–21 (endomorphism
   algebras, Rosati, the field of definition of endomorphisms).
 - D. Mumford, *Abelian varieties*, Tata Institute / Oxford (1974), §21 (Rosati positivity, Albert).
