@@ -22,37 +22,41 @@ otherwise, transported charts and the identity diffeomorphism. Compare
 connections and scalar curvature through that identity. Metric families
 remain sections on the fixed underlying manifold.
 
-[RiemannianGeometry R1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/7d5cabbd745d7e1b7e51cc8540b0b6d2e4abef65/TauCetiRoadmap/RiemannianGeometry/README.md) supplies metric scaling/products, conformal and
+RiemannianGeometry R1 supplies metric scaling/products, conformal and
 submersion formulas, R4.7 the normalized round models, R1's projective block
 the normalized projective metrics, and R5a Gauss/second fundamental forms.
-[SmoothBundlesConnections B1/B5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/1c45ab4061b483b832b5d54f597dc69afd3f97a5/TauCetiRoadmap/SmoothBundlesConnections/README.md) supplies smooth principal bundles and connections;
+SmoothBundlesConnections B1/B5 supplies smooth principal bundles and connections;
 P2 constructs their associated manifold-fibre bundles, including boundary collars.
-[ComplexKahlerGeometry K5a](https://github.com/TauCetiProject/TauCetiRoadmap/blob/13b2335ea038b439655df55654e71b19603d8ee1/TauCetiRoadmap/ComplexKahlerGeometry/README.md) supplies the Fréchet topology of smooth sections
+ComplexKahlerGeometry K5a supplies the Fréchet topology of smooth sections
 of finite-rank real bundles; P1 constructs the symmetric-bilinear metric bundle
 and its C² section topology before applying that generic smooth-section theory.
-[SpinGeometry G4–G6](https://github.com/TauCetiProject/TauCetiRoadmap/blob/312e1bbec838a044c0cd479374d1a62e7a2c1e2e/TauCetiRoadmap/SpinGeometry/README.md) supplies Spin bundles, Clifford-linear Dirac operators,
+SpinGeometry G4–G6 supplies Spin bundles, Clifford-linear Dirac operators,
 Lichnerowicz and kernel vanishing. In particular G5.0 constructs
 `realCliffordSpinorBundle`, and G6.0 constructs
 `realSpinDiracClosedRealization` on the real H¹/L² carriers and
 `realSpinDiracIndexClass` in degree KO_n, with its Clifford-sign,
-bounded-transform and finite-kernel comparisons. [TangentialBordism B3.0](https://github.com/TauCetiProject/TauCetiRoadmap/blob/4a5e27d2dd1b94abcca3e9b2151e9adf460a8a2f/TauCetiRoadmap/TangentialBordism/README.md) owns
+bounded-transform and finite-kernel comparisons. TangentialBordism §7.1 (B3.0) owns
 `spinABSDiracIndexComparison` and `spinABSComplexificationGenus`, consuming
-the real Clifford-linear Spin operator and [GeneralizedCohomology G5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/1565ccc1af9dce1ca554ea6bb133a07c461177ef/TauCetiRoadmap/GeneralizedCohomology/README.md)'s
-graded Fredholm/ABS construction. [TopologicalKTheory T7](https://github.com/TauCetiProject/TauCetiRoadmap/blob/f2c908debdefa440e7dfda339a54cb3b74cdc51c/TauCetiRoadmap/TopologicalKTheory/README.md) owns the real KO
+the real Clifford-linear Spin operator and GeneralizedCohomology G5.5's
+graded Fredholm/ABS construction. TopologicalKTheory T7 owns the real KO
 coefficient ring and Clifford-module quotient. Use this real index,
 including its mod-two branches; the complex index does not detect them.
-TangentialBordism B1–B3 supplies structured geometric bordisms and B6 supplies
-the integral point orientation-kernel transfer theorems, including
-PSp3-equivariant HP² bundles. [GeometricTopology](https://github.com/TauCetiProject/TauCetiRoadmap/blob/87f0ec5b86d9f2c8668d39f9dde23707c76ffac9/TauCetiRoadmap/GeometricTopology/README.md) supplies tubular neighbourhoods,
-framed surgery, high-dimensional Whitney cancellation and relative handles;
-this roadmap owns the curvature estimates and metric extension over surgery.
+TangentialBordism Layers 2–3 (B1–B2) supply structured geometric bordisms,
+and its §§10.2–10.4 (B6.4–B6.6) supply the associated-family transfers and
+the integral point orientation-kernel and Spin-to-KO kernel theorems,
+including the PSp3-equivariant HP² bundles. GeometricTopology Layer 1
+supplies manifolds with boundary, boundary gluing, handle attachment,
+tubular neighbourhoods and the framed-surgery interface; HomotopySpheres
+§§1.2–1.5 supply ordered handle decompositions, handle cancellation and
+slides, and the Whitney move. This roadmap owns the curvature estimates
+and metric extension over surgery, and P4's handle-index bound.
 
 A closed manifold is compact and without boundary. In the classification,
 M is nonempty, connected, simply connected and has dimension n≥5; hence it
 is orientable. Fix a Spin structure when defining α. Homotopy-sphere recognition
-and stable J calculations consume [HomotopySpheres](https://github.com/TauCetiProject/TauCetiRoadmap/blob/34167306e5a1726e2574b039dc1a27f913985f0f/TauCetiRoadmap/HomotopySpheres/README.md)
-at commit34167306e5a1726e2574b039dc1a27f913985f0f; the Stage references
-below refer to that fixed contract. Their curvature
+and stable J calculations consume HomotopySpheres: §3C for Toda brackets
+and Hopf invariants, Layers 6–8 for the almost-framed exact sequence and
+the Kervaire–Milnor comparison, §9A.1 for the seventh stem. Their curvature
 obstructions are applications here. StringOrientation owns the separate
 positive-Ricci Witten/TMF questions, consuming this scalar-curvature theory
 only where its hypotheses actually apply.
@@ -69,11 +73,17 @@ comparisons and identify the metric cone; consume the generic completeness
 and atlas-independence theorems. On closed M compare its C² and C∞ topologies
 with the finite-atlas seminorms, explicitly defining the C² topology by
 uniform coordinate derivatives of orders 0,1,2 and proving atlas independence.
-Define R⁺(M) by
-`∀ x, 0 < scalarCurvature(g)(x)`. Prove smoothness of scalar curvature,
+Write `SmoothMetric I M` for the native smooth metrics and
+`metricScalarCurvature g` for the scalar curvature of the Levi-Civita
+connection of g in g's own `RiemannianBundle` instance; define R⁺(M), the
+subtype `PositiveScalarMetrics`, by `∀ x, 0 < metricScalarCurvature g x`.
+Prove smoothness of scalar curvature (`contMDiff_metricScalarCurvature`,
+on every model with corners, including the half-space models below),
 its continuity as a second-order metric differential expression, the C²
 openness of positivity on compact M and the corresponding C∞ openness.
-Establish uniform positive lower bounds for compact parameter families,
+Establish uniform positive lower bounds: for one PSC metric on compact M
+a positive ε below its scalar curvature everywhere
+(`exists_uniform_scalar_gap`), and the same for compact parameter families,
 including metrics fixed on a neighbourhood of a specified closed subset.
 
 Build pullback by diffeomorphisms, scaling, products, disjoint unions and
@@ -103,11 +113,11 @@ with quantitative curvature bounds. Carry the endpoint metric and collar data ex
 ## P2. Positive fibres and bundle metrics
 
 For compact F construct its full isometry group on the Riemannian-distance
-carrier, compare metric isometries with [HopfRinow](https://github.com/TauCetiProject/TauCetiRoadmap/blob/350e970ce49f707a327909beac0b7b7c782cc7ee/TauCetiRoadmap/HopfRinow/README.md)'s smooth Riemannian-isometry
+carrier, compare metric isometries with the completed HopfRinow roadmap's smooth Riemannian-isometry
 carrier, and prove Myers–Steenrod: it is a compact finite-dimensional
 Lie group acting smoothly. Build the compact-open/frame-evaluation
 comparison and the Lie/action proof using Riemannian R2/R4 and
-[LieGroups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/85f49c01009d5df11d3a6e8935fe7b14ed21c1cd/TauCetiRoadmap/RepresentationTheory/LieGroups/README.md)' closed-subgroup machinery. First prove metric isometries smooth
+LieGroups' closed-subgroup theorem. First prove metric isometries smooth
 using SBC B6.0's convex normal balls and squared distances to finitely many
 nearby centers as smooth local
 coordinates. First prove the connected-fibre lemma: evaluation at one
@@ -121,7 +131,7 @@ contained in a sufficiently small identity neighbourhood, average its small
 orbits to their unique centers in convex normal balls; the resulting
 fixed-point map is uniformly C¹-close to identity and a diffeomorphism,
 so the subgroup is trivial. Build all uniform Hessian/implicit-function
-bounds in that argument. Consume [CompactGroups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/77f1b53db854fc799c21cd5f2480095f467e50bb/TauCetiRoadmap/RepresentationTheory/CompactGroups/README.md)' Peter–Weyl separation to
+bounds in that argument. Consume CompactGroups' Peter–Weyl separation to
 find finitely many representations whose common kernel lies in that
 neighbourhood; no-small-subgroups makes their sum faithful. Its closed
 unitary-group image gives the native Lie structure by the supplied
@@ -222,11 +232,21 @@ M detecting w₂ to make the outgoing π₂ map surjective. Prove all
 normal-structure and relative-boundary comparisons. The bordism dimension
 is n+1, so circle surgery uses S¹×D^n; carry the dimensional arithmetic.
 
-Apply GT Layer 1's `framedInteriorSphereSurgery`,
-`smoothWhitneyMove`, `smoothHandleCancellation` and
-`smoothHandleIndices_le_dim_sub_three` to obtain handles from N of
-indices at most (n+1)−3=n−2. Prove the required
-connectivity, Whitney and framing hypotheses before using that theorem.
+Prove the handle-index bound: for a compact connected bordism W of
+dimension n+1≥6 between closed N and M whose outgoing inclusion M→W is
+two-connected, W has a handle decomposition relative to N whose handles
+have index at most (n+1)−3=n−2. Route: take HomotopySpheres §1.2's
+ordered handle decomposition of W relative to M, trade away its handles
+of index 0, 1 and 2 using the two-connectedness, HomotopySpheres §1.2's
+cancellation and handle slides and §§1.4–1.5's Whitney discs in
+codimension at least three (Milnor, *Lectures on the h-Cobordism
+Theorem*, Theorems 5.4, 6.6, 7.6, 7.8 and 8.1; the surgery form is
+Gromov–Lawson, proof of Theorem B, p. 432, via Smale), then turn the
+decomposition upside down: the dual of a handle of index λ on M is a
+handle of index n+1−λ on N. The interior framed sphere surgeries are
+GeometricTopology Layer 1's handle attachments on the collared bordism.
+Prove the required connectivity, Whitney and framing hypotheses before
+using that theorem.
 When N has several components, first attach compatible1-handles joining
 them and replace it by their connected sum, using P3's connected-sum
 PSC metrics and the associated oriented/Spin bordisms. Compose this
@@ -277,9 +297,9 @@ n≥5, compare its unique Spin structure and α with the stable unit/J/ABS
 maps. Construct the Hitchin spheres in dimensions 8j+1 and8j+2, j≥1,
 by the following explicit chain.
 
-1. Consume PR284 Stage3C.3's unstable Toda brackets with their actual
+1. Consume HomotopySpheres §3C.3's unstable Toda brackets with their actual
    adjacent-nullhomotopy data, composition-subgroup indeterminacy,
-   suspension laws; consume [BFG F4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/269912e4950a075eeb50885cdc68638b0d08dc2f/TauCetiRoadmap/BordismFormalGroups/README.md)'s stable
+   suspension laws; consume BordismFormalGroups F4's stable
    comparison. Own the following coherent Moore-space construction.
    Write M_n=cofib(2ι_n:Sⁿ→Sⁿ), with bottom inclusion i_n:Sⁿ→M_n
    and collapse j_n:M_n→S^(n+1). Construct these on G2's mapping-cone
@@ -302,16 +322,33 @@ by the following explicit chain.
    Construct Toda's σ'''∈π₁₂(S⁵) of order2 and
    σ''∈π₁₃(S⁶) of order4, prove Eσ'''=2σ'' for Toda's specified low-dimensional classes,
    and prove σ''' stabilizes to the order-two class in π₇ˢ. Construct
-   Toda's σ′∈π₁₄(S⁷) and σ₈∈π₁₅(S⁸) with H(σ₈)=ι₁₅.
-   Pin the 2-primary normalization using Lemmas5.13–5.14 and
-   Proposition5.15: let σ₂ be the 2-primary component of the stable
-   image of this σ₈. Prove σ₂ has order16 and
-   `E∞σ′=2σ₂`, `E∞σ′′=4σ₂`, `E∞σ′′′=8σ₂`.
-   Use `Eσ′′=2σ′`, `Eσ′′′=2σ′′` and the 2-primary relation
-   `2Eσ₈=E²σ′`, whose two sides lie in π₁₆(S⁹).
-   Build the primary-component comparisons on native
-   `AddCommGroup.primaryComponent` and transport the final order-two
-   identity to the integral stable stem by its subgroup inclusion.
+   Toda's σ′∈π₁₄(S⁷) of order8 and the integral σ₈∈π₁₅(S⁸) with
+   H(σ₈)=ι₁₅. Write (·)₂ for the projection of a torsion abelian group
+   onto its 2-primary component along the sum of its odd-primary
+   components: a torsion ℤ-module is the internal direct sum of its
+   `Submodule.primaryComponent`s over the primes
+   (`Submodule.iSup_primaryComponent_eq_top`,
+   `Submodule.iSupIndep_primaryComponent`), the component at2 has the
+   same elements as the subgroup `AddCommGroup.primaryComponent`, those
+   of order a power of2, and (·)₂ is the component map of that internal
+   direct sum; it is additive and natural for homomorphisms, and it is
+   the identity on elements of 2-power order. Pin the 2-primary
+   normalization using Lemmas5.13–5.14 and Proposition5.15: set
+   σ₂=(E∞σ₈)₂∈π₇ˢ, the 2-primary component of the stable image of σ₈.
+   Prove σ₂ has order16 and `E∞σ′=2σ₂`, `E∞σ′′=4σ₂`, `E∞σ′′′=8σ₂`,
+   equalities in π₇ˢ between elements of its 2-primary subgroup.
+   Use `Eσ′′=2σ′` in π₁₄(S⁷) and `Eσ′′′=2σ′′` in π₁₃(S⁶), integral
+   identities since both sides have 2-power order, and Toda's relation
+   between 2-primary components `(2Eσ₈)₂=E²σ′` in π₁₆(S⁹), whose right
+   side already lies in the 2-primary subgroup because σ′ has order8.
+   The unprojected `2Eσ₈=E²σ′` is false in π₁₆(S⁹)≃ℤ/240: Eσ₈
+   generates, so 2Eσ₈ has order120 while E²σ′ has order dividing8.
+   Witness: with σ=E∞σ₈ the generator of π₇ˢ≃ℤ/240 (HomotopySpheres
+   §9A.1), σ₂=225σ, as 225≡1 mod16 and 225≡0 mod15; then 2σ₂=210σ
+   has order8, 4σ₂=180σ has order4 and 8σ₂=120σ is the unique element
+   of order2, matching the orders of σ′, σ′′ and σ′′′, and 15σ=−σ₂
+   is the component of −σ, not of σ. Transport the final order-two
+   identity to the integral stable stem by the subgroup inclusion.
    The displayed Hopf relation is a 2-primary computation, not an
    identity with the unprojected integral stable Hopf class. Give the
    finite EHP calculation and framing normalization. Set a₁=Eσ'''. Since it
@@ -371,12 +408,12 @@ by the following explicit chain.
    KO unit with TB B3.0's framed-forgetful-Spin/ABS/Dirac comparison
    and derive α(μ_(8j+1))=η b^j and
    α(ημ_(8j+1))=η²b^j, the nonzero KO generators. The η product
-   consumes PR284's Hopf class and T7's coefficient laws. This stable
+   consumes HomotopySpheres §3C.1's Hopf class η and TopologicalKTheory T7's coefficient laws. This stable
    detection and the fixed S⁵ representatives are separate from any
    statement about all unstable degree-two composition images.
-3. Consume PR284 Stages6–8's almost-framed exact sequence, framed
+3. Consume HomotopySpheres Layers 6–8's almost-framed exact sequence, framed
    kernel surgery and obstruction calculation. Apply the zero odd
-   obstruction P_(8j+1)=0 to the image of the μ class under Stage8.2's
+   obstruction P_(8j+1)=0 to the image of the μ class under HomotopySpheres §8.2's
    injection coker J→almost-framed bordism to obtain a homotopy sphere
    Σ_(8j+1) with this α. For the even class use the product of this
    sphere with the Lie-framed Spin circle. Its middle homology in
@@ -386,8 +423,8 @@ by the following explicit chain.
    prove J has zero Spin/KO image in these dimensions: its framed
    standard sphere has the unique bounding Spin structure. Track the
    actual Spin bordisms so that α remains the detected generator.
-   In both dimensions use the full Stage8.2 exact sequence; its
-   Stage8.3 isomorphism criterion π_(n−1)(SO)=0 does not hold here.
+   In both dimensions use the full §8.2 exact sequence; its
+   §8.3 isomorphism criterion π_(n−1)(SO)=0 does not hold here.
 4. Prove the supplied simply connected high-dimensional h-cobordism
    recognition makes these spheres homeomorphic to the standard sphere,
    with dimension8j+1 or8j+2≥9. Name the local Alexander-trick
@@ -409,7 +446,8 @@ factor scalars and is positive when a≥2 or b≥1; mixed sectional planes
 have curvature zero. In particular P(1,2) has an oriented PSC metric
 but is not oriented-nullbordant: compute its mod-two cohomology,
 w₂=d, w₃=cd and ⟨w₂w₃,[P(1,2)]⟩=⟨cd²,[P(1,2)]⟩=1,
-using TB/[CharacteristicClasses](https://github.com/TauCetiProject/TauCetiRoadmap/blob/76a0952b2687a743d384a9ba88769e71d3c9f55e/TauCetiRoadmap/CharacteristicClasses/README.md)' Dold conventions. Keep Ω₅^SO≃ℤ/2
+using TangentialBordism's Dold-manifold conventions (§6.6 and §10.3)
+and CharacteristicClasses' Stiefel–Whitney classes. Keep Ω₅^SO≃ℤ/2
 distinct from Ω₅^Spin=0. Construct the reflection mapping-torus examples
 and the product-to-circle regular fibres used in the oriented torsion
 calculation as the actual isometric bundles, applying P2 over flat tori.
@@ -419,7 +457,7 @@ product quotient is not asserted to have positive sectional curvature.
 Compare Spin structures on circles/tori and their α values through G5's
 Bott/Clifford comparison and TopologicalKTheory T7's coefficient table,
 using SpinGeometry's explicit Fourier models. On T² with one
-antiperiodic Spin direction prove α=0, while [IndexTheory I7.1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/592b12da97670f7eaea4fbed01def6b55554af66/TauCetiRoadmap/IndexTheory/README.md)'s
+antiperiodic Spin direction prove α=0, while IndexTheory I7.1's
 Gauss–Bonnet identity and χ(T²)=0 exclude PSC. This is an explicit
 index-zero counterexample outside P5's simply connected range.
 For a compact parameter space P and a continuous C∞ family of PSC
@@ -441,7 +479,7 @@ not a target of this metric-path comparison.
 ## Order and references
 
 P1 uses the metric/curvature suppliers. P2 and P3 follow P1. P4 consumes
-P3 and GT's independent surgery/handle machinery; P5 consumes P2/P4,
+P3, GeometricTopology Layer 1 and HomotopySpheres Layer 1; P5 consumes P2/P4,
 Spin/Index/G5 and TB's independent point-transfer computation. TB's
 homogeneous HP² index-zero construction uses its supplied invariant
 metric and SpinGeometry's Lichnerowicz theorem, not P5's classification.
