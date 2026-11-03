@@ -65,7 +65,12 @@ groups.  Those theories consume this roadmap's chain, CW, duality, and homotopy 
   and geometric surgery.  This roadmap owns algebraic topology of CW pairs and proves results
   about any space of CW type. The finite-dimensional Hausdorff second-countable
   smooth-manifold CW comparison consumes geometric topology's smooth triangulation;
-  compact manifolds have finite CW type.
+  compact manifolds have finite CW type. Stage 8.13 consumes geometric topology's Layer 1
+  tubular neighbourhood theorem and owns, for an arbitrary compact boundaryless target
+  manifold and an arbitrary closed embedded submanifold, the smoothing of continuous maps
+  relative to a closed set and relative transversality; TangentialBordism B1.6 (manifolds with
+  corners, facewise transversality) and DeRhamCohomologyAndDuality Layer 5 (families against
+  maps into a vector space) consume these two statements.
 - The [differential-geometry roadmap](../DifferentialGeometry/README.md) owns the
   Mathlib-compatible manifold orientation and degree API (its layers 2 and 10),
   and the outward-normal-first boundary orientation of Layer 5.1, which the
@@ -117,8 +122,12 @@ groups.  Those theories consume this roadmap's chain, CW, duality, and homotopy 
 - Stage 4 item 8 owns the compact-generation coreflection, its kified products
   and exponentials, and their CW and locally compact comparisons, consumed by
   4.4's kified raw quotients, 4.5's kified CW product, 8.10 and 8.11a/b.
-  HomotopySpheres consumes that item for its pointed cones, Puppe sequences and
-  James constructions; nothing in this roadmap consumes HomotopySpheres.
+  It is the single owner of the compact-generation adjunction, the convenient
+  product and exponential, and the pointed convenient category with its
+  suspension–loop adjunction, in place of HomotopySpheres 3A.1–3A.2:
+  HomotopySpheres 3A consumes that item for its pointed cones, Puppe sequences and
+  James constructions, GeneralizedCohomology G2 consumes it for the same
+  convenient-category objects, and nothing in this roadmap consumes HomotopySpheres.
   [GeneralizedCohomology G2.1](../GeneralizedCohomology/README.md)
   owns the single simplicial-realization product comparison consumed by
   8.10 and 8.11b; its foundation uses AT4/8.2 and this compact-generation API,
@@ -523,9 +532,12 @@ coefficients satisfy the categorical exactness assumptions. Extend its API below
    CW complexes and extend it to arbitrary CW dimension: for every relative CW
    complex with Hausdorff ambient space, inclusion of the (n+1)-skeleton induces
    an isomorphism on degree-n relative singular homology
-   (`isIso_singularHomologyMap_skeletonBasePairToComplex`; Hatcher, Lemma
-   2.34(c), p. 137), which composed with the native skeleton-pair cellular
-   identification is the comparison in every degree. Prove compact singular
+   (`isIso_singularHomologyMap_skeletonBasePairToComplex_arbitraryDimension`;
+   Hatcher, Lemma 2.34(c), p. 137). The pinned
+   `TauCeti.isIso_singularHomologyMap_skeletonBasePairToComplex` of
+   `Cellular/Comparison.lean` proves this under `FiniteDimensional`; the new content
+   is the removal of that hypothesis. Composed with the native skeleton-pair cellular
+   identification it is the comparison in every degree. Prove compact singular
    simplex images lie in finite subcomplexes, identify singular chains with the
    filtered colimit over skeleta, and pass to homology using exact filtered
    colimits in module categories (or displayed exactness assumptions in
@@ -634,7 +646,7 @@ coefficients satisfy the categorical exactness assumptions. Extend its API below
    generator. HomotopySpheres and RiemannianGeometry R3 consume these
    homeomorphisms and the explicit generator comparisons, without constructing
    a second sphere-suspension identification.
-   Own `diskBoundaryRelCW`: the actual TopCat.disk n relative to its
+   Own the disk-boundary relative CW structure: the actual TopCat.disk n relative to its
    boundary subset `diskBoundarySubset n` has one n-cell and no other
    relative cells, using the fixed Stage2.5 sup-ball/disk comparison and
    characteristic map. Export the homeomorphism from that subset's subtype
@@ -668,7 +680,7 @@ coefficients satisfy the categorical exactness assumptions. Extend its API below
    otherwise identify its Kelley coreflection with the compactly generated
    pushout of kZ←kB→kY, retaining the canonical continuous bijection to
    the raw pushout and its comparison maps.
-   Own `homotopyPushoutGluingComparison`: pushouts along a closed
+   Own the homotopy-pushout gluing comparison: pushouts along a closed
    cofibration B→Y are homotopy pushouts. For an actual commuting map of
    attachment diagrams that is a homotopy equivalence on B,Y,Z, construct
    the induced homotopy equivalence of pushouts, requiring closed cofibrations
@@ -691,9 +703,23 @@ coefficients satisfy the categorical exactness assumptions. Extend its API below
    both f and its restriction f₀:A→A′ to be homotopy equivalences.
    Given g₀:A′→A and H₀:g₀f₀≃id_A, construct g:X′→X and H:gf≃id_X
    with g|A′=g₀ and H|A×I=H₀ as actual maps into A. Construct the other
-   inverse homotopy. Use the relative mapping-cylinder/HEP construction and
-   `closedCofibrationCylinderHomotopyExtension` for this one-sided pair data.
-   Own `cofibrationTowerHomotopyEquivalence`: for sequences of Hausdorff
+   inverse homotopy. This is the gluing theorem for homotopy equivalences
+   of closed cofibrations (Brown, *Topology and Groupoids*, 7.4.2 and its
+   Addendum, pp. 285–286), which extends g₀ to a homotopy inverse g whose
+   left-inverse homotopy restricts to a sum of H₀ with two homotopies built
+   from a chosen inverse homotopy f₀g₀≃id_(A′); Hatcher Proposition 0.19 is
+   its special case f₀=id_A. To make the restriction exactly H₀, first
+   replace the chosen homotopy f₀g₀≃id_(A′) by one satisfying the triangle
+   identity f₀H₀≃(that homotopy)∘f₀ relative to the ends (Vogt, *A note on
+   homotopy equivalences*, Proposition, p. 627: every homotopy g₀f₀≃id is
+   one half of a strong homotopy equivalence), so that the sum is homotopic
+   to H₀ relative to its ends, and then deform H through
+   `closedCofibrationCylinderHomotopyExtension` for (∂I×X)∪(I×A) in I×X,
+   keeping the two end maps gf and id_X. Check: for A=A′=∅ this is the
+   existence of a homotopy inverse with a left-inverse homotopy; for
+   f=id_X and f₀=id_A with H₀ the constant homotopy it returns g≃id_X with
+   g|A=id_A and H stationary on A.
+   Own the cofibration-tower homotopy equivalence: for sequences of Hausdorff
    spaces with closed-cofibration bonding inclusions and strictly commuting
    levelwise equivalences f_n, construct the actual mapping telescopes and
    their homotopy equivalences to the raw final-topology colimits.
@@ -710,7 +736,7 @@ coefficients satisfy the categorical exactness assumptions. Extend its API below
    in the final-topology union factors through a finite stage, and compare dimension-filtered classical native CW unions
    with the categorical RelativeCWComplex colimit by their actual maps and
    weak topologies.
-   Own `cwSubcomplexTowerUnion`: for a sequence of Hausdorff native CW
+   Own the CW subcomplex tower union: for a sequence of Hausdorff native CW
    complexes W_k with closed embeddings onto CW subcomplexes, and specified
    compatible cell labels and characteristic maps, construct native
    `CWComplex` on the raw final-topology union. New cells may have arbitrary
@@ -726,7 +752,7 @@ coefficients satisfy the categorical exactness assumptions. Extend its API below
    and `NormalSpace`, independently of the later paracompactness theorem.
    Retain actual stage maps, characteristic maps and cellular naturality.
    MorseTheory M2 uses this union theorem for its critical-level tower.
-   Own `relativeCWPushoutCWModel`: when Z has a specified Hausdorff CW
+   Own the CW model of the relative CW pushout: when Z has a specified Hausdorff CW
    model h:Z_c→Z with its inverse and homotopies, transport the attachment
    through that model by the gluing comparison. Construct an absolute CW
    model by cellwise cellular approximation and skeletal reindexing,
@@ -742,7 +768,7 @@ coefficients satisfy the categorical exactness assumptions. Extend its API below
    induced pushout comparison maps, which restrict exactly to the previous
    skeletal comparison: cellular approximation changes the attaching map,
    and the homotopic-attachment equivalence is identity on the existing base.
-   Apply `cofibrationTowerHomotopyEquivalence` to these strictly commuting
+   Apply the cofibration-tower homotopy equivalence to these strictly commuting
    comparisons for the infinite passage.
    When Z itself is CW and h=id,
    the comparison and its homotopies fix Z. Prove the raw/classical and
@@ -751,7 +777,7 @@ coefficients satisfy the categorical exactness assumptions. Extend its API below
    these generic targets for disk-bundle attachments, and MorseTheory M2
    consumes the pushout, CW-model, compatible gluing and tower targets for
    its finite/infinite sublevel CW induction.
-   Own `basedHomotopyInverseOfEquivalence`: for a homotopy equivalence whose
+   Own the based homotopy inverse of a based equivalence: for a homotopy equivalence whose
    continuous map strictly preserves the chosen basepoints, between
    Hausdorff CW complexes with marked 0-cell basepoints,
    construct a based inverse and unit/counit homotopies rel those points.
@@ -762,10 +788,10 @@ coefficients satisfy the categorical exactness assumptions. Extend its API below
    coordinates first and interval coordinate last. Prove the product weak
    topology using compactness and local compactness of I; endpoint maps are
    the actual inclusions. Stages 8.9–8.10 consume this cylinder construction.
-   Own `cwProductKelley`: for arbitrary Hausdorff CW X and Y construct
+   Own the Kelley product CW structure: for arbitrary Hausdorff CW X and Y construct
    the product-cell native CW structure on k(X×Y), with factor coordinates
    in that order, product characteristic maps, subcomplexes and cellular
-   map naturality. Own `cwSubcomplexNeighborhoods`: for subcomplexes A,B
+   map naturality. Own the subcomplex neighbourhood retractions: for subcomplexes A,B
    choose compatible open radial neighborhoods U,V with deformation
    retractions of U,V,U∩V,U∪V onto A,B,A∩B,A∪B respectively, using
    the same cellwise parameters. Prove the weak-topology continuity, the
@@ -793,8 +819,8 @@ coefficients satisfy the categorical exactness assumptions. Extend its API below
    Use item 4’s pointed pushout carrier X←B→*; for B empty it is X
    with an added basepoint. Construct the natural
    comparison with the mapping-cone homotopy cofiber, with the cone coordinate
-   last and B at cone parameter 1. Own `ordinaryPairMappingConeHomologyExactSequenceComparison` and
-   `ordinaryPairMappingConeCohomologyExactSequenceComparison`, the commuting diagrams for singular chains and raw relative cochains, retaining the actual
+   last and B at cone parameter 1. Own the mapping-cone exact-sequence comparisons in homology and in cohomology,
+   the commuting diagrams for singular chains and raw relative cochains, retaining the actual
    quotient/inclusion maps and the extend-then-d boundary convention. These
    comparisons use Stages 2–3 and native cochain algebra, independently of
    Stage 6's product packaging and Stage 8's suspension construction. Item 8.11b
@@ -868,7 +894,7 @@ coefficients satisfy the categorical exactness assumptions. Extend its API below
    i ⊣ k, and expose the counit i(kX)→X as the continuous identity map. Prove
    that X and kX have the same compact subsets with the same induced
    topologies, that kX=X exactly when X is compactly generated, and that
-   every Hausdorff CW complex, every locally compact space, every
+   every Hausdorff CW complex, every locally compact Hausdorff space, every
    first-countable space, every quotient and every disjoint union of
    compactly generated spaces is compactly generated (Hatcher, Appendix,
    pp. 523–524). Prove that i creates and preserves the colimits used below
@@ -940,7 +966,7 @@ sequence and theorems of item 1, and items 2--7, consume all of Stages 2--4.
    flatness or projectivity hypotheses.
 2. Derive the Wang long exact sequence for a mapping torus from a mapping-cone model.  Identify
    its endomorphism as `id - f_*`, and prove naturality under commuting squares of monodromies.
-3. For a finite covering with connected base and constant fibre cardinality `d`
+3. For a finite covering with constant fibre cardinality `d`
    (the datum `FiniteCover`), construct transfer on chains by summing lifts and
    prove `p_* transfer = d * id` (`finiteCover_transfer_exists`: a chain map whose
    value on each simplex is the sum of its lifts and whose composite with `p_*` is
@@ -1362,17 +1388,17 @@ homology with one copy of the coefficient ring also assumes connectedness.
    Its ordered edge determinant is positive; use its relative class modulo
    ℝ^m\{0}, including the positive point class for m=0. Transport this
    normalization through charts in every dimension before the boundary comparison.
-   First build `linearLocalGenerator_signDet`: an invertible real linear map on ℝ^m
+   First prove the linear local-generator sign law: an invertible real linear map on ℝ^m
    acts on the normalized local generator by the sign of its determinant. For m>0,
-   prove `orderedSimplex_vertexSwap_neg` in relative homology. The affine symmetry
+   prove the vertex-swap sign law in relative homology. The affine symmetry
    swapping two vertices fixes the barycenter 0 and therefore gives a linear
    reflection with determinant −1 and local-generator action −1.
-   Prove `pathToIdentity_of_det_pos`, a path through invertible linear maps from
+   Prove the path-to-identity lemma, a path through invertible linear maps from
    every positive-determinant equivalence to the identity; composing with that fixed
    reflection gives the negative-determinant component. The paths give homotopies
    of punctured pairs and identify every linear action.
-   Then build `localLinearization_puncturedHomotopy` and deduce
-   `localDiffeomorphism_localGenerator_signDet` for a C¹ map on an open neighborhood
+   Then build the punctured local-linearization homotopy and deduce
+   the local-diffeomorphism sign law for a C¹ map on an open neighborhood
    of x with invertible derivative at x. Use the native inverse-function theorem to
    choose a ball inside an injectivity neighborhood. On that ball use
    `H_s(y)=f(x)+(f(x+s(y−x))−f(x))/s` for s>0 and
@@ -1398,7 +1424,7 @@ homology with one copy of the coefficient ring also assumes connectedness.
    Build `rawChartCoefficient_at l a y hy` for any chart anchor a and y in its source,
    using the model-orientation sign times `l.sign a ⟨y,hy⟩`. Prove its constancy on
    connected neighborhoods inside that source from continuity of the discrete sign.
-   Own `chartSimplexSupportClass_local_image` for every y in the simplex interior, using the
+   Own the local image of the chart-simplex support class for every y in the simplex interior, using the
    unique simplex preimage of y, and the recentering/excision comparison between
    anchors at the same local fibre. First localize the unsigned pair-map image of the
    ordered identity class: its image is the unsigned ordered chart class at y.
@@ -1407,9 +1433,9 @@ homology with one copy of the coefficient ring also assumes connectedness.
    the recentered ordered chart class. These imply the signed local image throughout
    each compact partition support; a formula only at the chart anchor is insufficient.
    Prove the chart-simplex interior image open and derive
-   `pointGenerator_eq_rawChartCoefficient_at` for every anchor a, every lift representing
+   the point-generator formula in terms of the raw chart coefficient for every anchor a, every lift representing
    o and every y in that chart source, then
-   `chartSimplexSupportClass_signed_local_image_pointGenerator` on the whole interior.
+   the signed local image of the chart-simplex support class as the point generator on the whole interior.
    Use these results in the locally represented section and DG's comparison.
    Use DG's `Orientation.map`/`orientationAt` for arbitrary-chart changes, and first reparameterize
    a general finite-dimensional real model to the Euclidean basis model before using the
@@ -1637,7 +1663,7 @@ homology with one copy of the coefficient ring also assumes connectedness.
    structure on U\int K. Prove cap compatibility
    and agreement with `or_U|_K≃or_K`; there is no direct pair map
    `(K,∂K)→(U,U\K)`.
-   Also own `compactTriadPoincareLefschetz`: for a compact m-manifold K
+   Also own compact-triad Poincaré–Lefschetz duality: for a compact m-manifold K
    with boundary faces ∂₀K,∂₁K covering ∂K, with their actual compatible
    collars and common codimension-two edge (rounded from the GT corner model),
    cap with [K,∂K] gives H^k(K,∂₁K;L)≃H_(m−k)(K,∂₀K;L⊗or_K),
@@ -1684,7 +1710,7 @@ homology with one copy of the coefficient ring also assumes connectedness.
    The statement on the native Euclidean closed-ball carriers is the Stage 6
    headline of `Suggested.lean`; its proof is the relative-homology computation
    below, whose inputs are the relative cross product and the relative Künneth
-   isomorphism for CW pairs (Hatcher, Theorem 3B.6 and its relative form, p. 276) and
+   isomorphism for CW pairs (Hatcher, Theorem 3B.6 and its relative form, pp. 275–276) and
    Stage 2.5's local coordinate generator.
 
    Supply the more general boundary-degree form on the same carriers.
@@ -1788,6 +1814,9 @@ items 1–7 are independent of those later constructions.
    map is bijective, inclusion induces π_q(A,a)≅π_q(X,a) for 1≤q≤λ−2,
    and is surjective for q=λ−1. Include the pointed-set relative degree1;
    the endpoint surjectivity also holds for λ=1 as a component statement.
+   The headline states the bijections for every q with q+1<λ and carries no
+   lower bound on λ: for λ≤1 no q satisfies it, so the statement is empty
+   there, and for λ≥2 it includes q=0 as the component bijection.
    Prove naturality of the induced isomorphisms under based maps of pairs.
    Export the transport form of that connectivity theorem: let (X_c,A_c)
    be that native CW pair, and let g:X_c→Y, f:A_c→B commute with the two
@@ -1804,7 +1833,7 @@ items 1–7 are independent of those later constructions.
    CharacteristicClasses C2.0's bundle-cell relative CW models, compared with
    MorseTheory M5's actual Morse–Bott negative-disk attachments; HomotopySpheres owns the sphere
    Freudenthal theorem itself.
-   Own `homotopyGroupKelleyProduct` for pointed topological spaces X,Y
+   Own the Kelley-product homotopy-group comparison for pointed topological spaces X,Y
    as the composite of the map induced by k(X×Y)→X×Y and existing
    Tau Ceti `HomotopyGroup.prodEquiv` / `prodMulEquiv` from
    `Topology/Homotopy/HomotopyGroup/Product.lean`. Prove the first map is
@@ -1812,13 +1841,13 @@ items 1–7 are independent of those later constructions.
    compact Hausdorff. Retain q=0 as a pointed-set bijection and q≥1 as a
    group isomorphism, naturality and actual projection/inclusion maps.
    No Hausdorff assumption is needed for this comparison. TopK T7.0 uses
-   it on `cwProductKelley`; compact generation supplies its product-valued
+   it on the Kelley product CW structure; compact generation supplies its product-valued
    map x↦(x,*).
 
 2. Following #42435, construct homotopy groups of Kan simplicial sets, prove
    `TopCat.toSSet.obj X` is Kan, and compare these groups naturally with cubical homotopy groups.
    Prove compatibility with induced maps, boundary maps, and basepoint change.
-   Pin the Kan/cubical comparison `kanCubicalHomotopyComparison` by the
+   Pin the Kan/cubical comparison by the
    ordered-simplex orientation: a Kan spherical simplex σ realizes to the
    cubical class whose normalized Hurewicz image is the actual relative
    simplex class σ_*[Δ^n,∂Δ^n] in H_n(X,{x₀}), transported to absolute
@@ -1828,15 +1857,15 @@ items 1–7 are independent of those later constructions.
    it sends the Stage 2.5 coordinate cube class to the relative identity
    simplex class with coefficient +1. Prove its Hurewicz compatibility and
    the corresponding Moore/realization comparison, without an independent sign.
-   Own `simplicialGroupKan`: every simplicial group is a native `SSet.KanComplex`.
-   Own the natural Moore comparison `simplicialGroupMooreHomotopyIso`:
+   Own the Kan property of simplicial groups: every simplicial group is a native `SSet.KanComplex`.
+   Own the natural Moore comparison:
    for simplicial abelian groups G, π_n(G)≃H_n(NG), including components in
    degree zero. For general simplicial groups set N_n=⋂_(i=1)^n ker d_i
    with differential d₀, matching native `normalizedMooreComplex` in the
    abelian case. Prove π_n(G)≃ker(d₀|N_n)/d₀(N_(n+1)) for n≥1,
    with normality of the boundary subgroup and commutativity of the quotient;
    π₀(G) is the possibly nonabelian group G₀/d₀(N₁). Own
-   `kanRealizationUnitHomotopyIso`: Mathlib's actual `sSetTopAdj.unit.app K`
+   the realization-unit homotopy isomorphism: Mathlib's actual `sSetTopAdj.unit.app K`
    from a Kan K to `TopCat.toSSet.obj (SSet.toTop.obj K)` induces a bijection
    on components and the normalized based π_n isomorphisms in every positive
    degree. Prove it by compatible finite-simplex restrictions, subdivision,
@@ -1926,15 +1955,15 @@ items 1–7 are independent of those later constructions.
    formulation, exhaustion independence, homeomorphism invariance and invariance
    under proper homotopy equivalence. GT3g and Four consume this predicate.
    On connected noncompact finite-dimensional locally finite CW spaces own
-   `endComponents`: decreasing nonempty components U_i of complements of
+   the end components: decreasing nonempty components U_i of complements of
    compact sets, eventually disjoint from every compact set, modulo mutual
    cofinal containment. Prove agreement with the inverse limit of component
    sets of a cofinal exhaustion. Construct cofinal compact neighborhoods with
    finitely many complementary components at each level, absorbing bounded
-   components when needed. `ConnectedAtInfinity` means that, beyond some
+   components when needed. Connectedness at infinity means that, beyond some
    larger compact set, every two points join in the complement of a prescribed
    smaller compact set; prove it equivalent to one end on these spaces.
-   Own `stableFundamentalGroupAtEnd` in FQ7.7's exact image sense: choose
+   Own the stable fundamental group at an end in FQ7.7's exact image sense: choose
    a defining component sequence and a proper reference ray for basepoints
    and whiskering; after cofinal refinement the groups
    im(π₁U_(i+1)→π₁U_i) map isomorphically to one another. Retain that common
@@ -1949,7 +1978,7 @@ items 1–7 are independent of those later constructions.
    an ordinary CW-type homotopy equivalence alone is not an end comparison.
    This generic end API precedes Four's proper product theorem and constructs
    no surgery or smoothing data.
-   Also own `properWhiteheadSimplyConnectedCW` for finite-dimensional,
+   Also own the proper Whitehead theorem for finite-dimensional,
    locally finite CW complexes X,Y that are simply connected and simply
    connected at infinity: a proper continuous map f:X→Y has a proper inverse
    and two joint proper homotopies exactly when its integral ordinary homology
@@ -2040,7 +2069,7 @@ items 1–7 are independent of those later constructions.
    `n`-sphere, `n>=2`, is homotopy equivalent to the standard `S^n`.
 
 8. **Nonabelian classifying spaces (`groupClassifyingSpace`,
-   `groupClassifyingSpace_isEMOne`, `mapsToGroupClassifyingSpaceEquiv`).**
+   `groupClassifyingSpace_isEMOne`, and the classification of maps into them).**
    Own the single generic bar/nerve construction for every discrete group π. Use native `CategoryTheory.nerve`, `SingleObj π`,
    and `SSet.toTop`, with the bar vertex `groupClassifyingSpaceBasepoint` as basepoint;
    construct the contractible free π-space Eπ, its covering
@@ -2088,7 +2117,7 @@ items 1–7 are independent of those later constructions.
    from `ContCohomology.DiscreteGroup`; this item adds the actual natural
    cochain comparison for arbitrary discrete groups. Transport native
    `TauCeti.TopPairing.cup` for discrete group/coefficient topologies to
-   `groupCohomologyCup`. Prove the standard inhomogeneous formula
+   the group-cohomology cup product. Prove the standard inhomogeneous formula
    P(ψ(g₁,…,g_p), (g₁⋯g_p)·χ(g_(p+1),…,g_(p+q))) and agreement with
    the Stage 6 singular cup under the displayed label inversion.
 9. **Relative obstruction cochains.**
@@ -2167,7 +2196,7 @@ items 1–7 are independent of those later constructions.
     Export the pointed/reduced version and the comparison with unreduced groups.
 11. **Mapping-space CW type and ordinary EM loops.**
     **8.11a. Early mapping-space CW type (`finiteSourceMappingCWType`,
-    `basedLoopCWType`).** This independent block uses the earlier CW/pair
+    and the based-loop CW type).** This independent block uses the earlier CW/pair
     foundations and Stage 4 item 8's compact-generation API only; it has no input from 8.10,
     the EM loop comparison below, or the pointed adjunction.
     Own `finiteSourceMappingCWType`, the compact-source pair specialization
@@ -2196,30 +2225,39 @@ items 1–7 are independent of those later constructions.
     global distance bound. Prove homeomorphism invariance, open-
     neighborhood and finite-product properties, and relative finite n-ad forms.
     Prove K_m is a metric ANR by its star/nerve extension construction. Prove
-    maps from a compact metric source into a metric ANR have metric ANR type
-    using the compact-open/uniform metric and the tube lemma to curry
-    neighborhood extensions; include finite-CW subcomplex constraints,
-    prescribed values and the constant map. Construct domination of metric
+    maps from a compact Hausdorff source X into a metric ANR Y have metric ANR
+    type in the compact-open topology, which is the sup metric: embed Y as a
+    closed subset of a convex set K of a normed space by the Arens–Eells
+    theorem above and take a neighbourhood retraction r:W→Y with W open in
+    K; then C(X,K) is a convex subset of the normed space of continuous maps
+    into the ambient space, hence an absolute retract by Dugundji, the maps
+    into W form an open subset of C(X,K) because X is compact, and
+    composition with r retracts that open set onto C(X,Y), so C(X,Y) is a
+    neighbourhood retract of an absolute retract. No metrizability of the
+    source is used, which is what the compact Hausdorff source of the
+    function-space theorem (Milnor 1959, Theorem 3, for a compact n-ad)
+    needs; a route that curries extension problems through Z×X would need
+    Z×X metrizable, hence X metrizable. Include finite-CW subcomplex
+    constraints, prescribed values and the constant map. Construct domination of metric
     ANRs by native simplicial complexes using numerable open covers and nerves.
     Finally prove the CW-domination criterion by an explicit homotopy-idempotent
     mapping telescope, with dominating maps and homotopies fixed on the
     relative n-ad. These inputs establish the function-space CW-type theorem
     independently of any weak-equivalence upgrade.
     Apply it to (I,{0,1})→(X,{x₀}) with x₀ a 0-cell to obtain
-    `basedLoopCWType`; compare native fixed-interval loops with the Kelley
+    the based-loop CW type; compare native fixed-interval loops with the Kelley
     mapping carrier. Own the interval-product comparison
     k(Y×I)≅k(Y)×I from Stage 4 item 8's compact-test/product API,
     and prove k preserves homotopy equivalences, including
     their relative forms; transport the CW-type witnesses through it.
-    **8.11b. Ordinary EM loop comparison (`ordinaryEMLoopComparison`,
-    `ordinaryEMLoopComparison_pi`).** Construct coefficient-natural pointed
+    **8.11b. Ordinary EM loop comparison.** Construct coefficient-natural pointed
     maps K(A,n)→ΩK(A,n+1) for every n≥0 inducing the identity on A. Use the
     native fixed-interval loop carrier and `HomotopyGroup.pathLoopSpaceMulEquiv`
     in positive degrees, with the loop coordinate last. In degree zero use
     `HomotopyGroup.zerothHomotopyLoopSpaceEquivFundamentalGroup` and the pinned
     bar-edge identification. Compare with DGFloer's standing Moore conventions
     and Layer 2 item 3, preserving constant loops and addition.
-    Define `ordinaryCohomologySuspension` here, including its unreduced
+    Define the ordinary cohomology suspension here, including its unreduced
     cone adapter. For any CW space B form the actual unreduced cone CB by
     adjoining an apex to B×I and collapsing B×{0} to it. Define Σ_uB=CB/B
     by Stage 4.5's pointed collapse of B×{1}; when B is empty its two apices
@@ -2241,7 +2279,7 @@ items 1–7 are independent of those later constructions.
     suspension Σ_u,left B, and σ_left as minus its cone-pair connecting map.
     On pointed reduced classes it is the positive product u×a.
     Distinguish these from the full ordinary suspension for B₊=B⊔{*}:
-    `ordinaryCohomologySuspension` on the pointed B₊ gives isomorphisms
+    the ordinary cohomology suspension on the pointed B₊ gives isomorphisms
     H^n(B;M)→H̃^(n+1)(Σ(B₊);M), including the degree-zero constant classes.
     The actual quotient q_+:Σ_uB→Σ(B₊) identifies the two apices; prove
     q_+^*σ_plus=σ_u for both coordinate orders. When B is empty this is
@@ -2279,7 +2317,7 @@ items 1–7 are independent of those later constructions.
     lifting, independently of that upgrade. Prove coefficient/addition/adjunction
     naturality and the relative/basepoint versions.
     Generalized cohomology and spectra consume these ordinary interfaces.
-12. **Classical EM comparisons (`projectiveEMComparisons`).** Consume T1.6's
+12. **Classical EM comparisons.** Consume T1.6's
     rank-one RP∞ and CP∞ carriers with their final/weak CW topology, and
     CharacteristicClasses C1.5's finite-stage and cellular/cup comparisons with
     AT4.6's RPⁿ and CKG K7's CPⁿ. Own their identification as K(ℤ/2,1)
@@ -2321,62 +2359,90 @@ items 1–7 are independent of those later constructions.
     and CKG K7.1's native complex-projective atlas, with their already
     specified CW/topological comparisons. Then smooth the classifying map
     and make it transverse to 1∈Circle, RP^(N−1)⊂RP^N or CP^(N−1)⊂CP^N,
-    respectively, by the two targets that follow. They are owned here: no
-    roadmap on the content repository's main branch states the smoothing
-    of a continuous map into a manifold or a transversality theorem
-    (DifferentialGeometry 8.3 approximates smooth simplices and 10.2 is
-    Sard; Mathlib approximates maps into normed spaces only).
+    respectively, by the two general targets that follow, applied to the
+    compact targets Circle, RP^N and CP^N and their closed embedded
+    submanifolds. Both targets are stated for an arbitrary compact target
+    manifold and an arbitrary closed embedded submanifold: this roadmap
+    owns the smoothing of continuous maps into compact manifolds and
+    relative transversality (DifferentialGeometry 8.3 approximates smooth
+    simplices and 10.2 is Sard; Mathlib approximates maps into normed spaces
+    and embeds compact manifolds in Euclidean space), and TangentialBordism
+    B1.6 and DeRhamCohomologyAndDuality Layer 5 consume them for their
+    corner and family variants.
 
-    *Smoothing of classifying maps.* For a boundaryless sigma-compact
-    Hausdorff second-countable smooth manifold M, a closed set A⊆M, an open
-    U⊇A and a continuous map f:M→P, with P one of Circle, RP^N and CP^N,
-    smooth on U, prove that there is a smooth g:M→P homotopic to f relative
-    to A, in particular equal to f on A (Lee, Theorem 6.26). Route: embed P
-    smoothly in a real inner-product space V, as the unit circle in ℂ, as
-    the rank-one orthogonal projections x·xᵀ in the symmetric matrices, or
-    as the rank-one Hermitian projections z·z* in the Hermitian matrices;
-    let W⊆V be the open set ℂ∖{0}, respectively the matrices whose largest
-    eigenvalue is simple, and let r:W→P be the smooth retraction z↦z/|z|,
-    respectively the projection onto the top eigenline. Prove that W is open,
-    that r is smooth (a simple eigenvalue and its eigenprojection depend
-    smoothly on the matrix) and that r restricts to the identity on P.
+    *Smoothing of maps into compact manifolds.* For a boundaryless
+    sigma-compact Hausdorff second-countable smooth manifold M, a compact
+    boundaryless Hausdorff second-countable smooth manifold P over a
+    finite-dimensional real model, a closed set A⊆M, an open U⊇A and a
+    continuous map f:M→P smooth on U, prove that there is a smooth g:M→P
+    homotopic to f relative to A, in particular equal to f on A (Lee,
+    Theorem 6.26, whose target is an arbitrary boundaryless manifold; the
+    compact case is what the embedding theorem at the pins supports). Route:
+    embed P as a closed submanifold of a Euclidean space V by Mathlib's
+    `exists_embedding_euclidean_of_compact`, and take GeometricTopology
+    Layer 1's tubular neighbourhood of the image: an open W⊆V containing P
+    with a smooth retraction r:W→P that restricts to the identity on P and
+    is a submersion on W. Choose a continuous positive ε on M such that the
+    open ball of radius ε(x) about f(x) lies in W: ε(x)=dist(f(x),V∖W) when
+    W≠V, and ε=1 when W=V (P a point and V=ℝ⁰, the only case in which V∖W is
+    empty and Mathlib's infimum distance to the empty set is 0).
     Approximate the composite M→V by a smooth map g̃ that agrees with it on
-    A and stays within the continuous positive function
-    ε(x)=dist(f(x),V∖W), using Mathlib's
+    A and stays within ε, using Mathlib's
     `Continuous.exists_contMDiff_approx_and_eqOn` (which needs sigma-compact
-    Hausdorff M and smoothness of f on a neighbourhood of A); the open ball
-    of radius ε(x) about f(x) lies in W and is convex, so the segment from
-    f(x) to g̃(x) stays in W. Then g=r∘g̃, and r applied to that segment is
-    the homotopy relative to A. Check: for f already smooth and A=M the target returns
-    g=f; a smooth g homotopic to f has the degree of f, so for P=M=Circle
-    the constant map at 1 yields a g of degree 0, never the identity.
+    Hausdorff M and smoothness of f on a neighbourhood of A); the ball is
+    convex, so the segment from f(x) to g̃(x) stays in W. Then g=r∘g̃, and r
+    applied to that segment is the homotopy relative to A. *Needs:* Mathlib
+    `exists_embedding_euclidean_of_compact` and
+    `Continuous.exists_contMDiff_approx_and_eqOn`; GeometricTopology Layer 1
+    tubular neighbourhoods. Checks: for f already smooth and A=M the target
+    returns g=f; a smooth g homotopic to f has the degree of f, so for
+    P=M=Circle the constant map at 1 yields a g of degree 0, never the
+    identity; for the three classifying targets the route's data are
+    explicit, namely Circle as the unit circle in ℂ with W=ℂ∖{0} and
+    r(z)=z/|z|, RP^N as the rank-one orthogonal projections x·xᵀ in the
+    symmetric matrices and CP^N as the rank-one Hermitian projections z·z*
+    in the Hermitian matrices, with W the matrices whose largest eigenvalue
+    is simple and r the projection onto the top eigenline (a simple
+    eigenvalue and its eigenprojection depend smoothly on the matrix), and
+    these r are the identity on P and submersions on W; a wrong model that
+    approximated f in V without retracting would leave W and need not even
+    land in P.
 
-    *Relative transversality to the three submanifolds.* For M as in the
-    smoothing target, a smooth f:M→P, the closed submanifold Z⊂P equal to
-    {1}, RP^(N−1) or CP^(N−1), a closed A⊆M and an open U⊇A on which f is
-    already transverse to Z, prove that there is a smooth g:M→P, equal to f
-    on A and homotopic to f relative to A, transverse to Z on all of M (Lee,
-    Theorem 6.36, in its relative form). Route: prove first the parametric
-    transversality theorem (Lee, Theorem 6.35): for an open S⊆ℝ^k and a
-    smooth F:M×S→P transverse to Z, the parameters s whose slice F(−,s) is
-    not transverse to Z form a null set, by Sard (DifferentialGeometry 10.2)
-    applied to the projection to S of the submanifold F⁻¹(Z). Then take a
-    smooth cutoff β:M→[0,1] vanishing on a neighbourhood of A and equal to 1
-    off U, and the family F(x,s)=exp(β(x)·s)·f(x), where s runs over a ball
-    S about 0 in ℝ acting on Circle by rotation, in the skew-symmetric
-    matrices acting on RP^N, or in the skew-Hermitian matrices acting on
-    CP^N, through the matrix exponential; take S small enough that the
-    exponential is a diffeomorphism from S onto a neighbourhood of the
-    identity of the acting group. Where β(x)>0 the map s↦F(x,s) is that
-    diffeomorphism, scaled by β(x), followed by the orbit map of a
-    transitive action, hence a submersion, so F is transverse to Z there;
-    where β(x)=0 the slice is f, transverse by hypothesis. Choose s outside
-    the null set and put g=F(−,s); the path
-    t↦F(−,ts) is the homotopy relative to A. Check: Z={1}, M=Circle, f the
-    identity and A=∅ returns a g for which 1 is a regular value, as it
-    already is for f; f constant at 1 is not transverse to {1}, and the
-    rotation family moves it off 1 for every s outside 2πℤ, so g⁻¹(1)=∅ is
-    the empty representative of the zero class.
+    *Relative transversality.* For M as in the smoothing target, a compact
+    boundaryless Hausdorff second-countable smooth manifold P, a closed
+    embedded submanifold Z⊆P, a smooth f:M→P, a closed A⊆M and an open U⊇A
+    on which f is already transverse to Z, prove that there is a smooth
+    g:M→P, equal to f on A and homotopic to f relative to A, transverse to Z
+    on all of M (Lee, Theorem 6.36, in its relative form). Route: prove
+    first the parametric transversality theorem (Lee, Theorem 6.35): for an
+    open S in a finite-dimensional real space and a smooth F:M×S→P
+    transverse to Z, the parameters s whose slice F(−,s) is not transverse
+    to Z form a null set, by Sard (DifferentialGeometry 10.2) applied to the
+    projection to S of the embedded submanifold F⁻¹(Z). Then take the
+    embedding e:P→V and the tubular retraction r:W→P of the smoothing
+    target, a radius δ>0 such that the δ-neighbourhood of e(P) lies in W
+    (positive by compactness of e(P) when W≠V, any δ when W=V), the open
+    δ-ball S about 0 in V, a smooth cutoff β:M→[0,1] vanishing on a
+    neighbourhood of A and equal to 1 off U, and the family
+    F(x,s)=r(e(f(x))+β(x)·s). Where β(x)>0 the map s↦F(x,s) is an affine
+    diffeomorphism onto a ball inside W followed by the submersion r, hence
+    a submersion, so F is transverse to Z there; where β(x)=0 the point x
+    lies in U, every slice passes through f(x) with derivative df_x (a zero
+    of β≥0 is a minimum, so dβ_x=0), and f is transverse to Z at x by
+    hypothesis, so F and every slice are transverse there. Choose s outside
+    the null set and put g=F(−,s); the path t↦F(−,ts) is the homotopy
+    relative to A, and g=f on A because β vanishes there. *Needs:* the
+    smoothing target's embedding and tubular retraction; DifferentialGeometry
+    10.2 Sard. Checks: Z={1}⊂Circle, M=Circle, f the identity and A=∅
+    returns a g for which 1 is a regular value, as it already is for f; f
+    constant at 1 is not transverse to {1}, and for P=Circle the family
+    r(f(x)+β(x)s) with β=1 rotates and rescales the constant map, so for
+    every s outside the null set g⁻¹(1)=∅ is the empty representative of the
+    zero class; for Z=RP^(N−1)⊂RP^N and Z=CP^(N−1)⊂CP^N the hyperplane
+    adapter below is applied to the transverse g; a model that dropped the
+    transversality hypothesis on U would fail for f constant at a point of a
+    proper submanifold Z with A=M, where no perturbation is allowed and f is
+    not transverse.
 
     Own the following hyperplane adapter on those same carriers. A first
     coordinate functional defines a section of the dual tautological line
@@ -2518,9 +2584,15 @@ items 1–7 are independent of those later constructions.
     actual product T³=S¹×S¹×S¹ choose an oriented embedded chart ball and
     construct the quotient collapse q:T³→S³ of degree +1, based at its
     collapsed complement. Use CharacteristicClasses C1 item 5's N=1 principal
-    Circle model S³→CP¹ and ComplexKahlerGeometry K7.1's CP¹≃S² to construct
-    the actual Hopf projection p:S³→S² with the corresponding basepoint, and
-    put f=p∘q. Its numerable Hurewicz lifting interface is
+    Circle model S³→CP¹, ComplexKahlerGeometry K7.1's biholomorphism
+    CP¹≃`OnePoint ℂ` and Mathlib's stereographic homeomorphism
+    `onePointEquivSphereOfFinrankEq` from `OnePoint ℂ` to the unit sphere S²
+    of `EuclideanSpace ℝ (Fin 3)` (the real dimension of ℂ plus one is 3) to
+    construct the actual Hopf projection p:S³→S² with the corresponding
+    basepoint, and put f=p∘q. Both spheres are the Stage 2.5 unit spheres
+    with their reference classes, so that the degree +1 of q and the H₃ map
+    below refer to the Stage 2.5 generators. Its numerable Hurewicz lifting
+    interface is
     GeneralizedCohomology G2.10. Prove that all induced positive
     homotopy-group maps and all induced reduced integral homology maps of f
     are zero, while f is not homotopic, even unbased, to a constant map
@@ -2571,7 +2643,7 @@ supplement or the categorical LS supplement unless named explicitly.
 | 8.11a mapping-space and based-loop CW type | Earlier CW/pair foundations (4) and Stage 4 item 8 compact-generation/product API only; no 8.10 or pointed-adjunction input | 7 |
 | 8.11b ordinary EM loops | 8.5, 8.10, 8.11a, DGFloer Layer 1 item 2 and standing/Layer 2 item 3 loop comparison, Stage 4 item 8 compact-generation/product API and its pointed adjunction, G2.1 foundation-only realization-product comparison | 7 |
 | 8.12 classical EM comparisons | 8.8b, 8.10, TopologicalKTheory T1.6 carrier construction and DGFloer 1.2 Serre LES via CharacteristicClasses C1.1 bundle adapter/C1.5 finite comparisons and universal sphere-bundle portion | 7 |
-| 8.13 smooth low-codimension representatives | ordinary6 duality and products, 8.7 dimension-bounded smooth triangulation, 8.10/8.12, AT4.6 real and CKG K7.1 complex projective atlases, CC C1.5 and C2 Thom/Gysin, its own smoothing and relative-transversality targets (Mathlib `Continuous.exists_contMDiff_approx_and_eqOn`, DG10.2 Sard) | 7 and 8.11b |
+| 8.13 smooth low-codimension representatives | ordinary6 duality and products, 8.7 dimension-bounded smooth triangulation, 8.10/8.12, AT4.6 real and CKG K7.1 complex projective atlases, CC C1.5 and C2 Thom/Gysin, its own smoothing of maps into compact manifolds and relative transversality to closed embedded submanifolds (Mathlib `exists_embedding_euclidean_of_compact` and `Continuous.exists_contMDiff_approx_and_eqOn`, GeometricTopology Layer 1 tubular neighbourhoods, DG10.2 Sard) | 7 and 8.11b |
 | 8.14–8.16 acceptance applications | 4.1 lifted CW structures, ordinary6.3 topological top-homology vanishing and Stage 6 universal coefficients, 8.1–8.8, 8.10 and 8.12 EM comparisons, CC C1.5 and CKG K7.1 for the Hopf model, G2.10 numerable lifting | 7 and 8.13 |
 
 In particular, Stage 1 is independent; the chain `2 -> 3 -> 4` is strict; Stages 2--4 all feed
@@ -2647,7 +2719,11 @@ downstream comparison theorem as input.
 
 ## References
 
-- Ronald Brown, *Topology and Groupoids*, 3rd ed., Booksurge, 2006, Chapters 6--7.
+- Ronald Brown, *Topology and Groupoids*, 3rd ed., Booksurge, 2006, Chapters 6--7, in
+  particular 7.4.2 and its Addendum (homotopy equivalences of closed cofibrations).
+- Rainer M. Vogt, *A note on homotopy equivalences*, Proceedings of the American Mathematical
+  Society 32 (1972), 627--629, for the strong homotopy equivalence completing a given
+  inverse homotopy.
 - Samuel Eilenberg and Norman Steenrod, *Foundations of Algebraic Topology*, Princeton
   University Press, 1952, Chapters I--III.
 - Allen Hatcher, [*Algebraic Topology*](https://pi.math.cornell.edu/~hatcher/AT/AT.pdf),

@@ -110,11 +110,14 @@ theorem brouwerFixedPoint_compactConvex_finiteSpan {E : Type u} [NormedAddCommGr
 /-- **Arbitrary-dimensional cellular comparison** (Stage 4.3). For every relative CW complex
 `(X, D)` with Hausdorff `X`, no finite-dimensionality assumed, inclusion of the
 `(n+1)`-skeleton induces an isomorphism on relative singular homology in degree `n`
-(Hatcher, Lemma 2.34(c), p. 137). Composed with the native cellular-homology identification
-`TauCeti.cellularHomologyIso` of the `(n+1)`-skeleton pair, this is the comparison of cellular
-with singular homology in every degree, extending the pinned finite-dimensional
-`TauCeti.cellularSingularHomologyIso`. Module coefficients have exact coproducts. -/
-theorem isIso_singularHomologyMap_skeletonBasePairToComplex
+(Hatcher, Lemma 2.34(c), p. 137). The pinned
+`TauCeti.isIso_singularHomologyMap_skeletonBasePairToComplex` proves this under
+`FiniteDimensional`; the content here is the removal of that hypothesis. Composed with the
+native cellular-homology identification `TauCeti.cellularHomologyIso` of the `(n+1)`-skeleton
+pair, this is the comparison of cellular with singular homology in every degree, extending the
+pinned finite-dimensional `TauCeti.cellularSingularHomologyIso`. Module coefficients have exact
+coproducts. -/
+theorem isIso_singularHomologyMap_skeletonBasePairToComplex_arbitraryDimension
     (X : Type u) [TopologicalSpace X] [T2Space X] (D : Set X)
     [RelCWComplex (Set.univ : Set X) D] (R : Type u) [CommRing R] (M : ModuleCat.{u} R)
     (n : ℕ) :
@@ -195,7 +198,9 @@ theorem closedCofibrationCylinderHomotopyExtension
 and `(X', A')`, a homotopy equivalence `e : X ≃ X'` restricting to a homotopy equivalence
 `e₀ : A ≃ A'`, and prescribed one-sided inverse data `g₀`, `H₀` on the subspaces, there is a
 homotopy inverse `g` of `e` extending `g₀` with a left-inverse homotopy extending `H₀`
-(Hatcher, Proposition 0.19, p. 16). -/
+(Brown, *Topology and Groupoids*, 7.4.2 and its Addendum, pp. 285–286, with the prescribed
+one-sided homotopy obtained through Vogt's strong homotopy equivalence and the cylinder
+cofibration; Hatcher, Proposition 0.19, p. 16, is the case `e₀ = id`). -/
 theorem homotopyInversePairExtension_left
     {X X' : Type u} [TopologicalSpace X] [TopologicalSpace X']
     (A : Set X) (A' : Set X')
@@ -508,13 +513,14 @@ theorem compactManifoldFiniteCWType (n : ℕ)
 mapping spaces -/
 
 /-- **Relative CW connectivity** (Stage 8.1). For a relative CW complex `(X, A)` with Hausdorff
-`X` whose relative cells all have dimension at least `λ ≥ 2`, the inclusion induces
+`X` whose relative cells all have dimension at least `λ`, the inclusion induces
 bijections `π_q(A, a) → π_q(X, a)` for `q + 1 < λ` at every `a ∈ A`, by cellular
-approximation (Hatcher, Theorem 4.8, p. 349, and Corollary 4.12). -/
+approximation (Hatcher, Theorem 4.8, p. 349, and Corollary 4.12). No lower bound on `λ` is
+assumed: for `λ ≤ 1` no `q` satisfies `q + 1 < λ` and the statement is empty. -/
 theorem relativeCWConnectivityOfCellDimension
     (X : Type u) [TopologicalSpace X] [T2Space X] (A : Set X)
     [Topology.RelCWComplex (Set.univ : Set X) A]
-    (a : A) (cellLowerBound : ℕ) (hLowerBound : 2 ≤ cellLowerBound)
+    (a : A) (cellLowerBound : ℕ)
     (hcells : ∀ n : ℕ, n < cellLowerBound → IsEmpty
       (Topology.RelCWComplex.cell (Set.univ : Set X) n))
     (q : ℕ) (hq : q + 1 < cellLowerBound) :
