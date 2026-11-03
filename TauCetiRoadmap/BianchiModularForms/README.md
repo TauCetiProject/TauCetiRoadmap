@@ -40,7 +40,10 @@ modular symbols, and the fundamental domains.
 `Suggested.lean` states the boundary-dimension theorem `finrank_H1_sub_cuspidal` and
 Vogtmann's full classification `cuspidalH1_sl2Image_eq_bot_iff`, with the concrete definitions
 needed to express them. Its module docstring identifies the carriers missing for the other
-headline theorems. API targets and Checks are specified in this README in prose.
+headline theorems. API targets and Checks are specified in this README in prose. The definitions `cusps`,
+`cuspidalHom` and `cuspidalH1` make sense over any field K; `H1` and `homEquiv` use
+any group in Type. The maps `toGLK` and `sl2Image` need only the field and its ring of
+integers. The arithmetic assertions retain the standing number-field hypotheses.
 
 ## Scope and ownership
 
@@ -77,6 +80,12 @@ This roadmap serves the LMFDB's **Bianchi newform** pages (`bmf`) and the Bianch
   nine class-number-one fields (Layer 9).
 
 ### Not owned here
+
+- Pseudobases, rank/Steinitz classification and simultaneous invariant factors are
+  ClassicalArithmeticCompletion §7.0(a)–(d); Layer 0 specializes them to level pairs.
+- The K-Bessel Mellin transform is MaassForms §2.1(v); Layer 6 specializes and rescales it.
+- The proper-order Picard/CM dictionary, conjugation and thirteen-order classification are
+  ImaginaryQuadraticClassNumber §§H1.4, H3.1 and H3.6; §8.4 makes the deduction over K.
 
 - **Everything indexed by an ordering or a stored list**: the ideal labels `N.i`, the suffix
   `a, b, …` of a newform in a level, the `short_label`, `level_number`, the choice of
@@ -202,6 +211,16 @@ coefficient ring and the group in one universe and `ℂ : Type`; nothing else pi
 
 ### From Tau Ceti
 
+- `TauCeti.summable_absNorm_rpow_ideal_iff`
+  (`TauCeti/NumberTheory/ArithmeticDirichletSeries/Convergence.lean`): for a number
+  field K and real t, the sum of N𝔞^(−t) over nonzero integral ideals converges
+  exactly when t > 1; §6.1 applies this twice to the ideal-divisor majorant.
+- `TauCeti.normCoeff` and `TauCeti.normCoeff_eq_sum_normFiber`
+  (`TauCeti/NumberTheory/ArithmeticDirichletSeries/NormCoeff.lean`), and
+  `TauCeti.regroupByNorm`, `TauCeti.LSeriesSummable_normCoeff`, `TauCeti.LSeries_normCoeff`
+  (`TauCeti/NumberTheory/ArithmeticDirichletSeries/Regroup.lean`): apply the native
+  finite norm sums and absolute-convergence regrouping to the Bianchi ideal coefficients.
+
 - `TauCeti.GlobalNumberFields.Modulus`, `RayClassGroup`, `idealClass`, `integralIdealsPrimeTo`,
   `RayClassCharacter 𝔪 = RayClassGroup 𝔪 →* ℂˣ`, `HeckeCharacter K`, `IsFiniteOrder`,
   `ofRayClassCharacter`, `rayClassCharacterAt`, `isFiniteOrder_iff_exists_rayClassCharacter`
@@ -220,6 +239,23 @@ coefficient ring and the group in one universe and `ℂ : Type`; nothing else pi
 
 ### From named roadmaps
 
+- From ClassicalArithmeticCompletion §7.0(a)–(d): pseudobases of lattices over a
+  Dedekind domain, classification by rank and Steinitz class, and simultaneous invariant
+  factors for an inclusion. Apply (c) to L and (d) to M ⊂ L with cyclic quotient 𝓞_K/𝔫
+  in §0.2; these are distinct inputs (Voight, Theorems 9.3.6, 9.3.9–9.3.10, pp.138–139;
+  Weibel, The K-book I§3, Propositions 3.4–3.5, pp.17–18, as located by that supplier).
+- From MaassForms §2.1(v): for complex μ, ν with Re μ > |Re ν|,
+  ∫₀∞ K_ν(y)y^(μ−1)dy = 2^(μ−2)Γ((μ−ν)/2)Γ((μ+ν)/2)
+  (DLMF 10.43.19). Section 6.2 uses ν = 0 and y ↦ λy with λ > 0.
+- From ImaginaryQuadraticClassNumber §H1.4: proper invertible ideal Picard groups
+  and the surjection on passage to the maximal order; §H3.1: irreducibility and degree
+  h(𝒪) of the class polynomial, its CM roots, and complex conjugation acting by inversion
+  on their proper ideal classes; §H3.6: the thirteen class-number-one order discriminants.
+- From AutomorphicLFunctionsAndLocalFactors §§AL.2.2.1–AL.2.2.5: local last-row levels,
+  conductor, Casselman's dimension formula and the normalized Whittaker newvector
+  (Casselman, Theorem 1, p.302 and Corollary to the Proof, p.306). Section 5.2 uses
+  dimension max(0,r−c(π)+1) with the trivial central character, at every finite place.
+
 - From the [Kleinian-groups roadmap](../KleinianGroups/README.md): `H3` with `volume`, `dist`,
   `height`, the quaternionic Möbius action of `PSL(2, ℂ)` (its Layer 0); discreteness, proper
   discontinuity, fundamental domains and `covolume` (Layer 1); Dirichlet domains and the
@@ -233,7 +269,9 @@ coefficient ring and the group in one universe and `ℂ : Type`; nothing else pi
   the adelic quotient `X_K` and its decomposition into arithmetic quotients (ALS.0.6–0.7), Betti
   cohomology as group cohomology (ALS.1.5), finiteness of Betti cohomology (ALS.2.4), Hecke
   correspondences and their composition (ALS.3.5, ALS.3.8), degeneracy maps and the old-space
-  splitting at a prime (ALS.3.14), the boundary triangle (ALS.4.1), and automorphic forms, constant
+  splitting at a prime (ALS.3.14), the boundary triangle (ALS.4.1), unnormalized spherical Satake and its action on
+  transported boundary strata (ALS.4.2–4.3, used on a neat cover and descended over ℚ),
+  and automorphic forms, constant
   terms and cusp forms (ALS.F.6).
 - From the [modularity-and-Langlands-extensions roadmap](../ModularityAndLanglandsExtensions/README.md):
   the planned adelic eigenform carrier, normalized ideal coefficients and associated
@@ -311,6 +349,9 @@ primes** (rational primes dividing `d_K`), the two search filters of the LMFDB. 
 Kleinian-groups roadmap: the image of `Γ(𝔫) ∩ SL₂(𝓞_K)` in `PSL(2, ℂ)` under `ι` is its
 `bianchiGamma K ι 𝔫`.
 
+- For nonzero level, the three congruence groups have the stated normal inclusions and Γ₀/Γ₁ is the lower-right unit quotient.
+- Reduction through SL₂ identifies the Γ₀ index with the projective-line cardinality; the level norm and its rational prime support are invariant under equality of ideals.
+
 **Checks.**
 
 - At unit level the reduction target is the zero ring; Γ(𝓞_K) = Γ₀(𝓞_K) and the index is 1.
@@ -321,36 +362,56 @@ Kleinian-groups roadmap: the image of `Γ(𝔫) ∩ SL₂(𝓞_K)` in `PSL(2, �
 
 ### 0.2 The component groups
 
-Define `Γ₀(𝔫, 𝔞) : Subgroup (GL (Fin 2) K)` by the pinned conditions (`Suggested.lean`:
-`Gamma0Component`) and prove that it is the stabilizer of the level-`𝔫` pair
-`(𝓞_K ⊕ 𝔞, 𝓞_K ⊕ 𝔞𝔫)` (with the linear action through `Matrix.GeneralLinearGroup.toLin`), that `Γ₀(𝔫, 𝓞_K)` is the image
-of `Γ₀(𝔫)` under `GL₂(𝓞_K) → GL₂(K)` , that `Γ₀(𝔫, x𝔞) = diag(1, x) Γ₀(𝔫, 𝔞) diag(1, x)⁻¹` for
-`x ∈ K^×`, and that `Γ₀(𝔫, 𝔞)` is commensurable with `Γ₀(𝔫, 𝔞')` for all `𝔞, 𝔞'`. Prove
-that `GL₂(K)` acts transitively on level-`𝔫` pairs of a fixed Steinitz class, so that the orbits
-of level-`𝔫` pairs under `GL₂(K)` are in bijection with `Cl(K)`, with `(𝓞_K ⊕ 𝔞, 𝓞_K ⊕ 𝔞𝔫)` in
-the orbit of class `[𝔞]`. Fix representatives `𝔞_c` (an integral ideal in each class `c`, through
-`ClassGroup.mk0_surjective`); write `Γ₀(𝔫)_c := Γ₀(𝔫, 𝔞_c)`.
+Define Γ₀(𝔫, 𝔞) ≤ GL₂(K) by the conditions in Conventions (`Gamma0Component`),
+for nonzero 𝔫 and 𝔞. Fix an integral representative 𝔞_c of each ideal class using
+`ClassGroup.mk0_surjective`, and write Γ₀(𝔫)_c = Γ₀(𝔫, 𝔞_c).
+
+- Identify this group with the stabilizer of the pair
+  (𝓞_K ⊕ 𝔞, 𝓞_K ⊕ 𝔞𝔫), for the action through `Matrix.GeneralLinearGroup.toLin`.
+- At 𝔞 = 𝓞_K it is the image of Γ₀(𝔫) under the inclusion `toGLK`.
+- For x ∈ K× with x𝔞 integral, conjugation by diag(1,x) identifies Γ₀(𝔫,𝔞)
+  with Γ₀(𝔫,x𝔞); any two component groups are commensurable.
+- Level-𝔫 pairs of fixed Steinitz class form one GL₂(K)-orbit, and their orbit set is
+  Cl(K). Use ClassicalArithmeticCompletion §7.0(c) for the ambient rank-two lattice
+  and §7.0(d) for the inclusion: the invariant factors are (1,𝔫), so the representative
+  pair has class [𝔞]. This is the level-pair specialization of those classifications.
 
 **Checks.**
 
 - For 𝔞 = 𝓞_K the off-diagonal conditions are b ∈ 𝓞_K and c ∈ 𝔫.
 - For 𝔞 = (2) and unit level, (1,1/2;0,1) preserves 𝓞_K ⊕ (2) but not 𝓞_K².
 - Conjugation by diag(1,2) sends b to b/2 and c to 2c, agreeing with the two fractional-ideal conditions.
+- For I = (2,1+√−5), st(𝓞_K ⊕ I) = [I] ≠ 1, whereas st(I ⊕ I) = [I]² = 1;
+  the first lattice cannot be identified with 𝓞_K².
 
-*Needs:* Mathlib fractional ideals and class group; the Steinitz classification of rank-two projective lattices; §0.1 level structure.
+*Needs:* Mathlib fractional ideals and class group; ClassicalArithmeticCompletion
+§7.0(a)–(d) pseudobases, Steinitz classification and simultaneous invariant factors;
+§0.1 level structure.
 
 ### 0.3 Discreteness and the hyperbolic quotient
 
 Prove that the image of `Γ₀(𝔫, 𝔞)` in `PSL(2, ℂ)` is discrete and cofinite, by commensurability
 with the image of `SL₂(𝓞_K)` (Kleinian-groups Layer 3, `isDiscrete_bianchi`, and Layer 4's finite
-covolumes for `d_K = −3, −4`). For every imaginary quadratic `K` construct the **Bianchi domain**
-`F_K := {(x, y) ∈ H3 : x ∈ P_K, |cx + d|² + |c|² y² ≥ 1 for all (c, d) ∈ 𝓞_K² with c ≠ 0 and
-(c, d) = 𝓞_K}`, `P_K` a fundamental parallelogram for the translations by `𝓞_K`, and prove Swan's
-finiteness: there is `B_K` such that the hemispheres with `|c|² > B_K` lie below the others over
-`P_K`, so `F_K` is bounded by finitely many hemispheres and vertical planes; prove that
-`F_K` together with the cusp neighbourhoods of the `h_K` cusp classes has finite hyperbolic volume,
-and that finitely many `PSL₂(𝓞_K)`-translates of `F_K` form a fundamental domain (the
-Kleinian-groups roadmap's face-pairing criterion), which gives cofiniteness for all `K`. The
+covolumes for `d_K = −3, −4`). For every imaginary quadratic K construct the **translation Ford region**
+F̃_K = {(x,y) : x ∈ P_K, |cx+d|²+|c|²y² ≥ 1 for every primitive (c,d), c ≠ 0},
+where P_K is a translation parallelogram for 𝓞_K. The effective stabilizer of infinity
+in PSL₂(𝓞_K) also contains x ↦ u²x, for u ∈ 𝓞_K×, of order w_K/2.
+Choose a measurable fundamental sector Q_K for 𝓞_K ⋊ (𝓞_K×)² on ℂ, with boundary
+identifications, and define the **folded Ford region** F_K by the same hemisphere
+inequalities with x ∈ Q_K.
+
+- Prove Swan's finite-sidedness: only finitely many primitive hemispheres contribute
+  faces over a translation cell, with an upper bound B_K on |c|² for these faces.
+- Prove that F_K is a fundamental region up to its identified boundary: choose a
+  maximum-height representative, then its representative in Q_K. Distinct interior
+  representatives cannot be related by a non-cuspidal matrix (the hemisphere inequality
+  would be strict in one direction) or by a cusp rotation. Singular boundary cusps
+  account for the nonprincipal ideal classes; no union of copies of F̃_K removes rotations.
+- Prove finite volume, including neighborhoods of every cusp class, and generic
+  multiplicity w_K/2 for F̃_K relative to F_K. Use the face-pairing criterion for the
+  resulting sector and its paired faces (Swan, geometric construction, pp.1–77).
+
+The
 explicit hemisphere lists for the nine class-number-one fields are 9.4. For the projective image G of Γ₀(𝔫, 𝔞), put P = PSL₂(𝓞_K) and H = G ∩ P.
 Derive vol(G) = [P:H] vol(P)/[G:H] from the supplier's index law applied to the two
 inclusions of H (Cremona, §2.2, p.283, for the index-two projective GL₂/SL₂ comparison), and the quotient `Y₀(𝔫, 𝔞) = Γ₀(𝔫, 𝔞) \ H3` as an orbifold of
@@ -365,6 +426,11 @@ root of unity), since `diag(v², 1) = v · diag(v, v⁻¹)`.
 
 - At unit level in the principal component, H = P and [G:H] = 2, giving vol(G) = vol(P)/2.
 - For K = ℚ(i) this is Catalan/6, whereas vol(P) = Catalan/3.
+- In the centered Gaussian square (1/4,2) and (−1/4,2) have hemisphere values
+  at least 4 > 1 and are identified by diag(i,−i). Thus F̃_K has volume 2·Catalan/3;
+  selecting one rotation sector gives vol(F_K) = Catalan/3.
+- For the Eisenstein field the effective rotation order is 6/2 = 3, so
+  vol(F̃_K) = 3 vol(F_K); the two regions cannot both have quotient covolume.
 - For G ≤ P of index m the intersection is G, giving m·vol(P); the two-index
   formula recovers the supplier's inclusion case.
 
@@ -385,6 +451,10 @@ this image depends on the cusp and need not be the full unit group (N is upper u
 This is the commensurability argument, using the cusp-class bijection in Vogtmann, §2,
 (2.2), p.400.
 
+- The stabilizer of infinity has translation lattice 𝔞⁻¹ and upper-triangular unit diagonal.
+- For every cusp the conjugated unipotent intersection has rank two; the quotient by translations and scalars is its actual finite diagonal-ratio image.
+- Conjugate cusp representatives have conjugate stabilizers, and arithmetic component groups have finitely many cusp orbits.
+
 **Checks.**
 
 - At infinity the translation lattice is 𝔞⁻¹, of ℤ-rank 2.
@@ -404,7 +474,7 @@ residue by t². An element of Γ₀(𝔫) multiplies it modulo 𝔤_𝔡 by its 
 for Γ₀ˢᴸ(𝔫) only the coordinate-square ambiguity remains. Replacing δ by vδ transports
 the residue by v⁻¹. Prove that these operations give a bijection; the proof is the
 primitive-column reduction modulo 𝔫 and the Chinese remainder theorem, applied separately
-at each prime power (compare Cremona, §2.1, Lemma 2.1.5, p.281, in the rational case). Hence
+at each prime power (compare Cremona, §2.1, Lemma 2.1.5, p.282, in the rational case). Hence
 
 ```text
 #cusps Γ₀(𝔫) = ∑_{𝔡 ∣ 𝔫} #( (𝓞_K/𝔤_𝔡)ˣ / im 𝓞_Kˣ ),      #cusps Γ₀ˢᴸ(𝔫) = ∑_{𝔡 ∣ 𝔫} #( (𝓞_K/𝔤_𝔡)ˣ / im (𝓞_Kˣ)² ).
@@ -454,7 +524,7 @@ At Gaussian level (2+i)² the GL₂ and SL₂ cusp counts are 3 and 4 (§0.5).
 
 ### Dependencies
 
-Mathlib number fields, ideals and matrix groups; KleinianGroups Layers 0–4.
+Mathlib number fields, ideals and matrix groups; ClassicalArithmeticCompletion §7.0; KleinianGroups Layers 0–4.
 
 ## Layer 1: cohomological Bianchi forms
 
@@ -465,6 +535,9 @@ For `Γ ≤ GL₂(K)` define `H¹(Γ, ℂ) := groupCohomology.H1 (Rep.trivial �
 (`homEquiv`, a real body). State the restriction
 `res_S : H¹(Γ, ℂ) → H¹(S, ℂ)` for a subgroup `S` as `groupCohomology.map S.subtype` and prove that
 under the comparison it is precomposition with the inclusion.
+
+- For every group Γ in Type, the trivial-coefficient H¹ comparison is a complex linear equivalence with additive homomorphisms.
+- Restriction to a subgroup becomes precomposition with its inclusion under this equivalence.
 
 **Checks.**
 
@@ -499,6 +572,10 @@ the rotation `x ↦ −x`. A form is **cuspidal** (the LMFDB's `cuspidal` flag) 
 the single cusp has stabilizer `{±(1, b; 0, 1)}` and contributes `dim H¹_Eis = 1`; for
 `GL₂(𝓞_K) = Γ₀(𝓞_K)` with the same `K` it contributes `0`.
 
+- Cusp-restriction kernels are complex submodules and are unchanged when one takes one cusp from each orbit.
+- For arithmetic Γ, translation-subgroup restrictions have the same common kernel as full stabilizer restrictions.
+- The quotient by that kernel has dimension the number of translation-only cusps, with no contribution from a rotating cusp.
+
 **Checks.**
 
 - For PSL₂(ℤ[i]) a rotating cusp has invariant boundary H¹ of dimension 0 and Eisenstein dimension 0.
@@ -521,6 +598,10 @@ read at k = (m+2)/2; the two indices coincide only at 2. The LMFDB table rendere
 A stored dimension is compared with this cohomology using its coefficient-module convention;
 the analytic weight knowl alone is not a definition of the table's coefficient parameter.
 (ModularityAndLanglandsExtensions §4.41; Şengün §3, pp.7–8, for the coefficient modules).
+
+- At k = 2 the coefficient representation is trivial, and its cohomology and restriction kernel agree with §§1.1–1.2.
+- For k ≥ 2 the coefficient module has dimension (k−1)² and minimal analytic type of dimension 2k−1.
+- The cuspidal restriction kernel for unequal exponents a ≠ b is zero under the supplied adelic comparison.
 
 **Checks.**
 
@@ -574,6 +655,10 @@ the total space is the cohomology of the adelic quotient: `Y₀(𝔫) := X_{K₀
 restriction to the Borel–Serre boundary), under which `S_𝔟` is the action of the central idele
 of `𝔟`. For `h_K = 1` the total space is `H¹_cusp(Γ₀(𝔫), E_k)`.
 
+- Conjugation transports the component cohomology, and successive representative changes compose to the direct change.
+- Central operators multiply with their ideals and are trivial on principal ideals after the stated weight normalization.
+- Their common fixed space is a submodule, equals the total space at class number one, and matches the trivial-central-character adelic space.
+
 **Checks.**
 
 - For `h_K = 1` (the nine fields of 9.4, e.g. `K = ℚ(i)`) every `S_𝔟` is the identity and
@@ -594,7 +679,12 @@ For arbitrary Γ ≤ GL₂(K), define rational and integral group cohomology usi
 trivial representations. The finiteness and scalar-extension theorems below assume that Γ
 is a component group Γ₀(𝔫, 𝔞) or a subgroup of finite index in one, with 𝔫, 𝔞 nonzero.
 Prove H¹_cusp(Γ, ℚ) ⊗ ℂ ≅ H¹_cusp(Γ, ℂ), and that H¹(Γ, ℤ) modulo torsion is a
-full lattice in H¹(Γ, ℚ), by §0.6 finite presentation and the finite set of cusp restrictions.
+full lattice in H¹(Γ, ℚ). Use H¹(Γ,A) = Hom(Γ_ab,A) for trivial coefficients:
+§0.6 gives finitely generated Γ_ab, so its free quotient is ℤʳ and the Hom groups
+are ℤʳ, ℚʳ and ℂʳ. The finitely many cusp restrictions are integer matrices;
+flat scalar extension preserves their common kernel. This is the degree-one
+finite-generation argument (Şengün §3.1, p.8, abelianization, and p.10, cocycles),
+not an unrestricted scalar-extension theorem for arbitrary Γ.
 Define its cuspidal lattice by intersection with rational cuspidal cohomology. Define the
 global lattice as the direct sum of these lattices over all ideal classes; intersection with
 the rational new and central-invariant subspaces gives the lattice used in §6.6.
@@ -602,7 +692,10 @@ the rational new and central-invariant subspaces gives the lattice used in §6.6
 For k > 2 use the component lattice L_𝔞 = 𝓞_K ⊕ 𝔞 and
 E_k(L_𝔞) = Sym^(k−2)(L_𝔞) ⊗ conjugate(Sym^(k−2)(L_𝔞)), inside E_k(K).
 This specializes the integral algebraic coefficient construction of
-ArithmeticLocallySymmetricSpaces ALS.F.7 to the component lattice.
+ArithmeticLocallySymmetricSpaces ALS.F.7 (integral algebraic coefficient lattices,
+with conjugation transport) to the component lattice. Its symmetric powers and tensor
+product are functorial on projective lattices, so stabilization follows from §0.2;
+Şengün §3, p.8, specifies the polynomial action and its conjugate tensor factor.
 
 - Every component group preserves its own coefficient lattice; conjugation transports
   both the group and the lattice.
@@ -612,6 +705,10 @@ ArithmeticLocallySymmetricSpaces ALS.F.7 to the component lattice.
 - At weight two the coefficient maps are identities on ℤ. All Hecke integrality claims
   in the arithmetic layers concern this weight; higher-weight normalizations belong to
   ModularityAndLanglandsExtensions §4.27.
+
+- For arithmetic Γ the integral Hom lattice spans rational H¹, and the common cusp-restriction kernel commutes with extension to ℂ.
+- Intersecting that lattice with the rational cuspidal, new and central-invariant subspaces gives their full lattices.
+- The symmetric-tensor lattice is stable under its component group; conjugation transports both data, with reverse maps on dual coefficients.
 
 **Checks.**
 
@@ -670,6 +767,9 @@ satisfy `A(γγ', z) = A(γ', z) A(γ, γ'z)`) and `F ∣ (λγ) = F ∣ γ` for
 `A = M = (0, 0, 1; 0, −1, 0; 1, 0, 0)`, while at `x ≠ 0` the off-diagonal entries of `A` and `M`
 differ by the factors `2` and `1/2`.
 
+- Pullback gives the right slash law F ∣ (γγ′) = (F ∣ γ) ∣ γ′ and the identity acts trivially.
+- Nonzero scalar rescaling of γ leaves the slash unchanged, and the two coframe matrices are related by A = D⁻¹MD.
+
 **Checks.**
 
 - For γ = 1 the slash matrix is diag(1,1,1).
@@ -687,6 +787,10 @@ Define `M₂(Γ)` for `Γ ≤ GL₂(K)` of finite index in some `Γ₀(𝔫, �
 smooth cusp forms with exponential decay, by integration by parts; no such converse is
 asserted from moderate growth alone, and derive the Casimir form of the knowl as a theorem. Prove `M₂(Γ)`
 is a ℂ-vector space and `F ↦ F ∣ g` is an isomorphism `M₂(Γ) → M₂(g⁻¹Γg)`.
+
+- The invariant closed and coclosed forms with the stated growth form a complex vector space.
+- Slash by g gives an isomorphism from M₂(Γ) to M₂(g⁻¹Γg).
+- For exponentially decaying cusp forms, integration by parts identifies Hodge harmonicity with closedness and coclosedness; moderate growth alone is not sufficient.
 
 **Checks.**
 
@@ -707,6 +811,10 @@ rotates the constant term) and that for `F` harmonic it is `(c₁ y, c₂ y², c
 knowl `mf.bianchi.weight2`'s condition, stated for every cusp rather than for `γ ∈ PSL₂(𝓞_K)`
 only, which is the same thing for `h_K = 1` and the right thing in general. Prove that cusp forms
 decay exponentially at every cusp.
+
+- The constant-term map is linear and has harmonic shape (c₁y,c₂y²,c₃y).
+- Its vanishing is invariant under changing cusp coordinates by the upper Borel.
+- The common vanishing subspace S₂(Γ) consists of exponentially decaying forms at every cusp.
 
 **Checks.**
 
@@ -750,6 +858,10 @@ F'₂(z,y) = F₂(xz,|x|y), hence c_𝔞′(xα) = |x|² c_𝔞(α) and N𝔞' =
 The quotient is therefore unchanged. The adelic identification uses these arithmetic coefficients in §3.1, with c(𝓞_K) = 1;
 coefficients on non-integral ideals are zero (BCGNT §1.3, pp.9–11 in arXiv:2309.15880v3).
 
+- Unit invariance of the raw coefficient makes c(𝔪,F) independent of the generator α.
+- Transport by 𝔞 ↦ x𝔞 scales both raw coefficient and ideal norm by |x|², so their quotient is unchanged.
+- The arithmetic coefficient is linear in F, agrees with the normalized adelic coefficient, and is zero on non-integral ideals.
+
 **Checks.**
 
 - For 𝔞 = 𝓞_K the arithmetic coefficient equals the raw coefficient.
@@ -770,6 +882,9 @@ the orthogonal sum. The matrix of §2.1 satisfies A* diag(2,1,2) A = diag(2,1,2)
 this metric fixes every adjoint in §§4.6 and 5.1 (Cremona §1, pp.276–279,
 for the invariant differential-form interpretation).
 
+- For cuspidal F and moderate-growth G the Petersson integral converges and is independent of a measurable fundamental region.
+- It is positive definite on S₂, invariant under conjugation transport, and the total space is the orthogonal sum over components.
+
 **Checks.**
 
 - Writing z = u+iv gives ‖−dz/y‖² = ‖d z̄/y‖² = 2 and ‖dy/y‖² = 1.
@@ -783,6 +898,9 @@ for the invariant differential-form interpretation).
 Define `S₂(Γ₀ˢᴸ(𝔫))` by the same construction and prove `S₂(Γ₀(𝔫)) = S₂(Γ₀ˢᴸ(𝔫))^{𝓞_Kˣ}`,
 the invariants under the rotations `diag(u, 1)`: the `GL₂`-space sits inside the larger
 `SL₂`-space as the knowl `mf.bianchi.level` says, and the `sl2_dims` tables are for the larger one.
+
+- The GL₂ space identifies with the unit-rotation invariants of the SL₂ space.
+- Square units act trivially on SL₂-invariant weight-two forms, so the effective quotient has order two.
 
 **Checks.**
 
@@ -816,6 +934,9 @@ component decomposition (1.5); the `K_∞ = ℂ^× U(2)`-type is the three-dimen
 representation on `1`-forms at the base point `(0, 1)`. Prove the Fourier comparison: the
 coefficient of 2.5 equals the Whittaker coefficient of §4.27 up to the normalization.
 
+- Adelization and restriction to component representatives are inverse linear maps.
+- They preserve the normalized Fourier coefficients and intertwine central ideal operators with central ideles.
+
 **Checks.**
 
 - For class number one the adelic component set has one element.
@@ -838,6 +959,9 @@ the K₀(𝔫)-invariants of π_f ⊗ H¹(𝔤,K_∞;π_∞⊗E₂). The archime
 the finite-level factor may have larger dimension (Harder §3.6.2.2, p.74;
 ArithmeticLocallySymmetricSpaces ALS.5b.5). Multiplicity one holds on the newspace at
 conductor level, as in §5.3.
+
+- Integration is independent of the path and basepoint at the level of cohomology and lands in the cusp-restriction kernel.
+- For each component it is an isomorphism onto cuspidal H¹, hence also for their direct sum.
 
 **Checks.**
 
@@ -921,6 +1045,10 @@ every integral ideal `𝔪` by `T_{𝔭𝔮} = T_𝔭 T_𝔮` for coprime `𝔭 
 `T_{𝔭^{r+1}} = T_𝔭 T_{𝔭^r} − N𝔭 · S_𝔭 T_{𝔭^{r−1}}` for `𝔭 ∤ 𝔫` (the central correspondence `S_𝔭` of the pinned conventions is
 what makes both sides move the Steinitz class by `[𝔭]^{r+1}`), and `T_{𝔭^r} = U_𝔭^r` for `𝔭 ∣ 𝔫`.
 
+- Allowed sublattices give level-𝔫 pairs and commute with GL₂(K) transport.
+- Their degrees are N𝔭+1 off the level and N𝔭 on it, with Steinitz shift [𝔭].
+- Coprime correspondences multiply, the good-prime recurrence retains S_𝔭, and the bad-prime powers are powers of U_𝔭.
+
 **Checks.**
 
 - At norm 2, ℙ¹(𝔽₂) has 3 lines and the good correspondence has 3 terms.
@@ -931,44 +1059,88 @@ what makes both sides move the Steinitz class by `[𝔭]^{r+1}`), and `T_{𝔭^r
 
 ### 4.2 The operators on cohomology and on forms
 
-Transport `T_𝔭` to a ℂ-linear endomorphism of the total space `H¹_cusp(𝔫, E_k)`
-(the target hecke, indexed by the prime `𝔭 ∈ HeightOneSpectrum (𝓞 K)`, one name for `T_𝔭`
-off the level and `U_𝔭` on it, with the component law hecke_component: the component of class
-`c · [𝔭]` of `T_𝔭 F` depends only on the component of class `c` of `F`) through the Hecke correspondences of ALS.3.5 on `Y₀(𝔫)` (the correspondence `T_𝔭` is the double coset
-`K₀(𝔫) diag(1, ϖ_𝔭) K₀(𝔫)` for `𝔭 ∤ 𝔫`, with the intermediate level the intersection of the compact subgroup and its conjugate), and, on forms, by
-the finite sum `(T_𝔭 F)^{([𝔞𝔭])} = ∑_{δ} F^{([𝔞])} ∣ δ` over the `N𝔭 + 1` matrices `δ ∈ GL₂(K)`
-carrying the representative lattice `𝓞_K ⊕ 𝔞_{[𝔞𝔭]}` onto the sublattices `L' ⊂ 𝓞_K ⊕ 𝔞_{[𝔞]}` of
-index `𝔭` (one `δ` per `L'`, well defined up to `Γ₀(𝔫, 𝔞_{[𝔞𝔭]})` on the right); the theorem is that these two
-transports agree under `ES` (3.3). Prove that `T_𝔭` preserves cuspidality, `M₂`, `S₂`, and the rational and
-integral structures of 1.6 at weight two, by restriction, identity coefficient maps and
-transfer. At 𝔭 ∣ 𝔫 use the separate U correspondence and its N𝔭 terms; the full
-N𝔭+1 sum applies only off the level (Şengün §4, pp.11–12).
+For a target representative pair P_b = (L_b,M_b), index the form operator by
+**superpairs** P⁺ = (L⁺,M⁺), obtained from §4.1's allowed subpairs
+P′ = (L′,M_b ∩ L′) of P_b by P⁺ = 𝔭⁻¹P′. Thus L_b ⊂ L⁺,
+L⁺/L_b ≅ 𝓞_K/𝔭, and M⁺ = 𝔭⁻¹M_b ∩ L⁺. Off the level these are exactly
+reverse subpair arrows: M⁺ ∩ L_b = M_b. At 𝔭 ∣ 𝔫 the condition instead is
+𝔭L⁺ ⊅ M_b(𝔭), where M_b(𝔭) is the intermediate lattice of index 𝔭; the level lattice is still 𝔭⁻¹M_b ∩ L⁺. This distinguishes
+U from its transpose. Their source class is c = b[𝔭]⁻¹. Choose δ ∈ GL₂(K) carrying
+P⁺ to the fixed source pair P_c, and define
+
+    (T_𝔭 F)^(b) = Σ_{P⁺} F^(c) ∣ δ
+
+with U_𝔭 in place of T_𝔭 at 𝔭 ∣ 𝔫. The indexing is by cosets Γ_c δ:
+changing δ to ηδ with η ∈ Γ_c does not change F^(c) ∣ δ. Right multiplication
+is not a representative-independence argument.
+
+- Prove that there are N𝔭+1 superpairs off the level and N𝔭 on the level. Off
+  the level M⁺ = M_b + 𝔫L⁺. At a bad prime retain the displayed level lattice
+  and forbidden-line condition; using M⁺ ∩ L_b = M_b would give the other orientation.
+- On geometric pairs the forward subpair arrow has class c → c[𝔭]; reversing
+  it has class b → b[𝔭]⁻¹. The scaled subpair construction also has this latter
+  shift, at every prime. Pullback of source forms along δ sends the c summand to
+  c[𝔭]. Multiplying P⁺ by 𝔭 recovers P′; this scaling has class shift [𝔭]²
+  and is the central correspondence S_𝔭. It cannot be suppressed for a
+  nonprincipal ideal. Off the level the scaled and reversed correspondences agree;
+  on the level the reverse has a different level-pair condition.
+- Prove agreement with restriction, conjugation and transfer on cohomology
+  (ArithmeticLocallySymmetricSpaces ALS.3.5), and with ES of §3.3. The adelic
+  convention is K₀(𝔫) diag(1,ϖ_𝔭) K₀(𝔫), with the two legs oriented to give
+  this pullback action. On homology use its transpose under the integration pairing.
+- The maps preserve M₂, S₂ and cuspidal cohomology; at weight two restriction,
+  identity coefficient maps and transfer preserve the rational and integral lattices
+  of §1.6 (Şengün §4, pp.11–12). Higher coefficient maps are those of §1.6.
 
 **Checks.**
 
-- For `K = ℚ(i)` and `𝔭 = (2+i) ∤ 𝔫`, `T_𝔭` is the sum over the `N𝔭 + 1 = 6` cosets
-  `(1, b; 0, 2+i)`, `b ∈ {0, 1, 2, 3, 4}`, and `(2+i, 0; 0, 1)` (4.3).
-- On the newform `2.0.4.1-121.1-a` (level `(11)` over `ℚ(i)`): `T_{(1+i)}` acts by `−2`,
-  `T_{(2±i)}` by `1`, `T_{(3)}` by `−5`, and `U_{(11)}` by `1`.
-- `U_𝔭` at `𝔭 ∣ 𝔫` sums over `N𝔭` sublattices, not `N𝔭 + 1`: on `2.0.4.1-100.2-a` (level
-  `(10)`), `U_{(1+i)}` acts by `0` (`(1+i)² ∣ 𝔫`) and `U_{(2±i)}` by `−1`.
-- (reject) For a nonprincipal `𝔭` (over `ℚ(√−23)`, `𝔭 ∣ 2`) the operator moves the component of
-  class `c` to that of `c[𝔭] ≠ c`, so it is not an endomorphism of any single
-  `H¹_cusp(Γ₀(𝔫, 𝔞), ℂ)`.
+- For π = 2+i at unit level, the five matrices (1,b;0,π) have the same image
+  lattice 𝓞e₁ ⊕ π𝓞e₂. Their inverse-image superlattices are distinct: multiplying
+  them by π gives the five sublattices with columns (π,0) and (−b,1).
+  The sixth gives columns (1,0) and (0,π), so there are six, not two.
+- Equivalently δ′_b = (π,b;0,1) and diag(1,π) give the six image sublattices;
+  π(δ′_b)⁻¹ = (1,−b;0,π), with sixth diag(π,1), gives §4.3's form cosets.
+- Locally at level πᵉ, e ≥ 1, the q allowed superpairs have
+  L⁺ = 𝓞e₁ + 𝓞π⁻¹(e₂−be₁) and M⁺ = 𝓞e₁ + π^(e−1)𝓞e₂,
+  for b mod π. Their quotient is 𝓞/πᵉ, and δ = (1,b;0,π) sends them
+  to the source pair. The extra good-prime coset diag(π,1) corresponds to
+  L′ = 𝓞e₁ + π𝓞e₂ = M_b(𝔭), the forbidden sublattice.
+- In contrast, reversing the bad-prime arrow gives q superpairs sharing
+  L⁺ = π⁻¹𝓞e₁ + 𝓞e₂ with different M⁺. These give the transpose U action,
+  not the q upper-triangular cosets just displayed.
+- For a nonprincipal class g of order 3, subpairs move 1 → g and superpairs
+  move 1 → g²; form pullback moves g² → 1. Scaling by 𝔭 moves g² → g,
+  so replacing it by a scalar identity loses the central operator.
+- At Gaussian norm 2 on the level there are 2 terms; off it there are 3.
 
-*Needs:* §4.1 correspondences; §1.6 coefficient maps; §3.3 comparison; ArithmeticLocallySymmetricSpaces ALS.3.5.
+*Needs:* §4.1 correspondences; §1.5 central action; §1.6 coefficient maps;
+§2.1 slash law; §3.3 comparison; ArithmeticLocallySymmetricSpaces ALS.3.5.
 
 ### 4.3 Principal primes and the double-coset ring
 
 For a principal prime `𝔭 = (π)` with `𝔭 ∤ 𝔫` prove that `T_𝔭` preserves every component and equals the
 double-coset operator `[Γ₀(𝔫, 𝔞) diag(1, π) Γ₀(𝔫, 𝔞)]` on it, with the coset decomposition
 `Γ₀(𝔫, 𝔞) diag(1, π) Γ₀(𝔫, 𝔞) = ⊔_{b ∈ 𝔞⁻¹/π𝔞⁻¹} Γ₀(𝔫, 𝔞) (1, b; 0, π) ⊔ Γ₀(𝔫, 𝔞) (π, 0; 0, 1)`;
-identify the subring of the Hecke algebra generated by the principal `T_𝔭` with Tau Ceti's
-`𝕋 Δ₀(𝔫, 𝔞) Γ₀(𝔫, 𝔞) ℤ` for `Δ₀(𝔫, 𝔞)` the monoid of `δ ∈ GL₂(K) ∩ M₂(𝓞_K ⊕ 𝔞-shape)` with
-`δ₂₁ ∈ 𝔞𝔫`, through the ring's action `heckeSum` on `H¹`. For `h_K = 1` this is the whole Hecke
-algebra and no component bookkeeping remains. Check: for `K = ℚ(i)`, `𝔭 = (2 + i)`, the six
+let Δ₀(𝔫,𝔞) consist of the invertible K-matrices preserving the level pair
+(not necessarily onto), and use the abstract integral Hecke ring
+`𝕋 Δ₀(𝔫,𝔞) Γ₀(𝔫,𝔞) ℤ`. Let A_pr be its unital subalgebra generated by
+these principal good-prime double cosets, the principal bad-prime U double cosets,
+and integral scalar double cosets. Construct the representation homomorphism
+A_pr → End_ℤ(H¹_cusp(Γ₀(𝔫,𝔞),ℤ)) using §4.2. Define the principal operator
+algebra as its image, and identify it with A_pr modulo the kernel of this action
+(the annihilator of the module). After extending scalars compare with the rational
+and complex operator algebras. No injectivity is asserted. At class number one all
+prime ideals are principal, so its image is the all-prime operator algebra;
+this does not identify A_pr with the entire abstract monoid Hecke ring
+(Şengün §4, pp.11–12, defines the algebra inside endomorphisms).
+
+Check: for `K = ℚ(i)`, `𝔭 = (2 + i)`, the six
 cosets off the level are `(1, b; 0, 2 + i)`, `b ∈ {0, 1, 2, 3, 4}`, and `(2 + i, 0; 0, 1)`.
 At a principal prime dividing the level, U_𝔭 has just the first N𝔭 cosets.
+
+- Principal good-prime cosets give the N𝔭+1-term slash sum; principal bad-prime cosets give the N𝔭-term sum.
+- The action is a ring homomorphism, and its operator image is the abstract generated subalgebra modulo its action kernel.
+- Scalar extension compares the integral, rational and complex actions; it does not assert faithfulness.
 
 **Checks.**
 
@@ -976,6 +1148,11 @@ At a principal prime dividing the level, U_𝔭 has just the first N𝔭 cosets.
 - At level (π) the degree is 5; diag(π,1) is absent because its upper-left entry
   vanishes modulo π, unlike every matrix in Γ diag(1,π) Γ.
 - The identity correspondence has degree 1, independently of the chosen representatives.
+- At Gaussian unit level H¹ = 0. The abstract identity basis vector has coefficient 1
+  on its double coset, but its operator is 0; the image and the quotient by its
+  annihilator are the zero ring.
+- For a nonunit π the scalar cosets [πI] and [I] are distinct, while both act as 1
+  on weight-two forms. Their difference is another kernel element.
 
 *Needs:* §4.1 lattice correspondences; §4.2 restriction and transfer.
 
@@ -1015,6 +1192,10 @@ eigenvalue normalization read classically. The **`hecke_eigs`** column is the ei
 eigenvalue at `𝔭 ∣ 𝔫` included (for `2.0.4.1-100.2-a` its first entries are `0` at `(1 + i)`,
 where `(1 + i)² ∣ 𝔫`, and `−1, −1` at `(2 ± i)`); the newform page's eigenvalue table omits the
 primes dividing the level, and the ordering of the list is a label matter.
+
+- On a normalized analytic eigenform the arithmetic prime coefficient is its Hecke eigenvalue, including U at bad primes.
+- Coprime multiplicativity and the respective good/bad recurrences determine all ideal coefficients from c(𝓞_K) = 1.
+- Membership in the central-invariant subspace is part of the eigenform condition.
 
 **Checks.**
 
@@ -1058,6 +1239,9 @@ Hecke algebra and so has real eigenvalues by 4.6), and define the **dimension** 
 generated by the `a_𝔭` with `𝔭 ∤ 𝔫`, `dimension := Module.finrank ℚ (heckeField F)`, and
 `IsRational F := heckeField F = ⊥`). A **rational newform** is one with `ℚ(F) = ℚ`;
 its eigenvalues are rational integers in `[−2√N𝔭, 2√N𝔭]`.
+
+- The good-prime eigenvalues generate a finite totally real field, with rationality equivalent to degree one.
+- A rational eigenvalue is integral and satisfies the Ramanujan bound; on newforms the bad eigenvalues add no field generators.
 
 **Checks.**
 
@@ -1131,6 +1315,9 @@ formula is the specialization of ArithmeticLocallySymmetricSpaces ALS.3.14 to cy
 *Needs:* §0.2 level pairs; §1.6 coefficient maps; §2.6 metric; §3.3 equivariance;
 ArithmeticLocallySymmetricSpaces ALS.3.6 and ALS.3.14.
 
+- Every intermediate quotient has the required index, and each degeneracy map is equivariant with the stated Steinitz shift.
+- Pullback and trace are adjoint at weight two and commute with good-prime Hecke operators away from the raised level.
+
 **Checks.**
 
 - For 𝔢 = 𝓞_K, M_𝔢 = L and the degeneracy map forgets part of the level.
@@ -1151,8 +1338,19 @@ for the GL₂ total space; the SL₂ comparison retains the determinant markings
 Prove the GL₂ dimension relation
 `dim H¹_cusp(𝔫) = ∑_{𝔪 ∣ 𝔫} #{𝔢 ∣ 𝔫𝔪⁻¹} · dim H¹_new(𝔪)`, the injectivity of
 `⊕_𝔢 β_𝔢^*` on the new space of each lower level (the Bianchi Main Lemma: a form all of whose
-coefficients `c(𝔪)` with `𝔪` coprime to `𝔫` vanish is old), stated and proved as the Atkin–Lehner
-argument transported through 4.4.
+coefficients c(𝔪) with 𝔪 coprime to 𝔫 vanish is old).
+Use §3.1 adelization, §3.4 for higher coefficients, and the local dimension formula
+max(0,r−c(π)+1) of AutomorphicLFunctionsAndLocalFactors §AL.2.2.4
+(Casselman, Theorem 1, p.302; Corollary to the Proof, p.306), with the
+normalized Whittaker vectors of §AL.2.2.5. Their translated vectors give the
+r−c(π)+1 independent degeneracy images. Tensor over the finite places and use
+GL2AutomorphicRepresentationsAndTransfer R16.4 multiplicity one. The Main Lemma
+then follows from this decomposition and Fourier uniqueness; it is not an
+unproved transfer of the rational Atkin–Lehner argument. Cremona §1, p.278,
+describes the oldclass multiplicity in the Euclidean Bianchi case.
+
+- The sum of degeneracy images and intersection of trace kernels are complementary, with orthogonality at weight two.
+- They are central-stable and Hecke-stable; the local newvector multiplicities give the displayed divisor-sum dimension formula.
 
 **Checks.**
 
@@ -1164,7 +1362,9 @@ argument transported through 4.4.
 - (reject) An old subspace built from the forgetful maps `β_{𝓞_K}^*` alone misses the second
   image above, and its complement with `H¹_new` fails.
 
-*Needs:* §5.1 degeneracy maps; §2.6 metric; GL2AutomorphicRepresentationsAndTransfer R16.2 local newvectors.
+*Needs:* §5.1 degeneracy maps; §2.6 metric; §§3.1 and 3.4 adelic comparison;
+§4.4 coefficients; AutomorphicLFunctionsAndLocalFactors §§AL.2.2.4–AL.2.2.5;
+GL2AutomorphicRepresentationsAndTransfer R16.4 multiplicity one.
 
 ### 5.3 Newforms, multiplicity one
 
@@ -1178,6 +1378,10 @@ eigenvector of the `U_𝔭` as well, and its bad eigenvalues are `a_𝔭² = 1` 
 classification, proved here through 4.4 and 5.2 as the modular-forms roadmap's Layer 4 proves it
 over `ℚ`). Prove that normalized new eigenlines span `H¹_new(𝔫, ℂ)^S` (§3.2's archimedean dimension one,
 local newvector dimension one at the conductor, and §4.6 semisimplicity).
+
+- A new eigensystem has a one-dimensional eigenspace and a unique arithmetic normalization.
+- Its bad-prime eigenvalues square to 1 at conductor exponent one and vanish at exponent at least two.
+- Normalized new eigenlines span the central-invariant newspace.
 
 **Checks.**
 
@@ -1205,7 +1409,7 @@ the elementary proof through 5.2's Main Lemma.
 For `𝔮 = 𝔭ᵉ ‖ 𝔫` define `W_𝔮` on pairs by the pinned formula and transport it to the total
 space (the targets atkinLehner, taking the exact-divisor hypothesis
 `∃ 𝔫', 𝔫 = 𝔮𝔫' ∧ 𝔮 ⊔ 𝔫' = ⊤` as an argument, and `fricke := W_𝔫`, whose hypothesis is the
-theorem `self_exactDivisor` of `Suggested.lean`) and prove: it is well defined
+elementary identity 𝔫 = 𝔫·1 with 𝔫 + 1 = 1) and prove: it is well defined
 (`M_𝔮/(𝔮L ∩ M_{𝔫'}) ≅ 𝓞_K/𝔫`), `GL₂(K)`-equivariant, moves the Steinitz class by `[𝔮]`,
 `W_𝔮² = S_𝔮` (`W_𝔮²(L, M) = (𝔮L, 𝔮M)`), which is the identity on `H¹_cusp(𝔫)^S` and, for
 principal `𝔮`, on the total space, but moves the components by `[𝔮]²` otherwise, `W_𝔮 W_𝔮' = W_𝔮' W_𝔮`
@@ -1216,8 +1420,13 @@ for `𝔮 = (Q)`, `W_𝔮 F = F ∣ (Qa, b; Nc, Qd)` with `Q²ad − Nbc ∈ Q �
 choice of `a, b, c, d` is part of the statement. All operators act on the GL₂ total space. On SL₂-level they act between the
 determinant-marked summands of §4.8; an identification with one summand retains its marking data.
 
+- The intermediate-lattice formula is equivariant and preserves the level-pair quotient.
+- Its square is S_𝔮, distinct exact factors commute, and their product is the Fricke operator.
+- On central invariants these are involutions; the matrix formula is independent of the chosen matrix satisfying its determinant condition.
+
 **Checks.**
 
+- For 𝔮 = 𝔫 the complementary divisor is 1, so 𝔫 + 1 = 1 and the exact-divisor condition holds.
 - For `h_K = 1` and `𝔫 = (N)` the Fricke operator is the slash by `(0, −1; N, 0)`, and
   `W_𝔮² = S_𝔮` is the identity on the whole total space.
 - Over `ℚ(√−23)` and a nonprincipal exact divisor `𝔮`, `W_𝔮²` carries the component of class `c`
@@ -1231,8 +1440,15 @@ determinant-marked summands of §4.8; an identification with one summand retains
 
 Prove that a newform is an eigenvector of every `W_𝔮` with eigenvalue `w_𝔮(F) ∈ {±1}` (5.3's
 multiplicity one and `W_𝔮² = S_𝔮 = 1` on `H¹_cusp(𝔫)^S`; the target alEigenvalue F 𝔮), that `w_𝔫(F) = ∏_𝔮 w_𝔮(F)`, and that `a_𝔭(F) = −w_{𝔭}(F)`
-for `𝔭 ‖ 𝔫` (the weight-two case of the bad-prime relation, through `U_𝔭 = −W_𝔭` on the new
-space at `𝔭 ‖ 𝔫`, proved from 5.5's conjugation law and 5.3). The **`AL_eigs`** column is the list
+for 𝔭 ‖ 𝔫. For this last identity, use the unramified Steinberg twist
+π_𝔭 = St ⊗ μdet, with μ² = 1: the arithmetic U eigenvalue is μ(ϖ) and the
+Atkin–Lehner matrix has eigenvalue −μ(ϖ). The latter is computed in the Iwahori
+line: summing the q+1 translates into the spherical level gives 0 because St
+has no spherical vector, and isolates U+W. This fixes the minus sign, rather
+than inferring it from the involution alone. The local representation and conductor
+inputs are GL2AutomorphicRepresentationsAndTransfer §§R16.2.1 and R16.3.2
+(Casselman, principal/special case p.305, as located in R16.2.1); the q cosets
+are §4.3 and the trace is §5.1. The **`AL_eigs`** column is the list
 of `w_𝔭(F)` over the primes `𝔭 ∣ 𝔫`, where `w_𝔭` means `w_𝔮` for the exact divisor `𝔮 = 𝔭ᵉ`.
 The **sign** is `ε(F) := −w_𝔫(F)`, minus the Fricke eigenvalue (the target sign).
 
@@ -1246,7 +1462,8 @@ The **sign** is `ε(F) := −w_𝔫(F)`, minus the Fricke eigenvalue (the target
 - (reject) The sign is not `+w_𝔫`: for `100.2-a` that would give `−1`, against root number `+1`
   and analytic rank `0`.
 
-*Needs:* §5.3 new multiplicity one; §5.5 involutions and newvector action.
+*Needs:* §4.3 cosets; §5.1 trace; §5.3 new multiplicity one; §5.5 involutions;
+GL2AutomorphicRepresentationsAndTransfer §§R16.2.1 and R16.3.2 Steinberg twist.
 
 ### 5.7 Galois conjugates and real newforms
 
@@ -1261,6 +1478,10 @@ eigenvalues are real), so no "dual" column exists for Bianchi newforms, and that
 **Galois-conjugate form** `F^τ` under `τ : K → K` complex conjugation (`c(𝔪, F^τ) = c(τ𝔪, F)`,
 level `τ𝔫`) is a newform of level `τ𝔫`, equal to `F` when `F` is a base change (7.3).
 
+- Coefficient embeddings give unique conjugate newforms and transport their Hecke fields.
+- The orbit has size the coefficient-field degree, and each rational Atkin–Lehner sign is fixed.
+- Conjugating the base field transports level and ideal coefficients, while complex conjugation of the coefficients fixes a trivial-central-character form.
+
 **Checks.**
 
 - For rational eigenvalues the coefficient-field orbit has size 1.
@@ -1271,32 +1492,63 @@ level `τ𝔫`) is a newform of level `τ𝔫`, equal to `F` when `F` is a base 
 
 ### 5.8 Rational extension of the symbol pairing
 
-For a rational cuspidal new eigensystem a on the total module, prove there is a rational
-Hecke polynomial q such that q annihilates the boundary quotient of the relative module
-M = ⊕ M_Γ of §3.5 and q(a) ≠ 0. Then q(T)m lies in C = ⊕ C_Γ for every m ∈ M,
-and evaluation on a new eigenclass v satisfies ⟨q(T)m,v⟩ = q(a)⟨m,v⟩.
-The pairing on the right is integration of the associated rapidly decreasing harmonic
-form. Prove its agreement with this rational extension; after multiplying q by an integer,
-the numerator is integral for m and v in the image lattices of §1.6 and §3.5.
+Let M = ⊕_Γ H₁(X_Γ,∂X_Γ;ℚ) and C = ⊕_Γ C_Γ as in §3.5, at fixed level 𝔫,
+and let B = M/C = im(∂) ⊂ ⊕_Γ H₀(∂X_Γ;ℚ). For a rational cuspidal new
+eigensystem a of trivial central character, construct a polynomial Q in finitely many
+good-prime Hecke operators, with rational coefficients, annihilating B and with Q(a) ≠ 0.
+Here the boundary quotient is degree-zero cusp homology; it is not the whole boundary
+cohomology or a residual non-Eisenstein localization.
 
-Use the Eisenstein description of boundary eigensystems and strong multiplicity one to
-separate them from the cuspidal system, then a polynomial projector in the finite rational
-Hecke algebra. This owns the Bianchi relative-symbol specialization; the generic boundary
-and automorphic separation results remain with their suppliers (Şengün §3, pp.7–8,
-and §4, pp.11–12; Cremona §1, pp.276–279, for periods in class number one).
+- Compute its Hecke action from §0.4's cusp orbits and §4.2's transpose correspondence.
+  Over a finite character splitting field, each simultaneous eigencharacter on the
+  full cusp H₀ has value N𝔭·χ₁(𝔭)+χ₂(𝔭) off a finite set, for finite-order
+  ray class characters χ₁,χ₂; B has a subset of these eigencharacters.
+  The two diagonal translations act on the finite Levi cusp sets as commuting
+  permutations; describe each finite set as a quotient of ray class groups at its
+  transported level and decompose its rational permutation module after adjoining
+  the requisite roots of unity. The coefficients N𝔭 and 1 are the full unnormalized spherical
+  Satake transform. Obtain this from ArithmeticLocallySymmetricSpaces ALS.4.2–4.3
+  (Newton–Thorne, arXiv:1511.04913v1, Lemma 2.4(1), pp.9–10,
+  and Proposition 3.4, p.29),
+  using every transported Levi level. Pass to a neat finite cover and descend by
+  the finite deck group over ℚ. The passage to finite ray class characters is the
+  GL₂/K degree-zero specialization, using GlobalNumberFields Layers 2 and 9.
+- Separate the boundary spectrum from a using §4.6: choose a prime off this finite
+  set and the level with q = N𝔭 ≥ 7. Each boundary eigenvalue β has
+  |β| ≥ q−1 > 2√q ≥ |a_𝔭|, since |χᵢ(𝔭)| = 1. Set Q(X) to the characteristic
+  polynomial of T_𝔭 on B over ℚ. Cayley–Hamilton gives Q(T_𝔭)B = 0 and
+  separation gives Q(a_𝔭) ≠ 0. If B = 0 use Q = 1. This supplies a polynomial
+  for every level and every rational cuspidal new eigensystem; the auxiliary prime
+  used in the proof does not restrict the all-prime Hecke module.
+- Define relative evaluation by ⟨m,v⟩ = ⟨Q(T)m,v⟩/Q(a) for v in the a-eigenline
+  and m ∈ M. Prove agreement with integration of the rapidly decreasing harmonic
+  representative from §3.2, using Hecke equivariance and Q(T)m ∈ C. It is therefore
+  independent of Q. After clearing the polynomial's coefficients, its numerator
+  is integral on the image lattices of §§1.6 and 3.5; no assertion of integral
+  invertibility of Q(a) is made.
+
+The generic compactification and parabolic Hecke action are supplied; the finite cusp
+module, its spectral estimate and this relative pairing are the Bianchi specialization
+(Cremona §2.2, Theorem 2, pp.283–284, for the Euclidean symbol model;
+Şengün §4, pp.11–12, for correspondence and duality conventions).
 
 **Checks.**
 
-- If the boundary action is scalar q+1, T−(q+1) kills it and a−(q+1) ≠ 0 by
-  |a| ≤ 2√q < q+1, since q ≥ 2.
-- If it swaps two components with degree q+1, the eigenvalues are ±(q+1).
-  T−(q+1) fails on the negative eigenspace; T²−(q+1)² kills both.
-- At q = 2 and a = 0 the latter polynomial evaluates to −9, giving a nonzero
-  denominator; q = 1 would make the strict bound fail and is not a residue-field size.
+- For scalar boundary action q+1, X−(q+1) annihilates B and
+  |a| ≤ 2√q < q+1 gives a nonzero evaluation for q ≥ 2.
+- For B = 3·(0,1;1,0), B²−9I = 0, but B−3I has eigenvalue −6.
+  At a = 0 the quadratic polynomial evaluates to −9 ≠ 0 over ℚ.
+- At q = 7, every boundary eigenvalue has absolute value at least 6, whereas
+  2√7 < 6; at q = 2 the bound 1 < 2√2 is insufficient, explaining the
+  auxiliary-prime choice. If χ₁ = χ₂ = −1 the boundary eigenvalue is −(q+1),
+  so a single factor X−(q+1) does not suffice in general.
+- Modulo 3 the denominator −9 is 0; the rational pairing has no such residual claim.
+- For B = 0, Q = 1 and Q(a) = 1, so relative evaluation is the existing pairing on C.
 
-*Needs:* §3.5 relative module and cuspidal quotient; §4.1 Hecke maps; §5.3 rational
-new eigenline; ArithmeticLocallySymmetricSpaces ALS.4.12 Eisenstein boundary;
-GL2AutomorphicRepresentationsAndTransfer R16.4 strong multiplicity one.
+*Needs:* §0.4 cusp orbits; §1.6 rational lattices; §3.5 relative module;
+§4.2 transpose Hecke maps; §4.6 bound; §5.3 rational new eigenline;
+ArithmeticLocallySymmetricSpaces ALS.4.1–4.3 boundary and parabolic action;
+GlobalNumberFields Layers 2 and 9 finite ray class characters.
 
 ### Examples
 
@@ -1304,17 +1556,28 @@ The two degeneracy images of 121.1-a span a two-dimensional oldspace (§5.2).
 
 ### Dependencies
 
-Layers 3–4; ArithmeticLocallySymmetricSpaces ALS.3.6, ALS.3.14 and ALS.4.12; GL2AutomorphicRepresentationsAndTransfer R16.4.
+Layers 3–4; ArithmeticLocallySymmetricSpaces ALS.3.6, ALS.3.14 and ALS.4.1–4.3; GL2AutomorphicRepresentationsAndTransfer R16.4.
 
 ## Layer 6: `L`-functions, sign, analytic rank, `L`-ratio
 
 ### 6.1 The Dirichlet series and the Euler product
 
-For a newform `F` define `a_n := ∑_{N𝔪 = n} c(𝔪, F)` (a finite sum over
-`Ideal.finite_setOfPred_absNorm_eq`; the target dirichletCoeff) and
-`L(F, s) := LSeries a s` (the target LFunction, Mathlib's `LSeries` of these coefficients). Prove the trivial bound `c(𝔪) = O(N𝔪)` from cuspidality (Hecke's
-argument on the Fourier–Bessel expansion), hence absolute convergence for `Re s > 2`, and
-`c(𝔪) = O(N𝔪^{1/2 + ε})` with convergence for `Re s > 3/2` from the Ramanujan bound of 4.6. Prove
+For a newform F specialize `TauCeti.normCoeff` to its ideal arithmetic coefficient
+function, so `a_n = ∑_{N𝔪 = n} c(𝔪,F)` by `TauCeti.normCoeff_eq_sum_normFiber`
+(the Bianchi specialization dirichletCoeff), and define
+`L(F, s) := LSeries a s` (the target LFunction, Mathlib's `LSeries` of these coefficients).
+Prove |c(𝔭ʳ)| ≤ (r+1)N𝔭^(r/2) off the level by factoring the recurrence
+polynomial, whose two roots have absolute value √N𝔭; at bad primes use
+|a_𝔭| ≤ 1. Multiplicativity gives |c(𝔪)| ≤ d(𝔪)N𝔪^(1/2), where d counts
+ideal divisors. Consequently c(𝔪) = O(N𝔪^(1/2+ε)) for every ε > 0, hence
+also O(N𝔪), and the series converges absolutely for Re s > 3/2 (in particular
+for Re s > 2). Use the ideal-divisor Euler product ζ_K(t)² for t > 1, or
+its elementary divisor bound. The Ramanujan input is §4.6, namely
+ModularityAndLanglandsExtensions §4.40 (BCGNT, arXiv:2309.15880v3,
+Theorem E, p.10). For the divisor majorant write d(𝔪) as the number of
+factorizations 𝔪 = 𝔞𝔟 and apply
+`TauCeti.summable_absNorm_rpow_ideal_iff` twice at t = Re s−1/2 > 1;
+then regroup by norm using the supplied `TauCeti.regroupByNorm`. Prove
 the Euler product
 
 ```text
@@ -1323,16 +1586,23 @@ L(F, s) = ∏_{𝔭 ∤ 𝔫} (1 − a_𝔭 N𝔭^{−s} + N𝔭^{1 − 2s})^{�
 
 on `Re s > 2`, from 4.4's recurrences.
 
+- The finite norm sums define the Dirichlet coefficients and recover the ideal-indexed series in its half-plane of absolute convergence.
+- Multiplicativity gives the displayed Euler factors at every prime; the Ramanujan and divisor bounds give absolute convergence for Re s > 3/2.
+
 **Checks.**
 
 - For `121.1-a` over `ℚ(i)`: `a_1 = 1`, `a_2 = c((1+i)) = −2`, `a_3 = 0` (no ideal of norm `3`),
   `a_5 = c((2+i)) + c((2−i)) = 2`, `a_9 = c((3)) = −5`.
 - Its Euler factor at `(3)` is the inverse of `1 + 5 · 9^{−s} + 9^{1−2s}`, and at `(11) ∣ 𝔫`
   the inverse of `1 − 121^{−s}`.
+- If a = 2√q the repeated-root recurrence gives c(𝔭ʳ) = (r+1)q^(r/2):
+  for r = 0,1,2 these are 1, 2√q, 3q. Thus distinct Satake roots are not required.
 - (reject) The `L`-function does not determine the form: `2.0.7.1-44.3-a` and its conjugate
   `2.0.7.1-44.4-a` have the same `a_n`, since `N(τ𝔪) = N𝔪`.
 
-*Needs:* §4.4 coefficient recurrence; §4.6 Ramanujan bound; Mathlib LSeries.
+*Needs:* §4.4 coefficient recurrence; §4.6 Ramanujan bound; §5.3 bad eigenvalues;
+TauCeti.summable_absNorm_rpow_ideal_iff;
+TauCeti.regroupByNorm and TauCeti.LSeriesSummable_normCoeff; Mathlib LSeries.
 
 ### 6.2 The Mellin transform along the geodesic
 
@@ -1342,7 +1612,9 @@ For `h_K = 1` prove, on `Re s > 2`,
 ∫₀^∞ F₂(0, y) y^{2s − 3} dy = (w_K / 4) · Γ(s)² · (√|d_K| / 2π)^{2s} · L(F, s),
 ```
 
-from `∫₀^∞ K₀(λy) y^{s−1} dy = 2^{s−2} λ^{−s} Γ(s/2)²` and the expansion 2.4 (the sum over
+from MaassForms §2.1(v), specialized to ν = 0:
+`∫₀^∞ K₀(λy) y^{s−1} dy = 2^{s−2} λ^{−s} Γ(s/2)²`, for Re s > 0 and λ > 0
+(DLMF 10.43.19, with the positive change of scale), and the expansion 2.4 (the sum over
 `α ≠ 0` counts each principal ideal `w_K` times). For general `h_K` prove the same identity
 component by component: `∑_{c} N𝔞_c^{s−1} ∫₀^∞ F₂^{(c)}(0, y) y^{2s−3} dy` equals the right-hand
 side, because the term `α ∈ 𝔞_c` has `N((α)𝔞_c⁻¹) = |α|² / N𝔞_c` and the arithmetic coefficient is c_𝔞(α)/N𝔞.
@@ -1351,13 +1623,19 @@ at s = 1 both are 1, so the component sum has no norm weights. Define
 `Λ(F, s) := (d_K² N𝔫)^{s/2} Γ_ℂ(s)² L(F, s)` and record
 `Λ(F, s) = (d_K² N𝔫)^{s/2} · (16 / w_K) · |d_K|^{−s} · ∑_c N𝔞_c^{s−1} ∫₀^∞ F₂^{(c)}(0, y) y^{2s−3} dy`.
 
+- The Mellin integral recovers the Dirichlet series on Re s > 2 with the displayed gamma and discriminant factors.
+- The norm-weighted component sum is independent of ideal representatives and determines the completed function on that half-plane.
+
 **Checks.**
 
 - For representative scaling by 2 and s = 1, the integral and norm weight both scale by 1.
 - For s = 2 they scale by 1/4 and 4, whose product is 1.
 - For s = 3 they scale by 1/16 and 16, whose product is 1; using exponent s would instead introduce a factor 4.
+- At ν = 0, μ = 2 and λ = 1, integration of the defining kernel gives
+  ∫₀∞ sech²(t)dt = 1 = 2⁰Γ(1)²; λ = 2 gives 1/4 on both sides.
+- At μ = ν = 0 the integral diverges near 0; the strip excludes this value.
 
-*Needs:* §2.4 expansion; §2.5 coefficient normalization; AutomorphicFormsOnReductiveGroups §4.5 Mellin transform of K₀.
+*Needs:* §2.4 expansion; §2.5 coefficient normalization; MaassForms §2.1(v) Mellin transform, Re μ > |Re ν|, specialized with ν = 0 and λ > 0.
 
 ### 6.3 The functional equation and the sign
 
@@ -1417,6 +1695,9 @@ half-plane of convergence), prove `Λ(F, ·) ≠ 0` so the order is finite, prov
 `L(F, 1) ≠ 0`; odd when `L(F, 1) = 0` and `ε(F) = −1`; `≥ 2` and even when `L(F, 1) = 0` and
 `ε(F) = +1`. The **`anrank`** display is a function of Lratio (6.6) and `sfe`. The exact rank,
 when positive, is a conditional datum of the database and is not a target.
+
+- The continuation is nonzero, so its central vanishing order is finite.
+- The parity of that order is its root number; order zero is equivalent to a nonzero central value.
 
 **Checks.**
 
@@ -1479,7 +1760,7 @@ A primitive global eigenvector (1,1) gives absolute period sum 2 under either si
 
 ### Dependencies
 
-Layers 3–5; AutomorphicFormsOnReductiveGroups §4.5; LFunctions Layer 0; GL2AutomorphicRepresentationsAndTransfer R16.4 and R17.4.3 for the base-change sign.
+Layers 3–5; MaassForms §2.1(v); LFunctions Layer 0; GL2AutomorphicRepresentationsAndTransfer R16.4 and R17.4.3 for the base-change sign.
 
 ## Layer 7: twists, base change, CM
 
@@ -1508,6 +1789,10 @@ and the **splitting dictionary**: for `𝔭 ∉ supp 𝔪`, `ψ(𝔭) = 1` exact
 roadmap's Layers 12 and 11). Checks: for `K = ℚ(√−7)` and `ψ = χ₅ ∘ N_{K/ℚ}`, `L_ψ = K(√5)` and the
 prime `(√−7)` (residue field `𝔽₇`, `5` not a square) is inert, `ψ((√−7)) = (5/7) = −1`; the
 trivial character is excluded because `N_1 = C_K` has class field `K`.
+
+- Twisting multiplies central character by ψ² and good-prime coefficients by ψ(𝔭); successive twists multiply their characters.
+- The trivial twist is the identity, and quadratic twists remain in the trivial-central-character newform carrier.
+- For a nontrivial quadratic ray character the class field has degree two, and its unramified splitting condition is ψ(𝔭) = 1.
 
 **Checks.**
 
@@ -1576,6 +1861,10 @@ inert primes have w_𝔭 = −1 (R17.4.3 retains the monodromy operator).
   the factor at (1+i), which has norm 2. Thus the ramified factor is retained.
 
 
+- The base-change relation determines a unique Bianchi newform when the classical form has no self-twist by χ_K.
+- Its cuspidal descents are f and f ⊗ χ_K, with the same all-place base change.
+- The Euler-product identity includes ramified places through Weil–Deligne restriction, and the base-change form is fixed by conjugation of K.
+
 **Checks.**
 
 - `121.1-a` is the base change of `11a1`: `a_{(3)} = (−1)² − 6 = −5`,
@@ -1603,6 +1892,9 @@ that are not base changes; its absolute value is 7.5's integer for `F` when `F` 
 and for a base change `F ⊗ ψ`, `ψ` quadratic, when `F` is a twist of one (the page's "twist of
 the base change of a form over `ℚ` with coefficients in `ℚ(√d)`").
 
+- Base change is equivalent to invariance under conjugation of K.
+- A quadratic twist of a base change need not itself be a base change; the two predicates give the stated sign distinction.
+
 **Checks.**
 
 - IsBaseChange holds for `121.1-a` and `100.2-a` (`bc = 1`).
@@ -1620,7 +1912,16 @@ For a base change `F` of `f` define `bcField F := CoefficientField f` (the modul
 Layer 8); prove it is independent of the choice of `f` (7.3's uniqueness: `f` and `f ⊗ χ_K` have
 the same coefficient field) and that `ℚ(F) ⊂ bcField F` with `[bcField F : ℚ(F)] ∈ {1, 2}`, the
 degree being `2` exactly when `f` has an inner twist by `χ_K` (`f ⊗ χ_K = f^σ`, `σ ≠ 1`), in which
-case `a_p(f) ∈ ℚ(F)` for split `p` and `a_p(f) ∈ √d · ℚ(F)` for inert `p`. The LMFDB's integer
+case, writing bcField F = ℚ(F)(√δ) for δ ∈ ℚ(F)× not a square,
+a_p(f) ∈ ℚ(F) for split good p and a_p(f) ∈ √δ·ℚ(F) for inert good p.
+To prove the field assertion, work in a normal closure of CoefficientField f:
+an automorphism fixes all base-change eigenvalues exactly when it carries f to
+f or f ⊗ χ_K, by the cuspidal fibre theorem of
+GL2AutomorphicRepresentationsAndTransfer §R17.4.6 (Langlands, §11,
+Lemma 11.6(b), p.205 of the IAS electronic transcription). The fixed-field theorem gives degree at most two;
+in degree two its nontrivial automorphism acts as χ_K(p) on a_p at good primes.
+Thus the ±1 eigenspaces are ℚ(F) and √δ·ℚ(F). This is a deduction from the
+supplied fibre theorem and coefficient conjugation, not an additional base-change theorem. The LMFDB's integer
 `|bc|` is `1` when `bcField F = ℚ` and the squarefree `d > 1` with `bcField F = ℚ(√d)` when the
 field is quadratic (the knowl's "coefficients in `ℚ(√d)`"); the general statement is the field.
 Check, the knowl's phenomenon of a classical newform with quadratic Hecke field whose base change
@@ -1629,13 +1930,23 @@ coefficient field `ℚ(√2)`, `a₃(f)² = 2` and `a₇(f)² = 8`, so `a_{(3)}(
 `a_{(7)}(F) = 8 − 14 = −6`, while `a₅(f) = 2`, `a₁₃(f) = 6` are rational; `bcField F = ℚ(√2)`,
 `ℚ(F) = ℚ`, and the LMFDB's `bc` is `2`.
 
+- The classical coefficient field is unchanged by the two possible descents.
+- Its degree over the Bianchi field is at most two, and degree two is equivalent to the specified nontrivial inner twist.
+- In the quadratic case, split and inert good-prime coefficients lie in the +1 and −1 eigenspaces of the relative field involution respectively.
+
 **Checks.**
 
 - `16384.1-d`: `bcField F = ℚ(√2)`, `ℚ(F) = ℚ`, `[bcField F : ℚ(F)] = 2`, `bc = 2`.
 - `121.1-a`: `bcField F = ℚ`, `bc = 1`; for `100.2-a` both `20a1` and `80b1` give `ℚ`.
+- In ℚ(√2), the involution sends √2 to −√2 and fixes 2; the eigenspaces are
+  ℚ and √2ℚ. For a general base field ℚ(F), the relative radicand δ belongs
+  to ℚ(F)× and need not be a rational squarefree integer.
 - `10000.1-b`: `|bc| = 5`, the field `ℚ(√5)` of the base change `F ⊗ ψ`.
 
-*Needs:* §7.3 uniqueness up to χ_K; §4.7 coefficient fields.
+*Needs:* §7.3 uniqueness up to χ_K; §4.7 coefficient fields;
+GL2AutomorphicRepresentationsAndTransfer §§R17.4.2 coefficient conjugation and
+R17.4.6 cuspidal fibres; ModularForms Layer 8G conjugate newforms;
+Mathlib finite Galois fixed-field correspondence.
 
 ### 7.6 CM forms
 
@@ -1654,6 +1965,9 @@ two complex places of `L_{ψ₁}` above that of `K` coincide (a finite-order cha
 trivial); but they are the archimedean Langlands parameter of `π_F`, which for the cohomological
 type of 3.2 is `z ⊕ z̄`, two distinct characters. This is why the classical `D₂` phenomenon of
 weight `1` does not occur here. The CM field `L_F := L_ψ` is therefore well defined.
+
+- Self-twist equality is equivalent to vanishing at primes where the quadratic character is −1, by strong multiplicity one.
+- Every nontrivial self-twist gives quadratic automorphic induction; the cohomological infinity type makes its nontrivial character unique.
 
 **Checks.**
 
@@ -1689,6 +2003,9 @@ descriptions `K(√d) = K(√(d d_K))` give the same `M`. The LMFDB stores a squ
 `ℚ(i)` is a non-Galois quartic field (`(1 − 2i)/(1 + 2i) = (1 − 2i)²/5` is not a square in
 `ℚ(i)`), so no weight-two Bianchi newform has CM by it.
 
+- The inducing field is biquadratic over ℚ with a unique imaginary quadratic subfield distinct from K.
+- The CM discriminant is that subfield discriminant and is unchanged by replacing d with dd_K in the same quadratic extension of K.
+
 **Checks.**
 
 - `cmDiscriminant F = −35` for `2.0.7.1-10000.1-b`, displayed `−35` since `−35 ≡ 1 mod 4`.
@@ -1723,6 +2040,9 @@ an integral model `W : WeierstrassCurve (𝓞 K)`, where "`𝔭` good for `W`" i
 (the targets IsModularBy, HasEllipticCurve), and prove that `IsModularBy F_E W` holds for every
 integral model of `E` (good primes of a non-minimal model are good primes of the curve).
 
+- The modular newform of a geometrically non-CM curve has rational coefficients, its conductor as level, and the matching good-prime Frobenius traces.
+- The trace equality holds for every integral model at each prime where that model has good reduction.
+
 **Checks.**
 
 - `121.1-a` is modular by `11a1 ×_ℚ K`: `a_{(1+i)} = a₂(11a1) = −2` and, over `𝔽₉`,
@@ -1747,6 +2067,9 @@ converse to 8.1 — that every rational newform has an elliptic curve or a QM ab
 a conjecture (the knowls `mf.bianchi.2.0.4.1-34225.3-a.top` and `mf.bianchi.2.0.7.1-10000.1-b.top`
 exhibit rational newforms with no elliptic curve), and is not stated as a target; `0` is a
 database state, not a theorem.
+
+- A matching elliptic curve forces rationality of the newform.
+- Matching traces at almost all primes determine the isogeny class, while rationality alone does not imply existence.
 
 **Checks.**
 
@@ -1814,7 +2137,22 @@ class-number-one `K`. The check in the worked examples is `M = ℚ(√−35)` ov
 order of `M` has class number at least `h(−35) = 2` (`Pic 𝒪 → Pic 𝓞_M` is onto), so no curve
 exists.
 
-*Needs:* §7.6 induction; §7.7 CM field; EllipticCurves Layer 1 complex multiplication.
+The degree and conjugation statements are the CM dictionary of
+ImaginaryQuadraticClassNumber §H3.1; the thirteen orders are §H3.6, and the
+Picard surjection for nonmaximal orders is §H1.4. Only the deduction from j(E) ∈ K
+is made here.
+
+**Checks.**
+
+- At discriminant −35 the reduced forms (1,1,9) and (3,1,3) give h = 2.
+  Both classes are their own inverses, so both j-values are real of degree 2;
+  neither generates a subfield of an imaginary quadratic K.
+- At discriminants −3 and −4, h = 1 and j = 0 and 1728 respectively, so j ∈ ℚ ⊂ K.
+- The order of conductor 2 in ℚ(i) has discriminant −16 and Picard number 1;
+  restricting the thirteen-order assertion to maximal orders would miss it.
+
+*Needs:* §7.6 induction; §7.7 CM field; EllipticCurves Layer 1 CM vocabulary;
+ImaginaryQuadraticClassNumber §§H1.4, H3.1 and H3.6.
 
 ### 8.5 Local data agreement
 
@@ -1840,7 +2178,7 @@ The two CM curves at the prime above 13 have traces 7 and 5, excluding a quadrat
 
 ### Dependencies
 
-Layers 5–7; EllipticCurveModularityImaginaryQuadratic endpoint imaginary_quadratic_modularity; EllipticCurves Layers 0.5, 1, 3 and 4.
+Layers 5–7; EllipticCurveModularityImaginaryQuadratic endpoint imaginary_quadratic_modularity; EllipticCurves Layers 0.5, 1, 3 and 4; ImaginaryQuadraticClassNumber §§H1.4, H3.1 and H3.6.
 
 ## Layer 9: modular symbols and fundamental domains
 
@@ -1917,9 +2255,9 @@ complex cohomology or its cusp-restriction kernel.
 
 ### 9.4 The Bianchi fundamental domains
 
-For each of the nine class-number-one fields determine 0.3's Bianchi domain `F_K` explicitly:
-`P_K` folded by the rotations of order `w_K / 2` for `d_K ∈ {−3, −4}` is a fundamental domain for
-`PSL₂(𝓞_K)` on its own (one cusp class), and the deliverable is the finite list of hemispheres
+For each of the nine class-number-one fields determine §0.3's folded Ford region F_K
+explicitly, using Q_K, the fundamental sector for translations and rotations of order w_K/2.
+It is a fundamental region for PSL₂(𝓞_K) with one cusp class, and the deliverable is the finite list of hemispheres
 `S_{c,d} = {|cx + d|² + |c|² y² = 1}` that carry a face of the floor, with 0.3's bound `B_K` made
 explicit. Prove the
 **Euclidean case**: for `d_K ∈ {−3, −4, −7, −8, −11}` the floor consists of unit hemispheres
@@ -1939,7 +2277,7 @@ and more for `d = 163`; prove the resulting face incidences and fundamental-doma
 ### 9.5 Covolumes and the two consumed domains
 
 Record, as acceptance tests of 9.4 against the Kleinian-groups roadmap, that integrating `volume`
-over `F_{ℚ(i)}` gives `catalanConstant / 3` and over `F_{ℚ(ω)}` gives `√3 L(2, χ₋₃) / 8`
+over the folded region `F_{ℚ(i)}` gives `catalanConstant / 3` and over `F_{ℚ(ω)}` gives `√3 L(2, χ₋₃) / 8`
 (that roadmap's `covolume_bianchiGaussian`, `covolume_bianchiEisenstein`), and that the domains
 of its Layer 2 for `Γ(2 + i)` and `Γ(3 + ω)` are tiled by `60`, respectively `168`, translates of
 `F_K` (its indices). For the other seven fields `covolume (PSL₂(𝓞_K)) = |d_K|^{3/2} ζ_K(2) / (4π²)`
@@ -2057,9 +2395,11 @@ labelling code; the index inside the label is not a target.
   `|c|² = 4` from `d = 19` on, `|c|² = 9` from `d = 43` on, `|c|² ∈ {16, 23}` at `d = 67`, and
   `|c|² ∈ {16, 25, 36}` at `d = 163`; the `ℚ(√−11)` vertex tangency of `|c|² = 4` and the
   `ℚ(√−43)` vertex tangency of `|c|² = 16`.
-- **Ramanujan and the `L`-ratio denominator** (4.6, 6.6): `|a_𝔭| ≤ 2√N𝔭 < N𝔭 + 1` for every `𝔭`,
-  so `T_𝔭 − N𝔭 − 1` is invertible on `H¹_cusp` and 6.6's rationality argument has a witness at
-  every prime; at `N𝔭 = 9` the bound is `|a_𝔭| ≤ 6`, not `2√3`.
+- **Ramanujan and the L-ratio denominator** (§§4.6, 5.8, 6.6): at a good prime of
+  norm 9 the cuspidal bound is |a_𝔭| ≤ 6, while each degree-zero boundary eigenvalue
+  has absolute value at least 8. The characteristic polynomial of the boundary action
+  annihilates that quotient and is nonzero at a_𝔭. A single factor X−10 is valid only
+  when the boundary action is the scalar 10.
 
 ### Boundary and off-hypothesis checks
 
@@ -2130,6 +2470,11 @@ labelling code; the index inside the label is not a target.
 - G. Boxer, F. Calegari, T. Gee, J. Newton and J. A. Thorne, *The Ramanujan and Sato–Tate
   conjectures for Bianchi modular forms*, Forum Math. Pi (2025) — §1.3 for the adelic definition
   and normalization of Bianchi eigenforms consumed through the Langlands-extensions roadmap.
+- W. Casselman, *On some results of Atkin and Lehner*, Math. Ann. 201 (1973),
+  301–314 — Theorem 1 and its corollary for local newvectors.
+- J. Newton and J. A. Thorne, *Torsion Galois representations over CM fields and
+  Hecke algebras in the derived category*, arXiv:1511.04913v1 — Lemma 2.4 and
+  Proposition 3.4 for the parabolic Hecke maps consumed in §5.8.
 - R. P. Langlands, *Base Change for GL(2)*, Ann. of Math. Studies 96 (1980) — quadratic base
   change and its cuspidality criterion, consumed through the `GL₂` automorphic representations
   roadmap (R17.4).
