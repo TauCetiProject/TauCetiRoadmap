@@ -10,7 +10,7 @@ Mathlib supplies natural isomorphisms, abstract Galois categories, affine finite
 
 Tau Ceti supplies all-degree finite-quotient cohomology, classwise killing on an open subgroup and positive-degree vanishing for the trivial group. They are in the Tau Ceti modules `RepresentationTheory/Homological/ContCohomology/FiniteQuotient/AllDegreeColimit`, `…/ContCohomology/ClosedSubgroup` and `…/ContCohomology/TrivialGroup`, which carry out TauCetiRoadmap.ProfiniteCohomology Layer 10. Layer 0 constructs continuous ordered nonabelian cocycles, their gauge quotient, compatible-pair maps, restriction, descent, inflation injectivity and compact-discrete finite-quotient surjectivity, followed by the categorical finite-colimit comparison, twisting, torsors, kernel-orbit calculus and central-H² comparisons. These are prerequisites for the algebra-valued coefficients in Layer 4.
 
-TauCetiRoadmap.ProfiniteArithmetic supplies continuous automorphism and outer-automorphism groups and outer actions. The centre-free extension comparison used here is the additional pullback identification, rather than a new outer-automorphism group. TauCetiRoadmap.PeripheralActions supplies generic peripheral power actions; Chen's good and symmetric paths below impose geometric normalization and inversion conditions on tangential paths. TauCetiRoadmap.AlgebraicCurves Layers 4, 7, 9 and 12 supply Riemann–Roch, Hurwitz, complete-DVR differentials and the function-field/scheme dictionary. TauCetiRoadmap.JacobianChallenge Layers A, B, D, E and F supply line bundles, coherent cohomology, Picard and Jacobian schemes, abelian-variety theory and Abel–Jacobi maps. TauCetiRoadmap.AlgebraicVectorBundles Layers 0A and 0B supply coherent and locally free sheaves and their tensor operations.
+TauCetiRoadmap.ProfiniteArithmetic supplies continuous automorphism and outer-automorphism groups and outer actions. The centre-free extension comparison used here is the additional pullback identification, rather than a new outer-automorphism group. TauCetiRoadmap.PeripheralActions supplies generic peripheral power actions; Chen's good and symmetric paths below impose geometric normalization and inversion conditions on tangential paths. TauCetiRoadmap.AlgebraicCurves Layers 0, 4, 7, 9 and 12 supply the relative algebraic constant field of a curve, Riemann–Roch, Hurwitz, complete-DVR differentials and the function-field/scheme dictionary. TauCetiRoadmap.JacobianChallenge Layers A, B, D, E and F supply line bundles, coherent cohomology, Picard and Jacobian schemes, abelian-variety theory and Abel–Jacobi maps. TauCetiRoadmap.AlgebraicVectorBundles Layers 0A and 0B supply coherent and locally free sheaves and their tensor operations.
 
 SchemeAndStackFoundations §3.6 owns Picard torsors, and JacobianChallenge Layer D owns the obstruction from a relative Picard point to a line bundle. InverseGaloisAndArithmeticFundamentalGroups §IG.0.T1 and AbelianSchemesAndArithmeticModuli §A4.4 supply the finite-level curve–Jacobian and H¹/Tate-module comparisons; SchemeAndStackFoundations §4.15 owns stable pointed moduli and their level covers; its Layer 5 owns Chow groups, Chern classes, intersection, pushforward and pullback. These supply the portions of the reconstruction and correspondence arguments that require no general theory of motives. ArithmeticGaloisDuality R02.1, R02.2 and D7 own compact coefficient limits and arithmetic Hochschild–Serre; its R02.3.2 owns function-field reciprocity. Mixed extensions and Nekovář's p-adic heights are constructed in Layer 6, in the generality the quadratic Chabauty equations need; a general theory of height pairings on Selmer complexes is outside this roadmap.
 
@@ -60,10 +60,6 @@ The implementation interface consists of cocycle evaluation and extensionality, 
 
 [ArithmeticKTheory](../ArithmeticKTheory/README.md) §§3.2–3.4 supplies projective Steinberg-homology finite generation, finite generation of every K-group of a number ring, the rational ring-to-field comparison in degrees at least two, the Borel ranks and finiteness of positive even K-groups. Use its common Quillen K-groups: for a number field F, k≥2, rank K_(2k−1)(𝒪_F) is r₁+r₂ for odd k and r₂ for even k, while K_(2k−2)(𝒪_F) is finite. Layer 7 constructs the higher étale Chern comparison on these groups.
 
-### From FilteredLocalGaloisGroups
-
-What FilteredLocalGaloisGroups must provide (gap:local-galois-centre-free): for every finite extension `K/ℚ_p`, the quotient `G_K^m=G_K/G_K^{[m]}` of the absolute Galois group by the `m`-th term of its closed derived series has trivial centre for every `m≥2`, and `Z(G_K)=1`. §3.5 consumes the statement `Z(G_K)=1` as the base of its finitely generated induction; nothing about the filtration on `G_K` is used here.
-
 ### From the geometric source reductions
 
 ResolutionOfSingularitiesCharacteristicZero §§6.1–6.2 supplies smooth projective compactification of a smooth quasi-projective variety in characteristic zero. AffineMorseLefschetz §A5 supplies homotopy weak Lefschetz for a smooth projective complex hyperplane section; ComplexComparisonPartII §C6.2 supplies the finite-cover Riemann existence comparison. Together with SchemeAndStackFoundations §4.13's Bertini theorem and SF.2's geometric base-change and descent, these give the smooth hyperplane input to the higher-dimensional source reduction in Layer 3. The moving-pencil surjectivity for the pro-source is constructed there.
@@ -76,7 +72,7 @@ ResolutionOfSingularitiesCharacteristicZero §§6.1–6.2 supplies smooth projec
 
 **SF.2.** Use the étale site of a scheme, étale cohomology with its long exact sequences, the Leray spectral sequence, the field case, Hochschild–Serre for Galois coverings, exactness of finite pushforward and the colimit isomorphism for limits of quasi-compact quasi-separated schemes. The comparison `εⁿ` between continuous π₁-cohomology and étale cohomology, finite étale pushforward with its base change and descent along `k_s=colim k_i` are Layer 1 targets ([Comparison of continuous π₁-cohomology with étale cohomology](#13-étale-kπ1-for-a-class-of-coefficients), [Finite étale pushforward and limit descent of finite coefficients](#14-the-finite-cover-effacement-criterion)), proved there from the Stacks Project results they cite. Prime-field Künneth specializes EtaleCohomologyFoundations §F.2.6 (`VanishingCycles.etaleKunneth`). The étale cohomology of curves with `μ_n` coefficients is the Layer 1 target [Étale cohomology of curves with `μ_n` coefficients](#étale-cohomology-of-curves-with-μ_n-coefficients), from the Stacks Project.
 
-**SF.3–SF.5.** Use Picard torsors and rational divisor classes (§3.6), pullback of degree and genus under field extension for smooth proper geometrically connected curves (§§3.1–3.2). JacobianChallenge Layers D–F supply the Jacobian, Abel–Jacobi and Picard–Brauer obstruction. AbelianSchemesAndArithmeticModuli §A3.2 supplies n-torsion of order `n^(2g)` for n invertible. Connected finite étale covers preserve smoothness, affineness and properness by the finite-morphism and curve interfaces of SchemeAndStackFoundations Layers 0 and 3. Use stable pointed moduli, the universal curve and normal-crossing boundary charts, with fine universal families after a level structure of level `ℓ≥3` over `ℤ[1/ℓ]` (SF.4), and Chow groups, Chern classes, intersection, pushforward and pullback (SF.5). The action of divisor correspondences on `H¹⊗H¹` is the Layer 6 target [Divisor correspondences acting on `H¹⊗H¹`](#divisor-correspondences-acting-on-h¹h¹).
+**SF.3–SF.5.** Use Picard torsors and rational divisor classes (§3.6), pullback of degree and genus under field extension for smooth proper geometrically connected curves (§§3.1–3.2). JacobianChallenge Layers D–F supply the Jacobian, Abel–Jacobi and Picard–Brauer obstruction. AbelianSchemesAndArithmeticModuli §A3.2 supplies n-torsion of order `n^(2g)` for n invertible. Connected finite étale covers preserve smoothness, affineness and properness by the finite-morphism and curve interfaces of SchemeAndStackFoundations Layers 0 and 3. Section 4.9 supplies the theorem on formal functions and Stein factorisation (SF.4); §1.9 uses the factorisation, with the constant field of AlgebraicCurves Layer 0, to factor a connected proper smooth curve through its finite separable constant field, over which it is geometrically connected. Use stable pointed moduli, the universal curve and normal-crossing boundary charts, with fine universal families after a level structure of level `ℓ≥3` over `ℤ[1/ℓ]` (SF.4), and Chow groups, Chern classes, intersection, pushforward and pullback (SF.5). The action of divisor correspondences on `H¹⊗H¹` is the Layer 6 target [Divisor correspondences acting on `H¹⊗H¹`](#divisor-correspondences-acting-on-h¹h¹).
 
 ### From InverseGaloisAndArithmeticFundamentalGroups
 
@@ -5889,20 +5885,22 @@ Use [TauCetiRoadmap.ProfiniteProPGroups](https://github.com/TauCetiProject/TauCe
 
 #### Local Galois centre-freeness
 
-For `K/ℚ_p` finite, `Z(G_K)=1` is supplied by FilteredLocalGaloisGroups Layer 1, which owns the stronger statement that every quotient `G_K^m=G_K/G_K^{[m]}` by a term of the closed derived series has trivial centre for `m≥2`, with `Z(G_K)=1` as its corollary (`G_K` is prosolvable, so a central element of `G_K` is central in every `G_K^m`). This roadmap owns the finitely generated case: `Z(G_K)=1` for every finitely generated extension `K` of a finite extension of `ℚ_p`, by induction on an Artin-neighborhood tower. This input is established before Hom reconstruction over sub-p-adic fields.
+For `K/ℚ_p` finite, `Z(G_K)=1`; the same holds for every finitely generated extension `K` of a finite extension of `ℚ_p`, by induction on an Artin-neighborhood tower. This input is established before Hom reconstruction over sub-p-adic fields.
 
-Full absolute Galois groups; finitely generated extensions of a finite p-adic field, with the finite p-adic base case imported.
+Full absolute Galois groups; local finite p-adic K or finitely generated p-adic extension.
 
-For finitely generated extensions use the centre-free geometric kernel and the imported local base in the Artin-neighborhood induction: a central element of `G_K` maps to a central element of the base's Galois group, hence to the identity there, and lies in the centre-free geometric kernel of the tower's last step.
+For finite `K/ℚ_p` with residue cardinality `q`, the tame quotient `Gal(K^tm/K)≅Ẑ⋉∏_(ℓ≠p)ℤ_ℓ(1)`, Frobenius acting by `q`, has trivial centre, so a central element of `G_K` lies in the wild inertia group `G_(K^tm)`, which is pro-p. Local duality gives `H²(L,𝔽_p(1))=Br(L)[p]≅ℤ/p` for every finite extension `L` of `K`, and restriction along the unramified extension of `L` of degree `p` is multiplication by `p` on `Br(L)`, hence zero on `Br(L)[p]`; since `μ_p⊂K^tm`, the colimit over the finite subextensions of `K^tm/K` gives `H²(G_(K^tm),𝔽_p)=0`, so `G_(K^tm)` is a free pro-p group (ProfiniteProPGroups Layer 6 turns the vanishing into `cd_p≤1`, and its Layer 10 states Serre's criterion without finite generation, which `G_(K^tm)` lacks). Its `H¹` rank is infinite (the `H¹ rank` test below), so it is a nonabelian free pro-p group and centre-free, which kills a central element in the wild kernel. For finitely generated extensions use the centre-free geometric kernel and the local base in the Artin-neighborhood induction: a central element of `G_K` maps to a central element of the base's Galois group, hence to the identity there, and lies in the centre-free geometric kernel of the tower's last step.
 
 **Checks.**
 
-- Local Hom recovery needs the imported local case only; the sub-p-adic case depends on the already established finitely-generated reconstruction.
-- The local case is not reproved here: the tame-quotient and wild-inertia argument belongs to the supplier.
+- Local Hom recovery needs this local case only; the sub-p-adic case depends on the already established finitely-generated reconstruction.
+- Tame-quotient witness: a central element `(a,b)` of `Ẑ⋉∏_(ℓ≠p)ℤ_ℓ(1)` commutes with Frobenius only if `(q−1)b=0`, so `b=0`, and commutes with tame inertia only if `a` fixes every root of unity of order prime to `p`; these generate `K^ur`, so `a=0`. The computation is the same for `p=2` and `q=2`. A model with an abelian tame quotient would leave central inertia elements undetected.
+- `H¹ rank` test: for a finite subextension `L` of `K^tm/K`, `dim H¹(L,𝔽_p)≥[L:ℚ_p]+1` by the local Euler characteristic formula, and the kernel of restriction to `G_(K^tm)` has dimension at most two, `Gal(K^tm/L)` being topologically generated by two elements; so `dim H¹(G_(K^tm),𝔽_p)` is infinite. The free pro-p group of rank one, `ℤ_p`, is abelian with full centre: vanishing of `H²` alone does not give centre-freeness.
+- Unramified restriction: on `Br(L)≅ℚ/ℤ` restriction to a finite extension `L'/L` is multiplication by `[L':L]`, injective on `Br(L)[p]` when `p∤[L':L]`; only the degree-`p` unramified layer kills the class, as the sketch uses.
 
-The construction and its conventions follow [Shinichi Mochizuki](#reference-m99), Lemmas 15.6–15.7, author-copy pp. 79–80, for the finitely generated induction.
+The construction and its conventions follow [Shinichi Mochizuki](#reference-m99), Lemmas 15.6–15.7, author-copy pp. 79–80.
 
-Use [TauCetiRoadmap.ProfiniteProPGroups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ProfiniteProPGroups/README.md#layer-4-free-pro-p-and-pro-c-groups-on-finite-sets); [TauCetiRoadmap.ProfiniteCohomology](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ProfiniteCohomology/README.md#layer-10-continuous-cohomology-in-all-degrees); [EtaleCohomologyFoundations](../EtaleCohomologyFoundations/README.md) §F.0.A2 (the arithmetic exact sequence); [Centre-freeness of hyperbolic geometric kernels](#35-centre-freeness-of-the-geometric-and-local-galois-groups); [Artin towers give étale `K(π,1)` examples](#artin-towers-give-étale-kπ1-examples); Layer 1, étale `k(π,1)` schemes and arithmetic paths; [TauCetiRoadmap.ClassFieldTheory](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ClassFieldTheory/README.md#layer-5-local-coefficients-the-brauer-group-the-local-invariant-and-duality); [TauCetiRoadmap.LocalFieldsRamification](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/LocalFieldsRamification/README.md#layer-4-the-tame-quotient-of-the-absolute-galois-group); [Cofinal hyperbolic Artin neighbourhoods](#cofinal-hyperbolic-artin-neighbourhoods).
+Use [TauCetiRoadmap.ProfiniteProPGroups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ProfiniteProPGroups/README.md#layer-4-free-pro-p-and-pro-c-groups-on-finite-sets); [TauCetiRoadmap.ProfiniteProPGroups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ProfiniteProPGroups/README.md#layer-6-cohomological-dimension-of-pro-p-groups); [TauCetiRoadmap.ProfiniteProPGroups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ProfiniteProPGroups/README.md#layer-10-free-pro-c-groups-on-profinite-spaces); [TauCetiRoadmap.ProfiniteCohomology](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ProfiniteCohomology/README.md#layer-10-continuous-cohomology-in-all-degrees); [EtaleCohomologyFoundations](../EtaleCohomologyFoundations/README.md) §F.0.A2 (the arithmetic exact sequence); [Centre-freeness of hyperbolic geometric kernels](#35-centre-freeness-of-the-geometric-and-local-galois-groups); [Artin towers give étale `K(π,1)` examples](#artin-towers-give-étale-kπ1-examples); Layer 1, étale `k(π,1)` schemes and arithmetic paths; [TauCetiRoadmap.ClassFieldTheory](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ClassFieldTheory/README.md#layer-5-local-coefficients-the-brauer-group-the-local-invariant-and-duality); [TauCetiRoadmap.LocalFieldsRamification](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/LocalFieldsRamification/README.md#layer-4-the-tame-quotient-of-the-absolute-galois-group); [Cofinal hyperbolic Artin neighbourhoods](#cofinal-hyperbolic-artin-neighbourhoods).
 
 ### 3.6 Canonical relations
 
@@ -6342,7 +6340,7 @@ Sub-p-adic K with chosen embedding; full `G_K`, not its pro-p quotient.
 
 For continuous homomorphisms f,g over a surjective source projection and a centre-free base G, if `g(x)=a f(x) a⁻¹` for every x, then a lies in the target projection kernel. Projecting the conjugacy identity and using surjectivity makes the image of a central.
 
-For p-adic K use the tame quotient and cohomological freeness/nonabelianity of wild inertia. For finitely generated extensions induct with an Artin-neighborhood/free-curve sequence. If a central element acts nontrivially on a finite Galois extension generated by `α`, choose an elliptic curve with `j=α` and remove its origin. Over a finitely generated p-adic composite field, the punctured-elliptic Isom helper identifies this curve with its conjugate, forcing `α` to equal its moved value. Project the conjugacy relation to `G_K`; its surjective source forces the conjugator’s image to be central.
+For p-adic K and for finitely generated extensions of `ℚ_p` this is [Local Galois centre-freeness](#local-galois-centre-freeness) in §3.5: the tame-quotient and wild-inertia argument, then the Artin-neighborhood induction. If a central element acts nontrivially on a finite Galois extension generated by `α`, choose an elliptic curve with `j=α` and remove its origin. Over a finitely generated p-adic composite field, the punctured-elliptic Isom helper identifies this curve with its conjugate, forcing `α` to equal its moved value. Project the conjugacy relation to `G_K`; its surjective source forces the conjugator’s image to be central.
 
 **Checks.**
 
@@ -7018,7 +7016,7 @@ The API consists of the series, derivative, reflection and inversion identities 
 
 **Checks.**
 
-- The series has zero constant term and linear coefficient one, whereas `I_(01)=−z−z²/4−⋯` near 0. Thus `colemanDilogarithm=−I_(01)`; using the forward coefficient without the minus sign fails both the derivative and normalization.
+- The series has zero constant term and linear coefficient one, whereas `I_(01)=−z−z²/4−⋯` near 0. Thus `Li₂⁰=−I_(01)`; using the forward coefficient without the minus sign fails both the derivative and normalization.
 - For a root of unity `ζ` with `ζ≠1`, `log ζ=0`, and the inversion identity gives opposite dilogarithm values `at ζ` and `ζ⁻¹`.
 - If p≡1 mod 3, vanishing at the two primitive sixth roots is simultaneous; their nonzero values do not follow merely from either functional equation.
 
@@ -9001,8 +8999,6 @@ A theorem identifying all rational points from these equations assumes the state
 
 ## References
 
-**Shinichi Mochizuki.** The Geometry of the Compactification of the Hurwitz Scheme. Author copy of Publications of RIMS 31 (1995), 355–441; locators use the author copy’s printed pages. [Source](https://www.kurims.kyoto-u.ac.jp/~motizuki/The%20Geometry%20of%20the%20Compactification%20of%20the%20Hurwitz%20Scheme.pdf).
-
 #### Reference: m96
 
 **Shinichi Mochizuki.** The Profinite Grothendieck Conjecture for Closed Hyperbolic Curves over Number Fields. Journal of Mathematical Sciences, University of Tokyo 3 (1996), 571–627; publisher PDF. [Source](https://www.ms.u-tokyo.ac.jp/journal/pdf/jms030305.pdf).
@@ -9038,10 +9034,6 @@ A theorem identifying all rational points from these equations assumes the state
 #### Reference: soule
 
 **Christophe Soulé.** Éléments cyclotomiques en K-théorie. Astérisque 147–148 (1987), 225–257. [Source](https://numdam.org/item/AST_1987__147-148__225_0.pdf).
-
-#### Reference: weibel
-
-**Charles A. Weibel.** The K-book: An introduction to algebraic K-theory. AMS, 2013; author-hosted complete text, Chapter IV. [Source](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf).
 
 #### Reference: bianchi
 
@@ -9190,7 +9182,3 @@ A theorem identifying all rational points from these equations assumes the state
 #### Reference: yamashita-open
 
 **Go Yamashita.** p-adic étale cohomology and crystalline cohomology for open varieties, March 2003, §§1–2. [Source](https://www.kurims.kyoto-u.ac.jp/~gokun/DOCUMENTS/kyoto.pdf).
-
-#### Reference: conrad-kummer
-
-**Brian Conrad.** Chow's K/k-image and K/k-trace, and the Lang–Néron theorem, author manuscript, Theorem 7.1 and Corollary 7.2. [Source](https://math.stanford.edu/~conrad/papers/Kktrace.pdf).
