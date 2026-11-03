@@ -25,9 +25,10 @@ the number field and the Galois group of a Weil polynomial, irreducibility and f
 predicates, Weil powers with the polynomial twist relation and Weil roots (the polynomial side of base
 change), and the point-count sequences
 a Weil polynomial determines. None of this refers to an abelian variety. It is exactly the shape of the
-LMFDB's search space of isogeny classes of abelian varieties over finite fields (`av.fq`), and the
-downstream comparison with `AbelianVarietiesOverFiniteFields` uses the polynomial-level objects
-owned here; nothing from that roadmap is an input.
+LMFDB's search space of isogeny classes of abelian varieties over finite fields (`av.fq`): Layer 1
+is the polynomial-level supply for those invariants, offered by section (1.1–1.11) to the comparison
+of them with abelian varieties (`AbelianVarietiesOverFiniteFields`); nothing about abelian varieties
+is an input here.
 
 **Carrier.** Throughout the function-field layers: `k` and `F` are fields with `[Algebra k F]`,
 `[Finite k]`, `hF : TauCeti.IsFunctionField k F` and `hex : IsIntegrallyClosedIn k F` (exact
@@ -35,7 +36,7 @@ constants), both passed explicitly; `q := Nat.card k`; `g := TauCeti.genus k F`.
 Weil-polynomial layers: a natural number `q` and a polynomial `P : ℤ[X]`, with `IsPrimePow q`,
 `p := q.minFac` and `r := q.factorization p` assumed only where the Newton polygon needs them.
 
-**Suggested home.** `TauCeti/NumberTheory/FunctionField/Zeta/` for Layers 2, 3 and 5 (the Weil
+**Suggested home.** `TauCeti/NumberTheory/FunctionField/Zeta/` for Layers 2–4 (the Weil
 polynomial of a function field, the bounds, the comparisons), and
 `TauCeti/NumberTheory/WeilPolynomial/` for Layer 1 (the polynomial theory, which imports nothing
 from the function-field side). [`Suggested.lean`](Suggested.lean) states the headline theorems
@@ -58,10 +59,10 @@ Newton polygon and function-field zeta theory belong to the named suppliers belo
   relations among the `N_r`, and the maximal-curve criterion. The Riemann hypothesis for the roots
   of `L_F` and the Hasse–Weil bound themselves are consumed.
 - **Weil polynomials as combinatorics on `ℤ[T]`** (Layer 1): everything listed in the introduction.
-  This is the owner of the polynomial-level invariants used by an `av.fq` isogeny class.
-  The supply contract to `AbelianVarietiesOverFiniteFields` is 1.1–1.11; its geometric
-  comparisons use these constructions.
-- **Comparison contracts** (Layer 5) with Tau Ceti's elliptic-curve point counts, Hasse bound,
+  This is the polynomial-level supply for the invariants of an `av.fq` isogeny class: the contract
+  offered to the comparison with abelian varieties (`AbelianVarietiesOverFiniteFields`) is 1.1–1.11,
+  imported by section, with none of its objects defined a second time.
+- **Comparison contracts** (Layer 4) with Tau Ceti's elliptic-curve point counts, Hasse bound,
   supersingularity and zeta function, and between the two Weil-number predicates.
 
 ### Not owned here
@@ -74,16 +75,17 @@ Newton polygon and function-field zeta theory belong to the named suppliers belo
   `av.fq` *as statements about abelian varieties* — are the sibling roadmap
   `AbelianVarietiesOverFiniteFields` (its 5.4, 5.5 and 5.6 for the last six: which Weil polynomial
   is the `P_B` of an abelian variety is Honda–Tate, and base-change models and twists range over
-  realized classes only). It consumes `IsWeilPolynomial`, `IsWeilSymmetric`,
-  `realWeilPolynomial`, `pRank`, `IsOrdinary`, `IsSupersingular`, IsAlmostOrdinary,
-  `frobeniusAngles`, `angleRank`, `weilPower`, `weilPowerSum`, `virtualCurveCount`,
-  `virtualAbvarCount`, IsTwistOver, twistDegree, `weilRoots`, geometricExtensionDegree, the
-  factorization predicates of 1.9 and the number field and Galois group of 1.8 from here, and
-  proves that the Weil polynomial of an abelian variety has these invariants — including
-  Waterhouse's list of the traces of elliptic curves over `𝔽_{p^r}` and, through it, the agreement
-  of the geometric supersingularity of an elliptic curve with the coefficient criterion
-  `IsSupersingular q P_E` of 1.6 for `r ≥ 3` (5.1 proves the cases `r ≤ 2`, which are polynomial
-  identities). Nothing from that roadmap is an input here.
+  realized classes only). The polynomial-level objects those statements are made with —
+  `IsWeilPolynomial`, `IsWeilSymmetric`, `realWeilPolynomial`, `pRank`, `IsOrdinary`,
+  `IsSupersingular`, IsAlmostOrdinary, `frobeniusAngles`, `angleRank`, `weilPower`,
+  `weilPowerSum`, `virtualCurveCount`, `virtualAbvarCount`, IsTwistOver, twistDegree, `weilRoots`,
+  geometricExtensionDegree, the factorization predicates of 1.9 and the number field and Galois
+  group of 1.8 — are offered here by section. That the Weil polynomial of an abelian variety has
+  these invariants, including Waterhouse's list of the traces of elliptic curves over `𝔽_{p^r}`
+  and, through it, the agreement of the geometric supersingularity of an elliptic curve with the
+  coefficient criterion `IsSupersingular q P_E` of 1.6 for `r ≥ 3` (4.1 proves the cases `r ≤ 2`,
+  which are polynomial identities), is a statement about abelian varieties and belongs there.
+  Nothing from that roadmap is an input here.
 - **Étale cohomology and the cohomological route** to zeta functions and weights: the
   `CohomologicalPointCounting` family, `WeilConjectures` and `DeligneWeightsAndPurity`. The
   comparison of the zeta function with them is FunctionFieldArithmetic §5.4; nothing cohomological
@@ -138,7 +140,7 @@ Newton polygon and function-field zeta theory belong to the named suppliers belo
 | `has_jacobian`, `has_principal_polarization`, `size`, `is_cyclic`, `noncyclic_primes`, `curves`, `jacobian_count`, `hyp_count` | `AbelianVarietiesOverFiniteFields` (the counts as definitions: its 10.6); the stored `curves` list is not a target | — |
 | `av.fq.class_number_1` (the eight curves of class number one) | not owned here; the polynomial-level necessary conditions are 3.4 and 1.11 | — |
 | `g2c` good Euler factors (`g2c.good_lfactors`) | `HyperellipticCurves` (the reduction), reading the `L`-polynomial FunctionFieldArithmetic §5.3 attaches to the reduced curve's function field through 2.1 and 3.1 | *Downstream consumers* |
-| `ec` `a_p` | [EllipticCurves](../EllipticCurves/README.md) Layer 3 (Tau Ceti `frobeniusTrace`), identified with `q + 1 − N_1` here | 5.1 |
+| `ec` `a_p` | [EllipticCurves](../EllipticCurves/README.md) Layer 3 (Tau Ceti `frobeniusTrace`), identified with `q + 1 − N_1` here | 4.1 |
 
 ### Library boundary
 
@@ -187,7 +189,7 @@ non-exact constants is handled only by passing to its exact constant field).
    definition. A statement here about a constant extension takes a model `F' / k'`: `[Finite k']`,
    the scalar tower of Tau Ceti's `ConstantExtension/`, `constantCompositum F k' F' = ⊤`,
    `Module.finrank k k' = r`. (The merged [EllipticCurves](../EllipticCurves/README.md) roadmap pins
-   the fixed points of the `q`-power map as its model of `E(𝔽_{qⁿ})`; 5.2 reconciles the two.)
+   the fixed points of the `q`-power map as its model of `E(𝔽_{qⁿ})`; 4.2 reconciles the two.)
 4. **The zeta function** is FunctionFieldArithmetic §5.1's `zeta k F = ∑_{n ≥ 0} A_n(F) T^n ∈ ℤ⟦T⟧`,
    with that section's Euler product and logarithmic derivative; no zeta function is defined here.
 5. **`L`-polynomial and Weil polynomial.** `L_F ∈ ℤ[T]` is FunctionFieldArithmetic §5.3's polynomial
@@ -259,12 +261,12 @@ non-exact constants is handled only by passing to its exact constant field).
 13. **The elliptic convention.** For an elliptic function field (genus `1` with a degree-one place),
     `L_F = 1 − a T + q T²` with `a := q + 1 − N_1(F)`; this `a` is
     `WeierstrassCurve.frobeniusTrace` of any Weierstrass model, and `N_1(F)` is its `pointCount`
-    (5.1). Supersingularity of an elliptic curve is **not** `a = 0` (the two agree only for prime
+    (4.1). Supersingularity of an elliptic curve is **not** `a = 0` (the two agree only for prime
     `q ≥ 5`); it is `p ∣ a` ([EllipticCurves](../EllipticCurves/README.md) Layer 3). The `g = 1`
     case of item 9 is `a = 0 ∨ 2 v_p(a) ≥ r` for `q = p^r`, which is `p ∣ a` when `r ≤ 2` but not
     at the polynomial level in general: `T² − 2T + 8` has `2 ∣ 2` and slopes `1/3, 2/3`. The two
     agree on the trace of every elliptic curve (no elliptic curve over `𝔽_8` has trace `±2`), which
-    is 5.1's reconciliation.
+    is 4.1's reconciliation.
 
 ## Exact supplier contracts
 
@@ -343,7 +345,7 @@ The implementation of the
   irreducible curve `C / 𝔽_q`, by the Hodge index theorem on `C × C`, with its agreement with Tau
   Ceti's `WeierstrassCurve.hasse_bound` at `g = 1` (`weilBound_eq_hasse`). Applied to the constant
   extensions through FunctionFieldArithmetic §5.1's `pointCount_eq`, it is the Hasse–Weil bound for
-  every `N_r(F)`; Layer 3 and 5.1 consume it.
+  every `N_r(F)`; Layer 3 and 4.1 consume it.
 - From [NewtonPolygons](../NewtonPolygons/README.md): the Newton polygon of a polynomial for an
   additive valuation with an explicit normalisation (its Conventions 1–4 and §2.1), the finite slope
   multiset (§2.1, §3.3) and the product rule for slopes (§3.2). That roadmap names
@@ -357,13 +359,13 @@ The implementation of the
 - From [EllipticCurves](../EllipticCurves/README.md) Layer 3, as implemented in Tau Ceti:
   `WeierstrassCurve.pointCount` (all `k`-points of the projective Weierstrass model),
   `WeierstrassCurve.frobeniusTrace` `a_q = q + 1 − pointCount`, and the Hasse bound
-  `frobeniusTrace_sq_le_four_mul_card`. Layer 5 identifies these with `N_1(F)` and with the
+  `frobeniusTrace_sq_le_four_mul_card`. Layer 4 identifies these with `N_1(F)` and with the
   coefficient of `T` in `L_F` for the function field of an elliptic curve; the Hasse bound is then
   the `g = 1` case of the Hasse–Weil bound consumed above, and the proofs are reconciled, not
   duplicated. Its zeta function
   `WeierstrassCurve.zetaFunction : ℚ⟦X⟧` with `zetaRatFunc`, `logOf_zetaFunction` and
   `zetaFunction_eq_mul_inv`, and its model of record for `E(𝔽_{qⁿ})` as the fixed points of the
-  `q`-power map (both not at the pin, *Scope and ownership*), are the objects 5.2 compares
+  `q`-power map (both not at the pin, *Scope and ownership*), are the objects 4.2 compares
   with.
 - From the Deligne weights roadmap `DeligneWeightsAndPurity` (directory
   `TauCetiRoadmap/DeligneWeightsAndPurity/`): §0.1 `IsWeilNumber q n α` (algebraic over `ℚ`, every
@@ -383,7 +385,7 @@ The implementation of the
 ## How to read the build
 
 The polynomial theory is Layer 1; its definitions and identities feed the function-field
-translation in Layer 2, the arithmetic bounds in Layer 3, and the comparisons in Layer 5.
+translation in Layer 2, the arithmetic bounds in Layer 3, and the comparisons in Layer 4.
 Within Layer 1, construct the power operation of §1.10 before its angle-power application
 in §1.7; that operation uses only §1.1 and §1.4, not the angle theory. Each subsection
 lists its inputs, so independent results have independent proof routes.
@@ -426,11 +428,10 @@ dictionary, the LMFDB knowls named per milestone, Mathlib for the tools.
 Products of Weil `q`-polynomials are Weil `q`-polynomials; a **monic divisor in `ℤ[X]`** of a Weil
 `q`-polynomial is one (Gauss's lemma: `IsIntegrallyClosed.eq_map_mul_C_of_dvd`, so a monic factor over
 `ℚ` is over `ℤ`); the irreducible factors over `ℚ` of a Weil polynomial are Weil polynomials, and
-a monic `P` is Weil iff all its monic irreducible factors are; `P^{(r)}` (1.10) of a Weil `q`-polynomial is a
-Weil `q^r`-polynomial; `IsWeilPolynomial q P ⟺ IsWeilPolynomial (q^r) (weilPower hP r)` for `r ≥ 1`
-(the change-of-`q` statement, matching `DeligneWeightsAndPurity` §0.3).
+a monic `P` is Weil iff all its monic irreducible factors are. The change-of-`q` statement under
+Weil powers is 1.10's `isWeilPolynomial_weilPower_iff`, not restated here.
 
-*Needs:* §1.1; Mathlib `IsIntegrallyClosed.eq_map_mul_C_of_dvd`; §1.10 for the power-operation corollary only.
+*Needs:* §1.1; Mathlib `IsIntegrallyClosed.eq_map_mul_C_of_dvd`.
 
 ### 1.3 Finiteness
 
@@ -586,7 +587,7 @@ arbitrary `P` (LMFDB knowls `av.fq.p_rank`, `av.fq.ordinary`, `av.fq.supersingul
   `{0^{g−1},1/2,1/2,1^{g−1}}`, because no coefficient height in `(1/r)ℤ` lies strictly
   between `0` and `1/2`. For `r≥3`, slopes `1/3,2/3` may occur in the middle pair.
 - For `P=T²−aT+q`, supersingularity says `a=0` or `2v_p(a)≥r`. It is equivalent to
-  `p∣a` for `r≤2`, but not for arbitrary polynomial traces when `r≥3`; §5.1 compares
+  `p∣a` for `r≤2`, but not for arbitrary polynomial traces when `r≥3`; §4.1 compares
   this with the geometric criterion on elliptic curves.
 
 Define elevation, for a symmetric Weil polynomial of degree `2g`, as the number of
@@ -654,8 +655,10 @@ integer pairs `(x,y)` with `0≤x≤g`, `y≥0` and `y` strictly below the polyg
 
 Define `frobeniusAngles P` and `angleRank P` by convention 10. The stored angles
 use the upper-half-plane root multiset and divide arguments by `π`; the mathematical
-knowl `av.fq.frobenius_angles` describes arguments, while the intended storage comparison is record `1.4.ae`, field
-`angles` (uncertified locator). The root-multiset definition fixes the convention intrinsically.
+knowl `av.fq.frobenius_angles` describes arguments, while the storage comparison is the isogeny-class
+record `1.4.ae`, field `angles`, read through the LMFDB's `av_fq_isog` API, which stores
+`[0.0, 0.0]` (and `[0.0, 0.0, 1.0, 1.0]` for `2.2.a_ae`). The root-multiset definition fixes the
+convention intrinsically.
 
 - For a symmetric Weil polynomial of degree `2g` with `m` real roots,
   `2 · card (frobeniusAngles P) = 2g+m` (`card_frobeniusAngles`). Nonreal roots pair by
@@ -755,9 +758,9 @@ For monic Weil `P`, use the multiset of monic irreducible factors with multiplic
 - Squarefreeness means that every factor multiplicity is one; the unit polynomial
   has empty factor multiset and is squarefree, but is neither irreducible nor isotypic.
 
-These are the polynomial data used by the geometric decomposition of
-AbelianVarietiesOverFiniteFields: its `simple_distinct`, `simple_multiplicities`
-and `geom_squarefree` interfaces distinguish multiplicity from distinct factors.
+These are the polynomial data behind the `simple_distinct`, `simple_multiplicities` and
+`geom_squarefree` columns, which distinguish multiplicity from distinct factors; the geometric
+decomposition they describe is `AbelianVarietiesOverFiniteFields` 5.1 and 5.3.
 
 **Checks.**
 
@@ -827,8 +830,8 @@ of all root-of-unity ratios of nonzero roots, with empty lcm `1`; equivalently i
   of the finite subgroup generated by all torsion ratios, not the first exponent
   at which any two roots collide.
 
-The geometric interpretations are the downstream contracts to
-AbelianVarietiesOverFiniteFields §§5.3–5.6. For instance, `T²−2` is a polynomial
+The geometric interpretations are `AbelianVarietiesOverFiniteFields` §§5.3–5.6, to which these
+are the polynomial inputs offered. For instance, `T²−2` is a polynomial
 square root of `(T−2)²`, but it is not a realized abelian-variety characteristic
 polynomial over `𝔽₂` (AbelianSchemesAndArithmeticModuliPartII F3.2, Honda–Tate).
 Polynomial twist classes may contain unrealized members: `T²−2` and `T²+2`
@@ -894,7 +897,7 @@ have common fourth power `(T−4)²`.
 - The examples `2.2.ac_c`, `2.2.ad_f`, `3.2.ad_c_b` have degrees `12,6,7` respectively;
   `T²−T+2` and `2.2.ab_a` have degree `1`.
 
-*Needs:* §§1.1–1.5; Mathlib `AdjoinRoot.powerBasis'`, `Algebra.lmul`, `LinearMap.toMatrix`, `Matrix.charpoly`, `Matrix.trace`, splitting fields and cyclotomic degrees. The power construction uses no angles or function fields.
+*Needs:* §§1.1, 1.4 (§1.3 only for the finiteness of the twist class of a Weil polynomial); Mathlib `AdjoinRoot.powerBasis'`, `Algebra.lmul`, `LinearMap.toMatrix`, `Matrix.charpoly`, `Matrix.trace`, splitting fields and cyclotomic degrees. The power construction uses no closure property of §1.2, no angles and no function fields.
 
 ### 1.11 Point counts determined by a Weil polynomial
 
@@ -1077,8 +1080,13 @@ all `2g` roots: a pair of non-real conjugate roots with Frobenius angle `θ` (1.
 
 ### 3.2 Serre's bound
 
-`|N_1(F) − (q + 1)| ≤ g · ⌊2√q⌋` (`Nat.sqrt (4q)`; `serre_bound`); Serre 1983, Stichtenoth
-Theorem 5.3.1 (uncertified locator). A proof route is:
+`|N_1(F) − (q + 1)| ≤ g · ⌊2√q⌋` (`Nat.sqrt (4q)`; `serre_bound`); Serre, *Lectures on N_X(p)*,
+Theorem 4.10(a), p. 46 (for a monic integer polynomial of degree `n` whose roots are `q`-Weil
+integers of weight `1`, the coefficient `b_1` of `−T^{n−1}` satisfies `|b_1| ≤ n·m/2` with
+`m := ⌊2√q⌋`; here `n = 2g` and `b_1 = q + 1 − N_1(F)`) and §4.7.2.2, p. 48 (the bound
+`|N_X(q) − q − 1| ≤ g·m` for a smooth projective geometrically irreducible curve, with equality
+only when every root `α` satisfies `α² + mα + q = 0`); Serre 1983 and Stichtenoth Theorem 5.3.1
+state the same bound (uncertified locators). A proof route is:
 with `x_1, …, x_g` the roots of the real Weil polynomial `h_{P_F}` (1.4; `x_i = α_i + ᾱ_i =
 2√q cos(π θ_i)`, one per `α ↦ q/α`-orbit, so a real root `±√q` of multiplicity `2` gives one
 `x_i = ±2√q`) and `m := ⌊2√q⌋`, the numbers `m + 1 + x_i` and `m + 1 − x_i` are positive, and
@@ -1108,9 +1116,10 @@ The **necessary conditions for `P = P_F` for some `F`** are the elementary relat
 counts of FunctionFieldArithmetic §5.1, read through 2.2, for `r ≥ 1`: `N_r ≥ 0`; `d ∣ r ⟹ N_d ≤ N_r`
 (every place of degree dividing `d` has degree dividing `r`; a milestone here);
 `∑_{d ∣ r} μ(r/d) N_d ≥ 0` and `≡ 0 (mod r)` (that section's Möbius inversion: the sum is
-`r · a_r(F)`); `N_1 ≤ q + 1 + g ⌊2√q⌋` (3.2). The knowl `av.fq.curve_point_counts` rejects a
-class as "not a Jacobian" exactly when the first two fail; the worked example `2.2.a_ae` below is
-such a rejection. The converse (which symmetric Weil polynomials are `P_F` for a function field, or
+`r · a_r(F)`); `N_1 ≤ q + 1 + g ⌊2√q⌋` (3.2). Failure of either of the first two is the criterion
+used here to reject a symmetric Weil polynomial as the polynomial of a curve (the database's
+`curve_counts` display, knowl `av.fq.curve_point_counts`, is its own statement of such a test;
+uncertified locator); the worked example `2.2.a_ae` below is such a rejection. The converse (which symmetric Weil polynomials are `P_F` for a function field, or
 the Weil polynomial of a Jacobian) is a question about abelian varieties and is not a milestone here.
 
 *Needs:* §§2.2, 3.2, 1.11; FunctionFieldArithmetic §5.1 place counts and Möbius inversion.
@@ -1138,12 +1147,12 @@ At `(q,g)=(2,1)`, `N_1=1` gives Serre equality `|1−3|=2`; Ihara gives an upper
 
 Layers 1–2; FunctionFieldArithmetic §§5.1, 5.3–5.4; SchemeAndStackFoundations §5.11; integrality, arithmetic–geometric mean and Cauchy–Schwarz.
 
-## Layer 5: comparison contracts
+## Layer 4: comparison contracts
 
 Each item is a theorem identifying an object of this roadmap with another library's object; none
 builds the other side.
 
-### 5.1 Elliptic curves: point counts and the Hasse bound
+### 4.1 Elliptic curves: point counts and the Hasse bound
 
 For `[Finite k]`, an elliptic function field `F / k` with exact constants, a degree-one place `P`
 and Weierstrass coordinates `(x, y)` for `W : WeierstrassCurve k` at `P`
@@ -1152,10 +1161,13 @@ and Weierstrass coordinates `(x, y)` for `W : WeierstrassCurve k` at `P`
 (`card_degreeOne_eq_pointCount`: the degree-one places other than `P` are the affine `k`-points
 `(x(Q), y(Q))`, `P` is the point at infinity, and `W` is nonsingular — the point–place dictionary
 of [AlgebraicCurves](../AlgebraicCurves/README.md) Layer 10(iii), expressed using
-`IsWeierstrassCoordinates`; genus one is needed, since the cuspidal `y² = x³` has Weierstrass
-coordinates `x = t²`, `y = t³` at the infinite place of `k(t)`, where the degree-one places number
-`q + 1` and the nodal `y² = x³ + x²` has `q` projective points but `k(t)` still has `q + 1`
-places of degree one); hence **`L_F = 1 − C (W.frobeniusTrace) X + C q X²`** (2.4), and the
+`IsWeierstrassCoordinates`; genus one is needed: the cuspidal `y² = x³` has Weierstrass
+coordinates `x = t²`, `y = t³` at the infinite place of `k(t)`, and so has the split node
+`y² + xy = x³` with `x = t² + t`, `y = t³ + t²`; `k(t)` has `q + 1` places of degree one, which
+the cusp matches (its affine points are the `q` points `(t², t³)`, plus the point at infinity) and
+the node does not: its affine points are the origin and the `(t² + t, t³ + t²)` with `t ≠ 0, −1`,
+so it has `q` projective points over every `𝔽_q` — over `𝔽₂` the origin and the point at
+infinity, over `𝔽₃` these and `(2, 2)`); hence **`L_F = 1 − C (W.frobeniusTrace) X + C q X²`** (2.4), and the
 Hasse–Weil bound at `g = 1` (FunctionFieldArithmetic §5.4, SchemeAndStackFoundations §5.11) *is*
 `WeierstrassCurve.frobeniusTrace_sq_le_four_mul_card`. Tau Ceti's degree-form proof and the
 suppliers' proofs prove the same integer inequality about the same `W` (SchemeAndStackFoundations
@@ -1188,23 +1200,23 @@ that is a statement about which traces occur, Waterhouse's list, which the sibli
 
 *Needs:* §§2.4, 1.6; AlgebraicCurves Layer 10(i)–(iii); Tau Ceti `Place.IsWeierstrassCoordinates.isElliptic`; EllipticCurves Layer 3; FunctionFieldArithmetic §5.4; SchemeAndStackFoundations §5.11.
 
-### 5.2 Elliptic curves: the zeta function
+### 4.2 Elliptic curves: the zeta function
 
-With `WeierstrassCurve.zetaFunction : ℚ⟦X⟧ := exp (∑ #E(𝔽_{qⁿ}) T^n / n)` of EllipticCurves Layer 3 (`#E(𝔽_{qⁿ})` is the fixed-point count of the `q`-power map), and `F` as in 5.1: `(zeta k F).map (Int.castRingHom ℚ) =
+With `WeierstrassCurve.zetaFunction : ℚ⟦X⟧ := exp (∑ #E(𝔽_{qⁿ}) T^n / n)` of EllipticCurves Layer 3 (`#E(𝔽_{qⁿ})` is the fixed-point count of the `q`-power map), and `F` as in 4.1: `(zeta k F).map (Int.castRingHom ℚ) =
 W.zetaFunction` for FunctionFieldArithmetic's `zeta k F`, from its §5.1 (`zeta_logDeriv`:
 `log Z = ∑ N_r T^r/r` over `ℚ`; `pointCount_eq`: `N_r(F)` is the count of rational places of the
 degree-`r` constant extension) and the fixed-point model (the rational places of `F·𝔽_{qⁿ}` other
 than the one at infinity are the affine points fixed by the `q^n`-power map). Its
 `zetaFunction_eq_mul_inv` is then FunctionFieldArithmetic §5.3's rationality at `g = 1`.
 
-*Needs:* §5.1; FunctionFieldArithmetic §§5.1, 5.3; EllipticCurves Layer 3 zeta function and Frobenius-fixed points.
+*Needs:* §4.1; FunctionFieldArithmetic §§5.1, 5.3; EllipticCurves Layer 3 zeta function and Frobenius-fixed points.
 
-### 5.3 Weil numbers across the two predicates
+### 4.3 Weil numbers across the two predicates
 
 For `1 < q`: `IsWeilPolynomial q P ⟺ P.Monic ∧ ∀ α ∈ P.aroots ℂ, IsWeilNumber (q : ℝ) 1 α`
 (1.1), and for an algebraic integer `α` in a characteristic-zero field, `IsWeilNumber q 1 α ⟺
-IsWeilPolynomial q (minpoly ℤ α)`. The sibling `AbelianVarietiesOverFiniteFields` uses the
-polynomial form; `DeligneWeightsAndPurity` the scalar form; this item is the dictionary.
+IsWeilPolynomial q (minpoly ℤ α)`. The `av.fq` invariants are stated in the polynomial form;
+`DeligneWeightsAndPurity` states the scalar form; this item is the dictionary.
 
 **Checks.**
 
@@ -1313,15 +1325,17 @@ These examples fix the point-count, valuation and angle conventions. `L` is the 
 
 | Supplied here | What | Consumer |
 | --- | --- | --- |
-| Layer 1 | every polynomial-level `av.fq` invariant, consumed by section (1.1–1.11) and by the names of the conventions; the polynomial constructions are owned here and the geometric comparisons belong there; it supplies nothing here | `AbelianVarietiesOverFiniteFields` |
+| Layer 1 | every polynomial-level `av.fq` invariant, offered by section (1.1–1.11) and by the names of the conventions to the comparison of those invariants with abelian varieties; the polynomial constructions are owned here, the geometric comparisons are the consumer's, and it supplies nothing here | `AbelianVarietiesOverFiniteFields` (the contract offered) |
+| 1.1, 1.3, 1.6, 1.11 | the `q`-Weil predicate, finiteness and the coefficient bounds, the polynomial `p`-rank and ordinarity, and the virtual point counts, specialised there to ordinary Weil quartics at `q = p` | `AbelianSurfacesModularity` |
 | 2.1, 3.1 | the good Euler factor `L_p(T)` of a genus-2 curve over `ℚ` at a prime `p` of good reduction (`g2c.good_lfactors`, the reverse of the characteristic polynomial of Frobenius on the reduction) read as `LPolynomial 𝔽_p F_p` for the function field `F_p` of the reduction, of degree `4`, with `L_p(1) = h_{F_p}`, `b_1 = −(p + 1 − N_1(F_p))`, its Weil polynomial from 2.1, its Riemann hypothesis from 3.1 and the intrinsic prefix `(2, p, b_1, b_2)` of 1.4; the reduction is that roadmap's | `HyperellipticCurves` |
 | Layers 2–3 | the Weil polynomial of the function field of any curve over `𝔽_q` in Layer 1's vocabulary, and the Serre and Ihara bounds | the modular- and Shimura-curve roadmaps |
 
 ## References
 
-Waterhouse Chapter 2 and the pinned Mathlib declarations below support the polynomial
-arguments. The Stichtenoth, Serre, Ihara, Tate, Honda and Dickson-book locators are
-uncertified. The LMFDB storage-record comparison is also uncertified; mathematical
+Waterhouse Chapter 2, Serre's lectures and the pinned Mathlib declarations below support the
+polynomial arguments and Serre's bound; the LMFDB isogeny-class records `1.4.ae` and `2.2.a_ae`
+are read through the public `av_fq_isog` API. The Stichtenoth, Serre 1983, Ihara, Tate, Honda and
+Dickson-book locators and the knowl `av.fq.curve_point_counts` are uncertified; mathematical
 definitions and the computed Checks specify the conventions independently.
 
 - H. Stichtenoth, *Algebraic Function Fields and Codes*, 2nd ed., GTM 254, Springer, 2009 — Ch. 5:
@@ -1331,6 +1345,11 @@ definitions and the computed Checks specify the conventions independently.
   bound 3.2, Proposition 5.3.3 the maximal-genus form of Ihara's bound in 3.3).
 - J.-P. Serre, *Sur le nombre des points rationnels d'une courbe algébrique sur un corps fini*,
   C. R. Acad. Sci. Paris 296 (1983), 397–402 — Serre's bound (3.2).
+- J.-P. Serre, *Lectures on N_X(p)*, Research Notes in Mathematics 11, CRC Press, 2012; the
+  author's copy (dated 28 April 2014) on his Collège de France page, whose pagination is cited —
+  Theorem 4.10, p. 46 (the coefficient bound for a polynomial with `q`-Weil integer roots and its
+  equality case) and §4.7.2.2, p. 48 (the bound `|N_X(q) − q − 1| ≤ g⌊2√q⌋` for a curve): Serre's
+  bound (3.2).
 - J.-P. Serre, *Rational Points on Curves over Finite Fields*, Documents Mathématiques 18, SMF, 2020
   — the bounds of 3.2–3.3 and the maximal-curve discussion of 3.5.
 - Y. Ihara, *Some remarks on the number of rational points of algebraic curves over finite fields*,

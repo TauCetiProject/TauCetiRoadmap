@@ -31,14 +31,14 @@ Headline theorems not statable at the pins, and what each lacks:
   the elevation): they need the slope multiset of a Newton polygon, NewtonPolygons §§2.1, 3.3,
   not at the pin; the elementary predicates `pRank`, `IsOrdinary`, `IsSupersingular` and the
   ordinariness test are stated.
-* 5.2, the comparison of the zeta function of an elliptic curve: it names
+* 4.2, the comparison of the zeta function of an elliptic curve: it names
   `WeierstrassCurve.zetaFunction`, not at the pin.
-* 5.3, the equivalence of the two Weil-number predicates: it names `IsWeilNumber` of
+* 4.3, the equivalence of the two Weil-number predicates: it names `IsWeilNumber` of
   DeligneWeightsAndPurity, a roadmap target.
 
 Stated here: Layer 1's headline theorems on `ℤ[X]`, including recovery from the first `g`
 curve counts and from all positive abelian counts; 3.1's class-number bounds and
-class-number-one corollary; 3.2 (Serre) and 3.3 (Ihara); and 5.1's identification of `N_1(F)`
+class-number-one corollary; 3.2 (Serre) and 3.3 (Ihara); and 4.1's identification of `N_1(F)`
 with `WeierstrassCurve.pointCount` and its supersingularity comparison over `𝔽_p` and `𝔽_{p²}`.
 -/
 
@@ -251,7 +251,7 @@ theorem card_le_four_of_classNumber_eq_one (hF : IsFunctionField k F) [Finite k]
     Nat.card k ≤ 4 := sorry
 
 /-- **3.2, Serre's bound.** `|N_1(F) − (q + 1)| ≤ g · ⌊2√q⌋`, with `⌊2√q⌋ = Nat.sqrt (4q)`
-(Stichtenoth, Theorem 5.3.1). -/
+(Serre, *Lectures on N_X(p)*, Theorem 4.10(a) and §4.7.2.2). -/
 theorem serre_bound (hF : IsFunctionField k F) [Finite k] (hex : IsIntegrallyClosedIn k F) :
     |(Nat.card {P : Place k F // P.degree = 1} : ℤ) - ((Nat.card k : ℤ) + 1)| ≤
       (genus k F : ℤ) * (Nat.sqrt (4 * Nat.card k) : ℤ) := sorry
@@ -266,24 +266,26 @@ theorem ihara_bound (hF : IsFunctionField k F) [Finite k] (hex : IsIntegrallyClo
 
 end FunctionField
 
-/-! ## Layer 5: comparison with Tau Ceti's elliptic curves -/
+/-! ## Layer 4: comparison with Tau Ceti's elliptic curves -/
 
 section Elliptic
 
 variable {k : Type u} {F : Type v} [Field k] [Field F] [Algebra k F]
 
-/-- **5.1.** For a genus-one function field with Weierstrass coordinates `(x, y)` for `W` at a
+/-- **4.1.** For a genus-one function field with Weierstrass coordinates `(x, y)` for `W` at a
 degree-one place `P` (Tau Ceti `Place.IsWeierstrassCoordinates`; they exist at every degree-one place by
 `exists_isWeierstrassCoordinates_of_genus_eq_one`), the number of degree-one places is
 `WeierstrassCurve.pointCount W`: the places other than `P` are the affine `k`-points of `W`
-and `P` is the point at infinity. Genus one is needed: the cuspidal `y² = x³` with `x = t²`,
-`y = t³` has Weierstrass coordinates at the infinite place of `k(t)` for a singular `W`. -/
+and `P` is the point at infinity. Genus one is needed: the split node `y² + xy = x³` with
+`x = t² + t`, `y = t³ + t²` has Weierstrass coordinates at the infinite place of `k(t)`, where
+`k(t)` has `q + 1` places of degree one but `W.pointCount = q` (over `𝔽₂`: the origin and the
+point at infinity). -/
 theorem card_degreeOne_eq_pointCount [Finite k] (hF : IsFunctionField k F)
     (hex : IsIntegrallyClosedIn k F) (hg : genus k F = 1) {P : Place k F} (hP : P.degree = 1)
     {W : WeierstrassCurve k} {x y : F} (hW : P.IsWeierstrassCoordinates W x y) :
     Nat.card {Q : Place k F // Q.degree = 1} = W.pointCount := sorry
 
-/-- **5.1.** Over `𝔽_p` and `𝔽_{p²}` the geometric supersingularity of an elliptic curve (Tau
+/-- **4.1.** Over `𝔽_p` and `𝔽_{p²}` the geometric supersingularity of an elliptic curve (Tau
 Ceti `WeierstrassCurve.IsSupersingular`, no nonzero `p`-torsion over the algebraic closure) is
 the coefficient criterion `IsSupersingular q (T² − aT + q)` of 1.6 on its Weil polynomial,
 `a = frobeniusTrace`: both say `p ∣ a` (EllipticCurves Layer 3's criterion, and `2 v_p(a) ≥ r`
