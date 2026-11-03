@@ -44,6 +44,8 @@ The pinned Mathlib supplies the following:
 
 - counting: `Nat.choose`, `Finset.Nat.antidiagonalTuple`, `PowerSeries`;
 
+- admissible field sizes: `Nat.chineseRemainder` (`Mathlib/Data/Nat/ModEq.lean`) and `Nat.forall_exists_prime_gt_and_modEq` (`Mathlib/NumberTheory/LSeries/PrimesInAP.lean`); coprime positive moduli give a simultaneous residue, and a residue coprime to a nonzero modulus contains primes above every bound;
+
 - probability: `MeasureTheory.ProbabilityMeasure`, `MeasureTheory.diracProba`, `MeasureTheory.Measure.dirac`, `ProbabilityTheory.cdf`, `cdf_le_one`, `cdf_eq_real` and the equality criterion `MeasureTheory.Measure.eq_of_cdf`;
 
 - angles and roots: `Multiset.sort`, `Multiset.count`, `Polynomial.roots`, `Complex.arg`, `toIcoMod`;
@@ -1722,23 +1724,27 @@ Let `Γ` be finite, `Q = ℚ` or `𝔽_q(t)`, and `H` a finite `Γ`-group with `
 
 #### Liu wood zureick brown function field moments
 
-Let `Γ` be finite and `H` a finite admissible `Γ`-group satisfying (SZ). For prime powers `q` with `gcd(q, |Γ||H|) = 1` and `gcd(q − 1, |H|) = 1` put `R_b(q) := Σ_{n ≤ b} Σ_{K ∈ E_Γ(q^n, 𝔽_q(t))} |Sur_Γ(Gal(K^#/K), H)| / Σ_{n ≤ b} |E_Γ(q^n, 𝔽_q(t))|`, where `E_Γ(D, 𝔽_q(t))` is the set of `Γ`-extensions of `𝔽_q(t)` split completely at `∞` with radical discriminant norm `D` and `K^#` is the maximal unramified extension of `K` split completely above `∞` with all finite subextensions of degree prime to `q(q − 1)|Γ|`. Then `lim_{b→∞} limsup_{q→∞} R_b(q) = lim_{b→∞} liminf_{q→∞} R_b(q) = [H : H^Γ]^{−1}`. For every sufficiently large `b`, every limit point of `R_b(q)` in `q` lies within `O_G(1/b)` of `[H : H^Γ]^{−1}`; the existence of `lim_{q→∞} R_b(q)` is not proved.
+Let `Γ` be finite and `H` a finite admissible `Γ`-group of odd order satisfying (SZ). All `q`-limits below use `atTop ⊓ principal{q : q is a prime power, gcd(q, |Γ||H|) = 1, gcd(q − 1, |H|) = 1}`. This filter is nonbottom: admissibility gives `gcd(|H|, |Γ|) = 1`, so the Chinese remainder theorem gives `a ≡ 2 mod |H|` and `a ≡ 1 mod |Γ|`. Oddness of `|H|` implies `gcd(a, |H||Γ|) = 1`. Dirichlet's theorem then gives primes `q ≡ a mod |H||Γ|` above every bound, and each satisfies both required coprimality conditions. This includes `|H| = 1` and modulus one. Conversely, for even `|H|` no integer `q` can satisfy both conditions, since `q(q − 1)` is even. These are elementary consequences of `Nat.chineseRemainder` and `Nat.forall_exists_prime_gt_and_modEq` with positive group cardinalities.
+
+For such prime powers `q` put `R_b(q) := Σ_{n ≤ b} Σ_{K ∈ E_Γ(q^n, 𝔽_q(t))} |Sur_Γ(Gal(K^#/K), H)| / Σ_{n ≤ b} |E_Γ(q^n, 𝔽_q(t))|`, where `E_Γ(D, 𝔽_q(t))` is the set of `Γ`-extensions of `𝔽_q(t)` split completely at `∞` with radical discriminant norm `D` and `K^#` is the maximal unramified extension of `K` split completely above `∞` with all finite subextensions of degree prime to `q(q − 1)|Γ|`. Then `lim_{b→∞} limsup_{q→∞} R_b(q) = lim_{b→∞} liminf_{q→∞} R_b(q) = [H : H^Γ]^{−1}`. For every sufficiently large `b`, every limit point of `R_b(q)` in `q` lies within `O_G(1/b)` of `[H : H^Γ]^{−1}`; the existence of `lim_{q→∞} R_b(q)` is not proved.
 
 *Proof.* Write `a_Γ=|Z(Γ)|/|Γ|`. The numerator over isomorphism classes is `a_Γ[H:H^Γ]⁻¹ Σ_{n≤b}N(H,Γ,q^n,𝔽_q(t))`, while the denominator is `a_Γ Σ_{n≤b}N(1,Γ,q^n,𝔽_q(t))`. Thus `a_Γ` cancels in the ratio. The `Γ`-surjections to `H` factor through `Gal(K^#/K)`, since `|H|` is prime to `q(q−1)|Γ|`. `N(H, Γ, q^n, 𝔽_q(t)) = #Hur^n_{G,c}(𝔽_q)` with `G = H ⋊ Γ` and `c` the nonidentity elements of the order of their image in `Γ`; after cancellation, the denominator is `Σ_n #Hur^n_{Γ,Γ∖1}(𝔽_q)` (LWZB Lemma 10.2: §IG.5.5, *Hurwitz points and marked extensions*). If `Γ=1`, admissibility forces `H=1` and the ratio is identically 1, using the unique trivial extension of radical discriminant 1. Otherwise fix an allowed residue a of `q` modulo `|G|²` and replace `b` by `b_a`, the largest integer `≤b` whose residue lies in `E_a` modulo `M_a` from Theorem 10.4. The omitted slices have no rational points. Since `E_a` is nonempty, `0≤b−b_a<M_a`; for sufficiently large `b` this gives `b_a≍b`, uniformly over the finitely many a. Apply all following top-degree and error estimates at `b_a`, not at an empty degree-`b` slice. Grothendieck–Lefschetz (§IG.0.T4), Deligne's bound (DeligneWeightsAndPurity item 7.12) and the Betti comparison (LWZB Lemma 10.3: §IG.5.5) give `|#Hur^b(𝔽_q) − π(q, b) q^b| ≤ B(b) Σ_{j<2b} q^{j/2}`, with the top-degree trace counting Frobenius-fixed components ([top cohomology counts rational components](#top-cohomology-counts-rational-components)); lower `n` contribute `O_b(q^{b−1/2})`. LWZB Theorem 10.4 (§IG.5.6, *Semidirect components versus quotient components*)`: π_{G,c}(q, b) = π_Γ(q, b) + O_G(b^{d_Γ(q)−2})` and `π_Γ(q, b) ≥ C_G b^{d_Γ(q)−1}` on the residues where it is nonzero; so `R_b(q) = [H : H^Γ]^{−1}(1 + O_G(b^{−1}) + O_b(q^{−1/2}))` along each residue class of `q mod |G|²`, hence every limit point in `q` lies in `[H : H^Γ]^{−1}(1 + O_G(1/b))`.
 
-*Needs:* [counting unramified h extensions via semidirect extensions](#counting-unramified-h-extensions-via-semidirect-extensions), [top cohomology counts rational components](#top-cohomology-counts-rational-components), InverseGaloisAndArithmeticFundamentalGroups Layers IG.0 and IG.5, DeligneWeightsAndPurity item 7.12.
+*Needs:* `Nat.chineseRemainder`, `Nat.forall_exists_prime_gt_and_modEq`, [counting unramified h extensions via semidirect extensions](#counting-unramified-h-extensions-via-semidirect-extensions), [top cohomology counts rational components](#top-cohomology-counts-rational-components), InverseGaloisAndArithmeticFundamentalGroups Layers IG.0 and IG.5, DeligneWeightsAndPurity item 7.12.
 
 ([[51]](#ref-51), Theorem 1.4, p.3 (arXiv v2); [[51]](#ref-51), Proof of Theorem 1.4, p.41 (arXiv v2).)
 
 **Checks.**
 
-- `Γ = ℤ/2, H = ℤ/3` with inversion: `[H : H^Γ]^{−1} = 1/3`, the real-quadratic Cohen–Lenstra 3-moment, in the `q → ∞` mode.
+- `Γ = ℤ/2, H = ℤ/3` with inversion: `[H : H^Γ]^{−1} = 1/3`, the real-quadratic Cohen–Lenstra 3-moment. The CRT residue is `5 mod 6`; `q = 5^(2k + 1)` gives an unbounded allowed sequence, starting at 5 and 125, with `gcd(q, 6) = gcd(q − 1, 3) = 1`. An unbounded set of allowed sizes, rather than a single inhabited slice, is essential.
 
-- Even `|H|` is excluded by the hypotheses (`q` or `q − 1` is even).
+- `Γ = ℤ/3` acting on `H = 𝔽₂²` by `T(x,y) = (y,x+y)` is admissible: `T³ = 1`, `ker(T − 1) = {0}`, and `T − 1` permutes the three nonzero vectors. It satisfies (SZ) because `H` is abelian and `gcd(4,3) = 1`, but no `q` satisfies `gcd(q(q − 1),4) = 1`. Thus admissibility alone would allow the unsupported value `1/4`; the odd-order hypothesis excludes this target before forming a limit.
+
+- `H = 1` gives `[H : H^Γ]^{−1} = 1` and removes the `q − 1` restriction; for `Γ = ℤ/3`, primes `q ≡ 1 mod 3`, such as 7 and 13, witness the CRT construction. When also `Γ = 1`, the unique trivial extension gives numerator and denominator 1 for every `b ≥ 0`, including its degree-zero slice.
 
 #### Cohen lenstra martinet moments over function fields
 
-Let `Γ` be finite and `H` a finite abelian `Γ`-group with `gcd(|H|, |Γ|) = 1` and `H^Γ = 1`. Then with `q` running over prime powers with `gcd(q, |Γ||H|) = 1` and `gcd(q − 1, |H|) = 1, lim_{b→∞} limsup_q` and `lim_{b→∞} liminf_q` of `Σ_{n ≤ b} Σ_{K ∈ E_Γ(q^n, 𝔽_q(t))} |Sur_Γ(Cl(O_K), H)| / Σ_{n ≤ b} |E_Γ(q^n, 𝔽_q(t))|` both equal `|H|^{−1}`.
+Let `Γ` be finite and `H` a finite abelian `Γ`-group of odd order with `gcd(|H|, |Γ|) = 1` and `H^Γ = 1`. The allowed-prime-power filter is nonbottom by the CRT and Dirichlet argument in [Liu–Wood–Zureick-Brown function-field moments](#liu-wood-zureick-brown-function-field-moments). Then with `q` running over prime powers with `gcd(q, |Γ||H|) = 1` and `gcd(q − 1, |H|) = 1, lim_{b→∞} limsup_q` and `lim_{b→∞} liminf_q` of `Σ_{n ≤ b} Σ_{K ∈ E_Γ(q^n, 𝔽_q(t))} |Sur_Γ(Cl(O_K), H)| / Σ_{n ≤ b} |E_Γ(q^n, 𝔽_q(t))|` both equal `|H|^{−1}`.
 
 *Proof.* An abelian `Γ`-group is admissible iff `gcd(|H|, |Γ|) = 1` and `H^Γ = 1` (LWZB §7.1); (SZ) holds by [complements of a coprime abelian normal subgroup are conjugate](#sections-of-a-coprime-abelian-semidirect-product). By class field theory for function fields ([ArithmeticStatisticsPartI: Supporting constructions, function-field Picard and reciprocity paragraph][part-10])`, Gal(K^#/K)^{ab}` is the prime-to-`q(q − 1)|Γ|` part of `Cl(O_K)`, so `Γ`-surjections onto the abelian `H` coincide. Apply [liu wood zureick brown function field moments](#liu-wood-zureick-brown-function-field-moments): `[H : H^Γ]^{−1} = |H|^{−1}`.
 
@@ -1748,9 +1754,11 @@ Let `Γ` be finite and `H` a finite abelian `Γ`-group with `gcd(|H|, |Γ|) = 1`
 
 **Checks.**
 
-- `Γ = ℤ/2` acting by `−1` on `H = ℤ/ℓ^k` (`ℓ` odd): the real-quadratic Cohen–Lenstra moment `|H|^{−1}`.
+- `Γ = ℤ/2` acting by `−1` on `H = ℤ/ℓ^k` (`ℓ` odd): the real-quadratic Cohen–Lenstra moment `|H|^{−1}`; for `ℓ = 3, k = 1`, `q = 5^(2j + 1)` is allowed and the value is `1/3`.
 
-- Fields are ordered by radical discriminant, not discriminant.
+- `Γ = ℤ/3` with the preceding action on `𝔽₂²` has `H^Γ = 0` and coprime orders 4 and 3, but is excluded by oddness. The claimed `1/4` cannot be obtained from an empty `q`-filter.
+
+- `H = 1` gives `|H|^{−1} = 1`, retaining the trivial target. Fields are ordered by radical discriminant, not discriminant.
 
 ### Supporting geometric and cohomological comparisons
 
