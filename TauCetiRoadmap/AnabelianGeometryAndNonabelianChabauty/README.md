@@ -60,6 +60,10 @@ The implementation interface consists of cocycle evaluation and extensionality, 
 
 [ArithmeticKTheory](../ArithmeticKTheory/README.md) §§3.2–3.4 supplies projective Steinberg-homology finite generation, finite generation of every K-group of a number ring, the rational ring-to-field comparison in degrees at least two, the Borel ranks and finiteness of positive even K-groups. Use its common Quillen K-groups: for a number field F, k≥2, rank K_(2k−1)(𝒪_F) is r₁+r₂ for odd k and r₂ for even k, while K_(2k−2)(𝒪_F) is finite. Layer 7 constructs the higher étale Chern comparison on these groups.
 
+### From FilteredLocalGaloisGroups
+
+What FilteredLocalGaloisGroups must provide (gap:local-galois-centre-free): for every finite extension `K/ℚ_p`, the quotient `G_K^m=G_K/G_K^{[m]}` of the absolute Galois group by the `m`-th term of its closed derived series has trivial centre for every `m≥2`, and `Z(G_K)=1`. §3.5 consumes the statement `Z(G_K)=1` as the base of its finitely generated induction; nothing about the filtration on `G_K` is used here.
+
 ### From the geometric source reductions
 
 ResolutionOfSingularitiesCharacteristicZero §§6.1–6.2 supplies smooth projective compactification of a smooth quasi-projective variety in characteristic zero. AffineMorseLefschetz §A5 supplies homotopy weak Lefschetz for a smooth projective complex hyperplane section; ComplexComparisonPartII §C6.2 supplies the finite-cover Riemann existence comparison. Together with SchemeAndStackFoundations §4.13's Bertini theorem and SF.2's geometric base-change and descent, these give the smooth hyperplane input to the higher-dimensional source reduction in Layer 3. The moving-pencil surjectivity for the pro-source is constructed there.
@@ -5885,17 +5889,18 @@ Use [TauCetiRoadmap.ProfiniteProPGroups](https://github.com/TauCetiProject/TauCe
 
 #### Local Galois centre-freeness
 
-For `K/ℚ_p` finite, `Z(G_K)=1`; the same holds for finitely generated extensions by induction on an Artin-neighborhood tower. This input is established before Hom reconstruction over sub-p-adic fields.
+For `K/ℚ_p` finite, `Z(G_K)=1` is supplied by FilteredLocalGaloisGroups Layer 1, which owns the stronger statement that every quotient `G_K^m=G_K/G_K^{[m]}` by a term of the closed derived series has trivial centre for `m≥2`, with `Z(G_K)=1` as its corollary (`G_K` is prosolvable, so a central element of `G_K` is central in every `G_K^m`). This roadmap owns the finitely generated case: `Z(G_K)=1` for every finitely generated extension `K` of a finite extension of `ℚ_p`, by induction on an Artin-neighborhood tower. This input is established before Hom reconstruction over sub-p-adic fields.
 
-Full absolute Galois groups; local finite p-adic K or finitely generated p-adic extension.
+Full absolute Galois groups; finitely generated extensions of a finite p-adic field, with the finite p-adic base case imported.
 
-The tame quotient has trivial centre by its Frobenius/cyclotomic semidirect description. Use local duality and degree-p unramified restriction to kill `H²` of wild inertia. Its nonabelian free pro-p structure (including the `H¹ rank` test) then kills a central element in the wild kernel. For finitely generated extensions use the centre-free geometric kernel and local base in the Artin-neighborhood induction.
+For finitely generated extensions use the centre-free geometric kernel and the imported local base in the Artin-neighborhood induction: a central element of `G_K` maps to a central element of the base's Galois group, hence to the identity there, and lies in the centre-free geometric kernel of the tower's last step.
 
 **Checks.**
 
-- Local Hom recovery needs this local case only; the sub-p-adic case depends on the already established finitely-generated reconstruction.
+- Local Hom recovery needs the imported local case only; the sub-p-adic case depends on the already established finitely-generated reconstruction.
+- The local case is not reproved here: the tame-quotient and wild-inertia argument belongs to the supplier.
 
-The construction and its conventions follow [Shinichi Mochizuki](#reference-m99), Lemmas 15.6–15.7, author-copy pp. 79–80.
+The construction and its conventions follow [Shinichi Mochizuki](#reference-m99), Lemmas 15.6–15.7, author-copy pp. 79–80, for the finitely generated induction.
 
 Use [TauCetiRoadmap.ProfiniteProPGroups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ProfiniteProPGroups/README.md#layer-4-free-pro-p-and-pro-c-groups-on-finite-sets); [TauCetiRoadmap.ProfiniteCohomology](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ProfiniteCohomology/README.md#layer-10-continuous-cohomology-in-all-degrees); [EtaleCohomologyFoundations](../EtaleCohomologyFoundations/README.md) §F.0.A2 (the arithmetic exact sequence); [Centre-freeness of hyperbolic geometric kernels](#35-centre-freeness-of-the-geometric-and-local-galois-groups); [Artin towers give étale `K(π,1)` examples](#artin-towers-give-étale-kπ1-examples); Layer 1, étale `k(π,1)` schemes and arithmetic paths; [TauCetiRoadmap.ClassFieldTheory](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ClassFieldTheory/README.md#layer-5-local-coefficients-the-brauer-group-the-local-invariant-and-duality); [TauCetiRoadmap.LocalFieldsRamification](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/LocalFieldsRamification/README.md#layer-4-the-tame-quotient-of-the-absolute-galois-group); [Cofinal hyperbolic Artin neighbourhoods](#cofinal-hyperbolic-artin-neighbourhoods).
 
