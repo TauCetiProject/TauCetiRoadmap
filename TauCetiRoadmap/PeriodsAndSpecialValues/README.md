@@ -201,7 +201,7 @@ Section 2.2 supplies the additive automorphism presentation K₁ᴮ(C) and its p
 
 ### From TauCetiRoadmap.GeneralAlgebraicKTheory, §§4.16–4.17, 6.19, 12.11
 
-Section 4.16 compares the supplied automorphism presentation with split-exact Q-theory; §4.17 adds exactness at K₁ᴮ(D) for every summand-dense additive T, without fullness. Together with AlgebraicKTheory §3.3 this gives the five-term sequence exact at its three interior terms, with no terminal surjectivity assertion. Section 6.19 supplies gilletWaldhausen_general for bounded perfect-complex comparison, and §12.11 supplies vanishing of negative K-groups of regular noetherian rings of finite global dimension. The determinant Picard category is supplied by NoncommutativeAndEquivariantIwasawa §2.7.
+Section 4.16 compares the supplied automorphism presentation with split-exact Q-theory; §4.17 adds exactness at K₁ᴮ(D) for every summand-dense additive T, without fullness. Together with AlgebraicKTheory §3.3 this gives the five-term sequence exact at its three interior terms, with no terminal surjectivity assertion. Section 6.19 supplies the general Gillet–Waldhausen equivalence `K(E) ≃ K(Chᵇ(E), q)` for bounded complexes over an essentially small exact category, and §12.11 supplies vanishing of negative K-groups of regular noetherian rings of finite global dimension. The determinant Picard category is supplied by NoncommutativeAndEquivariantIwasawa §2.7.
 
 ### IntegralHeckeAndGaloisDeterminants, §0.6
 
