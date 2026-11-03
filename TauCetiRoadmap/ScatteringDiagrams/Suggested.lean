@@ -1,3 +1,5 @@
+module
+
 import Mathlib
 import TauCeti.Algebra.Lie.UniversalEnveloping.HopfAlgebra
 import TauCeti.Algebra.HopfAlgebra.HopfIdeal.Augmentation
@@ -7,13 +9,16 @@ import TauCeti.Algebra.HopfAlgebra.HopfIdeal.Augmentation
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is `README.md`.
 This file states, with `sorry`, the roadmap's headline theorems that are statable against the
-pinned Mathlib and Tau Ceti, with only the definitions they need:
+pinned Mathlib and Tau Ceti, with only the definitions they need, and one supporting theorem of
+Layer 1:
 
 * the universal BCH element (README §0.4): `comap_freeAugmentation_pow_ι` and
   `exists_bch_exp_mul_exp`;
 * symmetrization PBW over commutative `ℚ`-algebras (§0.4): `exists_pbwSymmetrizationEquiv`;
 * the focus-focus product formula on the model algebra (§6.3):
-  `FocusFocus.modelTheta_mul`.
+  `FocusFocus.modelTheta_mul`;
+* Minkowski–Weyl for pointed cones in a finite-dimensional real vector space (§1.1):
+  `PointedCone.fg_iff_dualFG`.
 
 The other headlines are about carriers that this roadmap constructs and that neither pin has, so
 the README states them: the BCH group (§0.4, *BCHGroup*, whose product is defined from
@@ -26,6 +31,8 @@ and uniqueness of outgoing completions (§§3.3–3.4, *exists_outgoingCompletio
 -/
 
 namespace TauCetiRoadmap.ScatteringDiagrams
+
+/-! ## Layer 0: positive gradings, completions and actions -/
 
 /-! ### Algebraic exponential groups (README §0.4) -/
 
@@ -85,6 +92,18 @@ theorem exists_pbwSymmetrizationEquiv (R g : Type*) [CommRing R] [Algebra ℚ R]
   sorry
 
 end PBW
+
+/-! ## Layer 1: polyhedral geometry and paths -/
+
+/-- Minkowski–Weyl (`README §1.1`): a pointed cone in a finite-dimensional real vector space,
+lineality allowed, is finitely generated iff it is the set where finitely many linear forms are
+nonnegative. -/
+theorem PointedCone.fg_iff_dualFG {V : Type*} [AddCommGroup V] [Module ℝ V]
+    [FiniteDimensional ℝ V] (C : PointedCone ℝ V) :
+    C.FG ↔ C.DualFG (LinearMap.id : Module.Dual ℝ V →ₗ[ℝ] Module.Dual ℝ V) := by
+  sorry
+
+/-! ## Layer 6: integral-affine covariance, descent and a worked example -/
 
 /-! ### The focus-focus model algebra (README §6.3) -/
 

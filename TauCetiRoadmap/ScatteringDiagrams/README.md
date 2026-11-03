@@ -75,7 +75,7 @@ scattering-specific carriers belong in
    at the crossing.
 4. Italicized names are suggested Lean declaration names for targets.
    [`Suggested.lean`](Suggested.lean) states the headline theorems that are statable at
-   the pins; this README is the definitive specification.
+   the pins, and Minkowski–Weyl (§1.1); this README is the definitive specification.
 
 ## Exact supplier contracts
 
@@ -128,7 +128,9 @@ Short names in the sections, such as `IsIntegralLattice`, `IsLatticeRational` an
 `lake build TauCetiRoadmap.ScatteringDiagrams.Suggested` checks it. It states, each with
 `sorry`, the four headline theorems that are statable at the pins: `comap_freeAugmentation_pow_ι`
 and `exists_bch_exp_mul_exp` (§0.4), `exists_pbwSymmetrizationEquiv` (§0.4) and
-`FocusFocus.modelTheta_mul` (§6.3). The definitions they use have real bodies: `FreeLieTwo`
+`FocusFocus.modelTheta_mul` (§6.3). It also states `PointedCone.fg_iff_dualFG`,
+Minkowski–Weyl (§1.1). The definitions they use
+have real bodies: `FreeLieTwo`
 (the free Lie algebra `𝔣`), `freeAugmentation` (`U⁺`), and in `FocusFocus` the coordinates
 `Coordinate`, `Ambient` and `coordinate`, the relations `modelIdeal`, the quotient
 `ModelAlgebra`, the unit `modelW` (`W`) and `modelTheta` (`ϑ_{n,b}`). Its module
@@ -600,7 +602,8 @@ in an old cell.
   (`Submodule.FG`) iff it is `PointedCone.DualFG` for the pairing with `Module.Dual ℝ V`, and
   for a lattice-rational cone the generators and defining functionals can be taken rational.
   Hence rational polyhedra with zero offsets are the finitely generated lattice-rational
-  `PointedCone`s, and their faces are the `PointedCone.IsFaceOf` faces.
+  `PointedCone`s, and their faces are the `PointedCone.IsFaceOf` faces. The first
+  equivalence, over `ℝ`, is `PointedCone.fg_iff_dualFG` in `Suggested.lean`.
 - *FinitePolyhedralComplex*: support, walls (cells of codimension one), *joints* (cells
   of codimension two), subcomplexes and images under an *IntegralAffineEquiv*; meeting
   cells have the same lineality space; *IsSubdivision* and *IsWeakRefinement* are
@@ -1903,8 +1906,8 @@ terms with the same `m` into one projected homogeneous component. The walls in
   base changes additionally use the geometric lift and incoming-tail correspondence above.
 
 *Needs:* §§4.2–4.3 and §§5.1–5.5.
-Sources: CPS Proposition 3.2, Proposition 4.4 and Lemmas 4.7, 4.9 in
-2205.07753v2, PDF 11–18; N23 Proposition 7.6, Lemmas 7.7–7.8 and §7, PDF 96–98.
+Sources: CPS Proposition 3.2, Proposition 4.4 and Lemmas 4.7, 4.9; N23 Proposition 7.6,
+Lemmas 7.7–7.8 and §7.
 
 ## Layer 6: integral-affine covariance, descent and a worked example
 
@@ -2179,7 +2182,7 @@ for the zero form; a common rescaling supplies BLM's integrality conditions.
   The factor `f_u` on the ray of `u=p_1p_2x³` satisfies `[u]f_u=−1`.
 
 *Needs:* §0.3, §§0.5–0.6, §3.2, §§4.1–4.2 and §5.1; `MvPolynomial`, `AddMonoidAlgebra`.
-Sources: BLM §8.1, PDF 50–53, §9.2 (Step 3) and Corollary 9.8; N23 §1.
+Sources: BLM §8.1, §9.2 (Step 3) and Corollary 9.8; N23 §1.
 
 ### 7.2 Ordinary binomial wall positivity
 
@@ -2210,8 +2213,8 @@ factors by N23's rank-two formula, proving termination at each finite order.
   antiordered left side and ordered right side.
 
 *Needs:* §§1.1–1.2, §§2.1–2.4, §4.2 and §7.1. Sources: N23 Theorem 5.2, Proposition 5.4
-and §§5.2–5.5, PDF 53–65 (N23's ordering is the reverse of ours); GHKK Theorem 1.13 and
-Appendix C.3, PDF 22, 129–134.
+and §§5.2–5.5 (N23's ordering is the reverse of ours); GHKK Theorem 1.13 and
+Appendix C.3.
 
 ### 7.3 Dyck gradings and the rank-two polynomial formula
 
@@ -2298,7 +2301,7 @@ for `d_1>ka`, `d_2>kb` the only line counted by `B_+(ka,kb)` is the one-bend lin
 *Needs:* §§3.2–3.4, §4.1, §§5.1–5.5 and §7.1; `DyckWord`. Sources: RUP Definitions 4.1
 and 4.5; BLM Definitions 3.14, 3.17, 5.1, 5.3, 5.4 and 5.9, Lemma 5.13, Corollary 5.14,
 Theorem 5.17, Remark 5.20, Lemmas 5.23 (V), 5.27 (R) and 5.31–5.33, Propositions 5.28
-(base case) and 5.34, and §5.5, PDF 23–25, 33–40.
+(base case) and 5.34, and §5.5.
 
 ### 7.4 Lattice change and affine rank-two perturbation
 
@@ -2357,8 +2360,8 @@ to the basis rank-two polynomial formula.
   positive and not a polynomial.
 
 *Needs:* §§1.1–1.3, §§3.2–3.4, §4.1, §7.1 and §7.3. Sources: BLM Definition 2.1,
-Example 5.21, Definition 9.3, Theorem 9.5 and Corollary 9.8, PDF 64–66;
-Theorem 9.9, PDF 66–68.
+Example 5.21, Definition 9.3, Theorem 9.5 and Corollary 9.8;
+Theorem 9.9.
 
 ### 7.5 All-rank positivity at joints
 
