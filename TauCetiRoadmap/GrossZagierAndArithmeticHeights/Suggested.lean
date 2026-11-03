@@ -11,6 +11,10 @@ unique rational extension of the elliptic canonical height.
 The Poincaré and Faltings–Hriljac height comparisons lack arithmetic models, metrized line
 bundles and their intersection pairing. The classical and quaternionic Gross–Zagier formulas
 lack CM moduli points, their modular parametrizations and the associated Rankin L-functions.
+The coherent Waldspurger period formula (§5.3) lacks quaternionic automorphic representations,
+normalized toric periods and their associated Rankin and adjoint L-functions. The half-weight
+central-value comparison (§5.2) lacks the Maass and weight-one-half Kohnen-plus eigenforms,
+their normalized Whittaker coefficients and the twisted automorphic L-function.
 The strict GL₂ realization lacks the Shimura-tower Jacobians, rational Hom⁰ spaces and
 their cohomological realizations. The shared marked-point comparison lacks those Jacobians,
 the marked CM divisors and their quotient/isogeny maps.
