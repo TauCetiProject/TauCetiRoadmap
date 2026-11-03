@@ -5,19 +5,26 @@ import TauCeti.Geometry.Lie.Adjoint.Derivation
 import TauCeti.Geometry.Lie.Functor
 import TauCeti.Geometry.Lie.Subgroup.LieAlgebra
 import TauCeti.Geometry.Lie.Subgroup.Embedded
+import TauCeti.Analysis.Matrix.Normed
 
 /-!
 # Lie groups and the Lie algebra correspondence: target signatures
 
 The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
 theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, with only the definitions
-those statements need. The native floor is consumed by name, never restated: `lieExp`,
-`oneParameterSubgroup`, `existsUnique_eq_oneParameterSubgroup`, `lieExp_eq_expUnit`,
-`TauCeti.Lie.Ad`, `TauCeti.Lie.conj_lieExp`, `TauCeti.Lie.Ad_lieExp_units`, `lieMap`,
-`TauCeti.Lie.lieMap_injective`, `TauCeti.Lie.contMDiff_of_continuous_monoidHom`,
+those statements need. The native floor is consumed by name, never restated:
+`leftInvariantDerivationEquivGroupLieAlgebra`, `leftInvariantDerivationLieEquivGroupLieAlgebra`,
+`finiteDimensional_leftInvariantDerivation`, `finrank_leftInvariantDerivation_eq_modelVectorSpace`,
+`lieExp`, `oneParameterSubgroup`, `existsUnique_eq_oneParameterSubgroup`, `lieExp_eq_expUnit`,
+`TauCeti.Lie.Ad`, `continuousAdjointRepresentation`, `contMDiff_Ad_apply`, `mfderiv_Ad_apply_one`,
+`TauCeti.Lie.conj_lieExp`, `tangentAd_mulInvariantExp_apply` (the formula `Ad (lieExp X) = exp (ad X)`
+on the tangent carrier, whose derivation-carrier form is a transport and not a headline),
+`TauCeti.Lie.Ad_lieExp_units`, `banachDexpFactor_eq_integral_exp`, `fderiv_exp_apply_eq_exp_mul_integral`,
+`lieMap`, `TauCeti.Lie.lieMap_injective`, `TauCeti.Lie.contMDiff_of_continuous_monoidHom`,
 `TauCeti.Lie.lieSubalgebraOfSubgroup`, `TauCeti.Lie.isEmbeddedLieSubgroup_of_isClosed`,
-`TauCeti.Lie.mem_lieSubalgebraOfSubgroup_iff_exists_seq`, `TauCeti.UniversalCover.instLieGroup` and
-`TauCeti.UniversalCover.lieMap_projHom_bijective`.
+`TauCeti.Lie.mem_lieSubalgebraOfSubgroup_iff_exists_seq`, the matrix-subgroup modules
+`TauCeti.Geometry.Lie.Subgroup.{SpecialLinear, Unitary, SpecialUnitary, Symplectic, SpecialOrthogonal}`,
+`TauCeti.UniversalCover.instLieGroup` and `TauCeti.UniversalCover.lieMap_projHom_bijective`.
 
 Headline theorems of the README that are not statable at the pins, and what each lacks:
 
@@ -30,15 +37,19 @@ Headline theorems of the README that are not statable at the pins, and what each
   determinant form.
 * Layer 7, the compact real form of a complex semisimple Lie algebra, its conjugacy, the
   compact-complexification criterion and the algebraization `𝐊(ℂ) ≃ K_ℂ`: only the existence and
-  universal property of the complexification and the holomorphic extension of representations are
-  statable; the Lie-algebra formula `Lie(G_ℂ) = 𝔤 ⊗ ℂ` needs a complexification carrier.
+  universal property of the complexification (for every connected `G`, and with injectivity for
+  compact connected `G`) and the holomorphic extension of representations are statable; the
+  Lie-algebra formula `Lie(G_ℂ) = (𝔤 ⊗ ℂ)/Lie(N)` and the period subgroup `N` need a
+  complexification carrier.
 * Layer 8, the flag manifold as a compact complex manifold, the Bruhat decomposition as a
   `TauCeti.TitsSystem` on `G_ℂ`, Borel–Weil and Borel–Weil–Bott: the pins have no complex reductive
   group carrier with its Borel subgroup, maximal torus and character lattice, and no comparison of
   such a group with `L(λ)`.
 * Layer 9, the restricted root system and the uniqueness of the middle KAK factor modulo the
   restricted Weyl group: stated in the README on the `IwasawaData` fields; only existence of the
-  factorizations is stated here.
+  factorizations is stated here. The global exponential diffeomorphism of a connected immersed
+  subgroup of the positive triangular group is stated as bijectivity of `lieExp` together with the
+  ambient exponential bijection; the smoothness of the inverse is in the README.
 -/
 
 namespace TauCetiRoadmap.RepresentationTheory.LieGroups
@@ -66,13 +77,24 @@ noncomputable instance instFiniteDimensionalLeftInvariantDerivation :
 
 /-! ### Layer 1: the adjoint representations -/
 
-/-- **`Ad (lieExp X) = exp (ad X)`** for every finite-dimensional real Lie group, as an identity of
-bounded operators on `𝔤` with its canonical norm; the units case `G = Rˣ` is native
-(`TauCeti.Lie.Ad_lieExp_units`). Kirillov, online author copy, Thm. 3.7(5) and §3.6. -/
-theorem Ad_lieExp_eq_exp_ad (X : LeftInvariantDerivation I G) :
-    (TauCeti.Lie.Ad (I := I) (lieExp (I := I) X)).toLinearEquiv.toContinuousLinearEquiv.toContinuousLinearMap
-      = NormedSpace.exp
-          (LinearMap.toContinuousLinearMap (LieAlgebra.ad ℝ (LeftInvariantDerivation I G) X)) := sorry
+/-- **The left-trivialized derivative of the exponential map**: for every finite-dimensional real
+Lie group and every `X ∈ 𝔤`, the derivative of `lieExp` at `X`, read through the native
+derivation–tangent equivalence, is `d(L_{lieExp X})_1 ∘ ∫_{s ∈ [0,1]} exp(−s · ad X) ds`, the
+operator integral being the Bochner integral on `𝔤 →L[ℝ] 𝔤` (so the notation `(1 − exp(−ad X))/ad X`
+has a meaning also at singular `ad X`). The Banach shadow is native
+(`fderiv_exp_apply_eq_exp_mul_integral`, `fderiv_lieExp_units_coe_eq_exp_mul_banachDexpFactor`).
+Convention witness: in `GL₂(ℝ)` with `X = diag(1, 0)`, `Y = E₁₂`, both sides give `(1 − e⁻¹) E₁₂`
+(README, Layer 1). Hall, *Lie Groups, Lie Algebras, and Representations*, 2nd ed., Thm. 5.4 for the
+matrix case. -/
+theorem mfderiv_lieExp_eq_integral (X : LeftInvariantDerivation I G) :
+    mfderiv 𝓘(ℝ, LeftInvariantDerivation I G) I (lieExp (I := I)) X =
+      (mfderiv I I (fun y : G => lieExp (I := I) X * y) 1).comp
+        (((leftInvariantDerivationEquivGroupLieAlgebra (I := I) (G := G)
+            BoundarylessManifold.isInteriorPoint).toContinuousLinearEquiv :
+              LeftInvariantDerivation I G →L[ℝ] GroupLieAlgebra I G).comp
+          (∫ s in (0 : ℝ)..1, NormedSpace.exp
+            (-(s • LinearMap.toContinuousLinearMap
+              (LieAlgebra.ad ℝ (LeftInvariantDerivation I G) X))))) := sorry
 
 /-! ### Layer 2: the closed-subgroup theorem -/
 
@@ -100,6 +122,12 @@ theorem exists_embeddedLieSubgroupData_lieMap_range_eq (K : Subgroup G)
         TauCeti.Lie.lieSubalgebraOfSubgroup (I := I) K := sorry
 
 end LieFunctor
+
+/-- **`SU(2)` is simply connected**: through the smooth identification `SU(2) ≃ S³` by the first
+column, with its subspace topology from the matrices. This is the simply connected rank-one source
+that Layer 6 integrates Lie-algebra homomorphisms out of. -/
+theorem simplyConnectedSpace_SU2 :
+    SimplyConnectedSpace (Matrix.specialUnitaryGroup (Fin 2) ℂ) := sorry
 
 /-! ## B. Integrating algebras to groups -/
 
@@ -193,6 +221,16 @@ Kirillov, online author copy, Thm. 3.32. -/
 theorem Ad_eq_refl_iff_mem_center [ConnectedSpace G] (g : G) :
     TauCeti.Lie.Ad (I := I) g = LieEquiv.refl ↔ g ∈ Subgroup.center G := sorry
 
+/-- **The exponential map of a connected nilpotent Lie group is surjective**: the simply connected
+integration of a nilpotent Lie algebra is the global polynomial BCH group, on which `lieExp` is the
+identity in coordinates, and `lieExp` descends along the universal covering homomorphism. The
+circle `ℝ/ℤ` shows it need not be injective, and `SL₂(ℝ)` (not nilpotent, `diag(−2, −1/2)` not an
+exponential) shows the hypothesis is needed. Kirillov, online author copy, Thm. 3.34 for the local
+input; README, Layer 5. -/
+theorem lieExp_surjective_of_isNilpotent [ConnectedSpace G]
+    [LieRing.IsNilpotent (LeftInvariantDerivation I G)] :
+    Function.Surjective (lieExp (I := I) (G := G)) := sorry
+
 end Covers
 
 /-! ## C. The structure of compact and reductive Lie groups -/
@@ -253,6 +291,15 @@ include I in
 theorem finite_weylGroup [CompactSpace G] [ConnectedSpace G] (T : Subgroup G)
     (hT : IsMaximalTorus T) :
     Finite (weylGroup T) := sorry
+
+include I in
+/-- **A maximal torus is its own centralizer** in a compact connected group: an element
+centralizing `T` lies in a maximal torus `S`, and `S` and `T` are maximal tori of the connected
+centralizer of that element, hence conjugate inside it by an element fixing it. So the Weyl group
+`N_G(T)/T` acts faithfully on `T`. Bröcker–tom Dieck, Ch. IV, §1. -/
+theorem centralizer_eq_of_isMaximalTorus [CompactSpace G] [ConnectedSpace G]
+    (T : Subgroup G) (hT : IsMaximalTorus T) :
+    Subgroup.centralizer (T : Set G) = T := sorry
 
 omit [BoundarylessManifold I G] in
 /-- `Ad(t⁻¹) − 1` carries `Lie(T)` into itself for `t ∈ T`: the Lie algebra of a subgroup is
@@ -322,10 +369,31 @@ variable {E : Type u} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensio
   [Group G] [LieGroup I ∞ G] [T2Space G] [BoundarylessManifold I G]
 
 include I in
-/-- **The complexification** `G_ℂ` of a compact connected Lie group: a complex Lie group with a
-continuous injective homomorphism from `G`, universal among continuous homomorphisms of `G` into
-complex Lie groups. Without the universal property the bare existential would be vacuous (the trivial
-group satisfies it). On the classical groups `(U(n))_ℂ = GL_n(ℂ)`, `(SU(n))_ℂ = SL_n(ℂ)`. -/
+/-- **The universal complexification of a connected Lie group**: a complex Lie group `G_ℂ` with a
+continuous homomorphism `η : G → G_ℂ`, universal among continuous homomorphisms of `G` into complex
+Lie groups. No injectivity is claimed: `η` is the descent of the integrated real inclusion
+`G̃ → H` along the period subgroup `N`, and for the universal cover of `SL₂(ℝ)` its kernel is
+nontrivial. Without the universal property the bare existential would be vacuous (the trivial
+group satisfies it). Heins, arXiv 2512.07479, Prop. 2.1; README, Layer 7. -/
+theorem exists_connected_complexification [ConnectedSpace G] :
+    ∃ (Ec : Type u) (_ : NormedAddCommGroup Ec) (_ : NormedSpace ℂ Ec)
+      (_ : FiniteDimensional ℂ Ec) (Hc : Type v) (_ : TopologicalSpace Hc)
+      (Ic : ModelWithCorners ℂ Ec Hc)
+      (Gc : Type w) (_ : TopologicalSpace Gc) (_ : ChartedSpace Hc Gc)
+      (_ : Group Gc) (_ : LieGroup Ic ∞ Gc) (ι : G →* Gc),
+      Continuous (ι : G → Gc) ∧
+      ∀ (Ec' : Type u) (_ : NormedAddCommGroup Ec') (_ : NormedSpace ℂ Ec')
+        (_ : FiniteDimensional ℂ Ec')
+        (Hc' : Type v) (_ : TopologicalSpace Hc') (Ic' : ModelWithCorners ℂ Ec' Hc')
+        (Gc' : Type w) (_ : TopologicalSpace Gc') (_ : ChartedSpace Hc' Gc')
+        (_ : Group Gc') (_ : LieGroup Ic' ∞ Gc')
+        (φ : G →* Gc'), Continuous (φ : G → Gc') →
+        ∃! ψ : Gc →* Gc', ContMDiff Ic Ic' ∞ (ψ : Gc → Gc') ∧ ψ.comp ι = φ := sorry
+
+include I in
+/-- **The complexification of a compact connected Lie group** is moreover injective on `G`: the
+connected statement with `Function.Injective ι` added, proved through a faithful finite-dimensional
+unitary representation. On the classical groups `(U(n))_ℂ = GL_n(ℂ)`, `(SU(n))_ℂ = SL_n(ℂ)`. -/
 theorem exists_complexification [CompactSpace G] [ConnectedSpace G] :
     ∃ (Ec : Type u) (_ : NormedAddCommGroup Ec) (_ : NormedSpace ℂ Ec)
       (_ : FiniteDimensional ℂ Ec) (Hc : Type v) (_ : TopologicalSpace Hc)
@@ -523,9 +591,10 @@ structure IwasawaData (I : ModelWithCorners ℝ E H) (G : Type w) [TopologicalSp
 def IsIwasawaTriple (K A N : Subgroup G) : Prop :=
   ∃ D : IwasawaData I G, D.K = K ∧ D.A = A ∧ D.N = N
 
-/-- **The Iwasawa decomposition** `G = KAN`: for a real reductive `G` and an Iwasawa triple
-`(K, A, N)`, every `g` factors uniquely as `k a n`. Knapp, Ch. VI, §4. -/
-theorem iwasawaDecomposition (hG : IsRealReductive I G)
+/-- **The Iwasawa decomposition** `G = KAN`: for an Iwasawa triple `(K, A, N)` (whose datum
+carries the Cartan involution, so `G` is real reductive), every `g` factors uniquely as `k a n`.
+Knapp, Ch. VI, §4. -/
+theorem iwasawaDecomposition
     (K A N : Subgroup G) (hKAN : IsIwasawaTriple (I := I) K A N) :
     ∀ g : G, ∃! p : K × A × N, g = (p.1 : G) * (p.2.1 : G) * (p.2.2 : G) := sorry
 
@@ -538,7 +607,7 @@ theorem kakDecomposition (D : IwasawaData I G) :
 
 /-- **The global Cartan (polar) decomposition** `G = K · exp 𝔭`: for a Cartan involution datum,
 every `g` factors uniquely as `k · lieExp X` with `θ k = k` and `X` in the `−1`-eigenspace of `dθ`.
-Knapp, Ch. VI, §2. -/
+Knapp, Ch. VI, §3. -/
 theorem cartan_polar_decomposition (D : CartanInvolution I G) (g : G) :
     ∃! p : {k : G // D.θ k = k} ×
         {X : LeftInvariantDerivation I G //
@@ -546,5 +615,53 @@ theorem cartan_polar_decomposition (D : CartanInvolution I G) (g : G) :
       g = (p.1 : G) * lieExp (I := I) (p.2 : LeftInvariantDerivation I G) := sorry
 
 end RealReductive
+
+/-! ### Layer 9: the positive triangular group and its connected immersed subgroups -/
+
+/-- The upper-triangular complex matrices with real diagonal, the Lie algebra `𝔞𝔫` of the positive
+triangular group. -/
+def triangularRealDiagonal (m : ℕ) : Set (Matrix (Fin m) (Fin m) ℂ) :=
+  {X | (∀ i j : Fin m, j < i → X i j = 0) ∧ ∀ i, (X i i).im = 0}
+
+/-- The upper-triangular complex matrices with strictly positive real diagonal, the positive
+triangular group `AN ⊂ GL_m(ℂ)`. -/
+def positiveTriangular (m : ℕ) : Set (Matrix (Fin m) (Fin m) ℂ) :=
+  {g | (∀ i j : Fin m, j < i → g i j = 0) ∧ ∀ i, (g i i).im = 0 ∧ 0 < (g i i).re}
+
+/-- **The exponential of the positive triangular group is a global bijection** `𝔞𝔫 → AN`, with
+inverse the triangular logarithm recovered gap by gap (diagonal entries `log g_ii`, then the
+coefficient `(e^{X_ii} − e^{X_jj})/(X_ii − X_jj)` of `X_ij`, with value `e^{X_ii}` on equal
+diagonal entries). For `m = 1` this is the real exponential onto `ℝ_{>0}`; `diag(−1, 1)` shows the
+positivity of the diagonal is what makes the map onto. README, Layer 9. -/
+theorem bijOn_exp_triangular (m : ℕ) :
+    Set.BijOn NormedSpace.exp (triangularRealDiagonal m) (positiveTriangular m) := sorry
+
+section PositiveTriangular
+
+open scoped Matrix.Norms.Operator
+
+-- the operator-norm topology on matrices, under which `GL_m(ℂ)` is a real Lie group of units
+attribute [local instance] Matrix.linftyOpTopologicalSpace
+
+/-- **The exponential map of a connected immersed subgroup of the positive triangular group is a
+global bijection** (and a diffeomorphism for the subgroup's own Lie-group topology, README, Layer 9):
+for a connected Lie group `C` with an injective smooth immersive homomorphism into `GL_m(ℂ)`, as a
+real Lie group of units, whose image lies in `positiveTriangular m`, `lieExp : Lie(C) → C` is
+bijective. No closedness or embeddedness of the image is assumed. -/
+theorem lieExp_bijective_of_immersed_positiveTriangular (m : ℕ)
+    {E' : Type u} [NormedAddCommGroup E'] [NormedSpace ℝ E'] [FiniteDimensional ℝ E']
+    {H' : Type v} [TopologicalSpace H'] {I' : ModelWithCorners ℝ E' H'}
+    {C : Type w} [TopologicalSpace C] [ChartedSpace H' C] [Group C] [LieGroup I' ∞ C]
+    [T2Space C] [BoundarylessManifold I' C] [ConnectedSpace C]
+    (φ : C →* (Matrix (Fin m) (Fin m) ℂ)ˣ)
+    (hφ : ContMDiff I' 𝓘(ℝ, Matrix (Fin m) (Fin m) ℂ) ∞ (φ : C → (Matrix (Fin m) (Fin m) ℂ)ˣ))
+    (hinj : Function.Injective φ)
+    (himm : ∀ c, Function.Injective
+      (mfderiv I' 𝓘(ℝ, Matrix (Fin m) (Fin m) ℂ) (φ : C → (Matrix (Fin m) (Fin m) ℂ)ˣ) c))
+    (hAN : ∀ c, ((φ c : (Matrix (Fin m) (Fin m) ℂ)ˣ) : Matrix (Fin m) (Fin m) ℂ) ∈
+      positiveTriangular m) :
+    Function.Bijective (lieExp (I := I') (G := C)) := sorry
+
+end PositiveTriangular
 
 end TauCetiRoadmap.RepresentationTheory.LieGroups

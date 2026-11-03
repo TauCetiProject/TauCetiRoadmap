@@ -93,9 +93,9 @@ matrix-group engine), mirroring Mathlib's `Geometry/Manifold/Algebra/`.
   `GroupLieAlgebra Ic H`, not derivations on global holomorphic functions. Here
   Ic is a finite-dimensional complex model and `LieGroup Ic ∞ H`. Obtain
   `LieGroup Ic (minSmoothness ℂ 3) H` via `LieGroup.of_le`; completeness of E
-  follows from finite-dimensionality. Use the resulting native bracket hypotheses. Layer7 uses
-  `𝓘(ℂ,E)` after CM M1 model transport where needed, and names M1's realified
-  model I_R on the same carrier. Complex Lie(H) below always means this tangent
+  follows from finite-dimensionality. Use the resulting native bracket hypotheses. Layer 7 uses
+  `𝓘(ℂ,E)` after ComplexManifolds Milestone 1 model transport where needed, and names that
+  milestone's realified model I_R on the same carrier. Complex Lie(H) below always means this tangent
   Lie algebra, compared after restriction of scalars with the real derivation
   algebra. Compact complex tori need no global holomorphic functions to have
   their nonzero tangent Lie algebra.
@@ -110,9 +110,11 @@ matrix-group engine), mirroring Mathlib's `Geometry/Manifold/Algebra/`.
   covering spaces of Layer 5 is its 2.3.
   On `G = Rˣ` for a real normed algebra with `[FiniteDimensional ℝ R]`, use the native
   derivation–tangent equivalence `Lie(Rˣ) ≃ R` and compare `lieExp` with `NormedSpace.exp`; on
-  matrix groups with `Matrix.exp`, and on the circle with `Circle.exp`; those coincidences are
-  acceptance criteria, not definitions. Reuse Mathlib's `NormedSpace.exp`, `Matrix.exp` lemmas, and
-  `Circle.exp` for the worked arena; never redefine the matrix exponential.
+  matrix groups with `NormedSpace.exp` on matrices (Mathlib has no separate matrix exponential
+  function, only the `Matrix.exp_*` lemmas about `NormedSpace.exp`), and on the circle with
+  `Circle.exp`; those coincidences are acceptance criteria, not definitions. Reuse Mathlib's
+  `NormedSpace.exp`, the `Matrix.exp_*` lemmas, and `Circle.exp` for the worked arena; never redefine
+  the matrix exponential.
 - **The adjoint carriers and their comparisons.** Reuse Mathlib's
   `ad = LieAlgebra.ad ℝ 𝔤 : 𝔤 →ₗ⁅ℝ⁆ Module.End ℝ 𝔤`
   (`LieAlgebra.ad_apply : ad x y = ⁅x, y⁆`) and the native group adjoint
@@ -122,11 +124,9 @@ matrix-group engine), mirroring Mathlib's `Geometry/Manifold/Algebra/`.
 - **Matrix groups are the computable engine; the abstract manifold theory is the general statement.**
   Every abstract milestone has a matrix-group shadow that is Mathlib-native and where norms exist:
   `Matrix.GeneralLinearGroup (Fin n) ℝ = (Matrix (Fin n) (Fin n) ℝ)ˣ`, `Matrix.SpecialLinearGroup`,
-  `Matrix.specialUnitaryGroup`, `Matrix.orthogonalGroup`/`specialOrthogonalGroup`. Where a smooth-manifold
-  signature is fragile, `Suggested.lean` states the milestone over a matrix or normed group instead and
-  the README records the general form; the two are kept in step, exactly as
-  [../CompactGroups](../CompactGroups/README.md) keeps `SU(2)` beside the abstract compact group. Use
-  Mathlib's matrix-group names, never a private matrix group.
+  `Matrix.specialUnitaryGroup`, `Matrix.orthogonalGroup`/`specialOrthogonalGroup`, kept beside the
+  abstract statements exactly as [../CompactGroups](../CompactGroups/README.md) keeps `SU(2)` beside the
+  abstract compact group. Use Mathlib's matrix-group names, never a private matrix group.
 - **Root systems and the Weyl group are the root-systems roadmap's; we consume them.** For the
   reductive/complex structure theory (Layers 8-9) the root system is `LieAlgebra.IsKilling.rootSystem`
   and the abstract Weyl group is `RootPairing.weylGroup`, the province of
@@ -207,9 +207,13 @@ in Layers 0–3. It also supplies global exponential smoothness
 
 Tau Ceti also already proves the continuous one-parameter-subgroup classification, the
 closed-subgroup theorem with its limit criterion, Cartan's automatic smoothness, faithfulness of the
-Lie functor on connected groups and the Lie-group structure of the universal cover; each is named and
-consumed in its layer below. Construct the required specific matrix/unit/circle comparisons at their
-stated scopes; the remaining adjoint and Lie-functor comparisons; the arbitrary-subgroup
+Lie functor on connected groups and the Lie-group structure of the universal cover; it also proves
+the derivation–tangent identification of the Lie algebra, the smooth adjoint representation with
+`d(Ad)_1 = ad` and `Ad(lieExp X) = exp(ad X)` on the tangent carrier, the Banach form of the
+exponential derivative, and the Lie algebras of its own carriers of the classical matrix groups; each
+is named and consumed in its layer below. Construct the derivation-carrier transport of the adjoint
+exponential formula, the Lie-group form of the exponential derivative, the transport of the matrix
+Lie algebras to Mathlib's matrix-group names and the circle comparison; the arbitrary-subgroup
 direction-set identification and the Lie-algebra comparison of a closed subgroup; the total degreewise
 Dynkin BCH series, explicit convergence and cubic-remainder estimates, and its comparison with the
 native local germ. Construct the subalgebra–immersed-subgroup
@@ -227,10 +231,11 @@ The precise hypotheses, constructions and independent supplier boundaries are sp
 Harish–Chandra harmonic analysis remains a separate downstream subject.
 
 `Suggested.lean` states the headline theorems of this roadmap against the pinned Mathlib and Tau
-Ceti, each with `sorry`, with only the definitions those statements need (`ImmersedLieSubgroupData`,
-`IsMaximalTorus`, `weylGroup`, `weylDensity`, `FiniteCartanMatrixModel`, `CartanInvolution`,
-`IwasawaData`); its module docstring names the headlines that are not statable at the pins. The
-complete mathematical specification is this README.
+Ceti, each with `sorry`, with only the definitions those statements need (`ImmersedLieSubgroupData`
+and `IsImmersedLieSubgroup`, `IsMaximalTorus`, `weylGroup`, `weylDensity`, `FiniteCartanMatrixModel`,
+`CartanInvolution` and `IsRealReductive`, `IwasawaData` and `IsIwasawaTriple`,
+`triangularRealDiagonal` and `positiveTriangular`); its module docstring names the headlines that
+are not statable at the pins. The complete mathematical specification is this README.
 
 ---
 
@@ -240,8 +245,7 @@ The ordering is the dependency order. Deliverable A (Layers 0-3) differentiates:
 exponential map, the adjoint representations, the closed-subgroup theorem, and the Lie functor.
 Deliverable B (Layers 4-5) integrates: Frobenius, Lie's third theorem, the equivalence of categories, and
 the enveloping algebra. Deliverable C begins with the compact real metric floor (Layer 5A), then develops the
-structure theory of compact and reductive Lie groups in Layers 6-9. As each layer makes the next layer's *types* expressible, its milestones go into `Suggested.lean`
-(with `sorry`).
+structure theory of compact and reductive Lie groups in Layers 6-9.
 
 ## A. The Lie functor: from groups to algebras
 
@@ -257,16 +261,20 @@ under these same hypotheses. The matrix/unit/circle coincidences are application
 common derivation-based carrier. Keep the arbitrary model-with-corners scope of later
 statements separate from this boundaryless native interface.
 
-- **The Lie algebra and the tangent space at `1`.** Reuse `LeftInvariantDerivation I G` as `𝔤`. The
-  identification `𝔤 ≃ₗ[ℝ] TangentSpace I (1 : G)` is not a one-line upgrade of Mathlib's `evalAt`: it is
-  three milestones. (i) `LeftInvariantDerivation.evalAt (1 : G) : 𝔤 →ₗ[ℝ] PointDerivation I (1 : G)`
-  lands in point derivations, not tangent vectors. (ii) `PointDerivation I (1 : G) ≃ₗ[ℝ] TangentSpace I
-  (1 : G)`, the identification of derivations at a point with tangent vectors, holds because `E` is
-  finite-dimensional and `G` is `C^∞` (Mathlib's `DerivationBundle` records that it fails in general);
-  this is where finite-dimensionality enters. (iii) `evalAt 1` is a bijection, via the inverse that
-  builds a left-invariant vector field from a tangent vector and checks its derivation is smooth and
-  left-invariant. Only after (i)-(iii) is `finrank ℝ 𝔤 = finrank ℝ E` available. Every left-invariant
-  derivation is a left-invariant vector field; state that dictionary.
+- **The Lie algebra and the tangent space at `1` (native).** Reuse `LeftInvariantDerivation I G` as
+  `𝔤`. Its identification with the tangent Lie algebra at `1` is native and is consumed, not rebuilt:
+  `leftInvariantDerivationEquivGroupLieAlgebra` (`TauCeti.Geometry.Lie.Tangent.LeftInvariantDerivation`)
+  is the linear equivalence `𝔤 ≃ₗ[ℝ] GroupLieAlgebra I G`, evaluation at `1` into point derivations
+  composed with Mathlib's identification of point derivations with tangent vectors (which holds because
+  `E` is finite-dimensional and `G` is `C^∞`, `Geometry/Manifold/DerivationBundle.lean`), under the
+  hypotheses `[FiniteDimensional ℝ E]`, `[ContMDiffMul I ∞ G]`, `[T2Space G]` and the interior-point
+  hypothesis at `1`; `leftInvariantDerivationLieEquivGroupLieAlgebra`
+  (`TauCeti.Geometry.Lie.Tangent.LieEquiv`) is its Lie-algebra form;
+  `finiteDimensional_leftInvariantDerivation` and `finrank_leftInvariantDerivation_eq_modelVectorSpace`
+  give `finrank ℝ 𝔤 = finrank ℝ E`. What remains a target is the dictionary with vector fields: every
+  left-invariant derivation is the derivation of a left-invariant vector field, with the native
+  `tangentToLeftInvariantDerivation` (tangent vector to derivation through its invariant field) as the
+  inverse direction.
 - **The exponential map.** Reuse `lieExp : 𝔤 → G`, with `lieExp X = γ_X 1` for the invariant
   integral curve through `1`. Consume its native zero law, `contMDiff_lieExp` and
   `isLocalDiffeomorphAt_lieExp_zero`; the latter supplies the local exponential chart at `1`.
@@ -286,31 +294,64 @@ statements separate from this boundaryless native interface.
   The complete normed-algebra `TauCeti.expUnit`, its tangent one-parameter identity
   and the norm-series laws have their more general hypotheses; those do not assert
   an unrestricted Banach derivation–tangent equivalence. On matrix groups the value
-  is `Matrix.exp`, with `Matrix.exp_diagonal`, `Matrix.exp_transpose` and `Matrix.exp_conj`;
-  on the circle it is `Circle.exp`, with `Circle.exp_add`. Retain those specific comparisons.
+  is `NormedSpace.exp` on matrices, with `Matrix.exp_diagonal`, `Matrix.exp_transpose` and
+  `Matrix.exp_conj`; on the circle it is `Circle.exp`, with `Circle.exp_add`. Retain those specific
+  comparisons.
 
 ### Layer 1: the adjoint representations `Ad` and `ad`
 
-- **The group adjoint.** `Ad : G → (𝔤 ≃ₗ⁅ℝ⁆ 𝔤)`, `Ad g = d(c_g)_1` the differential at `1` of conjugation
-  `c_g : x ↦ g x g⁻¹`. It is a Lie-algebra automorphism, and `Ad : G →* (𝔤 ≃ₗ⁅ℝ⁆ 𝔤)` is a **smooth
-  representation** of `G` on `𝔤`, the **adjoint representation**. On matrix groups `Ad g X = g X g⁻¹`.
-- **The infinitesimal adjoint.** The Lie-algebra adjoint is Mathlib's
-  `ad = LieAlgebra.ad ℝ 𝔤 : 𝔤 →ₗ⁅ℝ⁆ Module.End ℝ 𝔤`, `ad X = ⁅X, ·⁆` (`LieAlgebra.ad_apply`). The
-  milestone is that it is the derivative of `Ad`: `ad = d(Ad)_1`, i.e.
-  `mfderiv Ad 1 X = LieAlgebra.ad ℝ 𝔤 X`. This *is* the geometric meaning of the bracket.
-- **Conjugation and the global exponential derivative.** The conjugation law
-  `g·lieExp X·g⁻¹=lieExp(Ad g X)` is native (`TauCeti.Lie.conj_lieExp` in
-  `TauCeti.Geometry.Lie.Adjoint.Exponential.Basic`, with `TauCeti.Lie.Ad_mul` and `TauCeti.Lie.Ad_one`), and so is
-  the derivative statement `ad = d(Ad)` in its orbit form: `s ↦ Ad(lieExp(sX))Y` has derivative `⁅X, Y⁆`
-  at `s = 0` (`TauCeti.Lie.hasDerivAt_Ad_lieExp_smul_apply_zero` in `TauCeti.Geometry.Lie.Subgroup.LieAlgebra`);
-  consume them (Kirillov, online author copy, Thm. 3.7(5)). Prove `Ad(lieExp X)=exp(ad X)` for every
-  finite-dimensional real Lie group, as an identity of bounded operators on `𝔤` with its canonical
-  norm; the units case `G = Rˣ` is native (`TauCeti.Lie.Ad_lieExp_units`) and is the acceptance test.
-  Construct for every X the entire left-trivialized derivative
-  `d(lieExp)_X=d(L_(lieExp X))_1 ∘ ∫_(s∈[0,1]) exp(−s ad X) ds`,
-  with its parameter smoothness and convergent series comparison. The notation
-  `(1−exp(−ad X))/ad X` means this operator also at singular ad X. Retain
-  `Ad_lieExp` naturality as the headline.
+- **The group adjoint (native).** `TauCeti.Lie.Ad : G → (𝔤 ≃ₗ⁅ℝ⁆ 𝔤)`
+  (`TauCeti.Geometry.Lie.Adjoint.Derivation`, with `TauCeti.Lie.Ad_one`, `TauCeti.Lie.Ad_mul` and
+  `TauCeti.Lie.Ad_inv` in the same module) is the differential at `1` of conjugation `c_g : x ↦ g x g⁻¹`,
+  transported from the tangent carrier through `leftInvariantDerivationLieEquivGroupLieAlgebra`. That
+  it is a **smooth representation** of `G` on `𝔤`, the **adjoint representation**, is native too:
+  `continuousAdjointRepresentation`, `contMDiff_continuousAdjointRepresentation` and `contMDiff_Ad_apply`
+  (`TauCeti.Geometry.Lie.Adjoint.Representation.Basic`). On the units `Rˣ` of a finite-dimensional real
+  normed algebra it is conjugation, `Ad g X = g X g⁻¹`, read through `unitsLieAlgebraLieEquiv`
+  (`TauCeti.Geometry.Lie.Adjoint.Units.Basic`, `unitsLieAlgebraEquiv_Ad`). Consume all of these.
+- **The infinitesimal adjoint (native).** The Lie-algebra adjoint is Mathlib's
+  `ad = LieAlgebra.ad ℝ 𝔤 : 𝔤 →ₗ⁅ℝ⁆ Module.End ℝ 𝔤`, `ad X = ⁅X, ·⁆` (`LieAlgebra.ad_apply`), and it is
+  the derivative of `Ad`: `mfderiv_Ad_apply_one` and `mfderiv_continuousAdjointRepresentation_one`
+  (`TauCeti.Geometry.Lie.Adjoint.Representation.Differential`) prove `d(Ad)_1 X = ad X` on the derivation
+  carrier, and `TauCeti.Lie.hasDerivAt_Ad_lieExp_smul_apply_zero` (`TauCeti.Geometry.Lie.Subgroup.LieAlgebra`)
+  is its orbit form, `s ↦ Ad(lieExp(sX))Y` has derivative `⁅X, Y⁆` at `s = 0`. This *is* the geometric
+  meaning of the bracket; consume it (Kirillov, online author copy, Thm. 3.7(5)).
+- **Conjugation and the exponential (native up to a transport).** The conjugation law
+  `g·lieExp X·g⁻¹ = lieExp(Ad g X)` is native (`TauCeti.Lie.conj_lieExp` in
+  `TauCeti.Geometry.Lie.Adjoint.Exponential.Basic`). The formula `Ad(lieExp X) = exp(ad X)` is native on
+  the tangent carrier for every finite-dimensional real `LieGroup I ∞ G`: `tangentAd_mulInvariantExp_apply`
+  (`TauCeti.Geometry.Lie.Adjoint.Exponential.Formula`) identifies `tangentAd (mulInvariantExp X)` with
+  the operator exponential of `ad X` on `GroupLieAlgebra I G`, and `TauCeti.Lie.Ad_lieExp_units`
+  (`TauCeti.Geometry.Lie.Adjoint.Units.Exponential`) is the units case on the derivation carrier. Since
+  `TauCeti.Lie.Ad` is defined as the conjugate of `tangentAd` by `leftInvariantDerivationLieEquivGroupLieAlgebra`
+  and `lieExp` as `mulInvariantExp` after the same equivalence, the derivation-carrier form of the
+  formula is one conjugation of the native theorem by that continuous linear equivalence
+  (`NormedSpace.map_exp`), exactly as `Ad_lieExp_units` is proved: a transport lemma, stated here as a
+  target and not as a headline. Consume the native statements.
+- **The left-trivialized derivative of the exponential.** The Banach shadow is native: for a complete
+  real normed algebra `R`, `banachDexpFactor_eq_integral_exp` (`TauCeti.Geometry.Lie.Adjoint.BanachDexp.Integral`)
+  writes the factor `(1 − exp(−ad x))/ad x` as the Bochner integral `∫_{s∈[0,1]} exp(−s ad x) ds` on
+  `R →L[ℝ] R`, `fderiv_exp_apply_eq_exp_mul_integral` (`TauCeti.Geometry.Lie.Adjoint.BanachDexp.Derivative`)
+  is the derivative formula `d(exp)_x = L_{exp x} ∘ ∫_{s∈[0,1]} exp(−s ad x) ds`, and
+  `fderiv_lieExp_units_coe_eq_exp_mul_banachDexpFactor` (`TauCeti.Geometry.Lie.Adjoint.BanachDexp.Units`)
+  is its `lieExp` form on `Rˣ`. The target is the Lie-group form: for every finite-dimensional real
+  Lie group and every `X ∈ 𝔤`, the derivative of `lieExp` at `X`, read through the derivation–tangent
+  equivalence, is `d(L_{lieExp X})_1 ∘ ∫_{s∈[0,1]} exp(−s ad X) ds` (`mfderiv_lieExp_eq_integral`), with
+  the operator integral the Bochner integral on `𝔤 →L[ℝ] 𝔤`, so that the notation `(1−exp(−ad X))/ad X`
+  means this operator also at singular `ad X`. Prove it from the variation of the invariant integral
+  curve, or by transporting the units case along a faithful local chart (Hall, *Lie Groups, Lie
+  Algebras, and Representations*, 2nd ed., Thm. 5.4 for the matrix case).
+
+  **Checks** for the derivative formula.
+  - `ad X = 0` (an abelian group, or any central `X`): the integral is the identity and the formula
+    says `d(lieExp)_X = d(L_{lieExp X})_1`; on `ℝⁿ` both sides are the identity.
+  - Convention witness in `GL₂(ℝ)`, `X = diag(1, 0)`, `Y = E₁₂`: `exp(X + tY) = [[e, t(e − 1)],[0, 1]]`,
+    so `d(exp)_X(Y) = (e − 1)E₁₂` and its left translate to `1` is `exp(X)⁻¹(e − 1)E₁₂ = (1 − e⁻¹)E₁₂`;
+    since `ad X · E₁₂ = E₁₂`, `∫₀¹ exp(−s ad X) ds · E₁₂ = (1 − e⁻¹)E₁₂`, matching. The opposite sign
+    `exp(+s ad X)` would give `(e − 1)E₁₂ ≠ (1 − e⁻¹)E₁₂`, and right translation to `1` would give
+    `(e − 1)E₁₂` as well: the formula is left-trivialized with `exp(−s ad X)`.
+  - `GL₁(ℝ) = ℝˣ`: `ad X = 0` and `d(exp)_x = e^x`, the real derivative, so the formula reduces to the
+    one-variable chain rule and the factor is `1`.
 
 ### Layer 2: the closed-subgroup (Cartan) theorem
 
@@ -318,9 +359,9 @@ statements separate from this boundaryless native interface.
   h={X∈g | exp(tX)∈H for every real t}. The native carrier
   `TauCeti.Lie.lieSubalgebraOfSubgroup H` (`TauCeti.Geometry.Lie.Subgroup.LieAlgebra`) is the Lie span of
   this set, and native `TauCeti.Lie.mem_lieSubalgebraOfSubgroup` proves the set already a subalgebra when
-  `H` is closed. The target is the same equality for every `H`: prove h a Lie subalgebra by a
-  finite-product construction, without assuming H closed, so that `lieSubalgebraOfSubgroup H` has
-  underlying set h. Let K⊂H be generated
+  `H` is closed. The target is the same equality for every `H` (`mem_lieSubalgebraOfSubgroup_iff`):
+  prove h a Lie subalgebra by a finite-product construction, without assuming H closed, so that
+  `lieSubalgebraOfSubgroup H` has underlying set h. Let K⊂H be generated
   by these one-parameter groups and let V span Ad_k X for k∈K and X∈h.
   Choose a basis Y_i among these vectors; each exp(tY_i) lies in K. The product
   map ∏exp(t_iY_i) is an embedded patch near0, by the finite-dimensional rank
@@ -350,16 +391,42 @@ statements separate from this boundaryless native interface.
   (`TauCeti.Geometry.Lie.Subgroup.LimitCriterion`). Consume both (Kirillov, online author copy, Thm. 2.8).
   The criterion is not asserted for nonclosed subgroups: `ℚ ⊂ ℝ` is a counterexample, since
   `t_n = 1/n`, `X_n = 1` satisfy the right side while `exp(t·1) = t ∉ ℚ` for irrational `t`.
-  What remains a target is the Lie-algebra comparison: identify `LeftInvariantDerivation 𝓘(ℝ, E') H` of
-  the native structure with `lieSubalgebraOfSubgroup H` through the differential of the inclusion,
-  so that `Lie(H) = h` and `exp_H` is the restriction of `exp`.
-- **Consequences.** The **matrix groups are Lie groups**: `Matrix.SpecialLinearGroup`,
+  What remains a target is the Lie-algebra comparison (`exists_embeddedLieSubgroupData_lieMap_range_eq`):
+  identify `LeftInvariantDerivation 𝓘(ℝ, E') H` of the native structure with
+  `lieSubalgebraOfSubgroup H` through the differential of the inclusion, so that `Lie(H) = h` and
+  `exp_H` is the restriction of `exp`.
+- **Consequences: the matrix groups (native, up to Mathlib's names).** The classical matrix groups are
+  closed subgroups of `GL_n = (Matrix n n 𝕜)ˣ`, hence embedded Lie subgroups with the expected Lie
+  algebras, and Tau Ceti proves this for its own carriers of them; consume
+  `TauCeti.Geometry.Lie.Subgroup.SpecialLinear` (`TauCeti.Lie.isClosed_range_toGL` for the image of
+  `Matrix.SpecialLinearGroup.toGL` over any `RCLike` field, and
+  `TauCeti.Lie.unitsLieAlgebraLieEquiv_symm_mem_lieSubalgebraOfSubgroup_iff_mem_sl`: its real Lie
+  algebra is `LieAlgebra.SpecialLinear.sl`, the trace-zero matrices),
+  `TauCeti.Geometry.Lie.Subgroup.Unitary` (`TauCeti.Lie.isEmbeddedLieSubgroup_unitarySubgroup` and
+  `TauCeti.Lie.unitsLieAlgebraLieEquiv_symm_mem_lieSubalgebraOfSubgroup_iff_mem_skewAdjoint` for the
+  unitary subgroup of the units of a finite-dimensional real normed star algebra, which for matrices is
+  the preimage of `Matrix.unitaryGroup` under `Units.val`, with the real case
+  `TauCeti.Lie.unitsLieAlgebraLieEquiv_symm_mem_lieSubalgebraOfSubgroup_iff_mem_so` for the full
+  orthogonal group), `TauCeti.Geometry.Lie.Subgroup.SpecialUnitary`
+  (`TauCeti.Lie.isEmbeddedLieSubgroup_GLSpecialUnitary` and
+  `TauCeti.Lie.lieSubalgebraOfSubgroup_GLSpecialUnitary` for `TauCeti.GLSpecialUnitary`: the
+  skew-Hermitian trace-zero matrices, degenerating over `ℝ` to `LieAlgebra.Orthogonal.so` by
+  `TauCeti.Lie.unitsLieAlgebraLieEquiv_symm_mem_GLSpecialUnitary_lieSubalgebra_iff_mem_so`),
+  `TauCeti.Geometry.Lie.Subgroup.Symplectic` (`TauCeti.isClosed_GLSymplectic` and
+  `TauCeti.Lie.unitsLieAlgebraLieEquiv_symm_mem_lieSubalgebraOfSubgroup_iff_mem_sp`: the Lie algebra
+  of `TauCeti.GLSymplectic` is `LieAlgebra.Symplectic.sp`) and
+  `TauCeti.Geometry.Lie.Subgroup.SpecialOrthogonal`
+  (`TauCeti.Lie.unitsLieAlgebraLieEquiv_symm_mem_realCliffordForm_lieSubalgebra_iff_mem_so` for the
+  special orthogonal carrier of the positive-definite real Clifford form `realCliffordForm n 0`).
+  What remains a target is the transport to Mathlib's own names: identify `Matrix.SpecialLinearGroup`,
   `Matrix.unitaryGroup`, `Matrix.specialUnitaryGroup`, `Matrix.orthogonalGroup`,
-  `Matrix.specialOrthogonalGroup`, and `Matrix.SymplecticGroup` are closed subgroups of
-  `Matrix.GeneralLinearGroup`, hence embedded Lie subgroups, with Lie algebras the trace-zero,
-  skew-Hermitian, skew-symmetric, etc. matrices. State each `Lie(-)` explicitly; these are the acceptance
-  criteria that give the compact-groups and classical-groups roadmaps their smooth structures. **Cartan's
-  automatic-smoothness corollary** is native: `TauCeti.Lie.contMDiff_of_continuous_monoidHom`
+  `Matrix.specialOrthogonalGroup` and `Matrix.SymplecticGroup`, as subgroups of `GL_n` through their
+  coercions, with the Tau Ceti carriers above, so that each `Lie(-)` is stated on Mathlib's group; give
+  the symplectic group its embedded Lie-subgroup structure (one application of
+  `TauCeti.Lie.isEmbeddedLieSubgroup_of_isClosed` to `TauCeti.isClosed_GLSymplectic`); and state
+  `Lie(SO(n))` on `Matrix.specialOrthogonalGroup` itself rather than on the Clifford-form carrier.
+  These transports are the acceptance criteria that give the compact-groups and classical-groups
+  roadmaps their smooth structures. **Cartan's automatic-smoothness corollary** is native: `TauCeti.Lie.contMDiff_of_continuous_monoidHom`
   (`TauCeti.Geometry.Lie.AutomaticSmoothness`) proves every continuous homomorphism between
   finite-dimensional real Lie groups smooth, so "Lie group homomorphism" may be stated as "continuous
   homomorphism"; consume it.
@@ -369,10 +436,12 @@ statements separate from this boundaryless native interface.
   `[[a,−conj b],[b,conj a]]` and actual determinant/unit/inverse laws. Prove S³
   simply connected: approximate continuous based loops by smooth based loops,
   with a basepoint-fixed homotopy from finite sphere charts/normalized short
-  interpolation and rounding. Apply [DifferentialGeometry10.2](../../DifferentialGeometry/README.md)
+  interpolation and rounding. Apply [DifferentialGeometry 10.2](../../DifferentialGeometry/README.md)
   Sard on the boundaryless Circle parametrization to find a point outside
-  the smooth based loop, then contract it through stereographic ℝ³. This proves SU(2) simply connected before Layer4's
-  integration is applied to it in Layer6, without torus/Weyl structure.
+  the smooth based loop, then contract it through stereographic ℝ³. This proves `SU(2)` simply
+  connected (`simplyConnectedSpace_SU2`, stated on `Matrix.specialUnitaryGroup (Fin 2) ℂ` with its
+  subspace topology) before Layer 4's integration is applied to it in Layer 6, without torus/Weyl
+  structure.
 
 ### Layer 3: the Lie functor and Baker-Campbell-Hausdorff
 
@@ -395,20 +464,41 @@ statements separate from this boundaryless native interface.
 
 - **The subalgebra ↔ immersed-subgroup correspondence.** For a Lie subalgebra `𝔥 ≤ 𝔤`, the left-invariant
   distribution `x ↦ d(L_x)_1 𝔥 ⊆ TangentSpace I x` is **involutive** (`⁅𝔥, 𝔥⁆ ⊆ 𝔥`), so by **Frobenius
-  integrability** it is integrable; the leaf through `1` is a **connected immersed Lie subgroup**
-  `integralSubgroup 𝔥` with `Lie(integralSubgroup 𝔥) = 𝔥`. An immersed Lie subgroup is **not** a
+  integrability** it is integrable; the leaf through `1` is a **connected immersed Lie subgroup**,
+  written integralSubgroup 𝔥 below, with Lie algebra `𝔥`. An immersed Lie subgroup is **not** a
   subspace-topology `Subgroup G`: it carries its own (generally finer) manifold and group structure with
   an injective smooth immersion into `G`, recorded by the predicate `IsImmersedLieSubgroup`. The
   Frobenius theorem (`VectorField.mlieBracket`-involutive ⇒ integrable), with distributions, integral
   manifolds and the leaf through a point as honest immersed manifolds, is the named analytic
   prerequisite, owned by the [differential-geometry roadmap](../../DifferentialGeometry/README.md) (its
   layer 4: `Distribution`, `IsInvolutive`, `IntegralManifold`, `leafThrough`) and consumed here;
-  `integralSubgroup 𝔥` is `leafThrough` of the left-invariant distribution. The map
-  `𝔥 ↦ integralSubgroup 𝔥` is a **bijection** between Lie subalgebras of `𝔤` and
+  integralSubgroup 𝔥 is `leafThrough` of the left-invariant distribution. The map
+  𝔥 ↦ integralSubgroup 𝔥 is a **bijection** between Lie subalgebras of `𝔤` and
   connected immersed subgroups of `G` up to immersed-subgroup equivalence (the closed ones are Layer 2's
-  embedded subgroups; Kirillov, online author copy, Thms. 3.43 and 3.46).
+  embedded subgroups; Kirillov, online author copy, Thms. 3.43 and 3.46; the existence half is
+  `exists_immersedLieSubgroup_lieSubalgebra`). The data of a connected
+  immersed Lie subgroup is `ImmersedLieSubgroupData`: a connected Lie group `X` with an injective
+  smooth immersive homomorphism into `G` whose image is `K`; `IsImmersedLieSubgroup K` says such data
+  exist.
+
+  **Checks** for `ImmersedLieSubgroupData` and `IsImmersedLieSubgroup`.
+  - The irrational line `K = {(t, √2 t)} ⊂ (ℝ/ℤ)²` with `X = ℝ`, `t ↦ (t, √2 t)`: injective, smooth,
+    immersive, image `K`, so `IsImmersedLieSubgroup K` holds although `K` is dense and not closed; the
+    subtype `↥K` with its subspace topology is not locally connected, so no definition on the subtype
+    topology could make it a one-dimensional Lie group.
+  - `K = ℚ ⊂ ℝ` and `K = SL₂(ℤ) ⊂ SL₂(ℝ)`: a connected Lie group with an injective homomorphism onto
+    a countable group is a point, so the only countable `K` with `IsImmersedLieSubgroup K` is `{1}`;
+    consistently, `lieSubalgebraOfSubgroup K = 0` and the integral subgroup of `0` is `{1}`, not `K`.
+  - Dropping the injectivity field admits `X = ℝ → S¹ ⊂ ℂˣ`, `t ↦ e^{it}`, whose image `S¹` is the
+    integral subgroup of `iℝ` but whose source is not the circle; the bijection up to immersed-subgroup
+    equivalence needs injectivity. Dropping the connectedness field admits the discrete group
+    `X = SL₂(ℤ)` (zero-dimensional) with `K = SL₂(ℤ)`, so a countable subgroup would become
+    immersed while `lieSubalgebraOfSubgroup K = 0` integrates to `{1}`; connectedness is what makes
+    𝔥 ↦ integralSubgroup 𝔥 injective. The immersion field is implied by the others (a smooth
+    injective homomorphism has `ker dφ = Lie(ker φ) = 0`) and is kept for direct use.
 - **Lie's third theorem.** Every **finite-dimensional real Lie algebra** `L` is `Lie(G)` for some
-  **simply-connected** Lie group `G`: `∃ G, [LieGroup] ∧ SimplyConnectedSpace G ∧ Nonempty (Lie(G) ≃ₗ⁅ℝ⁆ L)`.
+  **simply-connected** Lie group `G`: `∃ G, [LieGroup] ∧ SimplyConnectedSpace G ∧ Nonempty (Lie(G) ≃ₗ⁅ℝ⁆ L)`
+  (`exists_simplyConnected_lieGroup`).
   Prove it via the real specialization of the [**Ado–Iwasawa theorem**](../AdoIwasawa/README.md) (every
   finite-dimensional Lie algebra embeds in `𝔤𝔩_n = Matrix n n ℝ`) reducing to the subalgebra
   `L ↪ 𝔤𝔩_n`, integrating by the Frobenius
@@ -418,7 +508,8 @@ statements separate from this boundaryless native interface.
   third, which precedes the equivalence of categories; Kirillov, online author copy, Thm. 3.48).
 - **The equivalence of categories.** The Lie functor of Layer 3, restricted to **simply-connected** Lie
   groups, is an **equivalence** onto finite-dimensional real Lie algebras. Concretely: for simply-connected
-  `G` and any Lie group `G'`, `lieMap : Hom(G, G') ≃ Hom(𝔤, 𝔤')` is a **bijection** (existence lifts a
+  `G` and any Lie group `G'`, `lieMap : Hom(G, G') ≃ Hom(𝔤, 𝔤')` is a **bijection** (existence,
+  `exists_monoidHom_of_lieHom`, lifts a
   Lie-algebra homomorphism to a group homomorphism using simple connectedness and the local BCH group law;
   uniqueness is Layer 3's faithfulness). Combined with Lie's third theorem (essential surjectivity), this
   is the categorical statement `SimplyConnLieGrp ≃ FinDimLieAlg` (Kirillov, online author copy, Thm. 3.38
@@ -443,7 +534,7 @@ statements separate from this boundaryless native interface.
   `ker p`, refining Layer 4's bijection to connected (not just simply-connected) sources, and this
   refinement is what needs Layer 4.
 - **Centers, adjoint quotients and
-  marked global forms.** For connected G prove `ker Ad=Z(G)`,
+  marked global forms.** For connected G prove `ker Ad=Z(G)` (`Ad_eq_refl_iff_mem_center`),
   `ker ad=z(g)` and `g^Ad(G)=z(g)`, using exponential naturality and
   generation by an identity exponential neighbourhood. Identify the Lie
   algebra of the actual closed central subgroup by Layer2. Deduce that
@@ -511,7 +602,8 @@ Lie algebra h, consume Layer5's universal covering homomorphism p:H̃→H
 and its actual Lie-algebra isomorphism dp. Compare H̃ with that BCH group
 on h. Construct its discrete central kernel Γ=ker p and the smooth
 quotient comparison H̃/Γ≃H. Exponential naturality gives
-`p(exp_H̃((dp)⁻¹X))=exp_H(X)`, hence exp_H is surjective. For simply
+`p(exp_H̃((dp)⁻¹X))=exp_H(X)`, hence exp_H is surjective (`lieExp_surjective_of_isNilpotent`, with
+the nilpotence hypothesis Mathlib's `LieRing.IsNilpotent` on `LeftInvariantDerivation`). For simply
 connected H recover the global exponential diffeomorphism above. Contract
 H̃ through its BCH coordinates and use AlgebraicTopology's covering
 comparison to prove π_j(H,1)=0 for every j≥2; identify π₁(H,1) with Γ.
@@ -541,7 +633,7 @@ connected hypotheses of any orbit-method representation theorem.
   J²=−Id, rather than a real scalar. On finite-dimensional complex irreducibles,
   or real absolutely irreducible modules, construct the scalar central character
   under the actual coefficient and irreducibility hypotheses. For highest-weight
-  modules use LHW Layer7's one-dimensional highest-weight-line construction,
+  modules use LieHighestWeight Layer 7's one-dimensional highest-weight-line construction,
   including its possibly infinite-dimensional scope and Casimir comparison.
 
 ## C. The structure of compact and reductive Lie groups
@@ -565,6 +657,19 @@ is independent of the universal-cover/asphericity and complexification construct
   from this same real invariant form and the trace identities. This is the real application of
   Haar averaging; the complex unitarization theorem is not substituted for it.
 
+  **Checks** for `B_G`.
+  - The trivial group and the circle: for `G = 1`, `𝔤 = 0` and the splitting is `0 = 0 ⊕ 0`; for
+    `G = S¹`, `Ad` is trivial, `B_G = ⟨·,·⟩₀` whatever the start, `z(𝔤) = ℝ` and `[𝔤,𝔤] = 0`.
+  - `G = SU(2)` with basis `e₁ = iσ_z, e₂ = iσ_x, e₃ = iσ_y` and the non-invariant start
+    `⟨e_j, e_k⟩₀ = λ_j δ_jk`, `λ = (1, 2, 3)`: `Ad(SU(2)) = SO(3)` acts transitively on directions, so
+    the average of the quadratic form is `(λ₁+λ₂+λ₃)/3 = 2` times the standard form, `B_G = 2 δ_jk`;
+    a definition that skipped the averaging would keep `λ`, which `Ad(exp(π e₁/4))` (rotating `e₂`
+    into `e₃`) shows is not invariant.
+  - Skew-adjointness needs invariance: with `[e₁, e₂] = −2e₃` and `[e₁, e₃] = 2e₂`,
+    `⟨ad(e₁)e₂, e₃⟩₀ = −2λ₃ = −6` while `⟨e₂, ad(e₁)e₃⟩₀ = 2λ₂ = 4`, so `ad(e₁)` is not skew for
+    `⟨·,·⟩₀`; for `B_G` the two values are `−4` and `4`. The Killing form is negative-definite:
+    `κ(e₁, e₁) = tr(ad(e₁)²) = −8`.
+
 ### Layer 6: maximal tori, the Weyl group, and Weyl integration
 
 - **Tori and maximal tori.** A **torus** in `G` is a compact connected abelian Lie subgroup. In this
@@ -582,13 +687,27 @@ is independent of the universal-cover/asphericity and complexification construct
   The compact zero-dimensional quotient N_G(T)/T is therefore finite, before
   the later full C_G(T)=T argument.
 
+  **Checks** for `IsMaximalTorus` and `weylGroup`.
+  - `U(n)`: the diagonal subgroup `T` is a maximal torus (a unitary matrix commuting with a diagonal
+    matrix with distinct entries is diagonal); the diagonal matrices with entries `±1` are compact and
+    abelian but not connected, `SU(2) ⊂ U(2)` is compact and connected but not abelian, and
+    `{diag(z, 1)} ⊂ U(2)` is a torus properly contained in `T`: none is a maximal torus.
+    `weylGroup T = N(T)/T ≅ S_n`, the permutation matrices.
+  - `G = 1`: `T = ⊥` is a maximal torus and `weylGroup ⊥ = 1`. `G = Q₈` (zero-dimensional): the only
+    torus is `⊥`, `weylGroup ⊥ = Q₈/⊥` has eight elements, and `−1` lies in no torus, so exhaustion
+    needs connectedness while finiteness of the Weyl group here does not.
+  - `SU(2)`, `T = {diag(z, z̄)}`: `N(T)/T = C₂` (represented by `[[0,−1],[1,0]]`), whereas
+    `N(T)/Z(G) = N(T)/{±1}` is infinite; the quotient is by `T`, not by the centre, and not by the
+    centralizer either before `C_G(T) = T` is proved.
+
 - **Homogeneous-space floor.** Consume [SmoothBundlesConnections B1.4](../../SmoothBundlesConnections/README.md)
   for a closed Lie subgroup `H ≤ G`: its free proper right action gives the smooth quotient
   `G/H`, the principal bundle `G → G/H`, and the tangent-quotient description of the
   projection. Before applying it to `H=T` or each `H_α`, establish that the chosen subgroup
   is closed; the concrete manifold, tangent-space and projection identifications remain
-  explicit Layer 6 applications. B1.4 uses B1.1's principal-bundle interface together with the
-  closed-subgroup structure from Layer 2; what B1.1 consumes is B1.1's own contract.
+  explicit Layer 6 applications. SmoothBundlesConnections B1.4 uses its B1.1 principal-bundle
+  interface together with the closed-subgroup structure from Layer 2; what B1.1 consumes is B1.1's own
+  contract.
   Neither prerequisite depends on Layer 6.
 
 - **Conjugacy and exhaustion.** For compact connected G, first prove maximal
@@ -610,13 +729,15 @@ is independent of the universal-cover/asphericity and complexification construct
   and each nonreal pair contributes `|λ⁻¹−1|²>0`. Thus all local degrees are
   positive with these fixed orientations, including the empty m block.
   Nonzero degree gives surjectivity; closing the cyclic subgroup of a generator
-  of any maximal torus proves conjugacy. Deduce exhaustion and global real
-  lieExp surjectivity, treating the connected zero-dimensional group directly.
+  of any maximal torus proves conjugacy (`isConj_of_isMaximalTorus`). Deduce exhaustion
+  (`exists_mem_maximalTorus`) and global real lieExp surjectivity (`lieExp_surjective`), treating
+  the connected zero-dimensional group directly.
   The root/Weyl comparison is downstream; SU(2) recovers CompactGroups' example.
 - **Conjugacy classes and the normalizer.** For compact connected G with maximal torus T, two
   elements of T conjugate in G are conjugate by an element of N_G(T): if `gtg⁻¹ = u` with `t, u ∈ T`,
   both T and `gTg⁻¹` are maximal tori of the compact connected group `C_G(u)⁰`, so some `c ∈ C_G(u)⁰`
-  conjugates `gTg⁻¹` to T, and `n = cg ∈ N_G(T)` satisfies `ntn⁻¹ = u`. With exhaustion this makes
+  conjugates `gTg⁻¹` to T, and `n = cg ∈ N_G(T)` satisfies `ntn⁻¹ = u` (`exists_mem_normalizer_conj`).
+  With exhaustion this makes
   the map from T modulo the normalizer action to the conjugation orbit space of G a bijection, and,
   the orbit spaces being compact Hausdorff, a homeomorphism (Bröcker–tom Dieck, Ch. IV, §§1–2).
   **Checks.**
@@ -628,7 +749,7 @@ is independent of the universal-cover/asphericity and complexification construct
     rotations about and half-turns across the first axis.
 - **Compact real roots and the Weyl comparison.** For compact connected G and maximal torus T, consume Layer5A’s real Ad-invariant positive inner product and orthogonal splitting g=z(g)⊕[g,g], with their actual invariance and bracket equations. Construct t=z(g)⊕t_ss by restriction; the center lies in every maximal toral Lie algebra. Simultaneously diagonalize the commuting unitary adjoint action of T on g_C, form its actual nonzero root characters χ_α:T→S¹ and real root planes, and prove dχ_α=iα. Identify the zero weight with t_C. Prove t_ss,C is a Cartan subalgebra of the complexified semisimple summand and match the actual weight and root spaces. Consume LieHighestWeight Layer0's sl₂ strings/integrality and the native one-dimensional semisimple-root-space theorem with these hypotheses. Prove complex root multiplicity1 and real root-plane dimension2, then that roots vanish on z(g), span t_ss*, and give the finite reduced crystallographic root/coroot pairing. Establish the root-space bracket/rank-one normalization needed for the comparison, not just a list of weights. With the invariant metric put α∨=2α♯/‖α‖² and prove the root reflections act as X↦X−α(X)α∨. Export its actual root-pairing isomorphism with LieHighestWeight’s `rootSystem` on t_ss,C, preserving roots, coroots, reflections and the center-fixed Weyl action. This is the compact REAL realization of RootSystems’ abstract carrier; character PERIODS and integral lattice/isogeny refinements are consumed later by ConvexityToric T1.
 - **Rank-one representatives.** For each root build the compact su(2) subalgebra from its real root plane and coroot, with its normalized brackets. Consume Layer4’s integration of Lie homomorphisms out of the simply-connected SU(2) source to obtain SU(2)→G, and prove the derivative and torus/normalizer equations. Its image is compact and connected; its standard normalizer element gives n_α∈N_G(T) inducing the displayed reflection. For X∈t with α(X)=0, show the rank-one Lie algebra centralizes X and, by connectedness, its group image and n_α lie in Z_G(X)⁰. Prove restriction and conjugation laws. This assertion supplies actual representatives, not merely an abstract reflection name. For the compact rank-one map pin dφ(diag(i,−i))=α∨. With dχ_α=iα and α(α∨)=2, export the calibration for a later algebraic cocharacter ν_alg extending this compact circle: dν_alg(1)=−iα∨ and d(ν_alg|S¹)(i)=α∨. Its root pairing is therefore dα_alg(dν_alg(1))=2. The later pinned-algebraic comparison proves the extension and matches root maps; the compact construction here assumes no FCO or algebraic-group theorem.
-- **The Weyl group.** Construct weylGroup T=N_G(T)/T, prove finiteness and faithful action on T and t, and identify its action on t_ss with the root-pairing Weyl group, fixing the center. Prove both inclusions in the geometric/abstract action comparison: rank-one representatives realize the abstract reflection subgroup, while the converse requires the compact normalizer/root-crossing argument showing every geometric normalizer action is a product of root reflections. Supply the actual regular-chamber comparison here. For t_reg={X:α(X)≠0 for every root}, define g_reg=Ad(G)·t_reg. Prove every element of g is conjugate into t and use the centralizer-dimension formula to identify this with the minimal-centralizer locus and the complement of the displayed singular images. In the zero-root case g_reg=g and the singular union is empty. Construct the proper local-diffeomorphism covering q:G/T×t_reg→g_reg, q([g],X)=Ad_gX, using the root-plane derivative, maximal-torus conjugacy and invariant norm. For each root form the compact subgroup H_α=T·image(SU(2)_α), of dimension dim T+2; prove it centralizes ker α and that the singular set is the finite union of the images of G/H_α×ker α, each domain of dimension dim g−3. Use DifferentialGeometry 10.2 for finite-dimensional Sard. In this Layer6 milestone, construct and justify the smooth perturbation families relative to fixed boundary collars (including the interior evaluation/submersion and finite-dimensional parameter argument); do not assume a separate relative-genericity theorem from DifferentialGeometry. First approximate continuous paths/discs in g by smooth maps, preserving a compact avoidance reserve on the designated already-regular subset, in particular the endpoint/boundary collars; prove the straight-line homotopy there remains in g_reg. No avoidance is assumed on an initial filling disc away from that subset. Fix data already smooth near the collars; smooth arbitrary continuous boundary data before fixing a smooth collar. Prove the finite-family path/disc avoidance application in dimensions1 and2 with those fixed smooth boundary data in g_reg, so `g_reg` is connected and simply connected. A bare dimension label on an arbitrary singular set does not supply this application. Identify the connected components of t_reg with the nonempty root-sign cones: signs are constant on connected sets, and each such cone is open and convex. Under the compact real realization identify them with the W-translates of the abstract open dominant chamber on the dual Cartan carrier, including the unrestricted z(g) factor. Prove the reflection/action and cone-intersection comparisons before applying abstract transitivity to these components. Each component G/T×C then covers g_reg diffeomorphically. Thus the geometric Weyl action on chambers is free; the abstract reflection group acts transitively, giving the reverse inclusion. For the zero-root case prove both Weyl groups trivial directly. No HR chamber/centralizer endpoint, CT period theorem, Layer7 complexification or later flag theorem is an input. For the kernel prove C_G(T)=T using only the earlier compact maximal-torus theorems: if g centralizes T, choose a maximal torus S containing g; both S and T lie in C_G(g)⁰ and are maximal there. Conjugate S to T inside C_G(g)⁰; that conjugation fixes g, hence g∈T. This avoids using HR’s later full Lie-algebra-centralizer theorem. Export the equivariant linear/root/coroot maps and reflection evaluations. The abstract closed-wall/stabilizer theorem belongs to RootSystems; the compact coadjoint chamber and centralizer application belongs to HamiltonianReduction R2. No integral T1 or downstream convexity endpoint is a premise of this real comparison.
+- **The Weyl group.** Construct weylGroup T=N_G(T)/T, prove finiteness (`finite_weylGroup`) and faithful action on T and t, and identify its action on t_ss with the root-pairing Weyl group, fixing the center. Prove both inclusions in the geometric/abstract action comparison: rank-one representatives realize the abstract reflection subgroup, while the converse requires the compact normalizer/root-crossing argument showing every geometric normalizer action is a product of root reflections. Supply the actual regular-chamber comparison here. For t_reg={X:α(X)≠0 for every root}, define g_reg=Ad(G)·t_reg. Prove every element of g is conjugate into t and use the centralizer-dimension formula to identify this with the minimal-centralizer locus and the complement of the displayed singular images. In the zero-root case g_reg=g and the singular union is empty. Construct the proper local-diffeomorphism covering q:G/T×t_reg→g_reg, q([g],X)=Ad_gX, using the root-plane derivative, maximal-torus conjugacy and invariant norm. For each root form the compact subgroup H_α=T·image(SU(2)_α), of dimension dim T+2; prove it centralizes ker α and that the singular set is the finite union of the images of G/H_α×ker α, each domain of dimension dim g−3. Use DifferentialGeometry 10.2 for finite-dimensional Sard. In this Layer6 milestone, construct and justify the smooth perturbation families relative to fixed boundary collars (including the interior evaluation/submersion and finite-dimensional parameter argument); do not assume a separate relative-genericity theorem from DifferentialGeometry. First approximate continuous paths/discs in g by smooth maps, preserving a compact avoidance reserve on the designated already-regular subset, in particular the endpoint/boundary collars; prove the straight-line homotopy there remains in g_reg. No avoidance is assumed on an initial filling disc away from that subset. Fix data already smooth near the collars; smooth arbitrary continuous boundary data before fixing a smooth collar. Prove the finite-family path/disc avoidance application in dimensions1 and2 with those fixed smooth boundary data in g_reg, so `g_reg` is connected and simply connected. A bare dimension label on an arbitrary singular set does not supply this application. Identify the connected components of t_reg with the nonempty root-sign cones: signs are constant on connected sets, and each such cone is open and convex. Under the compact real realization identify them with the W-translates of the abstract open dominant chamber on the dual Cartan carrier, including the unrestricted z(g) factor. Prove the reflection/action and cone-intersection comparisons before applying abstract transitivity to these components. Each component G/T×C then covers g_reg diffeomorphically. Thus the geometric Weyl action on chambers is free; the abstract reflection group acts transitively, giving the reverse inclusion. For the zero-root case prove both Weyl groups trivial directly. No HamiltonianReduction R2 chamber/centralizer endpoint, ConvexityToric T1 period theorem, Layer 7 complexification or later flag theorem is an input. For the kernel prove C_G(T)=T (`centralizer_eq_of_isMaximalTorus`) using only the earlier compact maximal-torus theorems: if g centralizes T, choose a maximal torus S containing g; both S and T lie in C_G(g)⁰ and are maximal there. Conjugate S to T inside C_G(g)⁰; that conjugation fixes g, hence g∈T. This avoids using HamiltonianReduction R2’s later full Lie-algebra-centralizer theorem. Export the equivariant linear/root/coroot maps and reflection evaluations. The abstract closed-wall/stabilizer theorem belongs to RootSystems; the compact coadjoint chamber and centralizer application belongs to HamiltonianReduction R2. No integral T1 or downstream convexity endpoint is a premise of this real comparison.
 - **Invariant volume and Haar.** Construct the left-invariant Riemannian volume
   from Layer5A's Ad-invariant form, prove bi-invariance and identify its normalized
   measure with CompactGroups Layer0's Haar probability by uniqueness. Prove the
@@ -636,11 +757,14 @@ is independent of the universal-cover/asphericity and complexification construct
 - **The Weyl integration formula.** For compact connected G and maximal torus T, use
   normalized Haar probabilities μG,μT and the quotient probability μ_(G/T), the actual
   pushforward of μG. Construct c:G/T×T→G, c([g],t)=gtg⁻¹, and prove the Borel measure identity
-  `c_*((D(t)/|W|) dμ_(G/T) dμT)=μG`, with D(t)=|Δ(t)|² and its actual determinant/Jacobian.
+  `c_*((D(t)/|W|) dμ_(G/T) dμT)=μG` (`weyl_conjugation_pushforward`), with D(t)=|Δ(t)|² and its actual
+  determinant/Jacobian; the determinant form of D on the quotient `𝔤/Lie(T)` uses that `Ad(t⁻¹) − 1`
+  preserves `Lie(T)` (`ad_lieSubalgebraOfSubgroup_le`, from native
+  `TauCeti.Lie.Ad_mem_lieSubalgebraOfSubgroup`).
   Include measurability, singular-locus null sets, normalizations and the rank-zero case.
   Deduce by change of variables and Tonelli/absolute-value comparison that a conjugation-invariant
   real- or complex-valued L¹(μG) function has integrable weighted restriction f|T·D with respect to μT, and prove
-  `∫_G f dμG=|W|⁻¹∫_T f(t)D(t)dμT`. The measure identity also compares almost-everywhere
+  `∫_G f dμG=|W|⁻¹∫_T f(t)D(t)dμT` (`weyl_integration_formula`). The measure identity also compares almost-everywhere
   representatives in these weighted spaces. The unweighted restriction to torus Haar need
   not be integrable. First prove the continuous formula, then derive this L¹ extension from
   the measure identity; boundedness of D alone does not justify restricting an L¹ class.
@@ -648,6 +772,17 @@ is independent of the universal-cover/asphericity and complexification construct
   its unweighted torus restriction is not L¹, while fD is. Retain the general positive-root
   formula D(t)=∏_(α>0)|1−α(t)⁻¹|² and derive compact Weyl character orthogonality using
   the actual torus Fourier and CompactGroups Haar interfaces.
+
+  **Checks** for `weylDensity`, the determinant `|det((Ad(t⁻¹) − 1) on 𝔤/Lie(T))|`.
+  - `SU(2)`, `t = diag(z, z̄)`, `z = e^{iθ}`: `Ad(t⁻¹)` on `𝔤/𝔱 ≅ ℂ` is rotation by `−2θ`, so
+    `det(R − 1) = 2 − 2cos 2θ = 4 sin²θ = |1 − z²|²`; `(1/2π)∫₀^{2π} 4 sin²θ dθ = 2 = |W|`, and the
+    formula with `f = 1` gives `1`.
+  - Rank zero (`G = 1`) and tori (`G = T`): `𝔤/Lie(T) = 0`, the determinant is the empty product `1`,
+    `|W| = 1`, and the formula reads `∫_G f = ∫_T f`.
+  - Taking the determinant on `𝔤` instead of on the quotient `𝔤/Lie(T)` gives `0` whenever
+    `dim T > 0`, since `Ad(t⁻¹) − 1` kills `Lie(T)`, and the formula would then read `1 = 0` for
+    `f = 1`; `Ad(t)` in place of `Ad(t⁻¹)` gives the same value because the roots come in opposite
+    pairs `α, −α` with `|1 − α(t)|² = |1 − α(t)⁻¹|²`.
 
 ### Layer 7: complexification and real forms
 - **Compact real forms of semisimple Lie algebras.** Own this construction
@@ -668,6 +803,18 @@ is independent of the universal-cover/asphericity and complexification construct
   Lie algebra `𝔤₀` with conjugation σ on `𝔤 = 𝔤₀ ⊗ ℂ`, conjugate τ by an inner
   automorphism so that στ = τσ, and define the Cartan involution θ as the restriction of στ to `𝔤₀`,
   with its positive form `−B(X, θY)` (Knapp, Ch. VI, §2). Layer 9 consumes this θ.
+
+  **Checks** for the compact real form `τ` and the Cartan involution `θ`.
+  - `𝔰𝔩₂(ℂ)` with `h, e, f`: `τ(h) = −h`, `τ(e) = −f`, `τ(f) = −e`, conjugate-linear; the fixed
+    real form is `span_ℝ(ih, e − f, i(e + f)) = 𝔰𝔲(2)`; with the Killing values `B(e,f) = 4`,
+    `B(h,h) = 8`, `H_τ(e,e) = −B(e, τe) = B(e,f) = 4 > 0` and `H_τ(h,h) = B(h,h) = 8 > 0`.
+  - The split form `𝔤₀ = 𝔰𝔩₂(ℝ)` with entrywise conjugation `σ`: `στ = τσ` already, and
+    `θ = στ|_{𝔤₀}` is `X ↦ −Xᵀ`, with `𝔨 = 𝔰𝔬(2)`, `𝔭` the symmetric trace-zero matrices and
+    `−B(X, θX) = B(X, Xᵀ) = 4 tr(XXᵀ) > 0` for `X ≠ 0`.
+  - Non-example: the complex-linear Chevalley involution `h ↦ −h, e ↦ −f, f ↦ −e` without conjugation
+    of scalars is a Lie automorphism, but its fixed set is a complex subalgebra (not a real form of half
+    real dimension) and `−B(x, ·)` composed with it is bilinear, not Hermitian; conjugate-linearity is
+    what makes `H_τ` Hermitian and positive.
 - **Complex tangent carriers, realification and exponential compatibility.** For a
   finite-dimensional complex Lie group H modelled on `𝓘(ℂ,E)`, use native
   `GroupLieAlgebra 𝓘(ℂ,E) H`, with its complex Lie bracket from left-invariant
@@ -720,7 +867,9 @@ is independent of the universal-cover/asphericity and complexification construct
   g⊗ℝℂ, and j:G̃→H the integrated real inclusion. Construct the smallest closed complex
   subgroup N containing j(ker p), prove it is central, construct the complex quotient H/N,
   and descend j to η:G→G_ℂ. Prove universality among continuous homomorphisms from G
-  to complex Lie groups, uniqueness, functoriality and the quotient Lie-algebra formula
+  to complex Lie groups (`exists_connected_complexification`: existence of `G_ℂ` with its universal
+  property for every connected `G`, with no injectivity claim on η), uniqueness, functoriality and the
+  quotient Lie-algebra formula
   Lie(G_ℂ)≅(g⊗ℝℂ)/Lie(N). A reductive Lie algebra alone does not remove N or force η
   to be injective. This construction includes connected real reductive groups and their
   non-linear covers. For groups with finitely many components, extend the construction
@@ -728,7 +877,7 @@ is independent of the universal-cover/asphericity and complexification construct
   (G⁰)_ℂ, transport the component multiplication cocycle, prove its compatibility equations,
   and glue the corresponding copies of (G⁰)_ℂ. Prove independence of the representatives
   and the same universal property. The connected period-quotient construction is
-  recorded in [Heins, Proposition 2.1](https://arxiv.org/html/2512.07479v1#S2);
+  recorded in Heins, *Entire functions on Lie groups*, arXiv 2512.07479, Prop. 2.1;
   construct the quotient and all its descent laws here.
 
 - **Compact semisimple integration.** Integrate a compact semisimple real Lie
@@ -764,8 +913,10 @@ is independent of the universal-cover/asphericity and complexification construct
   by uniqueness of the universal property and prove naturality under faithful
   representations. This compact-case construction takes no general Layer9 theorem.
 - **The compact complexification theorem.** For every compact Lie group G obtain
-  the smooth polar diffeomorphism G×g→G_C, (g,X)↦η(g)exp(i dη(X)), with the
-  preceding complexified differential and embedded η. Every compact subgroup
+  the smooth polar diffeomorphism G×g→G_C, (g,X)↦η(g)exp(i dη(X)), with the injective embedded
+  η (for compact connected G this is `exists_complexification`, the connected statement with
+  injectivity added), the
+  preceding complexified differential. Every compact subgroup
   containing η(G) equals it: divide by the compact polar factor, then bounded
   positive and negative powers of a positive Hermitian exponential force X=0.
   Thus η(G) is maximal compact; retain toral lattices, finite semisimple centers
@@ -783,8 +934,9 @@ is independent of the universal-cover/asphericity and complexification construct
   with `𝐊(ℂ)`: establish the extension's image and kernel, surjectivity onto the complex points, and
   differential and period comparisons. Zariski density or a Lie-algebra comparison alone is insufficient. Transport the actual maximal torus, root subgroups and full
   character/cocharacter lattice, including central and isogeny data. A dense-image or Lie-algebra
-  comparison alone is insufficient. This LG7 construction is independent of LG8 and RG7; RG7 then supplies
-  the single generic algebraic Bruhat theorem used in Layer 8.
+  comparison alone is insufficient. This Layer 7 construction is independent of Layer 8 and of
+  ReductiveGroups Layer 7; ReductiveGroups Layer 7 then supplies the single generic algebraic Bruhat
+  theorem used in Layer 8.
 
 - **Real forms and global descent.** A real form of a complex Lie group H consists of
   a real Lie group R, a specified smooth group homomorphism R→H that is a closed
@@ -802,14 +954,33 @@ is independent of the universal-cover/asphericity and complexification construct
   Include the regression H=ℂ/(ℤ+(√2+i)ℤ), R=ℝ/ℤ: R is a closed embedded real form,
   but its conjugation does not preserve the period lattice, so no antiholomorphic
   group involution fixes R pointwise. Component conditions alone do not supply descent.
+
+  **Checks** for real forms.
+  - `H = ℂˣ`: `R = ℝ_{>0}` and `R = S¹` are both closed embedded real forms with
+    `Lie(R) ⊗ ℂ = ℂ`; they are not conjugate, and only the second is compact.
+  - `H = ℂˣ`, `R = ℝˣ`, the full fixed group of `z ↦ z̄`: a real form with two components whose
+    identity component `ℝ_{>0}` is the embedded connected real form; the identity-component and
+    full-fixed-group variants differ here, and the regression `H = ℂ/(ℤ + (√2 + i)ℤ)`, `R = ℝ/ℤ`
+    above is an embedded real form that is the fixed set of no antiholomorphic involution.
+  - Non-example: the closed embedded subgroup `{2ⁿ : n ∈ ℤ} ⊂ ℂˣ` has `Lie = 0`, and `0 ⊗ ℂ ≠ ℂ`;
+    the Lie-algebra-isomorphism condition, not closedness, is what makes a subgroup a real form.
   For a connected complex Lie group H with a specified biholomorphic group
-  isomorphism `H≃G(ℂ)`, take G smooth connected affine reductive over ℂ as in RG6,
-  with RG1's faithful closed algebraic immersion `G→GL(V)`. Consume the explicit
-  lower FormalConnectionsOpers F2.4/F4.3 dictionary: native Hopf points with matrix-subspace topology/complex atlas,
-  algebraic tangent↔complex GroupLieAlgebra with brackets, Z(G)⁰ as an RG4 torus,
-  and G_der(ℂ) as its closed connected complex subgroup, including the central
-  multiplication isogeny and finite kernels. These are data supplied before
-  compact forms or compact Chevalley; generic L7 carriers/exp use no FCO input.
+  isomorphism `H≃G(ℂ)`, take G smooth connected affine reductive over ℂ as in
+  ReductiveGroups Layer 6, with ReductiveGroups Layer 1's faithful closed algebraic immersion
+  `G→GL(V)`. Own here the **lower analytic dictionary** for such a G, built from the generic
+  carriers of this layer and the algebraic inputs of ReductiveGroups only: give the complex points
+  `G(ℂ)` (ReductiveGroups Layer 0's functor of points) the subspace topology and complex atlas of
+  the Zariski-closed subgroup `G(ℂ) ⊂ GL(V)`, a closed complex subgroup of the complex Lie group
+  `GL(V)` by the complex form of Layer 2's closed-subgroup theorem (the native real theorem on the
+  realification, with the complex structure transported by the preceding bullet); identify its
+  tangent Lie algebra with ReductiveGroups Layer 2's `Lie(G)` with its bracket, through the
+  differential of the immersion and the matrix bracket; identify `Z(G)⁰` with ReductiveGroups
+  Layer 6's central torus (Layer 4's character lattice gives `Z(G)⁰(ℂ) ≃ (ℂˣ)^m`) and its tangent
+  algebra with `𝔷(𝔤)`; and realize `G_der(ℂ)` as a closed connected complex subgroup with tangent
+  algebra `[𝔤,𝔤]`, connected because ReductiveGroups Layer 7C's root subgroups and torus generate it
+  by path-connected images (`ℂ` and `ℂˣ` are path connected), with the central multiplication
+  `Z(G)⁰ × G_der → G` surjective on complex points with the finite kernel of ReductiveGroups
+  Layer 6's central isogeny. Nothing of this dictionary is imported from a later roadmap.
   Integrate the compact semisimple form by the compact simply connected theorem
   above. Its image in the closed derived subgroup is compact; combine with the
   central torus's compact part and descend through the specified finite kernel.
@@ -842,7 +1013,8 @@ is independent of the universal-cover/asphericity and complexification construct
 - **Representations and holomorphic descent.** Representations land in the group
   GL(V)=(V→L[ℂ]V)ˣ, with holomorphy of group homomorphisms an explicit condition.
   For compact G, construct the restriction equivalence between finite-dimensional
-  holomorphic representations of G_ℂ and continuous representations of G, including
+  holomorphic representations of G_ℂ and continuous representations of G
+  (`exists_holomorphic_extension` for the extension), including
   its action on intertwiners, inverse functor, unit and counit, and tensor/dual compatibility.
   For connected G, extend the differential complex-linearly and integrate it on H above.
   By uniqueness its restriction along j equals the original representation pulled back
@@ -871,14 +1043,15 @@ is independent of the universal-cover/asphericity and complexification construct
 
   For every f:K→K′, construct its unique holomorphic extension by that universal
   property, then prove this extension regular algebraic. Own the algebraicity
-  comparison here. In RG1's faithful algebraic models form the compact graph
-  Γ_f⊂K×K′ and its algebraic Zariski closure H⊂G×G′. Unitarize the restricted
+  comparison here. Form the compact graph
+  Γ_f⊂K×K′ and its algebraic Zariski closure H⊂G×G′ (in ReductiveGroups Layer 1's faithful
+  algebraic models). Unitarize the restricted
   faithful representation and apply the preceding compact algebraization,
   polar and universal-property comparisons to Γ_f. Prove H(ℂ) is the actual
   analytic graph of the extension and its first projection onto G(ℂ) is a
   holomorphic group isomorphism; density or a Lie-algebra comparison alone
   does not prove these global assertions. Prove the algebraic projection
-  H→G is an isomorphism: construct its scheme kernel and image using RG0–3,
+  H→G is an isomorphism: construct its scheme kernel and image using ReductiveGroups Layers 0–3,
   use characteristic-zero smoothness and the point/tangent comparisons to
   prove the kernel trivial, and prove surjectivity and faithful flatness.
   Give the quotient/descent argument constructing its regular inverse.
@@ -896,16 +1069,16 @@ is independent of the universal-cover/asphericity and complexification construct
   tori and finite central quotients with their full character and period
   lattices. For G=SL₂(ℂ), K=SU₂, compute that conjugation by diag(2,1/2)
   sends ((0,−1),(1,0)) to ((0,−4),(1/4,0)), which is not unitary: the compact
-  form condition on morphisms is substantive. Use the earlier FCO F2.4/F4.3
-  algebraic-point/tangent dictionary and LG7's compact polar/algebraization
-  theorems in this construction, before LG8; it requires no generic RG10
-  representation reconstruction or analytic GAGA theorem. The finite-dimensional
-  representation restriction equivalence above remains a separate comparison.
+  form condition on morphisms is substantive. Use the lower analytic dictionary owned above and
+  this layer's compact polar/algebraization theorems in this construction, before Layer 8; it
+  requires no generic ReductiveGroups Layer 10 representation reconstruction or analytic GAGA
+  theorem. The finite-dimensional representation restriction equivalence above remains a separate
+  comparison.
 
 ### Layer 8: Borel-Weil, flag manifolds, and Bruhat
 
-- **Borel subgroups and the flag manifold.** The inputs are (i) a compact connected Lie group `K`, its Layer 7 universal complexification `K_ℂ`, and the Layer 7 algebraization comparison `𝐊(ℂ)≃K_ℂ`; or (ii) a connected affine reductive algebraic group `𝐆` over `ℂ`, with its analytic group `𝐆(ℂ)` identified by the RG6/FCO lower dictionary and its compact form `K` constructed by Layer 7's algebraic compact-form specialization from that lower dictionary. Thus case (ii)'s compact form is a later Layer 7 output, not an input supplied by the lower FCO dictionary. In either case work with the resulting actual affine reductive algebraic group `𝐆` and its full character/cocharacter lattice, maximal torus `𝐓`, and positive-root system. Construct the algebraic Borel `𝐁=𝐓⋉𝐍₊`, where `Lie(𝐍₊)=⊕_{α>0}𝔤_α`; use its algebraic characters as holomorphic characters of `𝐆(ℂ)`. The quotient `𝐆(ℂ)/𝐁(ℂ)` is the compact complex flag manifold, and RG7's generic algebraic Bruhat theorem applies to `𝐆` before transport through the specified analytic isomorphism. The diffeomorphism `K/T≅𝐆(ℂ)/𝐁(ℂ)` follows from the Layer 7 compact-form/algebraization comparison; it is not asserted for an unrelated real group. In particular, the elliptic complex torus `ℂ/(ℤ+iℤ)` is not a linear complex reductive group and is outside these hypotheses.
-- **Bruhat and Schubert geometry.** ReductiveGroups RG7 is the single owner of the generic Bruhat/root-data theorem `G_ℂ=⨆_{w∈W}B w B`. The abstract BN-pair carrier is the native `TauCeti.TitsSystem`, whose Weyl group is the quotient `N ⧸ (B ∩ N)` and which already proves existence and uniqueness of the cell (`TauCeti.TitsSystem.existsUnique_mem_bruhatCell`, with `TauCeti.TitsSystem.bruhatCell_injective` and `TauCeti.TitsSystem.disjoint_bruhatCell_iff`); no second BN-pair record is introduced here. Apply RG7 to the preceding groups as a `TauCeti.TitsSystem` on `𝐆(ℂ)` with `subgroupB = 𝐁(ℂ)` and `subgroupN = N_(𝐆(ℂ))(𝐓(ℂ))`, prove `𝐁(ℂ) ∩ N_(𝐆(ℂ))(𝐓(ℂ)) = 𝐓(ℂ)` (in the connected solvable group `𝐁` the normalizer of `𝐓` equals its centralizer, and `C_𝐆(𝐓) = 𝐓` for reductive `𝐆`; Humphreys, *Linear algebraic groups*, §29.1), and deduce the group isomorphism between the Tits-system Weyl quotient and `weylGroup T`, so that the cells are indexed without repetition by the Weyl group of Layer 6. Then construct Schubert cells `BwB/B`, their complex dimensions `ℓ(w)`, the flag CW structure, and cohomology.
+- **Borel subgroups and the flag manifold.** The inputs are (i) a compact connected Lie group `K`, its Layer 7 universal complexification `K_ℂ`, and the Layer 7 algebraization comparison `𝐊(ℂ)≃K_ℂ`; or (ii) a connected affine reductive algebraic group `𝐆` over `ℂ`, with its analytic group `𝐆(ℂ)` given by Layer 7's lower analytic dictionary and its compact form `K` constructed by Layer 7's algebraic compact-form specialization from that dictionary. In either case work with the resulting actual affine reductive algebraic group `𝐆` and its full character/cocharacter lattice, maximal torus `𝐓`, and positive-root system. Construct the algebraic Borel `𝐁=𝐓⋉𝐍₊`, where `Lie(𝐍₊)=⊕_{α>0}𝔤_α`; use its algebraic characters as holomorphic characters of `𝐆(ℂ)`. The quotient `𝐆(ℂ)/𝐁(ℂ)` is the compact complex flag manifold, and ReductiveGroups Layer 7's generic algebraic Bruhat theorem applies to `𝐆` before transport through the specified analytic isomorphism. The diffeomorphism `K/T≅𝐆(ℂ)/𝐁(ℂ)` follows from the Layer 7 compact-form/algebraization comparison; it is not asserted for an unrelated real group. In particular, the elliptic complex torus `ℂ/(ℤ+iℤ)` is not a linear complex reductive group and is outside these hypotheses.
+- **Bruhat and Schubert geometry.** ReductiveGroups Layer 7 is the single owner of the generic Bruhat/root-data theorem `G_ℂ=⨆_{w∈W}B w B`. The abstract BN-pair carrier is the native `TauCeti.TitsSystem`, whose Weyl group is the quotient `N ⧸ (B ∩ N)` and which already proves existence and uniqueness of the cell (`TauCeti.TitsSystem.existsUnique_mem_bruhatCell`, with `TauCeti.TitsSystem.bruhatCell_injective` and `TauCeti.TitsSystem.disjoint_bruhatCell_iff`); no second BN-pair record is introduced here. Apply ReductiveGroups Layer 7 to the preceding groups as a `TauCeti.TitsSystem` on `𝐆(ℂ)` with `subgroupB = 𝐁(ℂ)` and `subgroupN = N_(𝐆(ℂ))(𝐓(ℂ))`, prove `𝐁(ℂ) ∩ N_(𝐆(ℂ))(𝐓(ℂ)) = 𝐓(ℂ)` (in the connected solvable group `𝐁` the normalizer of `𝐓` equals its centralizer, and `C_𝐆(𝐓) = 𝐓` for reductive `𝐆`; Humphreys, *Linear algebraic groups*, §29.1), and deduce the group isomorphism between the Tits-system Weyl quotient and `weylGroup T`, so that the cells are indexed without repetition by the Weyl group of Layer 6. Then construct Schubert cells `BwB/B`, their complex dimensions `ℓ(w)`, the flag CW structure, and cohomology.
 
   **Checks.**
   - For `GL₂(ℂ)` with upper-triangular `B` and diagonal `T`: `B ∩ N(T) = T`, the Weyl quotient has two elements, and the two cells are `B` and `B·[[0,1],[1,0]]·B`, the latter being the matrices with nonzero lower-left entry.
@@ -918,18 +1091,35 @@ is independent of the universal-cover/asphericity and complexification construct
   line is (G_C×ℂ)/((gb,z)∼(g,χ(b)z)). Construct its locally free rank-one coherent sheaf of
   holomorphic sections, and identify H⁰ with the actual holomorphic function subspace
   f(gb)=χ(b)⁻¹f(g), with (a·f)(g)=f(a⁻¹g). Compare evaluation, multiplication of sections,
-  pullback and duals under this identification. Consume only the algebraic associated-line
-  and rank-one bundle contracts of [SchubertGeometry S2 (item 1) and S3 (items 1 and 3)](../../SchubertGeometry/README.md),
-  with their precise negative-Borel convention, and own their application to this actual flag.
-  Choose a longest-element representative n₀ and construct the G-equivariant isomorphism
-  φ:G/B+→G/B−, gB+↦gn₀B−. Prove that φ* of the negative-Borel line with fibre character κ
-  is the positive-Borel E_(w₀κ), including the linearization. Thus Lμ:=E_(−μ) corresponds
-  to SchubertGeometry's L(−w₀μ). Record the change on torus characters, root-curve degrees,
+  pullback and duals under this identification. The descent construction, its linearization and
+  the rank-one bundle laws are owned here on this flag, from SchemeAndStackFoundations §1.15–1.16
+  (torsors, contracted products and twisting) and Layer 7's dictionary. Own also the two Borel
+  conventions: choose a longest-element representative n₀ and construct the G-equivariant
+  isomorphism φ:G/B+→G/B−, gB+↦gn₀B−. Prove that φ* of the negative-Borel line with fibre
+  character κ is the positive-Borel E_(w₀κ), including the linearization, so that a roadmap
+  working with the negative Borel (SchubertGeometry's L(λ) on G/B−) reads this roadmap's
+  Lμ:=E_(−μ) as its L(−w₀μ). Record the change on torus characters, root-curve degrees,
   section actions and highest weights; inversion without its action change is not this
   equivariant identification. Pure central characters remain actual group characters.
-- **Native cohomology and equivariant analytification.** Use native scheme-module cohomology
-  `TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology` (the underlying native `Sheaf.H`)
-  for the algebraic line, with `cohomologyZeroEquiv` for global sections. Construct its
+
+  **Checks** for `E_χ` and the two Borel conventions, on `G = SL₂(ℂ)` with `B⁺` upper triangular and
+  `X = ℤ` by `diag(z, z⁻¹) ↦ zⁿ`.
+  - `G/B⁺ = P¹`, and `E_n` is the line `O(−n)`: for `n = 1` the fibre character is the action of
+    `B⁺` on the line `ℂe₁` it stabilizes, so `E_1` is the tautological line `O(−1)`; hence
+    `L_μ = E_{−μ}` has degree `μ`, `H⁰(L_1)` has dimension `2 = dim L(1)^*`, and `E_1 = O(−1)` has no
+    sections. With the relation `f(gb) = χ(b)f(g)` instead of `χ(b)⁻¹` the degrees of `E_{±n}`
+    would swap.
+  - `n₀ = [[0,−1],[1,0]]`, `w₀ = −1` on `X`: `φ*` of the negative-Borel line with character `κ` is
+    `E_{w₀κ} = E_{−κ}`, so `L_μ = E_{−μ}` is the negative-Borel line of character `μ = −w₀μ`, the
+    degree-`μ` line in both conventions.
+  - `χ = 0` gives the trivial line with `H⁰ = ℂ` (the flag is compact); on `GL₂(ℂ)` the central
+    character `det` gives `E_det` with the one-dimensional section space spanned by
+    `g ↦ det(g)⁻¹`, a pure central character with a one-dimensional section space.
+- **Native cohomology and equivariant analytification.** Use native scheme-module cohomology,
+  the declaration `TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology` of the module
+  `TauCeti.AlgebraicGeometry.Cohomology.Basic` (Mathlib's `Sheaf.H` on the underlying sheaf of a
+  module `M : X.Modules`), for the algebraic line, with
+  `TauCeti.AlgebraicGeometry.Scheme.Modules.cohomologyZeroEquiv` for global sections. Construct its
   ℂ-module structure and finite-dimensionality on this projective complex flag. On the
   analytic side use the same native sheaf cohomology for the coherent section sheaf,
   not ordinary singular/CW cohomology. Consume ComplexComparisonPartII C−1.1,
@@ -937,9 +1127,8 @@ is independent of the universal-cover/asphericity and complexification construct
   the actual analytification/ring sheaf, bundle–locally-free-sheaf dictionary, coherent
   pullback and canonical all-degree GAGA/exchange maps. Identify analytification of the
   algebraic associated line with the preceding holomorphic associated line by their actual
-  transition functions and descent maps. Compare FCO's smooth analytic flag carrier with
-  that same analytification through the point/chart/sheaf maps; this is an application
-  after the independent analytic constructions, not a premise of generic GAGA.
+  transition functions and descent maps; this is an application after the independent analytic
+  constructions, not a premise of generic GAGA.
 
   For every q≥0, construct the complex-linear G_C action on H^q from the line's linearization
   and pullback by g⁻¹. Prove identity, multiplication, naturality in line maps, tensor/character
@@ -949,8 +1138,9 @@ is independent of the universal-cover/asphericity and complexification construct
   Prove the canonical GAGA isomorphism is equivariant in every degree, using its naturality
   with those translations and, over the parameter G, the relative proper exchange map.
   Neither a dimension equality nor unrelated degreewise isomorphisms supply this comparison.
-  This application consumes the stated early coherent/GAGA contracts, not all of SchubertGeometry;
-  its S7 and S9 compact/topological comparisons consume these LieGroups flags afterwards.
+  This application consumes the stated coherent/GAGA contracts of ComplexComparisonPartII and the
+  scheme cohomology of SchemeAndStackFoundations; SchubertGeometry consumes these flags, lines and
+  comparisons afterwards and supplies nothing here.
 - **Borel–Weil in degree zero.** For dominant λ∈X retain Lλ=E_(−λ) and prove
   H⁰(G_C/B+,Lλ)≃L(λ)*=L(−w₀λ), through the coefficient map
   ℓ↦(g↦ℓ(gvλ)), intertwining the actual actions. Prove the equivalent realizations
@@ -965,10 +1155,11 @@ is independent of the universal-cover/asphericity and complexification construct
   minimal-parabolic map pα:G/B+→G/Pα+ construct its P¹ fibres, root-coordinate/local
   trivializations, relative canonical line ω_pα=E_α=L_(−α), restricting to O(−2),
   and equivariant restriction of Lμ of degree
-  m=⟨μ,α∨⟩. Apply the opposite-Borel transport above to SchubertGeometry S3 (item 3)'s
-  all-integer P¹ calculation: H⁰(O(m)) has dimension m+1 and H¹=0 for m≥0;
-  both vanish for m=−1; for m≤−2, H⁰=0 and H¹ has dimension−m−1, with
-  the actual T-weights and residue/relative-Serre pairing. Prove the relative higher-image
+  m=⟨μ,α∨⟩. Specialize SchemeAndStackFoundations §2.6's `projectiveSpace_cohomology`
+  (`H^q(ℙ^n_A, O(d))` for every `q`, `d` and base ring `A`) to `n = 1` and every integer m: H⁰(O(m))
+  has dimension m+1 and H¹=0 for m≥0; both vanish for m=−1; for m≤−2, H⁰=0 and H¹ has
+  dimension −m−1. Own the T-weights of these groups and the residue/relative-Serre pairing on the
+  rank-one fibres in the positive-Borel convention above. Prove the relative higher-image
   vanishing and bundle identifications over G/Pα+, including base change, rather than
   using only fibre dimensions. Compare the relative canonical character and determinant
   factor to obtain a G-equivariant isomorphism pα*Lμ≃R¹pα*L_(sα·μ) for m≥0,
@@ -1036,7 +1227,8 @@ is independent of the universal-cover/asphericity and complexification construct
   and prove K_H×p_H→H a diffeomorphism. Transfer through the finite central cover:
   construct the compatible involution θ, prove `K = π⁻¹(K_H) = G^θ`, and lift the
   smooth inverse/factorization with the actual kernel and component data. Thus
-  k=ker(dθ−1), p=ker(dθ+1) and (k,X)↦k exp X gives K×p≅G. The connected
+  k=ker(dθ−1), p=ker(dθ+1) and (k,X)↦k exp X gives K×p≅G (`cartan_polar_decomposition`, on the
+  datum `CartanInvolution`; `IsRealReductive` says such a datum exists). The connected
   semisimple finite-center specialization proves these conclusions from the
   integrated positive Cartan involution via its adjoint model, without assuming
   maximality first. GL_n(R) is the orthogonal/symmetric polar example and consumes
@@ -1068,7 +1260,10 @@ is independent of the universal-cover/asphericity and complexification construct
   with strictly positive real diagonal, and let a n be its real Lie
   algebra of upper-triangular matrices with real diagonal. Construct
   these actual closed Lie subgroups inside GL_n(ℂ), their tangent
-  identifications, and global inverse smooth maps exp:a n→A N and log.
+  identifications, and global inverse smooth maps exp:a n→A N and log
+  (`bijOn_exp_triangular`: `NormedSpace.exp` on matrices is a bijection from the upper-triangular
+  matrices with real diagonal, `triangularRealDiagonal`, onto the upper-triangular matrices with
+  positive real diagonal, `positiveTriangular`).
   The diagonal entries of log(g) are log(g_ii). Recover off-diagonal
   entries recursively in the gap j−i: in exp(X)_ij the coefficient of
   X_ij is (exp(X_ii)−exp(X_jj))/(X_ii−X_jj), with its equal-diagonal
@@ -1088,7 +1283,10 @@ is independent of the universal-cover/asphericity and complexification construct
   exponential naturality. For X∈c the left-trivialized derivative
   dexp_X=∫₀¹exp(−s ad X) ds preserves c; ambient invertibility and finite
   dimension imply that its restriction to c is invertible. Therefore
-  exp_C is a local diffeomorphism at every X. The image exp(c) is closed
+  exp_C is a local diffeomorphism at every X
+  (`lieExp_bijective_of_immersed_positiveTriangular` states the resulting global bijectivity of
+  `lieExp` for a connected Lie group with an injective smooth immersive homomorphism into `GL_n(ℂ)`
+  landing in `positiveTriangular`). The image exp(c) is closed
   in A N because c is a closed vector subspace and the ambient exp/log
   maps are homeomorphisms. Pull this closedness back along the given
   continuous inclusion of C, and use the open image of exp_C and
@@ -1107,7 +1305,20 @@ is independent of the universal-cover/asphericity and complexification construct
   exponential/logarithm and restriction equations for the subsequent
   KAN application.
 
-- **Iwasawa decomposition.** The general theorem retains its full input: any closed, connected exponential subgroup N normalized by a whose Lie algebra complements k+a. Prove its nilpotence and the global K×A×N diffeomorphism from exactly those hypotheses. Separately construct the canonical root-generated subgroup N₊ from the restricted-root decomposition and prove it satisfies those KAN hypotheses when applicable; do not define the arbitrary complement N to be N₊.
+  **Checks** for `triangularRealDiagonal`, `positiveTriangular` and the exponential bijection.
+  - `n = 0`: both sets are the one-point set and `exp = log = id`; `n = 1`: `AN = ℝ_{>0} ⊂ ℂˣ`,
+    `𝔞𝔫 = ℝ`, `exp` the real exponential and `log` its inverse, while the full group `ℂˣ` has the
+    non-injective complex exponential, which is why the diagonal is required real.
+  - `n = 2`, `X = [[a, x],[0, b]]` with `a, b` real: `exp X = [[eᵃ, x(eᵃ − eᵇ)/(a − b)],[0, eᵇ]]`
+    with the removable value `x eᵃ` at `a = b`; at `a = 1, b = 0, x = 1` this is
+    `[[e, e − 1],[0, 1]]`, and `log` recovers `x = g₁₂ (a − b)/(eᵃ − eᵇ) = (e − 1)·1/(e − 1) = 1`.
+  - Positivity is load-bearing: `diag(−1, 1)` is upper triangular with real diagonal and invertible,
+    but is not `exp X` for any `X` with real diagonal (the diagonal of `exp X` is `(e^{X₁₁}, e^{X₂₂})`,
+    positive); and for compact `K = U(2)`, `K ∩ AN = {1}` because a unitary upper-triangular matrix is
+    diagonal with eigenvalues of modulus one, which positivity forces to be `1`, whereas
+    `diag(1, −1) ∈ O(2)` lies in the group of all upper-triangular matrices with nonzero real diagonal.
+
+- **Iwasawa decomposition.** The general theorem retains its full input: any closed, connected exponential subgroup N normalized by a whose Lie algebra complements k+a. Prove its nilpotence and the global K×A×N diffeomorphism from exactly those hypotheses (`iwasawaDecomposition`). Separately construct the canonical root-generated subgroup N₊ from the restricted-root decomposition and prove it satisfies those KAN hypotheses when applicable; do not define the arbitrary complement N to be N₊.
   The simultaneous real a-weight decomposition has g_0=m+a, so n_0=0. Put
   s=a⋉n; invariance of its OWN Killing form gives B_s(s,n)=0: a pairs trivially
   with nonzero weights, and opposite n-weights bracket to n_0=0. Since [s,s]⊂n,
@@ -1125,6 +1336,21 @@ is independent of the universal-cover/asphericity and complexification construct
   No extra nilpotence or KAN-conclusion field is assumed. The positive-root N₊ is a separate
   distinguished instance; comparing it with an arbitrary admissible N is a theorem.
   GL_n(R)/SL_n(R) recovers Gram–Schmidt.
+
+  **Checks** for `IwasawaData` and `IsIwasawaTriple`, on `G = SL₂(ℝ)` with `θ(g) = (gᵀ)⁻¹`,
+  `K = SO(2)`, `𝔞 = ℝ·diag(1,−1)`.
+  - The restricted roots are `±α` with `α(diag(1,−1)) = 2`, root spaces `ℝE₁₂` and `ℝE₂₁`, `N₊` the
+    upper unipotent group and the chamber `{t·diag(1,−1) : t ≥ 0}`; with `N = N₊`, `(SO(2), A, N₊)`
+    is an Iwasawa triple and `g = kan` is Gram–Schmidt on the columns of `g`: `[[1,1],[0,1]]` has
+    `k = a = 1`, and `[[0,−1],[1,0]] ∈ K` has `a = n = 1`.
+  - The lower unipotent group `N⁻` also satisfies every `N`-field (closed, connected, exponential,
+    normalized by `𝔞`, `𝔨 + 𝔞 + 𝔫⁻ = 𝔰𝔩₂`), so `(SO(2), A, N⁻)` is a second Iwasawa triple with a
+    different factorization of the same `g`; `N` is not forced to be `N₊`, and the decomposition is
+    a theorem for each admissible `N`.
+  - Non-examples: the discrete subgroup `{[[1,n],[0,1]] : n ∈ ℤ}` is closed with zero Lie algebra and
+    fails `N_connected` and `iwasawa_compl`; the whole line `𝔞` as `chamber` is a closed spanning
+    cone but fails `chamber_root_inequalities` at `−diag(1,−1)` (where `α = −2 < 0`), and with it the
+    middle KAK factor would no longer be unique modulo the restricted Weyl group `C₂`.
 - **Restricted roots and KAK.** Build the possibly nonreduced restricted root
   system and the actual normalizer quotient N_K(a)/Z_K(a). Use the separately constructed
   N₊ for the canonical positive chamber and KAK; any relation to the arbitrary KAN complement N
@@ -1133,7 +1359,7 @@ is independent of the universal-cover/asphericity and complexification construct
   give the restricted reflections, root chambers and every orbit's intersection
   with this closed chamber, including walls and the zero-root case. First prove
   Ad(K)a=p by the maximal-abelian symmetric-pair argument. With Cartan's polar
-  theorem this yields G=K exp(a_bar_plus) K and uniqueness of the middle factor
+  theorem this yields G=K exp(a_bar_plus) K (`kakDecomposition`) and uniqueness of the middle factor
   modulo the actual restricted Weyl action. A spanning arbitrary cone is not the
   chamber input. Structure is retained; spherical/Harish–Chandra harmonic analysis
   is downstream work with its own scope.
@@ -1148,10 +1374,10 @@ is independent of the universal-cover/asphericity and complexification construct
   maximal torus, `weylGroup = 1`, and `Circle_ℂ = ℂˣ`. Acceptance: `lieExp = Circle.exp` up to the
   identification `Lie(Circle) ≅ ℝ`, and the Weyl integration formula degenerates to `∫_{Circle} = ∫_T`.
 - **`GL_n(ℝ)` and the matrix exponential.** `Matrix.GeneralLinearGroup (Fin n) ℝ = (Matrix (Fin n) (Fin n) ℝ)ˣ`
-  has `Lie(GL_n) = Matrix (Fin n) (Fin n) ℝ` and `lieExp = Matrix.exp`; `Ad g X = g X g⁻¹`,
+  has `Lie(GL_n) = Matrix (Fin n) (Fin n) ℝ` and `lieExp` is `NormedSpace.exp` on matrices; `Ad g X = g X g⁻¹`,
   `ad X Y = X*Y - Y*X`, and `Ad (exp X) = exp(ad X)` are checked directly via
   `Matrix.exp_conj`, `Matrix.exp_add_of_commute`. Acceptance: the abstract Layer-0/1 statements, restricted
-  to `Rˣ` with `R = Matrix (Fin n) (Fin n) ℝ`, become the `NormedSpace.exp` / `Matrix.exp` identities.
+  to `Rˣ` with `R = Matrix (Fin n) (Fin n) ℝ`, become the `NormedSpace.exp` identities of the `Matrix.exp_*` lemmas.
 - **`SU(2)`, `SO(3)`, and the double cover.** `SU(2) = Matrix.specialUnitaryGroup (Fin 2) ℂ` has
   `Lie(SU(2)) = ` skew-Hermitian trace-zero matrices `≅ ℝ³` with the cross-product bracket;
   `SO(3) = Matrix.specialOrthogonalGroup (Fin 3) ℝ` has the same Lie algebra. `Ad : SU(2) → SO(3)` (the
@@ -1191,32 +1417,26 @@ dependency is acyclic: the **universal-cover construction** (the covering space,
 transported Lie structure) is logically prior to Lie's third theorem, which uses it; Lie's third then
 feeds the equivalence of categories. Layer 5's remaining content (the connected-source refinement of the
 functor and the enveloping algebra) needs Layer 4 and Mathlib's covering-space and enveloping-algebra
-API, and cites [../LieHighestWeight](../LieHighestWeight/README.md) for PBW. Deliverable C uses the earlier real Lie functor/integration. Layer5A consumes Ad and CompactGroups Layer0 Haar. Layer6's preconjugacy block uses its torus/Kronecker and identity-centralizer/normalizer-finiteness targets, SBC B1.4's homogeneous quotients and DG10.3–10.5 degree/top-form comparison. Layer2's SU(2)≃S³/simple-connectedness argument uses DG10.2 before Layer4 integration is applied in Layer6. Root multiplicity/Cartan comparison uses native semisimple root-space results and LieHighestWeight Layer0 sl₂/integrality; RootSystems supplies abstract chamber transitivity. Continuous-relative smoothing and Sard avoidance remain actual Layer6 constructions consuming DG10.2. Identify invariant volume with Haar before Weyl integration. Generic L7 carriers/global exponential use ComplexManifolds M1, native `GroupLieAlgebra`, Tau's real derivation/tangent,
-adjoint and unit-exponential comparisons, and Layers 0–2's real exponential and entire derivative; complex BCH
-owns the separate complex integration. L7 and L9 use CotangentLagrangian C2.0's ambient real/complex polar
-coordinates only in their respective matrix-subgroup applications. C2.1 owns the direct GL/Sp matrix compatibility,
-subgroup polar preservation, maximal-compact constructions and trace-growth arguments. These are primary C2.1
-constructions; the generic Layer 9 theorem is independent, and only its concrete GL/Sp applications consume them.
+API, and cites [../LieHighestWeight](../LieHighestWeight/README.md) for PBW. Deliverable C uses the earlier real Lie functor/integration. Layer 5A consumes Ad and CompactGroups Layer 0 Haar. Layer 6's preconjugacy block uses its torus/Kronecker and identity-centralizer/normalizer-finiteness targets, SmoothBundlesConnections B1.4's homogeneous quotients and DifferentialGeometry 10.3–10.5 degree/top-form comparison. Layer 2's SU(2)≃S³/simple-connectedness argument uses DifferentialGeometry 10.2 before Layer 4 integration is applied in Layer 6. Root multiplicity/Cartan comparison uses native semisimple root-space results and LieHighestWeight Layer 0 sl₂/integrality; RootSystems supplies abstract chamber transitivity. Continuous-relative smoothing and Sard avoidance remain actual Layer 6 constructions consuming DifferentialGeometry 10.2. Identify invariant volume with Haar before Weyl integration. Generic Layer 7 carriers and the global exponential use ComplexManifolds Milestone 1, native `GroupLieAlgebra`, Tau Ceti's real derivation/tangent,
+adjoint and unit-exponential comparisons, and Layers 0–2's real exponential and its derivative; complex BCH
+owns the separate complex integration. Layers 7 and 9 use CotangentLagrangian C2.0's ambient real/complex polar
+coordinates only in their respective matrix-subgroup applications. CotangentLagrangian C2.1 owns the direct GL/Sp matrix
+compatibility, subgroup polar preservation, maximal-compact constructions and trace-growth arguments. These are primary
+C2.1 constructions; the generic Layer 9 theorem is independent, and only its concrete GL/Sp applications consume them.
 Compact semisimple integration uses the generic Hopf–Rinow completeness and RiemannianGeometry R4.5 Bonnet–Myers
-targets. Generic L7 carriers, global exponential and realification precede the lower FCO F2.4/F4.3 dictionary.
-That lower dictionary uses LG0–6 and only the generic pre-compact-form LG7 interfaces needed for its complex-point,
-tangent, center/derived and root-generation constructions. Its algebraic prerequisites include RG1/RG4/RG6
-and the early generic RG7 Levi/Bruhat and RG8/RG9 full-root-datum/pinned-Chevalley contracts: FCO F4.3 uses
-these for actual root-generation connectedness before the LG7 compact-form specialization. Those generic
-algebraic contracts do not consume their later compact-form applications. The lower dictionary uses no
-LG7 algebraic compact-form specialization, LG8, LG9 or C5.1. LG7 then uses the completed lower dictionary
-and these actual algebraic inputs to construct its compact-form specialization; LG8 applies the same
-single-owner generic RG7 Bruhat theorem on the resulting flag group. Its separate algebraization
-target identifies `K_ℂ` with the complex points of an affine reductive algebraic group before LG8. Only after these
-LG7 constructions does late FCO consume the compact form, the Layer 6 root/Weyl comparison and C5.1 for compact
-restriction. Universal complexification retains Layer 4/5 integration and period data, Layer 6 tori, and
-LieHighestWeight Layer 7 Serre data. Layer 8 (Borel–Weil) uses the group/compact-form inputs and actual character
-lattice stated above, the root systems of [../RootSystems](../RootSystems/README.md), and `L(λ)` of
-[../LieHighestWeight](../LieHighestWeight/README.md). Its associated-line/rank-one inputs are only SchubertGeometry
-S2 (item 1) and S3 (items 1 and 3), followed by ComplexComparisonPartII C−1/C0/C1.9's coherent and canonical GAGA maps; the actual cohomology
-actions, opposite-Borel transport, relative P¹/Leray reflection shifts and BWB deduction are owned in LG8.
-Its dominant-vanishing application consumes ComplexKahlerGeometry K5/K6.0 and SchubertGeometry S3 (item 1)'s ampleness,
-not the downstream Schubert S7/S9 compact comparisons. Generic Bruhat remains RG7's single-owner theorem. Layer 9
+targets. Layer 7's lower analytic dictionary for the complex points of an affine reductive group uses Layers 0–6 and
+the generic pre-compact-form Layer 7 carriers together with ReductiveGroups Layers 0–4, 6 and 7C; Layer 7 then
+constructs its compact-form specialization and its algebraization target identifies `K_ℂ` with the complex points
+of an affine reductive algebraic group before Layer 8, which applies the single-owner generic Bruhat theorem of
+ReductiveGroups Layer 7 on the resulting flag group. Universal complexification retains Layer 4/5 integration and
+period data, Layer 6 tori, and LieHighestWeight Layer 7 Serre data. Layer 8 (Borel–Weil) uses the group/compact-form
+inputs and actual character lattice stated above, the root systems of [../RootSystems](../RootSystems/README.md),
+and `L(λ)` of [../LieHighestWeight](../LieHighestWeight/README.md). Its associated lines are built here from
+SchemeAndStackFoundations §1.15–1.16, its rank-one cohomology from SchemeAndStackFoundations §2.6, followed by
+ComplexComparisonPartII C−1/C0/C1.9's coherent and canonical GAGA maps; the cohomology actions, opposite-Borel
+transport, relative P¹/Leray reflection shifts and BWB deduction are owned in Layer 8. Its dominant-vanishing
+application consumes ComplexKahlerGeometry K5/K6.0. Generic Bruhat remains ReductiveGroups Layer 7's single-owner
+theorem. Layer 9
 (Cartan/Iwasawa/KAK) needs Layer 7's real forms and Layer 6's tori. A contributor can complete Layers 0-3 (the exponential map and the Lie functor)
 as a self-contained first deliverable, well before the integration theorems of Layer 4 or the structure
 theory of Deliverable C. The layers are far from uniform in size. Each of Layers 6-9 (maximal tori and
@@ -1232,11 +1452,12 @@ interfaces kept here.
 
 LieGroupoidsPoisson (Layers 0–5), NoncompactQuantumSymmetry (Layers 2, 5 and 7, and Layer 9's
 Cartan decomposition and polar coordinates), HamiltonianReduction R2 and ConvexityToric T1 (Layer 6's
-compact real root, chamber and period data), SchubertGeometry S2 (Layer 6's compact rank-one
-representatives) consume this roadmap, and none of them supplies it; what they build on these
-layers is theirs. FormalConnectionsOpers consumes Layers 0, 6 and 7's generic pre-compact-form
-interfaces and supplies its lower F2.4/F4.3 dictionary to Layer 7's compact-form specialization, in
-the order the Ordering section states.
+compact real root, chamber and period data), SchubertGeometry (S2's compact rank-one representatives
+from Layer 6, and S7's and S9's flag CW/cohomology carriers, compact homogeneous flag model and
+associated lines from Layer 8, read through the opposite-Borel transport of Layer 8) and
+FormalConnectionsOpers (Layer 0's exponential map, Layer 6's maximal tori and Weyl group, Layer 7's
+complexification, compact real forms and lower analytic dictionary, in its §4.3) consume this roadmap,
+and none of them supplies it; what they build on these layers is theirs.
 
 ## References
 
