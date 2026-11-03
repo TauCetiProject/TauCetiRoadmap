@@ -49,13 +49,15 @@ It leaves to other roadmaps, by section:
 - ModularCharactersAndBlocks M1 owns the `2`-modular system over the cyclotomic field and the
   lifting of roots of unity; M2 the comparison between modular systems; M4 the principal block
   `B₀(G)`; M5 generalized decomposition numbers and block-section orthogonality; M7 the second
-  main theorem and the local third main theorem; M8 the kernel theorems for the principal block.
+  main theorem and the local third main theorem; M8 the kernel theorems for the principal block
+  and the inflation of ordinary characters along the quotient by a normal subgroup of odd order.
   This roadmap consumes these at `p = 2` and adds no block theory of its own.
-- CharacterTheory §1.1 owns class sums and structure constants, §4.3 central characters and their
-  integrality, §4.4 the Galois action on irreducible characters; the pinned kernel criterion
-  `Representation.char_eq_finrank_iff` decides `χ(g) = χ(1)`.
-- InductionRestriction Layer 2 owns induced characters and Frobenius reciprocity, Layer 5
-  Clifford theory and inflation along a normal subgroup.
+- CharacterTheory §1.1 owns class sums and structure constants, §3.5 column orthogonality, §4.2
+  the integrality of character values, §4.3 central characters and their integrality, §4.4 the
+  Galois action on irreducible characters, §5.1 the multiplicativity of central characters on
+  class sums; the pinned kernel criterion `Representation.char_eq_finrank_iff` decides
+  `χ(g) = χ(1)`. The character formula for structure constants is derived here (§2.5).
+- InductionRestriction Layer 2 owns induced characters and Frobenius reciprocity.
 - OddOrderTheorem F2 owns the general Dade isometry and its comparison with ordinary induction
   when every complement `H_a` is trivial, on `TauCeti.IsTISet` data. Layer 2 consumes that
   comparison alone; it does not consume the cyclic-factor coherence theorems of F2 nor anything of
@@ -117,7 +119,9 @@ the odd order theorem or the classification.
 | quotients | `QuotientGroup.mk'`, `QuotientGroup.map`, `Subgroup.comap`, `Subgroup.map`, the correspondence of subgroups under a surjection, `Subgroup.card_mul_index` |
 | transfer | `MonoidHom.transfer`, `MonoidHom.transferSylow`, `MonoidHom.ker_transferSylow_isComplement'` (Burnside's normal `p`-complement for a central Sylow subgroup) |
 | specific groups | `QuaternionGroup`, `QuaternionGroup.card`, `QuaternionGroup.orderOf_a`, `QuaternionGroup.orderOf_xa`, `DihedralGroup`, `Equiv.Perm (Fin n)`, `alternatingGroup` |
-| algebraic integers | `integralClosure`, `IsIntegral`, `Ideal.IsMaximal` |
+| algebraic integers | `integralClosure`, `IsIntegral`, `Ideal.IsMaximal`, `Representation.isIntegral_character` |
+| orthonormality | `Representation.char_orthonormal` |
+| transfer and simplicity | `MonoidHom.transfer`, `MonoidHom.transfer_eq_prod_quotient_orbitRel_zpowers_quot`, `Abelianization.of`, `Abelianization.commutator_subset_ker`, `IsSimpleGroup`, `IsPGroup.le_sylow_of_normal` |
 
 ### From Tau Ceti
 
@@ -146,18 +150,23 @@ block-section orthogonality: `∑_{χ ∈ B} χ(g) · conj(χ(h)) = 0` when the 
 are not conjugate. M7: the second main theorem (`d^x_{χφ} ≠ 0` only for `φ` in a block `b` of
 `C_G(x)` with `b^G = B`) and the local third main theorem for `P · C_G(P) ≤ H ≤ N_G(P)`. M8: every
 simple module of `B₀(H)` is trivial on `O(H)`, and the intersection of the kernels of the ordinary
-irreducibles of `B₀(G)` is `O(G)`.
+irreducibles of `B₀(G)` is `O(G)`; and the ordinary-character inflation law along `H → H ⧸ N` for a
+normal subgroup `N` of odd order: composition with the quotient map is a bijection from the
+irreducible characters of `H ⧸ N` onto the irreducible characters of `H` with `N` in their kernel,
+and it preserves the pairing.
 
 ### From `TauCetiRoadmap.RepresentationTheory.CharacterTheory`
 
-§1.1: class sums, structure constants and `classSum Cᵢ * classSum Cⱼ = ∑ₖ aᵢⱼₖ • classSum Cₖ`.
-§4.3: the central character `ω_χ`, its formula on class sums and its integrality. §4.4: the
-Galois action on irreducible characters and the value identity `(σ · χ)(g) = χ(g^j)`.
+§1.1: class sums, structure constants `aᵢⱼₖ = #{(x, y) ∈ Cᵢ × Cⱼ : x y = gₖ}` and
+`classSum Cᵢ * classSum Cⱼ = ∑ₖ aᵢⱼₖ • classSum Cₖ`. §3.5: column orthogonality,
+`∑_χ χ(g) conj(χ(h)) = |C_G(g)|` for conjugate `g, h` and `0` otherwise. §4.2: character values
+are algebraic integers. §4.3: the central character `ω_χ`, its formula on class sums and its
+integrality. §4.4: the Galois action on irreducible characters and the value identity
+`(σ · χ)(g) = χ(g^j)`, for `j` prime to `|G|`. §5.1: `ω_χ(Kᵢ) ω_χ(Kⱼ) = ∑ₖ aᵢⱼₖ ω_χ(Kₖ)`.
 
 ### From `TauCetiRoadmap.RepresentationTheory.InductionRestriction`
 
-Layer 2: induced class functions and characters, Frobenius reciprocity. Layer 5: Clifford theory
-and inflation of characters from a quotient by a normal subgroup.
+Layer 2: induced class functions and characters, Frobenius reciprocity.
 
 ### From `TauCetiRoadmap.OddOrderTheorem`
 
@@ -262,9 +271,14 @@ For involutions `a, b` with `orderOf (a b) = m`, prove that `⟨a, b⟩` is dihe
   `b`;
 - if `m = 2k` with `k` even, then `a (a b)^k = (a b)^(-k/2) a (a b)^(k/2)` is a conjugate of
   `a`, distinct from `a`, commuting with `a`; hence `a` is not isolated;
-- consequently (Waldecker, Lemma 3.1 (5)), if `t` is isolated and `w` is an involution not
-  conjugate to `t`, then `orderOf (t w) = 2k` with `k` odd; and if `w` is conjugate to `t`, then
-  `orderOf (t w)` is odd (Lemma 3.1 (3)).
+- if `m = 2k` with `k` odd, then `a (a b)^k = (a b)^(-(k-1)/2) b (a b)^((k-1)/2)` is a conjugate
+  of `b` in `⟨a, b⟩` (from `b = a (a b)` and the conjugation formula), distinct from `a` and
+  commuting with `a`; hence if `b` is conjugate to `a` in `G`, then `a` is not isolated;
+- consequently, if `t` is isolated and `w` is an involution conjugate to `t`, then
+  `orderOf (t w)` is odd (Waldecker, Lemma 3.1 (3), stated there without proof): an even order
+  `2k` falls under one of the two preceding bullets, and each contradicts isolation; and if `w`
+  is an involution not conjugate to `t`, then `orderOf (t w) = 2k` with `k` odd (Lemma 3.1 (5)):
+  the order is even by the first bullet and `k` is odd by the `k` even bullet.
 
 *Needs:* Mathlib `orderOf`, `zpow` arithmetic, `Sylow` conjugacy in `⟨a, b⟩`.
 
@@ -272,8 +286,14 @@ For involutions `a, b` with `orderOf (a b) = m`, prove that `⟨a, b⟩` is dihe
 - `D₈`, `a = s`, `b = s r`: `a b = r` has order `4`, `k = 2`, and
   `r⁻¹ s r = s r² = a (a b)²`, a conjugate of `s` distinct from `s` and commuting with it.
 - `S₃`, `a = (12)`, `b = (13)`: `a b = (132)` has order three and `(23) (12) (23) = (13)`.
-- `V₄`, `a ≠ b`: `a b` has order two, `k = 1`, `w = a b` central, and the formula gives
-  `a (a b)^1 = b`, not a conjugate of `a` in `V₄` (nothing is claimed for odd `k`).
+- `V₄`, `a ≠ b`: `a b` has order two, `k = 1`, `w = a b` central, and the odd-`k` formula gives
+  `a (a b)^1 = b`, conjugate to `b` and not to `a` in `V₄`; the odd-`k` bullet claims nothing
+  unless `b` is conjugate to `a` in the ambient group.
+- `GL(2, 3)`, `a = diag(1, −1)`, `r = −(1 1; 0 1)` of order six, `b = a r = (−1 −1; 0 1)`: `a` and
+  `b` are involutions of determinant `−1`, hence conjugate in `GL(2, 3)`, `a b = r`, `k = 3`, and
+  `a (a b)³ = a r³ = −a = diag(−1, 1)` commutes with `a`, differs from `a`, and is conjugate to
+  `a`: `a` is not isolated in `GL(2, 3)`, consistently with `Z*(GL(2, 3)) = Z(GL(2, 3)) = {±1}`.
+  In the dihedral group `⟨a, b⟩` alone, `a (a b)³` is conjugate to `b` and not to `a`.
 - The wrong formula `(a b)^(-j) a (a b)^j = a (a b)^j` fails in `D₈` at `j = 1`:
   `r⁻¹ s r = s r²`, not `s r`.
 
@@ -301,8 +321,8 @@ contains a Sylow `2`-subgroup of `G`, and every `2`-subgroup normalized by `t` i
 
 ### Examples
 
-`C₂`, `S₃`, `V₄`, `Q₈` and `D₈` as in the Checks; `A₅` and `S₄` as the non-examples; the
-dihedral identities for `D₈` and `S₃`.
+`C₂`, `S₃`, `V₄`, `Q₈` and `D₈` as in the Checks; `A₅`, `S₄` and `GL(2, 3)` as the non-examples;
+the dihedral identities for `D₈`, `S₃` and the dihedral subgroup of order twelve of `GL(2, 3)`.
 
 ### Dependencies
 
@@ -324,8 +344,9 @@ Define `Z*(G)` as the preimage of `Z(G ⧸ O(G))` under the quotient map, with `
 (a) ⇔ (d) is the definition of the center of the quotient; (d) ⇒ (b) with `N = O(G)`; (b) ⇒ (d)
 since `N ≤ O(G)` by maximality of the core; (d) ⇒ (c): for `g ∈ G` the conjugate `g t g⁻¹` lies
 in `t · O(G)`, so `t` and `g t g⁻¹` are involutions of `O(G) ⋊ ⟨t⟩`, whose Sylow `2`-subgroups
-have order two, hence are conjugate by some `n ∈ O(G)`, and then `n⁻¹ g ∈ C_G(t)` (this is the
-argument of Theorem 5.1, (vi) ⇒ (vii)); (c) ⇒ (d): for `n ∈ O(G)` and `c ∈ C_G(t)`,
+have order two, hence are conjugate by some `n ∈ O(G)`, and then `n⁻¹ g ∈ C_G(t)` (Theorem 5.1 states
+(vi) ⇔ (vii) and proves (vi) ⇒ (vii) through a lifting lemma for centralizers of central
+`p`-subgroups; the Sylow argument is the route taken here); (c) ⇒ (d): for `n ∈ O(G)` and `c ∈ C_G(t)`,
 `⁅n c, t⁆ = n (c t c⁻¹) n⁻¹ t⁻¹ = ⁅n, t⁆`, which lies in `O(G)` by normality.
 Prove that the subgroup generated by the commutators `⁅g, t⁆` is the normal subgroup `[G, ⟨t⟩]`
 and that `⟨t^G⟩ = [G, ⟨t⟩] · ⟨t⟩`. *Needs:* LocalFiniteGroupTheory L1 (`pPrimeCore 2 ⊤`, its maximality and
@@ -353,10 +374,11 @@ Prove, for an involution `t`:
   odd-order normal subgroup is one);
 - if `t ∈ Z*(G)` and `t ∈ H ≤ G`, then `t ∈ Z*(H)` (`O(G) ⊓ H` is normal of odd order in `H`);
 - if `t ∈ Z*(H)` for a normal subgroup `H` containing `t^G`, then `t ∈ Z*(G)`: `O(H)` is
-  characteristic in `H`, hence normal of odd order in `G`, and in `G ⧸ O(H)` the image of `H` is
-  generated by the conjugates of `t̄`, all central in `H̄`, so `H̄` is elementary abelian; every
-  conjugate of `t̄` lies in `H̄`, commutes with `t̄`, and isolation of `t̄` (descent, §0.2) forces
-  it to equal `t̄`, so `t̄` is central and `⁅G, t⁆ ≤ O(H)`. This item assumes `t` isolated.
+  characteristic in `H`, hence normal of odd order in `G`, and in `Ḡ = G ⧸ O(H)` the image `t̄`
+  lies in `Z(H̄)`, a characteristic subgroup of the normal subgroup `H̄` of `Ḡ`, hence normal in
+  `Ḡ`; so every conjugate of `t̄` lies in `Z(H̄)` and commutes with `t̄`, and isolation of `t̄`
+  (descent, §0.2) forces it to equal `t̄`, so `t̄` is central and `⁅G, t⁆ ≤ O(H)`. This item
+  assumes `t` isolated.
 
 *Needs:* §0.2; LocalFiniteGroupTheory L1 (`O(N) = O(G) ⊓ N`, characteristic property); Mathlib
 `Subgroup.map`, `Subgroup.comap`, `Subgroup.card_mul_index`.
@@ -424,8 +446,9 @@ group*, 1959, p. 1757): if a Sylow `2`-subgroup of `G` is generalized quaternion
 image of its unique involution is central in `G ⧸ O(G)`; in particular `G` is not nonabelian
 simple. The proof here follows the ordinary-character argument of Suzuki (*Group Theory II*,
 Chapter VI, §2.2, Example 3) on a trivial-intersection set, through the Dade/induction comparison
-of OddOrderTheorem F2. No block theory and no odd-order theorem enters this layer, and Layer 5
-is not imported here.
+of OddOrderTheorem F2. No block theory and no odd-order theorem enters this layer
+(ModularCharactersAndBlocks is consumed here only for the ordinary-character inflation law of
+M8), and Layer 5 is not imported here.
 
 ### 2.1 Generalized quaternion groups
 
@@ -433,7 +456,9 @@ With the convention of this roadmap, write `Q = QuaternionGroup (2^(n-2))`, `n �
 Mathlib's presentation: `Nat.card Q = 2^n`; `a 1` has order `2^(n-1)` and `X = ⟨a 1⟩` is cyclic of
 index two; every `xa i` has order four; `z = a (2^(n-2))` is the unique involution and
 `Z(Q) = ⟨z⟩`; the unique subgroup `U` of order four of `X` is `⟨a (2^(n-3))⟩`, it is normal in
-`Q`, `C_Q(U) = X`, and `Q ⧸ X` acts on `U` by inversion. For `n ≥ 4` the subgroup `X` is the
+`Q`, `C_Q(U) = X`, and `Q ⧸ X` acts on `U` by inversion; the commutator subgroup `[Q, Q]` is
+`⟨a 2⟩`, of index four, since `(xa 0)⁻¹ (a 1) (xa 0) (a 1)⁻¹ = (a 1)⁻²` and `Q ⧸ ⟨a 2⟩` is generated
+by two commuting involutions. For `n ≥ 4` the subgroup `X` is the
 unique cyclic subgroup of index two; for `n = 3` there are three, `⟨a 1⟩`, `⟨xa 0⟩`, `⟨xa 1⟩`,
 and any of them serves as `X`. Transport these statements along an isomorphism
 `S ≃* Q` to a Sylow `2`-subgroup `S`. *Needs:* Mathlib `QuaternionGroup.card`,
@@ -443,7 +468,8 @@ and any of them serves as `X`. Transport these statements along an isomorphism
 - `n = 3`: `QuaternionGroup 2` has `4 · 2 = 8` elements, its involution is `a 2`, and
   `xa 0`, `xa 1`, `a 1` all have order four.
 - `n = 4`: `QuaternionGroup 4` has `16` elements, involution `a 4`, `U = ⟨a 2⟩`, and `⟨a 1⟩` is
-  its only cyclic subgroup of index two since every `xa i` has order `4 < 8`.
+  its only cyclic subgroup of index two since every `xa i` has order `4 < 8`; `[Q, Q] = ⟨a 2⟩`
+  has order four and index four, and for `n = 3` it is `⟨a 2⟩ = Z(Q₈)` of order two.
 - `QuaternionGroup 1` has order four and contains `xa 0` of order four, so it is cyclic; the
   hypothesis `n ≥ 3` excludes it, and `n - 2` is never the natural-number junk value `0` here.
 - The wrong model `DihedralGroup (2^(n-1))` has the same order and a cyclic subgroup of index
@@ -484,10 +510,16 @@ Let `S` be a generalized quaternion Sylow `2`-subgroup of `G` of order `2^n`, `n
   The claim is about `K`, not about `U`: distinct conjugates of `U` may share the involution `z`.
 - `K` is the preimage in `C` of the elements of order at least four of `C ⧸ O(C) ≅ X`, a union of
   cosets of `O(C)`; `G`-fusion in `K` is controlled by `H`.
+- All involutions of `G` are conjugate to `z`, each lying in a conjugate of `S`; and a product of
+  two involutions of `G` is trivial or of odd order: if `x y` has even order `2k` for involutions
+  `x ≠ y`, then `(x y)^k` is an involution commuting with `x` and distinct from `x` (§0.3), so
+  `⟨x, (x y)^k⟩` is a Klein four-group, which no `2`-subgroup of `G` contains, every nontrivial
+  `2`-subgroup of `G` lying in a conjugate of `S` and having one involution. In particular no
+  element of `K`, whose orders are divisible by four, is a product of two involutions.
 
 Hence the Dade data of OddOrderTheorem F2 hold with `L = H`, `A = K` and every `H_a = 1`.
-*Needs:* §2.1, §2.2; Tau Ceti `TauCeti.IsTISet`; Mathlib Sylow conjugacy, `Subgroup.centralizer`,
-`Subgroup.normalizer`.
+*Needs:* §0.3, §2.1, §2.2; Tau Ceti `TauCeti.IsTISet`; Mathlib Sylow conjugacy,
+`Subgroup.centralizer`, `Subgroup.normalizer`.
 
 **Checks.**
 - `G = Q₈`, `X = ⟨i⟩ = U`: `C = X`, `H = G`, `K = {i, −i}`, `|H : C| = 2`, and `K` is trivially
@@ -501,11 +533,16 @@ Hence the Dade data of OddOrderTheorem F2 hold with `L = H`, `A = K` and every `
 - The wrong model `K' = C ∖ {1}` is not a trivial-intersection set for `H`: in `SL(2, 3)` with
   `C = ⟨i⟩`, an element `g` of order three has `g C g⁻¹ = ⟨j⟩`, and `{i, −1, −i}` meets
   `{j, −1, −j}` in `−1`; the definition of `K` excludes the involution.
+- Products of two involutions: in `Q₈` and `SL(2, 3)` the only involution is `z` and `z · z = 1`;
+  in `𝔽₃² ⋊ Q₈` the involutions are the `(v, −1)` with `v ∈ 𝔽₃²`, and
+  `(v, −1) (w, −1) = (v − w, 1)` has order one or three. The wrong model `D₈` has `s · s r = r`
+  of order four, a product of two involutions; `D₈` contains the Klein four-group `⟨s, r²⟩`.
 
 ### 2.4 Characters supported on `K` and the induction isometry
 
 Let the notation be as in §2.3 with `m = n − 1`, so `|X| = 2^m`, and identify the irreducible
-characters of `H ⧸ O(C) ≅ S` (inflated to `H`, InductionRestriction Layer 5): four linear
+characters of `H ⧸ O(C) ≅ S` (inflated to `H` along `H → H ⧸ O(C)`, ModularCharactersAndBlocks
+M8): four linear
 characters, among them `ε_X` with kernel `X`, and `2^(m-1) − 1` characters `χ_j` of degree two,
 `1 ≤ j ≤ 2^(m-1) − 1`, with `χ_j(a i) = ζ^(ij) + ζ^(-ij)` for a primitive `2^m`-th root of unity
 `ζ` and `χ_j(xa i) = 0`. Prove:
@@ -531,8 +568,8 @@ irreducibles, and the degree and value constraints these impose: the degrees sat
 `1 ± ψ₁(1) ± ψ₂(1) (± ψ₃(1)) = 0`, the values at `z` the same relation, and the values on `K`
 the relations read off from `β_j` and `f`. Use the Galois action of CharacterTheory §4.4 to move
 between the `χ_j` of a fixed parity and to compare the constituents of different `α_{j,j'}`.
-*Needs:* §2.3; OddOrderTheorem F2; InductionRestriction Layers 2 and 5; CharacterTheory §4.4;
-Tau Ceti `TauCeti.ClassFunction.characterPairing`.
+*Needs:* §2.3; OddOrderTheorem F2; InductionRestriction Layer 2; ModularCharactersAndBlocks M8;
+CharacterTheory §4.4; Tau Ceti `TauCeti.ClassFunction.characterPairing`.
 
 **Checks.**
 - `S = Q₈`, `X = ⟨i⟩`: `f(1) = 1 + 1 − 1 − 1 = 0`, `f(−1) = 0`, `f(i) = 1 + 1 + 1 + 1 = 4`,
@@ -550,15 +587,122 @@ Tau Ceti `TauCeti.ClassFunction.characterPairing`.
 
 ### 2.5 The contradiction and the theorem
 
-Assume `O(G) = 1` (reduce to this case by §1.2 and the descent of the quaternion Sylow
-subgroup to `G ⧸ O(G)`) and suppose `z ∉ Z(G)`. From the signed decompositions of §2.4 and their
-values at `1`, at `z` and on `K`, derive the congruences modulo four and modulo eight satisfied
-by the degrees of the constituents `ψ_i`, and derive the contradiction that ends Suzuki's
-Example 3; the degree arithmetic is a target here, with §2.4 as its inputs. Hence `z ∈ Z(G)`
-when `O(G) = 1`. Then state and prove `brauer_suzuki`: for `S` a Sylow `2`-subgroup with
+Write `P(G)` for the statement "if a Sylow `2`-subgroup of `G` has a unique involution `z`, then
+the existence form of `z ∈ Z*(G)` holds". §2.2 proves `P(G)` when that Sylow subgroup is cyclic.
+Prove `P(G)` for generalized quaternion Sylow `2`-subgroups by induction on `Nat.card G`, through
+the targets below (Suzuki, *Group Theory II*, Chapter VI, §2.2, Example 3; the targets follow the
+stages of the formalization of that example cited in References). Throughout, `G` is a
+counterexample of least order, with `S`, `X`, `U = ⟨u⟩`, `z = u²`, `C`, `H`, `K` as in §2.3.
+
+**Reduction to a simple group.** Prove:
+
+- `O(G) = 1`: otherwise `S O(G) ⧸ O(G) ≅ S` is a generalized quaternion Sylow `2`-subgroup of the
+  smaller group `G ⧸ O(G)`, so the image of `z` lies in `Z*(G ⧸ O(G))` and `z ∈ Z*(G)` by §1.2.
+  Hence `Z*(G) = Z(G)` and `z ∉ Z(G)`.
+- Every nontrivial normal subgroup `M` of `G` contains `z`: `S ⊓ M` is a Sylow `2`-subgroup of
+  `M`, and a nontrivial subgroup of `S` contains its unique involution `z`; if `z ∉ M`, then `|M|`
+  is odd and `M ≤ O(G) = 1`.
+- `G` is nonabelian simple: for a proper nontrivial normal `M`, the Sylow `2`-subgroup `S ⊓ M` of
+  `M` has the unique involution `z`, so it is cyclic or generalized quaternion
+  (LocalFiniteGroupTheory L4); by §2.2, or by `P(M)` for the smaller group `M`, `z ∈ Z*(M)`, and
+  `O(M) ≤ O(G) = 1` (L1), so `z ∈ Z(M)`. The Sylow `2`-subgroup `P` of the abelian characteristic
+  subgroup `Z(M)` of `M` is a nontrivial normal `2`-subgroup of `G`, hence `P ≤ S`
+  (`IsPGroup.le_sylow_of_normal`), and `z` is the unique involution of `P`; conjugation by any
+  `g ∈ G` preserves `P` and so fixes `z`, against `z ∉ Z(G)`.
+- Consequently every nontrivial irreducible character `ψ` of `G` is faithful, so `ψ(z) ≠ ψ(1)`
+  (`Representation.char_eq_finrank_iff`, the kernel being normal) and `ψ(1) ≥ 2`.
+
+**The vanishing class function.** Prove:
+
+- the character formula for structure constants: for conjugacy classes `C₁ ∋ g₁`, `C₂ ∋ g₂` and
+  `g ∈ G`, the number of pairs `(x, y) ∈ C₁ × C₂` with `x y = g` is
+  `(|C₁| |C₂| / |G|) ∑_χ χ(g₁) χ(g₂) conj(χ(g)) / χ(1)`, the sum over the irreducible characters:
+  multiply `ω_χ(K₁) ω_χ(K₂) = ∑ₖ a₁₂ₖ ω_χ(Kₖ)` (CharacterTheory §5.1) by `χ(1) conj(χ(g))`, sum
+  over `χ`, and apply `ω_χ(K_j) = |C_j| χ(g_j) / χ(1)` (§4.3) and column orthogonality (§3.5);
+- hence `Φ = ∑_χ (χ(z)² / χ(1)) χ` vanishes at every element of even order (the formula with
+  `C₁ = C₂ = z^G`, the class of all involutions, `χ(z)` being real, and §2.3: no element of even
+  order is a product of two involutions), and for every class function `ζ` supported on elements
+  of even order, `∑_χ (χ(z)² / χ(1)) ⟨χ, ζ⟩ = ⟨Φ, ζ⟩ = 0`.
+
+**The three relations.** Let `ζ = Ind β_j` (`n ≥ 4`, `j` even) or `ζ = Ind f` (`n = 3`), with
+`ζ = 1_G + ∑ᵢ εᵢ ψᵢ` as in §2.4, and put `dᵢ = ψᵢ(1)`, `eᵢ = ψᵢ(z)`, `fᵢ = dᵢ − eᵢ`. Prove:
+
+- `1 + ∑ᵢ εᵢ dᵢ = 0` (`ζ(1) = 0`) and `1 + ∑ᵢ εᵢ eᵢ = 0` (`ζ(z) = 0`, as `z` is conjugate to no
+  element of `K`); hence `∑ᵢ εᵢ fᵢ = 0`;
+- `1 + ∑ᵢ εᵢ eᵢ² / dᵢ = 0` (`ζ` is supported on the conjugates of `K`); with
+  `eᵢ² / dᵢ = dᵢ − 2 fᵢ + fᵢ² / dᵢ` and the two preceding relations, `∑ᵢ εᵢ fᵢ² / dᵢ = 0`;
+- `fᵢ > 0` and `4 ∣ fᵢ`: `eᵢ ≠ dᵢ` by faithfulness, `|eᵢ| ≤ dᵢ` since `ψᵢ(z)` is a sum of `dᵢ`
+  signs, and in a representation affording `ψᵢ` the `−1`-eigenspace of `z = u²` is the sum of the
+  `i`- and `(−i)`-eigenspaces of `u`, which have equal dimension because `u` is conjugate to
+  `u⁻¹` in `S` (§2.1); so `fᵢ` is twice an even number. Write `fᵢ = 4 cᵢ` with `cᵢ ≥ 1`.
+
+**The case `n ≥ 4`.** With `ζ = Ind β₂ = 1_G + ε₁ ψ₁ + ε₂ ψ₂`: `ε₁ f₁ + ε₂ f₂ = 0` with
+`f₁, f₂ > 0` forces `ε₂ = −ε₁` and `f₁ = f₂`; then `ε₁ f₁² (1/d₁ − 1/d₂) = 0` gives `d₁ = d₂`,
+and the degree relation reads `1 + ε₁ (d₁ − d₂) = 1 ≠ 0`. This contradiction proves `P(G)` for
+`n ≥ 4`.
+
+**The case `n = 3`.** Here `S = Q₈`, `X = U`, `C = O(C) × U`, `K = u O(C) ∪ u⁻¹ O(C)`,
+`|H| = 8 |O(C)|`, and `ζ = Ind f = 1_G + ε₁ ψ₁ + ε₂ ψ₂ + ε₃ ψ₃` takes the value `4` on the
+conjugates of `K` and `0` elsewhere. Prove, in order:
+
+1. *Integer values.* `ζ` is fixed by the Galois action of CharacterTheory §4.4, since `g` is
+   conjugate into `K` exactly when `g^a` is, for `a` prime to `|G|`; so each `σ` permutes
+   `{ψ₁, ψ₂, ψ₃}` preserving the signs. Were `σ · ψ₁ = ψ₂`, then `d₁ = d₂`, `e₁ = e₂`,
+   `ε₁ = ε₂`, and the three relations `1 + 2 ε₁ d₁ + ε₃ d₃ = 0`, `2 ε₁ f₁ + ε₃ f₃ = 0`,
+   `2 ε₁ f₁² / d₁ + ε₃ f₃² / d₃ = 0` give `f₃² = 4 f₁²`, then `d₃ = −2 ε₁ ε₃ d₁`, then `1 = 0`.
+   Hence every `ψᵢ` is fixed by every `σ`, is rational-valued, and is integer-valued (§4.2); so
+   `ψᵢ(g^a) = ψᵢ(g)` for every `a` prime to `|G|`.
+2. *The value at `u`.* `ψᵢ(u) = εᵢ`. Route: Frobenius reciprocity with `f = 4` on `K` gives
+   `∑_{k ∈ K} ψᵢ(k) = 2 |O(C)| εᵢ`; for `v ∈ O(C)` and `a` prime to `|G|` with `a ≡ 1 (mod 4)` and
+   `a ≡ −1 (mod |O(C)|)`, `ψᵢ(u v) = ψᵢ((u v)^a) = ψᵢ(u v⁻¹)`, and likewise `ψᵢ(u⁻¹ v) = ψᵢ(u v)`;
+   so the integers `aᵥ = ψᵢ(u v)` satisfy `∑ᵥ aᵥ = |O(C)| εᵢ` and `aᵥ = a_{v⁻¹}`. Inversion fixes
+   only `1` in `O(C)`, so `ψᵢ(u) = a₁ ≡ |O(C)| εᵢ ≡ 1 (mod 2)` and `∑ᵥ aᵥ² ≡ 1 (mod 2)`. The sum
+   `∑ᵥ aᵥ²` is `|O(C)| m` for an integer `m`: `|ψᵢ|²` restricted to `C` is a character of `C`, and
+   the sum of a character of `C` over a coset of `O(C)` is `|O(C)|` times a `ℤ[i]`-combination of
+   its multiplicities along `C ⧸ O(C) ≅ U`. So `m` is odd and `∑ᵥ (aᵥ − εᵢ)² = (m − 1) |O(C)|`.
+   If `m ≥ 3`: every integer `a` has `a² + εᵢ a ≥ 0`, and
+   `∑_{g ∈ G} (ψᵢ(g)² + εᵢ ψᵢ(g)) = |G|` (`Representation.char_orthonormal` with `ψᵢ` real, and
+   orthogonality to `1_G`), while the `|G : H|` disjoint conjugates of `K` contribute
+   `|G : H| · 2 |O(C)| (m + 1) = |G| (m + 1) / 4 ≥ |G|` and the identity contributes
+   `dᵢ² + εᵢ dᵢ > 0`: a contradiction. So `m = 1`, `aᵥ = εᵢ` for all `v`, and `ψᵢ(u) = εᵢ`.
+3. *Fusion of elements of order four.* All elements of order four of `G` are conjugate, so
+   `ψᵢ(y) = εᵢ` for every `y` of order four. Route: the transfer `V : G →* Abelianization S`
+   (`MonoidHom.transfer` along `Abelianization.of`) is trivial, `G` being perfect
+   (`Abelianization.commutator_subset_ker`). Evaluate `V(u)` by
+   `MonoidHom.transfer_eq_prod_quotient_orbitRel_zpowers_quot`: an orbit of `⟨u⟩` on `G ⧸ S` of
+   size two or four contributes the image of a conjugate of `u²` or `u⁴` lying in `S`, that is
+   of `z` or of `1`, trivial since `z ∈ [S, S]` (§2.1); an orbit of size one contributes the image
+   of a `G`-conjugate of `u` lying in `S`; and the number of orbits of size one is odd, since
+   `|G : S|` is odd. If every `G`-conjugate of `u` in `S` lay in `⟨u⟩ = {1, u, z, u z}`, each such
+   factor would be the image of `u` and `V(u)` would be an odd power of it, nontrivial as
+   `u ∉ [S, S]`. Hence `u` is conjugate to an element of order four of `S` outside `⟨u⟩`; each
+   element of order four of `S` is inverted by the elements of order four outside its cyclic
+   subgroup, so the same argument for a generator of the third cyclic subgroup of order four
+   shows that all six elements of order four of `S` are conjugate to `u`; and every element of
+   order four of `G` lies in a conjugate of `S`.
+4. *The restriction congruence.* `⟨ψᵢ|_S, 1_S⟩ = (dᵢ + eᵢ + 6 εᵢ) / 8` is an integer, `S` having
+   one element of order one, one of order two and six of order four; with `fᵢ = 4 cᵢ` this reads
+   `dᵢ = 4 ⟨ψᵢ|_S, 1_S⟩ − 3 εᵢ + 2 cᵢ`, so `dᵢ ≡ εᵢ (mod 4)` whenever `cᵢ` is even.
+5. *The final arithmetic.* Let `g = gcd(c₁, c₂, c₃)` and `cᵢ = g wᵢ`. From `∑ᵢ εᵢ cᵢ = 0` the
+   number of odd `wᵢ` is even, and it is not zero, so exactly one `wᵢ` is even, say `w₁`; then
+   `c₁` is even and `d₁ ≡ ε₁ (mod 4)` by step 4. Dividing `∑ᵢ εᵢ cᵢ² / dᵢ = 0` by `g²` and
+   clearing denominators, `ε₁ w₁² d₂ d₃ + ε₂ w₂² d₁ d₃ + ε₃ w₃² d₁ d₂ = 0`; modulo four, with
+   `w₁² ≡ 0`, `w₂² ≡ w₃² ≡ 1` and `d₁ ≡ ε₁` a unit, this gives `ε₂ d₃ + ε₃ d₂ ≡ 0`, hence
+   `ε₂ d₂ + ε₃ d₃ ≡ 0 (mod 4)`; but the degree relation gives
+   `ε₂ d₂ + ε₃ d₃ = −1 − ε₁ d₁ ≡ −2 (mod 4)`. This contradiction proves `P(G)` for `n = 3`.
+
+Hence `z ∈ Z*(G)` for every finite group with generalized quaternion Sylow `2`-subgroups. Then
+state and prove `brauer_suzuki`: for `S` a Sylow `2`-subgroup with
 `S ≃* QuaternionGroup (2^(n-2))`, `n ≥ 3`, and `t ∈ S` an involution, the existence form of
 `t ∈ Z*(G)` holds. Derive that a group with generalized quaternion Sylow `2`-subgroups is not
-nonabelian simple, and that `G ⧸ O(G)` has a central involution. *Needs:* §2.1–§2.4, §1.1, §1.2.
+nonabelian simple, and that `G ⧸ O(G)` has a central involution. *Needs:* §0.3, §1.1, §1.2,
+§2.1–§2.4; LocalFiniteGroupTheory L1, L4; CharacterTheory §3.5, §4.2, §4.3, §4.4, §5.1;
+InductionRestriction Layer 2; Tau Ceti `Representation.char_eq_finrank_iff`,
+`TauCeti.structureConstant`, `TauCeti.ClassFunction.characterPairing`; Mathlib
+`MonoidHom.transfer`, `MonoidHom.transfer_eq_prod_quotient_orbitRel_zpowers_quot`,
+`Abelianization.of`, `Abelianization.commutator_subset_ker`, `IsSimpleGroup`,
+`IsPGroup.le_sylow_of_normal`, `Representation.char_orthonormal`,
+`Representation.isIntegral_character`.
 
 **Checks.**
 - `Q₈`, `SL(2, 3)`, `SL(2, 5)`: `O(G) = 1`, the involution is central, `N = ⊥`.
@@ -567,16 +711,33 @@ nonabelian simple, and that `G ⧸ O(G)` has a central involution. *Needs:* §2.
 - `PSL(2, 7)` has dihedral Sylow `2`-subgroups and is simple: the theorem's hypothesis fails
   and its conclusion `Z*(G) ≠ 1` fails, so "generalized quaternion" is not replaceable by
   "`2`-rank at most two".
+- The structure-constant formula on `S₃` with `C₁ = C₂` the transpositions and `g = (123)`:
+  `(3 · 3 / 6) (1 + (−1)(−1) + 0) = 3`, and indeed each of the three transpositions `x` has
+  `x (123)` a transposition. On `Q₈` as `G`: `Φ(1) = ∑_χ χ(z)² = 8 = |C_G(z)|`,
+  `Φ(z) = 4 · 1 + (−2)³ / 2 = 0` and `Φ(i) = (1 + 1 − 1 − 1) + 0 = 0`, as `z · z = 1` is the only
+  product of two involutions.
+- The three relations alone do not suffice: the degrees `3, 6, 8`, the values `−1, 2, 0` at an
+  involution and the signs `−, −, +` satisfy `1 − 3 − 6 + 8 = 0`, `1 + 1 − 2 + 0 = 0` and
+  `1 − 1/3 − 4/6 + 0 = 0`, with `f = (4, 4, 8)`; they are the data of three irreducible
+  characters of `PSL(2, 7)`, whose Sylow `2`-subgroups are dihedral. There `d₃ = 8 ≢ ε₃ (mod 4)`,
+  and the degree-`8` character vanishes at the elements of order four rather than taking the
+  value `ε₃ = 1`: steps 2–4 of the case `n = 3` are where the quaternion hypothesis enters.
+- The case `n ≥ 4` needs `f₁, f₂ > 0`, that is faithfulness of the constituents: without the
+  reduction to a simple group, `ζ = 1_G + ψ₁ − ψ₂` with `ψ₁(z) = ψ₁(1)` would satisfy the first
+  two relations trivially.
 
 ### Examples
 
-`Q₈`, `Q₁₆`, `SL(2, 3)`, `SL(2, 5)`, `𝔽₃² ⋊ Q₈`, `F₂₀`.
+`Q₈`, `Q₁₆`, `SL(2, 3)`, `SL(2, 5)`, `𝔽₃² ⋊ Q₈`, `F₂₀`, `S₃`; `PSL(2, 7)` and `D₈` as the
+negative controls.
 
 ### Dependencies
 
-Layers 0–1; LocalFiniteGroupTheory L4, L5; OddOrderTheorem F2; InductionRestriction Layers 2
-and 5; CharacterTheory §4.4; Tau Ceti `TauCeti.IsTISet`, `TauCeti.ClassFunction.characterPairing`;
-Mathlib `QuaternionGroup`, `MonoidHom.transferSylow`.
+Layers 0–1; LocalFiniteGroupTheory L1, L4, L5; OddOrderTheorem F2; InductionRestriction Layer 2;
+ModularCharactersAndBlocks M8 (the inflation law); CharacterTheory §3.5, §4.2–§4.4, §5.1; Tau
+Ceti `TauCeti.IsTISet`, `TauCeti.ClassFunction.characterPairing`, `TauCeti.structureConstant`,
+`Representation.char_eq_finrank_iff`; Mathlib `QuaternionGroup`, `MonoidHom.transferSylow`,
+`MonoidHom.transfer`, `IsSimpleGroup`.
 
 ## Layer 3: principal-block stability on involution sections
 
