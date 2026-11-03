@@ -20,13 +20,14 @@ Tau Ceti's adic spaces and Frobenius orbit space do not supply these realization
 - The simplified Stein and affinoid diagram (README §1.5): lacks smooth dagger Stein and affinoid spaces with analytic pro-étale, HK and differential-form cohomology.
 - Bicartesian diagrams for proper, Stein and affinoid spaces (README §1.6): lacks the analytic fundamental square on actual proper, dagger Stein and affinoid cohomology.
 - Kernel and cokernel descriptions (README §2.2): lacks modified coherent HK bundles and the analytic left-heart period diagram.
-- The canonical qBC filtration on pro-étale cohomology (README §2.3): lacks natural TVS cohomology, torsion period Pairs and qBC curvature objects.
+- The constructed functorial qBC filtration on pro-étale cohomology (README §2.3): lacks natural TVS cohomology, torsion period Pairs and qBC curvature objects.
 - The exact sequence with two failure terms (README §2.4): lacks qBC/TVS cohomology and its coherent bundle-cohomology failure objects.
 - The height formula and its sign (README §2.5): lacks analytic qBC cohomology with signed height and modified HK bundles.
 - The degreewise equivalence of comparison criteria (README §2.6): lacks small dagger spaces, qBC curvature and the adjacent syntomic cohomology object.
 - The four conjectural properties for a small variety (README §2.7): lacks small dagger cohomology, bundle acyclicity, qBC curvature and height.
 - Splitting the crystalline eigenspace complex (README §2.8): lacks the overconvergent log-crystalline complex of a dagger space, its comparison with completed-unramified Hyodo–Kato cohomology and its derived Frobenius eigenspace in the strict category.
 - A noncanonical decomposition of syntomic cohomology (README §2.9): lacks the analytic syntomic TVS object and reasonable period Pairs.
+- Reasonableness and intrinsic uniqueness for quasi-compact spaces (README §2.10): lacks the analytic torsion period Pair, its reasonable presentation and the qBC subobject and quotient carriers.
 - Nonnegative de Rham slopes for products (README §3.2): lacks small dagger spaces with filtered HK modifications and compatible cup products.
 - Algebraic analytifications have nonnegative slopes (README §3.3): lacks dagger analytification and its filtered analytic HK realization.
 - Almost proper varieties have nonnegative slopes (README §3.4): lacks proper smooth rigid pairs and their logarithmic and naive filtered period cohomology.
