@@ -85,15 +85,37 @@ theorem compactLie_cohomology_finite (p d : ℕ) [Fact p.Prime]
 
 /-! ## Layer 2: continuous cohomology and tower comparison -/
 
+/-- Evaluation at 1 on continuous coinduction along φ : J → H, as a continuous
+J-equivariant coefficient map from the restriction of Ind_J^H X back to J onto X.
+Equivariance is the membership condition f(φ(j)h) = j·f(h) at h = 1, so the map
+is the coinduction counit; for J = H it is an isomorphism onto X. -/
+noncomputable def coindEvalOne
+    {R H J : Type u} [CommRing R] [TopologicalSpace R]
+    [Group H] [TopologicalSpace H] [IsTopologicalGroup H]
+    [Group J] [TopologicalSpace J] [IsTopologicalGroup J]
+    (φ : J →ₜ* H) (X : TopRep.{u} R J) :
+    TopRep.res (φ : J →* H) (TopRep.of (X.ρ.coind φ)) ⟶ X :=
+  TopRep.ofHom
+    { toFun := fun f => (f : C(H, X)) 1
+      map_add' := fun _ _ => rfl
+      map_smul' := fun _ _ => rfl
+      cont := (continuous_eval_const 1).comp continuous_subtype_val
+      isIntertwining' := fun j => by
+        ext f
+        change (f : C(H, X)) (1 * φ j) = X.ρ j ((f : C(H, X)) 1)
+        rw [one_mul]
+        simpa using f.2 j 1 }
+
 /-- Shapiro's lemma for continuous induction along a closed subgroup with a
 continuous section of the right-coset quotient. Here H is locally profinite,
 X is a topological R[J]-module whose action map J × X → X is jointly
 continuous, and the induced module is Mathlib's continuous coinduction: the
 continuous f : H → X with f(jh) = j f(h), with the compact-open topology and
-right translation. Its continuous cohomology is isomorphic, as a topological
-R-module in every degree, to that of X; the isomorphism is restriction followed
-by evaluation at 1. See BW00, Chapter IX, Proposition 2.3; FUST22, §2,
-p. 281; CDN23, proof of Corollary 3.13, p. 37. -/
+right translation. The Shapiro map, Mathlib's compatible-pair map on continuous
+cohomology for the inclusion J → H and the counit `coindEvalOne`, that is
+restriction followed by evaluation at 1 on cochains, is an isomorphism of
+topological R-modules in every degree. See BW00, Chapter IX, Proposition 2.3;
+FUST22, §2, p. 281; CDN23, proof of Corollary 3.13, p. 37. -/
 theorem continuousCohomology_coind_iso
     (R H : Type u) [CommRing R] [TopologicalSpace R] [IsTopologicalRing R]
     [Group H] [TopologicalSpace H] [IsTopologicalGroup H] [T2Space H]
@@ -104,9 +126,8 @@ theorem continuousCohomology_coind_iso
     (s : Quotient (QuotientGroup.rightRel J) → H) (hs : Continuous s)
     (hsec : Function.RightInverse s (Quotient.mk (QuotientGroup.rightRel J)))
     (i : ℕ) :
-    Nonempty (continuousCohomology i
-      (TopRep.of (X.ρ.coind ⟨J.subtype, continuous_subtype_val⟩)) ≅
-        continuousCohomology i X) := by
+    IsIso (ContinuousCohomology.map (⟨J.subtype, continuous_subtype_val⟩ : J →ₜ* H)
+      (coindEvalOne ⟨J.subtype, continuous_subtype_val⟩ X) i) := by
   sorry
 
 /-- For an odd prime p, continuous degree-two cohomology of SL₂(ℚ_p)
