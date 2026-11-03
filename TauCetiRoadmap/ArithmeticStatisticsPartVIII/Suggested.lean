@@ -23,7 +23,7 @@ compactly supported étale cohomology and its Frobenius action. Hyperelliptic mo
 §5.17, including genus-one 3-adic monodromy and its Legendre inertia input, needs the
 relative Jacobian, its torsion local systems and monodromy representations.
 The rational-component and Cohen–Lenstra theorems of §§5.18–5.19 also need these Hurwitz
-carriers and the cohomological uniform Betti hypothesis (HS). Wood's moments, bad-type
+carriers and their rational étale cohomology. Wood's moments, bad-type
 bounds and whole-component profiles in §§5.20–5.21 need marked Hurwitz schemes, reduced
 Schur multipliers and the arithmetic extension counts. The Liu–Wood–Zureick-Brown and
 Cohen–Lenstra–Martinet moments of §5.22 need the radical-discriminant extension families
