@@ -56,6 +56,11 @@ The Peter–Weyl coefficient basis of the circle is indexed by −n for scalar
 action n. A general Gram form is h(v,w)=⟨v,Tw⟩; self-adjointness also gives
 h(v,w)=⟨Tv,w⟩.
 
+Permutations compose right to left: στ applies τ first. A permutation σ of
+n letters acts on ℂⁿ through the matrix `n_σ` with `n_σ e_j = e_{σ(j)}`, so
+that `σ ↦ n_σ` is a homomorphism and conjugation by `n_σ⁻¹` sends
+`diag(t_1, …, t_n)` to `diag(t_{σ(1)}, …, t_{σ(n)})`.
+
 An irreducible representation has V≠0 and no proper nonzero invariant subspace.
 For finite-dimensional V all subspaces are closed, so this agrees with
 `Representation.IsIrreducible`. On infinite-dimensional spaces topological
@@ -357,8 +362,10 @@ Pin it by `T|_(S_i⊗ℂ^{m_i})=id_(S_i)⊗A_i`. Prove addition, multiplication,
 complex scalars, adjoints and both inverse-map identities; for units prove
 compatibility with operator and matrix inversion. Invariant positive metrics
 correspond exactly to positive-definite Hermitian A_i. Under a decomposition
-change `d'=(⊕_i(id⊗U_i))d`, with each U_i unitary, prove
-`A_i'=U_i A_i U_i†`, and prove compatibility with reindexing. For the trivial representation
+change `d'=(⊕_i(id⊗U_i))d`, with each U_i unitary, so that `d'` reads the
+new multiplicity coordinates `m'=U_i m` of a vector with old coordinates m,
+prove `A_i'=U_i A_i U_i†` (since `h=m†A_i n=m'†U_i A_i U_i†n'`), and prove
+compatibility with reindexing. For the trivial representation
 on ℂ², the Gram operator diag(1,2) gives an invariant positive metric that is
 not a scalar multiple of the standard one. Thus scalar uniqueness uses the
 irreducibility hypothesis; repeated copies retain their full matrix freedom.
@@ -378,6 +385,11 @@ isotypic tensor decomposition and its comparison are constructed here.
 
 - For S⊕S, diag(1,2) in the multiplicity algebra gives two different
   metric scales; swapping copies changes it to diag(2,1), excluding a scalar-only commutant.
+- For S⊕S with U=diag(1,i) and A=[[1,1],[1,2]], the new block is
+  U A U†=[[1,−i],[i,2]]; the opposite conjugation U†AU gives [[1,i],[−i,2]].
+  Both are positive-definite Hermitian with the same spectrum, so only this
+  off-diagonal sign fixes the direction; the coordinate swap, being
+  self-adjoint, cannot.
 - In M₂(ℂ), E₁₂E₂₁=E₁₁ and E₂₁E₁₂=E₂₂; the block map preserves this
   order. Also E₁₂†=E₂₁, distinguishing adjoint from entrywise conjugation.
 - On V=0 the index is empty and the product algebra has one element;
@@ -472,7 +484,7 @@ integration and uniform boundedness.
 - For the shift action of ℤ on ℓ²(ℤ), the point mass has infinitely many independent translates. This is outside the compact-group theorem.
 - On the left regular action of S₃ with normalized Haar, the weight f equal to
   6 at t and 0 elsewhere gives T_f=π(t). For h=(12), t=(23), covariance gives π(ht) with
-  ht=(123); reversing the order gives (132), a different operator.
+  ht=(123) (composing right to left); reversing the order gives (132), a different operator.
 - For the trivial action, T_f v=(∫f)v. Kernels of mass 1 fix v, and kernels of mass 2 send v to 2v; the normalization cannot be dropped.
 
 ### Examples
@@ -850,8 +862,13 @@ Weyl group; Mathlib `AddMonoidAlgebra`.
 **Checks.**
 
 - For the identity normalizer element, 1·χ=χ and e⁰ stays 1.
-- For SU(3), with s₁=(12), s₂=(23), the coordinate character e₁ satisfies
-  (s₁s₂)·e₁=e₂ but (s₂s₁)·e₁=e₃; this detects reversal of multiplication.
+- For SU(3), with s₁=(12), s₂=(23) realized by the permutation matrices of
+  the Conventions (`n_σ e_j = e_{σ(j)}`, composition right to left, each
+  multiplied by diag(−1,1,1)∈T to have determinant 1), `n_σ⁻¹ t n_σ` is
+  `diag(t_{σ(1)}, t_{σ(2)}, t_{σ(3)})`, so `σ·e_i = e_{σ(i)}`: the coordinate
+  character e₁ satisfies (s₁s₂)·e₁=e₂ but (s₂s₁)·e₁=e₃. Reversed
+  multiplication would exchange these values, and the realization
+  `n_σ e_j = e_{σ⁻¹(j)}` would give (s₁s₂)·e₁=e₃ instead.
 - The SU(3) wall weight (1,1,0) is fixed by s₁; its orbit has three
   distinct weights, so its orbit sum has three terms rather than six.
 
