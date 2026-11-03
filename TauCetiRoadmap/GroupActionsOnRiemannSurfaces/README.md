@@ -149,8 +149,7 @@ geometric carriers specified below; the module docstring identifies these missin
   moduli).
 - Equations of the families other than through `HyperellipticCurves`; the Shimura-variety
   dimension of a family; the Frediani–Ghigi–Penegini code.
-- Fields of moduli and definition of a curve with a given action (Belyi maps Layer 11 for
-  three-point covers; nothing in general).
+- Fields of moduli and definition of a curve with a given action (outside this roadmap).
 - The classification of large automorphism groups beyond the finite lists of 4.3 and 5.3
   (Hurwitz groups in general, Macbeath's and Conder's genus spectra, Accola–Maclachlan's `8g + 8`
   theorem); the Accola–Maclachlan and Kulkarni surfaces appear only as worked examples.
@@ -232,7 +231,7 @@ Implementors make no choices about any of the following.
 11. **Equivalences.** Simultaneous conjugation is the `Inn(G)`-action `g • v = (MulAut.conj g) ∘ v`;
     the LMFDB's "distinct generating vectors" are its orbits. A *refined passport* is `(g, G, C)` with
     `C j = ConjClasses.mk (c j)`. *Braid equivalence* (3.3) is: same `Inn(G)`-orbit after applying
-    some `β : BraidGroup r` to the `c`-tuple through IG.3.2's `HurwitzAction.action`, `(a, b)`
+    some `β : BraidGroup r` to the `c`-tuple through IG.3.2's Hurwitz braid action, `(a, b)`
     untouched; the LMFDB's displayed `Q_i` is the inverse of IG.3.2's generator `σ_i`, with the
     same orbits. *Topological equivalence* is 3.4's definition through Aut(G) and
     orientation-preserving homeomorphisms; the braid group enters only through the theorem 3.6.
@@ -301,8 +300,10 @@ For rational semisimple blocks consume
   idempotents `e_ρ = (χ(1)/|G|) Σ_g χ(g⁻¹) g` with their orthogonality and sum
   (`TauCeti.RepresentationTheory.CharacterTable.{CentralIdempotent, IdempotentDecomposition}`).
 - AlgebraicCurves Layer 11 supplies finiteness of the function-field automorphism group
-  in characteristic zero and genus at least two. BelyiMaps §8.2 supplies the analytic
-  local normal form; FuchsianOrbifolds Layer 2 items 3–6 supplies fundamental polygons.
+  in characteristic zero and genus at least two. FuchsianOrbifolds Layer 2 items 3–6
+  supplies fundamental polygons. The finite-action
+  linearization and quotient charts are constructed in §1.2 using the pinned
+  local-multiplicity and degree APIs.
 
 - From [Fuchsian orbifolds](../FuchsianOrbifolds/README.md): Layer 2 items 3–6 (the Poincaré
   polygon theorem, the Dirichlet polygon of a cofinite group, the standard presentation with
@@ -315,18 +316,17 @@ For rational semisimple blocks consume
 - From [Belyi maps](../BelyiMaps/README.md): Layer 0 (permutation triples, relabeling, monodromy
   group, connectedness, genus), Layer 1 (passports, `N_{S_n}(G)`-orbits), Layer 4 (triangle groups
   and the trichotomy), Layer 5 (the thrice-punctured sphere and its peripheral loops), Layer 6
-  (the monodromy triple of a finite cover, deck transformations, regular covers), Layer 7 (filling
-  punctures, the branched covering map, uniqueness of the compactification), Layer 8 (the
-  compact-Riemann-surface hypothesis stack 8.1, the local normal form 8.2, analytic Riemann
-  existence 8.6). Its pinned product relation `σinf * σ1 * σ0 = 1` and its `0, 1, ∞` ordering are
+  (the monodromy triple of a finite cover, deck transformations, regular covers).
+  Its pinned product relation `σinf * σ1 * σ0 = 1` and its `0, 1, ∞` ordering are
   matched by the dictionary of 0.7 below.
 - From the roadmap *Inverse Galois theory and arithmetic fundamental groups*
   (`../InverseGaloisAndArithmeticFundamentalGroups`): IG.3.2's `BranchTuple r G`,
   `BranchTuple.product` (the ordered product `g₁ * ⋯ * g_r`), `BranchTuple.generated`,
-  `NielsenClass.inner`, `HurwitzMove.apply` (`(a, b) ↦ (a b a⁻¹, a)`) and
-  `HurwitzAction.action : TauCeti.BraidGroup r →* Equiv.Perm (BranchTuple r G)` with
-  `product_action`, `generated_action`, `classes_action`; IG.5.2's marked topological Hurwitz
-  spaces and `HurwitzMarking.forget`. The `c`-part of a generating vector with `h = 0` is a
+  the inner Nielsen-class quotient in **Branch tuples and Nielsen classes**, and
+  **The Hurwitz braid action**, whose generator sends `(a, b) ↦ (a b a⁻¹, a)` and
+  preserves the ordered product, the generated subgroup and the multiset of conjugacy
+  classes; IG.5.2 **Forgetting the boundary marking** supplies the simultaneous-conjugation
+  quotient of marked topological Hurwitz spaces. The `c`-part of a generating vector with `h = 0` is a
   branch tuple with product one, and braid equivalence (3.3) is the orbit relation of that action.
 - From TeichmullerGeometry §§5.6 and 8.4: identification of closed-surface stabilizers
   with conformal automorphisms and the fixed-locus dimension `3h − 3 + r`; §10.1:
@@ -373,7 +373,9 @@ invariants, and Layer 8 records exactly the equivalence relation each invariant 
 ## Layer 0: signatures and generating vectors
 
 Purely algebraic; nothing analytic is used. Sources: Breuer, *Characters and Automorphism Groups
-of Compact Riemann Surfaces*, §3, p.7 (Fuchsian groups and surface-kernel epimorphisms); Broughton, *Classifying finite group actions on surfaces of low genus*, §§1–2.
+of Compact Riemann Surfaces*, Theorem 3.2 and §3.3, p.8 (presentations and signatures),
+Lemma 3.3, p.8 (reordering with conjugation); Broughton, *Classifying finite group actions
+on surfaces of low genus*, §§1–2.
 
 ### 0.1 Signatures and the Riemann–Hurwitz quantity
 
@@ -514,8 +516,11 @@ For `σ = (0; m₁, m₂, m₃)`: `SignatureGroup σ ≃* TauCeti.TriangleGroup 
 `G ≤ Equiv.Perm (Fin n)` a generating vector of signature `(0; m₁, m₂, m₃)` gives a
 `TauCeti.PermutationTriple n` with `σ0 = c₃, σ1 = c₂, σinf = c₁`, `monodromyGroup = G`, and
 `orderTriple = (m₃, m₂, m₁)`. It is connected precisely when `n ≠ 0` and the given
-`G`-action is pretransitive; conversely a connected triple gives a generating vector in its
-monodromy group with that transitive action. Through
+`G`-action is pretransitive. Conversely, for a fixed signature
+`σ = (0; m₁, m₂, m₃)`, a connected triple with `orderTriple = (m₃, m₂, m₁)`
+gives the generating vector `(σinf, σ1, σ0)` in its monodromy group, with the
+same transitive action. The exact-order hypothesis enforces both nonidentity
+peripherals and the order required by σ. Through
 Belyi maps 1.5 the vector of `S_n`-conjugacy classes of `(c₁, c₂, c₃)` is the Belyi passport with the
 cycle partitions in the order `∞, 1, 0`. *Needs:* Tau Ceti `TriangleGroup`, `PermutationTriple`;
 Belyi maps Layers 0–1; 0.4–0.5.
@@ -529,6 +534,10 @@ The triangle comparison and permutation-triple construction are API targets in t
   `TriangleGroup 7 3 2`, where `x` has order `7`.
 - The regular action of `C₁₀` with vector `(5,2,3)` has one orbit of size `10`; adding
   a fixed letter gives orbits of sizes `10` and `1` and a disconnected triple.
+- The connected two-letter triple `(1,(12),(12))` has product 1 and reversed orders
+  `(2,2,1)`, so it cannot satisfy the converse for a three-period signature.
+- For the regular C₁₀ triple `(σ0,σ1,σinf)=(3,2,5)`, `orderTriple=(10,5,2)`;
+  reversal gives `(5,2,3)` of signature `(0;2,5,10)`, not the unsorted periods `(10,5,2)`.
 - The product relator `C₁ C₂ C₃` maps to `z * y * x`, Tau Ceti's relator.
 - The triple description counts four triples for `C₁₀` with `(0; 2, 5, 10)` and `336` for
   `PSL₂(𝔽₇)` with `(0; 2, 3, 7)` (worked examples).
@@ -577,8 +586,9 @@ stabilizer), and the stabilizer embeds into `ℂˣ` through the rotation constan
 `X/G := MulAction.orbitRel.Quotient G X`: charts are the descended charts away from the exceptional
 orbits and the quotient coordinate `z ↦ z^m` (the `quotientCoordinate` of the linearizing
 coordinate) at an exceptional orbit of stabilizer order `m`; prove `X/G` is a compact connected
-Riemann surface and `π : X → X/G` is holomorphic, hence `FiniteHolomorphicMap.ofMDifferentiable`
-applies, with `localMultiplicity π P = |Stab P|` and `degree π = |G|`. *Needs:* 1.1; Tau Ceti
+Riemann surface and `π : X → X/G` is holomorphic. Prove that π takes two distinct
+values: each orbit is finite, whereas X contains a nonempty complex chart and is infinite.
+Then `FiniteHolomorphicMap.ofMDifferentiable` applies, with `localMultiplicity π P = |Stab P|` and `degree π = |G|`. *Needs:* 1.1; Tau Ceti
 `RiemannSurface.{localMultiplicity, degree, FiniteHolomorphicMap}`; the Fuchsian linearization
 file as the model of the proof.
 
@@ -659,7 +669,7 @@ The hyperelliptic and bielliptic genus-two involutions have signatures (0;2⁶) 
 
 ### Dependencies
 
-Layer 0; FuchsianOrbifolds Layer 5; BelyiMaps §8.2; ModularForms Layer 10B; AlgebraicCurves Layers 11–12.
+Layer 0; FuchsianOrbifolds Layer 5; ModularForms Layer 10B; AlgebraicCurves Layers 11–12.
 
 ## Layer 2: the Riemann existence criterion
 
@@ -677,8 +687,9 @@ standard `4h + 2r`-gon with angle sums `2π/m_j` at the elliptic cycles; for `h 
 triangle groups, identified with `TauCeti.TriangleGroup` through 0.7). Name the isomorphism
 fuchsianModel σ : SignatureGroup σ ≃* Γ_σ and prove that `SignatureGroup σ` is infinite and that
 `SignatureGroup.isConj_pow_C_of_isOfFinOrder`:
-every nonidentity finite-order element is conjugate to a power of some `C j` (so the exact-order condition of 0.5
-is the torsion-free-kernel condition, 2.2). *Needs:* 0.4; Fuchsian orbifolds Layer 2; Tau Ceti
+every nonidentity finite-order element is conjugate to a power of some `C j`
+(Breuer, Theorem 3.2(3), p.8), so the exact-order condition of 0.5
+is the torsion-free-kernel condition, 2.2. *Needs:* 0.4; Fuchsian orbifolds Layer 2; Tau Ceti
 `infinite_of_inv_add_inv_add_inv_le_one` for the triangle case.
 
 **Checks.**
@@ -840,13 +851,15 @@ maps 3.2–3.4.
 
 ### 3.3 Braid equivalence
 
-For `v, w : GenVector G σ`, `BraidEquiv v w :↔ ∃ β : TauCeti.BraidGroup σ.r, ∃ g : G,
-HurwitzAction.action β (v.c) = (MulAut.conj g) ∘ w.c ∧
-v.a = (MulAut.conj g) ∘ w.a ∧ v.b = (MulAut.conj g) ∘ w.b` (IG.3.2's action on the
-`c`-part as a `BranchTuple σ.r G`). Prove it is an equivalence relation; that `HurwitzAction.action β v.c`
+For `v, w : GenVector G σ`, define braid equivalence by the existence of
+`β : TauCeti.BraidGroup σ.r` and `g : G` such that `β • v.c = (MulAut.conj g) ∘ w.c`,
+`v.a = (MulAut.conj g) ∘ w.a` and `v.b = (MulAut.conj g) ∘ w.b`. Here `β • v.c`
+is the action on the `c`-part as a `BranchTuple σ.r G` supplied by
+InverseGaloisAndArithmeticFundamentalGroups IG.3.2 **The Hurwitz braid action**.
+Prove it is an equivalence relation; that `β • v.c`
 has the same product as `v.c`, namely the inverse of the handle-commutator product,
 generates `G` with `v.a, v.b`, and has the same multiset of orders and classes
-(IG.3.2's `product_action`, `generated_action`, `classes_action`); and that it is again a
+(IG.3.2 **The Hurwitz braid action**, its three preservation laws); and that it is again a
 generating vector of `σ` exactly when its order sequence is `m` (a braid orbit passes through
 tuples whose orders are a permutation of `m`). BraidClass v is the class; the set of braid classes
 with a given refined passport is finite. For `h = 0, r = 3` the pure braid group acts by inner
@@ -970,13 +983,19 @@ Breuer §9, p.29 (abelian actions).
 
 For `v : GenVector G σ`, g0 v := σ.h and r v := σ.r; by 2.3 these are `genus (X_v / G)` and
 `#branchPoints` of the realized action, and by 3.4 they are invariants of the topological class.
-`g0 = 0 ↔ X_v/G ≅ ℙ¹` (Fuchsian orbifolds 5.2's degree-one theorem applied to a degree-one map
-to the sphere, or the genus-zero classification of Belyi maps 8); `g0 = genus X` holds exactly when `G=1`, for `g ≥ 2` (§1.4). *Needs:* 1.4, 2.3, 3.4.
+`g0 = 0 ↔ X_v/G ≅ ℙ¹`: for genus zero, ModularForms 10B Riemann–Roch gives
+`ℓ(P)=2` at any point P, hence a nonconstant meromorphic function with a single
+simple pole and a map of degree one to the sphere; apply FuchsianOrbifolds §5.2's
+degree-one theorem. The converse follows from invariance of genus under biholomorphism.
+Also `g0 = genus X` holds exactly when `G=1`, for `g ≥ 2` (§1.4).
+*Needs:* 1.4, 2.3, 3.4; ModularForms 10B; FuchsianOrbifolds §5.2.
 
 **Checks.**
 
 - The trivial genus-two action has g0=2=g and r=0.
-- The genus-two hyperelliptic action has g0=0 and r=6.
+- The genus-two hyperelliptic action has g0=0 and r=6. On its quotient ℙ¹,
+  `ℓ(∞)=2` with basis 1,z and deg(z)=1; on a genus-one quotient `ℓ(P)=1`,
+  so a function with a single simple pole cannot be supplied there.
 - The genus-two bielliptic C₂-action has g0=1 and r=2; the same group and surface genus do not fix the quotient genus.
 
 ### 4.2 The dimension of the family
@@ -990,7 +1009,7 @@ The marking retains the cone-order colours and the peripheral convention of §2.
 holomorphy by pullback of invariant Beltrami differentials and descend invariant complex
 structures through the local quotient charts of §1.2; prove injectivity with the marked
 quotient construction of §2.6. Its moduli image has dimension `3h−3+r` (Bujalance–Cirre–Conder
-§1, pp.1537–1538; TeichmullerGeometry §8.4 for the dimension).
+§2, p.1540; TeichmullerGeometry §8.4 for the dimension).
 For `G=1` this is all of Teich(Σ_g), of dimension `3g−3`. For `|G|≥2`, §1.4 gives
 `dim≤2g−1−h≤3g−3`, with equality only for the genus-two hyperelliptic involution.
 *Needs:* §§1.2, 2.3–2.6, 3.4; TeichmullerGeometry §§5.6, 8.4; ComplexCurveModuli D0.
@@ -1043,9 +1062,19 @@ For a positive integer n and cyclic G of order n acting on X of genus g≥2,
 `σ = (0; 2, 2g + 1, 4g + 2)` (`wiman_eq_iff`); and every cyclic group of order `4g + 2` acts in genus `g`
 (`ZMod (4g+2)` with `c = (2g + 1, 2, 2g − 1)` in additive notation: orders `2, 2g + 1, 4g + 2` since
 `gcd (2g − 1, 4g + 2) = 1`, sum `4g + 2 ≡ 0`, generating; the curve `y² = x^{2g+1} − 1` with
-`(x, y) ↦ (ζ_{2g+1} x, −y)`). Proof: by 4.4 and 1.4 with `r ≥ 3`, `h = 0`, `M = n`, the minimum of
-`μ` over signatures satisfying Harvey's conditions with `lcm = n` is attained at
-`(2, 2g + 1, 4g + 2)`; for `h ≥ 1`, `μ ≥ 1/2` gives `n ≤ 4g − 4`. Consequently every
+`(x, y) ↦ (ζ_{2g+1} x, −y)`). One proof route derives the universal inequality
+`μ(σ) ≥ 1/2 − 3/n` for every realized hyperbolic cyclic datum from §4.4, then uses
+`2g − 2 = n μ(σ)` from §1.4. Split by quotient genus and number of periods:
+for `h ≥ 1`, hyperbolicity gives `μ ≥ 1/2`; for `h = 0, r ≥ 5`, the bound
+`m_j ≥ 2` gives the same inequality. For `h = 0, r = 4`, Harvey's deletion-lcm
+condition gives `μ ≥ 1/2` except for `(0;2,2,3,3)` with `n=6`, where `μ=1/3 > 0`.
+For `h = 0, r = 3`, the pairwise lcms all equal n. Put `u=n/m₁ ≥ v=n/m₂ ≥ w=n/m₃`;
+these positive integers are pairwise coprime, so `n=k u v w` for a positive integer k.
+The desired inequality is `2(u+v+w) ≤ k u v w+6`. It is strict for `w≥2` or `k≥2`;
+when `w=k=1`, the difference is `(u−2)(v−2)≥0`, since `m₁=v≥2`.
+Thus `Σ 1/m_j ≤ 1/2 + 3/n`. Equality occurs exactly
+for `(m₁,m₂,m₃)=(2,n/2,n)` with `n ≡ 2 mod 4` and `n ≥ 10`; substitution in
+Riemann–Hurwitz gives `n=4g+2`. The other cases are strict; equality is available only at orders `4g+2`. Consequently every
 element of Aut X has order `≤ 4g + 2`, and every `m_j ≤ 4g + 2` (used in 4.6). *Needs:* 4.4,
 1.4, 2.5.
 
@@ -1053,6 +1082,11 @@ element of Aut X has order `≤ 4g + 2`, and every `m_j ≤ 4g + 2` (used in 4.6
 
 - At g=2, n=10, the vector (5,2,3) has orders 2,5,10 and sum 0; 10=4·2+2.
 - At g=3, n=14, the vector (7,2,5) has orders 2,7,14 and sum 0; 14=4·3+2.
+- For C₂ with `(0;2⁶)`, `μ=1 ≥ 1/2−3/2=−1` and `2<10=4g+2`;
+  the genus-two equality triangle `(2,5,10)` has lcm 10, not the fixed order 2.
+- For C₁₀ with `(0;2,5,10)`, `μ=1/5=1/2−3/10` and `10=4g+2`.
+- For C₆ with vector `(3,3,2,4)` of signature `(0;2,2,3,3)`, the sum is 0,
+  `μ=1/3>1/2−3/6=0` and `g=2`; the four-period estimate cannot be replaced by `μ≥1/2`.
 - The unramified trivial genus-two action has n=1<10 and no triangle periods; both sides of the equality characterization are false.
 
 ### 4.6 Finiteness in a given genus
@@ -1081,7 +1115,7 @@ C₁₀ in genus two attains Wiman; PSL₂(𝔽₇) in genus three attains Hurwi
 
 ### Dependencies
 
-Layers 0–2; Layer 3 only for topological-class invariance; TeichmullerGeometry §§5.6, 8.4, 10.1; ComplexCurveModuli D0.
+Layers 0–2; Layer 3 only for topological-class invariance; TeichmullerGeometry §§5.6, 8.4, 10.1; ComplexCurveModuli D0; ModularForms 10B and FuchsianOrbifolds §5.2 for the genus-zero comparison.
 
 ## Layer 5: full automorphism groups and Singerman's list
 
@@ -1139,7 +1173,7 @@ Teichmüller spaces have equal dimension has one of the signature pairs below, u
 marking and reordering periods. Conversely each row has such an inclusion, with its pullback
 map onto the smaller group’s Teichmüller space. An action extends along that inclusion
 exactly under §5.4’s kernel condition. Thus a non-generically-full action has a generic
-extension in this list (Bujalance–Cirre–Conder Table 1, p.1539).
+extension in this list (Bujalance–Cirre–Conder Table 1, p.1538).
 
 | `σ` | `σ'` | `d` | normal |
 | --- | --- | --- | --- |
@@ -1170,7 +1204,7 @@ The classification uses Fuchsian inclusions and equality of Teichmüller dimensi
 the equation `μ(σ)=dμ(σ′)`. In the action on d cosets, a cycle of length ℓ of a target elliptic
 generator of order m contributes a source period `m/ℓ` when that number exceeds one;
 length-m cycles contribute no period. Prove this rule and the genus formula from the orbifold
-covering (Bujalance–Cirre–Conder §2 and Table 1, pp.1539–1540; Singerman Theorem 1).
+covering (Bujalance–Cirre–Conder Table 1, p.1538, and §2, pp.1539–1540; Singerman Theorem 1).
 *Needs:* §§2.6, 4.2, 5.1; FuchsianOrbifolds Layers 1–2.
 
 **Checks.**
@@ -1210,7 +1244,7 @@ Prove necessity and sufficiency row by row. For N4 construct lifts u,v with
 For N7 require `u³=v²=1`, conjugations A,B, and `vuv=c⁻¹u⁻¹`; the quotient is S₃.
 Prove the compatibility and group embeddings from the stated assignments; the lifts have
 exact orders even when the induced automorphism has smaller order (Bujalance–Cirre–Conder
-§3, cases N1–N8, pp.1541–1544).
+§3, cases N1–N8, pp.1540–1544).
 
 For each nonnormal row, the condition is the existence of a finite group H containing G
 injectively with the table index d, and elements u (and v in T4) satisfying the next table.
@@ -1290,7 +1324,9 @@ Swinarski §2.1 (arXiv:1607.04778v1); `HyperellipticCurves` 1.4.
 
 For `v : GenVector G σ` realized on `X_v` and `1 ≠ γ ∈ G`:
 `#Fix(γ) = |N_G ⟨γ⟩| · Σ_{j=1}^{r} ε_j(γ) / m_j`, where `ε_j(γ) = 1` if `γ` is conjugate to an element
-of `⟨c_j⟩` and `0` otherwise; equivalently `|C_G(γ)| · Σ_j #(cl(γ) ∩ ⟨c_j⟩) / m_j`, the centralizer form of the same formula. The sum is in `ℚ` and the result is a natural number. Proof: the fixed
+of `⟨c_j⟩` and `0` otherwise; equivalently `|C_G(γ)| · Σ_j #(cl(γ) ∩ ⟨c_j⟩) / m_j`, the centralizer form of the same formula. The sum is in `ℚ` and the result is a natural number
+(Macbeath §2; for the rotation-refined count, Swinarski, arXiv:1607.04778v1,
+Theorem 1.3, p.3). Proof: the fixed
 points of `γ` lie over branch points; the fibre over `y_j` is the `G`-set `G/⟨c_j⟩` (1.2–1.3 and 2.3),
 `γ` fixes the coset `x⟨c_j⟩` iff `x⁻¹ γ x ∈ ⟨c_j⟩`, and a cyclic group contains at most one subgroup
 of each order, so the number of fixed cosets is `|C_G(γ)| · #(cl(γ) ∩ ⟨c_j⟩) / m_j = |N_G ⟨γ⟩| ε_j(γ)/m_j`.
@@ -1380,7 +1416,8 @@ Lange–Recillas, arXiv:math/0106055v2, §§1–3; Paulhus 2008 (the LMFDB's `ja
 
 For `1 ≠ γ ∈ G` acting on `X` of genus `g ≥ 2`:
 `Tr (γ^* | H⁰(X, Ω)) = 1 + Σ_{P ∈ Fix γ} ζ_P(γ) / (1 − ζ_P(γ))`, with `ζ_P(γ)` the rotation constant
-of convention 9; hence `χ_Ω(γ) = 1 + Σ_P \overline{ζ_P(γ)} / (1 − \overline{ζ_P(γ)})` for the
+of convention 9 (Farkas–Kra V.2.9; Swinarski, arXiv:1607.04778v1,
+Theorem 1.4, p.3, with the pullback convention fixed by the Checks); hence `χ_Ω(γ) = 1 + Σ_P \overline{ζ_P(γ)} / (1 − \overline{ζ_P(γ)})` for the
 representation of convention 10 (`Fix γ⁻¹ = Fix γ`, `ζ_P(γ⁻¹) = \overline{ζ_P(γ)}`). Proof through the
 holomorphic Lefschetz fixed-point formula or, as Farkas–Kra, through the Riemann–Roch count of
 the eigenspaces of `γ` on `H⁰(X, Ω)`, i.e. the differentials on `X/⟨γ⟩` with prescribed orders at
@@ -1424,7 +1461,11 @@ base point, and tensor it with ℚ. Use the differential/homology comparison to 
 character of `H₁(X,ℚ)` as `χ_Ω+χ̄_Ω`. The action on the Jacobian is pushforward (equivalently
 inverse pullback on Pic⁰), matching the covariant action on homology. It induces
 `ℚ[G] → End(Jac X) ⊗ ℚ → End_ℚ(H₁(X,ℚ))`; prove that this composite is the homology
-representation (Lange–Recillas, arXiv:math/0106055v2, §1, Proposition 1.1 and diagram (1.3)).
+representation by the naturality of the integral homology comparison in
+MordellLawrenceVenkatesh §8.11, extended ℚ-linearly. Lange–Recillas,
+arXiv:math/0106055v2, §1, pp.3–4 supplies the group-algebra action, its tangent-space
+diagram (1.3), and the compatible lattice description; the homology composite here
+uses the period-lattice comparison in addition to that tangent-space diagram.
 *Needs:* §§1.5, 7.2; JacobianChallenge Layers D–F; MordellLawrenceVenkatesh §8.11.
 
 **Checks.**
@@ -1463,7 +1504,8 @@ over `ℂ` summed over Galois orbits, with their orthogonality and `Σ e_i = 1`)
 `Jac X ∼ B₁ × ⋯ × B_s` with `B_i := e_i(Jac X)` (7.4 Theorem A), and each `B_i ∼ A_i^{n_i}` with
 `n_i = χ_i(1) / s_i` (`χ_i` an irreducible constituent of `W_i`, `s_i` its Schur index over `ℚ`), the
 *group-algebra decomposition*. Dimensions: `dim B_i = ½ · dim_ℚ (e_i H₁(X, ℚ)) = ½ |Gal-orbit of χ_i| · χ_i(1) · (⟨χ_i, χ_Ω⟩ + ⟨\bar χ_i, χ_Ω⟩)`,
-computed from 7.2, and `dim A_i = dim B_i / n_i`; `B_i = 0` iff `⟨χ_i, χ_Ω⟩ = 0 = ⟨\bar χ_i, χ_Ω⟩`;
+computed from 7.2, and `dim A_i = dim B_i / n_i` (Lange–Recillas,
+arXiv:math/0106055v2, Proposition 1.1, p.4, and Theorem 2.2, p.6); `B_i = 0` iff `⟨χ_i, χ_Ω⟩ = 0 = ⟨\bar χ_i, χ_Ω⟩`;
 the trivial character gives `B₁ ∼ Jac(X/G)` of dimension `h`. The factors `A_i` need not be
 simple and distinct `A_i` may be isogenous (the LMFDB's note); nothing here asserts otherwise.
 *Needs:* 7.3–7.4; Mathlib `IsSemisimpleRing.exists_algEquiv_pi_matrix_divisionRing_finite`;
@@ -1675,8 +1717,9 @@ and Jacobian applications consume the character and isogeny conclusions of Layer
 - D. Singerman, *Finitely maximal Fuchsian groups*, J. London Math. Soc. (2) 6 (1972), 29–38.
   Theorem 1 (the list of 5.3).
 - E. Bujalance, F.-J. Cirre, M. D. E. Conder, *On extendability of group actions on compact Riemann
-  surfaces*, Trans. Amer. Math. Soc. 355 (2003), 1537–1557. §§3–4 (the extension conditions
-  of 5.4).
+  surfaces*, Trans. Amer. Math. Soc. 355 (2003), 1537–1557. Table 1, p.1538; §2,
+  pp.1539–1540 (presentations and Teichmüller dimension); §3, cases N1–N8, pp.1540–1544,
+  and §4, cases T1–T11, pp.1544–1548 (the extension conditions of 5.4).
 - J. F. X. Ries, *Subvarieties of moduli space determined by finite groups acting on surfaces*,
   Trans. Amer. Math. Soc. 335 (1993), 385–406. §3 (generic full automorphism groups).
 - H. M. Farkas, I. Kra, *Riemann Surfaces*, 2nd ed., GTM 71, Springer, 1992. III.7 (quotients by
