@@ -78,9 +78,15 @@ breaks this file. Realized at the pin:
   compatibility with forgetting the grading
   (`TauCeti.GradedExactStructure.IsResolving.laurentResolutionEquiv`,
   `TauCeti.GradedExactStructure.IsResolving.forgetGrading_laurentResolutionEquiv`), and for
-  linear graded resolutions the diagonal vanishing of bigraded Ext and minimality
+  linear graded resolutions the forward direction of the diagonal criterion, that a linear
+  resolution forces the bigraded Ext against a target concentrated in one internal degree to
+  vanish off the diagonal, together with minimality over a nonnegatively graded algebra
   (`TauCeti.GradedProjectiveResolution.IsLinear.subsingleton_ext_of_ne`,
-  `TauCeti.GradedProjectiveResolution.IsLinear.isMinimal`).
+  `TauCeti.GradedProjectiveResolution.IsLinear.isMinimal`). Only that direction is at the pin:
+  the converse of Layer 3, that a minimal graded projective resolution with bounded-below terms
+  over a nonnegatively graded algebra with semisimple degree-zero part is linear once the
+  bigraded Ext against the degree-zero quotient vanishes off the diagonal, is a target of the
+  README and is not stated here.
 * Layer 4: the Cartan map and its bijectivity under finite projective resolutions
   (`TauCeti.cartanMap`, `TauCeti.cartanEquiv`), Morita invariance
   (`CategoryTheory.Equivalence.cartanMap_bijective_iff`), the perfect projective/simple
@@ -233,14 +239,20 @@ theorem gradedCartanMap_bijective {k : Type u} [CommRing k] {A : Type v} [Ring A
 
 open TauCeti in
 /-- **The graded Ext comparison for the path-length grading.** For finitely generated graded
-modules `X`, `Y` over the path algebra `kQ` of a finite quiver, graded by path length (the
-pinned `TauCeti.PathAlgebra.gradeBy` with every arrow of weight `1`), the forgetful functor to ungraded modules satisfies, in every cohomological degree `n`,
-`⊕_j Ext^n_gr(X, Y{j}) ≅ Ext^n(U X, U Y)`. With this hypothesis the bigraded Ext-Euler
-characteristic of `(X, Y)` specializes at `q = 1` to the ungraded one of `(U X, U Y)`, by
-`TauCeti.IsGradedExtComparison.laurentEval_one_gradedExtEuler`, and hence to the Ringel form of
-the dimension vectors by `TauCeti.extEuler_eq_eulerForm_dimVector`. -/
+modules `X`, `Y` over the finite-dimensional path algebra `kQ` of a finite acyclic quiver
+(`FiniteDimensional k (pathAlgebra k Q)`, which by `TauCeti.module_finite_pathAlgebra_iff` says
+that `Q` has finitely many paths: finitely many arrows and no oriented cycle), graded by path
+length (the pinned `TauCeti.PathAlgebra.gradeBy` with every arrow of weight `1`), the forgetful
+functor to ungraded modules satisfies, in every cohomological degree `n`,
+`⊕_j Ext^n_gr(X, Y{j}) ≅ Ext^n(U X, U Y)`. Finite dimension cannot be dropped: for one vertex
+with two loops `x`, `y`, the cyclic module `X = kQ/(x yⁿ : n ≥ 0)` against the simple module `S`
+has `Ext¹(X, S) ≅ ∏_ℕ k` but `⊕_j Ext¹_gr(X, S{j}) ≅ ⊕_ℕ k`. With this hypothesis the bigraded
+Ext-Euler characteristic of `(X, Y)` specializes at `q = 1` to the ungraded one of `(U X, U Y)`,
+by `TauCeti.IsGradedExtComparison.laurentEval_one_gradedExtEuler`, and hence to the Ringel form
+of the dimension vectors by `TauCeti.extEuler_eq_eulerForm_dimVector`. -/
 theorem isGradedExtComparison_toModuleCat_pathAlgebra
     (k : Type w) [Field k] (Q : Type u) [Quiver.{v} Q] [Finite Q]
+    [FiniteDimensional k (pathAlgebra k Q)]
     [HasExt.{w₁} (GradedModuleCat.{max w u v} (PathAlgebra.gradeBy k (Q := Q) fun _ => (1 : ℤ)))]
     [HasExt.{w₂} (ModuleCat.{max w u v} (pathAlgebra k Q))]
     (X Y : GradedModuleCat.{max w u v} (PathAlgebra.gradeBy k (Q := Q) fun _ => (1 : ℤ)))

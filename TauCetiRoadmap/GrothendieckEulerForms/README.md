@@ -14,14 +14,17 @@ copy that roadmap's path algebras, projective covers, simples, Cartan matrices, 
 form.  Instead it supplies the general categorical constructions in which those objects live and
 proves the comparison theorems that turn them into lattices.
 
-Suggested homes in Tau Ceti are `TauCeti/CategoryTheory/Exact/` for exact structures and exact
-functors, `TauCeti/CategoryTheory/GrothendieckGroup/` for categorical Grothendieck groups,
-`TauCeti/Algebra/Homology/EulerCharacteristic/` for the finite-support Euler machinery, and
-`TauCeti/RepresentationTheory/GrothendieckGroup/` for module, Cartan, graded, and numerical
-applications.  The exact file split is an implementation choice; the dependency order below is
-not.
+The implementation lives in Tau Ceti: exact structures and conflation-exact functors in
+`TauCeti.CategoryTheory.Exact.*`, the categorical Grothendieck groups with their resolutions and
+Laurent coefficients in `TauCeti.CategoryTheory.GrothendieckGroup.*`, the finite-support Euler
+machinery and Ext-Euler forms in `TauCeti.Algebra.Homology.EulerCharacteristic.*`, the ungraded
+and graded Cartan maps in `TauCeti.Algebra.Category.ModuleCat.CartanMap.*` and
+`TauCeti.Algebra.Category.GradedModuleCat.CartanMap.*`, and the Cartan and Ext-Euler matrices
+with their quiver and dual-number instances in `TauCeti.RepresentationTheory.GrothendieckGroup.*`.
+The modules consumed are named under **Exact supplier contracts**; the dependency order of the
+layers below is binding.
 
-## Scope boundary
+## Scope and ownership
 
 This roadmap ends with exact, abelian, and triangulated categories, finite resolutions, Ext, and
 algebraic specializations of Laurent-polynomial-valued forms.  Everything is built in both the
@@ -49,7 +52,7 @@ Bounded homotopy and derived categories appear only in the standard K₀ compari
 from the ordinary exact/triangulated infrastructure built here.  No perfect-category or
 localization machinery is introduced to obtain them.
 
-## Standing conventions
+## Conventions
 
 - **Smallness.**  A categorical Grothendieck group is formed only for an essentially small
   category.  Given `[CategoryTheory.EssentiallySmall.{w} C]`, use a small type such as
@@ -131,9 +134,9 @@ localization machinery is introduced to obtain them.
   explicit forgetful functor and graded/ungraded Ext hypotheses; it is not a consequence of an
   internal shift alone.  Either specialization may destroy nondegeneracy.
 
-## Existing foundations
+## Exact supplier contracts
 
-### Mathlib material to consume
+### From Mathlib
 
 - `Preadditive`, additive functors, biproducts and zero objects; abelian and linear categories;
   `ShortComplex`, kernels, cokernels, `ShortComplex.Exact`, `ShortComplex.ShortExact`, homology, and
@@ -166,11 +169,13 @@ resolutions by an object property `P` are Tau Ceti's object property
 in `TauCeti.CategoryTheory.Exact.Resolution.Basic`.  Where a stated comparison is not supplied,
 construct that complete comparison in Tau Ceti.
 
-### Tau Ceti and sibling-roadmap material to consume
+### From Tau Ceti
 
 The categorical carriers are the implemented `TauCeti.ExactStructure`, `TauCeti.SplitK0`, `TauCeti.ExactK0`, `TauCeti.AbelianK0` and `TauCeti.TriangulatedK0`. Consume `TauCeti.CategoryTheory.Exact.{KernelCokernelPair,ExactStructure,Functor,Split,Abelian,ExtensionClosed}` and `TauCeti.CategoryTheory.GrothendieckGroup.{Presentation,Split,Exact,Abelian,Triangulated,Resolution,Resolving,BoundedHomotopy,Derived,Graded,ForgetGrading}`. The milestones below specify their required complete API; they do not commission parallel implementations of landed declarations, and `Suggested.lean` states its targets on these carriers rather than on private presentations of them. Native conflations are predicates on `ShortComplex C`, and native exact structures use property-specific pushout/pullback existence and stability. `Suggested.lean` keeps the names `ExactStructure` and `ExactStructure.Conflation` only as abbreviations of the native structure and of its conflation predicate written on a composable pair `X ⟶ Y ⟶ Z`, for consumers that spell conflations that way; they are not a second carrier.
 
 Native `TauCeti.ExactK0.BiadditiveInvariant.bilift`, `TauCeti.extEuler`, `extEulerPairing` and their computation/naturality theorems supply finite-support Euler descent in `TauCeti.Algebra.Homology.EulerCharacteristic.ExtEuler.{Basic,Descent,Map,Resolution,Numerical}`. The native full-subcategory pairing assumes the stated additive extension-closed object properties. A pairing pulled back along other source categories instead requires additive conflation-exact functors into the canonical abelian exact structure; landing in Euler-admissible objects alone is insufficient. The graded implementations in `ExtEuler.Graded.{Basic,Shift,Descent,Matrix}` and `GrothendieckGroup.Laurent.{Basic,FullSubcategory,Resolution,Resolving}` retain their own finite-support and shift hypotheses. Preserve the broader comparison, universe, general-field and graded/ungraded targets below without weakening those native hypotheses.
+
+### From TauCetiRoadmap.QuiverRepresentations
 
 The [quiver-representation roadmap](../RepresentationTheory/QuiverRepresentations/README.md) owns
 finite-dimensional algebras, projective covers, simples, Krull--Schmidt decompositions,
@@ -186,9 +191,28 @@ finite-dimensional-algebra layers.
 
 ---
 
-## The build, in layers
+## How to read the build
 
-### Layer 0: intrinsic exact structures and conflation-exact functors
+Layer 0 is foundational.  Layer 1 supplies the small quotient engine.  Layer 2 instantiates it for
+the four categorical K-groups.  Layer 3 supplies resolution classes and the resolution theorem.
+Layer 4 consumes Layers 0--3 and the finite-dimensional-algebra objects from
+[quiver representations](../RepresentationTheory/QuiverRepresentations/README.md).  Layer 5 first
+builds finite-support Euler--Poincaré and then uses Layers 2--4 to descend Ext pairings.  Each of
+Layers 2--5 is built in the graded setting as well as the ungraded one, per **Graded throughout**;
+Layer 6 then adds only the Laurent coefficient ring, the sesquilinearity and the specializations.
+Layer 7 consumes the pairings from Layers 5--6.
+
+The graded work is not a second pass over a finished ungraded roadmap.  A graded layer is
+completed with its ungraded counterpart, because the downstream roadmaps consume the graded
+constructions and would otherwise have nothing to import.
+
+The bounded-complex portions of Layers 2 and 5 may be developed together after the exact and K₀
+interfaces exist.  The module-specific Layer 4 and the abstract triangulated part of Layer 2 can
+also proceed independently at that point.  Every acceptance example is completed with the first
+layer that makes it expressible; the dual-numbers rejection is required before Ext-Euler descent is
+accepted.
+
+## Layer 0: intrinsic exact structures and conflation-exact functors
 
 Build exact-category data without assuming that the ambient additive category has arbitrary kernels
 or cokernels.
@@ -225,7 +249,22 @@ or cokernels.
 This layer follows Bühler, Definition 2.1, Remarks 2.2--2.8, Propositions 2.9 and 2.12, Section 5,
 and Sections 13.1--13.3.  These are also the acceptance tests for the precise axiom packaging.
 
-### Layer 1: the small presentation and universal additive invariants
+### Examples
+
+On finite-dimensional `k`-vector spaces every short exact sequence splits, so the split structure
+and the canonical abelian structure have the same conflations.  Over the dual numbers
+`A = k[ε]/(ε²)` the sequence `0 → (ε) → A → A/(ε) → 0` of finite-dimensional modules is a
+conflation of the canonical structure and not of the split one, since `A` is indecomposable: this
+is the instance behind **Exact structures are data**.  By the same sequence the identity functor
+from the split structure to the canonical one is conflation-exact and does not reflect
+conflations.
+
+### Dependencies
+
+Mathlib's preadditive and abelian categories, `ShortComplex`, kernels and cokernels, listed under
+**From Mathlib**; nothing of this roadmap.
+
+## Layer 1: the small presentation and universal additive invariants
 
 Build the common engine for split, exact, and triangulated K₀.
 
@@ -248,7 +287,20 @@ The model is Weibel, *The K-book*, Chapter II, Section 1 for group completion, S
 symmetric-monoidal/split K₀, and Section 6.1--6.2 for presentations, set-theoretic care, and the
 universal property.
 
-### Layer 2: split, exact, abelian, and triangulated Grothendieck groups
+### Examples
+
+For finite-dimensional vector spaces the free abelian group on the small skeleton is free on one
+generator per dimension `0, 1, 2, …`, and dimension is an isomorphism-invariant function on
+objects, so the lift principle produces the additive map to `ℤ` sending the class of a space to
+its dimension.  Two choices of skeleton give two presentations, and the canonical isomorphism
+between them matches the two class maps.
+
+### Dependencies
+
+Layer 0 for the conflations that index relations; Mathlib's `FreeAbelianGroup`, `Skeleton` and
+`Shrink`.
+
+## Layer 2: split, exact, abelian, and triangulated Grothendieck groups
 
 Specialize Layer 1 while retaining a uniform public API.
 
@@ -298,7 +350,21 @@ Weibel, Chapter II, Sections 5--7 supplies split and exact K₀, Section 6.1.2 s
 universal property, and Exercise II.9.15 supplies the triangulated presentation and bounded
 comparisons.
 
-### Layer 3: finite resolutions and the resolution theorem
+### Examples
+
+Finite-dimensional vector spaces, the first worked example: split, exact and abelian `K₀` are
+all `ℤ` through dimension, and the comparison from split `K₀` is the identity of `ℤ`.  The
+triangulated sign law at `n = 2` reads `[X[2]] = [X]`, so a convention negating on every shift is
+wrong already there.  Over the dual numbers, split `K₀` of finite-dimensional modules is free on
+`[S]` and `[A]`, while the conflation `0 → S → A → S → 0` gives `[A] = 2[S]` in abelian `K₀`;
+the comparison from split to abelian `K₀` is not injective.
+
+### Dependencies
+
+Layers 0--1; Mathlib's triangulated, homotopy and derived categories with `distTriang`; Tau
+Ceti's `GradedExactStructure` for the graded groups.
+
+## Layer 3: finite resolutions and the resolution theorem
 
 Develop finite resolutions as reusable categorical data before applying them to projectives.
 
@@ -330,10 +396,23 @@ Develop finite resolutions as reusable categorical data before applying them to 
   that the two Euler classes agree under the `q = 1` specialization of Layer 6.
 - **Linear resolutions and the Koszul boundary.**  For a graded algebra generated in degree zero
   and one over its semisimple degree-zero part, define a **linear** graded projective resolution
-  of a graded module: the `i`th term is generated in internal degree `i`.  Prove the elementary
-  reformulations -- linearity of the resolution of the graded simples is equivalent to diagonal
-  vanishing of the bigraded `Ext^{i,j}(S,S)` for `i ≠ j`. Prove that a linear resolution is
-  minimal. Define the matrix-valued Betti Poincaré series using the multiplicities of graded
+  of a graded module: the `i`th term is generated in internal degree `i`.  Prove the two
+  directions of the diagonal criterion separately.  Forward: a linear resolution of `M` forces
+  `Ext^i(M, N{j}) = 0` for `i ≠ j` whenever `N` is concentrated in internal degree zero, with no
+  hypothesis on the grading of `A` (landed as
+  `TauCeti.GradedProjectiveResolution.IsLinear.subsingleton_ext_of_ne`).  Converse: for `A`
+  nonnegatively graded with semisimple degree-zero part `A₀`, a minimal graded projective
+  resolution `P` of `M` whose terms are bounded below (finitely generated terms suffice) is linear
+  as soon as `Ext^i(M, A₀{j}) = 0` for `i ≠ j`, where `A₀ = A/A₊` is the degree-zero quotient.
+  The route: minimality makes both differentials of `Hom_gr(P, A₀{j})` vanish, so
+  `Ext^i(M, A₀{j}) = Hom_{A₀}((P_i/A₊P_i)_j, A₀)`; a semisimple `A₀` cogenerates its modules, so
+  the vanishing says `P_i/A₊P_i` is concentrated in degree `i`; the graded Nakayama criterion
+  for bounded-below modules (landed as
+  `TauCeti.InternalGrading.isGeneratedInDegree_iff_piece_le_positive_smul_top`) then says `P_i`
+  is generated in degree `i`.  Only the forward direction is landed; the converse is a target of
+  this layer.  Prove that a linear resolution over a nonnegatively graded algebra is minimal
+  (landed as `TauCeti.GradedProjectiveResolution.IsLinear.isMinimal`).  Define the
+  matrix-valued Betti Poincaré series using the multiplicities of graded
   projectives in that minimal resolution, retaining both homological and internal degrees.
   The alternating Euler identity with the graded Cartan matrix is coefficientwise, under
   local finiteness and the degreewise finiteness that makes each coefficient a finite sum.
@@ -351,7 +430,20 @@ comparison and horseshoe results specifically for projective resolutions in exac
 Tau Ceti statement records the extension-closed induced exact structures as well as the kernel and
 finite-resolution hypotheses, rather than hiding them in ambient notation.
 
-### Layer 4: finite-dimensional algebras and the Cartan map
+### Examples
+
+For the quiver `1 ⟶ 2` the sequence `0 → P₂ → P₁ → S₁ → 0` is a finite projective resolution,
+so the inverse of the resolution theorem sends `[S₁]` to `[P₁] - [P₂]`.  Over the dual numbers
+the simple `S` has the periodic minimal resolution of the dual-number worked example and no
+finite projective resolution; the resolving hypothesis fails, and indeed `[S]` is not in the
+image of `K₀(proj A) = ℤ[A]`, which is `2ℤ[S]`.
+
+### Dependencies
+
+Layers 0--2; Weibel, *The K-book*, Chapter II, Section 7 and Bühler, Sections 11--12, for the
+routes named above.
+
+## Layer 4: finite-dimensional algebras and the Cartan map
 
 Let `k` be a field and `A` a finite-dimensional `k`-algebra.  Work with left modules.  The precise
 module subcategories are replete full subcategories: finite-dimensional modules (equivalently
@@ -380,13 +472,19 @@ structure, and finitely generated projectives with the induced split structure.
   If all finite-dimensional modules have such resolutions--in particular, for a finite-dimensional
   algebra of finite global dimension--this is the full `K₀(proj A) ≃ G₀(mod A)` comparison.  Its
   inverse is the alternating projective-resolution class.
-- **The graded Cartan map.**  For a graded finite-dimensional algebra with graded simples and
-  graded projective covers, construct `K₀^gr(proj A) ⟶ G₀^gr(mod A)` as a map of modules over the
-  shift action, and the graded Cartan matrix whose `(i,j)` entry is the graded multiplicity
-  `∑_d q^d [P_j : S_i{d}]`.  When every finite graded module admits a finite resolution by finite
-  graded projectives, the graded Cartan map is an isomorphism of `ℤ[q,q⁻¹]`-modules
-  (`gradedCartanMap_bijective`), by the graded resolution theorem of Layer 3.  Prove that
-  forgetting the grading recovers the ungraded Cartan map,
+- **The graded Cartan map.**  For any `k`-algebra `A` with grading data `𝒜 : ℤ → Submodule k A`
+  (the landed `TauCeti.gradedCartanMap` is defined for arbitrary grading data), the inclusion of
+  finitely generated graded modules with projective underlying module into finitely generated
+  graded modules induces `K₀^gr(proj A) ⟶ G₀^gr(mod A)` as a map of `ℤ[q,q⁻¹]`-modules over the
+  shift action.  When every finitely generated graded module admits, in the canonical exact
+  structure of all graded modules, a finite resolution by finitely generated graded modules with
+  projective underlying module, the graded Cartan map is an isomorphism of `ℤ[q,q⁻¹]`-modules
+  (`gradedCartanMap_bijective`), by the graded resolution theorem of Layer 3; the statement
+  carries no finiteness hypothesis on `A` and no decomposition hypothesis on `𝒜`.  The instance
+  this layer uses is a graded finite-dimensional algebra with graded simples and graded
+  projective covers, where `𝒜` is a decomposition, the source is `K₀^gr(proj A)` with its split
+  structure, and the graded Cartan matrix has `(i,j)` entry the graded multiplicity
+  `∑_d q^d [P_j : S_i{d}]`.  Prove that forgetting the grading recovers the ungraded Cartan map,
   and that setting `q = 1` recovers the ungraded matrix.  When the simples have linear resolutions
   in the sense of Layer 3, relate the graded Cartan matrix to the inverse of the graded Poincaré
   matrix under `q ↦ -q`.
@@ -406,7 +504,19 @@ the arbitrary-field division-endomorphism correction.  Dancso--Licata, Sections 
 motivates the projective/module comparison; its reversed `G₀`/`K₀` notation is translated to the
 standard notation fixed above.
 
-### Layer 5: finite-support Euler characteristics and Ext-Euler descent
+### Examples
+
+The quiver `1 ⟶ 2`, the second worked example: Cartan matrix `[[1,0],[1,1]]` with rows
+`(S₁,S₂)` and columns `(P₁,P₂)`, `[P₁] ↦ [S₁]+[S₂]`, `[P₂] ↦ [S₂]`, determinant `1`.  The dual
+numbers: Cartan matrix `[2]`, invertible over `ℚ` and not over `ℤ`.  Over `k = ℝ` and `A = ℂ`,
+`dim_ℝ Hom_ℂ(ℂ,ℂ) = 2 = dim_ℝ D · [ℂ:ℂ]` with `D = ℂ`, the instance separating raw Hom
+dimension from the multiplicity pairing.
+
+### Dependencies
+
+Layers 0--3; the finite-dimensional-algebra objects of **From TauCetiRoadmap.QuiverRepresentations**.
+
+## Layer 5: finite-support Euler characteristics and Ext-Euler descent
 
 The reusable finite-support theorem comes before the Ext specialization.
 
@@ -464,11 +574,23 @@ The reusable finite-support theorem comes before the Ext specialization.
   Its symmetrization agrees with `titsPolarForm`; the raw form remains nonsymmetric.  Do the graded
   version too: with the path-length grading on `kQ`, prove the corresponding statement for the
   bigraded Ext-Euler form, and prove that it specializes at `q = 1` to the ungraded one through the
-  comparison hypotheses of Layer 6: for finitely generated graded modules `X`, `Y` over the
+  comparison hypotheses of Layer 6: for a finite acyclic quiver, that is a finite quiver whose
+  path algebra is finite-dimensional (by `TauCeti.module_finite_pathAlgebra_iff`, exactly when
+  `Q` has finitely many paths), and finitely generated graded modules `X`, `Y` over the
   path-length-graded `kQ`, the forgetful functor to ungraded modules satisfies the graded Ext
   comparison `⊕_j Ext^n_gr(X,Y{j}) ≅ Ext^n(U X,U Y)` in every degree
   (`isGradedExtComparison_toModuleCat_pathAlgebra`), after which the specialization is the
-  general theorem `laurentEval_one_gradedExtEuler`.  The graded statement, not the ungraded one, is what the
+  general theorem `laurentEval_one_gradedExtEuler`.  The route: a finitely generated graded
+  module over a finite-dimensional nonnegatively graded algebra has a graded projective
+  resolution by finitely generated graded free modules, forgetting the grading sends it to a
+  projective resolution, and `Hom(U P, U Y) = ⊕_j Hom_gr(P, Y{j})` termwise for finitely
+  generated `P`.  Finite dimension of `kQ` is necessary: for one vertex with two loops `x`, `y`,
+  the left ideal `Ω` generated by the words `x yⁿ` is free on them (no such word is a proper
+  suffix of another), so `X = kQ/Ω` is cyclic with the resolution `0 → Ω → kQ → X → 0`; against
+  the simple module `S` the restriction `Hom(kQ,S) → Hom(Ω,S)` is zero, so
+  `Ext¹(X,S) ≅ ∏_ℕ k`, of uncountable dimension, while `Ext¹_gr(X,S{j})` is `k` for `j ≥ 1` and
+  `0` otherwise, so `⊕_j Ext¹_gr(X,S{j}) ≅ ⊕_ℕ k`, of countable dimension: no comparison
+  isomorphism exists in degree one.  The graded statement, not the ungraded one, is what the
   zigzag roadmap's graded Cartan matrix `(1+q²)I + qA` is compared against.
 
 Weibel, *An Introduction to Homological Algebra*, Sections 1.3 and 1.6 supplies long exact homology
@@ -478,7 +600,21 @@ cycles and boundaries.  Weibel, *The K-book*, Proposition II.6.6 and Proposition
 corresponding K₀ Euler formulas and their closure hypotheses.  Assem--Simson--Skowroński,
 III.3.13 gives the finite-global-dimension module formula.
 
-### Layer 6: Laurent coefficients, q-Euler forms, and specialization
+### Examples
+
+The quiver `1 ⟶ 2`: `E = [[1,-1],[0,1]]`, `CᵀE = [[1,1],[0,1]]·[[1,-1],[0,1]] = I = D`, and
+`E + Eᵀ` is the `A₂` Gram matrix.  The oriented `E₈` quiver, the third worked example.  The
+dual numbers: `Ext^n(S,S) = k` for every `n`, so Euler admissibility is refused and no value is
+assigned.  The nonsplit check `k = ℝ`, `A = ℂ`: `C = [1]`, `E = [2]`, `CᵀE = [2] = D`.  The
+two-loop quiver above: the graded comparison fails in degree one.
+
+### Dependencies
+
+Layers 2--4; Mathlib's `Ext` with its `HasExt` instances; the Tau Ceti modules
+`ExtEuler.*` and `ExtEulerMatrix` named above; the Ringel form of
+**From TauCetiRoadmap.QuiverRepresentations**.
+
+## Layer 6: Laurent coefficients, q-Euler forms, and specialization
 
 The graded categories, graded `K₀`, graded resolutions, the graded Cartan matrix and bigraded Ext
 are already built in Layers 2--5.  This layer adds only the coefficient ring and what depends on
@@ -530,7 +666,22 @@ sesquilinearity stated in the same definition: with that `qdim`, `[N{1}] = q[N]`
 `⟨[M],[N{1}]⟩ = q⁻¹⟨[M],[N]⟩` against the stated `q`-linearity in the second slot.  The roadmap
 follows the sesquilinearity, which is the `q⁻ʲ` convention fixed under **Grading conventions**.
 
-### Layer 7: left and right numerical Grothendieck groups
+### Examples
+
+The minimal graded check, the fifth worked example: `[M{1}] = q[M]`,
+`χ_q(M{1},M) = q⁻¹χ_q(M,M)` and `χ_q(M,M{1}) = qχ_q(M,M)`.  For the path-length-graded `kQ`
+with `Q = 1 ⟶ 2`, the graded resolution `0 → P₂{1} → P₁ → S₁ → 0` gives
+`Ext¹_gr(S₁,S₂{j}) = k` for `j = 1` and `0` otherwise, whose sum over `j` is
+`Ext¹(S₁,S₂) = k`: the instance of the graded Ext comparison, the two-loop quiver of Layer 5
+being the non-instance.  The matrix `[[1,q],[q,1]]` has determinant `1 - q²`, nonzero in
+`ℤ[q,q⁻¹]` and zero at both `q = 1` and `q = -1`.
+
+### Dependencies
+
+Layers 2--5; Mathlib's `LaurentPolynomial` with `invert` and its sesquilinear maps; Tau Ceti's
+`LaurentK0` and the `ExtEuler.Graded.*` modules.
+
+## Layer 7: left and right numerical Grothendieck groups
 
 - **Radicals.**  For a biadditive pairing `b : L × R ⟶ ℤ`, define
   `rad_left(b)={x | ∀y, b(x,y)=0}` and
@@ -557,9 +708,33 @@ Dancso--Licata, Definition 3.2 and the discussion following Definition 3.1 provi
 warning for nonsymmetric q-pairings.  The quotient construction here is elementary group/module
 theory and is stated through its universal property.
 
+### Examples
+
+On `L = R = ℤ` the zero pairing has both radicals equal to `ℤ` and both quotients zero, while
+`b(x,y) = xy` has both radicals zero.  The pair `f = id`, `g = 0` from `b = 0` to `b'(x,y) = xy`
+satisfies `b'(f x, g y) = 0 = b(x,y)` and sends `rad_left(b) = ℤ` onto `ℤ`, which is not inside
+`rad_left(b') = 0`: surjectivity of `g` is the hypothesis **Functoriality** asks for.  For the
+quiver `1 ⟶ 2` the Euler matrix is unimodular, so both radicals vanish and both numerical
+quotients are the whole Grothendieck group.
+
+### Dependencies
+
+Layers 5--6 for the pairings; Mathlib's additive subgroups, submodules and quotients.
+
+## Downstream consumers
+
+The DG/A-infinity, stable/periodic/curved, hopfological, zigzag/preprojective, and McKay subjects
+are separate roadmap areas that consume this one.  No declaration from those areas is a
+prerequisite here.  The stable/periodic/curved roadmap's acceptance file imports this roadmap's
+`Suggested.lean` and spells conflations through `ExactStructure.Conflation`, which is why that
+abbreviation of the native predicate is kept.  The zigzag roadmap compares its graded Cartan
+matrix against the graded quiver comparison of Layer 5, and the relative-Koszul layer of the
+DG/`A∞` roadmap and the zigzag roadmap consume the one notion of linear resolution fixed in
+Layer 3.
+
 ---
 
-## Worked examples and acceptance criteria
+## Worked examples
 
 These computations are part of the roadmap.  They fix signs, handedness, support hypotheses, and
 matrix orientation.
@@ -638,31 +813,6 @@ explicit ungraded category and forgetful functor, verify the comparison hypothes
 and only then identify the `q=1` class and pairing with the ordinary ones.  Add a two-by-two Laurent
 matrix whose determinant is nonzero before evaluation and zero at one of these values,
 demonstrating that specialization need not preserve nondegeneracy.
-
-## Ordering and cross-roadmap dependencies
-
-Layer 0 is foundational.  Layer 1 supplies the small quotient engine.  Layer 2 instantiates it for
-the four categorical K-groups.  Layer 3 supplies resolution classes and the resolution theorem.
-Layer 4 consumes Layers 0--3 and the finite-dimensional-algebra objects from
-[quiver representations](../RepresentationTheory/QuiverRepresentations/README.md).  Layer 5 first
-builds finite-support Euler--Poincaré and then uses Layers 2--4 to descend Ext pairings.  Each of
-Layers 2--5 is built in the graded setting as well as the ungraded one, per **Graded throughout**;
-Layer 6 then adds only the Laurent coefficient ring, the sesquilinearity and the specializations.
-Layer 7 consumes the pairings from Layers 5--6.
-
-The graded work is not a second pass over a finished ungraded roadmap.  A graded layer is
-completed with its ungraded counterpart, because the downstream roadmaps consume the graded
-constructions and would otherwise have nothing to import.
-
-The bounded-complex portions of Layers 2 and 5 may be developed together after the exact and K₀
-interfaces exist.  The module-specific Layer 4 and the abstract triangulated part of Layer 2 can
-also proceed independently at that point.  Every acceptance example is completed with the first
-layer that makes it expressible; the dual-numbers rejection is required before Ext-Euler descent is
-accepted.
-
-The DG/A-infinity, stable/periodic/curved, hopfological, zigzag/preprojective, and McKay subjects
-are separate roadmap areas that consume this one.  No declaration from those areas is a
-prerequisite here.
 
 ## References
 
