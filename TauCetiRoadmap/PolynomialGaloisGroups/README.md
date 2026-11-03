@@ -521,7 +521,7 @@ root of unity, and the fixed field `M` is cyclic of degree `p` over `K`
   `θ₂ − θ₃ = (x₁ − x₄)(x₃ − x₅)[(x₂ − x₁)(x₂ − x₄) − (x₂ − x₃)(x₂ − x₅)]` and
   `θ₄ − θ₅ = (x₃ − x₄)(x₁ − x₅)[(x₂ − x₃)(x₂ − x₄) − (x₂ − x₁)(x₂ − x₅)]` (with Dummit's
   `θ₂ = (1 2 3)θ₁`, `θ₃ = (1 3 2)θ₁`, `θ₄ = (1 2)θ₁`, `θ₅ = (2 3)θ₁`, `θ₆ = (1 3)θ₁`, `dummit-quintics`
-  lines 53–70) and the distinctness of the roots then force `2x₂ = x₁ + x₃ = x₄ + x₅` (in
+  lines 53–74) and the distinctness of the roots then force `2x₂ = x₁ + x₃ = x₄ + x₅` (in
   characteristic 2 they force `x₁ = x₃` or `x₄ = x₅` directly), so `5x₂` is the sum of the roots, an
   element of `F`, and `x₂ ∈ F` contradicts irreducibility.
 - **Dummit's criterion, group form** (`isSolvable_gal_iff_exists_isRoot_quinticF20`). Under the
@@ -532,7 +532,7 @@ root of unity, and the fixed field `M` is cyclic of degree `p` over `K`
   (`forall_rootSet_mem_solvableByRad_iff_exists_isRoot_quinticF20`). For `F` of characteristic zero
   and `f` monic irreducible of degree five, the roots of `f` lie in
   `solvableByRad F (AlgebraicClosure F)` exactly when `TauCeti.quinticF20Spec.specialize F f` has
-  a root in `F` (Dummit, Theorem 1, p. 389, `dummit-quintics` lines 100–103, stated over `ℚ`; the
+  a root in `F` (Dummit, Theorem 1, p. 389, `dummit-quintics` lines 102–105, stated over `ℚ`; the
   proof uses only characteristic zero). When it does, the sextic is a linear factor times an
   irreducible quintic: the 5-cycle permutes the other five roots transitively and they are
   distinct.
@@ -728,9 +728,9 @@ Tau Ceti number-field, Dirichlet-series and fixed-field API; Induction–Restric
   3409): in characteristic zero a polynomial is solvable in radicals iff its Galois group is
   solvable (3.1, 3.2).
 - D. S. Dummit, *Solving solvable quintics*, Math. Comp. 57 (1991) 387–401, `dummit-quintics`.
-  §2, p. 388 (lines 45–70): the invariant `θ₁`, its stabilizer `F₂₀` and the conjugates
-  `θ₂, …, θ₆`; equation (2′), p. 389 (lines 97–99): the sextic of `x⁵ + ax + b`; Theorem 1, p. 389
-  (lines 100–103): an irreducible rational quintic is solvable by radicals iff the sextic has a
+  §2, p. 388 (lines 45–74): the invariant `θ₁`, its stabilizer `F₂₀` and the conjugates
+  `θ₂, …, θ₆`; equation (2′), p. 389 (lines 99–101): the sextic of `x⁵ + ax + b`; Theorem 1, p. 389
+  (lines 102–105): an irreducible rational quintic is solvable by radicals iff the sextic has a
   rational root, and then the sextic is a linear factor times an irreducible quintic (3.3).
 - R. Chapman, *Note on "Solving solvable quintics" by D. Dummit* (1992), on Dummit's author page,
   `chapman-quintics`, lines 16–30: the two factorizations of `θ₂ − θ₃` and `θ₄ − θ₅` and the
