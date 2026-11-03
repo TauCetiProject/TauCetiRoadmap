@@ -8,9 +8,10 @@ de Rham theorem (layer 8), the Poincaré pairing and Poincaré duality (layer 9)
 and the Brouwer degree (layer 10) and the hairy ball theorem (layer 11). It stops at the absolute
 theory of a single manifold with smooth paths and smooth forms. This Part II continues from there
 with five additions that DifferentialGeometry does not plan: integration of *continuous* planar
-`1`-forms along *continuous* paths through local potentials; smooth chains over manifolds with
-boundary and corners through strictly inward vector fields and inward domination, with the relative
-smooth chain comparison and relative approximation into vector spaces; the relative de Rham complex
+`1`-forms along *continuous* paths through local potentials; inward domination of a manifold with
+corners by its interior through strictly inward vector fields, the transfer of smooth-chain
+equivalences along a smooth homotopy retraction, the relative smooth chain comparison and relative
+approximation into vector spaces; the relative de Rham complex
 of an open pair, its integration map and the relative de Rham isomorphism; the comparison of
 integration of top forms with AlgebraicTopology's singular fundamental classes, including manifolds
 with boundary; and finite-parameter relative transversality of families against maps, with
@@ -27,8 +28,8 @@ This roadmap owns:
   invariance and the exactness theorem on simply connected domains (Layer 1);
 - the strict inward cone of a model with corners, strictly inward vector fields, their forward
   semiflow, smooth proper exhaustion functions, inward domination, the transfer of smooth-chain
-  equivalences along inward domination, the relative smooth chain comparison, and relative
-  approximation into finite-dimensional vector spaces with collar data (Layer 2);
+  equivalences along a smooth homotopy retraction, the relative smooth chain comparison, and
+  relative approximation into finite-dimensional vector spaces with collar data (Layer 2);
 - the relative de Rham complex of an open pair, the algebraic comparison of a cone with a kernel,
   relative integration, the relative de Rham homomorphism and isomorphism (Layer 3);
 - the integration comparison with singular fundamental classes and the smooth-boundary
@@ -51,23 +52,28 @@ It does not own, and imports by section:
   pairing, the cup product, the homological orientation system, `RelativeTwistedClassDatum`, the
   compact-support class factory and the singular fundamental classes (Stage 6, in particular 6.1
   and 6.3); its Stage 6.5 compares its homological degree with DifferentialGeometry 10's smooth
-  degree, and nothing here touches that comparison;
-- from HeegaardFloer: the sharp finite-order Sard theorem (its §2.1, F0.S), which no target here
-  needs, since every map in Layer 5 is `C^∞`;
-- from GeometricTopology: collars, collar uniqueness, tubular neighbourhoods and gluing; Brown's
-  collar theorem is already in Tau Ceti.
+  degree, and nothing here touches that comparison.
+
+Deferrals that no target here consumes: sharp finite-order Sard is HeegaardFloer §2.1's (F0.S),
+and every map in Layer 5 is `C^∞`, so no target here needs it; collars, collar uniqueness, tubular
+neighbourhoods and gluing are GeometricTopology's, and §4.2 uses only Tau Ceti's Brown collar
+theorem. AlgebraicTopology 6.3 names DifferentialGeometry 9.3 as the consumer of its classes and
+the owner of the integration comparison; DifferentialGeometry 9.3 plans duality only, and that
+comparison, with the carrier and coefficient conversions it needs, is §4.1 here.
 
 Adjacent roadmaps with a different object: TangentialBordism §2.1 proves parametric transversality
 to a closed embedded submanifold with a dense set of good parameters, and relative Whitney
 approximation into a manifold; Layer 5 here is transversality of a family to an arbitrary smooth
 map `j : N → V` into a vector space, with a Haar-null exceptional set, and §2.5 here prescribes
-boundary collar data for fillings into a vector space. ComplexKahlerGeometry consumes Layers 3–4.
+boundary collar data for fillings into a vector space. ComplexKahlerGeometry K6.1 consumes §2.4,
+Layer 3 and §4.1.
 
-DifferentialGeometry 8.3 states the absolute smoothing equivalence over every model with corners,
-by a face-fixing relative smoothing lemma. That lemma fails for targets with boundary (*Statements
-that must not enter the library*, the `3`-simplex in `[0, ∞)`). §2.3 proves, independently, that
-the equivalence for the boundaryless manifold `I.interior M` transfers to `M` along inward
-domination; DifferentialGeometry 8.3 remains the owner of the absolute statement.
+DifferentialGeometry 8.3 states, and owns, the absolute smoothing equivalence for every Hausdorff
+σ-compact finite-dimensional manifold over any real model with corners; §§2.4 and 3.3 import it as
+stated. The face-fixing relative smoothing lemma that its sketch names fails for targets with
+boundary (*Statements that must not enter the library*, the `3`-simplex in `[0, ∞)`); the transfer
+lemma of §2.3 applied to inward domination (§2.2) is a route to the statement that does not use
+it. The choice of route is DifferentialGeometry's.
 
 ## Conventions
 
@@ -111,11 +117,17 @@ addition:
   (`Geometry/Manifold/SmoothApprox.lean`): finite-dimensional source, Hausdorff σ-compact manifold,
   a closed set near which the map is already smooth, and a positive continuous tolerance.
 - `exists_contMDiffMap_one_nhds_of_subset_interior` and
-  `exists_contMDiffSection_forall_mem_convex_of_local` (`Geometry/Manifold/PartitionOfUnity.lean`);
-  the latter needs genuinely local smooth sections with values in fibrewise convex sets.
+  `exists_contMDiffSection_forall_mem_convex_of_local` (`Geometry/Manifold/PartitionOfUnity.lean`),
+  both under `[FiniteDimensional ℝ E] [T2Space M] [SigmaCompactSpace M]`; the latter needs
+  genuinely local smooth sections with values in fibrewise convex sets; the former carries
+  `[NormalSpace M]` as well, which a Hausdorff σ-compact manifold over a finite-dimensional model
+  satisfies through `ChartedSpace.locallyCompactSpace` (from
+  `ModelWithCorners.locallyCompactSpace`), `paracompact_of_locallyCompact_sigmaCompact` and
+  `NormalSpace.of_paracompactSpace_r1Space`.
 - `IsOpen.exists_contDiff_support_eq` (support equal to a given open set, not compact support).
 - `ModelWithCorners.interior`, `ModelWithCorners.isOpen_interior`, `ModelWithCorners.boundary`,
-  `ModelWithCorners.isClosed_range`, `BoundarylessManifold`, `𝓡∂ n`,
+  `ModelWithCorners.convex_range`, `ModelWithCorners.isClosed_range`,
+  `ModelWithCorners.nonempty_interior`, `BoundarylessManifold`, `𝓡∂ n`,
   `modelWithCornersEuclideanQuadrant`.
 
 ### From Tau Ceti
@@ -142,7 +154,9 @@ addition:
   the compactly supported complex with `extensionByZero` and `properPullback`.
 - 6.3: homotopy invariance on `M × [0, 1]` with no boundaryless restriction.
 - 8.3: `SmoothSimplex`, `smoothSingularChainComplex`, `smoothToSingular`, and the absolute
-  smoothing equivalence for boundaryless Hausdorff σ-compact finite-dimensional manifolds.
+  smoothing equivalence (the inclusion of smooth chains into singular chains is a chain homotopy
+  equivalence) for every Hausdorff σ-compact finite-dimensional manifold over any real model with
+  corners, as stated there.
 - 8.4: `fullSimplex`, `simplexFace`, `SmoothSimplex.integral`, `chainIntegral`, Stokes for
   simplices and chains, `deRhamHom` and its naturality.
 - 8.5: `deRhamEquiv`, for every open of a Hausdorff σ-compact finite-dimensional `M`.
@@ -159,9 +173,10 @@ addition:
 ## How to read the build
 
 Layer 1 is planar analysis and depends on nothing else here. Layer 2 is differential topology of
-models with corners: the inward cone and inward domination (§§2.1–2.2) are independent of chains,
-and the transfer and relative chain comparisons (§§2.3–2.4) consume DifferentialGeometry 8.3;
-relative approximation (§2.5) is independent of the rest. Layer 3 builds the relative de Rham
+models with corners: the inward cone and inward domination (§§2.1–2.2) are independent of chains;
+the transfer lemma (§2.3) consumes §2.2 and DifferentialGeometry 8.3's carriers, and the relative
+chain comparison (§2.4) consumes DifferentialGeometry 8.3's equivalence directly; relative
+approximation (§2.5) is independent of the rest. Layer 3 builds the relative de Rham
 theory on DifferentialGeometry 6 and 8 and Layer 2's relative chains. Layer 4 consumes Layer 3 and
 AlgebraicTopology 6.3. Layer 5 needs only calculus, Tau Ceti's level-set and Sard APIs and §2.5,
 and can start at once.
@@ -178,7 +193,8 @@ On an open `Ω ⊆ ℂ`, let `F` be a real normed space (complex spaces by restr
 represent a continuous `1`-form by its covector field `φ : C(Ω, ℂ →L[ℝ] F)`, the field consumed by
 `curveIntegral` and DifferentialGeometry's degree-one flat forms. Define `HasLocalPotentials Ω φ`:
 every `z ∈ Ω` has `r > 0` with `ball(z, r) ⊆ Ω` and an ambient `g : ℂ → F`, `C¹` on the ball, with
-derivative `φ(w)` at every `w` in it.
+derivative `φ(w)` at every `w` in it. *Needs:* Mathlib `ContinuousMap`, `ContDiffOn`, `HasFDerivAt`,
+`Metric.ball`; DifferentialGeometry 6.2 for the first bullet below.
 
 - A `C¹` form whose exterior derivative vanishes on `Ω` has local potentials when `F` is complete,
   by DifferentialGeometry 6.2's flat Poincaré lemma on discs.
@@ -239,7 +255,7 @@ connected component; the empty domain takes the zero potential. *Needs:* §§1.1
 ### Examples
 
 The punctured-plane angular form, with loop integral `2π`, separates local from global potentials;
-ComplexKahlerGeometry K5a normalizes it for complex coefficients.
+ComplexKahlerGeometry K5a computes the same class for smooth forms with complex coefficients.
 
 ### Dependencies
 
@@ -250,9 +266,12 @@ homotopies and `curveIntegral`.
 
 ### 2.1 The strict inward cone and strictly inward fields
 
-For `C = range I` (convex, closed by `ModelWithCorners.isClosed_range`, with nonempty interior),
+For `C = range I` (convex by `ModelWithCorners.convex_range`, closed by
+`ModelWithCorners.isClosed_range`, with nonempty interior by `ModelWithCorners.nonempty_interior`),
 the *strict inward cone* at `x ∈ C` is the set of `v ∈ E` for which there are `ε, δ > 0` with
-`ball(x + tv, εt) ⊆ C` for `0 < t < δ`.
+`ball(x + tv, εt) ⊆ C` for `0 < t < δ`. *Needs:* Mathlib `ModelWithCorners.convex_range`,
+`ModelWithCorners.isClosed_range`, `ModelWithCorners.nonempty_interior`, `Metric.ball`; for the
+last bullet below, `exists_contMDiffSection_forall_mem_convex_of_local`.
 
 - It is convex and closed under positive scaling, and contains `q − x` for every interior `q` of
   `C`.
@@ -260,8 +279,12 @@ the *strict inward cone* at `x ∈ C` is the set of `v ∈ E` for which there ar
 - It is invariant under the derivatives of `C¹` chart changes, so it defines an open cone in each
   tangent space of `M`.
 - A smooth vector field on `M` is *strictly inward* when its value lies in this cone at every
-  point. On a Hausdorff σ-compact finite-dimensional `M` a smooth strictly inward field exists,
-  glued from constant local fields by `exists_contMDiffSection_forall_mem_convex_of_local`.
+  point. On a Hausdorff σ-compact finite-dimensional `M` (`[T2Space M] [SigmaCompactSpace M]
+  [FiniteDimensional ℝ E]`, the hypotheses of `exists_contMDiffSection_forall_mem_convex_of_local`)
+  a smooth strictly inward field exists: in a chart, the constant field `q − x` for an interior
+  anchor `q` is strictly inward on a neighbourhood of `x` (for `‖y − x‖ < ε₀` and
+  `ball(q, 2ε₀) ⊆ C`, convexity gives `ball(y + t(q − x), ε₀t) ⊆ C`), and these local sections are
+  glued by that theorem with the strict inward cone as the convex fibre set.
 
 **Checks.**
 
@@ -286,8 +309,9 @@ the semiflow `ψ`, `r = ψ(1, ·)` and `Φ(t, x) = ψ((1 − t)², x)`, prove
 `exists_smooth_inward_deformation`: there are smooth `r : M → M` with values in `I.interior M` and
 smooth `Φ : ℝ × M → M` (over `𝓘(ℝ, ℝ).prod I`) with `Φ(0, ·) = r`, `Φ(1, ·) = id` and every
 `Φ(t, ·)` preserving `I.interior M`. This *inward domination* is the target. For
-the half-space model, inward-pointing fields and their flows are [Lee, Ch. 9, collar
-neighbourhoods]; for a general convex model the construction is this roadmap's. *Needs:* §2.1;
+the half-space model, the flowout of an inward-pointing field, the collar and the homotopy
+equivalence of a manifold with boundary with its interior are [Lee, Thms. 9.24–9.26,
+pp. 222–223]; for a general convex model the construction is this roadmap's. *Needs:* §2.1;
 Mathlib smooth partitions of unity; DifferentialGeometry 3 for the flow API on the boundaryless
 interior.
 
@@ -305,40 +329,45 @@ interior.
 
 ### 2.3 Transfer of smooth-chain equivalences
 
-For smooth `j : N → M` and `r : M → N` with a specified smooth homotopy `j ∘ r ~ id_M`, if the
-inclusion of smooth chains is a chain homotopy equivalence for `N`, then the composite of `r` on
-singular chains, the homotopy inverse for `N` and `j` on smooth chains is a homotopy inverse of the
-inclusion for `M`. Prove both inverse identities from pushforward naturality, the smooth prism
-operator of a jointly smooth homotopy `ℝ × M → M`, and on continuous chains the chain homotopy of
-the restricted homotopy on `[0, 1]`; no homotopy `r ∘ j ~ id_N` is used. Applied to §2.2 with
-`N = I.interior M`, this gives the smooth chain equivalence for every Hausdorff σ-compact
-finite-dimensional `M` over any real model with corners from the boundaryless case of
-DifferentialGeometry 8.3. Two homotopy inverses of one map are homotopic (`s ~ s ≫ i ≫ t ~ t`),
-which removes the dependence on inward choices and gives naturality on homology. *Needs:* §2.2;
-DifferentialGeometry 8.3 (boundaryless case), AlgebraicTopology Stage 2 (chain homotopy of a
-homotopy).
+For smooth `j : N → M` and `r : M → N` with a specified smooth homotopy `Φ : ℝ × M → M` from
+`j ∘ r` to `id_M`, prove: if the inclusion of smooth chains into singular chains is a chain
+homotopy equivalence for `N`, with a given homotopy inverse `s`, then `j_* ∘ s ∘ r_*` (with `r_*`
+on singular chains and `j_*` on smooth chains) is a homotopy inverse of the inclusion for `M`.
+Prove both inverse identities from pushforward naturality, the smooth prism operator of the
+jointly smooth homotopy `Φ` on smooth chains, and on singular chains the chain homotopy of the
+restriction of `Φ` to `[0, 1] × M`; no homotopy `r ∘ j ~ id_N` is used. Two homotopy inverses of
+one map are homotopic (`s ~ s ≫ i ≫ t ~ t`), so the transferred inverse is independent of `j`, `r`,
+`Φ` and `s` up to homotopy and the induced map on homology is natural. Inward domination (§2.2)
+supplies such a triple with `N = I.interior M`, `j` the inclusion and `r` the retraction; the
+equivalence for `M` itself is DifferentialGeometry 8.3's, imported as stated. *Needs:* §2.2;
+DifferentialGeometry 8.3 (`smoothSingularChainComplex`, `smoothToSingular`); AlgebraicTopology
+Stage 2 (chain homotopy of a homotopy).
 
 **Checks.**
 
-- On `[0, ∞)`, `H₀` of smooth chains is `ℝ`, every point cycle maps to the class of `0`, and the
-  path `t ↦ t` is a smooth `1`-simplex with boundary `[1] − [0]`.
-- On the quadrant `modelWithCornersEuclideanQuadrant 2` and on `[0, 1]²` over
-  `(𝓡∂ 1).prod (𝓡∂ 1)`, `H₀ ≅ ℝ` by total coefficient and `H_k = 0` for `k ≥ 1`.
-- On `ℝ` with the cube-root charts `φ_a(y) = cuberoot(y − a)` smooth paths are constant and smooth
-  `H₀` is not `ℝ`: the transfer needs smooth chart compatibility, not just a charted space.
+- `N = M`, `j = r = id` and the constant homotopy: the transferred inverse is `s` itself, and the
+  two inverse identities are the given ones.
+- `M = [0, ∞)`, `N = (0, ∞)`, `r(x) = x + 1`, `Φ(t, x) = x + (1 − t)²` (the witness of §2.2): the
+  point cycle `[0]` goes to `[1]`, then to a smooth `0`-chain of total coefficient `1` supported
+  in `(0, ∞)`, which is homologous to `[0]` in `M` through the smooth `1`-simplex `t ↦ t` with
+  boundary `[1] − [0]`; a transfer that applied `r` on smooth chains and `j` on singular chains
+  would land in the wrong complex.
+- The homotopy `j ∘ r ~ id_M` is necessary: for `N` a point, `M = S¹`, `r` constant and `j` the
+  inclusion of a point, `j_* ∘ s ∘ r_*` is zero on `H₁(S¹) ≅ ℝ` while the inclusion of smooth
+  chains is an isomorphism there, so the composite is no inverse.
 
 ### 2.4 Relative smooth chains
 
 For an open submanifold `W ⊆ X` with `X` as above (an open subset of a σ-compact
 finite-dimensional manifold is σ-compact), define `C^∞(X, W) = C^∞(X)/C^∞(W)` with its short exact
 sequence and boundary formula, its map to AlgebraicTopology's relative singular chains, and prove
-it a quasi-isomorphism by the five lemma from the two absolute comparisons of §2.3. Over `ℝ`, give
+it a quasi-isomorphism by the five lemma from DifferentialGeometry 8.3's absolute comparisons for
+`X` and for `W`. Over `ℝ`, give
 the relative comparison and its homotopy inverse from degreewise splittings of cycles and
 boundaries, compatibly with the dual map; the dual relative cochain quasi-isomorphism against
 Tau Ceti's `TopPair.singularCochainComplex`; naturality in smooth maps of pairs, relative boundary
-maps and enlargement of `W`. An inward deformation need not preserve every open at once, which is
-why opens go through the absolute constructions. *Needs:* §2.3; AlgebraicTopology Stages 2 and 6.1;
-Tau Ceti relative cochains.
+maps and enlargement of `W`. *Needs:* DifferentialGeometry 8.3; AlgebraicTopology Stages 2 and
+6.1; Tau Ceti relative cochains.
 
 **Checks.**
 
@@ -529,7 +558,8 @@ For real normed spaces `E, W, V, P`, smooth `F : E × P → V` and `j : W → V`
 `incidenceEquation F j : (E × W) × P → V`, `((x, y), p) ↦ F(x, p) − j(y)`, and
 `IsRegularIncidenceParameter F j p` as `TauCeti.IsRegularParameter (incidenceEquation F j) 0 p`:
 the slice at `p` is transverse to `j`. *Universal transversality* is surjectivity of the full
-derivative of `incidenceEquation F j` at every zero.
+derivative of `incidenceEquation F j` at every zero. *Needs:* Tau Ceti
+`TauCeti.IsRegularParameter`; Mathlib `fderiv`, `ContinuousLinearMap.coprod`.
 
 - The fixed-parameter derivative of `incidenceEquation F j` at `((x, y), p)` is
   `(u, v) ↦ D_xF(x, p)u − Dj(y)v` when `F` and `j` are differentiable there.
@@ -609,8 +639,10 @@ parabola family `x² + p` has the single bad parameter `0`.
   coordinate faces; with `Q = x² + y² + z² − 2xy − 2xz − 2yz` and a smooth bump `ψ` of `x + y + z`,
   zero near `0` and at least `1` near the opposite face, `max(Q + ψ, 0)` is a continuous filling
   with these faces. A smooth filling would have zero value and gradient and Hessian with diagonal
-  `2` and off-diagonal `−2` at `0`, so its value along `(t, t, t)` is `−3t² + o(t²) < 0`. Hence
-  face-fixing smoothing is boundaryless, and corners go through §§2.2–2.3.
+  `2` and off-diagonal `−2` at `0`, so its value along `(t, t, t)` is `−3t² + o(t²) < 0`. Hence a
+  face-fixing relative smoothing lemma holds only for boundaryless targets, and a proof of
+  DifferentialGeometry 8.3 over models with corners cannot use it; the transfer of §2.3 along
+  inward domination (§2.2) is a route that does not.
 - **"A semiflow of a strictly inward field is a collar."** Not for a general convex model; collars
   are GeometricTopology's.
 - **"The form cone is the kernel of restriction."** Restriction of forms to an open need not be
@@ -622,9 +654,12 @@ parabola family `x² + p` has the single bad parameter `0`.
 
 ## Downstream consumers
 
-- ComplexKahlerGeometry consumes §3.2's relative integration of open pairs and §4.1's compact and
-  relative integration formulas (its K6), and owns the complex-coefficient comparisons and the
-  normalized punctured-plane computation for continuous planar forms (its K5a).
+- ComplexKahlerGeometry K6.1 (analytic cycles) consumes the open-pair cone and relative class of
+  §§3.1–3.2, the relative chain comparison of §2.4 and the compactly supported relative integration
+  formula of §4.1, which it names as DifferentialGeometry 8.4's, 8.3's and 9.3's;
+  DifferentialGeometry 8.3, 8.4 and 9.3 plan the absolute theory only, and these targets are
+  §§2.4, 3.1–3.2 and 4.1 here. Its K5a owns the complex-coefficient de Rham comparison and the
+  punctured-plane computation `H¹_dR(ℂ ∖ {0}; ℂ) ≅ ℂ` for smooth forms.
 - Roadmaps on singular-image avoidance by paths and discs in Lie groups and on arrangement jet
   families consume Layer 5 and supply their own compactness, codimension and jet-surjectivity
   inputs.
@@ -637,8 +672,9 @@ DifferentialGeometry; cited for design, never as the definition of a target.
 ## References
 
 - [Lee] John M. Lee, *Introduction to Smooth Manifolds*, 2nd ed., Graduate Texts in Mathematics
-  218, Springer, 2013: Prop. 2.28 (exhaustion functions), Ch. 9 (flows, collar neighbourhoods),
-  Thms. 6.35–6.36 (parametric transversality).
+  218, Springer, 2013: Prop. 2.28 (exhaustion functions), Thms. 9.24–9.26, pp. 222–223 (boundary
+  flowout, collar neighbourhoods, homotopy equivalence with the interior), Thms. 6.35–6.36
+  (parametric transversality).
 - [Bott–Tu] Raoul Bott and Loring W. Tu, *Differential Forms in Algebraic Topology*, Graduate
   Texts in Mathematics 82, Springer, 1982: Ch. I, §5 (Poincaré duality) and §6 (relative de Rham
   theory).
