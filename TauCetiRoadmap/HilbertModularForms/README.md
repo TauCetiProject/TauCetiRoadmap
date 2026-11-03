@@ -129,7 +129,9 @@ parallel-weight theory. Weight zero and negative weights are additional analytic
   `K₀(𝔫)`), the eigensystem interface and strong multiplicity one of R16.4.4, multiplicity one
   R16.4.3, the local newvector theory R16.2 and R16.3, global Jacquet–Langlands R17.3.1 with
   R17.3.3, R17.3.5, R17.3.9, base change R17.4 (R17.4.1, R17.4.3–R17.4.5, R17.4.8), and
-  automorphic induction R17.4.16. All enter through the dictionary of Layer 6. General local newvectors are supplied by
+  automorphic induction R17.4.16. The completed functional equation, trace
+  additive character and discriminant-square conductor are R16.5.4, with
+  archimedean factors R16.3.6. All enter through the dictionary of Layer 6. General local newvectors are supplied by
   AutomorphicLFunctionsAndLocalFactors AL.2.2, and local factors by GL2AutomorphicRepresentationsAndTransfer
   R16.3. The Hilbert comparison with these is owned here; the classical R16.6.2 has base field ℚ.
 - From [Automorphic Galois representations](../AutomorphicGaloisRepresentations/README.md): the
@@ -151,7 +153,10 @@ parallel-weight theory. Weight zero and negative weights are additional analytic
   formed with Mathlib `LinearMap.toMatrix`, and states the dictionary against these objects.
 - From [Adelic algebraic groups](../AdelicAlgebraicGroups/README.md): the `S`-arithmetic
   decomposition and the strong approximation theorem for the norm-one group `D¹` of a central
-  simple algebra (its §4.2), applied to `D = M₂(F)`, where `D¹ = SL₂`. The finiteness of the
+  simple algebra (its §4.2), applied to `D = M₂(F)`, where `D¹ = SL₂`.
+  Its §3.4 targets “Siegel sets cover” and “Siegel property” supply the generic
+  reduction and finite-intersection theorems; §3.1 here identifies their
+  projective GL₂ cusp coordinates. The finiteness of the
   double coset `GL₂(F)⁺\GL₂(𝔸_{F,f})/K₀(𝔫)` and its identification with the narrow class group
   (Layer 6) rest on it.
 - From [Number Field Arithmetic](../../Completed/NumberFieldArithmetic/README.md): the ramified
@@ -512,11 +517,21 @@ The boundary is `ℙ¹(F)`, acted on by `GL₂⁺(F)`. Define the cusp set C(Γ)
 C(Γ₀(𝔫)_𝔟) is finite, of cardinality at most `h_F · [PΓ_𝔟 : PΓ₀(𝔫)_𝔟]`; the stabilizer
 `Γ_κ` of a cusp `κ` is conjugate in `GL₂⁺(F)` to a group of upper triangular matrices
 `(ε b; 0 ε')` whose translation part `Λ_κ := {b : (1 b; 0 1) ∈ γ⁻¹Γγ}` is a full lattice in `F` and
-whose unit part `U_κ := {ε/ε'}` is a finite-index subgroup of `𝒪_{F,+}^×`. Prove the squarefree
-count: for squarefree `𝔫`, `#C(Γ₀(𝔫)_𝔟) = h_F · 2^{ω(𝔫)}`, through the parametrization of
-cusps by pairs `(𝔞, [·])` with `𝔞 ∣ 𝔫` and a class. The analogous count with the unit quotient
-`(𝒪_F/(𝔞 + 𝔫𝔞⁻¹))^×/𝒪_{F,+}^×` for non-squarefree `𝔫` is a milestone of the same shape and is
-stated with that quotient explicit.
+whose unit part `U_κ := {ε/ε'}` is a finite-index subgroup of `𝒪_{F,+}^×`. For every nonzero level, put
+𝔤_𝔞=𝔞+𝔫𝔞⁻¹ for each integral ideal divisor 𝔞 of 𝔫, and let U_𝔞 be the
+image of the totally positive units under reduction to (𝒪_F/𝔤_𝔞)^×. Prove
+
+    #C(Γ₀(𝔫)_𝔟) = h_F Σ_{𝔞|𝔫} #((𝒪_F/𝔤_𝔞)^× / U_𝔞).
+
+For each ordinary ideal class and each divisor 𝔞, the corresponding cusp fibre
+is a torsor for this quotient; choosing residue generators identifies it with
+the quotient, without claiming a canonical choice of generator. The formula
+is independent of 𝔟 (Assaf et al., arXiv:2301.10302v2, §3.1, Lemma 3.1.8,
+p. 6; proof of Corollary 3.1.18, (3.1.20)–(3.1.21), p. 7; Corollary 3.1.23
+and (3.1.25)–(3.1.27), pp. 7–8). Their §3.1 permits every totally real F;
+the total over narrow components has the additional factor h_F⁺.
+For squarefree 𝔫 every 𝔤_𝔞 is the unit ideal, its residue unit group has one
+element, and the formula becomes h_F·2^(ω(𝔫)).
 
 *Rests on:* 1.1–1.3; Mathlib `ClassGroup`; Tau Ceti `finiteIndex_totallyPositiveUnits`.
 
@@ -525,12 +540,19 @@ The cusp API retains the translation and unit data at each chosen cusp.
 
 - The ideal-class map is unchanged by scaling homogeneous coordinates and by Γ_𝔟; its fibres are the orbits at full level.
 - Conjugation to infinity identifies cusp stabilizers, translation lattices and finite-index positive-unit groups.
+- The ordinary-class and divisor fibres have the displayed unit-quotient cardinality,
+  and their sum counts the cusps of each component, without a narrow-class factor.
 
 **Checks.**
 
 - At level one over ℚ(√5), the class number is 1, so the cusp set has one element.
 - For a squarefree one-prime level over ℚ(√5), the count is 1·2¹=2; at the unit level it is 1·2⁰=1.
 - The coordinates (1:0) and (2:0) define the same cusp and ideals (1),(2) of the same ordinary class; a coordinate-dependent ideal representative would fail.
+- At level 𝔭² over ℚ(√5), take 𝔭=(2) and w=(1+√5)/2. The residue field
+  is 𝔽₄, where w²=w+1 and w³=1. The positive unit w² maps to a generator
+  of its three-element unit group, so the middle quotient has size 3/3=1.
+  The three divisors 1,𝔭,𝔭² therefore contribute 1+1+1=3 cusps, whereas
+  omitting the positive-unit image would give 1+3+1=5.
 
 ### 1.5 Systems of representatives
 
@@ -633,7 +655,10 @@ uniformly in `Re z`.
 
 ### 2.3 The spaces `M_k(Γ)` and `M_k(𝔫; R)`
 
-For nonparallel k, and for the parallel weights below two, extend the supplied form spaces as follows.
+For nonparallel k, and for the parallel weights below two, extend the supplied form spaces as follows
+(Dembélé–Voight, arXiv:1010.5727v2, §7, (7.10), p. 37 and (7.19), p. 40,
+for the arbitrary-weight, arbitrary-class component construction; the finite
+character extension with its separate global law is §2.7).
 For `Γ ≤ GL₂⁺(F)` commensurable with some `Γ_𝔟`, define `M_k(Γ)` as the
 `Submodule ℂ (ℍ^Σ → ℂ)` of holomorphic `f : ℍ^Σ → ℂ` with `f ∣_k γ = f` for all `γ ∈ Γ` — **no
 cusp condition** — with multiplication `M_k(Γ) × M_{k'}(Γ) → M_{k + k'}(Γ)` for weights of
@@ -732,16 +757,36 @@ The cusp-space API uses all cusps.
 
 ### 2.7 Finite nebentypus and the nonparallel extension
 
-For a finite-order Hecke character η with archimedean signs compatible with k, and
-cond(η)_finite dividing 𝔫, use the Γ₁ level space and its η diamond eigenspace. Equivalently,
-on the adelic side require right K₀(𝔫) equivariance by the inverse of `∏_{v|cond(η)_finite} η_v(d_v)`,
-where d_v is a unit at these places, in the convention of GL2AutomorphicRepresentationsAndTransfer R16.1,
-finite-level comparison. Transport this condition componentwise by §6.1; for
-γ∈Γ₀(𝔫)_𝔟 the classical law is `f_𝔟∣γ=(∏_{v|cond(η)_finite} η_v(d)) f_𝔟`. The scalar-unit compatibility
-is part of the character hypothesis. Write M_k(𝔫,η;R) and S_k(𝔫,η;R) for these spaces.
-They specialize to §5.2 when η is unramified at finite places. Parallel k≥2 uses the
-supplied character space; the extension here permits nonparallel k and compares the two
-on their common domain, preserving constants and normalized ideal coefficients.
+For a finite-order Hecke character η with infinity part
+η_∞(x)=∏_w sgn(x_w)^(k_w) and finite conductor dividing 𝔫, define the
+character space by both its global central law and its finite-level law. In the
+adelic carrier of GL2AutomorphicRepresentationsAndTransfer R16.1.6 require
+
+    Ψ(g zI) = η(z)⁻¹ |z|_𝔸^{k₀−2} Ψ(g)       (z ∈ 𝔸_F^×),
+    Ψ(g u) = (∏_{v|cond(η)_finite} η_v(d_v))⁻¹ Ψ(g)       (u ∈ K₀(𝔫)).
+
+Here d_v is the lower-right entry of u and is a unit at each place in the
+product; |π_v|_v=(N𝔭_v)⁻¹ and the infinite norm is ∏_w |x_w|.
+These two laws agree on scalar finite units. The infinity condition makes the
+central law agree with the arithmetic slash on real scalars, including negative
+ones, and η is trivial on diagonal F^×. Transport both laws to tuples through
+§6.1–§6.2, writing M_k(𝔫,η;R) and S_k(𝔫,η;R) for the resulting spaces.
+The component law is `f_𝔟∣γ=(∏_{v|cond(η)_finite} η_v(d)) f_𝔟` for
+γ∈Γ₀(𝔫)_𝔟; it is imposed together with the transported global central law.
+Equivalently these are the η eigenspaces for the full norm-normalized inverse
+scalar (ray-class diamond) action on Γ₁ tuples, including the action between
+components. This action is constructed by the scalar lattice correspondences
+of §5.2 with the Γ₁ level data, and compared to adelic translation in §6.3.
+
+Prove the unramified specialization to §5.2: if η is unramified at finite
+places and ψ([𝔪])=η(𝔪), the local law is trivial, while inverse scalar translation
+by a finite idele of ideal 𝔪 acts by η(𝔪) N𝔪^(k₀−2). Multiplication by
+N𝔪^(−(k₀−2)) therefore gives precisely the ψ eigenspace of §5.2.
+Parallel k≥2 uses the supplied character space; the extension here permits
+nonparallel k and compares the two on their common domain, preserving constants
+and normalized ideal coefficients (R16.1.6 for the fixed-central-character
+carrier; Dembélé–Voight, arXiv:1010.5727v2, §7, (7.10)–(7.14), pp. 37–39,
+for the slash and inverse finite action).
 
 The character-space API is:
 
@@ -754,13 +799,23 @@ unramified-central-character conclusions of §§7.6–7.7 keep that explicit hyp
 
 **Checks.**
 
-- For η=1 the transformation multiplier is 1 and gives the original space.
+- For η=1 the local multiplier is 1, and the global law selects the trivial
+  central eigenspace of §5.2, rather than the sum over all central characters.
+- Over ℚ(√10), let 𝔭=(2,√10) and choose an ordinary class character η with
+  η([𝔭])=−1. The ideal has 𝔭²=(2), and is nonprincipal since x²−10y²=±2 is
+  impossible modulo 5. At level 1 and weight 0 both η and the trivial character
+  have local multiplier 1. For the constant tuple, the matrix (2,√10;√10,6)
+  has determinant 2 and carries 𝒪_F² onto 𝔭𝒪_F²; both lattices have index 4.
+  The normalized central value at the principal component is 4·(1/4)=1,
+  whereas η requires −1. The constant tuple lies in the trivial central space
+  and is rejected by η.
 - If χ has order three and ζ=χ(u) is primitive, twisting a trivial-character form
   gives multiplier χ(u)²=ζ²≠1 on the scalar unit u, and lands in the χ² space.
 - For quadratic χ, χ(u)²=1 and the twisted central character is unchanged.
 
 *Needs:* the parallel-weight supplier in Scope and ownership; §§1.2, 2.3–2.6; GL2AutomorphicRepresentationsAndTransfer R16.1,
-finite-level comparison. The adelic identification is proved in Layer 6 after the Γ₁ construction.
+finite-level comparison. The Γ₁ scalar correspondence construction uses §5.2; the adelic identification
+is proved in Layer 6. Neither the untwisted spaces nor §5.2 use this comparison.
 
 ### Examples
 
@@ -781,13 +836,20 @@ fixed closed fundamental cone for the action of `U_κ` by `y ↦ ε y` (Mathlib'
 `NumberField.mixedEmbedding.fundamentalCone` restricted to the positive orthant and to the
 finite-index subgroup `U_κ`). Prove the **reduction theorem**: there is `t > 0` such that
 `ℍ^Σ = Γ · ⋃_{κ ∈ C(Γ)} 𝔖_κ(C_κ, t)` — every orbit meets one of finitely many Siegel sets
-(Freitag, Ch. I §2; the classical proof through the minimum of `N(Im(γ•z))⁻¹ = N(|j(γ,z)|²)/N(Im z)`
-over `Γ`, whose existence is the finiteness of lattice points in a compact set). Prove the
+by the cusp-coordinate specialization of AdelicAlgebraicGroups §3.4, “Siegel
+sets cover” and “Siegel property”, applied to PGL₂/F and the projective image
+of Γ. Identify its unipotent window with C_κ and its norm-one torus window
+with the compact logarithmic unit domain of §1.4; its positive split-torus
+coordinate is N(Im z). Enlarge the compact windows and lower the positive
+threshold to include their boundaries. This is a comparison with the supplied
+reduction theorem, with Γ_𝔟 and its finite-index subgroups as the arithmetic
+lattices, and no extra scalar-unit intersections. Prove the
 **Siegel-set finiteness**: the image of `{γ ∈ Γ : γ 𝔖_κ ∩ 𝔖_{κ'} ≠ ∅}` in the projective
 group is finite, quotienting by the ineffective scalar units. The **height bound** is in
 cusp coordinates: on `γ_κ⁻¹ 𝔖_κ(C, t)`, `min_w Im z_w ≥ c(t) > 0`.
 
-*Rests on:* 1.4; Mathlib `NumberField.mixedEmbedding.fundamentalCone`, `NumberField.Units`;
+*Rests on:* 1.4; AdelicAlgebraicGroups §§3.2 and 3.4 (real Siegel coordinates,
+Siegel covering and Siegel property); Mathlib `NumberField.mixedEmbedding.fundamentalCone`, `NumberField.Units`;
 the Minkowski lattice-point finiteness of
 [Global Number Fields](../GlobalNumberFields/README.md) Layer 3A for the counting input.
 
@@ -808,8 +870,13 @@ The Siegel-set API is in cusp coordinates.
 Define the measure `dμ := ∏_w dx_w dy_w / y_w²` on `ℍ^Σ` and prove its `GL₂⁺(F)`-invariance
 (from `im_smul_eq_div_normSq` and the one-variable Jacobian at each place). Prove that each
 Siegel set has finite measure
-(`∫_{𝒞_t} N(y)^{-2} dy < ∞` by the substitution `y = s · u` with `N(u) = 1`, which turns it into
-`vol(𝒞_1 ∩ {N = 1}) ∫_t^∞ s^{n-2} ds/s^{n}`), hence that `Γ \ ℍ^Σ` has finite volume, and that a
+by using the norm coordinate r=N(y)>0 and y=r^(1/n)u with N(u)=1.
+On the norm-one cross-section use the measure dν induced by product logarithmic
+measure: ∏_w dy_w/y_w=(dr/r)dν(u). In logarithmic coordinates
+`u=(exp(v₁),…,exp(v_{n−1}),exp(−Σvᵢ))` this is `dν=dv₁⋯dv_{n−1}`.
+The unit fundamental cross-section has finite ν-volume by the unit lattice theorem,
+and N(y)⁻²dy=r⁻²dr dν(u), giving its ν-volume times ∫ₜ∞r⁻²dr=1/t
+for t>0. Hence `Γ \ ℍ^Σ` has finite volume, and a
 fundamental domain exists as a measurable set `𝔉_Γ` contained in the union of the Siegel sets.
 
 *Rests on:* 3.1; Mathlib `MeasureTheory` (Haar measure on `ℝ^Σ`, change of variables).
@@ -825,6 +892,10 @@ The measure API uses the projective quotient to remove ineffective scalars.
 - Translation x↦x+1 has Jacobian 1 and leaves dx dy/y² unchanged.
 - Dilation z↦2z has Jacobian 4 and y²↦4y², so the density ratio is 1.
 - On a rank-one cusp strip of width 1 and height y≥t>0, the volume is ∫ₜ∞y⁻²dy=1/t; t=0 would give infinite volume.
+- In degree two, y=(√r eᵛ,√r e⁻ᵛ) has absolute Jacobian 1 and N(y)=r,
+  so dy₁dy₂/N(y)²=r⁻²dr dv. With the radius s=√r instead, the Jacobian
+  is 2s and the density is 2s⁻³ds dv: at s=3 it is 2/27, not 1/9.
+  In norm coordinates the radial integral from t=2 is 1/2.
 
 ### 3.3 The Hecke bound
 
@@ -836,9 +907,21 @@ for units `ε` in non-parallel weight), tends to `0` at every cusp (2.6), and is
 compact positive superlevel set `⋃_κ 𝔖_κ ∩ {φ_f ≥ sup φ_f/2}`. For f=0 every
 point is a maximum; choose i and take C_f=0 in the coefficient bound, without
 asserting compactness of the zero superlevel set.
-Deduce the **Hecke bound** `|c(𝔪, f)| ≤ C_f · N𝔪^{k₀/2}` for cusp forms (2.1's coefficient
-integral at `y_w = 1/σ_w(μ)` gives `|a(μ)| ≤ C ∏_w σ_w(μ)^{k_w/2}`, and the factor `∏_w σ_w(μ)^{m_w}`
-of the normalized coefficient turns this into `C N(μ)^{k₀/2}`), For a general form of parallel weight k≥0, first prove
+Deduce the **Hecke bound**: for every cusp tuple f there exists C_f≥0 such
+that |c(𝔪,f)|≤C_f N𝔪^(k₀/2) for every nonzero integral ideal 𝔪.
+Bruinier, arXiv:math/0609763v1, Proposition 1.41(ii), pp. 21–22, gives the
+parallel-weight real-quadratic coefficient-integral argument; the general-degree,
+nonparallel adapter uses precisely §§2.1, 2.4, 2.6 and the reduction comparison
+§3.1. Explicitly, choose B_𝔟≥0 bounding the weighted height of f_𝔟. At y_w=1/σ_w(μ), every
+μ_w is positive, and the coefficient integral gives
+
+    |a_𝔟(μ)| ≤ B_𝔟 exp(2πn) ∏_w μ_w^(k_w/2),
+    |c(𝔪,f)| ≤ B_𝔟 exp(2πn) (N𝔟/|d_F|)^(k₀/2) N𝔪^(k₀/2).
+
+The exponent identity k_w/2+m_w=k₀/2 and Nμ=N𝔪 N𝔟/|d_F| prove the
+second line; take the maximum of its fixed prefactors over the finitely many
+components. The positive exponential comes from |e(−Tr(μ(x+iy)))|=exp(2πn).
+For a general form of parallel weight k≥0, first prove
 `|f(x+iy)| ≤ C_f (1+N(y)^(−k))` by reduction to finitely many cusp sectors, where the
 slashed forms are bounded. For each nonzero lower-left entry c of a reducing matrix,
 `N(|cz+d|) ≥ |N(c)|N(y)` and the nonzero c belong to fixed fractional lattices, so
@@ -848,7 +931,8 @@ in the estimate. The coefficient integral at y_w=1/μ_w then gives
 forms use the cuspidal bound. Section 4.3 supplies the sharper estimates in even weights.
 No boundedness of `|f|N(y)^k` is asserted on an unbounded Siegel set.
 
-*Rests on:* 2.6, 3.1, 0.4.
+*Rests on:* 2.1 (coefficient integral), 2.4 (ideal normalization), 2.6 (cusp decay),
+3.1 (finite cusp reduction), 0.4 (unitary slash comparison).
 
 
 The weighted-height API separates zero from positive superlevels.
@@ -861,6 +945,10 @@ The weighted-height API separates zero from positive superlevels.
 - For f=0 the zero superlevel contains y=(t,…,t) for all t≥1 and is unbounded; no compactness conclusion is made.
 - For f=0 and C_f=0 every coefficient inequality is 0≤0, and the maximum at i is 0.
 - If |f(z₀)|=1 and y_w=1 at z₀, then φ_f(z₀)=1 and sup φ_f≥1>0, so the threshold sup/2 is positive.
+- For weight (2,4), m=(1,0) and positive exponent coordinates (2,3),
+  the raw coefficient factor is 2¹3²=18 and the normalization factor is 2;
+  their product 36 equals (2·3)^(4/2). The Fourier-extraction exponential
+  at y=(1/2,1/3) is exp(4π), not exp(−4π).
 
 ### 3.4 The Petersson inner product
 
@@ -1075,7 +1163,8 @@ On `M_k(𝔫; R)` define `(T_𝔪 f)_c := f_{c[𝔪]⁻¹} ∣ [Δ_𝔫(rep(c[�
 `(S_𝔪 f)_c := f_{c[𝔪]⁻²} ∣ [Δ'_𝔫(rep(c[𝔪]⁻²) ← rep(c); 𝔪)]` with
 `Δ' := {α ∈ GL₂⁺(F) : α L_𝔟 = 𝔪 L_𝔠, α_{21} ∈ 𝔫𝔪𝔠}` (a single left coset).
 The central correspondence uses the same factor N𝔠/N𝔟 as §5.1, is separate from Δ,
-and has no upper-left unit condition at level primes. Prove: `T_𝔪` and `S_𝔪` are
+and has no upper-left unit condition at level primes. The unramified character
+space agrees with §2.7 by the inverse-scalar calculation in §6.3. Prove: `T_𝔪` and `S_𝔪` are
 `ℂ`-linear endomorphisms of `M_k(𝔫; R)` preserving `S_k(𝔫; R)`; they commute with the transport
 of 2.3; `S_𝔪 = N𝔪^{k₀ - 2} · id` when `𝔪 = (m)` with `m ≫ 0` (0.3); `S_𝔪 S_𝔪' = S_{𝔪𝔪'}`;
 and `⟨[𝔪]⟩ := N𝔪^{-(k₀ - 2)} S_𝔪` depends only on the narrow class of `𝔪` and defines an action of
@@ -1160,7 +1249,7 @@ is not principal and `c(𝔭, f) = ±√2 ≠ 0` for the level-one newform `2.2.
 `ψ = 1`. Deduce that
 `S_k(𝔫, ψ; R)` has an orthogonal basis of simultaneous eigenvectors of all `T_𝔪`, `𝔪 + 𝔫 = 𝒪_F`
 (finite dimensionality from 3.5), that the eigenvalues at such `𝔪` are real when `ψ = 1`, and
-that `|λ_𝔪| ≤ C N𝔪^{k₀/2}` for an eigenvector normalized by `c(𝒪_F, f) = 1` (3.3).
+that `|λ_𝔪| ≤ C N𝔪^(k₀/2)` for an eigenvector normalized by `c(𝒪_F, f) = 1` (3.3).
 
 *Rests on:* 3.4, 3.5, 5.3, 5.4.
 
@@ -1267,7 +1356,8 @@ R16.1, finite-level comparison, for the adelic carrier).
 - The formula is independent of the decomposition, left GL₂(F)-invariant and right
   K₀(𝔫)-invariant; for §2.7 use its specified character equivariance instead.
 - It has the prescribed rotation weights, is smooth and has moderate growth by §3.3.
-  Its right central character is recorded with the inverse finite convention of §6.3.
+  On the η-space its full right central law is
+  Ψ_f(gzI)=η(z)⁻¹|z|_𝔸^(k₀−2)Ψ_f(g), as in §2.7 and §6.3.
 - Evaluation on g_c g_∞, divided by N(rep(c)) and the nonzero slash factor, recovers f_c.
   With the antiholomorphic Cauchy–Riemann operator vanishing at every real place,
   this is an inverse between the indicated classical and adelic spaces.
@@ -1296,7 +1386,10 @@ if an inverse right-coset representative gives g_𝔟 h=α⁻¹g_𝔠 u, then
 Ψ_f(g_𝔟 h g_∞)=N𝔠(f_𝔠∣αg_∞)(i). Dividing by N𝔟 gives exactly
 §5.1's N𝔠/N𝔟 factor, including the single central coset of §5.2.
 The normalized central class action therefore corresponds to N𝔭^(−(k₀−2))
-times the inverse scalar operator.
+times the inverse scalar operator. On §2.7's η-space, the scalar law gives
+R((π_𝔭 I)⁻¹)=η(𝔭)q^(k₀−2); its norm-normalization is η(𝔭).
+When η is unramified at every finite place, this identifies exactly the
+ψ([𝔭])=η(𝔭) eigenspace of §5.2, including nontrivial class characters.
 
 Translate explicitly to the supplier's positive generators. At a good prime put q=N𝔭,
 A⁺=[K diag(π,1) K], Z⁺=[K πI K], A⁻=[K diag(π,1)⁻¹ K] and Z⁻=(Z⁺)⁻¹.
@@ -1460,7 +1553,12 @@ that `c(·, f)` is multiplicative: `c(𝔪𝔪', f) = c(𝔪, f) c(𝔪', f)` fo
 recurrence `c(𝔭^{r+1}, f) = c(𝔭, f) c(𝔭^r, f) - ψ([𝔭]) N𝔭^{k₀ - 1} c(𝔭^{r-1}, f)` for `𝔭 ∤ 𝔫`
 and `c(𝔭^r, f) = c(𝔭, f)^r` for `𝔭 ∣ 𝔫`. Prove the converse characterization: a nonzero
 `f ∈ S_k(𝔫, ψ; R)` with `c(𝒪_F, f) = 1` is an eigenform iff its coefficients satisfy
-multiplicativity and these recurrences (Diamond–Shurman Prop. 5.8.5 over `F`).
+multiplicativity and these recurrences. The Hilbert statement follows by comparing
+all normalized ideal coefficients using §§5.3–5.4 and cusp expansion injectivity
+§2.6; the coefficient at the unit ideal fixes each eigenvalue. The newform
+assertion also uses GL2AutomorphicRepresentationsAndTransfer R16.4.4's strong
+multiplicity one through §6.4. Diamond–Shurman Proposition 5.8.5 is the
+classical analogue over ℚ, not a source for a general-field theorem.
 
 *Rests on:* 5.3, 5.4, 6.4, 7.2.
 
@@ -1601,8 +1699,12 @@ The L-series API is stated using native norm-regrouped coefficients.
 ### 8.2 The completed `L`-function and its functional equation
 
 For a newform `f` of level `𝔫` define
-`Λ(f, s) := (N(𝔫) |d_F|²)^{s/2} ∏_w (2π)^{-(s - m_w)} Γ(s - m_w) · L(f, s)`. Prove, by the
-Hecke–Shimura method. With d×y=∏_w dy_w/y_w and a fundamental domain D for
+`Λ(f, s) := (N(𝔫) |d_F|²)^{s/2} ∏_w (2π)^{-(s - m_w)} Γ(s - m_w) · L(f, s)`.
+The gamma factors and arithmetic/unitary variable shift are those of
+Raghuram–Tanabe, §4.4.1, p. 34 and Theorem 4.16, p. 35; the full
+conductor-normalized equation is GL2AutomorphicRepresentationsAndTransfer
+R16.5.4, transported through §6.3 and §8.1 with t=s−(k₀−1)/2.
+A classical proof route is the Hecke–Shimura Mellin method. With d×y=∏_w dy_w/y_w and a fundamental domain D for
 `𝒪_{F,+}^×` acting on `(ℝ_{>0})^Σ`, put
 
     I_𝔟(f,s) = ∫_D f_𝔟(iy) ∏_w y_w^(s-m_w) d×y,
@@ -1625,7 +1727,9 @@ for `ψ = 1`, `f^ρ = f` and `ε(f) = i^{Σ_w k_w} ∏_{𝔮 ‖ 𝔫} ε_𝔮(f
 `ε(f) = (-1)^n ∏ ε_𝔮(f)`. For `F = ℚ` this is the Modular Forms roadmap's Layer 7 equation with
 `i^k`. Prove `|ε(f)| = 1`, and `ε(f) ∈ {±1}` when `ψ = 1`.
 
-*Rests on:* 2.6, 3.1, 5.6, 7.7, 8.1; Mathlib `mellin`, `Complex.Gamma`.
+*Rests on:* 2.6, 3.1, 5.6, 6.3, 7.7, 8.1;
+GL2AutomorphicRepresentationsAndTransfer R16.3.6 and R16.5.4 for the
+representation-theoretic route; Mathlib `mellin`, `Complex.Gamma` for the Mellin route.
 
 **Checks.**
 
@@ -1805,13 +1909,26 @@ values of `ξ`; equality is not asserted. At split `𝔭 = 𝔓𝔓̄`,
 *Rests on:* 7.2, 7.5, 9.2; Tau Ceti `HeckeCharacter.IsAlgebraic`, `AlgebraicInfinityType`;
 the cited supplier milestones.
 
-**Check on coefficient fields.** For the base change of y²=x³−x to ℚ(√5),
-the split norm-5 inducing values −1+2i and −1−2i sum to −2 and have product 5;
-the native infinity exponents are (−1,0) at the chosen CM embedding. The inverse
-character has exponents (1,0), sum −2/5 and product 1/5, so it fails the weight-two
-condition. The form has rational coefficients, whereas the individual values generate ℚ(i).
-At an inert prime the induced trace is 0 and determinant −ξ(𝔭𝒪_K), retaining
-`χ_{K/F}(𝔭)=−1` in the central-character formula (R17.4.16).
+The CM-coefficient API is:
+
+- The norm-fibre sums are the normalized ideal coefficients of θ_ξ; at a good
+  split prime they are ξ(𝔓)+ξ(𝔓̄), and at a good inert prime the coefficient is 0.
+- The conductor, weight and central character are those displayed above, and
+  twisting by the quadratic character of K/F fixes θ_ξ, by the induced local parameter.
+- The coefficient field is generated by the norm-fibre sums and is contained
+  in the field of the inducing values; equality with the latter is not required.
+
+**Checks.**
+
+- For the base change of y²=x³−x to ℚ(√5), the split norm-5 inducing values
+  −1+2i and −1−2i sum to −2 and have product 5. The native infinity exponents
+  are (−1,0). The form has rational coefficients while these values generate ℚ(i).
+- The inverse character has exponents (1,0), whose sum 1 differs from 1−2=−1.
+  Its values sum to −2/5 and have product 1/5, so it fails the weight-two condition.
+- At an unramified inert prime, the matrix (0,ξ(𝔭𝒪_K);1,0) has trace 0 and
+  determinant −ξ(𝔭𝒪_K), agreeing with `χ_{K/F}(𝔭)=−1`. For ξ(𝔭𝒪_K)=−9
+  this gives trace 0 and determinant 9, whereas omitting χ gives −9
+  (GL2AutomorphicRepresentationsAndTransfer R17.4.16).
 
 ### 9.4 The base-change relation
 
@@ -1820,8 +1937,9 @@ newform `g` over `K`, define IsBaseChangeOf g f by the pinned convention:
 `L_𝔮(g, T) = L_𝔭^{(r)}(f, T)` for all but finitely many primes `𝔮` of `K`, where `𝔮 ∣ 𝔭`,
 `r = f(𝔮/𝔭) ≥ 1`. For an Euler polynomial h with h(0)=1, write
 h(T)=∏ᵢ(1−αᵢT) with nonzero αᵢ and define h⁽ʳ⁾(T)=∏ᵢ(1−αᵢʳT).
-This preserves degree and root multiplicities and fixes h⁽ʳ⁾(0)=1; the roots in T
-are raised to their r-th powers. It is independent of the ordering of the αᵢ,
+For r≥1 this preserves degree and fixes h⁽ʳ⁾(0)=1. Its multiset of roots in T
+is the pushforward of the root multiset of h under λ↦λʳ: the multiplicity
+at β is `Σ_{λʳ=β} mult_h(λ)`. Distinct roots may therefore merge. It is independent of the ordering of the αᵢ,
 commutes with coefficient embeddings, and composes by (h⁽ʳ⁾)⁽ˢ⁾=h⁽ʳˢ⁾.
 For h(T)=det(1−AT) with A invertible this is det(1−AʳT), the supplier's
 R17.4.1 unramified restriction rule. Prove the Satake
@@ -1843,6 +1961,9 @@ R17.4.1 (the Satake rule, for the shape of `p_r`).
 **Checks.**
 
 - For h=1−3T+2T², h⁽²⁾=1−5T+4T²; the polynomial T²−5T/4+1/4 has the same roots but constant 1/4 and is rejected.
+- For h=1−T² and r=2, roots 1 and −1 both map to 1, so h⁽²⁾=(1−T)².
+  The multiplicity at 1 is 1+1=2, the degree remains 2 and h⁽²⁾(0)=1;
+  A=diag(1,−1) gives the same result from A²=I.
 - For h=1 the empty product gives h⁽ʳ⁾=1. For r=1 the result is h.
 - For `h = 1 - sT + eT²` with e≠0, `h^{(2)} = 1 - (s² - 2e)T + e²T²`.
 - `2.2.29.1-1.1-a` is a base change of `g ∈ S_2(Γ₀(29), χ_29)`: at the inert prime `(2)`,
@@ -2292,6 +2413,18 @@ Automorphic bundles. Layers 8, 9, 10 are independent of one another after Layer 
 
 ## References
 
+- J. H. Bruinier, *Hilbert modular forms and their applications*,
+  arXiv:math/0609763v1, Proposition 1.25, p. 12 and Proposition 1.41,
+  pp. 21–22. The latter is the parallel-weight, real-quadratic prototype;
+  §3.3 supplies the explicit nonparallel, general-degree adapter.
+- E. Assaf et al., *A database of basic numerical invariants of Hilbert modular
+  surfaces*, arXiv:2301.10302v2, §3.1, Lemma 3.1.8 and Corollaries 3.1.18,
+  3.1.23, pp. 5–8. These locators use the preprint numbering and pagination.
+- A. Raghuram and N. Tanabe, *Notes on the arithmetic of Hilbert modular forms*,
+  author version dated June 20, 2011, §§4.1.1–4.1.5, pp. 26–29;
+  §4.4.1 and Theorem 4.16, pp. 34–35.
+  [Author copy](https://tildesites.bowdoin.edu/~ntanabe/hilbert_arithmetic.pdf).
+
 - N. Freitas, B. V. Le Hung and S. Siksek, *Elliptic curves over real quadratic fields are modular*, arXiv:1310.7088v4, Theorem 1, p.2.
 
 - E. Freitag, *Hilbert Modular Forms*, Springer, 1990. Chapter I: the Hilbert modular group,
@@ -2311,8 +2444,8 @@ Automorphic bundles. Layers 8, 9, 10 are independent of one another after Layer 
   the functional equation. [DOI](https://doi.org/10.1215/S0012-7094-78-04529-5).
 - G. Shimura, *Introduction to the Arithmetic Theory of Automorphic Functions*, Princeton,
   1971, Chapter 3 (Theorem 3.24 for the Hecke relations, §3.3 for `Γ₀`-type pairs).
-- L. Dembélé and J. Voight, "Explicit methods for Hilbert modular forms", in *Elliptic Curves,
-  Hilbert Modular Forms and Galois Deformations*, Birkhäuser, 2013, [arXiv:1010.5727](https://arxiv.org/abs/1010.5727).
+- L. Dembélé and J. Voight, "Explicit methods for Hilbert modular forms", [arXiv:1010.5727v2](https://arxiv.org/abs/1010.5727v2).
+  The locators here refer to this version of the preprint.
   §2 (Definition 2.1, (2.4)–(2.7): the parallel-weight-`2` definitions, the Fourier expansion
   over `(𝔡⁻¹)_+`, `T_𝔭` in the arithmetic normalization), §3 (Theorem 3.9,
   Eichler–Shimizu–Jacquet–Langlands), §6 (Examples 6.3, 6.4, 6.6, 6.7 used above), §7 (the
