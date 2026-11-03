@@ -1,15 +1,59 @@
 # Operator-algebra dynamics, crossed products, and equilibrium
 
-Develop continuous actions on C*-algebras and their full and reduced crossed
+**Summary.** Develop continuous actions on C*-algebras and their full and reduced crossed
 products, induction and imprimitivity, Takai duality, Hausdorff groupoid
 C*-algebras, and equilibrium states of quantum systems. Build the analytic
 constructions and representation theory that connect these subjects: integrated
 forms, Hilbert-module completions, disintegration, modular characterization of
 KMS states, and the thermodynamic limit of quantum spin systems.
 
-## Scope, conventions, and dependencies
+## Scope and ownership
 
-D8 is the single owner of the CCR/CAR and Weyl algebraic relations, their regular representations and their basic field operators. QuantumFoundations QF4 owns the generic Fock/second-quantization API and proves the normalization adapter `Φ_D8(h)=(a(h)+a†(h))/√2` on its specified invariant domain; RQFT consumes D8's Weyl representation and QF4's Fock adapter explicitly.
+This roadmap owns continuous actions of locally compact Hausdorff groups on
+C*-algebras and their full and reduced crossed products, including the
+central twisted products of D1.CentralTwists and D2.CentralTwists and the
+scalar Borel fibers of D1.BorelPrefix and D1.TwistedBorel; induction and
+imprimitivity (D3) with the locally compact abelian Weyl dictionary of
+D3.LCAWeyl; Takai duality (D4); Haar groupoids, their convolution algebras,
+disintegration and equivalence (D5–D6), with the concrete orbit, sequence,
+saddle-flow and residue-class models of D2 and D6; KMS states and their
+modular characterization (D7); CAR and Weyl algebras with their free
+equilibrium states (D8); and quantum spin systems with the thermodynamic
+limit (D9).
+
+It leaves to named roadmaps:
+
+- The unitary Stone–von Neumann theorem for the real Heisenberg group and
+  its Hilbert multiplicity form: MetaplecticAutomorphicForms §1.2.
+  D3.LCAWeyl is its generalization to every locally compact abelian G
+  through `C₀(G)⋊G≅K(L²G)`; the real case `G=ℝⁿ` is imported from there and
+  compared, not proved again.
+- The decomposition of `C*(E_ω)` into all central weights and its type-I
+  consequences: NoncompactQuantumSymmetry M2, which consumes the fiber
+  identifications of D1.TwistedBorel. NoncompactQuantumSymmetry
+  M1.ProjectiveExtensions supplies Borel reconstruction independently of
+  induction and type-I theory.
+- Pimsner–Voiculescu and Connes–Thom sequences and the free-basis K-group
+  calculation: OperatorKTheory K7. The dimension-group classification of AF
+  algebras and the translation-lifting construction: CStarClassification
+  CL5. The concrete Toeplitz algebra on `ℓ²(ℕ)`: CStarAlgebras C8.
+- The independent full/reduced norm obstruction for F₂: FreeProbability F3;
+  it is not a prerequisite for the Powers argument of D2.FreeGroups.
+- Discrete von Neumann crossed products, the regular–normal bridge, modular
+  theory and the harmonic-analysis layer: VonNeumannAlgebras V8, V10 and
+  V11, consumed as stated in the supplier contracts below.
+- The generic Fock/second-quantization API and the normalization adapter
+  `Φ_D8(h)=(a(h)+a†(h))/√2` on its invariant domain: QuantumFoundations QF4.
+  D8 is the single owner of the CCR/CAR and Weyl algebraic relations, their
+  regular representations and their basic field operators;
+  RelativisticQuantumFieldTheory consumes D8's Weyl representation and QF4's
+  Fock adapter.
+
+General non-Hausdorff groupoids, groupoid primitive-ideal classification and
+interacting continuum gases are outside this roadmap. Neither K-theory nor
+C*-classification is a prerequisite here.
+
+## Conventions
 
 C*-algebras are complex and may be nonunital. Groups in D1–D4 are arbitrary
 locally compact Hausdorff groups; separability and second countability are not
@@ -25,8 +69,8 @@ continuous when every orbit in its Hilbert space is continuous. Mathlib's
 continuity in the group variable. Use Tau Ceti's
 `ContRepresentation.IsUnitary` and state strong continuity separately.
 Hilbert-space and right Hilbert-module inner products are linear in the second
-variable. Use [HilbertModules](../HilbertModules/README.md)'s opposite-algebra
-implementation for right modules.
+variable. Use HilbertModules H1's opposite-algebra implementation for right
+modules.
 
 Fix left Haar measure μ. Write `c(g)=Measure.modularCharacter g` in the
 convention `∫ f(xg) dμ(x)=c(g)∫ f(x) dμ(x)`. Thus Williams's modular function
@@ -35,31 +79,33 @@ Haar measures and modular functions. Fourier transforms and dual actions use
 positive characters: `f̂(χ)=∫ f(g)χ(g) dμ(g)` and
 `α̂χ(f)(g)=χ(g)f(g)`.
 
-- [BanachAlgebras A7](../BanachAlgebras/README.md) supplies L¹ convolution,
+## Exact supplier contracts
+
+- BanachAlgebras A7 supplies L¹ convolution,
   vector integration, Haar modular identities, and the support and Fubini
   arguments needed without global σ-finiteness. Its amenability dependency
-  is the [AmenableGroups roadmap](../AmenableGroups/README.md).
-- [CStarAlgebras C1–C2](../CStarAlgebras/README.md) supplies representations,
+  is the AmenableGroups roadmap.
+- CStarAlgebras C1–C2 supplies representations,
   approximate units, multipliers, ideals and quotients; C5 supplies tensor
   products and analytic inductive limits; C6 supplies nuclearity and CP
-  approximation, and C7 supplies exactness. [HilbertModules H1–H4](../HilbertModules/README.md) supplies
+  approximation, and C7 supplies exactness. HilbertModules H1–H4 supplies
   adjointable operators, interior tensor products, induction, Morita
   equivalence, and linking algebras.
-- [VonNeumannAlgebras V0–V4](../VonNeumannAlgebras/README.md) supplies states,
+- VonNeumannAlgebras V0–V4 supplies states,
   GNS, operator topologies and normal representations. D5 consumes
-  [VonNeumannAlgebras V4.0.Fields](../VonNeumannAlgebras/README.md) for independent measurable Hilbert/operator fields,
-  [SelfAdjointSpectralTheory SA-B85](../OperatorTheory/SelfAdjointSpectralTheory/README.md) for the unit-space diagonal C₀ theorem, then
-  [VonNeumannAlgebras V4.0.Decomposition](../VonNeumannAlgebras/README.md)
+  VonNeumannAlgebras V4.0.Fields for independent measurable Hilbert/operator fields,
+  SelfAdjointSpectralTheory SA-B85 for the unit-space diagonal C₀ theorem, then
+  VonNeumannAlgebras V4.0.Decomposition
   (its separable commuting-representation reduction) for reduction over that given diagonal.
   V8 owns discrete von Neumann crossed products and the arbitrary-LCH
-  [VonNeumannAlgebras V8.LCHRegularNormalBridge](../VonNeumannAlgebras/README.md).
+  VonNeumannAlgebras V8.LCHRegularNormalBridge.
   D2 consumes this bridge for the comparison with regular weak closures.
   V10–V11 owns modular theory and the later second-countable normal
   crossed-product weight/duality development. D4 uses V11's harmonic-analysis layer:
   dual Haar normalization, Plancherel and Pontryagin biduality for locally
   compact abelian groups, independently of the normal crossed-product theorem.
-- [OperatorTheory/SelfAdjointSpectralTheory](../OperatorTheory/SelfAdjointSpectralTheory/README.md)
-  and [OneParameterSemigroups](../OneParameterSemigroups/README.md) supply
+- OperatorTheory/SelfAdjointSpectralTheory
+  and OneParameterSemigroups supply
   self-adjoint generators, their spectral calculus, Part B's PVM carrier,
   integration and representation-PVM API, and strongly continuous
   one-parameter groups. Use their `LinearPMap` domains and graph closures.
@@ -68,7 +114,7 @@ positive characters: `f̂(χ)=∫ f(g)χ(g) dμ(g)` and
   compact Hausdorff. Its order is V4.0.Fields → SA-B85 →
   V4.0.Decomposition → D5; D5 is not a prerequisite for those suppliers.
 - Use the topological groupoid vocabulary shared with
-  [LieGroupoidsPoisson G0](../LieGroupoidsPoisson/README.md):
+  LieGroupoidsPoisson G0:
   `CategoryTheory.Groupoid`, topology on the total `Arrow`, and continuous
   composition on composable arrows. Write `gh` for first h, then g
   (`h ≫ g` in category notation). G0 owns the total-arrow and composable-arrow topologies and continuous
@@ -76,13 +122,18 @@ positive characters: `f̂(χ)=∫ f(g)χ(g) dμ(g)` and
   integration and representation interfaces; smooth structures are not
   prerequisites.
 
+## How to read the build
+
 D1–D4 form the group-action development; D5–D6 use D1's integration tools and
 the module foundations, and compare transformation groupoids with D1–D2.
 D7–D9 form the equilibrium development. Operator K-theory consumes crossed
-products and duality; it owns Pimsner–Voiculescu and Connes–Thom sequences.
-Neither K-theory nor C*-classification is a prerequisite here. General
-non-Hausdorff groupoids, groupoid primitive-ideal classification, and
-interacting continuum gases are outside this roadmap.
+products and duality. The dependency order of the twisted sections is
+C1/A7/H1–H3 → D1.CentralTwists → D2.CentralTwists, and A7/C1 →
+D1.BorelPrefix → D1.TwistedBorel; D5's order is V4.0.Fields → SA-B85 →
+V4.0.Decomposition → D5. `Suggested.lean` states the headline theorems that
+are statable against the pinned libraries, each named in backticks at its
+target below; its module docstring names the headline theorems that are not
+statable and the carrier each lacks.
 
 ## D1. Covariant representations and full crossed products
 
@@ -107,10 +158,19 @@ and construct approximate units compatible with those of A. Include zero
 algebras, nonunital coefficients, restriction of compact supports, and the
 scalar trivial-action comparison with A7.
 
-A covariant pair `(π,U)` satisfies `U_s π(a)=π(α_s(a)) U_s`. Construct its
+A covariant pair `(π,U)` satisfies `U_s π(a)=π(α_s(a)) U_s`
+(`IsCovariant`). Construct its
 integrated form by the vector formula
 `(π⋊U)(f)ξ=∫ π(f(s))U_s ξ dμ(s)`. Establish integrability, boundedness by
-`‖f‖₁`, multiplicativity and preservation of star. Strong continuity alone
+`‖f‖₁` (`exists_integratedOperator`, for every integrable f and every
+inner-regular μ: local compactness and inner regularity make the integrand
+strongly measurable on the σ-finite support of f, since a continuous orbit
+has separable range on each compact set), multiplicativity
+(`integrated_convolution`: for left Haar μ and compactly supported continuous
+f,g, `(π⋊U)(f*g)=(π⋊U)(f)(π⋊U)(g)` with `*` the displayed `convolution`;
+this identity uses covariance, the group law and strong continuity of U, not
+unitarity) and preservation of star (Williams, Proposition 2.23, p. 49).
+Strong continuity alone
 does not give norm continuity into B(H); the vector integral is the defining
 construction. Extend Tau Ceti's existing scalar integrated-representation
 API to these coefficient-valued integrands. Reuse
@@ -152,6 +212,30 @@ Identify C5's universal algebra on countably many unitaries with the
 full C*-algebra of the free group on ℕ, matching each generator and
 proving both universal properties induce inverse maps.
 
+**Checks.**
+
+- For G trivial and μ the point mass, `f*g=f(e)g(e)` and `f*=f(e)*`, and
+  the integrated form is `π(f(e))`. The direction of the action in the
+  convolution is pinned by G=ℤ/3 acting on `A=ℂ³` by the cyclic shift
+  `α_1(e_j)=e_(j+1)` with counting measure: for `f=δ_1⊗e_0` and
+  `g=δ_1⊗e_2`, the displayed formula gives `(f*g)(2)=e_0·α_1(e_2)=e_0`,
+  while the inverse convention `α_(r⁻¹)(g(r⁻¹s))` gives `e_0·α_(−1)(e_2)=e_0·e_1=0`;
+  the composite `π(e_0)U_1π(e_2)U_1=π(e_0α_1(e_2))U_2=π(e_0)U_2` is nonzero
+  for a faithful π, so only the displayed convention makes
+  `(π⋊U)(f*g)=(π⋊U)(f)(π⋊U)(g)`.
+- For A=ℂ, trivial action, and U the regular representation of G on
+  `L²(G)`, the integrated form is left convolution `λ(f)`, and
+  `‖λ(f)‖≤‖f‖₁` is sharp for `f≥0` on an abelian G.
+- Counting measure on ℤ with the trivial action: `(f*g)(n)=Σ_k f(k)g(n−k)`
+  and `f*(n)=overline(f(−n))`, the unimodular case `c=1`; for the `ax+b`
+  group the factor `c(s)` in `f*` is not 1, and omitting it breaks
+  `‖f*‖₁=‖f‖₁`.
+
+*Needs:* BanachAlgebras A7 (vector integration, Haar modular identities,
+localized Fubini); CStarAlgebras C1 (approximate units, multipliers, strict
+topology); Tau Ceti `ContRepresentation` and `ContRepresentation.IsUnitary`;
+Mathlib `MeasureTheory.Measure.modularCharacter`.
+
 ### D1.CentralTwists. Continuous central multiplier cocycles
 
 For every D1 action α on a possibly nonunital complex C*-algebra A, use
@@ -163,7 +247,7 @@ unitaries, and joint strict continuity on bounded multiplier sets. The
 strict topology here is C1's topology, not the norm topology of
 `DoubleCentralizer`.
 
-A normalized continuous central α-cocycle is a map
+A normalized continuous central α-cocycle (`CentralCocycle`) is a map
 `ω:G×G→U(Z(M(A)))` satisfying
 
 ```
@@ -206,8 +290,8 @@ is used on the coefficients being approximated, without a uniform strict
 bound over all of A's unit ball. Prove convergence first on C_c and then
 on L¹. These arguments include nonunital and zero coefficients.
 
-A twisted covariant pair consists of a nondegenerate representation π of
-A and a strongly continuous map `U:G→U(H)` with
+A twisted covariant pair (`CentralCovariantPair`) consists of a nondegenerate
+representation π of A and a strongly continuous map `U:G→U(H)` with
 
 ```
 U_e=1,
@@ -218,8 +302,8 @@ U_s U_t=π̃(ω(s,t)) U_(st).
 Here π̃ is C1's multiplier extension; U is not a genuine representation
 unless the represented cocycle is trivial. Construct the integrated form
 by the vector integral `T_fξ=∫π(f(s))U_sξ dμ(s)` and prove
-`‖T_f‖≤‖f‖₁`, multiplicativity and star preservation with the displayed
-modular factor. Establish the compact-support proof and L¹ extension in
+`‖T_f‖≤‖f‖₁` (`exists_centralIntegratedOperator`), multiplicativity and
+star preservation with the displayed modular factor. Establish the compact-support proof and L¹ extension in
 D1's arbitrary-LCH scope; do not substitute an operator-norm Bochner
 integral. Give the intertwiner, unitary equivalence, direct sum,
 nondegeneracy and irreducibility comparisons and inverse recovery of the
@@ -316,6 +400,36 @@ comparison. In this bicharacter case prove
 `overline(ω(x,−x))`. These identities fix the phase conventions consumed
 by Heisenberg-module constructions.
 
+**Checks.**
+
+- The trivial cocycle `ω=1` on any system satisfies every law, and
+  `L¹(G,A,α,1)` is D1's untwisted algebra with the same formulas.
+- For G=ℤ/2 with generator a and A=ℂ, `ω(a,a)=−1` (all other values 1) is a
+  normalized cocycle: the identity `α̃_r(ω(s,t))ω(r,st)=ω(r,s)ω(rs,t)` at
+  `r=s=t=a` reads `ω(a,a)ω(a,e)=ω(a,a)ω(e,a)`, both sides `−1`. Its twisted
+  algebra is `ℂ[ℤ/2,ω]≃ℂ`-span of `1,u` with `u²=−1`, which is `ℂ⊕ℂ` with
+  `u↦(i,−i)`, while the untwisted algebra has `u²=1`; the cochain `b(a)=i`
+  trivializes ω, and `T_b` sends `δ_a` to `iδ_a`, matching the direction
+  ω^b → ω.
+- For A=0 every value is the unit of `M(0)=0`, both continuity conditions
+  hold, and all constructions return the zero algebra.
+- A noncentral Busby–Smith pair with `α_sα_t=Ad(ω(s,t))α_(st)` and ω not
+  central, for example the inner action of a nonabelian finite group on
+  `M_n(ℂ)` with its Schur multiplier, does not satisfy the `central` law
+  and is excluded; the cocycle law alone does not exclude it.
+- In the bicharacter case `G=M×M̂`, for `M=ℤ/2` the values are `±1` and
+  `ω(x,x)=ψ(m)` for `x=(m,ψ)`; the star formula `f*(x)=overline(f(−x))ω(x,x)`
+  agrees with `c(x)ω(x,x⁻¹)*α_x(f(x⁻¹)*)` because `ω(x,−x)=ω(x,x)⁻¹=ω(x,x)`
+  there, and differs from the adjoint phase `overline(ω(x,−x))` only by the
+  stated inverse.
+
+*Needs:* D1 (integrated forms, regular representation, universal norm);
+CStarAlgebras C1 (multiplier algebra, strict topology, approximate units);
+BanachAlgebras A7 (Haar integration, modular character, localized Fubini);
+HilbertModules H1–H3 (adjointable operators, interior tensor products);
+Tau Ceti `twistedMonoidAlgebra` and `TwistedMonoidAlgebra.equivOfCoboundary`
+for the discrete scalar comparison; Mathlib `DoubleCentralizer` and `unitary`.
+
 ### D1.BorelPrefix. Polish unitary groups, automatic continuity and Borel circle extensions
 
 This prefix is the bridge from measurable to continuous representation
@@ -401,6 +515,27 @@ product. Separability of H and second countability of G make `U(H)_s` and
 `E_ω` Polish; the Borel hypothesis on ω makes `E_ω` a Borel group. No
 statement here uses the projective quotient `U(H)_s/𝕋`.
 
+**Checks.**
+
+- For H=0 the group `U(H)_s` is trivial; for dim H=1 it is 𝕋 with its usual
+  topology, and the metric `Σ_k 2^(−k)(‖(U−V)h_k‖+‖(U*−V*)h_k‖)` on 𝕋 is
+  `2|z−w|Σ_k 2^(−k)|h_k|`, a constant multiple of `|z−w|`.
+- For G=ℤ/2, `ω(a,a)=−1`: `(1,a)` has order 4 in `E_ω`, `ψ_b(1,a)=(i,a)`
+  squares to `(1,e)`, and `E_ω≃𝕋×ℤ/2` although the coordinate section is
+  not a homomorphism; for ω=1, `E_ω=𝕋×G` with the product topology.
+- A ℚ-linear map ℝ→ℝ built from a Hamel basis that is not ℝ-linear is a
+  discontinuous homomorphism, hence not Borel: measurability cannot be
+  dropped from the automatic-continuity theorem.
+- The twisted regular family on `L²(ℤ/2)` for `ω(a,a)=−1` has
+  `λ^ω_aλ^ω_a=−1`, while the untwisted regular representation has
+  `λ_a²=1`; a definition that forgets the factor `ω(s,s⁻¹x)` cannot
+  distinguish the two.
+
+*Needs:* Mathlib `ContinuousLinearMap.toPointwiseConvergenceCLM`,
+`div_mem_nhds_one_of_haar_pos`, `MonoidHom.isOpenMap_of_sigmaCompact`;
+BanachAlgebras A7 (Haar integration and Fubini); CStarAlgebras C1 (the
+unitary carrier); Williams, Appendix D as cited at each claim.
+
 ### D1.TwistedBorel. Scalar Borel fibers of circle extensions
 
 For normalized scalar Borel ω on a second-countable locally compact
@@ -443,7 +578,7 @@ continuous scalar ω identify this construction with D1.CentralTwists and
 D2.CentralTwists. For each integer k the same result for ω^k identifies
 `J_k(E_ω)≃C*(G,ω^k)` using `p_k=∫overline(z^k)i_E(z,e)dz`.
 The decomposition into all weights and its type-I consequences remain
-NQS M2's targets, with these fiber identifications as inputs.
+NoncompactQuantumSymmetry M2's targets, with these fiber identifications as inputs.
 
 A pointwise choice of lifts of a ray action supplies neither Borel
 measurability nor continuity. Apply the Borel theorem only to lifts
@@ -452,6 +587,22 @@ continuity hypotheses have been established. These distinct regularity
 hypotheses are part of the input, including for central M(A)-valued
 cocycles: no claim here assigns a topological completion to an arbitrary
 unqualified set-theoretic central cocycle.
+
+**Checks.**
+
+- For ω=1, `p_1` is the projection onto the weight-one summand of
+  `C*(𝕋×G)=c₀(ℤ)⊗C*(G)`, and `C*(G,1)=C*(G)`.
+- For G=ℤ/2 with `ω(a,a)=−1`, `C*(G,ω)=ℂ⊕ℂ` (the span of `1,u`, `u²=−1`),
+  and `p_1C*(E_ω)` is the weight-one summand of `C*(E_ω)=⊕_k J_k`; the
+  weight `k=2` fiber is `C*(G,ω²)=C*(G,1)=ℂ⊕ℂ` with `u²=1`.
+- For a continuous ω the fiber `p_1C*(E_ω)` agrees with D1.CentralTwists'
+  `ℂ⋊_(id,ω)G`; a construction using the `z` rather than `overline(z)` weight
+  would produce `C*(G,ω⁻¹)` instead.
+
+*Needs:* D1.BorelPrefix (Mackey topology, coefficient comparison,
+automatic continuity, strong-Borel correspondence); D1 (full completion,
+approximate units, pair recovery); BanachAlgebras A7 (lcsc scalar Fubini);
+CStarAlgebras C1 (multipliers of `C*(E_ω)`).
 
 ## D2. Regular representations, reduced products, and amenability
 
@@ -472,7 +623,7 @@ of the regular C*-representation agrees with the V8 or V11 von Neumann
 crossed product under the following hypotheses: ρ is nondegenerate,
 M=ρ(A)'', and there is a σ-weakly continuous normal action αbar on M
 with `αbar_s(ρ(a))=ρ(α_s(a))`. Consume the arbitrary-LCH
-[VonNeumannAlgebras V8.LCHRegularNormalBridge](../VonNeumannAlgebras/README.md)
+VonNeumannAlgebras V8.LCHRegularNormalBridge
 and its pointwise strong-star/ultraweak continuity equivalence, predual
 normality and regular-realization comparison. Identify the coefficient and
 group maps under this isomorphism, including the zero representation case.
@@ -518,7 +669,7 @@ identification and generator formulas for G=ℤ, used by
 CStarClassification CL5's translation and lifting construction.
 For compact G
 also identify the regular decomposition through Peter–Weyl, reusing
-[RepresentationTheory/CompactGroups](../RepresentationTheory/CompactGroups/README.md).
+RepresentationTheory/CompactGroups.
 
 ### D2.OrbitRepresentations. Discrete orbits and irrational rotations
 
@@ -540,8 +691,11 @@ For a bounded operator T commuting with π_p(C₀(X)), its matrix coefficients
 between δ_x and δ_y satisfy `(f(x)−f(y))T_xy=0`. Separation of distinct
 points by C₀(X) makes every off-diagonal coefficient zero; the native ℓ² basis
 then gives `Tξ(x)=d(x)ξ(x)`, with `sup_x|d(x)|≤‖T‖`. Commutation with U
-makes d constant on O, so the common commutant is ℂI. Apply D1's integrated
-intertwiner dictionary and CStarAlgebras C2's nonzero Schur criterion.
+makes d constant on O, so the common commutant is ℂI
+(`transitive_commutant_scalar`, stated on the Hilbert sum of any transitive
+G-set with a point-separating family of diagonal operators). Apply D1's
+integrated intertwiner dictionary and CStarAlgebras C2's nonzero Schur
+criterion.
 No discrete-subspace hypothesis on O or countability of G or O is required.
 Prove Π_p and Π_q are unitarily equivalent exactly when p,q lie in the same
 orbit. For different orbits, use the same point-separation argument to show
@@ -570,11 +724,32 @@ convention. Prove all these representations are faithful and irreducible,
 while the representations at x,y are unitarily equivalent iff
 `x−y∈θℤ+ℤ` for real lifts. Their common primitive kernel is0, even when the
 representations are inequivalent. Prove the orbit quotient is indiscrete by
-density of every orbit. This supplies Rieffel main pp47–48's concrete example;
-it does not identify the orbit quotient with the primitive ideal space.
-[OrbitRepresentationTargets.lean](OrbitRepresentationTargets.lean) records
-the point-separating diagonal-commutant adapter, transitive scalar conclusion
-and rotation phase on native ℓ² and bounded-operator carriers.
+density of every orbit. The orbit quotient is not identified with the
+primitive ideal space.
+
+**Checks.**
+
+- For G=ℤ/2 swapping the two points of X={p,q}, `H_p=ℂ²`, `π_p(f)=diag(f(p),f(q))`
+  and U_a the swap; the commutant of both is the scalars, the representation
+  is faithful because O=X, and the representations at p and q are unitarily
+  equivalent (same orbit).
+- For θ∉ℚ and x∈X, `(uvξ)(n)=exp(2πi(x−(n−1)θ))ξ(n−1)` and
+  `(vuξ)(n)=exp(2πi(x−nθ))ξ(n−1)`, so `uv=exp(2πiθ)vu`; the positive
+  rotation n·x=x+nθ gives `uv=exp(−2πiθ)vu`, the parameter −θ.
+- For x,y with `x−y∉θℤ+ℤ`, the eigenvalue sets of `π_x(z)` and `π_y(z)`,
+  z the coordinate function, are the disjoint dense sets
+  `{exp(2πi(x−nθ))}` and `{exp(2πi(y−nθ))}`, so no nonzero intertwiner
+  exists; both kernels are 0.
+- For a fixed point p and G=F₂, `H_p=ℂ`, U is the trivial character, and
+  `Π_p` restricted to the group is the trivial representation of `C*(F₂)`,
+  which does not factor through `C*_r(F₂)` (D2.FreeGroups); a claim that
+  every orbit representation factors through the reduced crossed product
+  fails here.
+
+*Needs:* D1 (integrated forms, intertwiner dictionary); D2 (regular
+representation, coefficient expectation, reduced crossed product);
+CStarAlgebras C2 (Schur criterion, irreducible representations); Mathlib
+`lp`, `AddCircle`, `MulAction.IsPretransitive`.
 
 ### D2.CentralTwists. Reduced central twisted products
 
@@ -638,6 +813,31 @@ D1.TwistedBorel; the all-weight decomposition and type-I applications are
 consumers of these two sections. It has no edge from those applications
 or from V11 crossed-product duality back into D1.
 
+**Checks.**
+
+- At ω=1 every formula of this section is D2's: the regular module, the
+  expectation `E(Σa_su_s)=a_e` and the generator relation `u_su_t=u_(st)`.
+- For G=ℤ/2, A=ℂ and `ω(a,a)=−1`: the finite group is amenable, so
+  `ℂ⋊_(id,ω)ℤ/2=ℂ⋊_(id,ω),rℤ/2`, the algebra spanned by `1,u_a` with
+  `u_a²=ĩ_A(ω(a,a))=−1`; the relation `u_a*=ĩ_A(ω(a,a)*)u_a=−u_a` makes
+  `u_au_a*=−u_a²=1`, and `E(x+yu_a)=x`. A definition with `u_s*=u_(s⁻¹)`
+  would give `u_a*=u_a`, which is not unitary here.
+- For a nonamenable G, for example F₂ with ω=1, q is not injective: the
+  trivial character of `C*(F₂)` does not factor through the reduced
+  algebra (D2.FreeGroups), so middle exactness is asserted only under
+  amenability.
+- For α trivial, ω scalar and D nonunital, `(A⋊_(id,ω),rG)⊗min D` and
+  `(A⊗min D)⋊_(id,ω⊗1),rG` agree on the generators `(a u_s)⊗d` and
+  `(a⊗d)u_s`; the induced cocycle `ω⊗1` has values in `M(A⊗D)`, not in
+  `A⊗D`.
+
+*Needs:* D1.CentralTwists (twisted L¹, full completion, multiplier maps,
+cochain transport); D2 (regular module, expectation, P₁/P₂ approximation,
+tensor identification); HilbertModules H1–H3 (adjointable operators,
+interior tensor products); CStarAlgebras C5–C7 (tensor products,
+nuclearity, exactness); VonNeumannAlgebras V8.LCHRegularNormalBridge for
+the untwisted comparison only.
+
 ### D2.FreeGroups. Powers averaging, simplicity and the canonical trace
 
 For a discrete group Γ use D1–D2's full and reduced group C*-completions,
@@ -645,13 +845,16 @@ counting Haar measure, and `λ(g)δ_h=δ_(gh)` on `ℓ²(Γ,ℂ)`. The finite-su
 group algebra is `MonoidAlgebra ℂ Γ`. Prove that D2's coefficient expectation
 specializes to the faithful tracial state `τ(x)=⟨δ_1,xδ_1⟩`, with
 `τ(Σ_g c_g λ(g))=c_1`. Define the Powers property by the following exact
-partition condition: for every finite `F⊆Γ∖{1}` and every integer `N≥1`
+partition condition (de la Harpe, Definition 9, p. 7): for every finite `F⊆Γ∖{1}` and every integer `N≥1`
 there are `Γ=C⊔D` and `γ_1,…,γ_N` with `fC∩C=∅` for every `f∈F` and
 pairwise disjoint sets `γ_j D`. No countability assumption is part of
 this definition or of the averaging criterion below.
 
 Prove this property for `FreeGroup ι` whenever the basis ι has two distinct
-elements, at arbitrary cardinality. In particular this includes every
+elements, at arbitrary cardinality (`exists_powers_partition`; de la Harpe,
+Corollary 12(i), p. 8, gives it for free products through the dynamical
+criterion of his Proposition 11, while the construction below is a direct
+reduced-word argument). In particular this includes every
 finite rank `F_n=FreeGroup (Fin n)`, n≥2. Consume Mathlib's `FreeGroup.toWord`,
 its reduction and multiplication API, rather than a second free-word
 carrier. Give an explicit construction: choose distinct positive generators
@@ -671,6 +874,7 @@ Powers property. If
 ‖(1/N) Σ_j λ(γ_j)xλ(γ_j)*‖ ≤ 2 ‖x‖ / sqrt N.
 ```
 
+This is the estimate in the proof of de la Harpe's Theorem 14 (pp. 10–11).
 State and prove the projection estimate also for an arbitrary bounded
 operator with this zero-compression property and pairwise orthogonal P_j.
 It does not require x self-adjoint: decompose each conjugate T_j as
@@ -688,7 +892,11 @@ maps' unital positivity and contractivity, and the resulting membership
 
 Deduce that `Cr*(Γ)` is simple and τ is its unique tracial state whenever Γ
 has the Powers property, and specialize to `FreeGroup ι` with at least two
-basis elements. For a
+basis elements (`reducedFreeGroup_isSimpleRing` and
+`reducedFreeGroup_trace_unique`, on the C*-algebra `generatedCStarAlgebra`
+generated by the left-regular unitaries, which are pinned by the coordinate
+law `(λ(g)ξ)(h)=ξ(g⁻¹h)` on `lp (fun _ : FreeGroup ι => ℂ) 2`; simplicity
+is stated as `IsSimpleRing`, so for every two-sided ideal, closed or not). For a
 nonzero closed two-sided ideal, normalize a nonzero positive element by
 its strictly positive τ-value, average it to within distance less than1
 of the unit, and obtain an invertible element in the ideal. Also deduce
@@ -703,7 +911,7 @@ has the trivial character. For a nontrivial canonical generator u, the
 element u−1 lies in its proper kernel and is nonzero, as its regular image
 moves δ_1. Thus the full algebra is not simple when the basis has at least
 two elements, and the canonical regular quotient cannot be injective.
-Compare with [FreeProbability F3](../FreeProbability/README.md)'s independent
+Compare with FreeProbability F3's independent
 F₂ full/reduced norm obstruction; that calculation is not a prerequisite
 for the Powers argument. Construct canonical isometric embeddings of reduced
 subgroup algebras by the right-coset decomposition of the regular Hilbert
@@ -712,11 +920,45 @@ The empty-basis algebra is ℂ and the singleton-basis algebra is C(𝕋);
 the latter has many traces and is not simple. OperatorKTheory K7 owns the
 separate free-basis K-group calculation and its full/reduced comparison.
 
-For the partition and averaging argument use de la Harpe,
-[*On simplicity of reduced C*-algebras of groups*](https://arxiv.org/html/math/0509450),
-Definition9 and Theorem14. Prove the finite-word construction, general
-operator estimate and unique-trace corollary specified here; the source's
-self-adjoint ideal proof alone does not substitute for those interfaces.
+For the partition and averaging argument use de la Harpe, *On simplicity
+of reduced C*-algebras of groups*: Definition 9 (p. 7) for the Powers
+property, Corollary 12(i) (p. 8) for free products, the proof of Theorem 14
+(pp. 10–11) for the projection decomposition, the estimate `2‖x‖/√N` and
+the invertible element within distance less than 1 of the unit, and the
+Dixmier-property remark (p. 19) for the unique trace. The explicit
+reduced-word partition, the estimate for an arbitrary operator with the
+zero-compression property and the algebraic-ideal and unique-trace
+conclusions are proved here as stated.
+
+**Checks.**
+
+- F=∅, N=2, with `w=ab`: C the words starting with b^(±1), D the rest;
+  `bD` and `b²D` are disjoint because a reduced word in `b^jD` has exactly
+  j leading b's; the transported `γ_j=b^jw` keep this.
+- `F={b}` with L=2 and `w=ab²`: `wbw⁻¹=ab a⁻¹` starts with a and ends with
+  a⁻¹, so `(wbw⁻¹)C∩C=∅`; a partition that put the words starting with a
+  into C would fail, since `(aba⁻¹)·a=ab` starts with a.
+- For `x=λ(f)`, `f∈F`, and `ξ=δ_c` with c∈C: `λ(γ_j)xλ(γ_j)*` maps
+  `ℓ²(γ_jC)` into `ℓ²(γ_jfC)⊆ℓ²(γ_jD)`, so the compression by `1−P_j` on
+  both sides is 0; for N=1 the estimate gives `‖λ(γ_1)xλ(γ_1)*‖≤2‖x‖`,
+  which is weaker than the trivial bound and shows the estimate only
+  improves with N.
+- The singleton basis: `Cr*(FreeGroup (Fin 1))=C(𝕋)` has the evaluation
+  traces at every point of 𝕋 and is not simple; the Powers property fails
+  for ℤ at `F={1}`, N=3: `(C+1)∩C=∅` leaves C at most half of every
+  interval of even length, so D has at least half, while three pairwise
+  disjoint translates of D leave D at most a third of every long interval
+  up to boundary terms. For N=2 the partition into even and odd integers
+  with `γ_2−γ_1=1` does satisfy the condition.
+- Full versus reduced: `u−1` for a canonical generator u is in the kernel
+  of the trivial character of `C*(FreeGroup ι)` and `λ(u)δ_1−δ_1≠0`, so
+  the full algebra is not simple when the basis has two elements.
+
+*Needs:* D1–D2 (full and reduced group C*-algebras, expectation,
+regular quotient); CStarAlgebras C1 (ideals, invertible elements near the
+unit); Mathlib `FreeGroup.toWord`, `FreeGroup.reduce`, `lp`, `lp.single`,
+`StarAlgebra.adjoin`, `StarSubalgebra.topologicalClosure`,
+`IsSimpleRing`.
 
 **D2.BoundedSequenceTranslation.** Take the coefficient algebra exactly as
 `B=ℓ∞(ℤ,ℂ)`, using native `lp (fun _ : ℤ=>ℂ) ∞`, and
@@ -773,13 +1015,26 @@ SequenceToeplitz's C₊⋊ℤ in R from its translation-invariant coefficient
 inclusion, respecting the common compact ideal and quotient maps.
 The C₊ example's circle characters need not extend to R.
 
-This treats the literal ℓ∞-coefficient setup in Rieffel main physical138;
-its conflicting input readings remain unresolved. It supplies corrected
-mathematics for that specified input, independently of pp139–142's c₀
-and asymmetric-sequence models. The page's unsupported singleton-projection
-argument and claimed circle spectrum/CCR conclusion are retained as source
-claims, rather than imposed on R. [BoundedSequenceTargets.lean](BoundedSequenceTargets.lean)
-records the matrix-unit, finite-band and character-obstruction signatures.
+**Checks.**
+
+- `E_ijδ_n=M_(1_{i})δ_(n+i−j)=[n=j]δ_i`, so E_ij is the rank-one operator
+  `δ_j↦δ_i`, and `E_ijE_kl=[j=k]E_il`; with the opposite shift sign
+  `Uδ_n=δ_(n−1)` the same formula would give `δ_(2i−j)↦δ_i` instead.
+- For `T=M_fU^k`, `⟨δ_i,Tδ_j⟩=f(i)[i=j+k]`, bandwidth |k|, and
+  `f_k(i)=⟨δ_i,Tδ_(i−k)⟩=f(i)` recovers f; `f_m=0` for m≠k.
+- The even projection `p=M_(1_{2ℤ})` satisfies `UpU*=M_(1_{2ℤ+1})=1−p`; a
+  character χ would give `χ(p)=1−χ(p)` with `χ(p)∈{0,1}`, so none exists.
+- With `c₀(ℤ)` in place of `ℓ∞(ℤ)` the same representation has image
+  `K(H)`, the translation model of D3; the unit and the quotient Q appear
+  only for the bounded coefficients.
+- R is not CCR because `M_1=1_H` is in the image and H is
+  infinite-dimensional; `c₀(ℤ)⋊ℤ=K(H)` is CCR.
+
+*Needs:* D1 (crossed product, exactness for invariant ideals); D2
+(amenable full/reduced comparison, gauge expectation); D3
+(`C₀(G)⋊G≅K(L²G)` for G=ℤ); CStarAlgebras C1–C2 (ideals, quotients,
+irreducible representations, primitive ideal space); Mathlib `lp`,
+`lp.single`.
 
 **D2.SequenceToeplitz — an asymmetric sequence algebra and its crossed product.**
 Inside native `lp (fun _ : ℤ=>ℂ) ∞` construct the closed nonunital
@@ -830,12 +1085,28 @@ finite sums of rank-one diagonal projections converge strongly to the
 support of the compact ideal; the orthogonal complement is the quotient
 representation, on which S is unitary. They need not converge to I.
 
-These models give the specified mathematics of Rieffel main pp140–142 /
-archive 0210_026 pp13–15. Preserve their single-additional-irrep and
-two-point-spectrum claims, and the withdrawn sum-of-projections argument,
-as source errors. Main p138 / archive 0210_026 p11 has conflicting
-coefficient-algebra readings and an unjustified singleton-projection/unit
-identification; this model does not resolve that original-input ambiguity.
+**Checks.**
+
+- `ker ℓ₊=c₀(ℤ)`: `ℓ₊(f)=0` together with `lim_(n→−∞)f(n)=0` is vanishing
+  at both ends.
+- `q(e)=1` for `e=M_(1_[0,∞))`, and `eUe` acts on `ℓ²(ℕ)` by
+  `δ_n↦δ_(n+1)`, the unilateral shift S, with `1−SS*` the rank-one
+  projection onto δ_0; this is C8's Toeplitz extension.
+- The nonzero irreducible representations are the standard one and the
+  circle of characters `ev_z∘q`, z∈𝕋: a classification with a single
+  additional irreducible, or a two-point primitive space, is refuted by the
+  characters of `C(𝕋)`.
+- In the character `ev_z∘q` every `E_nn` is sent to 0, so
+  `Σ_(n)π(E_nn)` converges strongly to 0, not to I; in the standard
+  representation it converges to I.
+- B is not CCR: e has infinite rank in the standard representation; the
+  quotient `C(𝕋)` is commutative, so B is type I.
+
+*Needs:* D1 (full exactness); D2 (amenable comparison, gauge
+expectation); D2.BoundedSequenceTranslation (matrix units, the inclusion
+`C₊⋊ℤ→R`); CStarAlgebras C2 (irreducible representations, primitive
+ideals, type I and CCR) and C8 (the concrete Toeplitz algebra); Mathlib
+`lp`.
 
 **D2.SaddleFlow — the orbit topology of a diagonal real flow.**
 For the continuous action `t·(x,y)=(exp(t)x,exp(−t)y)` of ℝ on ℝ²,
@@ -849,12 +1120,29 @@ point and the intervals `0<r<ε` in its two adjacent quadrant families;
 these neighborhoods exclude the origin. At the origin give a basis
 consisting of the origin, all four half-axis points and `0<r<ε` in
 all four quadrant families. Prove these bases from saturated open sets
-in ℝ². Deduce T₀, failure of T₁ and failure of Hausdorffness.
-In the Rieffel main p137 / archive 0210_026 p10 comparison, preserve the
-source's reversed neighborhood-containment assertions separately; an
-arbitrary neighborhood of a half-axis need not contain the origin or a
-fixed nonzero hyperbola orbit. This target computes the orbit space,
-without identifying it with a crossed-product primitive space.
+in ℝ². Deduce T₀, failure of T₁ and failure of Hausdorffness. This target
+computes the orbit space, without identifying it with a crossed-product
+primitive space.
+
+**Checks.**
+
+- `xy` is invariant, so the orbit of (x,y) with `xy=r>0` is the branch
+  `{(u,r/u):u>0}` of its quadrant, closed in ℝ²; the orbit of (x,0), x>0,
+  is the open positive x-half-axis, whose closure adds the origin.
+- The saturated open set `{(x,y):x>0,|xy|<ε}` is a neighbourhood of the
+  positive x-half-axis point that contains neither the origin nor any
+  branch with r≥ε; so a half-axis point is T₀-separated from the origin,
+  and a neighbourhood of a half-axis point need not contain the origin.
+- Every neighbourhood of the origin contains the four half-axis points,
+  so T₁ fails; the neighbourhoods of the +x and +y half-axis points both
+  contain the first-quadrant branches with `0<r<ε`, so they meet and the
+  quotient is not Hausdorff.
+- On the branches of one quadrant the quotient topology is the usual
+  topology of `r∈(0,∞)`: the map `(x,y)↦xy` is continuous and open on the
+  open quadrant.
+
+*Needs:* Mathlib `Real.exp`, quotient topologies and `IsOpenMap`; no
+operator-algebra input.
 
 ## D3. Induction and imprimitivity
 
@@ -918,10 +1206,10 @@ isomorphism with C₀(G) sending the canonical multiplier at χ to
 Compare the integrated Fourier formula with V11's positive-character
 convention, including the dual Haar normalization. Prove compatibility
 with bounded intertwiners, unitary equivalence and Hilbert direct sums.
-Replacing V_χ by V_(χ⁻¹) gives the alternative commutator χ(s); explicitly
-track this change when comparing Rieffel main p66 / archive 0209_001 p17,
-whose real exponential and final abstract pairing displays use opposite
-signs. No assertion about differentiating unbounded generators is needed.
+Replacing V_χ by V_(χ⁻¹) gives the alternative commutator χ(s); the
+displayed relation is Williams's Heisenberg relation `S_χR_s=χ(s)R_sS_χ`
+with `R=U`, `S=V` (Williams, Definition 4.26 and Lemma 4.28, pp. 135–136).
+No assertion about differentiating unbounded generators is needed.
 
 Through D3's explicit `C₀(G)⋊ltG≅K(L²G)` prove that every such
 nondegenerate Weyl pair is a multiplicity amplification of the Schrödinger
@@ -929,8 +1217,29 @@ pair `U_sξ(t)=ξ(s⁻¹t)`, `V_χξ(t)=χ(t)ξ(t)` on L²(G). Construct the
 intertwining unitary and its multiplicity space using rank-one operators;
 allow arbitrary Hilbert multiplicity and zero multiplicity. The nonzero
 irreducible pair has multiplicity one and is unique up to unitary
-equivalence. This uses the representation theory of compact operators,
-not a finite-dimensional real-space restriction of Stone–von Neumann.
+equivalence (Williams, Theorem 4.24, p. 133, and Theorem 4.29, p. 137).
+This uses the representation theory of compact operators,
+not a finite-dimensional real-space restriction of Stone–von Neumann. For
+`G=ℝⁿ` the statement specializes to the unitary Stone–von Neumann theorem
+of MetaplecticAutomorphicForms §1.2; prove the comparison of the two
+statements, identifying this Schrödinger pair with its `L²(X)` model, and
+do not give a second real-case proof.
+
+**Checks.**
+
+- G=ℤ/2: `Ĝ=ℤ/2`, the Schrödinger pair on ℂ² has U_a the swap and
+  `V_χ=diag(1,−1)` for the nontrivial χ, and `U_aV_χU_a*=diag(−1,1)=overline(χ(a))V_χ`;
+  every Heisenberg pair of ℤ/2 is a multiple of this two-dimensional one.
+- G=ℤ: `Ĝ=𝕋` and `V_zξ(t)=z^tξ(t)` on `ℓ²(ℤ)`: `(U_sV_zξ)(t)=z^(t−s)ξ(t−s)`
+  and `(V_zU_sξ)(t)=z^tξ(t−s)`, so `U_sV_zU_s*=overline(z^s)V_z`; with
+  `V_(z⁻¹)` in place of V_z the phase is `z^s`.
+- G=ℝ with `χ_ξ(t)=exp(iξt)`: `U_sV_(χ_ξ)U_s*=exp(−iξs)V_(χ_ξ)`, the Weyl
+  relation with the stated sign; the Fourier transform
+  `f̂(χ)=∫f(g)χ(g)dμ(g)` sends the canonical multiplier at χ of `C*(Ĝ)` to
+  the function `t↦χ(t)`, and the conjugate-character transform would send
+  it to `t↦overline(χ(t))`, changing the covariance to `χ(s)`.
+- Zero multiplicity is the pair on H=0, nondegenerate vacuously; a pair on
+  `L²(G)⊕L²(G)` has multiplicity two and is reducible.
 
 ## D4. Dual actions and Takai duality
 
@@ -1002,9 +1311,9 @@ h_i with `0≤h_i≤1`, eventually equal to1 on each prescribed compact subset
 of X. For f∈C_c(G), the compact sets r(supp f) and s(supp f) give
 `m(h_i)f→f` and `f m(h_i)→f` in I-norm. The dense span L(C_c(G))H
 and `‖ρ_L(h_i)‖≤1` then give strong convergence `ρ_L(h_i)→I`.
-Consume [VonNeumannAlgebras V4.0.Fields](../VonNeumannAlgebras/README.md) for measurable Hilbert fields, square-integrable
+Consume VonNeumannAlgebras V4.0.Fields for measurable Hilbert fields, square-integrable
 sections, rectangular decomposable maps and RN measure-change/zero-extension
-unitaries, and [SelfAdjointSpectralTheory SA-B85](../OperatorTheory/SelfAdjointSpectralTheory/README.md)
+unitaries, and SelfAdjointSpectralTheory SA-B85
 for the diagonal spectral representation of this nondegenerate C₀(G⁰)
 representation. The unit space G⁰ is second-countable locally compact Hausdorff.
 
@@ -1017,7 +1326,7 @@ fibres off each density support. No equivalence of the two controls is
 assumed for a bounded intertwiner. On H₁⊕H₂ the off-diagonal block
 `S(ξ₁,ξ₂)=(0,Tξ₁)`, and S†, commute with the common diagonal. Form the
 separable unital C*-algebra generated by `diag(ρ₁(h),ρ₂(h))`, h∈C₀(G⁰),
-S,S† and I. Apply [VonNeumannAlgebras V4.0.Decomposition](../VonNeumannAlgebras/README.md)'s reduction of a separable C*-representation
+S,S† and I. Apply VonNeumannAlgebras V4.0.Decomposition's reduction of a separable C*-representation
 commuting with a given diagonal to this auxiliary algebra,
 and Fields' rectangular criterion to recover measurable fibre maps, with
 essential norm, adjoint, composition and fibrewise-unitarity comparisons.
@@ -1196,9 +1505,28 @@ Include n=1 with H₀=H and S₀=Id. For n≥2 use D6's existing universal
 property to construct the unital representation O_n→B(H) carrying its
 specified generators to these S_j; compare the generator equations and
 pullback under a change of Hilbert basis by its actual unitary map. This
-realizes the universal algebra on the given H. The companion
-[HilbertResidueTargets.lean](HilbertResidueTargets.lean) states the basis
-and residue-family targets on native Hilbert bases and continuous adjoints.
+realizes the universal algebra on the given H (`exists_residue_family`;
+the relations are Cuntz's defining relations for O_n, Cuntz, §1).
+
+**Checks.**
+
+- n=1: `S_0=Id`, and both relations are `Id=Id`.
+- n=2: `S_0b_k=b_(2k)`, `S_1b_k=b_(2k+1)`; `S_0*b_3=0` since `3 mod 2≠0`,
+  `S_1*b_3=b_1`, and `(S_0S_0*+S_1S_1*)b_3=S_1b_1=b_3`.
+- The shift family `S_jb_k=b_(k+j)` fails: `S_0=Id` and
+  `S_1*S_0=S_1*≠0`, so the orthogonality `S_i*S_j=δ_ij` singles out the
+  residue-class rule.
+- For a unitary W with `Wb_k=b'_k`, the family `WS_jW*` is the residue
+  family of the basis b'; two bases give unitarily equivalent families.
+- On a finite-dimensional H≠0 no family with `S_i*S_j=δ_ij` and n≥2 exists,
+  since the ranges would be n orthogonal copies of H; on a nonseparable H
+  there is no ℕ-indexed Hilbert basis, and the target's hypothesis is
+  separability.
+
+*Needs:* D6 (universal O_n and its gauge-invariant uniqueness); Mathlib
+`HilbertBasis`, `HilbertBasis.repr`, `exists_hilbertBasis`,
+`Nat.divModEquiv`, `ContinuousLinearMap.adjoint`.
+
 ## D7. Analytic dynamics, KMS states, and modular theory
 
 For a point-norm continuous real action τ build its densely defined closed
@@ -1214,17 +1542,39 @@ time-shift and strip bounds, with the star relation
 
 For β>0 define a β-KMS state ω by bounded continuous functions on
 `0≤Im z≤β`, holomorphic in the interior, with boundary values
-`F_ab(t)=ω(a τ_t(b))` and `F_ab(t+iβ)=ω(τ_t(b)a)`. Prove the equivalent
-analytic identity `ω(a τ_(iβ)(b))=ω(ba)`, the norm bound
+`F_ab(t)=ω(a τ_t(b))` and `F_ab(t+iβ)=ω(τ_t(b)a)` (`IsKMS`). Prove the
+equivalent analytic identity `ω(a τ_(iβ)(b))=ω(ba)` (`kms_entire_identity`,
+for an entire A-valued extension of the orbit of b: the strip function of
+(a,b) and `z↦ω(aτ_z(b))` agree on ℝ and hence on the strip by reflection
+across the real axis), the norm bound
 `|F_ab(z)|≤‖a‖‖b‖`, and the sufficiency of checking on a norm-dense invariant
 algebra of entire elements. Treat β<0 on the reversed strip, and β=0 as
-the full space of tracial states. Prove invariance for β≠0; it is not a
-consequence of the β=0 trace condition. Develop pullback under equivariant
+the full space of tracial states. Prove invariance for β≠0
+(`kms_invariant`); it is not a consequence of the β=0 trace condition. Develop pullback under equivariant
 quotients, tensor products of KMS states, restrictions to invariant
 subalgebras when the restriction has norm one, and stability under weak-*
 limits that are states, for a fixed dynamics.
 For the rotation action on `C(S¹)`, evaluation states are traces but need
 not be invariant; use this example to distinguish the β=0 convention.
+
+**Checks.**
+
+- For `A=M_n(ℂ)`, `τ_t=Ad exp(itK)` and the Gibbs state
+  `ω(x)=Tr(exp(−βK)x)/Tr(exp(−βK))`: `τ_(iβ)(b)=exp(−βK)b exp(βK)` and
+  `ω(aτ_(iβ)(b))=Tr(exp(−βK)a exp(−βK)b exp(βK))/Z=Tr(exp(−βK)ba)/Z=ω(ba)`.
+  For `K=diag(0,1)`, `a=E_12`, `b=E_21`: `τ_(iβ)(b)=exp(−β)b`, so
+  `ω(aτ_(iβ)(b))=exp(−β)/(1+exp(−β))=ω(E_22)=ω(ba)`, while the opposite
+  sign `τ_(−iβ)(b)=exp(β)b` gives `exp(β)/(1+exp(−β))≠ω(ba)`.
+- β=0: the degenerate strip reduces the condition to `ω(ab)=ω(ba)`, and
+  the evaluation states of the rotation on `C(S¹)` satisfy it without
+  being invariant.
+- For the trivial dynamics a bounded strip function with constant boundary
+  values `ω(ab)` on ℝ and `ω(ba)` on `ℝ+iβ` is constant by reflection
+  across ℝ, so only traces are KMS for the trivial dynamics.
+
+*Needs:* OneParameterSemigroups (strongly continuous groups, generators,
+analytic vectors); CStarAlgebras C2 (states); Mathlib `DifferentiableOn`,
+`Bornology.IsBounded`, `PositiveLinearMap`.
 
 For β≠0 construct the GNS implementing group, extend τ normally to
 `M=πω(A)''`, and prove that Ωω is separating for M. Using V10's modular
@@ -1292,7 +1642,7 @@ simplicity, and the finite-dimensional identification `CAR(ℂⁿ)≃M_(2ⁿ)(�
 Construct the antisymmetric Hilbert Fock space and its creation and
 annihilation operators, vacuum state and faithful CAR representation.
 Reuse finite-dimensional exterior/Clifford algebra from
-[SpinRepresentations](../RepresentationTheory/SpinRepresentations/README.md);
+RepresentationTheory/SpinRepresentations;
 build the Hilbert completion and norm estimates here. Show that finite
 subspace inclusions give the CAR inductive limit, including separable
 infinite-dimensional h and its matrix stages.
@@ -1491,11 +1841,16 @@ the on-site model.
 
 ## Sources and API alignment
 
-- [Dana Williams, *Crossed Products of C*-Algebras*, draft 3.1](https://math.dartmouth.edu/~dana/cpcsa/draft3.1.pdf):
+- Dana Williams, *Crossed Products of C*-Algebras*, draft 3.1 (the author's
+  page at Dartmouth; page numbers are the printed ones):
   Lemma 1.61 and §1.4 for Haar and Fourier conventions; Chapter 2 for
-  covariant representations and the universal completion; Proposition 3.19
+  covariant representations and the universal completion, with Proposition
+  2.23 (p. 49) for the integrated form; Proposition 3.19
   for full ideal exactness; Theorem 4.1, Corollary 4.17 and Theorems 4.22–4.24
-  for symmetric and Green imprimitivity; Theorem 5.9 for induction in
+  for symmetric and Green imprimitivity and `C₀(G)⋊G≅K(L²G)` (Theorem 4.24,
+  p. 133); Definition 4.26, Lemma 4.28 and Theorem 4.29 (pp. 135–137) for
+  Heisenberg pairs and the von Neumann uniqueness theorem of D3.LCAWeyl;
+  Theorem 5.9 for induction in
   stages; Theorem 7.1, Lemma 7.8, Theorem
   7.13 and Corollary 7.18 for Takai, reduced norms, amenability and nuclearity.
   Appendix D for D1.BorelPrefix: Theorem D.3 and Lemma D.4 (p. 370) for
@@ -1511,21 +1866,24 @@ the on-site model.
   §§1–2 for convolution, integrated representations and the regular norm;
   Chapter III for AF and Cuntz groupoids. Use the modern sources below for
   general disintegration, equivalence and ideal hypotheses.
-- [Muhly–Williams, *Renault's Equivalence Theorem for Groupoid Crossed Products*](https://arxiv.org/abs/0707.3566):
+- Muhly–Williams, *Renault's Equivalence Theorem for Groupoid Crossed
+  Products*, arXiv:0707.3566:
   Theorem 5.5, Theorem 7.8 and Appendix B. Use the scalar Hausdorff
   specialization. D5 builds the groupoid-specific measurable-representation
   and disintegration prerequisites over V4.0.Fields, SA-B85 and
   V4.0.Decomposition in the stated unit-space/auxiliary-algebra order.
-- [Sims–Williams, *Renault's Equivalence Theorem for Reduced Groupoid C*-algebras*](https://arxiv.org/abs/1002.3093):
+- Sims–Williams, *Renault's Equivalence Theorem for Reduced Groupoid
+  C*-algebras*, arXiv:1002.3093:
   Definition 2, Lemmas 3–5 and Theorems 13 and 17 for linking groupoids,
   reduced corner norms and the quotient of the full equivalence module.
-- [Takeishi, *On nuclearity of C*-algebras of Fell bundles over étale
-  groupoids*](https://arxiv.org/abs/1301.6883), Theorem5.4, for the nuclearity
+- Takeishi, *On nuclearity of C*-algebras of Fell bundles over étale
+  groupoids*, arXiv:1301.6883, Theorem 5.4, for the nuclearity
   converse and its compact-bisection/positive-definite approximation proof.
   D6 uses the trivial line bundle. Renault ChapterIII Proposition2.7 gives
   the independent representation-theoretic Cuntz universal identification;
   D6's gauge-core route also constructs its injectivity proof.
-- [Aidan Sims, *Hausdorff étale groupoids and their C*-algebras*](https://www.aidansims.com/files/GroupoidsNotes-2017.pdf):
+- Aidan Sims, *Hausdorff étale groupoids and their C*-algebras*, lecture
+  notes (2017, the author's page):
   §§4.1–4.3 for amenability, diagonal uniqueness, exact sequences, strong
   effectiveness and ideal lattices; §5.1 for diagonal regularity and maximal
   abelianness. Keep the hypotheses of these modern formulations.
@@ -1538,10 +1896,17 @@ the on-site model.
   Definition 6.2.16 and Theorem 6.2.18 for spin dynamics and Gibbs/KMS;
   Theorems 6.2.40 and 6.2.42 for pressure and the variational principle;
   Proposition 6.2.45 for high-temperature uniqueness.
+- Pierre de la Harpe, *On simplicity of reduced C*-algebras of groups*,
+  arXiv:math/0509450: Definition 9 (p. 7), Corollary 12 (p. 8), Theorem 14
+  with its proof (pp. 10–11) and the Dixmier-property remark (p. 19), for
+  D2.FreeGroups.
+- Joachim Cuntz, *Simple C*-algebras generated by isometries*, Comm. Math.
+  Phys. 57 (1977): §1 for the defining relations of O_n, cited by locator
+  for D6's concrete families.
 
 For central multiplier cocycles use the equations and cochain direction in
-D1.CentralTwists and D2.CentralTwists. [Delfín–Farsi–Packer,
-*Twisted crossed products of Banach algebras*, §§2–4 and §6](https://arxiv.org/html/2509.24106v1)
+D1.CentralTwists and D2.CentralTwists. Delfín–Farsi–Packer,
+*Twisted crossed products of Banach algebras*, arXiv:2509.24106, §§2–4 and §6,
 gives a continuous multiplier-action and universal-property reference;
 its later Lᵖ results have additional countability hypotheses. The
 C*-norm, star, regular module and arbitrary-LCH localized integration
@@ -1556,7 +1921,6 @@ and `Topology/Algebra/PontryaginDual` harmonic interfaces. The
 topology on the total `Arrow` and on composable arrows is LieGroupoidsPoisson
 G0's. Algebraic crossed products
 and Tau Ceti's Galois/Brauer development do not supply the analytic norms or
-completions here. Preserve the C*-module conventions discussed in the
-[module-convention Zulip discussion](https://leanprover.zulipchat.com/#narrow/stream/287929-mathlib4/topic/redefining%20%60Inner%60%20in%20%60InnerProductSpace%20%F0%9D%95%9C%20%F0%9D%95%9C%60/with/487074289)
-and adopted in H1–H3. [Suggested.lean](Suggested.lean) prototypes the action,
-covariance, vector-integral and KMS interfaces; this README is definitive.
+completions here. Preserve the C*-module conventions adopted in
+HilbertModules H1–H3. `Suggested.lean` states the headline theorems named in
+backticks at their targets; this README is definitive.
