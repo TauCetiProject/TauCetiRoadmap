@@ -121,9 +121,9 @@ theorem exists_dadeExtension [Fintype G] (L : Subgroup G) [Fintype L]
 
 /-- **The Dade isometry is ordinary induction when every complement is trivial** (Peterfalvi
 (2.3) and the supplement to (2.6)(a); Isaacs, Lemma 7.7): under Dade data with `H a = ⊥` for all
-`a ∈ A`, the set `A` is a trivial-intersection set with normalizer `L`, and the Dade isometry
-agrees on `CF(L, A)` with the native `Subgroup.indClassFunction L`. This is the export the
-Brauer–Suzuki argument consumes. -/
+`a ∈ A`, the Dade isometry agrees on `CF(L, A)` with the native `Subgroup.indClassFunction L`
+(and a nonempty such `A` is a trivial-intersection set with normalizer `L`). This is the export
+the Brauer–Suzuki argument consumes. -/
 theorem isDadeExtension_eq_indClassFunction [Fintype G] (L : Subgroup G) [Fintype L]
     (A : Set G) (H : G → Subgroup G) (hD : DadeDatum L A H) (hH : ∀ a ∈ A, H a = ⊥)
     (T : supportedClassFunctions L A →ₗ[ℂ] TauCeti.ClassFunction ℂ G)

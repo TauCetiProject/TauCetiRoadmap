@@ -167,7 +167,7 @@ one. The Brauer–Suzuki argument of GlaubermanZStar consumes Layer 2 and is not
 | Thompson's fixed-point-free automorphism theorem `isNilpotent_of_fixedPointFree`, nilpotence of Frobenius kernels `isNilpotent_of_coe_eq_frobeniusKernel` | L6 |
 | signalizer functors, `IsSignalizerFunctor p A θ`, `signalizerCompletion`, Glauberman's solvable signalizer functor theorem `signalizerCompletion_complete` for `m_p(A) ≥ 3` | L7 |
 
-All of L3's starred theorems assume that `A` or `G` is solvable; in Layer 3 that hypothesis is
+All of L3's theorems marked † assume that `A` or `G` is solvable; in Layer 3 that hypothesis is
 discharged by `IsMinimalOddSimple.proper_solvable`, never by the theorem being proved.
 
 ### From `TauCetiRoadmap.FiniteGroupExtensionSplitting`
@@ -360,8 +360,12 @@ L6 (Thompson's theorem), Mathlib `IsZGroup`.
 
 ### Examples
 
-The `2`-length of `S₄` (two) against the `3`-length of `S₄` (one); the group `𝔽₃⁶ ⋊ (C₇ ⋊ C₃)` as
-the smallest odd-order witness that `p`-length two occurs, and why its rank excludes it from §1.2.
+The `2`-length of `S₄` (two) against the `3`-length of `S₄` (one); the groups
+`𝔽₃³ ⋊ (C₁₃ ⋊ C₃)` of order `1053` (`C₁₃ ⋊ C₃` acts faithfully and irreducibly on `𝔽₂₇`, `C₁₃` by
+multiplication by an element of order `13` and `C₃` by the Frobenius `x ↦ x³`, so `O_{3'} = 1`,
+`O_3 = 𝔽₃³`, `O_{3,3'} = 𝔽₃³ ⋊ C₁₃` and the quotient is `C₃`: `3`-length two) and the
+`𝔽₃⁶ ⋊ (C₇ ⋊ C₃)` of §1.2 as odd-order witnesses that `p`-length two occurs, and why their
+`3`-ranks (`3`, and at least `6`) exclude them from §1.2.
 
 ### Dependencies
 
@@ -398,9 +402,13 @@ reciprocity), Layer 5 (Clifford); CharacterTheory §4.3 (degree divisibility).
   neither is real; on `S₃` (even order) the sign character is real and nontrivial, so the
   odd-order hypothesis is needed.
 - (1.4) on `H = C₃`, `A = C₃^#`, `Χ = {ω, ω²}` and `G = C₇ ⋊ C₃` with `τ = Ind`: `‖ω − ω²‖² = 2`,
-  `Ind ω − Ind ω²` is a difference of two distinct irreducibles of degree `3`, of norm `2`.
-- (1.8) on `G = S₃`, `C = A₃`, `B = D = 1`: `χ(1) ≤ 2 · 1 = 2`, attained by the two-dimensional
-  character.
+  `Ind ω − Ind ω² = μ_ω − μ_{ω²}` is the difference of the two distinct linear characters of `G`
+  restricting to `ω` and `ω²`, of norm `2`: each of the two degree-`3` irreducibles of `G`
+  restricts to `L` as `1 + ω + ω²` (it vanishes off `C₇`), so it occurs once in `Ind ω` and once
+  in `Ind ω²` and cancels in the difference.
+- (1.8) on `G = S₃`, `C = D = A₃`, `B = 1` (`D ⧸ B = A₃` is central in the abelian `C ⧸ B`):
+  `χ(1) ≤ |G : C| · √|C : D| = 2 · 1 = 2`, attained by the two-dimensional character; with
+  `D = 1` instead the bound is only `2 · √3`.
 
 ### 2.2 Dade data and the Dade support
 
@@ -463,15 +471,17 @@ Layer 2.
   of norm `27/18 = 3/2`, so `T` is not induction when the complements are nontrivial.
 - The second clause pins the value `f a`, not `|H a| · f a` or `f a / |H a|`: in the previous
   instance the rescaled models have norm `9/2` and `1/18`.
-- `G = C₇ ⋊ C₃`, `L = C₃`, `A = C₃^#`, `H a = ⊥`, `f = ω − ω²`: `T f = Ind ω − Ind ω²` is a
-  difference of two irreducibles of degree `3` and `(T f)(a) = f a` for `a ∈ A`, since an element
+- `G = C₇ ⋊ C₃`, `L = C₃`, `A = C₃^#`, `H a = ⊥`, `f = ω − ω²`: `T f = Ind ω − Ind ω²` is the
+  difference of the two linear characters of `G` restricting to `ω` and `ω²` (the (1.4) Check of
+  §2.1) and `(T f)(a) = f a` for `a ∈ A`, since an element
   of `L^#` is conjugated into `L` only by elements of `L`.
 
 ### 2.4 Trivial complements and ordinary induction
 
-Prove: for a Dade datum with `H a = ⊥` for every `a ∈ A`, the set `A` is a trivial-intersection
-set with normalizer `L` (`TauCeti.IsTISet A L` and `N_G(A) = L`), and conversely a nonempty T.I.
-set `A ⊆ L \ {1}` with normalizer `L` is a Dade datum with trivial complements (Peterfalvi (2.3)).
+Prove: for a Dade datum with `A ≠ ∅` and `H a = ⊥` for every `a ∈ A`, the set `A` is a
+trivial-intersection set with normalizer `L` (`TauCeti.IsTISet A L` and `N_G(A) = L`), and
+conversely a nonempty T.I. set `A ⊆ L \ {1}` with normalizer `L` is a Dade datum with trivial
+complements (Peterfalvi (2.3)).
 Prove `isDadeExtension_eq_indClassFunction`: under such a datum the Dade isometry agrees on
 `CF(L, A)` with the native `Subgroup.indClassFunction L` (the supplement to (2.3) and (2.6)(a);
 Isaacs, Lemma 7.7), so induction is an isometry on `CF(L, A)` and `(Ind f) a = f a` for `a ∈ A`.
@@ -489,6 +499,9 @@ hypotheses that fail for the sets used in Layer 4 and in the Brauer–Suzuki arg
   `Ind ω = Ind ω² = ρ`, so `Ind f = 0`; induction is not an isometry on `CF(L, A)` when fusion is
   not controlled by `L`.
 - `L = G`: the comparison reads `T = Ind_G^G = id`.
+- `A = ∅` is a Dade datum for every `L` (each clause is vacuous) and `TauCeti.IsTISet ∅ L` holds,
+  but `N_G(∅) = G ≠ L` for `L ≠ ⊤`: the forward direction needs `A ≠ ∅`, while the comparison
+  `T = Ind` is unaffected since `CF(L, ∅) = 0`.
 - `G = C₇ ⋊ C₃`, `L = C₃`, `A = L^#`: `L` is a T.I. subgroup, so the pinned
   `TauCeti.isometry_ind_of_isTISet` applies too and the two isometry statements agree.
 
@@ -523,33 +536,7 @@ that agree on the intersection of their domains (5.3)(a), (b). *Needs:* §2.1 (1
 - Sign law: if `ν` is a coherent extension so is `−ν` only when `ℤ[S, A] = 0`; otherwise `ν` is
   pinned by `τ` on `ℤ[S, A]`.
 
-### 2.6 The coherence theorems of §§5–6
-
-State and prove, with every numerical hypothesis explicit: the **subcoherence** hypothesis
-(5.2) for a family `S` of characters closed under conjugation with no real member, an isometry
-`τ` on `ℤ[S, L^#]`, and a choice of orthonormal sets `R(ξ)` with `τ(ξ − ξ̄) = ∑ R(ξ)`; the norm
-estimate (5.4); the coherence criterion (5.5); Feit's extension theorem (5.6): a coherent
-subfamily of a subcoherent `S` extends to `S` when the degree inequality it states holds; the
-extension theorem (5.7) for families with a character of larger degree; the inequality (5.8); and
-the Dade-restricted forms (5.9). Then the §6 theorems: for `K ⊴ L` and the induced families
-`S(H₁)` of §4.1, the coherence of `S(H₁)` with `H ⧸ M` nilpotent and `|H : H₁| > 4 |L : K|² + 1`
-(Theorem (6.3)), the quotient criterion (6.2), and Sibley's theorem (6.8): for `L` of odd order
-with `H ⊴ L` nilpotent, `H^#` a T.I. set with normalizer `L`, and `L` either Frobenius with
-kernel `H` or carrying a prime T.I. configuration of §2.8, the family induced from `Irr(H) \ {1}`
-is coherent with `τ = Ind`. *Needs:* §2.3, §2.5, §2.8, Tau Ceti `TauCeti.IsTISet`,
-`TauCeti.IsFrobeniusComplement`; InductionRestriction Layer 5 (Clifford); CharacterTheory §4.3.
-
-**Checks.**
-- (6.3)'s inequality for `L = C₇ ⋊ C₃`, `K = H = C₇`, `H₁ = 1`, `M = 1`: `|H : H₁| = 7 >
-  4 · 9 + 1 = 37` fails, so (6.3) says nothing; (6.8) applies instead since `L` is Frobenius with
-  kernel `C₇` and `C₇^#` is T.I. with normalizer `L`: the family `{Ind λ : λ ∈ Irr(C₇) \ {1}}` is
-  coherent with `τ = Ind` (`L = G` in this instance, trivially).
-- (6.3) with `|L : K| = 1` and `|H : H₁| = 6`: `6 > 5` holds; the bound is sharp at `|H : H₁| =
-  5`, where the theorem makes no claim.
-- The "no real member" clause of (5.2) holds for families of a group of odd order by (1.1), and
-  fails for `S = {ε}` in `S₃`.
-
-### 2.7 The cyclic trivial-intersection isometry (§3)
+### 2.6 The cyclic trivial-intersection isometry (§3)
 
 Let `W = W₁ × W₂` be cyclic of odd order with `W₁, W₂ ≠ 1`, and let `V = W \ (W₁ ∪ W₂)` be a T.I.
 set with normalizer `W` (`TauCeti.IsTISet V W` and `N_G(V) = W`; Peterfalvi Hypothesis (3.1)).
@@ -578,19 +565,23 @@ action `TauCeti.ClassFunction.powMap` of CharacterTheory §4.4. Prove that `W` c
 - `W₁ = 1` gives `V = ∅`, excluded by the nonemptiness in Hypothesis (3.1); `W = C₃ × C₃` is not
   cyclic, excluded by the cyclicity hypothesis rather than by a separate coprimality clause.
 
-### 2.8 Prime trivial-intersection configurations (§4)
+### 2.7 Prime trivial-intersection configurations (§4)
 
 Define a **prime T.I. configuration** `(L, K, W₁, W₂)` (Peterfalvi Hypothesis (4.2)): `L = K ⋊
 W₁` with `W₁ ≠ 1` cyclic and Hall in `L`, `W₂ ≠ 1` cyclic with `W₂ ≤ K`, `C_K(x) = W₂` for every
 `x ∈ W₁^#`, and `W = W₁ × W₂` of odd order. Prove that `V = W \ (W₁ ∪ W₂)` is then a T.I. set
-with normalizer `W` in `L`, so §2.7 applies inside `L`; prove Theorem (4.3): the characters
-`μ_ij = Ind_W^L w_ij`-related irreducibles of `L` of degree `|W₁|`, their values on `V`, the
-signs `δ_j`, and the reducible sums `μ_j = ∑ᵢ μ_ij`; and the restriction formulas (4.4), (4.5).
-Define the **prime Dade configuration** (4.6): a cyclic T.I. configuration for `(G, W)`, a prime
-T.I. configuration for `(L, K, W₁, W₂)`, a Dade datum for `(L, A₀)` with `A₀ = A ∪ V^L`, `H ⊴ L`
-with `W₂ ≤ H ≤ K`, and `A ⊴ L` containing every `C_K(h)^#` for `h ∈ H^#`. Prove (4.7)–(4.10):
-the Dade isometry of `A₀` restricted to `CF(L, V^L)` is the cyclic isometry of §2.7, the degree
-and support identities for the `μ_ij`, and the inequality (4.9). *Needs:* §2.3, §2.7, Tau Ceti
+with normalizer `W` in `L`, so §2.6 applies inside `L`; prove Theorem (4.3): for the cyclic
+isometry `σ` of §2.6 inside `L`, each `σ(w_ij)` is a signed irreducible `δ_j μ_ij` of `L`, the
+map `(i, j) ↦ μ_ij` is injective and `Ind_W^L (w_ij − w_0j) = δ_j (μ_ij − μ_0j)` ((4.3)(b));
+`μ_ij = δ_j w_ij` on `W \ W₂`, and every irreducible of `L` not of the form `μ_ij` vanishes on
+`W \ W₂` ((4.3)(c)); the degree congruence `μ_ij(1) ≡ δ_j (mod |W₁|)` ((4.3)(d)), with `μ_ij(1)`
+independent of `i` (math-comp `prTIirr_1`); the reducible sums `μ_j = ∑ᵢ μ_ij`; and the
+restriction formulas (4.4), (4.5). Define the **prime Dade configuration** (4.6): a cyclic T.I.
+configuration for `(G, W)`, a prime T.I. configuration for `(L, K, W₁, W₂)`, a Dade datum for
+`(L, A₀)` with `A₀ = A ∪ V^L`, `H ⊴ L` with `W₂ ≤ H ≤ K`, and an `L`-invariant subset
+`A ⊆ K \ {1}` containing `C_K(h) \ {1}` for every `h ∈ H^#`. Prove (4.7)–(4.10): the Dade
+isometry of `A₀` restricted to `CF(L, V^L)` is the cyclic isometry of §2.6, the degree and
+support identities for the `μ_ij`, and the inequality (4.9). *Needs:* §2.3, §2.6, Tau Ceti
 `TauCeti.IsTISet`; InductionRestriction Layer 5.
 
 **Checks.**
@@ -600,13 +591,59 @@ and support identities for the `μ_ij`, and the inequality (4.9). *Needs:* §2.3
 - `L = C₃ × C₅` with `K = C₅`, `W₁ = C₃`, `W₂ = C₅`: `C_K(x) = C₅ = W₂`, `W = L` cyclic of odd
   order, `W₁` Hall: a prime T.I. configuration in which `V = L \ (C₃ ∪ C₅)` (eight elements) is
   T.I. with normalizer `L` in `L`.
-- `|μ_ij(1)| = |W₁|`: for the previous instance `3`, consistent with `Ind_W^L w_ij = w_ij` of
-  degree `1` only when `W = L`; the degree clause of (4.3) is about `L ⊋ W`, as in Layer 4.
+- In that instance `σ` is the identity of `CF(L)` (induction from `W = L` is the identity and
+  the `ξ_ij` are forced by linear independence), so `δ_j = 1` and `μ_ij = w_ij` has degree
+  `1 ≡ δ_j = 1 (mod 3)`; a wrong statement giving `μ_ij` the degree `|W₁| = 3` fails here, as
+  does one making `μ_ij(1)` depend on `i`.
+- The clause `A ⊆ K \ {1}` of (4.6) is not implied by the others: replacing `A` by `A ∪ V^L`
+  leaves `A₀`, the `L`-invariance and the containment of the sets `C_K(h) \ {1}` intact, while
+  `V^L ⊄ K` (an element of `V` has nontrivial `W₁`-part and `W₁ ∩ K = 1`).
+
+### 2.8 The coherence theorems of §§5–6
+
+State and prove, with every numerical hypothesis explicit: the **subcoherence** hypothesis
+(5.2) for a family `S` of characters closed under conjugation with no real member, an isometry
+`τ` on `ℤ[S, L^#]`, and a choice of orthonormal sets `R(ξ)` with `τ(ξ − ξ̄) = ∑ R(ξ)`; the norm
+estimate (5.4); the coherence criterion (5.5); Feit's extension theorem (5.6): a coherent
+subfamily of a subcoherent `S` extends to `S` when the degree inequality it states holds; the
+extension theorem (5.7) for families with a character of larger degree; the inequality (5.8); and
+the Dade-restricted forms (5.9). Then the §6 theorems, under Peterfalvi's standing hypothesis
+(6.1): `K ⊴ L` with `K` solvable; for `X ⊴ L` with `X ≤ K`, the family `S_K(X)` of the distinct
+`Ind_K^L χ` for `χ ∈ Irr K` with `X ≤ ker χ` and `K ⊄ ker χ` (math-comp `seqIndD K L K X`; it
+grows as `X` shrinks, and `S_K(1)` is the family of §4.1 with `H₁ = K`); and an isometry `τ` on
+`ℤ[S_K(1), L^#]` for which `S_K(1)` is subcoherent. The quotient criterion (6.2): for `A < K` and
+`B ≤ D ≤ C ≤ K`, all normal in `L`, with `D ⧸ B` central in `C ⧸ B`, coherence of `S_K(A)` gives
+coherence of `S_K(B)` unless `|K : A| − 1 ≤ 2 |L : C| · √|C : D|`. Theorem (6.3): if
+`M ≤ H₁ ≤ H ≤ K`, all normal in `L`, `H ⧸ M` is nilpotent, `S_K(H₁)` is coherent and
+`|H : H₁| > 4 |L : K|² + 1`, then `S_K(M)` is coherent: the coherence of the smaller family
+`S_K(H₁)` is the input and the larger family `S_K(M)` the output. Sibley's theorem (6.8): for
+`L ≤ G` of odd order with `H ⊴ L` nilpotent and `H \ {1}` a T.I. set with normalizer `L` in `G`,
+and either `L = H ⋊ W₁` Frobenius with kernel `H`, or a prime Dade configuration (§2.7) for
+`(G, L, H, H, H \ {1})` (that is, `K = H`, `A = H \ {1}` and `A₀ = A ∪ V^L`) whose `W₂` has
+prime order and lies in `H'`, the family `S_H(1)` induced from `Irr(H) \ {1}` is coherent with
+`τ = Ind_L^G`. *Needs:* §2.3, §2.5, §2.7, Tau Ceti `TauCeti.IsTISet`,
+`TauCeti.IsFrobeniusComplement`; InductionRestriction Layer 5 (Clifford); CharacterTheory §4.3.
+
+**Checks.**
+- (6.3) on `L = C₇ ⋊ C₃`, `K = H = H₁ = C₇`, `M = 1`: `S_K(C₇)` is empty (no irreducible of
+  `C₇` has kernel containing `C₇` but not `C₇`), hence coherent, and `|H : H₁| = 1 > 4 · 9 + 1 =
+  37` fails, so (6.3) does not extend it to `S_K(1)`, the two induced characters of degree `3`.
+  Their coherence with `τ = Ind` (for `G = L` trivially, and for `L` embedded in a `G` in which
+  `C₇ \ {1}` is T.I. with normalizer `L`) is (6.8), `L` being Frobenius with kernel `C₇`. The
+  content of (6.3) is the passage from `S_K(H₁)` to the larger `S_K(M)`, so an instance with
+  `H₁ = M` tests nothing.
+- The threshold of (6.3) at `|L : K| = 3` is `4 · 9 + 1 = 37`: `|H : H₁| = 43` satisfies it and
+  `|H : H₁| = 37` does not; at `|L : K| = 1` the threshold is `5`.
+- The "no real member" clause of (5.2) holds for families of a group of odd order by (1.1), and
+  fails for `S = {ε}` in `S₃`.
+- The two alternatives of (6.8) are not exhaustive for nilpotent `H ⊴ L`: `L = C₃ × C₅` with
+  `H = C₅` is not Frobenius, and `H' = 1` contains no `W₂` of prime order, so (6.8) makes no
+  claim about it.
 
 ### Examples
 
 The Dade isometry of `(C₃ × S₃, S₃, {transpositions}, C₃)` computed in §2.3; induction as the
-Dade map for the T.I. subgroup `⟨(1 2)⟩ ≤ S₃` in §2.4; the cyclic isometry for `W = C₁₅` in §2.7.
+Dade map for the T.I. subgroup `⟨(1 2)⟩ ≤ S₃` in §2.4; the cyclic isometry for `W = C₁₅` in §2.6.
 
 ### Dependencies
 
@@ -624,7 +661,9 @@ every proper subgroup comes from Layer 0 §0.3 and is what the L3 and L7 theorem
 For a finite group `X` define `α(X) = {p prime | m_p(X) ≥ 3}` (Bender–Glauberman §10, the
 definition of `α`). A `p`-group `P` is **narrow** when `m_p(P) ≤ 2` or `P` has an elementary
 abelian subgroup of order `p²` that is maximal among the elementary abelian subgroups of `P`
-(§5, the definition of narrow); define `β(X)` as the primes `p` for which no Sylow `p`-subgroup
+(Bender–Glauberman define narrow `p`-groups through a subgroup `S` of order `p` with
+`C_P(S) = S × C`, `C` cyclic; the rank-two formulation used here is their characterization for
+odd `p`: §5, Theorem 5.3); define `β(X)` as the primes `p` for which no Sylow `p`-subgroup
 of `X` is narrow, and `X_α = O_{α(X)}(X)`, `X_β = O_{β(X)}(X)`. For `M` maximal in `G` define
 `σ(M)` as in the Conventions and `M_σ = O_{σ(M)}(M)` (§10, the definition of `σ`). Prove: the
 transport of these objects from `↥M` to `G`, their normality and characteristic property in `M`
@@ -635,11 +674,14 @@ primes `p ∣ |M|` outside `σ(M)`, `τ₁(M)`: `m_p(M) = 1` and `p ∤ |M'|`; `
 `τ₃(M)`: `m_p(M) = 1` and `p ∣ |M'|` (§12, the definitions of `τ₁, τ₂, τ₃`); and `κ(M)`: the
 primes of `τ₁(M) ∪ τ₃(M)` with a subgroup of order `p` of `M` centralizing a nonidentity element
 of `M_σ` (§14, the definition of `κ`). Define the **`σ`-support** as the union of `M_σ \ {1}`
-over maximal `M`, the supporting maximal subgroups of `x` as `{M maximal | x ∈ M_σ}`, and the
-multiplicity of `x` as the cardinality of that finite set (§14, `sigma_mmax_of`,
-`sigma_length`). Prove the conjugation, support and counting formulas before any signalizer or
-Dade datum is defined on them. *Needs:* §0.3, LocalFiniteGroupTheory L1 (`piCore`), L4
-(`pRank`, `IsElementaryAbelian`), Mathlib `Sylow`, `Subgroup.normalizer`.
+over maximal `M`, the supporting maximal subgroups of `x` as `M_σ[x] = {M maximal | x ∈ M_σ}`
+and the **multiplicity** of `x` as `|M_σ[x]|` (§14, `sigma_mmax_of`). Define separately the
+**`σ`-length** `ℓ_σ(x)` as the number of distinct nonidentity `σ(M)`-parts `x_{σ(M)}` of `x` over
+maximal `M` (§14, `sigma_length`); it is not the multiplicity, and Theorem 14.4 relates the two
+only when `ℓ_σ(x) = 1`, where the signalizer `R[x]` acts transitively on `M_σ[x]` with
+`|R[x]| = |M_σ[x]|` (§3.3). Prove the conjugation, support and counting formulas before any
+signalizer or Dade datum is defined on them. *Needs:* §0.3, LocalFiniteGroupTheory L1
+(`piCore`), L4 (`pRank`, `IsElementaryAbelian`), Mathlib `Sylow`, `Subgroup.normalizer`.
 
 **Checks.**
 - `α(C₃³) = {3}`, `α(C₃² × C₅) = ∅`; `β(C₃³) = {3}` (the only maximal elementary abelian
@@ -655,6 +697,8 @@ Dade datum is defined on them. *Needs:* §0.3, LocalFiniteGroupTheory L1 (`piCor
   `C₅ ≤ M_σ`, in `κ(M)`, whereas for `C₇ ⋊ C₃` alone `3 ∉ κ(M)` because `C₃` acts without fixed
   points on `M_σ = C₇`.
 - Independence of the Sylow choice: `N_G(P^m) = N_G(P)^m ≤ M^m = M` for `m ∈ M`.
+- An `x` of `σ`-length one with `|M_σ[x]| > 1` is the second case of Theorem 14.4, where the
+  two numbers differ; a definition taking `ℓ_σ(x)` for the multiplicity gives `1` there.
 
 ### 3.2 Transitivity and uniqueness (F3b)
 
@@ -732,9 +776,10 @@ nontrivial cyclic `W₁, W₂` define a **P-configuration** `(M, E, W₁, W₂)`
 normalized by `W₁`, and `M' = H(M) ⋊ E`; `H(M)` is not cyclic, `M'' ≤ F(M) ≤ M'` and
 `F(M) = H(M) · C_M(H(M))`; `W₂ ≤ H(M) ∩ M''` and `C_{M'}(w) = W₂` for every `w ∈ W₁^#`;
 `W = W₁ × W₂` is an internal direct product and `W \ (W₁ ∪ W₂)` is T.I. with exact normalizer
-`W`. Prove that for a nonempty `D` with `1 ∉ D` and `TauCeti.IsTISet D N`, the normalizer
-`N_G(D)` equals `N` iff `N_G(D) ≤ N`, and use that equivalence wherever "T.I. with exact
-normalizer" occurs. Define the **types** of a maximal subgroup (Peterfalvi Definitions (8.3),
+`W`. Prove that for a nonempty `D` with `TauCeti.IsTISet D N` the normalizer `N_G(D)` equals `N`
+(`N ≤ N_G(D)` by `conj_mem`; an element outside `N` moves `D` off itself by `disjoint_conj`, so
+it normalizes no nonempty `D`), as the Conventions state, and use that equality wherever "T.I.
+with exact normalizer" occurs. Define the **types** of a maximal subgroup (Peterfalvi Definitions (8.3),
 (8.6), (8.7); math-comp `of_typeI`, `of_typeII_IV`, `of_typeII`, `of_typeIII`, `of_typeIV`,
 `of_typeV`):
 
@@ -793,8 +838,8 @@ Layers 0–1; LocalFiniteGroupTheory L1–L7; Tau Ceti `TauCeti.IsTISet`; Mathli
 For a maximal `M` with `K = M'` or `K = H(M)` as the type dictates, and `H₁ ⊴ M` with `H₁ ≤ K`,
 define the **induced family** `S(H₁)` as the set of distinct characters `Ind_K^M χ` for
 `χ ∈ Irr K` whose kernel does not contain `H₁` (Peterfalvi §5, `seqIndD`), and identify its
-constituents and multiplicities through Clifford theory (InductionRestriction Layer 5): an
-induced irreducible is irreducible iff its inertia group is `K`, and in general it is
+constituents and multiplicities through Clifford theory (InductionRestriction Layer 5): `Ind_K^M χ`
+is irreducible iff the inertia group `I_M(χ)` is `K`, and in general its restriction to `K` is
 `|I_M(χ) : K|` times the sum over the `M`-orbit of `χ` (Peterfalvi (1.5)(a)). Prove, for each
 maximal `M`, the Dade datum of `(M, A(M))` with `A(M)` the support of Peterfalvi Definition
 (8.10) and complements the signalizers of §3.3 (Peterfalvi (8.11)–(8.13), Theorem (8.17)); the
@@ -812,9 +857,10 @@ norm-one classification are consumed from Tau Ceti and CharacterTheory. *Needs:*
 - `M = S₃`, `K = A₃`, `H₁ = A₃`: `Irr(A₃) \ {1} = {ω, ω²}`, `Ind ω = Ind ω² = ρ`, so `S(A₃) =
   {ρ}` has one element and `ρ` is irreducible (inertia group `A₃`); a wrong definition counting
   `Ind χ` with multiplicity would list `ρ` twice.
-- `M = C₃ × C₃`, `K = C₃ × 1`: every `Ind χ` has inertia group `M`, is reducible of degree `3`,
-  and equals `|I : K| = 3` times the sum of its single constituent; so "induction is irreducible"
-  is not assumed.
+- `M = C₃ × C₃`, `K = C₃ × 1`: every `Ind χ` has inertia group `M` and is the sum of the three
+  extensions of `χ` to `M`, reducible of degree `3`, while its restriction to `K` is
+  `|I : K| · χ = 3χ`, the orbit sum with its single term; so "induction is irreducible" is not
+  assumed, and (1.5)(a) is a statement about the restriction, not about `Ind χ` itself.
 - The degree-zero theorem for `S(H₁)` with `A = M^#`: every member has degree `|M : K| · χ(1)`
   and vanishes nowhere in general; a degree-zero combination vanishes at `1`, which is all that
   `A = M^#` asks.
@@ -849,8 +895,9 @@ contradiction from the Frobenius bound (7.10) and the covering inequality (7.11)
 establishes the premise selecting the second alternative of §3.4. *Needs:* §3.4, §4.1, §4.2.
 
 **Checks.**
-- The Frobenius bound (7.10) for a Frobenius maximal subgroup with kernel of order `h` and
-  complement of order `e` reads `(e − 1)·((h − 2e − 1)/(e h) + 2/(h (h + 2))) ≤ (|G₀| − 1)/|G|`,
+- The Frobenius bound (7.10) holds for at least one, not for each, of the `k ≥ 2` Frobenius
+  maximal subgroups of its hypothesis: for that subgroup, with kernel of order `h` and
+  complement of order `e`, it reads `(e − 1)·((h − 2e − 1)/(e h) + 2/(h (h + 2))) ≤ (|G₀| − 1)/|G|`,
   where `G₀` is the complement of the Dade supports; at `e = 3`, `h = 7` the left side is
   `2 · (0/21 + 2/63) = 4/63`. The contradiction of (12.17) needs at least two conjugacy classes of
   maximal subgroups, which §3.3's separation theorem provides.
@@ -937,7 +984,7 @@ type I, `U ≤ H(L)`, `L` is Frobenius with kernel `H(L)` by §4.2, and `L = H(L
 some `y ∈ Q`; the complement `W₁` alone is excluded by the family inequalities of §4.1 (Theorem
 (14.4) and the type-I bridge of §13), so the Frobenius complement has order `pq` and acts without
 fixed points on `H(L)`. The coherence of the family `S(H(L))` of `L` and a character `φ` of
-degree `|L : H(L)|` in it (Hypothesis (14.3)) come from §2.6 and §4.1. *Needs:* §0.3, §3.3, §3.4,
+degree `|L : H(L)|` in it (Hypothesis (14.3)) come from §2.8 and §4.1. *Needs:* §0.3, §3.3, §3.4,
 §4.1, §4.2, §4.4.
 
 **Checks.**
@@ -1007,7 +1054,7 @@ separation, the nonconjugacy of `L` and `M` (14.11), and the action-kernel ratio
 `h ≡ 1 (mod pq)` (Frobenius kernel) and `|U| ≡ 1 (mod pq)` (from `U ⋊ W₁` Frobenius and the free
 action of `W₂^y`), so `|H(L) : U| ≡ 1 (mod pq)`, which the degree inequalities bound below
 `pq + 1`. Then `U = H(L)` is characteristic in `H(L)`, contradicting §5.4. This excludes the
-second alternative of §3.4 and, with §4.3, completes Peterfalvi §14. *Needs:* §2.6, §4.1, §4.4,
+second alternative of §3.4 and, with §4.3, completes Peterfalvi §14. *Needs:* §2.8, §4.1, §4.4,
 §5.2, §5.3, §5.4.
 
 **Checks.**
@@ -1062,8 +1109,10 @@ Layers 0–5.
 - GlaubermanZStar Z2 (the Brauer–Suzuki case) consumes Layer 2 §2.4: the Dade isometry with
   trivial complements is induction, for the T.I. set of elements of order divisible by `4` in
   the centralizer of a cyclic subgroup of order four. It does not consume Layers 0–1 or 3–6.
-- CFSGStatement and CFSGBasicProperties cite the odd order theorem as a prerequisite and consume
-  `isSolvable_of_odd_natCard` and `even_natCard_of_nonabelian_simple` from Layer 6.
+- A roadmap that needs the solvability of groups of odd order, or that a nonabelian simple
+  group has even order, may consume `isSolvable_of_odd_natCard` and
+  `even_natCard_of_nonabelian_simple` from Layer 6; CFSGStatement and CFSGBasicProperties state
+  the classification without citing either.
 - Any later roadmap on the Bender–Suzuki strongly embedded theorem consumes Layer 1 and the Dade
   library of Layer 2.
 
