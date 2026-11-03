@@ -119,11 +119,11 @@ The source is Ill03, Théorème 2.4 (cited through ILO14), as recalled in ILO14,
 
 ### From TauCetiRoadmap.ArcTopologyAndDescent
 
-Section 3.6 supplies ultraproduct components of products of valuation rings, with no rank bound on the components. Section 8.6 supplies formal glueing, §8.7 the rigidity predicate and its API for henselian pairs, §8.8 punctured completion for rigid arc-sheaves, and §8.9 bounded-torsion and closed-support completion comparisons for étale cohomology. Sections 11.1–11.2 and 11.5 supply the I-complete arc topology, the product-of-complete-aic-valuations basis and complete/punctured étale hyperdescent for finitely generated I. In particular, §11.2 supplies that every étale cover of a quasi-compact open in the spectrum of a product of valuation rings with algebraically closed fraction fields has a section; this input needs neither perfectoidness nor a rank bound on the ultraproduct components (CS24, Lemma 2.2.4, pp. 19–20; CS24 lines 774–797). Section 12.6 supplies invariance of these covering conditions under tilting. In Layer 7 completion comparison is applied to cohomology with closed support before reducing to complete regular local rings; it is not an unrestricted assertion about every principal open of a merely local ring.
+Section 1.3 supplies the h-site of finitely presented schemes over a qcqs base; over the noetherian bases of §2.4, finite type is finite presentation. Section 3.6 supplies ultraproduct components of products of valuation rings, with no rank bound on the components. Section 8.6 supplies formal glueing, §8.7 the rigidity predicate and its API for henselian pairs, §8.8 punctured completion for rigid arc-sheaves, and §8.9 bounded-torsion and closed-support completion comparisons for étale cohomology. Sections 11.1–11.2 and 11.5 supply the I-complete arc topology, the product-of-complete-aic-valuations basis and complete/punctured étale hyperdescent for finitely generated I. In particular, §11.2 supplies that every étale cover of a quasi-compact open in the spectrum of a product of valuation rings with algebraically closed fraction fields has a section; this input needs neither perfectoidness nor a rank bound on the ultraproduct components (CS24, Lemma 2.2.4, pp. 19–20; CS24 lines 774–797). Section 12.6 supplies invariance of these covering conditions under tilting. In Layer 7 completion comparison is applied to cohomology with closed support before reducing to complete regular local rings; it is not an unrestricted assertion about every principal open of a merely local ring.
 
 ### From TauCetiRoadmap.ClassicalAdicEtaleCohomology
 
-Section 5.4 supplies `OrientedEtaleProduct` for scheme maps X → S ← Y, its projections and specialization two-cell, the site including Cartesian refinements of the middle neighborhood, and its universal property. It also supplies the scheme-point and shred descriptions and the coherent qcqs case. §3.1 uses that scheme object and proves agreement with the oriented product for general finite-limit sites; §§3.2–3.6 add the coherent-topos tube theorem and alteration-diagram descent. The same section supplies the curve step of its plurinodal alteration theorem (DJ97, Corollary 5.10, p. 618; DJ97 line 699): marked stable extension of a generic pointed curve after alteration, flattening and marked sections, preservation of finite group actions by simultaneous translates, and nodality of quotients of projective nodal curves over normal excellent bases; §2.1 uses it and adds the boundary control, generic étaleness and birational quotient conclusion. No nearby-cycle constructibility theorem from this supplier is used to prove Gabber finiteness.
+Section 5.4 supplies `OrientedEtaleProduct` for scheme maps X → S ← Y, its projections and specialization two-cell, the site including Cartesian refinements of the middle neighborhood, and its universal property. It also supplies the scheme-point and shred descriptions and the coherent qcqs case. §3.1 uses that scheme object and proves agreement with the oriented product for general finite-limit sites; §§3.2–3.6 add the coherent-topos tube theorem and h-oriented diagram descent. The same section supplies the curve step of its plurinodal alteration theorem (DJ97, Corollary 5.10, p. 618; DJ97 line 699): marked stable extension of a generic pointed curve after alteration, flattening and marked sections, preservation of finite group actions by simultaneous translates, and nodality of quotients of projective nodal curves over normal excellent bases; §2.1 uses it and adds the boundary control, generic étaleness and birational quotient conclusion. No nearby-cycle constructibility theorem from this supplier is used to prove Gabber finiteness.
 
 ### From TauCetiRoadmap.PerfectoidQuotients
 
@@ -183,7 +183,7 @@ A proof route is as follows. Define the subcategory and the functor T ↦ T^md o
 
 Let S be noetherian and ℓ as in §0.1. An étale covering (X_i → X) is ℓ′-decomposed if every point x of X lifts to a point x_i of some X_i with [κ(x_i) : κ(x)] ∈ ℓ′ (for ℓ = 1 an ordinary étale covering, for ℓ = ∞ a Nisnevich covering). The topology alt_ℓ′ of ℓ′-alterations on alt/S is the Grothendieck topology generated by (i) ℓ′-decomposed étale coverings and (ii) single morphisms that are proper, surjective and maximally ℓ′-finite. alt_1′ is the alteration topology alt. A hypercovering for alt_ℓ′ of X is a simplicial object X_• of alt/X with X_0 → X an alt_ℓ′-covering and whose maps Xₙ₊₁ → (cosk_n X_•)ₙ₊₁ are alt_ℓ′-coverings. (ILO14, Exposé II, §2.1 and Definition 2.3.1, Remark 2.3.2, 2.3.3–2.3.4, pp. 26–28 (printed); ILO14 line 1374).
 
-The generating families are not closed under composition (ILO II 2.3.2); the topology is the one they generate. Condition (i) is imposed at every point, condition (ii) only at maximal points.
+The generating families are not closed under composition (ILO II 2.3.2); the topology is the one they generate. Condition (i) is imposed at every point, condition (ii) only at maximal points. The matching objects here are formed in alt/X, using its modified products. For étale descent, §2.4 instead constructs h-hypercovers with ordinary scheme matching objects (ILO-final-XII, XIIA §§2.1.1, 2.2.1; ILO-final-XII lines 218–223, 264–272).
 
 Its interface consists of the following facts.
 
@@ -565,23 +565,35 @@ A proof route is as follows. Reduce to X complete local normal of dimension d by
 
 - For X the quotient 𝔸²/μ_ℓ by (x, y) ↦ (ζx, ζ⁻¹y) over a field of characteristic ≠ ℓ, the quotient map of degree ℓ is not allowed; the minimal resolution of the A_(ℓ−1) singularity is an alt_ℓ′-covering modification.
 
-### 2.4 Hypercoverings by regular schemes with snc boundary
+### 2.4 Scheme h-hypercoverings by regular schemes with boundary
 
-Let X be a noetherian quasi-excellent scheme, Z ⊂ X a closed subset with dense complement U, and N ≥ 0. There is a hypercovering ε : X_• → X for the alteration topology (resp. for alt_ℓ′ with ℓ invertible on X) such that for every i ≤ N the scheme X_i is regular (a finite disjoint union of regular connected schemes) and the preimage of Z in X_i is the support of a strict normal crossings divisor, so that U_i = U ×_X X_i is the complement of an snc divisor. The X_i may be chosen affine. (ILO14, Exposé XIII, Théorème 2.2.2, p. 196 (printed); Exposé XV, 3.1.2, p. 222 (printed); ILO14 line 9331).
+Let X be a noetherian quasi-excellent scheme, Z ⊂ X a closed subset with dense complement U, and N ≥ 0. Prove that there is an h-hypercovering ε : X_• → X in the category of finite-type X-schemes, with ordinary scheme fibre products and coskeleta, such that for every i ≤ N, X_i is a finite disjoint union of affine regular connected schemes T. On each T the inverse image U_T of U is either the complement of an snc support or empty. In the latter case all of T lies over Z. No maximal dominance or generic finiteness over X is imposed on the terms. Here h is the supplied topology generated by proper surjections and Zariski coverings. (ILO-final-XIII, Théorème 2.2.2, p. 263; ILO-final-XIII lines 99–108; the construction with affine refinements is also used in ILO14, XV 3.1.2, p. 222; ILO14 line 10471.)
 
-X noetherian quasi-excellent; Z rare; ℓ invertible on X for the alt_ℓ′ version; only the truncation in degrees ≤ N is controlled.
+For a prime ℓ invertible on X, prove the refinement with degree control relative to each matching scheme M: the new nondegenerate summand is a finite union of regular schemes whose map to M_red is an alt_ℓ′-cover in alt/M_red. This is a condition on the new summand, not on the full matching map, whose degenerate summands need not be maximally dominant over M. The resulting simplicial object is still an ordinary scheme h-hypercover. Only degrees ≤ N require regularity and boundary control. (Apply §2.3 to the reduced irreducible components of M, and §0.3 to their covering maps; ILO-final-IX, Théorème 1.1, p. 161; ILO-final-IX line 27; ILO-final-II, Théorème 3.2.1, pp. 28–29; ILO-final-II line 301.)
 
-A proof route is as follows. Build a split hypercovering degree by degree, as in the hypercover construction of EnhancedDerivedSheaves §E2 (the classical split construction that ILO XIII 2.2.1 invokes; ILO14 line 9329). At stage n + 1 the matching object M = (cosk_n X_•)ₙ₊₁ is an object of alt/X: it is reduced, of finite type over the quasi-excellent X, and maximally dominant, so its maximal points lie over maximal points of X, which lie in the dense open U. Hence the preimage of Z in M is nowhere dense, and §2.2 (resp. §2.3) applied to M with boundary the preimage of Z alone gives the new nondegenerate summand N_(n+1), refined to finitely many affine regular connected pieces by a Zariski refinement. Set Xₙ₊₁ = N_(n+1) ⊔ (the degenerate summands forced by the degeneracy maps), each a copy of some N_k with k ≤ n, already regular with snc boundary. No degeneracy image is added to the boundary: it can be all of M, as for X = Spec k, Z = ∅, where X₀ ×_X X₀ = X (ILO XIII 2.2.2, XV 3.1.2).
+A proof route uses the hypercover formalism of EnhancedDerivedSheaves §E2 and constructs a split hypercover degree by degree. For each ordinary matching scheme M = (cosk_n X_•)ₙ₊₁, first take the finite proper surjection from the disjoint union of its reduced irreducible components M_a. These are quasi-excellent and of finite type over X. If M_a meets U, that inverse image is dense, so §2.2 (resp. §2.3) uniformizes its nowhere dense complement. If M_a maps entirely into Z, apply the same theorem with empty auxiliary boundary; the resulting regular pieces have U_T = ∅. Refine by finitely many affine opens to obtain the new summand. The component map and these alteration covers are h-covers by §0.3; in the prime-to-ℓ case they give an alt_ℓ′-cover relative to M_red. Add the forced degenerate summands, which are copies of earlier regular pieces. Finite ordinary matching constructions and covering refinements extend the controlled truncation to a hypercover in all degrees. No degeneracy image is added to the boundary (ILO-final-XIII, §2.2.1–2.2.2, p. 263; ILO-final-XIII lines 96–108).
 
-*Needs:* §2.2; §2.3; §0.2; §0.1; EnhancedDerivedSheaves §E2.
+Its interface consists of the following facts.
+
+- The augmentation and every matching map are h-coverings computed with ordinary scheme limits; base change along any scheme map preserves this hypercover condition, without asserting preservation of regularity.
+
+- Each controlled connected term has either an snc complement U_T or U_T = ∅; for the latter, the direct image of any complex on U_T is zero.
+
+- With ℓ invertible, the new summand over each M_red has an alt_ℓ′-covering refinement as above, including covering conditions at nongeneric points; generic degree prime to ℓ alone is insufficient.
+
+*Needs:* §2.2; §2.3; §0.3; §0.2; §0.1; ArcTopologyAndDescent §1.3 for the scheme h-site; EnhancedDerivedSheaves §E2 for hypercovers, totalizations and descent.
 
 **Checks.**
 
-- For X regular with Z an snc support, the constant hypercovering X_• = X works.
+- For affine regular X with Z an snc support, the constant hypercovering X_• = X has identity matching maps and meets all the conditions. For X = ∅, every term is empty and the matching map is ∅ → ∅.
 
-- For X = Spec k and Z = ∅, the matching object at stage 1 is X₀ ×_X X₀; for X₀ = X it is a point whose degeneracy image is all of it. A construction that added degeneracy images to the boundary would ask §2.2 for a boundary equal to the whole scheme, which is not nowhere dense. The split construction takes the new summand and the forced degenerate summand to be points with empty boundary.
+- For X = Spec k and Z = ∅, the first ordinary matching object for X₀ = X is a point and its degeneracy image is the whole point. In the split construction the new point and the forced degenerate point both have empty boundary; adding the degeneracy image to that boundary would give the whole point, which is not nowhere dense.
 
-- The truncation bound N ≥ q + 1 suffices for the stated control in degree q: it uses levels 0 and 1 for q = 0, and levels 0, 1 and 2 for q = 1. The constant hypercover does not require this many levels to compute its own cohomology (ILO XIII 2.2.1–2.2.3).
+- For π : T = Bl_0(𝔸²_ℂ) → X = 𝔸²_ℂ and U = X − {0}, write E = ℙ¹_ℂ for the exceptional fibre. In alt/X the modified self-product is T and the constant simplicial T is an alteration-site hypercover. The ordinary first matching scheme T ×_X T also contains E × E, and the diagonal misses every pair of distinct exceptional points. Thus the constant simplicial T is not a scheme h-hypercover. The ordinary Čech nerve retains E × E and all its higher fibre powers; its boundary component E × E has U-part ∅. For the componentwise open immersion j : ∅ → E × E, Rj_*Λ = 0. Uniformization of that component relative to itself has degree 1, prime to every ℓ; it cannot be an alteration over X because its image is the origin.
+
+- For the degree-zero matching scheme Spec k[ε]/(ε²) of the augmentation Spec k → Spec k[ε]/(ε²), reduction gives Spec k with generic residue degree 1; reduction changes no geometric point and is a proper surjective h-cover. Demanding the matching scheme itself be reduced would reject this example.
+
+- For complexes concentrated in nonnegative cohomological degrees, the truncation bound N ≥ q + 1 suffices for the descent control in degree q: it uses levels 0 and 1 for q = 0, and levels 0, 1 and 2 for q = 1. A constant identity hypercover computes its own cohomology in degree zero of the simplicial direction (ILO-final-XIII, §§2.2.1–2.2.3, p. 263).
 
 ### Examples
 
@@ -589,11 +601,11 @@ The quadratic cone xy=z² is resolved by blowing up its vertex, including in cha
 
 ### Dependencies
 
-Layers 0–1; AdicCoefficientsAndComparisonsPartII §§PA.4.1–PA.4.8, PA.5.1–PA.5.4; SchemeAndStackFoundations §§4.16–4.20; ClassicalAdicEtaleCohomology §5.4 for the curve step; EnhancedDerivedSheaves §E2 for hypercovers.
+Layers 0–1; AdicCoefficientsAndComparisonsPartII §§PA.4.1–PA.4.8, PA.5.1–PA.5.4; SchemeAndStackFoundations §§4.16–4.20; ClassicalAdicEtaleCohomology §5.4 for the curve step; ArcTopologyAndDescent §1.3 for the scheme h-site; EnhancedDerivedSheaves §E2 for hypercovers.
 
 ## Layer 3: Oriented products and oriented cohomological descent
 
-Construct general oriented products, their tube comparison and descent along alteration diagrams. Torsion abelian coefficients need no prime-to-residue-characteristic restriction.
+Construct general oriented products, their tube comparison and descent along h-oriented scheme diagrams. Torsion abelian coefficients need no prime-to-residue-characteristic restriction.
 
 ### 3.1 Deligne's oriented product of topoi
 
@@ -657,7 +669,7 @@ Its interface consists of the following facts.
 
 - B has the stated finite limits and the h-oriented Grothendieck topology, with coverings stable under base change.
 
-- An h-hypercovering S_• → S induces an h-oriented hypercovering of every diagram over S. In particular, every alteration hypercovering from §0.2 gives one, since its generators are h-coverings.
+- An h-hypercovering S_• → S with ordinary scheme matching objects induces an h-oriented hypercovering of every diagram over S, since base change preserves those matching objects and the type (iii) coverings. Section 2.4 supplies such hypercovers. The modified matching objects of alt/S in §0.2 do not give this implication.
 
 - Functoriality of oriented products gives the augmentation ←ε : Tot(Y_• ←×_(S_•) X_•) → Y ←×_S X and its inverse and derived direct image.
 
@@ -665,7 +677,7 @@ Its interface consists of the following facts.
 
 A proof route is to use termwise limits of schemes, stability of proper surjections and Zariski coverings under base change, and the five generating forms above. Construct matching objects in this ambient category and use §3.1 for the induced oriented-product maps (ILO-final-XII, XIIA §§2.1–2.2).
 
-*Needs:* §3.1; §0.2; SchemeAndStackFoundations §§2.15–2.16; EnhancedDerivedSheaves §E2.
+*Needs:* §3.1; §2.4 for regular scheme h-hypercovers; SchemeAndStackFoundations §§2.15–2.16; EnhancedDerivedSheaves §E2.
 
 **Checks.**
 
@@ -713,23 +725,25 @@ A proof route is to reduce bounded-below hypercover descent to the five generati
 
 - On a separably closed point the constant sheaf ℚ/ℤ satisfies the noetherian torsion-cohomology version: the identity comparison is ℚ/ℤ → ℚ/ℤ although no positive integer annihilates it. It is not a module over any fixed ℤ/n with n > 0.
 
-### 3.6 Hyper-base-change and alteration hypercoverings
+### 3.6 Hyper-base-change for scheme h-hypercoverings
 
-Let X —f→ S ←g— Y be any diagram of noetherian schemes and ε : S_• → S an alteration hypercovering. Put X_• = X ×_S S_•, Y_• = Y ×_S S_•, with induced maps f_•, g_• and ε_Y : Tot(Y_•) → Y. For every bounded below complex K of abelian étale sheaves on X with torsion cohomology, the natural map g^*Rf_*K → Rε_(Y*)(g_•^*Rf_(•*)(K|X_•)) is an isomorphism. More generally, for arbitrary schemes, a coherent f, an h-hypercovering S_• → S and a torsion coefficient ring Λ, this holds for K ∈ D⁺(X_ét, Λ). Coherence is required of f, the map whose direct image is taken; the published source calls this map g. (ILO14, XII Theorem 2.2.4(i), pp. 192–194; ILO14 line 9093; ILO-final-XII, XIIA Theorem 2.2.5 and Remark 2.2.6.1, pp. 243–244; ILO-final-XII lines 290–333.)
+Let X —f→ S ←g— Y be any diagram of noetherian schemes and ε : S_• → S an h-hypercovering by finite-type S-schemes, with matching objects computed in schemes. Put X_• = X ×_S S_•, Y_• = Y ×_S S_•, with induced maps f_•, g_• and ε_Y : Tot(Y_•) → Y. For every bounded below complex K of abelian étale sheaves on X with torsion cohomology, the natural map g^*Rf_*K → Rε_(Y*)(g_•^*Rf_(•*)(K|X_•)) is an isomorphism. More generally, for arbitrary schemes, a coherent f, a scheme h-hypercovering S_• → S and a torsion coefficient ring Λ, this holds for K ∈ D⁺(X_ét, Λ). Coherence is required of f, the map whose direct image is taken; the published source calls this map g. (ILO14, XII Theorem 2.2.4(i), pp. 192–194; ILO14 line 9093; ILO-final-XII, XIIA Theorem 2.2.5 and Remark 2.2.6.1, pp. 243–244; ILO-final-XII lines 290–333.)
 
-Neither f nor g is required to be of finite type. In the noetherian case f is automatically coherent, and the alteration hypercover terms and their pullbacks remain noetherian because the hypercover terms are of finite type over S. For the torsion-cohomology variant outside this domain retain coherence of all maps in the augmented diagrams, as in §3.5.
+Neither f nor g is required to be of finite type. In the noetherian case f is automatically coherent, and the scheme h-hypercover terms and their pullbacks remain noetherian because the hypercover terms are of finite type over S. For the torsion-cohomology variant outside this domain retain coherence of all maps in the augmented diagrams, as in §3.5.
 
 A proof route expresses both sides through oriented products and applies §3.5 to the induced h-oriented hypercover. The scheme-local tube comparison follows from §3.2 after taking affine neighborhoods; the coherent direct-image map has qcqs inverse images of those neighborhoods. The two tube comparisons, descent adjunction and composition of derived direct images give the displayed map (ILO-final-XII, XIIA proof of 2.2.5, p. 244; ILO-final-XII lines 310–322). The case g a closed immersion and f an open immersion supplies the boundary restrictions in Layers 4–5.
 
-*Needs:* §3.5; §3.2; §3.3.
+*Needs:* §3.5; §3.2; §3.3; §2.4 for the regular scheme h-hypercovers used in Layers 4–5.
 
 **Checks.**
 
-- For S_• constant, both sides are g^*Rf_*K and the comparison is the identity.
+- For the constant identity hypercover S_• = S, both sides are g^*Rf_*K and the comparison is the identity.
 
 - For S = Spec k[t], X = Spec k(t), g = id_S and the constant hypercover, both sides are Rf_*K. With constant K = ℤ/n, n ≥ 2, both have generic geometric H⁰ = ℤ/n. The localization k[t] → k(t) is not finite type: finitely many denominators cannot invert every irreducible polynomial.
 
-- For X = U ⊂ S open, g : Z → S the closed complement and a hypercover regular with snc boundary, the terms are g_•^*Rj_(•*)Λ. On a strict trait with constant hypercover and Λ of invertible order, the closed stalk has H⁰ = Λ and H¹ = Λ(−1) on both sides; replacing Rj_* by j_* loses H¹.
+- For X = U ⊂ S open, g : Z → S the closed complement and a scheme h-hypercover whose connected terms have snc-complement or empty U-part, the terms are g_•^*Rj_(•*)Λ. On a strict trait with constant hypercover and Λ of invertible order, the closed stalk has H⁰ = Λ and H¹ = Λ(−1) on both sides; replacing Rj_* by j_* loses H¹. An empty U-part contributes the zero complex.
+
+- For f = g = id_S, S = 𝔸²_ℂ, Λ = ℤ/3 and π : Bl_0(S) → S, the constant simplicial blow-up has closed-stalk H² = Λ(−1) on the proposed right side, whereas the left side Λ has H² = 0. It is excluded by the ordinary matching condition. For the ordinary Čech nerve of π, the exceptional fibres in degrees 0 and 1 are E and E × E: the differential on H² sends the generator h to h₂ − h₁ ≠ 0. Proper descent gives closed-stalk H² = 0 for its totalization, agreeing with the left side (EtaleCohomologyFoundations §F.2.1; SchemeAndStackFoundations §2.16).
 
 ### Examples
 
@@ -737,7 +751,7 @@ A strict trait contributes the three underlying point pairs (s,s), (η,η), (s,�
 
 ### Dependencies
 
-Layer 0; AdicEtaleGeometry §§A1.14–A1.15; ClassicalAdicEtaleCohomology §5.4 for the scheme-oriented product; EnhancedDerivedSheaves §§0.1–0.4, E2; EtaleCohomologyFoundations §§F.1, F.2.1; SchemeAndStackFoundations §§2.15–2.16; LefschetzPencilsAndVanishingCycles §§0.2–0.5 for the trait comparison.
+Layers 0 and 2; AdicEtaleGeometry §§A1.14–A1.15; ClassicalAdicEtaleCohomology §5.4 for the scheme-oriented product; EnhancedDerivedSheaves §§0.1–0.4, E2; EtaleCohomologyFoundations §§F.1, F.2.1; SchemeAndStackFoundations §§2.15–2.16; LefschetzPencilsAndVanishingCycles §§0.2–0.5 for the trait comparison.
 
 ## Layer 4: Gabber's finiteness theorem
 
@@ -749,13 +763,15 @@ Let X be a noetherian quasi-excellent scheme, f : Y → X a morphism of finite t
 
 X noetherian quasi-excellent; n invertible on X; f of finite type; F constructible.
 
-A proof route is as follows. Classical reductions : to F = ℤ/ℓ constant and to f an open immersion j : U → X (ILO XIII 2.1.1–2.1.2). By the constructibility criterion of ILO XIII §2.2 it suffices that for every closed immersion g : Z → X, g^*R^q j_*ℤ/ℓ is constructible over a dense open of Z. Take an alteration hypercover X_• → X regular with snc preimage of the boundary X − U in degrees ≤ q + 1 (§2.4). Absolute purity makes Rj_(p*)ℤ/ℓ constructible on X_p, hence so is its restriction to Z_p = Z ×_X X_p; no snc condition on the test-closed subset Z is required. Apply Deligne’s generic constructibility over the noetherian base Z (SGA 4½ [Th. finitude] 1.9(i), p. 236) to the finite-type maps ε_p : Z_p → Z and the finitely many constructible cohomology sheaves needed in total degree q. These maps need not be proper. A common dense open of Z works, and oriented hypercover base change identifies the truncated descent complex with g^*Rj_*ℤ/ℓ (ILO XIII 2.2.3). Use the general-base generic-constructibility contract of EtaleCohomologyFoundations §F.3.
+A proof route is as follows. Classical reductions : to F = ℤ/ℓ constant and to f an open immersion j : U → X (ILO XIII 2.1.1–2.1.2). By the constructibility criterion of ILO XIII §2.2 it suffices that for every closed immersion g : Z → X, g^*R^q j_*ℤ/ℓ is constructible over a dense open of Z. Take the scheme h-hypercover X_• → X of §2.4, with ordinary matching objects and regular terms through degree q + 1. On each connected term, U_p is an snc complement or empty. Absolute purity makes Rj_(p*)ℤ/ℓ constructible on the former; on the latter it is zero. In both cases its restriction to Z_p = Z ×_X X_p has constructible cohomology; no snc condition on the test-closed subset Z is required. Apply Deligne’s generic constructibility over the noetherian base Z (SGA 4½ [Th. finitude] 1.9(i), p. 236) to the finite-type maps ε_p : Z_p → Z and the finitely many constructible cohomology sheaves needed in total degree q. These maps need not be proper. A common dense open of Z works, and oriented hypercover base change identifies the truncated descent complex with g^*Rj_*ℤ/ℓ (ILO-final-XIII, §2.2.3, p. 263; ILO-final-XIII lines 109–118). Use the general-base generic-constructibility contract of EtaleCohomologyFoundations §F.3.
 
-*Needs:* §2.4; §3.6; §2.2; LefschetzPencilsAndVanishingCycles §0.10; EtaleCohomologyFoundations §§F.0–F.1, 0.7; EtaleCohomologyFoundations §F.3, the general-base generic-constructibility contract.
+*Needs:* §2.4 for ordinary scheme h-hypercovers with snc-complement or empty U-parts; §3.6 for their hyper-base-change; §2.2; LefschetzPencilsAndVanishingCycles §0.10; EtaleCohomologyFoundations §§F.0–F.1, 0.7; EtaleCohomologyFoundations §F.3, the general-base generic-constructibility contract.
 
 **Checks.**
 
 - For X of finite type over a field this recovers Deligne's finiteness theorem of SGA 4½ for open immersions.
+
+- In the blow-up example of §2.4, separating the reduced matching components gives the regular piece E × E over the origin with empty U-part. The componentwise open immersion ∅ → E × E has Rj_*ℤ/ℓ = 0, hence constructible on every test-closed pullback; it requires no snc structure on the entire component as a boundary.
 
 - ILO XIX 2.2 gives a noetherian non-quasi-excellent example with geometric stalk dimensions 2 at infinitely many boundary points and 1 at the boundary generic point; R¹j_*ℤ/2 is not constructible (ILO14 line 17123).
 
@@ -899,17 +915,19 @@ Let X be a quasi-excellent scheme with a dimension function δ_X, f : Y → X an
 
 X quasi-excellent with a dimension function; f affine of finite type; n invertible on X; F constructible.
 
-A proof route is as follows. Reformulate stalkwise at geometric points and reduce to the strictly local statement; reduce to an affine open immersion and constant coefficients by the coefficient and open-immersion reductions of ILO XV 1.2.1–1.2.4. Reduce to X complete by regular base change along the completion (§5.3, ILO XV 1.2.5). Take an alteration hypercovering X_• with regular terms and snc boundary in degrees ≤ N (§2.4). By oriented descent (§3.6) and the branch comparison below, H^q(U, ℤ/n) for q ≤ N is unchanged along a local morphism of strictly local schemes X′ → X whenever, for every level q ≤ N + 1, the boundary of X_q and of its base change X′_q have the same combinatorics along the closed fibre (ILO XV 2.2.2–2.2.4, pp. 221–222). Approximate X_• over the henselisation of an affine space over a Cohen ring by Popescu (§0.5), choosing the approximation fine enough that each level stays regular near the closed fibre and the images of the branch equations stay linearly independent in m/m², which gives the same-combinatorics hypothesis at every geometric point of the closed fibre; specialise along a section close to the identity to a scheme essentially of finite type over a trait, and conclude by §5.5 (ILO XV 3).
+A proof route is as follows. Reformulate stalkwise at geometric points and reduce to the strictly local statement; reduce to an affine open immersion and constant coefficients by the coefficient and open-immersion reductions of ILO XV 1.2.1–1.2.4. Reduce to X complete by regular base change along the completion (§5.3, ILO XV 1.2.5). Take the scheme h-hypercovering X_• of §2.4 with ordinary matching objects and controlled regular terms through degree N + 1. Each connected term has an snc-complement or empty U-part. By hyper-base-change (§3.6) and the branch comparison below, H^q(U, ℤ/n) for q ≤ N is unchanged along a local morphism of strictly local schemes X′ → X whenever, at every level i ≤ N + 1 and on each term with nonempty U-part, the boundary of X_i and of its base change X′_i have the same combinatorics along the closed fibre; the empty U-parts and their base changes contribute zero (ILO XV 2.2.2–2.2.4, pp. 221–222). Approximate this finite truncation, its ordinary matching diagrams and covering refinements over the henselisation of an affine space over a Cohen ring by Popescu (§0.5). Descend the empty U-parts as empty opens; on the remaining terms choose the approximation fine enough that each level stays regular near the closed fibre and the images of the branch equations stay linearly independent in m/m², which gives the same-combinatorics hypothesis at every geometric point of the closed fibre; specialise along a section close to the identity to a scheme essentially of finite type over a trait, and conclude by §5.5 (ILO XV 3).
 
 Branch comparison. Let g : X′ → X be a morphism of schemes, j : U → X an open immersion with closed complement Z, j′ : U′ = g⁻¹(U) → X′ its base change with complement Z′, and F ⊆ Z a closed subset with preimage F′. Say that (Z ⊂ X) and (Z′ ⊂ X′) have the same combinatorics along F if for every geometric point z′ of F′ with image z: the strict henselizations X_(z) and X′_(z′) are regular; Z_(z) is a strict normal crossings divisor with branch equations f₁, …, f_r forming part of a regular system of parameters; and the images of g*f₁, …, g*f_r in m/m², for m the maximal ideal of X′_(z′), are linearly independent over the residue field. Then Z′_(z′) is a strict normal crossings divisor with branches V(g*f_i), of the same codimension as Z_(z). Prove that, under this hypothesis, for every n invertible on X the base-change map g*(Rj_*ℤ/n)|F′ → (Rj′_*ℤ/n)|F′ is an isomorphism (ILO14, Exposé XV, Définition 2.1.4, 2.1.5 and Proposition 2.1.7, pp. 220–221 (printed); ILO14 line 10400; in 2.1.4(iii) the maximal ideal is that of X′_(z′), since every g*f_i vanishes on Z′_(z′)). Route: localize at z′ and z to a local morphism of strictly local schemes; by absolute purity (LefschetzPencilsAndVanishingCycles §0.10) both RΓ(U, ℤ/n) and RΓ(U′, ℤ/n) are exterior algebras on their H¹, which are free on the Kummer classes of the branches; the Kummer class of V(f_i) restricts to the Kummer class of V(g*f_i), a branch of Z′_(z′) by the cotangent condition, so the map on H¹, hence on every H^q, is an isomorphism.
 
-*Needs:* §5.5; §5.4; §5.3; §2.4; §3.6; §0.5; §0.3; LefschetzPencilsAndVanishingCycles §0.10; EtaleCohomologyFoundations §§F.0–F.1, 0.7; SchemeAndStackFoundations §0.21, the henselian quasi-excellence and universal catenarity contract.
+*Needs:* §5.5; §5.4; §5.3; §2.4 for ordinary scheme h-hypercovers controlled through N + 1; §3.6 for their hyper-base-change; §0.5; §0.3; LefschetzPencilsAndVanishingCycles §0.10; EtaleCohomologyFoundations §§F.0–F.1, 0.7; SchemeAndStackFoundations §0.21, the henselian quasi-excellence and universal catenarity contract.
 
 **Checks.**
 
 - For X = Spec k (k separably closed) this is Artin vanishing H^q(Y, F) = 0 for q > dim Supp F on affine Y.
 
 - For X a strictly henselian regular local scheme of dimension 2 and U = X − V(f), H^q(U, ℤ/n) = 0 for q > 2.
+
+- A controlled connected hypercover term T with U_T = ∅ has RΓ(U_T, ℤ/n) = 0 before and after every base change, so its comparison is 0 → 0 without a branch condition. At N = 0 the descent comparison uses levels 0 and 1; controlling only level 0 would omit the equalizer relation.
 
 - Branch comparison, negative control: let X and X′ be strictly henselian traits with uniformizers t and u, ℓ a prime invertible on both, g given by t ↦ u^ℓ, Z and Z′ the closed points and F = Z. Both boundaries have exactly one branch, but g*t = u^ℓ lies in m², so its image in m/m² is zero and the cotangent condition fails. Indeed H¹(U, ℤ/ℓ(1)) = ℤ/ℓ is generated by the Kummer class of t, which pulls back to the class of u^ℓ, that is ℓ times the generator, which is 0: the comparison map on H¹ is zero. Equal numbers of branches do not suffice.
 
@@ -1486,6 +1504,8 @@ PurityForFlatCohomology §PF.1 consumes local Lefschetz (§7.3); the purity inpu
 - **ILO-final-II.** F. Orgogozo, *Topologies adaptées à l’uniformisation locale*, published Exposé II, pp. 21–36, [Theorem 4.2.1, pp. 33–34](https://www.numdam.org/item/AST_2014__363-364__21_0/). The ordinary valuation criterion uses algebraically closed fraction fields; Remark 4.2.2, p. 34, requires perfection in the prime-to-ℓ test only when ℓ differs from the characteristic.
 
 - **ILO-final-IX.** L. Illusie, *Uniformisation locale première à ℓ*, published Exposé IX, pp. 161–165, [Theorems 1.1–1.2, p. 161](https://www.numdam.org/item/AST_2014__363-364__161_0/). The generic curve is geometrically irreducible; the prime-to-ℓ statement in Exposé II is 4.3.2.
+
+- **ILO-final-XIII.** L. Illusie, *Le théorème de finitude*, published Exposé XIII, pp. 261–275, [Théorème 2.2.2 and §2.2.3, p. 263](https://www.numdam.org/item/AST_2014__363-364__261_0/). The hypercover uses the h-topology on finite-type X-schemes, with ordinary matching objects and snc-complement or empty inverse images of U on the regular connected terms.
 
 - **ILO-final-XII.** F. Orgogozo, *Descente cohomologique orientée*, published Exposé XII-A, pp. 235–249, [§§1.3–1.4 and 2.1–2.3, pp. 238–248](https://www.numdam.org/item/AST_2014__363-364__235_0/). The ambient category is scheme diagrams; Theorems 2.2.3 and 2.2.5 give h-oriented descent and coherent hyper-base-change. Remark 2.2.6.1 distinguishes fixed torsion coefficients from torsion cohomology; the non-abelian continuity qualification is explicit.
 
