@@ -9,15 +9,20 @@ Ricci-flat geometry, deformation families, periods, Torelli, cones and the reali
 of free involutions, including the finite-order clean fixed-locus specialization
 of MorseNovikov N6’s topological trace theorem in §7.2. General scheme
 cohomology, Picard objects and finite quotients
-belong to SchemeAndStackFoundations §§1.17, 1.23, 2.3, 2.6, 2.20, 3.4, 4.9, 4.11 and 5.9–5.10;
+belong to SchemeAndStackFoundations §§1.17, 1.23, 2.3, 2.6, 2.11, 2.20, 3.4, 4.9, 4.11 and 5.9–5.10;
 analytic GAGA belongs to ComplexComparisonPartII C−1–C2 and C4, and its C5.4
-owns the normalized exponential/Chern comparison. Section 1.1 owns the
-holomorphic frame-torsor identification linking ComplexKahlerGeometry K4’s bundles
-to SchemeAndStackFoundations §2.3’s torsor cohomology; it constructs neither
-a second bundle category nor a second torsor cohomology theory. Linear analytic
+owns the normalized exponential/Chern comparison. The holomorphic Picard
+comparison Pic_hol(M)≃H¹(M,O_Mˣ) on every complex manifold belongs to
+ComplexKahlerGeometry, through the contract stated under the supplier contracts;
+Section 1.1 consumes it and owns only its K3 applications, constructing neither
+a bundle category, a torsor cohomology theory nor that comparison. The ℓ-adic
+cycle classes, duality and étale Gauss–Bonnet identity used in §0.2 belong to
+EtaleCohomologyFoundations, Hasse–Minkowski isotropy to GlobalQuadraticForms and
+the Castelnuovo–Zariski rationality criterion to
+NeronModelsAndSemistableAbelianVarietiesPartII. Linear analytic
 Hodge theory belongs to ComplexKahlerGeometry K5–K6. Generic discriminant forms and
 overlattices belong to IntegralLattices §§1B–1F; their native constructions are used
-below. The retained gluing theorem is the extension/restriction criterion for a
+below. The gluing theorem is the extension/restriction criterion for a
 specified pair of actions on the two summands, not a second overlattice construction.
 
 EnriquesSurfaces E1 and E6.U0–U4 own the converse canonical-cover comparison,
@@ -82,16 +87,38 @@ Each row specifies the sections consumed and their exact output.
 
 | Input | Exact output used here | What it does not supply |
 | --- | --- | --- |
-| SchemeAndStackFoundations 0.3, 1.17, 1.23, 2.2–2.3, 2.6, 2.20, 4.9, 4.11, 5.9–5.10 | projective schemes and finite-group quotients; stack/groupoid descent; Čech-to-derived comparison and abelian torsor/H¹ identification; coherent cohomology, duality, Kähler differentials and proper base change | a K3 period map, analytic Kuranishi space or global Torelli |
+| SchemeAndStackFoundations 0.3, 1.17, 1.23, 2.2–2.3, 2.6, 2.11, 2.20, 4.9, 4.11, 5.9–5.10 | projective schemes and finite-group quotients; stack/groupoid descent; Čech-to-derived comparison and abelian torsor/H¹ identification; Hilbert 90 and the Kummer sequence; coherent cohomology, duality, Kähler differentials and proper base change; Noether's formula, surface Riemann–Roch and the Hodge index theorem | a K3 period map, analytic Kuranishi space or global Torelli |
 | AlgebraicModuliForArithmeticGeometry 1.1–1.3, 7.3, 7.8 and 8.1–8.3 (with SchemeAndStackFoundations Layer4) | projective-space and coherent-quotient carriers (§§1.1–1.3); Picard lifting (§7.3); Artin test groupoids and tangent/obstruction maps (§§8.1–8.3); effective algebraic families under the algebraicity/effectivity hypotheses of §7.8 | the vanishing of K3 obstruction spaces or an unrestricted universal coarse family |
 | AlgebraicCurves Layers 9/10/12, JacobianChallenge A–D, StableReduction Layers 4–6 | relative genus-one curves, Jacobians/Picard torsors, Weierstrass and minimal regular models, intersection/coherent-duality and projectivity constructions | the K0.A vector-field theorem or a genus-one fibration on an arbitrary K3 |
 | ComplexComparisonPartII C−1.1–C0.7, C1.9, C2, C4.1–C4.4 and C5.4 | actual scheme/space analytification, coherent GAGA and ideal/section/bundle/morphism dictionaries, analytic proper images and cycle currents; C5.4’s exponential sequence and integral first-Chern comparison | a K3 family, positive-square algebraization criterion or global Torelli |
-| CKG K1–K4, K5a/K5b, K6.0–K6.1, K7 | type/Dolbeault calculus, analytic sets and coherent gluing, holomorphic bundles, elliptic estimates, compact Hodge/Serre and projective Kähler examples | K3 Kählerness, nonlinear Monge–Ampère existence, K3 periods or Torelli |
+| CKG K1–K4, K5a/K5b, K6.0–K6.1, K7 and the holomorphic Picard comparison contract below | type/Dolbeault calculus, analytic sets and coherent gluing, holomorphic bundles, elliptic estimates, compact Hodge/Serre and projective Kähler examples; the comparison Pic_hol(M)≃H¹(M,O_Mˣ) with its gluing inverse and laws | K3 Kählerness, nonlinear Monge–Ampère existence, K3 periods or Torelli |
 | IndexTheory I6, I7.1–I7.3 and I8; CharacteristicClasses C1–C7 | actual Dolbeault index/Todd, Euler/signature and holomorphic fixed-map traces for isolated nondegenerate fixed points (including the empty fixed set), with symbol, orientation and Chern normalizations | the K3-specific numerical specialization, simple connectivity or surface isomorphism |
 | SmoothBundlesConnections B1.5; DifferentialGeometry Layers 0–2, 5, 8–9 and AlgebraicTopology Stage 6 | smooth bundles and the componentwise local trivialization of a proper surjective smooth submersion from B1.5; differential forms, singular cup product, Poincaré duality and coefficient comparison from the other named owners | a K3-specific integral marking, monodromy image or period realization |
 | IntegralLattices 0G, 1B–1F, 5E–5J, 6A | Λ=U³⊕E₈(−1)², dual/discriminant forms, actual overlattice graph gluing, primitive embeddings and even unimodular normal form, with isometries and inverses | a Hodge structure, a free geometric involution or a surface isomorphism |
 | MorseNovikov N5–N7; GeometricTopology Layer 1 | continuous local index, topological trace/local-index equality, vector-field Poincaré–Hopf, and tubular neighbourhoods | the finite-order clean fixed-locus specialization constructed in §7.2 |
 | FourManifolds F7 | the independently constructed quartic K3 example and its topological calculation | a theorem about every K3, a period family or a Torelli proof |
+| EtaleCohomologyFoundations §0.9, F.5–F.7 | ℓ-adic cycle classes with pullback and proper pushforward, Poincaré duality, the projection and self-intersection formulas, the étale Gauss–Bonnet identity and the blow-up decomposition, for smooth proper varieties over an algebraically closed field with ℓ invertible | the unirationality reduction, the Picard number of a K3 or its genus-one pencil |
+| GlobalQuadraticForms §5.5; NeronModelsAndSemistableAbelianVarietiesPartII §6.1 | Hasse–Minkowski isotropy of regular forms over number fields, with local isotropy in rank at least five from its prerequisites; the Castelnuovo–Zariski rationality criterion for smooth projective surfaces in every characteristic | an isotropic class on a given K3 or the rationality of a given quotient |
+
+**What ComplexKahlerGeometry must provide (gap:integral-topology).** For every
+complex manifold M, with O_M its holomorphic structure sheaf and Pic_hol(M) the
+group of isomorphism classes of K4’s holomorphic line bundles under tensor
+product: the frame-torsor group isomorphism Pic_hol(M)≃H¹(M,O_Mˣ) on the
+open-set site, sending a line bundle to its sheaf of nowhere-zero holomorphic
+local sections with the O_Mˣ-action by multiplication and then applying
+SchemeAndStackFoundations §2.3’s abelian torsor/H¹ comparison; its inverse by
+choosing local sections of a torsor and gluing K4’s rank-one bundles along the
+transition units, independent of the choices and satisfying both inverse
+equations; and its laws: the trivial line maps to zero, tensor product to
+addition and the dual to negation, with the group law equal to the contracted
+product of torsors; for every holomorphic map f:N→M, pulling back a bundle and
+taking its class agrees with pulling back its class, and identity, composition
+and restriction to open sets obey the same equations; changing local frames or
+refining a trivializing cover leaves the class unchanged, and the zero class is
+equivalent to a global nowhere-zero holomorphic frame. The comparison holds
+without compactness, projectivity or H¹(M,O_M)=0 (Stacks, §20.6,
+Lemma 20.6.1, Tag 09NU). The Part II roadmap consumes the same contract under
+this slug; it is one supplier announcement.
 
 ## How to read the build
 
@@ -151,7 +178,7 @@ and surface Riemann–Roch.
 
 For every algebraically closed k of characteristic p>2 and every algebraic K3 X/k, prove `algebraicK3_differential_vanishing`: H⁰(X,T_X)=0 and H⁰(X,Ω¹_X)=0. In Lean these mean subsingleton morphisms Ω¹_X→O_X and subsingleton degree-zero sheaf cohomology, respectively (Martin v3, Corollary 1.1, p.4 and proof p.40; Huybrechts draft §1.1, p.7, contraction). This is a required early algebraic theorem. It must not consume unobstructed K3 moduli, a Witt lift, Hodge symmetry in positive characteristic, an Enriques numerical lattice or K6 Torelli. The following proof route requires the constructions in steps 1–4 at this layer.
 
-1. First build the surface-resolution adapter needed for these quotients: take a separating projective pencil on the normal excellent projective quotient whose base locus is smooth and whose generic member avoids its finite singular set, resolve its base points, and use StableReduction Layer 4's normalized-blowup resolution of models with smooth generic curve over each relevant local base DVR. Prove the covers glue to a projective resolution and retain canonical discrepancies. Curve normalization in SchemeAndStackFoundations §4.13 is not this surface theorem, and a characteristic-zero Hironaka input is not permitted. From a nonzero global vector field, first produce a nonzero p-closed derivation in the restricted Lie algebra of global derivations; prove this reduction over the algebraically closed field. Its saturated rank-one distribution is p-closed. Construct its height-one purely inseparable quotient from the invariant subalgebras, the normalization, local zero/divisorial data, the canonical-divisor formula and its minimal-resolution comparison. Carry additive and multiplicative p-closed cases separately, with the actual restricted p-power of derivations. Produce from the vector field a primitive nef divisor D₀ with D₀²=0 and the associated relatively minimal genus-one pencil; prove the generic fibre is smooth, that there are no multiple fibres, and that there are at least two singular fibres. In characteristic three, establish the smooth-generic-fibre pencil construction rather than silently substituting a quasi-elliptic fibration. This vector-field-to-pencil lemma is part of K0.A, with its invariant-function, divisor, Riemann–Roch and resolution proof, not an assumption that every K3 is elliptic. In particular it cannot assume Picard rank at least five or the desired differential vanishing.
+1. First build the surface-resolution adapter needed for these quotients: take a separating projective pencil on the normal excellent projective quotient whose base locus is smooth and whose generic member avoids its finite singular set, resolve its base points, and use StableReduction Layer 4's normalized-blowup resolution of models with smooth generic curve over each relevant local base DVR. Prove the covers glue to a projective resolution and retain canonical discrepancies. Curve normalization in SchemeAndStackFoundations §4.13 is not this surface theorem, and a characteristic-zero Hironaka input is not permitted. From a nonzero global vector field, first produce a nonzero p-closed derivation in the restricted Lie algebra of global derivations; prove this reduction over the algebraically closed field. Its saturated rank-one distribution is p-closed. Construct its height-one purely inseparable quotient from the invariant subalgebras, the normalization, local zero/divisorial data, the canonical-divisor formula and its minimal-resolution comparison. Carry additive and multiplicative p-closed cases separately, with the actual restricted p-power of derivations. Conclude from the canonical-divisor formula that the resolved quotient has H¹(O)=0 and no bicanonical sections, hence is rational by the Castelnuovo–Zariski criterion of NeronModelsAndSemistableAbelianVarietiesPartII §6.1, so that X, purely inseparable over a rational surface, is unirational (Huybrechts draft Proposition 9.4.6, p.180). Then produce the pencil in four named sub-targets of K0.A. (i) A unirational K3 surface over an algebraically closed field has Picard number ρ(X)=22: resolve the indeterminacy of a dominant rational map ℙ²⇢X to a morphism π:Y→X from a blow-up of ℙ², whose H²_ét is spanned by cycle classes by the blow-up decomposition of EtaleCohomologyFoundations F.7; π^* is injective on H²_ét(X,ℚ_ℓ(1)) because π_*π^*=deg(π)·id by the projection formula and Poincaré duality of EtaleCohomologyFoundations F.5–F.6; π^* and π_* carry the cycle classes of EtaleCohomologyFoundations §0.9 to cycle classes, and the cycle-class map is injective on NS(X)⊗ℚ_ℓ because it respects intersection numbers and Pic(X)=Num(X) on a K3; hence H²_ét(X,ℚ_ℓ(1)) is spanned by cycle classes and ρ(X)=b₂(X) (Huybrechts draft Proposition 17.2.7, pp.367–368). Compute b₂(X)=22: the étale Gauss–Bonnet identity of EtaleCohomologyFoundations F.6 gives Σ(−1)ⁱbᵢ=deg c₂(T_X)=24 with §0.1’s Noether computation; b₀=b₄=1; and b₁=b₃=0 because H¹_ét(X,μ_ℓⁿ)≃Pic(X)[ℓⁿ] by the Kummer sequence and Hilbert 90 of SchemeAndStackFoundations §2.11 (the global units of X are kˣ, which is ℓ-divisible), Pic(X) is torsion-free by Riemann–Roch (a torsion line bundle has χ=2, so it or its dual is effective, and an effective torsion bundle is trivial; Huybrechts draft Remark 1.2.5, p.12), and b₃=b₁ by Poincaré duality. (ii) NS(X), of signature (1,21) by the Hodge index theorem of SchemeAndStackFoundations §5.10, is an indefinite rational quadratic space of rank at least five, hence isotropic over ℚ by the Hasse–Minkowski theorem of GlobalQuadraticForms §5.5, whose local isotropy in rank at least five comes from its own prerequisites (Huybrechts draft Proposition 11.1.3, p.208); clear denominators to a primitive isotropic class. (iii) By Riemann–Roch that class or its negative is effective; carry it into the nef cone by finitely many reflections in smooth rational curves, each step lowering the degree against a fixed ample class (Huybrechts draft Remark 8.2.13, p.151), to a primitive nef D₀ with D₀²=0, and prove that D₀ is base point free and moves in a pencil whose Stein factorization is the relatively minimal genus-one fibration (Huybrechts draft Proposition 2.3.10, p.32). (iv) Prove the generic fibre is smooth, that there are no multiple fibres, and that there are at least two singular fibres. In characteristic at least five the generic member of (iii) is a smooth genus-one curve; in characteristic three, establish the smooth-generic-fibre pencil construction, selecting the class of (ii) inside the rank-22 Néron–Severi lattice of (i), rather than silently substituting a quasi-elliptic fibration. This vector-field-to-pencil lemma is part of K0.A, with its invariant-function, divisor, Riemann–Roch and resolution proof, not an assumption that every K3 is elliptic. In particular it proves ρ(X)=22 from unirationality rather than assuming Picard rank at least five, and it does not assume the desired differential vanishing.
 2. For that actual pencil f:X→ℙ¹, construct the map of connected automorphism group schemes to Aut(ℙ¹), its vertical kernel and horizontal image, and their tangent maps. Use the Jacobian/torsor model to determine the vertical component when there are no multiple fibres. Determine which α_p or μ_p horizontal actions extend across every minimal regular fibre by local Weierstrass coordinates, including wild conductor contributions. The corrected fibre analysis, not an unrestricted linearization assertion about a non-linearly-reductive group, is the producer.
 3. Prove the resulting exhaustive alternatives with nonzero vector field: c₂=0; a rational Jacobian isotrivial surface with two singular fibres; the characteristic-three exceptional two-fibre configurations; or a single-singular-fibre isotrivial case in the small characteristics. Compute the local discriminant/conductor and component contributions using the minimal equations and Ogg's formula. Show none of the alternatives with at least two singular fibres has c₂=24. The characteristic-three wild alternatives must be explicitly eliminated, not discarded with the characteristic-two branch.
 4. Conclude that D could not exist, transport through contraction, and export zero-section and functorial global-section statements. Supply the algebraic Serre-dual consequence H²(T_X)=0 separately, with its actual duality map; this consequence is not an input to steps 1–3.
@@ -162,15 +189,24 @@ An Enriques consumer may pull back Ω¹_S⊗K_S along its finite étale canonica
 
 *Needs:* §0.1; AlgebraicCurves Layers 9/10/12, JacobianChallenge A–D and
 StableReduction Layers 4–6 for the genus-one and minimal-model inputs;
-SchemeAndStackFoundations §§1.17, 2.20, 5.9–5.10 for quotient, duality and
-intersection inputs. Steps 1–3 also construct the vector-field-to-pencil
+SchemeAndStackFoundations §§1.17, 2.11, 2.20, 5.9–5.10 for quotient, Hilbert 90
+and Kummer, duality, Noether, Riemann–Roch and Hodge index inputs;
+NeronModelsAndSemistableAbelianVarietiesPartII §6.1 for the Castelnuovo–Zariski
+rationality criterion; EtaleCohomologyFoundations §0.9 and F.5–F.7 for cycle
+classes, Poincaré duality, the projection formula, étale Gauss–Bonnet and the
+blow-up decomposition; GlobalQuadraticForms §5.5 for Hasse–Minkowski isotropy.
+Step 1 also constructs the vector-field-to-pencil
 argument used in Martin v3, proof of Corollary 1.1, p.40, citing
 Rudakov–Shafarevich, p.1502 (primary locator uncertified); Theorem D alone
 has an elliptic-fibration hypothesis and does not produce that pencil.
 
 ### Examples
 
-The smooth Fermat quartic in characteristic 3 has both spaces of sections zero.
+The smooth Fermat quartic in characteristic 3 has both spaces of sections zero;
+it is unirational with ρ=22 (Huybrechts draft §17.2, p.367), whereas a very
+general complex quartic has ρ=1 and no vector field, so the rank-22 sub-target
+of step 1 applies only under its unirationality hypothesis and claims nothing
+for every K3.
 The rational two-singular-fibre alternative has c₂=12, not 24; the c₂=0
 alternative has 0, not 24. In Martin v3, Example 5.12, pp.36–37, the characteristic-three wild
 families have c₂=3^(2k)+3 or 3^(2k−1)+9 for k≥1: at k=1 these are
@@ -189,26 +225,14 @@ Proposition 2.2(2), p.6).
 ### 1.1 Holomorphic Picard classes and analytic K3 surfaces
 
 For every complex manifold M, let Pic_hol(M) be the group of isomorphism
-classes of K4’s holomorphic line bundles, with tensor product. Construct the
-frame-torsor comparison Pic_hol(M)≃H¹(M,O_Mˣ) on the open-set site, where
-O_M is the holomorphic structure sheaf. Send a line bundle L to its sheaf of
-nowhere-zero holomorphic local sections, with the O_Mˣ-action by multiplication,
-and then apply SchemeAndStackFoundations §2.3’s abelian torsor/H¹ comparison.
-Construct the inverse by choosing local sections of a torsor, gluing K4’s
-rank-one bundles by their transition units, and proving independence of choices
-and both inverse equations (Stacks, §20.6, Lemma 20.6.1, Tag 09NU).
-This comparison holds without compactness, projectivity or H¹(M,O_M)=0.
-
-The frame-torsor comparison API is:
-
-- The trivial line maps to zero, tensor product maps to addition, and the dual
-  maps to negation; the group law agrees with contracted product of torsors.
-- For every holomorphic map f:N→M, pulling back a line bundle and then taking
-  its class agrees with pulling back its H¹ class. Identity, composition and
-  restriction to open sets obey the same equations.
-- Changing local frames or refining a trivializing cover leaves the H¹ class
-  unchanged; reconstructing its bundle recovers the original isomorphism class.
-  The zero class is equivalent to a global nowhere-zero holomorphic frame.
+classes of K4’s holomorphic line bundles, with tensor product, and let O_M be
+the holomorphic structure sheaf. Consume the frame-torsor comparison
+Pic_hol(M)≃H¹(M,O_Mˣ), with its inverse by gluing and its trivial-line, tensor,
+dual, pullback and refinement laws, from the ComplexKahlerGeometry contract
+(gap:integral-topology) stated under the supplier contracts; no part of that
+comparison is constructed here. This section owns its K3 applications only: the
+exact segment below, its Picard-rank and elliptic-curve witnesses, and the
+family application of §3.1.
 
 Compose with ComplexComparisonPartII C5.4’s exponential sequence and integral
 Chern comparison to prove the exact segment
@@ -242,16 +266,17 @@ vanishing and rigidification are targets of that section.
   The class of 1/2 is nonzero but has c₁=0; in general ker(c₁) is
   H¹(E,O_E)/im H¹(E,ℤ). Thus c₁ need not be injective when H¹(O)≠0.
 
-*Needs:* ComplexKahlerGeometry K4 for holomorphic bundles, section sheaves and
-cocycle gluing; SchemeAndStackFoundations §§2.2–2.3 for Čech-to-derived and
-abelian torsor/H¹ comparisons; ComplexComparisonPartII C5.4 for the exponential
+*Needs:* ComplexKahlerGeometry K4 for holomorphic bundles and its holomorphic
+Picard comparison contract (gap:integral-topology); SchemeAndStackFoundations
+§§2.2–2.3 for the Čech-to-derived and abelian torsor/H¹ comparisons that
+contract is built on; ComplexComparisonPartII C5.4 for the exponential
 sequence and integral Chern comparison.
 
 Consume ComplexComparisonPartII C−1/C0's actual analytification functors, C1.9 coherent proper GAGA and C2/C4's section, line-bundle and morphism comparisons. Construct their K3-specific canonical-bundle, chosen-form and coherent-cohomology adapters with the canonical exchange maps; no second general analytification or GAGA engine is introduced. In particular an algebraic K3 analytifies to a compact complex surface, and CKG's projective metric gives its Kähler structure. Do not identify a chosen algebraic polarization with an arbitrary Kähler class.
 
-For a compact complex surface with trivial canonical bundle and H¹(O)=0, prove b₁=0 using the degree-one de Rham/Dolbeault comparison and the surface identities, without first assuming the Kähler Hodge theorem. Construct a Kähler class by the compact-complex-surface positive-current/separation criterion: prove the needed Hahn–Banach separation on real (1,1)-currents, regularization and the positive-square representative criterion, and verify its even-b₁ hypothesis. This K3 surface application includes the Kählerness proof; it is not an unnamed Siu theorem input. Its analytic prerequisites are CKG K2–K5's local and elliptic constructions, not K6's conclusion for a manifold already known Kähler.
+For a compact complex surface with trivial canonical bundle and H¹(O)=0, prove b₁=0 from the exponential sequence of ComplexComparisonPartII C5.4: H⁰(X,O)=ℂ maps onto H⁰(X,Oˣ)=ℂˣ, so H¹(X,ℤ) injects into H¹(X,O)=0 (Huybrechts draft §1.3.2, p.15), without first assuming the Kähler Hodge theorem. Construct a Kähler class by the compact-complex-surface positive-current/separation criterion: prove the needed Hahn–Banach separation on real (1,1)-currents, regularization and the positive-square representative criterion, and verify its even-b₁ hypothesis. This K3 surface application includes the Kählerness proof; it is not an unnamed Siu theorem input. Its analytic prerequisites are CKG K2–K5's local and elliptic constructions, not K6's conclusion for a manifold already known Kähler.
 
-Construct the analytic surface Riemann–Roch/Noether identity χ(O)=(c₁²+c₂)/12 from the Dolbeault index/Todd comparison, with the actual complex orientation and Chern classes; Specialize the IndexTheory I7.3 Dolbeault-symbol and index normalization to the actual tangent bundle and its Todd degree-four expression. Thus c₂=24 also for nonprojective analytic K3s. After Kählerness, apply CKG compact Hodge and Serre to construct h¹,⁰=h⁰,¹=0, h²,⁰=h⁰,²=1 and h¹,¹=20. Define the real positive component in H¹,¹(X,ℝ), selected by an actual Kähler class. Prove the Hodge–Riemann sign relations for σ, its conjugate, and primitive classes. Use the frame-torsor identification above and ComplexComparisonPartII C5.4’s exponential/Chern comparison. Since H¹(O)=0, c₁ is injective with image ker(H²(X,ℤ)→H²(X,O)), which compact Kähler Hodge theory identifies with the integral (1,1)-classes; preserve the difference between a line-bundle isomorphism and its Chern class until injectivity is proved.
+Construct the analytic surface Riemann–Roch/Noether identity χ(O)=(c₁²+c₂)/12 from the Dolbeault index/Todd comparison, with the actual complex orientation and Chern classes; Specialize the IndexTheory I7.3 Dolbeault-symbol and index normalization to the actual tangent bundle and its Todd degree-four expression. Thus c₂=24 also for nonprojective analytic K3s. After Kählerness, apply CKG compact Hodge and Serre to construct h¹,⁰=h⁰,¹=0, h²,⁰=h⁰,²=1 and h¹,¹=20. Define the real positive component in H¹,¹(X,ℝ), selected by an actual Kähler class. Prove the Hodge–Riemann sign relations for σ, its conjugate, and primitive classes. Use the holomorphic Picard comparison consumed in §1.1 and ComplexComparisonPartII C5.4’s exponential/Chern comparison. Since H¹(O)=0, c₁ is injective with image ker(H²(X,ℤ)→H²(X,O)), which compact Kähler Hodge theory identifies with the integral (1,1)-classes; preserve the difference between a line-bundle isomorphism and its Chern class until injectivity is proved.
 
 Construct projectivity from the existence of a positive-square integral (1,1)-class without assuming K6's later chamber theorem. Surface Riemann–Roch and the Kähler pairing select a sign whose powers have quadratically growing sections; construct the resulting meromorphic map of algebraic dimension two, its resolved graph and the projective algebraization of the smooth Moishezon surface by the surface modification/contraction argument. Own these meromorphic-map and algebraization steps here. For an actual positive line bundle also construct the coherent Kodaira embedding proof: the needed Bochner/vanishing, peak sections, separation of points and tangent directions using high powers, and compactness give a finite projective embedding. The resulting algebraic surface is unique by proper GAGA. The output is an equivalence between algebraic K3s and *projective* analytic K3s and an identification of ample algebraic bundles with integral Kähler classes. It does not algebraize every analytic K3.
 
@@ -285,7 +310,7 @@ The analytic surface and positive-cone API is:
   from 2d to 8d; it preserves positivity but not a primitive polarization.
 
 *Needs:* §0.1; ComplexComparisonPartII C−1–C2, C4 and C5.4;
-ComplexKahlerGeometry K1–K6; the frame-torsor comparison above; IndexTheory I6–I7; CharacteristicClasses C1–C7;
+ComplexKahlerGeometry K1–K6 and its holomorphic Picard comparison contract; IndexTheory I6–I7; CharacteristicClasses C1–C7;
 SchemeAndStackFoundations §§5.9–5.10. The positive-current criterion and
 surface algebraization arguments are targets of this layer.
 
@@ -296,7 +321,7 @@ surface separates analytic K3 from projective analytic K3.
 
 ### Dependencies
 
-The degree-one and positive-current arguments precede compact Kähler Hodge theory;
+The exponential-sequence and positive-current arguments precede compact Kähler Hodge theory;
 projectivity uses surface Riemann–Roch, not Layer 6.
 
 ## Layer 2: Ricci-flat metrics, topology and twistor ingredients
@@ -362,9 +387,9 @@ cohomological formulas and IntegralLattices, independently of global Torelli.
 
 ### 3.1 Actual local families and polarizations
 
-Construct actual proper analytic Kuranishi families by the Dolbeault differential graded Lie algebra of T_X: fix a Hermitian metric, solve the Maurer–Cartan equation in an elliptic gauge, identify tangent H¹(T_X) and obstruction H²(T_X), and prove the universal property for deformations with a fixed central-fibre identification. Contraction with σ and Serre give H⁰(T_X)=H²(T_X)=0 and h¹(T_X)=20. Thus the base is smooth of dimension20 and the family is locally universal in that pointed sense. Changing gauge/metric yields the comparison germ; prove gluing and cocycles for the marked deformation groupoid.
+Construct actual proper analytic Kuranishi families by the Dolbeault differential graded Lie algebra of T_X: fix a Hermitian metric, solve the Maurer–Cartan equation in an elliptic gauge, identify tangent H¹(T_X) and obstruction H²(T_X), and prove the universal property for deformations with a fixed central-fibre identification. Contraction with σ and Serre give H⁰(T_X)=H²(T_X)=0 and h¹(T_X)=20. Thus the base is smooth of dimension 20 and the family is locally universal in that pointed sense. Changing gauge/metric yields the comparison germ; prove gluing and cocycles for the marked deformation groupoid.
 
-For a proper smooth family, construct the integral H² local system by actual differentiable local trivializations, cup pairing, Gauss–Manin connection and markings. On a Hausdorff finite-dimensional base chart apply SmoothBundlesConnections B1.5 to the underlying real proper surjective submersion, component by component, with its actual fibre and projection-preserving smooth charts. These local comparisons and their transition maps define the cohomology local system; no global Hausdorff hypothesis is imposed on the later non-Hausdorff marked moduli space. Construct the Hodge filtration as holomorphic subbundles and prove the fibre and base-change equations. For a flat integral class whose restriction is (1,1) on every fibre, use §1.1’s frame-torsor comparison on the total space and ComplexComparisonPartII C5.4’s connecting class to prove local extension of its central-fibre line bundle after shrinking the base; construct the relative Picard obstruction, its vanishing on this Hodge locus, and rigidification explicitly. No unconditional lift over the whole deformation base is asserted. For a primitive polarization h with h²=2d>0, construct the smooth19-dimensional polarized deformation slice, and the open subfamily where its actual line bundle is ample. Treat degree2 and special divisibility with the same integral class, not a changed rational polarization.
+For a proper smooth family, construct the integral H² local system by actual differentiable local trivializations, cup pairing, Gauss–Manin connection and markings. On a Hausdorff finite-dimensional base chart apply SmoothBundlesConnections B1.5 to the underlying real proper surjective submersion, component by component, with its actual fibre and projection-preserving smooth charts. These local comparisons and their transition maps define the cohomology local system; no global Hausdorff hypothesis is imposed on the later non-Hausdorff marked moduli space. Construct the Hodge filtration as holomorphic subbundles and prove the fibre and base-change equations. For a flat integral class whose restriction is (1,1) on every fibre, use the holomorphic Picard comparison consumed in §1.1 on the total space and ComplexComparisonPartII C5.4’s connecting class to prove local extension of its central-fibre line bundle after shrinking the base; construct the relative Picard obstruction, its vanishing on this Hodge locus, and rigidification explicitly. No unconditional lift over the whole deformation base is asserted. For a primitive polarization h with h²=2d>0, construct the smooth 19-dimensional polarized deformation slice, and the open subfamily where its actual line bundle is ample. Treat degree 2 and special divisibility with the same integral class, not a changed rational polarization.
 
 Until cohomological faithfulness is proved in K6, use the deformation groupoid/atlas and its stabilizers. A marking does not by itself license a global fine moduli family with no inertia. Construct transition maps, descent and base-change on actual families before passing to isomorphism classes.
 
@@ -402,7 +427,7 @@ primitive Chern class h. Their API is:
   its h remains nef but fails relative ampleness at that fibre.
 
 *Needs:* Layers 1–2; ComplexKahlerGeometry K3–K6 for the Dolbeault and
-elliptic gauge construction; §1.1’s frame-torsor comparison and ComplexComparisonPartII C5.4
+elliptic gauge construction; the holomorphic Picard comparison consumed in §1.1 and ComplexComparisonPartII C5.4
 for line-bundle classes and their connecting classes; SmoothBundlesConnections B1.5 for local
 trivialization; AlgebraicModuliForArithmeticGeometry §§1.1–1.3, 7.3, 7.8,
 8.1–8.3 for algebraic deformation/Picard comparisons at their stated hypotheses.
@@ -425,7 +450,7 @@ Let B be the cup form on Λ. In the actual native projectivization of Λ⊗ℂ d
 
     Ω_Λ = { [z] : B(z,z)=0, B(z,z̄)>0 }.
 
-Prove the second expression is real, the conditions are independent of nonzero complex rescaling, the domain is a smooth complex20-fold, and identify it with oriented positive real two-planes. For h fixed, define Ω_h=Ω_Λ∩ℙ(h⊥⊗ℂ), with its two orientation components, the primitive embedding and the actual marking-change action. For signature (3,19), Ω_Λ itself is connected; do not transfer the two-component statement of Ω_h or the marked-moduli space to it.
+Prove the second expression is real, the conditions are independent of nonzero complex rescaling, the domain is a smooth complex 20-fold, and identify it with oriented positive real two-planes. For h fixed, define Ω_h=Ω_Λ∩ℙ(h⊥⊗ℂ), with its two orientation components, the primitive embedding and the actual marking-change action. For signature (3,19), Ω_Λ itself is connected; do not transfer the two-component statement of Ω_h or the marked-moduli space to it.
 
 The period of a marked family is the image of its holomorphic two-form line under the integral local-system marking and scalar extension. Construct this map and prove it is holomorphic, compatible with base change, pullback and marking changes. Identify its derivative with the Kodaira–Spencer/contraction map H¹(T_X)→Hom(H²,⁰,H¹,¹); prove it is an isomorphism. Obtain local Torelli and the polarized local isomorphism, with actual inverse charts.
 
@@ -600,7 +625,7 @@ invariance of the set of roots under integral Hodge isometries, local finiteness
 inside the positive cone, and the correspondence between effective walls and
 Kähler chambers. The full cone theorem is Huybrechts draft Theorem 8.5.2,
 p.163; reflection chambers are §8.2, pp.146–151; the polarized image is
-§6.4, pp.114–118. For every primitive h with h²=2d>0 the ample image is
+Remark 6.3.7, p.114, with its quotient in §6.4, pp.115–118. For every primitive h with h²=2d>0 the ample image is
 Ω_h minus all H_δ with δ∈Λ, δ²=−2 and (δ,h)=0, with the selected component
 and h-preserving marking group. The quasi-polarized image allows those
 hyperplanes and their rational-double-point contractions.
@@ -637,11 +662,11 @@ hypotheses used in §7.2.
 
 ### 7.1 The independent integral model (K7.A)
 
- Use the single integral lattice Λ=U₀⊕U₁⊕U₂⊕E₈(−1)_a⊕E₈(−1)_b. Define the integral involution
+Use the single integral lattice Λ=U₀⊕U₁⊕U₂⊕E₈(−1)_a⊕E₈(−1)_b. Define the integral involution
 
     ι(u₀,u₁,u₂,e_a,e_b)=(−u₀,u₂,u₁,e_b,e_a).
 
-Construct its primitive invariant sublattice S=diag(U₁,U₂)⊕diag(E_a,E_b)≃U(2)⊕E₈(−2)=M(2), and anti-invariant T=U₀⊕antiDiag(U₁,U₂)⊕antiDiag(E_a,E_b)≃U⊕U(2)⊕E₈(−2). Give their inclusions, projections over ℚ, exact integral saturation and inverse isometries. Their signatures are (1,9) and (2,10); their discriminant groups have order2¹⁰ and exponent2.
+Construct its primitive invariant sublattice S=diag(U₁,U₂)⊕diag(E_a,E_b)≃U(2)⊕E₈(−2)=M(2), and anti-invariant T=U₀⊕antiDiag(U₁,U₂)⊕antiDiag(E_a,E_b)≃U⊕U(2)⊕E₈(−2). Give their inclusions, projections over ℚ, exact integral saturation and inverse isometries. Their signatures are (1,9) and (2,10); their discriminant groups have order 2¹⁰ and exponent 2.
 
 Use IntegralLattices §§1E–1F to identify Λ with the inverse image of the graph
 of the discriminant anti-isometry γ:A_S→A_T. Define `discriminantGraph` for any
@@ -762,7 +787,7 @@ cohomology comparison and metrics;
 HopfRinow Layer 1 for the Riemannian exponential. Equivariant linearization,
 the normal-index comparison and the finite-order specialization are targets here.
 
- On a K3 with such a marked primitive S in NS and a Kähler chamber compatible with the involution, the lattice involution is Hodge and preserves that chamber. Apply K6 to construct the involution of the surface, prove its square is identity and that its action on the holomorphic two-form is −1. Own the geometric fixed-locus criterion: compute invariant/anti-invariant line bundles and local involution action, use the clean topological Lefschetz formula just constructed and the adjunction identity and the integral two-elementary data to classify the possible fixed curves, and prove that invariant lattice U(2)⊕E₈(−2) is precisely the fixed-point-free Enriques case. For any non-symplectic involution on a complex K3, let r be the rank, a the discriminant length and δ the discriminant parity of its invariant lattice. Its fixed locus is empty for (r,a,δ)=(10,10,0), two elliptic curves for (10,8,0), and otherwise a genus (22−r−a)/2 curve and (r−a)/2 rational curves (Artebani–Sarti–Taki v2, Theorem 3.1, p.10). This includes the exceptional empty-fixed-locus case; the usual genus/component formula cannot be applied to it mechanically. IntegralLattices §5J supplies lattice classification, not this geometric fixed-locus theorem.
+On a K3 with such a marked primitive S in NS and a Kähler chamber compatible with the involution, the lattice involution is Hodge and preserves that chamber. Apply K6 to construct the involution of the surface, prove its square is identity and that its action on the holomorphic two-form is −1. Own the geometric fixed-locus criterion: compute invariant/anti-invariant line bundles and local involution action, use the clean topological Lefschetz formula just constructed and the adjunction identity and the integral two-elementary data to classify the possible fixed curves, and prove that invariant lattice U(2)⊕E₈(−2) is precisely the fixed-point-free Enriques case. For any non-symplectic involution on a complex K3, let r be the rank, a the discriminant length and δ the discriminant parity of its invariant lattice. Its fixed locus is empty for (r,a,δ)=(10,10,0), two elliptic curves for (10,8,0), and otherwise a genus (22−r−a)/2 curve and (r−a)/2 rational curves (Artebani–Sarti–Taki v2, Theorem 3.1, p.10). This includes the exceptional empty-fixed-locus case; the usual genus/component formula cannot be applied to it mechanically. IntegralLattices §5J supplies lattice classification, not this geometric fixed-locus theorem.
 
 Construct the free finite quotient by the actual order-two action, its projectivity in the algebraic case, finite étaleness, canonical character, H¹(O)=0 and nontrivial order-two canonical bundle. (Huybrechts draft §15.4.3(ii), p.330; Artebani–Sarti–Taki v2, Theorem 3.1, p.10.)
 
