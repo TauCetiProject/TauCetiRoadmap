@@ -1292,7 +1292,7 @@ homology with one copy of the coefficient ring also assumes connectedness.
    For positive-dimensional smooth manifolds with boundary over the standard
    half-space model `𝓡∂ (n+1)`, define the ambient orientation system by the
    fundamental-groupoid transport of the interior system specified below as
-   BoundaryCarrierOrientation.halfSpaceOrientationLocalSystem. Use its single
+   the half-space orientation local system. Use its single
    interior-inclusion equivalence, constructed by finite local inward pushes
    relative to compact interior data, for all restrictions and comparisons.
    This construction needs neither compactness of M nor a global collar.
@@ -1470,7 +1470,7 @@ homology with one copy of the coefficient ring also assumes connectedness.
    These class comparisons use a topological global collar and smooth local
    charts; GT Layer1 owns the stronger global smooth collar and gluing API.
    On the half-space ambient carrier, define `or_M` exactly once as
-   BoundaryCarrierOrientation.halfSpaceOrientationLocalSystem, by groupoid transport
+   the half-space orientation local system, by groupoid transport
    from the fresh Euclidean interior. All boundary restrictions and coefficient
    comparisons are restrictions or pullbacks of this same system. First prove that
    the actual interior inclusion induces an equivalence of fundamental groupoids. Each boundary
