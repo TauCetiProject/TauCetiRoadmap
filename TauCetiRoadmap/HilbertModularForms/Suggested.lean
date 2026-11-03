@@ -424,11 +424,6 @@ theorem finiteDimensional_modularForms (hn : 1 < Module.finrank ℚ F) (𝔫 : I
     (h𝔫 : 𝔫 ≠ ⊥) (𝔟 : (FractionalIdeal (𝓞 F)⁰ F)ˣ) (k : Weight F) :
     FiniteDimensional ℂ (modularForms F (Gamma0 F 𝔫 𝔟) k) := sorry
 
-/-- The tuple space is finite dimensional (`README.md`, Layer 3, 3.5). -/
-theorem finiteDimensional_hilbertModularForms (hn : 1 < Module.finrank ℚ F) (𝔫 : Ideal (𝓞 F))
-    (h𝔫 : 𝔫 ≠ ⊥) (k : Weight F) (R : NarrowRepresentatives F) :
-    FiniteDimensional ℂ (HilbertModularForms F 𝔫 k R) := sorry
-
 /-- For `k₀ ≤ 0` the only forms are the constants in weight `0` (`README.md`, Layer 3, 3.5). -/
 theorem modularForms_eq_bot_of_top_neg (hn : 1 < Module.finrank ℚ F) {𝔫 : Ideal (𝓞 F)} (h𝔫 : 𝔫 ≠ ⊥)
     {𝔟 : (FractionalIdeal (𝓞 F)⁰ F)ˣ} {k : Weight F} (hk : k.top < 0) :

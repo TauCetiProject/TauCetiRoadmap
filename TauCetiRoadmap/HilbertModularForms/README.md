@@ -35,8 +35,7 @@ Koecher principle (`koecher`), nonparallel cuspidality
 (`constantTerm_slash_eq_zero_of_not_isParallel`), full expansion injectivity
 (`fullExpansion_injective`) and its cusp specialization (`cusp_coeff_injective`),
 Hecke bound (`exists_norm_coeff_le`), and finite dimensionality
-(`finiteDimensional_cuspForms`, `finiteDimensional_modularForms`,
-`finiteDimensional_hilbertModularForms`). It also states negative-weight vanishing
+(`finiteDimensional_cuspForms`, `finiteDimensional_modularForms`). It also states negative-weight vanishing
 (`modularForms_eq_bot_of_top_neg`) with nonzero level and absolute cusp L-series
 convergence (`LSeriesSummable_of_isCuspForm`) for Re(s)>k₀/2+1 and general-form
 convergence (`LSeriesSummable_of_modularForm`) for Re(s)>k₀+1. Each theorem uses
@@ -95,6 +94,11 @@ parallel-weight theory. Weight zero and negative weights are additional analytic
 - the LMFDB invariants of a Hilbert newform and the elliptic-curve interface (Layer 11).
 
 ### Consumed, not redefined
+
+- From KTheoryLowDegrees §5.4: the index ideal of a map of determinant lines,
+  its local scalar description and invariance under line isomorphisms. Section 1.1
+  uses this for inclusions of full lattices and extends to fractional indices by
+  clearing a denominator; it owns the oriented rank-two component formulas.
 
 - From [NoncommutativeAndEquivariantIwasawa](../NoncommutativeAndEquivariantIwasawa/README.md)
   §F.5: hilbertForms, hilbertCuspForms and hilbertQExpansion, their parallel-weight k≥2
@@ -276,6 +280,8 @@ det₀_inv and entry_inv are used only to construct their actions and submodules
   and uniform/pointwise convergence for continuous functions with summable coefficients.
 - `MeasureTheory.L2.inner_def` (`Mathlib/MeasureTheory/Function/L2Space.lean`):
   the integral of the conjugate-first pointwise inner product.
+- `Module.Finite.pi` (`Mathlib/RingTheory/Finiteness/Basic.lean`):
+  finite products of finite modules, applied to the narrow-class tuple after §3.5.
 - `Complex.cderiv_eq_deriv` and `Complex.norm_cderiv_le`
   (`Mathlib/Analysis/Complex/LocallyUniformLimit.lean`): first-derivative Cauchy
   estimate on a positive-radius disk contained in a holomorphy domain.
@@ -306,6 +312,12 @@ det₀_inv and entry_inv are used only to construct their actions and submodules
 - `HeckeRing.GL2.Newform N k`, `Newform.dirichletLift`, `TauCeti.CoefficientField`,
   `Newform.satakeParameters`, and the classical Hecke-ring realization of
   `TauCeti.NumberTheory.HeckeRing.*`, whose double-coset formalism Layer 5 reuses.
+
+### From TauCetiRoadmap.KTheoryLowDegrees
+
+- §5.4, index ideal of a map of lines: for the inclusion det(rL′)→det(L),
+  its local determinant scalar generates the index ideal, with invariance under
+  line isomorphisms. Section 1.1 clears r to obtain a fractional ideal.
 
 ## How to read the build
 
@@ -447,19 +459,33 @@ Mathlib product complex analysis and real matrix action; the parallel-weight sup
 Define `L_𝔟 := {(x, y) ∈ F² : x ∈ 𝒪_F, y ∈ 𝔟}` as an `𝒪_F`-submodule of `Fin 2 → F`, prove it is
 a full lattice (free of rank `2[F:ℚ]` over `ℤ`, spanning `F²` over `ℚ`; projective of rank `2` over `𝒪_F`, without asserting freeness when `𝔟` is nonprincipal), define
 `Γ_𝔟 := {γ ∈ GL₂⁺(F) : γ L_𝔟 = L_𝔟}`, and prove the matrix description of the pinned
-conventions: `γ ∈ Γ_𝔟 ↔ a, d ∈ 𝒪_F ∧ b ∈ 𝔟⁻¹ ∧ c ∈ 𝔟 ∧ det γ ∈ 𝒪_{F,+}^×`. Prove
+conventions: `γ ∈ Γ_𝔟 ↔ a, d ∈ 𝒪_F ∧ b ∈ 𝔟⁻¹ ∧ c ∈ 𝔟 ∧ det γ ∈ 𝒪_{F,+}^×`
+(Assaf et al., arXiv:2301.10302v2, §2.1, (2.1.4)–(2.1.5), p. 3). Prove
 `Γ_{𝒪_F} = GL₂⁺(𝒪_F)`, and that `Γ_𝔟 ∩ SL₂(F)` is Mathlib's `SL₂(𝒪_F)` conjugated when `𝔟` is
-principal. Define the *generalized index* `[L : L']` of two full lattices in `F²` as a fractional
-ideal (the product of the elementary-divisor ideals), prove `[L_𝔟 : γ L_𝔠] = (det γ) 𝔠 𝔟⁻¹`, and
-`[L_𝔟 : L_𝔠] = 𝔠𝔟⁻¹` when `𝔠 ⊆ 𝔟`.
+principal. Define the *generalized index* [L:L′] of two full lattices in F²
+by choosing nonzero r∈𝒪_F with rL′⊆L and taking (r)⁻² times the supplied
+index ideal of the determinant-line inclusion det(rL′)→det(L)
+(KTheoryLowDegrees §5.4). Prove independence of r, agreement with the
+product of elementary-divisor ideals for L′⊆L, and `[L_𝔟 : γ L_𝔠] = (det γ) 𝔠 𝔟⁻¹`, and
+`[L_𝔟 : L_𝔠] = 𝔠𝔟⁻¹` when `𝔠 ⊆ 𝔟` (Voight, *Quaternion algebras*,
+August 5, 2026 edition, Definition 9.6.1, Lemmas 9.6.3–9.6.4, 9.6.7 and
+9.6.9, pp. 143–144). The determinant-line ratio gives the definition without
+an inclusion; after localization it is the determinant of a change of basis,
+so multiplication along chains and the displayed formulas follow, including
+for nonprincipal ideals.
 
-*Rests on:* Mathlib `FractionalIdeal`, `Module.Free`; Tau Ceti `totallyPositiveIntegerUnits`.
+*Rests on:* Mathlib `FractionalIdeal`, `Module.Free`; Tau Ceti `totallyPositiveIntegerUnits`; KTheoryLowDegrees §5.4 (determinant-line indices).
 
 **Checks.**
 
 - Over ℚ(√5), with w=(1+√5)/2, (1,0),(w,0),(0,1),(0,w) give ℤ-rank 4=2·2.
 - Over ℚ, the same rank formula gives 2=2·1.
 - For nonprincipal 𝔟, the determinant module is 𝔟; a free 𝒪_F-basis would incorrectly make it principal.
+- Over ℚ, [ℤ²:diag(2,3)ℤ²]=(6), while reversing the two lattices gives (1/6).
+  For the identity matrix the index is (1); using an inverse determinant swaps 6 and 1/6.
+- The chain ℤ² ⊇ (2ℤ⊕ℤ) ⊇ (2ℤ⊕3ℤ) gives (2)(3)=(6).
+- For L=ℤ² and L′=3ℤ⊕(1/2)ℤ, clearing by r=2 gives 6/4=3/2,
+  and r=4 gives 24/16=3/2; omitting the rank-two correction gives 6 or 24.
 
 
 The lattice and index API follows the definitions above.
@@ -477,11 +503,28 @@ Define `Γ₀(𝔫)_𝔟 := {γ ∈ Γ_𝔟 : c ∈ 𝔫𝔟}`, `Γ₁(𝔫)_�
 `Γ₁(𝔫)_𝔟` onto `𝒪_{F,+}^×` and `Γ(𝔫)_𝔟` onto `{ε ∈ 𝒪_{F,+}^× : ε - 1 ∈ 𝔫}`, with kernels
 `Γ_i¹(𝔫)_𝔟` and sections `ε ↦ diag(ε, 1)`; `[Γ_𝔟 : Γ₀(𝔫)_𝔟] = N(𝔫) ∏_{𝔭 ∣ 𝔫}(1 + N𝔭⁻¹)` (every element of `Γ_𝔟` is
 `diag(ε, 1)` times an element of `SL(L_𝔟)`, and `diag(ε, 1) ∈ Γ₀(𝔫)_𝔟`, so the index is that of
-the Borel in `SL₂(𝒪_F/𝔫)`, by the surjection `SL₂(𝒪_F) → SL₂(𝒪_F/𝔫)`);
+the Borel in SL₂(𝒪_F/𝔫). For nonprincipal 𝔟, trivialize the invertible
+module 𝔟/𝔫𝔟 over 𝒪_F/𝔫 and lift elementary upper and lower unipotents
+from 𝔟⁻¹ and 𝔟; these generate SL₂ of each local factor, giving surjectivity
+from SL(L_𝔟), without claiming that L_𝔟 is free);
 `Γ₀(𝔫)_𝔟 ⊆ Γ₀(𝔪)_𝔟` for `𝔪 ∣ 𝔫`; `Γ₀(𝔫)_𝔟` contains the translations `(1 b; 0 1)`, `b ∈ 𝔟⁻¹`,
 and the diagonal matrices `(ε 0; 0 1)`, `(ε 0; 0 ε)`, `ε ∈ 𝒪_{F,+}^×`; the image of `Γ₀(𝔫)_𝔟` in
 `∏_w PGL₂(ℝ)` is discrete. For `F = ℚ` (excluded from the roadmap, but the sanity check is
-stated) the definitions reduce to `Γ₀(N)`.
+stated) the definitions reduce to `Γ₀(N)` (Assaf et al., §2.1,
+(2.1.4), (2.1.7)–(2.1.10), p. 3, and §2.2, p. 4, for the groups,
+determinant sequences and projective discreteness; Cremona,
+arXiv:2601.17524v1, §2, p. 3 and §2.2, p. 4, for the index and reduction
+argument in the free component). The nonprincipal extension uses the
+local trivialization just described and the count
+#ℙ¹(𝒪_F/𝔭^r)=(N𝔭)^r+(N𝔭)^(r−1), for r≥1, followed by the
+Chinese remainder theorem.
+
+Assaf's Γ₁ imposes a≡1, whereas this roadmap imposes d≡1.
+With J=(0 −1;1 0), conjugation γ↦JγJ⁻¹ identifies Assaf's
+Γ₁(𝔫) at the fractional ideal 𝔫⁻¹𝔟⁻¹ with this Γ₁(𝔫)_𝔟:
+(a b;c d) maps to (d −c;−b a). This also identifies the corresponding Γ₀ groups; it does not equate the two Γ₁ subgroups at
+an unchanged component. The determinant sections here are diag(ε,1),
+where the a-congruence convention instead uses diag(1,ε).
 
 *Rests on:* 1.1; Mathlib `Matrix.SpecialLinearGroup`, `Ideal.absNorm`; the finiteness of
 `𝒪_F/𝔫`.
@@ -497,6 +540,11 @@ The subgroup API is the reduction and determinant comparison above.
 - At unit level the reduction target is the zero quotient and Γ(1)=Γ₁(1)=Γ₀(1)=Γ_𝔟.
 - Over ℚ at level 2, (1,1;0,1) is in Γ₀ and Γ₁, but not Γ(2): its upper-right entry is 1 mod 2.
 - At level 2 the lower unipotent (1,0;1,1) is excluded from Γ₀, while (1,0;2,1) belongs.
+- Over ℚ(√5), put w=(1+√5)/2 and u=w²=w+1. Modulo (2), u−1=w≠0,
+  so diag(u,1) meets this Γ₁ condition but not Assaf's at the same component;
+  conjugation by J gives diag(1,u), with a−1=0. Here u is totally positive.
+- Over ℚ the indices at levels 1, 2 and 4 are 1, 3 and 6; at norm-2 prime
+  power exponent two the local count is 2²+2=6, not 2²+1=5.
 
 ### 1.3 Commensurability and conjugation
 
@@ -583,7 +631,7 @@ The discriminating examples are the Checks in §§1.1–1.5: the quadratic latti
 
 ### Dependencies
 
-Layer 0; fractional ideals and narrow classes from the exact supplier contracts.
+Layer 0; fractional ideals and narrow classes from the exact supplier contracts; KTheoryLowDegrees §5.4.
 
 ## Layer 2: Fourier expansions, Koecher's principle, the spaces
 
@@ -694,7 +742,18 @@ The form-space API extends the supplied parallel spaces.
 
 ### 2.4 Normalized coefficients
 
-Extend the supplied parallel coefficient map to nonparallel weights by the pinned convention and prove it independent of the generator `μ`: for
+Extend the supplied parallel coefficient map to nonparallel weights by the pinned convention
+(Dembélé–Voight, arXiv:1010.5727v2, (7.10), p. 37, for the arithmetic slash;
+Raghuram–Tanabe, June 20, 2011 version, §4.1.2, (4.3) and the coefficient
+definition immediately below (4.4), p. 27, for the normalization in unitary slash).
+The explicit adapter is 𝔟=t_ν𝔡, so their exponent ξ=μ and ideal
+𝔪=(μ)t_ν⁻¹=(μ)𝔡𝔟⁻¹. The arithmetic slash of §0.3 is their unitary slash multiplied by
+N(det γ)^(k₀/2−1); the two agree on Γ₀, whose determinant has norm one.
+For the same component function their coefficient a_ν(μ)μ^(−k/2)
+becomes c(𝔪,f)=N(μ)^(k₀/2)a_ν(μ)μ^(−k/2)=a_ν(μ)μ^m here.
+This derives the different and norm factors from the trace-dual lattice,
+rather than using the unadjusted ideal indexing in Dembélé–Voight's Example 7.26.
+Prove it independent of the generator `μ`: for
 `μ' = εμ`, `a(εμ) ∏ (εμ)_w^{m_w} = ∏ ε_w^{k_w + 2m_w - 1} a(μ) ∏ μ_w^{m_w} = N(ε)^{k₀ - 1} a(μ) ∏ μ_w^{m_w}`
 and `N(ε) = 1`. Prove that the full expansion map `f ↦ ((a_0(f_c))_c, c(·, f))` is injective on `M_k(𝔫; R)`
 for nonzero level and degree at least two, by uniqueness in 2.1 and Koecher. Prove separately
@@ -710,6 +769,10 @@ linearity in `f`. Define the constant terms `a_0(f_𝔟)`.
 - In weight zero, 1 and 0 have positive coefficients all zero, but standard constants 1 and 0.
 - On cusp forms the missing constant coordinate is zero; zero coefficients give the zero form.
 - Over a quadratic field, 𝔟′=2𝔟 gives c′=4c under raw slash and c′=(4/4)c=c under §2.3; a positive unit has norm 1.
+- For the normalization factor at weight (2,4), positive coordinate inputs (2,3) and raw coefficient 1,
+  the unitary coefficient is 1/(2·3²)=1/18; multiplication by N(μ)²=36
+  gives 2=2¹3⁰, the arithmetic coefficient. In parallel weight two the
+  corresponding values are 1/6 and 6·(1/6)=1.
 
 
 The coefficient API includes constants separately.
@@ -985,7 +1048,15 @@ Every assertion here has nonzero level. At level zero over ℚ(√5), the consta
 is invariant in parallel weight −2, since upper triangular unit diagonals give
 N(det)^(−3)N(d)²=1; this is excluded by the nonzero-level hypothesis.
 
-Prove `FiniteDimensional ℂ (S_k(Γ))`: point evaluations `f ↦ f(z)` are bounded on the unit ball
+Prove `FiniteDimensional ℂ (S_k(Γ))` by extending the real-quadratic,
+parallel-weight prototype of Bruinier, arXiv:math/0609763v1, §1.4,
+Lemma 1.31 and Theorem 1.32, pp. 15–16. The general-degree, nonparallel
+extension is a target here: for every fixed nonzero level, component and weight,
+prove an A>0 such that sup_z |f(z)|∏_w y_w^(k_w/2) ≤ A‖f‖₂ for every cusp
+form f, with A independent of f. Use §0.2's polydisc mean-value estimate on
+the compact part and §2.6's Fourier expansion on §3.1's finitely many balanced
+cusp domains to obtain this uniform norm comparison. The weight factor is
+∏_w y_w^(k_w/2), not N(y)^(k₀/2). Then point evaluations `f ↦ f(z)` are bounded on the unit ball
 of `(S_k(Γ), ⟨·,·⟩)` (mean-value inequality on a polydisc around `z`, 0.2), so the unit ball is a
 normal family, every sequence in it has a locally uniformly convergent subsequence whose limit
 is again in `S_k(Γ)` (0.2 and dominated convergence for the cusp decay of 2.6), and the unit
@@ -993,11 +1064,26 @@ ball is compact in the `L²` topology; a Hilbert space with compact unit ball is
 dimensional (Mathlib `FiniteDimensional.of_isCompact_closedBall₀`). Then prove
 `FiniteDimensional ℂ (M_k(Γ))` from the exact sequence
 `0 → S_k(Γ) → M_k(Γ) → ℂ^{C(Γ)}` of constant-term maps (2.5), and the bound
-finrank M_k(Γ) ≤ finrank S_k(Γ) + #C(Γ). Deduce `FiniteDimensional ℂ (M_k(𝔫; R))`, and that for `k₀ ≤ 0` the only forms are the
+finrank M_k(Γ) ≤ finrank S_k(Γ) + #C(Γ). Deduce tuple finite dimensionality by the finite-product instance
+`Module.Finite.pi` from component finite dimensionality and the finite narrow class group,
+and that for `k₀ ≤ 0` the only forms are the
 constants in weight `0` (maximum principle for `|f|` on the finite-volume quotient, using the
 boundedness of 2.2).
+The same norm comparison gives the direct dimension argument: for any finite
+orthonormal set f₁,…,f_r, evaluating linear combinations gives
+Σ_j |f_j(z)|²∏_w y_w^k_w ≤ A²; integration yields r≤A² vol(Γ∖ℍ^Σ).
+At a point where every f_j vanishes the inequality is 0≤A², requiring no division.
 
-*Rests on:* 0.2, 2.5, 3.4; Mathlib `FiniteDimensional.of_isCompact_closedBall₀`, Montel-type
+**Checks.**
+
+- For component dimensions 1 and 2, the tuple dimension is 1+2=3; a single
+  dimension-one component gives 1, not the class-number-one restriction on all tuples.
+- With A=2 and volume 3 the orthonormal-set bound is r≤4·3=12; the empty
+  family gives 0≤12, and a common zero of the forms gives 0≤4 pointwise.
+- At weight (2,4) and y=(2,3), the weighted norm uses 2·3²=18, whereas
+  N(y)²=36 is the wrong nonparallel factor; its square in the integral is 324.
+
+*Rests on:* 0.2, 2.5, 2.6, 3.1, 3.4; Mathlib `FiniteDimensional.of_isCompact_closedBall₀`, Montel-type
 compactness (`TendstoLocallyUniformly` on open sets of `ℂ^Σ`).
 
 ### Examples
@@ -1259,7 +1345,13 @@ This subsection concerns the unramified finite central characters of §5.2.
 For ramified nebentypus use the local newvector operator and its character-changing
 target from the general dictionary; it is not asserted to preserve the character.
 
-For an exact divisor 𝔮 of the nonzero level 𝔫, and an output component represented by
+Use the ideal-lattice construction of Cremona, arXiv:2601.17524v1,
+§4.1, Definition 9, p. 12, and the square relation in §4.2.1, p. 13,
+as the algebraic model. Its row-lattice operators carry N𝔮⁻¹ and use
+ordinary ideal classes; the target here is the oriented column-lattice
+comparison with the arithmetic slash and narrow components, with the
+normalizing factor specified below. It does not assume an exact divisor
+is principal. For an exact divisor 𝔮 of the nonzero level 𝔫, and an output component represented by
 𝔟, let 𝔠 represent [𝔟][𝔮]⁻¹. Choose α in GL₂⁺(F) with entries
 
     α₁₁ ∈ 𝔮,  α₁₂ ∈ 𝔟⁻¹,  α₂₁ ∈ 𝔫𝔠,  α₂₂ ∈ 𝔮𝔠𝔟⁻¹,
@@ -1269,6 +1361,11 @@ In local generators of 𝔟 and 𝔠, at 𝔭^r exactly dividing 𝔮 the upper-
 and the lower-left entry divided by a generator of 𝔫 are units; the determinant condition
 forces this primitivity. At places outside 𝔮 the matrix is an isomorphism of the local
 level lattices. Prove existence and uniqueness of the resulting left Γ₀(𝔫)_𝔠 coset.
+For existence, fix a totally positive generator δ of 𝔮𝔠𝔟⁻¹, choose the local
+level-lattice switches with determinant δ, and apply strong approximation
+for SL₂ (AdelicAlgebraicGroups §4.2) to meet their open local cosets.
+For choices α and β, the local ratio βα⁻¹ lies in Γ₀(𝔫)_𝔠; intersecting these
+conditions with GL₂⁺(F) proves the claimed global coset uniqueness.
 Define the component map from M_k(Γ₀(𝔫)_𝔠) to M_k(Γ₀(𝔫)_𝔟) by
 
     (W_𝔮 f)_𝔟 = N𝔮^(-(k₀-2)/2) (N𝔠/N𝔟) (f_𝔠 ∣_k α).
@@ -1286,7 +1383,7 @@ double coset) and so **preserves** each `M_k(𝔫, ψ; R)`, preserves cusp forms
 **Fricke operator**. There is no nebentypus here, so `W_𝔮` does not invert `ψ`: the classical
 `S_k(N, χ) → S_k(N, χ̄)` has no analogue.
 
-*Rests on:* 5.1, 5.2, 5.5.
+*Rests on:* 1.1–1.3, 5.1, 5.2, 5.5; AdelicAlgebraicGroups §4.2 (SL₂ strong approximation).
 
 **Checks.**
 
@@ -1312,7 +1409,7 @@ The discriminating examples are the Checks in §§5.2–5.6: good and bad primes
 
 ### Dependencies
 
-Layers 0–3; the supplied parallel Hecke operators and abstract double-coset formalism.
+Layers 0–3; the supplied parallel Hecke operators and abstract double-coset formalism; AdelicAlgebraicGroups §4.2.
 
 ## Layer 6: the classical–adelic dictionary
 
@@ -1625,7 +1722,7 @@ refine.
 
 *Rests on:* 6.4, 7.4; GL₂ automorphic representations and transfer R16.3.
 
-### 7.7 Atkin–Lehner signs
+### 7.7 Atkin–Lehner pseudo-eigenvalues and signs
 
 For a newform `f` and an exact divisor `𝔮 ‖ 𝔫` prove that `W_𝔮 f = λ_𝔮(f) f` for a scalar
 `λ_𝔮(f)` with `λ_𝔮(f)² = ψ([𝔮])`: `W_𝔮` commutes with the good `T_𝔪`, preserves the new subspace,
@@ -1638,17 +1735,37 @@ multiply (`ε_{𝔮𝔮'} = ε_𝔮 ε_𝔮'`), that for `𝔭 ‖ 𝔫`, `c(�
 for `𝔭² ∣ 𝔫` the sign `ε_{𝔭^{v}}(f)` is not determined by the single local coefficient `c(𝔭, f) = 0`; the full
 normalized newform, and hence its full good coefficient system, determines the sign. Prove `ε_𝔮(f^σ) = ε_𝔮(f)` for Galois conjugates. For general `ψ` the
 **pseudo-eigenvalue** `λ_𝔮(f)` above has `|λ_𝔮(f)| = 1` and is a square root of `ψ([𝔮])`; no `±1`
-sign is claimed. These are the Hilbert instances of the Modular
+sign is claimed. For every unramified finite central character ψ and every 𝔭 ‖ 𝔫,
+prove the coefficient comparison
+
+    c(𝔭, f) = −λ_𝔭(f) N𝔭^(k₀/2 − 1).
+
+For π_f in §6.3’s dual and norm-twist convention, on its local unramified
+Steinberg twist by μ the normalized Atkin–Lehner matrix acts on the new line by −μ(ϖ), while the arithmetic U_𝔭 acts by
+μ(ϖ)N𝔭^(k₀/2−1); here μ(ϖ)²=ψ([𝔭]). Transport these two actions together
+through §6.4, using GL2AutomorphicRepresentationsAndTransfer R16.2.1 and R16.3.2,
+so the sign is fixed by the matrix of §5.6, not chosen from its square alone.
+The ε formula is precisely the specialization ψ=1. These are the Hilbert instances of the Modular
 Forms roadmap's Layer 6 theorems and are proved by the same route: the coefficient formulas 5.4
 and 7.6 and strong multiplicity one 6.4.
 
-*Rests on:* 5.5, 5.6, 6.4, 7.4, 7.6.
+*Rests on:* 5.5, 5.6, 6.3, 6.4, 7.4, 7.6; GL2AutomorphicRepresentationsAndTransfer R16.2.1 and R16.3.2.
 
 **Checks.**
 
 - `2.2.5.1-31.1-a`: `c((5w - 2), f) = -1`, so `ε_(5w - 2)(f) = -c((5w - 2), f) = +1`.
 - `2.2.5.1-81.1-a` at level `(3)²`: `c((3), f) = 0` by 7.6, and `ε_(9)(f)` is not determined by
   this zero local coefficient alone.
+- Over F=ℚ(√229), base-change the form of y²+y=x³−x²−10x−20 and twist
+  by the unramified cubic class character χ from the splitting field of x³−4x−1.
+  At a prime 𝔭 above 11 choose χ(𝔭)=ζ₃. Split multiplicative reduction gives
+  c(𝔭)=ζ₃, ψ([𝔭])=ζ₃² and λ_𝔭=−ζ₃: then −λ_𝔭·11⁰=ζ₃ and
+  λ_𝔭²=ζ₃², whereas neither λ_𝔭 nor c(𝔭) is a real sign. The cubic has
+  discriminant 229, has no rational root (its values at 1 and −1 are −4 and 2),
+  is irreducible modulo 11, and has three real roots; its S₃ splitting field is cyclic cubic and everywhere unramified over F.
+  For the curve, Δ=−11⁵, c₄=496 and the tangent cone at (5,5) modulo 11
+  is Y²−3X²=(Y−5X)(Y+5X), fixing the split-multiplicative value +1.
+  The twist and base change are the constructions of §§9.1 and 9.4.
 - Level `𝒪_F` has no Atkin–Lehner signs: `2.2.24.1-1.1-a`, `2.2.29.1-1.1-a` have
   `AL_eigenvalues = []`.
 
@@ -2080,7 +2197,9 @@ dictionary**: the space of quaternionic modular forms of weight `k` and level `�
 on the class set of §0.3), modulo the forms factoring through the reduced norm in parallel
 weight `2`, is isomorphic as a module over the `T_𝔭`, `𝔭 ∤ 𝔫` (§3.1 there, 5.2 here) to
 `S_k(𝔫; R)^{𝔇-new}`, compatibly with the central action and with `U_𝔭` at `𝔭 ∣ 𝔫𝔇⁻¹`, the
-eigenvalue at `𝔭 ∣ 𝔇` on the quaternionic side being `-ε_𝔭(f) N𝔭^{k₀/2 - 1}` (7.7). Inputs:
+eigenvalue at 𝔭 ∣ 𝔇 on the ψ summand of the quaternionic side being
+−λ_𝔭(f) N𝔭^(k₀/2−1), where λ_𝔭(f)²=ψ([𝔭]) (§7.7). For ψ=1 this is
+−ε_𝔭(f) N𝔭^(k₀/2−1). Inputs:
 [GL₂ automorphic representations and transfer](../GL2AutomorphicRepresentationsAndTransfer/README.md)
 R17.3.1, R17.3.3, R17.3.5 and R17.3.9, transported by 6.4 and by the supplier's quaternionic
 dictionary. No such B exists when n+ω(𝔇) is odd. In every even degree,
@@ -2091,6 +2210,11 @@ a totally definite B must ramify at an odd number of finite places
 **Checks.**
 
 - For n=2 and 𝔇=1, the ramification count is 2+0=2, so a totally definite algebra exists.
+- In §7.7's cubic twist over ℚ(√229), take 𝔇=11𝒪_F. Since 229≡3² mod 11,
+  there are two primes above 11, each of conductor exponent one; the ramification
+  count is 2+2=4. At the prime with χ(𝔭)=ζ₃ the quaternionic eigenvalue is
+  −(−ζ₃)·11⁰=ζ₃, and its central character is ζ₃². This also fixes the twist
+  convention χ∘Nrd versus χ∘det in the supplier's R17.3.1.
 - For n=3 and 𝔇=1, the count is 3+0=3, so it does not exist.
 - For n=3 and 𝔇 a single prime, the count is 3+1=4; the parity obstruction disappears,
   while the exact-level condition still requires valuation one at that prime.
@@ -2404,7 +2528,7 @@ Layer 0 ─→ Layer 1 ─→ Layer 2 ─→ Layer 3 ─→ Layer 4
                                           Layer 11 after Layers 7, 8, 9
 ```
 
-Layers 0–2 are sequential. Layer 3 (reduction theory) and Layer 4 (Eisenstein series, which
+Layers 0–2 are sequential; Layer 1 also uses KTheoryLowDegrees §5.4. Layer 3 (reduction theory) and Layer 4 (Eisenstein series, which
 needs 3.1's counting and 3.4 for orthogonality) follow Layer 2; Layer 5 needs Layers 2 and 3
 (3.4–3.5 for adjoints and diagonalization) and can proceed in parallel with Layer 4. Layer 6 needs
 Layers 5 and the cited adelic suppliers. Layer 7 needs Layers 5–6; 7.5 additionally needs
@@ -2413,12 +2537,24 @@ Automorphic bundles. Layers 8, 9, 10 are independent of one another after Layer 
 
 ## References
 
+- J. Voight, *Quaternion algebras*, author edition dated August 5, 2026,
+  Definition 9.6.1, Lemmas 9.6.3–9.6.4, 9.6.7 and 9.6.9, pp. 143–144:
+  the fractional-ideal index and its local determinant description.
+  [Author copy](https://jvoight.github.io/quat-book.pdf).
+- J. E. Cremona, *Hecke operators, Hecke eigensystems, and formal modular forms
+  over number fields*, arXiv:2601.17524v1, §2, p. 3; §2.2, p. 4;
+  §4.1, Definition 9, p. 12; §4.2.1, p. 13. These locators supply the
+  algebraic congruence-group count and ideal-lattice Atkin–Lehner model;
+  §§1.2 and 5.6 give the oriented-component adapters.
+
 - J. H. Bruinier, *Hilbert modular forms and their applications*,
-  arXiv:math/0609763v1, Proposition 1.25, p. 12 and Proposition 1.41,
+  arXiv:math/0609763v1, Proposition 1.25, p. 12; §1.4, Lemma 1.31 and
+  Theorem 1.32, pp. 15–16; and Proposition 1.41,
   pp. 21–22. The latter is the parallel-weight, real-quadratic prototype;
   §3.3 supplies the explicit nonparallel, general-degree adapter.
 - E. Assaf et al., *A database of basic numerical invariants of Hilbert modular
-  surfaces*, arXiv:2301.10302v2, §3.1, Lemma 3.1.8 and Corollaries 3.1.18,
+  surfaces*, arXiv:2301.10302v2, §2.1, (2.1.4)–(2.1.10), p. 3;
+  §3.1, Lemma 3.1.8 and Corollaries 3.1.18,
   3.1.23, pp. 5–8. These locators use the preprint numbering and pagination.
 - A. Raghuram and N. Tanabe, *Notes on the arithmetic of Hilbert modular forms*,
   author version dated June 20, 2011, §§4.1.1–4.1.5, pp. 26–29;
