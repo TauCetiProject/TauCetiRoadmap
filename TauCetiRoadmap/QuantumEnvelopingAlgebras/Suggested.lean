@@ -370,19 +370,21 @@ theorem Ktorus_linearIndependent (hq : q ≠ 0)
 /-- The images of the generators under the braid operator `Tᵢ`, as elements of the free algebra,
 with `qᵢ = q^dᵢ` and `n = −aᵢⱼ`: `Tᵢ(Eᵢ) = −FᵢKᵢ`, `Tᵢ(Fᵢ) = −Kᵢ⁻¹Eᵢ`, `Tᵢ(K_y) = K_(sᵢ y)`, and
 for `j ≠ i`
-`Tᵢ(Eⱼ) = Σ_(r=0)^n (−1)^(r+n) qᵢ^(−r) Eᵢ^(n−r) Eⱼ Eᵢ^(r)`,
-`Tᵢ(Fⱼ) = Σ_(r=0)^n (−1)^(r+n) qᵢ^r Fᵢ^(r) Fⱼ Fᵢ^(n−r)`. -/
+`Tᵢ(Eⱼ) = Σ_(r=0)^n (−1)^r qᵢ^(−r) Eᵢ^(n−r) Eⱼ Eᵢ^(r)`,
+`Tᵢ(Fⱼ) = Σ_(r=0)^n (−1)^r qᵢ^r Fᵢ^(r) Fⱼ Fᵢ^(n−r)` (the standard normalization, Lusztig1993
+§37.1.3, fixed by `Tᵢ(Eᵢ) = −FᵢKᵢ` and the coefficient `qᵢ^(−r)` on the term with `Eᵢ^(r)` on
+the right). -/
 def braidImageFree (i : ι) : Generator ι Y → Free
   | .E j =>
       if j = i then -(genF i * simpleK D i) else
         ∑ r ∈ Finset.range ((-D.cartan i j).toNat + 1),
-          ((-1 : K) ^ (r + (-D.cartan i j).toNat) * ((q ^ D.symmetrizer i) ^ r)⁻¹) •
+          ((-1 : K) ^ r * ((q ^ D.symmetrizer i) ^ r)⁻¹) •
             (dividedPower (q ^ D.symmetrizer i) (genE i) ((-D.cartan i j).toNat - r) *
               genE j * dividedPower (q ^ D.symmetrizer i) (genE i) r)
   | .F j =>
       if j = i then -(genK (-(D.simpleTorus i)) * genE i) else
         ∑ r ∈ Finset.range ((-D.cartan i j).toNat + 1),
-          ((-1 : K) ^ (r + (-D.cartan i j).toNat) * (q ^ D.symmetrizer i) ^ r) •
+          ((-1 : K) ^ r * (q ^ D.symmetrizer i) ^ r) •
             (dividedPower (q ^ D.symmetrizer i) (genF i) r * genF j *
               dividedPower (q ^ D.symmetrizer i) (genF i) ((-D.cartan i j).toNat - r))
   | .K y => genK (D.reflect i y)

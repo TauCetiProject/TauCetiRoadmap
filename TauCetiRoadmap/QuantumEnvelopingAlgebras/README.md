@@ -8,8 +8,9 @@ finite type the root vectors, the integral PBW basis of the divided-power form `
 `A = ℤ[v, v⁻¹]` with its full-`Y` toral part, and the comparison of `U_A` at `v = 1` with the
 full-`Y` Kostant form; the integral highest-weight lattices and their specialization at `v = 1`;
 quantum Frobenius at every root of unity (the unital map at odd orders coprime to the symmetrizer,
-the modified-algebra map with its modified root datum, and the half-algebra Frobenius sequences
-at the small orders where the modified root datum changes type); the quantum Lucas theorem for
+the modified-algebra map with its modified root datum, the sign comparison of the modified form
+at `ζ` and `−ζ`, and the half-algebra Frobenius sequences at the small orders where the modified
+root datum changes type); the quantum Lucas theorem for
 signed arguments; root-of-unity Weyl modules, simple heads, Frobenius pullbacks and the Steinberg
 tensor-product theorem; Frobenius contraction; and the quantum plane as a worked integral model.
 The end theorems are the Hopf structure on the full-`Y` presentation, the braid relations, the
@@ -31,8 +32,8 @@ This roadmap owns:
 - the finite-type integral highest-weight lattices `V_A(λ)` and their integral specialization at
   `v = 1` (Layer 4);
 - quantum Frobenius at every root of unity in finite type: order data and the modified root
-  datum, the odd-order unital map, the modified-algebra map, and the half-algebra Frobenius
-  sequences (Layer 5);
+  datum, the odd-order unital map, the modified-algebra map, the sign comparison of the modified
+  form at `ζ` and `−ζ`, and the half-algebra Frobenius sequences for every symmetrizer (Layer 5);
 - the symmetric Gaussian binomials over `ℤ[v, v⁻¹]` with signed upper argument and the quantum
   Lucas theorem at every root of unity (Layer 0), and the root-of-unity module theory consuming
   them (Layer 6);
@@ -44,8 +45,9 @@ It leaves to named roadmaps:
 
 - the symmetrizable realization, its lattices and root-annihilating directions: KacMoody Layer 0
   (§§0.1–0.3); the Weyl group of the realization as a Coxeter group: KacMoody Layer 2 §2.1;
-- abstract Coxeter combinatorics (strong exchange, Matsumoto's theorem): RootSystems Layer 3; the
-  finite longest element: RootSystems Layer 4;
+- inversion sets and the permutation of the positive roots by a simple reflection: RootSystems
+  Layer 1; abstract Coxeter combinatorics (strong exchange, Matsumoto's theorem): RootSystems
+  Layer 3; the finite longest element: RootSystems Layer 4;
 - classical highest-weight modules and finite-dimensional classification: LieHighestWeight Layers
   3–4; complete reducibility and characters: LieHighestWeight Layers 5–6;
 - the rational pinned reductive Lie algebra of a root datum, its full-`Y` Kostant form, the
@@ -61,6 +63,12 @@ Already in the libraries, consumed and not restated: Mathlib's `FreeAlgebra`, `R
 `Bialgebra.ofAlgHom`, `LaurentPolynomial.eval₂`, `Ring.choose`, `IsPrimitiveRoot` and
 `CoxeterSystem`; Tau Ceti's Kostant form `TauCeti.UniversalEnvelopingAlgebra.kostantForm` and its
 Hopf structure (listed in the supplier contracts).
+
+The Gaussian polynomial `[n k]_t ∈ ℕ[t]` of the recursion `[n+1 k+1]_t = [n k]_t + t^(k+1) [n k+1]_t`
+is owned by ArithmeticStatisticsPartIV §3.2, which this roadmap does not consume. The symmetric
+Laurent Gaussian `[n choose r]_v ∈ ℤ[v, v⁻¹]` of Layer 0 §0.3 is a kept variant: it differs from
+the owner's polynomial by `[n choose r]_v = v^(−r(n−r)) [n r]_(v²)`, and its signed extension to
+negative upper arguments and its root-of-unity evaluations do not live in `ℕ[t]`.
 
 ## Conventions
 
@@ -83,7 +91,9 @@ Hopf structure (listed in the supplier contracts).
   `Δ(Eᵢ) = Eᵢ ⊗ Kᵢ + 1 ⊗ Eᵢ`; statements imported from it are transported by the flip.
 - Roots of unity: for `ζ` with `ζ²` of finite order `L`, put `ℓᵢ = ord(ζ^(2dᵢ)) = L/gcd(L, dᵢ)`.
   `A_ℓ = A/(Φ_(2ℓ)(v))` is McGerty's ring, with `v` of order `2ℓ` (McGerty2006 Definition 2.4,
-  line 176). Lentner2014 writes `𝓁 = ord(q)`; its `𝓁ᵢ = 𝓁/gcd(𝓁, 2dᵢ)` (line 194) is our `ℓᵢ`.
+  line 176); a ring `R` with `v ↦ ζ` is an `A_L`-algebra exactly when `ζ` has even order `2L`,
+  and for `ζ` of odd order `L` it is `−ζ` that has order `2L`. Lentner2014 writes `𝓁 = ord(q)`;
+  its `𝓁ᵢ = 𝓁/gcd(𝓁, 2dᵢ)` (line 194) is our `ℓᵢ`.
 - Weight modules carry an internal direct-sum decomposition indexed by `X`; a weight is never
   read off from a root-of-unity eigenvalue of `K_y`.
 
@@ -141,10 +151,15 @@ category exists at the pinned Mathlib or Tau Ceti.
 
 ### From TauCetiRoadmap.RootSystems
 
+- Layer 1: inversion sets `{α ∈ Φ⁺ : wα ∈ Φ⁻}`, the exchange step (appending a simple
+  reflection changes the inversion number by one) and the fact that `sᵢ` permutes the positive
+  roots other than `αᵢ`; these give, for a reduced expression `w = s_(i₁) ⋯ s_(i_N)`, that
+  `β_k = s_(i₁) ⋯ s_(i_(k−1))(α_(i_k))`, `1 ≤ k ≤ N`, are `N` distinct positive roots, the
+  inversions of `w⁻¹`.
 - Layer 3: strong exchange and Matsumoto's theorem for Coxeter groups (used for independence of
   the reduced word in Layer 2).
-- Layer 4: chambers and the longest element `w₀` of a finite Weyl group, its reduced expressions
-  and the enumeration of positive roots `β_k = s_(i₁) ⋯ s_(i_(k−1))(α_(i_k))`.
+- Layer 4: chambers and the longest element `w₀` of a finite Weyl group with
+  `ℓ(w₀) = |Φ⁺|`, so that for `w = w₀` the enumeration of Layer 1 exhausts `Φ⁺`.
 
 ### From TauCetiRoadmap.LieHighestWeight
 
@@ -366,7 +381,9 @@ under `q ≠ 0` and genericity), and define `comulAlgHom` and `counitAlgHom` by 
     S(Fᵢ^(n)) = (−1)^n qᵢ^(−n(n−1)) Fᵢ^(n)Kᵢ^n
 
 from `(Kᵢ ⊗ Eᵢ)(Eᵢ ⊗ 1) = qᵢ²(Eᵢ ⊗ 1)(Kᵢ ⊗ Eᵢ)`, `(Fᵢ ⊗ Kᵢ⁻¹)(1 ⊗ Fᵢ) = qᵢ²(1 ⊗ Fᵢ)(Fᵢ ⊗ Kᵢ⁻¹)` and
-`EᵢKᵢ⁻¹ = qᵢ²Kᵢ⁻¹Eᵢ`, and the coproducts of the toral binomials of Layer 3. Expose the normalized
+`EᵢKᵢ⁻¹ = qᵢ²Kᵢ⁻¹Eᵢ` (LusztigJAMS1990 Proposition 4.8, line 1222, for the divided-power coproducts
+in the simply-laced simply connected case), and the coproducts of the toral binomials of Layer 3.
+Expose the normalized
 operators `eᵢ = Kᵢ⁻¹Eᵢ`, `fᵢ = FᵢKᵢ` with `Δ(eᵢ) = eᵢ ⊗ Kᵢ⁻¹ + 1 ⊗ eᵢ` and
 `Δ(fᵢ) = fᵢ ⊗ 1 + Kᵢ ⊗ fᵢ` for KacMoody, Part II, which proves the Kashiwara-lattice transport for
 this coproduct (or an explicit rescaling or tensor-factor reversal) and does not infer it from
@@ -426,7 +443,10 @@ braided coassociative and counital; construct the braided antipodes, with `S₋(
 pairing `p` on `U_v^+ × U_v^-` with `p(Eᵢ, Fⱼ) = δᵢⱼcᵢ`, `cᵢ = (vᵢ − vᵢ⁻¹)⁻¹`,
 `p(xx′, y) = Σ p(x, y₁)p(x′, y₂)`, `p(x, yy′) = χ(|y|, |y′|)⁻¹ Σ p(x₁, y′)p(x₂, y)`, zero unless the
 degrees are opposite; prove it descends through both Serre ideals and is nondegenerate in each
-degree (McGerty2006 lines 88–95 for the form on `f` whose radical is the Serre ideal).
+degree (McGerty2006 lines 88–95 for the form on `f` whose radical is the Serre ideal, after
+Lusztig1993 §1.2; HeckenbergerDoubles2010 Proposition 4.3, line 821, for the skew-Hopf pairing
+of the two Borel halves, normalized there by `η(Eᵢ, Fⱼ) = −δᵢⱼ`, and Remark 4.4, line 866, for
+the rescaling `η(Eᵢ, Fⱼ) = aᵢδᵢⱼ` that gives `cᵢ`).
 *Needs:* 1.3.
 
 - `r₊` is an algebra map for the braided multiplication and is coassociative.
@@ -456,7 +476,13 @@ of the construction and may be degenerate), choose `N > 0` clearing denominators
 generator map to `U_v(A, X, Y) ⊗_K K′` is an isomorphism by checking the defining relations in both
 directions and the triangular factorization; prove the cross relations descend to `K = ℚ(v)`.
 Compute the radical `R_b = {y ∈ Y : b(y, z) = 0 ∀ z}`; the `K_r`, `r ∈ R_b`, and every
-root-annihilating `K_c` are central and are retained.
+root-annihilating `K_c` are central and are retained. (HeckenbergerDoubles2010 §4.1, lines
+739–741, for the double of two Hopf algebras along a skew-Hopf pairing, Definition 4.5, line
+874, for the double of the two Borel halves with separate tori `Kᵢ`, `Lᵢ`, Proposition 4.6, line
+898, for its presentation with the cross relation `EᵢFⱼ − FⱼEᵢ = δᵢⱼ(Kᵢ − Lᵢ)`, and Proposition
+4.14, line 1039, for its triangular decomposition; the identification of the two tori along
+`y ↦ (K_y^+, K_y^-)` and the full-`Y` bicharacter `β_t` are this roadmap's, and the pairing on the
+root-lattice torus there, `η(Kᵢ, Lⱼ) = qᵢⱼ`, is the restriction of `β_t` to the `dᵢhᵢ`.)
 *Needs:* 1.4; KacMoody Layer 0 (independent coroots).
 
 - The pairing is well defined, respects both Serre ideals, and its restriction to the nilpotent
@@ -490,13 +516,24 @@ Layer 0; QuantumGroups Q8 item 1; KacMoody Layer 0; Mathlib.
 Define `braidImageFree i` and `braidImage i` on generators by `Tᵢ(Eᵢ) = −FᵢKᵢ`,
 `Tᵢ(Fᵢ) = −Kᵢ⁻¹Eᵢ`, `Tᵢ(K_y) = K_(sᵢ y)` and, for `j ≠ i`, with `n = −aᵢⱼ`,
 
-    Tᵢ(Eⱼ) = Σ_(r=0)^n (−1)^(r+n) qᵢ^(−r) Eᵢ^(n−r) Eⱼ Eᵢ^(r)
-    Tᵢ(Fⱼ) = Σ_(r=0)^n (−1)^(r+n) qᵢ^r Fᵢ^(r) Fⱼ Fᵢ^(n−r)
+    Tᵢ(Eⱼ) = Σ_(r=0)^n (−1)^r qᵢ^(−r) Eᵢ^(n−r) Eⱼ Eᵢ^(r)
+    Tᵢ(Fⱼ) = Σ_(r=0)^n (−1)^r qᵢ^r Fᵢ^(r) Fⱼ Fᵢ^(n−r)
 
-(divided powers in `qᵢ`). Prove `exists_braidOperator`: for every symmetrizable datum, `q ≠ 0` and
+(divided powers in `qᵢ`). These are the standard operators, fixed among the four of Lusztig1993
+§37.1.3 by the two values `Tᵢ(Eᵢ) = −FᵢKᵢ`, `Tᵢ(Fᵢ) = −Kᵢ⁻¹Eᵢ` and by the coefficient `qᵢ^(−r)`
+on the term carrying `Eᵢ^(r)` on the right; their inverses are
+`Tᵢ⁻¹(Eᵢ) = −Kᵢ⁻¹Fᵢ`, `Tᵢ⁻¹(Fᵢ) = −EᵢKᵢ`, `Tᵢ⁻¹(K_y) = K_(sᵢy)`,
+`Tᵢ⁻¹(Eⱼ) = Σ_(r=0)^n (−1)^r qᵢ^(−r) Eᵢ^(r) Eⱼ Eᵢ^(n−r)` and
+`Tᵢ⁻¹(Fⱼ) = Σ_(r=0)^n (−1)^r qᵢ^r Fᵢ^(n−r) Fⱼ Fᵢ^(r)`. The other operators in use differ from
+these by composition with `Ad(Kᵢ)` (which rescales `Eⱼ` by `qᵢ^(aᵢⱼ)`), by the sign
+automorphism `Eⱼ, Fⱼ ↦ (−1)^(aᵢⱼ)Eⱼ, (−1)^(aᵢⱼ)Fⱼ` for `j ≠ i`, or by inversion, and each such
+variant also satisfies the braid relations; a consumer importing "the braid automorphisms" takes
+the formulas above. Prove `exists_braidOperator`: for every symmetrizable datum, `q ≠ 0` and
 `q` generic, there is an algebra automorphism `Tᵢ` of `U` with these generator values (Lusztig1993
-Chapter 37; in finite type Lentner2014 Definition 3.4, line 462). Give the inverse-generator
-formulas and prove both composites are identities. Define `braidWord T i j n = Tᵢ ∘ Tⱼ ∘ Tᵢ ∘ ⋯`
+Chapter 37; in finite type Lentner2014 Definition 3.4, line 462, which states existence and
+refers for the formulas to Jantzen's lectures, and LusztigJAMS1990 §1, line 179, for the
+simply-laced case). Prove that the inverse-generator values define the inverse automorphism, both
+composites being the identity. Define `braidWord T i j n = Tᵢ ∘ Tⱼ ∘ Tᵢ ∘ ⋯`
 (`n` factors) and prove `braid_relation`: for `i ≠ j` with `aᵢⱼaⱼᵢ ≤ 3`,
 `braidWord T i j mᵢⱼ = braidWord T j i mᵢⱼ` with `mᵢⱼ = braidLength i j`, with no isolated-entry
 shortcut (Lusztig1993 Chapter 39). The proof route is Lusztig's: verify the relations on
@@ -522,17 +559,24 @@ generators by identities in `U_A` among divided powers with coefficients in `A`,
   `aᵢⱼ` with `aⱼᵢ` would give `T₁(K₂) = K₂K₁`; on the five-dimensional representation the
   length-four relation `T₁T₂T₁T₂ = T₂T₁T₂T₁` holds on all generators.
 - For `aᵢⱼ = 0` the sum has the single term `Eⱼ`, so `Tᵢ(Eⱼ) = Eⱼ` and `TᵢTⱼ = TⱼTᵢ`.
+- Convention witness, `A₂` (`n = 1`): `T₁(E₂) = E₁E₂ − q⁻¹E₂E₁`, and `T₁⁻¹(E₂) = E₂E₁ − q⁻¹E₁E₂`;
+  `T₁(T₁⁻¹(E₂)) = (F₁X − XF₁)K₁` with `X = T₁(E₂)`, and `[F₁, X] = E₂K₁⁻¹`, so the composite
+  returns `E₂`. The sign-twisted variant gives `q⁻¹E₂E₁ − E₁E₂`, and the `Ad(K₁)`-twisted
+  variant `E₂E₁ − qE₁E₂`, both `−1` times resp. `−q` times the value above.
 
 ### 2.2 Root vectors in finite type
 
 Assume finite type, with finite Weyl group `W` and longest element `w₀` (RootSystems Layer 4).
-For a reduced expression `w₀ = s_(i₁) ⋯ s_(i_N)` put `β_k = s_(i₁) ⋯ s_(i_(k−1))(α_(i_k))` and
+For a reduced expression `w₀ = s_(i₁) ⋯ s_(i_N)` put `β_k = s_(i₁) ⋯ s_(i_(k−1))(α_(i_k))`
+(distinct positive roots exhausting `Φ⁺`, by the inversion sets of RootSystems Layer 1 and
+`ℓ(w₀) = |Φ⁺|` of Layer 4) and
 `E_(β_k) = T_(i₁) ⋯ T_(i_(k−1))(E_(i_k))`, `F_(β_k)` analogously, with divided powers in
-`v_(β_k) = v^(d_(β_k))` (Lentner2014 Definition 3.4, line 466). Prove that `E_β ∈ U^+_β`, that
+`v_(β_k) = v^(d_(β_k))` (Lentner2014 Definition 3.4, line 466; LusztigJAMS1990 Proposition 4.1,
+line 1098, in the simply-laced case). Prove that `E_β ∈ U^+_β`, that
 `E_β = E_i` when `β = αᵢ`, the straightening relations between root vectors, and that the ordered
 bases for different reduced words are related by integral transition matrices (via Matsumoto's
 theorem, RootSystems Layer 3), not by equality of ordered monomials.
-*Needs:* 2.1; RootSystems Layers 3–4.
+*Needs:* 2.1; RootSystems Layers 1, 3 and 4.
 
 - Every positive root occurs exactly once among the `β_k`.
 - `E_(β_k)` is homogeneous of degree `β_k`, and for `k < l` the commutator `E_(β_l)E_(β_k) −
@@ -542,10 +586,12 @@ theorem, RootSystems Layer 3), not by equality of ordered monomials.
 
 **Checks.**
 
-- `A₂` with `121`: `β = α₁, α₁ + α₂, α₂` and `E_(α₁+α₂) = T₁(E₂) = q⁻¹E₂E₁ − E₁E₂`; with `212`:
-  `β = α₂, α₁ + α₂, α₁` and `E_(α₁+α₂) = T₂(E₁) = q⁻¹E₁E₂ − E₂E₁`, a different vector of the same
-  degree. For `121`, `E₂E₁ − qE₁E₂ = q E_(α₁+α₂)` (the straightening relation with
-  `−(α₁, α₂) = 1`), and `E_(α₁+α₂)E₁ − q⁻¹E₁E_(α₁+α₂)` is `q⁻¹` times the Serre element, hence `0`.
+- `A₂` with `121`: `β = α₁, α₁ + α₂, α₂` and `E_(α₁+α₂) = T₁(E₂) = E₁E₂ − q⁻¹E₂E₁`; with `212`:
+  `β = α₂, α₁ + α₂, α₁` and `E_(α₁+α₂) = T₂(E₁) = E₂E₁ − q⁻¹E₁E₂`, a different vector of the same
+  degree. For `121`, `E₂E₁ − qE₁E₂ = −q E_(α₁+α₂)` (the straightening relation with
+  `−(α₁, α₂) = 1`), and `E_(α₁+α₂)E₁ − q⁻¹E₁E_(α₁+α₂) = −q⁻¹(E₁²E₂ − (q + q⁻¹)E₁E₂E₁ + E₂E₁²)`,
+  which is `−q⁻¹[2]₁` times the divided-power Serre element `E₁^(2)E₂ − E₁E₂E₁ + E₂E₁^(2)`,
+  hence `0`.
 - `B₂` (`d = (1, 2)`) with `1212` gives `α₁, 2α₁ + α₂, α₁ + α₂, α₂`, each positive root once.
 - In finite type the number of PBW monomials of degree `β` equals the Kostant partition function
   of `β`; a list omitting `E_(α₁+α₂)` in `A₂` gives one monomial in degree `α₁ + α₂` instead of two.
@@ -553,12 +599,12 @@ theorem, RootSystems Layer 3), not by equality of ordered monomials.
 ### Examples
 
 - `G₂` braid relation of length six on generators, recomputed from 2.1's formulas.
-- The root vector `E_(α₁+α₂) = q⁻¹E₂E₁ − E₁E₂` of `A₂` acts on the standard representation
-  (`E₁ = e₁₂`, `E₂ = e₂₃`) as `−e₁₃`.
+- The root vector `E_(α₁+α₂) = E₁E₂ − q⁻¹E₂E₁` of `A₂` acts on the standard representation
+  (`E₁ = e₁₂`, `E₂ = e₂₃`) as `e₁₃`.
 
 ### Dependencies
 
-Layers 0–1; KacMoody Layer 2 §2.1; RootSystems Layers 3–4.
+Layers 0–1; KacMoody Layer 2 §2.1; RootSystems Layers 1, 3 and 4.
 
 ## Layer 3: the full-`Y` integral form and the finite-type PBW basis (QEA3)
 
@@ -597,7 +643,9 @@ integral change-of-basis formulas for every other basis of `Y`.
 
 In finite type, with a proved toral basis `B_Y`, prove that the products
 `F_(β₁)^(a₁) ⋯ F_(β_N)^(a_N) · t · E_(β₁)^(b₁) ⋯ E_(β_N)^(b_N)` (`a_k, b_k ∈ ℕ`, `t ∈ B_Y`) form an
-`A`-basis of `U_A` (Lentner2014 Theorem 3.8, line 549; Lusztig1993 Chapter 41), with integral
+`A`-basis of `U_A` (Lentner2014 Theorem 3.8, line 549; Lusztig1993 Chapter 41; LusztigJAMS1990
+Theorem 4.5, line 1204, for the simply-laced simply connected case with its toral part
+`Kᵢ^(±1)[Kᵢ; 0 choose n]`), with integral
 straightening `E_α^(a)E_α^(b) = [a+b choose a]_(v_α) E_α^(a+b)` and the opposite-root and
 different-root commutation formulas, every coefficient kept in `A` (primes in nonsimply-laced
 coefficients are retained, not inverted). Base change the basis and the Hopf maps to every
@@ -624,9 +672,11 @@ At `v = 1` prove that `U_1 = ℤ ⊗_A U_A` modulo `(K_μ − 1 : μ ∈ Y)` is 
 Kostant form `U_ℤ` of ReductiveGroups Layer 9 §9A (items 1–4), by `Eᵢ^(m) ↦ Xᵢ^(m)`,
 `Fᵢ^(m) ↦ Yᵢ^(m)`, `[K_y; 0 choose m] ↦ binom(H_y, m)`, and compatibly with the Hopf structures
 (Tau Ceti `instHopfAlgebraKostantForm`); compare the full root datum maps under central
-isogenies (McGerty2006 lines 278–281 for the comparison of the original Frobenius target with
-the specialization at `v = 1`). A rational Lie-algebra isomorphism alone does not identify
-integral forms.
+isogenies (LusztigJAMS1990 §6.7, lines 1495–1526, for the simply-laced simply connected case:
+`U_A ⊗_A ℤ` modulo `(Kᵢ − 1)` is the Kostant form, with `[Kᵢ; 0 choose t] ↦ binom(Hᵢ, t)`;
+AndersenWen1992 §1.2, line 129, quoting it; McGerty2006 lines 278–281 for the comparison of the
+original Frobenius target with the specialization at `v = 1`). A rational Lie-algebra
+isomorphism alone does not identify integral forms.
 *Needs:* 3.1, 3.2; ReductiveGroups Layer 9 §9A; Tau Ceti `kostantForm`.
 
 - The isomorphism carries the PBW basis of 3.2 at `v = 1` to Kostant's basis.
@@ -658,7 +708,10 @@ For finite type and dominant `λ ∈ X`, construct the generic finite-dimensiona
 highest-weight module `V(λ)` over `ℚ(v)` with highest vector `v_λ` and weights in `X`, define
 `V_A(λ) = U_A · v_λ`, and prove that it is a free `A`-lattice of rank `dim V(λ)`, stable under every
 divided power and toral binomial, with an `X`-graded basis; base change gives a `U_R`-module for
-every commutative `A`-algebra `R`.
+every commutative `A`-algebra `R` (AndersenPoloWen1991 §1.20 and Proposition 1.22, lines 457–510:
+the Weyl lattice, the largest `A`-finite quotient of the integral Verma module, is `A`-free with
+the character of the classical Weyl module; it is `U_A · v_λ` since both are generated by the
+highest vector over `U_A^-`).
 *Needs:* Layer 3; LieHighestWeight Layers 3–6 (for the rank via characters).
 
 - `V_A(λ)_μ = V_A(λ) ∩ V(λ)_μ` and `V_A(λ) = ⊕_μ V_A(λ)_μ`.
@@ -685,7 +738,10 @@ isomorphisms. Route: `V₁(λ)` is free of rank `dim V(λ)` (4.1), so it embeds 
 module over the rational Lie algebra generated by a highest-weight vector of weight `λ`, hence
 isomorphic to the classical simple module `L(λ)` (complete reducibility, LieHighestWeight Layer
 5, and classification, Layers 3–4); under this isomorphism `V₁(λ) = U₁^- · (1 ⊗ v_λ)` maps onto
-`U_ℤ^- · v_λ^cl = V_ℤ(λ)` by 3.3, and injectivity is inherited from the rational isomorphism.
+`U_ℤ^- · v_λ^cl = V_ℤ(λ)` by 3.3, and injectivity is inherited from the rational isomorphism
+(AndersenPoloWen1991 Proposition 1.22, line 500, for the freeness and the character of
+`V_A(λ)`; LusztigJAMS1990 §6.7, lines 1495–1526, for `U₁/(Kᵢ − 1) ≅ U_ℤ` in the simply-laced
+simply connected case; the full-`Y` statement and `Φ_λ` itself are this roadmap's).
 Character equality alone is not used and would not suffice. For every commutative ring `B` base change `Φ_λ` to
 `B ⊗_(A,ε₁) V_A(λ) ≅ B ⊗_ℤ V_ℤ(λ)`, compatibly with ring maps and the specialized divided powers;
 the comparison over `ℂ` is this map tensored with `ℂ`. After ReductiveGroups §10B, compare the
@@ -733,15 +789,36 @@ root datum, that `aᵢⱼ*` is integral and symmetrized by `d*`, and that the ta
 `ζᵢ* = ζ^(dᵢℓᵢ²)` lie in `{1, −1}`. Say `L` is *nondivisible* if it is coprime to every `dᵢ`
 (then `ℓᵢ = L` for all `i`), and that the datum satisfies *Lusztig's conditions* at `L` if it has no
 odd cycle and `ℓᵢ ≥ 1 − aᵢⱼ` whenever `i ≠ j` and `ℓⱼ ≥ 2` (McGerty2006 lines 337–339).
-*Needs:* 0.1; Mathlib `IsPrimitiveRoot`.
+
+Reduction to the normalized symmetrizer. On each indecomposable component write `d = c · d_norm`
+with `c ∈ ℤ_(>0)` and `d_norm` the symmetrizer with `d_short = 1` (KacMoody §0.1: the
+symmetrizers of an indecomposable datum are proportional). Prove that the integral halves
+`U_A^±` of 3.2 and the modified form `dot U_A` of 5.3 for `(A, d)` specialized at `v ↦ ζ` are the
+ones for `(A, d_norm)` specialized at `v ↦ ζ^c`, componentwise, because their presentations
+involve `v` only through `vᵢ = v^(dᵢ) = (v^c)^(d_norm,i)`; and that the order data agree: with
+`L′ = L/gcd(L, c) = ord((ζ^c)²)` one has `gcd(L, c · d_norm,i) = gcd(L, c) · gcd(L′, d_norm,i)`,
+hence `ℓᵢ(L, d) = ℓᵢ(L′, d_norm)`, the same `(X*, Y*)`, and `ζᵢ* = ζ^(dᵢℓᵢ²) = (ζ^c)^(d_norm,i ℓᵢ²)`.
+The unital algebra `U_ζ` is not reduced this way: its toral conjugation `K_yEᵢK_(−y) = ζ^⟨αᵢ,y⟩Eᵢ`
+sees `ζ` itself.
+*Needs:* 0.1; Mathlib `IsPrimitiveRoot`; KacMoody §0.1.
 
 - `X*` is the kernel of `X → ⊕ᵢ ℤ/ℓᵢ`, `λ ↦ (⟨λ, hᵢ⟩ mod ℓᵢ)ᵢ`, so it has finite index and contains
   every `ℓᵢαᵢ`; restriction `Y → Y*` sends `hᵢ` to `ℓᵢhᵢ*`.
 - In finite type `A*` is of finite type: of the type of `A` when all `ℓᵢ` are equal, and of the dual
-  type otherwise (the ratio of the `ℓᵢ` is `gcd(L, d_long)`, either `1` or `d_long/d_short`).
+  type otherwise (for an indecomposable datum the ratio `ℓ_short/ℓ_long` is
+  `gcd(L, d_long)/gcd(L, d_short) = gcd(L/gcd(L, d_short), d_long/d_short)`, either `1` or
+  `d_long/d_short`).
 - For simply-laced normalized data (`dᵢ = 1`) and every `L`, `ℓᵢ = L` and `A* = A`.
+- The reduction identifies the halves and the modified forms of `(A, c · d_norm)` at `ζ` with
+  those of `(A, d_norm)` at `ζ^c`, with equal order data; `L` is nondivisible for `d` exactly when
+  `gcd(L, c) = 1` and `L′` is nondivisible for `d_norm`.
 
 **Checks.**
+
+- `G₂` with `d = (2, 6)` at `L = 4` (`ζ` of order `8`): `c = 2`, `ζ^c` of order `4`, `L′ = 2`;
+  `ℓ = (4/gcd(4, 2), 4/gcd(4, 6)) = (2, 2) = (2/gcd(2, 1), 2/gcd(2, 3))`; `L = 4` is divisible for
+  `d` but `L′ = 2` is nondivisible for `d_norm`, so the reduced datum is in the nondivisible case
+  while the unreduced hypothesis would reject it.
 
 - `G₂` (`a₁₂ = −3`, `a₂₁ = −1`, `d = (1, 3)`) at `L = 3` (`ζ` of order `3` or `6`): `ℓ = (3, 1)`,
   `A* = [[2, −1], [−3, 2]]`, `d* = (9, 3)`, and `d₁*a₁₂* = −9 = d₂*a₂₁*`; the uniform exponent `3`
@@ -753,6 +830,9 @@ odd cycle and `ℓᵢ ≥ 1 − aᵢⱼ` whenever `i ≠ j` and `ℓⱼ ≥ 2` (
   (McGerty2006 line 343).
 - `A₁` with `d₁ = 2` at `L = 2`: `ℓ₁ = 1`, `ζ₁* = ζ² = −1`, so the target is not the ordinary
   classical algebra.
+- `B₂` with the symmetrizer `d = (2, 4)` at `L = 4`: `ℓ = (4/gcd(4, 2), 4/gcd(4, 4)) = (2, 1)`,
+  ratio `2 = gcd(4, 4)/gcd(4, 2)`, the dual type; the formula `gcd(L, d_long) = 4` for the ratio
+  is wrong here, and the order data agree with those of the normalized `d = (1, 2)` at `L = 2`.
 
 ### 5.2 The odd-order unital Frobenius map
 
@@ -761,7 +841,7 @@ Hopf algebra homomorphism `Fr : U_ζ → U_ℤ ⊗ R` to the full-`Y` Kostant fo
 `Fr(Eᵢ^(m)) = Xᵢ^(m/L)`, `Fr(Fᵢ^(m)) = Yᵢ^(m/L)` when `L ∣ m` and `0` otherwise, `Fr(K_μ) = 1`,
 `Fr([Kᵢ; 0 choose m]) = binom(H_(hᵢ), m/L)` when `L ∣ m` and `0` otherwise, and the matching formula
 in every full-`Y` direction derived from the toral basis of 3.1 (GrosKaneda2013 §1.3, lines 57–82,
-after Lusztig's Theorem 8.10 of *Quantum groups at roots of 1*; Lentner2014 line 1102). Prove
+after Lusztig1990 Theorem 8.10; Lentner2014 line 1102). Prove
 well-definedness on every defining relation, Hopf compatibility and compatibility with central
 isogenies. Construct the positive and negative divided-power splittings `Fr′^± : U_ℤ^± ⊗ R → U_ζ^±`,
 `Xᵢ^(n) ↦ Eᵢ^(nL)`, on their nilpotent domains only (GrosKaneda2013 line 84).
@@ -798,28 +878,69 @@ McGerty2006 Lemma 2.2 (line 161, after Lusztig1993 §31.1.3) for every `A`-algeb
 
 and its `F`/`E` analogue, and `R dot U` is a left module for `R U^+` and `R U^-`, so that every
 relation of the integral halves holds. Construct the same for the modified datum `(X*, Y*)` of 5.1.
-Then, for every `L` that is nondivisible (McGerty2006 Theorem 2.6, line 208, any parity) or at
-which the datum satisfies Lusztig's conditions (Lusztig1993 Chapter 35, McGerty2006 lines 332–339),
-and every `R` over `A_ℓ`, construct the surjective homomorphism
+Then construct the surjective homomorphism
 
     Fr : R dot U(X, Y) → R dot U*(X*, Y*)
 
 with `Fr(Eᵢ^(n)1_λ) = eᵢ^(n/ℓᵢ)1_λ`, `Fr(Fᵢ^(n)1_λ) = fᵢ^(n/ℓᵢ)1_λ` when `λ ∈ X*` and `ℓᵢ ∣ n`, and `0`
-otherwise; at `n = 0` it sends `1_λ` to `1_λ` for `λ ∈ X*` and to `0` otherwise. Prove the
+otherwise; at `n = 0` it sends `1_λ` to `1_λ` for `λ ∈ X*` and to `0` otherwise, in two settings,
+each imposed, after the reduction of 5.1, on `(A, d_norm)` at `ζ^c` with `L′ = ord((ζ^c)²)`:
+(i) `L′` nondivisible for `d_norm` (so `ℓᵢ = L′` for all `i`) and `ζ^c` of even order `2L′`, so
+that `R` is an `A_(L′)`-algebra via `v ↦ ζ^c` (McGerty2006 Theorem 2.6, line 208, for either
+parity of `L′`); (ii) the datum satisfying Lusztig's conditions at `L′` (Lusztig1993 Chapter 35,
+Theorem 35.1.9; McGerty2006 lines 332–339; Lentner2014 line 1110 cites it for large orders with
+small prime divisors), for `R` an `A_(L′)`-algebra. Through the sign comparison below, both
+settings reach every `ζ` whose square has order `L`: for `ζ^c` of odd order `L′`, `R` is an
+`A_(L′)`-algebra via `v ↦ −ζ^c`, and the map at `ζ^c` is the map at `−ζ^c` composed with `Ψ`. For
+the normalized symmetrizer `c = 1` and `L′ = L`. Prove the
 full-`Y` multiplier laws: `K_y` acts on `1_λ` by `ζ^⟨λ,y⟩`, its toral binomial `C_y(c, n)` by
 `[⟨λ, y⟩ + c choose n]_ζ`, and for `λ ∈ X*` the target laws `K*_(y*)1_λ = ζ^⟨λ,y*⟩1_λ`,
 `C*_(y*)(c, n)1_λ = [⟨λ, y*⟩ + c choose n]_ζ1_λ` with `y* = y|_(X*)`, using `quantumLucas`. Under no
 odd cycles (automatic in finite type, McGerty2006 Remark 2.10, line 292) identify McGerty's
 nondivisible target `dot U♯` with Lusztig's `dot U*` (McGerty2006 Lemma 2.11, line 307) and the
 quasiclassical specialization with the one at `v = 1` (Theorem 2.9, line 288).
+
+**Sign comparison.** Assume the datum has no odd cycles and fix a bipartition `I = I₀ ⊔ I₁` with
+`aᵢⱼ = 0` inside each part. For every commutative ring `R` with a unit `ζ`, construct the
+`R`-algebra isomorphism `Ψ : R ⊗_(v↦−ζ) dot U_A → R ⊗_(v↦ζ) dot U_A` with
+
+    Ψ(Eᵢ1_λ) = (−1)^⟨λ,dᵢhᵢ⟩ Eᵢ1_λ,   Ψ(Fᵢ1_λ) = (−1)^(dᵢ) Fᵢ1_λ      (i ∈ I₀)
+    Ψ(Eᵢ1_λ) = (−1)^(dᵢ) Eᵢ1_λ,      Ψ(Fᵢ1_λ) = (−1)^⟨λ,dᵢhᵢ⟩ Fᵢ1_λ   (i ∈ I₁)
+
+so that `Ψ(Eᵢ^(n)1_λ) = (−1)^(n⟨λ,dᵢhᵢ⟩ + dᵢn(n−1)/2) Eᵢ^(n)1_λ` for `i ∈ I₀` (the factorial
+`[n]ᵢ!` changes by `(−1)^(dᵢn(n−1)/2)` under `v ↦ −v`), and the three analogous formulas. Route,
+on the presentation above: in the halves, `v ↦ −v` multiplies the term `Eᵢ^(r)EⱼEᵢ^(s)` of the
+Serre relation by `(−1)^(r dᵢaᵢⱼ)` relative to the term `r = 0`, and the weight signs contribute
+`(−1)^(r(⟨αⱼ, yᵢ⟩ + ⟨αᵢ, yⱼ⟩))` with `yᵢ = dᵢhᵢ` on `I₀` and `yᵢ = 0` on `I₁`, which is
+`(−1)^(r dᵢaᵢⱼ)` by bipartiteness and `dᵢaᵢⱼ = dⱼaⱼᵢ`; on the relation
+`Eᵢ^(a)1_λFⱼ^(b) = Fⱼ^(b)1_(λ+aαᵢ+bαⱼ)Eᵢ^(a)` (`i ≠ j`) the two sides pick up
+`(−1)^(ab(⟨αⱼ, yᵢ⟩ + ⟨αᵢ, y′ⱼ⟩))` with `y′ⱼ = dⱼhⱼ` on `I₁` and `0` on `I₀`, which is `1`; on the
+relation with `i = j` and `dᵢ` odd the Gaussian `[⟨λ,hᵢ⟩+a+b choose t]ᵢ` changes by
+`(−1)^(t(⟨λ,hᵢ⟩+a+b−t))`, which the weight signs together with the factor `(−1)^(dᵢ)` reproduce
+term by term. The quasiclassical case `ζ = 1` is McGerty2006 Theorem 2.9 (line 288, after
+Lusztig1993 §33.2), and the roadmap proves the general case by the same bipartite sign. `Ψ`
+fixes every `1_λ` and the weight decomposition; `K_y` acts on `1_λ` by `(−ζ)^⟨λ,y⟩` on the source
+and by `ζ^⟨λ,y⟩` on the target, which is why the comparison is a statement about the modified
+form and no isomorphism `U_(−ζ) ≅ U_ζ` of the unital algebras is asserted for a full lattice `Y`.
 *Needs:* 5.1, 3.2, 0.3; McGerty2006 §2.
 
 - `Fr` is well defined on the presentation, respects the finite-support local units, is
   surjective, and pulls every `X*`-weight module back to an `X`-weight module supported on `X*`.
 - Uniqueness: `Fr` is determined by its values on the generators.
 - No unital Hopf map is inferred from this modified-algebra homomorphism.
+- `Ψ` is an isomorphism of `R`-algebras with `Ψ(1_λ) = 1_λ`, natural in `R`, and `Ψ ∘ Ψ′ = id`
+  for the comparison `Ψ′` in the other direction; it is compatible with `Fr` on both sides.
 
 **Checks.**
+
+- Rank one, `d₁ = 1`, `a = b = 1`: the relation `E1_λF = F1_(λ+2α)E + [⟨λ,h⟩+2]_v 1_(λ+α)` at
+  `−ζ` has coefficient `[m]_(−ζ) = (−1)^(m−1)[m]_ζ`, `m = ⟨λ,h⟩+2`; applying `Ψ` (with
+  `Ψ(E1_λ) = (−1)^⟨λ,h⟩E1_λ`, `Ψ(F1_μ) = −F1_μ`) gives `(−1)^(⟨λ,h⟩+1)` times the relation at
+  `ζ` on both sides. Without the weight sign on `E` the two sides agree only for `⟨λ,h⟩` even.
+- `G₂` with `ζ` of order `9` (`L = 9`, `ℓ = (9, 3)`): `L` is divisible by `d₂ = 3`, Lusztig's
+  conditions hold (`ℓ₂ = 3 ≥ 2 = 1 − a₂₁`, `ℓ₁ = 9 ≥ 4 = 1 − a₁₂`), `ζ` is not a root of
+  `Φ₁₈` but `−ζ` is, and the Frobenius at `ζ` is `Fr` at `−ζ` composed with `Ψ`; the target
+  datum is the dual `G₂` of 5.1 with `d* = (81, 27)`.
 
 - The presentation needs the integral halves: in `A₁ × A₁` at `L = 2`, `ζ = i`,
   `F₁^(2)F₂^(2) = F₂^(2)F₁^(2)` holds in `U_A^-`, but follows from `F₁F₂ = F₂F₁` only after dividing
@@ -843,17 +964,30 @@ of Lentner2014 Theorem 6.1 (line 1116), with the kernel `u_ζ(g(0))⁺` of Lentn
 (line 106) and the Lie algebra `g(𝓁)` of its table, braided exactly in the listed cases, and the
 quotient generated by the primitive images of `E_(αᵢ)^(𝓁ᵢ)`. Transport it to the coproduct of 1.2 by
 the flip. Where 5.3 applies, identify the sequence with the restriction of 5.3's map to the
-positive half. For the normalized symmetrizer (`dᵢ = 1` on short roots) the orders not covered by
-5.3 are exactly `B_n`, `C_n`, `F₄` at `𝓁 = 4` (`L = 2`) and `G₂` at `𝓁 = 3, 6` (`L = 3`): for
-`d ∈ {1, 2}` the order is nondivisible unless `L` is even, and Lusztig's conditions then reduce to
-`L/2 ≥ 2`; for `G₂` the order is nondivisible unless `3 ∣ L`, and the conditions then reduce to
-`L/3 ≥ 2`. At these orders the sequence has kernel of type `A₁^(×n)`, `D_n`, `D₄`, `A₂` and quotient
-of type `C_n`, `B_n`, `F₄` (braided), `G₂` (braided at `𝓁 = 6`) respectively, and the roadmap's
-Frobenius theorem there is this half-algebra sequence and its negative analogue; no
-modified-algebra map is asserted at these orders. `G₂` at `𝓁 = 4` is covered by 5.3 (nondivisible)
-and also here, with the exceptional kernel of type `A₃`. For a non-normalized symmetrizer the
-roadmap's Frobenius theorems are those of 5.2–5.3.
-*Needs:* 5.1, 3.2; Lentner2014 §§5–6.
+positive half.
+
+Lentner's sequence is stated for the normalized symmetrizer (`d_short = 1`). For an arbitrary
+symmetrizer `d = c · d_norm` (componentwise, 5.1) extend the reduction of 5.1 to the
+`Λ`-Yetter–Drinfeld structure of the positive half: the braiding `ζ^(dᵢaᵢⱼ) = (ζ^c)^(d_norm,i · aᵢⱼ)`
+and the Lusztig form of `(A, d)` at `ζ` are those of `(A, d_norm)` at `ζ^c`, so the sequence for
+`(A, d)` at `ζ` is the sequence for `(A, d_norm)` at `ζ^c`, componentwise, with
+`ord(ζ^c) = 𝓁/gcd(𝓁, c)` and `L′ = ord((ζ^c)²) = L/gcd(L, c)`.
+
+Coverage. For an indecomposable datum, the pairs (datum, `ζ`) with no modified-algebra map from
+5.3 are exactly those where, for `(A, d_norm)` at `ζ^c`, `L′` is divisible and Lusztig's
+conditions fail at `L′`, that is `B_n`, `C_n`, `F₄` with `L′ = 2` and `G₂` with `L′ = 3`: for
+`d_norm ∈ {1, 2}` the order `L′` is nondivisible for `d_norm` unless even, and Lusztig's
+conditions then reduce to `L′/2 ≥ 2`; for `G₂` it is nondivisible unless `3 ∣ L′`, and the
+conditions then reduce to `L′/3 ≥ 2`; simply-laced data satisfy the conditions at every order.
+For the normalized symmetrizer these are `𝓁 = 4` (`L = 2`) and `𝓁 = 3, 6` (`L = 3`). At these
+orders the sequence has kernel of type `A₁^(×n)`, `D_n`, `D₄`, `A₂` and quotient of type `C_n`,
+`B_n`, `F₄` (braided), `G₂` (braided at `𝓁 = 6`) respectively, and the roadmap's Frobenius theorem
+there is this half-algebra sequence and its negative analogue; no modified-algebra map is
+asserted at these orders. `G₂` at `𝓁 = 4` is covered by 5.3 (nondivisible) and also here, with the
+exceptional kernel of type `A₃`. For a decomposable datum the hypotheses of 5.3 are imposed on
+the whole datum, so a datum whose components need different branches of 5.3 has, as its
+Frobenius theorem, this sequence alone.
+*Needs:* 5.1, 3.2; Lentner2014 §§5–6; KacMoody §0.1.
 
 - The quotient `U_ζ^L(g, Λ)⁺ // u_ζ⁺` is generated by primitive elements and has the (braided)
   commutator relations of `U(g(𝓁))⁺`.
@@ -867,15 +1001,28 @@ roadmap's Frobenius theorems are those of 5.2–5.3.
 - `B₂` at `𝓁 = 4`: kernel of dimension `2²` (`A₁ × A₁` on the short roots), quotient of type `C₂`,
   matching 5.1's `A* = [[2, −1], [−2, 2]]`.
 - `𝓁 = 1, 2` (`ζ = ±1`): the kernel is trivial and the quotient is of the type of `g`.
+- `G₂` with `ζ` of order `9` (`𝓁 = 9`, `3 ∣ 𝓁 ≠ 3, 6`): Lentner2014 line 1135 gives kernel of type
+  `G₂` and quotient of type `G₂`, the quotient generated by the primitive images of `E₁^(9)` and
+  `E₂^(3)`, of the dual type as in 5.1's `A*`; this pair is also covered by 5.3 (Lusztig's
+  conditions, through the sign comparison), and the two maps agree on the positive half.
+- `B₂` with `d = (2, 4)` and `ζ` of order `8` (`ζ²` of order `L = 4`): `c = 2`, `ζ^c` has order
+  `4`, `L′ = 2`, so the sequence is Lentner's `B₂` at `𝓁 = 4` (line 1130): kernel `A₁ × A₁` on the
+  short roots, quotient of type `C₂`, matching 5.1's `A* = [[2, −1], [−2, 2]]` for `ℓ = (2, 1)`;
+  5.3 does not apply (`L′ = 2` is divisible for `d_norm = (1, 2)`, and `ℓ₂ = 1 < 2`), and a
+  reduction to `d_norm` at `ζ`
+  instead of `ζ²` would wrongly give `𝓁 = 8`, whose row (line 1129) has kernel of type `B₂`.
 
 ### Examples
 
 - `A₁` at `L = 3`: `Fr(E^(3)) = X`, `Fr(E^(4)) = 0`, and `Fr(E^(6)) = X^(2) = X²/2`.
 - `A₂` at `L = 2` through 5.3 with target the classical modified algebra of `(X*, Y*)`.
+- `A₁` with `ζ` of order `3` (`L = 3`): 5.2 gives the unital map; 5.3 gives the modified map
+  as `Fr` at `−ζ` (of order `6`) composed with `Ψ`.
 
 ### Dependencies
 
-Layers 0–3; McGerty2006 §2; Lentner2014 §§3–6; GrosKaneda2013 §1.
+Layers 0–3; KacMoody §0.1; McGerty2006 §2; Lentner2014 §§3–6; GrosKaneda2013 §1; Lusztig1990
+Theorem 8.10; Lusztig1993 Chapters 33 and 35.
 
 ## Layer 6: root-of-unity modules, heads and Frobenius pullback (QEA6)
 
@@ -907,7 +1054,11 @@ Dualize with the antipode of 1.2.
 
 For the simply connected semisimple root datum, where every dominant weight is `λ₀ + Lλ₁` with
 `0 ≤ ⟨λ₀, hᵢ⟩ < L`, prove `L_ζ(λ₀ + Lλ₁) ≅ L_ζ(λ₀) ⊗ Fr^*L(λ₁)`; for other root data state the
-extension only with its lattice hypotheses. This is independent of the construction of `Fr`.
+extension only with its lattice hypotheses. This is independent of the construction of `Fr`
+(AndersenWen1992 §1.9, the theorem at line 206, printed p. 40, for the simply connected datum
+over a field containing a primitive root of unity of the order of `ζ`, where the restricted
+simple `L_k(λ⁰)` stays simple over the small quantum group and `L_k(λ) ≅ L_k(λ⁰) ⊗ L(λ¹)^([1])`;
+line 209 attributes the characteristic-zero case to Lusztig).
 *Needs:* 6.1.
 
 - The decomposition `λ = λ₀ + Lλ₁` is unique.
@@ -939,7 +1090,12 @@ Define `M^(L) = ⊕_(ν∈X) M_(Lν)`, with new weight `ν`, and the classical d
 `Xᵢ^(m)`, `Yᵢ^(m)` as the restrictions of `Eᵢ^(Lm)`, `Fᵢ^(Lm)`; prove that the full-`Y` divided
 Cartan operators act on `M_(Lν)` by `binom(⟨ν, y⟩, m)` (from `quantumLucas`), that all Kostant
 relations hold, and functoriality. Keep the positive and negative unprojected restrictions as
-separate `U(n^±)`-actions.
+separate `U(n^±)`-actions. (GrosKaneda2013 §6.1, line 1724, for the contraction `M ↦ M^φ` of
+an arbitrary module through their splitting of `Fr`, lines 53–56 for the contraction of a weight
+module through the modified algebra, which is the definition used here, and (6.4.4), lines
+1792–1823, for `binom(Hᵢ, m)` acting on the weight `Lν` by `binom(⟨ν, hᵢ⟩, m)`; they work over
+`ℤ[1/2][v]/(Φ_L)` with `L` coprime to the Cartan entries, lines 28–32, while the full-`Y`
+binomials and the ring `R` here are the roadmap's.)
 *Needs:* Layer 5 (5.2), 0.3.
 
 - `M^(L)` is a `U_ℤ ⊗ R`-module with weights `ν`, functorial in `M`.
@@ -998,7 +1154,8 @@ over rank-one `U_v(sl₂)` (`d₁ = 1`, `x` of weight `ω`, `y` of weight `−ω
 `k = 0`), with the module-algebra laws of 1.2: `K(ab) = K(a)K(b)`, `E(ab) = E(a)b + K(a)E(b)`,
 `F(ab) = F(a)K⁻¹(b) + aF(b)`. Prove that the degree-`n` part is the simple module of highest
 weight `nω` with highest vector `xⁿ`, and that at `v = 1` the action is `E = x∂_y`, `F = y∂_x` on
-binary forms.
+binary forms (Kassel1995 Chapter VII §3 for the module-algebra structure of the quantum plane
+over `U_q(sl₂)`, transported to the coproduct of 1.2).
 *Needs:* Layer 1.
 
 - The formulas define a `U_v`-action compatible with multiplication.
@@ -1034,6 +1191,10 @@ it with `ker C_L`, `a_k ↦ (−1)^k(w_(k+1) + W)` with `M_ζ(L)/W`, and the non
 
 are compared by `T_L`. The Chevalley divisor formula is SchubertGeometry S7's; this layer provides
 no quantum flag variety, quantum cohomology ring or quantum Schubert product.
+(AndersenPoloWen1991 Proposition 1.22, line 500, for the Weyl lattice `Δ_A(n)` and Proposition
+3.3, line 571, for the induced module `H⁰(λ)` as the dual of a Weyl module, of which the monomial
+lattice `M_A(n)` with `T_n` is the rank-one integral instance; the root-of-unity computations
+follow from `quantumLucas` of 0.3.)
 *Needs:* 8.1, Layers 3–7, 0.3.
 
 - `C_n` is an integral isomorphism exactly for `n = 0, 1`.
@@ -1067,14 +1228,34 @@ Layers 0–7; SchubertGeometry S4, S7.
   integrable modules, crystal bases and the comparison with the path crystal.
 - HabiroNahmSeries consumes the signed Laurent Gaussians and the quantum Lucas theorem of Layer 0
   §0.3.
-- QuantumGroups consumes the rank-one comparison of Layer 1 §1.1.
 
 ## References
 
 - Lusztig1993: George Lusztig, *Introduction to Quantum Groups*, Progress in Mathematics 110,
-  Birkhäuser, 1993 (reprinted 2010). Cited by chapter: Chapter 34 (Gaussian binomials at roots of
-  unity), Chapter 35 (quantum Frobenius), Chapters 37 and 39 (braid automorphisms and relations),
-  Chapter 41 (PBW bases), §23.2 and §31.1.3 (modified form and its presentation).
+  Birkhäuser, 1993 (reprinted 2010). Cited by chapter: §1.2 (the form on `f`), §33.2
+  (quasiclassical specializations), Chapter 34 (Gaussian binomials at roots of unity), Chapter 35
+  (quantum Frobenius, Theorem 35.1.9), Chapters 37 (§37.1.3) and 39 (braid automorphisms and
+  relations), Chapter 41 (PBW bases), §23.2 and §31.1.3 (modified form and its presentation).
+- LusztigJAMS1990: George Lusztig, *Finite dimensional Hopf algebras arising from quantized
+  universal enveloping algebras*, J. Amer. Math. Soc. 3 (1990), 257–296 (simply-laced, simply
+  connected): §1 (line 179, braid group action), Proposition 4.1 (line 1098, root vectors),
+  Theorem 4.5 (line 1204, the `A`-basis of `U_A`), Proposition 4.8 (line 1222, divided-power
+  coproducts), §6.7 (lines 1495–1526, `U_A` at `v = 1` and the Kostant form).
+- Lusztig1990: George Lusztig, *Quantum groups at roots of 1*, Geom. Dedicata 35 (1990):
+  Theorem 8.10 (the unital Frobenius map at odd orders).
+- AndersenPoloWen1991: Henning Haahr Andersen, Patrick Polo and Wen Kexin, *Representations of
+  quantum algebras*, Invent. Math. 104 (1991), 1–59: §1.20 and Proposition 1.22 (lines 457–510,
+  Weyl lattices, freeness and characters), Proposition 3.3 (line 571, induced modules as duals).
+- AndersenWen1992: Henning Haahr Andersen and Wen Kexin, *Representations of quantum algebras.
+  The mixed case*, J. reine angew. Math. 427 (1992), 35–50: §1.2 (line 129, `U_A` at `v = 1`),
+  §1.9 (line 206, the tensor-product theorem).
+- HeckenbergerDoubles2010: István Heckenberger, *Lusztig isomorphisms for Drinfel'd doubles of
+  bosonizations of Nichols algebras of diagonal type*, J. Algebra 323 (2010), arXiv 0710.4521
+  (v2): §4.1 (lines 739–741), Proposition 4.3 (line 821), Remark 4.4 (line 866),
+  Definition 4.5 (line 874), Proposition 4.6 (line 898), Proposition 4.14 (line 1039), Theorem
+  5.8 (line 1578).
+- Kassel1995: Christian Kassel, *Quantum Groups*, Graduate Texts in Mathematics 155, Springer,
+  1995: Chapter VII §3 (the quantum plane as a `U_q(sl₂)`-module algebra).
 - McGerty2006: Kevin McGerty, *Hall algebras and quantum Frobenius*, arXiv math/0601150 (v4):
   §2, Definition 2.4 (line 176), Theorem 2.6 (line 208), Lemma 2.2 (line 161), Lemma 2.7
   (line 215), Theorem 2.9 (line 288), Lemma 2.11 (line 307), and Lusztig's conditions (lines
