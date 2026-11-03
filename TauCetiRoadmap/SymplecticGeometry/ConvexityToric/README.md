@@ -76,7 +76,8 @@ and reduced symplectic classes use ℝ. Lean carriers have arbitrary type univer
   R2a.2–4's root-plane Hessians, critical set Wμ for regular heights, generic distinct
   values and even-cell consequences on compact connected coadjoint orbits, R3's free and
   locally free reduction, and R3.1's proper-orbit symplectic slice normal form.
-- **From TauCetiRoadmap.LieGroups:** Layer 6's maximal tori, conjugacy, normalizer/Weyl
+- **From TauCetiRoadmap.LieGroups:** Layer 1's smooth adjoint representation, its
+  differential ad and conjugation/exponential identities; Layer 6's maximal tori, conjugacy, normalizer/Weyl
   comparison and exponential surjectivity; Layer 4's integration of Lie algebra
   maps from simply connected groups. From TauCetiRoadmap.RootSystems, Layer 4's
   abstract Weyl chambers, transported through the compact comparison.
@@ -160,6 +161,9 @@ integral center/semisimple splitting (Conrad–Landesman, Appendix R, §§R.1–
 - For SU(2), H=diag(i,−i) has α(H)=2 and exp(2πH)=1; choose φ as the identity,
   so dφ(H)=H. The zero homomorphism has pairing 0 and fails the required value 2;
   H/2 has pairing 1 and exp(2πH/2)=−I, excluding a half-coroot.
+- Conjugation by diag(e^(it),e^(−it)) sends E₁₂ to e^(2it)E₁₂ and E₂₁ to
+  e^(−2it)E₂₁. Differentiation at t=0 gives [H,E₁₂]=2iE₁₂ and
+  [H,E₂₁]=−2iE₂₁, agreeing with dχ=iα and excluding a missing imaginary factor.
 - For SU(2)→SO(3), H maps to 2Z for a period-2π rotation generator Z;
   α(2Z)=2 and the kernel is {I,−I}, so injectivity is not required.
 - For a torus, including the trivial group, there are no nonzero roots or rank-one
@@ -167,7 +171,7 @@ integral center/semisimple splitting (Conrad–Landesman, Appendix R, §§R.1–
 - In U(2), the central and semisimple generators (1,1),(1,−1) span index 2 in ℤ²;
   the lattice vector (1,0) is not their integral combination. In rank zero all lattices vanish.
 
-*Needs:* LieGroups Layers 2–4 and 6 (adjoint representation, Lie integration and maximal tori);
+*Needs:* LieGroups Layers 1–4 and 6 (adjoint representation, Lie integration and maximal tori);
 Mathlib Haar integration and complex Killing root-space/sl₂ theory;
 RootSystems Layer 4; Tau Ceti's integral lattice API. The compact-real comparison
 and verification of the complex Killing hypotheses are targets of this subsection.
@@ -279,7 +283,7 @@ from the preserved-metric hypothesis. The weight +1 and −1 planes pin the mome
 
 ### Dependencies
 
-LieGroups Layers 2–4 and 6, RootSystems Layer 4, HamiltonianReduction R1/R3.1,
+LieGroups Layers 1–4 and 6, RootSystems Layer 4, HamiltonianReduction R1/R3.1,
 HopfRinow Layers 1 and 4, HeegaardFloer §4.1 and GeometricTopology Layer 1.
 
 ## Layer 2: Morse–Bott and moment-map topology
