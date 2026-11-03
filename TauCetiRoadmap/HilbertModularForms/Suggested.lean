@@ -437,12 +437,12 @@ theorem modularForms_eq_bot_of_top_neg (hn : 1 < Module.finrank ℚ F) {𝔫 : I
 
 /-! ## Layer 8: `L`-series -/
 
-variable (F) in
-/-- `L(f, s) = Σ_𝔪 c(𝔪, f) N𝔪^(-s)`, Mathlib's `LSeries` of Tau Ceti's `normCoeff` of the
-coefficient function (`README.md`, Layer 8, 8.1; *Pinned conventions*, `L`-function). -/
-def LFunction {𝔫 : Ideal (𝓞 F)} {k : Weight F} {R : NarrowRepresentatives F}
-    (f : HilbertModularForms F 𝔫 k R) (s : ℂ) : ℂ :=
-  LSeries (normCoeff F (coeff F f)) s
+/-- The ideal L-series of any Hilbert modular form converges absolutely to the right of
+k₀ + 1, using the general coefficient bound and ideal counting. -/
+theorem LSeriesSummable_of_modularForm (hn : 1 < Module.finrank ℚ F)
+    {𝔫 : Ideal (𝓞 F)} (h𝔫 : 𝔫 ≠ ⊥) {k : Weight F} {R : NarrowRepresentatives F}
+    (f : HilbertModularForms F 𝔫 k R) {s : ℂ} (hs : (k.top : ℝ) + 1 < s.re) :
+    LSeriesSummable (normCoeff F (coeff F f)) s := sorry
 
 /-- The ideal L-series of a Hilbert cusp form converges absolutely to the right of
 k₀/2 + 1, using the Hecke bound and ideal counting. -/

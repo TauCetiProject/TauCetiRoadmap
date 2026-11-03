@@ -38,7 +38,8 @@ Hecke bound (`exists_norm_coeff_le`), and finite dimensionality
 (`finiteDimensional_cuspForms`, `finiteDimensional_modularForms`,
 `finiteDimensional_hilbertModularForms`). It also states negative-weight vanishing
 (`modularForms_eq_bot_of_top_neg`) with nonzero level and absolute cusp L-series
-convergence (`LSeriesSummable_of_isCuspForm`) for Re(s)>k₀/2+1. Each theorem uses
+convergence (`LSeriesSummable_of_isCuspForm`) for Re(s)>k₀/2+1 and general-form
+convergence (`LSeriesSummable_of_modularForm`) for Re(s)>k₀+1. Each theorem uses
 the analytic carriers defined there with real bodies. The module docstring identifies
 the missing carriers for the other headlines, which remain targets in this README.
 
@@ -244,7 +245,7 @@ entry, Weight (with IsParallel, top and m), slash and IsHolomorphic. The compone
 are Gamma0 and NarrowRepresentatives. The Fourier definitions are tracePairing, expTrace,
 basePoint, box, boxMean, fourierCoeff, constantTerm and dualLattice; modularForms,
 cuspForms, HilbertModularForms, IsCuspForm and cuspSubmodule supply the spaces. The
-coefficient and Dirichlet-series definitions are coeff and LFunction. The proved
+coefficient definition is coeff; the convergence statements use the native L-series directly. The proved
 actions upperHalfSpaceSMul and upperHalfSpaceMulAction and support identities smul_apply, slash_add, slash_smul, slash_zero, entry_mul, det₀_mul,
 det₀_inv and entry_inv are used only to construct their actions and submodules.
 
@@ -263,6 +264,16 @@ det₀_inv and entry_inv are used only to construct their actions and submodules
 - `LSeries`, `LSeriesSummable`, `ArithmeticFunction`, the Euler-product API, Mellin transforms
   and `WeakFEPair` (consumed through the L-functions roadmap's level transport).
 - `Matrix.GeneralLinearGroup.map`, `Matrix.GeneralLinearGroup.det`, `Matrix.SpecialLinearGroup`.
+- `UnitAddTorus.hasSum_mFourier_series_L2`,
+  `UnitAddTorus.hasSum_mFourier_series_of_summable` and
+  `UnitAddTorus.hasSum_mFourier_series_apply_of_summable`
+  (`Mathlib/Analysis/Fourier/AddCircleMulti.lean`): product-torus L² convergence,
+  and uniform/pointwise convergence for continuous functions with summable coefficients.
+- `MeasureTheory.L2.inner_def` (`Mathlib/MeasureTheory/Function/L2Space.lean`):
+  the integral of the conjugate-first pointwise inner product.
+- `Complex.cderiv_eq_deriv` and `Complex.norm_cderiv_le`
+  (`Mathlib/Analysis/Complex/LocallyUniformLimit.lean`): first-derivative Cauchy
+  estimate on a positive-radius disk contained in a holomorphy domain.
 
 ### From Tau Ceti
 
@@ -280,6 +291,13 @@ det₀_inv and entry_inv are used only to construct their actions and submodules
   `conductor`, `idealCharacter`, `IsAlgebraic`, `AlgebraicInfinityType`,
   `ContinuousInfinityType.baseChange`.
 - `TauCeti.IdealArithmeticFunction`, `zeroExtend`, `normCoeff`, `EulerProductData`.
+- `TauCeti.exists_differentiableOn_eq_dedekindZeta_sub`
+  (`TauCeti/NumberTheory/NumberField/DedekindZeta.lean`): the holomorphic remainder
+  on Re(s)>1−1/[F:ℚ], agreeing with ζ_F(s)−ρ/(s−1) on Re(s)>1.
+- `HeckeCharacter.idealCharacter_apply_toPrincipalIdeal_eq_embeddingCharacter_inv`
+  (`TauCeti/NumberTheory/NumberField/Global/HeckeCharacter/Ideal.lean`):
+  the inverse monomial law for a matching infinity type and a totally positive
+  generator congruent to 1 modulo the finite conductor.
 - `HeckeRing.GL2.Newform N k`, `Newform.dirichletLift`, `TauCeti.CoefficientField`,
   `Newform.satakeParameters`, and the classical Hecke-ring realization of
   `TauCeti.NumberTheory.HeckeRing.*`, whose double-coset formalism Layer 5 reuses.
@@ -296,53 +314,122 @@ The general-form estimate in §3.3 is a consequence of §4.3 and is not an input
 
 ### 0.1 The domain and the action
 
-Define `ℍ^Σ := InfinitePlace F → ℍ` and `GL₂⁺(F)` as the subgroup of `GL (Fin 2) F` of matrices
-with totally positive determinant. Define `toGLReal w : GL (Fin 2) F →* GL (Fin 2) ℝ` as
-`Matrix.GeneralLinearGroup.map σ_w`, and the action `γ • z := fun w => toGLReal w γ • z w` of
-`GL₂⁺(F)` on `ℍ^Σ`. Prove: it is a `MulAction`; `(γ • z) w` is the Möbius transform
-`(a_w z_w + b_w)/(c_w z_w + d_w)` (from `UpperHalfPlane.coe_smul_of_det_pos`); the imaginary part
-law `Im((γ • z) w) = σ_w(det γ) Im(z_w) / |j(σ_w γ, z_w)|²`; the kernel of the action is the
-centre `F^× ∩ GL₂⁺(F)`; the action is continuous and holomorphic in `z`.
+Define `UpperHalfSpace` as InfinitePlace F→ℍ, `realEmbedding` as the real embedding
+σ_w, `toGLReal` as its map on GL₂, and `GL2Pos` as the subgroup of matrices of
+totally positive determinant. The coordinate projections `entry` and `det₀`
+read the matrix and its nonzero determinant. Define the componentwise action through
+`UpperHalfPlane.glAction`. Its API is:
 
-*Rests on:* Mathlib `UpperHalfPlane.glAction`, `im_smul_eq_div_normSq`, `IsTotallyPositive`.
+- The real embeddings preserve 0, 1, addition and multiplication; mapping matrices
+  preserves products and inverses (`Matrix.GeneralLinearGroup.map`).
+- The action is a group action and is continuous in z; its w coordinate is
+  (a_w z_w+b_w)/(c_w z_w+d_w), whose denominator is nonzero on ℍ
+  (`UpperHalfPlane.coe_smul_of_det_pos`, `UpperHalfPlane.denom_ne_zero`).
+- Its imaginary part is σ_w(det γ) Im(z_w)/|c_w z_w+d_w|²
+  (`UpperHalfPlane.im_smul_eq_div_normSq`); positive determinant makes it positive.
+- Its kernel is the scalar matrices: a Möbius map fixing every z has c=b=0
+  and a=d by the quadratic polynomial identity, and embeddings are injective.
+  Holomorphy follows from the displayed rational formula.
 
-### 0.2 Holomorphy on `ℍ^Σ`
+**Checks.**
 
-Define `IsHolomorphic (f : ℍ^Σ → ℂ)` by the pinned convention. Prove: sums, products, scalar
-multiples and compositions with `γ •` of holomorphic functions are holomorphic; a function of
-the form `z ↦ e(Tr(μz))` is holomorphic; `IsHolomorphic f ↔ MDifferentiable 𝓘(ℂ, Σ → ℂ) 𝓘(ℂ) f`
-for the product charted space `piChartedSpace` on `ℍ^Σ`; a locally uniform limit of holomorphic
-functions is holomorphic (Weierstrass, from Mathlib's several-variable `DifferentiableOn` limit
-theorems applied on the open set `{z ∣ ∀ w, 0 < Im z_w}`); and the Cauchy estimates on
-polydiscs, which Layer 3 uses.
+- Identity has entries (1,0;0,1), determinant 1, denominator 1 and sends i to i.
+- Translation (1,1;0,1) sends i to 1+i, with imaginary part 1; it is not in the kernel.
+- Inversion (0,−1;1,0) sends 2i to i/2: 1·2/|2i|²=1/2.
+- Scalar 2I has determinant 4 at each place and sends i to i; the negative-determinant
+  matrix diag(−1,1) has determinant −1 and is excluded from this subgroup.
 
-*Rests on:* Mathlib `UpperHalfPlane.ofComplex`, `mdifferentiable_iff`, `piChartedSpace`.
+*Needs:* Mathlib `UpperHalfPlane.glAction`, the displayed Möbius declarations,
+`Matrix.GeneralLinearGroup.map`; Tau Ceti `NumberField.IsTotallyPositive`.
 
-### 0.3 The weight-`k` slash
+### 0.2 Holomorphy on ℍ^Σ
 
-Define `Weight F` as `k : Σ → ℤ` with the parity field, `k₀`, `m`, and the predicate
-`IsParallel`. Define `f ∣_k γ` by the pinned formula and prove the `SlashAction` laws for
-`GL₂⁺(F)` acting on `ℍ^Σ → ℂ`: `f ∣_k 1 = f`, `(f ∣_k γ) ∣_k δ = f ∣_k (γδ)` (from
-`denom_cocycle` at each place and multiplicativity of `det`), additivity, and
-`f ∣_k (a·1) = N(a)^{k₀ - 2} f` for every `a ∈ F^×` (the signed norm; `a·1 ∈ GL₂⁺(F)` since `a² ≫ 0`). Prove that `f ∣_k γ` is holomorphic when
-`f` is (0.2). In parallel weight prove `(f ∣_k γ)(z) = ∏_w (slash factor of `∣[k] (σ_w γ)` at z_w) · f(γ • z)`,
-the comparison with Mathlib's one-variable slash.
+Define `IsHolomorphic` by complex differentiability of the coordinatewise
+`UpperHalfPlane.ofComplex` extension on the open polyhalf-plane. Its API is:
 
-*Rests on:* 0.1, 0.2, Mathlib `denom_cocycle`.
+- Sums, products and scalar multiples are holomorphic, as are compositions with
+  the action of §0.1 (`DifferentiableOn.add`, `DifferentiableOn.mul`,
+  `DifferentiableOn.const_smul`, `DifferentiableOn.comp`).
+- This predicate agrees with manifold differentiability on the product of upper
+  half-planes, by `UpperHalfPlane.mdifferentiable_iff` in each product chart.
+- The functions exp(2πi Tr(μz)) are holomorphic, by complex exponential and linearity
+  of the trace pairing. Locally uniform limits of holomorphic functions on this
+  open set are holomorphic; prove this product-domain comparison using the
+  coordinate Cauchy integrals.
+- For a closed polydisc centred at z inside the holomorphy domain, with radii
+  r_w>0 and |f|≤M on it, prove |∂_w f(z)|≤M/r_w by
+  `Complex.cderiv_eq_deriv` and `Complex.norm_cderiv_le`
+  (`Mathlib/Analysis/Complex/LocallyUniformLimit.lean`). Iterating the Cauchy
+  integrals gives |∂^α f(z)|≤M∏_w α_w!/r_w^α_w for every multi-index α.
+
+**Checks.**
+
+- Constant 1 has derivative 0; every Cauchy bound reads 0≤M/r_w for M≥1.
+- On a polydisc centred at z₀, f(z)=z_w−z₀,w has derivative 1 and M=r_w,
+  giving 1≤r_w/r_w=1. Radius zero is excluded, not assigned a 0/0 estimate.
+- The function conj(z_w) has real-direction derivative 1 and imaginary-direction
+  quotient −1; it is not complex differentiable.
+
+*Needs:* §0.1; Mathlib `UpperHalfPlane.ofComplex`, `UpperHalfPlane.mdifferentiable_iff`,
+`piChartedSpace`, and the Cauchy declarations above.
+
+### 0.3 The weight-k slash
+
+Define `Weight` as an integer vector with common parity, `Weight.IsParallel` as
+constancy, `Weight.top` as its maximum k₀, and `Weight.m` by m_w=(k₀−k_w)/2.
+Define `slash` by the arithmetic formula in Conventions (Dembélé–Voight,
+§7, equation (7.10), arXiv:1010.5727v2). Its API is:
+
+- The maximum exists since a number field has a nonempty finite set of infinite
+  places; m_w≥0 and k_w+2m_w=k₀. The parity hypothesis makes integer division exact.
+- The slash is additive and complex-linear, fixes f at the identity, and satisfies
+  (f∣γ)∣δ=f∣(γδ), by `UpperHalfPlane.denom_cocycle` and multiplicativity of determinant.
+- For every nonzero scalar a, f∣(aI)=N(a)^(k₀−2)f, with signed norm. This follows
+  from 2(k_w+m_w−1)−k_w=k₀−2 at each place.
+- The slash preserves holomorphy. For parallel weight it is the product of
+  Mathlib's one-variable arithmetic factors (`ModularForm.slash_def`).
+
+**Checks.**
+
+- Weights (2,4) give k₀=4 and m=(1,0), with (2+2,4+0)=(4,4).
+- Weights (2,3) are rejected: the difference −1 is odd, and division would give
+  2+2·0=2≠3. Parallel (4,4) gives m=(0,0) and is parallel; (2,4) is not.
+- Scalar 2 over ℚ(√5) in parallel weight four gives at each place 4³·2⁻⁴=4,
+  hence total factor 16=N(2)². The identity factor is 1; translation has factor 1.
+- The norm −1 unit (1+√5)/2 at odd parallel weight three acts by −1;
+  replacing signed norm by absolute norm would incorrectly give +1.
+
+*Needs:* §§0.1–0.2; Mathlib `UpperHalfPlane.denom_cocycle`,
+`ModularForm.slash_def`, finite nonempty infinite places.
 
 ### 0.4 The unitary normalization
 
-Define `f ∣_k^{u} γ` with the factor `∏_w σ_w(det γ)^{k_w/2} j^{-k_w}` (real powers of a positive
-real) and prove `f ∣_k γ = N(det γ)^{(k₀ - 2)/2} · (f ∣_k^{u} γ)`. Deduce that the two agree on
-every `γ` whose determinant is a totally positive unit, hence on every `Γ₀(𝔫)_𝔟`, and that
-Mathlib's `∣[k]` for `GL (Fin 2) ℝ` matches the arithmetic one on the positive-determinant
-subgroup. The unitary slash is used in no other milestone.
+Define the unitary slash by the factor ∏_w σ_w(det γ)^(k_w/2)j_w^(−k_w),
+using real powers of positive determinants. Its API is:
 
-*Rests on:* 0.3; `NumberField.norm_pos_of_isTotallyPositive` (Tau Ceti) for the real power.
+- It is a complex-linear right slash action preserving holomorphy, by the same
+  determinant and denominator cocycles as §0.3.
+- The arithmetic slash is N(det γ)^((k₀−2)/2) times the unitary slash, since
+  k_w+m_w−1−k_w/2=(k₀−2)/2 at every place.
+- On matrices with totally positive unit determinant their ratio is 1, so the
+  invariant spaces for the two normalizations coincide on Γ₀(𝔫)_𝔟.
+  Mathlib's one-variable GL₂ slash is the arithmetic normalization.
+
+**Checks.**
+
+- Scalar 2 in weight four over ℚ(√5) has unitary factor (4²·2⁻⁴)²=1;
+  the arithmetic/unitary ratio is N(det(2I))=16.
+- In parallel weight two the ratio is N(det γ)^0=1 for every γ, not only units.
+- For γ=diag(ε,1), ε=(3+√5)/2 of norm 1, the norm ratio is 1 in every weight;
+  for γ=diag(2,1) in weight four the ratio is 4, so equality fails.
+
+*Needs:* §0.3; Tau Ceti `NumberField.norm_pos_of_isTotallyPositive`.
 
 ### Examples
 
-The discriminating examples are the Checks in §§0.1–0.4: identity, translation and scalar actions.
+Over ℚ(√5), inversion sends (2i,2i) to (i/2,i/2), whereas scalar 2 fixes
+both coordinates. The latter still acts on weight-four functions by 16 under
+the arithmetic slash and by 1 under the unitary slash.
 
 ### Dependencies
 
@@ -369,6 +456,12 @@ ideal (the product of the elementary-divisor ideals), prove `[L_𝔟 : γ L_𝔠
 - Over ℚ, the same rank formula gives 2=2·1.
 - For nonprincipal 𝔟, the determinant module is 𝔟; a free 𝒪_F-basis would incorrectly make it principal.
 
+
+The lattice and index API follows the definitions above.
+
+- The lattice has rational span F² and determinant module 𝔟; its stabilizer is the displayed matrix subgroup.
+- Generalized indices multiply along lattice chains and transform by the determinant ideal.
+
 ### 1.2 The congruence subgroups
 
 Define `Γ₀(𝔫)_𝔟 := {γ ∈ Γ_𝔟 : c ∈ 𝔫𝔟}`, `Γ₁(𝔫)_𝔟 := {γ ∈ Γ₀(𝔫)_𝔟 : d - 1 ∈ 𝔫}`,
@@ -387,6 +480,18 @@ stated) the definitions reduce to `Γ₀(N)`.
 
 *Rests on:* 1.1; Mathlib `Matrix.SpecialLinearGroup`, `Ideal.absNorm`; the finiteness of
 `𝒪_F/𝔫`.
+
+
+The subgroup API is the reduction and determinant comparison above.
+
+- Reduction, inclusion at divisible levels, and determinant-one kernels commute with the inclusions into GL₂⁺(F).
+- Translations by 𝔟⁻¹ and the stated unit diagonals belong to Γ₀; the determinant sections recover their input units.
+
+**Checks.**
+
+- At unit level the reduction target is the zero quotient and Γ(1)=Γ₁(1)=Γ₀(1)=Γ_𝔟.
+- Over ℚ at level 2, (1,1;0,1) is in Γ₀ and Γ₁, but not Γ(2): its upper-right entry is 1 mod 2.
+- At level 2 the lower unipotent (1,0;1,1) is excluded from Γ₀, while (1,0;2,1) belongs.
 
 ### 1.3 Commensurability and conjugation
 
@@ -415,6 +520,18 @@ stated with that quotient explicit.
 
 *Rests on:* 1.1–1.3; Mathlib `ClassGroup`; Tau Ceti `finiteIndex_totallyPositiveUnits`.
 
+
+The cusp API retains the translation and unit data at each chosen cusp.
+
+- The ideal-class map is unchanged by scaling homogeneous coordinates and by Γ_𝔟; its fibres are the orbits at full level.
+- Conjugation to infinity identifies cusp stabilizers, translation lattices and finite-index positive-unit groups.
+
+**Checks.**
+
+- At level one over ℚ(√5), the class number is 1, so the cusp set has one element.
+- For a squarefree one-prime level over ℚ(√5), the count is 1·2¹=2; at the unit level it is 1·2⁰=1.
+- The coordinates (1:0) and (2:0) define the same cusp and ideals (1),(2) of the same ordinary class; a coordinate-dependent ideal representative would fail.
+
 ### 1.5 Systems of representatives
 
 Define `NarrowRepresentatives F` (a section `rep` of `NarrowClassGroup.mk` on invertible
@@ -425,6 +542,18 @@ The LMFDB's choice of the ideal `𝔟` for each component is a choice of `R` and
 mathematics; the induced isomorphism of the spaces of forms is 2.3.
 
 *Rests on:* 1.3; Tau Ceti `NarrowClassGroup.mk_surjective`, `mk0_eq_mk0_iff`.
+
+
+The representative-system API uses the native narrow quotient.
+
+- Every class has a representative; two representatives differ by a totally positive principal ideal.
+- Two positive generators differ by a positive unit, which acts trivially in the form transport.
+
+**Checks.**
+
+- Over ℚ(√5) the index set has one element, whereas over ℚ(√6) it has two.
+- Replacing 𝔟 by 2𝔟 multiplies its norm by 4 in degree two and preserves its narrow class.
+- Over ℚ(√6), multiplication by √6 has norm −6 and gives the nontrivial narrow class; an arbitrary principal generator cannot replace a positive one.
 
 ### Examples
 
@@ -450,8 +579,40 @@ for any `f` as the limit, as `T → ∞`, of the means of `f(x + i) e(-Tr(μ(x +
 `[-T, T]^Σ` (`y_w = 1` at every place); for `f` as above this limit exists and equals the integral,
 and it needs no choice of `Λ`.
 
-*Rests on:* 0.2; Mathlib Fourier series on tori (`fourierCoeff`, `hasSum_fourier_series_L2`) on
-the `n`-torus `F_ℝ/Λ`, and `differentIdeal`.
+Prove the lattice-coordinate comparison: a ℤ-basis of Λ identifies F_ℝ/Λ,
+with probability Haar measure, with `UnitAddTorus (Fin n)` and identifies Λ^∨
+with its integer characters through the trace pairing. Transport the coefficient
+integral, independently of the chosen basis. Prove the holomorphic upgrade on
+compact subsets of ℍ^Σ: shifting the integration contours inside a slightly larger
+compact imaginary region gives exponentially summable majorants for the integer
+frequency coordinates, uniformly on that compact subset. Apply the supplied
+torus summation theorem to obtain pointwise equality and locally uniform absolute
+convergence; L² equality alone is not this conclusion.
+
+The Fourier-coefficient API is:
+
+- The coefficient integral is independent of y and of the fundamental parallelotope,
+  with Haar mass one; it is linear in f.
+- The box-mean limit exists for periodic holomorphic f and equals that integral.
+- The trace-dual support, coefficient bound and expansion uniqueness above hold;
+  the lattice-coordinate comparison preserves the sign exp(2πi Tr(μz)).
+
+**Checks.**
+
+- On the coordinate two-torus, 1+2exp(2πix₁) has coefficients 1 at (0,0),
+  2 at (1,0), and 0 at (0,1); a one-coordinate restriction cannot distinguish the latter two.
+- For f=exp(2πi Tr(μz)), the μ coefficient is 1 at both y=(1,1) and y=(2,2):
+  the factors exp(−2π Tr(μy)) and exp(2π Tr(μy)) cancel.
+- For f=1 the zero coefficient is 1 and all nonzero lattice coefficients are 0;
+  integrating with unnormalized covolume V would instead give V.
+
+*Needs:* §0.2; Mathlib `UnitAddTorus.hasSum_mFourier_series_L2` and
+`UnitAddTorus.hasSum_mFourier_series_of_summable`,
+`UnitAddTorus.hasSum_mFourier_series_apply_of_summable`
+(`Mathlib/Analysis/Fourier/AddCircleMulti.lean`, product probability Haar and continuous
+functions with summable coefficients), and `differentIdeal`. The one-circle
+`hasSum_fourier_series_L2` in `Mathlib/Analysis/Fourier/AddCircle.lean` is only the
+one-dimensional specialization.
 
 ### 2.2 Koecher's principle
 
@@ -500,6 +661,12 @@ with the unit law `a_𝔟(εμ) = ∏_w ε_w^{k_w + m_w - 1} a_𝔟(μ)` for `ε
 - The constant function `1` lies in `M_0(Γ)` and in no `M_k(Γ)` with `k ≠ 0`; `z ↦ e(Tr(μz))` for
   `μ ∈ 𝔡⁻¹` with `σ_1(μ) > 0 > σ_2(μ)` is holomorphic and `𝒪_F`-periodic but is not in `M_k`.
 
+
+The form-space API extends the supplied parallel spaces.
+
+- Addition and complex scalar multiplication are pointwise; restriction along subgroup inclusion is injective.
+- Representative transport is a linear equivalence, with inverse given by reciprocal positive generators, and preserves the full expansion data with their transport factors.
+
 ### 2.4 Normalized coefficients
 
 Extend the supplied parallel coefficient map to nonparallel weights by the pinned convention and prove it independent of the generator `μ`: for
@@ -518,6 +685,12 @@ linearity in `f`. Define the constant terms `a_0(f_𝔟)`.
 - In weight zero, 1 and 0 have positive coefficients all zero, but standard constants 1 and 0.
 - On cusp forms the missing constant coordinate is zero; zero coefficients give the zero form.
 - Over a quadratic field, 𝔟′=2𝔟 gives c′=4c under raw slash and c′=(4/4)c=c under §2.3; a positive unit has norm 1.
+
+
+The coefficient API includes constants separately.
+
+- Normalized positive coefficients are linear in the form and independent of the positive generator and representative transport.
+- The full standard expansion is injective, and its restriction to the cusp space is injective without the zero coordinate.
 
 ### 2.5 Constant terms at every cusp
 
@@ -545,6 +718,18 @@ every box, which every holomorphic `f` satisfies; this keeps `S_k(Γ)` visibly a
 
 *Rests on:* 2.2, 2.5.
 
+
+The cusp-space API uses all cusps.
+
+- It is the kernel of the finite family of constant maps, and is a complex submodule.
+- Restriction and slash transport preserve cusp forms; the decay estimate is uniform in the real parts at each cusp.
+
+**Checks.**
+
+- The zero form has every constant term 0 and decay bound 0.
+- The weight-zero constant 1 has a₀=1 and is excluded, despite all its positive coefficients being 0.
+- At the infinity cusp exp(2πi Tr(z)) along z=(it,…,it) has absolute value exp(−2πnt)→0; its zero constant alone does not establish modularity or vanishing at other cusps.
+
 ### 2.7 Finite nebentypus and the nonparallel extension
 
 For a finite-order Hecke character η with archimedean signs compatible with k, and
@@ -558,9 +743,12 @@ They specialize to §5.2 when η is unramified at finite places. Parallel k≥2 
 supplied character space; the extension here permits nonparallel k and compares the two
 on their common domain, preserving constants and normalized ideal coefficients.
 
-The API consists of linearity, cusp subspaces, restriction to higher levels divisible by
-the character conductor, representative transport, and the classical–adelic comparison
-with this precise character action. Extend the Hecke and newform dictionary to these
+The character-space API is:
+
+- Addition and scalar multiplication preserve the character law; its cusp forms are a submodule.
+- Restriction to higher levels divisible by the character conductor and representative
+  transport preserve the law.
+- The classical–adelic comparison preserves this precise character action. Extend the Hecke and newform dictionary to these
 spaces, using η(𝔭) at good primes and the full local parameter at bad primes. The
 unramified-central-character conclusions of §§7.6–7.7 keep that explicit hypothesis.
 
@@ -609,6 +797,12 @@ the Minkowski lattice-point finiteness of
 - Under inversion, it maps to i/t: its ordinary height is 1/t, while its cusp-coordinate height is t.
 - At the identity cusp with y=(t,t), min y=t and N(y)=t²; the lower bound is in these coordinates.
 
+
+The Siegel-set API is in cusp coordinates.
+
+- Finitely many translated sets meet all orbits, and intersections have only finitely many projective translates.
+- Positive height in the fixed unit cone bounds each imaginary coordinate below.
+
 ### 3.2 The invariant measure and finite covolume
 
 Define the measure `dμ := ∏_w dx_w dy_w / y_w²` on `ℍ^Σ` and prove its `GL₂⁺(F)`-invariance
@@ -620,13 +814,28 @@ fundamental domain exists as a measurable set `𝔉_Γ` contained in the union o
 
 *Rests on:* 3.1; Mathlib `MeasureTheory` (Haar measure on `ℝ^Σ`, change of variables).
 
+
+The measure API uses the projective quotient to remove ineffective scalars.
+
+- The product hyperbolic measure is invariant under the componentwise GL₂⁺ action.
+- Integration on a measurable fundamental domain is independent of the domain for invariant integrable functions.
+
+**Checks.**
+
+- Translation x↦x+1 has Jacobian 1 and leaves dx dy/y² unchanged.
+- Dilation z↦2z has Jacobian 4 and y²↦4y², so the density ratio is 1.
+- On a rank-one cusp strip of width 1 and height y≥t>0, the volume is ∫ₜ∞y⁻²dy=1/t; t=0 would give infinite volume.
+
 ### 3.3 The Hecke bound
 
 For `f ∈ S_k(Γ)`, define `φ_f(z) := |f(z)| ∏_w (Im z_w)^{k_w/2}` and prove it is
 `Γ`-invariant (0.3, 0.4: `|f| ∏_w y_w^{k_w/2}` is invariant under the unitary slash, and on `Γ`
 the two normalizations agree; the exponent is `k_w/2`, not `k_w/2 + m_w`, since `∏_w ε_w^{m_w} ≠ 1`
 for units `ε` in non-parallel weight), tends to `0` at every cusp (2.6), and is therefore bounded on
-`ℍ^Σ` with a maximum attained in `⋃_κ 𝔖_κ ∩ {φ_f ≥ sup/2}`, a compact set that varies with `f`.
+`ℍ^Σ`. If f≠0, first deduce sup φ_f>0; the maximum is then attained on the
+compact positive superlevel set `⋃_κ 𝔖_κ ∩ {φ_f ≥ sup φ_f/2}`. For f=0 every
+point is a maximum; choose i and take C_f=0 in the coefficient bound, without
+asserting compactness of the zero superlevel set.
 Deduce the **Hecke bound** `|c(𝔪, f)| ≤ C_f · N𝔪^{k₀/2}` for cusp forms (2.1's coefficient
 integral at `y_w = 1/σ_w(μ)` gives `|a(μ)| ≤ C ∏_w σ_w(μ)^{k_w/2}`, and the factor `∏_w σ_w(μ)^{m_w}`
 of the normalized coefficient turns this into `C N(μ)^{k₀/2}`), For a general form of parallel weight k≥0, first prove
@@ -641,14 +850,27 @@ No boundedness of `|f|N(y)^k` is asserted on an unbounded Siegel set.
 
 *Rests on:* 2.6, 3.1, 0.4.
 
+
+The weighted-height API separates zero from positive superlevels.
+
+- For cusp forms φ_f is invariant, nonnegative and bounded; `φ_{af}=|a|φ_f`.
+- For f≠0 its supremum is positive and attained; for f=0 its maximum and coefficient-bound constant are both 0.
+
+**Checks.**
+
+- For f=0 the zero superlevel contains y=(t,…,t) for all t≥1 and is unbounded; no compactness conclusion is made.
+- For f=0 and C_f=0 every coefficient inequality is 0≤0, and the maximum at i is 0.
+- If |f(z₀)|=1 and y_w=1 at z₀, then φ_f(z₀)=1 and sup φ_f≥1>0, so the threshold sup/2 is positive.
+
 ### 3.4 The Petersson inner product
 
-Define `⟨f, g⟩ := ∫_{𝔉_Γ} f(z) conj(g(z)) ∏_w (Im z_w)^{k_w} dμ(z)` (the integrand is `Γ`-invariant
+Define `⟨f, g⟩ := ∫_{𝔉_Γ} conj(f(z)) g(z) ∏_w (Im z_w)^{k_w} dμ(z)` (the integrand is `Γ`-invariant
 by 3.3; the exponent `k_w`, not `k₀`, is forced in non-parallel weight) for `f, g ∈ M_k(Γ)`
 with at least one a cusp form, prove absolute convergence (3.2, 3.3), independence of the
 fundamental domain, Hermitian positivity on `S_k(Γ)`, and the normalization-free invariance
 `⟨f ∣_k γ, g ∣_k γ⟩_{γ⁻¹Γγ} = N(det γ)^{k₀ - 2} ⟨f, g⟩_Γ`. Prove that `⟨·,·⟩` on `S_k(Γ)` is the
-restriction of the `L²` inner product of `L²(𝔉_Γ, ∏ y_w^{k_w} dμ)` and that the inclusion
+restriction of the `L²` inner product of `L²(𝔉_Γ, ∏ y_w^{k_w} dμ)`
+(`MeasureTheory.L2.inner_def`): conjugate-linear in the first variable and linear in the second and that the inclusion
 `S_k(Γ) → L²` is continuous for the sup-norm of `φ_f`.
 
 *Rests on:* 3.2, 3.3.
@@ -657,10 +879,17 @@ restriction of the `L²` inner product of `L²(𝔉_Γ, ∏ y_w^{k_w} dμ)` and 
 
 - `⟨f, f⟩ > 0` for the newform `2.2.5.1-31.1-a`, which spans `S_2((5w - 2))` over `ℚ(√5)`, and
   `⟨f, g⟩` is the complex conjugate of `⟨g, f⟩`.
+- If ⟨h,h⟩=1, then ⟨ih,h⟩=−i and ⟨h,ih⟩=i; the opposite convention reverses these values.
 - At a scalar `γ = a·1`, `a ∈ F^×`, both sides of the invariance law are
   `N(a)^(2(k₀ - 2)) ⟨f, g⟩`, since `f ∣_k (a·1) = N(a)^(k₀ - 2) f` and `det(a·1) = a²`.
 - The weight factor is `∏_w (Im z_w)^(k_w)`: with `N(Im z)^(k₀)` in its place the integrand is not
   `Γ`-invariant in non-parallel weight, and a formalisation must not accept that variant.
+
+
+The Petersson API uses the conjugate-first convention.
+
+- The pairing is conjugate-linear in f, linear in g and conjugate symmetric whenever it converges.
+- It is positive definite on cusp forms and changes under slash by the stated positive norm factor.
 
 ### 3.5 Finite dimensionality
 
@@ -710,6 +939,18 @@ cusp; all other terms have `c ≠ 0` and vanish at `∞` by the expansion of 2.1
 
 *Rests on:* 1.4, 2.1–2.5, 3.1 (lattice-point counting).
 
+
+The Eisenstein-series API uses the fixed scaling at each cusp.
+
+- The series converges normally for even k≥4 and transforms as a holomorphic form.
+- Its constants are 1 at its chosen cusp and 0 at the other cusps, giving linear independence.
+
+**Checks.**
+
+- At its own cusp the identity coset contributes 1, so the constant is 1.
+- At a different cusp the asserted constant is 0; the resulting two-cusp constant matrix is ((1,0),(0,1)).
+- For F=ℚ and k=4 the full-level normalization has constant 1 and first coefficient 240; scaling by 2 would give constants 2, so is excluded.
+
 ### 4.2 Weight `2` by Hecke's trick
 
 For `k = 2` define `E_κ(z, s) := Σ_δ (1 ∣_2 γ_κ⁻¹δ)(z) · N(Im(γ_κ⁻¹δ • z))^{s}` for `Re s > 0`,
@@ -720,8 +961,29 @@ against a single simple pole of `ζ_F(1 + 2s)`, so it is `O(s^{n-1}) → 0`. (Fo
 is `-3/(πy)`; its vanishing is what distinguishes the Hilbert case.) Prove `E_κ ∈ M_2(Γ)` with
 `a_0(E_κ ∣_2 γ_{κ'}) = δ_{κκ'}`.
 
-*Rests on:* 4.1; Mathlib `dedekindZeta` and its pole (`NumberField.dedekindZeta_residue`),
-`Complex.Gamma`.
+*Needs:* §4.1; Mathlib `dedekindZeta`, `Complex.Gamma` and the positive real
+constant `NumberField.dedekindZeta_residue`
+(`NumberField.dedekindZeta_residue_pos`); Tau Ceti
+`TauCeti.exists_differentiableOn_eq_dedekindZeta_sub`
+(`TauCeti/NumberTheory/NumberField/DedekindZeta.lean`), for a number field F: there
+is a holomorphic G on Re(s)>1−1/n with G(s)=ζ_F(s)−ρ/(s−1) for Re(s)>1,
+where ρ=dedekindZeta_residue F>0. Use G(s)+ρ/(s−1) for continuation across 1.
+Further continuation and the functional equation use LFunctions Layer 3.
+
+**Checks.**
+
+- At n=2 the remainder domain is Re(s)>1/2, containing a neighborhood of 1;
+  the residue constant alone has no such domain.
+- With ζ_F(1+2s) having leading term ρ/(2s) and 1/Γ(s)² having leading term s²,
+  the product has leading term ρs/2 and tends to 0.
+- At n=1 the same product has limit ρ/2 rather than 0; this excludes the classical
+  nonholomorphic weight-two term from the n≥2 cancellation argument.
+
+
+The regularized-series API keeps the parameter before taking the limit.
+
+- In the convergence half-plane the series has the weight-two transformation law with the prescribed height factor.
+- Its limit is holomorphic for n≥2 and has the normalized cusp constants of §4.1.
 
 ### 4.3 The decomposition `M_k = S_k ⊕ E_k`
 
@@ -751,6 +1013,12 @@ functional equation) for the constant `C_k`.
 - For E₂ over ℚ(√5), c(𝔪)=120σ₁(𝔪); at squarefree prime norms 4,5,9 the ratio c(𝔪)/N𝔪 is 120·(5/4)(6/5)(10/9)=200.
 - E₂(it,it) tends to 1, while N(t,t)²=t⁴ tends to infinity, excluding the former boundedness route.
 - At k=4, σ₃(𝔪)/N𝔪³≤ζ_F(3), a finite bound; ζ_F(1) cannot supply the analogous k=2 constant.
+
+
+The Eisenstein-space API is determined by the constant-term map.
+
+- The span of the normalized cusp Eisenstein series maps isomorphically to all cusp constants.
+- Its intersection with the cusp space is zero and the two spaces sum to the full space.
 
 ### Examples
 
@@ -789,6 +1057,18 @@ when `𝔟 = 𝔠`, and the general `(𝔠, 𝔟)` operators are the bimodule ve
 
 *Rests on:* 0.3, 1.1–1.3, 2.3, 2.6; Mathlib `HeckeRing/Defs.lean`.
 
+
+The correspondence API is between the specified component spaces.
+
+- Left-coset representatives give the same operator, and the operator is linear and preserves cuspidality.
+- Changing the two component representatives intertwines the operator through the normalized transports of §2.3.
+
+**Checks.**
+
+- At unit ideal and equal components the sole coset is the identity; N𝔠/N𝔟=1 and the operator is identity.
+- At a good norm-4 prime there are 4+1=5 cosets; at a level-dividing norm-4 prime there are 4.
+- For component norms 1 and 1/2 the multiplier is 1/2; reversing the components gives 2, not 1/2.
+
 ### 5.2 `T_𝔪`, `S_𝔪`, and the central action
 
 On `M_k(𝔫; R)` define `(T_𝔪 f)_c := f_{c[𝔪]⁻¹} ∣ [Δ_𝔫(rep(c[𝔪]⁻¹) ← rep(c); 𝔪)]`, and
@@ -820,6 +1100,12 @@ alias `U_𝔭` and the lemma `U_𝔭 = T_𝔭` are recorded as in the Modular Fo
   trivial and `M_k(𝔫; R) = M_k(𝔫, 1; R)`.
 - Over `ℚ(√6)` the nontrivial narrow class `[(√6)]` acts on `S_2(𝒪_F; R)` by
   `sgn(N(√6))^2 = +1`, so the `ψ = sgn` eigenspace is `0` in weight `2`.
+
+
+The central and Hecke API includes every nonzero ideal.
+
+- The operators are linear, preserve cusp forms and commute with representative transport.
+- Central operators multiply by ideal multiplication, and their norm-normalized action factors through the narrow class group with the signed principal law above.
 
 ### 5.3 Relations
 
@@ -925,6 +1211,12 @@ double coset) and so **preserves** each `M_k(𝔫, ψ; R)`, preserves cusp forms
 - For 𝔮=1 choose α=I, giving W₁=1. For principal level (π), α=(0 −1;π 0) gives the displayed Fricke map.
 - For F=ℚ(√10), the nonprincipal 𝔮=(2,√10), level 𝔮, output 𝔟=𝒪_F and input 𝔠=𝔮⁻¹ admit α=(0 −1;1 0): det α=1 and 𝔫𝔠=𝒪_F. In weight two its factor is 1/2. In the reverse component choose α=(2 √10;√10 6), of determinant 2, with factor 2. Their factors multiply to 1; no generator of 𝔮 was assumed.
 
+
+The Atkin–Lehner API keeps the component source and target.
+
+- The displayed normalized map is independent of its admissible matrix choice and commutes with representative transport.
+- Its square is the central class action, and its adjoint relation at level primes is the stated character-weighted identity.
+
 ### Examples
 
 The discriminating examples are the Checks in §§5.2–5.6: good and bad primes, central characters and Fricke matrices.
@@ -963,33 +1255,85 @@ H3.6.
 
 ### 6.2 The comparison map
 
-Define, for `f ∈ M_k(𝔫; R)`, `Φ_f : GL₂(𝔸_F) → ℂ` by `Φ_f(γ g_c k g_∞) := (f_c ∣_k g_∞)(i)` for
-`γ ∈ GL₂(F)`, `k ∈ K₀(𝔫)`, `g_∞ ∈ GL₂(F_∞)⁺`, `i = (i)_w ∈ ℍ^Σ`. Prove it is well defined
-(2.3, 6.1), left `GL₂(F)`-invariant, right `K₀(𝔫)`-invariant, of weight `k_w` under
-`SO₂(ℝ)` at each place, with the central character attached to `ψ` and `k₀` when
-`f ∈ M_k(𝔫, ψ; R)`, smooth, of moderate growth (3.3); and prove the inverse: a function with
-these properties annihilated by the antiholomorphic Cauchy–Riemann operator at every real place
-comes from a unique `f`. Prove that `f` is a cusp form iff `Φ_f` is cuspidal, by identifying the
-adelic constant term with the classical constant terms at all cusps of all components (2.5).
-This is the Hilbert-field instance of the supplier's R16.6.1 adapter, which is stated there for
-`F = ℚ` only.
+Define, for f∈M_k(𝔫;R), the adelic function Ψ_f by
 
-*Rests on:* 0.3, 2.5, 3.3, 6.1; the supplier's R16.1.6 finite-level automorphic functions.
+    Ψ_f(γ g_c u g_∞) = N(rep(c)) (f_c ∣_k g_∞)(i),
+
+where γ∈GL₂(F), u∈K₀(𝔫), g_∞∈GL₂(F_∞)⁺ and i=(i)_w. The slash formula of
+§0.3 extends placewise to this real group. Prove the following API
+(Dembélé–Voight, §7, (7.10), for the slash; GL2AutomorphicRepresentationsAndTransfer
+R16.1, finite-level comparison, for the adelic carrier).
+
+- The formula is independent of the decomposition, left GL₂(F)-invariant and right
+  K₀(𝔫)-invariant; for §2.7 use its specified character equivariance instead.
+- It has the prescribed rotation weights, is smooth and has moderate growth by §3.3.
+  Its right central character is recorded with the inverse finite convention of §6.3.
+- Evaluation on g_c g_∞, divided by N(rep(c)) and the nonzero slash factor, recovers f_c.
+  With the antiholomorphic Cauchy–Riemann operator vanishing at every real place,
+  this is an inverse between the indicated classical and adelic spaces.
+- The map is linear, commutes with §2.3's representative transport, and identifies
+  cuspidality with the vanishing of all adelic unipotent constant terms.
+
+**Checks.**
+
+- For rep′(c)=α rep(c), take g′_c=diag(1,α)g_c and g′_∞=diag(1,α)g_∞.
+  Section 2.3 gives f′_c=N(α)⁻¹ f_c∣diag(1,α)⁻¹, so N(rep′)N(α)⁻¹=N(rep).
+- In degree two α=2 gives factors 4 and 1/4, whose product is 1; omitting N(rep) leaves 1/4.
+- In parallel weight four over ℚ(√5), the positive finite scalar 2 becomes infinite
+  scalar 1/2 and acts by 1/16, whereas its inverse acts by 16. In weight two both are 1.
+
+*Needs:* §§0.3, 2.3, 2.5, 3.3, 6.1; GL2AutomorphicRepresentationsAndTransfer R16.1.6
+and its finite-level comparison. R16.6.1 supplies the ℚ specialization only.
 
 ### 6.3 Hecke compatibility
 
-Prove that under `f ↦ Φ_f` the classical `T_𝔭` of 5.2 corresponds to the adelic double coset
-`K₀(𝔫) diag(π_𝔭, 1) K₀(𝔫)` acting by right convolution, `S_𝔭` to `K₀(𝔫) π_𝔭 K₀(𝔫)`, and the
-central action `⟨c⟩` to the action of the finite ideles of class `c` (with the normalization
-`N𝔭^{-(k₀-2)}`), so that the **shared eigensystem** of the supplier's R16.4.4 attached to `Φ_f`
-for a newform `f` has coordinates `t_𝔭 = c(𝔭, f)`, `N𝔭 · s_𝔭 = ψ([𝔭]) N𝔭^{k₀ - 1}` for `𝔭 ∤ 𝔫`
-(the arithmetic normalization; the unitary one is its `arithmeticToUnitary` with
-`z_𝔭 = N𝔭^{-(k₀-1)/2}`). This is the adapter the supplier calls `ofNewform` for `F = ℚ`,
-constructed here for Hilbert newforms. Conclude that `S_k(𝔫, ψ; R)` is identified with a
-finite-dimensional space of cusp forms on `GL₂(𝔸_F)` of level `K₀(𝔫)`, weight `k`, and central
-character attached to `ψ`, Hecke-equivariantly.
+Give K₀(𝔫) volume one and use right translation R(h)Ψ(g)=Ψ(gh).
+The classical T_𝔭 corresponds to the inverse double coset
+(Dembélé–Voight, §7, equations (7.13)–(7.14), arXiv:1010.5727v2)
+K₀(𝔫)diag(1,π_𝔭)⁻¹K₀(𝔫), and S_𝔭 to the inverse scalar coset
+K₀(𝔫)(π_𝔭 I)⁻¹K₀(𝔫). Prove this at every prime, including 𝔭∣𝔫:
+if an inverse right-coset representative gives g_𝔟 h=α⁻¹g_𝔠 u, then
+Ψ_f(g_𝔟 h g_∞)=N𝔠(f_𝔠∣αg_∞)(i). Dividing by N𝔟 gives exactly
+§5.1's N𝔠/N𝔟 factor, including the single central coset of §5.2.
+The normalized central class action therefore corresponds to N𝔭^(−(k₀−2))
+times the inverse scalar operator.
 
-*Rests on:* 5.2–5.4, 6.2; the supplier's R16.4.4 interface.
+Translate explicitly to the supplier's positive generators. At a good prime put q=N𝔭,
+A⁺=[K diag(π,1) K], Z⁺=[K πI K], A⁻=[K diag(π,1)⁻¹ K] and Z⁻=(Z⁺)⁻¹.
+The spherical double-coset identities are A⁻=(Z⁺)⁻¹A⁺ and Z⁻=(Z⁺)⁻¹.
+Thus if the classical eigenvalues are a=c(𝔭,f) and b=ψ([𝔭])q^(k₀−2),
+the raw positive eigenvalues on Ψ_f are a/b and 1/b, with b≠0.
+At level primes the upper-left-unit condition in §5.1 fixes diag(1,π),
+so retain that full inverse-coset identity; the Weyl interchange
+used in the spherical identity is not asserted for K₀(𝔫)_𝔭.
+
+For an occurring cuspidal eigensystem, let Π_Ψ be the right-translation representation
+and set π_f=Π_Ψ∨⊗|det|_𝔸^((k₀−2)/2). On its good spherical line the
+raw positive eigenvalues are q^(−(k₀−2)/2)a and ψ([𝔭]); its unitary Satake
+coordinates in R16.4.4 are therefore
+
+    t_unit = q^(-(k₀-1)/2) a,    s_unit = ψ([𝔭])/q.
+
+Here R16.4.4 divides the raw spherical eigenvalue by √q and the scalar eigenvalue
+by q. Undoing that root scaling gives the arithmetic shared coordinates
+(t,s)=(a,b), so q s=ψ([𝔭])q^(k₀−1). Use π_f with this specified dual and
+norm twist in every transfer, local-factor and central-character comparison below.
+For ramified nebentypus use η in place of ψ at good primes and the full local
+parameter elsewhere. This constructs the Hilbert counterpart of R16.4.4's newform adapter.
+
+**Checks.**
+
+- For q=4, k₀=4, ψ=1, b=16. Raw Ψ has scalar 1/16; the inverse scalar has
+  16, the dual has 16, and the unitary twist multiplies this by 4⁻², giving 1.
+- With the same data, raw Ψ has spherical eigenvalue a/16; the dual gives a;
+  the twist gives a/4, and division by √4 gives a/8, agreeing with 4⁻³ᐟ²a.
+- For k₀=2, q=4, ψ=1, the scalar is 1, but the shared unitary trace is a/2,
+  not the raw spherical eigenvalue a.
+- For N𝔟=1 and N𝔠=1/2, extraction divides N𝔠 by N𝔟 and gives 1/2;
+  in the reverse direction it gives 2, with product 1 as in §5.6.
+
+*Needs:* §§5.1–5.4, 6.2; GL2AutomorphicRepresentationsAndTransfer R16.4.4,
+R16.3 (duals and norm twists of parameters).
 
 ### 6.4 What the dictionary transports
 
@@ -1051,6 +1395,12 @@ Atkin–Lehner operators of 5.6, which interchange `ι` and `V_𝔭` up to the c
 - `c(𝔪, V_𝔭 f) = c(𝔪𝔭⁻¹, f)` and `0` when `𝔭 ∤ 𝔪`; in particular `c(𝒪_F, V_𝔭 f) = 0`, so
   `g + c · V_𝔭 g` (`g` a newform of level `𝔫𝔭⁻¹`) lies in the old subspace at level `𝔫`.
 
+
+The old-space API uses all proper divisor levels.
+
+- The old space is spanned by inclusion and prime level-raising images and is stable under the stated operators.
+- Level-raising shifts the coefficient index and assigns zero when the shifted ideal is not integral.
+
 ### 7.2 The new subspace and newforms
 
 Define `S_k(𝔫; R)^{new}` as the Petersson orthogonal complement of `S_k(𝔫; R)^{old}` in
@@ -1079,6 +1429,12 @@ the transport.
   `U_𝔭`-eigenvector. A definition that drops the condition `f ∈ S_k(𝔫; R)^{new}` accepts it.
 - At level `𝒪_F` every normalized cuspidal eigenvector of the `T_𝔭` with central character `ψ`
   is a newform (the old subspace is `0`); `2.2.24.1-1.1-a` and `2.2.40.1-1.1-a` are examples.
+
+
+The newform API retains newness and normalization.
+
+- The new space is Hecke-stable and independent of representative choice under transport.
+- Its normalized simultaneous eigenvectors give the finite orthogonal basis in the fixed character space.
 
 ### 7.3 The newform decomposition
 
@@ -1148,6 +1504,12 @@ coordinates of one element of `CoefficientField f` per prime.
 - Swapping the embeddings of a quadratic F sends weight (2,4) to (4,2); it does not fix that labeled space.
 - Parallel (2,2) is fixed by this permutation.
 - A defining field L remains L under L⊗_L L=L; this gives no descent of its space to ℚ.
+
+
+The coefficient-field and conjugation API includes the integral lattice contract.
+
+- The field generated by normalized coefficients is finite over ℚ and contains algebraic integers as the coefficients.
+- Conjugation transports labeled weights and characters and sends each coefficient to its image; embeddings parametrize the Hecke orbit.
 
 ### 7.6 Coefficients at the bad primes
 
@@ -1225,6 +1587,17 @@ of degree `2` (`𝔭 ∤ 𝔫`) or `≤ 1` (`𝔭 ∣ 𝔫`), the object the bas
 - The good local factors of `2.2.5.1-31.1-a` are `1 - a_𝔭(E) T + N𝔭 T²` for the attached curve
   `E = 2.2.5.1-31.1-a1` (11.3).
 
+
+The L-series API is stated using native norm-regrouped coefficients.
+
+- The coefficient at natural index zero is 0; each positive index sums the finitely many ideals of that norm.
+- Absolute convergence holds in the two stated half-planes, and the all-prime Euler product of a newform agrees there with the Dirichlet series.
+
+**Checks.**
+
+- At weight four and s=6 the general threshold is 5<6 and the cusp threshold is 3<6; a noncuspidal Eisenstein form satisfies the former.
+- For the weight-zero constant form the positive coefficient sequence is zero, and its L-series is 0; no pole is introduced by its constant term.
+
 ### 8.2 The completed `L`-function and its functional equation
 
 For a newform `f` of level `𝔫` define
@@ -1269,6 +1642,12 @@ for `ψ = 1`, `f^ρ = f` and `ε(f) = i^{Σ_w k_w} ∏_{𝔮 ‖ 𝔫} ε_𝔮(f
 - For parallel weight two it contributes (i²)^n=(−1)^n.
 - With 𝔟′=2𝔟 in degree two, the Mellin integral changes by 4^(−s) and its prefactor by 4^s, giving product 1.
 
+
+The completion API retains every archimedean place.
+
+- Mellin integration agrees with the series completion on its convergence half-plane.
+- Cusp decay gives an entire continuation; the functional equation uses the dual form and the stated local epsilon factors.
+
 ### 8.3 The `L`-function card and the analytic invariants
 
 Construct the [L-functions](../LFunctions/README.md) roadmap's `ArithmeticLFunctionData` of a
@@ -1300,6 +1679,12 @@ with the curve's.
 
 **Check on card completion.** For n=2, k₀=2 and Q=775 the analytic completion
 is 4·775^(−1/4) times the recentered Λ; degree 4, conductor 775 and centre 1/2 are unchanged.
+
+
+The card and rank API uses the entire completion.
+
+- Arithmetic-to-analytic translation rescales the completion by the displayed power of Q and factor 2ⁿ.
+- The order of vanishing at the centre has the parity of the functional-equation sign in trivial character; conjugate orbit products have rational coefficients.
 
 ### Examples
 
@@ -1339,6 +1724,12 @@ Fields Layer 9.
 - A character χ of order three is admitted in the character space: its twist has central
   character ηχ²; it is excluded only from the unramified specialization when χ² is ramified.
 
+
+The twist API distinguishes the coefficient twist from its primitive associate.
+
+- Good coefficients are multiplied by the ideal-character values; conductor-supported coefficients of the coefficient twist are zero.
+- The primitive associate has the prescribed conductor, character and good coefficients, and repeated twists compose on common good ideals.
+
 ### 9.2 Inner twists and the CM predicate
 
 Define an **inner twist** of a newform `f` as a pair `(σ, χ)` with `σ` an embedding of
@@ -1374,20 +1765,35 @@ Layer 12, the global correspondence).
 **Check on the self-twist fibre.** For a CM form, (id,1) and (id,χ_CM) both occur:
 at inert primes 0=(−1)·0, and at split primes c=1·c. Thus the identity fibre has at least two elements.
 
+
+The inner-twist API is a group of pairs on a normal coefficient field.
+
+- Projection to coefficient automorphisms has the self-twist kernel; a nonempty fibre is a torsor under that kernel.
+- The CM predicate is invariant under coefficient conjugation and admissible twisting, and its nontrivial self-twist is quadratic and totally odd.
+
 ### 9.3 CM forms from Hecke characters of CM extensions
 
 Let `K/F` be a CM extension and `ξ` an algebraic Hecke character of `K` (`HeckeCharacter K`
 with `IsAlgebraic`) whose algebraic infinity type has exponents `(n_τ, n_{τ̄})` with
-`n_τ + n_{τ̄} = k₀ - 1` and `|n_τ - n_{τ̄}| = k_w - 1` at the two complex embeddings `τ, τ̄` above
-`w`, and with `ξ ≠ ξ ∘ (conjugation)`. Define the coefficients
+`n_τ + n_{τ̄} = 1 - k₀` and `|n_τ - n_{τ̄}| = k_w - 1` at the two complex embeddings `τ, τ̄` above
+`w`, with every k_w≥2, and with `ξ ≠ ξ ∘ (conjugation)`. These are the native
+idelic exponents: on a principal ideal with generator congruent to 1 modulo the finite
+conductor, the ideal value is the inverse embedding monomial
+(`HeckeCharacter.idealCharacter_apply_toPrincipalIdeal_eq_embeddingCharacter_inv`,
+`TauCeti/NumberTheory/NumberField/Global/HeckeCharacter/Ideal.lean`). Thus the
+ideal-character exponents have sum k₀−1. Define the coefficients
 `c(𝔪) := Σ_{𝔄 ⊆ 𝒪_K, N_{K/F}(𝔄) = 𝔪} ξ(𝔄)` (sum over integral ideals of `K` of relative norm `𝔪`,
 `ξ(𝔄)` the ideal character, `0` at ideals meeting the conductor). Prove that they are the
 coefficients of a newform `θ_ξ` of weight `k`, level `𝔡_{K/F} N_{K/F}(𝔣_ξ)`, and central
-character given by the finite-order part of `ξ|_F · χ_{K/F}` after removing the
-weight norm character, in the space of §2.7, and that HasCM θ_ξ with inner twist `χ_{K/F}`. Existence is
+character η determined on good primes by
+`η(𝔭) N𝔭^(k₀-1) = χ_{K/F}(𝔭) ξ(𝔭𝒪_K)`, equivalently the finite-order
+part of the idelic character `ξ|_F · χ_{K/F}` after removing its norm factor, in the space of §2.7, and that HasCM θ_ξ with inner twist `χ_{K/F}`. Existence is
 **consumed**: automorphic induction from `GL₁(𝔸_K)` to `GL₂(𝔸_F)`
 ([GL₂ automorphic representations and transfer](../GL2AutomorphicRepresentationsAndTransfer/README.md)
-R17.4.16, with `ξ ≠ ξᶜ` for cuspidality and the displayed infinity type and central character), transported by 6.4; the coefficient identity is the split/inert
+R17.4.16, applied in unitary normalization to ξᵘ=ξ|·|_𝔸_K^((k₀−1)/2),
+with `ξ ≠ ξᶜ` for cuspidality), compared to π_f of §6.3. Its good-prime
+roots are q^(−(k₀−1)/2) times the ideal-character values; undo this scaling
+before reading arithmetic coefficients and η. The coefficient identity is the split/inert
 trace formula of that construction, and the level is its conductor. Prove the converse by
 citation: a CM newform in the sense of 9.2 is `θ_ξ` for some `(K, ξ)`
 ([Automorphic Galois representations](../AutomorphicGaloisRepresentations/README.md) §§3.15–3.16).
@@ -1400,16 +1806,25 @@ values of `ξ`; equality is not asserted. At split `𝔭 = 𝔓𝔓̄`,
 the cited supplier milestones.
 
 **Check on coefficient fields.** For the base change of y²=x³−x to ℚ(√5),
-the split norm-5 inducing values −1+2i and −1−2i sum to −2. The form has rational
-coefficients, whereas the individual values generate ℚ(i).
+the split norm-5 inducing values −1+2i and −1−2i sum to −2 and have product 5;
+the native infinity exponents are (−1,0) at the chosen CM embedding. The inverse
+character has exponents (1,0), sum −2/5 and product 1/5, so it fails the weight-two
+condition. The form has rational coefficients, whereas the individual values generate ℚ(i).
+At an inert prime the induced trace is 0 and determinant −ξ(𝔭𝒪_K), retaining
+`χ_{K/F}(𝔭)=−1` in the central-character formula (R17.4.16).
 
 ### 9.4 The base-change relation
 
 For number fields `F ⊆ K`, a newform `f` over `F` with local factors `L_𝔭(f, T)` (8.1) and a
 newform `g` over `K`, define IsBaseChangeOf g f by the pinned convention:
 `L_𝔮(g, T) = L_𝔭^{(r)}(f, T)` for all but finitely many primes `𝔮` of `K`, where `𝔮 ∣ 𝔭`,
-`r = f(𝔮/𝔭)`, and `h^{(r)}` is the polynomial whose roots are the `r`-th powers of the roots of
-`h` (Mathlib: `Polynomial` with `Multiset.map (· ^ r)` on roots, over `ℂ`). Prove the Satake
+`r = f(𝔮/𝔭) ≥ 1`. For an Euler polynomial h with h(0)=1, write
+h(T)=∏ᵢ(1−αᵢT) with nonzero αᵢ and define h⁽ʳ⁾(T)=∏ᵢ(1−αᵢʳT).
+This preserves degree and root multiplicities and fixes h⁽ʳ⁾(0)=1; the roots in T
+are raised to their r-th powers. It is independent of the ordering of the αᵢ,
+commutes with coefficient embeddings, and composes by (h⁽ʳ⁾)⁽ˢ⁾=h⁽ʳˢ⁾.
+For h(T)=det(1−AT) with A invertible this is det(1−AʳT), the supplier's
+R17.4.1 unramified restriction rule. Prove the Satake
 form: `c(𝔮, g) = p_r(c(𝔭, f), ψ([𝔭]) N𝔭^{k₀ - 1})` with `p_r` the power-sum polynomial
 (`p_0 = 2`, `p_1 = s`, `p_{r+2} = s p_{r+1} - e p_r`, the supplier's `satakePowerSum`), so for
 `r = 1`, `c(𝔮, g) = c(𝔭, f)`, and for `r = 2`, `c(𝔮, g) = c(𝔭, f)² - 2ψ([𝔭]) N𝔭^{k₀ - 1}`.
@@ -1427,8 +1842,9 @@ R17.4.1 (the Satake rule, for the shape of `p_r`).
 
 **Checks.**
 
-- For `h = 1 - sT + eT²`, `h^{(2)} = 1 - (s² - 2e)T + e²T²`; Suggested.lean's powRoots h 2
-  computes this polynomial.
+- For h=1−3T+2T², h⁽²⁾=1−5T+4T²; the polynomial T²−5T/4+1/4 has the same roots but constant 1/4 and is rejected.
+- For h=1 the empty product gives h⁽ʳ⁾=1. For r=1 the result is h.
+- For `h = 1 - sT + eT²` with e≠0, `h^{(2)} = 1 - (s² - 2e)T + e²T²`.
 - `2.2.29.1-1.1-a` is a base change of `g ∈ S_2(Γ₀(29), χ_29)`: at the inert prime `(2)`,
   `L_2(g, T) = 1 - b(2)T + χ_29(2)·2T²` with `χ_29(2) = -1`, and the `r = 2` relation gives
   `c((2), f) = b(2)² + 4 = -1` (`b(2)² = -5`).
@@ -1475,12 +1891,14 @@ for `ν ∈ (𝔡⁻¹)_+` with `(ν√D)` prime to `(√D)`, `a(ν) = Σ_{d ∈
 **not** asserted at `ν` with `(√D) ∣ ν√D`: at `ν = 1` it would give `b(D)`, which is never real
 (`|b(D)|² = D^{k-1}` and `b(D) ∉ ℝ` for every newform of nebentypus `χ_D`), whereas a level-one
 eigenform has `c((√D), f_g) = b(D) + b̄(D) = 2 Re b(D)` (its Euler factor at `(√D)` has degree `2`).
-The proof route is Zagier's: a kernel function `Ω(z, τ)`, a Hilbert modular form in `z ∈ ℍ²`
-and a form in `τ ∈ ℍ` of weight `k` for `Γ₀(D)` with character `χ_D`, whose Petersson product
-with `g` is `f_g`; holomorphy and modularity of `f_g` follow from those of `Ω`. The kernel is a
-Poincaré-type series of weight `k` in each variable: for `k > 2` it converges absolutely by the
-lattice-point counting of 4.1, and for `k = 2` it is defined by Hecke's trick with the limit
-analysis of 4.2 (the same `n = 2` cancellation). Record that
+The proof route is Zagier's kernel pairing (Theorem 4, p.31), translated to
+§3.4's conjugate-first convention. Write K_z for the classical cusp-space vector,
+antiholomorphic in z, so that the linear lift is g↦⟨K_z,g⟩; its conjugate in
+the integral is holomorphic in z. Fix the scalar by the coefficient formula and
+c(𝒪_F,f_g)=1 for normalized eigenforms. Construct this kernel from Zagier's
+Poincaré series, prove its transformation laws and the pairing formula; for k>2
+prove absolute convergence, and at k=2 use the limiting construction in his
+Appendix 1 with §4.2's analytic inputs. Record that
 `g ↦ f_g` intertwines `T_p` with each of `T_𝔭` and `T_{𝔭'}` separately at split `p`, that `f_g = f_{g^ρ}`, and that
 `f_g ≠ 0` (`c(𝒪_F, f_g) = 1`) (Zagier, §5, equations (95a)–(95c), p. 32,
 Theorem 5, p. 33, and Appendix 1, p. 42).
@@ -1519,24 +1937,44 @@ particular `S_k(𝔫; R)^{rad(𝔫)-new} = S_k(𝔫; R)^{new}`, and `S_k(𝔫; R
 
 *Rests on:* 7.1–7.3.
 
+
+The partial-new-space API uses orthogonal complements at the chosen primes.
+
+- The subspace is Hecke-stable and contains the full new space.
+- Its newform constituents have exactly the full level valuations at every prime of 𝔇.
+
+**Checks.**
+
+- For 𝔇=1 the intersection is empty and gives the whole cusp space.
+- For 𝔇=rad(𝔫) the partial-new space equals the new space, retaining every level prime.
+- At 𝔫=1 both old space and excluded-prime set are empty: old=0 and new=full.
+
 ### 10.2 The dictionary with totally definite quaternion algebras
 
 Let `B` be a quaternion algebra over `F` ramified at every real place and at the primes of a
 squarefree `𝔇 ‖ 𝔫` (`v_𝔭(𝔫) = 1` for `𝔭 ∣ 𝔇`, so that `𝔫𝔇⁻¹` is prime to `𝔇`), with `n + ω(𝔇)` even, and `𝒪_B` an Eichler order of level `𝔫𝔇⁻¹`
 (Quaternionic modular forms §0.1). State and prove by citation the **Jacquet–Langlands
 dictionary**: the space of quaternionic modular forms of weight `k` and level `𝒪̂_B^×`
-(Quaternionic modular forms §2.1 with the weight of its §1.1; in parallel weight `2`, functions
+(Quaternionic modular forms §2.1 with the algebraic weight and dual convention of its §1.3; in parallel weight `2`, functions
 on the class set of §0.3), modulo the forms factoring through the reduced norm in parallel
 weight `2`, is isomorphic as a module over the `T_𝔭`, `𝔭 ∤ 𝔫` (§3.1 there, 5.2 here) to
 `S_k(𝔫; R)^{𝔇-new}`, compatibly with the central action and with `U_𝔭` at `𝔭 ∣ 𝔫𝔇⁻¹`, the
 eigenvalue at `𝔭 ∣ 𝔇` on the quaternionic side being `-ε_𝔭(f) N𝔭^{k₀/2 - 1}` (7.7). Inputs:
 [GL₂ automorphic representations and transfer](../GL2AutomorphicRepresentationsAndTransfer/README.md)
 R17.3.1, R17.3.3, R17.3.5 and R17.3.9, transported by 6.4 and by the supplier's quaternionic
-dictionary. Record the parity constraint: no such `B` exists when `n + ω(𝔇)` is odd, which is why
-the LMFDB's computations for even-degree `F` at squarefull level use an indefinite algebra and
-the sibling `QuaternionArithmetic`'s Shimura-curve side.
+dictionary. No such B exists when n+ω(𝔇) is odd. In every even degree,
+𝔇=1 is permitted independently of whether the level is squarefull; in odd degree
+a totally definite B must ramify at an odd number of finite places
+(Dembélé–Voight, Theorem 3.9 and Example 6.3).
 
-*Rests on:* 5.2, 6.4, 7.7, 10.1; Quaternionic modular forms §§0.1, 0.3, 1.1, 2.1, 3.1; the cited
+**Checks.**
+
+- For n=2 and 𝔇=1, the ramification count is 2+0=2, so a totally definite algebra exists.
+- For n=3 and 𝔇=1, the count is 3+0=3, so it does not exist.
+- For n=3 and 𝔇 a single prime, the count is 3+1=4; the parity obstruction disappears,
+  while the exact-level condition still requires valuation one at that prime.
+
+*Rests on:* 5.2, 6.4, 7.7, 10.1; Quaternionic modular forms §§0.1, 0.3, 1.3, 2.1, 3.1; the cited
 R17.3 milestones.
 
 ### 10.3 Brandt matrices and traces
@@ -1624,6 +2062,12 @@ table are not defined here.
 - `2.2.24.1-1.1-a` has prefix `(2, 2, 24, 1)`.
 - `(2, 2, 5, 81)` is rejected for `2.2.5.1-31.1-a`: its level norm is `31`.
 
+
+The intrinsic-prefix API forgets database orderings.
+
+- The prefix retains only degree, real-place count, discriminant and level norm.
+- It is unchanged by coefficient conjugation and by a field automorphism applied to the level.
+
 ### 11.3 The elliptic-curve interface
 
 For a function `a : HeightOneSpectrum (𝓞 F) → ℤ` and a newform `f` of level `𝔫`, define
@@ -1658,6 +2102,12 @@ alone does not supply this input (Freitas–Le Hung–Siksek, Theorem 1).
   eigenvalues are permuted along `w ↦ 1 - w`, and `a_(3w - 2)(E) = 4` while the conjugate form has
   `-4` there.
 - `2.2.40.1-1.1-a` is attached to no `a`: its coefficient field is quadratic, not `ℚ`.
+
+
+The attachment API is conditional on the stated curve-side contracts.
+
+- Good-prime trace matching at fixed conductor determines at most one normalized newform.
+- Transport preserves attachment; equality of full cards uses all local polynomials and archimedean/conductor data.
 
 ### Examples
 
@@ -1801,10 +2251,10 @@ newforms `f, g` with `c((2), f) = 2 = -c((2), g)`, `c((w+2), f) = -3 = c((w+2), 
 ### Rejection tests
 
 - A tuple `(f_𝔟)` with one component holomorphic and invariant but with a Fourier coefficient
-  `a(μ) ≠ 0` at a `μ` that is not totally positive cannot exist (2.2); the function
+  `a(μ) ≠ 0` at a nonzero `μ` that is not totally positive cannot exist (2.2); the function
   `z ↦ e(Tr(μz))` for `μ ∈ 𝔡⁻¹` with `σ_1(μ) > 0 > σ_2(μ)` is holomorphic and
   `𝒪_F`-periodic but is not invariant under `(ε 0; 0 1)`, and is rejected from `M_k`.
-- The constant function `1` lies in `M_0(Γ)` and in no `M_k(Γ)` with `k ≠ 0`; it is not a cusp
+- The constant function `1` has a(0)=1, which is retained by Koecher. It lies in `M_0(Γ)` and in no `M_k(Γ)` with `k ≠ 0`; it is not a cusp
   form (2.6).
 - Over `ℚ(√5)` the odd-weight spaces vanish (2.3); over `ℚ(√3)`, where no unit has norm `-1`,
   the parity lemma is silent and odd parallel weights are not excluded.
