@@ -1,4 +1,6 @@
 import Mathlib
+import TauCeti.AlgebraicGeometry.EllipticCurve.TateModule.Galois
+import TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny.Hom.Ring
 import TauCeti.Topology.Algebra.Group.Generation
 import TauCeti.Topology.Algebra.Group.Profinite.ProP.Basic
 import TauCeti.Topology.Algebra.Group.Profinite.CompletedGroupAlgebra.Map
@@ -11,7 +13,8 @@ references of the form §k.n refer to its subsections.
 
 The targets stated here are the all-profinite local-ring criterion (§0.4),
 Brumer's exact integral and residual global dimensions (§0.11),
-the rational global dimension (§0.12), and the canonical and saturated Ore theorems (§§1.7, 1.10).
+the rational global dimension (§0.12), the canonical and saturated Ore theorems (§§1.7, 1.10),
+and non-CM and CM local elliptic openness (§4.0).
 They use Tau Ceti's completed group algebra, Mathlib's projective dimension and Ore sets, and
 concrete group predicates. Coefficients are finite free discrete valuation algebras over ℤ_p,
 including ramified integer rings. The rational dimension statement and the Ore theorems
@@ -19,6 +22,8 @@ do not assume that `G` has no element of order `p`.
 
 The later headline statements are README targets, because their objects are absent from the pins:
 
+* the normalized CM interpolation and Coleman comparison (§4.3): CM periods, ray-class
+  unit towers, the relative Lubin–Tate Coleman map and Katz measures;
 * boundary surjectivity (§2.15): ring K₁ and the relative K₀ of the Ore localization;
 * the evaluation–Euler characteristic formula (§3.6): characteristic elements and Artin evaluation;
 * the arithmetic complexes and main conjectures (Layers 4–5, §§6.15, 6.30, 6.34–6.36):
@@ -164,5 +169,51 @@ theorem saturatedSet_oreSet (hG : IsCompactPAdicAnalytic p G)
   sorry
 
 end Layer1
+
+/-! ## Layer 4: equivariant arithmetic complexes -/
+
+section Layer4
+
+open scoped WeierstrassCurve
+
+/-- Serre's local open-image theorem: over a number field, if every geometric endomorphism
+is an integer multiplication, the Tate-module image is open in the full matrix algebra
+(and hence in its group of units), in every integral Tate basis (§4.0). -/
+theorem elliptic_nonCM_openImage (F : Type u) [Field F] [NumberField F]
+    (p : ℕ) [Fact p.Prime] (W : WeierstrassCurve F) [W.IsElliptic]
+    [DecidableEq (AlgebraicClosure F)]
+    (hNoCM : ∀ f : Isogeny.Hom (W⁄(AlgebraicClosure F)).toAffine
+        (W⁄(AlgebraicClosure F)).toAffine, ∃ n : ℤ, f = n)
+    (b : Module.Basis (Fin 2) ℤ_[p]
+      (TateModule p (W⁄(AlgebraicClosure F)).toAffine.Point)) :
+    IsOpen (Set.range fun σ : AlgebraicClosure F ≃ₐ[F] AlgebraicClosure F =>
+      LinearMap.toMatrix b b (W.tateModuleGaloisRepresentation p σ)) := by
+  sorry
+
+/-- The CM local open-image theorem in the integral commutant of geometric endomorphisms.
+All endomorphisms are required to commute with the Galois action; the image is open in
+that commutant's unit group, equivalently open in the commutant matrix algebra (§4.0).
+The CM hypothesis asserts an actual noninteger geometric endomorphism. -/
+theorem elliptic_CM_openImage (F : Type u) [Field F] [NumberField F]
+    (p : ℕ) [Fact p.Prime] (W : WeierstrassCurve F) [W.IsElliptic]
+    [DecidableEq (AlgebraicClosure F)]
+    (hCM : ∃ f : Isogeny.Hom (W⁄(AlgebraicClosure F)).toAffine
+        (W⁄(AlgebraicClosure F)).toAffine, ∀ n : ℤ, f ≠ n)
+    (b : Module.Basis (Fin 2) ℤ_[p]
+      (TateModule p (W⁄(AlgebraicClosure F)).toAffine.Point))
+    (hDefined : ∀ (σ : AlgebraicClosure F ≃ₐ[F] AlgebraicClosure F)
+      (f : Isogeny.Hom (W⁄(AlgebraicClosure F)).toAffine
+        (W⁄(AlgebraicClosure F)).toAffine),
+      Commute (W.tateModuleGaloisRepresentation p σ)
+        (TateModule.mapLinearMap f.pointMapHom)) :
+    IsOpen {A : {A : Matrix (Fin 2) (Fin 2) ℤ_[p] //
+      ∀ f : Isogeny.Hom (W⁄(AlgebraicClosure F)).toAffine
+          (W⁄(AlgebraicClosure F)).toAffine,
+        Commute A (LinearMap.toMatrix b b (TateModule.mapLinearMap f.pointMapHom))} |
+      ∃ σ : AlgebraicClosure F ≃ₐ[F] AlgebraicClosure F,
+        A.val = LinearMap.toMatrix b b (W.tateModuleGaloisRepresentation p σ)} := by
+  sorry
+
+end Layer4
 
 end TauCetiRoadmap.NoncommutativeAndEquivariantIwasawa
