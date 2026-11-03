@@ -35,8 +35,9 @@ endomorphism.
 Suggested home: `TauCeti/AlgebraicGeometry/AbelianVariety/FiniteField/` for Layers 1–7 and 9–10
 (files `Frobenius`, `Tate`, `EndomorphismAlgebra`, `EllipticClasses`, `Decomposition`, `NewtonPolygon`,
 `Points`, `DeligneModule`, `Polarization`, `Jacobian`), and
-`TauCeti/NumberTheory/NumberField/Global/Orders/` for Layer 8, beside the existing order files
-(`Bass`, `WeakEquivalence`, `CohenMacaulayType`, `Overorders`, `Etale`).
+`TauCeti/NumberTheory/NumberField/Global/Orders/` for Layer 8, in new files (`Bass`,
+`WeakEquivalence`, `CohenMacaulayType`, `Overorders`, `Etale`) beside the pinned order files
+(`Basic`, `Lattice`, `Gorenstein`, `Quadratic`, `Discriminant`, `Picard`, `IdealClassMonoid`).
 
 ## Scope and ownership
 
@@ -190,7 +191,7 @@ Suggested home: `TauCeti/AlgebraicGeometry/AbelianVariety/FiniteField/` for Laye
   `galActionHom`, `Polynomial.splittingField`, `Squarefree`, `Irreducible`,
   `UniqueFactorizationMonoid.normalizedFactors`, `Polynomial.mahlerMeasure` and
   `finite_mahlerMeasure_le` (through R28.5.1).
-- Linear algebra: `LinearMap.charpoly`, `Matrix.charpoly`, `LinearMap.IsSemisimple`,
+- Linear algebra: `LinearMap.charpoly`, `Matrix.charpoly`, `Module.End.IsSemisimple`,
   `Module.finrank`, `Module.Free`, `Module.Finite`, `AddCommGroup.equiv_directSum_zmod_of_finite`,
   `Submodule.IsLattice`, `Submodule.span`, `FractionalIdeal`, `ClassGroup`, `IsDedekindDomain`,
   `IsLocalization.AtPrime`, `Ideal.IsMaximal`, `IsArtinianRing.equivPi`,
@@ -244,22 +245,24 @@ Suggested home: `TauCeti/AlgebraicGeometry/AbelianVariety/FiniteField/` for Laye
   `NarrowPic`, `IdealClassMonoid`, `Hom`, `mapPic`, `integralIdealsAwayConductor`; the elliptic
   `frobeniusIsogeny`, `WeierstrassCurve.frobeniusTrace`, `WeierstrassCurve.pointCount`,
   `hasse_bound`; `BrauerGroup` with `TauCeti.BrauerGroup.instCommGroup`, `CSA`, `quaternionClass`
-  and the central simple algebra library `TauCeti/Algebra/CentralSimple/`. Additional order and elliptic interfaces are supplied by GlobalNumberFields Layer 11 and
-  EllipticCurves Layer 3, with intended module locations:
-  `TauCeti/NumberTheory/NumberField/Global/Orders/Gorenstein.lean` (`traceDual`, `IsGorenstein`),
-  `.../Orders/Maximal.lean`
-  (`maximalOrderPicEquiv : Pic (maximalNumberFieldOrder K) ≃* ClassGroup (𝓞 K)`),
-  `.../Orders/Lattice.lean`, `.../Orders/Quadratic/Basic.lean` (proper ideals of quadratic
-  orders are invertible), `TauCeti/Algebra/CrossedProduct/Comparison.lean`
-  (`brauerCohomologyEquiv`), `TauCeti/AlgebraicGeometry/EllipticCurve/Supersingular.lean`
-  (`WeierstrassCurve.IsSupersingular p W`, `WeierstrassCurve.IsOrdinary p W`),
-  `TauCeti/AlgebraicGeometry/EllipticCurve/Isogeny/Frobenius/{Charpoly,Isogenous,Supersingular,Ordinary,EndomorphismField,Zeta}.lean`
-  (the `g = 1` Frobenius theory:
-  `isSupersingular_iff_dvd_frobeniusTrace`, `pointCount_eq` for isogenous curves,
-  `zetaFunction`, `OrdinaryEnd` with its `NumberFieldOrder`),
-  `TauCeti/Algebra/AlgebraicGroup/Frobenius/FiniteField.lean` (`frobeniusPoints`,
-  `rationalPointsMulEquiv`) and
-  `TauCeti/AlgebraicGeometry/AbelianVariety/DimensionZero.lean` (`isZero_iff_dim_eq_zero`).
+  and the central simple algebra library `TauCeti/Algebra/CentralSimple/`. Pinned order and elliptic declarations, by file:
+  `TauCeti/NumberTheory/NumberField/Global/Orders/Gorenstein.lean` (`NumberFieldOrder.traceDual`
+  and `NumberFieldOrder.IsGorenstein`, the trace dual being invertible), `.../Orders/Lattice.lean`
+  (a nonzero fractional ideal of an order is a free `ℤ`-module spanning the field),
+  `.../Orders/Quadratic.lean` (`isProperFractionalIdeal_iff_isUnit_of_finrank_eq_two`: the proper
+  fractional ideals of an order in a quadratic field are the invertible ones),
+  `.../Orders/Discriminant.lean` (`discr_eq_index_sq_mul`), `.../Orders/Picard.lean` (`Pic O` is
+  `ClassGroup O.toSubalgebra`, so `Pic (maximalNumberFieldOrder K)` is `ClassGroup (𝓞 K)` by
+  definition), `TauCeti/Algebra/CrossedProduct/Comparison.lean` (`brauerCohomologyEquiv`),
+  `TauCeti/AlgebraicGeometry/EllipticCurve/Supersingular.lean` (`WeierstrassCurve.IsSupersingular p W`,
+  `WeierstrassCurve.IsOrdinary p W`) and `TauCeti/AlgebraicGeometry/AbelianVariety/Trivial.lean`
+  (`AbelianVariety.trivial` with `dim_trivial`, the dimension-zero variety). Consumed by section,
+  in prose: [EllipticCurves](../EllipticCurves/README.md) Layer 3 for the trace criterion
+  (`IsSupersingular E ↔ ringChar F ∣ frobeniusTrace E`), the finiteness of `E(𝔽_q)` and the zeta
+  function of an elliptic curve, and its Layer 1 for `End E` of an ordinary curve being an order
+  of `ℚ(π_q)` containing `ℤ[π_q]`; GlobalNumberFields Layer 11 for the conductor-prime extension
+  and contraction maps between invertible ideals of an order and ideals of the maximal order. The
+  identification of `A(K)` with the fixed points of `π_A` on `A(K^{sep})` is 1.2 here.
 - From *Abelian schemes and arithmetic moduli*, Layer A6: `Hom.deg` and `End.degRat` (A6.1),
   `homTateInjective` (A6.2), the abelian image (A6.3), `IsSimple`, `simpleEndDivision` (A6.4),
   `poincareReducibility` with the uniqueness of simple factors and multiplicities (A6.5),
@@ -504,8 +507,8 @@ so `P_A(0) = q^g` — is Part II F0.2; equivalently **the root multiset of `P_A`
 conjugation on each factor and `π_A^† = q/π_A`, so the complex conjugate of each root `α` is
 `q/α`). Consequently `P_A` is symmetric in the sense of §1.0
 (`q^j · coeff_j P_A = q^g · coeff_{2g−j} P_A`) and `L_A` has the coefficient shape
-`1, a_1, …, a_g, q a_{g−1}, …, q^g` of the LMFDB `poly`. The pair `(q, P_A)` satisfies the
-sibling's `IsWeilPolynomial q P_A ∧ IsWeilSymmetric q g P_A` (DWP.1 §1.4 for the modulus; Part II
+`1, a_1, …, a_g, q a_{g−1}, …, q^g` of the LMFDB `poly`. The pair `(q, P_A)` satisfies
+§1.0's `IsWeilPolynomial q P_A ∧ IsWeilSymmetric q g P_A` (DWP.1 §1.4 for the modulus; Part II
 F0.2 for the symmetry), which permits the polynomial results of §1.0 to apply to P_A.
 *Needs:* DWP.1 §§1.3, 1.4; A6.21; Part II F0.2; Mathlib `Polynomial.reverse`.
 
@@ -544,8 +547,7 @@ the Jacobian, DWP.1 §1.6, and gives the count from its roots; FunctionFieldArit
 integer form). Hence the `curve_counts` of a Jacobian class are honest counts (7.4 below only
 *defines* them from `P_A`), and `#J(K) = P_J(1) = h_F` is the class number of the function field
 (FunctionFieldArithmetic §5.3).
-*Needs:* 1.4; DWP.1 §1.6; JacobianChallenge Layer E; FunctionFieldArithmetic §§5.3–5.4;
-FunctionFieldArithmetic §§5.3–5.4.
+*Needs:* 1.4; DWP.1 §1.6; JacobianChallenge Layer E; FunctionFieldArithmetic §§5.3–5.4.
 
 **Checks.**
 
@@ -563,7 +565,7 @@ Frobenius `π_E` is `frobeniusIsogeny` under the dictionary; and `L_E = 1 − aT
 factor of [EllipticCurves](../EllipticCurves/README.md) Layer 3. The dimension-zero variety has
 `P = 1`, `L = 1`, one point over every `L`.
 *Needs:* 1.2, 1.3; A0.2; A6.10; Tau Ceti `WeierstrassCurve.frobeniusTrace`, `pointCount`,
-`frobeniusIsogeny`, `DimensionZero`.
+`frobeniusIsogeny`, `AbelianVariety.trivial`, `dim_trivial`.
 
 **Checks.**
 
@@ -1055,9 +1057,9 @@ R07.2.16; §1.0.
 
 ### 6.3 Ordinary, supersingular, almost ordinary; the supersingular structure theorem
 
-`IsOrdinary A := pRank A = g`; `IsSupersingular A := ∀ s ∈ slopes A, s = 1/2` (pinned; knowl
-`av.fq.supersingular`); `IsAlmostOrdinary A := pRank A + 1 = g`; `newtonElevation A` the
-sibling's elevation of `P_A`, with `elevation = 0 ↔ IsOrdinary A`,
+`IsOrdinary A := pRank A = g`; `IsSupersingular A := ∀ s ∈ slopes A, s = 1/2` (the pinned
+`WeierstrassCurve.IsSupersingular` is the `g = 1` case, 6.1; knowl `av.fq.supersingular`); `IsAlmostOrdinary A := pRank A + 1 = g`; `newtonElevation A` the
+elevation of `P_A` defined in §1.0, with `elevation = 0 ↔ IsOrdinary A`,
 `elevation = 1 ↔ IsAlmostOrdinary A`, and the supersingular value `(g+1)²/4` (odd `g`) or `g(g+2)/4`
 (even `g`)
 (§1.0). **Structure theorem:**
@@ -1075,9 +1077,9 @@ multiset of `≤ 4` slopes in `(0, 1)` with the integrality of the polygon's bre
 `1/2`; §1.0); `IsSupersingular A ↔ angleRank A = 0` (6.5); supersingularity is preserved by
 isogeny, base change, products, duals, and inherited by abelian subvarieties and quotients
 (§1.0: slopes of factors). For `g = 1` the three predicates `IsSupersingular E` (this
-layer), EllipticCurves' `E[p](K̄) = 0`, and `p ∣ frobeniusTrace` coincide (6.1, 1.6, Tau Ceti
-`isSupersingular_iff_dvd_frobeniusTrace`).
-*Needs:* 1.6, 3.3, 6.1, 6.2; Part II F3.2; §1.0.
+layer), EllipticCurves' `E[p](K̄) = 0`, and `p ∣ frobeniusTrace` coincide (6.1, 1.6; the trace criterion of EllipticCurves
+Layer 3).
+*Needs:* 1.6, 3.3, 6.1, 6.2; Part II F3.2; §1.0; EllipticCurves Layer 3.
 
 **Checks.**
 
@@ -1232,8 +1234,7 @@ for the identification with the degree-zero divisor class group when `C` has a r
 A Jacobian class with `P_A(1) = 1` (a function field of class number one, knowl
 `av.fq.class_number_1`) has `g = 0 ∨ q ≤ 4` by 7.1; the finiteness of the list of such function fields is a
 theorem about curves (the curve-specific finiteness problem), not claimed here.
-*Needs:* 1.5, 7.1; JacobianChallenge Layer E; FunctionFieldArithmetic §5.3;
-FunctionFieldArithmetic §§5.3–5.4.
+*Needs:* 1.5, 7.1; JacobianChallenge Layer E; FunctionFieldArithmetic §§5.3–5.4.
 
 **Checks.**
 
@@ -1391,8 +1392,8 @@ discriminant of that basis is `(π − V)²`), and `disc ℤ[π, V] = zfv_index�
 endomorphism
 ring in the class is an overorder of `ℤ[π, V]`**. `ℤ[π, V]` is conjugate stable; `ℤ[π] ⊆ ℤ[π, V]`
 with equality iff `V ∈ ℤ[π]`, i.e. iff `q ∈ π ℤ[π]` (`V = q/π`), which holds for `g = 1` (`V = a − π`) and fails for
-`2.2.ad_f` (`[ℤ[π, V] : ℤ[π]] = 2`). Comparison with the elliptic order of Tau Ceti's
-`OrdinaryEnd` and with *Complex multiplication and explicit reciprocity* 5.2 for `g = 1`.
+`2.2.ad_f` (`[ℤ[π, V] : ℤ[π]] = 2`). Comparison with the elliptic order `End E ⊇ ℤ[π_q]` of
+EllipticCurves Layer 1 and with *Complex multiplication and explicit reciprocity* 5.2 for `g = 1`.
 *Needs:* 1.1, 1.7, 3.3, 3.4, 8.1, 8.2; A6.7; §1.0; Tau Ceti
 `discr_eq_index_sq_mul`.
 
@@ -1419,7 +1420,8 @@ The **trace dual** `Λ^∨ := {x ∈ E | Algebra.trace ℚ E (x Λ) ⊆ ℤ}`, a
 case). **`IsGorenstein Λ := Λ^∨` is invertible** (Tau Ceti `NumberFieldOrder.IsGorenstein` in
 the field case, consumed by comparison), equivalent to: every fractional ideal `I` with
 `(I : I) = Λ` is invertible (Marseglia, ideal class monoid, Proposition 2.11, p. 4); `𝓞_E` is Gorenstein; an order in
-a quadratic field is Gorenstein (Tau Ceti `Quadratic/Basic`: proper ideals are invertible);
+a quadratic field is Gorenstein (Tau Ceti `Quadratic.lean`,
+`isProperFractionalIdeal_iff_isUnit_of_finrank_eq_two`: proper ideals are invertible);
 Gorenstein is local (`Λ` Gorenstein iff `Λ_𝔪` Gorenstein for every maximal ideal `𝔪`, iff
 `dim_{Λ/𝔪} Λ^∨/𝔪Λ^∨ = 1` for all `𝔪`, 8.5). **`IsBass Λ := ∀ Λ' overorder of Λ, IsGorenstein Λ'`**
 (knowl `av.fq.bass_zfv`); equivalent to: every fractional `Λ`-ideal is invertible over its
@@ -1429,7 +1431,7 @@ Frobenius order over a prime field is Gorenstein:** for `K = 𝔽_p`, `IsGorenst
 (Centeleghe–Stix, arXiv:1501.02446v1, Theorem 11, §2, pp. 9–10; `ℤ[π, p/π] = ℤ[T, T'] / (T T' − p, h(T, T'))` is the quotient of the
 two-dimensional Gorenstein ring `ℤ[T, T']/(TT' − p)` by one equation `h`, the symmetrization of
 `P_A`, hence Gorenstein).
-*Needs:* 8.1, 8.2; Tau Ceti `Gorenstein.lean`, `Quadratic/Basic.lean`; Marseglia, ideal class monoid, Propositions 2.11 and 3.7, pp. 4–5;
+*Needs:* 8.1, 8.2; Tau Ceti `Gorenstein.lean`, `Quadratic.lean`; Marseglia, ideal class monoid, Propositions 2.11 and 3.7, pp. 4–5;
 Centeleghe–Stix, arXiv:1501.02446v1, Theorem 11, §2, pp. 9–10.
 
 **Checks.**
@@ -1568,7 +1570,7 @@ and Chapter 7 (ordinary classes); Howe 1995 §4 for duals.
 - For squarefree reciprocal P, the ideal dictionary identifies morphisms with colons and isomorphism classes with ICM(R).
 
 A Weil lattice for q > 1: a finite free `ℤ`-module `M` with `F : M →ₗ[ℤ] M` such that `F ⊗ ℚ` is
-semisimple (`LinearMap.IsSemisimple`), every root of `charpoly F` is a `q`-Weil number
+semisimple (`Module.End.IsSemisimple`), every root of `charpoly F` is a `q`-Weil number
 (`IsWeilPolynomial q (charpoly F)` of §1.0), and `q • M ⊆ F(M)` (so `V := q F⁻¹` restricts to
 an endomorphism of `M` with `FV = VF = q`). Morphisms are `ℤ`-linear maps commuting with `F`; the
 category is additive with finite products. Call this general object a **Weil lattice**;
@@ -1603,7 +1605,7 @@ of a fractional `R`-ideal `I ⊆ E`, for `R = ℤ[π, V]` of a squarefree Weil `
 above, is `(I, x ↦ π x)`, a Deligne module with polynomial `P`, and the dictionary is the
 statement that `I ↦ (I, π ·)` induces a bijection from `ICM R` to the isomorphism classes of
 Deligne modules with polynomial `P`.
-*Needs:* 8.3, 8.6; Mathlib `LinearMap.IsSemisimple`, `LinearMap.charpoly`;
+*Needs:* 8.3, 8.6; Mathlib `Module.End.IsSemisimple`, `LinearMap.charpoly`;
 §1.0.
 
 **Checks.**
@@ -1619,9 +1621,6 @@ Deligne modules with polynomial `P`.
   it fails positive reciprocity and the admissibility condition, and `T² − 2` is not the polynomial of an abelian variety over `𝔽₂` (9.3 excludes `√p`).
 - (reject) For `q = 2`, `(ℤ, F = 2)` is not a Deligne module: its root `2` does not have absolute
   value `√2`.
-
-**Checks.**
-
 - At q=4, M=ℤ and F=2 satisfy the three Weil-lattice conditions but have odd rank 1; the real multiplicity is 1, so admissibility fails.
 - For q=5 and P=T²−2T+5, reciprocity at j=0,1,2 reads 5=5, −10=−10, 25=25.
 - At q=4, F=2 on ℤ² has polynomial (T−2)², even real multiplicity 2, and constant coefficient 4=q.
@@ -1704,7 +1703,8 @@ counts; `B` and `B'` in the class have `B ≅ B'` iff `T(B) = x T(B')` for some 
 label records the index of `End B`, the weak class and the Picard element (the three indices are
 not targets). For a non-squarefree class or a non-ordinary class with `q ≠ p`,
 the finiteness of the set of isomorphism classes is consumed from *Arithmetic statistics, part I*
-(target `support-abelian-counts`: integral class-set finiteness within an isogeny class), and no
+(Supporting constructions, “Finiteness of an isogeny class and of unpolarized classes”: the
+`𝔽_q`-isomorphism classes in an isogeny class are finite in number), and no
 enumeration is specified here.
 *Needs:* 8.3, 8.4, 8.6, 8.7, 9.1, 9.2, 9.3; Part II F3.8, F3.10.
 
@@ -1745,7 +1745,7 @@ imaginary quadratic, `R = ℤ[π]` (8.3: `V = a − π`), every order `ℤ[π] �
 `E` in the class, and the curves with `End E ≅ O` form a principal homogeneous space under `Pic O`
 (Waterhouse 1969 Theorems 4.2(2) and 4.5), so the class has `∑_{O ⊇ ℤ[π]} #Pic O` isomorphism
 classes — this is 9.4 (quadratic orders are Gorenstein, so `#W_O = 1`), and the comparison with
-Tau Ceti's `OrdinaryEnd` and *Complex multiplication and explicit reciprocity* 5.2's "ordinary
+EllipticCurves Layer 1's ordinary endomorphism order and *Complex multiplication and explicit reciprocity* 5.2's "ordinary
 order levels" is a theorem; (2) **supersingular with `π ∉ ℚ`** (`F` imaginary quadratic, `e = 1`):
 `End E` is an order containing `ℤ[π]` and maximal at `p` (Waterhouse Theorem 4.2(3)), and the
 curves with `End E ≅ O` again form a `Pic O`-homogeneous space (Theorem 4.5); (3) **supersingular

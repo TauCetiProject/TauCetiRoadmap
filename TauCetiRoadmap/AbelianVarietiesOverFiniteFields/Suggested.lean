@@ -82,11 +82,12 @@ def IsInvertible (I : Submodule Λ E) : Prop :=
 (knowl `av.fq.weak_equivalence_class`). -/
 def WeakEquiv (I J : Submodule Λ E) : Prop :=
   ∀ (𝔪 : Ideal Λ) [𝔪.IsMaximal],
-    Nonempty (LocalizedModule 𝔪.primeCompl I ≃ₗ[Localization.AtPrime 𝔪] LocalizedModule 𝔪.primeCompl J)
+    Nonempty (LocalizedModule 𝔪.primeCompl I ≃ₗ[Localization.AtPrime 𝔪]
+      LocalizedModule 𝔪.primeCompl J)
 
 /-- `README.md`, Layer 8, 8.6: the colon criterion for weak equivalence of fractional ideals. -/
-theorem weakEquiv_iff_one_mem [Module.Finite ℚ E] [IsReduced E] (hΛ : IsOrder E Λ) {I J : Submodule Λ E} (hI : IsFractionalIdeal E Λ I)
-    (hJ : IsFractionalIdeal E Λ J) :
+theorem weakEquiv_iff_one_mem [Module.Finite ℚ E] [IsReduced E] (hΛ : IsOrder E Λ)
+    {I J : Submodule Λ E} (hI : IsFractionalIdeal E Λ I) (hJ : IsFractionalIdeal E Λ J) :
     WeakEquiv E Λ I J ↔ (1 : E) ∈ colon E Λ I J * colon E Λ J I := by
   sorry
 
