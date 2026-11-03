@@ -13,7 +13,9 @@ completed Polynomial Galois Groups roadmap, whose results are Tau Ceti declarati
 are not restated here.
 
 Every headline theorem of the roadmap is statable at the pins; none is omitted for want of a
-carrier.
+carrier. The prime-degree obstruction of the README's §2.3 is a corollary of the pinned Mathlib
+alone (`Polynomial.Gal.galActionHom_bijective_of_prime_degree`, `Equiv.Perm.not_isSolvable` and
+`isSolvable_gal_of_irreducible`), so it is a README target and not an acceptance test here.
 -/
 
 public section
@@ -60,15 +62,6 @@ theorem isSolvable_gal_iff_exists_rootSet_mem_solvableByRad
     (F : Type*) [Field F] [CharZero F] (q : F[X]) (hq : Irreducible q) :
     Group.IsSolvable q.Gal ↔
       ∃ x ∈ q.rootSet (AlgebraicClosure F), x ∈ solvableByRad F (AlgebraicClosure F) := by
-  sorry
-
-/-- **The prime-degree obstruction to radicals** (Milne, Proposition 4.16, and Abel–Ruffini).
-An irreducible rational polynomial of prime degree at least five with exactly two nonreal
-complex roots has no root in the radical closure of `ℚ` in its algebraic closure. -/
-theorem not_mem_solvableByRad_of_prime_degree_two_nonreal
-    (q : ℚ[X]) (hq : Irreducible q) (hp : q.natDegree.Prime) (h5 : 5 ≤ q.natDegree)
-    (hc : Fintype.card (q.rootSet ℂ) = Fintype.card (q.rootSet ℝ) + 2) :
-    ∀ x ∈ q.rootSet (AlgebraicClosure ℚ), x ∉ solvableByRad ℚ (AlgebraicClosure ℚ) := by
   sorry
 
 /-! ## Layer 3: Dummit's quintic criterion -/

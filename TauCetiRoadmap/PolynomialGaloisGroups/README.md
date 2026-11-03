@@ -53,7 +53,7 @@ It owns nothing else. In particular:
   is *solvable by radicals* when **every** one of its roots in `AlgebraicClosure F` lies in the
   radical closure; this is the notion of Milne's Theorem 5.34 (a radical tower containing a
   splitting field). The closure is always taken in an algebraic closure: the intermediate field
-  `solvableByRad F E` inside a Galois extension `E` is in general too small (Layer 1, Checks).
+  `solvableByRad F E` inside a Galois extension `E` is in general too small (Layer 1, Examples).
 - **Two senses of "solvable".** `Group.IsSolvable q.Gal` is solvability of the group; solvability
   by radicals is membership in the radical closure. They are never given the same name.
 - **The quintic resolvent.** `TauCeti.quinticF20Spec` is the resolvent specification of
@@ -202,14 +202,15 @@ has a root. For a reducible `q` the some-root form is false (Examples).
 
 ### 2.3 Prime degree with two nonreal roots
 
-Prove `not_mem_solvableByRad_of_prime_degree_two_nonreal`: if `q : ℚ[X]` is irreducible of prime
-degree `p ≥ 5` and has exactly two nonreal roots in `ℂ`, expressed as
-`Fintype.card (q.rootSet ℂ) = Fintype.card (q.rootSet ℝ) + 2`, no root of `q` in
-`AlgebraicClosure ℚ` lies in the radical closure (Milne, Proposition 4.16,
-p. 52, for the group). The group acts on the `p` roots as `S_p` by
+Prove that if `q : ℚ[X]` is irreducible of prime degree `p ≥ 5` and has exactly two nonreal
+roots in `ℂ`, expressed as `Fintype.card (q.rootSet ℂ) = Fintype.card (q.rootSet ℝ) + 2`, then no
+root of `q` in `AlgebraicClosure ℚ` lies in the radical closure (Milne, Proposition 4.16, p. 52,
+for the group). The group acts on the `p` roots as `S_p` by
 `Polynomial.Gal.galActionHom_bijective_of_prime_degree`, which is not solvable by
 `Equiv.Perm.not_isSolvable`; conclude by `isSolvable_gal_of_irreducible`. For `p = 2, 3` the
-symmetric group is solvable and there is no conclusion.
+symmetric group is solvable and there is no conclusion. The statement follows from these three
+Mathlib declarations alone, without Layers 1 and 2, so it is a target of this roadmap but not one
+of its acceptance tests.
 
 *Needs:* Mathlib `Polynomial.Gal.galActionHom_bijective_of_prime_degree`,
 `Equiv.Perm.not_isSolvable`, `isSolvable_gal_of_irreducible`.
@@ -251,7 +252,7 @@ and the pairs `{a, b}`, `{c, d}` regrouped give, with `u = xₑ − xₐ`, `v = 
 `u = −v`, `w = −z` gives `2xₑ = xₐ + x_b = x_c + x_d`, so `5xₑ` is the sum of the roots, which lies
 in `F`, and `xₑ ∈ F` contradicts irreducibility.
 
-The hypothesis `(5 : F) ≠ 0` cannot be dropped (Checks).
+The hypothesis `(5 : F) ≠ 0` cannot be dropped (Examples).
 
 *Needs:* Tau Ceti `TauCeti.quinticF20Spec`, `TauCeti.ResolventSpec.specialize`; Mathlib
 `Polynomial.Gal.galAction_isPretransitive`, `exists_prime_orderOf_dvd_card` (Cauchy's theorem).
