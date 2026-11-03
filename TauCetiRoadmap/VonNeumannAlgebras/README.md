@@ -631,7 +631,14 @@ Neumann algebra (Houdayer, Proposition 3.3, p. 13, for probability measures; Pet
 2.5.9 and the remark following it, pp. 29–30). For an abelian von Neumann algebra `M` on separable
 `H`, construct a single self-adjoint generator `a = Σ_n 3⁻ⁿ e_n` from a strongly dense sequence of
 projections `(e_n)`, recovering each `e_n` as a spectral projection of `a` (Jones, EP10, p. 23;
-Peterson, Lemma 2.8.8, p. 38, with weights `4⁻ᵏ`).
+Peterson, Lemma 2.8.8, p. 38, with weights `4⁻ᵏ`). The weights are chosen so that each exceeds the
+sum of all later ones (`Σ_{k>n} 3⁻ᵏ = 3⁻ⁿ/2 < 3⁻ⁿ`, and any base at least `3` serves): the `(e_n)`
+commute but are not orthogonal, and the recovery is inductive. Once `e₀, …, e_{n−1}` lie in
+`W*(a)`, so does `a_n = a − Σ_{k<n} 3⁻ᵏ e_k = 3⁻ⁿ e_n + Σ_{k>n} 3⁻ᵏ e_k`, whose values lie in
+`[3⁻ⁿ, 3⁻ⁿ · 3/2]` on the range of `e_n` and in `[0, 3⁻ⁿ/2]` on its kernel, so `e_n` is the spectral
+projection of `a_n` for `[3⁻ⁿ, ∞)` and lies in `W*(a)`. Equivalently, the condition makes the digit
+map `b ↦ Σ_n 3⁻ⁿ b_n` on `{0, 1}^ℕ` injective, its values being ordered lexicographically by their
+digits. Weights `2⁻ⁿ` fail, since `2⁻ⁿ = Σ_{k>n} 2⁻ᵏ`.
 
 The `L∞` comparison. Let `a` be a normal operator on `H` (of any cardinality), `P_a` its spectral
 projection-valued measure on `σ(a)` (SA-B30) and `W*(a)` the von Neumann algebra it generates. Prove
@@ -691,6 +698,13 @@ SelfAdjointSpectralTheory SA-B85–SA-B86 nor V4.0.Fields.
 - Single generator on `ℓ∞({0, 1, 2})`, the diagonal algebra of `ℂ³`: `a = e₀ + 3⁻¹ e₁ + 3⁻² e₂`
   has three distinct eigenvalues, so its spectral projections are `e₀, e₁, e₂` and `W*(a)` is the
   whole algebra; with equal weights, `a = 1` generates only `ℂ`.
+- Non-orthogonal generators on `L²[0,1]`: `e₀ = 1_{[0,1/2]}` and `e₁ = 1`, so `e₀ ≤ e₁`. Then
+  `a = e₀ + 3⁻¹ e₁` is multiplication by `4/3` on `[0, 1/2]` and by `1/3` on `(1/2, 1]`, so
+  `e₀ = P_a({4/3})` and `e₁ = P_a({1/3, 4/3})`, as the weight condition predicts.
+- Negative control for the weights: on `L∞({A, B})` with two atoms, `e₀ = 1_A` and `e_n = 1_B` for
+  every `n ≥ 1`. With weights `2⁻ⁿ`, `a = 1_A + (Σ_{n≥1} 2⁻ⁿ) 1_B = 1_A + 1_B = 1`, so `W*(a) = ℂ`
+  and `e₀` is not a spectral projection of `a`; with weights `3⁻ⁿ`, `a = 1_A + 2⁻¹ 1_B` has the two
+  distinct values `1` and `1/2`, `e₀ = P_a({1})` and `W*(a)` is the whole algebra.
 - `a = e₁₁` on `ℂ²`: `σ(a) = {0, 1}`, `P_a({0}) = e₂₂`, `P_a({1}) = e₁₁`, `μ = (δ₀ + δ₁)/2`, and
   `L∞(σ(a), μ) = ℂ² ≅ W*(a)` = the diagonal algebra; for `f = 1_{{0}}`, `‖f(a)‖ = ‖e₂₂‖ = 1` is the
   `μ`-essential supremum, whereas the non-equivalent measure `δ₁` would give essential supremum `0`.
@@ -702,22 +716,26 @@ SelfAdjointSpectralTheory SA-B85–SA-B86 nor V4.0.Fields.
   `P_a` would need `μ({t}) > 0` for uncountably many `t`, impossible for a finite measure.
 - `H = 0`: `σ(a) = ∅`, `μ = 0`, both algebras are `0`.
 
-Classification. Prove that for a nonatomic finite Borel measure `μ` on a compact `K ⊆ ℝ` the
-distribution function `θ(t) = μ(K ∩ (−∞, t])/μ(K)` pushes `μ/μ(K)` forward to Lebesgue measure `λ`
-on `[0,1]` and that `f ↦ f ∘ θ` is a star-algebra isomorphism `L∞([0,1], λ) → L∞(K, μ)` (`θ` is
-injective off a `μ`-null set, since its non-degenerate fibres are countably many `μ`-null
-intervals). Classify the abelian von Neumann algebras on separable `H` abstractly as `ℓ∞(K)` for a
-countable (possibly empty) set `K`, or `L∞([0,1], λ) ⊕ ℓ∞(K)` (Peterson, Theorem 2.8.9, pp. 38–39;
-Jones, p. 23): by the single self-adjoint generator and the comparison above, such an algebra is
+Classification. Prove that for a nonzero nonatomic finite Borel measure `μ` on a compact `K ⊆ ℝ`
+(so `μ(K) > 0`) the distribution function `θ(t) = μ(K ∩ (−∞, t])/μ(K)` pushes `μ/μ(K)` forward to
+Lebesgue measure `λ` on `[0,1]` and that `f ↦ f ∘ θ` is a star-algebra isomorphism
+`L∞([0,1], λ) → L∞(K, μ)` (`θ` is injective off a `μ`-null set, since its non-degenerate fibres are
+countably many `μ`-null intervals). Classify the abelian von Neumann algebras on separable `H`
+abstractly as `ℓ∞(K)` for a countable (possibly empty) set `K`, or `L∞([0,1], λ) ⊕ ℓ∞(K)`
+(Peterson, Theorem 2.8.9, pp. 38–39; Jones, p. 23): by the single self-adjoint generator and the
+comparison above, such an algebra is
 `L∞(σ(a), μ)`; split `μ` into its atomic and nonatomic parts, the atoms being the `t ∈ σ(a)` with
-`P_a({t}) ≠ 0`; normalise the nonatomic part and apply the isomorphism through `θ`. The zero algebra
-is `ℓ∞(∅)`.
+`P_a({t}) ≠ 0`; when the nonatomic part is nonzero, normalise it and apply the isomorphism through
+`θ`, and when it is zero the algebra is `ℓ∞(K)`. The zero algebra is `ℓ∞(∅)`.
 
 **Checks.**
 - The diagonal algebra of `ℂ³` is `ℓ∞({0, 1, 2})`; `L∞([0,1], λ)` on `L²[0,1]` has `K = ∅`;
   `L∞([0,1], λ) ⊕ ℂ` on `L²[0,1] ⊕ ℂ` has `K` a point; the zero algebra is `ℓ∞(∅)`.
 - `L∞([0,2], λ) ≅ L∞([0,1], λ)` through `θ(t) = t/2`: the nonatomic part has one isomorphism type,
   so the classification lists `L∞([0,1], λ)` once and `K` is determined by the atoms.
+- Negative control for `μ ≠ 0`: `μ = 0` on `K = [0, 1]` is nonatomic and finite, `θ` is `0/0`, and
+  `L∞(K, 0) = 0` while `L∞([0,1], λ) ≠ 0`, so no isomorphism `f ↦ f ∘ θ` exists; the classification
+  reaches this case through the atomic part alone, as `ℓ∞(∅)`.
 - `μ = (δ₀ + λ|_{[0,1]})/2` on `[0,1]`: one atom, `K` a point, nonatomic part `λ`; the algebra is
   `L∞([0,1], λ) ⊕ ℂ`.
 
