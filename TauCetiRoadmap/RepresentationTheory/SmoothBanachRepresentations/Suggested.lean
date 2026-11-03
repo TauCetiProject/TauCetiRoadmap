@@ -174,10 +174,10 @@ variable {A : Type*} [NormedRing A] [NormedAlgebra 𝕜 A] [NormedAlgebra ℝ A]
   [IsScalarTower ℝ 𝕜 A] [hCompleteA : CompleteSpace A]
 
 include hCompleteA in
-/-- Inverses of smooth units are smooth for a strong action by algebra
- automorphisms. Taking A to be a matrix Banach algebra gives every matrix level. -/
+/-- Inverses of smooth units are smooth for an action by algebra automorphisms;
+no orbit continuity is needed, since inversion is smooth on the units of a complete
+normed algebra. Taking A to be a matrix Banach algebra gives every matrix level. -/
 theorem smooth_inverse (π : ContRepresentation 𝕜 G A)
-    (hπ : HasContinuousOrbits π)
     (h1 : ∀ g : G, π g 1 = 1)
     (hmul : ∀ (g : G) (a b : A), π g (a * b) = π g a * π g b)
     (a : Aˣ) (ha : IsSmoothLieVector (I := I) π (a : A)) :
