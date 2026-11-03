@@ -136,8 +136,9 @@ theorem, `L`-functions, the Picard group, and the LMFDB layer.
 - From the [Kleinian-groups roadmap](../KleinianGroups/README.md): `H^3` as
   `{p : EuclideanSpace ℝ (Fin 3) // 0 < p 2}` with `height`, the `MeasureSpace` instance with
   `volume_def` (density `(p 2)⁻³`), the quaternionic action of `PSL(2, ℂ)` with `smul_def`,
-  `isometry_smul` and `SMulInvariantMeasure`, `bianchi F ι`, `isDiscrete_bianchi`, and
-  `covolume_bianchiGaussian : catalanConstant / 3`. Layer 7 builds on this carrier and adds no
+  `isometry_smul` and `SMulInvariantMeasure` (Layer 0); `bianchi F ι` and
+  `isDiscrete_bianchi` (Layer 3); and `covolume_bianchiGaussian : catalanConstant / 3`
+  (Layer 4, using Layer 1’s index law). Layer 7 builds on this carrier and adds no
   second half-space.
 - From the [Fuchsian-orbifolds roadmap](../FuchsianOrbifolds/README.md) and Tau Ceti: fundamental
   domains and covolume, cusp data with widths, horodiscs, the `q`-coordinate, finiteness of cusp
@@ -252,8 +253,10 @@ Each of these could go two ways; every milestone uses the choice made here.
   `⟨f, g⟩ = ∫_F f ḡ dμ`, conjugate-linear in the second slot, with no normalization by the
   covolume. The norm of a form is `‖f‖ = ⟨f, f⟩^{1/2}`. On `L²(N, χ)`, read as the `χ`-isotypic
   subspace of `L²(X_{Γ₁(N)}, μ_{Γ₁(N)})` (0.5), the Petersson product is
-  `[Γ̄₀(N) : Γ̄₁(N)]⁻¹` times the ambient product, the index of the images in `PSL(2, ℝ)`
-  (`1` for `N ≤ 2`, `φ(N)/2` for `N ≥ 3`).
+  `petersson N f g = D⁻¹ * inner ℂ ĝ f̂`, where f̂ and ĝ are their Γ₁(N)-quotient
+  classes and `D = [Γ̄₀(N) : Γ̄₁(N)]` is the positive index of the images in `PSL(2, ℝ)`
+  (`1` for `N ≤ 2`, `φ(N)/2` for `N ≥ 3`). The native product is conjugate-linear in
+  the first slot, so its arguments are reversed; the squared norms differ only by D.
 - **The Fourier expansion carries a factor two.** At the cusp `∞`, for `λ = 1/4 + r²`,
   `f(z) = 2 √y Σ_{n ≠ 0} a_f(n) K_{ir}(2π|n|y) e(nx)`, `e(x) = exp(2πix)`. This is the
   normalization of AutomorphicFormsOnReductiveGroups §4.5 and of Iwaniec's `W_s(z) = 2√y K_{s-1/2}(2πy) e(x)`,
@@ -324,7 +327,10 @@ Each of these could go two ways; every milestone uses the choice made here.
 - `LSeries`, `LSeriesSummable`, `LSeries.abscissaOfAbsConv`, Euler products for multiplicative
   coefficients, `Complex.Gammaℝ`, `Complex.Gamma`, `mellin`, `WeakFEPair`; `Complex.besselJ`
   (the function of the first kind, analytic on the slit plane) and `regularizedHGFun`.
-- `GaussianInt` for `ℤ[i]`, `Zsqrtd`, and the arithmetic of `ZMod`.
+- `GaussianInt` for `ℤ[i]`, `Zsqrtd`, and the arithmetic of `ZMod`;
+  `AddChar.sum_eq_zero_of_ne_one` and `AddChar.sum_eq_card_of_eq_one` for finite
+  additive-character sums (`Mathlib/NumberTheory/LegendreSymbol/AddCharacter.lean`,
+  lines 240 and 250).
 
 ### From Tau Ceti
 
@@ -381,7 +387,8 @@ The section-by-section contracts in Scope and ownership fix the quotient measure
 Laplacian from CongruenceSpectralGap §§0.1–0.2, compact cuspidal resolvent from §0.5b and
 spectral bound from §5.3; the cusp data from FuchsianOrbifolds; the newform and matrix
 conventions from ModularForms Layers 0 and 3–6; the card from LFunctions Layer 0; the H³
-carrier, action and Gaussian quotient from KleinianGroups Layers 0 and 3; PDE Lane E for
+carrier and action from KleinianGroups Layer 0, the Gaussian group from Layer 3 and its
+covolume from Layer 4, using Layer 1’s index law; PDE Lane E for
 elliptic regularity; SelfAdjointSpectralTheory Parts C–E for the resolvent and spectral
 projections; and OrthogonalL2Bases B2 for Hilbert-basis packaging.
 
@@ -518,7 +525,7 @@ Widths, multipliers, regularity, cusp integrals and constant terms.
 - At (x,y)=(2,0) and (0,−1), the native map has the same chosen value in ℍ, whose imaginary part is positive; it is neither the boundary point 2 nor −i. Dropping y>0 would falsely assert imaginary part 0 or −1.
 - At N=4, cusp 1/2 has width 4/gcd(4,4)=1, whereas cusp 0 has width 4; replacing c² by c would give width 2 at 1/2.
 - At N=9, choose the cubic character with χ(4)=e(1/3). Its conjugate has multiplier e(2/3) at 1/3; both are irregular, while at ∞ both multipliers are 1. Inverting the generator exchanges these two nonreal values.
-- At a regular cusp of width 4, g(x)=1+2e(x/4) has constant term 1 and full-period integral 4; omitting the width denominator gives 4 as the constant term.
+- At N=4, cusp 0 with trivial character has width 4: the local mode g(x)=1+2e(x/4) has one-width integral 4, constant term 1 and full-period integral 4. At N=12, cusp 1/3 with trivial character also has width 12/gcd(9,12)=4: the same local mode has one-width integral 4 and constant term 1, but full-period integral 12. Omitting the width denominator gives the wrong constant term 4; confusing width with level gives the wrong full-period integral at N=12.
 - For an automorphic cusp form f, every cusp integral of 2f is 2·0=0; adding the constant 1 at trivial character changes each integral from 0 to N and fails cuspidality.
 
 ### 0.5 Square-integrability, the Petersson inner product and `L²(N, χ)`
@@ -546,8 +553,12 @@ independence of the fundamental domain) that depends only on `d_γ mod N`. Defin
 orthogonal projection is `φ(N)⁻¹ Σ_{d ∈ (ℤ/Nℤ)ˣ} conj(χ(d)) ⟨d⟩`; the subspaces for distinct
 characters are orthogonal, `L²(N, χ) = 0` for odd `χ`, and `L²(X_{Γ₁(N)}, μ_{Γ₁(N)})` is their
 orthogonal sum over the Dirichlet characters modulo `N`; the classes of the measurable
-square-integrable elements of `A(N, χ)` are exactly `L²(N, χ)`, with the Petersson product of the
-pinned conventions; for even `χ`, restriction to a fundamental domain `F` of `Γ̄₀(N)` is an isometry
+square-integrable elements of `A(N, χ)` are exactly `L²(N, χ)`. For their classes f̂, ĝ prove
+`petersson N f g = D⁻¹ * inner ℂ ĝ f̂`, with positive D as in Conventions
+(`MeasureTheory.L2.inner_def`, `Mathlib/MeasureTheory/Function/L2Space.lean`, line 136;
+`inner_smul_left`, `Mathlib/Analysis/InnerProductSpace/Defs.lean`, line 251;
+CongruenceSpectralGap, Conventions). Thus the native Hilbert product for the Petersson norm
+is `D⁻¹ * inner ℂ f̂ ĝ = petersson N g f`; for even `χ`, restriction to a fundamental domain `F` of `Γ̄₀(N)` is an isometry
 of `L²(N, χ)` with its Petersson norm onto `Lp ℂ 2 (volume.restrict F)`; and pulling back along
 `X_{Γ₁(N)} → X_{Γ₀(N)}` identifies `L²(X_{Γ₀(N)}, μ_{Γ₀(N)})` with `L²(N, 1)`, multiplying squared
 norms by `[Γ̄₀(N) : Γ̄₁(N)]`.
@@ -566,7 +577,8 @@ The effective group, square-integrability, Petersson product and character Hilbe
 - For N = 1 the effective group has covolume π/3; the constant 1 has squared norm π/3 and the zero function has norm 0.
 - For N = 2 the covolume and squared norm of 1 are π. Multiplication by 2i multiplies squared norm by 4, giving 4π.
 - On a width-one cusp, √y has truncated squared integral log Y, whereas 1 has integral from 1 to infinity equal to 1; the former fails square-integrability.
-- In the first-slot-linear convention, ⟨i,1⟩ = i vol and ⟨1,i⟩ = −i vol. These distinguish conjugation and a covolume-normalized product.
+- At N=1 and trivial χ, `petersson 1 i 1 = iπ/3 = inner ℂ 1 i` and `petersson 1 1 i = −iπ/3 = inner ℂ i 1` on the quotient classes. The unswapped native products have the opposite signs, while both diagonal products at i are π/3.
+- At N=5 and trivial χ, the Γ₀ area is 2π and D=2: the native Γ₁ products `inner ℂ 1 i` and `inner ℂ i 1` are 4πi and −4πi, giving Petersson values 2πi and −2πi after division by D; the diagonal at i is 2π.
 - The trivial-character projector fixes 1; a nontrivial character projector sends 1 to 0. At N = 3 the odd-character projector is zero because the effective diamond action of −1 is the identity.
 - At N = 5 the effective covering degree is 2: pulling back a function doubles its squared quotient norm, while rescaling by 1/√2 restores the norm.
 - In the effective group at N=1, the images of I and −I agree and fix i, while the image of T sends i to 1+i. Quotienting by all of SL₂(ℤ), or retaining its central kernel, fails one of these two tests.
@@ -838,7 +850,13 @@ This is a reducing-subspace adaptation of CongruenceSpectralGap §0.2, “Positi
 Laplacian”, with the finite character projector of §3.1: it preserves the maximal domain
 and commutes with Δ, hence with (Δ±i)⁻¹. Restricting those inverses to its closed range
 gives both resolvent inverses there and therefore self-adjointness; positivity and the
-kernel are restrictions of the supplied energy and constant kernel. Closedness and density
+kernel are restrictions of the supplied energy and constant kernel. With f̂, ĝ the quotient
+classes and D as in §0.5, the form comparison is
+`petersson N (Δf) g = D⁻¹ * inner ℂ ĝ (Δ_{N,χ} f̂)` on the operator domain; equivalently
+it is D⁻¹ times the supplied closed form q(ĝ,f̂). Reversing both arguments and
+rescaling by positive D preserves adjoints, orthogonality and nonnegativity, so the
+operator uses the native Hilbert convention while the displayed Petersson pairing
+remains first-slot linear. Closedness and density
 then use `IsSelfAdjoint.isClosed` and `IsSelfAdjoint.dense_domain`
 (`Mathlib/Analysis/InnerProductSpace/LinearPMap.lean`, lines 340 and 241).
 *Needs:* 3.1, 0.5; CongruenceSpectralGap §0.2; Mathlib's `LinearPMap`.
@@ -851,6 +869,7 @@ The restricted operator.
 - For χ = 1, Δ1 = 0 and the kernel contains the constants.
 - For χ ≠ 1 choose d with χ(d) ≠ 1; a constant c must satisfy (1−χ(d))c = 0, hence c = 0.
 - For odd χ the Hilbert space is zero; no positive first eigenvalue is asserted on it.
+- In the domain model Δ=diag(0,2), f=(0,i), g=(0,1), D=1, the Petersson value of (Δf,g) is 2i, equal to `inner ℂ g (Δf)` and q(g,f); the unswapped native value is −2i. The diagonal energy is 2 in both conventions.
 - In the finite-dimensional model Δ=diag(0,2), P=diag(1,0), the restricted operator is 0 and its (Δ+i)⁻¹ is −i, the restriction of diag(−i,(2−i)/5); the complementary restriction is 2. This tests reduction of the domain and resolvent as well as the kernel.
 
 
@@ -1534,7 +1553,7 @@ CongruenceSpectralGap §0.2 (Friedrichs closure of the energy on compactly suppo
 functions, essential self-adjointness by cutoffs) and §0.5b (the cusp Fourier tail estimate and
 local Rellich compactness) transcribed to `H³` (the cusp region is `{x ∈ ℂ/ℤ[i], y > Y}` with volume
 `∫_Y^∞ y^{-3} dy < ∞`), hence the discreteness and finite multiplicity of the cuspidal spectrum.
-*Needs:* 7.1; KleinianGroups Layers 1 and 3 (`covolume_bianchiGaussian`); SelfAdjointSpectralTheory
+*Needs:* 7.1; KleinianGroups Layer 1 (quotient and index law), Layer 3 (Gaussian group) and Layer 4 (`covolume_bianchiGaussian`); SelfAdjointSpectralTheory
 Parts C–E; PDE Lane E; Tau Ceti's `RellichKondrachov`; CongruenceSpectralGap §§0.2 and 0.5b as the
 template.
 
@@ -1600,22 +1619,53 @@ matrices `[a, b; 0, d]` are a set of representatives of the left cosets
 `Γ \ {α ∈ M₂(ℤ[i]) : det α = n}`, two representatives differing by `diag(ε, ε⁻¹) ∈ Γ` giving the
 same coset). Prove `T_n` depends on `n` only up to sign (`T_{-n} = T_n`, since
 `x ↦ -x` is in `Γ`), `T_{in} = R T_n = T_n R`, that `T_n` preserves `M₃(λ)` and `S₃(λ)`, the coefficient
-formula `a_{T_n f}(ν) = Σ_{a ∣ (n, ν) mod units} a_f(ν n/a²)` (well defined by `a_f(-m) = a_f(m)`), the
+formula `a_{T_n f}(ν) = Σ_{a ∣ (n, ν) mod units} a_f(ν n/a²)` for ν≠0 (well defined by `a_f(-m) = a_f(m)`), the
 relations `T_m T_n = Σ_{d ∣ (m, n) mod units} T_{mn/d²}` for `m, n` with `T_m, T_n` both depending
 only on the ideals when restricted to the `R`-even subspace, self-adjointness of `T_n` on
 `R`-even forms, and simultaneous diagonalization on each finite-dimensional `S₃(λ)^{R = 1}`. On an
 `R`-even Hecke eigenform with `a_f(1) = 1` define `λ_f(𝔫) := a_f(n)` for `𝔫 = (n)`, prove
 `T_n f = λ_f((n)) f`, multiplicativity over ideals, and `λ_f((n)) λ_f((m)) = Σ_{𝔡 ∣ (m, n)} λ_f((mn)/𝔡²)`.
-*Needs:* 7.2, 7.3; the Euclidean algorithm in `GaussianInt`.
+
+The element-indexed operator, its self-adjointness, commutativity, product law and
+simultaneous eigenfunctions are the unnumbered Hecke formulas in Then,
+*Arithmetic quantum chaos of Maass waveforms*, arXiv:math-ph/0305048v2, §5, p.24
+(then-arithmetic-quantum-chaos line 798, line 805, line 818 and line 825).
+Then chooses d in `Re d > 0, Im d ≥ 0`, one representative modulo all four units;
+this is the same divisor choice as the sum above, with `1/|n| = N(n)⁻¹ᐟ²`.
+His §3, (1), p.10 uses exactly `e(Re(βx))` and `y K_{ir}`, so no conjugation
+of the frequency or factor-two rescaling is needed. His scalar product on p.10
+is conjugate-linear first; reverse its arguments for our Petersson convention,
+which preserves the adjoint identity. Ideal indexing is taken only after imposing
+R=1; the element-indexed operator at i is R, not the identity on the full space.
+
+For the coefficient formula, substitute §7.3’s expansion into the triangular sum:
+the sum of `e(Re(βb/d))` over b modulo d is N(d) if d divides β and zero otherwise.
+Writing β=dη gives output frequency ν=aη and input index β=νn/a²; the height
+and normalization multiply to `N(d) * (|a|/|d|) / |n| = 1` because ad=n≠0.
+This derives the displayed coefficient law from Then’s §3, (1), p.10 and §5’s
+operator formula, p.24 (then-arithmetic-quantum-chaos line 320 and line 798),
+with the unit independence supplied by a(−ν)=a(ν). The adjoint can also be read
+from invariant-measure change of variables: the inverse of α/√n is
+adj(α)/√n, and adjugation permutes the integral determinant-n correspondences.
+The commuting self-adjoint restrictions on the finite-dimensional R-even cusp
+eigenspace then admit a joint orthonormal basis by
+`LinearMap.IsSymmetric.iSup_iInf_eq_top_of_commute`.
+*Needs:* 7.2 (invariant quotient measure and finite-dimensional cusp eigenspaces),
+7.3 (Fourier expansion and coefficient uniqueness); the Euclidean domain structure
+of `GaussianInt`; Mathlib’s `AddChar.sum_eq_zero_of_ne_one`,
+`AddChar.sum_eq_card_of_eq_one` and
+`LinearMap.IsSymmetric.iSup_iInf_eq_top_of_commute`.
 
 
 Gaussian symmetries and Hecke operators.
 
 **Checks.**
 
-- At n=1, T₁=Id and T_i=R: on the R-even and R-odd spaces these have eigenvalues +1 and −1, respectively.
+- At n=1, T₁=Id on both R-parities, while T_i=R has eigenvalues +1 on the R-even space and −1 on the R-odd space.
 - R² sends x to −x, an element of the Picard action; hence R²=Id on invariant functions.
 - Changing a divisor a by i changes νn/a² by a sign, which leaves the coefficient unchanged. Ideal indexing of T_n itself requires R=+1.
+- For d=1+i the residue representatives 0,1 give character sum 1+e(Re(1/(1+i)))=1−1=0 at β=1, but 1+1=2=N(d) at β=d. For a=1 the normalization and height factor is 2/(√2·√2)=1; missing either factor changes the coefficient law.
+- At m=n=1+i the product law has two terms, `T_(2i) + T_1`; its coefficient at ν=1 is a(2i)+a(1). At m=n=i it gives `T_(-1)=Id=R²`, whereas T_i itself remains −Id on R-odd forms.
 - On local test functions invariant under x↦−x, x₁²+x₂² has (R,J) signs (+1,+1), x₁²−x₂² has (−1,+1), and x₁x₂ has (−1,−1). The polynomial x₁x₂(x₁²−x₂²) has (+1,−1); thus neither involution can be replaced by the other or by the identity. These are coordinate tests, not claims of Picard automorphy.
 
 
@@ -1667,7 +1717,7 @@ The constant Picard form has complementary parameter 1; the R-odd unit Hecke ope
 
 ### Dependencies
 
-KleinianGroups Layers 0 and 3; Layer 2; Fourier analysis in two variables; PDE Lane E and SelfAdjointSpectralTheory Parts C–E; LFunctions Layer 0.
+KleinianGroups Layers 0–1, 3 and 4; Layer 2; Fourier analysis in two variables; PDE Lane E and SelfAdjointSpectralTheory Parts C–E; LFunctions Layer 0.
 
 ## Layer 8: the LMFDB layer
 
@@ -1880,7 +1930,7 @@ Layer 4 (Hecke, reflection, Atkin–Lehner, newforms)    → Layers 1–3, Hecke
 Layer 5.3–5.4 (3/16, level one)                        → 0.4, 0.5, 1.1, 2.3, 2.4; CongruenceSpectralGap §5.3
 Layer 5.5 (scattering matrix, Weyl's law)              → 3.4, §§1.23/4.8, AutomorphicSpectralTheory L6
 Layer 6 (L-functions)                                  → 4.6, 2.1 (v), 2.4; LFunctions L0
-Layer 7 (Picard group)                                 → KleinianGroups L0/L3, 2.1, templates of Layers 1–4, 6 and CongruenceSpectralGap §§0.2, 0.5b
+Layer 7 (Picard group)                                 → KleinianGroups L0/L1/L3/L4, 2.1, templates of Layers 1–4, 6 and CongruenceSpectralGap §§0.2, 0.5b
 Layer 8 (LMFDB layer, certificates)                    → Layers 1–6
 ```
 
@@ -1938,6 +1988,10 @@ waits only for 4.6. Nothing waits on Mathlib.
   5.4.
 - A. Selberg, *On the estimation of Fourier coefficients of modular forms*, Proc. Sympos. Pure
   Math. 8 (1965), 1–15: the `3/16` theorem, 5.3.
+- H. Then, *Arithmetic quantum chaos of Maass waveforms*, arXiv:math-ph/0305048v2
+  (2004), §3, (1), p.10 (Fourier and inner-product conventions), and §5, p.24
+  (unnumbered element-indexed Hecke operator, adjoint, product and eigenvalue formulas),
+  for §7.4; cited numbering is that of this arXiv version.
 - A. Seymour-Howell, *Rigorous computation of Maass cusp forms of squarefree level*, Res. Number
   Theory 8 (2022), art. 83 (arXiv:2201.08760v2), the source the LMFDB's `rcs.source.maass_rigor` knowl
   cites for the rigorous table; the certificate semantics of 8.3.
