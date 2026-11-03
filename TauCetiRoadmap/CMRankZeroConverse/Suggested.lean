@@ -12,12 +12,13 @@ public import TauCeti.FieldTheory.SquareClassGroup.Basic
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's
 headline theorems that can be expressed against the pinned APIs.
 
-The signatures below state the three congruent-number density theorems,
-CM twist nonvanishing and non-descending nonvanishing. Entire continuation is
+The signatures below state unrestricted rational analytic-order doubling, the
+three congruent-number density theorems, CM twist nonvanishing, the quantitative
+descent count and non-descending nonvanishing. Entire continuation is
 specified by agreement with the native elliptic L-series on Re(s) > 3/2;
 uniqueness makes its value the arithmetic L-value. The remaining end theorems
 are not statable at the pins:
-* The conditional rational Kato converse (§3.2) and the all-prime CM newform
+* The central Kato basis theorem (§2.3), the conditional rational Kato converse (§3.2) and the all-prime CM newform
   converse (§3.3) need modular Galois realizations, the Bloch–Kato Selmer
   carrier, and the actual zeta morphism with its Iwasawa complex; §3.3 also
   needs the CM-newform predicate. The arithmetic newform L-function and its
@@ -45,6 +46,26 @@ def ellipticLNonvanishingAtOne {K : Type*} [Field K] [NumberField K]
     (W : WeierstrassCurve K) : Prop :=
   ∃ F : ℂ → ℂ, Differentiable ℂ F ∧
     (∀ s : ℂ, 3 / 2 < s.re → F s = W.LSeries s) ∧ F 1 ≠ 0
+
+/-! ## Layer 4: CM elliptic curves and rational descent -/
+
+/-- For a rational elliptic curve with CM defined over an imaginary quadratic
+field, base change doubles the finite central analytic order, without a rank
+bound (BT, proof of Theorem 1.1). Both entire functions continue the actual
+elliptic L-series; their product identity is a conclusion of CM theory. -/
+theorem cm_analyticOrder_baseChange
+    {K : Type*} [Field K] [NumberField K] [IsTotallyComplex K]
+    (hK : Module.finrank ℚ K = 2)
+    (A : WeierstrassCurve ℚ) [A.IsElliptic]
+    (hCM : ¬ Function.Surjective (Int.castRingHom
+      (TauCeti.Isogeny.Hom (A.map (algebraMap ℚ K)).toAffine
+        (A.map (algebraMap ℚ K)).toAffine)))
+    (F G : ℂ → ℂ) (hF : Differentiable ℂ F) (hG : Differentiable ℂ G)
+    (hFA : ∀ s : ℂ, 3 / 2 < s.re → F s = A.LSeries s)
+    (hGA : ∀ s : ℂ, 3 / 2 < s.re →
+      G s = (A.map (algebraMap ℚ K)).LSeries s) :
+    analyticOrderNatAt G 1 = 2 * analyticOrderNatAt F 1 := by
+  sorry
 
 /-! ## Layer 5: Congruent-number twists and even Goldfeld -/
 
@@ -130,6 +151,20 @@ def descendsToRat {K : Type*} [Field K] [Algebra ℚ K]
   ∃ E : WeierstrassCurve ℚ, E.IsElliptic ∧
     ∃ C : WeierstrassCurve.VariableChange K,
       C • E.map (algebraMap ℚ K) = W
+
+/-- For every elliptic curve over an imaginary quadratic field, the number of
+quadratic twists descending to ℚ with odd-support height below X is bounded by
+C√X for a fixed positive C. This bound needs neither CM nor a condition at three. -/
+theorem descendingTwists_count_le_sqrt
+    {K : Type*} [Field K] [NumberField K] [IsTotallyComplex K]
+    (hK : Module.finrank ℚ K = 2)
+    (A : WeierstrassCurve K) [A.IsElliptic] :
+    ∃ C : ℝ, 0 < C ∧ ∀ᶠ X : ℝ in atTop,
+      ({c : TauCeti.SquareClassGroup K | (squareclassHeight c : ℝ) < X ∧
+        descendsToRat
+          (A.quadraticTwistOf 0 (-((Additive.toMul c.out : Kˣ) : K)))}.ncard : ℝ)
+        ≤ C * Real.sqrt X := by
+  sorry
 
 /-- Under the CM twist hypotheses, non-descending twists with nonzero central
 L-value have lower proportion at least one half among all squareclasses. -/
