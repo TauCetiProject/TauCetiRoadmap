@@ -1464,7 +1464,7 @@ the arithmetic normalization of Layer 6, under which a uniformizer maps to an ar
 on the maximal unramified subextension. The absolute form follows: for every `n ≥ 0`, the closure
 of `artinMap(U_K^(n))` in `G_K^ab` is the image of the absolute upper group `G_K^n`.
 The absolute upper ramification subgroup absoluteUpperRamificationGroup is supplied by
-LocalFieldsRamification §4a.1 for complete discretely valued fields with perfect residue field,
+RamificationOfCompleteDiscretelyValuedFields §4a.1 for complete discretely valued fields with perfect residue field,
 specialized here to nonarchimedean local fields. That prerequisite supplies closedness, normality,
 antitonicity, surjection onto every finite upper group, and the endpoints `G_K^(−1) = G_K` and
 `G_K^0 = I_K`, with native inertia. The absolute comparison takes the image of this subgroup
@@ -1534,7 +1534,7 @@ The two general filtered-norm targets give `N_(M/K)(U_M^(s)) = U_K^(n)` and
 `Art_(L/K)(U_K^(n)) = H`, including `H = G`, `H = 1` and `n = 0`.
 
 For the absolute form, restrict to every finite abelian quotient using `artinMap_restrict`.
-The finite-level surjections supplied by LocalFieldsRamification §4a.1 identify the image of the
+The finite-level surjections supplied by RamificationOfCompleteDiscretelyValuedFields §4a.1 identify the image of the
 absolute upper group with the finite upper group at each depth. Its image in `G_K^ab` is compact,
 hence closed, so agreement in all finite abelian quotients identifies it with the closure of the
 Artin image. The conductor statements follow from the least-depth definition of
@@ -1545,7 +1545,7 @@ reciprocity, the norm kernel and unramified normalization); `artinMap_restrict` 
 LocalFieldsRamification Layer 3 (unit filtration, norm valuation formula, unramified filtered-norm
 surjectivity, Herbrand quotient and subgroup formulae, tower transitivity, integral inverse
 Herbrand depths, shifted norm inclusion, prime-degree graded norms and Hasse–Arf); the two general
-abelian filtered-norm targets above; LocalFieldsRamification §4a.1 (the canonical absolute upper
+abelian filtered-norm targets above; RamificationOfCompleteDiscretelyValuedFields §4a.1 (the canonical absolute upper
 filtration, closedness, finite-level surjections and inertia endpoint); Mathlib compactness for
 the absolute Artin-image comparison.
 
