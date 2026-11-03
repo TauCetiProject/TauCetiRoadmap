@@ -716,10 +716,10 @@ SelfAdjointSpectralTheory SA-B85–SA-B86 nor V4.0.Fields.
   `P_a` would need `μ({t}) > 0` for uncountably many `t`, impossible for a finite measure.
 - `H = 0`: `σ(a) = ∅`, `μ = 0`, both algebras are `0`.
 
-Classification. Prove that for a nonzero nonatomic finite Borel measure `μ` on a compact `K ⊆ ℝ`
-(so `μ(K) > 0`) the distribution function `θ(t) = μ(K ∩ (−∞, t])/μ(K)` pushes `μ/μ(K)` forward to
+Classification. Prove that for a nonzero nonatomic finite Borel measure `μ` on a compact `X ⊆ ℝ`
+(so `μ(X) > 0`) the distribution function `θ(t) = μ(X ∩ (−∞, t])/μ(X)` pushes `μ/μ(X)` forward to
 Lebesgue measure `λ` on `[0,1]` and that `f ↦ f ∘ θ` is a star-algebra isomorphism
-`L∞([0,1], λ) → L∞(K, μ)` (`θ` is injective off a `μ`-null set, since its non-degenerate fibres are
+`L∞([0,1], λ) → L∞(X, μ)` (`θ` is injective off a `μ`-null set, since its non-degenerate fibres are
 countably many `μ`-null intervals). Classify the abelian von Neumann algebras on separable `H`
 abstractly as `ℓ∞(K)` for a countable (possibly empty) set `K`, or `L∞([0,1], λ) ⊕ ℓ∞(K)`
 (Peterson, Theorem 2.8.9, pp. 38–39; Jones, p. 23): by the single self-adjoint generator and the
@@ -733,8 +733,8 @@ comparison above, such an algebra is
   `L∞([0,1], λ) ⊕ ℂ` on `L²[0,1] ⊕ ℂ` has `K` a point; the zero algebra is `ℓ∞(∅)`.
 - `L∞([0,2], λ) ≅ L∞([0,1], λ)` through `θ(t) = t/2`: the nonatomic part has one isomorphism type,
   so the classification lists `L∞([0,1], λ)` once and `K` is determined by the atoms.
-- Negative control for `μ ≠ 0`: `μ = 0` on `K = [0, 1]` is nonatomic and finite, `θ` is `0/0`, and
-  `L∞(K, 0) = 0` while `L∞([0,1], λ) ≠ 0`, so no isomorphism `f ↦ f ∘ θ` exists; the classification
+- Negative control for `μ ≠ 0`: `μ = 0` on `X = [0, 1]` is nonatomic and finite, `θ` is `0/0`, and
+  `L∞(X, 0) = 0` while `L∞([0,1], λ) ≠ 0`, so no isomorphism `f ↦ f ∘ θ` exists; the classification
   reaches this case through the atomic part alone, as `ℓ∞(∅)`.
 - `μ = (δ₀ + λ|_{[0,1]})/2` on `[0,1]`: one atom, `K` a point, nonatomic part `λ`; the algebra is
   `L∞([0,1], λ) ⊕ ℂ`.
