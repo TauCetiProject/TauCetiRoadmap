@@ -18,7 +18,7 @@ Ownership is by mathematical object:
 
 - SchemeAndStackFoundations §0.7 and EtaleCohomologyFoundations §F.8 supply finite-type field dimension and middle perversity. Section 5.1 develops étale dimension functions on general locally noetherian schemes. Section 6.5 supplies a t-structure for every monotone perversity on a noetherian scheme; EtaleDualityAndPerverseSheaves §2.11 states only the finite-type-field nonconstructible conditions.
 
-- ArcTopologyAndDescent §§3.6, 8.3, 8.6–8.9, 11.1–11.2, 11.5 and 12.6 own valuation-product components, henselian completion, formal glueing and complete arc descent; §11.2 also owns the splitting of every étale cover of a quasi-compact open in the spectrum of a product of valuation rings with algebraically closed fraction fields. PerfectoidQuotients §§0.4–0.6 own integral perfectoid operations and p-integral closure. PerfectoidQuotientsPartII §§Q5.1–Q5.3, Q6.2 and Q6.3–Q6.7 own the integral multiplicative tilt, product tilts, sharp quotients, completeness transfer under tilting and valuation tilting. Section 8.2 adds the multiplicative identification after inverting ϖ; §8.4 uses the supplied product objects and split-cover theorem to compare their cohomology.
+- ArcTopologyAndDescent §1.3 owns the h-site of finitely presented schemes over a qcqs base; §3.3 here constructs the h-oriented diagram site in the ambient category of all schemes, with proper surjective and Zariski generators as in ILO-final-XII §2.1. ArcTopologyAndDescent §§3.6, 8.6–8.9, 11.1–11.2, 11.5 and 12.6 own valuation-product components, henselian completion, formal glueing and complete arc descent; §11.2 also owns the splitting of every étale cover of a quasi-compact open in the spectrum of a product of valuation rings with algebraically closed fraction fields. PerfectoidQuotients §§0.4–0.6 own integral perfectoid operations and p-integral closure. PerfectoidQuotientsPartII §§Q5.1–Q5.3, Q6.2 and Q6.3–Q6.7 own the integral multiplicative tilt, product tilts, sharp quotients, completeness transfer under tilting and valuation tilting. Section 8.2 adds the multiplicative identification after inverting ϖ; §8.4 uses the supplied product objects and split-cover theorem to compare their cohomology.
 
 Flat cohomology, virtual dimension and finite flat group schemes belong to PurityForFlatCohomology; there is no dependency on that consumer.
 
@@ -65,11 +65,11 @@ The mixed-characteristic signature also uses `Algebra.IsEtaleAt` in `Mathlib.Rin
 
 Sections 0.12–0.14 supply henselian pairs, their henselizations, finite étale invariance and Elkik's lifting of sections of smooth algebras. The finite-algebra completion contract below also includes Elkik's algebraization of finite algebras étale away from the ideal. Section 0.15 supplies Néron–Popescu for regular noetherian ring maps; §§0.16, 0.20–0.21 supply universal catenarity, finite normalization in the Nagata domain and excellent/quasi-excellent permanence under finite type and localization. Section 2.11 supplies the Artin–Schreier sequence used by the characteristic-primary negative control in Layer 4; §§2.12, 2.15–2.16 supply Nisnevich covers, torsion étale continuity, Hochschild–Serre and proper hypercover descent. Sections 4.16–4.20 supply alterations, snc divisors, ordinary nodal families and semistable alterations over traits. No purity theorem is inferred from the word “regular.”
 
-The henselian quasi-excellence and universal catenarity contract at §0.21 includes the following: for every quasi-excellent noetherian local ring A, prove that its henselization and strict henselization are quasi-excellent, and that every henselian quasi-excellent local ring is universally catenary, hence excellent, with no reducedness, normality or finiteness assumption on A.
+What SchemeAndStackFoundations must provide (gap:henselian-quasi-excellent-catenary): at §0.21, for every quasi-excellent noetherian local ring A, prove that its henselization and strict henselization are quasi-excellent, and that every henselian quasi-excellent local ring is universally catenary, hence excellent, with no reducedness, normality or finiteness assumption on A.
 
 The sources are ILO14, I Théorème 8.1(iii)–(iv) and the paragraph after it, p. 16 (printed), for henselization and strict henselization (ILO14 line 850), and I Corollaire 6.3(ii), p. 14, with XIV Proposition 1.3.2, p. 209, for catenarity (ILO14 lines 768, 9860). Sections 0.6–0.7, 5.1–5.2, 5.4, 5.6 and 6.1 consume it, wherever a quasi-excellent or excellent scheme is replaced by a henselization or strict henselization; Nagata's catenary, not universally catenary local domain shows that quasi-excellence, not catenarity alone, is what the second clause uses.
 
-The finite-algebra completion contract at §0.14 includes the following: for every noetherian henselian pair (A, I), base change to the I-adic completion Â is an equivalence of categories, on objects and on morphisms, from finite A-algebras étale over Spec A ∖ V(I) to finite Â-algebras étale over Spec Â ∖ V(IÂ).
+What SchemeAndStackFoundations must provide (gap:elkik-finite-algebra-completion): at §0.14, for every noetherian henselian pair (A, I), base change to the I-adic completion Â is an equivalence of categories, on objects and on morphisms, from finite A-algebras étale over Spec A ∖ V(I) to finite Â-algebras étale over Spec Â ∖ V(IÂ).
 
 This is Elkik's algebraization theorem as stated in ILO14, V Théorème 1.2.4, p. 64 (printed); ILO14 line 2877. Section 1.6 consumes its essential surjectivity along a Weierstrass polynomial, and §1.7 also its full faithfulness, to descend a finite-group action. The smooth lifting of §0.14 does not give it: for A the henselization of k[t] at t, I = (t) and char k ≠ 2, the finite Â-algebra k⟦t⟧[z]/(z² − t) is étale away from t but not smooth at its closed point; the equivalence descends it to A[z]/(z² − t) and descends the involution z ↦ −z. Without henselianity it fails: for k[t]_(t) with char k ≠ 2, the connected finite étale algebra k[t]_(t)[z]/(z² − 1 − t) completes to k⟦t⟧ × k⟦t⟧, which has four idempotents instead of two.
 
@@ -81,7 +81,7 @@ Sections 6.0–6.1 supply polynomial Artin approximation for henselian noetheria
 
 Section 1.10 supplies strict Cohen rings, truncated formal smoothness and compatible coefficient maps into complete local targets with specified residue map. No perfection or finiteness of the residue field is assumed. The compatible lift can have kernel when the target has p-torsion.
 
-The equicharacteristic coefficient-field contract at §1.10 includes the following: for every complete noetherian equicharacteristic local ring and every chosen lift of a p-basis of its residue field in positive characteristic, provide the compatible coefficient-field section and Cohen power-series presentation, without perfection or finiteness assumptions on that residue field (ILO14, IV 2.1.4, p. 50; ILO14 line 2292).
+What DeformationAndDerivedPatchingAlgebra must provide (gap:equicharacteristic-cohen-coefficients): at §1.10, for every complete noetherian equicharacteristic local ring and every chosen lift of a p-basis of its residue field in positive characteristic, provide the compatible coefficient-field section and Cohen power-series presentation, without perfection or finiteness assumptions on that residue field (ILO14, IV 2.1.4, p. 50; ILO14 line 2292).
 
 ### From TauCetiRoadmap.AdicCoefficientsAndComparisonsPartII
 
@@ -99,7 +99,7 @@ Sections 0.1–0.4 supply the enhancement of derived sheaves of modules on ringe
 
 Sections F.0.1–F.0.3, F.1 and 0.7 supply constructible sheaves and complexes, Tate twists and both localization triangles. Sections F.2.1–F.2.2 supply proper base change for torsion coefficients and smooth base change for invertible torsion. Section F.3 supplies proper constructibility, finite-type field/excellent-trait finiteness and affine Artin vanishing. Sections F.5–F.6 supply exceptional inverse image, smooth purity, Gysin maps and fundamental classes. Section F.8 supplies the finite-type-field middle perverse t-structure.
 
-The general-base generic-constructibility contract at §F.3 includes the following: for a finite-type morphism of finite-type schemes over a noetherian base S and a constructible ℤ/n-sheaf with n invertible on S, provide a dense open V of S over which all higher direct images are constructible, eventually zero and compatible with every base change to V, without a properness assumption.
+What EtaleCohomologyFoundations must provide (gap:generic-constructibility-noetherian): at §F.3, for a finite-type morphism of finite-type schemes over a noetherian base S and a constructible ℤ/n-sheaf with n invertible on S, provide a dense open V of S over which all higher direct images are constructible, eventually zero and compatible with every base change to V, without a properness assumption.
 
 This is the generic-base statement of SGA4half [Th. finitude] 1.9(i)–(ii), p. 236, proof §2, pp. 238–241; SGA4half line 7774. In §4.1 the base is a test closed subscheme Z and the maps Z_p → Z are not necessarily proper.
 
@@ -113,13 +113,13 @@ Sections 0.1–0.2 supply self-injective finite-coefficient duality, finite-modu
 
 Sections 0.2–0.5 supply the trait-oriented product and its Milnor-tube stalk formula. Section 0.10 supplies the fundamental-class isomorphism i^!Λ ≅ Λ(−c)[−2c] for regular closed immersions of regular noetherian schemes with c pure codimension and n invertible. For an snc complement it supplies R¹j_*Λ as the sum of boundary Tate lines and R^qj_*Λ as its q-th exterior power. The local closed-point statement applies without excellence. Its sheafified form is concentrated in degree 2c; ordinary support cohomology can have higher terms from residue-field cohomology. A strict trait has H²_s(Λ(1)) = Λ and a strict regular surface has H⁴_s(Λ(2)) = Λ, fixing the same normalization as Layer 6.
 
-The trait affine-Lefschetz contract at §6.2 includes the following: for a trait S with δ_S(η) = 1 and δ_S(s) = 0, a finite-type S-scheme X, an affine finite-type f : Y → X, n invertible on S and a constructible ℤ/n-sheaf F on Y, prove δ_X(R^q f_*F) ≤ f^*δ_X(F) − q for every q, with δ_X induced from δ_S, independently of quasi-excellent affine Lefschetz.
+What LefschetzPencilsAndVanishingCycles must provide (gap:ILLUSIE-2003): at §6.2, for a trait S with δ_S(η) = 1 and δ_S(s) = 0, a finite-type S-scheme X, an affine finite-type f : Y → X, n invertible on S and a constructible ℤ/n-sheaf F on Y, prove δ_X(R^q f_*F) ≤ f^*δ_X(F) − q for every q, with δ_X induced from δ_S, independently of quasi-excellent affine Lefschetz.
 
 The source is Ill03, Théorème 2.4 (cited through ILO14), as recalled in ILO14, XV 1.1.3 and 3.3.2, pp. 219, 224; ILO14 lines 10337, 10557. Section 6.2 supplies the trait-perversity setting; the additional contract here is the independent affine support bound itself.
 
 ### From TauCetiRoadmap.ArcTopologyAndDescent
 
-Section 3.6 supplies ultraproduct components of products of valuation rings, with no rank bound on the components. Sections 8.3 and 8.6–8.9 supply henselian rigidity, formal glueing and completion comparison for torsion étale cohomology, including support complexes. Sections 11.1–11.2 and 11.5 supply the I-complete arc topology, the product-of-complete-aic-valuations basis and complete/punctured étale hyperdescent for finitely generated I. In particular, §11.2 supplies that every étale cover of a quasi-compact open in the spectrum of a product of valuation rings with algebraically closed fraction fields has a section; this input needs neither perfectoidness nor a rank bound on the ultraproduct components (CS24, Lemma 2.2.4, pp. 19–20; CS24 lines 774–797). Section 12.6 supplies invariance of these covering conditions under tilting. In Layer 7 completion comparison is applied to cohomology with closed support before reducing to complete regular local rings; it is not an unrestricted assertion about every principal open of a merely local ring.
+Section 3.6 supplies ultraproduct components of products of valuation rings, with no rank bound on the components. Section 8.6 supplies formal glueing, §8.7 the rigidity predicate and its API for henselian pairs, §8.8 punctured completion for rigid arc-sheaves, and §8.9 bounded-torsion and closed-support completion comparisons for étale cohomology. Sections 11.1–11.2 and 11.5 supply the I-complete arc topology, the product-of-complete-aic-valuations basis and complete/punctured étale hyperdescent for finitely generated I. In particular, §11.2 supplies that every étale cover of a quasi-compact open in the spectrum of a product of valuation rings with algebraically closed fraction fields has a section; this input needs neither perfectoidness nor a rank bound on the ultraproduct components (CS24, Lemma 2.2.4, pp. 19–20; CS24 lines 774–797). Section 12.6 supplies invariance of these covering conditions under tilting. In Layer 7 completion comparison is applied to cohomology with closed support before reducing to complete regular local rings; it is not an unrestricted assertion about every principal open of a merely local ring.
 
 ### From TauCetiRoadmap.ClassicalAdicEtaleCohomology
 
@@ -233,11 +233,11 @@ A proof route is as follows. Étale case: an ℓ′-decomposed étale covering i
 
 ### 0.4 Valuative characterisation of alteration coverings
 
-Let X be noetherian and Y → X an object of alt/X. Then Y → X is a covering for the alteration topology if and only if every maximally dominant morphism Spec V → X, with V a valuation ring whose fraction field is algebraically closed, lifts to a morphism Spec V → Y. For a prime ℓ, the analogue for alt_ℓ′ replaces the algebraically closed fraction field by a perfect field whose absolute Galois group is a pro-ℓ group (the quotient of the geometric generic point by an ℓ-Sylow subgroup). (ILO14, Exposé II, Théorème 4.2.1 and Remarque 4.2.2, p. 32 (printed); ILO14 line 1571; ILO-final-II, Théorème 4.2.1 and Remarque 4.2.2, pp. 33–34; ILO-final-II line 485).
+Let X be noetherian and Y → X an object of alt/X. Then Y → X is a covering for the alteration topology if and only if every maximally dominant morphism Spec V → X, with V a valuation ring whose fraction field is algebraically closed, lifts to a morphism Spec V → Y. For a prime ℓ, the analogue for alt_ℓ′ replaces the algebraically closed fraction field by a field K whose absolute Galois group is pro-ℓ, with K required to be perfect only when ℓ ≠ char(K). (ILO14, Exposé II, Théorème 4.2.1 and Remarque 4.2.2, p. 32 (printed); ILO14 line 1571; ILO-final-II, Théorème 4.2.1 and Remarque 4.2.2, pp. 33–34; ILO-final-II lines 485, 522–527).
 
 X noetherian; V ranges over valuation rings with the stated fraction fields; the map Spec V → X is maximally dominant.
 
-A proof route is as follows. Necessity: proper surjective generators lift over a valuation ring with algebraically closed fraction field by the valuative criterion and lifting of the generic point; an étale cover lifts because such a valuation ring is strictly henselian (ILO II 4.2.1). Sufficiency: normalize integral components, use the quasi-compact Riemann–Zariski space to select finitely many local lifts, and descend these lifts from the algebraic closure of the generic field to a finite extension and a proper modification. Their finite open covering gives an alteration refinement (published ILO II 4.2.1, pp. 33–34). This argument does not assume quasi-excellence. For the prime-to-ℓ variant use the fixed field of an ℓ-Sylow subgroup of the absolute Galois group and the same argument, as in II 4.2.2.
+A proof route is as follows. Necessity: proper surjective generators lift over a valuation ring with algebraically closed fraction field by the valuative criterion and lifting of the generic point; an étale cover lifts because such a valuation ring is strictly henselian (ILO II 4.2.1). Sufficiency: normalize integral components, use the quasi-compact Riemann–Zariski space to select finitely many local lifts, and descend these lifts from the algebraic closure of the generic field to a finite extension and a proper modification. Their finite open covering gives an alteration refinement (published ILO II 4.2.1, pp. 33–34). This argument does not assume quasi-excellence. For the prime-to-ℓ variant use the fixed field of an ℓ-Sylow subgroup in a separable closure of the generic field; take its perfection only when ℓ differs from the characteristic. The purely inseparable degrees introduced in that case are prime to ℓ (ILO-final-II, Remark 4.2.2, p. 34; ILO-final-II lines 522–527).
 
 *Needs:* §0.2; AdicCoefficientsAndComparisonsPartII §§PA.1.2–PA.1.4; Mathlib `ValuationRing`.
 
@@ -248,6 +248,8 @@ A proof route is as follows. Necessity: proper surjective generators lift over a
 - For X the spectrum of an excellent DVR, the normalisation of X in any finite extension of its fraction field is finite and surjective, hence an alteration covering; the criterion reduces to extension of valuations (SchemeAndStackFoundations §§0.20–0.21).
 
 - For the non-Japanese DVR of SchemeAndStackFoundations §0.22, a finite inseparable fraction-field extension has non-finite integral closure. This normalisation is not of finite type: an integral finite-type algebra is finite. It is not an object of alt/X, so the criterion has no such input.
+
+- For k = 𝔽_p(t), ℓ = p and p = 2 or 3, Spec k(t^(1/p)) → Spec k has degree p, hence is not alt_p′-covering. The allowed valuation field V = k^sep has trivial absolute Galois group but no p-th root of t, so it gives no lift. Requiring perfection here would make every test lift and incorrectly accept this map. For ℓ ≠ p, its degree p is prime to ℓ and every allowed perfect-valued test does lift.
 
 ### 0.5 Approximation of schemes over a complete local ring
 
@@ -645,39 +647,37 @@ A proof route is as follows. T is coherent and p_1, p_2 are coherent (ILO XI Lem
 
 - For schemes, at a geometric point x of X, the stalk is RΓ(Y ×_S S_(f(x)), F): cohomology of the 'Milnor tube' over the strict henselisation.
 
-### 3.3 The oriented alteration topology on diagrams X → S ← Y
+### 3.3 The h-oriented topology on scheme diagrams
 
-Fix a noetherian base S₀. Let B be the category of diagrams (X → S ← Y) of finite-type S₀-schemes, with morphisms the commutative S₀-ladders; finite limits and finite coproducts in B are computed termwise. The oriented alteration topology on B is generated by the families: (i) (X → S ← Y_i) → (X → S ← Y) for an alteration covering (Y_i → Y); (ii) (X_i → S ← Y) → (X → S ← Y) for an alteration covering (X_i → X); (iii) (X ×_S S_i → S_i ← Y ×_S S_i) → (X → S ← Y) for an alteration covering (S_i → S); (iv) (X → S′ ← Y ×_S S′) → (X → S ← Y) for S′ → S proper through which X → S factors; (v) (X ×_S S′ → S′ ← Y) → (X → S ← Y) for S′ → S étale through which Y → S factors (ILO XII 2.1.1–2.1.2). An oriented alteration hypercovering of (X → S ← Y) is a simplicial object (X_• → S_• ← Y_•) of B whose degree-zero augmentation and all positive-degree matching maps are coverings for this topology; its augmentation induces ←ε : Y_• ←×_(S_•) X_• → Y ←×_S X. (ILO14, Exposé XII, §2.1 (2.1.1–2.1.2), pp. 190–191 (printed); ILO14 line 9020).
+Fix a universe for schemes and small covering families, and a larger sheaf universe. Let B be the category of all diagrams (X → S ← Y) of schemes in that universe, with morphisms the commutative ladders. Finite limits and finite coproducts are computed termwise. On schemes use the h-topology generated by Zariski coverings and proper surjective morphisms. The h-oriented topology on B is generated by: (i) (X → S ← Y_i) → (X → S ← Y) for an h-covering (Y_i → Y); (ii) (X_i → S ← Y) → (X → S ← Y) for an h-covering (X_i → X); (iii) (X ×_S S_i → S_i ← Y ×_S S_i) → (X → S ← Y) for an h-covering (S_i → S); (iv) (X → S′ ← Y ×_S S′) → (X → S ← Y) for S′ → S proper through which X → S factors; (v) (X ×_S S′ → S′ ← Y) → (X → S ← Y) for S′ → S étale through which Y → S factors. An h-oriented hypercovering has covering augmentation in degree zero and covering matching maps in every positive degree; it induces an augmentation from the total simplicial topos Tot(Y_• ←×_(S_•) X_•) to Y ←×_S X. The order of X and Y here reverses their labels in the published source. (ILO-final-XII, XIIA §§2.1.1–2.1.5, 2.2.1–2.2.2, pp. 241–243; ILO-final-XII lines 218–277.)
 
-All diagrams are finite type over a fixed noetherian S₀; covering families lie in this category. Each application may take S₀ to be its original base. Strict henselizations in stalk computations are handled by limits of étale neighbourhoods, not asserted to be objects of B.
+No noetherianity or common finite-type base is required for B. The full subcategory of finite-type schemes over a fixed noetherian S₀ gives a specialization closed under finite limits. Noetherian diagrams are objects of B, but their matching objects are formed in B: arbitrary fibre products of noetherian schemes need not be noetherian.
 
 Its interface consists of the following facts.
 
-- The category B of finite-type S₀-diagrams X → S ← Y, for a fixed noetherian S₀, with the oriented alteration topology.
+- B has the stated finite limits and the h-oriented Grothendieck topology, with coverings stable under base change.
 
-- An alt hypercovering S_• → S gives an oriented hypercovering (X ×_S S_• → S_• ← Y ×_S S_•).
+- An h-hypercovering S_• → S induces an h-oriented hypercovering of every diagram over S. In particular, every alteration hypercovering from §0.2 gives one, since its generators are h-coverings.
 
-- The induced morphism of oriented product topoi ←ε.
+- Functoriality of oriented products gives the augmentation ←ε : Tot(Y_• ←×_(S_•) X_•) → Y ←×_S X and its inverse and derived direct image.
 
-- Coverings are stable under base change in B.
+- Restriction to finite-type S₀-diagrams preserves the five generating forms and their finite matching constructions.
 
-A proof route is as follows. Restrict the diagram category and the five generating families of ILO XII 2.1.1–2.1.2 to finite-type S₀-schemes. Finite limits remain noetherian and the families remain stable under base change. Arbitrary products of noetherian schemes need not be noetherian. Define hypercoverings and the induced morphism of oriented products by functoriality (§3.1).
+A proof route is to use termwise limits of schemes, stability of proper surjections and Zariski coverings under base change, and the five generating forms above. Construct matching objects in this ambient category and use §3.1 for the induced oriented-product maps (ILO-final-XII, XIIA §§2.1–2.2).
 
-*Needs:* §3.1; §0.2.
+*Needs:* §3.1; §0.2; SchemeAndStackFoundations §§2.15–2.16; EnhancedDerivedSheaves §E2.
 
 **Checks.**
 
-- The identity of (X → S ← Y) is a covering and the constant hypercovering has ←ε an equivalence.
+- The identity diagram is a covering; its constant hypercover has every matching map an identity and ←ε an equivalence.
 
-- For S′ → S the blow-up of the origin of S = 𝔸²_k, X = S′ and Y = S, the map (S′ → S′ ← S′) → (S′ → S ← S) is of type (iv), hence covering, although S′ → S is not étale.
+- For the blow-up S′ → S of the origin in 𝔸²_k, X = S′ and Y = S, (S′ → S′ ← S′) → (S′ → S ← S) is of type (iv), although S′ → S is not étale.
 
-- A Zariski covering (Y_i → Y) is an alteration covering, so (X → S ← Y_i) → (X → S ← Y) is a covering family of type (i).
+- For S = X = Spec k with k algebraically closed and Y = 𝔸¹_k, the family D(t), D(t − 1) covers Y since (t, t − 1) = (1); the single closed point {0} does not cover, since it misses every point of D(t).
 
-- Take S = X = Spec k with k algebraically closed, Y = 𝔸¹_k and Y′ = {0}. Then Y ←×_S X = Y_ét, and the single map (X → S ← Y′) → (X → S ← Y) is not covering: points over Y − {0} are missed.
+- For S = Spec k[t], X = Spec k(t), Y = S, the constant hypercover is admitted although X → S is not of finite type. Its first matching object is the original diagram and its augmentation on oriented topoi is the identity.
 
-- A diagram with S = X and Y = X proper over S: the topology restricted to (i) is the alteration topology of X.
-
-- An alteration hypercovering S_• → S induces an oriented alteration hypercovering (X ×_S S_• → S_• ← Y ×_S S_•) (used in ILO XII 2.2.4).
+- Let K = k(t₁,t₂,…) and take Spec K → Spec k ← Spec K. Both factors are noetherian, but K ⊗_k K has the strictly increasing chain of ideals generated by t_i ⊗ 1 − 1 ⊗ t_i for 1 ≤ i ≤ m: identifying the first m variables leaves the next difference nonzero. The product still exists in B; restricting B to noetherian schemes would lose it.
 
 ### 3.4 Oriented acyclicity of proper morphisms
 
@@ -697,35 +697,39 @@ A proof route is as follows. Reduce by the tube base change theorem (§3.2) to a
 
 ### 3.5 Oriented cohomological descent
 
-Let (X_• → S_• ← Y_•) → (X → S ← Y) be a hypercovering for the oriented alteration topology, with augmentation ←ε : T_• = Y_• ←×_(S_•) X_• → T = Y ←×_S X. For every bounded below torsion complex K on T, the adjunction K → R←ε_* ←ε^* K is an isomorphism. (ILO14, Exposé XII, Théorème 2.2.1 and §2.3, including §2.3.8, pp. 191–194 (printed); ILO14 line 9065).
+Let (X_• → S_• ← Y_•) → (X → S ← Y) be an h-oriented hypercovering in §3.3, with augmentation ←ε : Tot(Y_• ←×_(S_•) X_•) → T = Y ←×_S X. For every torsion coefficient ring Λ and K ∈ D⁺(T, Λ), the adjunction K → R←ε_* ←ε^*K is an isomorphism. For diagrams of noetherian schemes the same conclusion holds for every bounded below complex of abelian sheaves with torsion cohomology, with no common annihilator. No finite-type hypothesis on X → S or Y → S is imposed. (ILO-final-XII, XIIA Theorem 2.2.3 and Remark 2.2.6.1, pp. 243–244, proof §2.3, pp. 245–248; ILO-final-XII lines 279–282, 324–333, 349; ILO14, XII Theorem 2.2.1(i), pp. 191–192; ILO14 line 9065.)
 
-Diagrams finite type over a fixed noetherian S₀ as in §3.3; torsion coefficients; bounded below complexes.
+The fixed-torsion-ring statement uses the full ambient category B. The torsion-cohomology variant also applies when all scheme maps in the augmented diagrams are coherent (quasi-compact and quasi-separated); this supplies the direct-image stability needed for descent. Morphisms between noetherian schemes satisfy this condition. No non-abelian descent assertion is made.
 
-A proof route is as follows. By bounded-below hypercover descent (EnhancedDerivedSheaves §E2) reduce to 0-coskeleta of single covering families of types (i)–(v), and to Zariski coverings or proper surjections for the alteration coverings (ILO XII 2.3.1). Type (iv) is §3.4; types (i), (ii), (v) follow from proper and étale cohomological descent (SchemeAndStackFoundations §2.16) through the tube description; type (iii) combines them (ILO XII 2.3).
+A proof route is to reduce bounded-below hypercover descent to the five generating forms, then Zariski coverings and proper surjections. Zariski-localize to coherent schemes for the tube and proper-acyclicity comparisons (§§3.2–3.4); use proper and étale cohomological descent for types (i), (ii), (v). Type (iv) is proper acyclicity and type (iii) is obtained by composition (ILO-final-XII, XIIA §§2.1.5, 2.3).
 
-*Needs:* §3.3; §3.4; §3.2; SchemeAndStackFoundations §§2.12, 2.15–2.16.
+*Needs:* §3.3; §3.4; §3.2; SchemeAndStackFoundations §§2.12, 2.15–2.16; EnhancedDerivedSheaves §E2.
 
 **Checks.**
 
-- For the constant hypercovering the statement is trivial.
+- A constant hypercover gives K → K, the identity in every degree; K = 0 gives 0 → 0.
 
-- Let S = X be a separably closed point, keep S_• and X_• constant, and take Y_• → Y to be the Čech nerve of a proper surjection. Then Y ←×_S X = Y and the theorem is ordinary proper cohomological descent on Y. Taking X = Y = S over a general base instead gives descent on the self-oriented product, which is not the ordinary base topos.
+- Let S = X be a separably closed point and take Y_• to be the Čech nerve of Y ⊔ Y → Y. This is ordinary descent on Y: degree-zero sections are the equalizer of M² ⇉ M⁴, namely the diagonal M, not M².
 
-### 3.6 Base change formula for alteration hypercoverings
+- On a separably closed point the constant sheaf ℚ/ℤ satisfies the noetherian torsion-cohomology version: the identity comparison is ℚ/ℤ → ℚ/ℤ although no positive integer annihilates it. It is not a module over any fixed ℤ/n with n > 0.
 
-Let X —f→ S ←g— Y be finite-type morphisms of noetherian schemes and ε : S_• → S an alteration hypercovering, with f_• : X_• = X ×_S S_• → S_•, g_• : Y_• = Y ×_S S_• → S_• and ε_Y : Y_• → Y. For every bounded below torsion complex K on X, the natural map g^*Rf_*K → Rε_(Y*)(g_•^*Rf_(•*)(K|X_•)) is an isomorphism. (ILO14, Exposé XII, Théorème 2.2.4 and §2.4, pp. 192–194 (printed); ILO14 line 9093).
+### 3.6 Hyper-base-change and alteration hypercoverings
 
-S noetherian, X and Y of finite type over S; torsion coefficients. The noetherian source theorem is used here in this finite-type scope, which suffices for the applications to open and closed immersions.
+Let X —f→ S ←g— Y be any diagram of noetherian schemes and ε : S_• → S an alteration hypercovering. Put X_• = X ×_S S_•, Y_• = Y ×_S S_•, with induced maps f_•, g_• and ε_Y : Tot(Y_•) → Y. For every bounded below complex K of abelian étale sheaves on X with torsion cohomology, the natural map g^*Rf_*K → Rε_(Y*)(g_•^*Rf_(•*)(K|X_•)) is an isomorphism. More generally, for arbitrary schemes, a coherent f, an h-hypercovering S_• → S and a torsion coefficient ring Λ, this holds for K ∈ D⁺(X_ét, Λ). Coherence is required of f, the map whose direct image is taken; the published source calls this map g. (ILO14, XII Theorem 2.2.4(i), pp. 192–194; ILO14 line 9093; ILO-final-XII, XIIA Theorem 2.2.5 and Remark 2.2.6.1, pp. 243–244; ILO-final-XII lines 290–333.)
 
-A proof route is as follows. Express both sides through oriented products with §3.2 and apply §3.5 to the induced oriented hypercovering (§3.3) (ILO XII 2.4). Typical use: Y = Z a closed subscheme of the base, so the restriction of Rj_* to Z is computed from the restrictions over a hypercovering (ILO XIII 2.2.3, XV 2.2.2).
+Neither f nor g is required to be of finite type. In the noetherian case f is automatically coherent, and the alteration hypercover terms and their pullbacks remain noetherian because the hypercover terms are of finite type over S. For the torsion-cohomology variant outside this domain retain coherence of all maps in the augmented diagrams, as in §3.5.
+
+A proof route expresses both sides through oriented products and applies §3.5 to the induced h-oriented hypercover. The scheme-local tube comparison follows from §3.2 after taking affine neighborhoods; the coherent direct-image map has qcqs inverse images of those neighborhoods. The two tube comparisons, descent adjunction and composition of derived direct images give the displayed map (ILO-final-XII, XIIA proof of 2.2.5, p. 244; ILO-final-XII lines 310–322). The case g a closed immersion and f an open immersion supplies the boundary restrictions in Layers 4–5.
 
 *Needs:* §3.5; §3.2; §3.3.
 
 **Checks.**
 
-- For S_• constant the map is the identity.
+- For S_• constant, both sides are g^*Rf_*K and the comparison is the identity.
 
-- For X = U ⊂ S open, g : Z → S the closed complement and S_• regular with snc preimage of Z, the right side is computed from Rj_(•*)Λ, which absolute purity describes.
+- For S = Spec k[t], X = Spec k(t), g = id_S and the constant hypercover, both sides are Rf_*K. With constant K = ℤ/n, n ≥ 2, both have generic geometric H⁰ = ℤ/n. The localization k[t] → k(t) is not finite type: finitely many denominators cannot invert every irreducible polynomial.
+
+- For X = U ⊂ S open, g : Z → S the closed complement and a hypercover regular with snc boundary, the terms are g_•^*Rj_(•*)Λ. On a strict trait with constant hypercover and Λ of invertible order, the closed stalk has H⁰ = Λ and H¹ = Λ(−1) on both sides; replacing Rj_* by j_* loses H¹.
 
 ### Examples
 
@@ -939,7 +943,7 @@ The native headline `cohomologicalDimension_le_of_strictlyLocal` states the open
 
 A proof route is as follows. Punctured spectrum: by Gabber's formal base change (ArcTopologyAndDescent §§8.6–8.9) pass to the completion, which is excellent; cover U = X − {x} by d principal opens X_(f_i) and use the Čech spectral sequence with §5.7 to get H^i(U, F) = 0 for i ≥ 2d (ILO XVIII-A Lemme 2.1). Coniveau spectral sequence: H^i_Y(X, F) = 0 for i > sup_(y∈Y)(cd_ℓ(κ(y)) + 2 dim O_(X,y)) (ILO XVIII-A Lemme 2.2). Induction on d using the restriction from U to dense opens V and the inductive bound for residue fields (ILO XVIII-A §2); the corollaries follow by limits and by the Čech reduction to affine f (ILO XVIII-A 1.2, 1.4).
 
-*Needs:* §5.7; ArcTopologyAndDescent §§8.3, 8.6–8.9; SchemeAndStackFoundations §§2.12, 2.15–2.16.
+*Needs:* §5.7; ArcTopologyAndDescent §§8.6–8.9; SchemeAndStackFoundations §§2.12, 2.15–2.16.
 
 **Checks.**
 
@@ -957,7 +961,7 @@ A strict trait has normalized δ-values 1 and 0 and tame generic cohomology in d
 
 ### Dependencies
 
-Layers 0, 2–3; SchemeAndStackFoundations §§0.12–0.16, 0.21, 2.15–2.16, 4.20; EtaleCohomologyFoundations §§F.2.1–F.3, F.8; LefschetzPencilsAndVanishingCycles §0.10; ArcTopologyAndDescent §§8.3, 8.8–8.9.
+Layers 0, 2–3; SchemeAndStackFoundations §§0.12–0.16, 0.21, 2.15–2.16, 4.20; EtaleCohomologyFoundations §§F.2.1–F.3, F.8; LefschetzPencilsAndVanishingCycles §0.10; ArcTopologyAndDescent §§8.7–8.9.
 
 ## Layer 6: Dualizing complexes on excellent schemes and local duality
 
@@ -965,7 +969,7 @@ Throughout this layer n ≥ 2 is invertible and Λ = ℤ/n. Construct specializa
 
 ### 6.1 Transition morphisms for specializations
 
-Let n ≥ 2, Λ = ℤ/n and X be noetherian excellent over ℤ[1/n]. For K ∈ D⁺(X_ét,Λ), write RΓ_x̄(K) for cohomology on X_(x̄) with supports in its closed point. A specialization ȳ ⇝ x̄ of codimension c = 0 or 1 gives a natural map sp : RΓ_ȳ(K) → RΓ_x̄(K)(c)[2c] in D⁺(Λ). For c = 0 it is transport along the corresponding geometric-point isomorphism. On a strictly henselian trait, first project the generic stalk to its wild-inertia invariants K_η̄^S (averaging is available for the invertible torsion coefficients); the tame-inertia evaluation construction then gives the codimension-one map independently of the generator. For an integral one-dimensional strict localization, use its normalization and multiply the trait map by 1/[s̃:s], the inverse purely inseparable residue degree. Closed-support adjunction gives the map for every immediate specialization. Higher-codimension transitions will be constructed on cohomology groups in §6.2; no derived map in arbitrary codimension is asserted. (ILO14, Exposé XVII, §§1.2–1.4, especially Définitions 1.2.3.1, 1.3.1, 1.4.1 and Remarque 1.4.2, pp. 260–263 (printed); ILO14 line 12339).
+Let n ≥ 2, Λ = ℤ/n and X be noetherian excellent over ℤ[1/n]. For K ∈ D⁺(X_ét,Λ), write RΓ_x̄(K) for cohomology on X_(x̄) with supports in its closed point. A specialization ȳ ⇝ x̄ of codimension c = 0 or 1 gives a natural map sp : RΓ_ȳ(K) → RΓ_x̄(K)(c)[2c] in D⁺(Λ). For c = 0 it is transport along the corresponding geometric-point isomorphism. On a strictly henselian trait, first project the generic stalk to its wild-inertia invariants K_η̄^S (averaging is available for the invertible torsion coefficients); the tame-inertia evaluation construction then gives the codimension-one map independently of the generator. For an integral one-dimensional strict localization, use its normalization and multiply the trait map by 1/[s̃:s], the inverse purely inseparable residue degree. Closed-support adjunction gives the map for every immediate specialization. Higher-codimension transitions will be constructed on cohomology groups in §6.4; no derived map in arbitrary codimension is asserted. (ILO14, Exposé XVII, §§1.2–1.4, especially Définitions 1.2.3.1, 1.3.1, 1.4.1 and Remarque 1.4.2, pp. 260–263 (printed); ILO14 line 12339).
 
 X noetherian excellent over ℤ[1/n] (quasi-excellent suffices étale-locally, ILO XVII 3.1.3); Λ = ℤ/n.
 
@@ -975,7 +979,7 @@ Its interface consists of the following facts.
 
 - Naturality in K ∈ D⁺(X_ét, Λ).
 
-- Immediate and codimension-zero derived maps compose when the total codimension is at most one. For arbitrary total codimension the cohomology-group composition law is the joint theorem §6.2 (ILO XVII 3.1.2).
+- Immediate and codimension-zero derived maps compose when the total codimension is at most one. For arbitrary total codimension the cohomology-group composition law is the joint theorem §6.4 (ILO XVII 3.1.2).
 
 - For finite maps, compatibility of immediate transitions with the trace, including the inseparable residue-degree normalization (ILO XVII 3.3.1).
 
@@ -999,25 +1003,7 @@ A proof route is as follows. On a strictly henselian trait compute RΓ_s(K) by t
 
 - For a purely inseparable residue extension of degree p^r, the transition normalization multiplies the trace by p^(−r) in Λ. For p = 2 and Λ = ℤ/3, degree 2 has inverse 2, so 2·2 = 1; for p = 3 and Λ = ℤ/2 the degree-3 inverse is 1.
 
-### 6.2 Higher transitions and top-degree local cohomology
-
-Let X be a normal strictly henselian excellent local ℤ[1/n]-scheme of dimension d with closed point x. Then H^q_x(X, Λ(d)) = 0 for q > 2d, and there is an isomorphism [x] : Λ → H²ᵈ_x(X, Λ(d)) compatible with the transition morphisms of immediate specializations. Jointly, for every noetherian excellent ℤ[1/n]-scheme, K ∈ D⁺(X_ét,Λ) and specialization ȳ ⇝ x̄ of codimension c, there are natural group maps sp : H^i_ȳ(K) → Hⁱ⁺²ᶜ_x̄(K(c)), extending the codimension-zero and codimension-one derived transitions. They compose along specializations and commute with finite trace. These are maps of cohomology groups; the theorem makes no arbitrary-codimension derived-map assertion. (ILO14, Exposé XVII, Théorèmes 3.1.1–3.1.2 and §§3.2–3.6, pp. 268–280 (printed); ILO14 line 12855).
-
-For the top class X is normal strictly local excellent of dimension d; for group transitions X is any noetherian excellent scheme. In both cases Λ = ℤ/n with n invertible.
-
-A proof route is as follows. Use the affine Lefschetz cohomological bounds for vanishing above 2d (ILO XVII 3.2). Prove the top-class generator in dimension two by resolving an excellent surface and computing the exceptional-curve cohomology with absolute purity (ILO XVII §3.4). Construct arbitrary-codimension group transitions by chains of immediate specializations. The surface computation and connectedness arguments give independence of the chain and finite-map compatibility (ILO XVII §3.5). This is part of the simultaneous induction proving Theorems 3.1.1 and 3.1.2, rather than an invocation of the final top-class theorem in the immediate-transition construction. For higher-dimensional normal strict local X, coniveau and the lower-dimensional classes show that [x] generates H²ᵈ_x (ILO XVII §3.6.2). Formal base change reduces injectivity to complete X. Embed complete X in a regular complete local scheme using Cohen structure; exceptional pullback of the already constructed regular potential complex supplies the putative pinnings and their immediate compatibility (2.4.4.1). The normal-scheme lemma Λ ≅ τ_(≤0)K and the transition square force [x] to be injective (ILO XVII §3.6.3–3.6.4, pp. 279–280). This uses the regular case, not general existence of potential dualizing complexes.
-
-*Needs:* §6.1; §5.7; AdicCoefficientsAndComparisonsPartII §§PA.0.2–PA.0.8, PA.0.11; LefschetzPencilsAndVanishingCycles §0.10; EtaleCohomologyFoundations §F.6; EtaleDualityAndPerverseSheaves §1.1; §6.4; ArcTopologyAndDescent §§8.3, 8.6–8.9; DeformationAndDerivedPatchingAlgebra §1.10 and the coefficient-field contract; EtaleCohomologyFoundations §F.5; EtaleDualityAndPerverseSheaves §§0.1–0.2; EtaleCohomologyFoundations §0.7 and EnhancedDerivedSheaves §§0.3–0.4 for open-immersion tensor–Hom exchange; EtaleCohomologyFoundations §0.7 for the closed-immersion support functor; the regular pinned construction in §6.4.
-
-**Checks.**
-
-- For X regular, [x] is the fundamental class of the closed point given by absolute purity.
-
-- For d = 1 (a strictly henselian trait), [x] is the Kummer class Λ → H²_x(Λ(1)).
-
-- For a regular strictly henselian surface and constant Λ, two successive immediate maps on cohomology give Λ → H⁴_x(Λ(2)), the absolute-purity isomorphism; different saturated chains give the same group map.
-
-### 6.3 Putative and potential dualizing complexes
+### 6.2 Putative and potential dualizing complexes
 
 Let X be a noetherian excellent ℤ[1/n]-scheme with a dimension function δ. A putative dualizing complex is K ∈ D⁺(X_ét, Λ) together with, for every x ∈ X, an isomorphism (pinning) RΓ_x(K) ≅ Λ(δ(x))[2δ(x)] in D⁺(x_ét, Λ). It is a potential dualizing complex if for every immediate specialization ȳ → x̄ the pinnings at y and x are compatible with sp_(ȳ→x̄) : RΓ_ȳ(K) → RΓ_x̄(K)(1)[2] (§6.1), using δ(y) = δ(x) + 1. (ILO14, Exposé XVII, Définition 2.1.2 and §2.2–2.4, pp. 263–267 (printed); ILO14 line 12581).
 
@@ -1049,7 +1035,7 @@ A proof route is as follows. Definition (ILO XVII 2.1.2). Étale restriction and
 
 - For X separated of finite type over a field with δ(x) = dim of the closure of x, a^!Λ (EtaleDualityAndPerverseSheaves §§0.1–0.2 and EtaleCohomologyFoundations §F.5) with its purity pinnings is potential.
 
-### 6.4 The constant sheaf on a regular scheme is potentially dualizing
+### 6.3 The constant sheaf on a regular scheme is potentially dualizing
 
 Let X be a regular excellent ℤ[1/n]-scheme with the dimension function δ = −codim. The constant sheaf Λ, with the pinnings RΓ_x(Λ) ≅ Λ(−c)[−2c] (c = codim x) given by absolute cohomological purity and the fundamental classes, is a potential dualizing complex. (ILO14, Exposé XVII, Propositions 2.4.1.1, 2.4.2.1 and 2.4.4.1, pp. 265–267 (printed); ILO14 lines 12669, 12682, 12835).
 
@@ -1057,7 +1043,7 @@ X regular excellent over ℤ[1/n]; δ(x) = −dim O_(X,x).
 
 A proof route is as follows. The pinnings exist by absolute purity for the regular immersion of the closure of x near x (LefschetzPencilsAndVanishingCycles §0.10; ILO XVI 3.1.1). Compatibility with sp for an immediate specialization ȳ → x̄: work on X_(x̄); with C the closure of ȳ and C̃ its normalisation (a strictly henselian trait), reduce via i^! and the finite map C̃ → C to the trait case (ILO XVII 2.4.2.1, 2.4.3.3–2.4.3.4).
 
-*Needs:* §6.3; §6.1; LefschetzPencilsAndVanishingCycles §0.10; EtaleCohomologyFoundations §F.6; EtaleDualityAndPerverseSheaves §1.1.
+*Needs:* §6.2; §6.1; LefschetzPencilsAndVanishingCycles §0.10; EtaleCohomologyFoundations §F.6; EtaleDualityAndPerverseSheaves §1.1.
 
 **Checks.**
 
@@ -1066,6 +1052,24 @@ A proof route is as follows. The pinnings exist by absolute purity for the regul
 - For X smooth over a field, the pinnings agree with the smooth-pair cycle classes of EtaleCohomologyFoundations §F.6.
 
 - For a separably closed field, codimension is 0, and the regular potential complex is Λ in degree 0 with the identity pinning. On a strict regular surface the closed-point pinning is Λ(−2)[−4]; a convention with shift +4 would put its support in degree −4 instead of 4.
+
+### 6.4 Higher transitions and top-degree local cohomology
+
+Let X be a normal strictly henselian excellent local ℤ[1/n]-scheme of dimension d with closed point x. Then H^q_x(X, Λ(d)) = 0 for q > 2d, and there is an isomorphism [x] : Λ → H²ᵈ_x(X, Λ(d)) compatible with the transition morphisms of immediate specializations. Jointly, for every noetherian excellent ℤ[1/n]-scheme, K ∈ D⁺(X_ét,Λ) and specialization ȳ ⇝ x̄ of codimension c, there are natural group maps sp : H^i_ȳ(K) → Hⁱ⁺²ᶜ_x̄(K(c)), extending the codimension-zero and codimension-one derived transitions. They compose along specializations and commute with finite trace. These are maps of cohomology groups; the theorem makes no arbitrary-codimension derived-map assertion. (ILO14, Exposé XVII, Théorèmes 3.1.1–3.1.2 and §§3.2–3.6, pp. 268–280 (printed); ILO14 line 12855).
+
+For the top class X is normal strictly local excellent of dimension d; for group transitions X is any noetherian excellent scheme. In both cases Λ = ℤ/n with n invertible.
+
+A proof route is as follows. Use the affine Lefschetz cohomological bounds for vanishing above 2d (ILO XVII 3.2). Prove the top-class generator in dimension two by resolving an excellent surface and computing the exceptional-curve cohomology with absolute purity (ILO XVII §3.4). Construct arbitrary-codimension group transitions by chains of immediate specializations. The surface computation and connectedness arguments give independence of the chain and finite-map compatibility (ILO XVII §3.5). This is part of the simultaneous induction proving Theorems 3.1.1 and 3.1.2, rather than an invocation of the final top-class theorem in the immediate-transition construction. For higher-dimensional normal strict local X, coniveau and the lower-dimensional classes show that [x] generates H²ᵈ_x (ILO XVII §3.6.2). Formal base change reduces injectivity to complete X. Embed complete X in a regular complete local scheme using Cohen structure; exceptional pullback of the already constructed regular potential complex supplies the putative pinnings and their immediate compatibility (2.4.4.1). The normal-scheme lemma Λ ≅ τ_(≤0)K and the transition square force [x] to be injective (ILO XVII §3.6.3–3.6.4, pp. 279–280). This uses the regular case, not general existence of potential dualizing complexes.
+
+*Needs:* §6.1; §5.7; AdicCoefficientsAndComparisonsPartII §§PA.0.2–PA.0.8, PA.0.11; LefschetzPencilsAndVanishingCycles §0.10; EtaleCohomologyFoundations §F.6; EtaleDualityAndPerverseSheaves §1.1; ArcTopologyAndDescent §§8.6–8.9; DeformationAndDerivedPatchingAlgebra §1.10 and the coefficient-field contract; EtaleCohomologyFoundations §F.5; EtaleDualityAndPerverseSheaves §§0.1–0.2; EtaleCohomologyFoundations §0.7 and EnhancedDerivedSheaves §§0.3–0.4 for open-immersion tensor–Hom exchange; EtaleCohomologyFoundations §0.7 for the closed-immersion support functor; the regular pinned construction in §6.3.
+
+**Checks.**
+
+- For X regular, [x] is the fundamental class of the closed point given by absolute purity.
+
+- For d = 1 (a strictly henselian trait), [x] is the Kummer class Λ → H²_x(Λ(1)).
+
+- For a regular strictly henselian surface and constant Λ, two successive immediate maps on cohomology give Λ → H⁴_x(Λ(2)), the absolute-purity isomorphism; different saturated chains give the same group map.
 
 ### 6.5 Gabber's perverse t-structures for a perversity function
 
@@ -1107,11 +1111,11 @@ X noetherian excellent over ℤ[1/n] with a global dimension function.
 
 A proof route is as follows. Uniqueness and the τ_(≤0) statement in the normal case: every potential dualizing complex K lies in Perv^φ and in `Perv^(-2*delta)`, the induced map K → T to the perverse extension below is an isomorphism compatible with pinnings, and Λ → τ_(≤0)RHom(K, K) is an isomorphism (ILO XVII 5.3.1(b)–(c), p. 288). In general, uniqueness on X̃, Z and X̃ ×_X Z gives uniqueness of the cone construction of XVII 5.4.1. For normal X, let j : U → X be a dense regular open. With the normalized generic dimension, use the perverse extension T = j_*^φΛ for φ(x) = max(0, 2 codim(x) − 2). The localization triangle and the top local class identify its stalks and local supports with the prescribed pinnings; compatibility with immediate transitions proves potentiality (ILO XVII 5.3.1). Twists and shifts handle other dimension functions. For general reduced X use finite normalization X̃ → X and a closed complement Z of the normal locus. Combine the potential complexes on X̃, Z and X̃ ×_X Z by the explicit cone construction of XVII 5.4.1; finite-surjective shriek detection verifies the pinnings and their compatibility. Nilpotents do not change the étale topos. This is not a claim that pushing a potential complex forward along normalization preserves it.
 
-*Needs:* §6.3; §6.5; §6.2; §6.4; EtaleCohomologyFoundations §F.5; EtaleDualityAndPerverseSheaves §§0.1–0.2; EtaleCohomologyFoundations §0.7 and EnhancedDerivedSheaves §§0.3–0.4 for open-immersion tensor–Hom exchange.
+*Needs:* §6.2; §6.5; §6.4; §6.3; EtaleCohomologyFoundations §F.5; EtaleDualityAndPerverseSheaves §§0.1–0.2; EtaleCohomologyFoundations §0.7 and EnhancedDerivedSheaves §§0.3–0.4 for open-immersion tensor–Hom exchange.
 
 **Checks.**
 
-- For X regular with δ = −codim, K_X = Λ (§6.4).
+- For X regular with δ = −codim, K_X = Λ (§6.3).
 
 - For X separated of finite type over a field with δ = dim of closure, K_X = a^!Λ.
 
@@ -1123,7 +1127,7 @@ Excellent noetherian schemes over ℤ[1/n]; f regular in (1), compactifiable of 
 
 A proof route is as follows. (1) Pinnings pull back by regular base change for local cohomology (§5.3) and absolute purity of the regular fibres (ILO XVII 4.2.1–4.2.3). (2) Reduce to f smooth (smooth purity, EtaleCohomologyFoundations §F.6) and f a closed immersion (quasi-finite i^!) (ILO XVII 4.1.2 and §4.3).
 
-*Needs:* §6.3; §5.4; §5.3; LefschetzPencilsAndVanishingCycles §0.10; EtaleCohomologyFoundations §F.6; EtaleDualityAndPerverseSheaves §1.1; EtaleCohomologyFoundations §F.5; EtaleDualityAndPerverseSheaves §§0.1–0.2; EtaleCohomologyFoundations §0.7 and EnhancedDerivedSheaves §§0.3–0.4 for open-immersion tensor–Hom exchange.
+*Needs:* §6.2; §5.4; §5.3; LefschetzPencilsAndVanishingCycles §0.10; EtaleCohomologyFoundations §F.6; EtaleDualityAndPerverseSheaves §1.1; EtaleCohomologyFoundations §F.5; EtaleDualityAndPerverseSheaves §§0.1–0.2; EtaleCohomologyFoundations §0.7 and EnhancedDerivedSheaves §§0.3–0.4 for open-immersion tensor–Hom exchange.
 
 **Checks.**
 
@@ -1203,9 +1207,9 @@ Let X be a noetherian excellent ℤ[1/n]-scheme admitting a dimension function. 
 
 Assume X is noetherian excellent over ℤ[1/n] and admits a global dimension function. For finite-dimensional noetherian X, a dualizing complex in the stronger SGA 5 sense, with finite quasi-injective dimension, forces such a function: on any fixed prime-power coefficient factor its local shifts n_ℓ(x) satisfy n_ℓ(y) = n_ℓ(x) + 2 along immediate specializations, so δ(x) = ⌊−n_ℓ(x)/2⌋ is a dimension function (G04, §8, Lemma 8.1, pp. 10–11; G04 lines 441–464). This necessity assertion uses the stronger convention, not only the predicate of §6.8.
 
-A proof route is as follows. Existence: the potential dualizing complex (§6.6) is dualizing (§6.9). Uniqueness up to invertible objects (ILO XVII 7.5.1.1, 9.2). Regular case: §6.4; functoriality: §6.7 with §6.9 on Y.
+A proof route is as follows. Existence: the potential dualizing complex (§6.6) is dualizing (§6.9). Uniqueness up to invertible objects (ILO XVII 7.5.1.1, 9.2). Regular case: §6.3; functoriality: §6.7 with §6.9 on Y.
 
-*Needs:* §6.9; §6.6; §6.4; §6.7; §6.8.
+*Needs:* §6.9; §6.6; §6.3; §6.7; §6.8.
 
 **Checks.**
 
@@ -1221,9 +1225,9 @@ Let R be a strictly henselian excellent regular local ring of dimension d with c
 
 R strictly henselian, excellent, regular local; ℓ invertible.
 
-A proof route is as follows. δ = d − codim, so the potential dualizing complex for δ is Λ(d)[2d] by §6.4 and the twist-and-shift rule; the pinning at x is H²ᵈ_x(Λ(d)) ≅ Λ by absolute purity (ILO XVI 3.1.1). It is dualizing by §6.9; restriction to an open is j^* = j^! (EtaleCohomologyFoundations §F.5), and Rj_* D_U = D_X j_! is the formal adjunction (CS24, proof of Lemma 3.2.3, CS24 lines 1367–1371; the open-immersion exchange proved in §6.8 from EtaleCohomologyFoundations §0.7 and EnhancedDerivedSheaves §§0.3–0.4).
+A proof route is as follows. δ = d − codim, so the potential dualizing complex for δ is Λ(d)[2d] by §6.3 and the twist-and-shift rule; the pinning at x is H²ᵈ_x(Λ(d)) ≅ Λ by absolute purity (ILO XVI 3.1.1). It is dualizing by §6.9; restriction to an open is j^* = j^! (EtaleCohomologyFoundations §F.5), and Rj_* D_U = D_X j_! is the formal adjunction (CS24, proof of Lemma 3.2.3, CS24 lines 1367–1371; the open-immersion exchange proved in §6.8 from EtaleCohomologyFoundations §0.7 and EnhancedDerivedSheaves §§0.3–0.4).
 
-*Needs:* §6.4; §6.6; §6.9; §6.3; LefschetzPencilsAndVanishingCycles §0.10; EtaleCohomologyFoundations §F.5; EtaleDualityAndPerverseSheaves §§0.1–0.2; EtaleCohomologyFoundations §0.7 and EnhancedDerivedSheaves §§0.3–0.4 for open-immersion tensor–Hom exchange.
+*Needs:* §6.3; §6.6; §6.9; §6.2; LefschetzPencilsAndVanishingCycles §0.10; EtaleCohomologyFoundations §F.5; EtaleDualityAndPerverseSheaves §§0.1–0.2; EtaleCohomologyFoundations §0.7 and EnhancedDerivedSheaves §§0.3–0.4 for open-immersion tensor–Hom exchange.
 
 **Checks.**
 
@@ -1241,7 +1245,7 @@ X strictly local excellent; Λ = ℤ/n with n invertible; F constructible bounde
 
 A proof route is as follows. Biduality F ≅ D_K D_K F (§6.9). Apply i_x^!: RΓ_x(X, F) ≅ RΓ_x RHom(D_K F, K) ≅ RHom_Λ((D_K F)_x̄, i_x^!K) ≅ RHom_Λ((D_K F)_x̄, Λ), using i_x^! RHom(G, K) = RHom(i_x^*G, i_x^!K) and the pinning. Λ = ℤ/n is self-injective (EtaleDualityAndPerverseSheaves §§0.1–0.2 and EtaleCohomologyFoundations §F.5), so cohomology commutes with Hom into Λ (ILO XVII §6; CS24 proof of Lemma 3.2.3).
 
-*Needs:* §6.9; §6.8; §6.3; EtaleDualityAndPerverseSheaves §0.1; EtaleCohomologyFoundations §F.5; EtaleDualityAndPerverseSheaves §§0.1–0.2; EtaleCohomologyFoundations §0.7 and EnhancedDerivedSheaves §§0.3–0.4 for open-immersion tensor–Hom exchange.
+*Needs:* §6.9; §6.8; §6.2; EtaleDualityAndPerverseSheaves §0.1; EtaleCohomologyFoundations §F.5; EtaleDualityAndPerverseSheaves §§0.1–0.2; EtaleCohomologyFoundations §0.7 and EnhancedDerivedSheaves §§0.3–0.4 for open-immersion tensor–Hom exchange.
 
 **Checks.**
 
@@ -1269,7 +1273,7 @@ R strictly henselian excellent regular local, dim R = d, f ∈ 𝔪 and ℓ inve
 
 A proof route is as follows. Apply §5.7 directly to the affine open Spec R[1/f] of the excellent strictly local scheme Spec R. If f = 0 the open is empty and the conclusion is immediate. In CS24 Lemma 3.2.3 this bound is used after completion, when excellence is automatic; no comparison of this punctured-open cohomology for an arbitrary R with its maximal-ideal completion is asserted.
 
-*Needs:* §5.7; ArcTopologyAndDescent §§8.3, 8.6–8.9; Mathlib `IsRegularLocalRing`.
+*Needs:* §5.7; ArcTopologyAndDescent §§8.6–8.9; Mathlib `IsRegularLocalRing`.
 
 **Checks.**
 
@@ -1285,7 +1289,7 @@ R regular local; f ∈ 𝔪; ℓ invertible.
 
 A proof route is as follows. Reduce to strictly henselian R and apply the supported clause of CS24 Lemma 3.1.2 to the constructible sheaf j_!ℤ/ℓ and the maximal-ideal completion. This compares H^i_𝔪(R,j_!ℤ/ℓ) with the same supported cohomology on the complete regular local ring; it does not first compare H^i(R[1/f],ℤ/ℓ). If f = 0 then j_!ℤ/ℓ = 0. Otherwise the complete ring is excellent and the remaining duality argument applies. With K = Λ(d)[2d] (§6.11), D(j_!Λ) = Rj_*(K|_U), whose stalk at the closed point is RΓ(R[1/f], Λ(d)[2d]); by §7.1, H⁻ⁱ(D(j_!Λ))_x̄ = 0 for −i + 2d > d, i.e. for i < d. Local duality (§6.12) gives H^i_𝔪(R, j_!Λ) ≅ Hom(H⁻ⁱ(D(j_!Λ))_x̄, Λ) = 0 for i < d.
 
-*Needs:* §7.1; §6.11; §6.12; ArcTopologyAndDescent §§8.3, 8.6–8.9; EtaleCohomologyFoundations §§F.0–F.1, 0.7.
+*Needs:* §7.1; §6.11; §6.12; ArcTopologyAndDescent §§8.6–8.9; EtaleCohomologyFoundations §§F.0–F.1, 0.7.
 
 **Checks.**
 
@@ -1385,7 +1389,7 @@ As in §8.1.
 
 A proof route is as follows. Replace A by its ϖ-adic completion; idempotents of U do not change (the idempotent and completion comparison of ArcTopologyAndDescent §8.9). For U = Spec A and U = Spec A[1/ϖ], idempotents are fixed by p-th powers, so the multiplicative bijections of §8.2 restrict to bijections of idempotents. General U: an idempotent on U is an idempotent on A[1/ϖ] with compatible idempotents on the localisations along principal opens of U ∩ V(ϖ); by Beauville–Laszlo glueing these localisations may be completed; their completions are perfectoid with the matching tilts (PerfectoidQuotients §§0.5–0.6; CS24 Corollary 2.1.6 and equation (2.1.2.2)), reducing to the two settled cases.
 
-*Needs:* §8.1; §8.2; ArcTopologyAndDescent §§8.3, 8.6–8.9; PerfectoidQuotients §§0.4–0.6.
+*Needs:* §8.1; §8.2; ArcTopologyAndDescent §§8.6–8.9; PerfectoidQuotients §§0.4–0.6.
 
 **Checks.**
 
@@ -1421,7 +1425,7 @@ As in §8.1; G torsion.
 
 A proof route is as follows. Replace A by its completion (ArcTopologyAndDescent §§8.6–8.9). By formal glueing for étale cohomology (ArcTopologyAndDescent §§8.6–8.9) and ϖ-complete arc descent (CS24 Theorem 2.2.5; ArcTopologyAndDescent §11.5), reduce to U = Spec A and U = Spec A[1/ϖ]. Products of complete valuation rings with algebraically closed fraction fields form a basis of the ϖ-complete arc topology (ArcTopologyAndDescent §11.2), matched with the analogous basis of A^♭ by tilting (PerfectoidQuotientsPartII §Q6.2 for completeness and §§Q6.3–Q6.7 for the valuation rings, ArcTopologyAndDescent §12.6); conclude from §8.4 by descent.
 
-*Needs:* §8.4; §8.3; §8.1; ArcTopologyAndDescent §§8.3, 8.6–8.9; ArcTopologyAndDescent §§11.1–11.2, 11.5; ArcTopologyAndDescent §12.6; PerfectoidQuotientsPartII §§Q6.2–Q6.7.
+*Needs:* §8.4; §8.3; §8.1; ArcTopologyAndDescent §§8.6–8.9; ArcTopologyAndDescent §§11.1–11.2, 11.5; ArcTopologyAndDescent §12.6; PerfectoidQuotientsPartII §§Q6.2–Q6.7.
 
 **Checks.**
 
@@ -1479,10 +1483,10 @@ PurityForFlatCohomology §PF.1 consumes local Lefschetz (§7.3); the purity inpu
 
 - **Ill03.** L. Illusie, *Perversité et variation*, Manuscripta Mathematica 112 (2003), 271–295, [Theorem 2.4](https://doi.org/10.1007/s00229-003-0407-z). ILO XV 1.1.3 and 3.3.2 specify the trait theorem used here; the original text is cited by locator.
 
-- **ILO-final-II.** F. Orgogozo, *Topologies adaptées à l’uniformisation locale*, published Exposé II, pp. 21–36, [Theorem 4.2.1, pp. 33–34](https://www.numdam.org/item/AST_2014__363-364__21_0/). The valuation criterion uses algebraically closed fraction fields.
+- **ILO-final-II.** F. Orgogozo, *Topologies adaptées à l’uniformisation locale*, published Exposé II, pp. 21–36, [Theorem 4.2.1, pp. 33–34](https://www.numdam.org/item/AST_2014__363-364__21_0/). The ordinary valuation criterion uses algebraically closed fraction fields; Remark 4.2.2, p. 34, requires perfection in the prime-to-ℓ test only when ℓ differs from the characteristic.
 
 - **ILO-final-IX.** L. Illusie, *Uniformisation locale première à ℓ*, published Exposé IX, pp. 161–165, [Theorems 1.1–1.2, p. 161](https://www.numdam.org/item/AST_2014__363-364__161_0/). The generic curve is geometrically irreducible; the prime-to-ℓ statement in Exposé II is 4.3.2.
 
-- **ILO-final-XII.** F. Orgogozo, *Descente cohomologique orientée*, published Exposé XII-A, pp. 235–249, [§§1.3–1.4, pp. 238–241](https://www.numdam.org/item/AST_2014__363-364__235_0/). Proper base change uses the proper base morphism; the non-abelian continuity qualification is explicit.
+- **ILO-final-XII.** F. Orgogozo, *Descente cohomologique orientée*, published Exposé XII-A, pp. 235–249, [§§1.3–1.4 and 2.1–2.3, pp. 238–248](https://www.numdam.org/item/AST_2014__363-364__235_0/). The ambient category is scheme diagrams; Theorems 2.2.3 and 2.2.5 give h-oriented descent and coherent hyper-base-change. Remark 2.2.6.1 distinguishes fixed torsion coefficients from torsion cohomology; the non-abelian continuity qualification is explicit.
 
 - **ILO-final-XIV.** V. Pilloni and B. Stroh, *Fonctions de dimension*, published Exposé XIV, pp. 277–292, [Corollary 2.5.2, p. 289](https://www.numdam.org/item/AST_2014__363-364__277_0/). The transport formula in §5.4 uses trdeg(κ(y)/κ(f(y))), as required by the dimension formula and the affine-line witness; see ILO-final-XIV line 477.

@@ -16,8 +16,9 @@ geometric carriers and operations:
 
 * Weak and prime-to-ell local uniformization need quasi-excellent schemes,
   alteration sites and strict-normal-crossings pairs.
-* Oriented cohomological descent needs general oriented-product topoi and derived
-  simplicial direct image.
+* h-oriented cohomological descent and coherent hyper-base-change, including
+  arbitrary noetherian scheme diagrams, need general oriented-product topoi,
+  scheme-diagram sites and derived simplicial direct image.
 * Gabber finiteness needs constructible étale derived categories and direct image
   over quasi-excellent bases.
 * Dimension-function existence and transport need étale immediate specializations,
