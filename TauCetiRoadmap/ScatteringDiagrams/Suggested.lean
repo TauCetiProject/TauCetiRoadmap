@@ -1,50 +1,29 @@
-import Mathlib.Algebra.Category.ModuleCat.Semi
-import Mathlib.CategoryTheory.Comma.Final
-import Mathlib.CategoryTheory.Filtered.Final
-import Mathlib.Algebra.Algebra.Pi
-import Mathlib.Algebra.BigOperators.Finprod
-import Mathlib.Algebra.Group.Subgroup.Lattice
-import Mathlib.Algebra.Lie.Graded
-import Mathlib.Algebra.Lie.Nilpotent
-import Mathlib.Algebra.Lie.Quotient
-import Mathlib.Algebra.Module.Rat
-import Mathlib.Algebra.MvPolynomial.Eval
-import Mathlib.Analysis.Convex.Exposed
-import Mathlib.Analysis.Convex.Intrinsic
-import Mathlib.Analysis.Normed.Affine.AddTorsorBases
-import Mathlib.Analysis.Normed.Module.FiniteDimension
-import Mathlib.CategoryTheory.Groupoid
-import Mathlib.CategoryTheory.Grothendieck
-import Mathlib.CategoryTheory.Limits.Final
-import Mathlib.CategoryTheory.NatTrans
-import Mathlib.GroupTheory.Index
-import Mathlib.GroupTheory.QuotientGroup.Defs
-import Mathlib.GroupTheory.SemidirectProduct
-import Mathlib.GroupTheory.Subgroup.Saturated
-import Mathlib.LinearAlgebra.Alternating.Curry
-import Mathlib.LinearAlgebra.Finsupp.Supported
-import Mathlib.LinearAlgebra.Quotient.Basic
-import Mathlib.LinearAlgebra.Ray
-import Mathlib.LinearAlgebra.SesquilinearForm.Basic
-import Mathlib.RingTheory.FilteredAlgebra.Basic
-import Mathlib.RingTheory.GradedAlgebra.Basic
-import Mathlib.RingTheory.Localization.Away.Basic
-import Mathlib.RingTheory.Ideal.Quotient.Operations
-import Mathlib.RingTheory.Nilpotent.Exp
-import Mathlib.Topology.Baire.CompleteMetrizable
-import Mathlib.Topology.Baire.Lemmas
-import Mathlib.Topology.Maps.Proper.Basic
-import Mathlib.Topology.PartialHomeomorph.Basic
+import Mathlib
+import TauCeti.Algebra.Lie.UniversalEnveloping.HopfAlgebra
+import TauCeti.Algebra.HopfAlgebra.HopfIdeal.Augmentation
 import TauCeti.Algebra.Module.Primitive
 import TauCeti.Analysis.Convex.Polyhedron.Basic
 import TauCeti.Geometry.Toric.Algebraic.Lattice
 
 /-!
-# Scattering diagrams: suggested Lean forms
+# Scattering diagrams, wall crossing and theta functions: suggested forms
 
-**This file is not the roadmap and is not exhaustive.** `README.md` is definitive.
-These are suggested forms for representative interfaces; `sorry` marks proposed proofs.
-The completed group and wall groups are abstract here (README §§0.4–0.5).
+**This file is not the roadmap and is not exhaustive.** The definitive document is
+`README.md`. The statements here suggest Lean forms for representative carriers and
+milestones, so that contributors and reviewers converge on names and signatures; discharging
+all of them finishes neither a layer nor the roadmap. `sorry` marks proposed proofs.
+
+Stated here over the pinned carriers: the universal BCH element and the augmentation powers of
+`U(𝔣)` (README §0.4, `comap_freeAugmentation_pow_ι` and `exists_bch_exp_mul_exp`), the
+symmetrization form of PBW (§0.4, `exists_pbwSymmetrizationEquiv`), and the focus-focus product
+formula on the model algebra (§6.3, `FocusFocus.modelTheta_mul`).
+
+Not stated here, because a carrier they need is itself a README target: the completed BCH group
+`Ĝ` and the KS reconstruction (§§0.5, 2.3: the completed enveloping algebra and its group-like
+elements), the tropical vertex group (§4.1: its completed derivation algebra), existence and
+uniqueness of outgoing completions (§§3.3–3.4: the §3.1 wall groups inside `Ĝ`; below, wall
+groups are abstract subgroups), theta sections and their transport (§5.5: the module probe),
+and the positivity theorems (§§7.2, 7.5, 7.7: the positive representatives of §7.1).
 -/
 
 namespace TauCetiRoadmap.ScatteringDiagrams
@@ -68,29 +47,6 @@ def positive : Set N := {n | n ∈ D.monoid ∧ n ≠ 0}
 /-- The degree-`≤ k` part of `P`; it contains `0` (`README §0.1`). -/
 def cutoff (k : ℕ) : Set N := {n | n ∈ D.monoid ∧ D.degree n ≤ (k : ℤ)}
 
-/-- A fixed `n` has finitely many decompositions `n = a + b` with `a, b ∈ P` (`README §0.1`). -/
-theorem finite_degree_decompositions (n : N) :
-    {p : N × N | p.1 ∈ D.monoid ∧ p.2 ∈ D.monoid ∧ p.1 + p.2 = n}.Finite := by
-  refine ((D.finite_cutoff (D.degree n).toNat).image fun a => (a, n - a)).subset ?_
-  rintro ⟨a, b⟩ ⟨ha, hb, hab⟩
-  refine ⟨a, ⟨ha, ?_⟩, ?_⟩
-  · have hb0 : 0 ≤ D.degree b := by
-      by_cases h0 : b = 0
-      · simp [h0]
-      · exact (D.degree_pos b hb h0).le
-    have : D.degree n = D.degree a + D.degree b := by rw [← hab, map_add]
-    omega
-  · simp only [Prod.mk.injEq, true_and]
-    rw [← hab]; abel
-
-/-- Strict positivity excludes a nonzero line in `P` (`README §0.1`). -/
-theorem sharp_of_positive {n : N} (hn : n ∈ D.monoid) (hneg : -n ∈ D.monoid) : n = 0 := by
-  by_contra h
-  have hp := D.degree_pos n hn h
-  have hm := D.degree_pos (-n) hneg (neg_ne_zero.mpr h)
-  rw [map_neg] at hm
-  omega
-
 /-- Actual positive degrees on the ambient ray through `w` (`README §0.1`). -/
 def rayDegrees (w : N) : Set N :=
   {n | n ∈ D.positive ∧ ∃ a : ℤ, 0 < a ∧ n = a • w}
@@ -101,19 +57,6 @@ structure SupportedRay where
   generator : N
   primitive : TauCeti.IsPrimitive generator
   supported : ∃ a : ℤ, 0 < a ∧ a • generator ∈ D.positive
-
-/-- Ray truncation is finite because it retains only actual degrees in `P`. -/
-theorem finite_ray_cutoff (w : N) (k : ℕ) :
-    {n | n ∈ D.rayDegrees w ∧ D.degree n ≤ (k : ℤ)}.Finite :=
-  (D.finite_cutoff k).subset fun _ hn => ⟨hn.1.1.1, hn.2⟩
-
-/-- Primitive normalization uses the ambient lattice, without saturating `P`
-(`README §0.1`). -/
-theorem exists_supportedRay [Module.Free ℤ N] {n : N} (hn : n ∈ D.positive) :
-    ∃ r : D.SupportedRay, n ∈ D.rayDegrees r.generator := by
-  obtain ⟨a, w, ha, hw, hnw⟩ := TauCeti.exists_eq_zsmul_isPrimitive hn.2
-  refine ⟨⟨w, hw, a, ha, ?_⟩, hn, a, ha, hnw⟩
-  simpa only [← hnw] using hn
 
 /-- A nonzero supported degree determines its primitive ray uniquely (`README §0.1`). -/
 theorem supportedRay_unique [Module.Free ℤ N] {r s : D.SupportedRay} {n : N}
@@ -132,76 +75,6 @@ structure PositiveDegreeMap {N N' : Type*} [AddCommGroup N] [AddCommGroup N']
   monotone_cutoff : Monotone cutoff
   cutoff_bound : ∀ k ⦃n⦄, n ∈ D.monoid → (cutoff k : ℤ) < D.degree n →
     (k : ℤ) < E.degree (toAddMonoidHom n)
-
-namespace PositiveDegreeMap
-
-variable {N N' N'' : Type*} [AddCommGroup N] [AddCommGroup N'] [AddCommGroup N'']
-  {D : PositiveDegrees N} {E : PositiveDegrees N'} {F : PositiveDegrees N''}
-
-/-- The identity, with modulus `k ↦ k`. -/
-def id (D : PositiveDegrees N) : PositiveDegreeMap D D where
-  toAddMonoidHom := AddMonoidHom.id N
-  map_monoid := by
-    intro n hn
-    exact hn
-  map_positive := by
-    intro n hn
-    exact hn
-  cutoff := fun k => k
-  monotone_cutoff := monotone_id
-  cutoff_bound := by
-    intro k n hn hdeg
-    exact hdeg
-
-/-- The composite; its modulus is the composite of the moduli. -/
-def comp (g : PositiveDegreeMap E F) (f : PositiveDegreeMap D E) : PositiveDegreeMap D F where
-  toAddMonoidHom := g.toAddMonoidHom.comp f.toAddMonoidHom
-  map_monoid := by
-    intro n hn
-    exact g.map_monoid (f.map_monoid hn)
-  map_positive := by
-    intro n hn
-    exact g.map_positive (f.map_positive hn)
-  cutoff := fun k => f.cutoff (g.cutoff k)
-  monotone_cutoff := f.monotone_cutoff.comp g.monotone_cutoff
-  cutoff_bound := by
-    intro k n hn hdeg
-    exact g.cutoff_bound k (f.map_monoid hn) (f.cutoff_bound (g.cutoff k) hn hdeg)
-
-/-- Normalize the image in the target lattice using a supported multiple (`README §0.1`). -/
-theorem exists_rayImage [Module.Free ℤ N'] (f : PositiveDegreeMap D E)
-    (r : D.SupportedRay) :
-    ∃ s : E.SupportedRay, ∃ b : ℤ, 0 < b ∧ f.toAddMonoidHom r.generator = b • s.generator := by
-  obtain ⟨a, ha, har⟩ := r.supported
-  have hpos := f.map_positive har
-  have hne : f.toAddMonoidHom r.generator ≠ 0 := by
-    intro hz
-    apply hpos.2
-    simp only [map_zsmul, hz, smul_zero]
-  obtain ⟨b, w, hb, hw, hbw⟩ := TauCeti.exists_eq_zsmul_isPrimitive hne
-  refine ⟨⟨w, hw, a * b, mul_pos ha hb, ?_⟩, b, hb, hbw⟩
-  simpa only [map_zsmul, hbw, smul_smul] using hpos
-
-/-- The primitive image-ray index (`README §§0.1, 4.1`); the degree map itself
-still sends an actual exponent `n` to `f n`. -/
-noncomputable def mapRay [Module.Free ℤ N'] (f : PositiveDegreeMap D E)
-    (r : D.SupportedRay) : E.SupportedRay :=
-  Classical.choose (f.exists_rayImage r)
-
-theorem mapRay_spec [Module.Free ℤ N'] (f : PositiveDegreeMap D E) (r : D.SupportedRay) :
-    ∃ b : ℤ, 0 < b ∧ f.toAddMonoidHom r.generator = b • (f.mapRay r).generator :=
-  Classical.choose_spec (f.exists_rayImage r)
-
-/-- Supported degrees map into the reindexed target ray (`README §4.1`). -/
-theorem mapRay_mem [Module.Free ℤ N'] (f : PositiveDegreeMap D E) (r : D.SupportedRay)
-    {n : N} (hn : n ∈ D.rayDegrees r.generator) :
-    f.toAddMonoidHom n ∈ E.rayDegrees (f.mapRay r).generator := by
-  obtain ⟨a, ha, han⟩ := hn.2
-  obtain ⟨b, hb, hbw⟩ := f.mapRay_spec r
-  refine ⟨f.map_positive hn.1, a * b, mul_pos ha hb, ?_⟩
-  simp only [han, map_zsmul, hbw, smul_smul]
-
-end PositiveDegreeMap
 
 section GradedLie
 
@@ -233,11 +106,70 @@ def degreeIdeal (k : ℕ) : LieIdeal R g :=
 /-- The truncation `g≤k = g / F^{k+1} g` (`README §0.2`). -/
 abbrev truncatedLie (k : ℕ) : Type _ := g ⧸ degreeIdeal D ℒ k
 
-/-- `README §0.2` `truncatedLie_nilpotent`. -/
-instance truncatedLie_nilpotent (k : ℕ) : LieRing.IsNilpotent (truncatedLie D ℒ k) := by
+/-- Each truncation `g≤k` is nilpotent (`README §0.2`). -/
+theorem truncatedLie_isNilpotent (k : ℕ) : LieRing.IsNilpotent (truncatedLie D ℒ k) := by
   sorry
 
 end GradedLie
+
+/-! ### Algebraic exponential groups (README §0.4) -/
+
+section FreeBCH
+
+attribute [local instance 100] LieRing.ofAssociativeRing
+
+open UniversalEnvelopingAlgebra
+
+/-- The free Lie algebra `𝔣` over `ℚ` on the generators `X = of 0` and `Y = of 1`
+(`README §0.4`). -/
+abbrev FreeLieTwo : Type := FreeLieAlgebra ℚ (Fin 2)
+
+/-- `U⁺`, the augmentation ideal of `U(𝔣)` for the Hopf structure of
+`TauCeti.UniversalEnvelopingAlgebra.instHopfAlgebra` (`README §0.4`). -/
+noncomputable abbrev freeAugmentation : Ideal (UniversalEnvelopingAlgebra ℚ FreeLieTwo) :=
+  (TauCeti.HopfIdeal.augmentation ℚ (UniversalEnvelopingAlgebra ℚ FreeLieTwo)).carrier
+
+instance : freeAugmentation.IsTwoSided :=
+  (TauCeti.HopfIdeal.augmentation ℚ (UniversalEnvelopingAlgebra ℚ FreeLieTwo)).isTwoSided'
+
+/-- `ι_c` is injective: `ι⁻¹((U⁺)^{c+1})` is `lowerCentralSeries c` (`README §0.4`). -/
+theorem comap_freeAugmentation_pow_ι (c : ℕ) :
+    ((freeAugmentation ^ (c + 1)).restrictScalars ℚ).comap
+        (ι ℚ : FreeLieTwo →ₗ⁅ℚ⁆ UniversalEnvelopingAlgebra ℚ FreeLieTwo).toLinearMap =
+      (LieModule.lowerCentralSeries ℚ FreeLieTwo FreeLieTwo c).toSubmodule := by
+  sorry
+
+/-- The universal BCH element of class `c` exists: `exp(X) exp(Y) = exp(ι b)` in
+`U(𝔣)/(U⁺)^{c+1}` (`README §0.4`, *bchElement*). By `comap_freeAugmentation_pow_ι`, `b` is
+unique modulo `lowerCentralSeries c`. -/
+theorem exists_bch_exp_mul_exp (c : ℕ) :
+    ∃ b : FreeLieTwo,
+      IsNilpotent.exp (Ideal.Quotient.mk (freeAugmentation ^ (c + 1)) (ι ℚ b)) =
+        IsNilpotent.exp (Ideal.Quotient.mk (freeAugmentation ^ (c + 1))
+            (ι ℚ (FreeLieAlgebra.of ℚ 0))) *
+          IsNilpotent.exp (Ideal.Quotient.mk (freeAugmentation ^ (c + 1))
+            (ι ℚ (FreeLieAlgebra.of ℚ 1))) := by
+  sorry
+
+end FreeBCH
+
+section PBW
+
+attribute [local instance 100] LieRing.ofAssociativeRing
+
+/-- Symmetrization PBW over a commutative `ℚ`-algebra, for an arbitrary Lie algebra: a product
+of `d` elements goes to `1/d!` times the sum of their products in all orders (`README §0.4`,
+*pbwSymmetrizationEquiv*; PET Corollary 8.1). -/
+theorem exists_pbwSymmetrizationEquiv (R g : Type*) [CommRing R] [Algebra ℚ R]
+    [LieRing g] [LieAlgebra R g] :
+    ∃ β : SymmetricAlgebra R g ≃ₗ[R] UniversalEnvelopingAlgebra R g,
+      ∀ (d : ℕ) (x : Fin d → g),
+        β (∏ j, SymmetricAlgebra.ι R g (x j)) =
+          algebraMap ℚ R (d.factorial : ℚ)⁻¹ • ∑ σ : Equiv.Perm (Fin d),
+            (List.ofFn fun j => UniversalEnvelopingAlgebra.ι R (x (σ j))).prod := by
+  sorry
+
+end PBW
 
 section Completed
 
@@ -276,22 +208,6 @@ namespace AlgFiltration
 variable {A : Type*} [Ring A] (F : AlgFiltration A)
 
 instance (k : ℕ) : (F.ideal k).IsTwoSided := F.isTwoSided k
-
-/-- The same decreasing ideal family is Mathlib's increasing filtration on `ℕᵒᵈ`
-(`README §0.3`); its strict lower step is the next natural-number ideal. -/
-instance isRingFiltration :
-    IsRingFiltration (fun k : ℕᵒᵈ => F.ideal k.ofDual)
-      (fun k : ℕᵒᵈ => F.ideal (k.ofDual + 1)) where
-  mono := by
-    intro a b hab
-    exact F.antitone hab
-  is_le := fun hij => F.antitone (Nat.succ_le_of_lt hij)
-  is_sup := fun B j hB => hB (OrderDual.toDual (j.ofDual + 1)) (Nat.lt_succ_self _)
-  one_mem := by
-    change (1 : A) ∈ F.ideal 0
-    rw [F.zero_eq_top]
-    trivial
-  mul_mem := fun {i j} {x y} hx hy => F.mul_mem (i := i.ofDual) (j := j.ofDual) hx hy
 
 /-- The separated completion `Â = lim_k A ⧸ I^(k+1) A` as compatible families; level `k` is the
 order-`k` quotient (`README §0.3`, Convention 3). Its carrier and ring structure do not depend
@@ -334,14 +250,6 @@ structure IsFilteredAlong (G : AlgFiltration B) (f : A →+* B) (cutoff : ℕ �
   map_mem : ∀ k {a : A}, a ∈ F.ideal (cutoff k + 1) → f a ∈ G.ideal (k + 1)
 
 variable {F} {G : AlgFiltration B} {f : A →+* B} {c : ℕ → ℕ}
-
-/-- `README §0.3` linear bound: `f(I^{kh}) ⊆ J^k` for a constant `c ≥ 1`
-gives the modulus `k ↦ c(k+1) − 1`. -/
-theorem IsFilteredAlong.ofLinearBound {c : ℕ} (hc : 0 < c)
-    (hf : ∀ k {a : A}, a ∈ F.ideal (c * k) → f a ∈ G.ideal k) :
-    F.IsFilteredAlong G f (fun k => c * (k + 1) - 1) where
-  monotone _ _ hk := Nat.sub_le_sub_right (Nat.mul_le_mul_left c (Nat.add_le_add_right hk 1)) 1
-  map_mem k a ha := hf (k + 1) (by rwa [Nat.sub_add_cancel (Nat.mul_pos hc k.succ_pos)] at ha)
 
 /-- The level map `A ⧸ I^{c(k)+1} A → B ⧸ J^{k+1} B` of a filtered map. -/
 noncomputable def IsFilteredAlong.levelMap (hf : F.IsFilteredAlong G f c) (k : ℕ) :
@@ -431,32 +339,7 @@ open CategoryTheory Functor Limits
 
 namespace GrothendieckLimits
 
-variable {D : Type*} [Category D] {C : D ⥤ Cat} {𝒱 : Type*} [Category 𝒱]
-  (F : Grothendieck C ⥤ 𝒱)
-  [∀ d, HasLimit (Grothendieck.ι C d ⋙ F)]
-  [∀ ⦃d e : D⦄ (f : d ⟶ e),
-    HasLimit ((C.map f).toFunctor ⋙ Grothendieck.ι C e ⋙ F)]
-  [∀ ⦃d e : D⦄ (f : d ⟶ e),
-    IsIso (limit.pre (Grothendieck.ι C e ⋙ F) (C.map f).toFunctor)]
-
-/-- Fiberwise limits when restriction along each transition preserves the relevant limit. -/
-noncomputable def fiberwiseLimit : D ⥤ 𝒱 where
-  obj d := limit (Grothendieck.ι C d ⋙ F)
-  map {d e} f :=
-    limMap (whiskerRight (Grothendieck.ιNatTrans f) F ≫ (Functor.associator _ _ _).hom) ≫
-      inv (limit.pre (Grothendieck.ι C e ⋙ F) (C.map f).toFunctor)
-  map_id := by sorry
-  map_comp := by sorry
-
-noncomputable def fiberwiseLimitIso [HasLimit F] [HasLimit (fiberwiseLimit F)] :
-    limit F ≅ limit (fiberwiseLimit F) := by
-  sorry
-
-/-- Initial base reindexing preserves this total limit under the relative restriction condition. -/
-theorem pre_limit_isIso {D' : Type*} [Category D'] (G : D' ⥤ D) [G.Initial]
-    [HasLimit F] [HasLimit (fiberwiseLimit F)] [HasLimit (Grothendieck.pre C G ⋙ F)] :
-    IsIso (limit.pre F (Grothendieck.pre C G)) := by
-  sorry
+variable {D : Type*} [Category D] {C : D ⥤ Cat}
 
 /-- Initial transitions give initiality independently of the coefficient diagram. -/
 theorem pre_initial {D' : Type*} [Category D'] (G : D' ⥤ D) [G.Initial]
@@ -488,37 +371,12 @@ noncomputable def DiagramComparison.limitMap (S : DiagramComparison F F' A)
     ((Cone.postcompose S.app).obj ((limit.cone F).whisker S.source)) ≫
       (Functor.Initial.limitIso S.target F').hom
 
-@[reassoc (attr := simp)]
-theorem DiagramComparison.limitMap_π (S : DiagramComparison F F' A)
-    [HasLimit F] [HasLimit F'] (a : A) :
-    S.limitMap ≫ limit.π F' (S.target.obj a) =
-      limit.π F (S.source.obj a) ≫ S.app.app a := by
-  simp [DiagramComparison.limitMap, Functor.Initial.limitIso]
-
-theorem DiagramComparison.limitMap_isIso (S : DiagramComparison F F' A)
-    [HasLimit F] [HasLimit F'] [HasLimit (S.source ⋙ F)]
-    [IsIso (limit.pre F S.source)] [IsIso S.app] : IsIso S.limitMap := by
-  have h : S.limitMap = limit.pre F S.source ≫ limMap S.app ≫
-      (Functor.Initial.limitIso S.target F').hom := by
-    simp only [DiagramComparison.limitMap, limit.pre, ← limit.lift_map, Category.assoc]
-  rw [h]
-  infer_instance
-
 def DiagramComparison.fromNatTrans {F F' : J ⥤ 𝒱} (β : F ⟶ F') :
     DiagramComparison F F' J where
   source := 𝟭 J
   target := 𝟭 J
   app := β
   initial := inferInstance
-
-@[simp]
-theorem DiagramComparison.fromNatTrans_limitMap {F F' : J ⥤ 𝒱} (β : F ⟶ F')
-    [HasLimit F] [HasLimit F'] : (DiagramComparison.fromNatTrans β).limitMap = limMap β := by
-  apply limit.hom_ext
-  intro j
-  rw [limMap_π]
-  simpa [DiagramComparison.fromNatTrans] using
-    (DiagramComparison.limitMap_π (DiagramComparison.fromNatTrans β) j)
 
 def DiagramComparison.restriction (F : J ⥤ 𝒱) (u : J' ⥤ J) :
     DiagramComparison F (u ⋙ F) J' where
@@ -527,26 +385,8 @@ def DiagramComparison.restriction (F : J ⥤ 𝒱) (u : J' ⥤ J) :
   app := 𝟙 _
   initial := inferInstance
 
-@[simp]
-theorem DiagramComparison.restriction_limitMap (F : J ⥤ 𝒱) (u : J' ⥤ J)
-    [HasLimit F] [HasLimit (u ⋙ F)] :
-    (DiagramComparison.restriction F u).limitMap = limit.pre F u := by
-  apply limit.hom_ext
-  intro j
-  rw [limit.pre_π]
-  simpa [DiagramComparison.restriction] using
-    (DiagramComparison.limitMap_π (DiagramComparison.restriction F u) j)
-
 def DiagramComparison.id (F : J ⥤ 𝒱) : DiagramComparison F F J :=
   DiagramComparison.fromNatTrans (𝟙 F)
-
-@[simp]
-theorem DiagramComparison.id_limitMap (F : J ⥤ 𝒱) [HasLimit F] :
-    (DiagramComparison.id F).limitMap = 𝟙 (limit F) := by
-  apply limit.hom_ext
-  intro j
-  simpa [DiagramComparison.id, DiagramComparison.fromNatTrans] using
-    (DiagramComparison.limitMap_π (DiagramComparison.id F) j)
 
 def DiagramComparison.comp (S : DiagramComparison F F' A)
     (T : DiagramComparison F' F'' B) :
@@ -568,77 +408,27 @@ def DiagramComparison.comp (S : DiagramComparison F F' A)
         rw [ht] }
   initial := inferInstance
 
-theorem DiagramComparison.comp_limitMap (S : DiagramComparison F F' A)
-    (T : DiagramComparison F' F'' B) [HasLimit F] [HasLimit F'] [HasLimit F''] :
-    (S.comp T).limitMap = S.limitMap ≫ T.limitMap := by
-  apply (cancel_mono (limit.pre F'' (S.comp T).target)).1
-  apply limit.hom_ext
-  intro x
-  simp only [Category.assoc, limit.pre_π]
-  rw [(S.comp T).limitMap_π]
-  change limit.π F (S.source.obj x.left) ≫
-      (S.app.app x.left ≫ F'.map x.hom ≫ T.app.app x.right) =
-    S.limitMap ≫ T.limitMap ≫ limit.π F'' (T.target.obj x.right)
-  rw [T.limitMap_π, ← limit.w F' x.hom]
-  simp only [← Category.assoc]
-  rw [S.limitMap_π]
-
 end DiagramComparisons
 
 section Labels
 
-variable {D : Type*} [Category D] {C : D ⥤ Cat} {𝒱 : Type*} [Category 𝒱]
-
-theorem monotone_op_initial_iff (modulus : ℕ → ℕ) (h : Monotone modulus) :
-    h.functor.op.Initial ↔ ∀ n, ∃ k, n ≤ modulus k := by
-  rw [← h.final_functor_iff]
-  exact ⟨fun _ => Functor.final_of_initial_op _, fun _ => Functor.initial_op_of_final _⟩
+variable {D : Type*} [Category D] {C : D ⥤ Cat}
 
 /-- A coherent choice of an object in each fiber. -/
 structure ObjectSection (C : D ⥤ Cat) where
   functor : D ⥤ Grothendieck C
-  over : functor ⋙ Grothendieck.forget C = 𝟭 D
+  «over» : functor ⋙ Grothendieck.forget C = 𝟭 D
 
 def ObjectSection.map {C' : D ⥤ Cat} (s : ObjectSection C) (j : C ⟶ C') :
     ObjectSection C' where
   functor := s.functor ⋙ Grothendieck.map j
-  over := s.over
-
-noncomputable def ObjectSection.pullback {D' : Type*} [Category D']
-    (s : ObjectSection C) (G : D' ⥤ D) : ObjectSection (G ⋙ C) := by
-  sorry
-
-theorem ObjectSection.pullback_comp_pre {D' : Type*} [Category D']
-    (s : ObjectSection C) (G : D' ⥤ D) :
-    (s.pullback G).functor ⋙ Grothendieck.pre C G = G ⋙ s.functor := by
-  sorry
+  «over» := s.over
 
 /-- A natural label family whose image in the base is the identity. -/
 structure VerticalLabel (L : D ⥤ Cat) (s t : ObjectSection L) where
   hom : s.functor ⟶ t.functor
   vertical : whiskerRight hom (Grothendieck.forget L) =
     eqToHom s.over ≫ eqToHom t.over.symm
-
-variable {L : D ⥤ Cat} [∀ d, IsGroupoid (L.obj d)] {s t : ObjectSection L}
-
-theorem VerticalLabel.isIso (g : VerticalLabel L s t) : IsIso g.hom := by
-  have : IsIso (whiskerRight g.hom (Grothendieck.forget L)) := by
-    rw [g.vertical]
-    infer_instance
-  have (d : D) : IsIso ((g.hom.app d).base) := by
-    change IsIso ((whiskerRight g.hom (Grothendieck.forget L)).app d)
-    infer_instance
-  have (d : D) : IsIso (g.hom.app d) := by
-    let e := Grothendieck.isoMk (asIso (g.hom.app d).base) (asIso (g.hom.app d).fiber)
-    change IsIso e.hom
-    infer_instance
-  exact NatIso.isIso_of_isIso_app g.hom
-
-noncomputable def VerticalLabel.coefficientIso (A : Grothendieck L ⥤ 𝒱)
-    (g : VerticalLabel L s t) [HasLimit (s.functor ⋙ A)] [HasLimit (t.functor ⋙ A)] :
-    limit (s.functor ⋙ A) ≅ limit (t.functor ⋙ A) := by
-  letI := g.isIso
-  exact HasLimit.isoOfNatIso (isoWhiskerRight (asIso g.hom) A)
 
 end Labels
 
@@ -653,20 +443,6 @@ structure ActionIntertwiner (A : Grothendieck L ⥤ 𝒱)
     (A' : Grothendieck L' ⥤ 𝒱) (G : D' ⥤ D) where
   labels : G ⋙ L ⟶ L'
   app : Grothendieck.pre L G ⋙ A ⟶ Grothendieck.map labels ⋙ A'
-
-noncomputable def ActionIntertwiner.section (T : ActionIntertwiner A A' G)
-    (s : ObjectSection L) : ObjectSection L' :=
-  (s.pullback G).map T.labels
-
-/-- Section coefficient limits use the comparison legs `G` and `𝟭 D'`. -/
-noncomputable def ActionIntertwiner.sectionComparison
-    (T : ActionIntertwiner A A' G) (s : ObjectSection L) :
-    DiagramComparison (s.functor ⋙ A) ((T.section s).functor ⋙ A') D' where
-  source := G
-  target := 𝟭 D'
-  app := eqToHom (congrArg (fun K => K ⋙ A) (s.pullback_comp_pre G).symm) ≫
-    whiskerLeft (s.pullback G).functor T.app
-  initial := inferInstance
 
 end ActionIntertwiners
 
@@ -734,26 +510,6 @@ noncomputable def GradedCorrespondence.outputSupportLeft [DecidableEq Γv]
   classical
   exact (DirectSum.decompose 𝒜v (S.right (S.liftLeft γ h a))).support
 
-/-- One reconstruction identity supplies the coefficient sum for both ordinary walls
-and slabs; the one-face geometric theorem identifies this support with the path fiber. -/
-theorem GradedCorrespondence.sum_transferLeft [DecidableEq Γv]
-    [DirectSum.Decomposition 𝒜v] (S : GradedCorrespondence 𝒜u 𝒜v Mb)
-    (γ : Γu) (h : γ ∈ S.admissibleLeft) (a : 𝒜u γ) :
-    ∑ η ∈ S.outputSupportLeft γ h a, S.transferLeft γ h η a =
-      S.right (S.liftLeft γ h a) := by
-  classical
-  change (∑ η ∈ (DirectSum.decompose 𝒜v (S.right (S.liftLeft γ h a))).support,
-    ((DirectSum.decompose 𝒜v (S.right (S.liftLeft γ h a))) η : Mv)) = _
-  exact DirectSum.sum_support_decompose 𝒜v _
-
-/-- The incoming lift is a common lift of the incoming coefficient and the outgoing sum. -/
-theorem GradedCorrespondence.lift_transfer_pair [DecidableEq Γv]
-    [DirectSum.Decomposition 𝒜v] (S : GradedCorrespondence 𝒜u 𝒜v Mb)
-    (γ : Γu) (h : γ ∈ S.admissibleLeft) (a : 𝒜u γ) :
-    (S.left.prod S.right) (S.liftLeft γ h a) =
-      ((a : Mu), ∑ η ∈ S.outputSupportLeft γ h a, S.transferLeft γ h η a) := by
-  exact Prod.ext (S.left_lift γ h a) (S.sum_transferLeft γ h a).symm
-
 /-- The image in `Mu × Mv`; joint injectivity identifies it with `Mb` (`README §0.8`). -/
 def GradedCorrespondence.toSubmodule (S : GradedCorrespondence 𝒜u 𝒜v Mb) :
     Submodule R (Mu × Mv) :=
@@ -767,22 +523,6 @@ structure GradedCorrespondence.CommonLift (S : GradedCorrespondence 𝒜u 𝒜v 
   left_lift : ∀ a : E, S.left (lift a) = αu a
   right_lift : ∀ a : E, S.right (lift a) = αv a
 
-/-- Joint injectivity is used for uniqueness, not for the definition of transfer. -/
-theorem GradedCorrespondence.CommonLift.subsingleton
-    (S : GradedCorrespondence 𝒜u 𝒜v Mb) (hS : Function.Injective (S.left.prod S.right))
-    {E : Type*} [AddCommMonoid E] [Module R E]
-    (αu : E →ₗ[R] Mu) (αv : E →ₗ[R] Mv) : Subsingleton (S.CommonLift αu αv) where
-  allEq l m := by
-    have h : l.lift = m.lift := by
-      ext a
-      apply hS
-      exact Prod.ext ((l.left_lift a).trans (m.left_lift a).symm)
-        ((l.right_lift a).trans (m.right_lift a).symm)
-    cases l
-    cases m
-    cases h
-    rfl
-
 variable (𝒜u 𝒜v) in
 /-- The graph correspondence of a linear equivalence (`README §0.8`). -/
 def GradedCorrespondence.graph (θ : Mu ≃ₗ[R] Mv) : GradedCorrespondence 𝒜u 𝒜v Mu where
@@ -794,10 +534,6 @@ def GradedCorrespondence.graph (θ : Mu ≃ₗ[R] Mv) : GradedCorrespondence �
   admissibleRight := Set.univ
   liftRight η _ := θ.symm.toLinearMap.comp (𝒜v η).subtype
   right_lift _ _ a := by simp
-
-theorem GradedCorrespondence.graph_joint_injective (θ : Mu ≃ₗ[R] Mv) :
-    Function.Injective ((GradedCorrespondence.graph 𝒜u 𝒜v θ).left.prod
-      (GradedCorrespondence.graph 𝒜u 𝒜v θ).right) := fun _ _ h => congrArg Prod.fst h
 
 /-- A change of graded correspondence, preserving admissibility and every lift. -/
 structure GradedCorrespondence.Map
@@ -1292,29 +1028,6 @@ theorem sweep_homotopy [FiniteDimensional ℝ V] (n₀ : N)
       -TransverseCochain.toCochain C := by
   sorry
 
-/-- `README §1.4` *sweep_strictlyOutgoing*: `n ∉ rec(P − ℝ_{≥0} n)`, since `n ∈ rec(P − ℝ_{≥0} n)`
-would give `(1 + t) n ∈ dir(P)`. -/
-theorem sweep_strictlyOutgoing [FiniteDimensional ℝ V] (n₀ : N) (σ : OrientedCell i (k + 1))
-    (hn : i n₀ ∉ affineDir σ.carrier) :
-    ¬ ∀ x ∈ (sweepCell n₀ σ hn).carrier, ∀ t : ℝ, 0 ≤ t →
-      x + t • i n₀ ∈ (sweepCell n₀ σ hn).carrier := by
-  intro h
-  obtain ⟨x, hx⟩ := σ.nonempty
-  obtain ⟨y, hy, t, ht, he⟩ := h x ⟨x, hx, 0, le_rfl, by simp⟩ 1 zero_le_one
-  have hmem : y -ᵥ x ∈ affineDir σ.carrier := by
-    rw [affineDir, direction_affineSpan]
-    exact vsub_mem_vectorSpan ℝ hy hx
-  have hyx : y -ᵥ x = (1 + t) • i n₀ := by
-    rw [vsub_eq_sub, add_smul, one_smul]
-    rw [one_smul] at he
-    rw [eq_sub_iff_add_eq] at he
-    rw [← he]
-    abel
-  rw [hyx] at hmem
-  have h1t : (1 + t) ≠ 0 := by linarith
-  apply hn
-  simpa [h1t] using Submodule.smul_mem _ (1 + t)⁻¹ hmem
-
 end Cochains
 
 /-! ## Layer 2: path products and finite wall diagrams -/
@@ -1358,64 +1071,6 @@ def DirectedWallSpaces.raySubmodule {ℒ : L → Submodule R g} {ρ : L →+ Λ}
     (m : Λ →+ ℤ) : Submodule R g :=
   ⨆ n, ⨆ (_ : n ∈ D.rayDegrees r.generator), W.wall n m
 
-/-- Each actual homogeneous wall space embeds in its supported ray submodule. -/
-theorem DirectedWallSpaces.wall_le_raySubmodule {ℒ : L → Submodule R g} {ρ : L →+ Λ}
-    (W : DirectedWallSpaces ρ ℒ) {D : PositiveDegrees L} (r : D.SupportedRay)
-    (m : Λ →+ ℤ) {n : L} (hn : n ∈ D.rayDegrees r.generator) :
-    W.wall n m ≤ W.raySubmodule r m :=
-  le_iSup_of_le n (le_iSup_of_le hn le_rfl)
-
-/-- Wall spaces with the same normal commute (`README §3.1`). No tangency hypothesis is
-needed: a nontangent wall space is zero. -/
-theorem DirectedWallSpaces.sameNormal_lie_eq_zero {ℒ : L → Submodule R g}
-    {ρ : L →+ Λ} (W : DirectedWallSpaces ρ ℒ) (n n' : L) (m : Λ →+ ℤ) (x y : g)
-    (hx : x ∈ W.wall n m) (hy : y ∈ W.wall n' m) : ⁅x, y⁆ = 0 := by
-  by_cases hn : m (ρ n) = 0
-  · by_cases hn' : m (ρ n') = 0
-    · have h := W.bracket_mem n n' m m x y hx hy
-      simpa [wallBracketNormal, hn, hn', W.zero_normal] using h
-    · rw [W.nontangent n' m hn', Submodule.mem_bot] at hy
-      simp [hy]
-  · rw [W.nontangent n m hn, Submodule.mem_bot] at hx
-    simp [hx]
-
-/-- Wall spaces with rationally proportional normals commute (`README §3.1`): a common nonzero
-rescaling reduces this to `sameNormal_lie_eq_zero`. -/
-theorem DirectedWallSpaces.parallelWallSpaces_commute {ℒ : L → Submodule R g}
-    {ρ : L →+ Λ} (W : DirectedWallSpaces ρ ℒ) (n n' : L) (m m' : Λ →+ ℤ) (c d : ℤ)
-    (hc : c ≠ 0) (hd : d ≠ 0) (hparallel : c • m = d • m') (x y : g)
-    (hx : x ∈ W.wall n m) (hy : y ∈ W.wall n' m') : ⁅x, y⁆ = 0 := by
-  apply W.sameNormal_lie_eq_zero n n' (c • m) x y
-  · simpa only [W.rescale n m c hc] using hx
-  · rw [hparallel, W.rescale n' m' d hd]
-    exact hy
-
-/-- Wall elements whose degrees project to zero commute (`README §3.1`). -/
-theorem DirectedWallSpaces.kernel_lie_eq_zero {ℒ : L → Submodule R g}
-    {ρ : L →+ Λ} (W : DirectedWallSpaces ρ ℒ) (n n' : L) (m m' : Λ →+ ℤ)
-    (hn : ρ n = 0) (hn' : ρ n' = 0) (x y : g)
-    (hx : x ∈ W.wall n m) (hy : y ∈ W.wall n' m') : ⁅x, y⁆ = 0 := by
-  have h := W.bracket_mem n n' m m' x y hx hy
-  simpa [wallBracketNormal, hn, hn', W.zero_normal] using h
-
-/-- A bracket with total projected degree zero vanishes (`README §3.1`). -/
-theorem DirectedWallSpaces.total_projection_zero_lie_eq_zero {ℒ : L → Submodule R g}
-    {ρ : L →+ Λ} (W : DirectedWallSpaces ρ ℒ) (n n' : L) (m m' : Λ →+ ℤ)
-    (hzero : ρ (n + n') = 0) (x y : g)
-    (hx : x ∈ W.wall n m) (hy : y ∈ W.wall n' m') : ⁅x, y⁆ = 0 := by
-  by_cases hn : m (ρ n) = 0
-  · by_cases hn' : m' (ρ n') = 0
-    · have hm : m (ρ n') = 0 := by
-        simpa only [map_add, map_zero, hn, zero_add] using congrArg m hzero
-      have hm' : m' (ρ n) = 0 := by
-        simpa only [map_add, map_zero, hn', add_zero] using congrArg m' hzero
-      have h := W.bracket_mem n n' m m' x y hx hy
-      simpa [wallBracketNormal, hm, hm', W.zero_normal] using h
-    · rw [W.nontangent n' m' hn', Submodule.mem_bot] at hy
-      simp [hy]
-  · rw [W.nontangent n m hn, Submodule.mem_bot] at hx
-    simp [hx]
-
 end WallSpaces
 
 /-- A directed affine wall with physical direction `-ρ w` and support direction `ker m_ℝ`.
@@ -1446,11 +1101,6 @@ def Incoming : Prop :=
 
 /-- The negation of incoming (`README §3.2`). -/
 def Outgoing : Prop := ¬ 𝔡.Incoming
-
-/-- A coefficient-only degree is incoming for every support (`README §§1.5, 3.3`). -/
-theorem incoming_of_projection_zero (h : ρ 𝔡.ray.generator = 0) : 𝔡.Incoming := by
-  intro x hx t ht
-  simpa [h] using hx
 
 end DirectedWall
 
@@ -1813,22 +1463,12 @@ theorem weightZeroUnitMap_on_piece (f : Aˣ) (n : ℤ) (a : A) (ha : a ∈ 𝒜 
     weightZeroUnitMap 𝒜 f a = (↑(f ^ n) : A) * a := by
   sorry
 
-/-- The automorphism defined by a weight-zero unit in arbitrary characteristic (`README §4.4`). -/
-noncomputable def weightZeroUnitAut (f : Aˣ)
-    (hf : (f : A) ∈ 𝒜 0) (hfInv : (↑(f⁻¹) : A) ∈ 𝒜 0) : A ≃ₐ[R] A where
-  toFun := weightZeroUnitMap 𝒜 f
-  invFun := weightZeroUnitMap 𝒜 f⁻¹
-  left_inv := by sorry
-  right_inv := by sorry
-  map_mul' := by sorry
-  map_add' := by sorry
-  commutes' := by sorry
-
-/-- The unit action preserves homogeneous ideals. -/
-theorem weightZeroUnitAut_mem_ideal_iff (f : Aˣ)
-    (hf : (f : A) ∈ 𝒜 0) (hfInv : (↑(f⁻¹) : A) ∈ 𝒜 0)
-    (I : Ideal A) (hI : ∀ a ∈ I, ∀ n, homogeneousComponent 𝒜 n a ∈ I) (a : A) :
-    weightZeroUnitAut 𝒜 f hf hfInv a ∈ I ↔ a ∈ I := by
+/-- A unit of weight zero acts by an `R`-algebra automorphism in arbitrary characteristic, and
+the action preserves every ideal stable under homogeneous components (`README §4.4`). -/
+theorem exists_weightZeroUnitAut (f : Aˣ) (hf : (f : A) ∈ 𝒜 0) (hfInv : (↑(f⁻¹) : A) ∈ 𝒜 0) :
+    ∃ Θ : A ≃ₐ[R] A, (∀ a, Θ a = weightZeroUnitMap 𝒜 f a) ∧
+      ∀ (I : Ideal A), (∀ a ∈ I, ∀ n, homogeneousComponent 𝒜 n a ∈ I) →
+        ∀ a, Θ a ∈ I ↔ a ∈ I := by
   sorry
 
 end WeightZeroSlabs
@@ -1843,13 +1483,12 @@ noncomputable def truncatedUnitLog (f : Aˣ) (k : ℕ) : A :=
 
 /-- The logarithmic derivation `D(a_n) = n log(f) a_n` is nilpotent and exponentiates to the
 unit action (`README §4.4`). -/
-theorem exp_logSlab_eq_weightZeroUnitAut (𝒜 : ℤ → Submodule ℚ A) [GradedRing 𝒜]
-    (f : Aˣ) (hf : (f : A) ∈ 𝒜 0) (hfInv : (↑(f⁻¹) : A) ∈ 𝒜 0)
-    (k : ℕ) (hnil : ((f : A) - 1) ^ (k + 1) = 0)
+theorem exp_logSlab_eq_weightZeroUnitMap (𝒜 : ℤ → Submodule ℚ A) [GradedRing 𝒜]
+    (f : Aˣ) (k : ℕ) (hnil : ((f : A) - 1) ^ (k + 1) = 0)
     (D : Module.End ℚ A)
     (hD : ∀ n (a : A), a ∈ 𝒜 n →
       D a = (n : ℚ) • (truncatedUnitLog f k * a)) :
-    D ^ (k + 1) = 0 ∧ ∀ a, IsNilpotent.exp D a = weightZeroUnitAut 𝒜 f hf hfInv a := by
+    D ^ (k + 1) = 0 ∧ ∀ a, IsNilpotent.exp D a = weightZeroUnitMap 𝒜 f a := by
   sorry
 
 end SlabLogarithm
@@ -1969,17 +1608,6 @@ noncomputable def BrokenLine.weightedEvaluation {D : BrokenLineData R B V}
   letI := Fintype.ofFinite ι
   exact ∑ j, (congrArg (fun v => (D.coefficient v : Type _)) (hu j)) ▸
     (family j).finalDecoration
-
-/-- Changing an enumeration does not introduce a second evaluation construction. -/
-theorem BrokenLine.weightedEvaluation_reindex {D : BrokenLineData R B V}
-    {ι κ : Type*} [Finite ι] [Finite κ] (e : ι ≃ κ)
-    (family : κ → BrokenLine D) (u : D.State) (hu : ∀ j, (family j).finalState = u) :
-    BrokenLine.weightedEvaluation (family ∘ e) u (fun j => hu (e j)) =
-      BrokenLine.weightedEvaluation family u hu := by
-  letI := Fintype.ofFinite ι
-  letI := Fintype.ofFinite κ
-  unfold BrokenLine.weightedEvaluation
-  exact Fintype.sum_equiv e _ _ (fun _ => rfl)
 
 /-- Reversing a slab uses the same span with its incidences and admissible lifts swapped. -/
 def GradedCorrespondence.symm {Γu Γv Mb Mu Mv : Type*}
@@ -2185,14 +1813,6 @@ theorem affineBrokenLine_type_endpoint_injective {w : ℕ}
       (b.decoratedType, b.endpoint)) := by
   sorry
 
-/-- An empty diagram has one discrete type and one line per endpoint (`README §§5.2–5.3`). -/
-theorem emptyDiagram_one_decoratedType (action : G →* (A ≃ₗ[R] A))
-    (k : ℕ) {p : L} (a : A) (ha : a ∈ 𝒜 p) (ha0 : a ≠ 0) (hp : ρ p ≠ 0) :
-    let B := AffineBrokenLine hi ρ D wallGroup 𝒜 (fun j : Fin 0 => Fin.elim0 j) action k a ha
-    ∃ τ : AffineDecoratedType L A 0,
-      (∀ b : B, b.decoratedType = τ) ∧ ∀ Q : V, ∃! b : B, b.endpoint = Q := by
-  sorry
-
 /-- An invariant homogeneous source in `ker ρ`, defining a stationary section (`README §5.2`). -/
 structure StationarySource (action : G →* (A ≃ₗ[R] A)) (p : L) where
   value : A
@@ -2368,27 +1988,6 @@ def IsProbeLabelRep {K' : OrderFiltration (probeGroup action)} {ι' : Type*}
     𝔇'.polygonProduct (k + 1) ![(Q, -ε), (Q, ε)] *
       SemidirectProduct.inl (Multiplicative.ofAdd Θ) ∈ K'.ker (k + 1)
 
-/-- Representatives of the same vertical product agree in relative degrees `≤ k`. -/
-theorem probeLabelRep_component_eq {K' : OrderFiltration (probeGroup action)}
-    (hK' : IsProbeFiltration D 𝒜 action K p K') (k : ℕ) (g : probeGroup action) {Θ Θ' : A}
-    (hm : InShiftedModule (D := D) (𝒜 := 𝒜) p Θ) (hm' : InShiftedModule (D := D) (𝒜 := 𝒜) p Θ')
-    (hg : g * SemidirectProduct.inl (Multiplicative.ofAdd Θ) ∈ K'.ker (k + 1))
-    (hg' : g * SemidirectProduct.inl (Multiplicative.ofAdd Θ') ∈ K'.ker (k + 1))
-    {n : L} (hn : n ∈ D.cutoff k) :
-    homogeneousComponent 𝒜 (p + n) Θ = homogeneousComponent 𝒜 (p + n) Θ' := by
-  have hsub : ∀ q, homogeneousComponent 𝒜 q (Θ' - Θ) =
-      homogeneousComponent 𝒜 q Θ' - homogeneousComponent 𝒜 q Θ := fun q => by
-    simp [homogeneousComponent, DirectSum.decompose_sub]
-  have hmem : SemidirectProduct.inl (Multiplicative.ofAdd (Θ' - Θ)) ∈ K'.ker (k + 1) := by
-    have := (K'.ker (k + 1)).mul_mem ((K'.ker (k + 1)).inv_mem hg) hg'
-    rwa [mul_inv_rev, mul_assoc, inv_mul_cancel_left, ← map_inv, ← map_mul, ← ofAdd_neg,
-      ← ofAdd_add, neg_add_eq_sub] at this
-  have hM : ∀ q, q - p ∉ D.monoid → homogeneousComponent 𝒜 q (Θ' - Θ) = 0 := fun q hq => by
-    rw [hsub, hm q hq, hm' q hq, sub_zero]
-  have := (hK'.2 k (Θ' - Θ) hM).1 hmem n hn
-  rw [hsub, sub_eq_zero] at this
-  exact this.symm
-
 /-- A representative of the probe label `F(Q)` at relative order `k` (`README §5.5`).
 Its cutoff components at a fixed segment are independent of this choice. -/
 noncomputable def probeLabel {K' : OrderFiltration (probeGroup action)} {ι' : Type*}
@@ -2545,18 +2144,16 @@ abbrev ModelAlgebra (k : ℕ) := Ambient K ⧸ modelIdeal K k
 def coordinate (I : Ideal (Ambient K)) (c : Coordinate) : Ambient K ⧸ I :=
   Ideal.Quotient.mk I (MvPolynomial.X c)
 
-theorem leftIdeal_le_faceIdeal (k : ℕ) : leftIdeal K k ≤ faceIdeal K k := by
-  sorry
-
-theorem rightIdeal_le_faceIdeal (k : ℕ) : rightIdeal K k ≤ faceIdeal K k := by
-  sorry
-
 /-- Restriction to the common face. -/
 def leftRestriction (k : ℕ) : LeftRing K k →+* FaceRing K k :=
-  Ideal.Quotient.factor (leftIdeal_le_faceIdeal K k)
+  Ideal.Quotient.factor <| Ideal.span_mono fun _ ha => by
+    simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at ha ⊢
+    tauto
 
 def rightRestriction (k : ℕ) : RightRing K k →+* FaceRing K k :=
-  Ideal.Quotient.factor (rightIdeal_le_faceIdeal K k)
+  Ideal.Quotient.factor <| Ideal.span_mono fun _ ha => by
+    simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at ha ⊢
+    tauto
 
 /-- The slab function has deformation order zero. -/
 def slabFunction (k : ℕ) : FaceRing K k := 1 + coordinate K (faceIdeal K k) w
@@ -2669,6 +2266,35 @@ theorem modelToFiber_bijective (k : ℕ) : Function.Bijective (modelToFiber K k)
 noncomputable def focusFocusAlgebra (k : ℕ) : ModelAlgebra K k ≃+* fiberProduct K k :=
   RingEquiv.ofBijective (modelToFiber K k) (modelToFiber_bijective K k)
 
+
+/-- `W` is a unit of the model algebra, with inverse `w⁻¹`. -/
+noncomputable def modelW (k : ℕ) : (ModelAlgebra K k)ˣ where
+  val := coordinate K (modelIdeal K k) w
+  inv := coordinate K (modelIdeal K k) wInv
+  val_inv := by
+    rw [coordinate, coordinate, ← map_mul, ← map_one (Ideal.Quotient.mk _), Ideal.Quotient.eq]
+    exact Ideal.subset_span (Set.mem_insert _ _)
+  inv_val := by
+    rw [coordinate, coordinate, ← map_mul, ← map_one (Ideal.Quotient.mk _), Ideal.Quotient.eq,
+      mul_comm]
+    exact Ideal.subset_span (Set.mem_insert _ _)
+
+/-- The model form of the theta element `ϑ_{n,b}`: `X^{-n}W^b` for `n < 0`, `W^b` for `n = 0`
+and `Y^nW^b` for `n > 0`, with `X = x` and `Y = y` (`README §6.3`). -/
+noncomputable def modelTheta (k : ℕ) (n b : ℤ) : ModelAlgebra K k :=
+  (if n < 0 then coordinate K (modelIdeal K k) x ^ n.natAbs
+    else coordinate K (modelIdeal K k) y ^ n.natAbs) * ((modelW K k ^ b : (ModelAlgebra K k)ˣ) :
+      ModelAlgebra K k)
+
+/-- The model form of *focusFocusTheta_mul* (`README §6.3`): for
+`r = (|n| + |m| - |n + m|)/2`, `ϑ_{n,b} ϑ_{m,c} = t^r Σ_{j ≤ r} binom(r,j) ϑ_{n+m,b+c+j}`. -/
+theorem modelTheta_mul (k : ℕ) (n m b c : ℤ) :
+    let r := (n.natAbs + m.natAbs - (n + m).natAbs) / 2
+    modelTheta K k n b * modelTheta K k m c =
+      coordinate K (modelIdeal K k) t ^ r *
+        ∑ j ∈ Finset.range (r + 1), (r.choose j : ModelAlgebra K k) *
+          modelTheta K k (n + m) (b + c + j) := by
+  sorry
 
 end
 

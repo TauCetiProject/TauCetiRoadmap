@@ -33,9 +33,11 @@ without reference to cluster objects.
 owns the toric lattice, salient cone, finite fan and dual-semigroup interfaces
 consumed here; §1.1 adds affine cells and complexes allowing lineality and proves
 comparisons on the existing cone carriers. The
-[RepresentationTheory/LieGroups roadmap](../RepresentationTheory/LieGroups/README.md)
-owns analytic local BCH and Lie-group exponential theory; §0.4 owns universal rational
-BCH polynomials and algebraic nilpotent BCH groups over commutative `ℚ`-algebras. The
+[RepresentationTheory/LieGroups roadmap](../RepresentationTheory/LieGroups/README.md),
+Layer 3, owns Lie-group exponential theory and the analytic local BCH identity. The formal BCH
+series itself is owned here, as §0.4's *bchElement*: its truncations in
+`𝔣/lowerCentralSeries c`. The analytic identity of LieGroups is the convergent form of this
+series, and §0.4 also owns algebraic nilpotent BCH groups over commutative `ℚ`-algebras. The
 [RepresentationTheory/LieHighestWeight roadmap](../RepresentationTheory/LieHighestWeight/README.md)
 owns the Poincaré–Birkhoff–Witt theorem for free modules; §0.4 owns its symmetrization
 form over commutative `ℚ`-algebras for arbitrary Lie algebras.
@@ -45,7 +47,7 @@ for example its Lie algebra, filtration, group theory and convex geometry module
 scattering-specific carriers belong in
 `TauCeti/Geometry/ScatteringDiagram/`.
 
-## Conventions and supplier contracts
+## Conventions
 
 1. A lattice is a finite free `ℤ`-module. Every real vector space is a
    finite-dimensional real normed space `V` with an integral lattice map
@@ -75,8 +77,61 @@ scattering-specific carriers belong in
    [Lean prototype](Suggested.lean) illustrates selected interfaces; this README
    is the definitive specification.
 
-Use Mathlib and Tau Ceti suppliers with their existing meanings and public interfaces;
-each section lists its dependencies under *Needs*.
+## Exact supplier contracts
+
+Use Mathlib and Tau Ceti suppliers with their existing meanings and public interfaces; each
+section lists its dependencies under *Needs*. The pins are those of this repository's
+`lake-manifest.json`: Mathlib `f6090c70` and Tau Ceti `358314d4`. Every name below exists at
+these pins; the paths are at those revisions.
+
+**Tau Ceti.**
+
+| Declaration | File | Used in |
+|---|---|---|
+| `TauCeti.UniversalEnvelopingAlgebra.instHopfAlgebra` | `TauCeti/Algebra/Lie/UniversalEnveloping/HopfAlgebra.lean` | §0.4 (coproduct, counit and antipode of `U_R(g)`) |
+| `TauCeti.HopfIdeal.augmentation` | `TauCeti/Algebra/HopfAlgebra/HopfIdeal/Augmentation.lean` | §0.4 (`U⁺`) |
+| `TauCeti.UniversalEnvelopingAlgebra.pbwAssociatedGradedEquiv` | `TauCeti/Algebra/Lie/UniversalEnveloping/PBW/Injective.lean` | §0.4 |
+| `TauCeti.expAd`, `TauCeti.expAd_apply_eq_exp_mul_exp_neg` | `TauCeti/Algebra/Lie/InnerAutomorphism.lean` | §§0.4, 0.6 |
+| `TauCeti.heisenberg` | `TauCeti/Algebra/Lie/Heisenberg.lean` | §0.2 |
+| `TauCeti.IsPrimitive`, `TauCeti.exists_eq_zsmul_isPrimitive` | `TauCeti/Algebra/Module/Primitive.lean` | §0.1 |
+| `TauCeti.Toric.IsIntegralLattice` and its `extend`, `realCharacter`, `realCharacter_comp` | `TauCeti/Geometry/Toric/Algebraic/Lattice.lean` | Convention 1 and throughout; `extend` and `realCharacter_comp` in §§1.5, 6.1 |
+| `TauCeti.Toric.IsLatticeRational` | `TauCeti/Geometry/Toric/Algebraic/Cone/Basic.lean` | §§0.1, 1.1 |
+| `TauCeti.Toric.IsLatticeRational.fg_dualSemigroup` | `TauCeti/Geometry/Toric/Algebraic/DualSemigroup/Finiteness.lean` | §0.1 |
+| `TauCeti.Toric.Fan` | `TauCeti/Geometry/Toric/Algebraic/Fan/Basic.lean` | §1.1 |
+| `TauCeti.Toric.Fan.IsSubdivision` | `TauCeti/Geometry/Toric/Algebraic/Fan/Subdivision.lean` | §1.1 |
+| `TauCeti.IsConvexPolyhedron` | `TauCeti/Analysis/Convex/Polyhedron/Basic.lean` | §1.1 |
+
+Short names in the sections, such as `IsIntegralLattice`, `IsLatticeRational` and
+`Fan.IsSubdivision`, refer to these declarations.
+
+**Mathlib.** The main carriers, by file: `GradedLieAlgebra` (`Mathlib/Algebra/Lie/Graded.lean`);
+`lowerCentralSeries` and `LieRing.IsNilpotent` (`Mathlib/Algebra/Lie/Nilpotent.lean`);
+`FreeLieAlgebra` (`Mathlib/Algebra/Lie/Free.lean`); `UniversalEnvelopingAlgebra`
+(`Mathlib/Algebra/Lie/UniversalEnveloping.lean`); `SymmetricAlgebra`
+(`Mathlib/LinearAlgebra/SymmetricAlgebra/Basic.lean`); `IsGroupLikeElem`
+(`Mathlib/RingTheory/Coalgebra/GroupLike.lean`); `Bialgebra.IsPrimitiveElem`
+(`Mathlib/RingTheory/Bialgebra/Primitive.lean`); `IsNilpotent.exp` and
+`Module.End.exp_mul_of_derivation` (`Mathlib/RingTheory/Nilpotent/Exp.lean`);
+`IsRingFiltration` and `IsModuleFiltration` (`Mathlib/RingTheory/FilteredAlgebra/Basic.lean`);
+`GrpCat.sectionsSubgroup` and `GrpCat.limitCone` (`Mathlib/Algebra/Category/Grp/Limits.lean`);
+`LieDerivation` (`Mathlib/Algebra/Lie/Derivation/Basic.lean`); `LieAlgebra.SemiDirectSum`
+(`Mathlib/Algebra/Lie/SemiDirect.lean`); `PointedCone.DualFG`
+(`Mathlib/Geometry/Convex/Cone/DualFinite.lean`); `PointedCone.IsFaceOf` and
+`PointedCone.IsFaceOf.trans` (`Mathlib/Geometry/Convex/Cone/Face/Basic.lean`); `IsExposed`
+(`Mathlib/Analysis/Convex/Exposed.lean`); `intrinsicInterior` and `intrinsicFrontier`
+(`Mathlib/Analysis/Convex/Intrinsic.lean`); `DyckWord`
+(`Mathlib/Combinatorics/Enumerative/DyckWord.lean`). The other names under *Needs* are
+Mathlib declarations used with their existing meanings.
+
+## How to read the build
+
+[`Suggested.lean`](Suggested.lean) elaborates against the pins above with `import Mathlib` and
+modules from the Tau Ceti table; `lake build TauCetiRoadmap.ScatteringDiagrams.Suggested`
+checks it. Its carriers are definitions with real bodies, and every `sorry` is the proof of a
+proposed theorem. Each docstring names the README section it illustrates. The module
+docstring lists the headline theorems stated in the file and, for each headline that is not,
+the carrier it still lacks. The file is not exhaustive: a target absent from it is still a
+target, and its italicized name here is a suggested name (Convention 4).
 
 ## Layer 0: positive gradings, completions and actions
 
@@ -213,7 +268,8 @@ For `R`-algebras over a commutative ring, *tensorFiltration* is
 
 Let `𝔣=FreeLieAlgebra ℚ (Fin 2)` with generators `X, Y`, write `lowerCentralSeries c` for
 Mathlib's 0-based `lowerCentralSeries ℚ 𝔣 𝔣 c` (class at most `c` means
-`lowerCentralSeries c = ⊥`), and `U⁺=TauCeti.HopfIdeal.augmentation` in `U(𝔣)`. In
+`lowerCentralSeries c = ⊥`), and `U⁺=TauCeti.HopfIdeal.augmentation` in `U(𝔣)`, for the Hopf
+structure `TauCeti.UniversalEnvelopingAlgebra.instHopfAlgebra`. In
 `U_c=U(𝔣)/(U⁺)^{c+1}` the images of `X` and `Y` are nilpotent, and
 `ι_c : 𝔣/lowerCentralSeries c → U_c` is the map induced by `ι:𝔣 → U(𝔣)`. For `u` nilpotent
 in a `ℚ`-algebra, *nilLog*`(1+u)` is the finite series `Σ_{j≥1}(−1)^{j+1}u^j/j`.
@@ -232,7 +288,7 @@ the augmentation ideal; *completedEnveloping* `Û_R(g)` is the §0.3 completion 
 the maps `g≤k → U/I^{k+1}U`. Let `U⊗̂U` be the completion for the §0.3
 *tensorFiltration* `F^k(U⊗_R U)` of `I^kU` with itself. The *completedCoproduct*
 `Δ̂ : Û_R(g) → U⊗̂U` is the filtration-preserving §0.3 completion map of the coproduct `Δ` of
-`instHopfAlgebra`, and the counit induces `ε̂ : Û_R(g) → R`. An element `x` of `Û_R(g)`
+`TauCeti.UniversalEnvelopingAlgebra.instHopfAlgebra`, and the counit induces `ε̂ : Û_R(g) → R`. An element `x` of `Û_R(g)`
 is *IsCompletedGroupLike* when `ε̂(x)=1` and `Δ̂(x)=x⊗̂x`, and *IsCompletedPrimitive*
 when `Δ̂(x)=x⊗̂1+1⊗̂x`, the completed forms of `IsGroupLikeElem` and
 `Bialgebra.IsPrimitiveElem`. The quotients `U/I^{k+1}U` are not quotient coalgebras, so
@@ -288,7 +344,8 @@ the degree filtration with augmentation powers and truncate the completed
   `x_d∈I^dU` and `x_d∉J²`, so the two filtrations are not cofinal.
 
 *Needs:* §§0.2–0.3; `UniversalEnvelopingAlgebra`, `SymmetricAlgebra`,
-`TauCeti.UniversalEnvelopingAlgebra.pbwAssociatedGradedEquiv`, `instHopfAlgebra`,
+`TauCeti.UniversalEnvelopingAlgebra.pbwAssociatedGradedEquiv`,
+`TauCeti.UniversalEnvelopingAlgebra.instHopfAlgebra`,
 `IsGroupLikeElem`, `Bialgebra.IsPrimitiveElem`, `TauCeti.HopfIdeal.augmentation`,
 `FreeLieAlgebra`, `lowerCentralSeries`, `IsNilpotent.exp`, `TauCeti.expAd`. Source: PET
 §8, Hypothesis 8.1 and Theorems 8.1–8.2.
@@ -528,9 +585,10 @@ in an old cell.
   of every presentation, with slice `Q` at `t = 1` and the recession cone of `Q` at
   `t = 0`. The nonempty faces of `Q` are exactly the nonempty height-one slices of
   `PointedCone.IsFaceOf` faces of its homogenization; every face of a finitely
-  generated pointed cone is exposed. `Q` has finitely many faces
-  (`PointedCone.FG.finite_face`); faces of faces are faces, faces are rational-normal,
-  and the relative boundary is the union of the proper faces.
+  generated pointed cone is exposed. *finite_faces*: `Q` has finitely many faces, since each
+  nonempty face is cut out by turning a subset of any finite presentation into equalities;
+  faces of faces are faces, faces are rational-normal, and the relative boundary is the
+  union of the proper faces.
 - Rational Minkowski–Weyl: a pointed cone in `V`, lineality allowed, is `PointedCone.FG`
   iff it is `PointedCone.DualFG` for the pairing with `Module.Dual ℝ V`, and for a
   lattice-rational cone the generators and defining functionals can be taken rational.
@@ -559,9 +617,12 @@ in an old cell.
 
 *Needs:* `TauCeti.Toric.IsIntegralLattice`, `Module.Dual`, `PointedCone.FG`,
 `PointedCone.DualFG`, `PointedCone.IsFaceOf`, `PointedCone.IsFaceOf.trans`,
-`PointedCone.FG.finite_face`, `PointedCone.closure`, `IsLatticeRational`, `IsExposed`,
+`PointedCone.closure`, `IsLatticeRational`, `IsExposed`,
 `TauCeti.IsConvexPolyhedron`, `TauCeti.Toric.Fan`, `Fan.IsSubdivision`, `AffineEquiv`,
-`intrinsicInterior`, `intrinsicFrontier`. Sources: GHKK Appendix C.1; BRI §§2.2–2.5.
+`intrinsicInterior`, `intrinsicFrontier`. Sources: ZIE Chapter 1 (Minkowski–Weyl for
+cones and polyhedra by Fourier–Motzkin elimination, which preserves rationality) and SCH
+Chapter 8, §8.3 (faces of polyhedra) for the polyhedral facts; GHKK Appendix C.1 and BRI
+§§2.2–2.5 for complexes of walls.
 
 ### 1.2 Generic paths and two-parameter families
 
@@ -1093,9 +1154,13 @@ The sweeps along `ρ(n)` and `ρ(w)` have the same support and outgoingness.
 
 *Targets.*
 
-- *exists_outgoingCompletion*: construct an outgoing completion at each finite
-  order, compatibly with truncation, and assemble them for the stated input.
-  Finite families are a special case; full-hyperplane supports remain required.
+- *exists_outgoingCompletion*: construct an outgoing completion of the stated input, with
+  finitely many active walls at each order and full-hyperplane supports (GHKK Theorem 1.21,
+  proved in Appendix C.3; KS Theorem 2.1.6). MAN Theorem 2.6 is the case of a finite input.
+- *outgoingCompletion_of_stages*: the order-by-order assembly. Given *IsCorrectionStage k*
+  diagrams `𝔇_k`, each extending the previous one by walls invisible below order `k`, their
+  union has finitely many active walls at each order, and restricting to `𝔇_{k+1}` shows
+  that it is consistent at order `k`; hence it is an outgoing completion.
 - *relativeAbelianCompletion*: let `h=g⋉I` be a split positively graded Lie
   extension with abelian ideal `I`, whose splitting and projection preserve the
   directed wall spaces. Fix a consistent `g`-diagram and incoming full hyperplanes
@@ -1137,7 +1202,8 @@ are full hyperplanes, and all new logarithms remain in the ideal.
 
 *Needs:* §§0.2, 0.4–0.5, 1.2, 1.4, 3.1–3.2;
 `LieAlgebra.ExtendScalars`, `DirectSum.Decomposition.baseChange`.
-Sources: MAN Theorem 2.6 and Lemma 2.9; GHKK Appendices C.1 and C.3.
+Sources: GHKK Theorem 1.21 and Appendices C.1 and C.3; KS Theorem 2.1.6; MAN Theorem 2.6
+(finite input, and the compatible induction in its proof) and Lemma 2.9.
 
 ### 3.4 Uniqueness and compatibility
 
@@ -2166,11 +2232,12 @@ term `y^t` there (BLM §5.5, before Lemma 5.31).
   `pd_2−qd_1=±gcd(p,q)` (BLM Definition 5.4).
 - *Cplus*, *Cminus*: `C_+(p,q)` is the weight sum of the compatible gradings with totals
   `(p,q)` whose nonzero vertical support lies in the total horizontal shadow, and
-  `C_-(p,q)` the dual sum. They satisfy
-  \[
-  \sum_{s=0}^{p}\pi_{d_2-q,s}(P_1)\,C_+(p-s,q)
-  =\sum_{s=0}^{q}\pi_{d_1-p,s}(P_2)\,C_-(p,q-s) \tag{R}
-  \]
+  `C_-(p,q)` the dual sum. They satisfy the recursion (R)
+
+  ```
+  Σ_{s=0}^{p} π_{d₂−q,s}(P₁)·C₊(p−s,q) = Σ_{s=0}^{q} π_{d₁−p,s}(P₂)·C₋(p,q−s)
+  ```
+
   and (V): off `(0,0)`, `C_+(p,q)=0` for `d_1q≤d_2p` and `C_-(p,q)=0` for `d_1q≥d_2p`.
   With `C_±(0,0)=1`, (R) and (V) determine `C_±` by induction on `p+q`.
 - `B_±` satisfy (R), (V) and the initial values, by deleting the last bend on the
@@ -2374,6 +2441,10 @@ A layer is complete when its constructions, theorems, worked examples and Checks
 are proved in Lean with the stated hypotheses. General components must be usable
 independently of scattering; the finite-order constructions must yield the completed ones.
 
+## Downstream consumers
+
+No roadmap on main consumes this one yet.
+
 ## References
 
 - **PET:** Petracci, *Universal representations of Lie algebras by coderivations*,
@@ -2411,5 +2482,10 @@ independently of scattering; the finite-order constructions must yield the compl
 - **RUP:** Rupel, *Greedy bases in rank 2 generalized cluster algebras*,
   §§2 and 4, [1309.2567v1](https://arxiv.org/abs/1309.2567v1), for finite grading
   combinatorics.
+- **ZIE:** Ziegler, *Lectures on Polytopes*, Graduate Texts in Mathematics 152, Springer,
+  1995, Chapter 1 (Polytopes, Polyhedra, and Cones), for Minkowski–Weyl and Fourier–Motzkin
+  elimination.
+- **SCH:** Schrijver, *Theory of Linear and Integer Programming*, Wiley, 1986, Chapter 8
+  (The structure of polyhedra), §8.3, for faces of polyhedra.
 - **Curry:** *Dualities between Cellular Sheaves and Cosheaves*,
   [1607.06942v1](https://arxiv.org/abs/1607.06942v1), for cellular sheaves.
