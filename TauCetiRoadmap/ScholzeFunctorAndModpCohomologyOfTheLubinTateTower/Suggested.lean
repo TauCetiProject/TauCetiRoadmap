@@ -86,9 +86,10 @@ theorem compactLie_cohomology_finite (p d : ℕ) [Fact p.Prime]
 /-! ## Layer 2: continuous cohomology and tower comparison -/
 
 /-- Evaluation at 1 on continuous coinduction along φ : J → H, as a continuous
-J-equivariant coefficient map from the restriction of Ind_J^H X back to J onto X.
-Equivariance is the membership condition f(φ(j)h) = j·f(h) at h = 1, so the map
-is the coinduction counit; for J = H it is an isomorphism onto X. -/
+J-equivariant linear map from the restriction along φ of continuous coinduction
+to X. Equivariance is the membership condition f(φ(j)h) = j·f(h) at h = 1.
+For φ = id on J = H and jointly continuous action, it is an isomorphism with
+inverse x ↦ (h ↦ h·x). -/
 noncomputable def coindEvalOne
     {R H J : Type u} [CommRing R] [TopologicalSpace R]
     [Group H] [TopologicalSpace H] [IsTopologicalGroup H]
