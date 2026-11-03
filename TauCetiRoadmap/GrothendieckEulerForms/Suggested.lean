@@ -1,676 +1,271 @@
 import Mathlib
 import TauCeti.CategoryTheory.Exact.Functor
-import TauCeti.CategoryTheory.Exact.Split
-import TauCeti.CategoryTheory.Exact.Abelian
+import TauCeti.CategoryTheory.Exact.Equivalence
+import TauCeti.CategoryTheory.Exact.Resolution.Comparison
+import TauCeti.CategoryTheory.Exact.Resolution.Horseshoe
 import TauCeti.CategoryTheory.GrothendieckGroup.Exact
-import TauCeti.CategoryTheory.Exact.Graded.Basic
-import TauCeti.CategoryTheory.GrothendieckGroup.Graded
+import TauCeti.CategoryTheory.GrothendieckGroup.Abelian
 import TauCeti.CategoryTheory.GrothendieckGroup.Triangulated
-import TauCeti.Algebra.Homology.EulerCharacteristic.ExtEuler.Descent
+import TauCeti.CategoryTheory.GrothendieckGroup.BoundedHomotopy
+import TauCeti.CategoryTheory.GrothendieckGroup.Derived
+import TauCeti.CategoryTheory.GrothendieckGroup.EulerCharacteristic
+import TauCeti.CategoryTheory.GrothendieckGroup.Resolving
+import TauCeti.CategoryTheory.GrothendieckGroup.Graded
+import TauCeti.CategoryTheory.GrothendieckGroup.Laurent.Basic
+import TauCeti.CategoryTheory.GrothendieckGroup.Laurent.Resolving
+import TauCeti.CategoryTheory.GrothendieckGroup.ForgetGrading
+import TauCeti.CategoryTheory.GrothendieckGroup.FiniteDimensionalVectorSpace
+import TauCeti.Algebra.Module.GradedModule.Resolution
+import TauCeti.Algebra.Category.GradedModuleCat.LinearResolution
+import TauCeti.Algebra.Category.GradedModuleCat.CartanMap.Specialization
 import TauCeti.Algebra.Category.ModuleCat.CartanMap.Basic
+import TauCeti.Algebra.Category.ModuleCat.CartanMap.Morita
+import TauCeti.Algebra.Homology.EulerCharacteristic.ExtEuler.Descent
+import TauCeti.Algebra.Homology.EulerCharacteristic.ExtEuler.DualNumbers
+import TauCeti.Algebra.Homology.EulerCharacteristic.ExtEuler.Numerical
+import TauCeti.Algebra.Homology.EulerCharacteristic.ExtEuler.Graded.Descent
+import TauCeti.Algebra.Homology.EulerCharacteristic.ExtEuler.Graded.Sesquilinear
+import TauCeti.Algebra.Homology.EulerCharacteristic.ExtEuler.Graded.ForgetGrading
+import TauCeti.Algebra.Homology.EulerCharacteristic.ExtEuler.Graded.GradedVectorSpace
+import TauCeti.RepresentationTheory.GrothendieckGroup.CartanMatrix
+import TauCeti.RepresentationTheory.GrothendieckGroup.UnimodularCartanMatrix
+import TauCeti.RepresentationTheory.GrothendieckGroup.ExtEulerMatrix
+import TauCeti.RepresentationTheory.GrothendieckGroup.DualNumbers
+import TauCeti.RepresentationTheory.GrothendieckGroup.Quiver.ExtEuler
+import TauCeti.RepresentationTheory.Quiver.E8.ExtEuler
+import TauCeti.RepresentationTheory.Quiver.PathAlgebra.Grading
 
 /-!
 # Grothendieck groups, Cartan maps, and Euler forms: target signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. The declarations below force several load-bearing design choices and suggest Lean
-forms for milestones; proving all of them would finish neither a layer nor the roadmap. `sorry` is
-allowed in this human-owned roadmap library -- these are goals, not proofs.
+**This file is not the roadmap.** The roadmap is `README.md`; this file states the roadmap's
+headline theorems against the pinned Mathlib and Tau Ceti, so that the kernel checks what the
+prose claims.
 
-The composable-pair exact structures and local quotient signatures below are comparison
-presentations. Native Tau Ceti owns the categorical carriers and their proved APIs; the final
-section states actual class-preserving comparisons rather than assuming that similarly named
-local definitions are the native ones. The README retains the complete comparison programme.
+Every categorical carrier of the roadmap is a pinned Tau Ceti declaration: `TauCeti.ExactStructure`
+(Bühler's E0--E2 and their duals on a `TauCeti.ConflationClass`, whose conflations are short
+complexes), the Grothendieck groups `TauCeti.SplitK0`, `TauCeti.ExactK0`, `TauCeti.AbelianK0`,
+`TauCeti.TriangulatedK0` and `TauCeti.LaurentK0`, the graded exact structures
+`TauCeti.GradedExactStructure`, Euler admissibility `TauCeti.IsEulerAdmissible`, the Ext-Euler
+characteristic `TauCeti.extEuler` and its graded form `TauCeti.gradedExtEuler`. No private copy of
+any of them is declared here. The two names `ExactStructure` and `ExactStructure.Conflation` below
+are abbreviations of the native structure and of its conflation predicate written on a composable
+pair; they exist because a consumer of this module spells conflations that way, and they add
+nothing to the native carrier.
 
-In particular, `ShortComplex.Exact` is not used as the primitive notion of a Quillen conflation.
-The first structure below retains witnesses for the actual kernel and cokernel universal
-properties without assuming that the ambient category has all kernels or cokernels. The name
-`IsConflationExact` is also deliberate: Mathlib's `CategoryTheory.exactFunctor` and `C ⥤ₑ D`
-mean preservation of finite limits and colimits, a distinct notion outside the canonical exact
-structures on abelian categories.
+Each headline theorem of the roadmap is a theorem of the pinned library. The sections below name
+them layer by layer and pin each with `#check`, so that a pin whose statement moves or disappears
+breaks this file. Realized at the pin:
+
+* Layer 0: the split and canonical abelian exact structures (`TauCeti.ExactStructure.split`,
+  `TauCeti.ExactStructure.abelian`); conflation-exactness for the canonical abelian structures is
+  Mathlib's exactness (`TauCeti.ExactStructure.isConflationExact_abelian_iff`); an autoequivalence
+  has conflation-exact inverse exactly when it reflects conflations
+  (`TauCeti.ExactStructure.isConflationExact_inverse_iff_reflectsConflations`).
+* Layers 1--2: the universal property of exact `K₀` (`TauCeti.ExactK0.liftEquiv`), its
+  functoriality and biadditive descent (`TauCeti.ExactK0.map`,
+  `TauCeti.ExactK0.BiadditiveInvariant.bilift`), the comparison of split `K₀` with Mathlib's group
+  completion (`TauCeti.SplitK0.grothendieckAddGroupEquiv`), the triangulated sign
+  `[X[n]] = (-1)^n [X]` (`TauCeti.TriangulatedK0.of_shift`), the bounded-homotopy and
+  bounded-derived comparisons (`TauCeti.SplitK0.boundedHomotopyEquiv`,
+  `TauCeti.AbelianK0.boundedDerivedK0Equiv`, `TauCeti.TriangulatedK0.of_eq_sum_homology`), and
+  the shift equivalence of graded exact `K₀` (`TauCeti.GradedExactStructure.shiftEquiv`).
+* Layer 3: the resolution theorem with its alternating-class inverse
+  (`TauCeti.ExactStructure.IsResolving.resolutionEquiv`,
+  `TauCeti.ExactStructure.IsResolving.eulerHom`), the comparison theorem and horseshoe lemma for
+  finite projective resolutions (`TauCeti.ExactStructure.FiniteResolution.lift`,
+  `TauCeti.ExactStructure.FiniteResolution.horseshoe`), the graded resolution theorem and its
+  compatibility with forgetting the grading
+  (`TauCeti.GradedExactStructure.IsResolving.laurentResolutionEquiv`,
+  `TauCeti.GradedExactStructure.IsResolving.forgetGrading_laurentResolutionEquiv`), and for
+  linear graded resolutions the diagonal vanishing of bigraded Ext and minimality
+  (`TauCeti.GradedProjectiveResolution.IsLinear.subsingleton_ext_of_ne`,
+  `TauCeti.GradedProjectiveResolution.IsLinear.isMinimal`).
+* Layer 4: the Cartan map and its bijectivity under finite projective resolutions
+  (`TauCeti.cartanMap`, `TauCeti.cartanEquiv`), Morita invariance
+  (`CategoryTheory.Equivalence.cartanMap_bijective_iff`), the perfect projective/simple
+  multiplicity pairing (`TauCeti.projectiveSimplePairing_isPerfPair`), the Cartan matrix with
+  `C i j = [P j : S i]` (`TauCeti.cartanMatrix`, `TauCeti.cartanMap_of_eq_sum`), its determinant
+  `±1` (`TauCeti.cartanMatrix_det_eq_one_or_neg_one`), the dual-number boundary
+  (`TauCeti.cartanMatrix_dualNumber`, `TauCeti.not_isUnit_cartanMatrix_dualNumber`), the graded
+  Cartan map and its `q = 1` specialization (`TauCeti.gradedCartanMap`,
+  `TauCeti.toMatrix_cartanMap_eq_map_gradedCartanMatrix`).
+* Layer 5: the finite Euler--Poincaré theorem in `AbelianK0`
+  (`TauCeti.AbelianK0.eulerChar_eq_homologyEulerChar`), Euler admissibility and the Ext-Euler
+  characteristic (`TauCeti.IsEulerAdmissible`, `TauCeti.extEuler`), its additivity in both
+  variables (`TauCeti.extEuler_shortExact₁`, `TauCeti.extEuler_shortExact₂`), descent to a
+  pairing of exact `K₀` groups (`TauCeti.extEulerPairing`, `TauCeti.extEulerPairing_of_of`),
+  the general-field identities `CᵀE = D` and `E = C⁻ᵀD`
+  (`TauCeti.cartanMatrix_transpose_mul_extEulerMatrix_eq_diagonal`,
+  `TauCeti.extEulerMatrix_eq_inverseCartanMatrix_transpose_mul_diagonal`) with their split
+  corollaries, the dual-number rejection (`TauCeti.not_isEulerAdmissible_dualNumberResidue`),
+  the quiver comparison with the Ringel and Tits forms (`TauCeti.extEuler_eq_eulerForm_dimVector`,
+  `TauCeti.extEulerPairing_add_flip_eq_titsPolarForm`), the `E₈` check
+  (`TauCeti.Quiver.E8.extEulerMatrix_add_transpose`,
+  `TauCeti.Quiver.E8.posDef_map_intCast_extEulerMatrix_add_transpose`), and the bigraded Ext-Euler
+  characteristic with its descent (`TauCeti.IsGradedEulerAdmissible`, `TauCeti.gradedExtEuler`,
+  `TauCeti.gradedExtEulerPairing`).
+* Layer 6: the Laurent module structure `[M{n}] = qⁿ[M]` (`TauCeti.LaurentK0.T_smul`), the
+  sesquilinear q-Euler form with its two shift laws (`TauCeti.gradedExtEulerSesquilinear`,
+  `TauCeti.gradedExtEulerSesquilinear_T_smul_left`,
+  `TauCeti.gradedExtEulerSesquilinear_T_smul_right`), its algebraic specialization at a unit
+  (`TauCeti.gradedExtEulerSpecialized`), the `q = 1` comparison with the ungraded Ext-Euler
+  characteristic under the graded Ext comparison
+  (`TauCeti.IsGradedExtComparison.laurentEval_one_gradedExtEuler`), the factorization of the
+  forgetful map through the `q = 1` base change and its injectivity criterion
+  (`TauCeti.LaurentK0.forgetGradingEquiv`, `TauCeti.LaurentK0.forgetGradingMap_injective_iff`),
+  and the minimal graded check (`TauCeti.GradedVectorSpace.isGradedExtComparison_unit`).
+* Layer 7: the left and right numerical quotients with their radical descriptions and the
+  nondegenerate descended pairing (`TauCeti.ExtEulerLeftNumericalQuotient`,
+  `TauCeti.ExtEulerRightNumericalQuotient`, `TauCeti.mem_extEulerLeftRadical_iff`,
+  `TauCeti.extEulerNumericalPairing_nondegenerate`).
+* Worked examples: finite-dimensional vector spaces (`TauCeti.SplitK0.finrankEquiv`,
+  `TauCeti.AbelianK0.finrankEquiv`).
+
+Stated with `sorry`: the graded Cartan comparison of Layer 4, that the graded Cartan map is an
+isomorphism when every finite graded module has a finite resolution by finite graded projectives
+(`gradedCartanMap_bijective`); and the graded quiver comparison of Layer 5, in the form of the
+graded Ext comparison for the path-length grading (`isGradedExtComparison_toModuleCat_pathAlgebra`),
+after which its `q = 1` specialization is the pinned `laurentEval_one_gradedExtEuler`.
+
+Not statable at the pins: the Poincaré-matrix form of the Layer 3 identity between a linear
+resolution of the graded simples and the graded Cartan matrix. Its `K₀`-level content is the
+alternating-class inverse of `gradedCartanMap_bijective`, but the pinned categorical
+`TauCeti.ExactStructure.FiniteResolution` exposes no per-term multiplicities from which the
+matrix-valued Betti series could be formed, and the pinned minimality predicate
+`TauCeti.GradedProjectiveResolution.IsMinimal` lives on module-level resolutions whose terms carry
+no `TauCeti.LaurentK0` class.
 -/
 
 namespace TauCetiRoadmap.GrothendieckEulerForms
 
 open CategoryTheory CategoryTheory.Limits
-open CategoryTheory.Pretriangulated
-open scoped DirectSum TensorProduct
 
-universe w v u
-
-/-! ## Intrinsic exact structures -/
-
-/-- The assertion that `X ⟶ Y ⟶ Z` is a kernel--cokernel pair.  The witnesses are local to this
-pair: no global `HasKernel` or `HasCokernel` instance is assumed. -/
-structure IsKernelCokernelPair {C : Type u} [Category.{v} C] [Preadditive C]
-    {X Y Z : C} (i : X ⟶ Y) (p : Y ⟶ Z) where
-  zero : i ≫ p = 0
-  isLimitKernel : IsLimit (KernelFork.ofι i zero)
-  isColimitCokernel : IsColimit (CokernelCofork.ofπ p zero)
-
-/-- A concrete universal-property witness for a pushout square. -/
-structure PushoutWitness {C : Type u} [Category.{v} C]
-    {X Y X' Y' : C} (i : X ⟶ Y) (f : X ⟶ X') (g : Y ⟶ Y') (i' : X' ⟶ Y') where
-  comm : i ≫ g = f ≫ i'
-  desc : ∀ {T : C} (a : Y ⟶ T) (b : X' ⟶ T), i ≫ a = f ≫ b → (Y' ⟶ T)
-  inl_desc : ∀ {T : C} (a : Y ⟶ T) (b : X' ⟶ T) (h),
-    g ≫ desc a b h = a
-  inr_desc : ∀ {T : C} (a : Y ⟶ T) (b : X' ⟶ T) (h),
-    i' ≫ desc a b h = b
-  hom_ext : ∀ {T : C} (a b : Y' ⟶ T), g ≫ a = g ≫ b → i' ≫ a = i' ≫ b → a = b
-
-/-- A concrete universal-property witness for a pullback square. -/
-structure PullbackWitness {C : Type u} [Category.{v} C]
-    {X' Y' X Y : C} (i' : X' ⟶ Y') (g : X' ⟶ X) (f : Y' ⟶ Y) (p : X ⟶ Y) where
-  comm : i' ≫ f = g ≫ p
-  lift : ∀ {T : C} (a : T ⟶ Y') (b : T ⟶ X), a ≫ f = b ≫ p → (T ⟶ X')
-  lift_fst : ∀ {T : C} (a : T ⟶ Y') (b : T ⟶ X) (h),
-    lift a b h ≫ i' = a
-  lift_snd : ∀ {T : C} (a : T ⟶ Y') (b : T ⟶ X) (h),
-    lift a b h ≫ g = b
-  hom_ext : ∀ {T : C} (a b : T ⟶ X'), a ≫ i' = b ≫ i' → a ≫ g = b ≫ g → a = b
-
-/-- The distinguished kernel--cokernel pairs underlying an exact structure. -/
-structure ConflationClass (C : Type u) [Category.{v} C] [Preadditive C] where
-  Conflation : ∀ {X Y Z : C}, (X ⟶ Y) → (Y ⟶ Z) → Prop
-  kernelCokernel : ∀ {X Y Z : C} {i : X ⟶ Y} {p : Y ⟶ Z},
-    Conflation i p → IsKernelCokernelPair i p
-
-namespace ConflationClass
-
-variable {C : Type u} [Category.{v} C] [Preadditive C]
-
-def IsInflation (E : ConflationClass C) {X Y : C} (i : X ⟶ Y) : Prop :=
-  ∃ (Z : C) (p : Y ⟶ Z), E.Conflation i p
-
-def IsDeflation (E : ConflationClass C) {Y Z : C} (p : Y ⟶ Z) : Prop :=
-  ∃ (X : C) (i : X ⟶ Y), E.Conflation i p
-
-end ConflationClass
-
-/-- Quillen exact-category data in the self-dual E0/E1/E2 presentation.  The E2 fields return
-genuine universal squares, so their statements cannot be satisfied by merely naming vacuous
-propositions. -/
-structure ExactStructure (C : Type u) [Category.{v} C] [Preadditive C]
-    [HasZeroObject C] [HasBinaryBiproducts C] where
-  toConflationClass : ConflationClass C
-  iso_closed : ∀ {X Y Z X' Y' Z' : C} {i : X ⟶ Y} {p : Y ⟶ Z}
-    (eX : X ≅ X') (eY : Y ≅ Y') (eZ : Z ≅ Z'),
-    toConflationClass.Conflation i p →
-      toConflationClass.Conflation (eX.inv ≫ i ≫ eY.hom) (eY.inv ≫ p ≫ eZ.hom)
-  E0 : ∀ X : C, toConflationClass.IsInflation (𝟙 X)
-  E0op : ∀ X : C, toConflationClass.IsDeflation (𝟙 X)
-  E1 : ∀ {X Y Z : C} {i : X ⟶ Y} {j : Y ⟶ Z},
-    toConflationClass.IsInflation i → toConflationClass.IsInflation j →
-      toConflationClass.IsInflation (i ≫ j)
-  E1op : ∀ {X Y Z : C} {p : X ⟶ Y} {q : Y ⟶ Z},
-    toConflationClass.IsDeflation p → toConflationClass.IsDeflation q →
-      toConflationClass.IsDeflation (p ≫ q)
-  E2 : ∀ {X Y : C} {i : X ⟶ Y}, toConflationClass.IsInflation i →
-    ∀ {X' : C} (f : X ⟶ X'), ∃ (Y' : C) (g : Y ⟶ Y') (i' : X' ⟶ Y'),
-      Nonempty (PushoutWitness i f g i') ∧ toConflationClass.IsInflation i'
-  E2op : ∀ {X Y : C} {p : X ⟶ Y}, toConflationClass.IsDeflation p →
-    ∀ {Y' : C} (f : Y' ⟶ Y), ∃ (X' : C) (i' : X' ⟶ Y') (g : X' ⟶ X),
-      Nonempty (PullbackWitness i' g f p) ∧ toConflationClass.IsDeflation i'
-
-namespace ExactStructure
-
-variable {C : Type u} [Category.{v} C] [Preadditive C] [HasZeroObject C]
-  [HasBinaryBiproducts C]
-
-abbrev Conflation (E : ExactStructure C) {X Y Z : C} (i : X ⟶ Y) (p : Y ⟶ Z) : Prop :=
-  E.toConflationClass.Conflation i p
-
-abbrev IsInflation (E : ExactStructure C) {X Y : C} (i : X ⟶ Y) : Prop :=
-  E.toConflationClass.IsInflation i
-
-abbrev IsDeflation (E : ExactStructure C) {X Y : C} (p : X ⟶ Y) : Prop :=
-  E.toConflationClass.IsDeflation p
-
-/-- The split exact structure; it is not identified with an abelian category's canonical exact
-structure. -/
-noncomputable def split (C : Type u) [Category.{v} C] [Preadditive C]
-    [HasZeroObject C] [HasBinaryBiproducts C] : ExactStructure C := sorry
-
-/-- The canonical exact structure on an abelian category. -/
-noncomputable def abelian (C : Type u) [Category.{v} C] [Abelian C] : ExactStructure C := sorry
-
-end ExactStructure
-
-/-- Preservation of distinguished Quillen conflations.  The longer name prevents collision with
-Mathlib's finite-limit-and-colimit notion of exact functor. -/
-structure ExactStructure.IsConflationExact
-    {C : Type u} {D : Type w} [Category.{v} C] [Preadditive C] [HasZeroObject C]
-    [HasBinaryBiproducts C] [Category.{v} D] [Preadditive D] [HasZeroObject D]
-    [HasBinaryBiproducts D]
-    (E : ExactStructure C) (E' : ExactStructure D) (F : C ⥤ D) [F.Additive] : Prop where
-  map_conflation : ∀ {X Y Z : C} {i : X ⟶ Y} {p : Y ⟶ Z}, E.Conflation i p →
-    E'.Conflation (F.map i) (F.map p)
-
-/-! ## A small presentation of exact K-zero -/
-
-section ExactK0
-
-variable {C : Type u} [Category.{v} C] [Preadditive C] [HasZeroObject C]
-  [HasBinaryBiproducts C]
-  [EssentiallySmall.{w} C]
-
-/-- Small codes for isomorphism classes of objects.  The class map below is the only public entry
-point; users never choose skeleton representatives. -/
-abbrev ObjectCode (C : Type u) [Category.{v} C] [EssentiallySmall.{w} C] :=
-  Shrink.{w} (Skeleton C)
-
-noncomputable def objectCode (X : C) : ObjectCode C := sorry
-
-/-- The relation imposed by a conflation.  The morphisms only fix the three objects, so they are
-underscored; the relation itself is a statement about `[X]`, `[Y]` and `[Z]`. -/
-noncomputable def exactRelation (_E : ExactStructure C) {X Y Z : C}
-    (_i : X ⟶ Y) (_p : Y ⟶ Z) : FreeAbelianGroup (ObjectCode C) :=
-  FreeAbelianGroup.of (objectCode Y) - FreeAbelianGroup.of (objectCode X) -
-    FreeAbelianGroup.of (objectCode Z)
-
-noncomputable def exactRelations (E : ExactStructure C) :
-    AddSubgroup (FreeAbelianGroup (ObjectCode C)) :=
-  AddSubgroup.closure {r | ∃ (X Y Z : C) (i : X ⟶ Y) (p : Y ⟶ Z),
-    E.Conflation i p ∧ r = exactRelation E i p}
-
-/-- Exact K-zero as a quotient of a genuinely small free abelian group. -/
-noncomputable def ExactK0 (E : ExactStructure C) : Type w :=
-  FreeAbelianGroup (ObjectCode C) ⧸ exactRelations E
-
-noncomputable instance (E : ExactStructure C) : AddCommGroup (ExactK0 E) := by
-  dsimp [ExactK0]
-  infer_instance
-
-noncomputable def exactK0Class (E : ExactStructure C) (X : C) : ExactK0 E :=
-  QuotientAddGroup.mk' (exactRelations E) (FreeAbelianGroup.of (objectCode X))
-
-theorem exactK0_conflation (E : ExactStructure C) {X Y Z : C}
-    {i : X ⟶ Y} {p : Y ⟶ Z} (h : E.Conflation i p) :
-    exactK0Class E Y = exactK0Class E X + exactK0Class E Z := sorry
-
-/-- Object-valued data satisfying exactly the relations used in exact K-zero. -/
-structure ConflationAdditiveInvariant (E : ExactStructure C) (G : Type*) [AddCommGroup G] where
-  obj : C → G
-  map_iso : ∀ {X Y : C}, (X ≅ Y) → obj X = obj Y
-  map_conflation : ∀ {X Y Z : C} {i : X ⟶ Y} {p : Y ⟶ Z},
-    E.Conflation i p → obj Y = obj X + obj Z
-
-noncomputable def exactK0Lift (E : ExactStructure C) {G : Type*} [AddCommGroup G]
-    (a : ConflationAdditiveInvariant E G) : ExactK0 E →+ G := sorry
-
-theorem exactK0Lift_class (E : ExactStructure C) {G : Type*} [AddCommGroup G]
-    (a : ConflationAdditiveInvariant E G) (X : C) :
-    exactK0Lift E a (exactK0Class E X) = a.obj X := sorry
-
-theorem exactK0Lift_unique (E : ExactStructure C) {G : Type*} [AddCommGroup G]
-    (a : ConflationAdditiveInvariant E G) (f : ExactK0 E →+ G)
-    (hf : ∀ X, f (exactK0Class E X) = a.obj X) : f = exactK0Lift E a := sorry
-
-variable {D : Type w} [Category.{v} D] [Preadditive D] [HasZeroObject D]
-  [HasBinaryBiproducts D]
-  [EssentiallySmall.{w} D]
-
-/-- Functoriality for a functor preserving distinguished conflations. -/
-noncomputable def exactK0Map {E : ExactStructure C} {E' : ExactStructure D} (F : C ⥤ D)
-    [F.Additive] (hF : E.IsConflationExact E' F) : ExactK0 E →+ ExactK0 E' := sorry
-
-theorem exactK0Map_class {E : ExactStructure C} {E' : ExactStructure D} (F : C ⥤ D)
-    [F.Additive] (hF : E.IsConflationExact E' F) (X : C) :
-    exactK0Map F hF (exactK0Class E X) = exactK0Class E' (F.obj X) := sorry
-
-end ExactK0
-
-/-! ## Triangulated K-zero -/
-
-section TriangulatedK0
-
-variable (C : Type u) [Category.{v} C] [Preadditive C] [HasZeroObject C]
-  [HasShift C ℤ] [∀ n : ℤ, (shiftFunctor C n).Additive]
-  [Pretriangulated C] [EssentiallySmall.{w} C]
-
-/-- The quotient by distinguished-triangle relations. Its construction reuses the small
-presentation underlying `ExactK0`. -/
-noncomputable def TriangulatedK0 (C : Type u) [Category.{v} C] [Preadditive C]
-    [HasZeroObject C] [HasShift C ℤ] [∀ n : ℤ, (shiftFunctor C n).Additive]
-    [Pretriangulated C] [EssentiallySmall.{w} C] : Type w := sorry
-
-noncomputable instance : AddCommGroup (TriangulatedK0 C) := sorry
-
-noncomputable def triangulatedK0Class (X : C) : TriangulatedK0 C := sorry
-
-theorem triangulatedK0_triangle (T : Triangle C) (hT : T ∈ distTriang C) :
-    triangulatedK0Class C T.obj₂ =
-      triangulatedK0Class C T.obj₁ + triangulatedK0Class C T.obj₃ := sorry
-
-theorem triangulatedK0_shift (X : C) :
-    triangulatedK0Class C (X⟦(1 : ℤ)⟧) = -triangulatedK0Class C X := sorry
-
-end TriangulatedK0
-
-/-! ## Cartan maps and finite resolutions -/
-
-/-- A recursive finite resolution of `X` by objects in the image of `F`; each step records an
-actual conflation. -/
-inductive AdmitsFiniteResolutionAlong
-    {P : Type u} {C : Type w} [Category.{v} P] [Category.{v} C] [Preadditive C]
-    [HasZeroObject C] [HasBinaryBiproducts C]
-    (E : ExactStructure C) (F : P ⥤ C) : C → Prop
-  | of_iso (Q : P) {X : C} (e : F.obj Q ≅ X) : AdmitsFiniteResolutionAlong E F X
-  | step {K X : C} (Q : P) (i : K ⟶ F.obj Q) (p : F.obj Q ⟶ X)
-      (hp : E.Conflation i p) (hK : AdmitsFiniteResolutionAlong E F K) :
-      AdmitsFiniteResolutionAlong E F X
-
-/-- The complete categorical hypotheses used by the finite-resolution comparison.  Besides finite
-resolutions, implementations add the repleteness, extension, and admissible-kernel closure API
-spelled out in `README.md`; the two closure fields below force those hypotheses to be data rather
-than prose. -/
-structure IsResolvingInclusion
-    {P : Type u} {C : Type w} [Category.{v} P] [Preadditive P] [HasZeroObject P]
-    [HasBinaryBiproducts P] [Category.{v} C] [Preadditive C] [HasZeroObject C]
-    [HasBinaryBiproducts C]
-    (EP : ExactStructure P) (E : ExactStructure C) (F : P ⥤ C) [F.Additive] : Prop where
-  fullyFaithful : Nonempty F.FullyFaithful
-  conflation_exact : EP.IsConflationExact E F
-  reflects_conflations : ∀ {X Y Z : P} {i : X ⟶ Y} {p : Y ⟶ Z},
-    E.Conflation (F.map i) (F.map p) → EP.Conflation i p
-  extension_closed : ∀ {X Z : P} {Y : C} {i : F.obj X ⟶ Y} {p : Y ⟶ F.obj Z},
-    E.Conflation i p → ∃ Y' : P, Nonempty (F.obj Y' ≅ Y)
-  kernel_closed : ∀ {X Y : P} (p : F.obj X ⟶ F.obj Y), E.IsDeflation p →
-    ∃ (K : P) (i : F.obj K ⟶ F.obj X), ∃ q : F.obj X ⟶ F.obj Y, q = p ∧ E.Conflation i q
-  finite_resolution : ∀ X : C, AdmitsFiniteResolutionAlong E F X
-
-section ResolutionComparison
-
-variable {P : Type u} {C : Type w} [Category.{v} P] [Preadditive P] [HasZeroObject P]
-  [HasBinaryBiproducts P] [EssentiallySmall.{w} P] [Category.{v} C] [Preadditive C]
-  [HasZeroObject C] [HasBinaryBiproducts C]
-  [EssentiallySmall.{w} C]
-
-/-- The Cartan map is the K-zero map of the inclusion from projectives with their split exact
-structure to modules with their canonical exact structure. -/
-noncomputable def cartanMap {EP : ExactStructure P} {E : ExactStructure C} (F : P ⥤ C)
-    [F.Additive] (hF : EP.IsConflationExact E F) : ExactK0 EP →+ ExactK0 E :=
-  exactK0Map F hF
-
-/-- The finite-resolution theorem: under the resolving hypotheses, the Cartan map is an
-isomorphism; its inverse is the alternating class of any finite resolution. -/
-noncomputable def resolutionComparison {EP : ExactStructure P} {E : ExactStructure C}
-    (F : P ⥤ C) [F.Additive] (hF : IsResolvingInclusion EP E F) :
-    ExactK0 EP ≃+ ExactK0 E := sorry
-
-end ResolutionComparison
-
-/-! ## Ext finiteness, Euler descent, and numerical quotients -/
-
-section ExtEuler
-
-variable (k : Type*) [Field k] (C : Type u) [Category.{v} C] [Abelian C] [Linear k C]
-  [HasExt.{v} C]
-
-/-- Euler admissibility records termwise finite-dimensionality and eventual vanishing separately.
-The second field is not weakened to summability of Mathlib's totalized `finsum`. -/
-structure ExtEulerFinite (P Q : C → Prop) : Prop where
-  finiteDimensional : ∀ (X Y : C) (n : ℕ), P X → Q Y →
-    FiniteDimensional k (Abelian.Ext X Y n)
-  eventuallyZero : ∀ (X Y : C), P X → Q Y →
-    ∃ N : ℕ, ∀ n ≥ N, Subsingleton (Abelian.Ext X Y n)
-
-variable {k C}
-
-noncomputable def extEulerValue {P Q : C → Prop} (h : ExtEulerFinite k C P Q)
-    {X Y : C} (hX : P X) (hY : Q Y) : ℤ := sorry
-
-/-- After long-exact-sequence additivity is proved in both variables, the Ext-Euler value descends
-to the Grothendieck groups of the two *selected* subcategories -- not to a `K₀` of all of `C`, and
-not under a hypothesis such as `∀ X, P X`, which would make the object properties vacuous. Each
-side supplies its own exact category together with a functor into `C` landing in the relevant
-property; additivity is proved from the long exact Ext sequences of the conflations there. -/
-noncomputable def extEulerPairing {P Q : C → Prop} (h : ExtEulerFinite k C P Q)
-    {CP CQ : Type u}
-    [Category.{v} CP] [Preadditive CP] [HasZeroObject CP] [HasBinaryBiproducts CP]
-    [EssentiallySmall.{w} CP]
-    [Category.{v} CQ] [Preadditive CQ] [HasZeroObject CQ] [HasBinaryBiproducts CQ]
-    [EssentiallySmall.{w} CQ]
-    (EP : ExactStructure CP) (EQ : ExactStructure CQ) (iP : CP ⥤ C) (iQ : CQ ⥤ C)
-    [iP.Additive] [iQ.Additive]
-    (hEP : EP.IsConflationExact (ExactStructure.abelian C) iP)
-    (hEQ : EQ.IsConflationExact (ExactStructure.abelian C) iQ)
-    (hiP : ∀ X, P (iP.obj X)) (hiQ : ∀ Y, Q (iQ.obj Y)) :
-    ExactK0 EP →+ ExactK0 EQ →+ ℤ := sorry
-
-/-- The descent is characterized by its values on object classes; without this the definition
-above would say nothing. -/
-theorem extEulerPairing_class {P Q : C → Prop} (h : ExtEulerFinite k C P Q)
-    {CP CQ : Type u}
-    [Category.{v} CP] [Preadditive CP] [HasZeroObject CP] [HasBinaryBiproducts CP]
-    [EssentiallySmall.{w} CP]
-    [Category.{v} CQ] [Preadditive CQ] [HasZeroObject CQ] [HasBinaryBiproducts CQ]
-    [EssentiallySmall.{w} CQ]
-    (EP : ExactStructure CP) (EQ : ExactStructure CQ) (iP : CP ⥤ C) (iQ : CQ ⥤ C)
-    [iP.Additive] [iQ.Additive]
-    (hEP : EP.IsConflationExact (ExactStructure.abelian C) iP)
-    (hEQ : EQ.IsConflationExact (ExactStructure.abelian C) iQ)
-    (hiP : ∀ X, P (iP.obj X)) (hiQ : ∀ Y, Q (iQ.obj Y)) (X : CP) (Y : CQ) :
-    extEulerPairing h EP EQ iP iQ hEP hEQ hiP hiQ (exactK0Class EP X) (exactK0Class EQ Y) =
-      extEulerValue h (hiP X) (hiQ Y) := sorry
-
-end ExtEuler
-
-section Radicals
-
-variable {L R : Type*} [AddCommGroup L] [AddCommGroup R]
-
-/-- The left radical of a possibly nonsymmetric biadditive pairing. -/
-def leftRadical (b : L →+ R →+ ℤ) : AddSubgroup L where
-  carrier := {x | ∀ y, b x y = 0}
-  zero_mem' := by simp
-  add_mem' := by
-    intro x y hx hy z
-    simp [hx z, hy z]
-  neg_mem' := by
-    intro x hx y
-    simp [hx y]
-
-/-- The right radical is a separate definition, not an alias for the left radical. -/
-def rightRadical (b : L →+ R →+ ℤ) : AddSubgroup R where
-  carrier := {y | ∀ x, b x y = 0}
-  zero_mem' := by simp
-  add_mem' := by
-    intro x y hx hy z
-    simp [hx z, hy z]
-  neg_mem' := by
-    intro x hx y
-    simp [hx y]
-
-abbrev LeftNumericalQuotient (b : L →+ R →+ ℤ) := L ⧸ leftRadical b
-abbrev RightNumericalQuotient (b : L →+ R →+ ℤ) := R ⧸ rightRadical b
-
-end Radicals
-
-/-! ## Laurent coefficients and the q-Euler form -/
-
-abbrev Laurent := LaurentPolynomial ℤ
-
-/-- Evaluation at `q = 1`; this exists without any ungraded category. -/
-noncomputable def laurentEvalOne : Laurent →+* ℤ :=
-  LaurentPolynomial.eval₂ (RingHom.id ℤ) (1 : ℤˣ)
-
-/-- The always-defined algebraic specialization of a Laurent module at `q = 1`. -/
-noncomputable def SpecializeAtOne (M : Type*) [AddCommGroup M] [Module Laurent M] := by
-  letI : Algebra Laurent ℤ := laurentEvalOne.toAlgebra
-  exact ℤ ⊗[Laurent] M
-
-noncomputable instance (M : Type*) [AddCommGroup M] [Module Laurent M] :
-    AddCommGroup (SpecializeAtOne M) := by
-  dsimp [SpecializeAtOne]
-  infer_instance
-
-/-- An additive map is balanced for evaluation at one exactly when it can factor through the
-algebraic specialization. -/
-def IsEvalOneLinear {M N : Type*} [AddCommGroup M] [Module Laurent M] [AddCommGroup N]
-    (f : M →+ N) : Prop :=
-  ∀ r x, f (r • x) = laurentEvalOne r • f x
-
-/-- The factor through algebraic specialization; bijectivity is a further theorem, not built in. -/
-noncomputable def specializeAtOneLift {M N : Type*} [AddCommGroup M] [Module Laurent M]
-    [AddCommGroup N] (f : M →+ N) (hf : IsEvalOneLinear f) :
-    SpecializeAtOne M →+ N := sorry
-
-/-- Data needed even to formulate comparison of a graded exact category with an ungraded one. -/
-structure ForgetGradingData
-    {Cg : Type u} {Cu : Type w}
-    [Category.{v} Cg] [Preadditive Cg] [HasZeroObject Cg] [HasBinaryBiproducts Cg]
-    [Category.{v} Cu] [Preadditive Cu] [HasZeroObject Cu] [HasBinaryBiproducts Cu]
-    (Eg : ExactStructure Cg) (Eu : ExactStructure Cu) (shift : Cg ≌ Cg)
-    [shift.functor.Additive] where
-  shift_exact : Eg.IsConflationExact Eg shift.functor
-  shift_inverse_exact : Eg.IsConflationExact Eg shift.inverse
-  forget : Cg ⥤ Cu
-  [forget_additive : forget.Additive]
-  forget_exact : Eg.IsConflationExact Eu forget
-  forget_shift : shift.functor ⋙ forget ≅ forget
-
-namespace ForgetGradingData
-
-variable {Cg : Type u} {Cu : Type w}
-variable [Category.{v} Cg] [Preadditive Cg] [HasZeroObject Cg] [HasBinaryBiproducts Cg]
-variable [Category.{v} Cu] [Preadditive Cu] [HasZeroObject Cu] [HasBinaryBiproducts Cu]
-variable {Eg : ExactStructure Cg} {Eu : ExactStructure Cu} {shift : Cg ≌ Cg}
-variable [shift.functor.Additive]
-
-/-- The map before imposing `q = 1`; its factorization uses `forget_shift`. -/
-noncomputable def k0Map (D : ForgetGradingData Eg Eu shift)
-    [EssentiallySmall.{w} Cg] [EssentiallySmall.{w} Cu] :
-    ExactK0 Eg →+ ExactK0 Eu :=
-  letI : D.forget.Additive := D.forget_additive
-  exactK0Map D.forget D.forget_exact
-
-/-- Even after the shift-forgetting factorization, comparison with ungraded K-zero is an
-isomorphism only when this explicit predicate is proved. -/
-def InducesQOneK0Equivalence (D : ForgetGradingData Eg Eu shift)
-    [EssentiallySmall.{w} Cg] [EssentiallySmall.{w} Cu]
-    [Module Laurent (ExactK0 Eg)] (h : IsEvalOneLinear D.k0Map) : Prop :=
-  Function.Bijective (specializeAtOneLift D.k0Map h)
-
-end ForgetGradingData
-
-/-- The additional Ext comparison needed to identify evaluation of q-Euler with ungraded Euler.
-The eventual categorical version also requires naturality for connecting maps. -/
-structure GradedUngradedExtComparison (k : Type*) [Field k]
-    {Mgr Mun : Type*} (U : Mgr → Mun)
-    (Vgr : Mgr → Mgr → ℕ → ℤ → Type*) (Vun : Mun → Mun → ℕ → Type*)
-    [∀ X Y n j, AddCommGroup (Vgr X Y n j)]
-    [∀ X Y n j, Module k (Vgr X Y n j)]
-    [∀ X Y n, AddCommGroup (Vun X Y n)] [∀ X Y n, Module k (Vun X Y n)] where
-  finiteInternalSupport : ∀ X Y n, ∃ s : Finset ℤ,
-    ∀ j, j ∉ s → Subsingleton (Vgr X Y n j)
-  comparison : ∀ X Y n, (⨁ j : ℤ, Vgr X Y n j) ≃ₗ[k] Vun (U X) (U Y) n
-
-/-- Mathlib's existing `q ↦ q⁻¹` automorphism, exposed as a ring hom for semilinear maps. -/
-noncomputable abbrev laurentBar : Laurent →+* Laurent :=
-  (LaurentPolynomial.invert : Laurent ≃ₐ[ℤ] Laurent).toRingEquiv.toRingHom
-
-/-- A q-Euler form is semilinear through `LaurentPolynomial.invert` in its first argument and
-linear in its second. This consumes Mathlib's sesquilinear infrastructure rather than defining a
-private bar operation. -/
-abbrev QEulerForm (M : Type*) [AddCommGroup M] [Module Laurent M] :=
-  M →ₛₗ[laurentBar] M →ₗ[Laurent] Laurent
-
-/-- Finite Laurent support and finite cohomological support are separate inputs to construction of
-the q-Euler form, just as finite-dimensionality and eventual Ext-vanishing are separate above.
-Here `V X Y n j` denotes the target-shift piece `Ext^n(X,Y{j})`, whose coefficient in the pinned
-graded dimension is `q⁻ʲ`; source-shift indexing gives the equivalent positive-exponent formula. -/
-structure GradedEulerFinite (k : Type*) [Field k] (M : Type*)
-    (V : M → M → ℕ → ℤ → Type*)
-    [∀ X Y n j, AddCommGroup (V X Y n j)] [∀ X Y n j, Module k (V X Y n j)] : Prop where
-  finiteDimensional : ∀ X Y n j, FiniteDimensional k (V X Y n j)
-  finiteLaurentSupport : ∀ X Y n, ∃ s : Finset ℤ,
-    ∀ j, j ∉ s → Subsingleton (V X Y n j)
-  finiteCohomologicalSupport : ∀ X Y, ∃ N : ℕ,
-    ∀ n ≥ N, ∀ j, Subsingleton (V X Y n j)
-
-/-- Bundle object-level q-Euler values after the categorical construction has proved additivity and
-the two shift identities.  `GradedEulerFinite` is what makes those values finite Laurent
-polynomials; it cannot by itself imply any of the four equations below. -/
-noncomputable def qEulerFormOfValues {M : Type*} [AddCommGroup M] [Module Laurent M]
-    (χ : M → M → Laurent)
-    (add_left : ∀ x x' y, χ (x + x') y = χ x y + χ x' y)
-    (smul_left : ∀ r x y, χ (r • x) y = laurentBar r * χ x y)
-    (add_right : ∀ x y y', χ x (y + y') = χ x y + χ x y')
-    (smul_right : ∀ r x y, χ x (r • y) = r * χ x y) : QEulerForm M := sorry
-
-theorem laurentBar_T (n : ℤ) : laurentBar (LaurentPolynomial.T n) = LaurentPolynomial.T (-n) := by
-  simp [laurentBar]
-
-/-! ## The orientation-sensitive `A₂` acceptance check -/
-
-def a2Euler (x y : Fin 2 → ℤ) : ℤ :=
-  x 0 * y 0 + x 1 * y 1 - x 0 * y 1
-
-def a2SimpleOne : Fin 2 → ℤ := ![1, 0]
-def a2SimpleTwo : Fin 2 → ℤ := ![0, 1]
-def a2ProjectiveOne : Fin 2 → ℤ := ![1, 1]
-def a2ProjectiveTwo : Fin 2 → ℤ := ![0, 1]
-
-/-- For left modules over `1 ⟶ 2`, the off-diagonal entry is in row `S₁`, column `S₂`.
-Reversing the arrow or silently switching to right modules makes this check fail. -/
-example : a2Euler a2SimpleOne a2SimpleTwo = -1 := by decide
-
-example : a2Euler a2ProjectiveOne a2SimpleOne = 1 := by decide
-example : a2Euler a2ProjectiveOne a2SimpleTwo = 0 := by decide
-example : a2Euler a2ProjectiveTwo a2SimpleTwo = 1 := by decide
-
-/-! ## Comparisons with the implemented categorical carriers
-
-All equations here are genuine comparison targets. The local presentation names remain available;
-no private exact structure or K-group is substituted for a native one without these maps.
--/
-
-section NativeExactComparisons
-
-variable (C : Type u) [Category.{v} C] [Preadditive C]
-  [HasZeroObject C] [HasBinaryBiproducts C]
-
-/-- The composable-pair E0/E1/E2 presentation agrees with the native short-complex presentation. -/
-noncomputable def exactStructureNativeEquiv :
-    ExactStructure C ≃ _root_.TauCeti.ExactStructure C := sorry
-
-/-- Distinguished pairs are preserved; the zero-composite proof is part of the short complex. -/
-theorem exactStructureNativeEquiv_conflation (E : ExactStructure C) (S : ShortComplex C) :
-    E.Conflation S.f S.g ↔ (exactStructureNativeEquiv C E).Conflation S := sorry
-
-/-- The comparison takes the split structure to the existing split structure. -/
-theorem exactStructureNativeEquiv_split :
-    exactStructureNativeEquiv C (ExactStructure.split C) =
-      _root_.TauCeti.ExactStructure.split C := sorry
-
-end NativeExactComparisons
-
-section NativeAbelianComparison
-
-variable (C : Type u) [Category.{v} C] [Abelian C]
-
-/-- The canonical abelian structure is preserved as well. -/
-theorem exactStructureNativeEquiv_abelian :
-    exactStructureNativeEquiv C (ExactStructure.abelian C) =
-      _root_.TauCeti.ExactStructure.abelian C := sorry
-
-end NativeAbelianComparison
-
-section NativeExactComparisons
-
-variable (C : Type u) [Category.{v} C] [Preadditive C]
-  [HasZeroObject C] [HasBinaryBiproducts C] [EssentiallySmall.{w} C]
-
-/-- The local quotient is compared to native exact K-zero, without changing its small universe. -/
-noncomputable def exactK0NativeEquiv (E : ExactStructure C) :
-    ExactK0 E ≃+ _root_.TauCeti.ExactK0 (exactStructureNativeEquiv C E) := sorry
-
-theorem exactK0NativeEquiv_class (E : ExactStructure C) (X : C) :
-    exactK0NativeEquiv C E (exactK0Class E X) = _root_.TauCeti.ExactK0.of X := sorry
-
-end NativeExactComparisons
-
-section NativeFunctorComparisons
-
-variable {C : Type u} {D : Type w} [Category.{v} C] [Preadditive C]
-  [HasZeroObject C] [HasBinaryBiproducts C] [Category.{v} D] [Preadditive D]
-  [HasZeroObject D] [HasBinaryBiproducts D]
-
-/-- Preserve the actual exact-functor predicate, not finite-limit exactness by a name match. -/
-theorem conflationExact_native_iff (E : ExactStructure C) (E' : ExactStructure D)
-    (F : C ⥤ D) [F.Additive] :
-    E.IsConflationExact E' F ↔
-      (exactStructureNativeEquiv C E).IsConflationExact (exactStructureNativeEquiv D E') F := sorry
-
-variable [EssentiallySmall.{w} C] [EssentiallySmall.{w} D]
-
-/-- The two induced K-group maps commute with their class-preserving comparisons. -/
-theorem exactK0NativeEquiv_map (E : ExactStructure C) (E' : ExactStructure D)
-    (F : C ⥤ D) [F.Additive] (hF : E.IsConflationExact E' F) (x : ExactK0 E) :
-    exactK0NativeEquiv D E' (exactK0Map F hF x) =
-      _root_.TauCeti.ExactK0.map F ((conflationExact_native_iff E E' F).mp hF)
-        (exactK0NativeEquiv C E x) := sorry
-
-end NativeFunctorComparisons
-
-section NativeGradingComparisons
-
-variable {Cg : Type u} {Cu : Type w}
-variable [Category.{v} Cg] [Preadditive Cg] [HasZeroObject Cg] [HasBinaryBiproducts Cg]
-variable [Category.{v} Cu] [Preadditive Cu] [HasZeroObject Cu] [HasBinaryBiproducts Cu]
-variable {Eg : ExactStructure Cg} {Eu : ExactStructure Cu} {shift : Cg ≌ Cg}
-variable [shift.functor.Additive]
-
-/-- Both local exactness witnesses give the actual native grading datum. No equality of the local
-and native exact-structure carriers is assumed; the existing conflation comparison is used twice. -/
-noncomputable def ForgetGradingData.nativeGrading (D : ForgetGradingData Eg Eu shift) :
-    _root_.TauCeti.GradedExactStructure Cg where
-  toExactStructure := exactStructureNativeEquiv Cg Eg
-  shift := shift
-  shift_exact := (conflationExact_native_iff Eg Eg shift.functor).mp D.shift_exact
-  shift_inverse_exact := (conflationExact_native_iff Eg Eg shift.inverse).mp D.shift_inverse_exact
-
-/-- The local invertible shift is the conjugate of the native exact-K-zero shift equivalence.
-The ordinary forgetful map above continues to use only its own exactness witness. -/
-noncomputable def ForgetGradingData.shiftEquiv (D : ForgetGradingData Eg Eu shift)
-    [EssentiallySmall.{w} Cg] : ExactK0 Eg ≃+ ExactK0 Eg :=
-  (exactK0NativeEquiv Cg Eg).trans
-    ((D.nativeGrading).shiftEquiv.trans (exactK0NativeEquiv Cg Eg).symm)
-
-/-- Its object-class equation has the prescribed positive internal shift, before Laurent packaging.
-This closed adapter uses the existing class-comparison target and native shiftEquiv_of. -/
-theorem ForgetGradingData.shiftEquiv_class (D : ForgetGradingData Eg Eu shift)
-    [EssentiallySmall.{w} Cg] (X : Cg) :
-    D.shiftEquiv (exactK0Class Eg X) = exactK0Class Eg (shift.functor.obj X) := by
-  apply (exactK0NativeEquiv Cg Eg).injective
-  change (exactK0NativeEquiv Cg Eg)
-      ((exactK0NativeEquiv Cg Eg).symm
-        ((D.nativeGrading).shiftEquiv (exactK0NativeEquiv Cg Eg (exactK0Class Eg X)))) =
-    exactK0NativeEquiv Cg Eg (exactK0Class Eg (shift.functor.obj X))
-  refine ((exactK0NativeEquiv Cg Eg).apply_symm_apply _).trans ?_
-  rw [exactK0NativeEquiv_class Cg Eg X, exactK0NativeEquiv_class Cg Eg (shift.functor.obj X)]
-  exact _root_.TauCeti.GradedExactStructure.shiftEquiv_of (D.nativeGrading) X
-
-end NativeGradingComparisons
-
-section NativeTriangleComparisons
-
-variable (C : Type u) [Category.{v} C] [Preadditive C] [HasZeroObject C]
-  [HasShift C ℤ] [∀ n : ℤ, (shiftFunctor C n).Additive]
-  [Pretriangulated C] [EssentiallySmall.{w} C]
-
-noncomputable def triangulatedK0NativeEquiv :
-    TriangulatedK0 C ≃+ _root_.TauCeti.TriangulatedK0 C := sorry
-
-theorem triangulatedK0NativeEquiv_class (X : C) :
-    triangulatedK0NativeEquiv C (triangulatedK0Class C X) =
-      _root_.TauCeti.TriangulatedK0.of X := sorry
-
-end NativeTriangleComparisons
-
-section NativeEulerComparisons
-
-variable {k : Type*} [Field k] {C : Type u} [Category.{v} C] [Abelian C]
-  [Linear k C] [HasExt.{v} C] {P Q : C → Prop}
-
-/-- Translate both genuine finiteness conditions into the native pairwise predicate. -/
-theorem ExtEulerFinite.native (h : ExtEulerFinite k C P Q) {X Y : C}
-    (hX : P X) (hY : Q Y) : _root_.TauCeti.IsEulerAdmissible k X Y := sorry
-
-theorem extEulerValue_native (h : ExtEulerFinite k C P Q) {X Y : C}
-    (hX : P X) (hY : Q Y) :
-    extEulerValue h hX hY = _root_.TauCeti.extEuler k (h.native hX hY) := sorry
-
-end NativeEulerComparisons
-
-/-- The arbitrary-ring right-projective category uses native opposite modules. -/
-abbrev RightFiniteProjectives (R : Type u) [Ring R] :=
-  (_root_.TauCeti.finiteProjectiveModules Rᵐᵒᵖ).FullSubcategory
-
-/-- Its split K-group is the native one, with no commutativity or flatness premise. -/
-abbrev RightProjectiveK0 (R : Type u) [Ring R] :=
-  _root_.TauCeti.SplitK0.{u} (RightFiniteProjectives R)
+universe w₁ w₂ v u w
+
+/-! ## Layers 0--3: exact structures, Grothendieck groups and finite resolutions -/
+
+/-- The native Quillen exact structure of the pinned Tau Ceti, under the name used by the
+consumers of this module. It is an abbreviation, not a second carrier. -/
+abbrev ExactStructure (C : Type u) [Category.{v} C] [Preadditive C] [HasZeroObject C]
+    [HasBinaryBiproducts C] :=
+  _root_.TauCeti.ExactStructure C
+
+/-- The native conflation predicate written on a composable pair: `X ⟶ Y ⟶ Z` is a conflation
+when it composes to zero and the short complex it forms is distinguished. -/
+def ExactStructure.Conflation {C : Type u} [Category.{v} C] [Preadditive C] [HasZeroObject C]
+    [HasBinaryBiproducts C] (E : ExactStructure C) {X Y Z : C} (i : X ⟶ Y) (p : Y ⟶ Z) : Prop :=
+  ∃ zero : i ≫ p = 0, E.toConflationClass.Conflation (ShortComplex.mk i p zero)
+
+#check @TauCeti.ExactStructure.split
+#check @TauCeti.ExactStructure.abelian
+#check @TauCeti.ExactStructure.isConflationExact_abelian_iff
+#check @TauCeti.ExactStructure.isConflationExact_inverse_iff_reflectsConflations
+
+#check @TauCeti.ExactK0.liftEquiv
+#check @TauCeti.ExactK0.map
+#check @TauCeti.ExactK0.BiadditiveInvariant.bilift
+#check @TauCeti.SplitK0.grothendieckAddGroupEquiv
+#check @TauCeti.TriangulatedK0.of_shift
+#check @TauCeti.SplitK0.boundedHomotopyEquiv
+#check @TauCeti.AbelianK0.boundedDerivedK0Equiv
+#check @TauCeti.TriangulatedK0.of_eq_sum_homology
+#check @TauCeti.GradedExactStructure.shiftEquiv
+
+#check @TauCeti.ExactStructure.IsResolving.resolutionEquiv
+#check @TauCeti.ExactStructure.IsResolving.eulerHom
+#check @TauCeti.ExactStructure.FiniteResolution.lift
+#check @TauCeti.ExactStructure.FiniteResolution.horseshoe
+#check @TauCeti.GradedExactStructure.IsResolving.laurentResolutionEquiv
+#check @TauCeti.GradedExactStructure.IsResolving.forgetGrading_laurentResolutionEquiv
+#check @TauCeti.GradedProjectiveResolution.IsLinear.subsingleton_ext_of_ne
+#check @TauCeti.GradedProjectiveResolution.IsLinear.isMinimal
+
+/-! ## Layer 4: the Cartan map -/
+
+#check @TauCeti.cartanMap
+#check @TauCeti.cartanEquiv
+#check @CategoryTheory.Equivalence.cartanMap_bijective_iff
+#check @TauCeti.projectiveSimplePairing_isPerfPair
+#check @TauCeti.cartanMatrix
+#check @TauCeti.cartanMap_of_eq_sum
+#check @TauCeti.cartanMatrix_det_eq_one_or_neg_one
+#check @TauCeti.cartanMatrix_dualNumber
+#check @TauCeti.not_isUnit_cartanMatrix_dualNumber
+#check @TauCeti.gradedCartanMap
+#check @TauCeti.toMatrix_cartanMap_eq_map_gradedCartanMatrix
+
+open TauCeti in
+/-- **The graded Cartan map is an isomorphism** `K₀^gr(proj A) ≃ G₀^gr(mod A)` of
+`ℤ[q,q⁻¹]`-modules whenever every finite graded module admits a finite resolution by finite graded
+projectives in the canonical exact structure of graded modules. This is the graded resolution
+theorem (`TauCeti.GradedExactStructure.IsResolving.laurentResolutionEquiv`) applied to the graded
+module categories; the inverse sends a class to the alternating class of any such resolution. -/
+theorem gradedCartanMap_bijective {k : Type u} [CommRing k] {A : Type v} [Ring A] [Algebra k A]
+    (𝒜 : ℤ → Submodule k A)
+    (h : gradedFiniteModules 𝒜 ≤
+      (_root_.TauCeti.ExactStructure.abelian (GradedModuleCat.{v} 𝒜)).admitsFiniteResolution
+        (gradedFiniteProjectiveModules 𝒜)) :
+    Function.Bijective (gradedCartanMap 𝒜) := by
+  sorry
+
+/-! ## Layers 5--7: Euler forms, Laurent coefficients, numerical quotients, worked examples -/
+
+#check @TauCeti.AbelianK0.eulerChar_eq_homologyEulerChar
+#check @TauCeti.IsEulerAdmissible
+#check @TauCeti.extEuler
+#check @TauCeti.extEuler_shortExact₁
+#check @TauCeti.extEuler_shortExact₂
+#check @TauCeti.extEulerPairing
+#check @TauCeti.extEulerPairing_of_of
+#check @TauCeti.cartanMatrix_transpose_mul_extEulerMatrix_eq_diagonal
+#check @TauCeti.extEulerMatrix_eq_inverseCartanMatrix_transpose_mul_diagonal
+#check @TauCeti.cartanMatrix_transpose_mul_extEulerMatrix_eq_one
+#check @TauCeti.extEulerMatrix_eq_inverseCartanMatrix_transpose
+#check @TauCeti.not_isEulerAdmissible_dualNumberResidue
+#check @TauCeti.extEuler_eq_eulerForm_dimVector
+#check @TauCeti.extEulerPairing_add_flip_eq_titsPolarForm
+#check @TauCeti.Quiver.E8.extEulerMatrix_add_transpose
+#check @TauCeti.Quiver.E8.posDef_map_intCast_extEulerMatrix_add_transpose
+#check @TauCeti.IsGradedEulerAdmissible
+#check @TauCeti.gradedExtEuler
+#check @TauCeti.gradedExtEulerPairing
+
+open TauCeti in
+/-- **The graded Ext comparison for the path-length grading.** For finitely generated graded
+modules `X`, `Y` over the path algebra `kQ` of a finite quiver, graded by path length (the
+pinned `TauCeti.PathAlgebra.gradeBy` with every arrow of weight `1`), the forgetful functor to ungraded modules satisfies, in every cohomological degree `n`,
+`⊕_j Ext^n_gr(X, Y{j}) ≅ Ext^n(U X, U Y)`. With this hypothesis the bigraded Ext-Euler
+characteristic of `(X, Y)` specializes at `q = 1` to the ungraded one of `(U X, U Y)`, by
+`TauCeti.IsGradedExtComparison.laurentEval_one_gradedExtEuler`, and hence to the Ringel form of
+the dimension vectors by `TauCeti.extEuler_eq_eulerForm_dimVector`. -/
+theorem isGradedExtComparison_toModuleCat_pathAlgebra
+    (k : Type w) [Field k] (Q : Type u) [Quiver.{v} Q] [Finite Q]
+    [HasExt.{w₁} (GradedModuleCat.{max w u v} (PathAlgebra.gradeBy k (Q := Q) fun _ => (1 : ℤ)))]
+    [HasExt.{w₂} (ModuleCat.{max w u v} (pathAlgebra k Q))]
+    (X Y : GradedModuleCat.{max w u v} (PathAlgebra.gradeBy k (Q := Q) fun _ => (1 : ℤ)))
+    (hX : gradedFiniteModules (PathAlgebra.gradeBy k (Q := Q) fun _ => (1 : ℤ)) X)
+    (hY : gradedFiniteModules (PathAlgebra.gradeBy k (Q := Q) fun _ => (1 : ℤ)) Y) :
+    IsGradedExtComparison.{w₁, w₂} k (GradedModuleCat.shift (PathAlgebra.gradeBy k (Q := Q) fun _ => (1 : ℤ)))
+      X Y (GradedModuleCat.toModuleCat.obj X) (GradedModuleCat.toModuleCat.obj Y) := by
+  sorry
+
+#check @TauCeti.LaurentK0.T_smul
+#check @TauCeti.gradedExtEulerSesquilinear
+#check @TauCeti.gradedExtEulerSesquilinear_T_smul_left
+#check @TauCeti.gradedExtEulerSesquilinear_T_smul_right
+#check @TauCeti.gradedExtEulerSpecialized
+#check @TauCeti.IsGradedExtComparison.laurentEval_one_gradedExtEuler
+#check @TauCeti.LaurentK0.forgetGradingEquiv
+#check @TauCeti.LaurentK0.forgetGradingMap_injective_iff
+#check @TauCeti.GradedVectorSpace.isGradedExtComparison_unit
+
+#check @TauCeti.ExtEulerLeftNumericalQuotient
+#check @TauCeti.ExtEulerRightNumericalQuotient
+#check @TauCeti.mem_extEulerLeftRadical_iff
+#check @TauCeti.extEulerNumericalPairing_nondegenerate
+
+#check @TauCeti.SplitK0.finrankEquiv
+#check @TauCeti.AbelianK0.finrankEquiv
 
 end TauCetiRoadmap.GrothendieckEulerForms
