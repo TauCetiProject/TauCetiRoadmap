@@ -199,7 +199,7 @@ def Cochain.replicate (α : Cochain (complete V) G) (q : ℕ) :
   inv_symm x y _ := by
     by_cases hxy : (ofLex x).1 = (ofLex y).1
     · simp [hxy]
-    · simp only [if_neg hxy, if_neg (Ne.symm hxy)]
+    · simp only [hxy, Ne.symm hxy, ↓reduceIte]
       exact α.inv_symm (ofLex x).1 (ofLex y).1
         (Finset.mem_powersetCard.mpr ⟨Finset.subset_univ _, Finset.card_pair hxy⟩)
 

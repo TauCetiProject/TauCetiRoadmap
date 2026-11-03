@@ -5,6 +5,10 @@ some extent, measured by how far a gauge must move it, and it carries a triangle
 holonomy around each triangle. The first coboundary Cheeger constant is the least ratio of defect
 to distance. With `𝔽₂` coefficients this is the Linial–Meshulam constant; with permutation
 coefficients in the normalized Hamming metric it is the constant of Chapman and Lubotzky.
+Coboundary expansion measures the distance from a cochain to the gauge-trivial cochains (the
+coboundaries); cocycle expansion measures the distance to all cochains with zero triangle defect
+(the cocycles). Chapman and Lubotzky's route to non-sofic groups needs cocycle expansion of
+quotients of buildings, which this roadmap does not supply.
 
 This roadmap develops that theory for an arbitrary group carrying a conjugation-invariant group
 norm, then determines the constant of the complete complex `K_k`. The lower bound `k/3` holds for
@@ -110,7 +114,7 @@ All conventions below are fixed; contributors do not choose between alternatives
 
 ### From Mathlib
 
-Read at Mathlib `f6090c7095e1e56b3464c1daba5f24631f1290d2`, the pin of `lake-manifest.json`.
+Pinned at Mathlib `f6090c7095e1e56b3464c1daba5f24631f1290d2`, the pin of `lake-manifest.json`.
 
 - `GroupSeminorm`, `GroupNorm` (`Mathlib/Analysis/Normed/Group/Seminorm.lean`): product
   inequality, inverse invariance, and separation for `GroupNorm`; no conjugation-invariance
@@ -142,8 +146,7 @@ Read at Mathlib `f6090c7095e1e56b3464c1daba5f24631f1290d2`, the pin of `lake-man
 - `Real.sInf_empty`: the empty real infimum is `0`.
 
 At that pin Mathlib has no cochains on a simplicial complex with group coefficients, no gauge
-distance and no coboundary Cheeger constant. A search of open Mathlib pull requests and of the
-Lean Zulip in November 2026 found no development of either.
+distance and no coboundary Cheeger constant.
 
 ### From Tau Ceti
 
@@ -653,7 +656,8 @@ Definition 3.2 for `λ` the `c`-fold blow-up of the staircase partition `(t, t�
 
 - `#E = c² t (t+1) / 2`;
 - `staircase c t` is cut-minimal (Kozlov, Lemma 3.8 with Corollary 3.13);
-- the number of triangles with an odd number of edges is `(n / 3) * #E`, a real quotient.
+- the number of triangles with an odd number of edges is `(n / 3) * #E`, a real quotient
+  (Kozlov, (2.5), p. 5, and Lemma 3.10, p. 9).
 
 *Needs:* 7.2; Mathlib `SimpleGraph.fromRel`.
 
@@ -728,7 +732,7 @@ permutation constant lies strictly below the `𝔽₂` constant. *Needs:* 8.2, 6
 
 - The two sides are `4/3` and `2`.
 - At `k = 5` both are `5/3`, so the inequality of 3.4 is an equality there.
-- At `k = 8` the permutation constant is `8/3` and the `𝔽₂` constant is `20/7`.
+- At `k = 8` the permutation constant is `8/3` and the `𝔽₂` constant is `20/7` (Kozlov, p. 12).
 
 ### Examples
 
@@ -770,7 +774,7 @@ degree. `h1Err X` is the infimum, over cochain degrees `n ≥ 2` and cochains of
 `gaugeDistErr α > 0`, of `(defect α / n) / gaugeDistErr α`, where `defect α` is the sum over
 triangles of holonomy moved counts. At `m = n`, `n * costErr α β = cost α β`, using conjugation
 invariance and inversion of the moved-point norm. *Needs:* 9.1, 2.2, 2.3 (Chapman–Lubotzky II,
-equation (2.8) and footnote 2).
+equations (2.8)–(2.9) and the display after (2.9), pp. 6–7).
 
 **Checks.**
 
@@ -781,8 +785,8 @@ equation (2.8) and footnote 2).
 
 ### 9.3 Bounds
 
-- Lower bound: `card V / 3 ≤ h1Err (complete V)`, from the star gauge, which has the cochain's
-  own degree.
+- Lower bound: `card V / 3 ≤ h1Err (complete V)` whenever some cochain of degree at least `2` has
+  positive `gaugeDistErr`, from the star gauge, which has the cochain's own degree.
 - Baselines: a degree-3 permutation and a degree-2 permutation have `distErr ≥ 1/3`; a degree-3
   permutation and a degree-`m` permutation with `m ≥ 4` have `distErr ≥ 1 − 3/m ≥ 1/4`.
 - The seed of 6.1 has `gaugeDistErr = 2`: gauge degree `m ≥ 5` costs at least
@@ -798,8 +802,12 @@ equation (2.8) and footnote 2).
 
 - The star bound at the seed and at the binary `k = 5` witness: `4 · 2 = 8 = 3 · (8/3)` and
   `5 · 2 = 10 = 3 · (10/3)`.
-- Degree-1 gauges are excluded; the seed's minimum there would be `14/3`.
+- Degree-1 gauges are excluded; by direct computation, not from a source, the seed's minimum
+  there would be `14/3`.
 - `(q, t) = (1, 1), (1, 2), (2, 1)`: `11 ≥ 9`, `27 ≥ 15`, `22 ≥ 9`.
+- The admissible set of `h1Err (complete (Fin 4))` is nonempty: the seed has positive
+  `gaugeDistErr = 2`. Without such a cochain the set is empty, `sInf` gives `0`, and the lower
+  bound `4/3 ≤ 0` would be false, so the hypothesis cannot be dropped.
 
 ### 9.4 The cross-degree value
 
@@ -840,10 +848,12 @@ is the `𝔽₂` edge-set dictionary such developments use.
   non-coboundaries only (3.4, 9.2). Equation (2.9), p. 6: the distance with errors (9.1).
   Proposition 3.2, pp. 8–9: the star bound (4.1, 4.2).
 - [kozlov] D. N. Kozlov, *The first Cheeger constant of a simplex*, arXiv:1610.07136v2, cited in
-  that version; published in Graphs Combin. 33 (2017), no. 6, 1543–1564. Definition 3.2, p. 6
-  (7.3); Lemma 3.8, p. 8, and Corollary 3.13, p. 11 (cut minimality, 7.3); §3.3, pp. 8–9 (edge
-  counts, 7.3); Theorem 4.2 and Corollary 4.3, p. 11 (7.4). Strictness at powers of two is
-  Conjecture 5.1, p. 13, and is not used.
+  that version; published in Graphs Combin. 33 (2017), no. 6, 1543–1564. Definition 3.2 and
+  §3.1, p. 6, and Lemma 3.12, p. 9 (staircase graphs and edge counts, 7.3); Lemma 3.8, p. 8, and
+  Corollary 3.13, p. 11 (cut minimality, 7.3); (2.5), p. 5, Lemma 3.10, p. 9, and the proof of
+  Theorem 4.2, p. 11 (odd-triangle counts, 7.3); Theorem 4.2 and Corollary 4.3, p. 11 (7.4);
+  p. 12 (the value `20/7` at `n = 8`, 8.3). Strictness at powers of two is Conjecture 5.1,
+  p. 13, and is not used.
 - [meshulam-wallach] R. Meshulam and N. Wallach, *Homological connectivity of random
   k-dimensional complexes*, arXiv:math/0609773v1, cited in that version; published in Random
   Structures Algorithms 34 (2009), 408–417. Proposition 2.1, pp. 4–5: `h₁(Δ^[n], 𝔽₂) ≥ n/3`
