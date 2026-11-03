@@ -11,8 +11,8 @@ The following objects are supplied elsewhere and are not constructed again here.
 - Mathlib's `DerivedCategory`, `MonoidAlgebra`, `WittVector`, `frobeniusEquiv`, finite local flat-module freeness and character independence are already in the library. Mathlib's `tateCohomology` and Tau Ceti's degree-zero norm quotient and cyclic periodicity supply the module theory; the variants here are sheaf localizations and their functor comparisons.
 - SchemeAndStackFoundations §§1.17, 1.21 and 1.23 owns quotient predicates, projective finite-group quotients and quotient stacks; its admissible-action gluing extension is an exact supplier contract below. ModularCurves Layer 0C owns free finite constant-group actions with an invariant affine cover and their torsor quotients. Layer 0 uses these for cyclic geometric actions. EnhancedDerivedSheaves §§0.1–0.4, E1.3–E1.4, E3.4 and E5:abstract owns the enhancement, replacements, tensor–Hom, coherent mates and stable quotient infrastructure. EtaleCohomologyFoundations F.1 owns constructible coefficient categories and the common-interval geometric-stalk Tor criterion. Layer 0 specializes them to cyclic group-ring coefficients.
 - DeformationAndDerivedPatchingAlgebra §7.5 states arbitrary-rank freeness for flat modules over a local ring with nilpotent maximal ideal. Layer 0 retains its application to cyclic group rings and its distinction from cohomology-wise flatness.
-- GlobalShtukasAndFunctionFieldLanglands §§1.1–1.3 owns equal-characteristic modification/fusion geometry; §§1.8–1.9 and 1.14 states the finite-extension integral and torsion Satake equivalence. GeometricSatakeAndFusion GS0, *Equal-characteristic Schubert models and coefficient comparison*, owns the ordinary local reduced Schubert models before perfection. Layer 3 extends the coefficient and geometric-field range of these results and proves the additional compatibility with parity, Smith and normalized constant terms; it does not repeat the finite-extension theorem.
-- ReductiveGroups Layers 1, 4, 9 and 10A–10B and ReductiveGroupsPartII §§RG2.0a, RG2.5.1–RG2.5.2 owns rational algebraic representations, torus weights, pinned integral dual groups, products and Galois actions. ReductiveGroups §10B owns the Weyl/induced modules and their base change; LanglandsParameterStacks §LP3.0 supplies the good-filtration theory and tensor theorem. Layer 3 owns the finite-dimensional tilting subcategory, tilting character determination and bounded derived generation, using those inputs.
+- GlobalShtukasAndFunctionFieldLanglands §§1.1–1.3 owns equal-characteristic modification/fusion geometry; §§1.8–1.9 and 1.14 states the finite-extension integral and torsion Satake equivalence. GeometricSatakeAndFusion §0.29, *Equal-characteristic Schubert models and coefficient comparison*, owns the ordinary local reduced Schubert models before perfection. Layer 3 extends the coefficient and geometric-field range of these results and proves the additional compatibility with parity, Smith and normalized constant terms; it does not repeat the finite-extension theorem.
+- ReductiveGroups Layers 1, 4, 9 and 10A–10B and ReductiveGroupsPartII §§RG2.0a, RG2.5.1–RG2.5.2 owns rational algebraic representations, torus weights, pinned integral dual groups, products and Galois actions. ReductiveGroups §10B owns the Weyl/induced modules and their base change; LanglandsParameterStacks §4.1 supplies the good-filtration theory and tensor theorem. Layer 3 owns the finite-dimensional tilting subcategory, tilting character determination and bounded derived generation, using those inputs.
 - Spectral Tate diagonals in AInfCohomology §AI.7.2 concern spectra and their coherent multiplicative structure. Layer 8 concerns the ordinary invariant ring modulo the additive transfer for a specified algebra automorphism. The categorical diagonal of Layer 5 concerns maps in the concrete parity category. Neither variant constructs the spectral theory.
 
 The modular exotic/Soergel comparison used to prove parity perversity belongs to §4.5 below: the characteristic-zero Springer correspondence does not supply it. Generic quotients, higher categories, algebraic-group carriers and finite-extension adic theory retain their named owners.
@@ -90,7 +90,7 @@ What GlobalShtukasAndFunctionFieldLanglands must provide (gap:grassmannian-arbit
 
 ### From TauCetiRoadmap.GeometricSatakeAndFusion
 
-GS0, *Equal-characteristic Schubert models and coefficient comparison*, supplies ordinary reduced local Schubert models, positive-loop strata, closure order, Demazure resolutions and finite-jet actions before perfection. Consume them through the field/curve comparisons of the preceding contract. The perfection comparison does not replace ordinary test rings in the diagonal fixed-Grassmannian theorem.
+§0.29, *Equal-characteristic Schubert models and coefficient comparison*, supplies ordinary reduced local Schubert models, positive-loop strata, closure order, Demazure resolutions and finite-jet actions before perfection. Consume them through the field/curve comparisons of the preceding contract. The perfection comparison does not replace ordinary test rings in the diagonal fixed-Grassmannian theorem.
 
 ### From TauCetiRoadmap.ReductiveGroups and TauCetiRoadmap.ReductiveGroupsPartII
 
@@ -98,11 +98,11 @@ ReductiveGroups Layers 1, 4 and 9 and §§10A–10B supply rational representati
 
 ### From TauCetiRoadmap.LanglandsParameterStacks
 
-Using the Weyl modules Δ(λ), induced modules ∇(λ) and their canonical map of ReductiveGroups §10B, section LP3.0, *Highest-weight modules and good filtrations*, supplies good/Weyl filtrations and the Donkin–Wang–Mathieu tensor theorem over a split connected reductive group in characteristic p. It also states that H^i(G,∇(λ)⊗∇(μ)) is the coefficient field for i=0 and μ=−w₀λ and zero otherwise; since Δ(λ)=∇(−w₀λ)* and Ext^i_G(Δ(λ),V)=H^i(G,∇(−w₀λ)⊗V) for finite-dimensional V (the identification used in its good-filtration criterion), this is the computation that Hom(Δ(λ),∇(μ)) is the coefficient field for λ=μ and zero otherwise, with all higher Δ-to-∇ Ext zero. That computation is consumed here, not requested. Only finite-dimensional representations and finite filtrations are used in Layer 3.
+Using the Weyl modules Δ(λ), induced modules ∇(λ) and their canonical map of ReductiveGroups §10B, LanglandsParameterStacks §4.1, *Highest-weight modules and good filtrations*, supplies good/Weyl filtrations and the Donkin–Wang–Mathieu tensor theorem over a split connected reductive group in characteristic p. It also states that H^i(G,∇(λ)⊗∇(μ)) is the coefficient field for i=0 and μ=−w₀λ and zero otherwise; since Δ(λ)=∇(−w₀λ)* and Ext^i_G(Δ(λ),V)=H^i(G,∇(−w₀λ)⊗V) for finite-dimensional V (the identification used in its good-filtration criterion), this is the computation that Hom(Δ(λ),∇(μ)) is the coefficient field for λ=μ and zero otherwise, with all higher Δ-to-∇ Ext zero. That computation is consumed here, not requested. Only finite-dimensional representations and finite filtrations are used in Layer 3.
 
-What LanglandsParameterStacks must provide (gap:finite-highest-weight-ideals): Provide the finite saturated highest-weight-ideal categories associated to LP3.0, namely the finite-dimensional rational modules all of whose composition factors L(μ) have μ in a finite saturated set of dominant weights, with enough tiltings (modules with both a Δ-filtration and a ∇-filtration) and finite standard-to-tilting resolutions in each, compatibly with inclusions of ideals and with field extension.
+What LanglandsParameterStacks must provide (gap:finite-highest-weight-ideals): Provide the finite saturated highest-weight-ideal categories associated to §4.1, namely the finite-dimensional rational modules all of whose composition factors L(μ) have μ in a finite saturated set of dominant weights, with enough tiltings (modules with both a Δ-filtration and a ∇-filtration) and finite standard-to-tilting resolutions in each, compatibly with inclusions of ideals and with field extension.
 
-What LanglandsParameterStacks must provide (gap:integral-highest-weight-orders): For O=W(k), k=F̄_p, and a split connected reductive group over O, extend the finite saturated highest-weight-ideal categories of LP3.0 to split highest-weight O-orders whose standards and costandards are the finite free integral Weyl lattices of ReductiveGroups §10B and their duals under its perfect integral evaluation pairing, with Hom(Δ(λ),∇(μ))=O for λ=μ and zero otherwise, Extⁿ(Δ(λ),∇(μ))=0 for n>0, finite projective generators and p-adically complete finite Hom modules, compatibly with inclusions of finite ideals.
+What LanglandsParameterStacks must provide (gap:integral-highest-weight-orders): For O=W(k), k=F̄_p, and a split connected reductive group over O, extend the finite saturated highest-weight-ideal categories of §4.1 to split highest-weight O-orders whose standards and costandards are the finite free integral Weyl lattices of ReductiveGroups §10B and their duals under its perfect integral evaluation pairing, with Hom(Δ(λ),∇(μ))=O for λ=μ and zero otherwise, Extⁿ(Δ(λ),∇(μ))=0 for n>0, finite projective generators and p-adically complete finite Hom modules, compatibly with inclusions of finite ideals.
 
 What LanglandsParameterStacks must provide (gap:integral-tilting-lifts): In the split highest-weight O-orders of gap:integral-highest-weight-orders, prove existence of tilting lifts, finite freeness and reduction base change for Hom between tiltings, lifting of idempotents in their endomorphism orders, detection of tilting on O-free objects by reduction, and a bijection on isomorphism classes of indecomposable tiltings under reduction to k, compatibly with inclusions of finite ideals, duals and external products.
 
@@ -630,7 +630,7 @@ Extend the supplied finite-extension equal-characteristic Satake equivalence to 
 
 *Proof route.* Extend the supplied weight-functor and projective-generator reconstruction through the permitted finite coefficient levels and their enhanced limits, and through arbitrary separably closed base change. Verify the dual root datum, fusion signs, perverse-flat/free restriction, field extension and coefficients. Construct the semi-infinite estimates needed by this proof independently of cyclic Smith compatibility in Layer 6.
 
-*Needs:* GlobalShtukasAndFunctionFieldLanglands §§1.1–1.3, 1.5, 1.14 and the arbitrary-geometric-field contract; EtaleDualityAndPerverseSheaves §§2.4–2.5; ReductiveGroupsPartII §§RG2.5.1–RG2.5.2; ReductiveGroups Layer 1; EtaleCohomologyFoundations §§F.1–F.3, F.5–F.6; EtaleDualityAndPerverseSheaves §§0.1–0.2, 2.2; EnhancedDerivedSheaves §§0.1–0.4, E1.3–E1.4; GlobalShtukasAndFunctionFieldLanglands §§1.8–1.9, 1.14; GeometricSatakeAndFusion GS0, Equal-characteristic Schubert models and coefficient comparison.
+*Needs:* GlobalShtukasAndFunctionFieldLanglands §§1.1–1.3, 1.5, 1.14 and the arbitrary-geometric-field contract; EtaleDualityAndPerverseSheaves §§2.4–2.5; ReductiveGroupsPartII §§RG2.5.1–RG2.5.2; ReductiveGroups Layer 1; EtaleCohomologyFoundations §§F.1–F.3, F.5–F.6; EtaleDualityAndPerverseSheaves §§0.1–0.2, 2.2; EnhancedDerivedSheaves §§0.1–0.4, E1.3–E1.4; GlobalShtukasAndFunctionFieldLanglands §§1.8–1.9, 1.14; GeometricSatakeAndFusion §0.29, Equal-characteristic Schubert models and coefficient comparison.
 
 **Checks.**
 
@@ -645,7 +645,7 @@ Fix a Borel and dominant λ. Under §3.1, the perverse standard ^pj_!Λ[dim Gr^�
 
 *Proof route.* Use the universal properties on each saturated highest-weight ideal, evaluated by the λ-weight functor. Compare standard/costandard maps and integral projective generators before extending scalars. Track derived tensor for torsion objects.
 
-*Needs:* §3.1; ReductiveGroups §10B; LanglandsParameterStacks §LP3.0 and its finite-highest-weight-ideals, integral-highest-weight-orders and integral-tilting-lifts contracts; EnhancedDerivedSheaves §§0.1–0.4, E1.3–E1.4.
+*Needs:* §3.1; ReductiveGroups §10B; LanglandsParameterStacks §4.1 and its finite-highest-weight-ideals, integral-highest-weight-orders and integral-tilting-lifts contracts; EnhancedDerivedSheaves §§0.1–0.4, E1.3–E1.4.
 
 **Checks.**
 
@@ -656,7 +656,7 @@ Fix a Borel and dominant λ. Under §3.1, the perverse standard ^pj_!Λ[dim Gr^�
 
 ### 3.3 The category of rational tilting representations
 
-Using the Weyl and dual-Weyl modules of ReductiveGroups §10B and the filtrations, finite-highest-weight-ideal, integral-highest-weight-orders and integral-tilting-lifts contracts with LanglandsParameterStacks §LP3.0, Tilt_Λ(Ĥ) is the full additive subcategory of finite free rational Ĥ_Λ-modules admitting both a finite Δ-filtration and a finite ∇-filtration. For Λ=k, finite free means finite-dimensional. Its exact structure is inherited from rational representations on the finite free coefficient domain; it is closed under direct summands, not under all kernels and cokernels. Use the integral reductive group representation carrier, not arbitrary representations of the discrete group of k-points. (JMW16, §1.1 and Theorem 1.1, p.1, JMW16 line 24; Don93, Theorem 1.1; Feng24, §4.5, p.23, Feng24 line 993.)
+Using the Weyl and dual-Weyl modules of ReductiveGroups §10B and the filtrations, finite-highest-weight-ideal, integral-highest-weight-orders and integral-tilting-lifts contracts with LanglandsParameterStacks §4.1, Tilt_Λ(Ĥ) is the full additive subcategory of finite free rational Ĥ_Λ-modules admitting both a finite Δ-filtration and a finite ∇-filtration. For Λ=k, finite free means finite-dimensional. Its exact structure is inherited from rational representations on the finite free coefficient domain; it is closed under direct summands, not under all kernels and cokernels. Use the integral reductive group representation carrier, not arbitrary representations of the discrete group of k-points. (JMW16, §1.1 and Theorem 1.1, p.1, JMW16 line 24; Don93, Theorem 1.1; Feng24, §4.5, p.23, Feng24 line 993.)
 
 The field classification is Donkin's theorem (Don93, Theorem 1.1), the algebraic-group case of Ringel's existence theorem for highest-weight categories, as recalled in JMW16 Theorem 1.1 (JMW16 lines 22–27). For O, existence, classification, summand closure and Hom reduction use the integral-tilting-lifts supplier contract; they are not consequences of defining the intersection of two filtration predicates.
 
@@ -670,7 +670,7 @@ The API:
 
 *Proof route.* Import the highest-weight predicates, and define their intersection as a full subcategory. For the integral API use the split highest-weight O-orders of the integral-highest-weight-orders contract: Δ-to-∇ Ext vanishing makes Hom between tiltings finite free with reduction base change; lift finite-ideal tilting generators and split lifted idempotents in their complete endomorphism orders. Reduction then identifies indecomposable labels and detects tilting on coefficient-free objects. Morphisms retain the algebraic comodule structure. This input precedes the parity comparison of §4.5.
 
-*Needs:* ReductiveGroups §§10A–10B; LanglandsParameterStacks §LP3.0 and its finite-highest-weight-ideals, integral-highest-weight-orders and integral-tilting-lifts contracts; ReductiveGroupsPartII §§RG2.5.1–RG2.5.2; ReductiveGroups Layer 1.
+*Needs:* ReductiveGroups §§10A–10B; LanglandsParameterStacks §4.1 and its finite-highest-weight-ideals, integral-highest-weight-orders and integral-tilting-lifts contracts; ReductiveGroupsPartII §§RG2.5.1–RG2.5.2; ReductiveGroups Layer 1.
 
 **Checks.**
 
@@ -691,9 +691,9 @@ The API:
 
 Tensor products of finite-dimensional rational tilting modules for a split connected reductive group over k are tilting. For a product group, external tensor products of indecomposable tiltings give its indecomposable tiltings. The characters ch T(λ) are triangular with leading dominant weight λ of multiplicity one, so equal characters imply isomorphism for finite direct sums of tiltings. Restriction to a maximal torus is faithful, but it is generally not full. (JMW16, Theorem 1.2, p.1; Theorems 5.1 and 5.3, p.16, JMW16 line 30; Feng24, footnote 11, p.27; §A.4, p.60, Feng24 line 1212.)
 
-*Proof route.* Use the good-filtration tensor theorem (Donkin, Wang, Mathieu) and its dual from LanglandsParameterStacks §LP3.0; no parameter-stack hypothesis is imposed on this generic representation theorem. Krull–Schmidt and the triangular highest-weight characters determine multiplicities recursively. Restriction forgets structure and is faithful; no inference of fullness is allowed.
+*Proof route.* Use the good-filtration tensor theorem (Donkin, Wang, Mathieu) and its dual from LanglandsParameterStacks §4.1; no parameter-stack hypothesis is imposed on this generic representation theorem. Krull–Schmidt and the triangular highest-weight characters determine multiplicities recursively. Restriction forgets structure and is faithful; no inference of fullness is allowed.
 
-*Needs:* §3.3; LanglandsParameterStacks §LP3.0 and its finite-highest-weight-ideal contract; ReductiveGroups Layer 4.
+*Needs:* §3.3; LanglandsParameterStacks §4.1 and its finite-highest-weight-ideal contract; ReductiveGroups Layer 4.
 
 **Checks.**
 
@@ -706,9 +706,9 @@ Tensor products of finite-dimensional rational tilting modules for a split conne
 
 The canonical functor K^b(Tilt_k(Ĥ))→D^b(Rep_k(Ĥ)) is an equivalence, where Rep denotes finite-dimensional rational representations. Prove this first inside each finite saturated highest-weight ideal and then pass to their filtered union; this does not give a uniform tilting-resolution length for all highest weights. (Feng24, Proposition 4.10, p.23, Feng24 line 1017.)
 
-*Proof route.* Within a finite highest-weight ideal, Ext^n(T,T′)=0 for n>0 by Δ/∇ Ext-vanishing, giving full faithfulness of the homotopy functor. Resolve standards by tiltings inductively on the finite weight poset; standards generate its bounded derived category. Any bounded complex involves finitely many weights and fits in such an ideal. Use the finite-highest-weight-ideal supplier contract with LanglandsParameterStacks §LP3.0.
+*Proof route.* Within a finite highest-weight ideal, Ext^n(T,T′)=0 for n>0 by Δ/∇ Ext-vanishing, giving full faithfulness of the homotopy functor. Resolve standards by tiltings inductively on the finite weight poset; standards generate its bounded derived category. Any bounded complex involves finitely many weights and fits in such an ideal. Use the finite-highest-weight-ideal supplier contract with LanglandsParameterStacks §4.1.
 
-*Needs:* §3.3; LanglandsParameterStacks §LP3.0 and its finite-highest-weight-ideal contract; Mathlib `DerivedCategory`.
+*Needs:* §3.3; LanglandsParameterStacks §4.1 and its finite-highest-weight-ideal contract; Mathlib `DerivedCategory`.
 
 **Checks.**
 
@@ -723,7 +723,7 @@ For dual SL₂ in characteristic 3, Δ(3) has dimension 4 and is not tilting. Th
 
 ### Dependencies
 
-Layer 0; GlobalShtukasAndFunctionFieldLanglands §§1.1–1.5, 1.8–1.9, 1.14 and its field-extension contract; GeometricSatakeAndFusion GS0; ReductiveGroups Layers 1, 4, 9; ReductiveGroupsPartII §§RG2.5.1–RG2.5.2; LanglandsParameterStacks §LP3.0 and the finite-highest-weight-ideals, integral-highest-weight-orders and integral-tilting-lifts contracts; EnhancedDerivedSheaves E1.4; EtaleDualityAndPerverseSheaves §§2.4–2.5 and the adic contract.
+Layer 0; GlobalShtukasAndFunctionFieldLanglands §§1.1–1.5, 1.8–1.9, 1.14 and its field-extension contract; GeometricSatakeAndFusion §0.29; ReductiveGroups Layers 1, 4, 9; ReductiveGroupsPartII §§RG2.5.1–RG2.5.2; LanglandsParameterStacks §4.1 and the finite-highest-weight-ideals, integral-highest-weight-orders and integral-tilting-lifts contracts; EnhancedDerivedSheaves E1.4; EtaleDualityAndPerverseSheaves §§2.4–2.5 and the adic contract.
 
 
 ## Layer 4: Parity, integral Tate Hom and normalized lifting
@@ -804,7 +804,7 @@ The L^+H-orbit stratification of every finite Schubert union in Gr_H satisfies t
 
 *Proof route.* Build Bott–Samelson parity pushforwards on affine flag varieties, then take the appropriate summands on the partial flag/Grassmannian. Check evenness, the local-system condition and integral lifting on each bounded piece. Carry out these arguments directly for étale sheaves on the scheme-theoretic Grassmannian over F, in place of the complex topology: Iwahori orbits on the affine flag variety are affine spaces, the projection to the Grassmannian restricts on strata to projections between affine spaces and is therefore even, and proper even pushforward preserves parity (JMW14, Proposition 2.34, p.15, JMW14 line 668; §4.1, p.29, JMW14 line 1340; Proposition 4.10, p.33, JMW14 line 1505), using proper base change, Künneth and purity for the étale cohomology of fibres. Every target of Layers 4–6 is stated for étale sheaves over F and proved here; none imports a complex-topological statement as a theorem.
 
-*Needs:* §4.3; GlobalShtukasAndFunctionFieldLanglands §§1.1–1.3, 1.5, 1.14 and the arbitrary-geometric-field contract; GeometricSatakeAndFusion GS0, *Equal-characteristic Schubert models and coefficient comparison*; EtaleCohomologyFoundations §§F.2–F.3, F.5–F.6; EnhancedDerivedSheaves §§0.1–0.4, E1.3–E1.4.
+*Needs:* §4.3; GlobalShtukasAndFunctionFieldLanglands §§1.1–1.3, 1.5, 1.14 and the arbitrary-geometric-field contract; GeometricSatakeAndFusion §0.29, *Equal-characteristic Schubert models and coefficient comparison*; EtaleCohomologyFoundations §§F.2–F.3, F.5–F.6; EnhancedDerivedSheaves §§0.1–0.4, E1.3–E1.4.
 
 **Checks.**
 
@@ -836,11 +836,11 @@ Build the good-prime perversity engine at its full stated generality: the modula
 
 ### 4.6 External products of normalized Grassmannian parity sheaves
 
-For G=H^r, every normalized O-parity object on Gr_G≅(Gr_H)^r is a finite direct sum of E(λ₁)⊠⋯⊠E(λ_r). The external product is the normalized indecomposable extension on the product stratum. Its stalk and costalk cohomology are the graded tensor products of the corresponding finite free O-modules, including the Koszul symmetry signs. (Feng24, proof of Lemma 4.14, p.24; Theorem 4.8, p.23, Feng24 line 1066.)
+For G=H^r, every normalized O-parity object on Gr_G≅(Gr_H)^r is a finite direct sum of E(λ₁)⊠⋯⊠E(λ_r). The external product is the normalized indecomposable extension on the product stratum. Its stalk and costalk cohomology are the graded tensor products of the corresponding finite free O-modules, including the Koszul symmetry signs. (Feng24, proof of Lemma 4.14, p.24, Feng24 line 1066, for the finite L⁺G-equivariant filtration with external-product associated graded and the external-product stalk computation; the direct-sum form for parity objects follows from §3.4 under the equivalence of §4.5, and for O through the integral-tilting-lifts contract; Theorem 4.8, p.23, Feng24 line 997.)
 
 *Proof route.* Use the Künneth theorem for finite free stalks and costalks, and dense-stratum normalization. Indecomposability follows either from the product tilting classification under Satake, using §3.3 and the integral-tilting-lifts contract for O and external products, or from the local endomorphism criterion. This direct-sum argument controls norm stalks without applying a nonadditive functor or a non-t-exact restriction to a perverse filtration.
 
-*Needs:* §4.4; §4.5; §3.3; §3.4; LanglandsParameterStacks §LP3.0, gap:integral-highest-weight-orders, gap:integral-tilting-lifts; EnhancedDerivedSheaves §§0.1–0.4, E1.3–E1.4.
+*Needs:* §4.4; §4.5; §3.3; §3.4; LanglandsParameterStacks §4.1, gap:integral-highest-weight-orders, gap:integral-tilting-lifts; EnhancedDerivedSheaves §§0.1–0.4, E1.3–E1.4.
 
 **Checks.**
 
