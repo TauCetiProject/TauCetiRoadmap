@@ -9,9 +9,10 @@ import TauCeti.LinearAlgebra.RootSystem.RootLength
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's
 headline theorems against the pinned APIs: the marked Coxeter presentation and
 length formula, root-automorphism complements and the based diagram identification,
-invariant metrics, greatest roots,
-and the type A and G₂ Weyl-group identifications.
+the invariant metric scale, greatest roots, and the type A Weyl-group identification.
 
+The Weyl group of a G₂ system and the two-length theorem are pinned Tau Ceti and
+Mathlib theorems, cited in the README's supplier contracts, so they are not stated here.
 The componentwise metric parameterization needs the constructed family of
 irreducible root subspaces and their restricted root pairings. The comparison of
 full integral data with rational cylinder chambers needs scalar extension of an
@@ -99,16 +100,6 @@ theorem invariantMetric_unique_scale {ι M N : Type*} [Fintype ι]
     (hB : B.form.toQuadraticMap.PosDef) (hC : C.form.toQuadraticMap.PosDef) :
     ∃! c : ℝ, 0 < c ∧ C.form = c • B.form := sorry
 
-/-- In an irreducible finite reduced crystallographic system squared lengths have ratio 1, 2 or 3. -/
-theorem squared_lengths_two_values {ι M N : Type*} [Fintype ι]
-    [AddCommGroup M] [Module ℝ M] [AddCommGroup N] [Module ℝ N]
-    (P : RootPairing ι ℝ M N) [P.IsRootSystem] [P.IsIrreducible]
-    [P.IsReduced] [P.IsCrystallographic]
-    (B : P.InvariantForm) (hB : B.form.toQuadraticMap.PosDef) :
-    ∃ s : ℝ, 0 < s ∧ ∃ r ∈ ({1, 2, 3} : Set ℝ),
-      ∀ i, B.form (P.root i) (P.root i) = s ∨
-        B.form (P.root i) (P.root i) = r * s := sorry
-
 /-! ## Layer 4: coefficient reflections and the greatest root -/
 
 /-- An irreducible finite reduced crystallographic root system has a unique greatest positive
@@ -122,22 +113,15 @@ theorem existsUnique_greatest_positive_root {ι R M N : Type*}
       b.toWeightBasisInt.repr (P.rootSpanMem ℤ j) k ≤
         b.toWeightBasisInt.repr (P.rootSpanMem ℤ θ) k := sorry
 
-/-! ## Layer 5: concrete Weyl groups -/
+/-! ## Layer 5: the type A Weyl group -/
 
-/-- A system with Cartan type Aₙ has Weyl group Sₙ₊₁. -/
+/-- A system with a base of Cartan type Aₙ has Weyl group Sₙ₊₁; for n = 0 both sides are trivial. -/
 theorem weylGroup_equiv_perm_of_typeA {ι R M N : Type*}
     [CommRing R] [CharZero R] [IsDomain R]
     [AddCommGroup M] [Module R M] [AddCommGroup N] [Module R N]
     (P : RootPairing ι R M N) [Finite ι] [P.IsRootSystem]
     [P.IsCrystallographic] [P.IsReduced]
-    (b : P.Base) {n : ℕ} (hn : 1 ≤ n) (h : TauCeti.HasCartanType P b (.A n)) :
+    (b : P.Base) {n : ℕ} (h : TauCeti.HasCartanType P b (.A n)) :
     Nonempty (P.weylGroup ≃* Equiv.Perm (Fin (n + 1))) := sorry
-
-/-- A finite spanning G₂ system has dihedral Weyl group of order 12. -/
-theorem weylGroup_equiv_dihedral_of_isG2 {ι R M N : Type*}
-    [CommRing R] [CharZero R] [IsDomain R]
-    [AddCommGroup M] [Module R M] [AddCommGroup N] [Module R N]
-    (P : RootPairing ι R M N) [Finite ι] [P.IsRootSystem] [P.IsG2] (b : P.Base) :
-    Nonempty (P.weylGroup ≃* DihedralGroup 6) := sorry
 
 end TauCetiRoadmap.RepresentationTheory.RootSystems

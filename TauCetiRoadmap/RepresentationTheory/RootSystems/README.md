@@ -6,15 +6,18 @@ specified simple reflections. Develop the based complement in root automorphism
 groups, its full integral root-datum form, componentwise invariant metrics and
 highest-root theory. The endpoints include the length–inversion formula, the
 semidirect decomposition of root automorphisms, the unique greatest positive root,
-and concrete Weyl groups of types A and G₂.
+and the symmetric-group Weyl group of type A; the dihedral Weyl group of G₂ is
+consumed from the library.
 
 ## Scope and ownership
 
 This roadmap owns the remaining root-system conclusions above. Mathlib supplies
-root pairings, bases, integral coordinates, root strings and abstract Coxeter
-systems. Tau Ceti supplies positive roots, lowering, inversions, exchange,
-chambers, the longest element, Bruhat order, Poincaré polynomials, G₂ Cartan recognition,
-finite Cartan classification and the numbered simply connected root data. These are inputs, not construction targets here.
+root pairings, bases, integral coordinates, root strings, abstract Coxeter
+systems and the two-length theorem for invariant forms. Tau Ceti supplies positive
+roots, lowering, inversions, exchange, the least-length spelling of inversion
+counts, chambers, the longest element, Bruhat order, Poincaré polynomials, G₂ Cartan
+recognition, the rank-two dihedral Weyl groups, finite Cartan classification and
+the numbered simply connected root data. These are inputs, not construction targets here.
 In particular there is one native `TauCeti.DynkinType`, one standard Cartan family
 and one integral datum per valid type; no second enumeration or transport to a
 local copy is needed. The exported `DynkinType` in Suggested.lean denotes that
@@ -98,6 +101,13 @@ Paths in this subsection are relative to Mathlib.
   `Mathlib/LinearAlgebra/RootSystem/Finite/CanonicalBilinear.lean` supplies the canonical form;
   `RootPairing.posRootForm_rootFormIn_posDef` in `Finite/Nondegenerate.lean` proves
   positive definiteness on the root span.
+- `RootPairing.InvariantForm.apply_eq_or` and
+  `RootPairing.InvariantForm.exists_apply_eq_or` in
+  `Mathlib/LinearAlgebra/RootSystem/Finite/Lemmas.lean`, for a finite reduced
+  irreducible crystallographic pairing and any invariant form: two root
+  self-values are equal or in ratio 2 or 3, either way round, and, for a nonempty
+  index type, two roots' self-values cover every root. Positive definiteness is not
+  assumed there; §3.2 adds it only to order the two values.
 - `RootPairing.Equiv.indexHom`, `RootPairing.Equiv.weightHom` and
   `RootPairing.Equiv.coweightHom` in `Mathlib/LinearAlgebra/RootSystem/Hom.lean`;
   the last has opposite-group target. `RootPairing.weylGroup` and
@@ -123,6 +133,12 @@ Paths in this subsection are relative to Tau Ceti; all preserve their native hyp
   `TauCeti.ncard_inversions_mul_ofIdx` in `Inversions/Exchange.lean`, and
   `TauCeti.exists_wordProd_eraseIdx_eq_mul_ofIdx` in `Inversions/StrongExchange.lean`:
   the root-level deletion and inversion-count statements, before any presentation isomorphism.
+  `TauCeti.wordProd` in `SimpleReflections.lean` spells a word in the simple
+  reflections of a base; `TauCeti.exists_wordProd_eq_and_length_eq_ncard_inversions`
+  and `TauCeti.isLeast_ncard_inversions` in `Inversions/Length.lean` prove, for a
+  finite reduced crystallographic pairing over a characteristic-zero domain, that the
+  inversion count of w is the least length of a word spelling w. §1.2 transfers this
+  least-length statement to `CoxeterSystem.length` through the marking of §1.1.
 - `RootPairing.weylGroupToPerm_injective` and `RootPairing.finite_weylGroup` in
   `TauCeti/LinearAlgebra/RootSystem/Weyl/Group.lean`, with finite spanning root-system hypotheses.
 - `TauCeti.coxeterMatrixOfBase` in `TauCeti/LinearAlgebra/RootSystem/Coxeter/Matrix.lean`,
@@ -158,7 +174,13 @@ Paths in this subsection are relative to Tau Ceti; all preserve their native hyp
 - `TauCeti.hasCartanType_G2_of_isG2` in
   `TauCeti/LinearAlgebra/RootSystem/RankTwo.lean` identifies the Cartan type of
   any base of a finite crystallographic characteristic-zero-domain pairing
-  satisfying `RootPairing.IsG2`; §5.2 consumes this recognition.
+  satisfying `RootPairing.IsG2`. `TauCeti.nonempty_dihedralGroup_mulEquiv_weylGroup_of_hasCartanType_G2`
+  and `TauCeti.card_weylGroup_of_hasCartanType_G2` in `Weyl/Dihedral.lean` give, for
+  a base of Cartan type G₂ of a finite reduced crystallographic pairing over a
+  characteristic-zero domain, an isomorphism `DihedralGroup 6 ≃* P.weylGroup` and
+  order 12; since `RootPairing.IsG2` extends reducedness and crystallographicity,
+  composing them with the recognition theorem supplies the Weyl group of every
+  `RootPairing.IsG2` system, which §5.2 consumes.
 - `TauCeti.DynkinType.numRoots` in `TauCeti/LinearAlgebra/RootSystem/NumberOfRoots.lean`,
   `TauCeti.DynkinType.rootLength` and `TauCeti.DynkinType.IsLongSimpleRoot` in
   `RootLength.lean`; the lengths satisfy the root-row Cartan convention.
@@ -211,7 +233,7 @@ Layer 1 completes the marked presentation using the supplied root exchange theor
 Layer 2 uses native chambers for automorphism complements and then retains the
 full integral lattices. Layer 3 develops components and metrics independently of
 the presentation. Layer 4 uses native integral coordinates and root strings for
-greatest roots. Layer 5 identifies concrete Weyl groups. Classification and the
+greatest roots. Layer 5 identifies the type A Weyl group. Classification and the
 numbered family supply all these layers directly; none is a premise for rebuilding them.
 
 ## Layer 1: the marked Coxeter presentation
@@ -233,14 +255,19 @@ abstract strong exchange and Matsumoto.
 ### 1.2 Length and reduced expressions
 
 For every such marked cs and every w, prove `length_eq_inversions`:
-cs.length w equals the number of positive roots made negative by w. Deduce that
-reduced words are precisely minimal simple-reflection expressions, that the
+cs.length w equals the number of positive roots made negative by w. This is the
+transfer of the supplied root-level statement through the marking: by
+`TauCeti.isLeast_ncard_inversions` the inversion count of w is the least length
+of a word in the actual simple reflections spelling w, and with cs.simple i the
+actual reflection at i, `CoxeterSystem.length` is by definition the least length
+of a word in cs.simple spelling w, so the two least lengths agree. Deduce that the
 native longest element has length the positive-root count. Identify the
 coefficients of the native Poincaré polynomial with counts by inversion
 cardinality, and express its native Bruhat subword criterion using the actual
 simple reflections (Bourbaki, Chapter VI §1, no. 6; Björner–Brenti,
-§2.2 and Theorem 3.3.1). *Needs:* §1.1; inversion exchange;
-`CoxeterSystem.length`; native longest element; abstract Matsumoto.
+§2.2 and Theorem 3.3.1). *Needs:* §1.1; `TauCeti.isLeast_ncard_inversions` and
+`TauCeti.wordProd`; `CoxeterSystem.length`; native longest element, Bruhat order
+and Poincaré polynomial.
 
 ### Examples
 
@@ -420,13 +447,19 @@ reducedness nor crystallographicity.
 *Needs:* native invariant forms and their coroot identity; native irreducibility;
 positive definiteness; spanning; bilinearity and invariance of the radical of D.
 
-For the reduced crystallographic case prove `squared_lengths_two_values`:
-there are s>0 and r∈{1,2,3} with each squared root length equal to s or rs.
-Refine this componentwise using the native Dynkin type: r=1 for A,D,E, r=2
-for B,C,F₄, and r=3 for G₂; both values occur in nonsimply-laced types
-(Milne C(g), table (180), pp. 621–622, milne17 line 25438, and C.56).
-*Needs:* §3.1; unique scaling; native classification and length tables;
-simple-root lowering and reflection invariance.
+In the reduced crystallographic case the two-length theorem is supplied:
+`RootPairing.InvariantForm.exists_apply_eq_or` gives two roots whose squared
+lengths cover every root, `RootPairing.InvariantForm.apply_eq_or` makes any two
+squared lengths equal or in ratio 2 or 3, and positive definiteness orders them,
+so there are s>0 and r∈{1,2,3} with each squared root length equal to s or rs.
+What this roadmap proves is the identification of r with the native Dynkin type
+of each component: r=1 for A,D,E, r=2 for B,C,F₄, and r=3 for G₂, with both
+values occurring in the nonsimply-laced types, by comparing the restricted form
+on a component with the native length table `TauCeti.DynkinType.rootLength`
+through the Cartan comparison (Milne C(g), table (180), pp. 621–622,
+milne17 line 25438, and C.56).
+*Needs:* §3.1; unique scaling; the supplied two-length lemmas; native
+classification and length tables; simple-root lowering and reflection invariance.
 
 Relative to the canonical positive form on each component, construct the
 bijection between invariant positive-definite forms and one positive real
@@ -458,8 +491,8 @@ any three positive scales. These test both the uniqueness and independence claim
 
 ### Dependencies
 
-Mathlib invariant forms, bases and graph components; native classification and
-root-length tables. This layer does not consume the Coxeter presentation.
+Mathlib invariant forms, two-length lemmas, bases and graph components; native
+classification and root-length tables. This layer does not consume the Coxeter presentation.
 
 ## Layer 4: coefficient reflections and the greatest root
 
@@ -554,12 +587,15 @@ unit root-string steps, and C₄ distinguishes the two Cartan transposes.
 Native integral coordinates, root strings, lowering, chambers and numbered
 families; this layer does not require a computational root enumeration.
 
-## Layer 5: concrete Weyl groups
+## Layer 5: the type A Weyl group
 
 ### 5.1 Type A
 
-For the standing system with base of native type Aₙ, n≥1, prove
-`weylGroup_equiv_perm_of_typeA`. On the sum-zero model with roots eᵢ−eⱼ
+For the standing system with a base of native Cartan type Aₙ, for any n, prove
+`weylGroup_equiv_perm_of_typeA`: its Weyl group is isomorphic to the symmetric
+group on n+1 letters. Validity of Aₙ, meaning n≥1, is a convention of the native
+enumeration and not a hypothesis of the theorem: for n=0 the base is empty, the
+spanning system is zero, and both groups are trivial. On the sum-zero model with roots eᵢ−eⱼ
 in rank n+1 coordinates, identify the simple reflections with adjacent
 transpositions, then transport to an arbitrary based system of that Cartan
 type. Prove order (n+1)! and positive-root count n(n+1)/2
@@ -574,37 +610,78 @@ comparison; §1.1; the sum-zero realization and its marked simple roots.
   reflection is x↦−x, giving W≅S₂. The proper nonzero submodule 3R is
   reflection-stable: 3↦−3, whereas 1∉3R since 3a=2ᵏ has no integer solution.
   Thus type A does not require native module irreducibility over a domain.
-- The empty system has trivial Weyl group but is not of valid type Aₙ for n≥1;
-  the type hypothesis prevents treating rank zero as A₁.
+- The empty system has Cartan type A₀, trivial Weyl group and the trivial
+  group S₁ on the other side, so the theorem holds there; it is not of type A₁,
+  whose base has one element, and native validity rejects A₀.
 
 ### 5.2 Type G₂
 
 For a finite spanning `RootPairing.IsG2` system over a characteristic-zero
-domain and a chosen base, prove `weylGroup_equiv_dihedral_of_isG2`:
-its Weyl group is isomorphic to `DihedralGroup 6`. Fix the short-first Bourbaki
-orientation, six positive roots and longest length 6 (Milne Appendix C(g),
-rank-two diagrams, p. 622). *Needs:* native G₂ predicate;
-`TauCeti.hasCartanType_G2_of_isG2`; §1.1–§1.2; native classification and longest element.
+domain and a chosen base, the Weyl group is supplied: `TauCeti.hasCartanType_G2_of_isG2`
+gives the base Cartan type G₂, and `TauCeti.nonempty_dihedralGroup_mulEquiv_weylGroup_of_hasCartanType_G2`
+then gives an isomorphism with `DihedralGroup 6`, of order 12 by
+`TauCeti.card_weylGroup_of_hasCartanType_G2`. What remains here is the G₂
+worked example: in the short-first Bourbaki orientation, prove that the system
+has six positive roots, that the greatest root of §4.2 has coefficients (3,2),
+and that the longest element has length 6 by §1.2 (Milne Appendix C(g),
+rank-two diagrams, p. 622). *Needs:* the supplied G₂ recognition and dihedral
+theorems; §1.2; §4.2; native longest element.
+
+**Checks.**
+
+- The positive coefficient vectors are (1,0),(0,1),(1,1),(2,1),(3,1),(3,2):
+  six of them, with (3,2) greatest; the longest element has six inversions.
+  An A₂ model would give three positive roots and length 3.
+- The Cartan off-diagonals −1,−3 have product 3, giving Coxeter order 6 and
+  a dihedral group of order 12; the transposed matrix `!![2, -3; -1, 2]` has the
+  same product and the same group, but makes the first root long, so the
+  short-first orientation is a convention of the coefficients, not of the group.
 
 ### Examples
 
 A₁ gives S₂ of order 2, A₂ gives the nonabelian S₃ of order 6, and G₂ gives
-a dihedral group of order 12 with reflection product of order 6. The G₂
-Cartan off-diagonals are −1,−3; their product 3 gives Coxeter order 6.
+a dihedral group of order 12 with reflection product of order 6.
 
 ### Dependencies
 
-The native finite classification, numbered family and marked presentation.
+The native finite classification, numbered family, rank-two dihedral theorems
+and marked presentation.
 
 ## Downstream consumers
 
-LieHighestWeight Layers 2 and 6 consume the root and chamber vocabulary for
-integral weights and character formulas. ClassicalGroups Layer 3 consumes the
-classical Weyl groups. CFSGStatement workstreams L0–L1 consume the native
-numbered integral data. LieGroups Layer 6 consumes the finite Weyl action for
-maximal tori; its Layer 8 consumes lengths for Bruhat cell dimensions.
-ReductiveGroups §9A.1a-L consumes the based-automorphism comparison for ADE
-cover lifts. These are consumers, not prerequisites for the root-system proofs.
+The layers of this roadmap are the five above; where a consumer names an
+earlier layer numbering of the root-systems roadmap, the object it consumes is
+the native declaration or the section named here.
+
+- LieHighestWeight Layers 2, 6 and 10 consume the root and chamber vocabulary
+  for integral weights and character formulas, the based classification and the
+  Weyl group: the native positive roots, chambers, classification and numbered
+  data of the supplier contracts, with the marked presentation of §1.1.
+- ClassicalGroups Layer 3 consumes the classical Weyl groups: type A from §5.1,
+  the rank-two cases from the native dihedral theorems.
+- CFSGStatement workstreams L0–L1 consume the numbered integral data, formerly
+  cited as a sixth layer: the native `TauCeti.DynkinType`,
+  `TauCeti.DynkinType.Valid`, `TauCeti.DynkinType.simplyConnectedRootDatum`,
+  `TauCeti.DynkinType.simplyConnectedBase` and `TauCeti.DynkinType.simpleIndex`.
+- LieGroups Layer 6 consumes the finite Weyl action for maximal tori; its
+  Layer 8 consumes the lengths of §1.2 for Bruhat cell dimensions.
+- ReductiveGroups consumes the marked presentation of §1.1 (formerly a second
+  layer), the native classification `TauCeti.existsUnique_dynkinType` and
+  `TauCeti.HasCartanType` with the numbered simply connected data (formerly
+  fifth and sixth layers), and the based complement of §2.1 with the diagram
+  identification of §2.2 for its §9A.1a-L cover lifts (formerly a based
+  factorization section).
+- ReductiveGroupsPartII, TopologicalKTheory and SymplecticGeometry's
+  ConvexityToric consume abstract Coxeter combinatorics and chambers (formerly
+  third and fourth layers): the native `CoxeterSystem.strongExchange`,
+  `TauCeti.matsumoto`, `CoxeterSystem.BruhatLE` and `TauCeti.poincarePolynomial`,
+  and the native `RootPairing.dominantChamber`, `TauCeti.openWeylChamber` and
+  `TauCeti.longestElement`.
+- RootSystemsPartII §§1–4 consume the native positive roots, chambers,
+  classification and numbered data, the marked presentation of §1.1 and the
+  based automorphisms of §2.1–§2.2 for its folds.
+
+These are consumers, not prerequisites for the root-system proofs.
 
 ## References
 
