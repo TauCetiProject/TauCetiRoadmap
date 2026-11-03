@@ -524,7 +524,7 @@ coefficients satisfy the categorical exactness assumptions. Extend its API below
    complex with Hausdorff ambient space, inclusion of the (n+1)-skeleton induces
    an isomorphism on degree-n relative singular homology
    (`isIso_singularHomologyMap_skeletonBasePairToComplex`; Hatcher, Lemma
-   2.34(c), p. 138), which composed with the native skeleton-pair cellular
+   2.34(c), p. 137), which composed with the native skeleton-pair cellular
    identification is the comparison in every degree. Prove compact singular
    simplex images lie in finite subcomplexes, identify singular chains with the
    filtered colimit over skeleta, and pass to homology using exact filtered

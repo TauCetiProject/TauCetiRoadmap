@@ -110,7 +110,7 @@ theorem brouwerFixedPoint_compactConvex_finiteSpan {E : Type u} [NormedAddCommGr
 /-- **Arbitrary-dimensional cellular comparison** (Stage 4.3). For every relative CW complex
 `(X, D)` with Hausdorff `X`, no finite-dimensionality assumed, inclusion of the
 `(n+1)`-skeleton induces an isomorphism on relative singular homology in degree `n`
-(Hatcher, Lemma 2.34(c), p. 138). Composed with the native cellular-homology identification
+(Hatcher, Lemma 2.34(c), p. 137). Composed with the native cellular-homology identification
 `TauCeti.cellularHomologyIso` of the `(n+1)`-skeleton pair, this is the comparison of cellular
 with singular homology in every degree, extending the pinned finite-dimensional
 `TauCeti.cellularSingularHomologyIso`. Module coefficients have exact coproducts. -/
