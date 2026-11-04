@@ -55,10 +55,13 @@ Mathlib manifolds; the de Rham comparison uses its precise σ-compact hypotheses
   `singularCohomologyδ` and the relative exactness/naturality lemmas. The
   cup module already proves associativity and units; its full graded
   and relative packaging is that supplier's target.
-  C2's primary Euler obstruction additionally consumes AT8.9; ordinary line
-  classification in C1.6 consumes AT8.10 and AT8.12 after C1.5's independent
-  carrier/cellular calculations. C1.5's comparison portion and C2 consume
-  no AT8.12; the later C1.6 classification has no arrow back to AT8.12.
+  C2's primary Euler obstruction additionally consumes AT8.9. C1.5a's
+  Eilenberg–MacLane identification of the rank-one projective carriers
+  consumes AT8.5, AT8.8b's normalized ℤ/2 model, AT8.10's ordinary models and
+  representability and AT8.12's native circle comparison, after C1.5's
+  independent carrier/cellular calculations; ordinary line classification in
+  C1.6 consumes AT8.10 and C1.5a. C1.5's comparison portion and C2 consume
+  no AT8.8b, AT8.10 or AT8.12.
   For the support lane, C1.2a consumes ordinary AT2–4 and ordinary6.1–6.2
   only. The separate AT supported-cellular supplement consumes C1.2a S0–S4;
   its pair LES has a separate compatibility check against S5, while proper AT8.5
@@ -512,9 +515,9 @@ and C3.5 owns the separate universal Spin obstruction.
    with their final/weak CW topology and tautological bundles. Own the
    comparisons with the finite AT4.6 RPⁿ and CKG K7 CPⁿ carriers and their
    finite-stage inclusions, and the degreewise cellular/cup comparisons.
-   This construction uses AT4/6 and T1.6's carrier portion, preceding ordinary
-   line classification; AT8.12 consumes these comparisons to identify the
-   carriers as EM spaces. Prove
+   This construction uses AT4/6 and T1.6's carrier portion, preceding the
+   Eilenberg–MacLane identification of C1.5a and ordinary line
+   classification. Prove
    `H*(CP∞;Z)=Z[h]`, `H*(RP∞;F2)=F2[a]` and
    `H*(RP∞;Z)=Z[y]/(2y)`, |h|=2, |a|=1, |y|=2, with `y=β(a)` and
    its actual cup powers. Compare BU(1), BO(1) and the double-cover model,
@@ -534,17 +537,42 @@ and C3.5 owns the separate universal Spin obstruction.
    tensor/dual maps are addition/negation by the universal degree2 calculation;
    compare with SBC B6 on smooth bases. C3 identifies this class with c₁.
 
+   **C1.5a. Classical Eilenberg–MacLane comparisons.** After the
+   carrier/cellular comparisons above, own the identification of T1.6's
+   rank-one RP∞ and CP∞ carriers, with their final/weak CW topology, as
+   K(ℤ/2,1) and K(ℤ,2), respectively, and the coefficient-natural
+   Eilenberg–MacLane comparison maps to AT8.10's ordinary models. Apply
+   C1.1b's specialized homotopy exact sequence to T1.6's universal double
+   cover and principal circle bundle, whose sphere total spaces T1.6 proves
+   contractible, to compute the homotopy groups of both carriers. Compare
+   the real carrier with AT8.8's classifying space of ℤ/2 through AT8.8b's
+   normalized model comparison. Compare the complex carrier with AT8.10's
+   K(ℤ,2) by the map that AT8.10's representability assigns to the
+   universal generator h, whose restriction to complex-oriented CP¹ pairs
+   to +1 under CKG K7's orientation; the circle fibre's degree-one
+   generator is pinned by AT8.12's native circle comparison. Upgrade these
+   weak equivalences to homotopy equivalences by AT8.5's Whitehead theorem
+   on these CW carriers. The real degree-one class is the unique nonzero
+   class, the class of the double-cover generator. Prove restriction
+   compatibility with the finite-stage AT4.6 RPⁿ and CKG K7 CPⁿ
+   comparisons above, and coefficient change along every additive
+   homomorphism ℤ→A, including reduction ℤ→ℤ/m for each m≥1. No new
+   infinite-projective carrier, characteristic-class definition or
+   finite-projective comparison is constructed here; C1.6 consumes these
+   comparisons.
+
 6. **Ordinary classification of line bundles.** For CW complexes and for
    paracompact Hausdorff bases of CW type, combine T1.6's numerable rank-one
-   bundle classification with AT8.10 ordinary representability and AT8.12's
+   bundle classification with AT8.10 ordinary representability and C1.5a's
    class-normalized CP∞≃K(ℤ,2) and RP∞≃K(ℤ/2,1) comparisons. Prove
    complex-line isomorphism classes ≃H²(X;ℤ), with tautological class x=−h,
    and real-line classes ≃H¹(X;ℤ/2), with their natural tensor/dual maps.
    Prove the relative versions for bundles with a prescribed trivialization
    on a CW subcomplex, using AT8.10's relative map classes; preserve that
    trivialization under isomorphisms and homotopies. This theorem follows
-   C1.5's carrier/cellular comparisons; those earlier comparisons use no
-   line-classification theorem or AT8.12. On general paracompact bases retain
+   C1.5's carrier/cellular comparisons and C1.5a's Eilenberg–MacLane
+   identification; the C1.5 comparisons use no line-classification theorem
+   or Eilenberg–MacLane identification. On general paracompact bases retain
    the stated Čech/singular distinction rather than assert singular classification.
 
 ## C2. Thom, Euler and Gysin theory
