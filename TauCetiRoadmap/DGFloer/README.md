@@ -431,14 +431,12 @@ They supply the morphism-property/disc/cube vocabulary and bundle lifting;
 the remaining LES, coefficient, arbitrary-base, multiplicativity and
 convergence targets below extend those interfaces.
 
-1. **Hurewicz in degree one.** For a path-connected space, `π₁(X)ᵃᵇ ≅ H₁(X; ℤ)` naturally. This
-   proves the isomorphism theorem for AT8.3's actual normalized absolute
-   Hurewicz map with target AT's native simplicial singular H₁(X;ℤ):
-   a loop is sent to its induced positively oriented singular
-   circle class, through Layer 0's cubical/simplicial chain comparison. The
-   induced map on abelianization is the displayed isomorphism, with no
-   independent sign or map. AT8.3's higher-degree isomorphism theorem starts
-   in degree two. The source uses it for `H₁(Ω²Q) ≅ π₃(Q)` in Proposition 5.11.
+1. **Hurewicz in degree one.** Consume AlgebraicTopology Stage 8.3's degree-one Hurewicz
+   theorem: for a path-connected pointed space the map `π₁(X)ᵃᵇ → H₁(X; ℤ)` sending a loop to
+   its positively oriented singular circle class is a natural isomorphism, stated on AT's
+   native simplicial singular `H₁(X; ℤ)`. This roadmap adds only the transport of that
+   isomorphism to cubical chains through Layer 0's cubical/simplicial chain comparison, with
+   no independent sign or map. The source uses it for `H₁(Ω²Q) ≅ π₃(Q)` in Proposition 5.11.
 2. **Weak equivalences and CW approximation.**
    - Every space has a CW approximation, natural up to homotopy. This is the
      abstract approximation theorem; CC C1.2 owns the weak-equivalence
