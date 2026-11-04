@@ -249,13 +249,16 @@ theorem pontryagin_duality :
 variable [MeasurableSpace K] [BorelSpace K]
   [MeasurableSpace (PontryaginDual K)] [BorelSpace (PontryaginDual K)]
 
-/-- The dual Haar measure, the Plancherel theorem and Fourier inversion: for a Haar measure `μ`
-on a locally compact Hausdorff abelian group `K` there is a Haar measure `ν` on the dual such that
+/-- The dual Haar measure, the Plancherel theorem and Fourier inversion: for a regular Haar
+measure `μ` on a locally compact Hausdorff abelian group `K` there is a regular Haar measure `ν` on
+the dual such that
 the positive-character transform `f̂(χ) = ∫ f(s) χ(s) dμ(s)` on `L¹ ∩ L²` extends to a unitary
 `L²(K, μ) ≃ L²(K̂, ν)`, and every integrable `f` with integrable transform satisfies
-`f(x) = ∫ f̂(χ) conj(χ(x)) dν(χ)` almost everywhere (Rudin, Theorems 1.5.1 and 1.6.1). -/
-theorem exists_dualHaar_plancherel_inversion (μ : Measure K) [μ.IsHaarMeasure] :
-    ∃ ν : Measure (PontryaginDual K), ν.IsHaarMeasure ∧
+`f(x) = ∫ f̂(χ) conj(χ(x)) dν(χ)` almost everywhere (Rudin, Theorems 1.5.1 and 1.6.1).
+Regularity is assumed because `IsHaarMeasure` alone does not include it; the Haar measure of the
+sources is the regular one. -/
+theorem exists_dualHaar_plancherel_inversion (μ : Measure K) [μ.IsHaarMeasure] [μ.Regular] :
+    ∃ ν : Measure (PontryaginDual K), ν.IsHaarMeasure ∧ ν.Regular ∧
       (∃ F : Lp ℂ 2 μ ≃ₗᵢ[ℂ] Lp ℂ 2 ν,
         ∀ (f : K → ℂ) (hf₁ : Integrable f μ) (hf₂ : MemLp f 2 μ),
           (F (hf₂.toLp f) : PontryaginDual K → ℂ) =ᵐ[ν]

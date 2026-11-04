@@ -1580,7 +1580,11 @@ D4.Takai is the duality theorem.
 
 ### D4.Harmonic. Fourier isomorphism, Plancherel, inversion and Pontryagin duality
 
-Let G be a locally compact Hausdorff abelian group with Haar measure μ and
+Let G be a locally compact Hausdorff abelian group with a regular Haar
+measure μ (Mathlib `Measure.IsHaarMeasure` together with `Measure.Regular`:
+the class `IsHaarMeasure` does not include regularity, and regular Haar
+measures are unique up to a positive scalar by Mathlib
+`isMulLeftInvariant_eq_smul_of_regular`) and
 `Ĝ=PontryaginDual G`, the continuous characters `G→𝕋` with the compact-open
 topology, a locally compact abelian group by Mathlib's instance.
 BanachAlgebras A7 supplies the bijection of Ĝ with the Gelfand spectrum of
@@ -1611,7 +1615,7 @@ comparison and the amenability of abelian groups, so the same transform
 identifies the reduced algebra on `L²(G)` with `C₀(Ĝ)`.
 
 Prove the dual Haar measure and the Plancherel theorem
-(`exists_dualHaar_plancherel_inversion`): there is a Haar measure μ̂ on Ĝ,
+(`exists_dualHaar_plancherel_inversion`): there is a regular Haar measure μ̂ on Ĝ,
 the dual measure of μ, such that `f↦f̂` on `L¹(G)∩L²(G)` is isometric into
 `L²(Ĝ,μ̂)` and extends to a unitary `F:L²(G,μ)≅L²(Ĝ,μ̂)` (Rudin, Theorem
 1.6.1; Williams's Example 7.11, p. 198, uses it in this form). Route, through
@@ -1637,7 +1641,7 @@ by density, and prove surjectivity of F from the facts that its range is
 closed and invariant under multiplication by every `ĝ`, `g∈L¹(G)`, and that
 these functions are dense in `C₀(Ĝ)` (a conjugation-closed subalgebra that
 separates the points of Ĝ and vanishes nowhere, Stone–Weierstrass). Prove
-that μ̂ is the unique Haar measure making the transform isometric and that
+that μ̂ is the unique regular Haar measure making the transform isometric and that
 `μ↦cμ` gives `μ̂↦c⁻¹μ̂`.
 
 Prove Fourier inversion (`exists_dualHaar_plancherel_inversion`): for
@@ -1689,8 +1693,8 @@ measure.
   extending `f↦f̂` from `L¹∩L²`, and Fourier inversion for `f∈L¹(G)` with
   `f̂∈L¹(Ĝ)`, stated together as `exists_dualHaar_plancherel_inversion`: for
   every locally compact Hausdorff abelian group with Borel structures on G
-  and Ĝ and every Haar measure μ on G, there is a Haar measure on Ĝ for which
-  both hold.
+  and Ĝ and every regular Haar measure μ on G, there is a regular Haar
+  measure on Ĝ for which both hold.
 - The Pontryagin duality theorem `pontryagin_duality`: for every locally
   compact Hausdorff abelian group there is an isomorphism of topological
   groups `G≅(Ĝ)^` whose underlying map is evaluation.
@@ -2873,11 +2877,6 @@ of a positive-definite matrix through the Hermitian functional calculus).
   p. 27 for the statement of the Pontryagin duality theorem and Example
   7.11 (p. 198) for the Plancherel identity on `C_c(G)`, both of which
   Williams takes from Folland.
-- Walter Rudin, *Fourier Analysis on Groups*, Interscience (1962; Wiley
-  Classics reprint 1990): Theorem 1.5.1 (inversion), Theorem 1.6.1
-  (Plancherel), Theorem 1.7.2 (Pontryagin duality) and §2.6 (transforms
-  equal to 1 on a compact set and 0 off a neighbourhood), cited by locator
-  for D4.Harmonic; the routes given there avoid Bochner's theorem.
   Appendix D for D1.BorelPrefix: Theorem D.3 and Lemma D.4 (p. 370) for
   measurable homomorphisms of locally compact groups and Steinhaus's
   theorem, Theorem D.11 (p. 372) for Borel homomorphisms from Polish groups,
@@ -2886,6 +2885,12 @@ of a positive-definite matrix through the Hermitian functional calculus).
   (p. 383) for ω-representations and the circle extension, and Lemmas D.37,
   D.42 and D.43 (pp. 391–395) for the Polish unitary group and Borel
   coefficients.
+- Walter Rudin, *Fourier Analysis on Groups*, Interscience (1962; Wiley
+  Classics reprint 1990): Theorem 1.5.1 (inversion), Theorem 1.6.1
+  (Plancherel), Theorem 1.7.2 (Pontryagin duality) and §2.6 (transforms
+  equal to 1 on a compact set and 0 off a neighbourhood), cited by locator
+  for D4.Harmonic. Rudin's proofs of inversion and Plancherel pass through
+  Bochner's theorem; the routes D4.Harmonic gives do not.
 - Jean Renault, *A Groupoid Approach to C*-Algebras*, LNM 793 (1980):
   Chapter I §§2–3 for Haar systems and quasi-invariant measures; Chapter II
   §§1–2 for convolution, integrated representations and the regular norm;
