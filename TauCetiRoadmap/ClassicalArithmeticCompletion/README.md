@@ -854,7 +854,7 @@ The supporting API comprises:
 - For u ≠ 0, ratSquarefreePart u is squarefree.
 - For u ≠ 0 there is a nonzero rational c with `u = ratSquarefreePart u · c^2`.
 - For u ≠ 0 and d squarefree, ratSquarefreePart u = d if and only if `u = d · c^2` for some nonzero rational c.
-- Later API (§1.28), `ratSquarefreePart_mul_sq`: `ratSquarefreePart (u · t^2) = ratSquarefreePart u` for nonzero u and t.
+- Multiplication by a nonzero rational square preserves the squarefree part (§1.28): `ratSquarefreePart (u · t^2) = ratSquarefreePart u` for nonzero u and t.
 - On a squarefree integer d, ratSquarefreePart d = d.
 - For u ≠ 0 and a prime p, p divides the rational squarefree part of u if and only if padicValRat p u is odd (§1.37).
 - ratSquarefreePart u > 0 if and only if u > 0.
