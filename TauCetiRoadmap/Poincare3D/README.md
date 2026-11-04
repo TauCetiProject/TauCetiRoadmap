@@ -29,22 +29,30 @@ reconstruction of the initial manifold.
 
 The [GeometricTopology roadmap](../GeometricTopology/README.md), Layer 8, owns
 geometric decomposition vocabulary and faithful statements of geometrization.
-This roadmap owns the Ricci-surgery proof programme described here. Use its
-manifold, collar, gluing, connected-sum, and PL carriers throughout.
+Its native statement is
+[`TauCeti.GeometrizationConjecture`](https://github.com/TauCetiProject/TauCeti/blob/358314d4ab97483df4fc4cb8adcc02e74a8d9f5a/TauCeti/LowDimTopology/Geometrization.lean#L144),
+a proposition whose proof is a GeometricTopology target. This roadmap owns the
+Ricci-surgery and finite-extinction proof programme for Poincaré described here;
+P15 supplies the adapter to GeometricTopology's Poincaré endpoint. Use the
+supplier's manifold, collar, gluing, connected-sum and PL carriers throughout.
 
 | Supplier | Exact material consumed | Material owned here |
 | --- | --- | --- |
-| [GeometricTopology](../GeometricTopology/README.md), Layers 1, 2, 7, 11 and smoothing comparison | Smooth/PL manifolds, collars, gluing, connected sum, locally flat embeddings, geometric structures, triangulation/realization and smooth triangulation | The three-dimensional neck/cap consequences, actual Ricci surgery and reconstruction, dimension-three compatible PL/smooth existence in P14 |
+| [GeometricTopology](../GeometricTopology/README.md), Layers 1, 2, 7 and 11 | Smooth/PL manifolds, collars, gluing, connected sum, locally flat embeddings, geometric structures, triangulation/realization and smooth triangulation | The three-dimensional neck/cap consequences, actual Ricci surgery and reconstruction |
+| [GeometricTopology §11.2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/309be2f6a86977a796e05feadd8be913505b81e0/TauCetiRoadmap/GeometricTopology/README.md#L12745), proposal #903 | Dimension-three compatible combinatorial triangulation/PL existence, PL-to-smooth existence and their relative versions | P14's specialization to closed topological manifolds, native compatible-atlas construction and transport |
 | [AlgebraicTopology](../AlgebraicTopology/README.md), Stages 1–6 and 8 | van Kampen, finite CW comparison, homology/cohomology, integral manifold duality, Hurewicz, relative homotopy, higher-group comparison | Closed-three-manifold consequences, regular loop-family comparison, surgery ancestry and class transport |
 | [DifferentialGeometry](../DifferentialGeometry/README.md), Layers 0–3, 5–10, 12 | Tensor/form calculus, orientations, smooth flows, Sard, integration/Stokes, metric density and scalar operators | Ricci-flow and moving-curve specializations |
-| [HopfRinow](../HopfRinow/README.md), Layers 0–4 | Levi-Civita connection, geodesic flow, normal balls, length and metric completeness | Time-dependent comparisons, reduced paths, complete pointed flow limits |
+| [HopfRinow](../../Completed/HopfRinow/README.md), Layers 0–4 | Levi-Civita connection, geodesic flow, normal balls, length and metric completeness | Time-dependent comparisons, reduced paths, complete pointed flow limits |
 | [RiemannianGeometry](../RiemannianGeometry/README.md), R1–R5a and R7.0 | Tensor/curvature conventions, variations, Jacobi fields, comparison geometry, model metrics, immersion area calculus and scalar Bochner identity | Ricci-surgery estimates, branched sphere/filling analysis and curve shortening in a moving ambient three-manifold |
 | [PDE](../PDE/README.md), Lanes A, C–F; [ComplexKahlerGeometry](../ComplexKahlerGeometry/README.md), K5a | Sobolev/weak compactness, elliptic/parabolic regularity, scalar maximum principles and real compact-bundle Sobolev/elliptic theory | The noncompact cap construction and moving-curve nonlinear problems, with their extra localization/compactness estimates |
 | [RicciFlow, R1–R5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/544d4ff582d69f200582787ba09a29de3abfe359/TauCetiRoadmap/RicciFlow/README.md) | Metric variation, compact-bundle parabolic theory, DeTurck, compact-flow existence/uniqueness/continuation, global Shi estimates and curvature evolution/maximum principles on closed manifolds | Localized Shi estimates and their complete noncompact applications in P2, Hamilton–Ivey and differential Harnack specializations, pointed compactness, reduced geometry, ancient solutions and all surgery/extinction targets below |
 
-The last row cites the explicit supplier contract in the RicciFlow proposal. The other rows refer to the corresponding merged roadmap targets.
+The GeometricTopology §11.2 and RicciFlow rows cite explicit open supplier
+contracts in #903 and #1023. The remaining rows refer to merged roadmap
+targets. Each supplied theorem is work of its designated roadmap, and each
+consumer uses its specified interface.
 
-Generic curve shortening of embedded curves on a fixed surface belongs to
+Generic curve shortening of embedded curves on a smooth two-sphere belongs to
 RiemannianGeometry R4.9. P10 treats immersed loops and ramps in a
 time-dependent ambient manifold and the family estimates needed for filling
 width. Generic rectifiability and the area formula are consumed from
@@ -62,6 +70,8 @@ covering-space and measure/integration interfaces. For metrics, use the
 are needed. Keep instances for a selected metric local to its constructions.
 Import the actual Tau Ceti covariant-derivative, curvature, geodesic and covering
 APIs when using them.
+Use `ChartedSpace.secondCountable_of_sigmaCompact` for countability of compact
+charted manifolds.
 
 Identify the chosen metric's Levi-Civita connection with the native connection
 on differentiable vector fields, and prove the curvature evaluation, slot-order,
@@ -135,11 +145,12 @@ using different normalizations.
 | P11 | P7, P8, P9, P10 | Width comparison and finite extinction |
 | P12 | P1, P6, P7, P11 | Reconstruction from finite actual surgery history |
 | P13 | P1, P12 | Classification of simply connected factors; smooth endpoint |
-| P14 | none | Compatible smoothing of closed connected topological three-manifolds |
+| P14 | none | Native compatible-smoothing adapter for closed topological three-manifolds |
 | P15 | P13, P14 | Topological endpoint and hypothesis transport |
 
 Each row also consumes the exact external suppliers named above. The topology
-and smoothing branches start from their algebraic-topology and PL suppliers.
+and smoothing branches start from their algebraic-topology and PL suppliers;
+P14 consumes both existence theorems from GeometricTopology §11.2.
 The width branch can be built independently of surgery existence until P11
 joins them. P6 defines local operations before P7 proves they can be iterated,
 and P11 uses the flow constructed by P7.
@@ -173,6 +184,10 @@ where `ω₃` is the Euclidean unit-ball volume. Derive this uniform-in-center,
 all-small-radii estimate from smooth normal coordinates and compactness.
 Construct the normalized metric from the closed smooth manifold and establish
 pullback and scaling laws for every condition.
+
+The normalized initial conditions are Morgan–Tian, Definition 4.10, with the
+curvature-operator bound expressed in the conventions above. All Morgan–Tian
+locators below refer to the published Clay edition linked in the bibliography.
 
 Completion checks include the exact round sphere/quotient models, the small-ball
 volume limit, the normalized metric construction, and the closed homotopy-sphere
@@ -244,6 +259,11 @@ noncollapse-to-injectivity input from comparison geometry. Prove that two
 complete pointed limits of the same convergent subsequence are pointed
 isometric, together with subsequence and restriction laws and convergence of
 curvature, distances and local volumes.
+
+Sources: Morgan–Tian, Theorem 4.26 for Hamilton–Ivey pinching and the scalar
+bound, Theorem 4.37 and Corollary 4.39 for trace Harnack and its ancient form,
+and Theorems 5.11 and 5.15 for pointed metric/flow compactness. Retain the
+limit-completeness hypotheses discussed by Topping.
 
 ## P3. Reduced geometry, spacetime and noncollapse
 
@@ -324,7 +344,15 @@ normalization/noncollapse hypotheses. The limit is an actual complete nonflat
 ancient flow. Derive the classifications from the preceding analytic and
 topological inputs.
 
+Sources: Morgan–Tian, Theorem 9.4 and Corollary 9.50(3) for the two-dimensional
+classification, Theorem 9.42 for three-dimensional shrinking models,
+Proposition 9.58 for the universal noncollapse alternative, and Theorem 9.59
+for zero asymptotic volume ratio.
+
 ## P5. Canonical neighborhoods and singular-time geometry
+
+Use Morgan–Tian, Definitions 9.72–9.78, for necks, caps, canonical components
+and strong necks, with the model-coordinate normalizations fixed above.
 
 Prove the topology of overlapping necks and caps, neck-chain continuation,
 sphere-bundle alternatives and finite covers of compact canonical components.
@@ -384,6 +412,9 @@ canonical-neighborhood estimates on `[0,1)`, with maximal time one. State
 which constants depend on the chosen cap profile. Include the noncompact
 existence and exhaustion arguments as part of this construction.
 
+The standard initial metric and its flow are Morgan–Tian, Definition 12.1
+and Theorem 12.5.
+
 Define metric surgery along a finite disjoint collection of selected strong
 necks. Perform the actual cut and cap attachment using collars and smooth
 cutoffs, prove positivity/smoothness of the new metric, and identify it with
@@ -436,6 +467,9 @@ estimates for all epochs, actual initial identification and permanent emptiness
 after the first empty slice. The existence theorem covers every normalized
 closed orientable initial metric and constructs all the stated data.
 
+Sources: Morgan–Tian, Theorem 15.9 for global surgery-flow existence and
+Lemma 17.12 for local finiteness of surgery times.
+
 ## P8. Component ancestry and homotopy transport
 
 Prove separation by embedded spheres in a closed simply connected
@@ -466,8 +500,12 @@ For closed smooth Riemannian manifolds, construct the `C¹` free-loop space and
 its topology from the native smooth-map/path carriers, with evaluation,
 constant loops, reparametrization and continuous family/homotopy APIs. Prove
 relative parametric smoothing and the comparison with the continuous loop
-space. Use AlgebraicTopology Stage 8's loop/homotopy comparison; for a simply
-connected three-manifold with `π₂=0`, identify
+space. Consume AlgebraicTopology 8.11a (`basedLoopCWType`) for the CW comparison
+of based loops and Tau Ceti's
+[`HomotopyGroup.pathLoopSpaceMulEquiv`](https://github.com/TauCetiProject/TauCeti/blob/358314d4ab97483df4fc4cb8adcc02e74a8d9f5a/TauCeti/Topology/Homotopy/HomotopyGroup/LoopSpace.lean#L361)
+for the based-loop homotopy-group shift. Construct here the free-loop evaluation
+fibration with its constant-loop section and the resulting comparison: for a
+simply connected three-manifold with `π₂=0`, identify
 `π₂(Λ₀M,const_x)≅π₃(M,x)`, where `Λ₀M` is the nullhomotopic-loop component.
 Prove naturality, basepoint-change laws and existence of regular representatives
 in this component.
@@ -528,6 +566,8 @@ In dimension three along Ricci flow, for a branched minimal sphere selected at
 time `t` and any scalar lower bound `ρ` at that time, prove
 `A′(t)≤-4π-(ρ/2)A(t)`, with branch contributions and Gauss–Bonnet accounted for.
 Prove fixed-map area variation and two-sided metric-time comparison separately.
+The least-sphere-area theorem and its variation inequality are Morgan–Tian,
+Lemmas 18.10 and 18.11.
 
 For a continuous null-loop family `F:S²→Λ₀M`, define
 `w_g(F)=max_(z∈S²) Fill_g(F(z))`. For its free homotopy class define
@@ -578,6 +618,8 @@ small-loop, filling-area and annulus errors displayed. Prove the deformation
 estimate for almost minimizing families, with explicit approximation errors.
 The output is the deformation estimate needed for P11's forward width
 inequality, uniformly in the family parameter and on the specified time slab.
+The source target is Morgan–Tian, Proposition 18.24; Section 19.7, including
+Lemma 19.31, supplies the small-area annulus analysis used in its proof.
 Use [the retained correction](https://arxiv.org/abs/1512.00699v1), including its
 consequences for the family estimates.
 
@@ -600,6 +642,10 @@ nonnegative time. The integrating factor is `(1+4t)^(-3/4)`. For zero event
 errors and initial width `W₀`, the comparison profile is
 
 `G(t)=(W₀+2π)(1+4t)^(3/4)-2π(1+4t)`.
+
+Verify `G(0)=W₀`, `G′=-2π+3G/(1+4t)` for `t≥0`, and eventual negativity
+for every finite initial width. These are normalization and comparison checks
+for the width theorem.
 
 Across each actual surgery event, construct the representative comparison on
 the child/parent path from P8 and prove the width jump bound from P6's metric
@@ -624,6 +670,8 @@ error budget.
 
 The existence/extinction theorem constructs a flow satisfying the budget and
 the P7 controls and proves finite extinction for that flow.
+Sources: Morgan–Tian, Proposition 18.18 for the forward width estimate and
+Theorem 18.1 for finite extinction, specialized here to simply connected data.
 
 ## P12. Reconstruction from the actual finite history
 
@@ -647,6 +695,9 @@ these assembly maps. Prove the fundamental-group factor injections for this
 actual assembly using P8. Develop the geometric assembly maps and their finite
 indexing with explicit compatibility lemmas.
 
+Follow the finite-history reconstruction in Morgan–Tian's proof of Theorem 0.1
+at the start of Chapter 18, exposing the assembly maps and their laws as above.
+
 ## P13. Factor classification and the smooth endpoint
 
 For simply connected initial data, transport simple connectedness through the
@@ -669,34 +720,41 @@ budget-compatible flow, prove its extinction, reconstruct it and classify its
 factors. Quantify over the closed simply connected smooth manifold in the
 endpoint theorem. Also expose the preceding reconstruction and factor theorems
 as reusable library results with their weaker hypotheses.
+The smooth endpoint is Morgan–Tian, Corollary 0.2(a).
 
-## P14. Compatible smoothing in dimension three
+## P14. Native compatible-smoothing adapter in dimension three
 
-For every compact Hausdorff connected topological three-manifold without
-boundary, construct a compatible smooth atlas. Consume GeometricTopology
-Layers 1 and 11 for chart-based PL structures, locally finite complexes,
-realization, subdivisions and the PL/combinatorial comparison; consume its
-smooth triangulation theory where the comparison requires it.
+For every compact Hausdorff topological three-manifold without boundary,
+construct a compatible smooth atlas. Consume GeometricTopology Layers 1 and 11
+for the chart-based PL, realization and subdivision APIs. In particular,
+GeometricTopology §11.2, at the explicit open supplier contract in the ownership
+table, produces both dimension-three compatible combinatorial triangulation/PL
+existence (Moise/Hamilton) and compatible PL-to-smooth existence, including
+their relative versions. P14 specializes these theorems and constructs the
+native atlas and transport interface used by P15.
 
-Prove dimension-three compatible PL existence (Moise/Hamilton), including the
-local interpolation and relative gluing/extension results required by the
-proof. Construct the link-controlled triangulation, its compatible PL
-structure and its identification with the original topology. This layer owns
-these dimension-three existence results.
+Use
+[`TauCeti.IsTriangulable`](https://github.com/TauCetiProject/TauCeti/blob/358314d4ab97483df4fc4cb8adcc02e74a8d9f5a/TauCeti/Topology/Triangulable.lean#L40)
+for the underlying realization predicate. The native proposition
+[`TauCeti.TriangulationConjecture 3`](https://github.com/TauCetiProject/TauCeti/blob/358314d4ab97483df4fc4cb8adcc02e74a8d9f5a/TauCeti/Topology/TriangulationConjecture.lean#L74)
+names the closed triangulation target of §11.2. For smoothing, consume its
+stronger compatible combinatorial/PL structure and the compatibility theorem
+for the resulting smooth structure. Keep triangulation, compatible PL structure
+and compatible smooth atlas distinct in the adapter.
 
-Prove the dimension-three PL-to-smooth existence theorem (Cairns), with the
-relative simplex/handle smoothing and compatibility on overlaps needed to
-construct a smooth atlas. Prove that its chart topology is the original
-topology. Compactness supplies paracompactness and countability, and the
-connected hypothesis matches the source convention. The target is existence
-of a compatible smoothing in dimension three.
+Construct `smoothable_closed_three_manifold` as an alternative `ChartedSpace`
+on the original `TopologicalSpace M`, with an `IsManifold (𝓡 3) ∞ M` witness,
+as in `Suggested.lean`. An explicitly homeomorphic smooth carrier is an
+equivalent intermediate presentation; prove its transport to the same-carrier
+atlas. Prove compatibility with the original topology and preservation of
+compactness, Hausdorffness and the homotopy hypotheses needed by P15.
 
-The output may choose a new `ChartedSpace` on the same topological carrier,
-as in `Suggested.lean`, or produce an explicitly homeomorphic smooth carrier
-and the transport theorem between these presentations. Prove smoothness of
-the chosen atlas and its compatibility with the original topology. Distinguish
-smooth triangulation, compatible PL structure and compatible smooth atlas in
-both the definitions and the comparison proofs.
+The smoothing adapter covers disconnected and empty manifolds. Compactness
+and local connectedness give finitely many open-and-closed connected
+components. Apply the supplier's existence theorem componentwise and unite
+the compatible atlases; on the empty carrier the smoothness conditions are
+vacuous. Compactness and the chart structure also supply paracompactness and
+countability.
 
 ## P15. Topological endpoint and transport
 
@@ -706,6 +764,15 @@ and forget the smooth structure of its diffeomorphism to obtain the exact
 topological `Homeomorph` endpoint in `Suggested.lean`. A new atlas on the same
 topological carrier preserves these properties. Expose the general
 homeomorphism/diffeomorphism transport lemmas used in this assembly.
+
+Provide `poincare_3d_topological_geometricTopology` as the adapter to
+GeometricTopology §8.6's `poincare_conjecture` presentation. For native targets
+expressed with `MetricSpace`, choose a compatible metrization of the compact
+Hausdorff charted manifold, prove that it induces the original topology, and
+transport the endpoint homeomorphism back to that topology. These presentations
+describe the same closed manifolds. The full geometric torus-decomposition
+statement `TauCeti.GeometrizationConjecture` remains the GeometricTopology
+target identified in the scope section.
 
 Complete both endpoint proofs in the implementation library by composing the
 constructions and theorems in P1–P14.
@@ -761,7 +828,7 @@ the completed development demonstrates:
   and [*Finite extinction time for the solutions to the Ricci flow on certain
   three-manifolds*](https://arxiv.org/abs/math/0307245).
 - B. Kleiner and J. Lott, [*Notes on Perelman's papers*](https://doi.org/10.2140/gt.2008.12.2587),
-  Geometry & Topology 12 (2008), 2587–2855; use the
+  Geometry & Topology 12 (2008), 2587–2858; use the
   [corrected author text](https://math.berkeley.edu/~lott/gt-2008-12-059p.pdf)
   when comparing corrected estimates.
 - P. Topping, [*Remarks on Hamilton's Compactness Theorem for Ricci flow*](https://doi.org/10.1515/crelle-2012-0079),
