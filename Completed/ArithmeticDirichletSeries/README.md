@@ -328,7 +328,7 @@ then derive the meromorphic-order corollary needed by nonvanishing arguments.
 
 **8.2 Positive combinations.** Package the `3-4-1` trigonometric nonnegativity argument as a
 finite nonnegative coefficient combination, keeping analytic input separate from the positivity
-lemma. `LFunctions` supplies character-specific continuation and applies this package.
+lemma. `LFunctions` consumes this package and supplies its own character-specific continuation.
 
 The package does not assert cancellation for the trivial weight or its nonzero norm twists. Their
 partial sums have linear size and their series are shifted Dedekind zeta functions with a pole;
