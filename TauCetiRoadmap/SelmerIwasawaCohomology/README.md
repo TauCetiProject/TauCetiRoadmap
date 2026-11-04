@@ -1355,9 +1355,9 @@ Let `R` be a complete Noetherian local ring with finite residue field of charact
 
 The involution is defined on `TauCeti.completedGroupAlgebra O Γ` by `domCongr` along inversion
 for every commutative ring `O` and topological abelian group `Γ`, and it is involutive there; its
-continuity holds once `O` carries a topology with continuous addition, as the pinned
-`continuous_map` requires. The profinite `Γ = ℤ_p^d × Δ` and complete `O` of this section are
-the case used.
+continuity holds once `O` carries a topology with continuous addition and every open normal
+subgroup of `Γ` has finite index, as the pinned `continuous_map` requires; both hold for the
+profinite `Γ = ℤ_p^d × Δ` and complete `O` of this section.
 
 (Nekovář, *Selmer complexes*, §8.4.1–8.4.2, pp. 204–205 (Numdam PDF pp. 213–214); §8.4.8.1, p. 214, for the regular sequence.)
 
