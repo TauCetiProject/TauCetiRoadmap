@@ -1971,7 +1971,7 @@ For the proof, Compact truncation of the 20-dimensional height slice gives the s
 
 *Needs:* quaternary finite count (§2.19), quantitative ekedahl geometric sieve (§2.1), strongly and weakly divisible values (§2.1).
 
-([12], Theorem 23, §3.5, pp.16–17.)
+([12], Theorem 23, §3.6, pp.16–17.)
 
 **Quaternary acceptable count.** For an acceptable invariant congruence-defined `phi` in `[0,1]`, the strongly irreducible BS4 count `N_phi(V_Z^(i);X)=N(V_Z^(i);X) product_p` integral `phi_p+o(X^(5/6))`.
 
@@ -1979,7 +1979,7 @@ For the proof, Apply finite-weight counts with their actual `G` and half-Gram co
 
 *Needs:* quaternary finite count (§2.19), quaternary prime tail (§2.19), [ArithmeticStatisticsPartI, acceptable weight function][AS-I-2].
 
-([12], Theorem 22, §3.5, p.16.)
+([12], Theorem 22, §3.6, p.16.)
 
 ### 2.20 Quinary five-covering orbit counts
 
