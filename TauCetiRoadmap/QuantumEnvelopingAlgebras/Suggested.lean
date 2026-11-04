@@ -14,7 +14,12 @@ Stated here: the quantum Lucas theorem for signed upper arguments at every root 
 (Layer 0); the Hopf structure (coalgebra laws, then the antipode with its generator values), the
 triangular decomposition and the linear independence of the full-`Y` torus (Layer 1); the
 existence of the braid automorphisms with their generator formulas and the braid relations
-(Layer 2).
+(Layer 2); and, in the section `QuantumPlaneLattice`, native integral matrices illustrating the
+quantum-plane comparisons of Layer 8 (QEA8.1–8.2): the divided-power Weyl-to-monomial comparison,
+its intertwining and injectivity, the Hopf-dual comparison, and the kernel and range of the
+comparison specialized at an odd root of unity. These matrices do not assume that the integral
+quantum algebra or its modules have been constructed; the full divided-power, toral, Hopf-dual
+and exact-sequence comparisons remain README targets.
 
 Not statable at the pins:
 
@@ -417,6 +422,113 @@ theorem braid_relation (hq : q ≠ 0)
   sorry
 
 end Presentation
+
+/-! ## Layer 8: quantum-plane integral lattices, as native matrices -/
+
+section QuantumPlaneLattice
+
+/-!
+**This section is not the roadmap and is not exhaustive.** The README is the
+specification. These native matrices illustrate QEA8.1–8.2; they do not assume
+that the future integral quantum algebra or its modules have been constructed.
+The full divided-power, toral, Hopf-dual and exact-sequence comparisons remain
+README targets. The admitted theorems here are targets, not proved results.
+
+The Gaussian binomial `gaussian` and the specialization map `specialize` are those of Layer 0
+above.
+-/
+
+open LaurentPolynomial
+
+abbrev A := LaurentPolynomial ℤ
+
+/-- Column j is the image of the jth divided-power Weyl vector. -/
+def comparison (n : ℕ) : Matrix (Fin (n + 1)) (Fin (n + 1)) A :=
+  Matrix.diagonal fun j => gaussian n j.val
+
+def monomialE (n r : ℕ) : Matrix (Fin (n + 1)) (Fin (n + 1)) A :=
+  fun i j => if j.val = i.val + r then gaussian j.val r else 0
+
+def monomialF (n r : ℕ) : Matrix (Fin (n + 1)) (Fin (n + 1)) A :=
+  fun i j => if i.val = j.val + r then gaussian (n - j.val) r else 0
+
+def weylE (n r : ℕ) : Matrix (Fin (n + 1)) (Fin (n + 1)) A :=
+  fun i j => if j.val = i.val + r then gaussian (n - j.val + r) r else 0
+
+def weylF (n r : ℕ) : Matrix (Fin (n + 1)) (Fin (n + 1)) A :=
+  fun i j => if i.val = j.val + r then gaussian (j.val + r) r else 0
+
+def torus (n : ℕ) (sign : ℤ) : Matrix (Fin (n + 1)) (Fin (n + 1)) A :=
+  Matrix.diagonal fun j => T (sign * ((n : ℤ) - 2 * (j.val : ℤ)))
+
+/-- All divided-power intertwiners, including r = 0 and r > n. -/
+theorem comparison_intertwines (n r : ℕ) :
+    comparison n * weylE n r = monomialE n r * comparison n ∧
+    comparison n * weylF n r = monomialF n r * comparison n ∧
+    comparison n * torus n 1 = torus n 1 * comparison n := by
+  sorry
+
+/-- Injectivity is an integral assertion; it is not asserted after arbitrary base change. -/
+theorem comparison_injective (n : ℕ) :
+    Function.Injective (comparison n).mulVecLin := by
+  sorry
+
+/-- Coordinates in the dual Weyl basis, with QEA1's actual antipode. -/
+def hopfDualComparison (n : ℕ) : Matrix (Fin (n + 1)) (Fin (n + 1)) A :=
+  fun i j => if i.val + j.val = n then
+    (-1 : A) ^ j.val * T ((j.val : ℤ) * ((j.val : ℤ) + 1 - (n : ℤ))) else 0
+
+/-- E and F on the left Hopf dual are transposes of the actual antipode matrices. -/
+def dualE (n : ℕ) : Matrix (Fin (n + 1)) (Fin (n + 1)) A :=
+  (-(torus n (-1) * weylE n 1)).transpose
+
+def dualF (n : ℕ) : Matrix (Fin (n + 1)) (Fin (n + 1)) A :=
+  (-(weylF n 1 * torus n 1)).transpose
+
+theorem hopfDualComparison_bijective (n : ℕ) :
+    Function.Bijective (hopfDualComparison n).mulVecLin := by
+  sorry
+
+theorem hopfDualComparison_intertwines (n : ℕ) :
+    hopfDualComparison n * monomialE n 1 = dualE n * hopfDualComparison n ∧
+    hopfDualComparison n * monomialF n 1 = dualF n * hopfDualComparison n ∧
+    hopfDualComparison n * torus n 1 =
+      (torus n (-1)).transpose * hopfDualComparison n := by
+  sorry
+
+section Specialization
+
+variable {k : Type*} [Field k] [CharZero k]
+
+def specializedComparison (n : ℕ) (z : kˣ) :
+    Matrix (Fin (n + 1)) (Fin (n + 1)) k :=
+  fun i j => specialize z (comparison n i j)
+
+theorem gaussian_at_one (n j : ℕ) :
+    specialize (1 : kˣ) (gaussian n j) = (Nat.choose n j : k) := by
+  sorry
+
+theorem gaussian_first_root (ell : ℕ) (hell : 3 ≤ ell) (hodd : Odd ell)
+    (z : kˣ) (hz : IsPrimitiveRoot (z : k) ell) (j : Fin (ell + 1)) :
+    specialize z (gaussian ell j.val) =
+      if j.val = 0 ∨ j.val = ell then 1 else 0 := by
+  sorry
+
+/-- Actual kernel and range, expressed in the native coordinate module.
+The endpoint spans remain distinct from the interior kernel. -/
+theorem specializedComparison_ker_range (ell : ℕ) (hell : 3 ≤ ell)
+    (hodd : Odd ell) (z : kˣ) (hz : IsPrimitiveRoot (z : k) ell) :
+    LinearMap.ker (specializedComparison ell z).mulVecLin =
+      Submodule.span k {f | ∃ j : Fin (ell + 1),
+        0 < j.val ∧ j.val < ell ∧ f = Pi.single j 1} ∧
+    LinearMap.range (specializedComparison ell z).mulVecLin =
+      Submodule.span k {f | ∃ j : Fin (ell + 1),
+        (j.val = 0 ∨ j.val = ell) ∧ f = Pi.single j 1} := by
+  sorry
+
+end Specialization
+
+end QuantumPlaneLattice
 
 end TauCetiRoadmap.QuantumEnvelopingAlgebras
 
