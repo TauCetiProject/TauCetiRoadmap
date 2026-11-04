@@ -8,7 +8,7 @@ This roadmap owns hermitian metrics on arithmetic bundles and their degree, the 
 
 Ordinary finite locally free bundles, symmetric and exterior powers and their determinant belong to **AlgebraicVectorBundles**, Layers L0B–L0C, including `FiniteLocallyFreeSheaf` and `determinantObj`; this roadmap equips these objects with hermitian metrics. Tau Ceti’s `ZLattice.covolume_sq_eq_det_gram` supplies the generic Gram-determinant calculation, while **DifferentialGeometry**, Layers 0–2 and §5.2, supplies differential forms, wedge products, orientation and integration. The complex period specialization and its arithmetic normalization are the work here.
 
-The unmetrized Hodge bundle `e^*Ω¹` and its determinant are the interface of **AbelianSchemesAndArithmeticModuli** §§A1.3 and A6.38, and **NeronModelsAndSemistableAbelianVarieties** §1.11. The exact supplier contracts below record the imported interface and its checks. Abelian varieties, duals, polarizations, theta groups and their algebraic section spaces belong to abelian schemes; Néron models, semistability and their lattice comparison belong to Néron models. **PELModuli** §§M3.9 and M6.3–M6.10 supplies the moduli spaces and their Hodge line. The principal Siegel compactifications over `Spec ℤ` and their descended ample powers are targets of §5.0; the metric and exact height identity are targets of §§5.3–5.5. Section 2.0 gives the semi-abelian family and extension interface used by these targets.
+The unmetrized Hodge bundle `e^*Ω¹` and its determinant are the interface of **AbelianSchemesAndArithmeticModuli** §§A1.3 and A6.38, and **NeronModelsAndSemistableAbelianVarieties** §1.11. The exact supplier contracts below record the imported interface and its checks. Abelian varieties, duals, polarizations, theta groups and their algebraic section spaces belong to abelian schemes; Néron models, semistability and their lattice comparison belong to Néron models. **PELModuli** §§M3.9 and M6.3–M6.10 supplies the moduli spaces and their Hodge line. The principal Siegel compactifications over `Spec ℤ` and their descended ample powers are targets of §5.0; general PEL toroidal and minimal compactifications belong to **ShimuraCompactifications**, which imports the level-one principal Siegel case stated in §5.0. The metric and exact height identity are targets of §§5.3–5.5. Section 2.0 gives the semi-abelian family and extension interface used by these targets.
 
 **ArithmeticGaloisDuality** §D7.6 supplies local Tate duality for abelian varieties and the duality of isogeny sequences. Section 4.3 uses that pairing for its Kummer corollary and proves the Néron `Lie`-filtration asymptotics and dual-different identity.
 
@@ -70,10 +70,10 @@ SchemeAndStackFoundations §5.1 supplies `cyclesOfDimension` and `ChowGroup` onl
 
 **DiophantineApproximationAndTranscendence** §0.2 supplies the following separate field-comparison statements.
 
-- `mulHeight_algebraMap`: for a finite extension `L/K` of number fields and any finite tuple `x` over `K`, `H_rel,L(x) = H_rel,K(x)^[L:K]`, with the coordinates mapped to `L`. This includes the zero tuple, whose multiplicative height is 1. Applying this to `(x,1)` gives the scalar comparison.
+- `mulHeight_pow_finrank`: for a finite extension `L/K` of number fields and any finite tuple `x` over `K`, `H_rel,L(x) = H_rel,K(x)^[L:K]`, with the coordinates mapped to `L`. This includes the zero tuple, whose multiplicative height is 1. Applying this to `(x,1)` gives the scalar comparison.
 - `absoluteProjectiveTupleHeight` and `absoluteProjectiveTupleHeight_eq`: for a tuple over a number field `K`, `H_abs(x) = H_rel,K(x)^(1/[K:ℚ])`; this absolute height is invariant under extension of the containing number field. The degree identity `[L:ℚ] = [L:K][K:ℚ]` cancels the relative-height power.
 
-These contracts use relative-height scaling and absolute-height invariance as distinct assertions ([Wu, Arithmetic Heights](https://www.math.columbia.edu/~xiaorunw/diop/08.pdf), §2, Lemma 2.5 and Definition 2.7, p. 4). Section 0.3 supplies `finite_setOf_absMulHeight₁_le` over arbitrary characteristic-zero ambient fields. These give the absolute degree normalization and scalar bounded-degree finiteness used in §§1.13–1.14 and §5.9. The general projective line-bundle height class, its ample lower bound and its Northcott comparison are targets of §1.13.
+These contracts use relative-height scaling and absolute-height invariance as distinct assertions ([Bombieri–Gubler, *Heights in Diophantine Geometry*](https://doi.org/10.1017/CBO9780511542879), §1.5). Section 0.3 supplies `finite_setOf_absMulHeight₁_le` over arbitrary characteristic-zero ambient fields. These give the absolute degree normalization and scalar bounded-degree finiteness used in §§1.13–1.14 and §5.9. The general projective line-bundle height class, its ample lower bound and its Northcott comparison are targets of §1.13.
 
 **Checks.**
 
@@ -729,7 +729,7 @@ For `Λ = ℤ^g + τℤ^g` the real `2g × 2g` matrix of the basis has determina
 
 Write `z = Ω_1w`. The lattice in the `w`-coordinates is `ℤ^g + τℤ^g`, and `dz₁ ∧ ⋯ ∧ dz_g = det(Ω₁) dw₁ ∧ ⋯ ∧ dw_g`. Thus the squared norm of the fixed `z`-form is `|det Ω₁|² det(Im τ)`; the normalized `w`-form has squared norm `det(Im τ)`.
 
-The source identifications are [Faltings–Chai](https://doi.org/10.1007/978-3-662-02632-8), Ch. V, proof of Proposition 4.5, p. 168; [Pazuki](https://arxiv.org/abs/0907.1458v2), Theorem 1.1, p. 2 (arXiv v2); [Deligne](https://www.numdam.org/item/SB_1983-1984__26__25_0/), §1.10, p. 31.
+The source identifications are [Faltings–Chai](https://doi.org/10.1007/978-3-662-02632-8), Ch. V, proof of Proposition 4.5, p. 168; [Pazuki](https://arxiv.org/abs/0907.1458v2), proof of Lemma 5.4, p. 18 (arXiv v2); [Deligne](https://www.numdam.org/item/SB_1983-1984__26__25_0/), §1.10, p. 31.
 
 *Needs:* §2.1; **AbelianSchemesAndArithmeticModuli** §A5.1 (`AbelianLattice`); **AbelianSchemesAndArithmeticModuli** §A5.8 (`SiegelFamily`); Mathlib `ZLattice.covolume`; Mathlib `UpperHalfPlane`.
 
