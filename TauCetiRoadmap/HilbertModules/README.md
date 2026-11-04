@@ -88,6 +88,8 @@ of module rank-one maps, not the Banach-space compact operators.
   H5 constructs their continuous section modules and supplies Hilbert fields,
   compact-operator bundles, and the analytic section-algebra comparison.
   [CharacteristicClasses C1.2](../CharacteristicClasses/README.md) supplies
+  the small cofinal system of point-neighborhood covers of an arbitrary
+  topological space with its common-refinement and cofinality laws, and
   the constant-coefficient Čech cohomology of paracompact Hausdorff spaces of
   CW type and its comparison with singular cohomology, used for S³, and C1.6
   the classification of complex line bundles by the first Chern class;
@@ -98,8 +100,9 @@ of module rank-one maps, not the Banach-space compact operators.
   functions, continuous circle-valued functions and locally constant
   integer-valued functions, on paracompact locally compact Hausdorff bases:
   the fixed-cover cochains on Mathlib's `cechComplexFunctor`, the refinement
-  cochain maps and homotopies, the point-neighborhood cover system and its
-  cohomological colimit, pullbacks along base maps, and the
+  cochain maps and homotopies, the cohomological colimit over
+  CharacteristicClasses C1.2's point-neighborhood cover system, pullbacks
+  along base maps, and the
   continuous-function exponential sequence with its Čech connecting map.
   The general derived sheaf-cohomology and fine-sheaf comparison targets remain
   in [ComplexKahlerGeometry K2](../ComplexKahlerGeometry/README.md), and the
@@ -110,9 +113,8 @@ The targets H1–H4 precede H5 and H6; H7 uses H3 and H6. K-theory and KK-theory
 C*-dynamical imprimitivity theorems, and categorical completions consume these
 interfaces. Their classification and product theorems are not prerequisites.
 [Suggested.lean](Suggested.lean) states the headline theorems of H2 that are
-statable against the pinned Mathlib module classes, and the explicit formulas
-pinning the signs and coordinates of H5.TorusLineSections and
-H5.TorusFiniteRankSections; this README is the specification.
+statable against the pinned Mathlib module classes; this README is the
+specification.
 
 The child [HeisenbergImprimitivity](HeisenbergImprimitivity/README.md) develops
 finite-type phase-space lattices, Schwartz–Bruhat and Poisson analysis, positive
@@ -453,10 +455,19 @@ connection/integral-class comparison and DifferentialGeometry Layer 5.2's
 integration of top forms on the oriented torus,
 with `∫_T² ds∧dt=1`, to prove
 `⟨c₁(L_k),[T²]⟩=−k`, in CharacteristicClasses' normalization
-`c₁(L)=[iF/(2π)]`. Keep this line class distinct from SBC's principal-circle
-class defined using the dual-character line; the standard-character associated
+`c₁(L)=[iF/(2π)]`. This unit is proved by the displayed computations, as
+the determinant computation of H5.TorusFiniteRankSections is: the action
+law is the integer-phase identity, the two transformation laws of `∇_s`,
+`∇_t` and the commutator are direct differentiation of the displayed
+formulas, and the Chern number is the displayed integral, whose only
+external inputs are SmoothBundlesConnections B6.3's rank-one Chern–Weil
+identity and DifferentialGeometry 5.2. Keep this line class distinct from
+SBC's principal-circle class defined using the dual-character line; the
+standard-character associated
 line has the opposite principal-class sign. Prove M_k is free iff k=0, and
-M_k≃M_l as A-modules iff k=l, by these classes and the explicit zero-twist model.
+M_k≃M_l as A-modules iff k=l, by these classes, CharacteristicClasses
+C1.6's classification of complex line bundles by the first Chern class
+(Hatcher, Proposition 3.10) and the explicit zero-twist model.
 Construct the unitary tensor and dual comparisons
 `M_k⊗_A M_l≃M_(k+l)` by multiplication of covariant functions, using the
 explicit commuting pointwise left A-action on M_l. Identify `M_(-k)` with the
@@ -599,10 +610,11 @@ for the same pair of covers, so that both induce the same map on
 cohomology. The two maps need not agree on cochains: on the discrete
 two-point space, for the cover `({a},{b})` refining the cover `({a},{b},{b})`,
 the two refinement functions pick the second or the third coordinate of a
-0-cochain and agree on `H⁰`. Use the point-neighborhood cover system, covers
-indexed by X itself with `x∈U_x`: every open cover is refined by one of
-them, and two of them have a common refinement in the system. Compactness
-and finite covers are not required. Only after the homotopy statement,
+0-cochain and agree on `H⁰`. Index the colimit by CharacteristicClasses
+C1.2's small cofinal system of point-neighborhood covers, covers indexed by
+X itself with `x∈U_x`, with its common-refinement and cofinality laws;
+that system is coefficient-free and imposes no compactness or finiteness
+on the covers. Only after the homotopy statement,
 order these covers by existence of a refinement function and define
 `ČHⁿ(X,𝓕)` as the colimit of `Hⁿ(U,𝓕)` over this directed preorder; the
 category of all raw refinement functions is not asserted to be filtered.
