@@ -931,7 +931,6 @@ The targets above use the following corrected forms. Each item names the place i
 ## Downstream consumers
 
 - **IgusaVarietiesAndTorsionConcentration** uses Layers 3b and 4: the Levi interior determinant, the finite torsion determinant theorem and its integral and residual forms, as the Galois input for torsion vanishing.
-- **AutomorphicGaloisRepresentationsPartII** (its nonselfdual existence layer) uses Layer 3a: the twisted-product separation and the weighted determinant extraction, without any arithmetic input of this roadmap.
 - Every roadmap that attaches Galois representations to torsion classes for `GL_n` over CM fields, in particular those leading to modularity lifting over CM fields, uses §§4.3–4.6.
 
 ## References
