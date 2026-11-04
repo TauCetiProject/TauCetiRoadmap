@@ -42,6 +42,10 @@ generic facts are cited from the Stacks Project by tag.
 
 ## Scope and ownership
 
+The base roadmap, DeformationAndDerivedPatchingAlgebra, is a consumer of this one, not a
+supplier: it uses the local-cohomology calculus of K0.1 and K0.4–K0.7 and the Rees module
+`Rees_I(M)` of K3.1. Macaulayfication itself (Česnavičius §§4–5) is planned in neither roadmap.
+
 This roadmap owns:
 
 - the annihilator product `annihilatorProduct J M d` of local cohomology modules, secant sequences
@@ -99,9 +103,9 @@ Not here: Macaulayfication itself (Česnavičius §§4–5); the CM-quasi-excell
 schemes; dualizing complexes on schemes; the foundations of local cohomology; the sheaf of a
 graded module on `Proj`, which is AdicSpacesPartIII §F0.9's `AlgebraicGeometry.gradedTwist G ℳ n`
 (ℕ-graded ring, ℤ-graded module, `M(n)_d = M_{d+n}`), used here at `n = 0`. The graded-module
-sheafification on projective space, with its restriction and localization charts, exactness,
-twist and quotient comparisons, eventual-sections comparison, graded Hilbert syzygy and
-Hilbert/`K₀` comparisons, is
+sheafification on projective space over a field, with its restriction and localization charts,
+exactness, twist and quotient comparisons, eventual-sections comparison, graded Hilbert syzygy
+and Hilbert/`K₀` comparisons, is
 [GroebnerGeometry, G4](../GroebnerGeometry/README.md#g4-rees-algebras-and-flat-initial-families);
 K3.3 states chart, exactness and tail statements over an arbitrary ℕ-graded ring (the Rees algebra
 is not a polynomial ring) and does not restate G4's polynomial-ring statements.
@@ -271,10 +275,11 @@ are not imported as Lean carriers.
   `cechLocalizationTerm`, augmentation `cechLocalizationAugmentation` and differential
   `cechLocalizationDifferential`. Their construction allows arbitrary generating lists;
   the unit-ideal hypothesis belongs to exactness only. Used in K0.1.
-- **ArithmeticGaloisDuality, D7.1**: `localDuality` owns Grothendieck local duality over complete
-  Noetherian local rings for bounded complexes with finite cohomology. K0.7 owns the
-  noncomplete finite-module extension and its annihilator consequences, agreeing with
-  `localDuality` and Matlis evaluation over complete rings.
+- **ArithmeticGaloisDuality, D7.1**: its target *Grothendieck local duality for a complete
+  Noetherian local ring* owns Grothendieck local duality over complete Noetherian local rings for
+  bounded complexes with finite cohomology. K0.7 owns the noncomplete finite-module extension and
+  its annihilator consequences, agreeing with that target and Matlis evaluation over complete
+  rings.
 - **DerivedModuleAlgebra, §§1.M.1–1.M.2**: Matlis duality for complete rings with finite
   residue fields and for Noetherian local rings with arbitrary residue fields, canonical
   completion actions on power-torsion modules, biduality and the completion adjunction.
@@ -762,9 +767,10 @@ including the arbitrary-residue-field case and the completion adjunction used be
 
 **Normalized local duality for finite modules.** Let `(R, 𝔪, κ)` be Noetherian local with a
 normalized dualizing complex `ω` and let `E` be an injective hull of `κ`. The complete-ring
-comparison is ArithmeticGaloisDuality D7.1 `localDuality`, in degree `−j` at `K = M` and then
-Matlis evaluation; this target owns its noncomplete finite-module extension. For every finite
-`R`-module `M` and every `j ∈ ℤ` there is an isomorphism, natural in `M`,
+comparison is ArithmeticGaloisDuality D7.1, *Grothendieck local duality for a complete Noetherian
+local ring*, in degree `−j` at `K = M` and then Matlis evaluation; this target owns its
+noncomplete finite-module extension. For every finite `R`-module `M` and every `j ∈ ℤ` there is
+an isomorphism, natural in `M`,
 
 ```text
 H^j_𝔪(M) ≅ Hom_R(Ext^{-j}_R(M, ω), E).
@@ -791,8 +797,9 @@ quotes. (Stacks, Theorem 47.18.3, tag 0A84, and
 Lemma 47.18.4, tag 0AAK; Section 47.7, tag 08Z1, for the injective hull and Matlis duality;
 Česnavičius, proof of Lemma 3.6(a), p. 11.) *Needs:* SchemeAndStackFoundations §2.21
 (`NormalizedDualizing`); DerivedModuleAlgebra §§1.M.1–1.M.2 (Matlis duality and completion);
-ArithmeticGaloisDuality D7.1
-`localDuality`; SchemeAndStackFoundations §2.7 (derived torsion and the Čech comparison) and
+ArithmeticGaloisDuality D7.1,
+*Grothendieck local duality for a complete Noetherian local ring*;
+SchemeAndStackFoundations §2.7 (derived torsion and the Čech comparison) and
 §2.18 (`derivedTensor`, `derivedHom`); DerivedModuleAlgebra §§1.3 and 1.5
 (derived completion and finite-cohomology completion); Mathlib `CategoryTheory.Injective`.
 
@@ -1494,8 +1501,9 @@ gradings `𝒜` of `S` and `𝒩` of `N` (AdicSpacesPartIII §F0.9); no second s
   graded map that is an isomorphism in all sufficiently large degrees induces a sheaf isomorphism,
   by applying exactness to its kernel and cokernel.
 
-For a standard polynomial ring `A[X₀, …, X_N]` these specialize to the chart and exactness
-statements of GroebnerGeometry G4, which owns them.
+For a standard polynomial ring `κ[X₀, …, X_N]` over a field `κ` these specialize to the chart and
+exactness statements of GroebnerGeometry G4, which owns them; the polynomial ring over an
+arbitrary ring `A` is an instance of the general-ring statements above.
 
 *Proof sketch.* A section of `Ñ` over `D₊(f)` is locally a fraction `m/g` with `g ∉ 𝔭`; on
 `D₊(f)` such local fractions glue to an element of `N_(f)` by the algebraic localization exactness
