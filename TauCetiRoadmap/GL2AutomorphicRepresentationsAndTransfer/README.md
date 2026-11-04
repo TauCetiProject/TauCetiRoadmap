@@ -273,10 +273,11 @@ distribution refinements, AL.2.1 standard factors and AL.1.4.3 (the archimedean 
 epsilon factor), and AL.4.2.1 (transport of local parameter comparisons) fix the local and GLₙ
 factor conventions.
 AL.2.2 (GL₂ newvectors, AL.2.2.1–AL.2.2.5)
-supplies the local K₀/K₁ subgroups, their integral embeddings, compact/open and
-lower-right quotient properties, the integral-scalar fixed-space comparison, the least
+supplies the local K₀/K₁ subgroups with their cosets (AL.2.2.1), their integral embeddings,
+compact/open properties, the least
 last-row level, minimal fixed lines, Whittaker normalization and essential spherical-twist
-tests used in R16.1–R16.6. Its targets “Existence of a nonzero newvector level”, “The
+tests used in R16.1–R16.6. The lower-right quotient and the integral-scalar decomposition
+of K₀ are stated in R16.1.3, not supplied. Its targets “Existence of a nonzero newvector level”, “The
 newvector conductor exponent”, “Casselman’s newvector theorem” and “The normalized
 Whittaker newvector” use these same groups.
 AL.3.4.1 (cuspidal Fourier expansion), AL.3.4.2 (global Whittaker factorization),
@@ -325,10 +326,10 @@ ArithmeticGaloisRepresentations, §2.4 (arithmetic Weil–Deligne adapter), Laye
 (Artin/Swan conductors, with the Weil–Deligne correction in §3.3), Layers 1, 4, 5 and §§7.1–7.2, 7.6 supplies arithmetic
 parameters, lattices, classification, recognition and adjoints. Its arithmetic Frobenius convention
 is compared with the geometric convention here through the stated dual and twist.
-AlgebraicModularFormsAndSerreWeights, R15.1–R15.3, R15.5
-`deligne-serre-eigenvalue-lifting-lemma` and `reduction-to-weight-at-least-two-and-to-a-true-eigenform`,
+AlgebraicModularFormsAndSerreWeights, R15.1–R15.3, R15.5 (§5.10, Deligne–Serre eigenvalue
+lifting, and §5.14, eigenform lifting with weight shifts),
 R15.5A.1–R15.5A.3 classical cohomology and Galois attachments,
-and R15.6 `residual-modularity-witness`, supplies the geometric residual-form interface.
+and R15.6 (§7.4–§7.5, residual modularity witness), supplies the geometric residual-form interface.
 
 [QuaternionicModularForms](https://github.com/WilliamCoram/TauCetiRoadmap/blob/fe4c14dbe4381c62726cce20430bb84799a5a2e0/TauCetiRoadmap/QuaternionicModularForms/README.md),
 §1.3 (classical coefficient dictionary), §2.1 (abstract forms and stabilizer-invariant
@@ -520,7 +521,7 @@ owns the lower-left and last-row congruence subgroups, their coefficient embeddi
 GL₂(Fᵥ), compactness, openness, level-zero identities and subgroup relations. Use its
 K₀(pⁿ)={g∈GL₂(O):g₂₁∈pⁿ} and
 K₁(pⁿ)={g∈GL₂(O):g₂₁∈pⁿ, g₂₂−1∈pⁿ} directly in every local and adelic comparison below.
-The lower-right quotient and integral-scalar decomposition are supplied by that same section.
+The lower-right quotient and integral-scalar decomposition are stated in R16.1.3.
 
 ### R16.1.3 GL₂ local and adelic compact subgroups
 
@@ -542,6 +543,9 @@ There is one local-to-adelic Hecke element `heckeGen v`, the extension by identi
 AutomorphicFormsOnReductiveGroups §0.5. All finite-level Hecke comparisons use this element
 and the supplied K₀/K₁, rather than a second choice of generators or congruence groups.
 The invariant-space Hecke interface follows the design used by the Imperial College London FLT project.
+Two facts about the supplied local groups are proved here, using AL.2.2.1 only for the
+subgroups and their cosets: the lower-right entry induces K₀(pⁿ)/K₁(pⁿ)≅(O/pⁿ)ˣ, and
+K₀(pⁿ)=K₁(pⁿ)·Z(O) with Z(O) the integral scalars, since g·diag(g₂₂⁻¹,g₂₂⁻¹)∈K₁(pⁿ) for g∈K₀(pⁿ).
 
 **Checks.**
 - With S empty, or every nᵥ=0, the finite subgroup is ∏ᵥ GL₂(Oᵥ).
@@ -550,7 +554,7 @@ The invariant-space Hecke interface follows the design used by the Imperial Coll
 - The upper-unipotent member at a K₁ place is not the identity modulo pᵥ, distinguishing
   this level from principal congruence; diag(u,1) also belongs for every integral unit u.
   If u−1∉pᵥ, scalar u belongs at a K₀ place but not at a K₁ place; this scalar distinction
-  has no witness in residue field F₂, where K₀(pᵥ)=K₁(pᵥ).
+  has no witness in residue field F₂, where K₀(pᵥ)=K₁(pᵥ) and the quotient (O/pᵥ)ˣ is trivial.
 - Away from the level, the coset of `heckeGen v` has `q_v+1` right cosets; at residue size two there are three.
 
 *Needs:* AutomorphicLFunctionsAndLocalFactors AL.2.2 (GL₂ newvectors) (the local K₀/K₁ subgroup
@@ -702,8 +706,8 @@ quotient model, followed by the stated least level; a zero model fails the exist
 
 - On the field unit represented by the uniformizer `p`, the norm character with exponent t has
   value `(p : ℝ)^(−t)`, viewed in `ℂˣ`; in particular, at `t = 1` its value is
-  `p⁻¹ = ν(ϖ)`. It is one on every unit of `ℤ_p`. The character
-  the norm character with exponent zero is trivial, and
+  `p⁻¹ = ν(ϖ)`. It is one on every unit of `ℤ_p`. The norm
+  character with exponent zero is trivial, and
   the product of norm characters with exponents 1 and −1 is trivial.
 
 *Needs:* R16.1/iwasawa-cartan; SmoothRepresentationsOfLocalGroups SR.2; SmoothRepresentationsOfLocalGroups SR.3; SmoothRepresentationsOfLocalGroups SR.2.3/whittaker-functionals. The conductor Checks consume AL.2.2 (GL₂ newvectors) after the analytic classification.
@@ -756,7 +760,7 @@ Prove the following API.
 
 Let π be complex, irreducible, smooth, admissible, infinite-dimensional and spherical over a characteristic-zero nonarchimedean local field F. Write K=GL₂(O), I=K₀(p). Then dim πᴷ=1 and dim πᴵ=2. With vol(I)=1, U=[I diag(ϖ,1) I] and spherical eigenvalue λ=√q(α+β), every nonzero spherical v is cyclic for U on πᴵ. Its polynomial is X²−λX+qαβ, including α=β.
 
-**Fixed-space comparison.** AL.2.2 (GL₂ newvectors) supplies compactness and openness for the admissibility inputs and identifies the K₀ and K₁ fixed submodules at every level when integral scalar units act trivially, using `Representation.invariants`. Its scalar decomposition uses the lower-right unit at positive level and scalar 1 at zero. In an irreducible spherical representation, these scalars fix a nonzero spherical vector and hence its GL₂(F)-span. If an integral scalar acts by a≠1 and K₁ has a nonzero fixed vector, K₀ has none; this tests the scalar-action hypothesis.
+**Fixed-space comparison.** AL.2.2 (GL₂ newvectors) supplies compactness and openness for the admissibility inputs. R16.1.3's decomposition K₀(pⁿ)=K₁(pⁿ)·Z(O) identifies the K₀ and K₁ fixed submodules at every level when integral scalar units act trivially, using `Representation.invariants`; it uses the lower-right unit at positive level and scalar 1 at zero. In an irreducible spherical representation, these scalars fix a nonzero spherical vector and hence its GL₂(F)-span. If an integral scalar acts by a≠1 and K₁ has a nonzero fixed vector, K₀ has none; this tests the scalar-action hypothesis.
 
 Choose residue representatives A⊂O; set gₐ=(ϖ a;0 1). Then U=∑ₐπ(gₐ), with |A|=q. Set s=diag(1,ϖ), c=ω(ϖ)=αβ. On πᴷ, the spherical double coset acts as T=U+π(s). From Tv=λv and π(ϖI₂)=c, the basis (v,π(s)v) gives Uv=λv−π(s)v and Uπ(s)v=qc v. Thus πᴵ=span(v,Uv), Uv is not proportional to v, and U²−λU+qc=0 on πᴵ. The Iwahori oldform comparison uses these matrices and Mathlib invariant submodules. K and I are the supplied images of GL₂(O) and the lower-left level-one subgroup; the concrete-model conductor Checks use the supplied last-row family.
 
@@ -768,7 +772,7 @@ Choose residue representatives A⊂O; set gₐ=(ϖ a;0 1). Then U=∑ₐπ(gₐ)
 
 ### R16.2.8 The supercuspidal Kirillov comparison
 
-For irreducible supercuspidal π with central character ω and nontrivial ψ, restricting the imported Whittaker function W to diag(x,1), x∈F×, identifies its Kirillov realization with `C_c^∞(F×,ℂ)`. For b=(a u;0 d), the action is (π(b)f)(x)=ω(d)ψ(xu/d)f(xa/d). The Weyl action is the imported local functional equation; it is not a freely chosen transform. For the DLB variant, F=ℚp, ω=1 and π is defined over a finite extension L/ℚp. Put `L∞=colim_n(L⊗_{ℚp}ℚp(μ_{pⁿ}))` and `Γ=Gal(ℚp(μ_{p∞})/ℚp)`, acting on the second factor. Give the smooth mirabolic realization on compactly supported locally constant functions φ:ℚp×→L∞ with `φ(ax)=σ_a(φ(x))` for a∈ℤp×, where `σ_a` is the cyclotomic action. After scalar extension to L∞ this is the ordinary Kirillov model for a compatible p-power-root additive character. Coefficient descent is additional to complex multiplicity one; This comparison concerns smooth representations and their coefficient descent.
+For irreducible supercuspidal π with central character ω and nontrivial ψ, restricting the imported Whittaker function W to diag(x,1), x∈F×, identifies its Kirillov realization with `C_c^∞(F×,ℂ)`. For b=(a u;0 d), the action is (π(b)f)(x)=ω(d)ψ(xu/d)f(xa/d). The Weyl action is the imported local functional equation; it is not a freely chosen transform. For the DLB variant, F=ℚp, ω=1 and π is defined over a finite extension L/ℚp. Put `L∞=colim_n(L⊗_{ℚp}ℚp(μ_{pⁿ}))` and `Γ=Gal(ℚp(μ_{p∞})/ℚp)`, acting on the second factor. Give the smooth mirabolic realization on compactly supported locally constant functions φ:ℚp×→L∞ with `φ(ax)=σ_a(φ(x))` for a∈ℤp×, where `σ_a` is the cyclotomic action. After scalar extension to L∞ this is the ordinary Kirillov model for a compatible p-power-root additive character. This comparison concerns smooth representations and their coefficient descent, which is additional to complex multiplicity one.
 
 Smooth characteristic-zero supercuspidal; additive-character and central-character choices visible.
 
@@ -1525,7 +1529,7 @@ Fix a unitary central character and Tamagawa measures. Retain the cuspidal spect
 
 For prime-cyclic E/F of degree d, the supplied twisted formula has the corresponding elliptic, singular, global-normalizing and local-derivative terms. Its self-associate term is `−¼∑_{η^σ=η̃}tr(I(φ)σM)`. Besides d copies of the twisted discrete spectrum, include ½∑τ(η) over `η^σ=η̃≠η`, with τ(σ)=σM; this exceptional induced summand occurs only for d=2. `M(η^σ)M(η)=1` verifies the extension, and pairing η with η̃ explains the half weight. At η=η̃ the scalar M=−1 follows from the opposite residues of the two zeta factors and the identity local normalized operators. On a quaternion division algebra retain norm characters χNrd: the Steinberg projector difference has trace −1 on χdet, so this correction cannot be discarded.
 
-The API includes Label every term and its measure; change local factors while retaining central character; identify the quadratic exceptional summand; restrict to strongly cuspidal test functions only after recording the induced operator identity.
+The API gives: a label for every term and its measure; changes of local factors that retain the central character; the identification of the quadratic exceptional summand; the restriction to strongly cuspidal test functions, made only after the induced operator identity is recorded.
 
 **Checks.** For d odd the exceptional τ summand is zero; d=2 retains `η^σ=η̃≠η` with weight ½; a Steinberg projector has determinant-character trace −1 rather than zero.
 
@@ -1557,7 +1561,7 @@ Hence ∑|cᵢ|<∞ and ∫|d(it)|dt<∞ in (11.6)–(11.7). The measure compari
 
 **Quaternion proof.** For the correspondence `JL_D`, apply AutomorphicSpectralTheory Layer 6 and [jl70] §16's eight-term expansion. Put supercuspidal coefficients or Steinberg projectors at all ramified places. Equation (16.1.7) at at least two places kills split, singular, continuous and derivative terms. Elliptic matching leaves a scalar difference; separation and Lemma 16.1.2 would turn it into an away-place regular trace, forcing a noncompact group compact. Thus trace equality and the volume/formal-degree identity. Then subtract equal norm-character traces: each Steinberg factor gives −1, with product 1. Character independence gives cuspidal transfer; AutomorphicSpectralTheory supplies convergence, and R17.2 supplies the local matching functions.
 
-The API includes Joint bounds before summing derivatives; atom-free L¹ periodization (countability of periodization fibres, absence of singleton mass for density pushforwards); finite changes of local factors; quadratic exceptional correction; strongly cuspidal and Steinberg/norm-character specializations.
+The API gives: joint bounds before summing derivatives; atom-free L¹ periodization (countability of periodization fibres, absence of singleton mass for density pushforwards); finite changes of local factors; the quadratic exceptional correction; the strongly cuspidal and Steinberg/norm-character specializations.
 
 **Checks.** Identity extension gives the ordinary formula; a cuspidal output with d distinct descents retains the supplied coefficient 1/d under the ledger conversion; deleting quadratic τ leaves (10.30) unmatched; retain the Steinberg/norm-character correction. Finite harmonic cutoffs do not give an absolute bound. The unbounded |t|⁻¹/² density on (0,1) has atom-free periodization. A constant map gives an atom.
 
@@ -2371,7 +2375,7 @@ Proof: Descend the simple residual module to a finite splitting field. Choose a 
 
 For Fong–Swan use Isaacs5.4's group-order induction. Brauer Clifford decomposition lifts a nontrivial normal-subgroup orbit over its proper inertia group and then induces. The invariant branch uses the normal p-group quotient extension with prime-to-p degree/determinantal order (4.2, with4.1) and the prime-to-p quotient's unique Brauer constituent (3.1); Galois-conjugate comparison gives p-rationality. Section6 completes the p-solvable lift. These modular Clifford/extension lemmas are subsidiary targets here; characteristic-p Maschke or an unspecified projective lift does not supply them.
 
-The API includes The integral rank equals the residual rank; reduction gives an isomorphism of Γ-modules; extending coefficients preserves that comparison. Tests: A prime-to-p rank-one root lifts by Hensel; the rank-two simple S₃ module in characteristic two lifts despite 2 dividing |S₃|; changing the residual basis changes P, so entrywise equality is not required.
+The API gives: the integral rank equals the residual rank; reduction gives an isomorphism of Γ-modules; extending coefficients preserves that comparison. Tests: A prime-to-p rank-one root lifts by Hensel; the rank-two simple S₃ module in characteristic two lifts despite 2 dividing |S₃|; changing the residual basis changes P, so entrywise equality is not required.
 
 *Needs:* R17.5/brauer-character; ordinary character realization in RepresentationTheory/InductionRestriction Layer 6; Mathlib `Group.IsSolvable`, `HeightOneSpectrum`, `Localization.AtPrime`; GlobalNumberFields Layer 7; NumberFieldArithmetic Layer 5. The modular Clifford and p-solvable character-lifting lemmas are owned here.
 
@@ -2643,7 +2647,7 @@ Fix λ|2 in Q̄⊂ℂ. Let `g=Σb(n)q^n∈Prim₁(2^νNr,χ)`, χ²=1, ν∈{0,2
 
 `ρ_h` means the semisimple residual representation at the fixed place, with good-prime traces and determinants of h.
 
-*Needs:* AlgebraicModularFormsAndSerreWeights `AlgebraicModularFormsAndSerreWeights R15.5/deligne-serre-eigenvalue-lifting-lemma`; AlgebraicModularFormsAndSerreWeights `AlgebraicModularFormsAndSerreWeights R15.5/reduction-to-weight-at-least-two-and-to-a-true-eigenform`; ArithmeticGaloisRepresentations §§3.1–3.6; ArithmeticGaloisRepresentations Layer 5; R17.6/classical-conductor-comparison; AlgebraicModularFormsAndSerreWeights `AlgebraicModularFormsAndSerreWeights R15.6/residual-modularity-witness`; ModularForms Layer 4; ModularForms Layer 6; AlgebraicModularFormsAndSerreWeights R15.5A.3
+*Needs:* AlgebraicModularFormsAndSerreWeights R15.5 (§5.10); AlgebraicModularFormsAndSerreWeights R15.5 (§5.14); ArithmeticGaloisRepresentations §§3.1–3.6; ArithmeticGaloisRepresentations Layer 5; R17.6/classical-conductor-comparison; AlgebraicModularFormsAndSerreWeights R15.6 (§7.4–§7.5); ModularForms Layer 4; ModularForms Layer 6; AlgebraicModularFormsAndSerreWeights R15.5A.3
 (classical weight-one attachment); AlgebraicModularFormsAndSerreWeights R15.5A.2
 (classical higher-weight attachment).
 
@@ -2718,7 +2722,7 @@ For Wiese-dihedral `r̄:G_ℚ→GL₂(F̄₂)` unramified at2, odd conductor N a
 
 Katz forms use Wiese's non-compactified Γ₁(N) definition; N is invertible in F̄₂. Unramifiedness at two is equivalent to the minimal weight being one.
 
-*Needs:* R17.6/katz-coprime-level-descent; ModularForms Layers 3–4; R17.6/wiese-odd-lift; R17.5/q-weight-one; AlgebraicModularFormsAndSerreWeights `AlgebraicModularFormsAndSerreWeights R15.1/hodge-bundle-with-tate-curve-normalization`; AlgebraicModularFormsAndSerreWeights `AlgebraicModularFormsAndSerreWeights R15.1/cusp-ideal-section-forms`; AlgebraicModularFormsAndSerreWeights `AlgebraicModularFormsAndSerreWeights R15.2/q-expansion-principle-and-its-vanishing-theorem`; AlgebraicModularFormsAndSerreWeights `AlgebraicModularFormsAndSerreWeights R15.2`; R16.6; ArithmeticGaloisRepresentations Layer 5; AlgebraicModularFormsAndSerreWeights `AlgebraicModularFormsAndSerreWeights R15.2/integral-hecke-operators-from-q-expansions`; AlgebraicModularFormsAndSerreWeights `AlgebraicModularFormsAndSerreWeights R15.6/modularity-formulations-and-determinant`.
+*Needs:* R17.6/katz-coprime-level-descent; ModularForms Layers 3–4; R17.6/wiese-odd-lift; R17.5/q-weight-one; AlgebraicModularFormsAndSerreWeights R15.1 (§1.1); AlgebraicModularFormsAndSerreWeights R15.1 (§1.2); AlgebraicModularFormsAndSerreWeights R15.2 (§2.1); AlgebraicModularFormsAndSerreWeights R15.2; R16.6; ArithmeticGaloisRepresentations Layer 5; AlgebraicModularFormsAndSerreWeights R15.2 (§2.5); AlgebraicModularFormsAndSerreWeights R15.6 (§7.7).
 
 *Source:* [wiese04], Theorem 9, p. 130; proof of Theorem 9, p. 131; Proposition 7, p. 129; Introduction, p. 124.
 
@@ -2733,7 +2737,7 @@ and its residue map. Integral representatives of the good-prime q-coefficients a
 nebentypus reduce to both trace and determinant of the given representation. These are
 the characteristic polynomials characterizing its semisimple residual attachment.
 
-*Needs:* R17.6/solvable-dihedral; R17.6/wiese-odd-lift; R17.5/q-weight-one; AlgebraicModularFormsAndSerreWeights `AlgebraicModularFormsAndSerreWeights R15.5/reduction-to-weight-at-least-two-and-to-a-true-eigenform`; AlgebraicModularFormsAndSerreWeights `AlgebraicModularFormsAndSerreWeights R15.6/residual-modularity-witness`.
+*Needs:* R17.6/solvable-dihedral; R17.6/wiese-odd-lift; R17.5/q-weight-one; AlgebraicModularFormsAndSerreWeights R15.5 (§5.14); AlgebraicModularFormsAndSerreWeights R15.6 (§7.4–§7.5).
 
 *Source:* [wiese04], proof of Theorem 1, p. 131; Introduction, p. 123; Lemma 3, p. 127.
 
@@ -2743,7 +2747,7 @@ From an odd characteristic-zero dihedral weight-one form reducing to r̄, or the
 
 At an odd ℓ the factor `ℓ^(k−1)` is one modulo two, so the Hasse shift preserves that eigencharacter. Use the cusp-sheaf H¹ vanishing and integral character conditions in AlgebraicModularFormsAndSerreWeights R15.5.
 
-*Needs:* R17.6/qualitative-residual-modularity; R17.6/unramified-katz; AlgebraicModularFormsAndSerreWeights `AlgebraicModularFormsAndSerreWeights R15.3/hasse-invariant-as-a-form-of-weight-p-minus-one`; AlgebraicModularFormsAndSerreWeights `AlgebraicModularFormsAndSerreWeights R15.5/deligne-serre-eigenvalue-lifting-lemma`; AlgebraicModularFormsAndSerreWeights `AlgebraicModularFormsAndSerreWeights R15.5/reduction-to-weight-at-least-two-and-to-a-true-eigenform`; AlgebraicModularFormsAndSerreWeights `AlgebraicModularFormsAndSerreWeights R15.6/residual-modularity-witness`; ArithmeticGaloisRepresentations Layer 5; AlgebraicModularFormsAndSerreWeights `AlgebraicModularFormsAndSerreWeights R15.2/base-change-for-spaces-of-forms-and-the-weight-one-boundary`; AlgebraicModularFormsAndSerreWeights `AlgebraicModularFormsAndSerreWeights R15.6/modularity-formulations-and-determinant`; AlgebraicModularFormsAndSerreWeights R15.5A.2
+*Needs:* R17.6/qualitative-residual-modularity; R17.6/unramified-katz; AlgebraicModularFormsAndSerreWeights R15.3 (§3.1); AlgebraicModularFormsAndSerreWeights R15.5 (§5.10); AlgebraicModularFormsAndSerreWeights R15.5 (§5.14); AlgebraicModularFormsAndSerreWeights R15.6 (§7.4–§7.5); ArithmeticGaloisRepresentations Layer 5; AlgebraicModularFormsAndSerreWeights R15.2 (§2.3); AlgebraicModularFormsAndSerreWeights R15.6 (§7.7); AlgebraicModularFormsAndSerreWeights R15.5A.2
 (classical higher-weight attachment).
 
 *Source:* [wiese04], Introduction, p. 124; proof of Lemma 11, p. 132.
@@ -2836,6 +2840,9 @@ R16.3 and R16.6; R17.4–R17.5; ArithmeticGaloisRepresentations Layers 1–5; Al
 
 ## Downstream consumers
 
+- QuaternionicModularForms §2.4 uses R16.1.6's finite-level adapter in the split case
+  D=M₂(F), and its §2.6 uses R16.2.13's principal series of GL₂(ℂ); R17.3.9 consumes its
+  §§1.3, 2.1–2.2 and 3.1 as stated above.
 - ModularityAndLanglandsExtensions §1.2 uses R17.5's solvable Artin automorphy;
   its local Langlands and transfer inputs use R16.3 and R17.4–R17.5.
 - AutomorphicGaloisRepresentationsPartII's independent classical and Hilbert member
