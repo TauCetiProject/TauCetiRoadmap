@@ -4,10 +4,12 @@
 products, induction and imprimitivity, Takai duality, Hausdorff groupoid
 C*-algebras, and equilibrium states of quantum systems. Build the analytic
 constructions and representation theory that connect these subjects: integrated
-forms, Hilbert-space induction through imprimitivity bimodules, the Fourier
-isomorphism of the full group C*-algebra of an abelian group, standard-fibre
-direct integrals and disintegration, KMS states with their simplex, and the
-thermodynamic limit of quantum spin systems.
+forms, Hilbert-space induction through imprimitivity bimodules, the harmonic
+analysis of locally compact abelian groups that duality needs (the Fourier
+isomorphism of the full group C*-algebra, the dual Haar measure with the
+Plancherel unitary and Fourier inversion, and the Pontryagin duality theorem),
+standard-fibre direct integrals and disintegration, KMS states with their
+simplex, and the thermodynamic limit of quantum spin systems.
 
 ## Scope and ownership
 
@@ -17,8 +19,11 @@ central twisted products of D1.CentralTwists and D2.CentralTwists and the
 scalar Borel fibers of D1.BorelPrefix and D1.TwistedBorel; the Hilbert-space
 induction through imprimitivity bimodules of D1.Modules; induction and
 imprimitivity (D3) with the locally compact abelian Weyl dictionary of
-D3.LCAWeyl; the Fourier isomorphism of the full group C*-algebra of an abelian
-group and Takai duality (D4); Haar groupoids, their convolution algebras, the
+D3.LCAWeyl; the harmonic analysis of locally compact abelian groups in
+D4.Harmonic (the Fourier isomorphism of the full group C*-algebra, the dual
+Haar measure, the Plancherel unitary, Fourier inversion and the Pontryagin
+duality theorem, for every locally compact Hausdorff abelian group) and Takai
+duality (D4); Haar groupoids, their convolution algebras, the
 standard-fibre direct integrals of D5.Fields, disintegration and equivalence
 (D5–D6), with the concrete orbit, sequence, saddle-flow and residue-class
 models of D2 and D6; KMS states, ground states and the KMS simplex (D7); CAR
@@ -47,27 +52,16 @@ It leaves to named roadmaps:
   it is not a prerequisite for the Powers argument of D2.FreeGroups.
 - The von Neumann crossed products `M⋊̄G` themselves, with the regular–normal
   bridge: VonNeumannAlgebras V8 (discrete G, and the regular construction on
-  `L²(G,H)` for a normal action) and V11 (second-countable G). D2 identifies
-  the weak-operator closure of the regular representation of `A⋊_rG` with
-  `ρ(A)''⋊̄G` under the hypotheses stated there, taking the von Neumann
-  crossed product from those sections; no C*-result below depends on that
-  identification. Tomita–Takesaki modular theory, the modular
+  `L²(G,H)` for a normal action) and V11 (second-countable G). D2 proves,
+  under the hypotheses stated there, that the weak-operator closure of the
+  regular representation of `A⋊_rG` is the von Neumann algebra generated on
+  `L²(G,H)` by the diffused copy of `ρ(A)''` and the translation unitaries;
+  this is the regular form of V8's `M⋊̄G` with that definition unfolded, and no
+  C*-result below depends on it. Tomita–Takesaki modular theory, the modular
   characterization `σ^ω_t=τ̄_(−βt)` of a KMS state on its GNS von Neumann
   algebra with its converse and support qualification, and Araki's bounded
   perturbations of faithful normal states: VonNeumannAlgebras V10; nothing
   below has them as a prerequisite.
-- Fourier inversion with the dual Haar measure, the Plancherel unitary
-  `L²(G)≅L²(Ĝ)` and the Pontryagin duality theorem (surjectivity of
-  `ev:G→(Ĝ)^`) for every locally compact abelian G: VonNeumannAlgebras V11,
-  whose inversion-free closed embedding BanachAlgebras A7 on main already
-  takes for its uniqueness theorem. D3.LCAWeyl and D4.Takai take these three
-  theorems from V11. D4.Harmonic adds only the Fourier isomorphism
-  `C*(G)≅C₀(Ĝ)` of D1's full group C*-algebra `ℂ⋊G`, proved from A7's
-  character correspondence and CStarAlgebras C1's nonunital Gelfand
-  isomorphism; V11's Fourier isomorphism is that of the reduced algebra on
-  `L²(G)` through Plancherel, and the two agree through D2's amenable
-  comparison. Bochner's theorem for a general locally compact abelian group
-  is not a target here.
 - Hilbert C*-modules beyond Mathlib's `CStarModule`: the C*-algebra `L_A(E)`
   of adjointable maps and the compact module operators `K_A(E)`, the
   interior tensor product `E⊗_φF` of two modules with its induced operators
@@ -91,14 +85,20 @@ It leaves to named roadmaps:
   only in SA-B85's standard-fibre model, in which every fibre is a subspace of
   one `ℓ²(ℕ)` and every operator field is a measurable matrix field.
 - The generic Fock/second-quantization API and the normalization adapter
-  `Φ_D8(h)=(a(h)+a†(h))/√2` on its invariant domain: QuantumFoundations QF4.
-  D8 is the single owner of the CCR/CAR and Weyl algebraic relations, their
-  regular representations and their basic field operators;
-  RelativisticQuantumFieldTheory consumes D8's Weyl representation and QF4's
-  Fock adapter.
+  `Φ_D8(h)=(a(h)+a†(h))/√2` on its invariant domain: QuantumFoundations
+  Layer 6 (6.3–6.4). D8 is the single owner of the CCR/CAR and Weyl
+  algebraic relations, their regular representations and their basic field
+  operators; RelativisticQuantumFieldTheory consumes D8's Weyl
+  representation and the Fock adapter of QuantumFoundations 6.4.
 
 General non-Hausdorff groupoids, groupoid primitive-ideal classification and
-interacting continuum gases are outside this roadmap. Neither K-theory nor
+interacting continuum gases are outside this roadmap, and so is Bochner's
+theorem for positive-definite functions on a general locally compact abelian
+group: D4.Harmonic reaches the dual Haar measure, the Plancherel unitary,
+Fourier inversion and the Pontryagin duality theorem through Tau Ceti's
+cyclic spectral theorem for the regular representation and the Fourier
+isomorphism of the group C*-algebra, starting from the character
+correspondence that BanachAlgebras A7 supplies. Neither K-theory nor
 C*-classification is a prerequisite here.
 
 ## Conventions
@@ -154,17 +154,29 @@ positive characters: `f̂(χ)=∫ f(g)χ(g) dμ(g)` and
   `VonNeumannAlgebra` with `VonNeumannAlgebra.commutant` (the
   double-commutant definition on a Hilbert space) and
   `ContinuousLinearMapWOT` (the weak operator topology), used by D7 and D8;
-  `PontryaginDual` with its compact-open topology and `Circle`, used by
+  `PontryaginDual` with its compact-open topology, its locally compact
+  abelian group structure and `Circle`, `ContinuousMulEquiv` (an isomorphism
+  of topological groups), `Measure.IsHaarMeasure` and `Lp`, used by
   D3.LCAWeyl and D4.
 - From Tau Ceti: `ContRepresentation.IsUnitary` and
   `ContRepresentation.integratedOperatorL1`, used by D1;
+  `ContRepresentation.exists_pontryaginMeasureTransform_eq_inner` (the
+  cyclic spectral theorem: the diagonal matrix coefficient `g↦⟨ξ,U_gξ⟩` of a
+  strongly continuous unitary representation of a locally compact abelian
+  group is the transform `g↦∫χ(g)dν(χ)` of a finite inner regular measure ν
+  on the dual, stated for the additive form of the group),
+  `MeasureTheory.FiniteMeasure.ext_of_forall_pontryaginMeasureTransform_eq_of_innerRegular`
+  (two finite inner regular measures on the dual with the same transform are
+  equal) and `TauCeti.PontryaginDual.continuous_coe_eval_const`, used by
+  D4.Harmonic;
   `TauCeti.circleEquivPontryaginDualInt` (the dual of ℤ is the circle), used
   by D4.Harmonic's Checks.
 - BanachAlgebras A7 supplies, for locally compact abelian G, the character
   correspondence between the Gelfand spectrum of `L¹(G)` and the Pontryagin
   dual with its compact-open topology, and its Fourier uniqueness theorem on
   `L¹(G)`; D4.Harmonic builds the Fourier isomorphism of the full group
-  C*-algebra on it.
+  C*-algebra, the dual Haar measure, the Plancherel unitary, Fourier
+  inversion and the Pontryagin duality theorem on it.
 - OperatorTheory/SelfAdjointSpectralTheory
   and OneParameterSemigroups supply
   self-adjoint generators, their spectral calculus, Part B's PVM carrier,
@@ -188,9 +200,9 @@ positive characters: `f̂(χ)=∫ f(g)χ(g) dμ(g)` and
 D1–D4 form the group-action development: D1 builds integrated forms and full
 crossed products and, in D1.Modules, the Hilbert-space induction through
 bimodules that D2, D3 and D6 use; D4.Harmonic builds the Fourier isomorphism
-of the full group C*-algebra, and D3.LCAWeyl and D4.Takai combine it with the
-inversion, Plancherel and duality theorems whose owner Scope and ownership
-names. D5–D6 use D1's integration tools, D1.Modules and the standard-fibre
+of the full group C*-algebra, the dual Haar measure with the Plancherel
+unitary and Fourier inversion, and the Pontryagin duality theorem, which
+D3.LCAWeyl and D4.Takai consume. D5–D6 use D1's integration tools, D1.Modules and the standard-fibre
 direct integrals of D5.Fields, and compare transformation groupoids with
 D1–D2. D7–D9 form the equilibrium development. Operator K-theory consumes
 crossed products and duality. The dependency order of the twisted sections
@@ -373,7 +385,12 @@ equivalence theorems, and its properties as a relation are not developed
 here. Prove that induction through an imprimitivity bimodule carries
 nondegenerate representations of B to nondegenerate representations of A:
 `x=lim_n x⟨x,x⟩_B^(1/n)` because `⟨x−xu,x−xu⟩_B=b(1−u)²` for `b=⟨x,x⟩_B` and
-`u=b^(1/n)`, and `x⟨x,x⟩_Bu=_A⟨x,x⟩(xu)`, so `_A⟨X,X⟩X` is dense in X.
+`u=b^(1/n)`; the closed span I of `⟨X,X⟩_B` is a closed two-sided ideal of
+B, by `⟨x,y⟩_Bc=⟨x,yc⟩_B` and `c*⟨x,y⟩_B=⟨xc,y⟩_B`, hence a C*-subalgebra
+containing b and therefore every `b^(1/n)`; so `xb^(1/n)` lies in the
+closure of `X⟨X,X⟩_B`, which is the closure of `_A⟨X,X⟩X` by
+`x⟨y,z⟩_B=_A⟨x,y⟩z`, and `_A⟨X,X⟩X` is dense in X. No fullness is needed
+for this direction.
 
 - The Gram positivity `(⟨x_i,x_j⟩_B)≥0` in `M_n(B)` and its Hilbert-space
   consequence.
@@ -836,16 +853,26 @@ as the completion and as the quotient of the full crossed product by the
 regular kernel. Develop its canonical multiplier maps, equivariant
 functoriality, and factorization of all regular representations. Prove
 `A⋊id,rG≃A⊗min Cr*(G)`. The C*-construction retains arbitrary locally
-compact Hausdorff G. Prove that the closure in the weak operator topology
-of the regular C*-representation is the von Neumann crossed product of
-VonNeumannAlgebras V8 (G discrete, or the regular construction on
-`L²(G,H)`) or V11 (G second countable) under the following hypotheses: ρ is
-nondegenerate, `M=ρ(A)''`, and there is a σ-weakly continuous normal action
-`ᾱ` on M with `ᾱ_s(ρ(a))=ρ(α_s(a))`. Prove that σ-weak continuity of this
-automorphism action implies the pointwise strong-star continuity that V11's
-construction asks for, using the positive-vector norm identities. Identify
-the coefficient and group maps under this isomorphism. No C*-result below
-depends on this identification.
+compact Hausdorff G. Prove the weak-closure identification under the
+following hypotheses: ρ is a nondegenerate representation of A on H,
+`M=ρ(A)''`, and there is an action `ᾱ` of G on M by normal automorphisms,
+σ-weakly continuous in the group variable, with `ᾱ_s(ρ(a))=ρ(α_s(a))`. For
+`m∈M` let `ρ̄(m)` be the diffused operator `(ρ̄(m)ξ)(t)=ᾱ_(t⁻¹)(m)ξ(t)` on
+`L²(G,H)`, so that `ρ̄(ρ(a))=ρ̃(a)`. Prove that the closure in the weak
+operator topology of `(ρ̃⋊λ)(A⋊_rG)` is the von Neumann algebra generated
+by `ρ̄(M)` and the translation unitaries `1⊗λ_s`: the integrated operators
+lie in that algebra because they are weak-operator integrals of its
+elements; conversely each `ρ̄(m)` is the strong limit of `ρ̃(a_i)` along a
+bounded net `ρ(a_i)→m` of the Kaplansky density theorem, by dominated
+convergence of `∫‖(ᾱ_(t⁻¹)(ρ(a_i))−ᾱ_(t⁻¹)(m))ξ(t)‖²dt`, and `1⊗λ_s` is a
+strong limit of integrated operators of an approximate identity translated
+by s. Prove first that σ-weak continuity of `s↦ᾱ_s(m)` implies its
+σ-strong-star continuity, from the identity
+`φ((ᾱ_s(m)−m)*(ᾱ_s(m)−m))=φ(ᾱ_s(m*m))−φ(ᾱ_s(m)*m)−φ(m*ᾱ_s(m))+φ(m*m)`
+for a positive normal functional φ, which makes `t↦ᾱ_(t⁻¹)(m)ξ(t)`
+continuous for `ξ∈C_c(G,H)` and `ρ̄(m)` well defined and bounded by `‖m‖`.
+Identify the coefficient and group maps under this description. No
+C*-result below depends on this identification.
 
 **Checks.**
 
@@ -1384,8 +1411,8 @@ comparison, not an input; Mathlib `lp`, `lp.single`, `AddCircle`,
 `MulAction.IsPretransitive`, `FreeGroup.toWord`, `FreeGroup.reduce`,
 `StarAlgebra.adjoin`, `StarSubalgebra.topologicalClosure` and
 `IsSimpleRing`. The weak-closure identification at the end of D2's main
-body takes the von Neumann crossed product from the sections that Scope
-and ownership names and is consumed by nothing below.
+body uses Mathlib `VonNeumannAlgebra` and the Kaplansky density theorem and
+is consumed by nothing below.
 
 ## D3. Induction and imprimitivity
 
@@ -1478,8 +1505,8 @@ multipliers).
 **D3.LCAWeyl — translation covariance and the general LCA Weyl dictionary.**
 For every locally compact Hausdorff abelian G, use `PontryaginDual G` with
 its compact-open topology and D4.Harmonic's identification `C*(Ĝ)≅C₀(G)`,
-the Fourier isomorphism applied to Ĝ composed with the Pontryagin duality
-theorem whose owner Scope and ownership names. With `α_s(f)(t)=f(s⁻¹t)`, prove the equivalence between
+the Fourier isomorphism applied to Ĝ composed with D4.Harmonic's Pontryagin
+duality theorem. With `α_s(f)(t)=f(s⁻¹t)`, prove the equivalence between
 nondegenerate covariant pairs `(π,U)` for `(C₀(G),G,α)` and pairs of
 strongly continuous unitary representations U of G and V of its dual
 satisfying `U_s V_χ U_s*=conjugate(χ(s)) V_χ`. Extend π to multipliers and
@@ -1525,10 +1552,9 @@ second real-case proof is given here.
   `L²(G)⊕L²(G)` has multiplicity two and is reducible.
 
 *Needs:* D3 (`C₀(G)⋊G≅K(L²G)` with its integral kernels); D4.Harmonic
-(the dual group and `C*(Ĝ)≅C₀(G)`, which carries the Pontryagin duality
-theorem and the dual Haar measure whose owner Scope and ownership names);
-CStarAlgebras C1 (multiplier extensions) and C2 (the representation theory
-of compact operators); Mathlib `PontryaginDual`.
+(the dual group, `C*(Ĝ)≅C₀(G)`, the Pontryagin duality theorem and the dual
+Haar measure); CStarAlgebras C1 (multiplier extensions) and C2 (the
+representation theory of compact operators); Mathlib `PontryaginDual`.
 
 ### Examples
 
@@ -1539,18 +1565,20 @@ phases `conj(χ(s))`.
 
 ### Dependencies
 
-D1, D1.Modules and D2; D4.Harmonic for D3.LCAWeyl (whose `C*(Ĝ)≅C₀(G)`
-carries the duality theorem named in Scope and ownership); BanachAlgebras
+D1, D1.Modules and D2; D4.Harmonic for D3.LCAWeyl (`C*(Ĝ)≅C₀(G)`, the
+Pontryagin duality theorem and the dual Haar measure); BanachAlgebras
 A7; CStarAlgebras C1–C2; Mathlib Haar measure, `PontryaginDual` and the
 quotient integral formula on `G/H` where it applies.
 
 ## D4. Dual actions and Takai duality
 
-D4.Harmonic builds the Fourier isomorphism of the full group C*-algebra of a
-locally compact abelian group and, with the Pontryagin duality theorem, the
-identification `C*(Ĝ)≅C₀(G)`; D4.Takai is the duality theorem.
+D4.Harmonic builds the harmonic analysis of a locally compact abelian group
+that duality needs: the Fourier isomorphism of the full group C*-algebra,
+the dual Haar measure with the Plancherel unitary and Fourier inversion, the
+Pontryagin duality theorem, and with it the identification `C*(Ĝ)≅C₀(G)`;
+D4.Takai is the duality theorem.
 
-### D4.Harmonic. The Fourier isomorphism of the full group C*-algebra
+### D4.Harmonic. Fourier isomorphism, Plancherel, inversion and Pontryagin duality
 
 Let G be a locally compact Hausdorff abelian group with Haar measure μ and
 `Ĝ=PontryaginDual G`, the continuous characters `G→𝕋` with the compact-open
@@ -1582,22 +1610,91 @@ resulting topology with the compact-open one. The composite
 comparison and the amenability of abelian groups, so the same transform
 identifies the reduced algebra on `L²(G)` with `C₀(Ĝ)`.
 
-Given the Pontryagin duality theorem `ev:G≅(Ĝ)^`, `ev(s)(χ)=χ(s)`, whose
-owner Scope and ownership names, apply the Fourier isomorphism to Ĝ with the
-dual Haar measure μ̂ of the inversion theorem and compose with ev:
+Prove the dual Haar measure and the Plancherel theorem
+(`exists_dualHaar_plancherel_inversion`): there is a Haar measure μ̂ on Ĝ,
+the dual measure of μ, such that `f↦f̂` on `L¹(G)∩L²(G)` is isometric into
+`L²(Ĝ,μ̂)` and extends to a unitary `F:L²(G,μ)≅L²(Ĝ,μ̂)` (Rudin, Theorem
+1.6.1; Williams's Example 7.11, p. 198, uses it in this form). Route, through
+the cyclic spectral theorem for the regular representation and not through
+Bochner's theorem: for `f∈C_c(G)` Tau Ceti's
+`ContRepresentation.exists_pontryaginMeasureTransform_eq_inner`, applied to
+the left-regular representation λ in additive notation, gives a finite inner
+regular measure `ν_f` on Ĝ with `⟨f,λ_sf⟩=∫χ(s)dν_f(χ)`, hence
+`⟨f,λ(h)f⟩=∫ĥdν_f` for `h∈L¹(G)` by the integrated form. Prove
+`ν_(λ(k)f)=|k̂|²ν_f` for `k∈C_c(G)` from `λ(k)*=λ(k*)` and `(k*)^=conj(k̂)`:
+both sides are finite inner regular measures with the transform
+`s↦⟨λ(k)f,λ_sλ(k)f⟩`, so they agree by Tau Ceti's
+`MeasureTheory.FiniteMeasure.ext_of_forall_pontryaginMeasureTransform_eq_of_innerRegular`;
+and, since `λ(k)f=k*f=f*k=λ(f)k` on an abelian group, deduce the consistency
+identity `|k̂|²ν_f=|f̂|²ν_k`. Define μ̂ on the open set `{f̂≠0}` as
+`|f̂|⁻²ν_f`; the consistency identity glues these to one Radon measure on
+Ĝ, because every χ has some `f=conj(χ)φ` with `φ≥0` nonzero in `C_c(G)` and
+`f̂(χ)=∫φ>0`. Prove translation invariance: multiplication by a character
+`χ₀` is a unitary of `L²(G)` with `⟨χ₀f,λ_s(χ₀f)⟩=conj(χ₀(s))⟨f,λ_sf⟩`, so
+`ν_(χ₀f)` is the translate of `ν_f` by `χ₀⁻¹`, as `|(χ₀f)^|²` is of `|f̂|²`.
+Thus μ̂ is a Haar measure with `∫|f̂|²dμ̂=ν_f(Ĝ)=‖f‖₂²` on `C_c(G)`; extend
+by density, and prove surjectivity of F from the facts that its range is
+closed and invariant under multiplication by every `ĝ`, `g∈L¹(G)`, and that
+these functions are dense in `C₀(Ĝ)` (a conjugation-closed subalgebra that
+separates the points of Ĝ and vanishes nowhere, Stone–Weierstrass). Prove
+that μ̂ is the unique Haar measure making the transform isometric and that
+`μ↦cμ` gives `μ̂↦c⁻¹μ̂`.
+
+Prove Fourier inversion (`exists_dualHaar_plancherel_inversion`): for
+`f∈L¹(G)` with `f̂∈L¹(Ĝ,μ̂)`, `f(x)=∫f̂(χ)conj(χ(x))dμ̂(χ)` for almost every
+x, so f has a continuous representative (Rudin, Theorem 1.5.1). Route from
+Plancherel by an approximate identity `φ_n≥0` in `C_c(G)` with `∫φ_n=1`:
+for `f∈L¹∩L²`, polarized Plancherel gives
+`(f*φ_n)(x)=∫conj(χ(x))φ̂_n(χ)f̂(χ)dμ̂(χ)`, since `t↦conj(φ_n(t⁻¹x))` has
+transform `χ↦χ(x)conj(φ̂_n(χ))`; `φ̂_n→1` boundedly and `f*φ_n→f` in `L¹`,
+so dominated convergence gives the formula; for general `f∈L¹` apply this
+to `f*φ_n∈L¹∩L²` and let n grow.
+
+Prove the Pontryagin duality theorem (`pontryagin_duality`): the evaluation
+map `ev:G→(Ĝ)^`, `ev(s)(χ)=χ(s)`, is an isomorphism of topological groups
+(Rudin, Theorem 1.7.2; Williams, p. 27, states it from Folland). Route:
+ev is a continuous homomorphism because evaluation is jointly continuous on
+`Ĝ×G` and compact sets of characters are equicontinuous; it is injective
+because `(λ_xf)^=ev(x)f̂` and Plancherel give `λ_xf=f` for every `f∈L²(G)`
+when `ev(x)=1`, while `λ_x1_V≠1_V` for a compact identity neighbourhood V
+with `xV∩V=∅`; it is open onto its image because for an open identity
+neighbourhood U the function `f=g*g̃` with `g=1_V/√μ(V)`, `VV⁻¹⊆U`, has
+`f(e)=1`, `f̂=|ĝ|²∈L¹(Ĝ)` with `∫f̂dμ̂=1`, and inversion shows that
+`|χ(x)−1|<ε` on a compact set carrying all but ε of `f̂dμ̂` forces
+`|f(x)−1|<3ε`, hence `x∈U`; its image is closed because a locally compact
+subgroup of a Hausdorff group is closed. Surjectivity: `ev(G)` is a closed
+subgroup of `(Ĝ)^`; for `ξ₀∉ev(G)`, Plancherel on the group Ĝ gives, for
+indicator functions of compact neighbourhoods in `(Ĝ)^`, functions
+`F∈L¹(Ĝ)` whose transform `F̂` on `(Ĝ)^` is a convolution of two such
+indicators, equal to 1 at ξ₀ and 0 on `ev(G)` (Rudin, §2.6); then
+`∫F(χ)f̂(χ)dμ̂(χ)=∫f(x)F̂(ev(x))dμ(x)=0` for every `f∈L¹(G)`, so Fμ̂
+annihilates the dense subalgebra `{f̂}` of `C₀(Ĝ)` and `F=0`, a
+contradiction.
+
+With the Pontryagin duality theorem `ev:G≅(Ĝ)^`, apply the Fourier
+isomorphism to Ĝ with the dual Haar measure μ̂ and compose with ev:
 `C*(Ĝ)≅C₀(G)` sends D1's canonical unitary of `C*(Ĝ)` at χ to the function
 `t↦χ(t)` and `f∈L¹(Ĝ)` to `t↦∫f(χ)χ(t)dμ̂(χ)`. This is the isomorphism
-D3.LCAWeyl and D4.Takai use; its dependence on the scaling of μ̂ is the
-scalar `c⁻¹` on `L¹(Ĝ)` under `μ̂↦cμ̂`, and the multiplier formula does not
-depend on μ̂.
+D3.LCAWeyl and D4.Takai use. It does not depend on the scaling of μ̂: a
+function f represents, with respect to `cμ̂`, the element of `C*(Ĝ)` that
+`cf` represents with respect to μ̂, and the multiplier formula involves no
+measure.
 
 - The Fourier transform on `L¹(G)` with its algebraic laws, as the Gelfand
   transform under A7's correspondence.
 - The Fourier isomorphism `C*(G)≅C₀(Ĝ)` of the full group C*-algebra, with
   the universal norm `sup|f̂|`, and the agreement of full and reduced group
   C*-algebras for abelian G.
-- The identification `C*(Ĝ)≅C₀(G)` with its action on canonical unitaries,
-  given the Pontryagin duality theorem.
+- The dual Haar measure μ̂ of μ, the Plancherel unitary `F:L²(G)≅L²(Ĝ)`
+  extending `f↦f̂` from `L¹∩L²`, and Fourier inversion for `f∈L¹(G)` with
+  `f̂∈L¹(Ĝ)`, stated together as `exists_dualHaar_plancherel_inversion`: for
+  every locally compact Hausdorff abelian group with Borel structures on G
+  and Ĝ and every Haar measure μ on G, there is a Haar measure on Ĝ for which
+  both hold.
+- The Pontryagin duality theorem `pontryagin_duality`: for every locally
+  compact Hausdorff abelian group there is an isomorphism of topological
+  groups `G≅(Ĝ)^` whose underlying map is evaluation.
+- The identification `C*(Ĝ)≅C₀(G)` with its action on canonical unitaries.
 
 **Checks.**
 
@@ -1627,26 +1724,52 @@ depend on μ̂.
 - Non-example: for `G=S₃` the characters `G→𝕋` factor through `ℤ/2` while
   `C*(S₃)=ℂ⊕ℂ⊕M_2(ℂ)` is not commutative, so no isomorphism of `C*(G)` with
   `C₀` of the character group exists; the abelian hypothesis is used.
+- The dual measure of counting measure on a finite abelian group of order n
+  is `1/n` times counting measure on Ĝ: for `f=δ_e`, `f̂≡1`, `‖f‖₂²=1` and
+  `Σ_χ|f̂(χ)|²=n`, so counting measure on Ĝ fails Plancherel by the factor n
+  for `n≥2`; the dual measure of counting measure on ℤ is the normalized
+  Haar measure of 𝕋, where Plancherel is Parseval's identity for Fourier
+  series; the dual measure of Lebesgue measure on ℝ is `dξ/2π` for the
+  characters `χ_ξ`.
+- The conjugate in the inversion formula, on `G=ℤ/3` with `f=δ_1`:
+  `f̂(χ)=χ(1)` and `(1/3)Σ_χf̂(χ)conj(χ(x))=(1/3)Σ_χχ(1−x)=[x=1]=f(x)`,
+  while the formula with `χ(x)` in place of `conj(χ(x))` gives
+  `(1/3)Σ_χχ(1+x)=[x=−1]=f(−x)`, the reflected function; the two differ at
+  `x=1`.
+- Pontryagin duality for `G=ℤ`: `Ĝ=𝕋` and `(Ĝ)^=ℤ` through
+  `n↦(z↦zⁿ)`, with `ev(n)(z)=zⁿ`, so ev is the identity of ℤ under this
+  identification, and the discrete topology is recovered since
+  `|zⁿ−1|<1` for all `z∈𝕋` forces `n=0`; for `G=𝕋`, `ev(z)(n)=zⁿ` and the
+  pulled-back neighbourhoods `{z:|zⁿ−1|<ε for n in a finite set}` are the
+  usual ones. For the trivial group ev is the identity of a point.
+- The cyclic measure of the regular representation: for `G=ℤ/2` with
+  counting measure and `f=δ_0`, `⟨f,λ_sf⟩=[s=0]`, so `ν_f` is `(1/2)` times
+  counting measure on `Ĝ={1,χ}`, and `|f̂|⁻²ν_f=ν_f` is the dual measure,
+  as the first Check requires.
 
 *Needs:* BanachAlgebras A7 (`L¹(G)` and the character correspondence with
-its topology); D1 (`C*(G)=ℂ⋊G`, its universal norm and canonical unitaries);
-CStarAlgebras C1 (the nonunital commutative Gelfand isomorphism); D2 and
-AmenableGroups (the amenable comparison for abelian G); Mathlib
-`PontryaginDual`, `Circle`, Haar measure and `Lp`; Tau Ceti
-`TauCeti.circleEquivPontryaginDualInt` for the Checks; and, for
-`C*(Ĝ)≅C₀(G)`, the Pontryagin duality theorem and the dual Haar measure
-whose owner Scope and ownership names.
+its topology); D1 (`C*(G)=ℂ⋊G`, its universal norm and canonical unitaries,
+the integrated form of λ); CStarAlgebras C1 (the nonunital commutative
+Gelfand isomorphism); D2 and AmenableGroups (the amenable comparison for
+abelian G); Tau Ceti
+`ContRepresentation.exists_pontryaginMeasureTransform_eq_inner`,
+`MeasureTheory.FiniteMeasure.ext_of_forall_pontryaginMeasureTransform_eq_of_innerRegular`
+and `TauCeti.PontryaginDual.continuous_coe_eval_const`; Mathlib
+`PontryaginDual`, `Circle`, `ContinuousMulEquiv`, Haar measure with
+`Measure.IsHaarMeasure`, `Lp`, and the Stone–Weierstrass theorem applied on
+the one-point compactification of Ĝ; Tau Ceti
+`TauCeti.circleEquivPontryaginDualInt` for the Checks.
 
 ### D4.Takai. The Takai duality theorem
 
 For locally compact abelian G use `PontryaginDual G` with its compact-open
-topology. From D4.Harmonic's `C*(Ĝ)≅C₀(G)` and the inversion, Plancherel
-and Pontryagin duality theorems whose owner Scope and ownership names,
-construct the strongly continuous dual action
+topology. From D4.Harmonic's `C*(Ĝ)≅C₀(G)`, dual Haar measure, Plancherel
+unitary, Fourier inversion and Pontryagin duality theorem, construct the
+strongly continuous dual action
 `α̂χ(f)(s)=χ(s)f(s)` and prove its multiplier formulae, functoriality and
-compatibility with full and reduced completions. Normalize the dual Haar
-measure so that the positive-character Fourier transform is unitary on L²;
-identify G with its bidual by `s↦(χ↦χ(s))`.
+compatibility with full and reduced completions. Use D4.Harmonic's dual Haar
+measure, for which the positive-character Fourier transform is unitary on
+L²; identify G with its bidual by `s↦(χ↦χ(s))`.
 
 Construct the Takai isomorphism
 `(A⋊αG)⋊α̂Ĝ ≃ A⊗K(L²G)` and prove that it intertwines the double-dual
@@ -1667,7 +1790,7 @@ specified maps, not merely an abstract Morita equivalence.
   `ℂ⋊G=C*(G)≅C(Ĝ)` with the dual action equal to translation on Ĝ, so the
   iterated product is `C(Ĝ)⋊Ĝ≅K(ℓ²(Ĝ))=M_n(ℂ)`, of dimension n², and the
   right side `ℂ⊗K(ℓ²(G))` is `M_n(ℂ)` too; a statement with `A⊗C*(G)` on
-  the right would be commutative of dimension n² and wrong for `n≥2`.
+  the right would be commutative of dimension n and wrong for `n≥2`.
 - G=ℤ and `A=ℂ`: `C*(ℤ)≅C(𝕋)` by D4.Harmonic, the dual action of 𝕋 is
   rotation, and `C(𝕋)⋊𝕋≅K(ℓ²(ℤ))=ℂ⊗K(L²(ℤ))`.
 - The direction of the double-dual action: for `G=ℤ/3` and `A=ℂ` the
@@ -1682,10 +1805,9 @@ specified maps, not merely an abstract Morita equivalence.
 
 *Needs:* D1–D2 (full and reduced crossed products, `A⋊idG≃A⊗maxC*(G)`,
 the amenable comparison for abelian G); D3 (`C₀(G)⋊G≅K(L²G)` by integral
-kernels); D4.Harmonic (`C*(Ĝ)≅C₀(G)` and the full/reduced agreement); the
-inversion theorem with its dual Haar measure, the Plancherel unitary and
-the Pontryagin duality theorem whose owner Scope and ownership names;
-Mathlib `PontryaginDual`.
+kernels); D4.Harmonic (`C*(Ĝ)≅C₀(G)`, the full/reduced agreement, the dual
+Haar measure with the Plancherel unitary, Fourier inversion and the
+Pontryagin duality theorem); Mathlib `PontryaginDual`.
 
 ### Examples
 
@@ -1697,9 +1819,11 @@ of the double-dual action.
 ### Dependencies
 
 D1–D2 and D3; BanachAlgebras A7; AmenableGroups; CStarAlgebras C1; Mathlib
-`PontryaginDual`, `Circle`, Haar measure and `Lp`; Tau Ceti
-`TauCeti.circleEquivPontryaginDualInt`; the inversion, Plancherel and
-Pontryagin duality theorems whose owner Scope and ownership names.
+`PontryaginDual`, `Circle`, `ContinuousMulEquiv`, Haar measure and `Lp`;
+Tau Ceti `ContRepresentation.exists_pontryaginMeasureTransform_eq_inner`,
+`MeasureTheory.FiniteMeasure.ext_of_forall_pontryaginMeasureTransform_eq_of_innerRegular`,
+`TauCeti.PontryaginDual.continuous_coe_eval_const` and
+`TauCeti.circleEquivPontryaginDualInt`.
 
 ## D5. Haar groupoids, convolution, and disintegration
 
@@ -1825,7 +1949,7 @@ the disintegration below. Borel Hilbert bundles whose fibres are abstract
 separable Hilbert spaces with a fundamental sequence of sections (Williams,
 Definition F.1, p. 409) are not constructed here, and the measurable
 Gram–Schmidt that identifies such a bundle with a standard-fibre field
-belongs to their owner, named in Scope and ownership.
+are VonNeumannAlgebras V4.0.Fields', as Scope and ownership records.
 
 - The direct integral `L²(X∗H,μ)` and its diagonal operators; for the
   constant field `N(x)=ℕ` it is `L²(X,μ;ℓ²(ℕ))` and the decomposable
@@ -1860,8 +1984,9 @@ belongs to their owner, named in Scope and ownership.
 - A varying dimension function: `X=[0,1]`, `N(x)={0}` for `x<1/2` and
   `N(x)={0,1}` for `x≥1/2` gives `L²([0,1/2])⊕L²([1/2,1];ℂ²)`, the diagonal
   operators are still `L∞[0,1]`, and multiplication by `x↦1_(x≥1/2)E_01`
-  is decomposable while the constant field `E_01` is not, since it does not
-  map `H(x)` into itself for `x<1/2`.
+  is decomposable while the constant field `E_10` (`e_0↦e_1`) is not, since
+  it does not map `H(x)=span{e_0}` into itself for `x<1/2`; the constant
+  field `E_01` does, sending `e_0` to 0 there.
 - Empty X or `μ=0`: the direct integral is 0, with the zero representation
   and the empty field.
 
@@ -2374,9 +2499,9 @@ disjointness); Mathlib `PositiveLinearMap.GNS`, `VonNeumannAlgebra`,
 OneParameterSemigroups; SelfAdjointSpectralTheory Part B as listed; D5.Fields;
 CStarAlgebras C2; Mathlib `DifferentiableOn`, `Bornology.IsBounded`,
 `PositiveLinearMap`, `PositiveLinearMap.GNS`, `VonNeumannAlgebra` and
-`ContinuousLinearMapWOT`. The modular characterization on M belongs to
-the von Neumann section named in Scope and ownership and is consumed by
-nothing here.
+`ContinuousLinearMapWOT`. The modular characterization on M is
+VonNeumannAlgebras V10's, as Scope and ownership records, and is consumed
+by nothing here.
 
 ## D8. CAR, Weyl algebras, and free equilibrium states
 
@@ -2396,7 +2521,7 @@ For a complex pre-Hilbert space h, prove that the norm identity extends its anti
 
 For bounded complex-linear U and bounded antilinear V on the complete complex Hilbert carrier h (using its completion in the pre-Hilbert comparison), define the antilinear adjoint by `⟨V* x,y⟩=⟨V y,x⟩` in the second-linear convention. Prove that
 `V*U+U*V=0=UV*+VU*` and `U*U+V*V=1=UU*+VV*`
-are the components of the real-orthogonality identities for `T=U+V`. Under these four relations construct the unique CAR automorphism `γ(a(f))=a(Uf)+a(Vf)*`, with inverse obtained from the real adjoint `T*=U*+V*`. Pin the CAR calculation by `⟨Uf,Ug⟩+⟨Vg,Vf⟩=⟨f,g⟩` and `⟨Uf,Vg⟩+⟨Ug,Vf⟩=0`. The Majorana generators `c(f)=a(f)+a(f)*` give the equivalent real-orthogonal construction `c(f)↦c(Tf)`. QuantumFoundations consumes this universal CAR automorphism and owns its Fock/domain comparison; any criterion for unitary implementation is a separate target.
+are the components of the real-orthogonality identities for `T=U+V`. Under these four relations construct the unique CAR automorphism `γ(a(f))=a(Uf)+a(Vf)*`, with inverse obtained from the real adjoint `T*=U*+V*`. Pin the CAR calculation by `⟨Uf,Ug⟩+⟨Vg,Vf⟩=⟨f,g⟩` and `⟨Uf,Vg⟩+⟨Ug,Vf⟩=0`. The Majorana generators `c(f)=a(f)+a(f)*` give the equivalent real-orthogonal construction `c(f)↦c(Tf)`. QuantumFoundations 6.3–6.4 builds the Fock implementation `Γ(U)` of a one-particle unitary U on D8's Fock carriers, which realizes the case `V=0` of this automorphism, and owns the Fock/domain comparison of the field operators; any criterion for unitary implementation of a general `(U,V)` is a separate target.
 
 Construct gauge-invariant quasi-free CAR states for every positive
 contraction S on h. Define them by vanishing of monomials with unequal
@@ -2525,8 +2650,9 @@ CStarAlgebras C2 (states), C5 (inductive limits, tensor products);
 RepresentationTheory/SpinRepresentations (finite-dimensional Clifford and
 exterior algebras); OneParameterSemigroups and SelfAdjointSpectralTheory
 SA-A21 (Stone's theorem, cores); Mathlib `VonNeumannAlgebra`,
-`ContinuousLinearMapWOT`, `PositiveLinearMap.GNS`, the matrix exponential
-and `Real.coth`.
+`ContinuousLinearMapWOT`, `PositiveLinearMap.GNS` and the matrix
+exponential `NormedSpace.exp`; the hyperbolic cotangent is written out as
+`(exp x+1)/(exp x−1)`.
 
 ### Examples
 
@@ -2539,8 +2665,8 @@ degenerate Weyl algebra.
 
 D7; CStarAlgebras C2 and C5; RepresentationTheory/SpinRepresentations;
 OneParameterSemigroups; SelfAdjointSpectralTheory SA-A21; Mathlib
-`VonNeumannAlgebra`, `ContinuousLinearMapWOT`, `PositiveLinearMap.GNS`,
-`Real.coth` and the matrix exponential.
+`VonNeumannAlgebra`, `ContinuousLinearMapWOT`, `PositiveLinearMap.GNS`
+and the matrix exponential `NormedSpace.exp`.
 
 ## D9. Quantum spin systems and the thermodynamic limit
 
@@ -2669,8 +2795,10 @@ the on-site model.
 
 *Needs:* D7 (KMS states, ground states, bounded perturbations and their
 sign); CStarAlgebras C5 (tensor products, inductive limits) and C2
-(states); Mathlib `Matrix.trace`, the matrix exponential and logarithm,
-`Matrix.PosSemidef` and Schur complements; Bratteli–Robinson as cited.
+(states); Mathlib `Matrix.trace`, the matrix exponential `NormedSpace.exp`,
+the logarithm of a positive-definite matrix as the Hermitian functional
+calculus `cfc Real.log` of `Matrix.IsHermitian`, `Matrix.PosSemidef` and
+Schur complements; Bratteli–Robinson as cited.
 
 ### Examples
 
@@ -2682,7 +2810,8 @@ segments in `ℤ²` as a non-van-Hove net.
 ### Dependencies
 
 D7; CStarAlgebras C2 and C5; Mathlib matrix analysis (`Matrix.trace`,
-`Matrix.PosSemidef`, exponential and logarithm).
+`Matrix.PosSemidef`, the exponential `NormedSpace.exp` and the logarithm
+of a positive-definite matrix through the Hermitian functional calculus).
 
 ## Downstream consumers
 
@@ -2700,11 +2829,19 @@ D7; CStarAlgebras C2 and C5; Mathlib matrix analysis (`Matrix.trace`,
   `C₀(X)` representation.
 - FreeProbability F3 compares its F₂ norm obstruction with D2.FreeGroups and
   records D6 as the owner of the finite universal `O_n`.
-- QuantumFoundations QF4 consumes D8's universal CAR automorphism;
-  RelativisticQuantumFieldTheory consumes D8's Weyl representation.
+- QuantumFoundations Layer 6 (6.3–6.4) consumes D8's Fock carriers, its
+  sector formulas for the creation and annihilation operators and the
+  Segal-field adapter; the Fock implementation `Γ(U)b̄(f)Γ(U)*=b̄(Uf)` of a
+  one-particle unitary U built there is the case `V=0` of D8's universal CAR
+  automorphism. RelativisticQuantumFieldTheory consumes D8's Weyl
+  representation.
+- NoncompactQuantumSymmetry M2.FixedTwistTypeI's single-weight fiber
+  identification `J_k(E_ω)≅C*(G,ω^k)` is D1.TwistedBorel's; that section
+  consumes it for the all-weight decomposition `C*(E_ω)≅⊕_kJ_k(E_ω)`.
 - FactorRigidity, Subfactors, CompactQuantumMetricSpaces, QuantumGroups,
-  NoncommutativeGeometry and CategoricalOperatorAlgebras cite D1–D2, D6 or
-  D7 for crossed products, Cuntz algebras or KMS states.
+  NoncommutativeGeometry and CategoricalOperatorAlgebras cite D1–D2, D6, D7
+  or D8 for crossed products, Cuntz algebras, KMS states or the CAR algebra
+  with its Fock representation.
 
 ## Sources and API alignment
 
@@ -2732,7 +2869,15 @@ D7; CStarAlgebras C2 and C5; Mathlib matrix analysis (`Matrix.trace`,
   p. 133); Definition 4.26, Lemma 4.28 and Theorem 4.29 (pp. 135–137) for
   Heisenberg pairs and the von Neumann uniqueness theorem of D3.LCAWeyl;
   Theorem 7.1 with Lemmas 7.2–7.4, Lemma 7.8, Theorem
-  7.13 and Corollary 7.18 for Takai, reduced norms, amenability and nuclearity.
+  7.13 and Corollary 7.18 for Takai, reduced norms, amenability and nuclearity;
+  p. 27 for the statement of the Pontryagin duality theorem and Example
+  7.11 (p. 198) for the Plancherel identity on `C_c(G)`, both of which
+  Williams takes from Folland.
+- Walter Rudin, *Fourier Analysis on Groups*, Interscience (1962; Wiley
+  Classics reprint 1990): Theorem 1.5.1 (inversion), Theorem 1.6.1
+  (Plancherel), Theorem 1.7.2 (Pontryagin duality) and §2.6 (transforms
+  equal to 1 on a compact set and 0 off a neighbourhood), cited by locator
+  for D4.Harmonic; the routes given there avoid Bochner's theorem.
   Appendix D for D1.BorelPrefix: Theorem D.3 and Lemma D.4 (p. 370) for
   measurable homomorphisms of locally compact groups and Steinhaus's
   theorem, Theorem D.11 (p. 372) for Borel homomorphisms from Polish groups,
@@ -2797,7 +2942,9 @@ positive continuous linear functionals, `ContinuousMap`, compactly supported
 functions, Lp, Bochner integrals, `CStarModule`, `VonNeumannAlgebra`,
 `ContinuousLinearMapWOT`, `PositiveLinearMap.GNS` and `PontryaginDual`. Extend Tau Ceti's
 `RepresentationTheory/Continuous/{Unitary,Integrated}/Basic` for integrated
-covariant representations, and its `Analysis/Bochner/LocallyCompactGroup`
+covariant representations, and its `Analysis/Bochner/LocallyCompactGroup`,
+`Analysis/Fourier/Pontryagin` (the cyclic spectral theorem and the
+inner regular uniqueness theorem that D4.Harmonic's Plancherel route uses)
 and `Topology/Algebra/PontryaginDual` harmonic interfaces. The
 topology on the total `Arrow` and on composable arrows is LieGroupoidsPoisson
 G0's. Algebraic crossed products

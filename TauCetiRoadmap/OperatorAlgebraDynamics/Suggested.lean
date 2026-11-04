@@ -20,8 +20,10 @@ multiplicativity on compactly supported continuous functions (D1); the projectiv
 of a continuous central multiplier cocycle (D1.CentralTwists); irreducibility of the orbit
 representations (D2.OrbitRepresentations); the Powers partition property of free groups and the
 simplicity and unique trace of the reduced C*-algebra of a free group on at least two generators
-(D2.FreeGroups); the residue-class Cuntz family on a separable Hilbert space (D6); invariance of
-KMS states and the analytic KMS identity (D7).
+(D2.FreeGroups); the dual Haar measure with the Plancherel unitary and Fourier inversion, and the
+Pontryagin duality theorem, for every locally compact Hausdorff abelian group (D4.Harmonic); the
+residue-class Cuntz family on a separable Hilbert space (D6); invariance of KMS states and the
+analytic KMS identity (D7).
 
 Not statable at the pins, with the carrier each lacks:
 - the universal property of `A ⋊_α G`, the full and reduced comparison, the ideal exact sequence,
@@ -227,6 +229,44 @@ theorem reducedFreeGroup_trace_unique {ι : Type*} [DecidableEq ι] (a b : ι) (
       ((x : lp (fun _ : FreeGroup ι => ℂ) 2 →L[ℂ] lp (fun _ : FreeGroup ι => ℂ) 2)
         (lp.single 2 (1 : FreeGroup ι) (1 : ℂ))) := by
   sorry
+
+/-! ## D4.Harmonic: Plancherel, inversion and Pontryagin duality -/
+
+section Harmonic
+
+variable {K : Type*} [CommGroup K] [TopologicalSpace K] [IsTopologicalGroup K]
+  [LocallyCompactSpace K] [T2Space K]
+
+/-- The Pontryagin duality theorem: for a locally compact Hausdorff abelian group `K`, evaluation
+`s ↦ (χ ↦ χ(s))` is an isomorphism of topological groups from `K` onto the dual of its dual with
+the compact-open topology. The isomorphism is pinned by its underlying map (Rudin, Theorem 1.7.2;
+Williams, p. 27). -/
+theorem pontryagin_duality :
+    ∃ e : K ≃ₜ* PontryaginDual (PontryaginDual K),
+      ∀ (s : K) (χ : PontryaginDual K), e s χ = χ s := by
+  sorry
+
+variable [MeasurableSpace K] [BorelSpace K]
+  [MeasurableSpace (PontryaginDual K)] [BorelSpace (PontryaginDual K)]
+
+/-- The dual Haar measure, the Plancherel theorem and Fourier inversion: for a Haar measure `μ`
+on a locally compact Hausdorff abelian group `K` there is a Haar measure `ν` on the dual such that
+the positive-character transform `f̂(χ) = ∫ f(s) χ(s) dμ(s)` on `L¹ ∩ L²` extends to a unitary
+`L²(K, μ) ≃ L²(K̂, ν)`, and every integrable `f` with integrable transform satisfies
+`f(x) = ∫ f̂(χ) conj(χ(x)) dν(χ)` almost everywhere (Rudin, Theorems 1.5.1 and 1.6.1). -/
+theorem exists_dualHaar_plancherel_inversion (μ : Measure K) [μ.IsHaarMeasure] :
+    ∃ ν : Measure (PontryaginDual K), ν.IsHaarMeasure ∧
+      (∃ F : Lp ℂ 2 μ ≃ₗᵢ[ℂ] Lp ℂ 2 ν,
+        ∀ (f : K → ℂ) (hf₁ : Integrable f μ) (hf₂ : MemLp f 2 μ),
+          (F (hf₂.toLp f) : PontryaginDual K → ℂ) =ᵐ[ν]
+            fun χ => ∫ s, f s * (χ s : ℂ) ∂μ) ∧
+      ∀ f : K → ℂ, Integrable f μ →
+        Integrable (fun χ : PontryaginDual K => ∫ s, f s * (χ s : ℂ) ∂μ) ν →
+        ∀ᵐ x ∂μ, f x = ∫ χ : PontryaginDual K,
+          (∫ s, f s * (χ s : ℂ) ∂μ) * (starRingEnd ℂ) (χ x : ℂ) ∂ν := by
+  sorry
+
+end Harmonic
 
 /-! ## D6: concrete Cuntz families -/
 
