@@ -84,12 +84,12 @@ It does not own:
 - **The discriminant exponent of a subextension** and its invariance under `K`-isomorphism
   (MassFormula Layer 0).
 
-On Tau Ceti `main`, beyond the pinned revision, these are `TauCeti.tsum_one_div_natCard_residueField_pow_wildExponent`
-(`MassFormula/Main.lean`), `TauCeti.ncard_isomorphic_mul_natCard_algEquiv` (`MassFormula/Orbit.lean`),
-`IntermediateField.discriminantExponent` and `IntermediateField.discriminantExponent_eq_of_algEquiv`
-(`MassFormula/Basic.lean`). Consume them by those names. At the pin, `Suggested.lean` defines
-`intermediateFieldDiscriminantExponent` with the body of the Tau Ceti declaration and cites
-Theorem 1 from the README.
+In Tau Ceti these are `TauCeti.tsum_one_div_natCard_residueField_pow_wildExponent`
+(`TauCeti/NumberTheory/LocalField/MassFormula/Main.lean`), `TauCeti.ncard_isomorphic_mul_natCard_algEquiv`
+(`MassFormula/Orbit.lean`), `IntermediateField.discriminantExponent` and
+`IntermediateField.discriminantExponent_eq_of_algEquiv` (`MassFormula/Basic.lean`). Consume them by
+those names. `Suggested.lean` states `intermediateFieldDiscriminantExponent` with the body of the
+Tau Ceti declaration, and cites Theorem 1 from the README.
 
 ### From [LocalFieldsRamification, layer 2 unramified extensions and Frobenius](../../Completed/LocalFieldsRamification/README.md), implemented in Tau Ceti
 
@@ -178,12 +178,17 @@ correspondence and `MulAction.index_stabilizer`). *Needs:* 0.1; Mathlib `krullTo
 
 ### 0.3 the étale mass and the transitive bridge
 
-The étale mass is `M_n(K) = (1/n!) ∑_ρ q^{−d(ρ)}` over `GaloisSet K n` (`etaleMass`). **The
-transitive bridge** (`tsum_isTransitive`): for `n ≥ 1`, the transitive Galois sets with stabilizer
-`H` of `0` correspond to the bijections `G/H ≅ Fin n` sending `H` to `0`, of which there are
-`(n − 1)!`, and the open subgroups of index `n` correspond to the subextensions of degree `n`
-through `fixedField`; so the transitive Galois sets weigh `(n − 1)!` times
-`∑_{[L:K] = n} q^{−d(L)}`, summed over subextensions of `SeparableClosure K`. *Needs:* 0.2.
+The étale mass is `M_n(K) = (1/n!) ∑_ρ q^{−d(ρ)}` over `GaloisSet K n` (`etaleMass`). A transitive
+Galois set has one orbit, so its weight is the discriminant exponent of the fixed field of the
+stabilizer of any point (`GaloisSet.discriminantExponent_of_isTransitive`). **The transitive
+bridge** (`tsum_isTransitive`): for `n ≥ 1`, the transitive Galois sets with stabilizer `H` of `0`
+correspond to the bijections `G/H ≅ Fin n` sending `H` to `0`, of which there are `(n − 1)!`, and the
+open subgroups of index `n` correspond to the subextensions of degree `n` through `fixedField`. So
+for every weight `g` on subextensions invariant under `K`-isomorphism, the sum over transitive
+Galois sets of `g` at the fixed field of the stabilizer of `0` is `(n − 1)!` times
+`∑_{[L:K] = n} g(L)`, summed over subextensions of `SeparableClosure K`. Layer 2 applies it with
+`g = q^{−d}` restricted to residue degree `f`. *Needs:* 0.2; the MassFormula contract (invariance
+under `K`-isomorphism).
 
 **Checks.**
 
@@ -259,8 +264,9 @@ automorphisms of `L`. So `#Aut_K(L) = #Aut_{K_f}(L) · #Stab([L])`, the orbit of
 `Σ_{[L]_K : f(L/K) = f} 1/#Aut_K(L) = (1/f) · Σ_{[L] ∈ 𝒯(K_f, n/f)} 1/#Aut_{K_f}(L)`, likewise
 with each class weighted by any function of its `K`-isomorphism class. The Lean form
 `natCard_algEquiv_eq_mul` reads the count on `IntermediateField K (SeparableClosure K)`, with
-`Aut_{K_f}(L)` the automorphisms of `IntermediateField.extendScalars` over `K_f`. *Needs:* 1.1;
-Mathlib `IntermediateField.extendScalars`.
+`Aut_{K_f}(L)` the automorphisms of `IntermediateField.extendScalars` over `K_f`, along the
+inclusion `unramifiedExtension_inertiaDegree_le` of 1.3. *Needs:* 1.1, 1.3; Mathlib
+`IntermediateField.extendScalars`.
 
 **Checks.**
 
@@ -272,12 +278,16 @@ Mathlib `IntermediateField.extendScalars`.
 ### 1.3 the subfield form and the orbit count
 
 Inside `SeparableClosure K`, `L^ur` is `L ⊓ K^ur`, and for `L` finite over `K` it is
-`TauCeti.unramifiedExtension K K^sep f(L/K)` (`inf_maximalUnramifiedExtension`). So the
-subextensions of degree `n` and residue degree `f` are exactly those containing `K_f` that are
-totally ramified of degree `n/f` over it. **The orbit count for every finite subextension**
-(`ncard_isomorphic_mul_natCard_algEquiv`): `L/K` separable of degree `n` has `n` embeddings into
-`SeparableClosure K`, and those with a given image form an `Aut_K(L)`-torsor; MassFormula's orbit
-count is the totally ramified case. With it a sum over `K`-isomorphism classes weighted by
+`TauCeti.unramifiedExtension K K^sep f(L/K)` (`inf_maximalUnramifiedExtension`); in particular
+`K_{f(L/K)} ≤ L` (`unramifiedExtension_inertiaDegree_le`). So the subextensions of degree `n` and
+residue degree `f` are exactly those containing `K_f` that are totally ramified of degree `n/f` over
+it. **The residue degree is an invariant of the `K`-isomorphism class**, junk case included
+(`intermediateFieldInertiaDegree_eq_of_algEquiv`, from the invariance of `TauCeti.inertiaDegree`
+under isomorphism of the residue fields). **The orbit count for every finite subextension**
+(`ncard_isomorphic_mul_natCard_algEquiv_eq_finrank`): `L/K` separable of degree `n` has `n`
+embeddings into `SeparableClosure K`, and those with a given image form an `Aut_K(L)`-torsor;
+`TauCeti.ncard_isomorphic_mul_natCard_algEquiv` is the totally ramified case, under a different
+name since its signature differs. With it a sum over `K`-isomorphism classes weighted by
 `1/#Aut_K` is `1/n` times the sum over subextensions, and 1.2's identity becomes the subfield
 form. *Needs:* 1.1; the LocalFieldsRamification contract
 (`IntermediateField.le_maximalUnramifiedExtension_iff`, `TauCeti.existsUnique_isUnramified_finrank_eq`).
@@ -328,10 +338,12 @@ this one. *Needs:* 1.3, 2.1; `TauCeti.discriminantExponent_tower`,
 
 `GaloisSet.splittingSymbol` is the multiset, over the orbits, of `(f, e)` for the fixed field `F` of
 a point stabilizer, with `f = intermediateFieldInertiaDegree F` and `e = [F : K] / f` ([Bhargava
-2007, (2.1)]); well defined on orbits by invariance of `f` under `K`-isomorphism. **The transitive
-mass** (`etaleMass_isTransitive_splittingSymbol`): the Galois sets of size `fe` with symbol
-`{(f, e)}`, which are transitive, have mass `q^{−f(e−1)}/f`; it is 0.3's bridge followed by 2.2,
-`(1/(fe)!) · (fe − 1)! · e · q^{−f(e−1)}`. *Needs:* 0.3, 2.2.
+2007, (2.1)]); well defined on orbits since `f` and the degree are invariants of the
+`K`-isomorphism class (1.3). **The transitive mass** (`etaleMass_isTransitive_splittingSymbol`):
+the Galois sets of size `fe` with symbol `{(f, e)}` have one orbit, whose stabilizers' fixed field
+has degree `fe` and residue degree `f`. The bridge of 0.3 with `g` equal to `q^{−d}` on the fields of
+residue degree `f` and `0` elsewhere, followed by 2.2, gives mass
+`(1/(fe)!) · (fe − 1)! · e · q^{−f(e−1)} = q^{−f(e−1)}/f`. *Needs:* 0.3, 1.3, 2.2.
 
 **Checks.**
 
@@ -389,10 +401,11 @@ Mathlib `Equiv.Perm.card_of_cycleType`.
 
 ### 3.3 the summit
 
-For `n ≥ 1`, `M_n(K) = ∑_{k=0}^{n−1} q(k, n − k) · q^{−k}` ([Bhargava 2007, Thm. 1.1 and Prop. 2.3,
-with §8 for an arbitrary non-archimedean local field]; `etaleMass_eq`). Every Galois set has a
-ramification partition of some `k ≤ n − 1` into at most `n − k` parts (`k = n` would need `0` parts
-summing to `n > 0`), and summing 3.2 over these partitions gives the formula. With 0.4 it is
+For every `n`, `M_n(K) = ∑_{k=0}^{n} q(k, n − k) · q^{−k}` ([Bhargava 2007, Thm. 1.1 and Prop. 2.3,
+with §8 for an arbitrary non-archimedean local field]; `etaleMass_eq`). For `n ≥ 1` the term
+`k = n` is `q(n, 0) = 0`, so this is Bhargava's `∑_{k=0}^{n−1}`; at `n = 0` both sides are `1`.
+Every Galois set has a ramification partition of some `k ≤ n` into at most `n − k` parts, and
+summing 3.2 over these partitions gives the formula. With 0.4 it is
 Bhargava's statement over étale algebras. *Needs:* 0.4, 3.2; Mathlib `Nat.Partition`.
 
 **Checks.**
@@ -402,7 +415,7 @@ Bhargava's statement over étale algebras. *Needs:* 0.4, 3.2; Mathlib `Nat.Parti
 - `n = 3`: `M_3 = 1 + q^{−1} + q^{−2}`; `n = 4`: `M_4 = 1 + q^{−1} + 2q^{−2} + q^{−3}`.
 - `K = 𝔽_p((t))`, `n = p`: infinitely many Galois sets of size `p`, and `M_p(K)` is still the finite
   value of the formula.
-- `n = 0` is excluded: `M_0 = 1` while the right side is the empty sum.
+- `n = 0`: `M_0 = 1 = q(0, 0)`; summing only over `k < n` would give `0` here.
 
 ### Dependencies
 

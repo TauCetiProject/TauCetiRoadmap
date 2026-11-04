@@ -21,11 +21,11 @@ Galois-set carrier `GaloisSet` with its weight and splitting symbol, the orbit w
 and the totalized invariants `intermediateFieldDiscriminantExponent` and
 `intermediateFieldInertiaDegree` of a subextension of `SeparableClosure K`.
 
-`intermediateFieldDiscriminantExponent` has the body of Tau Ceti's
-`IntermediateField.discriminantExponent` (`TauCeti/NumberTheory/LocalField/MassFormula/Basic.lean`,
-beyond the pinned revision) and of the mass formula roadmap's wrapper of the same name; it is
-replaced by Tau Ceti's declaration when the pin moves. Serre's Theorem 1, which Layer 2 applies,
-is cited from the mass formula roadmap's README and is not restated here.
+`intermediateFieldDiscriminantExponent` is stated with the body of Tau Ceti's
+`IntermediateField.discriminantExponent` (`TauCeti/NumberTheory/LocalField/MassFormula/Basic.lean`),
+over the `TauCeti.finiteIntermediateField*` adapters; implementations use Tau Ceti's declaration.
+Serre's Theorem 1, which Layer 2 applies, is cited from the mass formula roadmap's README and is
+not restated here.
 
 Suggested home: `TauCeti/NumberTheory/LocalField/EtaleMassFormula/`.
 -/
@@ -44,8 +44,8 @@ open scoped Classical in
 /-- The discriminant exponent `d(L/K)` of a subextension `L` of `SeparableClosure K`:
 `TauCeti.discriminantExponent K L` for the local-field structure of
 `TauCeti.finiteIntermediateFieldValuativeRel` and `TauCeti.finiteIntermediateFieldTopology` when
-`L / K` is finite, and the junk value `0` otherwise. Tau Ceti's
-`IntermediateField.discriminantExponent`, beyond the pinned revision. -/
+`L / K` is finite, and the junk value `0` otherwise; the body of Tau Ceti's
+`IntermediateField.discriminantExponent`. -/
 noncomputable def intermediateFieldDiscriminantExponent
     (L : IntermediateField K (SeparableClosure K)) : ℕ :=
   if _ : Module.Finite K L then
@@ -62,8 +62,8 @@ variable (K)
 
 /-- The weight of a set with an action of `Gal(K^sep/K)`: the sum, over the orbits, of the
 discriminant exponent of the fixed field of the stabilizer of a point of the orbit. The choice of
-point does not matter (`intermediateFieldDiscriminantExponent_fixedField_stabilizer_smul`, by invariance of the discriminant exponent
-under `K`-isomorphism). For a finite set with open stabilizers this is the discriminant exponent of
+point does not matter (`intermediateFieldDiscriminantExponent_fixedField_stabilizer_smul`, by
+invariance of the discriminant exponent under `K`-isomorphism). For a finite set with open stabilizers this is the discriminant exponent of
 the corresponding étale algebra. -/
 noncomputable def orbitDiscriminantExponent (X : Type*)
     [MulAction (SeparableClosure K ≃ₐ[K] SeparableClosure K) X] : ℕ :=
@@ -129,16 +129,33 @@ noncomputable def etaleMass (n : ℕ) : ℝ≥0∞ :=
   (n ! : ℝ≥0∞)⁻¹ *
     ∑' ρ : GaloisSet K n, 1 / (Nat.card 𝓀[K] : ℝ≥0∞) ^ ρ.discriminantExponent
 
+/-- **The weight of a transitive Galois set** is the discriminant exponent of the fixed field of
+the stabilizer of any point: there is one orbit. -/
+theorem GaloisSet.discriminantExponent_of_isTransitive {n : ℕ} (ρ : GaloisSet K n)
+    (hρ : ρ.IsTransitive) (i : Fin n) :
+    ρ.discriminantExponent =
+      (letI := ρ.mulAction
+      intermediateFieldDiscriminantExponent
+        (IntermediateField.fixedField
+          (MulAction.stabilizer (SeparableClosure K ≃ₐ[K] SeparableClosure K) i))) :=
+  sorry
+
 /-- **The transitive bridge**: transitive Galois sets of size `n` are degree-`n` subextensions of
-`SeparableClosure K` with a labelling of their `n` embeddings fixing the base point, and the
-weight of `ρ` is the discriminant exponent of the fixed field of the stabilizer of `0`. Each
-subextension carries `(n − 1)!` labellings. -/
-theorem tsum_isTransitive (n : ℕ) (hn : 0 < n) :
+`SeparableClosure K` with a labelling of their `n` embeddings sending the base point to `0`, through
+the fixed field of the stabilizer of `0`. Each subextension carries `(n − 1)!` labellings, so for
+every weight `g` invariant under `K`-isomorphism the transitive Galois sets weigh `(n − 1)!` times
+the subextensions of degree `n`. With `g = q^{-d}` and `discriminantExponent_of_isTransitive` it
+computes the transitive mass; with `g` supported on residue degree `f` it gives
+`etaleMass_isTransitive_splittingSymbol`. -/
+theorem tsum_isTransitive (n : ℕ) (hn : 0 < n)
+    (g : IntermediateField K (SeparableClosure K) → ℝ≥0∞)
+    (hg : ∀ L M : IntermediateField K (SeparableClosure K), Nonempty (L ≃ₐ[K] M) → g L = g M) :
     ∑' ρ : {ρ : GaloisSet K n // ρ.IsTransitive},
-        1 / (Nat.card 𝓀[K] : ℝ≥0∞) ^ ρ.1.discriminantExponent =
+        (letI := ρ.1.mulAction
+        g (IntermediateField.fixedField
+          (MulAction.stabilizer (SeparableClosure K ≃ₐ[K] SeparableClosure K) (⟨0, hn⟩ : Fin n)))) =
       ((n - 1)! : ℝ≥0∞) *
-        ∑' L : {L : IntermediateField K (SeparableClosure K) // Module.finrank K L = n},
-          1 / (Nat.card 𝓀[K] : ℝ≥0∞) ^ intermediateFieldDiscriminantExponent L.1 :=
+        ∑' L : {L : IntermediateField K (SeparableClosure K) // Module.finrank K L = n}, g L.1 :=
   sorry
 
 /-- The action of `Gal(K^sep/K)` on the `K`-algebra maps `A → K^sep` by composition. -/
@@ -201,6 +218,13 @@ noncomputable def intermediateFieldInertiaDegree
     TauCeti.inertiaDegree K L
   else 0
 
+/-- The residue degree is an invariant of the `K`-isomorphism class, junk case included; what makes
+`GaloisSet.splittingSymbol` independent of the point chosen in each orbit. -/
+theorem intermediateFieldInertiaDegree_eq_of_algEquiv
+    {L M : IntermediateField K (SeparableClosure K)} (e : L ≃ₐ[K] M) :
+    intermediateFieldInertiaDegree L = intermediateFieldInertiaDegree M :=
+  sorry
+
 /-- **The unramified part of a subextension** is the unramified extension of degree `f(L/K)`: for
 `L` finite over `K`, its intersection with `K^ur` is `TauCeti.unramifiedExtension K K^sep f(L/K)`.
 This is the subfield form of `L^ur ≅ K_f`. -/
@@ -210,26 +234,35 @@ theorem inf_maximalUnramifiedExtension (L : IntermediateField K (SeparableClosur
       TauCeti.unramifiedExtension K (SeparableClosure K) (intermediateFieldInertiaDegree L) :=
   sorry
 
-/-- **The automorphism count** of §0.6: with `U` the unramified extension of degree `f(L/K)`, the
+/-- **The unramified part lies in the subextension**: for `L` finite over `K`, the unramified
+extension of degree `f(L/K)` is contained in `L`; `inf_le_left` after
+`inf_maximalUnramifiedExtension`. -/
+theorem unramifiedExtension_inertiaDegree_le (L : IntermediateField K (SeparableClosure K))
+    [FiniteDimensional K L] :
+    TauCeti.unramifiedExtension K (SeparableClosure K) (intermediateFieldInertiaDegree L) ≤ L :=
+  sorry
+
+/-- **The automorphism count** of §1.2: with `U` the unramified extension of degree `f(L/K)`, the
 restriction `Aut_K(L) → Gal(U/K)` has kernel `Aut_U(L)` and image the elements of `Gal(U/K)` that
 extend to `L`, so `#Aut_K(L) = #Aut_U(L) · #Stab([L])`. -/
 theorem natCard_algEquiv_eq_mul (L : IntermediateField K (SeparableClosure K))
-    [FiniteDimensional K L]
-    (hU : TauCeti.unramifiedExtension K (SeparableClosure K) (intermediateFieldInertiaDegree L) ≤
-      L) :
+    [FiniteDimensional K L] :
     Nat.card (L ≃ₐ[K] L) =
-      Nat.card (IntermediateField.extendScalars hU ≃ₐ[TauCeti.unramifiedExtension K (SeparableClosure K)
-          (intermediateFieldInertiaDegree L)] IntermediateField.extendScalars hU) *
+      Nat.card (IntermediateField.extendScalars (unramifiedExtension_inertiaDegree_le L) ≃ₐ[
+          TauCeti.unramifiedExtension K (SeparableClosure K) (intermediateFieldInertiaDegree L)]
+          IntermediateField.extendScalars (unramifiedExtension_inertiaDegree_le L)) *
         Nat.card {τ : TauCeti.unramifiedExtension K (SeparableClosure K)
             (intermediateFieldInertiaDegree L) ≃ₐ[K]
             TauCeti.unramifiedExtension K (SeparableClosure K) (intermediateFieldInertiaDegree L) //
-          ∃ σ : L ≃ₐ[K] L, ∀ x, (σ ⟨x.1, hU x.2⟩ : SeparableClosure K) = τ x} :=
+          ∃ σ : L ≃ₐ[K] L, ∀ x,
+            (σ ⟨x.1, unramifiedExtension_inertiaDegree_le L x.2⟩ : SeparableClosure K) = τ x} :=
   sorry
 
 /-- **The orbit count for every finite subextension**: the `K`-isomorphism class of `L` inside
-`SeparableClosure K` has `[L : K] / #Aut_K(L)` members, in multiplied form. `MassFormula`'s
-`ncard_isomorphic_mul_natCard_algEquiv` is the totally ramified case. -/
-theorem ncard_isomorphic_mul_natCard_algEquiv (L : IntermediateField K (SeparableClosure K))
+`SeparableClosure K` has `[L : K] / #Aut_K(L)` members, in multiplied form. Tau Ceti's
+`TauCeti.ncard_isomorphic_mul_natCard_algEquiv` is the totally ramified case; the new name keeps
+the two apart. -/
+theorem ncard_isomorphic_mul_natCard_algEquiv_eq_finrank (L : IntermediateField K (SeparableClosure K))
     [FiniteDimensional K L] :
     {M : IntermediateField K (SeparableClosure K) | Nonempty (L ≃ₐ[K] M)}.ncard *
       Nat.card (L ≃ₐ[K] L) = Module.finrank K L :=
@@ -288,7 +321,9 @@ variable {K}
 /-- **The transitive mass by residue degree**, the Layer 2 milestone: the Galois sets of size
 `f * e` with splitting symbol `{(f, e)}`, which are transitive, have mass `q^{-f(e-1)} / f`. The
 proof is `tsum_isTransitive` followed by `tsum_inertiaDegree_eq`; Layer 3 assembles every other
-splitting type from these. -/
+splitting type from these. The symbol `{(f, e)}` forces one orbit, whose stabilizers' fixed field
+has degree `f * e` and residue degree `f`, so `tsum_isTransitive` applies with `g` the weight
+`q^{-d}` on such fields and `0` elsewhere, and `tsum_inertiaDegree_eq` evaluates the right side. -/
 theorem etaleMass_isTransitive_splittingSymbol (f e : ℕ) (hf : 0 < f) (he : 0 < e) :
     ((f * e)! : ℝ≥0∞)⁻¹ *
         ∑' ρ : {ρ : GaloisSet K (f * e) // ρ.splittingSymbol = {(f, e)}},
@@ -320,7 +355,7 @@ def ramificationPartition (σ : Multiset (ℕ × ℕ)) : Multiset ℕ :=
 /-- **Mass formula for a fixed ramification partition** ([Bhargava 2007, Prop. 2.2]): for a
 partition `π` of `k` into at most `n − k` parts, the Galois sets of size `n` whose splitting
 symbol has ramification partition `π` have mass `q^{-k}`. -/
-theorem etaleMass_ramificationPartition (n k : ℕ) (hk : k ≤ n) (π : k.Partition)
+theorem etaleMass_ramificationPartition (n k : ℕ) (π : k.Partition)
     (hπ : π.parts.card ≤ n - k) :
     (n ! : ℝ≥0∞)⁻¹ *
         ∑' ρ : {ρ : GaloisSet K n // ramificationPartition ρ.splittingSymbol = π.parts},
@@ -331,11 +366,12 @@ theorem etaleMass_ramificationPartition (n k : ℕ) (hk : k ≤ n) (π : k.Parti
 variable (K)
 
 /-- **Bhargava's mass formula** ([Bhargava 2007, Thm. 1.1, Prop. 2.3, and §8 for an arbitrary
-non-archimedean local field]): `M_n(K) = ∑_{k<n} q(k, n − k) q^{-k}`, with `q(k, m)` the number
-of partitions of `k` into at most `m` parts. -/
-theorem etaleMass_eq (n : ℕ) (hn : 0 < n) :
+non-archimedean local field]): `M_n(K) = ∑_{k ≤ n} q(k, n − k) q^{-k}`, with `q(k, m)` the
+number of partitions of `k` into at most `m` parts. The term `k = n` is `q(n, 0) = 0` for `n > 0`,
+so this is Bhargava's `∑_{k<n}`, and at `n = 0` both sides are `1`. -/
+theorem etaleMass_eq (n : ℕ) :
     etaleMass K n =
-      ∑ k ∈ Finset.range n,
+      ∑ k ∈ Finset.range (n + 1),
         (((Finset.univ : Finset k.Partition).filter fun π => π.parts.card ≤ n - k).card :
             ℝ≥0∞) / (Nat.card 𝓀[K] : ℝ≥0∞) ^ k :=
   sorry
