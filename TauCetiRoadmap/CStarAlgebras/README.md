@@ -103,7 +103,7 @@ and star projection p in a unital C*-algebra, prove `pTp≤T ↔ Commute p T`.
 Use positivity and the vanishing p-corner of T−pTp for the forward direction;
 for the reverse use `(1−p)T(1−p)≥0`. These results supply all six
 Preventive Medicine questions, including the noncommuting obstruction,
-and [MatrixOrderSuggested.lean](MatrixOrderSuggested.lean) gives native interfaces.
+and [Suggested.lean](Suggested.lean) gives native interfaces.
 Retain the source solution's strict/non-strict boundary wording and its
 insufficient square-root justification separately from these corrected regions.
 
