@@ -11,16 +11,18 @@ headline theorems against the pinned APIs: global analytic initial values;
 noncompact surface uniformization, disc covers of hyperbolic plane domains and
 finite-puncture cusp compactification with primitive local coordinates;
 the roots-cover Schwarzian and hypergeometric inverse germ; Nevanlinna's quotient
-representation; the exact Gamma radius and its positive expansion; the half-rotation
-identity; the disc-local first main theorem; and the maximum, logarithmic-derivative
-and uniform mean-growth bounds.
+representation; the exact Gamma radius and its positive expansion; the free
+deck-group presentation of the roots cover and the half-rotation identity; the
+disc-local first main theorem; and the maximum, logarithmic-derivative and uniform
+mean-growth bounds.
 
-The symmetric polygon and group-presentation headlines are not statable at the
-pins: the roots-cover projective deck subgroup with its marked polygon has yet to
-be constructed. The continued zero-balanced connection formula and uniform cusp
-asymptotic likewise lack the constructed continued hypergeometric branch. No
-stand-in for these constructions is stated here. The scalar inverse ratio below is
-only a germ of the native convergent series, not such a continued branch.
+The symmetric ideal polygon of the roots cover is not stated: identifying the
+native Dirichlet domain with the marked 2N-gon and its side pairings needs more
+than the simple definitions admitted here. The continued zero-balanced connection
+formula and uniform cusp asymptotic lack the constructed continued hypergeometric
+branch. No stand-in for these constructions is stated here. The scalar inverse
+ratio below is only a germ of the native convergent series, not such a continued
+branch.
 -/
 
 open scoped BigOperators Topology Manifold ContDiff MatrixGroups
@@ -132,6 +134,11 @@ structure RootsCover (N : ℕ) extends PointedCover {x : ℂ | x ^ N ≠ 1} 0 wh
   oriented : 0 < (deriv toFun 0).re
   realDerivative : (deriv toFun 0).im = 0
 
+/-- The half-plane form of a roots cover: the cover precomposed with the inverse Cayley
+ map τ ↦ (τ − i)/(τ + i), so that it agrees with the cover after the Cayley map C. -/
+def RootsCover.halfPlaneForm {N : ℕ} (F : RootsCover N) (τ : UpperHalfPlane) : ℂ :=
+  F.toFun (((τ : ℂ) - I) / ((τ : ℂ) + I))
+
 /-! ## Layer 2: Schwarzians and accessory parameters -/
 
 /-- The totalized scalar Schwarzian. Analytic identities require a nonzero first
@@ -199,6 +206,23 @@ theorem gammaRadius.positive_expansion :
           3 * (riemannZeta (5 : ℂ)).re / (8 * (N : ℝ) ^ 5) + E) := by sorry
 
 /-! ## Layer 6: symmetric covering groups and their domains -/
+
+/-- The deck group of the oriented roots cover, identified by invariance of its half-plane
+ form under the projective action, is free of rank N on the primitive cusp translation
+ τ ↦ τ + 2cot(π/2N) and its conjugates by the powers of the order-N rotation about i;
+ its stabilizer of infinity is exactly the integer powers of that translation
+ (CDT Proposition 5.2.1, p.674). -/
+theorem free_deck_presentation {N : ℕ} (F : RootsCover N) :
+    let t : PSL(2, ℝ) :=
+      Matrix.ProjectiveSpecialLinearGroup.upperRightHom (2 * Real.cot (Real.pi / (2 * N)))
+    let r : PSL(2, ℝ) := (Matrix.SpecialLinearGroup.rotation (-Real.pi / N) : PSL(2, ℝ))
+    let φ : FreeGroup (Fin N) →* PSL(2, ℝ) :=
+      FreeGroup.lift (fun k ↦ r ^ (k : ℕ) * t * (r ^ (k : ℕ))⁻¹)
+    Function.Injective φ ∧
+      (∀ g : PSL(2, ℝ), g ∈ φ.range ↔
+        ∀ τ : UpperHalfPlane, F.halfPlaneForm (g • τ) = F.halfPlaneForm τ) ∧
+      ∀ g ∈ φ.range,
+        (g • (OnePoint.infty : OnePoint ℝ) = OnePoint.infty ↔ ∃ n : ℤ, g = t ^ n) := by sorry
 
 /-- The disc half rotation inverts the omitted-value function
  (CDT Lemma 5.2.6, p.675). Source rotation commutes with changes of cover phase. -/
