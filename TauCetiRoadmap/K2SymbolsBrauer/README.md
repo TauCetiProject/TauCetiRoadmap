@@ -61,7 +61,7 @@ A1 (§§1.1–1.4) supplies finite and stable GL and E over arbitrary associativ
 
 ### From StableHomotopyKTheory
 
-§§1.30, 1.32: `BG`, bar chains and the natural group/classifying-space homology comparison; GeneralizedCohomology G2.10 supplies the based homotopy-fibre carrier; §2.4 supplies `homotopyFiber.connecting` and `homotopyFiber.connectingHom`, §2.5 supplies exactness, §2.7 supplies path transport, and §§2.8–2.10 supply iterated-fibre comparison; §§3.12, 3.26, 3.27: acyclic plus constructions, uniqueness and functoriality; §3.28: H-space recognition; §3.29: the generic universal-extension/Hopf foundation and `plusConstruction.pi2Equiv`, `plusConstruction.fiber_universalCentralExtension`; §3.30: naturality; §3.31: `BP⁺` as the universal cover of `BG⁺` for perfect `P`; §§3.32–3.33: the central-extension plus fibration and its acyclic base change; §4.14: the block-sum H-space structure. The `kernel–H₂` map is used with the explicit bar calibration §1.1 here.
+§§1.30, 1.32: `BG`, bar chains and the natural group/classifying-space homology comparison; GeneralizedCohomology G2.10 supplies the based homotopy-fibre carrier; §2.4 supplies `homotopyFiber.connecting` and `homotopyFiber.connectingHom`, §2.5 supplies exactness, §2.7 supplies path transport, and §§2.8–2.10 supply iterated-fibre comparison; §§3.12, 3.26, 3.27: acyclic plus constructions, uniqueness and functoriality; §3.28: H-space recognition; §3.29: the generic universal-extension/Hopf foundation, the plus-construction π₂ equivalence and the fibre universal-central-extension theorem; §3.30: naturality; §3.31: `BP⁺` as the universal cover of `BG⁺` for perfect `P`; §§3.32–3.33: the central-extension plus fibration and its acyclic base change; §4.14: the block-sum H-space structure. The `kernel–H₂` map is used with the explicit bar calibration §1.1 here.
 
 ### From KTheoryLowDegrees
 
@@ -282,7 +282,7 @@ Layers 1–2; KTheoryLowDegrees §6.2 `(E(R) perfect)`.
 
 ## Layer 4: classical `K₂` as the second homotopy group
 
-Classical `K₂` is identified with `π₂` of `BGL(R)⁺` in two natural ways: the Hurewicz route `β_R` through `H₂(E(R))` and the simply connected cover `BE(R)⁺`, and the fibre route `χ_A` through the connecting map of the plus-construction fibre, which is StableHomotopyKTheory's `plusConstruction.pi2Equiv`. Both are natural in unital ring maps and independent of the plus model; the fibre route is transported to `π₂` of the Q-construction of finitely generated projective modules. The degree-two product comparison of Layer 8 fixes its sign relative to `β`.
+Classical `K₂` is identified with `π₂` of `BGL(R)⁺` in two natural ways: the Hurewicz route `β_R` through `H₂(E(R))` and the simply connected cover `BE(R)⁺`, and the fibre route `χ_A` through the connecting map of the plus-construction fibre, which is the plus-construction π₂ equivalence of StableHomotopyKTheory §3.29. Both are natural in unital ring maps and independent of the plus model; the fibre route is transported to `π₂` of the Q-construction of finitely generated projective modules. The degree-two product comparison of Layer 8 fixes its sign relative to `β`.
 
 ### 4.1 `K_2` is the second homotopy group of the K-theory space
 
@@ -322,7 +322,7 @@ Provide the following API.
 
 ### 4.2 The normalised classical-to-plus comparison
 
-For an associative unital ring `A` in `Type`, write `s_A : St(A) → E(A), C_A = ker(s_A)`, and `i_A : BGL(A) → X_A = BGL(A)⁺` relative to `E(A)`, based at the vertex and its image. Put `F_A = F(i_A,x_A)`, with paths from `i_A(z)` to `x_A, U_A = π₁(F_A)`, and `ε_A : U_A → E(A)` the factor of the fibre projection. Let `δ_A : Additive(π₂(X_A,x_A)) ≃+ Additive(ker ε_A)` be the positive loop-space connecting map of StableHomotopyKTheory §2.4, corestricted to the kernel. Let `κ_A : Additive C_A ≃+ H₂(E(A);ℤ)` and `κ_F,A : Additive(ker ε_A) ≃+ H₂(E(A);ℤ)` be the StableHomotopyKTheory §3.29 kernel identifications, using the same Hopf transgression convention. Define `ρ_A = κ_F,A ∘ δ_A` and `χ_A = ρ_A⁻¹ ∘ κ_A`. Written additively, `ρ_A` is the equivalence TauCeti.plusConstruction.pi2Equiv of StableHomotopyKTheory §3.29 for `G = GL(A), P = E(A)`: that construction builds it from this connecting map and StableHomotopyKTheory §3.29 applied to the fibre extension, so `ρ_A` is consumed from StableHomotopyKTheory Layer 3 and not constructed a second time here. This specifies an additive equivalence `Additive C_A ≃+ Additive(π₂(X_A,x_A))`. It realises the existence-and-naturality statement of §4.1 by Weibel's fibre route (Proposition IV.1.7, Corollary IV.1.7.1), with an explicit normalisation; the Hurewicz composite `β_R` of §4.1 is a second natural equivalence with the same source and target, and no equality `χ_A = β_A` is asserted. Here `H₂(E;ℤ)` means the underlying additive group of groupHomology.H2 (Rep.trivial `ℤ E ℤ`). (Weibel, §III.5, Definition 5.3.1, Lemma 5.3.3, Example 5.3.4 and Theorem 5.5, pp. 219, 220; Weibel, §IV.1, Homotopy Fiber 1.2; Proposition 1.7 and Corollary 1.7.1, pp. 262, 264, 265.)
+For an associative unital ring `A` in `Type`, write `s_A : St(A) → E(A), C_A = ker(s_A)`, and `i_A : BGL(A) → X_A = BGL(A)⁺` relative to `E(A)`, based at the vertex and its image. Put `F_A = F(i_A,x_A)`, with paths from `i_A(z)` to `x_A, U_A = π₁(F_A)`, and `ε_A : U_A → E(A)` the factor of the fibre projection. Let `δ_A : Additive(π₂(X_A,x_A)) ≃+ Additive(ker ε_A)` be the positive loop-space connecting map of StableHomotopyKTheory §2.4, corestricted to the kernel. Let `κ_A : Additive C_A ≃+ H₂(E(A);ℤ)` and `κ_F,A : Additive(ker ε_A) ≃+ H₂(E(A);ℤ)` be the StableHomotopyKTheory §3.29 kernel identifications, using the same Hopf transgression convention. Define `ρ_A = κ_F,A ∘ δ_A` and `χ_A = ρ_A⁻¹ ∘ κ_A`. Written additively, `ρ_A` is the plus-construction π₂ equivalence of StableHomotopyKTheory §3.29 for `G = GL(A), P = E(A)`: that construction builds it from this connecting map and StableHomotopyKTheory §3.29 applied to the fibre extension, so `ρ_A` is consumed from StableHomotopyKTheory Layer 3 and not constructed a second time here. This specifies an additive equivalence `Additive C_A ≃+ Additive(π₂(X_A,x_A))`. It realises the existence-and-naturality statement of §4.1 by Weibel's fibre route (Proposition IV.1.7, Corollary IV.1.7.1), with an explicit normalisation; the Hurewicz composite `β_R` of §4.1 is a second natural equivalence with the same source and target, and no equality `χ_A = β_A` is asserted. Here `H₂(E;ℤ)` means the underlying additive group of groupHomology.H2 (Rep.trivial `ℤ E ℤ`). (Weibel, §III.5, Definition 5.3.1, Lemma 5.3.3, Example 5.3.4 and Theorem 5.5, pp. 219, 220; Weibel, §IV.1, Homotopy Fiber 1.2; Proposition 1.7 and Corollary 1.7.1, pp. 262, 264, 265.)
 
 `A` is an associative ring with 1; commutativity, nontriviality, regularity and finiteness are not assumed. `E(A)` and `St(A)` are the stable groups, not fixed finite-rank groups. The stable Steinberg extension and `ε_A` are universal central extensions of the perfect group `E(A)`. `i_A` is a plus construction in the local-coefficient/acyclic sense, not just an integral homology equivalence; all spaces have the CW models supplied by StableHomotopyKTheory Layers 1–3.
 
@@ -333,7 +333,7 @@ Provide the following API.
 - For every `v` in `Additive(π₂X_A), χ_A⁻¹(v)=κ_A⁻¹(ρ_A(v))`.
 - An additive homomorphism c:Additive `C_A→Additive(π₂X_A)` with `ρ_A∘c=κ_A` equals `χ_A`.
 - For the unique UCE isomorphism `a_A:St(A)≃*U_A` over `E(A), δ_A∘χ_A` is its restriction to the kernel, written additively.
-- For a ring `A, ρ_A` is the additive form of StableHomotopyKTheory's TauCeti.plusConstruction.pi2Equiv for `G = GL(A), P = E(A)`, so `χ_A` is `κ_A` followed by the inverse of that equivalence. A user never needs the fibre-level definition of `ρ_A` beyond this identification and the preceding fibre compatibility.
+- For a ring `A, ρ_A` is the additive form of the plus-construction π₂ equivalence of StableHomotopyKTheory §3.29 for `G = GL(A), P = E(A)`, so `χ_A` is `κ_A` followed by the inverse of that equivalence. A user never needs the fibre-level definition of `ρ_A` beyond this identification and the preceding fibre compatibility.
 - `χ_A(0)=0, χ_A(z+w)=χ_A(z)+χ_A(w)`, and `χ_A(-z)=-χ_A(z)`; the inverse obeys the corresponding identities.
 
 **Checks.**
@@ -633,7 +633,7 @@ Provide the following API.
 
 - The `ℤ/2-valued` function with value 1 exactly when both units are negative.
 - The displayed function satisfies the pairing predicate.
-- The unique `P₂(ℝ)→+ℤ/2` evaluating on symbols as realSignPairing.
+- The unique `P₂(ℝ)→+ℤ/2` evaluating on symbols as the pairing `c∞` above.
 - The map to `(ℤ/2)[t]` sends `{a₁,…,aₙ}` to `(Π_i ε(a_i))t^n`.
 
 **Checks.**
@@ -957,7 +957,7 @@ For every unit `r` of an associative unital ring `R, {r,-r}=1`, without requirin
 
 ### 6.9 Skew-symmetry, and the correct value of the symbol of a unit with itself
 
-The Steinberg symbols are skew-symmetric: the symbol of a with `b` times the symbol of `b` with a is trivial. The symbol of a with itself is the symbol of a with minus one, which is an element of order dividing two; it is not trivial in general. Asserting that the symbol of a with itself vanishes integrally is an error. (Weibel, III.6.1, p. 231.)
+The Steinberg symbols are skew-symmetric: the symbol of a with `b` times the symbol of `b` with a is trivial. The symbol of a with itself is the symbol of a with minus one, which is an element of order dividing two; it is not trivial in general. Asserting that the symbol of a with itself vanishes integrally is an error. (Weibel, III.5.10, p. 225, and Remark 5.10.4, p. 226; III.6.1, p. 231, for the field case.)
 
 `R` is an associative unital ring; a and `b` are commuting units.
 
@@ -1135,7 +1135,7 @@ Let `F` be a field and `n ≥ 3`. Every element of `St_n(F)` lies in `T_n(F)·W_
 
 **Checks.**
 
-- The matrix shadow is the Bruhat decomposition `SL_n(F) = ⋃ U·N·U`, and the upper-triangular monomial matrices are diagonal `(tauceti:TauCeti.UpperTriangularGroup.mem_diagonalTorus_of_mem, over fields with a unit other than 1)`.
+- The matrix shadow is the Bruhat decomposition `SL_n(F) = ⋃ U·N·U`, and the upper-triangular monomial matrices are diagonal (Tau Ceti `TauCeti.UpperTriangularGroup.mem_diagonalTorus_of_mem`, over fields with a unit other than 1).
 - For `n = 3` and `F = 𝔽₂`, every element of `St_3(𝔽₂)` is `t₁ w t₂` with `t₁, t₂` upper unipotent and `w` in the group generated by the `w_ij(1)`.
 - Only cases 1–3 occur, and case 2 needs `λ` invertible: the lemma is stated for fields.
 
@@ -1240,7 +1240,7 @@ For a field homomorphism `f:F→E` the square with `φ_F,φ_E, Kᴹ₂(f)` and t
 - The identity and composite field-map squares commute.
 - Naturality is not promoted to injectivity under arbitrary field extensions.
 
-*Needs:* §AlgebraicKTheory §5.1–0.4; §5.8; §7.2.
+*Needs:* AlgebraicKTheory §§5.1–5.2; §5.8; §7.2.
 
 ### 7.4 `K_2` of a field is a direct summand of `K_2` of a rational function field, and the torsion kernel
 
@@ -1267,7 +1267,7 @@ For every field extension `F <= L`, the kernel of `K2(F) -> K2(L)` is torsion. (
 
 ### Dependencies
 
-Layer 5; §AlgebraicKTheory §5.1–0.4; GeneralAlgebraicKTheory §§3.2, 7.7.
+Layer 5; AlgebraicKTheory §§5.1–5.2; GeneralAlgebraicKTheory §§3.2, 7.7.
 
 ## Layer 8: products and the graded map to Quillen K-theory
 
@@ -1397,7 +1397,7 @@ Provide the following API.
 - `unitPart(v,t,t^(−2))=1`. Using the natural absolute value of the order gives `t^(−4)`, which is not even a unit of the valuation ring.
 - For `ℚ` at 5 with `t=5`, the unit parts of 2, 10, and 2/5 are all 2 as rational field units. A constant-one or reduction-only function fails these values.
 - For `ℚ` at `5, t′=10` is another order-one parameter and `unitPart(v,10,5)=1/2`, whereas `unitPart(v,5,5)=1`.
-- Under the local-field compatibility hypotheses of `unitPart_localField`, both unit components of `x=t^(-2)·u`, for `u∈U(K,0)`, have underlying field unit `u`. Comparing underlying `Kˣ` values avoids an unjustified definitional identification of the two unit subgroups.
+- Under the hypotheses of the preceding nonarchimedean local-field comparison, both unit components of `x=t^(-2)·u`, for `u∈U(K,0)`, have underlying field unit `u`. Comparing underlying `Kˣ` values avoids an unjustified definitional identification of the two unit subgroups.
 
 *Needs:* Tau Ceti `Valuation.ord`; Tau Ceti `Valuation.ord_mul`; Tau Ceti `Valuation.ord_zpow`; Tau Ceti `Valuation.valuation_eq_exp_neg_ord`; Mathlib `Valuation.mem_unitGroup_iff`; Mathlib `ValuationSubring.unitGroupMulEquiv`; LocalFieldsRamification Layer 1.
 
@@ -1407,7 +1407,7 @@ Provide the following API.
 
 - `U_π(f)` is an actual unit of `R`, for `π` and `f` in `Fˣ` and `ord_v(π)=1`.
 - The field value of `U_π(f)` is `fπ^(−ord_v(f))`; equivalently `f=π^ord_v(f) U_π(f)`. This equation uniquely characterizes `U_π(f)`.
-- `U_π(fg)=U_π(f)U_π(g)`. Together with `unitPart_unit` and `unitPart_zpow` this gives the group-homomorphism laws `Fˣ→Rˣ`.
+- `U_π(fg)=U_π(f)U_π(g)`. Together with the integer-power and unit laws below this gives the group-homomorphism laws `Fˣ→Rˣ`.
 - `U_π(f^m)=U_π(f)^m` for `f∈Fˣ` and `m∈ℤ`.
 - For `u∈Rˣ, U_π(u)=u`, where `u` is mapped to `Fˣ` by the subtype homomorphism.
 - `U_π(π^m)=1` for every `m∈ℤ`.
@@ -1453,7 +1453,7 @@ Provide the following API.
 - On `ℚ` at `5: tameSymbol 2 3 = 1`, and `tameSymbol f 1 = 1` for every `f`.
 - On `k(t)` at the place `t − b (b ∈ k): tameSymbol a (t − b) = a` for `a ∈ k^×`, whereas the K-book's Weil reciprocity 6.5.3 (PDF p. 244) uses `∂_{t−b}(a, t − b) = a^{−1}` in its normalisation.
 - `tameSymbol 5 2 = 3 ≠ 2 = ∂_5(5,2)` of Lemma III.6.3: a silent use of the source's formula fails this.
-- For `e > 0` and `a ∈ 𝒪_v`, residueFieldMap `v w e` he hvw `(res_v a) = res_w` (valuationSubringMap `v w e` hvw a).
+- For `e > 0` and `a ∈ 𝒪_v`, the residue-field map `k_v →+* k_w` sends `res_v a` to `res_w` of the image of `a` under the valuation-ring map.
 - For `ℚ → ℚ(u)` with `w` the u-adic valuation, `ord_w` is zero on every nonzero rational `(e = 0)`. The 5-adic nonunit 5 maps to a unit of `𝒪_w`, so the valuation-ring map is not local and no residue-field map `F_5 → ℚ` is asserted.
 
 *Needs:* Tau Ceti `Valuation.ord`; Tau Ceti `Valuation.exists_isUniformizer_of_surjective`; Tau Ceti `Valuation.exists_eq_zpow_mul_unit_of_surjective`; Mathlib `ValuationSubring.unitGroupToResidueFieldUnits`; Mathlib `IsDiscreteValuationRing.exists_units_eq_smul_zpow_of_irreducible`; Tau Ceti `TauCeti.Place.residueUnit`; Mathlib `Units`; Mathlib `IsLocalRing.ResidueField.map`.
@@ -1495,17 +1495,17 @@ The pairing `∂_v` of §9.4 induces a group homomorphism `∂_v : K^M_2(F) → 
 Provide the following API.
 
 - The homomorphism `K^M_2(F) →+ Additive k^×` induced by `tameSymbol v`.
-- tameSymbolHom `v {f, g} = tameSymbol v f g`.
-- tameSymbolHom `v` is surjective.
+- Its value on `{f, g}` is `tameSymbol v f g`.
+- It is surjective.
 - The homomorphism `K_2(F) → k^×` obtained through Matsumoto's isomorphism, with the same value on Steinberg symbols.
-- tameSymbolHom `v {u, w} = 0` (the trivial unit) for `u, w ∈ R^×`.
-- The K-book's `∂_v` on `K_2(F)` equals `−tameSymbolHom v` (additively).
+- Its value on `{u, w}` is `0` (the trivial unit) for `u, w ∈ R^×`.
+- The K-book's `∂_v` on `K_2(F)` is the additive negative of this homomorphism.
 
 **Checks.**
 
-- On `ℚ` at 5: tameSymbolHom `{5, 2} = 3` and tameSymbolHom `{2, 5} = 2` in `F_5^×`.
-- On `ℚ` at 5: tameSymbolHom `{2, 3} = 0`, the trivial unit.
-- On `ℚ` at 5: tameSymbolHom `{2, 5} = 2` generates `F_5^×`, so the map is onto.
+- On `ℚ` at 5: the homomorphism sends `{5, 2}` to 3 and `{2, 5}` to 2 in `F_5^×`.
+- On `ℚ` at 5: it sends `{2, 3}` to `0`, the trivial unit.
+- On `ℚ` at 5: the value 2 of `{2, 5}` generates `F_5^×`, so the map is onto.
 - The unsigned formula `res(f^{v(g)}g^{−v(f)})` sends the Steinberg element `{1/5, 4/5}` of `K^M_2(ℚ)` to `4 ≠ 1`, so it does not descend; the signed one sends it to 1.
 - `{5,5} = {5,−1}` in `K^M_2(ℚ)` and both go to `−1 = 4` in `F_5^×`.
 
@@ -1563,11 +1563,11 @@ For a field `k` let `L(k)` be the graded abelian group with `L(k)_n = K^M_n(k) �
 Provide the following API.
 
 - The graded ring `L(k)` with `L(k)_n = K^M_n(k) × K^M_{n−1}(k)`.
-- `serreAlgebra.Π`: The element `Π = (0, 1)` of degree one.
+- The element `Π = (0, 1)` of degree one.
 - The graded ring embedding `K^M_*(k) → L(k), a ↦ (a, 0)`.
 - `(a + bΠ)(c + dΠ) = ac + (ad + (−1)^{|c|}bc + (−1)^{|d|}bd{−1})Π`.
-- `serreAlgebra.Π_mul_Π`: `Π·Π = {−1}·Π`.
-- `serreAlgebra.Π_mul`: `Π·x = (−1)^{|x|}·x·Π` for `x ∈ K^M_*(k)`.
+- `Π·Π = {−1}·Π`.
+- `Π·x = (−1)^{|x|}·x·Π` for `x ∈ K^M_*(k)`.
 - `L(k)` is graded-commutative.
 - `L(k)_{n+1} ≃ K^M_{n+1}(k) ⊕ K^M_n(k)` for `n ≥ 0`, and `L(k)_0 = K^M_0(k)`.
 - The graded ring homomorphism `L(k) → K^M_*(k), a + bΠ ↦ a`.
@@ -1580,7 +1580,7 @@ Provide the following API.
 - Over `F_5: Π·Π = {4}·Π`, and `{4} ≠ 0` in `K^M_1(F_5)`.
 - Over `F_2` (or any field of characteristic two): `Π·Π = 0`.
 - Over `F_5: Π·{2} = {3}·Π` (as `−{2} = {2^{−1}} = {3}`), and `Π·{2} ≠ {2}·Π`.
-- `lambdaHom ∘ of = id` on `K^M_*(k)` and `lambdaHom Π = 0`.
+- The first projection `L(k) → K^M_*(k)` is the identity on the embedded `K^M_*(k)` and sends `Π` to 0.
 - With `Π·Π = 0` instead, the map `d` of §9.10 would send `{5, −5}`, which is 0 in `K^M_2(ℚ)`, to `Π·({−1} + Π) = {−1}·Π ≠ 0` over `F_5`; in `L(k)` it goes to `{−1}Π + {−1}Π = 0`.
 
 *Needs:* §5.4; §5.10.
@@ -1601,7 +1601,7 @@ For a surjective discrete valuation `v` on `F` with uniformiser `t`, the map `d_
 
 ### 9.11 Higher tame symbols and specialisation maps
 
-For a surjective discrete valuation `v` on `F` with uniformiser `t` and residue field `k`, the homomorphism `d_t` of §9.10 extends uniquely to a graded ring homomorphism `d_t : K^M_*(F) → L(k)`. Writing `d_t(x) = λ_t(x) + ∂_v(x)·Π` with `Π` on the right defines the specialisation `λ_t : K^M_n(F) → K^M_n(k)`, a graded ring homomorphism depending on `t`, and the higher residue `∂_v : K^M_n(F) → K^M_{n−1}(k)`. On symbols, `λ_t{u_1t^{i_1}, …, u_nt^{i_n}} = {ū_1, …, ū_n}`, `∂_v{u_1, …, u_{n−1}, t} = {ū_1, …, ū_{n−1}}` and `∂_v{u_1, …, u_n} = 0`; in degree one `∂_v{f} = ord_v f`, and in degree two `∂_v =` tameSymbolHom of §9.5, with no inversion. Both maps are surjective. Theorem III.7.3 reads off the coefficient with `Π` on the left, `∂^{Wb}{t, u_2, …, u_n} = {ū_2, …, ū_n}`; since `Π·y = (−1)^{n−1}y·Π` for `y ∈ K^M_{n−1}(k), ∂^{Wb} = (−1)^{n−1}·∂_v` on `K^M_n(F)`: the two agree in odd degree and differ by a sign in even degree, and in degree two `∂^{Wb}` is the K-book's tame symbol, the inverse of Layers 9–11's. (Weibel, Theorem III.7.3, p. 246; Weibel, Theorem III.7.3, proof, p. 246.)
+For a surjective discrete valuation `v` on `F` with uniformiser `t` and residue field `k`, the homomorphism `d_t` of §9.10 extends uniquely to a graded ring homomorphism `d_t : K^M_*(F) → L(k)`. Writing `d_t(x) = λ_t(x) + ∂_v(x)·Π` with `Π` on the right defines the specialisation `λ_t : K^M_n(F) → K^M_n(k)`, a graded ring homomorphism depending on `t`, and the higher residue `∂_v : K^M_n(F) → K^M_{n−1}(k)`. On symbols, `λ_t{u_1t^{i_1}, …, u_nt^{i_n}} = {ū_1, …, ū_n}`, `∂_v{u_1, …, u_{n−1}, t} = {ū_1, …, ū_{n−1}}` and `∂_v{u_1, …, u_n} = 0`; in degree one `∂_v{f} = ord_v f`, and in degree two `∂_v` is the tame symbol homomorphism of §9.5, with no inversion. Both maps are surjective. Theorem III.7.3 reads off the coefficient with `Π` on the left, `∂^{Wb}{t, u_2, …, u_n} = {ū_2, …, ū_n}`; since `Π·y = (−1)^{n−1}y·Π` for `y ∈ K^M_{n−1}(k), ∂^{Wb} = (−1)^{n−1}·∂_v` on `K^M_n(F)`: the two agree in odd degree and differ by a sign in even degree, and in degree two `∂^{Wb}` is the K-book's tame symbol, the inverse of Layers 9–11's. (Weibel, Theorem III.7.3, p. 246; Weibel, Theorem III.7.3, proof, p. 246.)
 
 `v` is a surjective discrete valuation on `F` with valuation ring `R`, residue field `k` and a chosen uniformiser `t`.
 
@@ -1615,7 +1615,7 @@ Provide the following API.
 - `λ_t{u_1t^{i_1}, …, u_nt^{i_n}} = {ū_1, …, ū_n}`.
 - `λ_t` is a graded ring homomorphism.
 - In degree one `∂_v{f} = ord_v f`.
-- In degree two `∂_v =` tameSymbolHom `v`.
+- In degree two `∂_v` is the tame symbol homomorphism of §9.5.
 - Theorem III.7.3's residue equals `(−1)^{n−1}·∂_v` on `K^M_n(F)`.
 - `∂_v` is onto.
 - `λ_t` is onto.
@@ -1649,7 +1649,7 @@ For every `n ≥ 1` the kernel of `d_t : K^M_n(F) → L(k)_n` is `U¹·K^M_{n−
 
 ### 9.13 Finite support of the residues
 
-Let `V` be a set of discrete valuations on `F` such that every `f ∈ F^×` has `ord_v f ≠ 0` for only finitely many `v ∈ V` — for instance the places of a function field, or the height-one primes of a Dedekind domain with fraction field `F`. Then for `x ∈ K^M_n(F) (n ≥ 1)` written as a finite sum of symbols `{f_{j,1}, …, f_{j,n}}`, `∂_v(x) = 0` for every `v ∈ V` outside the finite union of the sets `{v : ord_v f_{j,i} ≠ 0}`. In degree two this is the statement for tameSymbolHom; in particular `tameSymbol v f g = 1` whenever `ord_v f = ord_v g = 0`. (Weibel, Localization Theorem III.6.5, p. 236; Weibel, Theorem III.7.4, p. 247.)
+Let `V` be a set of discrete valuations on `F` such that every `f ∈ F^×` has `ord_v f ≠ 0` for only finitely many `v ∈ V` — for instance the places of a function field, or the height-one primes of a Dedekind domain with fraction field `F`. Then for `x ∈ K^M_n(F) (n ≥ 1)` written as a finite sum of symbols `{f_{j,1}, …, f_{j,n}}`, `∂_v(x) = 0` for every `v ∈ V` outside the finite union of the sets `{v : ord_v f_{j,i} ≠ 0}`. In degree two this is the statement for the tame symbol homomorphism of §9.5; in particular `tameSymbol v f g = 1` whenever `ord_v f = ord_v g = 0`. (Weibel, Localization Theorem III.6.5, p. 236; Weibel, Theorem III.7.4, p. 247.)
 
 `V` is a set of discrete valuations on `F` in which each nonzero element has nonzero order at only finitely many members. `x ∈ K^M_n(F)` is given as a finite sum of symbols.
 
@@ -1692,7 +1692,7 @@ Let `t′ = c·t` be a second uniformiser `(c ∈ R^×)`. Then `∂_v` computed 
 
 ### 9.16 Residue convention dictionary
 
-For every `n≥1`, let `∂^last_v:K^M_n(F)→K^M_(n−1)(k)` be the residue of §9.11, normalized by `∂^last{u₁,…,u_(n−1),π}={ū₁,…,ū_(n−1)}` and zero on all-unit symbols. Let `∂^first` be the residue of Weibel III.7.3, normalized with `π` first. As homomorphisms, `∂^first_v=(−1)^(n−1)∂^last_v`. In degree one both are `ord_v`; in degree two, under `K^M_1(k)=kˣ, ∂^last` is tameSymbolHom and `∂^first` is its inverse. If `d_π(x)=λ_π(x)+∂^last_v(x)Π` in the Serre algebra, `Π` is on the right. For homogeneous `x` of degree `i` and `y` of degree `j, ∂^last(xy)=λ_π(x)∂^last(y)+(−1)^j∂^last(x)ρ_π(y)`, where `ρ_π{uπ^m}={(−1)^mū}`. In the first normalization the corresponding law is `∂^first(xy)=(−1)^iλ_π(x)∂^first(y)+∂^first(x)ρ_π(y)`. For `π′=cπ, λ_π′(x)=λ_π(x)−∂^last(x){c̄}`, while `∂^last` does not change. (Weibel, III.7.3, Exercises III.7.1 and III.7.10, pp. 246, 257, 258.)
+For every `n≥1`, let `∂^last_v:K^M_n(F)→K^M_(n−1)(k)` be the residue of §9.11, normalized by `∂^last{u₁,…,u_(n−1),π}={ū₁,…,ū_(n−1)}` and zero on all-unit symbols. Let `∂^first` be the residue of Weibel III.7.3, normalized with `π` first. As homomorphisms, `∂^first_v=(−1)^(n−1)∂^last_v`. In degree one both are `ord_v`; in degree two, under `K^M_1(k)=kˣ, ∂^last` is the tame symbol homomorphism of §9.5 and `∂^first` is its inverse. If `d_π(x)=λ_π(x)+∂^last_v(x)Π` in the Serre algebra, `Π` is on the right. For homogeneous `x` of degree `i` and `y` of degree `j, ∂^last(xy)=λ_π(x)∂^last(y)+(−1)^j∂^last(x)ρ_π(y)`, where `ρ_π{uπ^m}={(−1)^mū}`. In the first normalization the corresponding law is `∂^first(xy)=(−1)^iλ_π(x)∂^first(y)+∂^first(x)ρ_π(y)`. For `π′=cπ, λ_π′(x)=λ_π(x)−∂^last(x){c̄}`, while `∂^last` does not change. (Weibel, III.7.3, Exercises III.7.1 and III.7.10, pp. 246, 257, 258.)
 
 **Checks.**
 
@@ -1731,7 +1731,7 @@ Let `F → E` be any field embedding and `v, w` normalised surjective discrete v
 - Infinite constant extension `F(t) → F(u)(t)`: at the place `t, e = 1` and `k_v = F → F(u) = k_w`; `∂_w{a,t}` is the image of a for `a ∈ F^×`. For `F = ℚ` and `a = 2` this is 2, not its inverse.
 - Completion `F → F̂_v` has `e = 1` and the same residue field, so the formula gives `∂_{v̂} ∘ res = ∂_v` without requiring the completion to be finite over `F`.
 - Trivial-restriction case: the place `t−u` of `F(u)(t)` is trivial on `F(t)`, because every nonzero polynomial `p(t) ∈` F[t] has `p(u) ≠ 0`. Every Milnor symbol from `F` therefore has zero residue there.
-- Instantiate `higher_ramification_formula` at `ℚ → ℚ(u)`, the 5-adic valuation and its `e = 1` Gauss extension: the residues commute in every degree, with `k_w = F_5(u)`.
+- Instantiate the higher-residue ramification formula of this section at `ℚ → ℚ(u)`, the 5-adic valuation and its `e = 1` Gauss extension: the residues commute in every degree, with `k_w = F_5(u)`.
 - For any field embedding `F → E` and surjective discrete `w` trivial on `F^×`, the residue of every symbol from `F {a_1,…,a_{n+1}}` is 0. In particular this applies to `F(t) → F(u)(t)` at `t−u`, which has no positive ramification index over a nontrivial place of `F(t)`.
 
 *Needs:* §5.4; §9.7; §9.11; §9.12.
@@ -2001,7 +2001,7 @@ Provide the following API.
 - The native `π-adic` completeness and completeness for `2^(−ord)` agree; the norm and valuation topologies agree.
 - Any surjective discrete valuation on `E` with positive restriction index is this valuation; compatibility is a named equality, not a second global instance.
 - Restriction indices multiply in a finite tower; compatible embeddings preserve units and induce the native local residue map.
-- Under IsNonarchimedeanLocalField `F`, identify this construction with the Layer 0 valuation class and normalized valuation.
+- Under IsNonarchimedeanLocalField `F`, identify this construction with LocalFieldsRamification Layer 0's valuation class and normalized valuation.
 
 **Checks.**
 
@@ -2545,30 +2545,30 @@ Let `R` be a discrete valuation ring with fraction field `F`, residue field `k` 
 
 ### 11.4 Package the finite-support family as a total Milnor residue homomorphism
 
-Let `V` be an indexed family of normalized discrete valuations on a field `F` of finite character: for each `a∈Fˣ` only finitely many `v∈V` have `ord_v(a)≠0`. For `n≥1` construct `MilnorK.globalResidueHom(V,n) : K⁽ᴹ⁾_n(F) → ⨁_(v∈V) K⁽ᴹ⁾_(n−1)(k_v)`, the unique additive homomorphism with v-coordinate `r_v,n`. The direct sum is the dependent DirectSum, using `Additive k_vˣ` in degree one. It is not the direct sum of the individual homomorphisms: each input has finite support, while infinitely many component homomorphisms may be nonzero. For a Dedekind domain `R` with `F=Frac(R)` and `V` its nonzero primes, the total Quillen boundary satisfies `D⁽ᴿ⁾_n Φ_n = (−1)^(n−1)(⨁_v Φ_(n−1)) globalResidueHom(V,n)`. In particular degree two transports the Dedekind sequence of §11.3 through `Φ₂` and coordinatewise negation/inversion. (Weibel, III.6.5, III.7.4, V.6.6–6.6.1, pp. 236, 247, 409.)
+Let `V` be an indexed family of normalized discrete valuations on a field `F` of finite character: for each `a∈Fˣ` only finitely many `v∈V` have `ord_v(a)≠0`. For `n≥1` construct the total residue homomorphism `∂_{V,n} : K⁽ᴹ⁾_n(F) → ⨁_(v∈V) K⁽ᴹ⁾_(n−1)(k_v)`, the unique additive homomorphism with v-coordinate `r_v,n`. The direct sum is the dependent DirectSum, using `Additive k_vˣ` in degree one. It is not the direct sum of the individual homomorphisms: each input has finite support, while infinitely many component homomorphisms may be nonzero. For a Dedekind domain `R` with `F=Frac(R)` and `V` its nonzero primes, the total Quillen boundary satisfies `D⁽ᴿ⁾_n Φ_n = (−1)^(n−1)(⨁_v Φ_(n−1)) ∂_{V,n}`. In particular degree two transports the Dedekind sequence of §11.3 through `Φ₂` and coordinatewise negation/inversion. (Weibel, III.6.5, III.7.4, V.6.6–6.6.1, pp. 236, 247, 409.)
 
 `n≥1, V` is a set-indexed family with the explicit finite-character property, and every residue field is the residue field of its valuation ring. The global Quillen comparison clause uses the height-one-prime family of a Dedekind domain and its actual localization sequence. No full Quillen boundary into a direct sum is postulated for an arbitrary family of DVRs.
 
 Provide the following API.
 
 - The additive homomorphism to the dependent residue direct sum, constructed with the finite-support proof for each input.
-- For every `v` and `x`, the v-coordinate of `globalResidueHom(V,n)(x)` is `r_v,n(x)`.
-- A homomorphism to this direct sum with all the same residue coordinates equals `globalResidueHom(V,n)`.
-- For any finite symbol expression for `x`, the support of `globalResidueHom(V,n)(x)` is contained in the union of the nonzero-order supports of all its entries; equality is not asserted.
-- `globalResidueHom(V,n)(x)=0` iff `r_v,n(x)=0` for every `v`. Thus its kernel is the intersection of the individual residue kernels.
+- For every `v` and `x`, the v-coordinate of `∂_{V,n}(x)` is `r_v,n(x)`.
+- A homomorphism to this direct sum with all the same residue coordinates equals `∂_{V,n}`.
+- For any finite symbol expression for `x`, the support of `∂_{V,n}(x)` is contained in the union of the nonzero-order supports of all its entries; equality is not asserted.
+- `∂_{V,n}(x)=0` iff `r_v,n(x)=0` for every `v`. Thus its kernel is the intersection of the individual residue kernels.
 - At `n=1` the coordinates are `ord_v(a)`; for Dedekind primes and for function-field places, compare to the principal divisor by coefficient extensionality.
 - At `n=2` its coordinates in `k_vˣ` are `t_v(f,g)`, with addition on `Additive k_vˣ` interpreted multiplicatively.
-- For a Dedekind `R, D⁽ᴿ⁾_n Φ_n=(−1)^(n−1)DirectSum.map(Φ_(n−1)) globalResidueHom(V,n)`. This compares actual maps, not only groups.
+- For a Dedekind `R, D⁽ᴿ⁾_n Φ_n=(−1)^(n−1)DirectSum.map(Φ_(n−1)) ∂_{V,n}`. This compares actual maps, not only groups.
 - Relabeling `V` by an equivalence, and transporting its valuations and residue fields along that equivalence, reindexes the output. No unrestricted field-extension naturality is claimed.
 
 **Checks.**
 
 - For `V` empty the codomain is trivial and every input maps to zero. For `x=0` all coordinates are zero for any `V`.
-- For `F=ℚ` and `V` the rational primes, `globalResidueHom(V,1){25/2}` has coefficient `−1` at 2, coefficient 2 at 5, and zero elsewhere. These are the coefficients of the principal divisor of 25/2; degree zero of each residue group is `ℤ`, not a residue-field unit group.
-- For `F=ℚ` and `V` the rational primes, `globalResidueHom(V,2){2,5}` has only its 5-coordinate nontrivial, with value `2∈𝔽₅ˣ`. The coordinate at 2 is 1 because `𝔽₂ˣ` is trivial. The Quillen-boundary coordinate is 3 at 5.
+- For `F=ℚ` and `V` the rational primes, `∂_{V,1}{25/2}` has coefficient `−1` at 2, coefficient 2 at 5, and zero elsewhere. These are the coefficients of the principal divisor of 25/2; degree zero of each residue group is `ℤ`, not a residue-field unit group.
+- For `F=ℚ` and `V` the rational primes, `∂_{V,2}{2,5}` has only its 5-coordinate nontrivial, with value `2∈𝔽₅ˣ`. The coordinate at 2 is 1 because `𝔽₂ˣ` is trivial. The Quillen-boundary coordinate is 3 at 5.
 - For the same family, `{2,−1}={2,1−2}` maps to zero at every prime. Its entries have a nonzero-order support at 2, so the support bound can be strict.
 - For `ℚ` at the prime `5, {5,2}` has coordinate 3 and `{5,5}` has coordinate 4. Adding a symbol to its additive inverse yields the zero direct-sum element.
-- For `k=ℚ(t), F=k((π))` and `V` the singleton `π-adic` family, `globalResidueHom(V,3){2,t,π}` has coordinate `{2,t}∈K⁽ᴹ⁾₂(k)`. Its image under `Φ₂` has t-adic Quillen boundary `1/2∈ℚˣ`. The actual `D₃` has the positive coordinate `Φ₂{2,t}`; negating it would give t-adic boundary 2.
+- For `k=ℚ(t), F=k((π))` and `V` the singleton `π-adic` family, `∂_{V,3}{2,t,π}` has coordinate `{2,t}∈K⁽ᴹ⁾₂(k)`. Its image under `Φ₂` has t-adic Quillen boundary `1/2∈ℚˣ`. The actual `D₃` has the positive coordinate `Φ₂{2,t}`; negating it would give t-adic boundary 2.
 - For `V=ℕ` with every indexed valuation the same 5-adic valuation on `ℚ, {2,5}` has the nontrivial coordinate 2 at every index. Finite character fails, so this input cannot be sent to a dependent direct sum by these coordinates.
 
 *Needs:* §9.13; §11.2; §11.3; Mathlib `DirectSum.mk`; Mathlib `DirectSum.ext`; Mathlib `DirectSum.map`; Mathlib `DirectSum.map_apply`; Mathlib `IsDedekindDomain.HeightOneSpectrum.Support.finite`; Tau Ceti `TauCeti.Place.finite_setOf_ord_ne_zero`; GeneralAlgebraicKTheory Layers 4, 7 and 8.
@@ -2627,7 +2627,7 @@ Let `R` be the discrete valuation ring, with fraction field `F` and residue fiel
 
 **Checks.**
 
-- On `{2,5}` over `ℚ` at 5, tameSymbolHom has value 2, whereas `det_k B^R₂ η♮` has value 3. The square commutes only with the displayed inversion.
+- On `{2,5}` over `ℚ` at 5, the tame symbol homomorphism of §9.5 has value 2, whereas `det_k B^R₂ η♮` has value 3. The square commutes only with the displayed inversion.
 - On `{5,5}`, both degree-two normalizations give `−1`, which is 4 in `𝔽_5`; diagonal tests alone do not detect inversion.
 - For finite integral closure S/R, both the Milnor and Quillen norm/residue squares have residue-field norms and no extra `e_w` factor. The restriction square has `e_w` instead.
 
@@ -2727,9 +2727,9 @@ Provide the following API.
 
 - The homomorphism `K_2(ℝ) →* ℤˣ` with `{x, y} ↦ −1` if `x < 0` and `y < 0`, and 1 otherwise.
 - Its value on a symbol `{x, y}`.
-- realSignSymbol `{−1, −1} = −1`.
+- Its value on `{−1, −1}` is `−1`.
 - It is onto `ℤˣ`.
-- For `σ : F →+* ℝ`, the composite of `K_2(σ)` with realSignSymbol; for a number field one for each real place.
+- For `σ : F →+* ℝ`, the composite of `K_2(σ)` with the real sign symbol homomorphism; for a number field one for each real place.
 - Through Matsumoto's theorem, on `K^M_2(ℝ): {x, y} ↦ −1` exactly when `x < 0` and `y < 0`, which is the degree-two part of the graded map `K^M_*(ℝ) → (ℤ/2)[t]` given by the graded real sign map of §5.9, through the degree-two real sign map and the standard equivalence `Additive ℤˣ ≃+ ZMod 2`.
 
 **Checks.**
@@ -2737,7 +2737,7 @@ Provide the following API.
 - `(−2, −3)_∞ = −1` and `(−2, 3)_∞ = 1`.
 - `(x, 1)_∞ = (1, y)_∞ = 1` for all `x, y ∈ ℝ^×`.
 - The pairing equal to `−1` when at least one entry is negative is not a Steinberg symbol: it is `−1` at `(2, −1)` although `2 + (−1) = 1`.
-- For the real embedding of `ℚ`, signSymbolAt sends `{−1, −1}` to `−1` and `{p, q}` to 1 for positive `p, q`.
+- For `σ` the real embedding of `ℚ`, the composite of `K_2(σ)` with the real sign symbol sends `{−1, −1}` to `−1` and `{p, q}` to 1 for positive `p, q`.
 - `(x, y)_∞ = 1` exactly when `x·a² + y·b² = 1` has a real solution, the Hilbert symbol of `ℝ`.
 
 *Needs:* AlgebraicKTheory §5.2; §5.9; §7.2; Mathlib `NumberField.InfinitePlace.IsReal`.
@@ -2931,7 +2931,7 @@ For a commutative ring `R` the Dennis-Stein symbols satisfy (D1) `⟨r, s⟩⟨s
 
 **Checks.**
 
-- In `K₂(ℤ/4)`: (D3) with `(r, s, t) = (2, 1, 1)` gives `⟨2, 1⟩ = 1`; (D2) with `(2, 1, 2)` gives `⟨2, 1⟩⟨2, 2⟩ = ⟨2, −1⟩`; (D3) with `(2, −1, −1)` gives `⟨2, −1⟩² = ⟨2, 1⟩ = 1` (since `−2 = 2`); (D1) gives `⟨2, −1⟩ = ⟨−1, 2⟩⁻¹ = ⟨−1, 2⟩`; and `2 = −2`, so `⟨2, 2⟩ = ⟨−1, −2⟩ = {−1, −1}`, the identity of K-book Ex. III.5.13.
+- In `K₂(ℤ/4)`: (D3) with `(r, s, t) = (2, 1, 1)` gives `⟨2, 1⟩ = 1`; (D2) with `(2, 1, 2)` gives `⟨2, 1⟩⟨2, 2⟩ = ⟨2, −1⟩`; (D3) with `(2, −1, −1)` gives `⟨2, −1⟩² = ⟨2, 1⟩ = 1` (since `−2 = 2`); (D1) gives `⟨2, −1⟩ = ⟨−1, 2⟩⁻¹ = ⟨−1, 2⟩`; hence, with `3 = −1`, `⟨2, 2⟩ = ⟨−1, −2⟩ = {−1, −1}`, the identity of K-book Ex. III.5.13.
 - `⟨r, 1⟩ = 1` when `1 − r` is a unit; it is not a separate generator and not '0'.
 - Over a field the relations are consequences of the Steinberg relations; no relation beyond (D1)–(D3) is claimed.
 
@@ -3215,7 +3215,7 @@ Provide the following API.
 
 - The subtype of `R × R` with at least one entry in `I`.
 - D1 and D2 on relative generators and D3 only for `r ∈ I ∨ s ∈ I ∨ t ∈ I`. The three generator witnesses for D3 are derived from that entry condition, never used as a weaker substitute.
-- FreeAbelianGroup (RelDSGen `I`) modulo AddSubgroup.closure (relDSRel `I`), with the guarded D3 set.
+- FreeAbelianGroup on the relative generators modulo AddSubgroup.closure of the guarded relative relation set, with the guarded D3 set.
 - The first-input D3 guard generates the same subgroup of relations as the at-least-one-input guard (below).
 - `D(R,⊥)` is trivial.
 - For `I ≤` Ideal.jacobson `⊥`, the relative generator map descends through exactly the source-allowed D1–D3 relations.
@@ -3228,9 +3228,9 @@ Provide the following API.
 - For `I² = 0` it specialises to §13.12.
 - It is asserted for an ideal contained in the Jacobson radical of a commutative ring; scheme-theoretic radicality is not the hypothesis.
 - Non-example: `R = F_3[x,y]/(x²,y²), z = xy`, `I = (z), r = x, s = y, t = x+y`. Here `I² = 0` and `I` lies in the Jacobson radical; `rs = st = tr = z` but no entry is in `I`, so this triple is not admitted as relative D3. In the differential detector `I ⊗_R Ω¹_{(R/I)/ℤ} ≅ F_3², ⟨x,z⟩−⟨z,x+y⟩−⟨z,y⟩` has image `(1,1)`, not 0.
-- On the actual ring DualNumber (DualNumber (ZMod 3)), use the commutative-ring instances from the regular left and right actions and let `x` be the inner epsilon, `y` the outer epsilon and `I =`. The three D3 pairs for `(x,y,x+y)` are admissible but `x, y` and `x+y` are outside `I`; the D3 relation word uses the pairs `(x,xy), (xy,x+y), (xy,y)` and is outside `K2.relDSRel I` as a set of defining relations. Here `y(x+y)=xy`, so the first pair has second entry `xy`.
+- On the actual ring DualNumber (DualNumber (ZMod 3)), use the commutative-ring instances from the regular left and right actions and let `x` be the inner epsilon, `y` the outer epsilon and `I = (xy)`. The three D3 pairs for `(x,y,x+y)` are admissible but `x, y` and `x+y` are outside `I`; the D3 relation word uses the pairs `(x,xy), (xy,x+y), (xy,y)` and is outside the guarded relative relation set of defining relations. Here `y(x+y)=xy`, so the first pair has second entry `xy`.
 - For the same ring/ideal, in the basis `xy⊗dx, xy⊗dy` of `I ⊗_R Ω¹_{(R/I)/ℤ}, δ⟨x,xy⟩ = (2,0), δ⟨xy,x+y⟩ = (1,1), δ⟨xy,y⟩ = (0,1)`. This word is outside the additive subgroup generated by the guarded defining relations. The differential proves it: the extra D3 defect is `(1,1) ≠ 0`, while all source-allowed D1/D2/D3 defects vanish.
-- For `I = ⊥`, relDennisSteinGroup `I` and relative `K₂` are trivial; the guarded quotient has no spurious nonzero generators.
+- For `I = ⊥`, the relative presentation group and relative `K₂` are trivial; the guarded quotient has no spurious nonzero generators.
 
 *Needs (relative definitions and generator map):* §13.2; §13.7; Mathlib `DualNumber`; Mathlib `DualNumber.eps`; Mathlib `Ideal.mul_mem_left`; Mathlib `Ideal.mul_mem_right`.
 
