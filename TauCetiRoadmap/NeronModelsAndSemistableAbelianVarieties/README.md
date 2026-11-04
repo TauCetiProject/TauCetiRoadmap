@@ -130,7 +130,8 @@ It leaves to other roadmaps, and consumes from them:
   coherent formal existence and algebraisation of compatible morphisms), §§4.11–4.13
   (modifications and one-dimensional resolution), and §4.15 (moduli of stable curves). Zariski's main
   theorem is Mathlib's `Scheme.Hom.exists_isIso_morphismRestrict_toNormalization`.
-- **AlgebraicModuliForArithmeticGeometry**, §6.1 (`artinApproximationClassical`),
+- **AlgebraicModuliForArithmeticGeometry**, §5.4 (`DMSchematicClosure.stack`, schematic
+  closures and their flat base change, used in the scheme case), §6.1 (`artinApproximationClassical`),
   §7.3 (Picard-stack and representability inputs), §7.6.1 (relative Picard sheaf and base change),
   §7.9 (`spaceSectionComponentCriterion`, general group-space identity components).
 - **ComplexComparisonPartII**, §C3.2d.2 (`relative_picard_algebraicSpace`),
@@ -188,7 +189,9 @@ It leaves to other roadmaps, and consumes from them:
   foundational carriers, maps and predicates; §R07.4.27:
   `FilteredPhiNModuleDD` and `FilteredPhiNModuleDD.weilDeligne`, the arithmetic-normalized
   filtered-module construction with semilinear descent. Sections R07.P7.1–R07.P7.5 supply
-  finite-coefficient period functors, labelled Sen operators and Hodge–Tate lifts.
+  finite-coefficient period functors, labelled Sen operators and Hodge–Tate lifts; §R07.1.20
+  (`schematicClosure_flat`) is the flat schematic closure of a generic subgroup over a Dedekind
+  base, whose argument 1.9a reuses for closed subschemes of an abelian scheme.
   Section 5.3 here owns `PadicWeilDeligneRealization`, the normalization transport of
   NoncommutativeAndEquivariantIwasawa §F.6's generic realization and its identification
   with this filtered-module construction, including at `p = 2`, and the geometric
@@ -331,8 +334,9 @@ lattice theory.
     property, models, components, semistability and monodromy) and
     `TauCeti.AlgebraicGeometry.Curves.SemistablePicard` (the Picard theory of Layer 4); Lean
     names below describe the intended API. `Suggested.lean` states the headline theorems
-    `LocalExistence` (§1.7), `DedekindExistence` (§1.9) and `EquationGoodComparison` (§6.5);
-    its module documentation
+    `LocalExistence` (§1.7), `DedekindExistence` (§1.9), `GoodIsogeny` (§5.2) and
+    `EquationGoodComparison` (§6.5), with the predicate `HasGoodModel` (§1.8) they are stated
+    through; its module documentation
     identifies the geometric carriers needed to state the other headline results.
 
 ## Exact supplier contracts
@@ -526,7 +530,10 @@ period lattice is the target `RigidUniformisation` in 3.14 here.
 
 ### From `AlgebraicModuliForArithmeticGeometry`, `ComplexComparisonPartII`, `AbelianSchemesAndArithmeticModuli` and `ArithmeticGaloisRepresentations`
 
-AlgebraicModuliForArithmeticGeometry §6.1 gives `artinApproximationClassical` over
+AlgebraicModuliForArithmeticGeometry §5.4 gives `DMSchematicClosure.stack`, the schematic
+image of a quasi-compact morphism of locally Noetherian Deligne–Mumford stacks, which for a
+morphism of schemes is `Scheme.Hom.image` and whose formation commutes with flat base change
+(the base-change clause of 1.9a); §6.1 gives `artinApproximationClassical` over
 henselisations of finite-type algebras over excellent DVRs; §7.6.1 gives the relative
 Picard fppf sheaf and base change; §7.3 supplies Picard-stack and representability inputs;
 §7.9 gives `spaceSectionComponentCriterion` for general
@@ -593,7 +600,9 @@ FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.P2–R07.P5a and R07.3.0's
 `finiteKPeriodComparison` to identify the finite-`K` crystalline/de Rham carriers, maps
 and predicates with these foundational ones, preserving topology, Frobenius, filtration,
 variance and logarithmic embedding. Its §§R07.P7.1–R07.P7.5 supplies the finite-coefficient
-period and Sen interfaces. Its §R07.4.27 supplies `FilteredPhiNModuleDD.weilDeligne`.
+period and Sen interfaces. Its §R07.4.27 supplies `FilteredPhiNModuleDD.weilDeligne`, and
+its §R07.1.20 `schematicClosure_flat` the flatness of the schematic closure of a generic
+subgroup over a Dedekind base, the argument 1.9a restates for closed subschemes.
 NoncommutativeAndEquivariantIwasawa §F.6's generic period-realization prefix supplies
 `D_pst` and the all-prime potentially semistable Weil–Deligne functor with `N_p`,
 admissible tensor/dual isomorphisms, filtered de Rham Galois descent, nilpotence,
@@ -1012,7 +1021,8 @@ affine open `Spec R ⊆ 𝒜` with `Z ∩ Spec (R ⊗ K) = V(J)` the closure is 
 coordinate ring is torsion free, hence flat, over the Dedekind base
 (Bosch–Lütkebohmert–Raynaud, §2.5, pp. 55–56; the same argument gives the schematic closures of
 generic subgroups in FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.20, and the base-change
-clause is the scheme case of AlgebraicModuliForArithmeticGeometry §5). For a closed subscheme
+clause is the scheme case of AlgebraicModuliForArithmeticGeometry §5.4,
+`DMSchematicClosure.stack`). For a closed subscheme
 `H ⊆ A`, in particular a hypersurface (a closed subscheme whose ideal sheaf is
 `Scheme.IdealSheafData.IsEffectiveCartier`), and a closed point `s ∈ S`, define *good reduction of `H` at `s`* to mean
 that the fibre over `s` of the structure morphism of the closure of `H` lies in its
@@ -1031,7 +1041,7 @@ generic fibre, so good reduction of `H` over `S` is the same as the extension of
 relative divisor of `𝒜/S`; and that good reduction of `H` at `s` depends only on `H ⊆ A` and
 the local ring at `s`, not on `S` (uniqueness of the model, 1.4 and 1.8). *Needs:* 1.4, 1.8, 1.9;
 `AbelianSchemesAndArithmeticModuli:A0.1–A1`; FiniteFlatGroupsAndIntegralPadicHodgeTheory
-§R07.1.20; AlgebraicModuliForArithmeticGeometry §5; Mathlib `AlgebraicGeometry.Scheme.Hom.image`,
+§R07.1.20; AlgebraicModuliForArithmeticGeometry §5.4; Mathlib `AlgebraicGeometry.Scheme.Hom.image`,
 `Scheme.Hom.imageι`, `Scheme.Hom.smoothLocus`, `AlgebraicGeometry.Smooth`, `Flat`;
 Tau Ceti `AlgebraicGeometry.Scheme.IdealSheafData.IsEffectiveCartier`
 (`TauCeti/AlgebraicGeometry/EffectiveCartierDivisor/Basic.lean`).
@@ -1040,6 +1050,30 @@ Tau Ceti `AlgebraicGeometry.Scheme.IdealSheafData.IsEffectiveCartier`
 
 - (degenerate) For `Z = A` the closure is `𝒜`, with good reduction at every closed point; for
   `Z = ∅` the closure is empty.
+- (closure, wrong model) Let `R` be the local ring of `𝒜` at a point of the fibre over `s`
+  (regular, hence a unique factorisation domain in which the uniformiser `π` of `S` at `s` is
+  prime) and `H = V(f)` with `f = π^a g`, `a ≥ 1`, `π ∤ g`. The closure of `H` is `V(J ∩ R)`
+  with `J = f R[1/π] = g R[1/π]`, and `π^k r ∈ gR` forces `g ∣ r`, so `J ∩ R = (g)`: the
+  closure is `V(g)`, whose fibre over `s` is `V(ḡ)`, a proper closed subset of `Spec (R/π)` of
+  dimension `dim A − 1` where it is non-empty. Reducing the chosen equation `f` modulo `π`
+  instead gives `f̄ = 0` and cuts out all of `Spec (R/π)`, of dimension `dim A`: the closure is
+  the saturation of the ideal, not the reduction of a generator (`a = 1`: `(πg)` reduces to
+  `(0)`, `(g)` reduces to `(ḡ)`).
+- (good reduction, positive) On `E : y² + y = x³ − x` over `ℚ` (discriminant `37`) with
+  `P = (0, 0)`, the subscheme `H = {P} ⊔ {−P} = {(0, 0), (0, −1)}` has good reduction at every
+  prime `p ≠ 37`: both points are integral and their `y`-coordinates `0` and `−1` differ modulo
+  every `p`, so the two sections of the abelian scheme over `ℤ[1/37]` are disjoint in every
+  fibre, their ideals are comaximal, and the closure of `H` is their disjoint union, étale over
+  `ℤ[1/37]`.
+- (good reduction, non-example instance) On the same curve, `2P = (1, 0)`, `4P = (2, −3)`,
+  `5P = (1/4, −5/8)` and `−5P = (1/4, −3/8)`; `P` has infinite order, so `5P` is not
+  `2`-torsion, while `v₂(x(5P)) = −2` puts `5P` and `−5P` in the kernel of reduction at `2`,
+  where `E` has good reduction. In the parameter `t = −x/y` at the origin of the fibre,
+  `t(5P) = 2/5` and `t(−5P) = 2/3`, both of `2`-adic valuation `1` and distinct, so the closure
+  of `{5P} ⊔ {−5P}` is `V((t − 2/5)(t − 2/3))` near the origin: finite flat of degree `2` over
+  `ℤ_(2)` with special fibre `V(t²)`, a length-`2` non-reduced scheme supported at the origin of
+  `E_{𝔽₂}`, hence not étale: bad reduction of `H` at `2`. A definition that tested `H` alone, or
+  only the reductions of its points, would call this good.
 - (non-example) For an elliptic curve `E/ℚ` with good reduction at `p` and `H = {P} ⊔ {−P}`
   with `P ∈ E(ℚ)` not `2`-torsion but reducing to a `2`-torsion point modulo `p`, the closure of
   `H` is the union of two sections of `𝒜` meeting in the fibre at `p`, which is not smooth over
@@ -3570,7 +3604,8 @@ minimal model over `R`, `WeierstrassCurve.localPolynomial R W` equals `L_v(V_ℓ
 reduction its linear coefficient is the negative of the `frobeniusTrace` of the reduction; at split, resp. nonsplit,
 multiplicative reduction both are `1 − X`, resp. `1 + X`; at additive reduction `(V_ℓE)^{I_v} = 0` and
 both are `1`, for every Kodaira type and residue characteristic; so `WeierstrassCurve.LFunction` has
-the Euler factors of `V_ℓE^∨` away from `ℓ` (Darmon–Diamond–Taylor 2007, §2.2, Prop. 2.12, pp. 57–58).
+the Euler factors of `V_ℓE^∨` away from `ℓ` (Darmon–Diamond–Taylor 2007, §2.2, Props. 2.11–2.13, pp. 57–58:
+Prop. 2.11 the good case, Prop. 2.12 the multiplicative cases, Prop. 2.13 the additive case).
 *Needs:* 5.0b–5.0c, 5.1a, 5.3a; 2.6–2.9 and 3.5–3.7 (reduction filtration and
 inertia); ArithmeticGaloisRepresentations §6.3 **Local Euler factors** and
 **The Tate curve**; EllipticCurves Layers 4–5; Mathlib `WeierstrassCurve.minimal`.
