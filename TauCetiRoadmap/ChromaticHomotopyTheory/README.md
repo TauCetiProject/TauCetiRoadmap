@@ -12,7 +12,7 @@ This roadmap owns the generalized Serre filtration with monodromy and convergenc
 - GeneralizedCohomology G2–G3 and G5 supply spectra, derived spectral constructions, finite duality and Bott spectra. BordismFormalGroups F1–F3/F5 supply orientations, formal groups and coefficients; F6.1–F6.4 supply p-local localization, nilpotence and periodicity, and F6.5 supplies generic actions, Kan extensions and Tate constructions. Layers 0–2 give convention Checks on these inputs.
 - StableHomotopyKTheory §§2.4–2.7 and §3.18 supply fiber transport and Postnikov towers, and §§7.21–7.27 filtered spectral sequences and convergence. AlgebraicTopology Stages 4–5 and 8 supply CW geometry, local coefficients and relative homotopy. Layer 3 adds the spectrum-valued Serre filtration, beyond GeneralAlgebraicKTheoryPartII §4.14's unfiltered homology comparison.
 - HomotopySpheres §§3A–3B and §4B supply convenient spaces, James constructions and real Bott periodicity; TopologicalKTheory T7 supplies Clifford coefficients. ModularCurves §§3D, 4B–4C, 5B and 7E–7F supply geometric levels, their actions and formal-height comparisons. EnhancedDerivedSheaves E5 supplies spectral-module descent through its named contract.
-- StableHomotopyKTheoryPartII §2.7 owns the sphere Segal comparison. RefinedTraceMethods §§2.6, 2.9–2.10, 4.9, 4.11 and 6.8 supply THH, TC, K, the trace and the height-one KU-localization comparison.
+- StableHomotopyKTheoryPartII §2.7 owns the sphere Segal comparison, and its §7.2 owns the uncompleted KU Tate coefficients; §4.1 below adds only the completed-input comparison. RefinedTraceMethods §§2.6, 2.9–2.10, 4.9, 4.11 and 6.8 supply THH, TC, K, the trace and the height-one KU-localization comparison.
 
 Mathlib already supplies `FormalGroup`, `FormalGroup.IsComm`, `FormalGroup.Point`, `FormalGroup.map`, `FormalGroup.𝔾ₐ`, `FormalGroup.𝔾ₘ` and `CategoryTheory.ObjectProperty.isLocal`. Tau Ceti already supplies `WeierstrassCurve.formalGroup`. These are the native algebraic carriers; the ordinary precomposition predicate does not itself construct a spectral reflector. No formal-group point calculation is a substitute for a chromatic headline theorem.
 
@@ -135,6 +135,8 @@ Consume §2.6’s THH of E₁-rings with its circle action and cyclotomic Froben
 ### From TauCetiRoadmap.StableHomotopyKTheoryPartII
 
 Consume §2.7's finite-type generalized Segal theorem at B=S: the Tate diagonal identifies S^tC_p with S_p^∧ for the trivial action. The sphere is bounded below and degreewise finite type over 𝔽_p; π₀S^tC_p=ℤ_p and its negative homotopy groups vanish. This is the sphere comparison used in §4.1, not just Tate p-completeness.
+
+Consume §7.2's Tate coefficients of KU with trivial C_p-action, uncompleted, in the coordinate x=L−1: π₀KU^tC_p=ℚ_p(ζ_p), rational and even periodic. §4.1 proves the completed-input comparison with the same oriented tower and compares its result with this calculation.
 
 ### From TauCetiRoadmap.GeneralAlgebraicKTheoryPartII
 
@@ -354,7 +356,7 @@ StableHomotopyKTheory §§7.21–7.24; AlgebraicTopology Stages 4–5; Generaliz
 
 For the trivial C_p-action on KU_p^∧, identify π₀((KU_p^∧)^tC_p) with ℚ_p(ζ_p), including ℚ₂ at p=2. This is nonzero, whereas its T(1)-localization vanishes. Compare the specified trivial-action sphere Tate spectrum with S_p^∧ through StableHomotopyKTheoryPartII §2.7’s Segal comparison: the sphere is not a T(n)-local input to the telescopic vanishing theorem. (greenlees-sadofsky, Corollary 2.4, p.400; greenlees-sadofsky line 343; hesselholt-ku, p.844; hesselholt-ku line 1658; cm-tate, Remark 2.8, p.4; cm-tate line 129).
 
-*Proof route.* Apply the cyclic Tate comparison with the inverse Thom tower of the faithful complex line, and prove its completed KU Euler-inversion identification, with the inverse-limit and periodicity convergence conditions. Compare with the uncompleted KU formula in hesselholt-ku line 1658; the completed comparison is proved using the same oriented tower, rather than assuming Tate commutes with completion. In KU⁰(BC_p) the relation is (1+z)^p−1=0. After inverting z it becomes ((1+z)^p−1)/z=0. Weierstrass preparation identifies the resulting quotient with ℤ_p[ζ_p][1/(ζ_p−1)]=ℚ_p(ζ_p). Establish the K(1)-locality of KU_p^∧ before invoking telescopic vanishing: inverting the Bott class in BordismFormalGroups F3’s Adams splitting gives KU_(p)≃∏_(i=0)^(p−2)Σ^(2i)E(1) at odd p and KU_(2)≃E(1); E(1) is E(1)-local by F6.5, being Landweber exact with E(1)_*/(p,v₁)=0; and F6.5’s formula at n=1, whose type-one tower is cofinal with the Moore spectra S/pⁱ, identifies L_(K(1))KU_(p) with holim_i KU/pⁱ=KU_p^∧. RefinedTraceMethods §6.8’s formula L_(K(1))X≃(L_(KU)X)_p^∧, applied to X=KU, gives the same conclusion directly. Use the Segal comparison only for the separate sphere example.
+*Proof route.* Apply the cyclic Tate comparison with the inverse Thom tower of the faithful complex line, and prove its completed KU Euler-inversion identification, with the inverse-limit and periodicity convergence conditions. Compare with the uncompleted KU formula of StableHomotopyKTheoryPartII §7.2, in the same coordinate z=L−1, and of hesselholt-ku line 1658; the completed comparison is proved using the same oriented tower, rather than assuming Tate commutes with completion. In KU⁰(BC_p) the relation is (1+z)^p−1=0. After inverting z it becomes ((1+z)^p−1)/z=0. Weierstrass preparation identifies the resulting quotient with ℤ_p[ζ_p][1/(ζ_p−1)]=ℚ_p(ζ_p). Establish the K(1)-locality of KU_p^∧ before invoking telescopic vanishing: inverting the Bott class in BordismFormalGroups F3’s Adams splitting gives KU_(p)≃∏_(i=0)^(p−2)Σ^(2i)E(1) at odd p and KU_(2)≃E(1); E(1) is E(1)-local by F6.5, being Landweber exact with E(1)_*/(p,v₁)=0; and F6.5’s formula at n=1, whose type-one tower is cofinal with the Moore spectra S/pⁱ, identifies L_(K(1))KU_(p) with holim_i KU/pⁱ=KU_p^∧. RefinedTraceMethods §6.8’s formula L_(K(1))X≃(L_(KU)X)_p^∧, applied to X=KU, gives the same conclusion directly. Use the Segal comparison only for the separate sphere example.
 
 **Checks.**
 
@@ -364,7 +366,7 @@ For the trivial C_p-action on KU_p^∧, identify π₀((KU_p^∧)^tC_p) with ℚ
 
 - At p=2, ((1+z)²−1)/z=2+z, so z=−2 and inverting z gives ℚ₂. At p=3 the equation is z²+3z+3=0, an Eisenstein polynomial, and the result is ℚ₃(ζ₃). Both are nonzero; their positive finite-height localizations are 0.
 
-*Needs:* GeneralAlgebraicKTheoryPartII §4.24 (localized Tate vanishing); GeneralAlgebraicKTheoryPartII §4.20 (height-one class equality); GeneralizedCohomology G5.4 (oriented KU); BordismFormalGroups F3 (Adams splitting of ku_(p) with its Bott action) and F6.5 (E(n)-locality of Landweber-exact theories and the K(n)-localization formula), or RefinedTraceMethods §6.8 (K(1)-localization as p-completed KU-localization); StableHomotopyKTheoryPartII §2.7 (Segal comparison); the Euler-inversion calculation in this subsection.
+*Needs:* GeneralAlgebraicKTheoryPartII §4.24 (localized Tate vanishing); GeneralAlgebraicKTheoryPartII §4.20 (height-one class equality); GeneralizedCohomology G5.4 (oriented KU); BordismFormalGroups F3 (Adams splitting of ku_(p) with its Bott action) and F6.5 (E(n)-locality of Landweber-exact theories and the K(n)-localization formula), or RefinedTraceMethods §6.8 (K(1)-localization as p-completed KU-localization); StableHomotopyKTheoryPartII §2.7 (Segal comparison) and §7.2 (uncompleted KU Tate coefficients); the Euler-inversion calculation in this subsection.
 
 ### 4.2 Higher semiadditivity of chromatic local categories
 
@@ -406,7 +408,7 @@ For trivial C₂ on Hℤ, π_j(Hℤ^tC₂)=ℤ/2 for even j and 0 for odd j. In 
 
 ### Dependencies
 
-GeneralAlgebraicKTheoryPartII §§4.3–4.4, 4.14 and 4.20–4.24; GeneralizedCohomology G5.4; BordismFormalGroups F1/F3/F5/F6 with gap:weak-ring-finite-postnikov; EllipticCohomology E2 with gap:all-height-morava-realization; StableHomotopyKTheory §3.18; StableHomotopyKTheoryPartII §2.7; RefinedTraceMethods §6.8.
+GeneralAlgebraicKTheoryPartII §§4.3–4.4, 4.14 and 4.20–4.24; GeneralizedCohomology G5.4; BordismFormalGroups F1/F3/F5/F6 with gap:weak-ring-finite-postnikov; EllipticCohomology E2 with gap:all-height-morava-realization; StableHomotopyKTheory §3.18; StableHomotopyKTheoryPartII §§2.7 and 7.2; RefinedTraceMethods §6.8.
 
 ## Layer 5: Real topological K-theory
 
