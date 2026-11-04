@@ -21,11 +21,12 @@ differentiable germs. GeometricTopology Layer 1 and its smoothing-and-triangulat
 item 1 own normal bundles, tubular neighbourhoods and smooth triangulation;
 R5a owns the metric orthogonal-to-quotient comparison and R3.2 the finite marked-point
 refinement. ComplexKahlerGeometry K5a owns the bundle analytic and Hodge theory;
-R7A owns the shared smooth differential-operator, jet, symbol, formal-adjoint
-and Bochner-connection core on finite-rank bundles. R7 specializes it to geometric
-curvature identities and vanishing consequences. PseudodifferentialOperators
-P1.0 uses this core for its pseudodifferential calculus, and P7a uses R4.7
-for free isometric quotients; both supply directions start here. UnboundedOperators §4.7
+R7A owns the shared smooth differential-operator, jet, symbol, density-transpose,
+formal-adjoint and Bochner-connection core on finite-rank bundles; every later
+roadmap that needs this core consumes R7A. R7 specializes it to geometric
+curvature identities and vanishing consequences. R4.7 owns the free properly
+discontinuous isometric quotient construction, a supply that later roadmaps
+(PseudodifferentialOperators P7a among them) consume. UnboundedOperators §4.7
 owns general closed-form representation, and VariationalMethods §§2.3, 5.1–5.2
 its energy-space and compact-pair specializations; R5b owns the normal-Jacobi
 geometric form and its boundary-domain identification.
@@ -274,7 +275,8 @@ Consume the existing pointwise curvature/sectional/Ricci/scalar carriers.
    `∇²s(X,Y)−∇²s(Y,X)=R(X,Y)s`; identify its torsion correction for a
    connection with torsion.
 2. Prove sectional curvature determines an algebraic Riemannian curvature
-   tensor by an explicit polarization identity. Identify constant sectional
+   tensor by an explicit polarization identity (Andrews, *Lectures on
+   Differential Geometry*, Lecture 16, Proposition 16.2.1, p. 154). Identify constant sectional
    curvature κ with `R(X,Y)Z=κ(⟨Z,Y⟩X−⟨Z,X⟩Y)` (`constant_sectional_tensor_iff`). Include the n<2 cases separately;
    an empty collection of 2-planes must not characterize a nontrivial κ.
 3. Prove Schur's theorem (`schur`) on connected n≥3 manifolds and the contracted-Bianchi
@@ -293,7 +295,12 @@ Consume the existing pointwise curvature/sectional/Ricci/scalar carriers.
 The local-symmetry predicate is ∇R=0. Its API consists of restriction to open
 submanifolds, invariance under local isometry, the parallel-transport
 characterization along every smooth path, and the locally constant Gaussian
-curvature characterization in dimension two (Lee, Chapter 7, curvature derivatives).
+curvature characterization in dimension two. The parallel-transport
+characterization is the general statement that a tensor field is parallel
+exactly when every parallel transport preserves it, proved from the
+along-curve derivative of SmoothBundlesConnections B5.0 applied to R; the
+dimension-two statement follows from the pointwise constant-curvature tensor
+form of §1.1 item 2 with κ=K(x), since ∇g=0 and the metric is nondegenerate.
 
 **Checks.**
 
@@ -462,7 +469,7 @@ round spheres of radius ½, while d=0 is a point. Derive the curvature range
 from O'Neill's horizontal-curvature formula for a Riemannian submersion,
 `K_B(π_*X,π_*Y)=K_M(X,Y)+¾|[X,Y]^v|²` for horizontal orthonormal X,Y
 (O'Neill, *The fundamental equations of a submersion*, Michigan Math. J. 13
-(1966), Theorem 2 and Corollary 1), on the round S^(2d+1): the vertical
+(1966), 459–469, Theorem 2 and Corollary 1), on the round S^(2d+1): the vertical
 component of [X,Y] is `2⟨X,JY⟩` times the unit fibre direction Jz, so
 `K(X,Y)=1+3⟨X,JY⟩²`, which lies in [1,4], equals 4 exactly on complex lines
 (Y=±JX) and equals 1 exactly on totally real planes; on HP^d the same
@@ -598,12 +605,52 @@ exp_p(B). Prove it is parallel along every radial geodesic and deduce
 identities. The coordinate frame `d(exp_p)_v(e_i)` and this transported
 frame have the same value at p; they are not identified away from p.
 Derive the vanishing covariant derivatives from radial parallelism, rather
-than assuming d exp is parallel transport. In a normal chart prove first
-derivatives of g vanish and
+than assuming d exp is parallel transport.
+
+The transported-frame API comprises:
+
+- joint smoothness of `(v,i)↦E_i(exp_p v)` on the normal ball, including at
+  v=0, as a smooth frame of TM over exp_p(B);
+- orthonormality of (E_i) at every point of exp_p(B), from the isometry
+  property of parallel transport;
+- parallelism along every radial geodesic s↦exp_p(sv), that is
+  `D_s E_i(exp_p(sv))=0`;
+- vanishing covariant derivatives at the centre, `∇_w E_i(p)=0` for every
+  w∈T_pM, with the induced identities for the tensor frames built from (E_i)
+  and their dual coframe.
+
+**Checks.**
+
+- On Euclidean space with the flat metric, parallel transport is the identity,
+  so `E_i(p+v)=e_i` for every v, and the transported frame coincides with the
+  coordinate frame `d(exp_p)_v(e_i)=e_i`; a definition that rotated the frame
+  with v would fail this.
+- On the unit two-sphere with T=v/|v| and Y⊥T unit, at t=π/2 the transported
+  vector E_Y(exp_p(tT)) has norm 1 while the coordinate vector
+  `d(exp_p)_(tT)(Y)` has norm sin(π/2)/(π/2)=2/π, so a definition identifying
+  the transported frame with the coordinate frame away from p is wrong even
+  though the two agree at t=0 and in the flat Check.
+- Transporting the basis (2e_1,e_2,…,e_n) instead of an orthonormal one gives
+  a first vector of constant norm 2 along every radial geodesic, so the
+  orthonormality clause fails; the definition must start from an orthonormal
+  basis of T_pM, not from any basis.
+- Transport along a non-radial path is a different operator: on the unit
+  two-sphere, transporting a tangent vector around the geodesic triangle with
+  three right angles rotates it by π/2, so a frame defined by transport along
+  arbitrary paths from p would not be single-valued; the radial path in the
+  definition is what makes E_i a function of the point.
+
+In a normal chart prove first
+derivatives of g vanish (Nicolaescu, *Lectures on the Geometry of Manifolds*,
+Proposition 4.1.25, p. 151) and
 characterize the quadratic/cubic jets by R and ∇R. With orthonormal vectors e_i at p,
 v in its tangent normal ball, pin
 `exp_p*g(e_i,e_j)=δ_ij−⅓⟨R(e_i,v)v,e_j⟩`
-`−⅙⟨(∇_vR)(e_i,v)v,e_j⟩+O(|v|⁴)`.
+`−⅙⟨(∇_vR)(e_i,v)v,e_j⟩+O(|v|⁴)`
+(Brewin, *Riemann normal coordinate expansions using Cadabra*, §5, the
+third-order metric expansion, p. 9, and §11, equation (11.1), p. 15; his
+`R_acbd x^c x^d` is `⟨R(e_a,v)v,e_b⟩` in the convention of this roadmap, both
+being `+K|v|²` on the unit sphere for e_a=e_b ⊥ v).
 State the remainder as an actual local norm bound uniform over unit e_i,e_j. Derive these expansions
 from R2's Jacobi equation, not an assumed Taylor formula for exp. In
 particular for unit T,Y with Y⊥T,
@@ -720,9 +767,10 @@ curve on [a,b], prove Cauchy–Schwarz
 For b>a prove equality exactly when the speed is constant almost everywhere,
 including the zero-speed case.
 
-For the interval path carrier compare the H¹ topology with the course's
-speed metric
-`d_s(γ,η)=sup_t dist(γ(t),η(t))+‖|γ′|−|η′|‖_L²`.
+For the interval path carrier define the speed metric on finite-energy
+absolutely continuous paths by
+`d_s(γ,η)=sup_t dist(γ(t),η(t))+‖|γ′|−|η′|‖_L²`
+and compare the H¹ topology with it.
 Prove that convergence to an existing H¹ path in this metric is equivalent
 to convergence in the preceding H¹ charts. In a common finite coordinate
 subdivision, uniform convergence and bounded energy give weak convergence
@@ -984,14 +1032,38 @@ uses the pinned compact-generation results and AlgebraicTopology §8.11a.
 
 1. Prove the index comparison/minimizing lemma for Jacobi fields with fixed
    endpoint values. Define `s_κ(t)=sin(√κt)/√κ`, t, or
-   `sinh(√(−κ)t)/√(−κ)` according to the sign of κ. For unit-speed γ and
+   `sinh(√(−κ)t)/√(−κ)` according to the sign of κ (`modelSine`). For unit-speed γ and
    normal Jacobi J with J(0)=0, prove `K≤κ ⇒ |J(t)|≥s_κ(t)|D_tJ(0)|`
-   before the first positive model zero; for K≥κ prove the reversed bound
+   before the first positive model zero (`rauch_norm_ge_of_sectional_le`:
+   the data live on [0,b] with b>0, the bound
+   `⟨R(u,v)v,u⟩≤κ(|u|²|v|²−⟨u,v⟩²)` holds for every pair of tangent vectors
+   at every point, J(0)=0 and D_tJ(0)⊥γ′(0), and b<π/√κ when κ>0; the
+   conclusion is `s_κ(t)|D_tJ(0)|≤|J(t)|` for every t∈[0,b]); for K≥κ prove the reversed bound
    before conjugacy of γ and the model zero. Include the two-manifold Rauch
    statement with equal initial derivative norms and curvature ordered along
    the compared normal planes. State equality as the curvature equation along
    the corresponding parallel/Jacobi directions; equality for all initial
    normal directions gives the model pullback metric and local isometry.
+
+   The model function API comprises: `s_κ''+κs_κ=0` with `s_κ(0)=0`,
+   `s_κ'(0)=1`; `s_κ>0` on (0,π/√κ) for κ>0 and on (0,∞) otherwise, with
+   first positive zero π/√κ exactly when κ>0; the scaling law
+   `s_(κ/c²)(ct)=c·s_κ(t)` for c>0; and monotonicity in κ, `s_κ(t)≤s_λ(t)`
+   for λ≤κ and t in the common positivity range.
+
+   **Checks.**
+
+   - `s_0(3)=3`, `s_1(t)=sin t` and `s_(−1)(t)=sinh t`; at t=π/2 the three
+     values for κ=1,0,−1 are 1, π/2 and sinh(π/2)≈2.3013, increasing as κ
+     decreases.
+   - `s_4(t)=sin(2t)/2` has first positive zero π/2 and `s_4'(0)=1`; the
+     wrong normalization `sin(κt)/κ` would give first zero π/4 and the wrong
+     model `sin(√κ t)` would give `s'(0)=√κ=2`.
+   - On the sphere of radius 5/2 (K=4/25) compared with κ=1, the Jacobi field
+     J=(5/2)sin(2t/5)E vanishes at t=5π/2 where s_1=1: the inequality
+     `1≤0` fails there, so the guard b<π/√κ is needed; on [0,b] with b<π
+     the bound `sin t≤(5/2)sin(2t/5)` holds, as at t=π/2 where 1≤1.4695.
+
    On a smooth normal-distance domain derive radial Hessian zero and the
    corresponding transverse lower/upper bounds by `(s_κ'/s_κ)g`, together
    with the Laplacian trace and the scalar sign dictionary. Derive Günther
@@ -1008,7 +1080,31 @@ uses the pinned compact-generation results and AlgebraicTopology §8.11a.
    volume-nullity theorem.
    **Ricci lower bounds and relative volume, after the radial and cut-locus constructions.**
 
-   Let M be connected complete n-dimensional smooth Riemannian, n>=2, and Ric>=(n−1)κg. For model volume Vκ(r), prove Vol(B(p,r))/Vκ(r) is nonincreasing for positive radii before the positive-curvature model pole, with the usual constant-curvature model domain. In particular for κ=0 it is nonincreasing for all r>0 and at most one after normalizing by ω_n r^n. Supply annulus/restricted-polar versions, small-ball limit1, measure-zero cut locus, arbitrary center, density/metric pullback and scaling comparisons. State positive-curvature maximal radii explicitly. Do not substitute a sectional Rauch hypothesis for Ricci lower bounds.
+   Let M be connected complete n-dimensional smooth Riemannian, n>=2, and Ric>=(n−1)κg. For model volume Vκ(r), prove Vol(B(p,r))/Vκ(r) is nonincreasing for positive radii before the positive-curvature model pole, with the usual constant-curvature model domain (`bishopGromov`: with `modelBallVolume κ n r = ∫_0^r s_κ(t)^(n−1) dt`, the model ball volume divided by the volume of the unit (n−1)-sphere, the statement is `Vol(B(p,s))/Vκ(s) ≤ Vol(B(p,r))/Vκ(r)` for 0<r≤s, and s<π/√κ when κ>0, with the Ricci hypothesis `Ric(v,v)≥(n−1)κ|v|²` on every tangent vector; the Lean statement carries no dimension hypothesis, because in dimensions 0 and 1 the model volume is r and the ratio is nonincreasing directly for a point, the line and the circle). In particular for κ=0 it is nonincreasing for all r>0 and at most one after normalizing by ω_n r^n.
+Supply annulus/restricted-polar versions, small-ball limit1, measure-zero cut locus, arbitrary center, density/metric pullback and scaling comparisons. State positive-curvature maximal radii explicitly. Do not substitute a sectional Rauch hypothesis for Ricci lower bounds.
+
+   The model ball volume API comprises: `Vκ(0)=0`, `Vκ` is continuous and
+   strictly increasing on [0,π/√κ) for κ>0 and on [0,∞) otherwise, with
+   derivative `s_κ(r)^(n−1)`; `V₀(r)=rⁿ/n` for n≥1; and the scaling law
+   `V_(κ/c²)(cr)=cⁿ·Vκ(r)` for c>0, n≥1.
+
+   **Checks.**
+
+   - n=2, κ=0: `V₀(r)=r²/2`, which is the disc area πr² divided by the
+     circle length 2π; a definition with exponent n instead of n−1 would give
+     r³/3.
+   - n=2, κ=1: `V₁(r)=1−cos r`, the spherical cap area 2π(1−cos r) divided by
+     2π; at r=π this is 2, the whole unit sphere's area 4π over 2π.
+   - n=3, κ=0: `V₀(r)=r³/3`, the ball volume 4πr³/3 over the unit-sphere area
+     4π; n=1 and n=0 both give `Vκ(r)=r` since the natural-number exponent
+     n−1 is 0.
+   - On the unit two-sphere (Ric=g, κ=1) the ratio `Vol(B(p,r))/V₁(r)` is the
+     constant 2π for r<π, while the flat normalization `Vol(B(p,r))/r²` is
+     2π(1−cos r)/r², equal to 2.888, 2.224 and 1.273 at r=1, 2, π,
+     nonincreasing as the κ=0 case of the theorem requires; on the hyperbolic
+     plane (Ric=−g, outside the κ=0 hypothesis) `2π(cosh r−1)/r²` is 3.41 at
+     r=1 and 4.34 at r=2, increasing, so the Ricci hypothesis is not removable.
+
 
    Proof programme: on the star domain before first cut, let J(t,θ) be the positive normal exponential Jacobian, A its shape/Riccati endomorphism and h=tr A. From the Jacobi equation derive h'+tr(A²)+Ric(γ',γ')=0, hence h'+h²/(n−1)+(n−1)κ<=0 by trace Cauchy–Schwarz. Use the actual small-t asymptotic J/t^(n−1)→1 to prove J/sκ^(n−1) nonincreasing. Set J=0 beyond the cut time; this adds only downward jumps. Prove measurability and the native density/polar change-of-variables on the cut-truncated domain. Integrate over the SAME angular unit sphere and then radially; the elementary ratio-of-integrals lemma yields the ball ratio. Prove the n=1 interval/circle cases separately; no vacuous Ricci plane condition gives Euclidean rigidity there.
 
@@ -1051,7 +1147,7 @@ uses the pinned compact-generation results and AlgebraicTopology §8.11a.
 
    Export the conditional conclusion: IF the connected universal-cover manifold constructed above is compact, its fibre is closed by continuity and T1 of the base, and discrete by the covering theorem; compactness of that closed fibre then implies finiteness. The fibre/loop-class bijection proves pi1 finite. The Myers CALLER supplies the compactness hypothesis only AFTER applying its sine-index diameter bound upstairs. The cover producer neither invokes Myers to construct/complete the cover nor assumes finite pi1; this separates the early construction from the caller conclusion. This argument does not use cover classification, K(G,1), higher homotopy or a finite-pi1 hypothesis in constructing the cover. Pullback metrics along cover morphisms and base isometries have the expected functoriality.
 
-4. Cartan–Hadamard (`cartanHadamard_isCoveringMap`): on connected M, K≤0 and completeness imply exp_p is a covering from T_pM.
+4. Cartan–Hadamard (`cartanHadamard_isCoveringMap`): on connected M, K≤0 and completeness imply exp_p is a covering from T_pM (Nicolaescu, *Lectures on the Geometry of Manifolds*, Theorem 6.2.6, p. 238).
    Establish its nonsingular/expanding differential by R2/comparison and apply
    the preceding covering criterion. The simply connected specialization gives
    a global smooth exponential diffeomorphism, a unique geodesic between any
@@ -1062,7 +1158,9 @@ uses the pinned compact-generation results and AlgebraicTopology §8.11a.
    (covering criterion), HopfRinow (Completed) Layer 4 (completeness).
 5. Bonnet–Myers (`bonnetMyers_distance`): for connected complete n≥2 and
    `Ric(v,v)≥λ|v|²` with λ>0, prove diameter≤π√((n−1)/λ), compactness and finite
-   fundamental group. Sum the sine-test-field index forms along a minimizing
+   fundamental group at every basepoint (`myers_finite_fundamentalGroup`)
+   (Nicolaescu, *Lectures on the Geometry of Manifolds*, Theorem 5.2.26,
+   p. 220, with λ=(n−1)/r²). Sum the sine-test-field index forms along a minimizing
    geodesic, then apply the same bound to the Riemannian universal cover.
 6. Define `inj(p)=sup{r≥0 | exp_p restricts to a diffeomorphism from
    the tangent open r-ball onto the metric r-ball}`, valued in [0,∞], and
@@ -1088,15 +1186,27 @@ uses the pinned compact-generation results and AlgebraicTopology §8.11a.
    `inj(M)>0`. Minimize length in each free homotopy class
    on a closed compact manifold using arclength parametrization, Arzelà–Ascoli, lower semicontinuity and
    uniform normal-neighborhood homotopies;
-   a nontrivial class gives a nonconstant closed geodesic. Prove Synge's compact connected even
-   positive-dimensional oriented positive-sectional-curvature theorem using
+   a nontrivial class gives a nonconstant closed geodesic. Prove Synge's compact connected
+   even-dimensional oriented positive-sectional-curvature theorem (`synge`:
+   compact connected orientable M of even dimension with `⟨R(u,v)v,u⟩>0` on
+   every linearly independent pair is simply connected; dimension zero is
+   included, a point being simply connected) using
    holonomy, an odd-dimensional special-orthogonal fixed vector and the closed
-   index variation. Include the odd-dimensional orientability consequence and
-   the real-projective counterexamples distinguishing the hypotheses.
+   index variation. Include the odd-dimensional orientability consequence
+   (`synge_orientable_of_odd`: compact connected M of odd dimension with the
+   same curvature hypothesis is orientable) and
+   the real-projective counterexamples distinguishing the hypotheses: RP² has
+   K=1 and fundamental group ℤ/2 and is excluded only by orientability; the
+   flat torus is orientable with fundamental group ℤ² and is excluded only by
+   strict positivity; RP³ has K=1, is orientable and has fundamental group
+   ℤ/2, so in odd dimension the conclusion is orientability, not simple
+   connectivity.
    The even-dimensional conclusion is simple connectivity.
    The injectivity-radius API includes isometry invariance, positive local
    normal radius, the uniqueness statement below the radius, and the cut-time
-   characterization above (Lee, Chapter 10, cut loci and injectivity radius).
+   characterization above (Nicolaescu, *Lectures on the Geometry of
+   Manifolds*, Definition 4.1.23, p. 151, for the injectivity radius; Lee,
+   Chapter 10, section on cut points, for the cut-time characterization).
 
    **Checks.**
 
@@ -1142,7 +1252,15 @@ uses the pinned compact-generation results and AlgebraicTopology §8.11a.
    local constant-curvature isometry germs from their value/tangent data, using
    completeness to continue along finite paths and simple connectivity to
    remove path dependence.
-   Prove the Killing–Hopf universal-cover classification and the quotient
+   Prove the Killing–Hopf universal-cover classification (`killingHopf_euclidean`,
+   `killingHopf_sphere`, `killingHopf_hyperbolic`: a connected complete simply
+   connected Riemannian manifold modelled on ℝⁿ with constant sectional
+   curvature 0, 1 or −1 is isometric to Euclidean n-space, to the unit sphere
+   of ℝ^(n+1), or to the upper half-space model of hyperbolic n-space with the
+   metric `(|dx|²+dt²)/t²`; the spherical case needs n≥2, since the line
+   satisfies the curvature hypothesis vacuously for n=1 and is not a circle,
+   and the hyperbolic case needs n≥1 so that the two dimensions agree, while
+   the Euclidean case holds for every n, a point and the line included) and the quotient
    description by free properly discontinuous discrete smooth isometries.
    Construct the quotient atlas, descended metric and covering for a free properly
    discontinuous discrete group of smooth isometries on any Riemannian manifold;
@@ -2662,6 +2780,18 @@ minimization nor GeometricCurrents regularity enters R5b.
 - B. O'Neill, [The fundamental equations of a submersion](https://doi.org/10.1307/mmj/1028999604),
   Michigan Math. J. 13 (1966), 459–469, Theorem 2 and Corollary 1: the curvature
   identities of a Riemannian submersion used by R1's projective examples.
+- B. Andrews, [Lectures on Differential Geometry, Lecture 16: Curvature](https://maths-people.anu.edu.au/andrews/DG/DG_chap16.pdf),
+  Australian National University lecture notes, Proposition 16.2.1, p. 154:
+  the polarization identity recovering the curvature tensor from sectional
+  curvatures, used by R1.1.
+- L. Brewin, [Riemann normal coordinate expansions using Cadabra](https://arxiv.org/abs/0903.2087),
+  Class. Quantum Grav. 26 (2009) 175017, arXiv:0903.2087v3, §5 (third-order
+  metric expansion, p. 9) and equation (11.1), p. 15: the quadratic and cubic
+  jets of the metric in normal coordinates, used by R1.4.
+- L. I. Nicolaescu, [Lectures on the Geometry of Manifolds](https://academicweb.nd.edu/~lnicolae/Lectures.pdf),
+  author's electronic edition, Definition 4.1.23 and Proposition 4.1.25,
+  p. 151 (injectivity radius; first-order contact of normal coordinates),
+  Theorem 5.2.26, p. 220 (Myers) and Theorem 6.2.6, p. 238 (Cartan–Hadamard).
 - Z. Wang, [Riemannian geometry notes](https://xumin.net/c/files/riemannian_geometry.pdf),
   as recorded by X. Liang, Chapters 5–6, provides an accessible finite
   piecewise-Jacobi index reduction and comparison reference.
