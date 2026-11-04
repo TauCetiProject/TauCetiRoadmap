@@ -159,6 +159,18 @@ A1–A3 and A8 consume no B4 approximation/tensor targets;
 their compact, function and invariant-subspace layers are independent
 suppliers for B4. Other layers use the explicit Banach-space dependencies.
 
+This roadmap owns Banach-algebra holomorphic calculus, radicals, modules,
+bounded Hochschild cohomology and Johnson amenability. It does not own
+C*-representations, continuous functional calculus, C*-tensor norms, or
+nuclearity. A2 owns its finite-spectrum calculi, including their continuous and star
+criteria, and the isometric-calculus normality converse stated there; it consumes
+the native normal-operator calculus for the comparison, rather than
+constructing general Hilbert-space continuous calculus. Hilbert-space Borel spectral theory belongs to
+[OperatorTheory](../OperatorTheory/README.md), and general semigroup generators
+belong to [OneParameterSemigroups](../../Completed/OneParameterSemigroups/README.md).
+Set-theoretic constructions of discontinuous homomorphisms and classification
+of radical valuation algebras are outside this scope.
+
 ## How to read the build
 
 Layers 1–3 build radical and spectral theory and its function-algebra examples;
