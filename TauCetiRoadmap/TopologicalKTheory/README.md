@@ -60,11 +60,16 @@ manifold, bundle or group-completion vocabulary replaces an existing API.
 - [SmoothBundlesConnections](../SmoothBundlesConnections/README.md) supplies
   smooth principal/associated bundles, connections and smooth bundle operations.
   T1 and T6 build continuous counterparts and their smoothing/descent comparisons.
-- [GeneralizedCohomology G4.0b](../GeneralizedCohomology/README.md) supplies
-  the smooth graph-chart upgrade on T1.5's existing finite real/complex
-  Grassmannian carriers for T6.6's homogeneous-space diffeomorphism.
-  Its direct inputs from this roadmap are T1.5–T1.6's topological carriers;
-  the join-classifier input through CharacteristicClasses C1.1 consumes T6.4.
+- T1.5 owns the smooth graph-chart upgrade on its finite real/complex
+  Grassmannian carriers and their rank-one diffeomorphisms to the native
+  projective manifolds, used by T6.6's homogeneous-space diffeomorphism. It
+  consumes AlgebraicTopology Stage 4.6's real projective structure and
+  ComplexKahlerGeometry K1/K7.1's projective atlases and real restriction.
+  [GeneralizedCohomology G4.0b](../GeneralizedCohomology/README.md) consumes
+  this upgrade as the target of its quaternionic scalar-forgetting maps and
+  owns the quaternionic Grassmannian, Stiefel and HP smooth carriers; its
+  direct inputs from this roadmap are T1.5–T1.6's carriers, and the
+  join-classifier input through CharacteristicClasses C1.1 consumes T6.4.
   All precede T6.6, and those classifiers do not consume the smooth upgrade
   or T6.6.
 - [CharacteristicClasses C1.1a–b](../CharacteristicClasses/README.md) supplies
@@ -245,9 +250,9 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
    Construct the
    tautological and orthogonal-complement bundles, finite Stiefel principal
    bundles and their local trivializations, stabilization, direct-sum and
-   scalar-forgetting maps on these same carriers. GeneralizedCohomology G4.0b
-   supplies the smooth graph-chart/native-projective upgrade; this item owns
-   the topological construction, used unchanged by T1.6 and T6.6. Compare its
+   scalar-forgetting maps on these same carriers. This item owns the
+   topological construction, used unchanged by T1.6 and T6.6, and the smooth
+   graph-chart/native-projective upgrade below. Compare its
    local-coordinate bundle charts with Mathlib bundles. Construct the finite
    Schubert characteristic maps for the standard coordinate flag and their CW
    structure, with the quotient topology equal to its weak topology. In the
@@ -324,6 +329,37 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
    action local systems. This early phase consumes finite-frame charts,
    ordinary sphere degree and the actual fibration LES; it has no Schubert,
    universal-class, Bott or later CC obstruction premise.
+
+   Own the smooth upgrade of these same finite real and complex carriers,
+   of real dimensions r(N−r) and 2r(N−r): smooth graph charts in
+   Hom_𝕜(V,V^⊥), identified through chosen orthonormal bases with
+   EuclideanSpace ℝ (Fin (r(N−r))) for 𝕜=ℝ and, for 𝕜=ℂ, with
+   EuclideanSpace ℝ (Fin (2r(N−r))) in interleaved real blocks
+   (Re z₀,Im z₀,…); smooth transitions; and agreement of the resulting
+   manifold topology with the quotient/graph-chart topology above. Prove the
+   tautological and orthogonal-complement bundles smooth, orthogonal
+   complementation a diffeomorphism Gr(r,N)≃Gr(N−r,N), and the
+   stabilization, direct-sum and scalar-forgetting Gr_ℂ(r,N)→Gr_ℝ(2r,2N)
+   maps smooth, reusing the bundles and classifiers above. In rank one own
+   the real and complex projective comparison homeomorphisms from native
+   `Projectivization 𝕜 (Fin (n+1)→𝕜)` to `finiteGrassmannian 𝕜 1 (n+1)`,
+   pinning their underlying equivalences directly to native equivSubmodule,
+   since `finiteGrassmannian` is this same finrank-submodule subtype, and
+   their topologies to the nonzero-vector and full-frame-span quotients;
+   then prove they are diffeomorphisms to AlgebraicTopology Stage 4.6's
+   native RP and ComplexKahlerGeometry K7.1's native CP manifold structures.
+   For the complex comparison own the projective real-model comparison:
+   consume K1's real restriction of K7.1's designated projective
+   ChartedSpace/IsManifold structure and its existing atlas comparison, and
+   own only the model transport from Fin n→ℂ to EuclideanSpace ℝ (Fin (2*n))
+   in interleaved blocks (Re z₀,Im z₀,Re z₁,Im z₁,…), matching (1,i) and
+   K1's complex orientation; prove its real smooth maps agree with the
+   supplied real atlas through this linear homeomorphism. The rank-one
+   diffeomorphism and T6.6 use this same model transport on that real
+   structure; no second projective manifold is defined. GeneralizedCohomology
+   G4.0b consumes these smooth carriers as the targets of its quaternionic
+   scalar-forgetting maps and owns the quaternionic Grassmannian, Stiefel
+   and HP carriers with their smooth structures.
 
 6. **T1.6a. Stable carriers and classification.** Build stable complex/unoriented real Grassmannian classification of bundles
    of bounded rank over compact bases and stable classes over finite CW bases,
@@ -1082,9 +1118,9 @@ comparisons, not an assumption on every K-object.
    Atiyah–Singer theorem or a theorem about arbitrary elliptic symbol families.
 6. Construct the block subgroup H_r=U(r−1)×U(1), its principal quotient,
    and the equivariant diffeomorphism `U(r)/H_r≃CP^(r−1)` with the projective
-   charts of ComplexKahlerGeometry K7 and GeneralizedCohomology G4.0b's
-   smooth graph charts on T1.5's same complex Grassmannian carrier.
-   Consume G4.0b's rank-one graph-chart/native-Projectivization diffeomorphism
+   charts of ComplexKahlerGeometry K7 and T1.5's smooth graph charts on its
+   same complex Grassmannian carrier.
+   Use T1.5's rank-one graph-chart/native-Projectivization diffeomorphism
    with K7's same projective smooth structure; prove
    this homogeneous quotient diffeomorphism and its U(r)-equivariance by
    composing that comparison with the actual frame/plane quotient maps.
@@ -1326,6 +1362,8 @@ its characteristic-class consequences; G2.8 owns the generic
 
 T1→T2's additive/λ-sum basics→T3 supplies the cohomology machinery used by T4;
 T1.6 constructs the stable carriers before T2.1's BU×ℤ classifying comparison.
+T1.5's smooth graph-chart upgrade and rank-one projective diffeomorphisms
+precede T6.6 and consume no T6 input.
 T7.0 constructs their inverses from the connected H-space shear using AT4.5,
 AT8.1, AT8.5 and T2.1; it consumes neither the real Bott proof nor characteristic classes.
 T2's λ-product identities and T2.5's Adams operations follow the T5

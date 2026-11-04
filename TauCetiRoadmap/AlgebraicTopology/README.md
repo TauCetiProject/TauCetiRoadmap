@@ -116,10 +116,13 @@ groups.  Those theories consume this roadmap's chain, CW, duality, and homotopy 
   owns the pointed compactly generated suspension–loop adjunction.
 - [HomotopySpheres §3A.1](https://github.com/TauCetiProject/TauCetiRoadmap/pull/284)
   owns the compact-generation coreflection and CW comparison consumed by
-  4.5's kified CW product, 8.10 and 8.11a/b. [GeneralizedCohomology G2.1](../GeneralizedCohomology/README.md)
-  owns the single simplicial-realization product comparison consumed by
-  8.10 and8.11b; its foundation uses AT4/8.2 and this compact-generation API,
-  with no ordinary representability, EM-family or HA input.
+  4.5's kified CW product, 8.10 and 8.11a/b. Stage 4.5 owns the single
+  simplicial-realization product comparison consumed by 8.10 and 8.11b,
+  together with the compact-generation facts it uses; it rests on Stage 4's
+  realization CW structure and kified CW product, with no ordinary
+  representability, EM-family or HA input.
+  [GeneralizedCohomology G2.1](../GeneralizedCohomology/README.md) consumes
+  it for its pointed smash/quotient versions and monoidal diagrams.
 - [Topological K-theory](../TopologicalKTheory/README.md) T1.6 owns the named
   fixed-rank infinite Grassmannian carriers, their final/weak CW topology and
   universal bundles. [CharacteristicClasses C1.5](../CharacteristicClasses/README.md)
@@ -592,7 +595,8 @@ coefficients satisfy the categorical exactness assumptions. Extend its API below
    `reducedSuspensionTwoStepHomeomorph`, from its CB/B quotient followed by
    collapse of the basepoint meridian to the same raw interval-last quotient,
    with identity formula on (x,t) representatives.
-   GeneralizedCohomology supplies its categorical monoidal adapters.
+   GeneralizedCohomology G2.1 consumes these quotients for its categorical
+   monoidal adapters.
 
    Pin `basedSphereReferenceGenerator` in H_n(Sⁿ,{p};ℤ) independently:
    for n≥1 it is the image of the Stage 2.5 positive-local-chart/outward-first
@@ -768,8 +772,25 @@ coefficients satisfy the categorical exactness assumptions. Extend its API below
    single k coreflection/CW compact-generation API of HomotopySpheres §3A.1.
    Construct the cellular approximation of the actual diagonal X→k(X×X)
    and its homotopy, using this product structure. DGFloer 1.2 consumes that
-   diagonal in the multiplicative Serre construction; G2.1 retains ownership
-   of the distinct simplicial-realization product comparison.
+   diagonal in the multiplicative Serre construction.
+   Own the simplicial-realization product comparison: for native simplicial
+   sets K and L, the canonical continuous bijection |K×L|→|K|×|L| is a
+   homeomorphism onto k(|K|×|L|), natural in K and L and compatible with
+   the projections, the diagonal and the degreewise basepoints of pointed
+   simplicial sets. Prove it on Stage 4.7's realization CW structures: each
+   pair of nondegenerate simplices gives the product cell |Δ[n]|×|Δ[m]|,
+   whose shuffle triangulation realizes Δ[n]×Δ[m] by a homeomorphism of
+   compact Hausdorff spaces, and both sides carry the same colimit topology
+   over these cells. State the compact-generation facts used as targets of
+   this item: realizations and Hausdorff CW complexes are compactly
+   generated, k(X×Y) is the product in the compactly generated category
+   with the same compact subsets as X×Y, k(X×Y)=X×Y when either factor is
+   locally compact, and k preserves the quotient maps and colimits of the
+   cell filtrations above. Its identification of |A•×A•| with
+   k(|A•|×|A•|) precedes 8.10 and 8.11b, which consume it for realized
+   addition and the EM loop adapters. GeneralizedCohomology G2.1 consumes it
+   for its pointed smash/quotient versions and monoidal/cofiber diagrams,
+   so no second realization-product comparison is built there.
    Own `ordinaryPairQuotientComparison` and `ordinaryPairQuotientCohomologyComparison`:
    for closed CW/cofibration-NDR pairs (X,B), the actual collapse map induces
    H_n(X,B;M)≃H̃_n(X/B;M) and H^n(X,B;M)≃H̃^n(X/B;M), for every n≥0,
@@ -1926,14 +1947,12 @@ items 1–7 are independent of those later constructions.
     hypothesis, and no passage from finite subcomplex bijections that suppresses
     phantom-map issues. Prove naturality in X and A, compatibility with normalized
     homotopy-group identifications, zero, addition and inverses. Obtain addition
-    from the simplicial abelian models. Consume GeneralizedCohomology G2.1's
-    foundational `realizationProductKelleyComparison`, identifying |A•×A•|
-    with k(|A•|×|A•|); that portion consumes only AT4/8.2 and the convenient
-    category, preceding HA and ordinary representability. Consume
-    HomotopySpheres §3A.1's right adjoint k in i⊣k, counit and CW compact-
-    generation comparison, on native `CompactlyGenerated`,
-    `UCompactlyGeneratedSpace` and `TopologicalSpace.compactlyGenerated`.
-    Consume those named suppliers in their stipulated shapes. Route paired maps
+    from the simplicial abelian models. Use Stage 4.5's simplicial-realization
+    product comparison, identifying |A•×A•| with k(|A•|×|A•|), together
+    with its stated compact-generation facts on native `CompactlyGenerated`,
+    `UCompactlyGeneratedSpace` and `TopologicalSpace.compactlyGenerated`;
+    that target uses only Stage 4 and precedes HA and ordinary
+    representability. Route paired maps
     from compactly generated X through this product comparison before applying
     realized addition, and compare back to ordinary TopCat homotopy classes on
     CW sources. Prove the pullback map is an additive equivalence.
@@ -2050,7 +2069,7 @@ items 1–7 are independent of those later constructions.
     Prove σ sends the distinguished universal class to the class whose adjoint
     induces identity under the native last-coordinate shift. Consume
     HomotopySpheres §3A's pointed compactly generated suspension–loop adjunction
-    and G2.1's foundation-only realization-product comparison for addition.
+    and Stage 4.5's simplicial-realization product comparison for addition.
     Only after 8.11a's independent CW-type proof, consume
     DGFloer 1.2's CW approximation and 8.5 to upgrade the EM loop weak
     equivalences to pointed homotopy equivalences. Own the bijection induced
@@ -2106,9 +2125,9 @@ supplement or the categorical LS supplement unless named explicitly.
 | 8.8a raw bar/abelian input | 4, ordinary6, native nerve/realization and universal-cover APIs | DGFloer Layer1 item4 abelian K(A,1) specialization |
 | 8.8b normalized model comparison | AT8.8a bar model; CS Stage3 items11–15 and Stage4 items16–18 | 8.9 |
 | 8.9 primary relative obstructions | 4, DGFloer 1.2 fibre transport, ordinary6 cellular cochains, 8.1–8.7 | 8.8b |
-| 8.10 ordinary representability | 4, ordinary6, 8.3/8.6, 8.9, DGFloer Layer 1 items 1 and 4, GeneralizedCohomology G2.1 foundational product comparison and HomotopySpheres §3A.1 kification | 7 |
+| 8.10 ordinary representability | 4, ordinary6, 8.3/8.6, 8.9, DGFloer Layer 1 items 1 and 4, 4.5's simplicial-realization product comparison and compact-generation facts | 7 |
 | 8.11a mapping-space and based-loop CW type | Earlier CW/pair foundations (4) and HomotopySpheres §3A.1 compact-generation/product API only; no 8.10 or §3A.2 input | 7 |
-| 8.11b ordinary EM loops | 8.5, 8.10, 8.11a, DGFloer Layer 1 item 2 and standing/Layer 2 item 3 loop comparison, HomotopySpheres §3A.1 compact-generation/product API and §3A.2 adjunction, G2.1 foundation-only realization-product comparison | 7 |
+| 8.11b ordinary EM loops | 8.5, 8.10, 8.11a, DGFloer Layer 1 item 2 and standing/Layer 2 item 3 loop comparison, HomotopySpheres §3A.1 compact-generation/product API and §3A.2 adjunction, 4.5's simplicial-realization product comparison | 7 |
 | 8.12 classical EM comparisons | 8.8b, 8.10, TopologicalKTheory T1.6 carrier construction and DGFloer 1.2 Serre LES via CharacteristicClasses C1.1 bundle adapter/C1.5 finite comparisons and universal sphere-bundle portion | 7 |
 
 In particular, Stage 1 is independent; the chain `2 -> 3 -> 4` is strict; Stages 2--4 all feed

@@ -30,20 +30,19 @@ is imposed on generalized theories.
 
 | Owner | Contract consumed here | Boundary |
 | --- | --- | --- |
-| [AlgebraicTopology](../AlgebraicTopology/README.md), Stages 2–5, 8 | CW cells/skeleta and cellular approximation, homotopy groups and Whitehead, ordinary pair/triple homology and products; Stage4.5 ordinaryPairQuotientComparison and ordinaryPairQuotientCohomologyComparison | singular chains and ordinary homology/cohomology remain there |
+| [AlgebraicTopology](../AlgebraicTopology/README.md), Stages 2–5, 8 | CW cells/skeleta and cellular approximation, homotopy groups and Whitehead, ordinary pair/triple homology and products; Stage4.5 ordinaryPairQuotientComparison and ordinaryPairQuotientCohomologyComparison; Stage4.5's simplicial-realization product comparison |K×L|≃k(|K|×|L|) with its compact-generation facts | singular chains and ordinary homology/cohomology remain there |
 | AlgebraicTopology Stage 6.0 | countable inverse towers: `lim = ker(1−shift)`, `lim¹ = coker(1−shift)`, exactness, Mittag–Leffler and cofinal-shift maps | G3 builds the topological telescope and mapping-spectrum comparison, not another algebraic tower carrier |
 | [DGFloer](../DGFloer/README.md), Layer1 item4; AlgebraicTopology Stage8 | DGFloer functorial abelian EM models; ordinaryEMUniversalClass, ordinaryEMRepresentability, ordinaryEMRelativeRepresentability, ordinaryEMLoopComparison, ordinaryCohomologySuspension and projectiveEMComparisons on arbitrary CW spaces | G2 assembles HA and proves the spectral ordinary comparison; nonabelian K(π,1) remains ordinary topology |
 | DGFloer Layer 1 item 4 | Serre classes, including torsion, and simply connected Hurewicz modulo a class | G5 supplies the rational-sphere/stabilization argument, not a second general Serre-class owner |
 | [HomotopySpheres Stage 3A](https://github.com/TauCetiProject/TauCetiRoadmap/pull/284) | the native `CompactlyGenerated` inclusion and compact-generation right adjoint; pointed convenient mapping spaces, suspension/loop, smash, mapping cone/Puppe, stable sphere stems and Freudenthal | G2 builds pointed simplicial and spectral constructions and the adapters; it does not create a second topological smash or stable-stem owner |
-| [TopologicalKTheory](../TopologicalKTheory/README.md), T1, T5–T7; [CharacteristicClasses](../CharacteristicClasses/README.md), C1–C3 | actual numerable bundles/classifiers, CC C2.1 disc/sphere quotient and ordinary Thom classes, bundle-level real/complex Bott isomorphisms and chosen ordinary class conventions | G4–G5 supply the spectral and generalized adapters. G4.0 supplies the quaternionic bundle/HP adapter; G5 compares KSp with quaternionic bundle groups |
-| [ComplexKahlerGeometry K1/K7.1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/a452db2cfef888380d1b7b7ce00fa06d5bad1109/TauCetiRoadmap/ComplexKahlerGeometry/README.md); [ComplexManifolds PR279](https://github.com/TauCetiProject/TauCetiRoadmap/pull/279), Milestones1–2 | #279's real scalar restriction and complex orientation as consumed by K1, and K7.1's native CP complex and real atlases | G4.0b consumes these atlases and owns only the fixed interleaved real Euclidean model change and rank-one Grassmannian diffeomorphism |
+| [TopologicalKTheory](../TopologicalKTheory/README.md), T1, T5–T7; [CharacteristicClasses](../CharacteristicClasses/README.md), C1–C3 | actual numerable bundles/classifiers, T1.5's smooth real/complex Grassmannian graph-chart upgrade and rank-one projective diffeomorphisms, CC C2.1 disc/sphere quotient and ordinary Thom classes, bundle-level real/complex Bott isomorphisms and chosen ordinary class conventions | G4–G5 supply the spectral and generalized adapters. G4.0 supplies the quaternionic bundle/HP adapter; G5 compares KSp with quaternionic bundle groups |
+| [ComplexKahlerGeometry K1/K7.1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/a452db2cfef888380d1b7b7ce00fa06d5bad1109/TauCetiRoadmap/ComplexKahlerGeometry/README.md); [ComplexManifolds PR279](https://github.com/TauCetiProject/TauCetiRoadmap/pull/279), Milestones1–2 | #279's real scalar restriction and complex orientation as consumed by K1, and K7.1's native CP complex and real atlases | TopologicalKTheory T1.5 consumes these atlases for its real/complex graph-chart upgrade, interleaved real model change and rank-one Grassmannian diffeomorphisms; G4.0b compares its HP¹≃S⁴ adapter with K7's CP¹≃S², and G5.7 uses K7.1's projective stage charts |
 | [SmoothBundlesConnections](../SmoothBundlesConnections/README.md), B1.4 | proper free-action smooth quotient and principal-bundle/submersion comparisons | G4.0b supplies the Sp/Stiefel/Grass/HP carriers before Riemannian metric consumers |
 | [SpinRepresentations](../SpinRepresentations/README.md), L7; [SpinGeometry](../SpinGeometry/README.md), G4.1 | native Spin(3) topology/action and Spin-cover frame/form adapters | G4.0a supplies the calibrated Spin(4) and quaternionic forgetting maps |
 | [SpinGeometry G1.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/41b8e2757fda1d8b7502af380e44b011b83bd7ff/TauCetiRoadmap/SpinGeometry/README.md#g1-negative-metric-clifford-modules-and-their-positive-metrics) | `cliffordScalarTrace` and its ℂ-linear extension τ_ℂ, their normalized regular-module trace formulas and algebra-isomorphism transport, independent of later C*-models | G5.5 proves positivity/faithfulness for its mixed Cartan adjoint and the Hilbert-module/completion norm comparisons |
 | [GeometricTopology](../GeometricTopology/README.md), smooth embeddings and tubular neighbourhoods | actual finite-dimensional normal bundles, tubes and collapse comparison | G5 constructs finite-spectrum duality; structured PT and geometric bordism remain TangentialBordism |
 | DGFloer Layer1 item2 | ordinary Serre homology/cohomology spectral sequences, arbitrary-CW/base comparisons and multiplicative convergence | G5 uses these for rational EM/sphere calculations; no returned dependency on generalized spectra |
 | [HilbertModules H2, H4–H6](https://github.com/TauCetiProject/TauCetiRoadmap/pull/861), [CStarAlgebras C5](https://github.com/TauCetiProject/TauCetiRoadmap/pull/860), [OperatorKTheory K5](https://github.com/TauCetiProject/TauCetiRoadmap/pull/866) | complex Hilbert compact operators/spatial tensors, strong-topology unitary contractibility, regular functional calculus and graded Clifford APIs | G5 adds the real/Clifford specializations, equivariant spectral construction and graded family-index/classification comparisons; complex generic operator foundations keep these owners |
-| [BordismFormalGroups F6.5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/d52555458ff6c92e777455b7c6e615849ae89f4e/TauCetiRoadmap/BordismFormalGroups/README.md#f65-local-group-actions-and-completion-comparisons) | generic categorical model, enriched diagrams, coherent model diagrams/stability, Kan extensions and marked straightening (including the coCartesian instance), LM module-fibre rectification, and operator-category unit-adjoined monoidal localization/relative adjunctions | G5.7 verifies these hypotheses on its specified G2 models and constructs the continuous-torus, Borel, Thom/support and tower instances; chromatic and Tate applications remain with their owner |
 | G5's compatible bundle-diagram interface | actual bundles, stabilization isomorphisms, coherent block-sum/permutation maps and their universal classifier adapters | TangentialBordism consumes this interface for ξ-normal structures; geometric cycles over X, structured Pontryagin–Thom, coefficient/characteristic-number calculations and rational bordism generators stay there |
 
 The cited supplier targets are contracts to build, with no claim that their
@@ -60,7 +59,10 @@ with its actual MvPowerSeries Fin2 law. StringOrientation and
 EllipticCohomology own BString/string data, tmf/Tmf/TMF and their orientations.
 TangentialBordism owns the geometric projective-bundle transfers and their
 bordism-kernel generation; PositiveScalarCurvature consumes them for surgery
-and metric applications. These consumers do not supply G1–G5's foundations.
+and metric applications. BordismFormalGroups F6.5 and EllipticCohomology
+consume G2.11's enriched, quasicategorical, straightening,
+monoidal-localization and operadic foundations for their Borel Tate and
+finite-action constructions. These consumers do not supply G1–G5's foundations.
 
 ## Conventions and complete basic APIs
 
@@ -231,12 +233,13 @@ axiomatic theories independently of their G2 spectral representation.
    and CC C1.2's actual |Sing X|→X weak-equivalence. DGFloer Layer 1 item 2
    supplies its abstract CW-approximation comparison. Use those unit/counit
    results to prove realization ⊣ Sing is a Quillen equivalence.
-   Build `realizationProductKelleyComparison`, the homeomorphism
-   |K×L|≃|K|×_k|L| and its pointed smash/quotient versions, and the
+   Consume AT Stage 4.5's simplicial-realization product comparison, the
+   homeomorphism |K×L|≃|K|×_k|L| with its compact-generation facts; AT8.10
+   and 8.11b use that same comparison for their realization and loop
+   adapters. Build its pointed smash/quotient versions and the
    monoidal/cofiber diagrams. This early realization-product adapter uses
-   only AT4/8.2 and PR284 Stage3A. AT's ordinaryEMRepresentability
-   and ordinaryEMLoopComparison consume this foundational monoidal
-   portion for their realization and loop adapters; it does not depend on HA, G3 Brown or the other G2 targets.
+   only AT4/8.2 and PR284 Stage3A; it does not depend on HA, G3 Brown or
+   the other G2 targets.
 2. **Symmetric sphere modules.** Use the finite-bijection skeleton with
    objects n and hom sets `Fin n ≃ Fin m`; its automorphism group at n is
    `Equiv.Perm (Fin n)`.
@@ -659,6 +662,843 @@ axiomatic theories independently of their G2 spectral representation.
    of a point; projection surjectivity still requires Nonempty F. These
    fixed-data and numerable-bundle statements retain their stated hypotheses;
    they give no global homotopy equivalence from a single contractible fibre.
+
+11. **Enriched, quasicategorical and monoidal foundations.** These
+   simplicial-set, quasicategorical and operadic foundations are
+   construction targets of this item, stated below the spectra they
+   enhance and before any equivariant or chromatic application. Work in
+   explicit nested universes and prove change-of-universe comparisons
+   for the small and accessible models. BordismFormalGroups F6.5 and
+   EllipticCohomology consume these targets in their stated shapes; G5.7
+   instantiates them on its specified G2 models.
+
+   **Categorical model and functor spaces.** Reuse native
+   `EnrichedCat SSet`, `EnrichedFunctor`, `ForgetEnrichment`,
+   `CategoryTheory.SimplicialCategory`, `SimplicialThickening`,
+   `SimplicialNerve`, `SSet.Quasicategory`, inner fibrations,
+   inner-anodyne maps and internal hom. Extend native horn-filling
+   and nerve/quasicategory APIs to the required universes, preserving
+   their predicates and constructors. Construct the ordinary category
+   of the native enriched bundles with strict enriched functors;
+   native `ForgetEnrichment.enrichedOrdinaryCategory` supplies their
+   compatible ordinary enrichment for the nerve. Prove its comparison
+   with that ordinary-enriched presentation; the native bicategory
+   alone is not the category carrying the model structure. Construct
+   the rigidification/coherent-nerve adjunction and prove the locally-Kan
+   coherent nerve is a quasicategory.
+
+   Construct the Bergner model on this category: weak equivalences
+   are weak equivalences on mapping simplicial sets and essentially
+   surjective on π₀-categories. Use free composition on enriched graphs
+   to prove local presentability. Generate cofibrations by adjoining
+   objects and free mapping-simplex boundary cells; define fibrations
+   by lifting against generated trivial cofibrations and construct
+   functorial factorizations by model recognition. Prove left properness
+   by the enriched word filtration of pushouts of free cells and
+   filtered unions. Establish the following invertibility property
+   before characterizing these fibrations locally.
+   For the fixed Cartesian Kan–Quillen base prove the properties
+   of HTTA.3.2's excellent-base criterion: combinatoriality, product
+   stability of monomorphism cofibrations, filtered-colimit stability
+   of weak equivalences and the monoidal model axiom. Prove also
+   the Dwyer–Kan invertibility property: if i:[1]→C is a
+   free-enriched-cell cofibration classifying an edge invertible in
+   Ho(C), then C→C∐_[1]J is a Dwyer–Kan equivalence, with
+   J the walking isomorphism. Also construct the homotopy-invariant
+   version using a cofibrant interval replacement for [1]→J.
+   Construct the cofibrant interval/homotopy-inverse resolution and
+   its mapping-space comparison by the enriched word/bar filtration.
+   These fixed-base proofs precede their use in enriched model
+   recognition and internal-hom theorems; no arbitrary excellent
+   enrichment base is assumed. Now prove the local-fibration
+   characterization: mapping-space Kan fibrations with lifting of
+   homotopy equivalences of objects, and locally Kan fibrant objects.
+   Include Bergner's characterization for the fixed Kan base without
+   assuming the target is fibrant, by the enriched interval lifting
+   argument and free-cell tests.
+
+   **Enriched diagram foundations before straightening.** For every
+   combinatorial simplicial model category M and small simplicial
+   category C, construct its enriched projective and injective diagram
+   models, with free/evaluation and enriched Kan-extension adjunctions,
+   generating factorizations, simplicial mapping ends and replacements.
+   For ordinary indices reuse native
+   `Enriched.FunctorCategory.enrichedHom`, `enrichedHomπ` and
+   `homEquiv`, with their native end construction. Extend it to
+   simplicial enriched indices and prove agreement on the ordinary
+   specialization. Use the preceding fixed Kan-base properties in HTTA.3.3. Construct
+   projective generators by free/evaluation adjunctions. For injective
+   structures prove the objectwise cofibrations have a small weakly
+   saturated generating set by the accessible enriched-functor-category
+   argument, then apply model recognition to objectwise weak equivalences.
+   Prove the pointwise tensor/cotensor mapping axiom for both models.
+   Construct simplicially enriched functorial factorizations for M
+   and these diagram models by the enriched small-object argument.
+   At a generating cofibration i, parameterize all lifting squares
+   by their simplicial mapping pullback and attach i tensored with
+   that square complex. The simplicial model axiom makes these
+   attachments cofibrations, and trivial cofibrations for a trivial
+   generator. Choose a regular cardinal for all generator sources
+   and targets tensored with Δ[n]; transfinite composition then has the required
+   vertex lifting property. Prove that both factorizations and their
+   natural maps are enriched functors, including the induced enriched
+   cofibrant/fibrant replacements. This supplies the enriched diagonal
+   factorizations for path objects, not only ordinary functorial choices.
+   The projective structure supplies the internal-hom and rectification
+   comparisons; injective existence is asserted here only for this
+   Kan enrichment and these verified hypotheses. Prove invariance
+   under a Dwyer–Kan equivalence of indexing categories
+   by the free-cell filtration and enriched bar resolution, using
+   cofibrant replacements of the indices where required. Construct
+   small full model chunks closed under these enriched replacements
+   and finite product/coproduct-map factorization operations for the
+   relevant small diagram categories;
+   prove existence by accessible closure and prove independence and
+   filtered enlargement comparisons. This controls the size of the
+   simplicial categories of fibrant-cofibrant objects. Construct
+   the enriched Yoneda embedding into the projective Kan-presheaf
+   model on C^op, with its enriched evaluation identity. After locally
+   Kan replacement, representables are fibrant-cofibrant by the
+   free/evaluation adjunction. Enlarge their image to a small chunk
+   with the same essential image in the model homotopy category.
+   This embeds any small enriched category, up to Dwyer–Kan
+   equivalence, in such a bifibrant chunk, as required by the
+   internal-hom and localization tests. This is enriched Yoneda;
+   the later space-valued infinity-categorical Yoneda comparison
+   is derived from it after coherent rectification.
+
+   Prove the Joyal-free internal-hom comparison of HTTA.3.4 in
+   the Bergner homotopy category. Construct the actual enriched
+   evaluation map from (U^C)^cf×C to U^cf and prove the natural
+   bijections
+   `Hom_Ho(sCat)(D,(U^C)^cf)≃Hom_Ho(sCat)(D×C,U^cf)`
+   on every small compatible chunk. Projective replacement and
+   path objects built from the enriched diagonal factorizations
+   identify both sides with weak-equivalence classes
+   of (D×C)-diagrams; enriched Yoneda and chunk enlargement give
+   the full-faithful essential-image comparison for arbitrary targets.
+   This stage is a Hom_Ho-set/weak-exponential theorem. Its mapping-
+   Kan-space upgrade is constructed after the product/homotopy-colimit
+   theorem and frames below; it is not used to prove that earlier theorem.
+
+   Construct the enriched localization C[W⁻¹] by pushing out a
+   coproduct of [1]→E, with [1]→E→J the preceding cofibrant
+   interval factorization. Prove replacement invariance by left
+   properness and the Hom_Ho universal property: the map
+   `Hom_Ho(sCat)(C[W⁻¹],D)→Hom_Ho(sCat)(C,D)` is injective,
+   with image exactly the classes sending W to equivalences.
+   Prove injectivity using the doubled-interval localization cylinder.
+   The derived mapping-space version is proved after the frames below.
+   Construct ordinary projective/injective diagram models on the
+   combinatorial Bergner category by accessible model recognition,
+   with functorial replacements and their model homotopy limits and
+   colimits, before the following Grothendieck and product comparisons.
+   For a small poset A and diagram a↦C_a, construct its enriched
+   Grothendieck category: objects (a,x) and mapping simplicial set
+   C_b(p_ab x,y) when a≤b, empty otherwise, with composition induced
+   by p. Compare its forgotten ordinary category, functorially in
+   the diagram, with native `CategoryTheory.Grothendieck` on the
+   underlying Cat-valued diagram, including object/base/fiber,
+   transport and restriction maps. Invert the arrows
+   (a,x)→(b,p_ab x). Prove this localized
+   total category models hocolim_A C_a (HTTA.3.5): build an A-filtered
+   free-cell cofibrant replacement, and compare each initial-segment
+   localization with its terminal C_a by the categorical mapping
+   cylinder. Prove that localization commutes with product by a fixed
+   enriched D when W is extended as (w,id_d), using the internal-hom
+   comparison and the Hom_Ho localization property: test maps
+   into arbitrary targets using enriched Yoneda/chunk embedding and
+   the full-faithful essential-image criterion. All tests here are
+   Hom_Ho sets. Deduce product by D
+   preserves these poset-indexed homotopy colimits. This is a derived
+   comparison, not a monoidal model assertion about the Bergner product.
+
+   Use native `HomotopicalAlgebra.ReedyStructure` and its
+   `HomotopicalAlgebra.ReedyStructure.op` construction for opposite structures.
+   Construct the simplex Reedy structure from native simplex epi/mono
+   factorization, following the design of
+   [`SimplexCategory.reedyStructure`](https://github.com/leanprover-community/mathlib4/blob/1e75e9dd53d483fa01eff9ac7d4ea0472ce9d1fa/Mathlib/AlgebraicTopology/Reedy/SimplexCategory.lean).
+   Construct their Reedy model structures, latching/matching objects
+   and functorial frames on the Bergner model and its ordinary
+   projective diagram models, with objectwise latching/matching
+   comparisons. The resulting derived
+   mapping Kan spaces take model homotopy colimits in the source
+   to homotopy limits, and model homotopy limits in the target to
+   homotopy limits. Prove this by Reedy
+   replacement and the end/bar mapping formula, including the action
+   of Kan spaces through frames. No simplicial enrichment of the
+   Bergner model is presumed. The Reedy lifting property makes
+   a cofibrant cosimplicial frame's tensor and mapping functor a
+   Quillen adjunction from Kan–Quillen simplicial sets to this model.
+   Use the prior product/homotopy-colimit theorem to prove
+   `(W⊗^L K)×^L Y≃(W×^L Y)⊗^L K` by skeletal induction
+   on K: coproducts, boundary-cell homotopy pushouts and sequential
+   skeletal unions are poset-indexed. This needs no arbitrary-index
+   reduction and does not use the homotopy-limit theorem being proved.
+   Now upgrade the weak-exponential Hom_Ho bijection to derived
+   mapping Kan spaces. For a cosimplicial frame D^• define the raw
+   mapping simplicial set H(D^•,V)_n=Hom(D^n,V). It is Kan for
+   fibrant V and sends trivial fibrations in V to trivial Kan
+   fibrations without a fibrancy assumption on their targets.
+   For X,Z fibrant and an evaluation span Z×Y←P→X with
+   P→Z×Y a trivial fibration, impose no fibrancy assumption on Y.
+   Choose a frame C^• and a compatible Reedy-cofibrant frame
+   W^•→C^•×Y for C×^L Y. Form the actual pullback
+   `H(C^•,Z)×_(H(W^•,Z×Y))H(W^•,P)`.
+   Its projection to H(C^•,Z) is a trivial Kan fibration; evaluation
+   gives its map to H(W^•,X). Thus both ends and the pullback are
+   Kan, even though the two raw complexes involving Z×Y and P
+   need not be. This represents the actual natural derived evaluation
+   map from Map(C,Z) to Map(C×^L Y,X). Test it against every
+   Kan K, using the preceding tensor/product comparison and the
+   Hom_Ho exponential bijection, to prove it is an equivalence.
+   Use functorial compatible frame replacements on parameter diagrams
+   for these actual mapping transformations. Prove likewise the
+   derived mapping-space localization property: the map from
+   Map(C[W⁻¹],D) identifies it with the components of Map(C,D)
+   carrying W to equivalences, by the Hom_Ho property tested on
+   Kan parameters and the prior product/localization comparison.
+   Thus the space-level versions are retained after their prerequisites.
+
+   Prove M^cf→M_f[W⁻¹] is a Dwyer–Kan equivalence using
+   the earlier enriched cofibrant replacement on fibrant objects,
+   its enriched natural comparison to the identity and the interval
+   product/localization homotopies. The same proof applies on the
+   compatible chunks and their projective diagram models, before
+   using these comparisons in the following evaluation spans.
+
+   Prove the enriched diagram homotopy-limit theorem of HTTA.3.6.
+   Let A=A₀∪{∞} be a small poset with largest element ∞ and
+   let a↦C_a be a cofibrantly replaced diagram whose value C_∞
+   presents hocolim_(A₀)C_a. Choose a common small chunk U of M
+   such that U^(C_a) is a chunk of the projective model M^(C_a)
+   for every a∈A, using the earlier simultaneous enriched closure.
+   Set F_a=(U^(C_a))_f, with objectwise
+   weak equivalences W_a, and Z_a=F_a[W_a⁻¹]. Restriction makes
+   Z a strict A^op-diagram. Set X=U_f[W⁻¹] and Y_a=C_a.
+   Construct the strict two-variable evaluation spans before deriving
+   any mapping comparison: for b≤a define
+   `P(a,b)=(F_a×C_b)[{(w,id_c):w∈W_a}⁻¹]`.
+   Their maps into Z_a×Y_b come from product/localization, and
+   their maps into X evaluate after C_b→C_a; evaluation inverts
+   the indicated arrows. These maps are functorial on
+   B={(a,b):b≤a}⊂A^op×A. The product comparison makes the
+   left map a weak equivalence. On the diagonal the actual evaluation
+   identifies Z_a as a weak exponential of X by Y_a, using the
+   earlier chunk/internal-hom and replacement/localization comparisons.
+
+   Replace X and the A^op-diagram Z objectwise fibrantly, retaining
+   their evaluation spans. Simultaneously factor the strict B-map
+   P→(Z×Y)×X as a trivial cofibration followed by a projective
+   fibration in the ordinary B-diagram model. Write its middle
+   diagram again as P. Then P(a,b)→Z_a×Y_b is a pointwise
+   trivial fibration: it is a fibration by fibrancy of X and a weak
+   equivalence by two-out-of-three. Its map to X is still an actual
+   natural evaluation. No Y_a fibrancy is required.
+
+   For each cofibrant test object D choose a frame D^• and a
+   projective-Reedy cofibrant replacement, natural in c,
+   `W_c^•→D^•×Y_c`. These are frames for D×^L Y_c.
+   Use three independent indices
+   `T={(a,b,c):c≤b≤a}⊂A^op×A×A^op`.
+   Its arrows to (a₁,b₁,c₁) satisfy a₁≤a, b≤b₁ and c₁≤c.
+   Construct the actual T-diagram
+   `E(a,b,c)=H(D^•,Z_a)×_(H(W_c^•,Z_a×Y_b))H(W_c^•,P(a,b))`.
+   The map into the base uses W_c^•→D^•×Y_c→D^•×Y_b.
+   Its projection α to G(a)=H(D^•,Z_a) is pointwise a trivial
+   Kan fibration, so E is Kan. Evaluation gives a natural map β
+   to G′(c)=H(W_c^•,X). Raw H complexes in the pullback need
+   not be Kan; G, G′ and E are. All variances are now covariant
+   on T; no diagonal of the two-variable P is called a diagram.
+
+   Prove both comparisons by derived right Kan extension in the
+   ordinary Kan-space diagram models, using injective replacements,
+   along π_a:T→A^op. At a₀ its comma index is T_(a≤a₀).
+   The inclusion of Q={a=a₀} has right adjoint
+   r(a,b,c)=(a₀,b,c), hence is homotopy initial for these limits.
+   Q is contractible by (b,c)→(a₀,c)←(a₀,a₀).
+   The projection q:Q→(A_(≤a₀))^op, q(b,c)=c, has right
+   adjoint c↦(a₀,c), hence is homotopy initial; its target has
+   initial object a₀. Prove these homotopy-initiality statements by
+   the adjunction comma contractions and the model right-Kan formula.
+   The unit G→Ran_(π_a)π_a^*G and α give
+   Ran_(π_a)E≃G. The cone G′(a)→G′(c) for c≤a gives
+   the natural comparison G′→Ran_(π_a)π_c^*G′, also an equivalence.
+   Evaluation of the first limit at (a₀,a₀,a₀) is an equivalence
+   by α and contractibility of Q; evaluation of the second is an
+   equivalence by q and its initial object. At that diagonal β
+   is the framed weak-exponential equivalence already proved. The
+   evaluation square therefore makes Ran_(π_a)β an equivalence.
+   The adjunction units, that cone and the restriction maps give
+   naturality in a₀, yielding a natural zigzag of objectwise weak
+   equivalences between G and G′ in the ordinary diagram model,
+   rather than just separately equivalent values. Now apply the model
+   mapping-space/hocolimit formula to D×^L hocolim Y_a and the
+   prior product/hocolimit comparison. Mapping out of every D proves
+   that Z_∞ presents the homotopy limit of Z|_(A₀)^op.
+   Then pass through sufficiently filtered enlargements of chunks,
+   proving closure of model homotopy-limit diagrams at the chosen
+   cardinal by accessibility. Prove the enriched mapping-space
+   recognition criterion
+   for a model homotopy limit when an essentially-surjective comparison
+   from a known homotopy-limit model is supplied. These are the
+   localization, homotopy-limit and index-invariance inputs to the
+   straightening proofs; none uses Joyal, marked models, Cat∞ colimits
+   or the later coherent-diagram rectification.
+
+   Define a simplicial-set map to be a categorical equivalence
+   exactly when its rigidification is a Dwyer–Kan equivalence.
+
+   **Unmarked straightening and the categorical model.** Build
+   unmarked left/right fibration models over a simplicial set.
+   Use monomorphism cofibrations and weak equivalences defined by
+   Dwyer–Kan equivalences of the rigidified left-cone pushouts over
+   the base in the covariant case, and right-cone pushouts dually.
+   Prove these models left proper and combinatorial by Bergner model
+   recognition. Prove SM7 with tensor X×K: monomorphisms give the
+   cofibration pushout-product axiom, and the appropriate endpoint
+   section X→X×Δ[n] is left/right anodyne, so X×Δ[n]→X
+   is a weak equivalence. Use left properness and the simplicial
+   cell filtration for the trivial pushout-product cases (HTT2.1.4).
+   With Kan-valued projective diagrams construct St⊣Un and prove
+   it a Quillen adjunction before testing Quillen equivalence:
+   the free cone-cell construction sends monomorphisms to projective
+   cofibrations, and its mapping-hom description sends rigidified-cone
+   equivalences to projective weak equivalences (HTT2.2.1.2, first clause).
+   Construct unmarked unstraightening's actual simplicial enrichment.
+   Set J^n=(Δ[n]⋆{y})∐_(Δ[n]){x} and
+   Q^n=C[J^n](x,y). Construct Q^•→Δ^• using the largest-element
+   map on the nerve of nonempty subsets, with its quotient comparison.
+   Its precomposition K→Sing_Q K preserves products and units.
+   Prove the external-product formula
+   `Un(F⊠K)≅Un(F)×Sing_Q K` from the simplex definition.
+   Thus K×Un(F)→Un(F⊠K) is an actual tensor strength.
+   A K-parametrized F⊠K→G induces Un(F)×K→Un(G);
+   prove these maps preserve identities and composition by the
+   product/unit laws, giving actual maps of enriched hom objects.
+   This is the construction of HTT2.2's simfun, not a claim that
+   straightening is strictly simplicial. The source slice model has
+   every object cofibrant; no such condition is imposed on the
+   projective diagram target.
+   Prove the enriched Quillen-equivalence criterion for Kan–Quillen
+   simplicial model categories C,D and a Quillen adjunction F⊣G,
+   with an explicitly enriched right functor G and every object of
+   C cofibrant. Construct the mate
+   `β_(K,V):F(K⊗V)→K⊗F(V)` of
+   `K⊗V→K⊗GF(V)→G(K⊗F(V))`, using the unit and
+   G's enriched tensor strength. On cofibrant V both K-functors
+   are left Quillen; β is the identity at Δ[0], so coproduct,
+   homotopy-pushout and skeletal induction prove it is a weak
+   equivalence for every Kan–Quillen-cofibrant K. Construct
+   `Hom_D(F(V),Y)→Hom_C(V,G(Y))` by applying enriched G and
+   precomposing with η_V. For cofibrant V and fibrant Y, testing
+   on K identifies this map with precomposition by β under the
+   ordinary adjunction, giving the derived mapping equivalence.
+   Prove that F⊣G is then a Quillen equivalence exactly when G on bifibrant enriched
+   categories is a Dwyer–Kan equivalence, by the actual derived
+   mapping comparison, unit/counit and essential image. Verify this
+   enriched right-functor/strength structure on unstraightening and
+   use the criterion (HTT's weakcompatequiv), with this typed mate.
+   Prove it is a Quillen equivalence (HTT2.2.1.2), first over simplices
+   by the explicit rigidification contraction and index invariance,
+   then over all bases by pushout and filtered-union induction using
+   the preceding enriched Grothendieck/localization and homotopy-limit
+   theorems. Prove the right-fibration model's equivalences are detected
+   fiberwise by the mapping Kan-space and horn-lifting tests. Prove
+   the adjunction's derived unit/counit and base-change comparisons.
+   Prove its mapping-space comparison by straightening the right
+   fibration X_/y→X: its simplicial presheaf is weakly equivalent
+   both to C[X](−,y) and, objectwise, to the right mapping Kan
+   spaces Hom^R_X(−,y). These constructions use the existing
+   Kan–Quillen model, horn filtrations and the preceding enriched
+   diagram/localization theory, not the Joyal or marked models being
+   constructed. This is the route of HTT2.2.1–2.2.4.
+   Right mapping spaces of products are products; use this comparison
+   and inner-anodyne replacement to prove
+   `C[S×T]→C[S]×C[T]` is a Dwyer–Kan equivalence for all S,T.
+   The extension to arbitrary S,T uses the native inner-anodyne
+   pushout-product/horn filtration, not diagram rectification.
+
+   From the preceding mapping-space comparison prove that a map
+   between quasicategories is a categorical equivalence exactly
+   when it is fully faithful and essentially surjective. Prove
+   fully faithful functors reflect equivalence edges. Use these
+   criteria before the following slice-invariance and fibrancy proofs.
+
+   Construct joins and slice quasicategories by their simplicial
+   universal property. Prove the relative slice projection for an inner
+   fibration is a left/right fibration by the join horn filtration
+   (HTT2.1.2), and prove the equivalence-edge outer-horn theorem
+   HTT1.2.4.3: an edge is an equivalence exactly when every Λ^n_0
+   horn whose first edge is that edge fills, with the dual criterion.
+   Define Cartesian/coCartesian edges by the slice trivial-fibration
+   test over an inner fibration, before any marked model is used.
+   Define a Cartesian fibration as an inner fibration admitting
+   Cartesian lifts of every base edge with specified target endpoint;
+   define coCartesian fibrations dually with specified source endpoint.
+   For quasicategories prove the mapping-space homotopy-pullback
+   criterion by the slice Kan fibers. In particular Cartesian edges
+   over Δ[0] are exactly equivalences. Prove mapping-space fiber
+   comparisons for Cartesian lifts and their fiberwise equivalence
+   criterion. Prove equivalences of quasicategories induce equivalences
+   on slices under any fixed diagram (HTT1.2.9.3/2.4.5): attach the
+   diagram's simplices, identify the fibers over each object with
+   mapping Kan spaces, and pass through towers of Kan fibrations.
+   Use these horn/slice results before applying HTT2.4.6 to Joyal
+   fibrancy. These results concern native quasicategories directly;
+   they do not presuppose the Joyal or marked model structures.
+
+   For these categorical equivalences apply model
+   recognition (HTTA.2.6.13) with monomorphism cofibrations: prove
+   accessibility of this class through the accessible rigidification
+   and Bergner weak-equivalence tests; prove the lifting/factorization
+   hypotheses using boundary/horn cell filtrations and the preceding
+   mapping-space comparison. This constructs the Joyal model and
+   the rigidification/nerve Quillen equivalence. Prove its fibrant
+   objects are exactly the quasicategories by the preceding special
+   outer-horn and slice-invariance theorems, applied as in HTT2.4.6:
+   adjoin an inverse edge, use inner-horn filtrations and the
+   mapping-space equivalence
+   test to prove lifting against categorical trivial cofibrations.
+   Prove the Cartesian Joyal pushout-product property by the
+   boundary/horn filtration and the product comparison above.
+   Prove categorical fibrations between quasicategories are inner
+   fibrations lifting equivalence edges, with functorial replacements.
+   Construct the maximal Kan core and core functor spaces.
+   Define Cat∞ as the native coherent nerve of
+   the simplicial category of small quasicategories with these core
+   functor spaces. Its colimits are constructed below through the
+   marked categorical simplicial model and general diagram comparison.
+
+   **Marked fibrations and Kan extensions.** Construct marked
+   simplicial sets on native SSet as a simplicial set with a set of
+   marked 1-simplices containing the degenerate ones, with mark-preserving
+   maps, limits, colimits, products and simplicial mapping objects.
+   Use the preceding slice-category Cartesian-edge definition and
+   mapping-space characterization, with coCartesian edges dually.
+   Use the preceding Cartesian/coCartesian fibration predicates.
+   Prove composition, base change, contractibility of lift
+   choices and the fiberwise equivalence criterion. For each simplicial
+   set S construct the Cartesian and coCartesian marked models over S.
+   Specify weak equivalences by marked mapping Kan-space tests into
+   all such Cartesian/coCartesian fibrations over S and cofibrations
+   by underlying monomorphisms. Construct the marked anodyne generators,
+   weakly saturated closure and functorial lifting/factorization APIs,
+   proving these descriptions agree. Fibrant objects mark exactly
+   the corresponding Cartesian or coCartesian edges.
+
+   Specialize the Cartesian model to S=Δ[0] and identify marked
+   objects over Δ[0] with marked simplicial sets. The preceding
+   Cartesian-edge/equivalence theorem constructs the marked
+   categorical model,
+   with fibrant objects C marked precisely at their equivalences,
+   monomorphism cofibrations and the indicated marked mapping-space
+   weak-equivalence test. Construct its marking/forgetting Quillen
+   comparison with the Joyal model. Equip the marked categorical
+   and marked fibration models with Kan–Quillen simplicial tensors
+   K^♯×(−), the adjoint cotensors and marked mapping Kan complexes;
+   prove the simplicial model pushout-product axiom by marked-anodyne
+   product closure. Prove local presentability and accessible model
+   recognition in each case, then instantiate the earlier enriched
+   projective-diagram construction for these marked models. Construct
+   the straightening/unstraightening adjunction, using rigidification and
+   the relative coherent nerve, between the coCartesian model over S
+   and projective simplicial diagrams C[S]→marked simplicial sets;
+   use C[S]^op in the Cartesian case. Define straightening on each
+   simplex by its cone/relative mapping simplicial sets, then glue by
+   the simplex category. Construct its tensor comparison
+   `St⁺(X×K^♯)→St⁺(X)⊠K^♯` by the cone's two product
+   projections followed by the point comparison T_Q(K^♯)→K^♯.
+   Verify markings and the unit/associativity laws on the actual
+   mapping simplices, and prove the comparison is a weak equivalence
+   by the marked product-cell filtration and the images of basic
+   marked anodyne cells (HTT spek3–spek5). Adjunction gives the
+   strength K^♯×Un⁺(F)→Un⁺(F⊠K^♯): explicitly use the
+   tensor comparison, the counit St⁺Un⁺F→F and a K-parametrized
+   map F⊠K^♯→G to obtain Un⁺F×K^♯→Un⁺G. Verify the
+   unit/composition laws, producing an actual Kan-enriched Un⁺
+   for the stated sharp tensors, as in HTT's marked straightening
+   proof; St⁺ need not be simplicial. Prove the adjunction Quillen
+   using the cofibration/anodyne images and this tensor comparison,
+   then prove it a Quillen equivalence:
+   check unit/counit on simplices by the mapping-simplex filtration,
+   extend across marked anodyne cells and homotopy colimits using
+   the earlier enriched localization/homotopy-limit theorem, and prove
+   derived unit/counit equivalences on all fibrant diagrams. Verify
+   the marked straightening tensor comparison and use the preceding
+   enriched Quillen-equivalence criterion. This
+   identifies the fibration model with the strict enriched diagram
+   model, naturally under base change. Construct the remaining model
+   diagram comparison before identifying its coherent functor category.
+
+   **Coherent model diagrams and stable enhancements.** Prove
+   `C[S×Δ[n]]→C[S]×C[Δ[n]]` is a Dwyer–Kan equivalence,
+   using the already constructed mapping-space/Joyal product comparison.
+   Together with the Bergner/Joyal Quillen equivalence this gives,
+   for every Dwyer–Kan equivalence C[S]→C, the actual categorical
+   equivalence
+   `N((M^C)^cf)≃Fun(S,N(M^cf))` of HTT4.2.4.4.
+   Construct its evaluation map, derived unit/counit and all
+   higher-simplex comparisons. Prove naturality in commuting squares
+   of base and enriched index maps, including diagrams of groups,
+   and compatibility with derived restriction and left/right
+   Kan-extension adjunctions, using the respective projective/injective
+   replacements and units/counits; compare with their coherent
+   universal properties after constructing coherent Kan extensions below.
+   State base-change equivalences
+   only under their required cofinality or exact-square conditions;
+   use the product comparison for S×Δ[n] to identify transformations
+   and mapping spaces. This is a general model-diagram theorem,
+   instantiated for Kan complexes, marked categorical and fibration
+   models, G2 spectra and the transferred algebra/module models below.
+   Verify the hypotheses in each instance. For G2 spectra prove local
+   presentability from the sphere-module/presheaf presentation and
+   accessibility of the stable equivalence localization; combine its
+   generating cofibrations with the simplicial tensor/cotensor
+   adjunction to prove the model mapping axiom: first check the level
+   structure, then use closure of Ω-spectrum local objects under
+   Kan cotensors to pass through stable localization. This gives
+   the required combinatorial simplicial model. For the marked models
+   use their preceding anodyne recognition and simplicial axiom; for
+   algebra/module models use the word-cell transfer below.
+
+   Define a cone on p:K→C using Δ[0]⋆K and a cocone
+   using K⋆Δ[0], with categories C_/p and C_p/ respectively.
+   Define infinity categorical limits as terminal cone objects and
+   colimits as initial cocone objects
+   and prove the mapping-space criterion (HTT4.2.4.3), including
+   naturality in the cone diagram. Define a pointed infinity category
+   by a zero object, both initial and terminal. Define it to be stable
+   when it has finite limits and colimits and a square is a pushout
+   exactly when it is a pullback.
+
+   Prove the homotopy (co)limit comparison of HTT4.2.4.1: use the
+   enriched derived mapping-end/bar formula to identify maps from a
+   homotopy colimit with maps of its coherent diagram into a constant
+   diagram; dually treat homotopy limits. The preceding rectification
+   theorem identifies these with the infinity categorical cone universal
+   properties, including diagrams on arbitrary small simplicial sets.
+   Apply it to the marked categorical model, with its Kan simplicial
+   enrichment, to construct Cat∞ colimits. Prove its comparison with
+   the quasicategory/core-functor presentation and with the derived
+   Joyal model through the marking/forgetting Quillen equivalence;
+   do not assume the Joyal internal hom is a Kan simplicial enrichment.
+   Construct relative localization (C,W) by the categorical homotopy
+   pushout replacing the marked edges by walking equivalences. Prove
+   its functor-space universal property and preservation of colimits
+   of relative diagrams. Prove Δ[0]/Δ[1] generate Cat∞ under small
+   colimits by spines, finite cell attachment and filtered unions;
+   construct the slice colimits and their model comparisons.
+
+   Construct the enriched Dwyer–Kan localization by hammock mapping
+   spaces and composition, with simplicial-category fibrant replacement.
+   Prove its coherent nerve has the localization universal property
+   and compare cofibrant-object localization with N(M^cf). For G2's
+   model define Sp∞=N(Sp_model^cf). The general diagram theorem
+   and derived (co)limit comparison identify its zero and finite
+   limits/colimits with G2/G3's model homotopy (co)limits, naturally
+   in coherent diagrams. Identify its suspension/loop adjunction with
+   G2's stable-model Quillen equivalence; prove the derived unit/counit
+   equivalences and the pushout/pullback-square comparison. Thus Sp∞
+   is stable. Prove Fun(BG,Sp∞) is stable with pointwise finite
+   limits/colimits and compare it exactly with G2's projective
+   BG-diagrams by this same general rectification theorem. The monoidal
+   part of this comparison is constructed below after the monoidal
+   enhancement. Derived smash is exact separately by the stable model
+   comparison.
+   These are the stable enhancements used below, not consequences
+   inferred solely from the triangulated homotopy category.
+
+   Apply general model-diagram rectification to the earlier marked
+   straightening Quillen equivalence, obtaining its identification
+   with Fun(S,Cat∞), natural under pullback and on every higher
+   base simplex. Apply it also to unmarked Kan-valued straightening,
+   identifying right fibrations with Fun(S^op,Spaces); prove a right
+   fibration with contractible fibers is an equivalence. These supply
+   the mapping-simplex and Grothendieck comparisons of HTT §§2.1,
+   2.4,3.2–3.3 before the descent and Kan-extension constructions.
+
+   Prove strict pullback along a coCartesian fibration preserves
+   categorical equivalences, by the marked straightening comparison
+   and the simplex-wise mapping-space test. It already preserves
+   monomorphisms and colimits, hence is left Quillen on Joyal slices.
+   Deduce its derived pullback preserves Cat∞ colimits. Prove descent
+   of coCartesian fibrations across a colimit of bases by gluing their
+   straightened functors; identify the total-space colimit and every
+   pullback. Together with Δ[0]/Δ[1] generation and localization's
+   colimit property this supplies the actual base-descent theorem
+   used in the monoidal localization below.
+
+   Using the preceding slice/join cone and (co)limit definitions,
+   define left/right Kan extensions by their functor-space universal
+   properties. Prove the pointwise comma-category
+   formulas, the existence theorem when those pointwise (co)limits
+   exist, composition, base change under the stated cofinality conditions,
+   and the criterion for an extension to be absolute. Define adjunctions
+   by the corresponding representable mapping-space pairing and build
+   their unit/counit, triangle comparisons and contractible space of
+   choices. Prove a fully faithful right adjoint exhibits localization:
+   precomposition identifies functors out of the target with functors
+   inverting the unit maps, including higher natural transformations
+   (the localization criterion of HTT5.2.7.4). Construct accessible
+   presheaf localizations by cell inversion of a small set of maps,
+   with the objectwise local mapping-space criterion; establish the
+   cardinal bounds and accessible adjoints needed below.
+
+   Construct the following monoidal/fibration sub-lane before using
+   the quotient product. Work on native simplicial sets and nerves;
+   Fin_* is the finite-object full subcategory of native `Pointed`,
+   with its small skeleton (Fin(n+1),0). Define active/inert maps and
+   construct their factorization and the inert projections. Use the
+   Cartesian/coCartesian edge, lift and fiberwise-equivalence APIs
+   constructed above.
+   Use the preceding marked straightening equivalence and its
+   naturality in the base for these relative coherent nerves and
+   simplicial Grothendieck constructions. Include mapping simplices
+   over all Δ[n] and their descent, not just chosen edge lifts.
+   Define monoidal enhancements as coCartesian fibrations over
+   N(Fin_*) with Segal fibers C^n; define monoidal functors by
+   preserving all coCartesian edges and lax functors by preserving
+   inert ones. Construct their functor/natural-transformation spaces
+   over this base, and prove equivalences are detected on underlying
+   objects. Define an infinity operad by the inner-fibration,
+   inert-lift and Segal conditions, including the product decomposition
+   of mapping spaces over a specified Fin_* map. Construct its
+   colors, multi-operation spaces, units and substitution. Construct
+   the operadic nerve of a locally Kan colored simplicial operad and
+   prove these axioms by the colored mapping-space/horn comparison.
+   Define operadic functors by inert preservation. This gives the
+   general definitions needed for LM below without requiring every
+   infinity operad to be a coCartesian monoidal category.
+
+   For G2's monoidal model, use the full subcategory of cofibrant
+   objects together with the tensor unit and its isomorphic copies.
+   Prove tensor closure and preservation of weak equivalences in
+   each variable, including maps to/from the possibly noncofibrant
+   unit: compare with Q1→1 and use the model's unit axiom.
+   Construct the ordinary operator category with objects tuples
+   (X₁,…,X_n) and arrows over f in Fin_* given by maps from the
+   ordered tensor over f⁻¹(j) into the j-th target. Extend native
+   monoidal coherence to symmetric coherence: normalize tensor words
+   by a bracketing and a permutation, prove independence using the
+   hexagon, symmetry and braid/Coxeter relations, and prove that two
+   structural maps agree when their permutations agree; prove the
+   converse in the free symmetric monoidal category on labeled words.
+   Use this theorem to define composition and reordering in the operator
+   category and prove all category laws. Take its ordinary
+   nerve over N(Fin_*) and localize at the fiberwise weak-equivalence
+   tuples.
+   Prove the resulting map to N(Fin_*) is coCartesian with fibers
+   the corresponding products of DK localizations. For comparison
+   with the full model, use absolute right Kan extensions presenting
+   the left-derived multi-Quillen tensor functors; construct them by
+   functorial cofibrant replacement and verify the unit comparison.
+   Check composition of these extensions on Δ[2], then use mapping-
+   simplex gluing/descent for general bases. Prove the unit-adjoined
+   cofibrant and full-model localizations agree over N(Fin_*), with
+   the full-model functor lax and the unit-adjoined restriction
+   monoidal. This constructs
+   the monoidal enhancement of G2's derived smash without requiring
+   a strictly monoidal fibrant replacement.
+
+   Apply the same unit-adjoined localization to G2's projective
+   BG-diagram model with diagonal smash. Prove its pushout-product
+   axiom on free G-cell generators: the diagonal G-action on G×G
+   is free, so the pushout product is a coproduct of free cells with
+   the underlying spectral pushout product. The trivial-action unit
+   need not be projectively cofibrant. Construct its projectively
+   cofibrant replacement EG₊∧S→S from G2.9's free contractible
+   bar carrier and its free G-CW realization;
+   prove the unit axiom on cofibrant diagrams by its underlying weak
+   equivalence and the spectral unit axiom. Use this replacement in
+   the unit-adjoined/full-model comparison, not an assumed cofibrant
+   trivial-action unit. Prove the induced monoidal enhancement agrees
+   with pointwise smash on Fun(BG,Sp∞), through the general diagram
+   comparison on all tensor tuples, units and higher operator simplices.
+   Thus the earlier exact projective/coherent comparison is monoidal,
+   naturally in group restriction, before BordismFormalGroups F6.5's
+   Tate lane consumes it.
+
+   For a small stable enhancement C and full stable D, construct the
+   quotient C/D at maps whose cofibers belong to D. Prove exactness,
+   replacement invariance, the exact-functor universal property, and
+   the filtered mapping-space formula
+   `Map_(C/D)(X,Y)≃colim_(Z∈D_/Y) Map_C(X,cofib(Z→Y))`.
+   Construct the infinity category of presheaves Fun(C^op,Spaces)
+   with values in Kan spaces, using the general model-diagram
+   theorem for the Kan–Quillen projective diagram model. Prove the space-valued Yoneda theorem,
+   mapping-space formulas and objectwise limits/colimits. Define
+   Ind_κ(C) as its full subcategory of κ-filtered colimits of
+   representables; construct its universal property for κ-filtered
+   colimit-preserving functors, the compact-representable comparison,
+   and the case κ=ω. Prove Ind_κ(C) is stable for small stable C:
+   use the lim-colim mapping formula and exactness of filtered
+   colimits of spaces. Compute finite limits objectwise and construct
+   finite colimits by common filtered presentations of finite coherent
+   diagrams in C. Verify their universal properties by that formula.
+   The represented zero is initial and terminal within Ind_κ(C);
+   it is not the empty initial presheaf. Identify fibers, cofibers and
+   suspension by these constructions, rather than asserting closure
+   under objectwise presheaf colimits.
+   This uses space-valued presheaves, rather than set-valued ordinary
+   Ind or a purported strict spectral composition on arbitrary
+   mapping Kan complexes. Compare with G2's concrete mapping spectra
+   on fibrant-cofibrant diagrams through their derived mapping spaces.
+   For a tensor ideal D, construct the monoidal DK quotient by
+   localizing the total monoidal nerve at tuples of cofiber-in-D maps.
+   Tensor stability of that class, the family localization just proved
+   and Segal fibers identify its underlying quotient with C/D.
+   The functor-category universal property over N(Fin_*), restricted
+   to functors preserving inert edges, proves the lax monoidal
+   universal property, including natural transformations.
+
+   Construct the coCartesian symmetric monoidal enhancement
+   Ind(C)^⊗→N(Fin_*) by operadic left Kan extension of the
+   Yoneda embedding, first for ordinary filtered Ind(C). Construct Day
+   convolution on
+   space-valued presheaves: its n-input value is the left Kan extension
+   of the external product along the n-fold tensor C^n→C.
+   Construct the relative operadic left Kan extension by the active
+   overcategories and their colimit cones, prove compatibility with
+   composition of active maps, and use the marked straightening
+   theorem to assemble its coCartesian fibration over N(Fin_*).
+   Prove its inert fibers are products, the Segal equivalences, unit
+   and symmetry, and the universal property for functors preserving
+   the indicated colimits separately. Restrict to Ind using the
+   tensor closure of representables and the formula
+   `(colim_i yX_i)⊗(colim_j yY_j)=colim_(i,j)y(X_i⊗Y_j)`.
+   Prove Yoneda is monoidal and exact into Ind(C); construct the
+   finite colimit comparisons through common filtered presentations.
+   Deduce tensor preserves finite colimits and, by filtered unions
+   of finite sums, all small colimits separately. Prove this enhancement
+   is characterized by that universal property (HA4.8.1.10/13).
+   This proves all higher
+   coherence as a coCartesian construction, not an objectwise formula.
+
+   Construct relative adjunctions over a simplicial base from the
+   marked comma fibrations representing the fiberwise mapping-space
+   pairings. If the left functor preserves coCartesian transport and
+   has fiberwise right adjoints, construct its relative right adjoint
+   by representing these pairings over every base simplex. Define its
+   transport maps as adjoint mates; these maps need not be invertible
+   for active arrows. Use the straightening equivalence to assemble
+   the functor and its unit/counit over the whole base.
+   Apply this to a monoidal L^⊗ whose underlying L has a right
+   adjoint R. Its multi-fiber adjoints are products of R. Prove the
+   relative right adjoint R^⊗ over N(Fin_*) preserves inert edges,
+   by the product/projection comparison and the relative unit/counit
+   (HA7.3.2.6/7). Its active maps recover the mates of tensors of
+   counits. Construct the naturality of this relative adjunction in
+   functor spaces, so these mates include all higher simplices.
+   Apply it to fixed points and to the fully faithful right adjoint
+   `Ind(C/D)→Ind(C)` of monoidal localization. Construct the
+   latter adjoint using the local presheaf model and the filtered
+   cofiber mapping formula, and prove its unit/counit/full faithfulness.
+   Prove Ind extends lax functors by its operadic left Kan
+   extension, and that colim:Ind(E)→E is monoidal whenever E
+   has the indicated filtered colimits and tensor preserves them
+   separately. Deduce the universal exact lax-monoidal approximation
+   killing D as `C/D→Ind(C)→Ind(E)→E`. Prove its universal
+   property in the actual exact/lax functor spaces and that the space
+   of compatible lax structures is contractible. These are the
+   infinity categorical adjoint and monoidal Ind constructions;
+   ordinary monoidal localization does not supply them.
+
+   Construct the simplicial category whose objects are these small
+   coCartesian Segal fibrations over N(Fin_*) and whose mapping
+   Kan complexes are the cores of their inert-preserving relative
+   functor quasicategories. Prove Kan-ness, composition and units;
+   take its native coherent nerve to obtain the infinity category
+   of symmetric monoidal infinity categories and lax functors. This
+   is not the category with all maps over N(Fin_*) or the functor
+   category whose natural transformations encode only strong monoidal
+   maps. Construct A with
+   objects (C,D,F₁,F₂,α), where C,D are symmetric monoidal,
+   F₁:C→D is lax monoidal, F₂:C→D is an underlying functor,
+   and α:F₁→F₂ is an underlying natural transformation. Construct B
+   with the same objects carrying also a lax structure on F₂ and a
+   lax monoidal α. Define their morphisms and all higher simplices
+   by the universal evaluation/relative-functor fibrations and their
+   arrow categories. In both A and B a morphism has strong symmetric
+   monoidal ambient maps u:C→C′, v:D→D′, equivalences of squares
+   vF_i≃F_i′u, and the compatibility with α. In A the F₁
+   square is lax monoidal and the F₂ square is underlying; in B
+   both square equivalences and compatibility are lax monoidal. Use their relative
+   functor-space pullbacks and the Cartesian/coCartesian Grothendieck
+   construction to assemble varying source/target categories. Prove
+   this definition's functor-space universal property, including every
+   higher compatibility, and construct B→A forgetting the refinements.
+   Prove small limits in this B are computed objectwise: strong ambient
+   transport preserves every operadic coCartesian edge, so the limit
+   fibration has coCartesian lifts computed componentwise, with product
+   Segal fibers. The square equivalences induce the limiting functors
+   and α; prove B→A preserves these limits. In particular apply
+   this theorem to Kan-indexed diagrams
+   of equivalences. No such limit-creation assertion is made for
+   arbitrary lax ambient maps. Replace B→A by a
+   categorical fibration, naturally in base change. For a Kan
+   parameter space S→A whose objects satisfy the preceding universal
+   approximation, its pullback has the contractible fibers proved by
+   that universal property. Prove a categorical fibration over a Kan
+   complex is Cartesian, using equivalence-edge lifting; with these
+   groupoidal fibers it is a right fibration, and with contractible
+   fibers it is a trivial Kan fibration. Its space of sections is
+   therefore contractible (HTT3.3.1.8,2.4.2.4,2.1.3.4). This
+   constructs the actual parameterized refinement and its total space,
+   including higher transformations and base change.
+
+   Construct the two-colored associative algebra/module operad, whose
+   lax images are the unital actions BordismFormalGroups F6.5 consumes
+   for Tate. Construct its ordered input profiles explicitly: an A-output
+   has an ordered word of A-inputs; an M-output has an ordered
+   word of A-inputs followed by its sole M-input. Permutations
+   relabel the input slots. Construct slot substitution, permutations,
+   units and the colored operator nerve LM^⊗. Prove its infinity
+   operad axioms; it is not required to be a coCartesian monoidal
+   category. Define its algebras as inert-preserving functors
+   LM^⊗→C^⊗ over N(Fin_*). Construct restriction along
+   Assoc^⊗→LM^⊗, recording the associative algebra A, and
+   evaluation at the module color, recording its underlying M.
+   Construct the fiber over A and compare it with the derived strict
+   left-module category through the rectification below; compare the
+   total category with strict algebra/module pairs. These are the
+   specified comparison targets, including maps and higher
+   transformations. Prove unit, composition, base-change
+   and group-restriction comparisons in these operadic functor spaces.
+
+   Construct the separate operadic rectification comparison with
+   G2's strict associative rings and left modules. Use its simplicial
+   stable-projective spectral model and its pushout-product and monoid
+   axioms. Prove its sphere is cofibrant: identify it with the free
+   spectrum F₀(S⁰), use the level-projective free/evaluation Quillen
+   adjunction and cofibrancy of S⁰, then note stable left Bousfield
+   localization keeps these cofibrations. This precedes rectification;
+   no cofibrant unit is asserted for the positive-flat model. For the
+   two-colored associative/module operad, prove its operation sets
+   are Σ-free by their ordered-word permutation torsors. Use this
+   Σ-cofibrant operad directly. Construct its free algebra/module
+   word filtrations, including nullary unit cells, and its transferred
+   combinatorial simplicial model of strict pairs. Prove the model
+   hypotheses by the pushout-product/free-cell filtration. Construct
+   cofibrant algebra/module bar resolutions and the coherent operadic
+   nerve comparison; their word-cell and mapping-end computations
+   prove the derived unit/counit and identify the localization of
+   strict pairs with Alg_LM(Sp∞), as in HA4.1.8/4.3.3. For a
+   supplied algebra A use a cofibrant strict representative and prove
+   the module-fiber comparison is independent of that choice. Compare
+   G2's positive-flat and this cofibrant-unit model through the same derived
+   ring/module comparisons, with their actual Quillen hypotheses.
+   For BG, apply the general model-diagram theorem to these
+   transferred algebra/module simplicial models, verifying its
+   combinatorial hypotheses by the preceding free-cell construction,
+   and compare with
+   Fun(BG,Alg_LM(Sp∞))≃Alg_LM(Fun(BG,Sp∞)); prove this
+   equivalence from the operadic functor definition and pointwise
+   operations. The earlier bar comparison of spectra alone is not
+   used to rectify rings/modules. This theorem applies to supplied
+   strict/coherent associative data, not to an arbitrary homotopy ring.
+   This is the reusable coherent-module API consumed by
+   Elliptic E2's finite-action towers.
 
 ## G3. Brown representation, arbitrary CW and infinite comparisons
 
@@ -1146,31 +1986,17 @@ axiomatic theories independently of their G2 spectral representation.
    and G4.0a's full-rank/orthonormal-frame quotient topologies.
    Prove tautological and orthogonal-complement bundles smooth, orthogonal
    complementation a diffeomorphism Gr_ℍ(r,N)≃Gr_ℍ(N−r,N), and
-   stabilization/direct-sum maps smooth. Own the smooth graph-chart upgrades
-   on TopK T1.5's existing finite real/complex Grassmannian carriers, of real
-   dimensions r(N−r) and 2r(N−r), comparing their existing topologies,
-   including smooth orthogonal-complement diffeomorphisms and stabilization/
-   sum maps on those carriers;
-   reuse their bundles/classifiers. In rank one prove the diffeomorphisms
-   to AT4.6's existing native RP and ComplexKahlerGeometry K7.1's native CP
-   manifold structures. Own projectiveRealGrassHomeomorph and
-   projectiveComplexGrassHomeomorph from native Projectivization 𝕜
-   (Fin (n+1)→𝕜) to TopK T1.5's finiteGrassmannian 𝕜 1 (n+1).
-   Pin their underlying equivalences directly to native equivSubmodule:
-   TopK's finiteGrassmannian is this same finrank-submodule subtype.
-   Pin their topologies
-   to the nonzero-vector and full-frame-span quotients, before proving
-   the rank-one diffeomorphisms. For the complex comparison own
-   projectiveComplexRealModelComparison: consume K1's real restriction of
-   K7.1's same designated projective ChartedSpace/IsManifold structure and
-   its existing atlas comparison. Own only the model transport from
-   Fin n→ℂ to EuclideanSpace ℝ (Fin (2*n)), ordered in interleaved
-   blocks (Re z₀,Im z₀,Re z₁,Im z₁,…), matching (1,i) and K1's
-   complex orientation. Prove its real smooth maps agree with the supplied
-   real atlas through this linear homeomorphism. The rank-one diffeomorphism
-   and TopK T6.6 use this same model transport on that real structure;
-   no second projective manifold is defined. This supplies the named smooth targets
-   for scalar-forgetting Gr_ℍ(r,N)→Gr_ℂ(2r,2N)→Gr_ℝ(4r,4N).
+   stabilization/direct-sum maps smooth. Consume TopK T1.5's smooth
+   graph-chart upgrade of its existing finite real/complex Grassmannian
+   carriers, with its smooth orthogonal-complement diffeomorphisms,
+   stabilization/sum and scalar-forgetting maps, its rank-one
+   diffeomorphisms to the native RP and CP manifold structures and its
+   interleaved real model transport of K7.1's CP atlas; reuse its
+   bundles/classifiers and define no second real or complex Grassmannian
+   manifold here. Those carriers are the smooth targets of the
+   scalar-forgetting maps Gr_ℍ(r,N)→Gr_ℂ(2r,2N)→Gr_ℝ(4r,4N) owned
+   here; prove these maps smooth in the quaternionic and supplied graph
+   charts.
    This composite uses real coordinates (1,i,j,−k); name direct real
    forgetting using (1,i,j,k) separately and prove its comparison by
    diag(1,1,1,−1)^N on the ambient real space, carrying the (−1)^r
@@ -2246,10 +3072,10 @@ axiomatic theories independently of their G2 spectral representation.
 7. **Coherent module families, Borel cochains and oriented supports.**
    Start from G2's specified commutative ring-spectrum and module models for
    R=MU,Hℤ. Check their actual unit and pushout-product hypotheses, then apply
-   BordismFormalGroups F6.5's unit-adjoined monoidal-localization and
+   G2.11's unit-adjoined monoidal-localization and
    relative-adjoint constructions to build the symmetric monoidal stable
    enhancement `Mod_R∞` and its derived relative tensor `⊗_R`. Localize G2.4's
-   derived function modules through F6.5's DK-localization and
+   derived function modules through G2.11's DK-localization and
    representable-pairing adjunctions to construct the internal module function
    spectrum `F_R` and prove the tensor/internal-Hom adjunction. Construct its
    unit and counit (evaluation), triangle identities, and mapping spectra,
@@ -2286,13 +3112,13 @@ axiomatic theories independently of their G2 spectral representation.
    one-object simplicial category with endomorphism group G. Take
    `S=N_hc(C_G)`, on native
    [`SimplicialNerve` and its coherent simplex carriers](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/AlgebraicTopology/SimplicialNerve.lean).
-   First derive the DK counit `ε:𝔠[S]→C_G` from F6.5's Bergner
+   First derive the DK counit `ε:𝔠[S]→C_G` from G2.11's Bergner
    fibrancy of locally Kan C_G and its rigidification/nerve Quillen
    equivalence; all simplicial sets are Joyal-cofibrant. Its DK mapping
-   comparison and F6.5's coherent mapping-space theorem give
+   comparison and G2.11's coherent mapping-space theorem give
    `hS≃π₀C_G`. Thus every edge of S is invertible, and the inner- and
    equivalence-edge outer-horn theorems prove S Kan. This does not assume
-   S Kan to obtain the counit. Apply ε in F6.5's HTT4.2.4.4 diagram
+   S Kan to obtain the counit. Apply ε in G2.11's HTT4.2.4.4 diagram
    comparison, natural on index maps, transformations and higher simplices.
 
    **Principal and associated total-space comparison.** For a numerable
@@ -2314,7 +3140,7 @@ axiomatic theories independently of their G2 spectral representation.
    `hocolim_C_G X≃X/G≅Sing(B)`.
 
    Rectify X along ε to `F_X:S→Spaces`. View Kan complexes as the
-   full space-valued subcategory of Cat∞ and use F6.5's marked
+   full space-valued subcategory of Cat∞ and use G2.11's marked
    coCartesian straightening over S, with projective marked diagrams on
    𝔠[S], directly. Construct its restriction to Kan-valued diagrams:
    every total edge factors as a coCartesian lift followed by an
@@ -2330,7 +3156,7 @@ axiomatic theories independently of their G2 spectral representation.
    equivalence `E_F≃colim_S F`, including higher parameters and actual
    fibrant/cofibrant replacements. To transport the orbit cocone, take
    projective cofibrant replacements of its entire arrow diagram,
-   including its target, the trivial-action Sing(B). F6.5's naturality
+   including its target, the trivial-action Sing(B). G2.11's naturality
    along C_G→* identifies its target rectification with constant Sing(B).
    HTT4.2.4.1 then gives the actual global comparison
    `E_X≃hocolim_C_G X→Sing(B)` from that cocone.
@@ -2431,7 +3257,7 @@ axiomatic theories independently of their G2 spectral representation.
    **The smoothing-and-triangulation comparison**, item1 **Smooth implies PL**,
    including the relative collar extension for these compact pieces. Use [SBC B1.4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/791dd408dc48930060b28043245bbb1a8d82b5de/TauCetiRoadmap/SmoothBundlesConnections/README.md#b1-principal-bundles-and-descent)
    for proper free-action smooth quotients and submersion comparisons, and
-   G4.0b/[CKG K7.1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/a452db2cfef888380d1b7b7ce00fa06d5bad1109/TauCetiRoadmap/ComplexKahlerGeometry/README.md#k7-projective-torus-and-hopf-examples)
+   TopK T1.5/[CKG K7.1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/a452db2cfef888380d1b7b7ce00fa06d5bad1109/TauCetiRoadmap/ComplexKahlerGeometry/README.md#k7-projective-torus-and-hopf-examples)
    for the actual smooth projective-space stage charts; these are inputs,
    not duplicated geometric owners. Prove the coherent comparison
    `C_c,R(U)≃hocolim_j F_R(R∧Σ∞(L_j/∂L_j),R)`.
@@ -2555,22 +3381,24 @@ module models.
 
 G5.7 applies G2's models/classifiers, G4's Thom core, G5.1–2's finite/geometric
 duality and G5.4–5's fixed MU/ordinary augmentation. Its coherent model and
-module-family comparisons consume only BordismFormalGroups F6.5's named
-generic model, enriched-diagram, coherent-stability, Kan-extension,
-arbitrary-base marked-straightening with the direct coCartesian
-space-valued restriction, LM module-fibre, and operator-category
-unit-adjoined monoidal-localization/relative-adjunction sublanes. G5.7 owns
+module-family comparisons consume only G2.11's named generic model,
+enriched-diagram, coherent-stability, Kan-extension, arbitrary-base
+marked-straightening with the direct coCartesian space-valued restriction,
+LM module-fibre, and operator-category unit-adjoined
+monoidal-localization/relative-adjunction sublanes. G2.11 consumes G2.1–5
+and G2.9 and precedes G5.7; BordismFormalGroups F6.5 consumes it with no
+returned input. G5.7 owns
 the `Sing(T)` action and `S=N_hc(C_G)` classifier adapter, using the
 fibrant rigidification counit. It owns the projective free-cell proofs,
 principal/associated quotient maps, total-space/colimit comparison and
 universal span to `Sing(BT)`; finite and nonuniversal bundles retain their
-own classifying maps into S. These are not supplied by generic F6.5. CC C1.2
+own classifying maps into S. These are not supplied by generic G2.11. CC C1.2
 supplies ordinary compact supports, C1.5 the finite torus classifier, C2.4
 the ordinary embedding Gysin map and C2.5 the fibrewise graph embedding and
 tubular comparison. AT supplies relative/CW/tower maps; GT supplies normal
 bundle/collar geometry and smoothing-and-triangulation item1 with relative
 collar extension for compact pieces and doubled families. SBC B1.4 supplies
-smooth free quotients, and G4.0b/CKG K7.1 the projective stage charts.
+smooth free quotients, and TopK T1.5/CKG K7.1 the projective stage charts.
 CompactGroups Layer0 supplies normalized Haar averaging for the equivariant
 normal-tube adapter. G5.7 owns the stabilized relative parameter/tower
 extension and spectral collapse, consuming the finite-stage CC C2.5 inputs.
@@ -2596,7 +3424,8 @@ SpinGeometry G1.3's scalar trace precedes G5.5's mixed Cartan positivity
 and real-module norm/regularity construction, with no returned input.
 G1's axiomatic lane and G2's pointed/model lane start independently. G2's
 represented theories use G1's comparison conventions. The foundational
-G2.1 realization-product export precedes both AT EM adapters and HA. G2.8's
+G2.1 pointed smash/quotient versions of AT4.5's realization-product
+comparison precede HA. G2.8's
 multiplicative machine and G2.9's general group/bar classifier precede G5. G3 Brown uses G1 and the
 CW substrate; its spectrum assembly and infinite mapping comparisons use G2.
 G3.4's topological telescope/Milnor construction starts after G1 and precedes
@@ -2606,11 +3435,12 @@ part of G3.2. G4.0a's quaternionic and native low-rank Spin topology precedes
 G2.9's GL computations, G4's orientation proofs and G5. G2.9's generic
 bar/classifier construction precedes those computations and does not use them.
 G4.0b's smooth carriers consume G4.0a, native embedded-unitary Lie data
-and SBC B1.4 (itself consuming LieGroups L2), ComplexKahlerGeometry
-K1/K7.1's real projective atlas and AT4.6's RP, with no return edge;
-G2.9 and G4/G5's topological/spectral exports do not wait for G4.0b.
-G4.0a/b consume TopK T1.5–6's carrier/classifier foundation; they do not
-consume T6.6, which instead uses G4.0b's smooth comparison.
+and SBC B1.4 (itself consuming LieGroups L2), TopK T1.5's smooth
+real/complex Grassmannian upgrade with its rank-one projective
+diffeomorphisms, and ComplexKahlerGeometry K7's sphere adapter, with no
+return edge; G2.9 and G4/G5's topological/spectral exports do not wait for
+G4.0b. G4.0a/b consume TopK T1.5–6's carrier/classifier foundation; they do
+not consume T6.6, which instead uses T1.5's smooth comparison.
 RiemR1 and DGFloer's smooth HP examples consume G4.0b with no returnedge.
 G4's cell/cover proofs use G1 and G3; its concrete examples and infinite Thom
 comparison use G2. G5 duality/Thom models use G2–G4 plus the specified geometric
@@ -2677,6 +3507,16 @@ Acceptance includes all of these checks:
   [#41735](https://github.com/leanprover-community/mathlib4/pull/41735): follow
   their model/properness/subdivision/homotopy-pullback design, building missing
   constructions in Tau Ceti under the stated ownership.
+- Lurie, [*Higher Topos Theory*](https://www.math.ias.edu/~lurie/papers/HTT.pdf),
+  §§1.2.4, 1.2.9, 2.1.2, 2.2.1–2.2.5, 2.4.5–2.4.6, 3.1–3.3, 4.2.4, 4.3, 5.2.7,
+  5.3.5, A.2.6, A.3.2–A.3.6, and [*Higher Algebra*](https://www.math.ias.edu/~lurie/papers/HA.pdf),
+  §§4.1.8, 4.3.3, 4.8.1, 7.3.2: the categorical models, natural marked
+  straightening, model-diagram rectification and (co)limit comparison, Kan
+  extensions, Ind, operadic rectification, monoidal Ind and relative adjoints
+  constructed in G2.11.
+- Nikolaus–Scholze, [*On topological cyclic homology*](https://arxiv.org/abs/1707.01799),
+  §I.3 and Appendix A: the coherent stable quotient/Ind construction and
+  universal lax-monoidal approximation of G2.11.
 - Native foundations: `SSet`, simplicial boundary/horn/Kan constructions,
   `CategoryTheory.Under`, `Action`, `Mon`, `Mod`, `DayFunctor`, native
   `HomotopicalAlgebra.ModelCategory` and categorical localization. The pin
