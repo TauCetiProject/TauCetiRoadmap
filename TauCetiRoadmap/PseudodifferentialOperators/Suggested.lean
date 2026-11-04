@@ -4,9 +4,7 @@ import TauCeti.Geometry.Manifold.DerivationBundle
 /-!
 # Pseudodifferential operators and elliptic analysis on bundles: target signatures
 
-**This file is not the roadmap and is not exhaustive.**
-These are suggested forms. The README is the definitive specification.
-It states, against the pinned
+The roadmap is `README.md`; this file is not the roadmap. It states, against the pinned
 Mathlib and Tau Ceti, the roadmap's headline theorems that are statable there: the scalar
 cotangent, real derivation and complexified derivation dictionaries of P1.0, the inverse principal symbol of an elliptic
 classical symbol (P2/P6), Borel asymptotic summation (P2), and Euclidean quantization

@@ -19,20 +19,24 @@ ComplexKahlerGeometry K5a supplies manifold distributions and the compact p=2
 Sobolev scale; PDE Lane A and Lane B items 8–10 supply scalar weak-derivative
 and harmonic-analysis estimates. P5 owns the general-p bundle comparisons.
 
-P5's compatible couples, strip quotient and K-method are generic constructions,
-with arbitrary common Hausdorff topological vector spaces; the distribution-space
-realization is an application. They are the common interpolation objects for
-this roadmap and [NoncommutativeIntegration §§2.2–2.4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/bb121b30160c5188355fdc94c036e2ab0c552aca/TauCetiRoadmap/NoncommutativeIntegration/README.md#22-compatible-couples), whose noncommutative
-Lp and Lorentz identifications use that generic theory. No reverse supply from
-noncommutative integration is needed for the Bessel/Besov comparisons here.
+P5 owns the generic compatible couples, the strip-quotient complex method and the
+real K-method, for an arbitrary common Hausdorff topological vector space; the
+distribution-space realization here is one application. The noncommutative Lp and
+Lorentz interpolation of semifinite algebras (NoncommutativeIntegration) is another
+application: it consumes these generic constructions and supplies nothing here.
+No reverse supply from noncommutative integration is needed for the Bessel/Besov
+comparisons here.
 
 Elliptic regularity is shared with two other roadmaps along a fixed boundary. P6 owns the
 smooth-coefficient parametrix route for operators of arbitrary order on bundles: interior
 `H^(s,p)` and Zygmund/Schauder regularity, and Fredholm theory on compact boundaryless bases.
-[PDE](../PDE/README.md) Lane E owns scalar Euclidean regularity with non-smooth coefficients
-(difference quotients, Calderón–Zygmund and VMO estimates, Schauder estimates with Hölder
-coefficients, De Giorgi–Nash–Moser) and is not consumed here.
-[PseudoholomorphicCurveAnalysis](https://github.com/TauCetiProject/TauCetiRoadmap/blob/94066d35c0a90cfd36b4fdbe9e6c8c5d14e4ab51/TauCetiRoadmap/PseudoholomorphicCurveAnalysis/README.md) owns the two-dimensional
+[PDE](../PDE/README.md) Lane E owns scalar second-order Euclidean regularity: the interior
+difference-quotient `H²`/`Hᵏ` estimates with their bootstrap to `C^∞` for smooth coefficients
+and data (its item 20), Calderón–Zygmund and VMO estimates, Schauder estimates with Hölder
+coefficients and De Giorgi–Nash–Moser. P6's interior regularity specializes to item 20 for
+smooth second-order scalar operators on Euclidean domains by a different route; neither
+roadmap consumes the other's elliptic regularity.
+PseudoholomorphicCurveAnalysis owns the two-dimensional
 first-order Cauchy–Riemann theory with Sobolev coefficients and totally real boundary
 conditions (Cauchy and Beurling operators, similarity principle, real Cauchy–Riemann
 Riemann–Roch), which P6 does not reproduce; its PH6.4 compares the two on closed surfaces
@@ -81,6 +85,12 @@ Use Mathlib's `FiberBundle`, `VectorBundle`, `ContMDiffVectorBundle`,
 `SchwartzMap`, `TemperedDistribution`, `TestFunction`, `Distribution`,
 `ContinuousLinearMap`, `ContinuousLinearEquiv`
 and `ContinuousLinearMap.IsFredholm`.
+For the connection expansion of P1 consume covariant derivatives `CovariantDerivative`
+and the Levi–Civita connection `CovariantDerivative.leviCivitaConnection` of
+`Mathlib/Geometry/Manifold/VectorBundle/CovariantDerivative/LeviCivita.lean`, a
+metric-compatible torsion-free covariant derivative on the tangent bundle of a
+`C²` manifold with a `C¹` Riemannian metric and finite-dimensional model space;
+the declaration carries no regularity of its own, which Tau Ceti supplies below.
 
 **From TauCetiRoadmap.DifferentialGeometry.** Layers 0–1 and 5 supply forms,
 differentiation and integration/densities, using native smooth partitions of unity.
@@ -147,6 +157,12 @@ measurable nonnegative kernel and an a.e. measurable nonnegative input satisfy
 the finite-p integral bound with factor A^(p−1)B for real p≥1, given a.e. row
 and column integral bounds A and B. The finite-rank Bochner-kernel adapter
 and the p=∞ endpoint are the additional targets in §5.3.
+For P1's connection expansion consume
+`CovariantDerivative.instContMDiffCovariantDerivativeLeviCivitaConnection` from
+`TauCeti/Geometry/Manifold/VectorBundle/CovariantDerivative/LeviCivita/Regularity.lean`:
+on a `C^∞` manifold whose Riemannian metric is `C^∞`, the Levi–Civita connection is a
+`C^∞` covariant derivative (`ContMDiffCovariantDerivative … ∞`), so its coefficient
+bundle maps are smooth.
 
 ## How to read the build
 
@@ -221,7 +237,7 @@ the bundles and their associated-section dictionary. This module construction
 uses only those bundle/section foundations and smooth scalar multiplication;
 it precedes the rest of P1.0 independently of ideal quotients, derivation
 correspondences, jets, densities, connections and analytic Sobolev theory.
-[LieGroupoidsPoisson G1.1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/2a550310c351fe08fb6c9b7c3b6040ab744e9561/TauCetiRoadmap/LieGroupoidsPoisson/README.md#g11-lie-algebroids) consumes these module and scalar-compatibility
+LieGroupoidsPoisson G1.1 consumes these module and scalar-compatibility
 instances and owns the additional algebroid-specific Lie structures.
 
 The section-module API includes:
@@ -432,7 +448,11 @@ polynomial definitions. With `[P,f]=P∘M_f−M_f∘P`, pin
 `σ_geom(P)(df)=(1/m!)[…[P,f],…,f]` (m copies), and polarize for distinct
 covectors. Prove the connection expansion with Sym^j∇^j, using the chosen
 bundle connection and the base Levi–Civita connection
-[`CovariantDerivative.leviCivitaConnection`](https://github.com/leanprover-community/mathlib4/blob/f6090c7095e1e56b3464c1daba5f24631f1290d2/Mathlib/Geometry/Manifold/VectorBundle/CovariantDerivative/LeviCivita.lean) of Mathlib, with induced dual/tensor
+`CovariantDerivative.leviCivitaConnection` of Mathlib
+(`Mathlib/Geometry/Manifold/VectorBundle/CovariantDerivative/LeviCivita.lean`), which is a
+`C^∞` covariant derivative by Tau Ceti's instance
+`CovariantDerivative.instContMDiffCovariantDerivativeLeviCivitaConnection` under the
+standing `C^∞` manifold and `C^∞` Riemannian metric, with induced dual/tensor
 connections from SmoothBundlesConnections B3, and
 smooth coefficient bundle maps for j≤m, and independence of the top coefficient
 from the connection. Define the Laplace-type predicate on this carrier by
@@ -465,7 +485,9 @@ The symbol and connection-Laplacian API includes:
   are necessary for the one-order drop.
 
 *Needs:* the differential/jet construction and formal adjoints; Mathlib's
-`CovariantDerivative.leviCivitaConnection` and SmoothBundlesConnections B3 induced connections.
+`CovariantDerivative.leviCivitaConnection` with Tau Ceti's `C^∞` instance
+`CovariantDerivative.instContMDiffCovariantDerivativeLeviCivitaConnection`, and
+SmoothBundlesConnections B3 induced connections.
 
 For D of Dirac type use the polarized anticommutator
 `σ_geom(D)(α)*σ_geom(D)(β)+σ_geom(D)(β)*σ_geom(D)(α)=2g*(α,β)Id`.
@@ -538,7 +560,8 @@ connection give scalar, first-order and density-sensitive examples.
 
 Mathlib smooth manifolds and sections; Tau Ceti point derivations and Hadamard
 factorization; DifferentialGeometry smooth integration; SmoothBundlesConnections
-B2–B4; Mathlib's `CovariantDerivative.leviCivitaConnection`; ComplexKahlerGeometry K5a's density and section-topology contracts.
+B2–B4; Mathlib's `CovariantDerivative.leviCivitaConnection` and Tau Ceti's
+`CovariantDerivative.instContMDiffCovariantDerivativeLeviCivitaConnection`; ComplexKahlerGeometry K5a's density and section-topology contracts.
 
 ## Layer 2: Symbols and asymptotic expansions (P2)
 
@@ -972,15 +995,19 @@ scalar weak derivatives in finite bundle charts. Prove completeness and
 equivalence of the finite-chart/connection norms. For finite p prove
 smooth density; at p=∞ use the weak-derivative carrier itself, without
 asserting smooth norm density. As an interval acceptance example for PDE's
-weak-derivative comparison (PDE Lane A owns `H¹(0,1)` and `H₀¹(0,1)`; only the closed-operator
-realization below is a target here), take `D:H¹(0,1)→L²(0,1)`, Df=f′, with no
-boundary condition. Prove boundedness for the graph norm
-`‖f‖₂+‖f′‖₂`, density in H¹ of restrictions to [0,1] of functions smooth
-on a neighbourhood of that interval, and density of its
-inclusion in L². On native `LinearPMap` represent D as a closed densely
-defined L² operator, using the weak-derivative identity to prove graph
-closedness. Normalized exponentials e^(λx) show it is unbounded in the L²
-norm. Distinguish this domain from the C_c∞ completion H₀¹(0,1);
+weak-derivative comparison, take `D:H¹(0,1)→L²(0,1)`, Df=f′, with no
+boundary condition. PDE Lane A owns `H¹(0,1)` and `H₀¹(0,1)` (item 1), the
+Meyers–Serrin density of smooth functions and the `C_c∞` closure (item 2), and the
+extension and trace operators (item 6); only the closed-operator realization is a
+target here. Prove boundedness of D for the graph norm `‖f‖₂+‖f′‖₂`. Deduce density
+in H¹ of restrictions to [0,1] of functions smooth on a neighbourhood of that
+interval from Lane A's extension operator followed by its Meyers–Serrin density on
+the line, and density of the inclusion of H¹ in L² from the test functions. On native
+`LinearPMap` represent D as a closed densely defined L² operator, using the
+weak-derivative identity to prove graph closedness. Normalized exponentials e^(λx)
+show it is unbounded in the L² norm. The domain is not the `C_c∞` closure H₀¹(0,1):
+f(x)=x has trace (0,1)≠(0,0), so by Lane A's trace operator, whose kernel is H₀¹, it
+lies outside H₀¹;
 no self-adjoint boundary-condition classification is part of this example
 (Brezis, Theorem 8.2 for the absolutely continuous representative, Theorem 8.7
 for density of smooth restrictions, Theorem 8.12 for the H₀¹ characterization
@@ -1029,7 +1056,8 @@ The weak-derivative bundle API includes:
   approximation has derivative error at least 1 in essential sup norm near 0,
   excluding smooth norm density in W^(1,∞).
 
-*Needs:* PDE Lane A.3–A.7 weak derivatives, trace, extension and scalar embeddings;
+*Needs:* PDE Lane A items 1–7 (weak derivatives, Meyers–Serrin density, trace, extension
+and scalar embeddings);
 SmoothBundlesConnections B3 connections; P1 finite-rank local frames.
 
 ### 5.3 Interpolation and Bessel/Besov comparisons
@@ -1754,7 +1782,8 @@ continuous homogeneous-symbol homotopy. Prove cutoff
 and normalization independence and quantize A_χ by P4, averaging the
 quantization by P5 to make it equivariant.
 
-Consume [VonNeumannAlgebras V2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/160687f3131efb1b7b37fb6008a842b98815069c/TauCetiRoadmap/VonNeumannAlgebras/README.md#v2-elementary-algebra-corners-and-tensors)'s completed Hilbert tensor product. Own its
+Consume VonNeumannAlgebras V2 (its elementary algebra, corners and tensors layer)'s
+completed Hilbert tensor product. Own its
 unitary comparison with L² of the external bundle by Fubini and simple-tensor
 density, and completeness of the product eigen-expansions. On these spaces
 put `D_P=[[0,P*],[P,0]]`, `D_Q=[[0,Q*],[Q,0]]`.
@@ -1840,7 +1869,7 @@ invertibility. Average P4's continuous quantization of this path as well.
 P6 and the equivariant local-constancy lemma above then compare `D_ε⁺`
 with the even-to-odd block of the equivariant quantization of A_χ by an
 elliptic Fredholm path.
-[IndexTheory I2/I4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/93ef8c2b4025cdd4e2ca44f3398a7b1535dab920/TauCetiRoadmap/IndexTheory/README.md#i4-equivariant-analytic-indices-and-associated-fibres) owns converting these explicit symbol homotopies into
+IndexTheory I4 owns converting these explicit symbol homotopies into
 K-class/product equalities; no symbol K-theory construction is a prerequisite here.
 Finally export the finite-dimensional identifications
 `ker D⁺ ≃ (ker P⊗ker Q)⊕(coker P⊗coker Q)` and
@@ -2163,9 +2192,9 @@ native Fourier/test-function topology; the conic estimates in this layer.
 
 ## Downstream consumers
 
-[IndexTheory I2/I4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/93ef8c2b4025cdd4e2ca44f3398a7b1535dab920/TauCetiRoadmap/IndexTheory/README.md#i2-symbol-classes-and-the-analytic-index-map) consumes the elliptic symbol, parametrix and equivariant product
+IndexTheory I2/I4 consumes the elliptic symbol, parametrix and equivariant product
 results. RiemannianGeometry R7 consumes the differential and Bochner comparisons;
-[LieGroupoidsPoisson G1.1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/2a550310c351fe08fb6c9b7c3b6040ab744e9561/TauCetiRoadmap/LieGroupoidsPoisson/README.md#g11-lie-algebroids) consumes smooth-section modules; ContactGeometry CG5
+LieGroupoidsPoisson G1.1 consumes smooth-section modules; ContactGeometry CG5
 consumes first jets of real line bundles. Fuchsian covering-surface applications consume
 finite-deck scalar isospectrality. These applications
 add their own geometric or algebraic constructions.
