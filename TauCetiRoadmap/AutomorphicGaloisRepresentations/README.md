@@ -3204,6 +3204,12 @@ absolute norm. The conclusion uses `NumberField.Set.HasNaturalDensity` with
 value 1. The residual irreducibility and ramification conclusions require the
 attached residual representations specified in §§6.2 and 7.6.
 
+**Checks.**
+
+- For 11a1, whose coefficient field is `ℚ`, the good prime 3 has `a₃=−1`, a unit; `−1∉(3)`, so 3 belongs to `ordinaryGoodPrimes`.
+- For 11a1 the good prime 19 has `a₁₉=0`, and `0∈(19)` at the only coefficient prime above 19; the existential over `λ` fails and 19 does not belong.
+- For 11a1 the Steinberg prime 11 has the unit coefficient `a₁₁=1`, but `11∣N`, so the bad-prime clause excludes 11 from the set.
+
 ### Examples
 
 For a fixed non-CM weight-two form and a sufficiently large unramified
