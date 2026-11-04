@@ -616,7 +616,7 @@ Under the solid product/tower and balanced-tensor comparison inputs, the multipl
 
 The polynomial representatives split the quotient tower as 𝕊-modules; these splittings are not asserted to be ℛ-linear. Apply the supplied solid product formula to the double tower in independent q₁,q₂, and then use derived relative base change identifying q₁=q₂ to obtain the ℛ-balanced tensor statement. The light solid compact generator is Null_R=R⊗^■∏_ℕ𝕊. Its existence motivates the comparison but does not by itself prove that tensor commutes with the required towers; that compatibility is a separate hypothesis.
 
-*Needs:* [§2.7][r36]; [§2.8][r37]; EnhancedDerivedSheaves §E5:abstract.2 (`moduleObjects`); HabiroCyclotomicCompletions §1.4; EnhancedDerivedSheaves §E5:abstract; HabiroCyclotomicCompletions Layer 1.
+*Needs:* [§2.7][r36]; [§2.8][r37]; EnhancedDerivedSheaves §E5:abstract.2 (`moduleObjects`); HabiroCyclotomicCompletions §1.4; EnhancedDerivedSheaves §E5:abstract; HabiroCyclotomicCompletions Layer 1; SolidAnalyticRings §§3.1–3.4 (product tensor, sphere-split towers and balanced relative base change).
 
 See [Q], proof of B.8, pp.79–80; [T], numbered paragraph 5.3 within §5.1, printed p.86 (PDF p.90), for Null_R.
 
@@ -640,7 +640,7 @@ The profile poset is filtered but not ω₁-filtered, as the family f_k(n)=max(n
 
 The equivalence describes factorial decay in the block index and is natural for the specified finite-support block maps. The family constantly equal to 1 is not decaying; a family weighted by P_n is. The countable product and completion contracts are hypotheses of this spectral assertion. Bosco's abelian null-family formula supplies its model, not a proof for arbitrary light solid spectra.
 
-*Needs:* [§2.9][r38]; [§2.8][r37]; HabiroCyclotomicCompletions §1.3; EnhancedDerivedSheaves §E5:abstract; [§2.7][r36].
+*Needs:* [§2.9][r38]; [§2.8][r37]; HabiroCyclotomicCompletions §1.3; EnhancedDerivedSheaves §E5:abstract; [§2.7][r36]; SolidAnalyticRings §§5.1–5.4 (complete split coefficient data, proper profiles and the spectral null-family formula).
 
 See [Q], Proof of B.8, printed/PDF p.80, completed sum formula; [Bosco], Lemma A.4 and its proof, printed/PDF p.93.
 
@@ -694,7 +694,7 @@ Assume the preceding unit, profile tensor and resolution contracts. If M and N a
 
 The ordinary completed-discrete embedding is consequently symmetric monoidal on bounded-below complete objects. The proof uses the uniform bound and the supplied exactness of these realizations. It does not assert the same closure for every unbounded pair. The boundedness convention is homotopy bounded below, equivalently cohomology bounded above in the abelian comparison.
 
-*Needs:* [§2.8][r37]; [§2.5][r40]; SolidAnalyticRings §4.1 and §§6.1–6.3 (countable-limit interchange and uniformly bounded resolutions and realization); VStackSheavesAndLisseCategories §VS2.1 (abelian comparison only); EnhancedDerivedSheaves §E5:abstract.
+*Needs:* [§2.8][r37]; [§2.5][r40]; [§2.9][r38]; [§2.10](#210-completed-sums-of-countable-products); [§2.11](#211-tensor-products-of-completed-countable-sums); SolidAnalyticRings §4.1 and §§6.1–6.3 (countable-limit interchange and uniformly bounded resolutions and realization); VStackSheavesAndLisseCategories §VS2.1 (abelian comparison only); EnhancedDerivedSheaves §E5:abstract.
 
 See [Q], Appendix B, Lemma B.8 and proof, pp.79–80.
 
