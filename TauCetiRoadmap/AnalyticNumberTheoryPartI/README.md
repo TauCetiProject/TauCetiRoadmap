@@ -862,7 +862,7 @@ For `ε>0, Q≥2, T≥2`, and `1/2≤σ≤1, Σ_{q≤Q} Σ_{χ primitive mod q} 
 
 Route, in two ranges. For `4/5≤σ≤1`, Jutila's Theorem 1, (1.8), gives `Σ_{q≤Q}Σ*_χ N(σ,T,χ)≪_ε (Q²T)^((2+ε)(1−σ))` uniformly for `T≥1`, by Selberg pseudocharacters, a zero-detecting Dirichlet polynomial averaged over the pseudocharacter parameter, the large sieve and Halász's inequality; since `Q^(4+2ε)T^(2+ε)≤Q^(5+2ε)T^(3+2ε)` for `Q,T≥1`, the statement follows on that range with `ε` replaced by `2ε`. For `1/2≤σ≤4/5`, Montgomery's density theorem gives `Σ_{q≤Q}Σ*_χ N(σ,T,χ)≪(Q²T)^(3(1−σ)/(2−σ))(log QT)^A` with an absolute `A`, uniformly for `1/2≤σ≤1` and `T≥2`; there `3/(2−σ)≤5/2`, so the power is at most `(Q⁵T^(5/2))^(1−σ)≤(Q⁵T³)^(1−σ)`, and since `1−σ≥1/5` the logarithm is absorbed: `(log QT)^A≤C_ε(QT)^(ε/5)≤C_ε(QT)^(ε(1−σ))`. Neither input alone covers the statement: Jutila's theorem is stated only for `σ≥4/5`, and Montgomery's logarithmic factor is not absorbed as `σ→1`. At `σ=3/4` and `Q=1` the second range gives `N(3/4,T)≪T^(3/5)(log T)^A≤C_εT^((3+ε)/4)`, which is what the statement asserts there. Selberg's estimate `(Q⁵T³)^((1+ε)(1−σ))`, quoted as (1.4) in the same paper, is unpublished and is not an input. A density bound whose exponent carries an additive `+ε`, such as `(Q²T)^(A(σ)(1−σ)+ε)`, or a factor `(log QT)^A`, is not bounded at `σ=1−1/log(QT)` and does not imply this statement.
 
-See [Jutila][R97], Math. Scand. 41 (1977), p.46, Theorem 1, (1.8), and its proof §3, pp.51–54; [Bombieri][R99], §10, Théorème 20, p.77, with its proof pp.77–82, for Montgomery's theorem in the form used here (primitive characters, `(log QT)^A`), and Montgomery [100], Theorem 12.1, for the original; [47][R47], §12, p.386, for the form of the bound used there.
+See [Jutila][R97], Math. Scand. 41 (1977), p.46, Theorem 1, (1.8), and its proof §3, pp.51–54; [Bombieri][R99], §10, Théorème 20, p.77, with its proof pp.77–82, for Montgomery's theorem in the form used here (primitive characters, `(log QT)^A`); Montgomery [108], *Zeros of L-functions*, Invent. Math. 8 (1969), 334–345, for the original, and Montgomery [100], Theorem 12.1, for the textbook form; [47][R47], §12, p.386, for the form of the bound used there.
 
 *Needs:* §1.5; `DirichletCharacter.LFunction`; native large-sieve inequality for Dirichlet polynomials.
 
@@ -3075,6 +3075,7 @@ Downstream consumers AnalyticNumberTheoryPartII, the ArithmeticStatistics parts 
 - [105][R74] Harold M. Stark, *Some effective cases of the Brauer–Siegel theorem*, Invent. Math. 23 (1974), 135–152.
 - [106][R75] Peter J. Cho, Robert J. Lemke Oliver and Asif Zaman, *Effective Brauer–Siegel theorems for Artin `L`-functions*, arXiv:2510.02309v2.
 - [107][R81] Andrew Granville and Dimitris Koukoulopoulos, *Beyond the LSD method for the partial sums of multiplicative functions*, Ramanujan J. 49 (2019), 287–319; arXiv:1710.01389v2.
+- [108] Hugh L. Montgomery, *Zeros of L-functions*, Invent. Math. 8 (1969), 334–345.
 
 - **Bessel functions.** [NIST Digital Library of Mathematical Functions, Chapter10][DLMF-Bessel], particularly §§10.2,10.4,10.6,10.9,10.16; equation numbers are the locators in this unpaginated reference.
 - **Nemes.** [Gergő Nemes — Error bounds for the large-argument asymptotic expansions of the Hankel and Bessel functions][Nemes], arXiv:1606.07961v2, 2017; positive-axis remainder theory and AppendixA.
