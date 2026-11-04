@@ -1258,6 +1258,7 @@ Two models A→B with B⊆A^tic, in particular two models with the same total in
 - In Z_p, each p^−n has a denominator bound depending on n, but p^−1 has no uniform bound for all its powers.
 - If t is a unit, the localization and total integral closure both equal A.
 - Over a field k, let A be the k-span of the monomials t^e·x^j with e≥⌈√j⌉ inside k[t,x], and B=k+t·k[t,x]. A is a subring since ⌈√(j+l)⌉≤⌈√j⌉+⌈√l⌉, A⊆B is integral since (t·x^j)^j=t^j·x^(j²)∈A, both rings are t-torsion-free with A[1/t]=B[1/t]=k[t,t^−1,x], and B⊆A^tic with c=j for t·x^j. Yet x∈B^tic, as t·x^n∈B for every n, while x∉A^tic, as t^c·x^n∈A forces c≥⌈√n⌉. An integral map with the same generic fibre need not identify the two total integral closures; it does satisfy the hypothesis of §9.10.
+- For the same B=k+t·k[t,x], x∈B^tic with c=1, but x is not integral over B: B[x]=k[t,x], and k[t,x]/B≅x·k[x] is killed by t·k[t,x], so it is an infinite-dimensional k-space and k[t,x] is not a finitely generated B-module. Hence B^tic is strictly larger than the integral closure of B in B[1/t] for this nonnoetherian B, and the noetherian hypothesis of the comparison cannot be dropped.
 
 The bound c is uniform in n; allowing c to depend on n would give the entire localization.
 
