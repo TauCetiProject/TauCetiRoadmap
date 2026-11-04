@@ -28,11 +28,13 @@ Headline theorems of the roadmap that are not statable at the pins:
 * The free rank-two complexified sphere module and its scalar-extension comparison (0.6)
   require that section module over `C(S², ℂ)` and the extension functor of 0.2; the Chern
   number comparison additionally requires the oriented tangent complex line and its first
-  Chern class. The pointwise unitary-frame identity alone is not the module conclusion.
+  Chern class. The pointwise unitary-frame identity alone (stated in the
+  `SphereComplexification` section below) is not the module conclusion.
 * The real Möbius module's nonfreeness and order-two reduced K₀ class, and its free complex
   scalar extension (0.7), require the antiperiodic section module over `C(AddCircle 1, 𝕜)`,
   its descended scalar action and finite-projective object, and the same extension functor.
-  The intermediate-value and phase-factorization identities alone do not state these results.
+  The intermediate-value and phase-factorization identities alone (stated in the `Mobius`
+  section below) do not state these results.
 * The relative exact sequences of A3 and the boundary map of A6: these need A3's relative
   triple group and A2's automorphism presentation of `K₁`, which neither library has, and for
   rings that same base change.
@@ -77,6 +79,90 @@ theorem kZero_int :
         (⟨ModuleCat.of ℤᵐᵒᵖ ℤᵐᵒᵖ, ⟨inferInstance, inferInstance⟩⟩ : FiniteProjectiveRight ℤ)) =
         1 := by
   sorry
+
+/-! ## Layer A0, steps 0.6 and 0.7: explicit frames and antiperiodic sections
+
+Suggested forms are aids, not the specification; the README is definitive. The two sections
+below state the pointwise identities of 0.6 (the explicit unitary frame of the complexified
+tangent plane) and 0.7 (the projection, real nontriviality and complex trivialization steps of
+the Möbius module). The section-module, finite-projective, scalar-extension and Chern-class
+targets remain specified in the README; these helper statements are not an exhaustive
+checklist. -/
+
+noncomputable section SphereComplexification
+
+/-! These statements pin A0.SphereComplexification's explicit frame. The section module,
+scalar-extension and Chern-class comparisons remain README targets. -/
+
+namespace SphereComplexification
+
+def complexPoint (x : Fin 3 → ℝ) : Fin 3 → ℂ := fun j => x j
+
+def rawSection (x : Fin 3 → ℝ) : Fin 3 → ℂ :=
+  ![1, Complex.I, 0] - ((x 0 : ℂ) + Complex.I * x 1) • complexPoint x
+
+def firstSection (x : Fin 3 → ℝ) : Fin 3 → ℂ :=
+  ((Real.sqrt (1 + (x 2) ^ 2) : ℂ)⁻¹) • rawSection x
+
+def secondSection (x : Fin 3 → ℝ) : Fin 3 → ℂ :=
+  crossProduct (complexPoint x) (star (firstSection x))
+
+def frame (x : Fin 3 → ℝ) : Matrix (Fin 3) (Fin 3) ℂ :=
+  fun i j => ![firstSection x i, secondSection x i, complexPoint x i] j
+
+/-- The denominator never vanishes on the sphere, and the raw section is tangent. -/
+theorem rawSection_laws (x : Fin 3 → ℝ) (hx : dotProduct x x = 1) :
+    dotProduct (complexPoint x) (rawSection x) = 0 ∧
+    dotProduct (star (rawSection x)) (rawSection x) = (1 + (x 2) ^ 2 : ℝ) ∧
+    0 < Real.sqrt (1 + (x 2) ^ 2) := by
+  sorry
+
+/-- The first two columns trivialize the complexified tangent plane. -/
+theorem frame_unitary (x : Fin 3 → ℝ) (hx : dotProduct x x = 1) :
+    (frame x).conjTranspose * frame x = 1 ∧
+    frame x * (frame x).conjTranspose = 1 := by
+  sorry
+
+end SphereComplexification
+
+end SphereComplexification
+
+noncomputable section Mobius
+
+/-! These are the projection, real nontriviality and complex trivialization steps of
+A0.Mobius. Section-module, finite-projective and scalar-extension targets remain specified in
+the README; the helper statements are not an exhaustive checklist. -/
+
+namespace Mobius
+
+def projection (t : ℝ) : Matrix (Fin 2) (Fin 2) ℝ :=
+  let c := Real.cos (Real.pi * t)
+  let s := Real.sin (Real.pi * t)
+  !![c*c, c*s; c*s, s*s]
+
+def phase (t : ℝ) : ℂ := Complex.exp ((Real.pi * t : ℝ) * Complex.I)
+
+/-- The antiperiodic unit vector yields a periodic symmetric idempotent. -/
+theorem projection_periodic_idempotent (t : ℝ) :
+    projection (t + 1) = projection t ∧
+      (projection t).IsHermitian ∧ projection t * projection t = projection t := by
+  sorry
+
+/-- Real antiperiodic functions cannot be nowhere-zero sections. -/
+theorem real_antiperiodic_has_zero (v : C(ℝ, ℝ))
+    (hv : Function.Antiperiodic v 1) :
+    ∃ t ∈ Set.Icc (0 : ℝ) 1, v t = 0 := by
+  sorry
+
+/-- A fixed nonzero complex phase generates every antiperiodic section uniquely. -/
+theorem complex_antiperiodic_factor (v : C(ℝ, ℂ))
+    (hv : Function.Antiperiodic v 1) :
+    ∃! f : C(ℝ, ℂ), Function.Periodic f 1 ∧ ∀ t, v t = phase t * f t := by
+  sorry
+
+end Mobius
+
+end Mobius
 
 /-! ## Layer A1: Stable matrices, elementary operations and Whitehead's lemma -/
 
