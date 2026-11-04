@@ -10,7 +10,7 @@ The native `BoundingSieve` and `SelbergSieve` carriers, weighted sums, signed re
 
 IntegralLattices Layers 0 and 3 own even-bilinear half-norms and integral local quadratic classification. Only the count-preserving rank-two conic comparison belongs here. GlobalNumberFields Layers 3/3C and 11 own generators, units, class representatives, orders and invertible ideals. ArithmeticDirichletSeries owns ideal norm fibres and ideal arithmetic functions; ClassFieldTheory Layer 14 owns Hilbert reciprocity; Chebotarev Layer 13 owns the principal-class natural prime count. None of these arithmetic theories is reconstructed as sieve data. Tau Ceti at the pins has `TauCeti.Multiquadratic.fundamentalDiscriminantChar`, the quadratic Dirichlet character of a fundamental discriminant; ThetaSeries §2H owns the Kronecker symbol and the character for every nonzero discriminant D≡0,1 mod 4. Layer 0 owns only its numerical natural-argument, real-valued sieve adapter, with zero value at zero and comparison for |D|>1. ErdosProgressionPowers §3.1 owns the uniform Gram-row, maximum-row and diagonal/off-diagonal inequalities; the weighted denominator inequality here is stronger and remains a target.
 
-AnalyticNumberTheoryPartI §§0.10–0.11, 0.21, 0.26, 0.32, 1.2a, 3.22, 3.26, 3.34–3.35 supplies the quantitative prime, small-conductor, divisor-subpower and smooth-number inputs at their stated strengths. InverseGaloisAndArithmeticFundamentalGroups §IG.2.5 owns fixed-model Lang–Weil. GeometryOfNumbersAndQuadraticArithmetic §4.1 owns general lattice counting, and AdelicAlgebraicGroups §4.2 owns algebraic-group strong approximation. The additional subgroup, analytic and curvature estimates are owned in §§0.11, 1.1, 2.7, 3.0 and 5.4.
+AnalyticNumberTheoryPartI §§0.10–0.11, 0.21, 0.26, 0.32, 1.2a, 3.22, 3.24, 3.26, 3.34–3.35 supplies the quantitative prime, small-conductor, divisor-moment, divisor-subpower and smooth-number inputs at their stated strengths. AnalyticNumberTheoryPartI §1.5a owns the weighted finite Hilbert inequality, with constant 3π/2 and local spacings; the uniform-spacing constant π/δ of §2.9 is owned here, because the sharp additive large-sieve constant N−1+δ⁻¹ needs exactly π. InverseGaloisAndArithmeticFundamentalGroups §IG.2.5 owns fixed-model Lang–Weil. GeometryOfNumbersAndQuadraticArithmetic §4.1 owns general lattice counting, and AdelicAlgebraicGroups §4.2 owns algebraic-group strong approximation. The additional subgroup, analytic and curvature estimates are owned in §§0.11, 1.1, 2.7, 3.0 and 5.4.
 
 AnalyticNumberTheoryPartII §5.29 owns the odd-squarefree quadratic large sieve, its primitive-real form and square-pair correction, uniformly in both cutoffs and arbitrary complex coefficients. Layer 2 retains the unrestricted bilinear consequence and prime-denominator applications. ArithmeticStatisticsPartV §3.30, “Conditional joint-spin prime bound”, owns the arithmetic setup, unit-averaged sequence, generator independence, Type I and Type II estimates and prime-ideal cancellation. Layer 5 retains the general short-character progression/subset transfer, the ideal-symbol comparison, the generic coefficient and prime-extraction interfaces, and the spin-sign equidistribution consequence. The generic prime-extraction theorem allows any bounded ideal sequence satisfying its two estimates; it does not reconstruct the supplied joint-spin chain.
 
@@ -68,7 +68,7 @@ Use §0.32 at q=1 for the prime number theorem with every fixed logarithmic savi
 
 Use §3.34, `smoothCount_dickman`, for the fixed-parameter positive-density count and §3.35, “Rankin smooth-number upper bound”, for the Rankin estimate with x≥1,y≥2,σ>0. The native count is positive integers only: #Nat.smoothNumbersUpTo(N,z+1)≤N^δ∏_(p≤z)(1−p^(−δ))⁻¹ for δ>0. Treat N=0, z=0,1 and N<1 directly. Distinct integers are counted once. The extremely-smooth tail is proved in §1.4 from the Rankin estimate.
 
-Use §3.22 for the summatory divisor bound and §1.2a for Σ_(n≤Y)τ(n)²≪Y log³(2Y), obtained from τ²≤τ₄ and three harmonic sums. These are the divisor inputs to Jutila’s argument.
+Use §3.22 for the summatory divisor bound and §3.24, `zetaFourthMoment.divisorDiagonal`, for Σ_(n≤Y)τ(n)²≪Y log³(2Y): its asymptotic Σ_(n≤X)τ(n)²=X(log X)³/π²+O(X(log X)²) for X≥2 implies the bound there, and the range 1≤Y<2 is the single term τ(1)²=1. These are the divisor inputs to Jutila’s argument.
 
 ### From TauCetiRoadmap.AnalyticNumberTheoryPartII
 
@@ -2195,7 +2195,7 @@ Here χ_D is precisely §0.6's numerical adapter, including nonfundamental discr
 - Adding square D=1 would contribute Y², rather than a uniformly linear Y term. At Y=2 that extra contribution is 4.
 - At X=12,Y=1 the nine nonsquare discriminants contribute 9; restricting to fundamental discriminants would lose D=−12 and give 8. Its value at 2 is 0, whereas the inducing character of D=−3 has value −1.
 
-*Needs:* Layer 0 §0.6 real discriminant character adapter; ThetaSeries §2H reciprocity and characters; AnalyticNumberTheoryPartI §§3.22 and 1.2a divisor moments; JUTILA-ORIGINAL Lemma 2, p.194.
+*Needs:* Layer 0 §0.6 real discriminant character adapter; ThetaSeries §2H reciprocity and characters; AnalyticNumberTheoryPartI §3.22 and §3.24 `zetaFourthMoment.divisorDiagonal` divisor moments; JUTILA-ORIGINAL Lemma 2, p.194.
 
 **Jutila mean value lemma.** Prove `SieveQuadratic.jutila_mean_value`. There is an absolute C>0 such that X≥3,N≥2 and complex a_1,…,a_N satisfy `Σ_{|D|≤X, D≡0,1 mod 4, D not a square}|Σ_{n=1}^N` a_n χ_D(n)|²≤C[X `Σ_{m,n≤N,mn a square}|a_m` a_n|+√X `N^(7/4)(Σ_{n≤N}|a_n|⁸)^(1/4)(log` N)^6]. The discriminants are not restricted to fundamental discriminants.
 
@@ -2203,7 +2203,7 @@ Integer X≥3,N≥2; all non-square discriminants in the indicated interval.
 
 ([JUTILA-ORIGINAL](#references), Lemma 3, equation (12), and proof (13)–(17), pp.194–195.)
 
-*Proof sketch.* Expand the square and retain the exact square-product diagonal. For the off-diagonal apply Jutila’s earlier mean-square estimate to the reciprocity-transformed discriminant sum. Cauchy–Schwarz and divisor-function fourth-moment estimates give the displayed eighth moment. Use Layer 2 §2.7 Jutila unweighted mean square for Lemma 2 and AnalyticNumberTheoryPartI §§3.22 and 1.2a for the divisor and squared-divisor sums in (17). The scanned display (12) has (log N)⁶; the proof uses (log N)⁸ in (16).
+*Proof sketch.* Expand the square and retain the exact square-product diagonal. For the off-diagonal apply Jutila’s earlier mean-square estimate to the reciprocity-transformed discriminant sum. Cauchy–Schwarz and divisor-function fourth-moment estimates give the displayed eighth moment. Use Layer 2 §2.7 Jutila unweighted mean square for Lemma 2 and AnalyticNumberTheoryPartI §3.22 and §3.24 `zetaFourthMoment.divisorDiagonal` for the divisor and squared-divisor sums in (17). The scanned display (12) has (log N)⁶; the proof uses (log N)⁸ in (16).
 
 **Checks.**
 
@@ -2211,7 +2211,7 @@ Integer X≥3,N≥2; all non-square discriminants in the indicated interval.
 - For X=8,N=2 and the same coefficients, D=−8,−7,−4,−3,5,8 give squares 0,1,0,1,1,0, totaling 3. The first main term is 8C and the moment term is nonnegative.
 - For the Lemma 2 input, X=3,Y=1 gives 1≤3C(log 3)⁸. At Y=2 the divisor and squared-divisor sums are 3 and 5. Square discriminants must stay excluded as Y grows.
 
-*Needs:* Layer 0 §0.6 real discriminant character adapter; Layer 2 §2.7 Jutila unweighted mean square; AnalyticNumberTheoryPartII §5.29; AnalyticNumberTheoryPartI §§3.22 and 1.2a; Mathlib `jacobiSym.quadratic_reciprocity`.
+*Needs:* Layer 0 §0.6 real discriminant character adapter; Layer 2 §2.7 Jutila unweighted mean square; AnalyticNumberTheoryPartII §5.29; AnalyticNumberTheoryPartI §3.22 and §3.24 `zetaFourthMoment.divisorDiagonal`; Mathlib `jacobiSym.quadratic_reciprocity`.
 
 **Smith prime Legendre-symbol estimate.** Prove `SieveQuadratic.smith_prime_legendre_bilinear`. For ε>0 there is Cε>0 such that disjoint finite sets X₁,X₂ of odd primes bounded by t₁,t₂≥2 satisfy `Σ_{p∈X₁}|Σ_{q∈X₂}` jacobiSym(p,q)|≤Cε[t₁ t₂^(3/4+ε)+t₂ t₁^(3/4+ε)].
 
@@ -2299,7 +2299,7 @@ Positive δ; separation on all distinct indices; empty and singleton families ar
 
 *Proof sketch.* Prove the separated Hilbert-transform norm bound of Exercise 15.4.2, then apply Cauchy–Schwarz. Its analytic proof is required; squared matrix duality alone supplies no Hilbert constant.
 
-*Needs:* Mathlib `Complex.normSq`.
+*Needs:* Mathlib `Complex.normSq`. AnalyticNumberTheoryPartI §1.5a is not consumed: it owns the weighted form with constant 3π/2 and local spacings, while the uniform-spacing constant π/δ is owned here because the sharp constant N−1+δ⁻¹ of the next theorem needs exactly π.
 
 **Sharp separated additive large sieve.** Prove `SieveTaper.sharp_additive_largeSieve`. For N≥1, δ>0 with δ≤1/2, distinct frequencies x_i separated modulo 1 by at least δ, and a_j on an interval of N consecutive integers, Σ_i `|Σ_{j=1}^N` a_j exp(2πi(M+j)x_i)|²≤(N−1+δ⁻¹)Σ_j|a_j|². The empty coefficient interval is handled separately by zero, not by extending a negative constant.
 
@@ -2382,7 +2382,7 @@ The definition exposes the following operations and laws:
 
 Establish π/δ in the separated Hilbert inequality and its periodic adapter before using H−1+δ⁻¹, including arbitrary origins, H≥1 and singleton frequencies. Squared duality does not give the sharp constant.
 
-Use AnalyticNumberTheoryPartII §5.29 for Heath-Brown’s odd-squarefree and real-character estimates, retaining reciprocity signs and (MN)^ε loss in the bilinear consequence. Jutila (1975), Lemmas 2–3 use Layer 2 §2.7 Jutila unweighted mean square and AnalyticNumberTheoryPartI §§3.22 and 1.2a for the separate Jutila, Smith and Koymans–Pagano route, including (log N)⁶ in Lemma 3.
+Use AnalyticNumberTheoryPartII §5.29 for Heath-Brown’s odd-squarefree and real-character estimates, retaining reciprocity signs and (MN)^ε loss in the bilinear consequence. Jutila (1975), Lemmas 2–3 use Layer 2 §2.7 Jutila unweighted mean square and AnalyticNumberTheoryPartI §3.22 and §3.24 `zetaFourthMoment.divisorDiagonal` for the separate Jutila, Smith and Koymans–Pagano route, including (log N)⁶ in Lemma 3.
 
 Linnik uses a multiplicity-safe positive-proportion smooth count up to H=N² with cutoff N^ε, so the fixed Dickman parameter is 2/ε and H+Q²=2N² at Q=N. For p>N^ε all such smooth integers are coprime to p; forbid only symbol−1 classes. Treat ε≥1 directly by q(p)<p, and absorb bounded N into the constant. Ordered prime tuples overcount the population.
 
@@ -2400,7 +2400,7 @@ The denominator-two symbol gives symbol₂(3,2)=1, whereas χ₅(2)=−1 and χ�
 
 ### Dependencies
 
-Layer 0. External inputs: AnalyticNumberTheoryPartI §§1.2a, 3.22, 3.34–3.35; AnalyticNumberTheoryPartII §5.29; ThetaSeries §2H; ErdosProgressionPowers §3.1; Mathlib `Polynomial.monicEquivDegreeLT` and `Polynomial.degreeLTEquiv`.
+Layer 0. External inputs: AnalyticNumberTheoryPartI §§3.22, 3.24, 3.34–3.35; AnalyticNumberTheoryPartII §5.29; ThetaSeries §2H; ErdosProgressionPowers §3.1; Mathlib `Polynomial.monicEquivDegreeLT` and `Polynomial.degreeLTEquiv`.
 
 ## Layer 3: maximal prime distribution
 
@@ -2420,7 +2420,7 @@ Prove the cofactor versions by retaining the actual coprimality mask, with all c
 - At Q=2,j=1 and 2 the sums are 3 and 5.
 - At Q=3,j=1 the sum is 1+2+1=4; restricting to (q,2)=1 gives 2, so cofactor deletion is a subsum, not a new multiplicativity law at q=2.
 
-*Needs:* AnalyticNumberTheoryPartI §§1.2a, 3.22 and 3.26; native totient Euler factors and nonnegative Euler-product comparison.
+*Needs:* AnalyticNumberTheoryPartI §§3.22, 3.24 `zetaFourthMoment.divisorDiagonal` and 3.26; native totient Euler factors and nonnegative Euler-product comparison.
 
 **Maximal small-conductor estimates.** For every A,B>0 there are C>0 and x₀≥3 such that x≥x₀, a nonprincipal primitive χ of positive conductor r≤(log x)^B, and every positive integer s satisfy
 
@@ -4016,6 +4016,8 @@ The following conventions fix the mathematical statements at the cited versions.
 **KED-ANT-18, §18.2, last aggregate bound and substitution δ=Δ^(1/2).** Re-establish the aggregate bound. The expression (δ+δ^(-1)Δ)x(log x)^3 would balance at the stated choice, but this is only a candidate correction until the preceding rectangle argument is supplied. Substitution in the printed expression yields (Δ^(-1/2)x+Δ)x(log x)^3, not Δ^(1/2)x(log x)^3. For x≥1 and 0<Δ≤1 their ratio is at least x/Δ, unbounded. This is an invalid proof step, not a counterexample to Bombieri–Vinogradov.
 
 **KED-ANT-18, §18.3, Theorem 18.5 display.** Replace the free residue m by the bound variable a in the summand and read |f|² as the squared ℓ² norm consistently with Definition 18.1/Lemma 18.2. The sum binds a while its summand uses a different free variable m. A variance over residue classes must evaluate the discrepancy at the residue being summed. Only this syntactic correction is asserted; the theorem's proof remains an explicit exercise target.
+
+**KED-ANT-18, §18.3, Corollary 18.6.** Read the conclusion as (Δx+Q)^(1/2)(y+Q)^(1/2): hypothesis (18.1.1) is assumed of f, whose support is [1,x]; the printed factor attaches Δ to y.
 
 **MAYNARD-2015, Proof of Proposition 4.2, display (4.4), p. 389 (arXiv v3 p. 6)** The sum runs over m: `Σ_{m=1}^{k}` `J_k^{(m)}(F₁).` The summation index j does not occur in the summand, while m is free. Proposition 4.1, which (4.4) applies, has `Σ_{m=1}^{k}` `J_k^{(m)}(F).`
 
