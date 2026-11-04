@@ -1151,7 +1151,20 @@ Noetherian complete local ring,
   henselization `algebra (𝔪)` to `R^{sh}` induced by the universal property is not surjective: the
   residue field of the former is `𝔽_p`.
 
-*Lean:* the strict henselization is specified in this README only.
+*Lean:* `StrictHenselization.IsPointedNeighbourhood`, `StrictHenselization.Neighbourhood`,
+`StrictHenselization.neighbourhood_isFiltered`,
+`StrictHenselization.neighbourhood_essentiallySmall`, `StrictHenselization.diagram`,
+`StrictHenselization.algebra`, `StrictHenselization.stage`, `StrictHenselization.stage_naturality`,
+`StrictHenselization.desc`, `StrictHenselization.exists_stage_eq`, `StrictHenselization.hom_ext`,
+`StrictHenselization.toSepClosure`, `StrictHenselization.toSepClosure_comp_stage`,
+`StrictHenselization.henselianLocalRing`, `StrictHenselization.isSepClosed_residueField`,
+`StrictHenselization.isLocalHom_algebraMap`, `StrictHenselization.maximalIdeal_eq_map`,
+`StrictHenselization.ker_toSepClosure`, `StrictHenselization.toSepClosure_surjective`,
+`StrictHenselization.existsUnique_lift`, `StrictHenselization.exists_isLocalHom_lift`,
+`StrictHenselization.existsUnique_algHom_of_etale` and
+`StrictHenselization.isNoetherianRing_algebra_iff`; *map*, *map_id*, *map_comp*,
+*localization_equiv*, the completion clauses of *isNoetherianRing_algebra_iff* and the Checks are
+specified in this README only.
 
 ### 0.13 Ind-étale algebras and the properties of the henselization
 
