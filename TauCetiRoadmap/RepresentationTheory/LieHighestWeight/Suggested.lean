@@ -44,9 +44,10 @@ here by admitted data.
 The type-A identification of a rational irreducible GL_n-character with the
 determinant-shifted Schur polynomial is statable, but it is the headline of ClassicalGroups
 Layer 4; this roadmap gives an independent Haar-measure proof of it and does not restate it.
-The regular extension of unitary representations, the torus period lattice, the compact
-Frobenius-Schur criterion and the skew Littlewood-Richardson rule are supplier gaps named in
-README.md, not headlines of this roadmap.
+The regular extension of unitary representations, the torus period lattice and the
+Littlewood-Richardson rule are supplier gaps named in README.md, not headlines of this
+roadmap; the compact Frobenius-Schur criterion is native at the pin
+(`ContRepresentation.frobeniusSchurIndicator_trichotomy`) and is a supplier contract.
 -/
 
 namespace TauCetiRoadmap.RepresentationTheory.LieHighestWeight

@@ -10,10 +10,26 @@ integral lattices. The split characteristic-zero and compact real forms are sepa
 ## Scope and ownership
 
 This roadmap owns the comparisons and extensions in Layers 0–10 below. The
-rank-one classification, integer spectrum, weight strings, PBW basis and filtration,
-Verma modules, dominant-integral classification, complete reducibility, Weyl formulas,
-and general-linear highest-weight carrier and the integral-weight lattice are already in Tau Ceti and are consumed
-through the exact contracts below. The native split octonion and Albert carriers,
+following are already in Mathlib or Tau Ceti and are consumed through the exact
+contracts below, so a consumer cites the declaration, not a layer of this roadmap:
+the rank-one integer spectrum, classification and weight strings
+(`TauCeti.exists_int_of_hasEigenvalue`, `TauCeti.finrank_eq_of_hasPrimitiveVectorWith`,
+`TauCeti.Sl2Std.isInternal_cgSummand`); Cartan subalgebras and the root-space
+decomposition (Mathlib `LieSubalgebra.IsCartanSubalgebra`,
+`LieAlgebra.IsKilling.rootSystem`); the weights of a module and their
+integrality (`TauCeti.integralWeightLattice`, `TauCeti.exists_int_apply_coroot`);
+the PBW basis and filtration (`Module.Basis.pbwBasis`,
+`TauCeti.UniversalEnvelopingAlgebra.pbwFiltration`); Verma modules and their
+irreducible quotients (`TauCeti.VermaModule`, `TauCeti.irreducibleQuotient`);
+the dominant-integral classification
+(`TauCeti.existsUnique_isDominantIntegral_highestWeight_of_finiteDimensional_irreducible`);
+complete reducibility and the Casimir (`TauCeti.exists_isCompl_of_isKilling`,
+`TauCeti.casimirElement`); the Weyl character, dimension and Kostant formulas
+and Freudenthal's formula (`TauCeti.formalCharacter_mul_weylDenominator_eq_weylNumerator`,
+`TauCeti.finrank_eq_prod_coweightPairing_div`,
+`TauCeti.formalCharacter_coeff_eq_kostantMultiplicity`,
+`TauCeti.freudenthal_multiplicity_formula`); and the general-linear
+highest-weight carrier (`TauCeti.glIrreducible`). The native split octonion and Albert carriers,
 their dimensions and the dimension of split-octonion derivations are inputs, not
 new construction targets. The exceptional-model identifications remain targets.
 
@@ -51,14 +67,18 @@ identity and identifies the finite torus Fourier coefficients with weight
 multiplicities. The generic constructions have no character-theoretic premise;
 the finite identities here have no distributional premise.
 
-Four inputs of the compact and type-A applications in Layers 5, 9 and 10 are
-not supplied by the cited sections of the roadmaps on which they depend. Their
-additional requirements are specified under Exact supplier contracts: `gap:unitary-regular-complexification` and
-`gap:torus-period-lattice` (LieGroups), `gap:compact-frobenius-schur`
-(CompactGroups) and `gap:skew-lr-tableaux` (SchurWeyl). The generic
-complexification, maximal-torus theory, compact character theory and tableau
-combinatorics remain the suppliers'; no holomorphic extension, unnamed
-structure constant or full simply connected weight lattice stands in for a gap.
+Eight inputs of the compact and type-A applications in Layers 5, 9 and 10 are
+not supplied by the cited sections of the roadmaps on which they depend. Each
+is one supplier gap with a single need under Exact supplier contracts:
+`gap:unitary-regular-extension`, `gap:unitary-regular-uniqueness`,
+`gap:unitary-regular-functoriality`, `gap:torus-exponential-kernel`,
+`gap:torus-cocharacter-lattice` and `gap:torus-character-lattice` (LieGroups),
+`gap:skew-lr-tableaux` and `gap:lr-product-rule` (SchurWeyl). The compact
+Frobenius–Schur criterion is native in Tau Ceti and is consumed through the
+Tau Ceti contract, not asked of CompactGroups. The generic complexification,
+maximal-torus theory and tableau combinatorics remain the suppliers'; no
+holomorphic extension, unnamed structure constant or full simply connected
+weight lattice stands in for a gap.
 
 ## Conventions
 
@@ -317,6 +337,26 @@ estimate is needed for that finite sum.
   `TauCeti.opposition_involutive` and `TauCeti.oppositionPerm`, in
   `TauCeti/LinearAlgebra/RootSystem/Opposition.lean`, supply the actual root involution
   and base permutation. They do not identify a compact group's integral character lattice.
+- `ContRepresentation.frobeniusSchurIndicator`, in
+  `TauCeti/RepresentationTheory/Compact/FrobeniusSchur/Basic.lean`, is the Haar-probability
+  integral of the character over squares, `∫_G χ(g²) dg`. For a compact topological group G
+  with its Borel σ-algebra and a continuous unitary (`TauCeti.ContRepresentation.IsUnitary`)
+  irreducible representation on a finite-dimensional complex inner-product space,
+  `ContRepresentation.frobeniusSchurIndicator_trichotomy` (`Trichotomy.lean`) gives the
+  value 1, 0 or −1, and `ContRepresentation.frobeniusSchurIndicator_eq_one_iff`,
+  `frobeniusSchurIndicator_eq_neg_one_iff` and `frobeniusSchurIndicator_eq_zero_iff`
+  (`InvariantForm.lean`) read the value as the existence of a nondegenerate invariant
+  symmetric form, of a nondegenerate invariant alternating form, or the vanishing of
+  `TauCeti.Representation.invariantForms`; the last is "not self-dual" through
+  `TauCeti.Representation.invariantFormsEquivIntertwiningMapDual`, invariant forms being the
+  intertwiners to the dual. `ContRepresentation.finrank_invariants_squares_le_one`
+  (`TauCeti/RepresentationTheory/Continuous/Square/Invariants.lean`) bounds the invariants of
+  the two squares by one line in total, which is uniqueness of a nonzero invariant form up to
+  scalar. `TauCeti.ContRepresentation.exists_isUnitary_congr` (`Compact/UnitaryModel.lean`)
+  conjugates every continuous finite-dimensional representation of a compact group to a
+  unitary one, supplying the `IsUnitary` hypothesis. The pin states the criterion through the
+  indicator's value only, not through real or quaternionic structure maps; §5.1 uses only the
+  value.
 - `TauCeti.Octonion K`, its norm and trace, and
   `TauCeti.Octonion.finrank_derivationLieAlgebra`, in
   `TauCeti/Algebra/Octonion/Basic.lean` and `Derivation.lean`, supply the split
@@ -381,56 +421,68 @@ and the translation by ρ, not the interpolation-and-averaging construction.
 
 ### Supplier gaps
 
-What LieGroups must provide (gap:unitary-regular-complexification): for every
-n≥0, finite-dimensional complex V and continuous homomorphism ρ from the unitary
-group U(n) to GL(V), a unique homomorphism GLₙ(ℂ)→GL(V) whose matrix
+Each gap below is a single need of one supplier. LieGroups Layer 7 supplies
+holomorphic extension of continuous representations of a compact group, its
+Layer 6 maximal tori and Weyl integration, and SchurWeyl Layer 7 finite Schur
+polynomials and RSK; none of these sections supplies the statements below.
+
+What LieGroups must provide (gap:unitary-regular-extension): for every n≥0,
+every finite-dimensional complex V and every continuous homomorphism ρ from
+the unitary group U(n) to GL(V), a homomorphism GLₙ(ℂ)→GL(V) whose matrix
 coefficients are polynomials in the matrix entries and the inverse determinant
-and which restricts to ρ; restriction from such regular representations to
-continuous U(n)-representations is fully faithful, commutes with direct sums,
-tensor products and duals, and preserves irreducibility. Uniqueness comes from
-Zariski density of U(n) in GLₙ(ℂ). LieGroups Layer 7 supplies holomorphic
-extension; regularity of the matrix coefficients is the additional content.
-Witnesses: the U(1) character z↦z⁻¹ extends to the regular Gₘ character
-t↦t⁻¹, with value 1/2 at t=2; for n=0 both groups are trivial and the
-extension of the trivial representation is the identity of V. Consumed by §5.2.
+and which restricts to ρ. Witnesses: the U(1) character z↦z⁻¹ extends to the
+regular Gₘ character t↦t⁻¹, with value 1/2 at t=2, which holomorphic extension
+alone does not specify; for n=0 both groups are trivial and the extension of
+the trivial representation is the identity of V. Consumed by §5.2.
 
-What LieGroups must provide (gap:torus-period-lattice): for a compact connected
-Lie group G with maximal torus T and Lie algebra 𝔱 (LieGroups Layer 6), the
-kernel Λ of the exponential map 𝔱→T is a lattice of full rank; with the circle
-parametrized by θ↦exp(iθ), the cocharacter lattice Y=Hom(S¹,T) is identified
-with (2π)⁻¹Λ by φ↦dφ(∂_θ); the character lattice X=Hom(T,S¹) is identified
-with the α∈𝔱* satisfying α(Λ)⊆2πℤ by dχ=iα; the pairing X×Y→ℤ is
-χ∘φ=(z↦z^⟨χ,φ⟩); and the roots of the complexified adjoint action are elements
-of X. Witnesses: in SU(2), T={diag(z,z⁻¹)}, Λ=2πℤ·diag(i,−i), the cocharacter
-z↦diag(z,z⁻¹) has differential diag(i,−i), the root character is z↦z² with
-differential 2i at diag(i,−i), and the root pairs with this cocharacter to 2;
-in SO(3) the rotation cocharacter pairs with the root to 1. Consumed by §§5.1
-and 10.2.
+What LieGroups must provide (gap:unitary-regular-uniqueness): two
+homomorphisms GLₙ(ℂ)→GL(V) with polynomial matrix coefficients in the entries
+and the inverse determinant that agree on U(n) are equal, by Zariski density
+of U(n) in GLₙ(ℂ). Witness: t↦t⁻¹ and complex conjugation t↦t̄ agree on U(1)
+and differ at t=2, where they take the values 1/2 and 2; the second is not
+regular, which is why regularity is a hypothesis. Consumed by §5.2.
 
-What CompactGroups must provide (gap:compact-frobenius-schur): for a compact
-group G with normalized Haar measure and an irreducible continuous
-finite-dimensional complex representation V with character χ, the indicator
-`∫_G χ(g²) dg` lies in {1,0,−1}; it is 1 exactly when V has a nonzero
-G-invariant symmetric bilinear form, −1 exactly when it has a nonzero invariant
-alternating form, and 0 exactly when V is not isomorphic to its dual; a nonzero
-invariant bilinear form is unique up to scalar. Witnesses: the standard SU(2)
-representation has indicator −1 and invariant form [[0,1],[−1,0]]; the
-character z↦z of S¹ has indicator 0 since z² has Haar integral 0; the trivial
-representation has indicator 1. CompactGroups Layer 6 supplies character
-orthogonality, not this criterion. Consumed by §5.1.
+What LieGroups must provide (gap:unitary-regular-functoriality): restriction
+from such regular GLₙ(ℂ)-representations to continuous U(n)-representations is
+fully faithful and commutes with direct sums, tensor products and duals, so
+that it preserves and reflects irreducibility. Witnesses: the trivial
+character extends to the constant 1; tensoring the characters of weights 1
+and −1 gives weight 0 on both sides. Consumed by §5.2.
+
+What LieGroups must provide (gap:torus-exponential-kernel): for a compact
+connected Lie group G with maximal torus T and Lie algebra 𝔱 (LieGroups
+Layer 6), the kernel Λ of the exponential map 𝔱→T is a lattice of full rank
+in 𝔱. Witness: in SU(2), T={diag(z,z⁻¹)}, 𝔱=ℝ·diag(i,−i) and
+Λ=2πℤ·diag(i,−i). Consumed by §§5.1 and 10.2.
+
+What LieGroups must provide (gap:torus-cocharacter-lattice): with the circle
+parametrized by θ↦exp(iθ), the map φ↦dφ(∂_θ) identifies the cocharacter
+lattice Y=Hom(S¹,T) with (2π)⁻¹Λ. Witness: in SU(2) the cocharacter
+z↦diag(z,z⁻¹) has differential diag(i,−i), which is (2π)⁻¹ times the generator
+of Λ. Consumed by §§5.1 and 10.2.
+
+What LieGroups must provide (gap:torus-character-lattice): the map χ↦α with
+dχ=iα identifies the character lattice X=Hom(T,S¹) with the α∈𝔱* satisfying
+α(Λ)⊆2πℤ, under which χ∘φ is z↦z^⟨χ,φ⟩ with ⟨χ,φ⟩=α(dφ(∂_θ)) for every
+cocharacter φ, and the weights of T on the complexified adjoint representation
+are the characters whose differentials are the roots. Witnesses: in SU(2) the
+root character is z↦z² with differential 2i at diag(i,−i), and it pairs with
+the cocharacter z↦diag(z,z⁻¹) to 2; in SO(3) the rotation cocharacter pairs
+with the root to 1. Consumed by §§5.1 and 10.2.
 
 What SchurWeyl must provide (gap:skew-lr-tableaux, the contract that
 TensorProductCombinatorics also consumes under this name): for diagrams λ≤ν,
-semistandard skew tableaux of shape ν/λ with weakly increasing rows and
-strictly increasing columns and their content; Littlewood–Richardson tableaux,
-those whose reading word (rows top to bottom, each right to left) has in every
-prefix at least as many letters k as letters k+1; finiteness of the set of
-Littlewood–Richardson tableaux of shape ν/λ and content μ, its cardinality
-c^ν_(λμ), and the rule `s_λ s_μ = Σ_ν c^ν_(λμ) s_ν` in every finite alphabet,
-through the weight-preserving tableau-product bijection, with c^ν_(λμ)=0 unless
-λ≤ν and |ν|=|λ|+|μ|. Witnesses: `s_(1)² = s_(2) + s_(1,1)`, both coefficients
-1; for empty λ the count is 1 exactly when ν=μ. SchurWeyl Layer 7 supplies
-finite Schur polynomials and RSK, not this contract. Consumed by Layer 9.
+the finite set of Littlewood–Richardson tableaux of shape ν/λ and content μ,
+the semistandard skew tableaux with weakly increasing rows and strictly
+increasing columns whose reading word (rows top to bottom, each right to left)
+has in every prefix at least as many letters k as letters k+1, and its
+cardinality c^ν_(λμ), with c^ν_(λμ)=0 unless λ≤ν and |ν|=|λ|+|μ|. Witness: for
+empty λ the count is 1 exactly when ν=μ. Consumed by Layer 9.
+
+What SchurWeyl must provide (gap:lr-product-rule): in every finite alphabet,
+`s_λ s_μ = Σ_ν c^ν_(λμ) s_ν` with the counts of gap:skew-lr-tableaux, through
+the weight-preserving tableau-product bijection. Witness:
+`s_(1)² = s_(2) + s_(1,1)`, both coefficients 1. Consumed by Layer 9.
 
 ## How to read the build
 
@@ -567,7 +619,8 @@ the coefficient formulas and Checks below specify the rest of the tensor compari
    polynomial formulas; use elementary matrix generation of GL₂, rather than
    infer group equivariance from an unspecified differentiation comparison.
    Supply injectivity, image, the direct-sum intertwining equivalence and its inverse,
-   SU₂ restriction and the comparison with Layer 0's abstract decomposition.
+   SU₂ restriction and the comparison with the native rank-one decomposition
+   `TauCeti.Sl2Std.isInternal_cgSummand`.
    On each common SU₂ weight of two strings prove the corresponding orthogonality;
    one uniform choice is `ε=(m+n) mod 2`, reached at `k=(N_r-ε)/2`.
    Lowering preserves the invariant **summands**, and moves between weight spaces.
@@ -807,7 +860,8 @@ for §3.1's real polynomial comparison, finite-dimensional differential calculus
 ### 5.1 Opposition, ordinary duality and self-duality
 
 Use the split characteristic-zero semisimple scope and chosen Cartan/base of
-Layers1–5, with the standing algebraically closed coefficient field. Consume
+the native highest-weight contracts (From Tau Ceti), with the standing
+algebraically closed coefficient field. Consume
 native `TauCeti.Algebra.Lie.HighestWeight.LowestWeight` and `.Dual`, in
 particular `exists_isHighestWeightVector_dual`,
 `nonempty_lieModuleEquiv_dual_iff` and the invariant-bilinear-form criterion.
@@ -848,7 +902,8 @@ This root-level example asserts no triality automorphism of every isogeny form.
 
 For compact connected SEMISIMPLE groups, compare this criterion through
 the actual character lattice X and LieGroups' differentiation/integration maps.
-The character-lattice comparison is LieGroups gap:torus-period-lattice (Supplier gaps);
+The character-lattice comparison is LieGroups gap:torus-exponential-kernel,
+gap:torus-cocharacter-lattice and gap:torus-character-lattice (Supplier gaps);
 [CompactGroups, Layer 6](../CompactGroups/README.md) supplies the character theory. An irreducible of actual highest
 character λ∈X is dual to the one labeled `−w₀λ`; retain the actual group form.
 All such representations are self-dual iff δ fixes X, equivalently the real
@@ -856,8 +911,10 @@ weight space since X has finite index in the semisimple weight lattice. A
 central torus is a separate obstruction: the character z↦z of S1 is not
 self-dual although there are no roots or diagram automorphisms. Self-duality
 does not assert real type: the standard complex SU2 representation is
-quaternionic, with Frobenius–Schur sign −1. The required compact sign criterion is
-CompactGroups gap:compact-frobenius-schur (Supplier gaps); root opposition does not decide it.
+quaternionic, with Frobenius–Schur sign −1. The compact sign criterion is the
+native indicator and its three characterizations
+(`ContRepresentation.frobeniusSchurIndicator_eq_neg_one_iff` and its companions, From
+Tau Ceti); root opposition does not decide it.
 The Lie invariant-form headline is `invariantForm_isSymm_iff_tits_sign`: for a nonzero
 invariant bilinear form on L(λ), symmetry is equivalent to
 (−1) raised to the sum of λ evaluated on the positive coroots being +1, and
@@ -884,13 +941,22 @@ the simple roots with coefficients fixed by `2ρ∨ = Σ_i c_i α_i∨`.
 - In type A₁, opposition is the identity, while SU(2) permits highest weight 1
   and SO(3) permits only even weights. Replacing the actual lattice by P fails here.
 - On SU(2), weight 1 has alternating matrix [[0,1],[−1,0]] and sign −1;
-  weight 2 has sign +1. Both weights are fixed by opposition.
+  weight 2 has sign +1. Both weights are fixed by opposition. The native
+  indicator of the standard representation is −1, by
+  `ContRepresentation.frobeniusSchurIndicator_eq_neg_one_iff` on that alternating
+  form; of the trivial representation it is 1; of the circle character z↦z it is
+  0, since z² has Haar integral 0, and `frobeniusSchurIndicator_eq_zero_iff` then
+  gives no nonzero invariant form. An indicator averaging χ(g) instead of χ(g²)
+  would return 0 on every nontrivial irreducible, including the standard SU(2)
+  representation.
 - For the circle, characters z and z⁻¹ are different: at z=i their values are i
   and −i. A root-free group need not have all representations self-dual.
 
 *Needs:* native opposition and dual-module theorems; RootSystems Layer 4;
 native integral-weight lattice; for the compact comparisons only, LieGroups
-gap:torus-period-lattice and CompactGroups gap:compact-frobenius-schur.
+gap:torus-exponential-kernel, gap:torus-cocharacter-lattice and
+gap:torus-character-lattice, and the native Frobenius–Schur criterion (From
+Tau Ceti).
 
 ### 5.2 Integral type-A characters from Haar measure
 
@@ -902,7 +968,8 @@ orthogonality; LieGroups Layer 6's normalized Haar Weyl integration formula and
 Layer 7's compact-complexification equivalence for finite-dimensional continuous
 U(n)-representations; and SchurWeyl Layer 7's combinatorial Schur polynomials and
 division-free bialternant identity. The GLₙ classification consumes the Lie highest-weight theorem. The regular
-compact-complexification comparison is LieGroups gap:unitary-regular-complexification. Retain these phase boundaries: neither input
+compact-complexification comparison is LieGroups gap:unitary-regular-extension,
+gap:unitary-regular-uniqueness and gap:unitary-regular-functoriality. Retain these phase boundaries: neither input
 uses ClassicalGroups Layer 4's character–Schur identification, this layer's Weyl
 formula, its Fourier-boundary comparison, or a formula for tensor multiplicities.
 These inputs commission the following construction, separately from the native
@@ -913,13 +980,14 @@ ClassicalGroups Layer 4 (`character_irreducible_eq_detTwist`); this layer is an 
 it and owns the integral virtual-character, finite-induction, tensor and
 branching applications below.
 
-Apply gap:unitary-regular-complexification as follows: average a positive
+Apply the three regular-extension gaps as follows: average a positive
 Hermitian form on a continuous U(n)-module, choose a Gram change of basis
 carrying its image into U(V), and extend this homomorphism into the unitary
 group to a regular GLₙ→GL(V) morphism. Conjugate back by the constant Gram
 matrix to obtain a rational representation on the original vector space; the
 compatibilities with intertwiners, direct sums, tensor products and
-irreducibility are part of the gap contract. Holomorphic extension alone is
+irreducibility are gap:unitary-regular-functoriality, and uniqueness of the
+extension is gap:unitary-regular-uniqueness. Holomorphic extension alone is
 not the rationality statement required by ClassicalGroups Layer 3.
 
 **Checks.**
@@ -969,6 +1037,25 @@ subtracting their nonnegative multiplicities; formal integer subtraction alone
 does not prove a subrepresentation exists. This supplies both the virtual
 character expansion and the virtual-character decomposition.
 
+**Checks.**
+
+- For n=2 the distinct orbit sum of λ=(1,1) is `t₁t₂` with coefficient 1, its
+  orbit having one element; a sum over all of S₂ would give `2t₁t₂`. For
+  λ=(1,0) it is `t₁+t₂`.
+- For n=3 and x=(3,2,1) the weights (1,1,−2) and (2,−1,−1) both have score 3
+  and coordinate sum 0, and neither dominates the other: the difference
+  (2,−1,−1)−(1,1,−2) = (1,−2,1) is `(ε₁−ε₂)−(ε₂−ε₃)`, with a negative
+  coefficient, and so is its negative. A score that was claimed injective would be refuted here.
+- (2,0)≥(1,1) since the difference (1,−1) is `ε₁−ε₂`, and the prefix sums
+  2≥1, 2=2 agree; a coordinatewise comparison would wrongly reject it because
+  0<1 in the second coordinate.
+- For n=2, S=0, x=(2,1) and the bound B=1 the dominant weights are (k,−k) with
+  score k, so exactly (0,0) and (1,−1) qualify; the formula reads x·λ=0+(1/2)·2k=k.
+- In U(2), `t₁²+t₂²` is `χ_(2,0)|_T − χ_(1,1)|_T`, since
+  `χ_(2,0)|_T = t₁²+t₁t₂+t₂²` and `χ_(1,1)|_T = t₁t₂`; the coefficient −1 shows
+  that the orbit sum `m_(2,0)` is a virtual character, and the unitriangular
+  inversion gives `m_(2,0) = χ_(2,0) − m_(1,1)`.
+
 **Polynomiality before character identification.** For dominant λ set
 ρ=(n−1,…,0), D=∏_(i>j)(1−tᵢ/tⱼ),
 A_β=Σ_w sgn(w)t^(w·β), and N_λ=t^(−ρ)A_(λ+ρ).
@@ -983,6 +1070,24 @@ identity D C_λ=N_λ. For n>0, put m=λₙ and let p be the bounded diagram of
 `TauCeti.diagramSchurPoly_mul_alternant` with the actual row bound to prove
 D P_λ=N_λ and hence C_λ=P_λ in the fraction field. For n=0 all products and
 alternants equal 1 and there is just the trivial weight.
+
+**Checks.**
+
+- For n=2 and λ=(1,0): ρ=(1,0), `A_(2,0) = t₁²−t₂²`, `N_λ = t₁ − t₂²t₁⁻¹`,
+  `D = 1−t₂/t₁` and `P_λ = s_(1) = t₁+t₂`; the product `D·P_λ` is
+  `t₁+t₂−t₂−t₂²/t₁ = N_λ`, and `C_λ = t₁²/(t₁−t₂) − t₂²/(t₁−t₂) = t₁+t₂`
+  agrees.
+- For n=2 and λ=(1,1): m=1, the bounded diagram is empty, `P_λ = t₁t₂`, and
+  `D·P_λ = t₁t₂−t₂² = t₁⁻¹(t₁²t₂−t₁t₂²) = N_λ`. For λ=(0,−1): m=−1, the
+  diagram is (1), and `P_λ = (t₁t₂)⁻¹(t₁+t₂) = t₁⁻¹+t₂⁻¹`, the dual standard
+  character; a definition that read the diagram off λ itself would have no
+  value at a negative entry.
+- `P_(1,0) = t₁+t₂` has coefficient 1 at (1,0) and support `{(1,0),(0,1)}`,
+  inside `(1,0)−ℕ(ε₁−ε₂)`, as the leading-coefficient argument predicts.
+- For λ=(1,0) the class function `F_λ` is the trace, and for λ=(1,1) it is the
+  determinant; both have Haar norm 1, and the torus sum
+  `Σ_(w,v) sgn(w)sgn(v) δ_(w·(λ+ρ),v·(λ+ρ))` is 2 in each case since λ+ρ is
+  (2,0), respectively (2,1), with distinct entries, so `(1/2!)·2 = 1`.
 
 Retain the paired-pole argument as its own algebraic construction. After clearing
 the determinant shift, pair numerator terms by the transposition of two variables.
@@ -1045,18 +1150,33 @@ constructions; the comparison is not a premise of either proof.
 **Type-A coefficient and branching applications.** In the same directed completion,
 derive Kostant's weight coefficient formula and the alternating tensor coefficient
 formula by multiplying D and extracting a dominant coefficient. For n>0, λ, μ
-dominant and `λᵢ−λ_(i+1)>μ₁−μₙ` for every adjacent pair, prove
+dominant and `λᵢ−λ_(i+1)≥μ₁−μₙ` for every adjacent pair, prove
 
 `V_λ ⊗ V_μ ≅ ⊕_(γ weight of V_μ) V_(λ+γ)^(⊕ mult_γ V_μ)`.
 
 Every weight γ has μₙ≤γᵢ≤μ₁, since the highest-weight cone and Weyl invariance
 put it in the permutahedron of μ; therefore λ+γ is dominant. In the alternating
-coefficient formula a nonidentity permutation of λ+ρ has an inversion. If a
-dominant ν and `ν+ρ=w·(λ+ρ)+γ` occurred for that permutation, the inverted gap
-would exceed μ₁−μₙ, whereas the correction γ cannot remove it. Thus only the
-identity contributes. Keep the precise total spread μ₁−μₙ and the strict
-inequality, rather than replacing it by a bound on adjacent gaps of μ. For n=0
+coefficient formula a nonidentity permutation of λ+ρ has an inversion. The
+entries of λ+ρ are distinct and any two differ by at least `μ₁−μₙ+1`, so at
+the inverted adjacent pair of `w·(λ+ρ)` the later entry exceeds the earlier by
+at least `μ₁−μₙ+1`, whereas adding γ changes that difference by at most
+μ₁−μₙ. If a dominant ν with `ν+ρ=w·(λ+ρ)+γ` occurred for that permutation,
+`ν+ρ` would fail to be strictly decreasing. Thus only the identity
+contributes. Keep the precise total spread μ₁−μₙ and the weak inequality,
+rather than replacing it by a bound on adjacent gaps of μ. For n=0
 and n=1 the empty adjacent conditions give the direct character identities.
+
+**Checks.**
+
+- In GL₂ with λ=μ=(1,0) the gap 1 equals μ₁−μ₂, so the weak hypothesis holds
+  and the strict one fails; the weights of `V_(1,0)` are (1,0) and (0,1), and
+  `V_(1,0)⊗V_(1,0) = V_(2,0)⊕V_(1,1)` with dimensions 4=3+1, as the formula
+  predicts.
+- In GL₂ with λ=(2,0) and μ=(1,0) the gap 2 exceeds 1 and
+  `V_(2,0)⊗V_(1,0) = V_(3,0)⊕V_(2,1)`, dimensions 6=4+2.
+- In GL₂ with λ=(0,0) and μ=(1,0) the gap 0 is smaller than 1, the translate
+  (0,1) is not dominant, and the tensor product is `V_(1,0)` alone; the
+  hypothesis cannot be dropped.
 
 For n≥1 and the restriction GLₙ→GL_(n−1)×GL₁, consume ClassicalGroups' interlacing
 branching contract and retain the finite-alternant proof: after tₙ=1, the
@@ -1080,7 +1200,7 @@ The real module ℝ²⊕ℝ² splits into its two 2-dimensional summands; SU(2) 
 
 ### Dependencies
 
-*Needs:* native arbitrary-field complete reducibility and duality; RootSystems Layer 4; for the compact applications, LieGroups Layers 6–7 with gap:unitary-regular-complexification and gap:torus-period-lattice, CompactGroups Layer 6 with gap:compact-frobenius-schur, ClassicalGroups Layer 3 and SchurWeyl Layer 7.
+*Needs:* native arbitrary-field complete reducibility and duality; RootSystems Layer 4; for the compact applications, LieGroups Layers 6–7 with gap:unitary-regular-extension, gap:unitary-regular-uniqueness, gap:unitary-regular-functoriality, gap:torus-exponential-kernel, gap:torus-cocharacter-lattice and gap:torus-character-lattice, CompactGroups Layer 6 and the native Frobenius–Schur criterion, ClassicalGroups Layer 3 and SchurWeyl Layer 7.
 
 ## Layer 6: the Weyl character, dimension, and Kostant formulas
 
@@ -1235,7 +1355,7 @@ downstream application actually invokes.
   *Needs:* native minuscule orbit condition, root sl₂ strings, formal Weyl
   character formula and complete reducibility; the character independence above.
   The type-A polynomial Littlewood–Richardson application requires the additional
-  SchurWeyl gap:skew-lr-tableaux (Supplier gaps), beyond [SchurWeyl Layer 7](../SchurWeyl/README.md#layer-7-symmetric-functions-the-frobenius-characteristic-and-rsk); ClassicalGroups Layer 4 identifies polynomial character coefficients
+  SchurWeyl gap:skew-lr-tableaux and gap:lr-product-rule (Supplier gaps), beyond [SchurWeyl Layer 7](../SchurWeyl/README.md#layer-7-symmetric-functions-the-frobenius-characteristic-and-rsk); ClassicalGroups Layer 4 identifies polynomial character coefficients
   with group tensor multiplicities. Layer 9 below compares them with gl_n Lie modules.
 
 ### 6.2 Rational Weyl identities and finite torus characters
@@ -1312,25 +1432,29 @@ For sl₂, V(1)⊗V(1)=V(2)⊕V(0), with dimensions 4=3+1 and multiplicities one
 
 ### Dependencies
 
-*Needs:* native characters, Weyl and Kostant formulas; Layers 0–5;
+*Needs:* native characters, Weyl and Kostant formulas, highest-weight
+classification and complete reducibility (From Tau Ceti); Layer 5;
 RootSystems Layers 1–6; ClassicalGroups Layers 3–4; LieGroups Layer 6;
 Mathlib's finite Fourier orthogonality.
 
 ## Layer 7: the center of `U(L)`, Harish-Chandra, Freudenthal, and Serre's relations
 
-The structural layer behind the character formula: the center that the Casimir of Layer 5 sits inside,
+The structural layer behind the character formula: the center that the native Casimir
+`TauCeti.casimirElement` sits inside,
 the recursion that computes multiplicities in practice, and the presentation that recovers `L` from
 its root system.
 
+### 7.1 The center, Harish-Chandra, Freudenthal and Serre
+
 - **The center `Z(U(L))` and central characters.** `Z(U(L)) = Subalgebra.center K (UniversalEnvelopingAlgebra K L)`,
-  the commutative algebra in which the Casimir element of Layer 5 lives. The **central character**
+  the commutative algebra in which the native Casimir element lives. The **central character**
   `χ_(base,λ) : Z(U(L)) →ₐ[K] K` (`centralCharacter base λ`) is read from the Verma top line.
   Consume native `TauCeti.vermaCentralCharacter base λ`, defined through the action of the
   center on the **one-dimensional top weight line** of the Verma module
   `M(λ)` (which the center preserves), so its construction depends on the Layer 3 Verma / highest-weight
   machinery. Consume native `representation_eq_vermaCentralCharacter_smul` for the action
   on any generating highest-weight line and `vermaCentralCharacter_casimirElement` for
-  the Layer 5 eigenvalue `⟨λ+ρ,λ+ρ⟩−⟨ρ,ρ⟩`, retaining the chosen base.
+  the native Casimir eigenvalue `⟨λ+ρ,λ+ρ⟩−⟨ρ,ρ⟩`, retaining the chosen base.
 - **The Harish-Chandra isomorphisms and their conventions.** Write `ev_λ : S(H) →ₐ[K] K`
   for `SymmetricAlgebra.lift λ`, viewing `S(H)` as polynomial functions on `H*`. The dot action is
   `w·λ = w(λ+ρ)−ρ`. Consume native `TauCeti.dotInvariants`, with its exact evaluation
@@ -1677,7 +1801,7 @@ no ordered-field structure on algebraically closed K is used.
   the center acts on the `λ`-isotypic component of any finite-dimensional module by `χ_λ`: the
   eigenspace-of-the-center refinement of the Layer 6 decomposition toolkit. A single Casimir
   eigenvalue does not separate distinct dominant weights in general; the full center does, which is
-  why the separation is stated here and not in Layer 5.
+  why the separation is stated here and not through the native Casimir alone.
 - **Freudenthal's multiplicity formula.** The recursion is **anchored at the base case** `mult_λ = 1`
   (the top weight has multiplicity one); for `μ` a weight of `L(λ)`,
   `(⟨λ+ρ,λ+ρ⟩ - ⟨μ+ρ,μ+ρ⟩) · mult_μ = 2 Σ_{α>0} Σ_{j≥1} mult_{μ+jα} · ⟨μ+jα, α⟩`
@@ -1744,7 +1868,7 @@ no ordered-field structure on algebraically closed K is used.
   (`GeckConstruction`) of [../RootSystems/README.md](../RootSystems/README.md), and the input to Layer
   8's identification of the exceptional models.
 
-### 7.1 Polynomial carriers for the headline comparisons
+### 7.2 Polynomial carriers for the headline comparisons
 
 Over any field K, define `symmetricDegreeLE` as the sum of the native homogeneous submodules in
 degrees k≤n. This is the ordinary degree filtration, including constants at n=0
@@ -1972,7 +2096,7 @@ LieGroups Layer 7, not a conclusion of it. In particular, the positive norm and 
 product are constructed before any compact group, root system, or representation
 classification is used.
 - **The formally real Albert supplier.** On the division octonions just specified,
-  construct `compactAlbertAlgebra` with scalar diagonal `Fin 3 → ℝ` and cyclic
+  construct the compact Albert algebra, written J below, with scalar diagonal `Fin 3 → ℝ` and cyclic
   off-diagonal `Fin 3 → TauCeti.DivisionOctonionReal` in the same Hermitian positions as native
   `TauCeti.AlbertAlgebra`. Define the Jordan product by the entrywise symmetrization
   `½(AB+BA)`, with each binary octonion product parenthesized; no associative matrix
@@ -2002,7 +2126,7 @@ classification is used.
   complexification/type identification follows this algebraic sublane and
   Layer 8's split-F₄ theorem. Construct the real tensor products
   `ℂ ⊗[ℝ] TauCeti.DivisionOctonionReal` and
-  `ℂ ⊗[ℝ] compactAlbertAlgebra`. The complex-linear extension of positive real
+  `ℂ ⊗[ℝ] J`. The complex-linear extension of positive real
   conjugation sends `z⊗x` to `z⊗Star.star x`, fixing the complex coefficient;
   this is distinct from tensor `Star.star`, which conjugates the coefficient.
   Consume native
@@ -2017,27 +2141,26 @@ classification is used.
   tensor-product Jordan algebra. Prove its scalar-extension and polarized
   comparisons; no undeclared cubic-form base-change API is presumed.
   Extend octonion conjugation complex-linearly on `ℂ ⊗[ℝ] A`: on a pure tensor the map is `z ⊗ x ↦ z ⊗ Star.star x`, so it fixes the complex coefficient. This is not the default tensor-product `Star.star`, which conjugates that coefficient, and it is not scalar complex conjugation. Construct
-  `divisionOctonionComplexificationIso` and
-  `compactAlbertComplexificationIso` as complex-linear, unital,
+  the division-octonion and compact-Albert complexification comparisons as complex-linear, unital,
   product-preserving equivalences to native `TauCeti.Octonion ℂ` and
   `TauCeti.AlbertAlgebra ℂ`, preserving the norm/involution and
   trace/determinant respectively. No associative `Algebra`/`AlgEquiv`
   instance is presumed for these nonassociative products.
-  Export `compactAlbertDerivationBaseChange`: the complexification of
-  `TauCeti.derivationLieAlgebra ℝ compactAlbertAlgebra` is the actual
+  Prove the derivation base change: the complexification of
+  `TauCeti.derivationLieAlgebra ℝ J` is the actual
   derivation Lie algebra of the complexified product. Prove this using
   finite-dimensional Leibniz-equation kernels and flat scalar extension,
   including bracket preservation. Consume native
   `TauCeti.derivationLieAlgebraCongr` on the preceding multiplicative
   linear equivalence, then Layer 8's split Albert identification, to
-  export `compactAlbertDerivation_complexification` with the split
-  type-F4 complex Lie algebra. Derive
-  `compactAlbertDerivation_finrank = 52` and zero real centre by faithful
-  complexification. Export `compactAlbertDerivation_skewAdjoint` for
+  identify the complexified derivation algebra with the split
+  type-F4 complex Lie algebra. Derive dimension 52 and zero real centre of the
+  real derivation algebra by faithful
+  complexification. Prove skew-adjointness for the trace form of
   every derivation, not just inner commutators: prove
   `trace(L_A)=9 trace(A)` and `[D,L_A]=L_(D A)`; matrix commutator trace
   gives trace(D A)=0, and Leibniz plus the associative trace form gives
-  skew-adjointness. Export `compactAlbertDerivation_killing_negDef`:
+  skew-adjointness. Prove that the Killing form of the real derivation algebra is negative definite:
   restrict the positive Hilbert–Schmidt form from the orthogonal
   endomorphisms to the derivation algebra, prove ad(D) skew-adjoint,
   and use zero centre to get `Killing(D,D)=−‖ad(D)‖²<0` for D≠0.
@@ -2168,7 +2291,7 @@ classification is used.
   *Needs:* the division octonions above; native `TauCeti.AlbertAlgebra` layout,
   `TauCeti.derivationLieAlgebra` and `TauCeti.derivationLieAlgebraCongr`;
   Mathlib `Algebra.TensorProduct` and `QuadraticForm.baseChange`; Layer 8's
-  split F4 identification for `compactAlbertDerivation_complexification`.
+  split F4 identification for the complexified compact Albert derivation algebra.
 - **The `E`-series `E₆, E₇, E₈`, as explicit constructions.** Two different constructions produce these,
   and the roadmap keeps them apart rather than conflating them:
     - **The Vinberg `ℤ/3`-model of split `E₈`.** `𝔢₈ = 𝔰𝔩₉ ⊕ ⋀³(K⁹) ⊕ ⋀³(K⁹)^*` of dimension
@@ -2216,6 +2339,8 @@ ClassicalGroups modules, not an asserted independent transvection classification
 conventions of the reductive standing-conventions bullet (Mathlib's `HasCentralRadical` as the
 unbundled reductivity hypothesis, the trace form as the invariant form, the matrix-unit positive
 system). It is independent of Layer 8.
+
+### 9.1 Reductive irreducibles, differentiation and the Littlewood–Richardson application
 
 - **Reconstruction for reductive irreducibles.** Over an algebraically closed
   characteristic-zero field, reconstruct an irreducible module from an irreducible
@@ -2268,7 +2393,7 @@ system). It is independent of Layer 8.
   tensor product with the actual finite tableau count
   `Nat.card (LRTableau λ ν μ)` for every ν with at most n rows, where `LRTableau λ ν μ`
   and the identity `s_λ s_μ = ∑_ν Nat.card (LRTableau λ ν μ) s_ν` are the content of
-  SchurWeyl gap:skew-lr-tableaux (Supplier gaps), extending
+  SchurWeyl gap:skew-lr-tableaux and gap:lr-product-rule (Supplier gaps), extending
   [SchurWeyl Layer 7](../SchurWeyl/README.md#layer-7-symmetric-functions-the-frobenius-characteristic-and-rsk). This count is not defined to be a
   tensor multiplicity or an unspecified Schur structure constant. Use the Schur-character
   identity and basis independence to identify the group coefficients, then the owned
@@ -2289,7 +2414,7 @@ system). It is independent of Layer 8.
 - For empty λ the unique tableau has shape ν and content μ only when ν=μ;
   a failed containment or size sum has count 0.
 
-*Needs:* SchurWeyl gap:skew-lr-tableaux;
+*Needs:* SchurWeyl gap:skew-lr-tableaux and gap:lr-product-rule;
 ClassicalGroups Layers 2–4; the differentiation and intertwiner comparisons of Layer 9.
 
 ### 9.2 Reductive enveloping centers and the actual invariant maps
@@ -2325,14 +2450,14 @@ maps are the scalar/unit identifications.
 For the HC and Chevalley refinements now assume K algebraically closed, retain
 a chosen Cartan H_s and positive base for the semisimple derived algebra, and
 put `H=z(L)×H_s` through the specified splitting. The Weyl group fixes z(L).
-Tensor the derived algebra's Layer7 **raw** HC map with the identity on
+Tensor the derived algebra's Layer 7 **raw** HC map with the identity on
 `Sym(z(L))`. Its PBW projection is zero on the two nilradicals and identity on
 the whole H, including its center. Extend rho by zero on z(L); its translation
 has no central shift. Export the full reductive raw/dot and translated/ordinary
 algebra isomorphisms, both filtration directions, central-character evaluations
 and their diagrams with the tensor center map. The derived HC theorem, not an
 application of `IsKilling` to L, is the input. Keep the central weight functional
-arbitrary at the Lie-algebra level. Tensor the independent Layer7 Lie–Chevalley
+arbitrary at the Lie-algebra level. Tensor the independent Layer 7 Lie–Chevalley
 restriction with the central symmetric algebra and prove the actual restriction
 square and degreewise compatibility; invariants of this fixed central factor are
 all its polynomials. Finite bases degree by degree justify passage through the
@@ -2360,7 +2485,7 @@ component action also remains. Neither case is covered by this equality.
 Apply that comparison to obtain `U(L)^G=Z(U(L))` by commuting with every canonical
 Lie generator, and `Sym(L)^G=Sym(L)^L`. Separate the following maps:
 
-- Layer7 equivariant PBW symmetrization restricts to a **linear** equivalence
+- Layer 7 equivariant PBW symmetrization restricts to a **linear** equivalence
   between invariant symmetric tensors and the center, with all product words
   averaged by `1/m!`; it is not asserted multiplicative on invariant tensors.
 - Its leading symbols give the canonical graded-algebra identification
@@ -2451,7 +2576,7 @@ For gl₂ at μ=(3/2,1/2), the trace Casimir scalar is 15/4−1/4=7/2; at μ=0 o
 
 ### Dependencies
 
-*Needs:* native reductive splitting and general-linear modules; Layers 6–7; ReductiveGroups Layers 2 and 5P; SchurWeyl gap:skew-lr-tableaux.
+*Needs:* native reductive splitting and general-linear modules; Layers 6–7; ReductiveGroups Layers 2 and 5P; SchurWeyl gap:skew-lr-tableaux and gap:lr-product-rule.
 
 ## Layer 10: affine Weyl geometry and the compact coweight quotient
 
@@ -2460,7 +2585,10 @@ This layer consumes the finite root geometry and classification of
 on the native integral-weight carrier. It builds the coweight and coroot lattice comparison from
 those actual carriers. It does not consume a compact Lie group, a compact torus, or a period
 theorem outside §10.2, whose compact-center application consumes
-[LieGroups](../LieGroups/README.md) Layers 4 and 6 and gap:torus-period-lattice.
+[LieGroups](../LieGroups/README.md) Layers 4 and 6 and gap:torus-exponential-kernel,
+gap:torus-cocharacter-lattice and gap:torus-character-lattice.
+
+### 10.1 The integral lattice comparison and the affine Weyl action
 
 Write P for the native `TauCeti.integralWeightLattice H`, a ℤ-submodule
 of `Module.Dual K H`, with the Weyl action; do not use the ambient `K`-dual as though every
@@ -2620,7 +2748,8 @@ abstract isomorphic lattice. For the reductive finite central covering use
 Corollary 43.6, p. 232.
 
 Let `G_sc` be a compact connected semisimple simply connected Lie group with maximal torus `T`
-(LieGroups Layer 6). Consume LieGroups gap:torus-period-lattice for the exponential kernel
+(LieGroups Layer 6). Consume LieGroups gap:torus-exponential-kernel, gap:torus-cocharacter-lattice
+and gap:torus-character-lattice for the exponential kernel
 `Λ ⊆ 𝔱`, the cocharacter lattice `Y ≅ (2π)⁻¹Λ`, the character lattice `X` with `dχ = iα`, and their
 integral pairing. Construct here, as a derived comparison, the map from this layer's dimensionless
 root-datum coweight coordinates to `𝔱` and prove that its root characters satisfy
@@ -2661,7 +2790,7 @@ For SU(2), Y=Q∨ gives affine stabilizer quotient 0 and center P∨/Q∨ of ord
 
 ### Dependencies
 
-*Needs:* RootSystems Layers 1–6; native integral-weight lattice; for §10.2 only, LieGroups Layers 4 and 6 and LieGroups gap:torus-period-lattice.
+*Needs:* RootSystems Layers 1–6; native integral-weight lattice; for §10.2 only, LieGroups Layers 4 and 6 and LieGroups gap:torus-exponential-kernel, gap:torus-cocharacter-lattice and gap:torus-character-lattice.
 
 ## Worked examples
 
@@ -2683,7 +2812,8 @@ For SU(2), Y=Q∨ gives affine stabilizer quotient 0 and center P∨/Q∨ of ord
   adjoint and one fundamental representation, as a check that the positive-root product is computed with
   the right multiplicities.
 - **Complete reducibility in action.** A chosen reducible-but-indecomposable-looking extension (e.g. a
-  non-split-looking submodule of `V(1) ⊗ V(1)`) is split by Layer 5, decomposing as predicted by
+  non-split-looking submodule of `V(1) ⊗ V(1)`) is split by the native complete reducibility
+  `TauCeti.exists_isCompl_of_isKilling`, decomposing as predicted by
   Clebsch-Gordan and the character ring.
 - **The center and linkage for `sl₂`.** Consume native
   `TauCeti.SpecialLinear.instHasTrivialRadicalSl` from `GeneralLinear.Radical` and
@@ -2696,13 +2826,14 @@ For SU(2), Y=Q∨ gives affine stabilizer quotient 0 and center P∨/Q∨ of ord
   and standard triple `[h,e]=2e`, `[h,f]=−2f`, `[e,f]=h`, choose the positive base {α} with e∈L_α and `ρ(h)=1`. Set
   `Ω=h²+2h+4fe`. Prove `Ω` is central and construct
   `Polynomial K ≃ₐ[K] Z(U(sl₂))` sending X to Ω, and
-  prove `Ω=8·TauCeti.casimirElement K (sl (Fin 2) K)` for Layer 5's Killing-dual normalization
+  prove `Ω=8·TauCeti.casimirElement K (sl (Fin 2) K)` for the native Killing-dual normalization of `TauCeti.casimirElement`
   (`κ(h,h)=8`, `κ(e,f)=4`). In the coordinate
   `t=λ(h)`, `ρ(h)=1`, the raw map sends `Ω` to `t²+2t`, invariant under `t↦−t−2`;
   the linear map sends it to `t²−1`, invariant under `t↦−t`. Hence the two image
   subalgebras are `K[t²+2t]` and `K[t²]`, respectively, and `χ_n(Ω)=n(n+2)`.
   Check `χ_λ=χ_μ` iff `μ=λ` or `μ=−λ−2`. Freudenthal on `V(n)` returns
-  multiplicity `1` for each of `n,n−2,…,−n`, matching Layer 0.
+  multiplicity `1` for each of `n,n−2,…,−n`, matching the native rank-one weight string
+  (`TauCeti/Algebra/Lie/Sl2/WeightString.lean`).
 - **`sl₃` multiplicities by Freudenthal.** For type `A₂`, recompute the `0`-weight multiplicity `2` of
   the adjoint `V(ω₁+ω₂)` by Freudenthal's recursion (a check on the Kostant computation in the `sl₃`
   worked example above) and the multiplicities of `V(2ω₁+2ω₂)`.
@@ -2775,9 +2906,9 @@ A=(2), giving 1/2+(−1)^b/2=1,0,1 at b=0,1,2, and its empty-list coefficient
 is δ₀. The analytic constructions use PseudodifferentialOperators §3.1;
 the finite identities exported here do not depend on those constructions.
 
-Layer9's reductive enveloping-product and center-factor constructions consume the native product/abelian/tensor-centralizer APIs and the existing early reductive splitting. Its HC and invariant-polynomial refinements consume Layer7; its connected algebraic fixed-vector comparison consumes only RG2/5P's tangent/Cartier cut, and its complex analytic comparison consumes LG2–4. None consumes Borel–Weil or characteristic-class cohomology.
+Layer 9's reductive enveloping-product and center-factor constructions consume the native product/abelian/tensor-centralizer APIs and the existing early reductive splitting. Its HC and invariant-polynomial refinements consume Layer7; its connected algebraic fixed-vector comparison consumes only RG2/5P's tangent/Cartier cut, and its complex analytic comparison consumes LG2–4. None consumes Borel–Weil or characteristic-class cohomology.
 
-Layer 10 consumes the native integral-weight predicates and constructs the lattice comparison, plus RootSystems Layers 1–6 finite root geometry, based classification, and actual Weyl group. It builds the affine action without a Lie-group or period input. Only §10.2's compact-center application uses Lie groups, through LieGroups Layers 4 and 6 and gap:torus-period-lattice; nothing in this roadmap is supplied back to RootSystems or LieGroups.
+Layer 10 consumes the native integral-weight predicates and constructs the lattice comparison, plus RootSystems Layers 1–6 finite root geometry, based classification, and actual Weyl group. It builds the affine action without a Lie-group or period input. Only §10.2's compact-center application uses Lie groups, through LieGroups Layers 4 and 6 and gap:torus-exponential-kernel, gap:torus-cocharacter-lattice and gap:torus-character-lattice; nothing in this roadmap is supplied back to RootSystems or LieGroups.
 
 ## References
 
