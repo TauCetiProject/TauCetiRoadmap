@@ -78,7 +78,8 @@ def standardKahlerForm (n : ℕ) : EuclideanSpace ℂ (Fin n) [⋀^Fin 2]→L[�
     fin_cases i <;> fin_cases j <;> simp_all [← Complex.ofReal_pow]
 
 /-- The Wirtinger inequality in degree two: for `n ≥ 1` the standard Kähler form on `ℂⁿ` has
-comass one (Cauchy–Schwarz for the Hermitian product; Harvey–Lawson 1982, Ch. II). -/
+comass one (Cauchy–Schwarz for the Hermitian product; Harvey–Lawson 1982, Theorem II.6.11, p. 70,
+for `p = 1`). -/
 theorem norm_standardKahlerForm (n : ℕ) (hn : 1 ≤ n) : ‖standardKahlerForm n‖ = 1 := by
   sorry
 
@@ -132,7 +133,8 @@ def complexRealFrame {n r : ℕ} (u : Fin r → EuclideanSpace ℂ (Fin n)) :
   fun i => (if (i : ℕ) % 2 = 0 then (1 : ℂ) else Complex.I) • u ⟨(i : ℕ) / 2, by omega⟩
 
 /-- The Wirtinger inequality in every degree: for `r ≤ n` the normalized Kähler power `ωʳ/r!` on
-`ℂⁿ` has comass one (Harvey–Lawson 1982, Ch. II; McLean 1998, §1). -/
+`ℂⁿ` has comass one (Harvey–Lawson 1982, Theorem II.6.11 and Lemma II.6.13, p. 70; McLean1998
+lines 37–48). -/
 theorem norm_kahlerPowerForm (n r : ℕ) (hr : r ≤ n) : ‖kahlerPowerForm n r‖ = 1 := by
   sorry
 
@@ -168,7 +170,8 @@ def standardSpecialLagrangianForm (n : ℕ) (θ : ℝ) :
     |>.compContinuousAlternatingMap (standardComplexVolume n)
 
 /-- For `n ≥ 1` the special Lagrangian form of every phase has comass one
-(Harvey–Lawson 1982, §III.1; Joyce2001SLLectures line 90). -/
+(Harvey–Lawson 1982, Theorem III.1.10, p. 89; the real plane is calibrated by `Re Ω`,
+Joyce2001SLLectures line 90). -/
 theorem norm_standardSpecialLagrangianForm (n : ℕ) (hn : 1 ≤ n) (θ : ℝ) :
     ‖standardSpecialLagrangianForm n θ‖ = 1 := by
   sorry

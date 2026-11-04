@@ -28,7 +28,7 @@ and elliptic carriers of the roadmaps named in the supplier contracts. Its end t
   variation of volume is the Hodge energy `∫_N(|dβ|²+|δβ|²)` (Layer 6).
 
 [Suggested.lean](Suggested.lean) states the headline theorems of Layers 1, 4 and 5, which are
-statable against the pinned libraries; its docstring names the headline theorems of Layers 2, 3, 5
+statable against the pinned libraries; its docstring names the headline theorems of Layers 3, 4, 5
 and 6 that are not.
 
 ## Scope and ownership
@@ -78,8 +78,14 @@ and 6 that are not.
 - The finite orientation double cover of the coordinate Grassmannian: CharacteristicClasses C1.1a,
   on TopologicalKTheory T1.5's finite Grassmannians; the stable classifier comparisons belong to
   TopologicalKTheory T1.6a.
-- The Robbin–Salamon Maslov index of Lagrangian paths: HeegaardFloer F1.3. The phase class here is
-  a different invariant (the cohomology class of the phase map).
+- The Robbin–Salamon Maslov index of Lagrangian paths, and its comparison with the native loop
+  invariant `TauCeti.TotallyRealLoop.maslovIndex` (the degree of the `det²` phase loop):
+  HeegaardFloer F1.4. The phase class here is a different invariant (the cohomology class of the
+  phase map); 5.3 compares it with the native loop invariant on Lagrangian loops in ℂⁿ.
+- The pointwise degree-two Wirtinger inequality `ω(v,w) ≤ |v∧w|_g` for an ω-compatible J on Tau
+  Ceti's symplectic carriers, with its equality case: HeegaardFloer F2.6c. 4.1 keeps the
+  comass-carrier form on ℂⁿ, the r = 1 instance of 4.2, and 4.2's transport to Hermitian vector
+  spaces is the all-degree statement.
 - Associative, coassociative and Cayley calibrations and exceptional holonomy, rectifiable currents
   and their regularity theory: outside this roadmap. No compactness theorem for currents and no
   singular regularity theorem is used.
@@ -151,6 +157,10 @@ and 6 that are not.
   with the symplectic orthogonal, not isotropy alone.
 - `SymplecticForm.complexAssociatedForm`, `Compatible.hermitianCore`
   (`TauCeti/Geometry/Symplectic/Hermitian.lean`) and `AlmostComplexStructure.complexModule`.
+- `TauCeti.TotallyRealLoop.maslovIndex` (`TauCeti/LinearAlgebra/TotallyReal/Maslov/Index.lean`):
+  the degree of the loop of Maslov phases `ρ(Λ 0, Λ t)` of a loop Λ of maximal totally real
+  subspaces, where `ρ(L₀, A L₀) = det A / conj(det A)`, so that the rotated line `e^(iθ)L₀` in
+  ℂⁿ has phase `e^(2inθ)` relative to `L₀`.
 
 ### From TauCetiRoadmap.DifferentialGeometry
 
@@ -243,8 +253,8 @@ in every degree k (both sides vanish for `k > dim E`; for k = 0 both are `|φ ![
 comass form of 1.2's inequality, which uses only the definition of comass, bounds `|φ v|` by
 `comass(φ)·frameVolume v ≤ comass(φ)·Π‖v_i‖` through `hermitian_gram_hadamard`, which gives the norm
 bound, and orthonormal frames give the reverse inequality. Consume the native norm's triangle inequality, homogeneity, definiteness and normed-space
-structure through this equality; no competing norm is installed (Harvey–Lawson 1982, Ch. II,
-uncertified; McLean1998, line 27).
+structure through this equality; no competing norm is installed (Harvey–Lawson 1982, II.(3.1),
+p. 56, uncertified; McLean1998, line 27).
 *Needs:* Mathlib `ContinuousAlternatingMap.norm_def`, `ContinuousAlternatingMap.norm_constOfIsEmpty`;
 the comass form of 1.2; SuccessiveMinima 0.1.2.
 
@@ -275,8 +285,8 @@ of the linear map `ℝᵏ → E` sending the standard basis vector `e_i` to `v_i
 rank-deficient case where both sides vanish; for frames this is
 `abs_eval_le_norm_mul_frameVolume` on finite-dimensional E. The route: restrict to the range of L,
 use the native Gram and range-restriction identities, and an orientation-preserving
-orthonormalization (Harvey–Lawson 1982, Ch. II, uncertified). The comass form needs only the
-definition of comass; the norm form `abs_eval_le_norm_mul_frameVolume` then follows from 1.1.
+orthonormalization (Harvey–Lawson 1982, Lemma II.3.5, p. 57, uncertified). The comass form needs only
+the definition of comass; the norm form `abs_eval_le_norm_mul_frameVolume` then follows from 1.1.
 *Needs:* Mathlib `LinearMap.normDet`, `LinearMap.normDet_sq_eq_det_gram`; the definition of comass
 (1.1) for the comass form, and `norm_eq_sSup_abs_orthonormal` for the norm form.
 
@@ -301,7 +311,7 @@ Identify a k-form with an element of the exterior power through
 Prove the simple-multivector form of 1.2, `|⟪φ̂, v₁∧⋯∧v_k⟫| ≤ comass(φ)·|v₁∧⋯∧v_k|`, and the
 comparison of comass with the coefficient Hilbert norm `|φ|_H`,
 `comass(φ) ≤ |φ|_H ≤ sqrt(binomial(dim E, k))·comass(φ)`, including the zero-space and `k > dim E`
-cases (Harvey–Lawson 1982, Ch. II, uncertified).
+cases (Harvey–Lawson 1982, II.(3.1), p. 56, uncertified).
 *Needs:* Mathlib `exteriorPower.alternatingMapLinearEquiv`, `exteriorPower.inner_ιMulti_ιMulti`; 1.1.
 
 **Checks.**
@@ -354,8 +364,8 @@ T1.5; GeneralizedCohomology G4.0b; CharacteristicClasses C1.1a.
 An ordered frame v satisfies `IsCalibratedFrame φ v` when it is orthonormal and `φ v = 1`. For a
 form of comass at most one these are exactly the positively oriented orthonormal frames of the
 equality planes of φ. On the oriented Grassmannian construct the closed equality locus
-`{P : φ(positive orthonormal frame of P) = 1}` when `comass(φ) ≤ 1` (Harvey–Lawson 1982, Ch. II,
-uncertified; Joyce2001SLLectures, Definition 2.1, line 53).
+`{P : φ(positive orthonormal frame of P) = 1}` when `comass(φ) ≤ 1` (Harvey–Lawson 1982, the
+contact set II.(3.3), p. 57, uncertified; Joyce2001SLLectures, Definition 2.1, line 53).
 *Needs:* 1.1, 1.4.
 
 - A zero form has no equality planes for `1 ≤ k ≤ dim E`.
@@ -377,7 +387,8 @@ For forms φ on E and ψ on F, construct the external product on the orthogonal 
 prove the exact evaluation on a concatenated product frame (first factor first), and the bound
 `comass(φ∧ψ) ≤ binomial(k+l,k)·comass(φ)·comass(ψ)`. If one factor is a unit decomposable volume
 form, prove `comass(φ∧ψ) = comass(ψ)` and the product calibration theorem: the equality planes are the
-products of the factors' equality planes. For general factors, a product calibration statement carries
+products of the factors' equality planes (Harvey–Lawson 1982, Proposition II.7.10, p. 76,
+uncertified). For general factors, a product calibration statement carries
 an explicit hypothesis `comass(φ∧ψ) ≤ 1`: orthogonal support alone does not imply it (Zust2025Products,
 Corollary 1.4, p. 2, line 74; Theorem 1.2, line 59, for the low-degree cases in which equality holds).
 *Needs:* 1.1, 1.5.
@@ -385,9 +396,9 @@ Corollary 1.4, p. 2, line 74; Theorem 1.2, line 59, for the low-degree cases in 
 **Checks.**
 
 - `dx₁ ∧ dx₂` as external product of `dx` on ℝ and `dx` on ℝ: comass 1 and evaluation 1 on
-  `(e₁,e₂)`, −1 on `(e₂,e₁)`.
-- The standard Kähler forms `ω₁` on ℂ and `ω₂` on ℂ give `ω₁∧ω₂ = dx₁∧dy₁∧dx₂∧dy₂`, comass 1, while
-  the binomial bound gives 2.
+  `(e₁,e₂)`, −1 on `(e₂,e₁)`, while the binomial bound gives `binomial(2,1) = 2`.
+- The standard Kähler forms `ω₁` on ℂ and `ω₂` on ℂ give `ω₁∧ω₂ = dx₁∧dy₁∧dx₂∧dy₂`, comass 1 (the frame
+  `(e₁,ie₁,e₂,ie₂)` evaluates to 1), while the binomial bound gives `binomial(4,2) = 6`.
 - Negative control: orthogonally supported copies of Züst's 8-form Φ on ℝ¹⁶ have comass of their
   product at least `294/256 > 1 = comass(Φ₁)·comass(Φ₂)` (Zust2025Products, line 76).
 
@@ -428,7 +439,8 @@ orthonormal tangent frame v of `f*g`, and with the tangent-plane condition of 1.
 independent of oriented charts and parametrization: prove its transport under
 orientation-preserving diffeomorphisms of N and its sign change under orientation reversal. Prove the
 pointwise inequality `f*φ ≤ dvol_(f*g)` and its absolute version, and the integrated inequality
-`∫_N f*φ ≤ Vol(N)` on compact sources; for noncompact sources the statement carries finite volume and
+`∫_N f*φ ≤ Vol(N)` on compact sources (Harvey–Lawson 1982, Lemma II.3.5, p. 57, uncertified); for
+noncompact sources the statement carries finite volume and
 integrability hypotheses, since calibratedness does not imply finite volume (Joyce2001SLLectures,
 Definition 2.1, line 62).
 *Needs:* DifferentialGeometry 5.1–5.2, 12.1, 12.4; 2.1.
@@ -524,7 +536,8 @@ Let φ be a smooth calibration on M, N a compact oriented k-submanifold (or imme
 `c_N − c_(N′) = ∂B` for a finite integral smooth chain B, parametrizations and multiplicities
 included. Prove `Vol(N) ≤ mass(c_(N′))`, and `Vol(N) ≤ Vol(N′)` for embedded N′: Stokes gives
 `∫_N φ = ∫_(N′) φ` and 2.2 gives `∫_(N′) φ ≤ Vol(N′)` (Harvey–Lawson 1982, Theorem II.4.2,
-uncertified; McLean1998, line 32). Prove equality exactly when N′ is calibrated with the specified
+p. 59, uncertified; McLean1998, line 32). Prove equality exactly when N′ is calibrated with the
+specified
 orientation, through the nonnegative continuous defect `dvol − f*φ` and its zero-integral criterion.
 Give the homology-class version on closed sources through DifferentialGeometry 9.3 and the
 smooth-to-singular comparison of 2.3. For competitors agreeing outside a compact region, require that
@@ -599,14 +612,15 @@ Define `standardKahlerForm n`, the standard Kähler form on ℂⁿ, as the real 
 Cauchy–Schwarz, `ω(v,w) ≤ sqrt(g(v,v)g(w,w) − g(v,w)²)`. Prove
 `isCalibratedFrame_standardKahlerForm_iff`: an ordered pair `(v,w)` is calibrated exactly when
 `‖v‖ = 1` and `w = iv`; for independent v, w equality is equivalent to their positively oriented plane
-being J-invariant (Harvey–Lawson 1982, Ch. II, uncertified; McLean1998, line 43). The proof uses no
+being J-invariant (Harvey–Lawson 1982, Theorem II.6.11, p. 70, for p = 1, uncertified; McLean1998,
+line 43). The proof uses no
 complex atlas, integrability or closedness.
 *Needs:* Mathlib inner-product API; 1.1, 1.5.
 
 **Checks.**
 
 - n = 1: `ω(1,i) = 1`, `ω(i,1) = −1`, `ω(1,1) = 0`.
-- n = 0: the form is zero and has comass 0, so `norm_standardKahlerForm` needs `1 ≤ n`.
+- n = 0: the form is zero and has comass 0, so the comass statement needs `1 ≤ n`.
 - n = 2: `(e₁, e₂)` gives 0 (a real plane), `(e₁, i e₁)` gives 1.
 
 ### 4.2 The Wirtinger inequality in every degree
@@ -621,7 +635,8 @@ Prove `norm_kahlerPowerForm`: for `r ≤ n`, `ωʳ/r!` has comass one. Prove
 `isCalibratedFrame_kahlerPowerForm_iff`: a frame v of 2r vectors is calibrated by `ωʳ/r!` exactly when
 it is real-orthonormal and `exteriorPower.ιMulti` takes the same value on v as on `complexRealFrame u`
 for some complex-orthonormal u; that is, v is a positively oriented orthonormal frame of a complex r-plane with its complex
-orientation (Harvey–Lawson 1982, Ch. II, uncertified; McLean1998, lines 37–48). The route: restrict ω
+orientation (Harvey–Lawson 1982, Theorem II.6.11 and Lemma II.6.13, p. 70, uncertified; McLean1998,
+lines 37–48). The route: restrict ω
 to the real 2r-plane P, put the skew-adjoint restriction of the complex structure in real normal
 form with angles `cos θ_j`, so that `ωʳ/r!` on P is `Π_j cos θ_j ≤ 1`, with equality exactly when
 every `θ_j = 0`, that is when P is J-invariant and oriented by the complex orientation. Construct the
@@ -648,7 +663,7 @@ isometries; the transported form is `ωʳ/r!` for the associated form `ω(v,w) =
   `ie_j` vanishes).
 - n = 3, r = 2: the frame `(e₁, ie₁, e₂, cos t·ie₂ + sin t·e₃)` evaluates to `cos t`, which is ±1
   exactly when the plane is complex.
-- r = 3 > n = 2: the form is zero and has comass 0, so `norm_kahlerPowerForm` needs `r ≤ n`.
+- r = 3 > n = 2: the form is zero and has comass 0, so the comass statement needs `r ≤ n`.
 
 ### 4.3 Kähler manifolds and complex submanifolds
 
@@ -693,7 +708,8 @@ Define `standardComplexVolume n`, Ω on ℂⁿ as a real continuous alternating 
 real-orthonormal frame v satisfies `φ_θ v = 1` exactly when it spans a Lagrangian plane
 (`Im⟪v_i,v_j⟫_ℂ = 0` for all i, j), `Im(e^(−iθ)Ω v) = 0`, and `Re(e^(−iθ)Ω v) > 0`
 (Joyce2001SLLectures, Propositions 2.3 and 2.4, lines 96 and 107, for θ = 0; Harvey–Lawson 1982,
-Corollary III.1.11, uncertified; McLean1998, Proposition 3.2, line 483). Both the imaginary equation
+Theorem III.1.10 and Corollary III.1.11, p. 89, uncertified; McLean1998, Proposition 3.2, line 483).
+Both the imaginary equation
 and the Lagrangian condition are required, and the orientation inequality is not replaced by an
 unoriented vanishing equation. The route: for an orthonormal frame `|Ω v| = |det_ℂ v| ≤ 1` with
 equality exactly when the frame is complex-orthonormal, that is, Lagrangian.
@@ -760,20 +776,28 @@ On an oriented Lagrangian immersion define its U(1)-valued phase without assumin
 and build local real lifts. Define the phase class as the pullback under the phase map of the class in
 `H¹(U(1); ℤ)` pairing to +1 with AlgebraicTopology's outward-first fundamental class of the circle,
 transported to `U(1) ⊂ ℂ`; prove its real de Rham image is `[dθ/2π]`. The classical unoriented Maslov
-class uses `det²` on `U(n)/O(n)`, and on oriented Lagrangians it is twice the phase class. Prove the
-cocycle and singular/de Rham comparisons. For C² oriented Lagrangian immersions, construct the second
+class uses `det²` on `U(n)/O(n)`, and on oriented Lagrangians it is twice the phase class. For a
+loop of Lagrangian planes in ℂⁿ (the tangent planes along a closed curve in an oriented Lagrangian
+immersion into ℂⁿ, or a unitary trivialization along the curve) prove that the Maslov class pairs
+with the loop to `TauCeti.TotallyRealLoop.maslovIndex`, the degree of its `det²` phase loop, and
+hence to twice the phase class; HeegaardFloer F1.4 compares that integer with the Robbin–Salamon
+path index. Prove the cocycle and singular/de Rham comparisons. For C² oriented Lagrangian
+immersions, construct the second
 fundamental form B and `H_tr = trace B` in local coordinates, compare with RiemannianGeometry R5a on
 smooth immersions, and with `ω(X,Y) = g(JX,Y)` prove `H_tr = J grad θ` and `ι_(H_tr) ω = −dθ`.
 Compare `H_avg = H_tr/n` with R5a's averaged mean curvature, and derive that a connected oriented
 Lagrangian has `H = 0` exactly when its phase is constant, hence it is special Lagrangian for that
-phase.
+phase (Harvey–Lawson 1982, Proposition III.2.17, p. 96, uncertified).
 *Needs:* ComplexKahlerGeometry K4; RiemannianGeometry R1, R5a; AlgebraicTopology 6.3;
-DifferentialGeometry Layers 6 and 8; 3.1, 3.2, 5.1, 5.2.
+DifferentialGeometry Layers 6 and 8; Tau Ceti `TauCeti.TotallyRealLoop.maslovIndex`; 3.1, 3.2,
+5.1, 5.2.
 
 **Checks.**
 
 - The unit circle in ℂ (n = 1) has tangent `ie^(is)` at `e^(is)`, phase `s + π/2`, phase class 1 and
-  Maslov class 2.
+  Maslov class 2; its tangent lines `e^(i(s+π/2))ℝ` have Maslov phase `e^(2is)` relative to the
+  tangent line at s = 0, a loop of degree 2, so `TauCeti.TotallyRealLoop.maslovIndex` of the
+  tangent loop is 2 and not 1.
 - The circle of radius ρ in ℂ: `H_tr` is the inward normal of length `1/ρ`, `grad θ = 1/ρ` along the
   arc-length tangent t, and `J t` is the inward normal: `H_tr = J grad θ`.
 - Flat planes, their affine translates and diagonal unitary images `diag(e^(iα_j))ℝⁿ` have constant
@@ -783,12 +807,14 @@ DifferentialGeometry Layers 6 and 8; 3.1, 3.2, 5.1, 5.2.
 
 For a gradient graph `y = ∇u(x)` over an open Euclidean domain, prove the Lagrangian equation from the
 symmetry of the actual Hessian and `Ω|graph = det(I + i Hess u) dx₁∧⋯∧dxₙ`. Derive the phase equation
-`Im(e^(−iθ) det(I + i Hess u)) = 0` with positive real part. The derivative of the phase-angle
+`Im(e^(−iθ) det(I + i Hess u)) = 0` with positive real part (Harvey–Lawson 1982, Theorem III.2.3,
+p. 91, for θ = 0, uncertified). The derivative of the phase-angle
 operator `Σ arctan λ_j` is `tr((I + (Hess u)²)⁻¹ Hess v)`; on a solution, the derivative of the
 imaginary determinant residual is this expression times the positive factor
-`Re(e^(−iθ) det(I + i Hess u))`. Pin ellipticity on the positive branch and the real phase-lift
-equation `Σ arctan λ_j = θ` up to the chosen 2π branch. No global Dirichlet existence or branch
-selection theorem follows from ellipticity (Harvey–Lawson 1982, Ch. III, uncertified).
+`Re(e^(−iθ) det(I + i Hess u))`. Pin ellipticity on the positive branch (Harvey–Lawson 1982,
+Theorem III.2.13, p. 95, uncertified) and the real phase-lift equation `Σ arctan λ_j = θ` up to the
+chosen 2π branch. No global Dirichlet existence or branch selection theorem follows from
+ellipticity.
 *Needs:* Mathlib symmetric second derivative and determinant APIs; 5.1.
 
 **Checks.**
@@ -820,7 +846,7 @@ manifold of 5.3, and k ≥ 2, 0 < α < 1.
 Choose a tubular neighbourhood (GeometricTopology Layer 1) and parametrize nearby unparametrized
 embedded submanifolds by small normal sections. Prove that this induces a homeomorphism onto a
 neighbourhood in the C¹ quotient by reparametrization; transition laws between tubular choices hold
-in the C¹ and C∞ topologies and on the smooth solution charts of 6.3, not in the full Hölder Banach
+in the C¹ and C∞ topologies and on the smooth solution charts of 6.4, not in the full Hölder Banach
 topology. Through `β = ι_V ω|_N`, identify the normal bundle with T*N, proving its sign in the fixed
 convention (McLean1998, Corollary 3.3 and Remark 3.4, lines 486 and 493). Construct the nonlinear map
 
@@ -863,43 +889,7 @@ of exact targets, and the d/δ compatibility that makes the two components indep
   `Z_⊥`: the condition is per component.
 - On the flat torus `Tⁿ`, the harmonic one-forms are the constant forms, of dimension n = b₁.
 
-### 6.3 McLean's theorem
-
-Establish `HasStrictFDerivAt` at zero and `ContDiffOn ℝ ∞` on a specified open ball for the map of
-6.1 between the spaces of 6.2, with explicit composition, multiplication and normal-exponential
-estimates. Keep the real part of `e^(−iθ)Ω` positive on a small C¹ neighbourhood, excluding the zero
-set of the phase `θ + π`. Apply `ImplicitFunctionData.contDiffAt_implicitFunction` through the
-kernel/complement chart; surjectivity of `d ⊕ d*` on all forms is not asserted. Prove that the
-special Lagrangian deformations of N, modulo parametrization and with the local C¹ quotient
-topology, form a smooth manifold of dimension `dim H¹(N; ℝ) = b₁(N)`, with tangent space the harmonic
-one-forms (McLean1998, Theorem 3.6, line 510, and Corollary 3.9, line 530; Joyce2001SLLectures,
-Theorem 5.1, line 678). Construct the L² metric on the tangent spaces and its smooth dependence
-(McLean1998, Corollary 3.10, line 532).
-
-Own the C² graph expression for H and prove that the `C^(k,α)` solutions are minimal through 5.3's
-phase identity. In local graph coordinates derive the minimal-submanifold system with diagonal
-principal part `g^(ij)(x,u,Du) ∂_ij u`, prove uniform ellipticity and apply PDE E.22 componentwise;
-own the difference-quotient estimates and Arzelà–Ascoli passage that bootstrap to every higher
-order. Prove the parametric gain: on the finite-dimensional chart domain in harmonic one-forms,
-`χ ↦ V(χ)` is smooth into `C^(k′,α)` near every point for every `k′ ≥ k`, by recentring,
-differentiating the equations and uniform Schauder estimates; this proves smoothness on an open chart
-domain rather than inferring it from `ContDiffAt ℝ ∞` at one point. Own the composition estimate with
-loss of derivatives and compare tubular choices only on these smooth solution charts; the
-reparametrization action is not asserted to be C¹ on all `C^(k,α)` embeddings. Prove chart
-compatibility for different k, α and tubular choices, agreement with the local C∞ quotient topology,
-and the tangent identification. No unobstructed-moduli conclusion is asserted for other calibrated
-geometries or for submanifolds with boundary.
-*Needs:* Mathlib `ImplicitFunctionData.contDiffAt_implicitFunction`; PDE E.22; 5.3, 6.1, 6.2, 6.4.
-
-**Checks.**
-
-- The flat special Lagrangian torus `Tⁿ` in `T^(2n)`: the deformations are the n translations in the
-  `y`-directions, matching `b₁(Tⁿ) = n` (McLean1998, Corollary 3.7, line 519).
-- A compact special Lagrangian with `b₁ = 0` is rigid (McLean1998, Corollary 3.8, line 527).
-- For n = 1 a special Lagrangian is a straight closed geodesic of phase θ in a flat 2-torus; its
-  deformations are the parallel translates, a 1-dimensional family, `b₁(S¹) = 1`.
-
-### 6.4 C¹-to-Hölder regularity of nearby minimal graphs
+### 6.3 C¹-to-Hölder regularity of nearby minimal graphs
 
 Fix α and an order `k₀ ≥ 2`. Own the C¹-to-Hölder estimates: every C¹ weak solution of the minimal
 graph system in a sufficiently small fixed C¹ ball is smooth, with local `C^(k₀,α)` bounds tending to
@@ -981,6 +971,42 @@ no regularity of arbitrary C¹ embeddings is asserted.
   representative for any ζ > 0.
 - Constants have Campanato seminorm 0: the sup bound needs the L² term.
 
+### 6.4 McLean's theorem
+
+Establish `HasStrictFDerivAt` at zero and `ContDiffOn ℝ ∞` on a specified open ball for the map of
+6.1 between the spaces of 6.2, with explicit composition, multiplication and normal-exponential
+estimates. Keep the real part of `e^(−iθ)Ω` positive on a small C¹ neighbourhood, excluding the zero
+set of the phase `θ + π`. Apply `ImplicitFunctionData.contDiffAt_implicitFunction` through the
+kernel/complement chart; surjectivity of `d ⊕ d*` on all forms is not asserted. Prove that the
+special Lagrangian deformations of N, modulo parametrization and with the local C¹ quotient
+topology, form a smooth manifold of dimension `dim H¹(N; ℝ) = b₁(N)`, with tangent space the harmonic
+one-forms (McLean1998, Theorem 3.6, line 510, and Corollary 3.9, line 530; Joyce2001SLLectures,
+Theorem 5.1, line 678). Construct the L² metric on the tangent spaces and its smooth dependence
+(McLean1998, Corollary 3.10, line 532).
+
+Own the C² graph expression for H and prove that the `C^(k,α)` solutions are minimal through 5.3's
+phase identity. In local graph coordinates derive the minimal-submanifold system with diagonal
+principal part `g^(ij)(x,u,Du) ∂_ij u`, prove uniform ellipticity and apply PDE E.22 componentwise;
+own the difference-quotient estimates and Arzelà–Ascoli passage that bootstrap to every higher
+order. Prove the parametric gain: on the finite-dimensional chart domain in harmonic one-forms,
+`χ ↦ V(χ)` is smooth into `C^(k′,α)` near every point for every `k′ ≥ k`, by recentring,
+differentiating the equations and uniform Schauder estimates; this proves smoothness on an open chart
+domain rather than inferring it from `ContDiffAt ℝ ∞` at one point. Own the composition estimate with
+loss of derivatives and compare tubular choices only on these smooth solution charts; the
+reparametrization action is not asserted to be C¹ on all `C^(k,α)` embeddings. Prove chart
+compatibility for different k, α and tubular choices, agreement with the local C∞ quotient topology,
+and the tangent identification. No unobstructed-moduli conclusion is asserted for other calibrated
+geometries or for submanifolds with boundary.
+*Needs:* Mathlib `ImplicitFunctionData.contDiffAt_implicitFunction`; PDE E.22; 5.3, 6.1, 6.2, 6.3.
+
+**Checks.**
+
+- The flat special Lagrangian torus `Tⁿ` in `T^(2n)`: the deformations are the n translations in the
+  `y`-directions, matching `b₁(Tⁿ) = n` (McLean1998, Corollary 3.7, line 519).
+- A compact special Lagrangian with `b₁ = 0` is rigid (McLean1998, Corollary 3.8, line 527).
+- For n = 1 a special Lagrangian is a straight closed geodesic of phase θ in a flat 2-torus; its
+  deformations are the parallel translates, a 1-dimensional family, `b₁(S¹) = 1`.
+
 ### 6.5 Second variation and the Jacobi operator
 
 For a smooth normal variation of closed N, prove that the second variation of volume depends only on
@@ -998,10 +1024,10 @@ integrals, and identify the first variations of ω and `Im Ω_θ` by 6.1's deriv
 
 Define the normal Jacobi operator `𝒥 = (V ↦ ι_V ω)⁻¹ ∘ (dδ + δd) ∘ (V ↦ ι_V ω)`. Prove its
 ellipticity, formal self-adjointness and the Hessian identity by polarization of the second
-variation, and identify its kernel with the harmonic one-forms and 6.3's tangent space (McLean1998,
+variation, and identify its kernel with the harmonic one-forms and 6.4's tangent space (McLean1998,
 Corollary 3.14, line 603). This construction supplies no second-variation formula for arbitrary
 minimal submanifolds.
-*Needs:* ComplexKahlerGeometry K5a; PseudodifferentialOperators P1.0; 3.2, 6.1, 6.3.
+*Needs:* ComplexKahlerGeometry K5a; PseudodifferentialOperators P1.0; 3.2, 6.1, 6.4.
 
 **Checks.**
 
@@ -1022,11 +1048,17 @@ the second variation along `V = Σ a_j ∂_(y_j)` is 0.
 ### Dependencies
 
 6.1 needs 5.3 and GeometricTopology Layer 1; 6.2 needs PseudodifferentialOperators P5–P6 and
-ComplexKahlerGeometry K5a; 6.4 needs PDE and 5.1; 6.3 needs 6.1, 6.2 and 6.4; 6.5 needs 6.1 and 6.3.
+ComplexKahlerGeometry K5a; 6.3 needs PDE and 5.1; 6.4 needs 6.1, 6.2 and 6.3; 6.5 needs 6.1 and 6.4.
 
 ## Downstream consumers
 
 - FukayaTheory consumes C2's integral smooth-to-singular comparison on the smooth-simplex carrier.
+- GeometricCurrents G1–G3 and G6 consume 1.2–1.3 (the comass/Gram and simple-vector comparison),
+  1.4 (the oriented-frame quotient topology of the Grassmannian), 2.3 (the integral smooth-chain
+  complex, its smooth-to-singular quasi-isomorphism with the integer generator maps and both
+  face-compatible chain homotopies, and the agreement of coefficient change with
+  DifferentialGeometry 8.3), 2.4 (finite oriented relative fundamental chains) and 3.1–3.2 (the
+  calibration minimum, its stability consequence and the oriented-chain comparison).
 - RiemannianGeometry R5a.1's relative-volume functional is consumed by C3; RiemannianGeometry consumes
   nothing from this roadmap.
 
