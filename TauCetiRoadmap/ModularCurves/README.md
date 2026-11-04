@@ -120,17 +120,18 @@ placed in the corresponding general Mathlib-style directories.
 
    **Two spellings of the local condition, proved equivalent.** The record's field is
    `Nonempty (PointedWeierstrassAtlas π 0)`: a covering family of charts
-   (`PointedWeierstrassChart`), existence-truncated so that no equation is selected. Layer 1C's Weierstrass-presentation theorem produces such an
-   atlas, and later layers consume it as an object they can name and refine, which is why the
-   atlas is the field rather than a bare quantifier. Beside it, `IsLocallyWeierstrass π 0 h₀` states
-   the same condition in the quantifier form the sources use — for every point an affine open `U`,
-   an elliptic `W/Γ(S, U)`, and a pointed isomorphism over `U`. That is also the shape the AINTLIB
-   development states it in (§Provenance), so it is the interface a migrated proof consumes;
-   `nonempty_pointedWeierstrassAtlas_iff` proves the two agree (the forward direction is
-   `PointedWeierstrassAtlas.isLocallyWeierstrass`), and the record's atlas gives the quantifier
-   form directly. Read
-   `IsLocallyWeierstrass` when checking this definition against KM 2.2.5–2.2.6 or
-   Deligne–Rapoport II.1.1.
+   (`PointedWeierstrassChart`), existence-truncated so that no equation is selected. Layer 1C's
+   Weierstrass-presentation theorem produces such an atlas, and later layers consume it as an
+   object they can name and refine, which is why the atlas is the field rather than a bare
+   quantifier. Beside it stands the quantifier form the sources use — for every point of `S` an
+   affine open `U` containing it, an elliptic Weierstrass curve `W` over `Γ(S, U)`, and an
+   isomorphism of the curve over `U` with the projective model of `W` compatible with the
+   projection and the zero section. Layer 1A proves that the two spellings agree: an atlas gives
+   the quantifier form at every point, since the range of an open immersion out of an affine
+   scheme is an affine open of `S` and the chart's coefficient ring is carried onto `Γ(S, U)`
+   along the chart's identification of its base with a spectrum, and choosing a chart at each
+   point assembles an atlas. The quantifier form is the one to read when checking this
+   definition against KM 2.2.5–2.2.6 or Deligne–Rapoport II.1.1.
 
    **The open-immersion field is load-bearing.** A chart's `baseMap` is required to be an open
    immersion, and the atlas's `covers` field asks only for joint surjectivity. Those two together
@@ -138,8 +139,8 @@ placed in the corresponding general Mathlib-style directories.
    definition still typechecks but states an a-priori weaker étale- or fpqc-local condition; the
    two happen to define the same class here, since `π_*O(3·0)` is locally free of rank three and
    trivialises Zariski-locally, but recovering that would be a descent theorem rather than a
-   definition. AINTLIB's spelling quantifies over `S.affineOpens` directly and so cannot express
-   the wrong condition at all.
+   definition. The quantifier form ranges over the affine opens of `S` directly and so cannot
+   express the wrong condition at all.
 
 2. **Group schemes.** Group schemes over `S` are group objects in the cartesian category `Over S`.
    The constant group scheme associated to a finite group and the diagonalizable group scheme
@@ -304,7 +305,7 @@ The roadmap uses the following existing material.
 
 The projective Weierstrass model with its structure morphism and zero section, its properness,
 its smoothness when `W.IsElliptic` and its integrality over a domain are Tau Ceti's (§Exact
-supplier contracts); Layer 1A consumes them. The AINTLIB development described in §Provenance is
+supplier contracts); Layer 1A consumes them. The AINTLIB development named in §Provenance is
 migration material, not a dependency.
 
 ## Layer 0: scheme-theoretic prerequisites
@@ -609,7 +610,11 @@ zero section `projModelZero` at `[0:1:0]`; properness, smoothness of relative di
 change.
 
 Define `EllipticCurveGeom S` using the pointed local-Weierstrass condition from the conventions.
-Define base change and prove its functoriality.
+Prove that its atlas field and the quantifier form of Convention 1 agree, in both directions: an
+atlas yields, at every point, an affine open, an elliptic equation over its coordinate ring and a
+pointed isomorphism over it, comparing the chart's pullback square with Mathlib's chosen
+`pullback`; and a choice of such data at every point assembles an atlas. Define base change and
+prove its functoriality.
 
 **Dependencies.** Tau Ceti's projective model and Mathlib's projective spectrum, Weierstrass, and
 morphism-property APIs.
@@ -1540,9 +1545,9 @@ The algebraic reduction is stated here with geometric connectedness as an explic
 hypothesis; an external contract for a reference proof is recorded below:
 
 7. prove that `Y(ρ) ⊗ ℚ̄` is nonempty and smooth — the base change of a smooth morphism is smooth —
-   and prove the leaf that a nonempty connected scheme smooth of relative dimension one over an
-   algebraically closed field is irreducible (smooth gives local noetherianness and normality;
-   connected locally noetherian normal gives irreducible). Together these reduce geometric irreducibility of `Y(ρ)` to the single hypothesis
+   and prove the leaf that a nonempty connected scheme smooth of relative dimension one over any
+   field is irreducible (smooth over a field gives local noetherianness and regularity, hence
+   normality; connected locally noetherian normal gives irreducible), applied with `K = ℚ̄`. Together these reduce geometric irreducibility of `Y(ρ)` to the single hypothesis
    that `Y(ρ) ⊗ ℚ̄` is **connected**. Both are stated in `Suggested.lean`
    (`irreducibleSpace_of_connectedSpace` and
    `irreducibleSpace_baseChange_algebraicClosure_of_connectedSpace`) and are owned here.
@@ -1561,8 +1566,10 @@ algebraic alternatives. The required contract consists of three separate stateme
 No roadmap in this repository owns these statements. The in-repository Modular Forms roadmap
 deliberately stops at analytic carriers and takes on no scheme–analytic comparison, and the
 Algebraic Curves roadmap excludes the compact-Riemann-surface comparison from its Layer 12 for
-the same reason: all three statements sit behind a GAGA-style development that no roadmap has
-adopted. They are therefore an **external supplier contract** in the strict sense — three named
+the same reason: all three statements sit behind a GAGA-style development that no roadmap on
+main has adopted. The roadmap in whose direction the third statement lies is ComplexComparison,
+which plans the analytification of every finite-type complex scheme; this roadmap takes no
+dependency on it and keeps the three hypotheses explicit. They are therefore an **external supplier contract** in the strict sense — three named
 hypotheses, not dependencies on any milestone — and the contract is discharged by whichever
 development eventually proves them, without this roadmap presupposing which one. Accordingly,
 every statement about `Y(ρ)` in this roadmap carries the connectedness hypothesis visibly rather
@@ -1673,8 +1680,9 @@ closed field of characteristic `p` is `exists_universalDeformation`.
 
 ### 7E. `p`-divisible groups
 
-Chapter 5 consumes a short, specific list of `p`-divisible-group statements; they are enumerated
-here as the targets, each with its base, hypotheses, conclusion, and KM point of use. No general
+Chapter 5 consumes a short, specific list of statements about `p`-divisible groups and the
+ordinary/supersingular dichotomy; they are enumerated here as the targets, each with its base,
+hypotheses, conclusion, and KM point of use. No general
 Dieudonné theory and no Oort–Tate classification are scheduled: the Chapter 5 argument never
 classifies group schemes of order `p` (rigidity runs through Frobenius kernels, 7G, and
 homogeneity through Serre–Tate, 7F), and no later layer of this roadmap consumes such a
@@ -1710,6 +1718,51 @@ classification.
    is the one-dimensional commutative formal group of height `2` over `k`, unique up to
    isomorphism (Lazard's classification). This dichotomy is exactly the input KM use at p. 134:
    up to `W(k)[[T]]`-isomorphism there are only two schemes `𝒫_{E/W(k)[[T]]}`.
+6. **PD-6, existence and finiteness of supersingular points.** Base: `k` algebraically closed of
+   characteristic `p`. Conclusions: (a) the set of `j`-invariants of supersingular elliptic
+   curves over `k` is nonempty and finite, of size at most `max(1, (p−1)/2)`; (b) for a moduli
+   problem `δ` over `Ell/ℤ[1/M]` with `p ∤ M`, represented by a scheme `𝕄(δ)` smooth of relative
+   dimension one over `ℤ[1/M]`, such that every elliptic curve over `k` carries at least one and
+   at most finitely many `δ`-structures — the Legendre and naive level-three rigidifiers of 4C —
+   the closed points of the fibre `𝕄(δ) ⊗ 𝔽_p` at which the universal curve is supersingular
+   form a nonempty finite set, and every open subset of the fibre containing one of them contains
+   an ordinary closed point, because a nonempty open subset of a scheme of pure dimension one of
+   finite type over `𝔽_p` has infinitely many closed points. This is the input that turns the
+   homogeneity dichotomy of ST-3 into a statement about the whole scheme, in 7H and in 8C.
+   Route for (a) with `p ≥ 3`: every elliptic curve over `k` is isomorphic to a Legendre curve
+   `E_λ : y² = x(x−1)(x−λ)` with `λ ∈ k ∖ {0, 1}`, `j(E_λ) = 2⁸(λ² − λ + 1)³/(λ²(λ−1)²)`, and
+   each `j` arises from at most six values of `λ` (AEC III.1.7); `E_λ` is supersingular if and
+   only if `H_p(λ) = 0` for the Hasse polynomial `H_p(t) = Σ_{i=0}^{m} C(m,i)² tⁱ`, `m = (p−1)/2`,
+   which is the coefficient of `x^{p−1}` in `(x(x−1)(x−λ))^m` up to the sign `(−1)^m` (AEC V.4.1,
+   the Legendre-form criterion). `H_p` is monic of degree `m ≥ 1` with `H_p(0) = 1` and
+   `H_p(1) = C(2m, m) = C(p−1, m) ≡ (−1)^m (mod p)`, so it has a root in `k ∖ {0, 1}` and at most
+   `m` roots: a supersingular `j` exists and there are at most `m` of them. Route for (a) with
+   `p = 2`: a curve with `j ≠ 0` has a model `y² + xy = x³ + a₂x² + a₆` (AEC Appendix A, Prop.
+   A.1.1), on which `(0, √a₆)` is a point of order two since the partial derivative in `y` of the
+   equation is `x`, so `E[2](k) ≠ 0` and `E` is ordinary; a curve with `j = 0` has a model
+   `y² + a₃y = x³ + a₄x + a₆` with `a₃ ≠ 0`, whose partial derivative in `y` is the unit `a₃`, so
+   it has no point of order two, `E[2]` is connected, and `E` is supersingular: `j = 0` is the
+   unique supersingular invariant in characteristic `2`. Route for (b): the `k`-points of
+   `𝕄(δ)` above a given `j` are the pairs `(E, α)` with `j(E) = j` up to isomorphism, finitely
+   many because `E` is determined by `j` up to isomorphism over `k` and `δ(E/k)` is finite, and
+   the closed points of the fibre are the Galois orbits of the `𝔽̄_p`-points; the fibre is smooth
+   of dimension one over `𝔽_p`, so no closed point is isolated. *Needs:* Mathlib
+   `WeierstrassCurve.j`, Layer 1C (Weierstrass coordinates and variable changes), Layer 2A
+   (`E[p]` and its rank), PD-2 (the dichotomy), Layer 4C (the two rigidifiers and the smoothness
+   of their schemes over `ℤ[1/M]`), and EllipticCurves §Layer 3 (the dichotomy over a field and
+   the Frobenius-trace criterion, which agree with PD-2's over an algebraically closed field).
+   Witnesses, which also pin the direction of the dichotomy: for `p = 3`, `H_3 = 1 + t` has the
+   single root `λ = −1`, giving `y² = x³ − x`, the curve EllipticCurves §Layer 3 certifies as
+   supersingular by its trace `a_3 = 0`, with `j = 1728 = 0` in `𝔽₃`; for `p = 5`,
+   `H_5 = t² − t + 1` has two roots, conjugate in `𝔽₂₅`, both with `j = 0`, so there is exactly one
+   supersingular `j`-invariant, and a count that reported the roots of `H_p` instead of the
+   `j`-invariants would give two; for `p = 7`, `H_7 = (t + 1)(t² + t + 1)` has three roots in
+   `𝔽₇`, all with `j = 1728 = 6`; for `p = 2`, `y² + y = x³` has three points over `𝔽₂`, so
+   `a_2 = 0` and it is supersingular, while `y² + xy = x³ + 1` has the point `(0, 1)` of order
+   two and is ordinary. On the rigidifier schemes: the fibre of `𝕄([Γ(3)])` over `𝔽̄₂` has
+   `|GL₂(𝔽₃)|/|Aut(y² + y = x³)| = 48/24 = 2` supersingular points, and the Legendre line over
+   `𝔽̄_p` has the roots of `H_p` as its supersingular points, `1`, `2` and `3` of them for
+   `p = 3, 5, 7`, in each case the quotient `12/|Aut E|` with `|Aut E| = 12, 6, 4`.
 
 ### 7F. Serre–Tate theory with level structure
 
@@ -1731,6 +1784,12 @@ Witt vectors, and the base category is that of artinian local `W(k)`-algebras wi
    (KM p. 134, from ST-1, ST-2, and PD-5). This is the content of the homogeneity properties
    (H1)/(H2) in the proof of KM 5.2.1 (pp. 132–134): the open regular-and-flat locus contains
    all supersingular characteristic-`p` points or none of them, and all ordinary ones or none.
+   Passing from this dichotomy to the whole scheme uses PD-6: the closed points of
+   `𝕄(δ) ⊗ 𝔽_p` over which the regular-and-flat locus fails form a closed set which, by the
+   dichotomy, consists of all the supersingular points or none of them and of all the ordinary
+   points or none of them; Reg. 4 excludes the supersingular points, and since these exist and are
+   finitely many on a fibre of pure dimension one, the ordinary locus is not closed and is
+   excluded as well.
 4. **ST-4, pro-representability with level.** For `𝒫 ∈ {[Γ(pⁿ)], [Γ₁(pⁿ)], bal. [Γ₁(pⁿ)]}` and
    `E₀/k` supersingular, `k` algebraically closed, write `𝒫_{E/W(k)[[T]]} = Spec A`; `A` is
    local by Reg. 4A. The pullback `(ℰ/A, a)` of the universal deformation with its tautological
@@ -1763,7 +1822,8 @@ with residue field `k`.
    `p = 0` in `R`, and `pⁿ[0] = Ker(Fⁿ)`. The passage from the formal engine below: Zariski-
    locally on `R`, choose a formal parameter along the zero section (7C).
 2. **The formal engine, KM 5.3.4 (pp. 140–141).** Base: an arbitrary ring `R`; `G(X,Y)` a
-   one-parameter commutative formal group law over `R`. Hypothesis: `X^{pⁿ} = 0` defines a
+   one-parameter formal group law over `R` (commutativity is not a hypothesis: the calculation
+   reads only the degree-`pⁿ` part of `G(X,Y) = X + Y + …`). Hypothesis: `X^{pⁿ} = 0` defines a
    subgroup scheme — universally, `G(X,Y)^{pⁿ} ∈ (X^{pⁿ}, Y^{pⁿ})` inside `R[[X,Y]]`.
    Conclusions: `p = 0` in `R`, and the subgroup is `Ker(Fⁿ)`. The isolated binomial-coefficient
    calculation: comparing total-degree-`pⁿ` terms gives `(X+Y)^{pⁿ} = X^{pⁿ}·A(0,0) + Y^{pⁿ}·B(0,0)`
@@ -1800,8 +1860,9 @@ with residue field `k`.
 
 ### 7H. Axiomatic regularity and assembly
 
-Prove the Axiomatic Regularity Theorem of 7A from 7B–7G. Verify Reg. 1–Reg. 4 for each elementary
-prime-power problem. Use the `A`-structure product theorems of Layer 3A to assemble coprime levels.
+Prove the Axiomatic Regularity Theorem of 7A from 7B–7G; the passage from the homogeneity
+dichotomy of ST-3 to the whole rigidifier scheme uses PD-6. Verify Reg. 1–Reg. 4 for each
+elementary prime-power problem. Use the `A`-structure product theorems of Layer 3A to assemble coprime levels.
 Conclude that `[Γ(N)]`, `[Γ₁(N)]`, and balanced `[Γ₁(N)]` are finite flat of constant positive
 rank over `Ell/ℤ`, regular of dimension two, and finite étale after inverting `N`.
 
@@ -1883,8 +1944,10 @@ assert that arbitrary nonflat pullback preserves a kernel. Then run the homogene
 7F (ST-3) on the conjugate arrows rather than on the two schemes, with the same inputs ST-1,
 ST-2 and PD-5: the open isomorphism locus of `Φ` on the rigidifier scheme contains every closed
 point of residue characteristic different from `p` by (2), every supersingular closed point by
-(3) and the faithful flatness of the completed strict henselisation over the local ring, hence
-an open neighbourhood of one such point, hence an ordinary closed point of the
+(3) and the faithful flatness of the completed strict henselisation over the local ring, hence,
+by PD-6 (the supersingular closed points of the characteristic-`p` fibre of the rigidifier scheme
+form a nonempty finite set on a fibre of pure dimension one, so an open subset of the fibre
+containing one of them contains an ordinary closed point), an ordinary closed point of the
 characteristic-`p` fibre, hence by (4) applied to the universal formal deformations of two
 ordinary curves (whose `p`-divisible groups ST-1 and PD-5 identify) every ordinary closed
 point; an open set containing every closed point of a scheme of finite type over `ℤ` is the
@@ -2254,8 +2317,9 @@ here by the following route, which uses only material already constructed.
    `D(3)` and `N = 4` on `D(2)`, and let `A_N` be the coordinate ring of `Y_full(N)`, flat over
    `D` with `G = GL₂(ℤ/Nℤ)` acting; `M([Γ(1)]/R) = Spec (A_N ⊗_D R)^G` for every `D`-algebra
    `R`. The invariant ring is the kernel of `φ : A_N ⟶ ∏_{g∈G} A_N`, `a ↦ (ga - a)_g`, and
-   `ker_baseChange_of_noZeroSMulDivisors_coker` (base change of kernels of maps of flat modules
-   over a principal ideal domain with torsion-free cokernel) says that
+   `ker_baseChange_of_noZeroSMulDivisors_coker` (base change of the kernel of a linear map into
+   a flat module over a principal ideal domain with torsion-free cokernel; the source need not be
+   flat, since the image is a submodule of a flat module and so flat) says that
    `A_N^G ⊗_D R ⟶ (A_N ⊗_D R)^G` is an isomorphism for every `R` as soon as it is surjective
    modulo every prime `p` of `D`, i.e. as soon as `(A_N/p)^G = 𝔽_p[j]` for every `p ≠ N`.
    Prove those fibre computations: for `N = 3` by the normalisation argument of step 2 over
@@ -2753,7 +2817,9 @@ The following examples accompany the general theory.
   Functions of One Variable II*, LNM 349, Springer, 1973 — cited for orientation only (IV 6.9,
   VII §2); every construction in this roadmap is taken from KM.
 - J. H. Silverman, *The Arithmetic of Elliptic Curves*, 2nd ed., GTM 106, Springer, 2009,
-  III.10.1 and Appendix A, for automorphisms in characteristics `2` and `3`.
+  III.1.7 and V.4.1 for the Legendre form and the Hasse-polynomial criterion for supersingularity
+  (PD-6 of Layer 7E), III.10.1 and Appendix A for automorphisms and the normal forms in
+  characteristics `2` and `3`.
 - K. Buzzard, *Formalizing Fermat*, Lecture 8, for `Y(ρ)`.
 - N. M. Katz, *Serre–Tate local moduli*, in *Surfaces Algébriques* (Séminaire de Géométrie
   Algébrique d'Orsay 1976–78), LNM 868, Springer, 1981, 138–202 — Theorem 1.2.1 is the
@@ -2764,13 +2830,17 @@ The following examples accompany the general theory.
 
 ## Provenance: existing Lean work and source audit
 
-The current AINTLIB modular-curves development contains substantial implementation and proof
-decomposition for the group law, pole sheaves, Picard constructions, the Weil pairing, fine curves,
-quotient problems, and the beginning of KM Chapters 5–6. It is migration and proof-architecture
-material, not a dependency and not evidence that a theorem is complete.
+The AINTLIB modular-curves development, in the repository `github.com/CBirkbeck/AINTLIB`
+(branch `dev/modular-curves`, directory `projects/ModularCurves`), contains implementation and
+proof decomposition for the group law, pole sheaves, Picard constructions, the Weil pairing, fine
+curves, quotient problems, and the beginning of KM Chapters 5–6. It is migration and
+proof-architecture material, not a dependency and not evidence that a theorem is complete: it is
+not a Lake dependency, and its declarations require reconciliation with the pinned APIs before
+migration. Its files carry Apache-2.0 headers and the repository carries the Apache-2.0 root
+licence; any adaptation must retain the file-level notices and be coordinated with the AINTLIB
+authors. No AINTLIB code is transferred by this roadmap.
 
-The dependency-sensitive statements of KM were checked directly at the following printed
-pages:
+The dependency-sensitive statements of KM are at the following printed pages:
 
 - the `A`-generator extension results 1.11.2–1.11.5 and the coprime factorisation
   1.10.14–1.10.15, pp. 46–53;
@@ -2787,39 +2857,6 @@ pages:
 - the Notes Added in Proof on alternation of the Weil pairing, the dimension convention of 4.12,
   and the descent of regularity along finite flat surjections used in 6.6.1 and 7.5.1,
   pp. 505–510, and the reference list, pp. 512–513.
-
-The AINTLIB development lives in the repository `github.com/CBirkbeck/AINTLIB`, branch
-`dev/modular-curves`, directory `projects/ModularCurves`. It is not a Lake dependency; its
-declarations require reconciliation with the pinned APIs before migration. Its files carry
-Apache-2.0 headers and the repository carries the Apache-2.0 root licence; any adaptation must
-retain the file-level notices and be coordinated with the AINTLIB authors. No AINTLIB code is
-transferred by this roadmap.
-
-The durable parts of that development relevant to the proof decomposition are:
-
-- `.mathlib-quality/plan.md` and the `decomposition-*.md` files for the dependency and source
-  audits;
-- `EllipticCurve/AdditionChart*.lean` and `EllipticCurve/PoleSheaf*.lean` for the chartwise group
-  law and the pole-sheaf calculation;
-- `EllipticCurve/MulByHomDegree.lean` for the narrow scheme/equation function-field comparison and
-  the proof that multiplication by `N` has degree `N²`;
-- `ForMathlib/*Cech*`, the scheme-module files, and the pushforward files for coherent cohomology
-  and base change;
-- `Picard/` and `WeilPairing/` for the Picard-dual route, Poincaré biextension, and pairing laws;
-- `GroupScheme/NIsogeny.lean`, `GroupScheme/NIsogSpace.lean`, and the Grassmannian and quotient
-  files for rank-`N` subgroup schemes;
-- `Moduli/Groupoid.lean`, `Moduli/QuotientProblem.lean`,
-  `Moduli/GammaHRepresentability.lean`, and `Moduli/DrinfeldRegularity.lean` for groupoids,
-  Katz–Mazur quotients, and the beginning of Chapter 5;
-- `ModularCurve/YOne*.lean`, `YFullRoute.lean`, and `YRho.lean` for the three distinct fine-curve
-  constructions.
-
-Reading that development confirms the chart-by-chart group-law decomposition and the need for genuine coherent
-cohomology in the pole-sheaf route. It also confirms that alternation and scheme-theoretic
-Cartier–Nishi perfection remain separate open leaves in the pairing construction; that quotient
-problems must use Q1/Q2 rather than objectwise orbits; and that universal elliptic deformations,
-`p`-divisible groups, Serre–Tate theory, and the complete axiomatic regularity engine remain major
-Chapter-5 tasks.
 
 ## Early API and proof hygiene
 

@@ -156,38 +156,6 @@ structure PointedWeierstrassAtlas {S X : Scheme.{u}} (π : X ⟶ S) (zero : S �
   chart : index → PointedWeierstrassChart π zero
   covers : ∀ s : S, ∃ i : index, ∃ x : (chart i).base, (chart i).baseMap.base x = s
 
-/-- The local-model condition in the quantifier form of KM 2.2.5–2.2.6 and Deligne–Rapoport
-II.1.1: around every point of the base there is an affine open `U`, an elliptic Weierstrass curve
-`W` over `Γ(S, U)`, and an isomorphism of the curve restricted to `U` with the projective model of
-`W`, compatible with the projection and with the zero section. The open-immersion hypothesis on a
-chart's `baseMap` is what makes both this form and the atlas Zariski-local. -/
-def IsLocallyWeierstrass {X S : Scheme.{u}} (π : X ⟶ S) (zero : S ⟶ X)
-    (hzero : zero ≫ π = 𝟙 S) : Prop :=
-  ∀ s : S, ∃ (U : S.affineOpens) (_ : s ∈ U.1) (W : WeierstrassCurve Γ(S, U.1)),
-    W.IsElliptic ∧
-      ∃ e : pullback π U.1.ι ≅ W.projModel,
-        e.hom ≫ W.projModelOver = pullback.snd π U.1.ι ≫ U.2.isoSpec.hom ∧
-        (U.2.isoSpec.inv ≫ pullback.lift (U.1.ι ≫ zero) (𝟙 _)
-            (by rw [Category.assoc, hzero, Category.comp_id, Category.id_comp])) ≫ e.hom =
-          W.projModelZero
-
-/-- An atlas of pointed Weierstrass charts gives the quantifier form of the local-model
-condition: the range of an open immersion out of an affine scheme is an affine open of `S`, the
-chart's coefficient ring is carried onto `Γ(S, U)` along `baseIso`, and the chart's pullback
-square is compared with Mathlib's chosen `pullback`. -/
-theorem PointedWeierstrassAtlas.isLocallyWeierstrass {X S : Scheme.{u}} {π : X ⟶ S}
-    {zero : S ⟶ X} (hzero : zero ≫ π = 𝟙 S) (A : PointedWeierstrassAtlas π zero) :
-    IsLocallyWeierstrass π zero hzero :=
-  sorry
-
-/-- The two spellings of the local-model condition agree: choosing a chart at each point of the
-base assembles an atlas. Choice is used, which is why the atlas appears under `Nonempty` in
-`EllipticCurveGeom`. -/
-theorem nonempty_pointedWeierstrassAtlas_iff {X S : Scheme.{u}} {π : X ⟶ S} {zero : S ⟶ X}
-    (hzero : zero ≫ π = 𝟙 S) :
-    Nonempty (PointedWeierstrassAtlas π zero) ↔ IsLocallyWeierstrass π zero hzero :=
-  sorry
-
 /-- Smooth proper pointed genus-one curves with the pointed local-Weierstrass condition
 (README, Convention 1). -/
 structure EllipticCurveGeom (S : Scheme.{u}) where
@@ -687,7 +655,8 @@ theorem axiomaticRegularity {P : ModuliProblem (intRing.{u})} {D : P.RelRepData}
   sorry
 
 /-- The ring-theoretic core of the rigidity engine KM 5.3.4 (Layer 7G): for a one-parameter
-commutative formal group law `G` over an arbitrary ring `R`, if `X^{pⁿ} = 0` cuts out a
+formal group law `G` over an arbitrary ring `R` (commutativity is not used: only the
+degree-`pⁿ` part of `G(X,Y) = X + Y + …` is read), if `X^{pⁿ} = 0` cuts out a
 subgroup scheme — stated universally, `G(X,Y)^{pⁿ}` lies in the ideal `(X^{pⁿ}, Y^{pⁿ})` of
 `R⟦X,Y⟧` — then `p = 0` in `R`. KM's proof isolates the binomial coefficients: comparing
 total-degree-`pⁿ` terms forces `(X+Y)^{pⁿ} = X^{pⁿ} + Y^{pⁿ}`, so `C(pⁿ, i) = 0` in `R` for
@@ -696,7 +665,7 @@ times an integer prime to `p`, gives `p = 0`. The full KM 5.3.4 additionally ide
 subgroup with `Ker(Fⁿ)`; the scheme-level engine KM 5.3.3 and the rigidity assertions
 Rigid I–III (KM 5.3.2.1–5.3.2.3) are specified in README 7G. -/
 theorem formalGroup_p_eq_zero_of_pow_mem_span {R : Type u} [CommRing R]
-    (F : FormalGroup R) [F.IsComm] (p : ℕ) [Fact p.Prime] {n : ℕ} (hn : 1 ≤ n)
+    (F : FormalGroup R) (p : ℕ) [Fact p.Prime] {n : ℕ} (hn : 1 ≤ n)
     (h : F.toPowerSeries ^ p ^ n ∈
       Ideal.span {(MvPowerSeries.X 0 : MvPowerSeries (Fin 2) R) ^ p ^ n,
         MvPowerSeries.X 1 ^ p ^ n}) :
@@ -801,15 +770,17 @@ theorem coarseModuli_quotient {R : CommRingCat.{u}} {P P' : ModuliProblem R} {H 
           IsCategoricalQuotient ρ q :=
   sorry
 
-/-- Base change of the kernel of a linear map of flat modules over a principal ideal domain: if
-the cokernel of `f` is torsion-free, then for every `D`-algebra `R` the kernel of `f ⊗ R` is the
-base change of the kernel of `f`. Applied in Layer 9E to `f : A ⟶ ∏_{g∈G} A`, `a ↦ (ga − a)_g`,
-whose kernel is the invariant ring `A^G`, this is the criterion under which formation of the
-invariant ring commutes with every base change: it does so exactly when it commutes with
-reduction modulo every maximal ideal of `D`. -/
+/-- Base change of the kernel of a linear map into a flat module over a principal ideal domain:
+if the cokernel of `f` is torsion-free, then for every `D`-algebra `R` the kernel of `f ⊗ R` is
+the base change of the kernel of `f`. The source `M` need not be flat: the image of `f` is a
+submodule of the flat module `N`, hence torsion-free and flat, so the two short exact sequences
+`0 → ker f → M → im f → 0` and `0 → im f → N → coker f → 0` stay exact after `⊗ R`. Applied
+in Layer 9E to `f : A ⟶ ∏_{g∈G} A`, `a ↦ (ga − a)_g`, whose kernel is the invariant ring `A^G`,
+this is the criterion under which formation of the invariant ring commutes with every base
+change: it does so exactly when it commutes with reduction modulo every maximal ideal of `D`. -/
 theorem ker_baseChange_of_noZeroSMulDivisors_coker {D : Type u} [CommRing D] [IsDomain D]
     [IsPrincipalIdealRing D] {M N : Type u} [AddCommGroup M] [Module D M] [AddCommGroup N]
-    [Module D N] [Module.Flat D M] [Module.Flat D N] (f : M →ₗ[D] N)
+    [Module D N] [Module.Flat D N] (f : M →ₗ[D] N)
     [NoZeroSMulDivisors D (N ⧸ LinearMap.range f)] (R : Type u) [CommRing R] [Algebra D R] :
     LinearMap.ker (LinearMap.baseChange R f) =
       LinearMap.range (LinearMap.baseChange R (LinearMap.ker f).subtype) :=
@@ -846,10 +817,10 @@ milestone already supplied by another roadmap. The declarations here prove only 
 implication from that explicit hypothesis.
 -/
 
-/-- A nonempty connected scheme, smooth of relative dimension one over an algebraically closed
-field, is irreducible. Smoothness gives local noetherianness and normality; a connected locally
-noetherian normal scheme is irreducible. -/
-theorem irreducibleSpace_of_connectedSpace {K : Type u} [Field K] [IsAlgClosed K]
+/-- A nonempty connected scheme, smooth of relative dimension one over a field, is irreducible.
+Smoothness over any field gives local noetherianness and regularity, hence normality; a connected
+locally noetherian normal scheme is irreducible. Layer 5C applies this with `K = ℚ̄`. -/
+theorem irreducibleSpace_of_connectedSpace {K : Type u} [Field K]
     (Y : Scheme.{u}) (sY : Y ⟶ Spec (CommRingCat.of K))
     [SmoothOfRelativeDimension 1 sY] [Nonempty Y] [ConnectedSpace Y] :
     IrreducibleSpace Y :=
