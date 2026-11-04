@@ -1,9 +1,11 @@
+module
+
 /-
 Copyright (c) 2026 Kim Morrison. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import Mathlib
-import TauCeti.RepresentationTheory.Continuous.Unitary.Basic
+public import Mathlib
+public import TauCeti.RepresentationTheory.Continuous.Unitary.Basic
 
 /-!
 # Operator-algebra dynamics, crossed products, and equilibrium: target signatures
@@ -35,6 +37,8 @@ and no Hilbert Fock space exists at the pins); the thermodynamic limit, the Gibb
 equivalence, the variational principle and high-temperature uniqueness (D9: no quasi-local
 algebra or infinite tensor product of matrix algebras exists at the pins).
 -/
+
+@[expose] public section
 
 noncomputable section
 open MeasureTheory
