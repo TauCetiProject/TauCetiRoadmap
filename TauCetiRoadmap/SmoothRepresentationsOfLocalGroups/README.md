@@ -90,8 +90,9 @@ layer 9 it takes the local Weil group and its Frobenius elements (the wild and t
 [Local fields and ramification](../../Completed/LocalFieldsRamification/README.md); local Langlands for tori is
 an input stated where used), and adds finite-wild discretisations and cocycle functoriality.
 SR.5.2 owns the common raw Weil–Deligne fields and the entire lower linear theory:
-*nilpotent-exp-log*, *wd-parameter-operations*, *wd-complete-coefficients*,
-*full-wd-construction* and *wd-frobenius-semisimplification*. These targets use ordinary
+*nilpotent-exp-log*, *wd-parameter-operations*, *wd-algebraic-composition*,
+*wd-complete-coefficients*, *full-wd-construction* and *wd-frobenius-semisimplification*.
+These targets use ordinary
 linear representations, ClassFieldTheory layer 9 and Tau Ceti's local characters;
 they precede *classical-llc-normalization* and require neither determinant reconstruction
 nor LLC. ArithmeticGaloisRepresentations consumes this linear theory for its
@@ -525,6 +526,8 @@ theory, with the relative roots, parabolic and Levi subgroups, Weyl groups and t
 decomposition that the parabolic pairs, the geometric lemma and the dual-group arguments use.
 Layer 5P: characteristic-zero polynomial matrix exp/log and their geometric restrictions;
 SR.5.2 compares its arbitrary-ℚ-algebra finite evaluation with these maps.
+Layer 2: the Lie algebra of an algebraic group and the differential of a morphism, for the
+composites of SR.5.2 *wd-algebraic-composition*.
 Layer 9: the pinned Chevalley–Demazure group schemes over ℤ, carrying the finite-wild cocycle
 scheme.
 
@@ -4542,6 +4545,55 @@ RepresentationTheory/InductionRestriction layers 0 and 2; Mathlib linear duals a
 - A degree-dependent Sp(2) action on indiscrete W = ℤ at q = 2 has non-open kernel.
   The local Weil group's open degree kernel is necessary for this construction.
 
+**Composition with an algebraic representation and symmetric powers** (*wd-algebraic-composition*).
+Over a characteristic-zero field E, for raw parameters (V_1,r_1,N_1), …, (V_k,r_k,N_k) of
+*wd-raw-parameters* and a morphism of algebraic groups ρ : GL(V_1) × ⋯ × GL(V_k) → GL(W) over E
+with differential dρ : 𝔤𝔩(V_1) × ⋯ × 𝔤𝔩(V_k) → 𝔤𝔩(W) (ReductiveGroups Layer 2), define
+`ρ∘(r,N) := (W, ρ∘(r_1,…,r_k), dρ(N_1,…,N_k))` and prove that it is a raw parameter on W:
+its kernel contains ⋂ ker r_i and is open, dρ(N_1,…,N_k) is nilpotent because morphisms of
+algebraic groups preserve Jordan decompositions, and
+`ρ(r(w)) dρ(N) ρ(r(w))⁻¹ = dρ(r(w) N r(w)⁻¹) = q^{deg w} dρ(N)`, with the same arithmetic
+degree and ω(w) = q^{deg w} as *wd-parameter-operations*. Prove functoriality in ρ (identity and
+composition), that an isomorphism of parameters on the V_i given by (g_i) induces the
+isomorphism ρ(g_1,…,g_k), that Frobenius semisimplicity is preserved
+(ρ preserves the multiplicative Jordan decomposition
+`LinearMap.GeneralLinearGroup.jordanDecomposition`), and that
+`ρ(exp(tN_1),…,exp(tN_k)) = exp(t·dρ(N_1,…,N_k))` for every t ∈ E, by *nilpotent-exp-log*
+and the unipotent restriction of ReductiveGroups Layer 5P. Show that the direct sum, tensor
+product, dual, character twist and determinant of *wd-parameter-operations* are the
+instances ρ = ⊕, ⊗, g ↦ (gᵗ)⁻¹, tensoring with a line and det, whose differentials give the
+monodromies N⊕N', N⊗1+1⊗N', −Nᵗ, N and 0.
+For m ≥ 0 let Sym^m V be the m-th symmetric power of V (Mathlib's symmetric tensor power
+`Sym[E]^m V`, or the degree-m piece `TauCeti.SymmetricAlgebra.homogeneousSubmodule`; over E
+these are isomorphic GL(V)-modules), with the algebraic representation
+Sym^m : GL(V) → GL(Sym^m V), g(v_1⋯v_m) = gv_1⋯gv_m, whose differential is
+`d Sym^m(X)(v_1⋯v_m) = Σ_j v_1⋯(Xv_j)⋯v_m`. Define the m-th symmetric power
+`Sym^m∘(r,N) := (Sym^m V, Sym^m∘r, d Sym^m(N))` as the instance ρ = Sym^m, of dimension
+binom(dim V + m − 1, m), functorial in V and compatible with transport along linear
+equivalences. Prove Sym^0∘(r,N) is the trivial parameter, Sym^1∘(r,N) = (r,N),
+`Sym^m((r,N)⊗χ) ≅ Sym^m(r,N) ⊗ χ^m` for a character χ, `Sym^m∘(r,0) = (Sym^m∘r, 0)`, and
+`Sym^{n−1}∘Sp(2) ≅ Sp(n)` for n ≥ 1 with the Sp(n) of *wd-parameter-operations*
+([Del73] §8.4.1, p. 568; [Tat79] §4.1).
+*Needs:* *wd-raw-parameters*, *wd-parameter-operations*, *nilpotent-exp-log*;
+ReductiveGroups Layers 2 and 5P; Mathlib `Sym[E]^m V` and `PiTensorProduct`;
+Tau Ceti `TauCeti.SymmetricAlgebra.homogeneousSubmodule` and
+`LinearMap.GeneralLinearGroup.jordanDecomposition`.
+
+**Checks.**
+
+- For dim V = 2 with basis e_1, e_2, Ne_2 = e_1, Ne_1 = 0 and f_j = e_1^{n−1−j} e_2^j,
+  `d Sym^{n−1}(N) f_j = j·f_{j−1}`: a single Jordan block of size n.
+- In the basis of Sp(2) with `r(w)e_0 = e_0`, `r(w)e_1 = ω(w)e_1`, `Ne_0 = e_1`, the monomials
+  e_0^{n−1−j} e_1^j have weights ω(w)^j and `d Sym^{n−1}(N)` sends the j-th to (n−1−j) times
+  the (j+1)-st; rescaling the basis gives Sp(n) exactly, with no twist, and the arithmetic
+  conjugation relation raises each weight by one as required.
+- The dual instance g ↦ (gᵗ)⁻¹ has differential X ↦ −Xᵗ and recovers (r∨, −Nᵗ); the
+  determinant has differential the trace, which vanishes on nilpotent N, recovering zero
+  monodromy. Tensoring two rank-one parameters gives the product character with N = 0.
+- Over a field of characteristic p ≤ m the symmetric tensors and the symmetric power are not
+  isomorphic GL(V)-modules, since (e_1+e_2)^p = e_1^p + e_2^p in the latter; the
+  characteristic-zero hypothesis of the raw fields is used for the identification.
+
 #### Grothendieck monodromy
 ##### WD complete coefficients
 
@@ -5256,6 +5308,8 @@ Locators use the printed page numbers of the following editions.
 - [Del73] P. Deligne, *Les constantes des équations fonctionnelles des fonctions L*, in
   *Modular Functions of One Variable II*, Lecture Notes in Mathematics 349 (1973), 501–597,
   [scan](https://publications.ias.edu/sites/default/files/Number20.pdf).
+- [Tat79] J. Tate, *Number theoretic background*, in *Automorphic Forms, Representations and
+  L-functions*, Proc. Sympos. Pure Math. 33 (1979), Part 2, 3–26.
 - [Nak] K. Nakamura, *Zeta morphisms for rank two universal deformations*, Invent. Math. 234 (2023), [published](https://link.springer.com/content/pdf/10.1007/s00222-023-01203-7.pdf).
 - [AKY] H. Atobe, S. Kondo and S. Yasuda, *Local newforms for the general linear groups over a non-archimedean local field*, [arXiv:2110.09070v4](https://arxiv.org/pdf/2110.09070v4).
 - [DHKM1] J.-F. Dat, D. Helm, R. Kurinczuk and G. Moss, *Finiteness for Hecke algebras of p-adic groups*, [arXiv:2203.04929v2](https://arxiv.org/pdf/2203.04929v2).
