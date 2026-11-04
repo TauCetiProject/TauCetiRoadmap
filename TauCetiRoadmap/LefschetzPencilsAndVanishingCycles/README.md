@@ -236,7 +236,8 @@ It leaves to other roadmaps:
 - **AlgebraicModuliForArithmeticGeometry** Layer 1 (§1.1 projective bundles, §1.3 Grassmannians, §1.4 relative very
   ampleness and the classifying map `ProjectiveBundles.IsRelativelyVeryAmple.completeMap`, from which 3.4 builds
   the Veronese embeddings), Layer 6 (Artin approximation), and §7.6.1
-  (`relativePicardSheaf`, `RelativePicard.baseLineBundle`, relative Picard sheaves over arbitrary bases).
+  (`relativePicardSheaf`, relative Picard sheaves over arbitrary bases; base line-bundle classes are killed by
+  the fppf sheafification of the §7.6a presheaf `RelativePicard.relativePicardPresheaf`).
 - **InverseGaloisAndArithmeticFundamentalGroups** §§IG.0.T1–IG.0.T4 (curve/Jacobian
   comparison, finite-coefficient and rational constructible trace formulas, and constant-sheaf
   point counts); Layer IG.1 (§IG.1.2 tame fundamental groups of curves;
@@ -926,7 +927,7 @@ its primitive decomposition and the relative variant, and computes the filtered 
 regular semistable scheme with two components. It ends with the semisimple trace of Frobenius on
 nearby cycles. The logarithm of a unipotent automorphism and the monodromy filtration of a nilpotent
 endomorphism of a finite-dimensional vector space, with its uniqueness and tensor and dual rules, are
-ArithmeticGaloisRepresentations Layer 2 (§2.4 `IsUnipotent.log`, `IsUnipotent.log_exp_and_exp_log`; §2.6
+ArithmeticGaloisRepresentations Layer 2 (§2.4, the nilpotent exp/log calculus; §2.6
 `WeilDeligneRep.monodromyFiltration`); this layer uses them and adds what the geometric applications need.
 
 ### 1.1 The geometric local monodromy theorem
@@ -1020,9 +1021,9 @@ Let `ρ : G → GL(V)` be a quasi-unipotent representation on a finite-dimension
 instance the geometric cohomology of 1.1). There is a unique nilpotent `N : V → V(−1)` such that
 `ρ(σ) = exp(t_ℓ(σ) N)` for `σ` in every open subgroup of `I` on which `ρ` is unipotent; here
 `t_ℓ(σ) N` means `N` followed by evaluation of the twist on `t_ℓ(σ) ∈ ℤ_ℓ(1)`, and the exponential and
-logarithm are those of ArithmeticGaloisRepresentations Layer 2, §2.4 (`IsUnipotent.log` is the finite
-sum `Σ_{1≤j<d} (−1)^{j+1}(T − 1)^j/j` for `(T − 1)^d = 0`, independent of `d` and inverse to
-`IsNilpotent.exp`). Call this `N` the
+logarithm are the nilpotent exp/log calculus used by ArithmeticGaloisRepresentations Layer 2, §2.4 (the
+logarithm of a unipotent `T` is the finite sum `Σ_{1≤j<d} (−1)^{j+1}(T − 1)^j/j` for `(T − 1)^d = 0`,
+independent of `d` and inverse to `IsNilpotent.exp`). Call this `N` the
 monodromy operator of `ρ`. Prove:
 
 - `N` is `G`-equivariant as a map `V → V(−1)`: for
@@ -1298,7 +1299,7 @@ compatible Kummer tower and tame fundamental group; SGA 1 XIII, Appendice I, Cor
 
 ### 1.9 The two-component semistable nearby complex
 
-**Construction.** Let `X` be regular and strictly semistable over an excellent strictly henselian trait,
+**Construction.** Let `X` be regular and strictly semistable over a strictly henselian trait,
 with special fibre `D_1 ∪ D_2`, the components smooth and meeting transversely in `C = D_1 ∩ D_2`, and let
 `Λ` be finite with `ℓ` invertible, or rational ℓ-adic after realization. The filtered Rapoport–Zink
 complex is a filtered complex on `D_1 ∪ D_2`, built from the
@@ -1347,7 +1348,7 @@ complex and its square vanishes because there are only two components. Absolute 
 `Ri^!Λ` for the regular divisors over the trait. (Illusie 2021, §6.3, pp. 104–105, formulas (6.2)–(6.4);
 Illusie 1994 errata.) *Needs:* 0.5, 0.10, 1.2; EtaleCohomologyFoundations §F.1 (the stable
 enhancement, unbounded derived sheaves and coherent diagrams from which the filtered derived category is built);
-EtaleCohomologyFoundations §§F.1–F.2, EtaleCohomologyFoundations §F.6 (Gysin sequence and cycle classes over the residue field); SchemeAndStackFoundations Layer 0, §0.21 (excellent schemes).
+EtaleCohomologyFoundations §§F.1–F.2, EtaleCohomologyFoundations §F.6 (Gysin sequence and cycle classes over the residue field).
 
 **Checks.**
 
@@ -1563,14 +1564,14 @@ which need not be represented by a global `O(1)`. Define smooth quadrics over `S
 - Over an algebraically closed field, `ω_X ≅ O_X(−n)` for the hyperplane bundle of a smooth `n`-dimensional quadric.
 
 *Proof sketch.* Over an algebraically closed field compute `Ω^n ≅ O(−n)`, `Pic` and the vanishing of
-`H^i(O)` and `H^1(O(1))`. Use `relativePicardSheaf` and
-`RelativePicard.baseLineBundle` over general bases; prove here that the quadric family has
+`H^i(O)` and `H^1(O(1))`. Use `relativePicardSheaf` over general bases,
+where base line-bundle classes are killed by the fppf sheafification of `RelativePicard.relativePicardPresheaf`; prove here that the quadric family has
 étale-locally constant `Pic_{X/S}` (SGA 7 XII 2.4–2.6), so étale locally for `n > 0` there
 is a positive hyperplane bundle `L` with `p_*L` locally free of rank `n + 2` and `X ⊂ P(p_*L)` the quadric
 of an ordinary form, unique up to a unit; `P(p_*L)` does not depend on `L` and descends to `P(X)`. (SGA 7
 II, Exposé XII, 2.1, p. 9; Définition 2.4 and 2.4–2.6, pp. 10–12.) *Needs:* 2.1;
-AlgebraicModuliForArithmeticGeometry §1.1 and §7.6.1 (`relativePicardSheaf`,
-`RelativePicard.baseLineBundle`); SchemeAndStackFoundations Layer 0.
+AlgebraicModuliForArithmeticGeometry §1.1, §7.6.1 (`relativePicardSheaf`) and §7.6a (base line-bundle
+classes are killed by the fppf sheafification of `RelativePicard.relativePicardPresheaf`); SchemeAndStackFoundations Layer 0.
 
 **Checks.**
 
@@ -2945,12 +2946,12 @@ pp. 293–294.) *Needs:* Mathlib `skewAdjointLieSubalgebra`, `LieModule.IsIrredu
   fails the first identity.
 - The simplicity hypothesis is needed: the Lie algebra spanned by `N(e₁)` alone is one-dimensional, and `V` is not a simple module for it.
 
-### 5.7 Compact subgroups of `Sp(V)(ℚ_ℓ)` and `O(V)(ℚ_ℓ)`
+### 5.7 Closed subgroups of `Sp(V)(ℚ_ℓ)` and `O(V)(ℚ_ℓ)`
 
 **Lemma.** Let `V` be a finite-dimensional `ℚ_ℓ`-vector space with a nondegenerate form `ψ`, alternating or symmetric,
 with the canonical topology on `End(V)` and the subgroup topology on `GL(V)`; let `G(ψ)` be its isometry group,
 `Sp(V, ψ)(ℚ_ℓ)` or `O(V, ψ)(ℚ_ℓ)`, which is closed in `End(V)`, being cut out by polynomial equations, and `𝔤(ψ)` its Lie
-algebra of `ψ`-skew-adjoint endomorphisms (Mathlib's `skewAdjointLieSubalgebra ψ`). Let `H ⊂ G(ψ)` be a compact subgroup and
+algebra of `ψ`-skew-adjoint endomorphisms (Mathlib's `skewAdjointLieSubalgebra ψ`). Let `H ⊂ G(ψ)` be a closed subgroup and
 `𝔏 = {X ∈ 𝔤𝔩(V) : exp(tX) ∈ H for all t in a neighbourhood of 0 in ℚ_ℓ}`. Then `𝔏` is a `ℚ_ℓ`-Lie subalgebra of `𝔤(ψ)`; if
 `h ∈ H` is unipotent, `h = exp(N)` with `N` nilpotent and `N ∈ 𝔏`; and if `𝔏 = 𝔤(ψ)` then `H` is open in `G(ψ)`. For `ψ`
 symmetric, the orthogonal group and its topology are those of TauCetiRoadmap OrthogonalSpinGroups Layers 0 and 2. Closedness of `H` is essential: the group generated by the local monodromies is only dense in the
@@ -2973,7 +2974,7 @@ AdelicAlgebraicGroups Layer 4, §4.2; Mathlib `skewAdjointLieSubalgebra`, `IsNil
 
 **Theorem (Kazhdan–Margulis).** Let `n` be odd. The image of `ρ : π_1(U, u) → Sp(E/(E ∩ E^⊥), ψ)(ℚ_ℓ)` is open. The statement
 is for the `ℚ_ℓ`-model; openness in `Sp(V ⊗ E')(E')` for a larger coefficient field `E'` is not asserted. `V = 0` is
-allowed (`Sp(0)` is trivial). *Proof sketch.* `H = ρ(π_1(U, u))` is compact; let `𝔏` be its Lie algebra (5.7). The inertia at
+allowed (`Sp(0)` is trivial). *Proof sketch.* `H = ρ(π_1(U, u))` is compact, hence closed; let `𝔏` be its Lie algebra (5.7). The inertia at
 `s` maps onto `{exp(aN_s) : a ∈ ℤ_ℓ}`, `N_s = ±N(δ_s)`, since `t_ℓ` is onto `ℤ_ℓ(1)`, so `N_s ∈ 𝔏`. Let `𝔤_S ⊂ 𝔏` be generated by the
 `N_s`. A `𝔤_S`-stable subspace is stable under each `N_s`, hence under `T_s = exp(±N_s)`, hence under the closed group
 they generate, which is `H` (5.3); by 5.4 it is `0` or `V`. Lemma 5.6 gives `𝔤_S = 𝔰𝔭(V, ψ)`, so `𝔏 = 𝔰𝔭(V, ψ)` and `H` is open
@@ -2983,7 +2984,7 @@ closed-subgroup theorem on `Matrix.GeneralLinearGroup (Fin d) ℚ_[ℓ]`, for ev
 and every dimension `d`. A nondegenerate alternating form, preservation of the form,
 topological generation by transvections with nonzero coefficients, and absence of proper
 nonzero invariant subspaces imply openness in the form-preserving subgroup. The geometric
-image satisfies these hypotheses by compactness, 5.3 and 5.4; dimension zero is included. *Needs:* EtaleCohomologyFoundations §F.3a, 4.4, 5.3, 5.4, 5.6, 5.7.
+image satisfies these hypotheses because a compact subgroup is closed, with 5.3 and 5.4; dimension zero is included. *Needs:* EtaleCohomologyFoundations §F.3a, 4.4, 5.3, 5.4, 5.6, 5.7.
 
 **Checks.**
 
