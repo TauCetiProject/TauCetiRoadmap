@@ -451,7 +451,7 @@ Transport of the other Banach-module imports uses bounded-equivalent norms only 
 
 **Checks.**
 
-- For the finite truncations u_s = diag(p^i)_(i<s) of u = diag(p^i)_(i∈ℕ) over ℚ_p, ‖u − u_s‖ = p^(−s) → 0 with the common majorant b_j = p^(−j): c_1(u_s) = −Σ_(i<s)p^i → −1/(1 − p) = c_1(u), and P_(u_s)(1) = ∏_(i<s)(1 − p^i) → ∏_i(1 − p^i) = P_u(1).
+- For the finite truncations u_s = diag(p^(i+1))_(i<s) of u = diag(p^(i+1))_(i∈ℕ) over ℚ_p, ‖u − u_s‖ = p^(−s−1) → 0 with the common majorant b_j = p^(−j−1): c_1(u_s) = −Σ_(i<s)p^(i+1) → −p/(1 − p) = c_1(u), and P_(u_s)(1) = ∏_(1≤i≤s)(1 − p^i) → ∏_(i≥1)(1 − p^i) = P_u(1), a unit of ℤ_p since every partial product is ≡ 1 mod p, so the limit is nonzero.
 - On ℚ_p², u_s = diag(p^s, 0) → 0 with the majorant (1, 0): c_1(u_s) = −p^s → 0 and P_(u_s)(1) = 1 − p^s → 1.
 - (degenerate) A constant sequence has zero differences in every degree and at every radius.
 
@@ -644,7 +644,7 @@ Transport of the other Banach-module imports uses bounded-equivalent norms only 
 **Checks.**
 
 - For u = diag(p, p²) over ℚ_p with column bounds b_0 = p^(−1), b_1 = p^(−2), the resolvent coefficients are v_1 = diag(−p², −p), of norm p^(−1), the largest single bound, and v_2 = 0, within the product bound b_0b_1 = p^(−3).
-- For the nilpotent N (e_1 ↦ e_0) with column bounds b_0 = 0, b_1 = 1, v_1 = N has norm 1 and v_2 = N² = 0, as the product bound 0 forces.
+- For the nilpotent N (e_1 ↦ e_0) with output-column bounds b_0 = 1, b_1 = 0, v_1 = N has norm 1 = max(b_0, b_1) and v_2 = N² = 0, as the product bound b_0b_1 = 0 forces.
 - (degenerate) On a line there is no product of two distinct bounds, and indeed v_n = 0 for every n ≥ 1.
 
 **Entireness of the recurrence on a projective Banach module.** For completely continuous u on a (Pr) module with its Fredholm coefficients c_n, every recurrence V_0 = 1, V_(n+1) = c_(n+1)·1 + uV_n has ‖V_n‖_K R^n → 0 for every R > 0. Supplied by CompactOperators §2.4 (the roadmap of W. Coram). There it is stated on c₀(I, R); on a (Pr) module this roadmap compresses the recurrence of u ⊕ 0 by §4.6 (Compression of the coefficient recurrence).
@@ -826,7 +826,7 @@ Transport of the other Banach-module imports uses bounded-equivalent norms only 
 **Checks.**
 
 - Q=1 gives an invertible identity operator and is coprime to every Fredholm series.
-- For u=1 and Q=1−T on a line, Q*(u)=0 and Q is not coprime to P_u.
+- For u=1 and the monic Q=T−1 (unit constant coefficient −1) on a line, Q*(u)=1−u=0 and Q is not coprime to P_u=1−T.
 - For zero u and a monic Q with unit constant coefficient, Q*(u)=1 and P_u=1.
 
 **Riesz projectors at a Fredholm root.** If a ∈ A is a root of P_u of Hasse order h ≥ 1 with unit h-th Hasse derivative, then a is a unit and M = N ⊕ F into closed u-stable summands with (1 − au)^h = 0 on N and 1 − au invertible on F, N finite projective of constant rank h with P_(u|N) = (1 − a⁻¹T)^h, and the projectors in the operator-norm closure of A[u]; for h = 0, N = 0 and F = M. Supplied by CompactOperators §3.1 (`IsRieszProjection`, `exists_rieszProjection`) (the roadmap of W. Coram). There u is row-compact on c₀(I, R); on a (Pr) module this roadmap applies it to u ⊕ 0 on M ⊕ M′ ≅ c_A(I), whose projectors lie in the closure of A[u ⊕ 0] and so preserve M.
