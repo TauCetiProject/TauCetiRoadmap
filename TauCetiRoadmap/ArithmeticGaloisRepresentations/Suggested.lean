@@ -25,11 +25,12 @@ The full Weil–Deligne adapter and purity require the local Weil group and the 
 Weil–Deligne parameter of the named suppliers, which have no Mathlib or Tau Ceti carrier; the
 Gauss-sum character constants and their root-number product formula are definitions and
 finite-sum identities, not headline theorems, and stay in the README. The all-perfect-residue
-conductor, integrality, induction, reduction and wild-bound statements use PadicPeriodRings
-§0.3's absolute upper filtration over complete discretely valued fields with perfect residue
-field, §3.0's complements and the break decomposition of §3.1, and PadicPeriodRings §1.3's
-unit-filtration reciprocity gives the character-conductor comparison of §3.2; the absolute upper
-filtration and the local Artin map have no Mathlib or Tau Ceti carrier.
+conductor, integrality, induction, reduction and wild-bound statements use the absolute upper
+filtration of RamificationOfCompleteDiscretelyValuedFields §4a.1 over complete discretely valued
+fields with perfect residue field, as recorded in §3.0, and the break decomposition of §3.1, and
+ClassFieldTheory Layer 7's unit-filtration reciprocity gives the character-conductor comparison
+of §3.2; the absolute upper filtration over a general perfect residue field, and hence the Artin
+conductor of a representation, has no Mathlib or Tau Ceti carrier.
 The general Tate-module, pairing, determinant and coefficient adapters require the geometric
 abelian-scheme torsion and `AbelianTate` fibre; the elliptic Tate module alone does not supply them.
 Function-field recognition requires closed-point Frobenius on the restricted-ramification

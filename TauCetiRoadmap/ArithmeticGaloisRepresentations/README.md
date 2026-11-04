@@ -64,14 +64,16 @@ The roadmap owns:
   their global root-number product formula (Layer 2).
   The downstream client DeligneWeightsAndPurity §0.19 owns the real-base adapter comparison
   and the ordinary/graded-purity comparison;
-- the complements to PadicPeriodRings §0.3's ramification theory over complete discretely valued
-  fields with arbitrary perfect residue field that the conductor theory needs (the structure of the
-  lower quotients and Hilbert's form of the different formula, Hasse–Arf in equal characteristic,
-  the wild inertia `G_K^{0+}` and the finite-separable transition functions, §3.0), representation
-  break decompositions on that supplier's absolute upper-numbering filtration of `G_K`, the derived
-  eventual Herbrand formula used for induction, the representation-theoretic character-conductor
-  comparison given by PadicPeriodRings §1.3's unit-filtration reciprocity, Swan and
-  Artin conductors with
+- on the ramification theory over complete discretely valued fields with arbitrary perfect
+  residue field that RamificationOfCompleteDiscretelyValuedFields §§3a.1–3a.3 and 4a.1–4a.3
+  supplies and §3.0 records (the lower filtration with the structure of its quotients and
+  Hilbert's form of the different formula, Herbrand functions, Hasse–Arf in both
+  characteristics, the absolute upper filtration with inertia `G_K^0` and wild inertia
+  `G_K^{0+}`, the finite-separable transition functions and the completed maximal-unramified
+  comparison), representation break decompositions on that absolute upper-numbering filtration
+  of `G_K`, the derived eventual Herbrand formula used for induction, the
+  representation-theoretic character-conductor comparison given by ClassFieldTheory Layer 7's
+  unit-filtration reciprocity, Swan and Artin conductors with
   integrality, induction and twist formulas, the conductor of a Weil–Deligne representation,
   global conductors and the prime-to-`p` conductor `N(ρ̄)`, and the behaviour of conductors under
   reduction (Layer 3);
@@ -118,12 +120,14 @@ inertia, wild inertia and the tame quotient for nonarchimedean local fields
 wild inertia subgroups of `G_K`, arithmetic Frobenius lifts, the cyclotomic character and the
 `ℓ`-adic tame character (Tau Ceti); the local Weil group, its degree map, the local Artin map,
 `normResidue` and `characterConductorExp` (`TauCetiRoadmap.ClassFieldTheory` Layers 7 and 9).
-The extension of the ramification filtrations to arbitrary perfect residue fields, with the
-absolute upper filtration and the completed maximal-unramified comparison, is PadicPeriodRings
-§0.3, and unit-filtration reciprocity at every depth is PadicPeriodRings §1.3; §3.0 here adds the
-lower-quotient structure, equal-characteristic Hasse–Arf, the wild inertia `G_K^{0+}` and the
-finite-separable transition functions, and §§3.1–3.2 use all of these for representation breaks
-and conductors.
+The extension of the ramification filtrations to arbitrary perfect residue fields in both
+characteristics, with the structure of the lower quotients, Hilbert's different formula,
+Hasse–Arf, the absolute upper filtration with its inertia `G_K^0` and wild inertia `G_K^{0+}`,
+the finite-separable transition functions and the completed maximal-unramified comparison, is
+`TauCetiRoadmap.RamificationOfCompleteDiscretelyValuedFields` §§3a.1–3a.3 and 4a.1–4a.3, and
+unit-filtration reciprocity at every depth is `TauCetiRoadmap.ClassFieldTheory` Layer 7; §3.0
+records the part of these contracts the conductor theory uses, and §§3.1–3.2 use them for
+representation breaks and conductors.
 Other supplied inputs are
 completions and decomposition-group embeddings of a number field
 (`TauCetiRoadmap.NumberFieldArithmetic`); the Chebotarev density theorem for finite Galois
@@ -269,9 +273,10 @@ introduces no second local cyclotomic character.
   `χ(G^0) ≠ 1` and `χ(G^u) = 1` for `u > 0`, so its Artin conductor is `1` (tame term `1`, Swan `0`);
   the Weil–Deligne representation `Sp(2)` of the Tate curve has `r` trivial on inertia, `V^{I} = V`
   of dimension `2`, `ker N` of dimension `1`, hence conductor `0 + 0 + (2 − 1) = 1`, the conductor
-  exponent of multiplicative reduction. Section 3.1 uses PadicPeriodRings §0.3's ramification
-  filtration over complete discretely valued fields with arbitrary perfect residue field for
-  representation breaks and Swan conductors.
+  exponent of multiplicative reduction. Section 3.1 uses the absolute upper ramification
+  filtration of RamificationOfCompleteDiscretelyValuedFields §4a.1 over complete discretely
+  valued fields with arbitrary perfect residue field for representation breaks and Swan
+  conductors.
 - A complex conjugation at a real place `v` of a number field `F` is an element `c ∈ G_F` with
   `ι ∘ c = conj ∘ ι` for some embedding `ι : F̄ → ℂ` above `v` (`GaloisRep.IsComplexConjugation`).
   Oddness of a rank-two representation is `det ρ(c_v) = −1` for every complex conjugation at every
@@ -391,45 +396,59 @@ map onto `G_0` and `G_1` at finite level, and have `P_K` pro-`p` and
 `I_K/P_K ≅ ∏_{ℓ ≠ p} ℤ_ℓ(1)` equivariantly for `G_K`; arithmetic Frobenius lifts form an inertia coset.
 These contracts are stated for nonarchimedean local fields, whose residue fields are finite. Their
 extension to complete discretely valued fields with arbitrary perfect residue field in either
-characteristic is PadicPeriodRings §0.3, built on Tau Ceti's
-`TauCeti.IsLocalRing.ramificationGroupReal` and agreeing with the finite-local-field API when the
-residue field is finite; §3.0 here adds what the conductor theory needs beyond it. Section 3.1
-derives the eventual Herbrand formula from them and owns the representation break decomposition
-and Swan conductor.
+characteristic is RamificationOfCompleteDiscretelyValuedFields Layers 3a–4a, built on Tau Ceti's
+`TauCeti.IsLocalRing.ramificationGroup` and proved there to agree with the finite-local-field API
+when the residue field is finite; §3.0 here records the part of it the conductor theory uses.
+Section 3.1 derives the eventual Herbrand formula from them and owns the representation break
+decomposition and Swan conductor.
 
-### From `TauCetiRoadmap.PadicPeriodRings`
+### From `TauCetiRoadmap.RamificationOfCompleteDiscretelyValuedFields`
 
-§0.3, *generalResidueRamification*: for `K` complete for a discrete valuation with perfect residue
-field `k`, with no finiteness and no characteristic assumption, the monogenic integer ring of a
-finite Galois `L/K`, the lower numbering `G_u` (`u ≥ −1` real) as
-`TauCeti.IsLocalRing.ramificationGroupReal`, the lower index `i_G` and the different formula
-`ord_L(𝔇_{L/K}) = Σ_{g ≠ 1} i_G(g)`, the Herbrand function `φ_{L/K}` with inverse `ψ_{L/K}` and
-the upper numbering `G^v = G_{ψ(v)}`, `H_u = G_u ∩ H` for subgroups, Herbrand's theorem
-`(G/H)^v = G^v H/H` for normal `H`, transitivity `φ_{L/K} = φ_{M/K} ∘ φ_{L/M}`, the absolute upper
-filtration `Gal(M/K)^v` of every Galois `M/K` as an inverse limit, closed and normal, decreasing,
-with `Gal(M/K)^0` the inertia group, trivial intersection and compatibility with quotients by
-closed normal subgroups, the completed maximal-unramified comparison identifying
-`I_K = G_{K^ur}` with `G_{K̂^ur}` and carrying the lower and nonnegative upper filtrations and the
-normalized different, and agreement with the pinned local-field Herbrand and upper-numbering
-declarations when `k` is finite. §2, *senUpperBreaks*: the Hasse–Arf theorem for finite abelian
-`L/K` when `char K = 0`. §1.3, *unitFiltrationReciprocity*: for a nonarchimedean local field `F`
-of either characteristic and every finite abelian `L/F`, `localArtinMap` sends `U_F^n` onto
-`Gal(L/F)^n` for every integer `n ≥ 0`, depth zero included, with the absolute form
-`artinMap(U_F^n) = image(G_F^n → G_F^{ab})`, a closed subgroup. Section 3.0 here states only what
-§0.3 does not: the structure of the lower quotients and Hilbert's form of the different formula,
-Hasse–Arf in equal characteristic, `G_K^{0+} = P_K` and the finite-separable transition functions.
-Sections 3.1–3.2 consume the absolute upper filtration and the reciprocity for representation
-breaks and the character-conductor comparison.
+The perfect-residue Herbrand package of §§3a.1–3a.3 and 4a.1–4a.3, for `K` complete for a
+discrete valuation with perfect residue field `k`, with no finiteness and no characteristic
+assumption, stated on the pinned lower filtration `TauCeti.IsLocalRing.ramificationGroup` of the
+Galois group acting on the integer ring. §3a.1: the integer ring of a finite Galois `L/K` as a
+complete discrete valuation ring free over `O_K`, `[L : K] = ef`, integral monogenicity, the
+lower groups `G_i` (`i ≥ −1`), normal and antitone, with `G_i = G` for `i ≤ −1`, `G_0` the
+inertia group and `G_i = 1` for `i` large, the subgroup rule `H_i = H ∩ G_i`, the lower index
+`i_G` with the different formula `ord_L(𝔇_{L/K}) = Σ_{g ≠ 1} i_G(g)`, the embeddings of
+`G_0/G_1` into `k_L^×` and of `G_i/G_{i+1}` (`i ≥ 1`) into `k_L`, so that `G_0/G_1` is cyclic of
+order prime to `p` and `G_1` is the `p`-Sylow subgroup of `G_0`, and Hilbert's form
+`d(L/K) = Σ_{i ≥ 0} (|G_i| − 1)`. §3a.2: the Herbrand function `φ_{L/K}` with inverse `ψ_{L/K}`,
+the upper numbering `G^v = G_{ψ(v)}`, Herbrand's theorem `(G/H)^v = G^v H/H` for normal `H`,
+tower transitivity `φ_{L/K} = φ_{M/K} ∘ φ_{L/M}` and the intersection formula, for separable
+residue extension, agreeing with the pinned local-field Herbrand and upper-numbering declarations
+when `k` is finite. §3a.3: Hasse–Arf, that every upper jump of a finite abelian `L/K` is an
+integer, in both characteristics. §4a.1: the absolute upper filtration `G_K^u` (`u ≥ −1`) of
+`Field.absoluteGaloisGroup K` and `G_K^{u+} = closure(⋃_{w > u} G_K^w)`, closed normal
+subgroups, antitone, with `G_K^{−1} = G_K`, trivial intersection and restriction mapping `G_K^u`
+onto `Gal(M/K)^u` for every finite Galois `M/K`; `G_K^0` the inertia group `I_K` and `G_K^{0+}`
+the wild inertia `P_K`, the inverse limit of the finite `G_1`, pro-`p`; on a nonarchimedean
+local field these are Tau Ceti's `TauCeti.inertiaSubgroup` and `TauCeti.wildInertiaSubgroup`.
+§4a.2: for finite separable `L/K`, the transition function `ψ_{L/K} = φ_{M/L} ∘ ψ_{M/K}`,
+independent of the finite Galois `M ⊇ L`, the open-subgroup identity
+`G_K^u ∩ G_L = G_L^{ψ_{L/K}(u)}` for `u ≥ −1` and the integral formula
+`ψ_{L/K}(u) = (1/f) ∫_0^u [G_K : G_K^t G_L] dt` for `u ≥ 0`. §4a.3: the completed
+maximal-unramified comparison, identifying `I_K = G_{K^ur}` with `G_{K̂^ur}` and preserving `e`,
+the different and the lower and nonnegative upper filtrations of the inertia group under base
+change to `K̂^ur`, in both characteristics. Section 3.0 here records these contracts with the
+Checks the conductor theory recomputes, and plans none of them; §§3.1–3.2 consume the absolute
+upper filtration, the transition functions, Hasse–Arf and the comparison for representation
+breaks and conductors.
 
 ### From `TauCetiRoadmap.ClassFieldTheory`
 
 Layer 7: `artinMap` with its normalisation (a uniformiser maps to an arithmetic Frobenius lift,
 `isArithFrobeniusLift_of_mk_eq_artinMap_uniformizer`), finite-quotient and norm compatibility,
-`normResidue` and `characterConductorExp` with its attained minimum and unramified criterion.
-Layer 7 does not identify the images of the unit-filtration steps with upper ramification groups;
-that theorem, at every depth `n ≥ 0` and in both characteristics, is PadicPeriodRings §1.3, from
-which §3.2 here compares the representation-theoretic Artin conductor of a finite-order
-character with `characterConductorExp`.
+`normResidue` and `characterConductorExp` with its attained minimum and unramified criterion;
+and its unit-filtration reciprocity (`map_unitFiltration_normResidue`, with the conductor
+consequence `conductorExponent_eq_sInf_upperRamificationGroup`): for a nonarchimedean local
+field `F` of either characteristic, every finite abelian `L/F` and every integer `n ≥ 0`, depth
+zero included, `normResidue` carries the image of `U_F^n` onto the image of `Gal(L/F)^n`, and
+the closure of `artinMap(U_F^n)` in `G_F^{ab}` is the image of the absolute upper group `G_F^n`
+of RamificationOfCompleteDiscretelyValuedFields §4a.1. Section 3.2 here compares the
+representation-theoretic Artin conductor of a finite-order character with
+`characterConductorExp` through it.
 Layer 9: `WeilGroup K` with the Weil
 topology in which inertia is open (`isOpenEmbedding_inertiaToWeil`), `weilDegree` (kernel inertia, value
 `1` on arithmetic lifts through `unramifiedCoordinate_weilDegree`), `weilTransfer` with
@@ -2428,23 +2447,22 @@ Proposed names live in the namespace `Conductor`.
 
 LocalFieldsRamification Layers 3–4 build lower and upper numbering, Herbrand functions, the
 different and Hasse–Arf for nonarchimedean local fields, whose residue fields are finite.
-PadicPeriodRings §0.3 extends lower and upper numbering, the different formula, Herbrand's
-theorem, the absolute upper filtration and the completed maximal-unramified comparison to the
-whole conductor setting, and PadicPeriodRings §2 deduces Hasse–Arf there when `char K = 0`. This
-section adds the complements the conductor theory needs; each target says what it adds. For
-finite `k` every statement agrees with the LocalFieldsRamification statement of the same name.
-Integer-normalized valuations have `v_L|_K = e v_K`, `[L : K] = ef` and `d(L/K) = v_L(𝔇_{L/K})`.
+RamificationOfCompleteDiscretelyValuedFields §§3a.1–3a.3 and 4a.1–4a.3 build them over the whole
+conductor setting, in both characteristics, and this section plans none of them: it records the
+consumed statements in the form the conductor theory uses, with the Checks that §§3.1–3.5
+recompute. For finite `k` every statement agrees with the LocalFieldsRamification statement of
+the same name, which is a target of that supplier. Integer-normalized valuations have
+`v_L|_K = e v_K`, `[L : K] = ef` and `d(L/K) = v_L(𝔇_{L/K})`.
 
-**Structure of the lower filtration.** Let `K` be in the conductor setting, `L/K` finite Galois
-with group `G`, and `G_i` (`i ≥ −1`) the lower groups of PadicPeriodRings §0.3 at integer
-arguments. Prove, beyond the inertia identification `G_0 = I(L/K)` of §0.3: `G/G_0 ≅ Gal(k_L/k)`
-and `|G_0| = e`; `G_0/G_1` is cyclic of order prime to `p` and `G_i/G_{i+1}` (`i ≥ 1`) is an
-elementary abelian `p`-group, so `G_1` is the `p`-Sylow subgroup of `G_0`; and Hilbert's form
-`d(L/K) = Σ_{i ≥ 0} (|G_i| − 1)` of §0.3's different formula `Σ_{g ≠ 1} i_G(g)`, obtained by
-counting each `g ≠ 1` once for every `i ≥ 0` with `g ∈ G_i` (Serre, *Local Fields*, IV §1,
-Prop. 4, and IV §2, Cor. 1 to Prop. 7 and Cor. 3 to Prop. 9, whose standing hypothesis is a
-separable residue extension, which perfectness of `k` gives). *Needs:* PadicPeriodRings §0.3
-(lower numbering, lower index and different formula); Mathlib `PerfectField`.
+**Structure of the lower filtration (consumed, §3a.1).** For `K` in the conductor setting, `L/K`
+finite Galois with group `G` and `G_i` (`i ≥ −1`) the lower groups at integer arguments: `G_i = G`
+for `i ≤ −1`, `G_0 = I(L/K)` with `G/G_0 ≅ Gal(k_L/k)` and `|G_0| = e`, and `G_i = 1` for `i`
+large; `G_0/G_1` is cyclic of order prime to `p` and `G_i/G_{i+1}` (`i ≥ 1`) is an elementary
+abelian `p`-group, so `G_1` is the `p`-Sylow subgroup of `G_0`; `H_i = H ∩ G_i` for a subgroup
+`H`; and Hilbert's form `d(L/K) = Σ_{i ≥ 0} (|G_i| − 1)` of the different formula
+`Σ_{g ≠ 1} i_G(g)` (Serre, *Local Fields*, IV §1, Prop. 4, and IV §2, Cor. 1 to Prop. 7 and
+Cor. 3 to Prop. 9, whose standing hypothesis is a separable residue extension, which perfectness
+of `k` gives).
 
 **Checks.**
 - For `ℚ_2(ζ_8)/ℚ_2`, `G_0 = G_1` has order `4`, `G_2 = G_3` has order `2` and `G_4 = 1`, so
@@ -2457,16 +2475,10 @@ separable residue extension, which perfectness of `k` gives). *Needs:* PadicPeri
   `F_p(s^{1/p})` and `e = 1`; the generator `y ↦ y + 1` acts trivially on the residue field, so
   `G = G_0` and `|G_0| = e` fails. Perfectness of `k` is necessary.
 
-**Hasse–Arf in equal characteristic.** For `K` in the conductor setting with `char K = p` and
-`L/K` finite abelian, prove that every jump `i` of the lower filtration (`G_i ≠ G_{i+1}`) has
-`φ_{L/K}(i) ∈ ℤ`, so the upper jumps are integers; with PadicPeriodRings §2's
-characteristic-zero case this is Hasse–Arf over every perfect residue field. Reduce by
-PadicPeriodRings §0.3's completed maximal-unramified comparison, which carries the lower groups
-of inertia and hence the jumps and `φ`, to an algebraically closed residue field, where the
-theorem is Serre 1961, n° 3.5, Cor. 1 to Prop. 8, p. 136, proved there in both characteristics
-(Serre, *Local Fields*, V §7, Thm 1, makes the same reduction). *Needs:* PadicPeriodRings §0.3
-(Herbrand functions, upper numbering and the completed maximal-unramified comparison); the
-lower-filtration structure above.
+**Hasse–Arf (consumed, §3a.3).** For `K` in the conductor setting, in either characteristic, and
+`L/K` finite abelian, every jump `i` of the lower filtration (`G_i ≠ G_{i+1}`) has
+`φ_{L/K}(i) ∈ ℤ`, so the upper jumps are integers (Serre, *Local Fields*, V §7, Thm 1; Serre
+1961, n° 3.5, Cor. 1 to Prop. 8, p. 136, over an algebraically closed residue field).
 
 **Checks.**
 - For `k = F̄_p` and `y^p − y = t⁻¹` over `k((t))`, the only jump is `1` with `φ(1) = 1 ∈ ℤ`, and
@@ -2480,21 +2492,14 @@ lower-filtration structure above.
   has group `S_3`, different exponent `7 = (6 − 1) + (3 − 1)`, lower groups `G_0 = S_3`,
   `G_1 = C_3`, `G_2 = 1`, and `φ(1) = 1/2 ∉ ℤ`.
 
-**Wild inertia as `G_K^{0+}`.** In the conductor setting write `G_K^u` (`u ≥ −1`) for
-PadicPeriodRings §0.3's absolute upper filtration of `G_K = Gal(K^sep/K)`, and put
-`G_K^{u+} = closure(⋃_{w > u} G_K^w)`. Define the wild inertia `P_K` as the inverse limit of the
-groups `Gal(L/K)_1` over finite Galois `L/K` in `K^sep`, and prove that `G_K^{−1} = G_K` and
-`G_K^{0+} = P_K` (the identity `G_K^0 = I_K` is §0.3's and is consumed, not reproved), that `P_K`
-is the unique pro-`p` Sylow subgroup of `I_K`, closed
-and normal in `G_K`, and that for `K` a nonarchimedean local field `I_K` and `P_K` are Tau Ceti's
-`TauCeti.inertiaSubgroup` and `TauCeti.wildInertiaSubgroup`. The identity `G_K^{0+} = P_K` is the
-finite computation `Gal(L/K)^{0+} = Gal(L/K)_1` (`ψ_{L/K}(w) ∈ (0, 1]` for small `w > 0`, where the
-lower group is `G_1`) passed to the limit, and the Sylow statement is the lower-filtration
-structure above (Serre, *Local Fields*, IV §2, Cor. 3 to Prop. 9; Serre 1961, n° 3.1,
-pp. 126–128). *Needs:* PadicPeriodRings §0.3 (absolute upper filtration, inertia at `0`); the
-lower-filtration structure above; Tau Ceti `TauCeti.inertiaSubgroup`,
-`TauCeti.wildInertiaSubgroup`; Mathlib `Field.absoluteGaloisGroup` with its Krull topology and
-`InfiniteGalois.mem_bot_iff_fixed`.
+**Inertia and wild inertia (consumed, §4a.1).** In the conductor setting write `G_K^u`
+(`u ≥ −1`) for the absolute upper filtration of `G_K = Gal(K^sep/K)` and
+`G_K^{u+} = closure(⋃_{w > u} G_K^w)`. Then `G_K^{−1} = G_K`, `G_K^0 = I_K`, and `G_K^{0+}` is the
+wild inertia `P_K`, the inverse limit of the groups `Gal(L/K)_1` over finite Galois `L/K` in
+`K^sep`, a closed normal pro-`p` subgroup of `G_K`; restriction maps `G_K^u` onto `Gal(L/K)^u` for
+every finite Galois `L/K`; and for `K` a nonarchimedean local field `I_K` and `P_K` are Tau
+Ceti's `TauCeti.inertiaSubgroup` and `TauCeti.wildInertiaSubgroup` (Serre, *Local Fields*,
+IV §2, Cor. 3 to Prop. 9; Serre 1961, n° 3.1, pp. 126–128).
 
 **Checks.**
 - For `ℚ_p`, `p` odd, the quadratic character of `ℚ_p(√p)` is nontrivial on `G^0 = I_K` and
@@ -2505,15 +2510,15 @@ lower-filtration structure above; Tau Ceti `TauCeti.inertiaSubgroup`,
 - For `k = F̄_p` and `y^p − y = t⁻¹` over `k((t))`, the image of `P_K` is the whole group of
   order `p`, and the tame quotient `I_K/P_K` acts trivially.
 
-**Finite-separable transition functions.** For `L/K` finite separable in the conductor setting
-and any finite Galois `M/K` containing `L`, define `ψ_{L/K} = φ_{M/L} ∘ ψ_{M/K}` and prove that it
-is independent of `M`, that `G_K^u ∩ G_L = G_L^{ψ_{L/K}(u)}` for `u ≥ −1`, and that
-`ψ_{L/K}(u) = (1/f) ∫_0^u [G_K : G_K^t G_L] dt` for `u ≥ 0`. The intersection formula is the finite
-computation `Gal(M/K)^u ∩ Gal(M/L) = Gal(M/L)_{ψ_{M/K}(u)}` from PadicPeriodRings §0.3's
-`H_s = G_s ∩ H`; independence of `M` is §0.3's transitivity (Serre 1961, n° 3.1, Prop. 4 and
-Remarque, p. 128; Serre, *Local Fields*, IV §3). *Needs:* PadicPeriodRings §0.3 (Herbrand
-functions, `H_s = G_s ∩ H`, transitivity and the absolute upper filtration); Mathlib
-`Field.absoluteGaloisGroup` with its Krull topology and `InfiniteGalois.mem_bot_iff_fixed`.
+**Finite-separable transition functions and the completed maximal-unramified comparison
+(consumed, §§4a.2–4a.3).** For `L/K` finite separable in the conductor setting and any finite
+Galois `M/K` containing `L`, `ψ_{L/K} = φ_{M/L} ∘ ψ_{M/K}` is independent of `M`,
+`G_K^u ∩ G_L = G_L^{ψ_{L/K}(u)}` for `u ≥ −1`, and `ψ_{L/K}(u) = (1/f) ∫_0^u [G_K : G_K^t G_L] dt`
+for `u ≥ 0` (Serre 1961, n° 3.1, Prop. 4 and Remarque, p. 128; Serre, *Local Fields*, IV §3).
+Base change to the completion `K̂^ur` of the maximal unramified extension identifies
+`I_K = G_{K^ur}` with `G_{K̂^ur}` and, for finite Galois `L/K`, preserves `e`, `d(L/K)` and the
+lower and nonnegative upper filtrations of the inertia group, in both characteristics
+(RamificationOfCompleteDiscretelyValuedFields §4a.3).
 
 **Checks.**
 - For `L = K`, `ψ_{L/K}` is the identity and the intersection formula is a tautology.
@@ -2524,31 +2529,32 @@ functions, `H_s = G_s ∩ H`, transitivity and the absolute upper filtration); M
   `G_K^2 ∩ G_L = G_L^{p+1}` is strictly smaller than `G_L^2`: an Artin–Schreier character of `G_L`
   with break `2` is nontrivial on `G_L^2` and trivial on `G_L^{p+1}`. Using `u` in place of
   `ψ_{L/K}(u)` fails.
-- For finite unramified `L/K`, PadicPeriodRings §0.3's completed maximal-unramified comparison
-  gives `d = 0` and `ψ_{L/K} = id` on both sides of the base change, while for `ℚ_3(ζ_9)/ℚ_3` it
-  preserves `e = 6`, `d = 9` and `ψ(u) = 6u − 4` for `u ≥ 1`.
+- For finite unramified `L/K`, the completed maximal-unramified comparison gives `d = 0` and
+  `ψ_{L/K} = id` on both sides of the base change, while for `ℚ_3(ζ_9)/ℚ_3` it preserves `e = 6`,
+  `d = 9` and `ψ(u) = 6u − 4` for `u ≥ 1`.
 
 ### 3.1 Finite wild image, breaks and the Swan conductor
 
-Use PadicPeriodRings §0.3 and §3.0 on the full conductor setting. For function fields,
-AlgebraicCurves Layer 8's completion bridge from `Place.ramificationGroup` gives the finite lower
-groups of PadicPeriodRings §0.3.
+Use the ramification package of RamificationOfCompleteDiscretelyValuedFields recorded in §3.0 on
+the full conductor setting. For function fields, AlgebraicCurves Layer 8's completion bridge from
+`Place.ramificationGroup` gives the finite lower groups of RamificationOfCompleteDiscretelyValuedFields
+§3a.1.
 
 **The eventual Herbrand formula.** For every finite separable `L/K` in the conductor setting,
 with `e = e(L/K)`, `f = f(L/K)` and `δ(L/K) = f d(L/K)`, prove that for all sufficiently large `u`,
 `ψ_{L/K}(u) = e u − d(L/K) + e − 1`, equivalently
 `∫_0^∞ ([L : K] − [G_K : G_K^t G_L]) dt = f(d(L/K) − e + 1) = δ(L/K) − [L : K] + f`.
-For Galois `L/K`, §3.0's Hilbert form of the different formula and the eventual triviality of
-the lower groups give the constant term of `ψ`. For general separable `L/K`, choose a Galois closure
-`M/K` and apply the Galois formula to `M/K` and `M/L` in §3.0's identity
-`ψ_{L/K} = φ_{M/L} ∘ ψ_{M/K}`; the different tower formula gives the same constant term.
+For Galois `L/K`, Hilbert's form of the different formula and the eventual triviality of
+the lower groups (§3.0) give the constant term of `ψ`. For general separable `L/K`, choose a Galois
+closure `M/K` and apply the Galois formula to `M/K` and `M/L` in the identity
+`ψ_{L/K} = φ_{M/L} ∘ ψ_{M/K}` of §3.0; the different tower formula gives the same constant term.
 The integral formula of §3.0 gives the equivalent integral identity. Section 3.5 uses this
 consequence for conductor induction (Serre 1961, n° 3.1, Prop. 4 and Remarque, p. 128;
 Serre, *Local Fields*, III §4, Prop. 8 and IV §§1–3).
-*Needs:* PadicPeriodRings §0.3 (integer rings, the different formula, Herbrand functions and
-transitivity); §3.0 (Hilbert's form of the different formula, finite-separable transition
-functions and their integral formula); Tau Ceti `TauCeti.multiplicity_differentIdeal_tower` on
-PadicPeriodRings §0.3's integer rings.
+*Needs:* RamificationOfCompleteDiscretelyValuedFields §§3a.1–3a.2 and 4a.2 (integer rings,
+Hilbert's form of the different formula, Herbrand functions and transitivity, the
+finite-separable transition functions and their integral formula), as recorded in §3.0; Tau Ceti
+`TauCeti.multiplicity_differentIdeal_tower` on those integer rings.
 
 **Checks.**
 - For finite unramified `L/K`, `e = 1`, `d = 0` and `ψ_{L/K}(u) = u`; the integral is `0`.
@@ -2559,7 +2565,7 @@ PadicPeriodRings §0.3's integer rings.
   `ψ(u) = pu − p + 1` for `u ≥ 1`; the integral is `p − 1`.
 - For `ℚ_2(ζ_8)/ℚ_2`, `e = 4`, `f = 1`, `d = 8` and the last upper break is `2`, so
   `ψ(u) = 4u − 5` for `u ≥ 2` and the integral is `5`.
-- PadicPeriodRings §0.3's completed maximal-unramified base change of `ℚ_3(ζ_9)/ℚ_3` preserves
+- The completed maximal-unramified base change (§3.0) of `ℚ_3(ζ_9)/ℚ_3` preserves
   `e = 6`, `d = 9` and `ψ(u) = 6u − 4` for `u ≥ 1`. An unramified extension instead becomes
   trivial, with `d = 0` and `ψ(u) = u` unchanged, while its residue degree can change.
 
@@ -2575,8 +2581,8 @@ finite, `L` can be chosen with inertia acting through `Gal(L/K)_0` (Ulmer, §4, 
 §1.5, §1.6; Mathlib `ProfiniteGrp.exist_openNormalSubgroup_sub_open_nhds_of_one`; Tau Ceti
 `Field.absoluteGaloisGroup.exists_finiteDimensional_normal_fixingSubgroup_le`.
 
-**Break decomposition and Swan conductor.** For `V` of the setting, using PadicPeriodRings §0.3's
-absolute upper filtration and §3.0's `G_K^{0+} = P_K`, define the break
+**Break decomposition and Swan conductor.** For `V` of the setting, using the absolute upper
+filtration and the identity `G_K^{0+} = P_K` recorded in §3.0, define the break
 decomposition: the unique `G_K`-stable `V = ⊕_{λ ∈ ℚ_{≥0}} V(λ)`, almost all zero, with
 `V(0) = V^{ρ(P_K)}` and, for `λ > 0`, `V(λ)^{G_K^λ} = 0` and `V(λ)^{G_K^{λ+}} = V(λ)`. The `breaks` are
 the `λ` with `V(λ) ≠ 0` and *highestBreak* their maximum (`0` for `V = 0`). Define
@@ -2595,8 +2601,9 @@ three expressions for every admissible `L`, using the finite-quotient surjection
 to isomorphism, invariance under extension of coefficients, and `Sw ≤` *highestBreak* `· dim V` with
 equality iff there is at most one break (Ulmer, §4, (4.1), pp. 3–4). *Needs:* Mathlib
 `Representation.invariants`, `PerfectField`;
-PadicPeriodRings §0.3 (the absolute upper filtration, including its finite-quotient
-surjections); §3.0 (`G_K^{0+} = P_K`); the finite-wild-image target above.
+RamificationOfCompleteDiscretelyValuedFields §4a.1 (the absolute upper filtration, including its
+finite-quotient surjections, and `G_K^{0+} = P_K`), as recorded in §3.0; the finite-wild-image
+target above.
 
 **Checks.**
 - Any `V` with `ρ(P_K) = 1` has `Sw = 0` and `V = V(0)`.
@@ -2638,16 +2645,17 @@ below; `TauCetiRoadmap.ClassFieldTheory` Layer 7 (`characterConductorExp`); Math
 
 **Characters.** Prove that a ramified character `χ` with finite wild image has an integer upper break
 `u(χ)` with `Sw(χ) = u(χ)` and `a(χ) = 1 + u(χ)`, and a tamely ramified `χ` has break `0`: the
-restriction of `χ` to `I_K ≅ G_{K̂^ur}` (PadicPeriodRings §0.3) has finite abelian image, so its
+restriction of `χ` to `I_K ≅ G_{K̂^ur}` (§3.0) has finite abelian image, so its
 breaks are the upper jumps of a finite abelian extension of `K̂^ur`, integers by Hasse–Arf over
 the perfect residue field `k̄` (Serre 1961, n° 3.7, (33), p. 138; Serre, *Local Fields*, VI §2).
 Prove that for `K` a nonarchimedean local field and `χ` of finite order,
-`a(χ) = characterConductorExp (χ ∘ artinMap)`: by PadicPeriodRings §1.3, `χ ∘ artinMap` is
-trivial on `U_K^n` iff `χ` is trivial on `G_K^n`, iff `n ≥ 1 + u(χ)` for ramified `χ` and
-`n ≥ 0` for unramified `χ`, and `characterConductorExp` is the least such `n`. *Needs:*
-PadicPeriodRings §2 and §3.0 (Hasse–Arf in characteristic zero and in equal characteristic);
-§3.1 (breaks); PadicPeriodRings §1.3 and ClassFieldTheory Layer 7 (`artinMap`,
-`characterConductorExp`) for the local-field character-conductor comparison.
+`a(χ) = characterConductorExp (χ ∘ artinMap)`: by ClassFieldTheory Layer 7's unit-filtration
+reciprocity, `χ ∘ artinMap` is trivial on `U_K^n` iff `χ` is trivial on `G_K^n`, iff
+`n ≥ 1 + u(χ)` for ramified `χ` and `n ≥ 0` for unramified `χ`, and `characterConductorExp` is
+the least such `n`. *Needs:* RamificationOfCompleteDiscretelyValuedFields §3a.3 (Hasse–Arf in
+both characteristics) and §4a.3 (the completed maximal-unramified comparison), as recorded in
+§3.0; §3.1 (breaks); ClassFieldTheory Layer 7 (`artinMap`, `characterConductorExp` and
+`map_unitFiltration_normResidue`) for the local-field character-conductor comparison.
 
 **Checks.**
 - A nontrivial tame quadratic character over `ℚ_p`, `p` odd, has break `0` and Artin conductor `1`;
@@ -2659,7 +2667,7 @@ PadicPeriodRings §2 and §3.0 (Hasse–Arf in characteristic zero and in equal 
 - For `L = ℚ_2(√2)`, `5 ∈ U^2` is not a norm since `(5, 2)_2 = −1`, so `U^2` maps onto
   `Gal(L/ℚ_2) = Gal(L/ℚ_2)^2` while `U^3` maps to `1 = Gal(L/ℚ_2)^3`: `characterConductorExp`
   is `3 = 1 + 2`, the upper break being `2`. Matching the least trivial depth alone, without
-  PadicPeriodRings §1.3's identification of every `U^n` with `Gal(L/K)^n`, would not give `u(χ)`.
+  the reciprocity's identification of every `U^n` with `Gal(L/K)^n`, would not give `u(χ)`.
 - For `K = F_p((t))` and `y^p − y = t⁻¹`, `U^1` maps onto `Gal(L/K) = Gal(L/K)^1` and `U^2`
   to `1`, so the equal-characteristic conductor is `2 = 1 + 1`.
 
@@ -2738,16 +2746,16 @@ all breaks of `V ⊗ χ` lie in `{u(χ)}`, with equality of break sets when `V �
 `Sw(V ⊗ χ) = u(χ) dim V` and `a(V ⊗ χ) = a(χ) dim V` (Ulmer, §10,
 Prop. 1, p. 8); finite unramified extensions of `K`, and passage to the completion of `K^ur`,
 preserve `a` and `Sw` (Serre 1970, §2.1, Remarque 1, p. 7, for unramified base change;
-PadicPeriodRings §0.3's completed maximal-unramified comparison for the completion); for `L/K`
+the completed maximal-unramified comparison of §3.0 for the completion); for `L/K`
 finite tame of ramification index `e` the positive breaks are multiplied by `e` and
-`Sw_L(V|_{G_L}) = e · Sw_K(V)`, by §3.0's tame transition function `ψ_{L/K}(u) = eu` and the
+`Sw_L(V|_{G_L}) = e · Sw_K(V)`, by the tame transition function `ψ_{L/K}(u) = eu` of §3.0 and the
 intersection formula `G_K^u ∩ G_L = G_L^{eu}`; and extension of the coefficient field preserves
 `Sw` and `a`, by the coefficient-extension invariance of §3.1's break decomposition and of the
 inertia invariants. *Needs:* Layer 1 (restriction, duals,
 tensor products, twists, semisimplification); Mathlib `Representation.dual`, `Representation.tprod`;
-`TauCetiRoadmap.LocalFieldsRamification` Layer 2; PadicPeriodRings §0.3 (completed
-maximal-unramified comparison); §3.0 (transition functions on open subgroups); §2.2 (inertia under
-finite extensions); §3.1 (breaks).
+`TauCetiRoadmap.LocalFieldsRamification` Layer 2; RamificationOfCompleteDiscretelyValuedFields
+§§4a.2–4a.3 (transition functions on open subgroups and the completed maximal-unramified
+comparison), as recorded in §3.0; §2.2 (inertia under finite extensions); §3.1 (breaks).
 
 **Checks.**
 - The unipotent `(1 a; 0 1)` of inertia over `ℚ_ℓ` (an `ℓ`-adic special representation) has `a = 1`, its
@@ -2772,7 +2780,9 @@ characteristic `≠ p` with `ρ(P_L)` finite, `Ind_{G_L}^{G_K} V` has finite wil
 `Sw_K(Ind V) = f Sw_L(V) + (δ(L/K) − [L : K] + f) dim V`; (c) `a_K(Ind V) = δ(L/K) dim V + f a_L(V)`. In
 particular `a_K(Ind 1) = δ(L/K)` (conductor–discriminant) and `Sw_K(Ind 1) = f(d(L/K) − e + 1)`; `V` need
 not factor through a finite quotient (BK, §2, (2.5), p. 230; Serre 1961, n° 3.7, (31), p. 138).
-*Needs:* the invariants target above; §3.0 (transition functions on open subgroups); §3.1 (the eventual Herbrand formula and break decomposition); §1.3.
+*Needs:* the invariants target above; RamificationOfCompleteDiscretelyValuedFields §4a.2
+(transition functions on open subgroups), as recorded in §3.0; §3.1 (the eventual Herbrand
+formula and break decomposition); §1.3.
 
 **The global induction formula.** Prove that for `F'/F` finite extensions of number fields and a
 finite place `v` of `F`, `v(𝔡_{F'/F}) = Σ_{w | v} δ(F'_w/F_v)`, by combining the localisation of the
@@ -2853,10 +2863,12 @@ has both conductors `0`. Over `ℚ_2`, `χ_{−4}` and `χ_8` have conductors `2
 
 ### Dependencies
 
-Layers 1 and 2; `TauCetiRoadmap.PadicPeriodRings` §§0.3, 1.3 and 2 (perfect-residue
-ramification, unit-filtration reciprocity and characteristic-zero Hasse–Arf);
+Layers 1 and 2; `TauCetiRoadmap.RamificationOfCompleteDiscretelyValuedFields` §§3a.1–3a.3 and
+4a.1–4a.3 (perfect-residue ramification, Hasse–Arf, the absolute upper filtration, transition
+functions and the completed maximal-unramified comparison);
 `TauCetiRoadmap.LocalFieldsRamification` layers 2–4;
-`TauCetiRoadmap.ClassFieldTheory` layers 7 and 9; `TauCetiRoadmap.NumberFieldArithmetic` layer 5;
+`TauCetiRoadmap.ClassFieldTheory` layers 7 (with its unit-filtration reciprocity) and 9;
+`TauCetiRoadmap.NumberFieldArithmetic` layer 5;
 `TauCetiRoadmap.RepresentationTheory/InductionRestriction` layers 5–7;
 `TauCetiRoadmap.AlgebraicCurves` layer 8 (function-field ramification groups, for comparison).
 
