@@ -204,7 +204,7 @@ Paths below are relative to `TauCeti/`.
   Cartan matrix of projective covers of absolutely simple modules over a finite-dimensional
   algebra whose finitely generated modules have finite resolutions by finitely generated
   projectives; `TauCeti.isExhaustiveSimpleFamily_vertexSimpleModuleFG` in
-  `GrothendieckGroup/Quiver/SimpleBasis.lean` supplies the exhaustive simple family.
+  `RepresentationTheory/GrothendieckGroup/Quiver/SimpleBasis.lean` supplies the exhaustive simple family.
   `TauCeti.finiteDimensional_pathAlgebra_of_isAcyclic`, in
   `RepresentationTheory/Quiver/Acyclic/PathAlgebra.lean`, supplies finite-dimensionality from
   acyclicity.
