@@ -3393,6 +3393,43 @@ in the standard integral level.
   - For the standard multiplicative model, `{±1}` in `ℝ^×` has infinite covolume;
     the rational-character hypothesis cannot be removed.
 
+- **Arithmetic lattices in a real Lie group.** Let `G` be a real Lie group with finitely many
+  connected components and identity component `G⁰`, and let `Γ ≤ G` be a lattice: a discrete
+  subgroup with a `MeasureTheory.IsFundamentalDomain` of finite Haar measure, as in AA.2.3.
+  Semisimplicity of `G⁰` is not part of the predicate. Define `Γ` to be an *arithmetic lattice*
+  when there exist a connected semisimple group `𝐇` over `ℚ` (AA.1.1, with `𝐇(ℝ)` carrying the
+  evaluation topology, under which it is a real Lie group with finitely many connected
+  components), a continuous surjective homomorphism
+  `p : 𝐇(ℝ)⁰ → G⁰` with compact kernel, and an arithmetic subgroup `Γ_𝐇 ≤ 𝐇(ℚ)`
+  (`Reduction.IsSArithmetic ∅ Γ_𝐇`) such that `p(Γ_𝐇 ∩ 𝐇(ℝ)⁰)` is commensurable with
+  `Γ ∩ G⁰`. Prove that the condition does not depend on the choice of `Γ_𝐇` within its
+  commensurability class (model independence above), that it depends only on the
+  commensurability class of `Γ`, and that it is stable under the automorphisms of `G`
+  (compose `p` with the automorphism). Prove that `p(Γ_𝐇 ∩ 𝐇(ℝ)⁰)` is a lattice in `G⁰`:
+  `Γ_𝐇 ∩ 𝐇(ℝ)⁰` has finite index in `Γ_𝐇`, which is a lattice in `𝐇(ℝ)` by *S-arithmetic
+  subgroups are lattices* at `S = ∞`, and a continuous surjection with compact kernel carries
+  lattices to lattices. For connected `G`, prove the equivalence with the variant that asks for
+  a continuous surjection `𝐇(ℝ) → G` with compact kernel and `Γ` commensurable with the image
+  of `Γ_𝐇`: the image of `𝐇(ℝ)⁰` is open of finite index in `G`, hence all of `G`; conversely,
+  replace `𝐇` by its simply connected cover, whose real points are connected and map onto
+  `𝐇(ℝ)⁰` with finite kernel, and use that isogenies carry arithmetic subgroups to arithmetic
+  subgroups. For `𝐇 = Res_{k/ℚ} 𝐇′` with `𝐇′` absolutely simple over a totally real field `k`,
+  `𝐇(ℝ) = ∏_σ 𝐇′^σ(ℝ)` over the real embeddings `σ` of `k` (AA.1.4), and when `G⁰` is simple
+  compactness of `ker p` forces all factors but one to be compact
+  ([Milne], §3, pp. 33–34; [Borel], §8, pp. 26–30). *Needs:* AA.1.1; AA.1.4 (restriction of
+  scalars); AA.2.3; AA.3.4 (`Reduction.IsSArithmetic`, model independence, *S-arithmetic
+  subgroups are lattices*); Mathlib `MeasureTheory.IsFundamentalDomain`.
+  *Lean:* none; specified in the README only.
+
+  **Checks.**
+  - For `G = PSL₂(ℝ)`, `𝐇 = SL₂/ℚ` and `p` the projection, `PSL₂(ℤ)` and every subgroup
+    commensurable with it are arithmetic lattices; for subgroups of `GL₂(ℝ)` commensurable
+    with `SL₂(ℤ)` this is Mathlib's `Subgroup.IsArithmetic`.
+  - For `G = SO₀(n,1)`, `k` totally real and `f` a quadratic form over `k` in `n+1` variables
+    of signature `(n,1)` at the identity embedding and definite at every other real embedding,
+    `SO(f)(𝒪_k) ∩ G` is an arithmetic lattice with `𝐇 = Res_{k/ℚ} SO(f)`; `ker p` is the
+    product of the definite factors, so the definition cannot require `ker p = 1`.
+
 - **Finitely many `G(𝒪)`-orbits on rational flags.** For `F` a number field, `G` connected
   reductive over `F` (Borel 7.3 allows any connected `G`; the consumers need only reductive `G`)
   and `P` parabolic over `F`, prove that `(G/P)(F)` is a finite union of orbits of an arithmetic
