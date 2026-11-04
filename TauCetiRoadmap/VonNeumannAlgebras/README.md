@@ -804,17 +804,19 @@ there are Hilbert spaces `K_i` and a unitary `u : ⊕_i ℓ²(n_i) ⊗̂ K_i →
 `u* M u = ⊕_i B(ℓ²(n_i)) ⊗ 1` (Jones, Theorem 4.4.1, p. 28), through the minimal central projections
 and V3.1. Classify unital inclusions `N ⊆ M` of finite-dimensional algebras by their nonnegative
 integer multiplicity matrices `Λ = (λ_{ij})`: for `q_i` and `p_j` the minimal central projections
-of `N` and `M`, `λ_{ij}` is the integer `k` for which `e(p_j q_i M q_i p_j)e` is a type `I_k` factor
-when `e` is a minimal projection of the subfactor `p_j q_i N` of the factor `p_j q_i M q_i p_j`
-(Jones, Theorem 4.4.2, pp. 28–29). Prove the dimension formula
-`r_j = Σ_i λ_{ij} k_i` for `N = ⊕_i M_{k_i}(ℂ)` and `M = ⊕_j M_{r_j}(ℂ)`, composition of inclusion
-matrices by matrix multiplication, and the bipartite Bratteli graph with `λ_{ij}` edges between `i`
-and `j`. Prove the entry formula: `λ_{ij}` is the rank in `M_{r_j}(ℂ)` of `p_j e_i` for a minimal
-projection `e_i` of `q_i N` (Jones, Exercise 4.4.3, p. 29). Work out `M₂(ℂ) ⊕ ℂ ⊆ M₅(ℂ) ⊕ M₃(ℂ)`
-(Jones, Example 4.4.4, p. 29) and the general construction realising every admissible inclusion
-matrix (Jones, Exercise 4.4.5, p. 29). For a spatial inclusion of type I factors `N ⊆ N ⊗ M_k(ℂ)`
-with finite `k`, prove that the larger algebra is a free left `N`-module of rank `k²` with basis the
-matrix units, including `N = B(K)` for infinite-dimensional `K` (Jones, §4.5, p. 29).
+of `N` and `M`, `λ_{ij} = 0` when `p_j q_i = 0`, and otherwise `λ_{ij}` is the integer `k` for
+which `e(p_j q_i M q_i p_j)e` is a type `I_k` factor when `e` is a minimal projection of the
+subfactor `p_j q_i N` of the factor `p_j q_i M q_i p_j` (Jones, Theorem 4.4.2, pp. 28–29, whose
+statement takes every corner `p_j q_i M q_i p_j` to be a factor and so tacitly nonzero). Prove the
+dimension formula `r_j = Σ_i λ_{ij} k_i` for `N = ⊕_i M_{k_i}(ℂ)` and `M = ⊕_j M_{r_j}(ℂ)`,
+composition of inclusion matrices by matrix multiplication, and the bipartite Bratteli graph with
+`λ_{ij}` edges between `i` and `j`. Prove the entry formula: `λ_{ij}` is the rank in `M_{r_j}(ℂ)` of
+`p_j e_i` for a minimal projection `e_i` of `q_i N` (Jones, Exercise 4.4.3, p. 29). Work out
+`M₂(ℂ) ⊕ ℂ ⊆ M₅(ℂ) ⊕ M₃(ℂ)` (Jones, Example 4.4.4, p. 29) and the general construction realising
+every admissible inclusion matrix (Jones, Exercise 4.4.5, p. 29). For a spatial inclusion of type I
+factors `N ⊆ N ⊗ M_k(ℂ)` with finite `k`, prove that the larger algebra is a free left `N`-module
+of rank `k²` with basis the matrix units, including `N = B(K)` for infinite-dimensional `K` (Jones,
+§4.5, p. 29).
 
 - The decomposition `⊕ M_{n_i}(ℂ)` is unique up to permutation; the `K_i` are unique up to unitary
   equivalence.
@@ -826,6 +828,11 @@ matrix units, including `N = B(K)` for infinite-dimensional `K` (Jones, §4.5, p
   and `5 = 2·2 + 1·1`, `3 = 1·2 + 1·1`.
 - `N = ℂ ⊕ ℂ ⊆ M₃(ℂ)` by `(z₁, z₂) ↦ diag(z₁, z₁, z₂)`: `Λ = [[2], [1]]` and `3 = 2·1 + 1·1`; the
   transposed convention would not even have the right shape.
+- `N = ℂ ⊕ ℂ ⊆ M = ℂ ⊕ ℂ` by the identity: `p₁ q₂ = 0`, so the corner `p₁ q₂ M q₂ p₁` is the zero
+  algebra and not a factor, and `λ₂₁ = 0` by the zero-corner clause (likewise `λ₁₂ = 0`); `Λ` is
+  the identity matrix, the dimension formula reads `1 = 1·1 + 0·1`, `Λ² = Λ`, and the entry formula
+  agrees since `p₁ e₂ = 0` has rank zero. A definition that assigned entries only to nonzero
+  corners would leave `λ₁₂` and `λ₂₁` undetermined.
 - `ℂ ⊆ M₂(ℂ) ⊆ M₄(ℂ)` with `X ↦ diag(X, X)`: `Λ₁ = [2]`, `Λ₂ = [2]`, `Λ₁Λ₂ = [4] = Λ_{ℂ ⊆ M₄(ℂ)}`.
 - `M₂(ℂ)` on `ℂ² ⊗̂ ℓ²(ℕ)` as `M₂(ℂ) ⊗ 1`: `k = 1`, `n₁ = 2`, `K₁ = ℓ²(ℕ)`, so the theorem allows
   infinite-dimensional `H`.
