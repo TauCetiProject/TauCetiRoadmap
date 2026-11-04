@@ -17,10 +17,9 @@ restriction of a filtration to an open subgroup. It states the headline theorems
 against the pinned Tau Ceti: the coordinates `artinCoordinateHom` on the abelianized absolute
 Galois group, and centre-freeness of `G_K^m` for `m ≥ 2` and of `G_K`.
 
-Layer 2 is stated in `README.md` only. The absolute upper filtration of
-TauCetiProject/TauCetiRoadmap#1410 §4a.1 has no declaration at the pins, so the identification
-of the Layer 1 constructions on local Galois groups with the upper numbering has nothing to be
-stated against here.
+Of Layer 2, only the open-subgroup model 2.0 (`absoluteGaloisGroupEquivFixingSubgroup'`) is
+stated here. The absolute upper filtration of TauCetiProject/TauCetiRoadmap#1410 §4a.1 has no
+declaration at the pins, so 2.1–2.4 are stated in `README.md` only.
 
 Suggested homes: `TauCeti/Topology/Algebra/Group/Filtration/` for Layers 0 and 1, and
 `TauCeti/NumberTheory/LocalField/FilteredGaloisGroup/` for Layers 2 and 3.
@@ -202,18 +201,45 @@ noncomputable def GroupFiltration.restrict [CompactSpace G] (F : GroupFiltration
   normal_step := sorry
 
 /-- **A filtered isomorphism restricts to open subgroups.** If `α` is `S`-filtered with
-`[0, ∞) ⊆ S` and carries `H` onto `H'`, its restriction is `[0, ∞)`-filtered for the restricted
-filtrations. -/
+`[0, ∞) ⊆ S` and carries `H` onto `H'`, its restriction is `ψ_H(S)`-filtered for the restricted
+filtrations, in particular `[0, ∞)`-filtered. -/
 theorem exists_isFiltered_restrict [CompactSpace G] [CompactSpace G']
     {F : GroupFiltration G} {F' : GroupFiltration G'} {S : Set ℝ} (hS : Set.Ici 0 ⊆ S)
     {α : G ≃ₜ* G'} (hα : IsFiltered F F' S α) {H : Subgroup G} {H' : Subgroup G'}
     (hH : IsOpen (H : Set G)) (hH' : IsOpen (H' : Set G'))
     (hHH' : H.map α.toMulEquiv.toMonoidHom = H') :
     ∃ β : H ≃ₜ* H', (∀ x : H, (β x : G') = α x) ∧
-      IsFiltered (F.restrict hH) (F'.restrict hH') (Set.Ici 0) β :=
+      IsFiltered (F.restrict hH) (F'.restrict hH') (F.herbrandPsiOrderIso hH '' S) β :=
   sorry
 
 end Layer1
+
+/-! ## Layer 2.0: the open-subgroup model -/
+
+section Layer2
+
+open TauCeti
+
+variable (K : Type*) [Field K] (L : IntermediateField K (AlgebraicClosure K))
+  [FiniteDimensional K L] [Algebra.IsSeparable K L]
+
+/-- **The absolute Galois group of a finite separable subextension is its fixing subgroup**, as
+topological groups: the composite of `absoluteGaloisGroupRestrictEquiv L`,
+`absoluteGaloisGroupEquivFixingSubgroup K L σ` for the embedding `σ` of `L` into the separable
+closure, and `absoluteGaloisGroupRestrictEquiv K`. -/
+noncomputable def absoluteGaloisGroupEquivFixingSubgroup' :
+    Field.absoluteGaloisGroup L ≃ₜ* L.fixingSubgroup :=
+  sorry
+
+/-- The model is `absoluteGaloisGroupExtend` along the inclusion of `L` into the separable
+closure. -/
+theorem coe_absoluteGaloisGroupEquivFixingSubgroup' (σ : L →ₐ[K] SeparableClosure K)
+    (hσ : ∀ x : L, ((σ x : SeparableClosure K) : AlgebraicClosure K) = x)
+    (τ : Field.absoluteGaloisGroup L) :
+    (absoluteGaloisGroupEquivFixingSubgroup' K L τ).1 = absoluteGaloisGroupExtend K L σ τ :=
+  sorry
+
+end Layer2
 
 /-! ## Layer 3: the abelianization in coordinates and centre-freeness -/
 
