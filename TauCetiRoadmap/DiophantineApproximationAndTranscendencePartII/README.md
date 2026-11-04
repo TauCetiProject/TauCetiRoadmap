@@ -278,7 +278,7 @@ The coefficient multiplier is a^β, with β the order of F, not the degree of an
 
 **Checks.**
 
-- For F=x₁−x₂, χ=t+t²/2 and φ=2z+z², the lowest parts are t₁−t₂ and 2z₁−2z₂; β=1 gives coefficient modulus 2.
+- For F=x₁−x₂, χ=t+t² and φ=2z+z², the pullback is t₁−t₂+t₁²−t₂² with all coefficients integral, the lowest parts are t₁−t₂ and 2z₁−2z₂, and β=1 gives coefficient modulus 2.
 
 - For χ=t/2 and F=x/2, F∘χ=t/4 is not integral; conversely χ=2t and F=x/2 give integral pullback t but original coefficient 1/2, excluding a non-tangent coordinate.
 
