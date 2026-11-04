@@ -790,8 +790,8 @@ subring of a Noetherian ring is Noetherian. The fixed-determinant case follows b
 the framed assertion follows from F.2.6. Continuity allows the traces to be taken on any dense subset.
 
 *Needs:* [F.2.5](#f25-the-universal-deformation-ring); [F.1.3](#f13-deformations-up-to-strict-equivalence);
-ArithmeticGaloisRepresentations §5.10 (`GaloisRep.carayol_conj_of_trace_eq`) and §7.2
-(`GaloisRep.span_eq_top_and_centralizer_of_residually_absIrred`);
+ArithmeticGaloisRepresentations §5.10 (`GaloisRep.carayol_conj_of_trace_eq`) and §7.2,
+Schur's lemma over a local ring (span and scalar centraliser);
 `IntegralHeckeAndGaloisDeterminants` Layer 1 (`coefficient_descent`); [F.0.1](#f01-completed-coefficient-products-and-dimensions).
 
 **Checks.**
@@ -2448,7 +2448,7 @@ Two supercuspidal full WD parameters differing by an unramified twist can have t
 
 Uses Layers 1–2, period/filtered-module admissibility, full WD and inertia-type comparisons, continuous pseudodeformation rings and complete local algebra. PadicLocalLanglandsForGL2Qp, §0.4, supplies the bounded potentially semistable and crystalline quotients of 3.4–3.5 and the dimension formula of 3.9; PadicLocalLanglandsForGL2Qp §5.4 supplies the degree-two pseudodeformation ring compared in 3.8; §§2.2–2.3, 3.1–3.3, 5.1–5.6 and 5.12 supply the block, Montréal and full-type constructions used in the deformation comparisons of 3.7.1–3.8.
 
-`LocalGaloisDeformationRings:R08.4` is the finite-flat deformation-ring layer (Layer 4 here); its Savitt ring presentations are target 4.2.
+Layer 4 is the finite-flat deformation-ring layer; its Savitt ring presentations are target 4.2.
 
 ## Layer 4: Finite-flat models and Barsotti–Tate components
 
@@ -2623,7 +2623,7 @@ The construction provides the following API.
 - Over `ℚ_5` with `v=1`, the lift `ℤ_5(1)⊕ℤ_5` has the unique model `μ_{5^∞}⊕ℚ_5/ℤ_5`. Here `e=1<4` and `Θ^v` is an integral isomorphism.
 - Over `K=ℚ_5(ζ_5)`, the crystalline lift `ℚ_5(1)⊕ℚ_5` has exactly one rational preimage under `Θ^v[1/5]`, although its residual model fibre need not be a point. The generic isomorphism does not imply an integral isomorphism.
 - For that `K`, scalar residual `V_𝔽=𝔽_5²` and `v_ψ=1`, the ordinary closed model fibre is `ℙ¹_𝔽_5`, parametrizing the generic-fibre identifications by their multiplicative lines. Its six `𝔽_5`-points show why `Θ^v` can have a positive-dimensional closed fibre ([KisinFlat], Proposition (2.5.15)(2), author DVI pp. 48–49).
-- Take `p=3`, `K=ℚ₃(ζ₃,π)` with `π²=ζ₃−1`, and `E_K(u)=u⁴+3u²+3`. Over splitting coefficients write `E_K=P Q` with monic quadratic factors, and choose `v=(2,2,0,0)`, with rank 2 at the roots of `Q`. The height-one Frobenius matrix `P(u)I₂` gives a type-`v` lift, so `R^v≠0`. Its residual étale module is trivial: `P≡u²`, and a rank-one residual character trivial on `G_{K∞}` is trivial on `G_K`, since finite subextensions of `K∞/K` have 3-power degree while `k×` has order prime to 3; also `ε̄=1` on `G_K`. In the identified module with `φ(e_i)=e_i`, lattices with bases `(u e₁,u e₂)` and `(e₁,u²e₂)` have Frobenius matrices `diag(u²,u²)` and `diag(1,u⁴)`. Both satisfy the determinant polynomial law for `v` over the residual point of `R^v`: for `a=Σ_{i=0}³a_iπ^i` it reduces to `a₀⁴`. Their modules `im φ/u⁴𝔐` have Jordan types `(2,2)` and `(4)`. Only the first is dominated by the dual partition `(2,2)`; the second fails `u²=0` and is excluded from the flat resolution.
+- Take `p=3`, `K=ℚ₃(ζ₃,π)` with `π²=ζ₃−1`, and `E_K(u)=u⁴+3u²+3`. Over splitting coefficients write `E_K=P Q` with monic quadratic factors, and choose `v=(2,2,0,0)`, with rank 2 at the roots of `P`; the type is read off the determinant law `det φ = ∏_ψ (u − ψ(π))^{v_ψ}` up to a unit, so `v_ψ` is the cokernel rank at `ψ`. The height-one Frobenius matrix `P(u)I₂` gives a type-`v` lift, so `R^v≠0`. Its residual étale module is trivial: `P≡u²`, and a rank-one residual character trivial on `G_{K∞}` is trivial on `G_K`, since finite subextensions of `K∞/K` have 3-power degree while `k×` has order prime to 3; also `ε̄=1` on `G_K`. In the identified module with `φ(e_i)=e_i`, lattices with bases `(u e₁,u e₂)` and `(e₁,u²e₂)` have Frobenius matrices `diag(u²,u²)` and `diag(1,u⁴)`. Both satisfy the determinant polynomial law for `v` over the residual point of `R^v`: for `a=Σ_{i=0}³a_iπ^i` it reduces to `a₀⁴`. Their modules `im φ/u⁴𝔐` have Jordan types `(2,2)` and `(4)`. Only the first is dominated by the dual partition `(2,2)`; the second fails `u²=0` and is excluded from the flat resolution.
 
 *Needs:* [4.5](#45-the-moduli-of-finite-flat-models); [4.6](#46-the-generic-fibre-of-the-flat-deformation-ring); [4.8](#48-local-structure-of-the-resolution); [3.3](#33-fixing-the-p-adic-hodge-type-selects-components).
 
