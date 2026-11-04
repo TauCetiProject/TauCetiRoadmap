@@ -13,8 +13,9 @@ import TauCeti.Topology.Algebra.CliffordAlgebra.Spin.Connected
 # Clifford algebras, the Pin and Spin groups, and spin representations: target signatures
 
 The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
-theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, together with the single
-definition (`kostantSpinRep`) one of them needs to be stated. Everything the pinned libraries
+theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, together with the
+definitions some of them need to be stated (`kostantSpinRep`, and the plane form and matrices
+of the Bogoliubov section). Everything the pinned libraries
 already prove (the structure theorem, the double covers, the Fock module and its irreducibility,
 `Spin₃ ≅ SL₂`, `Spin₄ ≅ SL₂ × SL₂`, Bott periodicity, the `gl_N` CAR decomposition) is consumed
 by name in `README.md` and is not restated here.
@@ -73,6 +74,41 @@ theorem first_word_piece_iff {K : Type u} {V : Type v} [Field K] [Invertible (2 
         CliffordAlgebra.filtration Q 1 ↔
       Submodule.map φ.toLinearMap (LinearMap.range (CliffordAlgebra.ι Q)) =
         LinearMap.range (CliffordAlgebra.ι Q) := sorry
+
+/-! ## Layer 0, continued: the Bogoliubov criteria and the real-plane counterexample
+
+**This section is not the roadmap and is not exhaustive.** The README is the specification.
+These signatures pin L0.Bogoliubov's native range/filtration criteria (`generator_range_iff` and
+`first_word_piece_iff` above) and the real-plane counterexample to unrestricted automorphism
+recovery. They consume the implemented Clifford injection and word filtration; they do not
+construct another Clifford algebra. The admitted statements are future theorem targets, not
+completed proofs of the full group comparison. -/
+
+noncomputable section Bogoliubov
+
+abbrev planeForm : QuadraticForm ℝ (Fin 2 → ℝ) :=
+  TauCeti.realCliffordForm 2 0
+
+/-- This elementary model precedes the real periodicity classification. -/
+theorem positive_plane_model :
+    ∃ e : CliffordAlgebra planeForm ≃ₐ[ℝ] Matrix (Fin 2) (Fin 2) ℝ,
+      ∀ v, e (CliffordAlgebra.ι planeForm v) = !![v 0, v 1; v 1, -v 0] := by
+  sorry
+
+def Z : Matrix (Fin 2) (Fin 2) ℝ := !![1, 0; 0, -1]
+def X : Matrix (Fin 2) (Fin 2) ℝ := !![0, 1; 1, 0]
+def D : Matrix (Fin 2) (Fin 2) ℝ := !![2, 0; 0, 1]
+def Dinv : Matrix (Fin 2) (Fin 2) ℝ := !![1 / 2, 0; 0, 1]
+
+/-- Conjugation by D is an algebra automorphism, but takes X outside the generator plane. -/
+theorem matrix_counterexample :
+    D * Dinv = 1 ∧ Dinv * D = 1 ∧
+    D * Z * Dinv = Z ∧
+    D * X * Dinv = !![0, 2; 1 / 2, 0] ∧
+    D * X * Dinv ∉ Submodule.span ℝ ({Z, X} : Set (Matrix (Fin 2) (Fin 2) ℝ)) := by
+  sorry
+
+end Bogoliubov
 
 /-! ## Layer 2: the Pin and Spin groups and the double covers -/
 
@@ -312,7 +348,7 @@ theorem kostant_multiplicity (L : Type u) [LieRing L] [LieAlgebra ℂ L] [Finite
 /-- **The spin module of `Cliff(L, κ)` restricted to `L`**: the full spinor module `⋀·W` of a
 polarization `P` of the Killing quadratic form (in positive even dimension `S⁺ ⊕ S⁻`; at
 dimension `0` it is `ℂ`), with `L` acting through the composite of the adjoint quadratic lift
-with the native Fock action `TauCeti.spinAction`. The only definition this file needs: it makes
+with the native Fock action `TauCeti.spinAction`. The only definition this layer needs: it makes
 `kostantSpinRep_multiplicity` statable. -/
 noncomputable def kostantSpinRep (L : Type u) [LieRing L] [LieAlgebra ℂ L]
     [FiniteDimensional ℂ L] [LieAlgebra.IsKilling ℂ L]
