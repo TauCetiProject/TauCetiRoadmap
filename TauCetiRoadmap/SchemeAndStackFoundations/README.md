@@ -2433,7 +2433,7 @@ ModularCurves 0B's convention (`yoneda : Over S ⥤ Over h_S` preserves finite p
 `Functor.Faithful`: equality of images of two group homomorphisms implies their equality.
 *Needs:* §1.4, §1.8; Mathlib `GrpObj`, `ModObj`,
 `MonObj`, `CartesianMonoidalCategory`, `Over.cartesianMonoidalCategory`; Tau Ceti
-`ConstantGroup.groupScheme`; ModularCurves 0B.
+`ConstantGroup.groupScheme`.
 
 **Checks.**
 - *Action.test_translation_free*: `G` acting on itself by left translation is free.
@@ -3050,7 +3050,7 @@ geometric stabilizer is linearly reductive). Prove `tame_local_structure`: a tam
 étale-locally on its coarse space a quotient `[Spec A/G]` with `G` linearly reductive, and tameness
 is stable under base change (Abramovich–Olsson–Vistoli 2008, Theorem 3.2, Corollaries 3.3–3.5,
 Proposition 3.6). *Needs:* §1.17, §1.19, §1.20, §1.22; Tau Ceti
-`linearlyReductiveAffineGroupSchemeProperty`; ModularCurves 0C, 9D.
+`linearlyReductiveAffineGroupSchemeProperty`; ModularCurves 0C.
 
 **Checks.**
 - `moduliFunctor.test_space`, `test_classifying` (`π₀ BG(T)` is `H¹(T, G)`), `test_not_sheaf` (the
@@ -3227,7 +3227,7 @@ dual numbers over a point separate geometric from topological quotients (§1.17)
 Layer 0: §0.12–§0.14 (henselian pairs), §0.21 (excellence,
 in §1.23's Keel–Mori). Layer 2: §2.3 (the torsor-class carrier) and §2.11 (Hilbert 90) are used by
 §1.15 and §1.16 only; §2.3 depends on nothing in Layer 1, so the graph is acyclic. Mathlib and Tau
-Ceti as listed; ModularCurves 0B–0E and 9D; StableReduction Layer 2.
+Ceti as listed; ModularCurves 0C and 0E; StableReduction Layer 2.
 
 ## Layer 2: sites and scheme cohomology
 
@@ -4887,7 +4887,7 @@ d}` when `π.finrank` is constantly `d`), `_comp` (`Norm_{π∘ρ} = Norm_π ∘
 its norm is regular and `div(Norm(s)) = π_*(div(s))`), `lineBundleNorm_divisor` (`Norm_π O(D) = O(π_* D)` on regular curves). Hypotheses: `π` finite
 locally free; where a degree appears it is `π`'s `finrank`, never a free parameter. *Needs:* §3.4;
 Mathlib `IsFinite`, `Flat`, `LocallyOfFinitePresentation`, `Scheme.Hom.finrank`;
-AlgebraicVectorBundles L0C; ModularCurves 0B.
+AlgebraicVectorBundles L0C.
 
 **Checks.**
 - `lineBundleNorm_zero_section`: for the identity of `ℙ¹_k` and `L=O`, the zero section has
@@ -5028,7 +5028,7 @@ determinants) and the inseparable base change of `y² = x^p − t`.
 Layer 0: §0.7 (dimension). Layer 1: §1.1, §1.18–§1.19 (stacks, for §3.7). Layer 2: §2.6
 (quasi-coherent cohomology), §2.11 (Hilbert 90), §2.20 (duality). Mathlib and Tau Ceti as listed;
 JacobianChallenge Layers A–F; AlgebraicCurves Layers 3, 4, 7, 8, 10, 12; StableReduction Layers
-0–2; AlgebraicVectorBundles L0B–L0C; ModularCurves 0B; ClassFieldTheory Layer 5.
+0–2; AlgebraicVectorBundles L0B–L0C; ClassFieldTheory Layer 5.
 
 ## Layer 4: deformations, formal schemes, models and alterations
 
