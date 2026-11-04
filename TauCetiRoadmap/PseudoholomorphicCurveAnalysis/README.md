@@ -48,7 +48,7 @@ Outside this roadmap:
   - compactness, transversality and gluing for moduli spaces (F2.3–F2.5).
 
   HeegaardFloer consumes this roadmap and supplies nothing to it.
-- [PseudodifferentialOperators](https://github.com/TauCetiProject/TauCetiRoadmap/blob/636402fca8e69477e502482c928dbb6f15942793/TauCetiRoadmap/PseudodifferentialOperators/README.md#62-regularity-and-solvability)
+- [PseudodifferentialOperators](../PseudodifferentialOperators/README.md#62-regularity-and-solvability)
   P6 owns elliptic regularity and Fredholm theory for smooth-coefficient operators of
   arbitrary order on closed manifolds. This roadmap owns the first-order Cauchy–Riemann case
   with Sobolev coefficients and totally real boundary conditions, which P6 does not cover.
@@ -160,7 +160,7 @@ At [`333c9e49`](https://github.com/TauCetiProject/TauCeti/tree/333c9e49143de812e
   formula and the determinant-line comparison).
 - [ComplexKahlerGeometry](../ComplexKahlerGeometry/README.md) K6.1 (Hodge decomposition on
   compact Kähler manifolds).
-- [PseudodifferentialOperators](https://github.com/TauCetiProject/TauCetiRoadmap/blob/eaa7831891f9e8b2c8f44801cd44d09f039e05c9/TauCetiRoadmap/PseudodifferentialOperators/README.md)
+- [PseudodifferentialOperators](../PseudodifferentialOperators/README.md)
   P5.2 (bundle `W^{k,p}` on compact boundaryless bases) and P6 (for PH6.4).
 - [AlgebraicTopology](../AlgebraicTopology/README.md) Stages 6.1 (universal coefficients over a
   field), 7.1 (Euler–Poincaré and independence of the finite CW model) and 8.7 (finite CW type
