@@ -1,4 +1,5 @@
 import Mathlib
+import TauCeti.LinearAlgebra.RootSystem.AffineDynkinType.Basic
 import TauCeti.LinearAlgebra.RootSystem.DynkinType
 import TauCeti.RepresentationTheory.Quiver.PathAlgebra.Basic
 
@@ -341,5 +342,25 @@ noncomputable def signlessQuadraticDualEquivPreprojective (k : Type*) {V : Type 
     [∀ i j : bipartiteOrientation G bipartite, Fintype (i ⟶ j)] :
     signlessQuadraticDual k G ≃ₐ[k] preprojectiveAlgebra k (bipartiteOrientation G bipartite) :=
   sorry
+
+/-! ## Affine graph recognition -/
+
+section AffineGraphRecognition
+
+/-! The affine types and graphs are the native ones. A nonnegative integral
+position with no precarious vertex is an actual positive-additive function;
+connectedness and the simple-graph restriction are explicit. -/
+
+/-- Connected finite simple graphs with nonzero nonnegative null positions
+are exactly the graphical members of the native affine ADE list. -/
+theorem affine_graph_recognition {V : Type u} [Fintype V] [DecidableEq V]
+    (G : SimpleGraph V) [DecidableRel G.Adj] (hG : G.Connected) :
+    (∃ a : V → ℕ, a ≠ 0 ∧
+      ∀ i, (∑ j ∈ G.neighborFinset i, a j) = 2 * a i) ↔
+    ∃! t : TauCeti.AffineDynkinType,
+      t.Valid ∧ t.IsGraphical ∧ Nonempty (G ≃g t.graph) := by
+  sorry
+
+end AffineGraphRecognition
 
 end TauCetiRoadmap.ZigzagPreprojective

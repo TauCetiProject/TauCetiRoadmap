@@ -300,8 +300,8 @@ without a Seidel-style twist, and are strictly unital in the deformation stateme
   Ã₁ retains its separate multiplicity-two matrix and is excluded from
   this simple-graph classification; a loop is never a simple-graph edge.
 
-  `AffineGraphClassificationTargets.lean` pins the recognition theorem on
-  the native graph and affine-type carriers.
+  `Suggested.lean` pins the recognition theorem on the native graph and
+  affine-type carriers.
 
   Compare with RootSystems Layer5's independently supplied positive-definite
   finite Cartan matrices: a nonzero stuck position there has a precarious
