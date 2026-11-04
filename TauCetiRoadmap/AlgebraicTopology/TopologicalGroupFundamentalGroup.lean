@@ -1,11 +1,19 @@
-import Mathlib.AlgebraicTopology.FundamentalGroupoid.FundamentalGroup
-import Mathlib.Topology.Homotopy.Product
-import Mathlib.Topology.Algebra.Group.Basic
-import Mathlib.GroupTheory.EckmannHilton
+import Mathlib
 
-/-! Suggested forms accompany the definitive roadmap prose; they are not an
-exhaustive checklist. The constructions below use the native path quotient and
-its existing group multiplication, whose order is reversed path composition. -/
+/-!
+# The fundamental group of a space with a continuous unital multiplication
+
+For a space `G` with a continuous multiplication and a two-sided unit `1`, the pointwise
+product of two based loops at `1` is a based loop at `1`, and it descends to homotopy classes
+as the map `π₁(G × G, (1, 1)) → π₁(G, 1)` induced by the multiplication. This pointwise
+operation has `1` as a two-sided unit and satisfies the interchange law with the native
+fundamental-group product, so by the Eckmann–Hilton argument it agrees with the native product
+and that product is commutative. Naturality holds for every continuous multiplicative map.
+No connectedness, manifold, local-contractibility or covering hypothesis is used. The native
+product on the path quotient is reversed path composition (`FundamentalGroup.mul_def`); the
+statements below are written against it. The roadmap is `README.md` (Stage 3); this file carries
+only this construction and its comparison laws.
+-/
 
 namespace TauCetiRoadmap.AlgebraicTopology.TopologicalGroupFundamentalGroup
 

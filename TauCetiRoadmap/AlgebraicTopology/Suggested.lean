@@ -407,10 +407,6 @@ def lsCategoryCount (X : Type u) [TopologicalSpace X]
     (A : Set X) : ENat :=
   sInf {m : ENat | ∃ n : ℕ, m = (n : ENat) ∧ Nonempty (LSCategoricalCover X A n)}
 
-/-- The normalized category of a nonempty space, one less than the unnormalized count. -/
-def normalizedLSCategory (X : Type u) [TopologicalSpace X]
-    [Nonempty X] : ENat := lsCategoryCount X Set.univ - 1
-
 /-- A cup product of `r` positive-degree classes, formed with the native cup product. -/
 inductive LSPositiveCupProduct (X : TopCat.{u}) (R : Type u) [CommRing R] :
     ℕ → (Σ d : ℕ, singularCohomology R X d) → Prop where
@@ -604,17 +600,6 @@ def HasProperHomotopyExtensionProperty {X : Type u} [TopologicalSpace X]
       ∃ K : C(unitInterval × X, Y), IsProperMap K ∧
         (∀ x : X, K (0, x) = f x) ∧
         (∀ (t : unitInterval) (a : A), K (t, (a : X)) = H (t, a))
-
-/-- Simple connectivity at infinity by compact exhaustion: every compact `K` lies in a compact
-`L` such that every loop outside `L` is nullhomotopic outside `K`. The circle is Mathlib's
-additive circle of period one; the predicate is shared with GeometricTopology and
-FourManifolds. -/
-def SimplyConnectedAtInfinity (X : Type u) [TopologicalSpace X] : Prop :=
-  ∀ K : Set X, IsCompact K → ∃ L : Set X, IsCompact L ∧ K ⊆ L ∧
-    ∀ f : C(AddCircle (1 : ℝ), X), (∀ z, f z ∉ L) →
-      ∃ p : X, p ∉ K ∧
-        ∃ H : ContinuousMap.Homotopy f (ContinuousMap.const (AddCircle (1 : ℝ)) p),
-          ∀ z : unitInterval × AddCircle (1 : ℝ), H z ∉ K
 
 /-- **Proper strong deformation retraction** (Stage 8.5). On a locally compact Hausdorff space,
 a subspace with the proper homotopy extension property whose inclusion has a proper homotopy

@@ -69,8 +69,9 @@ groups.  Those theories consume this roadmap's chain, CW, duality, and homotopy 
   tubular neighbourhood theorem and owns, for an arbitrary compact boundaryless target
   manifold and an arbitrary closed embedded submanifold, the smoothing of continuous maps
   relative to a closed set and relative transversality; TangentialBordism B1.6 (manifolds with
-  corners, facewise transversality) and DeRhamCohomologyAndDuality Layer 5 (families against
-  maps into a vector space) consume these two statements.
+  corners, facewise transversality) consumes these two statements. DeRhamCohomologyAndDuality
+  Layer 5 states the analogue for families against maps into a vector space by its own route
+  and consumes nothing here.
 - The [differential-geometry roadmap](../DifferentialGeometry/README.md) owns the
   Mathlib-compatible manifold orientation and degree API (its layers 2 and 10),
   and the outward-normal-first boundary orientation of Layer 5.1, which the
@@ -1209,7 +1210,7 @@ homology with one copy of the coefficient ring also assumes connectedness.
    coproduct prove that the whole-space unnormalized count is the sum of the
    counts of its components, including empty components and∞ cases.
 
-   On a nonempty space define `normalizedLSCategory` as the unnormalized count
+   On a nonempty space define the normalized category as the unnormalized count
    of the whole space minus 1, and prove that the unnormalized count is the
    normalized category plus 1. In the connected
    case this is the convention cat(point)=0. Empty spaces use the unnormalized
@@ -1947,7 +1948,7 @@ items 1–7 are independent of those later constructions.
    and boundary example for ordinary Whitehead, not a premise for its
    general proof or for the proper Whitehead extension below.
 
-   First own the single predicate `SimplyConnectedAtInfinity`: for every
+   First own the single predicate of simple connectivity at infinity: for every
    compact K⊂X there is a compact L⊃K such that every continuous circle in
    X\L is nullhomotopic in X\K. A nullhomotopy stays in that complement;
    connectedness/number of ends is a separate condition. On locally compact,
@@ -1969,7 +1970,7 @@ items 1–7 are independent of those later constructions.
    im(π₁U_(i+1)→π₁U_i) map isomorphically to one another. Retain that common
    group π₁α, change-of-ray conjugacy and cofinal defining-sequence comparisons.
    Do not require the full bonding maps themselves to be isomorphisms.
-   With finitely many ends prove `SimplyConnectedAtInfinity` equivalent to
+   With finitely many ends prove simple connectivity at infinity equivalent to
    stability with trivial π₁α at every end: cofinal nullhomotopies stay in
    the specified component, and finitely many end neighborhoods plus absorption
    of bounded components give the uniform compact condition. Prove the same
@@ -2367,8 +2368,7 @@ items 1–7 are independent of those later constructions.
     relative transversality (DifferentialGeometry 8.3 approximates smooth
     simplices and 10.2 is Sard; Mathlib approximates maps into normed spaces
     and embeds compact manifolds in Euclidean space), and TangentialBordism
-    B1.6 and DeRhamCohomologyAndDuality Layer 5 consume them for their
-    corner and family variants.
+    B1.6 consumes them for its corner variants.
 
     *Smoothing of maps into compact manifolds.* For a boundaryless
     sigma-compact Hausdorff second-countable smooth manifold M, a compact
