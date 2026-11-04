@@ -1050,15 +1050,22 @@ Tau Ceti `AlgebraicGeometry.Scheme.IdealSheafData.IsEffectiveCartier`
 
 - (degenerate) For `Z = A` the closure is `𝒜`, with good reduction at every closed point; for
   `Z = ∅` the closure is empty.
-- (closure, wrong model) Let `R` be the local ring of `𝒜` at a point of the fibre over `s`
-  (regular, hence a unique factorisation domain in which the uniformiser `π` of `S` at `s` is
-  prime) and `H = V(f)` with `f = π^a g`, `a ≥ 1`, `π ∤ g`. The closure of `H` is `V(J ∩ R)`
-  with `J = f R[1/π] = g R[1/π]`, and `π^k r ∈ gR` forces `g ∣ r`, so `J ∩ R = (g)`: the
-  closure is `V(g)`, whose fibre over `s` is `V(ḡ)`, a proper closed subset of `Spec (R/π)` of
-  dimension `dim A − 1` where it is non-empty. Reducing the chosen equation `f` modulo `π`
-  instead gives `f̄ = 0` and cuts out all of `Spec (R/π)`, of dimension `dim A`: the closure is
-  the saturation of the ideal, not the reduction of a generator (`a = 1`: `(πg)` reduces to
-  `(0)`, `(g)` reduces to `(ḡ)`).
+- (closure, wrong model) Let `R` be the local ring of `𝒜` at a closed point `x` of the fibre
+  over `s` (regular, hence a unique factorisation domain in which the uniformiser `π` of `S` at
+  `s` is prime, `R/π = O_{𝒜_s,x}` being a regular local ring of dimension `dim 𝒜_s = dim A`)
+  and `H = V(f)` with `f = π^a g`, `a ≥ 1`, `π ∤ g`. The closure of `H` is `V(J ∩ R)` with
+  `J = f R[1/π] = g R[1/π]`, and `π^k r ∈ gR` forces `g ∣ r`, so `J ∩ R = (g)`: the closure
+  is `V(g)`, whose fibre over `s` is `V(ḡ)`, a proper closed subset of `Spec (R/π)`, of
+  dimension `dim A − 1` when `ḡ` is a nonunit (`ḡ ≠ 0` in the domain `R/π`, and a nonzero
+  nonunit of a Noetherian local domain cuts the dimension down by one). Reducing the chosen
+  equation `f` modulo `π` instead gives `f̄ = 0` and cuts out all of `Spec (R/π)`, of dimension
+  `dim A`: the closure is the saturation of the ideal, not the reduction of a generator (`a = 1`:
+  `(πg)` reduces to `(0)`, `(g)` reduces to `(ḡ)`; for `𝒜 = E` an elliptic scheme, `x` the
+  origin of `E_s` and `g = t` a parameter at the origin, `V(t̄)` is the origin, of dimension
+  `0 = dim A − 1`, inside `Spec (R/π)` of dimension `1 = dim A`). The saturation `J ∩ R = (g)`
+  holds at every point of the fibre, but the dimension count is a closed-point statement: at
+  the generic point of `𝒜_s` the ring `R/π` is the function field of `𝒜_s`, `Spec (R/π)` is a
+  single point of dimension `0`, and `ḡ` is a unit, so `V(ḡ)` is empty.
 - (good reduction, positive) On `E : y² + y = x³ − x` over `ℚ` (discriminant `37`) with
   `P = (0, 0)`, the subscheme `H = {P} ⊔ {−P} = {(0, 0), (0, −1)}` has good reduction at every
   prime `p ≠ 37`: both points are integral and their `y`-coordinates `0` and `−1` differ modulo
