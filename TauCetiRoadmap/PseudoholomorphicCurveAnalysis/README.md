@@ -156,8 +156,12 @@ At [`333c9e49`](https://github.com/TauCetiProject/TauCeti/tree/333c9e49143de812e
 - [PDE](../PDE/README.md) Lane A: `W^{k,p}` of Lipschitz domains, Sobolev and Morrey
   embeddings, Rellich–Kondrachov, extension and trace; Lane A7's Hölder spaces.
 - [CharacteristicClasses](../CharacteristicClasses/README.md) C2.3 (the diagonal trace
-  comparison with the alternating Betti sum) and C3.2 (`c₁ = e` in rank one, and the
-  determinant-line comparison).
+  comparison with the alternating Betti sum) and C3.2 (`c₁ = e` in rank one, the Whitney sum
+  formula and the determinant-line comparison).
+- [ComplexKahlerGeometry](../ComplexKahlerGeometry/README.md) K6.1 (Hodge decomposition on
+  compact Kähler manifolds).
+- [PseudodifferentialOperators](https://github.com/TauCetiProject/TauCetiRoadmap/blob/eaa7831891f9e8b2c8f44801cd44d09f039e05c9/TauCetiRoadmap/PseudodifferentialOperators/README.md)
+  P5.2 (bundle `W^{k,p}` on compact boundaryless bases) and P6 (for PH6.4).
 - [AlgebraicTopology](../AlgebraicTopology/README.md) Stages 6.1 (universal coefficients over a
   field), 7.1 (Euler–Poincaré and independence of the finite CW model) and 8.7 (finite CW type
   of compact smooth manifolds).
@@ -241,22 +245,18 @@ totally real for every `ω`-tame `J`, consuming Tau Ceti's linear Lagrangian/tot
 comparison. Prove that totally real embeddings are stable under `C^1`-small perturbation of
 `J` on compact subsets of `L`.
 
-### 2.3 Adapted coordinates along a totally real submanifold
+### 2.3 Flattening charts and boundary frames
 
-For a totally real embedding `ι : L → M` for a `C^ℓ` structure `J` and a point `x₀ ∈ L`,
-construct a `C^ℓ` chart `ψ` of `M` near `ι x₀` into `ℂⁿ` with the following properties:
+For a totally real embedding `ι : L → M` and a point `x₀ ∈ L`, construct a smooth chart `ψ` of
+`M` near `ι x₀` into `ℂⁿ` with `ψ(ι(L)) ⊆ ℝⁿ`. This uses only that `ι` is a smooth embedding
+with `2 dim L = dim M`, through Mathlib's immersion charts, and never `J`, so no derivative of
+`J` is spent. In such a chart, `ℝⁿ` is maximal totally real for `ψ_* J` at every point of
+`ψ(ι(L))`.
 
-- `ψ(ι(L)) ⊆ ℝⁿ` near `x₀`;
-- `ψ_* J = i` at every point of `ℝⁿ` in the chart image;
-- the chart has `C^ℓ` dependence on parameters when `J` depends `C^ℓ` on a parameter.
-
-The construction is as follows. Take a chart `φ` of `L` at `x₀` and a chart `χ` of `M` at
-`ι x₀`, and write `γ = χ ∘ ι ∘ φ⁻¹` and `J_χ` for `J` in the chart. Set
-`Φ(x + iy) = γ(x) + Σⱼ yⱼ J_χ(γ(x)) ∂ⱼγ(x)` for `x, y ∈ ℝⁿ`. Its derivative at `(x, 0)` sends
-`eⱼ ↦ ∂ⱼγ(x)` and `ieⱼ ↦ J_χ(γ(x))∂ⱼγ(x)`. That derivative is invertible because `TL` is
-totally real, and it intertwines `i` with `J_χ`. The inverse function theorem then gives
-`ψ = (χ⁻¹ ∘ Φ)⁻¹` near `ι x₀`. Retain the regularity budget: from a `C^ℓ` structure `J` the
-chart is `C^ℓ`.
+For a field `J` of complex structures on `ℂⁿ` with `ℝⁿ` totally real for `J(x)`, define the
+*boundary frame* `Φ_J(x)(a + ib) = a + J(x) b` for `a, b ∈ ℝⁿ`. Prove that `Φ_J(x)` is
+invertible exactly when `ℝⁿ` is totally real for `J(x)`, that `Φ_J(x) ∘ i = J(x) ∘ Φ_J(x)`, and
+that `Φ_J(x)` maps `ℝⁿ` to `ℝⁿ` identically. The frame `x ↦ Φ_J(x)` has the regularity of `J`.
 
 ### 2.4 Isothermal coordinates and bordered Riemann surfaces
 
@@ -306,8 +306,12 @@ supported `f` and the Beurling operator `B = ∂T`. Prove the following:
   with compact support, `1 < p < ∞`;
 - `B` is bounded on `Lᵖ(ℂ)`, `1 < p < ∞`; obtain this from Tau Ceti's Calderón–Zygmund
   inequality;
-- for data supported in a fixed disc, `T` gains one derivative in `Lᵖ` and in `C^{k,α}`, and
-  `B` is bounded on `C^{k,α}`, for every `k ≥ 0` and `0 < α < 1`.
+- for data supported in a fixed disc `D_r`, and every bounded output disc `D_R`, the map
+  `T : Lᵖ(D_r) → W^{1,p}(D_R)` is bounded, and `T : C^{k,α}(D_r) → C^{k+1,α}(D_R)` is
+  bounded, for every `k ≥ 0` and `0 < α < 1`. A global statement is only the derivative
+  bound `‖D(Tf)‖_{Lᵖ(ℂ)} ≤ C‖f‖_{Lᵖ}`: for `1 < p ≤ 2` and data with nonzero integral,
+  `Tf(w) ~ c/w` at infinity, so `Tf ∉ Lᵖ(ℂ)`;
+- `B` is bounded on `C^{k,α}` of data supported in `D_r`, into `C^{k,α}(D_R)`.
 
 State support radii, cutoffs and constants explicitly. Prove continuity in parameters for
 families of data with common support.
@@ -325,47 +329,60 @@ For `1 < q < ∞`, `k ≥ 0` and compact `K ⊆ Ω`:
 
 ### 3.3 Interior estimates with Sobolev coefficients
 
-Let `p > 2`, `ℓ ≥ 1`, let `J ∈ W^{ℓ,p}_loc(Ω; End ℝ^{2n})` with `J² = −1` pointwise, and let
-`S ∈ W^{ℓ−1,p}_loc(Ω; End ℝ^{2n})`. Put `Dξ = ∂_s ξ + J ∂_t ξ + S ξ`. For
-`p/(p−1) ≤ q ≤ p` and `0 ≤ k ≤ ℓ − 1`, prove the following:
+Let `p > 2` be finite and `ℓ ≥ 1`. Let `J ∈ W^{ℓ,p}_loc(Ω; End ℝ^{2n})` with `J² = −1`
+pointwise, let `m ∈ {ℓ − 1, ℓ}`, and let `S ∈ W^{m,p}_loc(Ω; End ℝ^{2n})`. Put
+`Dξ = ∂_s ξ + J ∂_t ξ + S ξ`. For `p/(p−1) ≤ q ≤ p` and `0 ≤ k ≤ m`, prove the following:
 
 - *Weak regularity.* Call `ξ ∈ L^q_loc` a weak solution of `Dξ = η` if it satisfies
   `∫⟨D*φ, ξ⟩ = ∫⟨φ, η⟩` for every test function `φ`, with `D*` the formal adjoint. If
   `η ∈ W^{k,q}_loc`, then `ξ ∈ W^{k+1,q}_loc`.
 - *Estimate.* `‖ξ‖_{W^{k+1,q}(K)} ≤ C(‖Dξ‖_{W^{k,q}(Ω')} + ‖ξ‖_{Lq(Ω')})`, where `C` depends
   only on `K`, `Ω'`, `k`, `q`, `p` and bounds for `‖J‖_{W^{ℓ,p}(Ω')}` and
-  `‖S‖_{W^{ℓ−1,p}(Ω')}`.
+  `‖S‖_{W^{m,p}(Ω')}`.
 - *Uniformity.* The same constant works for every `(J, S)` in a set bounded in these norms.
 
-The proof freezes `J` at a point, uses a complex-linear frame change to reduce to
-`J(z₀) = i`, applies PH3.2, and absorbs the error on small discs by continuity of `J`
-(`p > 2`). Higher orders follow by differentiating the equation, using PH1.2's products.
-Formulate the frozen-coefficient step as its own lemma.
+The case `m = ℓ` (including `S = 0`) gains the full derivative: `J ∈ W^{1,p}` and
+`η ∈ W^{1,q}` give `ξ ∈ W^{2,q}`. PH5.1 uses exactly this case.
+
+Prove it in two lemmas.
+
+1. *Order zero.* Freeze `J` at a point and use a complex-linear frame change to reduce to
+   `J(z₀) = i`. Apply PH3.2, and absorb the error on small discs by continuity of `J`
+   (`p > 2`). This gives `ξ ∈ W^{1,q}_loc` from `ξ ∈ L^q_loc`.
+2. *Differentiated equation.* If `ξ ∈ W^{j,q}_loc` solves `Dξ = η` with `j ≤ k`, the difference
+   quotients `τ_h ξ` in each coordinate direction solve
+   `D(τ_h ξ) = τ_h η − (τ_h J) ∂_t ξ(· + h) − (τ_h S) ξ(· + h)`. The right side is bounded in
+   `W^{j−1,q}` uniformly in `h` by PH1.2's products, using `J ∈ W^{ℓ,p}` and `S ∈ W^{m,p}`.
+   Order zero applied to `τ_h ξ`, with `h → 0`, gives `ξ ∈ W^{j+1,q}_loc` with the stated
+   estimate.
 
 ### 3.4 Totally real boundary conditions on the half-disc
 
-Let `Φ ∈ W^{ℓ,p}(D⁺_r; GL(2n, ℝ))` satisfy `Φ(z) i = J(z) Φ(z)`, and let
-`F(z) = Φ(z)ℝⁿ` for `z ∈ D⁺_r ∩ ℝ`. This is the form in which totally real boundary data
-arise from PH2.3 and from linearizations. Impose `ξ(z) ∈ F(z)` for `z ∈ D⁺_r ∩ ℝ`. This is a
-pointwise condition when `q > 2`, because `W^{1,q}` maps are then continuous; for `q ≤ 2` it is
-a condition on traces, using PDE Lane A's trace. Prove the analogues of PH3.2 and PH3.3 on
-half-discs, with estimates up to the boundary. After the substitution of step 1 below, a weak
-solution `ζ ∈ L^q_loc(D⁺_r)` is defined by testing against smooth `φ` compactly supported in
-`D⁺_r`, not required to vanish on `ℝ`, with `φ(z) ∈ ℝⁿ` for `z ∈ ℝ`. With this boundary
-condition on `φ`, the boundary term of integration by parts vanishes exactly when `ζ ∈ ℝⁿ`
-on `ℝ`.
+Keep the hypotheses of PH3.3 on a half-disc `D⁺_r`, and assume that `ℝⁿ` is totally real for
+`J(z)` at every `z ∈ D⁺_r ∩ ℝ`. Impose `ξ(z) ∈ ℝⁿ` for `z ∈ D⁺_r ∩ ℝ`. This is a pointwise
+condition when `q > 2`, because `W^{1,q}` maps are then continuous; for `q ≤ 2` it is a
+condition on traces, using PDE Lane A's trace. A weak solution `ξ ∈ L^q_loc(D⁺_r)` is
+defined by testing against smooth `φ` compactly supported in `D⁺_r`, not required to vanish on
+`ℝ`, and satisfying the adjoint boundary condition `φ(z) ∈ (J(z)ℝⁿ)^⊥` for `z ∈ ℝ`, for the standard inner
+product. The boundary term of integration by parts is `−∫_ℝ ⟨J ξ, φ⟩ ds`, so with this
+condition it vanishes exactly when `ξ ∈ ℝⁿ` on `ℝ`. Prove the analogues of PH3.3 on half-discs, with
+estimates up to the boundary, for `0 ≤ k ≤ m`. Every smooth totally real boundary condition
+on a bundle is put in this form by PH2.3's flattening charts and smooth frames.
 
 The route is as follows.
 
-1. Substitute `ξ = Φζ`. This reduces to `F = ℝⁿ`, with `J = i`, and a zeroth-order term in
-   `W^{ℓ−1,p}`.
-2. For the order-zero step (`ζ ∈ W^{1,q}` up to the boundary), extend `ζ` and the coefficients
-   across `ℝ` by the reflection `ζ(z̄) = conj ζ(z)` and `S̃(z̄) = conj ∘ S(z) ∘ conj`. Prove
-   that the reflected `ζ` is a weak solution on the full disc, and apply PH3.3 with `ℓ = 1`.
-   Tau Ceti's totally real Schwarz reflection is the constant-coefficient case.
-3. For higher orders, differentiate tangentially. The difference quotients in `s` preserve the
-   boundary condition `ζ ∈ ℝⁿ` and satisfy an equation of the same type. Then recover `∂_t ζ`
-   from the equation `∂_t ζ = i(∂_s ζ + Sζ − η)`. Induct on `k ≤ ℓ − 1`.
+1. *Order zero.* Substitute `ξ = Φ_J ζ` with PH2.3's boundary frame. Then `ζ ∈ ℝⁿ` on `ℝ`,
+   the principal part is `∂_s + i∂_t`, and the zeroth-order term
+   `Φ_J⁻¹(∂_s Φ_J + J ∂_t Φ_J + SΦ_J)` is in `Lᵖ`, which is all order zero uses. Extend `ζ` and
+   the coefficients across `ℝ` by `ζ(z̄) = conj ζ(z)` and `S̃(z̄) = conj ∘ S(z) ∘ conj`. Prove
+   that the reflected `ζ` is a weak solution on the full disc, and apply PH3.3's order-zero
+   lemma. Tau Ceti's totally real Schwarz reflection is the constant-coefficient case.
+2. *Higher orders without substitution.* Work with `ξ` itself, so no derivative of `J` is
+   spent on a frame. Tangential difference quotients `τ_h` in `s` preserve the boundary
+   condition `ξ ∈ ℝⁿ`, and satisfy the differentiated equation of PH3.3. So order zero bounds
+   `∂_s ξ` in `W^{j,q}` up to the boundary. Then recover the normal derivative from the
+   equation, `∂_t ξ = J(∂_s ξ + Sξ − η)`, which uses `J⁻¹ = −J`, and conclude by PH1.2's
+   products. Induct on `j ≤ k`.
 
 As a check, take the model operator `∂̄` on the unit disc with `ξ(e^{iθ}) ∈ e^{3iθ/2}ℝ`: its
 kernel is `a₀ + a₁z + conj(a₁)z² + conj(a₀)z³`, real dimension 4.
@@ -443,11 +460,19 @@ inhomogeneous term, and let `u` satisfy `IsWeakPseudoholomorphic j J ν p u`. Th
 same holds up to the boundary when `u` satisfies `MapsBoundaryTo u ι` for a smooth totally
 real embedding `ι` for `J`.
 
-The proof is local. In coordinates, `z ↦ J(z, u(z))` is in `W^{1,p}_loc`. By induction, if
-`u ∈ W^{m,p}_loc` with `m ≤ ℓ`, then `J(z, u)` and `η(z, u)` are in `W^{m,p}_loc` by PH1.2.
-Apply PH3.3 to the linear operator `∂_s + J(z, u(z))∂_t` with `ξ = u` to get
-`u ∈ W^{m+1,p}_loc`. At the boundary, use PH2.3's adapted chart, in which `u(z) ∈ ℝⁿ` on the
-boundary and `J = i` there, and apply PH3.4.
+The proof is local, with `p` finite; a `W^{1,∞}_loc` solution is `W^{1,q}_loc` for every
+finite `q > 2`. In coordinates, `z ↦ J(z, u(z))` is in `W^{1,p}_loc`. By induction, if
+`u ∈ W^{m,p}_loc` with `1 ≤ m ≤ ℓ`, then `J(z, u)` and `η(z, u)` are in `W^{m,p}_loc` by PH1.2.
+Apply PH3.3 in the case `S = 0` (its `m = ℓ` case, with `ℓ` there equal to `m` here) to the
+linear operator `∂_s + J(z, u(z))∂_t` with `ξ = u`, `η = η(z, u)` and `k = m`. This gives
+`u ∈ W^{m+1,p}_loc`. At the boundary, use a PH2.3 flattening chart of `L`, in which
+`u(z) ∈ ℝⁿ` on the boundary and `ℝⁿ` is totally real for `J(z, u(z))`, and apply PH3.4 in the
+same way.
+
+The finite-regularity conclusion requires `p < ∞`. A `C¹` function `f` near `0` with
+`f(z) = z² log log(1/|z|)` has `C¹` derivative `∂̄f` and unbounded second derivatives. Its
+graph is pseudoholomorphic for the `C¹` structure `J(z, w)(v, a) = (iv, ia − 2i(∂̄f)(z) v̄)`,
+so it is a `W^{1,∞}` solution that is not `W^{2,∞}`. Record this example.
 
 Corollary: a `C¹` map satisfying `IsPseudoholomorphic j J u` for smooth `J` is smooth, with
 the boundary version for `MapsBoundaryTo u ι`. This uses PH4.2's comparison, and the fact that
@@ -456,7 +481,9 @@ a `C¹` map is `W^{1,p}_loc` for every `p`.
 ### 5.2 Uniform estimates
 
 Let `J_m → J` in `C^ℓ` and `ν_m → ν` in `C^ℓ`, both on compact subsets. Let `u_m` satisfy the
-weak equations for `(J_m, ν_m)` with boundary on a fixed totally real `ι`. Assume the `u_m`
+weak equations for `(J_m, ν_m)` with boundary on a fixed totally real `ι` whose image is
+closed in `M`. Without closedness the boundary condition fails in the limit: for
+`L = (0, 1) ⊆ ℝ ⊆ ℂ` the constant maps `u_m = 1/(m + 2)` converge to `0 ∉ L`. Assume the `u_m`
 converge uniformly on compact subsets to a continuous `u`, and that in charts around `u` they
 are bounded in `W^{1,p}` on compact subsets. Then:
 
@@ -478,55 +505,71 @@ and the uniform bound from PH3.3's uniformity clause.
 ### 6.1 Sobolev sections over compact surfaces with boundary
 
 Let `Σ` be a compact surface with (possibly empty) boundary and `E → Σ` a smooth real vector
-bundle with complex structure `J_E`. For `k ≥ 0` and `1 < p < ∞`, construct `W^{k,p}(Σ, E)`:
-fix a finite atlas of isothermal charts with trivializations and a subordinate partition of
-unity, and give the norm by the PH1.1 norms of the localized pieces. Prove:
+bundle with smooth complex structure `J_E`. For `k ≥ 0` and `1 < p < ∞`:
 
-- different choices give equivalent norms;
-- completeness, density of smooth sections, Rellich compactness `W^{k+1,p} → W^{k,p}`, and the
-  Morrey embedding for `kp > 2`;
-- multiplication by `W^{k,p}` coefficients for `kp > 2`.
+- If `∂Σ = ∅`, consume PseudodifferentialOperators P5.2's bundle `W^{k,p}` carrier on compact
+  boundaryless bases, with its completeness, smooth density and norm equivalences. Prove that
+  its localizations in isothermal charts and trivializations are PH1.1's local classes.
+- If `∂Σ ≠ ∅`, construct `W^{k,p}(Σ, E)` the same way. Fix a finite atlas of isothermal charts
+  (half-discs at the boundary) with trivializations and a subordinate partition of unity, and
+  give the norm by the PH1.1 norms of the localized pieces. Prove that different choices give
+  equivalent norms, completeness, density of sections smooth up to the boundary, Rellich
+  compactness `W^{k+1,p} → W^{k,p}`, the Morrey embedding for `kp > 2`, and multiplication by
+  `W^{k,p}` coefficients for `kp > 2`. Prove that restriction to the interior agrees with
+  P5.2's carrier on every compact boundaryless subsurface.
 
-For a totally real subbundle `F ⊆ E|∂Σ` and `kp > 2`, let `W^{k,p}_F(Σ, E)` be the closed
-subspace of sections with boundary values in `F`. Construct the target space
+For a smooth totally real subbundle `F ⊆ E|∂Σ` and `kp > 2`, let `W^{k,p}_F(Σ, E)` be the
+closed subspace of sections with boundary values in `F`. Construct the target space
 `W^{k−1,p}(Σ, Λ^{0,1} ⊗_ℂ E)` the same way.
 
 ### 6.2 Real Cauchy–Riemann operators
 
-A real Cauchy–Riemann operator on `E` is a real-linear operator
-`D : Ω⁰(Σ, E) → Ω^{0,1}(Σ, E)` satisfying the Leibniz rule `D(fξ) = f Dξ + (∂̄f)ξ` for
-real-valued smooth `f`. Prove that any two differ by a zeroth-order term
-`Ω⁰(Σ, End_ℝ E)` acting into `(0,1)`-forms, and that a `J_E`-complex connection `∇` gives one,
-`D = (∇)^{0,1}`. Allow zeroth-order terms of class `W^{ℓ−1,p}` with `ℓ ≥ 1` and `p > 2`,
-which is the regularity of the linearization at a `W^{ℓ,p}` curve.
+A *smooth* real Cauchy–Riemann operator on `E` is a real-linear operator
+`D₀ : Ω⁰(Σ, E) → Ω^{0,1}(Σ, E)` satisfying the Leibniz rule `D₀(fξ) = f D₀ξ + (∂̄f)ξ` for
+real-valued smooth `f`. Prove that any two differ by a smooth zeroth-order term in
+`Ω^{0,1}(Σ, End_ℝ E)`, and that a `J_E`-complex connection `∇` gives one, `D₀ = (∇)^{0,1}`.
 
-For `1 ≤ k ≤ ℓ` and `p > 2`, prove the following:
+A *rough* real Cauchy–Riemann operator is `D = D₀ + S`, with `D₀` smooth and
+`S ∈ W^{ℓ−1,p₀}(Σ, Λ^{0,1} ⊗ End_ℝ E)` for some `ℓ ≥ 1` and finite `p₀ > 2`. The coefficient
+exponent `p₀` is fixed with `S`; the realization exponent `p` varies. Such terms arise at
+non-solution points of the Banach manifolds of HeegaardFloer Layer 2. For `1 ≤ k ≤ ℓ` and
+`2 < p ≤ p₀`, prove the following:
 
 - `D : W^{k,p}_F → W^{k−1,p}` is bounded;
 - the elliptic estimate `‖ξ‖_{W^{k,p}} ≤ C(‖Dξ‖_{W^{k−1,p}} + ‖ξ‖_{Lᵖ})` holds, by PH3.3–PH3.4
   in charts;
-- `D` is Fredholm, by the estimate and Rellich.
+- the kernel is finite-dimensional and the range is closed, by the estimate and Rellich.
+
+Finite-dimensionality of the cokernel is part of PH6.3. For smooth `S`, every finite `p > 2`
+is allowed.
 
 ### 6.3 Regularity of the kernel and cokernel
 
-Prove the following:
+Fix a `J_E`-Hermitian metric on `E` for which `F` is Lagrangian, and prove such a metric
+exists. Fix also an area form compatible with `j`. The formal adjoint
+`D* : Ω^{0,1}(E) → Ω⁰(E)` carries the boundary condition `η(v) ∈ F` for `v` tangent to `∂Σ`. On
+`D⁺_r` with `D = ∂_s + i∂_t` and `F = ℝⁿ`, integration by parts leaves the boundary term
+`−∫_ℝ ⟨iξ, η(∂_s)⟩ ds`, which vanishes for all `ξ ∈ ℝⁿ` exactly when `η(∂_s) ∈ ℝⁿ`. `D*` is a
+real Cauchy–Riemann operator of `∂`-type. Put it in the form of PH3.3 by conjugation and the
+metric.
 
-- the kernel consists of `W^{ℓ,p}` sections (smooth sections when the coefficients are smooth),
-  and it is independent of `k ≤ ℓ` and of `p > 2`;
-- the cokernel is identified with the kernel of the formal adjoint
-  `D* : Ω^{0,1}(E) → Ω⁰(E)` with its dual boundary condition. Fix a `J_E`-Hermitian metric on
-  `E` for which `F` is Lagrangian, and prove such a metric exists. Fix also an area form
-  compatible with `j`. The adjoint boundary condition is `η(v) ∈ F` for `v` tangent to `∂Σ`.
-  On `D⁺_r` with `D = ∂_s + i∂_t` and `F = ℝⁿ`, integration by parts leaves the boundary term
-  `−∫_ℝ ⟨iξ, η(∂_s)⟩ ds`, which vanishes for all `ξ ∈ ℝⁿ` exactly when `η(∂_s) ∈ ℝⁿ`;
-- an `L^{p'}` functional annihilating the range is a weak solution of `D*η = 0`, and it is as
-  regular as the coefficients allow.
+For `2 < p ≤ p₀`, prove the following in order:
 
-`D*` is a real Cauchy–Riemann operator of `∂`-type. Put it in the form of PH3.3 by conjugation
-and the metric, and apply PH3.3–PH3.5. Prove unique continuation for kernel and cokernel
-elements from PH3.5. Prove that the index is independent of `k` and `p`, and that it is
-locally constant along continuous families of zeroth-order terms. For the latter, consume
-Mathlib's `IsFredholm.eventually_nhds_index_eq`.
+1. *Cokernel at `k = 1`.* An element of `(Lᵖ)* = L^{p'}`, `p' = p/(p−1)`, annihilating the range
+   of `D : W^{1,p}_F → Lᵖ` is a weak solution of `D*η = 0` in `L^{p'}`. Since
+   `p₀/(p₀−1) ≤ p' < 2 < p₀`, PH3.3–PH3.4 apply to `D*` with coefficient exponent `p₀`, and give
+   `η ∈ W^{ℓ,p₀}` with the adjoint boundary condition. Apply PH6.2's estimate to `D*` to make
+   the space of such `η` finite-dimensional. Hence `D : W^{1,p}_F → Lᵖ` is Fredholm.
+2. *Kernel.* The kernel consists of `W^{ℓ,p₀}` sections (smooth when `S` is smooth), so it is
+   independent of `k ≤ ℓ` and of `p ∈ (2, p₀]`.
+3. *Higher `k`.* For `1 ≤ k ≤ ℓ`, the range of `D : W^{k,p}_F → W^{k−1,p}` is the intersection of
+   `W^{k−1,p}` with the range at `k = 1`, by regularity. Since `W^{k−1,p}` is dense in `Lᵖ`, the
+   two cokernels have equal dimension. So every realization is Fredholm with the same index,
+   independent of `k ≤ ℓ` and `p ∈ (2, p₀]`. For smooth `S`, it is independent of every finite
+   `p > 2` and every `k`.
+4. *Unique continuation* for kernel and cokernel elements, from PH3.5.
+5. *Deformation.* The index is locally constant along continuous families of zeroth-order
+   terms in `W^{ℓ−1,p₀}`. Consume Mathlib's `IsFredholm.eventually_nhds_index_eq`.
 
 ### 6.4 Agreement with the smooth-coefficient theory
 
@@ -571,29 +614,57 @@ For a real Cauchy–Riemann operator `D` on `(E, F)` as in PH6, prove
 `χ` is the Euler characteristic of a finite CW model. Identify it with the alternating Betti
 sum through CharacteristicClasses C2.3, AlgebraicTopology Stages 6.1, 7.1 and 8.7, and
 FuchsianOrbifolds Layer 5's `compactManifoldFiniteCWType`. Prove the formula for an arbitrary
-given `j`, independently of uniformization.
+given `j`, independently of uniformization. Work with connected `Σ`; the general case is the
+sum over components.
 
-The route is as follows:
+The closed case follows these steps.
 
-1. By PH6.3 the index is unchanged along continuous paths of zeroth-order terms, so it
-   depends only on `(Σ, j, E, F)`. Moreover any two operators on the same data are joined by
-   the straight-line path.
-2. *Closed case.* Construct a local parametrix and prove the cut-and-paste index formula for a
-   decomposition of the surface along embedded circles with collars. Use it to reduce to the
-   two local contributions: the Euler contribution `nχ` and the clutching contribution
-   `2c₁`. Compute both on the sphere, where the line bundles of degree `d` have `∂̄`-index
-   `2(d + 1)` by Fourier series in an annulus decomposition.
-3. *Bordered case.* Choose `D` complex linear and commuting with the reflection near `∂Σ` in
-   collar coordinates, which is possible by step 1. It extends to a real Cauchy–Riemann
-   operator `D_F` on `E_F` that commutes with the lifted `τ`. The kernel and cokernel of
-   `D_F` split into `±1` eigenspaces of `τ`; multiplication by `i` exchanges them, and the
-   `+1` part is the kernel and cokernel of `D` with boundary condition `F`. Hence
-   `ind D_F = 2 ind D`. The closed formula with `χ(Σ_ℂ) = 2χ(Σ)` and
-   `c₁(E_F)[Σ_ℂ] = μ(E, F)` gives the bordered formula.
-4. *Check against the disc.* Compute the disc case `(ℂ, e^{ikθ/2}ℝ)` directly by Fourier
+1. *Invariance.* By PH6.3 the index is unchanged along the straight-line path between two
+   operators on the same data, so it depends only on `(Σ, j, E)`. It is additive under direct
+   sums, and invariant under bundle isomorphisms.
+2. *Splitting.* If `rank_ℂ E ≥ 2`, a generic smooth section of `E` has no zeros, because real
+   rank `≥ 4 > 2 = dim Σ`. Prove this with Tau Ceti's Morse–Sard theorem
+   `ContDiff.addHaar_image_criticalPoints_eq_zero` in charts. A nowhere-zero section and a
+   Hermitian metric split `E ≅ ℂ ⊕ E'`. By induction, `E ≅ ℂ^{n−1} ⊕ L` with
+   `c₁(L) = c₁(E)`, using the Whitney sum formula of CharacteristicClasses C3.2.
+3. *Holomorphic structures.* A complex-linear Cauchy–Riemann operator on a line bundle has
+   local holomorphic frames by PH3.5's similarity principle. So it is a holomorphic structure,
+   and its kernel is the space of holomorphic sections.
+4. *Point twisting.* For a holomorphic line bundle `L` and a point `x`, construct the
+   holomorphic line bundle `L(x)` with a holomorphic section `s_x` of `𝒪(x)` vanishing simply at
+   `x`. Prove `ind_ℝ ∂̄_{L(x)} = ind_ℝ ∂̄_L + 2` and `c₁(L(x)) = c₁(L) + 1`. Prove the index
+   statement from the exact sequence
+   `0 → ker ∂̄_L → ker ∂̄_{L(x)} → L(x)_x → coker ∂̄_L → coker ∂̄_{L(x)} → 0`. Here the first map
+   is multiplication by `s_x`, and the second is evaluation at `x`. The connecting map sends a
+   value `c` to the class of `∂̄(χ σ_c)/s_x`, for a local holomorphic section `σ_c` with value
+   `c` and a cutoff `χ`. Prove exactness from PH6.3's identification of cokernels with adjoint
+   kernels and from unique continuation.
+5. *Reduction to the trivial bundle.* A generic smooth section of `L` has finitely many
+   transverse zeros `xᵢ` with signs `εᵢ`, whose signed count is `c₁(L)[Σ]` by
+   CharacteristicClasses C3.2's `c₁ = e`. Twisting the trivial holomorphic bundle at those
+   points, by `𝒪(xᵢ)` for `εᵢ = 1` and its dual for `εᵢ = −1`, gives a holomorphic bundle.
+   Prove it is smoothly isomorphic to `L`, using the section to build the isomorphism. So
+   `ind_ℝ ∂̄_L = ind_ℝ ∂̄_ℂ + 2c₁(L)[Σ]`.
+6. *Trivial bundle.* The kernel of `∂̄` on functions is the constants, of real dimension 2. By
+   PH6.3, the cokernel is the space of antiholomorphic `(0,1)`-forms, of real dimension
+   `2h^{1,0}`. ComplexKahlerGeometry K6.1's Hodge decomposition on the compact Kähler curve
+   `(Σ, j, area form)` gives `2h^{1,0} = b₁`, using PH2.4's comparison of `(Σ, j)` with
+   analytic charted spaces. Hence `ind_ℝ ∂̄_ℂ = 2 − b₁ = χ(Σ)`.
+
+Combining the steps gives `ind_ℝ D = (n − 1)χ + χ + 2c₁(E)[Σ]`.
+
+The bordered case follows from the closed case.
+
+7. *Doubling.* Choose `D` complex linear and commuting with the reflection near `∂Σ` in collar
+   coordinates, which is possible by step 1. It extends to a real Cauchy–Riemann operator
+   `D_F` on `E_F` that commutes with the lifted `τ`. The kernel and cokernel of `D_F` split
+   into `±1` eigenspaces of `τ`; multiplication by `i` exchanges them, and the `+1` part is the
+   kernel and cokernel of `D` with boundary condition `F`. Hence `ind D_F = 2 ind D`. The closed
+   formula with `χ(Σ_ℂ) = 2χ(Σ)` and `c₁(E_F)[Σ_ℂ] = μ(E, F)` gives the bordered formula.
+8. *Check against the disc.* Compute the disc case `(ℂ, e^{ikθ/2}ℝ)` directly by Fourier
    series. For `k ≥ −1` the operator `∂̄` is onto, with kernel of real dimension `1 + k`. For
    `k ≤ −1` it is injective, with cokernel of dimension `−1 − k`. Prove that this agrees with
-   step 3.
+   step 7.
 
 ### 7.3 Checks
 
@@ -610,7 +681,8 @@ The targets here are the single owner of the planar and compact Cauchy–Riemann
 roadmaps below consume them and must not rebuild them:
 
 - **HeegaardFloer**:
-  - F1.1–F1.2 consume PH1 and PH3;
+  - F1.1 consumes PH1 and PH6.1, and F1.2 consumes PH2.4 and PH3. F1.2 keeps its normalized
+    disc solvers with prescribed centre and first jet;
   - the closed and bordered part of F1.5 is PH6–PH7, and F1.5's punctured and weighted theory
     consumes PH6–PH7 for the compact pieces;
   - F2.2's `W^{2,p}` regularity for `C¹` structures is PH5.1 with `ℓ = 1`;

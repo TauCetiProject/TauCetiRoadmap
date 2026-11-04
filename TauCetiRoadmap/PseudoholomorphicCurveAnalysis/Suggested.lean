@@ -91,10 +91,10 @@ def IsWeakCauchyRiemannOn (p : ENNReal) (Ω : Opens ℂ) (J : V → V →L[ℝ] 
     ∃ U : ℂ → ℂ →L[ℝ] V, TauCeti.HasWeakFDerivOn volume Ω u U ∧
       ∀ᵐ z ∂(volume.restrict (Ω : Set ℂ)), U z 1 + J (u z) (U z I) = 0
 
-/-- PH5.1, interior planar form: a weak solution for a `C^ℓ` structure, `ℓ ≥ 1`, `p > 2`, is in
-`W^{ℓ+1,p}_loc`. -/
-theorem memWkpLoc_of_isWeakCauchyRiemannOn {p : ENNReal} (hp : 2 < p) {ℓ : ℕ} (hℓ : 1 ≤ ℓ)
-    {Ω : Opens ℂ} {J : V → V →L[ℝ] V} (hJ : ContDiff ℝ ℓ J)
+/-- PH5.1, interior planar form: a weak solution for a `C^ℓ` structure, `ℓ ≥ 1`, finite
+`p > 2`, is in `W^{ℓ+1,p}_loc`. The endpoint `p = ∞` is excluded: see the README. -/
+theorem memWkpLoc_of_isWeakCauchyRiemannOn {p : ENNReal} (hp : 2 < p) (hp_top : p ≠ ⊤)
+    {ℓ : ℕ} (hℓ : 1 ≤ ℓ) {Ω : Opens ℂ} {J : V → V →L[ℝ] V} (hJ : ContDiff ℝ ℓ J)
     (hJsq : ∀ x, (J x).comp (J x) = -ContinuousLinearMap.id ℝ V) {u : ℂ → V}
     (hu : IsWeakCauchyRiemannOn p Ω J u) :
     MemWkpLoc p Ω (ℓ + 1) u :=
