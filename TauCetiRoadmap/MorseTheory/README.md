@@ -25,6 +25,12 @@ the manifold normal-form comparison, finite-band topology and arbitrary-function
 critical-point bounds. General atlas transport is owned by ComplexManifolds
 Milestone 1; Layer 1 here specifies the preferred-chart formulas needed for
 real boundaryless models, scalar levels and immersion comparisons.
+Morse theory under the Palais–Smale condition in place of properness
+(sequential compactness of almost-critical sequences, deformation of
+noncompact critical-free bands on complete Riemannian manifolds, and
+gradient convergence without compact trapping) is outside this roadmap: it
+extends §2.2 and §6.1 and belongs to a Part II roadmap built on them;
+nothing here depends on it.
 
 ## Conventions
 
@@ -455,8 +461,10 @@ energy integral identity. On compact manifolds prove completeness and convergenc
 for Morse functions using isolated critical points. Compare this field with
 −grad f when the metric is Euclidean in the chosen charts; a general smooth
 metric needs Layer 6's separate argument.
-Native `Analysis/Calculus/Morse/CompactSublevel` gives vector-space orbit/
-trajectory compactness, not a cell-attachment or band deformation. Extend
+The native vector-space `IsIntegralCurveOn.exists_tendsto_atTop` in
+`Analysis/Calculus/Morse/Convergence` gives convergence of a negative-gradient
+trajectory trapped in a compact set containing finitely many critical points,
+not a cell attachment or band deformation. Extend
 compact-manifold pseudo-gradient existence to a neighborhood of a specified
 compact level band by a finite cover, with the field unchanged on chosen
 smaller critical charts. For each compact critical-free band use a positive
@@ -913,12 +921,16 @@ p. 2, with its finite-cover proof on pp. 2–3.
 Acceptance: standard height on S^m; cosine functions on T^m with binomial
 critical counts; the two-dimensional torus's minimum/saddles/maximum; explicit
 integer counts satisfying weak inequalities/Euler but violating a strong
-inequality; and a closed connected positive-dimensional M admitting a Morse function
+inequality; and a closed positive-dimensional M admitting a Morse function
 with exactly two critical points is homeomorphic to a sphere
 (`nonempty_homeomorph_sphere_of_two_criticalPoints`; Cohen–Iga–Norbury,
 Application 5.13, p. 43). The last conclusion follows from
 two disc handles and the topological radial extension of the boundary gluing;
-no diffeomorphism-to-standard-sphere assertion is made. Complex projective
+no diffeomorphism-to-standard-sphere assertion is made. Connectedness is
+not a separate hypothesis: every component of a closed positive-dimensional
+manifold carries a minimum and a maximum of f, which are distinct critical
+points because a Morse function is not constant on an open set of positive
+dimension, so the two-point count forces a single component. Complex projective
 moment functions use [ComplexKahlerGeometry K7.1 and K7.2](../ComplexKahlerGeometry/README.md#k7-projective-torus-and-hopf-examples):
 K7.1 supplies the actual `Projectivization ℂ (Fin (n+1)→ℂ)` carrier and,
 through K1 and [ComplexManifolds Milestone 1](../ComplexManifolds/README.md#milestone-1-restriction-of-scalars-and-atlas-transport)'s real restriction of the complex affine charts, the concrete
@@ -951,6 +963,7 @@ AlgebraicTopology §4.6. The sphere proof uses Morse nondegeneracy at both extre
 **Checks.**
 - On S², ordinary height has indices 0 and 2 and two nondegenerate critical points.
 - For f=h−h³/3 on S², the only critical points are still the poles but both Hessians are 0: the two-handle hypothesis fails.
+- On two disjoint copies of S² the height has four critical points, so the two-point count already excludes a disconnected M; a statement with a separate connectedness hypothesis is weaker, not different.
 - On CP¹, f([z₀:z₁])=|z₁|²/(|z₀|²+|z₁|²) has critical values 0,1 and indices 0,2; the denominator is positive because z≠0.
 
 ### Examples
@@ -1094,91 +1107,13 @@ length. *Needs:* §1.3; §2.2; DifferentialGeometry Layers 3,12; native Morse gr
 - For f=−u²+v² on the stable axis u=0, E=v²≥0 and v(t)=v₀e^(−2t); f need not have a local minimum.
 - At an equilibrium, E and tail length are both 0; no division by E is allowed.
 
-### 6.2 Palais–Smale compactness without properness
-
-For a chosen smooth Riemannian metric g,
-define the Palais–Smale condition by sequences: whenever the real numbers
-f(x_j) are bounded and `‖grad_g f(x_j)‖→0`, some subsequence of x_j converges
-in M. Also give its restriction to each closed finite value band [a,b],
-and prove the global condition equivalent to satisfying it on every such
-band. Keep the metric in the condition; comparison under a change of metric
-requires uniform equivalence on the relevant band. Properness of a smooth
-f implies this condition by compactness of inverse images of bounded closed
-intervals. The converse is not asserted.
-
-For continuous gradient, prove the critical set in each finite closed value
-band is compact by the sequential condition and closedness. For a Morse
-function it is finite by isolation; isolation alone does not make an arbitrary
-subset of a compact space finite. On a band with no critical points, prove
-a uniform lower bound `‖grad_g f‖≥η>0` by applying Palais–Smale to a sequence
-violating the bound. On a complete Riemannian manifold use this bound to
-extend M2's regular critical-free-band deformation to bands that need not
-be compact. Construct the normalized field on a slightly larger critical-
-free band, its bounded speed, the required finite-time continuation, and
-the strong deformation retract M_b→M_a fixing M_a. Prove the regular-endpoint
-buffers exist from Palais–Smale; regularity at a and b alone does not give
-a uniform buffer by a compact-band argument when the band is noncompact.
-The noncompact deformation uses this bounded-speed continuation; the
-handle/cobordism theorems retain their compact-band hypotheses.
-
-On a complete manifold, every maximal forward negative-gradient trajectory
-of a smooth bounded-below f has infinite forward lifetime: over a finite
-time interval, dissipation bounds the total length by the square root of
-time times the square root of the energy drop. Completeness gives an endpoint,
-and local ODE uniqueness/continuation extends the trajectory. This argument
-requires no global bound on the gradient and no Palais–Smale hypothesis.
-
-If f is additionally Morse and Palais–Smale, prove every such trajectory
-converges to one critical point, without assuming compact trapping. The
-energy has a finite limit c; dissipation supplies times tending to infinity
-with gradient norm tending to0. Palais–Smale supplies a subsequence
-converging to a critical point p of value c. Use M6's local gradient
-inequality and tail-length estimate to prove that, once sufficiently close
-to p with sufficiently small remaining energy, the orbit cannot leave a
-fixed small coordinate neighborhood. Only after proving this trapping apply
-the local exponential convergence argument. A critical subsequence alone
-does not prove convergence of the whole orbit. Deduce exponential convergence,
-finite forward tail length and the bounded-below Palais–Smale minimum-
-attainment corollary on every nonempty manifold in this Morse scope.
-
-As the hypothesis check, compute on the complete Euclidean line
-`f(x)=exp(−x)` and `γ(t)=log(exp(x₀)+t)` for t≥0. This is a bounded-below
-smooth function with no critical points and a forward negative-gradient
-trajectory escaping to infinity; x_j=j violates Palais–Smale. Its normalized
-negative-gradient field is `−grad f/‖grad f‖²=exp(x)`, whose trajectory from
-x₀ escapes in time exp(−x₀). Thus constant rate of decrease of f along that reparametrization does not
-justify global existence.
-
-[`PalaisSmaleTargets.lean`](PalaisSmaleTargets.lean) suggests the sequential,
-critical-band and flow statements on the native finite-dimensional real
-inner-product-space specialization. The manifold and variable-metric
-comparisons above remain part of the definitive specification.
-For the sequence condition and critical-free deformation argument, see
-[Morgan, Lecture V A, Definition 1.6 and Remark 1.7, p. 6;
-Proposition 1.8, pp. 6–7](https://www.math.columbia.edu/~jmorgan/Condition_C.pdf).
-
-The Palais–Smale API is:
-
-- Global sequential compactness is equivalent to its restrictions to all finite closed value bands.
-- Uniformly equivalent metric norms on a band give equivalent sequence conditions there.
-- Properness implies the condition; a continuous gradient makes each critical value band compact, and Morse nondegeneracy makes it finite.
-- On a critical-free band the gradient has a positive uniform lower bound; completeness yields the stated finite-time deformation.
-
-*Needs:* §6.1; DifferentialGeometry Layers 3,12; Morgan, Definition 1.6,
-Remark 1.7 and Proposition 1.8, pp. 6–7. For global convergence add boundedness
-below, Morse nondegeneracy and metric completeness, exactly as above.
-
-**Checks.**
-- f=x² on ℝ satisfies the condition: gradient norm 2|x_j|→0 forces x_j→0.
-- f(x,y)=x on ℝ² satisfies it vacuously since the gradient norm is 1; its band [0,1]×ℝ is noncompact and its normalized flow is (x−t,y).
-- f=e^(−x) fails it: at x_j=j the values and gradient norms tend to 0, while no subsequence converges in ℝ.
-- Rescaling the metric to 4g divides the gradient norm by 2; convergence to 0 is unchanged, whereas arbitrary nonuniform changes have no such implication.
-
 ### Examples
 
-For f=e^(−x), the ordinary descending flow is global but escapes, whereas the
-normalized field escapes in time e^(−x₀). These distinguish forward existence,
-convergence, and completeness of the normalized flow.
+For f=x² on ℝ every forward trajectory x₀e^(−2t) stays in [−|x₀|,|x₀|] and
+converges to 0 at rate 2. For f=x on ℝ the trajectory x₀−t leaves every
+compact set and f has no critical point, so the trapping hypothesis fails
+rather than the conclusion; properness with a lower bound is what supplies
+trapping, and a merely bounded-below function such as e^(−x) supplies none.
 
 ### Dependencies
 
@@ -1208,9 +1143,5 @@ Layer 5 for Hamiltonian critical submanifolds and equivariant perfection.
 - Weber, [*Conley pairs in geometry – Lusternik–Schnirelmann theory and more*](https://www.math.stonybrook.edu/~joa/PUBLICATIONS/conblock.pdf),
   author version of arXiv:1709.05010: Theorem 1.1, p. 2, and its finite-cover
   proof, pp. 2–3. Numbering here refers to this author version.
-- Morgan, [*Lecture V A: The Palais-Smale approach to Morse Theory on the loop space*](https://www.math.columbia.edu/~jmorgan/Condition_C.pdf),
-  Definition 1.6 and Remark 1.7, p. 6 (Condition (C)); Proposition 1.8,
-  pp. 6–7 (critical-free bands on complete manifolds).
-- Thomas Mark, *Math240 Riemannian Geometry* (2001), Homework 10,
-  problem 3, scan 0228_001, physical p. 3; Homework 11 (Morse–Bott examples).
+- Thomas Mark, *Math240 Riemannian Geometry* (2001), Homework 11 (Morse–Bott examples).
   Bibliographic attribution only; the mathematical targets use the references above.

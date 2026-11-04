@@ -146,10 +146,11 @@ theorem strong_morse_inequalities [CompactSpace M] (k : Type _) [Field k]
       (1 + Polynomial.X) * Q := by
   sorry
 
-/-- A closed connected positive-dimensional manifold with a Morse function having exactly two
-critical points is homeomorphic to the standard sphere of its dimension. -/
+/-- A closed positive-dimensional manifold with a Morse function having exactly two
+critical points is homeomorphic to the standard sphere of its dimension; connectedness
+follows from the count. -/
 theorem nonempty_homeomorph_sphere_of_two_criticalPoints [CompactSpace M]
-    [ConnectedSpace M] (hdim : 0 < Module.finrank ℝ E)
+    (hdim : 0 < Module.finrank ℝ E)
     (f : M → ℝ) (hf : TauCeti.IsMorse I f)
     (hcrit : (criticalPoints (I := I) f).encard = 2) :
     Nonempty (M ≃ₜ Metric.sphere
