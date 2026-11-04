@@ -32,8 +32,8 @@ is imposed on generalized theories.
 | --- | --- | --- |
 | [AlgebraicTopology](../AlgebraicTopology/README.md), Stages 2–5, 8 | CW cells/skeleta and cellular approximation, homotopy groups and Whitehead, ordinary pair/triple homology and products; Stage4.5 ordinaryPairQuotientComparison and ordinaryPairQuotientCohomologyComparison; Stage4.5's simplicial-realization product comparison |K×L|≃k(|K|×|L|) with its compact-generation facts | singular chains and ordinary homology/cohomology remain there |
 | AlgebraicTopology Stage 6.0 | countable inverse towers: `lim = ker(1−shift)`, `lim¹ = coker(1−shift)`, exactness, Mittag–Leffler and cofinal-shift maps | G3 builds the topological telescope and mapping-spectrum comparison, not another algebraic tower carrier |
-| [DGFloer](../DGFloer/README.md), Layer1 item4; AlgebraicTopology Stage8 | DGFloer functorial abelian EM models; ordinaryEMUniversalClass, ordinaryEMRepresentability, ordinaryEMRelativeRepresentability, ordinaryEMLoopComparison, ordinaryCohomologySuspension and projectiveEMComparisons on arbitrary CW spaces | G2 assembles HA and proves the spectral ordinary comparison; nonabelian K(π,1) remains ordinary topology |
-| DGFloer Layer 1 item 4 | Serre classes, including torsion, and simply connected Hurewicz modulo a class | G5 supplies the rational-sphere/stabilization argument, not a second general Serre-class owner |
+| [AlgebraicTopology](../AlgebraicTopology/README.md), Stage8 | Stage 8.8c's functorial abelian EM models; ordinaryEMUniversalClass, ordinaryEMRepresentability, ordinaryEMRelativeRepresentability, ordinaryEMLoopComparison, ordinaryCohomologySuspension and projectiveEMComparisons on arbitrary CW spaces | G2 assembles HA and proves the spectral ordinary comparison; nonabelian K(π,1) remains ordinary topology |
+| AlgebraicTopology Stage 8.8d | Serre classes, including torsion, and simply connected Hurewicz modulo a class | G5 supplies the rational-sphere/stabilization argument, not a second general Serre-class owner |
 | [HomotopySpheres Stage 3A](https://github.com/TauCetiProject/TauCetiRoadmap/pull/284) | the native `CompactlyGenerated` inclusion and compact-generation right adjoint; pointed convenient mapping spaces, suspension/loop, smash, mapping cone/Puppe, stable sphere stems and Freudenthal | G2 builds pointed simplicial and spectral constructions and the adapters; it does not create a second topological smash or stable-stem owner |
 | [TopologicalKTheory](../TopologicalKTheory/README.md), T1, T5–T7; [CharacteristicClasses](../CharacteristicClasses/README.md), C1–C3 | actual numerable bundles/classifiers, T1.5's smooth real/complex Grassmannian graph-chart upgrade and rank-one projective diffeomorphisms, CC C2.1 disc/sphere quotient and ordinary Thom classes, bundle-level real/complex Bott isomorphisms and chosen ordinary class conventions | G4–G5 supply the spectral and generalized adapters. G4.0 supplies the quaternionic bundle/HP adapter; G5 compares KSp with quaternionic bundle groups |
 | [ComplexKahlerGeometry K1/K7.1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/a452db2cfef888380d1b7b7ce00fa06d5bad1109/TauCetiRoadmap/ComplexKahlerGeometry/README.md); [ComplexManifolds PR279](https://github.com/TauCetiProject/TauCetiRoadmap/pull/279), Milestones1–2 | #279's real scalar restriction and complex orientation as consumed by K1, and K7.1's native CP complex and real atlases | TopologicalKTheory T1.5 consumes these atlases for its real/complex graph-chart upgrade, interleaved real model change and rank-one Grassmannian diffeomorphisms; G4.0b compares its HP¹≃S⁴ adapter with K7's CP¹≃S², and G5.7 uses K7.1's projective stage charts |
@@ -41,7 +41,7 @@ is imposed on generalized theories.
 | [SpinRepresentations](../SpinRepresentations/README.md), L7; [SpinGeometry](../SpinGeometry/README.md), G4.1 | native Spin(3) topology/action and Spin-cover frame/form adapters | G4.0a supplies the calibrated Spin(4) and quaternionic forgetting maps |
 | [SpinGeometry G1.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/41b8e2757fda1d8b7502af380e44b011b83bd7ff/TauCetiRoadmap/SpinGeometry/README.md#g1-negative-metric-clifford-modules-and-their-positive-metrics) | `cliffordScalarTrace` and its ℂ-linear extension τ_ℂ, their normalized regular-module trace formulas and algebra-isomorphism transport, independent of later C*-models | G5.5 proves positivity/faithfulness for its mixed Cartan adjoint and the Hilbert-module/completion norm comparisons |
 | [GeometricTopology](../GeometricTopology/README.md), smooth embeddings and tubular neighbourhoods | actual finite-dimensional normal bundles, tubes and collapse comparison | G5 constructs finite-spectrum duality; structured PT and geometric bordism remain TangentialBordism |
-| DGFloer Layer1 item2 | ordinary Serre homology/cohomology spectral sequences, arbitrary-CW/base comparisons and multiplicative convergence | G5 uses these for rational EM/sphere calculations; no returned dependency on generalized spectra |
+| AlgebraicTopology Stages 4.8 and 5.5 | ordinary Serre homology/cohomology spectral sequences, CW approximation, arbitrary-CW/base comparisons and multiplicative convergence | G5 uses these for rational EM/sphere calculations; no returned dependency on generalized spectra |
 | [HilbertModules H2, H4–H6](https://github.com/TauCetiProject/TauCetiRoadmap/pull/861), [CStarAlgebras C5](https://github.com/TauCetiProject/TauCetiRoadmap/pull/860), [OperatorKTheory K5](https://github.com/TauCetiProject/TauCetiRoadmap/pull/866) | complex Hilbert compact operators/spatial tensors, strong-topology unitary contractibility, regular functional calculus and graded Clifford APIs | G5 adds the real/Clifford specializations, equivariant spectral construction and graded family-index/classification comparisons; complex generic operator foundations keep these owners |
 | G5's compatible bundle-diagram interface | actual bundles, stabilization isomorphisms, coherent block-sum/permutation maps and their universal classifier adapters | TangentialBordism consumes this interface for ξ-normal structures; geometric cycles over X, structured Pontryagin–Thom, coefficient/characteristic-number calculations and rational bordism generators stay there |
 
@@ -230,7 +230,7 @@ axiomatic theories independently of their G2 spectral representation.
    weak-homotopy/Serre model with its explicit convenient-space adapter.
    Consume AT4's `simplicialRealizationCW`, AT8.2's `simplicialGroupKan`,
    `simplicialGroupMooreHomotopyIso` and `kanRealizationUnitHomotopyIso`,
-   and CC C1.2's actual |Sing X|→X weak-equivalence. DGFloer Layer 1 item 2
+   and CC C1.2's actual |Sing X|→X weak-equivalence. AT4.8
    supplies its abstract CW-approximation comparison. Use those unit/counit
    results to prove realization ⊣ Sing is a Quillen equivalence.
    Consume AT Stage 4.5's simplicial-realization product comparison, the
@@ -406,8 +406,8 @@ axiomatic theories independently of their G2 spectral representation.
    have their own proved stable-colimit comparison; do not transfer that
    statement to arbitrary symmetric spectra by forgetting permutation actions.
 7. **Represented theories and ordinary adapters.** First complete G2.10
-   (raw part after G2.1, fibration-LES application after DGF1.2), then
-   DGF1.4's fixed abelian models, before this item.
+   (raw part after G2.1, fibration-LES application after AT5.5), then
+   AT8.8c's fixed abelian models, before this item.
    Prove that the displayed
    formulas in the conventions satisfy every G1 axiom and product/sign law.
    Their spectral maps induce natural maps of theories. Assemble the ordinary
@@ -415,7 +415,7 @@ axiomatic theories independently of their G2 spectral representation.
    the reduced free A-module Ã[Sⁿ] on Sⁿ=(S¹)^∧n, with coordinate actions.
    Define structure maps by x∧Σ a_i y_i↦Σ a_i(x∧y_i); for a commutative ring A
    define multiplication by the bilinear smash of generators. Prove the full
-   symmetric-module/ring laws. Compare these levels with DGFloer's single
+   symmetric-module/ring laws. Compare these levels with AT8.8c's single
    K(A,n) models via Dold–Kan and AT's loop/ordinary representability adapters,
    prove stable π is A concentrated in degree zero, and compare HA theories
    with AT's reduced/absolute/relative singular theories, including Stage 4.5's
@@ -534,8 +534,9 @@ axiomatic theories independently of their G2 spectral representation.
 
 
 10. **Mapping-path replacements and homotopy fibres.** This foundational
-   raw convenient-space construction uses G2.1, native continuous maps
-   and the compact-open path topology. Own `IsHurewiczFibration p` for a
+   raw convenient-space construction uses G2.1, native continuous maps,
+   the compact-open path topology and AT5.5's fixed-interval path-space
+   lifting functions. Own `IsHurewiczFibration p` for a
    continuous p:E→B: use an actual continuous lifting function
    Λ:{(e,γ):E×C(I,B) | γ(0)=p(e)}→C(I,E), with Λ(e,γ)(0)=e
    and p(Λ(e,γ)(t))=γ(t). Prove it yields continuous homotopy lifting
@@ -570,10 +571,12 @@ axiomatic theories independently of their G2 spectral representation.
    Specialize this same comparison at b=k as
    `mappingPathFiberConstHomeomorphLoopSpace`, into native `LoopSpace K k=Path k k`,
    retaining constant loops, evaluation and concatenation comparisons.
-   Prove the endpoint map is a Hurewicz, hence Serre, fibration by a
-   continuous parametrized path-concatenation lifting construction.
+   Consume AT5.5's continuous parametrized path-concatenation lifting
+   functions for the fixed-interval path-space evaluations and their native
+   Serre membership; transport them along the pullback squares to prove
+   the endpoint map is a Hurewicz, hence Serre, fibration.
    Likewise the fibre projection to B is the pullback of the fixed-end
-   path fibration and has actual lifting maps. At b with a chosen
+   path fibration and inherits actual lifting maps. At b with a chosen
    reference path f(b)→k construct its homotopy equivalence with Ω(K,k)
    by γ↦α⁻¹*γ and ℓ↦α*ℓ for the reference path α,
    where * traverses its left factor first; if the
@@ -610,7 +613,7 @@ axiomatic theories independently of their G2 spectral representation.
    homotopies from those four homotopies, including empty endpoint
    fibres. This compares fibres along a supplied path, not by a
    path-independent canonical map. Neither raw construction consumes
-   DGF's LES, Moore/transitive lifts or general Whitehead machinery.
+   a fibration LES, Moore/transitive lifts or general Whitehead machinery.
    Retain the raw carrier/topology when passing to G2.1's compactly
    generated category: build its k-ification and the projection,
    endpoint, fibre/pullback and exponential-law comparisons. Raw
@@ -621,11 +624,11 @@ axiomatic theories independently of their G2 spectral representation.
    homotopies, pullback/naturality and homotopy-choice comparisons.
    Compare these explicit replacements with the derived homotopy fibre
    in the designated topological model, using the native Serre predicate
-   through the preceding Hurewicz comparison. Then apply DGFloer1.2's
+   through the preceding Hurewicz comparison. Then apply AT5.5's
    fibration homotopy exact sequence to these replacements; only this
-   LES application consumes DGF1.2. The raw carrier/lifting/native comparison
-   starts after G2.1. The LES comparison follows DGF1.2 and precedes
-   DGF1.4, hence G2.7's HA/ordinary comparison.
+   LES application consumes AT5.5's sequence. The raw carrier/lifting/native comparison
+   starts after G2.1. The LES comparison follows AT5.5 and precedes
+   G2.7's HA/ordinary comparison; DGFloer Layer 1 item 4 consumes it.
    StringOrientation's BString and
    TangentialBordism's normal-classifier lifting use this single carrier;
    neither constructs an endpoint-dependent disjoint sum of path fibres.
@@ -3037,17 +3040,16 @@ axiomatic theories independently of their G2 spectral representation.
    rings and formal-group universal theorems remain with their named consumers.
 6. **Rational spectral Hurewicz.** Construct rationalization by the telescope
    inverting the positive integers, with explicit unit/map and its universal
-   property. Consume DGFloer Layer 1 item 4's torsion Serre-class Hurewicz
+   property. Consume AT8.8d's torsion Serre-class Hurewicz
    theorem and supply the rational sphere argument needed
    to prove `π_n S⊗ℚ=0` for n>0. Supply the required rational
-   H*(K(ℤ,n);ℚ) computation, consuming DGFloer Layer1 item2's
-   arbitraryCWSerreSpectralSequence/arbitraryBaseSerreSpectralSequence
-   and arbitraryCWSerreCohomologySpectralSequence/
-   arbitraryBaseSerreCohomologySpectralSequence, with their degreewise
-   first-quadrant convergence. Its skeletal filtration and CW-approximation
-   construction are owned solely by DGFloer1.2, using AT1–4, the
-   AT6.0–6.2 foundational Milnor/cochain/cup portion and DG1.3,
-   and precede DGFloer1.4 and this path-loop application. Consume the
+   H*(K(ℤ,n);ℚ) computation, consuming AT5.5's CW-base and arbitrary-base
+   homological and cohomological Serre spectral sequences, with their
+   degreewise first-quadrant convergence. Their skeletal filtration and
+   CW-approximation construction are owned solely by AT5.5 and AT4.8,
+   using AT1–4, the AT6.0–6.2 foundational Milnor/cochain/cup portion
+   and AT5.0's filtered-complex sequence, and precede AT8.8d and this
+   path-loop application. Consume the
    actual filtered-cochain E₂=H^p(B;H^qF), native/local tensor-cup pairings
    on E_r, Leibniz differentials and multiplicative strong convergence;
    dualizing homology pages does not construct this cohomology sequence.
@@ -3418,8 +3420,8 @@ supplier before StringOrientation defines λ and BString; neither supplement
 uses TB coefficients or String conclusions.
 
 G2.10's raw path/lifting construction and native Serre-predicate comparison
-use G2.1. Its fibration LES application follows DGF1.2 and precedes
-DGF1.4, which precedes G2.7's HA/ordinary comparison.
+use G2.1. Its fibration LES application follows AT5.5 and precedes
+G2.7's HA/ordinary comparison; DGFloer Layer 1 item 4 consumes it.
 SpinGeometry G1.3's scalar trace precedes G5.5's mixed Cartan positivity
 and real-module norm/regularity construction, with no returned input.
 G1's axiomatic lane and G2's pointed/model lane start independently. G2's

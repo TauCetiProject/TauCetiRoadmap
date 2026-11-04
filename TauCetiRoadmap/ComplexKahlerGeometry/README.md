@@ -1535,7 +1535,7 @@ embedding in any ℂPⁿ.
 ## K8. The Frölicher spectral sequence and non-Kähler comparison
 
 Construct the spectral sequence of the double complex of smooth type forms, with
-`E₁^(p,q)=H^(p,q)_∂̄`, converging to complex de Rham cohomology. Consume DGFloer's generic
+`E₁^(p,q)=H^(p,q)_∂̄`, converging to complex de Rham cohomology. Consume AlgebraicTopology Stage 5.0's generic
 filtered-complex spectral sequence and own its decreasing cohomological column-filtration
 adapter, with `d_r:E_r^(p,q)→E_r^(p+r,q−r+1)`, finite filtration and associated-graded
 convergence. Use Mathlib's `SpectralObject`/bicomplex carriers; do not create another
@@ -1610,7 +1610,7 @@ fibrations: fiberwise ∂̄ harmonic projection and translation-invariant fiber 
 the smooth local-system/trivial-monodromy comparison, and the corresponding base/fiber E₂
 identification. Prove the inclusion from invariant to full filtered complexes induces the
 comparison on these pages; apply induction on the central torus quotient and the
-finite-filtration comparison theorem. Generic DGFloer machinery supplies
+finite-filtration comparison theorem. AlgebraicTopology Stage 5.0's generic machinery supplies
 convergence/naturality, not these geometric page identifications. Apply Sakane only to
 this precise complex-parallelizable nilpotent class. An invariant subcomplex alone does
 not prove its inclusion is a quasi-isomorphism.

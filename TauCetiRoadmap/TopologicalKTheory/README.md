@@ -50,10 +50,10 @@ manifold, bundle or group-completion vocabulary replaces an existing API.
 
 - [AlgebraicTopology](../AlgebraicTopology/README.md) supplies CW pairs,
   cofibrations, homotopies, relative homotopy sequences and ordinary
-  (co)homology. T1 supplies the bundle-specific section-extension argument; T3
-  supplies K-theory's own exact sequences.
-- [DGFloer Layer 1 item 2](../DGFloer/README.md) supplies the Serre-fibration
-  homotopy sequence and bundle-to-Serre comparison used by T1.5.
+  (co)homology, and its Stage 5.5 supplies the Serre-fibration homotopy
+  sequence and native bundle-to-Serre comparison used by T1.5. T1 supplies the
+  bundle-specific section-extension argument; T3 supplies K-theory's own exact
+  sequences.
 - [GrothendieckEulerForms](../GrothendieckEulerForms/README.md) supplies the
   categorical presentation/universal-property infrastructure. Topological
   bundle categories and comparisons with their direct-sum monoids belong here.
@@ -304,7 +304,7 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
    **T1.5a. First Stiefel groups and normalized boundary.** On these same
    finite orthonormal-frame carriers write V_r(R^n), 0≤r≤n, m=n−r. Construct
    the last-vector forgetful map, local trivializations and sphere fibre S^m.
-   Consume the native bundle-to-Serre adapter and DGF1.2's actual based LES.
+   Consume the native bundle-to-Serre adapter and AT5.5's actual based LES.
    For m≥1 prove (m−1)-connectivity. For r=1 the space is S^m and π_m=Z
    for either parity. For r≥2,m≥1 prove π_m=Z when m is even and Z/2 when
    m is odd, with the bottom-fibre Z map the stated quotient and generator.
