@@ -576,7 +576,7 @@ See BK1990 Proposition 3.8 and its proof, pp. 354–359; Corollary 3.8.4, p. 355
 
 Let L/K be a finite extension of finite extensions of Q_p and V de Rham over K. (a) Restriction: `res_{L/K}` ∘ `exp_{K,V}` = `exp_{L,V}` ∘ ι, with ι : D_dR,K(V) → L ⊗_K D_dR,K(V) = D_dR,L(V) the inclusion. (b) Corestriction: `cor_{L/K}` ∘ `exp_{L,V}` = `exp_{K,V}` ∘ `Tr_{L/K},` and `Tr_{L/K}` ∘ exp*_L = exp*_K ∘ `cor_{L/K}.` (c) Twisting: for i ∈ Z, D_cris(V(i)) = D_cris(V) ⊗ e_i and D_dR(V(i)) = D_dR(V) ⊗ e_i with Fil^j shifted by i and φ multiplied by `p^{−i};` a chosen basis of Q_p(i) does not induce a canonical finite-level cohomology isomorphism H^1(K, V) ≅ H^1(K, V(i)), and twisting enters the exponentials only through Iwasawa cohomology (the supplier contract “Twisting local Iwasawa cohomology by characters of G_∞”). (d) Shapiro: for V a representation of G_L, H^1(K, Ind_L^K V) ≅ H^1(L, V) carries H^1_f to H^1_f and `exp_{K, Ind V}` to `exp_{L, V}` under D_dR,K(Ind V) = D_dR,L(V).
 
-See Berger2003 Proof of Theorem II.2, p. 11; Rubin2000 Appendix B, Corollary 5.2, p. 157.
+See BK1990 Corollary 3.8.4, p. 355, and Definition 3.10, p. 359: the restriction and corestriction compatibilities in (a)–(b) follow from the naturality of these connecting maps under the supplied restriction and trace maps; Rubin2000 Appendix B, Corollary 5.2, p. 157, for Shapiro in (d), and Corollary 5.3(ii), pp. 157–158, for the rational finite-extension descent used in §1.9.
 
 *Needs:* §§0.1,1.2–1.4; ArithmeticGaloisDuality restriction, corestriction and Shapiro maps.
 
