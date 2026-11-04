@@ -869,7 +869,7 @@ the displayed native dimension theorem supplies the comparison at this pin.
   zero variables; its structural map k→0 is not injective. Keep the
   nonzero-algebra hypothesis explicit.
 
-*Lean:* `LinearNoetherNormalizationTargets.lean` states the prescribed-tuple
+*Lean:* the strand `LinearNormalization` of `Suggested.lean` states the prescribed-tuple
 linear normalization and the two finite-field comparison targets on native
 polynomial, quotient, algebraic-independence and finite-map carriers.
 
