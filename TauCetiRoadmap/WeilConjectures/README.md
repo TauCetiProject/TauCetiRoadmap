@@ -115,7 +115,7 @@ Mathlib's `Scheme.EllAdicCohomology` is an additive-group construction from an i
 | EtaleCohomologyFoundations §§`F`.5–`F`.7, 0.9–0.11 | Exceptional inverse image and duality, the smooth trace, cycle maps with Tate orientation, projective bundles and weak Lefschetz. Use the Frobenius-equivariant perfect pairing, not only equality of Betti numbers. |
 | InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4 | Curve/Jacobian realization and graph trace, finite and rational constructible Grothendieck–Lefschetz, and constant-sheaf counts for every extension with compact support. §IG.0.T4 supplies the independent affine/projective-space and multiplicative-group cohomology comparisons. |
 | DeligneWeightsAndPurity §§0.1, 0.10–0.16, 1.6–1.10 | All-conjugates Weil numbers, characteristic power series, powers, tensor products and reciprocal pairings; curve purity and the coefficient Euler product/rational zeta construction `finiteFieldZetaRationality`. |
-| DeligneWeightsAndPurity §§4.3–4.4, 7.8–7.15, 8.24, 10.2 | Projective purity, normalized integral rational-series presentations and `degreeFactorExtraction`; canonical projective, smooth proper and homology-manifold factors; mixed direct-image bounds; `dmStack_etaleCohomology`, `dmStack_smoothProper_purity`, Frobenius-equivariant rational coarse comparison and smooth proper DM duality; component-aware bounds. WC.3 compares the supplied extraction with the point-count construction and these canonical factors. |
+| DeligneWeightsAndPurity §§4.3–4.4, 7.8–7.15, 8.24, 10.2 | Projective purity, normalized integral rational-series presentations and `degreeFactorExtraction`; canonical projective, smooth proper and homology-manifold factors; mixed direct-image bounds; §8.24's rational étale cohomology of Deligne–Mumford stacks and smooth proper DM purity clauses, Frobenius-equivariant rational coarse comparison and smooth proper DM duality; component-aware bounds. WC.3 compares the supplied extraction with the point-count construction and these canonical factors. |
 | EtaleDualityAndPerverseSheaves §§1.3, 4.3, 4.7, 8.1–8.2 | Chow/étale cycle comparison, complete-intersection primitive Betti comparison, alternating middle pairing, graded determinant reciprocity and its sign `poincareReciprocityExport`. WC.1 adapts the DM pairing supplied by DeligneWeightsAndPurity §8.24. |
 | ComplexComparisonPartII §§C6.3–C6.6 | Finite, integral and rational Artin comparison, including compact support, cup products, coefficient maps and finite group actions. WC.4 supplies the actual family and transport path. |
 | AbelianSchemesAndArithmeticModuli §A4.4; AlgebraicCurves Layers 7, 10, 12 | Jacobian Tate/first-cohomology realization and the field/model/place/genus comparisons, Artin–Schreier different and Hurwitz formula. These retain `b₁=2g` rather than identifying Betti and coherent genus without a comparison. |
@@ -806,6 +806,9 @@ Distinctness makes `V` invertible. The coefficient uses `A_{jk}`, not `A_{kj}`: 
 
 - For β=(1,2),c=(3,5), V has rows (1,1),(1,2) and inverse rows (2,−1),
   (−1,1). At n=0 the moments (8,13) recover 2·8−13=3 and −8+13=5.
+- For β=(2,3),c=(3,5), V has rows (1,2),(1,3) and inverse rows (3,−2),(−1,1).
+  At n=0 the moments (8,21) recover 3·8−21=3 and −2·8+21=5 through the
+  columns Aⱼₖ; the rows Aₖⱼ would give (3·8−2·21,−8+21)=(−18,13) instead.
 - For β=0,c=3 the one-by-one V and A are (1); the zeroth moment is 3,
   and every positive moment is 0. The empty list has no recovery index.
 - Repeated roots (1,1) give determinant 0. The nonsingular inverse convention
@@ -1511,8 +1514,9 @@ The geometric isomorphism is the hypothesis. It is not replaced by a field asser
 
 For a smooth proper finite-type DM stack over `k` with finite diagonal and `ℓ ≠ p`, its genuine finite-dimensional rational `H^i`, with geometric Frobenius, is pure of weight `i` in every complex embedding. Rational coefficients impose no restriction that `ℓ` be prime to stabilizer orders, and no global quotient presentation is a hypothesis.
 
-Use DeligneWeightsAndPurity §8.24's `dmStack_etaleCohomology`, Frobenius-equivariant
-rational coarse comparison, smooth proper duality and `dmStack_smoothProper_purity`.
+Use DeligneWeightsAndPurity §8.24's rational étale cohomology of Deligne–Mumford
+stacks, Frobenius-equivariant rational coarse comparison, smooth proper duality and
+smooth proper DM purity clauses.
 Identify the supplied purity theorem with WC.1's point-mass, compact-support
 and pairing adapters. The underlying purity and perfect pairing are supplied
 by that section; WC.1 provides their counting and determinant compatibilities.
