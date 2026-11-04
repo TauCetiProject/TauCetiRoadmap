@@ -14,7 +14,7 @@ The general objects below have these owners; the targets here are their arithmet
 - LubinTateFormalModulesAndQuasiCanonicalLifts LT.0–LT.2 own formal O-modules, logarithms, torsion, Tate modules and reciprocity; LT.4 owns the scalar-Frobenius and unramified Honda comparison; LT.5–LT.8 own integral lattice quotients, quasi-canonical fields, neighboring lattices and the tame/anticyclotomic field comparisons; LT.9 owns formal traces. Section 5.3 applies scalar Frobenius to cyclic-level subgroup descent, §6.1 builds modular images of the supplied quotients, and §6.3 identifies their supplied lattice orbits with the Hecke trace. None rebuilds those foundations.
 - NonordinaryCMSpecialValues NCM.0–NCM.4 own canonical CM characters, early normalized zeta classes, semilocal comparisons, root numbers and Finis’s unit-value specialization; NCM.5 owns the canonical unramified coefficient and scalar-to-tensor comparison. Section 4.1 owns the auxiliary field, §4.2 the local-unit projection composite, §4.3 the Coleman/dual-exponential normalization, and §§4.4–4.5 their application before signed freeness.
 - The cyclic Tate and Herbrand formalism is already in Tau Ceti. ClassFieldTheory Layers 5–8 own local duality and local reciprocity. ArithmeticGaloisDuality §§R02.1.2–R02.1.3 own coefficient limits. The finite affine Cartier-dual functor is already in Tau Ceti. Section 2.1 owns its comparison with the specific formal division sequence and its obstruction maps, not generic Cartier duality or a new continuous-cohomology carrier.
-- ModularCurves Layers 5, 8–9 own affine fine level, cyclic subgroups and coarse stabilizers. ModularCurvesPartII §§3.2, 3.9, 5.2–5.3, 9.9–9.11, 13.2, 13.7 and 16.6 supply composite-level compactifications, good models, correspondences, differential lattices and genuine modular quotients. The genus formula is stated by ModularForms Layer 10B; SchemeAndStackFoundations §3.2 owns scheme Riemann–Hurwitz with different multiplicities, including wild ramification. EllipticCurveModularity R29.5–R29.6 owns the genuine modular parametrization and unconditional modularity. Section 5.2 applies the Manin-unit theorem at a good prime; its integral congruence comparison is the explicit contract below.
+- ModularCurves Layers 5, 8–9 own affine fine level, cyclic subgroups and coarse stabilizers. ModularCurvesPartII §§3.2, 3.9, 5.2–5.3, 9.9–9.11, 13.2, 13.7 and 16.5 supply composite-level compactifications, good models, correspondences, differential lattices and genuine modular quotients. The genus formula is stated by ModularForms Layer 10B; SchemeAndStackFoundations §3.2 owns scheme Riemann–Hurwitz with different multiplicities, including wild ramification. EllipticCurveModularity R29.5–R29.6 owns the genuine modular parametrization and unconditional modularity. Section 5.2 applies the Manin-unit theorem at a good prime; its integral congruence comparison is the explicit contract below.
 - EllipticCurves Layers 1, 3–5 own isogenies, finite-field Frobenius, reduction and twists. Their finite-field extension requested below supplies trace-class counts and scalar-Frobenius representatives; ModularCurvesPartII §12.1 supplies the weighted supersingular mass and exceptional-j criteria. Section 5.4 applies these inputs without introducing a second supersingular predicate. ImaginaryQuadraticClassNumber H1–H2 owns forms, class numbers, splitting and the analytic class-number formula. The extra upper estimate needed for §4.1 is a supplier contract, not a new analytic-number-theory layer.
 
 ## Conventions
@@ -73,7 +73,7 @@ What PadicMeasuresIwasawaAlgebras must provide (gap:compact-coefficient-duality)
 
 ### From TauCetiRoadmap.SelmerIwasawaCohomology
 
-Use §3.0's multivariable coordinate, augmentation regular sequence, closed-subgroup quotient and continuous character twist, specified there as iwasawaAlgebra_mvPowerSeries_equiv, iwasawaAlgebra_isRegular_augmentation and iwasawaAlgebra_twist. For O a complete DVR with finite residue field and Γ=Γ⁺×Γ⁻≃ℤ_p², these identify Λ₂ with O[[S,T]], a regular local domain of dimension three, and the closed Γ⁺ quotient with O[[T]], of dimension two. The twist Tw_κ sends σ−κ(σ) to κ(σ)(σ−1), preserving its quotient ideal up to the displayed unit.
+Use §3.0's multivariable coordinate, augmentation regular sequence, closed-subgroup quotient and continuous character twist, specified there under “Coordinates”, “Augmentation regular sequence” and “Involution and twists”. For O a complete DVR with finite residue field and Γ=Γ⁺×Γ⁻≃ℤ_p², these identify Λ₂ with O[[S,T]], a regular local domain of dimension three, and the closed Γ⁺ quotient with O[[T]], of dimension two. The twist Tw_κ sends σ−κ(σ) to κ(σ)(σ−1), preserving its quotient ideal up to the displayed unit.
 
 What SelmerIwasawaCohomology must provide (gap:quadratic-coefficient-coordinates): Relative to §3.0's coordinates and twists, identify the two-variable coordinate under finite free unramified coefficient extension and changes of the selected Γ⁺ and Γ⁻ generators, and prove that specialization of the plus coordinate to zero equals PadicMeasuresIwasawaAlgebras §4.5's selected Γ⁻ coordinate.
 
@@ -115,7 +115,7 @@ What EllipticCurves must provide (gap:supersingular-trace-classes): Extend Layer
 
 ### From TauCetiRoadmap.ModularCurves, TauCetiRoadmap.ModularCurvesPartII and TauCetiRoadmap.ModularForms
 
-Use ModularCurves Layer 5 for fine affine point-level moduli, Layer 8 for cyclic prime-to-p subgroups and transport, and Layer 9 for coarse stabilizers. Use ModularCurvesPartII §§3.2, 3.9, 5.2–5.3 for arbitrary composite-level proper coarse models and good-prime smoothness, §§9.9–9.11 and 13.2 for geometric and integral Hecke actions, §12.1 (`gammaZeroPrime_mass`) for the weighted supersingular mass and the exceptional-j criteria, §13.7 for integral weight-two differentials and §16.6 for the genuine trivial-character quotient of J₀(N). ModularForms Layer 10B supplies the genus/index formula. These apply at N=27,32 as well as squarefree N. For those levels μ=N∏_(l|N)(1+1/l) is 36,48 and g_N=1.
+Use ModularCurves Layer 5 for fine affine point-level moduli, Layer 8 for cyclic prime-to-p subgroups and transport, and Layer 9 for coarse stabilizers. Use ModularCurvesPartII §§3.2, 3.9, 5.2–5.3 for arbitrary composite-level proper coarse models and good-prime smoothness, §§9.9–9.11 and 13.2 for geometric and integral Hecke actions, §12.1 (`gammaZeroPrime_mass`) for the weighted supersingular mass and the exceptional-j criteria, §13.7 for integral weight-two differentials and §16.5 for the genuine trivial-character quotient of J₀(N). ModularForms Layer 10B supplies the genus/index formula. These apply at N=27,32 as well as squarefree N. For those levels μ=N∏_(l|N)(1+1/l) is 36,48 and g_N=1.
 
 What ModularCurvesPartII must provide (gap:mixed-level-disk-comparison): For arbitrary p∤NM with M≥6 and p∤φ(M), supply the mixed Γ₀(N),Γ₁(M) fine good model and the coarse-forgetful map on the chosen unramified locus, identifying completed local disks and their universal elliptic families compatibly with unramified coefficient extension and reduction, including the stabilizer-free loci at N=27,32.
 
@@ -751,7 +751,7 @@ A proof route is as follows. Apply AU96 Theorem A to the optimal parametrization
 
 - For an optimal curve at p∤N the Manin valuation is 0. On local disks t↦t+t² has derivative 1 at 0 and is separable there; the characteristic-p map t↦t^p has derivative 0 despite its characteristic-zero lift being nonconstant.
 
-*Needs:* §5.1; EllipticCurveModularity R29.5; ModularCurvesPartII §§9.9–9.11, 13.2, 16.6; ModularCurves Layer 9; ModularCurvesPartII §§5.2–5.3, 13.7 (gap:integral-congruence-comparison).
+*Needs:* §5.1; EllipticCurveModularity R29.5; ModularCurvesPartII §§9.9–9.11, 13.2, 16.5; ModularCurves Layer 9; ModularCurvesPartII §§5.2–5.3, 13.7 (gap:integral-congruence-comparison).
 
 ### 5.3 Scalar Frobenius on cyclic-level points
 
@@ -879,7 +879,7 @@ At p=5 use the conductor-27 class: μ=36, exceptional fibre bound 12, different 
 
 ### Dependencies
 
-The subsection *Needs:* lines give the internal dependencies. External inputs: EllipticCurveModularity R29.6; EllipticCurveModularity R29.5; EllipticCurves Layer 3 (gap:supersingular-trace-classes); LubinTateFormalModulesAndQuasiCanonicalLifts LT.4; ModularCurvesPartII §§9.9–9.11, 13.2, 16.6; ModularCurves Layer 9; ModularCurvesPartII §§5.2–5.3, 13.7 (gap:integral-congruence-comparison); LubinTateFormalModulesAndQuasiCanonicalLifts LT.4; ModularCurves Layers 8–9; ModularCurvesPartII §12.1 (`gammaZeroPrime_mass`); EllipticCurves Layer 3 (gap:supersingular-trace-classes); SchemeAndStackFoundations §3.2; ModularCurvesPartII §§5.2–5.3; ModularForms Layer 10B; ModularCurves Layer 8; ModularCurves Layer 5; ModularCurvesPartII §§3.2, 3.9, 5.2–5.3 (gap:mixed-level-disk-comparison); `WeierstrassCurve.formalPointHomAdicCompletion`; `WeierstrassCurve.formalPointHomAdicCompletion_injective`; `WeierstrassCurve.range_formalPointHomAdicCompletion`; LubinTateFormalModulesAndQuasiCanonicalLifts LT.4 (gap:formal-point-completion-realization).
+The subsection *Needs:* lines give the internal dependencies. External inputs: EllipticCurveModularity R29.6; EllipticCurveModularity R29.5; EllipticCurves Layer 3 (gap:supersingular-trace-classes); LubinTateFormalModulesAndQuasiCanonicalLifts LT.4; ModularCurvesPartII §§9.9–9.11, 13.2, 16.5; ModularCurves Layer 9; ModularCurvesPartII §§5.2–5.3, 13.7 (gap:integral-congruence-comparison); LubinTateFormalModulesAndQuasiCanonicalLifts LT.4; ModularCurves Layers 8–9; ModularCurvesPartII §12.1 (`gammaZeroPrime_mass`); EllipticCurves Layer 3 (gap:supersingular-trace-classes); SchemeAndStackFoundations §3.2; ModularCurvesPartII §§5.2–5.3; ModularForms Layer 10B; ModularCurves Layer 8; ModularCurves Layer 5; ModularCurvesPartII §§3.2, 3.9, 5.2–5.3 (gap:mixed-level-disk-comparison); `WeierstrassCurve.formalPointHomAdicCompletion`; `WeierstrassCurve.formalPointHomAdicCompletion_injective`; `WeierstrassCurve.range_formalPointHomAdicCompletion`; LubinTateFormalModulesAndQuasiCanonicalLifts LT.4 (gap:formal-point-completion-realization).
 
 ## Layer 6: The optimal local trace system
 
@@ -948,7 +948,7 @@ A proof route is as follows. Use the supplied inward/outward lattice orbits, tra
 
 - At p=5,s=1 the outward lines in 𝔽₅² are (1,0),(1,1),(1,2),(1,3),(1,4), with determinant b−a≠0 for a≠b, and the inward line is (0,1). Omitting θ makes all five scalar lattices equal.
 
-*Needs:* §6.1; ModularCurvesPartII §§9.9–9.11, 13.2, 16.6; ModularCurves Layer 8; LubinTateFormalModulesAndQuasiCanonicalLifts LT.7/lattice-neighbors; ModularCurvesPartII §9.11 (gap:good-model-hecke-comparison).
+*Needs:* §6.1; ModularCurvesPartII §§9.9–9.11, 13.2, 16.5; ModularCurves Layer 8; LubinTateFormalModulesAndQuasiCanonicalLifts LT.7/lattice-neighbors; ModularCurvesPartII §9.11 (gap:good-model-hecke-comparison).
 
 ### 6.4 The optimal point trace relations
 
@@ -984,7 +984,7 @@ At p=5 the primed degrees 1,6,30,150 give tame-fixed degrees 1,5,25. The first f
 
 ### Dependencies
 
-The subsection *Needs:* lines give the internal dependencies. External inputs: ModularCurves Layer 8; LubinTateFormalModulesAndQuasiCanonicalLifts LT.5–LT.8; LubinTateFormalModulesAndQuasiCanonicalLifts LT.8–LT.9; ModularCurvesPartII §§9.9–9.11, 13.2, 16.6; LubinTateFormalModulesAndQuasiCanonicalLifts LT.7/lattice-neighbors; ModularCurvesPartII §9.11 (gap:good-model-hecke-comparison); ModularCurvesPartII §9.11 (gap:good-model-hecke-comparison).
+The subsection *Needs:* lines give the internal dependencies. External inputs: ModularCurves Layer 8; LubinTateFormalModulesAndQuasiCanonicalLifts LT.5–LT.8; LubinTateFormalModulesAndQuasiCanonicalLifts LT.8–LT.9; ModularCurvesPartII §§9.9–9.11, 13.2, 16.5; LubinTateFormalModulesAndQuasiCanonicalLifts LT.7/lattice-neighbors; ModularCurvesPartII §9.11 (gap:good-model-hecke-comparison); ModularCurvesPartII §9.11 (gap:good-model-hecke-comparison).
 
 ## Layer 7: Minus-point cohomology and freeness
 
