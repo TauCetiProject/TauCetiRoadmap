@@ -9,32 +9,34 @@ public import TauCeti.Geometry.Manifold.Riemannian.VolumeDensity.Volume
 public import TauCeti.Geometry.Manifold.Riemannian.Isometry.Basic
 public import TauCeti.Geometry.Manifold.Riemannian.Sphere
 public import TauCeti.Geometry.Manifold.Riemannian.Hyperbolic.UpperHalfSpace
+public import TauCeti.Geometry.Manifold.Orientation
 
 /-!
 # Riemannian geometry: target signatures
 
 **This file is not the roadmap.** The roadmap is `README.md`; this file states the roadmap's
 headline theorems against the pinned Mathlib and Tau Ceti, each admitted with `sorry`, with only
-the two definitions the Jacobi-field and comparison headlines need to be stated: the Jacobi
-predicate `IsJacobiFieldOn` and the model function `modelSine`.
+the three definitions the Jacobi-field and comparison headlines need to be stated: the Jacobi
+predicate `IsJacobiFieldOn`, the model function `modelSine` and the model ball volume
+`modelBallVolume`.
 
 Statable at the pins and stated here: the algebraic characterization of constant sectional
 curvature (R1), Schur's theorem (R1), existence and interval uniqueness of Jacobi fields (R2),
 the absence of endpoint-zero Jacobi fields under nonpositive sectional curvature (R3/R4), the
 Rauch comparison under an upper sectional bound (R4.1), the Bishop–Gromov relative-volume
-monotonicity with the flat model (R4.1), Cartan–Hadamard (R4.4), Bonnet–Myers in its distance
-form (R4.5), the three cases of the Killing–Hopf classification of simply connected space forms
+monotonicity against the model of curvature `κ` (R4.1), Cartan–Hadamard (R4.4), Bonnet–Myers in
+its distance form (R4.5), Synge's theorem in its even-dimensional and odd-dimensional forms
+(R4.6), the three cases of the Killing–Hopf classification of simply connected space forms
 (R4.7), the three simple closed geodesic images on a smooth two-sphere (R4.9) and the
 smooth-function duality for the Riemannian distance (R7.8).
 
 Not statable at the pins, hence not stated: the Morse index theorem (R3) and its focal-point
 version (R6), which need the index form on continuous piecewise `C¹` sections of `γ*TM` and the
-conjugate-point multiplicity, neither of which has a carrier at the pin; the Günther and
-Bishop–Gromov comparisons with a curved model (R4.1), which need the model volume `V_κ(r)` of a
-ball in the space form of curvature `κ`, absent at the pin; the Gauss, Codazzi and Ricci equations
-and the first and second variation of volume (R5a, R5b), which need the second fundamental form of
-an isometric immersion, hence the pullback ambient connection, absent at the pin; Synge's theorem
-(R4.6), which needs an orientability predicate for manifolds, absent at the pin; the Lichnerowicz
+conjugate-point multiplicity, neither of which has a carrier at the pin; the Günther volume
+comparison (R4.1), whose full-ball range `r < inj(p)` needs the injectivity radius, absent at the
+pin; the Gauss, Codazzi and Ricci equations and the first and second variation of volume (R5a,
+R5b), which need the second fundamental form of an isometric immersion, hence the pullback ambient
+connection, absent at the pin; the Lichnerowicz
 eigenvalue bound (R7.0), which needs the Laplacian on functions of a Riemannian manifold, absent
 at the pin; the Bochner vanishing theorems (R7.6, R7.7), which need the Hodge Laplacian on forms
 and the de Rham cohomology of a manifold, absent at the pin; and Takahashi's eigenmap theorem
@@ -173,18 +175,32 @@ variable {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
   [IsContMDiffRiemannianBundle I ∞ E (fun x : M => TangentSpace I x)]
   [IsRiemannianManifold I M]
 
-/-- R4.1, Bishop–Gromov with the flat model: on a connected complete manifold with nonnegative
-Ricci curvature, `vol(B(p,s))/sⁿ ≤ vol(B(p,r))/rⁿ` for `0 < r ≤ s`, with `n = dim M` and the
-Riemannian volume `TauCeti.riemannianVolume` of the metric balls. Completeness makes closed balls
-compact, so the volumes are finite and `toReal` reads them honestly. -/
-theorem bishopGromov_flat [ConnectedSpace M] [CompleteSpace M]
+/-- R4.1: the model ball volume up to the constant `ω_{n−1}`: `V_κ(r) = ∫₀ʳ s_κ(t)^(n−1) dt`,
+the volume of the ball of radius `r` in the `n`-dimensional space form of curvature `κ` divided
+by the volume of the unit `(n−1)`-sphere, for `0 ≤ r`, and `r < π/√κ` when `κ > 0`. For `n = 1`
+the exponent is `0` and the value is `r`; for `n = 0` the natural-number exponent `n − 1` is
+again `0`, and the value is again `r`. -/
+def modelBallVolume (κ : ℝ) (n : ℕ) (r : ℝ) : ℝ :=
+  ∫ t in (0 : ℝ)..r, modelSine κ t ^ (n - 1)
+
+/-- R4.1, Bishop–Gromov: on a connected complete manifold of dimension `n` with
+`Ric(v,v) ≥ (n−1)κ|v|²`, the ratio `vol(B(p,r))/V_κ(r)` of the Riemannian volume
+`TauCeti.riemannianVolume` of the metric ball to the model ball volume is nonincreasing in `r`:
+`vol(B(p,s))/V_κ(s) ≤ vol(B(p,r))/V_κ(r)` for `0 < r ≤ s`, and `s < π/√κ` when `κ > 0`. The
+constant `ω_{n−1}` cancels in the ratio. Completeness makes closed balls compact, so the volumes
+are finite and `toReal` reads them honestly; for `κ = 0` the model is `rⁿ/n` and the statement is
+`vol(B(p,s))/sⁿ ≤ vol(B(p,r))/rⁿ`. -/
+theorem bishopGromov [ConnectedSpace M] [CompleteSpace M]
     [MeasurableSpace M] [BorelSpace M] [SecondCountableTopology M]
-    [IsContinuousRiemannianBundle E (fun x : M => TangentSpace I x)] (p : M)
+    [IsContinuousRiemannianBundle E (fun x : M => TangentSpace I x)] (p : M) {κ : ℝ}
     (hRic : ∀ x (v : TangentSpace I x),
-      0 ≤ (CovariantDerivative.leviCivitaConnection I M).ricciTensor x v v)
-    {r s : ℝ} (hr : 0 < r) (hrs : r ≤ s) :
-    (TauCeti.riemannianVolume I M (Metric.ball p s)).toReal / s ^ Module.finrank ℝ E ≤
-      (TauCeti.riemannianVolume I M (Metric.ball p r)).toReal / r ^ Module.finrank ℝ E := by
+      ((Module.finrank ℝ E : ℝ) - 1) * κ * ‖v‖ ^ 2 ≤
+        (CovariantDerivative.leviCivitaConnection I M).ricciTensor x v v)
+    {r s : ℝ} (hr : 0 < r) (hrs : r ≤ s) (hmodel : 0 < κ → s < Real.pi / Real.sqrt κ) :
+    (TauCeti.riemannianVolume I M (Metric.ball p s)).toReal /
+        modelBallVolume κ (Module.finrank ℝ E) s ≤
+      (TauCeti.riemannianVolume I M (Metric.ball p r)).toReal /
+        modelBallVolume κ (Module.finrank ℝ E) r := by
   sorry
 
 /-- R4.4, Cartan–Hadamard: on a connected complete Riemannian manifold with nonpositive sectional
@@ -210,6 +226,39 @@ theorem bonnetMyers_distance [ConnectedSpace M] [CompleteSpace M]
   sorry
 
 end GlobalDistance
+
+/-! ## R4.6: Synge's theorem -/
+
+section Synge
+
+variable {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+  [FiniteDimensional ℝ E] [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
+  [I.Boundaryless] [TopologicalSpace M] [T2Space M] [ChartedSpace H M] [IsManifold I ∞ M]
+  [RiemannianBundle (fun x : M => TangentSpace I x)]
+  [IsContMDiffRiemannianBundle I ∞ E (fun x : M => TangentSpace I x)]
+
+/-- R4.6, Synge's theorem, even dimension: a compact connected orientable Riemannian manifold of
+even dimension whose sectional curvatures are all positive (`0 < ⟨R(u,v)v,u⟩` for every linearly
+independent pair `u, v`) is simply connected. Orientability is the pinned `TauCeti.Orientable`,
+the existence of an oriented smooth atlas. In dimension `0` the manifold is a point and the
+conclusion holds; `RP²` is excluded by orientability and `RP³` by parity. -/
+theorem synge [ConnectedSpace M] [CompactSpace M] [TauCeti.Orientable I ∞ M]
+    (heven : Even (Module.finrank ℝ E))
+    (hK : ∀ x (u v : TangentSpace I x), LinearIndependent ℝ ![u, v] →
+      0 < inner ℝ ((CovariantDerivative.leviCivitaConnection I M).curvatureTensor x u v v) u) :
+    SimplyConnectedSpace M := by
+  sorry
+
+/-- R4.6, Synge's theorem, odd dimension: a compact connected Riemannian manifold of odd dimension
+whose sectional curvatures are all positive is orientable. -/
+theorem synge_orientable_of_odd [ConnectedSpace M] [CompactSpace M]
+    (hodd : Odd (Module.finrank ℝ E))
+    (hK : ∀ x (u v : TangentSpace I x), LinearIndependent ℝ ![u, v] →
+      0 < inner ℝ ((CovariantDerivative.leviCivitaConnection I M).curvatureTensor x u v v) u) :
+    TauCeti.Orientable I ∞ M := by
+  sorry
+
+end Synge
 
 /-! ## R4.7: Killing–Hopf classification of simply connected space forms -/
 
