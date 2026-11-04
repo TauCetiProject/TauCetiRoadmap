@@ -10,11 +10,12 @@ sequences, and Fredholm theory and Riemann–Roch for real Cauchy–Riemann oper
 surfaces with boundary. The spine is McDuff–Salamon, *J-holomorphic Curves and Symplectic
 Topology* (2nd ed., AMS Colloquium Publications 52, 2012), Appendices B and C and Chapter 3.
 
-The headline theorem (PH5.1): let `ℓ ≥ 1` and `p > 2`, let `(Σ, j)` be a Riemann surface
-(possibly with boundary), let `J` be a `C^ℓ` almost complex structure on `M`, and let `L ⊆ M` be
-a smooth totally real submanifold. A `W^{1,p}_loc` map `u : Σ → M` with `du ∘ j = J(u) ∘ du`
-almost everywhere and `u(∂Σ) ⊆ L` is of class `W^{ℓ+1,p}_loc`, hence `C^ℓ`. It is smooth when
-`J` is smooth.
+The headline theorem (PH5.1, McDuff–Salamon Theorem B.4.1 and Remark B.4.3): let `p > 2` be
+finite, let `(Σ, j)` be a Riemann surface, and let `J` be a `C^ℓ` almost complex structure on
+`M`. A `W^{1,p}_loc` map `u : Σ → M` with `du ∘ j = J(u) ∘ du` almost everywhere is of class
+`W^{ℓ+1,p}_loc` when `ℓ ≥ 1` and `∂Σ = ∅`. If instead `u(∂Σ) ⊆ L` for a closed smooth totally
+real submanifold `L ⊆ M`, then `u` is of class `W^{ℓ,p}_loc` up to the boundary when `ℓ ≥ 2`.
+In both cases `u` is smooth when `J` is smooth.
 
 ## Scope and ownership
 
@@ -245,23 +246,30 @@ totally real for every `ω`-tame `J`, consuming Tau Ceti's linear Lagrangian/tot
 comparison. Prove that totally real embeddings are stable under `C^1`-small perturbation of
 `J` on compact subsets of `L`.
 
-### 2.3 Flattening charts and boundary frames
+### 2.3 Adapted coordinates along a totally real submanifold
 
-For a totally real embedding `ι : L → M` and a point `x₀ ∈ L`, construct a smooth chart `ψ` of
-`M` near `ι x₀` into `ℂⁿ` with `ψ(ι(L)) ⊆ ℝⁿ`. This uses only that `ι` is a smooth embedding
-with `2 dim L = dim M`, through Mathlib's immersion charts, and never `J`, so no derivative of
-`J` is spent. In such a chart, `ℝⁿ` is maximal totally real for `ψ_* J` at every point of
-`ψ(ι(L))`.
+For a totally real embedding `ι : L → M` for a `C^ℓ` structure `J` and a point `x₀ ∈ L`,
+construct a `C^ℓ` chart `ψ` of `M` near `ι x₀` into `ℂⁿ` with the following properties:
 
-For a field `J` of complex structures on `ℂⁿ` with `ℝⁿ` totally real for `J(x)`, define the
-*boundary frame* `Φ_J(x)(a + ib) = a + J(x) b` for `a, b ∈ ℝⁿ`. Prove that `Φ_J(x)` is
-invertible exactly when `ℝⁿ` is totally real for `J(x)`, that `Φ_J(x) ∘ i = J(x) ∘ Φ_J(x)`, and
-that `Φ_J(x)` maps `ℝⁿ` to `ℝⁿ` identically. The frame `x ↦ Φ_J(x)` has the regularity of `J`.
+- `ψ(ι(L)) = ψ(U) ∩ ℝⁿ` on its domain `U`;
+- `dψ(x) ∘ J(x) = i ∘ dψ(x)` for `x ∈ U ∩ ι(L)`, so the pushed-forward structure `ψ_* J`,
+  which is only `C^{ℓ−1}`, equals `i` along `ℝⁿ`;
+- for `J_m → J` in `C^ℓ`, the charts `ψ_m` can be chosen to converge to `ψ` in `C^ℓ`.
+
+This is McDuff–Salamon Exercise B.4.10 (p. 577). The construction is as follows. Take a chart
+`φ` of `L` at `x₀` and a chart `χ` of `M` at `ι x₀`, and write `γ = χ ∘ ι ∘ φ⁻¹` and `J_χ` for
+`J` in the chart. Set `Φ(x + iy) = γ(x) + Σⱼ yⱼ J_χ(γ(x)) ∂ⱼγ(x)` for `x, y ∈ ℝⁿ`. Its
+derivative at `(x, 0)` sends `eⱼ ↦ ∂ⱼγ(x)` and `ieⱼ ↦ J_χ(γ(x))∂ⱼγ(x)`. That derivative is
+invertible because `TL` is totally real, and it intertwines `i` with `J_χ`. The inverse
+function theorem then gives `ψ = (χ⁻¹ ∘ Φ)⁻¹` near `ι x₀`. The pushforward costs one
+derivative of `J`, which is why the boundary statements of PH5 need `ℓ ≥ 2`.
 
 ### 2.4 Isothermal coordinates and bordered Riemann surfaces
 
 **Interior.** Let `j` be an almost complex structure of class `C^{ℓ,α}` on a boundaryless
-surface, with `ℓ ≥ 1` and `0 < α < 1`. Prove that every point has a `C^{ℓ+1,α}` chart to an open
+surface, with `ℓ ≥ 1` and `0 < α < 1`. McDuff–Salamon prove this integrability twice, as
+Corollary C.5.3 (from Riemann–Roch) and Theorem E.3.1 (p. 664, Newlander–Nirenberg); the route
+here is the direct Beltrami one. Prove that every point has a `C^{ℓ+1,α}` chart to an open
 subset of `ℂ` in which `j = i`. For smooth `j` the chart is smooth.
 
 Use the Beltrami equation. In a smooth chart, write `j` through its Beltrami coefficient `μ`,
@@ -337,7 +345,7 @@ For `1 < q < ∞`, `k ≥ 0` and compact `K ⊆ Ω`:
 
 Let `p > 2` be finite and `ℓ ≥ 1`. Let `J ∈ W^{ℓ,p}_loc(Ω; End ℝ^{2n})` with `J² = −1`
 pointwise, let `m ∈ {ℓ − 1, ℓ}`, and let `S ∈ W^{m,p}_loc(Ω; End ℝ^{2n})`. Put
-`Dξ = ∂_s ξ + J ∂_t ξ + S ξ`. For `p/(p−1) ≤ q ≤ p` and `0 ≤ k ≤ m`, prove the following:
+`Dξ = ∂_s ξ + J ∂_t ξ + S ξ`. For `p/(p−1) < q ≤ p` and `0 ≤ k ≤ m`, prove the following:
 
 - *Weak regularity.* Call `ξ ∈ L^q_loc` a weak solution of `Dξ = η` if it satisfies
   `∫⟨D*φ, ξ⟩ = ∫⟨φ, η⟩` for every test function `φ`, with `D*` the formal adjoint. If
@@ -347,57 +355,67 @@ pointwise, let `m ∈ {ℓ − 1, ℓ}`, and let `S ∈ W^{m,p}_loc(Ω; End ℝ^
   `‖S‖_{W^{m,p}(Ω')}`.
 - *Uniformity.* The same constant works for every `(J, S)` in a set bounded in these norms.
 
-The case `m = ℓ` (including `S = 0`) gains the full derivative: `J ∈ W^{1,p}` and
-`η ∈ W^{1,q}` give `ξ ∈ W^{2,q}`. PH5.1 uses exactly this case.
+The lower bound on `q` is strict: the first step below needs `1/p + 1/q < 1`. The case
+`m = ℓ` (including `S = 0`) gains the full derivative, and PH5.1 uses exactly this case. For
+`S = 0` these are the interior cases of McDuff–Salamon Lemma B.4.6 (p. 573) and Proposition
+B.4.9 (p. 575).
 
-Prove it in two lemmas.
+Prove it in three lemmas, following McDuff–Salamon §B.4.
 
-1. *Order zero.* Freeze `J` at a point and use a complex-linear frame change to reduce to
-   `J(z₀) = i`. Apply PH3.2, and absorb the error on small discs by continuity of `J`
-   (`p > 2`). This gives `ξ ∈ W^{1,q}_loc` from `ξ ∈ L^q_loc`.
-2. *Differentiated equation.* If `ξ ∈ W^{j,q}_loc` solves `Dξ = η` with `j ≤ k`, the difference
-   quotients `τ_h ξ` in each coordinate direction solve
-   `D(τ_h ξ) = τ_h η − (τ_h J) ∂_t ξ(· + h) − (τ_h S) ξ(· + h)`. The right side is bounded in
-   `W^{j−1,q}` uniformly in `h` by PH1.2's products, using `J ∈ W^{ℓ,p}` and `S ∈ W^{m,p}`.
-   Order zero applied to `τ_h ξ`, with `h → 0`, gives `ξ ∈ W^{j+1,q}_loc` with the stated
-   estimate.
+1. *Exponent ladder* (Lemma B.4.4, p. 572). For `p > 2` there are finitely many exponents
+   `q₀ < ⋯ < q_N` with `p/(p−1) < q₀ ≤ p`, `q_{N−1} < 2p/(p−2) < q_N`, and
+   `q_{j+1} = 2r_j/(2 − r_j)` for `r_j = pq_j/(p + q_j)`.
+2. *Order zero* (Lemma B.4.6). If `J ∈ W^{1,p}`, `S ∈ Lᵖ`, `ξ ∈ L^q_loc` and `η ∈ L^r_loc` with
+   `1/p + 1/q = 1/r`, then `ξ ∈ W^{1,r}_loc`, with the estimate. The proof rewrites the weak
+   equation as `Δξ = ∂_s f + ∂_t g` for `f, g ∈ L^r`, and consumes the `Lʳ` regularity of the
+   Laplacian from PDE Lane B. Climbing the ladder with Sobolev embedding gives `ξ ∈ W^{1,p}_loc`
+   when `η ∈ Lᵖ`, and `ξ ∈ W^{1,q}_loc` when `η ∈ L^q`.
+3. *Differentiated equation* (Proposition B.4.9, Steps 2–3). If `ξ ∈ W^{j,q}_loc` solves
+   `Dξ = η` with `j ≤ k`, then `∂_s ξ` and `∂_t ξ` solve
+   `D(∂ξ) = ∂η − (∂J) ∂_t ξ − (∂S) ξ` weakly, with right side in `W^{j−1,q}` by PH1.2's products
+   (McDuff–Salamon Lemma B.4.5 at `j = 1`). Order zero then gives `ξ ∈ W^{j+1,q}_loc` with the
+   stated estimate.
 
 ### 3.4 Totally real boundary conditions on the half-disc
 
-Keep the hypotheses of PH3.3 on a half-disc `D⁺_r`, and assume that `ℝⁿ` is totally real for
-`J(z)` at every `z ∈ D⁺_r ∩ ℝ`. Impose `ξ(z) ∈ ℝⁿ` for `z ∈ D⁺_r ∩ ℝ`. This is a pointwise
-condition when `q > 2`, because `W^{1,q}` maps are then continuous; for `q ≤ 2` it is a
-condition on traces, using PDE Lane A's trace. A weak solution `ξ ∈ L^q_loc(D⁺_r)` is
-defined by testing against smooth `φ` compactly supported in `D⁺_r`, not required to vanish on
-`ℝ`, and satisfying the adjoint boundary condition `φ(z) ∈ (J(z)ℝⁿ)^⊥` for `z ∈ ℝ`, for the standard inner
-product. The boundary term of integration by parts is `−∫_ℝ ⟨J ξ, φ⟩ ds`, so with this
-condition it vanishes exactly when `ξ ∈ ℝⁿ` on `ℝ`. Prove the analogues of PH3.3 on half-discs, with
-estimates up to the boundary, for `0 ≤ k ≤ m`. Every smooth totally real boundary condition
-on a bundle is put in this form by PH2.3's flattening charts and smooth frames.
+Keep the hypotheses of PH3.3 on a relatively open `Ω ⊆ ℍ̄`, and assume that `J(s) = i` for
+`s ∈ Ω ∩ ℝ`. Impose `ξ(s) ∈ ℝⁿ` for `s ∈ Ω ∩ ℝ`. This is a pointwise condition when `q > 2`,
+because `W^{1,q}` maps are then continuous; for `q ≤ 2` it is a condition on traces, using PDE
+Lane A's trace. A weak solution `ξ ∈ L^q_loc(Ω)` is defined by testing against smooth `φ`
+compactly supported in `Ω`, not required to vanish on `ℝ`, with `φ(s) ∈ ℝⁿ` for `s ∈ ℝ`. The
+weak equation is McDuff–Salamon (B.4.3): `∫⟨∂_s φ + Jᵀ ∂_t φ, ξ⟩ = −∫⟨φ, η + (∂_t J)ξ⟩`, with
+the zeroth-order term added. Prove the analogues of PH3.3 on `Ω`, with estimates up to the
+boundary, for `0 ≤ k ≤ m`. This is McDuff–Salamon Lemma B.4.6 and Proposition B.4.9 in full,
+with `S` added.
 
 The route is as follows.
 
-1. *Order zero.* Substitute `ξ = Φ_J ζ` with PH2.3's boundary frame. Then `ζ ∈ ℝⁿ` on `ℝ`,
-   the principal part is `∂_s + i∂_t`, and the zeroth-order term
-   `Φ_J⁻¹(∂_s Φ_J + J ∂_t Φ_J + SΦ_J)` is in `Lᵖ`, which is all order zero uses. Extend `ζ` and
-   the coefficients across `ℝ` by `ζ(z̄) = conj ζ(z)` and `S̃(z̄) = conj ∘ S(z) ∘ conj`. Prove
-   that the reflected `ζ` is a weak solution on the full disc, and apply PH3.3's order-zero
-   lemma. Tau Ceti's totally real Schwarz reflection is the constant-coefficient case.
-2. *Higher orders without substitution.* Work with `ξ` itself, so no derivative of `J` is
-   spent on a frame. Tangential difference quotients `τ_h` in `s` preserve the boundary
-   condition `ξ ∈ ℝⁿ`, and satisfy the differentiated equation of PH3.3. So order zero bounds
-   `∂_s ξ` in `W^{j,q}` up to the boundary. Then recover the normal derivative from the
-   equation, `∂_t ξ = J(∂_s ξ + Sξ − η)`, which uses `J⁻¹ = −J`, and conclude by PH1.2's
-   products. Induct on `j ≤ k`.
+1. *Order zero.* Reflect across `ℝ`, by `ξ(s, −t) = Rξ(s, t)` with `R = conj`, and by the
+   corresponding reflections of the auxiliary functions `f` and `g` of PH3.3's order-zero
+   lemma. Prove that the reflected functions satisfy the weak Laplace equation on the doubled
+   domain, by splitting each test function into a part satisfying the boundary condition and
+   two parts with prescribed parity in `t`. Then apply the interior lemma, and recover the
+   boundary condition for the limit from the trace. Tau Ceti's totally real Schwarz reflection
+   is the constant-coefficient case.
+2. *Higher orders.* Tangential derivatives `∂_s` preserve the boundary condition
+   `ξ ∈ ℝⁿ` and satisfy the differentiated equation, so the order-zero step bounds `∂_s ξ`
+   up to the boundary. Recover the normal derivative from the equation,
+   `∂_t ξ = J(∂_s ξ + Sξ − η)`, which uses `J⁻¹ = −J`, and conclude by PH1.2's products.
+   Induct on `j ≤ k`.
+
+Every smooth totally real boundary condition on a bundle is put in this form by smooth
+trivializations. For nonlinear boundary conditions, use PH2.3's adapted charts.
 
 As a check, take the model operator `∂̄` on the unit disc with `ξ(e^{iθ}) ∈ e^{3iθ/2}ℝ`: its
 kernel is `a₀ + a₁z + conj(a₁)z² + conj(a₀)z³`, real dimension 4.
 
 ### 3.5 Similarity principle and unique continuation
 
-The *vector similarity principle* says the following. Let `p > 2`, let `A, B ∈ L^p_loc` be
-matrix-valued, and let `ξ ∈ W^{1,p}_loc(Ω; ℂⁿ)` solve `∂̄ξ + Aξ + B conj(ξ) = 0`. Then near
-every point, `ξ = Φσ` with `Φ` an invertible `W^{1,p}` matrix and `σ` holomorphic. Prove it by
+The *vector similarity principle* is McDuff–Salamon Theorem 2.3.5 (p. 23), the Carleman
+similarity principle. Let `p > 2`, let `J ∈ W^{1,p}_loc(Ω; GL(2n, ℝ))` with `J² = −1` and
+`C ∈ L^p_loc(Ω; End ℝ^{2n})`, and let `ξ ∈ W^{1,p}_loc(Ω; ℝ^{2n})` solve
+`∂_s ξ + J∂_t ξ + Cξ = 0` with `ξ(z₀) = 0`. Then near `z₀`, `ξ = Φσ` with `Φ ∈ W^{1,p}`
+invertible, `Φ⁻¹JΦ = i`, and `σ` holomorphic with `σ(z₀) = 0`. Prove it by
 absorbing `B conj(ξ)` into an `L^p` matrix acting on `ξ`, then solving the small-disc Cauchy
 integral equation for `Φ`. Consume Tau Ceti's scalar similarity principle as the `n = 1`,
 `C^k` case and prove the comparison. Derive the following:
@@ -460,22 +478,27 @@ Pin the following:
 
 ### 5.1 Elliptic bootstrapping
 
-Let `ℓ ≥ 1`, `p > 2`, let `J` be a `C^ℓ` domain-dependent structure and `ν` a `C^ℓ`
-inhomogeneous term, and let `u` satisfy `IsWeakPseudoholomorphic j J ν p u`. Then
-`u ∈ W^{ℓ+1,p}_loc(Σ, M)`, so `u` is `C^ℓ`. If `J` and `ν` are smooth, `u` is smooth. The
-same holds up to the boundary when `u` satisfies `MapsBoundaryTo u ι` for a smooth totally
-real embedding `ι` for `J`.
+Let `p > 2` be finite, let `J` be a `C^ℓ` domain-dependent structure and `ν` a `C^ℓ`
+inhomogeneous term, and let `u` satisfy `IsWeakPseudoholomorphic j J ν p u`.
 
-The proof is local, with `p` finite; a `W^{1,∞}_loc` solution is `W^{1,q}_loc` for every
-finite `q > 2`. In coordinates, `z ↦ J(z, u(z))` is in `W^{1,p}_loc`. By induction, if
+- *Interior.* If `ℓ ≥ 1`, then `u ∈ W^{ℓ+1,p}_loc` on the interior of `Σ`, so `u` is `C^ℓ`
+  there (McDuff–Salamon Remark B.4.3, p. 571).
+- *Boundary.* If `ℓ ≥ 2` and `u` satisfies `MapsBoundaryTo u ι` for a smooth totally real
+  embedding `ι` for `J` with closed image, then `u ∈ W^{ℓ,p}_loc` up to the boundary, so `u` is
+  `C^{ℓ−1}` up to the boundary (Theorem B.4.1, p. 571).
+- *Smooth case.* If `J` and `ν` are smooth, `u` is smooth, up to the boundary in the boundary
+  case.
+
+The proof is local. In coordinates, `z ↦ J(z, u(z))` is in `W^{1,p}_loc`. By induction, if
 `u ∈ W^{m,p}_loc` with `1 ≤ m ≤ ℓ`, then `J(z, u)` and `η(z, u)` are in `W^{m,p}_loc` by PH1.2.
-Apply PH3.3 in the case `S = 0` (its `m = ℓ` case, with `ℓ` there equal to `m` here) to the
-linear operator `∂_s + J(z, u(z))∂_t` with `ξ = u`, `η = η(z, u)` and `k = m`. This gives
-`u ∈ W^{m+1,p}_loc`. At the boundary, use a PH2.3 flattening chart of `L`, in which
-`u(z) ∈ ℝⁿ` on the boundary and `ℝⁿ` is totally real for `J(z, u(z))`, and apply PH3.4 in the
-same way.
+Apply PH3.3 in the case `S = 0` to the linear operator `∂_s + J(z, u(z))∂_t` with `ξ = u`,
+`η = η(z, u)` and `k = m`; this gives `u ∈ W^{m+1,p}_loc`. At the boundary, a PH2.3 chart puts
+`u(z) ∈ ℝⁿ` on the boundary with `J = i` there, at the cost of making the structure `C^{ℓ−1}`.
+Then PH3.4 runs the same induction for `m ≤ ℓ − 1`, which is where `ℓ ≥ 2` and the conclusion
+`W^{ℓ,p}` come from.
 
-The finite-regularity conclusion requires `p < ∞`. A `C¹` function `f` near `0` with
+The conclusions require `p < ∞`; a `W^{1,∞}_loc` solution is `W^{1,q}_loc` for every finite
+`q > 2`, so the smooth case is unaffected. A `C¹` function `f` near `0` with
 `f(z) = z² log log(1/|z|)` has `C¹` derivative `∂̄f` and unbounded second derivatives. Its
 graph is pseudoholomorphic for the `C¹` structure `J(z, w)(v, a) = (iv, ia − 2i(∂̄f)(z) v̄)`,
 so it is a `W^{1,∞}` solution that is not `W^{2,∞}`. Record this example.
@@ -486,23 +509,30 @@ a `C¹` map is `W^{1,p}_loc` for every `p`.
 
 ### 5.2 Uniform estimates
 
-Let `J_m → J` in `C^ℓ` and `ν_m → ν` in `C^ℓ`, both on compact subsets. Let `u_m` satisfy the
-weak equations for `(J_m, ν_m)` with boundary on a fixed totally real `ι` whose image is
-closed in `M`. Without closedness the boundary condition fails in the limit: for
-`L = (0, 1) ⊆ ℝ ⊆ ℂ` the constant maps `u_m = 1/(m + 2)` converge to `0 ∉ L`. Assume the `u_m`
-converge uniformly on compact subsets to a continuous `u`, and that in charts around `u` they
-are bounded in `W^{1,p}` on compact subsets. Then:
+This is McDuff–Salamon Theorem B.4.2 (p. 571) with Remark B.4.3, extended to domain-dependent
+and inhomogeneous data. Let `p > 2` be finite. Let `J_m → J` and `ν_m → ν` in `C^ℓ` on compact
+subsets, and `j_m → j` in `C^∞`. Let `U_m ⊆ Σ` be an increasing sequence of open sets with union
+`Σ`, and let `u_m : U_m → M` satisfy the weak equations for `(j_m, J_m, ν_m)` with
+`u_m(U_m ∩ ∂Σ) ⊆ ι(L)`, for a fixed totally real `ι` whose image is closed in `M`. Without
+closedness the boundary condition fails in the limit: for `L = (0, 1) ⊆ ℝ ⊆ ℂ` the constant
+maps `u_m = 1/(m + 2)` converge to `0 ∉ L`.
 
-- the `u_m` are bounded in `W^{ℓ+1,p}` on compact subsets, with constants depending only on the
-  `C^ℓ` bounds of the data and the `W^{1,p}` bound;
-- a subsequence converges in `W^{ℓ,p}` on compact subsets, hence in `C^{ℓ−1}`;
-- `u` satisfies the limiting equation and boundary condition.
+Assume that for every compact `Q ⊆ Σ` there are a compact `K ⊆ M` and `c` with
+`u_m(Q) ⊆ K`, and with `‖du_m‖_{Lᵖ(Q)} ≤ c` for large `m`, measured in charts or for a
+metric on `M`. Then:
 
-For smooth data converging in `C^∞` on compact subsets, the convergence is `C^∞`. State the
-gradient-bound corollary used in compactness: if, for a metric on `M`, `|du_m|` is uniformly
-bounded on compact subsets and the images of compact sets stay in a fixed compact set, then a
-subsequence converges in `C^∞` on compact subsets. The convergence comes from Arzelà–Ascoli,
-and the uniform bound from PH3.3's uniformity clause.
+- if `∂Σ = ∅` and `ℓ ≥ 1`, the `u_m` are bounded in `W^{ℓ+1,p}` on compact subsets, with
+  constants depending only on the `C^ℓ` bounds of the data and `c`, and a subsequence
+  converges in `C^ℓ` on compact subsets;
+- in the boundary case with `ℓ ≥ 2`, the `u_m` are bounded in `W^{ℓ,p}` on compact subsets up
+  to the boundary, and a subsequence converges in `C^{ℓ−1}` on compact subsets;
+- the limit satisfies the limiting equation and boundary condition.
+
+For smooth data converging in `C^∞`, the convergence is `C^∞`. Also prove the gradient-bound
+corollary used in compactness, McDuff–Salamon Theorem 4.1.1 (p. 76). If `|du_m|` is uniformly
+bounded on compact subsets for a metric on `M`, and the images of compact sets stay in a fixed
+compact set, then a subsequence converges in `C^∞` on compact subsets. The convergence comes
+from PH1.3 and Arzelà–Ascoli, and the uniform bound from PH3.3's uniformity clause.
 
 *Needs:* PH1–PH4.
 
@@ -534,48 +564,54 @@ A *smooth* real Cauchy–Riemann operator on `E` is a real-linear operator
 `D₀ : Ω⁰(Σ, E) → Ω^{0,1}(Σ, E)` satisfying the Leibniz rule `D₀(fξ) = f D₀ξ + (∂̄f)ξ` for
 real-valued smooth `f`. Prove that any two differ by a smooth zeroth-order term in
 `Ω^{0,1}(Σ, End_ℝ E)`, and that a `J_E`-complex connection `∇` gives one, `D₀ = (∇)^{0,1}`.
+Prove that every real-linear operator is the sum of a complex-linear one and a zeroth-order
+complex antilinear term (McDuff–Salamon Exercise C.1.7).
 
-A *rough* real Cauchy–Riemann operator is `D = D₀ + S`, with `D₀` smooth and
-`S ∈ W^{ℓ−1,p₀}(Σ, Λ^{0,1} ⊗ End_ℝ E)` for some `ℓ ≥ 1` and finite `p₀ > 2`. The coefficient
-exponent `p₀` is fixed with `S`; the realization exponent `p` varies. Such terms arise at
-non-solution points of the Banach manifolds of HeegaardFloer Layer 2. For `1 ≤ k ≤ ℓ` and
-`2 < p ≤ p₀`, prove the following:
+Following McDuff–Salamon Definition C.1.5 (p. 581), a real Cauchy–Riemann operator *of class
+`W^{ℓ−1,p}`*, for an integer `ℓ ≥ 1` and finite `p > 2`, is `D = D₀ + α`. Here `D₀` is a smooth
+complex-linear Cauchy–Riemann operator and `α ∈ W^{ℓ−1,p}(Σ, Λ^{0,1} ⊗ End_ℝ E)`. The exponent
+`p` is fixed with `α`. The realizations use the exponents of McDuff–Salamon Theorem C.1.10
+(p. 583): integers `k ∈ {1, …, ℓ}` and reals `q > 1` with `k − 2/q ≤ ℓ − 2/p`. For such `(k, q)`,
+prove the following:
 
-- `D : W^{k,p}_F → W^{k−1,p}` is bounded;
-- the elliptic estimate `‖ξ‖_{W^{k,p}} ≤ C(‖Dξ‖_{W^{k−1,p}} + ‖ξ‖_{Lᵖ})` holds, by PH3.3–PH3.4
-  in charts;
-- the kernel is finite-dimensional and the range is closed, by the estimate and Rellich.
+- `D_F : W^{k,q}_F(Σ, E) → W^{k−1,q}(Σ, Λ^{0,1} ⊗ E)` is bounded;
+- *Compact perturbation* (McDuff–Salamon Lemma C.2.2, p. 587): multiplication by `α` is
+  compact from `W^{k,q}_F` to `W^{k−1,q}`;
+- the elliptic estimate `‖ξ‖_{W^{k,q}} ≤ C(‖Dξ‖_{W^{k−1,q}} + ‖ξ‖_{L^q})` holds, by PH3.3 and
+  PH3.4 in charts.
 
-Finite-dimensionality of the cokernel is part of PH6.3. For smooth `S`, every finite `p > 2`
-is allowed.
+PH6.1's spaces are needed here at exponents `q ≤ 2`, with `W^{k,q}_F` defined through traces
+when `kq ≤ 2`.
 
-### 6.3 Regularity of the kernel and cokernel
+### 6.3 Fredholm property, kernel and cokernel
 
-Fix a `J_E`-Hermitian metric on `E` for which `F` is Lagrangian, and prove such a metric
-exists. Fix also an area form compatible with `j`. The formal adjoint
-`D* : Ω^{0,1}(E) → Ω⁰(E)` carries the boundary condition `η(v) ∈ F` for `v` tangent to `∂Σ`. On
-`D⁺_r` with `D = ∂_s + i∂_t` and `F = ℝⁿ`, integration by parts leaves the boundary term
-`−∫_ℝ ⟨iξ, η(∂_s)⟩ ds`, which vanishes for all `ξ ∈ ℝⁿ` exactly when `η(∂_s) ∈ ℝⁿ`. `D*` is a
-real Cauchy–Riemann operator of `∂`-type. Put it in the form of PH3.3 by conjugation and the
-metric.
+Fix a `J_E`-Hermitian metric on `E` *compatible with* `F`, meaning `J_E F = F^⊥`, and prove such
+a metric exists. Fix also an area form compatible with `j`. The dual operator `D_F*` is the
+formal adjoint `D*` restricted to (0,1)-forms `η` with `η(T∂Σ) ⊆ F`. Prove that
+`∫⟨D_F* η, ξ⟩ = ∫⟨η, D_F ξ⟩` for smooth `ξ` and `η` satisfying the two boundary conditions
+(McDuff–Salamon Lemma C.1.9, p. 582). On `D⁺_r` with `D = ∂_s + i∂_t` and `F = ℝⁿ`,
+integration by parts leaves the boundary term `−∫_ℝ ⟨iξ, η(∂_s)⟩ ds`, which vanishes for all
+`ξ ∈ ℝⁿ` exactly when `η(∂_s) ∈ ℝⁿ`. `D*` is a real Cauchy–Riemann operator of `∂`-type. Put it
+in the form of PH3.3 by conjugation and the metric.
 
-For `2 < p ≤ p₀`, prove the following in order:
+Prove McDuff–Salamon Theorem C.1.10 (i), which they prove as Theorem C.2.3 (p. 588), in this
+order:
 
-1. *Cokernel at `k = 1`.* An element of `(Lᵖ)* = L^{p'}`, `p' = p/(p−1)`, annihilating the range
-   of `D : W^{1,p}_F → Lᵖ` is a weak solution of `D*η = 0` in `L^{p'}`. Since
-   `p₀/(p₀−1) ≤ p' < 2 < p₀`, PH3.3–PH3.4 apply to `D*` with coefficient exponent `p₀`, and give
-   `η ∈ W^{ℓ,p₀}` with the adjoint boundary condition. Apply PH6.2's estimate to `D*` to make
-   the space of such `η` finite-dimensional. Hence `D : W^{1,p}_F → Lᵖ` is Fredholm.
-2. *Kernel.* The kernel consists of `W^{ℓ,p₀}` sections (smooth when `S` is smooth), so it is
-   independent of `k ≤ ℓ` and of `p ∈ (2, p₀]`.
-3. *Higher `k`.* For `1 ≤ k ≤ ℓ`, the range of `D : W^{k,p}_F → W^{k−1,p}` is the intersection of
-   `W^{k−1,p}` with the range at `k = 1`, by regularity. Since `W^{k−1,p}` is dense in `Lᵖ`, the
-   two cokernels have equal dimension. So every realization is Fredholm with the same index,
-   independent of `k ≤ ℓ` and `p ∈ (2, p₀]`. For smooth `S`, it is independent of every finite
-   `p > 2` and every `k`.
-4. *Unique continuation* for kernel and cokernel elements, from PH3.5.
-5. *Deformation.* The index is locally constant along continuous families of zeroth-order
-   terms in `W^{ℓ−1,p₀}`. Consume Mathlib's `IsFredholm.eventually_nhds_index_eq`.
+1. *Smooth operators.* For smooth `D` and every admissible `(k, q)`, the operators `D_F` and
+   `D_F*` have closed range and finite-dimensional kernel, by the estimate and Rellich. An
+   element annihilating the range of `D_F` is a weak solution of `D_F* η = 0`. Since the
+   coefficients are smooth, PH3.3–PH3.4 apply at every exponent and make `η` smooth.
+   Hence `D_F` is Fredholm.
+2. *Duality.* Prove (C.1.3) and (C.1.4): `η ∈ im D_F` exactly when `η` is `L²`-orthogonal to
+   `ker D_F*`, and symmetrically.
+3. *Rough operators.* For `D = D₀ + α` of class `W^{ℓ−1,p}`, `D_F` is a compact perturbation of
+   `(D₀)_F` by PH6.2. So it is Fredholm with the same index. Consume Tau Ceti's
+   compact-perturbation Fredholm files under `Analysis/Fredholm`.
+4. *Kernel regularity.* The kernels of `D_F` and `D_F*` lie in `W^{ℓ,p}`, so they are
+   independent of `(k, q)`. They consist of smooth sections when `α` is smooth.
+5. *Unique continuation* for kernel and cokernel elements, from PH3.5.
+6. *Deformation.* The index is locally constant along continuous families of zeroth-order
+   terms in `W^{ℓ−1,p}`. Consume Mathlib's `IsFredholm.eventually_nhds_index_eq`.
 
 ### 6.4 Agreement with the smooth-coefficient theory
 
@@ -600,7 +636,8 @@ isomorphism, and lift `τ` to an antilinear involution of `E_F` fixing `F`. Defi
 `μ(E, F) = c₁(E_F)[Σ_ℂ]`, using CharacteristicClasses C3.2's `c₁` and the complex fundamental
 class.
 
-Prove the following:
+Prove the following. The last four are the axioms of McDuff–Salamon Theorem C.3.5 (p. 595),
+and the loop formula is their Theorem C.3.6 (trivial bundle), which they use as the definition:
 
 - *Loop formula.* For a trivialization of `E` over `Σ`, `μ(E, F)` is the sum over the boundary
   circles, oriented as the boundary of `Σ`, of Tau Ceti's `TotallyRealLoop.maslovIndex` of `F`
@@ -611,12 +648,13 @@ Prove the following:
 - *Composition.* Gluing along boundary circles where the totally real data match adds the
   indices.
 
-For a closed surface write `μ(E) = 2c₁(E)[Σ]`.
+For a closed surface write `μ(E) = 2c₁(E)[Σ]`, the Chern class property of McDuff–Salamon
+Theorem C.3.6.
 
 ### 7.2 Riemann–Roch
 
 For a real Cauchy–Riemann operator `D` on `(E, F)` as in PH6, prove
-`ind_ℝ D = nχ(Σ) + μ(E, F)`. In the closed case this is `ind_ℝ D = nχ(Σ) + 2c₁(E)[Σ]`. Here
+`ind_ℝ D = nχ(Σ) + μ(E, F)` (McDuff–Salamon Theorem C.1.10 (ii), p. 583). In the closed case this is `ind_ℝ D = nχ(Σ) + 2c₁(E)[Σ]`. Here
 `χ` is the Euler characteristic of a finite CW model. Identify it with the alternating Betti
 sum through CharacteristicClasses C2.3, AlgebraicTopology Stages 6.1, 7.1 and 8.7, and
 FuchsianOrbifolds Layer 5's `compactManifoldFiniteCWType`. Prove the formula for an arbitrary
@@ -668,9 +706,20 @@ The bordered case follows from the closed case.
    kernel and cokernel of `D` with boundary condition `F`. Hence `ind D_F = 2 ind D`. The closed
    formula with `χ(Σ_ℂ) = 2χ(Σ)` and `c₁(E_F)[Σ_ℂ] = μ(E, F)` gives the bordered formula.
 8. *Check against the disc.* Compute the disc case `(ℂ, e^{ikθ/2}ℝ)` directly by Fourier
-   series. For `k ≥ −1` the operator `∂̄` is onto, with kernel of real dimension `1 + k`. For
+   series, as in McDuff–Salamon Theorem C.4.1 (p. 598). For `k ≥ −1` the operator `∂̄` is onto, with kernel of real dimension `1 + k`. For
    `k ≤ −1` it is injective, with cokernel of dimension `−1 − k`. Prove that this agrees with
    step 7.
+
+Finally prove the line-bundle vanishing theorem, McDuff–Salamon Theorem C.1.10 (iii). For
+`n = 1`, `D_F` is injective if `μ(E, F) < 0`, and surjective if `μ(E, F) + 2χ(Σ) > 0`. In the
+closed case, first prove the *zero count*: a section of a complex line bundle over a closed
+connected Riemann surface, in the kernel of a real Cauchy–Riemann operator and not identically
+zero, has isolated zeros of positive integer order (PH3.5), and the sum of the orders is
+`c₁(E)[Σ]`. Compare the orders with the transverse signed count of CharacteristicClasses C3.2's
+`c₁ = e`. So a nonzero kernel element forces `μ(E) = 2c₁(E)[Σ] ≥ 0`. Surjectivity follows by
+applying injectivity to `D_F*`, a real Cauchy–Riemann operator on a line bundle with
+`μ = −μ(E, F) − 2χ(Σ)`, through PH6.3's duality. In the bordered case, reduce to the closed
+case by doubling, as McDuff–Salamon do in their proof of (iii) (p. 603).
 
 ### 7.3 Checks
 
@@ -687,8 +736,8 @@ The targets here are the single owner of the planar and compact Cauchy–Riemann
 roadmaps below consume them and must not rebuild them:
 
 - **HeegaardFloer**:
-  - F1.1 consumes PH1 and PH6.1, and F1.2 consumes PH2.4 and PH3. F1.2 keeps its normalized
-    disc solvers with prescribed centre and first jet;
+  - F1.1 consumes PH1 and PH6.1, and F1.2 consumes PH2.3–PH2.4, PH3, PH6.3 and PH7.2's zero
+    count. F1.2 keeps its normalized disc solvers with prescribed centre and first jet;
   - the closed and bordered part of F1.5 is PH6–PH7, and F1.5's punctured and weighted theory
     consumes PH6–PH7 for the compact pieces;
   - F2.2's `W^{2,p}` regularity for `C¹` structures is PH5.1 with `ℓ = 1`;
@@ -700,9 +749,19 @@ roadmaps below consume them and must not rebuild them:
 ## References
 
 - D. McDuff and D. Salamon, *J-holomorphic Curves and Symplectic Topology*, 2nd ed., AMS
-  Colloquium Publications 52, 2012: Appendix B (Sobolev spaces, Calderón–Zygmund, elliptic
-  bootstrapping), Appendix C (Riemann–Roch), Chapter 3 (the linearized operator and its
-  Fredholm theory), Chapter 4 (gradient bounds and compactness).
+  Colloquium Publications 52, 2012. Printed page numbers:
+  - §2.3 (pp. 21–25): Theorem 2.3.5, the Carleman similarity principle (PH3.5);
+  - §4.1: Theorem 4.1.1, convergence under gradient bounds (p. 76, PH5.2);
+  - Appendix B: Theorems B.1.11–B.1.12, Sobolev embeddings (p. 555); Proposition B.1.19,
+    products (p. 560); Theorem B.2.7, Calderón–Zygmund (p. 565); §B.4, elliptic bootstrapping
+    (pp. 571–578), with Theorems B.4.1–B.4.2 and Remark B.4.3 (p. 571), Lemma B.4.4 (p. 572),
+    Lemmas B.4.5–B.4.6 (p. 573), Proposition B.4.9 (p. 575) and Exercise B.4.10 (p. 577)
+    (PH3.3–PH3.4, PH2.3, PH5);
+  - Appendix C: Definition C.1.5 (p. 581), Exercise C.1.7, Lemma C.1.9 (p. 582) and
+    Theorem C.1.10 (p. 583) (PH6–PH7); Lemma C.2.2 (p. 587) and Theorem C.2.3 (p. 588) (PH6);
+    Theorems C.3.5–C.3.6 (p. 595), the boundary Maslov index (PH7.1); Theorem C.4.1 (p. 598),
+    the disc case (PH7.2); Corollary C.5.3, integrability on surfaces (p. 605, PH2.4);
+  - Appendix E: Theorem E.3.1, Newlander–Nirenberg (p. 664, PH2.4).
 - I. N. Vekua, *Generalized Analytic Functions*, Chapters I–III (Cauchy and Beurling operators,
   similarity principle).
 - L. Ahlfors, *Lectures on Quasiconformal Mappings*, Chapter V (Beltrami equation).
