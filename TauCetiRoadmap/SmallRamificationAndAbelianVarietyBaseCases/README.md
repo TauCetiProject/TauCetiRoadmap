@@ -128,7 +128,7 @@ owner of the general result and the part used here.
 | Owner | Required interface and use |
 | --- | --- |
 | `ArithmeticGaloisRepresentations Layer 1` | Finite coefficient descent and absolute irreducibility under scalar extension; used in Layer 2 |
-| `ArithmeticGaloisRepresentations`, §2.7, `finite-order-hecke-functional-equation` / LFunctions Layer 5 | Trivial-character meromorphic extension, completed functional equation and poles of Dedekind zeta; §1.0 identifies the Euler product and proves the explicit formula |
+| `LFunctions`, Layer 3 | Meromorphic extension, completed functional equation and poles of Dedekind zeta (equivalently, the trivial-character specialization of the Hecke statement of its Layer 5); §1.0 identifies the Euler product and proves the explicit formula |
 | `ArithmeticGaloisRepresentations Layer 2` | Decomposition groups, inertia, kernel fields and their ramification; used to connect representations to completions |
 | `ArithmeticGaloisRepresentations Layer 4` | Dickson classification, normal p-subgroup fixed vectors, and the cyclotomic restriction criterion; used in Layer 1, Layer 2 and Layer 5 |
 | `ArithmeticGaloisRepresentations`, §§6.1, 6.4 / `TateModule.lambdaTateModule` | Rational Tate modules and `λ`-factors with continuous Galois action, coefficient extension and dimension; specialized in §5.1 |
@@ -232,9 +232,8 @@ larger auxiliary fields in Schoof's argument.
 
 ### 1.0 The Dedekind-zeta explicit formula
 
-For every number field K of degree n and signature `(r₁,r₂)`, use
-ArithmeticGaloisRepresentations §2.7, `finite-order-hecke-functional-equation`, supplied by
-LFunctions Layer 5 and specialized to the trivial idele-class character,
+For every number field K of degree n and signature `(r₁,r₂)`, use LFunctions Layer 3
+(equivalently, its Layer 5 Hecke statement specialized to the trivial idele-class character)
 for Dedekind-zeta meromorphic extension, its completed functional equation and poles. Identify its Euler
 product `∏𝔭 (1 − N𝔭⁻ˢ)⁻¹` on `Re(s)>1` with the ArithmeticDirichletSeries presentation.
 Use the completion
@@ -267,8 +266,7 @@ for the supplied function. In particular, the pole term has the negative sign sh
 This is a target here; it uses Mathlib's gamma functions, integrals and number-field invariants, and
 ArithmeticDirichletSeries (completed), Layers 1–3, for Dirichlet-series convergence and
 Euler-product operations. Source: Odlyzko's survey, §2, (2.1)–(2.3), pp. 121–122;
-meromorphic extension, the completed equation and poles are supplied by the trivial-character specialization
-of ArithmeticGaloisRepresentations §2.7, `finite-order-hecke-functional-equation` (LFunctions Layer 5).
+meromorphic extension, the completed equation and poles are supplied by LFunctions Layer 3.
 
 **Checks.**
 
@@ -1183,8 +1181,7 @@ and proof, §5, p. 854.
 
 ### 3.3 The Ext group and reordering a filtration
 
-The dyadic Ext target, which FiniteFlatGroupsAndIntegralPadicHodgeTheory calls
-ext_muTwo_zModTwo_eq_zero, specializes FiniteFlatGroupsAndIntegralPadicHodgeTheory
+The dyadic Ext vanishing specializes FiniteFlatGroupsAndIntegralPadicHodgeTheory
 §R07.G5, target `admissible-global-ext-vanishing`, at `ℓ = 2`. The specialization equation is
 `Ext¹_ℤ(μ_ℓ,ℤ/ℓℤ)|_{ℓ=2} = Ext¹_ℤ(μ₂,ℤ/2ℤ) = 0`. Thus every native exact sequence
 `0 → ℤ/2ℤ → G → μ₂ → 0` has a section of its quotient, exactly the Ext-vanishing condition of
@@ -1202,8 +1199,7 @@ p. 853, for the local/Kummer comparison.
 - Reversing the endpoints admits the nonsplit Katz–Mazur extension for `−1`, so the reversed
   Ext group is nonzero; this boundary is a target here.
 
-The filtration target, which FiniteFlatGroupsAndIntegralPadicHodgeTheory calls
-exists_diagonalizable_constant_filtration, specializes FiniteFlatGroupsAndIntegralPadicHodgeTheory
+The diagonalizable–constant filtration target specializes FiniteFlatGroupsAndIntegralPadicHodgeTheory
 §R07.G5, target `admissible-global-ext-vanishing`, and its `admissibleConnectedEtaleFiltration`.
 For a finite flat commutative G over `ℤ` of rank `2^n`, §3.2's independent theorem
 `simple_two_groupScheme_over_int` identifies every simple factor as `ℤ/2ℤ` or `μ₂`.
@@ -1919,8 +1915,7 @@ R17.4.10 for automorphic solvable descent; the stated weight-two Hilbert attachm
 
 #### 5.0c The weight-two geometric eigensummand
 
-Construct the Picard correspondences, called shimuraCurve_picard_correspondences by
-ArithmeticStatisticsPartVI, for the smooth proper geometrically connected
+Construct the Picard correspondences for the smooth proper geometrically connected
 curve components used here over their number fields of definition. The Jacobian `Pic⁰` is an abelian
 variety without a rational-point hypothesis: descend the pointed construction from a finite Galois
 extension with a point, and identify it with the identity component of the Picard sheaf supplied by
@@ -1950,8 +1945,8 @@ For a totally real field F of degree d and a cuspidal parallel weight-two Hilber
 assume that d is odd or that the automorphic representation of f is square-integrable at some
 finite place `v ∤ p`. Let B be the quaternion algebra over F split at exactly one real place and
 ramified at the other `d − 1` real places, and, when d is even, also at v; its ramification set has
-even cardinality in both cases, so B exists. Prove the following statement, called
-weightTwo_quaternionicJacobian by ArithmeticStatisticsPartVI: after
+even cardinality in both cases, so B exists. Prove the following weight-two quaternionic Jacobian
+statement: after
 Jacquet–Langlands transfer to B, the f-eigensystem cuts out a nonzero isogeny factor A of the
 Jacobian of the corresponding smooth proper Shimura curve. Its coefficient field K acts on A by
 F-rational endomorphisms up to isogeny, `[K:ℚ] = dim A`, and its `λ`-factor is the representation
@@ -1995,7 +1990,7 @@ Its finite part is unramified away from p. Source: Khare–Wintenberger, version
 3.3, p. 239 (proof, p. 243), and Theorem 4.2, pp. 244–245; the first preprint's corresponding lift results are
 in §3.
 
-The shared raw carrier, which the consuming roadmaps call AutomorphicSystemData, is a target here, independent of any automorphic
+The shared raw compatible-system carrier is a target here, independent of any automorphic
 existence theorem. For an arbitrary number field F and rank `n ≥ 1`, it records a coefficient
 number field E, a finite bad set S, monic degree-n good-place polynomials with nonzero constant
 term, continuous semisimple members at every finite coefficient place λ, and integer Hodge
@@ -2028,8 +2023,7 @@ representation operations in ArithmeticGaloisRepresentations Layers 1–2 and 5.
 - Specifying a member over `L_λ/E_λ` does not supply an `E_λ`-model; such a model requires a chosen
   descent and an identification after scalar extension.
 
-Define an arithmetic compatible family, called ArithmeticCompatibleFamily by the consuming
-roadmaps, as the base-`ℚ`, rank-two specialization of these data,
+Define an arithmetic compatible family as the base-`ℚ`, rank-two specialization of these data,
 with chosen `E_λ`-models and equivariant identifications after scalar extension, and the following
 additional predicates. Retain just one copy of the coefficient field, S, polynomials and Hodge data.
 Each member is unramified outside S and its residue characteristic, and has the prescribed
@@ -2125,7 +2119,7 @@ hypotheses, rather than a consequence of modularity alone.
 
 ### 5.1 Abelian varieties of GL₂-type
 
-Define marked `GL₂(K)`-type data, called GL2TypeAction by the consuming roadmaps, for an abelian
+Define marked `GL₂(K)`-type data for an abelian
 variety A over a number field F and a number field K: a chosen unital action `ι : K →+* End⁰_F(A)`
 together with the equality `[K:ℚ] = dim A`. The unmarked predicate asserts existence of such data and
 carries no chosen action.
@@ -2147,10 +2141,10 @@ uses the input action, with no fresh choice from the unmarked predicate. The API
   and the decomposition over all `λ|p`.
 - For the same h, `V_λ(A,h)` has `K_λ`-dimension two, and `V_p(A)` is free of rank two over
   `K ⊗ ℚ_p`.
-- Isogeny transport, called GL2TypeAction.isogeny by the consuming roadmaps: for an F-isogeny
+- Isogeny transport of marked data: for an F-isogeny
   `f:A → B`, transport h by `ι_B(a) = f ι_A(a) f⁻¹` in the rational isogeny category. The induced
   Tate map intertwines these marked K-actions and identifies their λ-factors.
-- Base-change transport, called GL2TypeAction.baseChange by the consuming roadmaps: for a finite
+- Base-change transport of marked data: for a finite
   extension `F′/F`, transport ι by base change of F-rational endomorphisms. The marked
   λ-representation is the restriction to `G_F′`.
 - The corresponding unmarked existence results for isogeny and base change.
@@ -2162,9 +2156,9 @@ The rational endomorphism algebra `End⁰_F(A)` is `ℚ ⊗[ℤ] A.End`, with th
 and scalar extension from AbelianSchemesAndArithmeticModuli A6.8 and A6.10–A6.12. Its API includes the
 natural map from integral endomorphisms and scalar compatibility. For an F-isogeny f there are a
 positive integer n and an integral quasi-inverse g with `f g = [n]` and `g f = [n]`, and conjugation
-by f acts on `1 ⊗ x` by `(1/n) ⊗ (f x g)`; the conjugation map, called endZeroIsogeny by the
-consuming roadmaps, is the unital ring isomorphism characterized by this formula. Base change to a
-finite extension `F′/F`, called endZeroBaseChange there, is the unital ring map sending `q ⊗ x` to
+by f acts on `1 ⊗ x` by `(1/n) ⊗ (f x g)`; the conjugation map is the unital ring isomorphism
+characterized by this formula. Base change to a finite extension `F′/F` is the unital ring map
+sending `q ⊗ x` to
 `q ⊗ x_F′`, using the native integral endomorphism base change.
 Their identity and composition laws
 agree with conjugation and base change of endomorphisms. For a non-CM elliptic
