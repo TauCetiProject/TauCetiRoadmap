@@ -3786,8 +3786,10 @@ For nonparallel `κ`, the logarithmic unit lattice makes the weight character no
 parallel `κ`, the norm character has finite image: specify a common positive exponent annihilating
 these characters at all cusps and the residual inertia, so this power extends invertibly. A formal
 unit trivialization has a nonzero constant term, forcing precisely the stated character condition
-([Dimitrov], Théorème 8.6(vi) and its proof, pp. 548–549). *Needs:* 8.1, 8.29, 8.36, 8.38,
-8.56; HilbertModularVarietiesAndShimuraCurves H3; SchemeAndStackFoundations Layer 0, Layer 2.
+([Dimitrov], Théorème 8.6(vi) and its proof, pp. 548–549). Dimitrov's (vi) states only "parallel";
+his proof reduces to the triviality of the `κ`-action of `o_{C,1}^×`, which for an odd parallel
+weight needs `N(u) = 1` at every cusp. *Needs:* 8.1, 8.29, 8.36, 8.38, 8.56;
+HilbertModularVarietiesAndShimuraCurves H3; SchemeAndStackFoundations Layer 0, Layer 2.
 
 **Checks.**
 
