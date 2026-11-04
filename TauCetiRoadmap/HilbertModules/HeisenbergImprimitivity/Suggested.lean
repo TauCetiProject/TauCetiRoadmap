@@ -13,10 +13,11 @@ definitions (with real bodies) that their statements need.
 
 The statable headlines live on the Euclidean phase space `ℝ^k × ℝ^k` of `M = ℝ^k`, whose
 Schwartz space is Mathlib's `SchwartzMap` and whose lattices are Mathlib's `IsZLattice`
-submodules with `ZLattice.covolume`: lattice Poisson summation for the symplectic Fourier
-transform (README §2.4), the operator fundamental identity behind the compatibility of the two
-pairings (README §2.4), existence of finite Parseval frames with Schwartz windows for every
-lattice (README §5.1) and the trace formula `∑ ‖g_j‖² = covolume` for such frames (README §5.2).
+submodules with `ZLattice.covolume`: the operator fundamental identity behind the compatibility
+of the two pairings (README §2.4), existence of finite Parseval frames with Schwartz windows for
+every lattice (README §5.1) and the trace formula `∑ ‖g_j‖² = covolume` for such frames
+(README §5.2). The Euclidean lattice Poisson formula these rest on is ThetaSeries 1A in
+symplectic coordinates (README §2.4), consumed from that roadmap and not restated here.
 
 Not statable at the pins:
 * the same four statements for a general finite-type group `M = ℝ^k × ℤ^p × 𝕋^q × F`
@@ -49,12 +50,6 @@ def symplecticAnnihilator {k : ℕ} (L : Submodule ℤ (EuclideanPhase k)) :
     Set (EuclideanPhase k) :=
   {e | ∀ d ∈ L, symplecticChar d e = 1}
 
-/-- The symplectic Fourier transform `(F_s F)(e) = ∫ F(x) σ(x, e) dx` for Lebesgue measure on
-`ℝ^k × ℝ^k` (the self-dual Haar measure of phase space). -/
-noncomputable def symplecticFourier {k : ℕ} (F : EuclideanPhase k → ℂ)
-    (e : EuclideanPhase k) : ℂ :=
-  ∫ x, F x * symplecticChar x e
-
 /-- The Schrödinger operator `(π_(m, s) ξ)(t) = e(s ⬝ t) ξ(t + m)`. -/
 noncomputable def schrodinger {k : ℕ} (x : EuclideanPhase k) (ξ : (Fin k → ℝ) → ℂ)
     (t : Fin k → ℝ) : ℂ :=
@@ -77,19 +72,7 @@ def IsParsevalFrame {k n : ℕ} (L : Submodule ℤ (EuclideanPhase k))
     HasSum (fun p : Fin n × L => ‖l2Inner (schrodinger (p.2 : EuclideanPhase k) (g p.1)) f‖ ^ 2)
       (∫ t, ‖f t‖ ^ 2)
 
-/-! ## Layer 2: Poisson summation and the fundamental identity -/
-
-/-- Lattice Poisson summation in phase space: for a lattice `L ⊆ ℝ^k × ℝ^k` and a Schwartz
-function `F`, both sums converge absolutely and
-`∑_(d ∈ L) F(d) = covol(L)⁻¹ ∑_(e ∈ L^⊥) (F_s F)(e)`
-(Rieffel 1988, the Poisson formula on p. 270 used in Proposition 2.11). -/
-theorem poisson_summation {k : ℕ} (L : Submodule ℤ (EuclideanPhase k)) [DiscreteTopology L]
-    [IsZLattice ℝ L] (F : SchwartzMap (EuclideanPhase k) ℂ) :
-    Summable (fun d : L => F d) ∧
-      Summable (fun e : symplecticAnnihilator L => symplecticFourier F e) ∧
-      ∑' d : L, F d =
-        (ZLattice.covolume L)⁻¹ * ∑' e : symplecticAnnihilator L, symplecticFourier F e := by
-  sorry
+/-! ## Layer 2: The fundamental identity -/
 
 /-- The operator fundamental identity: for a lattice `L` with annihilator `L^⊥` and Schwartz
 functions `ξ, η, ζ` on `ℝ^k`, pointwise in `t`,

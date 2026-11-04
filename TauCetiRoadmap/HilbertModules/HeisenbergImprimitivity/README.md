@@ -8,8 +8,9 @@ two algebra-valued pairings on S(M). Its end theorems are Rieffel's imprimitivit
 lattices — the completion 𝓔 of S(M) is a B–A imprimitivity bimodule, so `B≅K_A(𝓔)` and A and B
 are strongly Morita equivalent — together with the existence of finite Parseval frames with
 Schwartz windows and the trace formula `dim_A 𝓔=Σ_j‖ξ_j‖₂²=c_E=1/c_D`. On the Euclidean phase
-space `ℝ^k×ℝ^k` the lattice Poisson formula, the operator fundamental identity, frame existence
-and the frame trace formula are stated on Mathlib's `SchwartzMap` and `IsZLattice` carriers. The
+space `ℝ^k×ℝ^k` the operator fundamental identity, frame existence and the frame trace formula
+are stated on Mathlib's `SchwartzMap` and `IsZLattice` carriers, and the Euclidean lattice Poisson
+formula behind them is consumed from ThetaSeries Layer 1 in symplectic coordinates. The
 last layer computes the Euclidean, discrete, toral and finite families and the dictionary with
 the smooth noncommutative two-torus module of NoncommutativeGeometry N7.
 
@@ -22,7 +23,9 @@ This roadmap is a child of HilbertModules and owns, for finite-type M:
   nothing more);
 - symplectic annihilators, lattices, covolumes and the identity `c_D c_(D^⊥)=1` in phase space
   (Layer 1);
-- the Schwartz–Bruhat space S(M), its Fourier theory, lattice Poisson summation and the
+- the Schwartz–Bruhat space S(M), its Fourier theory, Poisson summation for a lattice in the
+  phase space of a finite-type M, the symplectic transport of the Euclidean lattice Poisson
+  formula of ThetaSeries Layer 1 (`F_sF(e)=𝓕F(−Je)`, `L^⊥=J⁻¹L^∨`, `c_L c_(L^⊥)=1`), and the
   fundamental identity (Layer 2);
 - the twisted group C*-algebra `C*(L,c)` of a discrete abelian group L with a normalised
   circle-valued 2-cocycle c: its ℓ¹ algebra, universal and regular completions, canonical trace,
@@ -46,25 +49,31 @@ Left to other owners:
   the discrete faithful conditional expectation, and the theorem that amenability makes the
   trivial representation weakly contained in the regular one.
 - AmenableGroups Layer 6 owns amenability of every abelian discrete group.
+- ThetaSeries Layer 1 owns Poisson summation for a full-rank ℤ-lattice in a finite-dimensional
+  real inner product space, for Schwartz functions, with both summability halves, the Fourier
+  change of variables under a linear automorphism and the dual-lattice transport; its 2A owns the
+  Euclidean dual lattice `L^∨` with `L^∨∨=L`, and its 2C the identity `covol(L^∨)=covol(L)⁻¹`.
+  The lattice Poisson formula on `ℝ^k×ℝ^k` is that theorem in symplectic coordinates (§2.4) and is
+  consumed, not restated.
 - Mathlib owns `SchwartzMap`, its Fourier transform, one-dimensional Poisson summation, Fourier
   series on `AddCircle`, `PontryaginDual`, `ZLattice.covolume` and the `CStarModule` classes.
 
 The imprimitivity theorem is stated for lattices D, where both D and `E=D^⊥` are discrete, both
-algebras are unital and carry finite traces, and the frame and dimension theory of Layer 5
-applies. Rieffel's theorem for an arbitrary closed subgroup D (rieffel88 line 639), whose algebras
-are twisted group C*-algebras of non-discrete groups, is outside this roadmap and belongs to a
-Part II of it, which starts from the Schwartz–Bruhat analysis of Layer 2.
+algebras are unital and carry finite traces, and the frame and dimension theory of Layer 5 applies.
+Rieffel's theorem for an arbitrary closed subgroup D (rieffel88 line 639, Theorem 2.15, p. 273),
+whose algebras are twisted group C*-algebras of non-discrete groups, is outside this roadmap and
+belongs to a Part II of it, which starts from the Schwartz–Bruhat analysis of Layer 2.
 
 ## Conventions
 
-- `e(r)=exp(2πir)`. Inner products on L²(M) are linear in the **second** variable:
-  `⟨ξ,η⟩=∫ conj(ξ(t)) η(t) dt`. Rieffel uses the opposite convention (rieffel88 line 385); every
-  formula from that source is converted.
+- `e(r)=exp(2πir)`. Inner products on L²(M) are linear in the **second** variable: `⟨ξ,η⟩=∫
+  conj(ξ(t)) η(t) dt`. Rieffel uses the opposite convention (rieffel88 line 385, proof of Lemma 2.3,
+  p. 266); every formula from that source is converted.
 - A character χ∈M̂ pairs with M by `χ(t)`. On the coordinates: `ℝ^k` with Lebesgue measure and
   `ℝ^k≅ℝ̂^k`, `s↦(t↦e(s⬝t))`; `ℤ^p` with counting measure and dual `𝕋^p`; `𝕋^q` with probability
   Haar measure and dual `ℤ^q`; F with counting measure and `F̂` with normalised counting measure
   (mass `1/|F|` per point). These are dual measures, and the phase measure on `G=M×M̂` is their
-  product; it does not depend on the choice of Haar measure on M (rieffel88 line 526).
+  product; it does not depend on the choice of Haar measure on M (rieffel88 line 526, p. 270).
 - Schrödinger operators, the Heisenberg cocycle and its commutator character:
 
   ```
@@ -100,7 +109,8 @@ Part II of it, which starts from the Schwartz–Bruhat analysis of Layer 2.
   (`Mathlib/Analysis/Distribution/SchwartzSpace/Fourier.lean`).
 - One-dimensional Poisson summation `Real.tsum_eq_tsum_fourier` and
   `SchwartzMap.tsum_eq_tsum_fourier` (`Mathlib/Analysis/Fourier/PoissonSummation.lean`); nothing
-  multidimensional or for a general lattice exists at the pin.
+  multidimensional or for a general lattice exists at the pin, and the lattice version is
+  consumed from ThetaSeries Layer 1.
 - `fourier`, `fourierCoeff`, `hasSum_fourier_series_L2` on `AddCircle`; `mFourier` on
   `UnitAddTorus` (`Mathlib/Analysis/Fourier/AddCircleMulti.lean`); `Real.fourierChar`.
 - `PontryaginDual` with its compact-open topology; Haar measure.
@@ -130,6 +140,18 @@ in the regular one, discrete ℓ² specialisation). Only untwisted actions are a
 
 **From TauCetiRoadmap.AmenableGroups.** Layer 6: every abelian discrete group is amenable.
 
+**From TauCetiRoadmap.ThetaSeries.** Layer 1: 1A `poissonSummation` (for a full-rank ℤ-lattice L
+in a finite-dimensional real inner product space E, a Schwartz function f and v∈E,
+`Σ_(l∈L) f(v+l) = covol(L)⁻¹ Σ_(m∈L^∨) 𝓕f(m) e(⟨v,m⟩)` with Mathlib's `𝓕f(w)=∫f(x)e(−⟨x,w⟩)dx`),
+1C `fourierIntegral_comp_equiv` (`𝓕(f∘A)=|det A|⁻¹ (𝓕f)∘(A⁻¹)ᵀ` for a linear automorphism A of
+E), 1D (the image AL of a lattice is a lattice with dual `(A⁻¹)ᵀL^∨` and
+`covol(AL)=|det A| covol(L)`), 1E `summable_poisson_left` and `summable_poisson_right` (absolute
+convergence of the two sides); 2A `dual_dual` (`L^∨` is again a lattice and `L^∨∨=L`, for the
+dual lattice `L^∨=(innerₗ E).dualSubmodule L`); 2C `covolume_dual` (`covol(L^∨)=covol(L)⁻¹`).
+These are stated for an inner product space E; the product `(Fin k → ℝ)×(Fin k → ℝ)` carries the
+sup norm and is not one, and the transport of 1A to it in symplectic coordinates is this
+roadmap's target §2.4, as 1A assigns it to its consumers.
+
 **From TauCetiRoadmap.NoncommutativeGeometry.** N6 (the rotation algebra `A_θ` with
 `U₂U₁=e(θ)U₁U₂`, the smooth subalgebra 𝒜_θ and its trace) and N7 (the 0<θ<1 Schwartz module with
 `(ξU₁)(s)=ξ(s+θ)`, `(ξU₂)(s)=e(s)ξ(s)`, its frames and Powers–Rieffel projection), for the
@@ -138,13 +160,14 @@ comparison in §6.3 only.
 ## How to read the build
 
 Layer 1 fixes phase space, the Schrödinger family and its cocycle, annihilators and the lattice
-geometry with covolumes. Layer 2 builds S(M) and proves Poisson summation and the fundamental
-identity, with the Euclidean statements on native carriers. Layer 3 constructs the twisted group
-C*-algebras of discrete abelian groups, the two actions and pairings on S(M), and positivity.
-Layer 4 completes S(M), proves fullness and Rieffel's imprimitivity theorem for lattices.
-Layer 5 proves spectral invariance of the rapid twisted algebras, smooth finite frames, the trace
-formula and transport under changes of coordinates. Layer 6 computes the standard families and
-the two-torus dictionary.
+geometry with covolumes. Layer 2 builds S(M), proves Poisson summation for finite-type M (the
+Euclidean lattice formula being ThetaSeries 1A in symplectic coordinates) and the fundamental
+identity, with the Euclidean fundamental identity on native carriers. Layer 3 constructs the twisted
+group C*-algebras of discrete abelian groups, the two actions and pairings on S(M), and positivity.
+Layer 4 completes S(M), proves fullness and Rieffel's imprimitivity theorem for lattices. Layer 5
+proves spectral invariance of the rapid twisted algebras, smooth finite frames, the trace formula
+and transport under changes of coordinates. Layer 6 computes the standard families and the two-torus
+dictionary.
 
 ## Layer 1: Phase space, the Schrödinger family and lattice geometry
 
@@ -155,7 +178,7 @@ by the convention above as a unitary on L²(M), and β and σ as above. Prove th
 continuous, that `π_xπ_y=β(x,y)π_(x+y)`, `π_0=1`, `π_x^*=conj(β(x,−x))π_(−x)`, that β is a
 continuous bicharacter (hence a normalised 2-cocycle), and that σ is a continuous alternating
 bicharacter (`σ(x,x)=1`, `σ(y,x)=conj σ(x,y)`) which is nondegenerate: `σ(x,·)≡1` forces x=0
-(rieffel88 line 337 for the annihilator it defines). Hence π_d and π_e commute exactly when
+(rieffel88 line 337, the definition of `D^⊥` on p. 265). Hence π_d and π_e commute exactly when
 `σ(d,e)=1`. No square root of a character and no factor 1/2 is used, so 2-torsion in M is allowed.
 On `M=ℝ^k`, with `x=(m,s)` and `y=(n,u)`, these are `schrodinger`, `schrodingerAdjoint` and
 `symplecticChar`: `σ(x,y)=e(u⬝m−s⬝n)`, and `schrodingerAdjoint x` is the adjoint of
@@ -183,9 +206,11 @@ On `M=ℝ^k`, with `x=(m,s)` and `y=(n,u)`, these are `schrodinger`, `schrodinge
 
 For a closed subgroup L of G define `L^⊥={x∈G : σ(l,x)=1 for all l∈L}`; on `ℝ^k×ℝ^k` this is
 `symplecticAnnihilator`. Prove that L^⊥ is a closed subgroup, that L↦L^⊥ reverses inclusions,
-`(L₁+L₂)^⊥=L₁^⊥∩L₂^⊥`, and `L^⊥⊥=L` for closed L (rieffel88 line 337); that every character of L
-is `l↦σ(l,x)` for some x∈G, with kernel of x↦σ(·,x)|_L exactly L^⊥, so `G/L^⊥≅L̂` as
-topological groups (rieffel88 lines 330–337); and that L is discrete iff G/L^⊥ is compact.
+`(L₁+L₂)^⊥=L₁^⊥∩L₂^⊥`, and `L^⊥⊥=L` for closed L (the double-annihilator theorem of Pontryagin
+duality, hewitt-ross79 Theorem 24.10, read through the isomorphism `G≅Ĝ`, `x↦σ(·,x)`;
+rieffel88 line 916, p. 280, uses it without proof); that every character of L is
+`l↦σ(l,x)` for some x∈G, with kernel of x↦σ(·,x)|_L exactly L^⊥, so `G/L^⊥≅L̂` as topological groups
+(rieffel88 lines 330–337, pp. 264–265); and that L is discrete iff G/L^⊥ is compact.
 *Needs:* 1.1; Mathlib `PontryaginDual`; the explicit duals of the coordinate factors.
 
 **Checks.**
@@ -200,15 +225,17 @@ topological groups (rieffel88 lines 330–337); and that L is discrete iff G/L^�
 
 ### 1.3 Lattices and covolumes
 
-Construct the quotient measure on G/L for discrete L by the Weil formula with counting measure
-on L, and define `c_L` for a lattice. Prove `0<c_L<∞`, that c_L is the measure of any Borel
-fundamental domain, that L^⊥ is a lattice when L is (rieffel88 line 744), and
-`c_L·c_(L^⊥)=1` (rieffel88 line 810). For finite-type G prove that a discrete subgroup is finitely
-generated abelian with finite torsion and has polynomial growth in the norm of its real and
-integer coordinates. On `ℝ^k×ℝ^k`, `c_L=ZLattice.covolume L`, and for `L=Pℤ^(2k)`,
-`L^⊥=J⁻¹P^(−T)ℤ^(2k)` with `J=[[0,I],[−I,0]]`, `c_L=|det P|`.
+Construct the quotient measure on G/L for discrete L by the Weil formula with counting measure on L,
+and define `c_L` for a lattice. Prove `0<c_L<∞`, that c_L is the measure of any Borel fundamental
+domain, that L^⊥ is a lattice when L is (rieffel88 line 744, Lemma 3.1, p. 276), and `c_L·c_(L^⊥)=1`
+(rieffel88 line 810, p. 277). For finite-type G prove that a discrete subgroup is finitely generated
+abelian with finite torsion and has polynomial growth in the norm of its real and integer
+coordinates. On `ℝ^k×ℝ^k`, `c_L=ZLattice.covolume L`, and for `L=Pℤ^(2k)`, `L^⊥=J⁻¹P^(−T)ℤ^(2k)`
+with `J=[[0,I],[−I,0]]`, `c_L=|det P|`; here `L^⊥=J⁻¹L^∨` for the Euclidean dual lattice `L^∨` of
+ThetaSeries 2A, and `c_L·c_(L^⊥)=1` is ThetaSeries 2C with 1D for J, `|det J|=1` (§2.4).
 *Needs:* 1.2; Mathlib `ZLattice.covolume`, `ZLattice.covolume_eq_det`,
-`ZSpan.isAddFundamentalDomain`; the structure theorem for finitely generated abelian groups.
+`ZSpan.isAddFundamentalDomain`; ThetaSeries 1D, 2A, 2C on `ℝ^k×ℝ^k`; the structure theorem for
+finitely generated abelian groups.
 
 **Checks.**
 
@@ -236,7 +263,7 @@ Mathlib Haar measure, `PontryaginDual`, `ZLattice.covolume`; Tau Ceti
 
 Define S(M) for `M=ℝ^k×ℤ^p×𝕋^q×F` as the smooth functions which, with all derivatives in the
 real and torus variables, decay faster than every polynomial in the real and integer coordinates
-(rieffel88 lines 369–374), with its seminorms, as a complete locally convex space. Prove the
+(rieffel88 lines 369–374, p. 265), with its seminorms, as a complete locally convex space. Prove the
 equivalent Fourier-coordinate description: families `a_(z,n,f)` of `SchwartzMap` elements on
 `ℝ^k`, indexed by `z∈ℤ^p`, `n∈ℤ^q`, `f∈F`, with every Euclidean seminorm rapidly decreasing jointly
 in (z,n), synthesised by `ξ(x,z,t,f)=Σ_n a_(z,n,f)(x)e(n⬝t)`, the series converging absolutely
@@ -260,10 +287,11 @@ the completed projective tensor product.
 
 ### 2.2 Matrix coefficients and restriction to subgroups
 
-Prove that for ξ,η∈S(M) the matrix coefficient `x↦⟨ξ,π_xη⟩` lies in S(G) (rieffel88 line 381),
-that the restriction of any F∈S(G) to a discrete subgroup L is absolutely summable and rapidly
-decreasing in the word length of L (rieffel88 line 395), and that for a rapidly decreasing φ on a
-discrete subgroup L, `Σ_l φ(l)π_lξ` converges in S(M) (rieffel88 line 408).
+Prove that for ξ,η∈S(M) the matrix coefficient `x↦⟨ξ,π_xη⟩` lies in S(G) (rieffel88 line 381, Lemma
+2.3, p. 266), that the restriction of any F∈S(G) to a discrete subgroup L is absolutely summable and
+rapidly decreasing in the word length of L (rieffel88 line 395, p. 266, before Corollary 2.4), and
+that for a rapidly decreasing φ on a discrete subgroup L, `Σ_l φ(l)π_lξ` converges in S(M)
+(rieffel88 line 408, Lemma 2.6, p. 266).
 *Needs:* 2.1; 1.3 polynomial growth.
 
 **Checks.**
@@ -283,26 +311,29 @@ Prove the orthogonality relation: for ξ,η,ζ,ω∈S(M),
 ∫_G ⟨π_xη,ξ⟩ ⟨ω,π_xζ⟩ dx = ⟨ω,ξ⟩ ⟨η,ζ⟩
 ```
 
-(rieffel88 line 552, converted to our inner-product convention: formal dimension one for the
-dual measures). Prove Poisson summation for a
-lattice D: for F∈S(G), both sums converge absolutely and
+(rieffel88 line 552, Lemma 2.10, p. 270, converted to our inner-product convention: formal dimension
+one for the dual measures). Prove Poisson summation for a lattice D: for F∈S(G), both sums converge
+absolutely and
 
 ```
 Σ_(d∈D) F(d) = c_D⁻¹ Σ_(e∈D^⊥) (F_s F)(e),   (F_s F)(e) = ∫_G F(x) σ(x,e) dx
 ```
 
-(rieffel88 lines 541–546), by periodising over G/D, computing Fourier coefficients on the compact
-group G/D with dual `D^⊥` (1.2), and Fourier inversion on G/D. Prove the four-vector identity:
-for `F(x)=⟨π_xη,ξ⟩⟨ω,π_xζ⟩`, `(F_sF)(e)=⟨η,π_eζ⟩⟨ω,π_e^*ξ⟩` (from the orthogonality relation, as
-in rieffel88 line 574), and hence the fundamental identity, first weakly and then as an
-absolutely convergent identity in S(M):
+(rieffel88 lines 541–546, the Poisson formula on p. 270), by periodising over G/D, computing Fourier
+coefficients on the compact group G/D with dual `D^⊥` (1.2), and Fourier inversion on G/D. For
+`M=ℝ^k` this formula is ThetaSeries 1A at `v=0` in the symplectic coordinates of 2.4 and is consumed
+from there; the periodisation route is for the factors `ℤ^p`, `𝕋^q`, F and the mixed lattices they
+admit. Prove the four-vector identity: for `F(x)=⟨π_xη,ξ⟩⟨ω,π_xζ⟩`, `(F_sF)(e)=⟨η,π_eζ⟩⟨ω,π_e^*ξ⟩`
+(from the orthogonality relation, as in rieffel88 line 574, proof of Proposition 2.11, p. 271), and
+hence the fundamental identity, first weakly and then as an absolutely convergent identity in S(M):
 
 ```
 Σ_(d∈D) ⟨π_dη,ξ⟩ π_dζ = c_D⁻¹ Σ_(e∈D^⊥) ⟨η,π_eζ⟩ π_e^*ξ
 ```
 
-(rieffel88 lines 570–589).
-*Needs:* 2.1, 2.2, 1.2, 1.3; Mathlib `fourierCoeff`, `hasSum_fourier_series_L2` and
+(rieffel88 lines 570–589, Proposition 2.11, pp. 271–272).
+*Needs:* 2.1, 2.2, 1.2, 1.3; ThetaSeries 1A, 1E through the transport of 2.4 for the Euclidean
+factor; Mathlib `fourierCoeff`, `hasSum_fourier_series_L2` and
 `SchwartzMap.integral_sesq_fourier_eq` for the coordinate factors.
 
 **Checks.**
@@ -317,32 +348,43 @@ absolutely convergent identity in S(M):
 
 ### 2.4 The Euclidean phase space
 
-On `M=ℝ^k`, with phase space `EuclideanPhase k = ℝ^k×ℝ^k`, Lebesgue measure, and the
-symplectic Fourier transform `symplecticFourier`, state:
+On `M=ℝ^k`, with phase space `EuclideanPhase k = ℝ^k×ℝ^k` and Lebesgue measure, the lattice
+Poisson formula of 2.3 is ThetaSeries 1A in symplectic coordinates. Prove the transport: with
+`J=[[0,I],[−I,0]]`, `σ(x,e)=e(⟨x,Je⟩)`, so the symplectic transform `(F_sF)(e)=∫F(x)σ(x,e)dx`
+equals `(𝓕F)(−Je)` for Mathlib's transform `𝓕F(w)=∫F(x)e(−⟨x,w⟩)dx` on
+`EuclideanSpace ℝ (Fin (2k))`, carried to the product `(Fin k → ℝ)×(Fin k → ℝ)` (a sup-norm
+space, not an inner product space) by the continuous linear equivalence that is the identity on
+coordinates, which preserves Lebesgue measure; for a lattice L, `L^⊥=J⁻¹L^∨` for the Euclidean
+dual lattice `L^∨` of ThetaSeries 2A, so `L^⊥` is a lattice (ThetaSeries 1D) with
+`ZLattice.covolume L^⊥=(ZLattice.covolume L)⁻¹` (ThetaSeries 1D and 2C, `|det J|=1`). Hence,
+for `L` with `IsZLattice ℝ L` and `F` a Schwartz function on `ℝ^k×ℝ^k`, both `Σ_(d∈L)F(d)` and
+`Σ_(e∈L^⊥)(F_sF)(e)` converge absolutely and
+`Σ_(d∈L)F(d) = (ZLattice.covolume L)⁻¹ Σ_(e∈L^⊥) (F_sF)(e)`: this is ThetaSeries 1A and 1E at
+`v=0` after the reindexing `e↦−Je` of `L^⊥` onto `L^∨` (`L^∨=−L^∨`). The formula is consumed,
+not restated. State on native carriers:
 
-- `poisson_summation`: for `L` with `IsZLattice ℝ L` and `F` a Schwartz function on `ℝ^k×ℝ^k`, the
-  sums `Σ_(d∈L)F(d)` and `Σ_(e∈L^⊥) (F_sF)(e)` converge absolutely and
-  `Σ_(d∈L)F(d) = (ZLattice.covolume L)⁻¹ Σ_(e∈L^⊥) (F_sF)(e)`.
 - `fundamental_identity`: for such L and Schwartz ξ,η,ζ on ℝ^k, pointwise in t,
   `Σ_(d∈L) l2Inner(π_dη,ξ)(π_dζ)(t) = covol(L)⁻¹ Σ_(e∈L^⊥) l2Inner(η,π_eζ)(π_e^*ξ)(t)`, both sums
   absolutely convergent.
 
-Both are the M=ℝ^k case of 2.3. For the first, `σ(x,e)=e(⟨x,Je⟩)` with `J=[[0,I],[−I,0]]`, so
-`F_sF(e)=(𝓕F)(−Je)` for Mathlib's transform `𝓕F(w)=∫F(x)e(−⟨x,w⟩)dx`, transported to
-`EuclideanSpace ℝ (Fin (2k))` by the identity map of coordinates. The second is the first applied
-to the Schwartz function `x↦⟨π_xη,ξ⟩(π_xζ)(t)` on phase space, whose symplectic transform is
-`e↦⟨η,π_eζ⟩(π_e^*ξ)(t)` by the four-vector identity.
-*Needs:* 2.3 for M=ℝ^k; Mathlib `SchwartzMap`, `SchwartzMap.fourierTransformCLM`,
-`ZLattice.covolume`, `IsZLattice`.
+This is the M=ℝ^k case of 2.3: the Euclidean Poisson formula applied to the Schwartz function
+`x↦⟨π_xη,ξ⟩(π_xζ)(t)` on phase space, whose symplectic transform is `e↦⟨η,π_eζ⟩(π_e^*ξ)(t)` by
+the four-vector identity of 2.3, which is this roadmap's own.
+*Needs:* 2.3 for M=ℝ^k; ThetaSeries 1A, 1C, 1D, 1E, 2A, 2C; Mathlib `SchwartzMap`,
+`SchwartzMap.fourierTransformCLM`, `ZLattice.covolume`, `IsZLattice`.
 
 **Checks.**
 
-- k=1, `L=ℤ×2ℤ`: `L^⊥=(1/2)ℤ×ℤ`, `ZLattice.covolume L=2`; for the Gaussian
+- k=1, `L=ℤ×2ℤ`: `L^∨=ℤ×(1/2)ℤ`, `J⁻¹L^∨=(1/2)ℤ×ℤ=L^⊥` (the annihilator of 1.2),
+  `ZLattice.covolume L=2` and `ZLattice.covolume L^⊥=1/2`; for the Gaussian
   `F(m,s)=e^(−π(m²+s²))` with `F_sF=F`, the left side is `θ(1)θ(4)` and the right side
   `(1/2)θ(1/4)θ(1)` with `θ(a)=Σ_n e^(−πan²)`; they agree by the Jacobi identity
   `θ(1/4)=2θ(4)`.
+- The sign in `F_sF(e)=𝓕F(−Je)`: k=1, `F(m,s)=e^(−π(m²+s²))e(m)`, so
+  `𝓕F(w₁,w₂)=e^(−π((w₁−1)²+w₂²))` and `F_sF(n,u)=𝓕F(−u,n)=e^(−π((u+1)²+n²))`; at e=(0,1) this
+  is `e^(−4π)`, while `𝓕F(Je)=𝓕F(u,−n)` would give 1 there.
 - k=0: phase space is a point, the only lattice is {0} with covolume 1, `L^⊥={0}`, and both sides
-  are F(0).
+  of the Poisson formula are F(0).
 - Fundamental identity paired with ξ, for ξ=η=ζ=g the Gaussian of 2.2 and `L=ℤ×2ℤ`, using
   `⟨g,π_(m,s)g⟩=e^(−π(m²+s²)/2)e(−sm/2)`: the left side is `Σ_(d∈L)|⟨g,π_dg⟩|²=θ(1)θ(4)` and the
   right side `(1/2)Σ_(e∈L^⊥)⟨g,π_eg⟩⟨π_eg,g⟩=(1/2)θ(1/4)θ(1)`, equal. With `schrodinger` in place
@@ -356,7 +398,7 @@ formula is the product of two classical ones with factor `|det A det B|⁻¹`.
 
 ### Dependencies
 
-Layer 1; Mathlib `SchwartzMap`, `SchwartzMap.fourierTransformCLM`,
+Layer 1; ThetaSeries Layer 1, 2A, 2C; Mathlib `SchwartzMap`, `SchwartzMap.fourierTransformCLM`,
 `SchwartzMap.integral_sesq_fourier_eq`, `fourierCoeff`, `mFourier`, `IsZLattice`,
 `ZLattice.covolume`; Tau Ceti `SchwartzMap.dense_hasCompactSupport`.
 
@@ -381,8 +423,8 @@ expectation, weak containment of the trivial representation in λ for amenable g
 AmenableGroups Layer 6.
 
 - For L finite, `C*(L,c)` is the twisted group algebra `ℂ^c[L]` with dimension |L|.
-- Every nonzero gauge-invariant closed ideal of `C*(L,c)` with L finitely generated is the whole
-  algebra: the gauge average of a positive element a is `τ(a)1`.
+- Every nonzero gauge-invariant closed ideal of `C*(L,c)` is the whole algebra: `L̂` is compact
+  for every discrete L, and the gauge average of a positive element a is `τ(a)1`.
 - A c-projective representation and a c'-projective representation with `c'=c·δu` for a cochain
   u give isomorphic algebras via `δ_x↦u(x)δ_x`.
 
@@ -407,13 +449,13 @@ b ξ = Σ_d b(d) π_d ξ                  ξ a = Σ_e a(e) π_e^* ξ
 ⟨ξ,η⟩_A(e) = ⟨ξ,π_eη⟩                 _B⟨ξ,η⟩(d) = c_D ⟨π_dη,ξ⟩
 ```
 
-(rieffel88 lines 401–403 and 506 in the opposite inner-product convention; the factor c_D is the
-point mass of rieffel88 lines 812–816). Prove that the right action is a representation of the
-opposite algebra, `π_y^*π_x^*=conj(β(x,y))π_(x+y)^*`, that both pairings take values in the rapid
-sequences (2.2), `⟨ξ,η⟩_A^*=⟨η,ξ⟩_A`, `⟨ξ,ηa⟩_A=⟨ξ,η⟩_A *a`, `_B⟨bξ,η⟩=b*_B⟨ξ,η⟩` (rieffel88
-line 447), `_B⟨ξ,η⟩^*=_B⟨η,ξ⟩` (rieffel88 line 460), and that the two actions commute
-(rieffel88 lines 488–490). For arbitrary discrete D and E the separate actions exist and commute
-iff `E⊆D^⊥`.
+(rieffel88 lines 401–403, Notation 2.5, p. 266, and line 506, p. 269, in the opposite inner-product
+convention; the factor c_D is the point mass of rieffel88 lines 812–816, p. 278). Prove that the
+right action is a representation of the opposite algebra, `π_y^*π_x^*=conj(β(x,y))π_(x+y)^*`, that
+both pairings take values in the rapid sequences (2.2), `⟨ξ,η⟩_A^*=⟨η,ξ⟩_A`, `⟨ξ,ηa⟩_A=⟨ξ,η⟩_A *a`,
+`_B⟨bξ,η⟩=b*_B⟨ξ,η⟩` (rieffel88 line 447, Proposition 2.8, p. 267), `_B⟨ξ,η⟩^*=_B⟨η,ξ⟩` (rieffel88
+line 460, Proposition 2.9, p. 268), and that the two actions commute (rieffel88 lines 488–490, p.
+269). For arbitrary discrete D and E the separate actions exist and commute iff `E⊆D^⊥`.
 *Needs:* 1.1, 1.2, 2.2, 3.1.
 
 **Checks.**
@@ -428,15 +470,15 @@ iff `E⊆D^⊥`.
 
 ### 3.3 Positivity, compatibility and the norm bounds
 
-Prove compatibility `_B⟨ξ,η⟩ζ=ξ⟨η,ζ⟩_A` for ξ,η,ζ∈S(M) from the fundamental identity 2.3
-(rieffel88 line 590). Prove that the Schrödinger representations of A and B on L²(M) are
-faithful: the kernel is invariant under the gauge action (conjugation by π_x implements the dual
+Prove compatibility `_B⟨ξ,η⟩ζ=ξ⟨η,ζ⟩_A` for ξ,η,ζ∈S(M) from the fundamental identity 2.3 (rieffel88
+line 590, Proposition 2.12, p. 272). Prove that the Schrödinger representations of A and B on L²(M)
+are faithful: the kernel is invariant under the gauge action (conjugation by π_x implements the dual
 action by the character `σ(x,·)`, and every character arises by 1.2), so it is zero by 3.1
-(rieffel88 line 362 proves this for closed D by another route). Prove positivity of `⟨ξ,ξ⟩_A`
-and `_B⟨ξ,ξ⟩` in A and B (rieffel88 line 603): for h∈S(M),
-`⟨h, _B⟨ξ,ξ⟩h⟩ = Σ_(e∈E)|⟨ξ,π_eh⟩|² ≥ 0` by the fundamental identity, and symmetrically for A;
-definiteness follows from `τ_A(⟨ξ,ξ⟩_A)=‖ξ‖₂²` and `τ_B(_B⟨ξ,ξ⟩)=c_D‖ξ‖₂²`. Prove the bounds
-`⟨bξ,bξ⟩_A≤‖b‖²⟨ξ,ξ⟩_A` and `_B⟨ξa,ξa⟩≤‖a‖²_B⟨ξ,ξ⟩` (rieffel88 line 620).
+(rieffel88 line 362, Proposition 2.2, p. 265, proves this for closed D by another route). Prove
+positivity of `⟨ξ,ξ⟩_A` and `_B⟨ξ,ξ⟩` in A and B (rieffel88 line 603, Proposition 2.13, p. 272): for
+h∈S(M), `⟨h, _B⟨ξ,ξ⟩h⟩ = Σ_(e∈E)|⟨ξ,π_eh⟩|² ≥ 0` by the fundamental identity, and symmetrically for
+A; definiteness follows from `τ_A(⟨ξ,ξ⟩_A)=‖ξ‖₂²` and `τ_B(_B⟨ξ,ξ⟩)=c_D‖ξ‖₂²`. Prove the bounds
+`⟨bξ,bξ⟩_A≤‖b‖²⟨ξ,ξ⟩_A` and `_B⟨ξa,ξa⟩≤‖a‖²_B⟨ξ,ξ⟩` (rieffel88 line 620, Proposition 2.14, p. 273).
 *Needs:* 2.3, 3.1, 3.2.
 
 **Checks.**
@@ -469,7 +511,7 @@ Apply HilbertModules H1 to complete S(M) in `‖ξ‖_A=‖⟨ξ,ξ⟩_A‖^(1/2
 injective with dense image: ι is the state localisation of HilbertModules H3 for the faithful
 trace τ_A, since `τ_A(⟨ξ,η⟩_A)=⟨ξ,η⟩`, and the localisation of a faithful trace is injective
 (Austad–Enstad 2020, Proposition 3.7). The image is not all of L²(M) in general. Prove that the
-B-norm `‖_B⟨ξ,ξ⟩‖^(1/2)` and the A-norm agree on S(M) (rieffel88 line 634), so 𝓔 is also the
+B-norm `‖_B⟨ξ,ξ⟩‖^(1/2)` and the A-norm agree on S(M) (rieffel88 line 634, p. 273), so 𝓔 is also the
 B-completion.
 *Needs:* 3.3; HilbertModules H1, H3.
 
@@ -486,12 +528,12 @@ B-completion.
 
 ### 4.2 Fullness and the imprimitivity theorem
 
-Prove that both pairings are full: the closed span of the range of `_B⟨·,·⟩` is a closed ideal of
-B (by 3.2), invariant under the gauge action (`α_x(_B⟨ξ,η⟩)=_B⟨π_xξ,π_xη⟩`, rieffel88 line 476),
-and nonzero, hence all of B by 3.1; likewise for A. Conclude with HilbertModules H3 that 𝓔 is a
-B–A imprimitivity bimodule, that the left action is a *-isomorphism `B≅K_A(𝓔)` sending
-`_B⟨ξ,η⟩` to `θ_(ξ,η)`, and that `𝓔⊗_A𝓔*≅B` and `𝓔*⊗_B𝓔≅A` with the pairings as evaluation
-maps (rieffel88 line 639, for lattices). Prove that induction along 𝓔 takes the Schrödinger
+Prove that both pairings are full: the closed span of the range of `_B⟨·,·⟩` is a closed ideal of B
+(by 3.2), invariant under the gauge action (`α_x(_B⟨ξ,η⟩)=_B⟨π_xξ,π_xη⟩`, rieffel88 line 476, p.
+268), and nonzero, hence all of B by 3.1; likewise for A. Conclude with HilbertModules H3 that 𝓔 is
+a B–A imprimitivity bimodule, that the left action is a *-isomorphism `B≅K_A(𝓔)` sending `_B⟨ξ,η⟩`
+to `θ_(ξ,η)`, and that `𝓔⊗_A𝓔*≅B` and `𝓔*⊗_B𝓔≅A` with the pairings as evaluation maps (rieffel88
+line 639, Theorem 2.15, p. 273, for lattices). Prove that induction along 𝓔 takes the Schrödinger
 representation of A on L²(M) to that of B.
 *Needs:* 3.1, 3.3, 4.1; HilbertModules H2, H3.
 
@@ -517,20 +559,19 @@ Layer 3; HilbertModules H1–H3.
 ### 5.1 Spectral invariance and smooth frames
 
 For a finitely generated abelian group L with normalised 2-cocycle c, let S(L,c) be the rapidly
-decreasing functions on L with twisted convolution. Prove that S(L,c) is a Fréchet *-algebra,
-equal to the smooth vectors of the gauge action of the compact Lie group L̂ on C*(L,c), and that
-it is inverse-closed in C*(L,c) in every matrix size, so closed under holomorphic functional
-calculus (rieffel88 lines 919–930), by differentiating `a⁻¹` along the generators of the gauge
+decreasing functions on L with twisted convolution. Prove that S(L,c) is a Fréchet *-algebra, equal
+to the smooth vectors of the gauge action of the compact Lie group L̂ on C*(L,c), and that it is
+inverse-closed in C*(L,c) in every matrix size, so closed under holomorphic functional calculus
+(rieffel88 lines 919–930, p. 280), by differentiating `a⁻¹` along the generators of the gauge
 action. Prove that S(M) is a finitely generated projective right S(E,conj β)-module and
-`𝓔≅S(M)⊗_(S(E))A` (rieffel88 lines 937–950). Prove the smooth-frame theorem: there are
-ξ_1,…,ξ_n∈S(M) with `Σ_jθ_(ξ_j,ξ_j)=1`, i.e. `ξ=Σ_jξ_j⟨ξ_j,ξ⟩_A` for every ξ∈𝓔, obtained from
-the HilbertModules H2 frame by approximation in S(M) and normalisation by the inverse square root
-of the frame operator in S(D,β). A single window is not asserted. On `ℝ^k` this is
+`𝓔≅S(M)⊗_(S(E))A` (rieffel88 lines 937–950, Proposition 3.7, p. 281). Prove the smooth-frame
+theorem: there are ξ_1,…,ξ_n∈S(M) with `Σ_jθ_(ξ_j,ξ_j)=1`, i.e. `ξ=Σ_jξ_j⟨ξ_j,ξ⟩_A` for every ξ∈𝓔,
+obtained from the HilbertModules H2 frame by approximation in S(M) and normalisation by the inverse
+square root of the frame operator in S(D,β). A single window is not asserted. On `ℝ^k` this is
 `exists_parsevalFrame`: for every lattice L in `ℝ^k×ℝ^k` there are finitely many Schwartz windows
-forming a Parseval frame over L in the sense of `IsParsevalFrame`
-(`Σ_jΣ_(x∈L)|⟨π_xg_j,f⟩|²=‖f‖₂²` for every Schwartz f); the right A-frame condition over E and the
-Parseval condition over E are the same, because `π_e^*` is a unimodular multiple of `π_(−e)` and
-`E=−E`.
+forming a Parseval frame over L in the sense of `IsParsevalFrame` (`Σ_jΣ_(x∈L)|⟨π_xg_j,f⟩|²=‖f‖₂²`
+for every Schwartz f); the right A-frame condition over E and the Parseval condition over E are the
+same, because `π_e^*` is a unimodular multiple of `π_(−e)` and `E=−E`.
 *Needs:* 3.1, 4.2; HilbertModules H2; Mathlib `SchwartzMap`, `IsZLattice`.
 
 **Checks.**
@@ -546,21 +587,22 @@ Parseval condition over E are the same, because `π_e^*` is a unimodular multipl
 
 ### 5.2 The trace formula
 
-For a right Parseval frame (ξ_j) put `p_(ij)=⟨ξ_i,ξ_j⟩_A`; prove p is a projection in `M_n(A)`
-and that `ξ↦(⟨ξ_j,ξ⟩_A)_j` and `(a_j)↦Σ_jξ_ja_j` are mutually inverse between 𝓔 and `pA^n`
-(rieffel88 lines 768–780). Prove that `Tr_𝓔(T)=Σ_jτ_A(⟨ξ_j,Tξ_j⟩_A)` is independent of the
-frame, and
+For a right Parseval frame (ξ_j) put `p_(ij)=⟨ξ_i,ξ_j⟩_A`; prove p is a projection in `M_n(A)` and
+that `ξ↦(⟨ξ_j,ξ⟩_A)_j` and `(a_j)↦Σ_jξ_ja_j` are mutually inverse between 𝓔 and `pA^n` (rieffel88
+lines 768–780, proof of Proposition 3.3, pp. 276–277). Prove that `Tr_𝓔(T)=Σ_jτ_A(⟨ξ_j,Tξ_j⟩_A)` is
+independent of the frame, and
 
 ```
 Tr_𝓔(L_b) = c_E τ_B(b)        for b∈B,
 dim_A 𝓔 = τ_A(p) = Σ_j ‖ξ_j‖₂² = c_E = 1/c_D
 ```
 
-(rieffel88 lines 766 and 832, where the trace of the class of 𝓔 is the volume of a fundamental
-domain of D^⊥; Austad–Enstad 2020, Proposition 3.5, for the induced trace). On `ℝ^k` this is
-`parsevalFrame_trace`: if Schwartz windows g_1,…,g_n form a Parseval frame over L in the sense of
-`IsParsevalFrame`, then `Σ_j‖g_j‖₂²=ZLattice.covolume L`. A rescaling of the Haar measure of M by
-r>0 multiplies module vectors by `r^(−1/2)` and leaves `dim_A𝓔` unchanged.
+(rieffel88 line 766, Proposition 3.3, p. 276, and line 832, Theorem 3.4, p. 278, where the trace of
+the class of 𝓔 is the volume of a fundamental domain of D^⊥; Austad–Enstad 2020, Proposition 3.5,
+for the induced trace). On `ℝ^k` this is `parsevalFrame_trace`: if Schwartz windows g_1,…,g_n form a
+Parseval frame over L in the sense of `IsParsevalFrame`, then `Σ_j‖g_j‖₂²=ZLattice.covolume L`. A
+rescaling of the Haar measure of M by r>0 multiplies module vectors by `r^(−1/2)` and leaves
+`dim_A𝓔` unchanged.
 *Needs:* 5.1; HilbertModules H2.
 
 **Checks.**
@@ -594,9 +636,10 @@ annihilators, pairings and covolumes. For the Fourier transform `F₊:L²(M)→L
 
 ### Examples
 
-For `M=ℝ^k` and a symplectic matrix S with `SᵀJS=J`, an intertwiner of π and π∘S exists and is
-unique up to a scalar; this roadmap uses it only when a cochain and intertwiner are supplied, and
-does not assert a canonical metaplectic choice.
+On `M=ℝ^k` the rephasing by `u(m,s)=e(m⬝s)` turns `π_(m,s)ξ(t)=e(s⬝t)ξ(t+m)` into
+`π'_(m,s)ξ(t)=e(s⬝(t+m))ξ(t+m)`, the modulation-after-translation family; its cocycle is
+`β'(x,y)=e(−n⬝s)=conj β(y,x)` and its commutator character is σ again (Check of 5.3), so the two
+families have the same lattices, annihilators and covolumes, and isomorphic algebras and modules.
 
 ### Dependencies
 
@@ -690,7 +733,12 @@ of §6.3 and §5.2.
   Math. 40 (1988), 257–338 (rieffel88): Propositions 2.1–2.2, Lemma 2.3, Corollary 2.4, Lemma 2.6,
   Propositions 2.8–2.9, the Poisson formula on p. 270, Lemma 2.10, Propositions 2.11–2.14,
   Theorem 2.15, Lemma 3.1, Propositions 3.2–3.3, Theorem 3.4, the smoothing remark on p. 280 and
-  Proposition 3.7.
+  Proposition 3.7. A locator `rieffel88 line N` is a line of the author's copy of the paper
+  recorded in the roadmap's source manifest; the statement and printed page beside it are those of
+  the journal.
+- Edwin Hewitt and Kenneth A. Ross, *Abstract Harmonic Analysis I*, Grundlehren der
+  mathematischen Wissenschaften 115, second edition, Springer, 1979 (hewitt-ross79): Theorem
+  24.10, the double-annihilator theorem for a closed subgroup of a locally compact abelian group.
 - Are Austad and Ulrik Enstad, *Heisenberg modules as function spaces*, J. Fourier Anal. Appl. 26
   (2020), arXiv:1904.10826 (austad-enstad20): Propositions 3.5 and 3.7. Its translation is
   `ξ(t−x)` and its inner product is linear in the first variable; formulas are converted.
