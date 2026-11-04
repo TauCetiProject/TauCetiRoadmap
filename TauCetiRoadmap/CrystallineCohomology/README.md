@@ -835,7 +835,7 @@ The API:
   Hⁿ((X/S)_CRIS,G)=Hⁿ((X/S)_cris,i⁻¹G) for every abelian sheaf G on CRIS(X/S) and every n.
 - For a Zariski sheaf G on X, u⁻¹G evaluated on (U,T,δ) is G(U),
   with sheafification understood. In particular (u⁻¹O_X^×)(U,T,δ)=Γ(U,O_U)^×; the homomorphism
-  O_crys^×→u⁻¹O_X^× is restriction along U→T. This is the evaluation used in first-chern-class.
+  O_crys^×→u⁻¹O_X^× is restriction along U→T. This is the evaluation used in *The crystalline first Chern class and the hyperplane class*.
 
 *Proof sketch.* A cocontinuous functor of sites defines a morphism of topoi. The functor of Remark
 60.8.5 is continuous and cocontinuous because coverings of (U,T,δ) are defined by Zariski coverings
@@ -846,7 +846,7 @@ of (X/S)_CRIS; for X and S affine every object of CRIS(X/S) with T affine maps t
 D_e,γ̄) of Cris(X/S) (Stacks Lemma 60.5.6). Then π⁻¹:=i_! and π_*:=i⁻¹. u and the localisation
 square are Stacks Remark 60.9.4 and Lemma 60.9.5; the latter gives Γ(V,u_*F)=Γ((V/S)_cris,F) for V⊂X
 open. The inverse-image evaluation is the functor (U,T,δ)↦U defining u; covers of T induce covers of
-U. Apply this to units to obtain the reduction map used by first-chern-class (Bhatt–de Jong §3.1,
+U. Apply this to units to obtain the reduction map used by *The crystalline first Chern class and the hyperplane class* (Bhatt–de Jong §3.1,
 p.7). The Stacks Project proves exactness of i_! (and so the existence of π) only for affine X and
 S; the general case needs a set of objects of Cris(X/S) covering the final object of the big topos,
 and the composition (g∘f)_cris ≅ g_cris∘f_cris for small topoi needs the local factorisation of
@@ -1387,8 +1387,7 @@ polynomial algebras* (DerivedDeRhamCohomology §PD.5); *Small and big crystallin
 
 **Checks.**
 
-- The structure module has its canonical identity-after-base-change
-  stratification.
+- The structure module D has its canonical stratification, with ε the identity of D(1).
 - For A=F_p with the zero PD ideal, C=P=F_p[t] and M=D=F_p[t] with ε
   the identity of D(1)=F_p[t]⟨ξ⟩, ξ=t⊗1−1⊗t: `ε(f⊗1)=p₀(f)=Σ_kp₁(f^{(k)})·ξ^{[k]}` for every f, so θ_k
   is the k-th derivative.
@@ -1693,8 +1692,8 @@ EnhancedDerivedSheaves E2:towers.1 (`derivedTowerLimit`) and §E2.2
 
 **Checks.**
 
-- `test_RΓcrys_empty`: The empty scheme has zero crystalline cohomology.
-- `test_RΓcrys_point`: For k a perfect field of characteristic p, X=Spec k and S=Spec W_e(k) with
+- The empty scheme has zero crystalline cohomology.
+- For k a perfect field of characteristic p, X=Spec k and S=Spec W_e(k) with
   the canonical PD structure on (p): RΓ_crys(X/S,O_crys)=W_e(k) in degree 0.
 - For `X = Spec 𝔽_p`, `S = Spec ℤ_p` and `I = (p)`
   with its canonical divided powers, multiplication by `p` is injective on `f⁻¹O_S = ℤ_p`.
@@ -1702,7 +1701,7 @@ EnhancedDerivedSheaves E2:towers.1 (`derivedTowerLimit`) and §E2.2
   thickening `(X,X)` is nonzero and killed by `p`. Thus module pullback is not exact and module
   direct image need not preserve injectives (Stacks
   [015Z](https://stacks.math.columbia.edu/tag/015Z)); the comparison uses acyclicity instead.
-- `test_RΓcrys_limit_not_groups`: For `X=𝔸¹_{F_p}` over S=Spec ℤ_p and F=O_crys, the map
+- For `X=𝔸¹_{F_p}` over S=Spec ℤ_p and F=O_crys, the map
   H¹(RΓ_crys(X/S,O_crys))→lim_eH¹(RΓ_crys(X/S_e,O_crys)) is not injective: the class of
   `η=Σ_{e>0}pᵉx^{pᵉ−1}dx` is nonzero and maps to zero, since `η≡d(Σ_{0<j<e}x^{pʲ})` modulo pᵉ (Stacks
   Example 60.22.2).
@@ -1999,7 +1998,7 @@ The API:
   exact.
 
 *Proof sketch.* Work locally on P with an étale coordinate chart into affine space. Formal étaleness
-lifts the ambient map to each thickening; envelope-etale-extension identifies D_T locally with the
+lifts the ambient map to each thickening; *Étale extension of PD envelopes* identifies D_T locally with the
 corresponding PD polynomial envelope. The coordinate formula is the existing linearization. Its zero
 higher-direct-image statement is the extra-degeneracy contraction of the envelope Čech complex. The
 construction by a_*b^*N makes coordinate changes canonical. The PD Poincaré contraction on each
@@ -2085,14 +2084,14 @@ base-compatible divided power envelope* (DerivedDeRhamCohomology §PD.6).
   `Ω^•_PD(D/A)→Ω^•_{P′/A}`; both complexes compute RΓ_crys(X/Spec W_e(k),O_crys).
 
 **De Rham computation in a smooth ambient embedding.** In the situation of
-smooth-ambient-linearization, for a quasi-coherent crystal E with envelope value E_D and its
+*Linearization in a smooth ambient scheme*, for a quasi-coherent crystal E with envelope value E_D and its
 integrable PD connection, `Ru_{X/S,*}E≅(E_D⊗_(O_P)Ω^•_(P/S),∇)` as complexes of f⁻¹O_S-modules on X.
 For p-adic bases and compatible crystals at finite level the analogous identity is the derived limit
 of these complexes. If i₁:X↪P₁ and i₂:X↪P₂ are two smooth embeddings, pullback through X↪P₁×_SP₂
 gives canonical quasi-isomorphisms between their envelope complexes, coherent for triples and
 compatible with base change and open restriction.
 
-*Hypotheses.* The hypotheses of smooth-ambient-linearization, with E a quasi-coherent crystal. For
+*Hypotheses.* The hypotheses of *Linearization in a smooth ambient scheme*, with E a quasi-coherent crystal. For
 the p-adic version, define both sides by Rlim of the compatible finite-level complexes.
 
 *Proof sketch.* Apply Ru_* to the acyclic linearization resolution; degree q pushes forward to
@@ -2134,7 +2133,8 @@ case the de Rham direction is bounded. Use homotopy totalization; replace derive
 limits only when the stated acyclicity and surjectivity conditions hold.
 
 *Proof sketch.* Each affine envelope bicomplex computes the local crystalline complex by
-embedding-computation and smooth-ambient-comparison. Its cosimplicial positive-form rows contract as
+*Crystalline cohomology from an embedding* and *De Rham computation in a smooth ambient
+embedding*. Its cosimplicial positive-form rows contract as
 in Bhatt–de Jong Lemmas 2.15–2.17, while the columns use the PD Poincaré lemma. Apply bounded-below
 hypercover descent (EnhancedDerivedSheaves Layer E2) to the sheaf Ru_*E, obtaining the global
 totalization. For a finite ordered cover the augmented alternating Čech resolution of sheaves is
@@ -2202,7 +2202,7 @@ map RΓ((V/S)_cris,Zar,E)→RΓ((V/S)_cris,ét,E_ét) is an isomorphism, functor
 Equivalently Ru_Zar,*E agrees with Rν_*Ru_ét,*E_ét for ν:X_ét→X_Zar, as objects with base
 coefficients f⁻¹O_S.
 
-*Hypotheses.* The crystalline situation of etale-crystalline-site. Only quasi-coherent crystals are
+*Hypotheses.* The crystalline situation of *The étale crystalline sites*. Only quasi-coherent crystals are
 compared; arbitrary sheaves on these sites need not have the same cohomology.
 
 *Proof sketch.* On an affine thickening the crystal is a quasi-coherent module on T. Étale extension
@@ -2512,7 +2512,7 @@ derived inverse limit of the finite-level filtered identities.
 locally free. The filtration J^[r]E is saturated and transversal for the T-inverse image of
 filtrations; this does not assert equality with the ordinary pullback of filtered submodules. The
 finite-level envelope, coefficient connection and sign convention are those of
-smooth-ambient-comparison.
+*De Rham computation in a smooth ambient embedding*.
 
 *Proof sketch.* The PD derivation sends J^[a] to J^[a−1]Ω¹, so the displayed degree-q submodules
 form a subcomplex. Finite local freeness identifies their tensors with the corresponding ideal
@@ -2602,7 +2602,7 @@ quasi-coherent complexes*).
 
 **Checks.**
 
-- For `Y=ℙ¹_{W(k)}` and F=O_crys: RΓ_crys(ℙ¹_k/Spec `W(k),O_crys)≅RΓ(ℙ¹_{W(k)},Ω^•`), with cohomology
+- For `Y=ℙ¹_{W(k)}` and F=O_crys: RΓ_crys(ℙ¹_k/Spec `W(k)`,`O_crys`)≅RΓ(`ℙ¹_{W(k)}`,`Ω^•`), with cohomology
   W(k) in degrees 0 and 2 and zero in degree 1.
 - For E of rank one, End⁰(E)=0 and End(E)=O_crys.
 - For E=O_crys⊕O_crys and p=2: tr(id)=2, and End(E)/(O_crys·id+End⁰(E))≅O_crys/2·O_crys≠0, so End(E)
@@ -2620,7 +2620,7 @@ quasi-coherent complexes*).
 ### Dependencies
 
 Layers CR.1; EnhancedDerivedSheaves (Layer E1, Layer E2); DerivedModuleAlgebra (§S.1);
-SchemeAndStackFoundations (Layer 2); AdicSpacesPartIII (F0.6, F0.6, F0.6, F0.7);
+SchemeAndStackFoundations (Layer 2); AdicSpacesPartIII (F0.6, F0.7);
 DerivedDeRhamCohomology (Layer 1); Mathlib.
 
 ## Layer CR.3: Descent, finiteness, base change and Frobenius
@@ -2704,13 +2704,13 @@ bounded-below coefficient complexes use their derived hypercohomology; in the p-
 compatible finite-level descent followed by Rlim. This does not assert h-, fppf- or proper descent
 for arbitrary crystalline coefficients.
 
-*Hypotheses.* The crystalline situation of etale-crystalline-site; U_• is an étale hypercover. The
+*Hypotheses.* The crystalline situation of *The étale crystalline sites*; U_• is an étale hypercover. The
 coefficient complexes are bounded below; unbounded descent would need a separate convergence
 theorem.
 
-*Proof sketch.* Extend E to the étale crystalline site by etale-crystal-comparison. Its derived
+*Proof sketch.* Extend E to the étale crystalline site by *Change of topology for quasi-coherent crystals*. Its derived
 projection to X_ét has étale-local evaluations given by the crystalline complexes on U_n. Apply the
-bounded-below hypercover theorem of E2 to this projected complex. Use etale-crystal-comparison on X
+bounded-below hypercover theorem of E2 to this projected complex. Use *Change of topology for quasi-coherent crystals* on X
 and on each U_n to express the two sides in the original Zariski crystalline convention.
 Compatibility of restriction supplies the augmentation. Take Rlim of these finite-level equivalences
 in the complete case; homotopy limits commute with homotopy limits. ([Stacks
@@ -3336,7 +3336,7 @@ spectral sequence and coefficient structure through the ringed-site derived comp
 Restriction to fibres gives the edge maps. Under the relative perfectness and base-change conditions, evaluate on each PD thickening
 and descend the relative cohomology modules as crystals. In the torsor case étale local sections
 reduce to the product with E₀; the needed elliptic Hodge ranks and relative degeneration are the
-smooth-curve-lift calculation. This invokes only the curve part, not the torsion surface that
+*Smooth proper lifts of curves over Witt vectors* calculation. This invokes only the curve part, not the torsion surface that
 consumes Leray. Translations on E₀ act identically on H¹: Künneth gives H¹(E₀×E₀)=H¹(E₀)⊕H¹(E₀), and
 addition pulls a class back to the sum of its two components, as seen by restriction to the axes. A
 constant section has zero positive-degree pullback. This makes torsor descent constant.
@@ -3479,7 +3479,7 @@ integral basis.
 *Hypotheses.* E is elliptic, not a singular Weierstrass cubic; the displayed Frobenius is linear
 because σ on W(F_p)=Z_p is the identity.
 
-*Proof sketch.* Use torsion-and-models for rank two, H²=Z_p·c₁(0), and F on H² equal to p. The cup
+*Proof sketch.* Use *Proper smooth tests and a crystalline torsion surface* for rank two, H²=Z_p·c₁(0), and F on H² equal to p. The cup
 pairing on H¹ is perfect: modulo p this is Serre duality on the two Hodge pieces, and freeness plus
 Nakayama lifts its nondegeneracy. This curve-case pairing uses *Vanishing of the top coherent de
 Rham differential* and does not use Layer CR.3:duality. The pairing is alternating even at p=2:
@@ -3712,7 +3712,8 @@ The API:
   groups and a cochain map α:M→η_pM, the triple (M,d,F) with F(x)=p^(−n)α(x) for x∈M^n is a
   Dieudonné complex.
 - The two constructions are mutually inverse: the map
-  α_F of ofAlpha(α) is α, and ofAlpha(α_F) has Frobenius F.
+  α_F of the Dieudonné complex with Frobenius F(x)=p^(−n)α(x) is α, and the Dieudonné complex
+  built from α_F has Frobenius F.
 - For termwise p-torsion-free Dieudonné complexes M,
   N and a cochain map f:M→N with f∘F=F∘f, η_p(f)∘α_F=α_F∘f.
 - For an abelian group A and any endomorphism F of A, the
@@ -3927,7 +3928,7 @@ The API:
 - The identity evaluates to x in each degree.
 - Composition evaluates to g_n(f_n(x)).
 - For a fixed prime p, Dieudonné complexes with
-  DieudonneHom as morphisms, DieudonneHom.id and DieudonneHom.comp form a category DC.
+  morphisms of Dieudonné complexes, identities and composition form a category DC.
 - For a morphism f:M→N, every integer n and x∈M^n: f_n(F_M
   x)=F_N(f_n x).
 - A morphism f:M→N of Dieudonné complexes is an
@@ -4066,7 +4067,7 @@ The API:
 - H^n(Lη_pK)≅H^n(K)/H^n(K)[p], naturally.
 - (Lη_pK)^∧_p≅Lη_p(K^∧_p), naturally in K.
 
-*Proof sketch.* Resolve K by a complex of free abelian groups. principal-p-decalage computes
+*Proof sketch.* Resolve K by a complex of free abelian groups. *Principal p-décalage on torsion-free complexes* computes
 cohomology and therefore preserves quasi-isomorphisms between torsion-free models; localize this
 functor to obtain Lη_p. Enhanced localization gives the enhanced functor, using the enhanced derived
 category of EnhancedDerivedSheaves Layer E1. For a free model M, degreewise p-completion represents
@@ -4383,7 +4384,7 @@ The API:
 *Proof sketch.* d maps N_r^n into N_r^(n+1) (*Differential stability of the filtration*), so it
 induces a map of quotients by Submodule.mapQ; the induced map squares to zero because d does,
 checked on representatives. The complex is assembled from these groups and maps with
-CochainComplex.of; Wmk:M^n→W_r(M)^n is the quotient map Submodule.Quotient.mk. ([Bhatt–Lurie–Mathew,
+CochainComplex.of; the quotient projection M^n→W_r(M)^n, x↦[x], is the quotient map Submodule.Quotient.mk. ([Bhatt–Lurie–Mathew,
 *Revisiting the de Rham–Witt complex*](https://arxiv.org/abs/1805.05501v3), arXiv v3, §2.5,
 Construction 2.5.1; p.19 in arXiv v3 and in the published version.) *Needs:* *Differential stability
 of the filtration*; Mathlib `CochainComplex.of`; Mathlib `ModuleCat.ofHom`; Mathlib
@@ -4402,12 +4403,12 @@ of the filtration*; Mathlib `CochainComplex.of`; Mathlib `ModuleCat.ofHom`; Math
 - For T=[Z --id--> Z] in degrees 0 and 1 with F_0=p, F_1=id: W_r(T)^1=0 although T^1/V^r(T^1)=Z/p^r,
   so the summand im(dV^r) matters.
 
-**Surjectivity of the quotient projection.** The degreewise map Wmk:M^n→W_r(M)^n is surjective.
+**Surjectivity of the quotient projection.** The quotient projection M^n→W_r(M)^n is surjective.
 
 *Hypotheses.* p is a prime; M is a saturated Dieudonné complex; n is any integer and r≥0 is an
 integer.
 
-*Proof sketch.* Wmk is the quotient map of M^n by the submodule N_r^n, which is surjective
+*Proof sketch.* The projection is the quotient map of M^n by the submodule N_r^n, which is surjective
 (Submodule.mkQ_surjective). ([Bhatt–Lurie–Mathew, *Revisiting the de Rham–Witt
 complex*](https://arxiv.org/abs/1805.05501v3), arXiv v3, §2.5, Construction 2.5.1; p.19 in arXiv v3
 and in the published version.) *Needs:* *Finite Verschiebung quotient complex*; Mathlib
@@ -4415,9 +4416,9 @@ and in the published version.) *Needs:* *Finite Verschiebung quotient complex*; 
 
 **Checks.**
 
-- For M=Z in degree 0 with F=id, Wmk is the reduction Z→Z/p^r, which is surjective.
+- For M=Z in degree 0 with F=id, the projection is the reduction Z→Z/p^r, which is surjective.
 
-**Zero classes in finite quotients.** Wmk(x)=0 iff x∈N_r^n.
+**Zero classes in finite quotients.** [x]=0 in W_r(M)^n iff x∈N_r^n.
 
 *Hypotheses.* p is a prime; M is a saturated Dieudonné complex; n is any integer and r≥0 is an
 integer.
@@ -4434,7 +4435,7 @@ and in the published version.) *Needs:* *Finite Verschiebung quotient complex*; 
 - For T=[Z --id--> Z] in degrees 0 and 1 with F_0=p, F_1=id: the class of 1∈T^1 in W_1(T)^1 is zero,
   because 1=d(V_0(1))∈N_1^1.
 
-**Differential of a quotient representative.** d(Wmk(x))=Wmk(dx) in W_r(M)^(n+1).
+**Differential of a quotient representative.** d[x]=[dx] in W_r(M)^(n+1).
 
 *Hypotheses.* p is a prime; M is a saturated Dieudonné complex; n is any integer and r≥0 is an
 integer.
@@ -4450,7 +4451,7 @@ Verschiebung quotient complex*; Mathlib `Submodule.mapQ_apply`.
   d[x]_1=[dx]_1 in W_1(E)^1, and this class is nonzero, because every element of N_1^1 has its
   coefficient of dx divisible by p.
 
-**Projection to the finite quotient.** The degreewise projections Wmk assemble into a cochain map
+**Projection to the finite quotient.** The degreewise quotient projections M^n→W_r(M)^n assemble into a cochain map
 M→W_r(M).
 
 *Hypotheses.* p is a prime; M is a saturated Dieudonné complex; n is any integer and r≥0 is an
@@ -4458,11 +4459,11 @@ integer.
 
 The API:
 
-- Its degree-n component sends x to Wmk(x).
+- Its degree-n component sends x to [x].
 - Every component is surjective.
 - The degree-n kernel is N_r^n.
 
-*Proof sketch.* The components are the maps Wmk; the cochain-map condition is d[x]=[dx]
+*Proof sketch.* The components are the quotient projections; the cochain-map condition is d[x]=[dx]
 (*Differential of a quotient representative*). ([Bhatt–Lurie–Mathew, *Revisiting the de Rham–Witt
 complex*](https://arxiv.org/abs/1805.05501v3), arXiv v3, §2.5, Construction 2.5.1 and the displayed
 tower M^*→⋯→W_1(M)^*→W_0(M)^* after Remark 2.5.3; arXiv v3 pp.19–20; published pp.19–20.) *Needs:*
@@ -5750,7 +5751,7 @@ and Teichmüller lifts; initiality gives W_rΩ^*_R→W_rΩ^*_(R′). The Langer�
 {W_rΩ^*_(R/F_p)}_r (with W_0=0), with its V and the projections W(R)→W_r(R), satisfies (d) by
 V(x·dy)=V(x·FdV(y))=V(x)·dV(y) and (e) by V(x·F(d[λ]))=V(x)·d[λ] with F(d[λ])=[λ]^(p−1)·d[λ]; so it
 is an R-framed V-pro-complex and receives a map from the classical complex, surjective because both
-are quotients of Ω^*_(W_r(R)). Illusie's universal property (API item classicalDRW_lift_degreeZero).
+are quotients of Ω^*_(W_r(R)). Illusie's universal property (the API item above).
 Let M_• and f:R→M⁰_1 be as there; M_• is a V-pro-complex of DR in the sense of Illusie I.1.1, his
 condition (V3) being (e) for x of degree 0 rewritten by (d). Let M′_r⊂M_r be the differential graded
 subalgebra generated by M⁰_r. The M′_r are stable under restriction and under V (by (d)), and
@@ -6338,7 +6339,7 @@ differentials. These completion facts are part of this target. Now use DerivedDe
 2 (§2.27 *The de Rham algebra of a completely smooth formal algebra*) for B̂: Ω̂ is p-torsion-free,
 Ω̂/p=Ω^*_(B/pB), and its divided Frobenius induces Cartier modulo p (BLM Remark 3.3.3, Example 3.3.5
 and Corollary 3.3.8). The strict-completion theorem makes Ω̂→W(Sat Ω̂) a quasi-isomorphism, and
-saturated-de-rham-witt identifies the target with WsatΩ_(B/pB) (BLM Theorem 4.2.4). (2): choose a
+*Universal saturated de Rham–Witt complex* identifies the target with WsatΩ_(B/pB) (BLM Theorem 4.2.4). (2): choose a
 p-torsion-free, p-adically complete lift B of R with a Frobenius lift (lift R to W_n(k) for each n).
 Then ν is the composite Ω^*_R≅Ω̂^*_B/p→WsatΩ_R/p→W_1(WsatΩ_R); in the square formed with the Cartier
 isomorphism, the isomorphism H^*(Ω̂^*_B/p)≅H^*(WsatΩ_R/p) of step 2 and the isomorphism
@@ -7289,7 +7290,7 @@ complexes, compatibility of their counits and the relative-dimension shift signs
 this trace target from SchemeAndStackFoundations Layer 2. Carry this equality through the de Rham–Witt
 comparison and the Künneth totalization. Check the Čech product and shift signs together with ε_d,
 ε_e and ε_(d+e), using `ε_(d+e)=(−1)^{de}ε_dε_e`, so the hyperplane-normalized traces satisfy the derived product identity. This sign
-and residue comparison supplies crysTrace_product here; Ekedahl I.5 alone does not assert it. The identification of Tr_X with Berthelot’s crystalline trace (LNM 407, VII
+and residue comparison supplies the product formula Tr_{X×Y}=Tr_X⊗Tr_Y here; Ekedahl I.5 alone does not assert it. The identification of Tr_X with Berthelot’s crystalline trace (LNM 407, VII
 1.4.9) is not part of this target; the construction of the trace and duality do not depend on it.
 The Hodge and de Rham cohomology of projective space used in the normalisation is the statement
 proved in *Proper smooth tests and a crystalline torsion surface* (Layer CR.3). ([Ekedahl, *On the
@@ -7558,7 +7559,7 @@ class into pure cohomology tensors is used. When every H^i(K) is free, the Tor t
 derived Künneth on cohomology becomes the direct sum of tensor products. Read the coevaluation in
 dual bases; interchanging degrees i and 2d−i gives (−1)^i. This proves (4), and the hyperplane basis
 with Tr(h^d)=1 gives (5). After inverting p the same argument applies over the field W[1/p]. The
-coherent-product comparison and crysTrace_product are those already proved in
+coherent-product comparison and the product formula Tr_{X×Y}=Tr_X⊗Tr_Y are those already proved in
 *Proper smooth crystalline trace*.
 ([Ekedahl, *On the multiplicative properties of the de Rham–Witt complex I*, Ark. Mat. 22
 (1984)](https://archive.ymsc.tsinghua.edu.cn/pacm_download/116/7414-11512_2006_Article_BF02384380.pdf),
@@ -8107,7 +8108,7 @@ The API:
 dimension equality in a boundary parameter chart, and use regular local rings for SNC pairs.
 ([Nizioł, *Toric singularities: log-blow-ups and global
 resolutions*](https://webusers.imj-prg.fr/~wieslawa.niziol/resol7.pdf), Definition 2.2, pp.2–3;
-Proposition 2.6, p.5.) *Needs:* *Characteristic monoids*; *Saturated monoids*.
+Proposition 2.6, p.4.) *Needs:* *Characteristic monoids*; *Saturated monoids*.
 
 **Checks.**
 
@@ -9038,7 +9039,7 @@ zero curvature. At each geometric stalk use the local logarithmic falling-factor
 Taylor coefficients. Stalkwise eventual vanishing makes the PD Taylor expression finite locally for
 each section germ; change of coordinates preserves the intrinsic stratification. Recover cartesian
 evaluation by sheaf pullback and descend it across local PD lifts. The functor sends F to
-crystalEvaluation F D, with its underlying sheaf equal to F_D. Apply Beilinson finite-chart
+its evaluation on D, with underlying sheaf F_D. Apply Beilinson finite-chart
 approximation only for the stated coordinate PD-smooth extension. Apply the construction at each
 finite formal level and retain compatible reduction maps before invoking p-adic completion. ([Kato,
 *Logarithmic structures of
@@ -9104,7 +9105,7 @@ compatible PD filtration. The map is induced by the crystal evaluation and linea
 resolution; the claim is not an ordinary de Rham comparison for an arbitrary singular ambient
 scheme.
 
-*Proof sketch.* Use crystalEvaluation on the same ambient module sheaf and resolve the crystal by
+*Proof sketch.* Use evaluation on the log PD envelope D of the same ambient module sheaf and resolve the crystal by
 the linearized sheaf PD diagonal complex. Contract the ordinary additive and logarithmic
 multiplicative PD coordinate directions locally, using stalkwise quasi-nilpotence and the PD Taylor
 equivalence. Push forward and descend the resulting sheaf comparison. Its coefficient terms are M
@@ -10600,7 +10601,7 @@ effect.
 ordinary one. The absolute-relative parameter triangle splits, so its boundary N vanishes. Compare
 the PD construction with the ordinary crystalline–de Rham map. ([Hyodo–Kato, *Semi-stable reduction
 and crystalline cohomology with logarithmic
-poles*](https://www.numdam.org/item/AST_1994__223__221_0.pdf), §3.5–3.6, pp.245–246; Theorem 5.1,
+poles*](https://www.numdam.org/item/AST_1994__223__221_0.pdf), §3.5–3.6, pp.244–246; Theorem 5.1,
 pp.262–263.) *Needs:* *Hyodo–Kato monodromy*; *Hyodo–Kato comparison theorem*; *Change of
 uniformizer*; Layer CR.2; *Strict morphisms* (Layer CR.5:log-algebra).
 
@@ -11631,8 +11632,17 @@ and printed page (or PDF page where stated).
 - [SGA 1] A. Grothendieck, M. Raynaud, *Revêtements étales et groupe fondamental (SGA 1)*, Documents
   Mathématiques 3, SMF 2003; [arXiv:math/0206203](https://arxiv.org/abs/math/0206203).
 - [Madapusi–Mondal, *Perfect F-gauges and finite flat group schemes*](https://www.keerthimadapusi.com/assets/preprints/fflat.pdf), Remark 4.3.3.
-- [Messing] W. Messing, *The crystals associated to Barsotti–Tate groups, with applications to
-  abelian schemes*, Lecture Notes in Math. 264, Springer 1972.
+- [Illusie, errata to *Complexe de de Rham–Witt et cohomologie
+  cristalline*](https://www.imo.universite-paris-saclay.fr/~luc.illusie/Errdrw2.pdf).
+- [Illusie–Raynaud, *Les suites spectrales associées au complexe de de
+  Rham–Witt*](https://www.numdam.org/item/PMIHES_1983__57__73_0.pdf).
+- Colliot-Thélène–Sansuc–Soulé, *Torsion dans le groupe de Chow de codimension deux*, Duke Math. J.
+  50 (1983), 763–801; [doi:10.1215/S0012-7094-83-05038-X](https://doi.org/10.1215/S0012-7094-83-05038-X).
+- [Chatzistamatiou–Rülling, *Hodge-Witt cohomology and Witt-rational
+  singularities*](https://emis.de/ft/9676).
+- [Berner, *Etale homotopy theory of non-archimedean analytic
+  spaces*](https://arxiv.org/abs/1708.03657).
+- [Kedlaya, *Finiteness of rigid cohomology with coefficients*](https://arxiv.org/abs/math/0208027).
 - **BL22**: Bhargav Bhatt and Jacob Lurie, *Absolute prismatic cohomology*. arXiv:2201.06120v1.
 
 [BL22]: https://arxiv.org/pdf/2201.06120v1
