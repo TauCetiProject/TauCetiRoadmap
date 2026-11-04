@@ -1430,9 +1430,9 @@ The conclusion excludes the exact-zero linear form as well as nonzero forms of h
 The real logarithm interval and normalized p-adic residue hypotheses are supplied by the proved
 precision results of §§0.9, `2.1` and `2.6`, rather than by a proposed solution list.
 
-The API includes `DistanceWitness.ofLLL` as the two conditional lower-bound formulas above,
-`RealExclusionData.sound, PadicExclusionData.not_congruent` and
-`PadicExclusionData.matrix_target_eq`. These are implications between the stated
+The API includes the LLL construction of a distance witness as the two conditional lower-bound formulas above,
+the soundness of a real exclusion datum, the non-congruence conclusion of a p-adic exclusion datum
+and its matrix–target identity. These are implications between the stated
 mathematical conditions. The real reduction assumes `n ≥ 2`, the p-adic reduction `n ≥ 1`;
 the bounded rational comparison also applies in dimension one.
 
@@ -1481,7 +1481,7 @@ For the proof, The distance witness is sound: an LLL witness by §1.2 (a)/(b), u
 GeometryOfNumbersAndQuadraticArithmetic §5.1 for the hypothesis on `‖c*_i‖` and the supplied integral inverse basis change for
 `AUℤ^n = Aℤ^n`; an enumeration witness by §1.8. Real kind: apply §1.3 or §1.4 with `L` from the witness
 and the checked inequality (iv). p-adic kind: apply §1.6. The p-adic form uses
-`PadicExclusionData.not_congruent` and sound; the only external semantics are the
+the non-congruence conclusion and soundness of a p-adic exclusion datum; the only external semantics are the
 exact coefficient residues. The integer nondivisibility conclusion is stronger and safer than
 applying an integer-valued valuation to the exact-zero branch.
 
@@ -2063,7 +2063,7 @@ of any solution. Return the empty solution set before constructing covering-depe
 ### 2.11 Exact constants of the Tzanakis–de Weger method
 
 Branch first: with `s=0` use root isolation and `Y₀` only; with `s>0` and a complete factor covering with
-`M=∅` return the empty solution set by `ThueFactorCovering.solutions_eq_empty`. The following
+`M=∅` return the empty solution set by the emptiness statement of §2.10. The following
 covering-dependent extrema and constants are formed only in the `s>0, M.Nonempty` branch. Let (g, m)
 be a Thue equation `(§2.9)` with roots `ξ^{(i)}` isolated in rational boxes `B_1, …, B_n` by §0.2 (real
 roots in degenerate-imaginary boxes, the boxes of a conjugate pair mirror images). Tzanakis–de
@@ -3507,7 +3507,7 @@ Remark1.2, printed p.725; §3 local/global normalization, pp.729–730.)
 
 ### 3.13 Exact enclosure of the canonical height by doubling
 
-For `W` over `ℚ` with integral coefficients, a point `P ∈ E(ℚ)` and `n ∈ ℕ, canonicalHeightEnclosure W P n λ⁻ λ⁺ c⁻ c⁺` takes four explicit rational inputs and is a closed interval [ℓ, u] with rational
+For `W` over `ℚ` with integral coefficients, a point `P ∈ E(ℚ)` and `n ∈ ℕ`, the canonical-height enclosure `Enc(W, P, n; λ⁻, λ⁺, c⁻, c⁺)` takes four explicit rational inputs and is a closed interval [ℓ, u] with rational
 endpoints containing `ĥ(P)` (Tau Ceti `canonicalHeight`), computed as follows: form `Q = 2ⁿ·P` exactly in
 Mathlib's group law over `ℚ`; if `Q = O` then `ĥ(P) = 0` and the interval is [0,0]; otherwise `H = max(|a|, b)` for `x(Q) =` a/b in lowest terms and `[λ⁻, λ⁺]` ∋ `log H` is an exact rational enclosure; with
 nonnegative rational bounds `c⁻ ≥ h(j)/12 + μ_C(W) +` 961/500 and `c⁺ ≥ μ_C(W) +` 107/50
@@ -3526,16 +3526,16 @@ requested precision; the interval is defined by these exact rational endpoints.
 
 The interface includes these statements.
 
-- For the explicit `λ⁻,λ⁺,c⁻,c⁺` with exact log/error inequalities and integral elliptic `W, ĥ(P)` lies in `canonicalHeightEnclosure W P n λ⁻ λ⁺ c⁻ c⁺`.
-- For explicit `λ⁻≤λ⁺` and `c⁻,c⁺≥0, width(canonicalHeightEnclosure W P n λ⁻ λ⁺ c⁻ c⁺)≤((λ⁺−λ⁻)+c⁺+c⁻)/4ⁿ`, including the zero branch. No existential unspecified constant replaces this formula.
-- `canonicalHeightEnclosure W 0 n λ⁻ λ⁺ c⁻ c⁺=[0,0]` for arbitrary rational inputs.
-- With the same rational data on both sides, `canonicalHeightEnclosure W (−P) n λ⁻ λ⁺ c⁻ c⁺=canonicalHeightEnclosure W P n λ⁻ λ⁺ c⁻ c⁺`.
-- With integral elliptic `W`, the three exact naive-height log intervals at `2ⁿ(P+Q),2ⁿP,2ⁿQ` and the shared exact c⁻,c⁺, `pairingEnclosure` contains `(ĥ(P+Q)−ĥ(P)−ĥ(Q))/2`.
-- `pairingEnclosure W P Q n` bounds c⁻ c⁺ uses `bounds:Fin3→Q×Q` in order P+Q,P,Q, and forms `[(I.lower−J.upper−L.upper)/2,(I.upper−J.lower−L.lower)/2]` from their three height intervals with the shared error bounds.
+- For the explicit `λ⁻,λ⁺,c⁻,c⁺` with exact log/error inequalities and integral elliptic `W, ĥ(P)` lies in `Enc(W, P, n; λ⁻, λ⁺, c⁻, c⁺)`.
+- For explicit `λ⁻≤λ⁺` and `c⁻,c⁺≥0, width(Enc(W, P, n; λ⁻, λ⁺, c⁻, c⁺))≤((λ⁺−λ⁻)+c⁺+c⁻)/4ⁿ`, including the zero branch. No existential unspecified constant replaces this formula.
+- `Enc(W, O, n; λ⁻, λ⁺, c⁻, c⁺)=[0,0]` for arbitrary rational inputs.
+- With the same rational data on both sides, `Enc(W, −P, n; λ⁻, λ⁺, c⁻, c⁺)=Enc(W, P, n; λ⁻, λ⁺, c⁻, c⁺)`.
+- With integral elliptic `W`, the three exact naive-height log intervals at `2ⁿ(P+Q),2ⁿP,2ⁿQ` and the shared exact c⁻,c⁺, the pairing enclosure contains `(ĥ(P+Q)−ĥ(P)−ĥ(Q))/2`.
+- The pairing enclosure for `W, P, Q, n`, bounds `c⁻, c⁺` uses `bounds:Fin3→Q×Q` in order P+Q,P,Q, and forms `[(I.lower−J.upper−L.upper)/2,(I.upper−J.lower−L.lower)/2]` from their three height intervals with the shared error bounds.
 
 For the proof, `ĥ(2ⁿP) = 4ⁿĥ(P)` (Tau Ceti `Point.canonicalHeight_nsmul`), and
 explicit-height-difference-bound applied to `Q =` 2ⁿP gives `h(Q) − c⁻ ≤ ĥ(Q) ≤ h(Q) + c⁺`; divide
-by 4ⁿ. `h(Q) = log H` by Mathlib `Rat.mulHeight₁_eq_max` and Tau Ceti `Point.naiveHeight_eq_logHeight₁`;
+by 4ⁿ. `h(Q) = log H` by Mathlib `Rat.mulHeight₁_eq_max` and Mathlib `Point.naiveHeight_eq_logHeight₁`;
 interval arithmetic by `ED.2` rational logarithm/error bounds rational-interval-product. Only exact
 rational arithmetic and the logarithm enclosures enter; no floating-point value is trusted.
 
@@ -3543,7 +3543,7 @@ The interval implication uses the full native height and the `4^n` denominator.
 
 **Checks.**
 
-- For `y²=x³+1` and `P=(−1,0)` of order2, `canonicalHeightEnclosure` returns [0,0] for every `n≥1` and every supplied rational endpoint/error input.
+- For `y²=x³+1` and `P=(−1,0)` of order2, the canonical-height enclosure returns [0,0] for every `n≥1` and every supplied rational endpoint/error input.
 - At `O` the constructor returns [0,0] for every n and all four rational inputs.
 - On `y²=x³+1`, for any point and n, explicitly exact rational log/error inputs give containment of the pinned full-x-height `canonicalHeight`.
 - For `P=(2,3)` on `y²=x³+1, ĥ(P)=0` while `naiveHeight(P)=log(2)>0`. At `n=0`, exact rational `λ⁻≤log2≤λ⁺` and c⁻,c⁺ give an interval containing0; the naive value alone fails.
@@ -3555,7 +3555,7 @@ The interval implication uses the full native height and the `4^n` denominator.
 [Joseph H. Silverman](https://www.ams.org/journals/mcom/1990-55-192/S0025-5718-1990-1035944-5/), §7
 (examples), and abstract, p. 723.)
 
-*Needs:* §3.12; Tau Ceti `WeierstrassCurve.Affine.Point.canonicalHeight_nsmul`; Tau Ceti `WeierstrassCurve.Affine.Point.naiveHeight_eq_logHeight₁`; Tau Ceti `WeierstrassCurve.Affine.neronTatePairing_apply`; Mathlib `Rat.mulHeight₁_eq_max`; §2.1; §0.1.
+*Needs:* §3.12; Tau Ceti `WeierstrassCurve.Affine.Point.canonicalHeight_nsmul`; Mathlib `WeierstrassCurve.Affine.Point.naiveHeight_eq_logHeight₁`; Tau Ceti `WeierstrassCurve.Affine.neronTatePairing_apply`; Mathlib `Rat.mulHeight₁_eq_max`; §2.1; §0.1.
 
 ### 3.14 Independence and regulator lower bound from exact heights
 
@@ -4283,7 +4283,7 @@ Stoll](https://arxiv.org/abs/1307.1773v4), §3, p.7; [Eric Katz, Joseph Rabinoff
 Zureick-Brown](https://arxiv.org/abs/1504.00694v2), §3.3 Definition 3.8, p.19; [Eric Katz, Joseph
 Rabinoff and David Zureick-Brown](https://arxiv.org/abs/1504.00694v2), §3.3, p.20.)
 
-*Needs:* AnabelianGeometryAndNonabelianChabauty §5.8; Tau Ceti `TauCeti.AlgebraicGeometry.AbelianVariety`; JacobianChallenge Layer `E` (abelian varieties); NeronModelsAndSemistableAbelianVarieties §1.7; NeronModelsAndSemistableAbelianVarieties §1.8; HeightsRationalPointsAndObstructions §§1.15a–1.16; Mathlib `Module.Dual`; Mathlib IsOfFinOrder.
+*Needs:* AnabelianGeometryAndNonabelianChabauty §5.8; Tau Ceti `AbelianVariety` (module `TauCeti.AlgebraicGeometry.AbelianVariety.Basic`); JacobianChallenge Layer `E` (abelian varieties); NeronModelsAndSemistableAbelianVarieties §1.7; NeronModelsAndSemistableAbelianVarieties §1.8; HeightsRationalPointsAndObstructions §§1.15a–1.16; Mathlib `Module.Dual`; Mathlib IsOfFinOrder.
 
 ### 4.3 Abelian integrals of regular differentials on a curve
 
@@ -4937,11 +4937,11 @@ reduces the remaining inequalities to exact finite comparisons. The conditional 
 rank hypothesis as an input field rather than a datum, following Stoll's Theorem 6 and Theorem
 7.
 
-Given actual `J(Q)` finitely generated, `g≥1, rank J(Q)≤r<g, r` exact independent generators modulo torsion, show their subgroup has full rank and finite index by the FG free quotient. Its p-adic log span has `dimension≤r`, so construct nonzero `ω∈H⁰(X_Qp,Ω¹)` annihilating it; only then construct all analytic disc verdicts. Conditional rank labels must be recorded; `withFiniteIndex` is merely a semantic helper. For C05, the rank/model/differential and four-disc coefficient/error tables are explicit inputs; check every disc verdict and derive completeness rather than receive Valid or a complete point-set assertion.
+Given actual `J(Q)` finitely generated, `g≥1, rank J(Q)≤r<g, r` exact independent generators modulo torsion, show their subgroup has full rank and finite index by the FG free quotient. Its p-adic log span has `dimension≤r`, so construct nonzero `ω∈H⁰(X_Qp,Ω¹)` annihilating it; only then construct all analytic disc verdicts. Conditional rank labels must be recorded; the finite-index helper is merely a semantic helper. For C05, the rank/model/differential and four-disc coefficient/error tables are explicit inputs; check every disc verdict and derive completeness rather than receive Valid or a complete point-set assertion.
 
-For `C₀(5)` with `O = ∞⁺, G = ⟨[(−3,1) − (0,1)]⟩, r = 1, p = 3`: four verdicts with `N = 1, 1, 2, 2` at `∞⁺, ∞⁻, (0, 1), (0, −1)`, and `L` of size `6 = Σ N`. Use the actual curve and rank-labelled geometric constructor `ChabautyColemanData.ofRankHypothesis`, together with the required genuine rank, annihilator and complete disc-verdict data. For C05, construct the exact six distinct rational points and the four discs with bounds1,1,2,2; verify the list and equality, not only an upper bound from an assumed sum.
+For `C₀(5)` with `O = ∞⁺, G = ⟨[(−3,1) − (0,1)]⟩, r = 1, p = 3`: four verdicts with `N = 1, 1, 2, 2` at `∞⁺, ∞⁻, (0, 1), (0, −1)`, and `L` of size `6 = Σ N`. Use the actual curve and rank-labelled geometric constructor of a Chabauty–Coleman datum from a rank hypothesis, together with the required genuine rank, annihilator and complete disc-verdict data. For C05, construct the exact six distinct rational points and the four discs with bounds1,1,2,2; verify the list and equality, not only an upper bound from an assumed sum.
 
-A datum built by `ofRankHypothesis` is conditional and its completeness theorem is stated under the labelled hypothesis. Check that the stored conditional label is precisely the rank hypothesis and that the soundness/completeness result still requires that hypothesis. Equality of the points field under `withFiniteIndex` alone is insufficient.
+A datum built from a rank hypothesis is conditional and its completeness theorem is stated under the labelled hypothesis. Check that the stored conditional label is precisely the rank hypothesis and that the soundness/completeness result still requires that hypothesis. Equality of the points field under the finite-index helper alone is insufficient.
 
 **Checks.**
 
@@ -4949,9 +4949,9 @@ A datum built by `ofRankHypothesis` is conditional and its completeness theorem 
 - If `J(ℚ)` is finite `(r = 0), G = 0` is of finite index and every `ω ∈ H⁰(𝒳, Ω¹)` is annihilating.
 - For `C₁(3₂)` at `p = 3`, verdicts on the six discs other than `(1, 0)` do not form a valid datum, even though each is valid: the list of discs must be all of `X̃(𝔽_3)`.
 - No datum exists when `rank J(ℚ) ≥ g` and `r₀ = g`: then `Ann_p(J(ℚ)) = 0` (McCallum–Poonen Example `4, y² = x⁶ + x² + 1` with `r = r₀ = 2`).
-- A datum built by `ofRankHypothesis` is conditional and its completeness theorem is stated under the labelled hypothesis.
+- A datum built from a rank hypothesis is conditional and its completeness theorem is stated under the labelled hypothesis.
 - Supporting mathematical inequality: `C.Valid` and the supplied total disc bound6 imply `C.points.card≤6`. It does not construct C05 or prove six distinct actual points.
-- Supporting equality: `withFiniteIndex` preserves the points field of the supplied mathematical record. It neither constructs a datum from a rank hypothesis nor tests its conditionality label.
+- Supporting equality: the finite-index helper preserves the points field of the supplied mathematical record. It neither constructs a datum from a rank hypothesis nor tests its conditionality label.
 - The datum of §4.23 for `C₀(5)` at `p = 3` is valid and unconditional; those of §4.24 and §4.25 are conditional with their labels.
 - Degenerate case `r = 0: G = 0` and every differential is annihilating.
 
@@ -5528,7 +5528,7 @@ author LiftInformation, lines 2480–2493.)
 
 ### 5.6 Correctness of a full lifting step
 
-With the notation of §5.1, for `K≤L` and a section `σ` correct on `A_S(L)`, `Sieve.refineClasses_eq_admissibleClasses` gives `refineClasses(S,K,L,σ,A_S(L))=A_S(K)`. Both quotients are finite. Omitting unchanged
+With the notation of §5.1, for `K≤L` and a section `σ` correct on `A_S(L)`, the full lifting step gives `refineClasses(S,K,L,σ,A_S(L))=A_S(K)`. Both quotients are finite. Omitting unchanged
 tests: if `T⊆S` and `φᵢ(K)=φᵢ(L)` for every `i∈S∖T`, then filtering the lifted classes by the
 tests in `T` alone still gives `A_S(K)`, because for an omitted index the coarse test transfers
 to every fine class over it (the local image subgroup is unchanged); all tests whose image
@@ -5554,7 +5554,7 @@ fine survivor. The converse follows directly from the fine filter.
 ### 5.8 A subgroup covers a coprime sieve quotient
 
 Let `H,L≤Γ` for an abelian group `Γ`, let `N` be a natural number, assume `NΓ⊆L` and `gcd([Γ:H],N)=1`, with
-the native natural index. Then `Sieve.quotient_surjective_of_coprime` states that `H→Γ/L, h↦q_L(h)`, is surjective. The usual application has `[Γ:H]`
+the native natural index. Then `H→Γ/L, h↦q_L(h)`, is surjective. The usual application has `[Γ:H]`
 finite and `N>0`. The statement also includes the harmless `N=1` boundary even if the native index is
 zero.
 
@@ -5601,7 +5601,7 @@ instance is curve-sieve-soundness.
 
 ### 5.10 Completeness from unique residue fibres
 
-With the notation of §5.1, let `P` be an existing type with `j:P→Γ` and `W⊆P` finite. Assume every `j(p)` satisfies all local constraints; every `a∈A_S(L)` equals `q_L(j(w))` for some `w∈W`; and `q_L∘j` is injective. Then `Sieve.complete_of_unique_fibres` proves that every `p∈P` belongs to `W`.
+With the notation of §5.1, let `P` be an existing type with `j:P→Γ` and `W⊆P` finite. Assume every `j(p)` satisfies all local constraints; every `a∈A_S(L)` equals `q_L(j(w))` for some `w∈W`; and `q_L∘j` is injective. Then every `p∈P` belongs to `W`.
 
 Work under the following conditions. The standing hypotheses of §5.1 on `Γ`, `S`, the `Gᵢ`, `φᵢ`, Xᵢ and `L`.
 
@@ -5877,7 +5877,7 @@ Prove that there are `g₁,…,g_r ∈ K` generating `K`, with triangular expres
 The finite coset representatives at stage k are exactly a `+ i b_k` for representatives
 a at stage k − 1 and `0 ≤ i < j_k`. Their distinctness is equivalent to the
 minimality of `j_k`, which is bounded by `[Γ:K]`.
-Request `Sieve.subgroup_triangular_generators`, membership, generation, length r,
+Request the triangular generators of the subgroup, membership, generation, length r,
 and the specialization `j_k = 1, g_k = b_k` for `K = Γ`.
 This is a subgroup theorem with torsion allowed. For Jacobians the subgroup
 `J(ℚ) ∩ J⁰(ℚ_p)` is specified by the geometric membership criterion of §5.25.
@@ -6528,7 +6528,7 @@ and the root perturbation theorem of §6.16 yields the disc data (b). `X(F_p)` i
 many balls cover all common zeros; apply padic-candidate-comparison with the matchings and
 exclusions (c).
 
-The rational-point carrier is `Hom_Q(Spec Q,X)` and its injective image in `Hom_Qp(Spec Q_p,X_Qp)`; residue discs are fibres of reduction from the chosen smooth proper `Z_p-model`. Require chart identifications with `Z_p`, actual AnabelianGeometryAndNonabelianChabauty §§6.1–6.8 height/cycle/logarithm semantics for every determinant series, complete choices of away-from-p height values, finite coefficient/tail/tree data whose sound yields covers/uniqueness, and genuine geometric matching/sieve exclusions. If rank or supplier assertions remain conditional, the conclusion retains their conjunction as its label. `QCRun.rational_eq_of_matched` is only the final set-theoretic implication.
+The rational-point carrier is `Hom_Q(Spec Q,X)` and its injective image in `Hom_Qp(Spec Q_p,X_Qp)`; residue discs are fibres of reduction from the chosen smooth proper `Z_p-model`. Require chart identifications with `Z_p`, actual AnabelianGeometryAndNonabelianChabauty §§6.1–6.8 height/cycle/logarithm semantics for every determinant series, complete choices of away-from-p height values, finite coefficient/tail/tree data whose sound yields covers/uniqueness, and genuine geometric matching/sieve exclusions. If rank or supplier assertions remain conditional, the conclusion retains their conjunction as its label. The equality of the rational-point set with the matched set is only the final set-theoretic implication.
 
 **Checks.**
 
@@ -6666,12 +6666,12 @@ explicit-connection. `t_x` is a uniformiser at `x ∈ D` over `L`, chosen `Gal(L
 
 The interface includes these statements.
 
-- `gaugeMatrix Ω g Z` is the block matrix `[[1,0,0],[Ω,1,0],[g,ΩᵀZ,1]]` indexed by Unit `⊕` Fin `(2g) ⊕` Unit.
-- For alternating `Z (Zᵀ =` −Z with zero diagonal; automatic over `Q`), the inverse of `gaugeMatrix Ω g Z` is `[[1,0,0],[−Ω,1,0],[−g, −ΩᵀZ, 1]]`.
-- `det (gaugeMatrix Ω g Z) = 1`.
-- For a derivation `D` of a commutative ring `R` and alternating `Z` with D-constant entries: `gaugeMatrix⁻¹ · D(gaugeMatrix) = Λ(ω, η, Z)` if and only if `D Ω = −ω` and `D g = Ωᵀ Z (D Ω) − η`.
-- `gaugeMatrix (Ω + c) (g + cᵀZΩ + e) Z = unipotent(c, cᵀZ, e) · gaugeMatrix Ω g Z` for constants c, e (the dependence on primitives).
-- `connectionMatrix ω η Z = −[[0,0,0],[ω,0,0],[η,ωᵀZ,0]]`.
+- The gauge matrix `C(Ω, g, Z)` is the block matrix `[[1,0,0],[Ω,1,0],[g,ΩᵀZ,1]]` indexed by Unit `⊕` Fin `(2g) ⊕` Unit.
+- For alternating `Z (Zᵀ =` −Z with zero diagonal; automatic over `Q`), the inverse of `C(Ω, g, Z)` is `[[1,0,0],[−Ω,1,0],[−g, −ΩᵀZ, 1]]`.
+- `det C(Ω, g, Z) = 1`.
+- For a derivation `D` of a commutative ring `R` and alternating `Z` with D-constant entries: `C(Ω, g, Z)⁻¹ · D(C(Ω, g, Z)) = Λ(ω, η, Z)` if and only if `D Ω = −ω` and `D g = Ωᵀ Z (D Ω) − η`.
+- `C(Ω + c, g + cᵀZΩ + e, Z) = unipotent(c, cᵀZ, e) · C(Ω, g, Z)` for constants c, e (the dependence on primitives).
+- The connection matrix is `Λ(ω, η, Z) = −[[0,0,0],[ω,0,0],[η,ωᵀZ,0]]`.
 
 For the proof, Expand `C^(−1)dC` for `C = [[1,0,0],[Ω,1,0],[g,ΩᵀZ,1]]: C^(−1) = [[1,0,0],[−Ω,1,0],[ΩᵀZΩ − g, −ΩᵀZ, 1]]` (using `ΩᵀZΩ = 0` because `Z` is alternating) and `C^(−1)dC = [[0,0,0],[dΩ,0,0],[dg − ΩᵀZdΩ, dΩᵀZ, 0]]`. Comparing with `Λ = −[[0,0,0],[ω,0,0],[η,ωᵀZ,0]]` gives `dΩ = −ω, dΩᵀZ = −ωᵀZ` and `dg = ΩᵀZdΩ − η`,
 which is (29). `Ω_x` is a vector of formal primitives of `−ω`, which exist in `L((t_x))` because `ω_0, …, ω_{2g−1}` are of the second kind; `g_x` exists exactly when (30) holds (explicit-connection). Changing
@@ -6681,10 +6681,10 @@ holomorphic primitives, which are regular.
 
 **Checks.**
 
-- gaugeMatrix_zero. `gaugeMatrix 0 0 Z = 1` for every `Z`.
-- gaugeMatrix_g1_inverse. For `g = 1` (index Unit `⊕` Fin `2 ⊕` Unit), `Z = [[0,1],[−1,0]], Ω =` (a, `b), g = c: gaugeMatrix Ω c Z * [[1,0,0],[−Ω,1,0],[−c,−ΩᵀZ,1]] = 1`.
-- gaugeMatrix_sign_convention. With `D Ω = +ω` (the 2021 convention) and `ω ≠ 0, gaugeMatrix⁻¹ · D(gaugeMatrix) ≠ Λ(ω, η, Z)`.
-- gaugeMatrix_unipotent. `(gaugeMatrix Ω g Z − 1)^3 = 0`; the nilpotence index may be smaller.
+- `C(0, 0, Z) = 1` for every `Z`.
+- For `g = 1` (index Unit `⊕` Fin `2 ⊕` Unit), `Z = [[0,1],[−1,0]], Ω =` (a, `b), g = c: C(Ω, c, Z) * [[1,0,0],[−Ω,1,0],[−c,−ΩᵀZ,1]] = 1`.
+- With `D Ω = +ω` (the 2021 convention) and `ω ≠ 0, C(Ω, g, Z)⁻¹ · D(C(Ω, g, Z)) ≠ Λ(ω, η, Z)`.
+- `(C(Ω, g, Z) − 1)^3 = 0`; the nilpotence index may be smaller.
 - Over `F₂`, the `2×2` matrix `Z=diag(1,0)` satisfies `Zᵀ=−Z` but is not alternating: `Ω=(1,0), g=0` makes the proposed inverse with lower-left entry −g fail. The zero-diagonal condition is essential for the general-ring helper.
 - With `Z=[[0,1],[−1,0]], c=(1,0), Ω=(0,1)`, shifting `Ω` by c shifts g by 1+e, rather than by e alone.
 - The 2021 restatement of this step uses `dΩ_{x,i} = ω_i` and defines `g_x` through the integral of `dΩ_xᵀZdΩ_x − η`; both deviate from (29).
@@ -6807,13 +6807,13 @@ orientation specified by the endpoints in the displayed transport formula.
 
 The interface includes these statements.
 
-- `leftMulMatrix Z` (a, `b, c) = [[a,0,0],[b,a·1,0],[c,bᵀZ,a]]` indexed by Unit `⊕` Fin `n ⊕` Unit.
-- `rightMulMatrix Z` (a, `b, c) = [[a,0,0],[b,a·1,0],[c,−bᵀZ,a]]`.
-- `leftMulMatrix Z (u * v) = leftMulMatrix Z u * leftMulMatrix Z v`.
-- For antisymmetric `Z, rightMulMatrix Z (u * v) = rightMulMatrix Z v * rightMulMatrix Z u`.
-- `leftMulMatrix Z u` and `rightMulMatrix Z v` commute (associativity).
-- `transportMatrix Z` Ixx Ibb `:= leftMulMatrix Z` Ixx `* rightMulMatrix Z` Ibb, the matrix of `v ↦ I(x_0,x)·v·I(b,b_0)`.
-- `leftMulMatrix Z u` acting on the coordinate vector of v is the coordinate vector of u * v.
+- `L_Z(a, b, c) = [[a,0,0],[b,a·1,0],[c,bᵀZ,a]]` indexed by Unit `⊕` Fin `n ⊕` Unit.
+- `R_Z(a, b, c) = [[a,0,0],[b,a·1,0],[c,−bᵀZ,a]]`.
+- `L_Z(u * v) = L_Z(u) * L_Z(v)`.
+- For antisymmetric `Z, R_Z(u * v) = R_Z(v) * R_Z(u)`.
+- `L_Z(u)` and `R_Z(v)` commute (associativity).
+- The transport matrix is `T_Z(Ixx, Ibb) := L_Z(Ixx) * R_Z(Ibb)`, the matrix of `v ↦ I(x_0,x)·v·I(b,b_0)`.
+- `L_Z(u)` acting on the coordinate vector of v is the coordinate vector of u * v.
 
 For the proof, The multiplication is associative with unit `(1, 0, 0)`: for `u =` (a, `b, c), v =` (a',
 b', c'), `w =` (a'', b'', c'') both (uv)w and `u(vw)` have S-coordinate aa'c'' + aa''c' + a'a''c +
@@ -6824,10 +6824,10 @@ give `τ_{b,x}`; the orientation is `I(x_0, x)` on the left and `I(b, b_0)` on t
 
 **Checks.**
 
-- `leftMulMatrix Z (1, 0, 0) = 1` and `rightMulMatrix Z (1, 0, 0) = 1`.
+- `L_Z(1, 0, 0) = 1` and `R_Z(1, 0, 0) = 1`.
 - For `n = 2, Z = [[0,1],[−1,0]], u = (1, (1,0), 0)` and `v = (1, (0,1), 0): u * v = (1, (1,1), 1)` and `v * u = (1, (1,1), −1)`.
 - For the symmetric `Z = 1 (n = 1)` and `u = (1, 1, 0)`, right multiplication by u on `(0, 1, 0)` gives `(0, 1, 1)` while −bᵀZ predicts −1: the formula `R(u)` needs antisymmetry.
-- The `(2,1)` block of `transportMatrix Z (1, ∫_{x_0}^x ω, ·) (1, ∫_b^{b_0} ω, ·)` applied to `(1, ∫_{b_0}^{x_0} ω, ·)` is `∫_b^x ω` (path composition).
+- The `(2,1)` block of `T_Z((1, ∫_{x_0}^x ω, ·), (1, ∫_b^{b_0} ω, ·))` applied to `(1, ∫_{b_0}^{x_0} ω, ·)` is `∫_b^x ω` (path composition).
 - For `u = (1, 0, 0)` both matrices are the identity.
 - For `Z=0` over `Q`, the displayed product retains a central `Q` summand, whereas the degree-two quotient by ker `Z` has zero degree-two part. The tensor-quotient description therefore requires surjectivity of the pairing.
 - `L(u)L(v) = L(uv), R(u)R(v) = R(vu)`, and `L(u)R(v) = R(v)L(u)` by associativity.
@@ -7008,7 +7008,7 @@ floor-half inequalities on publishedp1136). Then `ord_p(ρ_i)≥−2ℓ_i+c1+min
 integer0. The actual coordinate/differential estimates and algebraic cancellations proving this
 height bound remain obligations; do not derive it solely from arbitrary matrices or assume the final
 coefficient inequality. For the elementary single/double-integral estimate of BDMTV2019pp932–933
-retain the separate helper `iteratedIntegral_valuation_coeff_ge`. The source notation `φ` in
+retain a separate helper for the coefficient-wise valuation lower bound of the iterated integral. The source notation `φ` in
 preprintv4p24 has an extra+c1 corrected in publishedp1136; use `publishedφ` and addc1 once to the
 splitting bound. This is `Proposition4.6`, not `Proposition4.1`; the latter evaluates `G(P)`.
 
@@ -7030,7 +7030,7 @@ coefficient bound c3 and local-height bound to obtain `Proposition4.6`. For smal
 data; zero coefficients have `valuation∞`. Use the published coefficient bound rather than the
 earlier preprint branch. The valuations of the input constants are exact by §0.8.
 
-For the actual QC function `ρ=h−h_p` on `D⊂X(Q_p)∩]U[`, under BDMTV2021§4 standing hypotheses (p-integral F,Z and local expansions of `ω,ωᵀZ`; fixed `End(J)-equivariant` Hodge splitting), choose t at `x1∈D, t(D)⊂pZ_p` and Teichmüller x0. Regression contracts: `qcValuation_lowDegree` rejects applying the tail formula to `i<i0; qcValuation_branchBoundary` identifies both formulas at `d_i(η)=−floor(log_p i); qcValuation_zeroCoefficient uses∞` and does not call `Padic.valuation(0)`.
+For the actual QC function `ρ=h−h_p` on `D⊂X(Q_p)∩]U[`, under BDMTV2021§4 standing hypotheses (p-integral F,Z and local expansions of `ω,ωᵀZ`; fixed `End(J)-equivariant` Hodge splitting), choose t at `x1∈D, t(D)⊂pZ_p` and Teichmüller x0. Regression contracts: the low-degree statement rejects applying the tail formula to `i<i0`; the branch-boundary statement identifies both formulas at `d_i(η)=−floor(log_p i)`; the zero-coefficient statement uses `∞` and does not call `Padic.valuation(0)`.
 
 **Checks.**
 
@@ -8092,7 +8092,7 @@ totally real cubic field with roots in `(−2.2, −2.1), (0.25, 0.26)` and `(1.
 `disc(ψ³ − 4ψ + 1) = 229` is prime, so `O_L = ℤ[ψ]` and `disc L = 229`. (b) `L` has class number one:
 the Minkowski bound `(3!/3³)√229 < 3.37` leaves ideals of norm at most 3; modulo 2 the
 polynomial factors as `(ψ + 1)(ψ² + ψ + 1)`, the prime of norm 2 is `(ψ − 1)` since
-`N_{L/ℚ}(ψ − 1) = −2`, and the prime of norm 4 is `(2)/(ψ − 1)`; modulo 3 the polynomial is
+`N_{L/ℚ}(ψ − 1) = 2`, and the prime of norm 4 is `(2)/(ψ − 1)`; modulo 3 the polynomial is
 irreducible, so no ideal has norm 3. (c) `ψ` and `2 − ψ` are units (`N(ψ) = −1, N(2 − ψ) = 1`) and
 form a system of fundamental units of `O_L`; Tzanakis–de Weger take this from Buchmann's table,
 and the route here is the regulator-and-index test of §6.36 (c) in rank 2.
@@ -8173,7 +8173,7 @@ states `ED6.thueMahler_cubic`: for coprime integers `x, y` and `a, b, c, d ≥ 0
 `F(x, y) := x³ − 23x²y + 5xy² + 24y³ = ±2^a3^b5^c7^d` holds if and only if `(x, y, a, b, c, d)` or
 `(−x, −y, a, b, c, d)` is in the list. Since `F` is odd, `−(x, y)` changes the sign of the right-hand
 side and keeps the exponents, so the list contains one representative of each pair `±(x, y)`,
-normalised by `x > 0` or `(x, y) = (0, −1)`, in the order of Tzanakis–de Weger's table (§18, p. 278):
+normalised by `x > 0` or `(x, y) = (0, −1)`, in the order of Tzanakis–de Weger's table (§18Ex, table pp. 278–279):
 
     x y a b c d: 48632 −3729 18 0 13 0; 264 −1003 5 5 8 1; 267 −209 0 8 4 2; 137 −199 0 0 4 6;
     96 −107 3 5 2 1; 93 −103 0 2 2 1; 88 −101 8 0 3 2; 73 −81 0 0 3 3; 24 −53 6 2 4 1;
@@ -8232,7 +8232,7 @@ solution set with the list.
 - The count 72 refers to pairs `±(x, y)`; the number of coprime solutions `(x, y, a, b, c, d)` is 144.
 
 ([N. Tzanakis, B. M. M. de Weger](http://www.numdam.org/item/CM_1992__84_3_223_0/), §1Ex, p. 225;
-§2Ex, p. 226; §18Ex, pp. 277–278; [N. Tzanakis and B. M. M. de
+§2Ex, p. 226; §18Ex, pp. 276–278, table pp. 278–279; [N. Tzanakis and B. M. M. de
 Weger](https://numdam.org/item/CM_1993__89_2_241_0.pdf), Compositio 89 (1993), pp. 241–242.)
 
 *Needs:* §2.28; §2.24; §2.25; §2.26; §2.22; §1.6; §1.4; §1.8; §6.1; DiophantineApproximationAndTranscendence §4.5 (effective Thue–Mahler finiteness).
