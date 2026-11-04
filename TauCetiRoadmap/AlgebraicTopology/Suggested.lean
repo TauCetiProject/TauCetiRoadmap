@@ -30,7 +30,9 @@ homotopy invariance of the finite CW Euler characteristic and finite CW type of 
 smooth manifolds (Stage 7); relative CW connectivity, Whitehead, homological Whitehead, the
 nerve `K(G,1)`, the proper deformation retraction theorem, mapping-space CW type, the
 transverse codimension-one classifying map and the non-freeness of `C_p × C_p` on spheres
-(Stage 8).
+(Stage 8); and, in a section of its own at the end, the pointwise product on the fundamental
+group of a space with a continuous unital multiplication with its Eckmann–Hilton comparison
+laws (Stage 3).
 
 Not statable at the pins, and therefore stated nowhere in this file:
 the Cartan–Leray and Serre spectral sequences and the Wang sequence (no spectral-sequence
@@ -660,6 +662,73 @@ theorem elementaryAbelianPair_sphere_action_has_stabilizer (p n : ℕ) (hp : p.P
     ∃ g : Multiplicative (ZMod p × ZMod p), g ≠ 1 ∧
       ∃ x : ↥(Metric.sphere (0 : EuclideanSpace ℝ (Fin (n + 1))) 1), g • x = x := by
   sorry
+
+
+section TopologicalGroupFundamentalGroup
+
+/-! ### The fundamental group of a space with a continuous unital multiplication (Stage 3)
+
+For a space `G` with a continuous multiplication and a two-sided unit `1`, the pointwise
+product of two based loops at `1` is a based loop at `1`, and it descends to homotopy classes
+as the map `π₁(G × G, (1, 1)) → π₁(G, 1)` induced by the multiplication. This pointwise
+operation has `1` as a two-sided unit and satisfies the interchange law with the native
+fundamental-group product, so by the Eckmann–Hilton argument it agrees with the native product
+and that product is commutative. Naturality holds for every continuous multiplicative map.
+No connectedness, manifold, local-contractibility or covering hypothesis is used. The native
+product on the path quotient is reversed path composition (`FundamentalGroup.mul_def`); the
+statements below are written against it. -/
+
+variable {G : Type*} [TopologicalSpace G] [MulOneClass G] [ContinuousMul G]
+
+/-- The native fundamental-group map induced by continuous multiplication. -/
+def multiplicationMap : FundamentalGroup (G × G) (1, 1) →* FundamentalGroup G 1 :=
+  FundamentalGroup.mapOfEq ⟨fun x => x.1 * x.2, continuous_mul⟩ (one_mul 1)
+
+/-- Pointwise multiplication on actual homotopy classes of based loops. -/
+def pointwise (p q : FundamentalGroup G 1) : FundamentalGroup G 1 :=
+  multiplicationMap (Path.Homotopic.prod p q)
+
+theorem pointwise_one_left (p : FundamentalGroup G 1) : pointwise 1 p = p := by
+  sorry
+
+theorem pointwise_one_right (p : FundamentalGroup G 1) : pointwise p 1 = p := by
+  sorry
+
+/-- Interchange uses only product paths and functoriality of the native map. -/
+theorem pointwise_interchange (a b c d : FundamentalGroup G 1) :
+    pointwise (a * b) (c * d) = pointwise a c * pointwise b d := by
+  sorry
+
+/-- The group already carried by the native fundamental group is commutative.
+No connectedness, manifold, local-contractibility or covering hypothesis is used. -/
+abbrev commGroup : CommGroup (FundamentalGroup G 1) :=
+  EckmannHilton.commGroup
+    (EckmannHilton.IsUnital.mk
+      { left_id := pointwise_one_left, right_id := pointwise_one_right })
+    pointwise_interchange
+
+/-- The commutative refinement keeps the native group structure definitionally. -/
+theorem commGroup_toGroup : (commGroup (G := G)).toGroup =
+    (inferInstance : Group (FundamentalGroup G 1)) := by
+  sorry
+
+theorem fundamentalGroup_mul_comm (a b : FundamentalGroup G 1) : a * b = b * a := by
+  sorry
+
+/-- The pointwise operation agrees with the existing fundamental-group product. -/
+theorem pointwise_eq_mul (a b : FundamentalGroup G 1) : pointwise a b = a * b := by
+  sorry
+
+/-- Naturality retains the actual continuous multiplicative map. -/
+theorem mapOfEq_pointwise {H : Type*} [TopologicalSpace H] [MulOneClass H]
+    [ContinuousMul H] (f : G →* H) (hf : Continuous f)
+    (a b : FundamentalGroup G 1) :
+    FundamentalGroup.mapOfEq ⟨f, hf⟩ f.map_one (pointwise a b) =
+      pointwise (FundamentalGroup.mapOfEq ⟨f, hf⟩ f.map_one a)
+        (FundamentalGroup.mapOfEq ⟨f, hf⟩ f.map_one b) := by
+  sorry
+
+end TopologicalGroupFundamentalGroup
 
 end
 
