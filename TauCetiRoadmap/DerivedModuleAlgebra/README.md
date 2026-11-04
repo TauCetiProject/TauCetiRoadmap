@@ -316,7 +316,6 @@ Mathlib `DividedPowers.dpow_eval_zero`; Mathlib `DividedPowerAlgebra.algHom_ext`
   DividedPowers.RatAlgebra.dividedPowers on the unit ideal of ℚ along the identity ℚ→ℚ sends dp(2,1)
   to 1/2, whereas ε(dp(2,1))=0; so ε is not this map.
 - ε(dp(0,m))=1 for every m, including m=0, and ε(dp(n,m))=0 for every n>0.
-- ε(3+dp(2,m))=3.
 - ε(algebraMap(r))=r for every r∈R, so ε is surjective.
 
 **Augmentation ideal.** Define Γ_R(M)_+ as the existing ring-homomorphism kernel ker(ε), an ideal of
@@ -387,8 +386,6 @@ proves it for arbitrary modules using Roby's generators and relations
 
 - For `M = 0`, every element is scalar and its remainder vanishes.
 
-**Checks.**
-
 - For z=3+dp(2,m)·dp(1,m′): ε(z)=3 and z−3=dp(2,m)·dp(1,m′) is a multiple of the generator dp(2,m).
 - For a scalar z=algebraMap(r) the remainder is 0.
 
@@ -415,8 +412,6 @@ Mathlib `Ideal.span_le`.
 **Checks.**
 
 - For `M = 0`, every positive generator is zero, and the augmentation ideal is zero.
-
-**Checks.**
 
 - For R=M=ℤ the ideal is proper: the element 1=dp(0,m) is not in it.
 - The degree-one elements dp(1,m) do not suffice as generators: in `Γ_{F₂}(F₂)`, `dp(2,1)` is not in the
@@ -450,7 +445,6 @@ above prove the arbitrary-module splitting on Roby's algebra
 - Every scalar r maps to (r,0).
 - Every u∈Γ_R(M)_+ maps to (0,u).
 - For r∈R and u∈Γ_R(M)₊: algebraMap(r)+u maps to (r,u).
-- A scalar r maps to (r,0), and an element u of Γ_R(M)₊ maps to (0,u).
 - 3+dp(2,m) maps to (3,dp(2,m)).
 
 **Remainder of an extended base ideal.** For every ideal I⊂R, put IΓ=I.map(algebraMap R Γ_R(M)). If
@@ -475,8 +469,6 @@ arbitrary-module assertion on the general Roby algebra
 
 - For `I = R`, the assertion gives membership of every remainder in the augmentation ideal, including over torsion rings.
 
-**Checks.**
-
 - For I=0: z=0 and the remainder 0 lies in the zero ideal.
 - For R=M=ℤ, I=(2) and z=2·(1+dp(1,1)): ε(z)=2 and z−2=2·dp(1,1) lies in IΓ·Γ_R(M)₊.
 
@@ -498,8 +490,6 @@ The containment argument above extends it to arbitrary modules using Roby's alge
 **Checks.**
 
 - For `R = M = ℤ` and `I = (2)`, the scalar `2` belongs to the extended base ideal but not to the augmentation ideal; it is excluded from both sides of the equality.
-
-**Checks.**
 
 - For I=0 both sides are 0; for I=R both sides are Γ_R(M)₊.
 - For R=M=ℤ and I=(2), the element 2·dp(1,1) lies in both sides.
@@ -530,8 +520,6 @@ uses Roby's generator presentation
 
 - The degree-zero generator maps to the unit, and the degree-four generator maps to zero; the map is an algebra homomorphism without preserving the canonical divided powers.
 
-**Checks.**
-
 - f(dp(1,a))=0 for every a∈F₂, and f(dp(2,1))=inr(1)≠0.
 - f(dp(2,1))²=0, in agreement with dp(2,1)²=6·dp(4,1)=0 in characteristic 2.
 
@@ -554,8 +542,6 @@ uses Roby's generator presentation
 **Checks.**
 
 - For the zero module the augmentation ideal is zero, so the failure requires the nonzero characteristic-two generator.
-
-**Checks.**
 
 - In F₂⟨x⟩ one has x·x^[n]=(n+1)·x^[n+1], so the ideal (x) is spanned by the x^[m] with m odd and
   does not contain x^[2].
