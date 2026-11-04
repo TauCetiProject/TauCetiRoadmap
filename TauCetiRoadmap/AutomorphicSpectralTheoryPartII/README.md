@@ -1294,6 +1294,34 @@ A proof route is as follows. Fix the inner form parameter, then form the existen
 
 - Exact occurrence in a proper datum implies CAP, but CAP need not imply exact occurrence at every retained place.
 
+### 4.2a Near equivalence and the π-nearly isotypic cuspidal subspace
+
+Fix (G,Z,ω,K) as in §4.1 and write L²_cusp=L²_cusp([G],ω) for the closed cuspidal subspace of L²_ω([G]) (AutomorphicFormsOnReductiveGroups §§4.1–4.2). It is the Hilbert direct sum of irreducible closed G(𝔸)-invariant subspaces, each isomorphism class occurring with finite multiplicity (AutomorphicSpectralTheory §4.5, cuspidal part). An irreducible subrepresentation π̃⊂L²_cusp has local components π̃_v, through the restricted tensor factorization of its smooth K∞-finite finite-level vectors (AutomorphicSpectralTheory §0.50; AutomorphicFormsOnReductiveGroups §§3.4–3.5), unramified at almost all finite v. Let π=⊗′_vπ_v be an irreducible admissible representation of G(𝔸), not assumed automorphic. Then π̃ is nearly equivalent to π if there is a finite set S′ of places containing the archimedean ones with π̃_v≅π_v as smooth G(F_v)-representations for all v∉S′. The π-nearly isotypic cuspidal subspace L²_cusp([G],ω)_π is the closure of the sum of all irreducible closed subrepresentations π̃⊂L²_cusp nearly equivalent to π, and its level-K part L²_cusp([G]/K,ω)_π is its subspace of R(K)-fixed vectors, the Hilbert direct sum of the π̃^K over the summands nearly equivalent to π in any decomposition as above. The sum runs over subspaces, so multiplicities are kept, and only the isomorphism classes of the finite-place components outside a finite set enter. (BPLZZ §1.1, Theorem 1.1 and Remark 1.2(4), p.2; §3.1, Theorem 3.6, p.23).
+
+The defining construction has the following API.
+
+- Near equivalence is an equivalence relation on isomorphism classes of irreducible admissible representations of G(𝔸); changing finitely many local components, including all archimedean ones, does not change the class.
+
+- Spherical criterion: π̃ is nearly equivalent to π iff for some finite S′⊇S both π̃_v and π_v are K_v-spherical for all v∉S′ with the same character of the spherical Hecke algebra, by the spherical classification. Hence, for a finite T⊇S containing the places where π is ramified, the T-character χ_π^T of §4.1 attached to π determines the near-equivalence class of π through its away-from-T part, and the (G′,T)-CAP property of §4.2 depends only on that class.
+
+- L²_cusp([G],ω)_π is closed and G(𝔸)-invariant; its level-K part is closed and stable under `S(G(𝔸))_K`; both depend only on the near-equivalence class of π. The subspace is the orthogonal Hilbert sum of the isotypic cuspidal components L²_χ, χ=(G,σ), of AutomorphicSpectralTheory §1.9 over the isomorphism classes σ nearly equivalent to π; distinct near-equivalence classes give orthogonal subspaces, and their Hilbert sum is L²_cusp.
+
+- For T as above, the cuspidal χ_π^T-eigenpart L²_ω[χ_π^T]∩L²_cusp of §4.1 at level K is contained in L²_cusp([G]/K,ω)_π. The containment is proper in general, since the eigenpart also fixes the infinitesimal character.
+
+A proof route is as follows. Take local components from the restricted tensor factorization and define near equivalence on isomorphism classes; transitivity uses the union of two finite sets. For the spherical criterion use the Satake classification: an irreducible unramified representation is determined by its spherical Hecke character. Form the closed span of the chosen summands and use the Hilbert-sum decomposition with finite multiplicities to identify its R(K)-fixed vectors with the Hilbert sum of the π̃^K; orthogonality of the isotypic components of distinct isomorphism classes gives the orthogonal decomposition of L²_cusp by near-equivalence classes. For the inclusion of the eigenpart apply the spherical criterion to each summand meeting it.
+
+*Needs:* §4.1; §4.2; AutomorphicSpectralTheory §§0.50, 1.9, 4.5; AutomorphicFormsOnReductiveGroups §§3.4–3.5, 4.1–4.2; SmoothRepresentationsOfLocalGroups SR.4.1–SR.4.2.
+
+**Checks.**
+
+- For G=GL₁=Z, L²_ω([G]) is the line of ω, and two Hecke characters agreeing at almost all places are equal (weak approximation), so the subspace is that line if π=ω and zero otherwise.
+
+- Replacing π∞ by a representation with another infinitesimal character leaves L²_cusp([G]/K,ω)_π unchanged, while the cuspidal χ_π^T-eigenpart of §4.1 is replaced by one orthogonal to it inside L²_cusp.
+
+- The subspace may be zero although π^K≠0: no automorphic occurrence of π is assumed.
+
+- A summand π̃ occurring with multiplicity m contributes m orthogonal copies of π̃^K, and a near-equivalence class may contain non-isomorphic π̃ differing at finitely many places; the subspace is then not isotypic.
+
 ### 4.3 Mixed archimedean and spherical multipliers
 
 A T-multiplier is an element of (M♯θ)^W⊗_ℂH_G^T, acting on fixed-K test functions by the real multiplier in the archimedean factor and spherical convolution in the retained finite factors. Its action is continuous stagewise, remains bi-K-invariant, and obeys R(μ⋆f)=μ(χ)R(f) on an irreducible χ-isotypic representation. Evaluation μ(χ) is well defined on the tensor product. This algebra need not have a unit because the sharp factor may not have one; the Hecke unit alone is not an allowed T-multiplier. (BPLZZ §3.1, Definition 3.5 and discussion, pp.22–23; bplzz line 1116).
@@ -1442,7 +1470,7 @@ For a compact central torus the derived Casimir is always zero. Typicality at th
 
 ### Dependencies
 
-Layers 0–3; AdelicAlgebraicGroups §§2.1–2.3, 4.6–4.7; AutomorphicFormsOnReductiveGroups §4.2; SmoothRepresentationsOfLocalGroups SR.4.1–SR.4.2; the polynomial-counting and central-lattice contracts.
+Layers 0–3; AdelicAlgebraicGroups §§2.1–2.3, 4.6–4.7; AutomorphicSpectralTheory §§0.50, 1.9, 4.5; AutomorphicFormsOnReductiveGroups §§3.4–3.5, 4.1–4.2; SmoothRepresentationsOfLocalGroups SR.4.1–SR.4.2; the polynomial-counting and central-lattice contracts.
 
 ## Layer 5: Mixed separation and global isolation
 
@@ -1534,11 +1562,11 @@ A proof route is as follows. A proper cuspidal datum with occurrence would imply
 
 ### 5.5 Preservation of a non-CAP admissible representation
 
-Let π be an irreducible admissible representation of G(𝔸) with unitary automorphic central character. Suppose π is not nearly equivalent to a constituent of induction from any proper cuspidal datum. At a finite level K choose finite S containing every ramified place of G, K and π and take T=S. The normalized isolation multiplier satisfies π(μ⋆f)=π(f) for every fixed-K Schwartz f, and its global L² operator has image in the π-nearly isotypic cuspidal subspace. The sharper χπ^T-eigenspace range may be used as an intermediate inclusion. If the nearly isotypic cuspidal subspace is zero, the global L² action is zero while the action on π is still preserved. (BPLZZ §1.1, Theorem 1.1 and Remark 1.2(4), p.2; §3.1, Theorem 3.6, p.23; bplzz line 53).
+Let π be an irreducible admissible representation of G(𝔸) with unitary automorphic central character. Suppose π is not nearly equivalent, in the sense of §4.2a, to a constituent of induction from any proper cuspidal datum. At a finite level K choose finite S containing every ramified place of G, K and π and take T=S. The normalized isolation multiplier satisfies π(μ⋆f)=π(f) for every fixed-K Schwartz f, and its global L² operator has image in the π-nearly isotypic cuspidal subspace L²_cusp([G]/K,ω)_π of §4.2a. The sharper χπ^T-eigenspace range may be used as an intermediate inclusion. If the nearly isotypic cuspidal subspace is zero, the global L² action is zero while the action on π is still preserved. (BPLZZ §1.1, Theorem 1.1 and Remark 1.2(4), p.2; §3.1, Theorem 3.6, p.23; bplzz line 53).
 
-A proof route is as follows. Associate the unramified Hecke and infinitesimal T-character to π. Non-CAP for π gives the hypothesis of §5.4. Equality of all Hecke characters outside finite S implies local isomorphism there by the spherical classification. The multiplier evaluates to 1 at χπ, so the scalar action preserves π(f).
+A proof route is as follows. Associate the unramified Hecke and infinitesimal T-character to π. Non-CAP for π gives the hypothesis of §5.4. Equality of all Hecke characters outside finite S implies local isomorphism there by the spherical criterion of §4.2a, so the cuspidal χπ^T-eigenpart lies in the nearly isotypic subspace. The multiplier evaluates to 1 at χπ, so the scalar action preserves π(f).
 
-*Needs:* §5.4; AutomorphicFormsOnReductiveGroups §§3.4–3.5.
+*Needs:* §5.4; §4.2a; AutomorphicFormsOnReductiveGroups §§3.4–3.5.
 
 **Checks.**
 
