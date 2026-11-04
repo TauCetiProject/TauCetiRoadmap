@@ -9,8 +9,10 @@ a usable theory of spaces, operators and their constructions.
 ## Scope and conventions
 
 Spaces are over `𝕜 = ℝ` or `ℂ`, expressed with `RCLike` where appropriate; completeness
-is a hypothesis, not part of the meaning of normed space. The local geometry in B7
-is over `ℝ`. All duals are continuous duals `StrongDual 𝕜 E`; reflexivity means
+is a hypothesis, not part of the meaning of normed space. In B7 the Banach–Mazur
+distance, finite representability, local reflexivity, John's theorem and the projection
+theorems are over `𝕜`; concentration of measure and Dvoretzky's theorem are over `ℝ`.
+All duals are continuous duals `StrongDual 𝕜 E`; reflexivity means
 surjectivity of `NormedSpace.inclusionInDoubleDual`, not algebraic reflexivity.
 Use `WeakSpace 𝕜 E` and `WeakDual 𝕜 E`, with explicit transport between topologies.
 Weak convergence in a dual is different from weak-star convergence.
@@ -407,13 +409,14 @@ extend from simple functions by density. Reuse B5's integral/dual pairing.
 
 ## B7. Local theory and Euclidean sections
 
-Define Banach–Mazur distance between nonzero finite-dimensional real normed
-spaces of equal dimension as `inf ‖T‖‖T⁻¹‖`. Prove symmetry, multiplicative
-triangle inequality, invariance under isometry and distance one iff isometry.
+Define the Banach–Mazur distance between nonzero finite-dimensional normed
+`𝕜`-spaces of equal dimension as `inf ‖T‖‖T⁻¹‖` over `𝕜`-linear isomorphisms. Prove
+symmetry, the multiplicative triangle inequality, invariance under isometry and distance
+one iff isometry.
 Define finite representability using arbitrarily small distortion embeddings of
 each finite-dimensional subspace; prove transitivity and inheritance by subspaces.
 
-Prove local reflexivity: for finite-dimensional `F ≤ E**`, `G ≤ E*` and `ε > 0`,
+Prove local reflexivity over `𝕜`: for finite-dimensional `F ≤ E**`, `G ≤ E*` and `ε > 0`,
 there is a linear embedding `T : F → E` with distortion at most `1+ε`, preserving
 every pairing with `G` and satisfying `T(J_E x) = x` whenever `J_E x ∈ F`.
 Make the two-sided `(1−ε,1+ε)` norm bounds for `0 < ε < 1` the primary
@@ -433,9 +436,23 @@ and its contact-point decomposition for symmetric bodies with nonempty interior.
 In the position where the maximal-volume inscribed ellipsoid is the Euclidean
 unit ball, construct contact points `u_i∈∂K∩S^(n−1)` and positive weights
 `c_i` with `∑ c_i(u_i⊗u_i)=I` and `∑ c_i=n`, for `n≥1`; here
-`u_i⊗u_i` denotes the rank-one map `x↦⟨u_i,x⟩u_i`. Derive
-`d(E,ℓ²_n) ≤ √n` and the Kadec–Snobar projection theorem: every `n`-dimensional
-subspace of a real Banach space admits a projection of norm at most `√n`.
+`u_i⊗u_i` denotes the rank-one map `x↦⟨u_i,x⟩u_i`.
+State and prove the same for the closed unit ball `K` of a norm on a
+finite-dimensional inner product space `E` over `𝕜` of dimension `n ≥ 1`: among the
+`𝕜`-ellipsoids `T(B)`, the images of the Euclidean unit ball `B` under `𝕜`-linear
+automorphisms `T` with `T(B) ⊆ K`, one has maximal `|det T|`; in the position where
+`B` itself is that ellipsoid, construct contact points `u_i`, unit vectors with
+`Re ⟨x, u_i⟩ ≤ ‖x‖_K` for all `x`, and positive weights `c_i` with
+`∑ c_i(u_i⊗u_i)=I` and `∑ c_i=n`. For `𝕜 = ℝ` this is the symmetric-body statement
+above. Derive `d(E,ℓ²_n) ≤ √n` over `𝕜` and the Kadec–Snobar projection theorem:
+every subspace of dimension at most `n` of a normed `𝕜`-space is the range of a
+projection of norm at most `√n`. Prove the Garling–Gordon projection theorem, its
+dual: every closed subspace `M` of codimension at most `n` of a normed `𝕜`-space `X`
+is, for every `ε > 0`, the kernel of a projection of norm at most `√n + ε`. Run
+John's decomposition on the finite-dimensional dual `(X/M)*`, represent its contact
+points by vectors `w_i ∈ X/M` of norm at most `1`, lift them to `x_i ∈ X` of norm less
+than `1 + ε'`, and set `P y = ∑ c_i φ_i(π y) x_i` with the contact functionals `φ_i`;
+the lift of the quotient norm is the sole source of `ε`.
 
 Prove Dvoretzky's theorem: for every `k ≥ 1` and `ε > 0` there is `N` such that
 every real normed space of dimension at least `N` has a `k`-dimensional subspace
@@ -496,6 +513,10 @@ for `n≥4`, without an optimality claim.
   and approximation/tensor comparisons.
 * Ball, [*An Elementary Introduction to Modern Convex Geometry*](https://math.uchicago.edu/~shmuel/AAT-readings/Combinatorial%20Geometry%2C%20Concentration%2C%20Real%20Algebraic%20Geometry/ball.pdf),
   Lecture 3, Theorem 3.1: John's ellipsoid and the contact-point decomposition.
+* Pietsch, *Eigenvalues and s-Numbers*, 1.5.5 (Kadec–Snobar) and 1.7.17
+  (Garling–Gordon); D. J. H. Garling and Y. Gordon, *Relations between some constants
+  associated with finite dimensional Banach spaces*, Israel J. Math. **9** (1971),
+  346–361.
 * Garrido–Jaramillo, [*Variations on the Banach–Stone theorem*](https://matematicas.unex.es/~extracta/Vol-17-3/17J3Mari.pdf),
   §2, Theorems 2 and 4: the real weighted-composition theorem and Arens–Kelley
   extreme points. The complex version uses the variation splitting and phase

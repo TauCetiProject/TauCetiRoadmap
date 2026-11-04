@@ -72,7 +72,7 @@ integrand is strongly measurable on the σ-finite support of `f`: a continuous o
 compact, hence separable, range on each compact set, and nothing else makes it strongly measurable
 when `H` is not separable. Covariance is not needed for this bound. -/
 theorem exists_integratedOperator (π : A →⋆ₙₐ[ℂ] (H →L[ℂ] H))
-    (U : ContRepresentation ℂ G H) (hU : TauCeti.ContRepresentation.IsUnitary U)
+    (U : ContRepresentation ℂ G H) (hU : _root_.ContRepresentation.IsUnitary U)
     (hcont : ∀ ξ, Continuous fun g => U g ξ)
     (μ : Measure G) [μ.InnerRegularCompactLTTop]
     (f : G → A) (hf : Integrable f μ) :

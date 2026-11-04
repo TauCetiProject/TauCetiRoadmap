@@ -178,7 +178,7 @@ positive characters: `f̂(χ)=∫ f(g)χ(g) dμ(g)` and
   C*-algebra, the dual Haar measure, the Plancherel unitary, Fourier
   inversion and the Pontryagin duality theorem on it.
 - OperatorTheory/SelfAdjointSpectralTheory
-  and OneParameterSemigroups supply
+  and [OneParameterSemigroups](../../Completed/OneParameterSemigroups/README.md) supply
   self-adjoint generators, their spectral calculus, Part B's PVM carrier,
   integration and representation-PVM API, and strongly continuous
   one-parameter groups. Use their `LinearPMap` domains and graph closures.
