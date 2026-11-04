@@ -37,7 +37,7 @@ The precise ownership boundaries are as follows.
   coefficient ideal of that form and the library's
   `NumberField.NarrowClassGroup`. The ideal it uses is the one B2 attaches to
   the form, including the B2 sign clause for a negative leading coefficient.
-- **[GlobalNumberFields, Layer 11](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/GlobalNumberFields/README.md#layer-11-orders-and-picard-groups)** owns number-field orders, invertible proper
+- **[GlobalNumberFields, Layer 11](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/GlobalNumberFields/README.md#layer-11-orders-and-picard-groups)** owns number-field orders, invertible proper
   fractional ideals, `Pic`, `NarrowPic`, the forgetful homomorphism and its
   maximal-order specialization. No second narrow quotient is constructed here.
   Nothing here needs `NarrowPic` of the maximal order to be identified with the
@@ -46,9 +46,13 @@ The precise ownership boundaries are as follows.
   positive definite binary forms of negative discriminant and their ideal
   correspondence from IntegralLattices Layer B (B2, B4, B5); neither roadmap
   plans a genus character on forms.
-- **AutomorphicSpectralTheory §4.17a**, `quadratic_weyl_domains`, owns the
-  real composite identity χ(J)=sign δ=sign δ′. AnalyticNumberTheoryPartI
-  §2.25 consumes that value from that supplier.
+- **The pinned Tau Ceti** `genusCharFunNarrowClassGroupHom_mkPrincipal_gen`
+  and `genusCharFunNarrowClassGroupHom_eq_prod_singleton` own the real
+  composite identity χ(J)=sign δ=sign δ′; 2.1 derives it from them.
+  AutomorphicSpectralTheory §4.17a, `quadratic_weyl_domains`, states the
+  same identity in the same normalization and is cited as a convention
+  cross-reference only; AnalyticNumberTheoryPartI §2.25 consumes that value
+  from that section.
 - **MetaplecticAutomorphicForms §§7.20a, 7.32-trace** owns both supplied
   form characters. Section 7.20a, `quadraticTraceData`, owns the
   imprimitive nonsquare form character, its represented-value existence and
@@ -280,12 +284,14 @@ The signed discriminant interfaces are in
 
 ### From TauCetiRoadmap.AutomorphicSpectralTheory
 
-Section 4.17a, `quadratic_weyl_domains`, supplies the real quadratic genus
+Section 4.17a, `quadratic_weyl_domains`, states the real quadratic genus
 character for D=δδ′ with both factors fundamental, normalized on coprime
 ideals by Kronecker symbols, and its composite value χ(J)=sign δ=sign δ′.
-Use this normalization with the pinned `genusCharFunNarrowClassGroupHom`:
-its product-of-singletons law and singleton J-value give exactly the same
-identity for every t⊆s (Duke–Imamoḡlu–Tóth, §7, p.971, before (7.8)).
+This is a convention cross-reference only: 2.1 uses the same normalization,
+and nothing here is proved from that section. The identity is owned by the
+pinned `genusCharFunNarrowClassGroupHom`, whose product-of-singletons law
+and singleton J-value give exactly it for every t⊆s
+(Duke–Imamoḡlu–Tóth, §7, p.971, before (7.8)).
 
 ### From TauCetiRoadmap.MetaplecticAutomorphicForms
 
@@ -314,12 +320,13 @@ its imprimitive extension).
 
 Layer 0 identifies the narrow defect and makes character descent unique.
 Layer 1 counts the elements in an arbitrary genus using the existing quotient.
-Layer 2 uses the supplied value on the distinguished class to obtain signed
+Layer 2 uses the pinned value on the distinguished class to obtain signed
 prime-discriminant and two-square criteria. Layer 3 extends the supplied
 nonsquare and Biró form characters and shows that at a positive fundamental
 discriminant it is the narrow ideal genus character of the oriented
 coefficient ideal. Layers 0–2 use the pinned narrow-class theory; the sign
-normalization in 2.1 is imported from AutomorphicSpectralTheory §4.17a.
+identity in 2.1 is derived from the pinned singleton J-value and product
+law, in the normalization AutomorphicSpectralTheory §4.17a also uses.
 Layer 3 also uses MetaplecticAutomorphicForms §§7.20a, 7.32-trace and the pinned form
 carrier. `Suggested.lean` states the headline endpoints and the simple
 definition they need. Its proved example tests the content obstruction.
@@ -502,9 +509,11 @@ reduction and effective class-number calculations are outside this layer.
 
 ### 2.1 Composite character values on the distinguished class
 
-Use the composite sign identity in the AutomorphicSpectralTheory §4.17a
-supplier contract, with the real quadratic hypotheses and t⊆s. Its pinned
-normalization is χ_t(J)=sign δ=sign δ′, with χ_t read in ℤ
+Derive the composite sign identity from the pinned singleton J-value
+`genusCharFunNarrowClassGroupHom_mkPrincipal_gen` and product law
+`genusCharFunNarrowClassGroupHom_eq_prod_singleton`, with the real quadratic
+hypotheses and t⊆s. Its normalization is χ_t(J)=sign δ=sign δ′, with χ_t
+read in ℤ, the same as in AutomorphicSpectralTheory §4.17a
 (Duke–Imamoḡlu–Tóth, §7, p.971, before (7.8)).
 
 Positivity is essential to complementary signs. For D=−4=1·(−4), the
@@ -512,8 +521,8 @@ signs are 1 and −1; in the imaginary quadratic signature J=1. The
 arithmetic normalization at −1 gives −1 for t={−4},{−8}, and 1 for
 t={8},∅,{−4,−3},{8,17}, by `genusCharFun_neg_one_eq_sign_prod`.
 
-*Needs:* AutomorphicSpectralTheory §4.17a; the pinned narrow genus character,
-product-of-singletons law, singleton J-value and nonzero fundamental subproducts.
+*Needs:* the pinned narrow genus character, product-of-singletons law,
+singleton J-value and nonzero fundamental subproducts.
 
 **Checks.**
 
@@ -1023,7 +1032,7 @@ value, the dyadic Kronecker normalization and the sign factor
 
 ### Dependencies
 
-The supplied sign normalization in 2.1, MetaplecticAutomorphicForms §§7.20a, 7.32-trace,
+The sign identity of 2.1, MetaplecticAutomorphicForms §§7.20a, 7.32-trace,
 and the pinned Tau Ceti narrow class group, coprime-ideal
 genus character and prime-discriminant characters; the binary form carrier,
 evaluation, discriminant and action in `TauCeti.BinaryQuadraticForm`. The oriented form–ideal bijection of IntegralLattices B2 and the
