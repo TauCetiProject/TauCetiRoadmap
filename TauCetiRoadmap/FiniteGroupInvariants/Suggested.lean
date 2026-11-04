@@ -1,7 +1,9 @@
-import Mathlib
-import TauCeti.GroupTheory.SpecificGroups.CFSG.Classification
-import TauCeti.RepresentationTheory.CharacterTable.Table
-import TauCeti.RingTheory.KrullSchmidt.Indecomposable
+module
+
+public import Mathlib
+public import TauCeti.GroupTheory.SpecificGroups.CFSG.Classification
+public import TauCeti.RepresentationTheory.CharacterTable.Table
+public import TauCeti.RingTheory.KrullSchmidt.Indecomposable
 
 /-!
 # Invariants of finite groups: target signatures
@@ -23,6 +25,8 @@ declaration of the pinned Mathlib or Tau Ceti; constructing it is the first targ
 not a simple definition. Kuroda's class number formula (README 9.4), which needs only the unit
 index, is stated below.
 -/
+
+@[expose] public section
 
 namespace TauCetiRoadmap.FiniteGroupInvariants
 
@@ -689,3 +693,5 @@ theorem jordanBound_eq_factorial_of_classification (hCFSG : TauCeti.Classificati
     (n : ℕ) (hn : 71 ≤ n) : jordanBound n = (n + 1).factorial := sorry
 
 end TauCetiRoadmap.FiniteGroupInvariants
+
+end
