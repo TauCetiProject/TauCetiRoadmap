@@ -297,7 +297,7 @@ B4 = Layer 11 and B5 = Layer 12 (B5.1a = 12.2, B5.n = 12.(n+1) for n ≥ 2).
 | ShimuraData §§3.1–3.6 (variations of Hodge structure), §§3.7–3.9 (parabolic of the Hodge filtration, compact dual, compact dual over the reflex field), §§4.2–4.3, 4.9 | filtration parabolic with its sign and Levi, compact duals and their reflex-field descent, rational variations, additional centre hypotheses and the shared `Z_s`, `Gᶜ` quotient |
 | AlgebraicModularFormsAndSerreWeights R15.1 (*Geometric modular forms*, *All-weight analytic comparison*), R15.2 (*The q-expansion principle*, *Integral geometric Hecke operators*, *The equivariant cuspidal sequence*) | the `GL₂` specialization |
 | ShimuraVarieties §P.3, Layers 1–2, 4–8, §8.22 | the Borel embedding into a representation's flag variety and homogeneous variations; towers, minimal compactification, CM reciprocity, canonical models, conjugation |
-| PELModuli M0, M1.7, M5 | PEL data, the moduli problem `M_H` with its universal family, the Siegel moduli `A_{g,D,n}` (M5.2) and the `GU(1,1)` example |
+| PELModuli M0, M1.7, M5.2, M5.5 | PEL data, the moduli problem `M_H` with its universal family, the Siegel moduli `A_{g,D,n}` (M5.2) and the unitary datum of signature `(1,1)` (M5.5, `unitaryDatum_U11`) |
 | HilbertModularVarietiesAndShimuraCurves H0–H4 | Hilbert data, Deligne–Pappas families, polarization/unit quotients and central kernels; H5.3 (Hilbert Hodge splitting and descent) and H5.4 (algebraic Hilbert weights and central units) supply characteristic-zero coefficients and descent |
 
 ### From the logarithmic, perfectoid and derived suppliers
@@ -1468,7 +1468,8 @@ coefficient and compatible compact `ℓ`-levels. Descend its finite lattice quot
 coefficient field. Prove independence of the lattice after inversion and Hecke compatibility.
 Arithmetic `ℚ_ℓ(1)` and the geometrically constant rank-one sheaf have different Galois actions.
 
-*Source:* [AG], §3.3 Proposition 3.3.1, pp.418–419; [Milne90], III §6, Remark 6.1, p.62.
+*Source:* [AG], §3.3 Proposition 3.3.1, pp.418–419 (the torus case, used for the lattice-independence
+mechanism); [Milne90], III §6, Remark 6.1, p.62 (the general group).
 
 The API:
 
@@ -1604,7 +1605,7 @@ realization in the solid analytic category is a separately supplied comparison.
 *Source:* [BCGP], Remark 3.2.19, p.45; Remark 4.8.1, p.101.
 
 *Needs:* 0.5 (`compactDualCoefficient`); 0.3 (`hodgeParabolicConvention`); 3.3
-(`leviHighestWeightConvention`); PELModuli M0 (PEL data and their compact duals).
+(`leviHighestWeightConvention`); PELModuli M0 (PEL data); ShimuraData §3.8 (compact duals).
 *Lean:* none; specified in the README only.
 
 **Checks.**
@@ -3537,7 +3538,7 @@ and with the log Hodge filtration on cusp charts.
 *Source:* [PS16], Appendix A, Lemmas A.15–A.17, Proposition A.18 and
 Corollary A.19, pp.28–30;
 [Scholze15], III §3, Theorem III.3.18, pp.61–62;
-[Lan22], Proposition 3.4(4–6), pp.8–9, §6, p.18; [BCGP], §4.2, p.70.
+[Lan22], Proposition 3.4(4–6), pp.7–9, §6, p.18; [BCGP], §4.2, p.70.
 
 The API:
 
@@ -3601,7 +3602,7 @@ makes it independent of the chosen symplectic embedding. For `g∈G(ℚ_p)`
 compare `Σ` and `gΣ` after a common refinement; no fixed fan is assumed
 invariant under every `g`.
 
-*Source:* [Lan22], Proposition 3.4(4–6), pp.8–9, Propositions 4.9–4.10, p.14, and §6,
+*Source:* [Lan22], Proposition 3.4(4–6), pp.7–9, Propositions 4.9–4.10, p.14, and §6,
 pp.18–20, including Proposition 6.1; [RC22], Theorem 4.2.1 and its proof, pp.22–23.
 
 The API:
@@ -4045,8 +4046,8 @@ zero of f; the identically zero section imposes no cocycle condition.
 
 **Checks.**
 
-- For `C₂` acting trivially on a point, `J(nonidentity)=2` and `J(identity)=1` transforms zero but
-  violates the cocycle because `4≠1`.
+- For `C₂` acting trivially on a point, over a field in which `3≠0`, `J(nonidentity)=2` and
+  `J(identity)=1` transforms zero but violates the cocycle because `4≠1`.
 
 - For a trivial action at a point with `f=1`, the transformation law forces `J(g)=1` for every `g`, hence the cocycle.
 
@@ -4310,7 +4311,8 @@ The API:
 - `siegelCoefficient_standard`: For `λ=(1,0,…,0)` it is `ω`.
 
 *Needs:* 3.1 (`automorphicVectorBundle`); 3.3 (`leviHighestWeightConvention`); PELModuli M1.7
-(fine-level universal abelian families); PELModuli M5 (the Siegel and split `GU(1,1)` examples);
+(fine-level universal abelian families); PELModuli M5.2 (the Siegel moduli `A_{g,D,n}`) and M5.5
+(`unitaryDatum_U11`);
 AbelianSchemesAndArithmeticModuli A4 (`AbelianH1dR` with its Hodge sequence and Gauss–Manin
 connection, `AbelianTate`, `exteriorCohomology`);
 TauCetiRoadmap.RepresentationTheory.ClassicalGroups Layer 2 (`schurFunctor`).
@@ -4343,8 +4345,9 @@ The API:
   transported PEL coefficient.
 
 *Needs:* 3.1 (`automorphicVectorBundle`); 0.9 (`coefficientGaloisDescent`); 0.2
-(`ineffectiveFibreDescent`); PELModuli M0 (PEL data and their compact duals); PELModuli M1.7
-(fine-level universal abelian families); PELModuli M5 (the Siegel and split `GU(1,1)` examples).
+(`ineffectiveFibreDescent`); PELModuli M0 (PEL data); ShimuraData §3.8 (compact duals); PELModuli
+M1.7 (fine-level universal abelian families); PELModuli M5.5 (`unitaryDatum_U11`, the unitary datum
+of signature `(1,1)`).
 *Lean:* none; specified in the README only.
 
 **Checks.**
@@ -4824,10 +4827,10 @@ with its preceding RelSeries existence theorem, at the pinned Mathlib commit.
 Prove `FourierJacobi.expansionPrinciple`. In Lan's setting choose finitely many nonempty strata
 whose union meets every irreducible component of X. Use ShimuraCompactifications §7.10 `IntegralToroidalModel.strata_detect_geometricComponents`
 and §7.11 `IntegralToroidalModel.nonneat_descent` to relate this total-space hypothesis to the
-prime-quotient detection used above, including non-neat descent. Then the torsor-level family `FJ^C_I` of 12.2 on `AF(k,M)` is injective for every `R`-module `M`; through
-`Γ(c) ∘ HodgeLineFJ = FJ^C` this is injectivity of ShimuraCompactifications §7.15's `HodgeLineFJ_I`
-wherever 12.2 identifies its coefficient modules, in particular for flat `M` and, under 12.2's
-local-freeness condition, for every `M`. A section comes from a finitely
+prime-quotient detection used above, including non-neat descent. Then the torsor-level family `FJ^C_I` of 12.2 on `AF(k,M)` is injective for every `R`-module `M`, and
+through the identity `Γ(c) ∘ HodgeLineFJ = FJ^C` so is ShimuraCompactifications §7.15's
+`HodgeLineFJ_I` on `AF(k,M)` for every `M`, with no condition on `c`: a map whose composite with
+`Γ(c)` is injective is injective. A section comes from a finitely
 generated submodule `N⊂M` by qcqs section-colimit compatibility. Naturality and injection `G(N)→G(M)`
 reduce its vanishing to the finite-coefficient theorem. There is no interchange of an infinite
 coefficient product with a filtered colimit.
@@ -4870,7 +4873,8 @@ SchemeAndStackFoundations Layer 1 (§1.22, §1.1); Mathlib `Module.Flat`
 Prove `FourierJacobi.coefficientRecognition`. For `M₁⊂M` and the same detecting cusps, a section in
 `AF(k,M)` comes from `AF(k,M₁)` exactly when every chosen expansion lies in the corresponding image of
 the invariant coefficient family with `M₁` coefficients; the family is the torsor-level one of 12.2,
-and the statement transfers to `HodgeLineFJ` by the naturality of 12.2's comparison in the
+and the same holds for `HodgeLineFJ` and the base-level family, for every `M₁ ⊂ M`, by the composite
+identity `Γ(c) ∘ HodgeLineFJ = FJ^C` and the naturality of `c` and of `HodgeLineFJ` in the
 coefficient module. Map the section to `M/M₁`, use naturality and
 injectivity for that quotient, then the kernel/image equality of the AF row. The quotient need not
 be finite or flat, so the arbitrary-coefficient theorem is essential.
@@ -5632,9 +5636,9 @@ and coefficient-detecting expansions.
 
 [LanHigher]: https://www.kwlan.org/articles/Koecher.pdf
 
-- **Diamond22.** Fred Diamond, *Compactifications of Iwahori-level Hilbert modular varieties*. arXiv:2211.06922v1, 13 November 2022 (PDF cover date) [Diamond22]
+- **Diamond22.** Fred Diamond, *Compactifications of Iwahori-level Hilbert modular varieties*. arXiv:2211.06922v2, 10 April 2025 (PDF cover date) [Diamond22]
 
-[Diamond22]: https://arxiv.org/pdf/2211.06922v1
+[Diamond22]: https://arxiv.org/pdf/2211.06922v2
 
 - **FC90.** G. Faltings and C.-L. Chai, *Degeneration of Abelian Varieties*, Ergebnisse der
   Mathematik und ihrer Grenzgebiete (3) 22, Springer, 1990. Locators use printed book pages.
