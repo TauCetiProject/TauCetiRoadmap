@@ -33,13 +33,10 @@ Headline theorems not statable at the pins, and what each lacks:
 * Igusa's `Γ₂(2)` ring, the `Γ₀(2)`, `Γ₀(3)`, `Γ₀(4)` rings and the
   degree-three and degree-four classifications (6.5–6.9): the characters `ψ₃`, `ψ₄` and the
   theta constants as generators are not in this file (the principal congruence subgroup
-  `Γ₂(2)` is `gammaN 2 2` below, on which the two dimension formulas of 6.5 are stated);
-  two statable formulas are not stated for a different reason: Tsushima's dimension formula
-  for `S_{k,j}(Γ₂)` (6.4) and Ibukiyama's formula for `S_k(K(p))`, `k ≥ 5` (10.1), are
-  quasi-polynomials on carriers of this file (`cuspSubmodule (Gamma 2) (rho k j)` and
-  `cuspSubmodule (paramodularR p) (rho k 0)`) whose explicit forms the README cites and has not
-  transcribed, so no formula is written here in their place; the weight-four paramodular case
-  is stated (`finrank_cusp_paramodular_four`);
+  `Γ₂(2)` is `gammaN 2 2` below, on which the two dimension formulas of 6.5 are stated;
+  Tsushima's formula for `S_{k,j}(Γ₂)` (6.4) and Ibukiyama's formulas for `S_k(K(p))` (10.1)
+  are stated, as `finrank_cusp_tsushima`, `finrank_cusp_paramodular` and
+  `finrank_cusp_paramodular_four`);
 * the Satake isomorphism and the Satake parameters (7.4): the Hecke algebra as a ring with its
   characters;
 * the spinor and standard `L`-functions as Euler products, their functional equations and the
@@ -1191,6 +1188,65 @@ def satohDim (k : ℕ) : ℕ :=
 theorem finrank_rho_two (k : ℕ) (hk : Even k) :
     Module.finrank ℂ (SiegelModularForm (Gamma 2) (rho k 2)) = satohDim k := sorry
 
+/-- The trace from `ℚ(ζ_n)` to `ℚ` of an expression in a primitive `n`-th root of unity `ζ_n`,
+computed as the sum of the expression over the Galois conjugates `ζ_n^a`, `gcd(a, n) = 1`; the
+`tr_α` of Tsushima's formula (6.4). -/
+def cyclotomicTrace (n : ℕ) (f : ℂ → ℂ) : ℂ :=
+  ∑ a ∈ (Finset.range n).filter (fun a => Nat.Coprime a n),
+    f (Complex.exp (2 * Real.pi * Complex.I * a / n))
+
+/-- **Tsushima's quasi-polynomial** (6.4; Tsushima 1983, Theorem 4, p. 141), the dimension of
+`S_{k,2m}(Γ₂)` in Tsushima's parameters `(k, m)` (weight `Sym^{2m} ⊗ det^k`), with `i = √−1`,
+`ρ = e^{2πi/3}`, `ω = e^{2πi/5}`, `σ = e^{πi/6}` and `tr_α` as `cyclotomicTrace`. -/
+def tsushimaDim (k m : ℕ) : ℂ :=
+  let K : ℂ := k
+  let M : ℂ := m
+  (1 / (2 ^ 7 * 3 ^ 3 * 5) : ℂ) * (2 * M + 1) * (K - 2) * (2 * M + K - 1) * (2 * M + 2 * K - 3)
+    - (1 / (2 ^ 5 * 3 ^ 2) : ℂ) * (2 * M + 1) * (2 * M + 2 * K - 3)
+    + (1 / (2 ^ 4 * 3) : ℂ) * (2 * M + 1)
+    + (-1 : ℂ) ^ k * ((7 / (2 ^ 7 * 3 ^ 2) : ℂ) * (K - 2) * (2 * M + K - 1)
+        - (1 / (2 ^ 4 * 3) : ℂ) * (2 * M + 2 * K - 3) + (3 / 2 ^ 5 : ℂ))
+    + (-1 : ℂ) ^ m * ((5 / (2 ^ 7 * 3) : ℂ) * (2 * M + 2 * K - 3) - (1 / 2 ^ 3 : ℂ))
+    + (-1 : ℂ) ^ k * (-1 : ℂ) ^ m * (1 / 2 ^ 7 : ℂ) * (2 * M + 1)
+    + cyclotomicTrace 4 (fun i =>
+        i ^ k * ((1 / (2 ^ 6 * 3) : ℂ) * i * (2 * M + K - 1) - (1 / 2 ^ 4 : ℂ) * i))
+    + cyclotomicTrace 4 (fun i => (-1 : ℂ) ^ k * i ^ m * (1 / 2 ^ 5 : ℂ) * (i + 1))
+    + cyclotomicTrace 4 (fun i =>
+        i ^ k * (-1 : ℂ) ^ m * ((1 / (2 ^ 6 * 3) : ℂ) * (K - 2) - (1 / 2 ^ 4 : ℂ)))
+    + cyclotomicTrace 4 (fun i => (-i) ^ k * i ^ m * (1 / 2 ^ 5 : ℂ) * (i + 1))
+    + cyclotomicTrace 3 (fun ρ => (-1 : ℂ) ^ k * ρ ^ m * (1 / 3 ^ 3 : ℂ) * (ρ + 1))
+    + cyclotomicTrace 3 (fun ρ =>
+        ρ ^ k * ρ ^ m * (1 / (2 ^ 2 * 3 ^ 4) : ℂ) * (2 * ρ + 1) * (2 * M + 1))
+    - cyclotomicTrace 3 (fun ρ => ρ ^ k * (-ρ) ^ m * (1 / (2 ^ 2 * 3 ^ 2) : ℂ) * (2 * ρ + 1))
+    + cyclotomicTrace 3 (fun ρ => (-ρ) ^ k * ρ ^ m * (1 / 3 ^ 3 : ℂ))
+    + cyclotomicTrace 3 (fun ρ =>
+        ρ ^ m * ((1 / (2 * 3 ^ 4) : ℂ) * (1 - ρ) * (2 * M + 2 * K - 3)
+          - (1 / (2 * 3 ^ 2) : ℂ) * (1 - ρ)))
+    + cyclotomicTrace 3 (fun ρ =>
+        ρ ^ k * ((1 / (2 ^ 3 * 3 ^ 4) : ℂ) * (ρ + 2) * (2 * M + K - 1)
+          - (1 / (2 ^ 2 * 3 ^ 3) : ℂ) * (5 * ρ + 6)))
+    - cyclotomicTrace 3 (fun ρ =>
+        (-ρ) ^ k * ((1 / (2 ^ 3 * 3 ^ 3) : ℂ) * (ρ + 2) * (2 * M + K - 1)
+          - (1 / (2 ^ 2 * 3 ^ 2) : ℂ) * (ρ + 2)))
+    + cyclotomicTrace 3 (fun ρ =>
+        ρ ^ k * (ρ ^ 2) ^ m * ((1 / (2 ^ 3 * 3 ^ 4) : ℂ) * (1 - ρ) * (K - 2)
+          + (1 / (2 ^ 2 * 3 ^ 3) : ℂ) * (ρ - 5)))
+    + cyclotomicTrace 3 (fun ρ =>
+        (-ρ) ^ k * (ρ ^ 2) ^ m * ((1 / (2 ^ 3 * 3 ^ 3) : ℂ) * (1 - ρ) * (K - 2)
+          - (1 / (2 ^ 2 * 3 ^ 2) : ℂ) * (1 - ρ)))
+    + cyclotomicTrace 5 (fun ζ => ζ ^ k * (ζ ^ 4) ^ m * (1 / 5 ^ 2 : ℂ))
+    - cyclotomicTrace 5 (fun ζ => ζ ^ k * (ζ ^ 3) ^ m * (1 / 5 ^ 2 : ℂ) * ζ ^ 2)
+    + cyclotomicTrace 12 (fun σ =>
+        (σ ^ 7) ^ k * (-1 : ℂ) ^ m * (1 / (2 ^ 3 * 3 ^ 2) : ℂ) * (σ ^ 2 + 1))
+    - cyclotomicTrace 12 (fun σ =>
+        (σ ^ 7) ^ k * (σ ^ 8) ^ m * (1 / (2 ^ 3 * 3 ^ 2) : ℂ) * (σ + σ ^ 3))
+
+/-- **Tsushima's dimension formula** (6.4; Tsushima 1983, Theorem 4, p. 141): for `k ≥ 5`, or
+`m = 0` and `k ≥ 4`, `dim S_{k,2m}(Γ₂) = tsushimaDim k m`; the values are `1, 1, 1, 2, 3, 2, 1`
+at `(k, m) = (8, 3), (10, 2), (14, 1), (16, 1), (20, 1), (12, 3), (6, 6)` and `1` at `(35, 0)`. -/
+theorem finrank_cusp_tsushima (k m : ℕ) (hkm : 5 ≤ k ∨ (m = 0 ∧ 4 ≤ k)) :
+    (Module.finrank ℂ (cuspSubmodule (Gamma 2) (rho k (2 * m))) : ℂ) = tsushimaDim k m := sorry
+
 /-- **Cléry–van der Geer–Grushevsky's dimension formula, odd weight** (6.5; their Theorem 12.1):
 for odd `k ≥ 3` and even `j ≥ 2`, or odd `k ≥ 5` and `j = 0`,
 `24 dim M_{k,j}(Γ₂(2)) = 2(j+1)k³ + 3(j² − 2j − 8)k² + (j³ − 9j² − 42j + 118)k − 2j³ − 9j² + 152j − 216`;
@@ -1216,7 +1272,8 @@ theorem finrank_gammaTwo_even (k j : ℕ) (hk : Even k) (hk4 : 4 ≤ k) (hj : Ev
 
 /-! ## Layer 7: Hecke operators and eigenforms -/
 
-/-- The semigroup `O_g(m)` of integral similitudes of multiplier `m` (0.2, 7.1). -/
+/-- The set `O_g(m)` of integral similitudes of multiplier `m` (0.2, 7.1); it is not closed
+under multiplication (`O_g(m) O_g(n) ⊆ O_g(mn)`). -/
 def integralSimilitudes (g m : ℕ) : Set (GSpPos g ℚ) :=
   {M | (∀ i j, ∃ n : ℤ, GSpPos.mat M i j = n) ∧
     GSpPos.mat M * Matrix.J (Fin g) ℚ * (GSpPos.mat M)ᵀ = (m : ℚ) • Matrix.J (Fin g) ℚ}
@@ -1401,6 +1458,67 @@ theorem finrank_cusp_paramodular_four (p : ℕ) (hp : p.Prime) (hp5 : 5 ≤ p) :
     (576 * Module.finrank ℂ (cuspSubmodule (paramodularR p) (rho 4 0)) : ℤ) =
       (p : ℤ) ^ 2 + 72 * p - 143 + (6 * (p : ℤ) - 72) * jacobiSym (-1) p + 72 * jacobiSym 2 p +
         48 * jacobiSym 3 p + 16 * (p : ℤ) * jacobiSym (-3) p := sorry
+
+/-- Ibukiyama's bracket `[t₀, …, t_{q−1}; q]` (10.1): the entry of a list of length `q` indexed
+by `k mod q` (`0` for the empty list). -/
+def periodicValue (t : List ℚ) (k : ℕ) : ℚ := t.getD (k % t.length) 0
+
+/-- **Ibukiyama's quasi-polynomial** (10.1; Ibukiyama 1985, Theorem 4, p. 26): the sum
+`H₁ + ⋯ + H₁₂ + I₁ + ⋯ + I₁₂` of the twenty-four contributions to `dim S_k(K(p))` listed in the
+README, in that order, with `jacobiSym a p` the Legendre symbol for odd `p` and, at `p = 2`, the
+splitting symbols `(−1/2) = (2/2) = 0`, `(5/2) = (−3/2) = −1`. -/
+def ibukiyamaDim (k p : ℕ) : ℚ :=
+  let s : ℚ := (-1) ^ k
+  let P : ℚ := p
+  let K : ℚ := k
+  (P ^ 2 + 1) * (2 * K - 2) * (2 * K - 3) * (2 * K - 4) / (2 ^ 9 * 3 ^ 3 * 5)
+    + s * (2 * K - 2) * (2 * K - 4) / (2 ^ 8 * 3 ^ 2)
+    + (if p = 2 then s * (2 * K - 2) * (2 * K - 4) / 2 ^ 9
+        else s * (2 * K - 2) * (2 * K - 4) / (2 ^ 7 * 3))
+    + (if p = 2 then 5 * periodicValue [K - 2, -K + 1, -K + 2, K - 1] k / (2 ^ 5 * 3)
+        else periodicValue [K - 2, -K + 1, -K + 2, K - 1] k / (2 ^ 4 * 3))
+    + (if p = 3 then 5 * periodicValue [2 * K - 3, -K + 1, -K + 2] k / (2 ^ 2 * 3 ^ 3)
+        else periodicValue [2 * K - 3, -K + 1, -K + 2] k / (2 ^ 2 * 3 ^ 3))
+    + periodicValue [-1, -K + 1, -K + 2, 1, K - 1, K - 2] k / (2 ^ 2 * 3 ^ 2)
+    + (if p = 2 then 3 * (2 * K - 3) / 2 ^ 7 + 7 * s / (2 ^ 7 * 3)
+        else if p % 4 = 1 then 5 * (2 * K - 3) * (P + 1) / (2 ^ 7 * 3) + s * (P + 1) / 2 ^ 7
+        else (2 * K - 3) * (P - 1) / 2 ^ 7 + 5 * s * (P - 1) / (2 ^ 7 * 3))
+    + (if p = 3 then 5 * (2 * K - 3) / (2 ^ 2 * 3 ^ 3) + periodicValue [0, -1, 1] k / 3 ^ 3
+        else if p % 3 = 1 then
+          (2 * K - 3) * (P + 1) / (2 * 3 ^ 3) + (P + 1) * periodicValue [0, -1, 1] k / (2 ^ 2 * 3 ^ 3)
+        else
+          (2 * K - 3) * (P - 1) / (2 ^ 2 * 3 ^ 3) + (P - 1) * periodicValue [0, -1, 1] k / (2 * 3 ^ 3))
+    + periodicValue [1, 0, 0, -1, -1, -1, -1, 0, 0, 1, 1, 1] k / (2 * 3)
+    + (if p = 2 then periodicValue [1, 0, 0, -1, 0, 0] k / (2 * 3 ^ 2)
+        else 2 * periodicValue [1, 0, 0, -1, 0, 0] k / 3 ^ 2)
+    + (if p = 2 then 0 else (1 + (jacobiSym 5 p : ℚ)) * periodicValue [1, 0, 0, -1, 0] k / 5)
+    + (if p = 2 then periodicValue [1, 0, 0, -1] k / 2 ^ 3
+        else (1 + (jacobiSym 2 p : ℚ)) * periodicValue [1, 0, 0, -1] k / 2 ^ 3)
+    + (if p = 2 ∨ p = 3 then s / (2 ^ 2 * 3)
+        else if p % 12 = 1 then periodicValue [0, 1, -1] k / (2 * 3)
+        else if p % 12 = 11 then s / (2 * 3)
+        else 0)
+    + periodicValue [0, 1, 1, 0, -1, -1] k / 6
+    + periodicValue [-2, 1, 1] k / (2 * 3 ^ 2)
+    + (if p = 3 then periodicValue [-2, 1, 1] k / 3 ^ 2
+        else if p % 3 = 1 then 2 * periodicValue [-1, 1, 0] k / 3 ^ 2
+        else 2 * periodicValue [-1, 0, 1] k / 3 ^ 2)
+    + periodicValue [-1, 1, 1, -1] k / 2 ^ 2
+    + s / 2 ^ 3
+    + (if p = 2 then 2 * s / 2 ^ 4 else s * (2 - (jacobiSym (-1) p : ℚ)) / 2 ^ 4)
+    - s * (2 * K - 3) / (2 ^ 3 * 3)
+    - P * (2 * K - 3) / (2 ^ 4 * 3 ^ 2)
+    - 1 / (2 ^ 3 * 3)
+    + (P + 1) / (2 ^ 3 * 3)
+    - (if p = 2 then 1 / 2 ^ 3 else (1 + (jacobiSym (-1) p : ℚ)) / 2 ^ 3)
+    - (if p = 2 then 0 else (1 + (jacobiSym (-3) p : ℚ)) / (2 * 3))
+
+/-- **Ibukiyama's dimension formula for paramodular cusp forms** (10.1; Ibukiyama 1985,
+Theorem 4, p. 26): for a prime `p` and `k ≥ 5`, `dim S_k(K(p)) = ibukiyamaDim k p`; for
+`k = 5, …, 16` the values are `0, 0, 0, 1, 0, 1, 1, 2, 0, 2, 1, 4` at `p = 2` and
+`3, 5, 7, 10, 13, 19, 23, 31, 37, 48, 56, 72` at `p = 13`. -/
+theorem finrank_cusp_paramodular (k p : ℕ) (hp : p.Prime) (hk : 5 ≤ k) :
+    (Module.finrank ℂ (cuspSubmodule (paramodularR p) (rho k 0)) : ℚ) = ibukiyamaDim k p := sorry
 
 /-! ## Layer 11: the LMFDB invariants -/
 

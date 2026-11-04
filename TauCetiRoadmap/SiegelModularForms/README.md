@@ -32,8 +32,11 @@ rings, Hecke operators, `L`-functions, lifts, paramodular forms, and the LMFDB i
 
 ### Owned here
 
-- The positive similitude group `GSp⁺_{2g}` (the part of `ClassicalGroupsPartII` CG.0.1's
-  similitude group with positive multiplier) with `det M = μ(M)^g`, the dual `M^∨` and the
+- The positive similitude group `GSp⁺_{2g}(R)` for every `g` and every ordered field `R` (the
+  part of `ClassicalGroupsPartII` CG.0.1's similitude group with positive multiplier; its degree-two
+  real points `GSp₄⁺(ℝ)` with their multiplier are `AutomorphicFormsOnReductiveGroups` §6.4's
+  `positiveSimilitude`, which 0.2 identifies with `GSpPos 2 ℝ` and does not plan again) with
+  `det M = μ(M)^g`, the dual `M^∨` and the
   sets `O_g(m)` of integral similitudes of multiplier `m`, the Siegel upper half-space `ℍ_g` with the action
   `τ ↦ (Aτ + B)(Cτ + D)⁻¹`, the automorphy factor `Cτ + D` and its
   cocycle law, and the arithmetic subgroups `Γ_g = Sp_{2g}(ℤ)`, `Γ_g(N)`, `Γ₀^{(g)}(N)`,
@@ -80,6 +83,11 @@ The paramodular conjecture and explicitly identified nonvanishing conjectures re
 
 - The algebraic symplectic similitude group, its coordinate Hopf algebra, its multiplier and its
   representations: `ClassicalGroupsPartII`.
+- The real group `GSp₄⁺(ℝ) = {g : ν(g) > 0} = ℝ_{>0}·Sp₄(ℝ)` of degree two with its multiplier:
+  `AutomorphicFormsOnReductiveGroups` §6.4 (`positiveSimilitude`); `MetaplecticAutomorphicForms`
+  8.11–8.12 write it and its action in Bump–Friedberg–Hoffstein's coordinates. 0.2 keeps the
+  general-`g` group over an ordered field and identifies its `g = 2`, `R = ℝ` points with the
+  supplied group (a Check), so one real group of degree two is planned once.
 - Half-integral weight Siegel modular forms of degree `g ≥ 2`, the theta multiplier on `Γ_g(4, 8)`
   and the LMFDB's half-integral weight family on `Γ₀^{(2)}(4)`: owned by no roadmap. The sibling
   `HalfIntegralWeightModularForms` owns only degree one (half-integral weight modular forms on
@@ -341,6 +349,10 @@ with `gaussian` and
 ### From TauCetiRoadmap.AutomorphicFormsOnReductiveGroups
 
 - §§3.1–3.2: smooth automorphic forms, `classicalEquiv`, and their global representation spaces; 8.3 specializes this comparison to holomorphic Siegel vectors and identifies the local factors.
+- §6.4: the index-two subgroup `G⁺ = {g : ν(g) > 0} = ℝ_{>0}·Sp₄(ℝ)` of `GSp₄(ℝ)` with its
+  multiplier, exposed as `positiveSimilitude`; it is the owner of `GSp₄⁺(ℝ)`, and 0.2's
+  `GSpPos 2 ℝ` is the same subgroup of `GL₄(ℝ)` (its Check), the only degree-two real
+  similitude group used here.
 
 ### From TauCetiRoadmap.SmoothRepresentationsOfLocalGroups
 
@@ -372,8 +384,9 @@ with `gaussian` and
   `HalfIntegralWeightModularForms` 6.1; and its 6.20 `jacobi_thetaDecomposition`, the theta
   decomposition of 9.2 and 9.5. Four of its objects are identified with objects here by
   comparison milestones stated in prose: its 8.10 degree-two Siegel space is `ℍ[2]` (0.3 below
-  states the identity of the two subtypes); its 8.11–8.12 positive similitudes and their action
-  are `GSp⁺₄(ℝ)` acting as in 0.4; its 8.18 genus-two theta series `θ^a_ν(Z, W)` at `W = 0`,
+  states the identity of the two subtypes); its 8.11–8.12 coordinates for
+  `AutomorphicFormsOnReductiveGroups` §6.4's `GSp₄⁺(ℝ)` and its action are `GSp⁺₄(ℝ) = GSpPos 2 ℝ`
+  acting as in 0.4; its 8.18 genus-two theta series `θ^a_ν(Z, W)` at `W = 0`,
   `ν = 0` is the degree-two theta series of the rank-one lattice `√(2a) ℤ` of 5.1; its 8.19
   half-integral matrix dictionary is the degree-two case of 2.1. Its genuine (half-integral
   weight) Siegel Eisenstein series (8.76–8.80) and its Whittaker analysis are not objects of this
@@ -410,7 +423,7 @@ with `gaussian` and
 
 ## How to read the build
 
-The layers are in build order. Layer 0 (groups, half-space, action, automorphy factor, arithmetic and paramodular groups) rests on Mathlib, Tau Ceti's `GLSymplectic` and `SymplecticMultiplier` and `ClassicalGroupsPartII` CG.0.1 only; Layer 1 (weights, slash operators, bundled forms) needs Layer 0; Layer 2 (half-integral matrices, Fourier expansion, Koecher, bounds, singular forms) needs Layers 0–1 and `IntegralLattices` *Layer 2* for 2.1, and 2.1 itself is independent of Layers 0–1; Layer 3 (`Φ`, cusp forms, fundamental domain, Petersson, finite dimensionality) needs Layers 1–2; Layer 4 (Eisenstein series) needs Layers 2–3 and the Jacobi suppliers; 4.2 first constructs the Jacobi Eisenstein series and general Maass lift and then derives the Siegel coefficient formula, which anchors Layer 6; Layer 5 (theta series, theta constants) needs Layers 1–3 and the theta-series roadmap, and is independent of Layer 4; Layer 6 (degree-two rings) needs Layers 4–5; Layer 7 (Hecke operators, Satake parameters) needs Layers 1–3 and Mathlib's `HeckeRing`, with 7.6 needing Layers 4 and 6; Layer 8 (`L`-functions) needs Layer 7 and `LFunctions` *Layer 0*; Layer 9 (Fourier–Jacobi, Maass lift, Saito–Kurokawa, lifts) needs Layers 4 and 6–8 and the Jacobi suppliers; Layer 10 (paramodular) needs Layers 7–9; Layer 11 (LMFDB invariants) needs everything above. After Layer 3 the tracks {4, 6}, {5} and {7, 8} are independent; Layer 9 joins them and Layers 10–11 close. What each layer delivers: The positive similitude group and the Siegel upper half-space with its action; holomorphic weights and slash operators; Siegel modular forms of degree `g ≥ 2` with and without character; Fourier expansions over half-integral matrices, Koecher's principle, the coefficient bounds and singular forms; the `Φ`-operator, cusp forms, the Petersson product, Siegel's fundamental domain and finite dimensionality; Siegel and Klingen Eisenstein series and the degree-two Maass–Cohen coefficient formula; degree-`g` theta series of lattices, pluriharmonic theta series and theta constants; `ψ₄, ψ₆, χ₁₀, χ₁₂, χ₃₅` and Igusa's theorem; Satoh's module, Tsushima's formula and the `Γ(2)`, `Γ₀(2)`, `Γ₀(3)`, `Γ₀(4)` rings; the Hecke algebra of `(Γ_g, GSp⁺_{2g}(ℚ))`, its action, eigenforms, Satake parameters and the degree-two coefficient formula; spinor and standard `L`-functions; the Fourier–Jacobi expansion, the Jacobi Eisenstein series and `V_l`, the Maass lift and the Saito–Kurokawa theorem, and the statements of the Gritsenko, Ikeda and Miyawaki lifts; paramodular groups, forms, level raising, newforms, the Roberts–Schmidt and Poor–Yuen statements and the paramodular conjecture; the LMFDB invariants.
+The layers are in build order. Layer 0 (groups, half-space, action, automorphy factor, arithmetic and paramodular groups) rests on Mathlib, Tau Ceti's `GLSymplectic` and `SymplecticMultiplier`, `ClassicalGroupsPartII` CG.0.1 and, for the degree-two comparison of 0.2, `AutomorphicFormsOnReductiveGroups` §6.4 only; Layer 1 (weights, slash operators, bundled forms) needs Layer 0; Layer 2 (half-integral matrices, Fourier expansion, Koecher, bounds, singular forms) needs Layers 0–1 and `IntegralLattices` *Layer 2* for 2.1, and 2.1 itself is independent of Layers 0–1; Layer 3 (`Φ`, cusp forms, fundamental domain, Petersson, finite dimensionality) needs Layers 1–2; Layer 4 (Eisenstein series) needs Layers 2–3 and the Jacobi suppliers; 4.2 first constructs the Jacobi Eisenstein series and general Maass lift and then derives the Siegel coefficient formula, which anchors Layer 6; Layer 5 (theta series, theta constants) needs Layers 1–3 and the theta-series roadmap, and is independent of Layer 4; Layer 6 (degree-two rings) needs Layers 4–5; Layer 7 (Hecke operators, Satake parameters) needs Layers 1–3 and Mathlib's `HeckeRing`, with 7.6 needing Layers 4 and 6; Layer 8 (`L`-functions) needs Layer 7 and `LFunctions` *Layer 0*; Layer 9 (Fourier–Jacobi, Maass lift, Saito–Kurokawa, lifts) needs Layers 4 and 6–8 and the Jacobi suppliers; Layer 10 (paramodular) needs Layers 7–9; Layer 11 (LMFDB invariants) needs everything above. After Layer 3 the tracks {4, 6}, {5} and {7, 8} are independent; Layer 9 joins them and Layers 10–11 close. What each layer delivers: The positive similitude group and the Siegel upper half-space with its action; holomorphic weights and slash operators; Siegel modular forms of degree `g ≥ 2` with and without character; Fourier expansions over half-integral matrices, Koecher's principle, the coefficient bounds and singular forms; the `Φ`-operator, cusp forms, the Petersson product, Siegel's fundamental domain and finite dimensionality; Siegel and Klingen Eisenstein series and the degree-two Maass–Cohen coefficient formula; degree-`g` theta series of lattices, pluriharmonic theta series and theta constants; `ψ₄, ψ₆, χ₁₀, χ₁₂, χ₃₅` and Igusa's theorem; Satoh's module, Tsushima's formula and the `Γ(2)`, `Γ₀(2)`, `Γ₀(3)`, `Γ₀(4)` rings; the Hecke algebra of `(Γ_g, GSp⁺_{2g}(ℚ))`, its action, eigenforms, Satake parameters and the degree-two coefficient formula; spinor and standard `L`-functions; the Fourier–Jacobi expansion, the Jacobi Eisenstein series and `V_l`, the Maass lift and the Saito–Kurokawa theorem, and the statements of the Gritsenko, Ikeda and Miyawaki lifts; paramodular groups, forms, level raising, newforms, the Roberts–Schmidt and Poor–Yuen statements and the paramodular conjecture; the LMFDB invariants.
 
 ---
 
@@ -469,7 +482,11 @@ only `det(M)² = μ^{2g}`, so the sign is fixed by the Pfaffian, `Pf(Mᵀ J M) =
 operations; Tau Ceti's `det_eq_of_transpose_mul_J_mul_eq_smul` is the case `g = 1`, for a
 singleton index type, and is the bridge check); positive scalars `c·1` have `μ = c²`;
 `M^∨ := μ(M) M⁻¹ = [[Dᵀ, −Bᵀ], [−Cᵀ, Aᵀ]]` is an anti-involution with `μ(M^∨) = μ(M)`;
-`diag(1_g, m 1_g)` has multiplier `m`. Define the set `O_g(m) ⊆ GSp⁺_{2g}(ℚ)` of integral
+`diag(1_g, m 1_g)` has multiplier `m`. For `g = 2` and `R = ℝ` the group is
+`AutomorphicFormsOnReductiveGroups` §6.4's `G⁺ = {g : ν(g) > 0} = ℝ_{>0}·Sp₄(ℝ)`
+(`positiveSimilitude`), the owner of `GSp₄⁺(ℝ)`: prove `GSpPos 2 ℝ = positiveSimilitude` as
+subgroups of `GL₄(ℝ)` with the same multiplier, so that the degree-two real group is planned
+there and only compared here. Define the set `O_g(m) ⊆ GSp⁺_{2g}(ℚ)` of integral
 matrices of multiplier `m` and the embeddings
 `Sp_{2g}(ℤ) → Sp_{2g}(ℚ) → GSp⁺_{2g}(ℚ) → GSp⁺_{2g}(ℝ)`; prove `O_g(1) = Sp_{2g}(ℤ)` and
 `O_g(m) O_g(n) ⊆ O_g(mn)`, so that `⋃_m O_g(m)` is a semigroup while no single `O_g(m)` with
@@ -479,7 +496,7 @@ through the positivity of `μ`, not through `det`, which is `μ^g` and so positi
 sign of `μ` when `g` is even.
 
 *Needs:* 0.1; `ClassicalGroupsPartII` CG.0.1; Tau Ceti `SymplecticMultiplier` for the `g = 1`
-bridge check.
+bridge check; `AutomorphicFormsOnReductiveGroups` §6.4 for the degree-two comparison.
 
 **Checks.**
 
@@ -493,6 +510,10 @@ bridge check.
   is positive for even `g`, so a definition through `det > 0` would wrongly admit it.
 - The `R`-points of CG.0.1 with `ν > 0` are the same subgroup, and `ν` restricted to it is `μ`;
   `g = 1` gives `GL₂⁺(R)` with `μ = det`.
+- `GSpPos 2 ℝ = positiveSimilitude` (`AutomorphicFormsOnReductiveGroups` §6.4): the same matrices
+  `g ∈ GL₄(ℝ)` with `g J gᵀ = ν(g) J`, `ν(g) > 0`, and `ℝ_{>0}·Sp₄(ℝ)` is all of it since
+  `ν(c·1) = c²` reaches every positive multiplier (`diag(1, 1, 2, 2) = √2 · (√2)⁻¹diag(1, 1, 2, 2)`
+  with the second factor in `Sp₄(ℝ)`); `diag(1, 1, −1, −1)` has `ν = −1` and lies in neither.
 
 
 ### 0.3 The Siegel upper half-space
@@ -1616,19 +1637,37 @@ consequences
 `∑_{k even} dim M_{k,2}(Γ₂) t^k = (t¹⁰ + t¹⁴ + t¹⁶)/((1−t⁴)(1−t⁶)(1−t¹⁰)(1−t¹²)) + (t¹⁶ + t¹⁸)/((1−t⁶)(1−t¹⁰)(1−t¹²)) + t²²/((1−t¹⁰)(1−t¹²))`, `dim S_{k,2}(Γ₂) = dim M_{k,2}(Γ₂) − dim S_{k+2}(SL₂(ℤ))`
 for `k > 4` (4.3), with `dim M_{k,2}` for `k = 10, 12, 14, 16, 18, 20, 22` equal to
 `1, 0, 2, 3, 3, 4, 7` and `dim S_{k,2}` equal to `0, 0, 1, 2, 2, 3, 5`; `M_{k,2}(Γ₂) = 0` for
-`k < 10` even. State **Tsushima's dimension formula** for `dim S_{k,j}(Γ₂)` (Tsushima 1983,
-Theorem 4; valid for `k ≥ 5`, `j ≥ 0`, with Petersson's and Taïbi's extensions to `k = 4` and
-`k = 3`): an explicit quasi-polynomial in `(k, j)` (a polynomial part plus finitely many terms
-periodic in `(k, j)`), the source of the LMFDB's "Sp4Z_j" tables. The
-statement is the formula itself, on the carrier `S_{k,j}(Γ₂)` of 3.2 (the dimension of
-`cuspSubmodule (Gamma 2) (rho k j)` in `Suggested.lean`), and its transcription into this
-roadmap waits only on reading Tsushima's text, not on any missing carrier; until then it is
-pinned by the acceptance values
-`dim S_{k,j}(Γ₂)` for `(k, j) = (8, 6), (10, 4), (14, 2), (16, 2), (20, 2), (12, 6), (6, 12)`
-equal to `1, 1, 1, 2, 3, 2, 1` (van der Geer §25, the table after Satoh's bracket), with the
-parity law `S_{k,j} = 0` for
-odd `j` (1.3), and by the scalar case `j = 0`, where it must return `dim S_k(Γ₂)` of 6.3
-(`0, 0, 0, 1, 1, 1, 2` at `k = 4, 6, 8, 10, 12, 14, 16`). State Ibukiyama's generators of the modules `⨁_k M_{k,4}(Γ₂)` and
+`k < 10` even. Prove **Tsushima's dimension formula** for `dim S_{k,j}(Γ₂)` (Tsushima 1983,
+Theorem 4, p. 141, by Riemann–Roch–Hirzebruch and a Kawamata–Viehweg vanishing theorem on the
+toroidal compactification; the source of the LMFDB's "Sp4Z_j" tables): for `j = 2m` even and
+`k ≥ 5`, or `m = 0` and `k ≥ 4`, the dimension of `S_{k,2m}(Γ₂)` (weight `Sym^{2m} ⊗ det^k`,
+written in Tsushima's parameters `(k, m)`) is the quasi-polynomial
+
+    2⁻⁷3⁻³5⁻¹(2m+1)(k−2)(2m+k−1)(2m+2k−3) − 2⁻⁵3⁻²(2m+1)(2m+2k−3) + 2⁻⁴3⁻¹(2m+1)
+    + (−1)^k (2⁻⁷3⁻²·7 (k−2)(2m+k−1) − 2⁻⁴3⁻¹(2m+2k−3) + 2⁻⁵·3)
+    + (−1)^m (2⁻⁷3⁻¹·5 (2m+2k−3) − 2⁻³) + (−1)^k (−1)^m 2⁻⁷(2m+1)
+    + tr_i( i^k (2⁻⁶3⁻¹ i (2m+k−1) − 2⁻⁴ i) ) + tr_i( (−1)^k i^m 2⁻⁵(i+1) )
+    + tr_i( i^k (−1)^m (2⁻⁶3⁻¹(k−2) − 2⁻⁴) ) + tr_i( (−i)^k i^m 2⁻⁵(i+1) )
+    + tr_ρ( (−1)^k ρ^m 3⁻³(ρ+1) ) + tr_ρ( ρ^k ρ^m 2⁻²3⁻⁴(2ρ+1)(2m+1) )
+    − tr_ρ( ρ^k (−ρ)^m 2⁻²3⁻²(2ρ+1) ) + tr_ρ( (−ρ)^k ρ^m 3⁻³ )
+    + tr_ρ( ρ^m (2⁻¹3⁻⁴(1−ρ)(2m+2k−3) − 2⁻¹3⁻²(1−ρ)) )
+    + tr_ρ( ρ^k (2⁻³3⁻⁴(ρ+2)(2m+k−1) − 2⁻²3⁻³(5ρ+6)) )
+    − tr_ρ( (−ρ)^k (2⁻³3⁻³(ρ+2)(2m+k−1) − 2⁻²3⁻²(ρ+2)) )
+    + tr_ρ( ρ^k (ρ²)^m (2⁻³3⁻⁴(1−ρ)(k−2) + 2⁻²3⁻³(ρ−5)) )
+    + tr_ρ( (−ρ)^k (ρ²)^m (2⁻³3⁻³(1−ρ)(k−2) − 2⁻²3⁻²(1−ρ)) )
+    + tr_ω( ω^k (ω⁴)^m ) 5⁻² − tr_ω( ω^k (ω³)^m ω² ) 5⁻²
+    + tr_σ( (σ⁷)^k (−1)^m 2⁻³3⁻²(σ²+1) ) − tr_σ( (σ⁷)^k (σ⁸)^m 2⁻³3⁻²(σ+σ³) ),
+
+with `i = √−1`, `ρ = e^{2πi/3}`, `ω = e^{2πi/5}`, `σ = e^{πi/6}`, and `tr_α` the trace of
+`ℚ(α)` over `ℚ`, the sum of the expression over the Galois conjugates of `α` (the sign terms
+and the seventeen trace terms are the periodic part, of periods `2`, `4`, `3`, `5` and `12` in
+`k` and `m`). The range
+is Tsushima's own, where his vanishing theorem holds; the same expression gives `dim S_{k,j}(Γ₂)`
+for every even `j > 0` and `k ≥ 3` as a consequence of Arthur's classification (Taïbi 2017,
+§1, p. 7, cited and not used). The statement is on the carrier `S_{k,2m}(Γ₂)` of 3.2:
+`Suggested.lean` states it as `finrank_cusp_tsushima`, with the quasi-polynomial as the function
+`tsushimaDim` built from the Galois-trace `cyclotomicTrace`, and it reproduces the parity law
+`S_{k,j} = 0` for odd `j` (1.3) by being stated for `j = 2m` only. State Ibukiyama's generators of the modules `⨁_k M_{k,4}(Γ₂)` and
 `⨁_k M_{k,6}(Γ₂)` over `ℂ[ψ₄, ψ₆, χ₁₀, χ₁₂]` (Ibukiyama 2012, "Vector valued Siegel modular
 forms of symmetric tensor weight of small degrees", Theorems for `j = 4, 6`), by citation.
 
@@ -1646,9 +1685,17 @@ forms of symmetric tensor weight of small degrees", Theorems for `j = 4, 6`), by
 - At weight `28`, the Hilbert coefficient is `12`, not `13`: the identity
   `χ₁₂[ψ₆,χ₁₀] − χ₁₀[ψ₆,χ₁₂] + ψ₆[χ₁₀,χ₁₂] = 0` would destroy uniqueness
   if the last coefficient could contain `ψ₆`; `W₆ = 0` excludes that tuple.
-- Tsushima: `dim S_{k,j}(Γ₂) = 1, 1, 1, 2, 3, 2, 1` at
-  `(k, j) = (8, 6), (10, 4), (14, 2), (16, 2), (20, 2), (12, 6), (6, 12)`.
-- `S_{k,j}(Γ₂) = 0` for odd `j` (1.3), so the formula is stated for even `j` only.
+- Tsushima's formula evaluated: `dim S_{k,j}(Γ₂) = 1, 1, 1, 2, 3, 2, 1` at
+  `(k, j) = (8, 6), (10, 4), (14, 2), (16, 2), (20, 2), (12, 6), (6, 12)`, that is at
+  `(k, m) = (8, 3), (10, 2), (14, 1), (16, 1), (20, 1), (12, 3), (6, 6)`; the scalar column
+  `m = 0` returns `dim S_k(Γ₂)` of 6.3 (`0, 0, 0, 1, 1, 1, 2` at `k = 4, 6, 8, 10, 12, 14, 16`,
+  `1` at `k = 35`, `5` at `k = 24`, `8` at `k = 30`); the whole table of van der Geer §25
+  (`4 ≤ k ≤ 20`, even `j ≤ 18`, `170` entries) is reproduced, including the zero column `k = 4`.
+- Two plausible misreadings fail: reading Tsushima's `m` as the LMFDB's `j` returns `2` at
+  `(k, m) = (8, 6)`, which is `dim S_{8,12}(Γ₂)` and not `dim S_{8,6}(Γ₂) = 1`; dropping the two
+  `tr_σ` terms gives `11/12` at `(k, m) = (10, 0)`, and reading the coefficient `7` of the
+  `(−1)^k` term as `1` gives `5/8` there, neither an integer.
+- `S_{k,j}(Γ₂) = 0` for odd `j` (1.3), so the formula is stated for even `j = 2m` only.
 
 
 ### 6.5 Igusa's ring for `Γ₂(2)`
@@ -1756,7 +1803,7 @@ his normalization of `γ₄`, so the first reduced `T₀` with `a(χ₁₄; T₀
 coefficient is a target and `χ₁₄` is pinned by it, not by the constant).
 State **Ibukiyama's and Aoki–Ibukiyama's theorems** (the even-weight ring `M_*^{even}(Γ₀(3)) = B^{even}`
 is Ibukiyama 1991, Theorem 4; the full statement with `χ₁₄` and the `ψ₃`-module is
-Aoki–Ibukiyama 2005, Theorem 4.1, journal p. 262): `α₁, β₃, γ₄, δ₃` are algebraically independent;
+Aoki–Ibukiyama 2005, Theorem 4.1, journal p. 257): `α₁, β₃, γ₄, δ₃` are algebraically independent;
 with `B := ℂ[α₁, β₃, γ₄, δ₃]` and `C := ℂ[α₁², β₃², γ₄, δ₃²]`,
 `M_*(Γ₀(3)) = B^{even} ⊕ C α₁χ₁₄ ⊕ C β₃χ₁₄ ⊕ C δ₃χ₁₄ ⊕ C α₁β₃δ₃χ₁₄` and
 `⨁_k M_k(Γ₀(3), ψ₃) = B^{odd} ⊕ B^{even} χ₁₄`, where `B^{even}`, `B^{odd}` are the parts of
@@ -2279,7 +2326,7 @@ parameters of 7.4.
 ### 8.3 Analytic continuation, functional equations and the non-Maass bound
 
 Prove **Andrianov's theorem** (Andrianov 1974, Theorem 3.1.1, for `j = 0`; Arakawa 1983, the
-Theorem on p. 157, for `j > 0`, which assumes that the Fourier coefficient of `F` at `T = 1₂`,
+Theorem on p. 158, for `j > 0`, which assumes that the Fourier coefficient of `F` at `T = 1₂`,
 `a_F((1, 0, 1))`, is nonzero — a hypothesis of the vector-valued statement here, since no
 target removes it: Arakawa's unfolding integrates against the Fourier–Jacobi coefficient of
 index one and needs that coefficient to be nonzero): for a
@@ -2311,13 +2358,17 @@ scalar eigenform `F ∈ M_k(Γ_g)`:
 for a cusp form with `k ≥ g` is holomorphic except for at most simple poles at `s = 0, 1`
 (van der Geer §20, the paragraph after the definition of `Δ(f, s)`; Mizumoto 1991). Prove the
 **holomorphy criterion** in the direction the sources state it (van der Geer §20, the same
-paragraph; Mizumoto 1991): write `Θ_{2g,k} ⊆ S_k(Γ_g)` for the span of the theta series
+paragraph; Mizumoto 1991): write `Θ_{2g,k} ⊆ M_k(Γ_g)` for the span of the theta series
 `θ_{L,P}^{(g)}` of 5.3 attached to even unimodular lattices `L` of rank `2g` (so these exist only
-for `8 ∣ 2g`) and pluriharmonic `P` of weight `det^{k−g}` (weight `g + (k − g) = k`); then
-`Δ(s, F)` is entire for every cusp eigenform `F ∉ Θ_{2g,k}`, and the residue of `Δ(s, F)` at
-`s = 1` for `F ∈ Θ_{2g,k}` is the Petersson projection of `F` to `Θ_{2g,k}`, computed by the
-Rallis inner-product identity of the doubling method (the residue of the Siegel Eisenstein
-series on `Sp_{4g}` at the Siegel–Weil point of `O(2g)`), a target whose value decides the polar
+for `8 ∣ 2g`) and pluriharmonic `P` of weight `det^{k−g}` (weight `g + (k − g) = k`); for
+`k > g` it lies in `S_k(Γ_g)` by 5.3 (`ν = k − g ≥ 1`), while at `k = g` it contains the
+unweighted `θ_L^{(g)}`, whose constant term is `1` (`θ_{E₈}^{(4)} ∈ M_4(Γ₄)`, 5.1), so its
+cuspidal part is `Θ_{2g,k} ∩ S_k(Γ_g)`. Then `Δ(s, F)` is entire for every cusp eigenform
+`F ∉ Θ_{2g,k}`, and for a cusp eigenform `F ∈ Θ_{2g,k}` the residue of `Δ(s, F)` at `s = 1` is a
+scalar, the **residue target**: the value the Rallis inner-product identity of the doubling
+method assigns to `F` (the residue at the Siegel–Weil point of `O(2g)` of the Siegel Eisenstein
+series on `Sp_{4g}` paired against `F ⊗ F̄`, a product of `⟨F, F⟩`, local zeta integrals and the
+Siegel–Weil constant), a target whose value decides the polar
 divisor of 8.4. The converse, that every nonzero `F ∈ Θ_{2g,k}` has the pole, is Böcherer's
 harmonic theta-image criterion (Böcherer 1989, Theorem 5), cited by its locator and not used:
 nothing exported in 8.4–8.5 asserts a pole except through the residue target. The rank is
@@ -2343,7 +2394,8 @@ the boundary residues; prove convergence before interchanging sums and integrals
 For the standard function, consume the doubling continuation and functional equation
 of `AutomorphicLFunctionsAndLocalFactorsPartII` §§9.1–9.3 and prove the classical-to-adelic
 comparison: the unramified factor is 8.1's `D_p`, the real integral is the displayed gamma
-factor, and the residue is the projection onto `Θ_{2g,k}`. Specialize the supplied classical adelization equivalence to these holomorphic vectors;
+factor, and the residue at `s = 1` is the scalar of the residue target (the Rallis inner
+product). Specialize the supplied classical adelization equivalence to these holomorphic vectors;
 use the quotient measures and automorphic carriers of `AdelicAlgebraicGroups` §§2.2–2.3
 and `AutomorphicFormsOnReductiveGroups` §§3.1–3.2.
 
@@ -2763,17 +2815,54 @@ form for `j > 0`; a plus form of weight `k` even thus has `a(n, r, Nm) = a(m, r,
 `M_{k,j}(K(1)) = M_{k,j}(Γ₂)`
 definitionally and the Fourier–Jacobi expansion of `f ∈ M_k(K(N))` in `τ''` with coefficients
 `φ_{Nm}` of index `Nm` (9.1, the laws for `m(diag(1, …))` and the Heisenberg part of `K(N)`).
-Dimension formulas: state **Ibukiyama's formula** for `dim S_k(K(p))`, `p` prime, `k ≥ 3`
-(Ibukiyama 1985 for `k ≥ 5`, by the trace formula; Ibukiyama 2007 for `k = 3, 4`; together the
-source of the LMFDB's "Kp" dimensions) as an explicit quasi-polynomial in `(k, p)` on the carrier
-`S_k(K(p))` of this milestone (its transcription waits only on reading Ibukiyama's texts, not on
-a missing carrier), pinned meanwhile by its weight-four case, which Poor–Yuen 2015, Theorem 3.1,
-prints and `Suggested.lean` states as `finrank_cusp_paramodular_four`: for a prime `p ≥ 5`,
+Dimension formulas: prove **Ibukiyama's formula** for `dim S_k(K(p))`, `p` prime, `k ≥ 5`
+(Ibukiyama 1985, Theorem 4, p. 26, by the trace formula; with the weight `3` and `4` cases of
+Ibukiyama 2007 it is the source of the LMFDB's "Kp" dimensions): `dim S_k(K(p))` is the sum
+`H₁ + ⋯ + H₁₂ + I₁ + ⋯ + I₁₂` of the twelve semisimple contributions `H_i` (Ibukiyama 1985,
+Propositions 2.1–2.2, p. 13, and Theorem 2, pp. 20–21) and the twelve non-semisimple ones `I_i`
+(Theorem 3, pp. 22–25), on the carrier `S_k(K(p))` of this milestone. Here
+`[t₀, …, t_{q−1}; q]` denotes `t_r` for `k ≡ r mod q`, `(a/p)` is the Legendre symbol for odd `p`,
+and at `p = 2` the four symbols that occur are the splitting symbols of `2` in `ℚ(√a)`
+(`1`, `−1`, `0` as `2` splits, is inert or ramifies, that is the Kronecker symbol of the field
+discriminant): `(−1/2) = 0`, `(2/2) = 0`, `(5/2) = −1`, `(−3/2) = −1`. The contributions are
+
+    H₁ = (p²+1)(2k−2)(2k−3)(2k−4)/(2⁹3³5)
+    H₂ = (−1)^k(2k−2)(2k−4)/(2⁸3²) + (−1)^k(2k−2)(2k−4)/(2⁷3)  [p ≠ 2];  (−1)^k(2k−2)(2k−4)/(2⁸3²) + (−1)^k(2k−2)(2k−4)/2⁹  [p = 2]
+    H₃ = [k−2, −k+1, −k+2, k−1; 4]/(2⁴3)  [p ≠ 2];  5[k−2, −k+1, −k+2, k−1; 4]/(2⁵3)  [p = 2]
+    H₄ = [2k−3, −k+1, −k+2; 3]/(2²3³)  [p ≠ 3];  5[2k−3, −k+1, −k+2; 3]/(2²3³)  [p = 3]
+    H₅ = [−1, −k+1, −k+2, 1, k−1, k−2; 6]/(2²3²)
+    H₆ = 5(2k−3)(p+1)/(2⁷3) + (−1)^k(p+1)/2⁷  [p ≡ 1 mod 4];  (2k−3)(p−1)/2⁷ + 5(−1)^k(p−1)/(2⁷3)  [p ≡ 3 mod 4];  3(2k−3)/2⁷ + 7(−1)^k/(2⁷3)  [p = 2]
+    H₇ = (2k−3)(p+1)/(2·3³) + (p+1)[0, −1, 1; 3]/(2²3³)  [p ≡ 1 mod 3];  (2k−3)(p−1)/(2²3³) + (p−1)[0, −1, 1; 3]/(2·3³)  [p ≡ 2 mod 3];  5(2k−3)/(2²3³) + [0, −1, 1; 3]/3³  [p = 3]
+    H₈ = [1, 0, 0, −1, −1, −1, −1, 0, 0, 1, 1, 1; 12]/(2·3)
+    H₉ = 2[1, 0, 0, −1, 0, 0; 6]/3²  [p ≠ 2];  [1, 0, 0, −1, 0, 0; 6]/(2·3²)  [p = 2]
+    H₁₀ = (1 + (5/p)) [1, 0, 0, −1, 0; 5]/5
+    H₁₁ = (1 + (2/p)) [1, 0, 0, −1; 4]/2³
+    H₁₂ = [0, 1, −1; 3]/(2·3)  [p ≡ 1 mod 12];  (−1)^k/(2·3)  [p ≡ 11 mod 12];  (−1)^k/(2²3)  [p = 2, 3];  0  [p ≡ 5, 7 mod 12]
+    I₁ = [0, 1, 1, 0, −1, −1; 6]/6
+    I₂ = [−2, 1, 1; 3]/(2·3²)
+    I₃ = [−2, 1, 1; 3]/3²  [p = 3];  2[−1, 1, 0; 3]/3²  [p ≡ 1 mod 3];  2[−1, 0, 1; 3]/3²  [p ≡ 2 mod 3]
+    I₄ = [−1, 1, 1, −1; 4]/2²
+    I₅ = (−1)^k/2³
+    I₆ = (−1)^k (2 − (−1/p))/2⁴
+    I₇ = −(−1)^k(2k−3)/(2³3)
+    I₈ = −p(2k−3)/(2⁴3²)
+    I₉ = −1/(2³3)
+    I₁₀ = (p+1)/(2³3)
+    I₁₁ = −(1 + (−1/p))/2³
+    I₁₂ = −(1 + (−3/p))/(2·3)
+
+(`H₁` is the identity contribution, `H₂` that of the two classes of involutions `δ₁`, `δ₂` with
+principal polynomial `(x−1)²(x+1)²`, `H₃`–`H₁₂` those of the other semisimple classes, and
+`I₁`–`I₁₂` those of the elliptic-parabolic, `δ`-parabolic, parabolic and paraelliptic classes,
+in Ibukiyama's numbering). `Suggested.lean` states the formula as `finrank_cusp_paramodular`
+with the sum as the function `ibukiyamaDim` and the bracket as `periodicValue`. Prove also its
+weight-four companion (Ibukiyama 2007), which Poor–Yuen 2015, Theorem 3.1,
+print and `Suggested.lean` states as `finrank_cusp_paramodular_four`: for a prime `p ≥ 5`,
 `dim S_4(K(p)) = p²/576 + p/8 − 143/576 + (p/96 − 1/8)(−1/p) + (1/8)(2/p) + (1/12)(3/p) + (p/36)(−3/p)`
 with Legendre symbols, that is
 `576 · dim S_4(K(p)) = p² + 72p − 143 + (6p − 72)(−1/p) + 72(2/p) + 48(3/p) + 16p(−3/p)`,
-and by its values `dim S_4(K(p)) = 0, 0, 0, 1, 1, 2, 2` for `p = 2, 3, 5, 7, 11, 13, 17` (Poor–Yuen
-2015, Table 1); and **Poor–Yuen's weight-two dimensions** (10.5), for
+pinned by its values `dim S_4(K(p)) = 0, 0, 0, 1, 1, 2, 2` for `p = 2, 3, 5, 7, 11, 13, 17` (Poor–Yuen
+2015, Table 1); and state **Poor–Yuen's weight-two dimensions** (10.5), for
 which no formula is known.
 
 *Needs:* 0.7, 1.2, 1.3, 2.2, 2.4, 3.5, 7.3, 9.1.
@@ -2785,6 +2874,16 @@ which no formula is known.
 - The reflection law: `a(n, −r, Nm) = (−1)^k a(n, r, Nm)`, antisymmetric for `χ₃₅`.
 - `dim S_4(K(p)) = 0, 0, 0, 1, 1, 2, 2` for `p = 2, 3, 5, 7, 11, 13, 17`, and `S_2(K(p)) = 0` for
   `p ≤ 13`.
+- Ibukiyama's formula evaluated: for `k = 5, …, 16` it returns `0, 0, 0, 1, 0, 1, 1, 2, 0, 2, 1, 4`
+  at `p = 2`, `0, 1, 0, 1, 1, 2, 1, 4, 1, 4, 3, 6` at `p = 3`, `1, 1, 1, 2, 2, 4, 4, 6, 5, 9, 8, 13`
+  at `p = 5` and `3, 5, 7, 10, 13, 19, 23, 31, 37, 48, 56, 72` at `p = 13`, the columns of
+  Ibukiyama's table of numerical examples (1985, p. 27; its `p = 7` and `p = 11` columns are
+  reproduced as well), and `dim S_5(K(17)) = 4`, `dim S_5(K(19)) = 5`.
+- The `p = 2` symbols are forced by that table: with the Kronecker value `(−1/2) = 1` in `I₆`
+  and `I₁₁` the formula returns `−1/16` at `(k, p) = (5, 2)`; with the `δ₁`-term of `H₂` read as
+  `(−1)^k(2k−2)(2k−4)/(2³3²)` every odd-`p` value is off by `31(−1)^k(2k−2)(2k−4)/2304`
+  (`17/48` in place of `1` at `(k, p) = (5, 5)`); as stated, the formula is a non-negative
+  integer at every `(k, p)` with `5 ≤ k ≤ 40` and `p < 100`.
 - The weight-four formula evaluated: at `p = 7` the integer form reads
   `49 + 504 − 143 + (42 − 72)(−1) + 72 · 1 + 48 · (−1) + 112 · 1 = 576`, so `dim S_4(K(7)) = 1`;
   at `p = 11`, `770 + 6 − 72 + 48 − 176 = 576`, dimension `1`; at `p = 13`,
@@ -3286,19 +3385,23 @@ read from the cited theorem.
 - T. Satoh, *On certain vector valued Siegel modular forms of degree two*, Math. Ann. 274 (1986),
   335–352: 6.4.
 - R. Tsushima, *An explicit dimension formula for the spaces of generalized automorphic forms
-  with respect to Sp(2, Z)*, Proc. Japan Acad. 59 (1983), 139–142: Tsushima's formula of 6.4.
+  with respect to Sp(2, Z)*, Proc. Japan Acad. 59 (1983), 139–142 (Theorem 4, p. 141: Tsushima's
+  formula of 6.4). O. Taïbi, *Dimensions of spaces of level one automorphic forms for split
+  classical groups using the trace formula*, Ann. Sci. Éc. Norm. Supér. 50 (2017), 269–344,
+  cited from arXiv 1406.4247v1 (§1, p. 7: the validity of Tsushima's formula for `k ≥ 3`, 6.4).
 - T. Ibukiyama, *On Siegel modular varieties of level 3*, Internat. J. Math. 2 (1991), 17–35
   (Theorem 4, p. 22: the even-weight ring of `Γ₀(3)`, 6.6; Appendix, Theorems A and C, pp. 33–34:
   the `Γ₀(2)` ring and its odd weights with `θ'` and `χ₁₉`, 6.7; MR1082834); *Vector valued Siegel modular forms
   of symmetric tensor weight of small degrees*, Comment. Math. Univ. St. Pauli 61 (2012),
   51–75 (6.4, `j = 4, 6`); *On relations of dimensions of automorphic forms of Sp(2, ℝ) and
-  its compact twist Sp(2) (I)*, Adv. Stud. Pure Math. 7 (1985), 7–29 (`dim S_k(K(p))` for
-  `k ≥ 5`, 10.1); *Dimension formulas of Siegel modular forms of weight 3 and supersingular
+  its compact twist Sp(2) (I)*, Adv. Stud. Pure Math. 7 (1985), 7–29 (Propositions 2.1–2.2,
+  p. 13, Theorem 2, pp. 20–21, Theorem 3, pp. 22–25, Theorem 4, p. 26, and the table p. 27:
+  `dim S_k(K(p))` for `k ≥ 5`, 10.1); *Dimension formulas of Siegel modular forms of weight 3 and supersingular
   abelian surfaces*, in *Siegel Modular Forms and Abelian Varieties*, Ryushido (2007), 39–60
   (`k = 3, 4`, 10.1).
 - H. Aoki, T. Ibukiyama, *Simple graded rings of Siegel modular forms, differential operators
-  and Borcherds products*, Internat. J. Math. 16 (2005), 249–279 (Proposition 2.1, p. 252: the
-  Wronskian of 6.2; Theorem 4.1, p. 262: the `Γ₀(3)` ring with `χ₁₄` and the `ψ₃`-module of 6.6;
+  and Borcherds products*, Internat. J. Math. 16 (2005), 249–279 (Proposition 2.1, p. 251: the
+  Wronskian of 6.2; Theorem 4.1, p. 257: the `Γ₀(3)` ring with `χ₁₄` and the `ψ₃`-module of 6.6;
   Theorem 5.1, p. 261: the level-four restatement of 6.8); S. Hayashida, T. Ibukiyama, *Siegel
   modular forms of half integral weight and a lifting conjecture*, J. Math. Kyoto Univ. 45
   (2005), 489–530 (Proposition 1.1, p. 492: Tsushima's Hilbert series; Theorems 1.1–1.2, p. 492:
