@@ -606,7 +606,7 @@ transition cocycle, identifying its square with the trivial line and its
 oriented trivializations with DG's orientations. Without orientation the
 star codomain is twisted by this line and its local sign changes glue.
 This pointwise algebra precedes the elliptic scale
-and is the shared supplier for RiemannianGeometry and SpinGeometry's
+and is consumed by RiemannianGeometry and consumed by SpinGeometry for their
 Clifford–star/chirality comparison.
 Complex-linearly extend this real star to the complexified exterior algebra.
 Pin `α∧*β=B_ℂ(α,β)vol=⟨bar α,β⟩_Gram vol`, where B_ℂ is the bilinear
