@@ -3,7 +3,7 @@ import TauCeti.Algebra.Quaternion.ComplexMatrix
 import TauCeti.LinearAlgebra.CliffordAlgebra.RealForm.Basic
 
 /-!
-# Source-ordered Pauli matrices: finite comparison certificates
+# Pauli matrices in the (Z,Y,X) order: finite comparison certificates
 
 **This file is not the roadmap and is not exhaustive.** The README is definitive.
 The matrices are the Pauli matrices `Z = diag(1, -1)`, `Y = [[0, -i], [i, 0]]`,
@@ -19,7 +19,7 @@ namespace TauCetiRoadmap.SpinGeometry.SourcePauli
 open Matrix
 open scoped Quaternion
 
-/-- Source order is (Z,Y,X), whereas the standard order is (X,Y,Z). -/
+/-- The Pauli matrices in the order (Z,Y,X); the standard order is (X,Y,Z). -/
 def source : Fin 3 → Matrix (Fin 2) (Fin 2) ℂ :=
   ![!![1, 0; 0, -1], !![0, -Complex.I; Complex.I, 0], !![0, 1; 1, 0]]
 
@@ -43,7 +43,7 @@ theorem source_squares (i : Fin 3) : source i * source i = 1 := by
   fin_cases i <;> ext j k <;> fin_cases j <;> fin_cases k <;>
     simp [source, Matrix.mul_apply, Fin.sum_univ_two]
 
-/-- Cyclic order carries minus i because the source permutes X and Z. -/
+/-- Cyclic products carry −i because (Z,Y,X) is an odd permutation of (X,Y,Z). -/
 theorem source_cyclic_products (i : Fin 3) :
     source i * source (i + 1) = -Complex.I • source (i + 2) := by
   fin_cases i <;> ext j k <;> fin_cases j <;> fin_cases k <;>
@@ -58,7 +58,8 @@ theorem source_anticommuting (i j : Fin 3) (hij : i ≠ j) :
     fin_cases k <;> fin_cases l <;>
       simp [source, Matrix.mul_apply, Fin.sum_univ_two]
 
-/-- The source imaginary triple is exactly the standard quaternion triple. -/
+/-- The triple (iZ, iY, iX), in the (Z,Y,X) order, satisfies the quaternion equations
+i² = −1 and ij = k of the standard triple. -/
 theorem quaternion_equations (i : Fin 3) :
     (Complex.I • source i) * (Complex.I • source i) = -1 ∧
       (Complex.I • source i) * (Complex.I • source (i + 1)) =
@@ -66,7 +67,8 @@ theorem quaternion_equations (i : Fin 3) :
   fin_cases i <;> constructor <;> ext j k <;> fin_cases j <;> fin_cases k <;>
     simp [source, Matrix.mul_apply, Fin.sum_univ_two]
 
-/-- Actual native positive form, with source e1=X and e2=Z. -/
+/-- The generator map of the positive-plane model on the native positive form,
+with e₁ ↦ X and e₂ ↦ Z. -/
 def positiveVector : (Fin 2 → ℝ) →ₗ[ℝ] Matrix (Fin 2) (Fin 2) ℝ where
   toFun v := !![v 1, v 0; v 0, -v 1]
   map_add' v w := by ext i j; fin_cases i <;> fin_cases j <;> simp [add_comm]
@@ -85,7 +87,8 @@ theorem positiveVector_square (v : Fin 2 → ℝ) :
     simp [positiveVector, Matrix.mul_apply, Fin.sum_univ_two,
       Algebra.algebraMap_eq_smul_one] <;> ring
 
-/-- The existing Clifford universal property realizes the source generator map. -/
+/-- The existing Clifford universal property realizes the positive-plane generator map
+e₁ ↦ X, e₂ ↦ Z. -/
 def positiveModel : CliffordAlgebra (TauCeti.realCliffordForm 2 0) →ₐ[ℝ]
     Matrix (Fin 2) (Fin 2) ℝ :=
   CliffordAlgebra.lift _ ⟨positiveVector, positiveVector_square⟩
@@ -97,7 +100,7 @@ def positiveModel : CliffordAlgebra (TauCeti.realCliffordForm 2 0) →ₐ[ℝ]
       !![v 1, v 0; v 0, -v 1] := by
   exact CliffordAlgebra.lift_ι_apply _ _ v
 
-/-- Literal real generator equations, before the source's complex notation. -/
+/-- Literal real generator equations in the positive-plane model. -/
 theorem positive_generators :
     positiveVector ![1, 0] = !![0, 1; 1, 0] ∧
     positiveVector ![0, 1] = !![1, 0; 0, -1] ∧
