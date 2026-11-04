@@ -13,13 +13,17 @@ bundle of the **punctured** configuration space; collision is not a smooth point
 fields, conservation and brackets are used in the family convention, on this roadmap's own
 carrier `bracketValue`, with flows from DifferentialGeometry Layer 3; cotangent forms and canonical transformations from [CotangentLagrangian](../CotangentLagrangian/README.md),
 regular quotients from [HamiltonianReduction](../HamiltonianReduction/README.md), and torus/lattice API
-from [ConvexityToric T1](../ConvexityToric/README.md#t1-compact-symplectic-actions-and-local-models).
+from [ConvexityToric Layer 1 (1.1)](../ConvexityToric/README.md#layer-1-compact-symplectic-actions-and-local-models).
 LieGroups supplies the exponential floor, HopfRinow the inverse function theorem, and
-DifferentialGeometry Frobenius, complete flows and integration of one-forms; I1 owns the
-regular-level-set theorem it needs. Bundle connections/Ehresmann theory come from SmoothBundlesConnections; singular-system
-examples below build their own monodromy rather than silently assuming global angle coordinates.
-I5 treats the closed annulus through open collar extensions; its finite-action
-gradient flow lives on the boundaryless configuration quotient.
+DifferentialGeometry Frobenius, complete flows and integration of one-forms.
+SmoothBundlesConnections B1.0 supplies regular fibres with tangent space ker df
+(`exists_regularFiber_smoothEmbedding`), and SmoothBundlesConnections also supplies bundle
+connections and Ehresmann theory; singular-system examples below build their own monodromy rather
+than silently assuming global angle coordinates. I5 treats the closed annulus through open collar
+extensions; its finite-action gradient flow lives on the boundaryless configuration quotient. I5
+owns the annulus isotopy theorem (I5.1), the compact-pair Čech theory with its Alexander–Spanier
+comparison (I5.4), the index-pair data of its block (I5.3) and the Conley–Zehnder injectivity and
+cup-length statements (I5.4): no roadmap on main states them.
 
 ## I1. Involutive functions and regular fibers
 
@@ -30,8 +34,8 @@ H belongs to the system when it Poisson-commutes with every fᵢ; prove local H=
 H=h(f) by transitivity on its connected fibers; arbitrary disconnected fibers do not give global
 factorization.
 
-For k≤n independent involutive functions prove regular common levels have tangent ker df,
-symplectic orthogonal spanned by X_fi, hence are coisotropic; derive the k≤n bound. For k=n they are
+For k≤n independent involutive functions prove regular common levels have tangent ker df
+(SmoothBundlesConnections B1.0), symplectic orthogonal spanned by X_fi, hence are coisotropic; derive the k≤n bound. For k=n they are
 Lagrangian and the Hamiltonian fields span their tangent spaces; `IntegrableSystem` packages the
 system data, with the bracket `bracketValue` evaluated on the Hamiltonian field
 `chosenHamiltonianField` of the family convention, and `regularLevel_lagrangian` states the
@@ -40,15 +44,6 @@ compositions are defined; completeness is separate. Build the local Carathéodor
 form: k commuting independent functions can be chosen as k momenta in a Darboux coordinate system,
 with canonical conjugate variables. This refines ordinary Darboux and needs Frobenius plus the
 Hamiltonian identities, not a second proof of general Darboux.
-
-Prove the regular-level-set theorem here, since no roadmap on main states it for vector-valued
-maps: for k≤n smooth functions with surjective differential at every point of a common level, that
-level is an embedded submanifold with tangent space ker df (Lee, Introduction to Smooth Manifolds,
-2nd ed., Cor. 5.14). In a chart the level is the level set of a smooth map between
-finite-dimensional spaces with surjective derivative, for which Tau Ceti's `TauCeti.levelSetChart`
-and `TauCeti.isManifold_levelSet` give the charts and their smooth compatibility, and Mathlib's
-`IsSubmersionAt` records the local product form; glue the charts and prove the tangent-space
-identification.
 
 Provide exact definitions/API for regular integrable maps, fibers, first integrals, the rank function and its transport under diffeomorphic coordinate changes. Define
 singular points by rank loss. At rank zero define nondegeneracy by the quadratic Hamiltonian
@@ -295,7 +290,7 @@ prove conservation of J_ξ=⟨FL,ξ_Q⟩−B_ξ and its coordinate-independent t
 ## I5. The strict annulus fixed-point theorem
 
 Prove the following theorem with the constructions below; it is the Poincaré–Birkhoff theorem for
-smooth area-preserving maps (Le Calvez–Wang, Thm. 1, p. 705, state it for area-preserving
+smooth area-preserving maps (Le Calvez–Wang, Thm. 1, p. 704, state it for area-preserving
 homeomorphisms), proved here by the generating-function and isolating-block route of
 Conley–Zehnder (Invent. Math. 73 (1983), pp. 33–49). Let A=(ℝ/ℤ)×[0,1], let ω be a smooth
 positive area form, and let f:A→A be a smooth diffeomorphism preserving ω and each boundary
@@ -338,9 +333,8 @@ Prove all signs from these equations.
 ### I5.1. Smooth area-preserving isotopy and finite twist factorization
 
 Construct an isotopy through orientation-preserving, boundary-component-preserving smooth
-diffeomorphisms from id to f. No roadmap on the content repository's main branch owns this
-statement, so prove it here: every orientation-preserving smooth diffeomorphism of the closed
-annulus preserving each boundary component is smoothly isotopic to the identity through such
+diffeomorphisms from id to f. Prove here that every orientation-preserving smooth
+diffeomorphism of the closed annulus preserving each boundary component is smoothly isotopic to the identity through such
 diffeomorphisms (Epstein, Acta Math. 115 (1966), Thm. 6.4; Gramain, Ann. Sci. ÉNS 6 (1973),
 Thm. 1, pp. 53–54, records that the diffeomorphisms of the annulus homotopic to the identity
 have the homotopy type of O(2), whose identity component consists of exactly these maps). Route.
@@ -348,18 +342,20 @@ Lift the two boundary maps of f to increasing degree-one maps b_±:ℝ→ℝ. Th
 `B_t(x,y)=((1−t)x+t((1−y)b_−(x)+y b_+(x)), y)` has positive x-derivative, commutes with T and
 preserves both boundary lines, so it is a boundary-preserving isotopy from the identity to a
 diffeomorphism B_1 with the boundary maps of f; then g=B_1⁻¹∘f fixes the boundary pointwise. Lift
-g to G on the strip, commuting with T and fixing both boundary lines pointwise. The image under G
-of the segment {0}×[0,1] is a properly embedded arc from (0,0) to (m,1) for an integer m;
-composing with the inverse of the twist τ^m, τ(x,y)=(x+y,y), gives an arc from (0,0) to (0,1),
-which is isotopic to the segment relative to its endpoints through properly embedded arcs
+g to G on the strip, commuting with T and fixing the lower boundary line pointwise; G is then a
+lift of the identity on the upper boundary circle, so it translates the upper line by an integer
+m. The image under G of the segment {0}×[0,1] is a properly embedded arc from (0,0) to (m,1);
+composing with the inverse of the twist τ^m, τ(x,y)=(x+y,y), gives τ^(−m)∘G, which fixes both
+boundary lines pointwise and sends the segment to an arc from (0,0) to (0,1), which is isotopic to the segment relative to its endpoints through properly embedded arcs
 (Epstein's arc theorems). Extend this arc isotopy, together with its T-translates, to an ambient
 isotopy of the strip fixing both boundary lines, by integrating a compactly supported T-periodic
 time-dependent vector field that extends the arc velocities (DifferentialGeometry Layer 3, 3.5).
 The result fixes the boundary lines and the segment pointwise, hence restricts to a diffeomorphism
 of the closed square [0,1]² fixing its boundary pointwise. Prove that such a diffeomorphism of the
-square is isotopic rel boundary to one equal to the identity near the boundary: along each edge
-its derivative is unipotent with positive normal component, so its convex combination with the
-identity, cut off to a thin collar, stays a diffeomorphism. Smale's theorem (Smale, Proc. AMS 10
+square is isotopic rel boundary to one equal to the identity near the boundary: at a point of an
+edge, in (tangent, normal) coordinates, its derivative is upper triangular with tangential entry 1
+and positive normal entry, so its convex combination with the identity has positive determinant
+along the boundary and, cut off to a thin collar, stays a diffeomorphism. Smale's theorem (Smale, Proc. AMS 10
 (1959), Thm. B, p. 621: diffeomorphisms of the square which are the identity near the boundary
 form a contractible space) then gives an isotopy to the identity through such diffeomorphisms; it
 transfers to the strip by T-equivariance and descends to the annulus. Finally the twist τ^m is
@@ -416,8 +412,10 @@ collar extension of the factor is not assumed area-preserving outside that strip
   and every action value of I5.2 by the same constant.
 - For the density ρ_t=1+ε sin(2πx), |ε|<1, the Moser data are bar_g_t=0, a_t=0 and
   b_t=ε(1−cos 2πx)/(2π), periodic, with dβ_t=ε sin(2πx)dx∧dy=(ρ_t−1)dx∧dy; the field has zero
-  y-component everywhere, so it is tangent to both boundary circles. Writing β_t=a_t dy+b_t dx
-  instead gives dβ_t=−(ρ_t−1)dx∧dy, the wrong sign.
+  y-component everywhere, so it is tangent to both boundary circles. Defining the field by
+  ι_Xω_(t,s)=+β_t instead of −β_t gives d/ds(ψ_(t,s)^*ω_(t,s))=ψ_(t,s)^*(2dβ_t)≠0, so ψ_(t,1)
+  pulls ω_(t,1) back to (1+2ε sin(2πx))dx∧dy+O(ε²) instead of dx∧dy: the sign in ι_Xω=−β_t is
+  what makes the Moser flow correct the density rather than double its defect.
 
 ### I5.2. Finite action, quotient and periodic-orbit dictionary
 
@@ -478,8 +476,8 @@ claimed strict outward acceleration. If the boundary point has only positive-fac
 strict inward derivative, so the reverse flow exits. Thus every boundary point exits in at least one
 time direction, and the closed positive exit set is EXACTLY `L={x∈P : y_k=0 or1 for some odd k}`.
 Prove the Taylor-sign statements in a common smooth extension neighborhood. No critical point lies
-on the boundary. Establish here the index-pair data of the cut-off flow Φ on the pair (P,L), which
-no roadmap on main supplies: first exit is immediate on L;
+on the boundary. Establish here the index-pair data of the cut-off flow Φ on the pair (P,L): first exit is
+immediate on L;
 its time tends to0 for points of P approaching L by the strict first/second-order exit; away from L
 all active positive faces are strictly entering, and every positive-time trajectory before its first
 exit is interior. An interior trajectory's first finite exit cannot have only second-order outward
@@ -532,14 +530,16 @@ Choose v_0 in the open negative cube. The root section at v_0 embeds a circle P_
 given by x_1 is a retraction. The cohomology throughout is Čech cohomology with real coefficients.
 CharacteristicClasses C1.2b supplies the Čech cohomology of a topological space with constant
 coefficients as the colimit over open covers, its homotopy invariance and its cup-compatible
-comparison with singular cohomology on closed CW pairs. Own here its compact-pair theory, which no
-roadmap on main supplies: for compact metric pairs (X,A) the relative groups Ȟ^*(X,A;ℝ), the exact
-sequence of the pair, homotopy invariance for maps of pairs, excision for closed covers X=A∪B
-(Ȟ^*(X,A)≅Ȟ^*(B,A∩B)), continuity for a compact subset S⊂X (a class of Ȟ^*(X) vanishing on S
-vanishes on a closed neighborhood of S), and the relative cup product
-Ȟ^j(X)⊗Ȟ^k(X,A)→Ȟ^(j+k)(X,A) with its naturality under maps of pairs (Spanier, Algebraic
-Topology, Ch. 6, §§6.6–6.9, for Alexander–Spanier cohomology, which agrees with the open-cover
-Čech theory on paracompact spaces). On the model pair (S^1×[0,1]^K,S^1×∂[0,1]^K) the comparison
+comparison with singular cohomology on closed CW pairs. Own here its compact-pair theory: for
+compact metric pairs (X,A) the relative groups Ȟ^*(X,A;ℝ), the exact sequence of the pair,
+homotopy invariance for maps of pairs, excision for closed covers X=A∪B (Ȟ^*(X,A)≅Ȟ^*(B,A∩B)),
+continuity for a compact subset S⊂X (a class of Ȟ^*(X) vanishing on S vanishes on a closed
+neighborhood of S), and the relative cup product Ȟ^j(X)⊗Ȟ^k(X,A)→Ȟ^(j+k)(X,A) with its
+naturality under maps of pairs. Prove these as Spanier's theorems for Alexander–Spanier
+cohomology (Spanier, Algebraic Topology, Ch. 6, §§6.6–6.9) and own the transport: the natural
+isomorphism, for compact Hausdorff pairs (X,A) with A closed, between the open-cover Čech
+cohomology of C1.2b and Alexander–Spanier cohomology, compatible with maps of pairs and with cup
+products, so that every statement above holds for the groups of C1.2b. On the model pair (S^1×[0,1]^K,S^1×∂[0,1]^K) the comparison
 identifies these with AlgebraicTopology's singular products (Stage 6, the absolute-relative module
 action) and its Künneth isomorphism over the field ℝ (Stage 5). Transporting the pair homotopy
 equivalence above, obtain u∈Ȟ^K(P,L;ℝ), the pullback of the generator of
@@ -618,7 +618,6 @@ Cannas da Silva, [*Lectures on Symplectic Geometry*](https://people.math.ethz.ch
 §18.4; Arnold, *Mathematical Methods of Classical Mechanics*, central forces and integrability chapters;
 Duistermaat, *On global action-angle coordinates*, Comm. Pure Appl. Math. 33 (1980), 687–706;
 Marsden–Ratiu, *Introduction to Mechanics and Symmetry*, Lagrangian/Legendre and Noether theory;
-Lee, *Introduction to Smooth Manifolds*, 2nd ed., Cor. 5.14 (regular level sets);
 Efstathiou–Giacobbe–Mardešić–Sugny, *Rotation forms and local Hamiltonian monodromy*, J. Math.
 Phys. 58 (2017), [arXiv:1608.01579](https://arxiv.org/abs/1608.01579);
 Le Calvez–Wang, [*Some remarks on the Poincaré–Birkhoff theorem*](https://www.ams.org/journals/proc/2010-138-02/S0002-9939-09-10105-3/),

@@ -9,8 +9,8 @@ import TauCeti.Geometry.Symplectic.StandardCompatible
 The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
 theorems against the pinned Mathlib and Tau Ceti, each admitted with `sorry`, with only the
 simple definitions those statements need. Stated: the Lagrangian regular-level theorem of I1
-(`regularLevel_lagrangian`, for an `IntegrableSystem` whose bracket is the family's
-`bracketValue`), the conservation of planar angular momentum under a central force of I4
+(`regularLevel_lagrangian`, for an `IntegrableSystem` whose bracket `bracketValue` restates the
+family convention in this roadmap's own namespace), the conservation of planar angular momentum under a central force of I4
 (`centralForce_commutes`), and the strict annulus fixed-point theorem of I5
 (`strict_annulus_two_fixed_points`), in its lifted form on the strip for a smooth positive
 periodic density; the constant density is the standard-area case.
@@ -23,13 +23,16 @@ Not statable at the pins, and therefore absent:
   not a smooth manifold there and no symplectic form on an action-angle domain can be written;
 * the positive-period circle atlas, its time form and the parameter families of I2.0, for the
   same reason;
-* the Legendre transform and the Euler–Lagrange/Hamilton equivalence of I3: there is no carrier
-  for the fibre derivative of a Lagrangian on a tangent bundle;
+* the Euler–Lagrange/Hamilton equivalence of I3: the Legendre transform is definable (the fibre
+  derivative of `L : TangentBundle I Q → ℝ` is `fderiv ℝ (fun v ↦ L ⟨q, v⟩) v`, since the fibre
+  `TangentSpace I q` is the model space), but the equivalence needs the canonical symplectic form
+  on the cotangent bundle of a manifold, which Tau Ceti has (`cotangentLiouvilleForm`) only on a
+  vector space times its dual;
 * the spherical-pendulum monodromy of I4: it needs the period lattice bundle of I2.
 -/
 noncomputable section
 open scoped Manifold ContDiff
-namespace TauCetiRoadmap.SymplecticGeometry
+namespace TauCetiRoadmap.SymplecticGeometry.IntegrableSystems
 variable {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
   [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
   [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M]
@@ -64,7 +67,7 @@ structure IntegrableSystem [FiniteDimensional ℝ E]
 
 /-- At a regular point of the integral map, the tangent space of the common level, which is the
 kernel of the derivative of the integral map, is a Lagrangian subspace of the symplectic tangent
-space (I1; Cannas da Silva, Lectures on Symplectic Geometry, §18.3). -/
+space (I1; Cannas da Silva, Lectures on Symplectic Geometry, §18.4, Theorem 18.12, p. 110). -/
 theorem regularLevel_lagrangian [FiniteDimensional ℝ E]
     {σ : TauCeti.SmoothTwoForm I M} {Hamiltonian : M → ℝ} {n : ℕ}
     (s : IntegrableSystem σ Hamiltonian n) (x : M)
@@ -130,4 +133,4 @@ theorem strict_annulus_two_fixed_points (F : OpenPartialHomeomorph (ℝ × ℝ) 
       p ≠ q ∧ F p = p ∧ F q = q := by
   sorry
 
-end TauCetiRoadmap.SymplecticGeometry
+end TauCetiRoadmap.SymplecticGeometry.IntegrableSystems
