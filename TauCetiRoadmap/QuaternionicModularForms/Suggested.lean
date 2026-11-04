@@ -11,9 +11,11 @@ so this file declares nothing. Each headline and the carrier it lacks:
   quaternion algebra (§3.3), and the theta–Hecke relation (§5.2). Missing: the analytic weight
   action `f ↦ j_κ(γ) · f((a z + b)/(c z + d))` of the local monoid `Σ₀(t)` on the Tate algebra.
   Tau Ceti has the Tate algebra `PowerSeries.IsRestricted.subring 1` as a complete normed ring
-  and substitutes polynomials without constant term into it (`MvPowerSeries.restrictedSubst`),
-  but there is no analytic substitution of a Möbius transformation, whose value at `0` is `b/d`
-  and whose denominator `c z + d` must be inverted in the Tate algebra. The
+  and substitutes polynomials without constant term and with unit-ball coefficients into it
+  (`MvPowerSeries.restrictedSubst`, `TauCeti/RingTheory/MvPowerSeries/TateAlgebra/Subst.lean`;
+  Mathlib's `PowerSeries.subst` likewise requires `PowerSeries.HasSubst`, a nilpotent constant
+  coefficient), but there is no analytic substitution of a Möbius transformation, whose value
+  at `0` is `b/d` and whose denominator `c z + d` must be inverted in the Tate algebra. The
   local component map of `(D ⊗[F] 𝔸_{F,f})ˣ` at a split place is also missing.
 * The Fredholm series `det(1 − T U_π)`, its finite-slope summands and slope bounds (§§4.1–4.2),
   the integral annular Fredholm series with its comparison (§4.4), and the factorisation

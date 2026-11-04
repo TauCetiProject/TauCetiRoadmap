@@ -164,9 +164,12 @@ its centre (Loeffler, Assumption 3.1.3 and Proposition 3.1.4, p. 15). At a compl
 ### From TauCetiRoadmap.AdelicAlgebraicGroups
 
 - §1.2 restricted-product realisation of adelic points and §1.5 compact open levels; §3.4
-  *class-number-finite*; §4.5 the
-  class-set bijection `G(F)\G(𝔸_f)/U ≃ D(F)\D(𝔸_f)/ν(U)` for connected reductive groups with simply
-  connected derived group; §4.6 *quaternion-norm-images*; §5.3 *quaternion-class-sets* and
+  *class-number-finite*; §4.5 the class-set bijection
+  `G(F)\G(𝔸_{F,f})/U ≃ ν(G(F))\D(𝔸_{F,f})/ν(U)`, `D=G/G^der`, for connected reductive `G` with
+  `G^der` simply connected and `G^der(F_∞)` noncompact on each `F`-simple factor, used here only for
+  `G=GL₂`, where `SL₂(F_∞)` is noncompact and `ν(GL₂(F))=Fˣ`; it is not available for `GL_1(D)`
+  with `D` totally definite, whose `D¹(F_∞)` is compact (§2.4 Checks); §4.6
+  *quaternion-norm-images*; §5.3 *quaternion-class-sets* and
   *definite-quaternion-stabilizers*. Assumed: the class set is finite for every compact open level
   and every quaternion algebra over every number field; for totally definite `D` and compact `U`,
   `Γ_x/(Γ_x∩Fˣ)` is finite, and `Γ_x` is finite when `F=ℚ`.
@@ -179,7 +182,7 @@ its centre (Loeffler, Assumption 3.1.3 and Proposition 3.1.4, p. 15). At a compl
   invariants `(q₀,ℓ₀)`; ALS.0.4 `X^G`; ALS.0.6–0.8 `X_U`, its decomposition and proper
   discontinuity; ALS.1.1 local systems; ALS.1.3 neat refinement; ALS.3.1 Hecke action on
   invariants; ALS.5b.1 level maps; ALS.5b.4 boundary restriction; ALS.5b.5 cuspidal cohomology and
-  its decomposition; ALS.5b.8 purity.
+  its decomposition.
 
 ### From TauCetiRoadmap.AutomorphicFormsOnReductiveGroups
 
@@ -187,7 +190,9 @@ its centre (Loeffler, Assumption 3.1.3 and Proposition 3.1.4, p. 15). At a compl
   `GL_m(ℂ)`; §4.3 genericity of cuspidal `GLₙ` representations; §7.2 the `GL₂` adelisation;
   §7.4 the abstract level-form carrier, evaluation equivalence, slash and Hecke action,
   `inverseActionHeckeEquiv`, `LevelAlgebraicModularForm` and Gross's rational covariance model with
-  `algebraicModularForm_iff_levelCovariant`; §7.5 finite stabilisers and `automorphicEquiv`; §7.6
+  `algebraicModularForm_iff_levelCovariant`; §5.5 `clozelPurity`, Clozel's purity lemma: the
+  archimedean parameter exponents of an algebraic cuspidal representation of `GL_n` have a common
+  sum; §7.5 finite stabilisers and `automorphicEquiv`; §7.6
   `CentralCharacterAlgebraicModularForm`. Assumed: §7.4's results hold for an arbitrary group,
   subgroup, level and right module, with no finiteness hypothesis.
 
@@ -459,8 +464,9 @@ For `n_σ∈ℕ`, `v_σ∈ℤ`, define `L_{n,v}=⊗_σ Sym^{n_σ}(K²)⊗det^{v_
 action is `∏_σ(c_σz_σ+d_σ)^{n_σ}(det γ_σ)^{v_σ}` times substitution. Identify it with the
 coordinatewise degree-bounded polynomials, prove dimension `∏_σ(n_σ+1)`, stability and injection
 into analytic coefficients, allowing a finite-order character constant on the discs of the level.
-The dictionary to the sources' weights is `k_σ=n_σ+2`, `w_σ=v_σ+n_σ+1`. Comparing with Mathlib's
-`SymmetricPower` with its left action uses the opposite-action/dual adapter of §2.5. *Needs:* §1.2;
+The dictionary to the sources' weights is `k_σ=n_σ+2`, `w_σ=v_σ+n_σ+1` (Buzzard, *Eigenvarieties*,
+§8, p. 70). Comparing with Mathlib's `SymmetricPower` with its left action uses the
+opposite-action/dual adapter of §2.5. *Needs:* §1.2;
 Mathlib `SymmetricPower`.
 
 - Over a totally real field, global algebraicity requires `n_σ+2v_σ` parallel, equivalently finite
@@ -636,8 +642,23 @@ ALS.0.7.
 - The restriction map is injective because `Dˣ g_i U` cover `D_fˣ`.
 
 **Checks.**
-- For totally definite `D` over `ℚ` and `W=ℂ`, `𝒜_ℂ(U,1)` is the space of functions on `Cl(U)`,
-  the trivial-coefficient `M(U,ℂ)`.
+- For totally definite `D` over `ℚ` and `W=ℂ`, `𝒜_ℂ(U,1)` is the space of functions on
+  `Dˣ\D_fˣ/U𝔸_{ℚ,f}ˣ=Cl(UẐˣ)` (as `𝔸_{ℚ,f}ˣ=ℚ_{>0}Ẑˣ`): the central condition is imposed by all
+  of `𝔸_ℚˣ`, and the Casimir acts on the `Sym^n` isotypic part of a `K_∞=ℍ¹`-finite function by a
+  scalar different from its value on `Sym^0` when `n>0`, so `J_ℂ^mf=0` forces `ℍ¹`-invariance.
+  The trivial-coefficient `M(U,ℂ)` is the sum of the `𝒜_ℂ(U,ω)` over the finitely many `ω`
+  trivial on `ℝˣ` and on `𝔸_{ℚ,f}ˣ∩U` (§2.5). The two agree when `U⊇Ẑˣ`, for instance at
+  `U₀(𝔫)` or at maximal level, and not in general: for Hamilton's algebra with `U=U₁(13)` at `13`
+  and maximal elsewhere, `U₁(13)ℤ₁₃ˣ=U₀(13)`, so `dim 𝒜_ℂ(U,1)=#Cl(U₀(13))`, while
+  `#Cl(U₁(13))≥2·#Cl(U₀(13))` by §0.3: each `Γ_x` is a finite subgroup of `Dˣ` whose reduction
+  modulo `13` is injective and lies in a Borel of `SL₂(𝔽₁₃)`; having no element of order `13`, it
+  is cyclic, of order at most `6` because `D` contains no cyclotomic field of degree above `2`;
+  it acts on `U₀(13)/U₁(13)≅(ℤ/13)ˣ` through `d mod 13`, so every fibre of
+  `Cl(U₁(13))→Cl(U₀(13))` has at least `12/6=2` elements.
+- The class-set bijection of AdelicAlgebraicGroups §4.5 needs its noncompactness hypothesis: for
+  `D` over `ℚ` ramified at `{11,∞}` and `U` the units of a maximal order, `nrd(U)=Ẑˣ` and
+  `ℚ_{>0}\𝔸_{ℚ,f}ˣ/Ẑˣ` has one element, whereas `#Cl(U)=2` (Eichler's mass formula:
+  `(11−1)/24=5/12=1/4+1/6`, the two classes having unit groups of orders `4` and `6`).
 - For `D=M₂(ℚ)` the adelic lift of a weight-`k` cusp form (AutomorphicFormsOnReductiveGroups §7.2)
   lies in `S_W(U,ω)` for `W|_{SL₂}=Sym^{k−2}`, in the `K_∞`-type containing `SO(2)`-weight `k`;
   the constant `1` lies in `𝒜_ℂ(GL₂(Ẑ),1)` and is not cuspidal.
@@ -726,8 +747,9 @@ indexed by `Fˣ\𝔸_{F,f}ˣ/det(U)` (§2.4). At `U=GL₂(Ô_F)` and the trivial
 `GL₂(𝒪_F)` in `PSL₂(ℂ)` contains KleinianGroups' `bianchi` group `PSL₂(𝒪_F)` with finite index.
 *Needs:* §2.4; ALS.0.4, 0.6–0.8; KleinianGroups Layers 0 and 3.
 
-**Weight `(k,k)`.** For `k≥0` let `V_{k,k}=Sym^k(ℂ²)⊗\overline{Sym^k(ℂ²)}`, the `V_λ` of
-`Res_{F/ℚ}GL₂` with `λ_τ=λ_τ̄=(k,0)`, with central character `z↦(zz̄)^k`. Take `W=V_{k,k}^∨`, so
+**Weight `(k,k)`.** For `k≥0` let `V_{k,k}=Sym^k(ℂ²)⊗conj(Sym^k(ℂ²))`, with `conj` the
+complex-conjugate representation (`GL₂(ℂ)` acting through `g↦ḡ`), the `V_λ` of `Res_{F/ℚ}GL₂`
+with `λ_τ=λ_τ̄=(k,0)`, with central character `z↦(zz̄)^k`. Take `W=V_{k,k}^∨`, so
 `ω_∞(z)=(zz̄)^{−k}=|z|_ℂ^{−k}`, and the `K_∞`-type `τ_k=Sym^{2k+2}(ℂ²)⊗det^{−(k+1)}`, trivial on
 the centre `U(1)` and `Sym^{2k+2}` on `SU₂(ℂ)`. Define
 
@@ -748,16 +770,28 @@ infinitesimal character is the finite-dimensional `V_{k,k}^∨`; it is not the a
 a cuspidal `π`, since cuspidal representations of `GL₂(𝔸_F)` are generic
 (AutomorphicFormsOnReductiveGroups §4.3) and a finite-dimensional algebraic representation has no
 nondegenerate Whittaker functional (the unipotent radical acts by polynomials in `x`, which cannot
-equal a nontrivial unitary character `ψ(x)`). Cusp forms of type `V_λ^∨` with `λ_τ=(a,b)`,
-`λ_τ̄=(a′,b′)` vanish unless `a−b=a′−b′` (Clozel's purity lemma, ALS.5b.8). *Needs:* §2.4;
-AutomorphicFormsOnReductiveGroups §§2.3, 2.6, 4.3; ALS.5b.8.
+equal a nontrivial unitary character `ψ(x)`). **Purity.** Prove that `S_{V_λ^∨}(U,ω)=0` for
+`λ_τ=(a,b)`, `λ_τ̄=(a′,b′)` unless `a−b=a′−b′`. A cuspidal `π` contributing to it has
+`π_∞=Ind(χ₁,χ₂)` with `χ_i(z)=z^{p_i}z̄^{q_i}`, the finite-dimensional module being excluded by
+genericity as above, and the infinitesimal character of `V_λ^∨`, of highest weights `(−b,−a)` at
+`τ` and `(−b′,−a′)` at `τ̄`, is `{p₁,p₂}={−b+1/2,−a−1/2}`, `{q₁,q₂}={−b′+1/2,−a′−1/2}`. Clozel's
+purity lemma (AutomorphicFormsOnReductiveGroups §5.5, `clozelPurity`, for `n=2`) gives
+`p₁+q₁=p₂+q₂`: pairing `−b+1/2` with `−b′+1/2` would give `a+a′−b−b′=−2`, impossible, and the
+other pairing gives `a−b=a′−b′`. *Needs:* §2.4; AutomorphicFormsOnReductiveGroups §§2.3, 2.6, 4.3,
+5.5.
 
-**Comparison with Williams.** Williams (Definition 1.2, pp. 4–5) takes `U=Ω₁(𝔫)`, functions with
-values in `V_{2k+2}(ℂ)` with the right `SU₂(ℂ)`-action `ρ′`, archimedean central factor `|z|^{−k}`
-for `z∈ℂˣ`, and the single Casimir condition `∂Φ=(k²/2+k)Φ`, leaving the finite central character
-free. His `|·|` on `ℂ` is the Euclidean absolute value: he writes `N(α)^{−s}=|α|^{−2s}` and
-`|a|_f=|a|_∞^{−2}` for `a∈Fˣ` (Williams, §1.2, p. 7, and §2.6, p. 13), so his central factor is
-`(zz̄)^{−k/2}`. Prove that
+**Comparison with Williams.** Williams's level is `Ω₁(𝔫)={γ∈GL₂(Ô_F) : c∈𝔫Ô_F, a−1,d−1∈𝔫Ô_F}`
+(Williams, Definition 1.1, p. 4), the kernel of `det mod 𝔫` on §0.2's `U₁(𝔫)` (on `U₁(𝔫)`,
+`det γ≡a mod 𝔫`), hence normal in `U₁(𝔫)` of index `#(𝒪_F/𝔫)ˣ`. His cusp forms (Definition 1.2,
+pp. 4–5) are the functions `GL₂(𝔸_F)→V_{2k+2}(ℂ)` with the right `SU₂(ℂ)`-action `ρ′`, archimedean
+central factor `|z|^{−k}` for `z∈ℂˣ`, right `Ω₁(𝔫)`-invariance, left `GL₂(F)`-invariance, the
+single Casimir condition `∂Φ=(k²/2+k)Φ` and vanishing of the unipotent integral, leaving the finite
+central character free. These five conditions include no growth condition, and without one the
+Casimir eigenspace is infinite dimensional; his Fourier expansion (Williams, §1.2.1, p. 5, taken
+from Hida) presupposes moderate growth, which is imposed here as part of his definition, so that
+his space consists of cusp forms in the sense of ALS.F.6 and §2.4. His `|·|` on `ℂ` is the
+Euclidean absolute value: he writes `N(α)^{−s}=|α|^{−2s}` and `|a|_f=|a|_∞^{−2}` for `a∈Fˣ`
+(Williams, §1.2, p. 7, and §2.6, p. 13), so his central factor is `(zz̄)^{−k/2}`. Prove that
 
 ```text
 Φ ↦ Φ·|det|_𝔸^{−k/4}
@@ -797,7 +831,11 @@ space.) *Needs:* ALS.F.5, F.7, 1.1, 1.3, 5b.1, 5b.5.
   vector-valued harmonic forms of Şengün §5, matching `H^1_cusp(X_U,ℂ)`.
 - Cuspidal cohomology is a proper summand of `H^1(X_U,ℂ)` in general: restriction to the boundary
   tori is nonzero on Eisenstein classes (ALS.5b.4).
-- A nonparallel `λ` gives `S=0` although `V_λ` is a local system on `X_U`.
+- For `λ_τ=(1,0)`, `λ_τ̄=(0,0)`: `a+b′=1≠0=b+a′`, so `S_{V_λ^∨}(U,ω)=0` although `V_λ` is a local
+  system on `X_U`; `λ_τ=λ_τ̄=(k,0)` has `a+b′=k=b+a′` and gives `V_{k,k}`.
+- `diag(u,1)` with `u∈Ô_Fˣ`, `u≢1 mod 𝔫` (such `u` exist when `#(𝒪_F/𝔫)>2`) lies in `U₁(𝔫)` and
+  not in `Ω₁(𝔫)`, so Williams's level is strictly smaller than §0.2's; at `𝔫=𝒪_F` both are
+  `GL₂(Ô_F)`.
 
 ### Examples
 
@@ -808,10 +846,10 @@ finite-stabiliser or averaging hypothesis of §2.3 enters the Bianchi theory. Fo
 
 ### Dependencies
 
-Layers 0–1; AutomorphicFormsOnReductiveGroups §§2.3, 2.6, 4.3, 7.2, 7.4–7.6; AdelicAlgebraicGroups
-§§4.5, 5.3; ArithmeticLocallySymmetricSpaces ALS.F.1, F.5–F.7, 0.4, 0.6–0.8, 1.1, 1.3, 3.1, 5b.1,
-5b.4, 5b.5, 5b.8; PadicFunctionalAnalysis §§0.3, 1.1, 2.2; KleinianGroups Layers 0 and 3; Tau
-Ceti `TauCeti.SU2.symPower`.
+Layers 0–1; AutomorphicFormsOnReductiveGroups §§2.3, 2.6, 4.3, 5.5, 7.2, 7.4–7.6;
+AdelicAlgebraicGroups §§4.5, 5.3; ArithmeticLocallySymmetricSpaces ALS.F.1, F.5–F.7, 0.4, 0.6–0.8,
+1.1, 1.3, 3.1, 5b.1, 5b.4, 5b.5; PadicFunctionalAnalysis §§0.3, 1.1, 2.2; KleinianGroups Layers 0
+and 3; Tau Ceti `TauCeti.SU2.symPower`.
 
 ## Layer 3: Hecke operators and compactness
 
@@ -819,9 +857,15 @@ Ceti `TauCeti.SU2.symPower`.
 
 On `M(U,A)` use AutomorphicFormsOnReductiveGroups §7.4's operators `T_ηφ=∑_tφ|x_t` for
 `UηU=⊔_tUx_t⊂Δ`, with their preservation of level forms, independence of representatives and
-opposite-ring composition law. Define `U_v`, good-prime `T_v`, central `S_v` and diamond operators
-from the double cosets of §0.4; prove their local relations (`T_v²−T_{v²}=q_vS_v` at good primes in
-the normalisation of §1.3), the commutation of operators at distinct places, and boundedness on
+opposite-ring composition law. Define `U_v`, good-prime `T_v=[U diag(ϖ_v,1) U]` and
+`T_{v²}=[U diag(ϖ_v²,1) U]`, central `S_v=[Uϖ_vU]` and diamond operators from the double cosets of
+§0.4; prove the local relation `T_v²=T_{v²}+(q_v+1)S_v` at good primes: the three double cosets
+have `q_v+1`, `q_v²+q_v` and `1` right cosets, the coefficient of `T_{v²}` in `T_v²` is `1`, and the
+degree homomorphism of the Hecke ring forces the remaining coefficient,
+`(q_v+1)²=(q_v²+q_v)+(q_v+1)` (a deduction from Tau Ceti's Hecke ring). Every term has determinant
+valuation `2` at `v`, so in §1.3's normalisation each of `T_v²`, `T_{v²}` and `S_v` is
+`ν_alg(ϖ_v)^{−2}` times its algebraic-twist counterpart and the relation is the same in both
+normalisations. Prove the commutation of operators at distinct places, and boundedness on
 the Banach model of §2.1 with norm at most `max_t‖slash(x_t)‖`. Define the Hecke algebra used for
 eigenforms as the subalgebra generated by the specified commuting operators, without assuming
 commutativity as input. *Needs:* §§0.4, 2.1; AutomorphicFormsOnReductiveGroups §7.4; Tau Ceti
@@ -834,7 +878,10 @@ commutativity as input. *Needs:* §§0.4, 2.1; AutomorphicFormsOnReductiveGroups
 - Singleton cosets for two noncommuting normalising elements detect the composition order;
   commuting good-prime operators alone cannot detect a reversed convention
   (AutomorphicFormsOnReductiveGroups §7.4's `S₃` check).
-- On constants with trivial coefficients `T_v` has eigenvalue `q_v+1` and `U_v` eigenvalue `q_v`.
+- On constants with trivial coefficients `T_v`, `T_{v²}`, `S_v` and `U_v` have eigenvalues `q_v+1`,
+  `q_v²+q_v`, `1` and `q_v`, and `(q_v+1)²=(q_v²+q_v)+(q_v+1)·1`; the coefficient `q_v` in place of
+  `q_v+1` is the relation for the operator attached to all integral matrices of determinant
+  valuation `2`, which is `T_{v²}+S_v`, not the single double coset.
 - At `t=0` the double coset of `diag(π_v,1)` has `q_v+1` right cosets, at every `t≥1` it has `q_v`:
   `U_v` is not the specialisation of `T_v` to a deeper level.
 
@@ -1146,7 +1193,7 @@ Layers 0–4; RestrictedPowerSeries §2.3; CompactOperators §§1.4, 1.6; Mathli
 - R. Liu, D. Wan and L. Xiao, *The eigencurve over the boundary of weight space*, arXiv:1412.2584v4:
   Proposition 3.14, p. 21 (Mahler matrix estimates); §5.4, p. 34 (integral models); Example 5.2
   and Remark 5.3 (limits of unweighted continuous coefficients).
-- K. Buzzard, *Eigenvarieties*, author's copy: §8 (weights), §10 (`r`-overconvergent forms),
+- K. Buzzard, *Eigenvarieties*, author's copy: §8, p. 70 (weights), §10 (`r`-overconvergent forms),
   Proposition 11.1, p. 75 (level/radius), Lemma 12.1, p. 78, Lemma 12.2, pp. 78–79 (compactness),
   Lemma 13.1, pp. 79–80 (links).
 - K. Buzzard, *On p-adic families of automorphic forms*, author's copy: §7, p. 19, Bol's identity,
@@ -1158,8 +1205,8 @@ Layers 0–4; RestrictedPowerSeries §2.3; CompactOperators §§1.4, 1.6; Mathli
 - B. H. Gross, *Algebraic modular forms*, Israel J. Math. 113 (1999), 61–93: the rational
   covariance model, consumed through AutomorphicFormsOnReductiveGroups §7.4.
 - C. Williams, *P-adic L-functions of Bianchi modular forms*, Proc. London Math. Soc. 114 (2017),
-  arXiv:1404.2100v2: Definitions 1.1–1.2, pp. 4–5; Theorem 1.3, p. 5; §1.2, p. 7, and §2.6, p. 13,
-  for the absolute-value convention.
+  arXiv:1404.2100v2: Definitions 1.1–1.2, pp. 4–5; Theorem 1.3, p. 5; §1.2.1, p. 5 (the Fourier
+  expansion); §1.2, p. 7, and §2.6, p. 13, for the absolute-value convention.
 - G. Harder, *Eisenstein cohomology of arithmetic groups. The case GL₂*, Invent. Math. 89 (1987),
   37–118, §3 (uncertified): the Eichler–Shimura–Harder isomorphism for Bianchi groups.
 - M. H. Şengün, *Arithmetic aspects of Bianchi groups*, arXiv:1204.6697: §5, the statement
