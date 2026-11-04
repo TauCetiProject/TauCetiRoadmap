@@ -22,7 +22,7 @@ ComplexKahlerGeometry K5a owns the complete, atlas-independent Fréchet
 space of smooth finite-rank bundle sections on boundaryless manifolds;
 F0.4 owns its finite-jet comparison and the boundary/corner and relative
 constraint extensions. PDE Lane A supplies domain Sobolev estimates.
-[PseudoholomorphicCurveAnalysis](https://github.com/TauCetiProject/TauCetiRoadmap/blob/97c4e22c42ebe12b0111365fe1cd0306177d3421/TauCetiRoadmap/PseudoholomorphicCurveAnalysis/README.md) (PH below) owns the planar and compact
+[PseudoholomorphicCurveAnalysis](https://github.com/TauCetiProject/TauCetiRoadmap/blob/210705fcd02b6001ceca1d2362063078f35909bd/TauCetiRoadmap/PseudoholomorphicCurveAnalysis/README.md) (PH below) owns the planar and compact
 Cauchy–Riemann theory: local vector-valued Sobolev classes, isothermal coordinates, the
 Cauchy and Beurling operators, interior and totally real boundary estimates, the similarity
 principle, nonlinear bootstrapping, Fredholm theory on compact bordered surfaces and closed
@@ -1817,7 +1817,7 @@ Mathlib `ContinuousLinearMap.IsFredholm`, the Banach inverse and implicit functi
 
 ## Layer 3: the Cauchy–Riemann elliptic package
 
-[PseudoholomorphicCurveAnalysis](https://github.com/TauCetiProject/TauCetiRoadmap/blob/97c4e22c42ebe12b0111365fe1cd0306177d3421/TauCetiRoadmap/PseudoholomorphicCurveAnalysis/README.md) (PH) owns the planar and compact
+[PseudoholomorphicCurveAnalysis](https://github.com/TauCetiProject/TauCetiRoadmap/blob/210705fcd02b6001ceca1d2362063078f35909bd/TauCetiRoadmap/PseudoholomorphicCurveAnalysis/README.md) (PH) owns the planar and compact
 Cauchy–Riemann theory. This layer consumes it, keeps the F1.k names for the consumed
 material so that the citations below resolve, and owns the strip, end, weighted, index and
 normalization constructions that PH does not cover.
