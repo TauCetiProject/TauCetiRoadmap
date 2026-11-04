@@ -2,8 +2,10 @@
 Copyright (c) 2026 Kim Morrison. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import Mathlib
-import TauCeti.RepresentationTheory.Continuous.Unitary.Basic
+module
+
+public import Mathlib
+public import TauCeti.RepresentationTheory.Continuous.Unitary.Basic
 
 /-!
 # Operator-algebra dynamics: target signatures
@@ -28,10 +30,12 @@ analytic KMS identity (D7).
 Not statable at the pins, with the carrier each lacks:
 - the universal property of `A ⋊_α G`, the full and reduced comparison, the ideal exact sequence,
   Takai duality and the twisted products `A ⋊_(α,ω) G`: no crossed-product C*-algebra;
+- the Fourier isomorphism `C*(G) ≅ C₀(Ĝ)` of the full group C*-algebra and the identification
+  `C*(Ĝ) ≅ C₀(G)` (D4.Harmonic): no group C*-algebra `ℂ ⋊ G`;
 - Green and symmetric imprimitivity (D3): no crossed-product C*-algebra to serve as the
   coefficient algebras of the imprimitivity bimodule (`CStarModule` is the module carrier, but
   `A ⋊_α G` and `D ⋊_β H` are not available);
-- the LCA Weyl classification (D3.LCAWeyl): no Hilbert-space tensor product or multiplicity
+- the LCA Weyl classification (D4.LCAWeyl): no Hilbert-space tensor product or multiplicity
   amplification;
 - disintegration, Renault equivalence and the universal identification of `O_n` (D5–D6): no
   groupoid C*-algebra and no universal Cuntz algebra;
@@ -39,6 +43,8 @@ Not statable at the pins, with the carrier each lacks:
 - the quasi-free KMS states (D8) and the high-temperature uniqueness theorem (D9): no CAR algebra,
   Weyl algebra or quasi-local algebra.
 -/
+
+@[expose] public section
 
 noncomputable section
 open MeasureTheory

@@ -18,12 +18,12 @@ C*-algebras and their full and reduced crossed products, including the
 central twisted products of D1.CentralTwists and D2.CentralTwists and the
 scalar Borel fibers of D1.BorelPrefix and D1.TwistedBorel; the Hilbert-space
 induction through imprimitivity bimodules of D1.Modules; induction and
-imprimitivity (D3) with the locally compact abelian Weyl dictionary of
-D3.LCAWeyl; the harmonic analysis of locally compact abelian groups in
+imprimitivity (D3); the harmonic analysis of locally compact abelian groups in
 D4.Harmonic (the Fourier isomorphism of the full group C*-algebra, the dual
 Haar measure, the Plancherel unitary, Fourier inversion and the Pontryagin
-duality theorem, for every locally compact Hausdorff abelian group) and Takai
-duality (D4); Haar groupoids, their convolution algebras, the
+duality theorem, for every locally compact Hausdorff abelian group), the
+locally compact abelian Weyl dictionary of D4.LCAWeyl and Takai duality
+(D4); Haar groupoids, their convolution algebras, the
 standard-fibre direct integrals of D5.Fields, disintegration and equivalence
 (D5–D6), with the concrete orbit, sequence, saddle-flow and residue-class
 models of D2 and D6; KMS states, ground states and the KMS simplex (D7); CAR
@@ -34,7 +34,7 @@ It leaves to named roadmaps:
 
 - The unitary Stone–von Neumann theorem for the real Heisenberg group and
   its Hilbert multiplicity form: MetaplecticAutomorphicForms §1.2.
-  D3.LCAWeyl proves the general locally compact abelian statement through
+  D4.LCAWeyl proves the general locally compact abelian statement through
   `C₀(G)⋊G≅K(L²G)`, with `G=ℝⁿ` as one instance. Neither roadmap proves the
   other's theorem, and the comparison of the two statements on `L²(ℝⁿ)` is
   made in neither.
@@ -52,12 +52,10 @@ It leaves to named roadmaps:
   it is not a prerequisite for the Powers argument of D2.FreeGroups.
 - The von Neumann crossed products `M⋊̄G` themselves, with the regular–normal
   bridge: VonNeumannAlgebras V8 (discrete G, and the regular construction on
-  `L²(G,H)` for a normal action) and V11 (second-countable G). D2 proves,
-  under the hypotheses stated there, that the weak-operator closure of the
-  regular representation of `A⋊_rG` is the von Neumann algebra generated on
-  `L²(G,H)` by the diffused copy of `ρ(A)''` and the translation unitaries;
-  this is the regular form of V8's `M⋊̄G` with that definition unfolded, and no
-  C*-result below depends on it. Tomita–Takesaki modular theory, the modular
+  `L²(G,H)` for a normal action) and V11 (second-countable G). The
+  identification of the weak-operator closure of the regular representation
+  of `A⋊_rG` with `M⋊̄G` belongs with those sections; no C*-result below
+  depends on it. Tomita–Takesaki modular theory, the modular
   characterization `σ^ω_t=τ̄_(−βt)` of a KMS state on its GNS von Neumann
   algebra with its converse and support qualification, and Araki's bounded
   perturbations of faithful normal states: VonNeumannAlgebras V10; nothing
@@ -157,7 +155,7 @@ positive characters: `f̂(χ)=∫ f(g)χ(g) dμ(g)` and
   `PontryaginDual` with its compact-open topology, its locally compact
   abelian group structure and `Circle`, `ContinuousMulEquiv` (an isomorphism
   of topological groups), `Measure.IsHaarMeasure` and `Lp`, used by
-  D3.LCAWeyl and D4.
+  D4.
 - From Tau Ceti: `ContRepresentation.IsUnitary` and
   `ContRepresentation.integratedOperatorL1`, used by D1;
   `ContRepresentation.exists_pontryaginMeasureTransform_eq_inner` (the
@@ -202,7 +200,7 @@ crossed products and, in D1.Modules, the Hilbert-space induction through
 bimodules that D2, D3 and D6 use; D4.Harmonic builds the Fourier isomorphism
 of the full group C*-algebra, the dual Haar measure with the Plancherel
 unitary and Fourier inversion, and the Pontryagin duality theorem, which
-D3.LCAWeyl and D4.Takai consume. D5–D6 use D1's integration tools, D1.Modules and the standard-fibre
+D4.LCAWeyl and D4.Takai consume. D5–D6 use D1's integration tools, D1.Modules and the standard-fibre
 direct integrals of D5.Fields, and compare transformation groupoids with
 D1–D2. D7–D9 form the equilibrium development. Operator K-theory consumes
 crossed products and duality. The dependency order of the twisted sections
@@ -853,26 +851,7 @@ as the completion and as the quotient of the full crossed product by the
 regular kernel. Develop its canonical multiplier maps, equivariant
 functoriality, and factorization of all regular representations. Prove
 `A⋊id,rG≃A⊗min Cr*(G)`. The C*-construction retains arbitrary locally
-compact Hausdorff G. Prove the weak-closure identification under the
-following hypotheses: ρ is a nondegenerate representation of A on H,
-`M=ρ(A)''`, and there is an action `ᾱ` of G on M by normal automorphisms,
-σ-weakly continuous in the group variable, with `ᾱ_s(ρ(a))=ρ(α_s(a))`. For
-`m∈M` let `ρ̄(m)` be the diffused operator `(ρ̄(m)ξ)(t)=ᾱ_(t⁻¹)(m)ξ(t)` on
-`L²(G,H)`, so that `ρ̄(ρ(a))=ρ̃(a)`. Prove that the closure in the weak
-operator topology of `(ρ̃⋊λ)(A⋊_rG)` is the von Neumann algebra generated
-by `ρ̄(M)` and the translation unitaries `1⊗λ_s`: the integrated operators
-lie in that algebra because they are weak-operator integrals of its
-elements; conversely each `ρ̄(m)` is the strong limit of `ρ̃(a_i)` along a
-bounded net `ρ(a_i)→m` of the Kaplansky density theorem, by dominated
-convergence of `∫‖(ᾱ_(t⁻¹)(ρ(a_i))−ᾱ_(t⁻¹)(m))ξ(t)‖²dt`, and `1⊗λ_s` is a
-strong limit of integrated operators of an approximate identity translated
-by s. Prove first that σ-weak continuity of `s↦ᾱ_s(m)` implies its
-σ-strong-star continuity, from the identity
-`φ((ᾱ_s(m)−m)*(ᾱ_s(m)−m))=φ(ᾱ_s(m*m))−φ(ᾱ_s(m)*m)−φ(m*ᾱ_s(m))+φ(m*m)`
-for a positive normal functional φ, which makes `t↦ᾱ_(t⁻¹)(m)ξ(t)`
-continuous for `ξ∈C_c(G,H)` and `ρ̄(m)` well defined and bounded by `‖m‖`.
-Identify the coefficient and group maps under this description. No
-C*-result below depends on this identification.
+compact Hausdorff G.
 
 **Checks.**
 
@@ -922,6 +901,16 @@ CStarClassification CL5's translation and lifting construction.
 For compact G
 also identify the regular decomposition through Peter–Weyl, reusing
 RepresentationTheory/CompactGroups.
+
+*Needs:* D1 (the regular covariant representation, integrated forms, the
+full crossed product with its universal property and multiplier maps, the
+ideal short exact sequence); D1.Modules (induced Hilbert spaces through a
+module with a left action by adjointable maps); BanachAlgebras A7 (Haar
+integration, `L¹(G)` convolution, the Fubini and support arguments);
+AmenableGroups (invariant means on Haar `L∞`, Layer 7's `L¹` approximation
+and Layer 5's Følner sets); CStarAlgebras C5–C7 (minimal and maximal tensor
+products, nuclearity with CP approximations, exactness);
+RepresentationTheory/CompactGroups (Peter–Weyl); Mathlib `Lp`.
 
 ### D2.OrbitRepresentations. Discrete orbits and irrational rotations
 
@@ -1410,9 +1399,9 @@ RepresentationTheory/CompactGroups (Peter–Weyl); FreeProbability F3 is a
 comparison, not an input; Mathlib `lp`, `lp.single`, `AddCircle`,
 `MulAction.IsPretransitive`, `FreeGroup.toWord`, `FreeGroup.reduce`,
 `StarAlgebra.adjoin`, `StarSubalgebra.topologicalClosure` and
-`IsSimpleRing`. The weak-closure identification at the end of D2's main
-body uses Mathlib `VonNeumannAlgebra` and the Kaplansky density theorem and
-is consumed by nothing below.
+`IsSimpleRing`. The weak-operator closure of the regular representation and
+its identification with the von Neumann crossed product belong to the
+sections that Scope and ownership names; nothing below uses them.
 
 ## D3. Induction and imprimitivity
 
@@ -1502,73 +1491,16 @@ integral formula, with the quasi-invariant-measure version for a closed
 non-normal H as a target here; CStarAlgebras C1 (approximate units,
 multipliers).
 
-**D3.LCAWeyl — translation covariance and the general LCA Weyl dictionary.**
-For every locally compact Hausdorff abelian G, use `PontryaginDual G` with
-its compact-open topology and D4.Harmonic's identification `C*(Ĝ)≅C₀(G)`,
-the Fourier isomorphism applied to Ĝ composed with D4.Harmonic's Pontryagin
-duality theorem. With `α_s(f)(t)=f(s⁻¹t)`, prove the equivalence between
-nondegenerate covariant pairs `(π,U)` for `(C₀(G),G,α)` and pairs of
-strongly continuous unitary representations U of G and V of its dual
-satisfying `U_s V_χ U_s*=conjugate(χ(s)) V_χ`. Extend π to multipliers and
-set `V_χ=π̃(t↦χ(t))`. Conversely integrate V to C*(Ĝ), use its Fourier
-isomorphism with C₀(G) sending the canonical multiplier at χ to
-`t↦χ(t)`, and prove nondegeneracy, covariance and both inverse laws.
-The integrated Fourier formula is D4.Harmonic's positive-character
-transform on Ĝ, with the dual Haar measure of the inversion theorem. Prove compatibility
-with bounded intertwiners, unitary equivalence and Hilbert direct sums.
-Replacing V_χ by V_(χ⁻¹) gives the alternative commutator χ(s); the
-displayed relation is Williams's Heisenberg relation `S_χR_s=χ(s)R_sS_χ`
-with `R=U`, `S=V` (Williams, Definition 4.26 and Lemma 4.28, pp. 135–136).
-No assertion about differentiating unbounded generators is needed.
-
-Through D3's explicit `C₀(G)⋊ltG≅K(L²G)` prove that every such
-nondegenerate Weyl pair is a multiplicity amplification of the Schrödinger
-pair `U_sξ(t)=ξ(s⁻¹t)`, `V_χξ(t)=χ(t)ξ(t)` on L²(G). Construct the
-intertwining unitary and its multiplicity space using rank-one operators;
-allow arbitrary Hilbert multiplicity and zero multiplicity. The nonzero
-irreducible pair has multiplicity one and is unique up to unitary
-equivalence (Williams, Theorem 4.24, p. 133, and Theorem 4.29, p. 137).
-This uses the representation theory of compact operators,
-not a finite-dimensional real-space restriction of Stone–von Neumann. For
-`G=ℝⁿ` the Schrödinger pair on `L²(ℝⁿ)` is the one of the unitary
-Stone–von Neumann theorem that MetaplecticAutomorphicForms §1.2 states; the
-comparison of the two statements is made in that later roadmap, and no
-second real-case proof is given here.
-
-**Checks.**
-
-- G=ℤ/2: `Ĝ=ℤ/2`, the Schrödinger pair on ℂ² has U_a the swap and
-  `V_χ=diag(1,−1)` for the nontrivial χ, and `U_aV_χU_a*=diag(−1,1)=overline(χ(a))V_χ`;
-  every Heisenberg pair of ℤ/2 is a multiple of this two-dimensional one.
-- G=ℤ: `Ĝ=𝕋` and `V_zξ(t)=z^tξ(t)` on `ℓ²(ℤ)`: `(U_sV_zξ)(t)=z^(t−s)ξ(t−s)`
-  and `(V_zU_sξ)(t)=z^tξ(t−s)`, so `U_sV_zU_s*=overline(z^s)V_z`; with
-  `V_(z⁻¹)` in place of V_z the phase is `z^s`.
-- G=ℝ with `χ_ξ(t)=exp(iξt)`: `U_sV_(χ_ξ)U_s*=exp(−iξs)V_(χ_ξ)`, the Weyl
-  relation with the stated sign; the Fourier transform
-  `f̂(χ)=∫f(g)χ(g)dμ(g)` sends the canonical multiplier at χ of `C*(Ĝ)` to
-  the function `t↦χ(t)`, and the conjugate-character transform would send
-  it to `t↦overline(χ(t))`, changing the covariance to `χ(s)`.
-- Zero multiplicity is the pair on H=0, nondegenerate vacuously; a pair on
-  `L²(G)⊕L²(G)` has multiplicity two and is reducible.
-
-*Needs:* D3 (`C₀(G)⋊G≅K(L²G)` with its integral kernels); D4.Harmonic
-(the dual group, `C*(Ĝ)≅C₀(G)`, the Pontryagin duality theorem and the dual
-Haar measure); CStarAlgebras C1 (multiplier extensions) and C2 (the
-representation theory of compact operators); Mathlib `PontryaginDual`.
-
 ### Examples
 
 `H=G` and `H={e}` in Green's theorem; the `ax+b` group and its dilation
 subgroup for the modular factor `γ_H`; `C₀(G)⋊G≅K(L²G)` for finite G and
-for G=ℤ; the Schrödinger pairs of `ℤ/2`, ℤ and ℝ with their covariance
-phases `conj(χ(s))`.
+for G=ℤ.
 
 ### Dependencies
 
-D1, D1.Modules and D2; D4.Harmonic for D3.LCAWeyl (`C*(Ĝ)≅C₀(G)`, the
-Pontryagin duality theorem and the dual Haar measure); BanachAlgebras
-A7; CStarAlgebras C1–C2; Mathlib Haar measure, `PontryaginDual` and the
-quotient integral formula on `G/H` where it applies.
+D1, D1.Modules and D2; BanachAlgebras A7; CStarAlgebras C1; Mathlib Haar
+measure and the quotient integral formula on `G/H` where it applies.
 
 ## D4. Dual actions and Takai duality
 
@@ -1576,6 +1508,8 @@ D4.Harmonic builds the harmonic analysis of a locally compact abelian group
 that duality needs: the Fourier isomorphism of the full group C*-algebra,
 the dual Haar measure with the Plancherel unitary and Fourier inversion, the
 Pontryagin duality theorem, and with it the identification `C*(Ĝ)≅C₀(G)`;
+D4.LCAWeyl is the Weyl dictionary between nondegenerate covariant pairs of
+`(C₀(G),G)` and Heisenberg pairs of G and Ĝ, with its uniqueness theorem;
 D4.Takai is the duality theorem.
 
 ### D4.Harmonic. Fourier isomorphism, Plancherel, inversion and Pontryagin duality
@@ -1679,7 +1613,7 @@ With the Pontryagin duality theorem `ev:G≅(Ĝ)^`, apply the Fourier
 isomorphism to Ĝ with the dual Haar measure μ̂ and compose with ev:
 `C*(Ĝ)≅C₀(G)` sends D1's canonical unitary of `C*(Ĝ)` at χ to the function
 `t↦χ(t)` and `f∈L¹(Ĝ)` to `t↦∫f(χ)χ(t)dμ̂(χ)`. This is the isomorphism
-D3.LCAWeyl and D4.Takai use. It does not depend on the scaling of μ̂: a
+D4.LCAWeyl and D4.Takai use. It does not depend on the scaling of μ̂: a
 function f represents, with respect to `cμ̂`, the element of `C*(Ĝ)` that
 `cf` represents with respect to μ̂, and the multiplier formula involves no
 measure.
@@ -1723,7 +1657,7 @@ measure.
   with `δ_0↦1`.
 - The conjugate-character transform `∫f(g)conj(χ(g))dμ(g)` is the transform
   at `χ⁻¹`; under it the canonical unitary at χ of `C*(Ĝ)` would go to
-  `t↦conj(χ(t))`, which changes the covariance phase of D3.LCAWeyl to
+  `t↦conj(χ(t))`, which changes the covariance phase of D4.LCAWeyl to
   `χ(s)`.
 - Non-example: for `G=S₃` the characters `G→𝕋` factor through `ℤ/2` while
   `C*(S₃)=ℂ⊕ℂ⊕M_2(ℂ)` is not commutative, so no isomorphism of `C*(G)` with
@@ -1763,6 +1697,61 @@ and `TauCeti.PontryaginDual.continuous_coe_eval_const`; Mathlib
 `Measure.IsHaarMeasure`, `Lp`, and the Stone–Weierstrass theorem applied on
 the one-point compactification of Ĝ; Tau Ceti
 `TauCeti.circleEquivPontryaginDualInt` for the Checks.
+
+### D4.LCAWeyl. Translation covariance and the general LCA Weyl dictionary
+
+For every locally compact Hausdorff abelian G, use `PontryaginDual G` with
+its compact-open topology and D4.Harmonic's identification `C*(Ĝ)≅C₀(G)`,
+the Fourier isomorphism applied to Ĝ composed with D4.Harmonic's Pontryagin
+duality theorem. With `α_s(f)(t)=f(s⁻¹t)`, prove the equivalence between
+nondegenerate covariant pairs `(π,U)` for `(C₀(G),G,α)` and pairs of
+strongly continuous unitary representations U of G and V of its dual
+satisfying `U_s V_χ U_s*=conjugate(χ(s)) V_χ`. Extend π to multipliers and
+set `V_χ=π̃(t↦χ(t))`. Conversely integrate V to C*(Ĝ), use its Fourier
+isomorphism with C₀(G) sending the canonical multiplier at χ to
+`t↦χ(t)`, and prove nondegeneracy, covariance and both inverse laws.
+The integrated Fourier formula is D4.Harmonic's positive-character
+transform on Ĝ, with the dual Haar measure of the inversion theorem. Prove compatibility
+with bounded intertwiners, unitary equivalence and Hilbert direct sums.
+Replacing V_χ by V_(χ⁻¹) gives the alternative commutator χ(s); the
+displayed relation is Williams's Heisenberg relation `S_χR_s=χ(s)R_sS_χ`
+with `R=U`, `S=V` (Williams, Definition 4.26 and Lemma 4.28, pp. 135–136).
+No assertion about differentiating unbounded generators is needed.
+
+Through D3's explicit `C₀(G)⋊ltG≅K(L²G)` prove that every such
+nondegenerate Weyl pair is a multiplicity amplification of the Schrödinger
+pair `U_sξ(t)=ξ(s⁻¹t)`, `V_χξ(t)=χ(t)ξ(t)` on L²(G). Construct the
+intertwining unitary and its multiplicity space using rank-one operators;
+allow arbitrary Hilbert multiplicity and zero multiplicity. The nonzero
+irreducible pair has multiplicity one and is unique up to unitary
+equivalence (Williams, Theorem 4.24, p. 133, and Theorem 4.29, p. 137).
+This uses the representation theory of compact operators,
+not a finite-dimensional real-space restriction of Stone–von Neumann. For
+`G=ℝⁿ` the Schrödinger pair on `L²(ℝⁿ)` is the one of the unitary
+Stone–von Neumann theorem that MetaplecticAutomorphicForms §1.2 states; the
+comparison of the two statements is made in that later roadmap, and no
+second real-case proof is given here.
+
+**Checks.**
+
+- G=ℤ/2: `Ĝ=ℤ/2`, the Schrödinger pair on ℂ² has U_a the swap and
+  `V_χ=diag(1,−1)` for the nontrivial χ, and `U_aV_χU_a*=diag(−1,1)=overline(χ(a))V_χ`;
+  every Heisenberg pair of ℤ/2 is a multiple of this two-dimensional one.
+- G=ℤ: `Ĝ=𝕋` and `V_zξ(t)=z^tξ(t)` on `ℓ²(ℤ)`: `(U_sV_zξ)(t)=z^(t−s)ξ(t−s)`
+  and `(V_zU_sξ)(t)=z^tξ(t−s)`, so `U_sV_zU_s*=overline(z^s)V_z`; with
+  `V_(z⁻¹)` in place of V_z the phase is `z^s`.
+- G=ℝ with `χ_ξ(t)=exp(iξt)`: `U_sV_(χ_ξ)U_s*=exp(−iξs)V_(χ_ξ)`, the Weyl
+  relation with the stated sign; the Fourier transform
+  `f̂(χ)=∫f(g)χ(g)dμ(g)` sends the canonical multiplier at χ of `C*(Ĝ)` to
+  the function `t↦χ(t)`, and the conjugate-character transform would send
+  it to `t↦overline(χ(t))`, changing the covariance to `χ(s)`.
+- Zero multiplicity is the pair on H=0, nondegenerate vacuously; a pair on
+  `L²(G)⊕L²(G)` has multiplicity two and is reducible.
+
+*Needs:* D3 (`C₀(G)⋊G≅K(L²G)` with its integral kernels); D4.Harmonic
+(the dual group, `C*(Ĝ)≅C₀(G)`, the Pontryagin duality theorem and the dual
+Haar measure); CStarAlgebras C1 (multiplier extensions) and C2 (the
+representation theory of compact operators); Mathlib `PontryaginDual`.
 
 ### D4.Takai. The Takai duality theorem
 
@@ -1816,14 +1805,16 @@ Pontryagin duality theorem); Mathlib `PontryaginDual`.
 ### Examples
 
 `ℤ/2`, ℤ and ℝ for the Fourier transform and its conventions against
-Mathlib's `Real.fourierIntegral`; `S₃` as the non-abelian non-example;
-Takai duality for finite abelian groups, for ℤ, and the `ℤ/3` sign witness
-of the double-dual action.
+Mathlib's `Real.fourierIntegral`; `S₃` as the non-abelian non-example; the
+Schrödinger pairs of `ℤ/2`, ℤ and ℝ with their covariance phases
+`conj(χ(s))`; Takai duality for finite abelian groups, for ℤ, and the `ℤ/3`
+sign witness of the double-dual action.
 
 ### Dependencies
 
-D1–D2 and D3; BanachAlgebras A7; AmenableGroups; CStarAlgebras C1; Mathlib
-`PontryaginDual`, `Circle`, `ContinuousMulEquiv`, Haar measure and `Lp`;
+D1–D2 and D3 (`C₀(G)⋊G≅K(L²G)` for D4.LCAWeyl and D4.Takai); BanachAlgebras
+A7; AmenableGroups; CStarAlgebras C1–C2; Mathlib `PontryaginDual`, `Circle`,
+`ContinuousMulEquiv`, Haar measure and `Lp`;
 Tau Ceti `ContRepresentation.exists_pontryaginMeasureTransform_eq_inner`,
 `MeasureTheory.FiniteMeasure.ext_of_forall_pontryaginMeasureTransform_eq_of_innerRegular`,
 `TauCeti.PontryaginDual.continuous_coe_eval_const` and
@@ -2871,7 +2862,7 @@ of a positive-definite matrix through the Hermitian functional calculus).
   for full ideal exactness; Theorem 4.1, Corollary 4.17 and Theorems 4.22–4.24
   for symmetric and Green imprimitivity and `C₀(G)⋊G≅K(L²G)` (Theorem 4.24,
   p. 133); Definition 4.26, Lemma 4.28 and Theorem 4.29 (pp. 135–137) for
-  Heisenberg pairs and the von Neumann uniqueness theorem of D3.LCAWeyl;
+  Heisenberg pairs and the von Neumann uniqueness theorem of D4.LCAWeyl;
   Theorem 7.1 with Lemmas 7.2–7.4, Lemma 7.8, Theorem
   7.13 and Corollary 7.18 for Takai, reduced norms, amenability and nuclearity;
   p. 27 for the statement of the Pontryagin duality theorem and Example
