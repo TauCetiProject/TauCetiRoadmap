@@ -44,7 +44,7 @@ and residue field `k`:
   construction, the proalgebraic unit groups with their norm-kernel components, and the graded
   norms with filtered norm-kernel components, all over an algebraically closed residue field; and
   the agreement of every one of these objects with the completed roadmap's on a nonarchimedean
-  local field, including its finite-local-field Hasse–Arf.
+  local field.
 - 4a: over a perfect residue field, the absolute upper filtration `G_K^u` and `G_K^(u+)` of
   `Field.absoluteGaloisGroup K`, its closedness, normality, antitonicity, finite projections and
   separation, the identification of `G_K^0` with inertia and of `G_K^(0+)` with wild inertia; the
@@ -71,9 +71,9 @@ SchemeAndStackFoundations §0.24 owns perfection in characteristic `p`; AdicSpac
 owns the generic pro-category with its limit–colimit Hom formula. PadicPeriodRings owns the
 geometric reciprocity construction on the proalgebraic unit groups built in §3a.3, with its
 finite-isogeny fundamental group, reciprocity map and Sen tower estimates. ReductiveGroupsPartII
-owns the extended arithmetic Frobenius on the completed maximal unramified extension of a local
-field and its fixed-field results; its finite-residue adapter identifies that completion with the
-construction of §4a.3. Upper ramification of a local field itself, `G_K^u` for a nonarchimedean
+§RG2.0.4 owns the completed maximal unramified extension `Breve E` of a nonarchimedean local field
+`E`, its extended arithmetic Frobenius and its fixed-field results; §4a.3 proves that its `K′` is
+`Breve E` on such a field. Upper ramification of a local field itself, `G_K^u` for a nonarchimedean
 local field, is this roadmap's: the completed roadmap stops at finite levels and at the tame
 quotient.
 
@@ -111,7 +111,8 @@ Use Mathlib `IsDiscreteValuationRing`, `IsDiscreteValuationRing.addVal`, `IsAdic
 local ring, `intervalIntegral`, `IsGalois.normalAutEquivQuotient`, `Field.absoluteGaloisGroup`,
 `FiniteGaloisIntermediateField`, `IntermediateField.fixingSubgroup`, `AlgEquiv.restrictNormalHom`,
 `InfiniteGalois.restrictNormalHom_continuous`, `UniformSpace.Completion` and
-`IsKrasner.of_completeSpace`.
+`IsKrasner.of_completeSpace_of_normal` (Krasner's lemma for a complete ultrametric base and a
+normal extension).
 
 Use Tau Ceti `TauCeti.IsLocalRing.ramificationGroup`, `TauCeti.IsLocalRing.ramificationGroupReal`,
 `TauCeti.IsLocalRing.lowerIndex`, `TauCeti.IsLocalRing.ramificationGroup_natCast`,
@@ -140,9 +141,13 @@ with `UpperJump` (Layer 3), and the ambient model of the absolute Galois group w
 objects assume `IsNonarchimedeanLocalField` on both fields, `ValuativeExtension K L`,
 `Module.Finite K L` and `IsGalois K L`; §3a.2 builds the same functions on the local-ring
 carrier and proves that they agree with these under those hypotheses, and §4a.1 proves that
-`G_K^0` and `G_K^(0+)` are `inertia` and `wildInertia` there.
+`G_K^0` and `G_K^(0+)` are `inertia` and `wildInertia` there. The completed roadmap's Layer 3
+Hasse–Arf, `hasseArf` (every `UpperJump K L u` of a finite abelian Galois extension of
+nonarchimedean local fields is an integer), is consumed and not restated: §3a.3 proves the theorem
+without residue finiteness and records in a Check that, through §3a.2's agreement, it recovers
+`hasseArf` on a nonarchimedean local field.
 
-### From ReductiveGroups, SchemeAndStackFoundations and AdicSpacesPartII
+### From ReductiveGroups, SchemeAndStackFoundations, AdicSpacesPartII and ReductiveGroupsPartII
 
 ReductiveGroups Layer 3 supplies finite-type closed subgroups, normal quotients and identity
 components of algebraic groups; SchemeAndStackFoundations §0.24 supplies perfection in
@@ -151,6 +156,14 @@ limit–colimit Hom formula. §3a.3's proalgebraic unit groups are pro-objects i
 perfect quasialgebraic groups built from these three suppliers; the finite-stage subgroup,
 quotient and component constructions of §3a.3 are the supplied ones.
 
+ReductiveGroupsPartII §RG2.0.4 supplies, for a nonarchimedean local field `E`, the completed
+maximal unramified extension `Breve E`, the uniform completion of
+`TauCeti.maximalUnramifiedExtension E (AlgebraicClosure E)` for its unique extended valuation,
+with its discreteness, its algebraically closed residue field, the preservation of uniformizers
+of `E`, the extended arithmetic Frobenius and its fixed field `E`. §4a.3 consumes the field and
+proves that its own `K′` is `Breve E` on such a field; the Frobenius and fixed-field results
+stay that roadmap's.
+
 ## How to read the build
 
 Layer 3a is stated for a finite group acting on a local ring and specialized to the integral
@@ -158,9 +171,10 @@ closure `B` of `A` in `L`; each section ends with its *Needs* and with Checks th
 the general statement from its local-field instance, usually on `F̄_p((t))` or `Frac W(F̄_p)`,
 where the residue field is infinite, and on `ℚ_2(ζ_8)/ℚ_2`, where the completed roadmap already
 fixes the answer. Layer 4a assumes a perfect residue field and works in `Field.absoluteGaloisGroup K`
-through its finite levels. `Suggested.lean` states the Layer 3a headlines on the general carriers
-and the finite-local-field Hasse–Arf; the Layer 4a objects are README targets whose carriers it
-does not yet have, and its module docstring lists them.
+through its finite levels. `Suggested.lean` states the two Layer 3a headlines on the general carriers,
+Hilbert's different formula and the lower-numbering Hasse–Arf; the Herbrand objects of §3a.2 and
+the Layer 4a objects are README targets whose carriers it does not yet have, and its module
+docstring lists them.
 
 ## Layer 3a: ramification over complete discretely valued fields
 
@@ -173,7 +187,7 @@ field, although their definitions use only the cardinalities of the lower groups
 them on the local-ring filtration, and the local-field functions are its instance
 `G = L ≃ₐ[K] L`, `B = 𝒪[L]`.
 
-**The perfect-residue Herbrand package (`perfectResidueHerbrand`).** For complete DVR fraction
+**The perfect-residue Herbrand package.** For complete DVR fraction
 fields with perfect residue field, this is the package of §§3a.1–3a.3 and §§4a.1–4a.3, in both
 characteristics, including their comparisons with the finite-local-field API. Its sources are
 Serre, *Local Fields*, IV §§1–3 and V §7, Theorem 1; Serre 1961, n° 3.1 and n° 3.4–3.5; and
@@ -205,21 +219,20 @@ is the unique one extending that of `K`, `v_L = e·v_K` on `K`, and `[L : K] = e
 `lowerIndex B σ = v_L(σx − x)`. The groups `G_i` are normal in `G` and antitone in `i`,
 `G_i = G` for `i ≤ −1`, `G_0` is the inertia group (the kernel of the action on
 `IsLocalRing.ResidueField B`), and `G_i = 1` for all large `i`. For a subgroup `H = Gal(L/K′)`,
-`H_i = H ∩ G_i`. For a uniformizer `π_L`, reduction of `σ(π_L)/π_L` embeds `G_0/G_1` in
-`(IsLocalRing.ResidueField B)ˣ`. For `i ≥ 1`, reduction of `(σ(π_L) − π_L)/π_L^(i+1)` embeds
-`G_i/G_(i+1)` in the additive residue field. The ratio first gives a uniformizer-independent map
-to `U(L,i)/U(L,i+1)`, where `U(L,i) = 1 + 𝔪_B^i`; identifying that quotient with the additive
-residue field uses `π_L`. Hence `G_0/G_1` is cyclic of order prime to the residue
+`H_i = H ∩ G_i`. For separable residue extension and a uniformizer `π_L`, reduction of
+`σ(π_L)/π_L` embeds `G_0/G_1` in `(IsLocalRing.ResidueField B)ˣ`, and for `i ≥ 1` reduction of
+`(σ(π_L) − π_L)/π_L^(i+1)` embeds `G_i/G_(i+1)` in the additive residue field. The ratio first
+gives a uniformizer-independent map to `U(L,i)/U(L,i+1)`, where `U(L,i) = 1 + 𝔪_B^i`; identifying
+that quotient with the additive residue field uses `π_L`. Hence `G_0/G_1` is cyclic of order prime to the residue
 characteristic, `G_1` is the Sylow `p`-subgroup of `G_0` when the residue characteristic is
 `p > 0`, and `G_1 = 1` when it is zero. Hilbert's formula holds: the different exponent `d(L/K)`,
 the `v_L`-valuation of Mathlib's `differentIdeal A B`, is `Σ_(i ≥ 0) (#G_i − 1)`. Its
 ideal-valued form, `differentIdeal A B = 𝔪_B^(Σ_(i ≥ 0) (#G_i − 1))`, is
 `differentIdeal_eq_pow_maximalIdeal_of_separable_residue` in `Suggested.lean`. Integral
-monogenicity and the computation of the lower index at a generator are stated together as
-`exists_generator_lowerIndex_eq_addVal`, for any finite faithful extension of discrete valuation
-rings with separable residue extension, without completeness; it rests on the pinned
-`TauCeti.IsDiscreteValuationRing.exists_adjoin_eq_top` and
-`TauCeti.IsLocalRing.lowerIndex_eq_addVal_of_adjoin_singleton_eq_top`.
+monogenicity and the computation of the lower index at a generator hold for any finite faithful
+extension of discrete valuation rings with separable residue extension, without completeness;
+they are the pinned `TauCeti.IsDiscreteValuationRing.exists_adjoin_eq_top` and
+`TauCeti.IsLocalRing.lowerIndex_eq_addVal_of_adjoin_singleton_eq_top`, and are not restated.
 
 (Jean-Pierre Serre, [Local Fields](#source-serre-local-fields), II §2, Proposition 3; III §6,
 Proposition 12; IV §1, Propositions 2 and 4.) (Jean-Pierre Serre, [Sur les corps locaux à corps
@@ -347,8 +360,9 @@ that is every `u` with `G^v ≠ G^u` for all `v > u`, is an integer. By the fini
 `#G_1 + ⋯ + #G_j`. That lower-numbering form is stated in `Suggested.lean` as
 `hasseArf_dvd_sum_card_ramificationGroup`, on Mathlib's discrete valuation rings with
 `Algebra.IsInvariant A B G` and Tau Ceti's `TauCeti.IsLocalRing.ramificationGroup`. No
-finiteness of the residue field is assumed. Its finite-local-field specialization `hasseArf`
-follows after the general proof and the filtration agreement of §3a.2.
+finiteness of the residue field is assumed. On a nonarchimedean local field the theorem is the
+completed roadmap's Layer 3 `hasseArf`, which is consumed, not restated; the Checks record how the
+general statement recovers it.
 
 (Jean-Pierre Serre, [Local Fields](#source-serre-local-fields), V §7, Theorem 1.)
 (Jean-Pierre Serre, [Sur les corps locaux à corps résiduel algébriquement
@@ -475,41 +489,30 @@ adic completion of a Noetherian local ring.
   none.
 - Commutativity cannot be dropped: for the quaternion extension of Serre's *Local Fields*, IV §3,
   Exercise 3, the upper jumps are not all integers.
-
-**Finite-local-field Hasse–Arf.** For a finite abelian Galois extension `L/K` of nonarchimedean
-local fields, every `u` satisfying `TauCeti.LocalFieldsRamification.UpperJump K L u` is an
-integer. This is `hasseArf` in `Suggested.lean`. Specialize
-`hasseArf_dvd_sum_card_ramificationGroup` to `A = 𝒪[K]`, `B = 𝒪[L]` and `G = Gal(L/K)`;
-the residue extension is separable because the residue fields are finite. At each nonnegative
-lower jump `j`, the finite-sum formula gives `φ(j) = (#G_1 + ⋯ + #G_j)/#G_0`, so the divisibility
-theorem makes its corresponding upper jump integral. The jump at `−1`, when present, is already
-integral. §3a.2 identifies the lower and upper filtrations with the completed roadmap's
-canonical ones. Source: Serre, *Local Fields*, IV §3 and V §7, Theorem 1; Serre 1961, n° 3.5,
-Corollary 1 to Proposition 8, printed p. 136.
-
-*Needs:* §3a.3's general Hasse–Arf theorem; §3a.2's finite-sum formula, correspondence of jumps
-and finite-local-field agreement; the completed roadmap's Layer 0 (integer-ring and
-residue-field structures).
-
-**Checks.**
-
-- For `ℚ_2(ζ_8)/ℚ_2`, the lower jumps `1, 3` give the integral upper jumps `1, 2`.
-- A nontrivial unramified extension has only the jump `−1`; a nontrivial totally ramified tame
-  extension has only the jump `0`.
+- On a nonarchimedean local field, with `A = 𝒪[K]`, `B = 𝒪[L]` and `G = Gal(L/K)`, the residue
+  extension is separable because the residue fields are finite; at each nonnegative lower jump `j`
+  the divisibility statement and the finite-sum formula `φ(j) = (#G_1 + ⋯ + #G_j)/#G_0` make the
+  corresponding upper jump integral, the jump at `−1` is integral already, and §3a.2's agreement
+  of filtrations turns this into the completed roadmap's `hasseArf`. For `ℚ_2(ζ_8)/ℚ_2` the lower
+  jumps `1, 3` give the upper jumps `1, 2`.
 - The abstract filtration on `C_9` with `G_0 = G_1 = C_9`, `G_2 = ⋯ = G_5 = C_3` and `G_6 = 1`
   has `φ(5) = 1 + 4/3 = 7/3`, although the subgroup and Herbrand quotient have integral breaks
   `5` and `1`. It cannot be the ramification filtration of an abelian local-field extension:
   at the lower jump `5`, the sum `9 + 3 + 3 + 3 + 3 = 21` is not divisible by `#G_0 = 9`.
   Prime-degree integrality and tower transitivity alone do not imply Hasse–Arf.
 
-**Examples.** The two fields with infinite residue field `F̄_p` that run through the layer: the
+### Examples
+
+The two fields with infinite residue field `F̄_p` that run through the layer: the
 Artin–Schreier extension `y^p − y = t⁻¹` of `F̄_p((t))`, with its break at `1` and different
 exponent `2(p − 1)`, and the tame extension `Frac W(F̄_p)(ζ_p)` of `Frac W(F̄_p)`, with its break
 at `0` and different exponent `p − 2`; and `ℚ_2(ζ_8)/ℚ_2`, on which every general statement must
 return the completed roadmap's values.
 
-**Dependencies.** Mathlib and Tau Ceti as in the supplier contracts; the completed roadmap's
-Layers 0 and 3 for the local-field instances; ReductiveGroups Layer 3,
+### Dependencies
+
+Mathlib and Tau Ceti as in the supplier contracts; the completed roadmap's Layers 0 and 3 for
+the local-field instances, including its Layer 3 `hasseArf`; ReductiveGroups Layer 3,
 SchemeAndStackFoundations §0.24 and AdicSpacesPartII §R0.19.9 for §3a.3's proalgebraic targets.
 
 ## Layer 4a: the absolute upper filtration over a perfect residue field
@@ -613,18 +616,30 @@ differents `d/e` agree. For `L/K` Galois, `Gal(L′/K′)` is identified with th
 under `G_(K′) ≅ I_K`, `G_(K′)^v` corresponds to `G_K^v` for every `v ≥ 0`. This holds in both
 characteristics. The residue degree and the full Galois group of `L/K` are not preserved.
 
-This section owns the completed field and its valuation and residue-field properties on the
-general perfect-residue domain; the finite-residue specialization used by ReductiveGroupsPartII
-§RG2.0.4 is its instance, identified through that roadmap's adapter.
+**Agreement with the completed maximal unramified extension of a local field.** On a
+nonarchimedean local field `E`, `K^ur` is `TauCeti.maximalUnramifiedExtension E (AlgebraicClosure E)`
+(the compositum of the unramified extensions of every degree, the completed roadmap's Layer 2
+object), and `K′` is ReductiveGroupsPartII §RG2.0.4's `Breve E`: both are the uniform completion of
+that intermediate field for the unique extended valuation. The discreteness of the valuation of
+`K′`, the algebraic closedness of its residue field and the preservation of uniformizers of `E`
+restrict to that section's `breveIsDiscrete`, `residueField_isAlgClosed` and
+`isUniformizer_algebraMap`. This section owns the completed field and its valuation and
+residue-field properties on the general perfect-residue domain; the Frobenius of `Breve E` and its
+fixed field are not objects of this roadmap.
+
+*Needs:* 4a.1 (the maximal unramified extension `K^ur` as the fixed field of `G_K^0`); the completed
+roadmap's Layer 2 (`TauCeti.maximalUnramifiedExtension` and the uniqueness of the unramified
+extension of each degree); ReductiveGroupsPartII §RG2.0.4; Mathlib `UniformSpace.Completion`.
 
 (Olivier Brinon and Brian Conrad, [CMI summer school notes on p-adic Hodge
 theory](#source-brinonconrad-cmi-summer-school-notes-on-p-adic-hodge-theory), Exercise 1.4.4(3),
 printed p. 10, and the proof of Lemma 13.1.6, printed p. 201, in mixed characteristic.)
 
 *Proof.* `K^ur` carries the unique prolongation of the valuation (3a.1), so it is henselian, and it
-is dense in `K′`. Krasner's lemma (Mathlib's `IsKrasner.of_completeSpace`) shows that a finite
-separable extension of `K′` is generated by a root of a separable polynomial over `K^ur` close to
-a defining polynomial, so the functor is essentially surjective; henselianity makes `K^ur`
+is dense in `K′`. Krasner's lemma (Mathlib's `IsKrasner.of_completeSpace_of_normal`, applied
+inside a Galois closure of the extension, which supplies its `Normal` hypothesis) shows that a
+finite separable extension of `K′` is generated by a root of a separable polynomial over `K^ur`
+close to a defining polynomial, so the functor is essentially surjective; henselianity makes `K^ur`
 separably closed in `K′`, so it is fully faithful. The argument uses only separability and
 completeness, so it applies in equal characteristic as well. For `L/K` Galois with
 `K_0 = L ∩ K^ur`, `L/K_0` is totally ramified, `L = K_0(π_L)` for an Eisenstein `π_L`, and the
@@ -635,7 +650,7 @@ and the lower filtration of `G_0(L/K) = Gal(L/K_0) ≅ Gal(L′/K′)`, the Herb
 separable `L` is handled through a Galois closure, and the absolute statement is the limit over
 `M`, by 4a.1.
 
-*Needs:* 3a.1; 3a.2; 4a.1; Mathlib `UniformSpace.Completion`, `IsKrasner.of_completeSpace`,
+*Needs:* 3a.1; 3a.2; 4a.1; Mathlib `UniformSpace.Completion`, `IsKrasner.of_completeSpace_of_normal`,
 `Polynomial.IsEisensteinAt` and `differentIdeal`.
 
 **Checks.**
@@ -647,23 +662,42 @@ separable `L` is handled through a Galois closure, and the absolute statement is
   Galois group and its residue degree are lost.
 - For a finite residue field `K^ur` is not complete (Brinon–Conrad, Exercise 1.4.4(2), printed
   p. 10), so the comparison is made with `K′`, not with `K^ur`.
+- For `E = ℚ_p`, `K′` is `Breve ℚ_p = W(F̄_p)[1/p]`: the uniformizer `p` of `ℚ_p` stays a
+  uniformizer and the residue field is `F̄_p`; the identification is of valued fields, and the
+  Frobenius of `Breve ℚ_p` is not used by this roadmap.
 
-**Examples.** `ℚ_2` and `ℚ_3` with their cyclotomic extensions, on which the absolute filtration
+### Examples
+
+`ℚ_2` and `ℚ_3` with their cyclotomic extensions, on which the absolute filtration
 and `ψ_(L/K)` must return the completed roadmap's finite-level values; `Frac W(F̄_p)`, where
 `K^ur = K` and inertia is everything; and `ℚ_3(ζ_9)/ℚ_3` under base change to `K′`.
 
-**Dependencies.** Layer 3a; the completed roadmap's Layer 4 for the ambient model, `inertia`
-and `wildInertia`; Mathlib's absolute Galois group, finite Galois intermediate fields, uniform
-completion and Krasner's lemma.
+### Dependencies
+
+Layer 3a; the completed roadmap's Layers 2 and 4 for the maximal unramified extension, the
+ambient model, `inertia` and `wildInertia`; ReductiveGroupsPartII §RG2.0.4 for `Breve E`;
+Mathlib's absolute Galois group, finite Galois intermediate fields, uniform completion and
+Krasner's lemma.
 
 ## Dependency order
 
 The external dependency order is **[Continuous Cohomology of Profinite
 Groups](../ProfiniteCohomology/README.md) → [Profinite and Pro-`p`
-Groups](../ProfiniteProPGroups/README.md) → [LocalFieldsRamification](../../Completed/LocalFieldsRamification/README.md)
+Groups](../../Completed/ProfiniteProPGroups/README.md) → [LocalFieldsRamification](../../Completed/LocalFieldsRamification/README.md)
 → this roadmap**, with ReductiveGroups, SchemeAndStackFoundations and AdicSpacesPartII supplying
 §3a.3's proalgebraic inputs. Within this roadmap the order is §3a.1 → §3a.2 → §3a.3 (its three
-prerequisite targets, then the theorem, then the finite-local-field form) → §4a.1 → §4a.2 → §4a.3.
+prerequisite targets, then the theorem) → §4a.1 → §4a.2 → §4a.3.
+
+## Downstream consumers
+
+PadicPeriodRings consumes §§3a.1–3a.3 (the lower numbering, Herbrand functions and Hasse–Arf
+over a general complete discretely valued field with perfect residue field, and the proalgebraic
+unit groups of §3a.3 on which it builds geometric reciprocity) and §§4a.1 and 4a.3 (inertia and
+the completed maximal unramified base change) for its Sen tower estimates and completed
+unramified descent. ClassFieldTheory consumes §4a.1 (the absolute upper filtration with its
+finite projections) for the reciprocity–filtration compatibilities over a perfect residue field.
+Integral `p`-adic Hodge theory and `p`-adic Galois representations over `F̄_p((t))` and
+`Frac W(F̄_p)` reach the package through PadicPeriodRings.
 
 ## References
 
