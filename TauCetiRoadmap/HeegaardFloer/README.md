@@ -21,8 +21,14 @@ theorem. F0.S here owns the additional sharp finite-order Sard bound.
 ComplexKahlerGeometry K5a owns the complete, atlas-independent Fréchet
 space of smooth finite-rank bundle sections on boundaryless manifolds;
 F0.4 owns its finite-jet comparison and the boundary/corner and relative
-constraint extensions. PDE Lane A supplies domain Sobolev estimates;
-F1 owns the Cauchy–Riemann and totally-real-boundary specializations.
+constraint extensions. PDE Lane A supplies domain Sobolev estimates.
+[PseudoholomorphicCurveAnalysis](https://github.com/TauCetiProject/TauCetiRoadmap/blob/de547ac0ec8c96e0e0eb26415735da278d6272d6/TauCetiRoadmap/PseudoholomorphicCurveAnalysis/README.md) (PH below) owns the planar and compact
+Cauchy–Riemann theory: local vector-valued Sobolev classes, isothermal coordinates, the
+Cauchy and Beurling operators, interior and totally real boundary estimates, the similarity
+principle, nonlinear bootstrapping, Fredholm theory on compact bordered surfaces and closed
+and bordered Riemann–Roch. F1 consumes PH and owns the strip, cylindrical-end, weighted,
+spectral-flow, Conley–Zehnder and determinant-line theory, together with the normalized
+disc solvers of F1.2.
 CombinatorialHeegaardFloer Lanes H, G and L supplies the combinatorial
 complexes. F4, F5 and the reconciliation section own their smooth
 realizations and holomorphic comparisons.
@@ -31,6 +37,7 @@ Supply runs in one direction. The suppliers of this roadmap are MorseTheory,
 DifferentialGeometry, ComplexKahlerGeometry, AlgebraicTopology,
 GeometricTopology, GeometricCurrents, CharacteristicClasses,
 FuchsianOrbifolds, LieGroups, HopfRinow, RiemannianGeometry, PDE,
+PseudoholomorphicCurveAnalysis,
 SelfAdjointSpectralTheory, DGAInfinity and CombinatorialHeegaardFloer, each
 cited by section where it is used. Nothing is taken from CalibratedGeometry
 or from SmoothBundlesConnections: the integral-chain comparison of M.4 runs
@@ -169,7 +176,7 @@ Sobolev spaces in the shape PDE needs them (`W^{k,p}`
 on domains, embeddings, multiplication, Rellich: the **shared spine with the PDE
 roadmap**, which builds exactly this in its Lane A); elliptic estimates for the
 first-order operator ∂̄ (Calderón–Zygmund inequality, boundary regularity for
-totally real boundary conditions, bootstrapping); almost complex structures and
+totally real boundary conditions, bootstrapping), consumed from PH; almost complex structures and
 the generic symplectic form-calculus adapters in F2.1; Morse–Smale trajectory
 dynamics, stable manifolds and Morse homology. Consume MorseTheory's finite
 function/sublevel theory and DG's smooth flow. Manifold orientations and degree theory are built by
@@ -1810,47 +1817,41 @@ Mathlib `ContinuousLinearMap.IsFredholm`, the Banach inverse and implicit functi
 
 ## Layer 3: the Cauchy–Riemann elliptic package
 
-The PDE roadmap's Lane A/B builds `W^{k,p}(Ω)`, embeddings, Rellich, and
-Calderón–Zygmund in general; this lane needs only the **2-dimensional,
-first-order-elliptic-system slice** (McDuff–Salamon, Appendix B), and should
-consume the shared spine rather than duplicate it:
+[PseudoholomorphicCurveAnalysis](https://github.com/TauCetiProject/TauCetiRoadmap/blob/de547ac0ec8c96e0e0eb26415735da278d6272d6/TauCetiRoadmap/PseudoholomorphicCurveAnalysis/README.md) (PH) owns the planar and compact
+Cauchy–Riemann theory. This layer consumes it, keeps the F1.k names for the consumed
+material so that the citations below resolve, and owns the strip, end, weighted, index and
+normalization constructions that PH does not cover.
 
 ### 3.1 Sobolev surface and bundle adapters (F1.1)
 
-Construct the finite-chart W^(k,p) surface/bundle adapters, trace and
-multiplication (`kp>2`), using the PDE carriers. Include bordered and
-cylindrical-end surfaces, totally real subbundles and actual transition
-maps. Prove norm equivalence, density, parameter dependence and the
-nonlinear composition estimates used in F0/F2.
+Consume PH1's local vector-valued `W^(k,p)` classes on planar domains and half-discs, with
+their products, composition and change-of-variables theorems (PH1.2), and PH6.1's bundle
+`W^(k,p)` spaces on compact surfaces with boundary and totally real boundary subspaces.
+"F1.1's Sobolev adapters" below means these. Construct here the versions that PH does not
+cover: strips `ℝ×[0,1]` and cylindrical ends, with their translation-invariant norms, the
+actual transition maps between end charts and compact charts, and parameter dependence of
+the norms and composition estimates in the form F0/F2 use.
 
-*Needs:* PDE Lane A's Sobolev carriers and Tau Ceti `Wkp`; DifferentialGeometry Layer 0's bundle calculus.
+*Needs:* PH1, PH6.1; DifferentialGeometry Layer 0's bundle calculus.
 
 ### 3.2 Interior estimates, planar operators and the similarity principle (F1.2)
 
-Prove the Cauchy-kernel interior estimate
-`‖u‖_(W¹,p(K))≤C(‖∂̄u‖_(Lp(U))+‖u‖_(Lp(U)))` for K compact in U,
-1<p<∞, and its variable-coefficient/lower-order and bundle versions.
-Consume PDE Lane A7's Banach Hölder spaces. Prove their product
-estimates and local composition/inversion estimates, retaining the
-derivative budget for changes of variables at each finite order. Construct the planar Cauchy–Green and Beurling
-operators with their Hölder bounds: on nested discs and compactly
-supported C^(k,α) data, 0<α<1, the Cauchy right inverse gains one
-derivative locally and the Beurling operator B=∂T is bounded
-on C^(k,α), for every integer k≥0. Specify support radii, cutoff/extension
-operators, normalization of the holomorphic kernel and constants in the
-estimates. Prove ∂̄T=id, ∂T=B, differentiation on compactly supported
-data and continuity for parameter families with common support and norm bounds.
-For an elliptic Beltrami coefficient |μ|<1, use real-linear normalization
-to arrange μ(0)=0. In rescaled coordinates
-μ_ε(z)=χ(z)μ(εz) tends to0 in C^(1,α). On the closed Banach subspace
-of C^(1,α) data supported in one fixed closed disc containing supp χ,
-solve h=μ_ε(1+Bh) by contraction.
-For ψ=z+Th prove positive Jacobian and local invertibility from its
-C¹ closeness to identity. Subtract its value at0 and divide by its
-nonzero complex derivative there; μ_ε(0)=0 makes that normalization
-complex-linear. Rescale back to obtain C^(2,α) local coordinates for
-C^(1,α) coefficients. Bootstrap smooth coefficients to smooth coordinates. These planar
-operators and estimates are targets here, beyond the Lp estimates.
+Consume PH's planar theory. The names used below resolve as follows:
+
+- F1.2's interior estimates and their variable-coefficient, lower-order and bundle versions:
+  PH3.2–PH3.3;
+- F1.2's Hölder Cauchy–Green and Beurling operators and their estimates: PH3.1;
+- F1.2's Beltrami inverse and `C^(ℓ+1,α)` coordinates: PH2.4;
+- F1.2's boundary flattening, reflection, boundary estimates and bootstrapping: PH2.3, PH3.4
+  and PH5.1;
+- F1.2's vector similarity principle, unique continuation and isolated zeros: PH3.5;
+- F1.2's formal adjoints, adjoint sections, dual-Sobolev cokernel identification and adjoint
+  uniqueness theorem: PH6.3.
+
+Prove here the real Cauchy–Riemann line-bundle zero count: a solution which is not
+identically zero on a connected closed Riemann surface has isolated zeros of positive integer
+order (PH3.5), whose sum is the line bundle's c₁.
+
 Construct the normalized real-boundary disc solver before nonlinear
 coordinate changes. For p>2 let X be the closed real subspace of
 W^(2,p)(D,ℂ^n) whose trace lies in e^(3iθ/2)ℝ^n, with its inherited
@@ -1875,38 +1876,9 @@ outside W^(1,p). Prove its bounded inverse and parameter dependence
 by the Neumann series. Export this as a standalone local Hölder boundary-problem API;
 identify its Sobolev realization on common data when regularity permits.
 These direct disc constructions use no closed-surface RR theorem.
-Cite existing work in [t4v1/damian_formalizare](https://github.com/t4v1/damian_formalizare),
-MorseFloer/Part2/CauchyPompeiu.lean and CauchyHolder.lean, for its Cauchy/Beurling
-Hölder-scale development. Compare its differential/kernel normalization
-with ∂̄=(∂s+i∂t)/2 here. Any code integration follows the repository's
-author-coordination and licence requirements.
-Construct boundary flattening/reflection for totally real conditions,
-boundary estimates with the stated coefficient/trace regularity,
-bootstrapping and weak-to-smooth regularity. A global estimate omitting
-the Lp/kernel term requires separate coercivity or normalization.
-Construct the real CR line-bundle similarity principle: a solution which
-is not identically zero on a connected closed Riemann surface has isolated
-zeros of positive integer order, whose sum is the line bundle's c₁.
-Prove local factorization, unique continuation, coordinate/frame invariance
-and weak-solution regularity. Construct formal adjoints and identify
-dual-Sobolev cokernel functionals with smooth adjoint solutions. The
-formal adjoint is a ∂-type operator on (0,1)-forms; use the metric/density
-and conjugation to put it into the CR-system form. Prove weak regularity
-and unique continuation with locally L^p coefficients for p>2,
-including locally bounded coefficients. Export the standalone local
-vector similarity theorem: a ℂ^m-valued W^(1,p) solution of
-∂̄ξ+Aξ+Bconj(ξ)=0, with locally L^p matrix coefficients and
-p>2, is an invertible W^(1,p) matrix times a holomorphic vector
-on a sufficiently small disc. F2.2a/c use this theorem. Absorb the antilinear
-term for a given solution into an L^p (p>2) matrix coefficient with
-pointwise norm at most that of the antilinear term, solve the
-small-disc Cauchy integral equation for an invertible similarity frame,
-and reduce to a holomorphic vector. A nonzero adjoint solution therefore
-has a dense nonzero locus. Retain the coefficient/Sobolev hypotheses.
-These linear constructions precede nonlinear intersections and moduli;
-map unique continuation is not a substitute for the adjoint theorem.
 
-*Needs:* F1.1; PDE Lane A7's Hölder spaces and Lane B's Calderón–Zygmund estimate; Mathlib's Cauchy integral formula and one-variable complex analysis; the M. Riesz/Szegő projection on the trace space is owned here.
+*Needs:* PH2.3–PH2.4, PH3, PH6.3; Mathlib's Cauchy integral formula and one-variable
+complex analysis; the M. Riesz/Szegő projection on the trace space is owned here.
 
 ### 3.3 Spectral flow (F1.3)
 
@@ -1981,9 +1953,12 @@ it is not supplied by the orientation transport alone.
 
 ### 3.5 Cauchy–Riemann Riemann–Roch and weighted ends (F1.5)
 
-Prove closed and bordered real Cauchy–Riemann Riemann–Roch:
+Consume PH7.2's closed and bordered real Cauchy–Riemann Riemann–Roch,
 `ind_R D=nχ(Σ)+2c₁(E)[Σ]` in the closed case and
-`ind_R D=nχ(Σ)+μ(E,F)` for a totally real rank-n boundary subbundle.
+`ind_R D=nχ(Σ)+μ(E,F)` for a totally real rank-n boundary subbundle, with PH7.1's
+Maslov index of a bundle pair. "F1.5's closed index" below means PH7.2. The following
+Euler-characteristic conventions are those PH7.2 uses, and are recorded here for the
+weighted formula.
 Here χ is the finite CW Euler characteristic. Consume
 CharacteristicClasses C2.3's diagonal-self-intersection/duality trace
 comparison with the alternating Betti sum and C3.2's rank-one `c₁=e`.
@@ -1998,14 +1973,6 @@ dimensions with homology ranks. The finite-CW witness
 is AlgebraicTopology Stage8.7's compact smooth-manifold corollary, which
 consumes GeometricTopology's smooth triangulation; HF constructs no
 second triangulation. This uses no Morse homology or nonlinear moduli.
-Prove the closed formula for an arbitrary given complex structure j
-on the surface, independently of uniformization. Construct the local
-parametrix, the fixed-Sobolev Fredholm family under deformations of j
-and the zeroth-order coefficients, and the cut/glue index comparison
-along a smooth surface decomposition with collars. Compute the local
-Euler and clutching contributions using the bordered linear theorem
-and determinant gluing. No nonlinear curve-moduli or genus-zero
-classification theorem is an input to this linear index proof.
 Build relative c₁ from end/boundary trivializations and its independence,
 excision and clutching laws, consuming CharacteristicClasses C3.2's
 c₁ and determinant-line comparison. Own the elementary symplectic-bundle
@@ -2029,7 +1996,7 @@ A_e by A_e+δ_e at a positive end and A_e−δ_e at a negative end;
 use those shifted operators in the same formula. As a decay weight
 increases through one exceptional value, the Fredholm index decreases
 by the crossed real eigenspace multiplicity, at either end. Prove the
-formula by gluing and test scalar crossing, trivial cylinder, capped
+formula by gluing to PH7.2's compact formula and test scalar crossing, trivial cylinder, capped
 disk and constant closed sphere. When A_e has a zero eigenspace,
 choose positive weights smaller than every nonzero end spectral gap.
 Fix the actual end trivializations and cutoff extension E_e(v)=χ_e v
@@ -2061,7 +2028,7 @@ verifies the weighted-tail conditions before consuming this theorem.
 These linear theorems precede
 the moduli-space dimension and orientation applications.
 
-*Needs:* F1.2's local estimates and similarity principle; F1.3–F1.4; CharacteristicClasses C2.3 and C3.2; AlgebraicTopology Stages 6.1, 7.1 and 8.7; FuchsianOrbifolds Layer 5's finite CW type; F0.0's determinant gluing.
+*Needs:* PH6–PH7; F1.2's local estimates and similarity principle; F1.3–F1.4; CharacteristicClasses C2.3 and C3.2; AlgebraicTopology Stages 6.1, 7.1 and 8.7; FuchsianOrbifolds Layer 5's finite CW type; F0.0's determinant gluing.
 
 ### Examples
 
@@ -2071,7 +2038,7 @@ the moduli-space dimension and orientation applications.
 
 ### Dependencies
 
-PDE Lanes A and B and Lane A7; Tau Ceti `Wkp`, `maslovIndex`, `maslovIndex_map`, `maslovIndex_prod`; SelfAdjointSpectralTheory SA-E01 and `Resolvent.Unbounded`; CharacteristicClasses C2.3 and C3.2; AlgebraicTopology Stages 6.1, 7.1 and 8.7; FuchsianOrbifolds Layer 5; Robbin–Salamon (sources). Within this roadmap: F0.0's determinant lines.
+PseudoholomorphicCurveAnalysis PH1–PH7; PDE Lanes A and B and Lane A7; Tau Ceti `Wkp`, `maslovIndex`, `maslovIndex_map`, `maslovIndex_prod`; SelfAdjointSpectralTheory SA-E01 and `Resolvent.Unbounded`; CharacteristicClasses C2.3 and C3.2; AlgebraicTopology Stages 6.1, 7.1 and 8.7; FuchsianOrbifolds Layer 5; Robbin–Salamon (sources). Within this roadmap: F0.0's determinant lines.
 
 ## Layer 4: J-holomorphic curves
 
@@ -2221,7 +2188,7 @@ McDuff–Salamon, Chapter 2. Construct the following local analytic
 floor, before branched-cover normalization, using F1.2's vector Carleman
 similarity principle and elliptic regularity:
 a. For J of class C¹ and a nonconstant C¹ curve on a connected
-   domain, first obtain W^(2,p) regularity, p>2, from F1.2. Prove local unique
+   domain, first obtain W^(2,p) regularity, p>2, from PH5.1 with ℓ=1. Prove local unique
    continuation and isolated point-preimages. Apply the similarity
    principle also to its differentiated CR equation after trivializing
    the pulled-back complex tangent bundle; prove isolated critical points.
@@ -2254,7 +2221,7 @@ arbitrary-genus closed-source normalization is a downstream generalization
 (AnalyticStableMaps §0.5 consumes this floor, see Downstream consumers).
 Construct Oh's boundary-injectivity for totally real boundary separately.
 
-*Needs:* F1.2's vector similarity principle and elliptic regularity; F1.1's Sobolev adapters; McDuff–Salamon Lemmas 2.4.1–2.4.3 (source, by locator).
+*Needs:* F1.2's vector similarity principle (PH3.5) and PH5.1's elliptic regularity; F1.1's Sobolev adapters; McDuff–Salamon Lemmas 2.4.1–2.4.3 (source, by locator).
 
 ### 4.3 Compactness (F2.3)
 
@@ -2526,7 +2493,7 @@ simple-point condition at some z,
 `inf_(ζ≠z) d(u(z),u(ζ))/d(z,ζ)≥1/K`, together with `‖du‖∞≤K`;
 for a spatially relative theorem also bound the image point's distance
 from the fixed region below by1/K. Prove these pieces cover every relevant
-simple curve for some K. Uniform elliptic bootstrapping makes the bounded
+simple curve for some K. PH5.2's uniform elliptic bootstrapping makes the bounded
 pieces compact; this gives openness and the C^ℓ-regular/smooth-approximation
 density argument of McDuff–Salamon §3.2, printed54–56. Carry the same
 budgets, compact-piece estimates and endpoint-relative smoothing to paths. Prove
