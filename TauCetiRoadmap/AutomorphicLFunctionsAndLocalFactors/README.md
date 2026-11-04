@@ -1525,7 +1525,7 @@ For `n≥1`, an irreducible admissible `π` of `GL_n(F)`, matrix coefficient `β
 
 Work under the following hypotheses. F is a local field; at infinity `π` is a Casselman–Wallach representation and `ℓ` a continuous contragredient vector.
 
-The definition `AL2.gjZetaIntegral` is this integral at a finite place on a native representation carrier: it takes the Haar measure dg, the modulus `|·|_F`, the coefficient function `β` and the test function `Φ` as arguments, with the rank `n` written as `n = m+1` and the determinant exponent `s+m/2`.
+The definition `AL2.gjZetaIntegral` is this integral at a finite place on the native general linear group: it takes the Haar measure dg, the modulus `|·|_F`, the coefficient function `β` and the test function `Φ` as arguments, with the rank `n` written as `n = m+1` and the determinant exponent `s+m/2`.
 
 Require the following API.
 
