@@ -106,8 +106,10 @@ of Layer 6 are PseudodifferentialOperators Layer 5's.
   finite-dimensional and Hausdorff. Wherever the section topology of 1.1, the
   metric cone, the C² or C∞ topology on metrics, openness of positivity or a
   family of metrics appears, the manifold is in addition second-countable and
-  without boundary; the local definitions (scalar curvature, R⁺(M) as a set,
-  smoothness of scalar curvature) are stated on every model with corners.
+  without boundary, and the openness of the metric cone and of R⁺(M) is
+  stated on closed M only; the local definitions (scalar curvature, R⁺(M) as
+  a set, smoothness of scalar curvature) are stated on every model with
+  corners.
   Compact manifolds with boundary use the half-space model
   `modelWithCornersEuclideanHalfSpace` (notation `𝓡∂ n`).
 - In the classification (Layer 5), M is nonempty, connected, simply connected
@@ -141,9 +143,10 @@ of Layer 6 are PseudodifferentialOperators Layer 5's.
   generators η∈KO₁, a∈KO₄ and the Bott generator b∈KO₈, c(a)=2u² and
   c(b)=u⁴ under complexification; α(K3)=a.
 - (·)₂ is the projection of a torsion abelian group onto its 2-primary
-  component along the sum of its odd-primary components (6.2). σ=E∞σ₈ is the
-  generator of π₇ˢ≃ℤ/240 fixed by HomotopySpheres §9A.1. Toda's cone
-  orientation and Adams's bracket sign are fixed in 6.2.
+  component along the sum of its odd-primary components (6.2). σ=E∞σ₈ is a
+  generator of π₇ˢ≃ℤ/240; σ=±J₇(b) for the generator J₇(b) fixed by
+  HomotopySpheres §9A.1, and no statement here depends on the sign. Toda's
+  cone orientation and Adams's bracket sign are fixed in 6.2.
 
 ## Exact supplier contracts
 
@@ -267,13 +270,18 @@ I M` with the subspace topology from ComplexKahlerGeometry K5a's Fréchet space
 of smooth sections of Sym²(T*M) (Hamilton, *The inverse function theorem of
 Nash and Moser*, Part I, Example 1.1.5, p. 68, for the compact case). Prove
 its chart and auxiliary-connection comparisons, identify the metric cone as
-an open convex cone in that space, and consume K5a's completeness and atlas
-independence. On closed M compare the C² and C∞ topologies with the
-finite-atlas seminorms: define the C² topology by uniform coordinate
+a convex cone in that space with the subspace topology, and consume K5a's
+completeness and atlas independence. K5a's seminorms are taken over a
+countable exhaustion by compact sets, so on a noncompact M the metric cone is
+not open in that topology (a section may turn negative definite far out
+while agreeing with a metric on every compact set); openness of the cone is
+stated on closed M only. On closed M compare the C² and C∞ topologies with
+the finite-atlas seminorms: define the C² topology by uniform coordinate
 derivatives of orders 0, 1 and 2 over a finite atlas and prove atlas
-independence. For a compact manifold with boundary on the half-space model,
-define the C^k topology on metrics by the same finite-atlas seminorms with
-boundary charts included and prove its atlas independence; this is the
+independence, and prove that the metric cone is open in the C² topology and
+in the C∞ topology. For a compact manifold with boundary on the half-space
+model, define the C^k topology on metrics by the same finite-atlas seminorms
+with boundary charts included and prove its atlas independence; this is the
 topology used for the uniform margins of 1.4 and 3.3, and nothing of K5a is
 applied to a manifold with boundary.
 
@@ -282,9 +290,9 @@ applied to a manifold with boundary.
 - A smooth metric is exactly a smooth positive-definite symmetric section; the
   comparison maps are mutually inverse.
 - For second-countable boundaryless M the section topology is Fréchet,
-  complete and atlas-independent; the metric cone is open and convex; on
-  closed M the C² topology is coarser than the C∞ topology and both are
-  atlas-independent.
+  complete and atlas-independent, and the metric cone is convex; on closed M
+  the metric cone is open in the C² and C∞ topologies, the C² topology is
+  coarser than the C∞ topology and both are atlas-independent.
 
 **Checks.**
 
@@ -301,8 +309,18 @@ applied to a manifold with boundary.
   excluded by the second-countability hypothesis, and a countable disjoint
   union gives a countable product of Fréchet spaces, which is Fréchet.
 - Convex combinations of metrics are metrics; the cone is not closed (the
-  limit diag(1,ε) as ε→0 is degenerate), so positivity of the form, not the
-  section topology, keeps it open.
+  limit diag(1,ε) as ε→0 is degenerate). On closed M it is open: the
+  smallest eigenvalue of g over a finite atlas has a positive lower bound λ,
+  and every symmetric section whose coordinate entries lie within λ/n of
+  those of g in the C⁰ seminorm of the atlas is positive definite, so a C⁰
+  neighbourhood, hence a C² and a C∞ neighbourhood, of g lies in the cone.
+- On the noncompact M=ℝ with g=dx², let φ be a bump function with compact
+  support, 0≤φ≤1 and φ(0)=1, and h_k=(1−2φ(x−k))dx². For every compact K the
+  sections h_k and g agree on K once k is large, so every seminorm of h_k−g
+  in the compact-exhaustion topology is eventually 0 and h_k→g; but
+  h_k(k)=−dx² is negative definite. Every neighbourhood of g contains a
+  non-metric, so the cone is not open in K5a's topology on noncompact M and
+  the openness statement is confined to closed M.
 
 ### 1.2 Scalar curvature, positivity, smoothness and the uniform gap
 
@@ -354,9 +372,7 @@ PSC factor down dominates a bounded negative contribution of the other
 factor. Prove that round S^n(r) has scalar curvature n(n−1)/r² for n≥2 on
 RiemannianGeometry R4.7's round models, and on R1's projective carriers with
 holomorphic or quaternionic sectional curvature 4 prove Scal(CP^d)=4d(d+1)
-and Scal(HP^d)=16d(d+2), using the real quaternionic trace. Follow the
-round-sphere API design of Mathlib
-[#43657](https://github.com/leanprover-community/mathlib4/pull/43657).
+and Scal(HP^d)=16d(d+2), using the real quaternionic trace.
 
 - Pullback by a diffeomorphism φ satisfies Scal(φ*g)=Scal(g)∘φ and preserves
   R⁺.
@@ -568,6 +584,12 @@ rational class.
   descends to an isometry of the quotient metric.
 - Scal(CP²)=24, Scal(HP²)=128, Scal(RP²)=2 for the metric covered by the unit
   round sphere.
+- The Berger sphere, the Hopf connection metric of 2.2 on S³ over S²(1/2)
+  with fibre scaled by ε²=1/2, has Scal=8−2·(1/2)=7, larger than the round
+  value 6: shrinking the fibre of a flat-fibre bundle raises the scalar
+  curvature, and 8−2ε² stays positive for every ε<2, so the Hopf bundle
+  needs no shrinking at all; a formula with the sign of the |A|² term
+  reversed would give 9 at ε²=1/2 and could never lose positivity.
 
 ### Examples
 
@@ -846,6 +868,19 @@ inferred from the simply connected argument.
   circle has scalar curvature 0, and the empty manifold represents 0.
 - Ω₅^(SO,+) contains the class of the Dold manifold P(1,2) of 6.3, so it is
   all of Ω₅^SO=ℤ/2.
+- The product law: [HP²]·[K3]=[HP²×K3] is nonzero in Ω₁₂^Spin, since its
+  signature is 1·(−16)=−16, and it is a PSC class although K3 is not: for
+  any metric g on K3, ε²g_(HP²)+g has scalar curvature 128/ε²+Scal(g), which
+  is positive for small ε by 1.3's product law, and α(HP²×K3)=0·a=0 agrees
+  with 5.1. A definition that declared a product PSC only when both factors
+  are PSC would reject this class.
+- The space variable: over X=S¹, the circle with the antiperiodic (bounding)
+  Spin structure and the identity map to S¹ is nonzero in
+  Ω₁^Spin(S¹)≃ℤ/2⊕ℤ, its degree component being 1, although its image in
+  Ω₁^Spin is 0; a closed 1-manifold with PSC is empty, so
+  Ω₁^(Spin,+)(S¹)=0 and this class is not in it. A definition that tested
+  PSC on the image in Ω₁^Spin after forgetting the map would wrongly admit
+  it.
 
 ### Examples
 
@@ -947,6 +982,11 @@ structure and α with the stable unit, J and ABS maps.
 - The standard sphere has α=0; a sphere bounding a parallelizable manifold is
   Spin nullbordant, so α=0.
 - In dimensions 5, 6, 7 the Spin branch of 5.2 has empty obstruction.
+- In dimension 7, Θ₇=bP₈≃ℤ/28 (HomotopySpheres §9A.2: the cokernel of J₇ is
+  0), so every homotopy 7-sphere bounds a parallelizable manifold, has
+  α(Σ)=0 and carries a PSC metric; the α-obstruction excludes no 7-sphere,
+  in contrast to dimensions 9 and 10, where 6.2's Hitchin spheres have α≠0.
+  A construction of α that did not vanish on bP₈ would contradict KO₇=0.
 
 ### 6.2 The Hitchin spheres
 
@@ -1006,11 +1046,13 @@ the round metric.
    between 2-primary components `(2Eσ₈)₂=E²σ′` in π₁₆(S⁹), whose right side
    already lies in the 2-primary subgroup because σ′ has order 8. The
    unprojected `2Eσ₈=E²σ′` is false in π₁₆(S⁹)≃ℤ/240: Eσ₈ generates, so 2Eσ₈
-   has order 120 while E²σ′ has order dividing 8. Witness: with σ=E∞σ₈ the
-   generator of π₇ˢ≃ℤ/240 (HomotopySpheres §9A.1), σ₂=225σ, as 225≡1 mod 16
-   and 225≡0 mod 15; then 2σ₂=210σ has order 8, 4σ₂=180σ has order 4 and
-   8σ₂=120σ is the unique element of order 2, matching the orders of σ′, σ′′
-   and σ′′′, and 15σ=−σ₂ is the component of −σ, not of σ. Transport the
+   has order 120 while E²σ′ has order dividing 8. Witness: with σ=E∞σ₈, a
+   generator of π₇ˢ≃ℤ/240 equal to ±J₇(b) for HomotopySpheres §9A.1's
+   generator J₇(b), σ₂=225σ, as 225≡1 mod 16 and 225≡0 mod 15; then
+   2σ₂=210σ has order 8, 4σ₂=180σ has order 4 and 8σ₂=120σ is the unique
+   element of order 2, matching the orders of σ′, σ′′ and σ′′′, and 15σ=−σ₂
+   is the component of −σ, not of σ. The witness is computed relative to σ
+   itself, so the sign relating σ to J₇(b) enters nowhere. Transport the
    final order-two identity to the integral stable stem by the subgroup
    inclusion. The displayed Hopf relation is a 2-primary computation, not an
    identity with the unprojected integral stable Hopf class. Give the finite
