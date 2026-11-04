@@ -204,10 +204,9 @@ conclusion. Layer 4 proves the stronger numerical cutoff. Use
 
 Use `Nat.exists_prime_lt_and_le_two_mul` in
 `Mathlib/NumberTheory/Bertrand.lean`: for natural n≠0 there is a prime p
-with n<p≤2n. Use `SimpleGraph`, `SimpleGraph.completeBipartiteGraph` and
-`SimpleGraph.Free` from `Mathlib/Combinatorics/SimpleGraph/Basic.lean`,
-`Mathlib/Combinatorics/SimpleGraph/Bipartite.lean` and
-`Mathlib/Combinatorics/SimpleGraph/Copy.lean`, respectively, for the bipartite
+with n<p≤2n. Use `SimpleGraph` and `completeBipartiteGraph` from
+`Mathlib/Combinatorics/SimpleGraph/Basic.lean` and `SimpleGraph.Free` from
+`Mathlib/Combinatorics/SimpleGraph/Copy.lean` for the bipartite
 graph and forbidden four-cycle; the
 finite neighbour-pair count in §7.1 is stated on these native carriers.
 
