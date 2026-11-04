@@ -523,7 +523,13 @@ Generic characteristic-zero untilt; minuscule `μ`; `ℓ≠p` for the smoothness
 
 The stabilizer filtration has no additional fibre when `μ` is minuscule.
 
-([CS](#source-cs), 3.4.4–3.4.6, pp. 685–686.)
+**Checks.**
+
+- For `GL₂` and `Λ=diag(ξ,1)(B⁺)²`, the formula gives `Fil⁻¹=0`, `Fil⁰` the line spanned by `e₂`, and `Fil¹` the whole rank-two fibre. The ranks 0, 1, 2 at `m=−1,0,1` increase with `m`; the reversed filtration has ranks 2, 1, 0.
+- For `μ=0`, both `Gr_0` and `G/P⁻_0=G/G` are a point.
+- For `GL₂` and `μ=(2,0)`, the Lie weights are `2,0,−2`, the cell has dimension `⟨2ρ,μ⟩=2` and the flag line has dimension 1, so the map is not an isomorphism.
+
+([CS](#source-cs), Proposition 3.4.3 and its proof, p. 684, for the filtration; 3.4.4–3.4.6, pp. 685–686.)
 
 *Needs:* [Open Schubert cell smoothness](#013-open-schubert-cell-smoothness); ReductiveGroupsPartII RG2.1; RelativeFarguesFontaine §§3.8, 6.5–6.10; PadicHodgeTheory §7.1.
 
@@ -908,6 +914,7 @@ Use the projective-bundle extension `E/p` and its splitting to identify the reso
 **Checks.**
 
 - Over `ℤ/27`, `A=3·Id` and `g=Id+9E₁₂` satisfy `Ag=A`, det `g=1`, `g≠Id`. Zhu B.11 specifies A uniquely, not `g`.
+- The point `(0,0,0)` satisfies `x²−yz=0` and `(1,0,0)` does not; the chart is the cone, not the whole affine space.
 
 
 ([Zhu](#source-zhu), B.10–B.11, pp. 486–488.)
@@ -1003,6 +1010,8 @@ Provide the following API.
 - If the first relation is the diagonal, `z` is uniquely `x`.
 - An empty first relation gives empty incidence.
 - For both diagonal relations, a middle flag different from `x` cannot occur.
+- In the finite model with `Fl` the three points of `P¹(𝔽₂)`, `s` the simple reflection and `O_s` the pairs of distinct points, take `u=v=s`: the fibre of `C_{s,s}` over `(x,x)` has 2 middle flags, and over `(x,y)` with `x≠y` it has 1.
+- There `ss=1` and `s*s=s`: the pullback to `O_{ss}=O_1` keeps only the diagonal pairs, with fibres of size 2, while the pullback to `O_{s*s}=O_s` keeps the off-diagonal pairs, with fibres of size 1. The product and Demazure-product correspondences differ.
 
 ([He](#source-he), 5.3–5.4, pp. 9–12.)
 
@@ -1755,7 +1764,7 @@ Provide the following API.
 
 Over `Perf_k`, `k=overline(𝔽_q)`, for every finite `I`, finite projective local systems on the relative product `(Div¹_X)^I` are equivalent to continuous finite projective `Λ`-representations of `W_E^I`. Under this equivalence `F^I` is total cohomology on the Grassmannian over its geometric leg base. It is faithful and conservative and has the inherited split-exact behaviour of VI.7.10, is symmetric monoidal for corrected fusion, and has the collision/permutation coherences. The Drinfeld statement is for locally constant perfect complexes, not all étale complexes or an assertion that fundamental groups commute with products.
 
-Import VStackSheavesAndLisseCategories VS1.5, `PerfectLocalSystem.drinfeld`,
+Import VStackSheavesAndLisseCategories VS1.5, “Drinfeld’s lemma for perfect local systems”,
 the IV.7.3 equivalence in its `D_lc` form, with `X=Spd k` and the geometric
 divisor presentation of RelativeFarguesFontaine §4.7. Restrict to
 finite-projective local systems in degree zero to obtain VI.9.2. Apply
@@ -1769,7 +1778,7 @@ compatible coefficient limits for the stated adic extension.
 
 ([FS](#source-fs), Proposition VI.9.2 p226; Proposition IV.7.3 pp165–166 (full faithfulness begins p164).)
 
-*Needs:* [Satake category](#21-satake-category); [Fusion product and ordinary symmetry](#34-fusion-product-and-ordinary-symmetry); [CoCartesian finite-set functoriality](#35-cocartesian-finite-set-functoriality); VStackSheavesAndLisseCategories VS1.5, `PerfectLocalSystem.drinfeld`; ClassFieldTheory Layer 9, “the local Weil group”; RelativeFarguesFontaine §4.7 (geometric coefficient-base comparison); `Representation`; `Module.Projective`; [Cohomology](#22-satake-cohomology-functor).
+*Needs:* [Satake category](#21-satake-category); [Fusion product and ordinary symmetry](#34-fusion-product-and-ordinary-symmetry); [CoCartesian finite-set functoriality](#35-cocartesian-finite-set-functoriality); VStackSheavesAndLisseCategories VS1.5, “Drinfeld’s lemma for perfect local systems”; ClassFieldTheory Layer 9, “the local Weil group”; RelativeFarguesFontaine §4.7 (geometric coefficient-base comparison); `Representation`; `Module.Projective`; [Cohomology](#22-satake-cohomology-functor).
 
 ### 3.7 Symmetric constant terms
 
@@ -2113,7 +2122,7 @@ Provide the following API.
 - For `G=1`, `E=ℚ₅`, `Λ=𝔽₉` and `I=∅`, both sides are finite projective `𝔽₉`-modules over the geometric base. Before base change, the Frobenius `+1` and `−1` rank-one systems remain distinct despite `q=5` having a square root in `𝔽₉`.
 
 
-([FS](#source-fs), Theorem VI.0.2 p190; VI.11.1 p235; IX.2 p321.)
+([FS](#source-fs), Theorem VI.0.2 p190; VI.11.1 p235; IX.2 p321 (PDF p. 344).)
 
 *Needs:* [Pinned dual group](#414-canonical-pinned-dual-identification); [Coordinate Hopf algebra](#43-geometric-satake-coordinate-hopf-algebra); [Coefficient reconstruction](#44-multileg-and-coefficient-reconstruction); [Weil realization of total cohomology](#36-weil-realization-of-total-cohomology); [Fusion and Verdier duality](#38-fusion-and-verdier-duality); ReductiveGroupsPartII RG2.5; LanglandsParameterStacks §0.4; `CategoryTheory.Functor.Monoidal`; `Representation`.
 
@@ -2159,7 +2168,7 @@ For `P` with Levi `M`, `CT_P[deg_P]` intertwines geometric Satake with restricti
 
 Transport the geometric CT map through the two explicit semidirect comparison isomorphisms; multiply the two cocycles in the common torus.
 
-([FS](#source-fs), VI.9.6 p230; VI.11.1 pp238–240; IX.7.1 p334.)
+([FS](#source-fs), VI.9.6 p230; VI.11.1 pp238–240; IX.7.1 p334 (PDF p. 359).)
 
 *Needs:* [Normalized equivalence](#416-normalized-integral-satake-equivalence); [Symmetric constant terms](#37-symmetric-constant-terms); [Generic root datum](#411-weight-torus-and-generic-root-datum); ReductiveGroupsPartII RG2.5.
 
@@ -2228,7 +2237,7 @@ Let `Ĝ` be a split reductive group over `ℤ_ℓ[r]`, `Q` a finite group actin
 
 `Perf(B(Ĝ⋊Q)^I) ⊗_{Perf(BQ^I)} Perf(BQ^I_Λ) ≃ Perf(B(Ĝ⋊Q)^I_Λ)`.
 
-Prove that the stable idempotent completion of the exact category of finite-projective algebraic representations, with exact sequences split on underlying coefficient modules and its `Rep(Q^I)`-module structure retained, has the universal property used to extend exact linear monoidal functors to this relative perfect category. State the universal property as an equivalence of spaces of such coherent functors and natural equivalences, including coefficient base change and finite-set reindexing. The intended signatures are a `Perf(BQ^I)`-linear equivalence and a functor-space equivalence, not an ordinary equivalence of arbitrary categories. Provide relative perfect base change, stable completion and uniqueness of extension, with tensor, coefficient and finite-set coherence. ([FS](#source-fs), IX.2, p. 321, with its use of highest-weight base change and extension from finite-projective representations.) Use ReductiveGroups §10B and LanglandsParameterStacks §4.1 for highest-weight and good-filtration theory; prove the additional relative integral and stable-completion assertions here. The parameter-stack generation theorem in LanglandsParameterStacks §6.2 has a prime restriction and a different target.
+Prove that the stable idempotent completion of the exact category of finite-projective algebraic representations, with exact sequences split on underlying coefficient modules and its `Rep(Q^I)`-module structure retained, has the universal property used to extend exact linear monoidal functors to this relative perfect category. State the universal property as an equivalence of spaces of such coherent functors and natural equivalences, including coefficient base change and finite-set reindexing. The intended signatures are a `Perf(BQ^I)`-linear equivalence and a functor-space equivalence, not an ordinary equivalence of arbitrary categories. Provide relative perfect base change, stable completion and uniqueness of extension, with tensor, coefficient and finite-set coherence. ([FS](#source-fs), IX.2, p. 321 (PDF p. 344), with its use of highest-weight base change and extension from finite-projective representations.) Use ReductiveGroups §10B and LanglandsParameterStacks §4.1 for highest-weight and good-filtration theory; prove the additional relative integral and stable-completion assertions here. The parameter-stack generation theorem in LanglandsParameterStacks §6.2 has a prime restriction and a different target.
 
 **Checks.**
 
@@ -2260,7 +2269,7 @@ Provide the following API.
 - For `G=SL₂` and `ℓ=2≠p`, dual `PGL₂` has `π₁` of order two; the extension still applies.
 
 
-([FS](#source-fs), IX.2 p321.)
+([FS](#source-fs), IX.2 p321 (PDF p. 344).)
 
 *Needs:* [Normalized equivalence](#416-normalized-integral-satake-equivalence); [CoCartesian finite-set functoriality](#35-cocartesian-finite-set-functoriality); [Fusion and Verdier duality](#38-fusion-and-verdier-duality); [Representation-complex interface](#424-all-prime-representation-complex-interface); EnhancedDerivedSheaves §E0.4; EnhancedDerivedSheaves §§E0.4, E5:abstract.4; EnhancedDerivedSheaves §§E5:abstract.4, E5:presentability.1; EnhancedDerivedSheaves §E5:abstract.1; VStackSheavesAndLisseCategories VS3; DiamondSixOperations §§S6.1–S6.3.
 
@@ -2373,7 +2382,7 @@ Page numbers in the result references are printed pages except where explicitly 
 
 ### Source FS
 
-FS. Laurent Fargues, Peter Scholze, [Geometrization of the local Langlands correspondence](https://people.mpim-bonn.mpg.de/scholze/Geometrization.pdf). Author-hosted 383-page PDF; PDF page `=` printed page.
+FS. Laurent Fargues, Peter Scholze, [Geometrization of the local Langlands correspondence](https://people.mpim-bonn.mpg.de/scholze/Geometrization.pdf). Author-hosted 383-page PDF; locators are printed pages, which differ from the PDF pages.
 
 ### Source BS
 
