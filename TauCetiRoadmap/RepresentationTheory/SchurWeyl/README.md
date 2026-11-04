@@ -220,18 +220,27 @@ Schur-Weyl) can proceed in parallel once the Specht modules exist.
 - **Row, column, and Young symmetrizers.** For a `YoungTableau t`, the row symmetrizer `a_t = ∑_{p ∈
   rowSubgroup t} p`, the column antisymmetrizer `b_t = ∑_{q ∈ colSubgroup t} sign(q) • q` (using
   `Equiv.Perm.sign`), and the **Young symmetrizer** `youngSymmetrizer t = c_t = a_t * b_t`, all in
-  `MonoidAlgebra ℚ (Perm (Fin μ.card))`. Fix the convention `c_t = a_t * b_t` (row-symmetrize, then
-  column-antisymmetrize) once and for all; the opposite ordering `b_t * a_t` produces the conjugate/dual
-  Specht module, and Layer 3 pins its isomorphism for exactly this ordering.
+  `MonoidAlgebra ℚ (Perm (Fin μ.card))`. Fix the product convention `c_t = a_t * b_t`; on a left module it applies
+  the column antisymmetrizer first, then the row symmetrizer. The opposite ordering
+  `b_t * a_t` gives an isomorphic same-shape Specht module in characteristic zero;
+  Layer 3 pins the ideal/polytabloid comparison for the chosen product.
 - **Idempotent theory.** `c_t` is essentially idempotent: `c_t * c_t = (n! / f^λ) • c_t`, so
   `(f^λ / n!) • c_t` is an idempotent. Prove `a_t`, `b_t` are (up to scalar) idempotents, the absorption
-  `p * a_t = a_t` for `p ∈ rowSubgroup t` and `b_t * q = sign(q) • b_t` for `q ∈ colSubgroup t`, and the
-  **key vanishing lemma in its correct row/column-intersection form**: if some two **distinct entries lying
-  in a common row of `t`** are carried by `σ` into a **common column of `t`**, then `a_t * σ * b_t = 0`.
-  Contrapositively, `a_t * σ * b_t ≠ 0` forces `σ` to factor as `σ = p q` with `p ∈ rowSubgroup t` and
-  `q ∈ colSubgroup t`. (The naive form "`a_t σ b_t = 0` unless `σ ∈ rowSubgroup t · colSubgroup t`" is not
-  the right lemma to prove; the intersection criterion is what the argument actually establishes, and it is
-  what yields the scalar relation on `c_t k[Sₙ] c_t`.) These are the facts that make `k[Sₙ] c_t` irreducible.
+  `p * a_t = a_t = a_t * p` for `p ∈ rowSubgroup t` and
+  `q * b_t = b_t * q = sign(q) • b_t` for `q ∈ colSubgroup t`. The **key vanishing criterion** is that
+  a row of `t` meets a column of the relabelled tableau `σt` in two distinct entries: equivalently,
+  two distinct entries `x,y` in one row of `t` have `σ⁻¹x,σ⁻¹y` in one column of `t`. Then
+  `a_t * σ * b_t = 0`. The transposition of `x,y` lies in the row group, while its conjugate by `σ⁻¹`
+  lies in the column group and has sign `−1`, so the sandwich is its own negative.
+  Separately, prove the complementary combinatorial factorization: if no such intersection has two
+  entries, then `σ = p q` with `p ∈ rowSubgroup t` and `q ∈ colSubgroup t`. On this product the sandwich
+  is `sign(q) • c_t ≠ 0`. Thus the vanishing condition is exactly `σ ∉ rowSubgroup t · colSubgroup t`;
+  the intersection argument and the complementary factorization together prove this equivalence.
+  Consume the existing `TauCeti.YoungTableau` APIs in
+  `TauCeti/RepresentationTheory/Symmetric/Vanishing.lean` and `Factorization.lean`:
+  `rowMeetsColumnTwice_relabel_iff`, the vanishing and sign-scalar sandwich lemmas, and
+  `mem_mul_of_not_rowMeetsColumnTwice`. Their linear extension gives the scalar relation on
+  `c_t k[Sₙ] c_t`. These are the facts that make `k[Sₙ] c_t` irreducible.
 
 ### Layer 3: the Specht modules `S^λ`
 
