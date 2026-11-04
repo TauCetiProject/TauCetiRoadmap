@@ -330,7 +330,7 @@ theory of a compact perturbation of the identity on a Banach space over `ℝ` or
 restated: `SmallSingularCochains` (C5.1) measures smallness by a nesting of neighbourhoods attached
 to the barycentres of the faces of a simplex rather than by one open cover, and `schwartzFiniteness` (C1.6) perturbs a surjection
 whose kernel may be infinite-dimensional, so it is not a statement about Fredholm operators;
-the two Riesz theorems are its Banach case `g = id`, `h = −K`, and the headline extends them to
+the two Riesz theorems are its complex Banach case `g = id`, `h = −K`, and the headline extends them to
 an arbitrary continuous surjection `g` between Fréchet spaces.
 The cochain and cup suppliers are in `TauCeti.AlgebraicTopology.Cohomology.Basic` and
 `TauCeti.AlgebraicTopology.Cohomology.Cup`; subdivision and the inclusion equivalence are in
@@ -532,7 +532,7 @@ normalisation of modular curves (ModularCurvesPartII, R12.5).
   `TauCeti.Analysis.Normed.Operator.Compact.RieszTheory` (with
   `IsCompactOperator.finiteDimensional_ker_one_sub` for the kernel): for a compact operator `K`
   on a Banach space over `ℝ` or `ℂ`, `1 − K` has closed range and finite-dimensional cokernel.
-  This is the case `g = id`, `h = −K` of `schwartzFiniteness`, which extends it to an arbitrary
+  Over `ℂ` this is the case `g = id`, `h = −K` of `schwartzFiniteness`, which extends it to an arbitrary
   continuous surjection `g` between Fréchet spaces.
 - `TauCeti.IsSemialgebraic`, `TauCeti.IsSemialgebraicOn`, `TauCeti.IsSemialgebraicMap` in
   `TauCeti.Geometry.RealAlgebraic.Semialgebraic.Basic` and `.Function`: polynomial sign sets,
