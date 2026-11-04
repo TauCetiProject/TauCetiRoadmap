@@ -594,10 +594,10 @@ by a monic such `Q` with unit constant term. Every polynomial satisfying
 the same conditions acts invertibly on the complementary summand. Its
 continuous projector has the specified image and kernel and commutes with
 the operator. Construct it from the continuous complementary-submodule
-projection, independently of Fredholm theory. CompactOperators supplies
-Riesz summands; LAD §4.16 proves the numerical comparison for a separated
-Fredholm factor. Existence at every cutoff over an arbitrary affinoid
-family is not asserted.
+projection, independently of Fredholm theory. CompactOperators consumes
+this interface for its Riesz summands; LAD §4.16 proves the numerical
+comparison for a separated Fredholm factor. Existence at every cutoff
+over an arbitrary affinoid family is not asserted.
 
 For `r=|p|^h` this means eigenvalue valuation `≤h`, including equality.
 It concerns annihilator roots; the roots of `det(1−TU)` are reciprocals.
