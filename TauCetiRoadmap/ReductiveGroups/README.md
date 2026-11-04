@@ -1176,7 +1176,7 @@ The headline signature is `StructureAcceptance.exists_levi_complement`: for smoo
 geometrically connected `G` of finite type in characteristic zero there is a Hopf ideal `J` of
 `O(G)` such that the quotient map composed with the inclusion of the right coinvariants of the
 `k`-unipotent radical's defining ideal is bijective, that is, `O(Q) → O(G)/J = O(L)` is an
-isomorphism (McNinch §1.1, p. 6; in characteristic `p` the Greenberg transform of `SL₂` over the
+isomorphism (McNinch §3.1, p. 6; in characteristic `p` the Greenberg transform of `SL₂` over the
 length-two Witt vectors has no such `J`, McNinch (3.2.1), p. 7). The `k`-unipotent radical is
 the geometric one since `k` is perfect, and a connected group is geometrically connected.
 
@@ -3699,7 +3699,7 @@ fibre products.
   Proposition 12.3.1, p. 127; Appendix F (pseudo-reductive groups), pp. 208–218; Appendix H
   (Levi subgroups), p. 238.
 - G. J. McNinch, [*Levi decompositions of a linear algebraic group*](https://arxiv.org/abs/1007.2777),
-  arXiv:1007.2777v1 (2010), §1.1, p. 6; (3.2.1), p. 7; §§2.2–2.3, 3.1, 4.1, 4.3–4.5 and 5.1–5.2.
+  arXiv:1007.2777v1 (2010), §3.1, p. 6; (3.2.1), p. 7; §§2.2–2.3, 3.1, 4.1, 4.3–4.5 and 5.1–5.2.
 - J. S. Birman and T. E. Brendle, [*Braids: a survey*](https://arxiv.org/abs/math/0409205),
   arXiv math/0409205v2, §§1.1–1.2, pp. 4–5, and p. 69.
 - R. H. Fox and L. Neuwirth, *The braid groups*, Math. Scand. 10 (1962), 119–126; E. Fadell

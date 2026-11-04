@@ -192,7 +192,7 @@ onto `Q = G/R_u(G)`. In coordinates: with `I_u` the defining Hopf ideal of the `
 radical (the geometric unipotent radical, as `k` is perfect), `O(Q)` is the subalgebra of right
 `I_u`-coinvariants of `O(G)`, and `L` is cut out by a Hopf ideal `J` for which the composite
 `O(Q) → O(G) → O(G)/J = O(L)` is bijective (McNinch, Levi decompositions of a linear algebraic
-group, §1.1, p. 6). The characteristic hypothesis is needed: in characteristic `p` the Greenberg
+group, §3.1, p. 6). The characteristic hypothesis is needed: in characteristic `p` the Greenberg
 transform of `SL₂` over the length-two Witt vectors has no Levi complement (McNinch, (3.2.1),
 p. 7). -/
 theorem exists_levi_complement {k : Type v} [Field k] [CharZero k]
