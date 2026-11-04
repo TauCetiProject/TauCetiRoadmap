@@ -1,9 +1,11 @@
-import Mathlib
-import TauCeti.Geometry.Symplectic.Manifold.TwoForm
-import TauCeti.Geometry.Symplectic.StandardCompatible
-import TauCeti.Topology.Compactification.OnePoint.ProjectiveLine
-import TauCeti.Topology.Algebra.Matrix.ProjectiveSpecialLinearGroup
-import TauCeti.Geometry.Manifold.SmoothEmbedding.NormalSpace
+module
+
+public import Mathlib
+public import TauCeti.Geometry.Symplectic.Manifold.TwoForm
+public import TauCeti.Geometry.Symplectic.StandardCompatible
+public import TauCeti.Topology.Compactification.OnePoint.ProjectiveLine
+public import TauCeti.Topology.Algebra.Matrix.ProjectiveSpecialLinearGroup
+public import TauCeti.Geometry.Manifold.SmoothEmbedding.NormalSpace
 
 /-!
 # Heegaard Floer homology, analytically: target signatures
@@ -55,6 +57,8 @@ full statements can be expressed at the pins:
 The scalar, matrix and finite-chain computations are README Checks, not replacements
 for these geometric theorems.
 -/
+
+public section
 
 namespace TauCetiRoadmap.HeegaardFloer
 
