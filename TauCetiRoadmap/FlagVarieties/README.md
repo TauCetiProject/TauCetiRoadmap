@@ -4,7 +4,7 @@
 
 Construct standard algebraic parabolic subgroups P_J, indexed by subsets J of S, and prove:
 
-1. J ↦ P_J is an order isomorphism from subsets of S to closed subgroup schemes of G containing B.
+1. J ↦ P_J is an order isomorphism from subsets of S to smooth closed subgroup schemes of G containing B; in characteristic zero, to all closed subgroup schemes containing B.
 2. Every parabolic subgroup of G is conjugate under G(k) to exactly one P_J.
 3. The represented homogeneous quotient G/H is projective if and only if H is parabolic, for every smooth closed subgroup scheme H of G; in characteristic zero, for every closed subgroup scheme H of G.
 4. Every nonempty projective homogeneous G-variety with smooth scheme-theoretic stabilizers is G-equivariantly isomorphic to exactly one G/P_J.
@@ -18,7 +18,7 @@ This is a consumer roadmap for the classification and its geometric interpretati
 
 ReductiveGroups 7/7b owns the Tits system on `G(k)`, Bruhat decomposition and the general bridge to abstract standard parabolics. FlagVarieties owns the five headline classifications. The pointwise normalizer suffices; no scheme-theoretic normalizer is needed. GroupSchemesOverABase GS7 owns relative `Bor(G)`, ShimuraData §3.8 owns relative `Par_t(G)`, and ReductiveGroups 7C.5 owns type-A block maps. Their field-fibre comparison is the only work here.
 
-The uniqueness half of the second headline holds for every smooth connected affine group over algebraically closed `k`; its Hopf-ideal prototype in `Suggested.lean` uses only geometric connectedness of the ambient finite-type group.
+The uniqueness half of the second headline holds for every smooth connected affine group over algebraically closed `k`; `conjugate_eq_of_borel_le` in `Suggested.lean` uses only geometric connectedness of the ambient finite-type group.
 
 ShimuraData §3.8 owns the smooth proper `Par_t(G)`, its projectivity over an affine base, and the comparison `G/P ≅ Par_t(G)`. This roadmap proves that containment of a Borel makes `G/H` proper and compares Borel containment with the parabolic notion used by that supplier; it does not reconstruct the projectivity of `G/P`.
 
@@ -44,21 +44,19 @@ Levi decompositions, central isogeny classification, classification of reductive
 | Smooth parabolic predicate | ReductiveGroups 7 | `gap:parabolic-predicate` |
 | Reduced finite-type point separation | ReductiveGroups 3 | `HopfIdeal.eq_of_quotientPointsSubgroup_eq`, `Algebra/AlgebraicGroup/HopfIdeal/Points/Separation.lean` |
 | Hopf ideal conjugation, identity, inverse, composition, point comparison | ReductiveGroups 3 | `HopfIdeal.conjugate`, `HopfIdeal.conjugate_one`, `CommHopfAlgCat.pointConjugation_mem_conjugate_iff`, `Algebra/AlgebraicGroup/HopfIdeal/Conjugation.lean` |
-| Actual `G(k)` Tits system, abstract parabolics, algebraic parabolics and pointwise normalizers | ReductiveGroups 7/7b | `TitsSystem`, `GroupTheory/TitsSystem/Basic.lean`; `gap:tits-system-of-points`, `gap:tits-standard-parabolic`, `gap:standard-parabolic-scheme`, `gap:borel-pointwise-normalizer`, `gap:parabolic-pointwise-normalizer` |
+| Actual `G(k)` Tits system, abstract parabolics, algebraic parabolics and Borel pointwise normalizer | ReductiveGroups 7/7b | `TitsSystem`, `GroupTheory/TitsSystem/Basic.lean`; `gap:tits-system-of-points`, `gap:tits-standard-parabolic`, `gap:standard-parabolic-scheme`, `gap:borel-pointwise-normalizer` |
 | GL Tits system and weight ideal | ReductiveGroups 7C | `glTitsSystem`, `LinearAlgebra/Matrix/GeneralLinearGroup/Diagonal/TitsSystem.lean`; `weightParabolicDefiningHopfIdeal`, `Algebra/AlgebraicGroup/GeneralLinear/Weight/Parabolic/Basic.lean` |
 | Represented homogeneous quotient, torsor and orbit maps | ReductiveGroups 3/3A | `CommHopfAlgCat.fppfHomogeneousQuotient`, `Algebra/AlgebraicGroup/Fppf/Quotient/Homogeneous/Basic.lean`; `gap:homogeneous-quotient-scheme`, `gap:orbit-map-quotient` |
 | Complete `G/B` and complete-scheme Borel fixed point | ReductiveGroups 3A | `gap:complete-borel-quotient`, `gap:borel-fixed-point-scheme` |
 | Type-A block maps and incidence | ReductiveGroups 7C.5; SchubertGeometry S1–S2.3 | Consume the named block maps and incidence work of those roadmaps. |
 | Scheme descent and morphism properties | SchemeAndStackFoundations 0–1 | The quotient universal property and descent required in Layer 5. |
-| Cartier smoothness in characteristic zero | Tau Ceti | `TauCeti.smoothCommHopfAlgProperty_of_charZero`, `Algebra/AlgebraicGroup/Smooth/CharZero.lean:145` |
+| Cartier smoothness in characteristic zero | Tau Ceti | `TauCeti.smoothCommHopfAlgProperty_of_charZero`, `Algebra/AlgebraicGroup/Smooth/CharZero.lean:148` |
 
 ### From TauCetiRoadmap.ReductiveGroups
 
 What ReductiveGroups must provide (gap:borel-conjugacy-connected): for a smooth geometrically connected affine group of finite type over an algebraically closed field, any two Hopf ideals satisfying `IsBorelOverAlgClosed` are conjugate by a rational point, without the `hcontain` hypothesis of `Borel/Conjugation.lean:161`.
 
 What ReductiveGroups must provide (gap:borel-pointwise-normalizer): for such a group and a Borel ideal `B`, a rational point whose conjugation fixes `B` lies in `B(k)`.
-
-What ReductiveGroups must provide (gap:parabolic-pointwise-normalizer): for a smooth connected reductive `G` over algebraically closed `k` and each standard parabolic `P_J`, its point subgroup is self-normalizing in `G(k)`.
 
 What ReductiveGroups must provide (gap:tits-system-of-points): the Tits system on `G(k)` with `subgroupB = B(k)`, `subgroupN = N_G(T)(k)` and simple set the simple reflections of the root system of `(G,T)`, for `G` smooth connected reductive and `T ⊆ B`.
 
@@ -78,15 +76,15 @@ What ReductiveGroups must provide (gap:orbit-map-quotient): for a transitive act
 
 ## How to read the build
 
-`Suggested.lean` is a checked prototype, not an exhaustive checklist. The pinned Tau Ceti lacks the general parabolic predicate, actual reductive-group Tits system and represented quotient schemes. Its docstring names these gaps; a `sorry` is used only for a genuine proof obligation. The README is definitive.
+Layers 0–1 establish the point, quotient and general-linear interfaces; Layer 2 constructs and classifies standard parabolics; Layer 3 classifies their conjugacy types and normalizers; Layers 4–5 classify projective homogeneous spaces and equivariant maps; Layer 6 checks the resulting classifications against concrete models.
 
 ## Layer 0: point/subgroup and quotient adapters
 
 ### 0.1 Closed subgroups and rational points
 
-For a native closed subgroup H, expose H(k) as a subgroup of the native G(k). Prove compatibility with inclusion, conjugation and identity. Reuse `HopfIdeal.le_of_quotientPointsSubgroup_le` and `HopfIdeal.eq_of_quotientPointsSubgroup_eq` to reflect inclusion and equality under their finite-type and reducedness hypotheses. Smooth parabolics are reduced in any characteristic. `TauCeti.smoothCommHopfAlgProperty_of_charZero` (`Algebra/AlgebraicGroup/Smooth/CharZero.lean:145`) supplies Cartier smoothness for arbitrary closed subgroup schemes in characteristic zero. Give the resulting order embedding from closed subgroup schemes, ordered by geometric inclusion, to `Subgroup G(k)`.
+For a native closed subgroup H, expose H(k) as a subgroup of the native G(k). Prove compatibility with inclusion, conjugation and identity. Reuse `HopfIdeal.le_of_quotientPointsSubgroup_le` and `HopfIdeal.eq_of_quotientPointsSubgroup_eq` to reflect inclusion and equality under their finite-type and reducedness hypotheses. Smooth parabolics are reduced in any characteristic. `TauCeti.smoothCommHopfAlgProperty_of_charZero` (`Algebra/AlgebraicGroup/Smooth/CharZero.lean:148`) supplies Cartier smoothness for arbitrary closed subgroup schemes in characteristic zero. Give the resulting order embedding from reduced closed subgroup schemes, ordered by geometric inclusion, to `Subgroup G(k)`.
 
-**Checks. Point detection:** `μ_p` and the Frobenius inverse image of a Borel have the same geometric points as their reductions in characteristic `p`, so point equality cannot recover a nonreduced ideal.
+**Checks. Point detection:** `μ_p` has the same geometric points as its reduction in characteristic `p`, so point equality cannot recover its ideal. Inclusion `B ⊂ P_{s₁}` is reflected by the point-group orders `8 ∣ 24` over `𝔽₂`. A nonreduced ideal defining the Frobenius inverse image of `B` has the points of `B` but is not detected by the order embedding.
 
 Do not assert pointwise detection for nonreduced subgroup schemes in positive characteristic. Do not assume that an arbitrary abstract subgroup of G(k) is algebraic.
 
@@ -122,6 +120,8 @@ For algebraically closed `k`, every reduced Hopf ideal `I ≤ GeneralLinear.Uppe
 
 Prove the block-triangular point description of the weight ideal, classify the point subgroup using the abstract `B W_J B` theorem, and recover equality of the ideals with `HopfIdeal.eq_of_quotientPointsSubgroup_eq` (`HopfIdeal/Points/Separation.lean:84`). Prove that each weight ideal is parabolic and its label unique. In `GL₃`, the four weights are `(0,−1,−2)`, `(0,0,−1)`, `(0,−1,−1)`, `(0,0,0)` for `J = ∅, {0}, {1}, S`.
 
+**Checks. Block weight:** `standardWeight ∅` and `UpperTriangular.weights 3 = (2,1,0)` define the same ideal although their weight vectors differ. At `n=0`, `standardWeight` is the single zero weight. Distinct `J` and `J′` forbid different adjacent matrix entries, so their weight ideals differ.
+
 *Needs:* pinned weight ideal and upper-triangular ideal, pinned point separation, and `gap:tits-standard-parabolic`. The weight-ideal comparison and parabolicity are proved in this layer.
 
 ### Examples
@@ -142,25 +142,21 @@ Consume ReductiveGroups 7/7b's construction of P_J as the smallest closed subgro
 
 Consume the crucial supplier equality
 
-    P_J(k) = TitsSystem.standardParabolic J.
+    P_J(k) = B(k) W_J B(k).
 
-This equality is a theorem, not a premise in the definition. To avoid a hidden closure gap, use the supplier's Bruhat decomposition and rank-one multiplication to identify the abstract subgroup with
-
-    ⋃_{w∈W_J} B(k) n_w B(k),
-
-and establish the finite-union closedness needed to compare the subgroup with the algebraic carrier. Each double coset is constructible as the image of `B × B → G`. The finite union is a constructible subgroup. A dense constructible subgroup contains a nonempty open subset of its closure; translations make it open in its closure, and its remaining cosets make the complement open. It is therefore closed. This needs the supplier root-cell and Bruhat comparison, not Schubert closure geometry. The reduced closed subvariety so obtained is a subgroup scheme: descend multiplication and inverse using geometric-point detection for reduced finite-type schemes, including reducedness of the products over the perfect field k. The supplier bridge identifies it with the closed-generated subgroup by minimality.
+This is the theorem supplied by `gap:standard-parabolic-scheme`; its proof uses constructibility of the finite Bruhat-cell union to establish closedness.
 
 Consume smoothness in any characteristic, containment of B, parabolicity, connectedness, P_∅=B and P_S=G from ReductiveGroups 7/7b. For connectedness, the supplier uses connectedness of each generating root subgroup and B and its closed-generation theorem.
 
-**Checks. Standard parabolic:** `P_∅=B`; `P_S=G`; in `GL₃`, `{s₁}` retains the plane and `{s₂}` the line; over `𝔽₂` the four point groups have orders `8,24,24,168`, unlike the Weyl parabolics of orders `1,2,2,6`.
+**Checks. Standard parabolic:** `P_∅=B`; `P_S=G`; in `GL₃`, `{s₁}` retains the plane and `{s₂}` the line; over `𝔽₂` the four point groups have orders `8,24,24,168`, unlike the Weyl parabolics of orders `1,2,2,6`. In characteristic `p`, `F⁻¹(B) ⊆ SL₂` contains `B`, has the points of `B`, and is no `P_J`; it is excluded by smoothness.
 
 *Needs:* ReductiveGroups 7/7b Bruhat and root-cell inputs, Chevalley constructibility, 0.1.
 
 ### 2.2 Standard classification
 
-Consume `gap:tits-standard-parabolic` and `gap:standard-parabolic-scheme`. For any closed subgroup Q containing B, classify Q(k) abstractly and recover Q=P_J through 0.1 and 2.1. Export an order isomorphism
+Consume `gap:tits-standard-parabolic` and `gap:standard-parabolic-scheme`. For any smooth closed subgroup `Q` containing `B` (any closed subgroup in characteristic zero, by `TauCeti.smoothCommHopfAlgProperty_of_charZero`), classify `Q(k)` abstractly and recover `Q=P_J` through 0.1 and 2.1; invoke `HopfIdeal.eq_of_quotientPointsSubgroup_eq` with the reducedness of both quotient coordinate rings. Export an order isomorphism
 
-    Set S ≃o {Q : closed subgroup schemes of G | B ⊆ Q}.
+    Set S ≃o {Q : smooth closed subgroup scheme of G | B ⊆ Q}.
 
 Give evaluation/inverse lemmas, uniqueness, inclusion reflection, and endpoint lemmas. Show that the inverse selects s precisely when the corresponding minimal parabolic is contained in Q. Prove P_J∩P_K=P_(J∩K); prove that the closed subgroup generated by P_J and P_K is P_(J∪K). Formulate intersections scheme-theoretically in all characteristics, using the smooth connected intersection theorem of ReductiveGroups 7b and 0.1 to recover their defining ideals.
 
@@ -180,7 +176,7 @@ ReductiveGroups 7/7b supplies the actual Tits system, Bruhat/root cells and sche
 
 Use the supplier parabolic conjugation theorem to move a Borel contained in P to B, then apply 2.2. Prove uniqueness of the standard representative under G(k)-conjugacy.
 
-The uniqueness argument must include its missing bridge: if gP_Jg⁻¹=P_K, then gBg⁻¹ and B are Borel subgroups of the connected group P_K. They remain Borel in P_K because any larger connected solvable subgroup would contradict maximality in G. Conjugate them inside P_K using the unconditional `IsBorelOverAlgClosed.exists_conjugate_eq` from `Borel/Conjugacy/Existence.lean` to modify g to an element normalizing B. Use the pointwise equality N_G(B)(k)=B(k) to conclude P_J=P_K and then J=K. Consume the abstract self-normalizer theorem through Layers 0 and 2, rather than assuming normality of B in P_K.
+The uniqueness argument must include its missing bridge: if gP_Jg⁻¹=P_K, then gBg⁻¹ and B are Borel subgroups of the connected group P_K. They remain Borel in P_K because any larger connected solvable subgroup would contradict maximality in G. Conjugate them inside `P_K` by `gap:borel-conjugacy-connected` applied to the smooth connected group `P_K`, modifying g to an element normalizing B. Use the pointwise equality N_G(B)(k)=B(k) to conclude P_J=P_K and then J=K.
 
 Define the type of a parabolic as its unique standard label and prove invariance under conjugation, together with the converse: equal types imply conjugacy. Export the equivalence between subsets of S and G(k)-conjugacy classes of parabolic subgroup schemes.
 
@@ -190,9 +186,9 @@ Define the type of a parabolic as its unique standard label and prove invariance
 
 ### 3.2 Pointwise normalizers
 
-Use the ReductiveGroups 7b pointwise normalizer theorem to show `N_{G(k)}(P_J(k))=P_J(k)` and transport this under conjugation. No normalizer subgroup scheme is required.
+For `g ∈ G(k)` with `gP_Jg⁻¹ = P_J`, the bridge of §3.1 with `K = J` gives `g ∈ P_J(k)` (Milne Corollary 17.49, p.367); transport this pointwise self-normalization under conjugation. No normalizer subgroup scheme is required.
 
-*Needs:* 2.1, 3.1 and `gap:parabolic-pointwise-normalizer`.
+*Needs:* 3.1.
 
 ### Examples
 
@@ -200,7 +196,7 @@ In `GL₃`, the two maximal proper standard parabolics have equal dimension but 
 
 ### Dependencies
 
-Layer 2 classification, `gap:borel-conjugacy-connected`, `gap:borel-pointwise-normalizer` and `gap:parabolic-pointwise-normalizer`.
+Layer 2 classification, `gap:borel-conjugacy-connected` and `gap:borel-pointwise-normalizer`.
 
 ## Layer 4: projectivity and the homogeneous-space dictionary
 
@@ -287,7 +283,7 @@ Layers 1–5, ReductiveGroups 7C.5 block maps, and SchubertGeometry S1 incidence
 
 There are no downstream roadmap consumers today. ShimuraData §3.8 supplies `Par_t(G)` earlier in the build order; ReductiveGroups 7C.5 and SchubertGeometry S1 supply the type-A block and incidence comparisons used here.
 
-## References and proof route
+## References
 
 Primary reference: J. E. Humphreys, *Linear Algebraic Groups*, Graduate Texts in Mathematics 21, Springer. Use section numbers rather than edition-dependent page numbers.
 
@@ -302,4 +298,4 @@ The intended path is the classical algebraic route, not classification of reduct
 
 ### Claim-local locators
 
-Layer 0.3 uses Milne (2017), §7.e and Propositions 7.11 and 7.15, printed pp.141–143, for the orbit-to-quotient isomorphism and fibre comparison. Layer 2.1 uses Humphreys §§29.1–29.3 for BN-pairs and Bruhat cells. Layer 2.2 uses Humphreys §30.1 and Milne Theorem 21.91, pp.453–454, for smooth standard parabolics in arbitrary characteristic; its scheme-theoretic intersection equality holds in every characteristic by ReductiveGroups 7b's smooth connected intersection theorem. Layer 3.1 uses Milne Theorem 17.9(b), p.354, for Borel conjugacy, Milne Theorem 21.91, p.453, for uniqueness of standard type, and Conrad–Feng (2020), Appendix T.1, p.305, as a statement reference. Layer 4.1 uses Milne Theorem 17.9(a), p.354, and Humphreys §21.3 for complete `G/B`; ShimuraData §3.8 supplies projectivity of `Par_t(G)`. Layer 5.1 uses Milne Proposition 5.22, p.104, with the quotient universal property. Humphreys is the primary reference, cited by locator only; its paywalled text was not checked here.
+Layer 0.3 uses Milne (2017), §7.e and Propositions 7.11 and 7.15, printed pp.141–143, for the orbit-to-quotient isomorphism and fibre comparison. Layer 2.1 uses Humphreys §§29.1–29.3 for BN-pairs and Bruhat cells. Layer 2.2 uses Humphreys §30.1 and Milne Theorem 21.91, pp.453–454, for smooth standard parabolics in arbitrary characteristic; its scheme-theoretic intersection equality holds in every characteristic by ReductiveGroups 7b's smooth connected intersection theorem. Layer 3.1 uses Milne Theorem 17.9(b), p.354, for Borel conjugacy, Milne Theorem 21.91, p.453, for uniqueness of standard type, and Conrad–Feng (2020), Appendix T.1, p.305, as a statement reference. Layer 3.2 uses Milne Corollary 17.49, p.367, for pointwise self-normalization. Layer 4.1 uses Milne Theorem 17.9(a), p.354, and Humphreys §21.3 for complete `G/B`; ShimuraData §3.8 supplies projectivity of `Par_t(G)`. Layer 5.1 uses Milne Proposition 5.22, p.104, with the quotient universal property. Humphreys is cited by locator only (uncertified).

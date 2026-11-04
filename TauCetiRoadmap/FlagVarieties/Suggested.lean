@@ -7,7 +7,7 @@ public import TauCeti.Algebra.AlgebraicGroup.GeneralLinear.Weight.Parabolic.Basi
 public import TauCeti.Algebra.AlgebraicGroup.GeneralLinear.UpperTriangular.Basic
 
 /-!
-# Suggested interfaces for flag varieties
+# Flag varieties: target signatures
 
 This file contains suggested forms, not an exhaustive checklist; the README is definitive.
 The GL case of headline 1 is stated below using the pinned weight-parabolic Hopf ideal.
@@ -31,9 +31,9 @@ statement.
 
 public section
 
-open CategoryTheory
+open CategoryTheory TauCeti
 
-namespace TauCeti.FlagVarieties
+namespace TauCetiRoadmap.FlagVarieties
 
 universe u v
 
@@ -65,4 +65,4 @@ theorem conjugate_eq_of_borel_le {k : Type u} [Field k] [IsAlgClosed k]
     (g : WithConv (G.obj →ₐ[k] k)) (hconj : Q = P.conjugate g) : P = Q := by
   sorry
 
-end TauCeti.FlagVarieties
+end TauCetiRoadmap.FlagVarieties
