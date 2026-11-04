@@ -1879,9 +1879,16 @@ the kernel and cokernel of the induced algebra map vanish. Under the simultaneou
 prove that the algebra arrows are conjugate and their kernel/cokernel vanishing loci correspond;
 in particular transport the isomorphism locus of `Φ`, not just its source and target schemes.
 Construct the base-change and faithfully flat descent comparisons used in this argument; do not
-assert that arbitrary nonflat pullback preserves a kernel. The generic isomorphism and the
-supersingular completed-local isomorphisms, together with this arrow-compatible homogeneity
-argument of Layer 7, put every point in the open vanishing locus.
+assert that arbitrary nonflat pullback preserves a kernel. Then run the homogeneity argument of
+7F (ST-3) on the conjugate arrows rather than on the two schemes, with the same inputs ST-1,
+ST-2 and PD-5: the open isomorphism locus of `Φ` on the rigidifier scheme contains every closed
+point of residue characteristic different from `p` by (2), every supersingular closed point by
+(3) and the faithful flatness of the completed strict henselisation over the local ring, hence
+an open neighbourhood of one such point, hence an ordinary closed point of the
+characteristic-`p` fibre, hence by (4) applied to the universal formal deformations of two
+ordinary curves (whose `p`-divisible groups ST-1 and PD-5 identify) every ordinary closed
+point; an open set containing every closed point of a scheme of finite type over `ℤ` is the
+whole scheme.
 
 **The two moduli problems compared (KM 6.1, p. 155).** For `N = pⁿ`, both problems refine
 `[Γ₁(pⁿ)]`-with-subgroup data: `𝒫₁(E/S)` is the set of triples `(P, G, Q)` with `P` a Drinfeld
