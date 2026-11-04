@@ -824,7 +824,7 @@ In classical coordinates write σ=(⊗_i σ_i)⊗π₀ on M≅(∏_i GL_(β_i))�
 - For a reflected GSpin GL₁ block with σ=1 and χ_π(ϖ)=−1, the dual-twisted block has value −1 at ϖ, whereas the untwisted dual has value 1; the rest of the datum is transported by the same Weyl element.
 - For SO₄ over ℚ₃, put ν=|·| and write Borel data ν^a⋊ν^b on GL₁×SO₂. The D₂ orbit of (2,1) is {(2,1),(1,2),(−2,−1),(−1,−2)}. Pullback to Spin₄=SL₂×SL₂ has exponents a−b=1 and a+b=3: the first factor has trivial quotient and Steinberg subrepresentation, and the second is irreducible. Thus I(2,1) has two constituents and one irreducible quotient; I(1,2), with exponents −1 and 3, supplies the other quotient. The fixed-tail alternatives (2,1) and (−2,1) fail, since the latter is outside this cuspidal-support orbit.
 
-*Needs:* §0.3; SmoothRepresentationsOfLocalGroups SR.0.4 (admissible duality), SR.2.2 (induced contragredients and geometric lemma), SR.2.3 and SR.3.1 (cuspidal support and embedding).
+*Needs:* §0.3; SmoothRepresentationsOfLocalGroups SR.0.4 (admissible duality), SR.2.2 (induced contragredients and geometric lemma) and SR.3.1 (cuspidal support and embedding).
 
 ### 5.1 the (k,c) unipotent character
 
