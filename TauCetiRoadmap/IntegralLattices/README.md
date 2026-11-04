@@ -12,9 +12,9 @@ supply concrete even/unimodular, dual/discriminant, gluing and root-lattice cons
 Use the actual declarations where available; the remaining milestones specify their extensions,
 not replacement carriers or a claim that no library has this arithmetic.
 
-`Suggested.lean` records native comparisons and typed targets. Its admitted declarations remain
-proof obligations. `ArchimedeanVolume.lean` records the separate real metric/measure targets of
-7E; neither file is a certificate that the entire programme is implemented.
+`Suggested.lean` records native comparisons and typed targets, including the separate real
+metric/measure targets of 7E in its section `ArchimedeanVolume`. Its admitted declarations remain
+proof obligations; the file is not a certificate that the entire programme is implemented.
 
 The principal results of this roadmap are:
 
