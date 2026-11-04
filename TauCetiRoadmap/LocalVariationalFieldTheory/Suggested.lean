@@ -83,4 +83,26 @@ theorem dirac_covariance_and_pairing
         diracVector (timeFirstToNative (Pi.single 0 1)) := by
   sorry
 
+/-! ## Real fields: conjugation-fixed subspaces of a complex field space -/
+
+section RealFields
+
+open scoped TensorProduct
+
+variable {V : Type*} [AddCommGroup V] [Module ℂ V]
+    [StarAddMonoid V] [StarModule ℂ V]
+
+/-- The canonical complexification map of the native fixed real subspace is an equivalence. -/
+theorem realField_descent :
+    ∃ e : (ℂ ⊗[ℝ] selfAdjoint V) ≃ₗ[ℂ] V,
+      ∀ (z : ℂ) (v : selfAdjoint V), e (z ⊗ₜ[ℝ] v) = z • (v : V) := by
+  sorry
+
+/-- Conjugation-fixed real fields have the original complex dimension. -/
+theorem realField_finrank [FiniteDimensional ℂ V] :
+    Module.finrank ℝ (selfAdjoint V) = Module.finrank ℂ V := by
+  sorry
+
+end RealFields
+
 end TauCetiRoadmap.LocalVariationalFieldTheory
