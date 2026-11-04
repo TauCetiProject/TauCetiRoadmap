@@ -1,40 +1,31 @@
 import Mathlib
-import TauCetiRoadmap.MassFormula.Suggested
+import TauCeti.NumberTheory.LocalField.Discriminant.Basic
+import TauCeti.NumberTheory.LocalField.FiniteExtension.IntermediateField
+import TauCeti.NumberTheory.LocalField.InertiaDegree
 import TauCeti.NumberTheory.LocalField.Unramified.Existence
 import TauCeti.NumberTheory.LocalField.Unramified.Maximal
 
 /-!
-# Bhargava's mass formula for étale algebras over a local field: target signatures
+# Bhargava's mass formula for étale algebras over a local field: suggested signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. The statements here suggest Lean forms for particular milestones, so that
-contributors and reviewers converge on names and signatures; discharging all of them
-finishes neither a layer nor the roadmap.
+These signatures are suggested forms, not an exhaustive checklist. `README.md` is the definitive
+specification.
 
-The narrative roadmap (the standing conventions, the consumed contract, Layers 0–3, the worked
-examples, and the references) is in `README.md`. Mathlib has the Krull topology on
-`SeparableClosure K ≃ₐ[K] SeparableClosure K`, fixed fields of subgroups, orbit quotients of a
-group action, the structure theorem `Algebra.FormallyEtale.iff_exists_algEquiv_prod` for étale
-algebras over a field, and integer partitions `Nat.Partition`. It has **no** mass formula over
-étale algebras ([Bhargava 2007]).
+The file states the roadmap's headline theorems against the pinned Mathlib and Tau Ceti:
+Bhargava's formula `etaleMass_eq`, its refinements by splitting type
+(`etaleMass_splittingSymbol`) and by ramification partition (`etaleMass_ramificationPartition`),
+and the identification `tsum_etaleDiscriminantExponent` of the sum over étale algebras with the
+mass of Galois sets. All of them are statable at the pins. The definitions they need are the
+Galois-set carrier `GaloisSet` with its weight and splitting symbol, the orbit weight
+`orbitDiscriminantExponent`, the mass `etaleMass`, the étale weight `etaleDiscriminantExponent`,
+and the totalized invariants `intermediateFieldDiscriminantExponent` and
+`intermediateFieldInertiaDegree` of a subextension of `SeparableClosure K`.
 
-⚠ **Serre's mass formula and its invariants are consumed, not built here.** The discriminant
-exponent of a subextension of `SeparableClosure K` is the `MassFormula` roadmap's
-`intermediateFieldDiscriminantExponent`, and Serre's Theorem 1 is that roadmap's summit. Both are
-implemented in Tau Ceti (`TauCeti/NumberTheory/LocalField/MassFormula/`, as
-`IntermediateField.discriminantExponent` and
-`TauCeti.tsum_one_div_natCard_residueField_pow_wildExponent`). The Tau Ceti revision this
-repository pins predates that implementation, so this file imports the `MassFormula` roadmap's
-`Suggested.lean` instead; the import is replaced by Tau Ceti's when the pin moves.
-
-The unramified extension of degree `f` and the maximal unramified extension are Tau Ceti's
-`TauCeti.unramifiedExtension` and `TauCeti.maximalUnramifiedExtension`, imported above.
-
-This file pins the roadmap's load-bearing **definitions** (`orbitDiscriminantExponent`,
-`GaloisSet` with its weight and splitting symbol, `etaleMass`, `homMulAction`,
-`etaleDiscriminantExponent`, and the wrapper `intermediateFieldInertiaDegree`) and its **named
-milestones** as `sorry`-targets (`sorry` is allowed in this human-owned roadmap library — these
-are goals, not proofs).
+`intermediateFieldDiscriminantExponent` has the body of Tau Ceti's
+`IntermediateField.discriminantExponent` (`TauCeti/NumberTheory/LocalField/MassFormula/Basic.lean`,
+beyond the pinned revision) and of the mass formula roadmap's wrapper of the same name; it is
+replaced by Tau Ceti's declaration when the pin moves. Serre's Theorem 1, which Layer 2 applies,
+is cited from the mass formula roadmap's README and is not restated here.
 
 Suggested home: `TauCeti/NumberTheory/LocalField/EtaleMassFormula/`.
 -/
@@ -44,18 +35,34 @@ open scoped ENNReal Nat
 
 namespace TauCetiRoadmap.EtaleMassFormula
 
-open MassFormula (intermediateFieldDiscriminantExponent)
-
 universe u
 
-variable (K : Type u) [Field K] [ValuativeRel K] [UniformSpace K] [IsUniformAddGroup K]
+variable {K : Type u} [Field K] [ValuativeRel K] [TopologicalSpace K]
   [IsNonarchimedeanLocalField K]
+
+open scoped Classical in
+/-- The discriminant exponent `d(L/K)` of a subextension `L` of `SeparableClosure K`:
+`TauCeti.discriminantExponent K L` for the local-field structure of
+`TauCeti.finiteIntermediateFieldValuativeRel` and `TauCeti.finiteIntermediateFieldTopology` when
+`L / K` is finite, and the junk value `0` otherwise. Tau Ceti's
+`IntermediateField.discriminantExponent`, beyond the pinned revision. -/
+noncomputable def intermediateFieldDiscriminantExponent
+    (L : IntermediateField K (SeparableClosure K)) : ℕ :=
+  if _ : Module.Finite K L then
+    letI := TauCeti.finiteIntermediateFieldValuativeRel K (SeparableClosure K) L
+    letI := TauCeti.finiteIntermediateFieldTopology K (SeparableClosure K) L
+    haveI := TauCeti.finiteIntermediateField_isNonarchimedeanLocalField K (SeparableClosure K) L
+    haveI := TauCeti.finiteIntermediateField_valuativeExtension K (SeparableClosure K) L
+    TauCeti.discriminantExponent K L
+  else 0
+
+variable (K)
 
 /-! ## Layer 0: Galois sets, their weight, and the mass -/
 
 /-- The weight of a set with an action of `Gal(K^sep/K)`: the sum, over the orbits, of the
 discriminant exponent of the fixed field of the stabilizer of a point of the orbit. The choice of
-point does not matter (`orbitDiscriminantExponent_eq`, by invariance of the discriminant exponent
+point does not matter (`intermediateFieldDiscriminantExponent_fixedField_stabilizer_smul`, by invariance of the discriminant exponent
 under `K`-isomorphism). For a finite set with open stabilizers this is the discriminant exponent of
 the corresponding étale algebra. -/
 noncomputable def orbitDiscriminantExponent (X : Type*)
@@ -179,26 +186,19 @@ theorem tsum_etaleDiscriminantExponent (n : ℕ) {ι : Type*} (A : ι → Type u
 
 variable {K}
 
-/-- The residue degree `f(L/K)` of a subextension `L` of `SeparableClosure K`: Tau Ceti's
-`TauCeti.inertiaDegree` (consumed as `LocalFieldsRamification.inertiaDegree`), totalized over an
-arbitrary `L` by installing the consumed `finiteIntermediateField*` structures on the finite
-branch, with junk value `0` for `L` infinite over `K`. The same totalization as `MassFormula`'s
+/-- The residue degree `f(L/K)` of a subextension `L` of `SeparableClosure K`:
+`TauCeti.inertiaDegree K L` for the local-field structure of the `finiteIntermediateField*`
+adapters when `L / K` is finite, and the junk value `0` otherwise; the same totalization as
 `intermediateFieldDiscriminantExponent`. -/
 noncomputable def intermediateFieldInertiaDegree
     (L : IntermediateField K (SeparableClosure K)) : ℕ :=
   open scoped Classical in
-  if hfin : Module.Finite K ↥L then
-    haveI := hfin
-    letI : ValuativeRel ↥L :=
-      LocalFieldsRamification.finiteIntermediateFieldValuativeRel K (SeparableClosure K) L
-    letI : TopologicalSpace ↥L :=
-      LocalFieldsRamification.finiteIntermediateFieldTopology K (SeparableClosure K) L
-    haveI : IsNonarchimedeanLocalField ↥L :=
-      LocalFieldsRamification.finiteIntermediateField_isNonarchimedeanLocalField K
-        (SeparableClosure K) L
-    haveI : ValuativeExtension K ↥L :=
-      LocalFieldsRamification.finiteIntermediateField_valuativeExtension K (SeparableClosure K) L
-    LocalFieldsRamification.inertiaDegree K ↥L
+  if _ : Module.Finite K L then
+    letI := TauCeti.finiteIntermediateFieldValuativeRel K (SeparableClosure K) L
+    letI := TauCeti.finiteIntermediateFieldTopology K (SeparableClosure K) L
+    haveI := TauCeti.finiteIntermediateField_isNonarchimedeanLocalField K (SeparableClosure K) L
+    haveI := TauCeti.finiteIntermediateField_valuativeExtension K (SeparableClosure K) L
+    TauCeti.inertiaDegree K L
   else 0
 
 /-- **The unramified part of a subextension** is the unramified extension of degree `f(L/K)`: for
@@ -243,8 +243,8 @@ variable (K)
 subextensions of `SeparableClosure K` of degree `f * e` and residue degree `f` satisfy
 `∑ q^{-d(L/K)} = e · q^{-f(e-1)}`. Each contains `K_f` (`inf_maximalUnramifiedExtension`), is
 totally ramified of degree `e` over it, and has `d(L/K) = f · d(L/K_f)`
-(`TauCeti.discriminantExponent_tower`, with `d(K_f/K) = 0`); Serre's formula over `K_f`, whose
-residue field has `q^f` elements, then gives the value. -/
+(`TauCeti.discriminantExponent_tower`, with `d(K_f/K) = 0`); Serre's Theorem 1 over `K_f` (the
+mass formula roadmap's Layer 4), whose residue field has `q^f` elements, then gives the value. -/
 theorem tsum_inertiaDegree_eq (f e : ℕ) (hf : 0 < f) (he : 0 < e) :
     ∑' L : {L : IntermediateField K (SeparableClosure K) //
         Module.finrank K L = f * e ∧ intermediateFieldInertiaDegree L = f},
@@ -285,12 +285,13 @@ def splittingSymbolExponent (σ : Multiset (ℕ × ℕ)) : ℕ :=
 
 variable {K}
 
-/-- **The transitive mass by residue degree**: the transitive Galois sets of size `f * e` whose
-point stabilizers have residue degree `f` have mass `q^{-f(e-1)} / f`. This is `tsum_isTransitive`
-followed by `tsum_inertiaDegree_eq`, and the case `r = 1` of `etaleMass_splittingSymbol`. -/
+/-- **The transitive mass by residue degree**, the Layer 2 milestone: the Galois sets of size
+`f * e` with splitting symbol `{(f, e)}`, which are transitive, have mass `q^{-f(e-1)} / f`. The
+proof is `tsum_isTransitive` followed by `tsum_inertiaDegree_eq`; Layer 3 assembles every other
+splitting type from these. -/
 theorem etaleMass_isTransitive_splittingSymbol (f e : ℕ) (hf : 0 < f) (he : 0 < e) :
     ((f * e)! : ℝ≥0∞)⁻¹ *
-        ∑' ρ : {ρ : GaloisSet K (f * e) // ρ.IsTransitive ∧ ρ.splittingSymbol = {(f, e)}},
+        ∑' ρ : {ρ : GaloisSet K (f * e) // ρ.splittingSymbol = {(f, e)}},
           1 / (Nat.card 𝓀[K] : ℝ≥0∞) ^ ρ.1.discriminantExponent =
       1 / ((f : ℝ≥0∞) * (Nat.card 𝓀[K] : ℝ≥0∞) ^ (f * (e - 1))) :=
   sorry
@@ -325,14 +326,6 @@ theorem etaleMass_ramificationPartition (n k : ℕ) (hk : k ≤ n) (π : k.Parti
         ∑' ρ : {ρ : GaloisSet K n // ramificationPartition ρ.splittingSymbol = π.parts},
           1 / (Nat.card 𝓀[K] : ℝ≥0∞) ^ ρ.1.discriminantExponent =
       1 / (Nat.card 𝓀[K] : ℝ≥0∞) ^ k :=
-  sorry
-
-/-- **The unramified mass** ([Bhargava 2007, (2.4)]): the Galois sets of size `n` all of whose
-orbits are unramified have mass `1`. The case `k = 0` of `etaleMass_ramificationPartition`. -/
-theorem etaleMass_unramified (n : ℕ) :
-    (n ! : ℝ≥0∞)⁻¹ *
-        ∑' ρ : {ρ : GaloisSet K n // ∀ x ∈ ρ.splittingSymbol, x.2 = 1},
-          1 / (Nat.card 𝓀[K] : ℝ≥0∞) ^ ρ.1.discriminantExponent = 1 :=
   sorry
 
 variable (K)
