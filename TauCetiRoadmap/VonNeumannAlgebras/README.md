@@ -806,12 +806,14 @@ and V3.1. Classify unital inclusions `N ⊆ M` of finite-dimensional algebras by
 integer multiplicity matrices `Λ = (λ_{ij})`: for `q_i` and `p_j` the minimal central projections
 of `N` and `M`, `λ_{ij} = 0` when `p_j q_i = 0`, and otherwise `λ_{ij}` is the integer `k` for
 which `e(p_j q_i M q_i p_j)e` is a type `I_k` factor when `e` is a minimal projection of the
-subfactor `p_j q_i N` of the factor `p_j q_i M q_i p_j` (Jones, Theorem 4.4.2, pp. 28–29, whose
-statement takes every corner `p_j q_i M q_i p_j` to be a factor and so tacitly nonzero). Prove the
-dimension formula `r_j = Σ_i λ_{ij} k_i` for `N = ⊕_i M_{k_i}(ℂ)` and `M = ⊕_j M_{r_j}(ℂ)`,
-composition of inclusion matrices by matrix multiplication, and the bipartite Bratteli graph with
-`λ_{ij}` edges between `i` and `j`. Prove the entry formula: `λ_{ij}` is the rank in `M_{r_j}(ℂ)` of
-`p_j e_i` for a minimal projection `e_i` of `q_i N` (Jones, Exercise 4.4.3, p. 29). Work out
+subfactor `p_j q_i N` of the factor `p_j q_i M q_i p_j` (Jones, Theorem 4.4.2 and the definition
+of `Λ` that follows its proof, pp. 28–29: the theorem itself is the factor case, with `k > 0`, and
+it is that definition which takes every corner `p_j q_i M q_i p_j` to be a factor and so tacitly
+nonzero). Prove the dimension formula `r_j = Σ_i λ_{ij} k_i` for `N = ⊕_i M_{k_i}(ℂ)` and
+`M = ⊕_j M_{r_j}(ℂ)`, composition of inclusion matrices by matrix multiplication, and the bipartite
+Bratteli graph with `λ_{ij}` edges between `i` and `j`. Prove the entry formula: `λ_{ij}` is the
+rank in `M_{r_j}(ℂ)` of `p_j e_i` for a minimal projection `e_i` of `q_i N` (Jones, Exercise 4.4.3,
+p. 29). Work out
 `M₂(ℂ) ⊕ ℂ ⊆ M₅(ℂ) ⊕ M₃(ℂ)` (Jones, Example 4.4.4, p. 29) and the general construction realising
 every admissible inclusion matrix (Jones, Exercise 4.4.5, p. 29). For a spatial inclusion of type I
 factors `N ⊆ N ⊗ M_k(ℂ)` with finite `k`, prove that the larger algebra is a free left `N`-module
