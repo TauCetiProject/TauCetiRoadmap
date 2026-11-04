@@ -66,7 +66,7 @@ for every integrable `f : G → A` there is a bounded operator `T = (π ⋊ U)(f
 by `T ξ = ∫ π(f g) (U g ξ) dμ(g)`, with `‖T‖ ≤ ∫ ‖f g‖ dμ(g)`. The bound does not use
 covariance, which enters only in multiplicativity. -/
 theorem exists_integratedOperator (π : A →⋆ₙₐ[ℂ] (H →L[ℂ] H))
-    (U : ContRepresentation ℂ G H) (hU : TauCeti.ContRepresentation.IsUnitary U)
+    (U : ContRepresentation ℂ G H) (hU : _root_.ContRepresentation.IsUnitary U)
     (hcont : ∀ ξ, Continuous fun g => U g ξ)
     (μ : Measure G) [μ.InnerRegularCompactLTTop]
     (f : G → A) (hf : Integrable f μ) :

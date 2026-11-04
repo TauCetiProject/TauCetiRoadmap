@@ -92,7 +92,7 @@ positive characters: `f̂(χ)=∫ f(g)χ(g) dμ(g)` and
   D4 uses the harmonic-analysis layer independently of the normal
   crossed-product theorem.
 - [OperatorTheory/SelfAdjointSpectralTheory](../OperatorTheory/SelfAdjointSpectralTheory/README.md)
-  and [OneParameterSemigroups](../OneParameterSemigroups/README.md) supply
+  and [OneParameterSemigroups](../../Completed/OneParameterSemigroups/README.md) supply
   self-adjoint generators, their spectral calculus, Part B's PVM carrier,
   integration and representation-PVM API, and strongly continuous
   one-parameter groups. Use their `LinearPMap` domains and graph closures.
