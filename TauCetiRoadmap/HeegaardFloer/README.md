@@ -22,7 +22,7 @@ ComplexKahlerGeometry K5a owns the complete, atlas-independent Fréchet
 space of smooth finite-rank bundle sections on boundaryless manifolds;
 F0.4 owns its finite-jet comparison and the boundary/corner and relative
 constraint extensions. PDE Lane A supplies domain Sobolev estimates.
-[PseudoholomorphicCurveAnalysis](https://github.com/TauCetiProject/TauCetiRoadmap/blob/de547ac0ec8c96e0e0eb26415735da278d6272d6/TauCetiRoadmap/PseudoholomorphicCurveAnalysis/README.md) (PH below) owns the planar and compact
+[PseudoholomorphicCurveAnalysis](https://github.com/TauCetiProject/TauCetiRoadmap/blob/97c4e22c42ebe12b0111365fe1cd0306177d3421/TauCetiRoadmap/PseudoholomorphicCurveAnalysis/README.md) (PH below) owns the planar and compact
 Cauchy–Riemann theory: local vector-valued Sobolev classes, isothermal coordinates, the
 Cauchy and Beurling operators, interior and totally real boundary estimates, the similarity
 principle, nonlinear bootstrapping, Fredholm theory on compact bordered surfaces and closed
@@ -1817,7 +1817,7 @@ Mathlib `ContinuousLinearMap.IsFredholm`, the Banach inverse and implicit functi
 
 ## Layer 3: the Cauchy–Riemann elliptic package
 
-[PseudoholomorphicCurveAnalysis](https://github.com/TauCetiProject/TauCetiRoadmap/blob/de547ac0ec8c96e0e0eb26415735da278d6272d6/TauCetiRoadmap/PseudoholomorphicCurveAnalysis/README.md) (PH) owns the planar and compact
+[PseudoholomorphicCurveAnalysis](https://github.com/TauCetiProject/TauCetiRoadmap/blob/97c4e22c42ebe12b0111365fe1cd0306177d3421/TauCetiRoadmap/PseudoholomorphicCurveAnalysis/README.md) (PH) owns the planar and compact
 Cauchy–Riemann theory. This layer consumes it, keeps the F1.k names for the consumed
 material so that the citations below resolve, and owns the strip, end, weighted, index and
 normalization constructions that PH does not cover.
@@ -1843,14 +1843,12 @@ Consume PH's planar theory. The names used below resolve as follows:
 - F1.2's Hölder Cauchy–Green and Beurling operators and their estimates: PH3.1;
 - F1.2's Beltrami inverse and `C^(ℓ+1,α)` coordinates: PH2.4;
 - F1.2's boundary flattening, reflection, boundary estimates and bootstrapping: PH2.3, PH3.4
-  and PH5.1;
+  and PH5.1 (the boundary case of PH5.1 needs `ℓ ≥ 2` and gives `W^(ℓ,p)`);
 - F1.2's vector similarity principle, unique continuation and isolated zeros: PH3.5;
 - F1.2's formal adjoints, adjoint sections, dual-Sobolev cokernel identification and adjoint
-  uniqueness theorem: PH6.3.
-
-Prove here the real Cauchy–Riemann line-bundle zero count: a solution which is not
-identically zero on a connected closed Riemann surface has isolated zeros of positive integer
-order (PH3.5), whose sum is the line bundle's c₁.
+  uniqueness theorem: PH6.3;
+- F1.2's real Cauchy–Riemann line-bundle zero count (isolated zeros of positive order whose
+  sum is c₁): PH7.2.
 
 Construct the normalized real-boundary disc solver before nonlinear
 coordinate changes. For p>2 let X be the closed real subspace of
