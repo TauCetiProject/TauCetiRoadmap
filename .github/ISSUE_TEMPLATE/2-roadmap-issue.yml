@@ -102,6 +102,7 @@ body:
         - PivotalSpherical
         - PositiveScalarCurvature
         - ProfiniteCohomology
+        - PseudodifferentialOperators
         - PurityOfBranchLocus
         - QuadraticFormInvariants
         - QuantumGroups
