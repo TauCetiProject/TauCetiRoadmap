@@ -16,15 +16,19 @@ definitions are the local Sobolev classes of Layer 1 and the two weak-solution p
 Layer 4 that these statements need.
 
 Stated here: interior bootstrapping (Layer 5.1, Theorem B.4.1 with Remark B.4.3 of
-McDuff–Salamon) in its finite-regularity and smooth forms; boundary bootstrapping in the adapted
-chart, with the totally real boundary condition `u(ℝ) ⊆ L` and `J = i` along `L`, in both forms;
-and the Carleman similarity principle (Layer 3.5, Theorem 2.3.5).
+McDuff–Salamon) in its finite-regularity and smooth forms; the gradient-bound convergence
+theorem (Layer 5.2, Theorem 4.1.1) for sequences of interior solutions with smooth data;
+boundary bootstrapping in the adapted chart, with the totally real boundary condition
+`u(U ∩ ℝ) ⊆ L` and `J = i` along `L` over `U ∩ ℝ`, in both forms; and the Carleman similarity
+principle (Layer 3.5, Theorem 2.3.5).
 
 Not statable at the pins: the surface-level statements of Layers 4 and 5 (no carrier for
 `W^{k,p}_loc` maps from a Riemann surface, with or without boundary, into a manifold); the
-uniform estimates of Layer 5.2 (the same carrier); the Fredholm theorem of Layer 6.3 and the
-Riemann–Roch formulas of Layer 7.2 (no `W^{k,p}` sections of a bundle over a compact surface
-with boundary and no `c₁` pairing of a complex bundle with the fundamental class).
+uniform estimates of Layer 5.2 for converging data `J_m → J`, `ν_m → ν`, `j_m → j` and
+exhausting domains (the same carrier; only the planar gradient-bound corollary with fixed data
+is stated); the Fredholm theorem of Layer 6.3 and the Riemann–Roch formulas of Layer 7.2 (no
+`W^{k,p}` sections of a bundle over a compact surface with boundary and no `c₁` pairing of a
+complex bundle with the fundamental class).
 -/
 
 @[expose] public section
@@ -91,7 +95,7 @@ def IsWeakCauchyRiemannHalfOn (p : ENNReal) (U : Set ℂ) (J : ℂ → V → V �
       TauCeti.HasWeakFDerivOn volume ⟨interior U, isOpen_interior⟩ u U' ∧ MemLpLoc p U U' ∧
         ∀ᵐ z ∂(volume.restrict U), U' z 1 + J z (u z) (U' z I) = η z (u z)
 
-/-! ## Layer 5: nonlinear bootstrapping, interior case -/
+/-! ## Layer 5: nonlinear bootstrapping and uniform estimates, interior case -/
 
 /-- Layer 5.1, interior: a weak solution for a `C^ℓ` domain-dependent structure and a `C^ℓ`
 inhomogeneous term, `ℓ ≥ 1`, finite `p > 2`, is in `W^{ℓ+1,p}_loc` (McDuff–Salamon Theorem B.4.1
@@ -116,6 +120,25 @@ theorem contDiffOn_of_isWeakCauchyRiemannOn [FiniteDimensional ℝ V] {p : ENNRe
     ContDiffOn ℝ ∞ u Ω := by
   sorry
 
+/-- Layer 5.2, the planar form of the gradient-bound convergence theorem (McDuff–Salamon
+Theorem 4.1.1): weak solutions for fixed smooth data whose images of each compact subset of `Ω`
+lie in a fixed compact set and whose derivatives are uniformly bounded on each compact subset
+have a subsequence converging with all derivatives, locally uniformly on `Ω`, to a solution.
+Each `u m` is smooth on `Ω` by `contDiffOn_of_isWeakCauchyRiemannOn`, so `fderiv ℝ (u m)` is
+its derivative there. -/
+theorem exists_subseq_tendstoLocallyUniformlyOn_of_isWeakCauchyRiemannOn
+    [FiniteDimensional ℝ V] {p : ENNReal} (hp : 2 < p) {Ω : Opens ℂ} {J : ℂ → V → V →L[ℝ] V}
+    (hJ : ContDiff ℝ ∞ (Function.uncurry J))
+    (hJsq : ∀ z x, (J z x).comp (J z x) = -ContinuousLinearMap.id ℝ V) {η : ℂ → V → V}
+    (hη : ContDiff ℝ ∞ (Function.uncurry η)) {u : ℕ → ℂ → V}
+    (hu : ∀ m, IsWeakCauchyRiemannOn p Ω J η (u m))
+    (himg : ∀ K ⊆ (Ω : Set ℂ), IsCompact K → ∃ K' : Set V, IsCompact K' ∧ ∀ m, ∀ z ∈ K, u m z ∈ K')
+    (hgrad : ∀ K ⊆ (Ω : Set ℂ), IsCompact K → ∃ c : ℝ, ∀ m, ∀ z ∈ K, ‖fderiv ℝ (u m) z‖ ≤ c) :
+    ∃ φ : ℕ → ℕ, StrictMono φ ∧ ∃ v : ℂ → V, IsWeakCauchyRiemannOn p Ω J η v ∧
+      ∀ k : ℕ, TendstoLocallyUniformlyOn (fun m ↦ iteratedFDeriv ℝ k (u (φ m)))
+        (iteratedFDeriv ℝ k v) Filter.atTop Ω := by
+  sorry
+
 end Planar
 
 /-! ## Layers 3 and 5: the complex model, boundary case and similarity principle -/
@@ -126,8 +149,8 @@ variable {V : Type*} [NormedAddCommGroup V] [NormedSpace ℂ V]
 
 /-- Layer 5.1, boundary case in the adapted chart of Layer 2.3 (McDuff–Salamon Theorem B.4.1
 and Proposition B.4.9): `U` is relatively open in the closed upper half plane, `L` is a maximal
-totally real subspace for multiplication by `i`, the structure equals `i` along `L` over the
-real axis, and `u` maps `U ∩ ℝ` into `L`. For `ℓ ≥ 1` and finite `p > 2`, `u` is in
+totally real subspace for multiplication by `i`, the structure equals `i` along `L` over
+`U ∩ ℝ`, and `u` maps `U ∩ ℝ` into `L`. For `ℓ ≥ 1` and finite `p > 2`, `u` is in
 `W^{ℓ+1,p}` up to the real axis. The manifold statement, `W^{ℓ,p}` for `ℓ ≥ 2`, is this one
 applied to the `C^{ℓ−1}` structure pushed forward by the adapted chart. -/
 theorem memWkpLocHalf_of_isWeakCauchyRiemannHalfOn [FiniteDimensional ℂ V] {p : ENNReal}
@@ -136,7 +159,7 @@ theorem memWkpLocHalf_of_isWeakCauchyRiemannHalfOn [FiniteDimensional ℂ V] {p 
     (hL : TauCeti.IsMaximalTotallyReal ((LinearMap.lsmul ℂ V I).restrictScalars ℝ) L)
     {J : ℂ → V → V →L[ℝ] V} (hJ : ContDiff ℝ ℓ (Function.uncurry J))
     (hJsq : ∀ z x, (J z x).comp (J z x) = -ContinuousLinearMap.id ℝ V)
-    (hJL : ∀ z : ℂ, z.im = 0 → ∀ x ∈ L, ∀ v, J z x v = I • v) {η : ℂ → V → V}
+    (hJL : ∀ z ∈ U, z.im = 0 → ∀ x ∈ L, ∀ v, J z x v = I • v) {η : ℂ → V → V}
     (hη : ContDiff ℝ ℓ (Function.uncurry η)) {u : ℂ → V}
     (hu : IsWeakCauchyRiemannHalfOn p U J η u) (hbd : ∀ z ∈ U, z.im = 0 → u z ∈ L) :
     MemWkpLocHalf p U (ℓ + 1) u := by
@@ -151,19 +174,22 @@ theorem memWkpLocHalf_all_of_isWeakCauchyRiemannHalfOn [FiniteDimensional ℂ V]
     (hL : TauCeti.IsMaximalTotallyReal ((LinearMap.lsmul ℂ V I).restrictScalars ℝ) L)
     {J : ℂ → V → V →L[ℝ] V} (hJ : ContDiff ℝ ∞ (Function.uncurry J))
     (hJsq : ∀ z x, (J z x).comp (J z x) = -ContinuousLinearMap.id ℝ V)
-    (hJL : ∀ z : ℂ, z.im = 0 → ∀ x ∈ L, ∀ v, J z x v = I • v) {η : ℂ → V → V}
+    (hJL : ∀ z ∈ U, z.im = 0 → ∀ x ∈ L, ∀ v, J z x v = I • v) {η : ℂ → V → V}
     (hη : ContDiff ℝ ∞ (Function.uncurry η)) {u : ℂ → V}
     (hu : IsWeakCauchyRiemannHalfOn p U J η u) (hbd : ∀ z ∈ U, z.im = 0 → u z ∈ L) :
     ∀ k : ℕ, MemWkpLocHalf p U k u := by
   sorry
 
 /-- Layer 3.5, the Carleman similarity principle (McDuff–Salamon Theorem 2.3.5): for finite
-`p > 2`, a `W^{1,p}_loc` structure `J` with `J² = −1`, a locally `Lᵖ` zeroth-order term `C` and
+`p > 2`, a continuous `W^{1,p}_loc` structure `J` with `J² = −1` (the continuity fixes the
+representative of the Sobolev class, which the conclusion intertwines with `Φ` at every point),
+a locally `Lᵖ` zeroth-order term `C` and
 a continuous `W^{1,p}_loc` solution `ξ` of `∂ₛξ + J ∂ₜξ + Cξ = 0` vanishing at `z₀`, there are a
 disc about `z₀`, a continuous `W^{1,p}` frame `Φ` of invertible maps intertwining `J` with
 multiplication by `i`, and a holomorphic `σ` vanishing at `z₀`, with `ξ = Φσ` on the disc. -/
 theorem exists_similarity_of_isWeakLinearCauchyRiemann [FiniteDimensional ℂ V] {p : ENNReal}
-    (hp : 2 < p) (hp_top : p ≠ ⊤) {Ω : Opens ℂ} {J : ℂ → V →L[ℝ] V} (hJ : MemWkpLoc p Ω 1 J)
+    (hp : 2 < p) (hp_top : p ≠ ⊤) {Ω : Opens ℂ} {J : ℂ → V →L[ℝ] V} (hJc : ContinuousOn J Ω)
+    (hJ : MemWkpLoc p Ω 1 J)
     (hJsq : ∀ z ∈ Ω, (J z).comp (J z) = -ContinuousLinearMap.id ℝ V) {C : ℂ → V →L[ℝ] V}
     (hC : MemLpLoc p Ω C) {ξ : ℂ → V} (hξ : ContinuousOn ξ Ω) {U : ℂ → ℂ →L[ℝ] V}
     (hU : TauCeti.HasWeakFDerivOn volume Ω ξ U) (hUp : MemLpLoc p Ω U)

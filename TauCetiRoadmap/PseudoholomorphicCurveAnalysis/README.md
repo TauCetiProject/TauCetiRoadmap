@@ -150,7 +150,7 @@ At the pinned revision
   variants, the normed-space predicate `IsJHolomorphic` and
   `isPseudoholomorphicAt_iff_isJHolomorphicAt`;
 - `IsMaximalTotallyReal`, `TotallyRealLoop.maslovIndex`, `maslovIndex_map`, `maslovIndex_prod`
-  and `maslovIndex_rotation` (a half turn has index `1`);
+  and `maslovIndex_rotation` (a half turn has index `finrank ℂ E`, so `1` on `ℂ`);
 - the Morse–Sard theorem `ContDiff.addHaar_image_criticalPoints_eq_zero`;
 - Schwarz reflection across an affine maximal totally real subspace
   (`Analysis/Complex/Conformal/Reflection/TotallyReal`);
@@ -197,8 +197,8 @@ PH3.2 in their own right, so no target waits for the library:
 - [AlgebraicTopology](../AlgebraicTopology/README.md) Stage 6 item 5 (the universal-coefficient
   consequences over a field through the duality maps), Stage 7.1 (Euler–Poincaré and
   independence of the finite CW model) and Stage 8.7 (finite CW type of compact smooth
-  manifolds, `compactManifoldFiniteCWType`, which FuchsianOrbifolds Layer 5 applies in real
-  dimension two).
+  manifolds, stated there in prose and applied by FuchsianOrbifolds Layer 5 in real dimension
+  two).
 
 ## How to read the build
 
@@ -213,10 +213,13 @@ argument each.
 ### 1.1 Vector-valued local Sobolev classes
 
 For a real normed space `F`, a set `U ⊆ ℂ` and `p`, `MemLpLoc p U u` says that `u : ℂ → F` is
-in `Lᵖ(K)` for every compact `K ⊆ U`. For a finite-dimensional `F`, an open `Ω ⊆ ℂ` and `k : ℕ`,
-define `MemWkpLoc p Ω k u`. It holds when the iterated weak derivatives
-`D^i u : ℂ → (ℂ [×i]→L[ℝ] F)` exist on `Ω` for `i ≤ k`, each a `HasWeakFDerivOn` derivative of
-the previous one, and each `D^i u` satisfies `MemLpLoc p Ω`. Its API:
+in `Lᵖ(K)` for every compact `K ⊆ U`. For a real normed space `F`, an open `Ω ⊆ ℂ` and `k : ℕ`,
+define `MemWkpLoc p Ω k u`. It holds when the iterated weak derivatives `D^i u` exist on `Ω` for
+`i ≤ k`, each a `HasWeakFDerivOn` derivative of the previous one and valued in the `i`-fold
+iterated continuous linear maps `ℂ →L[ℝ] ⋯ →L[ℝ] F`, and each `D^i u` satisfies `MemLpLoc p Ω`.
+The definition admits every real normed space `F`; the theorems of PH3 and PH5 use it for
+finite-dimensional `F`, where the iterated continuous linear maps are the continuous
+multilinear maps `ℂ [×i]→L[ℝ] F`. Its API:
 
 - for `F = ℝ`, membership is equivalent to `u|_W ∈ Wkp volume W p k` for every relatively
   compact open `W` with closure in `Ω`;
@@ -736,7 +739,8 @@ totally real Schwarz reflection (`Reflection/TotallyReal`).
 ### 3.5 Similarity principle and unique continuation
 
 The *vector similarity principle* is McDuff–Salamon Theorem 2.3.5 (p. 23), the Carleman
-similarity principle. Let `p > 2`, let `J ∈ W^{1,p}_loc(Ω; GL(2n, ℝ))` with `J² = −1` and
+similarity principle. Let `p > 2`, let `J ∈ W^{1,p}_loc(Ω; GL(2n, ℝ))`, continuous since
+`p > 2`, with `J² = −1` and
 `C ∈ L^p_loc(Ω; End ℝ^{2n})`, and let `ξ ∈ W^{1,p}_loc(Ω; ℝ^{2n})` solve
 `∂_s ξ + J∂_t ξ + Cξ = 0` with `ξ(z₀) = 0`. Then near `z₀`, `ξ = Φσ` with `Φ ∈ W^{1,p}`
 invertible, `Φ⁻¹JΦ = i`, and `σ` holomorphic with `σ(z₀) = 0`. Prove it by
@@ -751,8 +755,11 @@ integral equation for `Φ`. Consume Tau Ceti's scalar similarity principle as th
   PH3.4.
 
 The planar statement is `exists_similarity_of_isWeakLinearCauchyRiemann`: for a
-finite-dimensional complex normed space `V`, finite `p > 2`, `J ∈ W^{1,p}_loc(Ω; End_ℝ V)` with
-`J² = −1` on `Ω`, `C ∈ L^p_loc`, and a continuous `ξ` with weak derivative in `L^p_loc` solving
+finite-dimensional complex normed space `V`, finite `p > 2`, a continuous
+`J ∈ W^{1,p}_loc(Ω; End_ℝ V)` with `J² = −1` on `Ω` (the continuous representative that `p > 2`
+provides, fixed as a hypothesis because the Sobolev class alone is insensitive to null sets
+while the intertwining `JΦ = Φi` is asked at every point), `C ∈ L^p_loc`, and a continuous `ξ`
+with weak derivative in `L^p_loc` solving
 `∂_sξ + J∂_tξ + Cξ = 0` a.e. with `ξ(z₀) = 0`, there is a disc about `z₀` in `Ω` carrying a
 continuous `W^{1,p}` family `Φ` of real-linear automorphisms of `V` with `J Φ = Φ i`, and a
 holomorphic `σ` with `σ(z₀) = 0` and `ξ = Φσ` on the disc.
@@ -921,7 +928,7 @@ the map `u` satisfies `MemWkpLoc p Ω (ℓ + 1)`. `contDiffOn_of_isWeakCauchyRie
 `memWkpLocHalf_of_isWeakCauchyRiemannHalfOn` is the boundary case in the adapted chart of
 PH2.3: `V` is a finite-dimensional complex normed space, `L ⊆ V` a real subspace that is
 maximal totally real for multiplication by `i`, `U ⊆ ℍ̄` relatively open, `J` of class `C^ℓ`
-with `ℓ ≥ 1`, `J² = −1` and `J(s, x) = i` for real `s` and `x ∈ L`, `η` of class `C^ℓ`, `u`
+with `ℓ ≥ 1`, `J² = −1` and `J(s, x) = i` for `s ∈ U ∩ ℝ` and `x ∈ L`, `η` of class `C^ℓ`, `u`
 satisfying `IsWeakCauchyRiemannHalfOn p U J η u` with `u(U ∩ ℝ) ⊆ L`; the conclusion is
 `MemWkpLocHalf p U (ℓ + 1) u`, the full derivative, because in the model no chart is needed and
 PH3.4's induction runs for all `m ≤ ℓ`. The manifold statement is this one applied to the
@@ -988,7 +995,15 @@ For smooth data converging in `C^∞`, the convergence is `C^∞`. Also prove th
 corollary used in compactness, McDuff–Salamon Theorem 4.1.1 (p. 76). If `|du_m|` is uniformly
 bounded on compact subsets for a metric on `M`, and the images of compact sets stay in a fixed
 compact set, then a subsequence converges in `C^∞` on compact subsets. The convergence comes
-from PH1.3 and Arzelà–Ascoli, and the uniform bound from PH3.3's uniformity clause.
+from PH1.3 and Arzelà–Ascoli, and the uniform bound from PH3.3's uniformity clause. Its planar
+form with fixed data is `exists_subseq_tendstoLocallyUniformlyOn_of_isWeakCauchyRiemannOn`: for
+a finite-dimensional real normed space `V`, `p > 2` including `p = ∞`, smooth `J` with `J² = −1`
+and smooth `η`, and maps `u_m` satisfying `IsWeakCauchyRiemannOn p Ω J η` for every `m`, if
+every compact `K ⊆ Ω` has a compact `K' ⊆ V` containing all `u_m(K)` and a constant bounding
+`‖du_m‖` on `K` for all `m`, then a subsequence `u_{φ(m)}` and a solution `v` of the same
+equation exist with `D^k u_{φ(m)} → D^k v` locally uniformly on `Ω` for every `k`. Each `u_m`
+is smooth on `Ω` by PH5.1, so `du_m` is its classical derivative; the gradient bound gives the
+`W^{1,p}` bound on compact subsets that the uniform estimate above needs.
 
 **Checks.**
 
@@ -999,7 +1014,12 @@ from PH1.3 and Arzelà–Ascoli, and the uniform bound from PH3.3's uniformity c
 - The gradient bound is used: on `Σ = D_1`, `M = ℂ`, `J = i`, the holomorphic maps
   `u_m(z) = mz` satisfy the equation, map `D_{1/2}` into `D_{m/2}`, and have no convergent
   subsequence; `‖du_m‖_{L^p(D_{1/2})} = m · vol(D_{1/2})^{1/p}` is unbounded, so the hypothesis
-  fails. The maps `u_m(z) = z/m` satisfy both hypotheses and converge in `C^∞` to `0`.
+  fails, and in the planar form `|du_m| = m` on `D_{1/2}` violates the pointwise bound. The
+  maps `u_m(z) = z/m` satisfy both hypotheses (`|du_m| = 1/m ≤ 1`, images in the closed unit
+  disc) and converge in `C^∞` to `0`, a solution, along the identity subsequence.
+- The image bound is used in the planar form: on `Ω = D_1`, `J = i`, `η = 0`, the constant
+  maps `u_m = m` have `du_m = 0`, so the gradient bound holds with `c = 0`, but no subsequence
+  converges; the images `{m}` lie in no fixed compact set, so the hypothesis fails.
 - Convergence of the data is used: with `A_m` the rotation of PH2.1's third check by the angle
   `|z|^{ℓ+1/2}/m`, the structures `J_m = A_m i A_m⁻¹` converge to `i` in `C^ℓ` on compacts
   but not in `C^{ℓ+1}`, and the conclusion asserts `C^ℓ` convergence of the solutions, not
@@ -1254,7 +1274,8 @@ For a real Cauchy–Riemann operator `D` on `(E, F)` as in PH6, prove `ind_ℝ D
 (McDuff–Salamon Theorem C.1.10 (ii), p. 583). In the closed case this is
 `ind_ℝ D = nχ(Σ) + 2c₁(E)[Σ]`. Here `χ` is the Euler characteristic of a finite CW model.
 Identify it with the alternating Betti sum through CharacteristicClasses C2.3 and
-AlgebraicTopology Stage 6 item 5, Stage 7.1 and Stage 8.7's `compactManifoldFiniteCWType`. Prove
+AlgebraicTopology Stage 6 item 5, Stage 7.1 and Stage 8.7's finite CW type of compact
+manifolds. Prove
 the formula for an arbitrary given `j`, independently of uniformization. Work with connected
 `Σ`; the general case is the sum over components.
 
