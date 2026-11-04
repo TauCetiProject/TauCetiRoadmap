@@ -114,10 +114,10 @@ characteristic-zero eigenforms.
 
 The following are the library or roadmap halves of statements kept here, each of
 which adds the polynomial-law, local-ring or integral clause: the `GSp₄` spin polynomial and its
-Calegari–Geraghty normalisation, `SpinPolynomial`, `SpinPolynomial.reciprocal`, its
-similitude and `gsp4-galois-comparison` of SmoothRepresentationsOfLocalGroups,
+Calegari–Geraghty normalisation (SR.4.5, *gsp4-spin-polynomial* and *gsp4-galois-comparison*)
+and its similitude, of SmoothRepresentationsOfLocalGroups,
 SR.4, whose *gln-generators* supplies the Satake values `S(T_r) = q^{r(n−r)/2} e_r` substituted
-into `glnPolynomial_satake`; the trivial-action finite-wild excursion specialization of SR.6,
+in *Normalized Satake coefficients for GLn*; the trivial-action finite-wild excursion specialization of SR.6,
 identified with *General invariant-word colimit*; the henselian and artinian interfaces
 `IsAdicComplete.henselianRing` and `IsArtinianRing.equivPi`; the invertible top exterior power at
 constant rank (PadicMeasuresIwasawaAlgebras, §5.1); conjugacy
@@ -332,10 +332,9 @@ The following APIs are used directly, with no additional image or Fitting aliase
   `Mathlib/LinearAlgebra/Matrix/Charpoly/Basic.lean`, and `Matrix.charpoly_monic`,
   `Matrix.charpoly_natDegree_eq_dim`, `Matrix.det_eq_sign_charpoly_coeff` in
   `Mathlib/LinearAlgebra/Matrix/Charpoly/Coeff.lean`, supply Layer 3b's rank and unit tests.
-- `SmoothRepresentationsOfLocalGroups.SpinPolynomial` and
-  `SmoothRepresentationsOfLocalGroups.SpinPolynomial.reciprocal` in
-  `TauCetiRoadmap/SmoothRepresentationsOfLocalGroups/Suggested.lean`.
-  Its `T1,T2` correspond to `T₂,T₁` here. The monic variant `Q`
+- The `GSp₄` spin polynomial of SmoothRepresentationsOfLocalGroups, SR.4.5
+  (*gsp4-spin-polynomial*, a README-only target, with its monic comparison
+  *gsp4-galois-comparison*). Its `T1,T2` correspond to `T₂,T₁` here. The monic variant `Q`
   reflects the degree-four polynomial and swaps those indices; the dual-spin variant
   `P` additionally inverts the central unit.
 
@@ -440,10 +439,10 @@ Satake images `q^{r(n−r)/2} e_r` in the symmetric Laurent ring over `ℤ[q^{±
 `vol(K) = 1` and after adjoining an invertible square root of `q`. SR.4 does not assert that the
 `T_r` generate the spherical Hecke algebra over `ℤ`, and nothing here uses such generation: the
 `GLₙ` Hecke polynomial of Layer IHG.3a is a formal expression in `q` and the `T_r`; the `GSp₄` spin polynomial with constant term `1`
-(`SpinPolynomial`), its reciprocal monic form (`SpinPolynomial.reciprocal`), its similitude
+and its reciprocal monic form (SR.4.5, *gsp4-spin-polynomial*), its similitude
 (a README-only target of SR.4), the comparison with the Calegari–Geraghty normalisation
-(`gsp4-galois-comparison`) and the Satake values `S(T_r) = q^{r(n−r)/2} e_r` (SR.4's *gln-generators*),
-which are the substitution `T_i = s^{i(n−i)} e_i` read in `glnPolynomial_satake`. Its general
+(*gsp4-galois-comparison*) and the Satake values `S(T_r) = q^{r(n−r)/2} e_r` (SR.4's *gln-generators*),
+which are the substitution `T_i = s^{i(n−i)} e_i` read in *Normalized Satake coefficients for GLn*. Its general
 construction is applied here to `GLₙ` and to the two specified `GSp₄` representations. SR.6.1 and
 SR.6.3: the integral finite-wild cocycle scheme (*One integral finite-wild cocycle scheme*) and the
 finite-wild excursion algebra (*Finite-wild excursion algebra*), with the coefficient ring, dual
@@ -1730,8 +1729,8 @@ specialization, pp.921–922). *Needs:* Integral GLn Hecke polynomial, Arithmeti
 Q(X) = X⁴ − T_1 X³ + (qT_2 + (q³+q)T_0) X² − q³ T_0 T_1 X + q⁶ T_0²
 ```
 
-be the monic spin polynomial of SmoothRepresentationsOfLocalGroups, SR.4 (its
-`SpinPolynomial.reciprocal`), with `T_0, T_1, T_2` the double cosets of `diag(ϖ,ϖ,ϖ,ϖ)`,
+be the monic spin polynomial of SmoothRepresentationsOfLocalGroups, SR.4.5 (the reciprocal
+form of *gsp4-spin-polynomial*), with `T_0, T_1, T_2` the double cosets of `diag(ϖ,ϖ,ϖ,ϖ)`,
 `diag(ϖ,ϖ,1,1)`, `diag(ϖ²,ϖ,ϖ,1)` for a uniformiser `ϖ`, `q` the residue cardinality, that is
 SR.4's `T0`, `T2`, `T1`. The explicit formula `Q` equals the
 fixed-degree reflection of that supplied polynomial with these indices exchanged.
@@ -1802,7 +1801,7 @@ normalizations and excluded hypotheses.
 
 Layer IHG.0 (Characteristic polynomial and trace of a determinant, Restriction of determinants, Contragredient determinant); SmoothRepresentationsOfLocalGroups
 SR.4 for the spherical generators, normalised Satake and the spin polynomial
-`SpinPolynomial.reciprocal`; ClassFieldTheory layer 7 for the Frobenius normalisation of the Artin
+(SR.4.5, *gsp4-spin-polynomial* and *gsp4-galois-comparison*); ClassFieldTheory layer 7 for the Frobenius normalisation of the Artin
 map; Mathlib matrix transpose and inverse identities for the similitude; Tau Ceti
 `HeckeRing.GL2.Newform.satakeParameters` for the classical rank-two comparison.
 
@@ -5306,7 +5305,7 @@ Accepted version, arXiv:1912.11269v2, 13 August 2020
 [semisimplealgebras3]: ../RepresentationTheory/SemisimpleAlgebras/README.md#layer-3-the-double-centralizer-density-theorem
 [semisimplealgebras2]: ../RepresentationTheory/SemisimpleAlgebras/README.md#layer-2-artin-wedderburn-assembled-with-uniqueness
 [semisimplealgebras4]: ../RepresentationTheory/SemisimpleAlgebras/README.md#layer-4-central-simple-algebras-and-their-tensor-products
-[chebotarev10]: ../Chebotarev/README.md#layer-10-dirichlet-density-chebotarev
+[chebotarev10]: ../../Completed/Chebotarev/README.md#layer-10-dirichlet-density-chebotarev
 [profinitecohomology2]: ../ProfiniteCohomology/README.md#layer-2-the-explicit-low-degree-complex-and-its-functoriality
 
 **Ribet** — Kenneth A. Ribet. [A modular construction of unramified p-extensions of
