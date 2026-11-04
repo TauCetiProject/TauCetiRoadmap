@@ -1,6 +1,7 @@
 module
-import Mathlib
-import TauCeti.RingTheory.LocalRing.RamificationGroup
+
+public import Mathlib
+public import TauCeti.RingTheory.LocalRing.RamificationGroup
 
 /-!
 # Ramification of complete discretely valued fields: target signatures
@@ -29,6 +30,8 @@ transition function `ψ_(L/K)` of a finite separable extension with the open-sub
 (§4a.2) and the completed maximal unramified base change (§4a.3), which lack the upper numbering
 of §3a.2 on which they are defined.
 -/
+
+public section
 
 namespace TauCetiRoadmap.RamificationOfCompleteDiscretelyValuedFields
 
@@ -74,3 +77,5 @@ theorem hasseArf_dvd_sum_card_ramificationGroup
   sorry
 
 end TauCetiRoadmap.RamificationOfCompleteDiscretelyValuedFields
+
+end
