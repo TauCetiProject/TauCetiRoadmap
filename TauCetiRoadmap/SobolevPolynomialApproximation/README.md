@@ -80,9 +80,8 @@ All at the pinned Mathlib.
 
 ### From Tau Ceti
 
-All on Tau Ceti `main`, checked at revision `a318838`; file paths under `TauCeti/Analysis/`.
-`Suggested.lean` builds against the Tau Ceti revision in this repository's `lake-manifest.json`, so it
-states only what that revision supports.
+All as Tau Ceti implements them on its main branch, some later than the pinned revision;
+`Suggested.lean` uses only those at the pin. File paths under `TauCeti/Analysis/`.
 
 - `TauCeti.Wkp`, `Wkp.lowerOrderL`, `Wkp.iteratedGradient`, `Wkp.value`, `Wkp.ext`, `Wkp.mk`,
   `Wkp.hasWeakFDerivOn_iteratedGradient`, and the recursive norm
@@ -105,7 +104,8 @@ states only what that revision supports.
 - `Set.IsLipschitzDomainWith`, on open subsets of `WithLp 2 (ℝ × E')` (`Sobolev/LipschitzDomain/Basic.lean`);
   `W1p.isCompactOperator_valueL_of_isLipschitzDomainWith`
   (`Sobolev/LipschitzDomain/RellichKondrachov.lean`).
-- `ContinuousLinearMap.exists_pos_mul_norm_le_of_compact_estimate` (Peetre's estimate) and its use in
+- `ContinuousLinearMap.exists_pos_mul_norm_le_of_compact_estimate` (Peetre's estimate,
+  `Normed/Operator/Compact/Estimate.lean`) and its use in
   `W1p.exists_eLpNorm_value_sub_setAverage_le_of_isCompactOperator`
   (`Sobolev/Poincare/Wirtinger/Compactness.lean`).
 - `TauCeti.enorm_sub_setAverage_le_of_starConvex` (`Sobolev/Poincare/Potential.lean`): star-convexity
@@ -114,7 +114,10 @@ states only what that revision supports.
 
 ### From TauCetiRoadmap.PDE
 
-Lane A owns the Tau Ceti declarations above; this roadmap adds no target to it. On `E`, a **bounded
+Lane A owns the Tau Ceti declarations above: A.1 the weak derivatives, the line-derivative bridge
+and symmetry; A.2 Meyers–Serrin in every order; A.5 the constant-on-connected lemma and the Wirtinger
+estimate by compactness; A.6 the Lipschitz predicate and Rellich. Tau Ceti provides `W1p.compL` and
+Peetre's estimate, which no roadmap plans. This roadmap adds no target to Lane A. On `E`, a **bounded
 Lipschitz domain** for `n ≥ 1` means the image of an open `Ω' ⊆ WithLp 2 (ℝ × E')` satisfying
 `Set.IsLipschitzDomainWith`, bounded, under a linear isometry onto `E`, with `finrank ℝ E' = n − 1`.
 
@@ -168,7 +171,7 @@ Its API: `evalₗ n` is injective (`MvPolynomial.funext`); `finrank_polynomialsD
 
 ### 1.3 Truncation and seminorms
 
-`Wkp.toOrderL (h : j ≤ k) : W^{k,p}(Ω) →L[ℝ] W^{j,p}(Ω)` is the iterate of `Wkp.lowerOrderL`. For
+`toOrderL (h : j ≤ k) : W^{k,p}(Ω) →L[ℝ] W^{j,p}(Ω)` is the iterate of `Wkp.lowerOrderL`. For
 `j + 1 ≤ k`, `D^{j+1} u := Wkp.iteratedGradient j (toOrderL _ u)`. The seminorm `seminorm k j _ u`,
 written `|u|_{j,p}`, is `‖D^j u‖` for `j ≥ 1` and `‖Wkp.value k u‖` for `j = 0`.
 
@@ -200,14 +203,13 @@ Its API:
 
 ### 1.4 Change of exponent
 
-For `Ω` of finite measure and `1 ≤ q ≤ p`, a continuous linear inclusion `W^{k,p}(Ω) →L[ℝ]
-W^{k,q}(Ω)`
+For `Ω` of finite measure and `1 ≤ q ≤ p`, a continuous linear inclusion `W^{k,p}(Ω) →L[ℝ] W^{k,q}(Ω)`
 generalizes `W1p.ofExponentLE` (same hypothesis `IsFiniteMeasure (volume.restrict Ω)`). It keeps the
 value and every weak derivative field, by `Lp.antitone` in each component, since the defining
 weak-derivative identities do not depend on the exponent.
 
 Its API: `|u|_{j,q} ≤ volume Ω ^ (1/q − 1/p) · |u|_{j,p}` for every `j ≤ k`; compatibility with
-`Wkp.toOrderL`; the identity at `q = p`.
+`toOrderL`; the identity at `q = p`.
 
 *Needs:* §1.3; Mathlib `Lp.antitone`; Tau Ceti `W1p.ofExponentLE`, `Wkp.mk`.
 
@@ -534,7 +536,7 @@ Layers 1 and 2; Tau Ceti's Meyers–Serrin.
 ### 4.1 The Bramble–Hilbert lemma
 
 (Brenner–Scott, Lemma 4.3.8, pp. 102–104; `exists_bramble_hilbert`.) For `Ω` as in Layer 3,
-`u ∈ W^{m+1,p}(Ω)` (with `Q^m u` taken of `Wkp.toOrderL _ u`) and every `j ≤ m`:
+`u ∈ W^{m+1,p}(Ω)` (with `Q^m u` taken of `toOrderL _ u`) and every `j ≤ m`:
 `|u − Q^m u|_{j,p} ≤ C(n, m, p, γ) · (diam Ω)^{m+1−j} · |u|_{m+1,p}`, while
 `|u − Q^m u|_{m+1,p} = |u|_{m+1,p}`. Consequently `‖u − Q^m u‖_{m+1,p} ≤ C_BH · |u|_{m+1,p}` with
 `C_BH := √2 · (1 + C(n, m, p, γ)² · ∑_{j ≤ m} (diam Ω)^{2(m+1−j)})^{1/2}` (§1.3), and the same bound

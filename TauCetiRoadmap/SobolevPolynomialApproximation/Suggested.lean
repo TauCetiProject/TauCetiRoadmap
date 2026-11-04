@@ -5,9 +5,8 @@ import TauCeti.Analysis.Sobolev.Wkp.Basic
 # Polynomial approximation in Sobolev spaces: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. The statements here suggest Lean forms for particular items, so that
-contributors and reviewers converge on names and signatures; discharging all of them
-finishes neither a layer nor the roadmap.
+`README.md`. This file states the roadmap's headline theorems against the pinned Mathlib and
+Tau Ceti, so that contributors and reviewers converge on names and signatures.
 
 The headline statements below use existential Sobolev representatives where the bundled operator
 is a target of the README. These headlines are stated in `README.md` alone:
@@ -16,8 +15,10 @@ is a target of the README. These headlines are stated in `README.md` alone:
   contractions of §1.1 and the kernel of §3.3; `exists_bramble_hilbert` records the approximating
   polynomial without its construction;
 * Rellich–Kondrachov in `W^{k,p}` (§4.3) and Deny–Lions (§4.4): they need
-  `Set.IsLipschitzDomainWith` and its first-order Rellich theorem, which are not in the Tau Ceti
-  revision this file builds against.
+  `Set.IsLipschitzDomainWith` and its first-order Rellich theorem, which are not in the pinned
+  Tau Ceti.
+
+The functional forms of §4.2 are corollaries of `exists_bramble_hilbert` and are not restated.
 -/
 
 noncomputable section
@@ -30,7 +31,7 @@ namespace TauCetiRoadmap.SobolevPolynomialApproximation
 /-- The Euclidean space `ℝⁿ` of the roadmap. -/
 abbrev E (n : ℕ) := EuclideanSpace ℝ (Fin n)
 
-/-! ### Polynomials (§1.2, §1.6) -/
+/-! ## Layer 1: seminorms, derivatives and the polynomial kernel -/
 
 /-- Evaluation of multivariate polynomials as functions on `ℝⁿ`. -/
 def evalₗ (n : ℕ) : MvPolynomial (Fin n) ℝ →ₗ[ℝ] (E n → ℝ) where
@@ -53,20 +54,18 @@ theorem exists_pderiv_eq {n m : ℕ} (P : Fin n → MvPolynomial (Fin n) ℝ)
     ∃ Q ∈ MvPolynomial.restrictTotalDegree (Fin n) ℝ (m + 1),
       ∀ i, MvPolynomial.pderiv i Q = P i := sorry
 
-/-! ### Truncation and seminorms (§1.3) -/
-
 variable {n : ℕ} {Ω : Opens (E n)} {p : ℝ≥0∞} [Fact (1 ≤ p)]
 
 /-- Forget the derivatives above order `j`: the iterate of `Wkp.lowerOrderL`, the identity at
 `j = k` (§1.3). -/
-def Wkp.toOrderL {j k : ℕ} (h : j ≤ k) : Wkp volume Ω p k →L[ℝ] Wkp volume Ω p j :=
+def toOrderL {j k : ℕ} (h : j ≤ k) : Wkp volume Ω p k →L[ℝ] Wkp volume Ω p j :=
   Nat.leRec (motive := fun k _ => Wkp volume Ω p k →L[ℝ] Wkp volume Ω p j)
     (ContinuousLinearMap.id ℝ _) (fun k _ ih => ih.comp (Wkp.lowerOrderL k)) h
 
 /-- The seminorms `|u|_{j,p}`, `j ≤ k`, on `W^{k,p}(Ω)` (§1.3). -/
 def seminorm (k : ℕ) : (j : ℕ) → j ≤ k → Wkp volume Ω p k → ℝ
   | 0, _, u => ‖Wkp.value k u‖
-  | j + 1, h, u => ‖Wkp.iteratedGradient j (Wkp.toOrderL h u)‖
+  | j + 1, h, u => ‖Wkp.iteratedGradient j (toOrderL h u)‖
 
 /-- The upper comparison of Tau Ceti's norm with the seminorms (§1.3). -/
 theorem norm_le_sqrt_two_mul {k : ℕ} (hk : 1 ≤ k) (u : Wkp volume Ω p k) :
@@ -83,7 +82,7 @@ theorem seminorm_top_eq_zero_iff (hΩ : IsPreconnected (Ω : Set (E n))) {m : �
       ∃ q ∈ polynomialsDegLE n m, (Wkp.value (m + 1) u : E n → ℝ) =ᵐ[volume.restrict Ω] q :=
   sorry
 
-/-! ### Change of variables (§2.1, §2.2) -/
+/-! ## Layer 2: change of variables -/
 
 /-- **Composition with a `C^k` diffeomorphism** (§2.1): the constant depends only on
 `n, k, p` and the derivative bound `L`. -/
@@ -113,7 +112,7 @@ theorem exists_affine_scaling (B : E n ≃L[ℝ] E n) (b : E n) (Ω Ω' : Opens 
           |LinearMap.det ((B : E n →L[ℝ] E n) : E n →ₗ[ℝ] E n)| ^ (-1 / p.toReal) *
             seminorm k j hj u := sorry
 
-/-! ### Bramble–Hilbert (§4.1) -/
+/-! ## Layer 4: Bramble–Hilbert and Deny–Lions -/
 
 /-- **Bramble–Hilbert** (§4.1): the constant depends only on `n, m, p` and a bound `γ` for the
 chunkiness `diam Ω / ρ`. -/
@@ -129,7 +128,7 @@ theorem exists_bramble_hilbert (n m : ℕ) (p : ℝ≥0∞) [Fact (1 ≤ p)] (γ
           C * Metric.diam (Ω : Set (E n)) ^ (m + 1 - j) * seminorm (m + 1) (m + 1) le_rfl u :=
   sorry
 
-/-! ### Embedding and density up to the boundary (§5.1, §5.2) -/
+/-! ## Layer 5: higher-order embedding and point evaluation -/
 
 /-- **`W^{k,p} ⊆ C⁰`** (§5.1): a continuous bounded representative, with the constant explicit in
 `n, k, p` and the chunkiness bound `γ`. At `p = ∞`, `p.toReal = 0` and `n / p.toReal = 0`. -/
