@@ -584,13 +584,13 @@ The construction has the following API.
 - For the split nine-dimensional J the outer component gives PGL₃⋊C₂; for division J it gives the indicated PD× form, and for J=H₃(B) the partner is its actual automorphism group of type C₃; for B≅M₂(F) it identifies with split PGSp₆.
 - A field extension of degree n embeds in a central division algebra of degree n exactly when it splits it; over the local F every degree-n field extension embeds, in particular every cubic field E in the cubic D, with E× mapping onto a maximal torus PE× of PD×.
 
-A proof route uses root group integration, Jordan descent and the lattice maps of the adjoint forms; verify centralizers after algebraic closure and descend them. For H₃(B), construct the algebraic-group isomorphism from the central quotient by μ₂ of the isometry group of the standard rank-three B-Hermitian form to Aut(H₃(B)), induced by conjugation on Hermitian matrices; retain that Hermitian form in the descent. (GS, §§4.1–4.2, p. 15 (GS lines 542–553).)
+A proof route uses root group integration, Jordan descent and the lattice maps of the adjoint forms; verify centralizers after algebraic closure and descend them. For H₃(B), construct the algebraic-group isomorphism from the central quotient by μ₂ of the isometry group of the standard rank-three B-Hermitian form to Aut(H₃(B)), induced by conjugation on Hermitian matrices; retain that Hermitian form in the descent. This isomorphism is a construction of this roadmap, not taken from a source; GS supplies only the H₃(B) model and its split specialization B=M₂(F) (GS, §4.1, p. 15 (GS lines 542–543)).
 
 *Needs:* §2.1; §0.1; §0.9; ReductiveGroups Layer 9; ReductiveGroups Layer 3; ReductiveGroups, gap schematic-centralizers; `TauCeti.Algebra.IsSplittingField`; `TauCeti.Algebra.isSplittingField_of_finrank_eq_deg`; `TauCeti.Algebra.exists_isSplittingField_finrank_eq_deg`; QuadraticFormInvariants §7B; ClassFieldTheory Layers 5–6.
 
 **Checks.**
 
-- Over ℝ with B=ℍ and the standard positive Hermitian form, HJ is compact PSp(3), of dimension 21 and real split rank 0. For B=M₂(ℝ), HJ is split PGSp₆, also of dimension 21 but split rank 3; dimension alone cannot identify the rational form. (The H₃(B) automorphism construction of GS, §§4.1–4.2, p. 15 (GS lines 542–553).)
+- Over ℝ with B=ℍ and the standard positive Hermitian form, HJ is compact PSp(3), of dimension 21 and real split rank 0. For B=M₂(ℝ), HJ is split PGSp₆, also of dimension 21 but split rank 3; dimension alone cannot identify the rational form. (The H₃(B) model and its split specialization: GS, §4.1, p. 15 (GS lines 542–543); the identification of Aut(H₃(B)) with the μ₂-quotient of the Hermitian isometry group is the construction in the proof route above.)
 - The connected partner has dimensions 8 for J=M₃⁺ and 21 for the fifteen-dimensional J; the E₆ outer extension E₆⋊C₂ has two components (one added by the involution), not an extra Lie dimension.
 - For D of invariant 1/3, Dop has invariant 2/3 but the identical Jordan product: (xy+yx)/2=(yx+xy)/2. Thus D⁺ and (Dop)⁺ give the same E₆^D and the same embedded G₂. The partner identification PD×→P(Dop)× is x↦x⁻¹; it transports JL_Dop(τ) to JL_D(τ)∨, as in §5.3 (LL lines 620–625, 658–663).
 - For split J=M₃(F)⁺ the connected partner has dimension 8, whereas J=H₃(M₂(F)) has dimension 15 and partner dimension 21; their ambient groups have dimensions 78 and 133. Replacing the fifteen-dimensional Jordan model by the 27-dimensional Albert algebra gives the wrong ambient dimension.
@@ -689,7 +689,7 @@ A proof route is to normalize the intertwiner by the spherical vector and then e
 
 ### Examples
 
-The dimensions 1,3,9,15 of J yield Lie dimensions 14,28,78,133. For J=F³ the D₄ twist is trivial; for J=M₃⁺ the connected partner is PGL₃; for dimension 15 it is PGSp₆. On the spherical vector the outer involution has eigenvalue +1. A sign twist has −1 and therefore defines the other extension.
+The dimensions 1,3,9,15 of J yield Lie dimensions 14,28,78,133. For J=F³ the D₄ twist is trivial; for J=M₃⁺ the connected partner is PGL₃; for J=H₃(M₂(F)) it is split PGSp₆. On the spherical vector the outer involution has eigenvalue +1. A sign twist has −1 and therefore defines the other extension.
 
 ### Dependencies
 
